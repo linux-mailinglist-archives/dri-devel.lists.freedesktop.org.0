@@ -2,55 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43006461D4D
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 19:05:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAA1E461D74
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 19:18:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 981D26E500;
-	Mon, 29 Nov 2021 18:05:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2B386E4A6;
+	Mon, 29 Nov 2021 18:18:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DB326E500
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 18:05:14 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id d11so36079049ljg.8
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 10:05:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IDi3zvjd6u7ZBVvXAka/LTSyAvUkqeh+L5SnX6c8Zdk=;
- b=ELtQ57DjVTWJPnvASv4jZtvg9xzVjpRXdLK6WadVUiqQO2Tejx2Y4rP/jZvsvwdaGM
- wVK5qYNcJTRTVvihhUy6a3XfzO7ShXe3HSKg9CJ9S9TdxAt3X4+ddQNsKXsRbhOEV3Nn
- NeS7l4DPoqAaH0j+Gm2rrnRobzgyBp+zZRI4nhmfoSItyMTQPe6HJsrb3a8uXIO7pAUp
- d0pHSCno/fnC3Fp0q+W51eSWigYy/I5qIJhRZa/O1KEhI708OF8jeLET61Dg8b9kw0VH
- st1/mw7gEQ1NVGLv+ANo/xqXiZgR94N5ykkWzVgrrh3SWq2UdJQ1DTZyuwBI86rq3HIq
- HE3g==
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com
+ [IPv6:2607:f8b0:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22B496E558;
+ Mon, 29 Nov 2021 18:18:28 +0000 (UTC)
+Received: by mail-pg1-x530.google.com with SMTP id k4so6815983pgb.8;
+ Mon, 29 Nov 2021 10:18:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fUNuveYGMtrqjB2VQZVCUJJ1mSxi3vYF+lEWoSAESLM=;
+ b=SdrRH1TrlPjoH3o1ImcgrE+JbnNbd74DzvJjimwCmDhp3OiBNEk18o0Ys4Uicpze3g
+ zCw9IGuUC4v9BZ3CYiScmVgbZeZiuvOS2RLrM/6RhKvqepnADkdKhvVbDrJ3NewrVm2e
+ QkJbwFI67r2N1UWhs9XjfbDcNC8N67++NnHIH83L8flrOCi9RFPkIyFGQxiwV1+t69kZ
+ xb3y0ca8ks1Fwi5AovNNmkOezoX6/KDZR5IqLoti7r5uqWZ7tAFDuyivhX2knAKqZNQi
+ 4RHrssSrZg9WIhHbA/vUFfaq8NU/kED7xEz2fNqm+STCQIV0P9QO+dogodmRpk1RwMzw
+ 9gJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IDi3zvjd6u7ZBVvXAka/LTSyAvUkqeh+L5SnX6c8Zdk=;
- b=7vQZYg4ontut9eq5/6C200Kk45lBgdQQ1KfkjLCsHZ0aqdwJZ0Xpsq9DLK14vpRssT
- kLcI8RQb3YStMEnbXlVwSWGvO2bB/VFTuiWLLxKln9jrSMltNDu0l/82D6RMp2JrSeO6
- de3yK5/iLnHhkyxbrvsHZa7N3Znl6tzq3YDc13/qcKBZPvSWlMYNFuMhhmm3TveHXqO/
- H8GUWUHMdXKe7ejaU2PDNZRJto+7DxtVI/lVLmM2C9JB411i9QX0t7BmuG5a26xVXfRt
- El4DGHdEgaMP4+nEJ8B2NgdlN1A+ZuoXXCNYEGd4Yy+1zLUzxIf7hgTwUQjXI5DacWP1
- 3F2w==
-X-Gm-Message-State: AOAM531BxmL5Q4n28f/iMK0km4XnsXtJVViTTltJd/qVMCtz3Rg6KSkm
- TMxPnVsDntTUzd1jgk9omX+cWvK52jzQ3jEauC7c2A==
-X-Google-Smtp-Source: ABdhPJz00rJJqhFv+eY/G4mQJbhWwtM/vfpfxJXb8qlKInsjRYgNcLli9eLdqgC5XVztKYKpkdzK0NNalzo7Gw9l8CQ=
-X-Received: by 2002:a2e:95d3:: with SMTP id y19mr50881703ljh.175.1638209112922; 
- Mon, 29 Nov 2021 10:05:12 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fUNuveYGMtrqjB2VQZVCUJJ1mSxi3vYF+lEWoSAESLM=;
+ b=qtRWb1PC0fjZqKmuhp/LtupUMck3WTcjpqkl4Caf0FR9aZ00n5pgu7+EdrcJioB5+n
+ LHgcV6kZnkSjX+LZPBSAnZPXojUL0pb9K7Hn7d0xZhVnV7KvcpEUf55Gx7Wi8E4q2giF
+ 7jolBfQcmEHX55mKcg4SMFvyvoeuAMvYTd6avGOMxexrBWnWMQ6/zS2giw+Ub99aPTCz
+ PJTgTP6TXIiM0t8OeF9eOiA44/h3lrAzaDpBvN/F5DSISqqgchOEdAGiaR7+EaFlkbZq
+ 50SEOKFBC3vO8tk2a/1NMj0u5J2NJf5kNPR7CJ4VYf9ZZHxH7Rl7DrqJBIWBaGY7UEBE
+ e/NQ==
+X-Gm-Message-State: AOAM530aEdIc9YvKGrVNKdZKkVkbqFD44n/CbSM2gNg1TKEX+s31AN2o
+ eeV5/WzuAUXvo5SaNtv+3Qlg4a4FQhU=
+X-Google-Smtp-Source: ABdhPJyJeydSjX4k1OB1bo6HrPO31iSNMLC3cBqM8orkTUv7tItFGjyOmE00ZWY2AuQIhUqjA3OxNA==
+X-Received: by 2002:a63:3190:: with SMTP id
+ x138mr35037673pgx.401.1638209906886; 
+ Mon, 29 Nov 2021 10:18:26 -0800 (PST)
+Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
+ by smtp.gmail.com with ESMTPSA id d7sm19415554pfj.91.2021.11.29.10.18.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 29 Nov 2021 10:18:25 -0800 (PST)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/msm/gpu: Don't allow zero fence_id
+Date: Mon, 29 Nov 2021 10:23:44 -0800
+Message-Id: <20211129182344.292609-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-References: <YaB/JHP/pMbgRJ1O@kroah.com>
- <20211126074904.88388-1-guangming.cao@mediatek.com>
-In-Reply-To: <20211126074904.88388-1-guangming.cao@mediatek.com>
-From: John Stultz <john.stultz@linaro.org>
-Date: Mon, 29 Nov 2021 10:05:00 -0800
-Message-ID: <CALAqxLVF1BPznzwjem2BcsDDoo5gMoBqjKEceZDLJan4zCtk3w@mail.gmail.com>
-Subject: Re: [PATCH v4] dma-buf: system_heap: Use 'for_each_sgtable_sg' in
- pages free flow
-To: guangming.cao@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,35 +66,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: wsd_upstream@mediatek.com, kuan-ying.lee@mediatek.com, greg@kroah.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- christian.koenig@amd.com, linaro-mm-sig@lists.linaro.org,
- linux-mediatek@lists.infradead.org, lmark@codeaurora.org,
- benjamin.gaignard@linaro.org, matthias.bgg@gmail.com, stable@vger.kernel.org,
- labbott@redhat.com, robin.murphy@arm.com, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 25, 2021 at 11:48 PM <guangming.cao@mediatek.com> wrote:
->
-> From: Guangming <Guangming.Cao@mediatek.com>
->
-> For previous version, it uses 'sg_table.nent's to traverse sg_table in pages
-> free flow.
-> However, 'sg_table.nents' is reassigned in 'dma_map_sg', it means the number of
-> created entries in the DMA adderess space.
-> So, use 'sg_table.nents' in pages free flow will case some pages can't be freed.
->
-> Here we should use sg_table.orig_nents to free pages memory, but use the
-> sgtable helper 'for each_sgtable_sg'(, instead of the previous rather common
-> helper 'for_each_sg' which maybe cause memory leak) is much better.
->
-> Fixes: d963ab0f15fb0 ("dma-buf: system_heap: Allocate higher order pages if available")
-> Signed-off-by: Guangming <Guangming.Cao@mediatek.com>
-> Reviewed-by: Robin Murphy <robin.murphy@arm.com>
-> Cc: <stable@vger.kernel.org> # 5.11.*
+From: Rob Clark <robdclark@chromium.org>
 
-Thanks so much for catching this and sending in all the revisions!
+Elsewhere we treat zero as "no fence" and __msm_gem_submit_destroy()
+skips removal from fence_idr.  We could alternately change this to use
+negative values for "no fence" but I think it is more clear to not allow
+zero as a valid fence_id.
 
-Reviewed-by: John Stultz <john.stultz@linaro.org>
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/msm_gem_submit.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+index 282628d6b72c..6cfa984dee6a 100644
+--- a/drivers/gpu/drm/msm/msm_gem_submit.c
++++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+@@ -881,7 +881,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 	 * to the underlying fence.
+ 	 */
+ 	submit->fence_id = idr_alloc_cyclic(&queue->fence_idr,
+-			submit->user_fence, 0, INT_MAX, GFP_KERNEL);
++			submit->user_fence, 1, INT_MAX, GFP_KERNEL);
+ 	if (submit->fence_id < 0) {
+ 		ret = submit->fence_id = 0;
+ 		submit->fence_id = 0;
+-- 
+2.33.1
+
