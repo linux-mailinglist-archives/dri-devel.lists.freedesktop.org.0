@@ -2,39 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DD6E461481
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 13:06:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BC4A461482
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 13:07:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C73C6F9A1;
-	Mon, 29 Nov 2021 12:06:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58E396FA4F;
+	Mon, 29 Nov 2021 12:07:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCC926F99F;
- Mon, 29 Nov 2021 12:06:17 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10182"; a="236184025"
-X-IronPort-AV: E=Sophos;i="5.87,273,1631602800"; d="scan'208";a="236184025"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Nov 2021 04:06:16 -0800
-X-IronPort-AV: E=Sophos;i="5.87,273,1631602800"; d="scan'208";a="511659335"
-Received: from mkabdel-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.11.182])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Nov 2021 04:06:11 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>, Rodrigo Siqueira
- <Rodrigo.Siqueira@amd.com>
-Subject: Re: [PATCH 1/6] Documentation/gpu: Reorganize DC documentation
-In-Reply-To: <YaEAVV3Ka2lG/iOh@phenom.ffwll.local>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20211125153830.1352994-1-Rodrigo.Siqueira@amd.com>
- <20211125153830.1352994-2-Rodrigo.Siqueira@amd.com>
- <YaEAVV3Ka2lG/iOh@phenom.ffwll.local>
-Date: Mon, 29 Nov 2021 14:06:02 +0200
-Message-ID: <87k0grjhed.fsf@intel.com>
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DED56FA3A
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 12:07:04 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id u1so36210583wru.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 04:07:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zHSdQUo/Z1ZUW2K5tQ/UFoyARgZ8X0ChGzLOvRpv+d0=;
+ b=X9+o7iX5QfU7Ab0akA1dDvE2mT0HK8UOLIgco2KjGFZkh13zyRptiW3RR2HPLxCMlr
+ K3I8Xwd8jwKKeOwFXHiCymTNGMXdaCdnMfLiWItsIS3DqESMXpPGkvk8eSnVSQlizVQM
+ 25kCS2PIOBra3yyk/9fMKi73GYmWj1ao1VE2rI/AysW/CYl7+A71OWUoVjv0P5RWzvmF
+ ei4VR+Og5xrTbOvUhCm5OKvYgce64ioRfT64xyAL/MvgR4RoAkdTdg+/yaX07cLUX2qd
+ 87ks8GKrCjaJayYD8vkRPYAnZ0V8GhIKpYBaTogI7ZheY6CnEk9Wr2lDGwv1b5r70E5b
+ 74zA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zHSdQUo/Z1ZUW2K5tQ/UFoyARgZ8X0ChGzLOvRpv+d0=;
+ b=8GBy9neuF1mDXguCuc/NMWdf8LEJHRDllFS8fXMdaJWOtPVGrXcMBEm1CZeEq9J0T/
+ bJLL40KK+fkgerURj2xegp+trqCp867cBrZfZcuBzLARB50iVX6+eM/fvypPbQBb5985
+ gQZ7tS6xJ5k9MT/xayfvJAXN5yHdza3b9jdB5OzfczaColR6D0Spk9eooPdKFmxMRYsU
+ Q45kB5UOFdA3Ipcly8qTUzUZcmZ2d8tQrc1xtLAwxu9RYYSwDwmCiOr98Pp/867YpZL/
+ LVEytMKjIAkNsUuN7d4o+97A/I47Poa70oBVOLXSD8vBzgJPfv3s4uW5rrG/R7+7AJOQ
+ UqoQ==
+X-Gm-Message-State: AOAM5325vavWSUPqpabH4ONLv8OyiN2+cjB1YByrqR9W87R/ThUeEdTA
+ E5VG5X9O3+PnvvNJo9yQ/0U=
+X-Google-Smtp-Source: ABdhPJy28uYGJlxEr/SzYN0VNKwr33UJ/8ZdAHdtvlS/NExTfCzbnCk11Gflha3P8ddzATr74mIGpQ==
+X-Received: by 2002:adf:eac8:: with SMTP id o8mr34155552wrn.337.1638187622570; 
+ Mon, 29 Nov 2021 04:07:02 -0800 (PST)
+Received: from abel.fritz.box (p57b0b77b.dip0.t-ipconnect.de. [87.176.183.123])
+ by smtp.gmail.com with ESMTPSA id b6sm20415234wmq.45.2021.11.29.04.07.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 29 Nov 2021 04:07:02 -0800 (PST)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: daniel@ffwll.ch
+Subject: completely rework the dma_resv semantic
+Date: Mon, 29 Nov 2021 13:06:31 +0100
+Message-Id: <20211129120659.1815-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,141 +68,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, Mark Yacoub <markyacoub@chromium.org>,
- Michel =?utf-8?Q?D?= =?utf-8?Q?=C3=A4nzer?= <michel@daenzer.net>,
- roman.li@amd.com, amd-gfx@lists.freedesktop.org,
- Christian =?utf-8?Q?K?= =?utf-8?Q?=C3=B6nig?= <christian.koenig@amd.com>,
- Marek =?utf-8?B?T2w=?= =?utf-8?B?xaHDoWs=?= <marek.olsak@amd.com>,
- aurabindo.pillai@amd.com, nicholas.choi@amd.com,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Sean Paul <seanpaul@chromium.org>, qingqing.zhuo@amd.com,
- Roman Gilg <subdiff@gmail.com>, bhawanpreet.lakha@amd.com,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 26 Nov 2021, Daniel Vetter <daniel@ffwll.ch> wrote:
-> On Thu, Nov 25, 2021 at 10:38:25AM -0500, Rodrigo Siqueira wrote:
->> Display core documentation is not well organized, and it is hard to find
->> information due to the lack of sections. This commit reorganizes the
->> documentation layout, and it is preparation work for future changes.
->> 
->> Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
->> ---
->>  Documentation/gpu/amdgpu-dc.rst               | 74 -------------------
->>  .../gpu/amdgpu-dc/amdgpu-dc-debug.rst         |  4 +
->>  Documentation/gpu/amdgpu-dc/amdgpu-dc.rst     | 29 ++++++++
->>  Documentation/gpu/amdgpu-dc/amdgpu-dm.rst     | 42 +++++++++++
->>  Documentation/gpu/drivers.rst                 |  2 +-
->>  5 files changed, 76 insertions(+), 75 deletions(-)
->>  delete mode 100644 Documentation/gpu/amdgpu-dc.rst
->>  create mode 100644 Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst
->>  create mode 100644 Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
->>  create mode 100644 Documentation/gpu/amdgpu-dc/amdgpu-dm.rst
->> 
->> diff --git a/Documentation/gpu/amdgpu-dc.rst b/Documentation/gpu/amdgpu-dc.rst
->> deleted file mode 100644
->> index f7ff7e1309de..000000000000
->> --- a/Documentation/gpu/amdgpu-dc.rst
->> +++ /dev/null
->> @@ -1,74 +0,0 @@
->> -===================================
->> -drm/amd/display - Display Core (DC)
->> -===================================
->> -
->> -*placeholder - general description of supported platforms, what dc is, etc.*
->> -
->> -Because it is partially shared with other operating systems, the Display Core
->> -Driver is divided in two pieces.
->> -
->> -1. **Display Core (DC)** contains the OS-agnostic components. Things like
->> -   hardware programming and resource management are handled here.
->> -2. **Display Manager (DM)** contains the OS-dependent components. Hooks to the
->> -   amdgpu base driver and DRM are implemented here.
->> -
->> -It doesn't help that the entire package is frequently referred to as DC. But
->> -with the context in mind, it should be clear.
->> -
->> -When CONFIG_DRM_AMD_DC is enabled, DC will be initialized by default for
->> -supported ASICs. To force disable, set `amdgpu.dc=0` on kernel command line.
->> -Likewise, to force enable on unsupported ASICs, set `amdgpu.dc=1`.
->> -
->> -To determine if DC is loaded, search dmesg for the following entry:
->> -
->> -``Display Core initialized with <version number here>``
->> -
->> -AMDgpu Display Manager
->> -======================
->> -
->> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> -   :doc: overview
->> -
->> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
->> -   :internal:
->> -
->> -Lifecycle
->> ----------
->> -
->> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> -   :doc: DM Lifecycle
->> -
->> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> -   :functions: dm_hw_init dm_hw_fini
->> -
->> -Interrupts
->> -----------
->> -
->> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
->> -   :doc: overview
->> -
->> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
->> -   :internal:
->> -
->> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> -   :functions: register_hpd_handlers dm_crtc_high_irq dm_pflip_high_irq
->> -
->> -Atomic Implementation
->> ----------------------
->> -
->> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> -   :doc: atomic
->> -
->> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> -   :functions: amdgpu_dm_atomic_check amdgpu_dm_atomic_commit_tail
->> -
->> -Display Core
->> -============
->> -
->> -**WIP**
->> -
->> -FreeSync Video
->> ---------------
->> -
->> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> -   :doc: FreeSync Video
->> diff --git a/Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst b/Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst
->> new file mode 100644
->> index 000000000000..bbb8c3fc8eee
->> --- /dev/null
->> +++ b/Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst
->> @@ -0,0 +1,4 @@
->> +Display Core Debug tools
->> +========================
->> +
->> +TODO
->> diff --git a/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst b/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
->> new file mode 100644
->> index 000000000000..3685b3b1ad64
->> --- /dev/null
->> +++ b/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
->
-> While we bikeshed names, I think it'd would make sense to call this
-> overview.rst or intro.rst or similar, since it's meant to contain the
-> overall toctree for everything amdgpu related (maybe there will be more in
-> the future).
+Hi everyone,
 
-index.rst?
+compared to the last version I've dropped the pruning as suggested by
+Maarten, split the new DMA_RESV_USAGE_* patches from the general
+introduction as suggeted by Daniel and renamed OTEHRS to BOOKKEEP as
+suggested by Pekka.
+
+Please take a look and review,
+Christian.
 
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
