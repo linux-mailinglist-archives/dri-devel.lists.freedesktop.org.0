@@ -2,66 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03601460FEF
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 09:22:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36157461033
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 09:32:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E3C16E182;
-	Mon, 29 Nov 2021 08:22:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DE8789FC0;
+	Mon, 29 Nov 2021 08:32:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0A586E1BD;
- Mon, 29 Nov 2021 08:22:01 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id j3so34889720wrp.1;
- Mon, 29 Nov 2021 00:22:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=Hq1bgqxxCdegLBVOo7l4Q7H1Xie6p+wm7vH0Y40mkwo=;
- b=CtNwvmW+uiYnu8xy64dsZh+j2/65YctzX6oqs2wOYwbMozt8JZF1cV5+4Y7H4uNO8h
- QCH7gI6Q72FTybeCnLQWb14URcpKiR7AndKkYpXOkC8Q9n7MUr+8wws4u3GY1irCXSD3
- vvmaAef8eAGIpyf5lsxsUWtqdVOo19QpajKqE8rOWNBwJYVukHD4HPX9lHgtTkFOc+Bj
- kp2PBi3Ox3w9cjOe46WQuh27R/m9Ya+lVOXzciZa0FsQ65iq4SRqzGYf25SSzOhvBjEZ
- VPCQJ0aSSAgZrfu8cgT0JsRs/Bpj9RKIWkh3GJoV+MufxqZdmQKVJkDzH3UoohTJRzHN
- TF1Q==
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
+ [IPv6:2607:f8b0:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE7AE89FC0
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 08:32:53 +0000 (UTC)
+Received: by mail-oi1-x22e.google.com with SMTP id m6so33264381oim.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 00:32:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=endlessos.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=rwc850qEx+gUCUmNKlaJOy0vTY6vGtT6G1QMh1XvqZc=;
+ b=A0h5EAnxVJ5E20f/17Lv8k4IrpoCJMsRZ4swOCA7r8qeJHEDkfL9uWr/eCZY6jpDyl
+ cEksK+1ARoyvUxJ5GmeqiFQIp/Pw9aGiJof/EUH5/m2G0RVoI+zg51jqlbhBeqkTC7m9
+ 7dByiDS16Or8pKiGDrvfO2trocI/B4TzlqVsPWz+VHYPv1PxEMllalSTd7FRvSa61aVN
+ vM6UEoqtjL+AcrsVO9LYHID0yWXg9sc/D9TUMNL/hFu7dgXR1jtmVFb0vE2fI2ExfqmD
+ 0DPO0BgpalxtV/CbmmQeMw+1fEtoOx2vFLog7L59ZpB+iQVBA44EYm1owaa0cTa+TQLO
+ 78jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=Hq1bgqxxCdegLBVOo7l4Q7H1Xie6p+wm7vH0Y40mkwo=;
- b=suFezEQyw5sZNtSb3Blv3Rk/+yrXktdgnnZaZ5AwGSClKyIgT+HKWFPhNYH5pPyajp
- FsuMSsHssM1BBhe6DdzGSj+6F/2qQyCSVe8CHH96GS+r9zqputywegZhNA3VdZRcaDqQ
- zqY/1l0JSE7c7b3YoSsTJMOVKjinTTySTo2glDSj+j8G9d3fsKUsKXfXrkY51IcaUloU
- UNSVyLApewUZaSws/7CRx6Iq9gdedoRzI2KLMf3a0Se3erXUquTzbGmJkJLL1sT0Q2LX
- x4K4o5c5V4jIkj0EXdpYYKYeO+82xtNSFm2iSH+nz/mSugvXjkfsYf7AhntatTtZ1X2g
- FrfQ==
-X-Gm-Message-State: AOAM533kZgXx4GER/1lIj7LvDNIQ4UCVXUPR2cEQVBUYw250TOvlrc1S
- qCNaDOxiQx0T8DyNtHRakKk=
-X-Google-Smtp-Source: ABdhPJzM2sppvC4WxGqvhpvtbRdPMWvSKAbROEghlA2ucohzHDqrxrVpH61SK17Yl6Nfbz7PsOLtuA==
-X-Received: by 2002:adf:fbc5:: with SMTP id d5mr34606968wrs.291.1638174120446; 
- Mon, 29 Nov 2021 00:22:00 -0800 (PST)
-Received: from [192.168.178.21] (p57b0b77b.dip0.t-ipconnect.de.
- [87.176.183.123])
- by smtp.gmail.com with ESMTPSA id az15sm13456982wmb.0.2021.11.29.00.21.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Nov 2021 00:22:00 -0800 (PST)
-Subject: Re: [PATCH] dma_fence_array: Fix PENDING_ERROR leak in
- dma_fence_array_signaled()
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20211129073533.414008-1-thomas.hellstrom@linux.intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <4fd0eee6-342f-fb31-717c-901440f38c35@gmail.com>
-Date: Mon, 29 Nov 2021 09:21:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=rwc850qEx+gUCUmNKlaJOy0vTY6vGtT6G1QMh1XvqZc=;
+ b=ilQzmseKIBw4mILc0lGIkPwI13eKdGxfy6JM5YMP0usvWsA2Fuug4JDWnNSbxQZcyS
+ bOJ1GOQmVoMVSn9HjW3tE/ncZq5nig1tDjNvFi/8hXJRla9f4+UnOT1L5vp7SslXSk93
+ +v+j3Vn/bvzjLs2EuM8wVu4VLWEzukHqwR1CIPe5fK5L3P29XGz1dueHQ1YI9c4mn9Mx
+ P0Tdj+iI02hW87OMkAoa0aEM8/rLc14fdKkyobY13F8NebLssu3C5oelknny7J5/nMz9
+ qoOfRjXpd99yfyhZhZyq7rHJ3kZ3HwE+Zlci/U4XIg7ZepQWo/CRO9Lz7LPy2KGMod3t
+ ZtqA==
+X-Gm-Message-State: AOAM5334GSCqCwpW4GqS8p7s4ArUyncGmq54z3px0UCuO9qwS5wdnM+T
+ A7zAcCUEmPaCu/FgJC6hrvgUJp+KbdtoG92r36PSsA==
+X-Google-Smtp-Source: ABdhPJwlNFdW9bUJ57b9IqSQRJMCO/DDWdEch+Wp8rz+rX1zMVMTq3FdtfqB7x/oGezg64rPbDqlC32TX4W+fMo+8hQ=
+X-Received: by 2002:a05:6808:d1:: with SMTP id
+ t17mr39003581oic.161.1638174772939; 
+ Mon, 29 Nov 2021 00:32:52 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20211129073533.414008-1-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+References: <20211117094527.146275-1-maxime@cerno.tech>
+ <CAPpJ_eewp9Z_xdpmB+E_NFH1GGq8oyckVBmS1PD84CvCRUminQ@mail.gmail.com>
+ <20211118104009.jkvkhxi5nh4e4zlp@gilmour>
+ <CAPpJ_ef5XeLKpHAzxsrokkdg8M8uqrLo9X9E5uGbFn1-Baroig@mail.gmail.com>
+ <20211126154532.nqlqkoxa77apioxu@houat>
+In-Reply-To: <20211126154532.nqlqkoxa77apioxu@houat>
+From: Jian-Hong Pan <jhp@endlessos.org>
+Date: Mon, 29 Nov 2021 16:31:57 +0800
+Message-ID: <CAPpJ_edY+HXfv_rNL01piUFYaTUdFb9KEj2h-xN0MH0cYRyMTQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] drm/vc4: kms: Misc fixes for HVS commits
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,44 +69,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
+ linux@endlessos.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 29.11.21 um 08:35 schrieb Thomas Hellström:
-> If a dma_fence_array is reported signaled by a call to
-> dma_fence_is_signaled(), it may leak the PENDING_ERROR status.
+Maxime Ripard <maxime@cerno.tech> =E6=96=BC 2021=E5=B9=B411=E6=9C=8826=E6=
+=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=8811:45=E5=AF=AB=E9=81=93=EF=BC=
+=9A
 >
-> Fix this by clearing the PENDING_ERROR status if we return true in
-> dma_fence_array_signaled().
+> On Fri, Nov 19, 2021 at 06:24:34PM +0800, Jian-Hong Pan wrote:
+> > Maxime Ripard <maxime@cerno.tech> =E6=96=BC 2021=E5=B9=B411=E6=9C=8818=
+=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=886:40=E5=AF=AB=E9=81=93=EF=BC=
+=9A
+> > >
+> > > On Thu, Nov 18, 2021 at 02:42:58PM +0800, Jian-Hong Pan wrote:
+> > > > Maxime Ripard <maxime@cerno.tech> =E6=96=BC 2021=E5=B9=B411=E6=9C=
+=8817=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=885:45=E5=AF=AB=E9=81=93=
+=EF=BC=9A
+> > > > > The conversion to DRM commit helpers (f3c420fe19f8, "drm/vc4: kms=
+: Convert to
+> > > > > atomic helpers") introduced a number of issues in corner cases, m=
+ost of them
+> > > > > showing themselves in the form of either a vblank timeout or use-=
+after-free
+> > > > > error.
+> > > > >
+> > > > > These patches should fix most of them, some of them still being d=
+ebugged.
+> > > > >
+> > > > > Maxime
+> > > > >
+> > > > > Changes from v1:
+> > > > >   - Prevent a null pointer dereference
+> > > > >
+> > > > > Maxime Ripard (6):
+> > > > >   drm/vc4: kms: Wait for the commit before increasing our clock r=
+ate
+> > > > >   drm/vc4: kms: Fix return code check
+> > > > >   drm/vc4: kms: Add missing drm_crtc_commit_put
+> > > > >   drm/vc4: kms: Clear the HVS FIFO commit pointer once done
+> > > > >   drm/vc4: kms: Don't duplicate pending commit
+> > > > >   drm/vc4: kms: Fix previous HVS commit wait
+> > > > >
+> > > > >  drivers/gpu/drm/vc4/vc4_kms.c | 42 ++++++++++++++++-------------=
+------
+> > > > >  1 file changed, 19 insertions(+), 23 deletions(-)
+> > > >
+> > > > I tested the v2 patches based on latest mainline kernel with RPi 4B=
+.
+> > > > System can boot up into desktop environment.
+> > >
+> > > So the thing that was broken initially isn't anymore?
+> >
+> > No.  It does not appear anymore.
+> >
+> > > > Although it still hit the bug [1], which might be under debugging, =
+I
+> > > > think these patches LGTM.
+> > >
+> > > The vblank timeout stuff is a symptom of various different bugs. Can =
+you
+> > > share your setup, your config.txt, and what you're doing to trigger i=
+t?
+> >
+> > I get the RPi boot firmware files from raspberrypi's repository at tag
+> > 1.20211029 [1]
+> > And, make system boots:
+> > RPi firmware -> U-Boot -> Linux kernel (aarch64) with corresponding DTB
+> >
+> > The config.txt only has:
+> > enable_uart=3D1
+> > arm_64bit=3D1
+> > kernel=3Duboot.bin
+> >
+> > This bug can be reproduced with es2gears command easily.  May need to
+> > wait it running a while.
+> >
+> > Mesa: 21.2.2
+> > libdrm: 2.4.107
+> > xserver/wayland: 1.20.11  Using wayland
+> >
+> > This bug happens with direct boot path as well:
+> > RPi firmware -> Linux kernel (aarch64) with corresponding DTB
+> >
+> > I tried with Endless OS and Ubuntu's RPi 4B images.
+> > An easy setup is using Ubuntu 21.10 RPi 4B image [2].  Then, replace
+> > the kernel & device tree blob and edit the config.txt.
 >
-> Fixes: 1f70b8b812f3 ("dma-fence: Propagate errors to dma-fence-array container")
-> Cc: linaro-mm-sig@lists.linaro.org
-> Cc: Christian König <ckoenig.leichtzumerken@gmail.com>
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Does it still appear if you raise the core clock in the config.txt file
+> using: core_freq_min=3D600 ?
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+It still appears when I raise the core clock in the config.txt file:
+core_freq_min=3D600
 
-> ---
->   drivers/dma-buf/dma-fence-array.c | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
-> index d3fbd950be94..3e07f961e2f3 100644
-> --- a/drivers/dma-buf/dma-fence-array.c
-> +++ b/drivers/dma-buf/dma-fence-array.c
-> @@ -104,7 +104,11 @@ static bool dma_fence_array_signaled(struct dma_fence *fence)
->   {
->   	struct dma_fence_array *array = to_dma_fence_array(fence);
->   
-> -	return atomic_read(&array->num_pending) <= 0;
-> +	if (atomic_read(&array->num_pending) > 0)
-> +		return false;
-> +
-> +	dma_fence_array_clear_pending_error(array);
-> +	return true;
->   }
->   
->   static void dma_fence_array_release(struct dma_fence *fence)
-
+Jian-Hong Pan
