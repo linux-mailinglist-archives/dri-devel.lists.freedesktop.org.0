@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D9894614A9
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 13:08:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E79BC461495
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 13:07:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A2766F974;
-	Mon, 29 Nov 2021 12:08:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57A586FA6B;
+	Mon, 29 Nov 2021 12:07:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B3816FA5B
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9CDE6FA5B
  for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 12:07:14 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id i12so14376757wmq.4
+Received: by mail-wr1-x435.google.com with SMTP id o13so36150516wrs.12
  for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 04:07:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dLcViOC9XeBrn0i9874Oh2sdjjvie7K1Wv9yyTZ+XyU=;
- b=UABOkQkMsx3b8AE1aqUWcIzMoJSnDFss/wAcVi7moSF4GxMLp+EGkwq9yFczUrxQUu
- ePKRe8KRkZwHXSxu/iKJJ+JXX+Kr1G+tOfUivTevI2h1ca7+vY0BCRGUuLmtZAm9dRfz
- dxXy+b9K058OCKnr6fxX1f28InMGiYiFU1PLQYpOL0tyPsc2TH9+KzngzqH+sIVrzPha
- 7N4moqf9vms6aJuwP1TpZepoG78hnC77m6g8m1TGudoROpZuCEq6A+cd3lwztJoJ80iH
- BpCCWqRTbpNQd7kA9KHboKit7cxBHAM1uD6h7Z39RLgvhVp4rXLKKvLhPIL1pGRoRLjW
- lXhA==
+ bh=MPKJq2Wt16wetIpfIT15/6v8GODpjJBfKyDGmSXKrmY=;
+ b=VArbpu7FuPQbaXNYwlbNTtUvh9E2TEdL+Tznj2CvUsCZpJV0a2/xhr0W8XxnpgzmCG
+ AvK6E5gzE7CzKib77oVwJ+WJiRnLQjCwVWBfHee/uV7cubHXxRtSrLMae44+yrtGc2hQ
+ zmVi1fvvYxKt3K+avKRejVud0+n5p/F73xMaP8jlw6Ayt5uRBvkNO3F4zOKw0YcPVIM1
+ CwSUbK8Y7nnWcsZdbbuKGQjqvhT5EEk6gPP2TeivfjUyq0dZBm+kQ74uQYzDv0gW/14M
+ m+F9MigUK0qIwssLixtYUWLJx7+YaXxTb1T51tgazv19rqy4uGs113a7Qvs4eg8fyuX7
+ aPOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dLcViOC9XeBrn0i9874Oh2sdjjvie7K1Wv9yyTZ+XyU=;
- b=TZnC/G6I6IIKRAKda0sKWrlfc6R4keg+QSREj9MkJCh1ev3cNM1CCdA+StMUkddcLL
- oqGwa7BZczyL2eJY7rK65/F3y04JFcXlev713H+tBL/mtt63a7z3TcdbgIH0NTbFVq9q
- YpRvnZzh1Mrn/lUE2C2M0z6wLtylulks06KGqv6FM+3au9WnJk3yjyBgZol35pB5REFs
- vKZBt9a0utdFju71uCa5EQ7I9TeeN1zxKbUqBm91iXKldnUYoYnnCEz1RNYJ3yMz4tFg
- 5lpSytHJaBqfFAl+Wfu4z0iFnPckvUK+nnCHQOS6fG5CHpFZkdeGRFTU5CYmv6c/X6z8
- D5LQ==
-X-Gm-Message-State: AOAM532IkblYvRrPucIdUdm0EWySM3npzNC++UA3tZJA356WBmg6y4pE
- 66tckOZIjb232bFPYwa7SUIim+LjkMM=
-X-Google-Smtp-Source: ABdhPJyBuq2+7jBLai2fJFG+lkGEmimW29kV0AHD/bcGITv/dKdippw+QrURG+ltqW7PdZ7iFqd+Jg==
-X-Received: by 2002:a1c:9d48:: with SMTP id g69mr37049157wme.188.1638187630956; 
- Mon, 29 Nov 2021 04:07:10 -0800 (PST)
+ bh=MPKJq2Wt16wetIpfIT15/6v8GODpjJBfKyDGmSXKrmY=;
+ b=oRdNUqVqp9QO3FQARkWSFqmgFxdNUjYTneABCpk7ZL2IspSCTvjqc5fQLQlgiR9s58
+ HkiRa4Kji85sF3ApV5+bKSuL4PGV4KCJUcSvpfUxa94PdjKcwuOR6h7OTur6H1OuBbIi
+ kspf6QF/ieB3vOttw9dgDhHHQG/l8l0DrE6NFnHpH701HiEg7cOns1SuV2viXK4+TGJT
+ JEvbVUM4qmOcDqDFWje0CvOKCVsMRbpRs343bqGeoZs2kmsVzF2h9bci8UbzJDhsPeYy
+ Il1Ojp9rumFcMlkX0ik76g+VlYbDt7rTVf/4hVRzpcM4/Y6CfVutbvfF7eB3xw4LhzTF
+ /puw==
+X-Gm-Message-State: AOAM530xXFGuF94Bk6vDzbhyjjLCG39vieh2aJAi8ygz8sUxX+87UDfz
+ AKgQMx/ET4iTT6oB/TR62s1Wej95wDE=
+X-Google-Smtp-Source: ABdhPJxpTknK3FBKpRmHjMi8jw7cT7T58Ury2nOUZcmFt/8dKpJ0afnRF0Ft+z0r8QVLSFLt7r/FCQ==
+X-Received: by 2002:a5d:46d0:: with SMTP id g16mr33356965wrs.605.1638187633534; 
+ Mon, 29 Nov 2021 04:07:13 -0800 (PST)
 Received: from abel.fritz.box (p57b0b77b.dip0.t-ipconnect.de. [87.176.183.123])
- by smtp.gmail.com with ESMTPSA id b6sm20415234wmq.45.2021.11.29.04.07.10
+ by smtp.gmail.com with ESMTPSA id b6sm20415234wmq.45.2021.11.29.04.07.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Nov 2021 04:07:10 -0800 (PST)
+ Mon, 29 Nov 2021 04:07:13 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: daniel@ffwll.ch
-Subject: [PATCH 09/28] RDMA: use dma_resv_wait() instead of extracting the
- fence
-Date: Mon, 29 Nov 2021 13:06:40 +0100
-Message-Id: <20211129120659.1815-10-christian.koenig@amd.com>
+Subject: [PATCH 10/28] drm/etnaviv: stop using dma_resv_excl_fence
+Date: Mon, 29 Nov 2021 13:06:41 +0100
+Message-Id: <20211129120659.1815-11-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211129120659.1815-1-christian.koenig@amd.com>
 References: <20211129120659.1815-1-christian.koenig@amd.com>
@@ -76,40 +75,73 @@ Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use dma_resv_wait() instead of extracting the exclusive fence and
-waiting on it manually.
+We can get the excl fence together with the shared ones as well.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/infiniband/core/umem_dmabuf.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_gem.h        |  1 -
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 14 +++++---------
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c      | 10 ----------
+ 3 files changed, 5 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/infiniband/core/umem_dmabuf.c b/drivers/infiniband/core/umem_dmabuf.c
-index f0760741f281..d32cd7538835 100644
---- a/drivers/infiniband/core/umem_dmabuf.c
-+++ b/drivers/infiniband/core/umem_dmabuf.c
-@@ -16,7 +16,6 @@ int ib_umem_dmabuf_map_pages(struct ib_umem_dmabuf *umem_dmabuf)
- {
- 	struct sg_table *sgt;
- 	struct scatterlist *sg;
--	struct dma_fence *fence;
- 	unsigned long start, end, cur = 0;
- 	unsigned int nmap = 0;
- 	int i;
-@@ -68,11 +67,8 @@ int ib_umem_dmabuf_map_pages(struct ib_umem_dmabuf *umem_dmabuf)
- 	 * may be not up-to-date. Wait for the exporter to finish
- 	 * the migration.
- 	 */
--	fence = dma_resv_excl_fence(umem_dmabuf->attach->dmabuf->resv);
--	if (fence)
--		return dma_fence_wait(fence, false);
--
--	return 0;
-+	return dma_resv_wait_timeout(umem_dmabuf->attach->dmabuf->resv, false,
-+				     false, MAX_SCHEDULE_TIMEOUT);
- }
- EXPORT_SYMBOL(ib_umem_dmabuf_map_pages);
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+index 98e60df882b6..f596d743baa3 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+@@ -80,7 +80,6 @@ struct etnaviv_gem_submit_bo {
+ 	u64 va;
+ 	struct etnaviv_gem_object *obj;
+ 	struct etnaviv_vram_mapping *mapping;
+-	struct dma_fence *excl;
+ 	unsigned int nr_shared;
+ 	struct dma_fence **shared;
+ };
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+index 64c90ff348f2..4286dc93fdaa 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+@@ -188,15 +188,11 @@ static int submit_fence_sync(struct etnaviv_gem_submit *submit)
+ 		if (submit->flags & ETNA_SUBMIT_NO_IMPLICIT)
+ 			continue;
  
+-		if (bo->flags & ETNA_SUBMIT_BO_WRITE) {
+-			ret = dma_resv_get_fences(robj, true, &bo->nr_shared,
+-						  &bo->shared);
+-			if (ret)
+-				return ret;
+-		} else {
+-			bo->excl = dma_fence_get(dma_resv_excl_fence(robj));
+-		}
+-
++		ret = dma_resv_get_fences(robj,
++					  !!(bo->flags & ETNA_SUBMIT_BO_WRITE),
++					  &bo->nr_shared, &bo->shared);
++		if (ret)
++			return ret;
+ 	}
+ 
+ 	return ret;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+index 180bb633d5c5..8c038a363d15 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+@@ -39,16 +39,6 @@ etnaviv_sched_dependency(struct drm_sched_job *sched_job,
+ 		struct etnaviv_gem_submit_bo *bo = &submit->bos[i];
+ 		int j;
+ 
+-		if (bo->excl) {
+-			fence = bo->excl;
+-			bo->excl = NULL;
+-
+-			if (!dma_fence_is_signaled(fence))
+-				return fence;
+-
+-			dma_fence_put(fence);
+-		}
+-
+ 		for (j = 0; j < bo->nr_shared; j++) {
+ 			if (!bo->shared[j])
+ 				continue;
 -- 
 2.25.1
 
