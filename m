@@ -1,59 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 042F64615F7
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 14:13:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1BD3461605
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 14:14:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 982546F53A;
-	Mon, 29 Nov 2021 13:12:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CEE96EDF2;
+	Mon, 29 Nov 2021 13:14:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
- [IPv6:2607:f8b0:4864:20::b35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 800C06F533
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 13:12:54 +0000 (UTC)
-Received: by mail-yb1-xb35.google.com with SMTP id f186so42087050ybg.2
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 05:12:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=kGzjYsHwvkYBRhZGLdyD+bZzZzH8r00UKUI6ADhntRM=;
- b=ASW3Vvl3N3CtNF3PWuf/xWTsKtGVhJ7hcYSjojHej9w4F8j7myTQ4IRNFrNMj8olTC
- wF9etqyXwWNn9M7IHeLQi/qLRVIVWUOMWvSRqjbcZXNwtzK5I9XclssZ0Gd/CSIsgd8U
- OT2df9DrW9Slfzsxpm6tRAR/o+zL6klqXuM3LJNKvu05Ln0XdNSptVqbhh/46Q505REy
- fpkz7/xWh9HvjX5DdnuKf8w6x40eLMg9mwKakCsq2/wiB6qFt/oGjxTrj3DkVQ3uDZbA
- Cw6IGT/3uDH43XQWMtoeEO+kLwAeX3w6bV/ditzTVB501QJYtb1uMvDknsrzkpg5DfAb
- y2Tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=kGzjYsHwvkYBRhZGLdyD+bZzZzH8r00UKUI6ADhntRM=;
- b=fQ/31fBl3AyHfm7YGmnFiMiOjxCI0v/vtVUjbnKHR4h9GjB10nF1Rm9unAjM2FaVe+
- vrv9zIw/Lt42twwj8qIqz7A5O3x3UK6K0LBYfh2rcdrDOg2ruXNpQ0xPpo4e0e3luuU0
- H3owXFoT89mm6aNoPQXEANOWm57cDdTsQzIx6h91CL4KwS2Qq/rdKELRWqB/rdidyo4U
- OWRzZjeQFprHuJAagcERYvALVyDghI/qM9AS5zvkkvOEKi/FALT4QPJjZWjHlKoKUbl8
- eqIx67sXaLR3f78yJka0e94ZefMXt5qqKR96MtrBF92IPpZJ0y3ozHx87Av2l6q4tuMO
- IVKg==
-X-Gm-Message-State: AOAM530+zt//13Wi8x5yPRt38cG6BqgyypFLghcpEcD3+Ir1WAG07mat
- 3UFQphWPqjS2uhN7ySxauD0IrAMGJrh209p2Ozc=
-X-Google-Smtp-Source: ABdhPJyBOBN2JDOuL/bcoi3oDbH5oF7E7HGsWwa9ZvZDV3eriHE7FF+wiQaDaZWr+OxBl7LlpcFj6iNQx9hWXejvpZg=
-X-Received: by 2002:a25:c552:: with SMTP id v79mr6810141ybe.709.1638191573579; 
- Mon, 29 Nov 2021 05:12:53 -0800 (PST)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DCC86ECB2;
+ Mon, 29 Nov 2021 13:14:54 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10182"; a="223189455"
+X-IronPort-AV: E=Sophos;i="5.87,273,1631602800"; d="scan'208";a="223189455"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Nov 2021 05:14:40 -0800
+X-IronPort-AV: E=Sophos;i="5.87,273,1631602800"; d="scan'208";a="459143628"
+Received: from keyanli-mobl1.ccr.corp.intel.com (HELO localhost)
+ ([10.249.254.196])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Nov 2021 05:14:38 -0800
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20211122194400.30836-1-igormtorrente@gmail.com>
- <20211122194400.30836-2-igormtorrente@gmail.com>
- <20211125043649.io5aavusrfzb2e73@notapiano>
-In-Reply-To: <20211125043649.io5aavusrfzb2e73@notapiano>
-From: Igor Torrente <igormtorrente@gmail.com>
-Date: Mon, 29 Nov 2021 10:12:27 -0300
-Message-ID: <CAOA8r4GzsxH2XxfN8+0G7DrctTw28tZmE1Xx7u4JC55Cn_=c2Q@mail.gmail.com>
-Subject: Re: [PATCH v3 1/9] drm: vkms: Replace the deprecated
- drm_mode_config_init
-To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <n@nfraprado.net>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <180f069a-bf29-cf05-c9f9-5b1737ec5664@gmail.com>
+References: <20211129073533.414008-1-thomas.hellstrom@linux.intel.com>
+ <4fd0eee6-342f-fb31-717c-901440f38c35@gmail.com>
+ <58ca11648ab29d96b84640760d2acc3ac2d39d19.camel@linux.intel.com>
+ <e4d8e272-8175-4298-f227-240febc0bda0@gmail.com>
+ <ee128e237dbc2b6b2341b49ab07661c1f1b65e0b.camel@linux.intel.com>
+ <180f069a-bf29-cf05-c9f9-5b1737ec5664@gmail.com>
+To: Christian König <ckoenig.leichtzumerken@gmail.com>, Thomas Hellström <thomas.hellstrom@linux.intel.com>, dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH] dma_fence_array: Fix PENDING_ERROR leak in
+ dma_fence_array_signaled()
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Message-ID: <163819167565.18436.3361321032268102014@jlahtine-mobl.ger.corp.intel.com>
+User-Agent: alot/0.8.1
+Date: Mon, 29 Nov 2021 15:14:35 +0200
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,77 +52,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
- Leandro Ribeiro <leandro.ribeiro@collabora.com>, melissa.srw@gmail.com,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- ~lkcamp/patches@lists.sr.ht
+Cc: linaro-mm-sig@lists.linaro.org, Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi N=C3=ADcolas,
+(Switching to my @linux.intel.com address)
 
-On Thu, Nov 25, 2021 at 1:37 AM N=C3=ADcolas F. R. A. Prado <n@nfraprado.ne=
-t> wrote:
->
-> Hi Igor,
->
-> just some nits on the commit message.
->
-> On Mon, Nov 22, 2021 at 04:43:52PM -0300, Igor Torrente wrote:
-> > The `drm_mode_config_init` was deprecated since c3b790e commit, and it'=
-s
->
-> When referring to other commits, it's best to write it as 'commit <12-dig=
-it-SHA>
-> ("description")' [1]. Also, imperative mood works best, so my suggestion =
-would
-> be:
->
-> `drm_mode_config_init` is deprecated since commit c3b790ea07a1 ("drm: Man=
-age
-> drm_mode_config_init with drmm_") in favor of `drmm_mode_config_init`. Up=
-date
-> the former to the latter.
+Quoting Christian K=C3=B6nig (2021-11-29 14:55:37)
+> Am 29.11.21 um 13:46 schrieb Thomas Hellstr=C3=B6m:
+> > On Mon, 2021-11-29 at 13:33 +0100, Christian K=C3=B6nig wrote:
+> >> Am 29.11.21 um 13:23 schrieb Thomas Hellstr=C3=B6m:
+> >>> Hi, Christian,
+> >>>
+> >>> On Mon, 2021-11-29 at 09:21 +0100, Christian K=C3=B6nig wrote:
+> >>>> Am 29.11.21 um 08:35 schrieb Thomas Hellstr=C3=B6m:
+> >>>>> If a dma_fence_array is reported signaled by a call to
+> >>>>> dma_fence_is_signaled(), it may leak the PENDING_ERROR status.
+> >>>>>
+> >>>>> Fix this by clearing the PENDING_ERROR status if we return true
+> >>>>> in
+> >>>>> dma_fence_array_signaled().
+> >>>>>
+> >>>>> Fixes: 1f70b8b812f3 ("dma-fence: Propagate errors to dma-fence-
+> >>>>> array container")
+> >>>>> Cc: linaro-mm-sig@lists.linaro.org
+> >>>>> Cc: Christian K=C3=B6nig <ckoenig.leichtzumerken@gmail.com>
+> >>>>> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> >>>>> Signed-off-by: Thomas Hellstr=C3=B6m
+> >>>>> <thomas.hellstrom@linux.intel.com>
+> >>>> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> >>> How are the dma-buf / dma-fence patches typically merged? If i915
+> >>> is
+> >>> the only fence->error user, could we take this through drm-intel to
+> >>> avoid a backmerge for upcoming i915 work?
+> >> Well that one here looks like a bugfix to me, so either through
+> >> drm-misc-fixes ore some i915 -fixes branch sounds fine to me.
+> >>
+> >> If you have any new development based on that a backmerge of the -
+> >> fixes
+> >> into your -next branch is unavoidable anyway.
+> > Ok, I'll check with Joonas if I can take it through
+> > drm-intel-gt-next, since fixes are cherry-picked from that one. Patch
+> > will then appear in both the -fixes and the -next branch.
+>=20
+> Well exactly that's the stuff Daniel told me to avoid :)
+>=20
+> But maybe your i915 workflow is somehow better handling that than the=20
+> AMD workflow.
 
-Looks better indeed. I will change it to V4. Thanks!
+If it's a bugfix to a patch that merged through drm-misc-next, I'd
+always be inclined to merge the fixup using the same process (which
+would be drm-next-fixes).
 
+In i915 we do always merge the patches to -next first, and never do a
+backmerge of -fixes (as it's a cherry-picked branch) so the workflows
+differ there.
 
->
-> Thanks,
-> N=C3=ADcolas
->
-> [1] https://www.kernel.org/doc/html/latest/process/submitting-patches.htm=
-l#describe-your-changes
->
-> > being replaced by the `drmm_mode_config_init`.
+Here the time between the fixup and the previous patch is so long that
+either way is fine with. So feel free to apply to drm-intel-gt-next.
+
+Regards, Joonas
+
+> Christian.
+>=20
 > >
-> > Signed-off-by: Igor Torrente <igormtorrente@gmail.com>
-> > ---
-> > V2: Change the code style(Thomas Zimmermann).
-> > ---
-> >  drivers/gpu/drm/vkms/vkms_drv.c | 6 +++++-
-> >  1 file changed, 5 insertions(+), 1 deletion(-)
+> > Thanks,
+> > /Thomas
 > >
-> > diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkm=
-s_drv.c
-> > index 0ffe5f0e33f7..ee4d96dabe19 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_drv.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> > @@ -140,8 +140,12 @@ static const struct drm_mode_config_helper_funcs v=
-kms_mode_config_helpers =3D {
-> >  static int vkms_modeset_init(struct vkms_device *vkmsdev)
-> >  {
-> >       struct drm_device *dev =3D &vkmsdev->drm;
-> > +     int ret;
-> > +
-> > +     ret =3D drmm_mode_config_init(dev);
-> > +     if (ret < 0)
-> > +             return ret;
 > >
-> > -     drm_mode_config_init(dev);
-> >       dev->mode_config.funcs =3D &vkms_mode_funcs;
-> >       dev->mode_config.min_width =3D XRES_MIN;
-> >       dev->mode_config.min_height =3D YRES_MIN;
-> > --
-> > 2.30.2
+> >> Regards,
+> >> Christian.
+> >>
+> >>> /Thomas
+> >>>
+> >>>
+> >>>>> ---
+> >>>>>  =C2=A0=C2=A0 drivers/dma-buf/dma-fence-array.c | 6 +++++-
+> >>>>>  =C2=A0=C2=A0 1 file changed, 5 insertions(+), 1 deletion(-)
+> >>>>>
+> >>>>> diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-
+> >>>>> buf/dma-fence-array.c
+> >>>>> index d3fbd950be94..3e07f961e2f3 100644
+> >>>>> --- a/drivers/dma-buf/dma-fence-array.c
+> >>>>> +++ b/drivers/dma-buf/dma-fence-array.c
+> >>>>> @@ -104,7 +104,11 @@ static bool
+> >>>>> dma_fence_array_signaled(struct
+> >>>>> dma_fence *fence)
+> >>>>>  =C2=A0=C2=A0 {
+> >>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct dma_f=
+ence_array *array =3D
+> >>>>> to_dma_fence_array(fence);
+> >>>>>    =20
+> >>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return atomic_read(&arra=
+y->num_pending) <=3D 0;
+> >>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (atomic_read(&array->=
+num_pending) > 0)
+> >>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0return false;
+> >>>>> +
+> >>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dma_fence_array_clear_pe=
+nding_error(array);
+> >>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return true;
+> >>>>>  =C2=A0=C2=A0 }
+> >>>>>    =20
+> >>>>>  =C2=A0=C2=A0 static void dma_fence_array_release(struct dma_fence =
+*fence)
 > >
+>=20
