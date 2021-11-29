@@ -1,66 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B13F460C9B
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 03:20:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4B42460D5E
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 04:42:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70EA56E0CD;
-	Mon, 29 Nov 2021 02:20:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCC656E075;
+	Mon, 29 Nov 2021 03:42:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D9386E0CD
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 02:20:16 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id bi37so40473691lfb.5
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Nov 2021 18:20:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=gbXpy3X0fAtXtWiERTMiFnq4YzMw3Gn4MO7+9HVk0zs=;
- b=riAko6cxL5ZRupe3kDzYS9nBBKhba4A6hHLKSoFDDF+P8MBGCyx6NPjh403sXAhz6o
- KCqji0QzueFYRrss2xQVIuIHaQoKMSCTnzAQtWtNdncRyYy9x76We7lAYt4rFhIGsP0i
- KAYIumBQ5ylYOnEq83R1VUC/NSk2DerWqfBtbNE3Xx9kpJNvRFxCSQI6Pujlj30B3Mna
- zy2xFYiwyJgA7IowgAklqEDDYVJ1shDXTjbjXn7QLSkpvqir9jOz68W2ksxMWAxuNLsx
- 16ozAdUWv/iNS3A70mahCg593ikXS+uwSURxQ9vGzRT6T2A5wuts7oBqcgLfEgbRA2EC
- wMqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=gbXpy3X0fAtXtWiERTMiFnq4YzMw3Gn4MO7+9HVk0zs=;
- b=Hc3anoSgi6bDSTVNYEqgG3smPB4u/0JJYq3pPhpe3XerrewLCo0LFd5/L0ClkyICGp
- q5FH1G8hqKKMdc844KvsYCtVkpk8s3/uLNXMc5h8W85ELVCxUdsphleaipNti3eyRcZP
- ND1PRU6UfJg8Wv464uNoYI6PyLhc87+sF+6RlgmmgN+WbWq3aALZaeUfk5Z/aAVBNrP/
- 3Lzk8ba6ibKenfK4+H89An/Q8d2/G5NXOPcRMyqRHtvxKfs+XtUC0XNqsPWXxGiGOXd0
- h5/SRBmWa9Zal4pU9/Vc3tuonX6VaPE4KaOEavH6uXG7CNggnMh0MdcaBzQbxazh9QKK
- 8BVw==
-X-Gm-Message-State: AOAM530b1sSIkQOwv4cvC441qji7mb84RQ17a32aVJ6r7yGeqVAHh+MG
- Yxlis6mK41NsjljKo7CAH1SyyA==
-X-Google-Smtp-Source: ABdhPJxIwWo/bewpFBzWHTwOtHdrqRrm9GQlZeon4gRuwO5aydkPs6ToAAYp/JHEnm84xRrVcMGrBw==
-X-Received: by 2002:a05:6512:3251:: with SMTP id
- c17mr43171055lfr.440.1638152414615; 
- Sun, 28 Nov 2021 18:20:14 -0800 (PST)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id d18sm1336482lfl.30.2021.11.28.18.20.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 28 Nov 2021 18:20:14 -0800 (PST)
-Subject: Re: [PATCH] drm/msm: Initialize MDSS irq domain at probe time
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- robdclark@gmail.com
-References: <20211125150947.354076-1-angelogioacchino.delregno@collabora.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Message-ID: <bf1540f1-4a9f-a9d6-d487-929107c487fd@linaro.org>
-Date: Mon, 29 Nov 2021 05:20:13 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 560956E075
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 03:42:10 +0000 (UTC)
+X-UUID: c213228f80c84c4082de79aea647833f-20211129
+X-UUID: c213228f80c84c4082de79aea647833f-20211129
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw02.mediatek.com (envelope-from <yunfei.dong@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 59910171; Mon, 29 Nov 2021 11:42:05 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Mon, 29 Nov 2021 11:42:03 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkcas10.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Mon, 29 Nov 2021 11:42:02 +0800
+From: Yunfei Dong <yunfei.dong@mediatek.com>
+To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
+ <acourbot@chromium.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, "Tzung-Bi
+ Shih" <tzungbi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
+Subject: [PATCH v11,
+ 00/19] Support multi hardware decode using of_platform_populate
+Date: Mon, 29 Nov 2021 11:41:42 +0800
+Message-ID: <20211129034201.5767-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20211125150947.354076-1-angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,180 +53,230 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, konrad.dybcio@somainline.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- jami.kettunen@somainline.org, maxime@cerno.tech, marijn.suijten@somainline.org,
- kernel@collabora.com, sean@poorly.run
+Cc: Irui Wang <irui.wang@mediatek.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ srv_heupstream@mediatek.com, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Fritz Koenig <frkoenig@chromium.org>,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This series adds support for multi hardware decode into mtk-vcodec, by first adding use
+of_platform_populate to manage each hardware information: interrupt, clock, register
+bases and power. Secondly add core work queue to deal with core hardware message,
+at the same time, add msg queue for different hardware share messages. Lastly, the
+architecture of different specs are not the same, using specs type to separate them.
 
-On 25/11/2021 18:09, AngeloGioacchino Del Regno wrote:
-> Since commit 8f59ee9a570c ("drm/msm/dsi: Adjust probe order"), the
-> DSI host gets initialized earlier, but this caused unability to probe
-> the entire stack of components because they all depend on interrupts
-> coming from the main `mdss` node (mdp5, or dpu1).
-> 
-> To fix this issue, also anticipate probing mdp5 or dpu1 by initializing
-> them at msm_pdev_probe() time: this will make sure that we add the
-> required interrupt controller mapping before dsi and/or other components
-> try to initialize, finally satisfying the dependency.
-> 
-> While at it, also change the allocation of msm_drm_private to use the
-> devm variant of kzalloc().
-> 
-> Fixes: 8f59ee9a570c ("drm/msm/dsi: Adjust probe order")
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+This series has been tested with both MT8183 and MT8173. Decoding was working for both chips.
 
-I have been thinking about this. I do not feel that this is the correct 
-approach. Currently DRM device exists only when all components are 
-bound. If any of the subdevices is removed, corresponding component is 
-delteted (and thus all components are unbound), the DRM device is taken 
-down. This results in the state cleanup, userspace notifications, etc.
+Patches 1~3 rewrite get register bases and power on/off interface.
+Patches 4 export decoder pm interfaces.
+Patches 5 add to support 8192.
+Patch 6 support multi hardware.
+Patch 7 separate video encoder and decoder document
+Patch 8-17 add interfaces to support core hardware.
+Patch 18-19 remove mtk_vcodec_release_dec/enc_pm interfaces.
+---
+changes compared with v9:
+- fix comments from tzung-bi for patch 06/19.
+- add more detail information for hardware block diagram 15/19
 
-With your changes, DRM device will continue to exist even after one of 
-subdevices is removed. This is not an expected behaviour, since 
-subdrivers do not perform full cleanup, delegating that to DRM device 
-takedown.
+changes compared with v9:
+- need not to build ko, just export pm interfaces for patch 04/19.
+- fix comments for patch 06/19
 
-I suppose that proper solution would be to split msm_drv.c into into:
-- generic components & drm code to be called from mdp4/mdp5/dpu driver 
-(making mdp4, mdp5 or dpu1 the components master)
+changes compared with v8:
+- add new patch 18~19 to remove mtk_vcodec_release_de/enc_pm interfaces.
+- fix spelling mistakes for patch 17/19
+- fix yaml comments for patch 15/19
 
-- bare mdss driver, taking care only about IRQs, OF devices population - 
-calling proper mdss_init/mdss_destroy functions. Most probably we can 
-drop this part altogether and just make md5_mdss.c/dpu_mdss.c proper 
-platform drivers.
+Changes compared with v7:
+- add new patch 4 to build decoder pm file as module
+- add new patch 5 to support 8192
+- fix comments for patch 6/17
+- change some logic for using work queue instead of create thread for core hardware decode for patch 10/17
+- using work queue for hardware decode instead of create thread for patch 13/17
+- add returen value for patch 14/17
+- fix yaml check fail 15/17
 
-> ---
->   drivers/gpu/drm/msm/msm_drv.c | 81 ++++++++++++++++-------------------
->   1 file changed, 38 insertions(+), 43 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> index 7936e8d498dd..790acf4993c0 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.c
-> +++ b/drivers/gpu/drm/msm/msm_drv.c
-> @@ -512,45 +512,12 @@ static int msm_init_vram(struct drm_device *dev)
->   static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
->   {
->   	struct platform_device *pdev = to_platform_device(dev);
-> -	struct drm_device *ddev;
-> -	struct msm_drm_private *priv;
-> -	struct msm_kms *kms;
-> -	struct msm_mdss *mdss;
-> +	struct drm_device *ddev = platform_get_drvdata(pdev);
-> +	struct msm_drm_private *priv = ddev->dev_private;
-> +	struct msm_kms *kms = priv->kms;
-> +	struct msm_mdss *mdss = priv->mdss;
->   	int ret, i;
->   
-> -	ddev = drm_dev_alloc(drv, dev);
-> -	if (IS_ERR(ddev)) {
-> -		DRM_DEV_ERROR(dev, "failed to allocate drm_device\n");
-> -		return PTR_ERR(ddev);
-> -	}
-> -
-> -	platform_set_drvdata(pdev, ddev);
-> -
-> -	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-> -	if (!priv) {
-> -		ret = -ENOMEM;
-> -		goto err_put_drm_dev;
-> -	}
-> -
-> -	ddev->dev_private = priv;
-> -	priv->dev = ddev;
-> -
-> -	switch (get_mdp_ver(pdev)) {
-> -	case KMS_MDP5:
-> -		ret = mdp5_mdss_init(ddev);
-> -		break;
-> -	case KMS_DPU:
-> -		ret = dpu_mdss_init(ddev);
-> -		break;
-> -	default:
-> -		ret = 0;
-> -		break;
-> -	}
-> -	if (ret)
-> -		goto err_free_priv;
-> -
-> -	mdss = priv->mdss;
-> -
->   	priv->wq = alloc_ordered_workqueue("msm", 0);
->   	priv->hangcheck_period = DRM_MSM_HANGCHECK_DEFAULT_PERIOD;
->   
-> @@ -685,11 +652,6 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
->   err_destroy_mdss:
->   	if (mdss && mdss->funcs)
->   		mdss->funcs->destroy(ddev);
-> -err_free_priv:
-> -	kfree(priv);
-> -err_put_drm_dev:
-> -	drm_dev_put(ddev);
-> -	platform_set_drvdata(pdev, NULL);
->   	return ret;
->   }
->   
-> @@ -1382,12 +1344,42 @@ static const struct component_master_ops msm_drm_ops = {
->   static int msm_pdev_probe(struct platform_device *pdev)
->   {
->   	struct component_match *match = NULL;
-> +	struct msm_drm_private *priv;
-> +	struct drm_device *ddev;
->   	int ret;
->   
-> +	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
-> +
-> +	ddev = drm_dev_alloc(&msm_driver, &pdev->dev);
-> +	if (IS_ERR(ddev)) {
-> +		DRM_DEV_ERROR(&pdev->dev, "failed to allocate drm_device\n");
-> +		return PTR_ERR(ddev);
-> +	}
-> +
-> +	platform_set_drvdata(pdev, ddev);
-> +	ddev->dev_private = priv;
-> +	priv->dev = ddev;
-> +
-> +	switch (get_mdp_ver(pdev)) {
-> +	case KMS_MDP5:
-> +		ret = mdp5_mdss_init(ddev);
-> +		break;
-> +	case KMS_DPU:
-> +		ret = dpu_mdss_init(ddev);
-> +		break;
-> +	default:
-> +		ret = 0;
-> +		break;
-> +	}
-> +	if (ret)
-> +		goto err_put_drm_dev;
-> +
->   	if (get_mdp_ver(pdev)) {
->   		ret = add_display_components(pdev, &match);
->   		if (ret)
-> -			return ret;
-> +			goto fail;
->   	}
->   
->   	ret = add_gpu_components(&pdev->dev, &match);
-> @@ -1409,6 +1401,9 @@ static int msm_pdev_probe(struct platform_device *pdev)
->   
->   fail:
->   	of_platform_depopulate(&pdev->dev);
-> +err_put_drm_dev:
-> +	drm_dev_put(ddev);
-> +	platform_set_drvdata(pdev, NULL);
->   	return ret;
->   }
->   
-> 
+Changes compared with v6:
+- Use of_platform_populate to manage multi hardware, not component framework for patch 4/15
+- Re-write dtsi document for hardware architecture changed for patch 13/15 -The dtsi will write like below in patch 13/15:
+    vcodec_dec: vcodec_dec@16000000 {
+        compatible = "mediatek,mt8192-vcodec-dec";
+        #address-cells = <2>;
+        #size-cells = <2>;
+        ranges;
+        reg = <0 0x16000000 0 0x1000>;		/* VDEC_SYS */
+        mediatek,scp = <&scp>;
+        iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>;
+        dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
+        vcodec_lat {
+            compatible = "mediatek,mtk-vcodec-lat";
+            reg = <0 0x16010000 0 0x800>;		/* VDEC_MISC */
+            reg-name = "reg-misc";
+            interrupts = <GIC_SPI 426 IRQ_TYPE_LEVEL_HIGH 0>;
+            iommus = <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD_EXT>,
+                 <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD2_EXT>,
+                 <&iommu0 M4U_PORT_L5_VDEC_LAT0_AVC_MV_EXT>,
+                 <&iommu0 M4U_PORT_L5_VDEC_LAT0_PRED_RD_EXT>,
+                 <&iommu0 M4U_PORT_L5_VDEC_LAT0_TILE_EXT>,
+                 <&iommu0 M4U_PORT_L5_VDEC_LAT0_WDMA_EXT>,
+                 <&iommu0 M4U_PORT_L5_VDEC_LAT0_RG_CTRL_DMA_EXT>,
+                 <&iommu0 M4U_PORT_L5_VDEC_UFO_ENC_EXT>;
+            clocks = <&topckgen CLK_TOP_VDEC_SEL>,
+                 <&vdecsys_soc CLK_VDEC_SOC_VDEC>,
+                 <&vdecsys_soc CLK_VDEC_SOC_LAT>,
+                 <&vdecsys_soc CLK_VDEC_SOC_LARB1>,
+                 <&topckgen CLK_TOP_MAINPLL_D4>;
+            clock-names = "vdec-sel", "vdec-soc-vdec", "vdec-soc-lat",
+                  "vdec-vdec", "vdec-top";
+            assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
+            assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
+            power-domains = <&spm MT8192_POWER_DOMAIN_VDEC>;
+        };
 
+        vcodec_core {
+            compatible = "mediatek,mtk-vcodec-core";
+            reg = <0 0x16025000 0 0x1000>;		/* VDEC_CORE_MISC */
+            reg-names = "reg-misc";
+            interrupts = <GIC_SPI 425 IRQ_TYPE_LEVEL_HIGH 0>;
+            iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_UFO_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_PP_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_PRED_RD_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_PRED_WR_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_PPWRAP_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_TILE_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_VLD_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_VLD2_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_AVC_MV_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_RG_CTRL_DMA_EXT>;
+            clocks = <&topckgen CLK_TOP_VDEC_SEL>,
+                 <&vdecsys CLK_VDEC_VDEC>,
+                 <&vdecsys CLK_VDEC_LAT>,
+                 <&vdecsys CLK_VDEC_LARB1>,
+                 <&topckgen CLK_TOP_MAINPLL_D4>;
+            clock-names = "vdec-sel", "vdec-soc-vdec", "vdec-soc-lat",
+                  "vdec-vdec", "vdec-top";
+            assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
+            assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
+            power-domains = <&spm MT8192_POWER_DOMAIN_VDEC2>;
+        };
+    };
+
+Changes compared with v5:
+- Add decoder hardware block diagram for patch 13/15
+
+Changes compared with v4:
+- Fix comments for patch 4/15
+  >> +     if (dev->is_comp_supported) {
+  >> +             ret = mtk_vcodec_init_master(dev);
+  >> +             if (ret < 0)
+  >> +                     goto err_component_match;
+  >> +     } else {
+  >> +             platform_set_drvdata(pdev, dev);
+  >> +     }
+  Fix platform_set_drvdata.
+- Fix build error for patch 9/15
+- Add depend patch in case of error header file for patch 13/15
+
+Changes compared with v3:
+- Fix return value for patch 1/15
+- Fix comments for patch 4/15
+  > Looking up "mediatek,mtk-vcodec-core" to determine if it uses component framwork sounds like...
+  Add prameter in pdata, for all platform will use compoent after mt8183
+
+  >> +     if (dev->is_comp_supported) {
+  >> +             ret = mtk_vcodec_init_master(dev);
+  >> +             if (ret < 0)
+  >> +                     goto err_component_match;
+  >> +     } else {
+  >> +             platform_set_drvdata(pdev, dev);
+  >> +     }
+  > + Has asked the same question in [1].  Why it removes the
+  > +platform_set_drvdata() above?  mtk_vcodec_init_master() also calls platform_set_drvdata().
+  Must call component_master_add_with_match after platform_set_drvdata for component architecture.
+- Fix yaml files check fail for patch 5/15
+- Fix yaml file check fail for patch 14/15
+
+Changes compared with v1:
+- Fix many comments for patch 3/14
+- Remove unnecessary code for patch 4/14
+- Using enum mtk_vdec_hw_count instead of magic numbers for patch 6/14
+- Reconstructed get/put lat buffer for lat and core hardware for patch 7/14
+- Using yaml format to instead of txt file for patch 12/14
+
+Yunfei Dong (19):
+  media: mtk-vcodec: Get numbers of register bases from DT
+  media: mtk-vcodec: Align vcodec wake up interrupt interface
+  media: mtk-vcodec: Refactor vcodec pm interface
+  media: mtk-vcodec: export decoder pm functions
+  media: mtk-vcodec: Support MT8192
+  media: mtk-vcodec: Add to support multi hardware decode
+  dt-bindings: media: mtk-vcodec: Separate video encoder and decoder
+    dt-bindings
+  media: mtk-vcodec: Use pure single core for MT8183
+  media: mtk-vcodec: Add irq interface for multi hardware
+  media: mtk-vcodec: Add msg queue feature for lat and core architecture
+  media: mtk-vcodec: Generalize power and clock on/off interfaces
+  media: mtk-vcodec: Add new interface to lock different hardware
+  media: mtk-vcodec: Add work queue for core hardware decode
+  media: mtk-vcodec: Support 34bits dma address for vdec
+  dt-bindings: media: mtk-vcodec: Adds decoder dt-bindings for mt8192
+  media: mtk-vcodec: Add core dec and dec end ipi msg
+  media: mtk-vcodec: Use codec type to separate different hardware
+  media: mtk-vcodec: Remove mtk_vcodec_release_dec_pm
+  media: mtk-vcodec: Remove mtk_vcodec_release_enc_pm
+
+ .../media/mediatek,vcodec-decoder.yaml        | 176 +++++++++++
+ .../media/mediatek,vcodec-encoder.yaml        | 187 ++++++++++++
+ .../media/mediatek,vcodec-subdev-decoder.yaml | 266 ++++++++++++++++
+ .../bindings/media/mediatek-vcodec.txt        | 131 --------
+ drivers/media/platform/mtk-vcodec/Makefile    |   6 +-
+ .../platform/mtk-vcodec/mtk_vcodec_dec.c      |   4 +-
+ .../platform/mtk-vcodec/mtk_vcodec_dec.h      |   1 +
+ .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  | 206 ++++++++++---
+ .../platform/mtk-vcodec/mtk_vcodec_dec_hw.c   | 175 +++++++++++
+ .../platform/mtk-vcodec/mtk_vcodec_dec_hw.h   |  55 ++++
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 104 +++++--
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.h   |  12 +-
+ .../mtk-vcodec/mtk_vcodec_dec_stateful.c      |   2 +
+ .../mtk-vcodec/mtk_vcodec_dec_stateless.c     |  20 ++
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  71 ++++-
+ .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |  21 +-
+ .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   |  10 +-
+ .../platform/mtk-vcodec/mtk_vcodec_enc_pm.h   |   3 +-
+ .../platform/mtk-vcodec/mtk_vcodec_intr.c     |  27 +-
+ .../platform/mtk-vcodec/mtk_vcodec_intr.h     |   4 +-
+ .../platform/mtk-vcodec/mtk_vcodec_util.c     |  60 +++-
+ .../platform/mtk-vcodec/mtk_vcodec_util.h     |   8 +-
+ .../platform/mtk-vcodec/vdec/vdec_h264_if.c   |   2 +-
+ .../mtk-vcodec/vdec/vdec_h264_req_if.c        |   2 +-
+ .../platform/mtk-vcodec/vdec/vdec_vp8_if.c    |   2 +-
+ .../platform/mtk-vcodec/vdec/vdec_vp9_if.c    |   2 +-
+ .../media/platform/mtk-vcodec/vdec_drv_if.c   |  21 +-
+ .../media/platform/mtk-vcodec/vdec_ipi_msg.h  |  16 +-
+ .../platform/mtk-vcodec/vdec_msg_queue.c      | 286 ++++++++++++++++++
+ .../platform/mtk-vcodec/vdec_msg_queue.h      | 148 +++++++++
+ .../media/platform/mtk-vcodec/vdec_vpu_if.c   |  46 ++-
+ .../media/platform/mtk-vcodec/vdec_vpu_if.h   |  22 ++
+ .../platform/mtk-vcodec/venc/venc_h264_if.c   |   2 +-
+ .../platform/mtk-vcodec/venc/venc_vp8_if.c    |   2 +-
+ 34 files changed, 1805 insertions(+), 295 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+ delete mode 100644 Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.h
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec_msg_queue.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec_msg_queue.h
 
 -- 
-With best wishes
-Dmitry
+2.25.1
+
