@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 950F74614A8
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 13:08:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36A31461498
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 13:07:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 026496F51B;
-	Mon, 29 Nov 2021 12:08:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B4796FA6F;
+	Mon, 29 Nov 2021 12:07:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 058AD6FA62
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2E676FA64
  for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 12:07:28 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id c4so36234870wrd.9
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 04:07:27 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id j3so36294780wrp.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 04:07:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xR1nHIQR+HY5rurJTXhG523nepCCoi6AKz+ZxgPV9e4=;
- b=PrARlWxKE10sEnLh/awOxujQsuzZME2kfIbZ+NkhLa+a1Qwd2/2TqBRn0A5c6/U+/H
- 6cze3wVzcIwRa5jjPtk1yQFK1it42KOsc0sNHCn1mnIhM4+GyfkCZoVfDiuSrnASA9vH
- wHoxJ4svxVIoKDsb3JHo0J94QdXFxViXp3S6M/PBc60kQNefGtT6wk1U4ee0/YeJk4mj
- JfWgPkr4UhBwlZeeoJaD0bRumi/tTc/PeO3CDiQ4LG21GIaroOmlXTuF7EvxwIfhaVoR
- IENliQaPJQdjz9B63cWkJ/0fU5uDoP2kGhujJGfAtObxIZKwCFEV1beEvQReHNPlywyD
- ib4A==
+ bh=VGR7sEyP5xUI57aswHQi5HhbTWAZp7wO5W8n1Qo9nVA=;
+ b=DvxyvmA4UkCgdWcyCMMQaRiMvazH42UIQQOpJO5EerdANdxHj4KctvJTw1jId0sMdt
+ UNipWKXziNXoJmDw3V19P2Iuqpg4Njhzt+PqLRQp5htQ8+upc+XS8TQ2VmsiQAB8sJ3u
+ lwvMO3IftrF7bS/FOL2sYTRPvzDb8VK0giPv7FEZN8v4VA2ZomSLM+5Xm4vmsOCopeC0
+ 7dn8ho9Chxqh+uIWLz1M+KCYJOys7m3cTffo7iBowhR8YSIt5ezUfyF9xCxEgywMlq5b
+ 4gQdEIgOUbbvzuH4efae6HvT1R8fZLie5Gk1ljIRoZzsxwNaUcrjWY3K/1ovoaIleTyX
+ ot3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xR1nHIQR+HY5rurJTXhG523nepCCoi6AKz+ZxgPV9e4=;
- b=Ouo4cwq5K/n8v1YrnVxqjOgEMq7MBcL6yj/r9avt9bGmF23FFn2KPio0jwutep+Ku6
- YpIt8rRf6ZrjdumEJ71vUD6v9wFvVoH/I6znHNlL+EqHnyFDbFCncORAHt3EDwkVkqYE
- M2FhkK0TEde1GfGRv3+P3mOtawREAZ3KTt8/69juDl/3L2GW0Ej53e3hz1flpssxy/w4
- h9S6oV1ijAj2APvOtWMD88LjfTRihLVVTpZsClv+ktQavzLC25A67yRAFtxhOYr6U1CI
- FX0vEomOJsgnjjRaVb5IPdl+gI6A54gSxOq7rXGP8cmW+Qc44q8AfspQYIvEPmTisGVF
- ib3w==
-X-Gm-Message-State: AOAM530/TmhCUd4IOjiVJ5WdxcWHqy2TtVmNpXYqTYe52/MKz47Rwyrf
- mGQWWRkQYoBH9ii1PYkthXMCiWdEmJE=
-X-Google-Smtp-Source: ABdhPJzzdlceodIRBmlFEQhUB8Cs4Zy3gLWxC1Aw5MEGHc38yEUkK/zYjhOxO867+NmHzoUgucPFdQ==
-X-Received: by 2002:a05:6000:2ae:: with SMTP id
- l14mr33388815wry.142.1638187646630; 
- Mon, 29 Nov 2021 04:07:26 -0800 (PST)
+ bh=VGR7sEyP5xUI57aswHQi5HhbTWAZp7wO5W8n1Qo9nVA=;
+ b=VsKtL4evHAIQcYftoZsMFgDZDxqFQEFgDKSOlAyTHWLZaORvcBQhzoSrRC5PjuJQ/3
+ Yx8Y6dbvhbkzmlRE/VHkdPGPIeE2SD+Ye5BkpcTfzkETrUACW4v0cl9BYPrl7DGL+8GM
+ BqilMzj9ntx99l4UtUnKcqF9Q8G1TBuvShrQIiCff05aJVC8CjjhBOtgk4CEBgOR30cH
+ ooOnBsLdFJEwYtX+EbCJIK9swMz6XoQyttF2x2oHMvGcDmloZMUhG468J3YZebRrvjyF
+ niqyaAnqEexW0cPsGyW9EZ48YtUe0bdG6wannLoazKVeKPm6R8gZC1DG2SrV/bjTQaTA
+ 3AVQ==
+X-Gm-Message-State: AOAM530HE8dwad3bK53eVYFoOPFz2Rp/ymt14y2JY4HTuclkWSIfcZFT
+ BBPHpsLtBnM9K8Wft2Qo0Ts=
+X-Google-Smtp-Source: ABdhPJx/isgwTDi2SrqXAXlYd86/rMNxzip0CZRacAJNcrcxqfNYJ4bA/CaByWKIpkS+/y0WMI24LA==
+X-Received: by 2002:a5d:452b:: with SMTP id j11mr33442239wra.432.1638187647380; 
+ Mon, 29 Nov 2021 04:07:27 -0800 (PST)
 Received: from abel.fritz.box (p57b0b77b.dip0.t-ipconnect.de. [87.176.183.123])
- by smtp.gmail.com with ESMTPSA id b6sm20415234wmq.45.2021.11.29.04.07.25
+ by smtp.gmail.com with ESMTPSA id b6sm20415234wmq.45.2021.11.29.04.07.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Nov 2021 04:07:26 -0800 (PST)
+ Mon, 29 Nov 2021 04:07:27 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: daniel@ffwll.ch
-Subject: [PATCH 19/28] drm: support more than one write fence in
- drm_gem_plane_helper_prepare_fb
-Date: Mon, 29 Nov 2021 13:06:50 +0100
-Message-Id: <20211129120659.1815-20-christian.koenig@amd.com>
+Subject: [PATCH 20/28] drm/nouveau: support more than one write fence in
+ fenv50_wndw_prepare_fb
+Date: Mon, 29 Nov 2021 13:06:51 +0100
+Message-Id: <20211129120659.1815-21-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211129120659.1815-1-christian.koenig@amd.com>
 References: <20211129120659.1815-1-christian.koenig@amd.com>
@@ -82,46 +81,41 @@ fence as single fence.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/drm_gem_atomic_helper.c | 18 +++++++-----------
- 1 file changed, 7 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/nouveau/dispnv50/wndw.c | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem_atomic_helper.c b/drivers/gpu/drm/drm_gem_atomic_helper.c
-index c3189afe10cb..9338ddb7edff 100644
---- a/drivers/gpu/drm/drm_gem_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
-@@ -143,25 +143,21 @@
-  */
- int drm_gem_plane_helper_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
- {
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.c b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+index 133c8736426a..b55a8a723581 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/wndw.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+@@ -536,8 +536,6 @@ nv50_wndw_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
+ 	struct nouveau_bo *nvbo;
+ 	struct nv50_head_atom *asyh;
+ 	struct nv50_wndw_ctxdma *ctxdma;
 -	struct dma_resv_iter cursor;
- 	struct drm_gem_object *obj;
- 	struct dma_fence *fence;
-+	int ret;
+-	struct dma_fence *fence;
+ 	int ret;
  
- 	if (!state->fb)
- 		return 0;
+ 	NV_ATOMIC(drm, "%s prepare: %p\n", plane->name, fb);
+@@ -560,13 +558,11 @@ nv50_wndw_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
+ 			asyw->image.handle[0] = ctxdma->object.handle;
+ 	}
  
- 	obj = drm_gem_fb_get_obj(state->fb, 0);
--	dma_resv_iter_begin(&cursor, obj->resv, false);
+-	dma_resv_iter_begin(&cursor, nvbo->bo.base.resv, false);
 -	dma_resv_for_each_fence_unlocked(&cursor, fence) {
--		/* TODO: Currently there should be only one write fence, so this
--		 * here works fine. But drm_atomic_set_fence_for_plane() should
--		 * be changed to be able to handle more fences in general for
--		 * multiple BOs per fb anyway. */
--		dma_fence_get(fence);
+-		/* TODO: We only use the first writer here */
+-		asyw->state.fence = dma_fence_get(fence);
 -		break;
 -	}
 -	dma_resv_iter_end(&cursor);
-+	ret = dma_resv_get_singleton(obj->resv, false, &fence);
++	ret = dma_resv_get_singleton(nvbo->bo.base.resv, false,
++				     &asyw->state.fence);
 +	if (ret)
 +		return ret;
++
+ 	asyw->image.offset[0] = nvbo->offset;
  
-+	/* TODO: drm_atomic_set_fence_for_plane() should be changed to be able
-+	 * to handle more fences in general for multiple BOs per fb.
-+	 */
- 	drm_atomic_set_fence_for_plane(state, fence);
- 	return 0;
- }
+ 	if (wndw->func->prepare) {
 -- 
 2.25.1
 
