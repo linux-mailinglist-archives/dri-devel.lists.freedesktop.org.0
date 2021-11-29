@@ -2,58 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAA1E461D74
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 19:18:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EB7C461FC8
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 20:02:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2B386E4A6;
-	Mon, 29 Nov 2021 18:18:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3C106E0ED;
+	Mon, 29 Nov 2021 19:02:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com
- [IPv6:2607:f8b0:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22B496E558;
- Mon, 29 Nov 2021 18:18:28 +0000 (UTC)
-Received: by mail-pg1-x530.google.com with SMTP id k4so6815983pgb.8;
- Mon, 29 Nov 2021 10:18:28 -0800 (PST)
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 668C96E0ED;
+ Mon, 29 Nov 2021 19:02:29 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id o20so75803850eds.10;
+ Mon, 29 Nov 2021 11:02:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fUNuveYGMtrqjB2VQZVCUJJ1mSxi3vYF+lEWoSAESLM=;
- b=SdrRH1TrlPjoH3o1ImcgrE+JbnNbd74DzvJjimwCmDhp3OiBNEk18o0Ys4Uicpze3g
- zCw9IGuUC4v9BZ3CYiScmVgbZeZiuvOS2RLrM/6RhKvqepnADkdKhvVbDrJ3NewrVm2e
- QkJbwFI67r2N1UWhs9XjfbDcNC8N67++NnHIH83L8flrOCi9RFPkIyFGQxiwV1+t69kZ
- xb3y0ca8ks1Fwi5AovNNmkOezoX6/KDZR5IqLoti7r5uqWZ7tAFDuyivhX2knAKqZNQi
- 4RHrssSrZg9WIhHbA/vUFfaq8NU/kED7xEz2fNqm+STCQIV0P9QO+dogodmRpk1RwMzw
- 9gJA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vHIcZ4ajJxCRfp6TfnnK3m4uOLsqq/PnoEl1uZz7+2M=;
+ b=LHqpOuZ9bbPhm6BAEqNPiFiqNjqndKV4zQZgjWjGtAQXoprCwWKIcC6/fyMFaSBQ6N
+ k+M+udaeBPxQSV/sqCPS8gOOdZr6WhSxUEYATlnHbqTy8naDBiledHzWmwVMy0eMdV+o
+ X5fV9bcsNEZcXKYY4M9flL9DfU4JNrNc6Wi7tlanU/9oSP6XRf2M7zmjO2MmRwlLoDOr
+ l81B3g2OMpp7EXMM9gbQ8nJGhZw5Emg0VQ/KMNogBPSu8XxQJOS5ddNYZXRxAQ4FwNN+
+ lE8Wv32IPzfNJ+SGajHs4GHojQXuYFahcQ72Q/jolrV3T85hGnbS+/eM/1yqCW1k9cfP
+ kAaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fUNuveYGMtrqjB2VQZVCUJJ1mSxi3vYF+lEWoSAESLM=;
- b=qtRWb1PC0fjZqKmuhp/LtupUMck3WTcjpqkl4Caf0FR9aZ00n5pgu7+EdrcJioB5+n
- LHgcV6kZnkSjX+LZPBSAnZPXojUL0pb9K7Hn7d0xZhVnV7KvcpEUf55Gx7Wi8E4q2giF
- 7jolBfQcmEHX55mKcg4SMFvyvoeuAMvYTd6avGOMxexrBWnWMQ6/zS2giw+Ub99aPTCz
- PJTgTP6TXIiM0t8OeF9eOiA44/h3lrAzaDpBvN/F5DSISqqgchOEdAGiaR7+EaFlkbZq
- 50SEOKFBC3vO8tk2a/1NMj0u5J2NJf5kNPR7CJ4VYf9ZZHxH7Rl7DrqJBIWBaGY7UEBE
- e/NQ==
-X-Gm-Message-State: AOAM530aEdIc9YvKGrVNKdZKkVkbqFD44n/CbSM2gNg1TKEX+s31AN2o
- eeV5/WzuAUXvo5SaNtv+3Qlg4a4FQhU=
-X-Google-Smtp-Source: ABdhPJyJeydSjX4k1OB1bo6HrPO31iSNMLC3cBqM8orkTUv7tItFGjyOmE00ZWY2AuQIhUqjA3OxNA==
-X-Received: by 2002:a63:3190:: with SMTP id
- x138mr35037673pgx.401.1638209906886; 
- Mon, 29 Nov 2021 10:18:26 -0800 (PST)
-Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
- by smtp.gmail.com with ESMTPSA id d7sm19415554pfj.91.2021.11.29.10.18.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Nov 2021 10:18:25 -0800 (PST)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/msm/gpu: Don't allow zero fence_id
-Date: Mon, 29 Nov 2021 10:23:44 -0800
-Message-Id: <20211129182344.292609-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.33.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vHIcZ4ajJxCRfp6TfnnK3m4uOLsqq/PnoEl1uZz7+2M=;
+ b=7Bcbcwo+pFNuyr3SPP1xnCRP9/FTgeehwivXNNqpztsa71Ag36XAqY7LPxpmD8fHtt
+ 5wf94OW5DzZwxmsbKaiPBjw1VKjrk1McFU9XPux823TULAA0qGswfwFm2qmvgyiPElSF
+ zVOi4YstAy+eUaRemDryY6SWghR7kfp+4njxpAZccPvNJokrLxKnbknZEw2UINF/fIDD
+ i3wifh+3KVnW8jUZg/76D4CWSmEGtWEMekYMmBdNwh8n9rr87ob+d65Y6SnDauOV9hEx
+ C2S/WDmbtezhwKgh1/OQ3D21J12PxfGDSPYIhMREYE4jOAiliy40/0kf1ZwnBSbZ5ThE
+ JWdg==
+X-Gm-Message-State: AOAM532Yc32Xq0fU7xQSYs1fzquLYDiGGYpXOsOWzRlywzH9dLkgVq0E
+ 689T8hjMfau+1786YPZhjnaGV66scm7LtHheq3c=
+X-Google-Smtp-Source: ABdhPJxGlKZy56+YMwTdyV8+MSNj2EB5bGzBFj/T14hqS9VsMurjSEHNZMxWqn+sj4E8NhGcq44MS8KxUYhtEUSU9i4=
+X-Received: by 2002:aa7:c846:: with SMTP id g6mr76715007edt.75.1638212547798; 
+ Mon, 29 Nov 2021 11:02:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211128201916.10230-1-rikard.falkeborn@gmail.com>
+In-Reply-To: <20211128201916.10230-1-rikard.falkeborn@gmail.com>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Mon, 29 Nov 2021 20:02:16 +0100
+Message-ID: <CAH9NwWfhtYKsPMsiTN-pYc3CQ5XcA9TyX3R4yZch7ZHL2+Soyg@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: constify static struct cooling_ops
+To: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,38 +61,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- freedreno@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+Am So., 28. Nov. 2021 um 21:20 Uhr schrieb Rikard Falkeborn
+<rikard.falkeborn@gmail.com>:
+>
+> The only usage of cooling_ops is to pass its address to
+> thermal_of_cooling_device_register(), which takes a pointer to const
+> struct thermal_cooling_device_ops as input. Make it const to allow the
+> compiler to put it in read-only memory.
+>
+> Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
 
-Elsewhere we treat zero as "no fence" and __msm_gem_submit_destroy()
-skips removal from fence_idr.  We could alternately change this to use
-negative values for "no fence" but I think it is more clear to not allow
-zero as a valid fence_id.
+Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/msm_gem_submit.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> index 06bde46df451..37018bc55810 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -1658,7 +1658,7 @@ etnaviv_gpu_cooling_set_cur_state(struct thermal_cooling_device *cdev,
+>         return 0;
+>  }
+>
+> -static struct thermal_cooling_device_ops cooling_ops = {
+> +static const struct thermal_cooling_device_ops cooling_ops = {
+>         .get_max_state = etnaviv_gpu_cooling_get_max_state,
+>         .get_cur_state = etnaviv_gpu_cooling_get_cur_state,
+>         .set_cur_state = etnaviv_gpu_cooling_set_cur_state,
+> --
+> 2.34.1
+>
 
-diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index 282628d6b72c..6cfa984dee6a 100644
---- a/drivers/gpu/drm/msm/msm_gem_submit.c
-+++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -881,7 +881,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 	 * to the underlying fence.
- 	 */
- 	submit->fence_id = idr_alloc_cyclic(&queue->fence_idr,
--			submit->user_fence, 0, INT_MAX, GFP_KERNEL);
-+			submit->user_fence, 1, INT_MAX, GFP_KERNEL);
- 	if (submit->fence_id < 0) {
- 		ret = submit->fence_id = 0;
- 		submit->fence_id = 0;
+
 -- 
-2.33.1
+greets
+--
+Christian Gmeiner, MSc
 
+https://christian-gmeiner.info/privacypolicy
