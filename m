@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47C3B4610A3
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 09:56:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EC694610A6
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 09:56:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60C5A6E235;
-	Mon, 29 Nov 2021 08:56:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 370A96E2A3;
+	Mon, 29 Nov 2021 08:56:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 595 seconds by postgrey-1.36 at gabe;
- Mon, 29 Nov 2021 08:56:46 UTC
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 664886E235
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 08:56:46 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46A546E24D;
+ Mon, 29 Nov 2021 08:56:50 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 27CD1B80DFF;
- Mon, 29 Nov 2021 08:46:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2523EC53FAD;
- Mon, 29 Nov 2021 08:46:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1638175606;
- bh=oaLcDR+6x2GaOYtTmlKovn8ka1IF1mNadAa/b6xBwck=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Pg7ZEiGG4J5cFQgcqe6beVg4tjKtyzfpJ+htRrxFTjSijtioif8Dg/tPOGgHU7Msk
- Q19ml6+MomEAXzIODPSPIWb1zoNoAX19UP2bd1rL+ZnzPYyQavsUmZOfURVc3UhHDN
- snOOXQ3fCC1L6pGxH2xRN8mWlPd71GPnK6e3nQHSqrrYQySduzwa/HTbA0CZmfoiZv
- vV0R0jFaK/J95RXMTTETTdM5oIOk3s7D8RfhP/w/p/g0ksj0M3FZiGKGbYn9zyOr1q
- 5wjV9DRAWnR/GS/qBUVO7MfRiX1XxiGzQUrsh5M/0mRaXYpZlZlOrTzh2KEcUrmvCu
- ny64YgQN6h8eg==
-Date: Mon, 29 Nov 2021 09:46:43 +0100
-From: Wolfram Sang <wsa@kernel.org>
-To: Akhil R <akhilrajeev@nvidia.com>
-Subject: Re: [PATCH v4] i2c: tegra: Add the ACPI support
-Message-ID: <YaSTcx7sZfn0cZ4i@kunai>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
- Akhil R <akhilrajeev@nvidia.com>, andy.shevchenko@gmail.com,
- christian.koenig@amd.com, digetx@gmail.com,
- dri-devel@lists.freedesktop.org, jonathanh@nvidia.com,
- ldewangan@nvidia.com, linaro-mm-sig@lists.linaro.org,
- linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
- p.zabel@pengutronix.de, sumit.semwal@linaro.org,
- thierry.reding@gmail.com
-References: <1637859224-5179-1-git-send-email-akhilrajeev@nvidia.com>
+ by smtp-out2.suse.de (Postfix) with ESMTPS id A46A41FD33;
+ Mon, 29 Nov 2021 08:56:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1638176208; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=5RcfXHZlatAU1H8GrAIfadrPN2mlQNL1BYn2z9EnbmQ=;
+ b=h+rxYcxhDfzR3waONfxHvioXHLn4DvUkpQuOhPyw2+ilzmA8ENwPCLAcTgu3UWrOtdv+oD
+ KajNGoMTwIGVF3j7BNdIj//FUNNcLHlHhy34pGejBSN1fEZlpyB98joNbOKbMTtTkUJfEV
+ G7SRiAv3h6n+fqyMQobVUCfUFxO67Lc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1638176208;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=5RcfXHZlatAU1H8GrAIfadrPN2mlQNL1BYn2z9EnbmQ=;
+ b=MXUaOMnMTad+MLFq2yWD0VuePZ7gJsN+YmYAuvdAgV5SuBPPHGgH6t4hWOs6J8FiKb9BBa
+ FqMNmH6JuFHobCBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 65934133A7;
+ Mon, 29 Nov 2021 08:56:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id C/qjF9CVpGHwRgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 29 Nov 2021 08:56:48 +0000
+Date: Mon, 29 Nov 2021 09:56:47 +0100
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-next
+Message-ID: <YaSVz15Q7dAlEevU@linux-uq9g.fritz.box>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="iDFdsTcaXlfLI7aZ"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <1637859224-5179-1-git-send-email-akhilrajeev@nvidia.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,49 +64,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- jonathanh@nvidia.com, linaro-mm-sig@lists.linaro.org,
- andy.shevchenko@gmail.com, ldewangan@nvidia.com, thierry.reding@gmail.com,
- linux-i2c@vger.kernel.org, linux-tegra@vger.kernel.org, digetx@gmail.com,
- christian.koenig@amd.com, linux-media@vger.kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dave and Daniel,
 
---iDFdsTcaXlfLI7aZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+here's the second PR for drm-misc-next for what will become Linux 5.17.
+It's a bit late, as I was on vacation last week. The most significant
+change moves the nomodeset parameter entirely into the DRM subsystem.
 
-On Thu, Nov 25, 2021 at 10:23:44PM +0530, Akhil R wrote:
-> Add support for the ACPI based device registration so that the driver
-> can be also enabled through ACPI table.
->=20
-> This does not include the ACPI support for Tegra VI and DVC I2C.
->=20
-> Signed-off-by: Akhil R <akhilrajeev@nvidia.com>
+Best regards
+Thomas
 
-Applied to for-next, thanks!
+drm-misc-next-2021-11-29:
+drm-misc-next for 5.17:
 
+UAPI Changes:
 
---iDFdsTcaXlfLI7aZ
-Content-Type: application/pgp-signature; name="signature.asc"
+Cross-subsystem Changes:
 
------BEGIN PGP SIGNATURE-----
+ * Move 'nomodeset' kernel boot option into DRM subsystem
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmGkk3MACgkQFA3kzBSg
-KbbDPg//YV1hcN80cjWSN7APDde7BabZiypwDgo8ZFZOkOsbZ2VOzZXpgyn42+4y
-3TyxXQDyO3xpqfsC0AaYnK/cGc1QqJC9xAKE4VeogWXC1yw9zPs1/UptGtvEPjAV
-wPR3TsJxNZYlEAfXkTlI5iFQh85893vXGxX+5t9XnXjLSWqawgF97UPcohaliALQ
-mtZhFbXEXccJujSSXUkmBZeSYi1YV8N23HO6kx7YjQ+DxgAjCdPXxLlHOSBhg9fe
-7nWlRC/+uUZr7hdkrD/jqi3wzXkHaiWKb0slAqmZdunzFvFpocDgIPaBazBhsbln
-Pu5RFoFpdZKqp+lP2c7RsnjU5SU9ptWxMy6HZKq6sdjNrNPAC9U8vZdVlax7kar2
-oxbhZ685bIQVtk9ep+X49eo15JN1xm+grQcTmvPpNr9mVBOEyItviBqD53kyCfFa
-P2RTudptER0hoN5gVG8m5c04qFeLQfR49kLI02zLmsyQJZE/AEkvMYiy8G/ETOei
-eOkD1A11JUgkDG3ZzkqODI2MLkhyGwHi4DyA60Xw3FX6kktcJqrAK4RT+1Cn+4fk
-Jb+Bb7PTLV0osT6H0XSGXv55Zbt9A9F5mvnQAKpnvk+vmhbmUGcS4yPnLWKi41s+
-qdute+3i7oHiAjXQfcPJ0eWVRPO5GzVwUE+MF3B4XHxg5jL0OYM=
-=PuO7
------END PGP SIGNATURE-----
+Core Changes:
 
---iDFdsTcaXlfLI7aZ--
+ * Replace several DRM_*() logging macros with drm_*() equivalents
+ * panel: Add quirk for Lenovo Yoga Book X91F/L
+ * ttm: Documentation fixes
+
+Driver Changes:
+
+ * Cleanup nomodeset handling in drivers
+ * Fixes
+ * bridge/anx7625: Fix reading EDID; Fix error code
+ * bridge/megachips: Probe both bridges before registering
+ * vboxvideo: Fix ERR_PTR usage
+The following changes since commit a713ca234ea9d946235ac7248995c5fddfd9e523:
+
+  Merge drm/drm-next into drm-misc-next (2021-11-18 09:36:39 +0100)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2021-11-29
+
+for you to fetch changes up to 69d846126e1653ca9043c3766c66684132586941:
+
+  drm: Fix build error caused by missing drm_nomodeset.o (2021-11-27 21:05:58 +0100)
+
+----------------------------------------------------------------
+drm-misc-next for 5.17:
+
+UAPI Changes:
+
+Cross-subsystem Changes:
+
+ * Move 'nomodeset' kernel boot option into DRM subsystem
+
+Core Changes:
+
+ * Replace several DRM_*() logging macros with drm_*() equivalents
+ * panel: Add quirk for Lenovo Yoga Book X91F/L
+ * ttm: Documentation fixes
+
+Driver Changes:
+
+ * Cleanup nomodeset handling in drivers
+ * Fixes
+ * bridge/anx7625: Fix reading EDID; Fix error code
+ * bridge/megachips: Probe both bridges before registering
+ * vboxvideo: Fix ERR_PTR usage
+
+----------------------------------------------------------------
+Christian König (1):
+      drm/amdgpu: partially revert "svm bo enable_signal call condition"
+
+Claudio Suarez (1):
+      drm: get rid of DRM_DEBUG_* log calls in drm core, files drm_a*.c
+
+Dan Carpenter (2):
+      drm/vboxvideo: fix a NULL vs IS_ERR() check
+      drm/bridge: anx7625: fix an error code in anx7625_register_audio()
+
+Hans de Goede (1):
+      drm: panel-orientation-quirks: Add quirk for the Lenovo Yoga Book X91F/L
+
+Hsin-Yi Wang (1):
+      drm/bridge: anx7625: Fix edid_read break case in sp_tx_edid_read()
+
+Javier Martinez Canillas (7):
+      drm: Don't print messages if drivers are disabled due nomodeset
+      drm/vboxvideo: Drop CONFIG_VGA_CONSOLE guard to call vgacon_text_force()
+      drm: Move nomodeset kernel parameter to the DRM subsystem
+      drm: Decouple nomodeset from CONFIG_VGA_CONSOLE
+      Documentation/admin-guide: Document nomodeset kernel parameter
+      drm: Make the nomodeset message less sensational
+      drm: Fix build error caused by missing drm_nomodeset.o
+
+Martyn Welch (1):
+      drm/bridge: megachips: Ensure both bridges are probed before registration
+
+Randy Dunlap (1):
+      drm: ttm: correct ttm_range_manager kernel-doc notation
+
+ Documentation/admin-guide/kernel-parameters.txt    |   7 +
+ drivers/gpu/drm/Kconfig                            |   6 +
+ drivers/gpu/drm/Makefile                           |   2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   5 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |   9 -
+ drivers/gpu/drm/ast/ast_drv.c                      |   3 +-
+ drivers/gpu/drm/bridge/analogix/anx7625.c          |   6 +-
+ .../drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c   |  40 +++-
+ drivers/gpu/drm/drm_atomic.c                       | 180 ++++++++-------
+ drivers/gpu/drm/drm_atomic_helper.c                | 243 ++++++++++++---------
+ drivers/gpu/drm/drm_atomic_uapi.c                  |   2 +-
+ drivers/gpu/drm/drm_auth.c                         |  12 +-
+ drivers/gpu/drm/drm_nomodeset.c                    |  24 ++
+ drivers/gpu/drm/drm_panel_orientation_quirks.c     |   6 +
+ drivers/gpu/drm/i915/i915_module.c                 |   4 +-
+ drivers/gpu/drm/mgag200/mgag200_drv.c              |   3 +-
+ drivers/gpu/drm/nouveau/nouveau_drm.c              |   4 +-
+ drivers/gpu/drm/qxl/qxl_drv.c                      |   3 +-
+ drivers/gpu/drm/radeon/radeon_drv.c                |   9 +-
+ drivers/gpu/drm/tiny/bochs.c                       |   3 +-
+ drivers/gpu/drm/tiny/cirrus.c                      |   4 +-
+ drivers/gpu/drm/ttm/ttm_range_manager.c            |  11 +-
+ drivers/gpu/drm/vboxvideo/vbox_drv.c               |   5 +-
+ drivers/gpu/drm/vboxvideo/vbox_main.c              |   4 +-
+ drivers/gpu/drm/virtio/virtgpu_drv.c               |   3 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c                |   3 +-
+ drivers/video/console/vgacon.c                     |  21 --
+ include/drm/drm_drv.h                              |   1 +
+ include/linux/console.h                            |   6 -
+ 29 files changed, 344 insertions(+), 285 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_nomodeset.c
+
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 Nürnberg, Germany
+(HRB 36809, AG Nürnberg)
+Geschäftsführer: Felix Imendörffer
