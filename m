@@ -2,40 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DFCA460EFE
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 07:51:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1D87460F72
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 08:36:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F5626E903;
-	Mon, 29 Nov 2021 06:50:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF2EC6EC27;
+	Mon, 29 Nov 2021 07:35:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1005 seconds by postgrey-1.36 at gabe;
- Mon, 29 Nov 2021 06:50:54 UTC
-Received: from baidu.com (mx22.baidu.com [220.181.50.185])
- by gabe.freedesktop.org (Postfix) with ESMTP id C72066E903
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 06:50:54 +0000 (UTC)
-Received: from BC-Mail-EX04.internal.baidu.com (unknown [172.31.51.44])
- by Forcepoint Email with ESMTPS id AD0D8A1E29CE0D499B80;
- Mon, 29 Nov 2021 14:33:44 +0800 (CST)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-EX04.internal.baidu.com (172.31.51.44) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.20; Mon, 29 Nov 2021 14:33:44 +0800
-Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.20; Mon, 29 Nov 2021 14:33:44 +0800
-From: Cai Huoqing <caihuoqing@baidu.com>
-To: <caihuoqing@baidu.com>
-Subject: [PATCH] drm/tidss: Fix warning: unused variable 'tidss_pm_ops'
-Date: Mon, 29 Nov 2021 14:33:46 +0800
-Message-ID: <20211129063347.404-1-caihuoqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4757C6EC23;
+ Mon, 29 Nov 2021 07:35:58 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10182"; a="223140112"
+X-IronPort-AV: E=Sophos;i="5.87,272,1631602800"; d="scan'208";a="223140112"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Nov 2021 23:35:57 -0800
+X-IronPort-AV: E=Sophos;i="5.87,272,1631602800"; d="scan'208";a="476602241"
+Received: from vanderss-mobl.ger.corp.intel.com (HELO
+ thellstr-mobl1.intel.com) ([10.249.254.176])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Nov 2021 23:35:55 -0800
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] dma_fence_array: Fix PENDING_ERROR leak in
+ dma_fence_array_signaled()
+Date: Mon, 29 Nov 2021 08:35:33 +0100
+Message-Id: <20211129073533.414008-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BC-Mail-Ex11.internal.baidu.com (172.31.51.51) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,34 +45,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomba@kernel.org>, David
- Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jyri Sarha <jyri.sarha@iki.fi>
+Cc: linaro-mm-sig@lists.linaro.org,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mark 'tidss_pm_ops' as __maybe_unused to avoid
-the warning: unused variable 'tidss_pm_ops'
+If a dma_fence_array is reported signaled by a call to
+dma_fence_is_signaled(), it may leak the PENDING_ERROR status.
 
-Fixes: 6e120594631f ("drm/tidss: Make use of the helper macro SET_RUNTIME_PM_OPS()")
-Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+Fix this by clearing the PENDING_ERROR status if we return true in
+dma_fence_array_signaled().
+
+Fixes: 1f70b8b812f3 ("dma-fence: Propagate errors to dma-fence-array container")
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: Christian König <ckoenig.leichtzumerken@gmail.com>
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- drivers/gpu/drm/tidss/tidss_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/dma-buf/dma-fence-array.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
-index 4366b5c798e0..7c784e90e40e 100644
---- a/drivers/gpu/drm/tidss/tidss_drv.c
-+++ b/drivers/gpu/drm/tidss/tidss_drv.c
-@@ -88,7 +88,7 @@ static int __maybe_unused tidss_resume(struct device *dev)
- 	return drm_mode_config_helper_resume(&tidss->ddev);
+diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
+index d3fbd950be94..3e07f961e2f3 100644
+--- a/drivers/dma-buf/dma-fence-array.c
++++ b/drivers/dma-buf/dma-fence-array.c
+@@ -104,7 +104,11 @@ static bool dma_fence_array_signaled(struct dma_fence *fence)
+ {
+ 	struct dma_fence_array *array = to_dma_fence_array(fence);
+ 
+-	return atomic_read(&array->num_pending) <= 0;
++	if (atomic_read(&array->num_pending) > 0)
++		return false;
++
++	dma_fence_array_clear_pending_error(array);
++	return true;
  }
  
--static const struct dev_pm_ops tidss_pm_ops = {
-+static __maybe_unused const struct dev_pm_ops tidss_pm_ops = {
- 	SET_SYSTEM_SLEEP_PM_OPS(tidss_suspend, tidss_resume)
- 	SET_RUNTIME_PM_OPS(tidss_pm_runtime_suspend, tidss_pm_runtime_resume, NULL)
- };
+ static void dma_fence_array_release(struct dma_fence *fence)
 -- 
-2.25.1
+2.31.1
 
