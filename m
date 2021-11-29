@@ -2,62 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD1684610FC
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 10:20:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5D3B461138
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 10:39:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A82246E516;
-	Mon, 29 Nov 2021 09:20:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6C266E221;
+	Mon, 29 Nov 2021 09:39:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 663836E516;
- Mon, 29 Nov 2021 09:20:45 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id t11so33119713ljh.6;
- Mon, 29 Nov 2021 01:20:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=GfZLLvY/fsloH8sNenTBSqo8nA5xMoKzfEshJnDH/wk=;
- b=hYFmG0gwiJbGW8FZTx30X4xnRt57bnLUSTyWGdIMniHVCqlmcxldSbDzVUT4EMzPFe
- 1B0IDgf1PAThlVyArNmo8yHd8S64WXw5htchLDRIs5LYg+moVIgNPmpWU4N2csxGpqdL
- h/vzWfC9pG6ZcINSpzIkc9Kqp1k6PPCWhUcyijcLYLXBG4vFXt6eg1yfUWrf1AlY0RtX
- tbCfM/Krs6sJef8ua2bOt6ByBpEjaNGPhS5XI+6T3GsyLe9LQXTXyWii9jVL3WHlv7vk
- 2tfab7xxLB0Nh/mVRy6gGABLfboy5U526oF5s5DSXq6RCHAAbj+KAb/n+kBHyPvSJtCR
- tAwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=GfZLLvY/fsloH8sNenTBSqo8nA5xMoKzfEshJnDH/wk=;
- b=TNfGaJnwkm3ClNG6G3avbYRvCCqB2/ffz1BeyeEuZWFpUUZbaKVdp2PuF2r9Hp3AAn
- U4lAUZKnS7SdIroXn6Ka0COpmGo7/BNl4pgHsjOTtIrSoK6hJhiTZ35mkq3Ydsw+H24E
- xXnjPi6CvOMPtp0WAHOk2jnaJttUgQo9SQ3DNYM7UuWZGI3e2AnQ0NeqsgFxvVXHPj6y
- l+HwS65WmF4PLVWB+17UMIVTOYOGal3nrSqPI14EsOiya/f2kuUVaaeOcEOQCxSnyxIA
- ci4bYV+UsJzIXVWcX1ZujWGsnG9bG/zhwp/S2FBbsJIkGW22unJzTioZI15f1bBYTOMl
- 1/LQ==
-X-Gm-Message-State: AOAM531ipbaZA6iVaV7s/XOXyRNrjc31niuW/dYWeHGkokiIIVWms/eF
- fYmuMYPpKSONd8nvYy0uEb8=
-X-Google-Smtp-Source: ABdhPJyT+J3tAQm37RWqr2UZ0ZQVaSCr9P+2jQ8KQLsjz+0DAMGB8tZSFZ8EXU1SQWEmvV9b+zYBng==
-X-Received: by 2002:a05:651c:1790:: with SMTP id
- bn16mr47125453ljb.475.1638177643671; 
- Mon, 29 Nov 2021 01:20:43 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id i3sm1278524lfu.156.2021.11.29.01.20.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Nov 2021 01:20:43 -0800 (PST)
-Date: Mon, 29 Nov 2021 11:20:33 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [i-g-t 00/14] Add IGT support for plane color management
-Message-ID: <20211129112033.770d1c2a@eldfell>
-In-Reply-To: <26abc3eb-c50e-8f89-ccc9-ad96f1177987@amd.com>
-References: <20211115094759.520955-1-bhanuprakash.modem@intel.com>
- <20211118115002.14003184@eldfell>
- <26abc3eb-c50e-8f89-ccc9-ad96f1177987@amd.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFFDA6E221
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 09:39:52 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 4425B320090C;
+ Mon, 29 Nov 2021 04:39:49 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Mon, 29 Nov 2021 04:39:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=ZVe3zv6UjeXTO4kI5ekvbwjSUuS
+ cZzV/LGwknVJuSo0=; b=Pds3adz1oVXE53sq4XjyUyu6lzUi/f448XazotAUmYh
+ K869KeuEaVKUO0zOzIQOZcOw9dJfTp0zbwSA7G1hfToUjgRnMPqQsoMZJqJcQCd1
+ 0pNQYbr0us4vS472e6+Z3vvpZ4txGq2ojRkchd7UQpJkiz4pVXMsZSOGK+KAL+px
+ QSbQJIPtANuxrMrneXU4FxU2qRodnCemRz7VYK5TYDN0vVUoGGHtMDGPIVS6dWuy
+ XIfZVAjg0P84FEkTgisaWRrAGRrLeRlWgmVuseG4PjUht9jBSF585Bc7kO9ImrU0
+ GVDraCWPjky2v/kJZknLPgXMeH2idYxvjfxJO0gKS4g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=ZVe3zv
+ 6UjeXTO4kI5ekvbwjSUuScZzV/LGwknVJuSo0=; b=SLWdi2ti1LrHE2t5yr0zRe
+ WItwLzeLlNSX+XTdwonPISbPF9AsTSExUglBdqZJNgfc5z1OB8ATCL84ww33sW2i
+ OK0q9Zwd71Vrgg9JCVTchkmBNycHjFqJEgTH0kI5ST4Di0LzHuekXZuRFdkzFtNX
+ ZjLRd8EijmrRqYEv12DBAneinA6PyqzEVk/kzKVT9pbVwyxxU5A5XxD5Sjx5yhG/
+ a0IQp6HSrYkNjFuBnRohs1tRG+LgW0wZS5bUOEfPRhzNBD3FtrbDqIGumxoepfkg
+ EbgLCPYLunhy37qeMb9IKF/BGmCw+g7+fVzHRK/KQsWQHD0iCVI0YVMsVtoeyyfA
+ ==
+X-ME-Sender: <xms:5J-kYQaBfiks2cDlnqHQPbXtJq3SVe3FTW1VG4b1fNEGO775D4XOEw>
+ <xme:5J-kYbZvRsDveG49_f6_a1r0U-ll4xo90G07pnXiJjKfwjO2jSeap3uM_snhiie3E
+ rXuuSfD3CWtApqbaGM>
+X-ME-Received: <xmr:5J-kYa9sg-1WizFIA16Mk-063FH0jWBivL72hcQ9ZB3s5i-3CtNG40tTZGJE1-TZ7ORiq8EIhB2hbK1saz4-_OXRjxjYYHjE2ws>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrheelgddtjecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeduvdduhfekkeehgffftefflefgffdtheffudffgeevteffheeuiedvvdejvdfg
+ veenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:5J-kYars0WzYhb4-Mjh8N5ACricvFItBk9lW76BxjhDWJuuZCjq-SQ>
+ <xmx:5J-kYbpE_sTihnUl_gislrCh-z3Eo2CMw_ELmnzZnUYEvOtVlkMd2w>
+ <xmx:5J-kYYT7YHqLNMCorD1JlG7XEjrtZa8vhuOMaxKkgrmjZQc1UodnBw>
+ <xmx:5J-kYcczRujADtS_XtCzOKmQ8qZXHshagl_QuHlHk1__SAbpQUdzgQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 29 Nov 2021 04:39:47 -0500 (EST)
+Date: Mon, 29 Nov 2021 10:39:46 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: David Lechner <david@lechnology.com>
+Subject: Re: [PATCH 0/6] drm/tiny/st7735r: Match up with staging/fbtft driver
+Message-ID: <20211129093946.xhp22mvdut3m67sc@houat>
+References: <20211124150757.17929-1-noralf@tronnes.org>
+ <eba23198-5c52-6520-079b-d2d41f71dc25@lechnology.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/o2+66=m3w=UdCvT0M1ZwXYC";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="mmhz6zluj3pfxhwm"
+Content-Disposition: inline
+In-Reply-To: <eba23198-5c52-6520-079b-d2d41f71dc25@lechnology.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,150 +80,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mukunda Pramodh Kumar <mukunda.pramodh.kumar@intel.com>,
- Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
- dri-devel@lists.freedesktop.org, igt-dev@lists.freedesktop.org,
- Uma Shankar <uma.shankar@intel.com>,
- Bhanuprakash Modem <bhanuprakash.modem@intel.com>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dave.stevenson@raspberrypi.com, linux-staging@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/o2+66=m3w=UdCvT0M1ZwXYC
-Content-Type: text/plain; charset=US-ASCII
+
+--mmhz6zluj3pfxhwm
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, 26 Nov 2021 11:54:55 -0500
-Harry Wentland <harry.wentland@amd.com> wrote:
+Hi,
 
-> On 2021-11-18 04:50, Pekka Paalanen wrote:
-> > On Mon, 15 Nov 2021 15:17:45 +0530
-> > Bhanuprakash Modem <bhanuprakash.modem@intel.com> wrote:
-> >  =20
-> >> From the Plane Color Management feature design, userspace can
-> >> take the smart blending decisions based on hardware supported
-> >> plane color features to obtain an accurate color profile.
-> >>
-> >> These IGT patches extend the existing pipe color management
-> >> tests to the plane level.
-> >>
-> >> Kernel implementation:
-> >> https://patchwork.freedesktop.org/series/90825/ =20
-
-...
-
-> > I also found some things that looked hardware-specific in this code
-> > that to my understanding is supposed to be generic, and some concerns
-> > about UAPI as well.
-> >  =20
+On Wed, Nov 24, 2021 at 04:03:07PM -0600, David Lechner wrote:
+> On 11/24/21 9:07 AM, Noralf Tr=F8nnes wrote:
+> > This patchset adds a missing piece for decommissioning the
+> > staging/fbtft/fb_st7735r.c driver namely a way to configure the
+> > controller from Device Tree.
+> >=20
+> > All fbtft drivers have builtin support for one display panel and all
+> > other panels using that controller are configured using the Device Tree
+> > 'init' property. This property is supported by all fbtft drivers and
+> > provides a generic way to set register values or issue commands
+> > (depending on the type of controller).
+> >=20
+> > It is common for these types of displays to have a datasheet listing the
+> > necessary controller settings/commands or some example code doing the
+> > same.
+> >=20
+> > This is how the panel directly supported by the fb_st7735r staging
+> > driver is described using Device Tree with that driver:
+> >=20
+> >      width =3D <160>;
+> >      height =3D <128>;
+> >=20
+> >      init =3D <0x1000001
+> >              0x2000096
+> >              0x1000011
+> >              0x20000ff
+> >              0x10000B1 0x01 0x2C 0x2D
+> >              0x10000B4 0x07
+> >              0x10000C0 0xA2 0x02 0x84
+> >              0x10000C1 0xC5
+> >              0x10000C2 0x0A 0x00
+> >              0x10000C5 0x0E
+> >              0x100003a 0x55
+> >              0x1000036 0x60
+> >              0x10000E0 0x0F 0x1A 0x0F 0x18 0x2F 0x28 0x20 0x22
+> >                        0x1F 0x1B 0x23 0x37 0x00 0x07 0x02 0x10
+> >              0x10000E1 0x0F 0x1B 0x0F 0x17 0x33 0x2C 0x29 0x2E
+> >                        0x30 0x30 0x39 0x3F 0x00 0x07 0x03 0x10
+> >              0x1000029
+> >              0x2000064>;
+> >=20
+> >=20
+> > This is how the same panel is described using the st7735r drm driver and
+> > this patchset:
+> >=20
+> >      width =3D <160>;
+> >      height =3D <128>;
+> >=20
+> >      frmctr1 =3D [ 01 2C 2D ];
+> >      invctr =3D [ 07 ];
+> >      pwctr1 =3D [ A2 02 84 ];
+> >      pwctr2 =3D [ C5 ];
+> >      pwctr3 =3D [ 0A 00 ];
+> >      vmctr1 =3D [ 0E ];
+> >      madctl =3D [ 60 ];
+> >      gamctrp1 =3D [ 0F 1A 0F 18 2F 28 20 22 1F 1B 23 37 00 07 02 10 ];
+> >      gamctrn1 =3D [ 0F 1B 0F 17 33 2C 29 2E 30 30 39 3F 00 07 03 10 ];
 >=20
-> I left some comments on intellisms in these patches.
+> Do these setting correspond to actual physical properties of the display?
 >=20
-> Do you have any specifics about your concerns about UAPI?
-
-Yeah, the comments I left in the patches:
-
-patch 3:
-
-> Having to explicitly special-case index zero feels odd to me. Why does
-> it need explicit special-casing?
+> What is the advantage of this compared to just adding a new compatible
+> string if a new display requires different settings? (Other than being
+> able to use a new display without compiling a new kernel/module.)
+>
+> It is nice for the driver implementation to be able to use the byte
+> arrays from the binding directly, but it doesn't really make sense from
+> a "device tree describes the hardware" point of view.
 >=20
-> To me it's a hint that the definitions of .start and .end are somehow
-> inconsistent.
+> For example, looking at the data sheet, frmctr1 looks like it is actually
+> multiple properties, the 1-line period, front porch and back porch.
 
-patch 4 and 8:
+You're right, but we have two sets of problems that we want to solve,
+and so far the discussion has only been to address one while ignoring
+the other.
 
-> > +static bool is_hdr_plane(const igt_plane_t *plane)
-> > +{
-> > +	return plane->index >=3D 0 && plane->index < SDR_PLANE_BASE; =20
->=20
-> How can this be right for all KMS drivers?
->=20
-> What is a HDR plane?
+The solution you suggested works great for the problem the kernel is
+facing: we want a solution that is easy to maintain over the long run,
+while being reliable. Thus, we want to introduce a compatible for each
+panel, that will allow us to describe the panel in the DT without
+exposing too much data, the data being in the kernel.
 
-patch 12:
-
-> > +struct drm_color_lut *coeffs_to_logarithmic_lut(data_t *data,
-> > +						const gamma_lut_t *gamma,
-> > +						uint32_t color_depth,
-> > +						int off)
-> > +{
-> > +	struct drm_color_lut *lut;
-> > +	int i, lut_size =3D gamma->size;
-> > +	/* This is the maximum value due to 16 bit precision in hardware. */ =
-=20
->=20
-> In whose hardware?
->=20
-> Are igt tests not supposed to be generic for everything that exposes
-> the particular KMS properties?
->=20
-> This also hints that the UAPI design is lacking, because userspace
-> needs to know hardware specific things out of thin air. Display servers
-> are not going to have hardware-specific code. They specialise based on
-> the existence of KMS properties instead.
-
-...
-
-> > +void set_advance_gamma(data_t *data, igt_pipe_t *pipe, enum gamma_type=
- type)
-> > +{
-> > +	igt_display_t *display =3D &data->display;
-> > +	gamma_lut_t *gamma_log;
-> > +	drmModePropertyPtr gamma_mode =3D NULL;
-> > +	segment_data_t *segment_info =3D NULL;
-> > +	struct drm_color_lut *lut =3D NULL;
-> > +	int lut_size =3D 0;
-> > +
-> > +	drmSetClientCap(data->drm_fd, DRM_CLIENT_CAP_ADVANCE_GAMMA_MODES, 1);=
- =20
->=20
-> Is this how we are going to do cross-software DRM-master hand-over or
-> switching compatibility in general?
->=20
-> Add a new client cap for every new KMS property, and if the KMS client
-> does not set the property, the kernel will magically reset it to ensure
-> the client's expectations are met? Is that how it works?
->=20
-> Or why does this exist?
-
-...
-
-> > +	drmSetClientCap(data->drm_fd, DRM_CLIENT_CAP_ADVANCE_GAMMA_MODES, 0);=
- =20
->=20
-> I've never seen this done before. I did not know client caps could be
-> reset.
+This works great over the long run because we can update and fix any
+problem we might have had, send them to stable, etc. It's awesome, but
+it's mostly centered on us, the developers and maintainers.
 
 
-So, patch 12 has the biggest UAPI questions, and patch 3 may need a
-UAPI change as well. The comments in patches 4 and 8 could be addressed
-with just removing that code since the concept of HDR/SDR planes does
-not exist in UAPI. Or, if that concept is needed then it's another UAPI
-problem.
+The problem that fbtft (and this series) wants to fix is completely
+different though: it wants to address the issue the users are facing.
+Namely, you get a cheap display from wherever, connect it to your shiny
+new SBC and wants to get something on the display.
+
+In this situation, the user probably doesn't have the knowledge to
+introduce the compatible in the kernel in the first place. But there's
+also some technical barriers there: if they use secure boot, they can't
+change the kernel (well, at least the knowledge required is far above
+what we can expect from the average user). If the platform doesn't allow
+access to the DT, you can't change the DT either.
+
+Let's set aside those constraints for a moment though. For most of these
+devices, you wouldn't even be able to come up with a proper compatible.
+All of those displays are typically a panel and a controller glued
+together, and the exact initialization sequence depends on both. The
+panel is never really mentioned, neither is its manufacturer, or its
+exact product id. In other words, we wouldn't be able to come up with a
+good compatible for them.
+
+Let's now assume we do have access to all those info and can come up
+with a good, upstreamable, compatible. We now require the user to
+contribute it upstream, and then expect them to wait for 1-2 years for
+that patch to show up in their distribution of choice.
+
+And then, if we were to get those patches, chances are we don't really
+want them anyway since we would be drowning in those small patches
+no-one really wants to review.
 
 
-Thanks,
-pq
+So yeah, the solution we have is probably a good solution for "real"
+panels, glued to a device (and even then, the recent discussion around
+panel-edp shows that it has a few shortcomings). But it's a *terrible*
+solution for all parties involved when it comes to those kind of
+displays.
 
---Sig_/o2+66=m3w=UdCvT0M1ZwXYC
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+
+I agree that it doesn't really fit in the DT either though. Noralf, what
+kind of data do we need to setup a display in fbtft? The init sequence,
+and maybe some enable/reset GPIO, plus some timing duration maybe?
+
+There's one similar situation I can think of: wifi chips. Those also
+need a few infos from the DT (like what bus it's connected to, enable
+GPIO, etc) and a different sequence (firmware), sometimes different from
+one board to the other.
+
+Could we have a binding that would be something like:
+
+panel@42 {
+	 compatible =3D "panel-spi";
+	 model =3D "panel-from-random-place-42";
+	 enable-gpios =3D <&...>;
+}
+
+And then, the driver would request the init sequence through the
+firmware mechanism using a name generated from the model property.
+
+It allows to support multiple devices in a given system, since the
+firmware name wouldn't conflict, it makes a decent binding, and users
+can adjust the init sequence easily (maybe with a bit of tooling)
+
+Would that work?
+
+Maxime
+
+--mmhz6zluj3pfxhwm
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmGkm2EACgkQI1/ltBGq
-qqeDAw/9GEJ1aNXAPO0xD4sH3t3fINxyrfWnsq+LtBlYcOof5K0oT5BRX5ccGoYd
-PAC5hipSQiRflcl0tr440l2AY5rt8u9XDnQsiWTVCTwkBaxdHUb9WJrhPF7e4w79
-c7av6b/zAXGN8TVsH5BaTCOH3l4Y+Mxjgx607eofR4GHyzO6cSi/EejqnxeRePne
-jM2G6SY7LD40fL9zRCOtobnnWi1PEDy/IblIhuAnCeTpUkO/IIEFTeLMPSJlBCCZ
-gfv8S+RDI1uqws0fhq5e6NphUF5ymzjAiQTsy9NVPpIyC5OFRTQFM4L6tWPcpDuw
-mpEwrni781J5kJR/cfMPkje2JQ2C2iRhrPEbm5TLSvi62KyvsFf03DRPyX/NBhLT
-m2FmqOFJar4RWOsVypp24uV9OTL4wzYETHgyaSw0dLVWMKd3ZPMibLSqm0GS8646
-zB1qpq0zsRnu9G2yMIDqr2YVMSBotUqO/BWbumbejJooscjpKw4V8eKFZ8JrQMaP
-LMT38WYylrrUD1IE9pmeNii2/W3lYKQkCbty+TSTD9x3NK05FkQbq6Luh9ftUDCI
-m1AASI033AJz0kzpDc+kK9Q5pQpLjtg7PlbS10lHqUDS9eI3NRPbdaC7Wb4Ki40A
-tx0tKEgfdTgBnqnPLw5idZP/FZz6A9tdErdrvsJjNza2DLapISo=
-=fqJV
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYaSf4gAKCRDj7w1vZxhR
+xUDzAP9EGlPTaekn1uaS4vTMRgFJN8qnFDuwOynuzJzTH7awcgD+MSy/uhv9ZeLI
+wz31+R3wJaJVlZw1OT2crqqOE3VKEQU=
+=/HKs
 -----END PGP SIGNATURE-----
 
---Sig_/o2+66=m3w=UdCvT0M1ZwXYC--
+--mmhz6zluj3pfxhwm--
