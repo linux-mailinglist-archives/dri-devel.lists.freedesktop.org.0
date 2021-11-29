@@ -1,64 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48D9D46116B
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 10:51:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E66D1461178
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 10:57:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8FEB6EDD2;
-	Mon, 29 Nov 2021 09:51:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A4856EE1C;
+	Mon, 29 Nov 2021 09:56:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D3076EDD2
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 09:51:34 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id B0CCF212C5;
- Mon, 29 Nov 2021 09:51:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1638179492; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fJ1eEIEjTh5+4Z/b79xBvV+FqXDwjskU2z2SoTOwtv0=;
- b=fdeT3YOS3f+xbRIObZrxnWZ7zT2K99y0ohEK3aFA1qxDASWi0RZUaWoPDcTE/QXLfVwIf1
- 56Q8g3/Jyw4Qs2UhvdJbb+AJrxzarAyRPEcHNXvgiTL4NjwHcCNQY4qGQymmFePIK2Vnb3
- A+28c80ZbZzfInURiGClOe73qEaFKuc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1638179492;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fJ1eEIEjTh5+4Z/b79xBvV+FqXDwjskU2z2SoTOwtv0=;
- b=cPBAOQSZWaunvrcqI56YONEK40xnU/yAMf/ZxMLPumIOWgYTDKfL4PPyqcJ/kvfDwZySOX
- gfmcIDCTbEQLj9Ag==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7C8CB13B53;
- Mon, 29 Nov 2021 09:51:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id Hnz1HKSipGEnYgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 29 Nov 2021 09:51:32 +0000
-Message-ID: <9518975e-89c2-b863-e514-a8c68b6dbb03@suse.de>
-Date: Mon, 29 Nov 2021 10:51:31 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH 0/3] drm/cma-helper: Clean up public interface
-Content-Language: en-US
-To: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, laurent.pinchart@ideasonboard.com,
- kieran.bingham+renesas@ideasonboard.com, emma@anholt.net
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31C1C6EE1C
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 09:56:58 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id E353C3200F72;
+ Mon, 29 Nov 2021 04:56:56 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Mon, 29 Nov 2021 04:56:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=m8TyYIsx9xOvR1vRNaFs/1pR+xi
+ 5e9uMtHXU0T6smks=; b=UAositeveOhIS7t0TSvqu8tJTLNoal89yynv1VexHYV
+ +HXfNDsqQA3bf95fLcaVmnqK2Za0hGZzQv1ZFhVMOVLUcWIj/e+f4/Y1cHMzLmY9
+ eO9y/8dBZh6nBN7y0BcdJxedxoD8pcXnS4j0iZU8ROuQ3GIan9O0GLf/4QtcFaWt
+ 3E5/mzE+azS8VTVfTEjb09UuuNS6AZWqAUYLXXP2f7z51VjMsZUqhEfahwOy464y
+ bBGwRRQbk/8o9R/HgcoUyFHLjD+8g6QVK3zB0vSlTJ/PpIs1Eje5rVujT6bZTSPE
+ hiwGrVH0J07Dxzj7fGbwELov8lI3+y7DBvq4rq9hSEw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=m8TyYI
+ sx9xOvR1vRNaFs/1pR+xi5e9uMtHXU0T6smks=; b=ge3jFCMt2i1gIL9ZWxkI4c
+ 76B9LmfwOAT84VoX1yL/VkTp2uE/Sx1l2MTj//vhmWlOPwlOcCY9ZiB8u82wLXJy
+ ftmEt8STHDAnKSSjU3cRS73GE+13yscu/EIwTvRFFPwLuiAL3H/OsaxCQSivkNp9
+ tl2vu4let1PMu98zyPhWKr+EzBwIiAnHF7CXzqFvlFLDH5+OQwT9gMSTLiadmgmd
+ NKUetSlJf72DxlwDSfpOkXFYNQ3Mhaf8w+O6/25f+ZJuhzIOaoqpWEIIpDDVvdf+
+ Na7/JY/HxyxVjcg85mB5XQKz2axdKihLJB0bm5XPp4ixX3xWazIk4dNjdlKNNEow
+ ==
+X-ME-Sender: <xms:56OkYTVB53wORVyPK1ixElvnpiP7-lG9MrdUMIlIfLW7Bk1dcW2i4w>
+ <xme:56OkYbl93k33XYTnnWxqnJN6dEhWcepVLe-2nXEQP5zjsF8G5huRbRsMKuKtglu1T
+ QuFX86y80gtI3Bnt-k>
+X-ME-Received: <xmr:56OkYfYVnFjlgjrGv0tuaZCjIMP9NbViL-YbuxDvT_ADJvD8CUfFpNzPqHe0FbzXBuX0of1QTsOWKbNt-fmI61zn446An8dDDGw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrheelgddutdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+ udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:56OkYeXJ283TB6CWI4TnY7iAUlg-CLOx-_J6r4My8s2d74FUfG23uw>
+ <xmx:56OkYdl4WA_H_VZbvbzoye78aTYLHYoBYjZ3naNVGrqQWeJ9HPRt-A>
+ <xmx:56OkYbcGMRyq2T4ci_b9B8BiZCbBqb-olnCj1T-LyV8WUNeKh6N9BA>
+ <xmx:6KOkYTXotsx_LTg6moEL35gSVakb3bNWi_gYfL1iwIe_zJB8F0FLkw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 29 Nov 2021 04:56:55 -0500 (EST)
+Date: Mon, 29 Nov 2021 10:56:53 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 2/3] drm/cma-helper: Export dedicated wrappers for GEM
+ object functions
+Message-ID: <20211129095653.s2psy7jioo4gbcks@houat>
 References: <20211115120148.21766-1-tzimmermann@suse.de>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20211115120148.21766-1-tzimmermann@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------CxkZP7xMadMy0QjpTSxpu0gZ"
+ <20211115120148.21766-3-tzimmermann@suse.de>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ngsbwmijeassbwht"
+Content-Disposition: inline
+In-Reply-To: <20211115120148.21766-3-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,80 +81,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: emma@anholt.net, airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, kieran.bingham+renesas@ideasonboard.com,
+ laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------CxkZP7xMadMy0QjpTSxpu0gZ
-Content-Type: multipart/mixed; boundary="------------1msTdiMgPe6TNWtS9FKGetcn";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, laurent.pinchart@ideasonboard.com,
- kieran.bingham+renesas@ideasonboard.com, emma@anholt.net
-Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Message-ID: <9518975e-89c2-b863-e514-a8c68b6dbb03@suse.de>
-Subject: Re: [PATCH 0/3] drm/cma-helper: Clean up public interface
-References: <20211115120148.21766-1-tzimmermann@suse.de>
-In-Reply-To: <20211115120148.21766-1-tzimmermann@suse.de>
 
---------------1msTdiMgPe6TNWtS9FKGetcn
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+--ngsbwmijeassbwht
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-cGluZy4gQXJlIHRoZXJlIGZ1cnRoZXIgY29tbWVudHMgb24gdGhpcyBwYXRjaHNldD8NCg0K
-QW0gMTUuMTEuMjEgdW0gMTM6MDEgc2NocmllYiBUaG9tYXMgWmltbWVybWFubjoNCj4gQ29u
-dmVydCBHRU0gQ01BIGZ1bmN0aW9ucyB0byBhY2NlcHQgc3RydWN0IGRybV9nZW1fY21hX29i
-amVjdCwgcHJvdmlkZQ0KPiBzbWFsbCB3cmFwcGVycyBmb3IgR0VNIG9iamVjdCBjYWxsYmFj
-a3MgYW5kIHVwZGF0ZSBhbGwgdXNlcnMuIEJyaW5ncw0KPiB1cCB0aGUgaW50ZXJmYWNlIHRv
-IHRoZSBwYXR0ZXJuIHVzZWQgaW4gU0hNRU0gYW5kIFZSQU0gaGVscGVycy4NCj4gDQo+IENv
-bnZlcnRpbmcgYWxsIEdFTSBvYmplY3QgZnVuY3Rpb25zIHRvIHVzZSBkcm1fZ2VtX2NtYV9v
-YmplY3QgZW5hYmxlcw0KPiB0eXBlIGNoZWNraW5nIGJ5IHRoZSBDIGNvbXBpbGVyLiBQcmV2
-aW91cyBjYWxsZXJzIGNvdWxkIGhhdmUgcGFzc2VkIGFueQ0KPiBpbXBsZW1lbnRhdGlvbiBv
-ZiBkcm1fZ2VtX29iamVjdCB0byB0aGUgR0VNIENNQSBoZWxwZXJzLiBJdCBhbHNvDQo+IHJl
-bW92ZXMgdXBjYXN0aW5nIGluIHRoZSBHRU0gZnVuY3Rpb25zIGFuZCBzaW1wbGlmaWVzIHRo
-ZSBjYWxsZXIgc2lkZS4NCj4gTm8gZnVuY3Rpb25hbCBjaGFuZ2VzLg0KPiANCj4gRm9yIEdF
-TSBvYmplY3QgY2FsbGJhY2tzLCB0aGUgQ01BIGhlbHBlciBsaWJyYXJ5IG5vdyBwcm92aWRl
-cyBhDQo+IG51bWJlciBvZiBzbWFsbCB3cmFwcGVycyB0aGF0IGRvIHRoZSBuZWNlc3Nhcnkg
-dXBjYXN0aW5nLiBBZ2FpbiBubw0KPiBmdW5jdGlvbmFsIGNoYW5nZXMuDQo+IA0KPiBUaG9t
-YXMgWmltbWVybWFubiAoMyk6DQo+ICAgIGRybS9jbWEtaGVscGVyOiBNb3ZlIGRyaXZlciBh
-bmQgZmlsZSBvcHMgdG8gdGhlIGVuZCBvZiBoZWFkZXINCj4gICAgZHJtL2NtYS1oZWxwZXI6
-IEV4cG9ydCBkZWRpY2F0ZWQgd3JhcHBlcnMgZm9yIEdFTSBvYmplY3QgZnVuY3Rpb25zDQo+
-ICAgIGRybS9jbWEtaGVscGVyOiBQYXNzIEdFTSBDTUEgb2JqZWN0IGluIHB1YmxpYyBpbnRl
-cmZhY2VzDQo+IA0KPiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX2NtYV9oZWxwZXIuYyAg
-fCAgNzMgKysrKystLS0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfZHVf
-a21zLmMgfCAgMTAgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9iby5jICAgICAg
-ICAgIHwgICA4ICstDQo+ICAgaW5jbHVkZS9kcm0vZHJtX2dlbV9jbWFfaGVscGVyLmggICAg
-ICB8IDE4OSArKysrKysrKysrKysrKysrKysrLS0tLS0tLQ0KPiAgIDQgZmlsZXMgY2hhbmdl
-ZCwgMTgwIGluc2VydGlvbnMoKyksIDEwMCBkZWxldGlvbnMoLSkNCj4gDQo+IA0KPiBiYXNl
-LWNvbW1pdDogOWZjY2QxMmNmYWMxYzg2M2ZhNDZkNGQxN2MyZDhhYzI1YTQ0YjE5MA0KPiAt
-LQ0KPiAyLjMzLjENCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERy
-aXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0K
-TWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBB
-RyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+On Mon, Nov 15, 2021 at 01:01:47PM +0100, Thomas Zimmermann wrote:
+> Wrap GEM CMA functions for struct drm_gem_object_funcs and update
+> all callers. This will allow for an update of the public interfaces
+> of the GEM CMA helper library.
+>=20
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
---------------1msTdiMgPe6TNWtS9FKGetcn--
+Reviewed-by: Maxime Ripard <maxime@cerno.tech>
 
---------------CxkZP7xMadMy0QjpTSxpu0gZ
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Maxime
+
+--ngsbwmijeassbwht
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmGkoqMFAwAAAAAACgkQlh/E3EQov+D1
-8A/+PibFx3AiYi7VHqcu+ChB7aTvu//3yigbx9InM5eUFFmyJ1SSoh103U0zga6btCNRvsebfaQT
-2ZGQoLmXYjKudAflvNwaPxycJ2D9GIObVWvHinigxma3bB+mD9jprfyvaMgqTA5noCpnNl4yXJAJ
-hnw7tjy8yUeCQ8spUCVwUihmyU59P1NcSvre8UAP3hTaB39vG+vi9ajdCHH4ErSxeeMXWqQ5+cgw
-6LLrct995sK+eZSwjq8GAL++2NbKV2vHyuqshsNk9PBH/Puv1569yvk9P0UjBsfMdewhas/8sOa5
-vIKsRF2g6fp38MVXS6Yyi8OAdJJt791Pr4pg8DCqbI2+2bHttAo5BnI5lYJ0ua5u6XVws32Hl65+
-nLmxdEa1mW3o47jMz7sLWBhVx4dukAUgy6y/hzDUdqMNLZ0kKOfk/8KQUtoxWSwpICLhFySLF81e
-YYVMvOXW44KFUgXDuXcoZ1gTJf8yXd+iuSS6F9uAo9H+XF8m8kTN9bASTLIWDWIL43DOoLhx2ig0
-ZQdUwhtZNOrKEaL/Qn+JBi6zLXgyQwfSxqFQGrUP7Kqfep2l4jrf8t/a3Uc1l/q455Fp9D1Hrqlr
-hnmEXlekpSGDJaTQZo4mXHOovRtrWrTJPTFJXq/pBmeF76BvRz/XnXuJ0EeG0tkJYTKfAl7MwbZd
-czU=
-=0rdh
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYaSj5QAKCRDj7w1vZxhR
+xTnaAQCSOxr0EGxq4RfySbVOu+zRxX0vmXSKoHdMRVvyGOILyQD+OLSOazH7QBe3
+1k/BjjbGOTA0xpCIRtRBQVShjGl1Jgs=
+=vbmr
 -----END PGP SIGNATURE-----
 
---------------CxkZP7xMadMy0QjpTSxpu0gZ--
+--ngsbwmijeassbwht--
