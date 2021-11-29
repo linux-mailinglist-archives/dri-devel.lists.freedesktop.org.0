@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AE80461487
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 13:07:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F035461485
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 13:07:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E7A16FA5D;
-	Mon, 29 Nov 2021 12:07:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DACBA6FA5A;
+	Mon, 29 Nov 2021 12:07:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55C3F6FA56
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 12:07:06 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id p18so14369567wmq.5
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05E1E6FA54
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 12:07:07 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id d9so15383251wrw.4
  for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 04:07:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OOCzCCGRhx0Yd+XBoLOb3ENe6v2ley+rjFyWG7N2LJU=;
- b=Q6X8MelaozaQwJKcGk9PhwHDUcDD0804yBPKlQUpU1WahVImfNpIKG/OejgeytkrVR
- A3wNCR3VBtNfSkPSL8va2GAnQvspMA6Veaw52bQrGuFdVnEJxM3Mg//xlVyVog2LNH6N
- u3PuAcHbhNX4JVUslAoJDcdMWtA7GeefmOIWvi0al+OncC5jRO0s2lR331gCBS2BpUaO
- 7QA/1eafmE1MIbH5CacqhElctbQZD4c+EoiPi/xvpWyC8rGSlA5xIaFqjlNz5k7BoY7L
- SNDc+sadmIsANRckOh362ojch30ULQgLgSzba+Pmp3jkOdz90y6AOUNnKBRFSa51v0ZC
- ksVQ==
+ bh=Qk7PwcqKvFwxCK8c/zm5biTBtYcJsU3HDhj1Rke+mig=;
+ b=FUno/CVbKE7JV8YJFa0o4CtrijMPMX87xBQhWP+1YXYchLcq5zbHntBZNNdZBl+s8R
+ vshKLxgazIvSz+SvzJMinSgOY+QHMkbgIdd93TsKzKJ1bbxUcNxCQC3Kl5m6InYvdE5f
+ wtAY9LDNSYcGcOy8X8BkiAZe0AwNL7nhCdd2qfhkIOA18p96RFkoa3EcVdVOSO06ITtl
+ OC5ny0EPuOUuEJNxh1bI3MPs9vmhw62O2uWfJzwZbZn+Gmp2BbHucnTnzYQ8v/cGzViN
+ iiKMZWe+OCx6yrdvKI4Jf21Qd1XvjG6MMdAAonYkrjDrZTab+kup5OirXnL9as8fbKPf
+ q7UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OOCzCCGRhx0Yd+XBoLOb3ENe6v2ley+rjFyWG7N2LJU=;
- b=z/9l21RRgkU0QFsGyOyIP9HEACW5H1FSKIx1ICSTy2CtexXYLrVw5gG4gZ5xIx1iSH
- eV+Xwygl14dr3WJ68WrsCHOvbtakrQbMPPjIbD+tBOL0+Fk37CZJCL+A6V9dGq+TufAE
- 7DOJkwGQo6J5yzspLn5yO1+AgDPMtRgtaKyqnXcX1deWN+VpaeUVxH3+sqaLA08NrDam
- JamzXDj5iI7Nqc17uxrmyhFjOnsY7ZOHHrzjOQX8EQQIDfzQA509v0qfbLVzcAB13KN+
- 8pd0GHGKOzMMO/P8bPibBpWxSSnDovnlAFNaaGr5Qz9s11NG8XQNkTaczVgusalazFXF
- 3TdQ==
-X-Gm-Message-State: AOAM531yUBmtIuD00GIQ8N6Ooo8nh5O9QA8dR3032d09jtX7Ph8Z69Rc
- jxCKmHjN+rYDVxvUnpud1Zr+4cdn5Sc=
-X-Google-Smtp-Source: ABdhPJwP9DcyaVQ4UYDvEecjYzTaOmhgzoezNR1SawExuKjdgJBNc8PjMSFTpKkeIGvBtMZEVrk4eQ==
-X-Received: by 2002:a05:600c:3494:: with SMTP id
- a20mr36318388wmq.195.1638187624754; 
- Mon, 29 Nov 2021 04:07:04 -0800 (PST)
+ bh=Qk7PwcqKvFwxCK8c/zm5biTBtYcJsU3HDhj1Rke+mig=;
+ b=FW8piELftnthFNcsoG2u2oh7Lh2ttvbMO3o2BOcCn8M9uL8ln2Eot5F+2PaNhs4wvy
+ tF91xMgPe9XBg091gr+1j8fSn8Jz97Ia9CxVEOdSuygGtUcyUyJIJTlJUqTeW8X34A6i
+ 5SDMeIVjAPZFItOI2bay7+2akc0aujnd4q1Ew3cRo25A+3uFy0cbSHf/rsO6P37xvUMJ
+ gHBWIDYQ4B1lw8MO9yNcxR1SUcP8GIrCGe6NcufpLONXnoAaK+k3I7a3c5Q/eidY4hJL
+ rxWhOmxiOP5CPEqgP0VhRgy/R+KTIhD9po5+rIookDPffg72iKQv21xaVawz1cv6xkj6
+ oGXw==
+X-Gm-Message-State: AOAM533OCuhGYoO52aFbnRfgdmudfsAo/if28LIJib/oYr3Fd4rJhJN6
+ P/1qlYBULSbcWSFGfFe9CgE=
+X-Google-Smtp-Source: ABdhPJzutv9dYwYC0rKE63+JgPY234G43ihXLtPrH/m+jsweVYi2o2XtcslEUwhpoQYexjXov2BVhg==
+X-Received: by 2002:a5d:6b09:: with SMTP id v9mr32860041wrw.591.1638187625591; 
+ Mon, 29 Nov 2021 04:07:05 -0800 (PST)
 Received: from abel.fritz.box (p57b0b77b.dip0.t-ipconnect.de. [87.176.183.123])
- by smtp.gmail.com with ESMTPSA id b6sm20415234wmq.45.2021.11.29.04.07.03
+ by smtp.gmail.com with ESMTPSA id b6sm20415234wmq.45.2021.11.29.04.07.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Nov 2021 04:07:04 -0800 (PST)
+ Mon, 29 Nov 2021 04:07:05 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: daniel@ffwll.ch
-Subject: [PATCH 02/28] drm/ttm: stop pruning fences after wait
-Date: Mon, 29 Nov 2021 13:06:33 +0100
-Message-Id: <20211129120659.1815-3-christian.koenig@amd.com>
+Subject: [PATCH 03/28] dma-buf: make fence mandatory for
+ dma_resv_add_excl_fence v2
+Date: Mon, 29 Nov 2021 13:06:34 +0100
+Message-Id: <20211129120659.1815-4-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211129120659.1815-1-christian.koenig@amd.com>
 References: <20211129120659.1815-1-christian.koenig@amd.com>
@@ -76,25 +76,31 @@ Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is just abusing internals of the dma_resv object.
+Calling dma_resv_add_excl_fence() with the fence as NULL and expecting
+that that this frees up the fences is simply abuse of the internals of
+the dma_resv object.
+
+v2: drop the fence pruning completely.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/dma-buf/dma-resv.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index e4a20a3a5d16..fc124457ba2f 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -1086,7 +1086,6 @@ int ttm_bo_wait(struct ttm_buffer_object *bo,
- 	if (timeout == 0)
- 		return -EBUSY;
+diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+index ff3c0558b3b8..4deea75c0b9c 100644
+--- a/drivers/dma-buf/dma-resv.c
++++ b/drivers/dma-buf/dma-resv.c
+@@ -305,8 +305,7 @@ void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence)
+ 	if (old)
+ 		i = old->shared_count;
  
--	dma_resv_add_excl_fence(bo->base.resv, NULL);
- 	return 0;
- }
- EXPORT_SYMBOL(ttm_bo_wait);
+-	if (fence)
+-		dma_fence_get(fence);
++	dma_fence_get(fence);
+ 
+ 	write_seqcount_begin(&obj->seq);
+ 	/* write_seqcount_begin provides the necessary memory barrier */
 -- 
 2.25.1
 
