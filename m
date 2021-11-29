@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 797C7461494
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 13:07:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C008F461491
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 13:07:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 053836FA6A;
-	Mon, 29 Nov 2021 12:07:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95DF76FA65;
+	Mon, 29 Nov 2021 12:07:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE30D6FA5B
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 12:07:10 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id a18so36285112wrn.6
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 04:07:10 -0800 (PST)
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B91686FA5F
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 12:07:11 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id q3so13408420wru.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 04:07:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=h+Nrq+ViUx89xJG+oiaSsR0WPuKiTiGKmUxT+36uMJ0=;
- b=qfsOhLREL3AfKRN78Ur9DCPuKI5Ew9zlFul+/l5ig1Kq6ShweRIMROqk32VDAtOSNr
- Q5l2OSLZE/ZP/pWzpXcQ4T9H6QZkb2ic15sBboIhzHby6SyHpLHB/awSr5wJmcVG2LTg
- IEKfBWCA1oTFM8oLjUYi8VgWqMwlKl459aguY6B+X78TRLKZ0xnbcsndV5auI4aDWXNH
- QD9pVSLqgfsnSVZZqhVcBq4v8uJKl1eLeg/px4UUBegAFi3P3VgeVVFsZ3GsZI/j1gBg
- bL/J55UEBn1JwGHwi6tbVAdDOWr1mUzzqtQR75LbeovT4OTrea1GSHSZrntTc61/SKvc
- CaHQ==
+ bh=6AcIBFyYiDz9TRlGiyxrwcI9ljYqwbYG6/Pwbh2ETwE=;
+ b=TdRsP8iCJo2IHFSFvo7K9yfGR4NULK1xGumbieOyuHPWp69FprJgXUjY8wec3jLrFH
+ eJuLHGvb5pF1u7S4EXZAdgT8c1lsKTzc80OaZV3yNsUHg/PeGYHb5Uv23E4epMNxX0bC
+ bXWR/iWOLWMg/SpnmOmk+kmu1E+VddY7tVjHk4jrUDwy2Xd9fm1zYyMLjspXti4Y32fj
+ 8drNBqdR16igm/emGDwMEaZS6YRmc/tKT7qwBUeQmGSkRekpTkGVZI0KunhydOjZzw4M
+ tTqSaeir+pIOQfdbDQFNJhpanZQuH84ZECu/HUI0UCtjE/1vrLC3xS704krJYD9ar2TD
+ kBSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=h+Nrq+ViUx89xJG+oiaSsR0WPuKiTiGKmUxT+36uMJ0=;
- b=arIXD00zMnDOh6L6CFwDwRqYbiwjyU1O0cbn4kEGKfvYBpf/8S9Eyb+J3s+es9CAlV
- npGDUBmqfK/5VXjmzPo1t1DNWTAsBO6ayhVBiaXxbQqL6UT4rr/anFgGPZe1cWudi335
- 0cTsfZdy4QcI47sQfTVAIOtkdHrR39U8bAvrRlG07Oc0XF+Ws2zFCsy0jMo32HuZcCU2
- OwxHH1AhMk7dOqs3pNd9Ooc2fMAuuUdnEBEh7T2SyWRX+Mv6POd+e8bQfBFD/WzQcQqV
- OXTzcDnWx1XcxrVpXar48funkp2xDSxY5qcqmLjPXFHcU7JvFOkfg0VxZO/6NSZc6GPr
- t/HQ==
-X-Gm-Message-State: AOAM532+MU6AzNy4851Nr1oLHpuO2Lh+hCpkNuVj6Z/uO6/eTy6jejkh
- de200U17WDkn6SpdUpgBlSw=
-X-Google-Smtp-Source: ABdhPJw53unNdhXGAR/qaSywlxmGMFm38csq6qIDSHyasz7asRfNsPlX0WmXe8o57e7A7Pq7wZjMHQ==
-X-Received: by 2002:adf:fe4b:: with SMTP id m11mr33838427wrs.136.1638187629325; 
- Mon, 29 Nov 2021 04:07:09 -0800 (PST)
+ bh=6AcIBFyYiDz9TRlGiyxrwcI9ljYqwbYG6/Pwbh2ETwE=;
+ b=SF1DWZFkuZruhH8r6/G58LnocrNKZ4ENhRqcDeBflrQBHhdMUK4Jj5CxY72MuhI0Ms
+ LLjOPVkVH9cDKAPOXuHxARii+/EzH9va7hwDQLGpwaFdLulqf/1ytP/kpuGBbDyr7oHa
+ 3o0WYRqTxWC0yLgjA9FAR+04lWNjfnW+VAjT7IamSLErVfJH+cMLxVeBgA+8EA82rQNk
+ aRAR286ci1bXLYaE2/k+lZ2rW7IBXH1H8ZSrDAqG/wt3Ts4OIAb7yEO7W10MIkcodTZV
+ 6iDiaPxQcVl6ixAIur77qb9T8IAG5GxfdjLB2HrnqIjspP0OL8UWHoSMsZcMgoOSXSvP
+ VUOQ==
+X-Gm-Message-State: AOAM531VblazTHud0Eyr0lPdNPCI3T/dtIVSW1n0kN+hFKuqcCbkLhTJ
+ gWD5ak3Ly68drWOIkQU6tXw=
+X-Google-Smtp-Source: ABdhPJybnk67gP2iTmueOltDIky3wv5MJpDuaPFOAyThlF5UK7AISycgT9cnZepuObF2CKwjX2vHKg==
+X-Received: by 2002:a5d:4ed1:: with SMTP id s17mr34901850wrv.310.1638187630147; 
+ Mon, 29 Nov 2021 04:07:10 -0800 (PST)
 Received: from abel.fritz.box (p57b0b77b.dip0.t-ipconnect.de. [87.176.183.123])
- by smtp.gmail.com with ESMTPSA id b6sm20415234wmq.45.2021.11.29.04.07.08
+ by smtp.gmail.com with ESMTPSA id b6sm20415234wmq.45.2021.11.29.04.07.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 29 Nov 2021 04:07:09 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: daniel@ffwll.ch
-Subject: [PATCH 07/28] dma-buf: drop excl_fence parameter from
- dma_resv_get_fences
-Date: Mon, 29 Nov 2021 13:06:38 +0100
-Message-Id: <20211129120659.1815-8-christian.koenig@amd.com>
+Subject: [PATCH 08/28] dma-buf: add dma_resv_get_singleton v2
+Date: Mon, 29 Nov 2021 13:06:39 +0100
+Message-Id: <20211129120659.1815-9-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211129120659.1815-1-christian.koenig@amd.com>
 References: <20211129120659.1815-1-christian.koenig@amd.com>
@@ -76,209 +75,97 @@ Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Returning the exclusive fence separately is no longer used.
+Add a function to simplify getting a single fence for all the fences in
+the dma_resv object.
 
-Instead add a write parameter to indicate the use case.
+v2: fix ref leak in error handling
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/dma-buf/dma-resv.c                   | 48 ++++++++------------
- drivers/dma-buf/st-dma-resv.c                | 26 ++---------
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c  |  6 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c      |  2 +-
- drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |  3 +-
- include/linux/dma-resv.h                     |  4 +-
- 6 files changed, 31 insertions(+), 58 deletions(-)
+ drivers/dma-buf/dma-resv.c | 52 ++++++++++++++++++++++++++++++++++++++
+ include/linux/dma-resv.h   |  2 ++
+ 2 files changed, 54 insertions(+)
 
 diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-index a12a3a39f280..480c305554a1 100644
+index 480c305554a1..694716a3d66d 100644
 --- a/drivers/dma-buf/dma-resv.c
 +++ b/drivers/dma-buf/dma-resv.c
-@@ -611,57 +611,45 @@ EXPORT_SYMBOL(dma_resv_copy_fences);
-  * dma_resv_get_fences - Get an object's shared and exclusive
-  * fences without update side lock held
-  * @obj: the reservation object
-- * @fence_excl: the returned exclusive fence (or NULL)
-- * @shared_count: the number of shared fences returned
-- * @shared: the array of shared fence ptrs returned (array is krealloc'd to
-- * the required size, and must be freed by caller)
-- *
-- * Retrieve all fences from the reservation object. If the pointer for the
-- * exclusive fence is not specified the fence is put into the array of the
-- * shared fences as well. Returns either zero or -ENOMEM.
-+ * @write: true if we should return all fences
-+ * @num_fences: the number of fences returned
-+ * @fences: the array of fence ptrs returned (array is krealloc'd to the
-+ * required size, and must be freed by caller)
-+ *
-+ * Retrieve all fences from the reservation object.
-+ * Returns either zero or -ENOMEM.
+@@ -34,6 +34,7 @@
   */
--int dma_resv_get_fences(struct dma_resv *obj, struct dma_fence **fence_excl,
--			unsigned int *shared_count, struct dma_fence ***shared)
-+int dma_resv_get_fences(struct dma_resv *obj, bool write,
-+			unsigned int *num_fences, struct dma_fence ***fences)
- {
- 	struct dma_resv_iter cursor;
- 	struct dma_fence *fence;
  
--	*shared_count = 0;
--	*shared = NULL;
--
--	if (fence_excl)
--		*fence_excl = NULL;
-+	*num_fences = 0;
-+	*fences = NULL;
+ #include <linux/dma-resv.h>
++#include <linux/dma-fence-array.h>
+ #include <linux/export.h>
+ #include <linux/mm.h>
+ #include <linux/sched/mm.h>
+@@ -657,6 +658,57 @@ int dma_resv_get_fences(struct dma_resv *obj, bool write,
+ }
+ EXPORT_SYMBOL_GPL(dma_resv_get_fences);
  
--	dma_resv_iter_begin(&cursor, obj, true);
-+	dma_resv_iter_begin(&cursor, obj, write);
- 	dma_resv_for_each_fence_unlocked(&cursor, fence) {
- 
- 		if (dma_resv_iter_is_restarted(&cursor)) {
- 			unsigned int count;
- 
--			while (*shared_count)
--				dma_fence_put((*shared)[--(*shared_count)]);
-+			while (*num_fences)
-+				dma_fence_put((*fences)[--(*num_fences)]);
- 
--			if (fence_excl)
--				dma_fence_put(*fence_excl);
--
--			count = cursor.shared_count;
--			count += fence_excl ? 0 : 1;
-+			count = cursor.shared_count + 1;
- 
- 			/* Eventually re-allocate the array */
--			*shared = krealloc_array(*shared, count,
-+			*fences = krealloc_array(*fences, count,
- 						 sizeof(void *),
- 						 GFP_KERNEL);
--			if (count && !*shared) {
-+			if (count && !*fences) {
- 				dma_resv_iter_end(&cursor);
- 				return -ENOMEM;
- 			}
- 		}
- 
--		dma_fence_get(fence);
--		if (dma_resv_iter_is_exclusive(&cursor) && fence_excl)
--			*fence_excl = fence;
--		else
--			(*shared)[(*shared_count)++] = fence;
-+		(*fences)[(*num_fences)++] = dma_fence_get(fence);
- 	}
- 	dma_resv_iter_end(&cursor);
- 
-diff --git a/drivers/dma-buf/st-dma-resv.c b/drivers/dma-buf/st-dma-resv.c
-index bc32b3eedcb6..cbe999c6e7a6 100644
---- a/drivers/dma-buf/st-dma-resv.c
-+++ b/drivers/dma-buf/st-dma-resv.c
-@@ -275,7 +275,7 @@ static int test_shared_for_each_unlocked(void *arg)
- 
- static int test_get_fences(void *arg, bool shared)
- {
--	struct dma_fence *f, *excl = NULL, **fences = NULL;
-+	struct dma_fence *f, **fences = NULL;
- 	struct dma_resv resv;
- 	int r, i;
- 
-@@ -304,35 +304,19 @@ static int test_get_fences(void *arg, bool shared)
- 	}
- 	dma_resv_unlock(&resv);
- 
--	r = dma_resv_get_fences(&resv, &excl, &i, &fences);
-+	r = dma_resv_get_fences(&resv, shared, &i, &fences);
- 	if (r) {
- 		pr_err("get_fences failed\n");
- 		goto err_free;
- 	}
- 
--	if (shared) {
--		if (excl != NULL) {
--			pr_err("get_fences returned unexpected excl fence\n");
--			goto err_free;
--		}
--		if (i != 1 || fences[0] != f) {
--			pr_err("get_fences returned unexpected shared fence\n");
--			goto err_free;
--		}
--	} else {
--		if (excl != f) {
--			pr_err("get_fences returned unexpected excl fence\n");
--			goto err_free;
--		}
--		if (i != 0) {
--			pr_err("get_fences returned unexpected shared fence\n");
--			goto err_free;
--		}
-+	if (i != 1 || fences[0] != f) {
-+		pr_err("get_fences returned unexpected fence\n");
-+		goto err_free;
- 	}
- 
- 	dma_fence_signal(f);
- err_free:
--	dma_fence_put(excl);
- 	while (i--)
- 		dma_fence_put(fences[i]);
- 	kfree(fences);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-index 68108f151dad..d17e1c911689 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-@@ -200,8 +200,10 @@ int amdgpu_display_crtc_page_flip_target(struct drm_crtc *crtc,
- 		goto unpin;
- 	}
- 
--	r = dma_resv_get_fences(new_abo->tbo.base.resv, NULL,
--				&work->shared_count, &work->shared);
-+	/* TODO: Unify this with other drivers */
-+	r = dma_resv_get_fences(new_abo->tbo.base.resv, true,
-+				&work->shared_count,
-+				&work->shared);
- 	if (unlikely(r != 0)) {
- 		DRM_ERROR("failed to get fences for buffer\n");
- 		goto unpin;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c
-index b7fb72bff2c1..be48487e2ca7 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c
-@@ -112,7 +112,7 @@ void amdgpu_pasid_free_delayed(struct dma_resv *resv,
- 	unsigned count;
- 	int r;
- 
--	r = dma_resv_get_fences(resv, NULL, &count, &fences);
-+	r = dma_resv_get_fences(resv, true, &count, &fences);
- 	if (r)
- 		goto fallback;
- 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-index b5e8ce86dbe7..64c90ff348f2 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-@@ -189,8 +189,7 @@ static int submit_fence_sync(struct etnaviv_gem_submit *submit)
- 			continue;
- 
- 		if (bo->flags & ETNA_SUBMIT_BO_WRITE) {
--			ret = dma_resv_get_fences(robj, NULL,
--						  &bo->nr_shared,
-+			ret = dma_resv_get_fences(robj, true, &bo->nr_shared,
- 						  &bo->shared);
- 			if (ret)
- 				return ret;
++/**
++ * dma_resv_get_singleton - Get a single fence for all the fences
++ * @obj: the reservation object
++ * @write: true if we should return all fences
++ * @fence: the resulting fence
++ *
++ * Get a single fence representing all the fences inside the resv object.
++ * Returns either 0 for success or -ENOMEM.
++ *
++ * Warning: This can't be used like this when adding the fence back to the resv
++ * object since that can lead to stack corruption when finalizing the
++ * dma_fence_array.
++ */
++int dma_resv_get_singleton(struct dma_resv *obj, bool write,
++			   struct dma_fence **fence)
++{
++	struct dma_fence_array *array;
++	struct dma_fence **fences;
++	unsigned count;
++	int r;
++
++	r = dma_resv_get_fences(obj, write, &count, &fences);
++        if (r)
++		return r;
++
++	if (count == 0) {
++		*fence = NULL;
++		return 0;
++	}
++
++	if (count == 1) {
++		*fence = fences[0];
++		kfree(fences);
++		return 0;
++	}
++
++	array = dma_fence_array_create(count, fences,
++				       dma_fence_context_alloc(1),
++				       1, false);
++	if (!array) {
++		while (count--)
++			dma_fence_put(fences[count]);
++		kfree(fences);
++		return -ENOMEM;
++	}
++
++	*fence = &array->base;
++	return 0;
++}
++EXPORT_SYMBOL_GPL(dma_resv_get_singleton);
++
+ /**
+  * dma_resv_wait_timeout - Wait on reservation's objects
+  * shared and/or exclusive fences.
 diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-index 3baf2a4a9a0d..fa2002939b19 100644
+index fa2002939b19..cdfbbda6f600 100644
 --- a/include/linux/dma-resv.h
 +++ b/include/linux/dma-resv.h
-@@ -436,8 +436,8 @@ void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence);
- void dma_resv_replace_fences(struct dma_resv *obj, uint64_t context,
- 			     struct dma_fence *fence);
+@@ -438,6 +438,8 @@ void dma_resv_replace_fences(struct dma_resv *obj, uint64_t context,
  void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence);
--int dma_resv_get_fences(struct dma_resv *obj, struct dma_fence **pfence_excl,
--			unsigned *pshared_count, struct dma_fence ***pshared);
-+int dma_resv_get_fences(struct dma_resv *obj, bool write,
-+			unsigned int *num_fences, struct dma_fence ***fences);
+ int dma_resv_get_fences(struct dma_resv *obj, bool write,
+ 			unsigned int *num_fences, struct dma_fence ***fences);
++int dma_resv_get_singleton(struct dma_resv *obj, bool write,
++			   struct dma_fence **fence);
  int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src);
  long dma_resv_wait_timeout(struct dma_resv *obj, bool wait_all, bool intr,
  			   unsigned long timeout);
