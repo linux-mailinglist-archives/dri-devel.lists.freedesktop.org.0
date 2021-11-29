@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7E5D46114A
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 10:49:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48D9D46116B
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Nov 2021 10:51:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43B516EC85;
-	Mon, 29 Nov 2021 09:48:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8FEB6EDD2;
+	Mon, 29 Nov 2021 09:51:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AE806EC3A
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 09:48:47 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D3076EDD2
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 09:51:34 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C77E81FD38;
- Mon, 29 Nov 2021 09:48:45 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B0CCF212C5;
+ Mon, 29 Nov 2021 09:51:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1638179325; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1638179492; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xS81GaNNSl182lzZLNsnUtfBreUFUegoDgzDUiF3rvM=;
- b=YX0uM9FSnQHMZbgCc26PzsLMyhkwOP7NPQjb5dJ7wwLVfFHr5MnbIjBCLZIVVIrHOdf4sM
- 6f/FAvfo1otvlKSBWTBot/l/9thO9aOJa47r2kwl23RgFEtabbz5xGaJhJ5x1JsscGz91E
- IkvboiIiEqE9xkFQX1Yz3VJqU4IHxag=
+ bh=fJ1eEIEjTh5+4Z/b79xBvV+FqXDwjskU2z2SoTOwtv0=;
+ b=fdeT3YOS3f+xbRIObZrxnWZ7zT2K99y0ohEK3aFA1qxDASWi0RZUaWoPDcTE/QXLfVwIf1
+ 56Q8g3/Jyw4Qs2UhvdJbb+AJrxzarAyRPEcHNXvgiTL4NjwHcCNQY4qGQymmFePIK2Vnb3
+ A+28c80ZbZzfInURiGClOe73qEaFKuc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1638179325;
+ s=susede2_ed25519; t=1638179492;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xS81GaNNSl182lzZLNsnUtfBreUFUegoDgzDUiF3rvM=;
- b=XN5Vpk50KTeqLZBnmVd5ZvikvxTAVUAKNde8U9RkX4FES3WINJdjdTE7MwrmzSQPHfK51l
- GqIWEihkZXtDEVCw==
+ bh=fJ1eEIEjTh5+4Z/b79xBvV+FqXDwjskU2z2SoTOwtv0=;
+ b=cPBAOQSZWaunvrcqI56YONEK40xnU/yAMf/ZxMLPumIOWgYTDKfL4PPyqcJ/kvfDwZySOX
+ gfmcIDCTbEQLj9Ag==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 846D113C95;
- Mon, 29 Nov 2021 09:48:45 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7C8CB13B53;
+ Mon, 29 Nov 2021 09:51:32 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id eBl3H/2hpGG+YAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 29 Nov 2021 09:48:45 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@linux.ie, zackr@vmware.com,
- linux-graphics-maintainer@vmware.com, christian.koenig@amd.com,
- ray.huang@amd.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- sam@ravnborg.org
-Subject: [PATCH v2 3/3] drm: Declare hashtable as legacy
-Date: Mon, 29 Nov 2021 10:48:41 +0100
-Message-Id: <20211129094841.22499-4-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.34.0
-In-Reply-To: <20211129094841.22499-1-tzimmermann@suse.de>
-References: <20211129094841.22499-1-tzimmermann@suse.de>
+ by imap2.suse-dmz.suse.de with ESMTPSA id Hnz1HKSipGEnYgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 29 Nov 2021 09:51:32 +0000
+Message-ID: <9518975e-89c2-b863-e514-a8c68b6dbb03@suse.de>
+Date: Mon, 29 Nov 2021 10:51:31 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH 0/3] drm/cma-helper: Clean up public interface
+Content-Language: en-US
+To: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, laurent.pinchart@ideasonboard.com,
+ kieran.bingham+renesas@ideasonboard.com, emma@anholt.net
+References: <20211115120148.21766-1-tzimmermann@suse.de>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20211115120148.21766-1-tzimmermann@suse.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------CxkZP7xMadMy0QjpTSxpu0gZ"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,312 +71,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DRM hashtable code is only used by internal functions for legacy
-UMS drivers. Move the implementation behind CONFIG_DRM_LEGACY and the
-declarations into legacy header files. Unexport the symbols.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------CxkZP7xMadMy0QjpTSxpu0gZ
+Content-Type: multipart/mixed; boundary="------------1msTdiMgPe6TNWtS9FKGetcn";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, laurent.pinchart@ideasonboard.com,
+ kieran.bingham+renesas@ideasonboard.com, emma@anholt.net
+Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Message-ID: <9518975e-89c2-b863-e514-a8c68b6dbb03@suse.de>
+Subject: Re: [PATCH 0/3] drm/cma-helper: Clean up public interface
+References: <20211115120148.21766-1-tzimmermann@suse.de>
+In-Reply-To: <20211115120148.21766-1-tzimmermann@suse.de>
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
----
- drivers/gpu/drm/Makefile      |  6 +--
- drivers/gpu/drm/drm_hashtab.c | 10 +----
- drivers/gpu/drm/drm_legacy.h  | 40 +++++++++++++++++-
- include/drm/drm_device.h      |  5 +--
- include/drm/drm_hashtab.h     | 79 -----------------------------------
- include/drm/drm_legacy.h      | 15 ++++++-
- 6 files changed, 59 insertions(+), 96 deletions(-)
- delete mode 100644 include/drm/drm_hashtab.h
+--------------1msTdiMgPe6TNWtS9FKGetcn
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index fa16d3e0bbdc..9dbf91399343 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -6,7 +6,7 @@
- drm-y       :=	drm_aperture.o drm_auth.o drm_cache.o \
- 		drm_file.o drm_gem.o drm_ioctl.o \
- 		drm_drv.o \
--		drm_sysfs.o drm_hashtab.o drm_mm.o \
-+		drm_sysfs.o drm_mm.o \
- 		drm_crtc.o drm_fourcc.o drm_modes.o drm_edid.o drm_displayid.o \
- 		drm_trace_points.o drm_prime.o \
- 		drm_vma_manager.o \
-@@ -20,8 +20,8 @@ drm-y       :=	drm_aperture.o drm_auth.o drm_cache.o \
- 		drm_managed.o drm_vblank_work.o
- 
- drm-$(CONFIG_DRM_LEGACY) += drm_agpsupport.o drm_bufs.o drm_context.o drm_dma.o \
--			    drm_irq.o drm_legacy_misc.o drm_lock.o drm_memory.o \
--			    drm_scatter.o drm_vm.o
-+			    drm_hashtab.o drm_irq.o drm_legacy_misc.o drm_lock.o \
-+			    drm_memory.o drm_scatter.o drm_vm.o
- drm-$(CONFIG_DRM_LIB_RANDOM) += lib/drm_random.o
- drm-$(CONFIG_COMPAT) += drm_ioc32.o
- drm-$(CONFIG_DRM_PANEL) += drm_panel.o
-diff --git a/drivers/gpu/drm/drm_hashtab.c b/drivers/gpu/drm/drm_hashtab.c
-index c50fa6f0709f..60afa1865559 100644
---- a/drivers/gpu/drm/drm_hashtab.c
-+++ b/drivers/gpu/drm/drm_hashtab.c
-@@ -32,16 +32,16 @@
-  * Thomas Hellström <thomas-at-tungstengraphics-dot-com>
-  */
- 
--#include <linux/export.h>
- #include <linux/hash.h>
- #include <linux/mm.h>
- #include <linux/rculist.h>
- #include <linux/slab.h>
- #include <linux/vmalloc.h>
- 
--#include <drm/drm_hashtab.h>
- #include <drm/drm_print.h>
- 
-+#include "drm_legacy.h"
-+
- int drm_ht_create(struct drm_open_hash *ht, unsigned int order)
- {
- 	unsigned int size = 1 << order;
-@@ -58,7 +58,6 @@ int drm_ht_create(struct drm_open_hash *ht, unsigned int order)
- 	}
- 	return 0;
- }
--EXPORT_SYMBOL(drm_ht_create);
- 
- void drm_ht_verbose_list(struct drm_open_hash *ht, unsigned long key)
- {
-@@ -135,7 +134,6 @@ int drm_ht_insert_item(struct drm_open_hash *ht, struct drm_hash_item *item)
- 	}
- 	return 0;
- }
--EXPORT_SYMBOL(drm_ht_insert_item);
- 
- /*
-  * Just insert an item and return any "bits" bit key that hasn't been
-@@ -164,7 +162,6 @@ int drm_ht_just_insert_please(struct drm_open_hash *ht, struct drm_hash_item *it
- 	}
- 	return 0;
- }
--EXPORT_SYMBOL(drm_ht_just_insert_please);
- 
- int drm_ht_find_item(struct drm_open_hash *ht, unsigned long key,
- 		     struct drm_hash_item **item)
-@@ -178,7 +175,6 @@ int drm_ht_find_item(struct drm_open_hash *ht, unsigned long key,
- 	*item = hlist_entry(list, struct drm_hash_item, head);
- 	return 0;
- }
--EXPORT_SYMBOL(drm_ht_find_item);
- 
- int drm_ht_remove_key(struct drm_open_hash *ht, unsigned long key)
- {
-@@ -197,7 +193,6 @@ int drm_ht_remove_item(struct drm_open_hash *ht, struct drm_hash_item *item)
- 	hlist_del_init_rcu(&item->head);
- 	return 0;
- }
--EXPORT_SYMBOL(drm_ht_remove_item);
- 
- void drm_ht_remove(struct drm_open_hash *ht)
- {
-@@ -206,4 +201,3 @@ void drm_ht_remove(struct drm_open_hash *ht)
- 		ht->table = NULL;
- 	}
- }
--EXPORT_SYMBOL(drm_ht_remove);
-diff --git a/drivers/gpu/drm/drm_legacy.h b/drivers/gpu/drm/drm_legacy.h
-index c9206840c87f..70c9dba114a6 100644
---- a/drivers/gpu/drm/drm_legacy.h
-+++ b/drivers/gpu/drm/drm_legacy.h
-@@ -35,9 +35,47 @@
- #include <drm/drm_legacy.h>
- 
- struct agp_memory;
-+struct drm_buf_desc;
- struct drm_device;
- struct drm_file;
--struct drm_buf_desc;
-+struct drm_hash_item;
-+struct drm_open_hash;
-+
-+/*
-+ * Hash-table Support
-+ */
-+
-+#define drm_hash_entry(_ptr, _type, _member) container_of(_ptr, _type, _member)
-+
-+/* drm_hashtab.c */
-+#if IS_ENABLED(CONFIG_DRM_LEGACY)
-+int drm_ht_create(struct drm_open_hash *ht, unsigned int order);
-+int drm_ht_insert_item(struct drm_open_hash *ht, struct drm_hash_item *item);
-+int drm_ht_just_insert_please(struct drm_open_hash *ht, struct drm_hash_item *item,
-+			      unsigned long seed, int bits, int shift,
-+			      unsigned long add);
-+int drm_ht_find_item(struct drm_open_hash *ht, unsigned long key, struct drm_hash_item **item);
-+
-+void drm_ht_verbose_list(struct drm_open_hash *ht, unsigned long key);
-+int drm_ht_remove_key(struct drm_open_hash *ht, unsigned long key);
-+int drm_ht_remove_item(struct drm_open_hash *ht, struct drm_hash_item *item);
-+void drm_ht_remove(struct drm_open_hash *ht);
-+#endif
-+
-+/*
-+ * RCU-safe interface
-+ *
-+ * The user of this API needs to make sure that two or more instances of the
-+ * hash table manipulation functions are never run simultaneously.
-+ * The lookup function drm_ht_find_item_rcu may, however, run simultaneously
-+ * with any of the manipulation functions as long as it's called from within
-+ * an RCU read-locked section.
-+ */
-+#define drm_ht_insert_item_rcu drm_ht_insert_item
-+#define drm_ht_just_insert_please_rcu drm_ht_just_insert_please
-+#define drm_ht_remove_key_rcu drm_ht_remove_key
-+#define drm_ht_remove_item_rcu drm_ht_remove_item
-+#define drm_ht_find_item_rcu drm_ht_find_item
- 
- /*
-  * Generic DRM Contexts
-diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-index 604b1d1b2d72..9923c7a6885e 100644
---- a/include/drm/drm_device.h
-+++ b/include/drm/drm_device.h
-@@ -6,16 +6,13 @@
- #include <linux/mutex.h>
- #include <linux/idr.h>
- 
--#include <drm/drm_hashtab.h>
-+#include <drm/drm_legacy.h>
- #include <drm/drm_mode_config.h>
- 
- struct drm_driver;
- struct drm_minor;
- struct drm_master;
--struct drm_device_dma;
- struct drm_vblank_crtc;
--struct drm_sg_mem;
--struct drm_local_map;
- struct drm_vma_offset_manager;
- struct drm_vram_mm;
- struct drm_fb_helper;
-diff --git a/include/drm/drm_hashtab.h b/include/drm/drm_hashtab.h
-deleted file mode 100644
-index bb95ff011baf..000000000000
---- a/include/drm/drm_hashtab.h
-+++ /dev/null
-@@ -1,79 +0,0 @@
--/**************************************************************************
-- *
-- * Copyright 2006 Tungsten Graphics, Inc., Bismack, ND. USA.
-- * All Rights Reserved.
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a
-- * copy of this software and associated documentation files (the
-- * "Software"), to deal in the Software without restriction, including
-- * without limitation the rights to use, copy, modify, merge, publish,
-- * distribute, sub license, and/or sell copies of the Software, and to
-- * permit persons to whom the Software is furnished to do so, subject to
-- * the following conditions:
-- *
-- * The above copyright notice and this permission notice (including the
-- * next paragraph) shall be included in all copies or substantial portions
-- * of the Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
-- * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
-- * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-- * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-- * USE OR OTHER DEALINGS IN THE SOFTWARE.
-- *
-- *
-- **************************************************************************/
--/*
-- * Simple open hash tab implementation.
-- *
-- * Authors:
-- * Thomas Hellström <thomas-at-tungstengraphics-dot-com>
-- */
--
--#ifndef DRM_HASHTAB_H
--#define DRM_HASHTAB_H
--
--#include <linux/list.h>
--
--#define drm_hash_entry(_ptr, _type, _member) container_of(_ptr, _type, _member)
--
--struct drm_hash_item {
--	struct hlist_node head;
--	unsigned long key;
--};
--
--struct drm_open_hash {
--	struct hlist_head *table;
--	u8 order;
--};
--
--int drm_ht_create(struct drm_open_hash *ht, unsigned int order);
--int drm_ht_insert_item(struct drm_open_hash *ht, struct drm_hash_item *item);
--int drm_ht_just_insert_please(struct drm_open_hash *ht, struct drm_hash_item *item,
--			      unsigned long seed, int bits, int shift,
--			      unsigned long add);
--int drm_ht_find_item(struct drm_open_hash *ht, unsigned long key, struct drm_hash_item **item);
--
--void drm_ht_verbose_list(struct drm_open_hash *ht, unsigned long key);
--int drm_ht_remove_key(struct drm_open_hash *ht, unsigned long key);
--int drm_ht_remove_item(struct drm_open_hash *ht, struct drm_hash_item *item);
--void drm_ht_remove(struct drm_open_hash *ht);
--
--/*
-- * RCU-safe interface
-- *
-- * The user of this API needs to make sure that two or more instances of the
-- * hash table manipulation functions are never run simultaneously.
-- * The lookup function drm_ht_find_item_rcu may, however, run simultaneously
-- * with any of the manipulation functions as long as it's called from within
-- * an RCU read-locked section.
-- */
--#define drm_ht_insert_item_rcu drm_ht_insert_item
--#define drm_ht_just_insert_please_rcu drm_ht_just_insert_please
--#define drm_ht_remove_key_rcu drm_ht_remove_key
--#define drm_ht_remove_item_rcu drm_ht_remove_item
--#define drm_ht_find_item_rcu drm_ht_find_item
--
--#endif
-diff --git a/include/drm/drm_legacy.h b/include/drm/drm_legacy.h
-index 58dc8d8cc907..0fc85418aad8 100644
---- a/include/drm/drm_legacy.h
-+++ b/include/drm/drm_legacy.h
-@@ -37,7 +37,6 @@
- 
- #include <drm/drm.h>
- #include <drm/drm_auth.h>
--#include <drm/drm_hashtab.h>
- 
- struct drm_device;
- struct drm_driver;
-@@ -51,6 +50,20 @@ struct pci_driver;
-  * you're doing it terribly wrong.
-  */
- 
-+/*
-+ * Hash-table Support
-+ */
-+
-+struct drm_hash_item {
-+	struct hlist_node head;
-+	unsigned long key;
-+};
-+
-+struct drm_open_hash {
-+	struct hlist_head *table;
-+	u8 order;
-+};
-+
- /**
-  * DMA buffer.
-  */
--- 
-2.34.0
+cGluZy4gQXJlIHRoZXJlIGZ1cnRoZXIgY29tbWVudHMgb24gdGhpcyBwYXRjaHNldD8NCg0K
+QW0gMTUuMTEuMjEgdW0gMTM6MDEgc2NocmllYiBUaG9tYXMgWmltbWVybWFubjoNCj4gQ29u
+dmVydCBHRU0gQ01BIGZ1bmN0aW9ucyB0byBhY2NlcHQgc3RydWN0IGRybV9nZW1fY21hX29i
+amVjdCwgcHJvdmlkZQ0KPiBzbWFsbCB3cmFwcGVycyBmb3IgR0VNIG9iamVjdCBjYWxsYmFj
+a3MgYW5kIHVwZGF0ZSBhbGwgdXNlcnMuIEJyaW5ncw0KPiB1cCB0aGUgaW50ZXJmYWNlIHRv
+IHRoZSBwYXR0ZXJuIHVzZWQgaW4gU0hNRU0gYW5kIFZSQU0gaGVscGVycy4NCj4gDQo+IENv
+bnZlcnRpbmcgYWxsIEdFTSBvYmplY3QgZnVuY3Rpb25zIHRvIHVzZSBkcm1fZ2VtX2NtYV9v
+YmplY3QgZW5hYmxlcw0KPiB0eXBlIGNoZWNraW5nIGJ5IHRoZSBDIGNvbXBpbGVyLiBQcmV2
+aW91cyBjYWxsZXJzIGNvdWxkIGhhdmUgcGFzc2VkIGFueQ0KPiBpbXBsZW1lbnRhdGlvbiBv
+ZiBkcm1fZ2VtX29iamVjdCB0byB0aGUgR0VNIENNQSBoZWxwZXJzLiBJdCBhbHNvDQo+IHJl
+bW92ZXMgdXBjYXN0aW5nIGluIHRoZSBHRU0gZnVuY3Rpb25zIGFuZCBzaW1wbGlmaWVzIHRo
+ZSBjYWxsZXIgc2lkZS4NCj4gTm8gZnVuY3Rpb25hbCBjaGFuZ2VzLg0KPiANCj4gRm9yIEdF
+TSBvYmplY3QgY2FsbGJhY2tzLCB0aGUgQ01BIGhlbHBlciBsaWJyYXJ5IG5vdyBwcm92aWRl
+cyBhDQo+IG51bWJlciBvZiBzbWFsbCB3cmFwcGVycyB0aGF0IGRvIHRoZSBuZWNlc3Nhcnkg
+dXBjYXN0aW5nLiBBZ2FpbiBubw0KPiBmdW5jdGlvbmFsIGNoYW5nZXMuDQo+IA0KPiBUaG9t
+YXMgWmltbWVybWFubiAoMyk6DQo+ICAgIGRybS9jbWEtaGVscGVyOiBNb3ZlIGRyaXZlciBh
+bmQgZmlsZSBvcHMgdG8gdGhlIGVuZCBvZiBoZWFkZXINCj4gICAgZHJtL2NtYS1oZWxwZXI6
+IEV4cG9ydCBkZWRpY2F0ZWQgd3JhcHBlcnMgZm9yIEdFTSBvYmplY3QgZnVuY3Rpb25zDQo+
+ICAgIGRybS9jbWEtaGVscGVyOiBQYXNzIEdFTSBDTUEgb2JqZWN0IGluIHB1YmxpYyBpbnRl
+cmZhY2VzDQo+IA0KPiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX2NtYV9oZWxwZXIuYyAg
+fCAgNzMgKysrKystLS0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfZHVf
+a21zLmMgfCAgMTAgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9iby5jICAgICAg
+ICAgIHwgICA4ICstDQo+ICAgaW5jbHVkZS9kcm0vZHJtX2dlbV9jbWFfaGVscGVyLmggICAg
+ICB8IDE4OSArKysrKysrKysrKysrKysrKysrLS0tLS0tLQ0KPiAgIDQgZmlsZXMgY2hhbmdl
+ZCwgMTgwIGluc2VydGlvbnMoKyksIDEwMCBkZWxldGlvbnMoLSkNCj4gDQo+IA0KPiBiYXNl
+LWNvbW1pdDogOWZjY2QxMmNmYWMxYzg2M2ZhNDZkNGQxN2MyZDhhYzI1YTQ0YjE5MA0KPiAt
+LQ0KPiAyLjMzLjENCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERy
+aXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0K
+TWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBB
+RyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
+--------------1msTdiMgPe6TNWtS9FKGetcn--
+
+--------------CxkZP7xMadMy0QjpTSxpu0gZ
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmGkoqMFAwAAAAAACgkQlh/E3EQov+D1
+8A/+PibFx3AiYi7VHqcu+ChB7aTvu//3yigbx9InM5eUFFmyJ1SSoh103U0zga6btCNRvsebfaQT
+2ZGQoLmXYjKudAflvNwaPxycJ2D9GIObVWvHinigxma3bB+mD9jprfyvaMgqTA5noCpnNl4yXJAJ
+hnw7tjy8yUeCQ8spUCVwUihmyU59P1NcSvre8UAP3hTaB39vG+vi9ajdCHH4ErSxeeMXWqQ5+cgw
+6LLrct995sK+eZSwjq8GAL++2NbKV2vHyuqshsNk9PBH/Puv1569yvk9P0UjBsfMdewhas/8sOa5
+vIKsRF2g6fp38MVXS6Yyi8OAdJJt791Pr4pg8DCqbI2+2bHttAo5BnI5lYJ0ua5u6XVws32Hl65+
+nLmxdEa1mW3o47jMz7sLWBhVx4dukAUgy6y/hzDUdqMNLZ0kKOfk/8KQUtoxWSwpICLhFySLF81e
+YYVMvOXW44KFUgXDuXcoZ1gTJf8yXd+iuSS6F9uAo9H+XF8m8kTN9bASTLIWDWIL43DOoLhx2ig0
+ZQdUwhtZNOrKEaL/Qn+JBi6zLXgyQwfSxqFQGrUP7Kqfep2l4jrf8t/a3Uc1l/q455Fp9D1Hrqlr
+hnmEXlekpSGDJaTQZo4mXHOovRtrWrTJPTFJXq/pBmeF76BvRz/XnXuJ0EeG0tkJYTKfAl7MwbZd
+czU=
+=0rdh
+-----END PGP SIGNATURE-----
+
+--------------CxkZP7xMadMy0QjpTSxpu0gZ--
