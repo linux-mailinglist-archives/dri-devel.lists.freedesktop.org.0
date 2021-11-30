@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8440462B08
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 04:25:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06029462B35
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 04:36:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E37D6E342;
-	Tue, 30 Nov 2021 03:25:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC49C6E406;
+	Tue, 30 Nov 2021 03:35:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1614C6E342
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 03:25:16 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 52A218F0;
- Tue, 30 Nov 2021 04:25:14 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1638242714;
- bh=GWpugv4jnyFlulT3or9yRBAZ4QMbPljZiymoOFQR00A=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RnYBIRBE7hOmgrbiD2xVpmT9MO9Vfda/eJ+9GpveAXXyzCHiGTqDEh3J40/wBYT6O
- UUUbA3DePBPuKc2esYmupTaxuNYBGYDXcE0bTh/8G8yfqeIQ8ZR70CJcKz/r85kjPK
- 63wMwbZw17VgC+DbbFVVyLD+xpGmRAOdi8M0/EKQ=
-Date: Tue, 30 Nov 2021 05:24:50 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: Re: [PATCH 4/4] drm: rcar-du: mipi-dsi: Support bridge probe ordering
-Message-ID: <YaWZgkL6phajVdvy@pendragon.ideasonboard.com>
-References: <20211126101518.938783-1-kieran.bingham+renesas@ideasonboard.com>
- <20211126101518.938783-5-kieran.bingham+renesas@ideasonboard.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9A526E33F
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 03:35:30 +0000 (UTC)
+X-UUID: bba59c0d319d40a5b3682797a89a6cff-20211130
+X-UUID: bba59c0d319d40a5b3682797a89a6cff-20211130
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw02.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 793035696; Tue, 30 Nov 2021 11:35:22 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Tue, 30 Nov 2021 11:35:21 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Tue, 30 Nov 2021 11:35:21 +0800
+From: Nancy.Lin <nancy.lin@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>
+Subject: [PATCH v9 00/22] Add MediaTek SoC DRM (vdosys1) support for mt8195
+Date: Tue, 30 Nov 2021 11:34:57 +0800
+Message-ID: <20211130033519.26086-1-nancy.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211126101518.938783-5-kieran.bingham+renesas@ideasonboard.com>
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,131 +46,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, srv_heupstream@mediatek.com,
+ devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ "Nancy . Lin" <nancy.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kieran,
+The hardware path of vdosys1 with DPTx output need to go through by several modules, such as, OVL_ADAPTOR and MERGE.
 
-Thank you for the patch.
+Add DRM and these modules support by the patches below:
 
-On Fri, Nov 26, 2021 at 10:15:18AM +0000, Kieran Bingham wrote:
-> The bridge probe ordering for DSI devices has been clarified and further
-> documented in
+Changes in v9:
+- rebase on kernel-5.16-rc1
+- rebase on vdosys0 series v13. (ref [5])
+- fix ovl_adaptor sub driver is brought up unintentionally
+- fix clang build test fail- duplicate ethdr/mdp_rdma init_module/cleanup_module symbol issue 
 
-In what ? :-)
+Changes in v8:
+- separate merge async reset to new patch.
+- separate drm ovl_adaptor sub driver to new patch.
+- fix reviewer comment in v7.
 
-> To support connecting with the SN65DSI86 device after commit c3b75d4734cb
-> ("drm/bridge: sn65dsi86: Register and attach our DSI device at probe"),
-> update to the new probe ordering to remove a perpetual -EPROBE_DEFER
-> loop between the two devices.
-> 
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Changes in v7:
+- rebase on vdosys0 series v12 (ref[5])
+- add dma description in ethdr binding document.
+- refine vdosys1 bit definition of mmsys routing table.
+- separate merge modification into 3 pathces.
+- separate mutex modification into 2 patches.
+- add plane color coding for mdp_rdma csc.
+- move mdp_rdma pm control to ovl_adaptor.
+- fix reviewer comment in v6.
 
-Will you send a new version of this patch with Biju's comments taken
-into account ? I've already applied 1/4 to 3/4 to my tree, so there's no
-need to repost them.
+Changes in v6:
+- rebase on kernel-5.15-rc1.
+- change mbox label to gce0 for dts node of vdosys1.
+- modify mmsys reset num for mt8195.
+- rebase on vdosys0 series v10. (ref [5])
+- use drm to bring up ovl_adaptor driver.
+- move drm iommu/mutex check from kms init to drm bind.
+- modify rdma binding doc location. (Documentation/devicetree/bindings/arm/)
+- modify for reviewer's comment in v5.
 
-> ---
->  drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c | 48 +++++++++++++------------
->  1 file changed, 26 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> index 833f4480bdf3..f783bacee8da 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-> @@ -639,6 +639,8 @@ static int rcar_mipi_dsi_host_attach(struct mipi_dsi_host *host,
->  					struct mipi_dsi_device *device)
->  {
->  	struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
-> +	struct drm_panel *panel;
-> +	int ret;
->  
->  	if (device->lanes > dsi->num_data_lanes)
->  		return -EINVAL;
-> @@ -646,12 +648,36 @@ static int rcar_mipi_dsi_host_attach(struct mipi_dsi_host *host,
->  	dsi->lanes = device->lanes;
->  	dsi->format = device->format;
->  
-> +	ret = drm_of_find_panel_or_bridge(dsi->dev->of_node, 1, 0, &panel,
-> +					  &dsi->next_bridge);
-> +	if (ret) {
-> +		dev_err_probe(dsi->dev, ret, "could not find next bridge\n");
-> +		return ret;
-> +	}
-> +
-> +	if (!dsi->next_bridge) {
-> +		dsi->next_bridge = devm_drm_panel_bridge_add(dsi->dev, panel);
-> +		if (IS_ERR(dsi->next_bridge)) {
-> +			dev_err(dsi->dev, "failed to create panel bridge\n");
-> +			return PTR_ERR(dsi->next_bridge);
-> +		}
-> +	}
-> +
-> +	/* Initialize the DRM bridge. */
-> +	dsi->bridge.funcs = &rcar_mipi_dsi_bridge_ops;
-> +	dsi->bridge.of_node = dsi->dev->of_node;
-> +	drm_bridge_add(&dsi->bridge);
-> +
->  	return 0;
->  }
->  
->  static int rcar_mipi_dsi_host_detach(struct mipi_dsi_host *host,
->  					struct mipi_dsi_device *device)
->  {
-> +	struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
-> +
-> +	drm_bridge_remove(&dsi->bridge);
-> +
->  	return 0;
->  }
->  
-> @@ -766,21 +792,6 @@ static int rcar_mipi_dsi_probe(struct platform_device *pdev)
->  		return PTR_ERR(dsi->rstc);
->  	}
->  
-> -	ret = drm_of_find_panel_or_bridge(dsi->dev->of_node, 1, 0, &panel,
-> -					  &dsi->next_bridge);
-> -	if (ret) {
-> -		dev_err_probe(dsi->dev, ret, "could not find next bridge\n");
-> -		return ret;
-> -	}
-> -
-> -	if (!dsi->next_bridge) {
-> -		dsi->next_bridge = devm_drm_panel_bridge_add(dsi->dev, panel);
-> -		if (IS_ERR(dsi->next_bridge)) {
-> -			dev_err(dsi->dev, "failed to create panel bridge\n");
-> -			return PTR_ERR(dsi->next_bridge);
-> -		}
-> -	}
-> -
->  	/* Initialize the DSI host. */
->  	dsi->host.dev = dsi->dev;
->  	dsi->host.ops = &rcar_mipi_dsi_host_ops;
-> @@ -788,11 +799,6 @@ static int rcar_mipi_dsi_probe(struct platform_device *pdev)
->  	if (ret < 0)
->  		return ret;
->  
-> -	/* Initialize the DRM bridge. */
-> -	dsi->bridge.funcs = &rcar_mipi_dsi_bridge_ops;
-> -	dsi->bridge.of_node = dsi->dev->of_node;
-> -	drm_bridge_add(&dsi->bridge);
-> -
->  	return 0;
->  }
->  
-> @@ -800,8 +806,6 @@ static int rcar_mipi_dsi_remove(struct platform_device *pdev)
->  {
->  	struct rcar_mipi_dsi *dsi = platform_get_drvdata(pdev);
->  
-> -	drm_bridge_remove(&dsi->bridge);
-> -
->  	mipi_dsi_host_unregister(&dsi->host);
->  
->  	return 0;
+Changes in v5:
+- add mmsys reset controller reference.
+
+Changes in v4:
+- use merge common driver for merge1~4.
+- refine ovl_adaptor rdma driver.
+- use ovl_adaptor ddp_comp function instead of ethdr.
+- modify for reviewer's comment in v3.
+
+Changes in v3:
+- modify for reviewer's comment in v2.
+- add vdosys1 2 pixels align limit.
+- add mixer odd offset support.
+
+Changes in v2:
+- Merge PSEUDO_OVL and ETHDR into one DRM component.
+- Add mmsys config API for vdosys1 hardware setting.
+- Add mmsys reset control using linux reset framework.
+
+Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+
+This series are based on the following patch:
+[1] arm64: dts: Add Mediatek SoC MT8195 and evaluation board dts and Makefile
+    https://patchwork.kernel.org/project/linux-mediatek/patch/20210601075350.31515-2-seiya.wang@mediatek.com/
+[2] arm64: dts: mt8195: add IOMMU and smi nodes
+    https://patchwork.kernel.org/project/linux-mediatek/patch/20210615173233.26682-15-tinghan.shen@mediatek.com/
+[3] [01/24] dt-bindings: mediatek: mt8195: Add binding for MM IOMMU
+    https://patchwork.kernel.org/project/linux-mediatek/patch/20210630023504.18177-2-yong.wu@mediatek.com/
+[4] Add gce support for mt8195
+    https://patchwork.kernel.org/project/linux-mediatek/list/?series=537069
+[5] Add MediaTek SoC DRM (vdosys0) support for mt8195
+    https://patchwork.kernel.org/project/linux-mediatek/list/?series=587313
+[6] [v8,1/2] dt-bindings: reset: mt8195: add toprgu reset-controller header file
+    https://patchwork.kernel.org/project/linux-mediatek/patch/20210806023606.16867-2-Christine.Zhu@mediatek.com/
+
+Nancy.Lin (22):
+  dt-bindings: mediatek: add vdosys1 RDMA definition for mt8195
+  dt-bindings: mediatek: add vdosys1 MERGE property for mt8195
+  dt-bindings: mediatek: add ethdr definition for mt8195
+  dt-bindings: reset: mt8195: add vdosys1 reset control bit
+  soc: mediatek: add mtk-mmsys support for mt8195 vdosys1
+  soc: mediatek: add mtk-mmsys config API for mt8195 vdosys1
+  soc: mediatek: add cmdq support of mtk-mmsys config API for mt8195
+    vdosys1
+  soc: mediatek: mmsys: modify reset controller for MT8195 vdosys1
+  soc: mediatek: change the mutex defines and the mutex_mod type
+  soc: mediatek: add mtk-mutex support for mt8195 vdosys1
+  drm/mediatek: add display MDP RDMA support for MT8195
+  drm/mediatek: add display merge advance config API for MT8195
+  drm/mediatek: add display merge start/stop API for cmdq support
+  drm/mediatek: add display merge mute/unmute support for MT8195
+  drm/mediatek: add display merge async reset control
+  drm/mediatek: add ETHDR support for MT8195
+  drm/mediatek: add mediatek-drm plane color encoding info
+  drm/mediatek: add ovl_adaptor support for MT8195
+  drm/mediatek: modify mediatek-drm for mt8195 multi mmsys support
+  drm/mediatek: add drm ovl_adaptor sub driver for MT8195
+  drm/mediatek: add mediatek-drm of vdosys1 support for MT8195
+  arm64: dts: mt8195: add display node for vdosys1
+
+ .../arm/mediatek/mediatek,mdp-rdma.yaml       |  77 ++++
+ .../display/mediatek/mediatek,ethdr.yaml      | 147 ++++++
+ .../display/mediatek/mediatek,merge.yaml      |   4 +
+ arch/arm64/boot/dts/mediatek/mt8195.dtsi      | 222 +++++++++
+ drivers/gpu/drm/mediatek/Makefile             |   5 +-
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h       |  28 ++
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c     |  89 +++-
+ .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   | 436 ++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |  38 +-
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.h       |   3 +-
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   |  30 +-
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |   1 +
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 343 ++++++++++----
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h        |  13 +-
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c      |   1 +
+ drivers/gpu/drm/mediatek/mtk_drm_plane.h      |   1 +
+ drivers/gpu/drm/mediatek/mtk_ethdr.c          | 386 ++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_ethdr.h          |  25 +
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.c       | 315 +++++++++++++
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.h       |  20 +
+ drivers/soc/mediatek/mt8195-mmsys.h           | 199 ++++++++
+ drivers/soc/mediatek/mtk-mmsys.c              |  80 +++-
+ drivers/soc/mediatek/mtk-mmsys.h              |  12 +
+ drivers/soc/mediatek/mtk-mutex.c              | 296 +++++++-----
+ include/dt-bindings/reset/mt8195-resets.h     |  12 +
+ include/linux/soc/mediatek/mtk-mmsys.h        |  22 +
+ 26 files changed, 2562 insertions(+), 243 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/arm/mediatek/mediatek,mdp-rdma.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.h
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_mdp_rdma.h
 
 -- 
-Regards,
+2.18.0
 
-Laurent Pinchart
