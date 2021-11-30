@@ -2,44 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A3A3463D83
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 19:16:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FDA4463D89
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 19:17:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56B076E040;
-	Tue, 30 Nov 2021 18:16:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35F3C6E0A5;
+	Tue, 30 Nov 2021 18:17:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 898676E040
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 18:15:58 +0000 (UTC)
-X-UUID: b1c7bbe20b23490d9a8a42398b27a50b-20211201
-X-UUID: b1c7bbe20b23490d9a8a42398b27a50b-20211201
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
- (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 437039697; Wed, 01 Dec 2021 02:15:55 +0800
-Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 1 Dec 2021 02:15:54 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb01.mediatek.inc
- (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Wed, 1 Dec 2021 02:15:54 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Wed, 1 Dec 2021 02:15:54 +0800
-From: jason-jh.lin <jason-jh.lin@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>,
- <tzungbi@google.com>
-Subject: [PATCH v3 2/2] drm/mediatek: add devlink to cmdq dev
-Date: Wed, 1 Dec 2021 02:15:52 +0800
-Message-ID: <20211130181552.9928-3-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20211130181552.9928-1-jason-jh.lin@mediatek.com>
-References: <20211130181552.9928-1-jason-jh.lin@mediatek.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 100FD6E0A5
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 18:17:29 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9C9E2106F;
+ Tue, 30 Nov 2021 10:17:28 -0800 (PST)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7BCED3F694;
+ Tue, 30 Nov 2021 10:17:28 -0800 (PST)
+Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
+ id 39A39684474; Tue, 30 Nov 2021 18:17:27 +0000 (GMT)
+Date: Tue, 30 Nov 2021 18:17:27 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Zhou Qingyang <zhou1615@umn.edu>
+Subject: Re: [PATCH] drm/komeda: Fix an undefined behavior bug in
+ komeda_plane_add()
+Message-ID: <YaZqt7bwSJtS2SaT@e110455-lin.cambridge.arm.com>
+References: <20211130142301.155586-1-zhou1615@umn.edu>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211130142301.155586-1-zhou1615@umn.edu>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,68 +45,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: fshao@chromium.org, David Airlie <airlied@linux.ie>,
- "jason-jh.lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- nancy.lin@mediatek.com, linux-mediatek@lists.infradead.org,
- hsinyi@chromium.org, linux-arm-kernel@lists.infradead.org
+Cc: David Airlie <airlied@linux.ie>, kjlu@umn.edu, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ "James \(Qian\) Wang" <james.qian.wang@arm.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add devlink to cmdq to make sure the order of suspend and resume
-is correct.
+Hi Zhou,
 
-Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+On Tue, Nov 30, 2021 at 10:23:01PM +0800, Zhou Qingyang wrote:
+> In komeda_plane_add(), komeda_get_layer_fourcc_list() is assigned to
+> formats and used in drm_universal_plane_init().
+> drm_universal_plane_init() passes formats to
+> __drm_universal_plane_init(). __drm_universal_plane_init() further
+> passes formats to memcpy() as src parameter, which could lead to an
+> undefined behavior bug on failure of komeda_get_layer_fourcc_list().
+> 
+> Fix this bug by adding a check of formats.
+> 
+> This bug was found by a static analyzer. The analysis employs
+> differential checking to identify inconsistent security operations
+> (e.g., checks or kfrees) between two code paths and confirms that the
+> inconsistent operations are not recovered in the current function or
+> the callers, so they constitute bugs.
+> 
+> Note that, as a bug found by static analysis, it can be a false
+> positive or hard to trigger. Multiple researchers have cross-reviewed
+> the bug.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index 6ca96802fd77..88b57a20f26d 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -61,6 +61,7 @@ struct mtk_drm_crtc {
- #endif
- 
- 	struct device			*mmsys_dev;
-+	struct device			*drm_dev;
- 	struct mtk_mutex		*mutex;
- 	unsigned int			ddp_comp_nr;
- 	struct mtk_ddp_comp		**ddp_comp;
-@@ -160,6 +161,7 @@ static void mtk_drm_crtc_destroy(struct drm_crtc *crtc)
- 	mtk_drm_cmdq_pkt_destroy(&mtk_crtc->cmdq_handle);
- 
- 	if (mtk_crtc->cmdq_client.chan) {
-+		device_link_remove(mtk_crtc->drm_dev, mtk_crtc->cmdq_client.chan->mbox->dev);
- 		mbox_free_channel(mtk_crtc->cmdq_client.chan);
- 		mtk_crtc->cmdq_client.chan = NULL;
- 	}
-@@ -908,6 +910,7 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
- 		return -ENOMEM;
- 
- 	mtk_crtc->mmsys_dev = priv->mmsys_dev;
-+	mtk_crtc->drm_dev = priv->dev;
- 	mtk_crtc->ddp_comp_nr = path_len;
- 	mtk_crtc->ddp_comp = devm_kmalloc_array(dev, mtk_crtc->ddp_comp_nr,
- 						sizeof(*mtk_crtc->ddp_comp),
-@@ -975,6 +978,17 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
- 	}
- 
- 	if (mtk_crtc->cmdq_client.chan) {
-+		struct device_link *link;
-+
-+		/* add devlink to cmdq dev to make sure suspend/resume order is correct */
-+		link = device_link_add(priv->dev, mtk_crtc->cmdq_client.chan->mbox->dev,
-+				       DL_FLAG_PM_RUNTIME | DL_FLAG_STATELESS);
-+		if (!link) {
-+			dev_err(priv->dev, "Unable to link dev=%s\n",
-+				dev_name(mtk_crtc->cmdq_client.chan->mbox->dev));
-+			return -ENODEV;
-+		}
-+
- 		ret = of_property_read_u32_index(priv->mutex_node,
- 						 "mediatek,gce-events",
- 						 i,
+If multiple researchers have cross-reviewed the bug how many have reviewed the fix?
+I'm asking because there is a problem with the fix ....
+
+
+> 
+> Builds with CONFIG_DRM_KOMEDA=m show no new warnings,
+> and our static analyzer no longer warns about this code.
+> 
+> Fixes: 61f1c4a8ab75 ("drm/komeda: Attach komeda_dev to DRM-KMS")
+> Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
+> ---
+>  drivers/gpu/drm/arm/display/komeda/komeda_plane.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_plane.c b/drivers/gpu/drm/arm/display/komeda/komeda_plane.c
+> index d63d83800a8a..dd3f17e970dd 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_plane.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_plane.c
+> @@ -265,6 +265,10 @@ static int komeda_plane_add(struct komeda_kms_dev *kms,
+>  
+>  	formats = komeda_get_layer_fourcc_list(&mdev->fmt_tbl,
+>  					       layer->layer_type, &n_formats);
+> +	if (!formats) {
+> +		err = -ENOMEM;
+> +		goto cleanup;
+
+If you go to cleanup here it is too early, as the plane variable has not been
+initialised by the drm_universal_plane_init(), so komeda_plane_destroy() will crash.
+The correct fix here is to free the kplane allocation and then return -ENOMEM.
+
+> +	}
+>  
+>  	err = drm_universal_plane_init(&kms->base, plane,
+>  			get_possible_crtcs(kms, c->pipeline),
+> -- 
+> 2.25.1
+> 
+
+Best regards,
+Liviu
+
 -- 
-2.18.0
-
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
