@@ -2,63 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4823B46401E
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 22:27:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D337646403B
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 22:29:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A43876E573;
-	Tue, 30 Nov 2021 21:27:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B49D389EA3;
+	Tue, 30 Nov 2021 21:29:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p04-ob.smtp.rzone.de (mo4-p04-ob.smtp.rzone.de
- [81.169.146.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6BCD6E0D8
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 21:26:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1638307610;
- s=strato-dkim-0002; d=goldelico.com;
- h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Cc:Date:
- From:Subject:Sender;
- bh=15Nkk1H/19ZCPCTvtDzkEK7DIJe2pfI1c9+1syWWzcY=;
- b=sWy8vEmk7nvIyRSKht61OFnVDjFYQ0EMK24N/NxRjVWRSH+eBSKfkyHe6f8Ci8Bcu6
- KYh87pSY37ee1g9hK97Q4LbTGgDX1/kmyNk7r7f58jP8dD+vtij21CDvaLcm4t/+toK1
- WeUGE2n/yoVhryQvnKgLjY3tEXkUIVXOPZwJAoWlO4qmh5QWtTpA7HA+DqxdrqXjnLH9
- Z6Yjg/cTrO9Oe/1eXWjzvbvaJsgC8VtgilkCBY3eI0ZpsY7h9ikyd353ppH7k768np2p
- fwvfIpvr7Uzn3DUX3QMVnwRcAi/DDFtEQflPQ5TRLUWL63KhtSCcsI+/WZYUNCBxvOTg
- ZWcA==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1KHeBQyh+ITDDJuCr4="
-X-RZG-CLASS-ID: mo00
-Received: from iMac.fritz.box by smtp.strato.de (RZmta 47.34.10 DYNA|AUTH)
- with ESMTPSA id e05ed8xAULQnToD
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Tue, 30 Nov 2021 22:26:49 +0100 (CET)
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-To: Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh+dt@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "H. Nikolaus Schaller" <hns@goldelico.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kees Cook <keescook@chromium.org>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Harry Wentland <harry.wentland@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maxime Ripard <maxime@cerno.tech>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Paul Boddie <paul@boddie.org.uk>
-Subject: [PATCH v10 8/8] [RFC] MIPS: DTS: Ingenic: adjust register size to
- available registers
-Date: Tue, 30 Nov 2021 22:26:41 +0100
-Message-Id: <ead6d476378e134837443ac245ccd112c0c59b64.1638307601.git.hns@goldelico.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <cover.1638307601.git.hns@goldelico.com>
-References: <cover.1638307601.git.hns@goldelico.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D1EA6E1B6
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 21:29:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1638307774;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wGAFVVASvva7zW+0sfpImZgjnROPSfnr+l5jT4Y+sWI=;
+ b=RO/ZZKk058XNDL4oysrUScCrv0McTlJR+BsAykEmSIVh/PTvtxgOyHYeUD7Qe8kPNTZFXI
+ uhbroUUl5/G7yHIapNfVuYAmGUfx+UA5lDc0WUWqhypHil+SxPrHPydkQFkd1n4F1MHxeA
+ DFYSnmDsCATBsqVBaZM9/j1HJVJzwPk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-179-ay2vpOfgMhKdFbJGtlXzMg-1; Tue, 30 Nov 2021 16:29:30 -0500
+X-MC-Unique: ay2vpOfgMhKdFbJGtlXzMg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A953101796C;
+ Tue, 30 Nov 2021 21:29:28 +0000 (UTC)
+Received: from emerald.redhat.com (unknown [10.22.8.170])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3D72360C81;
+ Tue, 30 Nov 2021 21:29:21 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v3] drm/i915/dp: Perform 30ms delay after source OUI write
+Date: Tue, 30 Nov 2021 16:29:09 -0500
+Message-Id: <20211130212912.212044-1-lyude@redhat.com>
+In-Reply-To: <20211129233354.101347-1-lyude@redhat.com>
+References: <20211129233354.101347-1-lyude@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,66 +60,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, letux-kernel@openphoenux.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Jani Nikula <jani.nikula@intel.com>, Anshuman Gupta <anshuman.gupta@intel.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+ Manasi Navare <manasi.d.navare@intel.com>, David Airlie <airlied@linux.ie>,
+ Uma Shankar <uma.shankar@intel.com>, stable@vger.kernel.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
+ Dave Airlie <airlied@redhat.com>, Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After getting the regmap size from the device tree we should
-reduce the ranges to the really available registers. This
-allows to read only existing registers from the debug fs
-and makes the regmap check out-of-bounds access.
+While working on supporting the Intel HDR backlight interface, I noticed
+that there's a couple of laptops that will very rarely manage to boot up
+without detecting Intel HDR backlight support - even though it's supported
+on the system. One example of such a laptop is the Lenovo P17 1st
+generation.
 
-For the jz4780 we have done this already.
+Following some investigation Ville Syrjälä did through the docs they have
+available to them, they discovered that there's actually supposed to be a
+30ms wait after writing the source OUI before we begin setting up the rest
+of the backlight interface.
 
-Suggested-for: Paul Cercueil <paul@crapouillou.net>
-Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+This seems to be correct, as adding this 30ms delay seems to have
+completely fixed the probing issues I was previously seeing. So - let's
+start performing a 30ms wait after writing the OUI, which we do in a manner
+similar to how we keep track of PPS delays (e.g. record the timestamp of
+the OUI write, and then wait for however many ms are left since that
+timestamp right before we interact with the backlight) in order to avoid
+waiting any longer then we need to. As well, this also avoids us performing
+this delay on systems where we don't end up using the HDR backlight
+interface.
+
+V3:
+* Move last_oui_write into intel_dp
+V2:
+* Move panel delays into intel_pps
+
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Fixes: 4a8d79901d5b ("drm/i915/dp: Enable Intel's HDR backlight interface (only SDR for now)")
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: <stable@vger.kernel.org> # v5.12+
 ---
- arch/mips/boot/dts/ingenic/jz4725b.dtsi | 2 +-
- arch/mips/boot/dts/ingenic/jz4740.dtsi  | 2 +-
- arch/mips/boot/dts/ingenic/jz4770.dtsi  | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/i915/display/intel_display_types.h    |  3 +++
+ drivers/gpu/drm/i915/display/intel_dp.c               | 11 +++++++++++
+ drivers/gpu/drm/i915/display/intel_dp.h               |  2 ++
+ drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c |  5 +++++
+ 4 files changed, 21 insertions(+)
 
-diff --git a/arch/mips/boot/dts/ingenic/jz4725b.dtsi b/arch/mips/boot/dts/ingenic/jz4725b.dtsi
-index 0c6a5a4266f43..e9e48022f6316 100644
---- a/arch/mips/boot/dts/ingenic/jz4725b.dtsi
-+++ b/arch/mips/boot/dts/ingenic/jz4725b.dtsi
-@@ -321,7 +321,7 @@ udc: usb@13040000 {
+diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+index ea1e8a6e10b0..b9c967837872 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_types.h
++++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+@@ -1653,6 +1653,9 @@ struct intel_dp {
+ 	struct intel_dp_pcon_frl frl;
  
- 	lcd: lcd-controller@13050000 {
- 		compatible = "ingenic,jz4725b-lcd";
--		reg = <0x13050000 0x1000>;
-+		reg = <0x13050000 0x130>; /* tbc */
+ 	struct intel_psr psr;
++
++	/* When we last wrote the OUI for eDP */
++	unsigned long last_oui_write;
+ };
  
- 		interrupt-parent = <&intc>;
- 		interrupts = <31>;
-diff --git a/arch/mips/boot/dts/ingenic/jz4740.dtsi b/arch/mips/boot/dts/ingenic/jz4740.dtsi
-index 772542e1f266a..7f76cba03a089 100644
---- a/arch/mips/boot/dts/ingenic/jz4740.dtsi
-+++ b/arch/mips/boot/dts/ingenic/jz4740.dtsi
-@@ -323,7 +323,7 @@ udc: usb@13040000 {
+ enum lspcon_vendor {
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 0a424bf69396..5a8206298691 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -29,6 +29,7 @@
+ #include <linux/i2c.h>
+ #include <linux/notifier.h>
+ #include <linux/slab.h>
++#include <linux/timekeeping.h>
+ #include <linux/types.h>
  
- 	lcd: lcd-controller@13050000 {
- 		compatible = "ingenic,jz4740-lcd";
--		reg = <0x13050000 0x1000>;
-+		reg = <0x13050000 0x60>; /* LCDCMD1+4 */
+ #include <asm/byteorder.h>
+@@ -2010,6 +2011,16 @@ intel_edp_init_source_oui(struct intel_dp *intel_dp, bool careful)
  
- 		interrupt-parent = <&intc>;
- 		interrupts = <30>;
-diff --git a/arch/mips/boot/dts/ingenic/jz4770.dtsi b/arch/mips/boot/dts/ingenic/jz4770.dtsi
-index dfe74328ae5dc..bda0a3a86ed5f 100644
---- a/arch/mips/boot/dts/ingenic/jz4770.dtsi
-+++ b/arch/mips/boot/dts/ingenic/jz4770.dtsi
-@@ -399,7 +399,7 @@ gpu: gpu@13040000 {
+ 	if (drm_dp_dpcd_write(&intel_dp->aux, DP_SOURCE_OUI, oui, sizeof(oui)) < 0)
+ 		drm_err(&i915->drm, "Failed to write source OUI\n");
++
++	intel_dp->last_oui_write = jiffies;
++}
++
++void intel_dp_wait_source_oui(struct intel_dp *intel_dp)
++{
++	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
++
++	drm_dbg_kms(&i915->drm, "Performing OUI wait\n");
++	wait_remaining_ms_from_jiffies(intel_dp->last_oui_write, 30);
+ }
  
- 	lcd: lcd-controller@13050000 {
- 		compatible = "ingenic,jz4770-lcd";
--		reg = <0x13050000 0x300>;
-+		reg = <0x13050000 0x130>; /* tbc */
+ /* If the device supports it, try to set the power state appropriately */
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
+index ce229026dc91..b64145a3869a 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.h
++++ b/drivers/gpu/drm/i915/display/intel_dp.h
+@@ -119,4 +119,6 @@ void intel_dp_pcon_dsc_configure(struct intel_dp *intel_dp,
+ 				 const struct intel_crtc_state *crtc_state);
+ void intel_dp_phy_test(struct intel_encoder *encoder);
  
- 		interrupt-parent = <&intc>;
- 		interrupts = <31>;
++void intel_dp_wait_source_oui(struct intel_dp *intel_dp);
++
+ #endif /* __INTEL_DP_H__ */
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+index 8b9c925c4c16..62c112daacf2 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+@@ -36,6 +36,7 @@
+ 
+ #include "intel_backlight.h"
+ #include "intel_display_types.h"
++#include "intel_dp.h"
+ #include "intel_dp_aux_backlight.h"
+ 
+ /* TODO:
+@@ -106,6 +107,8 @@ intel_dp_aux_supports_hdr_backlight(struct intel_connector *connector)
+ 	int ret;
+ 	u8 tcon_cap[4];
+ 
++	intel_dp_wait_source_oui(intel_dp);
++
+ 	ret = drm_dp_dpcd_read(aux, INTEL_EDP_HDR_TCON_CAP0, tcon_cap, sizeof(tcon_cap));
+ 	if (ret != sizeof(tcon_cap))
+ 		return false;
+@@ -204,6 +207,8 @@ intel_dp_aux_hdr_enable_backlight(const struct intel_crtc_state *crtc_state,
+ 	int ret;
+ 	u8 old_ctrl, ctrl;
+ 
++	intel_dp_wait_source_oui(intel_dp);
++
+ 	ret = drm_dp_dpcd_readb(&intel_dp->aux, INTEL_EDP_HDR_GETSET_CTRL_PARAMS, &old_ctrl);
+ 	if (ret != 1) {
+ 		drm_err(&i915->drm, "Failed to read current backlight control mode: %d\n", ret);
 -- 
-2.33.0
+2.33.1
 
