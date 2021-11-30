@@ -1,39 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B6A462B4B
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 04:48:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAFF2462C39
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 06:37:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB4116E44E;
-	Tue, 30 Nov 2021 03:48:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49A136E88A;
+	Tue, 30 Nov 2021 05:37:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C2136E44D
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 03:48:33 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 642AB8F0;
- Tue, 30 Nov 2021 04:48:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1638244111;
- bh=Ju85iL4hNDoC8/eyKjROgknF4Z5dOgHf2nxHw5W0fyw=;
+X-Greylist: delayed 375 seconds by postgrey-1.36 at gabe;
+ Tue, 30 Nov 2021 05:37:14 UTC
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B2F36E88A
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 05:37:14 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 5B18ACE177F;
+ Tue, 30 Nov 2021 05:30:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C45E3C53FC1;
+ Tue, 30 Nov 2021 05:30:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1638250253;
+ bh=AH6JqNovGdIYiLtfyeEAto+S+Fvppbt0BQGlgcV8FDQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FXXt811b8LE70eYPo2ULKzDpORmN/2tq+qjrkMX1DRvLYrQjfD29lRn/qNJWSsFbG
- sWYocMrPzrwfOTPubgPTN58Nxv3dn4dRXvBGIVZHfcwhQAXqome8QRWRF3dMGG9wpM
- HELbLmvn+QM54/Mzgt9CmknWjsYfTdCrt5E3o4w0=
-Date: Tue, 30 Nov 2021 05:48:06 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: Re: [PATCH] drm: rcar-du: crtc: Support external DSI dot clock
-Message-ID: <YaWe9nOzk+zN9d5u@pendragon.ideasonboard.com>
-References: <20211126093514.927340-1-kieran.bingham+renesas@ideasonboard.com>
+ b=qr07doPAG7FW/LV/59KN1a8UYnlS8lYnYIxMCyUHTOljMoUSF7RstmCh6pY3UGPap
+ T4r1xM7Q5qyv5I3blH1vn2Q39XOLYP1jKuO1c8iF/rS4fLCNHF7r89VuVqURQawCXl
+ d3KsGymVDWN3bTk8+lA4CbtHKVeUO0giETAdlAsGHvNAf581h05re/NseXmJgEQlkZ
+ A7BbedP5VSLGniDCGqX9LTQ+dFiu52CJggIcrdDvQTaKfiyOklhs0qxet+p9UXm3im
+ UuAjBAEDWyyjEfRup5QopmlXeSqOgHnyu+eMaIFX2k+3jIBNT+TwvPAmRRdyVL43Eh
+ n5As2JJiLmiRg==
+Date: Tue, 30 Nov 2021 11:00:49 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Peter Collingbourne <pcc@google.com>
+Subject: Re: [PATCH] lontium-lt9611: check a different register bit for HDMI
+ sensing
+Message-ID: <YaW3Cff+AJqT8tS/@matsya>
+References: <20211117020724.2647769-1-pcc@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211126093514.927340-1-kieran.bingham+renesas@ideasonboard.com>
+In-Reply-To: <20211117020724.2647769-1-pcc@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,60 +55,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>
+Cc: Anibal Limon <anibal.limon@linaro.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kieran,
+On 16-11-21, 18:07, Peter Collingbourne wrote:
+> It has been observed that with certain monitors such as the HP Z27n,
+> the register 0x825e reads a value of 0x79 when the HDMI cable is
+> connected and 0x78 when it is disconnected, i.e. bit 0 appears
+> to correspond to the HDMI connection status and bit 2 is never
+> set. Therefore, change the driver to check bit 0 instead of bit 2.
 
-Thank you for the patch.
+So we have got limited information on this but BIT-2 seems to be related
+to HPD and empirical data from various monitors supports this, so this
+seems the right thing to do.
 
-On Fri, Nov 26, 2021 at 09:35:14AM +0000, Kieran Bingham wrote:
-> On platforms with an external clock, both the group and crtc must be
-> handled accordingly to correctly pass through the external clock and
-> configure the DU to use the external rate.
-> 
-> The CRTC support was missed while adding the DSI support on the r8a779a0
-> which led to the output clocks being incorrectly determined.
-> 
-> Ensure that when a CRTC is routed through the DSI encoder, the external
-> clock is used without any further divider being applied.
-> 
-> Fixes: b291fdcf5114 ("drm: rcar-du: Add r8a779a0 device support")
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> index 5672830ca184..5236f917cc68 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> @@ -261,12 +261,13 @@ static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
->  		rcar_du_group_write(rcrtc->group, DPLLCR, dpllcr);
->  
->  		escr = ESCR_DCLKSEL_DCLKIN | div;
-> -	} else if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index)) {
-> +	} else if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index) ||
-> +		   rcdu->info->dsi_clk_mask & BIT(rcrtc->index)) {
->  		/*
-> -		 * Use the LVDS PLL output as the dot clock when outputting to
-> -		 * the LVDS encoder on an SoC that supports this clock routing
-> -		 * option. We use the clock directly in that case, without any
-> -		 * additional divider.
-> +		 * Use the external LVDS or DSI PLL output as the dot clock when
-> +		 * outputting to the LVDS or DSI encoder on an SoC that supports
-> +		 * this clock routing option. We use the clock directly in that
-> +		 * case, without any additional divider.
->  		 */
->  		escr = ESCR_DCLKSEL_DCLKIN;
->  	} else {
+Reviewed-by: Vinod Koul <vkoul@kernel.org>
 
 -- 
-Regards,
-
-Laurent Pinchart
+~Vinod
