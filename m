@@ -1,42 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47847463EEC
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 20:56:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73618463F28
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 21:23:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38F056E25A;
-	Tue, 30 Nov 2021 19:56:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A0AB6E5A9;
+	Tue, 30 Nov 2021 20:22:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp2-g21.free.fr (smtp2-g21.free.fr [212.27.42.2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FDF36E25A;
- Tue, 30 Nov 2021 19:56:00 +0000 (UTC)
-Received: from zimbra39-e7.priv.proxad.net (unknown [172.20.243.189])
- by smtp2-g21.free.fr (Postfix) with ESMTP id 5224D20039C;
- Tue, 30 Nov 2021 20:55:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
- s=smtp-20201208; t=1638302158;
- bh=sezEjJHtBVF7YDdC0TgseJ5pryDT4r9vv+QK4tgEo8Q=;
- h=Date:From:To:Cc:In-Reply-To:Subject:From;
- b=h82Lkhs4kEDZ/GJhQ7Ql2KAjOv9W8Zb3JON4DJ+LW2+lzgUl9d+xj9d+JT+Ej1RIF
- 366bAqpKTEsHWIBKQlg3f1bLxq5/QLt0rCI0asbe4q+0Y5rf9gV86GZXljoxV3mN6U
- aNWIquVFHl0AAAEFwJQbKC3Qilon4ehEitOMVrszPzIsvglpFQxqSwFbdaWYoj95Q+
- cNkUKXZ7/u3VC20SYSob4w9PzXYp233RyB6Ir0NhP4hKZu5zpMqk3df+bPKZXAy0cI
- gUlC+QBS/w5r8KDANmqFnGQU/0aFrLWoWjF5jeME4hP58ZX9HahBO9AbMCWBvdeVk2
- 8ngZeecSimH7w==
-Date: Tue, 30 Nov 2021 20:55:58 +0100 (CET)
-From: Yann Dirson <ydirson@free.fr>
-To: Rodrigo Siqueira Jordao <rjordrigo@amd.com>
-Message-ID: <1893256771.1756365.1638302158271.JavaMail.root@zimbra39-e7>
-In-Reply-To: <3bfcb46a-6d7c-fb11-4b78-d068a620baa3@amd.com>
-Subject: Re: [PATCH 6/6] Documentation/gpu: Add DC glossary
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F26906E5A9
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 20:22:57 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id o13so46952833wrs.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 12:22:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=02uY4AmojDwifo7LgepwuVCqs4Jz+sFd/07AQHN7lY0=;
+ b=jbF/TxWeIOG9zF+Sg6hp+nRBv7Ql9V7HNVmAjWhvG7abajbX923ZC/ZZs+GFWcFKjp
+ JpHt3aGvrrWCQAXAaV8IjEWvrRk+E3Qfl71sdfYM7jWB+7sH8sernuoAs7OZl4ljHY1z
+ ArHlhlavWip4kdFPzLyrdOMRCbwf1xTqcT+arquc+ngNhHn0ieqwUmFuWi3aaQW/9nnk
+ iLa53Wx/Yjo30/xm2KgOtU2vqczHgVVlCx/v5kqwDzNU09uRLlggFDVt5i8XGdvVRugd
+ XbeG1iMzmFe/7bsrtrrb8HI4FWRRSC6vCntmUbwmM4InTF/yc2485UuWWZoHNppHOOhl
+ o/uQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=02uY4AmojDwifo7LgepwuVCqs4Jz+sFd/07AQHN7lY0=;
+ b=fGpqSZZMIS4NPpjHFRKv0E4JV5/3j6pQOzW41a7VjqGUNLihZRQj9bbJ2i2TMcIX+S
+ mHnlYBJzkeaoiap8XeIyM1eNh2RzkVhw0JjDhjlXUBpSzInJuXClFifKqzKRk8qopeLl
+ hzbj+bOwt80AbrZExs9CeeMwMMwRVAawJoRBFLIrAr2l4Lr2F8UghUM1eTx9YdTkicg1
+ xI4tmLkB6f4D9OxMFjfQuO3yoUqDpnM+8MiIHF5xcquhqpLLY2mY3hu7FH+Ic2kfr7In
+ RJchhwVhfcJ5o6k2vTH3VTA2M7BUH7u/EtLkwDmgd0elmA/NHF5kfvA2f47vnov2r5xl
+ z8lA==
+X-Gm-Message-State: AOAM530a3YV1uf6Xxp3OUNoNxiMPVosZA51kMSjyChCO4580FYVS3Y7w
+ 5pBUgJ07OVCydbdcu09FczM=
+X-Google-Smtp-Source: ABdhPJzJTgk7rUqaZ3m5/DRW8UjR5XiojzKeXyklSH+D4g5cHUFuA0L9SjbjHQ/YuoUjc9TpybqKSw==
+X-Received: by 2002:a5d:64e7:: with SMTP id g7mr1264073wri.350.1638303776509; 
+ Tue, 30 Nov 2021 12:22:56 -0800 (PST)
+Received: from ?IPV6:2003:ea:8f1a:f00:cdea:1258:1cb4:5e92?
+ (p200300ea8f1a0f00cdea12581cb45e92.dip0.t-ipconnect.de.
+ [2003:ea:8f1a:f00:cdea:1258:1cb4:5e92])
+ by smtp.googlemail.com with ESMTPSA id m125sm3216445wmm.39.2021.11.30.12.22.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 30 Nov 2021 12:22:56 -0800 (PST)
+Message-ID: <8597bdf2-c383-43b5-6205-f78c90b4957a@gmail.com>
+Date: Tue, 30 Nov 2021 21:22:50 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [88.120.44.86]
-X-Mailer: Zimbra 7.2.0-GA2598 (ZimbraWebClient - FF3.0 (Linux)/7.2.0-GA2598)
-X-Authenticated-User: ydirson@free.fr
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH] staging: fbtft: add spi_device_id table
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+References: <aadbd32c-c0ab-4c8a-c590-3334f736f224@gmail.com>
+ <CAMuHMdU_90XdFZM6kVA78XUX+7+Jm1WqjBmBN7irVOY3k-Gcfg@mail.gmail.com>
+From: Heiner Kallweit <hkallweit1@gmail.com>
+In-Reply-To: <CAMuHMdU_90XdFZM6kVA78XUX+7+Jm1WqjBmBN7irVOY3k-Gcfg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,114 +74,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, Roman Gilg <subdiff@gmail.com>,
- Marek =?utf-8?B?T2zFocOhaw==?= <marek.olsak@amd.com>,
- Michel =?utf-8?Q?D=C3=A4nzer?= <michel@daenzer.net>,
- Sean Paul <seanpaul@chromium.org>,
- Bhawanpreet Lakha <bhawanpreet.lakha@amd.com>,
- Qingqing Zhuo <qingqing.zhuo@amd.com>, Roman Li <roman.li@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- nicholas choi <nicholas.choi@amd.com>, Mark Yacoub <markyacoub@chromium.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ linux-staging@lists.linux.dev,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 30.11.2021 09:16, Geert Uytterhoeven wrote:
+> Hi Heiner,
+> 
+> On Mon, Nov 29, 2021 at 10:12 PM Heiner Kallweit <hkallweit1@gmail.com> wrote:
+>> After 5fa6863ba692 ("spi: Check we have a spi_device_id for each DT
+>> compatible") we need the following to make the SPI core happy.
+>>
+>> Works for me with a SH1106-based OLED display.
+>>
+>> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+> 
+> Thanks for your patch!
+> 
+>> --- a/drivers/staging/fbtft/fbtft.h
+>> +++ b/drivers/staging/fbtft/fbtft.h
+>> @@ -307,12 +307,19 @@ static const struct of_device_id dt_ids[] = {                              \
+>>                                                                            \
+>>  MODULE_DEVICE_TABLE(of, dt_ids);                                           \
+>>                                                                            \
+>> +static const struct spi_device_id spi_ids[] = {                            \
+>> +       { .name = _compatible },                                           \
+> 
+> Shouldn't this be the part of _compatible after the "<vendor>," prefix?
+> 
 
+You're right. I was fooled by a new bug in SPI core that made the warning
+suddenly disappear:
+https://patchwork.kernel.org/project/spi-devel-general/patch/44b2ad71-dc4b-801c-237f-9c233f675c0d@gmail.com/
 
------ Mail original -----
-> De: "Rodrigo Siqueira Jordao" <rjordrigo@amd.com>
-> =C3=80: ydirson@free.fr, "Rodrigo Siqueira" <Rodrigo.Siqueira@amd.com>, "=
-Christian K=C3=B6nig" <christian.koenig@amd.com>,
-> "Alex Deucher" <alexander.deucher@amd.com>
-> Cc: "Harry Wentland" <Harry.Wentland@amd.com>, "Linux Doc Mailing List" <=
-linux-doc@vger.kernel.org>, "Mark Yacoub"
-> <markyacoub@chromium.org>, "Michel D=C3=A4nzer" <michel@daenzer.net>, "Ba=
-s Nieuwenhuizen" <bas@basnieuwenhuizen.nl>,
-> "Roman Li" <roman.li@amd.com>, "amd-gfx list" <amd-gfx@lists.freedesktop.=
-org>, "Roman Gilg" <subdiff@gmail.com>,
-> "Marek Ol=C5=A1=C3=A1k" <marek.olsak@amd.com>, "Pekka Paalanen" <ppaalane=
-n@gmail.com>, "Aurabindo Pillai"
-> <aurabindo.pillai@amd.com>, "nicholas choi" <nicholas.choi@amd.com>, "Mal=
-ing list - DRI developers"
-> <dri-devel@lists.freedesktop.org>, "Simon Ser" <contact@emersion.fr>, "Al=
-ex Deucher" <alexdeucher@gmail.com>, "Sean
-> Paul" <seanpaul@chromium.org>, "Qingqing Zhuo" <qingqing.zhuo@amd.com>, "=
-Bhawanpreet Lakha"
-> <bhawanpreet.lakha@amd.com>, "Nicholas Kazlauskas" <nicholas.kazlauskas@a=
-md.com>
-> Envoy=C3=A9: Mardi 30 Novembre 2021 16:53:55
-> Objet: Re: [PATCH 6/6] Documentation/gpu: Add DC glossary
->=20
->=20
->=20
-> On 2021-11-29 3:48 p.m., ydirson@free.fr wrote:
-> > Hi Rodrigo,
-> >=20
-> > That will really be helpful!
-> >=20
-> > I know drawing the line is a difficult problem (and can even make
-> > things
-> > harder when searching), but maybe it would make sense to keep
-> > generic
-> > acronyms not specific to amdgpu in a separate list.  I bet a number
-> > of
-> > them would be useful in the scope of other drm drivers (e.g. CRTC,
-> > DCC,
-> > MST), and some are not restricted to the drm subsystem at all (e.g.
-> > FEC,
-> > LUT), but still have value as not necessarily easy to look up.
-> >=20
-> > Maybe "DC glossary" should just be "Glossary", since quite some
-> > entries
-> > help to read adm/amdgpu/ too.  Which brings me to the result of my
-> > recent
-> > searches as suggested entries:
-> >=20
-> >   KIQ (Kernel Interface Queue), MQD (memory queue descriptor), HQD
-> >   (hardware
-> >   queue descriptor), EOP (still no clue :)
-> >=20
-> > Maybe some more specific ones just to be spelled out in clear where
-> > they
-> > are used ?  KCQ (compute queue?), KGQ (gfx queue?)
-> >=20
-> > More suggestions inlined.
-> >=20
-> > Best regards,
-> >=20
->=20
-> Hi all,
->=20
-> I'll address all the highlighted problems in the V2. Thanks a lot for
-> all the feedback.
->=20
-> Yann,
-> For the generic acronyms, how about keeping it in this patch for now?
-> After it gets merged, I can prepare a new documentation patch that
-> creates a glossary for DRM where I move the generic acronyms to the
-> DRM
-> documentation. I prefer this approach to keep the improvement small
-> and
-> manageable.
-
-Sure, especially as the Right Solution(tm) is not necessarily obvious :)
-
-One thing I thought about is that a context could be specified together
-with terms.  Like "BPP (graphics)", "FEC (CS)", "DMCUB (amdgpu)".  Well,
-"CS" may not be a good choice but you get the idea: that would keep all
-terms together and keep it easy for the reader.
-
-That way it could be easily be generalized at some point by just moving
-it to a generic kernel level - provided the solution suits the doc
-community at large.
-
-Best regards,
---=20
-Yann
-
+>> +       {},                                                                \
+>> +};                                                                         \
+>> +                                                                          \
+>> +MODULE_DEVICE_TABLE(spi, spi_ids);                                        \
+>>                                                                            \
+>>  static struct spi_driver fbtft_driver_spi_driver = {                       \
+>>         .driver = {                                                        \
+>>                 .name   = _name,                                           \
+>>                 .of_match_table = dt_ids,                                  \
+>>         },                                                                 \
+>> +       .id_table = spi_ids,                                               \
+>>         .probe  = fbtft_driver_probe_spi,                                  \
+>>         .remove = fbtft_driver_remove_spi,                                 \
+>>  };                                                                         \
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+> 
 
