@@ -1,56 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A14694636EB
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 15:40:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AF064636FF
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 15:45:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA8986E241;
-	Tue, 30 Nov 2021 14:39:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA2616EA24;
+	Tue, 30 Nov 2021 14:45:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
- [IPv6:2607:f8b0:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF7A46E241;
- Tue, 30 Nov 2021 14:39:54 +0000 (UTC)
-Received: by mail-oi1-x22f.google.com with SMTP id 7so41552526oip.12;
- Tue, 30 Nov 2021 06:39:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8vZXVsQJkRAjIGJjewCmJM+CDy6jUNuL5JyYXpIblog=;
- b=kguQ6Dgezu156VmjzvIGddRN8eaypoqtG+s7JpBJz6hy5o29PPrMOpvQzEPkgq0QbB
- yuy6qDS0+gdc/dD+SN9bWoETMLUUrYHW7nbB5QZlCTTyT+7JiDg7c/LQnTFjKK7XOB/R
- fDt4vGETarOqTZlxo2tjMLILQy+de7ckHWWMosxNZE8ah7o03WC+avt+kI/yBnWgE343
- IU+ptVPnolBo9w6jwIdoi/2+dhdOQfM/RiWgnZMK3kMCAJ2U/cGLoDlCeFy0RtH7Pwx7
- 3e0YMCp9vEBpzi+hLrBYCgpvZnAwCa4lT7j4QVTWVNRE+m6l4YC9la6Y5FGj8bQ4aDsS
- zuCg==
+Received: from mta-p5.oit.umn.edu (mta-p5.oit.umn.edu [134.84.196.205])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 000AD6E84F
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 14:45:28 +0000 (UTC)
+Received: from localhost (unknown [127.0.0.1])
+ by mta-p5.oit.umn.edu (Postfix) with ESMTP id 4J3Q4S4wSZz9vpQT
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 14:45:28 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at umn.edu
+Received: from mta-p5.oit.umn.edu ([127.0.0.1])
+ by localhost (mta-p5.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id uLYKw58udA-q for <dri-devel@lists.freedesktop.org>;
+ Tue, 30 Nov 2021 08:45:28 -0600 (CST)
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mta-p5.oit.umn.edu (Postfix) with ESMTPS id 4J3Q4S2rrhz9vpQS
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 08:45:28 -0600 (CST)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p5.oit.umn.edu 4J3Q4S2rrhz9vpQS
+DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p5.oit.umn.edu 4J3Q4S2rrhz9vpQS
+Received: by mail-pl1-f198.google.com with SMTP id
+ s16-20020a170902ea1000b00142728c2ccaso8314241plg.23
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 06:45:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=umn.edu; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=B6LNCzubAvM1UAFro6OAu5q4vc79ycy1gcnZHWEZqRg=;
+ b=QGu9G8DNB3JtXxMeVuLaeVUC5ZHalORVRodgIEuZm54ot4jgPTStUETLOOnXnDbjAz
+ Uf1CRBp7h6uB323QQZ2vX/yExi7zKEvrxc22B/BxTYRT/5I2EHBwuPhLnYVt+gAm5bHB
+ Uoz07+wDNQ1picLCT1XnAhRXDgWRO6Jzq0N124hRRFGg+LCmxOJCV54Cn7FeIPGM8S8C
+ nMpEKI6d7i4Vk448HiLsQl9ZWhwZmhzQT56bNRRZARPwjdw9TgXEr2FrxqeF7I3q2TW6
+ qRG4FLZ2xqDfpeoZ5Ov9BX992rw5KQWWsGGQ12FxZknX0Jrgk9Ru8YmSQ+i7OSZSXOnH
+ ia5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8vZXVsQJkRAjIGJjewCmJM+CDy6jUNuL5JyYXpIblog=;
- b=LXLeRXY8Vvg7VPXT3nTCYFyk1zQ6P8F/HYAJpCCXkUMizHSh4HYbzSpEZmAiKn/T04
- lTX8nuHfQoqB1HdZ5KkwJO62OzVuX/91mgWyk6Kp4th+c5Z+lxkHrmdGbjlFWPr2QZ2a
- p/1JJrNBuJpOQSlERxk5xa9pSepVTPz7gKl61dxjI6AfU29JDjORUxZljS7a6lkDrtWe
- HVt1dG8/r8Sz6weqlQrbS3fDds+evNh7qjM2mcfnVJbPZuJt4OJlDDXb06+ZD3KOLArx
- mYEGhqva3NMvGMa0XhLKLt6MlwwBoPS+cuto9+JSogueM5pd1UFCccbNhufZ8R9Br/YT
- H3OQ==
-X-Gm-Message-State: AOAM532Gdn2wBU9mMCPX138KDUFWj0RK4xewhZ3qamZ4bMddrm4Qgp5m
- 2hAniAluzyMs/F3pJLwoeAQOXdtasaIiapNv1HU=
-X-Google-Smtp-Source: ABdhPJyJWimBDg83UfjLgyf/Zb6HIlgWQthDQqchY9Gastff3IWqH3/A94cNfOFVZsTjnMV/Ne1nAB8fG0fruCY0bi0=
-X-Received: by 2002:a05:6808:300b:: with SMTP id
- ay11mr4544808oib.120.1638283194194; 
- Tue, 30 Nov 2021 06:39:54 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=B6LNCzubAvM1UAFro6OAu5q4vc79ycy1gcnZHWEZqRg=;
+ b=GxQ+p707m8Mqe+ZcxT293gw3q30bHEmtELyi8za/xUjKjATV8MvZOATRZJH8pafZqC
+ mgAWcwCm1G/qnRsMCTuSxWSIarxYDBX+9IUj868NA62C2R17jdKLbkQO6d+kPw4Yjw1I
+ r60/uMxkbAjT6OTvhJyswilLdqzk/bGFIrF5+EjzkjyaXD0tcI//6F5kiFkqA2ELpVBL
+ nJr7mrhF7/gzJrezTrTxlMF0y5qSVLC6uz3l51C83sFmqLCmAm26lL5bFvDPQNBMAmi6
+ tXQU1nZrSAT/KSCUszGBNlVuoAA9kjJEnwW2LM0SJzFCuaB2qAqWPrZdT4Q/NP1hvbj8
+ fCaQ==
+X-Gm-Message-State: AOAM532ugJm1qDbTt+V8lT6da1qoZHgK01WrqV0IhwYHUYr50/C3PX9K
+ VrW/Eg/70MRQkOBmFL/LzhBrLuaFTKt78m3UUOOAnFV3eunosyQzLEf9nQmnbFqJTuWB8BvzGo4
+ M0ztDu7yNVbuxotrjMJ7a/JevYaHNpNxv
+X-Received: by 2002:a63:81c1:: with SMTP id t184mr40045782pgd.26.1638283527475; 
+ Tue, 30 Nov 2021 06:45:27 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx8+3UCv1VwdzMjRJfnSg9Zq7bxFF6U71MKKHXfNkC6U9FcxX7fm3QSgTG6F27ZPHGtBA2QTw==
+X-Received: by 2002:a63:81c1:: with SMTP id t184mr40045755pgd.26.1638283527262; 
+ Tue, 30 Nov 2021 06:45:27 -0800 (PST)
+Received: from zqy787-GE5S.lan ([36.7.42.137])
+ by smtp.gmail.com with ESMTPSA id u32sm23701235pfg.220.2021.11.30.06.45.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Nov 2021 06:45:27 -0800 (PST)
+From: Zhou Qingyang <zhou1615@umn.edu>
+To: zhou1615@umn.edu
+Subject: [PATCH] drm/panel/panel-tpo-tpg110: Fix a NULL pointer dereference in
+ tpg110_get_modes()
+Date: Tue, 30 Nov 2021 22:45:22 +0800
+Message-Id: <20211130144522.162262-1-zhou1615@umn.edu>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <CADnq5_NVcHizoY_xRM4d09B2s9DzWwDhn=YrgJ-3COXNANzE3A@mail.gmail.com>
- <1254252919.1503545635.1638218918877.JavaMail.root@zimbra39-e7>
-In-Reply-To: <1254252919.1503545635.1638218918877.JavaMail.root@zimbra39-e7>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 30 Nov 2021 09:39:43 -0500
-Message-ID: <CADnq5_OoUOeeKbiTptDsjknjEmU+_ys1BaGYYqDvU6XMtgn0jg@mail.gmail.com>
-Subject: Re: [PATCH 6/6] Documentation/gpu: Add DC glossary
-To: Yann Dirson <ydirson@free.fr>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,363 +85,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Mark Yacoub <markyacoub@chromium.org>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Roman Li <roman.li@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- nicholas choi <nicholas.choi@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, Sean Paul <seanpaul@chromium.org>,
- Qingqing Zhuo <qingqing.zhuo@amd.com>, Roman Gilg <subdiff@gmail.com>,
- Bhawanpreet Lakha <bhawanpreet.lakha@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Cc: David Airlie <airlied@linux.ie>, kjlu@umn.edu, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 29, 2021 at 3:48 PM <ydirson@free.fr> wrote:
->
-> Hi Rodrigo,
->
-> That will really be helpful!
->
-> I know drawing the line is a difficult problem (and can even make things
-> harder when searching), but maybe it would make sense to keep generic
-> acronyms not specific to amdgpu in a separate list.  I bet a number of
-> them would be useful in the scope of other drm drivers (e.g. CRTC, DCC,
-> MST), and some are not restricted to the drm subsystem at all (e.g. FEC,
-> LUT), but still have value as not necessarily easy to look up.
->
-> Maybe "DC glossary" should just be "Glossary", since quite some entries
-> help to read adm/amdgpu/ too.  Which brings me to the result of my recent
-> searches as suggested entries:
->
->  KIQ (Kernel Interface Queue), MQD (memory queue descriptor), HQD (hardware
->  queue descriptor), EOP (still no clue :)
->
-> Maybe some more specific ones just to be spelled out in clear where they
-> are used ?  KCQ (compute queue?), KGQ (gfx queue?)
+In tpg110_get_modes(), the return value of drm_mode_duplicate() is
+assigned to mode and there is a dereference of it in tpg110_get_modes(),
+which could lead to a NULL pointer dereference on failure of
+drm_mode_duplicate().
 
-Kernel Compute Queue and Kernel Graphics Queue.
+Fix this bug by adding a check of mode.
 
-Alex
+This bug was found by a static analyzer. The analysis employs
+differential checking to identify inconsistent security operations
+(e.g., checks or kfrees) between two code paths and confirms that the
+inconsistent operations are not recovered in the current function or
+the callers, so they constitute bugs.
 
->
-> More suggestions inlined.
->
-> Best regards,
-> --
-> Yann
->
-> > On Thu, Nov 25, 2021 at 10:40 AM Rodrigo Siqueira
-> > <Rodrigo.Siqueira@amd.com> wrote:
-> > >
-> > > In the DC driver, we have multiple acronyms that are not obvious
-> > > most of
-> > > the time. This commit introduces a DC glossary in order to make it
-> > > easier to navigate through our driver.
-> > >
-> > > Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-> > > ---
-> > >  Documentation/gpu/amdgpu-dc/amdgpu-dc.rst   |   2 +-
-> > >  Documentation/gpu/amdgpu-dc/dc-glossary.rst | 257
-> > >  ++++++++++++++++++++
-> > >  2 files changed, 258 insertions(+), 1 deletion(-)
-> > >  create mode 100644 Documentation/gpu/amdgpu-dc/dc-glossary.rst
-> > >
-> > > diff --git a/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
-> > > b/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
-> > > index 2e45e83d9a2a..15405c43786a 100644
-> > > --- a/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
-> > > +++ b/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
-> > > @@ -26,4 +26,4 @@ table of content:
-> > >     amdgpu-dcn-overview.rst
-> > >     amdgpu-dm.rst
-> > >     amdgpu-dc-debug.rst
-> > > -
-> > > +   dc-glossary.rst
-> > > diff --git a/Documentation/gpu/amdgpu-dc/dc-glossary.rst
-> > > b/Documentation/gpu/amdgpu-dc/dc-glossary.rst
-> > > new file mode 100644
-> > > index 000000000000..48698fc1799f
-> > > --- /dev/null
-> > > +++ b/Documentation/gpu/amdgpu-dc/dc-glossary.rst
-> > > @@ -0,0 +1,257 @@
-> > > +===========
-> > > +DC Glossary
-> > > +===========
-> > > +
-> > > +.. glossary::
-> > > +
-> > > +    ABM
-> > > +      Adaptive Backlight Modulation
-> > > +
-> > > +    APU
-> > > +      Accelerated Processing Unit
-> > > +
-> > > +    ASIC
-> > > +      Application-Specific Integrated Circuit
-> > > +
-> > > +    ASSR
-> > > +      Alternate Scrambler Seed Reset
-> > > +
-> > > +    AZ
-> > > +      Azalia (HD audio DMA engine)
-> > > +
-> > > +    BPC
-> > > +      Bits Per Colour/Component
-> > > +
-> > > +    BPP
-> > > +      Bits Per Pixel
-> > > +
-> > > +    Clocks
-> > > +      * PCLK: Pixel Clock
-> > > +      * SYMCLK: Symbol Clock
-> > > +      * SOCCLK: GPU Engine Clock
-> > > +      * DISPCLK: Display Clock
-> > > +      * DPPCLK: DPP Clock
-> > > +      * DCFCLK: Display Controller Fabric Clock
-> > > +      * REFCLK: Real Time Reference Clock
-> > > +      * PPLL: Pixel PLL
-> > > +      * FCLK: Fabric Clock
-> > > +      * MCLK: Memory Clock
-> > > +      * CPLIB: Content Protection Library
-> >
-> > CPLIB is not a clock.  It should be split out as its own item.
-> >
-> > > +
-> > > +    CRC
-> > > +      Cyclic Redundancy Check
-> > > +
-> > > +    CRTC
-> > > +      Cathode Ray Tube Controller - commonly called "Controller" -
-> > > Generates
-> > > +      raw stream of pixels, clocked at pixel clock
-> > > +
-> > > +    CVT
-> > > +      Coordinated Video Timings
-> > > +
-> > > +    DAL
-> > > +      Display Abstraction layer
->
-> I recall this as the old name for DC, maybe this should be mentioned ?
->
-> > > +
-> > > +    DC (Software)
-> > > +      Display Core
-> > > +
-> > > +    DC (Hardware)
-> > > +      Display Controller
-> > > +
-> > > +    DCC
-> > > +      Delta Colour Compression
-> > > +
-> > > +    DCE
-> > > +      Display Controller Engine
-> > > +
-> > > +    DCHUB
-> > > +      Display Controller Hub
-> > > +
-> > > +    ARB
-> > > +      Arbiter
-> > > +
-> > > +    VTG
-> > > +      Vertical Timing Generator
-> > > +
-> > > +    DCN
-> > > +      Display Core Next
-> > > +
-> > > +    DCCG
-> > > +      Display Clock Generator block
-> > > +
-> > > +    DDC
-> > > +      Display Data Channel
-> > > +
-> > > +    DFS
-> > > +      Digital Frequency Synthesizer
-> > > +
-> > > +    DIO
-> > > +      Display IO
-> > > +
-> > > +    DPP
-> > > +      Display Pipes and Planes
-> > > +
-> > > +    DSC
-> > > +      Display Stream Compression (Reduce the amount of bits to
-> > > represent pixel
-> > > +      count while at the same pixel clock)
-> > > +
-> > > +    dGPU
-> > > +      discrete GPU
-> > > +
-> > > +    DMIF
-> > > +      Display Memory Interface
-> > > +
-> > > +    DML
-> > > +      Display Mode Library
-> > > +
-> > > +    DMCU
-> > > +      Display Micro Controller Unit
-> > > +
-> > > +    DMCUB
-> > > +      Display Micro-Controller Unit, version B
-> >
-> > Make Micro Controller vs. Micro-Controller consistent for these.
-> >
-> > > +
-> > > +    DPCD
-> > > +      DisplayPort Configuration Data
-> > > +
-> > > +    DPM(S)
-> > > +      Display Power Management (Signaling)
-> > > +
-> > > +    DRR
-> > > +      Dynamic Refresh Rate
-> > > +
-> > > +    DWB
-> > > +      Display writeback
-> > > +
-> > > +    ECP
-> > > +      Enhanced Content Protection
-> > > +
-> > > +    FB
-> > > +      Frame Buffer
-> > > +
-> > > +    FBC
-> > > +      Frame Buffer Compression
-> > > +
-> > > +    FEC
-> > > +      Forward Error Correction
-> > > +
-> > > +    FRL
-> > > +      Fixed Rate Link
-> > > +
-> > > +    GCO
-> > > +      Graphical Controller Object
-> > > +
-> > > +    GMC
-> > > +      Graphic Memory Controller
-> > > +
-> > > +    GSL
-> > > +      Global Swap Lock
-> > > +
-> > > +    iGPU
-> > > +      integrated GPU
-> > > +
-> > > +    IH
-> > > +      Interrupt Handler
-> > > +
-> > > +    ISR
-> > > +      Interrupt Service Request
-> > > +
-> > > +    ISV
-> > > +      Independent Software Vendor
-> > > +
-> > > +    KMD
-> > > +      Kernel Mode Driver
-> > > +
-> > > +    LB
-> > > +      Line Buffer
-> > > +
-> > > +    LFC
-> > > +      Low Framerate Compensation
-> > > +
-> > > +    LTTPR
-> > > +      Link Training Tunable Phy Repeater
-> > > +
-> > > +    LUT
-> > > +      Lookup Table
-> > > +
-> > > +    MALL
-> > > +      Memory Access at Last Level
-> > > +
-> > > +    MC
-> > > +      Memory Controller
-> > > +
-> > > +    MPC
-> > > +      Multiple pipes and plane combine
-> > > +
-> > > +    MPO
-> > > +      Multi Plane Overlay
-> > > +
-> > > +    MST
-> > > +      Multi Stream Transport
-> > > +
-> > > +    NBP State
-> > > +      Northbridge Power State
-> > > +
-> > > +    NBIO
-> > > +      North Bridge Input/Output
-> > > +
-> > > +    ODM
-> > > +      Output Data Mapping
-> > > +
-> > > +    OPM
-> > > +      Output Protection Manager
-> > > +
-> > > +    OPP
-> > > +      Output Plane Processor
-> > > +
-> > > +    OPTC
-> > > +      Output Pipe Timing Combiner
-> > > +
-> > > +    OTG
-> > > +      Output Timing Generator
-> > > +
-> > > +    PCON
-> > > +      Power Controller
-> > > +
-> > > +    PGFSM
-> > > +      Power Gate Finite State Machine
-> > > +
-> > > +    PPLib
-> > > +      PowerPlay Library
-> >
-> > Maybe say that powerplay is the power management component.
-> >
-> > > +
-> > > +    PSR
-> > > +      Panel Self Refresh
-> > > +
-> > > +    SCL
-> > > +      Scaler
-> > > +
-> > > +    SDP
-> > > +      Scalable Data Port
-> > > +
-> > > +    SMU
-> > > +      System Management Unit
-> > > +
-> > > +    SLS
-> > > +      Single Large Surface
-> > > +
-> > > +    SST
-> > > +      Single Stream Transport
-> > > +
-> > > +    TMDS
-> > > +      Transition-Minimized Differential Signaling
-> > > +
-> > > +    TMZ
-> > > +      Trusted Memory Zone
-> > > +
-> > > +    TTU
-> > > +      Time to Underflow
-> > > +
-> > > +    VRR
-> > > +      Variable Refresh Rate
-> > > +
-> > > +    UVD
-> > > +      Unified Video Decoder
-> > > +
-> > > +    VCE
-> > > +      Video Compression Engine
-> > > +
-> > > +    VCN
-> > > +      Video Codec Next
-> > > --
-> > > 2.25.1
-> > >
-> >
+Note that, as a bug found by static analysis, it can be a false
+positive or hard to trigger. Multiple researchers have cross-reviewed
+the bug.
+
+Builds with CONFIG_DRM_PANEL_TPO_TPG110=m show no new warnings,
+and our static analyzer no longer warns about this code.
+
+Fixes: aa6c43644bc5 ("drm/panel: drop drm_device from drm_panel")
+Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
+---
+ drivers/gpu/drm/panel/panel-tpo-tpg110.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/gpu/drm/panel/panel-tpo-tpg110.c b/drivers/gpu/drm/panel/panel-tpo-tpg110.c
+index e3791dad6830..ab4b84c1e243 100644
+--- a/drivers/gpu/drm/panel/panel-tpo-tpg110.c
++++ b/drivers/gpu/drm/panel/panel-tpo-tpg110.c
+@@ -379,6 +379,9 @@ static int tpg110_get_modes(struct drm_panel *panel,
+ 	connector->display_info.bus_flags = tpg->panel_mode->bus_flags;
+ 
+ 	mode = drm_mode_duplicate(connector->dev, &tpg->panel_mode->mode);
++	if (!mode)
++		return -ENOMEM;
++
+ 	drm_mode_set_name(mode);
+ 	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+ 
+-- 
+2.25.1
+
