@@ -1,42 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4E1E46345D
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 13:34:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5FB7463463
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 13:34:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 328BA6E4C5;
-	Tue, 30 Nov 2021 12:34:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DECE36E7DD;
+	Tue, 30 Nov 2021 12:34:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C7856E4C5;
- Tue, 30 Nov 2021 12:34:11 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10183"; a="299598667"
-X-IronPort-AV: E=Sophos;i="5.87,275,1631602800"; d="scan'208";a="299598667"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2021 04:32:51 -0800
-X-IronPort-AV: E=Sophos;i="5.87,275,1631602800"; d="scan'208";a="595368207"
-Received: from hekner-mobl5.ger.corp.intel.com (HELO [10.249.254.206])
- ([10.249.254.206])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2021 04:32:47 -0800
-Message-ID: <edffb310-942a-ab1c-0bb1-7996649ec96e@linux.intel.com>
-Date: Tue, 30 Nov 2021 13:32:45 +0100
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EDFD6E5BD;
+ Tue, 30 Nov 2021 12:34:44 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 5E19F1FD59;
+ Tue, 30 Nov 2021 12:34:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+ t=1638275682; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fpzJzpUtUcBoti6u4Vx5MyjLRfI5xfFsHhW6Dr3Lcnw=;
+ b=DpHiyHM2XViEBM4KfBrpR8vi43+dHuXUoqUN4Rz/0PdviP2Nz0MoV67Nf4aTOu1QB3ejlj
+ noNin37l/OCjegAPe8Y+ovsl+Qrdulwj8QCMsSubl1mVOV1P5779H/HGe6/tzwbM/tiIvv
+ KTv+1aYyn8zp9qe6VkgTMGEnQrbB7Ko=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+ s=susede2_ed25519; t=1638275682;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fpzJzpUtUcBoti6u4Vx5MyjLRfI5xfFsHhW6Dr3Lcnw=;
+ b=tIuNx6Tqh3yW0Dk8rpvwsrucH0KSqz7uF1jKvl52jXl6zJybsDC1GYMxlonxhSkman64bb
+ 4zfb9pA7l6tRziBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1C1D613D04;
+ Tue, 30 Nov 2021 12:34:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 6qowBmIapmGXeQAAMHmgww
+ (envelope-from <vbabka@suse.cz>); Tue, 30 Nov 2021 12:34:42 +0000
+Message-ID: <37053057-1aa0-6ed3-7c84-c3eeb26cbcf1@suse.cz>
+Date: Tue, 30 Nov 2021 13:34:41 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [RFC PATCH 1/2] dma-fence: Avoid establishing a locking order
- between fence classes
+ Thunderbird/91.3.2
+Subject: Re: [PATCH] lib/stackdepot: always do filter_irq_stacks() in
+ stack_depot_save()
 Content-Language: en-US
-To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20211130121936.586031-1-thomas.hellstrom@linux.intel.com>
- <20211130121936.586031-2-thomas.hellstrom@linux.intel.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <20211130121936.586031-2-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Marco Elver <elver@google.com>, Andrew Morton <akpm@linux-foundation.org>
+References: <20211130095727.2378739-1-elver@google.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <20211130095727.2378739-1-elver@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,86 +71,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, matthew.auld@intel.com,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Jani Nikula <jani.nikula@intel.com>,
+ Mika Kuoppala <mika.kuoppala@linux.intel.com>, intel-gfx@lists.freedesktop.org,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, kasan-dev@googlegroups.com,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Alexander Potapenko <glider@google.com>, dri-devel@lists.freedesktop.org,
+ Imran Khan <imran.f.khan@oracle.com>, Vijayanand Jitta <vjitta@codeaurora.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>, Dmitry Vyukov <dvyukov@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 11/30/21 10:57, Marco Elver wrote:
+> The non-interrupt portion of interrupt stack traces before interrupt
+> entry is usually arbitrary. Therefore, saving stack traces of interrupts
+> (that include entries before interrupt entry) to stack depot leads to
+> unbounded stackdepot growth.
+> 
+> As such, use of filter_irq_stacks() is a requirement to ensure
+> stackdepot can efficiently deduplicate interrupt stacks.
+> 
+> Looking through all current users of stack_depot_save(), none (except
+> KASAN) pass the stack trace through filter_irq_stacks() before passing
+> it on to stack_depot_save().
+> 
+> Rather than adding filter_irq_stacks() to all current users of
+> stack_depot_save(), it became clear that stack_depot_save() should
+> simply do filter_irq_stacks().
 
-On 11/30/21 13:19, Thomas Hellström wrote:
-> The locking order for taking two fence locks is implicitly defined in
-> at least two ways in the code:
->
-> 1) Fence containers first and other fences next, which is defined by
-> the enable_signaling() callbacks of dma_fence_chain and
-> dma_fence_array.
-> 2) Reverse signal order, which is used by __i915_active_fence_set().
->
-> Now 1) implies 2), except for the signal_on_any mode of dma_fence_array
-> and 2) does not imply 1), and also 1) makes locking order between
-> different containers confusing.
->
-> Establish 2) and fix up the signal_on_any mode by calling
-> enable_signaling() on such fences unlocked at creation.
->
-> Cc: linaro-mm-sig@lists.linaro.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: Christian König <christian.koenig@amd.com>
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Agree.
+
+> Signed-off-by: Marco Elver <elver@google.com>
+
+Acked-by: Vlastimil Babka <vbabka@suse.cz>
+
+Thanks.
+
 > ---
->   drivers/dma-buf/dma-fence-array.c | 13 +++--
->   drivers/dma-buf/dma-fence-chain.c |  3 +-
->   drivers/dma-buf/dma-fence.c       | 79 +++++++++++++++++++++----------
->   include/linux/dma-fence.h         |  3 ++
->   4 files changed, 69 insertions(+), 29 deletions(-)
->
-> diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
-> index 3e07f961e2f3..0322b92909fe 100644
-> --- a/drivers/dma-buf/dma-fence-array.c
-> +++ b/drivers/dma-buf/dma-fence-array.c
-> @@ -84,8 +84,8 @@ static bool dma_fence_array_enable_signaling(struct dma_fence *fence)
->   		 * insufficient).
->   		 */
->   		dma_fence_get(&array->base);
-> -		if (dma_fence_add_callback(array->fences[i], &cb[i].cb,
-> -					   dma_fence_array_cb_func)) {
-> +		if (dma_fence_add_callback_nested(array->fences[i], &cb[i].cb,
-> +						  dma_fence_array_cb_func)) {
->   			int error = array->fences[i]->error;
->   
->   			dma_fence_array_set_pending_error(array, error);
-> @@ -158,6 +158,7 @@ struct dma_fence_array *dma_fence_array_create(int num_fences,
->   {
->   	struct dma_fence_array *array;
->   	size_t size = sizeof(*array);
-> +	struct dma_fence *fence;
->   
->   	/* Allocate the callback structures behind the array. */
->   	size += num_fences * sizeof(struct dma_fence_array_cb);
-> @@ -165,8 +166,9 @@ struct dma_fence_array *dma_fence_array_create(int num_fences,
->   	if (!array)
->   		return NULL;
->   
-> +	fence = &array->base;
->   	spin_lock_init(&array->lock);
-> -	dma_fence_init(&array->base, &dma_fence_array_ops, &array->lock,
-> +	dma_fence_init(fence, &dma_fence_array_ops, &array->lock,
->   		       context, seqno);
->   	init_irq_work(&array->work, irq_dma_fence_array_work);
->   
-> @@ -174,7 +176,10 @@ struct dma_fence_array *dma_fence_array_create(int num_fences,
->   	atomic_set(&array->num_pending, signal_on_any ? 1 : num_fences);
->   	array->fences = fences;
->   
-> -	array->base.error = PENDING_ERROR;
-> +	fence->error = PENDING_ERROR;
+>  lib/stackdepot.c  | 13 +++++++++++++
+>  mm/kasan/common.c |  1 -
+>  2 files changed, 13 insertions(+), 1 deletion(-)
+> 
+> diff --git a/lib/stackdepot.c b/lib/stackdepot.c
+> index b437ae79aca1..519c7898c7f2 100644
+> --- a/lib/stackdepot.c
+> +++ b/lib/stackdepot.c
+> @@ -305,6 +305,9 @@ EXPORT_SYMBOL_GPL(stack_depot_fetch);
+>   * (allocates using GFP flags of @alloc_flags). If @can_alloc is %false, avoids
+>   * any allocations and will fail if no space is left to store the stack trace.
+>   *
+> + * If the stack trace in @entries is from an interrupt, only the portion up to
+> + * interrupt entry is saved.
+> + *
+>   * Context: Any context, but setting @can_alloc to %false is required if
+>   *          alloc_pages() cannot be used from the current context. Currently
+>   *          this is the case from contexts where neither %GFP_ATOMIC nor
+> @@ -323,6 +326,16 @@ depot_stack_handle_t __stack_depot_save(unsigned long *entries,
+>  	unsigned long flags;
+>  	u32 hash;
+>  
+> +	/*
+> +	 * If this stack trace is from an interrupt, including anything before
+> +	 * interrupt entry usually leads to unbounded stackdepot growth.
+> +	 *
+> +	 * Because use of filter_irq_stacks() is a requirement to ensure
+> +	 * stackdepot can efficiently deduplicate interrupt stacks, always
+> +	 * filter_irq_stacks() to simplify all callers' use of stackdepot.
+> +	 */
+> +	nr_entries = filter_irq_stacks(entries, nr_entries);
 > +
-> +	if (signal_on_any)
-> +		dma_fence_enable_sw_signaling(fence);
-
-Oh, this looks strange. Was meant to call the 
-dma_fence_array_enable_signaling() without the lock held here.
-
-/Thomas
-
+>  	if (unlikely(nr_entries == 0) || stack_depot_disable)
+>  		goto fast_exit;
+>  
+> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+> index 8428da2aaf17..efaa836e5132 100644
+> --- a/mm/kasan/common.c
+> +++ b/mm/kasan/common.c
+> @@ -36,7 +36,6 @@ depot_stack_handle_t kasan_save_stack(gfp_t flags, bool can_alloc)
+>  	unsigned int nr_entries;
+>  
+>  	nr_entries = stack_trace_save(entries, ARRAY_SIZE(entries), 0);
+> -	nr_entries = filter_irq_stacks(entries, nr_entries);
+>  	return __stack_depot_save(entries, nr_entries, flags, can_alloc);
+>  }
+>  
+> 
 
