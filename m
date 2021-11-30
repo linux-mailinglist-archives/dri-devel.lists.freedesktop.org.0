@@ -1,60 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 062BD462D04
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 07:45:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD72F462EC8
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 09:46:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E99276E1F9;
-	Tue, 30 Nov 2021 06:45:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8C1C6EE14;
+	Tue, 30 Nov 2021 08:46:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
- [IPv6:2607:f8b0:4864:20::72d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9FC96E1F9
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 06:45:05 +0000 (UTC)
-Received: by mail-qk1-x72d.google.com with SMTP id b67so25694760qkg.6
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 22:45:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dowhile0-org.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qKE3SwAPujqmjUAZ9rQU1XdIfpsX7BZWFDwsRhFkyDo=;
- b=g7xUjsHLoB/kGuWRUDrA4d3KpXufSvrgvzJQ6chy6Ws52RnweR0HKccFg4O6xqRU09
- T1hqP5mfqLt0B7sLTHR0XX4fZvcW6fg18HQSQ4FGEcBlTJ5G7EgTj8u7fruO+EMHrYQR
- 7Y8nYjZvd0EqxmGFiomh+R9dk0pGYkBmUtMPOHMDW1GCjnFeGA+ci9CC/zW2HhmbpqBw
- 3EHoO4FBD9nxho73oFftoo4XVljvlbn3FQgpwLwnSbYY3CaqfqAuDGkFQjv1g9bJPGox
- RB3vIiVq6XBFj8BWIkYnHeho85J+mMybfT4FrFsTRj7Wt0GYZhL4Yjs01Lf3u3H9MY5d
- XK3Q==
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61B816E303
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 00:05:21 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id
+ j6-20020a17090a588600b001a78a5ce46aso16917066pji.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Nov 2021 16:05:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wkjZyN1c2Y9GQc80h4xdKR14ovJk4gf09rJILRmjtTU=;
+ b=Ub/o3b66eoqONKeNJPi0CUuJknTbGXftG779TZbCg9Nki8v/P9X5jP9FvdbrtAKqXs
+ Ih+9NneVY5oZST2rk3xDbqkeUlc4IyqQLDaslvJlOMkYtvuxXHuA4GKrKoXCxu1MD3xc
+ fTB1VpxvkMet8h8Yq28v4+jSeFaBpqUkc9kdSLbMLS78wBauj4exbIXMv/1yv7g9WKWX
+ YMi0ZagFfBRVQOwFvxKvkPTBUkqS9YubHBPU8zoJLf5asQM3C1qX0XgWCSBVNWs5BRky
+ 3I54oyTnUVM0hQBmVjedzAFFjsE76KVSQX7FNRSLsGU9iBeOIAOw4u2hyO9c3avloh4v
+ av1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qKE3SwAPujqmjUAZ9rQU1XdIfpsX7BZWFDwsRhFkyDo=;
- b=SRBEoilAc/sI5U3CquxZZcJwG4UWqQEX8wD5+GI1jMYU429Ix/MjBZoEwRWBhSwBE4
- CDbMOYPERki3yNiYSSiq5dtUCMng31/Xssl/V8Klpp6BR9ex34Yuz6kmxESOY5flcXUy
- na9JlvxRHKD0oVtHwi+SWnlxy2rS59lp1XvRCEB/jKOHym8XLe7qC00Gl4+Gyasz+Gdp
- SMD+kb+LbIR4jU9HD8Hja3g2XmIr479fby6SPynyoMYqjtQPP0MRIuMpGPJVW/Q1CtWa
- FHrZJRc7lAo5G70/9JyQuY+GpxR8RYbHx/ecHyUiN3VU2EnNKDm3B79fZdnx3Najsbc2
- 5oEg==
-X-Gm-Message-State: AOAM5310BRwzM7rYjZ6xw4G843zoAK8vXzb7/so9Gi00TpZK7syTIY+9
- b8uFJqV6hX5LLcgI7EdJqaPDYycOjNqVmKab9ZzqTQ==
-X-Google-Smtp-Source: ABdhPJwlh9AXckQRtlJG9Tc6C7SGMudaXmy5jY/4bAoMJccAQqzFx6Kkm7Odxp+lmklWV0D4oI1N34TE5V7Fve1V0FA=
-X-Received: by 2002:a05:620a:430c:: with SMTP id
- u12mr35141300qko.589.1638254704508; 
- Mon, 29 Nov 2021 22:45:04 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wkjZyN1c2Y9GQc80h4xdKR14ovJk4gf09rJILRmjtTU=;
+ b=x/m//0ZV0DyoF1+XnGR94B3Q4mKXvKGU/z0un56ZBchJ4PwGW6EQP0RY1lwxewtLvX
+ d2G2x/qH78jz0Ers8I13eTetXBy6BYI6MJoydsKTk0yb3k789n+Pd3ZEduFflYN9GKki
+ /5zEI0xSXdoGxB4xZILtK5O8yKWIyzCoBrIDvlGU3/TiWIamaxYKZAgoh6gy9g0OfJsl
+ sE+EMqlZgPphPhDDe7wSL2qFyzMe8uZwjkNAAUzi80sWv9lzeHK0V5pEOUaLupyF7RuH
+ aSIO94XNUbwySrRzR9acZ5G0UbwP6mcFSHo0bHI9AaCBd6Ba9EXoMl7zR/JTtv0qCN1p
+ MbcQ==
+X-Gm-Message-State: AOAM530SAQx/i66uoeoa7hHGdVMeQJcP7qODL+RgywFSmcLhUOmkfPV8
+ vnm/8gmZoO9h3WN6JyUB7Nc=
+X-Google-Smtp-Source: ABdhPJwbgQDyoddUomQxlAnMDmC3A6cZb4Y//MC0zyw0PYbnZNXnkemRJbearZQHIbRmSYRk+IoUrA==
+X-Received: by 2002:a17:90a:ba13:: with SMTP id
+ s19mr1687317pjr.62.1638230720938; 
+ Mon, 29 Nov 2021 16:05:20 -0800 (PST)
+Received: from debian11-dev-61.localdomain (192.243.120.180.16clouds.com.
+ [192.243.120.180])
+ by smtp.gmail.com with ESMTPSA id k1sm19543223pfu.31.2021.11.29.16.05.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 29 Nov 2021 16:05:20 -0800 (PST)
+From: davidcomponentone@gmail.com
+X-Google-Original-From: yang.guang5@zte.com.cn
+To: ducheng2@gmail.com
+Subject: [PATCH] fbdev: replace snprintf in show functions with sysfs_emit
+Date: Tue, 30 Nov 2021 08:05:08 +0800
+Message-Id: <0cb7ca73d9cd7162988a22a24cd18bbcd3d8bb27.1638156341.git.yang.guang5@zte.com.cn>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20211117145829.204360-1-marcan@marcan.st>
- <20211117145829.204360-2-marcan@marcan.st>
- <f3582c00-925d-91ec-c829-0aaa8f0157c0@suse.de>
- <36f3cf18-6654-e1bf-1fa6-a5797751ee86@marcan.st>
- <CAL_JsqLd=NrZgkTw+N2+Ka4zqRVpZMRNSisUDV9MhBQA-0TZQg@mail.gmail.com>
-In-Reply-To: <CAL_JsqLd=NrZgkTw+N2+Ka4zqRVpZMRNSisUDV9MhBQA-0TZQg@mail.gmail.com>
-From: Javier Martinez Canillas <javier@dowhile0.org>
-Date: Tue, 30 Nov 2021 07:44:53 +0100
-Message-ID: <CABxcv=mkuJLrXr_nbELg39qJvUvV2y69FAisFKURR9bqa3FzKg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] drm/simpledrm: Bind to OF framebuffers in /chosen
-To: Rob Herring <robh+dt@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 30 Nov 2021 08:46:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,54 +70,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Hector Martin <marcan@marcan.st>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Cc: linux-fbdev@vger.kernel.org, penguin-kernel@I-love.SAKURA.ne.jp,
+ gregkh@linuxfoundation.org, Zeal Robot <zealci@zte.com.cn>,
+ davidcomponentone@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, yang.guang5@zte.com.cn, cssk@net-c.es,
+ tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > >
-> > > Simpledrm is just a driver, but this is platform setup code. Why is this
-> > > code located here and not under arch/ or drivers/firmware/?
-> > >
+From: Yang Guang <yang.guang5@zte.com.cn>
 
-Agreed. Creating platform devices is something for platform code and
-not really a DRM driver.
+coccinelle report:
+./drivers/video/fbdev/core/fbcon.c:2680:8-16:
+WARNING: use scnprintf or sprintf
+./drivers/video/fbdev/core/fbcon.c:2655:8-16:
+WARNING: use scnprintf or sprintf
 
-> > > I know that other drivers do similar things, it doesn't seem to belong here.
-> >
+Use sysfs_emit instead of scnprintf or sprintf makes more sense.
 
-Yeah, the simplefb driver does this but that seems like something that
-should be changed.
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Yang Guang <yang.guang5@zte.com.cn>
+---
+ drivers/video/fbdev/core/fbcon.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> > This definitely doesn't belong in either of those, since it is not arch-
-> > or firmware-specific. It is implementing support for the standard
-> > simple-framebuffer OF binding, which specifies that it must be located
-> > within the /chosen node (and thus the default OF setup code won't do the
-> > matching for you); this applies to all OF platforms [1]
-> >
-> > Adding Rob; do you think this should move from simplefb/simpledrm to
-> > common OF code? (where?)
->
-> of_platform_default_populate_init() should work.
+diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+index 99ecd9a6d844..b4234ec2f047 100644
+--- a/drivers/video/fbdev/core/fbcon.c
++++ b/drivers/video/fbdev/core/fbcon.c
+@@ -2652,7 +2652,7 @@ static ssize_t show_rotate(struct device *device,
+ 	rotate = fbcon_get_rotate(info);
+ err:
+ 	console_unlock();
+-	return snprintf(buf, PAGE_SIZE, "%d\n", rotate);
++	return sysfs_emit(buf, "%d\n", rotate);
+ }
+ 
+ static ssize_t show_cursor_blink(struct device *device,
+@@ -2677,7 +2677,7 @@ static ssize_t show_cursor_blink(struct device *device,
+ 	blink = (ops->flags & FBCON_FLAGS_CURSOR_TIMER) ? 1 : 0;
+ err:
+ 	console_unlock();
+-	return snprintf(buf, PAGE_SIZE, "%d\n", blink);
++	return sysfs_emit(buf, "%d\n", blink);
+ }
+ 
+ static ssize_t store_cursor_blink(struct device *device,
+-- 
+2.30.2
 
-That should work but I still wonder if it is the correct place to add
-this logic.
-
-I think that instead it could be done in the sysfb_create_simplefb()
-function [0], which already creates the "simple-framebuffer" device
-for x86 legacy BIOS and x86/arm64/riscv EFI so it makes sense to do
-the same for OF. That way the simplefb platform device registration
-code could also be dropped from the driver and users would just need
-to enable CONFIG_SYSFB and CONFIG_SYSFB_SIMPLEFB to have the same.
-
-I have a couple of boards with a bootloader that populates a
-"simple-framebuffer" in the /chosen node so I could attempt to write
-the patches. But probably won't happen until next week.
-
-[0]: https://elixir.bootlin.com/linux/v5.16-rc3/source/drivers/firmware/sysfb_simplefb.c#L60
-
-Best regards,
-Javier
