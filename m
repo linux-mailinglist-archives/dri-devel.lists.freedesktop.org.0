@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BE0F46427D
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 00:24:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDBB3464258
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 00:24:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E06AB6E811;
-	Tue, 30 Nov 2021 23:24:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E2E16E5D1;
+	Tue, 30 Nov 2021 23:24:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D998D6E5C6
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 23:23:58 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id l22so57902373lfg.7
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 15:23:58 -0800 (PST)
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
+ [IPv6:2a00:1450:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC3C16E581
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 23:23:59 +0000 (UTC)
+Received: by mail-lj1-x235.google.com with SMTP id m12so6132153ljj.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 15:23:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rGt0BYEmXAksyhDFPu2BDGLoJLdnyV3VilAtYqDDqgs=;
- b=hYjs50JpK/p++K58Ujc9ubcdJqB861uXepZV1bX+eetvwMqZMXLA80AwSAwW69dTqV
- HocIqoiHXDV1gnFBCLYGwGovcCzTKFaLnrJOTCP1nr0OCTN1Iwsx/7zr2/R7mPbPL5pT
- vp2ZjrkAXKi5np9ryjhh3kQC7B6lwUmTeGZ4iiLuRyylMogAeaRoOLm+caPjCW0HxxAF
- AJke/JX8phasLWgR64TIxDMfrg/tQBv4TSPdUGrzKKBHAkzOCfZZuWuXkS04kgBLAmS7
- HGk75M06RG/vwWydfuyXGFP3JErdCrkInMMFKh5HPm338XenpNcNCuZYlHiBcKlvJSI4
- nSUA==
+ bh=nXolFcz4QOLnIUZoiZ0Ry5uu5XANR011N6AEo6cZVfo=;
+ b=OXu134ZknM16mp/t4fYeI0tjGNPyk5M7izksLk+a9ehM0XqghuECkM9iNLajpPOAW9
+ HSKaYltiiE2fVtjjkFAx0C5C9VOVSk+6tLhEbfDwCle0X2H+D47YYn9T6vOhadb2+QVh
+ F7X/wWoLPpKj8CnRhZTfrQdI63zpPmEV6t/5Qxx1d5VgxcyAaaKhAzknboK05FEHJwVm
+ zJrAJclyt6s91b1Jy1R20qqO84D5hkD5BHTcR6xQE/1vFt5BN+e0s0vA1qAA7vuEipAr
+ XewldVfwSIVkCw1PkCMRkzySyawQRrUZx7ijY3/BS1noKVScovRmPLMTBEomBjSceiWu
+ Wyjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rGt0BYEmXAksyhDFPu2BDGLoJLdnyV3VilAtYqDDqgs=;
- b=kiNgOCTD7bt5JgkV/JTEeXJgrmzD+NRGjqn60ef2Wmr/2ew+3m6z5VpwqUTH+zDS7J
- gdlAvU5cGyr3ZbSvuozNUy647qGd/EYrfKHWPdNFncFKgAGP3wgtSAfJl8P+VNSgi0Ud
- UqSMheJFa17xtDEuYUQRfdvVFEOhJJ9mEYc180S7cJTdSIkxK8sED+zdRFZiv7gwp9U/
- RLEs9CqV1D5mz023KHUIzGZP8Cm7wVuUprWi7MeOq4tmu7jEZw0w/hnCbHfFLhApJ/bC
- +cNa2WGwNut1dgtRRDSfhK8DpnsdywleLmRwK97NKFxK8hx3MtS9oeYkaovD2RW2rNRP
- SgpQ==
-X-Gm-Message-State: AOAM533Enc2H01+vjDqUA38ZuMmi6RaAA4Nnzc5T4I7/AsB8aBSjnlvs
- I/Z6yCMgngyZHRjthoV8gJw=
-X-Google-Smtp-Source: ABdhPJxapGltrB+HI+20V4TuzLOGRIh5IkpXbQ9OWJEwi4DFAiNSljeWPGxdtCrOEA2u2i0odAiHpg==
-X-Received: by 2002:a19:7709:: with SMTP id s9mr2287962lfc.682.1638314637278; 
- Tue, 30 Nov 2021 15:23:57 -0800 (PST)
+ bh=nXolFcz4QOLnIUZoiZ0Ry5uu5XANR011N6AEo6cZVfo=;
+ b=XSnX/04Yw566ieN+l3dgA16RYi+Zxkh7m8j//+qG/96jCplYv5a1/IQcucai77w0ET
+ wRyewecOy1g1PsE8M5EFt+1k5u9I3hT4t0ZEbF7MM0fPvJ4EvezqAJU6YGAMritGuRHU
+ 8LgZm3N2x3F+IDYfzpDyexDSCPPnLDq2bJSr73jZwTz/CpZ0K9M/DHZL+9lFz6g8CewI
+ kNYrxjQXPbZM72twZ2naj1ZGn+Jg7m5K8bnO4rGiwq7tcDq3UaaXOTWjeVnCm5rE3kXF
+ SeZjCFtxyTnCITvk/NAnwC9mXdzGVnB11F7UggPcv4EukdFS0gtLI/tLIqh68CJ6+KDS
+ 3n3w==
+X-Gm-Message-State: AOAM53145A/YblRmFJA+hhN5NbtbGT1AoRmglcMa3veqDHczl/YjyVsH
+ e3hcr7pVcsFZ5CKl6G72FGM=
+X-Google-Smtp-Source: ABdhPJz6W6krNEzBX3IW5DlNPEVv77H2J2aWulC37ZRZQJs4gEsq9g4I+6cuf2fvO0OWjUPse1lfKA==
+X-Received: by 2002:a2e:a594:: with SMTP id m20mr1861100ljp.332.1638314638272; 
+ Tue, 30 Nov 2021 15:23:58 -0800 (PST)
 Received: from localhost.localdomain (94-29-46-111.dynamic.spd-mgts.ru.
  [94.29.46.111])
- by smtp.gmail.com with ESMTPSA id x199sm1860735lff.284.2021.11.30.15.23.56
+ by smtp.gmail.com with ESMTPSA id x199sm1860735lff.284.2021.11.30.15.23.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Nov 2021 15:23:56 -0800 (PST)
+ Tue, 30 Nov 2021 15:23:57 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -56,10 +56,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
  Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
  Michael Turquette <mturquette@baylibre.com>
-Subject: [PATCH v16 03/40] soc/tegra: Don't print error message when OPPs not
- available
-Date: Wed,  1 Dec 2021 02:23:10 +0300
-Message-Id: <20211130232347.950-4-digetx@gmail.com>
+Subject: [PATCH v16 04/40] dt-bindings: clock: tegra-car: Document new clock
+ sub-nodes
+Date: Wed,  1 Dec 2021 02:23:11 +0300
+Message-Id: <20211130232347.950-5-digetx@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211130232347.950-1-digetx@gmail.com>
 References: <20211130232347.950-1-digetx@gmail.com>
@@ -84,34 +84,74 @@ Cc: linux-pwm@vger.kernel.org, linux-pm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Previously we assumed that devm_tegra_core_dev_init_opp_table() will
-be used only by drivers that will always have device with OPP table,
-but this is not true anymore. For example now Tegra30 will have OPP table
-for PWM, but Tegra20 not and both use the same driver. Hence let's not
-print the error message about missing OPP table in the common helper,
-we can print it elsewhere.
+Document sub-nodes which describe Tegra SoC clocks that require a higher
+voltage of the core power domain in order to operate properly on a higher
+clock rates.  Each node contains a phandle to OPP table and power domain.
 
-Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+The root PLLs and system clocks don't have any specific device dedicated
+to them, clock controller is in charge of managing power for them.
+
+Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/soc/tegra/common.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ .../bindings/clock/nvidia,tegra20-car.yaml    | 37 +++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
-diff --git a/drivers/soc/tegra/common.c b/drivers/soc/tegra/common.c
-index 35c882da55fc..32c346b72635 100644
---- a/drivers/soc/tegra/common.c
-+++ b/drivers/soc/tegra/common.c
-@@ -136,9 +136,7 @@ int devm_tegra_core_dev_init_opp_table(struct device *dev,
- 	 */
- 	err = devm_pm_opp_of_add_table(dev);
- 	if (err) {
--		if (err == -ENODEV)
--			dev_err_once(dev, "OPP table not found, please update device-tree\n");
--		else
-+		if (err != -ENODEV)
- 			dev_err(dev, "failed to add OPP table: %d\n", err);
+diff --git a/Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml b/Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml
+index 459d2a525393..f832abb7f11a 100644
+--- a/Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml
++++ b/Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml
+@@ -42,6 +42,36 @@ properties:
+   "#reset-cells":
+     const: 1
  
- 		return err;
++patternProperties:
++  "^(sclk)|(pll-[cem])$":
++    type: object
++    properties:
++      compatible:
++        enum:
++          - nvidia,tegra20-sclk
++          - nvidia,tegra30-sclk
++          - nvidia,tegra30-pllc
++          - nvidia,tegra30-plle
++          - nvidia,tegra30-pllm
++
++      operating-points-v2: true
++
++      clocks:
++        items:
++          - description: node's clock
++
++      power-domains:
++        maxItems: 1
++        description: phandle to the core SoC power domain
++
++    required:
++      - compatible
++      - operating-points-v2
++      - clocks
++      - power-domains
++
++    additionalProperties: false
++
+ required:
+   - compatible
+   - reg
+@@ -59,6 +89,13 @@ examples:
+         reg = <0x60006000 0x1000>;
+         #clock-cells = <1>;
+         #reset-cells = <1>;
++
++        sclk {
++            compatible = "nvidia,tegra20-sclk";
++            operating-points-v2 = <&opp_table>;
++            clocks = <&tegra_car TEGRA20_CLK_SCLK>;
++            power-domains = <&domain>;
++        };
+     };
+ 
+     usb-controller@c5004000 {
 -- 
 2.33.1
 
