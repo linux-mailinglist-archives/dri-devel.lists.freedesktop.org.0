@@ -1,66 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FBD9463096
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 11:04:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2352E4630B8
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 11:09:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC5E56E4DE;
-	Tue, 30 Nov 2021 10:04:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BDDD6E491;
+	Tue, 30 Nov 2021 10:09:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F38F6E4DE
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 10:04:14 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id l16so43126242wrp.11
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 02:04:13 -0800 (PST)
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8309A6E491;
+ Tue, 30 Nov 2021 10:09:46 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id v11so43155214wrw.10;
+ Tue, 30 Nov 2021 02:09:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=qUpNgekNyximD/ZZ+bMBBXr7Phi7gZIz8V61NNp8tgo=;
- b=WP+g2YVtpy01qQBy/NPVv9xOI7b1EZNRxMy3jJSstwPLuYVnnmHghlwmStLQSFfMIK
- fVeLT57iP/v8dnvwGfqjG5wvUCIY2ye1GQCMT9MdE/cm7os16q70cILYP2HxYJgYR4Ib
- Hz4skL4sUJ5caFNZszd4K9VxAlFJlZXelN0Z5nZl/rr9P6Yr/FXuBa8oGpvTU9HwUMbT
- ekLvGGq+YWNjMoZX7cZNKgRaQa8bVhRtKYk8G7WOmT0IQ6aRr6CLUwvUw28ILZv+iArX
- 2Zw6mpy7Vi+8Dyi3lMc0yNAQMSza9U69lt6qaPDE2mXI8KrpinBR98gEHpQC3Nkfkdw3
- 289g==
+ bh=ITFiSZ4BhHXas+EIceF8qBLSIBLMhZ12PvMJFVnP/ww=;
+ b=KLr6GPITzampDZ2eyFMi9XdSsDnajFFBytWZy0ui8xT0NoTLgbUJivOUMAmAZPR7iO
+ AIkvyq/ESA9VST6LFH4y1D+n1CTRcQfaFOAv4Px15Fi/G7gukdFUkcZIw0mK8KKQcRDP
+ jTik919e4bNu6NVnxEve8ShUvJu1iNvFIHob2g5UXKC2noNysswHgUiR5MabL6jgprdq
+ gPxDHcL7ADbL5u4t96h4AThskdjLvJxrEI/c+rKh9pzpEJRhwUf96aA0LGpoRjSvV6I7
+ BXgfnQHwX4LtdzTSw400nlO4XmHMIXySBTRu5qMDGWi613BnMPdE+iB3nCFu+/hSkuNL
+ df+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=qUpNgekNyximD/ZZ+bMBBXr7Phi7gZIz8V61NNp8tgo=;
- b=ZdQaCdPrVZHZuDnM70HIrp3Y/1uwqISUVjl5cxwLUTnNpS34kGAYHwbC5ViELsDQPL
- WZDbGjvcEu4YaKb/oCzoKXmwD0TorpldlbEZ3ZxCjqzomnp5/OakXIRK+oOkQlpdZtqX
- tafu9/0s5vc3BJ2+D1VQb78CNYgLwoTbHdt3hCZKDFOLOtxEO7iXSKakHMUfNE3zN7yT
- SxPfBJjJYjN+gGIF2sB66/+kgpDQtI+hbcHrBVaI3R61JdE0+NMV1ihdsXjaDvk2r8YQ
- rOG0JdTLL2tff7py71e6MsdEkrwa0LNWK5f76pyXACB/xD/GHKBTZpTWHVpRowDTMeGU
- g0Ag==
-X-Gm-Message-State: AOAM531UuguBvlD0EJ0fyGWhzynngwbXx8+Sz6seyx6OA2tBYg1Xgdb3
- 2rlOlPHvuWXhOh3LgA+M4Qk=
-X-Google-Smtp-Source: ABdhPJzjbutJNOXAkWEmsKAebjDMvAKuEKhm44HQjrL4eZzObzxv9CY3HntAXQzyNBd4YRRZW/dLrg==
-X-Received: by 2002:a05:6000:1a85:: with SMTP id
- f5mr39025117wry.361.1638266652608; 
- Tue, 30 Nov 2021 02:04:12 -0800 (PST)
+ bh=ITFiSZ4BhHXas+EIceF8qBLSIBLMhZ12PvMJFVnP/ww=;
+ b=72E1EnC1a0smRqXLr1UwmXaWkVglw5VHkmiHpklXz4kjFihNJ/WnObQ5chtUyN79d7
+ +elJ1k3/UXmE9JXoE818AWnEQdVhLCu5M9R3iRWdrk0+L8TIyTemOfRb/7h/EPASlOkg
+ T2VmLj2CBXITae0Tr/4bizfpwIfLrTvYtc/sA6uCk8S5OKLNjoCIU1CZLEWTaNDm7QQ5
+ zbjFoGKCEkf/yD3SEHcwo5Vnra2JGg3UxyhgxQfHf6CheSO5oDEpN2nVxa2gS6j0jzF1
+ sSfXl4fLhKdPaAskAEkt9Of+U8FIdgj0ltM0hYyWXNWP7teeBsakscigNHZelZ6jG4qc
+ 1rDA==
+X-Gm-Message-State: AOAM531w1sGDH3ZCGv/9NzbbqEGjyrKLQbGRWPobtG05s3gIWUfxOGbT
+ bPiUDnVPzLoEuE27ChfoK8w=
+X-Google-Smtp-Source: ABdhPJygGh6sjZwL1L17sv4OcCYTg7SUS3HjCnmZZceWcGMOiPpsmozq601UeIAVTQfaulnIhiclqg==
+X-Received: by 2002:a5d:4b41:: with SMTP id w1mr39826713wrs.537.1638266985159; 
+ Tue, 30 Nov 2021 02:09:45 -0800 (PST)
 Received: from ?IPv6:2a02:908:1252:fb60:fa20:e17b:e063:b6d3?
  ([2a02:908:1252:fb60:fa20:e17b:e063:b6d3])
- by smtp.gmail.com with ESMTPSA id q4sm15615725wrs.56.2021.11.30.02.04.11
+ by smtp.gmail.com with ESMTPSA id n32sm2310101wms.1.2021.11.30.02.09.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Nov 2021 02:04:12 -0800 (PST)
-Subject: Re: [Linaro-mm-sig] [PATCH] dma-resv: some doc polish for iterators
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20211130091609.1335915-1-daniel.vetter@ffwll.ch>
+ Tue, 30 Nov 2021 02:09:44 -0800 (PST)
+Subject: Re: [PATCH 6/6] Documentation/gpu: Add DC glossary
+To: ydirson@free.fr, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+References: <1254252919.1503545635.1638218918877.JavaMail.root@zimbra39-e7>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <02d35f5a-ad89-b78d-a31f-51ea1579b9cd@gmail.com>
-Date: Tue, 30 Nov 2021 11:04:11 +0100
+Message-ID: <bc6eb6c0-92f8-2bf9-c735-a8d8c7a427bd@gmail.com>
+Date: Tue, 30 Nov 2021 11:09:43 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211130091609.1335915-1-daniel.vetter@ffwll.ch>
+In-Reply-To: <1254252919.1503545635.1638218918877.JavaMail.root@zimbra39-e7>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,140 +72,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, Daniel Vetter <daniel.vetter@intel.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: Bhawanpreet Lakha <bhawanpreet.lakha@amd.com>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Mark Yacoub <markyacoub@chromium.org>,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ Roman Li <roman.li@amd.com>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Roman Gilg <subdiff@gmail.com>,
+ =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ nicholas choi <nicholas.choi@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Sean Paul <seanpaul@chromium.org>,
+ Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 30.11.21 um 10:16 schrieb Daniel Vetter:
-> Hammer it a bit more in that iterators can be restarted and when that
-> matters, plus suggest to prefer the locked version whenver.
+
+
+Am 29.11.21 um 21:48 schrieb ydirson@free.fr:
+> Hi Rodrigo,
 >
-> Also delete the two leftover kerneldoc for static functions plus
-> sprinkle some more links while at it.
+> That will really be helpful!
 >
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: "Christian König" <christian.koenig@amd.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> ---
->   drivers/dma-buf/dma-resv.c | 26 ++++++++++++--------------
->   include/linux/dma-resv.h   | 13 ++++++++++++-
->   2 files changed, 24 insertions(+), 15 deletions(-)
+> I know drawing the line is a difficult problem (and can even make things
+> harder when searching), but maybe it would make sense to keep generic
+> acronyms not specific to amdgpu in a separate list.  I bet a number of
+> them would be useful in the scope of other drm drivers (e.g. CRTC, DCC,
+> MST), and some are not restricted to the drm subsystem at all (e.g. FEC,
+> LUT), but still have value as not necessarily easy to look up.
 >
-> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> index 9eb2baa387d4..1453b664c405 100644
-> --- a/drivers/dma-buf/dma-resv.c
-> +++ b/drivers/dma-buf/dma-resv.c
-> @@ -323,12 +323,6 @@ void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence)
->   }
->   EXPORT_SYMBOL(dma_resv_add_excl_fence);
->   
-> -/**
-> - * dma_resv_iter_restart_unlocked - restart the unlocked iterator
-> - * @cursor: The dma_resv_iter object to restart
-> - *
-> - * Restart the unlocked iteration by initializing the cursor object.
-> - */
+> Maybe "DC glossary" should just be "Glossary", since quite some entries
+> help to read adm/amdgpu/ too.  Which brings me to the result of my recent
+> searches as suggested entries:
+>
+>   KIQ (Kernel Interface Queue), MQD (memory queue descriptor), HQD (hardware
+>   queue descriptor), EOP (still no clue :)
 
-Maybe instead of completely removing the documentation add a single line 
-of what this is supposed to do and not to do.
+End Of Pipe/Pipeline :)
 
-E.g. "/* Restart the iterator by initializing all the necessary fields, 
-but not the relation to the dma_resv object. */
+This means that calculations are done, all caches are flushed and all 
+memory is coherent again.
 
->   static void dma_resv_iter_restart_unlocked(struct dma_resv_iter *cursor)
->   {
->   	cursor->seq = read_seqcount_begin(&cursor->obj->seq);
-> @@ -344,14 +338,6 @@ static void dma_resv_iter_restart_unlocked(struct dma_resv_iter *cursor)
->   	cursor->is_restarted = true;
->   }
->   
-> -/**
-> - * dma_resv_iter_walk_unlocked - walk over fences in a dma_resv obj
-> - * @cursor: cursor to record the current position
-> - *
-> - * Return all the fences in the dma_resv object which are not yet signaled.
-> - * The returned fence has an extra local reference so will stay alive.
-> - * If a concurrent modify is detected the whole iteration is started over again.
-> - */
+Usually related to an interrupt send or fence value written.
 
-Same here, something /* Walk to the next not signaled fence and grab a 
-reference to it */.
-
-Apart from that feel free add Reviewed-by: Christian König 
-<christian.koenig@amd.com>
-
-Regards,
 Christian.
 
->   static void dma_resv_iter_walk_unlocked(struct dma_resv_iter *cursor)
->   {
->   	struct dma_resv *obj = cursor->obj;
-> @@ -387,6 +373,12 @@ static void dma_resv_iter_walk_unlocked(struct dma_resv_iter *cursor)
->    * dma_resv_iter_first_unlocked - first fence in an unlocked dma_resv obj.
->    * @cursor: the cursor with the current position
->    *
-> + * Subsequent fences are iterated with dma_resv_iter_next_unlocked().
-> + *
-> + * Beware that the iterator can be restarted.  Code which accumulates statistics
-> + * or similar needs to check for this with dma_resv_iter_is_restarted(). For
-> + * this reason prefer the locked dma_resv_iter_first() whenver possible.
-> + *
->    * Returns the first fence from an unlocked dma_resv obj.
->    */
->   struct dma_fence *dma_resv_iter_first_unlocked(struct dma_resv_iter *cursor)
-> @@ -406,6 +398,10 @@ EXPORT_SYMBOL(dma_resv_iter_first_unlocked);
->    * dma_resv_iter_next_unlocked - next fence in an unlocked dma_resv obj.
->    * @cursor: the cursor with the current position
->    *
-> + * Beware that the iterator can be restarted.  Code which accumulates statistics
-> + * or similar needs to check for this with dma_resv_iter_is_restarted(). For
-> + * this reason prefer the locked dma_resv_iter_next() whenver possible.
-> + *
->    * Returns the next fence from an unlocked dma_resv obj.
->    */
->   struct dma_fence *dma_resv_iter_next_unlocked(struct dma_resv_iter *cursor)
-> @@ -431,6 +427,8 @@ EXPORT_SYMBOL(dma_resv_iter_next_unlocked);
->    * dma_resv_iter_first - first fence from a locked dma_resv object
->    * @cursor: cursor to record the current position
->    *
-> + * Subsequent fences are iterated with dma_resv_iter_next_unlocked().
-> + *
->    * Return the first fence in the dma_resv object while holding the
->    * &dma_resv.lock.
->    */
-> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-> index dbd235ab447f..ebe908592ac3 100644
-> --- a/include/linux/dma-resv.h
-> +++ b/include/linux/dma-resv.h
-> @@ -153,6 +153,13 @@ struct dma_resv {
->    * struct dma_resv_iter - current position into the dma_resv fences
->    *
->    * Don't touch this directly in the driver, use the accessor function instead.
-> + *
-> + * IMPORTANT
-> + *
-> + * When using the lockless iterators like dma_resv_iter_next_unlocked() or
-> + * dma_resv_for_each_fence_unlocked() beware that the iterator can be restarted.
-> + * Code which accumulates statistics or similar needs to check for this with
-> + * dma_resv_iter_is_restarted().
->    */
->   struct dma_resv_iter {
->   	/** @obj: The dma_resv object we iterate over */
-> @@ -243,7 +250,11 @@ static inline bool dma_resv_iter_is_restarted(struct dma_resv_iter *cursor)
->    * &dma_resv.lock and using RCU instead. The cursor needs to be initialized
->    * with dma_resv_iter_begin() and cleaned up with dma_resv_iter_end(). Inside
->    * the iterator a reference to the dma_fence is held and the RCU lock dropped.
-> - * When the dma_resv is modified the iteration starts over again.
-> + *
-> + * Beware that the iterator can be restarted when the struct dma_resv for
-> + * @cursor is modified. Code which accumulates statistics or similar needs to
-> + * check for this with dma_resv_iter_is_restarted(). For this reason prefer the
-> + * lock iterator dma_resv_for_each_fence() whenever possible.
->    */
->   #define dma_resv_for_each_fence_unlocked(cursor, fence)			\
->   	for (fence = dma_resv_iter_first_unlocked(cursor);		\
+>
+> Maybe some more specific ones just to be spelled out in clear where they
+> are used ?  KCQ (compute queue?), KGQ (gfx queue?)
+>
+> More suggestions inlined.
+>
+> Best regards,
 
