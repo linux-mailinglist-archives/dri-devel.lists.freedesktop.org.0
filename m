@@ -2,34 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC244463636
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 15:11:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1602463639
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 15:11:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20E656E84A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5124C6E85D;
 	Tue, 30 Nov 2021 14:11:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CAC96E7E5;
- Tue, 30 Nov 2021 14:10:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 352B86E84A;
+ Tue, 30 Nov 2021 14:11:00 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 2AE501F4513B
+ (Authenticated sender: kholk11) with ESMTPSA id 550931F45136
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
- t=1638281456; bh=sAB/YH6cEGGd32gwBKmTN8aCGrFYp1hsELI1j0gG5uk=;
+ t=1638281459; bh=cPu187CxXOcTdY8f/L0FkSLNyaNon8PjHGIZEQR2rOs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oEX/s5mSYRkWBvbSQXHSkLjnshtTfdFaCnwLyKA7SRBDVU4Rx8bZfRc378r63eKf6
- iJPhlnKsbzymew0u7BmjaTMf5gAtWdYntrxiOZ8JbvlJNYoMcFBRsbR2UIMlPnA19w
- A9iwcZmo0NeusxNFIaisaovAyUBtIgiXIjpOX8eKSbBjsP1nVz93z9uxnKvmeyo0/m
- mYd5hC25BtWVdNF3bPkSsoRdHqtFLyzDcQ8Xc0PmC5upJAwMldHyAGjP6hq2NPJslf
- Shj2DgqXXHZi/du0IIThlcMm29Rman/h5VXDx4g2Ln/Rfvg970lKC75bKB3CxUsUJQ
- HzEXB0eW2TXHg==
+ b=GCZJHND2HiY9AIare2zTUtuEZwuauenQ1klRveqPU2tzyrVjEJAGcdQOFFP68cvXJ
+ sBllrNegxr5HpS6XFwZ4Oo3Jj2E5raUefU1JB1I2NyFeILdiUQ5NqDq+MsU0mODLfn
+ 90U3b4NQCxZjUbvrBHk4IbcRaBZXJhPNYi7W+SuX/eTqZSbuUzWDDpjXCKXMMCiRDI
+ AAMS7YxfmaMGeh6HwFMAJWUWCkhkb9k0jc8ON1kRF1QwWQ7H8Z5f0Bf3t1gy51YddJ
+ 32S5bvpnLf0CaT1qbXNOZuxps2cFFRYQeyJNoE4NrGAhhSj5rLq4bmtAnURMJrgnq4
+ KZ0s19XtblKMw==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: robdclark@gmail.com
-Subject: [PATCH v2 1/2] drm/msm: Allocate msm_drm_private early and pass it as
- driver data
-Date: Tue, 30 Nov 2021 15:10:47 +0100
-Message-Id: <20211130141048.294246-2-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v2 2/2] drm/msm: Initialize MDSS irq domain at probe time
+Date: Tue, 30 Nov 2021 15:10:48 +0100
+Message-Id: <20211130141048.294246-3-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211130141048.294246-1-angelogioacchino.delregno@collabora.com>
 References: <20211130141048.294246-1-angelogioacchino.delregno@collabora.com>
@@ -56,350 +55,315 @@ Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In preparation for registering the mdss interrupt controller earlier,
-move the allocation of msm_drm_private from component bind time to
-msm_drv probe; this also allows us to use the devm variant of kzalloc.
+Since commit 8f59ee9a570c ("drm/msm/dsi: Adjust probe order"), the
+DSI host gets initialized earlier, but this caused unability to probe
+the entire stack of components because they all depend on interrupts
+coming from the main `mdss` node (mdp5, or dpu1).
 
-Since it is not right to allocate the drm_device at probe time (as
-it should exist only when all components are bound, and taken down
-when components get cleaned up), the only way to make this happen is
-to pass a pointer to msm_drm_private as driver data (like done in
-many other DRM drivers), instead of one to drm_device like it's
-currently done in this driver.
+To fix this issue, anticipate registering the irq domain from mdp5/dpu1
+at msm_mdev_probe() time, as to make sure that the interrupt controller
+is available before dsi and/or other components try to initialize,
+finally satisfying the dependency.
 
-This is also simplifying some bind/unbind functions around drm/msm,
-as some of them are using drm_device just to grab a pointer to the
-msm_drm_private structure, which we now retrieve in one call.
+Moreover, to balance this operation while avoiding to always check if
+the irq domain is registered everytime we call bind() on msm_pdev, add
+a new *remove function pointer to msm_mdss_funcs, used to remove the
+irq domain only at msm_pdev_remove() time.
 
+Fixes: 8f59ee9a570c ("drm/msm/dsi: Adjust probe order")
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/msm/adreno/adreno_device.c | 16 +++-----
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c    |  4 +-
- drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c   |  3 +-
- drivers/gpu/drm/msm/dp/dp_display.c        | 10 ++---
- drivers/gpu/drm/msm/dsi/dsi.c              |  6 +--
- drivers/gpu/drm/msm/edp/edp.c              |  6 +--
- drivers/gpu/drm/msm/hdmi/hdmi.c            |  7 ++--
- drivers/gpu/drm/msm/msm_drv.c              | 45 +++++++++-------------
- 8 files changed, 38 insertions(+), 59 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c  | 50 ++++++++++++-------
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_mdss.c | 58 +++++++++++++++--------
+ drivers/gpu/drm/msm/msm_drv.c             | 22 ++++++++-
+ drivers/gpu/drm/msm/msm_kms.h             |  3 ++
+ 4 files changed, 95 insertions(+), 38 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-index 2a6ce76656aa..6b113881aefb 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-@@ -427,13 +427,6 @@ struct msm_gpu *adreno_load_gpu(struct drm_device *dev)
- 	return gpu;
- }
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
+index b466784d9822..6c2569175633 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
+@@ -106,13 +106,10 @@ static const struct irq_domain_ops dpu_mdss_irqdomain_ops = {
+ 	.xlate = irq_domain_xlate_onecell,
+ };
  
--static void set_gpu_pdev(struct drm_device *dev,
--		struct platform_device *pdev)
--{
--	struct msm_drm_private *priv = dev->dev_private;
--	priv->gpu_pdev = pdev;
--}
+-static int _dpu_mdss_irq_domain_add(struct dpu_mdss *dpu_mdss)
++static int _dpu_mdss_irq_domain_add(struct device *dev, struct dpu_mdss *dpu_mdss)
+ {
+-	struct device *dev;
+ 	struct irq_domain *domain;
+ 
+-	dev = dpu_mdss->base.dev->dev;
 -
- static int find_chipid(struct device *dev, struct adreno_rev *rev)
- {
- 	struct device_node *node = dev->of_node;
-@@ -482,8 +475,8 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
- {
- 	static struct adreno_platform_config config = {};
- 	const struct adreno_info *info;
--	struct drm_device *drm = dev_get_drvdata(master);
--	struct msm_drm_private *priv = drm->dev_private;
-+	struct msm_drm_private *priv = dev_get_drvdata(master);
-+	struct drm_device *drm = priv->dev;
- 	struct msm_gpu *gpu;
- 	int ret;
+ 	domain = irq_domain_add_linear(dev->of_node, 32,
+ 			&dpu_mdss_irqdomain_ops, dpu_mdss);
+ 	if (!domain) {
+@@ -194,7 +191,6 @@ static void dpu_mdss_destroy(struct drm_device *dev)
  
-@@ -492,7 +485,7 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
- 		return ret;
- 
- 	dev->platform_data = &config;
--	set_gpu_pdev(drm, to_platform_device(dev));
-+	priv->gpu_pdev = to_platform_device(dev);
- 
- 	info = adreno_info(config.rev);
- 
-@@ -521,12 +514,13 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
- static void adreno_unbind(struct device *dev, struct device *master,
- 		void *data)
- {
-+	struct msm_drm_private *priv = dev_get_drvdata(master);
- 	struct msm_gpu *gpu = dev_to_gpu(dev);
- 
- 	pm_runtime_force_suspend(dev);
- 	gpu->funcs->destroy(gpu);
- 
--	set_gpu_pdev(dev_get_drvdata(master), NULL);
-+	priv->gpu_pdev = NULL;
- }
- 
- static const struct component_ops a3xx_ops = {
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index a15b26428280..8b038690d9ce 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -1153,9 +1153,9 @@ struct msm_kms *dpu_kms_init(struct drm_device *dev)
- 
- static int dpu_bind(struct device *dev, struct device *master, void *data)
- {
--	struct drm_device *ddev = dev_get_drvdata(master);
-+	struct msm_drm_private *priv = dev_get_drvdata(master);
- 	struct platform_device *pdev = to_platform_device(dev);
--	struct msm_drm_private *priv = ddev->dev_private;
-+	struct drm_device *ddev = priv->dev;
- 	struct dpu_kms *dpu_kms;
- 	struct dss_module_power *mp;
- 	int ret = 0;
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-index 7b242246d4e7..cab6451661b2 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-@@ -936,7 +936,8 @@ static int mdp5_init(struct platform_device *pdev, struct drm_device *dev)
- 
- static int mdp5_bind(struct device *dev, struct device *master, void *data)
- {
--	struct drm_device *ddev = dev_get_drvdata(master);
-+	struct msm_drm_private *priv = dev_get_drvdata(master);
-+	struct drm_device *ddev = priv->dev;
- 	struct platform_device *pdev = to_platform_device(dev);
- 
- 	DBG("");
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 0eb3c007d503..ac29a8a99450 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -224,13 +224,10 @@ static int dp_display_bind(struct device *dev, struct device *master,
- {
- 	int rc = 0;
- 	struct dp_display_private *dp = dev_get_dp_display_private(dev);
--	struct msm_drm_private *priv;
--	struct drm_device *drm;
--
--	drm = dev_get_drvdata(master);
-+	struct msm_drm_private *priv = dev_get_drvdata(master);
-+	struct drm_device *drm = priv->dev;
- 
- 	dp->dp_display.drm_dev = drm;
--	priv = drm->dev_private;
- 	priv->dp[dp->id] = &dp->dp_display;
- 
- 	rc = dp->parser->parse(dp->parser, dp->dp_display.connector_type);
-@@ -266,8 +263,7 @@ static void dp_display_unbind(struct device *dev, struct device *master,
- 			      void *data)
- {
- 	struct dp_display_private *dp = dev_get_dp_display_private(dev);
--	struct drm_device *drm = dev_get_drvdata(master);
--	struct msm_drm_private *priv = drm->dev_private;
-+	struct msm_drm_private *priv = dev_get_drvdata(master);
- 
- 	dp_power_client_deinit(dp->power);
- 	dp_aux_unregister(dp->aux);
-diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
-index 5cd230a5d5d3..9670e548b3e9 100644
---- a/drivers/gpu/drm/msm/dsi/dsi.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi.c
-@@ -110,8 +110,7 @@ static struct msm_dsi *dsi_init(struct platform_device *pdev)
- 
- static int dsi_bind(struct device *dev, struct device *master, void *data)
- {
--	struct drm_device *drm = dev_get_drvdata(master);
--	struct msm_drm_private *priv = drm->dev_private;
-+	struct msm_drm_private *priv = dev_get_drvdata(master);
- 	struct msm_dsi *msm_dsi = dev_get_drvdata(dev);
- 
- 	priv->dsi[msm_dsi->id] = msm_dsi;
-@@ -122,8 +121,7 @@ static int dsi_bind(struct device *dev, struct device *master, void *data)
- static void dsi_unbind(struct device *dev, struct device *master,
- 		void *data)
- {
--	struct drm_device *drm = dev_get_drvdata(master);
--	struct msm_drm_private *priv = drm->dev_private;
-+	struct msm_drm_private *priv = dev_get_drvdata(master);
- 	struct msm_dsi *msm_dsi = dev_get_drvdata(dev);
- 
- 	priv->dsi[msm_dsi->id] = NULL;
-diff --git a/drivers/gpu/drm/msm/edp/edp.c b/drivers/gpu/drm/msm/edp/edp.c
-index 106a67473af5..101cf1671472 100644
---- a/drivers/gpu/drm/msm/edp/edp.c
-+++ b/drivers/gpu/drm/msm/edp/edp.c
-@@ -66,8 +66,7 @@ static struct msm_edp *edp_init(struct platform_device *pdev)
- 
- static int edp_bind(struct device *dev, struct device *master, void *data)
- {
--	struct drm_device *drm = dev_get_drvdata(master);
--	struct msm_drm_private *priv = drm->dev_private;
-+	struct msm_drm_private *priv = dev_get_drvdata(master);
- 	struct msm_edp *edp;
- 
- 	DBG("");
-@@ -81,8 +80,7 @@ static int edp_bind(struct device *dev, struct device *master, void *data)
- 
- static void edp_unbind(struct device *dev, struct device *master, void *data)
- {
--	struct drm_device *drm = dev_get_drvdata(master);
--	struct msm_drm_private *priv = drm->dev_private;
-+	struct msm_drm_private *priv = dev_get_drvdata(master);
- 
- 	DBG("");
- 	if (priv->edp) {
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-index 75b64e6ae035..64ad73a01edd 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-@@ -514,8 +514,7 @@ static int msm_hdmi_register_audio_driver(struct hdmi *hdmi, struct device *dev)
- 
- static int msm_hdmi_bind(struct device *dev, struct device *master, void *data)
- {
--	struct drm_device *drm = dev_get_drvdata(master);
--	struct msm_drm_private *priv = drm->dev_private;
-+	struct msm_drm_private *priv = dev_get_drvdata(master);
- 	struct hdmi_platform_config *hdmi_cfg;
- 	struct hdmi *hdmi;
- 	struct device_node *of_node = dev->of_node;
-@@ -586,8 +585,8 @@ static int msm_hdmi_bind(struct device *dev, struct device *master, void *data)
- static void msm_hdmi_unbind(struct device *dev, struct device *master,
- 		void *data)
- {
--	struct drm_device *drm = dev_get_drvdata(master);
--	struct msm_drm_private *priv = drm->dev_private;
-+	struct msm_drm_private *priv = dev_get_drvdata(master);
+ 	pm_runtime_suspend(dev->dev);
+ 	pm_runtime_disable(dev->dev);
+-	_dpu_mdss_irq_domain_fini(dpu_mdss);
+ 	irq = platform_get_irq(pdev, 0);
+ 	irq_set_chained_handler_and_data(irq, NULL, NULL);
+ 	msm_dss_put_clk(mp->clk_config, mp->num_clk);
+@@ -203,15 +199,43 @@ static void dpu_mdss_destroy(struct drm_device *dev)
+ 	if (dpu_mdss->mmio)
+ 		devm_iounmap(&pdev->dev, dpu_mdss->mmio);
+ 	dpu_mdss->mmio = NULL;
+-	priv->mdss = NULL;
++}
 +
- 	if (priv->hdmi) {
- 		if (priv->hdmi->audio_pdev)
- 			platform_device_unregister(priv->hdmi->audio_pdev);
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 892c04365239..601814b12daf 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -339,8 +339,8 @@ static int vblank_ctrl_queue_work(struct msm_drm_private *priv,
- static int msm_drm_uninit(struct device *dev)
- {
- 	struct platform_device *pdev = to_platform_device(dev);
--	struct drm_device *ddev = platform_get_drvdata(pdev);
--	struct msm_drm_private *priv = ddev->dev_private;
-+	struct msm_drm_private *priv = platform_get_drvdata(pdev);
-+	struct drm_device *ddev = priv->dev;
- 	struct msm_kms *kms = priv->kms;
- 	struct msm_mdss *mdss = priv->mdss;
- 	int i;
-@@ -512,8 +512,8 @@ static int msm_init_vram(struct drm_device *dev)
- static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
- {
- 	struct platform_device *pdev = to_platform_device(dev);
-+	struct msm_drm_private *priv = dev_get_drvdata(dev);
- 	struct drm_device *ddev;
--	struct msm_drm_private *priv;
- 	struct msm_kms *kms;
- 	struct msm_mdss *mdss;
- 	int ret, i;
-@@ -523,15 +523,6 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
- 		DRM_DEV_ERROR(dev, "failed to allocate drm_device\n");
- 		return PTR_ERR(ddev);
- 	}
--
--	platform_set_drvdata(pdev, ddev);
--
--	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
--	if (!priv) {
--		ret = -ENOMEM;
--		goto err_put_drm_dev;
--	}
--
- 	ddev->dev_private = priv;
- 	priv->dev = ddev;
- 
-@@ -547,7 +538,7 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
- 		break;
- 	}
- 	if (ret)
--		goto err_free_priv;
-+		goto err_put_drm_dev;
- 
- 	mdss = priv->mdss;
- 
-@@ -685,11 +676,8 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
- err_destroy_mdss:
- 	if (mdss && mdss->funcs)
- 		mdss->funcs->destroy(ddev);
--err_free_priv:
--	kfree(priv);
- err_put_drm_dev:
- 	drm_dev_put(ddev);
--	platform_set_drvdata(pdev, NULL);
- 	return ret;
++static void dpu_mdss_remove(struct msm_mdss *mdss)
++{
++	_dpu_mdss_irq_domain_fini(to_dpu_mdss(mdss));
  }
  
-@@ -1142,8 +1130,7 @@ static const struct drm_driver msm_driver = {
+ static const struct msm_mdss_funcs mdss_funcs = {
+ 	.enable	= dpu_mdss_enable,
+ 	.disable = dpu_mdss_disable,
+ 	.destroy = dpu_mdss_destroy,
++	.remove = dpu_mdss_remove,
+ };
  
- static int __maybe_unused msm_runtime_suspend(struct device *dev)
- {
--	struct drm_device *ddev = dev_get_drvdata(dev);
--	struct msm_drm_private *priv = ddev->dev_private;
-+	struct msm_drm_private *priv = dev_get_drvdata(dev);
- 	struct msm_mdss *mdss = priv->mdss;
- 
- 	DBG("");
-@@ -1156,8 +1143,7 @@ static int __maybe_unused msm_runtime_suspend(struct device *dev)
- 
- static int __maybe_unused msm_runtime_resume(struct device *dev)
- {
--	struct drm_device *ddev = dev_get_drvdata(dev);
--	struct msm_drm_private *priv = ddev->dev_private;
-+	struct msm_drm_private *priv = dev_get_drvdata(dev);
- 	struct msm_mdss *mdss = priv->mdss;
- 
- 	DBG("");
-@@ -1187,8 +1173,8 @@ static int __maybe_unused msm_pm_resume(struct device *dev)
- 
- static int __maybe_unused msm_pm_prepare(struct device *dev)
- {
--	struct drm_device *ddev = dev_get_drvdata(dev);
--	struct msm_drm_private *priv = ddev ? ddev->dev_private : NULL;
-+	struct msm_drm_private *priv = dev_get_drvdata(dev);
-+	struct drm_device *ddev = priv ? priv->dev : NULL;
- 
- 	if (!priv || !priv->kms)
- 		return 0;
-@@ -1198,8 +1184,8 @@ static int __maybe_unused msm_pm_prepare(struct device *dev)
- 
- static void __maybe_unused msm_pm_complete(struct device *dev)
- {
--	struct drm_device *ddev = dev_get_drvdata(dev);
--	struct msm_drm_private *priv = ddev ? ddev->dev_private : NULL;
-+	struct msm_drm_private *priv = dev_get_drvdata(dev);
-+	struct drm_device *ddev = priv ? priv->dev : NULL;
- 
- 	if (!priv || !priv->kms)
- 		return;
-@@ -1397,8 +1383,15 @@ static const struct component_master_ops msm_drm_ops = {
- static int msm_pdev_probe(struct platform_device *pdev)
- {
- 	struct component_match *match = NULL;
-+	struct msm_drm_private *priv;
- 	int ret;
- 
-+	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
++int dpu_mdss_early_init(struct device *dev, struct msm_drm_private *priv)
++{
++	struct dpu_mdss *dpu_mdss;
++	int ret;
++
++	dpu_mdss = devm_kzalloc(dev, sizeof(*dpu_mdss), GFP_KERNEL);
++	if (!dpu_mdss)
 +		return -ENOMEM;
 +
-+	platform_set_drvdata(pdev, priv);
++	ret = _dpu_mdss_irq_domain_add(dev, dpu_mdss);
++	if (ret)
++		return ret;
 +
- 	if (get_mdp_ver(pdev)) {
- 		ret = add_display_components(pdev, &match);
- 		if (ret)
-@@ -1437,8 +1430,8 @@ static int msm_pdev_remove(struct platform_device *pdev)
- 
- static void msm_pdev_shutdown(struct platform_device *pdev)
++	/*
++	 * Here we have no drm_device yet, but still do the assignment
++	 * so that we can retrieve our struct dpu_mdss from the main
++	 * init function, since we allocate it here.
++	 */
++	priv->mdss = &dpu_mdss->base;
++
++	return 0;
++}
++
+ int dpu_mdss_init(struct drm_device *dev)
  {
--	struct drm_device *drm = platform_get_drvdata(pdev);
--	struct msm_drm_private *priv = drm ? drm->dev_private : NULL;
-+	struct msm_drm_private *priv = platform_get_drvdata(pdev);
-+	struct drm_device *drm = priv ? priv->dev : NULL;
+ 	struct platform_device *pdev = to_platform_device(dev->dev);
+@@ -221,9 +245,9 @@ int dpu_mdss_init(struct drm_device *dev)
+ 	int ret;
+ 	int irq;
  
- 	if (!priv || !priv->kms)
+-	dpu_mdss = devm_kzalloc(dev->dev, sizeof(*dpu_mdss), GFP_KERNEL);
++	dpu_mdss = to_dpu_mdss(priv->mdss);
+ 	if (!dpu_mdss)
+-		return -ENOMEM;
++		return -ENODATA;
+ 
+ 	dpu_mdss->mmio = msm_ioremap(pdev, "mdss", "mdss");
+ 	if (IS_ERR(dpu_mdss->mmio))
+@@ -241,10 +265,6 @@ int dpu_mdss_init(struct drm_device *dev)
+ 	dpu_mdss->base.dev = dev;
+ 	dpu_mdss->base.funcs = &mdss_funcs;
+ 
+-	ret = _dpu_mdss_irq_domain_add(dpu_mdss);
+-	if (ret)
+-		goto irq_domain_error;
+-
+ 	irq = platform_get_irq(pdev, 0);
+ 	if (irq < 0) {
+ 		ret = irq;
+@@ -253,16 +273,10 @@ int dpu_mdss_init(struct drm_device *dev)
+ 
+ 	irq_set_chained_handler_and_data(irq, dpu_mdss_irq,
+ 					 dpu_mdss);
+-
+-	priv->mdss = &dpu_mdss->base;
+-
+ 	pm_runtime_enable(dev->dev);
+-
+ 	return 0;
+ 
+ irq_error:
+-	_dpu_mdss_irq_domain_fini(dpu_mdss);
+-irq_domain_error:
+ 	msm_dss_put_clk(mp->clk_config, mp->num_clk);
+ clk_parse_err:
+ 	devm_kfree(&pdev->dev, mp->clk_config);
+diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_mdss.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_mdss.c
+index 0ea53420bc40..a99538ae4182 100644
+--- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_mdss.c
++++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_mdss.c
+@@ -112,9 +112,8 @@ static const struct irq_domain_ops mdss_hw_irqdomain_ops = {
+ };
+ 
+ 
+-static int mdss_irq_domain_init(struct mdp5_mdss *mdp5_mdss)
++static int mdss_irq_domain_init(struct device *dev, struct mdp5_mdss *mdp5_mdss)
+ {
+-	struct device *dev = mdp5_mdss->base.dev->dev;
+ 	struct irq_domain *d;
+ 
+ 	d = irq_domain_add_linear(dev->of_node, 32, &mdss_hw_irqdomain_ops,
+@@ -182,20 +181,52 @@ static void mdp5_mdss_destroy(struct drm_device *dev)
+ 	if (!mdp5_mdss)
  		return;
+ 
+-	irq_domain_remove(mdp5_mdss->irqcontroller.domain);
+-	mdp5_mdss->irqcontroller.domain = NULL;
+-
+ 	regulator_disable(mdp5_mdss->vdd);
+ 
+ 	pm_runtime_disable(dev->dev);
+ }
+ 
++static void mdp5_mdss_remove(struct msm_mdss *mdss)
++{
++	struct mdp5_mdss *mdp5_mdss = to_mdp5_mdss(mdss);
++
++	irq_domain_remove(mdp5_mdss->irqcontroller.domain);
++	mdp5_mdss->irqcontroller.domain = NULL;
++}
++
+ static const struct msm_mdss_funcs mdss_funcs = {
+ 	.enable	= mdp5_mdss_enable,
+ 	.disable = mdp5_mdss_disable,
+ 	.destroy = mdp5_mdss_destroy,
++	.remove = mdp5_mdss_remove,
+ };
+ 
++int mdp5_mdss_early_init(struct device *dev, struct msm_drm_private *priv)
++{
++	struct mdp5_mdss *mdp5_mdss;
++	int ret;
++
++	if (!of_device_is_compatible(dev->of_node, "qcom,mdss"))
++		return 0;
++
++	mdp5_mdss = devm_kzalloc(dev, sizeof(*mdp5_mdss), GFP_KERNEL);
++	if (!mdp5_mdss)
++		return -ENOMEM;
++
++	ret = mdss_irq_domain_init(dev, mdp5_mdss);
++	if (ret)
++		return ret;
++
++	/*
++	 * Here we have no drm_device yet, but still do the assignment
++	 * so that we can retrieve our struct mdp5_mdss from the main
++	 * init function, since we allocate it here.
++	 */
++	priv->mdss = &mdp5_mdss->base;
++
++	return 0;
++}
++
+ int mdp5_mdss_init(struct drm_device *dev)
+ {
+ 	struct platform_device *pdev = to_platform_device(dev->dev);
+@@ -208,11 +239,9 @@ int mdp5_mdss_init(struct drm_device *dev)
+ 	if (!of_device_is_compatible(dev->dev->of_node, "qcom,mdss"))
+ 		return 0;
+ 
+-	mdp5_mdss = devm_kzalloc(dev->dev, sizeof(*mdp5_mdss), GFP_KERNEL);
+-	if (!mdp5_mdss) {
+-		ret = -ENOMEM;
+-		goto fail;
+-	}
++	mdp5_mdss = to_mdp5_mdss(priv->mdss);
++	if (!mdp5_mdss)
++		return -ENODATA;
+ 
+ 	mdp5_mdss->base.dev = dev;
+ 
+@@ -255,17 +284,8 @@ int mdp5_mdss_init(struct drm_device *dev)
+ 		goto fail_irq;
+ 	}
+ 
+-	ret = mdss_irq_domain_init(mdp5_mdss);
+-	if (ret) {
+-		DRM_DEV_ERROR(dev->dev, "failed to init sub-block irqs: %d\n", ret);
+-		goto fail_irq;
+-	}
+-
+ 	mdp5_mdss->base.funcs = &mdss_funcs;
+-	priv->mdss = &mdp5_mdss->base;
+-
+ 	pm_runtime_enable(dev->dev);
+-
+ 	return 0;
+ fail_irq:
+ 	regulator_disable(mdp5_mdss->vdd);
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 601814b12daf..e61fc806148b 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -1390,6 +1390,20 @@ static int msm_pdev_probe(struct platform_device *pdev)
+ 	if (!priv)
+ 		return -ENOMEM;
+ 
++	switch (get_mdp_ver(pdev)) {
++	case KMS_MDP5:
++		ret = mdp5_mdss_early_init(&pdev->dev, priv);
++		break;
++	case KMS_DPU:
++		ret = dpu_mdss_early_init(&pdev->dev, priv);
++		break;
++	default:
++		ret = 0;
++		break;
++	}
++	if (ret)
++		return ret;
++
+ 	platform_set_drvdata(pdev, priv);
+ 
+ 	if (get_mdp_ver(pdev)) {
+@@ -1422,6 +1436,12 @@ static int msm_pdev_probe(struct platform_device *pdev)
+ 
+ static int msm_pdev_remove(struct platform_device *pdev)
+ {
++	struct msm_drm_private *priv = platform_get_drvdata(pdev);
++
++	if (priv->mdss && priv->mdss->funcs)
++		priv->mdss->funcs->remove(priv->mdss);
++
++	priv->mdss = NULL;
+ 	component_master_del(&pdev->dev, &msm_drm_ops);
+ 	of_platform_depopulate(&pdev->dev);
+ 
+@@ -1433,7 +1453,7 @@ static void msm_pdev_shutdown(struct platform_device *pdev)
+ 	struct msm_drm_private *priv = platform_get_drvdata(pdev);
+ 	struct drm_device *drm = priv ? priv->dev : NULL;
+ 
+-	if (!priv || !priv->kms)
++	if (!priv || !priv->kms || !drm->mode_config.funcs)
+ 		return;
+ 
+ 	drm_atomic_helper_shutdown(drm);
+diff --git a/drivers/gpu/drm/msm/msm_kms.h b/drivers/gpu/drm/msm/msm_kms.h
+index 6a42b819abc4..2c539a228156 100644
+--- a/drivers/gpu/drm/msm/msm_kms.h
++++ b/drivers/gpu/drm/msm/msm_kms.h
+@@ -202,6 +202,7 @@ struct msm_mdss_funcs {
+ 	int (*enable)(struct msm_mdss *mdss);
+ 	int (*disable)(struct msm_mdss *mdss);
+ 	void (*destroy)(struct drm_device *dev);
++	void (*remove)(struct msm_mdss *mdss);
+ };
+ 
+ struct msm_mdss {
+@@ -209,7 +210,9 @@ struct msm_mdss {
+ 	const struct msm_mdss_funcs *funcs;
+ };
+ 
++int mdp5_mdss_early_init(struct device *dev, struct msm_drm_private *priv);
+ int mdp5_mdss_init(struct drm_device *dev);
++int dpu_mdss_early_init(struct device *dev, struct msm_drm_private *priv);
+ int dpu_mdss_init(struct drm_device *dev);
+ 
+ #define for_each_crtc_mask(dev, crtc, crtc_mask) \
 -- 
 2.33.1
 
