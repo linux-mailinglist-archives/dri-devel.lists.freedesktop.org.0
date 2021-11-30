@@ -2,55 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B95AE462F65
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 10:16:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14E57462F70
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 10:21:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E69876FBB1;
-	Tue, 30 Nov 2021 09:16:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D8946FC05;
+	Tue, 30 Nov 2021 09:21:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 658B26FBAE
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 09:16:16 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id o29so16807653wms.2
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 01:16:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=THPOmKC29m1M2x4j4RtrTBi3JEhZ3Zk2dJl3LbX3h70=;
- b=OYUYyW7knuaphscSal0kEdhZcQ+p7wK0cHHrvUF3uNIrgCgCB5TGzIDkBp6zD/ZcQj
- yVo7GCBlPrhZ5VOgtigdR9RbfdvaNfHyKSINQV0nc3T4HtSFyKFcBRubk5ITDFYgH+rV
- FAShbodVqriwYs9NmhZnQm7D/kTxKgJV7Du8A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=THPOmKC29m1M2x4j4RtrTBi3JEhZ3Zk2dJl3LbX3h70=;
- b=kh9CtQbbVW3/gwaAPFf2dI+pfCxoEkK3UbJuoChhkUmCAMMvYcqb1moQY4wC18RCvY
- aODBda1TJkICbePnGgP4XzjGvYLI9m+2sDy3Hefv7nVYTpM8ep3KG0iqgvdqHgACtq4u
- QAe0F0nlE3yx6K+uDSLrkYC4JlrFbXFnajxMEtA0puNrd3XInDdd1ySs6lW0bLQSiCY7
- jn3dRq/RDkFmYscMkqq/OOaes8PiU3y6O3qDYMpVqxRjIPV0tpSrP/5KbIXf/Vgthx/G
- EoLVCXAW8pCQCZ4eLShs4agZzZgGdmx8aCiktHJrIseIdK114aIXOApz9Ys3bqZp0XOV
- 94ZQ==
-X-Gm-Message-State: AOAM531/jiQLPzlSY1GGn5akxQEojEOVVe6UNm0GzXyUYGx3fPA1hL2o
- LUAJV8mE871ItrPaIzBIHpCnigXKggtHAA==
-X-Google-Smtp-Source: ABdhPJzBNTxsopCYkVjad6W98z/udcUcxp0cXaiqFkf5rpQ50R01ROCHdtyPnn1wvbf8njny+N5tdQ==
-X-Received: by 2002:a05:600c:4f87:: with SMTP id
- n7mr3514694wmq.63.1638263774971; 
- Tue, 30 Nov 2021 01:16:14 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id u13sm2009551wmq.14.2021.11.30.01.16.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Nov 2021 01:16:14 -0800 (PST)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] dma-resv: some doc polish for iterators
-Date: Tue, 30 Nov 2021 10:16:09 +0100
-Message-Id: <20211130091609.1335915-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.33.0
+Received: from mblankhorst.nl (mblankhorst.nl
+ [IPv6:2a02:2308:0:7ec:e79c:4e97:b6c4:f0ae])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD9666FC05;
+ Tue, 30 Nov 2021 09:21:00 +0000 (UTC)
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915: Force ww lock for i915_gem_object_ggtt_pin_ww, v2.
+Date: Tue, 30 Nov 2021 10:20:55 +0100
+Message-Id: <20211130092055.679740-1-maarten.lankhorst@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20211129134735.628712-6-maarten.lankhorst@linux.intel.com>
+References: <20211129134735.628712-6-maarten.lankhorst@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,125 +35,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, linaro-mm-sig@lists.linaro.org,
- Daniel Vetter <daniel.vetter@intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hammer it a bit more in that iterators can be restarted and when that
-matters, plus suggest to prefer the locked version whenver.
+We will need the lock to unbind the vma, and wait for bind to complete.
+Remove the special casing for the !ww path, and force ww locking for all.
 
-Also delete the two leftover kerneldoc for static functions plus
-sprinkle some more links while at it.
+Changes since v1:
+- Pass err to for_i915_gem_ww handling for -EDEADLK handling.
 
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
+Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 ---
- drivers/dma-buf/dma-resv.c | 26 ++++++++++++--------------
- include/linux/dma-resv.h   | 13 ++++++++++++-
- 2 files changed, 24 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/i915/i915_drv.h |  7 ++-----
+ drivers/gpu/drm/i915/i915_gem.c | 30 ++++++++++++++++++++++++++----
+ 2 files changed, 28 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-index 9eb2baa387d4..1453b664c405 100644
---- a/drivers/dma-buf/dma-resv.c
-+++ b/drivers/dma-buf/dma-resv.c
-@@ -323,12 +323,6 @@ void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence)
- }
- EXPORT_SYMBOL(dma_resv_add_excl_fence);
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index 1bfadd9127fc..8322abe194da 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -1842,13 +1842,10 @@ i915_gem_object_ggtt_pin_ww(struct drm_i915_gem_object *obj,
+ 			    const struct i915_ggtt_view *view,
+ 			    u64 size, u64 alignment, u64 flags);
  
--/**
-- * dma_resv_iter_restart_unlocked - restart the unlocked iterator
-- * @cursor: The dma_resv_iter object to restart
-- *
-- * Restart the unlocked iteration by initializing the cursor object.
-- */
- static void dma_resv_iter_restart_unlocked(struct dma_resv_iter *cursor)
- {
- 	cursor->seq = read_seqcount_begin(&cursor->obj->seq);
-@@ -344,14 +338,6 @@ static void dma_resv_iter_restart_unlocked(struct dma_resv_iter *cursor)
- 	cursor->is_restarted = true;
+-static inline struct i915_vma * __must_check
++struct i915_vma * __must_check
+ i915_gem_object_ggtt_pin(struct drm_i915_gem_object *obj,
+ 			 const struct i915_ggtt_view *view,
+-			 u64 size, u64 alignment, u64 flags)
+-{
+-	return i915_gem_object_ggtt_pin_ww(obj, NULL, view, size, alignment, flags);
+-}
++			 u64 size, u64 alignment, u64 flags);
+ 
+ int i915_gem_object_unbind(struct drm_i915_gem_object *obj,
+ 			   unsigned long flags);
+diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
+index 527228d4da7e..6002045bd194 100644
+--- a/drivers/gpu/drm/i915/i915_gem.c
++++ b/drivers/gpu/drm/i915/i915_gem.c
+@@ -877,6 +877,8 @@ i915_gem_object_ggtt_pin_ww(struct drm_i915_gem_object *obj,
+ 	struct i915_vma *vma;
+ 	int ret;
+ 
++	GEM_WARN_ON(!ww);
++
+ 	if (flags & PIN_MAPPABLE &&
+ 	    (!view || view->type == I915_GGTT_VIEW_NORMAL)) {
+ 		/*
+@@ -936,10 +938,7 @@ i915_gem_object_ggtt_pin_ww(struct drm_i915_gem_object *obj,
+ 			return ERR_PTR(ret);
+ 	}
+ 
+-	if (ww)
+-		ret = i915_vma_pin_ww(vma, ww, size, alignment, flags | PIN_GLOBAL);
+-	else
+-		ret = i915_vma_pin(vma, size, alignment, flags | PIN_GLOBAL);
++	ret = i915_vma_pin_ww(vma, ww, size, alignment, flags | PIN_GLOBAL);
+ 
+ 	if (ret)
+ 		return ERR_PTR(ret);
+@@ -959,6 +958,29 @@ i915_gem_object_ggtt_pin_ww(struct drm_i915_gem_object *obj,
+ 	return vma;
  }
  
--/**
-- * dma_resv_iter_walk_unlocked - walk over fences in a dma_resv obj
-- * @cursor: cursor to record the current position
-- *
-- * Return all the fences in the dma_resv object which are not yet signaled.
-- * The returned fence has an extra local reference so will stay alive.
-- * If a concurrent modify is detected the whole iteration is started over again.
-- */
- static void dma_resv_iter_walk_unlocked(struct dma_resv_iter *cursor)
- {
- 	struct dma_resv *obj = cursor->obj;
-@@ -387,6 +373,12 @@ static void dma_resv_iter_walk_unlocked(struct dma_resv_iter *cursor)
-  * dma_resv_iter_first_unlocked - first fence in an unlocked dma_resv obj.
-  * @cursor: the cursor with the current position
-  *
-+ * Subsequent fences are iterated with dma_resv_iter_next_unlocked().
-+ *
-+ * Beware that the iterator can be restarted.  Code which accumulates statistics
-+ * or similar needs to check for this with dma_resv_iter_is_restarted(). For
-+ * this reason prefer the locked dma_resv_iter_first() whenver possible.
-+ *
-  * Returns the first fence from an unlocked dma_resv obj.
-  */
- struct dma_fence *dma_resv_iter_first_unlocked(struct dma_resv_iter *cursor)
-@@ -406,6 +398,10 @@ EXPORT_SYMBOL(dma_resv_iter_first_unlocked);
-  * dma_resv_iter_next_unlocked - next fence in an unlocked dma_resv obj.
-  * @cursor: the cursor with the current position
-  *
-+ * Beware that the iterator can be restarted.  Code which accumulates statistics
-+ * or similar needs to check for this with dma_resv_iter_is_restarted(). For
-+ * this reason prefer the locked dma_resv_iter_next() whenver possible.
-+ *
-  * Returns the next fence from an unlocked dma_resv obj.
-  */
- struct dma_fence *dma_resv_iter_next_unlocked(struct dma_resv_iter *cursor)
-@@ -431,6 +427,8 @@ EXPORT_SYMBOL(dma_resv_iter_next_unlocked);
-  * dma_resv_iter_first - first fence from a locked dma_resv object
-  * @cursor: cursor to record the current position
-  *
-+ * Subsequent fences are iterated with dma_resv_iter_next_unlocked().
-+ *
-  * Return the first fence in the dma_resv object while holding the
-  * &dma_resv.lock.
-  */
-diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-index dbd235ab447f..ebe908592ac3 100644
---- a/include/linux/dma-resv.h
-+++ b/include/linux/dma-resv.h
-@@ -153,6 +153,13 @@ struct dma_resv {
-  * struct dma_resv_iter - current position into the dma_resv fences
-  *
-  * Don't touch this directly in the driver, use the accessor function instead.
-+ *
-+ * IMPORTANT
-+ *
-+ * When using the lockless iterators like dma_resv_iter_next_unlocked() or
-+ * dma_resv_for_each_fence_unlocked() beware that the iterator can be restarted.
-+ * Code which accumulates statistics or similar needs to check for this with
-+ * dma_resv_iter_is_restarted().
-  */
- struct dma_resv_iter {
- 	/** @obj: The dma_resv object we iterate over */
-@@ -243,7 +250,11 @@ static inline bool dma_resv_iter_is_restarted(struct dma_resv_iter *cursor)
-  * &dma_resv.lock and using RCU instead. The cursor needs to be initialized
-  * with dma_resv_iter_begin() and cleaned up with dma_resv_iter_end(). Inside
-  * the iterator a reference to the dma_fence is held and the RCU lock dropped.
-- * When the dma_resv is modified the iteration starts over again.
-+ *
-+ * Beware that the iterator can be restarted when the struct dma_resv for
-+ * @cursor is modified. Code which accumulates statistics or similar needs to
-+ * check for this with dma_resv_iter_is_restarted(). For this reason prefer the
-+ * lock iterator dma_resv_for_each_fence() whenever possible.
-  */
- #define dma_resv_for_each_fence_unlocked(cursor, fence)			\
- 	for (fence = dma_resv_iter_first_unlocked(cursor);		\
++struct i915_vma * __must_check
++i915_gem_object_ggtt_pin(struct drm_i915_gem_object *obj,
++			 const struct i915_ggtt_view *view,
++			 u64 size, u64 alignment, u64 flags)
++{
++	struct i915_gem_ww_ctx ww;
++	struct i915_vma *ret;
++	int err;
++
++	for_i915_gem_ww(&ww, err, true) {
++		err = i915_gem_object_lock(obj, &ww);
++		if (err)
++			continue;
++
++		ret = i915_gem_object_ggtt_pin_ww(obj, &ww, view, size,
++						  alignment, flags);
++		if (IS_ERR(ret))
++			err = PTR_ERR(ret);
++	}
++
++	return err ? ERR_PTR(err) : ret;
++}
++
+ int
+ i915_gem_madvise_ioctl(struct drm_device *dev, void *data,
+ 		       struct drm_file *file_priv)
 -- 
-2.33.0
+2.34.1
 
