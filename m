@@ -1,39 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0BAA464199
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 23:41:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A915464212
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 00:10:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED0116E079;
-	Tue, 30 Nov 2021 22:41:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED8446E03F;
+	Tue, 30 Nov 2021 23:10:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E9576E079;
- Tue, 30 Nov 2021 22:41:15 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10184"; a="223211950"
-X-IronPort-AV: E=Sophos;i="5.87,277,1631602800"; d="scan'208";a="223211950"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2021 14:41:14 -0800
-X-IronPort-AV: E=Sophos;i="5.87,277,1631602800"; d="scan'208";a="512390874"
-Received: from ppangx-mobl.amr.corp.intel.com (HELO intel.com) ([10.252.53.36])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2021 14:41:11 -0800
-Date: Wed, 1 Dec 2021 00:41:08 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: Re: [PATCH v4 2/2] drm/i915: Use to_root_gt() to refer to the root
- tile
-Message-ID: <YaaohLkiuWsPSqWq@intel.intel>
-References: <20211128110926.2569-1-andi.shyti@linux.intel.com>
- <20211128110926.2569-3-andi.shyti@linux.intel.com>
- <20211130210730.wbuy3znor6jel3cc@ldmartin-desk2>
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAD3C6E03F
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 23:10:16 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id z7so23515072lfi.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 15:10:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9AK1GJRUxxwNuwoBrLGoSOJFNKqVHQhLKUbE8ei09Fo=;
+ b=PyPvqsasaTmSwk/nM+ISRUx+cnE3Qm9dW4HBLYLEhzTwmFHWE7dWTmBz5APhHJtiJT
+ IunDl7PxcYbGlbbH14Tc+8rh9oGcvxZX4u7T4hx+wt1J4omIEK0xTQGVV5I2aadMMLw6
+ clz3cdx93w0U+mve/K2JsMvamznGvFk74w1dZQm0gMs7MzRjF5VLahdsISL9W1/d8CiS
+ JZ5rKoLDnKiQRFrkGn9K1KHPhF0ncGLaRWl/FaRZMV6rQdosuZz2DCbc78UIWZyRtu2D
+ 8OxOrJejOcUYvWScqcru/42pHbl4mkCPhz2mAKXshoU2R+vM7SpnqRC3uS2K2Hm28uF6
+ VUQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9AK1GJRUxxwNuwoBrLGoSOJFNKqVHQhLKUbE8ei09Fo=;
+ b=MHy2g9RzeSti2r+NThCBd8JRa4Mjf2LHt9Wu1gnQlp1qmMx4+qO0NCNGwYObSQXwqH
+ AtkJCoRxuQoJJ2f2dN+GwrF1CGOkP04CcvVyAzUx1Nz9eHVaqCBX2/eT8UugVKAHC5aA
+ kIMOELr8hyTIS1lWcdzjyvLLgPAeo/gBIeg6H8v5czLCxLFU+NT2NT1sL0ry4bmwSMtb
+ IVtA2PEjHRivoWYL7tfHToq/DIGNPpZ0pidI46OvYNuequPbRsm6/DMBLl2DdSSVp0j6
+ glGhW/O930a4pSxvnp6cb7/YxnNGMgRFuOPAri1rzH+IzYVmQw7wbQMSr4sLAUh+t90/
+ dcgQ==
+X-Gm-Message-State: AOAM532FdlS2x/88sBquIOIJgo/4VgKyOotsQJXacf9v5sepfolR2EF+
+ yqI/gLOl1Hutbd/uBZujRKU=
+X-Google-Smtp-Source: ABdhPJwU742CHSh+SdR7WnEFyG0sTjhEbgVGjUL59FrH2/nPrx+4ou2/uazsEtX92zlhly1gL+J9PA==
+X-Received: by 2002:a05:6512:33c9:: with SMTP id
+ d9mr2045014lfg.615.1638313815095; 
+ Tue, 30 Nov 2021 15:10:15 -0800 (PST)
+Received: from localhost.localdomain (94-29-46-111.dynamic.spd-mgts.ru.
+ [94.29.46.111])
+ by smtp.gmail.com with ESMTPSA id k14sm2099846lfu.210.2021.11.30.15.10.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Nov 2021 15:10:14 -0800 (PST)
+From: Dmitry Osipenko <digetx@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Lyude Paul <lyude@redhat.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Thomas Graichen <thomas.graichen@gmail.com>
+Subject: [PATCH v2 0/4] Restore Tegra DRM on Nyan Big Chromebook
+Date: Wed,  1 Dec 2021 02:09:53 +0300
+Message-Id: <20211130230957.30213-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211130210730.wbuy3znor6jel3cc@ldmartin-desk2>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,86 +70,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?utf-8?Q?Michal=C5=82Winiarski?= <michal.winiarski@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
- DRI Devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>, Andi Shyti <andi@etezian.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lucas,
+This patchset restores regressed SOR driver probing on Nyan Chromebook.
 
-fist of all thanks for taking a look at this, I was eagerly
-waiting for reviewers.
+Changelog:
 
-On Tue, Nov 30, 2021 at 01:07:30PM -0800, Lucas De Marchi wrote:
-> On Sun, Nov 28, 2021 at 01:09:26PM +0200, Andi Shyti wrote:
-> > Starting from a patch from Matt to_root_gt() returns the
-> > reference to the root tile in order to abstract the root tile
-> > from th callers.
-> > 
-> > Being the root tile identified as tile '0', embed the id in the
-> > name so that i915->gt becomes i915->gt0.
-> > 
-> > The renaming has been mostly done with the following command and
-> > some manual fixes.
-> > 
-> > sed -i -e sed -i 's/\&i915\->gt\./\&to_root_gt(i915)\->/g' \
-> > 	-e sed -i 's/\&dev_priv\->gt\./\&to_root_gt(dev_priv)\->/g' \
-> > 	-e 's/\&dev_priv\->gt/to_root_gt(dev_priv)/g' \
-> > 	-e 's/\&i915\->gt/to_root_gt(i915)/g' \
-> > 	-e 's/dev_priv\->gt\./to_root_gt(dev_priv)\->/g' \
-> > 	-e 's/i915\->gt\./to_root_gt(i915)\->/g' \
-> > 	`find drivers/gpu/drm/i915/ -name *.[ch]`
-> > 
-> > Two small changes have been added to this commit:
-> > 
-> > 1. intel_reset_gpu() in intel_display.c retreives the gt from
-> >    to_scanout_gt()
-> > 2. in set_scheduler_caps() the gt is taken from the engine and
-> >    not from i915.
-> 
-> Ideally the non-automatic changes should be in separate patches, before
-> the ones that can be done by automation. Because then it becomes easier
-> to apply the final result without conflicts.
+v2: - Changed host1x and Tegra DRM drivers such that DRM device is
+      registered early now. This removes the need to change DRM core.
 
-OK
+    - Introduced dev_err_probe() patch again. Previously Thierry rejected
+      it, saying that he likes his variant more, but I kept that patch in
+      grate kernel and it happened to be very handy to have because I
+      instantly identified the problem in the DP AUX driver with it,
+      which would've been much more difficult to do otherwise.
+      Please apply it this time.
 
-> This is quite a big diff to merge in one go. Looking at the pending
-> patches from Michal however I see he had similar changes, split in
-> sensible chunks..  Could you split your version like that? at least
-> gt/gem and display would be good to have separate. Or sync with Michal
-> on how to proceed with these versions Here are his patches:
-> 
-> 	drm/i915: Remove i915->ggtt
-> 	drm/i915: Use to_gt() helper for GGTT accesses
-> 	drm/i915: Use to_gt() helper
-> 	drm/i915/gvt: Use to_gt() helper
-> 	drm/i915/gem: Use to_gt() helper
-> 	drm/i915/gt: Use to_gt() helper
-> 	drm/i915/display: Use to_gt() helper
-> 	drm/i915: Introduce to_gt() helper
+Dmitry Osipenko (4):
+  gpu/host1x: Add init/deinit callbacks to host1x driver framework
+  drm/tegra: Create DRM device early
+  drm/tegra: dpaux: Restore DP AUX DDC registration order
+  drm/tegra: Use dev_err_probe()
 
-I understand... will follow this approach.
+ drivers/gpu/drm/tegra/dc.c    | 13 +++-------
+ drivers/gpu/drm/tegra/dpaux.c | 26 +++++++++++++-------
+ drivers/gpu/drm/tegra/drm.c   | 46 +++++++++++++++++++++++++----------
+ drivers/gpu/drm/tegra/drm.h   |  2 ++
+ drivers/gpu/drm/tegra/hdmi.c  | 34 +++++++-------------------
+ drivers/gpu/host1x/bus.c      | 15 ++++++++++++
+ include/linux/host1x.h        |  4 +++
+ 7 files changed, 83 insertions(+), 57 deletions(-)
 
-> This first patch also removed the `struct intel_gt *gt = to_gt(pool)`,
-> that would otherwise be a leftover in drivers/gpu/drm/i915/gt/intel_gt_buffer_pool.c
+-- 
+2.33.1
 
-One difference from Michal patch is that I am not using the
-wrapper
-
-  to_gt(...)
-
-but
-
-  to_root_gt(...)
-
-which was introduced by Matt. To me sounds more meaningful as it
-specifies that we are really looking for the root tile and not
-any tile.
-
-Thanks again,
-Andi
