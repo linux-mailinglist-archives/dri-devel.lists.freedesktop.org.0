@@ -2,58 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79350464214
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 00:10:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD111464215
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 00:10:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A49626E226;
-	Tue, 30 Nov 2021 23:10:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5414B6E2C0;
+	Tue, 30 Nov 2021 23:10:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08FAB6E2C0
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 23:10:19 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id k23so44305479lje.1
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 15:10:18 -0800 (PST)
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96DF16E226
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 23:10:20 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id u3so57882829lfl.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 15:10:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ERM173rnlxHrezuLhERWO1z/gEqXVXV1BN/+rag/gH0=;
- b=fT7ZcuoDV9WZYGw/uHvsPnUTdpRNLBvlyuoM8XwVN1CCP+NCv0cA+DMi5jZQ9+ipNx
- 1S0oCwCpgen+11NSKf2JTa1Gg7pRz62pb2DU1AeLY6buLkpmWHl2hp3g8ItGyz7tEfZ4
- b+/iyIRZTqapPQUjrBe8/kr5+3lletoqNdk6YFV+E4a2qXjy3ChVfecrvduYkeOeSk6i
- heVrII1NQy537z8DpVMrimIjsqFdPRv1UBo1c0cRpUuh/DttCoTHoLMvK+ncfVC4+2F2
- WySy03FD82cZwTYLMPL2sNOeO5Dvg3ZrDL0o8DoIJJB6HVwPT+g9m+sRHsJwKcpye/op
- vf8g==
+ bh=vPO+bBApcxdA5y2Q3fy7ZINB3CJ88qaYAenQZvkSVDc=;
+ b=JXF/9H/QlTPQRtSNPlU/aReawD8FLsfHSdZ5gWqyQa8IU4fTxXQ7exyba7eawM26o4
+ X7z5WN7JY97gds/BQfxNXJS1qZzAPx3rGhOLhM3lFvGE1oWic47rd24iUJOtVdABVhhv
+ 3QSiyb6trhmK2lAwpPvh4VYHpf2g5qqBZfh4h+oFtrtWLFAUc/Ql/ucEUDBydbluy73X
+ YE4tpMcFVC23KFQYhxDrlwS06Ex+ybN58CF6kPPSzGm1/MQGOPa3+XNRKZG+IynkZW+Q
+ yOOE4PnB7ir0crR3J3Vq1YvpySGnsXR04OGFcsZ+cCb0FdwQ5fa3n7i/siyBvUnd4oCZ
+ DoJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ERM173rnlxHrezuLhERWO1z/gEqXVXV1BN/+rag/gH0=;
- b=w05AutPZAg0nh4YWrUieDe/CK34g693HJ3QHIxK1PH9mPQdxC7T57NTySbYB9PrsDH
- q+B1ujOCcKrJCYP0rImJy1h7zLhQryYXU1yza6TLwYwU0+jnT0IWSphfFzBlIa52UkFk
- lmEMF+fTPzTz5IKTYSywKwcOlsLmd5eZJOSbRQVtrtDHsp0JQzwY+kLVDCWmBQ5Odqms
- hG34GQ1K0m4/BIzM0dm5izJM4qtJqpoav9WurRlpjSQNbnCSG1BFQ11j1ueKqmTC/3hv
- HCljw8WAfi1dns5hGFnPrleRYIrquer/3SyAkXwCmjixziyV1Kz6hVmfYPGdHtO6wj1+
- CnuA==
-X-Gm-Message-State: AOAM532wXJdczB4J/v/4y1BjNEengaue6uQy8BOsdCkK9XhYaeXe+ZX5
- jWn94ERDx+ruPhklEXso2To=
-X-Google-Smtp-Source: ABdhPJy8OrwAMk/4qysO8j03czL6bhwBqxpZq7ekWf8/+UlGsG4xsttvr4RZlRJiCp7oHHxgfgLsIg==
-X-Received: by 2002:a2e:9708:: with SMTP id r8mr1957933lji.36.1638313817379;
- Tue, 30 Nov 2021 15:10:17 -0800 (PST)
+ bh=vPO+bBApcxdA5y2Q3fy7ZINB3CJ88qaYAenQZvkSVDc=;
+ b=WTybVCW1LR1BOQLj310kgILVeivRse5DnrFEh6KJqbaNCKHpveldErTldH4zI+lc7M
+ 3tQhglfvw9ghDGIVSmhxXseAOOxZM77+KFoIWTOAQomCwfkEUy5CMXU7rTNWH3Ao1pSu
+ 3w2VAJhoHq4ZJ6B/cuHPWFjFbBWoJ8mWXoxyYU8Sf6u/GLeX/luwKwxdss3MQ7c5kAyO
+ 3IZTXATOXxbm82QJvkuniPnp76vqA/uMYh9mfScOg3oEbk4RvEYJ0GszluHH9HLj883b
+ 6F7DA7D37YTzXW5811KyPfEfT92uPmFXbLK3rpO2jPU170h9G9rAjJVo9wl/JV2l5Bzs
+ C39A==
+X-Gm-Message-State: AOAM5338QlOg3gSkDHeEBHv+VRRnfTRvLlQljnuihcqWI49MUvEpPRjZ
+ 8EItkLglivvisvPecte+b3Y=
+X-Google-Smtp-Source: ABdhPJzT82nM+GzSJsweT5whwKerGSgmA6VOGQpuf/7AVm3SkHRotqQ4zUKh+EsKIxErrvo3G/boJw==
+X-Received: by 2002:a05:6512:c17:: with SMTP id
+ z23mr2105714lfu.175.1638313818970; 
+ Tue, 30 Nov 2021 15:10:18 -0800 (PST)
 Received: from localhost.localdomain (94-29-46-111.dynamic.spd-mgts.ru.
  [94.29.46.111])
- by smtp.gmail.com with ESMTPSA id k14sm2099846lfu.210.2021.11.30.15.10.16
+ by smtp.gmail.com with ESMTPSA id k14sm2099846lfu.210.2021.11.30.15.10.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Nov 2021 15:10:17 -0800 (PST)
+ Tue, 30 Nov 2021 15:10:18 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>, Lyude Paul <lyude@redhat.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Thomas Graichen <thomas.graichen@gmail.com>
-Subject: [PATCH v2 2/4] drm/tegra: Create DRM device early
-Date: Wed,  1 Dec 2021 02:09:55 +0300
-Message-Id: <20211130230957.30213-3-digetx@gmail.com>
+Subject: [PATCH v2 3/4] drm/tegra: dpaux: Restore DP AUX DDC registration order
+Date: Wed,  1 Dec 2021 02:09:56 +0300
+Message-Id: <20211130230957.30213-4-digetx@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211130230957.30213-1-digetx@gmail.com>
 References: <20211130230957.30213-1-digetx@gmail.com>
@@ -76,121 +77,108 @@ Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DRM sub-drivers need to access DRM device early during first stage of
-drivers' probing. Use new host1x init/deinit callbacks to create DRM
-device early and destroy late.
+Restore DP AUX I2C DDC registration order by moving registration to
+DP AUX driver probe phase. This fixes broken display panel driver of
+Acer Chromebook CB5-311 that fails to probe starting with v5.13 kernel
+when DP AUX registration order was changed to prevent accessing
+uninitialized aux->drm_dev. Tegra SOR driver is never probed now using
+the new registration order because tegra-output always fails with
+-EPROBE_DEFER due to missing display panel that requires DP AUX DDC to
+be registered first. The offending commit made DDC to be registered after
+SOR's output, which can't ever happen. Use new tegra_drm_device() helper
+that allows to set aux->drm_dev during DP AUX probe, restoring the DCC
+registration order and reviving display panel.
 
 Cc: <stable@vger.kernel.org> # 5.13+
+Fixes: 39c17ae60ea9 ("drm/tegra: Don't register DP AUX channels before connectors")
+Reported-by: Thomas Graichen <thomas.graichen@gmail.com> # T124 Nyan Big
+Tested-by: Thomas Graichen <thomas.graichen@gmail.com> # T124 Nyan Big
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/gpu/drm/tegra/drm.c | 46 ++++++++++++++++++++++++++-----------
- drivers/gpu/drm/tegra/drm.h |  2 ++
- 2 files changed, 35 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/tegra/dpaux.c | 26 +++++++++++++++++---------
+ 1 file changed, 17 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-index e9de91a4e7e8..e9cbcaf6e017 100644
---- a/drivers/gpu/drm/tegra/drm.c
-+++ b/drivers/gpu/drm/tegra/drm.c
-@@ -1133,21 +1133,42 @@ static bool host1x_drm_wants_iommu(struct host1x_device *dev)
- 	return domain != NULL;
- }
+diff --git a/drivers/gpu/drm/tegra/dpaux.c b/drivers/gpu/drm/tegra/dpaux.c
+index 1f96e416fa08..148d3c00dd8e 100644
+--- a/drivers/gpu/drm/tegra/dpaux.c
++++ b/drivers/gpu/drm/tegra/dpaux.c
+@@ -530,9 +530,12 @@ static int tegra_dpaux_probe(struct platform_device *pdev)
+ 	disable_irq(dpaux->irq);
  
--static int host1x_drm_probe(struct host1x_device *dev)
-+static struct drm_device *terga_drm_dev;
-+
-+struct drm_device *tegra_drm_device(void)
- {
--	struct tegra_drm *tegra;
--	struct drm_device *drm;
--	int err;
-+	return terga_drm_dev;
-+}
+ 	dpaux->aux.transfer = tegra_dpaux_transfer;
++	dpaux->aux.drm_dev = tegra_drm_device();
+ 	dpaux->aux.dev = &pdev->dev;
  
--	drm = drm_dev_alloc(&tegra_drm_driver, &dev->dev);
-+static int host1x_drm_dev_init(struct host1x_device *dev)
-+{
-+	struct drm_device *drm = drm_dev_alloc(&tegra_drm_driver, &dev->dev);
- 	if (IS_ERR(drm))
- 		return PTR_ERR(drm);
+-	drm_dp_aux_init(&dpaux->aux);
++	err = drm_dp_aux_register(&dpaux->aux);
++	if (err < 0)
++		goto put_pm;
  
-+	dev_set_drvdata(&dev->dev, drm);
-+	terga_drm_dev = drm;
-+
-+	return 0;
-+}
-+
-+static void host1x_drm_dev_deinit(struct host1x_device *dev)
-+{
-+	struct drm_device *drm = dev_get_drvdata(&dev->dev);
-+
-+	terga_drm_dev = NULL;
-+	drm_dev_put(drm);
-+}
-+
-+static int host1x_drm_probe(struct host1x_device *dev)
-+{
-+	struct drm_device *drm = dev_get_drvdata(&dev->dev);
-+	struct tegra_drm *tegra;
-+	int err;
-+
- 	tegra = kzalloc(sizeof(*tegra), GFP_KERNEL);
--	if (!tegra) {
--		err = -ENOMEM;
--		goto put;
--	}
-+	if (!tegra)
-+		return -ENOMEM;
+ 	/*
+ 	 * Assume that by default the DPAUX/I2C pads will be used for HDMI,
+@@ -544,7 +547,7 @@ static int tegra_dpaux_probe(struct platform_device *pdev)
+ 	 */
+ 	err = tegra_dpaux_pad_config(dpaux, DPAUX_PADCTL_FUNC_I2C);
+ 	if (err < 0)
+-		return err;
++		goto dp_aux_unreg;
  
- 	if (host1x_drm_wants_iommu(dev) && iommu_present(&platform_bus_type)) {
- 		tegra->domain = iommu_domain_alloc(&platform_bus_type);
-@@ -1164,7 +1185,6 @@ static int host1x_drm_probe(struct host1x_device *dev)
- 	mutex_init(&tegra->clients_lock);
- 	INIT_LIST_HEAD(&tegra->clients);
- 
--	dev_set_drvdata(&dev->dev, drm);
- 	drm->dev_private = tegra;
- 	tegra->drm = drm;
- 
-@@ -1285,8 +1305,7 @@ static int host1x_drm_probe(struct host1x_device *dev)
- 		iommu_domain_free(tegra->domain);
- free:
- 	kfree(tegra);
--put:
--	drm_dev_put(drm);
-+
- 	return err;
- }
- 
-@@ -1319,7 +1338,6 @@ static int host1x_drm_remove(struct host1x_device *dev)
+ #ifdef CONFIG_GENERIC_PINCONF
+ 	dpaux->desc.name = dev_name(&pdev->dev);
+@@ -557,7 +560,8 @@ static int tegra_dpaux_probe(struct platform_device *pdev)
+ 	dpaux->pinctrl = devm_pinctrl_register(&pdev->dev, &dpaux->desc, dpaux);
+ 	if (IS_ERR(dpaux->pinctrl)) {
+ 		dev_err(&pdev->dev, "failed to register pincontrol\n");
+-		return PTR_ERR(dpaux->pinctrl);
++		err = PTR_ERR(dpaux->pinctrl);
++		goto dp_aux_unreg;
  	}
- 
- 	kfree(tegra);
--	drm_dev_put(drm);
+ #endif
+ 	/* enable and clear all interrupts */
+@@ -571,6 +575,14 @@ static int tegra_dpaux_probe(struct platform_device *pdev)
+ 	mutex_unlock(&dpaux_lock);
  
  	return 0;
- }
-@@ -1391,6 +1409,8 @@ static struct host1x_driver host1x_drm_driver = {
- 	.probe = host1x_drm_probe,
- 	.remove = host1x_drm_remove,
- 	.subdevs = host1x_drm_subdevs,
-+	.init = host1x_drm_dev_init,
-+	.deinit = host1x_drm_dev_deinit,
- };
- 
- static struct platform_driver * const drivers[] = {
-diff --git a/drivers/gpu/drm/tegra/drm.h b/drivers/gpu/drm/tegra/drm.h
-index fc0a19554eac..8b7c9508070f 100644
---- a/drivers/gpu/drm/tegra/drm.h
-+++ b/drivers/gpu/drm/tegra/drm.h
-@@ -121,6 +121,8 @@ int tegra_drm_unregister_client(struct tegra_drm *tegra,
- int host1x_client_iommu_attach(struct host1x_client *client);
- void host1x_client_iommu_detach(struct host1x_client *client);
- 
-+struct drm_device *tegra_drm_device(void);
 +
- int tegra_drm_init(struct tegra_drm *tegra, struct drm_device *drm);
- int tegra_drm_exit(struct tegra_drm *tegra);
++dp_aux_unreg:
++	drm_dp_aux_unregister(&dpaux->aux);
++put_pm:
++	pm_runtime_put_sync(&pdev->dev);
++	pm_runtime_disable(&pdev->dev);
++
++	return err;
+ }
  
+ static int tegra_dpaux_remove(struct platform_device *pdev)
+@@ -579,6 +591,8 @@ static int tegra_dpaux_remove(struct platform_device *pdev)
+ 
+ 	cancel_work_sync(&dpaux->work);
+ 
++	drm_dp_aux_unregister(&dpaux->aux);
++
+ 	/* make sure pads are powered down when not in use */
+ 	tegra_dpaux_pad_power_down(dpaux);
+ 
+@@ -717,11 +731,6 @@ int drm_dp_aux_attach(struct drm_dp_aux *aux, struct tegra_output *output)
+ 	unsigned long timeout;
+ 	int err;
+ 
+-	aux->drm_dev = output->connector.dev;
+-	err = drm_dp_aux_register(aux);
+-	if (err < 0)
+-		return err;
+-
+ 	output->connector.polled = DRM_CONNECTOR_POLL_HPD;
+ 	dpaux->output = output;
+ 
+@@ -759,7 +768,6 @@ int drm_dp_aux_detach(struct drm_dp_aux *aux)
+ 	unsigned long timeout;
+ 	int err;
+ 
+-	drm_dp_aux_unregister(aux);
+ 	disable_irq(dpaux->irq);
+ 
+ 	if (dpaux->output->panel) {
 -- 
 2.33.1
 
