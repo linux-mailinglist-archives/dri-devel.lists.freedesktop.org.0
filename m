@@ -2,79 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1AF4463AC3
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 16:58:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 733AD463AD4
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 17:00:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F12ED89F6B;
-	Tue, 30 Nov 2021 15:58:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 761936E946;
+	Tue, 30 Nov 2021 16:00:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mta-p5.oit.umn.edu (mta-p5.oit.umn.edu [134.84.196.205])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DDDF89DB9
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 15:58:04 +0000 (UTC)
-Received: from localhost (unknown [127.0.0.1])
- by mta-p5.oit.umn.edu (Postfix) with ESMTP id 4J3RhC5HYXz9vsqw
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 15:58:03 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at umn.edu
-Received: from mta-p5.oit.umn.edu ([127.0.0.1])
- by localhost (mta-p5.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ADupV2Wvu4Sx for <dri-devel@lists.freedesktop.org>;
- Tue, 30 Nov 2021 09:58:03 -0600 (CST)
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mta-p5.oit.umn.edu (Postfix) with ESMTPS id 4J3RhC2xYTz9vsr6
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 09:58:03 -0600 (CST)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p5.oit.umn.edu 4J3RhC2xYTz9vsr6
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p5.oit.umn.edu 4J3RhC2xYTz9vsr6
-Received: by mail-pl1-f197.google.com with SMTP id
- p24-20020a170902a41800b001438d6c7d71so8462134plq.7
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 07:58:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=umn.edu; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=bTXkxPkhvwkgKe3CfQ7oKNFqLLxsibJM72YviuHICJY=;
- b=JXLhE+gLz8807ShPZSZBtudJocl+w6stUALlj11N7rM24NN8HXfOXGqMUBWF6f9IYK
- 4tmgYEOcRw/QvKTRyOwZfpfmnqzsmA/hrkVGyp6sbzvGR8IJz7Eae2Db2itgWd2hJh6k
- FT1Vps8hTXW4OuK7IkVnGNU0EFN25oMFBeZjJitk2c1IzzpIMqSUG5KjCLIMngKJB51T
- HcFCQRDcSgoh8/UcsiseRNjQjbruj0ErYBwux3J8lLI8E7l6flcIPzCSVOLUG4dkdZht
- E9+2I7o3/hGSbZgptPnE/cbwb19FsDWZBKItWc6DAfFm7RLgXAx61vNw3OOnvPFJ+uBV
- iYYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=bTXkxPkhvwkgKe3CfQ7oKNFqLLxsibJM72YviuHICJY=;
- b=5C+oPF3OlCWIzVUf+t0ovZQYQENXzOrpIAd+bB25dwGb1k2chUNJU8lf+BL/h0+3Im
- kKanu5TUPTR0hHNqadCozXX3wShApFkn6w092x+1T90JRnz5vrdJ05TG5A3LGTsxmCnP
- oR92qWR25TFt49nanyqYLPR5e04Vh9I2QaM5mGUe2EYuLQsl2K1WVlc+QAoIqs/lpNIu
- BpRSroNq/a82ySbWaeMsc5IUM1jwdMn5RfNh8uJfp1MBLjqsDYKiVC0Tix0f4hdCbhhp
- T+Nw5iTt5nrgK71mQH9V6YtQmSTPz7YCgr8jY+yD5KcFHVJNS7TB38HPC+N1IrsbCDS5
- +YWw==
-X-Gm-Message-State: AOAM530fktMhJ7qYNAsIO7rYbnaH/LQgfK2qwXdvDHWDX+do5dDrUI17
- F6N+6N/PkVm3ftCDbOlIFylkqfxY2Cev1ofkGNhvVBCtrwVNOeYbmtOGfnGUxnlCu99QRpZna3r
- PunTZDkQrJzoDmaYZLCdBGS2IQ0GP7JYh
-X-Received: by 2002:a63:155d:: with SMTP id 29mr21858pgv.302.1638287882663;
- Tue, 30 Nov 2021 07:58:02 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyIaxwNEDzH7cmq7l7LiRaYXMObjxXyqF8evR41ZnOQZpK9G2rDCI1/FqCk8Jv+9cm2uvYXJw==
-X-Received: by 2002:a63:155d:: with SMTP id 29mr21828pgv.302.1638287882411;
- Tue, 30 Nov 2021 07:58:02 -0800 (PST)
-Received: from zqy787-GE5S.lan ([36.7.42.137])
- by smtp.gmail.com with ESMTPSA id h13sm15230838pgg.16.2021.11.30.07.57.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Nov 2021 07:58:02 -0800 (PST)
-From: Zhou Qingyang <zhou1615@umn.edu>
-To: zhou1615@umn.edu
-Subject: [PATCH v3] drm/radeon/radeon_kms: Fix a NULL pointer dereference in
- radeon_driver_open_kms()
-Date: Tue, 30 Nov 2021 23:57:19 +0800
-Message-Id: <20211130155720.178214-1-zhou1615@umn.edu>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <f776cb6f-d599-a543-9177-dac7d08cf7d4@amd.com>
-References: <f776cb6f-d599-a543-9177-dac7d08cf7d4@amd.com>
-MIME-Version: 1.0
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2086.outbound.protection.outlook.com [40.107.244.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7878D6E939;
+ Tue, 30 Nov 2021 15:59:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RjQEnNKAuLEGwTwVJqJapOTerYDJpQcVYLQEcCZD4OjFBEhGip2MNtadMd1bi+yLVbSSoYDh3LyMEoXFTxv5m2Y1zvZpHPEMsSbLgyo2y433SdcUpQ987tCTyn/EXJ3eKK2M9iIl90HQYjX1IAP9CboDlGBPJqiHztLJkKVcq/RAyIyCEqCA98KpApwS/punOp/J52E6naDuBYW8rVXdJMkT8unJz5iyayvzXUy8VdJu1/CS05z9kGeKhklU9jV1rAA+hvBTCdKIn+tRPH9GbcLr2sYUCoIMu3JTYCiQTuv8nXlUZwhKOGiH8KsBvw0uyGLL2tVhKxyqTYH0wM5aPQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KskGefid/oGLjfWJ+WAu0oYpb17o6bs9DjrIJmjnMc8=;
+ b=KDDCih8rd3WuDv82YBcF6UU1WXR0lf+/XBo2GCZBFGiMdp2GK8sjLhEKfGYWeGgxT5eyfRrRbzAqA+2za63OhTYs6+5W01qjAwk8Ex/R+/Qdsf02nITNxGSXyxDVpKnco4bF3VolZTWhJH/S0UW4kikBo9XKza6nQ5Pslu42qbHaPhQfbxzzVJ80Jy5uQdr/nWaio5GIYv9Com5sXkOMiAmePUPewtZerhz+jcaPxcdri6owR9VtP8LeHbHiADnrfBuGDNJedb3JbIA0alJY/cG3MvX0FGo9Ndpac2TOSrgJwKgLrLrC+vsIP+DrDSVXRF9sNppYTUc2zn2usLibfQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KskGefid/oGLjfWJ+WAu0oYpb17o6bs9DjrIJmjnMc8=;
+ b=CxeL5e4ZNUPpGKNDbhKhZOREtfzmjC7IuKeFtpKrlt0YF6oFW2zuUNmApriK4nMb0tVEX4r2mDd/mQCfLNbp6kQhmhwEQn6q7prHVkm/cToAd2gBLuI/eMIFup/5chuZA5KFgnN5TgiaKMoWNn++nVdPe8v6zL5HKHK1SF2M1RY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB2896.namprd12.prod.outlook.com (2603:10b6:208:ab::22)
+ by BL0PR12MB4881.namprd12.prod.outlook.com (2603:10b6:208:1c7::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.11; Tue, 30 Nov
+ 2021 15:59:55 +0000
+Received: from MN2PR12MB2896.namprd12.prod.outlook.com
+ ([fe80::44f7:66fe:4419:d8d3]) by MN2PR12MB2896.namprd12.prod.outlook.com
+ ([fe80::44f7:66fe:4419:d8d3%6]) with mapi id 15.20.4734.024; Tue, 30 Nov 2021
+ 15:59:54 +0000
+Subject: Re: [PATCH 1/6] Documentation/gpu: Reorganize DC documentation
+To: Harry Wentland <harry.wentland@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+References: <20211125153830.1352994-1-Rodrigo.Siqueira@amd.com>
+ <20211125153830.1352994-2-Rodrigo.Siqueira@amd.com>
+ <YaEAVV3Ka2lG/iOh@phenom.ffwll.local> <87k0grjhed.fsf@intel.com>
+ <254992f1-9f40-b756-b324-8f45726ef823@amd.com>
+ <507bfbc5-4be4-9681-c768-efea7c0541d8@amd.com>
+From: Rodrigo Siqueira Jordao <rjordrigo@amd.com>
+Message-ID: <24a1be4c-0186-96ac-b238-059754a9f856@amd.com>
+Date: Tue, 30 Nov 2021 10:59:51 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+In-Reply-To: <507bfbc5-4be4-9681-c768-efea7c0541d8@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BL1PR13CA0321.namprd13.prod.outlook.com
+ (2603:10b6:208:2c1::26) To MN2PR12MB2896.namprd12.prod.outlook.com
+ (2603:10b6:208:ab::22)
+MIME-Version: 1.0
+Received: from [IPv6:2607:fea8:56e0:6d60:d1f5:d5c:27fc:61c]
+ (2607:fea8:56e0:6d60:d1f5:d5c:27fc:61c) by
+ BL1PR13CA0321.namprd13.prod.outlook.com (2603:10b6:208:2c1::26) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.9 via Frontend
+ Transport; Tue, 30 Nov 2021 15:59:53 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b1386bc2-d3a8-4e1e-779f-08d9b41a732d
+X-MS-TrafficTypeDiagnostic: BL0PR12MB4881:
+X-Microsoft-Antispam-PRVS: <BL0PR12MB488159AEE19F0D018DC2153D98679@BL0PR12MB4881.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: +ZzLo7Kumkiy7mgiRjwdlqAls0gWTTxNtI9VTIUSHcc0QdjAewtDw2JFAnGeHFMAVnzcRtVlWJkpw+MCicEMa6h0gJ6EqYq1whA5F0J60BHiPdBalKff9hOKqsK3Q/2PSMyrRq+gA0Fx7iJi+KesgwhbrbAyr8+aSEyoZ+CQ39umYX6/QQq7en9GzSdLpwsPx1IhZe1Eom9lINzUMtb295zZDfscz2uQTBFlVOs4I6Ugi59/VGtYtSUL2HAomJcEoZo5kyxG9LApv4dftha6W6H/nq17oc2RDkqawLxWIcjhT4tLZvP7XoEAAGJLp0AIp/iOkPOQ/jHJ2XruVRFY/GaXVve4UPHlJYkD1KH5CshRbCSpPVn08LTJbAQ66z9z84spshGMs3idpJIlXv+eqgsmU4tHlu6rQvSsNX0VAliGcUpEk20ADzfWnqWZJ39bM/hDmIOMWNk7+7tImgsMwq8pwULEyouDUOwbmQ60O77h5ytKMlzoS2IzHrK6zE/oVxLMRqBuoODFP5GSu/50gMjdpCi0KCLMDVVRgW8GUxnBFmPe3FGEJ07dfUodOj+mvL1j48gRNd0zMBvvz5r5jV+QYmmGmJPADLe/2yfKzSOoojEaxQc2fxduGw+Qzu6c+CLuwe693g/Q4W63AVP6Pd69ngy8B+RkpJsyS4WsvrLA+ecmsfl78gfotEWZAF00T/Fykcsi/e/yzkGxYWqzYdfQRY4KP3CZloXx6wrORXvq/v2maEcub6QfPCpdai1j
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB2896.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(4001150100001)(508600001)(31686004)(6636002)(5660300002)(4326008)(53546011)(66476007)(66556008)(66946007)(54906003)(6486002)(2616005)(2906002)(83380400001)(8936002)(38100700002)(36756003)(8676002)(110136005)(31696002)(316002)(186003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NHorekN2Q09TaDU3UFJTNStETTVsOTJ3VHhMbDNjcUc1d2JOTE1EcHFLbHAx?=
+ =?utf-8?B?UlJodmJqTlJQL3A2aHlkLzk3Zm9qYXNzNHdqWFE5bUhYNDVvNnNMWmc1SU1a?=
+ =?utf-8?B?ekFEeTNINHJWdWlrZzhHdEhDdXphTmVMMFZ4RWxqLzVFUzhwN0dsenQ4OW53?=
+ =?utf-8?B?NW02eCsva3pUZVIzS3pXMm5leWF1YVJ4K0VjVk5UakFqYmdSU0EzYzRYTjdv?=
+ =?utf-8?B?bFMzOFQrUnhqZDBkVnppQjBDMWNsRXBSdHM5SVVsa29PQTRJaEhGalBldEs3?=
+ =?utf-8?B?RFo3QS9mQ0hwK0Njd2lSaUZNTm00R0RFcHVTZktYYUNtQ0M5aEV2cm9oL241?=
+ =?utf-8?B?NmExQityTjNibHRERWxPcWZmN24wMFNDRW9FeG4weTFuRkZ5Z2dlR2RTWTFK?=
+ =?utf-8?B?a3FGc0RPRUFIUWVHZ3E5cXNGdXF4eDBjMHp2Rmd0UkdhQjRhYUQ5ek9UY2V2?=
+ =?utf-8?B?QUJmMjFMelAxdXI3RUVhL3pXWThhaGlSOXRtNHZvN2h4alIvb1IxeU1DR25F?=
+ =?utf-8?B?NGd6WXJYOFpyWUxvZ2Qra3hsZWd1V2JkdmdWRklSQVk3UGduYkxNU1IrM29Z?=
+ =?utf-8?B?THFpaC9lQjQ4ako1QU90a1ROU3duUExKdG1SdG1pM3pBSDRQRFpjY0Q2Z0JV?=
+ =?utf-8?B?b2lpVkRldmR6QWdjejdCdUxnakphRGdvTnc3anFpMVo5Ulc3WVo3ZzNrZGN0?=
+ =?utf-8?B?ajJNWEsrVU9SaHM5U25rQjJGemkyMHZhWEVIa3IwQzFIZ3l1VVI5VmRmSzYx?=
+ =?utf-8?B?RG5DRHdSMUJuRkFJMHF4VlRhTDhTYm1JYWFRa3doNEtRa2dGeHNnaTBKR2NO?=
+ =?utf-8?B?MTFMaGo1K3lDdmdYVUhnbW9GZjhSR3oxYnBMK0NURmQ5ZTg2ajM0N0puOStU?=
+ =?utf-8?B?QnVITEJCR0ZFUERIN0wvZElMTDgwOW91dUFPbmEvb01pdDA0WDlYSXB1ekkz?=
+ =?utf-8?B?RUpyTnQ0Z1laWDJXTWVDNjJkVENnSUEvQnlINkdkMXZHUDZqRlhRVDZ4TXBU?=
+ =?utf-8?B?TWQ5Z1d1eDBYSU1zQW52Yi9aT0JDbk9OWGtJSS91RS9Kc3ZsYmM3dnpNUmNa?=
+ =?utf-8?B?dnlwUkU1bHRSUVlSbGovRmZtSXV0YmtRaU5BSU1Pb3BvbVUvSmV6eFZoS09B?=
+ =?utf-8?B?blp4bkd1VU43aWdlK1BJTFB0R0krTTlFYnh1UzFkM1JsUWFMa054MEdoeUsv?=
+ =?utf-8?B?cURRblZFV3pkVzZmTVcyN2pSdlkvREVtUWNzWTZ0TGxwWlA0ZnR0RExYQnJk?=
+ =?utf-8?B?WmpEbldpb3lUZ2pvcURnUjMrUWZFeWNLMGZCd2xNeHdOUGxIczM4YzhOcW5I?=
+ =?utf-8?B?b1BkWjRWTzRvcTVwWkhKNWREUnJXTnpnVFY5S1FpbG53SWRUR2ZyOW1xV2Zw?=
+ =?utf-8?B?bGVqOHpMTUJ5WHpWMll5Y3lhZWl2c25pWW4yeFgxWHdjaTVnd1hmNUttcElq?=
+ =?utf-8?B?dWxLc2VXK0owK2JZcCtiZExJSndoUGpQWkxiVWs2U2FZd05NbXo4ZmJzd0tX?=
+ =?utf-8?B?QTRwMXFjVlR6NWRVUlZYSzBLb21RSU9kbjJveWlZcU84cnl1elJpTVM1U0li?=
+ =?utf-8?B?Y0tRNWZqKzRsRzZTeDM0ejlIa2l1VDJoQkZQRUowWm05TkYraSsxU2g4ZkZF?=
+ =?utf-8?B?SzdZaXhib2U0RWtqSU5Kb1JDWFh4MGJSN0FHYnNmeGxtV0M5ai9rb2xJVmlW?=
+ =?utf-8?B?N3dhOFRYRlpLbTVaQnNZSjJxd05QMWs3Q0g1Q0tMeFN5TXpmaDR3MUh5NEhC?=
+ =?utf-8?B?RTRvMllxMVpDd2tUbEJrK3l0ZDZUTzVvZnR3YU1lZnRqY0MrN2RxTjQrMjU4?=
+ =?utf-8?B?aHpDa0ZjZzd1c1pHQ1hXOWVOeDNPcVZlMzNyZnlzY0Fsam1uWlZHazdONUEw?=
+ =?utf-8?B?VHNiQnNjWXAwY3RZeU5zS1hBYldKZUxuR0c2dFFzcyt4R0NtMmFxM21zUjdx?=
+ =?utf-8?B?eTVkcGJkK3pwV0Y2akdtNGp6clU0OWdHazY3SDcvQUlpRWJ0SkJLQy9oY1ds?=
+ =?utf-8?B?ZmJXd2FudmFES2IzdVJ5OE93SnBhU1Z3ZEkxZ3VkdWRKU29wcm00WkQzeWhQ?=
+ =?utf-8?B?ZmlrL29ObEpCMWxYSk12S2Z4UE96L3o0cnNNSEU3QWtneHZraHAvOEFURG40?=
+ =?utf-8?B?aktYVlVWSENPUWhTMUtBc0g2czlMZGd5bW9nNmptOUloWVRtOXNqUnpVdTc4?=
+ =?utf-8?B?eVNBTWRvQjlydkJJM0xqMFQyMEdNeXRFUmpSbjArSTQ0MktWTE1KektRTXhR?=
+ =?utf-8?Q?ceHfUOuWH5YmzHz0cveMELp/lRRs9hofFIqKCFEZvc=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b1386bc2-d3a8-4e1e-779f-08d9b41a732d
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB2896.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2021 15:59:54.6633 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: N4gdxhqY8g03lcqSQ0Pqjj0upJKFlRxtabRm30ItIHnkeVaP2PGAnFf+/h+z+YWefHi3U3BY5U198Zmu3wt/OQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4881
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,122 +141,173 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- kjlu@umn.edu, linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-doc@vger.kernel.org, Mark Yacoub <markyacoub@chromium.org>,
+ =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>, roman.li@amd.com,
+ amd-gfx@lists.freedesktop.org,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>, aurabindo.pillai@amd.com,
+ nicholas.choi@amd.com, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, Sean Paul <seanpaul@chromium.org>,
+ qingqing.zhuo@amd.com, bhawanpreet.lakha@amd.com,
+ Roman Gilg <subdiff@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In radeon_driver_open_kms(), radeon_vm_bo_add() is assigned to
-vm->ib_bo_va and passes and used in radeon_vm_bo_set_addr(). In
-radeon_vm_bo_set_addr(), there is a dereference of vm->ib_bo_va,
-which could lead to a NULL pointer dereference on failure of
-radeon_vm_bo_add().
 
-Fix this bug by adding a check of vm->ib_bo_va.
 
-This bug was found by a static analyzer. The analysis employs
-differential checking to identify inconsistent security operations
-(e.g., checks or kfrees) between two code paths and confirms that the
-inconsistent operations are not recovered in the current function or
-the callers, so they constitute bugs.
+On 2021-11-30 10:48 a.m., Harry Wentland wrote:
+> On 2021-11-30 10:46, Rodrigo Siqueira Jordao wrote:
+>>
+>>
+>> On 2021-11-29 7:06 a.m., Jani Nikula wrote:
+>>> On Fri, 26 Nov 2021, Daniel Vetter <daniel@ffwll.ch> wrote:
+>>>> On Thu, Nov 25, 2021 at 10:38:25AM -0500, Rodrigo Siqueira wrote:
+>>>>> Display core documentation is not well organized, and it is hard to find
+>>>>> information due to the lack of sections. This commit reorganizes the
+>>>>> documentation layout, and it is preparation work for future changes.
+>>>>>
+>>>>> Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+>>>>> ---
+>>>>>    Documentation/gpu/amdgpu-dc.rst               | 74 -------------------
+>>>>>    .../gpu/amdgpu-dc/amdgpu-dc-debug.rst         |  4 +
+>>>>>    Documentation/gpu/amdgpu-dc/amdgpu-dc.rst     | 29 ++++++++
+>>>>>    Documentation/gpu/amdgpu-dc/amdgpu-dm.rst     | 42 +++++++++++
+>>>>>    Documentation/gpu/drivers.rst                 |  2 +-
+>>>>>    5 files changed, 76 insertions(+), 75 deletions(-)
+>>>>>    delete mode 100644 Documentation/gpu/amdgpu-dc.rst
+>>>>>    create mode 100644 Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst
+>>>>>    create mode 100644 Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
+>>>>>    create mode 100644 Documentation/gpu/amdgpu-dc/amdgpu-dm.rst
+>>>>>
+>>>>> diff --git a/Documentation/gpu/amdgpu-dc.rst b/Documentation/gpu/amdgpu-dc.rst
+>>>>> deleted file mode 100644
+>>>>> index f7ff7e1309de..000000000000
+>>>>> --- a/Documentation/gpu/amdgpu-dc.rst
+>>>>> +++ /dev/null
+>>>>> @@ -1,74 +0,0 @@
+>>>>> -===================================
+>>>>> -drm/amd/display - Display Core (DC)
+>>>>> -===================================
+>>>>> -
+>>>>> -*placeholder - general description of supported platforms, what dc is, etc.*
+>>>>> -
+>>>>> -Because it is partially shared with other operating systems, the Display Core
+>>>>> -Driver is divided in two pieces.
+>>>>> -
+>>>>> -1. **Display Core (DC)** contains the OS-agnostic components. Things like
+>>>>> -   hardware programming and resource management are handled here.
+>>>>> -2. **Display Manager (DM)** contains the OS-dependent components. Hooks to the
+>>>>> -   amdgpu base driver and DRM are implemented here.
+>>>>> -
+>>>>> -It doesn't help that the entire package is frequently referred to as DC. But
+>>>>> -with the context in mind, it should be clear.
+>>>>> -
+>>>>> -When CONFIG_DRM_AMD_DC is enabled, DC will be initialized by default for
+>>>>> -supported ASICs. To force disable, set `amdgpu.dc=0` on kernel command line.
+>>>>> -Likewise, to force enable on unsupported ASICs, set `amdgpu.dc=1`.
+>>>>> -
+>>>>> -To determine if DC is loaded, search dmesg for the following entry:
+>>>>> -
+>>>>> -``Display Core initialized with <version number here>``
+>>>>> -
+>>>>> -AMDgpu Display Manager
+>>>>> -======================
+>>>>> -
+>>>>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>>>>> -   :doc: overview
+>>>>> -
+>>>>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+>>>>> -   :internal:
+>>>>> -
+>>>>> -Lifecycle
+>>>>> ----------
+>>>>> -
+>>>>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>>>>> -   :doc: DM Lifecycle
+>>>>> -
+>>>>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>>>>> -   :functions: dm_hw_init dm_hw_fini
+>>>>> -
+>>>>> -Interrupts
+>>>>> -----------
+>>>>> -
+>>>>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
+>>>>> -   :doc: overview
+>>>>> -
+>>>>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
+>>>>> -   :internal:
+>>>>> -
+>>>>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>>>>> -   :functions: register_hpd_handlers dm_crtc_high_irq dm_pflip_high_irq
+>>>>> -
+>>>>> -Atomic Implementation
+>>>>> ----------------------
+>>>>> -
+>>>>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>>>>> -   :doc: atomic
+>>>>> -
+>>>>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>>>>> -   :functions: amdgpu_dm_atomic_check amdgpu_dm_atomic_commit_tail
+>>>>> -
+>>>>> -Display Core
+>>>>> -============
+>>>>> -
+>>>>> -**WIP**
+>>>>> -
+>>>>> -FreeSync Video
+>>>>> ---------------
+>>>>> -
+>>>>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>>>>> -   :doc: FreeSync Video
+>>>>> diff --git a/Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst b/Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst
+>>>>> new file mode 100644
+>>>>> index 000000000000..bbb8c3fc8eee
+>>>>> --- /dev/null
+>>>>> +++ b/Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst
+>>>>> @@ -0,0 +1,4 @@
+>>>>> +Display Core Debug tools
+>>>>> +========================
+>>>>> +
+>>>>> +TODO
+>>>>> diff --git a/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst b/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
+>>>>> new file mode 100644
+>>>>> index 000000000000..3685b3b1ad64
+>>>>> --- /dev/null
+>>>>> +++ b/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
+>>>>
+>>>> While we bikeshed names, I think it'd would make sense to call this
+>>>> overview.rst or intro.rst or similar, since it's meant to contain the
+>>>> overall toctree for everything amdgpu related (maybe there will be more in
+>>>> the future).
+>>>
+>>> index.rst?
+>>>
+>>>
+>>
+>> Hi,
+>>
+>> Thanks a lot for the suggestions; I will prepare a V2 that addresses all your comments.
+>>
+>> Ps.: If there is no objection, I'll rename amdgpu-dc to index as Jani suggested.
+>>
+> 
+> SGTM, you mean amdgpu/index.rst, right?
 
-Note that, as a bug found by static analysis, it can be a false
-positive or hard to trigger. Multiple researchers have cross-reviewed
-the bug.
+Yeah, but I'm also thinking about this new organization:
 
-Builds with CONFIG_DRM_RADEON=m show no new warnings,
-and our static analyzer no longer warns about this code.
+1. Create an amdgpu folder.
+2. Inside amdgpu folder, I want to create a display folder.
+3. Move all display documentation to the display folder and keep other 
+amdgpu generic things under amdgpu.
+4. Finally, inside the amdgpu folder, I'll create the index.rst for 
+amdgpu, and inside the display folder, I will create a similar file.
 
-Fixes: cc9e67e3d700 ("drm/radeon: fix VM IB handling")
-Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
----
-Changes in v3:
-  -  Fix the bug that good case will also be freed
-  -  Improve code style
+Does it make sense?
+Thanks
 
-Changes in v2:
-  -  Improve the error handling into goto style
-
- drivers/gpu/drm/radeon/radeon_kms.c | 35 ++++++++++++++++-------------
- 1 file changed, 19 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/gpu/drm/radeon/radeon_kms.c b/drivers/gpu/drm/radeon/radeon_kms.c
-index 482fb0ae6cb5..439f4d1fdd65 100644
---- a/drivers/gpu/drm/radeon/radeon_kms.c
-+++ b/drivers/gpu/drm/radeon/radeon_kms.c
-@@ -648,6 +648,8 @@ void radeon_driver_lastclose_kms(struct drm_device *dev)
- int radeon_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv)
- {
- 	struct radeon_device *rdev = dev->dev_private;
-+	struct radeon_fpriv *fpriv;
-+	struct radeon_vm *vm;
- 	int r;
- 
- 	file_priv->driver_priv = NULL;
-@@ -660,8 +662,6 @@ int radeon_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv)
- 
- 	/* new gpu have virtual address space support */
- 	if (rdev->family >= CHIP_CAYMAN) {
--		struct radeon_fpriv *fpriv;
--		struct radeon_vm *vm;
- 
- 		fpriv = kzalloc(sizeof(*fpriv), GFP_KERNEL);
- 		if (unlikely(!fpriv)) {
-@@ -672,35 +672,38 @@ int radeon_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv)
- 		if (rdev->accel_working) {
- 			vm = &fpriv->vm;
- 			r = radeon_vm_init(rdev, vm);
--			if (r) {
--				kfree(fpriv);
--				goto out_suspend;
--			}
-+			if (r)
-+				goto out_fpriv;
- 
- 			r = radeon_bo_reserve(rdev->ring_tmp_bo.bo, false);
--			if (r) {
--				radeon_vm_fini(rdev, vm);
--				kfree(fpriv);
--				goto out_suspend;
--			}
-+			if (r)
-+				goto out_vm_fini;
- 
- 			/* map the ib pool buffer read only into
- 			 * virtual address space */
- 			vm->ib_bo_va = radeon_vm_bo_add(rdev, vm,
- 							rdev->ring_tmp_bo.bo);
-+			if (!vm->ib_bo_va) {
-+				r = -ENOMEM;
-+				goto out_vm_fini;
-+			}
-+
- 			r = radeon_vm_bo_set_addr(rdev, vm->ib_bo_va,
- 						  RADEON_VA_IB_OFFSET,
- 						  RADEON_VM_PAGE_READABLE |
- 						  RADEON_VM_PAGE_SNOOPED);
--			if (r) {
--				radeon_vm_fini(rdev, vm);
--				kfree(fpriv);
--				goto out_suspend;
--			}
-+			if (r)
-+				goto out_vm_fini;
- 		}
- 		file_priv->driver_priv = fpriv;
- 	}
- 
-+out_vm_fini:
-+	if (r)
-+		radeon_vm_fini(rdev, vm);
-+out_fpriv:
-+	if (r)
-+		kfree(fpriv);
- out_suspend:
- 	pm_runtime_mark_last_busy(dev->dev);
- 	pm_runtime_put_autosuspend(dev->dev);
--- 
-2.25.1
+> Harry
+> 
+>> Thanks.
+>>
+> 
 
