@@ -1,77 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A95AC462F24
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 10:01:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCFC0462F29
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 10:02:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 583616EB0E;
-	Tue, 30 Nov 2021 09:01:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CB9F6EB67;
+	Tue, 30 Nov 2021 09:02:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DDED6EB0E
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 09:01:01 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 7C0AE5C0185;
- Tue, 30 Nov 2021 04:01:00 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Tue, 30 Nov 2021 04:01:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=yUUc8uVe56R/g2ZP/fuIA0ZROzN
- whFLIr4CmHfDDzdg=; b=hc1A5T1Ad/gnbyWIkQH1vrq0wjQjUaYf2LIePEAYd8j
- BIgaLc1dpUDMbx2qOq04PXVt/EhEhPIkiqFubZCoRVbAneDmrBYBkHZG9nMzD2P2
- NEQNnZTxLSBmM0VA0WBPZ+beb+pdc5NALVawiWfTqPugCies0+45VeT4R1A3HGEZ
- 7Qtd8mKRGG5+Tr0VkXZDmwchyoLIqBX8KN95VY2QO9BUFDoyeTFmZEdqn7o5SXUj
- iQ6CuAr5tpZeTUr9ifIm51y13IVf5BPkt04Lnv0iCl8wEnqxOSteCPz1Jypt6E2A
- JRaeuB0k+wtl4O7YMCkQr2eDgTYXvjteCADFCcASC7Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=yUUc8u
- Ve56R/g2ZP/fuIA0ZROzNwhFLIr4CmHfDDzdg=; b=W1tXog39feAXAIinRoPz2t
- ZHjF+T0CbupmeM5kkueHCY2lxbmCtOFj1ueXp86/9AlWh3BZl2+4WixRmS/sAvmq
- RtOAOYv4ddPunhEv3WCJ9K5JhzeamJ1TxHOXu9+bpJPxbfFQdmUT7R2H7N8pXPQ2
- 7Op7+XQRlTIgOG6rUdUcoCU0aDdQzyJ6C074yLes1pS0MpIs/n6TTi7v8w3sT2XH
- VYy4w46QMfU2VyBQMuCSssFhO+Q3L6GGTsKyhDDnoo7RlcS89OdAVmGXvuHJ2PQx
- yGdyNhpQ4dPxeFUD3ihaakERflZFsNekeF0rLDL3keIAgkyEUT+qRxz0ElHMSvrw
- ==
-X-ME-Sender: <xms:S-ilYed0HdiaONfnw1jKcqgUy_wQI_qixyrboaXe_7LjHLHsA6_njw>
- <xme:S-ilYYNsfNr2fN5nW6Ic5JLc2WSQ4GF5Lq5BthYBFxcZxEoJ4cAzm_q7sSY5IrmAk
- -18zmr3UFuozM4PXy4>
-X-ME-Received: <xmr:S-ilYfg9nGqZs4yoBXh8Kq0CVgz7ZtY0EO5PoBt2fEmqI2RguBduKc16k3Um3y8rmXrS4bqjdqcJBNFo9CCV19asbQ5DoZjoI5o>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddriedtgdduvdeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepveevfeffudeviedtgeethffhteeuffetfeffvdehvedvheetteehvdelfffg
- jedvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
- dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:S-ilYb-etjkCntTBpPhyCKJ9VXYL21Cxc60FQnx05u2BswNJzrDDsw>
- <xmx:S-ilYav1uNv72vhEsZFI4AYiAjj9tokY_BuVSqJOlgLz-LkH765v0Q>
- <xmx:S-ilYSHYAv_qusYCKIPHldFC0hW3x1-WJ5E70WKC-ZdkdFZIP1qgvA>
- <xmx:TOilYYCUNpY1af5SqTgsAz6LOoCGbdmyTRRKTodFtLqU5wJ1n-LsOg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 30 Nov 2021 04:00:59 -0500 (EST)
-Date: Tue, 30 Nov 2021 10:00:58 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v2 00/13] drm: Add generic helpers for HDMI scrambling
-Message-ID: <20211130090058.im2nef6brtjyzkpp@houat>
-References: <20211118103814.524670-1-maxime@cerno.tech>
- <YZfKSmWs3n8zRUd0@phenom.ffwll.local>
- <20211126154349.aksr4kjhvj3xueir@houat>
- <YaEVirocULCwNNnZ@phenom.ffwll.local>
- <20211129100741.pqxyvu5wcti7ntck@houat>
- <YaXg1ZsoS+aH3nB/@phenom.ffwll.local>
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2DC86EB67
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 09:02:10 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id c4so42729109wrd.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 01:02:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=SyhOY1PWVHdj7OGLzuhI+3QnabA2X3t1wGqtY/Cum7o=;
+ b=WwH7MvELKyxjjGwc9yiPsyAAIBuF06DvxGYA/WES6IfpRL3NVHrVKKnvpMKaQ6PJA5
+ mykiDsNEKYKjPzfhIkzfa0dgIhrUaySGoMtOSwTMMWbcn7bxmVTQzeVIecytjaKeRWCJ
+ EzTT47ZYbGku37TfsYG3lYHRrnKE8aD5dYSik=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=SyhOY1PWVHdj7OGLzuhI+3QnabA2X3t1wGqtY/Cum7o=;
+ b=rok6aCW0gM40Pf1RPryw2BdmzktPYwo0JaSuZ0HlGwfA7yeEXfUBvhQFx4brausWv6
+ HX/CxMRJaABAP0c2loej8C+2BE1lKRAp1AmhIqu3Ja0huAuQTJZimuSbnThBCeDNpttA
+ h9U6s7S6/RAAOU9qrlmNNgbBdYGzQ9RPeu/6/Td5Sm2hWBF0RBS4ElX81Y8xsIdrB8Dq
+ zvbhNVnxwyrrsbYsSt1rPV8+ziuuRTxfkElaiwtfFdTE7sK7z3A6gB7yFYOGQWy1mMn9
+ nMGY7IK67IliecQOL6V5G5qW5mi76r7wPD7zH15aT6vvQpBX1e7F3rAvoyX6vcvdyy1j
+ quSQ==
+X-Gm-Message-State: AOAM530ngHJOjeHXCPbeEv3whBQpLyci34POb7G+OUjBUNYjJeOgAdtv
+ WBDshKmSfE0Ol0MobUK+VXGu7w==
+X-Google-Smtp-Source: ABdhPJzIghKd5RuGlVbrc+DKuTzdkXkSPPV5i18aTKE6MdkrhHBQB8No2j9Zb80BZ0xtQuH7QekziQ==
+X-Received: by 2002:a05:6000:12d2:: with SMTP id
+ l18mr39532679wrx.289.1638262929322; 
+ Tue, 30 Nov 2021 01:02:09 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id h204sm1797534wmh.33.2021.11.30.01.02.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Nov 2021 01:02:08 -0800 (PST)
+Date: Tue, 30 Nov 2021 10:02:07 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH 02/28] drm/ttm: stop pruning fences after wait
+Message-ID: <YaXoj3fzu0cfhd6j@phenom.ffwll.local>
+References: <20211129120659.1815-1-christian.koenig@amd.com>
+ <20211129120659.1815-3-christian.koenig@amd.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="wb7wfiobmixvcrus"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <YaXg1ZsoS+aH3nB/@phenom.ffwll.local>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211129120659.1815-3-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,91 +69,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>
+Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Nov 29, 2021 at 01:06:33PM +0100, Christian König wrote:
+> This is just abusing internals of the dma_resv object.
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
 
---wb7wfiobmixvcrus
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yeah I think if we want this back we could do a _locked version of the
+wait, which prunes internally.
 
-On Tue, Nov 30, 2021 at 09:29:09AM +0100, Daniel Vetter wrote:
-> On Mon, Nov 29, 2021 at 11:07:41AM +0100, Maxime Ripard wrote:
-> > On Fri, Nov 26, 2021 at 06:12:42PM +0100, Daniel Vetter wrote:
-> > > On Fri, Nov 26, 2021 at 04:43:49PM +0100, Maxime Ripard wrote:
-> > > > Hi Daniel,
-> > > >=20
-> > > > On Fri, Nov 19, 2021 at 05:01:14PM +0100, Daniel Vetter wrote:
-> > > > > On Thu, Nov 18, 2021 at 11:38:01AM +0100, Maxime Ripard wrote:
-> > > > > > This is a follow-up of the work to support the interactions bet=
-ween the hotplug
-> > > > > > and the scrambling support for vc4:
-> > > > > >=20
-> > > > > > https://lore.kernel.org/dri-devel/20210507150515.257424-11-maxi=
-me@cerno.tech/
-> > > > > > https://lore.kernel.org/dri-devel/20211025152903.1088803-10-max=
-ime@cerno.tech/
-> > > > > >=20
-> > > > > > Ville feedback was that the same discussion happened some time =
-ago for i915,
-> > > > > > and resulted in a function to do an full disable/enable cycle o=
-n reconnection
-> > > > > > to avoid breaking the HDMI 2.0 spec.
-> > > > > >=20
-> > > > > > This series improves the current scrambling support by adding g=
-eneric helpers
-> > > > > > for usual scrambling-related operations, and builds upon them t=
-o provide a
-> > > > > > generic alternative to intel_hdmi_reset_link.
-> > > > >=20
-> > > > > Out of curiosity, can we rebuild intel_hdmi_reset_link on top of =
-these?
-> > > > > Always better to have two drivers to actually show the helpers he=
-lp, than
-> > > > > just one.
-> > > >=20
-> > > > Unfortunately, I don't have any Intel system I can test it on, and =
-it
-> > > > looks like the changes wouldn't be trivial.
-> > > >=20
-> > > > Maybe we can use dw-hdmi instead?
-> > >=20
-> > > Hm I guess so, maybe Ville can be motivated. Just figured since this =
-seems
-> > > at least inspired by i915 code.
-> >=20
-> > It's not really the conversion to the new helper that I suspect would be
-> > hard to do, but rather the usage of the connector state that we do, and
-> > the scrambling computation, and how it's all tied together in i915.
-> >=20
-> > It seems to be fairly different from drivers that just rely on the
-> > atomic helpers, and I'm not really confident about changing that. But
-> > yeah, I guess I can give it a try and rely on the CI.
->=20
-> Hm yeah if wiring through connector state to the right places is real work
-> then skip the conversion. But I thought i915 modeset code has also gone
-> through some of the state rollout that you've done for atomic helpers.
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Maybe I'm just panicking without any particular reason, I'll give it a
-try and will let you know
+Btw I wonder, should we put the ttm_bo_wait wrapper on the chopping block
+in gpu/todo.rst? It's really just complications I think in most cases. And
+it would be nice if ttm has the same errno semantics for these as everyone
+else, I always get very confused about this stuff ...
 
-Maxime
+Cheers, Daniel
 
---wb7wfiobmixvcrus
-Content-Type: application/pgp-signature; name="signature.asc"
+> ---
+>  drivers/gpu/drm/ttm/ttm_bo.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index e4a20a3a5d16..fc124457ba2f 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -1086,7 +1086,6 @@ int ttm_bo_wait(struct ttm_buffer_object *bo,
+>  	if (timeout == 0)
+>  		return -EBUSY;
+>  
+> -	dma_resv_add_excl_fence(bo->base.resv, NULL);
+>  	return 0;
+>  }
+>  EXPORT_SYMBOL(ttm_bo_wait);
+> -- 
+> 2.25.1
+> 
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYaXoSgAKCRDj7w1vZxhR
-xQPrAQCLkzPzLoMPd4hGarmps/uPSO2OvMea/ObR4smDB1VcfgEAvGwv++iNDcI3
-/miy8Ks7FVnP6ZA/bgAJFYgts8p73Qg=
-=1Wvl
------END PGP SIGNATURE-----
-
---wb7wfiobmixvcrus--
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
