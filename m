@@ -1,44 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41096462853
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 00:34:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C22A462980
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 02:15:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E14C6E0BC;
-	Mon, 29 Nov 2021 23:34:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2284E6E20F;
+	Tue, 30 Nov 2021 01:14:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org
- [IPv6:2404:9400:2:0:216:3eff:fee2:21ea])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11FBC6E0BC;
- Mon, 29 Nov 2021 23:34:03 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4J31rj0pbcz4xPv;
- Tue, 30 Nov 2021 10:33:56 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1638228839;
- bh=inXtXHv6yn3YtBnuAAzAq6r5aKIXNSazQdd6UUlmByM=;
- h=Date:From:To:Cc:Subject:From;
- b=EDPAUye/rs3pl+bys5hBqUCI8EXVGofnoVzZwrn+G+I3BBAhfiXMdXuMB5/HMp+rA
- tlH6bgsUH5kj8IqhbRDL7uHwdqCQKBUgWM996G4tu6bv1alHUIs7zLLGDdmBj3Fn/H
- Fjq9hkziUGIZokeFtSRmHdG1lqEWounM9Rd4V1E2aGIpt4r9NMk8SXo3kLF9Q+y+Tt
- epcz2GoKtyw+uAt1yeeVflox666gYHKLoMYiezoKgvevzo0QkoloeopsY7GOKNaVMd
- Mis7E9aVyEa7neh6ZrBSeHF0EZcED94sdRBtotjDDUexhChq4N1FKEQ0wSqAM6Tfjh
- RhRsc1gp9rQoQ==
-Date: Tue, 30 Nov 2021 10:33:53 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
- <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm tree with the drm-misc-fixes tree
-Message-ID: <20211130103353.0ab1a44f@canb.auug.org.au>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BE746E20F;
+ Tue, 30 Nov 2021 01:14:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1638234896; x=1669770896;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=A0M/OkbgjDDEzxJJd7thNaREyyEELCRZKsECK+0kPX4=;
+ b=j4FwP+2O6w5FqXV9iuB2RMcPd3tdcEWCk1XfFvo9PSFLktg8HLDl08Em
+ szy2FndswfkiMS47WPw5T82ZxnrPfDoXsCtuJKVoaLzxCl3ZylxkY7Niz
+ s4Y6nSVIRpcCwhFaWhw57AKYL8DUB/Hs318Tlhvmn0SohUOk+syc5YXFK k=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 29 Nov 2021 17:14:55 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Nov 2021 17:14:54 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Mon, 29 Nov 2021 17:14:53 -0800
+Received: from [10.38.245.83] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Mon, 29 Nov
+ 2021 17:14:50 -0800
+Message-ID: <e898e0c3-2831-1e84-bf9e-7e812cf9c813@quicinc.com>
+Date: Mon, 29 Nov 2021 17:14:48 -0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/SRktUQT/MnVNywL02YSYaaF";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [Freedreno] [PATCH v3 01/13] drm/msm/dsi: add support for dsc data
+Content-Language: en-US
+To: Vinod Koul <vkoul@kernel.org>, Rob Clark <robdclark@gmail.com>
+References: <20211116062256.2417186-1-vkoul@kernel.org>
+ <20211116062256.2417186-2-vkoul@kernel.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20211116062256.2417186-2-vkoul@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,236 +65,251 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Maxime Ripard <maxime@cerno.tech>
+Cc: Jonathan Marek <jonathan@marek.ca>, Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Abhinav
+ Kumar <abhinavk@codeaurora.org>, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/SRktUQT/MnVNywL02YSYaaF
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Vinod
 
-Hi all,
+On 11/15/2021 10:22 PM, Vinod Koul wrote:
+> Display Stream Compression (DSC) parameters need to be calculated. Add
+> helpers and struct msm_display_dsc_config in msm_drv for this
+> msm_display_dsc_config uses drm_dsc_config for DSC parameters.
+> 
+> Signed-off-by: Vinod Koul <vkoul@kernel.org>
+> ---
+>   drivers/gpu/drm/msm/dsi/dsi_host.c | 132 +++++++++++++++++++++++++++++
+>   drivers/gpu/drm/msm/msm_drv.h      |  20 +++++
+>   2 files changed, 152 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> index f69a125f9559..30c1e299aa52 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> @@ -31,6 +31,8 @@
+>   
+>   #define DSI_RESET_TOGGLE_DELAY_MS 20
+>   
+> +static int dsi_populate_dsc_params(struct msm_display_dsc_config *dsc);
+> +
+>   static int dsi_get_version(const void __iomem *base, u32 *major, u32 *minor)
+>   {
+>   	u32 ver;
+> @@ -157,6 +159,7 @@ struct msm_dsi_host {
+>   	struct regmap *sfpb;
+>   
+>   	struct drm_display_mode *mode;
+> +	struct msm_display_dsc_config *dsc;
+>   
+>   	/* connected device info */
+>   	struct device_node *device_node;
+> @@ -1710,6 +1713,135 @@ static int dsi_host_parse_lane_data(struct msm_dsi_host *msm_host,
+>   	return -EINVAL;
+>   }
+>   
+> +static u32 dsi_dsc_rc_buf_thresh[DSC_NUM_BUF_RANGES - 1] = {
+> +	0x0e, 0x1c, 0x2a, 0x38, 0x46, 0x54, 0x62,
+> +	0x69, 0x70, 0x77, 0x79, 0x7b, 0x7d, 0x7e
+> +};
+> +
+> +/* only 8bpc, 8bpp added */
+> +static char min_qp[DSC_NUM_BUF_RANGES] = {
+> +	0, 0, 1, 1, 3, 3, 3, 3, 3, 3, 5, 5, 5, 7, 13
+> +};
+> +
+> +static char max_qp[DSC_NUM_BUF_RANGES] = {
+> +	4, 4, 5, 6, 7, 7, 7, 8, 9, 10, 11, 12, 13, 13, 15
+> +};
+> +
+> +static char bpg_offset[DSC_NUM_BUF_RANGES] = {
+> +	2, 0, 0, -2, -4, -6, -8, -8, -8, -10, -10, -12, -12, -12, -12
+> +};
+> +
+> +static int dsi_populate_dsc_params(struct msm_display_dsc_config *dsc)
+> +{
+> +	int mux_words_size;
+> +	int groups_per_line, groups_total;
+> +	int min_rate_buffer_size;
+> +	int hrd_delay;
+> +	int pre_num_extra_mux_bits, num_extra_mux_bits;
+> +	int slice_bits;
+> +	int target_bpp_x16;
+> +	int data;
+> +	int final_value, final_scale;
+> +	int i;
+> +
+> +	dsc->drm->rc_model_size = 8192;
+> +	dsc->drm->first_line_bpg_offset = 12;
+> +	dsc->drm->rc_edge_factor = 6;
+> +	dsc->drm->rc_tgt_offset_high = 3;
+> +	dsc->drm->rc_tgt_offset_low = 3;
+> +	dsc->drm->simple_422 = 0;
+> +	dsc->drm->convert_rgb = 1;
+> +	dsc->drm->vbr_enable = 0;
+> +
+> +	/* handle only bpp = bpc = 8 */
+> +	for (i = 0; i < DSC_NUM_BUF_RANGES - 1 ; i++)
+> +		dsc->drm->rc_buf_thresh[i] = dsi_dsc_rc_buf_thresh[i];
+> +
+> +	for (i = 0; i < DSC_NUM_BUF_RANGES; i++) {
+> +		dsc->drm->rc_range_params[i].range_min_qp = min_qp[i];
+> +		dsc->drm->rc_range_params[i].range_max_qp = max_qp[i];
+> +		dsc->drm->rc_range_params[i].range_bpg_offset = bpg_offset[i];
+> +	}
+> +
+> +	dsc->drm->initial_offset = 6144; /* Not bpp 12 */
+> +	if (dsc->drm->bits_per_pixel != 8)
+> +		dsc->drm->initial_offset = 2048;	/* bpp = 12 */
+> +
+> +	mux_words_size = 48;		/* bpc == 8/10 */
+> +	if (dsc->drm->bits_per_component == 12)
+> +		mux_words_size = 64;
+> +
+> +	dsc->drm->initial_xmit_delay = 512;
+> +	dsc->drm->initial_scale_value = 32;
+> +	dsc->drm->first_line_bpg_offset = 12;
+> +	dsc->drm->line_buf_depth = dsc->drm->bits_per_component + 1;
+> +
+> +	/* bpc 8 */
+> +	dsc->drm->flatness_min_qp = 3;
+> +	dsc->drm->flatness_max_qp = 12;
+> +	dsc->det_thresh_flatness = 7 + 2 * (dsc->drm->bits_per_component - 8);
+> +	dsc->drm->rc_quant_incr_limit0 = 11;
+> +	dsc->drm->rc_quant_incr_limit1 = 11;
+> +	dsc->drm->mux_word_size = DSC_MUX_WORD_SIZE_8_10_BPC;
+> +
+> +	/* FIXME: need to call drm_dsc_compute_rc_parameters() so that rest of
+> +	 * params are calculated
+> +	 */
+since its been a while on this, before moving ahead with a FIXME 
+comment, I wanted to know if you had a chance to check what is the 
+discrepancy between this and drm_dsc_compute_rc_parameters().
 
-Today's linux-next merge of the drm tree got a conflict in:
+The LOC saved can be quite a bit if we move to
+drm_dsc_compute_rc_parameters(). Last time we synced, I think only one 
+parameter was mismatching. The code-churn to avoid one mismatch seems a 
+lot. If there are more conflicting parameters than one or two, we can go 
+ahead with this custom calculation with your FIXME.
 
-  drivers/gpu/drm/vc4/vc4_kms.c
 
-between commits:
+> +	dsc->slice_last_group_size = 3 - (dsc->drm->slice_width % 3);
+> +	groups_per_line = DIV_ROUND_UP(dsc->drm->slice_width, 3);
+> +	dsc->drm->slice_chunk_size = dsc->drm->slice_width * dsc->drm->bits_per_pixel / 8;
+> +	if ((dsc->drm->slice_width * dsc->drm->bits_per_pixel) % 8)
+> +		dsc->drm->slice_chunk_size++;
+> +
+> +	/* rbs-min */
+> +	min_rate_buffer_size =  dsc->drm->rc_model_size - dsc->drm->initial_offset +
+> +				dsc->drm->initial_xmit_delay * dsc->drm->bits_per_pixel +
+> +				groups_per_line * dsc->drm->first_line_bpg_offset;
+> +
+> +	hrd_delay = DIV_ROUND_UP(min_rate_buffer_size, dsc->drm->bits_per_pixel);
+> +
+> +	dsc->drm->initial_dec_delay = hrd_delay - dsc->drm->initial_xmit_delay;
+> +
+> +	dsc->drm->initial_scale_value = 8 * dsc->drm->rc_model_size /
+> +				       (dsc->drm->rc_model_size - dsc->drm->initial_offset);
+> +
+> +	slice_bits = 8 * dsc->drm->slice_chunk_size * dsc->drm->slice_height;
+> +
+> +	groups_total = groups_per_line * dsc->drm->slice_height;
+> +
+> +	data = dsc->drm->first_line_bpg_offset * 2048;
+> +
+> +	dsc->drm->nfl_bpg_offset = DIV_ROUND_UP(data, (dsc->drm->slice_height - 1));
+> +
+> +	pre_num_extra_mux_bits = 3 * (mux_words_size + (4 * dsc->drm->bits_per_component + 4) - 2);
+> +
+> +	num_extra_mux_bits = pre_num_extra_mux_bits - (mux_words_size -
+> +			     ((slice_bits - pre_num_extra_mux_bits) % mux_words_size));
+> +
+> +	data = 2048 * (dsc->drm->rc_model_size - dsc->drm->initial_offset + num_extra_mux_bits);
+> +	dsc->drm->slice_bpg_offset = DIV_ROUND_UP(data, groups_total);
+> +
+> +	/* bpp * 16 + 0.5 */
+> +	data = dsc->drm->bits_per_pixel * 16;
+> +	data *= 2;
+> +	data++;
+> +	data /= 2;
+> +	target_bpp_x16 = data;
+> +
+> +	data = (dsc->drm->initial_xmit_delay * target_bpp_x16) / 16;
+> +	final_value =  dsc->drm->rc_model_size - data + num_extra_mux_bits;
+> +	dsc->drm->final_offset = final_value;
+> +
+> +	final_scale = 8 * dsc->drm->rc_model_size / (dsc->drm->rc_model_size - final_value);
+> +
+> +	data = (final_scale - 9) * (dsc->drm->nfl_bpg_offset + dsc->drm->slice_bpg_offset);
+> +	dsc->drm->scale_increment_interval = (2048 * dsc->drm->final_offset) / data;
+> +
+> +	dsc->drm->scale_decrement_interval = groups_per_line / (dsc->drm->initial_scale_value - 8);
+> +
+> +	return 0;
+> +}
+> +
+>   static int dsi_host_parse_dt(struct msm_dsi_host *msm_host)
+>   {
+>   	struct device *dev = &msm_host->pdev->dev;
+> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+> index 69952b239384..de7cb65bfc52 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.h
+> +++ b/drivers/gpu/drm/msm/msm_drv.h
+> @@ -30,6 +30,7 @@
+>   #include <drm/drm_plane_helper.h>
+>   #include <drm/drm_probe_helper.h>
+>   #include <drm/drm_fb_helper.h>
+> +#include <drm/drm_dsc.h>
+>   #include <drm/msm_drm.h>
+>   #include <drm/drm_gem.h>
+>   
+> @@ -134,6 +135,22 @@ struct msm_drm_thread {
+>   	struct kthread_worker *worker;
+>   };
+>   
+> +/* DSC config */
+> +struct msm_display_dsc_config {
+> +	struct drm_dsc_config *drm;
+> +
+> +	u32 initial_lines;
+> +	u32 pkt_per_line;
+> +	u32 bytes_in_slice;
+> +	u32 bytes_per_pkt;
+> +	u32 eol_byte_num;
+> +	u32 pclk_per_line;
+> +	u32 slice_last_group_size;
+> +	u32 det_thresh_flatness;
+> +
+> +	unsigned int dsc_mask;
+> +};
+> +
+>   struct msm_drm_private {
+>   
+>   	struct drm_device *dev;
+> @@ -228,6 +245,9 @@ struct msm_drm_private {
+>   	/* Properties */
+>   	struct drm_property *plane_property[PLANE_PROP_MAX_NUM];
+>   
+> +	/* DSC configuration */
+> +	struct msm_display_dsc_config *dsc;
+I agree with Dmitry, that we need a closer binding of dsc_config with 
+which display its getting associated with. Having it in the private 
+object is too generic.
 
-  f927767978d2 ("drm/vc4: kms: Fix return code check")
-  d354699e2292 ("drm/vc4: kms: Don't duplicate pending commit")
+https://patchwork.freedesktop.org/patch/463255/?series=90413&rev=4
 
-from the drm-misc-fixes tree and commit:
+How about moving this to struct dpu_encoder_virt.
+That way, it will be associated with the correct encoder.
 
-  16e101051f32 ("drm/vc4: Increase the core clock based on HVS load")
+Yes, I dont see the usage for dsc_mask too.
 
-from the drm tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/vc4/vc4_kms.c
-index b61792d2aa65,79d4d9dd1394..000000000000
---- a/drivers/gpu/drm/vc4/vc4_kms.c
-+++ b/drivers/gpu/drm/vc4/vc4_kms.c
-@@@ -337,12 -340,21 +340,21 @@@ static void vc4_atomic_commit_tail(stru
-  	struct drm_device *dev =3D state->dev;
-  	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
-  	struct vc4_hvs *hvs =3D vc4->hvs;
- -	struct drm_crtc_state *old_crtc_state;
-  	struct drm_crtc_state *new_crtc_state;
-+ 	struct vc4_hvs_state *new_hvs_state;
-  	struct drm_crtc *crtc;
-  	struct vc4_hvs_state *old_hvs_state;
- +	unsigned int channel;
-  	int i;
- =20
-+ 	old_hvs_state =3D vc4_hvs_get_old_global_state(state);
- -	if (WARN_ON(!old_hvs_state))
-++	if (WARN_ON(IS_ERR(old_hvs_state)))
-+ 		return;
-+=20
-+ 	new_hvs_state =3D vc4_hvs_get_new_global_state(state);
- -	if (WARN_ON(!new_hvs_state))
-++	if (WARN_ON(IS_ERR(new_hvs_state)))
-+ 		return;
-+=20
-  	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
-  		struct vc4_crtc_state *vc4_crtc_state;
- =20
-@@@ -353,32 -365,31 +365,36 @@@
-  		vc4_hvs_mask_underrun(dev, vc4_crtc_state->assigned_channel);
-  	}
- =20
-- 	old_hvs_state =3D vc4_hvs_get_old_global_state(state);
-- 	if (IS_ERR(old_hvs_state))
-- 		return;
-+ 	if (vc4->hvs->hvs5) {
-+ 		unsigned long core_rate =3D max_t(unsigned long,
-+ 						500000000,
-+ 						new_hvs_state->core_clock_rate);
-+=20
-+ 		clk_set_min_rate(hvs->core_clk, core_rate);
-+ 	}
- =20
- -	for_each_old_crtc_in_state(state, crtc, old_crtc_state, i) {
- -		struct vc4_crtc_state *vc4_crtc_state =3D
- -			to_vc4_crtc_state(old_crtc_state);
- -		unsigned int channel =3D vc4_crtc_state->assigned_channel;
- +	for (channel =3D 0; channel < HVS_NUM_CHANNELS; channel++) {
- +		struct drm_crtc_commit *commit;
-  		int ret;
- =20
- -		if (channel =3D=3D VC4_HVS_CHANNEL_DISABLED)
- +		if (!old_hvs_state->fifo_state[channel].in_use)
-  			continue;
- =20
- -		if (!old_hvs_state->fifo_state[channel].in_use)
- +		commit =3D old_hvs_state->fifo_state[channel].pending_commit;
- +		if (!commit)
-  			continue;
- =20
- -		ret =3D drm_crtc_commit_wait(old_hvs_state->fifo_state[channel].pending=
-_commit);
- +		ret =3D drm_crtc_commit_wait(commit);
-  		if (ret)
-  			drm_err(dev, "Timed out waiting for commit\n");
- +
- +		drm_crtc_commit_put(commit);
- +		old_hvs_state->fifo_state[channel].pending_commit =3D NULL;
-  	}
- =20
- +	if (vc4->hvs->hvs5)
- +		clk_set_min_rate(hvs->core_clk, 500000000);
- +
-  	drm_atomic_helper_commit_modeset_disables(dev, state);
- =20
-  	vc4_ctm_commit(vc4, state);
-@@@ -667,11 -673,19 +678,13 @@@ vc4_hvs_channels_duplicate_state(struc
- =20
-  	__drm_atomic_helper_private_obj_duplicate_state(obj, &state->base);
- =20
--=20
-  	for (i =3D 0; i < HVS_NUM_CHANNELS; i++) {
-  		state->fifo_state[i].in_use =3D old_state->fifo_state[i].in_use;
-+ 		state->fifo_state[i].fifo_load =3D old_state->fifo_state[i].fifo_load;
- -
- -		if (!old_state->fifo_state[i].pending_commit)
- -			continue;
- -
- -		state->fifo_state[i].pending_commit =3D
- -			drm_crtc_commit_get(old_state->fifo_state[i].pending_commit);
-  	}
- =20
-+ 	state->core_clock_rate =3D old_state->core_clock_rate;
-+=20
-  	return &state->base;
-  }
- =20
-@@@ -826,6 -840,76 +839,76 @@@ static int vc4_pv_muxing_atomic_check(s
-  	return 0;
-  }
- =20
-+ static int
-+ vc4_core_clock_atomic_check(struct drm_atomic_state *state)
-+ {
-+ 	struct vc4_dev *vc4 =3D to_vc4_dev(state->dev);
-+ 	struct drm_private_state *priv_state;
-+ 	struct vc4_hvs_state *hvs_new_state;
-+ 	struct vc4_load_tracker_state *load_state;
-+ 	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
-+ 	struct drm_crtc *crtc;
-+ 	unsigned int num_outputs;
-+ 	unsigned long pixel_rate;
-+ 	unsigned long cob_rate;
-+ 	unsigned int i;
-+=20
-+ 	priv_state =3D drm_atomic_get_private_obj_state(state,
-+ 						      &vc4->load_tracker);
-+ 	if (IS_ERR(priv_state))
-+ 		return PTR_ERR(priv_state);
-+=20
-+ 	load_state =3D to_vc4_load_tracker_state(priv_state);
-+=20
-+ 	hvs_new_state =3D vc4_hvs_get_global_state(state);
- -	if (!hvs_new_state)
- -		return -EINVAL;
-++	if (IS_ERR(hvs_new_state))
-++		return PTR_ERR(hvs_new_state);
-+=20
-+ 	for_each_oldnew_crtc_in_state(state, crtc,
-+ 				      old_crtc_state,
-+ 				      new_crtc_state,
-+ 				      i) {
-+ 		if (old_crtc_state->active) {
-+ 			struct vc4_crtc_state *old_vc4_state =3D
-+ 				to_vc4_crtc_state(old_crtc_state);
-+ 			unsigned int channel =3D old_vc4_state->assigned_channel;
-+=20
-+ 			hvs_new_state->fifo_state[channel].fifo_load =3D 0;
-+ 		}
-+=20
-+ 		if (new_crtc_state->active) {
-+ 			struct vc4_crtc_state *new_vc4_state =3D
-+ 				to_vc4_crtc_state(new_crtc_state);
-+ 			unsigned int channel =3D new_vc4_state->assigned_channel;
-+=20
-+ 			hvs_new_state->fifo_state[channel].fifo_load =3D
-+ 				new_vc4_state->hvs_load;
-+ 		}
-+ 	}
-+=20
-+ 	cob_rate =3D 0;
-+ 	num_outputs =3D 0;
-+ 	for (i =3D 0; i < HVS_NUM_CHANNELS; i++) {
-+ 		if (!hvs_new_state->fifo_state[i].in_use)
-+ 			continue;
-+=20
-+ 		num_outputs++;
-+ 		cob_rate +=3D hvs_new_state->fifo_state[i].fifo_load;
-+ 	}
-+=20
-+ 	pixel_rate =3D load_state->hvs_load;
-+ 	if (num_outputs > 1) {
-+ 		pixel_rate =3D (pixel_rate * 40) / 100;
-+ 	} else {
-+ 		pixel_rate =3D (pixel_rate * 60) / 100;
-+ 	}
-+=20
-+ 	hvs_new_state->core_clock_rate =3D max(cob_rate, pixel_rate);
-+=20
-+ 	return 0;
-+ }
-+=20
-+=20
-  static int
-  vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
-  {
-
---Sig_/SRktUQT/MnVNywL02YSYaaF
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmGlY2EACgkQAVBC80lX
-0GxgDwf/Y2zmsDBVbJBKWov738mnjKysnZB7GVIAHJ0dLd3HQrFynMZoRGT6E8y3
-+BKOFt/cAj4nPy7rYPzYmCzQEF9mtuzlCoVZmF9mWKCTKq2CPuVZYlkzkRNAFpR7
-s2LCcUw44Po1IL8o10pXCGrFeFfPH0yFQc5XX0i3OS1sPunsPJg+fAAzPdN++gzQ
-79+IYfcykH36wSiprGzhJXHqqBT4drIurU9odup7mmEsySvtFUKqGeiB7jRtHuFl
-51wFPPMMXG2N4PWX6kQvMWZAdBpMtdKOeTkkZQXm96kjcdEktGuTqZAirfo4pnoO
-BlJC3jD2TwVcRgzM2uFA2KTCLS6pZw==
-=gLo3
------END PGP SIGNATURE-----
-
---Sig_/SRktUQT/MnVNywL02YSYaaF--
+> +
+>   	/* VRAM carveout, used when no IOMMU: */
+>   	struct {
+>   		unsigned long size;
+> 
