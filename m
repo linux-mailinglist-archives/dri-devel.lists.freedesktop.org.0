@@ -1,49 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E148A463DCC
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 19:28:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEE68463D85
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 19:16:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B2026E457;
-	Tue, 30 Nov 2021 18:28:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 459D66E056;
+	Tue, 30 Nov 2021 18:16:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 278806E439;
- Tue, 30 Nov 2021 18:28:35 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10184"; a="216303092"
-X-IronPort-AV: E=Sophos;i="5.87,276,1631602800"; d="scan'208";a="216303092"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2021 10:12:33 -0800
-X-IronPort-AV: E=Sophos;i="5.87,276,1631602800"; d="scan'208";a="575932538"
-Received: from hekner-mobl5.ger.corp.intel.com (HELO [10.249.254.206])
- ([10.249.254.206])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2021 10:12:32 -0800
-Message-ID: <712b54fa1c09ae5cc1d75739ad8a7286f1dae8db.camel@linux.intel.com>
-Subject: Re: [RFC PATCH 1/2] dma-fence: Avoid establishing a locking order
- between fence classes
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>,
- intel-gfx@lists.freedesktop.org,  dri-devel@lists.freedesktop.org
-Date: Tue, 30 Nov 2021 19:12:29 +0100
-In-Reply-To: <250a8e47-2093-1a98-3859-0204ec4e60e6@amd.com>
-References: <20211130121936.586031-1-thomas.hellstrom@linux.intel.com>
- <20211130121936.586031-2-thomas.hellstrom@linux.intel.com>
- <c7502701-e85c-39f0-c249-702d029faa9e@linux.intel.com>
- <b440cfbc-2b9a-1aa2-76d6-17337f835777@linux.intel.com>
- <52a7cf8c-59c7-fec0-2274-d19bdc505314@amd.com>
- <57df8b0b-1d65-155f-a9a6-8073bbd4f28f@linux.intel.com>
- <2551da4d-2e51-cc24-7d4a-84ae00a1547c@amd.com>
- <29d096c91d720fbe5d410124580a02b663155b56.camel@linux.intel.com>
- <250a8e47-2093-1a98-3859-0204ec4e60e6@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-2.fc34) 
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 716FC6E04B
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 18:15:59 +0000 (UTC)
+X-UUID: 8e9acf4eee294f34bb0378db93f3acdb-20211201
+X-UUID: 8e9acf4eee294f34bb0378db93f3acdb-20211201
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1368680438; Wed, 01 Dec 2021 02:15:55 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Wed, 1 Dec 2021 02:15:54 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Wed, 1 Dec 2021 02:15:53 +0800
+From: jason-jh.lin <jason-jh.lin@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>,
+ <tzungbi@google.com>
+Subject: [PATCH v3 0/2] Fix mediatek-drm suspend and resume issue
+Date: Wed, 1 Dec 2021 02:15:50 +0800
+Message-ID: <20211130181552.9928-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,124 +48,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, matthew.auld@intel.com
+Cc: fshao@chromium.org, David Airlie <airlied@linux.ie>,
+ "jason-jh.lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ nancy.lin@mediatek.com, linux-mediatek@lists.infradead.org,
+ hsinyi@chromium.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2021-11-30 at 16:02 +0100, Christian König wrote:
-> Am 30.11.21 um 15:35 schrieb Thomas Hellström:
-> > On Tue, 2021-11-30 at 14:26 +0100, Christian König wrote:
-> > > Am 30.11.21 um 13:56 schrieb Thomas Hellström:
-> > > > On 11/30/21 13:42, Christian König wrote:
-> > > > > Am 30.11.21 um 13:31 schrieb Thomas Hellström:
-> > > > > > [SNIP]
-> > > > > > > Other than that, I didn't investigate the nesting fails
-> > > > > > > enough to
-> > > > > > > say I can accurately review this. :)
-> > > > > > Basically the problem is that within enable_signaling()
-> > > > > > which
-> > > > > > is
-> > > > > > called with the dma_fence lock held, we take the dma_fence
-> > > > > > lock
-> > > > > > of
-> > > > > > another fence. If that other fence is a dma_fence_array, or
-> > > > > > a
-> > > > > > dma_fence_chain which in turn tries to lock a
-> > > > > > dma_fence_array
-> > > > > > we hit
-> > > > > > a splat.
-> > > > > Yeah, I already thought that you constructed something like
-> > > > > that.
-> > > > > 
-> > > > > You get the splat because what you do here is illegal, you
-> > > > > can't
-> > > > > mix
-> > > > > dma_fence_array and dma_fence_chain like this or you can end
-> > > > > up
-> > > > > in a
-> > > > > stack corruption.
-> > > > Hmm. Ok, so what is the stack corruption, is it that the
-> > > > enable_signaling() will end up with endless recursion? If so,
-> > > > wouldn't
-> > > > it be more usable we break that recursion chain and allow a
-> > > > more
-> > > > general use?
-> > > The problem is that this is not easily possible for
-> > > dma_fence_array
-> > > containers. Just imagine that you drop the last reference to the
-> > > containing fences during dma_fence_array destruction if any of
-> > > the
-> > > contained fences is another container you can easily run into
-> > > recursion
-> > > and with that stack corruption.
-> > Indeed, that would require some deeper surgery.
-> > 
-> > > That's one of the major reasons I came up with the
-> > > dma_fence_chain
-> > > container. This one you can chain any number of elements together
-> > > without running into any recursion.
-> > > 
-> > > > Also what are the mixing rules between these? Never use a
-> > > > dma-fence-chain as one of the array fences and never use a
-> > > > dma-fence-array as a dma-fence-chain fence?
-> > > You can't add any other container to a dma_fence_array, neither
-> > > other
-> > > dma_fence_array instances nor dma_fence_chain instances.
-> > > 
-> > > IIRC at least technically a dma_fence_chain can contain a
-> > > dma_fence_array if you absolutely need that, but Daniel, Jason
-> > > and I
-> > > already had the same discussion a while back and came to the
-> > > conclusion
-> > > to avoid that as well if possible.
-> > Yes, this is actually the use-case. But what I can't easily
-> > guarantee
-> > is that that dma_fence_chain isn't fed into a dma_fence_array
-> > somewhere
-> > else. How do you typically avoid that?
-> > 
-> > Meanwhile I guess I need to take a different approach in the driver
-> > to
-> > avoid this altogether.
-> 
-> Jason and I came up with a deep dive iterator for his use case, but I
-> think we don't want to use that any more after my dma_resv rework.
-> 
-> In other words when you need to create a new dma_fence_array you
-> flatten 
-> out the existing construct which is at worst case 
-> dma_fence_chain->dma_fence_array->dma_fence.
+Change in v3:
+- fix return typo: modify -NOEDV to -ENODEV.
+- add missing complete function in ddp_cmdq_cb.
 
-Ok, Are there any cross-driver contract here, Like every driver using a
-dma_fence_array need to check for dma_fence_chain and flatten like
-above?
+Change in v2:
+- rollback adding cmdq_mbox_flush in cmdq_suspend and add
+  blocking config mode for mtk_drm_crtc_atomic_disable.
+- add return error when device_link_add fail.
+- change the first parameter of device_link_add from dev
+  to priv->dev.
 
-/Thomas
+jason-jh.lin (2):
+  drm/mediatek: add blocking config mode for crtc disable flow
+  drm/mediatek: add devlink to cmdq dev
 
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 31 ++++++++++++++++++++++++-
+ 1 file changed, 30 insertions(+), 1 deletion(-)
 
-> 
-> Regards,
-> Christian.
-> 
-> > 
-> > /Thomas
-> > 
-> > 
-> > > Regards,
-> > > Christian.
-> > > 
-> > > > /Thomas
-> > > > 
-> > > > 
-> > > > 
-> > > > 
-> > > > > Regards,
-> > > > > Christian.
-> > > > > 
-> > > > > > But I'll update the commit message with a typical splat.
-> > > > > > 
-> > > > > > /Thomas
-> > 
-> 
-
+-- 
+2.18.0
 
