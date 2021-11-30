@@ -1,64 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9022046308E
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 11:03:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FBD9463096
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 11:04:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 189146E45E;
-	Tue, 30 Nov 2021 10:03:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC5E56E4DE;
+	Tue, 30 Nov 2021 10:04:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94B636E45E
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 10:03:41 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 1A6EF212C5;
- Tue, 30 Nov 2021 10:03:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1638266620; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=03JLIC9fjfdV6XrpzK/YgUDK7BA35BqlRCl1TRGN+Zw=;
- b=t59HqKambuUz6yuOKeL0eve1ms6ozXuGlY3OpGCUCjRu5s1JBHx67OY+DDE9gItr0mTcx8
- IVHUiOcYOLEWFFL1UB9kdU5DiIJCZ9blgmhODiA2Lah6RM5tNQS2DWawpssJk+pmGceZyn
- u/shvt31fCxCF8+xsLabUL9oDjbUbOE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1638266620;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=03JLIC9fjfdV6XrpzK/YgUDK7BA35BqlRCl1TRGN+Zw=;
- b=m9/euoAzffv1QOAOOlTzIT9fDvWslC2tkku2r75F647yzQVk/BanB6IlGyq2LfkfGU5cg8
- sWV6I2bcaCFq0HCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DDF5A13C98;
- Tue, 30 Nov 2021 10:03:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id ZotBNfv2pWG3KgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 30 Nov 2021 10:03:39 +0000
-Message-ID: <f84bc3ce-5a9e-6f3a-0e23-eb8adc05b13f@suse.de>
-Date: Tue, 30 Nov 2021 11:03:39 +0100
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F38F6E4DE
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 10:04:14 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id l16so43126242wrp.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 02:04:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=qUpNgekNyximD/ZZ+bMBBXr7Phi7gZIz8V61NNp8tgo=;
+ b=WP+g2YVtpy01qQBy/NPVv9xOI7b1EZNRxMy3jJSstwPLuYVnnmHghlwmStLQSFfMIK
+ fVeLT57iP/v8dnvwGfqjG5wvUCIY2ye1GQCMT9MdE/cm7os16q70cILYP2HxYJgYR4Ib
+ Hz4skL4sUJ5caFNZszd4K9VxAlFJlZXelN0Z5nZl/rr9P6Yr/FXuBa8oGpvTU9HwUMbT
+ ekLvGGq+YWNjMoZX7cZNKgRaQa8bVhRtKYk8G7WOmT0IQ6aRr6CLUwvUw28ILZv+iArX
+ 2Zw6mpy7Vi+8Dyi3lMc0yNAQMSza9U69lt6qaPDE2mXI8KrpinBR98gEHpQC3Nkfkdw3
+ 289g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=qUpNgekNyximD/ZZ+bMBBXr7Phi7gZIz8V61NNp8tgo=;
+ b=ZdQaCdPrVZHZuDnM70HIrp3Y/1uwqISUVjl5cxwLUTnNpS34kGAYHwbC5ViELsDQPL
+ WZDbGjvcEu4YaKb/oCzoKXmwD0TorpldlbEZ3ZxCjqzomnp5/OakXIRK+oOkQlpdZtqX
+ tafu9/0s5vc3BJ2+D1VQb78CNYgLwoTbHdt3hCZKDFOLOtxEO7iXSKakHMUfNE3zN7yT
+ SxPfBJjJYjN+gGIF2sB66/+kgpDQtI+hbcHrBVaI3R61JdE0+NMV1ihdsXjaDvk2r8YQ
+ rOG0JdTLL2tff7py71e6MsdEkrwa0LNWK5f76pyXACB/xD/GHKBTZpTWHVpRowDTMeGU
+ g0Ag==
+X-Gm-Message-State: AOAM531UuguBvlD0EJ0fyGWhzynngwbXx8+Sz6seyx6OA2tBYg1Xgdb3
+ 2rlOlPHvuWXhOh3LgA+M4Qk=
+X-Google-Smtp-Source: ABdhPJzjbutJNOXAkWEmsKAebjDMvAKuEKhm44HQjrL4eZzObzxv9CY3HntAXQzyNBd4YRRZW/dLrg==
+X-Received: by 2002:a05:6000:1a85:: with SMTP id
+ f5mr39025117wry.361.1638266652608; 
+ Tue, 30 Nov 2021 02:04:12 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:fa20:e17b:e063:b6d3?
+ ([2a02:908:1252:fb60:fa20:e17b:e063:b6d3])
+ by smtp.gmail.com with ESMTPSA id q4sm15615725wrs.56.2021.11.30.02.04.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 30 Nov 2021 02:04:12 -0800 (PST)
+Subject: Re: [Linaro-mm-sig] [PATCH] dma-resv: some doc polish for iterators
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20211130091609.1335915-1-daniel.vetter@ffwll.ch>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <02d35f5a-ad89-b78d-a31f-51ea1579b9cd@gmail.com>
+Date: Tue, 30 Nov 2021 11:04:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH 0/7] agp: Various minor fixes
+In-Reply-To: <20211130091609.1335915-1-daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-To: airlied@linux.ie, daniel.vetter@ffwll.ch, arnd@arndb.de,
- gregkh@linuxfoundation.org, James.Bottomley@HansenPartnership.com,
- deller@gmx.de
-References: <20211112141628.12904-1-tzimmermann@suse.de>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20211112141628.12904-1-tzimmermann@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------GPvq20nNt2Y3R54vcMxvkwC2"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,71 +74,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org, Daniel Vetter <daniel.vetter@intel.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------GPvq20nNt2Y3R54vcMxvkwC2
-Content-Type: multipart/mixed; boundary="------------RFGvPO7iehQXle5AYrPhyVCE";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@linux.ie, daniel.vetter@ffwll.ch, arnd@arndb.de,
- gregkh@linuxfoundation.org, James.Bottomley@HansenPartnership.com,
- deller@gmx.de
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Message-ID: <f84bc3ce-5a9e-6f3a-0e23-eb8adc05b13f@suse.de>
-Subject: Re: [PATCH 0/7] agp: Various minor fixes
-References: <20211112141628.12904-1-tzimmermann@suse.de>
-In-Reply-To: <20211112141628.12904-1-tzimmermann@suse.de>
+Am 30.11.21 um 10:16 schrieb Daniel Vetter:
+> Hammer it a bit more in that iterators can be restarted and when that
+> matters, plus suggest to prefer the locked version whenver.
+>
+> Also delete the two leftover kerneldoc for static functions plus
+> sprinkle some more links while at it.
+>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: "Christian König" <christian.koenig@amd.com>
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> ---
+>   drivers/dma-buf/dma-resv.c | 26 ++++++++++++--------------
+>   include/linux/dma-resv.h   | 13 ++++++++++++-
+>   2 files changed, 24 insertions(+), 15 deletions(-)
+>
+> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+> index 9eb2baa387d4..1453b664c405 100644
+> --- a/drivers/dma-buf/dma-resv.c
+> +++ b/drivers/dma-buf/dma-resv.c
+> @@ -323,12 +323,6 @@ void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence)
+>   }
+>   EXPORT_SYMBOL(dma_resv_add_excl_fence);
+>   
+> -/**
+> - * dma_resv_iter_restart_unlocked - restart the unlocked iterator
+> - * @cursor: The dma_resv_iter object to restart
+> - *
+> - * Restart the unlocked iteration by initializing the cursor object.
+> - */
 
---------------RFGvPO7iehQXle5AYrPhyVCE
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Maybe instead of completely removing the documentation add a single line 
+of what this is supposed to do and not to do.
 
-UGluZyEgQW55IGZlZWRiYWNrIG9uIHRoZXNlIHBhdGNoZXM/DQoNCkFtIDEyLjExLjIxIHVt
-IDE1OjE2IHNjaHJpZWIgVGhvbWFzIFppbW1lcm1hbm46DQo+IEZpeCBhIG51bWJlciBvZiBj
-b21waWxlciB3YXJuaW5ncyBpbiB0aGUgQUdQIGRyaXZlcnMuIE5vIGZ1bmN0aW9uYWwNCj4g
-Y2hhbmdlcy4NCj4gDQo+IFRob21hcyBaaW1tZXJtYW5uICg3KToNCj4gICAgYWdwOiBSZW1v
-dmUgdHJhaWxpbmcgd2hpdGVzcGFjZXMNCj4gICAgYWdwOiBJbmNsdWRlICJjb21wYXRfaW9j
-dGwuaCIgd2hlcmUgbmVjZXNzYXJ5DQo+ICAgIGFncDogRG9jdW1lbnRhdGlvbiBmaXhlcw0K
-PiAgICBhZ3AvYXRpOiBSZXR1cm4gZXJyb3IgZnJvbSBhdGlfY3JlYXRlX3BhZ2VfbWFwKCkN
-Cj4gICAgYWdwL252aWRpYTogSWdub3JlIHZhbHVlIHJldHVybmVkIGJ5IHJlYWRsKCkNCj4g
-ICAgYWdwL3N3b3JrczogUmVtb3ZlIHVudXNlZCB2YXJpYWJsZSAnY3VycmVudF9zaXplJw0K
-PiAgICBhZ3AvdmlhOiBSZW1vdmUgdW51c2VkIHZhcmlhYmxlICdjdXJyZW50X3NpemUnDQo+
-IA0KPiAgIGRyaXZlcnMvY2hhci9hZ3AvYXRpLWFncC5jICAgIHwgMTAgKysrKysrKystLQ0K
-PiAgIGRyaXZlcnMvY2hhci9hZ3AvYmFja2VuZC5jICAgIHwgIDIgKysNCj4gICBkcml2ZXJz
-L2NoYXIvYWdwL2Zyb250ZW5kLmMgICB8ICA0ICsrKy0NCj4gICBkcml2ZXJzL2NoYXIvYWdw
-L252aWRpYS1hZ3AuYyB8ICA2ICsrKy0tLQ0KPiAgIGRyaXZlcnMvY2hhci9hZ3Avc3dvcmtz
-LWFncC5jIHwgIDUgKy0tLS0NCj4gICBkcml2ZXJzL2NoYXIvYWdwL3ZpYS1hZ3AuYyAgICB8
-ICAzIC0tLQ0KPiAgIDYgZmlsZXMgY2hhbmdlZCwgMTcgaW5zZXJ0aW9ucygrKSwgMTMgZGVs
-ZXRpb25zKC0pDQo+IA0KPiAtLQ0KPiAyLjMzLjENCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1l
-cm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRp
-b25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJt
-YW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZv
-IFRvdGV2DQo=
+E.g. "/* Restart the iterator by initializing all the necessary fields, 
+but not the relation to the dma_resv object. */
 
---------------RFGvPO7iehQXle5AYrPhyVCE--
+>   static void dma_resv_iter_restart_unlocked(struct dma_resv_iter *cursor)
+>   {
+>   	cursor->seq = read_seqcount_begin(&cursor->obj->seq);
+> @@ -344,14 +338,6 @@ static void dma_resv_iter_restart_unlocked(struct dma_resv_iter *cursor)
+>   	cursor->is_restarted = true;
+>   }
+>   
+> -/**
+> - * dma_resv_iter_walk_unlocked - walk over fences in a dma_resv obj
+> - * @cursor: cursor to record the current position
+> - *
+> - * Return all the fences in the dma_resv object which are not yet signaled.
+> - * The returned fence has an extra local reference so will stay alive.
+> - * If a concurrent modify is detected the whole iteration is started over again.
+> - */
 
---------------GPvq20nNt2Y3R54vcMxvkwC2
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Same here, something /* Walk to the next not signaled fence and grab a 
+reference to it */.
 
------BEGIN PGP SIGNATURE-----
+Apart from that feel free add Reviewed-by: Christian König 
+<christian.koenig@amd.com>
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmGl9vsFAwAAAAAACgkQlh/E3EQov+CA
-+g//QqX+2loLojzqdFQlFcc+vQr/iwRoXlEB7RbAo4fcTZLgOJupnbgANxVe98Y4y1tNXnQ6vVE6
-AjlNWdnRqBPoQxJUJDyDzEvidpRPe81gKb8qmLA0wgL+eRNC55P/D5R2wV+Q7t+Oa1ovsIARQ80M
-sHaE6QhWvjA8DX47S8e79B6EsHsDbd/hdz8v+h3Jw9oxbSIK3KPrk3Vd55tNaFnmdIxZJp7a76e/
-JG1P46UmZt3EjQxoa4j82HOaNWtL0eIxo4ryQ7y2IhP0nEAKQXJr/vUz2fZKSkk3NjQXZEl6sxWZ
-sWIyTcWhVDK3Xofyif7FXH/zRBgB4nWqLnkuXdMhfstgDSTq1MaJa7kV2o3EYIUGQ4LRittBE3X1
-7NTPccNfDBImipWBLrEnBsJSm2TnFUM1OCcugf5jlESX+Cj4z3PYhZCuBMEirgLtYLC8rXAtSe1Z
-C09jRVQ3ZerORTynKv+Dvsh/Ddq4QMmVjAmH60Z4EplMS6d5DixtWas+G/h1QGAB13gESplxi6DD
-gdNBKzY05K6rFgfbooyMnrBBHaRPviS+s0cjD4PSelTmrWL7tH8rEqvoqvWM1Lyu/mnQVayN8fNQ
-QXWzV4S78ImRYoH1HUx3TJbEYXEKYuTO5iAheIN0W3vN+PkAZfIak3EyZivbXCRdnb9h8zNdGyQP
-3to=
-=j1//
------END PGP SIGNATURE-----
+Regards,
+Christian.
 
---------------GPvq20nNt2Y3R54vcMxvkwC2--
+>   static void dma_resv_iter_walk_unlocked(struct dma_resv_iter *cursor)
+>   {
+>   	struct dma_resv *obj = cursor->obj;
+> @@ -387,6 +373,12 @@ static void dma_resv_iter_walk_unlocked(struct dma_resv_iter *cursor)
+>    * dma_resv_iter_first_unlocked - first fence in an unlocked dma_resv obj.
+>    * @cursor: the cursor with the current position
+>    *
+> + * Subsequent fences are iterated with dma_resv_iter_next_unlocked().
+> + *
+> + * Beware that the iterator can be restarted.  Code which accumulates statistics
+> + * or similar needs to check for this with dma_resv_iter_is_restarted(). For
+> + * this reason prefer the locked dma_resv_iter_first() whenver possible.
+> + *
+>    * Returns the first fence from an unlocked dma_resv obj.
+>    */
+>   struct dma_fence *dma_resv_iter_first_unlocked(struct dma_resv_iter *cursor)
+> @@ -406,6 +398,10 @@ EXPORT_SYMBOL(dma_resv_iter_first_unlocked);
+>    * dma_resv_iter_next_unlocked - next fence in an unlocked dma_resv obj.
+>    * @cursor: the cursor with the current position
+>    *
+> + * Beware that the iterator can be restarted.  Code which accumulates statistics
+> + * or similar needs to check for this with dma_resv_iter_is_restarted(). For
+> + * this reason prefer the locked dma_resv_iter_next() whenver possible.
+> + *
+>    * Returns the next fence from an unlocked dma_resv obj.
+>    */
+>   struct dma_fence *dma_resv_iter_next_unlocked(struct dma_resv_iter *cursor)
+> @@ -431,6 +427,8 @@ EXPORT_SYMBOL(dma_resv_iter_next_unlocked);
+>    * dma_resv_iter_first - first fence from a locked dma_resv object
+>    * @cursor: cursor to record the current position
+>    *
+> + * Subsequent fences are iterated with dma_resv_iter_next_unlocked().
+> + *
+>    * Return the first fence in the dma_resv object while holding the
+>    * &dma_resv.lock.
+>    */
+> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+> index dbd235ab447f..ebe908592ac3 100644
+> --- a/include/linux/dma-resv.h
+> +++ b/include/linux/dma-resv.h
+> @@ -153,6 +153,13 @@ struct dma_resv {
+>    * struct dma_resv_iter - current position into the dma_resv fences
+>    *
+>    * Don't touch this directly in the driver, use the accessor function instead.
+> + *
+> + * IMPORTANT
+> + *
+> + * When using the lockless iterators like dma_resv_iter_next_unlocked() or
+> + * dma_resv_for_each_fence_unlocked() beware that the iterator can be restarted.
+> + * Code which accumulates statistics or similar needs to check for this with
+> + * dma_resv_iter_is_restarted().
+>    */
+>   struct dma_resv_iter {
+>   	/** @obj: The dma_resv object we iterate over */
+> @@ -243,7 +250,11 @@ static inline bool dma_resv_iter_is_restarted(struct dma_resv_iter *cursor)
+>    * &dma_resv.lock and using RCU instead. The cursor needs to be initialized
+>    * with dma_resv_iter_begin() and cleaned up with dma_resv_iter_end(). Inside
+>    * the iterator a reference to the dma_fence is held and the RCU lock dropped.
+> - * When the dma_resv is modified the iteration starts over again.
+> + *
+> + * Beware that the iterator can be restarted when the struct dma_resv for
+> + * @cursor is modified. Code which accumulates statistics or similar needs to
+> + * check for this with dma_resv_iter_is_restarted(). For this reason prefer the
+> + * lock iterator dma_resv_for_each_fence() whenever possible.
+>    */
+>   #define dma_resv_for_each_fence_unlocked(cursor, fence)			\
+>   	for (fence = dma_resv_iter_first_unlocked(cursor);		\
+
