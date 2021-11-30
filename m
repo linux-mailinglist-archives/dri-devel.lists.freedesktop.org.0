@@ -2,65 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1BF54630EB
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 11:23:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00162463124
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 11:37:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7D4B6EB38;
-	Tue, 30 Nov 2021 10:22:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDD236E30D;
+	Tue, 30 Nov 2021 10:37:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 073E16EB3C
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 10:22:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1638267772;
- bh=axlQgmPmHpysZyf887u13cmx6tmECclmmde5H7/SPQQ=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=jQqC6nI67oqCQh2kyQ14dWl1Cl9Mzvb/5bpjYubXIjp6OmOVUaArfrzpU89qntW6u
- sBGQhq6VLfWXUwcozoPj2XBdchzSrYVHlr7aAwR+ds9gR7immXZjwIWuZm8hg2+I02
- eHs1/ivg6tUy29IoLkh1TGbwr3MNWXGrZkt206tE=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.145.109]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MMGNC-1n8z5e1j6c-00JJf6; Tue, 30
- Nov 2021 11:17:40 +0100
-Message-ID: <55d4f046-fe7a-aa06-ae36-b7dd342a96a3@gmx.de>
-Date: Tue, 30 Nov 2021 11:17:35 +0100
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4060F6E30D;
+ Tue, 30 Nov 2021 10:37:01 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10183"; a="223070080"
+X-IronPort-AV: E=Sophos;i="5.87,275,1631602800"; d="scan'208";a="223070080"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Nov 2021 02:37:00 -0800
+X-IronPort-AV: E=Sophos;i="5.87,275,1631602800"; d="scan'208";a="477071284"
+Received: from dmeldon-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.12.174])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Nov 2021 02:36:54 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Lyude Paul <lyude@redhat.com>, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v2] drm/i915/dp: Perform 30ms delay after source OUI write
+In-Reply-To: <20211129233354.101347-1-lyude@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20211129233354.101347-1-lyude@redhat.com>
+Date: Tue, 30 Nov 2021 12:36:42 +0200
+Message-ID: <871r2yj5fp.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 0/7] agp: Various minor fixes
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@linux.ie,
- daniel.vetter@ffwll.ch, arnd@arndb.de, gregkh@linuxfoundation.org,
- James.Bottomley@HansenPartnership.com
-References: <20211112141628.12904-1-tzimmermann@suse.de>
- <f84bc3ce-5a9e-6f3a-0e23-eb8adc05b13f@suse.de>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <f84bc3ce-5a9e-6f3a-0e23-eb8adc05b13f@suse.de>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:HU2dw3Dxou26Ie13FzlnuvNQw9/wtn1FxtYaNxvdYUM2aDwOgVe
- MUKjfgwGCZkmHj+pDt3KAEzRuMkGi6SXqFYo92SZBZFg74uP7FMLCQpspIpRdwM+FkGts0X
- G3sl34T8oTJc5559knafMIwoBUFGa1jbvFm0hzHhLy7gfybdUsoFJBnAlRGj3UVoP/bI7nZ
- c8O/TP4oy5WgrVFM8SewA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:YKoNLPK1wmM=:effbbPX5UPWZ6IPhDXA6c4
- rOfnLXxGKRO6W9+7xhcQKikJ+4V0c9K5nRXaaXq4wJ3Mw1OG90MYKXtDWmshyQFDbUpjwVH0Y
- /XaY/SmBC1AF98k2zam1xdVGrPXGOCgGtf1/2pPEhExzTGQp3tLOJwqwKa/TrhWaFgXKKwDJZ
- GMGBicHOg80zlBLFbhRGhbmtJU/naaTMsWeVkBqH4ocW7T/foNORJkjSGlRI8msUNBE8CVjtr
- 3it4jV4dksqcIbITvs6H+Mom6oWYZst45VIOdllMENGfyf8owMXvNx7WQYHuOfXGiMFwFEU/Z
- kWccfzUdTeWnEXF9rlOY5K5+sJoIYv/e6tDKytE/Ryj1wrCRPoGjcBUJfFpJ8Nr4B3aYy2GB2
- rYIKpaaI/uCJBk2VYQ7R8sP9gN0sHfkjZy+54qO7wSCG8Rf30GV6KnjjJIe1QpwnZ6xIrprOt
- RjBhATgLBb3V1WGFQjak8NCdCAHLY1kLKa1YsFL5EBV1TvCowJ6eoTIVTH96YUUk+9By2YeGy
- QQreRK9nFTcSczEo0aBbHLtXVsquqDwaI2/5aejF3ibOaSBIueBUvZhOSaUai9+6xvcYM8MRN
- RoM0DwTxCE3qukzVVP87+1G19EnZqDXj/w10WmVyV8PcfCsSllbhd3rU5dYwpYDHXHUEHzyiQ
- TT4pRA1rx9BCHzzwabYtWwmHYlDcSg3rh7Hj2cLhMo9b2bpULfDTvNdFPHIO1gGW39G9GEIFr
- u5eTtQi/v9xf0SPJdWtSWDC95xHoZXqmyQOfBsHgL2841KzSB1iFFWYikWG64mLExaI9P1Od5
- J49d5GGv6KPPcXRIKMy4Yrdl8HaHPehEkYhCeiRvoca29H0lHyoCFsYj0168r05uadbVn9FVe
- pyzfJnRc6VS2yaLWvDvSbNX5ireSvvYg/EitGVfevQoSql9NOH4FssCaiyhWaZdYDKzawxBar
- VZLRmG/rToxSCZt6y05Njzz1X5S0uEj7qGPBEdwRRJ9BuwqJC7K+sinkdTlsm4J0mIpINvbim
- atFzT+VV0c22A8fsHmzTawevJH9pVO6utr0LnET5Y2VGj4l1Pa06xNxi4O6azcCuEW299fDOJ
- mlC0lSAHvzebO0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,42 +45,177 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>, Anshuman Gupta <anshuman.gupta@intel.com>,
+ open list <linux-kernel@vger.kernel.org>, stable@vger.kernel.org,
+ Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+ Manasi Navare <manasi.d.navare@intel.com>, Uma Shankar <uma.shankar@intel.com>,
+ =?utf-8?Q?Jos=C3=A9?= Roberto de Souza <jose.souza@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Dave Airlie <airlied@redhat.com>,
+ Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/30/21 11:03, Thomas Zimmermann wrote:
-> Ping! Any feedback on these patches?
-
-I just reviewed those patches, and sent some feedback.
-The others are:
-Acked-by: Helge Deller <deller@gmx.de>
-
-Helge
-
-> Am 12.11.21 um 15:16 schrieb Thomas Zimmermann:
->> Fix a number of compiler warnings in the AGP drivers. No functional
->> changes.
->>
->> Thomas Zimmermann (7):
->> =C2=A0=C2=A0 agp: Remove trailing whitespaces
->> =C2=A0=C2=A0 agp: Include "compat_ioctl.h" where necessary
->> =C2=A0=C2=A0 agp: Documentation fixes
->> =C2=A0=C2=A0 agp/ati: Return error from ati_create_page_map()
->> =C2=A0=C2=A0 agp/nvidia: Ignore value returned by readl()
->> =C2=A0=C2=A0 agp/sworks: Remove unused variable 'current_size'
->> =C2=A0=C2=A0 agp/via: Remove unused variable 'current_size'
->>
->> =C2=A0 drivers/char/agp/ati-agp.c=C2=A0=C2=A0=C2=A0 | 10 ++++++++--
->> =C2=A0 drivers/char/agp/backend.c=C2=A0=C2=A0=C2=A0 |=C2=A0 2 ++
->> =C2=A0 drivers/char/agp/frontend.c=C2=A0=C2=A0 |=C2=A0 4 +++-
->> =C2=A0 drivers/char/agp/nvidia-agp.c |=C2=A0 6 +++---
->> =C2=A0 drivers/char/agp/sworks-agp.c |=C2=A0 5 +----
->> =C2=A0 drivers/char/agp/via-agp.c=C2=A0=C2=A0=C2=A0 |=C2=A0 3 ---
->> =C2=A0 6 files changed, 17 insertions(+), 13 deletions(-)
->>
->> --
->> 2.33.1
->>
+On Mon, 29 Nov 2021, Lyude Paul <lyude@redhat.com> wrote:
+> While working on supporting the Intel HDR backlight interface, I noticed
+> that there's a couple of laptops that will very rarely manage to boot up
+> without detecting Intel HDR backlight support - even though it's supported
+> on the system. One example of such a laptop is the Lenovo P17 1st
+> generation.
 >
+> Following some investigation Ville Syrj=C3=A4l=C3=A4 did through the docs=
+ they have
+> available to them, they discovered that there's actually supposed to be a
+> 30ms wait after writing the source OUI before we begin setting up the rest
+> of the backlight interface.
+>
+> This seems to be correct, as adding this 30ms delay seems to have
+> completely fixed the probing issues I was previously seeing. So - let's
+> start performing a 30ms wait after writing the OUI, which we do in a mann=
+er
+> similar to how we keep track of PPS delays (e.g. record the timestamp of
+> the OUI write, and then wait for however many ms are left since that
+> timestamp right before we interact with the backlight) in order to avoid
+> waiting any longer then we need to. As well, this also avoids us performi=
+ng
+> this delay on systems where we don't end up using the HDR backlight
+> interface.
+>
+> V2:
+> * Move panel delays into intel_pps
+>
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> Fixes: 4a8d79901d5b ("drm/i915/dp: Enable Intel's HDR backlight interface=
+ (only SDR for now)")
+> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> Cc: <stable@vger.kernel.org> # v5.12+
+> ---
+>  drivers/gpu/drm/i915/display/intel_display_types.h    |  4 ++++
+>  drivers/gpu/drm/i915/display/intel_dp.c               | 11 +++++++++++
+>  drivers/gpu/drm/i915/display/intel_dp.h               |  2 ++
+>  drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c |  5 +++++
+>  4 files changed, 22 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers=
+/gpu/drm/i915/display/intel_display_types.h
+> index ea1e8a6e10b0..ad64f9caa7ff 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+> @@ -1485,6 +1485,7 @@ struct intel_pps {
+>  	bool want_panel_vdd;
+>  	unsigned long last_power_on;
+>  	unsigned long last_backlight_off;
+> +	unsigned long last_oui_write;
+>  	ktime_t panel_power_off_time;
+>  	intel_wakeref_t vdd_wakeref;
+>=20=20
+> @@ -1653,6 +1654,9 @@ struct intel_dp {
+>  	struct intel_dp_pcon_frl frl;
+>=20=20
+>  	struct intel_psr psr;
+> +
+> +	/* When we last wrote the OUI for eDP */
+> +	unsigned long last_oui_write;
 
+Now you're adding last_oui_write to both intel_pps and intel_dp, forgot
+to git add? ;)
+
+I guess I'd add this to intel_dp only, because it's not strictly about
+PPS. I just wanted the mechanism to be similar to that.
+
+>  };
+>=20=20
+>  enum lspcon_vendor {
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i9=
+15/display/intel_dp.c
+> index 0a424bf69396..45318891ba07 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -29,6 +29,7 @@
+>  #include <linux/i2c.h>
+>  #include <linux/notifier.h>
+>  #include <linux/slab.h>
+> +#include <linux/timekeeping.h>
+>  #include <linux/types.h>
+>=20=20
+>  #include <asm/byteorder.h>
+> @@ -2010,6 +2011,16 @@ intel_edp_init_source_oui(struct intel_dp *intel_d=
+p, bool careful)
+>=20=20
+>  	if (drm_dp_dpcd_write(&intel_dp->aux, DP_SOURCE_OUI, oui, sizeof(oui)) =
+< 0)
+>  		drm_err(&i915->drm, "Failed to write source OUI\n");
+> +
+> +	intel_dp->pps.last_oui_write =3D jiffies;
+
+Set to intel_dp->last_oui_write.
+
+With those fixes,
+
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+
+
+> +}
+> +
+> +void intel_dp_wait_source_oui(struct intel_dp *intel_dp)
+> +{
+> +	struct drm_i915_private *i915 =3D dp_to_i915(intel_dp);
+> +
+> +	drm_dbg_kms(&i915->drm, "Performing OUI wait\n");
+> +	wait_remaining_ms_from_jiffies(intel_dp->last_oui_write, 30);
+>  }
+>=20=20
+>  /* If the device supports it, try to set the power state appropriately */
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i9=
+15/display/intel_dp.h
+> index ce229026dc91..b64145a3869a 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.h
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.h
+> @@ -119,4 +119,6 @@ void intel_dp_pcon_dsc_configure(struct intel_dp *int=
+el_dp,
+>  				 const struct intel_crtc_state *crtc_state);
+>  void intel_dp_phy_test(struct intel_encoder *encoder);
+>=20=20
+> +void intel_dp_wait_source_oui(struct intel_dp *intel_dp);
+> +
+>  #endif /* __INTEL_DP_H__ */
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/driv=
+ers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> index 8b9c925c4c16..62c112daacf2 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> @@ -36,6 +36,7 @@
+>=20=20
+>  #include "intel_backlight.h"
+>  #include "intel_display_types.h"
+> +#include "intel_dp.h"
+>  #include "intel_dp_aux_backlight.h"
+>=20=20
+>  /* TODO:
+> @@ -106,6 +107,8 @@ intel_dp_aux_supports_hdr_backlight(struct intel_conn=
+ector *connector)
+>  	int ret;
+>  	u8 tcon_cap[4];
+>=20=20
+> +	intel_dp_wait_source_oui(intel_dp);
+> +
+>  	ret =3D drm_dp_dpcd_read(aux, INTEL_EDP_HDR_TCON_CAP0, tcon_cap, sizeof=
+(tcon_cap));
+>  	if (ret !=3D sizeof(tcon_cap))
+>  		return false;
+> @@ -204,6 +207,8 @@ intel_dp_aux_hdr_enable_backlight(const struct intel_=
+crtc_state *crtc_state,
+>  	int ret;
+>  	u8 old_ctrl, ctrl;
+>=20=20
+> +	intel_dp_wait_source_oui(intel_dp);
+> +
+>  	ret =3D drm_dp_dpcd_readb(&intel_dp->aux, INTEL_EDP_HDR_GETSET_CTRL_PAR=
+AMS, &old_ctrl);
+>  	if (ret !=3D 1) {
+>  		drm_err(&i915->drm, "Failed to read current backlight control mode: %d=
+\n", ret);
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
