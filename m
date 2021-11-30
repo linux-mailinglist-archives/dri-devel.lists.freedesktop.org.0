@@ -2,55 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28D91463DA7
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 19:20:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95CA1463DC2
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 19:25:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47F006E194;
-	Tue, 30 Nov 2021 18:20:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42AF16E2ED;
+	Tue, 30 Nov 2021 18:25:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95C436E154
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 18:20:02 +0000 (UTC)
+X-Greylist: delayed 82524 seconds by postgrey-1.36 at gabe;
+ Tue, 30 Nov 2021 18:25:17 UTC
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F32E6E2ED
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 18:25:17 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 6AB11CE1AF9
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 18:19:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CB0BC53FD5
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 18:19:55 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 9D48ECE1AFD
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 18:25:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C027BC53FD2
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 18:25:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1638296395;
- bh=Rg3X5WgEx/fu1vO7MTLJTKOCZa6PxvqcsrwTHphDJDI=;
+ s=k20201202; t=1638296713;
+ bh=I558V0JgsXljEVAcQXHf/PeyIwz8vKpCjcthI+bmzOg=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=i9FRLvgj2xYrkiwZdLPpY85Fjd6ZvT5+FmwmpPxuUtFK4QNsRJhQU8B+M80/mMbEJ
- eVLQQqRbZgJBtxNq5289CGCrLodfzfGEXyrOUGSgyiLPJJuoVUsEkqNkH3JwAFgRvm
- GGV6Z7P5+HN77l28Bpsk1fIQQNyumFBWcvDubcX8gxv7Fyq6mZYv7qsguxqC2kFozs
- htzdXGmYz1azXmkFiMYJ+M00zXnJyTOT47NERz3vDatUbikeS0R8tiilXVV06eXOGp
- 93/ftkaxSSgw7FlwZjxF+gj/UTRQtTNl6ANpL36vjQ1G1oiKviDRmYoNj6V30VMIl6
- TrMILntbTqsVw==
-Received: by mail-ed1-f44.google.com with SMTP id v1so90405156edx.2
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 10:19:55 -0800 (PST)
-X-Gm-Message-State: AOAM533VAYaudhugV2NK5EWEidX9wQccvFdKaKT7Fk3j+UqXOStKYluW
- l9KVDgLdnAM2fg56Ai8VTv5mdBf9PTGSuZEyuQ==
-X-Google-Smtp-Source: ABdhPJzlzmKd9f1PSVWhZws80WIcbDQrGSGIeTyLxWwF+f3fDK1WoMt3xMdzMHMCPFI2ghaCJdwDEwf+RBBhN7lbrhs=
-X-Received: by 2002:a17:907:a411:: with SMTP id
- sg17mr867105ejc.84.1638296393423; 
- Tue, 30 Nov 2021 10:19:53 -0800 (PST)
+ b=Ok5mkNkNfVwqfLLKxswXXEe/YB6OdY2s3GVITXE41NWzE2KfCfyBbxS+3dSpiq/G3
+ aCXiOl6WHQq5OwXgR6OUzlEpiOtN4NB8DQDkM/CMd9RHKTPINhJMPXzMB6NT8PcFPu
+ S9DRJ5otUZnkyyhgQ+b+SVrCl9t4Gr3Le/bqcQwCuG6JIfL02c9sC+8mSAphw8FWWX
+ isdXyWbnv/Eyn+7g3eklet6sutqt6/lQgyQ96P3URbC4zryr7AvzVejIhlTyAWVXzQ
+ Z6+zR8jTRrkX8jvme0KWE8ahFiCOsM0Mx9nIAdaLLBL/w1KqGGbbZBkxrbiftqH7MX
+ jY9g4j7Z47yIQ==
+Received: by mail-ed1-f50.google.com with SMTP id v1so90463548edx.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 10:25:13 -0800 (PST)
+X-Gm-Message-State: AOAM530iqt0FhbRiaSrT/pfYQeVbZ+ozGYmp350CNLzqlpDmZLOLtn/d
+ ZnzfVzQ+DsVtRw/If9pioydDigvkPnqkqha2lw==
+X-Google-Smtp-Source: ABdhPJy+uJ3QVXrQFnJdxIORaNgPpu6gm5253sxa9hphGM8Vf5FmWVsu5u0W+x+HwYttlOZwa9H0rmWNKyMP7sPSC8w=
+X-Received: by 2002:a05:6402:35ce:: with SMTP id
+ z14mr888825edc.197.1638296712088; 
+ Tue, 30 Nov 2021 10:25:12 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1637789354.git.hns@goldelico.com>
- <d678e785d95487202ac0660eb66796e9fb5beb50.1637789354.git.hns@goldelico.com>
- <1637875562.255498.2858308.nullmailer@robh.at.kernel.org>
- <A72D034E-EDBC-44F5-82DF-9EEBC5EC7E0B@goldelico.com>
-In-Reply-To: <A72D034E-EDBC-44F5-82DF-9EEBC5EC7E0B@goldelico.com>
-From: Rob Herring <robh@kernel.org>
-Date: Tue, 30 Nov 2021 12:19:41 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJ_E_USDuK3kEDKm9TsNsRdpcGNEjz==sKFS-Tv5KYCkA@mail.gmail.com>
-Message-ID: <CAL_JsqJ_E_USDuK3kEDKm9TsNsRdpcGNEjz==sKFS-Tv5KYCkA@mail.gmail.com>
-Subject: Re: [PATCH v9 3/8] dt-bindings: display: Add ingenic,jz4780-dw-hdmi
- DT Schema
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
+References: <20211117145829.204360-1-marcan@marcan.st>
+ <20211117145829.204360-2-marcan@marcan.st>
+ <f3582c00-925d-91ec-c829-0aaa8f0157c0@suse.de>
+ <36f3cf18-6654-e1bf-1fa6-a5797751ee86@marcan.st>
+ <CAL_JsqLd=NrZgkTw+N2+Ka4zqRVpZMRNSisUDV9MhBQA-0TZQg@mail.gmail.com>
+ <CABxcv=mkuJLrXr_nbELg39qJvUvV2y69FAisFKURR9bqa3FzKg@mail.gmail.com>
+In-Reply-To: <CABxcv=mkuJLrXr_nbELg39qJvUvV2y69FAisFKURR9bqa3FzKg@mail.gmail.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Tue, 30 Nov 2021 12:25:00 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJr5LYkWafLB0+Voo6pKDbRSF9QaDfavKNvSP0FXcSAkw@mail.gmail.com>
+Message-ID: <CAL_JsqJr5LYkWafLB0+Voo6pKDbRSF9QaDfavKNvSP0FXcSAkw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] drm/simpledrm: Bind to OF framebuffers in /chosen
+To: Javier Martinez Canillas <javier@dowhile0.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,80 +66,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Paul Cercueil <paul@crapouillou.net>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- "open list:MIPS" <linux-mips@vger.kernel.org>, devicetree@vger.kernel.org,
- Kees Cook <keescook@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
- Ezequiel Garcia <ezequiel@collabora.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+Cc: David Airlie <airlied@linux.ie>, Hector Martin <marcan@marcan.st>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Robert Foss <robert.foss@linaro.org>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 30, 2021 at 11:03 AM H. Nikolaus Schaller <hns@goldelico.com> wrote:
+On Tue, Nov 30, 2021 at 12:45 AM Javier Martinez Canillas
+<javier@dowhile0.org> wrote:
 >
-> Hi Rob,
+> > > >
+> > > > Simpledrm is just a driver, but this is platform setup code. Why is this
+> > > > code located here and not under arch/ or drivers/firmware/?
+> > > >
 >
-> > Am 25.11.2021 um 22:26 schrieb Rob Herring <robh@kernel.org>:
+> Agreed. Creating platform devices is something for platform code and
+> not really a DRM driver.
+>
+> > > > I know that other drivers do similar things, it doesn't seem to belong here.
+> > >
+>
+> Yeah, the simplefb driver does this but that seems like something that
+> should be changed.
+>
+> > > This definitely doesn't belong in either of those, since it is not arch-
+> > > or firmware-specific. It is implementing support for the standard
+> > > simple-framebuffer OF binding, which specifies that it must be located
+> > > within the /chosen node (and thus the default OF setup code won't do the
+> > > matching for you); this applies to all OF platforms [1]
+> > >
+> > > Adding Rob; do you think this should move from simplefb/simpledrm to
+> > > common OF code? (where?)
 > >
-> > On Wed, 24 Nov 2021 22:29:09 +0100, H. Nikolaus Schaller wrote:
-> >> From: Sam Ravnborg <sam@ravnborg.org>
-> >>
-> >> Add DT bindings for the hdmi driver for the Ingenic JZ4780 SoC.
-> >> Based on .txt binding from Zubair Lutfullah Kakakhel
-> >>
-> >> We also add generic ddc-i2c-bus to synopsys,dw-hdmi.yaml
-> >>
-> >> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> >> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
-> >> Cc: Rob Herring <robh@kernel.org>
-> >> Cc: devicetree@vger.kernel.org
-> >> ---
-> >> .../display/bridge/ingenic,jz4780-hdmi.yaml   | 76 +++++++++++++++++++
-> >> .../display/bridge/synopsys,dw-hdmi.yaml      |  3 +
-> >> 2 files changed, 79 insertions(+)
-> >> create mode 100644 Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.yaml
-> >>
-> >
-> > My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-> > on your patch (DT_CHECKER_FLAGS is new in v5.13):
-> >
-> > yamllint warnings/errors:
-> >
-> > dtschema/dtc warnings/errors:
-> > Unknown file referenced: [Errno 2] No such file or directory: '/usr/local/lib/python3.8/dist-packages/dtschema/schemas/bridge/bridge/synopsys,dw-hdmi.yaml'
+> > of_platform_default_populate_init() should work.
 >
-> I wasn't able to fix that.
->
-> If I change
->
->  allOf:
-> -  - $ref: bridge/synopsys,dw-hdmi.yaml#
-> +  - $ref: synopsys,dw-hdmi.yaml#
+> That should work but I still wonder if it is the correct place to add
+> this logic.
 
-That is correct.
+It is because that is where most of the other devices are created
+unless the bus handles it.
 
->
-> then make dt_binding_check still reports:
->
-> Unknown file referenced: [Errno 2] No such file or directory: '/Users/hns/Library/Python/3.7/lib/python/site-packages/dtschema/schemas/bridge/synopsys,dw-hdmi.yaml'
+> I think that instead it could be done in the sysfb_create_simplefb()
+> function [0], which already creates the "simple-framebuffer" device
+> for x86 legacy BIOS and x86/arm64/riscv EFI so it makes sense to do
+> the same for OF. That way the simplefb platform device registration
+> code could also be dropped from the driver and users would just need
+> to enable CONFIG_SYSFB and CONFIG_SYSFB_SIMPLEFB to have the same.
 
-The $id is wrong:
-
-$id: http://devicetree.org/schemas/bridge/ingenic,jz4780-hdmi.yaml#
-
-The path should be:
-http://devicetree.org/schemas/display/bridge/ingenic,jz4780-hdmi.yaml#
+Doesn't look like that would share anything with anything else (BIOS/EFI/ACPI).
 
 Rob
