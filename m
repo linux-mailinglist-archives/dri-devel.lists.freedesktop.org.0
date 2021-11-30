@@ -1,38 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2EDF463D84
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 19:16:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A3A3463D83
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 19:16:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2559A6E04B;
-	Tue, 30 Nov 2021 18:16:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56B076E040;
+	Tue, 30 Nov 2021 18:16:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53F956E040
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 18:15:59 +0000 (UTC)
-X-UUID: a88ae7d61d254f11904a8e0aecbeb281-20211201
-X-UUID: a88ae7d61d254f11904a8e0aecbeb281-20211201
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 898676E040
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 18:15:58 +0000 (UTC)
+X-UUID: b1c7bbe20b23490d9a8a42398b27a50b-20211201
+X-UUID: b1c7bbe20b23490d9a8a42398b27a50b-20211201
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
  (envelope-from <jason-jh.lin@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 708665660; Wed, 01 Dec 2021 02:15:55 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ with ESMTP id 437039697; Wed, 01 Dec 2021 02:15:55 +0800
+Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 1 Dec 2021 02:15:54 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb01.mediatek.inc
+ (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
  Wed, 1 Dec 2021 02:15:54 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Wed, 1 Dec 2021 02:15:53 +0800
+ Frontend Transport; Wed, 1 Dec 2021 02:15:54 +0800
 From: jason-jh.lin <jason-jh.lin@mediatek.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
  <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>,
  <tzungbi@google.com>
-Subject: [PATCH v3 1/2] drm/mediatek: add blocking config mode for crtc
- disable flow
-Date: Wed, 1 Dec 2021 02:15:51 +0800
-Message-ID: <20211130181552.9928-2-jason-jh.lin@mediatek.com>
+Subject: [PATCH v3 2/2] drm/mediatek: add devlink to cmdq dev
+Date: Wed, 1 Dec 2021 02:15:52 +0800
+Message-ID: <20211130181552.9928-3-jason-jh.lin@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20211130181552.9928-1-jason-jh.lin@mediatek.com>
 References: <20211130181552.9928-1-jason-jh.lin@mediatek.com>
@@ -59,68 +60,60 @@ Cc: fshao@chromium.org, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-mtk_drm_crtc_atomic_disable will send an async cmd to cmdq driver,
-so it may not finish when cmdq_suspend is called sometimes.
-
-Change async cmd to blocking cmd for mtk_drm_crtc_atomic_disable
-to make sure the lastest cmd is done before cmdq_suspend.
+Add devlink to cmdq to make sure the order of suspend and resume
+is correct.
 
 Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index 62529a954b62..6ca96802fd77 100644
+index 6ca96802fd77..88b57a20f26d 100644
 --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
 +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -56,6 +56,8 @@ struct mtk_drm_crtc {
- 	struct cmdq_pkt			cmdq_handle;
- 	u32				cmdq_event;
- 	u32				cmdq_vblank_cnt;
-+	bool				blocking_config;
-+	struct completion		cmplt;
+@@ -61,6 +61,7 @@ struct mtk_drm_crtc {
  #endif
  
  	struct device			*mmsys_dev;
-@@ -314,6 +316,9 @@ static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
++	struct device			*drm_dev;
+ 	struct mtk_mutex		*mutex;
+ 	unsigned int			ddp_comp_nr;
+ 	struct mtk_ddp_comp		**ddp_comp;
+@@ -160,6 +161,7 @@ static void mtk_drm_crtc_destroy(struct drm_crtc *crtc)
+ 	mtk_drm_cmdq_pkt_destroy(&mtk_crtc->cmdq_handle);
+ 
+ 	if (mtk_crtc->cmdq_client.chan) {
++		device_link_remove(mtk_crtc->drm_dev, mtk_crtc->cmdq_client.chan->mbox->dev);
+ 		mbox_free_channel(mtk_crtc->cmdq_client.chan);
+ 		mtk_crtc->cmdq_client.chan = NULL;
+ 	}
+@@ -908,6 +910,7 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+ 		return -ENOMEM;
+ 
+ 	mtk_crtc->mmsys_dev = priv->mmsys_dev;
++	mtk_crtc->drm_dev = priv->dev;
+ 	mtk_crtc->ddp_comp_nr = path_len;
+ 	mtk_crtc->ddp_comp = devm_kmalloc_array(dev, mtk_crtc->ddp_comp_nr,
+ 						sizeof(*mtk_crtc->ddp_comp),
+@@ -975,6 +978,17 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
  	}
  
- 	mtk_crtc->cmdq_vblank_cnt = 0;
+ 	if (mtk_crtc->cmdq_client.chan) {
++		struct device_link *link;
 +
-+	if (mtk_crtc->blocking_config)
-+		complete(&mtk_crtc->cmplt);
- }
- #endif
- 
-@@ -584,8 +589,16 @@ static void mtk_drm_crtc_update_config(struct mtk_drm_crtc *mtk_crtc,
- 		 */
- 		mtk_crtc->cmdq_vblank_cnt = 3;
- 
-+		if (mtk_crtc->blocking_config)
-+			init_completion(&mtk_crtc->cmplt);
-+
- 		mbox_send_message(mtk_crtc->cmdq_client.chan, cmdq_handle);
- 		mbox_client_txdone(mtk_crtc->cmdq_client.chan, 0);
-+
-+		if (mtk_crtc->blocking_config) {
-+			wait_for_completion(&mtk_crtc->cmplt);
-+			mtk_crtc->blocking_config = false;
++		/* add devlink to cmdq dev to make sure suspend/resume order is correct */
++		link = device_link_add(priv->dev, mtk_crtc->cmdq_client.chan->mbox->dev,
++				       DL_FLAG_PM_RUNTIME | DL_FLAG_STATELESS);
++		if (!link) {
++			dev_err(priv->dev, "Unable to link dev=%s\n",
++				dev_name(mtk_crtc->cmdq_client.chan->mbox->dev));
++			return -ENODEV;
 +		}
- 	}
- #endif
- 	mtk_crtc->config_updating = false;
-@@ -698,7 +711,9 @@ static void mtk_drm_crtc_atomic_disable(struct drm_crtc *crtc,
- 		plane_state->pending.config = true;
- 	}
- 	mtk_crtc->pending_planes = true;
--
-+#if IS_REACHABLE(CONFIG_MTK_CMDQ)
-+	mtk_crtc->blocking_config = true;
-+#endif
- 	mtk_drm_crtc_update_config(mtk_crtc, false);
- 	/* Wait for planes to be disabled */
- 	drm_crtc_wait_one_vblank(crtc);
++
+ 		ret = of_property_read_u32_index(priv->mutex_node,
+ 						 "mediatek,gce-events",
+ 						 i,
 -- 
 2.18.0
 
