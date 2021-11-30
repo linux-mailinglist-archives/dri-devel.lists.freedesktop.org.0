@@ -1,45 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A2754636D2
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 15:35:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9C2B4636DC
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 15:36:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98DEF6E918;
-	Tue, 30 Nov 2021 14:35:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70A2E6E9AA;
+	Tue, 30 Nov 2021 14:36:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A809E6E911;
- Tue, 30 Nov 2021 14:35:06 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10183"; a="223453512"
-X-IronPort-AV: E=Sophos;i="5.87,276,1631602800"; d="scan'208";a="223453512"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2021 06:35:06 -0800
-X-IronPort-AV: E=Sophos;i="5.87,276,1631602800"; d="scan'208";a="512207455"
-Received: from hekner-mobl5.ger.corp.intel.com (HELO [10.249.254.206])
- ([10.249.254.206])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2021 06:35:03 -0800
-Message-ID: <29d096c91d720fbe5d410124580a02b663155b56.camel@linux.intel.com>
-Subject: Re: [RFC PATCH 1/2] dma-fence: Avoid establishing a locking order
- between fence classes
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>,
- intel-gfx@lists.freedesktop.org,  dri-devel@lists.freedesktop.org
-Date: Tue, 30 Nov 2021 15:35:01 +0100
-In-Reply-To: <2551da4d-2e51-cc24-7d4a-84ae00a1547c@amd.com>
-References: <20211130121936.586031-1-thomas.hellstrom@linux.intel.com>
- <20211130121936.586031-2-thomas.hellstrom@linux.intel.com>
- <c7502701-e85c-39f0-c249-702d029faa9e@linux.intel.com>
- <b440cfbc-2b9a-1aa2-76d6-17337f835777@linux.intel.com>
- <52a7cf8c-59c7-fec0-2274-d19bdc505314@amd.com>
- <57df8b0b-1d65-155f-a9a6-8073bbd4f28f@linux.intel.com>
- <2551da4d-2e51-cc24-7d4a-84ae00a1547c@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-2.fc34) 
+Received: from mta-p6.oit.umn.edu (mta-p6.oit.umn.edu [134.84.196.206])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B7E86E9AA
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 14:36:43 +0000 (UTC)
+Received: from localhost (unknown [127.0.0.1])
+ by mta-p6.oit.umn.edu (Postfix) with ESMTP id 4J3PtL6fL1z9vCD0
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 14:36:42 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at umn.edu
+Received: from mta-p6.oit.umn.edu ([127.0.0.1])
+ by localhost (mta-p6.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Vue-2T3-AGS6 for <dri-devel@lists.freedesktop.org>;
+ Tue, 30 Nov 2021 08:36:42 -0600 (CST)
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mta-p6.oit.umn.edu (Postfix) with ESMTPS id 4J3PtL4bKSz9vCCK
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 08:36:42 -0600 (CST)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p6.oit.umn.edu 4J3PtL4bKSz9vCCK
+DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p6.oit.umn.edu 4J3PtL4bKSz9vCCK
+Received: by mail-pl1-f199.google.com with SMTP id
+ q13-20020a170902edcd00b00145280d7422so8306262plk.18
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 06:36:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=umn.edu; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bYCNT3kO7HfP/FKczPCMqhEA+GzsNhj1SS1NjAYBh+E=;
+ b=NJKuEDH9aFfVM044j6gAjxuULJ4lkl4JYrb2jNz+y9mFasatcBqPILuTaPBBVHA6My
+ j1jaQW0108Alax3nT58iUAwNZjS/p04DnRc92xeKvi35NEluJoPbU1SrQGlO4xGsAU/y
+ kFHkPArX8MTkkFd0DHiRXSVroeMI0IV6Ss8x9jpvkRbZHGe410x3PQWxN8uRJiXCTgRj
+ dy5ZOdG14QhW0/nqiDLxNmupTZW/DnluL2Z/Z1uAdueMWOoZvZDm4KxypqFrmBH1KT5r
+ qfFfvXQV3l/WF/3ymzsQiruxTXyEwJH82HPBFH4cMXBLKtihoFSiHLxO15Bboz2htlVB
+ OYqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bYCNT3kO7HfP/FKczPCMqhEA+GzsNhj1SS1NjAYBh+E=;
+ b=nDZ4ynVd7KNRHsU8MWC2ojXaWmLL8czYvvlYGDlE0xrMLndQNPm3axPcCAb0DdH0yJ
+ 0UPPOR/OIV5wyY0ICvlyMADUFRkMzGMyxnRXWiEO3fw5RYGLe1izf24xUzrmdDTKoPqv
+ 51BuE2iZMKS1wfXhsyayLrzuvJSUR2Pm8QjYX9FVYrQtLT/EvccMdbVPC8yReKuZsTmU
+ gWJexvshi8OUk+LYIIY/HQK3pzM3GMYdUJRa152Oy0ymer7vU3r65nK0JKsZRhSLn5aY
+ ptIVHhpeyn/il5vWBdLOEe8bcXQ2OvsZq1WYxAUk7ywpuaMWRm8LepQtliJJaz+1FpUr
+ 7Smw==
+X-Gm-Message-State: AOAM530iiZj93CIrvrCzaRXa40luGPBiX3vdGD88KbGgG23D+bm245WB
+ SGwvULyxxR7i2g8aVJP14JRYpOqukdO/mLwTX/9a5POj7QJY/+H/Jez7HpVPXVc4LYcsFtp8sE6
+ Hmh75S7AFwQsf9oaUMHAfuUcLlmaYDIVl
+X-Received: by 2002:a63:1f0e:: with SMTP id f14mr40052882pgf.242.1638283001949; 
+ Tue, 30 Nov 2021 06:36:41 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyBqar7smd0w2cVXcze+DnRqaj/Gm5ZSZ66JCEvvEpV8Pf+L9IE/rqGBer8vT+8b6zPimz/xQ==
+X-Received: by 2002:a63:1f0e:: with SMTP id f14mr40052863pgf.242.1638283001761; 
+ Tue, 30 Nov 2021 06:36:41 -0800 (PST)
+Received: from zqy787-GE5S.lan ([36.7.42.137])
+ by smtp.gmail.com with ESMTPSA id o129sm21447892pfg.44.2021.11.30.06.36.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Nov 2021 06:36:41 -0800 (PST)
+From: Zhou Qingyang <zhou1615@umn.edu>
+To: zhou1615@umn.edu
+Subject: [PATCH] drm/panel: Fix a NULL pointer dereference in
+ versatile_panel_get_modes()
+Date: Tue, 30 Nov 2021 22:36:35 +0800
+Message-Id: <20211130143635.160440-1-zhou1615@umn.edu>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -54,99 +85,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, matthew.auld@intel.com
+Cc: David Airlie <airlied@linux.ie>, kjlu@umn.edu, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2021-11-30 at 14:26 +0100, Christian König wrote:
-> Am 30.11.21 um 13:56 schrieb Thomas Hellström:
-> > 
-> > On 11/30/21 13:42, Christian König wrote:
-> > > Am 30.11.21 um 13:31 schrieb Thomas Hellström:
-> > > > [SNIP]
-> > > > > Other than that, I didn't investigate the nesting fails
-> > > > > enough to 
-> > > > > say I can accurately review this. :)
-> > > > 
-> > > > Basically the problem is that within enable_signaling() which
-> > > > is 
-> > > > called with the dma_fence lock held, we take the dma_fence lock
-> > > > of 
-> > > > another fence. If that other fence is a dma_fence_array, or a 
-> > > > dma_fence_chain which in turn tries to lock a dma_fence_array
-> > > > we hit 
-> > > > a splat.
-> > > 
-> > > Yeah, I already thought that you constructed something like that.
-> > > 
-> > > You get the splat because what you do here is illegal, you can't
-> > > mix 
-> > > dma_fence_array and dma_fence_chain like this or you can end up
-> > > in a 
-> > > stack corruption.
-> > 
-> > Hmm. Ok, so what is the stack corruption, is it that the 
-> > enable_signaling() will end up with endless recursion? If so,
-> > wouldn't 
-> > it be more usable we break that recursion chain and allow a more 
-> > general use?
-> 
-> The problem is that this is not easily possible for dma_fence_array 
-> containers. Just imagine that you drop the last reference to the 
-> containing fences during dma_fence_array destruction if any of the 
-> contained fences is another container you can easily run into
-> recursion 
-> and with that stack corruption.
+In versatile_panel_get_modes(), the return value of drm_mode_duplicate()
+is assigned to mode and there is a dereference of it in
+versatile_panel_get_modes(), which could lead to a NULL pointer
+dereference on failure of drm_mode_duplicate().
 
-Indeed, that would require some deeper surgery.
+Fix this bug by adding a check of mode.
 
-> 
-> That's one of the major reasons I came up with the dma_fence_chain 
-> container. This one you can chain any number of elements together 
-> without running into any recursion.
-> 
-> > Also what are the mixing rules between these? Never use a 
-> > dma-fence-chain as one of the array fences and never use a 
-> > dma-fence-array as a dma-fence-chain fence?
-> 
-> You can't add any other container to a dma_fence_array, neither other
-> dma_fence_array instances nor dma_fence_chain instances.
-> 
-> IIRC at least technically a dma_fence_chain can contain a 
-> dma_fence_array if you absolutely need that, but Daniel, Jason and I 
-> already had the same discussion a while back and came to the
-> conclusion 
-> to avoid that as well if possible.
+This bug was found by a static analyzer. The analysis employs
+differential checking to identify inconsistent security operations
+(e.g., checks or kfrees) between two code paths and confirms that the
+inconsistent operations are not recovered in the current function or
+the callers, so they constitute bugs.
 
-Yes, this is actually the use-case. But what I can't easily guarantee
-is that that dma_fence_chain isn't fed into a dma_fence_array somewhere
-else. How do you typically avoid that?
+Note that, as a bug found by static analysis, it can be a false
+positive or hard to trigger. Multiple researchers have cross-reviewed
+the bug.
 
-Meanwhile I guess I need to take a different approach in the driver to
-avoid this altogether.
+Builds with CONFIG_DRM_PANEL_ARM_VERSATILE=m show no new warnings,
+and our static analyzer no longer warns about this code.
 
-/Thomas
+Fixes: aa6c43644bc5 ("drm/panel: drop drm_device from drm_panel")
+Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
+---
+ drivers/gpu/drm/panel/panel-arm-versatile.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-
-> 
-> Regards,
-> Christian.
-> 
-> > 
-> > /Thomas
-> > 
-> > 
-> > 
-> > 
-> > > 
-> > > Regards,
-> > > Christian.
-> > > 
-> > > > 
-> > > > But I'll update the commit message with a typical splat.
-> > > > 
-> > > > /Thomas
-> > > 
-> 
-
+diff --git a/drivers/gpu/drm/panel/panel-arm-versatile.c b/drivers/gpu/drm/panel/panel-arm-versatile.c
+index abb0788843c6..5e73083c09a2 100644
+--- a/drivers/gpu/drm/panel/panel-arm-versatile.c
++++ b/drivers/gpu/drm/panel/panel-arm-versatile.c
+@@ -267,6 +267,9 @@ static int versatile_panel_get_modes(struct drm_panel *panel,
+ 	connector->display_info.bus_flags = vpanel->panel_type->bus_flags;
+ 
+ 	mode = drm_mode_duplicate(connector->dev, &vpanel->panel_type->mode);
++	if (!mode)
++		return -ENOMEM;
++
+ 	drm_mode_set_name(mode);
+ 	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+ 
+-- 
+2.25.1
 
