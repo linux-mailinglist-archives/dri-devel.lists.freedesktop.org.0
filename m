@@ -1,79 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7619B463731
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 15:49:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 312EA463858
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 15:57:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 658DF6E167;
-	Tue, 30 Nov 2021 14:49:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C1716EA18;
+	Tue, 30 Nov 2021 14:57:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mta-p5.oit.umn.edu (mta-p5.oit.umn.edu [134.84.196.205])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B81A16E167
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 14:49:06 +0000 (UTC)
-Received: from localhost (unknown [127.0.0.1])
- by mta-p5.oit.umn.edu (Postfix) with ESMTP id 4J3Q8f2dxlz9vsqp
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 14:49:06 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at umn.edu
-Received: from mta-p5.oit.umn.edu ([127.0.0.1])
- by localhost (mta-p5.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id qce4q4RRNPcH for <dri-devel@lists.freedesktop.org>;
- Tue, 30 Nov 2021 08:49:06 -0600 (CST)
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+X-Greylist: delayed 471 seconds by postgrey-1.36 at gabe;
+ Tue, 30 Nov 2021 14:57:05 UTC
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 761186E8B1
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 14:57:05 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mta-p5.oit.umn.edu (Postfix) with ESMTPS id 4J3Q8f0QXWz9vsqs
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 08:49:06 -0600 (CST)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p5.oit.umn.edu 4J3Q8f0QXWz9vsqs
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p5.oit.umn.edu 4J3Q8f0QXWz9vsqs
-Received: by mail-pj1-f71.google.com with SMTP id
- x6-20020a17090a6c0600b001a724a5696cso9932013pjj.6
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 06:49:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=umn.edu; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SKUA5rulho7/zo1ULnuDGtU3hFtIpEJdfFzpP4bqLSk=;
- b=GeK2kPOS68r652pwNSRxEaAW/b/2tt84HoSKWLnqyqPdVPl4ucwQ+mMlReYNSho7SF
- +sha56JoOg34qC7EaQh4IyuQQZ4oaOtBdBjrxjJ+f8pithTUf3Zr/gb0ZdFOqnIUAoJU
- RVYhqDa4M1u5Zkp/QQdNSReB7yO4zl01to//Z6JN4rwmCYKGEdP1uKGMEtPODj20OqLq
- YgpO3ENCThW3nGWNthqOb91bDF5PjI/JfYtJcuqsIwHc6edcrwISgV4lZwZwJ6J/VoYt
- D9aIjinT/QRXiDFiztTJLOPjnSt+gDhu2+6Kds5nC+/R6X55CMCBR3NOlh1pf3fm0/B4
- qzog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SKUA5rulho7/zo1ULnuDGtU3hFtIpEJdfFzpP4bqLSk=;
- b=5UpSEmaJdPcmTU0wVynJyKLP6PS4rdRbVEQR3P4TiDykJ67sUZW+Sidp0+Uk2CKAcq
- ZWqthJQ4zSLZe1gc96NgWPYkxPJ1OO2XZJcYAGr1QEv7/DDVW0Neg2j1EJcIeme7ScgJ
- rOoMYI3gLzB8JyaoRUFWsRJJfKpITqkoT3J5iqDT+SOAFNvZP3JMJP7+N3xQxNADVGQr
- 2/KBAlNciacpazeshdxOCni6ynASPJiZ0UYEiObYsJKEoSpMlGON213XYiUIBkvEkC6h
- hxbQhdVxZb03VdIswq47+3pecNQeucAlVIfzg5q8+OjRf5qXTqy0LiHJzWPgqPYB+pYZ
- PPmA==
-X-Gm-Message-State: AOAM532MNHJWGHI2eEYow9gOyGRMeCPXcG9Va7FrBdaN1oHBGy4znR0W
- 2rlr4vfT+Ktx1+g9Qd9EwM1AKIRnCk9KykDE86drS++dVlovuwyLzoUfMZ9LTwmp1oTNSwcmd66
- Std/vR8q0v5QPnsJaVYLFmbQ6+NynzMAM
-X-Received: by 2002:a17:90b:4f86:: with SMTP id
- qe6mr6665860pjb.198.1638283745344; 
- Tue, 30 Nov 2021 06:49:05 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzg5tqfIsb7cPPfYTW5uP2EKJprEpWzmVo1SJk8rR74gWfThL7r7GfAmz1doU8srd5YKcoi1Q==
-X-Received: by 2002:a17:90b:4f86:: with SMTP id
- qe6mr6665827pjb.198.1638283745110; 
- Tue, 30 Nov 2021 06:49:05 -0800 (PST)
-Received: from zqy787-GE5S.lan ([36.7.42.137])
- by smtp.gmail.com with ESMTPSA id s5sm14762936pgq.62.2021.11.30.06.49.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Nov 2021 06:49:04 -0800 (PST)
-From: Zhou Qingyang <zhou1615@umn.edu>
-To: zhou1615@umn.edu
-Subject: [PATCH] drm/radeon/radeon_connectors: Fix a NULL pointer dereference
- in radeon_fp_native_mode()
-Date: Tue, 30 Nov 2021 22:48:27 +0800
-Message-Id: <20211130144827.163717-1-zhou1615@umn.edu>
-X-Mailer: git-send-email 2.25.1
+ by ams.source.kernel.org (Postfix) with ESMTPS id A0308B81A25;
+ Tue, 30 Nov 2021 14:51:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E356C53FC1;
+ Tue, 30 Nov 2021 14:51:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1638283900;
+ bh=PfM6ae6GNFZCEw4a4VjeDB12qCeaG+vd7Sf6HSh7xCQ=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=M/XZ9QWX3+5gNGC7IsMT4I+34yJzwGQQEjwZt3AjKosHkaiS5c6LY4gEpx+ivvYj7
+ ySpQbrdVfc0cIHsOmIKAtJrVsv92do1onq9YXAz2ONLmrJcPzt7Wakla9FjrO4IuZ6
+ hzxT/ScncraPhpiOvJ6jQdTQpK0jr29RDydVRUQ738Qt1bogN0hXqNoxWQwZXujfPr
+ cZ7RxSdGtTK2vUgY/9HO78AQ/lSPMwpu0jgpv+D6b5RssSKPbsSe20iVY7aLyJM3K7
+ zXBsFgvEb0ISIr9UfRzozPl5+1HIEBpdA7sxWulHSjwHqcwcufh9a14T1CrBffEA/v
+ gteKp2H2/J9nw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 34/43] xen: add "not_essential" flag to struct
+ xenbus_driver
+Date: Tue, 30 Nov 2021 09:50:11 -0500
+Message-Id: <20211130145022.945517-34-sashal@kernel.org>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211130145022.945517-1-sashal@kernel.org>
+References: <20211130145022.945517-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,54 +57,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- kjlu@umn.edu, linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Dave Airlie <airlied@redhat.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Juergen Gross <jgross@suse.com>, Sasha Levin <sashal@kernel.org>,
+ linux-fbdev@vger.kernel.org, dmitry.torokhov@gmail.com,
+ dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+ xen-devel@lists.xenproject.org, Boris Ostrovsky <boris.ostrovsky@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In radeon_fp_native_mode(), the return value of drm_mode_duplicate() is
-assigned to mode and there is a dereference of it in
-radeon_fp_native_mode(), which could lead to a NULL pointer
-dereference on failure of drm_mode_duplicate().
+From: Juergen Gross <jgross@suse.com>
 
-Fix this bug by adding a check of mode.
+[ Upstream commit 37a72b08a3e1eb28053214dd8211eb09c2fd3187 ]
 
-This bug was found by a static analyzer. The analysis employs
-differential checking to identify inconsistent security operations
-(e.g., checks or kfrees) between two code paths and confirms that the
-inconsistent operations are not recovered in the current function or
-the callers, so they constitute bugs.
+When booting the xenbus driver will wait for PV devices to have
+connected to their backends before continuing. The timeout is different
+between essential and non-essential devices.
 
-Note that, as a bug found by static analysis, it can be a false
-positive or hard to trigger. Multiple researchers have cross-reviewed
-the bug.
+Non-essential devices are identified by their nodenames directly in the
+xenbus driver, which requires to update this list in case a new device
+type being non-essential is added (this was missed for several types
+in the past).
 
-Builds with CONFIG_DRM_RADEON=m show no new warnings,
-and our static analyzer no longer warns about this code.
+In order to avoid this problem, add a "not_essential" flag to struct
+xenbus_driver which can be set to "true" by the respective frontend.
 
-Fixes: d2efdf6d6f42 ("drm/radeon/kms: add cvt mode if we only have lvds w/h and no edid (v4)")
-Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
+Set this flag for the frontends currently regarded to be not essential
+(vkbs and vfb) and use it for testing in the xenbus driver.
+
+Signed-off-by: Juergen Gross <jgross@suse.com>
+Link: https://lore.kernel.org/r/20211022064800.14978-2-jgross@suse.com
+Reviewed-by: Boris Ostrovsky <boris.ostrovsky@oracle.com>
+Signed-off-by: Boris Ostrovsky <boris.ostrovsky@oracle.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/radeon/radeon_connectors.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/input/misc/xen-kbdfront.c          |  1 +
+ drivers/video/fbdev/xen-fbfront.c          |  1 +
+ drivers/xen/xenbus/xenbus_probe_frontend.c | 14 +++-----------
+ include/xen/xenbus.h                       |  1 +
+ 4 files changed, 6 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm/radeon/radeon_connectors.c
-index 607ad5620bd9..49f187614f96 100644
---- a/drivers/gpu/drm/radeon/radeon_connectors.c
-+++ b/drivers/gpu/drm/radeon/radeon_connectors.c
-@@ -473,6 +473,9 @@ static struct drm_display_mode *radeon_fp_native_mode(struct drm_encoder *encode
- 	    native_mode->vdisplay != 0 &&
- 	    native_mode->clock != 0) {
- 		mode = drm_mode_duplicate(dev, native_mode);
-+		if (!mode)
-+			return NULL;
-+
- 		mode->type = DRM_MODE_TYPE_PREFERRED | DRM_MODE_TYPE_DRIVER;
- 		drm_mode_set_name(mode);
+diff --git a/drivers/input/misc/xen-kbdfront.c b/drivers/input/misc/xen-kbdfront.c
+index 4ff5cd2a6d8de..3d17a0b3fe511 100644
+--- a/drivers/input/misc/xen-kbdfront.c
++++ b/drivers/input/misc/xen-kbdfront.c
+@@ -542,6 +542,7 @@ static struct xenbus_driver xenkbd_driver = {
+ 	.remove = xenkbd_remove,
+ 	.resume = xenkbd_resume,
+ 	.otherend_changed = xenkbd_backend_changed,
++	.not_essential = true,
+ };
  
+ static int __init xenkbd_init(void)
+diff --git a/drivers/video/fbdev/xen-fbfront.c b/drivers/video/fbdev/xen-fbfront.c
+index 5ec51445bee88..6826f986da436 100644
+--- a/drivers/video/fbdev/xen-fbfront.c
++++ b/drivers/video/fbdev/xen-fbfront.c
+@@ -695,6 +695,7 @@ static struct xenbus_driver xenfb_driver = {
+ 	.remove = xenfb_remove,
+ 	.resume = xenfb_resume,
+ 	.otherend_changed = xenfb_backend_changed,
++	.not_essential = true,
+ };
+ 
+ static int __init xenfb_init(void)
+diff --git a/drivers/xen/xenbus/xenbus_probe_frontend.c b/drivers/xen/xenbus/xenbus_probe_frontend.c
+index 480944606a3c9..07b010a68fcf9 100644
+--- a/drivers/xen/xenbus/xenbus_probe_frontend.c
++++ b/drivers/xen/xenbus/xenbus_probe_frontend.c
+@@ -211,19 +211,11 @@ static int is_device_connecting(struct device *dev, void *data, bool ignore_none
+ 	if (drv && (dev->driver != drv))
+ 		return 0;
+ 
+-	if (ignore_nonessential) {
+-		/* With older QEMU, for PVonHVM guests the guest config files
+-		 * could contain: vfb = [ 'vnc=1, vnclisten=0.0.0.0']
+-		 * which is nonsensical as there is no PV FB (there can be
+-		 * a PVKB) running as HVM guest. */
++	xendrv = to_xenbus_driver(dev->driver);
+ 
+-		if ((strncmp(xendev->nodename, "device/vkbd", 11) == 0))
+-			return 0;
++	if (ignore_nonessential && xendrv->not_essential)
++		return 0;
+ 
+-		if ((strncmp(xendev->nodename, "device/vfb", 10) == 0))
+-			return 0;
+-	}
+-	xendrv = to_xenbus_driver(dev->driver);
+ 	return (xendev->state < XenbusStateConnected ||
+ 		(xendev->state == XenbusStateConnected &&
+ 		 xendrv->is_ready && !xendrv->is_ready(xendev)));
+diff --git a/include/xen/xenbus.h b/include/xen/xenbus.h
+index bf3cfc7c35d0b..b5626edda6f5b 100644
+--- a/include/xen/xenbus.h
++++ b/include/xen/xenbus.h
+@@ -106,6 +106,7 @@ struct xenbus_driver {
+ 	const char *name;       /* defaults to ids[0].devicetype */
+ 	const struct xenbus_device_id *ids;
+ 	bool allow_rebind; /* avoid setting xenstore closed during remove */
++	bool not_essential;     /* is not mandatory for boot progress */
+ 	int (*probe)(struct xenbus_device *dev,
+ 		     const struct xenbus_device_id *id);
+ 	void (*otherend_changed)(struct xenbus_device *dev,
 -- 
-2.25.1
+2.33.0
 
