@@ -1,43 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB0C463224
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 12:17:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C4D846324C
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 12:24:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B38D6E5A5;
-	Tue, 30 Nov 2021 11:17:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C99126E8A4;
+	Tue, 30 Nov 2021 11:24:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE9F06E58B;
- Tue, 30 Nov 2021 11:17:40 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10183"; a="236017784"
-X-IronPort-AV: E=Sophos;i="5.87,275,1631602800"; d="scan'208";a="236017784"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2021 03:17:40 -0800
-X-IronPort-AV: E=Sophos;i="5.87,275,1631602800"; d="scan'208";a="512136237"
-Received: from dcondura-mobl.ger.corp.intel.com (HELO [10.252.36.49])
- ([10.252.36.49])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2021 03:17:39 -0800
-Message-ID: <b40c5455-7b60-7c97-9fcd-fba67ed71f6d@linux.intel.com>
-Date: Tue, 30 Nov 2021 12:17:37 +0100
+X-Greylist: delayed 316 seconds by postgrey-1.36 at gabe;
+ Tue, 30 Nov 2021 11:23:57 UTC
+Received: from mta-p5.oit.umn.edu (mta-p5.oit.umn.edu [134.84.196.205])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E29E96E4C7
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 11:23:57 +0000 (UTC)
+Received: from localhost (unknown [127.0.0.1])
+ by mta-p5.oit.umn.edu (Postfix) with ESMTP id 4J3KTs12R1z9w944
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 11:18:41 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at umn.edu
+Received: from mta-p5.oit.umn.edu ([127.0.0.1])
+ by localhost (mta-p5.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id kjCdO_hC_tTb for <dri-devel@lists.freedesktop.org>;
+ Tue, 30 Nov 2021 05:18:41 -0600 (CST)
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mta-p5.oit.umn.edu (Postfix) with ESMTPS id 4J3KTr66l5z9w949
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 05:18:40 -0600 (CST)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p5.oit.umn.edu 4J3KTr66l5z9w949
+DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p5.oit.umn.edu 4J3KTr66l5z9w949
+Received: by mail-pl1-f199.google.com with SMTP id
+ y6-20020a17090322c600b001428ab3f888so8069706plg.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 03:18:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=umn.edu; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fcDXlkwYy3RGfIkoC7nwMHwkoGJwFkeLToaTBjqpVz0=;
+ b=IZFo2LaVF/UDFGHVpkS6dD5TA6dpvZiDSB/3rKX1VSVjqxWP/lhMO39QYI3NPLoRgq
+ cRXSmh8e41mhZP6Z6pASFNZgCl2xPwfVgz6CBJ4rCuCZ5ixas3pK71sx3cvXjwkJTop+
+ 3T/yiRiF1QWYne/jINn7ouKO7OjCe6gsRwokRuSedKnx6jzsAq8pHSJdN03f8AET5TzU
+ a3BC2bkGlVrwO6yuzbS4R4Uw0sjIcFhIuR8RmeSA1Od8jCr3Qr3cmM751Tht6hvFkmqk
+ ZRyDmDTDs5KOn9FrJ5pzFxU474Na5c2560b3P8n5J2SDV8k/mizEVWFX2R0RVU+iUKxp
+ O0cA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fcDXlkwYy3RGfIkoC7nwMHwkoGJwFkeLToaTBjqpVz0=;
+ b=q67SNMLL+Tq+tFdI/9jm9gOoPvDnfldj2Zwz6TkF+wHTiYD2JiIcLVG1fTqPUZuaw1
+ 0mKOAFKSwWXAcY5WWxSJFMDjvvlZnE+fuNYjJqMQbASsx2sP5RrFFZs7NUAdrs7fDbBe
+ +JO288bDG1B3N5G4DpfqvgKeqUlceg/qnYZXhu/CpZo6ZWfz8hxc8fIv0p05CZJp21B1
+ t0sLK50NNkh5jE28tXPQzzToUDXkNFwNDirXwO5y13i+vGx6CgPsEaXkLMiuqz8LZxIM
+ UuF+tzkzq6b6WUJ5ts2ryQ0GlmtMJWEI/OFUwOiUNtXV25v319rvE2aKqlb8QbVbUDcU
+ YYAA==
+X-Gm-Message-State: AOAM532HcChhGZpkwV+mTaO7PzBvzQFc3EswkghYQQ0IiPt3F/2JAk/r
+ h76gVduQ7YCEcUvNQgk7A7z4d95TnYcbTCKsmAz+ESp2/FtNB6qIoEzRXo5sKuvR+KcFnUF94jz
+ +eU8l/mHHKcPiGd8Oi4XPYtTeegOmsA67
+X-Received: by 2002:a63:4815:: with SMTP id v21mr33476642pga.204.1638271120003; 
+ Tue, 30 Nov 2021 03:18:40 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz86b37XtXDhaWTJbzxcPVwFldWszd3ZgCjYlChRIfA1Lxm91iK1IJ9p5k5TxfqRc7ZaUDHCg==
+X-Received: by 2002:a63:4815:: with SMTP id v21mr33476628pga.204.1638271119786; 
+ Tue, 30 Nov 2021 03:18:39 -0800 (PST)
+Received: from zqy787-GE5S.lan ([36.7.42.137])
+ by smtp.gmail.com with ESMTPSA id q18sm19100280pfn.83.2021.11.30.03.18.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Nov 2021 03:18:39 -0800 (PST)
+From: Zhou Qingyang <zhou1615@umn.edu>
+To: zhou1615@umn.edu
+Subject: [PATCH] fix a NULL pointer dereference in
+ amdgpu_connector_lcd_native_mode()
+Date: Tue, 30 Nov 2021 19:18:30 +0800
+Message-Id: <20211130111832.113821-1-zhou1615@umn.edu>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.3.2
-Subject: Re: [Intel-gfx] [PATCH v2 00/16] drm/i915: Remove short term pins
- from execbuf.
-Content-Language: en-US
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org
-References: <20211129134735.628712-1-maarten.lankhorst@linux.intel.com>
- <f1202314-f42d-e37a-49a7-16148f5018be@linux.intel.com>
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-In-Reply-To: <f1202314-f42d-e37a-49a7-16148f5018be@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 30 Nov 2021 11:24:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,42 +88,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Jammy Zhou <Jammy.Zhou@amd.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ kjlu@umn.edu, linux-kernel@vger.kernel.org, hongao <hongao@uniontech.com>,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30-11-2021 09:54, Tvrtko Ursulin wrote:
->
-> Hi,
->
-> On 29/11/2021 13:47, Maarten Lankhorst wrote:
->> New version of the series, with feedback from previous series added.
->
-> If there was a cover letter sent for this work in the past could you please keep attaching it? Or if there wasn't, could you please write one?
->
-> I am worried about two things. First is that we need to have a high level overview of the rules/design changes documented so third party people have any hope of getting code right after this lands. (Where we are, where we are going, how we will get there, how far did we get and when we will get to the end.)
->
-> Second is that when parts of the series land piecemeal (Which they have in this right, right?), it gets very hard to write up a maintainer level changelog.
+In amdgpu_connector_lcd_native_mode(), the return value of
+drm_mode_duplicate() is assigned to mode, and there is a dereference
+of it in amdgpu_connector_lcd_native_mode(), which will lead to a NULL
+pointer dereference on failure of drm_mode_duplicate().
 
-The preparation part is to ensure we always hold vma->obj->resv when unbinding.
+Fix this bug add a check of mode.
 
-The first preparation series ensured vma->obj always existed. This was not the case for mock gtt and gen6 aliasing gtt. This allowed us to remove all the special handling for those uncommon cases, and actually enforce we can always take that lock. This part is merged.
+This bug was found by a static analyzer. The analysis employs
+differential checking to identify inconsistent security operations
+(e.g., checks or kfrees) between two code paths and confirms that the
+inconsistent operations are not recovered in the current function or
+the callers, so they constitute bugs.
 
-Patch 2-11 in this series adds the vma->obj->resv to eviction and shrinker. Those are the only parts where we don't take the lock yet.
+Note that, as a bug found by static analysis, it can be a false
+positive or hard to trigger. Multiple researchers have cross-reviewed
+the bug.
 
-After that, we always hold the lock when required, and we can start requiring the obj-> resv lock when unbinding. This is completed in patch 15.
+Builds with CONFIG_DRM_AMDGPU=m show no new warnings, and
+our static analyzer no longer warns about this code.
 
-With that fixed, removing short term pins can be done, because for unbind we now always take obj->resv, so holding obj->resv during execbuf submission is sufficient, and all short term pinning can be removed.
+Fixes: d38ceaf99ed0 ("drm/amdgpu: add core driver (v4)")
+Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-We only pin temporarily when calling i915_gem_evict_vm in execbuf, which could also be handled in theory by just marking all objects as unpinned.
-
-As a bonus, using TTM for delayed eviction on all objects becomes easy, just need to get rid of i915_active in i915_vma, as it keeps the object refcount alive.
-
-Remainder is removing refcount to i915_vma, to make it a real
-
-> But in any case, even on the mundane process level, we need to have cover letters for any non trivial work was the conclusion since some time ago. 
-
-Here you go! I hope it explains the reasoning.
-
-~Maarten
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+index 0de66f59adb8..0170aa84c5e6 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+@@ -387,6 +387,9 @@ amdgpu_connector_lcd_native_mode(struct drm_encoder *encoder)
+ 	    native_mode->vdisplay != 0 &&
+ 	    native_mode->clock != 0) {
+ 		mode = drm_mode_duplicate(dev, native_mode);
++		if (!mode)
++			return NULL;
++
+ 		mode->type = DRM_MODE_TYPE_PREFERRED | DRM_MODE_TYPE_DRIVER;
+ 		drm_mode_set_name(mode);
+ 
+-- 
+2.25.1
 
