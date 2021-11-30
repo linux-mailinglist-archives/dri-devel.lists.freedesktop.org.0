@@ -1,77 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AF064636FF
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 15:45:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FCA4463866
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 15:57:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA2616EA24;
-	Tue, 30 Nov 2021 14:45:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B29D36EA3E;
+	Tue, 30 Nov 2021 14:57:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mta-p5.oit.umn.edu (mta-p5.oit.umn.edu [134.84.196.205])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 000AD6E84F
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 14:45:28 +0000 (UTC)
-Received: from localhost (unknown [127.0.0.1])
- by mta-p5.oit.umn.edu (Postfix) with ESMTP id 4J3Q4S4wSZz9vpQT
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 14:45:28 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at umn.edu
-Received: from mta-p5.oit.umn.edu ([127.0.0.1])
- by localhost (mta-p5.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id uLYKw58udA-q for <dri-devel@lists.freedesktop.org>;
- Tue, 30 Nov 2021 08:45:28 -0600 (CST)
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3FBB6EA3C
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 14:57:14 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mta-p5.oit.umn.edu (Postfix) with ESMTPS id 4J3Q4S2rrhz9vpQS
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 08:45:28 -0600 (CST)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p5.oit.umn.edu 4J3Q4S2rrhz9vpQS
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p5.oit.umn.edu 4J3Q4S2rrhz9vpQS
-Received: by mail-pl1-f198.google.com with SMTP id
- s16-20020a170902ea1000b00142728c2ccaso8314241plg.23
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 06:45:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=umn.edu; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=B6LNCzubAvM1UAFro6OAu5q4vc79ycy1gcnZHWEZqRg=;
- b=QGu9G8DNB3JtXxMeVuLaeVUC5ZHalORVRodgIEuZm54ot4jgPTStUETLOOnXnDbjAz
- Uf1CRBp7h6uB323QQZ2vX/yExi7zKEvrxc22B/BxTYRT/5I2EHBwuPhLnYVt+gAm5bHB
- Uoz07+wDNQ1picLCT1XnAhRXDgWRO6Jzq0N124hRRFGg+LCmxOJCV54Cn7FeIPGM8S8C
- nMpEKI6d7i4Vk448HiLsQl9ZWhwZmhzQT56bNRRZARPwjdw9TgXEr2FrxqeF7I3q2TW6
- qRG4FLZ2xqDfpeoZ5Ov9BX992rw5KQWWsGGQ12FxZknX0Jrgk9Ru8YmSQ+i7OSZSXOnH
- ia5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=B6LNCzubAvM1UAFro6OAu5q4vc79ycy1gcnZHWEZqRg=;
- b=GxQ+p707m8Mqe+ZcxT293gw3q30bHEmtELyi8za/xUjKjATV8MvZOATRZJH8pafZqC
- mgAWcwCm1G/qnRsMCTuSxWSIarxYDBX+9IUj868NA62C2R17jdKLbkQO6d+kPw4Yjw1I
- r60/uMxkbAjT6OTvhJyswilLdqzk/bGFIrF5+EjzkjyaXD0tcI//6F5kiFkqA2ELpVBL
- nJr7mrhF7/gzJrezTrTxlMF0y5qSVLC6uz3l51C83sFmqLCmAm26lL5bFvDPQNBMAmi6
- tXQU1nZrSAT/KSCUszGBNlVuoAA9kjJEnwW2LM0SJzFCuaB2qAqWPrZdT4Q/NP1hvbj8
- fCaQ==
-X-Gm-Message-State: AOAM532ugJm1qDbTt+V8lT6da1qoZHgK01WrqV0IhwYHUYr50/C3PX9K
- VrW/Eg/70MRQkOBmFL/LzhBrLuaFTKt78m3UUOOAnFV3eunosyQzLEf9nQmnbFqJTuWB8BvzGo4
- M0ztDu7yNVbuxotrjMJ7a/JevYaHNpNxv
-X-Received: by 2002:a63:81c1:: with SMTP id t184mr40045782pgd.26.1638283527475; 
- Tue, 30 Nov 2021 06:45:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx8+3UCv1VwdzMjRJfnSg9Zq7bxFF6U71MKKHXfNkC6U9FcxX7fm3QSgTG6F27ZPHGtBA2QTw==
-X-Received: by 2002:a63:81c1:: with SMTP id t184mr40045755pgd.26.1638283527262; 
- Tue, 30 Nov 2021 06:45:27 -0800 (PST)
-Received: from zqy787-GE5S.lan ([36.7.42.137])
- by smtp.gmail.com with ESMTPSA id u32sm23701235pfg.220.2021.11.30.06.45.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Nov 2021 06:45:27 -0800 (PST)
-From: Zhou Qingyang <zhou1615@umn.edu>
-To: zhou1615@umn.edu
-Subject: [PATCH] drm/panel/panel-tpo-tpg110: Fix a NULL pointer dereference in
- tpg110_get_modes()
-Date: Tue, 30 Nov 2021 22:45:22 +0800
-Message-Id: <20211130144522.162262-1-zhou1615@umn.edu>
-X-Mailer: git-send-email 2.25.1
+ by sin.source.kernel.org (Postfix) with ESMTPS id D5B3BCE1A55;
+ Tue, 30 Nov 2021 14:49:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE41BC53FD1;
+ Tue, 30 Nov 2021 14:49:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1638283750;
+ bh=Gw5VQ3RYUXRNsUiATi1GYRmPBWdQxHeYZIBJlwYHLnY=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=UbHT917w5sbc5FLhlCDUTHfQoevGT+ykC1Xo+FPPzepoU+mXmuKdP/4ZdrvLklWnN
+ Fpno/yBqaHqFKOzWTShzFU+yLtMEJ/j+6AlzyqBH+rnKltgIH+qFy3GXr6BmJ/TPwJ
+ 26lDtMEu+fwn/KMzlzL+NDjRx8m03eT4AixbUZwAkbFjn6tdfHNBlYOANWpnMShDrQ
+ IUHvS74R0QDKEpCNlvylxSPXhxUvIAz8mjbz9rerpkCycITu4q+2MS/Gd46l4Aomcb
+ HsUO5JLlRuvqCLf05d1kkFIoLaLU4X59vRhcitSyIltcxxoEv7a/9QAW8M3iVZetRT
+ eHP6SUg86swfw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 48/68] xen: add "not_essential" flag to struct
+ xenbus_driver
+Date: Tue, 30 Nov 2021 09:46:44 -0500
+Message-Id: <20211130144707.944580-48-sashal@kernel.org>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211130144707.944580-1-sashal@kernel.org>
+References: <20211130144707.944580-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,53 +56,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, kjlu@umn.edu, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Juergen Gross <jgross@suse.com>, Sasha Levin <sashal@kernel.org>,
+ linux-fbdev@vger.kernel.org, dmitry.torokhov@gmail.com,
+ dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+ xen-devel@lists.xenproject.org, Boris Ostrovsky <boris.ostrovsky@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In tpg110_get_modes(), the return value of drm_mode_duplicate() is
-assigned to mode and there is a dereference of it in tpg110_get_modes(),
-which could lead to a NULL pointer dereference on failure of
-drm_mode_duplicate().
+From: Juergen Gross <jgross@suse.com>
 
-Fix this bug by adding a check of mode.
+[ Upstream commit 37a72b08a3e1eb28053214dd8211eb09c2fd3187 ]
 
-This bug was found by a static analyzer. The analysis employs
-differential checking to identify inconsistent security operations
-(e.g., checks or kfrees) between two code paths and confirms that the
-inconsistent operations are not recovered in the current function or
-the callers, so they constitute bugs.
+When booting the xenbus driver will wait for PV devices to have
+connected to their backends before continuing. The timeout is different
+between essential and non-essential devices.
 
-Note that, as a bug found by static analysis, it can be a false
-positive or hard to trigger. Multiple researchers have cross-reviewed
-the bug.
+Non-essential devices are identified by their nodenames directly in the
+xenbus driver, which requires to update this list in case a new device
+type being non-essential is added (this was missed for several types
+in the past).
 
-Builds with CONFIG_DRM_PANEL_TPO_TPG110=m show no new warnings,
-and our static analyzer no longer warns about this code.
+In order to avoid this problem, add a "not_essential" flag to struct
+xenbus_driver which can be set to "true" by the respective frontend.
 
-Fixes: aa6c43644bc5 ("drm/panel: drop drm_device from drm_panel")
-Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
+Set this flag for the frontends currently regarded to be not essential
+(vkbs and vfb) and use it for testing in the xenbus driver.
+
+Signed-off-by: Juergen Gross <jgross@suse.com>
+Link: https://lore.kernel.org/r/20211022064800.14978-2-jgross@suse.com
+Reviewed-by: Boris Ostrovsky <boris.ostrovsky@oracle.com>
+Signed-off-by: Boris Ostrovsky <boris.ostrovsky@oracle.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/panel/panel-tpo-tpg110.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/input/misc/xen-kbdfront.c          |  1 +
+ drivers/video/fbdev/xen-fbfront.c          |  1 +
+ drivers/xen/xenbus/xenbus_probe_frontend.c | 14 +++-----------
+ include/xen/xenbus.h                       |  1 +
+ 4 files changed, 6 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-tpo-tpg110.c b/drivers/gpu/drm/panel/panel-tpo-tpg110.c
-index e3791dad6830..ab4b84c1e243 100644
---- a/drivers/gpu/drm/panel/panel-tpo-tpg110.c
-+++ b/drivers/gpu/drm/panel/panel-tpo-tpg110.c
-@@ -379,6 +379,9 @@ static int tpg110_get_modes(struct drm_panel *panel,
- 	connector->display_info.bus_flags = tpg->panel_mode->bus_flags;
+diff --git a/drivers/input/misc/xen-kbdfront.c b/drivers/input/misc/xen-kbdfront.c
+index 4ff5cd2a6d8de..3d17a0b3fe511 100644
+--- a/drivers/input/misc/xen-kbdfront.c
++++ b/drivers/input/misc/xen-kbdfront.c
+@@ -542,6 +542,7 @@ static struct xenbus_driver xenkbd_driver = {
+ 	.remove = xenkbd_remove,
+ 	.resume = xenkbd_resume,
+ 	.otherend_changed = xenkbd_backend_changed,
++	.not_essential = true,
+ };
  
- 	mode = drm_mode_duplicate(connector->dev, &tpg->panel_mode->mode);
-+	if (!mode)
-+		return -ENOMEM;
-+
- 	drm_mode_set_name(mode);
- 	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+ static int __init xenkbd_init(void)
+diff --git a/drivers/video/fbdev/xen-fbfront.c b/drivers/video/fbdev/xen-fbfront.c
+index 5ec51445bee88..6826f986da436 100644
+--- a/drivers/video/fbdev/xen-fbfront.c
++++ b/drivers/video/fbdev/xen-fbfront.c
+@@ -695,6 +695,7 @@ static struct xenbus_driver xenfb_driver = {
+ 	.remove = xenfb_remove,
+ 	.resume = xenfb_resume,
+ 	.otherend_changed = xenfb_backend_changed,
++	.not_essential = true,
+ };
  
+ static int __init xenfb_init(void)
+diff --git a/drivers/xen/xenbus/xenbus_probe_frontend.c b/drivers/xen/xenbus/xenbus_probe_frontend.c
+index 480944606a3c9..07b010a68fcf9 100644
+--- a/drivers/xen/xenbus/xenbus_probe_frontend.c
++++ b/drivers/xen/xenbus/xenbus_probe_frontend.c
+@@ -211,19 +211,11 @@ static int is_device_connecting(struct device *dev, void *data, bool ignore_none
+ 	if (drv && (dev->driver != drv))
+ 		return 0;
+ 
+-	if (ignore_nonessential) {
+-		/* With older QEMU, for PVonHVM guests the guest config files
+-		 * could contain: vfb = [ 'vnc=1, vnclisten=0.0.0.0']
+-		 * which is nonsensical as there is no PV FB (there can be
+-		 * a PVKB) running as HVM guest. */
++	xendrv = to_xenbus_driver(dev->driver);
+ 
+-		if ((strncmp(xendev->nodename, "device/vkbd", 11) == 0))
+-			return 0;
++	if (ignore_nonessential && xendrv->not_essential)
++		return 0;
+ 
+-		if ((strncmp(xendev->nodename, "device/vfb", 10) == 0))
+-			return 0;
+-	}
+-	xendrv = to_xenbus_driver(dev->driver);
+ 	return (xendev->state < XenbusStateConnected ||
+ 		(xendev->state == XenbusStateConnected &&
+ 		 xendrv->is_ready && !xendrv->is_ready(xendev)));
+diff --git a/include/xen/xenbus.h b/include/xen/xenbus.h
+index b94074c827721..b13eb86395e05 100644
+--- a/include/xen/xenbus.h
++++ b/include/xen/xenbus.h
+@@ -112,6 +112,7 @@ struct xenbus_driver {
+ 	const char *name;       /* defaults to ids[0].devicetype */
+ 	const struct xenbus_device_id *ids;
+ 	bool allow_rebind; /* avoid setting xenstore closed during remove */
++	bool not_essential;     /* is not mandatory for boot progress */
+ 	int (*probe)(struct xenbus_device *dev,
+ 		     const struct xenbus_device_id *id);
+ 	void (*otherend_changed)(struct xenbus_device *dev,
 -- 
-2.25.1
+2.33.0
 
