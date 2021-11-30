@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38783462ABA
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 03:52:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09C7B462AF2
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Nov 2021 04:13:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 510DE6E218;
-	Tue, 30 Nov 2021 02:52:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34B496E311;
+	Tue, 30 Nov 2021 03:13:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C99E76E218
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 02:52:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D20E86E30F
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 03:13:33 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7870D2FD;
- Tue, 30 Nov 2021 03:52:35 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A98388F0;
+ Tue, 30 Nov 2021 04:13:31 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1638240755;
- bh=4u9kNKPRXz4Ni6t34lnHUeQWyG9lt3eOK7bwlAgLNFo=;
+ s=mail; t=1638242012;
+ bh=3mQg4zP6l4hzppk+4aIh5rYPaWyxuoUU5tl5IYlbphU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MV4KJgr9gz+6xYe3v+oo7mLDOKtEvDxFDaw+VcT93P4E67cBKmCrJfs8707eyd2Qh
- IlMczvF2Y1f4KXgjIYrBmdKYSQtHcsnW5kwum6CycHkaDEL9od7aiOS0c4uG7RORp5
- 0BLgBomsNVyku/pJU/fLcsJELe191v7IG89O+FCM=
-Date: Tue, 30 Nov 2021 04:52:11 +0200
+ b=stzAMPSEL6rNSarXh+GlNl3vr8OlIAIwzltmYlBPACuAZZ0mnOYHQiaTdZhe9E6/V
+ B2WQdiIgnGduf7Ehi9vWhG3pJ9cp6K3lLparFjmrEqJ927EqAGDU5W/KL8u06FRqAI
+ hssGJNK/GfRGkBY//GbftLaIh7r1SXG1J85TK5Q0=
+Date: Tue, 30 Nov 2021 05:13:06 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: Re: [PATCH 2/4] drm: rcar-du: Select DRM_MIPI_DSI with
- DRM_RCAR_MIPI_DSI
-Message-ID: <YaWR23+2FoNsAH64@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 3/4] drm: rcar-du: mipi-dsi: Ensure correct fout is
+ reported
+Message-ID: <YaWWwhadGi8Hx/Ar@pendragon.ideasonboard.com>
 References: <20211126101518.938783-1-kieran.bingham+renesas@ideasonboard.com>
- <20211126101518.938783-3-kieran.bingham+renesas@ideasonboard.com>
+ <20211126101518.938783-4-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20211126101518.938783-3-kieran.bingham+renesas@ideasonboard.com>
+In-Reply-To: <20211126101518.938783-4-kieran.bingham+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,33 +57,62 @@ Hi Kieran,
 
 Thank you for the patch.
 
-On Fri, Nov 26, 2021 at 10:15:16AM +0000, Kieran Bingham wrote:
-> The RCAR_MIPI_DSI uses the DRM_MIPI_DSI interface.
+On Fri, Nov 26, 2021 at 10:15:17AM +0000, Kieran Bingham wrote:
+> The debug reporting for the clock calculations was erroneously reporting
+> the last calculation of fout, rather than the fout that was determined
+> to have the least error, and therefore be the values chosen to operate
+> with.
 > 
-> Ensure that it is selected when the option is enabled.
+> Fix the reporting to show the correct output by storing the determined
+> fout, along with the error value.
 > 
 > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> ---
+> 
+> I spent /way/ too long confused why my clock values didn't make sense
+> before I noticed this.. :-(
+
+Oops :-S Sorry about that.
+
+>  drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+> index e94245029f95..833f4480bdf3 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+> @@ -168,6 +168,7 @@ static int rcar_mipi_dsi_phtw_test(struct rcar_mipi_dsi *dsi, u32 phtw)
+>   */
+>  
+>  struct dsi_setup_info {
+> +	unsigned long fout;
+>  	unsigned int err;
+>  	u16 vco_cntrl;
+>  	u16 prop_cntrl;
+> @@ -247,6 +248,7 @@ static void rcar_mipi_dsi_parameters_calc(struct rcar_mipi_dsi *dsi,
+>  				setup_info->m = m - 2;
+>  				setup_info->n = n - 1;
+>  				setup_info->err = err;
+> +				setup_info->fout = fout;
+>  				if (err == 0)
+>  					goto done;
+>  			}
+> @@ -256,7 +258,7 @@ static void rcar_mipi_dsi_parameters_calc(struct rcar_mipi_dsi *dsi,
+>  done:
+>  	dev_dbg(dsi->dev,
+>  		"%pC %lu Hz -> Fout %lu Hz (target %lu Hz, error %d.%02u%%), PLL M/N/DIV %u/%u/%u\n",
+> -		clk, fin, fout, fout_target, setup_info->err / 100,
+> +		clk, fin, setup_info->fout, fout_target, setup_info->err / 100,
+
+We don't need the fout in the caller, so it could be a local variable
+(best_fout for instance). I can however imagine that we the frequency
+could become useful in the caller, so
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-I'll squash it with the appropriate patch.
-
-> ---
->  drivers/gpu/drm/rcar-du/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
-> index 8cb94fe90639..8145c6d4cbc8 100644
-> --- a/drivers/gpu/drm/rcar-du/Kconfig
-> +++ b/drivers/gpu/drm/rcar-du/Kconfig
-> @@ -41,6 +41,7 @@ config DRM_RCAR_LVDS
->  config DRM_RCAR_MIPI_DSI
->  	tristate "R-Car DU MIPI DSI Encoder Support"
->  	depends on DRM && DRM_BRIDGE && OF
-> +	select DRM_MIPI_DSI
->  	help
->  	  Enable support for the R-Car Display Unit embedded MIPI DSI encoders.
->  
+>  		setup_info->err % 100, setup_info->m,
+>  		setup_info->n, setup_info->div);
+>  	dev_dbg(dsi->dev,
 
 -- 
 Regards,
