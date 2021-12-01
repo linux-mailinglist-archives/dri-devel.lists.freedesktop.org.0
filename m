@@ -2,48 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58E80464ADD
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 10:44:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C5BE464B42
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 11:09:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 146CE6ED92;
-	Wed,  1 Dec 2021 09:44:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FF9A6EAC6;
+	Wed,  1 Dec 2021 10:09:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2CA16ECAD;
- Wed,  1 Dec 2021 09:44:53 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10184"; a="216441972"
-X-IronPort-AV: E=Sophos;i="5.87,278,1631602800"; d="scan'208";a="216441972"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2021 01:44:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,278,1631602800"; d="scan'208";a="747457963"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
- by fmsmga005.fm.intel.com with ESMTP; 01 Dec 2021 01:44:33 -0800
-Received: from [10.249.132.125] (mwajdecz-MOBL.ger.corp.intel.com
- [10.249.132.125])
- by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
- 1B19iV0d018520; Wed, 1 Dec 2021 09:44:32 GMT
-Message-ID: <2476fd01-b5a1-7958-45c9-2fa9a29fda9b@intel.com>
-Date: Wed, 1 Dec 2021 10:44:31 +0100
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3656F6EAC6
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Dec 2021 10:09:31 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id 13so46977973ljj.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Dec 2021 02:09:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=OUz5GIJwWhsCyqmvdwiSMp+8PenKcEyq20yCWjGw6oo=;
+ b=h0Fitg9dKp6Gl/4ZI0YCCzy6luvo1s9aJSiGf6y033HzRqpc5bZcL22MlRCxP3mbCw
+ qaFmDSHUWkmclJFd6Gfp/IFpPuiU7sHzEXpo7ODUC+M3ObKQBAze5n0u8m5zdnSf40pd
+ rWicWAkANUpI3/KhOCbjO6u0XEmS6Zjz6t6xbahAOXpcxxGSwPHx2ZvT9rC83GjQ/Jyi
+ Zs4Tb/H/YaHN/WStBxRlcFz1073veJYxBn+ifRYQ4WrGuao/yfclD+EQY65wwJ1LSDgT
+ t35ruCeNnZ7SL3r0UrUHhEBHvQHgn/B3WNXWOVMGwWma20ykKSLR2Leaqfo+hPq4XYAq
+ HpsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=OUz5GIJwWhsCyqmvdwiSMp+8PenKcEyq20yCWjGw6oo=;
+ b=smXfYzBb4Pmiah+HLFAc+bTmQtKeV4tXv3L4TwE+nJWAfxn8ziAhL9VVkjboUYep4/
+ G9Zu295THykf6mJhsEWgfw+BInJ3H5vWQ2rGIiOIZuifRPlH56VNFa4NEzpBezIJMc+2
+ eMiRHaLJATrLa0MGEeTMp7NF4mnLWe1+7WXDVW3ZRtzQ8vsrRXT5V+Vw6pE5yFmiM4Uf
+ TJ8h/rzBKKuKra/C+4p4SqJARqRM4gLgT2RrnLg+osAqKJeqj7WEZJSf/qqufr3rmqXi
+ 87ye5617hmpZ1PRn3815HRmqGtK7+84x1LDTuzPFzm4J60NRTzXIq2boC7KOp7oOR3Kk
+ fEDw==
+X-Gm-Message-State: AOAM532bO0c7UgE1l/pj/bmtnG2b+6QbrQyPNvQcSGcBfguHQ0o3EN9d
+ yljkenF5Zjh/F2QCdyyNPHjizdafxTF9FeGBq5VGqw==
+X-Google-Smtp-Source: ABdhPJzDsJHqm+aHiy+lkIXP5Ar3k9o7SMl/nP/3Xx3p2ShJFSukJaXUE1CMRVgy9JAkWUv59xYkYWSvKKpQZ+pGyjE=
+X-Received: by 2002:a2e:5850:: with SMTP id x16mr4763005ljd.122.1638353369362; 
+ Wed, 01 Dec 2021 02:09:29 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.3.1
-Subject: Re: [Intel-gfx] [PATCH v4 2/2] drm/i915: Use to_root_gt() to refer to
- the root tile
-Content-Language: en-US
-To: Lucas De Marchi <lucas.demarchi@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>
-References: <20211128110926.2569-1-andi.shyti@linux.intel.com>
- <20211128110926.2569-3-andi.shyti@linux.intel.com>
- <20211130210730.wbuy3znor6jel3cc@ldmartin-desk2>
- <YaaohLkiuWsPSqWq@intel.intel>
- <20211201003808.isoxka2qpccetl5w@ldmartin-desk2>
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-In-Reply-To: <20211201003808.isoxka2qpccetl5w@ldmartin-desk2>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <YaB/JHP/pMbgRJ1O@kroah.com>
+ <20211126074904.88388-1-guangming.cao@mediatek.com>
+ <CALAqxLVF1BPznzwjem2BcsDDoo5gMoBqjKEceZDLJan4zCtk3w@mail.gmail.com>
+In-Reply-To: <CALAqxLVF1BPznzwjem2BcsDDoo5gMoBqjKEceZDLJan4zCtk3w@mail.gmail.com>
+From: Sumit Semwal <sumit.semwal@linaro.org>
+Date: Wed, 1 Dec 2021 15:39:17 +0530
+Message-ID: <CAO_48GHxanR=-mN232ANwxQEiBo9zb3WjvO-6WmP6eFYWA1M5A@mail.gmail.com>
+Subject: Re: [PATCH v4] dma-buf: system_heap: Use 'for_each_sgtable_sg' in
+ pages free flow
+To: John Stultz <john.stultz@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,106 +66,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- =?UTF-8?Q?Michal=c5=82_Winiarski?= <michal.winiarski@intel.com>,
- DRI Devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>
+Cc: guangming.cao@mediatek.com, wsd_upstream@mediatek.com,
+ kuan-ying.lee@mediatek.com, greg@kroah.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-mediatek@lists.infradead.org, lmark@codeaurora.org,
+ benjamin.gaignard@linaro.org, matthias.bgg@gmail.com, stable@vger.kernel.org,
+ labbott@redhat.com, robin.murphy@arm.com, christian.koenig@amd.com,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello Guangming,
+
+On Mon, 29 Nov 2021 at 23:35, John Stultz <john.stultz@linaro.org> wrote:
+>
+> On Thu, Nov 25, 2021 at 11:48 PM <guangming.cao@mediatek.com> wrote:
+> >
+> > From: Guangming <Guangming.Cao@mediatek.com>
+> >
+> > For previous version, it uses 'sg_table.nent's to traverse sg_table in =
+pages
+> > free flow.
+> > However, 'sg_table.nents' is reassigned in 'dma_map_sg', it means the n=
+umber of
+> > created entries in the DMA adderess space.
+> > So, use 'sg_table.nents' in pages free flow will case some pages can't =
+be freed.
+> >
+> > Here we should use sg_table.orig_nents to free pages memory, but use th=
+e
+> > sgtable helper 'for each_sgtable_sg'(, instead of the previous rather c=
+ommon
+> > helper 'for_each_sg' which maybe cause memory leak) is much better.
+
+Thanks for catching this and the patch; applied to drm-misc-fixes.
+> >
+> > Fixes: d963ab0f15fb0 ("dma-buf: system_heap: Allocate higher order page=
+s if available")
+> > Signed-off-by: Guangming <Guangming.Cao@mediatek.com>
+> > Reviewed-by: Robin Murphy <robin.murphy@arm.com>
+> > Cc: <stable@vger.kernel.org> # 5.11.*
+>
+> Thanks so much for catching this and sending in all the revisions!
+>
+> Reviewed-by: John Stultz <john.stultz@linaro.org>
 
 
-On 01.12.2021 01:38, Lucas De Marchi wrote:
-> On Wed, Dec 01, 2021 at 12:41:08AM +0200, Andi Shyti wrote:
->> Hi Lucas,
->>
->> fist of all thanks for taking a look at this, I was eagerly
->> waiting for reviewers.
->>
->> On Tue, Nov 30, 2021 at 01:07:30PM -0800, Lucas De Marchi wrote:
->>> On Sun, Nov 28, 2021 at 01:09:26PM +0200, Andi Shyti wrote:
->>> > Starting from a patch from Matt to_root_gt() returns the
->>> > reference to the root tile in order to abstract the root tile
->>> > from th callers.
->>> >
->>> > Being the root tile identified as tile '0', embed the id in the
->>> > name so that i915->gt becomes i915->gt0.
->>> >
->>> > The renaming has been mostly done with the following command and
->>> > some manual fixes.
->>> >
->>> > sed -i -e sed -i 's/\&i915\->gt\./\&to_root_gt(i915)\->/g' \
->>> >     -e sed -i 's/\&dev_priv\->gt\./\&to_root_gt(dev_priv)\->/g' \
->>> >     -e 's/\&dev_priv\->gt/to_root_gt(dev_priv)/g' \
->>> >     -e 's/\&i915\->gt/to_root_gt(i915)/g' \
->>> >     -e 's/dev_priv\->gt\./to_root_gt(dev_priv)\->/g' \
->>> >     -e 's/i915\->gt\./to_root_gt(i915)\->/g' \
->>> >     `find drivers/gpu/drm/i915/ -name *.[ch]`
->>> >
->>> > Two small changes have been added to this commit:
->>> >
->>> > 1. intel_reset_gpu() in intel_display.c retreives the gt from
->>> >    to_scanout_gt()
->>> > 2. in set_scheduler_caps() the gt is taken from the engine and
->>> >    not from i915.
->>>
->>> Ideally the non-automatic changes should be in separate patches, before
->>> the ones that can be done by automation. Because then it becomes easier
->>> to apply the final result without conflicts.
->>
->> OK
->>
->>> This is quite a big diff to merge in one go. Looking at the pending
->>> patches from Michal however I see he had similar changes, split in
->>> sensible chunks..  Could you split your version like that? at least
->>> gt/gem and display would be good to have separate. Or sync with Michal
->>> on how to proceed with these versions Here are his patches:
->>>
->>>     drm/i915: Remove i915->ggtt
->>>     drm/i915: Use to_gt() helper for GGTT accesses
->>>     drm/i915: Use to_gt() helper
->>>     drm/i915/gvt: Use to_gt() helper
->>>     drm/i915/gem: Use to_gt() helper
->>>     drm/i915/gt: Use to_gt() helper
->>>     drm/i915/display: Use to_gt() helper
->>>     drm/i915: Introduce to_gt() helper
->>
->> I understand... will follow this approach.
->>
->>> This first patch also removed the `struct intel_gt *gt = to_gt(pool)`,
->>> that would otherwise be a leftover in
->>> drivers/gpu/drm/i915/gt/intel_gt_buffer_pool.c
->>
->> One difference from Michal patch is that I am not using the
->> wrapper
->>
->>  to_gt(...)
->>
->> but
->>
->>  to_root_gt(...)
->>
->> which was introduced by Matt. To me sounds more meaningful as it
->> specifies that we are really looking for the root tile and not
->> any tile.
-> 
-> yes, I think it makes sense, too.  Michal, any comment?  I think you
-> also had other plans to get the root gt by another helper... ?
+Best,
+Sumit.
 
-The main rationale to use generic "to_gt()" helper name in all existing
-i915->gt cases in (other) Michal patches was that on some upcoming
-configs we want to distinguish between "primary" and "root" tile and use
-"to_root_gt()" helper only when referring to the root tile as described
-in Bspec:52416.
+--=20
+Thanks and regards,
 
-Note that since current code baseline is still "single" tile, you can't
-tell whether all of these functions really expects special "root" tile
-or just "any" tile.
-
-Thus to avoid confusion or mistakes I would suggest to keep simple name
-"to_gt()" as in most cases usages of this helper it will likely be
-replaced with iterator from for_each_gt loop and any remaining usages
-will just mean "primary" tile or replaced with explicit "to_root_gt()"
-if really needed.
-
-Michal
+Sumit Semwal (he / him)
+Tech Lead - LCG, Vertical Technologies
+Linaro.org =E2=94=82 Open source software for ARM SoCs
