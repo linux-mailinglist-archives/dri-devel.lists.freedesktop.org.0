@@ -1,42 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 667D746513F
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 16:16:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72F6746517A
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 16:23:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 289F26EC75;
-	Wed,  1 Dec 2021 15:16:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A752D6E8CF;
+	Wed,  1 Dec 2021 15:23:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id ABFCA6EC6F;
- Wed,  1 Dec 2021 15:16:20 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 46CD4143B;
- Wed,  1 Dec 2021 07:16:20 -0800 (PST)
-Received: from [10.57.0.188] (unknown [10.57.0.188])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 172D93F766;
- Wed,  1 Dec 2021 07:16:17 -0800 (PST)
-Subject: Re: [PATCH] drm: Return error codes from struct
- drm_driver.gem_create_object
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
- daniel@ffwll.ch, yuq825@gmail.com, robh@kernel.org,
- tomeu.vizoso@collabora.com, alyssa.rosenzweig@collabora.com,
- emma@anholt.net, kraxel@redhat.com, gurchetansingh@chromium.org,
- olvaffe@gmail.com, dan.carpenter@oracle.com
-References: <20211130095255.26710-1-tzimmermann@suse.de>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <8b48b8a4-8f33-c209-9edf-32f929c211e4@arm.com>
-Date: Wed, 1 Dec 2021 15:16:16 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
+ [IPv6:2607:f8b0:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D4B96E970
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Dec 2021 15:23:36 +0000 (UTC)
+Received: by mail-ot1-x329.google.com with SMTP id
+ i5-20020a05683033e500b0057a369ac614so14171962otu.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Dec 2021 07:23:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=9+xNJVk8HaWXrz0AyxQ/3VS9PEvSB6w7UJMIbnaoCx4=;
+ b=Xy1CH92TddcQ/sbu1yk2gMq8epXWc8xm0RAWuszpNYrw24WQ88tlk5ucl9YH+NB8Zm
+ OCaisjnB/qvFJioEQ4114EyarXUUjC0NNLhJW53iFHiF6r9RcVmofXsYzgBCQYozxQSI
+ khng6Y1I+pQ5d5bgHbkf7Tr2Vsks5QssTp7b3IwVbp971VzP1Hl3R69nx+2ZnBtVZmZW
+ q7b2D8A/vsrU0JkTScW1A7iaVr7jtNnfMNDBAEmPG+lsTwN3N75ygAN3zhL8WmJCS622
+ y57YIwX8T/i2LcNjSjJCWmRQIESkytKTxk2PuWYRveSfX+/1hb0GOVxCs7BNJx9Veq8y
+ 9EMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=9+xNJVk8HaWXrz0AyxQ/3VS9PEvSB6w7UJMIbnaoCx4=;
+ b=1ujHQFC4KYeAb4K/m0vuDefcxXDJUUpE1++IVdc23Mla38o6qdCBifVpYrTdrD3SGD
+ OPiDzBkrtnssxmKccg2mMNzeIpHuEhA/qvr+VXOgxh57NikWQQ1Ua6ZExAvFQ+rr+2VZ
+ mR+Y2Fc38UZIDyL+5fmW5kCIOjI4xWEKSYKxqnURkw420LXgO24g/RW1qXBZ9RcPCGAX
+ cXXbtNJwFgJVagRpwqDMhpAqB8Dve3BIKt+BeJ2YMmjt3kzwZfPPaIYJlIxIzr0ZygUl
+ 7t2jykccE2AGu95xPuJSUZ1ko7XNuJtD8mAaG/2APehVH/SmhQ+kY/RsdPgnwa7GfN5T
+ S1lg==
+X-Gm-Message-State: AOAM531OnwMGls2wYNOHFoMSYUsqwPMV84qzuMzMGTK3eZH8kTr+vkny
+ TaKtxy2JOWCUS6YAK0KICm36Eg==
+X-Google-Smtp-Source: ABdhPJwroTxLQszV8WreruCOvQLv3di1HHM7v1yitiEuvrBNj3Ia6KwKOOw3SuNlqkZzq+8iWr5nJg==
+X-Received: by 2002:a9d:373:: with SMTP id 106mr6293793otv.127.1638372215677; 
+ Wed, 01 Dec 2021 07:23:35 -0800 (PST)
+Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
+ [104.57.184.186])
+ by smtp.gmail.com with ESMTPSA id g1sm4449ooq.2.2021.12.01.07.23.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Dec 2021 07:23:35 -0800 (PST)
+Date: Wed, 1 Dec 2021 09:23:30 -0600
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+Subject: Re: [PATCH v4 4/4] arm64: dts: qcom: sc7280: Add Display Port node
+Message-ID: <YaeTckalY6BZJqdb@builder.lan>
+References: <1637580555-1079-1-git-send-email-quic_sbillaka@quicinc.com>
 MIME-Version: 1.0
-In-Reply-To: <20211130095255.26710-1-tzimmermann@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1637580555-1079-1-git-send-email-quic_sbillaka@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,222 +69,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lima@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org
+Cc: quic_kalyant@quicinc.com, devicetree@vger.kernel.org, dianders@chromium.org,
+ quic_abhinavk@quicinc.com, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, Kuogee Hsieh <khsieh@codeaurora.org>, robh+dt@kernel.org,
+ agross@kernel.org, seanpaul@chromium.org, quic_mkrishn@quicinc.com,
+ quic_khsieh@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/11/2021 09:52, Thomas Zimmermann wrote:
-> GEM helper libraries use struct drm_driver.gem_create_object to let
-> drivers override GEM object allocation. On failure, the call returns
-> NULL.
-> 
-> Change the semantics to make the calls return a pointer-encoded error.
-> This aligns the callback with its callers. Fixes the ingenic driver,
-> which already returns an error pointer.
-> 
-> Also update the callers to handle the involved types more strictly.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+On Mon 22 Nov 05:29 CST 2021, Sankeerth Billakanti wrote:
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+> From: Kuogee Hsieh <khsieh@codeaurora.org>
+> 
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+> Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+
+Can you please update this to make From: and Signed-off-by: match.
+
+
+Also I don't know how you prepared this patch series, because this says
+patch 4/4, but it's not part of the same series as the other patches.
+
+I did pick up the first  3 patches, but then noticed that you are back
+at using the original labels, so please see below and send all 4 patches
+in a proper series.
 
 > ---
-> There is an alternative patch at [1] that updates the value returned
-> by ingenics' gem_create_object to NULL. Fixing the interface to return
-> an errno code is more consistent with the rest of the GEM functions.
 > 
-> [1] https://lore.kernel.org/dri-devel/20211118111522.GD1147@kili/
-> ---
->  drivers/gpu/drm/drm_gem_cma_helper.c    | 17 ++++++++++-------
->  drivers/gpu/drm/drm_gem_shmem_helper.c  | 17 ++++++++++-------
->  drivers/gpu/drm/drm_gem_vram_helper.c   |  4 ++--
->  drivers/gpu/drm/lima/lima_gem.c         |  2 +-
->  drivers/gpu/drm/panfrost/panfrost_gem.c |  2 +-
->  drivers/gpu/drm/v3d/v3d_bo.c            |  4 ++--
->  drivers/gpu/drm/vc4/vc4_bo.c            |  2 +-
->  drivers/gpu/drm/vgem/vgem_drv.c         |  2 +-
->  drivers/gpu/drm/virtio/virtgpu_object.c |  2 +-
->  include/drm/drm_drv.h                   |  5 +++--
->  10 files changed, 32 insertions(+), 25 deletions(-)
+> Changes in v4:
+>     - Add the patch to display DT change series (Bjorn Andersson)
+>     - Remove the trailing whitespaces
 > 
-> diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
-> index 7d4895de9e0d..cefd0cbf9deb 100644
-> --- a/drivers/gpu/drm/drm_gem_cma_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_cma_helper.c
-> @@ -67,18 +67,21 @@ __drm_gem_cma_create(struct drm_device *drm, size_t size, bool private)
->  	struct drm_gem_object *gem_obj;
->  	int ret = 0;
+>  arch/arm64/boot/dts/qcom/sc7280.dtsi | 90 +++++++++++++++++++++++++++++++++++-
+>  1 file changed, 88 insertions(+), 2 deletions(-)
 > 
-> -	if (drm->driver->gem_create_object)
-> +	if (drm->driver->gem_create_object) {
->  		gem_obj = drm->driver->gem_create_object(drm, size);
-> -	else
-> -		gem_obj = kzalloc(sizeof(*cma_obj), GFP_KERNEL);
-> -	if (!gem_obj)
-> -		return ERR_PTR(-ENOMEM);
-> +		if (IS_ERR(gem_obj))
-> +			return ERR_CAST(gem_obj);
-> +		cma_obj = to_drm_gem_cma_obj(gem_obj);
-> +	} else {
-> +		cma_obj = kzalloc(sizeof(*cma_obj), GFP_KERNEL);
-> +		if (!cma_obj)
-> +			return ERR_PTR(-ENOMEM);
-> +		gem_obj = &cma_obj->base;
-> +	}
-> 
->  	if (!gem_obj->funcs)
->  		gem_obj->funcs = &drm_gem_cma_default_funcs;
-> 
-> -	cma_obj = container_of(gem_obj, struct drm_gem_cma_object, base);
-> -
->  	if (private) {
->  		drm_gem_private_object_init(drm, gem_obj, size);
-> 
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> index 0eeda1012364..7915047cb041 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -56,14 +56,17 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private)
-> 
->  	size = PAGE_ALIGN(size);
-> 
-> -	if (dev->driver->gem_create_object)
-> +	if (dev->driver->gem_create_object) {
->  		obj = dev->driver->gem_create_object(dev, size);
-> -	else
-> -		obj = kzalloc(sizeof(*shmem), GFP_KERNEL);
-> -	if (!obj)
-> -		return ERR_PTR(-ENOMEM);
-> -
-> -	shmem = to_drm_gem_shmem_obj(obj);
-> +		if (IS_ERR(obj))
-> +			return ERR_CAST(obj);
-> +		shmem = to_drm_gem_shmem_obj(obj);
-> +	} else {
-> +		shmem = kzalloc(sizeof(*shmem), GFP_KERNEL);
-> +		if (!shmem)
-> +			return ERR_PTR(-ENOMEM);
-> +		obj = &shmem->base;
-> +	}
-> 
->  	if (!obj->funcs)
->  		obj->funcs = &drm_gem_shmem_funcs;
-> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-> index bfa386b98134..3f00192215d1 100644
-> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-> @@ -197,8 +197,8 @@ struct drm_gem_vram_object *drm_gem_vram_create(struct drm_device *dev,
-> 
->  	if (dev->driver->gem_create_object) {
->  		gem = dev->driver->gem_create_object(dev, size);
-> -		if (!gem)
-> -			return ERR_PTR(-ENOMEM);
-> +		if (IS_ERR(gem))
-> +			return ERR_CAST(gem);
->  		gbo = drm_gem_vram_of_gem(gem);
->  	} else {
->  		gbo = kzalloc(sizeof(*gbo), GFP_KERNEL);
-> diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
-> index 2723d333c608..f9a9198ef198 100644
-> --- a/drivers/gpu/drm/lima/lima_gem.c
-> +++ b/drivers/gpu/drm/lima/lima_gem.c
-> @@ -221,7 +221,7 @@ struct drm_gem_object *lima_gem_create_object(struct drm_device *dev, size_t siz
-> 
->  	bo = kzalloc(sizeof(*bo), GFP_KERNEL);
->  	if (!bo)
-> -		return NULL;
-> +		return ERR_PTR(-ENOMEM);
-> 
->  	mutex_init(&bo->lock);
->  	INIT_LIST_HEAD(&bo->va);
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> index 6d9bdb9180cb..ead65f5fa2bc 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> @@ -223,7 +223,7 @@ struct drm_gem_object *panfrost_gem_create_object(struct drm_device *dev, size_t
-> 
->  	obj = kzalloc(sizeof(*obj), GFP_KERNEL);
->  	if (!obj)
-> -		return NULL;
-> +		return ERR_PTR(-ENOMEM);
-> 
->  	INIT_LIST_HEAD(&obj->mappings.list);
->  	mutex_init(&obj->mappings.lock);
-> diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
-> index 0d9af62f69ad..6e3113f419f4 100644
-> --- a/drivers/gpu/drm/v3d/v3d_bo.c
-> +++ b/drivers/gpu/drm/v3d/v3d_bo.c
-> @@ -70,11 +70,11 @@ struct drm_gem_object *v3d_create_object(struct drm_device *dev, size_t size)
->  	struct drm_gem_object *obj;
-> 
->  	if (size == 0)
-> -		return NULL;
-> +		return ERR_PTR(-EINVAL);
-> 
->  	bo = kzalloc(sizeof(*bo), GFP_KERNEL);
->  	if (!bo)
-> -		return NULL;
-> +		return ERR_PTR(-ENOMEM);
->  	obj = &bo->base.base;
-> 
->  	obj->funcs = &v3d_gem_funcs;
-> diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
-> index 8520e440dbd1..6d1281a343e9 100644
-> --- a/drivers/gpu/drm/vc4/vc4_bo.c
-> +++ b/drivers/gpu/drm/vc4/vc4_bo.c
-> @@ -391,7 +391,7 @@ struct drm_gem_object *vc4_create_object(struct drm_device *dev, size_t size)
-> 
->  	bo = kzalloc(sizeof(*bo), GFP_KERNEL);
->  	if (!bo)
-> -		return NULL;
-> +		return ERR_PTR(-ENOMEM);
-> 
->  	bo->madv = VC4_MADV_WILLNEED;
->  	refcount_set(&bo->usecnt, 0);
-> diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
-> index a87eafa89e9f..c5e3e5457737 100644
-> --- a/drivers/gpu/drm/vgem/vgem_drv.c
-> +++ b/drivers/gpu/drm/vgem/vgem_drv.c
-> @@ -97,7 +97,7 @@ static struct drm_gem_object *vgem_gem_create_object(struct drm_device *dev, siz
-> 
->  	obj = kzalloc(sizeof(*obj), GFP_KERNEL);
->  	if (!obj)
-> -		return NULL;
-> +		return ERR_PTR(-ENOMEM);
-> 
->  	/*
->  	 * vgem doesn't have any begin/end cpu access ioctls, therefore must use
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-> index 187e10da2f17..baef2c5f2aaf 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_object.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-> @@ -139,7 +139,7 @@ struct drm_gem_object *virtio_gpu_create_object(struct drm_device *dev,
-> 
->  	shmem = kzalloc(sizeof(*shmem), GFP_KERNEL);
->  	if (!shmem)
-> -		return NULL;
-> +		return ERR_PTR(-ENOMEM);
-> 
->  	dshmem = &shmem->base.base;
->  	dshmem->base.funcs = &virtio_gpu_shmem_funcs;
-> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-> index da0c836fe8e1..f6159acb8856 100644
-> --- a/include/drm/drm_drv.h
-> +++ b/include/drm/drm_drv.h
-> @@ -291,8 +291,9 @@ struct drm_driver {
->  	/**
->  	 * @gem_create_object: constructor for gem objects
->  	 *
-> -	 * Hook for allocating the GEM object struct, for use by the CMA and
-> -	 * SHMEM GEM helpers.
-> +	 * Hook for allocating the GEM object struct, for use by the CMA
-> +	 * and SHMEM GEM helpers. Returns a GEM object on success, or an
-> +	 * ERR_PTR()-encoded error code otherwise.
->  	 */
->  	struct drm_gem_object *(*gem_create_object)(struct drm_device *dev,
->  						    size_t size);
-> --
-> 2.34.0
-> 
+> diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> index 5ad500e..0b2ffd5 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> @@ -2693,8 +2693,8 @@
+>  				 <&gcc GCC_DISP_GPLL0_CLK_SRC>,
+>  				 <&dsi_phy 0>,
+>  				 <&dsi_phy 1>,
+> -				 <0>,
+> -				 <0>,
+> +				 <&dp_phy 0>,
+> +				 <&dp_phy 1>,
+>  				 <&edp_phy 0>,
+>  				 <&edp_phy 1>;
+>  			clock-names = "bi_tcxo",
+> @@ -2791,6 +2791,13 @@
+>  							remote-endpoint = <&edp_in>;
+>  						};
+>  					};
+> +
+> +					port@2 {
+> +                                                reg = <2>;
+> +                                                dpu_intf0_out: endpoint {
+> +                                                        remote-endpoint = <&dp_in>;
+> +                                                };
+> +                                        };
+>  				};
+>  
+>  				mdp_opp_table: opp-table {
+> @@ -3002,6 +3009,79 @@
+>  
+>  				status = "disabled";
+>  			};
+> +
+> +			msm_dp: displayport-controller@ae90000 {
 
+As requested previously, can you please label this mdss_dp, to make it
+sort nicely in the dts?
+
+Thanks,
+Bjorn
+
+> +				compatible = "qcom,sc7280-dp";
+> +
+> +				reg = <0 0x0ae90000 0 0x1400>;
+> +
+> +				interrupt-parent = <&mdss>;
+> +				interrupts = <12>;
+> +
+> +				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
+> +					 <&dispcc DISP_CC_MDSS_DP_AUX_CLK>,
+> +					 <&dispcc DISP_CC_MDSS_DP_LINK_CLK>,
+> +					 <&dispcc DISP_CC_MDSS_DP_LINK_INTF_CLK>,
+> +					 <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK>;
+> +				clock-names =	"core_iface",
+> +						"core_aux",
+> +						"ctrl_link",
+> +						"ctrl_link_iface",
+> +						"stream_pixel";
+> +				#clock-cells = <1>;
+> +				assigned-clocks = <&dispcc DISP_CC_MDSS_DP_LINK_CLK_SRC>,
+> +						  <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>;
+> +				assigned-clock-parents = <&dp_phy 0>, <&dp_phy 1>;
+> +				phys = <&dp_phy>;
+> +				phy-names = "dp";
+> +
+> +				operating-points-v2 = <&dp_opp_table>;
+> +				power-domains = <&rpmhpd SC7280_CX>;
+> +
+> +				#sound-dai-cells = <0>;
+> +
+> +				status = "disabled";
+> +
+> +				ports {
+> +					#address-cells = <1>;
+> +					#size-cells = <0>;
+> +					port@0 {
+> +						reg = <0>;
+> +						dp_in: endpoint {
+> +							remote-endpoint = <&dpu_intf0_out>;
+> +						};
+> +					};
+> +
+> +					port@1 {
+> +						reg = <1>;
+> +						dp_out: endpoint { };
+> +					};
+> +				};
+> +
+> +				dp_opp_table: opp-table {
+> +					compatible = "operating-points-v2";
+> +
+> +					opp-160000000 {
+> +						opp-hz = /bits/ 64 <160000000>;
+> +						required-opps = <&rpmhpd_opp_low_svs>;
+> +					};
+> +
+> +					opp-270000000 {
+> +						opp-hz = /bits/ 64 <270000000>;
+> +						required-opps = <&rpmhpd_opp_svs>;
+> +					};
+> +
+> +					opp-540000000 {
+> +						opp-hz = /bits/ 64 <540000000>;
+> +						required-opps = <&rpmhpd_opp_svs_l1>;
+> +					};
+> +
+> +					opp-810000000 {
+> +						opp-hz = /bits/ 64 <810000000>;
+> +						required-opps = <&rpmhpd_opp_nom>;
+> +					};
+> +				};
+> +			};
+>  		};
+>  
+>  		pdc: interrupt-controller@b220000 {
+> @@ -3104,6 +3184,12 @@
+>  				bias-pull-up;
+>  			};
+>  
+> +			dp_hot_plug_det: dp-hot-plug-det {
+> +				pins = "gpio47";
+> +				function = "dp_hot";
+> +				bias-disable;
+> +                        };
+> +
+>  			qspi_clk: qspi-clk {
+>  				pins = "gpio14";
+>  				function = "qspi_clk";
+> -- 
+> 2.7.4
+> 
