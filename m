@@ -2,74 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6645C4650FC
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 16:10:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 491B3465120
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 16:13:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4FE46E995;
-	Wed,  1 Dec 2021 15:10:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 119F56E8AC;
+	Wed,  1 Dec 2021 15:13:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E5FB6E995
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Dec 2021 15:10:35 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta-p5.oit.umn.edu (mta-p5.oit.umn.edu [134.84.196.205])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D25386E89B
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Dec 2021 15:13:21 +0000 (UTC)
+Received: from localhost (unknown [127.0.0.1])
+ by mta-p5.oit.umn.edu (Postfix) with ESMTP id 4J42f7688lz9w6Gh
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Dec 2021 15:13:19 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at umn.edu
+Received: from mta-p5.oit.umn.edu ([127.0.0.1])
+ by localhost (mta-p5.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 8CUP574729ZX for <dri-devel@lists.freedesktop.org>;
+ Wed,  1 Dec 2021 09:13:19 -0600 (CST)
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 05281B81FE1;
- Wed,  1 Dec 2021 15:10:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 445F5C53FAD;
- Wed,  1 Dec 2021 15:10:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1638371427;
- bh=FCqeRLXF2VMVm3yt6gJHFdWgv9xL0KxQlSQpzBtnUxI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qdEk9dF+fvXqeKr+VVHH5Au1zNimX1ep8FxHJ1E1JMAXY2xRds2J25uXy0ENwvMpp
- 0RAF6YJqUNx62zt/pqgvGssVjewJdtSaganLOg/zrjch7AGAWZovWZMcOCSVF4/g6P
- +YF6PKux0eA0DYuWRFeKi6dAb350HthWM8LOMeu5aUV28FMdn7UVcyg2nS7JE6HGZu
- uWgmjgUzJjQafFy9xG9u2euT8VCMnq3f72xtcowDFosOnJGvAozVAhtYS+/+TFBUSb
- Vn4wcmKCM+kySmw2KS8miSxmadTNv4V+/+5hX9aPcjXfevjbmT+qvYd4T/AlGFELNg
- cU4hrX00KPkWA==
-Date: Wed, 1 Dec 2021 15:10:19 +0000
-From: Mark Brown <broonie@kernel.org>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Subject: Re: [PATCH v10 4/8] drm/ingenic: Add dw-hdmi driver for jz4780
-Message-ID: <YaeQW/akoLE6SpEi@sirena.org.uk>
-Mail-Followup-To: "H. Nikolaus Schaller" <hns@goldelico.com>,
- Paul Cercueil <paul@crapouillou.net>,
- Rob Herring <robh+dt@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kees Cook <keescook@chromium.org>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Harry Wentland <harry.wentland@amd.com>,
- Sam Ravnborg <sam@ravnborg.org>, Maxime Ripard <maxime@cerno.tech>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Paul Boddie <paul@boddie.org.uk>, devicetree@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
- letux-kernel@openphoenux.org, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org,
- Ezequiel Garcia <ezequiel@collabora.com>
-References: <cover.1638307601.git.hns@goldelico.com>
- <4daf0c5dbed2c47c97003ab8de0a7dbd2a335dc3.1638307601.git.hns@goldelico.com>
- <LKTF3R.YREPOCHOSMQN2@crapouillou.net>
- <Yad69aTXcGixXvy3@sirena.org.uk>
- <46070A95-0FA9-43F9-A9A9-52A7B58B88F5@goldelico.com>
- <EDWF3R.CMVWMJL42OH9@crapouillou.net>
- <58C550A4-A21E-47BA-8BAE-00B927DC7A2E@goldelico.com>
+ by mta-p5.oit.umn.edu (Postfix) with ESMTPS id 4J42f7455Dz9w6Gk
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Dec 2021 09:13:19 -0600 (CST)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p5.oit.umn.edu 4J42f7455Dz9w6Gk
+DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p5.oit.umn.edu 4J42f7455Dz9w6Gk
+Received: by mail-pl1-f200.google.com with SMTP id
+ y6-20020a17090322c600b001428ab3f888so10313583plg.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Dec 2021 07:13:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=umn.edu; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=h4LXZln8T4HCcWzcanaTdpJLL3mZ2EfocGb+bUhELaY=;
+ b=gD54pJwHKo5GPwYSZC10YNFg45mxtJJimjm+RtSINIL55BTNvRdZVZ8dEpn+Ezenhj
+ 8UVNeopOWpW6w275TNAoSZoe5qgb6YM6clzu+KzVkxtWZce7JBbxir8KaO9NiN2d79z2
+ jDYv+3bGgG+FjKJ20zwdA9GBO61o4Z/yKROeuFCqF5YWXe3K2024+bZqrLTNwyPRGMWc
+ sdJpo0APo3ipGHUYST547Tgcb/9rH450dJov8i0D/n72+2x7qcRF3luoNlMGS6jLe6oy
+ nDnZhpBP9UwaF5FiW9eFfR72bsu9EBwFgrImdGfHqNnRlp50ayx2H/wOv7qt7Zm4cdT2
+ gZwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=h4LXZln8T4HCcWzcanaTdpJLL3mZ2EfocGb+bUhELaY=;
+ b=2btdtSChpaxUkVC12WBG83gfk0aiy2o+Pic+ejO6KgPrEAMojAfVZ9+ezcb7CJa0VS
+ VU0TMlu1Q3W0o18KX2obd35sZt1ZPs8YYolDeqg8WTfVwY0cC0Ir71hUhV08HJvJvSct
+ 3u4dz39bGGgo5VcDwqbXLuqwNxCSOqtRkm7/ZNKGH8hlk8yyZqQtg7tX6Y1eY3D9OMU+
+ VB9CbG4wSyvBzvswZErD5XjcWX+RD61jduUoroRu3nexTXzjSVHQpDv86idUX/J4RWjf
+ R1LZp9oT74nAiyTbpskuD2FL9iVs9zlEsdYZGhcQvWexhw91DMPHZMHaQyv8ZGcWUgby
+ q2/g==
+X-Gm-Message-State: AOAM532plyBdWEsuJeDZBhepfMgQWp+WnKuj4RRB1PLB3ZYnsiZsgSPw
+ Towosj8Gu9Ojgd63kGgCNLtgzG8wO13sLtjKs/eKFX0IrSUnr8lTT2pHuSzOGCC6OOZAKyT3F/7
+ HsbS2GTONo81WvfRfaTMUBKuSesmH7/U6
+X-Received: by 2002:a17:90b:2252:: with SMTP id
+ hk18mr8258168pjb.218.1638371598674; 
+ Wed, 01 Dec 2021 07:13:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzzQ3lgZ5HmEc+yg40LHvZgBrCVXftuWXu3L1JO3qkgIlyIo5lNUuY4CI/ttBB11keXNxAGag==
+X-Received: by 2002:a17:90b:2252:: with SMTP id
+ hk18mr8258135pjb.218.1638371598394; 
+ Wed, 01 Dec 2021 07:13:18 -0800 (PST)
+Received: from zqy787-GE5S.lan ([36.7.42.22])
+ by smtp.gmail.com with ESMTPSA id mh1sm6496pjb.6.2021.12.01.07.13.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Dec 2021 07:13:17 -0800 (PST)
+From: Zhou Qingyang <zhou1615@umn.edu>
+To: zhou1615@umn.edu
+Subject: [PATCH v5] drm/radeon/radeon_kms: Fix a NULL pointer dereference in
+ radeon_driver_open_kms()
+Date: Wed,  1 Dec 2021 23:13:10 +0800
+Message-Id: <20211201151310.177671-1-zhou1615@umn.edu>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <e2685075-fbc5-6f36-907f-76b6f76a59ce@amd.com>
+References: <e2685075-fbc5-6f36-907f-76b6f76a59ce@amd.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="uxl0m5XHgmPX4QRQ"
-Content-Disposition: inline
-In-Reply-To: <58C550A4-A21E-47BA-8BAE-00B927DC7A2E@goldelico.com>
-X-Cookie: All true wisdom is found on T-shirts.
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,78 +89,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- Paul Cercueil <paul@crapouillou.net>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org,
- Kees Cook <keescook@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- letux-kernel@openphoenux.org, Ezequiel Garcia <ezequiel@collabora.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Liam Girdwood <lgirdwood@gmail.com>, Robert Foss <robert.foss@linaro.org>,
- linux-kernel@vger.kernel.org, "Eric W. Biederman" <ebiederm@xmission.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ kjlu@umn.edu, linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+In radeon_driver_open_kms(), radeon_vm_bo_add() is assigned to
+vm->ib_bo_va and passes and used in radeon_vm_bo_set_addr(). In
+radeon_vm_bo_set_addr(), there is a dereference of vm->ib_bo_va,
+which could lead to a NULL pointer dereference on failure of
+radeon_vm_bo_add().
 
---uxl0m5XHgmPX4QRQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Fix this bug by adding a check of vm->ib_bo_va.
 
-On Wed, Dec 01, 2021 at 03:33:24PM +0100, H. Nikolaus Schaller wrote:
-> > Am 01.12.2021 um 15:03 schrieb Paul Cercueil <paul@crapouillou.net>:
+This bug was found by a static analyzer. The analysis employs
+differential checking to identify inconsistent security operations
+(e.g., checks or kfrees) between two code paths and confirms that the
+inconsistent operations are not recovered in the current function or
+the callers, so they constitute bugs.
 
-> > Please make it mandatory in DTS then, and use devm_regulator_get() in the driver.
+Note that, as a bug found by static analysis, it can be a false
+positive or hard to trigger. Multiple researchers have cross-reviewed
+the bug.
 
-> Well, I just wonder why the elegant devm_regulator_get_optional() exists at all
-> and seems to be used in ca. 80 places.
+Builds with CONFIG_DRM_RADEON=m show no new warnings,
+and our static analyzer no longer warns about this code.
 
-Frankly because half of them are broken usages like this since people
-seem determined to have the most fragile error handling they can :/
-There are valid use cases for it, with things like SD cards where some
-supplies are genuinely optional and simply constrain what features are
-available if they're omitted from the design.  You also see some devices
-with the ability to replace internal regulators with external ones.
+Fixes: cc9e67e3d700 ("drm/radeon: fix VM IB handling")
+Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
+---
+Changes in v5:
+  -  Use conditions to avoid unnecessary initialization
 
-> And if it is not allowed, why some DTS should be forced to add not physically existing dummy-regulators.
+Changes in v4:
+  -  Initialize the variables to silence warning
 
-Again, if the supply can be physically absent that is a sensible use
-case but that means completely absent, not just not software
-controllable.  We can represent fixed voltage regulators just fine.
+Changes in v3:
+  -  Fix the bug that good case will also be freed
+  -  Improve code style
 
-> AFAIR drivers should implement functionality defined by DTS but not the other way round: enforce DTS style.
-> BTW: there is no +5 mains dummy regulator defined in ci20.dts.
+Changes in v2:
+  -  Improve the error handling into goto style
 
-It wouldn't be the first time a DTS were incomplete, and I'm sure it
-won't be the last.
+ drivers/gpu/drm/radeon/radeon_kms.c | 36 ++++++++++++++++-------------
+ 1 file changed, 20 insertions(+), 16 deletions(-)
 
-> What I fear is that if we always have to define the mains +5V (which is for example not
-> defined in ci20.dts), which rules stops us from asking to add a dummy-regulator from 110/230V to +5V as well.
+diff --git a/drivers/gpu/drm/radeon/radeon_kms.c b/drivers/gpu/drm/radeon/radeon_kms.c
+index 482fb0ae6cb5..66aee48fd09d 100644
+--- a/drivers/gpu/drm/radeon/radeon_kms.c
++++ b/drivers/gpu/drm/radeon/radeon_kms.c
+@@ -648,6 +648,8 @@ void radeon_driver_lastclose_kms(struct drm_device *dev)
+ int radeon_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv)
+ {
+ 	struct radeon_device *rdev = dev->dev_private;
++	struct radeon_fpriv *fpriv;
++	struct radeon_vm *vm;
+ 	int r;
+ 
+ 	file_priv->driver_priv = NULL;
+@@ -660,8 +662,6 @@ int radeon_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv)
+ 
+ 	/* new gpu have virtual address space support */
+ 	if (rdev->family >= CHIP_CAYMAN) {
+-		struct radeon_fpriv *fpriv;
+-		struct radeon_vm *vm;
+ 
+ 		fpriv = kzalloc(sizeof(*fpriv), GFP_KERNEL);
+ 		if (unlikely(!fpriv)) {
+@@ -672,35 +672,39 @@ int radeon_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv)
+ 		if (rdev->accel_working) {
+ 			vm = &fpriv->vm;
+ 			r = radeon_vm_init(rdev, vm);
+-			if (r) {
+-				kfree(fpriv);
+-				goto out_suspend;
+-			}
++			if (r)
++				goto out_fpriv;
+ 
+ 			r = radeon_bo_reserve(rdev->ring_tmp_bo.bo, false);
+-			if (r) {
+-				radeon_vm_fini(rdev, vm);
+-				kfree(fpriv);
+-				goto out_suspend;
+-			}
++			if (r)
++				goto out_vm_fini;
+ 
+ 			/* map the ib pool buffer read only into
+ 			 * virtual address space */
+ 			vm->ib_bo_va = radeon_vm_bo_add(rdev, vm,
+ 							rdev->ring_tmp_bo.bo);
++			if (!vm->ib_bo_va) {
++				r = -ENOMEM;
++				goto out_vm_fini;
++			}
++
+ 			r = radeon_vm_bo_set_addr(rdev, vm->ib_bo_va,
+ 						  RADEON_VA_IB_OFFSET,
+ 						  RADEON_VM_PAGE_READABLE |
+ 						  RADEON_VM_PAGE_SNOOPED);
+-			if (r) {
+-				radeon_vm_fini(rdev, vm);
+-				kfree(fpriv);
+-				goto out_suspend;
+-			}
++			if (r)
++				goto out_vm_fini;
+ 		}
+ 		file_priv->driver_priv = fpriv;
+ 	}
+ 
++	if (!r)
++		goto out_suspend;
++
++out_vm_fini:
++	radeon_vm_fini(rdev, vm);
++out_fpriv:
++	kfree(fpriv);
+ out_suspend:
+ 	pm_runtime_mark_last_busy(dev->dev);
+ 	pm_runtime_put_autosuspend(dev->dev);
+-- 
+2.25.1
 
-It is good practice to specify the full tree of supplies all the way to
-the main supply rail of the board, this ensures that if we need the
-information for something we've got it (even if that thing is just that
-we've got to the root of the tree).  There's potential applications in
-battery supplied devices for managing very low power situations.
-
---uxl0m5XHgmPX4QRQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmGnkFoACgkQJNaLcl1U
-h9A32gf/ZYHl/RIiCZDvdUvGhhXUQ5m3dke8DEbkuGwIbHOYqQDdVOpbI+NpTIMu
-vmWcV7LpARb1R1Mst3T9J8O7p5STJUJulPLzFGsARuhjMeLE2z9+oyaocNmgXEfQ
-54NPwbUWho0pcNd+GCtvoPzRiAMMkCxBrH2exwosdTPDYpF0gIOdpuSZ3YJXRsWU
-eeni01wlGuXgswuy3SiXBc2nkmb0cNAPZlfxtdDvBoiDuR2zkIkSumfBuEeDvSvq
-1rg+fYGi6vrNgTsbEnrfLaDB1GS5xzqdQryJizNS48arBhTalMrKXP0CVmfEYOc8
-Edqu+7QgOTmmsAHtTGtymBAt2WnBUg==
-=ZCY4
------END PGP SIGNATURE-----
-
---uxl0m5XHgmPX4QRQ--
