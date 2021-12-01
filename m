@@ -1,63 +1,94 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D237A46598D
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 23:52:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EC974659D4
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Dec 2021 00:28:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 095F46E961;
-	Wed,  1 Dec 2021 22:51:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CB5C6E488;
+	Wed,  1 Dec 2021 23:28:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DE8E6E91F
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Dec 2021 22:51:50 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id c32so66881378lfv.4
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Dec 2021 14:51:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=7uia5p7FpJ6FhJvovwEFuE5jTgtrwEvm9hq5sHRfsao=;
- b=PgwEtvI9kE93H3hOhQhgfzf+gv8KHEeRsHnqy2wL9BaV7mdJnmcVEGS/oEfonE5FnV
- 5jpmnhcapqJ5insRwv8i8ZNbczNhJqWqLG+VcZMB7kzQhU72o+6TX5mR2HN+TLRdf5W/
- yNOWfOwTsz5X3W0P+ctjWGI+iO+xbyiP8aCgM3M73KDOuaCSA+N6Sj+s2VWA1Hq8OqZI
- KLuTRrHpNwGuNP1ISYHWtuZLaQ0L1FL9fCcxfgcTF1pAGHaicNSHzvSVIHPy9gIdjPY3
- 0KQNhYl9cv6QltzfiBI7tThTorzLOoobtncBG2meevzxiw4hV6JSJRsLdb3up5GviO+n
- hj3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=7uia5p7FpJ6FhJvovwEFuE5jTgtrwEvm9hq5sHRfsao=;
- b=UwzeUYzntuKulz0A2EDbXvFwrnx4HpHpC+QhUDXLAJl1RpzALCsbDJtAwmQQ4PuLpF
- qLiq8sT6YWu4P9+pePX2aYwtmsre5j8gFXTZWhiOx8tdJSBAtWHfzA2EYJZ4JCgu+zu3
- WAp0VnCz49NYEO4KmNAAIRP33fuFceFbqTFgTU18k7fyiFpPlkGmK64iVt2qsUmsydG3
- nXyJK4LZRdbMUYM3QRriiME1Euk7B8XmSrQSvV2cMGicyF8GAEqiTv5BRh41RFfbOF20
- 80NOIRhvIOx3cRnVFFKUBtrItw6TQUV1p9Rv8pPCDHzn50XcHNjIdWlvVsyu3wFhzYvf
- lK4Q==
-X-Gm-Message-State: AOAM532DNszP8/rNLwxcQoAcT2NsIri8qIN06/sWyjyTFPTPy8V+9Yhj
- W+rJvrDbjWyBjudN9qnczlVYjg==
-X-Google-Smtp-Source: ABdhPJyV6aXB2B/ea3M3KpreXTvEZVMtsKBTzWxDvdn1CNWx4Pr3i4/K4dLxCbzd+lFOZOIMtDsgBA==
-X-Received: by 2002:ac2:4d5b:: with SMTP id 27mr8702045lfp.596.1638399108311; 
- Wed, 01 Dec 2021 14:51:48 -0800 (PST)
-Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id u7sm124819ljh.49.2021.12.01.14.51.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Dec 2021 14:51:47 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <abhinavk@codeaurora.org>
-Subject: [PATCH v2 4/4] drm/msm/dpu: fix CDP setup to account for multirect
- index
-Date: Thu,  2 Dec 2021 01:51:40 +0300
-Message-Id: <20211201225140.2481577-5-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211201225140.2481577-1-dmitry.baryshkov@linaro.org>
-References: <20211201225140.2481577-1-dmitry.baryshkov@linaro.org>
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2047.outbound.protection.outlook.com [40.107.223.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3701A6E453;
+ Wed,  1 Dec 2021 23:28:40 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=c8xdIalxlek3aWjBqjajTXMEkdqD3Y16vvkZN35/ey0+OWwAH92emV88wj6OaY12YuFsifWeEfmskU/z5VxDpyKUG2SwXvW6Ox45aoSmrqjzhypnI+b9ZrZNY+b7hrNNSDXIhmjZFUVhBFTme3t5g+kvpdE6mhv1ZS4KlFu1a3RtmKUDe8FibKLBIKmOzmtyYE7gup4SHmJUbVtGg9ztqZQWT1HcwTjOYr40Hy9MGVaQ0oIdbN4nO5z8h4Xrs/xcnsd84gpauTJSbhY2FI36nGhX0ee2oNiq1qfrwH9b0ogRNqW8xXsIfp4vxvnZE+/gSvfu+0QtO4EKzClPujtyRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YVULz9QYbpek/tmEdk46jO5i7zeTQEFMHhweybrVbQc=;
+ b=bwOE3d74OcqNtTuPk2+7Qu+D1snAkTOBP1VWJ7l4/jDjRQHwrMcJ4xX3iMQDVbSiyHHPF+TvDaqQjgZB8uYzUou6Kp5XhUzR2lSmcsKn20Lmr9gzZSLCZc3tcD675Kbrkj2rsccdYIkBRDejEcqLtl++gBTtjaY4D07/cgJddb3XYK5cH8bO8lxf8fgN1VZ6ZqX2CLcPBqn86O1tRBRZOq0Kol7LtcxlBpFpUFXMIxWCCqVZll08YGw56CggjY9IKi+oqz8eH8mKLdyjykG/jXTapjfTQXXrCDFSiEspMG3+7R2lCwHpzBxEhZZboEl/y231doInFHfZGxGO937i7w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YVULz9QYbpek/tmEdk46jO5i7zeTQEFMHhweybrVbQc=;
+ b=EEd6e2s9TDIiYbNr0Y9pSFIF1nV0v+p1nB0hXIPoKSViKqirhJRGVkNMvpWpDw2CGWLj+pzL7louuk/jBr9AT9zm+VxZvYjc1LSXYjIOci4fPrTKw8RUDbYTUH3snqBheAstHebEMNIQZkxVZu6lM+NUP9zY/cRdovmMRjuw7Ew=
+Received: from BN6PR17CA0023.namprd17.prod.outlook.com (2603:10b6:404:65::33)
+ by BYAPR12MB3191.namprd12.prod.outlook.com (2603:10b6:a03:133::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.23; Wed, 1 Dec
+ 2021 23:28:35 +0000
+Received: from BN8NAM11FT051.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:404:65:cafe::2d) by BN6PR17CA0023.outlook.office365.com
+ (2603:10b6:404:65::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.24 via Frontend
+ Transport; Wed, 1 Dec 2021 23:28:35 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT051.mail.protection.outlook.com (10.13.177.66) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4755.13 via Frontend Transport; Wed, 1 Dec 2021 23:28:34 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Wed, 1 Dec
+ 2021 17:28:32 -0600
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
+Subject: [pull] amdgpu, amdkfd drm-fixes-5.16
+Date: Wed, 1 Dec 2021 18:28:02 -0500
+Message-ID: <20211201232802.5801-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 50f9b67a-fb41-4045-9bc6-08d9b5224b76
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3191:
+X-Microsoft-Antispam-PRVS: <BYAPR12MB31918BF78CE88BBC3BF8E07EF7689@BYAPR12MB3191.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:506;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: aRTw6gfSwBWspBePNzuzfQA82Zcj/TBTygl9+lLVLNu+omlESiV+JP3CqYxH0vpNFfd0ygEyVf6bQFUXGJ1nTqahADyESqhuFezQkA/WklGOl3moj5IIdbcGpl+MfqAn0Fmt6DCENYng71tQL/K13S12AjXSWcQvW+96MZnfa9NpquBQZ+0aAAr93K2OMpongRVcozJbxoQ0KZ73TJhsMczxhp9qldLkTUU5fSH+n/fvDJvGEiLnkrFI66Wu+OumjnVniu2RxLEEBDumcpQjuWwE5ZUukSXykdAXdvmQRewIdlrP7aP1DN1uosAis7WkBV3FO4KSKEz0RHkN2hPzAowOoRSvX/tFN9GAOAVzRB7w3ZsjgJFK7LQHFKSSy3nL0uQfRhtwfy+akCGyE1LOnISd4XEpQIyVAmGawzDsPfJDSvQWgoRw6CtLQPSNr9/dyr6166gmE//+t+jX7tzhheXlD2rbVVL7oURvhHA1GJhDe40PmShmqiPpZln8WexnsOsuT8PKC9HuOp4L9k9HTOPb7JcTIh3/pOoYdzIQuhMFZ1U39sx3dc44RsuySG0XRVHMJ/84iAIre+RdxYZNzQmBvWJKpLviqNt0auNZdjsrT6l3Drc1UnClULA75PAKQoECdQX/LQ/qAFRPp0sSNhgUYTGymVyU1RK35ww9Yg3Eyb9ElaSExaWmKYDlErg+6LcV4X659RdB3FlOjun/2NFINNeodONkg6NFOGRl7L8h8f+1sk6zp+nFE7y9E5QuLIaYINMQNeyIEoQeHT1Y/loPmldYMVgJwt3pXflSjhE=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(36840700001)(46966006)(40470700001)(82310400004)(356005)(26005)(16526019)(110136005)(81166007)(966005)(316002)(40460700001)(508600001)(36756003)(186003)(4001150100001)(70586007)(47076005)(7696005)(8936002)(5660300002)(6666004)(36860700001)(86362001)(70206006)(1076003)(4326008)(8676002)(336012)(2906002)(2616005)(426003)(83380400001)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2021 23:28:34.6871 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 50f9b67a-fb41-4045-9bc6-08d9b5224b76
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT051.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3191
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,99 +101,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- freedreno@lists.freedesktop.org
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Client driven prefetch (CDP) is properly setup only for SSPP REC0
-currently. Enable client driven prefetch also for SSPP REC1.
+Hi Dave, Daniel,
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c | 12 ++++++++++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h |  4 +++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   |  2 +-
- 3 files changed, 14 insertions(+), 4 deletions(-)
+Fixes for 5.16.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-index 7235605bfc9e..75aa47835214 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-@@ -75,6 +75,7 @@
- #define SSPP_TRAFFIC_SHAPER                0x130
- #define SSPP_CDP_CNTL                      0x134
- #define SSPP_UBWC_ERROR_STATUS             0x138
-+#define SSPP_CDP_CNTL_REC1                 0x13c
- #define SSPP_TRAFFIC_SHAPER_PREFILL        0x150
- #define SSPP_TRAFFIC_SHAPER_REC1_PREFILL   0x154
- #define SSPP_TRAFFIC_SHAPER_REC1           0x158
-@@ -624,10 +625,12 @@ static void dpu_hw_sspp_setup_qos_ctrl(struct dpu_hw_pipe *ctx,
- }
- 
- static void dpu_hw_sspp_setup_cdp(struct dpu_hw_pipe *ctx,
--		struct dpu_hw_pipe_cdp_cfg *cfg)
-+		struct dpu_hw_pipe_cdp_cfg *cfg,
-+		enum dpu_sspp_multirect_index index)
- {
- 	u32 idx;
- 	u32 cdp_cntl = 0;
-+	u32 cdp_cntl_offset = 0;
- 
- 	if (!ctx || !cfg)
- 		return;
-@@ -635,6 +638,11 @@ static void dpu_hw_sspp_setup_cdp(struct dpu_hw_pipe *ctx,
- 	if (_sspp_subblk_offset(ctx, DPU_SSPP_SRC, &idx))
- 		return;
- 
-+	if (index == DPU_SSPP_RECT_SOLO || index == DPU_SSPP_RECT_0)
-+		cdp_cntl_offset = SSPP_CDP_CNTL;
-+	else
-+		cdp_cntl_offset = SSPP_CDP_CNTL_REC1;
-+
- 	if (cfg->enable)
- 		cdp_cntl |= BIT(0);
- 	if (cfg->ubwc_meta_enable)
-@@ -644,7 +652,7 @@ static void dpu_hw_sspp_setup_cdp(struct dpu_hw_pipe *ctx,
- 	if (cfg->preload_ahead == DPU_SSPP_CDP_PRELOAD_AHEAD_64)
- 		cdp_cntl |= BIT(3);
- 
--	DPU_REG_WRITE(&ctx->hw, SSPP_CDP_CNTL, cdp_cntl);
-+	DPU_REG_WRITE(&ctx->hw, cdp_cntl_offset, cdp_cntl);
- }
- 
- static void _setup_layer_ops(struct dpu_hw_pipe *c,
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-index 3c53bd03bdeb..227b09fa4689 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-@@ -356,9 +356,11 @@ struct dpu_hw_sspp_ops {
- 	 * setup_cdp - setup client driven prefetch
- 	 * @ctx: Pointer to pipe context
- 	 * @cfg: Pointer to cdp configuration
-+	 * @index: rectangle index in multirect
- 	 */
- 	void (*setup_cdp)(struct dpu_hw_pipe *ctx,
--			struct dpu_hw_pipe_cdp_cfg *cfg);
-+			struct dpu_hw_pipe_cdp_cfg *cfg,
-+			enum dpu_sspp_multirect_index index);
- };
- 
- /**
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index 911f5f0b41d8..1134171f4d1c 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -1191,7 +1191,7 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
- 					DPU_FORMAT_IS_TILE(fmt);
- 			cdp_cfg.preload_ahead = DPU_SSPP_CDP_PRELOAD_AHEAD_64;
- 
--			pdpu->pipe_hw->ops.setup_cdp(pdpu->pipe_hw, &cdp_cfg);
-+			pdpu->pipe_hw->ops.setup_cdp(pdpu->pipe_hw, &cdp_cfg, pstate->multirect_index);
- 		}
- 	}
- 
--- 
-2.33.0
+The following changes since commit d58071a8a76d779eedab38033ae4c821c30295a5:
 
+  Linux 5.16-rc3 (2021-11-28 14:09:19 -0800)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-5.16-2021-12-01
+
+for you to fetch changes up to 3abfe30d803e62cc75dec254eefab3b04d69219b:
+
+  drm/amdkfd: process_info lock not needed for svm (2021-12-01 17:09:58 -0500)
+
+----------------------------------------------------------------
+amd-drm-fixes-5.16-2021-12-01:
+
+amdgpu:
+- IP discovery based enumeration fixes
+- vkms fixes
+- DSC fixes for DP MST
+- Audio fix for hotplug with tiled displays
+- Misc display fixes
+- DP tunneling fix
+- DP fix
+- Aldebaran fix
+
+amdkfd:
+- Locking fix
+- Static checker fix
+- Fix double free
+
+----------------------------------------------------------------
+Flora Cui (2):
+      drm/amdgpu: cancel the correct hrtimer on exit
+      drm/amdgpu: check atomic flag to differeniate with legacy path
+
+Guchun Chen (1):
+      drm/amdgpu: fix the missed handling for SDMA2 and SDMA3
+
+Jane Jian (1):
+      drm/amdgpu/sriov/vcn: add new vcn ip revision check case for SIENNA_CICHLID
+
+Jimmy Kizito (1):
+      drm/amd/display: Add work around for tunneled MST.
+
+Lijo Lazar (1):
+      drm/amdgpu: Don't halt RLC on GFX suspend
+
+Mustapha Ghaddar (1):
+      drm/amd/display: Fix for the no Audio bug with Tiled Displays
+
+Nicholas Kazlauskas (1):
+      drm/amd/display: Allow DSC on supported MST branch devices
+
+Perry Yuan (1):
+      drm/amd/display: add connector type check for CRC source set
+
+Philip Yang (3):
+      drm/amdkfd: set "r = 0" explicitly before goto
+      drm/amdkfd: fix double free mem structure
+      drm/amdkfd: process_info lock not needed for svm
+
+Shen, George (1):
+      drm/amd/display: Clear DPCD lane settings after repeater training
+
+shaoyunl (1):
+      drm/amdgpu: adjust the kfd reset sequence in reset sriov function
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   |  8 +++++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         | 16 +++++++++------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c      |  3 +++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c            |  1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c           |  4 ++--
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c              |  7 ++++---
+ drivers/gpu/drm/amd/amdgpu/nv.c                    |  1 +
+ drivers/gpu/drm/amd/amdkfd/kfd_svm.c               | 13 ++++--------
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c  |  8 ++++++++
+ .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    | 20 ++++++++++++++----
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c      | 16 +++++++++++++++
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   |  2 +-
+ drivers/gpu/drm/amd/display/dc/core/dc_resource.c  | 24 +++++++++++++---------
+ drivers/gpu/drm/amd/display/dc/dc.h                |  3 ++-
+ drivers/gpu/drm/amd/display/dc/dc_link.h           |  2 ++
+ drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |  2 +-
+ 16 files changed, 90 insertions(+), 40 deletions(-)
