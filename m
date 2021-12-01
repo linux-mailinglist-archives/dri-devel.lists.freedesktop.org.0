@@ -1,55 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58540464FCA
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 15:33:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30FAD465088
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 15:52:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E72446E8D3;
-	Wed,  1 Dec 2021 14:33:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C8D66EEA1;
+	Wed,  1 Dec 2021 14:52:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
- [85.215.255.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68B076E8AE
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Dec 2021 14:33:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1638369206;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=gDqNSwOY4krNXyZJKC9cA8DBCihhfe+kQxeeBXbUBDM=;
- b=TfZuFK7agOXamEYkB331yuxjVMDwyGsNTY8R0Li9/tuv7nXqulBYXsJv2tlVUyYlQM
- W94ccGIt4GcPDz3A4IwNOafPlCVGhQ54ZJ6wIda3FkhtRXdVm0H3fnWVg8MGYYwGT9MZ
- dsJj76pnYPTAsaJu8BQkOkWVvOqJxhn78qiRhP654LUjf7b8PpGx+EnCXYQlMOCtspMv
- 2xLfEVo5igd9WxRUFZopnEwq3s0bZJ4Xc6VplGnA41Cuc15OCNX+35dtZ9kOzKQmO003
- IPpM5rMjgYvOHLFugSaLRZY0+4mtgMrFhHE8HgwuZ0W6gLG5OcL3JPnrm2fKuIM/59dH
- wwWA==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj4Qpw9iZeHWElw43u22M="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 47.34.10 SBL|AUTH)
- with ESMTPSA id e05ed8xB1EXPXiK
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
- with 256 ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Wed, 1 Dec 2021 15:33:25 +0100 (CET)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
-Subject: Re: [PATCH v10 4/8] drm/ingenic: Add dw-hdmi driver for jz4780
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <EDWF3R.CMVWMJL42OH9@crapouillou.net>
-Date: Wed, 1 Dec 2021 15:33:24 +0100
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <58C550A4-A21E-47BA-8BAE-00B927DC7A2E@goldelico.com>
-References: <cover.1638307601.git.hns@goldelico.com>
- <4daf0c5dbed2c47c97003ab8de0a7dbd2a335dc3.1638307601.git.hns@goldelico.com>
- <LKTF3R.YREPOCHOSMQN2@crapouillou.net> <Yad69aTXcGixXvy3@sirena.org.uk>
- <46070A95-0FA9-43F9-A9A9-52A7B58B88F5@goldelico.com>
- <EDWF3R.CMVWMJL42OH9@crapouillou.net>
-To: Paul Cercueil <paul@crapouillou.net>
-X-Mailer: Apple Mail (2.3445.104.21)
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
+ [64.147.123.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8574B6EE9C
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Dec 2021 14:52:45 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 2BACD3201805;
+ Wed,  1 Dec 2021 09:52:42 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Wed, 01 Dec 2021 09:52:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=97XXQ3gLcRUr43IrksH+Lte3PkG
+ vGsPSg5dKT/RQncY=; b=WRXsQ1zZbZU0/hp8JVnGkjViCfc9hRM+81X2xVv5M7g
+ dj/PbDX4mjWqAdN8VVq3d3VS4XO3tW+WoNRtJlVz3GOaAI0XVlNANTm67nL8qoZ1
+ qozpQLBhrTUsWGteXwt9J+SN4E3w+tHd5SMsZITROhisuuTVTN014jyX9jWUGrZX
+ C97TnZ1WcLtKSSvg74YsU2s5KKYyqrvoe1YRDJPjFfW2xWhPZ0CAvXmNq+ekDZJH
+ DOezxZXH4xw9PnzKueCgfCOmWjKDXZ5wapOMhVLy9KnZ5vSRZnn2NJQM6GaMBL3D
+ lyRHWWkWAXLHjAsDRUMTPL618cu9Ma0HIsYAyXyynNQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=97XXQ3
+ gLcRUr43IrksH+Lte3PkGvGsPSg5dKT/RQncY=; b=IhIlvJTcucuSqNav6zd38y
+ no+ASvcpz6SxmcnKJ1mW0y7Hxx1AovCnt4K/e9C0eToF8D73Blbzds+/oyBRUqFM
+ AcEmYsVdYPvyvLn/uDeNlsC2Vww7rU2Bu5xIOgKHQ1uD3YwmjrS4rFpFeqlNH7O2
+ kAFIIRO70rs1qjMFDYAGzvSy6Yttcwao1kBtD4MfaHpf69A40lM1Sl2Xw2s0x/lq
+ E1cbZQAqM9KEno5WkAgLq2kTK0s9UzDhAWoRdLfpm+79LvwLSAQxzZtBYR251HxC
+ tsMOl2ReyoosmpeXANsQaEqVfUBVyJ6L62Vqkgg5p0VGMhr1MupRUNAVcqo8iP4w
+ ==
+X-ME-Sender: <xms:OYynYVnRx7P5vkZ9XxLHkTR-lbZlw2ZfYjS0dgfqAxUJuhWbvYwyFw>
+ <xme:OYynYQ01LIYqvfjWQ7WFlHKX95lWwrzpzs1WMBgyCOLlzzxsfrm43wlr6qYY03p2J
+ G25XK_da8VHGIX0sYU>
+X-ME-Received: <xmr:OYynYbqc2P2kaLmtkBPZKUCCOCHsnEMzUgt7-LdsWcO1mSZ1ydwcCr7W0BQL_B1jxuC7_C0TqDLLNaQLFpnFB5RzN4erlObuwSTxNqsCTD9s6g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrieefgdeikecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeduvdduhfekkeehgffftefflefgffdtheffudffgeevteffheeuiedvvdejvdfg
+ veenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:OYynYVlDZb5nGbBLdXrUBy5chSiPeH7BK7VepZCxsPcSoMo7F09_Hw>
+ <xmx:OYynYT1n74sfS69dwrAPM0z2lCj9i2uxMbJOyeq12PmG-9yyTaSIBw>
+ <xmx:OYynYUtf0j7Rla3wGx5ZhBuGQixAD-NLiu8bB6g9NYhkmWfRBck9XQ>
+ <xmx:OYynYdo-IB3nT-xP6YOc9NmzykniJohE-aVhVajLWLz3Px7QVQZ_6g>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 1 Dec 2021 09:52:40 -0500 (EST)
+Date: Wed, 1 Dec 2021 15:52:37 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Subject: Re: [PATCH 0/6] drm/tiny/st7735r: Match up with staging/fbtft driver
+Message-ID: <20211201145237.6ezs4pwkmku3pesv@houat>
+References: <20211124150757.17929-1-noralf@tronnes.org>
+ <eba23198-5c52-6520-079b-d2d41f71dc25@lechnology.com>
+ <20211129093946.xhp22mvdut3m67sc@houat>
+ <ca9e432a-6b04-9935-2469-135a9b47514e@tronnes.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="t7h6p5wa7vue6hpy"
+Content-Disposition: inline
+In-Reply-To: <ca9e432a-6b04-9935-2469-135a9b47514e@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,111 +82,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org,
- Kees Cook <keescook@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- letux-kernel@openphoenux.org, Ezequiel Garcia <ezequiel@collabora.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Liam Girdwood <lgirdwood@gmail.com>, Robert Foss <robert.foss@linaro.org>,
- linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ David Lechner <david@lechnology.com>, dave.stevenson@raspberrypi.com,
+ linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ robh+dt@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paul,
 
-> Am 01.12.2021 um 15:03 schrieb Paul Cercueil <paul@crapouillou.net>:
+--t7h6p5wa7vue6hpy
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Noralf,
+
+On Tue, Nov 30, 2021 at 03:30:11PM +0100, Noralf Tr=F8nnes wrote:
+> Den 29.11.2021 10.39, skrev Maxime Ripard:
+> > On Wed, Nov 24, 2021 at 04:03:07PM -0600, David Lechner wrote:
+> >> On 11/24/21 9:07 AM, Noralf Tr=F8nnes wrote:
+> > I agree that it doesn't really fit in the DT either though. Noralf, what
+> > kind of data do we need to setup a display in fbtft? The init sequence,
+> > and maybe some enable/reset GPIO, plus some timing duration maybe?
+> >=20
+> > There's one similar situation I can think of: wifi chips. Those also
+> > need a few infos from the DT (like what bus it's connected to, enable
+> > GPIO, etc) and a different sequence (firmware), sometimes different from
+> > one board to the other.
+> >=20
+> > Could we have a binding that would be something like:
+> >=20
+> > panel@42 {
+> > 	 compatible =3D "panel-spi";
+> > 	 model =3D "panel-from-random-place-42";
+> > 	 enable-gpios =3D <&...>;
+> > }
+> >=20
+> > And then, the driver would request the init sequence through the
+> > firmware mechanism using a name generated from the model property.
+> >=20
+> > It allows to support multiple devices in a given system, since the
+> > firmware name wouldn't conflict, it makes a decent binding, and users
+> > can adjust the init sequence easily (maybe with a bit of tooling)
+> >=20
+> > Would that work?
+>
+> I really like this idea. An added benefit is that one driver can handle
+> all MIPI DBI compatible controllers avoiding the need to do a patchset
+> like this for all the various MIPI DBI controllers. The firmware will
+> just contain numeric commands with parameters, so no need for different
+> controller drivers to handle the controller specific command names.
 >=20
-> Hi Nikolaus, Mark,
+> The following is a list of the MIPI DBI compatible controllers currently
+> in staging/fbtft: ili9341, hx8357d, st7735r, ili9163, ili9163, ili9163,
+> ili9163, ili9486, ili9481, tinylcd, s6d02a1, s6d02a1, hx8340bn, ili9340.
 >=20
-> Le mer., d=C3=A9c. 1 2021 at 14:51:51 +0100, H. Nikolaus Schaller =
-<hns@goldelico.com> a =C3=A9crit :
->> Hi,
->>> Am 01.12.2021 um 14:39 schrieb Mark Brown <broonie@kernel.org>:
->>> On Wed, Dec 01, 2021 at 01:02:45PM +0000, Paul Cercueil wrote:
->>>> Le mar., nov. 30 2021 at 22:26:37 +0100, H. Nikolaus Schaller
->>>>> +	regulator =3D devm_regulator_get_optional(&pdev->dev, =
-"hdmi-5v");
->>>>> +	if (IS_ERR(regulator)) {
->>>>> +		ret =3D PTR_ERR(regulator);
->>> Why is this using _optional()?  This should only be done when the =
-supply
->>> can be physically absent
->> There can be +5V for HDMI but without a regulator that is visible to =
-or controllable
->> by the driver.
+> The compatible needs to be a bit more specific though since there are 2
+> major SPI protocols for these display: MIPI DBI and the one used by
+> ILI9325 and others.
 >=20
-> There is always a power supply though. Either a controllable one =
-(through e.g. a GPIO), or it's just connected to the mains +5V; the pin =
-is never left floating. In the second case, in DTS the "hdmi-5v" would =
-be connected to some 5v regulator, even if it's just a dummy VCC-5V =
-regulator. So Mark has a point.
+> The full binding would be something like this:
 >=20
->> So hdmi-5v can be simply missing in DTS in which case the driver does =
-not need to
->> care about. The driver just can't turn it on or off.
+> panel@42 {
+> 	compatible =3D "panel-mipi-dbi-spi";
+> 	model =3D "panel-from-random-place-42";
 >=20
-> Please make it mandatory in DTS then, and use devm_regulator_get() in =
-the driver.
-
-Well, I just wonder why the elegant devm_regulator_get_optional() exists =
-at all
-and seems to be used in ca. 80 places.
-
-And if it is not allowed, why some DTS should be forced to add not =
-physically existing dummy-regulators.
-AFAIR drivers should implement functionality defined by DTS but not the =
-other way round: enforce DTS style.
-BTW: there is no +5 mains dummy regulator defined in ci20.dts.
-
-What I fear is that if we always have to define the mains +5V (which is =
-for example not
-defined in ci20.dts), which rules stops us from asking to add a =
-dummy-regulator from 110/230V to +5V as well.
-In last consequence, it seems as if we have to describe all dummy =
-regulators from the power plant to our hdmi-5v :)
-
-Since I always follow the KISS principle I tend to leave out what is not =
-relevant...
-
-Of course adding a dummy regulator to the DTS allows to avoid the NULL =
-pointer test
-in the driver code.
-
-Anyways, you are maintainers :)
-
-So should I spin a v11 for the series or just this patch or how should =
-we do it?
-
-BR and thanks,
-Nikolaus
-
+> 	/* The MIPI DBI spec lists these powers supply pins */
+> 	vdd-supply =3D <&...>;
+> 	vddi-supply =3D <&...>;
 >=20
-> Cheers,
-> -Paul
+> 	/* Optional gpio to drive the RESX line */
+> 	reset-gpios =3D <&...>;
 >=20
->>> (in which case I'd expect to see special
->>> handling).
->> The special case is to not enable/disable the regulator if it does =
-not exist
->> and assume that there is hardware providing it otherwise (the driver =
-can't know
->> that except by using get_optional). This is done by the code below
->>>>> +	if (IS_ERR(regulator)) {
->> ...
->>> +	if (!regulator)
->>> +		return 0;
->>> +	ret =3D regulator_enable(regulator);
->> ...
->> BR and thanks,
->> Nikolaus
+> 	/*
+> 	 * D/CX: Data/Command, Command is active low
+> 	 * Abcense: Interface option 1 (D/C embedded in 9-bit word)
+> 	 * Precense: Interface option 3
+> 	 */
+> 	dc-gpios =3D <&...>;
 >=20
+> 	/*
+> 	 * If set the driver won't try to read from the controller to see
+> 	 * if it's already configured by the bootloader or previously by
+> 	 * the driver. A readable controller avoids flicker and/or delay
+> 	 * enabling the pipeline.
+> 	 *
+> 	 * This property might not be necessary if we are guaranteed to
+> 	 * always read back all 1's or 0's when MISO is not connected.
+> 	 * I don't know if all setups can guarantee that.
+> 	 */
+> 	write-only;
 >=20
+> 	/* Optional ref to backlight node */
+> 	backlight =3D <&...>;
+> }
 
+It looks decent to me. We'll want Rob to give his opinion though, but it
+looks in a much better shape compared to what we usually have :)
+
+> Many of these controllers also have a RGB interface option for the
+> pixels and only do configuration over SPI.
+> Maybe the compatible should reflect these 2 options somehow?
+
+I think we'll want a "real" panel for RGB, with its own compatible
+though. We have a few of these drivers in tree already, so it's better
+to remain consistent.
+
+Maxime
+
+--t7h6p5wa7vue6hpy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYaeMNQAKCRDj7w1vZxhR
+xS9tAP97O/fE4VyFUMC/zgJm79yHc1PNoOp9KscuTXy6u8NB9QD/cXZGBJe2Qh7Y
+16Qdu45H/3tqX4UKfzsOrCoz7emoRgk=
+=4AhX
+-----END PGP SIGNATURE-----
+
+--t7h6p5wa7vue6hpy--
