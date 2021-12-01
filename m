@@ -2,29 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E903C464D99
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 13:09:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A67A464D9D
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 13:09:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 080526FAD0;
-	Wed,  1 Dec 2021 12:09:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1ACCB6FADA;
+	Wed,  1 Dec 2021 12:09:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 708B06FAD0
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Dec 2021 12:09:30 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AC806FADA
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Dec 2021 12:09:38 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 35A941F458EB
+ (Authenticated sender: kholk11) with ESMTPSA id 468B31F458EB
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
- t=1638360569; bh=0YgzXkVV1X/IZvgSoD4iMcxH7QCuIHr0V9DiB0TY+bw=;
+ t=1638360577; bh=QeEqEDtOecDK4Kb3DJwm3YYrksMuIw5id0yxMAABmcc=;
  h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=fHJpzr6GCyngtbkTI3bZ9s8It12v3Wnta73EBxeK78/mXmFFIQAhUW+aPYgf15Lix
- qU9X+8gQ9SQPYplpZSYBeuAyt576NfriyKed5C0OiWnis3cbYOa4PAZooZ/gui3Dcx
- 7PZNt+K/7zYMeIpzd1AXGmOsxU5YMpM9yEl2GLrYUWcl4czFsSVolJ97VJrUAIsGGk
- sE7qlHEhjtla7xqwYXNhAFcUgCXka2QbsZBEDVkYr9TnNHwXn/eDzP6KIe1VBAJb9m
- A5V09mWUabZkMfXlBHoswoM0onIcwQy+aOUhXcGnYiJaSfVImhOqelwoXQhXVgwbKN
- DOjX6FhZaNBXA==
-Subject: Re: [PATCH v11, 04/19] media: mtk-vcodec: export decoder pm functions
+ b=TtUGI1CXSHdO+nJWaEL4I6OB1+YXXPYU9/3sRSHnDNmiAXWUwfPJOhlV9XkzS5KKM
+ LvUscIrrct16pBZWKSHpwFqS7oOU4qMYnyMCYzZVUiqRu5NQScr5JllKBIGu2sjZyW
+ W2biuNqoEzzlXWPo9mbnhhPNXQBkwGlU0fia625I6ScYNxgu4oaHv579NoEPfB911E
+ IotnIqUX4mXkTHJuSEBFE/Ed54/fpsm4ilHW6K4fJWRv5ImEhG4eeA68rWm2VNqQCr
+ bHdj/obI7I4aFYv+97RHeB53eCIM15L7LkUyKegriKywQJB9RwgKeqDAaSR8DD8CVL
+ ku97afABjxOzQ==
+Subject: Re: [PATCH v11, 05/19] media: mtk-vcodec: Support MT8192
 To: Yunfei Dong <yunfei.dong@mediatek.com>,
  Alexandre Courbot <acourbot@chromium.org>,
  Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tzung-Bi Shih
@@ -34,14 +33,14 @@ To: Yunfei Dong <yunfei.dong@mediatek.com>,
  <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
  Tomasz Figa <tfiga@google.com>
 References: <20211129034201.5767-1-yunfei.dong@mediatek.com>
- <20211129034201.5767-5-yunfei.dong@mediatek.com>
+ <20211129034201.5767-6-yunfei.dong@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Message-ID: <8a5afa81-71b7-ba42-d1ce-2bbf82a7e557@collabora.com>
-Date: Wed, 1 Dec 2021 13:09:26 +0100
+Message-ID: <3fb4e348-295d-9ec4-43b4-0fad06b33010@collabora.com>
+Date: Wed, 1 Dec 2021 13:09:33 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211129034201.5767-5-yunfei.dong@mediatek.com>
+In-Reply-To: <20211129034201.5767-6-yunfei.dong@mediatek.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -70,12 +69,11 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 29/11/21 04:41, Yunfei Dong ha scritto:
-> Register each hardware as platform device, need to call pm functions
-> to open/close power and clock from module mtk-vcodec-dec, export these
-> functions.
+> From: Yunfei Dong <yunfei.dong@mediatek.corp-partner.google.com>
+> 
+> Adds MT8192's compatible "mediatek,mt8192-vcodec-dec".
+> Adds MT8192's device private data mtk_lat_sig_core_pdata.
 > 
 > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> Reviewed-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-
 
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
