@@ -1,75 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD3204646D7
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 06:47:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CBAA4646FF
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 07:05:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2B826EC67;
-	Wed,  1 Dec 2021 05:47:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 181886EC68;
+	Wed,  1 Dec 2021 06:05:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
- [IPv6:2607:f8b0:4864:20::102a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F7426EC67
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Dec 2021 05:47:21 +0000 (UTC)
-Received: by mail-pj1-x102a.google.com with SMTP id
- w33-20020a17090a6ba400b001a722a06212so359780pjj.0
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 21:47:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=0vl8jGuk8ygZNQM1djzOjudjxdPLuZhCms74Az9Cu+M=;
- b=v3RFHVtvn0perQkUO+UmWVKZVlPAVyXKpInbMnCQC/w9SUaYDjGcaGNpkIm9Pn9MjM
- NSs7EHvIYgLeG+Vo8+Dx6Wl/pBvZwjFMpjw/n6kVimtbNqOamsf1ElNzfhxqPBKfM1ci
- Ov1onRhZGw/c/8mRdFTTDAZgY17ETwHeI2ucuhsttT97ejRlnflpAR9GyM/yuARKRyvd
- M62HqxYd0FrBMwqdeVZnRoKhiumOdhnCdKojp/z+7th/mo+ujrS5q7XNrPghcCNZiJla
- ucmwl96A3dGShIBRvxYgmhlVW7Mo/M5k9RROh2eKROuBcFeDjTueDPIlrN98Z0biK4SU
- EwTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=0vl8jGuk8ygZNQM1djzOjudjxdPLuZhCms74Az9Cu+M=;
- b=2R3qPRZmmzrjCL2n6St/l5t5xorbCo1lnL9Jy3YPCCIyxfeaEYpXCZN6Ty8mBO3W/p
- T7ub2/20Of9qEmo9ewl/nRrsW/UMSLMKFNgnvVnvWrRd7pGMyqWHbWvygBbFhqkzfO2I
- 5ZlFYduwgph4beX0yFaRen51yXKG5g/VHdVZdxiU+z+aV+dSx1Yrvz0/3dnXAFYGhhTG
- jkoL8u7eZ4qcgjdPDkl8xlCzbIS3B85SO3nNbgxodkbZ/i66YlOOuoZOozpc0hG7qIru
- o1LXoS1utL89DE1rgsupRVDh0tXdvCLx6oSl6tNkK/qIuBB1tKkW44ZRdyr1o9CXArPJ
- jMjg==
-X-Gm-Message-State: AOAM532T/gyCPUWs8xjMTCrC3ZI2QOSxYtksBclcQHKkbVeDEN5rl29j
- b3mwtlzo/dq68+Xcy8PpfmRY0w==
-X-Google-Smtp-Source: ABdhPJyjeePcUg3elGUeyHIY+xjbtAWuWlVjxEnXlkw/9J+Yz47E+OKGxm0xtGNZ7y02hgWbLjESXg==
-X-Received: by 2002:a17:903:2305:b0:142:1bca:72eb with SMTP id
- d5-20020a170903230500b001421bca72ebmr4592242plh.67.1638337641073; 
- Tue, 30 Nov 2021 21:47:21 -0800 (PST)
-Received: from [10.16.129.73] (napt.igel.co.jp. [219.106.231.132])
- by smtp.gmail.com with ESMTPSA id h18sm24732193pfh.172.2021.11.30.21.47.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Nov 2021 21:47:20 -0800 (PST)
-Message-ID: <1bbd5d73-ea67-e9f2-65d0-f0d5ff854838@igel.co.jp>
-Date: Wed, 1 Dec 2021 14:47:16 +0900
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 336996EC68;
+ Wed,  1 Dec 2021 06:05:11 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10184"; a="236621114"
+X-IronPort-AV: E=Sophos;i="5.87,278,1631602800"; d="scan'208";a="236621114"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Nov 2021 22:05:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,278,1631602800"; d="scan'208";a="459130103"
+Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
+ by orsmga003.jf.intel.com with ESMTP; 30 Nov 2021 22:05:07 -0800
+Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1msIjq-000EL8-J5; Wed, 01 Dec 2021 06:05:06 +0000
+Date: Wed, 1 Dec 2021 14:04:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ robdclark@gmail.com
+Subject: Re: [PATCH v2 1/2] drm/msm: Allocate msm_drm_private early and pass
+ it as driver data
+Message-ID: <202112011405.Wn79h7q3-lkp@intel.com>
+References: <20211130141048.294246-2-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH] drm: rcar-du: add modifiers support
-Content-Language: en-US
-To: Daniel Stone <daniel@fooishbar.org>
-References: <20190509054518.10781-1-etom@igel.co.jp>
- <20190509071429.GA4773@pendragon.ideasonboard.com>
- <20217791-f912-0864-48a9-dfacadfb3650@igel.co.jp>
- <20190511181027.GC13043@pendragon.ideasonboard.com>
- <YZZHuNgGr0kZXzyl@pendragon.ideasonboard.com>
- <CAPj87rNPiLve14H85ZBbn-oozqgeS26DGUCg2oJ8LupAdYcEqA@mail.gmail.com>
- <YZZdjlzFPDCbAfQU@pendragon.ideasonboard.com>
- <6b27be2c-9b13-38ef-ca6a-77c986757386@igel.co.jp>
- <CAPj87rPjCtXLtsfh2V=rPo_tcAQC64cWJXu89qCNb+iQCi1Wag@mail.gmail.com>
-From: Esaki Tomohito <etom@igel.co.jp>
-In-Reply-To: <CAPj87rPjCtXLtsfh2V=rPo_tcAQC64cWJXu89qCNb+iQCi1Wag@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211130141048.294246-2-angelogioacchino.delregno@collabora.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,43 +49,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, kbuild-all@lists.01.org, airlied@linux.ie,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, maxime@cerno.tech,
+ dmitry.baryshkov@linaro.org, sean@poorly.run
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel-san,
+Hi AngeloGioacchino,
 
-On 2021/11/30 22:20, Daniel Stone wrote:
-> On Tue, 30 Nov 2021 at 08:44, Esaki Tomohito <etom@igel.co.jp> wrote:
->> On 2021/11/18 23:05, Laurent Pinchart wrote:
->>> On Thu, Nov 18, 2021 at 01:02:11PM +0000, Daniel Stone wrote:
->>>> Laurent's concern is that the DRM core should handle this rather than
->>>> open-coding in every driver, which I agree with. Some drivers (e.g.
->>>> radeon, maybe legacy NV?) do not support modifiers, and _also_ do
->>>> magic inference of the actual layout of the underlying buffer.
->>>> However, these drivers are legacy and we do not accept any new
->>>> addition of inferring layout without modifiers.
->>>>
->>>> I think the best way forward here is:
->>>>     - add a new mode_config.cannot_support_modifiers flag, and enable
->>>> this in radeon (plus any other drivers in the same boat)
->>>
->>> Is there an easy way to identify the drivers that need this ?
->>
->> Should I find a driver that has not use drm_plane_funcs?
-> 
-> I don't think there's a good way to systematically audit it. The only
-> two I know are radeon (i.e. pre-amdgpu) and nouveau (pre-nv50), both
-> of which pass no modifiers to drm_universal_plane_init(), but do have
-> magic back channels to communicate tiling information. If anyone knows
-> of any others, well, I guess we'll find out. :)
-Thanks for the information.
-I checked the driver code with the tiling keyword, and it seems that 
-these are the only two drivers that require cannot_support_modifiers.
-I will start creating patches for these two drivers first.
+Thank you for the patch! Perhaps something to improve:
 
--- 
-Best Regards
-Tomohito Esaki
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on next-20211130]
+[cannot apply to v5.16-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/AngeloGioacchino-Del-Regno/drm-msm-Fix-dsi-bridge-probe/20211130-221304
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: csky-randconfig-c004-20211128 (https://download.01.org/0day-ci/archive/20211201/202112011405.Wn79h7q3-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 11.2.0
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/msm/msm_drv.c:412:1-6: WARNING: invalid free of devm_ allocated data
+
+vim +412 drivers/gpu/drm/msm/msm_drv.c
+
+2aa31767259722 Sean Paul           2019-05-24  384  
+98659487b845c0 Abhinav Kumar       2021-04-16  385  	msm_disp_snapshot_destroy(ddev);
+98659487b845c0 Abhinav Kumar       2021-04-16  386  
+2b669875332fbd Archit Taneja       2016-05-02  387  	drm_mode_config_cleanup(ddev);
+c8afe684c95cd1 Rob Clark           2013-06-26  388  
+2b669875332fbd Archit Taneja       2016-05-02  389  	pm_runtime_get_sync(dev);
+f026e431cf8611 Thomas Zimmermann   2021-08-03  390  	msm_irq_uninstall(ddev);
+2b669875332fbd Archit Taneja       2016-05-02  391  	pm_runtime_put_sync(dev);
+c8afe684c95cd1 Rob Clark           2013-06-26  392  
+16976085a114ae Archit Taneja       2016-11-03  393  	if (kms && kms->funcs)
+c8afe684c95cd1 Rob Clark           2013-06-26  394  		kms->funcs->destroy(kms);
+c8afe684c95cd1 Rob Clark           2013-06-26  395  
+871d812aa43e63 Rob Clark           2013-11-16  396  	if (priv->vram.paddr) {
+00085f1efa387a Krzysztof Kozlowski 2016-08-03  397  		unsigned long attrs = DMA_ATTR_NO_KERNEL_MAPPING;
+871d812aa43e63 Rob Clark           2013-11-16  398  		drm_mm_takedown(&priv->vram.mm);
+2b669875332fbd Archit Taneja       2016-05-02  399  		dma_free_attrs(dev, priv->vram.size, NULL,
+00085f1efa387a Krzysztof Kozlowski 2016-08-03  400  			       priv->vram.paddr, attrs);
+871d812aa43e63 Rob Clark           2013-11-16  401  	}
+871d812aa43e63 Rob Clark           2013-11-16  402  
+2b669875332fbd Archit Taneja       2016-05-02  403  	component_unbind_all(dev, ddev);
+060530f1ea6740 Rob Clark           2014-03-03  404  
+bc3220be22577e Rajesh Yadav        2018-06-21  405  	if (mdss && mdss->funcs)
+bc3220be22577e Rajesh Yadav        2018-06-21  406  		mdss->funcs->destroy(ddev);
+0a6030d224d3a4 Archit Taneja       2016-05-08  407  
+2b669875332fbd Archit Taneja       2016-05-02  408  	ddev->dev_private = NULL;
+4d8dc2dfae2c48 Thomas Zimmermann   2018-09-26  409  	drm_dev_put(ddev);
+c8afe684c95cd1 Rob Clark           2013-06-26  410  
+2aa31767259722 Sean Paul           2019-05-24  411  	destroy_workqueue(priv->wq);
+c8afe684c95cd1 Rob Clark           2013-06-26 @412  	kfree(priv);
+c8afe684c95cd1 Rob Clark           2013-06-26  413  
+c8afe684c95cd1 Rob Clark           2013-06-26  414  	return 0;
+c8afe684c95cd1 Rob Clark           2013-06-26  415  }
+c8afe684c95cd1 Rob Clark           2013-06-26  416  
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
