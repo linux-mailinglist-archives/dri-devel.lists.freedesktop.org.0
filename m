@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D26A046598B
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 23:52:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 004C046598C
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 23:52:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE51B6E8EC;
-	Wed,  1 Dec 2021 22:51:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B8536E926;
+	Wed,  1 Dec 2021 22:51:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A29016E89D
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Dec 2021 22:51:48 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id b40so66792487lfv.10
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Dec 2021 14:51:48 -0800 (PST)
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DCBE6E8AE
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Dec 2021 22:51:49 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id p8so37672918ljo.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Dec 2021 14:51:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GvsWfL7mbOVefyoKeCj6Q5Bk0eV0IEAIU/XkuhNVYgo=;
- b=o2KluvlhXKOWt4Xt6mrtsYmjh0cHuQobULvXY8yR8HgIZQZUCdXW+fDuoTdlXP7X34
- xfSUNrxKE6hAF5wDd5wUbrtHrSya3p6gPazNYn7IuAGnd3g2fpBRHdJitVIWBXx9Pt7B
- kw/Mj+RpOaNUvGlID3rCNmn2+GJrpVgqv3U53MzQjfMWbtcAXBgcm2N9rqgBntMgSpI2
- PU8uoT4rhCobjeMKCgppx/xCrb+iTQm0yzfcCJ9zTLVpD/VvcQpZ4JKcPaWvTG4D/0tU
- hAvQqEIGzcKZ4sdn6qsNUmZCTa2Xnm7WwPPnkxMlrxIQxdLlI7bNHlSaLx9Tdv84/aKC
- /JjA==
+ bh=svPKLKMKhZhnd91WRdbWbN+/qKS4HH/Q2LMWNF7ijvo=;
+ b=azAFpU2VsQiCYtuKQEZfC1N6Err8B2Dzcvtjr8apntyKIeymxCyYhhvArjY7UJ62Gr
+ OIDw4pexNa0sPhceWhUiMGFGOt/99tvmXORF0OfoNpIZPbGGAiDRjq04Asc+exEyvzqm
+ HESUZpXUnu3ml1gM/BuVJFhN5im+EBDqmoKitBGeRvcoPEXYB+fguDdBpovFFjvKSUh2
+ Da1imXp8g1KR3bUnY+NjaK3MJTe2YTOOEHZMHvKGI5EY7YEUjkV0ex36K7QWctWofs4u
+ 34RCZVGHyae6pw9Wyu8ccjuV05c2bSP/A+0gRHaOOj8e0P7MoqcTKhc1xV06Uw83DD4r
+ 3koA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GvsWfL7mbOVefyoKeCj6Q5Bk0eV0IEAIU/XkuhNVYgo=;
- b=c4EQl31IBfa8D1kJ0K45tBwU0mlsFstN9g1zCUEmNCqkEc2DORdyVy02t6vtDokdZL
- FCD0HaH86CV84nnFGy2IEl0+Tr+xtl+cWTEW3JNthwlc4iFxRE0cKlAq3u67klsfE1yu
- n1K4wD5odG1IeaCPf8NUQySEkIitW2Cd4w9MF/tY4q451nHxA3uqPgvMtTnWE9VUGj7S
- 74tJtEm+YTCeddRr3qtk87vVK5wCO+At8j10ZOfIFtXAQUmqnOQVjcDEd4EJ1UnbAycX
- 7xsKPbQjcVn/OIvc3we7zVcqwf/Mcq4WzLgIlGZ3PBhFw6W+35vvvmhJyFZQriYZ1Syr
- YIBg==
-X-Gm-Message-State: AOAM530NlKn/EJ3ZqERPPcjCW7DdBZEiLHngWpdiWxjyVCZhocOlA8Ei
- Jzu5GzH8iD6BTgvsxoK6tHyoSC+RUPaNFA==
-X-Google-Smtp-Source: ABdhPJxKw4DW8KW9BUo+9cv0KwE3fv/w5lZ6sNOTwpDZaYGC1eWUr4PYL3bqqVhNkx+NHZFu0973eg==
-X-Received: by 2002:a05:6512:150c:: with SMTP id
- bq12mr8569303lfb.687.1638399106986; 
- Wed, 01 Dec 2021 14:51:46 -0800 (PST)
+ bh=svPKLKMKhZhnd91WRdbWbN+/qKS4HH/Q2LMWNF7ijvo=;
+ b=IbOzf2dll+UQYUbnxDtyG3HwyI5QtT2dMHG8YXsKMTwXD1la4mq9GBXajOR13GdgFq
+ i4IxKvkmz9If/jQhPfb8WA4mqpbUTPIucvut2zN4f5w0vOcK6cADnCDJsi1+Elu/bloA
+ NwkT12KV3MCk7PDdPapb8XtzZi221qEi84dPd7otDWpUsmCATWgH9zdb9+1YLoWsOtRo
+ lk1/ItLvoTtG+dFpe8OPY2ENV6xv1lYFtnYZNXp4pJ07RAMnq+8k2ZHILoGzCp2RPSpQ
+ Zo+JantBflnMYNINBFX7vLDMaCLT77Ruv0N+RIoeq5+662i3lX6UlY6KRxd/Ux1NJoNK
+ 4nfA==
+X-Gm-Message-State: AOAM531iP100kdnUfyl1cLVgQ8ZhLbU4Elz3eTw3aBFntcoAmg3c9GTg
+ NoeM//NKcihFVlNANMPBO5/jcA==
+X-Google-Smtp-Source: ABdhPJxSqroReUidD0yfVnJtB8QUTTYy2P0BgDTyj+4bcfKprRVwJCSxjy4xYuELtIvXRq5Ys6fvXA==
+X-Received: by 2002:a05:651c:1257:: with SMTP id
+ h23mr8148188ljh.17.1638399107596; 
+ Wed, 01 Dec 2021 14:51:47 -0800 (PST)
 Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id u7sm124819ljh.49.2021.12.01.14.51.46
+ by smtp.gmail.com with ESMTPSA id u7sm124819ljh.49.2021.12.01.14.51.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Dec 2021 14:51:46 -0800 (PST)
+ Wed, 01 Dec 2021 14:51:47 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Bjorn Andersson <bjorn.andersson@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <abhinavk@codeaurora.org>
-Subject: [PATCH v2 2/4] drm/msm/dpu: drop pe argument from
- _dpu_hw_sspp_setup_scaler3
-Date: Thu,  2 Dec 2021 01:51:38 +0300
-Message-Id: <20211201225140.2481577-3-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 3/4] drm/msm/dpu: simplify DPU_SSPP features checks
+Date: Thu,  2 Dec 2021 01:51:39 +0300
+Message-Id: <20211201225140.2481577-4-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211201225140.2481577-1-dmitry.baryshkov@linaro.org>
 References: <20211201225140.2481577-1-dmitry.baryshkov@linaro.org>
@@ -77,64 +76,57 @@ Cc: Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The _dpu_hw_sspp_setup_scaler3 (hw_sspp->setup_scaler) does not use pe
-argument. Let's remove it while we are cleaning scaled configuration.
+Add DPU_SSPP_CSC_ANY denoting any CSC block. As we are at it, rewrite
+DPU_SSPP_SCALER (any scaler) to use BIT(x) instead of hand-coded
+bitshifts.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c | 2 --
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h | 2 --
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 2 +-
- 3 files changed, 1 insertion(+), 5 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h | 16 +++++++++++-----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   |  3 +--
+ 2 files changed, 12 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-index d77eb7da5daf..7235605bfc9e 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-@@ -413,13 +413,11 @@ static void dpu_hw_sspp_setup_pe_config(struct dpu_hw_pipe *ctx,
- 
- static void _dpu_hw_sspp_setup_scaler3(struct dpu_hw_pipe *ctx,
- 		struct dpu_hw_pipe_cfg *sspp,
--		struct dpu_hw_pixel_ext *pe,
- 		void *scaler_cfg)
- {
- 	u32 idx;
- 	struct dpu_hw_scaler3_cfg *scaler3_cfg = scaler_cfg;
- 
--	(void)pe;
- 	if (_sspp_subblk_offset(ctx, DPU_SSPP_SCALER_QSEED3, &idx) || !sspp
- 		|| !scaler3_cfg)
- 		return;
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-index e8939d7387cb..ad2002d75739 100644
+index ad2002d75739..3c53bd03bdeb 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-@@ -334,12 +334,10 @@ struct dpu_hw_sspp_ops {
- 	 * setup_scaler - setup scaler
- 	 * @ctx: Pointer to pipe context
- 	 * @pipe_cfg: Pointer to pipe configuration
--	 * @pe_cfg: Pointer to pixel extension configuration
- 	 * @scaler_cfg: Pointer to scaler configuration
- 	 */
- 	void (*setup_scaler)(struct dpu_hw_pipe *ctx,
- 		struct dpu_hw_pipe_cfg *pipe_cfg,
--		struct dpu_hw_pixel_ext *pe_cfg,
- 		void *scaler_cfg);
+@@ -25,11 +25,17 @@ struct dpu_hw_pipe;
+ /**
+  * Define all scaler feature bits in catalog
+  */
+-#define DPU_SSPP_SCALER ((1UL << DPU_SSPP_SCALER_RGB) | \
+-	(1UL << DPU_SSPP_SCALER_QSEED2) | \
+-	 (1UL << DPU_SSPP_SCALER_QSEED3) | \
+-	 (1UL << DPU_SSPP_SCALER_QSEED3LITE) | \
+-	  (1UL << DPU_SSPP_SCALER_QSEED4))
++#define DPU_SSPP_SCALER (BIT(DPU_SSPP_SCALER_RGB) | \
++			 BIT(DPU_SSPP_SCALER_QSEED2) | \
++			 BIT(DPU_SSPP_SCALER_QSEED3) | \
++			 BIT(DPU_SSPP_SCALER_QSEED3LITE) | \
++			 BIT(DPU_SSPP_SCALER_QSEED4))
++
++/*
++ * Define all CSC feature bits in catalog
++ */
++#define DPU_SSPP_CSC_ANY (BIT(DPU_SSPP_CSC) | \
++			  BIT(DPU_SSPP_CSC_10BIT))
  
- 	/**
+ /**
+  * Component indices
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index 4c373abbe89c..c7b065b14c5c 100644
+index c7b065b14c5c..911f5f0b41d8 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -688,7 +688,7 @@ static void _dpu_plane_setup_scaler(struct dpu_plane *pdpu,
- 	if (pdpu->pipe_hw->ops.setup_scaler &&
- 			pstate->multirect_index != DPU_SSPP_RECT_1)
- 		pdpu->pipe_hw->ops.setup_scaler(pdpu->pipe_hw,
--				pipe_cfg, &pixel_ext,
-+				pipe_cfg,
- 				&scaler3_cfg);
- }
+@@ -1010,8 +1010,7 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
  
+ 	if (DPU_FORMAT_IS_YUV(fmt) &&
+ 		(!(pdpu->pipe_hw->cap->features & DPU_SSPP_SCALER) ||
+-		 !(pdpu->pipe_hw->cap->features & (BIT(DPU_SSPP_CSC)
+-		 | BIT(DPU_SSPP_CSC_10BIT))))) {
++		 !(pdpu->pipe_hw->cap->features & DPU_SSPP_CSC_ANY))) {
+ 		DPU_DEBUG_PLANE(pdpu,
+ 				"plane doesn't have scaler/csc for yuv\n");
+ 		return -EINVAL;
 -- 
 2.33.0
 
