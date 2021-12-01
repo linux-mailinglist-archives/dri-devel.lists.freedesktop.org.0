@@ -1,44 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F849464EF3
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 14:41:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C809F464F27
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 14:52:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 954E66FDD8;
-	Wed,  1 Dec 2021 13:41:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F052F6FFC4;
+	Wed,  1 Dec 2021 13:51:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E414A6FDC9
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Dec 2021 13:41:36 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1msPrY-0001Ro-IG; Wed, 01 Dec 2021 14:41:32 +0100
-Message-ID: <d0266804325c6dd35aab5b82a552506892c546d1.camel@pengutronix.de>
-Subject: Re: [PATCH v2 3/3] drm/etnaviv: use a 32 bit mask as coherent DMA mask
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Robin Murphy <robin.murphy@arm.com>, Michael Walle <michael@walle.cc>, 
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Date: Wed, 01 Dec 2021 14:41:30 +0100
-In-Reply-To: <25915a21-57f2-adbd-cfc2-1a2bc2a1a5e7@arm.com>
-References: <20210907164945.2309815-1-michael@walle.cc>
- <20210907164945.2309815-4-michael@walle.cc>
- <25915a21-57f2-adbd-cfc2-1a2bc2a1a5e7@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
+ [81.169.146.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 312476FFBE
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Dec 2021 13:51:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1638366712;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=W7f70RtAqaN1N5sEJzpG4MwxOjQDczfgFM/pcj4SZUg=;
+ b=m6qEaWMvpMOGS7wxZArT2XOzRwNOwE/M+CTSsX45yLUg9uo2FNBaPFxWgZkYlGUAAk
+ aMPhRo4cJWVOJZLLHYtFb9ipQMmm0BRcv+Zv9Mg4777Ve9WYbZgljWlRKqY4nbIYrcA2
+ 6wXicjW7vrFiawIOTQfoB4Tu9AbJyQ/t1uFrWlo3XAo1vHvQyFMbb88YA/gqHgAhQmhB
+ oWJhcWX+nEGNJh0nJ0jmnfZktiJH+tLrwSNrgkTX1XRwU6sGF3cZnCqm1KqWyxwBIMrW
+ TrVsINl6JXTvACY8NC2WKPX2hWZ2y0JD7VGdjXu84E6Wl8CyOuKjYveOt5eg6PGjRihA
+ wZhQ==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj4Qpw9iZeHWElw43u22M="
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box by smtp.strato.de (RZmta 47.34.10 SBL|AUTH)
+ with ESMTPSA id e05ed8xB1DppXQf
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
+ with 256 ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Wed, 1 Dec 2021 14:51:51 +0100 (CET)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
+Subject: Re: [PATCH v10 4/8] drm/ingenic: Add dw-hdmi driver for jz4780
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <Yad69aTXcGixXvy3@sirena.org.uk>
+Date: Wed, 1 Dec 2021 14:51:51 +0100
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <46070A95-0FA9-43F9-A9A9-52A7B58B88F5@goldelico.com>
+References: <cover.1638307601.git.hns@goldelico.com>
+ <4daf0c5dbed2c47c97003ab8de0a7dbd2a335dc3.1638307601.git.hns@goldelico.com>
+ <LKTF3R.YREPOCHOSMQN2@crapouillou.net> <Yad69aTXcGixXvy3@sirena.org.uk>
+To: Mark Brown <broonie@kernel.org>
+X-Mailer: Apple Mail (2.3445.104.21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,89 +60,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Marek Vasut <marek.vasut@gmail.com>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- "Lukas F . Hartmann" <lukas@mntre.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ Paul Cercueil <paul@crapouillou.net>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org,
+ Kees Cook <keescook@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ letux-kernel@openphoenux.org, Ezequiel Garcia <ezequiel@collabora.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Liam Girdwood <lgirdwood@gmail.com>, Robert Foss <robert.foss@linaro.org>,
+ linux-kernel@vger.kernel.org, "Eric W. Biederman" <ebiederm@xmission.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Robin,
+Hi,
 
-Am Mittwoch, dem 01.12.2021 um 12:50 +0000 schrieb Robin Murphy:
-> Sorry I missed this earlier...
-> 
-> On 2021-09-07 17:49, Michael Walle wrote:
-> > The STLB and the first command buffer (which is used to set up the TLBs)
-> > has a 32 bit size restriction in hardware. There seems to be no way to
-> > specify addresses larger than 32 bit. Keep it simple and restict the
-> > addresses to the lower 4 GiB range for all coherent DMA memory
-> > allocations.
-> > 
-> > Please note, that platform_device_alloc() will initialize dev->dma_mask
-> > to point to pdev->platform_dma_mask, thus dma_set_mask() will work as
-> > expected.
-> > 
-> > While at it, move the dma_mask setup code to the of_dma_configure() to
-> > keep all the DMA setup code next to each other.
-> > 
-> > Suggested-by: Lucas Stach <l.stach@pengutronix.de>
-> > Signed-off-by: Michael Walle <michael@walle.cc>
-> > ---
-> >   drivers/gpu/drm/etnaviv/etnaviv_drv.c | 20 ++++++++++++++++++--
-> >   1 file changed, 18 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> > index 54eb653ca295..0b756ecb1bc2 100644
-> > --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> > @@ -613,6 +613,24 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
-> >   			component_match_add(dev, &match, compare_str, names[i]);
-> >   	}
-> >   
-> > +	/*
-> > +	 * PTA and MTLB can have 40 bit base addresses, but
-> > +	 * unfortunately, an entry in the MTLB can only point to a
-> > +	 * 32 bit base address of a STLB. Moreover, to initialize the
-> > +	 * MMU we need a command buffer with a 32 bit address because
-> > +	 * without an MMU there is only an indentity mapping between
-> > +	 * the internal 32 bit addresses and the bus addresses.
-> > +	 *
-> > +	 * To make things easy, we set the dma_coherent_mask to 32
-> > +	 * bit to make sure we are allocating the command buffers and
-> > +	 * TLBs in the lower 4 GiB address space.
-> > +	 */
-> > +	if (dma_set_mask(&pdev->dev, DMA_BIT_MASK(40)) ||
-> > +	    dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32))) {
-> 
-> Since AFAICS you're not changing the default dma_mask pointer to point 
-> to some storage other than the coherent mask, the dma_set_mask() call 
-> effectively does nothing and both masks will end up reading back as 32 bits.
-> 
-From what I can see the dma_mask has allocated storage in the platform
-device and does not point to the coherent dma mask, see
-setup_pdev_dma_masks().
+> Am 01.12.2021 um 14:39 schrieb Mark Brown <broonie@kernel.org>:
+>=20
+> On Wed, Dec 01, 2021 at 01:02:45PM +0000, Paul Cercueil wrote:
+>> Le mar., nov. 30 2021 at 22:26:37 +0100, H. Nikolaus Schaller
+>=20
+>>> +	regulator =3D devm_regulator_get_optional(&pdev->dev, =
+"hdmi-5v");
+>>> +	if (IS_ERR(regulator)) {
+>>> +		ret =3D PTR_ERR(regulator);
+>=20
+> Why is this using _optional()?  This should only be done when the =
+supply
+> can be physically absent
 
-Regards,
-Lucas
+There can be +5V for HDMI but without a regulator that is visible to or =
+controllable
+by the driver.
 
-> Robin.
-> 
-> > +		dev_dbg(&pdev->dev, "No suitable DMA available\n");
-> > +		return -ENODEV;
-> > +	}
-> > +
-> >   	/*
-> >   	 * Apply the same DMA configuration to the virtual etnaviv
-> >   	 * device as the GPU we found. This assumes that all Vivante
-> > @@ -671,8 +689,6 @@ static int __init etnaviv_init(void)
-> >   			of_node_put(np);
-> >   			goto unregister_platform_driver;
-> >   		}
-> > -		pdev->dev.coherent_dma_mask = DMA_BIT_MASK(40);
-> > -		pdev->dev.dma_mask = &pdev->dev.coherent_dma_mask;
-> >   
-> >   		ret = platform_device_add(pdev);
-> >   		if (ret) {
-> > 
+So hdmi-5v can be simply missing in DTS in which case the driver does =
+not need to
+care about. The driver just can't turn it on or off.
+
+> (in which case I'd expect to see special
+> handling).
+
+The special case is to not enable/disable the regulator if it does not =
+exist
+and assume that there is hardware providing it otherwise (the driver =
+can't know
+that except by using get_optional). This is done by the code below
+
+>>> +	if (IS_ERR(regulator)) {
+
+...
+
+> +	if (!regulator)
+> +		return 0;
+>=20
+> +	ret =3D regulator_enable(regulator);
+
+...
+
+BR and thanks,
+Nikolaus
+
+
 
 
