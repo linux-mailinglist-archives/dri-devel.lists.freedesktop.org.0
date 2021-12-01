@@ -1,43 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4782465E5A
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Dec 2021 07:41:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02590465F4D
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Dec 2021 09:26:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 496C26E9DC;
-	Thu,  2 Dec 2021 06:41:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 452486EA54;
+	Thu,  2 Dec 2021 08:26:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D8536E9D6
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Dec 2021 06:41:05 +0000 (UTC)
-X-UUID: 4f5ccd7e63694a5192012da2a906a952-20211202
-X-UUID: 4f5ccd7e63694a5192012da2a906a952-20211202
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
- (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1400198638; Thu, 02 Dec 2021 14:41:00 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Thu, 2 Dec 2021 14:40:59 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Thu, 2 Dec 2021 14:40:58 +0800
-From: jason-jh.lin <jason-jh.lin@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>,
- <tzungbi@google.com>
-Subject: [PATCH v4 2/2] drm/mediatek: add devlink to cmdq dev
-Date: Thu, 2 Dec 2021 14:40:39 +0800
-Message-ID: <20211202064039.20797-3-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20211202064039.20797-1-jason-jh.lin@mediatek.com>
-References: <20211202064039.20797-1-jason-jh.lin@mediatek.com>
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E0576E887
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Dec 2021 18:18:22 +0000 (UTC)
+Received: by mail-il1-f199.google.com with SMTP id
+ u8-20020a056e021a4800b002a1ec0f08afso22044741ilv.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Dec 2021 10:18:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+ bh=KmGHnus3au4WKakf/x0ccGJ36I1Q4G9nkOFdXChMgyI=;
+ b=c2bAL17I1ReMtCUEktzZpxCh+i7rtGKnhivvvhIrDttIJRBr9JqbGWN3ncp3WMClGx
+ Yvt70os8JFS0/urYn/qka7EaCEmwaVSFktFtPGrEnnytN3zK3O2zNsOZ5WO+DLc0FtBY
+ cdvUUqwm9Lfgu1mN6Ub8jNEjpdeFpGNw/Bbko5+1v0F0yoyEvBFJgZRWfHJIttag5ky/
+ aIpGfQA/JpmFlDFSF8LJsABZBTl74WUNKIGYccuZfr4v77C0bZhjgNZZeV6Qum/KHbpE
+ EmJkL29hJ91MmF081KjuOmkBSeD6OEczsJjWYZfhWH+vXlErWsDkt9o+cCx9PoVeeurc
+ OeMw==
+X-Gm-Message-State: AOAM533sSk0PjKfyrUrGaDe+iGHe5k0zTE815aWCNqL9sQwSw3Xon6Kz
+ 1985HesIiAdyhF8+ySTPtM8ddisfcnScxziO1Q4dAOiSPfFX
+X-Google-Smtp-Source: ABdhPJzzxBSjfCCgWl06pj/98H1jXN8SBT3ib/P63vbsCEnafdEnFiMSCzOq9028jCHqMSBm6Rffmik21G3i+WxGm314Gx6zrhEn
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+X-Received: by 2002:a05:6e02:1ca1:: with SMTP id
+ x1mr10308551ill.72.1638382701646; 
+ Wed, 01 Dec 2021 10:18:21 -0800 (PST)
+Date: Wed, 01 Dec 2021 10:18:21 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000f0196305d219b2fe@google.com>
+Subject: [syzbot] WARNING in __dma_map_sg_attrs
+From: syzbot <syzbot+10e27961f4da37c443b2@syzkaller.appspotmail.com>
+To: christian.koenig@amd.com, dri-devel@lists.freedesktop.org, hch@lst.de, 
+ iommu@lists.linux-foundation.org, linaro-mm-sig@lists.linaro.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ m.szyprowski@samsung.com, robin.murphy@arm.com, sumit.semwal@linaro.org, 
+ syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Mailman-Approved-At: Thu, 02 Dec 2021 08:26:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,108 +58,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: fshao@chromium.org, David Airlie <airlied@linux.ie>,
- "jason-jh.lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- nancy.lin@mediatek.com, linux-mediatek@lists.infradead.org,
- hsinyi@chromium.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add devlink to cmdq to make sure the order of suspend and resume
-is correct.
+Hello,
 
-Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
+syzbot found the following issue on:
+
+HEAD commit:    c5c17547b778 Merge tag 'net-5.16-rc3' of git://git.kernel...
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=13a73609b00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=bf85c53718a1e697
+dashboard link: https://syzkaller.appspot.com/bug?extid=10e27961f4da37c443b2
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+10e27961f4da37c443b2@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+WARNING: CPU: 2 PID: 17169 at kernel/dma/mapping.c:188 __dma_map_sg_attrs+0x181/0x1f0 kernel/dma/mapping.c:188
+Modules linked in:
+CPU: 0 PID: 17169 Comm: syz-executor.3 Not tainted 5.16.0-rc2-syzkaller #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.14.0-2 04/01/2014
+RIP: 0010:__dma_map_sg_attrs+0x181/0x1f0 kernel/dma/mapping.c:188
+Code: 00 00 00 00 00 fc ff df 48 c1 e8 03 80 3c 10 00 75 71 4c 8b 3d 70 6d b1 0d e9 db fe ff ff e8 86 ff 12 00 0f 0b e8 7f ff 12 00 <0f> 0b 45 31 e4 e9 54 ff ff ff e8 70 ff 12 00 49 8d 7f 50 48 b8 00
+RSP: 0018:ffffc90002c0fb20 EFLAGS: 00010216
+RAX: 0000000000013018 RBX: 0000000000000020 RCX: ffffc900037d4000
+RDX: 0000000000040000 RSI: ffffffff8163d361 RDI: ffff8880182ae4d0
+RBP: ffff8880182ae088 R08: 0000000000000002 R09: ffff888017ba054f
+R10: ffffffff8163d242 R11: 000000000008808a R12: 0000000000000000
+R13: ffff888024ca5700 R14: 0000000000000001 R15: 0000000000000000
+FS:  00007fa269e34700(0000) GS:ffff88802cb00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000000000040c120 CR3: 000000006c77c000 CR4: 0000000000150ee0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ dma_map_sgtable+0x70/0xf0 kernel/dma/mapping.c:264
+ drm_gem_map_dma_buf+0x12a/0x1e0 drivers/gpu/drm/drm_prime.c:633
+ __map_dma_buf drivers/dma-buf/dma-buf.c:675 [inline]
+ dma_buf_map_attachment+0x39a/0x5b0 drivers/dma-buf/dma-buf.c:954
+ drm_gem_prime_import_dev.part.0+0x85/0x220 drivers/gpu/drm/drm_prime.c:939
+ drm_gem_prime_import_dev drivers/gpu/drm/drm_prime.c:982 [inline]
+ drm_gem_prime_import+0xc8/0x200 drivers/gpu/drm/drm_prime.c:982
+ virtgpu_gem_prime_import+0x49/0x150 drivers/gpu/drm/virtio/virtgpu_prime.c:166
+ drm_gem_prime_fd_to_handle+0x21d/0x550 drivers/gpu/drm/drm_prime.c:318
+ drm_prime_fd_to_handle_ioctl+0x9b/0xd0 drivers/gpu/drm/drm_prime.c:374
+ drm_ioctl_kernel+0x27d/0x4e0 drivers/gpu/drm/drm_ioctl.c:782
+ drm_ioctl+0x51e/0x9d0 drivers/gpu/drm/drm_ioctl.c:885
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:874 [inline]
+ __se_sys_ioctl fs/ioctl.c:860 [inline]
+ __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:860
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
+RIP: 0033:0x7fa26c8beae9
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 bc ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fa269e34188 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007fa26c9d1f60 RCX: 00007fa26c8beae9
+RDX: 00000000200004c0 RSI: 00000000c00c642e RDI: 0000000000000005
+RBP: 00007fa26c918f6d R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007ffc0019c51f R14: 00007fa269e34300 R15: 0000000000022000
+ </TASK>
+
+
 ---
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 43 ++++++++++++++++++-------
- 1 file changed, 31 insertions(+), 12 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index 0b4012335e7a..612d1d69c16c 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -60,6 +60,7 @@ struct mtk_drm_crtc {
- #endif
- 
- 	struct device			*mmsys_dev;
-+	struct device			*drm_dev;
- 	struct mtk_mutex		*mutex;
- 	unsigned int			ddp_comp_nr;
- 	struct mtk_ddp_comp		**ddp_comp;
-@@ -159,6 +160,7 @@ static void mtk_drm_crtc_destroy(struct drm_crtc *crtc)
- 	mtk_drm_cmdq_pkt_destroy(&mtk_crtc->cmdq_handle);
- 
- 	if (mtk_crtc->cmdq_client.chan) {
-+		device_link_remove(mtk_crtc->drm_dev, mtk_crtc->cmdq_client.chan->mbox->dev);
- 		mbox_free_channel(mtk_crtc->cmdq_client.chan);
- 		mtk_crtc->cmdq_client.chan = NULL;
- 	}
-@@ -902,6 +904,7 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
- 		return -ENOMEM;
- 
- 	mtk_crtc->mmsys_dev = priv->mmsys_dev;
-+	mtk_crtc->drm_dev = priv->dev;
- 	mtk_crtc->ddp_comp_nr = path_len;
- 	mtk_crtc->ddp_comp = devm_kmalloc_array(dev, mtk_crtc->ddp_comp_nr,
- 						sizeof(*mtk_crtc->ddp_comp),
-@@ -969,6 +972,18 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
- 	}
- 
- 	if (mtk_crtc->cmdq_client.chan) {
-+		struct device_link *link;
-+
-+		/* add devlink to cmdq dev to make sure suspend/resume order is correct */
-+		link = device_link_add(priv->dev, mtk_crtc->cmdq_client.chan->mbox->dev,
-+				       DL_FLAG_PM_RUNTIME | DL_FLAG_STATELESS);
-+		if (!link) {
-+			dev_err(priv->dev, "Unable to link dev=%s\n",
-+				dev_name(mtk_crtc->cmdq_client.chan->mbox->dev));
-+			ret = -ENODEV;
-+			goto cmdq_err;
-+		}
-+
- 		ret = of_property_read_u32_index(priv->mutex_node,
- 						 "mediatek,gce-events",
- 						 i,
-@@ -976,22 +991,26 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
- 		if (ret) {
- 			dev_dbg(dev, "mtk_crtc %d failed to get mediatek,gce-events property\n",
- 				drm_crtc_index(&mtk_crtc->base));
--			mbox_free_channel(mtk_crtc->cmdq_client.chan);
--			mtk_crtc->cmdq_client.chan = NULL;
--		} else {
--			ret = mtk_drm_cmdq_pkt_create(&mtk_crtc->cmdq_client,
--						      &mtk_crtc->cmdq_handle,
--						      PAGE_SIZE);
--			if (ret) {
--				dev_dbg(dev, "mtk_crtc %d failed to create cmdq packet\n",
--					drm_crtc_index(&mtk_crtc->base));
--				mbox_free_channel(mtk_crtc->cmdq_client.chan);
--				mtk_crtc->cmdq_client.chan = NULL;
--			}
-+			goto cmdq_err;
-+		}
-+
-+		ret = mtk_drm_cmdq_pkt_create(&mtk_crtc->cmdq_client,
-+					      &mtk_crtc->cmdq_handle,
-+					      PAGE_SIZE);
-+		if (ret) {
-+			dev_dbg(dev, "mtk_crtc %d failed to create cmdq packet\n",
-+				drm_crtc_index(&mtk_crtc->base));
-+			goto cmdq_err;
- 		}
- 
- 		/* for sending blocking cmd in crtc disable */
- 		init_waitqueue_head(&mtk_crtc->cb_blocking_queue);
-+
-+cmdq_err:
-+		if (ret) {
-+			mbox_free_channel(mtk_crtc->cmdq_client.chan);
-+			mtk_crtc->cmdq_client.chan = NULL;
-+		}
- 	}
- #endif
- 	return 0;
--- 
-2.18.0
-
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
