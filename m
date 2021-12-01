@@ -1,57 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AAE3465363
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 17:53:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0793446537D
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 18:02:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B5DE6E523;
-	Wed,  1 Dec 2021 16:53:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D510D89F89;
+	Wed,  1 Dec 2021 17:02:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
- [81.169.146.168])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57E996E523
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Dec 2021 16:53:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1638377585;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=IrLqeXQ7cnKmOP13b28CuGf9NhUY4ybFFkNm3lBDdyo=;
- b=cwvV9r0cfsuiCVIDsFf+gsOiOZF2MIZ+8JrpB08rAyftCZMzf/t0j5XO31u//9JMy/
- eQirRIPZN9oUQ9ADd0gC//++YlflpmOR2jfpz8QcOq4KBXlH+YlUGp/+8sxlIaFcE5Tt
- jLD/beSSzkw3Sg1zcDQAVWe05xCpYpL/uwGXCqGwtI/gW6K+1uL7yYmQGG8dsWECdI7o
- eHPbCT9oWVV38jrE0+V/Nb7Pd92TY7PXUSnbliI/91bOA4TqKGCtTQmW54ftNnGmgHWC
- foV60zyyOZlUaQ9p08IY+JYhyrYK6ybWduR+rtkFlOFFILCP49f283jnGR3YRbLhB8gM
- FhUg==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj4Qpw9iZeHWElw43u22M="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 47.34.10 SBL|AUTH)
- with ESMTPSA id e05ed8xB1Gr4YRR
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
- with 256 ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Wed, 1 Dec 2021 17:53:04 +0100 (CET)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
+X-Greylist: delayed 6738 seconds by postgrey-1.36 at gabe;
+ Wed, 01 Dec 2021 17:02:51 UTC
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42AA689F89
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Dec 2021 17:02:51 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id B2698B82048;
+ Wed,  1 Dec 2021 17:02:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84061C53FCC;
+ Wed,  1 Dec 2021 17:02:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1638378168;
+ bh=CvHtrXfgBU4nCjU0B0+DUSu63UaEebLTtzXAzA4qmq4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=RSi8vBwTLTb2mtXwaqcm1aN8fQhZZXHxwRfVIv3Ph+E+KA80w09id79HSoWdMxh52
+ Le083FK28TbGxOEYGbMSHTxk2sjdp40ebUWMOBZZ4McGEDNBV0CCawssYOcsYaM0qG
+ cTyMKkw9UX17F3DG7cc5qHLBbPXtGm4oa2q3ex6HUWHd7IP/yRFypKJQfxTKkhsl4M
+ O5Nz/iDP0+6EUK2mnTmAOoIKBKACBTUooxsJX8TzlAVxgS4aBBCnd4a33nF+5H8fGS
+ mTG5ucT7w1HynJIwfHZhg7pk9b2haywLl+H4vMJGZaJfHZ4Wnou80e1ZWGDkUEVAh4
+ 0fjdkTRY9HnNQ==
+Date: Wed, 1 Dec 2021 17:02:38 +0000
+From: Mark Brown <broonie@kernel.org>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
 Subject: Re: [PATCH v10 4/8] drm/ingenic: Add dw-hdmi driver for jz4780
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <YaeQW/akoLE6SpEi@sirena.org.uk>
-Date: Wed, 1 Dec 2021 17:53:03 +0100
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <3174DA41-EB38-4C30-8752-0D9C894C74A7@goldelico.com>
+Message-ID: <YaeqrhJg4664Tr/y@sirena.org.uk>
+Mail-Followup-To: "H. Nikolaus Schaller" <hns@goldelico.com>,
+ Paul Cercueil <paul@crapouillou.net>,
+ Rob Herring <robh+dt@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kees Cook <keescook@chromium.org>,
+ "Eric W. Biederman" <ebiederm@xmission.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Harry Wentland <harry.wentland@amd.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Maxime Ripard <maxime@cerno.tech>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Paul Boddie <paul@boddie.org.uk>, devicetree@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
+ letux-kernel@openphoenux.org, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org,
+ Ezequiel Garcia <ezequiel@collabora.com>
 References: <cover.1638307601.git.hns@goldelico.com>
  <4daf0c5dbed2c47c97003ab8de0a7dbd2a335dc3.1638307601.git.hns@goldelico.com>
- <LKTF3R.YREPOCHOSMQN2@crapouillou.net> <Yad69aTXcGixXvy3@sirena.org.uk>
+ <LKTF3R.YREPOCHOSMQN2@crapouillou.net>
+ <Yad69aTXcGixXvy3@sirena.org.uk>
  <46070A95-0FA9-43F9-A9A9-52A7B58B88F5@goldelico.com>
  <EDWF3R.CMVWMJL42OH9@crapouillou.net>
  <58C550A4-A21E-47BA-8BAE-00B927DC7A2E@goldelico.com>
  <YaeQW/akoLE6SpEi@sirena.org.uk>
-To: Mark Brown <broonie@kernel.org>
-X-Mailer: Apple Mail (2.3445.104.21)
+ <3174DA41-EB38-4C30-8752-0D9C894C74A7@goldelico.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="06/7sdeAneQqaZKj"
+Content-Disposition: inline
+In-Reply-To: <3174DA41-EB38-4C30-8752-0D9C894C74A7@goldelico.com>
+X-Cookie: All true wisdom is found on T-shirts.
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,67 +105,42 @@ Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mark,
 
+--06/7sdeAneQqaZKj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> Am 01.12.2021 um 16:10 schrieb Mark Brown <broonie@kernel.org>:
->=20
-> On Wed, Dec 01, 2021 at 03:33:24PM +0100, H. Nikolaus Schaller wrote:
->>> Am 01.12.2021 um 15:03 schrieb Paul Cercueil <paul@crapouillou.net>:
->=20
->>> Please make it mandatory in DTS then, and use devm_regulator_get() =
-in the driver.
->=20
->> Well, I just wonder why the elegant devm_regulator_get_optional() =
-exists at all
->> and seems to be used in ca. 80 places.
->=20
-> Frankly because half of them are broken usages like this since people
-> seem determined to have the most fragile error handling they can :/
+On Wed, Dec 01, 2021 at 05:53:03PM +0100, H. Nikolaus Schaller wrote:
+> > Am 01.12.2021 um 16:10 schrieb Mark Brown <broonie@kernel.org>:
 
-I see. I had made the mistake myself to not check for NULL pointer on
-regulator_disable here...
+> > Again, if the supply can be physically absent that is a sensible use
+> > case but that means completely absent, not just not software
+> > controllable.  We can represent fixed voltage regulators just fine.
 
-> There are valid use cases for it, with things like SD cards where some
-> supplies are genuinely optional and simply constrain what features are
-> available if they're omitted from the design.  You also see some =
-devices
-> with the ability to replace internal regulators with external ones.
->=20
->> And if it is not allowed, why some DTS should be forced to add not =
-physically existing dummy-regulators.
->=20
-> Again, if the supply can be physically absent that is a sensible use
-> case but that means completely absent, not just not software
-> controllable.  We can represent fixed voltage regulators just fine.
+> The question may be how we can know for a more generic driver that there is always a regulator.
+> In the present case we know the schematics but it is just one example.
 
-The question may be how we can know for a more generic driver that there =
-is always a regulator.
-In the present case we know the schematics but it is just one example.
+The datasheet will generally explicitly call out if a supply can be
+disconnected.  In general it is astonishingly rare for this to be the
+case, supporting that case will tend to make designing the chip harder
+(you have to cope with what happens where the power domains meet) and
+results in whatever functionality the supplies power not working.  If
+not otherwise specified it's safer to assume that the supplies must be
+connected.
 
->=20
->> AFAIR drivers should implement functionality defined by DTS but not =
-the other way round: enforce DTS style.
->> BTW: there is no +5 mains dummy regulator defined in ci20.dts.
->=20
-> It wouldn't be the first time a DTS were incomplete, and I'm sure it
-> won't be the last.
->=20
->> What I fear is that if we always have to define the mains +5V (which =
-is for example not
->> defined in ci20.dts), which rules stops us from asking to add a =
-dummy-regulator from 110/230V to +5V as well.
->=20
-> It is good practice to specify the full tree of supplies all the way =
-to
-> the main supply rail of the board, this ensures that if we need the
-> information for something we've got it (even if that thing is just =
-that
-> we've got to the root of the tree).  There's potential applications in
-> battery supplied devices for managing very low power situations.
+--06/7sdeAneQqaZKj
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Indeed. So let's modify it as you have suggested.
+-----BEGIN PGP SIGNATURE-----
 
-BR and thanks,
-Nikolaus
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmGnqq0ACgkQJNaLcl1U
+h9AiKgf6A1p3c1dtOyuPYAkfziLEMTL656L/Ng0sT/e9yjZ9D6KPZxQqSYqZJI2F
+AxQcNhi9BBM7R94mawqJ6jekuZZ0RJoVo2iPJYWJ/vM36tq01U1SeojIamTmD1LN
+IF4vSf9paAEB6kQGTW1WB9onUyNpaIyz358HSRZ6FzxP/9W1qVhuCgw2M16JPM5G
+wFd64VVU8pyBLxa8glflmm8MGFaeKBqkNFJBSnRG2kX79RRtaVeX8wN6niXIsGQp
+T7Uv+fFGAT+w315hhRUx10oTaZNghDPE6dYLm6SaV4fqYqhIFspHZ9GsOLPvDDvC
+E4+8AFtE7h0IearW001RSgvJHmQFiw==
+=8Z88
+-----END PGP SIGNATURE-----
 
+--06/7sdeAneQqaZKj--
