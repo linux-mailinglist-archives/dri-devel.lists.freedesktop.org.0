@@ -1,105 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 452D74644E7
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 03:30:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4806946451E
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 03:54:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9843B6E41B;
-	Wed,  1 Dec 2021 02:29:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DEAF6E42C;
+	Wed,  1 Dec 2021 02:53:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B26086E41B
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Dec 2021 02:29:56 +0000 (UTC)
-Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
- by mailout4.samsung.com (KnoxPortal) with ESMTP id
- 20211201022954epoutp04c8f04d75693f964fae08796b9853b308~8gKE6kViB2067120671epoutp048
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Dec 2021 02:29:54 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
- 20211201022954epoutp04c8f04d75693f964fae08796b9853b308~8gKE6kViB2067120671epoutp048
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1638325794;
- bh=f0bhbVDABH/keU3Qir8aHIW3gODMDiP8eVq5hhBDS8k=;
- h=From:To:Cc:Subject:Date:References:From;
- b=TBEWxXNf34FoHchRnNKlJvbSn8lwuzUs+ZVLtVcA+/g5Q5JqjVH6SDR/JQTQs4sVn
- QDNqKZ7SmACL3mQ5uAe2F9ZdpDusJH8jtf9ecZ5HfstSw5RrnD3b1VAEvi5ukx8XEh
- GiYhGv0Yv6KoRaMgwjuCsEraFMIHLYLnOUQjYdVo=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
- epcas1p4.samsung.com (KnoxPortal) with ESMTP id
- 20211201022953epcas1p40ce3fe155004d33477b9bc4d7c3ce227~8gKEgAiMN2079020790epcas1p4h;
- Wed,  1 Dec 2021 02:29:53 +0000 (GMT)
-Received: from epsmges1p4.samsung.com (unknown [182.195.38.234]) by
- epsnrtp3.localdomain (Postfix) with ESMTP id 4J3jj51QGzz4x9Q0; Wed,  1 Dec
- 2021 02:29:45 +0000 (GMT)
-Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
- epsmges1p4.samsung.com (Symantec Messaging Gateway) with SMTP id
- 20.12.21932.0BDD6A16; Wed,  1 Dec 2021 11:28:00 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas1p4.samsung.com (KnoxPortal) with ESMTPA id
- 20211201022937epcas1p43cd1c33af30edc7c31d9428307c329d5~8gJ06CX510855508555epcas1p4F;
- Wed,  1 Dec 2021 02:29:37 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20211201022937epsmtrp1efc26ce946d955a1e6a5fb76aaa4c829~8gJ05Ue1e1086010860epsmtrp1Q;
- Wed,  1 Dec 2021 02:29:37 +0000 (GMT)
-X-AuditID: b6c32a38-929ff700000255ac-ee-61a6ddb07683
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 41.53.29871.11ED6A16; Wed,  1 Dec 2021 11:29:37 +0900 (KST)
-Received: from localhost.localdomain (unknown [10.113.221.211]) by
- epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20211201022937epsmtip1f86ffd1daea65c0cd910c03b56686ea6~8gJ0xHXRy2915729157epsmtip1f;
- Wed,  1 Dec 2021 02:29:37 +0000 (GMT)
-From: Inki Dae <inki.dae@samsung.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/exynos: drop the use of label from
- exynos_dsi_register_te_irq
-Date: Wed,  1 Dec 2021 11:40:39 +0900
-Message-Id: <20211201024039.226386-1-inki.dae@samsung.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
+ [IPv6:2607:f8b0:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D8BA6E42C
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Dec 2021 02:53:58 +0000 (UTC)
+Received: by mail-oi1-x236.google.com with SMTP id t19so45512709oij.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Nov 2021 18:53:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=anb6DSpcRYU4VCYW0ezk9Hei0if1F619u0tYvYp/XGg=;
+ b=qp/jjCbAaugQpziX3eVO/IGb1H755qnYVzpXz1+/1v0yC4Bmbv+MWlo6QWyFcD8e8J
+ EBTmSsaP8do5Kjf7cCU7O1vpeoJK025PwbgOwwN3KkWwO32G3I33LR3Svp1+nwNHixDL
+ 07/r6/Bli2Iqq94p4NWkpYFd/8TFi661gqvzm54CeAR63c4i3eRD5t2I50KHxz8bdvaw
+ L6tGwjyJL7ehMkdzyYk+Z1yhXiEdcrT473jaQ1hp1XmTwJoivIec4UmTX/i+u0zp9dpm
+ 2rW2bw29gaYnnHnbw7FX0tD4OKdm/yfHYWGzRXmzavFVQoXpyaF3NZ4WUYX9S/GNKUTI
+ Dh3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=anb6DSpcRYU4VCYW0ezk9Hei0if1F619u0tYvYp/XGg=;
+ b=WKrQziACgOhPwr5mWKZBXRl38fQzddYxKxoKWVzoFIRC8lybYbT3n37Kxr36bk9Ab+
+ eBWlr4ERS6BTKYeT6WahlmOUSH0ntcGmKLD2uL5gKiQk3s1ZSQcFTrvqxkuTMGiMlz/G
+ CDA/luUBRa8bMso/3frNVksi12lM4nIhzO13WEDRcu7csGG4M668NOP5HAfEgw0x1Ss7
+ kbyBJTWdpLW9OJoHcDlNTHvJPL7vDgXSSAx/wAnCWo8PCnnDNU4riZT8xYThCO1NOxy+
+ CoSX2Miyg3V0XhJwQbo4PZNZeHtcZ4sNMrqh/akU2la0dinuQf2Ezh8jcwCYjqbMBQOc
+ 6QXg==
+X-Gm-Message-State: AOAM533BAt9uzPtTvbzY+Win4g1BYd2vScmxhnvLfEvh5QYcjVy3QAfO
+ 6QiDN3ygBkOq6Qr83Ag7KwoHMQ==
+X-Google-Smtp-Source: ABdhPJzfjddvUgt5E+LHJJ9gTXZMHQrcmbt47KxOuNjO10DLwaw01ymU8laNwLYMBW749fhiQv/lLg==
+X-Received: by 2002:aca:5e03:: with SMTP id s3mr3356191oib.27.1638327237165;
+ Tue, 30 Nov 2021 18:53:57 -0800 (PST)
+Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
+ [104.57.184.186])
+ by smtp.gmail.com with ESMTPSA id s17sm3482126otp.20.2021.11.30.18.53.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Nov 2021 18:53:56 -0800 (PST)
+Date: Tue, 30 Nov 2021 20:53:51 -0600
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH] drm/msm/dpu: fix exception in error path
+Message-ID: <Yabjv2pnC1KlQGhS@builder.lan>
+References: <20211125180123.561305-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrFKsWRmVeSWpSXmKPExsWy7bCmvu6Gu8sSDY7uMba48vU9m8Wk+xNY
- LGac38dk8ar5EZsDi8fiPS+ZPO53H2fy6NuyitHj8ya5AJaobJuM1MSU1CKF1Lzk/JTMvHRb
- Je/geOd4UzMDQ11DSwtzJYW8xNxUWyUXnwBdt8wcoJVKCmWJOaVAoYDE4mIlfTubovzSklSF
- jPziElul1IKUnALTAr3ixNzi0rx0vbzUEitDAwMjU6DChOyMP0v+Mhds4a5o6PvA3sB4lLOL
- kZNDQsBEYuXnp0xdjFwcQgI7GCW6dh1nAUkICXxilDi6VBwi8Y1RYkHnR2aYjsUHXzJCJPYy
- Skxqv8QG4XxhlFi34As7SBWbgKrExBX32UBsEQFlib8TVzGC2MwC2RITPpwBs4UFQiSmfG5g
- BbFZgOrfbXsF1MvBwStgJfGkvRhimbzEzEvfwUbyCghKnJz5hAVijLxE89bZzCB7JQTWsUtM
- f7qOBaLBRaLn+2yoS4UlXh3fwg5hS0m87G9jh2hYxShxe95nqO71jBLNL96xQVQZS+xfOpkJ
- 5ApmAU2J9bv0IcKKEjt/z4V6gE/i3dceVpASCQFeiY42IYgSJYljF28wQtgSEheWTGSDKPGQ
- 6F5uCWIKCcRKbP9iOIFRfhaSb2Yh+WYWwtoFjMyrGMVSC4pz01OLDQtM4HGanJ+7iRGc6LQs
- djDOfftB7xAjEwfjIUYJDmYlEV75mcsShXhTEiurUovy44tKc1KLDzGaAoN3IrOUaHI+MNXm
- lcQbmlgamJgZGZtYGJoZKonzPvefnigkkJ5YkpqdmlqQWgTTx8TBKdXAFDDRtN1i2+sXXMu0
- 7aylP/tP/2x4dHr/1Y9dGc6mKwwYrj0zSuQwPO9i/1Lb5POWBycWrla74dLCdP3Ecs67U0PO
- JRll338X2bjzrZ9wFd8ztkl7pmoFJjhwTyw57y2g+Kzx7ansCTclDU7MKZ3h6VmbHz2noT5X
- 699+q1XXGjindPNmqm/Z8cbx9/RJdd1ni93mXPzssHTzm4N+17Q7hK917DXaGbL1+ML3E6bc
- W2QczirduuxltbnI1nzxvBjV5g4rH4XQj6UtHUbqex2UX/L66nAW52zdcVVA7ajV48f5DLY8
- v9/NTP66vOEU2+uXexdstTG9wLc0YYuX7J19N7wZAmcv2BY5ZcXedyXmxUosxRmJhlrMRcWJ
- ACl+AYn9AwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprGLMWRmVeSWpSXmKPExsWy7bCSnK7gvWWJBmeucVlc+fqezWLS/Qks
- FjPO72OyeNX8iM2BxWPxnpdMHve7jzN59G1ZxejxeZNcAEsUl01Kak5mWWqRvl0CV8afJX+Z
- C7ZwVzT0fWBvYDzK2cXIySEhYCKx+OBLRhBbSGA3o8S6FRFdjBxAcQmJLVs5IExhicOHiyEq
- PjFKfNiSDGKzCahKTFxxnw3EFhFQlvg7cRXYFGaBXIm/Rz+yg9jCAkESb08uZgKxWYDq3217
- xQ4yklfASuJJezHEAfISMy99ByvnFRCUODnzCQvEGHmJ5q2zmScw8s1CkpqFJLWAkWkVo2Rq
- QXFuem6xYYFhXmq5XnFibnFpXrpecn7uJkZw0Glp7mDcvuqD3iFGJg7GQ4wSHMxKIrzyM5cl
- CvGmJFZWpRblxxeV5qQWH2KU5mBREue90HUyXkggPbEkNTs1tSC1CCbLxMEp1cB0pKal7tTm
- CWc/O1RPT1yq1n3mcOm6ssMsLwX5zpw9HeDn8P3pxvvbXn59GV96sEy6fDmToUbVsoBYBdNT
- Sd2RTKdKgnpbLrg9WbKa4/anBTZNDZ3diraxXEu/8ryY+PCOkUyXTO7so9J2JiKzJgjXfTec
- vf5NpOYy7laLiOOrmOvq5+4rn5gfF9eXkW77oHcKX4bD3V62xdaO3BFh/Z5+WTa60uuStfZy
- njj4X6L2/fP6wsdVj1m/h9w19bGwDZ23yujmd61jH+yvndoiI/5J4DlPpCBnumZBnuc++2vv
- 34WcCI+ZunjXEvMU2faiH33blm37cP9QveW+WdMXdRybsyxJnjuU31Kft+auko8SS3FGoqEW
- c1FxIgANpP/DqQIAAA==
-X-CMS-MailID: 20211201022937epcas1p43cd1c33af30edc7c31d9428307c329d5
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20211201022937epcas1p43cd1c33af30edc7c31d9428307c329d5
-References: <CGME20211201022937epcas1p43cd1c33af30edc7c31d9428307c329d5@epcas1p4.samsung.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211125180123.561305-1-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,52 +68,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, kernel test robot <lkp@intel.com>
+Cc: freedreno@lists.freedesktop.org, Stephen Boyd <sboyd@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <abhinavk@codeaurora.org>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dropped the use of 'out' label from exynos_dsi_register_te_irq function
-because the label isn't needed. This patch returns an error in each
-error case directly not going to 'out' label.
+On Thu 25 Nov 12:01 CST 2021, Dmitry Baryshkov wrote:
 
-With this patch build warning[1] is also fixed, which was reported by
-kernel test robot <lkp@intel.com>
+> In case of DPU probe failure, prevent the following NULL pointer
+> exception:
+> 
+> [    3.976112] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000030
+> [    3.984983] Mem abort info:
+> [    3.987800]   ESR = 0x96000004
+> [    3.990891]   EC = 0x25: DABT (current EL), IL = 32 bits
+> [    3.996251]   SET = 0, FnV = 0
+> [    3.996254]   EA = 0, S1PTW = 0
+> [    3.996257]   FSC = 0x04: level 0 translation fault
+> [    3.996260] Data abort info:
+> [    3.996262]   ISV = 0, ISS = 0x00000004
+> [    4.005229]   CM = 0, WnR = 0
+> [    4.028893] [0000000000000030] user address but active_mm is swapper
+> [    4.035305] Internal error: Oops: 96000004 [#1] SMP
+> [    4.040223] Modules linked in:
+> [    4.043317] CPU: 1 PID: 50 Comm: kworker/u16:2 Not tainted 5.16.0-rc1-00036-g6d4bafcbb015-dirty #166
+> [    4.052518] Hardware name: Thundercomm Dragonboard 845c (DT)
+> [    4.058224] Workqueue: events_unbound deferred_probe_work_func
+> [    4.064105] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> [    4.071124] pc : dpu_core_irq_uninstall+0x28/0x100
+> [    4.075960] lr : dpu_core_irq_uninstall+0x24/0x100
+> [    4.080793] sp : ffff80001057b990
+> [    4.084138] x29: ffff80001057b990 x28: ffff7653c0a41c00 x27: ffff7653c0926480
+> [    4.091330] x26: ffffb90d5d262ad0 x25: ffff7653c4b2e980 x24: ffff7653c0046080
+> [    4.098520] x23: ffff7653c099a810 x22: ffff7653c5a65800 x21: ffff7653c5a65080
+> [    4.105711] x20: ffff7653c5a65800 x19: ffff7653c0046080 x18: 0000000000000034
+> [    4.112902] x17: 0000000000000038 x16: 0000000000000005 x15: 000000000000000c
+> [    4.120095] x14: 000000000000024c x13: ffff7653c2f90358 x12: 0000000000000000
+> [    4.127287] x11: ffff7653c2f903b0 x10: 00000000000009c0 x9 : ffff80001057b180
+> [    4.134477] x8 : ffff80001057b404 x7 : 0000000000000000 x6 : ffff7653c5a5f190
+> [    4.141669] x5 : ffff80001057b890 x4 : 0000000000000000 x3 : ffff7653c5a5f0f4
+> [    4.148859] x2 : ffff7653c2f50000 x1 : 0000000000000000 x0 : 0000000000000000
+> [    4.156052] Call trace:
+> [    4.158525]  dpu_core_irq_uninstall+0x28/0x100
+> [    4.163004]  dpu_irq_uninstall+0x10/0x20
+> [    4.166963]  msm_drm_uninit.isra.0+0xe0/0x1b0
+> [    4.171353]  msm_drm_bind+0x278/0x5f0
+> [    4.175043]  try_to_bring_up_master+0x164/0x1d0
+> [    4.179610]  __component_add+0xa0/0x170
+> [    4.183482]  component_add+0x14/0x20
+> [    4.187086]  dsi_dev_probe+0x1c/0x30
+> [    4.190691]  platform_probe+0x68/0xe0
+> [    4.194382]  really_probe.part.0+0x9c/0x30c
+> [    4.198601]  __driver_probe_device+0x98/0x144
+> [    4.202990]  driver_probe_device+0x44/0x15c
+> [    4.207208]  __device_attach_driver+0xb4/0x120
+> [    4.211685]  bus_for_each_drv+0x78/0xd0
+> [    4.215549]  __device_attach+0xdc/0x184
+> [    4.219412]  device_initial_probe+0x14/0x20
+> [    4.223630]  bus_probe_device+0x9c/0xa4
+> [    4.227503]  deferred_probe_work_func+0x88/0xc0
+> [    4.232075]  process_one_work+0x1e8/0x380
+> [    4.236126]  worker_thread+0x280/0x520
+> [    4.239902]  kthread+0x168/0x174
+> [    4.243166]  ret_from_fork+0x10/0x20
+> [    4.246778] Code: f9442400 91004000 940188b9 f9430660 (b9403001)
+> [    4.252925] ---[ end trace b470a50cd7b5e606 ]---
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+> index d2b6dca487e3..fc1b6c47c93d 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+> @@ -575,6 +575,9 @@ void dpu_core_irq_uninstall(struct dpu_kms *dpu_kms)
+>  {
+>  	int i;
+>  
+> +	if (!dpu_kms->hw_intr)
+> +		return;
 
-[1] https://www.spinics.net/lists/dri-devel/msg323803.html
+I would rather see that we fix msm_drm_init() to nicely unroll things in
+a more granular fashion instead of handle all types of errors with the
+big hammer that msm_drm_uninit() provides.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Inki Dae <inki.dae@samsung.com>
----
- drivers/gpu/drm/exynos/exynos_drm_dsi.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+Regards,
+Bjorn
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-index b0b1acb7e712..32a36572b894 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-@@ -1338,7 +1338,7 @@ static int exynos_dsi_register_te_irq(struct exynos_dsi *dsi,
- 	if (IS_ERR(dsi->te_gpio)) {
- 		dev_err(dsi->dev, "gpio request failed with %ld\n",
- 				PTR_ERR(dsi->te_gpio));
--		goto out;
-+		return PTR_ERR(dsi->te_gpio);
- 	}
- 
- 	te_gpio_irq = gpiod_to_irq(dsi->te_gpio);
-@@ -1348,11 +1348,10 @@ static int exynos_dsi_register_te_irq(struct exynos_dsi *dsi,
- 	if (ret) {
- 		dev_err(dsi->dev, "request interrupt failed with %d\n", ret);
- 		gpiod_put(dsi->te_gpio);
--		goto out;
-+		return ret;
- 	}
- 
--out:
--	return ret;
-+	return 0;
- }
- 
- static void exynos_dsi_unregister_te_irq(struct exynos_dsi *dsi)
--- 
-2.25.1
-
+> +
+>  	pm_runtime_get_sync(&dpu_kms->pdev->dev);
+>  	for (i = 0; i < dpu_kms->hw_intr->total_irqs; i++)
+>  		if (!list_empty(&dpu_kms->hw_intr->irq_cb_tbl[i]))
+> -- 
+> 2.33.0
+> 
