@@ -2,73 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FF85464EFA
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 14:47:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F849464EF3
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 14:41:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7FF46FEFF;
-	Wed,  1 Dec 2021 13:47:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 954E66FDD8;
+	Wed,  1 Dec 2021 13:41:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 476 seconds by postgrey-1.36 at gabe;
- Wed, 01 Dec 2021 13:47:16 UTC
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B365F6FEFF
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Dec 2021 13:47:16 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 740F7CE01C1;
- Wed,  1 Dec 2021 13:39:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16209C53FAD;
- Wed,  1 Dec 2021 13:39:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1638365952;
- bh=OkFkg4SRT3IbrSqIc6ZCbd/DtTHU30OPhfc04/lnNWs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=U4wQkk/KPrKKZ6dQzs14gda4o1k/Qp0XOZRvnAiuaOzI/KzgMxXV3+DCjHQOiVaxi
- vPkpktHNQqv9MuV40AULna1+NwRs40hRF9pA13avqwallmxNsoopM3k0HchlmzXODh
- NNxdY1+Q71eKSQwPj28we0Y+kH+0VVwMuN4WBybMozx5R/VFVL+GMDjQ0f4rzYRl2x
- 2/KeywZQ/IlOdgSOU6KgqZfqbZ4r/bLfvKlP4TSQCMI6xYk3wpXre9FlnE+upmaLoF
- k2E9kyAk1ohRRaGogNmApbN+I8KGg7d6Zw4rHlbIl3c5ztI5ixIvd1Ejyv9zLowN45
- Dl+32xSgFjHRA==
-Date: Wed, 1 Dec 2021 13:39:01 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v10 4/8] drm/ingenic: Add dw-hdmi driver for jz4780
-Message-ID: <Yad69aTXcGixXvy3@sirena.org.uk>
-Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
- "H. Nikolaus Schaller" <hns@goldelico.com>,
- Rob Herring <robh+dt@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kees Cook <keescook@chromium.org>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Harry Wentland <harry.wentland@amd.com>,
- Sam Ravnborg <sam@ravnborg.org>, Maxime Ripard <maxime@cerno.tech>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Paul Boddie <paul@boddie.org.uk>, devicetree@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
- letux-kernel@openphoenux.org, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org,
- Ezequiel Garcia <ezequiel@collabora.com>
-References: <cover.1638307601.git.hns@goldelico.com>
- <4daf0c5dbed2c47c97003ab8de0a7dbd2a335dc3.1638307601.git.hns@goldelico.com>
- <LKTF3R.YREPOCHOSMQN2@crapouillou.net>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E414A6FDC9
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Dec 2021 13:41:36 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1msPrY-0001Ro-IG; Wed, 01 Dec 2021 14:41:32 +0100
+Message-ID: <d0266804325c6dd35aab5b82a552506892c546d1.camel@pengutronix.de>
+Subject: Re: [PATCH v2 3/3] drm/etnaviv: use a 32 bit mask as coherent DMA mask
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Robin Murphy <robin.murphy@arm.com>, Michael Walle <michael@walle.cc>, 
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Date: Wed, 01 Dec 2021 14:41:30 +0100
+In-Reply-To: <25915a21-57f2-adbd-cfc2-1a2bc2a1a5e7@arm.com>
+References: <20210907164945.2309815-1-michael@walle.cc>
+ <20210907164945.2309815-4-michael@walle.cc>
+ <25915a21-57f2-adbd-cfc2-1a2bc2a1a5e7@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="urTHJbSJd+hEE4ly"
-Content-Disposition: inline
-In-Reply-To: <LKTF3R.YREPOCHOSMQN2@crapouillou.net>
-X-Cookie: All true wisdom is found on T-shirts.
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,53 +51,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- "H. Nikolaus Schaller" <hns@goldelico.com>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org,
- Kees Cook <keescook@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- letux-kernel@openphoenux.org, Ezequiel Garcia <ezequiel@collabora.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Liam Girdwood <lgirdwood@gmail.com>, Robert Foss <robert.foss@linaro.org>,
- linux-kernel@vger.kernel.org, "Eric W. Biederman" <ebiederm@xmission.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: David Airlie <airlied@linux.ie>, Marek Vasut <marek.vasut@gmail.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ "Lukas F . Hartmann" <lukas@mntre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Robin,
 
---urTHJbSJd+hEE4ly
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Am Mittwoch, dem 01.12.2021 um 12:50 +0000 schrieb Robin Murphy:
+> Sorry I missed this earlier...
+> 
+> On 2021-09-07 17:49, Michael Walle wrote:
+> > The STLB and the first command buffer (which is used to set up the TLBs)
+> > has a 32 bit size restriction in hardware. There seems to be no way to
+> > specify addresses larger than 32 bit. Keep it simple and restict the
+> > addresses to the lower 4 GiB range for all coherent DMA memory
+> > allocations.
+> > 
+> > Please note, that platform_device_alloc() will initialize dev->dma_mask
+> > to point to pdev->platform_dma_mask, thus dma_set_mask() will work as
+> > expected.
+> > 
+> > While at it, move the dma_mask setup code to the of_dma_configure() to
+> > keep all the DMA setup code next to each other.
+> > 
+> > Suggested-by: Lucas Stach <l.stach@pengutronix.de>
+> > Signed-off-by: Michael Walle <michael@walle.cc>
+> > ---
+> >   drivers/gpu/drm/etnaviv/etnaviv_drv.c | 20 ++++++++++++++++++--
+> >   1 file changed, 18 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> > index 54eb653ca295..0b756ecb1bc2 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> > @@ -613,6 +613,24 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
+> >   			component_match_add(dev, &match, compare_str, names[i]);
+> >   	}
+> >   
+> > +	/*
+> > +	 * PTA and MTLB can have 40 bit base addresses, but
+> > +	 * unfortunately, an entry in the MTLB can only point to a
+> > +	 * 32 bit base address of a STLB. Moreover, to initialize the
+> > +	 * MMU we need a command buffer with a 32 bit address because
+> > +	 * without an MMU there is only an indentity mapping between
+> > +	 * the internal 32 bit addresses and the bus addresses.
+> > +	 *
+> > +	 * To make things easy, we set the dma_coherent_mask to 32
+> > +	 * bit to make sure we are allocating the command buffers and
+> > +	 * TLBs in the lower 4 GiB address space.
+> > +	 */
+> > +	if (dma_set_mask(&pdev->dev, DMA_BIT_MASK(40)) ||
+> > +	    dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32))) {
+> 
+> Since AFAICS you're not changing the default dma_mask pointer to point 
+> to some storage other than the coherent mask, the dma_set_mask() call 
+> effectively does nothing and both masks will end up reading back as 32 bits.
+> 
+From what I can see the dma_mask has allocated storage in the platform
+device and does not point to the coherent dma mask, see
+setup_pdev_dma_masks().
 
-On Wed, Dec 01, 2021 at 01:02:45PM +0000, Paul Cercueil wrote:
-> Le mar., nov. 30 2021 at 22:26:37 +0100, H. Nikolaus Schaller
+Regards,
+Lucas
 
-> > +	regulator = devm_regulator_get_optional(&pdev->dev, "hdmi-5v");
-> > +	if (IS_ERR(regulator)) {
-> > +		ret = PTR_ERR(regulator);
+> Robin.
+> 
+> > +		dev_dbg(&pdev->dev, "No suitable DMA available\n");
+> > +		return -ENODEV;
+> > +	}
+> > +
+> >   	/*
+> >   	 * Apply the same DMA configuration to the virtual etnaviv
+> >   	 * device as the GPU we found. This assumes that all Vivante
+> > @@ -671,8 +689,6 @@ static int __init etnaviv_init(void)
+> >   			of_node_put(np);
+> >   			goto unregister_platform_driver;
+> >   		}
+> > -		pdev->dev.coherent_dma_mask = DMA_BIT_MASK(40);
+> > -		pdev->dev.dma_mask = &pdev->dev.coherent_dma_mask;
+> >   
+> >   		ret = platform_device_add(pdev);
+> >   		if (ret) {
+> > 
 
-Why is this using _optional()?  This should only be done when the supply
-can be physically absent (in which case I'd expect to see special
-handling).
 
---urTHJbSJd+hEE4ly
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmGnevQACgkQJNaLcl1U
-h9Dsbwf/e+Vh4NXLEM4GwwLFBAyDYCgyZOJxrdbM4ruocDneNLXbljJTQhnP40/5
-NQY2reFsFCX2dDUeaLgmeBH1JgXmP4cstxeIifm7hVWPBtyzbiNEZ31mzoczVwXc
-CRLE93/Y4Vt0dBmK6/zPrlYri1QRUgmC8JEI9oGNgTmJPeUzJeRtrqTn6qgMCBIf
-FA99JndFSq6KpNBn3gb9EeC+fenFK2RWTSxbDlowTmhRAk0ADSvbbzEDRqiPVIHt
-V6xxybtHL0vYRibGYj2h8mqTqdYQ+38Lpwb0UU9GhyRCXvY6ofFSaycULe6a+uWU
-rTBMUeX7y57rdLq61ZW3XAr1G6y/KQ==
-=yrgX
------END PGP SIGNATURE-----
-
---urTHJbSJd+hEE4ly--
