@@ -2,29 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7E1E464D88
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 13:09:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DB40464D8B
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 13:09:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D78376EC1C;
-	Wed,  1 Dec 2021 12:09:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71F846ECD4;
+	Wed,  1 Dec 2021 12:09:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C14076EC1C
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Dec 2021 12:09:01 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1574F6ECD4
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Dec 2021 12:09:03 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 20F951F458EB
+ (Authenticated sender: kholk11) with ESMTPSA id 42FF61F458EC
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
- t=1638360540; bh=e6GNEu+wR3rqkC7g+n4jt6R8FC/jvcD5LlLpfyUKevg=;
+ t=1638360541; bh=Pph0h28u90fWIpAEnT37cWqdNQe0Gk7uaTOWOIg4P9Q=;
  h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=VqJz1bIHMb5HoP/P4opc9HPfG7iK1rCTWApS2B5acoRWT9mCRCnuain9t0YnHzexF
- qHJ88mE/PiqXBmKXm8hg33riacLDMzs/mMWiRGGv2sykNbRqgM9gKVwfrcbZM/zjM4
- 136OPMrVKAuwcAuPwHQOhhZibY9RPLJcJBXFJKg7ERYxEENSwqABTZfhZ7osoRqTPF
- TWLslssNBDT1VxQ4EgB4ZsBfy82/WYlSGSP0moa7h0TPoanLREVUtUU4ZaWoyORsgx
- BChCZ3DN3kCERAiucn2aPhflUQbasMzW4Q8HHtqI2umDDv1cCfjCRlPwycaWsVSHcO
- G8URgRKgQUGng==
-Subject: Re: [PATCH v11, 18/19] media: mtk-vcodec: Remove
- mtk_vcodec_release_dec_pm
+ b=Vp1a4AnNC/hCYZImxafQPXGE6lBaxAJp+NpFtPmFYARGG2tdk+b0/U3v/ustS4H9i
+ FOI0ql6mGk9KG0SaguWGmT6UhxEwnGwSmL+2qwZIywym1GVTRPNz24PHdlOSoHySWu
+ XsicMKGJWClwyRyX+Ja3p0V4w8pMICqADb/r1CZjrz+F/x4pshyu2+wWx2XYRrF09G
+ 7Nf4XpjfXAvLfyiql6V/l9x0v1pAatAEAB4JqRfbQd43e4j7sJQH/yjOVeLixF+vSv
+ gTGDoYq6xP8fjVjYw4geuQp2PQzBvMkVn7LvTmLJSkHme3Cf1NG2FTPqQ1z6gxCZp3
+ FG0bomir76f/g==
+Subject: Re: [PATCH v11, 19/19] media: mtk-vcodec: Remove
+ mtk_vcodec_release_enc_pm
 To: Yunfei Dong <yunfei.dong@mediatek.com>,
  Alexandre Courbot <acourbot@chromium.org>,
  Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tzung-Bi Shih
@@ -34,14 +35,14 @@ To: Yunfei Dong <yunfei.dong@mediatek.com>,
  <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
  Tomasz Figa <tfiga@google.com>
 References: <20211129034201.5767-1-yunfei.dong@mediatek.com>
- <20211129034201.5767-19-yunfei.dong@mediatek.com>
+ <20211129034201.5767-20-yunfei.dong@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Message-ID: <540a5ac7-80a2-a72c-87fe-5042f21f8deb@collabora.com>
-Date: Wed, 1 Dec 2021 13:08:56 +0100
+Message-ID: <5d235ba6-213a-598f-e18f-93b51e535285@collabora.com>
+Date: Wed, 1 Dec 2021 13:08:58 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211129034201.5767-19-yunfei.dong@mediatek.com>
+In-Reply-To: <20211129034201.5767-20-yunfei.dong@mediatek.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -70,21 +71,20 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 29/11/21 04:42, Yunfei Dong ha scritto:
-> There are only two lines in mtk_vcodec_release_dec_pm, using
+> There are only two lines in mtk_vcodec_release_enc_pm, using
 > pm_runtime_disable and put_device instead directly.
 > 
-> Move pm_runtime_enable outside mtk_vcodec_init_dec_pm to symmetry with
-> pm_runtime_disable, after that, rename mtk_vcodec_init_dec_pm to *_clk since
+> Move pm_runtime_enable outside mtk_vcodec_release_enc_pm to symmetry with
+> pm_runtime_disable, after that, rename mtk_vcodec_init_enc_pm to *_clk since
 > it only has clock operations now.
 > 
 > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 > Co-developed-by: Yong Wu <yong.wu@mediatek.com>
 > ---
->   .../media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c   | 10 +++++++---
->   .../media/platform/mtk-vcodec/mtk_vcodec_dec_hw.c    |  7 +++++--
->   .../media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c    | 12 ++----------
->   .../media/platform/mtk-vcodec/mtk_vcodec_dec_pm.h    |  3 +--
->   4 files changed, 15 insertions(+), 17 deletions(-)
+>   drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c | 9 ++++++---
+>   drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c  | 9 +--------
+>   drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.h  | 3 +--
+>   3 files changed, 8 insertions(+), 13 deletions(-)
 > 
 
 
