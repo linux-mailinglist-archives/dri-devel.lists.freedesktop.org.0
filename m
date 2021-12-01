@@ -2,61 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3468B464D3B
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 12:47:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7E1E464D88
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 13:09:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD9896F999;
-	Wed,  1 Dec 2021 11:46:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D78376EC1C;
+	Wed,  1 Dec 2021 12:09:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 501916F96F
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Dec 2021 11:46:50 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D0A101FD5C;
- Wed,  1 Dec 2021 11:46:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1638359208; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=l5V1TuuOzTVTGLxNayG9sNVYdWy3FJ2Vhb6YIy9/N/g=;
- b=Smf5G6udMqjS2J82AUZFq9nJrUtId2A5pGUhyC1X42mrapF7fRb+AQcyWwk//FV9snfrhX
- 3h/3bF93YcizUVC8Zlrwe5TTJXLnJ5hV2mM4BLML/cBTaUs5O1LiV/FIXAmhZ8nUQgZSIF
- UkqE66vJR0up9iul8jNLqKVY9s+ZB9k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1638359208;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=l5V1TuuOzTVTGLxNayG9sNVYdWy3FJ2Vhb6YIy9/N/g=;
- b=HJX6p8RXI1/u2dlTMv1LmeyDjD7O6qmWF3yYNiq5udE++MtXzK1J7sWhpreOOVD+RGKFjZ
- F8B8o/keSy1NbHBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9D7CF13FF6;
- Wed,  1 Dec 2021 11:46:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id wL2JJahgp2HbDgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 01 Dec 2021 11:46:48 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@linux.ie, daniel.vetter@ffwll.ch, arnd@arndb.de,
- gregkh@linuxfoundation.org, James.Bottomley@HansenPartnership.com,
- deller@gmx.de
-Subject: [PATCH v2 7/7] agp/via: Remove unused variable 'current_size'
-Date: Wed,  1 Dec 2021 12:46:45 +0100
-Message-Id: <20211201114645.15384-8-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.34.0
-In-Reply-To: <20211201114645.15384-1-tzimmermann@suse.de>
-References: <20211201114645.15384-1-tzimmermann@suse.de>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C14076EC1C
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Dec 2021 12:09:01 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id 20F951F458EB
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+ t=1638360540; bh=e6GNEu+wR3rqkC7g+n4jt6R8FC/jvcD5LlLpfyUKevg=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=VqJz1bIHMb5HoP/P4opc9HPfG7iK1rCTWApS2B5acoRWT9mCRCnuain9t0YnHzexF
+ qHJ88mE/PiqXBmKXm8hg33riacLDMzs/mMWiRGGv2sykNbRqgM9gKVwfrcbZM/zjM4
+ 136OPMrVKAuwcAuPwHQOhhZibY9RPLJcJBXFJKg7ERYxEENSwqABTZfhZ7osoRqTPF
+ TWLslssNBDT1VxQ4EgB4ZsBfy82/WYlSGSP0moa7h0TPoanLREVUtUU4ZaWoyORsgx
+ BChCZ3DN3kCERAiucn2aPhflUQbasMzW4Q8HHtqI2umDDv1cCfjCRlPwycaWsVSHcO
+ G8URgRKgQUGng==
+Subject: Re: [PATCH v11, 18/19] media: mtk-vcodec: Remove
+ mtk_vcodec_release_dec_pm
+To: Yunfei Dong <yunfei.dong@mediatek.com>,
+ Alexandre Courbot <acourbot@chromium.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tzung-Bi Shih
+ <tzungbi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Tomasz Figa <tfiga@google.com>
+References: <20211129034201.5767-1-yunfei.dong@mediatek.com>
+ <20211129034201.5767-19-yunfei.dong@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Message-ID: <540a5ac7-80a2-a72c-87fe-5042f21f8deb@collabora.com>
+Date: Wed, 1 Dec 2021 13:08:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211129034201.5767-19-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,39 +57,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Irui Wang <irui.wang@mediatek.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ srv_heupstream@mediatek.com, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Fritz Koenig <frkoenig@chromium.org>,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the compiler warning
+Il 29/11/21 04:42, Yunfei Dong ha scritto:
+> There are only two lines in mtk_vcodec_release_dec_pm, using
+> pm_runtime_disable and put_device instead directly.
+> 
+> Move pm_runtime_enable outside mtk_vcodec_init_dec_pm to symmetry with
+> pm_runtime_disable, after that, rename mtk_vcodec_init_dec_pm to *_clk since
+> it only has clock operations now.
+> 
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> Co-developed-by: Yong Wu <yong.wu@mediatek.com>
+> ---
+>   .../media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c   | 10 +++++++---
+>   .../media/platform/mtk-vcodec/mtk_vcodec_dec_hw.c    |  7 +++++--
+>   .../media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c    | 12 ++----------
+>   .../media/platform/mtk-vcodec/mtk_vcodec_dec_pm.h    |  3 +--
+>   4 files changed, 15 insertions(+), 17 deletions(-)
+> 
 
-  drivers/char/agp/via-agp.c: In function 'via_configure_agp3':
-  drivers/char/agp/via-agp.c:131:35: warning: variable 'current_size' set but not used [-Wunused-but-set-variable]
-    131 |         struct aper_size_info_16 *current_size;
 
-by removing the variable.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Helge Deller <deller@gmx.de>
----
- drivers/char/agp/via-agp.c | 3 ---
- 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/char/agp/via-agp.c b/drivers/char/agp/via-agp.c
-index 87a92a044570..dc594f4eca38 100644
---- a/drivers/char/agp/via-agp.c
-+++ b/drivers/char/agp/via-agp.c
-@@ -128,9 +128,6 @@ static int via_fetch_size_agp3(void)
- static int via_configure_agp3(void)
- {
- 	u32 temp;
--	struct aper_size_info_16 *current_size;
--
--	current_size = A_SIZE_16(agp_bridge->current_size);
- 
- 	/* address to map to */
- 	agp_bridge->gart_bus_addr = pci_bus_address(agp_bridge->dev,
--- 
-2.34.0
 
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
