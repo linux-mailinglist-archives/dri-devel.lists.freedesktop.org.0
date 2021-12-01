@@ -2,36 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF829464C0D
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 11:52:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59C0A464C51
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Dec 2021 12:04:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E0E06FA1D;
-	Wed,  1 Dec 2021 10:52:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6180D6EAAB;
+	Wed,  1 Dec 2021 11:04:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F33976FA18;
- Wed,  1 Dec 2021 10:52:19 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 06D9D1F45630
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
- t=1638355938; bh=rL9Yo0VP8rvWWbfN9374jnoFbEFvxR/1usMNsyxgNhg=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GhOvmzRBH6ydmh3oDb3Ju4hTU4S7ptZWIgytadzTT3xEd1H438JXLGqOQVMRr5Lw6
- NOHiJO9s7S1tI6fWuRt24Ue8mbPAuRCpmN6rVxu/znMNrG1rvrGoa8wAyl66Bi9eo+
- lypT5RYbnoxyNjGG4a+ieSyBzCIu9GN76OtKWc3kt+LABz/ZnpuFpAHrifJoDgdE7z
- s0NbFq373f6jwQ2+d3gNuYuAtHCgP4X5YyRC4re3w5Dnvt56RB7w7VNoXaFraXZB07
- vMBa9KhYI2So5VKuY7pWzm0QOQGP1XCUb9JhYeJv/UdMEs+zU6H/9lh25JdsQAkS8J
- CjHKA7xxSODAA==
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: robdclark@gmail.com
-Subject: [PATCH v3 2/2] drm/msm: Initialize MDSS irq domain at probe time
-Date: Wed,  1 Dec 2021 11:52:10 +0100
-Message-Id: <20211201105210.24970-3-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211201105210.24970-1-angelogioacchino.delregno@collabora.com>
-References: <20211201105210.24970-1-angelogioacchino.delregno@collabora.com>
+Received: from pio-pvt-msa3.bahnhof.se (pio-pvt-msa3.bahnhof.se [79.136.2.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DC626EAAB;
+ Wed,  1 Dec 2021 11:04:32 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTP id 37C023F3E9;
+ Wed,  1 Dec 2021 12:04:30 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -3.189
+X-Spam-Level: 
+X-Spam-Status: No, score=-3.189 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.09,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Authentication-Results: pio-pvt-msa3.bahnhof.se (amavisd-new);
+ dkim=pass (1024-bit key) header.d=shipmail.org
+Received: from pio-pvt-msa3.bahnhof.se ([127.0.0.1])
+ by localhost (pio-pvt-msa3.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id pu0yktp1vGlj; Wed,  1 Dec 2021 12:04:29 +0100 (CET)
+Received: by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTPA id 599D93F3B2;
+ Wed,  1 Dec 2021 12:04:27 +0100 (CET)
+Received: from [192.168.0.209] (unknown [192.198.151.54])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 4ABBB36256A;
+ Wed,  1 Dec 2021 12:04:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1638356667; bh=eQM8NmS6ghJyWMI4iPorWbTPmePRTBLQvFlmhegmo7U=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Xu7+8pZueSp0BTFZ9QUsy/5E4YSxZWLzYZsoRsFY8dYaTaqAnZ6m7s0IctAgUORE8
+ APSFZUpf+RPLiHTdSiP3jwMIKkhEVQDR6PU/t1w0CqPO3WpVETbuWMeSG70HuOtfCj
+ ysa5R4ckgFHGHxQcwf8MHSJtbSbq36YGnQttc54I=
+Message-ID: <94435e0e-01db-5ae4-e424-64f73a09199f@shipmail.org>
+Date: Wed, 1 Dec 2021 12:04:24 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [Linaro-mm-sig] [RFC PATCH 1/2] dma-fence: Avoid establishing a
+ locking order between fence classes
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20211130121936.586031-1-thomas.hellstrom@linux.intel.com>
+ <20211130121936.586031-2-thomas.hellstrom@linux.intel.com>
+ <c7502701-e85c-39f0-c249-702d029faa9e@linux.intel.com>
+ <b440cfbc-2b9a-1aa2-76d6-17337f835777@linux.intel.com>
+ <52a7cf8c-59c7-fec0-2274-d19bdc505314@amd.com>
+ <57df8b0b-1d65-155f-a9a6-8073bbd4f28f@linux.intel.com>
+ <2551da4d-2e51-cc24-7d4a-84ae00a1547c@amd.com>
+ <29d096c91d720fbe5d410124580a02b663155b56.camel@linux.intel.com>
+ <250a8e47-2093-1a98-3859-0204ec4e60e6@amd.com>
+ <712b54fa1c09ae5cc1d75739ad8a7286f1dae8db.camel@linux.intel.com>
+ <49cf2d43-9a8a-7738-0889-7e16b0256249@linux.intel.com>
+ <193e36bd-ba64-1358-8178-73ee3afc3c41@amd.com>
+ <c9109ec6-4265-ba8f-238f-4c793d076825@shipmail.org>
+ <d1ada94c-88d3-d34d-9c51-0d427c3aca06@amd.com>
+ <7ef3db03-8ae2-d886-2c39-36f661cac9a6@shipmail.org>
+ <4805074d-7039-3eaf-eb5d-5797278b7f31@amd.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+In-Reply-To: <4805074d-7039-3eaf-eb5d-5797278b7f31@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,325 +83,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, konrad.dybcio@somainline.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- jami.kettunen@somainline.org, martin.botka@somainline.org, maxime@cerno.tech,
- dmitry.baryshkov@linaro.org, marijn.suijten@somainline.org,
- kernel@collabora.com, sean@poorly.run,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linaro-mm-sig@lists.linaro.org, matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since commit 8f59ee9a570c ("drm/msm/dsi: Adjust probe order"), the
-DSI host gets initialized earlier, but this caused unability to probe
-the entire stack of components because they all depend on interrupts
-coming from the main `mdss` node (mdp5, or dpu1).
 
-To fix this issue, anticipate registering the irq domain from mdp5/dpu1
-at msm_mdev_probe() time, as to make sure that the interrupt controller
-is available before dsi and/or other components try to initialize,
-finally satisfying the dependency.
+On 12/1/21 11:32, Christian König wrote:
+> Am 01.12.21 um 11:15 schrieb Thomas Hellström (Intel):
+>> [SNIP]
+>>>
+>>> What we could do is to avoid all this by not calling the callback 
+>>> with the lock held in the first place.
+>>
+>> If that's possible that might be a good idea, pls also see below.
+>
+> The problem with that is 
+> dma_fence_signal_locked()/dma_fence_signal_timestamp_locked(). If we 
+> could avoid using that or at least allow it to drop the lock then we 
+> could call the callback without holding it.
+>
+> Somebody would need to audit the drivers and see if holding the lock 
+> is really necessary anywhere.
+>
+>>>
+>>>>>
+>>>>>>>
+>>>>>>> /Thomas
+>>>>>>
+>>>>>> Oh, and a follow up question:
+>>>>>>
+>>>>>> If there was a way to break the recursion on final put() (using 
+>>>>>> the same basic approach as patch 2 in this series uses to break 
+>>>>>> recursion in enable_signaling()), so that none of these 
+>>>>>> containers did require any special treatment, would it be worth 
+>>>>>> pursuing? I guess it might be possible by having the callbacks 
+>>>>>> drop the references rather than the loop in the final put. + a 
+>>>>>> couple of changes in code iterating over the fence pointers.
+>>>>>
+>>>>> That won't really help, you just move the recursion from the final 
+>>>>> put into the callback.
+>>>>
+>>>> How do we recurse from the callback? The introduced fence_put() of 
+>>>> individual fence pointers
+>>>> doesn't recurse anymore (at most 1 level), and any callback 
+>>>> recursion is broken by the irq_work?
+>>>
+>>> Yeah, but then you would need to take another lock to avoid racing 
+>>> with dma_fence_array_signaled().
+>>>
+>>>>
+>>>> I figure the big amount of work would be to adjust code that 
+>>>> iterates over the individual fence pointers to recognize that they 
+>>>> are rcu protected.
+>>>
+>>> Could be that we could solve this with RCU, but that sounds like a 
+>>> lot of churn for no gain at all.
+>>>
+>>> In other words even with the problems solved I think it would be a 
+>>> really bad idea to allow chaining of dma_fence_array objects.
+>>
+>> Yes, that was really the question, Is it worth pursuing this? I'm not 
+>> really suggesting we should allow this as an intentional feature. I'm 
+>> worried, however, that if we allow these containers to start floating 
+>> around cross-driver (or even internally) disguised as ordinary 
+>> dma_fences, they would require a lot of driver special casing, or 
+>> else completely unexpeced WARN_ON()s and lockdep splats would start 
+>> to turn up, scaring people off from using them. And that would be a 
+>> breeding ground for hairy driver-private constructs.
+>
+> Well the question is why we would want to do it?
+>
+> If it's to avoid inter driver lock dependencies by avoiding to call 
+> the callback with the spinlock held, then yes please. We had tons of 
+> problems with that, resulting in irq_work and work_item delegation all 
+> over the place.
 
-Moreover, to balance this operation while avoiding to always check if
-the irq domain is registered everytime we call bind() on msm_pdev, add
-a new *remove function pointer to msm_mdss_funcs, used to remove the
-irq domain only at msm_pdev_remove() time.
+Yes, that sounds like something desirable, but in these containers, 
+what's causing the lock dependencies is the enable_signaling() callback 
+that is typically called locked.
 
-Fixes: 8f59ee9a570c ("drm/msm/dsi: Adjust probe order")
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c  | 50 ++++++++++++-------
- drivers/gpu/drm/msm/disp/mdp5/mdp5_mdss.c | 58 +++++++++++++++--------
- drivers/gpu/drm/msm/msm_drv.c             | 22 ++++++++-
- drivers/gpu/drm/msm/msm_kms.h             |  3 ++
- 4 files changed, 95 insertions(+), 38 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
-index b466784d9822..6c2569175633 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
-@@ -106,13 +106,10 @@ static const struct irq_domain_ops dpu_mdss_irqdomain_ops = {
- 	.xlate = irq_domain_xlate_onecell,
- };
- 
--static int _dpu_mdss_irq_domain_add(struct dpu_mdss *dpu_mdss)
-+static int _dpu_mdss_irq_domain_add(struct device *dev, struct dpu_mdss *dpu_mdss)
- {
--	struct device *dev;
- 	struct irq_domain *domain;
- 
--	dev = dpu_mdss->base.dev->dev;
--
- 	domain = irq_domain_add_linear(dev->of_node, 32,
- 			&dpu_mdss_irqdomain_ops, dpu_mdss);
- 	if (!domain) {
-@@ -194,7 +191,6 @@ static void dpu_mdss_destroy(struct drm_device *dev)
- 
- 	pm_runtime_suspend(dev->dev);
- 	pm_runtime_disable(dev->dev);
--	_dpu_mdss_irq_domain_fini(dpu_mdss);
- 	irq = platform_get_irq(pdev, 0);
- 	irq_set_chained_handler_and_data(irq, NULL, NULL);
- 	msm_dss_put_clk(mp->clk_config, mp->num_clk);
-@@ -203,15 +199,43 @@ static void dpu_mdss_destroy(struct drm_device *dev)
- 	if (dpu_mdss->mmio)
- 		devm_iounmap(&pdev->dev, dpu_mdss->mmio);
- 	dpu_mdss->mmio = NULL;
--	priv->mdss = NULL;
-+}
-+
-+static void dpu_mdss_remove(struct msm_mdss *mdss)
-+{
-+	_dpu_mdss_irq_domain_fini(to_dpu_mdss(mdss));
- }
- 
- static const struct msm_mdss_funcs mdss_funcs = {
- 	.enable	= dpu_mdss_enable,
- 	.disable = dpu_mdss_disable,
- 	.destroy = dpu_mdss_destroy,
-+	.remove = dpu_mdss_remove,
- };
- 
-+int dpu_mdss_early_init(struct device *dev, struct msm_drm_private *priv)
-+{
-+	struct dpu_mdss *dpu_mdss;
-+	int ret;
-+
-+	dpu_mdss = devm_kzalloc(dev, sizeof(*dpu_mdss), GFP_KERNEL);
-+	if (!dpu_mdss)
-+		return -ENOMEM;
-+
-+	ret = _dpu_mdss_irq_domain_add(dev, dpu_mdss);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * Here we have no drm_device yet, but still do the assignment
-+	 * so that we can retrieve our struct dpu_mdss from the main
-+	 * init function, since we allocate it here.
-+	 */
-+	priv->mdss = &dpu_mdss->base;
-+
-+	return 0;
-+}
-+
- int dpu_mdss_init(struct drm_device *dev)
- {
- 	struct platform_device *pdev = to_platform_device(dev->dev);
-@@ -221,9 +245,9 @@ int dpu_mdss_init(struct drm_device *dev)
- 	int ret;
- 	int irq;
- 
--	dpu_mdss = devm_kzalloc(dev->dev, sizeof(*dpu_mdss), GFP_KERNEL);
-+	dpu_mdss = to_dpu_mdss(priv->mdss);
- 	if (!dpu_mdss)
--		return -ENOMEM;
-+		return -ENODATA;
- 
- 	dpu_mdss->mmio = msm_ioremap(pdev, "mdss", "mdss");
- 	if (IS_ERR(dpu_mdss->mmio))
-@@ -241,10 +265,6 @@ int dpu_mdss_init(struct drm_device *dev)
- 	dpu_mdss->base.dev = dev;
- 	dpu_mdss->base.funcs = &mdss_funcs;
- 
--	ret = _dpu_mdss_irq_domain_add(dpu_mdss);
--	if (ret)
--		goto irq_domain_error;
--
- 	irq = platform_get_irq(pdev, 0);
- 	if (irq < 0) {
- 		ret = irq;
-@@ -253,16 +273,10 @@ int dpu_mdss_init(struct drm_device *dev)
- 
- 	irq_set_chained_handler_and_data(irq, dpu_mdss_irq,
- 					 dpu_mdss);
--
--	priv->mdss = &dpu_mdss->base;
--
- 	pm_runtime_enable(dev->dev);
--
- 	return 0;
- 
- irq_error:
--	_dpu_mdss_irq_domain_fini(dpu_mdss);
--irq_domain_error:
- 	msm_dss_put_clk(mp->clk_config, mp->num_clk);
- clk_parse_err:
- 	devm_kfree(&pdev->dev, mp->clk_config);
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_mdss.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_mdss.c
-index 0ea53420bc40..a99538ae4182 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_mdss.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_mdss.c
-@@ -112,9 +112,8 @@ static const struct irq_domain_ops mdss_hw_irqdomain_ops = {
- };
- 
- 
--static int mdss_irq_domain_init(struct mdp5_mdss *mdp5_mdss)
-+static int mdss_irq_domain_init(struct device *dev, struct mdp5_mdss *mdp5_mdss)
- {
--	struct device *dev = mdp5_mdss->base.dev->dev;
- 	struct irq_domain *d;
- 
- 	d = irq_domain_add_linear(dev->of_node, 32, &mdss_hw_irqdomain_ops,
-@@ -182,20 +181,52 @@ static void mdp5_mdss_destroy(struct drm_device *dev)
- 	if (!mdp5_mdss)
- 		return;
- 
--	irq_domain_remove(mdp5_mdss->irqcontroller.domain);
--	mdp5_mdss->irqcontroller.domain = NULL;
--
- 	regulator_disable(mdp5_mdss->vdd);
- 
- 	pm_runtime_disable(dev->dev);
- }
- 
-+static void mdp5_mdss_remove(struct msm_mdss *mdss)
-+{
-+	struct mdp5_mdss *mdp5_mdss = to_mdp5_mdss(mdss);
-+
-+	irq_domain_remove(mdp5_mdss->irqcontroller.domain);
-+	mdp5_mdss->irqcontroller.domain = NULL;
-+}
-+
- static const struct msm_mdss_funcs mdss_funcs = {
- 	.enable	= mdp5_mdss_enable,
- 	.disable = mdp5_mdss_disable,
- 	.destroy = mdp5_mdss_destroy,
-+	.remove = mdp5_mdss_remove,
- };
- 
-+int mdp5_mdss_early_init(struct device *dev, struct msm_drm_private *priv)
-+{
-+	struct mdp5_mdss *mdp5_mdss;
-+	int ret;
-+
-+	if (!of_device_is_compatible(dev->of_node, "qcom,mdss"))
-+		return 0;
-+
-+	mdp5_mdss = devm_kzalloc(dev, sizeof(*mdp5_mdss), GFP_KERNEL);
-+	if (!mdp5_mdss)
-+		return -ENOMEM;
-+
-+	ret = mdss_irq_domain_init(dev, mdp5_mdss);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * Here we have no drm_device yet, but still do the assignment
-+	 * so that we can retrieve our struct mdp5_mdss from the main
-+	 * init function, since we allocate it here.
-+	 */
-+	priv->mdss = &mdp5_mdss->base;
-+
-+	return 0;
-+}
-+
- int mdp5_mdss_init(struct drm_device *dev)
- {
- 	struct platform_device *pdev = to_platform_device(dev->dev);
-@@ -208,11 +239,9 @@ int mdp5_mdss_init(struct drm_device *dev)
- 	if (!of_device_is_compatible(dev->dev->of_node, "qcom,mdss"))
- 		return 0;
- 
--	mdp5_mdss = devm_kzalloc(dev->dev, sizeof(*mdp5_mdss), GFP_KERNEL);
--	if (!mdp5_mdss) {
--		ret = -ENOMEM;
--		goto fail;
--	}
-+	mdp5_mdss = to_mdp5_mdss(priv->mdss);
-+	if (!mdp5_mdss)
-+		return -ENODATA;
- 
- 	mdp5_mdss->base.dev = dev;
- 
-@@ -255,17 +284,8 @@ int mdp5_mdss_init(struct drm_device *dev)
- 		goto fail_irq;
- 	}
- 
--	ret = mdss_irq_domain_init(mdp5_mdss);
--	if (ret) {
--		DRM_DEV_ERROR(dev->dev, "failed to init sub-block irqs: %d\n", ret);
--		goto fail_irq;
--	}
--
- 	mdp5_mdss->base.funcs = &mdss_funcs;
--	priv->mdss = &mdp5_mdss->base;
--
- 	pm_runtime_enable(dev->dev);
--
- 	return 0;
- fail_irq:
- 	regulator_disable(mdp5_mdss->vdd);
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 64230e473a34..ded4f4d6545f 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -1389,6 +1389,20 @@ static int msm_pdev_probe(struct platform_device *pdev)
- 	if (!priv)
- 		return -ENOMEM;
- 
-+	switch (get_mdp_ver(pdev)) {
-+	case KMS_MDP5:
-+		ret = mdp5_mdss_early_init(&pdev->dev, priv);
-+		break;
-+	case KMS_DPU:
-+		ret = dpu_mdss_early_init(&pdev->dev, priv);
-+		break;
-+	default:
-+		ret = 0;
-+		break;
-+	}
-+	if (ret)
-+		return ret;
-+
- 	platform_set_drvdata(pdev, priv);
- 
- 	if (get_mdp_ver(pdev)) {
-@@ -1421,6 +1435,12 @@ static int msm_pdev_probe(struct platform_device *pdev)
- 
- static int msm_pdev_remove(struct platform_device *pdev)
- {
-+	struct msm_drm_private *priv = platform_get_drvdata(pdev);
-+
-+	if (priv->mdss && priv->mdss->funcs)
-+		priv->mdss->funcs->remove(priv->mdss);
-+
-+	priv->mdss = NULL;
- 	component_master_del(&pdev->dev, &msm_drm_ops);
- 	of_platform_depopulate(&pdev->dev);
- 
-@@ -1432,7 +1452,7 @@ static void msm_pdev_shutdown(struct platform_device *pdev)
- 	struct msm_drm_private *priv = platform_get_drvdata(pdev);
- 	struct drm_device *drm = priv ? priv->dev : NULL;
- 
--	if (!priv || !priv->kms)
-+	if (!priv || !priv->kms || !drm->mode_config.funcs)
- 		return;
- 
- 	drm_atomic_helper_shutdown(drm);
-diff --git a/drivers/gpu/drm/msm/msm_kms.h b/drivers/gpu/drm/msm/msm_kms.h
-index 6a42b819abc4..2c539a228156 100644
---- a/drivers/gpu/drm/msm/msm_kms.h
-+++ b/drivers/gpu/drm/msm/msm_kms.h
-@@ -202,6 +202,7 @@ struct msm_mdss_funcs {
- 	int (*enable)(struct msm_mdss *mdss);
- 	int (*disable)(struct msm_mdss *mdss);
- 	void (*destroy)(struct drm_device *dev);
-+	void (*remove)(struct msm_mdss *mdss);
- };
- 
- struct msm_mdss {
-@@ -209,7 +210,9 @@ struct msm_mdss {
- 	const struct msm_mdss_funcs *funcs;
- };
- 
-+int mdp5_mdss_early_init(struct device *dev, struct msm_drm_private *priv);
- int mdp5_mdss_init(struct drm_device *dev);
-+int dpu_mdss_early_init(struct device *dev, struct msm_drm_private *priv);
- int dpu_mdss_init(struct drm_device *dev);
- 
- #define for_each_crtc_mask(dev, crtc, crtc_mask) \
--- 
-2.33.1
+>
+> If it's to allow nesting of dma_fence_array instances, then it's most 
+> likely a really bad idea even if we fix all the locking order problems.
 
+Well I think my use-case where I hit a dead end may illustrate what 
+worries me here:
+
+1) We use a dma-fence-array to coalesce all dependencies for ttm object 
+migration.
+2) We use a dma-fence-chain to order the resulting dm_fence into a 
+timeline because the TTM resource manager code requires that.
+
+Initially seemingly harmless to me.
+
+But after a sequence evict->alloc->clear, the dma-fence-chain feeds into 
+the dma-fence-array for the clearing operation. Code still works fine, 
+and no deep recursion, no warnings. But if I were to add another driver 
+to the system that instead feeds a dma-fence-array into a 
+dma-fence-chain, this would give me a lockdep splat.
+
+So then if somebody were to come up with the splendid idea of using a 
+dma-fence-chain to initially coalesce fences, I'd hit the same problem 
+or risk illegaly joining two dma-fence-chains together.
+
+To fix this, I would need to look at the incoming fences and iterate 
+over any dma-fence-array or dma-fence-chain that is fed into the 
+dma-fence-array to flatten out the input. In fact all dma-fence-array 
+users would need to do that, and even dma-fence-chain users watching out 
+for not joining chains together or accidently add an array that perhaps 
+came as a disguised dma-fence from antother driver.
+
+So the purpose to me would be to allow these containers as input to 
+eachother without a lot of in-driver special-casing, be it by breaking 
+recursion on built-in flattening to avoid
+
+a) Hitting issues in the future or with existing interoperating drivers.
+b) Avoid driver-private containers that also might break the 
+interoperability. (For example the i915 currently driver-private 
+dma_fence_work avoid all these problems, but we're attempting to address 
+issues in common code rather than re-inventing stuff internally).
+
+/Thomas
+
+
+>
+> Christian.
+>
+>>
+>> /Thomas
+>>
+>>
+>>>
+>>> Christian.
+>>>
+>>>>
+>>>>
+>>>> Thanks,
+>>>>
+>>>> /Thomas
+>>>>
+>>>>
