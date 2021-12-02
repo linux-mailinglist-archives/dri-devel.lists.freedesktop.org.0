@@ -1,101 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39BCB466783
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Dec 2021 17:02:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ABC54667A5
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Dec 2021 17:09:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9DCB6FA82;
-	Thu,  2 Dec 2021 16:02:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A72D36FAEE;
+	Thu,  2 Dec 2021 16:09:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2052.outbound.protection.outlook.com [40.107.223.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 372B76FA82;
- Thu,  2 Dec 2021 16:02:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QH1hNBYdND6KKNAJUw8h0hPO1FRUkT/JjrtF2mKMdz16Uex+vJa4gzbuV4tmd+CFs71bOIsRfQuU4aAWpH2EXiGFA8y0+aKJuu0mLEgsTqQTnbPI88tr0gAQ946TwSv4oBNISY7hli1aAcp1G0A0tRSokwErjePcVVYTWyMEfYbfXDNMIyjQhUAoc7Rc7EwYRuXIIdIiBGTZNv6oaXe0ctxIbvRpkL9yG4JD+xz9G1mNmaZmZvsDHQk86hxWNGqo23JRt9khJTnuhM464qDFce1RkjgOXjYqpzbfGfMsJ0oXumycSqdOuXODtl2UuCiiL4ukbesAT6XK51LpWDycRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7ppMgoI3tAVIQx5GbsEm1RLdD9sOfUNShpp7EvD4s6g=;
- b=X3GQfUtIhFxfq/M4zYW6pJDJ2iNNaCOnk6SjhAbhQzBG3TSpJdVtloD79837jh7qmOdfYTnjBODR8ZS/s4Go6uRUSFVtN9moBu+x79T1t99GJ0iGZkJWOTYP5VeAUSDZZQ+YYWE9fi7uHLvRvbG2YjUObPKDrPiucScXq0AAq1etI8e9A/RGcy6zbc70ur3Fi9d4HDY2ee7XqHVLqCLcgUpX8i4vSetpp7Zqi0xGPkGiEMsOQgZghxN1oqvPyBUCnwWvEPRpVr++IDVuiB5r1HChKxrBMFPnDNv4KpQuuN7wpiIlKxQPntoBDRJmNaI7AZFI19luW3gWOjEHzYTCeA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=emersion.fr smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7ppMgoI3tAVIQx5GbsEm1RLdD9sOfUNShpp7EvD4s6g=;
- b=gyuhHWeJGJ+S9Mj+Wb7W6Iyx/yEVoNkfvVh4MqcynlnXRe55o5RHT7yFTrK7mKAtz+x/lMK7N/xQA/YXedfd/qRFLHtfr1LlzVQsDzqqLO51RD/M6iiuZwFK8ga+HmtSXMFgWV4NcKsRd27PHVWvxtr+iq3qzBbS3IfgvMZA5XM=
-Received: from BN1PR12CA0023.namprd12.prod.outlook.com (2603:10b6:408:e1::28)
- by BYAPR12MB3461.namprd12.prod.outlook.com (2603:10b6:a03:da::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.23; Thu, 2 Dec
- 2021 16:02:08 +0000
-Received: from BN8NAM11FT016.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:e1:cafe::61) by BN1PR12CA0023.outlook.office365.com
- (2603:10b6:408:e1::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.22 via Frontend
- Transport; Thu, 2 Dec 2021 16:02:07 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT016.mail.protection.outlook.com (10.13.176.97) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4755.13 via Frontend Transport; Thu, 2 Dec 2021 16:02:07 +0000
-Received: from atma2.hitronhub.home (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Thu, 2 Dec
- 2021 10:02:05 -0600
-From: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-To: Simon Ser <contact@emersion.fr>, Michel Daenzer <michel@daenzer.net>, "Bas
- Nieuwenhuizen" <bas@basnieuwenhuizen.nl>, Marek Olsak <marek.olsak@amd.com>,
- Roman Gilg <subdiff@gmail.com>, Nicholas Kazlauskas
- <nicholas.kazlauskas@amd.com>, Harry Wentland <Harry.Wentland@amd.com>, "Mark
- Yacoub" <markyacoub@chromium.org>, Sean Paul <seanpaul@chromium.org>, "Pekka
- Paalanen" <ppaalanen@gmail.com>, Yann Dirson <ydirson@free.fr>, Daniel Vetter
- <daniel@ffwll.ch>
-Subject: [PATCH v2 6/6] Documentation/gpu: Add amdgpu and dc glossary
-Date: Thu, 2 Dec 2021 11:01:32 -0500
-Message-ID: <20211202160132.2263330-7-Rodrigo.Siqueira@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211202160132.2263330-1-Rodrigo.Siqueira@amd.com>
-References: <20211202160132.2263330-1-Rodrigo.Siqueira@amd.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BADB56FAEE
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Dec 2021 16:09:40 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1msoeQ-0000jl-Pm; Thu, 02 Dec 2021 17:09:38 +0100
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1msoeO-00057P-NW; Thu, 02 Dec 2021 17:09:36 +0100
+Date: Thu, 2 Dec 2021 17:09:36 +0100
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Heiko =?iso-8859-15?Q?St=FCbner?= <heiko@sntech.de>
+Subject: Re: [PATCH 10/12] arm64: dts: rockchip: rk3568-evb: Enable VOP2 and
+ hdmi
+Message-ID: <20211202160936.GX28260@pengutronix.de>
+References: <20211117143347.314294-1-s.hauer@pengutronix.de>
+ <CAL_JsqL7C32FB47=xfUtndtCvfOQx7f3Gq0O0FqZxRoeS1fNSQ@mail.gmail.com>
+ <20211202153449.GG25697@pengutronix.de> <6427725.puVkvWICD3@diego>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f295b4a5-c809-4cb3-2b08-08d9b5ad1765
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3461:
-X-Microsoft-Antispam-PRVS: <BYAPR12MB34615D87D0C24315B087FF4098699@BYAPR12MB3461.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2331;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uT8SXwyvDpRiy34FfmStuFiauniJGEXixI2MVTuTspoihGNhjZvMc1U150Dc9LFWhSXpqEdd43vsKelUpIMOt/AeRaj5V/tmm57U/EXq82jJ2au3nT8dlBKx2GIuaeje6cLHBiT4MHz1omhWQC5tMPV0k2KpiPuoBhtcXAVIup2Zl2xKgo1P9qq4naE4vYTciBDz90mJBVrlsiPtxl50vS9syp1Y18joMCCwsGH8+sIcJV+oUhS9E+xrCzAcby3Fgh3IU0BpUIvfwnLcDuvpEO0M4ckboQcyJZuP/q4mb0YF2utJahzGOiEBv56W6UJPirYUST5LHd0nDdrgD/UPvVYatq5IVkdL6AMBAqq0vM/U8fbLpkmOQkvrHTxTmPiBMyxZUvYbuduvPgC4LijulLw8nGOxZHEt9fMAFGEgqtn5TrrmJ3oBa0BzIPYewShRzl/btnHbVmf6cimIlFNBcJqdTKhHdGZqpfejcSw58EqFQwP8FnixRqEAQXWRjZg8KJp/uQ5IxpMfjj7QE98ddz6xWERybC2AV+J3itnFKJNMgAym5H7Miv5Y1J8pqmsko3C6aRbQxljAvPxa66pPIY7lJAHHMFoOeF0dcuCzHW8e5QiOMORcYcrkTWjlb6zWN4WYz389y1LfaKfItzcKCTqHSpbaJ4B+Qbqpser5QgcBz/SUBsmfPskrxut4dmY7h7hnhHhKd4lrkVfmlW5KtZI3fC8P9fVuZ5W/8MbFtRyAiMHLyPfnqyksTUmhabDWfBEmILLU3KvckR6FFdioFp4EInNP7L/n87TZnMgrAFyJjBAwjtkam5PvIrsp4u4+
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(40470700001)(36860700001)(2616005)(921005)(70206006)(1076003)(36756003)(8676002)(186003)(2906002)(70586007)(6666004)(508600001)(110136005)(5660300002)(16526019)(426003)(8936002)(54906003)(336012)(47076005)(26005)(7416002)(356005)(4326008)(82310400004)(316002)(86362001)(83380400001)(81166007)(40460700001)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2021 16:02:07.5642 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f295b4a5-c809-4cb3-2b08-08d9b5ad1765
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT016.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3461
+In-Reply-To: <6427725.puVkvWICD3@diego>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 17:03:14 up 287 days, 19:27, 151 users,  load average: 0.62, 0.47,
+ 0.25
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,359 +60,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, qingqing.zhuo@amd.com, roman.li@amd.com,
- amd-gfx@lists.freedesktop.org, aurabindo.pillai@amd.com, nicholas.choi@amd.com,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- bhawanpreet.lakha@amd.com, Christian Koenig <christian.koenig@amd.com>
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, devicetree@vger.kernel.org,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Sascha Hauer <kernel@pengutronix.de>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the DC driver, we have multiple acronyms that are not obvious most of
-the time; the same idea is valid for amdgpu. This commit introduces a DC
-and amdgpu glossary in order to make it easier to navigate through our
-driver.
+Hi Heiko,
 
-Changes since V1:
- - Yann: Divide glossary based on driver context.
- - Alex: Make terms more consistent and update CPLIB
- - Add new acronyms to the glossary
+On Thu, Dec 02, 2021 at 04:41:17PM +0100, Heiko Stübner wrote:
+> Hi Sascha,
+> 
+> Am Donnerstag, 2. Dezember 2021, 16:34:49 CET schrieb Sascha Hauer:
+> > On Wed, Nov 17, 2021 at 09:19:38AM -0600, Rob Herring wrote:
+> > > On Wed, Nov 17, 2021 at 8:34 AM Sascha Hauer <s.hauer@pengutronix.de> wrote:
+> > > >
+> > > > This enabled the VOP2 display controller along with hdmi and the
+> > > > required port routes which is enough to get a picture out of the
+> > > > hdmi port of the board.
+> > > >
+> > > > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> > > > ---
+> > > >  .../boot/dts/rockchip/rk3568-evb1-v10.dts     | 24 +++++++++++++++++++
+> > > >  1 file changed, 24 insertions(+)
+> > > >
+> > > > diff --git a/arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts b/arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts
+> > > > index 184e2aa2416af..156e001492173 100644
+> > > > --- a/arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts
+> > > > +++ b/arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dts
+> > > > @@ -106,6 +106,12 @@ &gmac1m1_rgmii_clk
+> > > >         status = "okay";
+> > > >  };
+> > > >
+> > > > +&hdmi {
+> > > > +       status = "okay";
+> > > > +       avdd-0v9-supply = <&vdda0v9_image>;
+> > > > +       avdd-1v8-supply = <&vcca1v8_image>;
+> > > > +};
+> > > > +
+> > > >  &i2c0 {
+> > > >         status = "okay";
+> > > >
+> > > > @@ -390,3 +396,21 @@ &sdmmc0 {
+> > > >  &uart2 {
+> > > >         status = "okay";
+> > > >  };
+> > > > +
+> > > > +&vop {
+> > > > +       status = "okay";
+> > > > +       assigned-clocks = <&cru DCLK_VOP0>, <&cru DCLK_VOP1>;
+> > > > +       assigned-clock-parents = <&pmucru PLL_HPLL>, <&cru PLL_VPLL>;
+> > > > +};
+> > > > +
+> > > > +&vop_mmu {
+> > > > +       status = "okay";
+> > > > +};
+> > > > +
+> > > > +&hdmi_in_vp0 {
+> > > > +       status = "okay";
+> > > > +};
+> > > > +
+> > > > +&vp0_out_hdmi {
+> > > > +       status = "okay";
+> > > > +};
+> > > 
+> > > You can accomplish the same thing already with:
+> > > 
+> > > &vp0_out_hdmi {
+> > >   remote-endpoint = <&hdmi_in_vp0>;
+> > > };
+> > 
+> > My idea was to describe all possible connections in the dtsi file and
+> > let the board dts writer only en/disable the needed connections. When
+> > the connections are specified in the dts file then writing it is more
+> > difficult and error prone.
+> > 
+> > > 
+> > > or:
+> > > 
+> > > &vp0_out_hdmi {
+> > >   /delete-property/ remote-endpoint;
+> > > };
+> > 
+> > With this I have to change all connections that I don't need. With
+> > status = "okay" I have to change all connections that I actually do
+> > need, which will be much easier to read and write.
+> > 
+> > I'll stick to the status = "okay" method for the next round, maybe I can
+> > still convince you ;)
+> > 
+> > If it's the 'status' property you don't like being used when it's not a
+> > device that is enabled/disabled, then every other name would be fine
+> > with me as well.
+> 
+> hmm, we do have code in the rockchip drm-driver to find out
+> if the device at the end of a graph-connection is disabled or not [0] ,
+> So on previous Rockchip socs, there are already all connections
+> established, and the driver weeds out the disabled ones.
+> 
+> So I'm wondering what is missing to use that in a vop2 context?
 
-Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
----
- Documentation/gpu/amdgpu/amdgpu-glossary.rst  |  47 ++++
- .../gpu/amdgpu/display/dc-glossary.rst        | 243 ++++++++++++++++++
- Documentation/gpu/amdgpu/display/index.rst    |   1 +
- Documentation/gpu/amdgpu/index.rst            |   7 +
- 4 files changed, 298 insertions(+)
- create mode 100644 Documentation/gpu/amdgpu/amdgpu-glossary.rst
- create mode 100644 Documentation/gpu/amdgpu/display/dc-glossary.rst
+The vop2 has three video ports (crtcs) instead of only one. All three are
+described in the device tree and each of them has a of_graph connection
+to the different encoders, so something like:
 
-diff --git a/Documentation/gpu/amdgpu/amdgpu-glossary.rst b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
-new file mode 100644
-index 000000000000..e635851025e7
---- /dev/null
-+++ b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
-@@ -0,0 +1,47 @@
-+===============
-+AMDGPU Glossary
-+===============
-+
-+Here you can find some generic acronyms used in the amdgpu driver. Notice that
-+we have a dedicated glossary for Display Core.
-+
-+.. glossary::
-+
-+    CPLIB
-+      Content Protection Library
-+
-+    DFS
-+      Digital Frequency Synthesizer
-+
-+    ECP
-+      Enhanced Content Protection
-+
-+    EOP
-+      End Of Pipe/Pipeline
-+
-+    HQD
-+      Hardware Queue Descriptor
-+
-+    KCQ
-+      Kernel Compute Queue
-+
-+    KGQ
-+      Kernel Graphics Queue
-+
-+    KIQ
-+      Kernel Interface Queue
-+
-+    MQD
-+      Memory Queue Descriptor
-+
-+    PPLib
-+      PowerPlay Library - PowerPlay is the power management component.
-+
-+    SMU
-+      System Management Unit
-+
-+    VCE
-+      Video Compression Engine
-+
-+    VCN
-+      Video Codec Next
-diff --git a/Documentation/gpu/amdgpu/display/dc-glossary.rst b/Documentation/gpu/amdgpu/display/dc-glossary.rst
-new file mode 100644
-index 000000000000..547c0bfbb3e2
---- /dev/null
-+++ b/Documentation/gpu/amdgpu/display/dc-glossary.rst
-@@ -0,0 +1,243 @@
-+===========
-+DC Glossary
-+===========
-+
-+On this page, we try to keep track of acronyms related to the display
-+component. If you do not find what you are looking for, look at the amdgpu
-+glossary; if you cannot find it anywhere, consider asking in the amdgfx and
-+update this page.
-+
-+.. glossary::
-+
-+    ABM
-+      Adaptive Backlight Modulation
-+
-+    APU
-+      Accelerated Processing Unit
-+
-+    ASIC
-+      Application-Specific Integrated Circuit
-+
-+    ASSR
-+      Alternate Scrambler Seed Reset
-+
-+    AZ
-+      Azalia (HD audio DMA engine)
-+
-+    BPC
-+      Bits Per Colour/Component
-+
-+    BPP
-+      Bits Per Pixel
-+
-+    Clocks
-+      * PCLK: Pixel Clock
-+      * SYMCLK: Symbol Clock
-+      * SOCCLK: GPU Engine Clock
-+      * DISPCLK: Display Clock
-+      * DPPCLK: DPP Clock
-+      * DCFCLK: Display Controller Fabric Clock
-+      * REFCLK: Real Time Reference Clock
-+      * PPLL: Pixel PLL
-+      * FCLK: Fabric Clock
-+      * MCLK: Memory Clock
-+
-+    CRC
-+      Cyclic Redundancy Check
-+
-+    CRTC
-+      Cathode Ray Tube Controller - commonly called "Controller" - Generates
-+      raw stream of pixels, clocked at pixel clock
-+
-+    CVT
-+      Coordinated Video Timings
-+
-+    DAL
-+      Display Abstraction layer
-+
-+    DC (Software)
-+      Display Core
-+
-+    DC (Hardware)
-+      Display Controller
-+
-+    DCC
-+      Delta Colour Compression
-+
-+    DCE
-+      Display Controller Engine
-+
-+    DCHUB
-+      Display Controller HUB
-+
-+    ARB
-+      Arbiter
-+
-+    VTG
-+      Vertical Timing Generator
-+
-+    DCN
-+      Display Core Next
-+
-+    DCCG
-+      Display Clock Generator block
-+
-+    DDC
-+      Display Data Channel
-+
-+    DIO
-+      Display IO
-+
-+    DPP
-+      Display Pipes and Planes
-+
-+    DSC
-+      Display Stream Compression (Reduce the amount of bits to represent pixel
-+      count while at the same pixel clock)
-+
-+    dGPU
-+      discrete GPU
-+
-+    DMIF
-+      Display Memory Interface
-+
-+    DML
-+      Display Mode Library
-+
-+    DMCU
-+      Display Micro-Controller Unit
-+
-+    DMCUB
-+      Display Micro-Controller Unit, version B
-+
-+    DPCD
-+      DisplayPort Configuration Data
-+
-+    DPM(S)
-+      Display Power Management (Signaling)
-+
-+    DRR
-+      Dynamic Refresh Rate
-+
-+    DWB
-+      Display Writeback
-+
-+    FB
-+      Frame Buffer
-+
-+    FBC
-+      Frame Buffer Compression
-+
-+    FEC
-+      Forward Error Correction
-+
-+    FRL
-+      Fixed Rate Link
-+
-+    GCO
-+      Graphical Controller Object
-+
-+    GMC
-+      Graphic Memory Controller
-+
-+    GSL
-+      Global Swap Lock
-+
-+    iGPU
-+      integrated GPU
-+
-+    IH
-+      Interrupt Handler
-+
-+    ISR
-+      Interrupt Service Request
-+
-+    ISV
-+      Independent Software Vendor
-+
-+    KMD
-+      Kernel Mode Driver
-+
-+    LB
-+      Line Buffer
-+
-+    LFC
-+      Low Framerate Compensation
-+
-+    LTTPR
-+      Link Training Tunable Phy Repeater
-+
-+    LUT
-+      Lookup Table
-+
-+    MALL
-+      Memory Access at Last Level
-+
-+    MC
-+      Memory Controller
-+
-+    MPC
-+      Multiple pipes and plane combine
-+
-+    MPO
-+      Multi Plane Overlay
-+
-+    MST
-+      Multi Stream Transport
-+
-+    NBP State
-+      Northbridge Power State
-+
-+    NBIO
-+      North Bridge Input/Output
-+
-+    ODM
-+      Output Data Mapping
-+
-+    OPM
-+      Output Protection Manager
-+
-+    OPP
-+      Output Plane Processor
-+
-+    OPTC
-+      Output Pipe Timing Combiner
-+
-+    OTG
-+      Output Timing Generator
-+
-+    PCON
-+      Power Controller
-+
-+    PGFSM
-+      Power Gate Finite State Machine
-+
-+    PSR
-+      Panel Self Refresh
-+
-+    SCL
-+      Scaler
-+
-+    SDP
-+      Scalable Data Port
-+
-+    SLS
-+      Single Large Surface
-+
-+    SST
-+      Single Stream Transport
-+
-+    TMDS
-+      Transition-Minimized Differential Signaling
-+
-+    TMZ
-+      Trusted Memory Zone
-+
-+    TTU
-+      Time to Underflow
-+
-+    VRR
-+      Variable Refresh Rate
-+
-+    UVD
-+      Unified Video Decoder
-diff --git a/Documentation/gpu/amdgpu/display/index.rst b/Documentation/gpu/amdgpu/display/index.rst
-index fe2ecad8df81..e23c752ee5f5 100644
---- a/Documentation/gpu/amdgpu/display/index.rst
-+++ b/Documentation/gpu/amdgpu/display/index.rst
-@@ -26,3 +26,4 @@ table of content:
-    display-manager.rst
-    dc-debug.rst
-    dcn-overview.rst
-+   dc-glossary.rst
-diff --git a/Documentation/gpu/amdgpu/index.rst b/Documentation/gpu/amdgpu/index.rst
-index 5c8cbf514097..ff38c360b04e 100644
---- a/Documentation/gpu/amdgpu/index.rst
-+++ b/Documentation/gpu/amdgpu/index.rst
-@@ -334,3 +334,10 @@ smartshift_bias
- 
- .. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-    :doc: smartshift_bias
-+
-+AMDGPU Glossary
-+===============
-+
-+.. toctree::
-+
-+   amdgpu-glossary.rst
+vp0 <-> hdmi
+vp0 <-> mipi
+vp1 <-> hdmi
+vp1 <-> mipi
+vp2 <-> hdmi
+vp2 <-> mipi
+
+Enabling just vp0 <-> hdmi means only the first video port is can do
+hdmi. Different constraints in the clock tree (hdmi reference clock is
+hardwired to hpll, not enough PLLs to put all video ports on independent
+ones) prevent us from just allowing all connections.
+
+Sascha
+
 -- 
-2.25.1
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
