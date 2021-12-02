@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95432466776
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Dec 2021 17:02:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7AC346677F
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Dec 2021 17:02:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 062586FA52;
-	Thu,  2 Dec 2021 16:02:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 343176F8B3;
+	Thu,  2 Dec 2021 16:02:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2052.outbound.protection.outlook.com [40.107.220.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34EE56FA52;
- Thu,  2 Dec 2021 16:02:05 +0000 (UTC)
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam07on2068.outbound.protection.outlook.com [40.107.95.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92F076FA6D;
+ Thu,  2 Dec 2021 16:02:07 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K4vZnCYZ9GFryHtbADG4Id212ZPmbHu/vIvnFmPU5MjKtt0krk0zrl9plzcuRbkjx3MpWtVjXG/1pMFWX0QDdoq1jJe6nOPq1yImua7WgFytFM0QWPqmOpv9uQJiATZ53eIg545+ZS+qjVKF+EgRxxXXolNohaDzpSOaLfhjkW743+tdw+S7TPstPvg5zHNr6NmIX/Lb5m02lD4nTg1qvlX0M8nG84oKJG6Fz0huI4um7c1uEfjjFgaChXNfeK19U2PPdATXa2sRHh4f9ZzKVrm3cwg/Ba5afe2Jizj70giJZ7zdlwoli9BDTwdpGR+ZuG0lN1rG34yo6lVK1NlwZg==
+ b=ngigZN6cIoafF9UwRFaqQeQHlhCTDIB1W2zmdtHvkkSAXffI9HeJ7skoE/NgvNUXPjVuSQqzY83M1CT02JK3sfVtCbHclLRnUM4XRKlRcApc960o0Nm68lKMkdhvyoJemoX7EobBArDlSqFADKLDvnZVbH2YPfHnhXQREew+BElVrJmf1ohZZuIRSrkR165G/QjWObbfNuoLkiqcFyIwaO+n5UYE6KIfrm4vbEYJbo/n9AvC29E5tD9s+znbJChPHII91IBINFCpT5lV+0qd87UIwibi8oU7BeW/bU38d/BjhAiPspegsdz/NuGyTt3vwh/o6MEb4g1fsQqAXkGU3A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+mjlovj+UAEX9x+cMvz7GKL6/foenGzy2pc9MGyqZto=;
- b=ADclaSXw1B7QNBsGhxOCZCsgb5ZsBMdtcKQipFUSTjPjEIxV95/FNkpa7TiMv5WfF0K+AH0i0afqM6hYa4EhCa96z0N+GPE9MntyZMTeJn1E3D9ZwZMouLxWvFE0ygW0UVm6KCIaaMSUeJhs6zkfvR4jjUTocjuHXR655ITyx4ApxpGoPsJS7Hz0SNlV3ZDiGJHuEwcVz+Wd534Yee6LwPIlnhorTKs9yhduevMMPi1VjArhR6fTuZj6aZIfwHk12B3qCGYDnVn9dhatc4lTO4nCzHgXKnBxktnGb3C3/L5cvw7f/GlZ9jh42FdX6USqyVBSm1dmy0DvmJWgblKx7Q==
+ bh=kBJRzHf4EEYvbBlN69lj+XARmY75Y09a7w0uPKpww+w=;
+ b=MN6Uy51R7tn7Ty/J6nXrak2Bo6ifxAD40JoMxQLFf02pDpTkSp52A8QgttPGYIG8EsQjAowyPi+/IskUQmzUOkODMF573cHR/JZRP1yHS2sGcziSLoRlAqjo8wQvSanYbxw7fZHDdh7/yZIqX+RgPA6NAGr9lX9OpNqrkOZ7qgbZYSyQX3ywbJ1USmpl7Pm+1ris40+74S77kAgDtr2ijb4z195cOTOoS8llFouzSytrHAMN2Atfx+79QvRB8XJRcP2zPe2OmypqprXZMN1+0XT4xltVX7qd8WLJ6mQAU+8u0trbgOIvhaQInBSgjn2KRKYLt++C9oW0oPgBNHH+JA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=emersion.fr smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+mjlovj+UAEX9x+cMvz7GKL6/foenGzy2pc9MGyqZto=;
- b=sydOTsCaWDXV7BZjKna5eysr/0eXjCuEUP/5JmaifjBVgIQ89q/c5PGJBeat+cchYVs4Yz1q48faSoH5OU7M7cgbB+4tG+bRXWkP47FFA+RHYUDH3xcCkVaHi7VPXOS3Ape6CxfzAX0d9mmJM+riv8tLYozXlMl0BJIGFIasv9Y=
-Received: from BN9PR03CA0142.namprd03.prod.outlook.com (2603:10b6:408:fe::27)
- by CY4PR12MB1525.namprd12.prod.outlook.com (2603:10b6:910:11::19)
+ bh=kBJRzHf4EEYvbBlN69lj+XARmY75Y09a7w0uPKpww+w=;
+ b=4g1kL8/wB/MR7KlbE+hkAMJpbIIiU6cqTDr+13fE1yyU0Vd48xHrDmLt3mOhRWa8phLjVfRINNf+La6yZxu4WCfgCtuSVzWgVPKKhN3c4x3sDMPv28/I0fR4ayBkTy7JQ1cz4265T59ZOCn+JHxnu2BPalOrkWYbAEdMW41ogy4=
+Received: from BN9PR03CA0138.namprd03.prod.outlook.com (2603:10b6:408:fe::23)
+ by BY5PR12MB4885.namprd12.prod.outlook.com (2603:10b6:a03:1de::20)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.20; Thu, 2 Dec
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.23; Thu, 2 Dec
  2021 16:02:03 +0000
 Received: from BN8NAM11FT039.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:fe:cafe::4) by BN9PR03CA0142.outlook.office365.com
- (2603:10b6:408:fe::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.23 via Frontend
+ (2603:10b6:408:fe:cafe::90) by BN9PR03CA0138.outlook.office365.com
+ (2603:10b6:408:fe::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.14 via Frontend
  Transport; Thu, 2 Dec 2021 16:02:03 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
@@ -47,11 +47,11 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  BN8NAM11FT039.mail.protection.outlook.com (10.13.177.169) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4755.13 via Frontend Transport; Thu, 2 Dec 2021 16:02:02 +0000
+ 15.20.4755.13 via Frontend Transport; Thu, 2 Dec 2021 16:02:03 +0000
 Received: from atma2.hitronhub.home (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Thu, 2 Dec
- 2021 10:01:59 -0600
+ 2021 10:02:00 -0600
 From: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 To: Simon Ser <contact@emersion.fr>, Michel Daenzer <michel@daenzer.net>, "Bas
  Nieuwenhuizen" <bas@basnieuwenhuizen.nl>, Marek Olsak <marek.olsak@amd.com>,
@@ -60,10 +60,10 @@ To: Simon Ser <contact@emersion.fr>, Michel Daenzer <michel@daenzer.net>, "Bas
  Yacoub" <markyacoub@chromium.org>, Sean Paul <seanpaul@chromium.org>, "Pekka
  Paalanen" <ppaalanen@gmail.com>, Yann Dirson <ydirson@free.fr>, Daniel Vetter
  <daniel@ffwll.ch>
-Subject: [PATCH v2 2/6] Documentation/gpu: Document amdgpu_dm_visual_confirm
- debugfs entry
-Date: Thu, 2 Dec 2021 11:01:28 -0500
-Message-ID: <20211202160132.2263330-3-Rodrigo.Siqueira@amd.com>
+Subject: [PATCH v2 3/6] Documentation/gpu: Document pipe split visual
+ confirmation
+Date: Thu, 2 Dec 2021 11:01:29 -0500
+Message-ID: <20211202160132.2263330-4-Rodrigo.Siqueira@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211202160132.2263330-1-Rodrigo.Siqueira@amd.com>
 References: <20211202160132.2263330-1-Rodrigo.Siqueira@amd.com>
@@ -75,28 +75,28 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d5341d9a-d01e-4b6a-d45b-08d9b5ad149c
-X-MS-TrafficTypeDiagnostic: CY4PR12MB1525:
-X-Microsoft-Antispam-PRVS: <CY4PR12MB152570C50F610A29FC8E7D7F98699@CY4PR12MB1525.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
+X-MS-Office365-Filtering-Correlation-Id: cd905799-1004-4a8b-1b37-08d9b5ad1508
+X-MS-TrafficTypeDiagnostic: BY5PR12MB4885:
+X-Microsoft-Antispam-PRVS: <BY5PR12MB488539BFCF16A492DDF92E4898699@BY5PR12MB4885.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Zvi5brsKPO1oaWnFBDhNTL+s65ZVC6BPc7RqN0gIXt3YCkYqVD0x4cxkIFLefsBzvbJPxwyXKdE3RLx2YafUl2zERbWqZX+EKUy192ysFemQi7N2K5R7Q1dmNb33I0Pc4KFaX00TUoU4zj7rRULfQYeW9OYxUcpPzptkwOqLU/OCnKnJoe4iNER+4CeA8MnCpiq5Jq4OwIBZ/P+VTW0AqfybQ32kcPu2MY3f5DDtRV8MZIKgcEfGZi6UzNGsrziIOmSWtYNboPVOuA10tPdlGB25v7PsfI3iZd/x6tov96CJYt/QkIEyOjXGNOQHMnPWzaG8YPsLn5BNIvr7mI/e0if/IJWjj2AWlWcSPeHDNc74q7vu6BsHuICPARORaNvAURsB6kEZ/sG+mwWj0kk5c1dL/36B48GYU6CVatu1hLMSTNss2KQo6V7zcDkilrsHHV3wQeYGw4/wktGUQwNNdj99gw9SGFzWtULvjEHOwR7wTkAlS+LM5m6SiJGWX9DCn33y6fxRqKzcyeyeZacQkMs7Yzs6TbgMLIZlfVFejveIGn/dnEbU9byqKqPQ8SA6NwxDsWEMD32Wbo4xEiLb/rQmqTcN4ODm1MGFcNPZPnlOkkEmIEso9+4VenNMSR9x2TTIqBnpqWjHesghgOOtiEci/rGFE2l+oAlGipvlcDFEOnjUVEc/oli4AGtTcb785OMq4oBEyzA8wLDaH9CFv/PJTglupWlDT7Irg88UlGW1Zo0+2lKcwAH+S82O0F978wizzIg/YNbXXWWNbllfE77dV1FbNkXp712KXTIxXTH60XM2wxnr4wBjrq2YNP6t
+X-Microsoft-Antispam-Message-Info: 7URWu3jJpmfLEys3SMQdMrdElXfZpJE09lmItX6hcb19qJQHDvCOzkMNWSJ0A0glQbJOxlgdsedi+zIni4aZ9w13deGnwKMhL0Mh4FKMbO6Rw6uIgXtvmBHFJJiQJs6IMtgJvsThKjVtAFdPxBU+rMZLKEZbkSsn7gJVCE2khakIX2rJ7s5Oy56zYEH//Lf+F7sG0YsJ4HEFbrQ2u5RzlJ9mozyA90qjNvmH/RewvqsMnLSR7QZP8DqR4lNbfh73P6Eencr+j7Y23kczHUPCYUpylJIKCNj/uTPS6DvPTCfU1g9aXoImCb1//8UguMv2+8vejM0HrGnI1vBbSJB7ffDomROKITReAs2eGzcsc8tFpCjm57f4vZSh4y0I9yvVVML189j+FvztwQSyM6HCrynbzwZemgK8m4T0cK8pGjOZ3dDy0+cDpg1OIx+zvUC6DE4L/7p8+lW/v7bzUxvI4767KfOgaEAjtrSqUDRQIKxo+h8w64DFxEJwDhGvgR0HLQvhv1QlHLNkezgluZNM3oHDA4TAkyW00uRUr/luZqX0PpAETe81wi4fLNxPejU4m3z8n7Iqr/xLoKGuMcd66/+SRFbDOTaeVoJ8MWhrgeNVzOp8P+vwUE9EmT7LAJ28IdSMGp/RXtgCy1BMWweUbRg2druoEdAkFwjlcL2V3ej2Y0LU9ObRyFVJjH/NirUk4oqDQgX6sdklrrazyHwTsB7LofIo/Vqk98j5+WjzI7FmR5hawZ59yGfFoa0syywd86dyiTa3muVgHx9FGAtwJbWiTRhCo+vwdaKOYA9j33PC0QfyfNkRePRcUDqnt1D0
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(36840700001)(46966006)(40470700001)(6666004)(86362001)(54906003)(36756003)(1076003)(70586007)(2616005)(336012)(110136005)(70206006)(82310400004)(7416002)(16526019)(356005)(81166007)(26005)(508600001)(426003)(83380400001)(2906002)(5660300002)(316002)(8676002)(36860700001)(8936002)(40460700001)(47076005)(921005)(186003)(4326008)(36900700001);
+ SFS:(4636009)(36840700001)(46966006)(40470700001)(70206006)(36860700001)(86362001)(110136005)(8936002)(1076003)(70586007)(508600001)(921005)(54906003)(356005)(316002)(47076005)(82310400004)(5660300002)(83380400001)(26005)(2906002)(6666004)(8676002)(4326008)(2616005)(426003)(336012)(7416002)(186003)(16526019)(81166007)(36756003)(40460700001)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2021 16:02:02.8958 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5341d9a-d01e-4b6a-d45b-08d9b5ad149c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2021 16:02:03.5989 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd905799-1004-4a8b-1b37-08d9b5ad1508
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT039.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1525
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4885
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,56 +117,56 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Display core provides a feature that makes it easy for users to debug
-Multiple planes by enabling a visual notification at the bottom of each
-plane. This commit introduces how to use such a feature.
+Pipe Split. This commit introduces how to use such a debug option.
 
 Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 ---
- Documentation/gpu/amdgpu/display/dc-debug.rst | 34 ++++++++++++++++++-
- 1 file changed, 33 insertions(+), 1 deletion(-)
+ Documentation/gpu/amdgpu/display/dc-debug.rst | 28 +++++++++++++++++--
+ 1 file changed, 26 insertions(+), 2 deletions(-)
 
 diff --git a/Documentation/gpu/amdgpu/display/dc-debug.rst b/Documentation/gpu/amdgpu/display/dc-debug.rst
-index bbb8c3fc8eee..532cbbd64863 100644
+index 532cbbd64863..6dbd21f7f59e 100644
 --- a/Documentation/gpu/amdgpu/display/dc-debug.rst
 +++ b/Documentation/gpu/amdgpu/display/dc-debug.rst
-@@ -1,4 +1,36 @@
-+========================
+@@ -2,8 +2,18 @@
  Display Core Debug tools
  ========================
  
--TODO
-+DC Debugfs
-+==========
+-DC Debugfs
+-==========
++DC Visual Confirmation
++======================
 +
-+Multiple Planes Debug
-+---------------------
++Display core provides a feature named visual confirmation, which is a set of
++bars added at the scanout time by the driver to convey some specific
++information. In general, you can enable this debug option by using::
 +
-+If you want to enable or debug multiple planes in a specific user-space
-+application, you can leverage a debug feature named visual confirm. For
-+enabling it, you will need::
++  echo <N> > /sys/kernel/debug/dri/0/amdgpu_dm_visual_confirm
++
++Where `N` is an integer number for some specific scenarios that the developer
++wants to enable, you will see some of these debug cases in the following
++subsection.
+ 
+ Multiple Planes Debug
+ ---------------------
+@@ -34,3 +44,17 @@ split configuration.
+ * There should **not** be any cursor corruption
+ * Multiple plane **may** be briefly disabled during window transitions or
+   resizing but should come back after the action has finished
++
++Pipe Split Debug
++----------------
++
++Sometimes we need to debug if DCN is splitting pipes correctly, and visual
++confirmation is also handy for this case. Similar to the MPO case, you can use
++the below command to enable visual confirmation::
 +
 +  echo 1 > /sys/kernel/debug/dri/0/amdgpu_dm_visual_confirm
 +
-+You need to reload your GUI to see the visual confirmation. When the plane
-+configuration changes or a full update occurs there will be a colored bar at
-+the bottom of each hardware plane being drawn on the screen.
-+
-+* The color indicates the format - For example, red is AR24 and green is NV12
-+* The height of the bar indicates the index of the plane
-+* Pipe split can be observed if there are two bars with a difference in height
-+  covering the same plane
-+
-+Consider the video playback case in which a video is played in a specific
-+plane, and the desktop is drawn in another plane. The video plane should
-+feature one or two green bars at the bottom of the video depending on pipe
-+split configuration.
-+
-+* There should **not** be any visual corruption
-+* There should **not** be any underflow or screen flashes
-+* There should **not** be any black screens
-+* There should **not** be any cursor corruption
-+* Multiple plane **may** be briefly disabled during window transitions or
-+  resizing but should come back after the action has finished
++In this case, if you have a pipe split, you will see one small red bar at the
++bottom of the display covering the entire display width and another bar
++covering the second pipe. In other words, you will see a bit high bar in the
++second pipe.
 -- 
 2.25.1
 
