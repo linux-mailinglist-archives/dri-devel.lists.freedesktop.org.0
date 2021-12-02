@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC510466C54
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Dec 2021 23:28:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A6F2466C59
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Dec 2021 23:28:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 088BB6FBE7;
-	Thu,  2 Dec 2021 22:27:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 169DC6FC39;
+	Thu,  2 Dec 2021 22:27:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com
- [IPv6:2607:f8b0:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 710A16FC2D
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Dec 2021 22:27:43 +0000 (UTC)
-Received: by mail-pg1-x52b.google.com with SMTP id s137so1158610pgs.5
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Dec 2021 14:27:43 -0800 (PST)
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
+ [IPv6:2607:f8b0:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43E126FC35
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Dec 2021 22:27:44 +0000 (UTC)
+Received: by mail-pg1-x532.google.com with SMTP id s37so1132930pga.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Dec 2021 14:27:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QdKC3RDnWMeVhqBKuTAcfq/eZBHYEe2Kb+X7ix5SdpY=;
- b=laptljn+mS1jCHaMa/saNMEfnEIumKR3Kw56m2jL9msHSZPUUjaf0D8i2FDb4E1/im
- sDRbu2g6TORJ94p0AJyDzfkVNH4ROKSpUpjGuXR/0OJJqmUijGpCSuLaSLfcgJ+QbqiV
- HmXJIsvGQpb0iwRD4iXy2r+7d6ertsYT4kOg8=
+ bh=udX8aXVKtCgorZpoo7KBRMV9fl84l0zJ44mq5nPYnXQ=;
+ b=TjqoJhhXaMP8hQlnS9mUSCYUDbyLXLVNi4ZHMPz7cMNMk89AJHT7ut7rIOAmSOtbPT
+ CM/EMZKOMnPjVOh1Cs9zslDLklE243BdGdVj8ymfawIZQCJQ5dS5YUHc+Ibj8DTzlKxA
+ IKypX8XmEuoMlr5UhMowgQybQ1aOPnRfDUqMg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QdKC3RDnWMeVhqBKuTAcfq/eZBHYEe2Kb+X7ix5SdpY=;
- b=1bc5PUs/O2vZSNb5+3nR9vdWZWfgHOHMuAkO0/fGQ0VeKRn6R61yaSWOriPEFvNqa0
- EARxSOlxrhkyqb43FySOGZF+TpRbN+e3u3RAbO0RHRE4uepKNJu1BC0TRyOpQ5oZz6ts
- ANClyrTY4/Euum+ZCFEXM0Nd07B7INx0f2n7xjuLIadstozpiONjePGBXuodW3o67F3u
- uj5QrSg3h4Qta1CG+mrq9kkqBWYVSdJkdOiBTNnInwWAsct8UE6fnqXXJ9I0NYA2fVdx
- pUjafhZFA4iHQA3LImJNjUHhuBHhCMlLjEhnTHEnG+xTEu6DHR1/M2ayrCxwrVnv2jpy
- mX/g==
-X-Gm-Message-State: AOAM531ABlwTZONy1CMFKvUUsXt5OZ9F236e6cxDVnmznsxyrRYFo3vG
- 2seFoxWhnXq2lU91vsrczYcJgA==
-X-Google-Smtp-Source: ABdhPJzgC2BA6lM6AQuBQ3MmHaEre1h7NVDLyDuRYjggCOkuycTWWP2ntL1TrPHEFg5jdlgO8D3UXA==
-X-Received: by 2002:a63:6907:: with SMTP id e7mr1522235pgc.481.1638484063023; 
+ bh=udX8aXVKtCgorZpoo7KBRMV9fl84l0zJ44mq5nPYnXQ=;
+ b=RNvvMouVXrnBaK+DuWvpE9xzxMqI5pUAxYop3RED2vnH1lo63kDupHDIR7vKFvuYNj
+ ei70KJLLKxdWS6UROglX04VL1/hrxc9W8rVCBgVuaz/5XJmzmveAn+v9s8+WAYJsRhwi
+ yT1k+FpeVUWKl5stUUAzF6/mWujNQMudh8iMWn4Ut1dtrsr45wn8q3l9npXmZUZHXCD0
+ OEb5Nsov/d+I0rKnx3YbV3VqL/yqsBfz7vdNspOEG1E6NiRH91LUY4glS+jqMXnMmfUn
+ N+KkB+/re+X+v34nCoGUKklLNpjxY8aE5/ps7HLSAqdSC2L72FJcYj+D/S4qFLO77xF2
+ ROVw==
+X-Gm-Message-State: AOAM533Nne+d04XxKBsBHCDKuRtSGxuZmLEPaVivr+dUcyls0vIjOOaj
+ dVTJ+GCtQPSjw+Bsuut6ThHMiw==
+X-Google-Smtp-Source: ABdhPJymhpPWoRgTHhyDy+KR0Ms3HpYkh5COqphEYyWJv6Q+0OX4qWjOQ3OwkIsidViKOltM3lMIDw==
+X-Received: by 2002:a63:4a42:: with SMTP id j2mr1552651pgl.113.1638484063815; 
  Thu, 02 Dec 2021 14:27:43 -0800 (PST)
 Received: from smtp.gmail.com ([2620:15c:202:201:f4f2:1b7e:5aea:bf3c])
- by smtp.gmail.com with ESMTPSA id q9sm836934pfj.9.2021.12.02.14.27.42
+ by smtp.gmail.com with ESMTPSA id q9sm836934pfj.9.2021.12.02.14.27.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Dec 2021 14:27:42 -0800 (PST)
+ Thu, 02 Dec 2021 14:27:43 -0800 (PST)
 From: Stephen Boyd <swboyd@chromium.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v4 08/34] drm/komeda: Migrate to aggregate driver
-Date: Thu,  2 Dec 2021 14:27:06 -0800
-Message-Id: <20211202222732.2453851-9-swboyd@chromium.org>
+Subject: [PATCH v4 09/34] drm/arm/hdlcd: Migrate to aggregate driver
+Date: Thu,  2 Dec 2021 14:27:07 -0800
+Message-Id: <20211202222732.2453851-10-swboyd@chromium.org>
 X-Mailer: git-send-email 2.34.0.384.gca35af8252-goog
 In-Reply-To: <20211202222732.2453851-1-swboyd@chromium.org>
 References: <20211202222732.2453851-1-swboyd@chromium.org>
@@ -66,9 +66,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Saravana Kannan <saravanak@google.com>,
  "Rafael J. Wysocki" <rafael@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- James Qian Wang <james.qian.wang@arm.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Liviu Dudau <liviu.dudau@arm.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
  Russell King <rmk+kernel@arm.linux.org.uk>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
@@ -77,7 +76,7 @@ Use an aggregate driver instead of component ops so that we can get
 proper driver probe ordering of the aggregate device with respect to all
 the component devices that make up the aggregate device.
 
-Cc: James Qian Wang (Arm Technology China) <james.qian.wang@arm.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc: "Rafael J. Wysocki" <rafael@kernel.org>
 Cc: Rob Clark <robdclark@gmail.com>
@@ -85,64 +84,65 @@ Cc: Russell King <rmk+kernel@arm.linux.org.uk>
 Cc: Saravana Kannan <saravanak@google.com>
 Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 ---
- .../gpu/drm/arm/display/komeda/komeda_drv.c   | 20 ++++++++++++-------
- 1 file changed, 13 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/arm/hdlcd_drv.c | 21 +++++++++++++--------
+ 1 file changed, 13 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
-index e7933930a657..0463386a6ed2 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
-@@ -25,8 +25,9 @@ struct komeda_dev *dev_to_mdev(struct device *dev)
- 	return mdrv ? mdrv->mdev : NULL;
- }
+diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
+index 479c2422a2e0..5c03eb98d814 100644
+--- a/drivers/gpu/drm/arm/hdlcd_drv.c
++++ b/drivers/gpu/drm/arm/hdlcd_drv.c
+@@ -270,8 +270,9 @@ static const struct drm_driver hdlcd_driver = {
+ 	.minor = 0,
+ };
  
--static void komeda_unbind(struct device *dev)
-+static void komeda_unbind(struct aggregate_device *adev)
+-static int hdlcd_drm_bind(struct device *dev)
++static int hdlcd_drm_bind(struct aggregate_device *adev)
  {
 +	struct device *dev = adev->parent;
- 	struct komeda_drv *mdrv = dev_get_drvdata(dev);
- 
- 	if (!mdrv)
-@@ -45,8 +46,9 @@ static void komeda_unbind(struct device *dev)
- 	devm_kfree(dev, mdrv);
+ 	struct drm_device *drm;
+ 	struct hdlcd_drm_private *hdlcd;
+ 	int ret;
+@@ -344,8 +345,9 @@ static int hdlcd_drm_bind(struct device *dev)
+ 	return ret;
  }
  
--static int komeda_bind(struct device *dev)
-+static int komeda_bind(struct aggregate_device *adev)
+-static void hdlcd_drm_unbind(struct device *dev)
++static void hdlcd_drm_unbind(struct aggregate_device *adev)
  {
 +	struct device *dev = adev->parent;
- 	struct komeda_drv *mdrv;
- 	int err;
+ 	struct drm_device *drm = dev_get_drvdata(dev);
+ 	struct hdlcd_drm_private *hdlcd = drm->dev_private;
  
-@@ -87,9 +89,13 @@ static int komeda_bind(struct device *dev)
- 	return err;
+@@ -367,9 +369,13 @@ static void hdlcd_drm_unbind(struct device *dev)
+ 	drm_dev_put(drm);
  }
  
--static const struct component_master_ops komeda_master_ops = {
--	.bind	= komeda_bind,
--	.unbind	= komeda_unbind,
-+static struct aggregate_driver komeda_aggregate_driver = {
-+	.probe	= komeda_bind,
-+	.remove	= komeda_unbind,
-+	.driver = {
-+		.name  = "komeda_drm",
-+		.owner = THIS_MODULE,
+-static const struct component_master_ops hdlcd_master_ops = {
+-	.bind		= hdlcd_drm_bind,
+-	.unbind		= hdlcd_drm_unbind,
++static struct aggregate_driver hdlcd_aggregate_driver = {
++	.probe		= hdlcd_drm_bind,
++	.remove		= hdlcd_drm_unbind,
++	.driver		= {
++		.name	= "hdlcd_drm",
++		.owner	= THIS_MODULE,
 +	},
  };
  
- static int compare_of(struct device *dev, void *data)
-@@ -129,12 +135,12 @@ static int komeda_platform_probe(struct platform_device *pdev)
- 		komeda_add_slave(dev, &match, child, KOMEDA_OF_PORT_OUTPUT, 1);
- 	}
+ static int compare_dev(struct device *dev, void *data)
+@@ -390,13 +396,12 @@ static int hdlcd_probe(struct platform_device *pdev)
+ 	drm_of_component_match_add(&pdev->dev, &match, compare_dev, port);
+ 	of_node_put(port);
  
--	return component_master_add_with_match(dev, &komeda_master_ops, match);
-+	return component_aggregate_register(dev, &komeda_aggregate_driver, match);
+-	return component_master_add_with_match(&pdev->dev, &hdlcd_master_ops,
+-					       match);
++	return component_aggregate_register(&pdev->dev, &hdlcd_aggregate_driver, match);
  }
  
- static int komeda_platform_remove(struct platform_device *pdev)
+ static int hdlcd_remove(struct platform_device *pdev)
  {
--	component_master_del(&pdev->dev, &komeda_master_ops);
-+	component_aggregate_unregister(&pdev->dev, &komeda_aggregate_driver);
+-	component_master_del(&pdev->dev, &hdlcd_master_ops);
++	component_aggregate_unregister(&pdev->dev, &hdlcd_aggregate_driver);
  	return 0;
  }
  
