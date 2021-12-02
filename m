@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31251466BA8
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Dec 2021 22:27:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 004FB466C2D
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Dec 2021 23:27:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BFE56F448;
-	Thu,  2 Dec 2021 21:27:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 259916FB8B;
+	Thu,  2 Dec 2021 22:27:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A6736F448
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Dec 2021 21:27:16 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id t5so3607373edd.0
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Dec 2021 13:27:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to:cc
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
+ [IPv6:2607:f8b0:4864:20::1034])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62B4D6FBA2
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Dec 2021 22:27:36 +0000 (UTC)
+Received: by mail-pj1-x1034.google.com with SMTP id v23so835415pjr.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Dec 2021 14:27:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=D/nDffzm1vMPDEjNds0Hj5SZg6VwZzl34xLZ1SnbtI8=;
- b=Lhr8AqwShuf91luiUH6YUTNGqzm4hWwDH1MQvZRCqFHQ0CVv6VMUdOF0usax3EjhTf
- 6YzTm+/LwQJfr3CrW1BXNbm9+F0Dl2uXNvAkBiV7aLacdcvoQyrqzjHpTPlkJ07m6eFN
- dByEX8hWSrbD7cP5TUgg5nuShuVEQTU2FlwUak9GabpxA9kasIGj56QnLXq1ufO3QIt7
- KJXk4lQOiwRYT8hOZZbU0r1eVbilY2EN7b/jiuGdzyOTNSUlq4Oy9XWfDAKTxL/4cSdS
- Qd3613QaW/iAzsfPsCr60eDslfdksTJx1lhEJannPcHVkaYw6ro+iZV5p6pOuRpA4/3r
- Y85Q==
+ bh=5WjMVJlEvHCp7tTv7npHyleFiHNkXhRhHCdBOuZtqvQ=;
+ b=Bjy1MQ1/dmjzsHusnNupzZgwROVBZHR+JowF629y1E1WFpdgUOafwyPSlDiFFbH4DS
+ TtmOv1mKEn8sS6GtBLCyMvee4wdRX9qPCJLPht+ksdTUTV8k07HfHtgVui1y1uKKElqY
+ h58KNT3N4Jkutcui3TbymX6qTPQ2JnAA4eAss=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=D/nDffzm1vMPDEjNds0Hj5SZg6VwZzl34xLZ1SnbtI8=;
- b=Hpc5mV2IZ9EWFLv6oD9p/UooJ2kmdWXFLsVqy2sRoAsLZ5bH4li1r9QpGmNhWtvO/v
- RqvS224obvPAS/gcWswbxNcpJ1YljHsnQL+5q5OoxAx55EqFz1njjXUavaERmTFNpsva
- pKe/joPJjelN4FgW+eulcUIngy+qjTk8iVjRRwrZRrPsjo1XiX4ipmpWSKCYukqaaSfW
- DGGfrD4H+qxvGOzI7yoRJA/uxA0SFeHb47nuyDV9M68Qku0rkeLW8BcpHwO7BGxq+I5q
- gcL82J9YLiWvADrjjDstrBmw/84e/iB1gPZ0fvhXc3fEa/7uOt9yETwpbqfpFZh91zIb
- v1pg==
-X-Gm-Message-State: AOAM530C9ygs5oLjwAN08dggNFeLBZHWOfsGlAWZrSSSa40zS3pRJF/U
- raC2tVpznrOsaIRi0NqcBOPjcgVhZOiGKv48I6w=
-X-Google-Smtp-Source: ABdhPJxqWBY/o8VHx2u8BIRXFmtsx8dJ6i8WR5RZ1t+W+6JbUeeXbWuIG3owiVIS1GI5J6YXktFVyff/2vNIuaaJioQ=
-X-Received: by 2002:a17:907:9495:: with SMTP id
- dm21mr18023670ejc.478.1638480435023; 
- Thu, 02 Dec 2021 13:27:15 -0800 (PST)
+ bh=5WjMVJlEvHCp7tTv7npHyleFiHNkXhRhHCdBOuZtqvQ=;
+ b=pKkdMcstvuUBfCOcYO0lpNBGYQHwp5b8BdRCb4b5m12ZCY0ziGmukftd52PR463nQ6
+ pbfjHbAjb8+LK3k9uJx5Ft/6iri6Pa6mNY5faUvAex5DKW3YGJtxmlEfNLELUkdTmHyd
+ ghHu0TGSjpxUtevX1mHUd+xRNUEEc/McVMfGvkDzOmiN89RN7ljyjuEs5qRCzAYxknvK
+ 8Gi3TUEVCkwERSFUUPDDthEHBnHMVLOHvtSY+txe6XugrE+ZhT8A40ujE95uG1C5N4It
+ 5NplTXQMqgR2f8pg+ujgSDhTruOwDnRaFkfedEPRoq0bI4v8k1L+yLNrQUoD4+Si+rgI
+ TGSg==
+X-Gm-Message-State: AOAM5308xhDi7hfFYh+bvd8yJVRqzDbtoPJno6tQnxEMkj0D+aqNOoq5
+ xo9RDpShhhSwU/XVIKLgddwKnw==
+X-Google-Smtp-Source: ABdhPJyMSX7reHsiHW/u9oxdh7JPxePin6ydBK/uJtlLT6HG2XEj1YzWc6sEjYmPD3r5kOUwBPPOdA==
+X-Received: by 2002:a17:903:4053:b0:143:6d84:984c with SMTP id
+ n19-20020a170903405300b001436d84984cmr18435905pla.37.1638484055856; 
+ Thu, 02 Dec 2021 14:27:35 -0800 (PST)
+Received: from smtp.gmail.com ([2620:15c:202:201:f4f2:1b7e:5aea:bf3c])
+ by smtp.gmail.com with ESMTPSA id q9sm836934pfj.9.2021.12.02.14.27.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Dec 2021 14:27:34 -0800 (PST)
+From: Stephen Boyd <swboyd@chromium.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v4 00/34] component: Make into an aggregate bus
+Date: Thu,  2 Dec 2021 14:26:58 -0800
+Message-Id: <20211202222732.2453851-1-swboyd@chromium.org>
+X-Mailer: git-send-email 2.34.0.384.gca35af8252-goog
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 3 Dec 2021 07:27:03 +1000
-Message-ID: <CAPM=9tyOMZFPDYCmdu2xspoNcjbrEWfqYMGSLYBioLCRCKG6wA@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.16-rc4
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,261 +64,204 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org, Emma Anholt <emma@anholt.net>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Xinliang Liu <xinliang.liu@linaro.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
+ Jaroslav Kysela <perex@perex.cz>, Paul Cercueil <paul@crapouillou.net>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Russell King <linux@armlinux.org.uk>, Will Deacon <will@kernel.org>,
+ Vitaly Lubart <vitaly.lubart@intel.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Saravana Kannan <saravanak@google.com>, Joerg Roedel <joro@8bytes.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Sandy Huang <hjc@rock-chips.com>, James Qian Wang <james.qian.wang@arm.com>,
+ Chen Feng <puck.chen@hisilicon.com>,
+ Russell King <rmk+kernel@arm.linux.org.uk>,
+ Tomas Winkler <tomas.winkler@intel.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>, Mark Brown <broonie@kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Takashi Iwai <tiwai@suse.com>,
+ linux-omap@vger.kernel.org, Yong Wu <yong.wu@mediatek.com>,
+ Tomi Valkeinen <tomba@kernel.org>, Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ linux-kernel@vger.kernel.org, Kyungmin Park <kyungmin.park@samsung.com>,
+ Sebastian Reichel <sre@kernel.org>, Tian Tao <tiantao6@hisilicon.com>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+This series is from discussion we had on reordering the device lists for
+drm shutdown paths[1]. I've introduced an 'aggregate' bus that we put
+the aggregate device onto and then we probe the aggregate device once
+all the components are probed and call component_add(). The probe/remove
+hooks are where the bind/unbind calls go, and then a shutdown hook is
+added that can be used to shutdown the drm display pipeline at the right
+time.
 
-Bit of an uptick in patch count this week, though it's all relatively
-small overall. I suspect msm has been queuing up a few fixes to skew
-it here. Otherwise amdgpu has a scattered bunch of small fixes, and
-then some vc4, i915. virtio-gpu changes an rc1 introduced uAPI
-mistake, and makes it operate more like other drivers. This should be
-fine as no userspace relies on the behaviour yet.
+This works for me on my sc7180 board. I no longer get a warning from i2c
+at shutdown that we're trying to make an i2c transaction after the i2c
+bus has been shutdown. There's more work to do on the msm drm driver to
+extract component device resources like clks, regulators, etc. out of
+the component bind function into the driver probe but I wanted to move
+everything over now in other component drivers before tackling that
+problem.
 
-Dave.
+Tested-by tags would be appreciated, and Acked-by/Reviewed-by tags too.
 
-drm-fixes-2021-12-03-1:
-drm-fixes-2021-12-03:
-drm fixes for 5.16-rc4
+Changes since v3 (https://lore.kernel.org/r/20211026000044.885195-1-swboyd@chromium.org):
+ - Picked up tags
+ - Rebased to v5.16-rc2
+ - Updated component.c for a few new patches there
+ - Dropped a conversion patch
+ - Added a conversion patch
 
-dma-buf:
-- memory leak fix
+Changes since v2 (https://lore.kernel.org/r/20211006193819.2654854-1-swboyd@chromium.org):
+ - Picked up acks
+ - Fixed build warnings/errors
+ - Reworked patch series to rename 'master' in a different patch
 
-msm:
-- kasan found memory overwrite
-- mmap flags
-- fencing error bug
-- ioctl NULL ptr
-- uninit var
-- devfreqless devices fix
-- dsi lanes fix
-- dp: avoid unpowered aux xfers
+Changes since v1 (https://lore.kernel.org/r/20210520002519.3538432-1-swboyd@chromium.org):
+ - Use devlink to connect components to the aggregate device
+ - Don't set the registering device as a parent of the aggregate device
+ - New patch for bind_component/unbind_component ops that takes the
+   aggregate device
+ - Convert all drivers in the tree to use the aggregate driver approach
+ - Allow one aggregate driver to be used for multiple aggregate devices
 
-amdgpu:
-- IP discovery based enumeration fixes
-- vkms fixes
-- DSC fixes for DP MST
-- Audio fix for hotplug with tiled displays
-- Misc display fixes
-- DP tunneling fix
-- DP fix
-- Aldebaran fix
+[1] https://lore.kernel.org/r/20210508074118.1621729-1-swboyd@chromium.org
 
-amdkfd:
-- Locking fix
-- Static checker fix
-- Fix double free
 
-i915:
-- backlight regression
-- Intel HDR backlight detection fix
-- revert TGL workaround that caused hangs
+Stephen Boyd (34):
+  component: Introduce struct aggregate_device
+  component: Remove most references to 'master'
+  component: Introduce the aggregate bus_type
+  component: Move struct aggregate_device out to header file
+  component: Add {bind,unbind}_component() ops that take aggregate
+    device
+  drm/of: Add a drm_of_aggregate_probe() API
+  drm/msm: Migrate to aggregate driver
+  drm/komeda: Migrate to aggregate driver
+  drm/arm/hdlcd: Migrate to aggregate driver
+  drm/malidp: Migrate to aggregate driver
+  drm/armada: Migrate to aggregate driver
+  drm/etnaviv: Migrate to aggregate driver
+  drm/kirin: Migrate to aggregate driver
+  drm/exynos: Migrate to aggregate driver
+  drm/imx: Migrate to aggregate driver
+  drm/ingenic: Migrate to aggregate driver
+  drm/mcde: Migrate to aggregate driver
+  drm/mediatek: Migrate to aggregate driver
+  drm/meson: Migrate to aggregate driver
+  drm/omap: Migrate to aggregate driver
+  drm/rockchip: Migrate to aggregate driver
+  drm/sti: Migrate to aggregate driver
+  drm/sun4i: Migrate to aggregate driver
+  drm/tilcdc: Migrate to aggregate driver
+  drm/vc4: Migrate to aggregate driver
+  iommu/mtk: Migrate to aggregate driver
+  mei: Migrate to aggregate driver
+  power: supply: ab8500: Migrate to aggregate driver
+  fbdev: omap2: Migrate to aggregate driver
+  sound: hdac: Migrate to aggregate driver
+  ASoC: codecs: wcd938x: Migrate to aggregate driver
+  mei: pxp: Migrate to aggregate driver
+  component: Get rid of drm_of_component_probe()
+  component: Remove component_master_ops and friends
 
-virtio-gpu:
-- switch back to drm_poll
+ drivers/base/component.c                      | 544 ++++++++++--------
+ .../gpu/drm/arm/display/komeda/komeda_drv.c   |  20 +-
+ drivers/gpu/drm/arm/hdlcd_drv.c               |  21 +-
+ drivers/gpu/drm/arm/malidp_drv.c              |  21 +-
+ drivers/gpu/drm/armada/armada_drv.c           |  23 +-
+ drivers/gpu/drm/drm_drv.c                     |   2 +-
+ drivers/gpu/drm/drm_of.c                      |  18 +-
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c         |  20 +-
+ drivers/gpu/drm/exynos/exynos_drm_drv.c       |  21 +-
+ .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |  20 +-
+ drivers/gpu/drm/imx/imx-drm-core.c            |  20 +-
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  25 +-
+ drivers/gpu/drm/mcde/mcde_drv.c               |  23 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  20 +-
+ drivers/gpu/drm/meson/meson_drv.c             |  21 +-
+ drivers/gpu/drm/msm/msm_drv.c                 |  46 +-
+ drivers/gpu/drm/omapdrm/dss/dss.c             |  20 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |  20 +-
+ drivers/gpu/drm/sti/sti_drv.c                 |  20 +-
+ drivers/gpu/drm/sun4i/sun4i_drv.c             |  26 +-
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c           |  28 +-
+ drivers/gpu/drm/vc4/vc4_drv.c                 |  20 +-
+ drivers/iommu/mtk_iommu.c                     |  14 +-
+ drivers/iommu/mtk_iommu.h                     |   6 +-
+ drivers/iommu/mtk_iommu_v1.c                  |  14 +-
+ drivers/misc/mei/hdcp/mei_hdcp.c              |  22 +-
+ drivers/misc/mei/pxp/mei_pxp.c                |  22 +-
+ drivers/power/supply/ab8500_charger.c         |  22 +-
+ drivers/video/fbdev/omap2/omapfb/dss/dss.c    |  20 +-
+ include/drm/drm_of.h                          |  10 +-
+ include/linux/component.h                     |  92 ++-
+ sound/hda/hdac_component.c                    |  21 +-
+ sound/soc/codecs/wcd938x.c                    |  20 +-
+ 33 files changed, 772 insertions(+), 490 deletions(-)
 
-vc4:
-- memory leak
-- error check fix
-- HVS modesetting fixes
-The following changes since commit d58071a8a76d779eedab38033ae4c821c30295a5=
-:
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+Cc: Chen Feng <puck.chen@hisilicon.com>
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Emma Anholt <emma@anholt.net>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Heiko Stübner" <heiko@sntech.de>
+Cc: Inki Dae <inki.dae@samsung.com>
+Cc: James Qian Wang (Arm Technology China) <james.qian.wang@arm.com>
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Joerg Roedel <joro@8bytes.org>
+Cc: John Stultz <john.stultz@linaro.org>
+Cc: Joonyoung Shim <jy0922.shim@samsung.com>
+Cc: Jyri Sarha <jyri.sarha@iki.fi>
+Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Cc: Kyungmin Park <kyungmin.park@samsung.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: <linux-fbdev@vger.kernel.org>
+Cc: <linux-omap@vger.kernel.org>
+Cc: <linux-pm@vger.kernel.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Liviu Dudau <liviu.dudau@arm.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Neil Armstrong <narmstrong@baylibre.com>
+Cc: Paul Cercueil <paul@crapouillou.net>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Russell King <linux@armlinux.org.uk>
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Russell King <rmk+kernel@arm.linux.org.uk>
+Cc: Sandy Huang <hjc@rock-chips.com>
+Cc: Saravana Kannan <saravanak@google.com>
+Cc: Sebastian Reichel <sre@kernel.org>
+Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
+Cc: Takashi Iwai <tiwai@suse.com>
+Cc: Tian Tao <tiantao6@hisilicon.com>
+Cc: Tomas Winkler <tomas.winkler@intel.com>
+Cc: Tomi Valkeinen <tomba@kernel.org>
+Cc: Will Deacon <will@kernel.org>
+Cc: Xinliang Liu <xinliang.liu@linaro.org>
+Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
+Cc: Yong Wu <yong.wu@mediatek.com>
+Cc: Vitaly Lubart <vitaly.lubart@intel.com>
+Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>
 
-  Linux 5.16-rc3 (2021-11-28 14:09:19 -0800)
+base-commit: 136057256686de39cc3a07c2e39ef6bc43003ff6
+-- 
+https://chromeos.dev
 
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-12-03-1
-
-for you to fetch changes up to a687efed194bdc185fd7cb33920fe8b4e60ecb9e:
-
-  Merge tag 'drm-intel-fixes-2021-12-02' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2021-12-03
-05:59:31 +1000)
-
-----------------------------------------------------------------
-drm-fixes-2021-12-03:
-drm fixes for 5.16-rc4
-
-dma-buf:
-- memory leak fix
-
-msm:
-- kasan found memory overwrite
-- mmap flags
-- fencing error bug
-- ioctl NULL ptr
-- uninit var
-- devfreqless devices fix
-- dsi lanes fix
-- dp: avoid unpowered aux xfers
-
-amdgpu:
-- IP discovery based enumeration fixes
-- vkms fixes
-- DSC fixes for DP MST
-- Audio fix for hotplug with tiled displays
-- Misc display fixes
-- DP tunneling fix
-- DP fix
-- Aldebaran fix
-
-amdkfd:
-- Locking fix
-- Static checker fix
-- Fix double free
-
-i915:
-- backlight regression
-- Intel HDR backlight detection fix
-- revert TGL workaround that caused hangs
-
-virtio-gpu:
-- switch back to drm_poll
-
-vc4:
-- memory leak
-- error check fix
-- HVS modesetting fixes
-
-----------------------------------------------------------------
-Akhil P Oommen (2):
-      drm/msm: Fix null ptr access msm_ioctl_gem_submit()
-      drm/msm/a6xx: Fix uinitialized use of gpu_scid
-
-Arnd Bergmann (1):
-      drm: msm: fix building without CONFIG_COMMON_CLK
-
-Dave Airlie (4):
-      Merge tag 'drm-msm-fixes-2021-11-28' of
-https://gitlab.freedesktop.org/drm/msm into drm-fixes
-      Merge tag 'amd-drm-fixes-5.16-2021-12-01' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm-misc-fixes-2021-12-02' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
-      Merge tag 'drm-intel-fixes-2021-12-02' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
-
-Douglas Anderson (3):
-      drm/msm/a6xx: Allocate enough space for GMU registers
-      drm/msm: Fix mmap to include VM_IO and VM_DONTDUMP
-      drm/msm/dp: Avoid unpowered AUX xfers that caused crashes
-
-Flora Cui (2):
-      drm/amdgpu: cancel the correct hrtimer on exit
-      drm/amdgpu: check atomic flag to differeniate with legacy path
-
-Guangming (1):
-      dma-buf: system_heap: Use 'for_each_sgtable_sg' in pages free flow
-
-Guchun Chen (1):
-      drm/amdgpu: fix the missed handling for SDMA2 and SDMA3
-
-Gurchetan Singh (2):
-      drm/virtgpu api: define a dummy fence signaled event
-      drm/virtio: use drm_poll(..) instead of virtio_gpu_poll(..)
-
-Jane Jian (1):
-      drm/amdgpu/sriov/vcn: add new vcn ip revision check case for
-SIENNA_CICHLID
-
-Jimmy Kizito (1):
-      drm/amd/display: Add work around for tunneled MST.
-
-Jos=C3=A9 Roberto de Souza (1):
-      Revert "drm/i915: Implement Wa_1508744258"
-
-Lijo Lazar (1):
-      drm/amdgpu: Don't halt RLC on GFX suspend
-
-Lyude Paul (2):
-      drm/i915: Add support for panels with VESA backlights with PWM
-enable/disable
-      drm/i915/dp: Perform 30ms delay after source OUI write
-
-Maxime Ripard (6):
-      drm/vc4: kms: Wait for the commit before increasing our clock rate
-      drm/vc4: kms: Fix return code check
-      drm/vc4: kms: Add missing drm_crtc_commit_put
-      drm/vc4: kms: Clear the HVS FIFO commit pointer once done
-      drm/vc4: kms: Don't duplicate pending commit
-      drm/vc4: kms: Fix previous HVS commit wait
-
-Mustapha Ghaddar (1):
-      drm/amd/display: Fix for the no Audio bug with Tiled Displays
-
-Nicholas Kazlauskas (1):
-      drm/amd/display: Allow DSC on supported MST branch devices
-
-Perry Yuan (1):
-      drm/amd/display: add connector type check for CRC source set
-
-Philip Chen (1):
-      drm/msm/dsi: set default num_data_lanes
-
-Philip Yang (3):
-      drm/amdkfd: set "r =3D 0" explicitly before goto
-      drm/amdkfd: fix double free mem structure
-      drm/amdkfd: process_info lock not needed for svm
-
-Rob Clark (8):
-      drm/msm/devfreq: Fix OPP refcnt leak
-      drm/msm: Fix wait_fence submitqueue leak
-      drm/msm: Restore error return on invalid fence
-      drm/msm: Make a6xx_gpu_set_freq() static
-      drm/msm: Demote debug message
-      drm/msm/gpu: Fix idle_work time
-      drm/msm/gpu: Fix check for devices without devfreq
-      drm/msm: Do hw_init() before capturing GPU state
-
-Shen, George (1):
-      drm/amd/display: Clear DPCD lane settings after repeater training
-
-shaoyunl (1):
-      drm/amdgpu: adjust the kfd reset sequence in reset sriov function
-
- drivers/dma-buf/heaps/system_heap.c                |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   |  8 ++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         | 16 ++++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c      |  3 ++
- drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c            |  1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c           |  4 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c              |  7 ++--
- drivers/gpu/drm/amd/amdgpu/nv.c                    |  1 +
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c               | 13 ++----
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c  |  8 ++++
- .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    | 20 +++++++--
- drivers/gpu/drm/amd/display/dc/core/dc_link.c      | 16 +++++++
- drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   |  2 +-
- drivers/gpu/drm/amd/display/dc/core/dc_resource.c  | 24 ++++++-----
- drivers/gpu/drm/amd/display/dc/dc.h                |  3 +-
- drivers/gpu/drm/amd/display/dc/dc_link.h           |  2 +
- drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |  2 +-
- drivers/gpu/drm/i915/display/intel_display_types.h |  3 ++
- drivers/gpu/drm/i915/display/intel_dp.c            | 11 +++++
- drivers/gpu/drm/i915/display/intel_dp.h            |  2 +
- .../gpu/drm/i915/display/intel_dp_aux_backlight.c  | 32 +++++++++++---
- drivers/gpu/drm/i915/gt/intel_workarounds.c        |  7 ----
- drivers/gpu/drm/msm/Kconfig                        |  2 +-
- drivers/gpu/drm/msm/Makefile                       |  6 +--
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c              | 20 ++++-----
- drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c        |  4 +-
- drivers/gpu/drm/msm/dp/dp_aux.c                    | 17 ++++++++
- drivers/gpu/drm/msm/dsi/dsi_host.c                 |  2 +
- drivers/gpu/drm/msm/msm_debugfs.c                  |  1 +
- drivers/gpu/drm/msm/msm_drv.c                      | 49 ++++++++++++++----=
-----
- drivers/gpu/drm/msm/msm_gem.c                      |  5 +--
- drivers/gpu/drm/msm/msm_gem_submit.c               |  2 +
- drivers/gpu/drm/msm/msm_gpu.h                      |  3 ++
- drivers/gpu/drm/msm/msm_gpu_devfreq.c              | 13 ++++--
- drivers/gpu/drm/vc4/vc4_kms.c                      | 40 ++++++++----------
- drivers/gpu/drm/virtio/virtgpu_drv.c               | 42 +-----------------=
--
- drivers/gpu/drm/virtio/virtgpu_drv.h               |  1 -
- drivers/gpu/drm/virtio/virtgpu_ioctl.c             |  2 +-
- include/uapi/drm/virtgpu_drm.h                     |  7 ++++
- 39 files changed, 244 insertions(+), 159 deletions(-)
