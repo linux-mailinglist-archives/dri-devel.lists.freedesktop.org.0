@@ -2,57 +2,147 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 843FA466C91
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Dec 2021 23:29:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F37466D3B
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Dec 2021 23:47:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD6A6FC70;
-	Thu,  2 Dec 2021 22:28:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85A346FD33;
+	Thu,  2 Dec 2021 22:47:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
- [IPv6:2607:f8b0:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBFF06FC55
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Dec 2021 22:28:04 +0000 (UTC)
-Received: by mail-pl1-x634.google.com with SMTP id y7so787782plp.0
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Dec 2021 14:28:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=lQPPjlrmfYNaZQJU5WpmjNJguM+Opu+iDFV373nUgEI=;
- b=KCM9awU9hR9q31ZrtoM6KfCBrTLCW62GiSOPxe+6dz0HKw2B3eVzsFVKfnfGvXhF9s
- vVMbO1WqT6qthi2nxSm2jUTXB/b+bzl9jE6YlswuvB0Ox+cwf5ikaEVoOmWbwGVplcCT
- E6xIrN3f69AFmvujMChxhNYYfCIDVl1EaHCHQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=lQPPjlrmfYNaZQJU5WpmjNJguM+Opu+iDFV373nUgEI=;
- b=mnegR5n/sdl6K3u58DWR9VcovrQ+smMdQ0lEEw3zd/CE+sHaVyYW9VWw6DFTDJUgWj
- Bk8J4xIeFzYifmNfmjTqiuXMcAVKiq6ZV6TfTUtlolnk9yndotq2DVR1etn5naOfDiFJ
- ezFyznmLDEb2ly/OPFQfd/iCsNyzNvjo8lsqFr0gEULeuSmMP2B9ERNPWIcJ/g0jN4H1
- Mx480h9ZNRE4HspRNzX0hCZ7nF+KBrCMQvL9L7Cto/fIAYGRmWiQuMTRkxOKq2T1nUsq
- 9StIwy6cjvCeeR66GxSTxV4i49RuagJL51EHwE68x+LISdAyGuxOmWcNiqQZCs0WA41F
- yYPw==
-X-Gm-Message-State: AOAM530Z95bSpzXgiOhlx+TljjiWGG+Hygd9Hy38NO51W4Lej15FUYmL
- IwhmWr+lH7BSxVaZ0hKoyDDtug==
-X-Google-Smtp-Source: ABdhPJx1AV81uAombQGToSjTDY1INUbBt/qE7JnMcmPhzEESV5qra+YGdsINWUH+NyxFDyN20/YaaA==
-X-Received: by 2002:a17:902:c78a:b0:142:1b7a:930 with SMTP id
- w10-20020a170902c78a00b001421b7a0930mr18188917pla.8.1638484084303; 
- Thu, 02 Dec 2021 14:28:04 -0800 (PST)
-Received: from smtp.gmail.com ([2620:15c:202:201:f4f2:1b7e:5aea:bf3c])
- by smtp.gmail.com with ESMTPSA id q9sm836934pfj.9.2021.12.02.14.28.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Dec 2021 14:28:03 -0800 (PST)
-From: Stephen Boyd <swboyd@chromium.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v4 34/34] component: Remove component_master_ops and friends
-Date: Thu,  2 Dec 2021 14:27:32 -0800
-Message-Id: <20211202222732.2453851-35-swboyd@chromium.org>
-X-Mailer: git-send-email 2.34.0.384.gca35af8252-goog
-In-Reply-To: <20211202222732.2453851-1-swboyd@chromium.org>
-References: <20211202222732.2453851-1-swboyd@chromium.org>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 135A76FD31;
+ Thu,  2 Dec 2021 22:47:40 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10186"; a="260861980"
+X-IronPort-AV: E=Sophos;i="5.87,283,1631602800"; d="scan'208";a="260861980"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Dec 2021 14:47:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,283,1631602800"; d="scan'208";a="513405949"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by orsmga008.jf.intel.com with ESMTP; 02 Dec 2021 14:47:39 -0800
+Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Thu, 2 Dec 2021 14:47:38 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20 via Frontend Transport; Thu, 2 Dec 2021 14:47:38 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.40) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.20; Thu, 2 Dec 2021 14:47:38 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YZihu2nKMkLEUlHrs82gTnehx8+dNh8U7O+I5EYHoK8pMmS4O+zTQcwDAvvVSGQ5Qc12DR1doOokDDeGLQ0wvDYb3lM2G9UJFV46Qcw1lau0utaubdZSiZeJLd/72VVZECiyP35+4OcYRTxzDX6FsEBKOP3iBgC5746oYR4K7JHV9xPjTlFBIguRsgHemK6YTzWMsiTRSxcrzyleRWhkI4JgxposWuYmo4yOzjevzGpTDaLc5kdPFZUaTliyLL4ehuEVLbYvSMs+WdBJnANNGMwxvTuWo441FAYwvSw3nlcysRH98ozSQx6ItTSAnXNWyVGc/WhMuyXPVDUA9WFsJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dUypp/ZNh/NZbtYqXC69wk4OtHK8XXUvWCDch6Pzims=;
+ b=TJiMh/Ypgx+FDCOhXmEOTOg+NHB9Pok0lMOGRMDWY6EVY9tBvwHw+n3NksS6Ubs3sFFyW5KJG0fB4wun+n7Gqe2Wb1+lcDZ2QRk4209JWL8zm2VwWgrCTcJgZbLw2AFjrcazwlXDnrq9tdnBpnSGMPC40Isx/+CSsC/J25UiH45igsDtd+LiIXdvUnStg7w3tOjmJvMtX5MspID9aeMofCqGF8xSBwgSSi9JY/GksVjd5eOwi15GgTKl21gZktxBJu73l49MDq0F+SOxOcn3RZVUjjko+ug+fSAS0QMJ2fEqs6u5Kn4pn8b0gt37TEq4xl3r4VyOSC8SFTD4N1+aCA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dUypp/ZNh/NZbtYqXC69wk4OtHK8XXUvWCDch6Pzims=;
+ b=RaIsXEiLgrAwfZPa46PMuJrHE1f2OEZE5jZBCdE54z4eWTrI1NR6zGXu/+VKfVSiov6r9XZqp6RVY1Qmb3xvfgHA3g+JHHL/tnekWxNLwHT8rrH9OaBv6Kf3VZ8Nci8k1VkaLytPPW2VS2pXMl+RKGmymP4PLY/lls1yVqiT5Qw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BN0PR11MB5711.namprd11.prod.outlook.com (2603:10b6:408:14b::23)
+ by BN7PR11MB2755.namprd11.prod.outlook.com (2603:10b6:406:b5::25)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.23; Thu, 2 Dec
+ 2021 22:47:37 +0000
+Received: from BN0PR11MB5711.namprd11.prod.outlook.com
+ ([fe80::de6:9953:b777:39f1]) by BN0PR11MB5711.namprd11.prod.outlook.com
+ ([fe80::de6:9953:b777:39f1%5]) with mapi id 15.20.4734.024; Thu, 2 Dec 2021
+ 22:47:37 +0000
+Subject: Re: [Intel-gfx] [PATCH v3 2/5] drm/i915/dg2: Add Wa_14010547955
+To: Matt Roper <matthew.d.roper@intel.com>, <intel-gfx@lists.freedesktop.org>
+References: <20211116174818.2128062-1-matthew.d.roper@intel.com>
+ <20211116174818.2128062-3-matthew.d.roper@intel.com>
+From: Clint Taylor <Clinton.A.Taylor@intel.com>
+Message-ID: <3592145d-a869-8ca1-c430-1d096b794838@intel.com>
+Date: Thu, 2 Dec 2021 14:47:33 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.13.0
+In-Reply-To: <20211116174818.2128062-3-matthew.d.roper@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-ClientProxiedBy: BYAPR11CA0048.namprd11.prod.outlook.com
+ (2603:10b6:a03:80::25) To BN0PR11MB5711.namprd11.prod.outlook.com
+ (2603:10b6:408:14b::23)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from [10.254.63.148] (192.55.52.200) by
+ BYAPR11CA0048.namprd11.prod.outlook.com (2603:10b6:a03:80::25) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4734.22 via Frontend Transport; Thu, 2 Dec 2021 22:47:36 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4d5b6114-0ba4-41e9-7b73-08d9b5e5bcea
+X-MS-TrafficTypeDiagnostic: BN7PR11MB2755:
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-Microsoft-Antispam-PRVS: <BN7PR11MB2755CDD5625645041A98C020CE699@BN7PR11MB2755.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: QRilTOFEb47QEV/3VeHVVI/QeXGLn532AHe2dovk+1hbujeqkIV0ikcaTbQwzjegH9kubZt+20XssokvQjR9gN4vestIv7gDixQXLER4NdJqD3Hx4/RtPINuGO2BdVRUeXzVNNxhN4lmmd2ffegFePXzwVB+V7qNfP6Znd3expVj4u0rYKupwrB85O8HGyYdgkhHlhaSud61E7LlVfdA0ImgIQ4Gus99KyYyPXxF+KaVPO5x+yJkF5RArVXB6yLfQCbwPiLj6auzIercgpiywdKV3XQ+h4LRTFJz3PeFbHt03qSNtxwA9Cmwp0DnS7pPMIps+q1eqdqAV33iDVUcR03bo1AjUHEpQsE61JfPoy2tRHbUFUWi+cukIxu5rByUMRvrPirTC2SI84Bija/r/86eLfbQRbUkDh/Th4pXrnN9w5sRAkc6cVLY7oPyLanXotd9BrUui2GTQVhgub+0p3eh0GK4vmuBhJ5OMi9zWzwcwdcxYxyV8wuGnu9COTd3wZHHJFsDQA/TjQZyv+7uPyBtfvrPSpNswcjx5IXFqg9SNgqpFXpqw732QpHXT7iSCO7wTXoerpcZgYhO4tuvLjF/NhOHGmTNjiavA7vbiSoldxUdR9elMBTBSrBaUUZaaDGF3OgFz2o9gHIR/KccokbfTV5jOc53H+096rs6fQqX/eAcP5KjkV9SgjGkJWhIF9g41rrbiBYcRiDCbJRXfrnk3U7hyBfRbuIaMnbOiNw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN0PR11MB5711.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(66946007)(6486002)(26005)(2906002)(5660300002)(66556008)(31686004)(2616005)(6666004)(36756003)(83380400001)(38100700002)(66476007)(8936002)(31696002)(4326008)(8676002)(86362001)(956004)(186003)(450100002)(82960400001)(316002)(16576012)(508600001)(53546011)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NFFJK0wrSVpqQnpudU9vb1BXMFJiK3hQbWR5WE40WXJOVHNjR1dLQlcvSEkz?=
+ =?utf-8?B?T1lxUlVOQmRIeUdWVWp3cDRTd1N2ZE1rR1RjVUhwSnBMWjQwc2lDQ1hyT3Q1?=
+ =?utf-8?B?UldkVjBvU2ZqVVNoMUFBaGMxT2M2MTU5RVdsclVxdFpUQ2FBT0QyZ0dvN3VR?=
+ =?utf-8?B?NWRlV3RnUHZxQlY3MDBPekxhVU0xb1l2dExnS3ZOa1lUZlBLY2Q2clBkYmc5?=
+ =?utf-8?B?QVlGOENROHhXOU9IQzBEVG40c2FOYlZFL3F4bWl6QXFMSzZqYTVDY2czOUlP?=
+ =?utf-8?B?NHpzdkZJYnFYV3BwOU5rZXlnYnppKzU3S3RiM2JMQU9Rb0JUZWNFOHZPYnlQ?=
+ =?utf-8?B?Sm9nUWJRZnlSdTZjOHNuZTVrSTFrUmlRU2NPYjdTTndmVlNta2xOSXZ3T1Yy?=
+ =?utf-8?B?ZnBYSzBuMTVrK0dlZ0EzbEgwbk91RzBWZUJSaDhDdStET0tsTm1XK2VBak9y?=
+ =?utf-8?B?THdKQk9GemR1eHVpNHdyTHlhOGRrOExlcUhHa3FWd3BkUDFicmtZTWpVYnJj?=
+ =?utf-8?B?TVVJYlR5Y0pscXo5bEMxMGpTNTY2djBmand1dStqSFg1ZUlkcTRJQlpmdVVh?=
+ =?utf-8?B?MUdEVUttY0NxRWlhdEhuWnJabENoYW0wd0JFckJEV21OY0xaMnJhVjNET2hE?=
+ =?utf-8?B?YkpSVXNJRUJZK05jcG1nQWJUT3dybjRtamtTQTR5OGhTTGUzYW5LenF6eHBH?=
+ =?utf-8?B?UUoxb0docmcvUmFxRkdxLy9VUnZOZDNDME95Rm5scnlqVlFpL3EwV21yZkMw?=
+ =?utf-8?B?Nm8vV0p4TWZZSHFlY09hY3JRMFl6ZHZDcWszeU8xWnYvTzl0bktwQ01TblVq?=
+ =?utf-8?B?bEtSWGZjdTdMKzNEd3AxVll1S2JOQkpsam5mVkxscXJWaXNmajRDckpvTjF6?=
+ =?utf-8?B?bHM0aThNakpvVXhHMUpMazdMY1RpckE5SU5PeWtEb3QrOGtSeWprTWREU1Fz?=
+ =?utf-8?B?WTcwekRUUzZhKzVod1JzL0RuaEEyUUdTNGY4ejBxMTB3Lzd0RElhZklJNEha?=
+ =?utf-8?B?eWtrcjBJN0V1eHhsR2ZBSGRjZlVlZUNWbG1JV0hZcVVYUjV0bk1IVlQvemg3?=
+ =?utf-8?B?MmZHaE9CTDA2YmQ4QjJzU1JoeVhUMnUybkt6RHd0eTdLSmJPWmJVSnNtSzFE?=
+ =?utf-8?B?eUhBZ1dQYUM4U3RKSzhaN3hXeDFKYzd4cGhSQzV6UTR1enRzNFFiVlBhYVlW?=
+ =?utf-8?B?cng0SjdySzdjcXlDd3pySytKNTRtV0w4Y1ZFQ2dVSEVhWEhYMll0VkRTb0dH?=
+ =?utf-8?B?dTVpTi9NcWJrVFhKQlU5ZHVTZ2cyN2p2QlRVZkI3eXhoVkxYK3lXK2R2OVVr?=
+ =?utf-8?B?bEdQTE5Kd2RVMk03ZFZRYzlHd1M4amlWMGRiWEdHM09SMFdlMWZ4U1pYZk4y?=
+ =?utf-8?B?NndaY2FEb090N3VvZnFJeGFOczB0cG8rZFBPbzVzNkp2dzdRTUthZzBqUWRv?=
+ =?utf-8?B?U0FEWExhWFI3bk56M0UvR1pXSWZjR0QwQXprcWVZNGVCZTVRYTdSczhkVkFs?=
+ =?utf-8?B?N2c2WHRoaUs4Y29Ud2J5cmROVXQ1cmlBd3VEUUxSc0tnZ29tTXZGcXVOZXUv?=
+ =?utf-8?B?OS82S3kwVmlLZDFKRFc4YjFCSmZBZnIyNHVld1I4WlROTllINnFlYmxlc3p1?=
+ =?utf-8?B?R2w0YjZ4WHdaRTBPRTVkRWtpYUU3M0JzeHk0QmlhZ2NzVXloL3p3L0lIRlJP?=
+ =?utf-8?B?OVdnWVZzcWZhOWlnU0N2V1F5emxCeXFIUmJFbmw2ZmVmeGIyQ1FvYzJjUTdT?=
+ =?utf-8?B?bVNBNGpOZFJpTllGWG1rUG5Balp6dDhzeTZ4Tk5Lckx6LzRqYnlMVTRjYVo1?=
+ =?utf-8?B?RG1xUDZRd3djM0tHL0NIZ0hOK1R0OHlPMllVcHhXYjY4NkhrU0E2R0dsd2hw?=
+ =?utf-8?B?L1ArcmZyeU1ROTJBa1ZLRlpGZ3ZtcktvWmhaTG81bFlncFRuYnd4YVczS3Br?=
+ =?utf-8?B?ME50TTlleFVuVkw0U2taU0ErMkZDV3c1MlM1anFWTlFXVkxneEljdDhGcktE?=
+ =?utf-8?B?R2NlTEd1WDE3YXJQSkJPTzRPNHMvdjMyN2J4cGxVdExCYkNJNUtjNVFYeE5Z?=
+ =?utf-8?B?UEJPNEVMblJycjZRTGN6T1NjMTBEazE2MVdnTEd4aERycldHb0wvQURUT1Vh?=
+ =?utf-8?B?dlBRM1lwOG1HNFI1OFY1T1lnUzFNc0hYeUdxWkFCWGNVNktKWTg5cFp3cDYw?=
+ =?utf-8?B?djUydGVyUGUzUDg4N2lBSHlaaHN2TGtscklSNXhaRlExaWJBc0NBQjU2MDVW?=
+ =?utf-8?B?eTk3a1hTeUJwM2JGNEpUcUlWWDdRPT0=?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4d5b6114-0ba4-41e9-7b73-08d9b5e5bcea
+X-MS-Exchange-CrossTenant-AuthSource: BN0PR11MB5711.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2021 22:47:37.2591 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4DGqpwAjz+sA0JDLfRpIdX/Ask5iKgi1OizRuhXkYIxt+xtiP/hwqXzypFL53yODEiKgG+JKQ2C10JwPQC7jz/HMls9HrplPFh3f+agIoP8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR11MB2755
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,380 +155,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Saravana Kannan <saravanak@google.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Russell King <rmk+kernel@arm.linux.org.uk>, freedreno@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The struct is unused now so drop it along with the functions that use
-it.
+Looks correct.
 
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Rob Clark <robdclark@gmail.com>
-Cc: Russell King <rmk+kernel@arm.linux.org.uk>
-Cc: Saravana Kannan <saravanak@google.com>
-Signed-off-by: Stephen Boyd <swboyd@chromium.org>
----
- drivers/base/component.c  | 148 +++++---------------------------------
- drivers/gpu/drm/drm_drv.c |   2 +-
- include/linux/component.h |  45 ------------
- 3 files changed, 17 insertions(+), 178 deletions(-)
+Reviewed-by: Clint Taylor <Clinton.A.Taylor@intel.com>
 
-diff --git a/drivers/base/component.c b/drivers/base/component.c
-index e9e58b56cda4..cd50137753b4 100644
---- a/drivers/base/component.c
-+++ b/drivers/base/component.c
-@@ -133,18 +133,12 @@ static void component_debugfs_del(struct aggregate_device *m)
- 
- #endif
- 
--struct aggregate_bus_find_data {
--	const struct component_master_ops *ops;
--	struct device *parent;
--};
--
- static int aggregate_bus_find_match(struct device *dev, const void *_data)
- {
- 	struct aggregate_device *adev = to_aggregate_device(dev);
--	const struct aggregate_bus_find_data *data = _data;
-+	const struct device *parent = _data;
- 
--	if (adev->parent == data->parent &&
--	    (!data->ops || adev->ops == data->ops))
-+	if (adev->parent == parent)
- 		return 1;
- 
- 	return 0;
-@@ -405,30 +399,15 @@ static int aggregate_device_match(struct device *dev, struct device_driver *drv)
- 	return ret;
- }
- 
--/* TODO: Remove once all aggregate drivers use component_aggregate_register() */
--static int component_probe_bind(struct aggregate_device *adev)
--{
--	return adev->ops->bind(adev->parent);
--}
--
--static void component_remove_unbind(struct aggregate_device *adev)
--{
--	adev->ops->unbind(adev->parent);
--}
--
- static int aggregate_driver_probe(struct device *dev)
- {
- 	const struct aggregate_driver *adrv = to_aggregate_driver(dev->driver);
- 	struct aggregate_device *adev = to_aggregate_device(dev);
--	bool modern = adrv->probe != component_probe_bind;
- 	int ret;
- 
--	/* Only do runtime PM when drivers migrate */
--	if (modern) {
--		pm_runtime_get_noresume(dev);
--		pm_runtime_set_active(dev);
--		pm_runtime_enable(dev);
--	}
-+	pm_runtime_get_noresume(dev);
-+	pm_runtime_set_active(dev);
-+	pm_runtime_enable(dev);
- 
- 	mutex_lock(&component_mutex);
- 	if (devres_open_group(adev->parent, adev, GFP_KERNEL)) {
-@@ -441,7 +420,7 @@ static int aggregate_driver_probe(struct device *dev)
- 	devres_close_group(adev->parent, NULL);
- 	mutex_unlock(&component_mutex);
- 
--	if (ret && modern) {
-+	if (ret) {
- 		pm_runtime_disable(dev);
- 		pm_runtime_set_suspended(dev);
- 		pm_runtime_put_noidle(dev);
-@@ -454,15 +433,10 @@ static void aggregate_driver_remove(struct device *dev)
- {
- 	const struct aggregate_driver *adrv = to_aggregate_driver(dev->driver);
- 	struct aggregate_device *adev = to_aggregate_device(dev);
--	bool modern = adrv->remove != component_remove_unbind;
- 
--	/* Only do runtime PM when drivers migrate */
--	if (modern)
--		pm_runtime_get_sync(dev);
-+	pm_runtime_get_sync(dev);
- 	adrv->remove(to_aggregate_device(dev));
- 	devres_release_group(adev->parent, adev);
--	if (!modern)
--		return;
- 
- 	pm_runtime_put_noidle(dev);
- 
-@@ -488,16 +462,11 @@ static struct bus_type aggregate_bus_type = {
- };
- 
- /* Callers take ownership of return value, should call put_device() */
--static struct aggregate_device *__aggregate_find(struct device *parent,
--	const struct component_master_ops *ops)
-+static struct aggregate_device *__aggregate_find(struct device *parent)
- {
- 	struct device *dev;
--	struct aggregate_bus_find_data data = {
--		.ops = ops,
--		.parent = parent,
--	};
- 
--	dev = bus_find_device(&aggregate_bus_type, NULL, &data,
-+	dev = bus_find_device(&aggregate_bus_type, NULL, parent,
- 			      aggregate_bus_find_match);
- 
- 	return dev ? to_aggregate_device(dev) : NULL;
-@@ -515,7 +484,7 @@ static void aggregate_driver_unregister(struct aggregate_driver *adrv)
- }
- 
- static struct aggregate_device *aggregate_device_add(struct device *parent,
--	const struct component_master_ops *ops, struct aggregate_driver *adrv,
-+	struct aggregate_driver *adrv,
- 	struct component_match *match)
- {
- 	struct aggregate_device *adev;
-@@ -540,7 +509,6 @@ static struct aggregate_device *aggregate_device_add(struct device *parent,
- 	adev->parent = parent;
- 	adev->dev.bus = &aggregate_bus_type;
- 	adev->dev.release = aggregate_device_release;
--	adev->ops = ops;
- 	adev->match = match;
- 	adev->adrv = adrv;
- 	dev_set_name(&adev->dev, "aggregate%d", id);
-@@ -556,54 +524,6 @@ static struct aggregate_device *aggregate_device_add(struct device *parent,
- 	return adev;
- }
- 
--/**
-- * component_master_add_with_match - register an aggregate driver
-- * @parent: parent device of the aggregate driver
-- * @ops: callbacks for the aggregate driver
-- * @match: component match list for the aggregate driver
-- *
-- * Registers a new aggregate driver consisting of the components added to @match
-- * by calling one of the component_match_add() functions. Once all components in
-- * @match are available, it will be assembled by calling
-- * &component_master_ops.bind from @ops. Must be unregistered by calling
-- * component_master_del().
-- *
-- * Deprecated: Use component_aggregate_register() instead.
-- */
--int component_master_add_with_match(struct device *parent,
--	const struct component_master_ops *ops,
--	struct component_match *match)
--{
--	struct aggregate_driver *adrv;
--	struct aggregate_device *adev;
--	int ret = 0;
--
--	adrv = kzalloc(sizeof(*adrv), GFP_KERNEL);
--	if (!adrv)
--		return -ENOMEM;
--
--	adev = aggregate_device_add(parent, ops, adrv, match);
--	if (IS_ERR(adev)) {
--		ret = PTR_ERR(adev);
--		goto err;
--	}
--
--	adrv->probe = component_probe_bind;
--	adrv->remove = component_remove_unbind;
--	adrv->driver.owner = THIS_MODULE;
--	adrv->driver.name = dev_name(&adev->dev);
--
--	ret = aggregate_driver_register(adrv);
--	if (!ret)
--		return 0;
--
--	put_device(&adev->dev);
--err:
--	kfree(adrv);
--	return ret;
--}
--EXPORT_SYMBOL_GPL(component_master_add_with_match);
--
- /**
-  * component_aggregate_register - register an aggregate driver
-  * @parent: parent device of the aggregate driver
-@@ -620,7 +540,7 @@ int component_aggregate_register(struct device *parent,
- 	struct aggregate_device *adev;
- 	int ret;
- 
--	adev = aggregate_device_add(parent, NULL, adrv, match);
-+	adev = aggregate_device_add(parent, adrv, match);
- 	if (IS_ERR(adev))
- 		return PTR_ERR(adev);
- 
-@@ -632,42 +552,6 @@ int component_aggregate_register(struct device *parent,
- }
- EXPORT_SYMBOL_GPL(component_aggregate_register);
- 
--/**
-- * component_master_del - unregister an aggregate driver
-- * @parent: parent device of the aggregate driver
-- * @ops: callbacks for the aggregate driver
-- *
-- * Unregisters an aggregate driver registered with
-- * component_master_add_with_match(). If necessary the aggregate driver is first
-- * disassembled by calling &component_master_ops.unbind from @ops.
-- *
-- * Deprecated: Use component_aggregate_unregister() instead.
-- */
--void component_master_del(struct device *parent,
--	const struct component_master_ops *ops)
--{
--	struct aggregate_device *adev;
--	struct aggregate_driver *adrv;
--	struct device_driver *drv;
--
--	mutex_lock(&component_mutex);
--	adev = __aggregate_find(parent, ops);
--	mutex_unlock(&component_mutex);
--
--	if (adev) {
--		drv = adev->dev.driver;
--		if (drv) {
--			adrv = to_aggregate_driver(drv);
--			aggregate_driver_unregister(adrv);
--			kfree(adrv);
--		}
--
--		device_unregister(&adev->dev);
--	}
--	put_device(&adev->dev);
--}
--EXPORT_SYMBOL_GPL(component_master_del);
--
- /**
-  * component_aggregate_unregister - unregister an aggregate driver
-  * @parent: parent device of the aggregate driver
-@@ -683,7 +567,7 @@ void component_aggregate_unregister(struct device *parent,
- 	struct aggregate_device *adev;
- 
- 	mutex_lock(&component_mutex);
--	adev = __aggregate_find(parent, NULL);
-+	adev = __aggregate_find(parent);
- 	mutex_unlock(&component_mutex);
- 
- 	if (adev)
-@@ -719,7 +603,7 @@ static void component_unbind(struct component *component,
-  *
-  * Unbinds all components of the aggregate device by passing @data to their
-  * &component_ops.unbind functions. Should be called from
-- * &component_master_ops.unbind.
-+ * &aggregate_driver.remove.
-  */
- void component_unbind_all(struct device *parent, void *data)
- {
-@@ -729,7 +613,7 @@ void component_unbind_all(struct device *parent, void *data)
- 
- 	WARN_ON(!mutex_is_locked(&component_mutex));
- 
--	adev = __aggregate_find(parent, NULL);
-+	adev = __aggregate_find(parent);
- 	if (!adev)
- 		return;
- 
-@@ -807,7 +691,7 @@ static int component_bind(struct component *component, struct aggregate_device *
-  *
-  * Binds all components of the aggregate @dev by passing @data to their
-  * &component_ops.bind functions. Should be called from
-- * &component_master_ops.bind.
-+ * &aggregate_driver.probe.
-  */
- int component_bind_all(struct device *parent, void *data)
- {
-@@ -818,7 +702,7 @@ int component_bind_all(struct device *parent, void *data)
- 
- 	WARN_ON(!mutex_is_locked(&component_mutex));
- 
--	adev = __aggregate_find(parent, NULL);
-+	adev = __aggregate_find(parent);
- 	if (!adev)
- 		return -EINVAL;
- 
-diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index 7a5097467ba5..d188fa26bb1b 100644
---- a/drivers/gpu/drm/drm_drv.c
-+++ b/drivers/gpu/drm/drm_drv.c
-@@ -544,7 +544,7 @@ static void drm_fs_inode_free(struct inode *inode)
-  * following guidelines apply:
-  *
-  *  - The entire device initialization procedure should be run from the
-- *    &component_master_ops.master_bind callback, starting with
-+ *    &aggregate_driver.probe callback, starting with
-  *    devm_drm_dev_alloc(), then binding all components with
-  *    component_bind_all() and finishing with drm_dev_register().
-  *
-diff --git a/include/linux/component.h b/include/linux/component.h
-index d8dcbf9733da..07fe481d4e3b 100644
---- a/include/linux/component.h
-+++ b/include/linux/component.h
-@@ -63,47 +63,7 @@ void component_del(struct device *, const struct component_ops *);
- int component_bind_all(struct device *master, void *master_data);
- void component_unbind_all(struct device *master, void *master_data);
- 
--/**
-- * struct component_master_ops - callback for the aggregate driver
-- *
-- * Aggregate drivers are registered with component_master_add_with_match() and
-- * unregistered with component_master_del().
-- */
--struct component_master_ops {
--	/**
--	 * @bind:
--	 *
--	 * Called when all components or the aggregate driver, as specified in
--	 * the match list passed to component_master_add_with_match(), are
--	 * ready. Usually there are 3 steps to bind an aggregate driver:
--	 *
--	 * 1. Allocate a structure for the aggregate driver.
--	 *
--	 * 2. Bind all components to the aggregate driver by calling
--	 *    component_bind_all() with the aggregate driver structure as opaque
--	 *    pointer data.
--	 *
--	 * 3. Register the aggregate driver with the subsystem to publish its
--	 *    interfaces.
--	 *
--	 * Note that the lifetime of the aggregate driver does not align with
--	 * any of the underlying &struct device instances. Therefore devm cannot
--	 * be used and all resources acquired or allocated in this callback must
--	 * be explicitly released in the @unbind callback.
--	 */
--	int (*bind)(struct device *master);
--	/**
--	 * @unbind:
--	 *
--	 * Called when either the aggregate driver, using
--	 * component_master_del(), or one of its components, using
--	 * component_del(), is unregistered.
--	 */
--	void (*unbind)(struct device *master);
--};
--
- struct aggregate_device {
--	const struct component_master_ops *ops;
- 	struct device *parent;
- 	struct device dev;
- 	struct component_match *match;
-@@ -171,11 +131,6 @@ int component_aggregate_register(struct device *parent,
- void component_aggregate_unregister(struct device *parent,
- 	struct aggregate_driver *adrv);
- 
--void component_master_del(struct device *,
--	const struct component_master_ops *);
--
--int component_master_add_with_match(struct device *,
--	const struct component_master_ops *, struct component_match *);
- void component_match_add_release(struct device *master,
- 	struct component_match **matchptr,
- 	void (*release)(struct device *, void *),
--- 
-https://chromeos.dev
+-Clint
 
+
+On 11/16/21 9:48 AM, Matt Roper wrote:
+> This workaround is documented a bit strangely in the bspec; it's listed
+> as an A0 workaround, but the description clarifies that the workaround
+> is implicitly handled by the hardware and what the driver really needs
+> to do is program a chicken bit to reenable some internal behavior.
+>
+> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+> ---
+>   drivers/gpu/drm/i915/display/intel_display.c | 4 ++++
+>   drivers/gpu/drm/i915/i915_reg.h              | 5 +++--
+>   2 files changed, 7 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+> index 0ceee8ac6671..1639bdbe2091 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -988,6 +988,10 @@ static void icl_set_pipe_chicken(const struct intel_crtc_state *crtc_state)
+>   	else if (DISPLAY_VER(dev_priv) >= 13)
+>   		tmp |= UNDERRUN_RECOVERY_DISABLE_ADLP;
+>   
+> +	/* Wa_14010547955:dg2 */
+> +	if (IS_DG2_DISPLAY_STEP(dev_priv, STEP_B0, STEP_FOREVER))
+> +		tmp |= DG2_RENDER_CCSTAG_4_3_EN;
+> +
+>   	intel_de_write(dev_priv, PIPE_CHICKEN(pipe), tmp);
+>   }
+>   
+> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+> index f15ffc53e858..c187ec122fdb 100644
+> --- a/drivers/gpu/drm/i915/i915_reg.h
+> +++ b/drivers/gpu/drm/i915/i915_reg.h
+> @@ -8568,8 +8568,9 @@ enum {
+>   							   _PIPEB_CHICKEN)
+>   #define   UNDERRUN_RECOVERY_DISABLE_ADLP	REG_BIT(30)
+>   #define   UNDERRUN_RECOVERY_ENABLE_DG2		REG_BIT(30)
+> -#define   PIXEL_ROUNDING_TRUNC_FB_PASSTHRU 	(1 << 15)
+> -#define   PER_PIXEL_ALPHA_BYPASS_EN		(1 << 7)
+> +#define   PIXEL_ROUNDING_TRUNC_FB_PASSTHRU	REG_BIT(15)
+> +#define   DG2_RENDER_CCSTAG_4_3_EN		REG_BIT(12)
+> +#define   PER_PIXEL_ALPHA_BYPASS_EN		REG_BIT(7)
+>   
+>   #define VFLSKPD				_MMIO(0x62a8)
+>   #define   DIS_OVER_FETCH_CACHE		REG_BIT(1)
