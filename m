@@ -2,56 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B33E24668DB
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Dec 2021 18:10:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E10B54668EA
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Dec 2021 18:13:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 916FC6FC3D;
-	Thu,  2 Dec 2021 17:10:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AD4A6EB69;
+	Thu,  2 Dec 2021 17:13:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
- [IPv6:2607:f8b0:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13C856FBF1;
- Thu,  2 Dec 2021 17:10:23 +0000 (UTC)
-Received: by mail-ot1-x32c.google.com with SMTP id
- a23-20020a9d4717000000b0056c15d6d0caso456385otf.12; 
- Thu, 02 Dec 2021 09:10:23 -0800 (PST)
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
+ [IPv6:2607:f8b0:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F5AA6EB69;
+ Thu,  2 Dec 2021 17:13:41 +0000 (UTC)
+Received: by mail-ot1-x334.google.com with SMTP id
+ n104-20020a9d2071000000b005799790cf0bso526706ota.5; 
+ Thu, 02 Dec 2021 09:13:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3WayNfqfYACfpbERzCtZCuTnUQRk8ktnSw63UP5xFjE=;
- b=a618i81ZV9JVXx+IZ/d1w1zmAk/IeXGu0wUb929VY3G5KhUufp3jFW+XuYZaZ6OSEb
- lv0QzOCVZjSimWE6x5anfaeHNQQhQZn8z3zGMJhuO6JdRJNY7Hb+UJDiAioOT5Z6pWJL
- TY9hSVTI8z+8e33sEYOAnkMydqNJS6U2rOxE7EfIiF8FSb4IuXsfTfF8ERspEtnlwSaI
- prlS8r83NORVHQEaFJKepdgLWZOIdC1K/mr9nxSovltq3qSAR4/HIS+o72vKjHpCiWUY
- +VN83ksIjGI/K/QbG3sGct7jEt6qlIpyHojzwZN6FYNLNa9Z+H5l+AyFAZcBPGaga/6x
- ZI2g==
+ :cc:content-transfer-encoding;
+ bh=AajSOfABZmizcM6W0Pmxe8k6X7Mucgg0abkivyflOos=;
+ b=bIlQhALzsSpyrYW9oR4N0/2vKAB+viUUzyc3WxBGoTrY1n1CuWkJAJWPyk//ixBkqO
+ Q8mizzVUZP6eHGSldLFeptQbPnchOCZS0L5bdMOYKq7vmpUhSpYTE4rLByZvBCpx3rsd
+ GBJDhjxb9oB7frIH62viMTVgoO2uX1p/kugcDiQKEArIHIE1qeF9onCNFc1zKr2IkZdN
+ ExoRWlOlUChn5wzXFJ9s4M5Csp76CTawiysoyf2iZE7dhn1MuaNPTXvQRGAcvbS4gbdn
+ 4WyAfbS8Y5LS7K7HFcqsUuIPo59XZp0ov4xEUuHTribO/RQRrpvWFsMIY7+ZG+PqfTTA
+ 27tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3WayNfqfYACfpbERzCtZCuTnUQRk8ktnSw63UP5xFjE=;
- b=TTGNVrQ7YXjdAQElNifAumINLbo95OuQxsujBh16vi8ZZiaucAyv+VcZAgeJvHsihi
- QhEALtYs0uDEILBNQewaFcAvPcCZTeOGUcg24PFbDy31eRgfyzRQy7gWjq4RMqJ1wtb0
- tSF+TIaUn/K8XRBH/6BMIhXbHxhSwT9aMrRdJxDKQ8+yZ9+7PXPly6yLZrCp0vw0TWJO
- YNp5qbwrkvjeBXBRiHjy73hO6whswA4+08/ByjQsoNbbdfa8l1b0hDfpv7EZWDRStu6m
- v9jLV8xR8A0gZgepu+vYncvsmsmATQdr4i+7mfXtZIMEF3UhgahfMK9MkVIT8Xx284ms
- vDFA==
-X-Gm-Message-State: AOAM530e+QarO3o2FFnSjsMK6EaAcqxQPqRSPae0xKowyL2h+T7QAzdr
- FQSezdlefahhPzF2wQCe2vX9yTbtjJmMvo+KbCY=
-X-Google-Smtp-Source: ABdhPJzrkUf5R3KYcTa3CesqJov61lKyaXuCS3yOQezyTdB0qn7VhnDLKacPNbFj0iU++cfMWNRw3m/BkkFN/2qFF6A=
-X-Received: by 2002:a9d:67c1:: with SMTP id c1mr12454183otn.299.1638465022218; 
- Thu, 02 Dec 2021 09:10:22 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=AajSOfABZmizcM6W0Pmxe8k6X7Mucgg0abkivyflOos=;
+ b=35hz4oS6CMMLXCwVWTn+3rCRdHGlRgZGniP5R4RtewcS8N/loTBySd/NuXl1duBA7J
+ ARHLkK5doQQHvgFWi4gE53Lc4PpGeD3NU4zZyZ1A2qS09/kINXhpb4fE5sf81W/7cG+h
+ nYe3UIu2zjG3SWHA2ylKB6s0JIZIhyMPsRhar+6N5l3lqL2YPsZv6dCiToWZGfRHcppm
+ GdP2xLFM+EOekK0E9EpN9T9tub/RUFezWB/ddvpHIe1/Rdg/aNVqnn533PtYE8/Q4IXc
+ 2XwWfzv7+P7a2r8zkgq0I/Ul1DJPP7T18AC2HgqgNABw5+Aj8k8Qs4YTsOTFnhoJZizF
+ DYgQ==
+X-Gm-Message-State: AOAM531I7G2qvIqUFnfQvMw1SGm/xoAHiEc0iwY8pgJfbV0CQxF7s7KV
+ Id31IOgeTZbbk27Xo1oUlVYcxvLhKGLEs4zdfaQ=
+X-Google-Smtp-Source: ABdhPJyY0ZZWWmrlcECjWfIA9f9tGUxAjcFzMuc9v82NaipBZRDDsrY/MKV5w4zTGRjqkwjOCU8VNEXDZDW/t9WcfR0=
+X-Received: by 2002:a9d:67c1:: with SMTP id c1mr12467723otn.299.1638465220553; 
+ Thu, 02 Dec 2021 09:13:40 -0800 (PST)
 MIME-Version: 1.0
-References: <CADnq5_P8amQK60zD-2tkVWBneZCoLENe5KY_S6eqoAAyOieatg@mail.gmail.com>
- <20211202161738.79176-1-zhou1615@umn.edu>
-In-Reply-To: <20211202161738.79176-1-zhou1615@umn.edu>
+References: <e2685075-fbc5-6f36-907f-76b6f76a59ce@amd.com>
+ <20211201151310.177671-1-zhou1615@umn.edu>
+ <77fca7d2-b1d8-fe11-322a-3d32f40f6f65@amd.com>
+In-Reply-To: <77fca7d2-b1d8-fe11-322a-3d32f40f6f65@amd.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 2 Dec 2021 12:10:10 -0500
-Message-ID: <CADnq5_OZkc9oCFut1cmX+-RaJreVxH7T94seCdgKSgq2xyaSnw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/amdgpu: Fix a NULL pointer dereference in
- amdgpu_connector_lcd_native_mode()
-To: Zhou Qingyang <zhou1615@umn.edu>
+Date: Thu, 2 Dec 2021 12:13:29 -0500
+Message-ID: <CADnq5_M61Ob29ftgNB7L1eEAb_St1WL1wLEF3C4wXSEFP+3BMw@mail.gmail.com>
+Subject: Re: [PATCH v5] drm/radeon/radeon_kms: Fix a NULL pointer dereference
+ in radeon_driver_open_kms()
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,13 +67,11 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Jammy Zhou <Jammy.Zhou@amd.com>, David Airlie <airlied@linux.ie>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Kangjie Lu <kjlu@umn.edu>,
- LKML <linux-kernel@vger.kernel.org>,
+Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Kangjie Lu <kjlu@umn.edu>, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- hongao <hongao@uniontech.com>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+ Alex Deucher <alexander.deucher@amd.com>, Zhou Qingyang <zhou1615@umn.edu>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -78,61 +79,143 @@ Applied.  Thanks!
 
 Alex
 
-On Thu, Dec 2, 2021 at 11:17 AM Zhou Qingyang <zhou1615@umn.edu> wrote:
+On Wed, Dec 1, 2021 at 10:16 AM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
 >
-> In amdgpu_connector_lcd_native_mode(), the return value of
-> drm_mode_duplicate() is assigned to mode, and there is a dereference
-> of it in amdgpu_connector_lcd_native_mode(), which will lead to a NULL
-> pointer dereference on failure of drm_mode_duplicate().
+> Am 01.12.21 um 16:13 schrieb Zhou Qingyang:
+> > In radeon_driver_open_kms(), radeon_vm_bo_add() is assigned to
+> > vm->ib_bo_va and passes and used in radeon_vm_bo_set_addr(). In
+> > radeon_vm_bo_set_addr(), there is a dereference of vm->ib_bo_va,
+> > which could lead to a NULL pointer dereference on failure of
+> > radeon_vm_bo_add().
+> >
+> > Fix this bug by adding a check of vm->ib_bo_va.
+> >
+> > This bug was found by a static analyzer. The analysis employs
+> > differential checking to identify inconsistent security operations
+> > (e.g., checks or kfrees) between two code paths and confirms that the
+> > inconsistent operations are not recovered in the current function or
+> > the callers, so they constitute bugs.
+> >
+> > Note that, as a bug found by static analysis, it can be a false
+> > positive or hard to trigger. Multiple researchers have cross-reviewed
+> > the bug.
+> >
+> > Builds with CONFIG_DRM_RADEON=3Dm show no new warnings,
+> > and our static analyzer no longer warns about this code.
+> >
+> > Fixes: cc9e67e3d700 ("drm/radeon: fix VM IB handling")
+> > Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
+> > ---
+> > Changes in v5:
+> >    -  Use conditions to avoid unnecessary initialization
+> >
+> > Changes in v4:
+> >    -  Initialize the variables to silence warning
+> >
+> > Changes in v3:
+> >    -  Fix the bug that good case will also be freed
+> >    -  Improve code style
+> >
+> > Changes in v2:
+> >    -  Improve the error handling into goto style
+> >
+> >   drivers/gpu/drm/radeon/radeon_kms.c | 36 ++++++++++++++++------------=
+-
+> >   1 file changed, 20 insertions(+), 16 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/radeon/radeon_kms.c b/drivers/gpu/drm/rade=
+on/radeon_kms.c
+> > index 482fb0ae6cb5..66aee48fd09d 100644
+> > --- a/drivers/gpu/drm/radeon/radeon_kms.c
+> > +++ b/drivers/gpu/drm/radeon/radeon_kms.c
+> > @@ -648,6 +648,8 @@ void radeon_driver_lastclose_kms(struct drm_device =
+*dev)
+> >   int radeon_driver_open_kms(struct drm_device *dev, struct drm_file *f=
+ile_priv)
+> >   {
+> >       struct radeon_device *rdev =3D dev->dev_private;
+> > +     struct radeon_fpriv *fpriv;
+> > +     struct radeon_vm *vm;
+> >       int r;
+> >
+> >       file_priv->driver_priv =3D NULL;
+> > @@ -660,8 +662,6 @@ int radeon_driver_open_kms(struct drm_device *dev, =
+struct drm_file *file_priv)
+> >
+> >       /* new gpu have virtual address space support */
+> >       if (rdev->family >=3D CHIP_CAYMAN) {
+> > -             struct radeon_fpriv *fpriv;
+> > -             struct radeon_vm *vm;
+> >
+> >               fpriv =3D kzalloc(sizeof(*fpriv), GFP_KERNEL);
+> >               if (unlikely(!fpriv)) {
+> > @@ -672,35 +672,39 @@ int radeon_driver_open_kms(struct drm_device *dev=
+, struct drm_file *file_priv)
+> >               if (rdev->accel_working) {
+> >                       vm =3D &fpriv->vm;
+> >                       r =3D radeon_vm_init(rdev, vm);
+> > -                     if (r) {
+> > -                             kfree(fpriv);
+> > -                             goto out_suspend;
+> > -                     }
+> > +                     if (r)
+> > +                             goto out_fpriv;
+> >
+> >                       r =3D radeon_bo_reserve(rdev->ring_tmp_bo.bo, fal=
+se);
+> > -                     if (r) {
+> > -                             radeon_vm_fini(rdev, vm);
+> > -                             kfree(fpriv);
+> > -                             goto out_suspend;
+> > -                     }
+> > +                     if (r)
+> > +                             goto out_vm_fini;
+> >
+> >                       /* map the ib pool buffer read only into
+> >                        * virtual address space */
+> >                       vm->ib_bo_va =3D radeon_vm_bo_add(rdev, vm,
+> >                                                       rdev->ring_tmp_bo=
+.bo);
+> > +                     if (!vm->ib_bo_va) {
+> > +                             r =3D -ENOMEM;
+> > +                             goto out_vm_fini;
+> > +                     }
+> > +
+> >                       r =3D radeon_vm_bo_set_addr(rdev, vm->ib_bo_va,
+> >                                                 RADEON_VA_IB_OFFSET,
+> >                                                 RADEON_VM_PAGE_READABLE=
+ |
+> >                                                 RADEON_VM_PAGE_SNOOPED)=
+;
+> > -                     if (r) {
+> > -                             radeon_vm_fini(rdev, vm);
+> > -                             kfree(fpriv);
+> > -                             goto out_suspend;
+> > -                     }
+> > +                     if (r)
+> > +                             goto out_vm_fini;
+> >               }
+> >               file_priv->driver_priv =3D fpriv;
+> >       }
+> >
+> > +     if (!r)
 >
-> Fix this bug add a check of mode.
+> I think that test is unecessary now, maybe double check.
 >
-> This bug was found by a static analyzer. The analysis employs
-> differential checking to identify inconsistent security operations
-> (e.g., checks or kfrees) between two code paths and confirms that the
-> inconsistent operations are not recovered in the current function or
-> the callers, so they constitute bugs.
+> Either way patch Reviewed-by: Christian K=C3=B6nig
+> <christian.koenig@amd.com>. Alex will probably pick it up now.
 >
-> Note that, as a bug found by static analysis, it can be a false
-> positive or hard to trigger. Multiple researchers have cross-reviewed
-> the bug.
+> Thanks for the help,
+> Christian.
 >
-> Builds with CONFIG_DRM_AMDGPU=m show no new warnings, and
-> our static analyzer no longer warns about this code.
->
-> Fixes: d38ceaf99ed0 ("drm/amdgpu: add core driver (v4)")
-> Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
-> ---
-> Changes in v2:
->   -  Fix the similar bug in else clause
->
->  drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-> index 0de66f59adb8..df1f9b88a53f 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-> @@ -387,6 +387,9 @@ amdgpu_connector_lcd_native_mode(struct drm_encoder *encoder)
->             native_mode->vdisplay != 0 &&
->             native_mode->clock != 0) {
->                 mode = drm_mode_duplicate(dev, native_mode);
-> +               if (!mode)
-> +                       return NULL;
-> +
->                 mode->type = DRM_MODE_TYPE_PREFERRED | DRM_MODE_TYPE_DRIVER;
->                 drm_mode_set_name(mode);
->
-> @@ -401,6 +404,9 @@ amdgpu_connector_lcd_native_mode(struct drm_encoder *encoder)
->                  * simpler.
->                  */
->                 mode = drm_cvt_mode(dev, native_mode->hdisplay, native_mode->vdisplay, 60, true, false, false);
-> +               if (!mode)
-> +                       return NULL;
-> +
->                 mode->type = DRM_MODE_TYPE_PREFERRED | DRM_MODE_TYPE_DRIVER;
->                 DRM_DEBUG_KMS("Adding cvt approximation of native panel mode %s\n", mode->name);
->         }
-> --
-> 2.25.1
+> > +             goto out_suspend;
+> > +
+> > +out_vm_fini:
+> > +     radeon_vm_fini(rdev, vm);
+> > +out_fpriv:
+> > +     kfree(fpriv);
+> >   out_suspend:
+> >       pm_runtime_mark_last_busy(dev->dev);
+> >       pm_runtime_put_autosuspend(dev->dev);
 >
