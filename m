@@ -1,47 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 761AC465C3E
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Dec 2021 03:38:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE165465CDE
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Dec 2021 04:46:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AC94899D6;
-	Thu,  2 Dec 2021 02:38:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BA6A6E994;
+	Thu,  2 Dec 2021 03:45:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9877899D6
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Dec 2021 02:38:08 +0000 (UTC)
-X-UUID: c7225c6cc2be472f837e6c9058499431-20211202
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=L8wfo9WQqU+Q+H0gXqIodtS4NiJys0skTT2eLvUXEoI=; 
- b=gRkW3KdSdPDfNfkCJ9sIpDn2we6xxj/IFgdGCDnR/Xnb0uTg9dMV8usEguf0Fj7U0a9+y9yF3KVYQSa0AWgUwmSYaOH1I0/HOAATF0HnZyprEB72TI5EtEt8qyNpcKpNzZZxnfvDtl88mDv1JItKIGmkN3gfkRuKhCxCacZZS5I=;
-X-UUID: c7225c6cc2be472f837e6c9058499431-20211202
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <yunfei.dong@mediatek.com>)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 620A36E98E
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Dec 2021 03:45:55 +0000 (UTC)
+X-UUID: ece2f500994b4cb2849e4d37eb28dd8b-20211202
+X-UUID: ece2f500994b4cb2849e4d37eb28dd8b-20211202
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw01.mediatek.com (envelope-from <yunfei.dong@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 206878598; Thu, 02 Dec 2021 10:38:04 +0800
+ with ESMTP id 1503412006; Thu, 02 Dec 2021 11:45:48 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 2 Dec 2021 10:38:02 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 2 Dec 2021 10:38:01 +0800
-Message-ID: <90950d579c6613fa52500ff5f2e7602b483dcb3d.camel@mediatek.com>
-Subject: Re: [PATCH v11, 01/19] media: mtk-vcodec: Get numbers of register
- bases from DT
-From: "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>
-To: Steve Cho <stevecho@google.com>
-Date: Thu, 2 Dec 2021 10:38:01 +0800
-In-Reply-To: <CAN0yncGA5OKGdLJwX12thgCjwQkfxc55v-d1Wfw-4qP=cF3_Pw@mail.gmail.com>
-References: <20211129034201.5767-1-yunfei.dong@mediatek.com>
- <20211129034201.5767-2-yunfei.dong@mediatek.com>
- <CAN0yncGA5OKGdLJwX12thgCjwQkfxc55v-d1Wfw-4qP=cF3_Pw@mail.gmail.com>
-Content-Type: multipart/alternative; boundary="=-zgMJa3GuD8qgIXVefJBi"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 2 Dec 2021 11:45:47 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkcas11.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Thu, 2 Dec 2021 11:45:46 +0800
+From: Yunfei Dong <yunfei.dong@mediatek.com>
+To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
+ <acourbot@chromium.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tzung-Bi
+ Shih <tzungbi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
+Subject: [PATCH v12,
+ 00/19] Support multi hardware decode using of_platform_populate
+Date: Thu, 2 Dec 2021 11:45:25 +0800
+Message-ID: <20211202034544.2750-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,215 +52,236 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Irui Wang <irui.wang@mediatek.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+Cc: Irui Wang <irui.wang@mediatek.com>,
  Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ srv_heupstream@mediatek.com, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
  Project_Global_Chrome_Upstream_Group@mediatek.com,
- Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Tzung-Bi Shih <tzungbi@chromium.org>,
- Tomasz Figa <tfiga@google.com>, Rob Herring <robh+dt@kernel.org>,
  linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Tiffany
- Lin <tiffany.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org,
- Alexandre Courbot <acourbot@chromium.org>, srv_heupstream@mediatek.com,
- linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+ Fritz Koenig <frkoenig@chromium.org>,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---=-zgMJa3GuD8qgIXVefJBi
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+This series adds support for multi hardware decode into mtk-vcodec, by first adding use
+of_platform_populate to manage each hardware information: interrupt, clock, register
+bases and power. Secondly add core work queue to deal with core hardware message,
+at the same time, add msg queue for different hardware share messages. Lastly, the
+architecture of different specs are not the same, using specs type to separate them.
 
-SGkgU3RldmUsDQpUaGFua3MgZm9yIHlvdXIgc3VnZ2VzdGlvbi5PbiBXZWQsIDIwMjEtMTItMDEg
-YXQgMTU6MzYgLTA4MDAsIFN0ZXZlIENobw0Kd3JvdGU6DQo+IExHVE0gd2l0aCBmZXcgbml0cy4g
-DQo+IA0KPiBUaGFua3MsU3RldmUNCj4gDQo+IE9uIFN1biwgTm92IDI4LCAyMDIxIGF0IDc6NDQg
-UE0gWXVuZmVpIERvbmcgPHl1bmZlaS5kb25nQG1lZGlhdGVrLmNvbQ0KPiA+IHdyb3RlOg0KPiA+
-IERpZmZlcmVudCBwbGF0Zm9ybSBtYXkgaGFzIGRpZmZlcmVudCBudW1iZXJzIG9mIHJlZ2lzdGVy
-IGJhc2VzLg0KPiA+IEdldHMgdGhlDQo+ID4gDQo+ID4gbnVtYmVycyBvZiByZWdpc3RlciBiYXNl
-cyBmcm9tIERUIChzaXplb2YodTMyKSAqIDQgYnl0ZXMgZm9yIGVhY2gpDQo+IEZldyBuaXRzLg0K
-PiBzL3BsYXRmb3JtL3BsYXRmb3Jtcy8NCj4gcy9oYXMvaGF2ZS8NCj4gDQo+IEZpeCwgRFQgaXMg
-ZHRzLg0KPiBCdHcsIHdoYXQgaXMgRFQ/DQo+ID4gIA0KPiA+IA0KPiA+IFJldmlld2VkLWJ5OiBU
-enVuZy1CaSBTaGloPHR6dW5nYmlAZ29vZ2xlLmNvbT4NCj4gPiANCj4gPiBTaWduZWQtb2ZmLWJ5
-OiBZdW5mZWkgRG9uZyA8eXVuZmVpLmRvbmdAbWVkaWF0ZWsuY29tPg0KPiA+IA0KPiA+IC0tLQ0K
-PiA+IA0KPiA+ICAuLi4vcGxhdGZvcm0vbXRrLXZjb2RlYy9tdGtfdmNvZGVjX2RlY19kcnYuYyAg
-fCAzNyArKysrKysrKysrKysrKy0NCj4gPiAtLS0tDQo+ID4gDQo+ID4gIDEgZmlsZSBjaGFuZ2Vk
-LCAyOCBpbnNlcnRpb25zKCspLCA5IGRlbGV0aW9ucygtKQ0KPiA+IA0KPiA+IA0KPiA+IA0KPiA+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL210ay12Y29kZWMvbXRrX3Zjb2Rl
-Y19kZWNfZHJ2LmMgDQo+ID4gYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL210ay12Y29kZWMvbXRr
-X3Zjb2RlY19kZWNfZHJ2LmMNCj4gPiANCj4gPiBpbmRleCBlNmU2YTgyMDNlZWIuLjU5Y2FmMjE2
-MzM0OSAxMDA2NDQNCj4gPiANCj4gPiAtLS0gYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL210ay12
-Y29kZWMvbXRrX3Zjb2RlY19kZWNfZHJ2LmMNCj4gPiANCj4gPiArKysgYi9kcml2ZXJzL21lZGlh
-L3BsYXRmb3JtL210ay12Y29kZWMvbXRrX3Zjb2RlY19kZWNfZHJ2LmMNCj4gPiANCj4gPiBAQCAt
-NzgsNiArNzgsMzAgQEAgc3RhdGljIGlycXJldHVybl90DQo+ID4gbXRrX3Zjb2RlY19kZWNfaXJx
-X2hhbmRsZXIoaW50IGlycSwgdm9pZCAqcHJpdikNCj4gPiANCj4gPiAgICAgICAgIHJldHVybiBJ
-UlFfSEFORExFRDsNCj4gPiANCj4gPiAgfQ0KPiA+IA0KPiA+IA0KPiA+IA0KPiA+ICtzdGF0aWMg
-aW50IG10a192Y29kZWNfZ2V0X3JlZ19iYXNlcyhzdHJ1Y3QgbXRrX3Zjb2RlY19kZXYgKmRldikN
-Cj4gPiANCj4gPiArew0KPiBJIHNlZSB0aGF0IGRldiBpcyBhbHJlYWR5IGNoZWNrZWQgYmVmb3Jl
-IGVudGVyaW5nIGludG8gdGhpcyBmdW5jdGlvbiwNCj4gYnV0IG51bGwgY2hlY2sgZm9yIGRldiB3
-b3VsZCBzdGlsbCBiZSBuaWNlLiANCj4gIA0KRGV2IGlzIG5ldmVyIG51bGwgaW4gdGhpcyBmdW5j
-dGlvbiwgd2hldGhlciBpdCBsb29rcyBub3QgdmVyeQ0KcmVhc29uYWJsZT8NCkJlc3QgUmVnYXJk
-cyxZdW5mZWkgRG9uZw0KPiA+ICsgICAgICAgc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldiA9
-IGRldi0+cGxhdF9kZXY7DQo+ID4gDQo+ID4gKyAgICAgICBpbnQgcmVnX251bSwgaTsNCj4gPiAN
-Cj4gPiArDQo+ID4gDQo+ID4gKyAgICAgICAvKiBTaXplb2YodTMyKSAqIDQgYnl0ZXMgZm9yIGVh
-Y2ggcmVnaXN0ZXIgYmFzZS4gKi8NCj4gPiANCj4gPiArICAgICAgIHJlZ19udW0gPSBvZl9wcm9w
-ZXJ0eV9jb3VudF9lbGVtc19vZl9zaXplKHBkZXYtDQo+ID4gPmRldi5vZl9ub2RlLCAicmVnIiwN
-Cj4gPiANCj4gPiArICAgICAgICAgICAgICAgc2l6ZW9mKHUzMikgKiA0KTsNCj4gPiANCj4gPiAr
-ICAgICAgIGlmIChyZWdfbnVtIDw9IDAgfHwgcmVnX251bSA+IE5VTV9NQVhfVkRFQ19SRUdfQkFT
-RSkgew0KPiA+IA0KPiA+ICsgICAgICAgICAgICAgICBkZXZfZXJyKCZwZGV2LT5kZXYsICJJbnZh
-bGlkIHJlZ2lzdGVyIHByb3BlcnR5DQo+ID4gc2l6ZTogJWRcbiIsIHJlZ19udW0pOw0KPiA+IA0K
-PiA+ICsgICAgICAgICAgICAgICByZXR1cm4gLUVJTlZBTDsNCj4gPiANCj4gPiArICAgICAgIH0N
-Cj4gPiANCj4gPiArDQo+ID4gDQo+ID4gKyAgICAgICBmb3IgKGkgPSAwOyBpIDwgcmVnX251bTsg
-aSsrKSB7DQo+ID4gDQo+ID4gKyAgICAgICAgICAgICAgIGRldi0+cmVnX2Jhc2VbaV0gPQ0KPiA+
-IGRldm1fcGxhdGZvcm1faW9yZW1hcF9yZXNvdXJjZShwZGV2LCBpKTsNCj4gPiANCj4gPiArICAg
-ICAgICAgICAgICAgaWYgKElTX0VSUihkZXYtPnJlZ19iYXNlW2ldKSkNCj4gPiANCj4gPiArICAg
-ICAgICAgICAgICAgICAgICAgICByZXR1cm4gUFRSX0VSUihkZXYtPnJlZ19iYXNlW2ldKTsNCj4g
-PiANCj4gPiArDQo+ID4gDQo+ID4gKyAgICAgICAgICAgICAgIG10a192NGwyX2RlYnVnKDIsICJy
-ZWdbJWRdIGJhc2U9JXAiLCBpLCBkZXYtDQo+ID4gPnJlZ19iYXNlW2ldKTsNCj4gPiANCj4gPiAr
-ICAgICAgIH0NCj4gPiANCj4gPiArDQo+ID4gDQo+ID4gKyAgICAgICByZXR1cm4gMDsNCj4gPiAN
-Cj4gPiArfQ0KPiA+IA0KPiA+ICsNCj4gPiANCj4gPiAgc3RhdGljIGludCBmb3BzX3Zjb2RlY19v
-cGVuKHN0cnVjdCBmaWxlICpmaWxlKQ0KPiA+IA0KPiA+ICB7DQo+ID4gDQo+ID4gICAgICAgICBz
-dHJ1Y3QgbXRrX3Zjb2RlY19kZXYgKmRldiA9IHZpZGVvX2RydmRhdGEoZmlsZSk7DQo+ID4gDQo+
-ID4gQEAgLTIwNiw3ICsyMzAsNyBAQCBzdGF0aWMgaW50IG10a192Y29kZWNfcHJvYmUoc3RydWN0
-DQo+ID4gcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KPiA+IA0KPiA+ICAgICAgICAgc3RydWN0IHJl
-c291cmNlICpyZXM7DQo+ID4gDQo+ID4gICAgICAgICBwaGFuZGxlIHJwcm9jX3BoYW5kbGU7DQo+
-ID4gDQo+ID4gICAgICAgICBlbnVtIG10a192Y29kZWNfZndfdHlwZSBmd190eXBlOw0KPiA+IA0K
-PiA+IC0gICAgICAgaW50IGksIHJldDsNCj4gPiANCj4gPiArICAgICAgIGludCByZXQ7DQo+ID4g
-DQo+ID4gDQo+ID4gDQo+ID4gICAgICAgICBkZXYgPSBkZXZtX2t6YWxsb2MoJnBkZXYtPmRldiwg
-c2l6ZW9mKCpkZXYpLCBHRlBfS0VSTkVMKTsNCj4gPiANCj4gPiAgICAgICAgIGlmICghZGV2KQ0K
-PiA+IA0KPiA+IEBAIC0yMzgsMTQgKzI2Miw5IEBAIHN0YXRpYyBpbnQgbXRrX3Zjb2RlY19wcm9i
-ZShzdHJ1Y3QNCj4gPiBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpDQo+ID4gDQo+ID4gICAgICAgICAg
-ICAgICAgIGdvdG8gZXJyX2RlY19wbTsNCj4gPiANCj4gPiAgICAgICAgIH0NCj4gPiANCj4gPiAN
-Cj4gPiANCj4gPiAtICAgICAgIGZvciAoaSA9IDA7IGkgPCBOVU1fTUFYX1ZERUNfUkVHX0JBU0U7
-IGkrKykgew0KPiA+IA0KPiA+IC0gICAgICAgICAgICAgICBkZXYtPnJlZ19iYXNlW2ldID0NCj4g
-PiBkZXZtX3BsYXRmb3JtX2lvcmVtYXBfcmVzb3VyY2UocGRldiwgaSk7DQo+ID4gDQo+ID4gLSAg
-ICAgICAgICAgICAgIGlmIChJU19FUlIoKF9fZm9yY2Ugdm9pZCAqKWRldi0+cmVnX2Jhc2VbaV0p
-KSB7DQo+ID4gDQo+ID4gLSAgICAgICAgICAgICAgICAgICAgICAgcmV0ID0gUFRSX0VSUigoX19m
-b3JjZSB2b2lkICopZGV2LQ0KPiA+ID5yZWdfYmFzZVtpXSk7DQo+ID4gDQo+ID4gLSAgICAgICAg
-ICAgICAgICAgICAgICAgZ290byBlcnJfcmVzOw0KPiA+IA0KPiA+IC0gICAgICAgICAgICAgICB9
-DQo+ID4gDQo+ID4gLSAgICAgICAgICAgICAgIG10a192NGwyX2RlYnVnKDIsICJyZWdbJWRdIGJh
-c2U9JXAiLCBpLCBkZXYtDQo+ID4gPnJlZ19iYXNlW2ldKTsNCj4gPiANCj4gPiAtICAgICAgIH0N
-Cj4gPiANCj4gPiArICAgICAgIHJldCA9IG10a192Y29kZWNfZ2V0X3JlZ19iYXNlcyhkZXYpOw0K
-PiA+IA0KPiA+ICsgICAgICAgaWYgKHJldCkNCj4gPiANCj4gPiArICAgICAgICAgICAgICAgZ290
-byBlcnJfcmVzOw0KPiA+IA0KPiA+IA0KPiA+IA0KPiA+ICAgICAgICAgcmVzID0gcGxhdGZvcm1f
-Z2V0X3Jlc291cmNlKHBkZXYsIElPUkVTT1VSQ0VfSVJRLCAwKTsNCj4gPiANCj4gPiAgICAgICAg
-IGlmIChyZXMgPT0gTlVMTCkgew0KPiA+IA0K
+This series has been tested with both MT8183 and MT8173. Decoding was working for both chips.
 
---=-zgMJa3GuD8qgIXVefJBi
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Patches 1~3 rewrite get register bases and power on/off interface.
+Patches 4 export decoder pm interfaces.
+Patches 5 add to support 8192.
+Patch 6 support multi hardware.
+Patch 7 separate video encoder and decoder document
+Patch 8-17 add interfaces to support core hardware.
+Patch 18-19 remove mtk_vcodec_release_dec/enc_pm interfaces.
+---
+changes compared with v11:
+- fix comments from AngeloGioacchino for patch 09~11/19.
+- fix comments from steve for patch 03/19.
 
-PGh0bWwgZGlyPSJsdHIiPjxoZWFkPjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29u
-dGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij48L2hlYWQ+PGJvZHkgc3R5bGU9InRleHQt
-YWxpZ246bGVmdDsgZGlyZWN0aW9uOmx0cjsiPjxkaXY+SGkgU3RldmUsPC9kaXY+PGRpdj48YnI+
-PC9kaXY+PGRpdj5UaGFua3MgZm9yIHlvdXIgc3VnZ2VzdGlvbi48L2Rpdj48ZGl2Pk9uIFdlZCwg
-MjAyMS0xMi0wMSBhdCAxNTozNiAtMDgwMCwgU3RldmUgQ2hvIHdyb3RlOjwvZGl2PjxibG9ja3F1
-b3RlIHR5cGU9ImNpdGUiIHN0eWxlPSJtYXJnaW46MCAwIDAgLjhleDsgYm9yZGVyLWxlZnQ6MnB4
-ICM3MjlmY2Ygc29saWQ7cGFkZGluZy1sZWZ0OjFleCI+PGRpdiBkaXI9Imx0ciI+PGRpdiBkaXI9
-Imx0ciI+TEdUTSB3aXRoIGZldyBuaXRzLiZuYnNwOzwvZGl2PjxkaXYgZGlyPSJsdHIiPjxiciBj
-bGVhcj0iYWxsIj48ZGl2PjxkaXYgZGlyPSJsdHIiIGNsYXNzPSJnbWFpbF9zaWduYXR1cmUiIGRh
-dGEtc21hcnRtYWlsPSJnbWFpbF9zaWduYXR1cmUiPjxkaXYgZGlyPSJsdHIiPlRoYW5rcyw8ZGl2
-PlN0ZXZlPC9kaXY+PC9kaXY+PC9kaXY+PC9kaXY+PC9kaXY+PGJyPjxkaXYgY2xhc3M9ImdtYWls
-X3F1b3RlIj48ZGl2IGRpcj0ibHRyIiBjbGFzcz0iZ21haWxfYXR0ciI+T24gU3VuLCBOb3YgMjgs
-IDIwMjEgYXQgNzo0NCBQTSBZdW5mZWkgRG9uZyAmbHQ7PGEgaHJlZj0ibWFpbHRvOnl1bmZlaS5k
-b25nQG1lZGlhdGVrLmNvbSI+eXVuZmVpLmRvbmdAbWVkaWF0ZWsuY29tPC9hPiZndDsgd3JvdGU6
-PGJyPjwvZGl2PjxibG9ja3F1b3RlIHR5cGU9ImNpdGUiIHN0eWxlPSJtYXJnaW46MCAwIDAgLjhl
-eDsgYm9yZGVyLWxlZnQ6MnB4ICM3MjlmY2Ygc29saWQ7cGFkZGluZy1sZWZ0OjFleCI+RGlmZmVy
-ZW50IHBsYXRmb3JtIG1heSBoYXMgZGlmZmVyZW50IG51bWJlcnMgb2YgcmVnaXN0ZXIgYmFzZXMu
-IEdldHMgdGhlPGJyPg0KbnVtYmVycyBvZiByZWdpc3RlciBiYXNlcyBmcm9tIERUIChzaXplb2Yo
-dTMyKSAqIDQgYnl0ZXMgZm9yIGVhY2gpPGJyPjwvYmxvY2txdW90ZT48ZGl2PkZldyBuaXRzLjwv
-ZGl2PjxkaXY+cy9wbGF0Zm9ybS9wbGF0Zm9ybXMvPC9kaXY+PGRpdj5zL2hhcy9oYXZlLzwvZGl2
-PjxkaXY+PGJyPjwvZGl2PjxkaXY+Rml4LCBEVCBpcyBkdHMuPC9kaXY+PGRpdj5CdHcsIHdoYXQg
-aXMgRFQ/PC9kaXY+PGJsb2NrcXVvdGUgdHlwZT0iY2l0ZSIgc3R5bGU9Im1hcmdpbjowIDAgMCAu
-OGV4OyBib3JkZXItbGVmdDoycHggIzcyOWZjZiBzb2xpZDtwYWRkaW5nLWxlZnQ6MWV4Ij4mbmJz
-cDs8YnI+DQpSZXZpZXdlZC1ieTogVHp1bmctQmkgU2hpaCZsdDs8YSBocmVmPSJtYWlsdG86dHp1
-bmdiaUBnb29nbGUuY29tIiB0YXJnZXQ9Il9ibGFuayI+dHp1bmdiaUBnb29nbGUuY29tPC9hPiZn
-dDs8YnI+DQpTaWduZWQtb2ZmLWJ5OiBZdW5mZWkgRG9uZyAmbHQ7PGEgaHJlZj0ibWFpbHRvOnl1
-bmZlaS5kb25nQG1lZGlhdGVrLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPnl1bmZlaS5kb25nQG1lZGlh
-dGVrLmNvbTwvYT4mZ3Q7PGJyPg0KLS0tPGJyPg0KJm5ic3A7Li4uL3BsYXRmb3JtL210ay12Y29k
-ZWMvbXRrX3Zjb2RlY19kZWNfZHJ2LmMmbmJzcDsgfCAzNyArKysrKysrKysrKysrKy0tLS0tPGJy
-Pg0KJm5ic3A7MSBmaWxlIGNoYW5nZWQsIDI4IGluc2VydGlvbnMoKyksIDkgZGVsZXRpb25zKC0p
-PGJyPg0KPGJyPg0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLXZjb2Rl
-Yy9tdGtfdmNvZGVjX2RlY19kcnYuYyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLXZjb2Rl
-Yy9tdGtfdmNvZGVjX2RlY19kcnYuYzxicj4NCmluZGV4IGU2ZTZhODIwM2VlYi4uNTljYWYyMTYz
-MzQ5IDEwMDY0NDxicj4NCi0tLSBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLXZjb2RlYy9t
-dGtfdmNvZGVjX2RlY19kcnYuYzxicj4NCisrKyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRr
-LXZjb2RlYy9tdGtfdmNvZGVjX2RlY19kcnYuYzxicj4NCkBAIC03OCw2ICs3OCwzMCBAQCBzdGF0
-aWMgaXJxcmV0dXJuX3QgbXRrX3Zjb2RlY19kZWNfaXJxX2hhbmRsZXIoaW50IGlycSwgdm9pZCAq
-cHJpdik8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgcmV0dXJuIElSUV9IQU5ETEVE
-Ozxicj4NCiZuYnNwO308YnI+DQo8YnI+DQorc3RhdGljIGludCBtdGtfdmNvZGVjX2dldF9yZWdf
-YmFzZXMoc3RydWN0IG10a192Y29kZWNfZGV2ICpkZXYpPGJyPg0KK3s8YnI+PC9ibG9ja3F1b3Rl
-PjxkaXY+SSBzZWUgdGhhdCBkZXYgaXMgYWxyZWFkeSBjaGVja2VkIGJlZm9yZSBlbnRlcmluZyBp
-bnRvIHRoaXMgZnVuY3Rpb24sIGJ1dCBudWxsIGNoZWNrIGZvciBkZXYgd291bGQgc3RpbGwgYmUg
-bmljZS4mbmJzcDs8L2Rpdj48ZGl2PiZuYnNwOzwvZGl2PjwvZGl2PjwvZGl2PjwvYmxvY2txdW90
-ZT48ZGl2PkRldiBpcyBuZXZlciBudWxsIGluIHRoaXMgZnVuY3Rpb24sIHdoZXRoZXIgaXQgbG9v
-a3Mgbm90IHZlcnkgcmVhc29uYWJsZT88L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2PkJlc3QgUmVn
-YXJkcyw8L2Rpdj48ZGl2Pll1bmZlaSBEb25nPC9kaXY+PGJsb2NrcXVvdGUgdHlwZT0iY2l0ZSIg
-c3R5bGU9Im1hcmdpbjowIDAgMCAuOGV4OyBib3JkZXItbGVmdDoycHggIzcyOWZjZiBzb2xpZDtw
-YWRkaW5nLWxlZnQ6MWV4Ij48ZGl2IGRpcj0ibHRyIj48ZGl2IGNsYXNzPSJnbWFpbF9xdW90ZSI+
-PGJsb2NrcXVvdGUgdHlwZT0iY2l0ZSIgc3R5bGU9Im1hcmdpbjowIDAgMCAuOGV4OyBib3JkZXIt
-bGVmdDoycHggIzcyOWZjZiBzb2xpZDtwYWRkaW5nLWxlZnQ6MWV4Ij4NCismbmJzcDsgJm5ic3A7
-ICZuYnNwOyAmbmJzcDtzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2ID0gZGV2LSZndDtwbGF0
-X2Rldjs8YnI+DQorJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7aW50IHJlZ19udW0sIGk7PGJy
-Pg0KKzxicj4NCismbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsvKiBTaXplb2YodTMyKSAqIDQg
-Ynl0ZXMgZm9yIGVhY2ggcmVnaXN0ZXIgYmFzZS4gKi88YnI+DQorJm5ic3A7ICZuYnNwOyAmbmJz
-cDsgJm5ic3A7cmVnX251bSA9IG9mX3Byb3BlcnR5X2NvdW50X2VsZW1zX29mX3NpemUocGRldi0m
-Z3Q7ZGV2Lm9mX25vZGUsICJyZWciLDxicj4NCismbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsg
-Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7c2l6ZW9mKHUzMikgKiA0KTs8YnI+DQorJm5ic3A7
-ICZuYnNwOyAmbmJzcDsgJm5ic3A7aWYgKHJlZ19udW0gJmx0Oz0gMCB8fCByZWdfbnVtICZndDsg
-TlVNX01BWF9WREVDX1JFR19CQVNFKSB7PGJyPg0KKyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDtkZXZfZXJyKCZhbXA7cGRldi0mZ3Q7ZGV2LCAi
-SW52YWxpZCByZWdpc3RlciBwcm9wZXJ0eSBzaXplOiAlZFxuIiwgcmVnX251bSk7PGJyPg0KKyZu
-YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDtyZXR1
-cm4gLUVJTlZBTDs8YnI+DQorJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7fTxicj4NCis8YnI+
-DQorJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7Zm9yIChpID0gMDsgaSAmbHQ7IHJlZ19udW07
-IGkrKykgezxicj4NCismbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
-bmJzcDsgJm5ic3A7ZGV2LSZndDtyZWdfYmFzZVtpXSA9IGRldm1fcGxhdGZvcm1faW9yZW1hcF9y
-ZXNvdXJjZShwZGV2LCBpKTs8YnI+DQorJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwO2lmIChJU19FUlIoZGV2LSZndDtyZWdfYmFzZVtpXSkpPGJy
-Pg0KKyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
-cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7cmV0dXJuIFBUUl9FUlIoZGV2LSZndDtyZWdf
-YmFzZVtpXSk7PGJyPg0KKzxicj4NCismbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7
-ICZuYnNwOyAmbmJzcDsgJm5ic3A7bXRrX3Y0bDJfZGVidWcoMiwgInJlZ1slZF0gYmFzZT0lcCIs
-IGksIGRldi0mZ3Q7cmVnX2Jhc2VbaV0pOzxicj4NCismbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
-cDt9PGJyPg0KKzxicj4NCismbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDtyZXR1cm4gMDs8YnI+
-DQorfTxicj4NCis8YnI+DQombmJzcDtzdGF0aWMgaW50IGZvcHNfdmNvZGVjX29wZW4oc3RydWN0
-IGZpbGUgKmZpbGUpPGJyPg0KJm5ic3A7ezxicj4NCiZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
-OyBzdHJ1Y3QgbXRrX3Zjb2RlY19kZXYgKmRldiA9IHZpZGVvX2RydmRhdGEoZmlsZSk7PGJyPg0K
-QEAgLTIwNiw3ICsyMzAsNyBAQCBzdGF0aWMgaW50IG10a192Y29kZWNfcHJvYmUoc3RydWN0IHBs
-YXRmb3JtX2RldmljZSAqcGRldik8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgc3Ry
-dWN0IHJlc291cmNlICpyZXM7PGJyPg0KJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IHBoYW5k
-bGUgcnByb2NfcGhhbmRsZTs8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgZW51bSBt
-dGtfdmNvZGVjX2Z3X3R5cGUgZndfdHlwZTs8YnI+DQotJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
-c3A7aW50IGksIHJldDs8YnI+DQorJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7aW50IHJldDs8
-YnI+DQo8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgZGV2ID0gZGV2bV9remFsbG9j
-KCZhbXA7cGRldi0mZ3Q7ZGV2LCBzaXplb2YoKmRldiksIEdGUF9LRVJORUwpOzxicj4NCiZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBpZiAoIWRldik8YnI+DQpAQCAtMjM4LDE0ICsyNjIsOSBA
-QCBzdGF0aWMgaW50IG10a192Y29kZWNfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRl
-dik8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsg
-Jm5ic3A7IGdvdG8gZXJyX2RlY19wbTs8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsg
-fTxicj4NCjxicj4NCi0mbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDtmb3IgKGkgPSAwOyBpICZs
-dDsgTlVNX01BWF9WREVDX1JFR19CQVNFOyBpKyspIHs8YnI+DQotJm5ic3A7ICZuYnNwOyAmbmJz
-cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwO2Rldi0mZ3Q7cmVnX2Jhc2VbaV0g
-PSBkZXZtX3BsYXRmb3JtX2lvcmVtYXBfcmVzb3VyY2UocGRldiwgaSk7PGJyPg0KLSZuYnNwOyAm
-bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDtpZiAoSVNfRVJS
-KChfX2ZvcmNlIHZvaWQgKilkZXYtJmd0O3JlZ19iYXNlW2ldKSkgezxicj4NCi0mbmJzcDsgJm5i
-c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
-cDsgJm5ic3A7ICZuYnNwO3JldCA9IFBUUl9FUlIoKF9fZm9yY2Ugdm9pZCAqKWRldi0mZ3Q7cmVn
-X2Jhc2VbaV0pOzxicj4NCi0mbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwO2dvdG8gZXJyX3Jlczs8
-YnI+DQotJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
-YnNwO308YnI+DQotJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
-c3A7ICZuYnNwO210a192NGwyX2RlYnVnKDIsICJyZWdbJWRdIGJhc2U9JXAiLCBpLCBkZXYtJmd0
-O3JlZ19iYXNlW2ldKTs8YnI+DQotJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7fTxicj4NCism
-bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDtyZXQgPSBtdGtfdmNvZGVjX2dldF9yZWdfYmFzZXMo
-ZGV2KTs8YnI+DQorJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7aWYgKHJldCk8YnI+DQorJm5i
-c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwO2dvdG8g
-ZXJyX3Jlczs8YnI+DQo8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgcmVzID0gcGxh
-dGZvcm1fZ2V0X3Jlc291cmNlKHBkZXYsIElPUkVTT1VSQ0VfSVJRLCAwKTs8YnI+DQombmJzcDsg
-Jm5ic3A7ICZuYnNwOyAmbmJzcDsgaWYgKHJlcyA9PSBOVUxMKSB7PGJyPg0KPC9ibG9ja3F1b3Rl
-PjwvZGl2PjwvZGl2PjwvYmxvY2txdW90ZT48L2JvZHk+PC9odG1sPg0K
+changes compared with v10:
+- fix comments from tzung-bi for patch 06/19.
+- add more detail information for hardware block diagram 15/19
 
---=-zgMJa3GuD8qgIXVefJBi--
+changes compared with v9:
+- need not to build ko, just export pm interfaces for patch 04/19.
+- fix comments for patch 06/19
+
+changes compared with v8:
+- add new patch 18~19 to remove mtk_vcodec_release_de/enc_pm interfaces.
+- fix spelling mistakes for patch 17/19
+- fix yaml comments for patch 15/19
+
+Changes compared with v7:
+- add new patch 4 to build decoder pm file as module
+- add new patch 5 to support 8192
+- fix comments for patch 6/17
+- change some logic for using work queue instead of create thread for core hardware decode for patch 10/17
+- using work queue for hardware decode instead of create thread for patch 13/17
+- add returen value for patch 14/17
+- fix yaml check fail 15/17
+
+Changes compared with v6:
+- Use of_platform_populate to manage multi hardware, not component framework for patch 4/15
+- Re-write dtsi document for hardware architecture changed for patch 13/15 -The dtsi will write like below in patch 13/15:
+    vcodec_dec: vcodec_dec@16000000 {
+        compatible = "mediatek,mt8192-vcodec-dec";
+        #address-cells = <2>;
+        #size-cells = <2>;
+        ranges;
+        reg = <0 0x16000000 0 0x1000>;		/* VDEC_SYS */
+        mediatek,scp = <&scp>;
+        iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>;
+        dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
+        vcodec_lat {
+            compatible = "mediatek,mtk-vcodec-lat";
+            reg = <0 0x16010000 0 0x800>;		/* VDEC_MISC */
+            reg-name = "reg-misc";
+            interrupts = <GIC_SPI 426 IRQ_TYPE_LEVEL_HIGH 0>;
+            iommus = <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD_EXT>,
+                 <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD2_EXT>,
+                 <&iommu0 M4U_PORT_L5_VDEC_LAT0_AVC_MV_EXT>,
+                 <&iommu0 M4U_PORT_L5_VDEC_LAT0_PRED_RD_EXT>,
+                 <&iommu0 M4U_PORT_L5_VDEC_LAT0_TILE_EXT>,
+                 <&iommu0 M4U_PORT_L5_VDEC_LAT0_WDMA_EXT>,
+                 <&iommu0 M4U_PORT_L5_VDEC_LAT0_RG_CTRL_DMA_EXT>,
+                 <&iommu0 M4U_PORT_L5_VDEC_UFO_ENC_EXT>;
+            clocks = <&topckgen CLK_TOP_VDEC_SEL>,
+                 <&vdecsys_soc CLK_VDEC_SOC_VDEC>,
+                 <&vdecsys_soc CLK_VDEC_SOC_LAT>,
+                 <&vdecsys_soc CLK_VDEC_SOC_LARB1>,
+                 <&topckgen CLK_TOP_MAINPLL_D4>;
+            clock-names = "vdec-sel", "vdec-soc-vdec", "vdec-soc-lat",
+                  "vdec-vdec", "vdec-top";
+            assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
+            assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
+            power-domains = <&spm MT8192_POWER_DOMAIN_VDEC>;
+        };
+
+        vcodec_core {
+            compatible = "mediatek,mtk-vcodec-core";
+            reg = <0 0x16025000 0 0x1000>;		/* VDEC_CORE_MISC */
+            reg-names = "reg-misc";
+            interrupts = <GIC_SPI 425 IRQ_TYPE_LEVEL_HIGH 0>;
+            iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_UFO_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_PP_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_PRED_RD_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_PRED_WR_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_PPWRAP_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_TILE_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_VLD_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_VLD2_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_AVC_MV_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_RG_CTRL_DMA_EXT>;
+            clocks = <&topckgen CLK_TOP_VDEC_SEL>,
+                 <&vdecsys CLK_VDEC_VDEC>,
+                 <&vdecsys CLK_VDEC_LAT>,
+                 <&vdecsys CLK_VDEC_LARB1>,
+                 <&topckgen CLK_TOP_MAINPLL_D4>;
+            clock-names = "vdec-sel", "vdec-soc-vdec", "vdec-soc-lat",
+                  "vdec-vdec", "vdec-top";
+            assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
+            assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
+            power-domains = <&spm MT8192_POWER_DOMAIN_VDEC2>;
+        };
+    };
+
+Changes compared with v5:
+- Add decoder hardware block diagram for patch 13/15
+
+Changes compared with v4:
+- Fix comments for patch 4/15
+  >> +     if (dev->is_comp_supported) {
+  >> +             ret = mtk_vcodec_init_master(dev);
+  >> +             if (ret < 0)
+  >> +                     goto err_component_match;
+  >> +     } else {
+  >> +             platform_set_drvdata(pdev, dev);
+  >> +     }
+  Fix platform_set_drvdata.
+- Fix build error for patch 9/15
+- Add depend patch in case of error header file for patch 13/15
+
+Changes compared with v3:
+- Fix return value for patch 1/15
+- Fix comments for patch 4/15
+  > Looking up "mediatek,mtk-vcodec-core" to determine if it uses component framwork sounds like...
+  Add prameter in pdata, for all platform will use compoent after mt8183
+
+  >> +     if (dev->is_comp_supported) {
+  >> +             ret = mtk_vcodec_init_master(dev);
+  >> +             if (ret < 0)
+  >> +                     goto err_component_match;
+  >> +     } else {
+  >> +             platform_set_drvdata(pdev, dev);
+  >> +     }
+  > + Has asked the same question in [1].  Why it removes the
+  > +platform_set_drvdata() above?  mtk_vcodec_init_master() also calls platform_set_drvdata().
+  Must call component_master_add_with_match after platform_set_drvdata for component architecture.
+- Fix yaml files check fail for patch 5/15
+- Fix yaml file check fail for patch 14/15
+
+Changes compared with v1:
+- Fix many comments for patch 3/14
+- Remove unnecessary code for patch 4/14
+- Using enum mtk_vdec_hw_count instead of magic numbers for patch 6/14
+- Reconstructed get/put lat buffer for lat and core hardware for patch 7/14
+- Using yaml format to instead of txt file for patch 12/14
+
+Yunfei Dong (19):
+  media: mtk-vcodec: Get numbers of register bases from DT
+  media: mtk-vcodec: Align vcodec wake up interrupt interface
+  media: mtk-vcodec: Refactor vcodec pm interface
+  media: mtk-vcodec: export decoder pm functions
+  media: mtk-vcodec: Support MT8192
+  media: mtk-vcodec: Add to support multi hardware decode
+  dt-bindings: media: mtk-vcodec: Separate video encoder and decoder
+    dt-bindings
+  media: mtk-vcodec: Use pure single core for MT8183
+  media: mtk-vcodec: Add irq interface for multi hardware
+  media: mtk-vcodec: Add msg queue feature for lat and core architecture
+  media: mtk-vcodec: Generalize power and clock on/off interfaces
+  media: mtk-vcodec: Add new interface to lock different hardware
+  media: mtk-vcodec: Add work queue for core hardware decode
+  media: mtk-vcodec: Support 34bits dma address for vdec
+  dt-bindings: media: mtk-vcodec: Adds decoder dt-bindings for mt8192
+  media: mtk-vcodec: Add core dec and dec end ipi msg
+  media: mtk-vcodec: Use codec type to separate different hardware
+  media: mtk-vcodec: Remove mtk_vcodec_release_dec_pm
+  media: mtk-vcodec: Remove mtk_vcodec_release_enc_pm
+
+ .../media/mediatek,vcodec-decoder.yaml        | 176 +++++++++++
+ .../media/mediatek,vcodec-encoder.yaml        | 187 ++++++++++++
+ .../media/mediatek,vcodec-subdev-decoder.yaml | 266 ++++++++++++++++
+ .../bindings/media/mediatek-vcodec.txt        | 131 --------
+ drivers/media/platform/mtk-vcodec/Makefile    |   6 +-
+ .../platform/mtk-vcodec/mtk_vcodec_dec.c      |   4 +-
+ .../platform/mtk-vcodec/mtk_vcodec_dec.h      |   1 +
+ .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  | 205 ++++++++++---
+ .../platform/mtk-vcodec/mtk_vcodec_dec_hw.c   | 175 +++++++++++
+ .../platform/mtk-vcodec/mtk_vcodec_dec_hw.h   |  55 ++++
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 104 +++++--
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.h   |  12 +-
+ .../mtk-vcodec/mtk_vcodec_dec_stateful.c      |   2 +
+ .../mtk-vcodec/mtk_vcodec_dec_stateless.c     |  20 ++
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  71 ++++-
+ .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |  21 +-
+ .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   |  10 +-
+ .../platform/mtk-vcodec/mtk_vcodec_enc_pm.h   |   3 +-
+ .../platform/mtk-vcodec/mtk_vcodec_intr.c     |  27 +-
+ .../platform/mtk-vcodec/mtk_vcodec_intr.h     |   4 +-
+ .../platform/mtk-vcodec/mtk_vcodec_util.c     |  59 +++-
+ .../platform/mtk-vcodec/mtk_vcodec_util.h     |   8 +-
+ .../platform/mtk-vcodec/vdec/vdec_h264_if.c   |   2 +-
+ .../mtk-vcodec/vdec/vdec_h264_req_if.c        |   2 +-
+ .../platform/mtk-vcodec/vdec/vdec_vp8_if.c    |   2 +-
+ .../platform/mtk-vcodec/vdec/vdec_vp9_if.c    |   2 +-
+ .../media/platform/mtk-vcodec/vdec_drv_if.c   |  21 +-
+ .../media/platform/mtk-vcodec/vdec_ipi_msg.h  |  16 +-
+ .../platform/mtk-vcodec/vdec_msg_queue.c      | 289 ++++++++++++++++++
+ .../platform/mtk-vcodec/vdec_msg_queue.h      | 143 +++++++++
+ .../media/platform/mtk-vcodec/vdec_vpu_if.c   |  46 ++-
+ .../media/platform/mtk-vcodec/vdec_vpu_if.h   |  22 ++
+ .../platform/mtk-vcodec/venc/venc_h264_if.c   |   2 +-
+ .../platform/mtk-vcodec/venc/venc_vp8_if.c    |   2 +-
+ 34 files changed, 1801 insertions(+), 295 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+ delete mode 100644 Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.h
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec_msg_queue.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec_msg_queue.h
+
+-- 
+2.25.1
 
