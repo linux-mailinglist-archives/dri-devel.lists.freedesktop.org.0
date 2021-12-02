@@ -1,63 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFD0B466192
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Dec 2021 11:38:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A2694664CF
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Dec 2021 14:57:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60A576EB17;
-	Thu,  2 Dec 2021 10:38:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 137316FBFA;
+	Thu,  2 Dec 2021 13:56:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09A196EB17
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Dec 2021 10:38:32 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id 137so22624028wma.1
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Dec 2021 02:38:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yUuUZ5lL4gU0D/CEhS68cNvEv4fc0BxGT8NCpICNU9U=;
- b=Oy/hXZ+fx3Pv712/+xZZS66JR8Gb94hUcz5EjlDTvJp48Y5t62MduGxsiT6UCZl1Gr
- XXOT8iX0j7aRo5t65gPaWO6vX9s/8c5wu0CJFhYb1qMkd95Tp1xnbhOBUlo2tRdLEYUs
- HcSE9RdKkoFFo5dwhhxNieyDZX7C8F2qVx9lYMM8Ujq1sFJslmKi5Ge7addl+3ded0YL
- D04uJxo0iUkuMn1+kT7wyDtcn5KzkFZXz8aC9LQA9oAvaeJpXKT1ALoWXjQoJ58HBCjp
- qVD4VdtpP6LVtYgXhMX5SI4z7sV/lzGKIqAg30U0IlfCKTOvKcXyLbX9q0NOQHxIRort
- IPVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yUuUZ5lL4gU0D/CEhS68cNvEv4fc0BxGT8NCpICNU9U=;
- b=Eido5mb9t4JDTku9i/eBWRAz7OVjjL7sulpaFMlK3fhHUpiwKcYhi0QiamMjcxjTPv
- qmJ18g00hkkiJ1KHZML1sMhnslpCVJbWFCl0f7WlnGyZ6RTlFJb99zmi26pclTbnbf5d
- NPZP6WytrzQGc2fpRc4XJssnm3iI2pS27kMndv64JqbNAP4jtRZoi6owCx6xpmuAZvoT
- PkaAGXIy4VTzIiVBG4Bvfrnka5bopTpjuAOqqvaFx/JUqSAekIxL4Bz32H7qgLrJKqDm
- GcxO9Z/4rjnPMFQuw3iTCCWOww2mc3lplgu+OEsLIcfwW1i3vt5FTmJGodD/VcpCvRah
- oPHA==
-X-Gm-Message-State: AOAM531sMglJ0+/B3lDo605Sr1W5PERS6HXp/ocSDdfS/KDdY8tlYQHB
- OhzzgH+QhIrpNFDt/6tISMcIGRqSU8I=
-X-Google-Smtp-Source: ABdhPJwMakaI+JtOSOodsgtl7+cNFoWsnU0WA+NlU5vHjQrh1xiloiCLuNS63wGNHxaEPe3RrpKudA==
-X-Received: by 2002:a05:600c:3c9b:: with SMTP id
- bg27mr5220637wmb.163.1638441510568; 
- Thu, 02 Dec 2021 02:38:30 -0800 (PST)
-Received: from abel.fritz.box (p57b0b77b.dip0.t-ipconnect.de. [87.176.183.123])
- by smtp.gmail.com with ESMTPSA id u23sm1783297wmc.7.2021.12.02.02.38.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Dec 2021 02:38:30 -0800 (PST)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: xinhui.pan@amd.com,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/ttm: fix ttm_bo_swapout
-Date: Thu,  2 Dec 2021 11:38:28 +0100
-Message-Id: <20211202103828.44573-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC6D26FBFA;
+ Thu,  2 Dec 2021 13:56:56 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10185"; a="236651033"
+X-IronPort-AV: E=Sophos;i="5.87,282,1631602800"; d="scan'208";a="236651033"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Dec 2021 05:56:54 -0800
+X-IronPort-AV: E=Sophos;i="5.87,282,1631602800"; d="scan'208";a="500751556"
+Received: from dev.igk.intel.com (HELO localhost) ([10.102.12.162])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Dec 2021 05:56:52 -0800
+From: Maciej Patelczyk <maciej.patelczyk@linux.intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>, Intel GFX
+ <intel-gfx@lists.freedesktop.org>, DRI Devel
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH] drm/i915/debugfs: Do not return '0' if there is nothing
+ to return
+In-Reply-To: <20211127011715.274205-1-andi.shyti@linux.intel.com>
+References: <20211127011715.274205-1-andi.shyti@linux.intel.com>
+Date: Thu, 02 Dec 2021 14:53:59 +0100
+Message-ID: <87bl1z15ag.fsf@dev.i-did-not-set--mail-host-address--so-tickle-me>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,42 +45,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>, Andi Shyti <andi@etezian.org>,
+ Maciej Patelczyk <maciej.patelczyk@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 7120a447c7fe ("drm/ttm: Double check mem_type of BO while eviction")
-made ttm_bo_evict_swapout_allowable() function actually check the
-placement, but we always used a dummy placement in ttm_bo_swapout.
+Andi Shyti <andi.shyti@linux.intel.com> writes:
 
-Fix this by using the real placement instead.
+> Change functions that always return '0' to be void type.
+>
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: Maciej Patelczyk <maciej.patelczyk@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_gt_debugfs.c    |  7 ++++---
+>  drivers/gpu/drm/i915/gt/intel_gt_debugfs.h    |  2 +-
+>  drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c | 16 ++++++++--------
+>  drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.h |  4 ++--
+>  drivers/gpu/drm/i915/i915_debugfs.c           | 12 +++++++++---
+>  5 files changed, 24 insertions(+), 17 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c
+> index f103664b71d4..53b90b4f73d7 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c
+> @@ -29,7 +29,7 @@ int intel_gt_debugfs_reset_show(struct intel_gt *gt, u64 *val)
+>  	}
+>  }
+>  
+> -int intel_gt_debugfs_reset_store(struct intel_gt *gt, u64 val)
+> +void intel_gt_debugfs_reset_store(struct intel_gt *gt, u64 val)
+>  {
+>  	/* Flush any previous reset before applying for a new one */
+>  	wait_event(gt->reset.queue,
+> @@ -37,7 +37,6 @@ int intel_gt_debugfs_reset_store(struct intel_gt *gt, u64 val)
+>  
+>  	intel_gt_handle_error(gt, val, I915_ERROR_CAPTURE,
+>  			      "Manually reset engine mask to %llx", val);
+> -	return 0;
+>  }
+>  
+>  /*
+> @@ -51,7 +50,9 @@ static int __intel_gt_debugfs_reset_show(void *data, u64 *val)
+>  
+>  static int __intel_gt_debugfs_reset_store(void *data, u64 val)
+>  {
+> -	return intel_gt_debugfs_reset_store(data, val);
+> +	intel_gt_debugfs_reset_store(data, val);
+> +
+> +	return 0;
+>  }
+>  
+>  DEFINE_SIMPLE_ATTRIBUTE(reset_fops, __intel_gt_debugfs_reset_show,
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_debugfs.h b/drivers/gpu/drm/i915/gt/intel_gt_debugfs.h
+> index e307ceb99031..a4baf8e7f068 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_debugfs.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_debugfs.h
+> @@ -37,6 +37,6 @@ void intel_gt_debugfs_register_files(struct dentry *root,
+>  
+>  /* functions that need to be accessed by the upper level non-gt interfaces */
+>  int intel_gt_debugfs_reset_show(struct intel_gt *gt, u64 *val);
+> -int intel_gt_debugfs_reset_store(struct intel_gt *gt, u64 val);
+> +void intel_gt_debugfs_reset_store(struct intel_gt *gt, u64 val);
+>  
+>  #endif /* INTEL_GT_DEBUGFS_H */
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+> index 404dfa7673c6..7a30157aa9d3 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+> @@ -20,38 +20,38 @@
+>  #include "intel_uncore.h"
+>  #include "vlv_sideband.h"
+>  
+> -int intel_gt_pm_debugfs_forcewake_user_open(struct intel_gt *gt)
+> +void intel_gt_pm_debugfs_forcewake_user_open(struct intel_gt *gt)
+>  {
+>  	atomic_inc(&gt->user_wakeref);
+>  	intel_gt_pm_get(gt);
+>  	if (GRAPHICS_VER(gt->i915) >= 6)
+>  		intel_uncore_forcewake_user_get(gt->uncore);
+> -
+> -	return 0;
+>  }
+>  
+> -int intel_gt_pm_debugfs_forcewake_user_release(struct intel_gt *gt)
+> +void intel_gt_pm_debugfs_forcewake_user_release(struct intel_gt *gt)
+>  {
+>  	if (GRAPHICS_VER(gt->i915) >= 6)
+>  		intel_uncore_forcewake_user_put(gt->uncore);
+>  	intel_gt_pm_put(gt);
+>  	atomic_dec(&gt->user_wakeref);
+> -
+> -	return 0;
+>  }
+>  
+>  static int forcewake_user_open(struct inode *inode, struct file *file)
+>  {
+>  	struct intel_gt *gt = inode->i_private;
+>  
+> -	return intel_gt_pm_debugfs_forcewake_user_open(gt);
+> +	intel_gt_pm_debugfs_forcewake_user_open(gt);
+> +
+> +	return 0;
+>  }
+>  
+>  static int forcewake_user_release(struct inode *inode, struct file *file)
+>  {
+>  	struct intel_gt *gt = inode->i_private;
+>  
+> -	return intel_gt_pm_debugfs_forcewake_user_release(gt);
+> +	intel_gt_pm_debugfs_forcewake_user_release(gt);
+> +
+> +	return 0;
+>  }
+>  
+>  static const struct file_operations forcewake_user_fops = {
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.h b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.h
+> index a8457887ec65..0ace8c2da0ac 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.h
+> @@ -14,7 +14,7 @@ void intel_gt_pm_debugfs_register(struct intel_gt *gt, struct dentry *root);
+>  void intel_gt_pm_frequency_dump(struct intel_gt *gt, struct drm_printer *m);
+>  
+>  /* functions that need to be accessed by the upper level non-gt interfaces */
+> -int intel_gt_pm_debugfs_forcewake_user_open(struct intel_gt *gt);
+> -int intel_gt_pm_debugfs_forcewake_user_release(struct intel_gt *gt);
+> +void intel_gt_pm_debugfs_forcewake_user_open(struct intel_gt *gt);
+> +void intel_gt_pm_debugfs_forcewake_user_release(struct intel_gt *gt);
+>  
+>  #endif /* INTEL_GT_PM_DEBUGFS_H */
+> diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
+> index fe638b5da7c0..88ef63f05ead 100644
+> --- a/drivers/gpu/drm/i915/i915_debugfs.c
+> +++ b/drivers/gpu/drm/i915/i915_debugfs.c
+> @@ -565,7 +565,9 @@ static int i915_wedged_set(void *data, u64 val)
+>  {
+>  	struct drm_i915_private *i915 = data;
+>  
+> -	return intel_gt_debugfs_reset_store(&i915->gt, val);
+> +	intel_gt_debugfs_reset_store(&i915->gt, val);
+> +
+> +	return 0;
+>  }
+>  
+>  DEFINE_SIMPLE_ATTRIBUTE(i915_wedged_fops,
+> @@ -711,14 +713,18 @@ static int i915_forcewake_open(struct inode *inode, struct file *file)
+>  {
+>  	struct drm_i915_private *i915 = inode->i_private;
+>  
+> -	return intel_gt_pm_debugfs_forcewake_user_open(&i915->gt);
+> +	intel_gt_pm_debugfs_forcewake_user_open(&i915->gt);
+> +
+> +	return 0;
+>  }
+>  
+>  static int i915_forcewake_release(struct inode *inode, struct file *file)
+>  {
+>  	struct drm_i915_private *i915 = inode->i_private;
+>  
+> -	return intel_gt_pm_debugfs_forcewake_user_release(&i915->gt);
+> +	intel_gt_pm_debugfs_forcewake_user_release(&i915->gt);
+> +
+> +	return 0;
+>  }
+>  
+>  static const struct file_operations i915_forcewake_fops = {
+> -- 
+> 2.34.0
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Fixes: 7120a447c7fe ("drm/ttm: Double check mem_type of BO while eviction")
----
- drivers/gpu/drm/ttm/ttm_bo.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 739f11c0109c..047adc42d9a0 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -1103,7 +1103,7 @@ int ttm_bo_swapout(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx,
- 	 * as an indication that we're about to swap out.
- 	 */
- 	memset(&place, 0, sizeof(place));
--	place.mem_type = TTM_PL_SYSTEM;
-+	place.mem_type = bo->resource->mem_type;
- 	if (!ttm_bo_evict_swapout_allowable(bo, ctx, &place, &locked, NULL))
- 		return -EBUSY;
- 
-@@ -1135,6 +1135,7 @@ int ttm_bo_swapout(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx,
- 		struct ttm_place hop;
- 
- 		memset(&hop, 0, sizeof(hop));
-+		place.mem_type = TTM_PL_SYSTEM;
- 		ret = ttm_resource_alloc(bo, &place, &evict_mem);
- 		if (unlikely(ret))
- 			goto out;
--- 
-2.25.1
-
+Reviewed-by: Maciej Patelczyk <maciej.patelczyk@intel.com>
