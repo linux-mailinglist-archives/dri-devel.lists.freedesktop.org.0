@@ -1,169 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0748466503
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Dec 2021 15:17:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C40C4665BE
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Dec 2021 15:48:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 024A36F4D6;
-	Thu,  2 Dec 2021 14:17:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ACBD6E213;
+	Thu,  2 Dec 2021 14:48:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
- [205.220.177.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 568616F4D6
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Dec 2021 14:17:53 +0000 (UTC)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B2Dx3PQ010080; 
- Thu, 2 Dec 2021 14:17:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=message-id : date :
- subject : to : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=Yl90nILz0Ot2+e3hyUSpiJgMkKK597IdVLkJ8QXSZRo=;
- b=0LeCEAfuB8qKcwZMTpypeoUTSccDxOK1J4D2sr+AMKAX/qWCF9+5ViFWeU69G3jFpUmq
- NKsiA+Mgkb/Co+7Aj7T7THNw2RuIq/QBGoJwDVwtfCks9OCk/wzRwghegdHQ4GMkdhFO
- 4l2GSaq9rSW+moo4P3BRwKsQMBaITnC7JiMW7snHPseLIQh0ohpGqI0jiKBGbNu24pii
- BdhtKd6FjqusarxGRkSgp/crJVUQBXVehbFgsXErzbvxYvfPYsqxLLxOZO8wqp0/k5gp
- 9P5qClDtPcTHe65jLR9tHHcvOfkIm2xAUb85unTILEMxDWSDdJoxH85Gud/DkPGwAaQr uw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by mx0b-00069f02.pphosted.com with ESMTP id 3cp9r57sck-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 02 Dec 2021 14:17:49 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1B2EFqmT016624;
- Thu, 2 Dec 2021 14:17:48 GMT
-Received: from nam04-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam08lp2043.outbound.protection.outlook.com [104.47.74.43])
- by aserp3020.oracle.com with ESMTP id 3cnhvgqk9h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 02 Dec 2021 14:17:48 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BTFyxl1IYRFTCORcFTHcFTerj4px4hr2e9tpOzAfunpZeYITSndbIHYRGcRr37vI0jFMQqX77uoarDcLdSKAXDtzmQLDfp0P8RiEMUibnpfuRoD1PVvpWVP8ABk45ZERDdSyHSsmhfvZIGlLLF1XCg6PK4g7v1/DMHEC5RATeKA8AXY9OMTBlyaK1H7eyIU6hgoimyt8oVc60hSAMqmNEFJxVvjq5sp0Ja8sZCCsjwDlE+eXreMVjJxdw7y/duNEt3o+Dv9G63VvWdddMRnWJKY2tq+9r7sTGWd3tza2pItY6NCxMUKn/V7f8WKjlwW2q7zEsbxyElTMQ3yqU8RTMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Yl90nILz0Ot2+e3hyUSpiJgMkKK597IdVLkJ8QXSZRo=;
- b=E4PRwTFxATMzt/dbGqfI6xK3BTOu/41Ti4ze6l61NselwNhPh3TcMX1uJGJgDtLb7maBbqlWPDNWxR5tD0snNHVzapm1PintRT0nqzkWxJ2suVwknAODpsRC5Y6MnAwtwuojQLWsBigJLr6yt9uGEmOQI0Oe5Wt7tx49k0SrJLJEGt2R5mAc5RSbio+YkKn+/qAYZ4Oe6Sqs+ews4pAMUWeGTSprh19NIMM06oOrYthF6zp2C01ZbUqewscA4V1PKfyukMvjUMB50fvI9v8pUe3TB9uV/t5FITbzkBzkHdjCqlqu6O0PLGHn+S4RjoUevxdZPalyQn0pB6Y3c6/9uA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
+ [IPv6:2607:f8b0:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A35489CC4
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Dec 2021 14:48:14 +0000 (UTC)
+Received: by mail-ot1-x329.google.com with SMTP id
+ x19-20020a9d7053000000b0055c8b39420bso40239588otj.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Dec 2021 06:48:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Yl90nILz0Ot2+e3hyUSpiJgMkKK597IdVLkJ8QXSZRo=;
- b=R0KmE6tj94qcelUPTsrUsP8A3TLz4yWivxsgk2u/3DYPPMLcQ/iCys0IXEFCi93qbkXw4QZTMWRHxmRersdUmVxq0fFckptkK3t1sutCCENFt9Wo1RTO601Rk+UvFg2fgcS5BpMCcL0/REWRe5Fwwkzrig8DfMQ7l4VZylCY9rQ=
-Received: from BN0PR10MB5192.namprd10.prod.outlook.com (2603:10b6:408:115::8)
- by BN8PR10MB3202.namprd10.prod.outlook.com (2603:10b6:408:d0::24)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.11; Thu, 2 Dec
- 2021 14:17:41 +0000
-Received: from BN0PR10MB5192.namprd10.prod.outlook.com
- ([fe80::8823:3dbf:b88f:2c0e]) by BN0PR10MB5192.namprd10.prod.outlook.com
- ([fe80::8823:3dbf:b88f:2c0e%5]) with mapi id 15.20.4734.028; Thu, 2 Dec 2021
- 14:17:41 +0000
-Message-ID: <79d30c1e-2d02-6e0a-6f33-172ab7f91722@oracle.com>
-Date: Thu, 2 Dec 2021 09:17:37 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH] drm: check drm_format_info hsub and vsub to avoid divide
- by zero
-Content-Language: en-CA
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- airlied@linux.ie, gregkh@linuxfoundation.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de
-References: <1635429437-21718-1-git-send-email-george.kennedy@oracle.com>
- <YXqt46TPL9tUZCL1@intel.com> <YZdxFvGkBPXrtoQ7@phenom.ffwll.local>
- <YZd2VI820CUGrMjv@intel.com> <YZd8tpDN9lsq0ZbZ@phenom.ffwll.local>
- <87a6i0jk8r.fsf@intel.com> <706003ee-62ca-17a1-f629-6bc010aa5d49@oracle.com>
- <YZ+rSG7VmZ2XbJrf@phenom.ffwll.local>
-From: George Kennedy <george.kennedy@oracle.com>
-Organization: Oracle Corporation
-In-Reply-To: <YZ+rSG7VmZ2XbJrf@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SN7PR04CA0101.namprd04.prod.outlook.com
- (2603:10b6:806:122::16) To BN0PR10MB5192.namprd10.prod.outlook.com
- (2603:10b6:408:115::8)
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=Zvp6r4mCs/8L9l1dbZwuzFtnt8Ckc6Ar0XXFO95rJ+I=;
+ b=EgLe8vM5wTzSadMvkxe2YhCrRZ5rJe4UllvUeRTvTxKMUjtYNuzE/ELYtOE4LJlH2S
+ d3EajocreNP1tep7qWjPzf8/fNEkCG6Wb1zbrPtkMXhJlYAVm6+unLAPiQ8thwtA0fvs
+ SVaLA7iP6brGPfCngvQsQpyFELgnuz0of54soy5O0KTIJzylp5FCYBic6TPAN6Zn3JIC
+ saORt/CjJw7wYqMbokiCd1osh8ULU8W22wHEpSAxkg1089viXggev1JhmSYP8Hfyl+zS
+ kTtEkNfcckXLUaoWej7uGr+8dKMZGyKGl/2p9QpPXsPJXL5P2mw71Sw3OTcrDFpLaw/A
+ 3LYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=Zvp6r4mCs/8L9l1dbZwuzFtnt8Ckc6Ar0XXFO95rJ+I=;
+ b=cx/jRi8dl1keN3idq0iC16nXemFAJmSDZYFGbWFohy/lggy38YleIzmN+JyH4PL4hb
+ Vefc81BqFvMrjGCPIGWoF9Ik5XO1kOpheiZYPyd0atSZlQIORiV7FLlcWxIdkdJGAb5z
+ DLyEpyOVhdolF3/5uNqUaO0kM4+WYObxbYIk/qrsK6G3qesax86ryFu0iGawz/TlEn7f
+ jH5pEDi8g0SfEizrs/I+snPqTaAKn2Wcr9BPUvR5B91MBDc4E05Hw3sRZH1O70x6hy2+
+ njBYch1bKAXP2A5dSBwxJs74UH9w9N5LktQmLYr1KQmc1kKKud6zk+1Mo82xtyieuUat
+ Wcvw==
+X-Gm-Message-State: AOAM531OBdeqF0Oj1K6SsW7m28whsZmY+q3M5d4FqAN+VofXJEiOlP2V
+ clyl/Mk+YugcUXkps8aoClPnnkvPzsVsFPQ53hgvWVAjVms=
+X-Google-Smtp-Source: ABdhPJzWJK8b2mM4PCn4eSNMu5WxHg/rdPi4EfivT7kAzZPjBYljUa/r31earj4x9CqhuF1K+MiVMfzd77vGdZ03iBI=
+X-Received: by 2002:a9d:2aa3:: with SMTP id e32mr11644849otb.6.1638456493599; 
+ Thu, 02 Dec 2021 06:48:13 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 2 Dec 2021 06:48:12 -0800
 MIME-Version: 1.0
-Received: from [10.39.216.51] (138.3.201.51) by
- SN7PR04CA0101.namprd04.prod.outlook.com (2603:10b6:806:122::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.11 via Frontend
- Transport; Thu, 2 Dec 2021 14:17:40 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 251f9d7b-929d-40b6-f9b9-08d9b59e8071
-X-MS-TrafficTypeDiagnostic: BN8PR10MB3202:
-X-Microsoft-Antispam-PRVS: <BN8PR10MB320207FB5BB29B814DD719ACE6699@BN8PR10MB3202.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Sl/d9mkoMToZ/beVII2jJ/JWyNvZyhWduL/JP7sOl/PbpAd12I47JtU4gxa200LytwLBUOzxYC7Ovi8z0gpgArxUZZ7QKpW0gjmjxtfrlQFmYE/pY38WWBL2/S6cHuIxgZ9Yq0QTZnrYucGen8qkJn94RD9CkKcMaXwLbCzgo/xbm6hdyL/xPbBGqoWyFQs4wJtlGRDhT0zbSfF+uGc0AXl8qmDQ1yORoajgr8l7h+EmZwSH6g7QYwO4yXaWpW3DfsvNzKeJHFApfmK2m6e2JZ/xNaMBHZsKzhSfYb+ty66PyExkHu5iYga3o+r7+CceyMdizz9Xy/eZjHdXgI8fZpog9ikUQHPh3AUtvT2p8eCmEdFgKCXfIvKTSmCKjQ6r0RsFLWvDH7LNhFIsonf7+ucNHrO1l93iBsbx4UDTlEecEItkJEMf0hwte/Sfm/tk/eUWJgFFvDAYpEOmit25GFkrXZz5yxOYz4vjN60nYevhAepd9fYbyxLq7RTEV63/Hn7XTDad/ANetgzmu+mJYxid84f9TxGJMQ5RF/fAqCs5w+3PdkzT/eWfisyJkW+Y0mD/2uWXT+1U0YHFJUSIlTwGGDMHrATQqQmL9JKRH0ABpsZib2uT1fgfbhr7/VIFwluAwNRteHa6l5a40Uu93hN2C0s9BwY8OYkgmMeK6xOm/Vl7aiT5gNTHZvYMKt5AhO7GNmGsbXXsVMx6rZhXL+t2MH7T0Wz9QMUPw50OeQQ=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN0PR10MB5192.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(66946007)(31686004)(86362001)(66556008)(66476007)(83380400001)(8676002)(36916002)(44832011)(66574015)(38100700002)(36756003)(6666004)(53546011)(6486002)(31696002)(110136005)(186003)(316002)(5660300002)(8936002)(2906002)(16576012)(26005)(2616005)(956004)(508600001)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZW9mSzZDdUhZdUJuUVpJbUtCL1hnY0ZOOVNaRmFvV1Q5RW5UNlB1ZUZ0WGF0?=
- =?utf-8?B?V3FuT1FTaUJqNG5mSWZTZWx4cC9ZRVlmSjd6aXg5R20wOC9XaFZlbSt3M081?=
- =?utf-8?B?dlBtV2FiaERsQTc4UDBDaVBEKzZjTHVWaUNFYjMzWEpBd2c3TmZRM2tCR1F4?=
- =?utf-8?B?cmpnMFQ4dU5YeEZOS2VZQitOU1poR2pueEJOTCttVVN3U3RsR2hyd3k5Q3p5?=
- =?utf-8?B?WVBRb0d4Q1FCVDBPaFBHdkxGZmxQbS9lL0FkYWtUc0I2TEkvOGhoTmlQWVoz?=
- =?utf-8?B?MGRQaEE5V2dISytmdThGN1pzd0Y3NmRCc09QMm5NNHNhaStBeFFVL2dlbUZZ?=
- =?utf-8?B?SDFmaVVqUWVRdnRTeXlkQW1adVdXdWV3Q3piT0c5OGVxRWIzM1FVY3h4RlRH?=
- =?utf-8?B?VW5jclVFaHFCZHIxY3JqQ3BKV0o5UHlTZjBxcUNmZjE3ZzhqaFdFNFdnNTdB?=
- =?utf-8?B?cUJkaVg1T2JtMVZDelg2YThtaWgzb0g5NUlKKzM0UDE0cHNPVGRSK3hkUEdW?=
- =?utf-8?B?b0wzTmo3SElzaGM1cnh4Q245TjJtSzUzMmtNWFlFa0tqK3J3VFpYYWVkeUNp?=
- =?utf-8?B?ZFRILzZMNmx2RjI2d0hYYXRxTEVZRWxpL253R01mL2paZjVwSXlaS3hreWcw?=
- =?utf-8?B?cmxNaEhZQ0NPaDFzckdxRWQzQnNPeWNnTlNOYmFqWGdock9QbkQ2d0krZ0F4?=
- =?utf-8?B?Z0tneDVRZjRpY2NZSkRDUnJxL0RjdFpCa0c5eW04bXVSVGdyaVh3aEFaWHpM?=
- =?utf-8?B?RFNSMVQ2c3A0TDVXRENhZkFOZGFyRG9ZRVZLNDRGR01vSzIvZ3J3SFkyZ0Ns?=
- =?utf-8?B?emlMdSsvOXJjTXRVVU5oNitWMEpRZVVRNVdZRTZrcFdrQ1ZzZ3pHMnhNS2Iw?=
- =?utf-8?B?Y0VZTG9LQkViMXJ5U1BEVXRQUmxBMnJUNVF2SW9wS21Tenh2UURld255M0RS?=
- =?utf-8?B?Y0J3M3BZcnBsME0rYVk1S0RGZDVYZnBhODBVWG9KQjB6dDhzYy94NnF6U1Nk?=
- =?utf-8?B?K1loQnlKS0pkRTdHZHB4T0g1NWZPcDR5VjFydjNTV2RnWkJlaTlUZnpCTTcy?=
- =?utf-8?B?SENUOHhtaXhIeWFHTFg0c1JUVTUrV05PUFFVYi9ycGxsQmxhcWdJUHdEL3dV?=
- =?utf-8?B?cEkwdVQwVWprVmw4d2JvTkoyZU9CTzNkVktBQkUzOG9rKzNPeTlaSHFxTlZ5?=
- =?utf-8?B?QVlCMnptTGRQbE1kaHZNdGpWK3ZsakhrY1dFL2tRM3FDbk5YR1p5eUV5cC9p?=
- =?utf-8?B?RGZFTUQzS1lwUStLa1lmZ2w5NjJuYmpmMzFOWEllOHFHOWx0bU0yRm4rY1lr?=
- =?utf-8?B?NTFrNHdBSThlbXdEbEZDdndZODdPQ1Q2eGZCZEVPSThNRVdNRmpyTThUTWpp?=
- =?utf-8?B?c25TM0tTcVBhWStxdXErYXZhbkkvSDBrOE41NDV0THBlQnZMTzNqYzZ6VUZF?=
- =?utf-8?B?U1hjV0w3S1BkWHhKNDlsTVh6bGRWek52QmRzd2J6Ykw2K3gvd3QxbzY3ay9o?=
- =?utf-8?B?TEhxb2tBamFzQWJZWmV3Zlhub0tIbkRKT3RmdmpHTE14dE5Hb0U0dWZJaEpw?=
- =?utf-8?B?Rmxzcys4RVYwV2dKUU4vUHF2RW1aeHJ4TEx6NjBON3V2VVAycW9teld1YnEy?=
- =?utf-8?B?dWVudmNIcWJwa1c1RG1EQ3lscnF4UHVnVWRCR0Fid0wxcGpWZndreE5Da3hz?=
- =?utf-8?B?Rzk0blhqdHVRbEhNOGJKL05TdDMzUUx0U1djZmtjMUYwb3R0Kyt2aDdQWTE4?=
- =?utf-8?B?QzVtVU9HQTFZZDBvMlRLNmNQT2tkSDk4YUJybk9uUHU0RE1SMGJEZnV4NGU5?=
- =?utf-8?B?Q0QyWjBmUkVrQVFGTFNxbnlzeitrNzBPK3R6c2JhVUFLVHl3L0ZweXRta1BO?=
- =?utf-8?B?V0xka1hwV0Q2bnExRmpkU1NmQ1R5OUxHdCtiTU5IRzdUVnp4NHJhZFFBZWha?=
- =?utf-8?B?WFRtUTRFUUhsVTRBZTg3ZzF4UlBmRjUxbGs3a294dnlWKzZYUkduWkY1K0dG?=
- =?utf-8?B?QkVDQ3p2TU5tOHI4U2o2RFpTQytFWk1raTkzT0VKVzZRSHRaZGczVmFpOGdQ?=
- =?utf-8?B?YThpb20reCtXbnNwYUZVSG83VEFyT3JOUlNGM0dEY0psbWlhSktYWEREUzlV?=
- =?utf-8?B?ejQ5bHIzZC9yaS9jejJuRUF6elhOS2t4R0NBcitqc2lqRVdWL3lhMUNOb0RP?=
- =?utf-8?B?dzNSdXgzbXphK0ZjbmlMRnQra0x3UGdFb2JCQ1pod0VRK1BPZm9UaTZ3ZWNl?=
- =?utf-8?B?ZXgrK1hKS2tnUjRkWll2VzVQV2VBPT0=?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 251f9d7b-929d-40b6-f9b9-08d9b59e8071
-X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5192.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2021 14:17:41.7852 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: COeAvnznYjM3kbEQT3dd5pc2t1tI4vyjAH6D2ulicfM1wuskeUzY0CoKvajab+12/rqT7AwhYYERoIWYRaiYA8VpSxM+iHnsIr5gSzWDDx0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR10MB3202
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10185
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- spamscore=0 adultscore=0
- bulkscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2112020093
-X-Proofpoint-ORIG-GUID: e8KIbyNqfSL5XRaGtb1x0ftLx2ctwcqK
-X-Proofpoint-GUID: e8KIbyNqfSL5XRaGtb1x0ftLx2ctwcqK
+In-Reply-To: <20211125143034.tzikvlxxl6fdhsif@gilmour>
+References: <20211110130623.20553-1-granquet@baylibre.com>
+ <20211110130623.20553-8-granquet@baylibre.com>
+ <20211115101129.lyxxmb6i7paaonwi@gilmour>
+ <CABnWg9tNPGZSi1RLqF5+Qs1GHtynyVoOzAyw+i9mPRYEoByk8g@mail.gmail.com>
+ <20211116145112.xyoxzfll6exysnvt@gilmour>
+ <CABnWg9uhuchdWyBeTacR6Cy0A9OHziUi051BQ5wsZVU0ajYjyA@mail.gmail.com>
+ <20211125143034.tzikvlxxl6fdhsif@gilmour>
+From: Guillaume Ranquet <granquet@baylibre.com>
+User-Agent: alot/0.10
+Date: Thu, 2 Dec 2021 06:48:12 -0800
+Message-ID: <CABnWg9tcWdfPQwNtFhqVZxCriT848fy42VHoQZs3X2UmL4LYSA@mail.gmail.com>
+Subject: Re: [PATCH v6 7/7] drm/mediatek: Add mt8195 DisplayPort driver
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -176,112 +73,479 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Markus Schneider-Pargmann <msp@baylibre.com>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
+Quoting Maxime Ripard (2021-11-25 15:30:34)
+> On Wed, Nov 24, 2021 at 01:45:21PM +0000, Guillaume Ranquet wrote:
+> > Hi,
+> > Thanks for all your input, really appreciated.
+> >
+> > Quoting Maxime Ripard (2021-11-16 15:51:12)
+> > > Hi,
+> > >
+> > > On Mon, Nov 15, 2021 at 09:33:52AM -0500, Guillaume Ranquet wrote:
+> > > > Quoting Maxime Ripard (2021-11-15 11:11:29)
+> > > > > > The driver creates a child device for the phy. The child device will
+> > > > > > never exist without the parent being active. As they are sharing a
+> > > > > > register range, the parent passes a regmap pointer to the child so that
+> > > > > > both can work with the same register range. The phy driver sets device
+> > > > > > data that is read by the parent to get the phy device that can be used
+> > > > > > to control the phy properties.
+> > > > >
+> > > > > If the PHY is in the same register space than the DP controller, why do
+> > > > > you need a separate PHY driver in the first place?
+> > > >
+> > > > This has been asked by Chun-Kuang Hu in a previous revision of the series:
+> > > >
+> > > > https://lore.kernel.org/linux-mediatek/CAAOTY_-+T-wRCH2yw2XSm=ZbaBbqBQ4EqpU2P0TF90gAWQeRsg@mail.gmail.com/
+> > >
+> > > It's a bit of a circular argument though :)
+> > >
+> > > It's a separate phy driver because it needs to go through another
+> > > maintainer's tree, but it needs to go through another maintainer's tree
+> > > because it's a separate phy driver.
+> > >
+> > > It doesn't explain why it needs to be a separate phy driver? Why can't
+> > > the phy setup be done directly in the DP driver, if it's essentially a
+> > > single device?
+> > >
+> > > That being said, usually what those kind of questions mean is that
+> > > you're missing a comment or something in the commit log to provide that
+> > > context in the first place, so it would be great to add that context
+> > > here.
+> > >
+> > > And it will avoid the situation we're now in where multiple reviewers
+> > > ask the same questions over and over again :)
+> > >
+> > At first I didn't understand your reply, then I realized I gave you
+> > the wrong link...
+> > my bad! I'm struggling a bit with mail reviews, but I'll get there eventually.
+> >
+> > The driver and phy were a single driver until v2 of this patch series
+> > and the phy setup
+> > was done directly in the driver (single driver, single C file).
+> > Here's the relevant link to the discussion between Chun-Kuang and Markus
+> >
+> > https://lore.kernel.org/linux-mediatek/CAAOTY__cJMqcAieEraJ2sz4gi0Zs-aiNXz38_x7dPQea6HvYEg@mail.gmail.com/#t
+> >
+> > I'll try to find a way to make it clearer for v7.
+>
+> OK, it makes sense then :)
+>
+> There's something weird though: the devices definitely look like they're
+> in a separate register range, yet you mention a regmap to handle the
+> shared register range. That range doesn't seem described anywhere in the
+> device tree though? What is it for?
+>
 
-On 11/25/2021 10:27 AM, Daniel Vetter wrote:
-> On Mon, Nov 22, 2021 at 10:29:05AM -0500, George Kennedy wrote:
->>
->> On 11/19/2021 9:25 AM, Jani Nikula wrote:
->>> On Fri, 19 Nov 2021, Daniel Vetter <daniel@ffwll.ch> wrote:
->>>> On Fri, Nov 19, 2021 at 12:03:00PM +0200, Ville Syrjälä wrote:
->>>>> On Fri, Nov 19, 2021 at 10:40:38AM +0100, Daniel Vetter wrote:
->>>>>> On Thu, Oct 28, 2021 at 05:04:19PM +0300, Ville Syrjälä wrote:
->>>>>>> On Thu, Oct 28, 2021 at 08:57:17AM -0500, George Kennedy wrote:
->>>>>>>> Do a sanity check on struct drm_format_info hsub and vsub values to
->>>>>>>> avoid divide by zero.
->>>>>>>>
->>>>>>>> Syzkaller reported a divide error in framebuffer_check() when the
->>>>>>>> DRM_FORMAT_Q410 or DRM_FORMAT_Q401 pixel_format is passed in via
->>>>>>>> the DRM_IOCTL_MODE_ADDFB2 ioctl. The drm_format_info struct for
->>>>>>>> the DRM_FORMAT_Q410 pixel_pattern has ".hsub = 0" and ".vsub = 0".
->>>>>>>> fb_plane_width() uses hsub as a divisor and fb_plane_height() uses
->>>>>>>> vsub as a divisor. These divisors need to be sanity checked for
->>>>>>>> zero before use.
->>>>>>>>
->>>>>>>> divide error: 0000 [#1] SMP KASAN NOPTI
->>>>>>>> CPU: 0 PID: 14995 Comm: syz-executor709 Not tainted 5.15.0-rc6-syzk #1
->>>>>>>> Hardware name: Red Hat KVM, BIOS 1.13.0-2
->>>>>>>> RIP: 0010:framebuffer_check drivers/gpu/drm/drm_framebuffer.c:199 [inline]
->>>>>>>> RIP: 0010:drm_internal_framebuffer_create+0x604/0xf90
->>>>>>>> drivers/gpu/drm/drm_framebuffer.c:317
->>>>>>>>
->>>>>>>> Call Trace:
->>>>>>>>    drm_mode_addfb2+0xdc/0x320 drivers/gpu/drm/drm_framebuffer.c:355
->>>>>>>>    drm_mode_addfb2_ioctl+0x2a/0x40 drivers/gpu/drm/drm_framebuffer.c:391
->>>>>>>>    drm_ioctl_kernel+0x23a/0x2e0 drivers/gpu/drm/drm_ioctl.c:795
->>>>>>>>    drm_ioctl+0x589/0xac0 drivers/gpu/drm/drm_ioctl.c:898
->>>>>>>>    vfs_ioctl fs/ioctl.c:51 [inline]
->>>>>>>>    __do_sys_ioctl fs/ioctl.c:874 [inline]
->>>>>>>>    __se_sys_ioctl fs/ioctl.c:860 [inline]
->>>>>>>>    __x64_sys_ioctl+0x19d/0x220 fs/ioctl.c:860
->>>>>>>>    do_syscall_x64 arch/x86/entry/common.c:50 [inline]
->>>>>>>>    do_syscall_64+0x3a/0x80 arch/x86/entry/common.c:80
->>>>>>>>    entry_SYSCALL_64_after_hwframe+0x44/0xae
->>>>>>>>
->>>>>>>> Signed-off-by: George Kennedy <george.kennedy@oracle.com>
->>>>>>>> ---
->>>>>>>>    drivers/gpu/drm/drm_framebuffer.c | 10 ++++++++++
->>>>>>>>    1 file changed, 10 insertions(+)
->>>>>>>>
->>>>>>>> diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
->>>>>>>> index 07f5abc..a146e4b 100644
->>>>>>>> --- a/drivers/gpu/drm/drm_framebuffer.c
->>>>>>>> +++ b/drivers/gpu/drm/drm_framebuffer.c
->>>>>>>> @@ -195,6 +195,16 @@ static int framebuffer_check(struct drm_device *dev,
->>>>>>>>    	/* now let the driver pick its own format info */
->>>>>>>>    	info = drm_get_format_info(dev, r);
->>>>>>>> +	if (info->hsub == 0) {
->>>>>>>> +		DRM_DEBUG_KMS("bad horizontal chroma subsampling factor %u\n", info->hsub);
->>>>>>>> +		return -EINVAL;
->>>>>>>> +	}
->>>>>>>> +
->>>>>>>> +	if (info->vsub == 0) {
->>>>>>>> +		DRM_DEBUG_KMS("bad vertical chroma subsampling factor %u\n", info->vsub);
->>>>>>>> +		return -EINVAL;
->>>>>>>> +	}
->>>>>>> Looks like duct tape to me. I think we need to either fix those formats
->>>>>>> to have valid format info, or just revert the whole patch that added such
->>>>>>> broken things.
->>>>>> Yeah maybe even a compile-time check of the format table(s) to validate
->>>>>> them properly and scream ... Or at least a selftest.
->>>>> I really wish C had (even very limited) compile time evaluation
->>>>> so one could actually loop over arrays like at compile time to
->>>>> check each element. As it stands you either have to check each
->>>>> array element by hand, or you do some cpp macro horrors to
->>>>> pretend you're iterating the array.
->>>> Python preprocess or so seems to be the usual answer, and that then just
->>>> generates the C table after it's all checked.
->>>>
->>>> Or a post-processor which fishes the table out from the .o (or just links
->>>> against it).
->>>>
->>>> But yeah doing this in cpp isn't going to work, aside from it'd be really
->>>> ugly.
->>> Kbuild does have support for hostprogs which are typically used in the
->>> build. The obvious idea is to use that for code generation, but it would
->>> also be interesting to see how that could be used for compile-time
->>> evaluation of sorts. Kind of like compile-time selftests? And, of
->>> course, how badly that would be frowned upon.
->>>
->>> git grep says there are only four hostprogs users in drivers/, so it
->>> certainly isn't a popularity contest winner. (One of them is
->>> "mkregtable" in radeon.)
->> So, can someone suggest a fix? A cpp type of approach does not seem
->> feasible.
->>
->> Adding the sanity checks that are in the patch, which are similar to the
->> sanity checks preceding them in framebuffer_check(), along with a self-test
->> that ran through all the table entries, might address all the concerns
->> brought up in this thread.
-> drm selftest sounds like a reasonable approach to me.
-In the meantime, should a bugzilla bug be opened to track the issue? 
- From this thread it does not seem as though there is a drm selftest in 
-the works.
+My understanding is that 0x1000 to 0x1fff controls the phy functionalities and
+ 0x2000 to 0x4fff controls "non-phy" functionalities.
+And you are right, there's no description of that in the device tree whatsoever.
+The ranges are in the same actual device and thus it has been decided
+to not have
+dt-bindings for the phy device.
 
-Thanks,
-George
-> -Daniel
+The phy driver is a child of the DP driver that we register using
+platform_device_register_data() and we pass along the same regmap as the DP
+driver in its platform data.
 
+I'm not sure I've understood and fully replied to the question...
+
+> > > > > > +static void mtk_dp_bridge_atomic_enable(struct drm_bridge *bridge,
+> > > > > > +                                     struct drm_bridge_state *old_state)
+> > > > > > +{
+> > > > > > +     struct mtk_dp *mtk_dp = mtk_dp_from_bridge(bridge);
+> > > > > > +     struct drm_connector *conn;
+> > > > > > +     struct drm_connector_state *conn_state;
+> > > > > > +     struct drm_crtc *crtc;
+> > > > > > +     struct drm_crtc_state *crtc_state;
+> > > > > > +     int ret = 0;
+> > > > > > +     int i;
+> > > > > > +
+> > > > > > +     conn = drm_atomic_get_new_connector_for_encoder(old_state->base.state,
+> > > > > > +                                                     bridge->encoder);
+> > > > > > +     if (!conn) {
+> > > > > > +             drm_err(mtk_dp->drm_dev,
+> > > > > > +                     "Can't enable bridge as connector is missing\n");
+> > > > > > +             return;
+> > > > > > +     }
+> > > > > > +
+> > > > > > +     memcpy(mtk_dp->connector_eld, conn->eld, MAX_ELD_BYTES);
+> > > > >
+> > > > > This should be protected by a mutex (just like any resource shared
+> > > > > between KMS and ALSA)
+> > > >
+> > > > Ok.
+> > >
+> > > I forgot to ask (even though checkpatch does mention it iirc), but since
+> > > you have multiple mutex it would be nice to have a comment for each
+> > > mutex stating exactly what it protects, and against what.
+> > >
+> > > It's hard otherwise to remember or figure out what the locks are here
+> > > for.
+> > >
+> > > > > > +     ret = mtk_dp_dt_parse_pdata(mtk_dp, pdev);
+> > > > > > +     if (ret)
+> > > > > > +             return ret;
+> > > > >
+> > > > > pdata?
+> > > > >
+> > > > can you elaborate?
+> > >
+> > > Sorry, yeah, pdata is usually the abbreviation used in linux for the
+> > > platform_data mechanism, but you're using the DT to retrieve your
+> > > resources (and platform_data usually don't involve any parsing), so the
+> > > name is odd.
+> > >
+> > > > > > diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > > > > > index 384074f69111b..e6e88e3cd811d 100644
+> > > > > > --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > > > > > +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > > > > > @@ -63,6 +63,14 @@ enum mtk_dpi_out_color_format {
+> > > > > >       MTK_DPI_COLOR_FORMAT_YCBCR_422_FULL
+> > > > > >  };
+> > > > > >
+> > > > > > +enum TVDPLL_CLK {
+> > > > > > +     TVDPLL_PLL = 0,
+> > > > > > +     TVDPLL_D2 = 2,
+> > > > > > +     TVDPLL_D4 = 4,
+> > > > > > +     TVDPLL_D8 = 8,
+> > > > > > +     TVDPLL_D16 = 16,
+> > > > > > +};
+> > > > > > +
+> > > > > >  struct mtk_dpi {
+> > > > > >       struct drm_encoder encoder;
+> > > > > >       struct drm_bridge bridge;
+> > > > > > @@ -71,8 +79,10 @@ struct mtk_dpi {
+> > > > > >       void __iomem *regs;
+> > > > > >       struct device *dev;
+> > > > > >       struct clk *engine_clk;
+> > > > > > +     struct clk *dpi_ck_cg;
+> > > > > >       struct clk *pixel_clk;
+> > > > > >       struct clk *tvd_clk;
+> > > > > > +     struct clk *pclk_src[5];
+> > > > > >       int irq;
+> > > > > >       struct drm_display_mode mode;
+> > > > > >       const struct mtk_dpi_conf *conf;
+> > > > > > @@ -135,6 +145,7 @@ struct mtk_dpi_conf {
+> > > > > >       u32 hvsize_mask;
+> > > > > >       u32 channel_swap_shift;
+> > > > > >       u32 yuv422_en_bit;
+> > > > > > +     u32 csc_enable_bit;
+> > > > > >       const struct mtk_dpi_yc_limit *limit;
+> > > > > >  };
+> > > > > >
+> > > > > > @@ -365,7 +376,7 @@ static void mtk_dpi_config_yuv422_enable(struct mtk_dpi *dpi, bool enable)
+> > > > > >
+> > > > > >  static void mtk_dpi_config_csc_enable(struct mtk_dpi *dpi, bool enable)
+> > > > > >  {
+> > > > > > -     mtk_dpi_mask(dpi, DPI_CON, enable ? CSC_ENABLE : 0, CSC_ENABLE);
+> > > > > > +     mtk_dpi_mask(dpi, DPI_CON, enable ? dpi->conf->csc_enable_bit : 0, dpi->conf->csc_enable_bit);
+> > > > > >  }
+> > > > > >
+> > > > > >  static void mtk_dpi_config_swap_input(struct mtk_dpi *dpi, bool enable)
+> > > > > > @@ -384,22 +395,45 @@ static void mtk_dpi_config_disable_edge(struct mtk_dpi *dpi)
+> > > > > >               mtk_dpi_mask(dpi, dpi->conf->reg_h_fre_con, 0, EDGE_SEL_EN);
+> > > > > >  }
+> > > > > >
+> > > > > > +static void mtk_dpi_matrix_sel(struct mtk_dpi *dpi, enum mtk_dpi_out_color_format format)
+> > > > > > +{
+> > > > > > +     u32 matrix_sel = 0;
+> > > > > > +
+> > > > > > +     switch (format) {
+> > > > > > +     case MTK_DPI_COLOR_FORMAT_YCBCR_422:
+> > > > > > +     case MTK_DPI_COLOR_FORMAT_YCBCR_422_FULL:
+> > > > > > +     case MTK_DPI_COLOR_FORMAT_YCBCR_444:
+> > > > > > +     case MTK_DPI_COLOR_FORMAT_YCBCR_444_FULL:
+> > > > > > +     case MTK_DPI_COLOR_FORMAT_XV_YCC:
+> > > > > > +             if (dpi->mode.hdisplay <= 720)
+> > > > > > +                     matrix_sel = 0x2;
+> > > > > > +             break;
+> > > > > > +     default:
+> > > > > > +             break;
+> > > > > > +     }
+> > > > > > +     mtk_dpi_mask(dpi, DPI_MATRIX_SET, matrix_sel, INT_MATRIX_SEL_MASK);
+> > > > > > +}
+> > > > > > +
+> > > > > >  static void mtk_dpi_config_color_format(struct mtk_dpi *dpi,
+> > > > > >                                       enum mtk_dpi_out_color_format format)
+> > > > > >  {
+> > > > > >       if ((format == MTK_DPI_COLOR_FORMAT_YCBCR_444) ||
+> > > > > >           (format == MTK_DPI_COLOR_FORMAT_YCBCR_444_FULL)) {
+> > > > > >               mtk_dpi_config_yuv422_enable(dpi, false);
+> > > > > > -             if (dpi->conf->csc_support)
+> > > > > > +             if (dpi->conf->csc_support) {
+> > > > > >                       mtk_dpi_config_csc_enable(dpi, true);
+> > > > > > +                     mtk_dpi_matrix_sel(dpi, format);
+> > > > > > +             }
+> > > > > >               if (dpi->conf->swap_input_support)
+> > > > > >                       mtk_dpi_config_swap_input(dpi, false);
+> > > > > >               mtk_dpi_config_channel_swap(dpi, MTK_DPI_OUT_CHANNEL_SWAP_BGR);
+> > > > > >       } else if ((format == MTK_DPI_COLOR_FORMAT_YCBCR_422) ||
+> > > > > >                  (format == MTK_DPI_COLOR_FORMAT_YCBCR_422_FULL)) {
+> > > > > >               mtk_dpi_config_yuv422_enable(dpi, true);
+> > > > > > -             if (dpi->conf->csc_support)
+> > > > > > +             if (dpi->conf->csc_support) {
+> > > > > >                       mtk_dpi_config_csc_enable(dpi, true);
+> > > > > > +                     mtk_dpi_matrix_sel(dpi, format);
+> > > > > > +             }
+> > > > > >               if (dpi->conf->swap_input_support)
+> > > > > >                       mtk_dpi_config_swap_input(dpi, true);
+> > > > > >               mtk_dpi_config_channel_swap(dpi, MTK_DPI_OUT_CHANNEL_SWAP_RGB);
+> > > > > > @@ -441,6 +475,8 @@ static void mtk_dpi_power_off(struct mtk_dpi *dpi)
+> > > > > >       mtk_dpi_disable(dpi);
+> > > > > >       clk_disable_unprepare(dpi->pixel_clk);
+> > > > > >       clk_disable_unprepare(dpi->engine_clk);
+> > > > > > +     clk_disable_unprepare(dpi->dpi_ck_cg);
+> > > > > > +     clk_disable_unprepare(dpi->tvd_clk);
+> > > > > >  }
+> > > > > >
+> > > > > >  static int mtk_dpi_power_on(struct mtk_dpi *dpi)
+> > > > > > @@ -450,12 +486,24 @@ static int mtk_dpi_power_on(struct mtk_dpi *dpi)
+> > > > > >       if (++dpi->refcount != 1)
+> > > > > >               return 0;
+> > > > > >
+> > > > > > +     ret = clk_prepare_enable(dpi->tvd_clk);
+> > > > > > +     if (ret) {
+> > > > > > +             dev_err(dpi->dev, "Failed to enable tvd pll: %d\n", ret);
+> > > > > > +             goto err_pixel;
+> > > > > > +     }
+> > > > > > +
+> > > > > >       ret = clk_prepare_enable(dpi->engine_clk);
+> > > > > >       if (ret) {
+> > > > > >               dev_err(dpi->dev, "Failed to enable engine clock: %d\n", ret);
+> > > > > >               goto err_refcount;
+> > > > > >       }
+> > > > > >
+> > > > > > +     ret = clk_prepare_enable(dpi->dpi_ck_cg);
+> > > > > > +     if (ret) {
+> > > > > > +             dev_err(dpi->dev, "Failed to enable dpi_ck_cg clock: %d\n", ret);
+> > > > > > +             goto err_ck_cg;
+> > > > > > +     }
+> > > > > > +
+> > > > > >       ret = clk_prepare_enable(dpi->pixel_clk);
+> > > > > >       if (ret) {
+> > > > > >               dev_err(dpi->dev, "Failed to enable pixel clock: %d\n", ret);
+> > > > > > @@ -465,10 +513,11 @@ static int mtk_dpi_power_on(struct mtk_dpi *dpi)
+> > > > > >       if (dpi->pinctrl && dpi->pins_dpi)
+> > > > > >               pinctrl_select_state(dpi->pinctrl, dpi->pins_dpi);
+> > > > > >
+> > > > > > -     mtk_dpi_enable(dpi);
+> > > > > >       return 0;
+> > > > > >
+> > > > > >  err_pixel:
+> > > > > > +     clk_disable_unprepare(dpi->dpi_ck_cg);
+> > > > > > +err_ck_cg:
+> > > > > >       clk_disable_unprepare(dpi->engine_clk);
+> > > > > >  err_refcount:
+> > > > > >       dpi->refcount--;
+> > > > > > @@ -500,9 +549,16 @@ static int mtk_dpi_set_display_mode(struct mtk_dpi *dpi,
+> > > > > >       pll_rate = clk_get_rate(dpi->tvd_clk);
+> > > > > >
+> > > > > >       vm.pixelclock = pll_rate / factor;
+> > > > > > -     if (dpi->conf->is_dpintf)
+> > > > > > -             clk_set_rate(dpi->pixel_clk, vm.pixelclock / 4);
+> > > > > > -     else if ((dpi->output_fmt == MEDIA_BUS_FMT_RGB888_2X12_LE) ||
+> > > > > > +     if (dpi->conf->is_dpintf) {
+> > > > > > +             if (factor == 1)
+> > > > > > +                     clk_set_parent(dpi->pixel_clk, dpi->pclk_src[2]);
+> > > > > > +             else if (factor == 2)
+> > > > > > +                     clk_set_parent(dpi->pixel_clk, dpi->pclk_src[3]);
+> > > > > > +             else if (factor == 4)
+> > > > > > +                     clk_set_parent(dpi->pixel_clk, dpi->pclk_src[4]);
+> > > > > > +             else
+> > > > > > +                     clk_set_parent(dpi->pixel_clk, dpi->pclk_src[2]);
+> > > > > > +     } else if ((dpi->output_fmt == MEDIA_BUS_FMT_RGB888_2X12_LE) ||
+> > > > > >                (dpi->output_fmt == MEDIA_BUS_FMT_RGB888_2X12_BE))
+> > > > > >               clk_set_rate(dpi->pixel_clk, vm.pixelclock * 2);
+> > > > > >       else
+> > > > > > @@ -581,6 +637,8 @@ static int mtk_dpi_set_display_mode(struct mtk_dpi *dpi,
+> > > > > >       }
+> > > > > >       mtk_dpi_sw_reset(dpi, false);
+> > > > > >
+> > > > > > +     mtk_dpi_enable(dpi);
+> > > > > > +
+> > > > > >       return 0;
+> > > > > >  }
+> > > > > >
+> > > > > > @@ -623,7 +681,6 @@ static u32 *mtk_dpi_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+> > > > > >       u32 *input_fmts;
+> > > > > >
+> > > > > >       *num_input_fmts = 0;
+> > > > > > -
+> > > > > >       input_fmts = kcalloc(1, sizeof(*input_fmts),
+> > > > > >                            GFP_KERNEL);
+> > > > > >       if (!input_fmts)
+> > > > > > @@ -649,7 +706,7 @@ static int mtk_dpi_bridge_atomic_check(struct drm_bridge *bridge,
+> > > > > >               if (dpi->conf->num_output_fmts)
+> > > > > >                       out_bus_format = dpi->conf->output_fmts[0];
+> > > > > >
+> > > > > > -     dev_dbg(dpi->dev, "input format 0x%04x, output format 0x%04x\n",
+> > > > > > +     dev_info(dpi->dev, "input format 0x%04x, output format 0x%04x\n",
+> > > > > >               bridge_state->input_bus_cfg.format,
+> > > > > >               bridge_state->output_bus_cfg.format);
+> > > > > >
+> > > > > > @@ -657,7 +714,10 @@ static int mtk_dpi_bridge_atomic_check(struct drm_bridge *bridge,
+> > > > > >       dpi->bit_num = MTK_DPI_OUT_BIT_NUM_8BITS;
+> > > > > >       dpi->channel_swap = MTK_DPI_OUT_CHANNEL_SWAP_RGB;
+> > > > > >       dpi->yc_map = MTK_DPI_OUT_YC_MAP_RGB;
+> > > > > > -     dpi->color_format = MTK_DPI_COLOR_FORMAT_RGB;
+> > > > > > +     if (out_bus_format == MEDIA_BUS_FMT_YUYV8_1X16)
+> > > > > > +             dpi->color_format = MTK_DPI_COLOR_FORMAT_YCBCR_422_FULL;
+> > > > > > +     else
+> > > > > > +             dpi->color_format = MTK_DPI_COLOR_FORMAT_RGB;
+> > > > > >
+> > > > > >       return 0;
+> > > > > >  }
+> > > > > > @@ -835,6 +895,12 @@ static const u32 mt8183_output_fmts[] = {
+> > > > > >       MEDIA_BUS_FMT_RGB888_2X12_BE,
+> > > > > >  };
+> > > > > >
+> > > > > > +static const u32 mt8195_output_fmts[] = {
+> > > > > > +     MEDIA_BUS_FMT_RGB888_1X24,
+> > > > > > +     MEDIA_BUS_FMT_YUV8_1X24,
+> > > > > > +     MEDIA_BUS_FMT_YUYV8_1X16,
+> > > > > > +};
+> > > > > > +
+> > > > > >  static const struct mtk_dpi_yc_limit mtk_dpi_limit = {
+> > > > > >       .c_bottom = 0x0010,
+> > > > > >       .c_top = 0x0FE0,
+> > > > > > @@ -862,6 +928,7 @@ static const struct mtk_dpi_conf mt8173_conf = {
+> > > > > >       .hvsize_mask = HSIZE_MASK,
+> > > > > >       .channel_swap_shift = CH_SWAP,
+> > > > > >       .yuv422_en_bit = YUV422_EN,
+> > > > > > +     .csc_enable_bit = CSC_ENABLE,
+> > > > > >       .limit = &mtk_dpi_limit,
+> > > > > >  };
+> > > > > >
+> > > > > > @@ -879,6 +946,7 @@ static const struct mtk_dpi_conf mt2701_conf = {
+> > > > > >       .hvsize_mask = HSIZE_MASK,
+> > > > > >       .channel_swap_shift = CH_SWAP,
+> > > > > >       .yuv422_en_bit = YUV422_EN,
+> > > > > > +     .csc_enable_bit = CSC_ENABLE,
+> > > > > >       .limit = &mtk_dpi_limit,
+> > > > > >  };
+> > > > > >
+> > > > > > @@ -895,6 +963,7 @@ static const struct mtk_dpi_conf mt8183_conf = {
+> > > > > >       .hvsize_mask = HSIZE_MASK,
+> > > > > >       .channel_swap_shift = CH_SWAP,
+> > > > > >       .yuv422_en_bit = YUV422_EN,
+> > > > > > +     .csc_enable_bit = CSC_ENABLE,
+> > > > > >       .limit = &mtk_dpi_limit,
+> > > > > >  };
+> > > > > >
+> > > > > > @@ -911,18 +980,21 @@ static const struct mtk_dpi_conf mt8192_conf = {
+> > > > > >       .hvsize_mask = HSIZE_MASK,
+> > > > > >       .channel_swap_shift = CH_SWAP,
+> > > > > >       .yuv422_en_bit = YUV422_EN,
+> > > > > > +     .csc_enable_bit = CSC_ENABLE,
+> > > > > >       .limit = &mtk_dpi_limit,
+> > > > > >  };
+> > > > > >
+> > > > > >  static const struct mtk_dpi_conf mt8195_dpintf_conf = {
+> > > > > >       .cal_factor = mt8195_dpintf_calculate_factor,
+> > > > > > -     .output_fmts = mt8173_output_fmts,
+> > > > > > -     .num_output_fmts = ARRAY_SIZE(mt8173_output_fmts),
+> > > > > > +     .output_fmts = mt8195_output_fmts,
+> > > > > > +     .num_output_fmts = ARRAY_SIZE(mt8195_output_fmts),
+> > > > > >       .is_dpintf = true,
+> > > > > > +     .csc_support = true,
+> > > > > >       .dimension_mask = DPINTF_HPW_MASK,
+> > > > > >       .hvsize_mask = DPINTF_HSIZE_MASK,
+> > > > > >       .channel_swap_shift = DPINTF_CH_SWAP,
+> > > > > >       .yuv422_en_bit = DPINTF_YUV422_EN,
+> > > > > > +     .csc_enable_bit = DPINTF_CSC_ENABLE,
+> > > > > >       .limit = &mtk_dpintf_limit,
+> > > > > >  };
+> > > > > >
+> > > > > > @@ -979,6 +1051,16 @@ static int mtk_dpi_probe(struct platform_device *pdev)
+> > > > > >               return ret;
+> > > > > >       }
+> > > > > >
+> > > > > > +     dpi->dpi_ck_cg = devm_clk_get(dev, "ck_cg");
+> > > > > > +     if (IS_ERR(dpi->dpi_ck_cg)) {
+> > > > > > +             ret = PTR_ERR(dpi->dpi_ck_cg);
+> > > > > > +             if (ret != -EPROBE_DEFER)
+> > > > > > +                     dev_err(dev, "Failed to get dpi ck cg clock: %d\n",
+> > > > > > +                             ret);
+> > > > > > +
+> > > > > > +             return ret;
+> > > > > > +     }
+> > > > > > +
+> > > > > >       dpi->pixel_clk = devm_clk_get(dev, "pixel");
+> > > > > >       if (IS_ERR(dpi->pixel_clk)) {
+> > > > > >               ret = PTR_ERR(dpi->pixel_clk);
+> > > > > > @@ -997,6 +1079,11 @@ static int mtk_dpi_probe(struct platform_device *pdev)
+> > > > > >               return ret;
+> > > > > >       }
+> > > > > >
+> > > > > > +     dpi->pclk_src[1] = devm_clk_get(dev, "TVDPLL_D2");
+> > > > > > +     dpi->pclk_src[2] = devm_clk_get(dev, "TVDPLL_D4");
+> > > > > > +     dpi->pclk_src[3] = devm_clk_get(dev, "TVDPLL_D8");
+> > > > > > +     dpi->pclk_src[4] = devm_clk_get(dev, "TVDPLL_D16");
+> > > > > > +
+> > > > > >       dpi->irq = platform_get_irq(pdev, 0);
+> > > > > >       if (dpi->irq <= 0)
+> > > > > >               return -EINVAL;
+> > > > >
+> > > > > All those changes look unrelated as well?
+> > > > >
+> > > > Do you mean all the changes in mtk_dpi.c ? They are in support of
+> > > > enabling the mt8195 dpintf driver... so, not sure they are unlreated?
+> > >
+> > > I don't know that driver at all, so it's probably related if you say so
+> > > :)
+> > >
+> > > The DPI interface seems to be a panel interface, so it's a bit weird to
+> > > me why you would need to change things in the panel interface while
+> > > claiming to support a DP output.
+> > >
+> > > Especially since it looks like you have some support for CSC, and
+> > > support for additional output formats?
+> > >
+> > > I guess the DPI interface feeds the DP that essentially acts as a RGB ->
+> > > DP bridge?
+> > >
+> > > If so, then the part adding support for CSC and additional formats
+> > > should be split into a separate patch, and it should be mentioned in the
+> > > commit log
+> > >
+> > > Maxime
+> >
+> > I see what you mean, I'll split the patches functionally...
+> > I'm discovering the gpu/drm tree, so It may take me a while to get it right :D
+>
+> It's not really yet another weird drm rule :)
+>
+> Splitting your patches is valuable for a bunch of reasons that apply to
+> basically every tree:
+>
+>   - It's easier to review (and maintainers like that). It's also easier
+>     to justify in a commit log, so it leads to a better history over the
+>     long term.
+>
+>   - It's also easier to merge since you can merge smaller chunks when
+>     they are ready, even if the entire set is not. Smaller chunks also
+>     mean it's easier to apply (for the maintainer) and rebase (for you).
+>
+>   - Finally, and possibly the strongest technical argument, it's much
+>     more helpful when you're bisecting. Taking the above patch as an
+>     example, let's assume you introduced a bug in some RGB panel with
+>     the colors being off due to the CSC changes. If you run git bisect,
+>     you'll end up with that big patch affecting multiple things and it
+>     would still be difficult to figure out what's wrong exactly. If it
+>     was split, you would end up only on the changeset that introduces
+>     the regression, which is very likely to be much easier to analyze.
+>
+> Maxime
+
+Thx,
+Guillaume.
