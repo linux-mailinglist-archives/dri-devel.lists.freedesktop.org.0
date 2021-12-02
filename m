@@ -1,46 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E996F465AD5
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Dec 2021 01:30:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B22E465AD4
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Dec 2021 01:30:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDFE26E896;
-	Thu,  2 Dec 2021 00:30:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37E056E43A;
+	Thu,  2 Dec 2021 00:30:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org
- [IPv6:2404:9400:2:0:216:3eff:fee2:21ea])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76A9F6E896;
- Thu,  2 Dec 2021 00:30:33 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4J4H0z2yvqz4xbw;
- Thu,  2 Dec 2021 11:30:26 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1638405028;
- bh=TjyNYyoyPBdzTBSQjZxt0J1gGbnbmg1ai8+DULrZFQE=;
- h=Date:From:To:Cc:Subject:From;
- b=oKdOa53zFtGsIZmX9ID9GitRZlzZ1gwC24CacCWaW/qVXT1JIwdJRl2IcJu3o3gFM
- liM+d9UoIhqcSn8clqgLt1nVDZIIPQlC2HT4Xj1rU6WhgEi7uWXH63zVbo9Hh9P5su
- 759pi3A/U9cPEloaw/ln79PVLfQgxW1elqEB8VZRU+k0pv/0whHUt/eNYTXVAkYWyY
- 2FiUW3a6EjHOenGhPcu3C+m1mKnT+kWptDGiJRJ4L5zS+MfHgxKAkjgsunt1mUkF5o
- ThhzaDjizIjtfE51Q6BRwqojTqDIzF6kyCjEjf/A4julYTbClnax4fHoWkQE2IlvUN
- pmQ4fnOqhLA3g==
-Date: Thu, 2 Dec 2021 11:30:25 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Daniel Vetter
- <daniel.vetter@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm-intel-gt tree with the
- drm-intel tree
-Message-ID: <20211202113025.71551241@canb.auug.org.au>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 764F86E0C1;
+ Thu,  2 Dec 2021 00:30:31 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10185"; a="216605289"
+X-IronPort-AV: E=Sophos;i="5.87,280,1631602800"; d="scan'208";a="216605289"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Dec 2021 16:30:30 -0800
+X-IronPort-AV: E=Sophos;i="5.87,280,1631602800"; d="scan'208";a="459448204"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Dec 2021 16:30:30 -0800
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915: replace X86_FEATURE_PAT with pat_enabled()
+Date: Wed,  1 Dec 2021 16:30:48 -0800
+Message-Id: <20211202003048.1015511-1-lucas.demarchi@intel.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/U5W8j29yaPF/IG8K8AyEq1R";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,81 +41,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/U5W8j29yaPF/IG8K8AyEq1R
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+PAT can be disabled on boot with "nopat" in the command line. Replace
+one x86-ism with another, which is slightly more correct to prepare for
+supporting other architectures.
 
-Hi all,
+Cc: Matt Roper <matthew.d.roper@intel.com>
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c  | 8 ++++----
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c | 3 +--
+ 2 files changed, 5 insertions(+), 6 deletions(-)
 
-Today's linux-next merge of the drm-intel-gt tree got a conflict in:
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+index 65fc6ff5f59d..c0c509e5c0ae 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+@@ -72,7 +72,7 @@ i915_gem_mmap_ioctl(struct drm_device *dev, void *data,
+ 	if (args->flags & ~(I915_MMAP_WC))
+ 		return -EINVAL;
+ 
+-	if (args->flags & I915_MMAP_WC && !boot_cpu_has(X86_FEATURE_PAT))
++	if (args->flags & I915_MMAP_WC && !pat_enabled())
+ 		return -ENODEV;
+ 
+ 	obj = i915_gem_object_lookup(file, args->handle);
+@@ -736,7 +736,7 @@ i915_gem_dumb_mmap_offset(struct drm_file *file,
+ 
+ 	if (HAS_LMEM(to_i915(dev)))
+ 		mmap_type = I915_MMAP_TYPE_FIXED;
+-	else if (boot_cpu_has(X86_FEATURE_PAT))
++	else if (pat_enabled())
+ 		mmap_type = I915_MMAP_TYPE_WC;
+ 	else if (!i915_ggtt_has_aperture(&to_i915(dev)->ggtt))
+ 		return -ENODEV;
+@@ -792,7 +792,7 @@ i915_gem_mmap_offset_ioctl(struct drm_device *dev, void *data,
+ 		break;
+ 
+ 	case I915_MMAP_OFFSET_WC:
+-		if (!boot_cpu_has(X86_FEATURE_PAT))
++		if (!pat_enabled())
+ 			return -ENODEV;
+ 		type = I915_MMAP_TYPE_WC;
+ 		break;
+@@ -802,7 +802,7 @@ i915_gem_mmap_offset_ioctl(struct drm_device *dev, void *data,
+ 		break;
+ 
+ 	case I915_MMAP_OFFSET_UC:
+-		if (!boot_cpu_has(X86_FEATURE_PAT))
++		if (!pat_enabled())
+ 			return -ENODEV;
+ 		type = I915_MMAP_TYPE_UC;
+ 		break;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+index 49c6e55c68ce..89b70f5cde7a 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+@@ -424,8 +424,7 @@ void *i915_gem_object_pin_map(struct drm_i915_gem_object *obj,
+ 			goto err_unpin;
+ 		}
+ 
+-		if (GEM_WARN_ON(type == I915_MAP_WC &&
+-				!static_cpu_has(X86_FEATURE_PAT)))
++		if (GEM_WARN_ON(type == I915_MAP_WC && !pat_enabled()))
+ 			ptr = ERR_PTR(-ENODEV);
+ 		else if (i915_gem_object_has_struct_page(obj))
+ 			ptr = i915_gem_object_map_page(obj, type);
+-- 
+2.33.1
 
-  drivers/gpu/drm/i915/display/intel_fbc.c
-
-between commit:
-
-  d06188234427 ("drm/i915/fbc: s/dev_priv/i915/")
-
-from the drm-intel tree and commit:
-
-  cca084692394 ("drm/i915: Use per device iommu check")
-
-from the drm-intel-gt tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/i915/display/intel_fbc.c
-index d0c34bc3af6c,c40444206425..000000000000
---- a/drivers/gpu/drm/i915/display/intel_fbc.c
-+++ b/drivers/gpu/drm/i915/display/intel_fbc.c
-@@@ -1674,12 -1536,12 +1674,12 @@@ static int intel_sanitize_fbc_option(st
-  	return 0;
-  }
- =20
- -static bool need_fbc_vtd_wa(struct drm_i915_private *dev_priv)
- +static bool need_fbc_vtd_wa(struct drm_i915_private *i915)
-  {
-  	/* WaFbcTurnOffFbcWhenHyperVisorIsUsed:skl,bxt */
-- 	if (intel_vtd_active() &&
- -	if (intel_vtd_active(dev_priv) &&
- -	    (IS_SKYLAKE(dev_priv) || IS_BROXTON(dev_priv))) {
- -		drm_info(&dev_priv->drm,
-++	if (intel_vtd_active(i915) &&
- +	    (IS_SKYLAKE(i915) || IS_BROXTON(i915))) {
- +		drm_info(&i915->drm,
-  			 "Disabling framebuffer compression (FBC) to prevent screen flicker wi=
-th VT-d enabled\n");
-  		return true;
-  	}
-
---Sig_/U5W8j29yaPF/IG8K8AyEq1R
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmGoE6EACgkQAVBC80lX
-0GzXDAf+OlGafDDLWTuvxxMYe2NkmdpUhDLDa5gxcGmBfe3DzkoC6pompmP8DPBO
-/H+GR02MFdTl+y2rZkRLkHm2t0jQeiUXa9ccq99TiNaDf4FRGkx2xTRlDLqCfEcG
-TCWIT3oDyz/rilgDHpCLwp8zIMzw7CvCeDUSohdMhFId0zHobvKp2w9LluvLGndl
-s3EJk1DxJ4tPOxr80tRiqi4hypdHINwgQp+4YyagTqBD2yZMXfDdIDa81zDBPSrs
-A7yq3BHvDMuOYsvhvBvUmpCQq0AsCamdUwPTVZU7P7eT1xH2f+W9hcz639utU1ve
-07H3g7yUpEY68XvDOw46KxjUZXZohA==
-=gaRM
------END PGP SIGNATURE-----
-
---Sig_/U5W8j29yaPF/IG8K8AyEq1R--
