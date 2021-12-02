@@ -2,46 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AEDD465D00
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Dec 2021 04:46:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77AE8465D9F
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Dec 2021 05:54:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C48C6E9B4;
-	Thu,  2 Dec 2021 03:46:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 801EE6EAAF;
+	Thu,  2 Dec 2021 04:54:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF26B6E9B2
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Dec 2021 03:46:18 +0000 (UTC)
-X-UUID: b684a5c1deb24223a36378d3fca7bf28-20211202
-X-UUID: b684a5c1deb24223a36378d3fca7bf28-20211202
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw02.mediatek.com (envelope-from <yunfei.dong@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 2079865767; Thu, 02 Dec 2021 11:46:16 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Thu, 2 Dec 2021 11:46:14 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkcas11.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Thu, 2 Dec 2021 11:46:13 +0800
-From: Yunfei Dong <yunfei.dong@mediatek.com>
-To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
- <acourbot@chromium.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, "Tzung-Bi
- Shih" <tzungbi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
-Subject: [PATCH v12, 19/19] media: mtk-vcodec: Remove mtk_vcodec_release_enc_pm
-Date: Thu, 2 Dec 2021 11:45:44 +0800
-Message-ID: <20211202034544.2750-20-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211202034544.2750-1-yunfei.dong@mediatek.com>
-References: <20211202034544.2750-1-yunfei.dong@mediatek.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 905F76EAA7;
+ Thu,  2 Dec 2021 04:54:23 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10185"; a="236439595"
+X-IronPort-AV: E=Sophos;i="5.87,281,1631602800"; d="scan'208";a="236439595"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Dec 2021 20:54:02 -0800
+X-IronPort-AV: E=Sophos;i="5.87,281,1631602800"; d="scan'208";a="513028767"
+Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Dec 2021 20:54:02 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: <intel-gfx@lists.freedesktop.org>,
+	<dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/i915: Fix error pointer dereference in
+ i915_gem_do_execbuffer()
+Date: Wed,  1 Dec 2021 20:48:31 -0800
+Message-Id: <20211202044831.29583-1-matthew.brost@intel.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,118 +43,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Irui Wang <irui.wang@mediatek.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- srv_heupstream@mediatek.com, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Fritz Koenig <frkoenig@chromium.org>,
- Dafna Hirschfeld <dafna.hirschfeld@collabora.com>, Steve
- Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are only two lines in mtk_vcodec_release_enc_pm, using
-pm_runtime_disable and put_device instead directly.
+From: Dan Carpenter <dan.carpenter@oracle.com>
 
-Move pm_runtime_enable outside mtk_vcodec_release_enc_pm to symmetry with
-pm_runtime_disable, after that, rename mtk_vcodec_init_enc_pm to *_clk since
-it only has clock operations now.
+Originally "out_fence" was set using out_fence = sync_file_create() but
+which returns NULL, but now it is set with out_fence = eb_requests_create()
+which returns error pointers.  The error path needs to be modified to
+avoid an Oops in the "goto err_request;" path.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-Co-developed-by: Yong Wu <yong.wu@mediatek.com>
+Fixes: 544460c33821 ("drm/i915: Multi-BB execbuf")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c | 9 ++++++---
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c  | 9 +--------
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.h  | 3 +--
- 3 files changed, 8 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-index 0f326d82dea0..7816efb90cbe 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-@@ -11,6 +11,7 @@
- #include <linux/module.h>
- #include <linux/of_device.h>
- #include <linux/of.h>
-+#include <linux/pm_runtime.h>
- #include <media/v4l2-event.h>
- #include <media/v4l2-mem2mem.h>
- #include <media/videobuf2-dma-contig.h>
-@@ -260,7 +261,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- 		return PTR_ERR(dev->fw_handler);
- 
- 	dev->venc_pdata = of_device_get_match_data(&pdev->dev);
--	ret = mtk_vcodec_init_enc_pm(dev);
-+	ret = mtk_vcodec_init_enc_clk(dev);
- 	if (ret < 0) {
- 		dev_err(&pdev->dev, "Failed to get mtk vcodec clock source!");
- 		goto err_enc_pm;
-@@ -372,7 +373,8 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- err_enc_alloc:
- 	v4l2_device_unregister(&dev->v4l2_dev);
- err_res:
--	mtk_vcodec_release_enc_pm(dev);
-+	pm_runtime_disable(dev->pm.dev);
-+	put_device(dev->pm.larbvenc);
- err_enc_pm:
- 	mtk_vcodec_fw_release(dev->fw_handler);
- 	return ret;
-@@ -462,7 +464,8 @@ static int mtk_vcodec_enc_remove(struct platform_device *pdev)
- 		video_unregister_device(dev->vfd_enc);
- 
- 	v4l2_device_unregister(&dev->v4l2_dev);
--	mtk_vcodec_release_enc_pm(dev);
-+	pm_runtime_disable(dev->pm.dev);
-+	put_device(dev->pm.larbvenc);
- 	mtk_vcodec_fw_release(dev->fw_handler);
- 	return 0;
- }
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
-index 0c8c8f86788c..0825c6ec4eb7 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
-@@ -13,7 +13,7 @@
- #include "mtk_vcodec_enc_pm.h"
- #include "mtk_vcodec_util.h"
- 
--int mtk_vcodec_init_enc_pm(struct mtk_vcodec_dev *mtkdev)
-+int mtk_vcodec_init_enc_clk(struct mtk_vcodec_dev *mtkdev)
- {
- 	struct device_node *node;
- 	struct platform_device *pdev;
-@@ -86,13 +86,6 @@ int mtk_vcodec_init_enc_pm(struct mtk_vcodec_dev *mtkdev)
- 	return ret;
- }
- 
--void mtk_vcodec_release_enc_pm(struct mtk_vcodec_dev *mtkdev)
--{
--	pm_runtime_disable(mtkdev->pm.dev);
--	put_device(mtkdev->pm.larbvenc);
--}
--
--
- void mtk_vcodec_enc_clock_on(struct mtk_vcodec_pm *pm)
- {
- 	struct mtk_vcodec_clk *enc_clk = &pm->venc_clk;
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.h
-index b7ecdfd74823..bc455cefc0cd 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.h
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.h
-@@ -9,8 +9,7 @@
- 
- #include "mtk_vcodec_drv.h"
- 
--int mtk_vcodec_init_enc_pm(struct mtk_vcodec_dev *dev);
--void mtk_vcodec_release_enc_pm(struct mtk_vcodec_dev *dev);
-+int mtk_vcodec_init_enc_clk(struct mtk_vcodec_dev *dev);
- 
- void mtk_vcodec_enc_clock_on(struct mtk_vcodec_pm *pm);
- void mtk_vcodec_enc_clock_off(struct mtk_vcodec_pm *pm);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+index 9f7c6ecadb90..6db588b9a30e 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -3288,6 +3288,7 @@ i915_gem_do_execbuffer(struct drm_device *dev,
+ 	out_fence = eb_requests_create(&eb, in_fence, out_fence_fd);
+ 	if (IS_ERR(out_fence)) {
+ 		err = PTR_ERR(out_fence);
++		out_fence = NULL;
+ 		if (eb.requests[0])
+ 			goto err_request;
+ 		else
 -- 
-2.25.1
+2.33.1
 
