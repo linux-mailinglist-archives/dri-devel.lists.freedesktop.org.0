@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4688466C7E
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Dec 2021 23:28:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0202466C65
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Dec 2021 23:28:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C63376FC75;
-	Thu,  2 Dec 2021 22:28:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D21D96FC56;
+	Thu,  2 Dec 2021 22:27:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
- [IPv6:2607:f8b0:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC3886FC38
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Dec 2021 22:27:49 +0000 (UTC)
-Received: by mail-pf1-x429.google.com with SMTP id o4so916087pfp.13
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Dec 2021 14:27:49 -0800 (PST)
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
+ [IPv6:2607:f8b0:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B51AB6FC3B
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Dec 2021 22:27:50 +0000 (UTC)
+Received: by mail-pg1-x534.google.com with SMTP id 137so1169028pgg.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Dec 2021 14:27:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=InGYSc3cNsqSsbEpZp55brWuJhvXfCPzOPufF1ln430=;
- b=hq0KVI3W2yasYBuPgIGtzBCut5dk4DJYuICxw3vS2py6HtWsmJi0uOZrbEt2z5j4bQ
- vk45hg2s5gz+GFi/7KR+2nDoWq28hq/63rxC2XqkyKm+DHAxwf8l/MoPaqX83nBWNAiP
- byNhGcarciphKJgh8x2UQWNtymc+mEA+PPlJE=
+ bh=NzGyKglvPau4q0v9u6dmIzAdp+hd1Eh9CZzdxQoEKjU=;
+ b=OrPyVbGKZ7U8IUZdernU1rar5h9/SX+RfjhtxKW1SBnq0akyjbMmrj8pZ5yh4XMluT
+ yyZKWAmOdgSVvoEWzYSKEX+zLWm3Svu6KXsz/t8GOWwOf17siT5fNb55Yz3SyCRdclRD
+ s93qd3kPo6ikuDHKGmmZg42P93MjdCrJgmqho=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=InGYSc3cNsqSsbEpZp55brWuJhvXfCPzOPufF1ln430=;
- b=7wm1q5Rjo+Ek9V2earX/nz0NEAlj48woKbljJm8pXHRf5LbLTAVl6AtEp29EKjn6VT
- deAyAzWw493BwrXnX0S4JC+aL88hGC2gEUCb9zB9Mv6N2LXRV7xUhN98jnMeY8amcwYu
- lb298TAGgtJeI5fYzIxBnGcjSUqaEQzJnzL6SulzLWh1OgvZai2BnH4l4e3AfnX6vfno
- vaYoSTj3S4o6bPas55M4ANoBLu4E/infhmY9YwySwD2jT+287LukqJ4FPM8GnSNARIHd
- zKX3gFMJUhwoHLZGO+MKFRwyyg/ps7xqbIwcIE+uyiCCIGO1f17HVvHBk/8vT9vbk3fs
- DuAg==
-X-Gm-Message-State: AOAM530ggmBhpY5DeE4xqUrXub7Cn3Q5VEe0g8qVywKR93E372fR7ULq
- +I7XOahimjH1rHZcToooDeqKbg==
-X-Google-Smtp-Source: ABdhPJzBOFRRT3xYAgGwIIFyu36iZ8Fa/CB6Iksub5c1GFh4wBor6MIE8SX52J8xtv42ROyKRqcMew==
-X-Received: by 2002:a63:2ccd:: with SMTP id s196mr1541758pgs.77.1638484069377; 
- Thu, 02 Dec 2021 14:27:49 -0800 (PST)
+ bh=NzGyKglvPau4q0v9u6dmIzAdp+hd1Eh9CZzdxQoEKjU=;
+ b=nc2i6I3TTKK0M2r9dmkiLfdv+2z/scs2lV+FICoP5VNbkylZLITR2J1wgUkbd6t1sW
+ 2c/X2oiOITd1ABv42gC+6lDlt/ZiltQ+rixQFVgY1ckhto93agicz94pUdZp8HiqgQz9
+ 5BZX1j5PgEkWB1+AmtVldyi8l9a+Nkc/xNYCgsAcnIiUgKw/fKuoRhZkcV5KOoCPcNmB
+ 0ec7ia6pKYXg/uj+W537xjb8XjT35vn91IkIz10qZsK49uWbljFRKImB784+D6lPk35C
+ JaZ8n8hGbILCC8iqn7Uk5P4GZniHrSz1UBxMvnlTY6SYBu2X6hu6rTTmKIwCxEhO6jd/
+ CLmQ==
+X-Gm-Message-State: AOAM531GUVAC+4M0dTa+bud7DFCdFqcLbKtMZBrKyjNiYTPyl5WEDV7g
+ jFLguMbM1lBxM2wJ2HEfeXk+Cw==
+X-Google-Smtp-Source: ABdhPJxYrLMKujDzui6/t9n9lv6aIe5V2uKYN4fTKOZtM3iFG3ytu1txjiTDSyyL2T/8Iot4LHONEg==
+X-Received: by 2002:a63:5c05:: with SMTP id q5mr1536978pgb.599.1638484070333; 
+ Thu, 02 Dec 2021 14:27:50 -0800 (PST)
 Received: from smtp.gmail.com ([2620:15c:202:201:f4f2:1b7e:5aea:bf3c])
- by smtp.gmail.com with ESMTPSA id q9sm836934pfj.9.2021.12.02.14.27.48
+ by smtp.gmail.com with ESMTPSA id q9sm836934pfj.9.2021.12.02.14.27.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 02 Dec 2021 14:27:49 -0800 (PST)
 From: Stephen Boyd <swboyd@chromium.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v4 16/34] drm/ingenic: Migrate to aggregate driver
-Date: Thu,  2 Dec 2021 14:27:14 -0800
-Message-Id: <20211202222732.2453851-17-swboyd@chromium.org>
+Subject: [PATCH v4 17/34] drm/mcde: Migrate to aggregate driver
+Date: Thu,  2 Dec 2021 14:27:15 -0800
+Message-Id: <20211202222732.2453851-18-swboyd@chromium.org>
 X-Mailer: git-send-email 2.34.0.384.gca35af8252-goog
 In-Reply-To: <20211202222732.2453851-1-swboyd@chromium.org>
 References: <20211202222732.2453851-1-swboyd@chromium.org>
@@ -67,7 +67,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Saravana Kannan <saravanak@google.com>,
  "Rafael J. Wysocki" <rafael@kernel.org>, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Paul Cercueil <paul@crapouillou.net>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
  Russell King <rmk+kernel@arm.linux.org.uk>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
@@ -76,9 +76,6 @@ Use an aggregate driver instead of component ops so that we can get
 proper driver probe ordering of the aggregate device with respect to all
 the component devices that make up the aggregate device.
 
-TODO: Move the helpers to PM in aggregate driver hooks.
-
-Acked-by: Paul Cercueil <paul@crapouillou.net>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc: "Rafael J. Wysocki" <rafael@kernel.org>
 Cc: Rob Clark <robdclark@gmail.com>
@@ -86,67 +83,80 @@ Cc: Russell King <rmk+kernel@arm.linux.org.uk>
 Cc: Saravana Kannan <saravanak@google.com>
 Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 ---
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 25 +++++++++++++++++------
- 1 file changed, 19 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/mcde/mcde_drv.c | 23 ++++++++++++++---------
+ 1 file changed, 14 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index a5df1c8d34cd..d5330fb486e8 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -1150,8 +1150,10 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_drv.c
+index 5b5afc6aaf8e..1652f9e0601d 100644
+--- a/drivers/gpu/drm/mcde/mcde_drv.c
++++ b/drivers/gpu/drm/mcde/mcde_drv.c
+@@ -215,8 +215,9 @@ static const struct drm_driver mcde_drm_driver = {
+ 	DRM_GEM_CMA_DRIVER_OPS,
+ };
+ 
+-static int mcde_drm_bind(struct device *dev)
++static int mcde_drm_bind(struct aggregate_device *adev)
+ {
++	struct device *dev = adev->parent;
+ 	struct drm_device *drm = dev_get_drvdata(dev);
+ 	int ret;
+ 
+@@ -247,8 +248,9 @@ static int mcde_drm_bind(struct device *dev)
  	return ret;
  }
  
--static int ingenic_drm_bind_with_components(struct device *dev)
-+static int ingenic_drm_bind_with_components(struct aggregate_device *adev)
+-static void mcde_drm_unbind(struct device *dev)
++static void mcde_drm_unbind(struct aggregate_device *adev)
  {
 +	struct device *dev = adev->parent;
-+
- 	return ingenic_drm_bind(dev, true);
+ 	struct drm_device *drm = dev_get_drvdata(dev);
+ 
+ 	drm_dev_unregister(drm);
+@@ -256,9 +258,13 @@ static void mcde_drm_unbind(struct device *dev)
+ 	component_unbind_all(drm->dev, drm);
  }
  
-@@ -1174,9 +1176,20 @@ static void ingenic_drm_unbind(struct device *dev)
- 	drm_atomic_helper_shutdown(&priv->drm);
- }
- 
--static const struct component_master_ops ingenic_master_ops = {
--	.bind = ingenic_drm_bind_with_components,
--	.unbind = ingenic_drm_unbind,
-+static void ingenic_aggregate_remove(struct aggregate_device *adev)
-+{
-+	struct device *dev = adev->parent;
-+
-+	ingenic_drm_unbind(dev);
-+}
-+
-+static struct aggregate_driver ingenic_aggregate_driver = {
-+	.probe = ingenic_drm_bind_with_components,
-+	.remove = ingenic_aggregate_remove,
+-static const struct component_master_ops mcde_drm_comp_ops = {
+-	.bind = mcde_drm_bind,
+-	.unbind = mcde_drm_unbind,
++static struct aggregate_driver mcde_drm_comp_driver = {
++	.probe = mcde_drm_bind,
++	.remove = mcde_drm_unbind,
 +	.driver = {
-+		.name = "ingenic_drm",
++		.name = "mcde_drm",
 +		.owner = THIS_MODULE,
 +	},
  };
  
- static int ingenic_drm_probe(struct platform_device *pdev)
-@@ -1196,7 +1209,7 @@ static int ingenic_drm_probe(struct platform_device *pdev)
- 	drm_of_component_match_add(dev, &match, compare_of, np);
- 	of_node_put(np);
+ static struct platform_driver *const mcde_component_drivers[] = {
+@@ -419,7 +425,7 @@ static int mcde_probe(struct platform_device *pdev)
+ 	 * Perform an invasive reset of the MCDE and all blocks by
+ 	 * cutting the power to the subsystem, then bring it back up
+ 	 * later when we enable the display as a result of
+-	 * component_master_add_with_match().
++	 * component_aggregate_register().
+ 	 */
+ 	ret = regulator_disable(mcde->epod);
+ 	if (ret) {
+@@ -429,8 +435,7 @@ static int mcde_probe(struct platform_device *pdev)
+ 	/* Wait 50 ms so we are sure we cut the power */
+ 	usleep_range(50000, 70000);
  
--	return component_master_add_with_match(dev, &ingenic_master_ops, match);
-+	return component_aggregate_register(dev, &ingenic_aggregate_driver, match);
- }
+-	ret = component_master_add_with_match(&pdev->dev, &mcde_drm_comp_ops,
+-					      match);
++	ret = component_aggregate_register(&pdev->dev, &mcde_drm_comp_driver, match);
+ 	if (ret) {
+ 		dev_err(dev, "failed to add component master\n");
+ 		/*
+@@ -459,7 +464,7 @@ static int mcde_remove(struct platform_device *pdev)
+ 	struct drm_device *drm = platform_get_drvdata(pdev);
+ 	struct mcde *mcde = to_mcde(drm);
  
- static int ingenic_drm_remove(struct platform_device *pdev)
-@@ -1206,7 +1219,7 @@ static int ingenic_drm_remove(struct platform_device *pdev)
- 	if (!IS_ENABLED(CONFIG_DRM_INGENIC_IPU))
- 		ingenic_drm_unbind(dev);
- 	else
--		component_master_del(dev, &ingenic_master_ops);
-+		component_aggregate_unregister(dev, &ingenic_aggregate_driver);
- 
- 	return 0;
- }
+-	component_master_del(&pdev->dev, &mcde_drm_comp_ops);
++	component_aggregate_unregister(&pdev->dev, &mcde_drm_comp_driver);
+ 	clk_disable_unprepare(mcde->mcde_clk);
+ 	regulator_disable(mcde->vana);
+ 	regulator_disable(mcde->epod);
 -- 
 https://chromeos.dev
 
