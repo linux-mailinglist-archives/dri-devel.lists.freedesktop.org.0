@@ -2,44 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B35BA4677F9
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 14:17:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 165D946788C
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 14:38:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6E227ABBD;
-	Fri,  3 Dec 2021 13:17:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AEDF7AD49;
+	Fri,  3 Dec 2021 13:38:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 601A97ABBC;
- Fri,  3 Dec 2021 13:17:18 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 691801F4582B
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
- t=1638537437; bh=aG5Nh5AeDAZ+4l5Vn2gzmMv9K1Qc96PFjH2Pr66f7qE=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=c1xEg92EenV4e2ZpIMu/Aq738AXBeE8YAnB/m9JSDvp74+IuqUnrCkcOlEBoNLA5o
- aue0/fFt4BRR9yQ+Ww/QTeugwzXoCcjYcFs52K+167UCPhfmjKtBAOWe9vaS8g1RkB
- AQ7nI0iz8vze2o++A6er1Qxl1qUB3KAcFjFXzr/+94yqxboEhJ1YkPlXlwUGYvxkkg
- t8Ebywiwl8aAGQZsawJGyVEQNSRMlVshZQAiYrplB/S5EQm1kmwKxr94wq444zAP5U
- 5bcGrGsKGts0E1rZfxy7cJ6hAhBLRAfAN1cEjpXKbAaI6pOQ+ijvmHMfywLFi0uzWd
- WHRF93mocPAhQ==
-Subject: Re: [PATCH] drm/msm: Initialize MDSS irq domain at probe time
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <abhinavk@codeaurora.org>
-References: <20211201105210.24970-3-angelogioacchino.delregno@collabora.com>
- <20211201202023.2313971-1-dmitry.baryshkov@linaro.org>
- <21fe6cf4-3cef-91e1-7bf7-b94ac223e7c5@collabora.com>
- <4cb2fd68-6917-3ac3-f387-7cecb07177f3@linaro.org>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Message-ID: <75aeecbc-eff9-32d5-e682-826a5ce43c1f@collabora.com>
-Date: Fri, 3 Dec 2021 14:17:13 +0100
+X-Greylist: delayed 425 seconds by postgrey-1.36 at gabe;
+ Fri, 03 Dec 2021 13:37:58 UTC
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
+ [68.232.153.233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 300957AD48
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Dec 2021 13:37:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+ t=1638538679; x=1670074679;
+ h=subject:to:cc:references:from:message-id:date:
+ mime-version:in-reply-to:content-transfer-encoding;
+ bh=IVzJ6uRZKJICUulg8tUewqaz2kUK3rrMEjcvHyFkaFA=;
+ b=2J9o3xsPd02T24kmpNSvtG7cNcZhFph8hqd+wvVtz/8pAHZpq65CLTiL
+ QKovqXw2dFy9tNpkzCSvs15lufdVBEbgFl7uyr9WUs6jluabvJ8UDn+SM
+ h8k9MQAM4EuuKtcpZ7lPtzadE/hB/LuoF4Dpgli4inbK/FQeKdM9wOETN
+ hztHixgHhL/gnl6h3k2AlVqWlqqIzt0fAJRebqYCC+7EuhjTbmh/JEwO3
+ ro4Wc1u4dlzsAo2Hx9g7F5Rmqa6MIvL+vIAy7zYNJiXrRa1+SlMgIpiHC
+ 3TuuK6AsuKpSm7BcuVNtuHaM4gRhY3H2fJoJ8a65jnsNGJ8mC9p5xLIMX A==;
+IronPort-SDR: A1LAoFzyfcnhi0uZIwbn8U+XV2yMea2jYd7ocZ8ThxWpi8kmngxwGaYG0KUHzGyJsyzopkIFs9
+ xQ/kBAF1rfHSMYIipVk9BWzrbkgjGQlARx/OdUY1Io+Ct9tfdF7hnf+zemINw+Mydn3B1wT6cX
+ Vrjocu1ZWVRQMS1pZ53nCtqPQxcYlAYjEX3bSQ1m84Ytnu8CMvaUUbj+j0hNns1qVxS+KK/JS6
+ B3XhZIsGmBkHIVQT/Ztc41SDXV9FFEDgNvk8tiFny0RgZ4uB96zOEMNAlNWeiMRiXvf2Z3osr0
+ Oz93s+Kg/pE3iZED4OJ8+mm1
+X-IronPort-AV: E=Sophos;i="5.87,284,1631602800"; d="scan'208";a="145433415"
+Received: from smtpout.microchip.com (HELO email.microchip.com)
+ ([198.175.253.82])
+ by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256;
+ 03 Dec 2021 06:30:52 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.14; Fri, 3 Dec 2021 06:30:51 -0700
+Received: from [10.159.245.112] (10.10.115.15) by chn-vm-ex01.mchp-main.com
+ (10.10.85.143) with Microsoft SMTP Server id 15.1.2176.14 via Frontend
+ Transport; Fri, 3 Dec 2021 06:30:49 -0700
+Subject: Re: [PATCH] video: fbdev: atmel_lcdfb: fix an error code in
+ atmel_lcdfb_probe()
+To: Dan Carpenter <dan.carpenter@oracle.com>
+References: <20211203095808.GE2480@kili>
+From: Nicolas Ferre <nicolas.ferre@microchip.com>
+Organization: microchip
+Message-ID: <b09117ad-40bb-4abb-1f40-c31c5ca5989b@microchip.com>
+Date: Fri, 3 Dec 2021 14:30:47 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <4cb2fd68-6917-3ac3-f387-7cecb07177f3@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20211203095808.GE2480@kili>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -54,81 +71,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- freedreno@lists.freedesktop.org
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ kernel-janitors@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 03/12/21 14:14, Dmitry Baryshkov ha scritto:
-> On 03/12/2021 13:43, AngeloGioacchino Del Regno wrote:
->> Il 01/12/21 21:20, Dmitry Baryshkov ha scritto:
->>> Since commit 8f59ee9a570c ("drm/msm/dsi: Adjust probe order"), the
->>> DSI host gets initialized earlier, but this caused unability to probe
->>> the entire stack of components because they all depend on interrupts
->>> coming from the main `mdss` node (mdp5, or dpu1).
->>>
->>> To fix this issue, move mdss device initialization (which include irq
->>> domain setup) to msm_mdev_probe() time, as to make sure that the
->>> interrupt controller is available before dsi and/or other components try
->>> to initialize, finally satisfying the dependency.
->>>
->>> Fixes: 8f59ee9a570c ("drm/msm/dsi: Adjust probe order")
->>> Co-Developed-By: AngeloGioacchino Del Regno 
->>> <angelogioacchino.delregno@collabora.com>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>>
->>> When checking your patch, I noticed that IRQ domain is created before
->>> respective MDSS clocks are enabled. This does not look like causing any
->>> issues at this time, but it did not look good. So I started moving
->>> clocks parsing to early_init() callbacks. And at some point it looked
->>> like we can drop the init()/destroy() callbacks in favour of
->>> early_init() and remove(). Which promted me to move init()/destroy() in
->>> place of early_init()/remove() with few minor fixes here and there.
->>>
->>
->>
->> Hey Dmitry,
->> I wanted to make the least amount of changes to Rob's logic... I know that
->> the clocks aren't up before registering the domain, but my logic was implying
->> that if the handlers aren't registered, then there's no interrupt coming, hence
->> no risk of getting issues. Same if the hardware is down, you can't get any
->> interrupt, because it can't generate any (but if bootloader leaves it up.. eh.)
+On 03/12/2021 at 10:58, Dan Carpenter wrote:
+> If "sinfo->config" is not found, then return -ENODEV.  Don't
+> return success.
 > 
-> We can get spurious interrupts for any reason, which puts us at risk of peeking 
-> into unpowered registers. So, while your approach was working, it did not seem 
-> fully correct.
+> Fixes: b985172b328a ("video: atmel_lcdfb: add device tree suport")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+Looks good to me: thanks Dan!
+
+Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
+
+Best regards,
+   Nicolas
+
+> ---
+>   drivers/video/fbdev/atmel_lcdfb.c | 11 ++++++-----
+>   1 file changed, 6 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/video/fbdev/atmel_lcdfb.c b/drivers/video/fbdev/atmel_lcdfb.c
+> index 355b6120dc4f..1fc8de4ecbeb 100644
+> --- a/drivers/video/fbdev/atmel_lcdfb.c
+> +++ b/drivers/video/fbdev/atmel_lcdfb.c
+> @@ -1062,15 +1062,16 @@ static int __init atmel_lcdfb_probe(struct platform_device *pdev)
+> 
+>          INIT_LIST_HEAD(&info->modelist);
+> 
+> -       if (pdev->dev.of_node) {
+> -               ret = atmel_lcdfb_of_init(sinfo);
+> -               if (ret)
+> -                       goto free_info;
+> -       } else {
+> +       if (!pdev->dev.of_node) {
+>                  dev_err(dev, "cannot get default configuration\n");
+>                  goto free_info;
+>          }
+> 
+> +       ret = atmel_lcdfb_of_init(sinfo);
+> +       if (ret)
+> +               goto free_info;
+> +
+> +       ret = -ENODEV;
+>          if (!sinfo->config)
+>                  goto free_info;
+> 
+> --
+> 2.20.1
 > 
 
-Yeah, that's right and I totally agree.
 
->>
->> I recognize that such approach is "fragile enough", lastly, I agree with this
->> patch which is, in the end, something that is in the middle between my first
->> and last approach.
->>
->> I've tested this one on trogdor-lazor-limozeen and seems to be working in an
->> analogous way to my v2/v3, so on my side it's validated.
->>
->>
->> Let's go for this one!
->> How do we proceeed now? Are you sending a new series with the new patches, or
->> should I?
-> 
-> I'll run a few more tests and then I'll probably include both patches into the next 
-> series to be sent to Rob.
-> 
-
-That's perfect!
-
->>
->> Also, I don't think this is relevant, since I'm in co-dev, but in case it is:
->> Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->>
->> P.S.: Sorry for the 1-day delay, got busy with other tasks!
-> 
-> No problem, it was just single day, no worries.
-> 
-
-Alright, thank you! :D
+-- 
+Nicolas Ferre
