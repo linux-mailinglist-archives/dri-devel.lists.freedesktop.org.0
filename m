@@ -1,33 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6036F4676E1
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 12:57:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA32146773D
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 13:25:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A926A73B37;
-	Fri,  3 Dec 2021 11:57:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B94DE73F39;
+	Fri,  3 Dec 2021 12:25:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
- [210.160.252.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2295F73A91
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Dec 2021 11:57:11 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.87,284,1631545200"; d="scan'208";a="102706790"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
- by relmlie6.idc.renesas.com with ESMTP; 03 Dec 2021 20:52:09 +0900
-Received: from localhost.localdomain (unknown [10.226.93.66])
- by relmlir5.idc.renesas.com (Postfix) with ESMTP id 598574016D6F;
- Fri,  3 Dec 2021 20:52:07 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH 4/6] dt-bindings: gpu: mali-bifrost: Document RZ/G2L support
-Date: Fri,  3 Dec 2021 11:51:52 +0000
-Message-Id: <20211203115154.31864-5-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211203115154.31864-1-biju.das.jz@bp.renesas.com>
-References: <20211203115154.31864-1-biju.das.jz@bp.renesas.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4E5273F39;
+ Fri,  3 Dec 2021 12:24:58 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10186"; a="297761383"
+X-IronPort-AV: E=Sophos;i="5.87,284,1631602800"; d="scan'208";a="297761383"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Dec 2021 04:24:58 -0800
+X-IronPort-AV: E=Sophos;i="5.87,284,1631602800"; d="scan'208";a="746699381"
+Received: from ashunt-mobl2.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
+ ([10.252.17.106])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Dec 2021 04:24:56 -0800
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2 0/8] DG2 accelerated migration/clearing support
+Date: Fri,  3 Dec 2021 12:24:18 +0000
+Message-Id: <20211203122426.2859679-1-matthew.auld@intel.com>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,99 +43,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Chris Paterson <Chris.Paterson2@renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- dri-devel@lists.freedesktop.org, Biju Das <biju.das@bp.renesas.com>,
- linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>
+Cc: bob.beckett@collabora.com, adrian.larumbe@collabora.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Renesas RZ/G2{L, LC} SoC (a.k.a R9A07G044) has a Bifrost Mali-G31 GPU,
-add a compatible string for it.
+Enable accelerated moves and clearing on DG2. On such HW we have minimum page
+size restrictions when accessing LMEM from the GTT, where we now have to use 64K
+GTT pages or larger. With the ppGTT the page-table also has a slightly different
+layout from past generations when using the 64K GTT mode(which is still enabled
+on via some PDE bit), where it is now compacted down to 32 qword entries. Note
+that on discrete the paging structures must also be placed in LMEM, and we need
+to able to modify them via the GTT itself(see patch 7), which is one of the
+complications here.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- .../bindings/gpu/arm,mali-bifrost.yaml        | 32 +++++++++++++++++--
- 1 file changed, 30 insertions(+), 2 deletions(-)
+The series needs to be applied on top of the DG2 enabling branch:
+https://cgit.freedesktop.org/~ramaling/linux/log/?h=dg2_enabling_ww49.3
 
-diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-index 6f98dd55fb4c..c9fac2498f5e 100644
---- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-+++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-@@ -19,6 +19,7 @@ properties:
-           - amlogic,meson-g12a-mali
-           - mediatek,mt8183-mali
-           - realtek,rtd1619-mali
-+          - renesas,r9a07g044-mali
-           - rockchip,px30-mali
-           - rockchip,rk3568-mali
-       - const: arm,mali-bifrost # Mali Bifrost GPU model/revision is fully discoverable
-@@ -27,19 +28,30 @@ properties:
-     maxItems: 1
- 
-   interrupts:
-+    minItems: 3
-     items:
-       - description: Job interrupt
-       - description: MMU interrupt
-       - description: GPU interrupt
-+      - description: EVENT interrupt
- 
-   interrupt-names:
-+    minItems: 3
-     items:
-       - const: job
-       - const: mmu
-       - const: gpu
-+      - const: event
- 
-   clocks:
--    maxItems: 1
-+    minItems: 1
-+    maxItems: 3
-+
-+  clock-names:
-+    items:
-+      - const: gpu
-+      - const: bus
-+      - const: bus_ace
- 
-   mali-supply: true
- 
-@@ -52,7 +64,8 @@ properties:
-     maxItems: 3
- 
-   resets:
--    maxItems: 2
-+    minItems: 1
-+    maxItems: 3
- 
-   "#cooling-cells":
-     const: 2
-@@ -113,6 +126,21 @@ allOf:
-         - sram-supply
-         - power-domains
-         - power-domain-names
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: renesas,r9a07g044-mali
-+    then:
-+      properties:
-+        interrupt-names:
-+          minItems: 4
-+        clock-names:
-+          minItems: 3
-+      required:
-+        - clock-names
-+        - power-domains
-+        - resets
-     else:
-       properties:
-         power-domains:
+Patches 2, 7 and 8 have a dependency on patches in that branch, but the rest can
+likely already land if the direction makes sense.
+
+Matthew Auld (8):
+  drm/i915/migrate: don't check the scratch page
+  drm/i915/gtt: add xehpsdv_ppgtt_insert_entry
+  drm/i915/gtt: add gtt mappable plumbing
+  drm/i915/migrate: fix offset calculation
+  drm/i915/migrate: fix length calculation
+  drm/i915/selftests: handle object rounding
+  drm/i915/migrate: add acceleration support for DG2
+  drm/i915/migrate: turn on acceleration for DG2
+
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |   4 +-
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |   2 +-
+ drivers/gpu/drm/i915/gt/gen6_ppgtt.c          |   2 +-
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c          |  53 ++++-
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.h          |   1 +
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          |   2 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c            |   2 +-
+ drivers/gpu/drm/i915/gt/intel_gtt.c           |   7 +
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |   9 +
+ drivers/gpu/drm/i915/gt/intel_migrate.c       | 196 ++++++++++++++----
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c         |  17 +-
+ drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |   2 +-
+ drivers/gpu/drm/i915/gt/selftest_migrate.c    |   1 +
+ drivers/gpu/drm/i915/gvt/scheduler.c          |   2 +-
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c |   4 +-
+ 15 files changed, 241 insertions(+), 63 deletions(-)
+
 -- 
-2.17.1
+2.31.1
 
