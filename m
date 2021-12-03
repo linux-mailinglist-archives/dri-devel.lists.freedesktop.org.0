@@ -2,33 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EB2D467CF0
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 19:05:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96CBA467CED
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 19:03:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C32C67B221;
-	Fri,  3 Dec 2021 18:05:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C185E6FDCF;
+	Fri,  3 Dec 2021 18:03:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9ADF7B220;
- Fri,  3 Dec 2021 18:05:06 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10187"; a="235761353"
-X-IronPort-AV: E=Sophos;i="5.87,284,1631602800"; d="scan'208";a="235761353"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Dec 2021 10:04:42 -0800
-X-IronPort-AV: E=Sophos;i="5.87,284,1631602800"; d="scan'208";a="746782818"
-Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Dec 2021 10:04:41 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: <intel-gfx@lists.freedesktop.org>,
-	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/i915: Rollback seqno when request creation fails
-Date: Fri,  3 Dec 2021 09:59:10 -0800
-Message-Id: <20211203175910.28516-1-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.33.1
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org
+ [IPv6:2001:67c:2050::465:101])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF5D56FDCF
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Dec 2021 18:03:17 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org
+ [IPv6:2001:67c:2050:105:465:1:2:0])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4J5LKH3TYGzQlCQ;
+ Fri,  3 Dec 2021 19:03:15 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1638554593;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LgKbzRGAgEnnhDWMbkKCfokdG5mTh0JMqVV4eALHqnU=;
+ b=ZWaicA8TbRi3Jk8RP+CPJeELTAmTTCDxxzBLH75IvqFyC5KXAzQu5bavilnNiVfqNCAnQk
+ +OcfJtCBUKGMJvy0KZA0hjFHQ8l+hqTAH/WkARHkwV3xfUHTuHPJjpaPjQcgNCsTaRVyHm
+ vLb+T0ybc9ZF4RTtk1OaPQ24jFGihVpUh5fc/q/NZq92ktsbaibotdNLnrMx/HR6t1QYCV
+ KtYZDZw7B7dalznQQaWzKW0LK5T0FTRi/QAEbFry/BnqX1OopohfjNxvXWOyipKog+Kb0I
+ e/eASfMqXcS06j0okM05jam2tdjLrV65wH5+RsFhK9nl3vUAAylU828flDFGqg==
+Message-ID: <35169619-479d-24f4-c830-a95a9ef49bb1@mailbox.org>
+Date: Fri, 3 Dec 2021 19:03:08 +0100
 MIME-Version: 1.0
+Subject: Re: [PATCH] drm: send vblank event with the attached sequence rather
+ than current
+Content-Language: en-CA
+To: Matthias Brugger <matthias.bgg@gmail.com>,
+ Mark Yacoub <markyacoub@chromium.org>, dri-devel@lists.freedesktop.org
+References: <20211202151200.3125685-1-markyacoub@chromium.org>
+ <392a239a-14da-c544-a1f9-09d8b25d3e07@gmail.com>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
+In-Reply-To: <392a239a-14da-c544-a1f9-09d8b25d3e07@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,68 +59,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniele.ceraolospurio@intel.com, john.c.harrison@intel.com
+Cc: chunkuang.hu@kernel.org, David Airlie <airlied@linux.ie>,
+ jason-jh.lin@mediatek.com, linux-kernel@vger.kernel.org, tzungbi@google.com,
+ seanpaul@chromium.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Mark Yacoub <markyacoub@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-gem_ctx_create.basic-files can slam on kernel contexts to the extent
-where request creation fails because the ring is full. When this happens
-seqno numbers are skipped which can result the below GEM_BUG_ON blowing
-in gt/intel_engine_pm.c:__engine_unpark:
+On 2021-12-03 16:58, Matthias Brugger wrote:
+> Hi Mark,
+> 
+> On 02/12/2021 16:11, Mark Yacoub wrote:
+>> From: Mark Yacoub <markyacoub@google.com>
+>>
+> 
+> please make sure to add the linux-mediatek mailinglist in any follow-up communication.
+> 
+> Regards,
+> Matthias
+> 
+>> [Why]
+>> drm_handle_vblank_events loops over vblank_event_list to send any event
+>> that is current or has passed.
+>> More than 1 event could be pending with past sequence time that need to
+>> be send. This can be a side effect of drivers without hardware vblank
+>> counter and they depend on the difference in the timestamps and the
+>> frame/field duration calculated in drm_update_vblank_count. This can
+>> lead to 1 vblirq being ignored due to very small diff,
 
-GEM_BUG_ON(ce->timeline->seqno !=
-           READ_ONCE(*ce->timeline->hwsp_seqno));
+That sounds like the real issue which needs to be addressed. As Ville wrote, the sequence value in the event is supposed to be the current sequence, not the one which was specified originally by user space. So this change would basically break the universe. ;)
 
-Fixup request creation code to roll back seqno when request creation
-fails.
 
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_timeline.c | 5 +++++
- drivers/gpu/drm/i915/gt/intel_timeline.h | 1 +
- drivers/gpu/drm/i915/i915_request.c      | 1 +
- 3 files changed, 7 insertions(+)
+>> resulting in a subsequent vblank with 2 pending vblank events to be sent, each with a
+>> unique sequence expected by user space.
+>>
+>> [How]
+>> Send each pending vblank event with the sequence it's waiting on instead
+>> of assigning the current sequence to all of them.
+>>
+>> Fixes igt@kms_flip "Unexpected frame sequence"
+>> Tested on Jacuzzi (MT8183)
+>>
+>> Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
+>> ---
+>>   drivers/gpu/drm/drm_vblank.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+>> index 3417e1ac79185..47da8056abc14 100644
+>> --- a/drivers/gpu/drm/drm_vblank.c
+>> +++ b/drivers/gpu/drm/drm_vblank.c
+>> @@ -1902,7 +1902,7 @@ static void drm_handle_vblank_events(struct drm_device *dev, unsigned int pipe)
+>>             list_del(&e->base.link);
+>>           drm_vblank_put(dev, pipe);
+>> -        send_vblank_event(dev, e, seq, now);
+>> +        send_vblank_event(dev, e, e->sequence, now);
+>>       }
+>>         if (crtc && crtc->funcs->get_vblank_timestamp)
+>>
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_timeline.c b/drivers/gpu/drm/i915/gt/intel_timeline.c
-index 438bbc7b8147..64ea9a90c7a0 100644
---- a/drivers/gpu/drm/i915/gt/intel_timeline.c
-+++ b/drivers/gpu/drm/i915/gt/intel_timeline.c
-@@ -301,6 +301,11 @@ static u32 timeline_advance(struct intel_timeline *tl)
- 	return tl->seqno += 1 + tl->has_initial_breadcrumb;
- }
- 
-+void intel_timeline_rollback_seqno(struct intel_timeline *tl)
-+{
-+	timeline_rollback(tl);
-+}
-+
- static noinline int
- __intel_timeline_get_seqno(struct intel_timeline *tl,
- 			   u32 *seqno)
-diff --git a/drivers/gpu/drm/i915/gt/intel_timeline.h b/drivers/gpu/drm/i915/gt/intel_timeline.h
-index 57308c4d664a..a2f2e0ea186f 100644
---- a/drivers/gpu/drm/i915/gt/intel_timeline.h
-+++ b/drivers/gpu/drm/i915/gt/intel_timeline.h
-@@ -72,6 +72,7 @@ void intel_timeline_enter(struct intel_timeline *tl);
- int intel_timeline_get_seqno(struct intel_timeline *tl,
- 			     struct i915_request *rq,
- 			     u32 *seqno);
-+void intel_timeline_rollback_seqno(struct intel_timeline *tl);
- void intel_timeline_exit(struct intel_timeline *tl);
- void intel_timeline_unpin(struct intel_timeline *tl);
- 
-diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-index a72c8f0346a0..86f32ee082f7 100644
---- a/drivers/gpu/drm/i915/i915_request.c
-+++ b/drivers/gpu/drm/i915/i915_request.c
-@@ -966,6 +966,7 @@ __i915_request_create(struct intel_context *ce, gfp_t gfp)
- 
- err_unwind:
- 	ce->ring->emit = rq->head;
-+	intel_timeline_rollback_seqno(tl);
- 
- 	/* Make sure we didn't add ourselves to external state before freeing */
- 	GEM_BUG_ON(!list_empty(&rq->sched.signalers_list));
+
+
 -- 
-2.33.1
-
+Earthling Michel Dänzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
