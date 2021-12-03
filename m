@@ -2,45 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E38F8467560
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 11:43:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D42374675AA
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 11:54:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D0946EC89;
-	Fri,  3 Dec 2021 10:43:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD5C073375;
+	Fri,  3 Dec 2021 10:54:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B4466EC6B;
- Fri,  3 Dec 2021 10:43:30 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 19ABC1F46D95
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
- t=1638528208; bh=WUBJRgLM2F5oy5U+VZl9DuizW7Zi+p+f5wG0zt07v3w=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=WZE8crQNC1qsEpZayM3SiQ1G4Ue5i+9h1RU+mcAoGzhNODdWxGCy1YwJlIp2gcUFC
- oI14ojwEHckgOWK9TUEXo4qQH1nThAv8tp0J09KSJXVQaTDxAaP0WGljikZCm6RA8A
- BJUQBIXhxn9Dy2q+YonuL/kCEpdDe+d/65Rhcj4HxTlK1h7lF+ShJqZhqlc29OC1b6
- 2H0WjqN/6oQbdAh25faUBx4URJctsh1OcAy4nHBTx8BJJX/dDyD/xYOe4EECqn/OML
- GS8tPOy7oQTdUYQ0LNPGKqtlESSwHiamZUdp6U+1CCgBE07dhTll9rypX7A675j+48
- UZXHD3p6y97ow==
-Subject: Re: [PATCH] drm/msm: Initialize MDSS irq domain at probe time
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <abhinavk@codeaurora.org>
-References: <20211201105210.24970-3-angelogioacchino.delregno@collabora.com>
- <20211201202023.2313971-1-dmitry.baryshkov@linaro.org>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Message-ID: <21fe6cf4-3cef-91e1-7bf7-b94ac223e7c5@collabora.com>
-Date: Fri, 3 Dec 2021 11:43:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F26D73375
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Dec 2021 10:54:24 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id D92C558019A;
+ Fri,  3 Dec 2021 05:54:23 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Fri, 03 Dec 2021 05:54:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm1; bh=WZahf8+vLTHLrsggBHorEtLHTI
+ WxDQNXGBNZIZ0ND4U=; b=li7Xe+/ANIQi2qbi//Uy44uJMTqbt+Gk5YAbizNxcR
+ GXjl1FnAECPG60yzi3wcq1RJkxzwVebHO28eHKIAIyfO/PZlN8tmuPPc7W7CXH1i
+ IUd2qSpjnFA42hfX/nbLLdMT+XBsbWG/Q0JWpl1cE35jAxHJlZkLtqRH9XZ0i2Uc
+ qejS8hZ1O2ogJy2FlsYK237L8WylhAxCRaCjSoEpuYLQfnEtZ9hpQBwN4SNwtZAc
+ +442o2CI5+dRx6L9xJiCATN3TbM8SISEde8xh0yGw/+G6WdZNpLJhwxiqT+mBzyH
+ Zd+a1NUqMZDRqjeAhoDGf7JyNibQ1juQC/pZdkxtgJDw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=WZahf8
+ +vLTHLrsggBHorEtLHTIWxDQNXGBNZIZ0ND4U=; b=njmmfY75lXyy02f25KSD6V
+ ja30dKxSEV6kioyW9wKWiyBsWcCEGy/a6d63DhVLIB8hYCPuIAQLf2nvh8WOnS6v
+ EikzkD7WkaXg70kS4lvvDJjc3Q1gvvjgE+64hnk3xFpMghPuc29ACzeMU0x7Xn0t
+ +NQATYUI68GAXYlRMumm8dhd9o/igWE9xrwx4s7NKU0g04mwSQ1NSn0wIVlRsua8
+ ZmFI0RdRDJp3qAv2RNKm+SAZRPwi1rnAdaDD2y9NCX8hcvn9id5g6E4krIA75IvQ
+ p2Ia6VqLm6c2niydvb1uzq+PSRy0ISdi9AX/0BlDnZJl8Q+1KLvB0YeGKdBrUZmw
+ ==
+X-ME-Sender: <xms:X_epYfe1XzjJ0nc66zh_v848cUnXf6FG0Afy0Qq8dJI6NFmh4qVz5Q>
+ <xme:X_epYVOA5jffJdMtcdL3iDYLIz7aNes5Qi8VFs0OrJazBl-eZbWp7kBGUEZbvahGi
+ o1mGUu0neBwqOr4Mmo>
+X-ME-Received: <xmr:X_epYYiNUyJNLUhVkaVJ3o9PxEVC9I-iVtKkCDBuIR-0_z_3HiI_efQdIw2D-yKc8LOEatvzpPa-SdaDsQa7xcoe6IDqubJFJWrYxgPFssYwbA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrieejgddvvdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpeforgigihhmvgcu
+ tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
+ hrnhepteetledtudejhffftdeugfduffelleelheejgeegffduvddvgfdvhffhlefgteff
+ necuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:X_epYQ_f_lxBBH4GkSSQIi8oUS9ZHjTwTbQJb_aRx6_cBxit50KDVA>
+ <xmx:X_epYbs3BHW66KOn581AtH_UIOMBI1yBlhNKXcQu6Rwsio96wq342w>
+ <xmx:X_epYfFYKKgAk9qBfAxco2NKfqxesVIfGTNlldHUBRyJDgP_31uxLg>
+ <xmx:X_epYZLhVWrWoZc5YSux8X0sC0fwRGqaT9FE-7i_PqCVHLjI3BnHNg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 3 Dec 2021 05:54:22 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
+Subject: [PATCH 00/11] drm/vc4: hdmi: Yet Another Approach to HDMI YUV output
+Date: Fri,  3 Dec 2021 11:54:09 +0100
+Message-Id: <20211203105420.573494-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.33.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <20211201202023.2313971-1-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=iso-8859-15; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,58 +79,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- freedreno@lists.freedesktop.org
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, Werner Sembach <wse@tuxedocomputers.com>,
+ Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 01/12/21 21:20, Dmitry Baryshkov ha scritto:
-> Since commit 8f59ee9a570c ("drm/msm/dsi: Adjust probe order"), the
-> DSI host gets initialized earlier, but this caused unability to probe
-> the entire stack of components because they all depend on interrupts
-> coming from the main `mdss` node (mdp5, or dpu1).
-> 
-> To fix this issue, move mdss device initialization (which include irq
-> domain setup) to msm_mdev_probe() time, as to make sure that the
-> interrupt controller is available before dsi and/or other components try
-> to initialize, finally satisfying the dependency.
-> 
-> Fixes: 8f59ee9a570c ("drm/msm/dsi: Adjust probe order")
-> Co-Developed-By: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
-> 
-> When checking your patch, I noticed that IRQ domain is created before
-> respective MDSS clocks are enabled. This does not look like causing any
-> issues at this time, but it did not look good. So I started moving
-> clocks parsing to early_init() callbacks. And at some point it looked
-> like we can drop the init()/destroy() callbacks in favour of
-> early_init() and remove(). Which promted me to move init()/destroy() in
-> place of early_init()/remove() with few minor fixes here and there.
-> 
-
-
-Hey Dmitry,
-I wanted to make the least amount of changes to Rob's logic... I know that
-the clocks aren't up before registering the domain, but my logic was implying
-that if the handlers aren't registered, then there's no interrupt coming, hence
-no risk of getting issues. Same if the hardware is down, you can't get any
-interrupt, because it can't generate any (but if bootloader leaves it up.. eh.)
-
-I recognize that such approach is "fragile enough", lastly, I agree with this
-patch which is, in the end, something that is in the middle between my first
-and last approach.
-
-I've tested this one on trogdor-lazor-limozeen and seems to be working in an
-analogous way to my v2/v3, so on my side it's validated.
-
-
-Let's go for this one!
-How do we proceeed now? Are you sending a new series with the new patches, or
-should I?
-
-Also, I don't think this is relevant, since I'm in co-dev, but in case it is:
-Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
-P.S.: Sorry for the 1-day delay, got busy with other tasks!
+Hi,=0D
+=0D
+This is another attempt at supporting the HDMI YUV output in the vc4 HDMI=0D
+driver.=0D
+=0D
+This is a follow-up of=0D
+https://lore.kernel.org/dri-devel/20210317154352.732095-1-maxime@cerno.tech=
+/=0D
+=0D
+And the discussions that occured recently on the mailing lists and IRC abou=
+t=0D
+this.=0D
+=0D
+The series mentioned above had multiple issues, the main one being that it =
+was=0D
+a bit too much complicated for what we wanted to achieve. This series is ta=
+king=0D
+a much simpler approach with an ad-hoc solution.=0D
+=0D
+I think some parts of it could still be moved to KMS helpers (notably, the=
+=0D
+output format enum, and the helper to set the infoframe for it) and structu=
+res=0D
+(the output format stored in drm_connector_state). This would also interact=
+=0D
+nicely with the work done here:=0D
+=0D
+https://lore.kernel.org/dri-devel/20211118103814.524670-1-maxime@cerno.tech=
+/=0D
+=0D
+This can come as a second step though.=0D
+=0D
+The other issues with the first attempt was that nothing was reported to=0D
+userspace about the decision we made about the format, and that this decisi=
+on=0D
+was essentially policy, without any way for the userspace to influence it.=
+=0D
+=0D
+Those two points however are being worked on by Werner in a cross-driver=0D
+effort:=0D
+=0D
+https://lore.kernel.org/dri-devel/e452775c-5b95-bbfd-e818-f1480f556336@tuxe=
+docomputers.com/=0D
+=0D
+Since it's a KMS decision, I don't think we should hold off any driver as l=
+ong=0D
+as it's consistent with what the other drivers are doing.=0D
+=0D
+Let me know what you think,=0D
+Maxime=0D
+=0D
+Maxime Ripard (11):=0D
+  drm/edid: Rename drm_hdmi_avi_infoframe_colorspace to _colorimetry=0D
+  drm/vc4: hdmi: Add full range RGB helper=0D
+  drm/vc4: hdmi: Use full range helper in csc functions=0D
+  drm/vc4: hdmi: Move XBAR setup to csc_setup=0D
+  drm/vc4: hdmi: Replace CSC_CTL hardcoded value by defines=0D
+  drm/vc4: hdmi: Define colorspace matrices=0D
+  drm/vc4: hdmi: Change CSC callback prototype=0D
+  drm/vc4: hdmi: Move clock validation to its own function=0D
+  drm/vc4: hdmi: Move clock calculation into its own function=0D
+  drm/vc4: hdmi: Support HDMI YUV output=0D
+  drm/vc4: hdmi: Force YUV422 if the rate is too high=0D
+=0D
+ drivers/gpu/drm/drm_edid.c                  |   8 +-=0D
+ drivers/gpu/drm/i915/display/intel_hdmi.c   |   2 +-=0D
+ drivers/gpu/drm/i915/display/intel_lspcon.c |   2 +-=0D
+ drivers/gpu/drm/vc4/vc4_hdmi.c              | 324 +++++++++++++++-----=0D
+ drivers/gpu/drm/vc4/vc4_hdmi.h              |  13 +-=0D
+ drivers/gpu/drm/vc4/vc4_hdmi_regs.h         |   6 +=0D
+ drivers/gpu/drm/vc4/vc4_regs.h              |  19 ++=0D
+ include/drm/drm_edid.h                      |   4 +-=0D
+ 8 files changed, 290 insertions(+), 88 deletions(-)=0D
+=0D
+-- =0D
+2.33.1=0D
+=0D
