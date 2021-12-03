@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1939A467B7D
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 17:34:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A379467BE0
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 17:56:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA9F5734B6;
-	Fri,  3 Dec 2021 16:34:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B464872F3D;
+	Fri,  3 Dec 2021 16:56:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D723734B6;
- Fri,  3 Dec 2021 16:34:50 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10186"; a="217694893"
-X-IronPort-AV: E=Sophos;i="5.87,284,1631602800"; d="scan'208";a="217694893"
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEA6E72F3D;
+ Fri,  3 Dec 2021 16:56:05 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10187"; a="235744160"
+X-IronPort-AV: E=Sophos;i="5.87,284,1631602800"; d="scan'208";a="235744160"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Dec 2021 08:34:49 -0800
-X-IronPort-AV: E=Sophos;i="5.87,284,1631602800"; d="scan'208";a="513769766"
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Dec 2021 08:56:05 -0800
+X-IronPort-AV: E=Sophos;i="5.87,284,1631602800"; d="scan'208";a="513778163"
 Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.205])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Dec 2021 08:34:47 -0800
-Date: Fri, 3 Dec 2021 22:08:02 +0530
+ 03 Dec 2021 08:56:02 -0800
+Date: Fri, 3 Dec 2021 22:29:17 +0530
 From: Ramalingam C <ramalingam.c@intel.com>
 To: Matthew Auld <matthew.auld@intel.com>
-Subject: Re: [PATCH v2 1/8] drm/i915/migrate: don't check the scratch page
-Message-ID: <20211203163802.GA26974@intel.com>
+Subject: Re: [PATCH v2 2/8] drm/i915/gtt: add xehpsdv_ppgtt_insert_entry
+Message-ID: <20211203165915.GB26974@intel.com>
 References: <20211203122426.2859679-1-matthew.auld@intel.com>
- <20211203122426.2859679-2-matthew.auld@intel.com>
+ <20211203122426.2859679-3-matthew.auld@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211203122426.2859679-2-matthew.auld@intel.com>
+In-Reply-To: <20211203122426.2859679-3-matthew.auld@intel.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,51 +53,102 @@ Cc: bob.beckett@collabora.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-12-03 at 12:24:19 +0000, Matthew Auld wrote:
-> The scratch page might not be allocated in LMEM(like on DG2), so instead
-> of using that as the deciding factor for where the paging structures
-> live, let's just query the pt before mapping it.
+On 2021-12-03 at 12:24:20 +0000, Matthew Auld wrote:
+> If this is LMEM then we get a 32 entry PT, with each PTE pointing to
+> some 64K block of memory, otherwise it's just the usual 512 entry PT.
+> This very much assumes the caller knows what they are doing.
 > 
-Looks good to me.
-
-Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
-
 > Signed-off-by: Matthew Auld <matthew.auld@intel.com>
 > Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 > Cc: Ramalingam C <ramalingam.c@intel.com>
 > ---
->  drivers/gpu/drm/i915/gt/intel_migrate.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+>  drivers/gpu/drm/i915/gt/gen8_ppgtt.c | 50 ++++++++++++++++++++++++++--
+>  1 file changed, 48 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
-> index 765c6d48fe52..2d3188a398dd 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_migrate.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
-> @@ -13,7 +13,6 @@
+> diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+> index bd3ca0996a23..312b2267bf87 100644
+> --- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+> +++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+> @@ -728,13 +728,56 @@ static void gen8_ppgtt_insert_entry(struct i915_address_space *vm,
+>  		gen8_pdp_for_page_index(vm, idx);
+>  	struct i915_page_directory *pd =
+>  		i915_pd_entry(pdp, gen8_pd_index(idx, 2));
+> +	struct i915_page_table *pt = i915_pt_entry(pd, gen8_pd_index(idx, 1));
+>  	gen8_pte_t *vaddr;
 >  
->  struct insert_pte_data {
->  	u64 offset;
-> -	bool is_lmem;
->  };
->  
->  #define CHUNK_SZ SZ_8M /* ~1ms at 8GiB/s preemption delay */
-> @@ -41,7 +40,7 @@ static void insert_pte(struct i915_address_space *vm,
->  	struct insert_pte_data *d = data;
->  
->  	vm->insert_page(vm, px_dma(pt), d->offset, I915_CACHE_NONE,
-> -			d->is_lmem ? PTE_LM : 0);
-> +			i915_gem_object_is_lmem(pt->base) ? PTE_LM : 0);
->  	d->offset += PAGE_SIZE;
+> -	vaddr = px_vaddr(i915_pt_entry(pd, gen8_pd_index(idx, 1)));
+> +	GEM_BUG_ON(pt->is_compact);
+
+Do we have compact PT for smem with 64k pages?
+
+> +
+> +	vaddr = px_vaddr(pt);
+>  	vaddr[gen8_pd_index(idx, 0)] = gen8_pte_encode(addr, level, flags);
+>  	clflush_cache_range(&vaddr[gen8_pd_index(idx, 0)], sizeof(*vaddr));
 >  }
 >  
-> @@ -135,7 +134,6 @@ static struct i915_address_space *migrate_vm(struct intel_gt *gt)
->  			goto err_vm;
+> +static void __xehpsdv_ppgtt_insert_entry_lm(struct i915_address_space *vm,
+> +					    dma_addr_t addr,
+> +					    u64 offset,
+> +					    enum i915_cache_level level,
+> +					    u32 flags)
+> +{
+> +	u64 idx = offset >> GEN8_PTE_SHIFT;
+> +	struct i915_page_directory * const pdp =
+> +		gen8_pdp_for_page_index(vm, idx);
+> +	struct i915_page_directory *pd =
+> +		i915_pd_entry(pdp, gen8_pd_index(idx, 2));
+> +	struct i915_page_table *pt = i915_pt_entry(pd, gen8_pd_index(idx, 1));
+> +	gen8_pte_t *vaddr;
+> +
+> +	GEM_BUG_ON(!IS_ALIGNED(addr, SZ_64K));
+> +	GEM_BUG_ON(!IS_ALIGNED(offset, SZ_64K));
+> +
+> +	if (!pt->is_compact) {
+> +		vaddr = px_vaddr(pd);
+> +		vaddr[gen8_pd_index(idx, 1)] |= GEN12_PDE_64K;
+> +		pt->is_compact = true;
+> +	}
+> +
+> +	vaddr = px_vaddr(pt);
+> +	vaddr[gen8_pd_index(idx, 0) / 16] = gen8_pte_encode(addr, level, flags);
+> +}
+> +
+> +static void xehpsdv_ppgtt_insert_entry(struct i915_address_space *vm,
+> +				       dma_addr_t addr,
+> +				       u64 offset,
+> +				       enum i915_cache_level level,
+> +				       u32 flags)
+> +{
+> +	if (flags & PTE_LM)
+> +		return __xehpsdv_ppgtt_insert_entry_lm(vm, addr, offset,
+> +						       level, flags);
+> +
+> +	return gen8_ppgtt_insert_entry(vm, addr, offset, level, flags);
+Matt,
+
+Is this call for gen8_*** is for insertion of smem PTE entries on the
+64K capable platforms like DG2?
+
+Ram
+
+> +}
+> +
+>  static int gen8_init_scratch(struct i915_address_space *vm)
+>  {
+>  	u32 pte_flags;
+> @@ -937,7 +980,10 @@ struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt,
 >  
->  		/* Now allow the GPU to rewrite the PTE via its own ppGTT */
-> -		d.is_lmem = i915_gem_object_is_lmem(vm->vm.scratch[0]);
->  		vm->vm.foreach(&vm->vm, base, base + sz, insert_pte, &d);
->  	}
->  
+>  	ppgtt->vm.bind_async_flags = I915_VMA_LOCAL_BIND;
+>  	ppgtt->vm.insert_entries = gen8_ppgtt_insert;
+> -	ppgtt->vm.insert_page = gen8_ppgtt_insert_entry;
+> +	if (HAS_64K_PAGES(gt->i915))
+> +		ppgtt->vm.insert_page = xehpsdv_ppgtt_insert_entry;
+> +	else
+> +		ppgtt->vm.insert_page = gen8_ppgtt_insert_entry;
+>  	ppgtt->vm.allocate_va_range = gen8_ppgtt_alloc;
+>  	ppgtt->vm.clear_range = gen8_ppgtt_clear;
+>  	ppgtt->vm.foreach = gen8_ppgtt_foreach;
 > -- 
 > 2.31.1
 > 
