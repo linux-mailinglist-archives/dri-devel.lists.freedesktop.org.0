@@ -2,71 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D42374675AA
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 11:54:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BA6E4675AB
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 11:54:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD5C073375;
-	Fri,  3 Dec 2021 10:54:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DB2773373;
+	Fri,  3 Dec 2021 10:54:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F26D73375
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Dec 2021 10:54:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8187F73377
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Dec 2021 10:54:26 +0000 (UTC)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id D92C558019A;
- Fri,  3 Dec 2021 05:54:23 -0500 (EST)
+ by mailnew.nyi.internal (Postfix) with ESMTP id DBED55801B2;
+ Fri,  3 Dec 2021 05:54:25 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Fri, 03 Dec 2021 05:54:23 -0500
+ by compute6.internal (MEProxy); Fri, 03 Dec 2021 05:54:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:content-type:mime-version
- :content-transfer-encoding; s=fm1; bh=WZahf8+vLTHLrsggBHorEtLHTI
- WxDQNXGBNZIZ0ND4U=; b=li7Xe+/ANIQi2qbi//Uy44uJMTqbt+Gk5YAbizNxcR
- GXjl1FnAECPG60yzi3wcq1RJkxzwVebHO28eHKIAIyfO/PZlN8tmuPPc7W7CXH1i
- IUd2qSpjnFA42hfX/nbLLdMT+XBsbWG/Q0JWpl1cE35jAxHJlZkLtqRH9XZ0i2Uc
- qejS8hZ1O2ogJy2FlsYK237L8WylhAxCRaCjSoEpuYLQfnEtZ9hpQBwN4SNwtZAc
- +442o2CI5+dRx6L9xJiCATN3TbM8SISEde8xh0yGw/+G6WdZNpLJhwxiqT+mBzyH
- Zd+a1NUqMZDRqjeAhoDGf7JyNibQ1juQC/pZdkxtgJDw==
+ from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm1; bh=4cAlWJtNFx+O/
+ sPItMGrwDtqXVJOrEM9dSEm2k7z9tQ=; b=H0zAUMbIyGLtnNdd7NUOBoyrTqh4J
+ WBka4PDYwEr3S/JN5LOO3u0NVd7E9VwVpTdwIHW7QipjkboCsJpgD3p/LpEaCVi9
+ 24b/VZiQbKetanG4oLJ/+fXLxcb267LSM2LlEV768STvy7bKONQrGMmPjJCe+r5k
+ /cBTXq9I/9yKbpImPtNLogufX4XgaAn9EfwHX9zdOzEhA3sXFR1SB69EAbPuu1lZ
+ pU6JxGdKnHvTRoDMejPog5b7aSv++Q9MbOtqYPLDVkBWJmZCYFUX0cRJyVSddKYe
+ GVymkJ7xIFZLTYfXT5IoMimyX/hafBTpsJOZX58IILIw7Tf6yAoH0Td0g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=WZahf8
- +vLTHLrsggBHorEtLHTIWxDQNXGBNZIZ0ND4U=; b=njmmfY75lXyy02f25KSD6V
- ja30dKxSEV6kioyW9wKWiyBsWcCEGy/a6d63DhVLIB8hYCPuIAQLf2nvh8WOnS6v
- EikzkD7WkaXg70kS4lvvDJjc3Q1gvvjgE+64hnk3xFpMghPuc29ACzeMU0x7Xn0t
- +NQATYUI68GAXYlRMumm8dhd9o/igWE9xrwx4s7NKU0g04mwSQ1NSn0wIVlRsua8
- ZmFI0RdRDJp3qAv2RNKm+SAZRPwi1rnAdaDD2y9NCX8hcvn9id5g6E4krIA75IvQ
- p2Ia6VqLm6c2niydvb1uzq+PSRy0ISdi9AX/0BlDnZJl8Q+1KLvB0YeGKdBrUZmw
- ==
-X-ME-Sender: <xms:X_epYfe1XzjJ0nc66zh_v848cUnXf6FG0Afy0Qq8dJI6NFmh4qVz5Q>
- <xme:X_epYVOA5jffJdMtcdL3iDYLIz7aNes5Qi8VFs0OrJazBl-eZbWp7kBGUEZbvahGi
- o1mGUu0neBwqOr4Mmo>
-X-ME-Received: <xmr:X_epYYiNUyJNLUhVkaVJ3o9PxEVC9I-iVtKkCDBuIR-0_z_3HiI_efQdIw2D-yKc8LOEatvzpPa-SdaDsQa7xcoe6IDqubJFJWrYxgPFssYwbA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrieejgddvvdcutefuodetggdotefrodftvf
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; bh=4cAlWJtNFx+O/sPItMGrwDtqXVJOrEM9dSEm2k7z9tQ=; b=TKzdUtIO
+ F1uOZLrSTsSAL359PQuxu8uiUIjhjvDwsZduh5q2njzA+OSod5x+Lh91PPjBMnd8
+ Pv4fhwm1XjLYgSDRjq7ejacEerzsXAH/tVUlyr4HpX95bOu8DyCkBPspmhQwzIuJ
+ czq4o5oLsgRDtmjiPOfSNqJ20d3/Ob8f1Pf66+TsyCKdyCNSbYcPvoHPoqEUxIHz
+ 8P73L6aMp69KXXrOzjiIMYi9lakxKpgMb6zwTdpS50siJyUxLB5L0QDLjtBFgxru
+ 2lKO9v4dnAs6OKBumWlswwZbsWzahj5nDxXM8K9qE5niFGTFbl4e705AG+ETxo1B
+ NxlnPs1ceYliFA==
+X-ME-Sender: <xms:YfepYQsGvnW-4LVvq7V4AL0Z6PmwkkKma2x5fFM5icE82GLFyKlj6g>
+ <xme:YfepYdeQcD-qU9Nq5AOINFJP4awW8FxZG2mg-q1H1a6HP4OwEQljoXTCMvtnv5Eeo
+ XanjdePSU9Sc04-U0E>
+X-ME-Received: <xmr:YfepYbwtoxQ7pCkz9HY0j8-Yjsz1UA7mBsi1_2SDLCSIA7OHmYWr-3V0iSpB_AhTMA1GNXLT1xmlxbJTgV9ryKErsVq2a-68am_9RILGmk_F6A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrieejgddvfecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpeforgigihhmvgcu
- tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
- hrnhepteetledtudejhffftdeugfduffelleelheejgeegffduvddvgfdvhffhlefgteff
- necuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:X_epYQ_f_lxBBH4GkSSQIi8oUS9ZHjTwTbQJb_aRx6_cBxit50KDVA>
- <xmx:X_epYbs3BHW66KOn581AtH_UIOMBI1yBlhNKXcQu6Rwsio96wq342w>
- <xmx:X_epYfFYKKgAk9qBfAxco2NKfqxesVIfGTNlldHUBRyJDgP_31uxLg>
- <xmx:X_epYZLhVWrWoZc5YSux8X0sC0fwRGqaT9FE-7i_PqCVHLjI3BnHNg>
+ fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
+ vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:YfepYTPNxNpeiesrUXeoObl_U68waiscg6IVoewwVQ7ZpJKysW7M3w>
+ <xmx:YfepYQ_1bpeu1R53D6EFeGzM6_7GkfO70Q0exbAXCSnu2-_3XkDK8A>
+ <xmx:YfepYbVtJJcFC3s0_m3oz1wUsNeNjr-L9GAqTjRCpWhujpr5_GaJGQ>
+ <xmx:YfepYbagw02dHS_1TP2Z0pwZczQjOEnE0bdH8_qTFfc2XTRI1E4H5g>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 3 Dec 2021 05:54:22 -0500 (EST)
+ 3 Dec 2021 05:54:25 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 00/11] drm/vc4: hdmi: Yet Another Approach to HDMI YUV output
-Date: Fri,  3 Dec 2021 11:54:09 +0100
-Message-Id: <20211203105420.573494-1-maxime@cerno.tech>
+Subject: [PATCH 01/11] drm/edid: Rename drm_hdmi_avi_infoframe_colorspace to
+ _colorimetry
+Date: Fri,  3 Dec 2021 11:54:10 +0100
+Message-Id: <20211203105420.573494-2-maxime@cerno.tech>
 X-Mailer: git-send-email 2.33.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20211203105420.573494-1-maxime@cerno.tech>
+References: <20211203105420.573494-1-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,80 +88,110 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,=0D
-=0D
-This is another attempt at supporting the HDMI YUV output in the vc4 HDMI=0D
-driver.=0D
-=0D
-This is a follow-up of=0D
-https://lore.kernel.org/dri-devel/20210317154352.732095-1-maxime@cerno.tech=
-/=0D
-=0D
-And the discussions that occured recently on the mailing lists and IRC abou=
-t=0D
-this.=0D
-=0D
-The series mentioned above had multiple issues, the main one being that it =
-was=0D
-a bit too much complicated for what we wanted to achieve. This series is ta=
-king=0D
-a much simpler approach with an ad-hoc solution.=0D
-=0D
-I think some parts of it could still be moved to KMS helpers (notably, the=
-=0D
-output format enum, and the helper to set the infoframe for it) and structu=
-res=0D
-(the output format stored in drm_connector_state). This would also interact=
-=0D
-nicely with the work done here:=0D
-=0D
-https://lore.kernel.org/dri-devel/20211118103814.524670-1-maxime@cerno.tech=
-/=0D
-=0D
-This can come as a second step though.=0D
-=0D
-The other issues with the first attempt was that nothing was reported to=0D
-userspace about the decision we made about the format, and that this decisi=
-on=0D
-was essentially policy, without any way for the userspace to influence it.=
-=0D
-=0D
-Those two points however are being worked on by Werner in a cross-driver=0D
-effort:=0D
-=0D
-https://lore.kernel.org/dri-devel/e452775c-5b95-bbfd-e818-f1480f556336@tuxe=
-docomputers.com/=0D
-=0D
-Since it's a KMS decision, I don't think we should hold off any driver as l=
-ong=0D
-as it's consistent with what the other drivers are doing.=0D
-=0D
-Let me know what you think,=0D
-Maxime=0D
-=0D
-Maxime Ripard (11):=0D
-  drm/edid: Rename drm_hdmi_avi_infoframe_colorspace to _colorimetry=0D
-  drm/vc4: hdmi: Add full range RGB helper=0D
-  drm/vc4: hdmi: Use full range helper in csc functions=0D
-  drm/vc4: hdmi: Move XBAR setup to csc_setup=0D
-  drm/vc4: hdmi: Replace CSC_CTL hardcoded value by defines=0D
-  drm/vc4: hdmi: Define colorspace matrices=0D
-  drm/vc4: hdmi: Change CSC callback prototype=0D
-  drm/vc4: hdmi: Move clock validation to its own function=0D
-  drm/vc4: hdmi: Move clock calculation into its own function=0D
-  drm/vc4: hdmi: Support HDMI YUV output=0D
-  drm/vc4: hdmi: Force YUV422 if the rate is too high=0D
-=0D
- drivers/gpu/drm/drm_edid.c                  |   8 +-=0D
- drivers/gpu/drm/i915/display/intel_hdmi.c   |   2 +-=0D
- drivers/gpu/drm/i915/display/intel_lspcon.c |   2 +-=0D
- drivers/gpu/drm/vc4/vc4_hdmi.c              | 324 +++++++++++++++-----=0D
- drivers/gpu/drm/vc4/vc4_hdmi.h              |  13 +-=0D
- drivers/gpu/drm/vc4/vc4_hdmi_regs.h         |   6 +=0D
- drivers/gpu/drm/vc4/vc4_regs.h              |  19 ++=0D
- include/drm/drm_edid.h                      |   4 +-=0D
- 8 files changed, 290 insertions(+), 88 deletions(-)=0D
-=0D
--- =0D
-2.33.1=0D
-=0D
+The drm_hdmi_avi_infoframe_colorspace() function actually sets the
+colorimetry and extended_colorimetry fields in the hdmi_avi_infoframe
+structure with DRM_MODE_COLORIMETRY_* values.
+
+To make things worse, the hdmi_avi_infoframe structure also has a
+colorspace field used to signal whether an RGB or YUV output is being
+used.
+
+Let's remove the inconsistency and allow for the colorspace usage by
+renaming the function.
+
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/gpu/drm/drm_edid.c                  | 8 ++++----
+ drivers/gpu/drm/i915/display/intel_hdmi.c   | 2 +-
+ drivers/gpu/drm/i915/display/intel_lspcon.c | 2 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c              | 2 +-
+ include/drm/drm_edid.h                      | 4 ++--
+ 5 files changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 12893e7be89b..13644dd579b4 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -5891,13 +5891,13 @@ static const u32 hdmi_colorimetry_val[] = {
+ #undef ACE
+ 
+ /**
+- * drm_hdmi_avi_infoframe_colorspace() - fill the HDMI AVI infoframe
+- *                                       colorspace information
++ * drm_hdmi_avi_infoframe_colorimetry() - fill the HDMI AVI infoframe
++ *                                       colorimetry information
+  * @frame: HDMI AVI infoframe
+  * @conn_state: connector state
+  */
+ void
+-drm_hdmi_avi_infoframe_colorspace(struct hdmi_avi_infoframe *frame,
++drm_hdmi_avi_infoframe_colorimetry(struct hdmi_avi_infoframe *frame,
+ 				  const struct drm_connector_state *conn_state)
+ {
+ 	u32 colorimetry_val;
+@@ -5916,7 +5916,7 @@ drm_hdmi_avi_infoframe_colorspace(struct hdmi_avi_infoframe *frame,
+ 	frame->extended_colorimetry = (colorimetry_val >> 2) &
+ 					EXTENDED_COLORIMETRY_MASK;
+ }
+-EXPORT_SYMBOL(drm_hdmi_avi_infoframe_colorspace);
++EXPORT_SYMBOL(drm_hdmi_avi_infoframe_colorimetry);
+ 
+ /**
+  * drm_hdmi_avi_infoframe_quant_range() - fill the HDMI AVI infoframe
+diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+index 3b5b9e7b05b7..96e508ddc4af 100644
+--- a/drivers/gpu/drm/i915/display/intel_hdmi.c
++++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+@@ -730,7 +730,7 @@ intel_hdmi_compute_avi_infoframe(struct intel_encoder *encoder,
+ 	else
+ 		frame->colorspace = HDMI_COLORSPACE_RGB;
+ 
+-	drm_hdmi_avi_infoframe_colorspace(frame, conn_state);
++	drm_hdmi_avi_infoframe_colorimetry(frame, conn_state);
+ 
+ 	/* nonsense combination */
+ 	drm_WARN_ON(encoder->base.dev, crtc_state->limited_color_range &&
+diff --git a/drivers/gpu/drm/i915/display/intel_lspcon.c b/drivers/gpu/drm/i915/display/intel_lspcon.c
+index 05d2d750fa53..092a925c6cf5 100644
+--- a/drivers/gpu/drm/i915/display/intel_lspcon.c
++++ b/drivers/gpu/drm/i915/display/intel_lspcon.c
+@@ -537,7 +537,7 @@ void lspcon_set_infoframes(struct intel_encoder *encoder,
+ 		frame.avi.colorspace = HDMI_COLORSPACE_RGB;
+ 
+ 	/* Set the Colorspace as per the HDMI spec */
+-	drm_hdmi_avi_infoframe_colorspace(&frame.avi, conn_state);
++	drm_hdmi_avi_infoframe_colorimetry(&frame.avi, conn_state);
+ 
+ 	/* nonsense combination */
+ 	drm_WARN_ON(encoder->base.dev, crtc_state->limited_color_range &&
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 053fbaf765ca..be39e55ae113 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -502,7 +502,7 @@ static void vc4_hdmi_set_avi_infoframe(struct drm_encoder *encoder)
+ 					   vc4_encoder->limited_rgb_range ?
+ 					   HDMI_QUANTIZATION_RANGE_LIMITED :
+ 					   HDMI_QUANTIZATION_RANGE_FULL);
+-	drm_hdmi_avi_infoframe_colorspace(&frame.avi, cstate);
++	drm_hdmi_avi_infoframe_colorimetry(&frame.avi, cstate);
+ 	drm_hdmi_avi_infoframe_bars(&frame.avi, cstate);
+ 
+ 	vc4_hdmi_write_infoframe(encoder, &frame);
+diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+index 18f6c700f6d0..144c495b99c4 100644
+--- a/include/drm/drm_edid.h
++++ b/include/drm/drm_edid.h
+@@ -401,8 +401,8 @@ drm_hdmi_vendor_infoframe_from_display_mode(struct hdmi_vendor_infoframe *frame,
+ 					    const struct drm_display_mode *mode);
+ 
+ void
+-drm_hdmi_avi_infoframe_colorspace(struct hdmi_avi_infoframe *frame,
+-				  const struct drm_connector_state *conn_state);
++drm_hdmi_avi_infoframe_colorimetry(struct hdmi_avi_infoframe *frame,
++				   const struct drm_connector_state *conn_state);
+ 
+ void
+ drm_hdmi_avi_infoframe_bars(struct hdmi_avi_infoframe *frame,
+-- 
+2.33.1
+
