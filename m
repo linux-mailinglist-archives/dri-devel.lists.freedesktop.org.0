@@ -1,75 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3CAA467989
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 15:37:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F40AE4679BD
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 15:50:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96C467ABC0;
-	Fri,  3 Dec 2021 14:37:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A4117ABD7;
+	Fri,  3 Dec 2021 14:50:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53AAA7ABBE
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Dec 2021 14:37:38 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 9EDDE58017A;
- Fri,  3 Dec 2021 09:37:37 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Fri, 03 Dec 2021 09:37:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=i+PDizJ4CygpKjnA6GeSt+T0s59
- 0lhPcJnx/bPZhFRM=; b=J4jfRbK2W0THIdVkbDLJx6o7KjK428mCbchaoQWCtED
- aJxs3mjZxESxpigGG6Pu7/FCOOFiLnhHFMASA2E/2vzTE7dLWHaEocBSAecapGns
- v/GgTN7mpVdj3daGcFe04TILklv7Z4AjA8CW1SLDpbI7UjVQU5GA4GqvZnc9WH8o
- zOq4SlZUhjCvuDk8b1hpkG+ggIrS0d0XLAMUa0VLYtIW+PkSfqX7CrEFC28g2X3d
- 6c59U70mAaf2VrWYFu/6ITh3rO+80YLn6UwF14+pNFIxGE3TUjBMxM6jMKolmi3y
- XcorOTdFCwras1vM56pEBO4AEt0sZ+BckmgLKxUANlg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=i+PDiz
- J4CygpKjnA6GeSt+T0s590lhPcJnx/bPZhFRM=; b=C/rT67gmxFNiW49lJW8qsT
- Npf3M89Enwg5Ozfh0uTs3oGF1OgGa57tBFQLtInIEwNBs4BaUHz7LABFVVT2dONm
- sluQ4ozF3f7AzsIM/E1LvlbNrwmmlaiWptkdl+9ATfH0nN6Vl3PdnwCpSPMFj45L
- bytURRM8YFZJluWMeHMYL6dUyN5TNvQTpgGhQ6o6rRRPhv9AhjDIOP6+TerVJQMh
- QrFha3IThGdhgjTUUmkZNmu9ktGTecxRcEyI+YXyuhF8wuxjRGKQuonxE/oKDb0C
- 6Q7DQBW+NZtueWIlNd3RmqXyeRRmWVfHFD8A/sG4tsogjYTMOUyehAEsl/FL9zIg
- ==
-X-ME-Sender: <xms:sSuqYVrnnQprUF-dMcQsEjVv3YCCYjwCmXWugrST_noZt3m88lZj-w>
- <xme:sSuqYXp5BP4ch2g2n6hWV8-QgnPG0ZP2S-YvRYFSpOkxT258fQ0NrYiJ8CSbpFQ9U
- qHgcAETSByssrH-nkM>
-X-ME-Received: <xmr:sSuqYSOt4-w-i0sZtMYI5s9F_XLPvEed10aD4L0Z3P4ws9dQgmXofFwLrJYcKZDD5YPEsElin3lt0s8ApQ64abQtcjH9UXt7Xtyx5TOP6b3lOQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrieejgdeilecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeeutdfgjeeuudehvefgvedvtedtudelfffgffekledtffekgedukeejueevieeg
- udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:sSuqYQ6WpaWjTrKNkdI3nOEk_-O2I8vri1YOmeMMlfCHhLCaw4XfXw>
- <xmx:sSuqYU48fQGsdTu-kJD-yfKCpqYRXvPyLQA9UlAi44QbLTsVFFzAVQ>
- <xmx:sSuqYYhdT-NaidE9kDoeWEw5fYUmA2lYVBvXYwE4REazLm2F9FOcwA>
- <xmx:sSuqYUjiF_bvGMgFoBtm4yUOOfB7mwQvv5-qkZQvMvsVIJ3m9on9tQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 3 Dec 2021 09:37:36 -0500 (EST)
-Date: Fri, 3 Dec 2021 15:37:34 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Kevin Tang <kevin3.tang@gmail.com>
-Subject: Re: [PATCH v7 6/6] drm/sprd: add Unisoc's drm mipi dsi&dphy driver
-Message-ID: <20211203143734.pn4q6wft4s37ckut@houat>
-References: <20211025093418.20545-1-kevin3.tang@gmail.com>
- <20211025093418.20545-7-kevin3.tang@gmail.com>
- <20211203103841.vkl3sjsbaohsviou@houat>
- <CAFPSGXbWv94vShNAQ9xfkDZRKgZTdjRzH9i60ak1NYaPW-OKgA@mail.gmail.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32F607ABD6;
+ Fri,  3 Dec 2021 14:50:19 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10186"; a="235718410"
+X-IronPort-AV: E=Sophos;i="5.87,284,1631602800"; d="scan'208";a="235718410"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Dec 2021 06:50:18 -0800
+X-IronPort-AV: E=Sophos;i="5.87,284,1631602800"; d="scan'208";a="597998255"
+Received: from shishpan-mobl2.ccr.corp.intel.com (HELO [10.249.254.149])
+ ([10.249.254.149])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Dec 2021 06:50:16 -0800
+Message-ID: <96eca78d-2b92-cce0-0aee-2d5f72c26bdf@linux.intel.com>
+Date: Fri, 3 Dec 2021 15:50:13 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="xcgm6vftby67t4i2"
-Content-Disposition: inline
-In-Reply-To: <CAFPSGXbWv94vShNAQ9xfkDZRKgZTdjRzH9i60ak1NYaPW-OKgA@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [Linaro-mm-sig] [RFC PATCH 1/2] dma-fence: Avoid establishing a
+ locking order between fence classes
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20211130121936.586031-1-thomas.hellstrom@linux.intel.com>
+ <57df8b0b-1d65-155f-a9a6-8073bbd4f28f@linux.intel.com>
+ <2551da4d-2e51-cc24-7d4a-84ae00a1547c@amd.com>
+ <29d096c91d720fbe5d410124580a02b663155b56.camel@linux.intel.com>
+ <250a8e47-2093-1a98-3859-0204ec4e60e6@amd.com>
+ <712b54fa1c09ae5cc1d75739ad8a7286f1dae8db.camel@linux.intel.com>
+ <49cf2d43-9a8a-7738-0889-7e16b0256249@linux.intel.com>
+ <193e36bd-ba64-1358-8178-73ee3afc3c41@amd.com>
+ <c9109ec6-4265-ba8f-238f-4c793d076825@shipmail.org>
+ <d1ada94c-88d3-d34d-9c51-0d427c3aca06@amd.com>
+ <7ef3db03-8ae2-d886-2c39-36f661cac9a6@shipmail.org>
+ <4805074d-7039-3eaf-eb5d-5797278b7f31@amd.com>
+ <94435e0e-01db-5ae4-e424-64f73a09199f@shipmail.org>
+ <a4df4d5f-ea74-8725-aca9-d0edae986e5c@amd.com>
+ <fb9f50e2-aeba-6138-0cc0-aed252dc876d@shipmail.org>
+ <8a7dbf22-727d-c1ec-1d3f-75e23394fee8@amd.com>
+ <d4a9cb5a554ffc3af3d30ecacad6e57533eb7f3b.camel@linux.intel.com>
+ <f8f1500c-170d-ccf9-ac2d-1484bbdc587e@amd.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <f8f1500c-170d-ccf9-ac2d-1484bbdc587e@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,67 +69,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, airlied@linux.ie,
- pony1.wu@gmail.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org, zhang.lyra@gmail.com,
- orsonzhai@gmail.com, sean@poorly.run
+Cc: linaro-mm-sig@lists.linaro.org, matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---xcgm6vftby67t4i2
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 12/3/21 15:26, Christian König wrote:
+> [Adding Daniel here as well]
+>
+> Am 03.12.21 um 15:18 schrieb Thomas Hellström:
+>> [SNIP]
+>>> Well that's ok as well. My question is why does this single dma_fence
+>>> then shows up in the dma_fence_chain representing the whole
+>>> migration?
+>> What we'd like to happen during eviction is that we
+>>
+>> 1) await any exclusive- or moving fences, then schedule the migration
+>> blit. The blit manages its own GPU ptes. Results in a single fence.
+>> 2) Schedule unbind of any gpu vmas, resulting possibly in multiple
+>> fences.
+>> 3) Most but not all of the remaining resv shared fences will have been
+>> finished in 2) We can't easily tell which so we have a couple of shared
+>> fences left.
+>
+> Stop, wait a second here. We are going a bit in circles.
+>
+> Before you migrate a buffer, you *MUST* wait for all shared fences to 
+> complete. This is documented mandatory DMA-buf behavior.
+>
+> Daniel and I have discussed that quite extensively in the last few month.
+>
+> So how does it come that you do the blit before all shared fences are 
+> completed?
 
-On Fri, Dec 03, 2021 at 08:34:50PM +0800, Kevin Tang wrote:
-> Maxime Ripard <maxime@cerno.tech> =E4=BA=8E2021=E5=B9=B412=E6=9C=883=E6=
-=97=A5=E5=91=A8=E4=BA=94 18:38=E5=86=99=E9=81=93=EF=BC=9A
-> >
-> > On Mon, Oct 25, 2021 at 05:34:18PM +0800, Kevin Tang wrote:
-> > > @@ -618,9 +619,25 @@ static void sprd_crtc_mode_set_nofb(struct drm_c=
-rtc *crtc)
-> > >  {
-> > >       struct sprd_dpu *dpu =3D to_sprd_crtc(crtc);
-> > >       struct drm_display_mode *mode =3D &crtc->state->adjusted_mode;
-> > > +     struct drm_encoder *encoder;
-> > > +     struct mipi_dsi_device *slave;
-> > > +     struct sprd_dsi *dsi;
-> > >
-> > >       drm_display_mode_to_videomode(mode, &dpu->ctx.vm);
-> > >
-> > > +     drm_for_each_encoder(encoder, crtc->dev) {
-> > > +             if (encoder->crtc !=3D crtc)
-> > > +                     continue;
-> >
-> > encoder->crtc is deprecated. You should be using
-> > encoder->drm_for_each_encoder_mask, using the encoder_mask in
-> > encoder->drm_crtc_state.
->=20
-> Use drm_for_each_encoder_mask to replace drm_for_each_encoder? like this:
-> drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask) {
->     dsi =3D encoder_to_dsi(encoder);
->     slave =3D dsi->slave;
->=20
->     if (slave->mode_flags & MIPI_DSI_MODE_VIDEO)
->         dpu->ctx.if_type =3D SPRD_DPU_IF_DPI;
->     else
->          dpu->ctx.if_type =3D SPRD_DPU_IF_EDPI;
-> }
+Well we don't currently but wanted to... (I haven't consulted Daniel in 
+the matter, tbh).
 
-Yes
+I was under the impression that all writes would add an exclusive fence 
+to the dma_resv. If that's not the case or this is otherwise against the 
+mandatory DMA-buf bevhavior, we can certainly keep that part as is and 
+that would eliminate 3).
 
-Maxime
+/Thomas
 
---xcgm6vftby67t4i2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYaorrgAKCRDj7w1vZxhR
-xeExAP9ZFUc9viR8jVqxFYksuwT5OhewO0DsPjv856NwUpY+EQEAmIOyKr/k09XD
-mqk6Hu3g1notikrNRfGp2DSQV5MkYgg=
-=yyH3
------END PGP SIGNATURE-----
-
---xcgm6vftby67t4i2--
