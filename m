@@ -2,38 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11073467D55
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 19:34:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7BEB467D84
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 19:51:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67B687B500;
-	Fri,  3 Dec 2021 18:33:44 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8AD07B4FB;
- Fri,  3 Dec 2021 18:33:41 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10187"; a="234540252"
-X-IronPort-AV: E=Sophos;i="5.87,284,1631602800"; d="scan'208";a="234540252"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Dec 2021 10:33:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,284,1631602800"; d="scan'208";a="577578528"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
- by fmsmga004.fm.intel.com with ESMTP; 03 Dec 2021 10:33:40 -0800
-From: John.C.Harrison@Intel.com
-To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH 5/5] drm/i915/guc: Improve GuC loading status check/error
- reports
-Date: Fri,  3 Dec 2021 10:33:39 -0800
-Message-Id: <20211203183339.3276250-6-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211203183339.3276250-1-John.C.Harrison@Intel.com>
-References: <20211203183339.3276250-1-John.C.Harrison@Intel.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CF4C7B6B5;
+	Fri,  3 Dec 2021 18:51:16 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 021047B6B3
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Dec 2021 18:51:14 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id k37so8720574lfv.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Dec 2021 10:51:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=AoGWj/bWqwFWdFDfAGCiZt2+Rrs0vhzQ2O7jMvIrWTE=;
+ b=i7hnxehXR4Qq6dr9FYM+t6kwmA5qmPA39SksNpMT3nrmhOGSEp0jngHnpulMw5gXXb
+ c+vskdcXt2UBcrbrvhsUNkWEIHIPFuVeBkFZmzot8MboOly04tZW5IK9Ex30bQYbYIFG
+ hHp8w43Fhec4OCyS0j5tlitqI9VhnlZXT3VRk+LlTfHxItKgMqvHBFstf4FzVH3fmSz4
+ 5eSJ0v8ygAj24QW8Gp8v8JAW8GnU4VCOLeiKPBZo7FJsWbsNzpFbdSeApsYFHBWbeHjc
+ lpGJEBgwU9yn9FvkYpUN9XfL7eLmwuNYYHWGaxAZ+JPdAZ2RYeGwtsAxVwKDxx4sBJmY
+ IAjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=AoGWj/bWqwFWdFDfAGCiZt2+Rrs0vhzQ2O7jMvIrWTE=;
+ b=rxl2Dq23GFnODh0fM3OahpLCBWKQjXcQvLYZK7p0jAACD78ON3XZgzTidHdLdYUKBb
+ T7LOmsj+jiO/zxBCqzDd0x0g19TO2/JAcrn7/j/AztHkNVGwn37JqVuF13Xd/TqXHliJ
+ FnDjuCu7Gwecm7/HJCCA5uDU49+Lj/Xe9P1bI8SEcpvP7xWBMtjt4ypfeyT/nPTEMFyR
+ AgN4/+ylLla3itchkKaPiBR9OCCZ1nG4LP5beyAUTJb2zUMZCkp6EyizYrsxvXxEYsxk
+ OdWa/u4Wek6IrP86VzKVpzr/v6wGDBuE0aYVkiYfotvLi9kyWxs92HZyNnec8akTXKl6
+ xgfA==
+X-Gm-Message-State: AOAM530YhiJsj4nclJUMKRm02Xx7314Tq7sAmevDD/mZ/3/DH+RKK0Aj
+ eDHJyJ9QABph/MiXkXvE3hftJA==
+X-Google-Smtp-Source: ABdhPJx3oNQ/pRiEn2+/u0ktbVPcBmU8snjmPDRzgL+8t9ORKohqKzHYrihygwoe+ybgKC2OUge75Q==
+X-Received: by 2002:ac2:55a6:: with SMTP id y6mr18888149lfg.406.1638557473337; 
+ Fri, 03 Dec 2021 10:51:13 -0800 (PST)
+Received: from [192.168.1.8] ([185.24.52.156])
+ by smtp.gmail.com with ESMTPSA id c15sm465158lfb.154.2021.12.03.10.51.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Dec 2021 10:51:12 -0800 (PST)
+Message-ID: <8ee2b4d4-44f3-6d03-b674-613b5b04a754@linaro.org>
+Date: Fri, 3 Dec 2021 21:51:10 +0300
 MIME-Version: 1.0
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH] drm/msm/a5xx: Add support for Adreno 506 GPU
+Content-Language: en-GB
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>
+References: <20211022114349.102552-1-vladimir.lypak@gmail.com>
+ <YXL16V17upehvUwt@ripper>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <YXL16V17upehvUwt@ripper>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,204 +73,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
+Cc: Iskren Chernev <iskren.chernev@gmail.com>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>, dri-devel@lists.freedesktop.org,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ "Kristian H. Kristensen" <hoegsberg@google.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+On 22/10/2021 20:33, Bjorn Andersson wrote:
+> On Fri 22 Oct 04:43 PDT 2021, Vladimir Lypak wrote:
+> 
+>> This GPU is found on SoCs such as MSM8953(650MHz), SDM450(600MHz),
+>> SDM632(725MHz).
+>>
+>> Signed-off-by: Vladimir Lypak <vladimir.lypak@gmail.com>
+>> ---
+>>   drivers/gpu/drm/msm/adreno/a5xx_gpu.c      | 34 ++++++++++++++--------
+>>   drivers/gpu/drm/msm/adreno/adreno_device.c | 18 ++++++++++++
+>>   drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  5 ++++
+>>   3 files changed, 45 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+>> index 5e2750eb3810..249a0d8bc673 100644
+>> --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+>> +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+>> @@ -441,7 +441,7 @@ void a5xx_set_hwcg(struct msm_gpu *gpu, bool state)
+>>   	const struct adreno_five_hwcg_regs *regs;
+>>   	unsigned int i, sz;
+>>   
+>> -	if (adreno_is_a508(adreno_gpu)) {
+>> +	if (adreno_is_a506(adreno_gpu) || adreno_is_a508(adreno_gpu)) {
+>>   		regs = a50x_hwcg;
+>>   		sz = ARRAY_SIZE(a50x_hwcg);
+>>   	} else if (adreno_is_a509(adreno_gpu) || adreno_is_a512(adreno_gpu)) {
+>> @@ -485,7 +485,7 @@ static int a5xx_me_init(struct msm_gpu *gpu)
+>>   	OUT_RING(ring, 0x00000000);
+>>   
+>>   	/* Specify workarounds for various microcode issues */
+>> -	if (adreno_is_a530(adreno_gpu)) {
+>> +	if (adreno_is_a506(adreno_gpu) || adreno_is_a530(adreno_gpu)) {
+>>   		/* Workaround for token end syncs
+>>   		 * Force a WFI after every direct-render 3D mode draw and every
+>>   		 * 2D mode 3 draw
+>> @@ -620,8 +620,17 @@ static int a5xx_ucode_init(struct msm_gpu *gpu)
+>>   
+>>   static int a5xx_zap_shader_resume(struct msm_gpu *gpu)
+>>   {
+>> +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>>   	int ret;
+>>   
+>> +	/*
+>> +	 * Adreno 506,508,512 have CPZ Retention feature and
+>> +	 * don't need to resume zap shader
+>> +	 */
+>> +	if (adreno_is_a506(adreno_gpu) || adreno_is_a508(adreno_gpu) ||
+>> +	    adreno_is_a512(adreno_gpu))
+>> +		return 0;
+> 
+> Afaict all other changes in the patch adds a506 support, but this hunk
+> changes a508 and a512 behavior.
+> 
+> I'm not saying that the change is wrong, but this hunk deserves to be in
+> it's own patch - so that if there's any impact on those other versions
+> it can be tracked down to that specific patch.
 
-If the GuC fails to load, it is useful to know what firmware file /
-version was attempted. So move the version info report to before the
-load attempt rather than only after a successful load.
+Vladimir, any plans to submit v2? This comment requests splitting the 
+patch in two.
 
-If the GuC does fail to load, then make the error messages visible
-rather than being 'debug' prints that do not appears in dmesg output
-by default.
 
-When waiting for the GuC to load, it used to be necessary to check for
-two different states - READY and (LAPIC_DONE | MIA_CORE). Apparently
-the second signified init complete on RC6 exit. However, in more
-recent GuC versions the RC6 exit sequence now finishes with status
-READY as well. So the test can be simplified.
-
-Also, add an enum giving all the current status codes that GuC loading
-can report as a reference without having to pull and search through
-the GuC source files.
-
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
----
- .../gpu/drm/i915/gt/uc/abi/guc_errors_abi.h   | 23 ++++++++++++++
- drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c     | 17 +++++-----
- drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h    |  4 ---
- drivers/gpu/drm/i915/gt/uc/intel_huc.c        |  1 +
- drivers/gpu/drm/i915/gt/uc/intel_uc.c         | 31 ++++++++++---------
- 5 files changed, 48 insertions(+), 28 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h
-index 488b6061ee89..c20658ee85a5 100644
---- a/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h
-+++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h
-@@ -11,4 +11,27 @@ enum intel_guc_response_status {
- 	INTEL_GUC_RESPONSE_STATUS_GENERIC_FAIL = 0xF000,
- };
- 
-+enum intel_guc_load_status {
-+	INTEL_GUC_LOAD_STATUS_DEFAULT                          = 0x00,
-+	INTEL_GUC_LOAD_STATUS_START                            = 0x01,
-+	INTEL_GUC_LOAD_STATUS_ERROR_DEVID_BUILD_MISMATCH       = 0x02,
-+	INTEL_GUC_LOAD_STATUS_GUC_PREPROD_BUILD_MISMATCH       = 0x03,
-+	INTEL_GUC_LOAD_STATUS_ERROR_DEVID_INVALID_GUCTYPE      = 0x04,
-+	INTEL_GUC_LOAD_STATUS_GDT_DONE                         = 0x10,
-+	INTEL_GUC_LOAD_STATUS_IDT_DONE                         = 0x20,
-+	INTEL_GUC_LOAD_STATUS_LAPIC_DONE                       = 0x30,
-+	INTEL_GUC_LOAD_STATUS_GUCINT_DONE                      = 0x40,
-+	INTEL_GUC_LOAD_STATUS_DPC_READY                        = 0x50,
-+	INTEL_GUC_LOAD_STATUS_DPC_ERROR                        = 0x60,
-+	INTEL_GUC_LOAD_STATUS_EXCEPTION                        = 0x70,
-+	INTEL_GUC_LOAD_STATUS_INIT_DATA_INVALID                = 0x71,
-+	INTEL_GUC_LOAD_STATUS_PXP_TEARDOWN_CTRL_ENABLED        = 0x72,
-+	INTEL_GUC_LOAD_STATUS_INVALID_INIT_DATA_RANGE_START,
-+	INTEL_GUC_LOAD_STATUS_MPU_DATA_INVALID                 = 0x73,
-+	INTEL_GUC_LOAD_STATUS_INIT_MMIO_SAVE_RESTORE_INVALID   = 0x74,
-+	INTEL_GUC_LOAD_STATUS_INVALID_INIT_DATA_RANGE_END,
-+
-+	INTEL_GUC_LOAD_STATUS_READY                            = 0xF0,
-+};
-+
- #endif /* _ABI_GUC_ERRORS_ABI_H */
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
-index 196424be0998..d3cee01d07e0 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
-@@ -70,11 +70,10 @@ static int guc_xfer_rsa(struct intel_uc_fw *guc_fw,
- static inline bool guc_ready(struct intel_uncore *uncore, u32 *status)
- {
- 	u32 val = intel_uncore_read(uncore, GUC_STATUS);
--	u32 uk_val = val & GS_UKERNEL_MASK;
-+	u32 uk_val = REG_FIELD_GET(GS_UKERNEL_MASK, val);
- 
- 	*status = val;
--	return (uk_val == GS_UKERNEL_READY) ||
--		((val & GS_MIA_CORE_STATE) && (uk_val == GS_UKERNEL_LAPIC_DONE));
-+	return uk_val == INTEL_GUC_LOAD_STATUS_READY;
- }
- 
- static int guc_wait_ucode(struct intel_uncore *uncore)
-@@ -94,8 +93,8 @@ static int guc_wait_ucode(struct intel_uncore *uncore)
- 	if (ret) {
- 		struct drm_device *drm = &uncore->i915->drm;
- 
--		drm_dbg(drm, "GuC load failed: status = 0x%08X\n", status);
--		drm_dbg(drm, "GuC load failed: status: Reset = %d, "
-+		drm_info(drm, "GuC load failed: status = 0x%08X\n", status);
-+		drm_info(drm, "GuC load failed: status: Reset = %d, "
- 			"BootROM = 0x%02X, UKernel = 0x%02X, "
- 			"MIA = 0x%02X, Auth = 0x%02X\n",
- 			REG_FIELD_GET(GS_MIA_IN_RESET, status),
-@@ -105,13 +104,13 @@ static int guc_wait_ucode(struct intel_uncore *uncore)
- 			REG_FIELD_GET(GS_AUTH_STATUS_MASK, status));
- 
- 		if ((status & GS_BOOTROM_MASK) == GS_BOOTROM_RSA_FAILED) {
--			drm_dbg(drm, "GuC firmware signature verification failed\n");
-+			drm_info(drm, "GuC firmware signature verification failed\n");
- 			ret = -ENOEXEC;
- 		}
- 
--		if ((status & GS_UKERNEL_MASK) == GS_UKERNEL_EXCEPTION) {
--			drm_dbg(drm, "GuC firmware exception. EIP: %#x\n",
--				intel_uncore_read(uncore, SOFT_SCRATCH(13)));
-+		if (REG_FIELD_GET(GS_UKERNEL_MASK, status) == INTEL_GUC_LOAD_STATUS_EXCEPTION) {
-+			drm_info(drm, "GuC firmware exception. EIP: %#x\n",
-+				 intel_uncore_read(uncore, SOFT_SCRATCH(13)));
- 			ret = -ENXIO;
- 		}
- 	}
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h
-index b37fc2ffaef2..e6bd66d6ce5a 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h
-@@ -22,10 +22,6 @@
- #define   GS_BOOTROM_JUMP_PASSED	  (0x76 << GS_BOOTROM_SHIFT)
- #define   GS_UKERNEL_SHIFT		8
- #define   GS_UKERNEL_MASK		  (0xFF << GS_UKERNEL_SHIFT)
--#define   GS_UKERNEL_LAPIC_DONE		  (0x30 << GS_UKERNEL_SHIFT)
--#define   GS_UKERNEL_DPC_ERROR		  (0x60 << GS_UKERNEL_SHIFT)
--#define   GS_UKERNEL_EXCEPTION		  (0x70 << GS_UKERNEL_SHIFT)
--#define   GS_UKERNEL_READY		  (0xF0 << GS_UKERNEL_SHIFT)
- #define   GS_MIA_SHIFT			16
- #define   GS_MIA_MASK			  (0x07 << GS_MIA_SHIFT)
- #define   GS_MIA_CORE_STATE		  (0x01 << GS_MIA_SHIFT)
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-index ff4b6869b80b..cef406dd937e 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-@@ -195,6 +195,7 @@ int intel_huc_auth(struct intel_huc *huc)
- 	}
- 
- 	intel_uc_fw_change_status(&huc->fw, INTEL_UC_FIRMWARE_RUNNING);
-+	drm_info(&gt->i915->drm, "HuC authenticated\n");
- 	return 0;
- 
- fail:
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-index 2fef3b0bbe95..27b709860afc 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-@@ -431,6 +431,15 @@ static int __uc_check_hw(struct intel_uc *uc)
- 	return 0;
- }
- 
-+static void print_fw_ver(struct intel_uc *uc, struct intel_uc_fw *fw)
-+{
-+	struct drm_i915_private *i915 = uc_to_gt(uc)->i915;
-+
-+	drm_info(&i915->drm, "%s firmware %s version %u.%u\n",
-+		 intel_uc_fw_type_repr(fw->type), fw->path,
-+		 fw->major_ver_found, fw->minor_ver_found);
-+}
-+
- static int __uc_init_hw(struct intel_uc *uc)
- {
- 	struct drm_i915_private *i915 = uc_to_gt(uc)->i915;
-@@ -441,6 +450,11 @@ static int __uc_init_hw(struct intel_uc *uc)
- 	GEM_BUG_ON(!intel_uc_supports_guc(uc));
- 	GEM_BUG_ON(!intel_uc_wants_guc(uc));
- 
-+	print_fw_ver(uc, &guc->fw);
-+
-+	if (intel_uc_uses_huc(uc))
-+		print_fw_ver(uc, &huc->fw);
-+
- 	if (!intel_uc_fw_is_loadable(&guc->fw)) {
- 		ret = __uc_check_hw(uc) ||
- 		      intel_uc_fw_is_overridden(&guc->fw) ||
-@@ -501,24 +515,11 @@ static int __uc_init_hw(struct intel_uc *uc)
- 			goto err_submission;
- 	}
- 
--	drm_info(&i915->drm, "%s firmware %s version %u.%u %s:%s\n",
--		 intel_uc_fw_type_repr(INTEL_UC_FW_TYPE_GUC), guc->fw.path,
--		 guc->fw.major_ver_found, guc->fw.minor_ver_found,
--		 "submission",
-+	drm_info(&i915->drm, "GuC submission %s\n",
- 		 enableddisabled(intel_uc_uses_guc_submission(uc)));
--
--	drm_info(&i915->drm, "GuC SLPC: %s\n",
-+	drm_info(&i915->drm, "GuC SLPC %s\n",
- 		 enableddisabled(intel_uc_uses_guc_slpc(uc)));
- 
--	if (intel_uc_uses_huc(uc)) {
--		drm_info(&i915->drm, "%s firmware %s version %u.%u %s:%s\n",
--			 intel_uc_fw_type_repr(INTEL_UC_FW_TYPE_HUC),
--			 huc->fw.path,
--			 huc->fw.major_ver_found, huc->fw.minor_ver_found,
--			 "authenticated",
--			 yesno(intel_huc_is_authenticated(huc)));
--	}
--
- 	return 0;
- 
- 	/*
 -- 
-2.25.1
-
+With best wishes
+Dmitry
