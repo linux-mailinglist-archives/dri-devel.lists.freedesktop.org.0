@@ -1,31 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12704466E4D
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 01:06:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E33D466E4C
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 01:06:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 057266FD11;
-	Fri,  3 Dec 2021 00:06:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BB926FD0C;
+	Fri,  3 Dec 2021 00:06:47 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49CCD6FC9E;
- Fri,  3 Dec 2021 00:06:44 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10186"; a="224114168"
-X-IronPort-AV: E=Sophos;i="5.87,283,1631602800"; d="scan'208";a="224114168"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA1BA6FCFB;
+ Fri,  3 Dec 2021 00:06:41 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10186"; a="224114170"
+X-IronPort-AV: E=Sophos;i="5.87,283,1631602800"; d="scan'208";a="224114170"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  02 Dec 2021 16:06:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,283,1631602800"; d="scan'208";a="513445212"
+X-IronPort-AV: E=Sophos;i="5.87,283,1631602800"; d="scan'208";a="513445215"
 Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
  by orsmga008.jf.intel.com with ESMTP; 02 Dec 2021 16:06:23 -0800
 From: John.C.Harrison@Intel.com
 To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH 1/4] drm/i915/uc: Allow platforms to have GuC but not HuC
-Date: Thu,  2 Dec 2021 16:06:20 -0800
-Message-Id: <20211203000623.3086309-2-John.C.Harrison@Intel.com>
+Subject: [PATCH 2/4] drm/i915/guc: Request RP0 before loading firmware
+Date: Thu,  2 Dec 2021 16:06:21 -0800
+Message-Id: <20211203000623.3086309-3-John.C.Harrison@Intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211203000623.3086309-1-John.C.Harrison@Intel.com>
 References: <20211203000623.3086309-1-John.C.Harrison@Intel.com>
@@ -45,163 +45,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
+Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 
-It is possible for platforms to require GuC but not HuC firmware.
-Also, the firmware versions for GuC and HuC advance independently. So
-split the macros up to allow the lists to be maintained separately.
+By default, GT (and GuC) run at RPn. Requesting for RP0
+before firmware load can speed up DMA and HuC auth as well.
+In addition to writing to 0xA008, we also need to enable
+swreq in 0xA024 so that Punit will pay heed to our request.
 
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 93 ++++++++++++++++--------
- 1 file changed, 63 insertions(+), 30 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_rps.c   | 59 +++++++++++++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_rps.h   |  2 +
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c |  6 +++
+ drivers/gpu/drm/i915/i915_reg.h       |  4 ++
+ 4 files changed, 71 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-index 3aa87be4f2e4..a7788ce50736 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-@@ -48,22 +48,39 @@ void intel_uc_fw_change_status(struct intel_uc_fw *uc_fw,
-  * Note that RKL and ADL-S have the same GuC/HuC device ID's and use the same
-  * firmware as TGL.
-  */
--#define INTEL_UC_FIRMWARE_DEFS(fw_def, guc_def, huc_def) \
--	fw_def(ALDERLAKE_P, 0, guc_def(adlp, 62, 0, 3), huc_def(tgl, 7, 9, 3)) \
--	fw_def(ALDERLAKE_S, 0, guc_def(tgl, 62, 0, 0), huc_def(tgl,  7, 9, 3)) \
--	fw_def(DG1,         0, guc_def(dg1, 62, 0, 0), huc_def(dg1,  7, 9, 3)) \
--	fw_def(ROCKETLAKE,  0, guc_def(tgl, 62, 0, 0), huc_def(tgl,  7, 9, 3)) \
--	fw_def(TIGERLAKE,   0, guc_def(tgl, 62, 0, 0), huc_def(tgl,  7, 9, 3)) \
--	fw_def(JASPERLAKE,  0, guc_def(ehl, 62, 0, 0), huc_def(ehl,  9, 0, 0)) \
--	fw_def(ELKHARTLAKE, 0, guc_def(ehl, 62, 0, 0), huc_def(ehl,  9, 0, 0)) \
--	fw_def(ICELAKE,     0, guc_def(icl, 62, 0, 0), huc_def(icl,  9, 0, 0)) \
--	fw_def(COMETLAKE,   5, guc_def(cml, 62, 0, 0), huc_def(cml,  4, 0, 0)) \
--	fw_def(COMETLAKE,   0, guc_def(kbl, 62, 0, 0), huc_def(kbl,  4, 0, 0)) \
--	fw_def(COFFEELAKE,  0, guc_def(kbl, 62, 0, 0), huc_def(kbl,  4, 0, 0)) \
--	fw_def(GEMINILAKE,  0, guc_def(glk, 62, 0, 0), huc_def(glk,  4, 0, 0)) \
--	fw_def(KABYLAKE,    0, guc_def(kbl, 62, 0, 0), huc_def(kbl,  4, 0, 0)) \
--	fw_def(BROXTON,     0, guc_def(bxt, 62, 0, 0), huc_def(bxt,  2, 0, 0)) \
--	fw_def(SKYLAKE,     0, guc_def(skl, 62, 0, 0), huc_def(skl,  2, 0, 0))
-+#define INTEL_GUC_FIRMWARE_DEFS(fw_def, guc_def) \
-+	fw_def(ALDERLAKE_P,  0, guc_def(adlp, 62, 0, 3)) \
-+	fw_def(ALDERLAKE_S,  0, guc_def(tgl,  62, 0, 0)) \
-+	fw_def(DG1,          0, guc_def(dg1,  62, 0, 0)) \
-+	fw_def(ROCKETLAKE,   0, guc_def(tgl,  62, 0, 0)) \
-+	fw_def(TIGERLAKE,    0, guc_def(tgl,  62, 0, 0)) \
-+	fw_def(JASPERLAKE,   0, guc_def(ehl,  62, 0, 0)) \
-+	fw_def(ELKHARTLAKE,  0, guc_def(ehl,  62, 0, 0)) \
-+	fw_def(ICELAKE,      0, guc_def(icl,  62, 0, 0)) \
-+	fw_def(COMETLAKE,    5, guc_def(cml,  62, 0, 0)) \
-+	fw_def(COMETLAKE,    0, guc_def(kbl,  62, 0, 0)) \
-+	fw_def(COFFEELAKE,   0, guc_def(kbl,  62, 0, 0)) \
-+	fw_def(GEMINILAKE,   0, guc_def(glk,  62, 0, 0)) \
-+	fw_def(KABYLAKE,     0, guc_def(kbl,  62, 0, 0)) \
-+	fw_def(BROXTON,      0, guc_def(bxt,  62, 0, 0)) \
-+	fw_def(SKYLAKE,      0, guc_def(skl,  62, 0, 0))
+diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
+index 07ff7ba7b2b7..4f7fe079ed4a 100644
+--- a/drivers/gpu/drm/i915/gt/intel_rps.c
++++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+@@ -2226,6 +2226,65 @@ u32 intel_rps_read_state_cap(struct intel_rps *rps)
+ 		return intel_uncore_read(uncore, GEN6_RP_STATE_CAP);
+ }
+ 
++static void intel_rps_set_manual(struct intel_rps *rps, bool enable)
++{
++	struct intel_uncore *uncore = rps_to_uncore(rps);
++	u32 state = enable ? GEN9_RPSWCTL_ENABLE : GEN9_RPSWCTL_DISABLE;
 +
-+#define INTEL_HUC_FIRMWARE_DEFS(fw_def, huc_def) \
-+	fw_def(ALDERLAKE_P,  0, huc_def(tgl,  7, 9, 3)) \
-+	fw_def(ALDERLAKE_S,  0, huc_def(tgl,  7, 9, 3)) \
-+	fw_def(DG1,          0, huc_def(dg1,  7, 9, 3)) \
-+	fw_def(ROCKETLAKE,   0, huc_def(tgl,  7, 9, 3)) \
-+	fw_def(TIGERLAKE,    0, huc_def(tgl,  7, 9, 3)) \
-+	fw_def(JASPERLAKE,   0, huc_def(ehl,  9, 0, 0)) \
-+	fw_def(ELKHARTLAKE,  0, huc_def(ehl,  9, 0, 0)) \
-+	fw_def(ICELAKE,      0, huc_def(icl,  9, 0, 0)) \
-+	fw_def(COMETLAKE,    5, huc_def(cml,  4, 0, 0)) \
-+	fw_def(COMETLAKE,    0, huc_def(kbl,  4, 0, 0)) \
-+	fw_def(COFFEELAKE,   0, huc_def(kbl,  4, 0, 0)) \
-+	fw_def(GEMINILAKE,   0, huc_def(glk,  4, 0, 0)) \
-+	fw_def(KABYLAKE,     0, huc_def(kbl,  4, 0, 0)) \
-+	fw_def(BROXTON,      0, huc_def(bxt,  2, 0, 0)) \
-+	fw_def(SKYLAKE,      0, huc_def(skl,  2, 0, 0))
- 
- #define __MAKE_UC_FW_PATH(prefix_, name_, major_, minor_, patch_) \
- 	"i915/" \
-@@ -79,11 +96,11 @@ void intel_uc_fw_change_status(struct intel_uc_fw *uc_fw,
- 	__MAKE_UC_FW_PATH(prefix_, "_huc_", major_, minor_, bld_num_)
- 
- /* All blobs need to be declared via MODULE_FIRMWARE() */
--#define INTEL_UC_MODULE_FW(platform_, revid_, guc_, huc_) \
--	MODULE_FIRMWARE(guc_); \
--	MODULE_FIRMWARE(huc_);
-+#define INTEL_UC_MODULE_FW(platform_, revid_, uc_) \
-+	MODULE_FIRMWARE(uc_);
- 
--INTEL_UC_FIRMWARE_DEFS(INTEL_UC_MODULE_FW, MAKE_GUC_FW_PATH, MAKE_HUC_FW_PATH)
-+INTEL_GUC_FIRMWARE_DEFS(INTEL_UC_MODULE_FW, MAKE_GUC_FW_PATH)
-+INTEL_HUC_FIRMWARE_DEFS(INTEL_UC_MODULE_FW, MAKE_HUC_FW_PATH)
- 
- /* The below structs and macros are used to iterate across the list of blobs */
- struct __packed uc_fw_blob {
-@@ -106,31 +123,47 @@ struct __packed uc_fw_blob {
- struct __packed uc_fw_platform_requirement {
- 	enum intel_platform p;
- 	u8 rev; /* first platform rev using this FW */
--	const struct uc_fw_blob blobs[INTEL_UC_FW_NUM_TYPES];
-+	const struct uc_fw_blob blob;
- };
- 
--#define MAKE_FW_LIST(platform_, revid_, guc_, huc_) \
-+#define MAKE_FW_LIST(platform_, revid_, uc_) \
- { \
- 	.p = INTEL_##platform_, \
- 	.rev = revid_, \
--	.blobs[INTEL_UC_FW_TYPE_GUC] = guc_, \
--	.blobs[INTEL_UC_FW_TYPE_HUC] = huc_, \
-+	.blob = uc_, \
- },
- 
-+struct fw_blobs_by_type {
-+	const struct uc_fw_platform_requirement *blobs;
-+	u32 count;
-+};
++	if (enable)
++		intel_rps_clear_timer(rps);
 +
- static void
- __uc_fw_auto_select(struct drm_i915_private *i915, struct intel_uc_fw *uc_fw)
- {
--	static const struct uc_fw_platform_requirement fw_blobs[] = {
--		INTEL_UC_FIRMWARE_DEFS(MAKE_FW_LIST, GUC_FW_BLOB, HUC_FW_BLOB)
-+	static const struct uc_fw_platform_requirement blobs_guc[] = {
-+		INTEL_GUC_FIRMWARE_DEFS(MAKE_FW_LIST, GUC_FW_BLOB)
-+	};
-+	static const struct uc_fw_platform_requirement blobs_huc[] = {
-+		INTEL_HUC_FIRMWARE_DEFS(MAKE_FW_LIST, HUC_FW_BLOB)
- 	};
-+	static const struct fw_blobs_by_type blobs_all[INTEL_UC_FW_NUM_TYPES] = {
-+		[INTEL_UC_FW_TYPE_GUC] = { blobs_guc, ARRAY_SIZE(blobs_guc) },
-+		[INTEL_UC_FW_TYPE_HUC] = { blobs_huc, ARRAY_SIZE(blobs_huc) },
-+	};
-+	static const struct uc_fw_platform_requirement *fw_blobs;
- 	enum intel_platform p = INTEL_INFO(i915)->platform;
-+	u32 fw_count;
- 	u8 rev = INTEL_REVID(i915);
- 	int i;
- 
--	for (i = 0; i < ARRAY_SIZE(fw_blobs) && p <= fw_blobs[i].p; i++) {
-+	GEM_BUG_ON(uc_fw->type >= ARRAY_SIZE(blobs_all));
-+	fw_blobs = blobs_all[uc_fw->type].blobs;
-+	fw_count = blobs_all[uc_fw->type].count;
++	/* Allow punit to process software requests */
++	intel_uncore_write(uncore, GEN6_RP_CONTROL, state);
 +
-+	for (i = 0; i < fw_count && p <= fw_blobs[i].p; i++) {
- 		if (p == fw_blobs[i].p && rev >= fw_blobs[i].rev) {
--			const struct uc_fw_blob *blob =
--					&fw_blobs[i].blobs[uc_fw->type];
-+			const struct uc_fw_blob *blob = &fw_blobs[i].blob;
- 			uc_fw->path = blob->path;
- 			uc_fw->major_ver_wanted = blob->major;
- 			uc_fw->minor_ver_wanted = blob->minor;
-@@ -140,7 +173,7 @@ __uc_fw_auto_select(struct drm_i915_private *i915, struct intel_uc_fw *uc_fw)
++	if (!enable)
++		intel_rps_set_timer(rps);
++}
++
++void intel_rps_raise_unslice(struct intel_rps *rps)
++{
++	struct intel_uncore *uncore = rps_to_uncore(rps);
++	u32 rp0_unslice_req;
++
++	intel_rps_set_manual(rps, true);
++
++	/* RP limits have not been read yet */
++	if (!rps->rp0_freq)
++		rp0_unslice_req = ((intel_rps_read_state_cap(rps) >> 0)
++				   & 0xff) * GEN9_FREQ_SCALER;
++	else
++		rp0_unslice_req = rps->rp0_freq;
++
++	intel_uncore_write(uncore, GEN6_RPNSWREQ,
++			   ((rp0_unslice_req <<
++			   GEN9_SW_REQ_UNSLICE_RATIO_SHIFT) |
++			   GEN9_IGNORE_SLICE_RATIO));
++
++	intel_rps_set_manual(rps, false);
++}
++
++void intel_rps_lower_unslice(struct intel_rps *rps)
++{
++	struct intel_uncore *uncore = rps_to_uncore(rps);
++	u32 rpn_unslice_req;
++
++	intel_rps_set_manual(rps, true);
++
++	/* RP limits have not been read yet */
++	if (!rps->min_freq)
++		rpn_unslice_req = ((intel_rps_read_state_cap(rps) >> 16)
++				   & 0xff) * GEN9_FREQ_SCALER;
++	else
++		rpn_unslice_req = rps->min_freq;
++
++	intel_uncore_write(uncore, GEN6_RPNSWREQ,
++			   ((rpn_unslice_req <<
++			   GEN9_SW_REQ_UNSLICE_RATIO_SHIFT) |
++			   GEN9_IGNORE_SLICE_RATIO));
++
++	intel_rps_set_manual(rps, false);
++}
++
+ /* External interface for intel_ips.ko */
  
- 	/* make sure the list is ordered as expected */
- 	if (IS_ENABLED(CONFIG_DRM_I915_SELFTEST)) {
--		for (i = 1; i < ARRAY_SIZE(fw_blobs); i++) {
-+		for (i = 1; i < fw_count; i++) {
- 			if (fw_blobs[i].p < fw_blobs[i - 1].p)
- 				continue;
+ static struct drm_i915_private __rcu *ips_mchdev;
+diff --git a/drivers/gpu/drm/i915/gt/intel_rps.h b/drivers/gpu/drm/i915/gt/intel_rps.h
+index aee12f37d38a..c6d76a3d1331 100644
+--- a/drivers/gpu/drm/i915/gt/intel_rps.h
++++ b/drivers/gpu/drm/i915/gt/intel_rps.h
+@@ -45,6 +45,8 @@ u32 intel_rps_get_rpn_frequency(struct intel_rps *rps);
+ u32 intel_rps_read_punit_req(struct intel_rps *rps);
+ u32 intel_rps_read_punit_req_frequency(struct intel_rps *rps);
+ u32 intel_rps_read_state_cap(struct intel_rps *rps);
++void intel_rps_raise_unslice(struct intel_rps *rps);
++void intel_rps_lower_unslice(struct intel_rps *rps);
  
+ void gen5_rps_irq_handler(struct intel_rps *rps);
+ void gen6_rps_irq_handler(struct intel_rps *rps, u32 pm_iir);
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+index 2fef3b0bbe95..ed7180b79a6f 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+@@ -8,6 +8,7 @@
+ #include "intel_guc.h"
+ #include "intel_guc_ads.h"
+ #include "intel_guc_submission.h"
++#include "gt/intel_rps.h"
+ #include "intel_uc.h"
+ 
+ #include "i915_drv.h"
+@@ -462,6 +463,8 @@ static int __uc_init_hw(struct intel_uc *uc)
+ 	else
+ 		attempts = 1;
+ 
++	intel_rps_raise_unslice(&uc_to_gt(uc)->rps);
++
+ 	while (attempts--) {
+ 		/*
+ 		 * Always reset the GuC just before (re)loading, so
+@@ -529,6 +532,9 @@ static int __uc_init_hw(struct intel_uc *uc)
+ err_log_capture:
+ 	__uc_capture_load_err_log(uc);
+ err_out:
++	/* Return GT back to RPn */
++	intel_rps_lower_unslice(&uc_to_gt(uc)->rps);
++
+ 	__uc_sanitize(uc);
+ 
+ 	if (!ret) {
+diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+index 3450818802c2..229d33a65891 100644
+--- a/drivers/gpu/drm/i915/i915_reg.h
++++ b/drivers/gpu/drm/i915/i915_reg.h
+@@ -9415,6 +9415,7 @@ enum {
+ #define   GEN6_OFFSET(x)			((x) << 19)
+ #define   GEN6_AGGRESSIVE_TURBO			(0 << 15)
+ #define   GEN9_SW_REQ_UNSLICE_RATIO_SHIFT	23
++#define   GEN9_IGNORE_SLICE_RATIO		(0 << 0)
+ 
+ #define GEN6_RC_VIDEO_FREQ			_MMIO(0xA00C)
+ #define GEN6_RC_CONTROL				_MMIO(0xA090)
+@@ -9450,6 +9451,9 @@ enum {
+ #define   GEN6_RP_UP_BUSY_CONT			(0x4 << 3)
+ #define   GEN6_RP_DOWN_IDLE_AVG			(0x2 << 0)
+ #define   GEN6_RP_DOWN_IDLE_CONT		(0x1 << 0)
++#define   GEN6_RPSWCTL_SHIFT			9
++#define   GEN9_RPSWCTL_ENABLE			(0x2 << GEN6_RPSWCTL_SHIFT)
++#define   GEN9_RPSWCTL_DISABLE			(0x0 << GEN6_RPSWCTL_SHIFT)
+ #define GEN6_RP_UP_THRESHOLD			_MMIO(0xA02C)
+ #define GEN6_RP_DOWN_THRESHOLD			_MMIO(0xA030)
+ #define GEN6_RP_CUR_UP_EI			_MMIO(0xA050)
 -- 
 2.25.1
 
