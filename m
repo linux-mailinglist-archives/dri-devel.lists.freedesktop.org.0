@@ -2,77 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EF16467A1B
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 16:13:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7CCD467A32
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 16:24:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 727E26E21A;
-	Fri,  3 Dec 2021 15:13:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03D076F5E1;
+	Fri,  3 Dec 2021 15:24:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pio-pvt-msa1.bahnhof.se (pio-pvt-msa1.bahnhof.se [79.136.2.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A3936E21A;
- Fri,  3 Dec 2021 15:13:14 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 8C3273F4B4;
- Fri,  3 Dec 2021 16:13:12 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -3.189
-X-Spam-Level: 
-X-Spam-Status: No, score=-3.189 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.09,
- URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
-Authentication-Results: pio-pvt-msa1.bahnhof.se (amavisd-new);
- dkim=pass (1024-bit key) header.d=shipmail.org
-Received: from pio-pvt-msa1.bahnhof.se ([127.0.0.1])
- by localhost (pio-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id FqDGDIDgag9V; Fri,  3 Dec 2021 16:13:11 +0100 (CET)
-Received: by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 729203F449;
- Fri,  3 Dec 2021 16:13:10 +0100 (CET)
-Received: from [192.168.0.209] (unknown [192.55.54.50])
- by mail1.shipmail.org (Postfix) with ESMTPSA id A57E3362AD7;
- Fri,  3 Dec 2021 16:13:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1638544390; bh=R6orVX9tGpTYIIPRlGHucB/HyXpm9/hllXlfKl4zCY0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=AhnOFHr8dzshTkySo43N2LqpVEKiaeOyzvZzIN++fCgmHOjYHvVHoM4KTLUyW2071
- b3oOb9ogXF8J2FPtCH/PNx/gca7YoR8goF9LiTz4xtTLVlT8imjSsX0f7HAyYdNmQg
- qyNvN8JWYpz5xAtjOHNJ++i1tASVOBtkAPs5OZGg=
-Message-ID: <962a5319-62b5-00f5-a987-80d8abd75ece@shipmail.org>
-Date: Fri, 3 Dec 2021 16:13:02 +0100
+Received: from mta-p5.oit.umn.edu (mta-p5.oit.umn.edu [134.84.196.205])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4213E6F5E1
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Dec 2021 15:24:01 +0000 (UTC)
+Received: from localhost (unknown [127.0.0.1])
+ by mta-p5.oit.umn.edu (Postfix) with ESMTP id 4J5GnW28NGz9vpQP
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Dec 2021 15:23:59 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at umn.edu
+Received: from mta-p5.oit.umn.edu ([127.0.0.1])
+ by localhost (mta-p5.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 5w5Lq-CJCpQb for <dri-devel@lists.freedesktop.org>;
+ Fri,  3 Dec 2021 09:23:59 -0600 (CST)
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mta-p5.oit.umn.edu (Postfix) with ESMTPS id 4J5GnV734lz9vpQB
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Dec 2021 09:23:58 -0600 (CST)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p5.oit.umn.edu 4J5GnV734lz9vpQB
+DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p5.oit.umn.edu 4J5GnV734lz9vpQB
+Received: by mail-pj1-f71.google.com with SMTP id
+ l10-20020a17090a4d4a00b001a6f817f57eso1959716pjh.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Dec 2021 07:23:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=umn.edu; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=cLGGvUHQifyobmz3LmGMV247Dhq0W2shJ3e+qEVTIds=;
+ b=TNPaDNzF3K1VhbVDf4I1R5nZaBqAX6g77HbzJdKGnY8RO6IY/AyhqsDuO2Od0a5tu3
+ LEKGoEXrT5vTDVyMVrFBWynlxEK2wRyn/TLPqShENHAhrIjwNg4+dKtb9Io5Zsfg0NLA
+ V7DopEhSs1IF4LyxnB6EVfDotiDVjzndgeHRNxPemnaxHf/JWtcwFPelz6GdIfkQZHJ1
+ 1GkeAl/xxISXAv7T+cAYvg27PuVHwZXGkKRyM1tL18KQlU2pgq9z/0zx14B5Dx48zDca
+ S0K1ywGE3yLPfsFmguVhVzkzuebFcbBPMzbqadlkVCiGsy7mlvlDaeLBIfN5DrDlJvLq
+ o2mA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=cLGGvUHQifyobmz3LmGMV247Dhq0W2shJ3e+qEVTIds=;
+ b=NPpIRG3fwoAV7JjC/X5vf0oXtYc1HQMefZgBCQXp8g5fgmHd4XmJ5X2qf+9lbZihb0
+ L5AkRAdDaaVRz4z/ARTNQW2RErVtPqLwP0ggmCnzV36OpeZAa/X47/VOu8lHgUS/xCEY
+ RHkl8j6dchy3uAi78DgZJJAxP5H1fpAaL9+EUB9PfyWMV7jO8rib5W4AymWYCaZf2Mn4
+ DulcdTPbujh9mhjGr/sn8KBVdq65R/hijRusA4JBz9/bdwDLJ0wM6wStIELUHCz42aCs
+ WFt3LDHLGykwDkE755QvluDstUCY9o1zL1vUaWQIGVcYKV7O3Y44bu23u8W3vrSC5cfi
+ HpNA==
+X-Gm-Message-State: AOAM5321N061i9nvM42CPdrS3kLutdZ2+5EZdie8HNpGKd+Jn3Cbrxw2
+ dDror32QTzhjWbA8seApuegDjPRMT/wUJai+KvaVlN8sbxGGRQZGBx43QfQO6TMTiKAKS3/RIfJ
+ OVaa4uZI7M0HMwz3WBufr0cyP4+oUhfBV
+X-Received: by 2002:a17:90b:1d03:: with SMTP id
+ on3mr1285023pjb.68.1638545037866; 
+ Fri, 03 Dec 2021 07:23:57 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwjkihQgC/+XOXAxkIe19mpdvtqNj0OFzj+orHDGdZiV+ukP/97LX7BCjS9Dn2qd5/hJVGyUw==
+X-Received: by 2002:a17:90b:1d03:: with SMTP id
+ on3mr1284989pjb.68.1638545037601; 
+ Fri, 03 Dec 2021 07:23:57 -0800 (PST)
+Received: from zqy787-GE5S.lan ([36.4.93.212])
+ by smtp.gmail.com with ESMTPSA id z4sm3550613pfg.101.2021.12.03.07.23.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Dec 2021 07:23:57 -0800 (PST)
+From: Zhou Qingyang <zhou1615@umn.edu>
+To: zhou1615@umn.edu
+Subject: [PATCH v2] drm/radeon/radeon_connectors: Fix a NULL pointer
+ dereference in radeon_fp_native_mode()
+Date: Fri,  3 Dec 2021 23:23:50 +0800
+Message-Id: <20211203152350.105099-1-zhou1615@umn.edu>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <CADnq5_ONy+=6ufko6aBiTDwBsUuRGqqJxcDvNmAEoELUMJMxWw@mail.gmail.com>
+References: <CADnq5_ONy+=6ufko6aBiTDwBsUuRGqqJxcDvNmAEoELUMJMxWw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [Linaro-mm-sig] [RFC PATCH 1/2] dma-fence: Avoid establishing a
- locking order between fence classes
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20211130121936.586031-1-thomas.hellstrom@linux.intel.com>
- <29d096c91d720fbe5d410124580a02b663155b56.camel@linux.intel.com>
- <250a8e47-2093-1a98-3859-0204ec4e60e6@amd.com>
- <712b54fa1c09ae5cc1d75739ad8a7286f1dae8db.camel@linux.intel.com>
- <49cf2d43-9a8a-7738-0889-7e16b0256249@linux.intel.com>
- <193e36bd-ba64-1358-8178-73ee3afc3c41@amd.com>
- <c9109ec6-4265-ba8f-238f-4c793d076825@shipmail.org>
- <d1ada94c-88d3-d34d-9c51-0d427c3aca06@amd.com>
- <7ef3db03-8ae2-d886-2c39-36f661cac9a6@shipmail.org>
- <4805074d-7039-3eaf-eb5d-5797278b7f31@amd.com>
- <94435e0e-01db-5ae4-e424-64f73a09199f@shipmail.org>
- <a4df4d5f-ea74-8725-aca9-d0edae986e5c@amd.com>
- <fb9f50e2-aeba-6138-0cc0-aed252dc876d@shipmail.org>
- <8a7dbf22-727d-c1ec-1d3f-75e23394fee8@amd.com>
- <d4a9cb5a554ffc3af3d30ecacad6e57533eb7f3b.camel@linux.intel.com>
- <f8f1500c-170d-ccf9-ac2d-1484bbdc587e@amd.com>
- <96eca78d-2b92-cce0-0aee-2d5f72c26bdf@linux.intel.com>
- <4d3c9eb5-f093-84c9-47da-ee27630ee646@amd.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-In-Reply-To: <4d3c9eb5-f093-84c9-47da-ee27630ee646@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,79 +89,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, matthew.auld@intel.com
+Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ kjlu@umn.edu, linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Dave Airlie <airlied@redhat.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+In radeon_fp_native_mode(), the return value of drm_mode_duplicate() is
+assigned to mode and there is a dereference of it in
+radeon_fp_native_mode(), which could lead to a NULL pointer
+dereference on failure of drm_mode_duplicate().
 
-On 12/3/21 16:00, Christian König wrote:
-> Am 03.12.21 um 15:50 schrieb Thomas Hellström:
->>
->> On 12/3/21 15:26, Christian König wrote:
->>> [Adding Daniel here as well]
->>>
->>> Am 03.12.21 um 15:18 schrieb Thomas Hellström:
->>>> [SNIP]
->>>>> Well that's ok as well. My question is why does this single dma_fence
->>>>> then shows up in the dma_fence_chain representing the whole
->>>>> migration?
->>>> What we'd like to happen during eviction is that we
->>>>
->>>> 1) await any exclusive- or moving fences, then schedule the migration
->>>> blit. The blit manages its own GPU ptes. Results in a single fence.
->>>> 2) Schedule unbind of any gpu vmas, resulting possibly in multiple
->>>> fences.
->>>> 3) Most but not all of the remaining resv shared fences will have been
->>>> finished in 2) We can't easily tell which so we have a couple of 
->>>> shared
->>>> fences left.
->>>
->>> Stop, wait a second here. We are going a bit in circles.
->>>
->>> Before you migrate a buffer, you *MUST* wait for all shared fences 
->>> to complete. This is documented mandatory DMA-buf behavior.
->>>
->>> Daniel and I have discussed that quite extensively in the last few 
->>> month.
->>>
->>> So how does it come that you do the blit before all shared fences 
->>> are completed?
->>
->> Well we don't currently but wanted to... (I haven't consulted Daniel 
->> in the matter, tbh).
->>
->> I was under the impression that all writes would add an exclusive 
->> fence to the dma_resv.
->
-> Yes that's correct. I'm working on to have more than one write fence, 
-> but that is currently under review.
->
->> If that's not the case or this is otherwise against the mandatory 
->> DMA-buf bevhavior, we can certainly keep that part as is and that 
->> would eliminate 3).
->
-> Ah, now that somewhat starts to make sense.
->
-> So your blit only waits for the writes to finish before starting the 
-> blit. Yes that's legal as long as you don't change the original 
-> content with the blit.
->
-> But don't you then need to wait for both reads and writes before you 
-> unmap the VMAs?
+Fix this bug by adding a check of mode.
 
-Yes, but that's planned to be done all async, and those unbind jobs are 
-scheduled simultaneosly with the blit, and the blit itself manages its 
-own page-table-entries, so no need to unbind any blit vmas.
+This bug was found by a static analyzer. The analysis employs
+differential checking to identify inconsistent security operations
+(e.g., checks or kfrees) between two code paths and confirms that the
+inconsistent operations are not recovered in the current function or
+the callers, so they constitute bugs.
 
->
-> Anyway the good news is your problem totally goes away with the 
-> DMA-resv rework I've already send out. Basically it is now possible to 
-> have more than one fence in the DMA-resv object for migrations and all 
-> existing fences are kept around until they are finished.
+Note that, as a bug found by static analysis, it can be a false
+positive or hard to trigger. Multiple researchers have cross-reviewed
+the bug.
 
-Sounds good.
+Builds with CONFIG_DRM_RADEON=m show no new warnings,
+and our static analyzer no longer warns about this code.
 
-Thanks,
+Fixes: d2efdf6d6f42 ("drm/radeon/kms: add cvt mode if we only have lvds w/h and no edid (v4)")
+Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
+---
+Changes in v2:
+  -  Add a similar check in else clause
 
-Thomas
+ drivers/gpu/drm/radeon/radeon_connectors.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm/radeon/radeon_connectors.c
+index 607ad5620bd9..7953830cc8b5 100644
+--- a/drivers/gpu/drm/radeon/radeon_connectors.c
++++ b/drivers/gpu/drm/radeon/radeon_connectors.c
+@@ -473,6 +473,9 @@ static struct drm_display_mode *radeon_fp_native_mode(struct drm_encoder *encode
+ 	    native_mode->vdisplay != 0 &&
+ 	    native_mode->clock != 0) {
+ 		mode = drm_mode_duplicate(dev, native_mode);
++		if (!mode)
++			return NULL;
++
+ 		mode->type = DRM_MODE_TYPE_PREFERRED | DRM_MODE_TYPE_DRIVER;
+ 		drm_mode_set_name(mode);
+ 
+@@ -487,6 +490,9 @@ static struct drm_display_mode *radeon_fp_native_mode(struct drm_encoder *encode
+ 		 * simpler.
+ 		 */
+ 		mode = drm_cvt_mode(dev, native_mode->hdisplay, native_mode->vdisplay, 60, true, false, false);
++		if (!mode)
++			return NULL;
++
+ 		mode->type = DRM_MODE_TYPE_PREFERRED | DRM_MODE_TYPE_DRIVER;
+ 		DRM_DEBUG_KMS("Adding cvt approximation of native panel mode %s\n", mode->name);
+ 	}
+-- 
+2.25.1
 
