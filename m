@@ -1,82 +1,117 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7CCD467A32
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 16:24:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6E20467A41
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 16:29:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03D076F5E1;
-	Fri,  3 Dec 2021 15:24:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2780772FF3;
+	Fri,  3 Dec 2021 15:29:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mta-p5.oit.umn.edu (mta-p5.oit.umn.edu [134.84.196.205])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4213E6F5E1
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Dec 2021 15:24:01 +0000 (UTC)
-Received: from localhost (unknown [127.0.0.1])
- by mta-p5.oit.umn.edu (Postfix) with ESMTP id 4J5GnW28NGz9vpQP
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Dec 2021 15:23:59 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at umn.edu
-Received: from mta-p5.oit.umn.edu ([127.0.0.1])
- by localhost (mta-p5.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5w5Lq-CJCpQb for <dri-devel@lists.freedesktop.org>;
- Fri,  3 Dec 2021 09:23:59 -0600 (CST)
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mta-p5.oit.umn.edu (Postfix) with ESMTPS id 4J5GnV734lz9vpQB
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Dec 2021 09:23:58 -0600 (CST)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p5.oit.umn.edu 4J5GnV734lz9vpQB
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p5.oit.umn.edu 4J5GnV734lz9vpQB
-Received: by mail-pj1-f71.google.com with SMTP id
- l10-20020a17090a4d4a00b001a6f817f57eso1959716pjh.3
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Dec 2021 07:23:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=umn.edu; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=cLGGvUHQifyobmz3LmGMV247Dhq0W2shJ3e+qEVTIds=;
- b=TNPaDNzF3K1VhbVDf4I1R5nZaBqAX6g77HbzJdKGnY8RO6IY/AyhqsDuO2Od0a5tu3
- LEKGoEXrT5vTDVyMVrFBWynlxEK2wRyn/TLPqShENHAhrIjwNg4+dKtb9Io5Zsfg0NLA
- V7DopEhSs1IF4LyxnB6EVfDotiDVjzndgeHRNxPemnaxHf/JWtcwFPelz6GdIfkQZHJ1
- 1GkeAl/xxISXAv7T+cAYvg27PuVHwZXGkKRyM1tL18KQlU2pgq9z/0zx14B5Dx48zDca
- S0K1ywGE3yLPfsFmguVhVzkzuebFcbBPMzbqadlkVCiGsy7mlvlDaeLBIfN5DrDlJvLq
- o2mA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=cLGGvUHQifyobmz3LmGMV247Dhq0W2shJ3e+qEVTIds=;
- b=NPpIRG3fwoAV7JjC/X5vf0oXtYc1HQMefZgBCQXp8g5fgmHd4XmJ5X2qf+9lbZihb0
- L5AkRAdDaaVRz4z/ARTNQW2RErVtPqLwP0ggmCnzV36OpeZAa/X47/VOu8lHgUS/xCEY
- RHkl8j6dchy3uAi78DgZJJAxP5H1fpAaL9+EUB9PfyWMV7jO8rib5W4AymWYCaZf2Mn4
- DulcdTPbujh9mhjGr/sn8KBVdq65R/hijRusA4JBz9/bdwDLJ0wM6wStIELUHCz42aCs
- WFt3LDHLGykwDkE755QvluDstUCY9o1zL1vUaWQIGVcYKV7O3Y44bu23u8W3vrSC5cfi
- HpNA==
-X-Gm-Message-State: AOAM5321N061i9nvM42CPdrS3kLutdZ2+5EZdie8HNpGKd+Jn3Cbrxw2
- dDror32QTzhjWbA8seApuegDjPRMT/wUJai+KvaVlN8sbxGGRQZGBx43QfQO6TMTiKAKS3/RIfJ
- OVaa4uZI7M0HMwz3WBufr0cyP4+oUhfBV
-X-Received: by 2002:a17:90b:1d03:: with SMTP id
- on3mr1285023pjb.68.1638545037866; 
- Fri, 03 Dec 2021 07:23:57 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwjkihQgC/+XOXAxkIe19mpdvtqNj0OFzj+orHDGdZiV+ukP/97LX7BCjS9Dn2qd5/hJVGyUw==
-X-Received: by 2002:a17:90b:1d03:: with SMTP id
- on3mr1284989pjb.68.1638545037601; 
- Fri, 03 Dec 2021 07:23:57 -0800 (PST)
-Received: from zqy787-GE5S.lan ([36.4.93.212])
- by smtp.gmail.com with ESMTPSA id z4sm3550613pfg.101.2021.12.03.07.23.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Dec 2021 07:23:57 -0800 (PST)
-From: Zhou Qingyang <zhou1615@umn.edu>
-To: zhou1615@umn.edu
-Subject: [PATCH v2] drm/radeon/radeon_connectors: Fix a NULL pointer
- dereference in radeon_fp_native_mode()
-Date: Fri,  3 Dec 2021 23:23:50 +0800
-Message-Id: <20211203152350.105099-1-zhou1615@umn.edu>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <CADnq5_ONy+=6ufko6aBiTDwBsUuRGqqJxcDvNmAEoELUMJMxWw@mail.gmail.com>
-References: <CADnq5_ONy+=6ufko6aBiTDwBsUuRGqqJxcDvNmAEoELUMJMxWw@mail.gmail.com>
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2049.outbound.protection.outlook.com [40.107.244.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59DB872D23;
+ Fri,  3 Dec 2021 15:29:09 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YtQxxN3l2oE+TdDeIl+WSjiBA99XVAO4IEXCPQSFfKNV+RT+vDLcQ4lMxpadeKWiHOf3rN2B+UC8qiYmp3A8glfwBXGsq+wZZYLXMHT8aWXioQcdkjRCGXzPjHPHKaHfEASY2rxYwNI03YvNwswImaZtslVZmjZ9Uzc9IccxI14AcgcR4A4nsRow/80fF59UdWdAFiwTuiUmzrGBlrebLH/hgUdc2XnnvBgnKgw9uQMvdS+F1ClTRgAtUInBurS3yEUEd5/bVYo0fpQwmq745vkjxqyyBwKtPbeiEU2t9+seFN3UW4MOYJP32P1c1unc9jnUtpvgEcLYM7IbvkFYpQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Khsr9MXi1rbi4JSXYq6FxPr62e+v6Cqmor5PpGgZjZI=;
+ b=WoqBOo4/pjNLpkwC+EO2PWtVk+u4t1XnydPEX33wL56pthd4vyf2IOPJvgttT/ZQ9+tG1JicsrEuy00kaDWB5gQbGIJL0hOB36FceaM8/CyCDoIrREMFsUT43b7tqcX3uTwv7S/Lyzi2Dxu2OyGw/w2La+AFqJGbgY+kqi0yC+XZmLyflYqQ223Iiiulhr70QQFWSWFoQIGU5icFKqMURZkM7UKs4M8tPqi4jMe77FSv2y6nfFCLDsLGPjqarsCGaYYBphDi+oAy4knSkEHZhNcXbsaGhFwtEDSo1Kl3HVsFtfCYEptEv0s8r+4xlyafblptapWk1r7b0QOGyIQ8xg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Khsr9MXi1rbi4JSXYq6FxPr62e+v6Cqmor5PpGgZjZI=;
+ b=VAS+YbmV4qYypsPpcucQDsCzKhS8Ppndz48bDsFoXTnUvCFr0Tvdus9ZidhK+OBNt/OCIf2UzW/D59Gelb75HnUTbDDsx5WeiLJfbUJkDdddqmeo2+OSH0flN5hLzgm4wjVEHE5Sp3YzHs8G9pejCqbKhWb8w9vG5z/hh/VzEGJ0p5UPbWvorMcEZLAt5KAcJLgOVpiLwPxANAJIwrwb+mQVncpnda2Em3mg1DsqjDzE3V66CvXquSCN9yuiYkShgEOGjidYDdDRfMLW7G2VAL2GdvSkL9Juma/RaJzQYXeUIG5VxPMFXBsuico8Wx/Ze38uv9rIT0aylBJZoi/B8Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM8PR12MB5413.namprd12.prod.outlook.com (2603:10b6:8:3b::8) by
+ DM8PR12MB5495.namprd12.prod.outlook.com (2603:10b6:8:33::12) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4734.24; Fri, 3 Dec 2021 15:29:06 +0000
+Received: from DM8PR12MB5413.namprd12.prod.outlook.com
+ ([fe80::ca2:b395:c666:f5ff]) by DM8PR12MB5413.namprd12.prod.outlook.com
+ ([fe80::ca2:b395:c666:f5ff%3]) with mapi id 15.20.4755.019; Fri, 3 Dec 2021
+ 15:29:06 +0000
+Date: Fri, 3 Dec 2021 16:28:56 +0100
+From: Thierry Reding <treding@nvidia.com>
+To: Kees Cook <keescook@chromium.org>
+Subject: Re: [PATCH v2] drm/dp: Actually read Adjust Request Post Cursor2
+ register
+Message-ID: <Yao3uMmXM+IvrVrF@orome.fritz.box>
+References: <20211203092517.3592532-1-keescook@chromium.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="VkIp7FKiDawaU8EY"
+Content-Disposition: inline
+In-Reply-To: <20211203092517.3592532-1-keescook@chromium.org>
+X-NVConfidentiality: public
+User-Agent: Mutt/2.1.3 (987dde4c) (2021-09-10)
+X-ClientProxiedBy: AS9PR07CA0010.eurprd07.prod.outlook.com
+ (2603:10a6:20b:46c::32) To DM8PR12MB5413.namprd12.prod.outlook.com
+ (2603:10b6:8:3b::8)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from orome.fritz.box (193.209.96.43) by
+ AS9PR07CA0010.eurprd07.prod.outlook.com (2603:10a6:20b:46c::32) with
+ Microsoft SMTP Server (version=TLS1_2, cipher=) via Frontend Transport;
+ Fri, 3 Dec 2021 15:29:02 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b4495b6d-2833-4694-325e-08d9b671a4de
+X-MS-TrafficTypeDiagnostic: DM8PR12MB5495:
+X-Microsoft-Antispam-PRVS: <DM8PR12MB549571F1B995D3D0B50D1D10CF6A9@DM8PR12MB5495.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: yKTC3G9QJjLoPXlgJFzTW37568jndbo8VVRyL7hvc6Ejv3WqVWOS8LkFhsAQFssh8dyQqleIvoEGb0VdIvpn7IxqJ0hD+hGlLSEJRJkLxCZ8UzW0+SM5o0YLmRzVrpjxGSqKuPZcLQte8WaNubMbMLS164YybGGgvrKSYRX8I3Wp5iAPVgSWxIyaNQJHpeSFokLh+OAT/aP2Ag9/vT+TUu2I++vxNZJVMZVqcsOBAcqjPft133KnVpd4m2wmaxKOB1avjlH1uDzMYx+U7LJEgCcAmXiTDVPoZKycjnil6qhXSB0gWt5HZo7WHwQ6cP9HZ/Gi0JxD09ehsOAOIqokt6wMfsa3M/BeUf+muf/qiI4iz1h/kgk1hk1aaRSda96h0gJHQBifxEFkAhHiQlSKgT0Chl8T9jm+q3CY0U99Mm5+rDyEnO5kfaIFJ8JYYPGCMLj5btCst3/N7fMIh8WGgSOjnWsW7moeXZOTe4KmoBIZaf8aFKubMvP0ZeJGg1TUWX68r9J48IauB8uV3yrc5DldBkM7VxZyTBUGE3pGSk6ciFd3I1WeJrBRvxjjNZ2iS0XBuvmvRxhpjAdWYFm4kleV3Ns4VONM49tMFeVz6TMQ/iUDv3dOk7sqV2rnv3/zXLxfTDxeNDlcM6HianDCWwFQYpeTvYW1vqSH1a/lRQtsz4nzDiA1i9O0U7IzsFG+pBW44MTuoZVgIbe5zUwuOa8ERWRCkai7z7+m+XSLtkCYXupQD0CgDQOAiJ0Yuq8cFL7f7gDS3zKzP++m2ipi7bquy2UkMOnHuaLoNYKqZSKhPC44W+2b300UCJJqDDf3
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM8PR12MB5413.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(8936002)(6506007)(956004)(8676002)(55016003)(86362001)(966005)(54906003)(4326008)(83380400001)(7696005)(2906002)(66476007)(9686003)(44144004)(38100700002)(66556008)(6666004)(316002)(21480400003)(186003)(6916009)(508600001)(5660300002)(7416002)(66946007)(26005)(67856001)(2700100001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Q+YA53loCDCLbA283+ZcAPiAh7bs5aKu3OkDbF1UdfAdgPMTM6xhEnWeHvYN?=
+ =?us-ascii?Q?S3e7Pf9ojhxMIwQ5q5ahOyp2SZsgx691kRdUTm/idyBPJyY4DUYa6ltn0xi1?=
+ =?us-ascii?Q?W6ujEtgoHLzQxoLJsCy92gGlSD3hCDH+Q4mPXpE8U9kbzX3YK42cLfkiELBK?=
+ =?us-ascii?Q?T3D10tHa1TCU/Weo9lj5oz894PBElAwGfdqjpxzjChnHQWpH6eVY4ZDwBg3u?=
+ =?us-ascii?Q?NzU0HlHoyJ4vb7Kckus5ddx9AR1ZD4+fdnI4YpGVg+oLqsGigN7V1UHCe0cx?=
+ =?us-ascii?Q?xR4aKvJ1gQmwUflcBWbngzCtUpT0kOlxx7g8s03EoCLaZ5d+LIpixBIVdDzc?=
+ =?us-ascii?Q?aIQe+BADMHm2SfFCH4ImFUo8ejcRGvGeMBNQfFC56XS8uughsQF9Z0t9K1Gw?=
+ =?us-ascii?Q?agiuV7sBqd3xJ0r9WKOSSBtXefKfK6JqsMgkn/aOhmqYBOZQ40QNgk/2v9gL?=
+ =?us-ascii?Q?cp1vtmC3HOcdzTKHbmcUH9t8uVo5YASgGTo9+R13gwp96y5Oa+5OcSMsBPuL?=
+ =?us-ascii?Q?6qYU4YAspQl1JKM86NN5KrR5r41KHiJPiV/AHt1zdyFy7TowznP6J3UJhKfY?=
+ =?us-ascii?Q?q4odOPPuij7iFNHqefxw1Ep3Imxd8ZdWl8iTXOatbE7nQjtEuFOT8jR6voJq?=
+ =?us-ascii?Q?1XtMVd0GUpSbyIKwmBb7bNtfjUliBXZuBKP9g6HnfKGxj1DwaCbMUIPCuWci?=
+ =?us-ascii?Q?UAjiqat/ul9OeauXb5bF4kKUIp9JZQ23pctTeW8u4AWKRJlMcA00H/+Xn/vd?=
+ =?us-ascii?Q?YbtCZ+oEiZeaZNBQ++DRWRoEeXr+MlfmJj0ldJnt+F4KqngKO1AKNeqqJvz4?=
+ =?us-ascii?Q?++FmHSc64Mi7lSal9meVx4e2qa+BVrb2m5/V9Kxn9j2SAKOQXnVNyIDh7zr7?=
+ =?us-ascii?Q?DLE3wa4tPcm51LJXbT7b4J02IPCoTcsMZBlOEsJV7zvPRr0ZdES9ADP1chKU?=
+ =?us-ascii?Q?7oZmV1kezGsg7gyrHoBtdb+2yiQZ9JQTQX2sQPyeH4J9hQZZlfx+HP1C+PvH?=
+ =?us-ascii?Q?iQLb/NbpmH7Aj155G7otye9njMjEjU3bkG0Wp1o8jqIUMBuaCgUpyWHd/f9O?=
+ =?us-ascii?Q?bTXD7b5v94N1kC59t5oBT2CDfVDxQDOX5nL0WI6yhBdUGpf47Tgtol8+tUQc?=
+ =?us-ascii?Q?9NVsflvwiZuPdog/i6IKD9IBqTIIwRDBvcXSfEKJYDoosGeMpsx28kgFy4bT?=
+ =?us-ascii?Q?c/FuOTHxmn0M2i0EYm80CyXSEszdnwFAigJKlRW5+8D0RE9VjnqMMobMJyo/?=
+ =?us-ascii?Q?e3MIPTNFUBLvzuvV7shSobMMgshbaY02+XNxY96+lLvfCHRsG4r0f4RYpdH6?=
+ =?us-ascii?Q?5QuqqDWK1ga8RpsN3ektScYMXvcOmZ71S1H6+4DFAQ2fntMSPyFqTt3nMAW1?=
+ =?us-ascii?Q?MxoZURFYAg17pd9oz2D/uPvx+m+/WJfe5VS2Fy8O6KpNZr+vJdbifg2iReli?=
+ =?us-ascii?Q?8mx4pfIkfUz8rOodrkPdV0NI7HPIDAjy9j2WEuwTc5x0Lpux6KxM6PWXaSaH?=
+ =?us-ascii?Q?XofpCuTvOMlwzKlzFHeEnn0qcvelXBQj1dBOZngJyf1IeNiisi2PD+JpDG+u?=
+ =?us-ascii?Q?+MVNEYCtAWkekbI66LmflROBCDl+AIyB8VT210nxVjplDmFzq+rfsX39uuO1?=
+ =?us-ascii?Q?myvAJm0k9M7tpSIEWXjy9S0=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b4495b6d-2833-4694-325e-08d9b671a4de
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR12MB5413.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2021 15:29:06.6267 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: N3JGZrxRYH20xphV/XCIjha7r0lUSHbqSkl/Us9EghHibdvKfWdqq5jwP7Emq+N55YjXVisQpkvubDJ2ldVGpA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR12MB5495
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,67 +124,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- kjlu@umn.edu, linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Dave Airlie <airlied@redhat.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, Manasi Navare <manasi.d.navare@intel.com>,
+ Uma Shankar <uma.shankar@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ =?utf-8?B?Sm9zw6k=?= Roberto de Souza <jose.souza@intel.com>,
+ Ankit Nautiyal <ankit.k.nautiyal@intel.com>, intel-gfx@lists.freedesktop.org,
+ linux-hardening@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In radeon_fp_native_mode(), the return value of drm_mode_duplicate() is
-assigned to mode and there is a dereference of it in
-radeon_fp_native_mode(), which could lead to a NULL pointer
-dereference on failure of drm_mode_duplicate().
+--VkIp7FKiDawaU8EY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fix this bug by adding a check of mode.
+On Fri, Dec 03, 2021 at 01:25:17AM -0800, Kees Cook wrote:
+> The link_status array was not large enough to read the Adjust Request
+> Post Cursor2 register. Adjust the size to include it. Found with a
+> -Warray-bounds build:
+>=20
+> drivers/gpu/drm/drm_dp_helper.c: In function 'drm_dp_get_adjust_request_p=
+ost_cursor':
+> drivers/gpu/drm/drm_dp_helper.c:59:27: error: array subscript 10 is outsi=
+de array bounds of 'const u8[6]' {aka 'const unsigned char[6]'} [-Werror=3D=
+array-bounds]
+>    59 |         return link_status[r - DP_LANE0_1_STATUS];
+>       |                ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/drm_dp_helper.c:147:51: note: while referencing 'link_sta=
+tus'
+>   147 | u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_=
+LINK_STATUS_SIZE],
+>       |                                          ~~~~~~~~~^~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~
+>=20
+> Fixes: 79465e0ffeb9 ("drm/dp: Add helper to get post-cursor adjustments")
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+> v2: Fix missed array size change in intel_dp_check_mst_status()
+> ---
+>  drivers/gpu/drm/i915/display/intel_dp.c |  8 ++++----
+>  include/drm/drm_dp_helper.h             | 10 +++++++++-
+>  2 files changed, 13 insertions(+), 5 deletions(-)
 
-This bug was found by a static analyzer. The analysis employs
-differential checking to identify inconsistent security operations
-(e.g., checks or kfrees) between two code paths and confirms that the
-inconsistent operations are not recovered in the current function or
-the callers, so they constitute bugs.
+This sounds very familiar and I vaguely recall typing up a patch like
+that a long time ago. But I obviously failed because that never seems
+to have made it upstream.
 
-Note that, as a bug found by static analysis, it can be a false
-positive or hard to trigger. Multiple researchers have cross-reviewed
-the bug.
+Or perhaps I'm misremembering and was thinking about this instead:
 
-Builds with CONFIG_DRM_RADEON=m show no new warnings,
-and our static analyzer no longer warns about this code.
+	https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+=
+/338590/
 
-Fixes: d2efdf6d6f42 ("drm/radeon/kms: add cvt mode if we only have lvds w/h and no edid (v4)")
-Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
----
-Changes in v2:
-  -  Add a similar check in else clause
+Bonus points for adding that comment with background information on why
+we need this.
 
- drivers/gpu/drm/radeon/radeon_connectors.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+Reviewed-by: Thierry Reding <treding@nvidia.com>
 
-diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm/radeon/radeon_connectors.c
-index 607ad5620bd9..7953830cc8b5 100644
---- a/drivers/gpu/drm/radeon/radeon_connectors.c
-+++ b/drivers/gpu/drm/radeon/radeon_connectors.c
-@@ -473,6 +473,9 @@ static struct drm_display_mode *radeon_fp_native_mode(struct drm_encoder *encode
- 	    native_mode->vdisplay != 0 &&
- 	    native_mode->clock != 0) {
- 		mode = drm_mode_duplicate(dev, native_mode);
-+		if (!mode)
-+			return NULL;
-+
- 		mode->type = DRM_MODE_TYPE_PREFERRED | DRM_MODE_TYPE_DRIVER;
- 		drm_mode_set_name(mode);
- 
-@@ -487,6 +490,9 @@ static struct drm_display_mode *radeon_fp_native_mode(struct drm_encoder *encode
- 		 * simpler.
- 		 */
- 		mode = drm_cvt_mode(dev, native_mode->hdisplay, native_mode->vdisplay, 60, true, false, false);
-+		if (!mode)
-+			return NULL;
-+
- 		mode->type = DRM_MODE_TYPE_PREFERRED | DRM_MODE_TYPE_DRIVER;
- 		DRM_DEBUG_KMS("Adding cvt approximation of native panel mode %s\n", mode->name);
- 	}
--- 
-2.25.1
+--VkIp7FKiDawaU8EY
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmGqN7YACgkQ3SOs138+
+s6Hupw//ezsxvTy2Xe2q0ZvKLa88BWT8aE7/CjGtbmoBZbo6/BPlvXAj2Ruuj51E
+S6XsQnWmS3OjmE2MXWrJPZcACH3So+VgJz4qyg0bMwy/S54a2QUTnl3bH7cGPnr/
+ZMoeYFSceGlE25EkNffBnYwMwkNIu7jWjmFRESryDZRC86sIvLbPF1E46rmKyQjB
+sJh/GmmqBaVpuG1vgnoAdFT2o8KOsV2PqdkgMmnsXZzT7b2tiKXx3FkdLURQ4vdE
+UnzwT699ZtrYzzYn1b6XbKbEpTELu1kUSCabt9hTPLWB8GG7nbO/SH6tbDEuDpmt
+d237GVQBxZMMHHdpvriwn/4ATlY5e0KC+3QKlKfPH/vkJ4yyb7vO6f2GCvThHw3m
+cO/MRAeuJ0sNMT1nL/k+T5+0otMRZEhRJmNDLHYDMtxU0nEzSddXU/eSyYMpNLnX
+NIoB/9qUu9XFr1CfOhStWjpcqsa7DkYc2N3+ufHHzVe881XHvP1z4Jz94RgiI4MP
+fHZhk/uA85pzxIYHUOI+1kLT6s/QdKmowyIlxZSjXrNus2lkndK90lcbeX/lkTch
+VvEQH9XnCOnL4drimNYtuiBRi3LHodCVJj3493KzbklLfvXpc/ubEfBgu160xB3G
+49urmt4HCSu1mnTUAs7Gs5PVzgxg8IxHMNkStutxmTKYLZBvE5g=
+=N22+
+-----END PGP SIGNATURE-----
+
+--VkIp7FKiDawaU8EY--
