@@ -2,31 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 402FD466E46
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 01:06:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12704466E4D
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 01:06:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C457B6FD00;
-	Fri,  3 Dec 2021 00:06:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 057266FD11;
+	Fri,  3 Dec 2021 00:06:50 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B748C6FC9E;
- Fri,  3 Dec 2021 00:06:40 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10186"; a="224114166"
-X-IronPort-AV: E=Sophos;i="5.87,283,1631602800"; d="scan'208";a="224114166"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49CCD6FC9E;
+ Fri,  3 Dec 2021 00:06:44 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10186"; a="224114168"
+X-IronPort-AV: E=Sophos;i="5.87,283,1631602800"; d="scan'208";a="224114168"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  02 Dec 2021 16:06:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,283,1631602800"; d="scan'208";a="513445209"
+X-IronPort-AV: E=Sophos;i="5.87,283,1631602800"; d="scan'208";a="513445212"
 Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
  by orsmga008.jf.intel.com with ESMTP; 02 Dec 2021 16:06:23 -0800
 From: John.C.Harrison@Intel.com
 To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH 0/4] Assorted fixes/tweaks to GuC support
-Date: Thu,  2 Dec 2021 16:06:19 -0800
-Message-Id: <20211203000623.3086309-1-John.C.Harrison@Intel.com>
+Subject: [PATCH 1/4] drm/i915/uc: Allow platforms to have GuC but not HuC
+Date: Thu,  2 Dec 2021 16:06:20 -0800
+Message-Id: <20211203000623.3086309-2-John.C.Harrison@Intel.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211203000623.3086309-1-John.C.Harrison@Intel.com>
+References: <20211203000623.3086309-1-John.C.Harrison@Intel.com>
 MIME-Version: 1.0
 Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
  Swindon SN3 1RJ
@@ -49,30 +51,157 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: John Harrison <John.C.Harrison@Intel.com>
 
-Fix a potential null pointer dereference, improve debug crash reports,
-improve code separation, improve GuC/HuC load performance.
+It is possible for platforms to require GuC but not HuC firmware.
+Also, the firmware versions for GuC and HuC advance independently. So
+split the macros up to allow the lists to be maintained separately.
 
 Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+---
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 93 ++++++++++++++++--------
+ 1 file changed, 63 insertions(+), 30 deletions(-)
 
-
-
-John Harrison (3):
-  drm/i915/uc: Allow platforms to have GuC but not HuC
-  drm/i915/guc: Increase GuC log size for CONFIG_DEBUG_GEM
-  drm/i915/guc: Don't go bang in GuC log if no GuC
-
-Vinay Belgaumkar (1):
-  drm/i915/guc: Request RP0 before loading firmware
-
- drivers/gpu/drm/i915/gt/intel_rps.c           | 59 ++++++++++++
- drivers/gpu/drm/i915/gt/intel_rps.h           |  2 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_log.h    |  5 +-
- .../drm/i915/gt/uc/intel_guc_log_debugfs.c    |  4 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  6 ++
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      | 93 +++++++++++++------
- drivers/gpu/drm/i915/i915_reg.h               |  4 +
- 7 files changed, 140 insertions(+), 33 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+index 3aa87be4f2e4..a7788ce50736 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+@@ -48,22 +48,39 @@ void intel_uc_fw_change_status(struct intel_uc_fw *uc_fw,
+  * Note that RKL and ADL-S have the same GuC/HuC device ID's and use the same
+  * firmware as TGL.
+  */
+-#define INTEL_UC_FIRMWARE_DEFS(fw_def, guc_def, huc_def) \
+-	fw_def(ALDERLAKE_P, 0, guc_def(adlp, 62, 0, 3), huc_def(tgl, 7, 9, 3)) \
+-	fw_def(ALDERLAKE_S, 0, guc_def(tgl, 62, 0, 0), huc_def(tgl,  7, 9, 3)) \
+-	fw_def(DG1,         0, guc_def(dg1, 62, 0, 0), huc_def(dg1,  7, 9, 3)) \
+-	fw_def(ROCKETLAKE,  0, guc_def(tgl, 62, 0, 0), huc_def(tgl,  7, 9, 3)) \
+-	fw_def(TIGERLAKE,   0, guc_def(tgl, 62, 0, 0), huc_def(tgl,  7, 9, 3)) \
+-	fw_def(JASPERLAKE,  0, guc_def(ehl, 62, 0, 0), huc_def(ehl,  9, 0, 0)) \
+-	fw_def(ELKHARTLAKE, 0, guc_def(ehl, 62, 0, 0), huc_def(ehl,  9, 0, 0)) \
+-	fw_def(ICELAKE,     0, guc_def(icl, 62, 0, 0), huc_def(icl,  9, 0, 0)) \
+-	fw_def(COMETLAKE,   5, guc_def(cml, 62, 0, 0), huc_def(cml,  4, 0, 0)) \
+-	fw_def(COMETLAKE,   0, guc_def(kbl, 62, 0, 0), huc_def(kbl,  4, 0, 0)) \
+-	fw_def(COFFEELAKE,  0, guc_def(kbl, 62, 0, 0), huc_def(kbl,  4, 0, 0)) \
+-	fw_def(GEMINILAKE,  0, guc_def(glk, 62, 0, 0), huc_def(glk,  4, 0, 0)) \
+-	fw_def(KABYLAKE,    0, guc_def(kbl, 62, 0, 0), huc_def(kbl,  4, 0, 0)) \
+-	fw_def(BROXTON,     0, guc_def(bxt, 62, 0, 0), huc_def(bxt,  2, 0, 0)) \
+-	fw_def(SKYLAKE,     0, guc_def(skl, 62, 0, 0), huc_def(skl,  2, 0, 0))
++#define INTEL_GUC_FIRMWARE_DEFS(fw_def, guc_def) \
++	fw_def(ALDERLAKE_P,  0, guc_def(adlp, 62, 0, 3)) \
++	fw_def(ALDERLAKE_S,  0, guc_def(tgl,  62, 0, 0)) \
++	fw_def(DG1,          0, guc_def(dg1,  62, 0, 0)) \
++	fw_def(ROCKETLAKE,   0, guc_def(tgl,  62, 0, 0)) \
++	fw_def(TIGERLAKE,    0, guc_def(tgl,  62, 0, 0)) \
++	fw_def(JASPERLAKE,   0, guc_def(ehl,  62, 0, 0)) \
++	fw_def(ELKHARTLAKE,  0, guc_def(ehl,  62, 0, 0)) \
++	fw_def(ICELAKE,      0, guc_def(icl,  62, 0, 0)) \
++	fw_def(COMETLAKE,    5, guc_def(cml,  62, 0, 0)) \
++	fw_def(COMETLAKE,    0, guc_def(kbl,  62, 0, 0)) \
++	fw_def(COFFEELAKE,   0, guc_def(kbl,  62, 0, 0)) \
++	fw_def(GEMINILAKE,   0, guc_def(glk,  62, 0, 0)) \
++	fw_def(KABYLAKE,     0, guc_def(kbl,  62, 0, 0)) \
++	fw_def(BROXTON,      0, guc_def(bxt,  62, 0, 0)) \
++	fw_def(SKYLAKE,      0, guc_def(skl,  62, 0, 0))
++
++#define INTEL_HUC_FIRMWARE_DEFS(fw_def, huc_def) \
++	fw_def(ALDERLAKE_P,  0, huc_def(tgl,  7, 9, 3)) \
++	fw_def(ALDERLAKE_S,  0, huc_def(tgl,  7, 9, 3)) \
++	fw_def(DG1,          0, huc_def(dg1,  7, 9, 3)) \
++	fw_def(ROCKETLAKE,   0, huc_def(tgl,  7, 9, 3)) \
++	fw_def(TIGERLAKE,    0, huc_def(tgl,  7, 9, 3)) \
++	fw_def(JASPERLAKE,   0, huc_def(ehl,  9, 0, 0)) \
++	fw_def(ELKHARTLAKE,  0, huc_def(ehl,  9, 0, 0)) \
++	fw_def(ICELAKE,      0, huc_def(icl,  9, 0, 0)) \
++	fw_def(COMETLAKE,    5, huc_def(cml,  4, 0, 0)) \
++	fw_def(COMETLAKE,    0, huc_def(kbl,  4, 0, 0)) \
++	fw_def(COFFEELAKE,   0, huc_def(kbl,  4, 0, 0)) \
++	fw_def(GEMINILAKE,   0, huc_def(glk,  4, 0, 0)) \
++	fw_def(KABYLAKE,     0, huc_def(kbl,  4, 0, 0)) \
++	fw_def(BROXTON,      0, huc_def(bxt,  2, 0, 0)) \
++	fw_def(SKYLAKE,      0, huc_def(skl,  2, 0, 0))
+ 
+ #define __MAKE_UC_FW_PATH(prefix_, name_, major_, minor_, patch_) \
+ 	"i915/" \
+@@ -79,11 +96,11 @@ void intel_uc_fw_change_status(struct intel_uc_fw *uc_fw,
+ 	__MAKE_UC_FW_PATH(prefix_, "_huc_", major_, minor_, bld_num_)
+ 
+ /* All blobs need to be declared via MODULE_FIRMWARE() */
+-#define INTEL_UC_MODULE_FW(platform_, revid_, guc_, huc_) \
+-	MODULE_FIRMWARE(guc_); \
+-	MODULE_FIRMWARE(huc_);
++#define INTEL_UC_MODULE_FW(platform_, revid_, uc_) \
++	MODULE_FIRMWARE(uc_);
+ 
+-INTEL_UC_FIRMWARE_DEFS(INTEL_UC_MODULE_FW, MAKE_GUC_FW_PATH, MAKE_HUC_FW_PATH)
++INTEL_GUC_FIRMWARE_DEFS(INTEL_UC_MODULE_FW, MAKE_GUC_FW_PATH)
++INTEL_HUC_FIRMWARE_DEFS(INTEL_UC_MODULE_FW, MAKE_HUC_FW_PATH)
+ 
+ /* The below structs and macros are used to iterate across the list of blobs */
+ struct __packed uc_fw_blob {
+@@ -106,31 +123,47 @@ struct __packed uc_fw_blob {
+ struct __packed uc_fw_platform_requirement {
+ 	enum intel_platform p;
+ 	u8 rev; /* first platform rev using this FW */
+-	const struct uc_fw_blob blobs[INTEL_UC_FW_NUM_TYPES];
++	const struct uc_fw_blob blob;
+ };
+ 
+-#define MAKE_FW_LIST(platform_, revid_, guc_, huc_) \
++#define MAKE_FW_LIST(platform_, revid_, uc_) \
+ { \
+ 	.p = INTEL_##platform_, \
+ 	.rev = revid_, \
+-	.blobs[INTEL_UC_FW_TYPE_GUC] = guc_, \
+-	.blobs[INTEL_UC_FW_TYPE_HUC] = huc_, \
++	.blob = uc_, \
+ },
+ 
++struct fw_blobs_by_type {
++	const struct uc_fw_platform_requirement *blobs;
++	u32 count;
++};
++
+ static void
+ __uc_fw_auto_select(struct drm_i915_private *i915, struct intel_uc_fw *uc_fw)
+ {
+-	static const struct uc_fw_platform_requirement fw_blobs[] = {
+-		INTEL_UC_FIRMWARE_DEFS(MAKE_FW_LIST, GUC_FW_BLOB, HUC_FW_BLOB)
++	static const struct uc_fw_platform_requirement blobs_guc[] = {
++		INTEL_GUC_FIRMWARE_DEFS(MAKE_FW_LIST, GUC_FW_BLOB)
++	};
++	static const struct uc_fw_platform_requirement blobs_huc[] = {
++		INTEL_HUC_FIRMWARE_DEFS(MAKE_FW_LIST, HUC_FW_BLOB)
+ 	};
++	static const struct fw_blobs_by_type blobs_all[INTEL_UC_FW_NUM_TYPES] = {
++		[INTEL_UC_FW_TYPE_GUC] = { blobs_guc, ARRAY_SIZE(blobs_guc) },
++		[INTEL_UC_FW_TYPE_HUC] = { blobs_huc, ARRAY_SIZE(blobs_huc) },
++	};
++	static const struct uc_fw_platform_requirement *fw_blobs;
+ 	enum intel_platform p = INTEL_INFO(i915)->platform;
++	u32 fw_count;
+ 	u8 rev = INTEL_REVID(i915);
+ 	int i;
+ 
+-	for (i = 0; i < ARRAY_SIZE(fw_blobs) && p <= fw_blobs[i].p; i++) {
++	GEM_BUG_ON(uc_fw->type >= ARRAY_SIZE(blobs_all));
++	fw_blobs = blobs_all[uc_fw->type].blobs;
++	fw_count = blobs_all[uc_fw->type].count;
++
++	for (i = 0; i < fw_count && p <= fw_blobs[i].p; i++) {
+ 		if (p == fw_blobs[i].p && rev >= fw_blobs[i].rev) {
+-			const struct uc_fw_blob *blob =
+-					&fw_blobs[i].blobs[uc_fw->type];
++			const struct uc_fw_blob *blob = &fw_blobs[i].blob;
+ 			uc_fw->path = blob->path;
+ 			uc_fw->major_ver_wanted = blob->major;
+ 			uc_fw->minor_ver_wanted = blob->minor;
+@@ -140,7 +173,7 @@ __uc_fw_auto_select(struct drm_i915_private *i915, struct intel_uc_fw *uc_fw)
+ 
+ 	/* make sure the list is ordered as expected */
+ 	if (IS_ENABLED(CONFIG_DRM_I915_SELFTEST)) {
+-		for (i = 1; i < ARRAY_SIZE(fw_blobs); i++) {
++		for (i = 1; i < fw_count; i++) {
+ 			if (fw_blobs[i].p < fw_blobs[i - 1].p)
+ 				continue;
+ 
 -- 
 2.25.1
 
