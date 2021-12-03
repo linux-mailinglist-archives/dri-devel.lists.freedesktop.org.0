@@ -2,57 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 208404670E9
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 04:52:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0A744670F8
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 04:55:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2F396FD68;
-	Fri,  3 Dec 2021 03:51:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FA1C6FE17;
+	Fri,  3 Dec 2021 03:55:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 000CD6FD68
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Dec 2021 03:51:56 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id c32so3386029lfv.4
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Dec 2021 19:51:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=0Vn1sEJP3rdiLC+VobT2SRCFUa76GT+sV4jtOkk4WpQ=;
- b=k7z3usEdc4wwNetvAxkaV+0JFAzAL5pL6swGTjLadTuWbVQKIwFJobt/wgduuAaAZB
- A7Ih4uAChPccnOc88KF8nOC5bYIkSUuvvGkL2GBxz4WZBXSPf4Fy3Squ1Q3+KL6PzlJl
- DUeDauIZVJFc/MwyZ0DXMeH8p+Ur9poFxpL7h4eytQIeJFVC2juVcjh6f17OxA1Cg4+q
- v2nwb1IuktPHZePZEzk/9WrzWV1U40/fsx+qPxwzW/MEgGwFfQdk0yH2LbVNmxj3Atpq
- fl4Y1aY5WFpnfmLdtmQOc0qpQGXe9us6UEWYeZklRaEbWRg/Ubv2PYXx+MgAiG5C+L52
- jOnA==
+Received: from mta-p6.oit.umn.edu (mta-p6.oit.umn.edu [134.84.196.206])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACC8F6FE17
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Dec 2021 03:55:49 +0000 (UTC)
+Received: from localhost (unknown [127.0.0.1])
+ by mta-p6.oit.umn.edu (Postfix) with ESMTP id 4J4zWR2ZXnz9xhTP
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Dec 2021 03:55:47 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at umn.edu
+Received: from mta-p6.oit.umn.edu ([127.0.0.1])
+ by localhost (mta-p6.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id PXGeZTCgBnfL for <dri-devel@lists.freedesktop.org>;
+ Thu,  2 Dec 2021 21:55:47 -0600 (CST)
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mta-p6.oit.umn.edu (Postfix) with ESMTPS id 4J4zWR0VFJz9xhTN
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Dec 2021 21:55:46 -0600 (CST)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p6.oit.umn.edu 4J4zWR0VFJz9xhTN
+DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p6.oit.umn.edu 4J4zWR0VFJz9xhTN
+Received: by mail-pf1-f198.google.com with SMTP id
+ y5-20020a62b505000000b004a804839861so1124890pfe.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Dec 2021 19:55:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=umn.edu; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=uL2yNvkA3EwvvLX30C2sN3DzOJq1PBcjm6fgTdzFxIY=;
+ b=Y7hRR5jgfbMNFtMzlfpttQEcDHHEzIj9/EhXj9fjV8ZbonFzo7Z3446+4m1pHh5SW7
+ eAuiBP6s293GQGKQxgIwWu3XDm8Lkg7HbNY0YZan4uaHTWWa89DHOB5hW1kgbSeQpApy
+ yt+nqRltXpQsWoiiGDrTaoNOCx9x4mtznIJ+wAFwI7nKa9utnBOg0lj9s3AQ4/jDE2vJ
+ uk6iQQVbZ/gH9fb62wSKoA706B6ZOdXsWiD30C4iDU6an8u+788pCquPp3h3EAkBPv8/
+ QLEzo4cuiaw3af8liOSscYCITAJTNFUx6boJerq7Lh8IWMPjD9A0jvIf6BFKOAUt0hRL
+ /mvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=0Vn1sEJP3rdiLC+VobT2SRCFUa76GT+sV4jtOkk4WpQ=;
- b=Ta52mNTYVxKjRLKYUGuQSmOPAdxqxPVWdy5/LYuvqELqD8Ewr+EUte7+0kmXtKwPgE
- KFODFU/C4j0KVUyePi6186QQJWDtqpcAhybVm+H9Qg98DeI1YqwN0BAX06Mu68kAG08c
- +TA48uheUdIIV9SuI2yYAGFYY0q59sRoo5ZbD2Y3hJoqJr6hCjT4MFTvHEJqmNffgz31
- 1yInbXdvN8Cd0hfMxosroWntpAniNJ+9PmPqTXS0SglsxSGBV+wPjkjCmSL9b/i/kBXA
- 4/V4iWR/HK2ksS1TlX8QAbPMoTlhHMQFVrrQVEev4IZfLU68RA2AOZEPc0Ig7lHZhj4H
- xIQQ==
-X-Gm-Message-State: AOAM531hHNYQu6VPAHOJ0JP8sUzeR22jnWGMhXXjWRh5tCnYn2yN8aNZ
- TA2gLSeRzG1VYORk9LTwthPyY7ZQ3gUqgnbmBd7MNg==
-X-Google-Smtp-Source: ABdhPJzFUp4XBCsuPZlvimfYoc9hTTJ2FHaXf4B6prRnlQV5SWsUZ5WHEPTXjHu7V1T3VfnUy6M3clNJg3DdKipvI6o=
-X-Received: by 2002:a05:6512:3d16:: with SMTP id
- d22mr15113188lfv.523.1638503515295; 
- Thu, 02 Dec 2021 19:51:55 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=uL2yNvkA3EwvvLX30C2sN3DzOJq1PBcjm6fgTdzFxIY=;
+ b=TCkP3Ys/N6Mkm6QH0yUpEkeL7bZ3l3aP1U8DT94kbYGPGEY5ZGMnwfpHtKpgQOPNfN
+ xz2DVo96426neBGBDCerTK/WtKORm+Rym4WgyB/H/GvO4wSoEG6GwcKykA27UZjxEVS9
+ 2DLoBegS3trswupn4WB6dvlC/R26tbBZz9HnpPG6IEnx4NxcHXGILq/bH51vYBOrWwFp
+ ZRlStEyDC2bhYkcos5WNb7mYJT6l92x0wPYCqanns1JwSMohXAV7LUhXr/hclz8QslJ3
+ IE2xtcRiohouEkRtJqQm5i0TW939/SAZhW+6cXoIWedo1e2ZGYraA++Ucz0PRjNiFbrI
+ 7YXg==
+X-Gm-Message-State: AOAM533C2Col2hQBTh6tZ5HkyURJYC5qdJ65IGPgmQzv6DYe3vPSf2KI
+ S73h6lavVcUSwWzT2uz1seIaQtf7skK3KTzss5YguEGS2Sp0ACsgNW3+JRTAJyLOfUDGHQLTQe/
+ ZiBogVhdcBSPoEjMKBSNVkHcknEQ9VV3t
+X-Received: by 2002:a17:903:24d:b0:143:beb5:b6b1 with SMTP id
+ j13-20020a170903024d00b00143beb5b6b1mr20071189plh.54.1638503745310; 
+ Thu, 02 Dec 2021 19:55:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwudyrYq9gQZ+R57vlzJMoUgCs0HJi/sF8Ao7ohFMNOx3e9v+E2exzSAkJ3YtKBdAq1kaOAFA==
+X-Received: by 2002:a17:903:24d:b0:143:beb5:b6b1 with SMTP id
+ j13-20020a170903024d00b00143beb5b6b1mr20071158plh.54.1638503745029; 
+ Thu, 02 Dec 2021 19:55:45 -0800 (PST)
+Received: from zqy787-GE5S.lan ([36.4.93.212])
+ by smtp.gmail.com with ESMTPSA id w17sm1286471pfu.58.2021.12.02.19.55.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Dec 2021 19:55:44 -0800 (PST)
+From: Zhou Qingyang <zhou1615@umn.edu>
+To: zhou1615@umn.edu
+Subject: [PATCH v2] drm/gma500/psb_intel_lvds: Fix a wild pointer dereference
+ in psb_intel_lvds_get_modes()
+Date: Fri,  3 Dec 2021 11:55:39 +0800
+Message-Id: <20211203035539.34627-1-zhou1615@umn.edu>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <CAMeQTsYZuqqOGjernWKY=GL28DuW=0wXDbGsvaiuv+53CA36vg@mail.gmail.com>
+References: <CAMeQTsYZuqqOGjernWKY=GL28DuW=0wXDbGsvaiuv+53CA36vg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20211122110817.33319-1-mie@igel.co.jp>
-In-Reply-To: <20211122110817.33319-1-mie@igel.co.jp>
-From: Shunsuke Mie <mie@igel.co.jp>
-Date: Fri, 3 Dec 2021 12:51:44 +0900
-Message-ID: <CANXvt5oB8_2sDGccSiTMqeLYGi3Vuo-6NnHJ9PGgZZMv=fnUVw@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 0/2] RDMA/rxe: Add dma-buf support
-To: Zhu Yanjun <zyjzyj2000@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,79 +89,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Damian Hobson-Garcia <dhobsong@igel.co.jp>,
- Takanari Hayama <taki@igel.co.jp>, Leon Romanovsky <leon@kernel.org>,
- linux-rdma <linux-rdma@vger.kernel.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Tomohito Esaki <etom@igel.co.jp>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Jason Gunthorpe <jgg@ziepe.ca>, Doug Ledford <dledford@redhat.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sean Hefty <sean.hefty@intel.com>,
- Maor Gottlieb <maorg@nvidia.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Jianxin Xiong <jianxin.xiong@intel.com>, linux-media@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, kjlu@umn.edu, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>,
+ Alan Cox <alan@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi maintainers,
+In psb_intel_lvds_get_modes(), the return value of drm_mode_duplicate()
+is assigned to mode and used in drm_mode_probed_add().
+drm_mode_probed_add() passes mode->head to list_add_tail().
+list_add_tail() will further call __list_add() and there is a
+dereference of mode->head in __list_add(), which could lead to a wild
+pointer dereference on failure of drm_mode_duplicate().
 
-Could you please review this patch series?
+Fix this bug by adding a check of mode.
 
-Regards,
-Shunsuke Mie
+This bug was found by a static analyzer. The analysis employs
+differential checking to identify inconsistent security operations
+(e.g., checks or kfrees) between two code paths and confirms that the
+inconsistent operations are not recovered in the current function or
+the callers, so they constitute bugs.
 
-2021=E5=B9=B411=E6=9C=8822=E6=97=A5(=E6=9C=88) 20:08 Shunsuke Mie <mie@igel=
-.co.jp>:
->
-> This patch series add a dma-buf support for rxe driver.
->
-> A dma-buf based memory registering has beed introduced to use the memory
-> region that lack of associated page structures (e.g. device memory and CM=
-A
-> managed memory) [1]. However, to use the dma-buf based memory, each rdma
-> device drivers require add some implementation. The rxe driver has not
-> support yet.
->
-> [1] https://www.spinics.net/lists/linux-rdma/msg98592.html
->
-> To enable to use the dma-buf memory in rxe rdma device, add some changes
-> and implementation in this patch series.
->
-> This series consists of two patches. The first patch changes the IB core
-> to support for rdma drivers that has not dma device. The secound patch ad=
-ds
-> the dma-buf support to rxe driver.
->
-> Related user space RDMA library changes are provided as a separate patch.
->
-> v4:
-> * Fix warnings, unused variable and casting
-> v3: https://www.spinics.net/lists/linux-rdma/msg106776.html
-> * Rebase to the latest linux-rdma 'for-next' branch (5.15.0-rc6+)
-> * Fix to use dma-buf-map helpers
-> v2: https://www.spinics.net/lists/linux-rdma/msg105928.html
-> * Rebase to the latest linux-rdma 'for-next' branch (5.15.0-rc1+)
-> * Instead of using a dummy dma_device to attach dma-buf, just store
->   dma-buf to use software RDMA driver
-> * Use dma-buf vmap() interface
-> * Check to pass tests of rdma-core
-> v1: https://www.spinics.net/lists/linux-rdma/msg105376.html
-> * The initial patch set
-> * Use ib_device as dma_device.
-> * Use dma-buf dynamic attach interface
-> * Add dma-buf support to rxe device
->
-> Shunsuke Mie (2):
->   RDMA/umem: Change for rdma devices has not dma device
->   RDMA/rxe: Add dma-buf support
->
->  drivers/infiniband/core/umem_dmabuf.c |  20 ++++-
->  drivers/infiniband/sw/rxe/rxe_loc.h   |   2 +
->  drivers/infiniband/sw/rxe/rxe_mr.c    | 113 ++++++++++++++++++++++++++
->  drivers/infiniband/sw/rxe/rxe_verbs.c |  34 ++++++++
->  include/rdma/ib_umem.h                |   1 +
->  5 files changed, 166 insertions(+), 4 deletions(-)
->
-> --
-> 2.17.1
->
+Note that, as a bug found by static analysis, it can be a false
+positive or hard to trigger. Multiple researchers have cross-reviewed
+the bug.
+
+Builds with CONFIG_DRM_GMA500=m show no new warnings,
+and our static analyzer no longer warns about this code.
+
+Fixes: 89c78134cc54 ("gma500: Add Poulsbo support")
+Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
+---
+Changes in v2:
+  -  Use dev_err and return 0 instead of returning error code.
+
+ drivers/gpu/drm/gma500/psb_intel_lvds.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/gpu/drm/gma500/psb_intel_lvds.c b/drivers/gpu/drm/gma500/psb_intel_lvds.c
+index ac97e0d3c7dd..3b3aa8fba6c9 100644
+--- a/drivers/gpu/drm/gma500/psb_intel_lvds.c
++++ b/drivers/gpu/drm/gma500/psb_intel_lvds.c
+@@ -505,6 +505,11 @@ static int psb_intel_lvds_get_modes(struct drm_connector *connector)
+ 	if (mode_dev->panel_fixed_mode != NULL) {
+ 		struct drm_display_mode *mode =
+ 		    drm_mode_duplicate(dev, mode_dev->panel_fixed_mode);
++		if (!mode) {
++			dev_err(dev->dev, "drm_mode_duplicate() allocation error\n");
++			return 0;
++		}
++
+ 		drm_mode_probed_add(connector, mode);
+ 		return 1;
+ 	}
+-- 
+2.25.1
+
