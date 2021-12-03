@@ -1,59 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C1BE467783
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 13:37:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F32D4677B7
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 13:57:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 325F87A321;
-	Fri,  3 Dec 2021 12:37:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0BC57AAAB;
+	Fri,  3 Dec 2021 12:57:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 615C97A321
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Dec 2021 12:37:48 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id b1so6109303lfs.13
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Dec 2021 04:37:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=fizL/hy9yXJ6JRH7+VgywLalW2LftVVfT2yuS4CxqNU=;
- b=Y93nYHfixS2aqgzp9oqGpRkvTO+vKZ4sA0hcu5TPnaZI5RnNWEwu0TRtjRSiTp3N43
- y3sybZOyU0c4RuLFBYOtIVujQ6q+g1AarOxI/e2E99DFUmFyYTruPj9ZO+/50q7As89+
- /chQdxlA2myIMM5/fKQEoH9dwsiZGeI8lNSQmQ9d8dPA0EQW2qU+6mtZ29UpnT0NUId3
- Qop+XVlzktCSRe7/V/vkIQrH2oGm7gK/EzdWJLr1vkd0630LfzxPDK+IIgFCCuFeHmGh
- r75Qpk9fZkv9OSU5R5w83y/9JJ71ZLkp222biZtVlUaxHlWdIJBUX33pMA+A8wWFU68d
- dVag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=fizL/hy9yXJ6JRH7+VgywLalW2LftVVfT2yuS4CxqNU=;
- b=lVHwoF6uMIKH3y76fUeFfBFO6z/WRfXSq6xbLsXD+TtH/lXoqu+8ac8lhsideMHdxD
- zf1eA9MmErb40pTPazVw5OlGnWeg1C1d1h3FgDJwAIjUvFZ121/YF2w1NYMB84INdw9D
- JdtxdcWVAGVqwrfUyoGtdws4WeWG5c49dExMICFVHMQQOBNhXlJTvgJ1ckLgZOBsb0XW
- MXlhNTzCPHz+UXYlQc8HSVcWXsTdL8NtTxikV9QmChuTrpaFWrji6WTS1GTL9z69GY2k
- E5JsIoRMEDL2IAX+GOEpg/RzFNqE5mYJcnGcFLM7fDNaUEtQmdVQr8JpbJYp13sKvGSM
- 5VTA==
-X-Gm-Message-State: AOAM533zCsYgt9sC7B9JyhEC0c+XSmJ58Kd6UBDznOuuyRSmwdBoX5Nv
- OxFlpovdHrYF9iYTxlUN00UjB/U0tdfXOp0CPCY=
-X-Google-Smtp-Source: ABdhPJzUKtVqoTURMIvGt/wtjNsdrTX42pOkbo6NYV/K+6YXQkmbh3wUuinmxAvR0u4XkEaN1KbnoPgiV3eCzhKThp4=
-X-Received: by 2002:a05:6512:3a93:: with SMTP id
- q19mr17615388lfu.105.1638535066362; 
- Fri, 03 Dec 2021 04:37:46 -0800 (PST)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 753817AAAB
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Dec 2021 12:57:13 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10186"; a="217658165"
+X-IronPort-AV: E=Sophos;i="5.87,284,1631602800"; d="scan'208";a="217658165"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Dec 2021 04:57:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,284,1631602800"; d="scan'208";a="478318241"
+Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
+ by orsmga002.jf.intel.com with ESMTP; 03 Dec 2021 04:57:10 -0800
+Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1mt87h-000Har-Ac; Fri, 03 Dec 2021 12:57:09 +0000
+Date: Fri, 3 Dec 2021 20:56:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter <daniel.vetter@intel.com>,
+ David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 10/11] drm/vc4: hdmi: Support HDMI YUV output
+Message-ID: <202112032036.vcxJzxkG-lkp@intel.com>
+References: <20211203105420.573494-11-maxime@cerno.tech>
 MIME-Version: 1.0
-References: <20211025093418.20545-1-kevin3.tang@gmail.com>
- <20211025093418.20545-7-kevin3.tang@gmail.com>
- <20211203103841.vkl3sjsbaohsviou@houat>
-In-Reply-To: <20211203103841.vkl3sjsbaohsviou@houat>
-From: Kevin Tang <kevin3.tang@gmail.com>
-Date: Fri, 3 Dec 2021 20:34:50 +0800
-Message-ID: <CAFPSGXbWv94vShNAQ9xfkDZRKgZTdjRzH9i60ak1NYaPW-OKgA@mail.gmail.com>
-Subject: Re: [PATCH v7 6/6] drm/sprd: add Unisoc's drm mipi dsi&dphy driver
-To: Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211203105420.573494-11-maxime@cerno.tech>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,66 +50,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, airlied@linux.ie,
- pony1.wu@gmail.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org, zhang.lyra@gmail.com,
- orsonzhai@gmail.com, sean@poorly.run
+Cc: kbuild-all@lists.01.org, Dom Cobley <dom@raspberrypi.com>,
+ Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, Werner Sembach <wse@tuxedocomputers.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Maxime Ripard <maxime@cerno.tech> =E4=BA=8E2021=E5=B9=B412=E6=9C=883=E6=97=
-=A5=E5=91=A8=E4=BA=94 18:38=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Mon, Oct 25, 2021 at 05:34:18PM +0800, Kevin Tang wrote:
-> > @@ -618,9 +619,25 @@ static void sprd_crtc_mode_set_nofb(struct drm_crt=
-c *crtc)
-> >  {
-> >       struct sprd_dpu *dpu =3D to_sprd_crtc(crtc);
-> >       struct drm_display_mode *mode =3D &crtc->state->adjusted_mode;
-> > +     struct drm_encoder *encoder;
-> > +     struct mipi_dsi_device *slave;
-> > +     struct sprd_dsi *dsi;
-> >
-> >       drm_display_mode_to_videomode(mode, &dpu->ctx.vm);
-> >
-> > +     drm_for_each_encoder(encoder, crtc->dev) {
-> > +             if (encoder->crtc !=3D crtc)
-> > +                     continue;
->
-> encoder->crtc is deprecated. You should be using
-> encoder->drm_for_each_encoder_mask, using the encoder_mask in
-> encoder->drm_crtc_state.
+Hi Maxime,
 
-Use drm_for_each_encoder_mask to replace drm_for_each_encoder? like this:
-drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask) {
-    dsi =3D encoder_to_dsi(encoder);
-    slave =3D dsi->slave;
+I love your patch! Perhaps something to improve:
 
-    if (slave->mode_flags & MIPI_DSI_MODE_VIDEO)
-        dpu->ctx.if_type =3D SPRD_DPU_IF_DPI;
-    else
-         dpu->ctx.if_type =3D SPRD_DPU_IF_EDPI;
-}
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on next-20211203]
+[cannot apply to drm-intel/for-linux-next anholt/for-next v5.16-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
->
-> > +static int sprd_dsi_probe(struct platform_device *pdev)
-> > +{
-> > +     struct device *dev =3D &pdev->dev;
-> > +     struct sprd_dsi *dsi;
-> > +
-> > +     dsi =3D devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
-> > +     if (!dsi)
-> > +             return -ENOMEM;
-> > +
-> > +     dev_set_drvdata(dev, dsi);
-> > +
-> > +     dsi->host.ops =3D &sprd_dsi_host_ops;
-> > +     dsi->host.dev =3D dev;
-> > +     mipi_dsi_host_register(&dsi->host);
-> > +
-> > +     return component_add(&pdev->dev, &dsi_component_ops);
->
-> component_add must be run in the mipi_dsi_host.attach hook.
-Got it, will be fixed on patch v8.
->
-> Maxime
+url:    https://github.com/0day-ci/linux/commits/Maxime-Ripard/drm-vc4-hdmi-Yet-Another-Approach-to-HDMI-YUV-output/20211203-185623
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: nds32-allyesconfig (https://download.01.org/0day-ci/archive/20211203/202112032036.vcxJzxkG-lkp@intel.com/config)
+compiler: nds32le-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/70ee339decc66c157b6c9c983e8cce172c323218
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Maxime-Ripard/drm-vc4-hdmi-Yet-Another-Approach-to-HDMI-YUV-output/20211203-185623
+        git checkout 70ee339decc66c157b6c9c983e8cce172c323218
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=nds32 SHELL=/bin/bash drivers/gpu/drm/vc4/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/vc4/vc4_hdmi.c: In function 'vc4_hdmi_avi_infoframe_colorspace':
+>> drivers/gpu/drm/vc4/vc4_hdmi.c:503:35: warning: implicit conversion from 'enum vc4_hdmi_output_format' to 'enum hdmi_colorspace' [-Wenum-conversion]
+     503 |                 frame->colorspace = fmt;
+         |                                   ^
+
+
+vim +503 drivers/gpu/drm/vc4/vc4_hdmi.c
+
+   491	
+   492	static void vc4_hdmi_avi_infoframe_colorspace(struct hdmi_avi_infoframe *frame,
+   493						      enum vc4_hdmi_output_format fmt)
+   494	{
+   495		switch (fmt) {
+   496		case VC4_HDMI_OUTPUT_RGB:
+   497			fallthrough;
+   498		case VC4_HDMI_OUTPUT_YUV420:
+   499			fallthrough;
+   500		case VC4_HDMI_OUTPUT_YUV422:
+   501			fallthrough;
+   502		case VC4_HDMI_OUTPUT_YUV444:
+ > 503			frame->colorspace = fmt;
+   504			break;
+   505	
+   506		default:
+   507			break;
+   508		}
+   509	}
+   510	
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
