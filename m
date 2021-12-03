@@ -1,77 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B85E2467907
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 15:04:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BB3346794D
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 15:19:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35FB66E044;
-	Fri,  3 Dec 2021 14:04:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5B1E734E0;
+	Fri,  3 Dec 2021 14:19:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E3086E044
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Dec 2021 14:03:59 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id AD74B5802D4;
- Fri,  3 Dec 2021 09:03:58 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Fri, 03 Dec 2021 09:03:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=pfeo7OdvX46103Xhlg/M4A/EqUj
- UdZ6l52e9NDt2Z2U=; b=YHCjwbmuyDIF/TTcIpnQmZwgRg4FaVs6vRK0IXYzzD2
- ENa6V8VE7J4qY7Sdiz6zc0ks4aaQikzfkv4KnNnWZjAAdBHlD8KPK0kvL0nRGvJs
- EmV9tGNo/TY5M/NoqJBS3UHkXalaMADciuHybKriD+Det1GPXn67d4ialIpAO4Uk
- nFr5A2+IScCH0nCxE6/E89JjOS76ZDfeT0C+ZlJEp/i2qaHoNJMrBQLBZqLv/CFn
- +rtHxfeIgMFcznhaSm7WX5W5wPBVNFSSC0Xp1hioB+iNS3q7nz4uVMp96PuK37TV
- 4fQk2Cw1XuyJyQLA/XDeL3EmwQ5/+lwcPM5mZulGlRw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=pfeo7O
- dvX46103Xhlg/M4A/EqUjUdZ6l52e9NDt2Z2U=; b=NVUfHY7KC7td8xbZJ8BEFt
- ty3j/6fhAUOpQeGp1b2y/pd0Uw4qu3gKry7U7eCBOaP6Iyz6SvnaT1ofhCwyyFXG
- N+2Dmpde2VklnrAOxN5uvoGWVLw6UxFo99ILjp5W6hTDbnkGTnF9nC4OhFgZA14j
- RxZf+3kz7yXpAtvudpVPsqHeg7KBLchwtAThmgP/hQTDikA9u6IYv50Eqq2AZCsZ
- /JPJkLAkICTGkyuh+rsWP2a4WBtndRfKvwJEYnZcots5OI1xfjjCGebZR7uO7/R1
- wi3B4yqre3JXDuHNo6jMoN1Hy08x7ksB6ABAFpZigHJENyKPZSTVhy9RQq7yuOTA
- ==
-X-ME-Sender: <xms:zSOqYf75TkajvExbyJEmgrkWy8W5DgBjUeIwyfVRcAWpKZNg1WlHHA>
- <xme:zSOqYU7BWOYEwuozBC_QfMILS_zTnGlyU1yYskDHT7sIRvY3rOel7EiqpTgY0KtvR
- _bmaxvE-vKlEKyE6Uk>
-X-ME-Received: <xmr:zSOqYWe6vqDG8aPGtHUFGrtk4k8Rfyzq-pvLkzCcGDKCvmi7stYQUi5kxudsxtY5JwcNHhrp3WyurDTIuBIoFmhxcOO1Drzc_XobkdXEBqAIAg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrieejgdeiudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeeutdfgjeeuudehvefgvedvtedtudelfffgffekledtffekgedukeejueevieeg
- udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:zSOqYQJUhTqLw_W6nywSe4AL-rbbyFl5Fsj5ejc-nCc38YuivxapOw>
- <xmx:zSOqYTJVWh4U_DZkvKYEt0xaTNDPkdE7HhYICwL3E16LWZFfJHxJvw>
- <xmx:zSOqYZzO_3uXADDRy6X0g1_ao0K4lD5QzduGTbxO8E_EBrvP8DdQzw>
- <xmx:ziOqYUV5f9QZxF8iQ5_vjw42YGLJuVmhMqzmSFFTBHGNeFD1Xa3TLQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 3 Dec 2021 09:03:57 -0500 (EST)
-Date: Fri, 3 Dec 2021 15:03:55 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jian-Hong Pan <jhp@endlessos.org>
-Subject: Re: [PATCH v2 0/6] drm/vc4: kms: Misc fixes for HVS commits
-Message-ID: <20211203140355.p2aj7d3s4feubtap@houat>
-References: <20211117094527.146275-1-maxime@cerno.tech>
- <CAPpJ_eewp9Z_xdpmB+E_NFH1GGq8oyckVBmS1PD84CvCRUminQ@mail.gmail.com>
- <20211118104009.jkvkhxi5nh4e4zlp@gilmour>
- <CAPpJ_ef5XeLKpHAzxsrokkdg8M8uqrLo9X9E5uGbFn1-Baroig@mail.gmail.com>
- <20211126154532.nqlqkoxa77apioxu@houat>
- <CAPpJ_edY+HXfv_rNL01piUFYaTUdFb9KEj2h-xN0MH0cYRyMTQ@mail.gmail.com>
+X-Greylist: delayed 301 seconds by postgrey-1.36 at gabe;
+ Fri, 03 Dec 2021 14:19:13 UTC
+Received: from michel.telenet-ops.be (michel.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64C50734E0
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Dec 2021 14:19:13 +0000 (UTC)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed10:3191:9890:620a:6f4])
+ by michel.telenet-ops.be with bizsmtp
+ id RqEA2600C3eLghq06qEACG; Fri, 03 Dec 2021 15:14:10 +0100
+Received: from rox.of.borg ([192.168.97.57])
+ by ramsan.of.borg with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1mt9KD-002Lvw-Om; Fri, 03 Dec 2021 15:14:09 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1mt9KC-000lod-NM; Fri, 03 Dec 2021 15:14:08 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Boris Brezillon <bbrezillon@kernel.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>
+Subject: [PATCH/RFC v2] dt-bindings: display: bridge: sil,
+ sii9022: Convert to json-schema
+Date: Fri,  3 Dec 2021 15:14:07 +0100
+Message-Id: <3b2619682694050696e5c85269ccc4f864590e66.1638540704.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="czxaihewcov44zn6"
-Content-Disposition: inline
-In-Reply-To: <CAPpJ_edY+HXfv_rNL01piUFYaTUdFb9KEj2h-xN0MH0cYRyMTQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,127 +48,254 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
- linux@endlessos.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>
+Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Convert the Silicon Image sii902x HDMI bridge Device Tree binding
+documentation to json-schema.
 
---czxaihewcov44zn6
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add missing sil,sii9022-cpi and sil,sii9022-tpi compatible values.
 
-On Mon, Nov 29, 2021 at 04:31:57PM +0800, Jian-Hong Pan wrote:
-> Maxime Ripard <maxime@cerno.tech> =E6=96=BC 2021=E5=B9=B411=E6=9C=8826=E6=
-=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=8811:45=E5=AF=AB=E9=81=93=EF=BC=9A
-> >
-> > On Fri, Nov 19, 2021 at 06:24:34PM +0800, Jian-Hong Pan wrote:
-> > > Maxime Ripard <maxime@cerno.tech> =E6=96=BC 2021=E5=B9=B411=E6=9C=881=
-8=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=886:40=E5=AF=AB=E9=81=93=EF=
-=BC=9A
-> > > >
-> > > > On Thu, Nov 18, 2021 at 02:42:58PM +0800, Jian-Hong Pan wrote:
-> > > > > Maxime Ripard <maxime@cerno.tech> =E6=96=BC 2021=E5=B9=B411=E6=9C=
-=8817=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=885:45=E5=AF=AB=E9=81=93=
-=EF=BC=9A
-> > > > > > The conversion to DRM commit helpers (f3c420fe19f8, "drm/vc4: k=
-ms: Convert to
-> > > > > > atomic helpers") introduced a number of issues in corner cases,=
- most of them
-> > > > > > showing themselves in the form of either a vblank timeout or us=
-e-after-free
-> > > > > > error.
-> > > > > >
-> > > > > > These patches should fix most of them, some of them still being=
- debugged.
-> > > > > >
-> > > > > > Maxime
-> > > > > >
-> > > > > > Changes from v1:
-> > > > > >   - Prevent a null pointer dereference
-> > > > > >
-> > > > > > Maxime Ripard (6):
-> > > > > >   drm/vc4: kms: Wait for the commit before increasing our clock=
- rate
-> > > > > >   drm/vc4: kms: Fix return code check
-> > > > > >   drm/vc4: kms: Add missing drm_crtc_commit_put
-> > > > > >   drm/vc4: kms: Clear the HVS FIFO commit pointer once done
-> > > > > >   drm/vc4: kms: Don't duplicate pending commit
-> > > > > >   drm/vc4: kms: Fix previous HVS commit wait
-> > > > > >
-> > > > > >  drivers/gpu/drm/vc4/vc4_kms.c | 42 ++++++++++++++++-----------=
---------
-> > > > > >  1 file changed, 19 insertions(+), 23 deletions(-)
-> > > > >
-> > > > > I tested the v2 patches based on latest mainline kernel with RPi =
-4B.
-> > > > > System can boot up into desktop environment.
-> > > >
-> > > > So the thing that was broken initially isn't anymore?
-> > >
-> > > No.  It does not appear anymore.
-> > >
-> > > > > Although it still hit the bug [1], which might be under debugging=
-, I
-> > > > > think these patches LGTM.
-> > > >
-> > > > The vblank timeout stuff is a symptom of various different bugs. Ca=
-n you
-> > > > share your setup, your config.txt, and what you're doing to trigger=
- it?
-> > >
-> > > I get the RPi boot firmware files from raspberrypi's repository at tag
-> > > 1.20211029 [1]
-> > > And, make system boots:
-> > > RPi firmware -> U-Boot -> Linux kernel (aarch64) with corresponding D=
-TB
-> > >
-> > > The config.txt only has:
-> > > enable_uart=3D1
-> > > arm_64bit=3D1
-> > > kernel=3Duboot.bin
-> > >
-> > > This bug can be reproduced with es2gears command easily.  May need to
-> > > wait it running a while.
-> > >
-> > > Mesa: 21.2.2
-> > > libdrm: 2.4.107
-> > > xserver/wayland: 1.20.11  Using wayland
-> > >
-> > > This bug happens with direct boot path as well:
-> > > RPi firmware -> Linux kernel (aarch64) with corresponding DTB
-> > >
-> > > I tried with Endless OS and Ubuntu's RPi 4B images.
-> > > An easy setup is using Ubuntu 21.10 RPi 4B image [2].  Then, replace
-> > > the kernel & device tree blob and edit the config.txt.
-> >
-> > Does it still appear if you raise the core clock in the config.txt file
-> > using: core_freq_min=3D600 ?
->=20
-> It still appears when I raise the core clock in the config.txt file:
-> core_freq_min=3D600
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+RFC as I do not know the meaning of the various ports subnodes.
 
-That's weird, we had some issues like that already but could never point
-exactly what was going on.
+v2:
+  - Rework sil,i2s-data-lanes,
+  - Add schema reference to ports.
+---
+ .../bindings/display/bridge/sii902x.txt       |  78 ----------
+ .../bindings/display/bridge/sil,sii9022.yaml  | 133 ++++++++++++++++++
+ 2 files changed, 133 insertions(+), 78 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/bridge/sii902x.txt
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/sil,sii9022.yaml
 
-Is testing the official raspberrypi kernel an option for you? If so,
-trying the same workload with fkms would certainly help
+diff --git a/Documentation/devicetree/bindings/display/bridge/sii902x.txt b/Documentation/devicetree/bindings/display/bridge/sii902x.txt
+deleted file mode 100644
+index 3bc760cc31cbbeee..0000000000000000
+--- a/Documentation/devicetree/bindings/display/bridge/sii902x.txt
++++ /dev/null
+@@ -1,78 +0,0 @@
+-sii902x HDMI bridge bindings
+-
+-Required properties:
+-	- compatible: "sil,sii9022"
+-	- reg: i2c address of the bridge
+-
+-Optional properties:
+-	- interrupts: describe the interrupt line used to inform the host
+-	  about hotplug events.
+-	- reset-gpios: OF device-tree gpio specification for RST_N pin.
+-	- iovcc-supply: I/O Supply Voltage (1.8V or 3.3V)
+-	- cvcc12-supply: Digital Core Supply Voltage (1.2V)
+-
+-	HDMI audio properties:
+-	- #sound-dai-cells: <0> or <1>. <0> if only i2s or spdif pin
+-	   is wired, <1> if the both are wired. HDMI audio is
+-	   configured only if this property is found.
+-	- sil,i2s-data-lanes: Array of up to 4 integers with values of 0-3
+-	   Each integer indicates which i2s pin is connected to which
+-	   audio fifo. The first integer selects i2s audio pin for the
+-	   first audio fifo#0 (HDMI channels 1&2), second for fifo#1
+-	   (HDMI channels 3&4), and so on. There is 4 fifos and 4 i2s
+-	   pins (SD0 - SD3). Any i2s pin can be connected to any fifo,
+-	   but there can be no gaps. E.g. an i2s pin must be mapped to
+-	   fifo#0 and fifo#1 before mapping a channel to fifo#2. Default
+-	   value is <0>, describing SD0 pin beiging routed to hdmi audio
+-	   fifo #0.
+-	- clocks: phandle and clock specifier for each clock listed in
+-           the clock-names property
+-	- clock-names: "mclk"
+-	   Describes SII902x MCLK input. MCLK can be used to produce
+-	   HDMI audio CTS values. This property follows
+-	   Documentation/devicetree/bindings/clock/clock-bindings.txt
+-	   consumer binding.
+-
+-	If HDMI audio is configured the sii902x device becomes an I2S
+-	and/or spdif audio codec component (e.g a digital audio sink),
+-	that can be used in configuring a full audio devices with
+-	simple-card or audio-graph-card binding. See their binding
+-	documents on how to describe the way the sii902x device is
+-	connected to the rest of the audio system:
+-	Documentation/devicetree/bindings/sound/simple-card.yaml
+-	Documentation/devicetree/bindings/sound/audio-graph-card.yaml
+-	Note: In case of the audio-graph-card binding the used port
+-	index should be 3.
+-
+-Optional subnodes:
+-	- video input: this subnode can contain a video input port node
+-	  to connect the bridge to a display controller output (See this
+-	  documentation [1]).
+-
+-[1]: Documentation/devicetree/bindings/media/video-interfaces.txt
+-
+-Example:
+-	hdmi-bridge@39 {
+-		compatible = "sil,sii9022";
+-		reg = <0x39>;
+-		reset-gpios = <&pioA 1 0>;
+-		iovcc-supply = <&v3v3_hdmi>;
+-		cvcc12-supply = <&v1v2_hdmi>;
+-
+-		#sound-dai-cells = <0>;
+-		sil,i2s-data-lanes = < 0 1 2 >;
+-		clocks = <&mclk>;
+-		clock-names = "mclk";
+-
+-		ports {
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+-
+-			port@0 {
+-				reg = <0>;
+-				bridge_in: endpoint {
+-					remote-endpoint = <&dc_out>;
+-				};
+-			};
+-		};
+-	};
+diff --git a/Documentation/devicetree/bindings/display/bridge/sil,sii9022.yaml b/Documentation/devicetree/bindings/display/bridge/sil,sii9022.yaml
+new file mode 100644
+index 0000000000000000..b39537f4fe8694ef
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/sil,sii9022.yaml
+@@ -0,0 +1,133 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/sil,sii9022.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Silicon Image sii902x HDMI bridge
++
++maintainers:
++  - Boris Brezillon <bbrezillon@kernel.org>
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - enum:
++              - sil,sii9022-cpi
++              - sil,sii9022-tpi
++          - const: sil,sii9022
++      - const: sil,sii9022
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++    description: Interrupt line used to inform the host about hotplug events.
++
++  reset-gpios:
++    maxItems: 1
++
++  iovcc-supply:
++    description: I/O Supply Voltage (1.8V or 3.3V)
++
++  cvcc12-supply:
++    description: Digital Core Supply Voltage (1.2V)
++
++  '#sound-dai-cells':
++    enum: [ 0, 1 ]
++    description: |
++      <0> if only i2s or spdif pin is wired,
++      <1> if both are wired.
++      HDMI audio is configured only if this property is found.
++      If HDMI audio is configured the sii902x device becomes an I2S and/or
++      spdif audio codec component (e.g. a digital audio sink), that can be used
++      in configuring a full audio devices with simple-card or audio-graph-card
++      binding. See their binding documents on how to describe the way the
++      sii902x device is connected to the rest of the audio system:
++      Documentation/devicetree/bindings/sound/simple-card.yaml
++      Documentation/devicetree/bindings/sound/audio-graph-card.yaml
++      Note: In case of the audio-graph-card binding the used port index should
++      be 3.
++
++  sil,i2s-data-lanes:
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    minItems: 1
++    maxItems: 4
++    uniqueItems: true
++    items:
++      enum: [ 0, 1, 2, 3 ]
++    description:
++      Each integer indicates which i2s pin is connected to which audio fifo.
++      The first integer selects i2s audio pin for the first audio fifo#0 (HDMI
++      channels 1&2), second for fifo#1 (HDMI channels 3&4), and so on. There
++      are 4 fifos and 4 i2s pins (SD0 - SD3). Any i2s pin can be connected to
++      any fifo, but there can be no gaps. E.g. an i2s pin must be mapped to
++      fifo#0 and fifo#1 before mapping a channel to fifo#2. Default value is
++      <0>, describing SD0 pin being routed to hdmi audio fifo #0.
++
++  clocks:
++    maxItems: 1
++    description: MCLK input. MCLK can be used to produce HDMI audio CTS values.
++
++  clock-names:
++    const: mclk
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        type: object
++        description: FIXME
++
++      port@1:
++        type: object
++        description: FIXME
++
++      port@2:
++        type: object
++        description: FIXME
++
++      port@3:
++        type: object
++        description: FIXME
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        hdmi-bridge@39 {
++            compatible = "sil,sii9022";
++            reg = <0x39>;
++            reset-gpios = <&pioA 1 0>;
++            iovcc-supply = <&v3v3_hdmi>;
++            cvcc12-supply = <&v1v2_hdmi>;
++
++            #sound-dai-cells = <0>;
++            sil,i2s-data-lanes = < 0 1 2 >;
++            clocks = <&mclk>;
++            clock-names = "mclk";
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    reg = <0>;
++                    bridge_in: endpoint {
++                        remote-endpoint = <&dc_out>;
++                    };
++                };
++            };
++        };
++    };
+-- 
+2.25.1
 
-Maxime
-
---czxaihewcov44zn6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYaojywAKCRDj7w1vZxhR
-xXuEAP9OBm520SXfn2duRssbqnrqpj9WcW3eXVfnr1dpRvkQGgEAjK2/V9CIfIBn
-J44aJrHTDvpk9e6NefTjI4Pq+oH8BQ8=
-=2T8s
------END PGP SIGNATURE-----
-
---czxaihewcov44zn6--
