@@ -1,80 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4786467A56
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 16:33:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D8F7467A7D
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 16:44:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 383D46F586;
-	Fri,  3 Dec 2021 15:33:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB4366EE1A;
+	Fri,  3 Dec 2021 15:43:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mta-p5.oit.umn.edu (mta-p5.oit.umn.edu [134.84.196.205])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A0966F586
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Dec 2021 15:33:28 +0000 (UTC)
-Received: from localhost (unknown [127.0.0.1])
- by mta-p5.oit.umn.edu (Postfix) with ESMTP id 4J5H0S1FYxz9wjXf
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Dec 2021 15:33:28 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at umn.edu
-Received: from mta-p5.oit.umn.edu ([127.0.0.1])
- by localhost (mta-p5.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 63XQKsV4jxuR for <dri-devel@lists.freedesktop.org>;
- Fri,  3 Dec 2021 09:33:28 -0600 (CST)
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mta-p5.oit.umn.edu (Postfix) with ESMTPS id 4J5H0R69v0z9wjXb
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Dec 2021 09:33:27 -0600 (CST)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p5.oit.umn.edu 4J5H0R69v0z9wjXb
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p5.oit.umn.edu 4J5H0R69v0z9wjXb
-Received: by mail-pg1-f200.google.com with SMTP id
- z4-20020a656104000000b00321790921fbso2089452pgu.4
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Dec 2021 07:33:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=umn.edu; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=HjgNKDbbr6ZOOlNKpxwBIvbqs7099djs3WiwVtq38m0=;
- b=lNvxGiJuGWJmPAZR23PeQYeKAew/1RyNFlpUXAVn8VcKZ93jJTPCc4rKB36nIqSTUh
- Ew+0PujB3bAP6H0pjgLc07lSSJ/PJvJlHexdkTzfe03ZCkAHkOKRI7enOq9SNJfZLZl4
- G0EAbZWS97jE9s9NIxTt6meWodMADoj4DM8c7iO5EDGi4v1I5Y2IdZSYvZLff+u8tAV6
- 9TWvj7OE2NYsqXZxPpgATlZYVkM+o4hvZM9KdZ/Rd8KgRxPPiBz4TfBhXFgljRD3m4Hc
- iNKhtEejo4bHD3TQW9xZd/9e1xu9E5uRes+CtR1TLzkyHJk5JUKEPrwiP1bsTStb3rGY
- 15zA==
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25EFA6EE1A
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Dec 2021 15:43:57 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id
+ n33-20020a05600c502100b0032fb900951eso5179715wmr.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Dec 2021 07:43:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JFb5QjcjkkvOWqOmEGkrbQXfQxx1NzWXe9zva7YzoKg=;
+ b=UFBq+mbwH5xajiKeeTuUMTrYFQuelJMKLfetPhEeNM1Ekdx7RqvGyt6pHsqD/vnjkm
+ QzyulTtrf4tWMB1Sf3OSDCBhPB7ptS06OISrmv2EQHVFNi5CH/OckSu7eX6ri3if1LEG
+ qFfHv0/l0t0Z6AhPrntJFOwjTNKaLoFARIVtLhl17EqCJcV3p+Vd+VVNp7xqniXoltlo
+ VEsnad7IsWhiFhWfaGADF+PiVaC8rGp5XFrK1Gzr+cujk7e3NyGwEwjghgHZVOj3TMYD
+ Wx/MzwTvD3T4AY9PeIthiNoSnOLwxMgMFXU1eKpDlJVLneaZUHLK0u10Bd8L8Eyk+PfC
+ 1tng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=HjgNKDbbr6ZOOlNKpxwBIvbqs7099djs3WiwVtq38m0=;
- b=w/9pTg8seyPZPmN5wl7w0lFn2rgbFuCCdELCPj51XtlrmqVcdfx94tKkgDYebWaW5x
- NrITi7M+KKVQre9Wi0AAjQkdUxsMxhbmAvNnA599Ce6aITcjmRCHN8+EEq9IG3o0xUzn
- S/dGHJDFb70B6ctTPVNui3wlWbSOkNnqLu4kI/MJ4xQxNhJqjYiv8Yodb1Z30C4GG7Yu
- LAwdeWD/v9a09C6J/tJk2r6+ZuFm+5EXMv839wDr66NhWAf8mL6uq8O9dhkgUl6WmqBt
- cE5MQJEpkhu+vdloWiQpYw7SmSjBmXuGmpbkR8P+4F9fMpO6filL7rpFhB4Zs5X9ZSB4
- M0Jw==
-X-Gm-Message-State: AOAM532cp1pChQRfB0ekQtXOGzc+H10T/ZCdQu5Dtyrfg8cqMCXRvX4i
- 2YzOGq+KiAHEJj9asu+1F8Ib6TVWDEqqpFMlBx2XD9q+8WWP4KVA8cKtOOphDt5fHp10h3dLWm4
- FgUbii9C/4biDUWhabJzpEH9k1HMl4n1r
-X-Received: by 2002:a62:6542:0:b0:49f:c35f:83f8 with SMTP id
- z63-20020a626542000000b0049fc35f83f8mr3876159pfb.47.1638545606971; 
- Fri, 03 Dec 2021 07:33:26 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwo2x/qdpagwLI3kVTPhJVDsCz4gB3f1riiBcD5zb+aUZCU3M2IhH4d5TGhd8XeJ7xcpCxmbQ==
-X-Received: by 2002:a62:6542:0:b0:49f:c35f:83f8 with SMTP id
- z63-20020a626542000000b0049fc35f83f8mr3876118pfb.47.1638545606611; 
- Fri, 03 Dec 2021 07:33:26 -0800 (PST)
-Received: from zqy787-GE5S.lan ([36.4.93.212])
- by smtp.gmail.com with ESMTPSA id h13sm3678811pfv.84.2021.12.03.07.33.24
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JFb5QjcjkkvOWqOmEGkrbQXfQxx1NzWXe9zva7YzoKg=;
+ b=jT/penNj+eBlyfPgY5TsXb/wNRJTxtRFuY1MH4jxo53JMR8Q0EsNiLIegvcp5etj4c
+ fuzvTvpe7t9838F0pzYl1+0TCrgxezVWpMPJeeVjTC2dykEF/AhFyzF8bZ6sGlU/khLh
+ c1HcWU2UyP0JKvxz55TkbzJTO1YYiKZwPpxIxQtcQ/lC4xN4CjjFi8Z9e62mLea0BYcI
+ 2T92/z0CLRlxsGbqOR1QpJNez4XiN/gr7jtNRWzBNC/b/+hSMRKrU0b7G818jyyLpHsD
+ IxK9sYekD4wU0wSXfsBPri3LYnOSjZlhaohtBit08Yx1WXfoX+7wBbFhhXTTVBW9WtpL
+ brcQ==
+X-Gm-Message-State: AOAM530p1X+RfgcGDT9U+WPPx4+aCOcut8MIiQ6S2pjl4EiwaJ37Pd3S
+ sLuh4FYBVa7kX5VQsXTrTGQ=
+X-Google-Smtp-Source: ABdhPJz8oyzdiJ1afHc29W42NqaYCJVvTXmq1L8sBKkQt1BuT6MeDPgPJs2EJZ2qjEEGLknLm+4E/g==
+X-Received: by 2002:a05:600c:4f8f:: with SMTP id
+ n15mr15647700wmq.70.1638546235721; 
+ Fri, 03 Dec 2021 07:43:55 -0800 (PST)
+Received: from localhost ([193.209.96.43])
+ by smtp.gmail.com with ESMTPSA id h18sm3367289wre.46.2021.12.03.07.43.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Dec 2021 07:33:26 -0800 (PST)
-From: Zhou Qingyang <zhou1615@umn.edu>
-To: zhou1615@umn.edu
-Subject: [PATCH v2] drm/gma500/cdv_intel_lvds: Fix a wild pointer dereference
- in cdv_intel_lvds_get_modes()
-Date: Fri,  3 Dec 2021 23:33:21 +0800
-Message-Id: <20211203153321.108049-1-zhou1615@umn.edu>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <CAMeQTsazxeXgOJcuGZhEH5BX5ZzmOgM-NAjLjj9iypNgTqu-dg@mail.gmail.com>
-References: <CAMeQTsazxeXgOJcuGZhEH5BX5ZzmOgM-NAjLjj9iypNgTqu-dg@mail.gmail.com>
+ Fri, 03 Dec 2021 07:43:54 -0800 (PST)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH] dt-bindings: panel: Include SPI peripheral properties
+Date: Fri,  3 Dec 2021 16:43:50 +0100
+Message-Id: <20211203154350.179112-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,59 +67,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, kjlu@umn.edu, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>,
- Alan Cox <alan@linux.intel.com>
+Cc: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In cdv_intel_lvds_get_modes(), the return value of drm_mode_duplicate()
-is assigned to mode and used in drm_mode_probed_add().
-drm_mode_probed_add() passes mode->head to list_add_tail().
-list_add_tail() will further call __list_add() and there is a
-dereference of mode->head in __list_add(), which could lead to a wild
-pointer dereference on failure of drm_mode_duplicate().
+From: Thierry Reding <treding@nvidia.com>
 
-Fix this bug by adding a checking of mode
+SPI panels need to reference the SPI peripheral properties so that they
+can be properly validated.
 
-This bug was found by a static analyzer. The analysis employs
-differential checking to identify inconsistent security operations
-(e.g., checks or kfrees) between two code paths and confirms that the
-inconsistent operations are not recovered in the current function or
-the callers, so they constitute bugs.
-
-Note that, as a bug found by static analysis, it can be a false
-positive or hard to trigger. Multiple researchers have cross-reviewed
-the bug.
-
-Builds with CONFIG_DRM_GMA500=m show no new warnings,
-and our static analyzer no longer warns about this code.
-
-Fixes: 6a227d5fd6c4 ("gma500: Add support for Cedarview")
-Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
-Changes in v2:
-  -  Use dev_err and return instead of returning error code.
+ .../devicetree/bindings/display/panel/lgphilips,lb035q02.yaml    | 1 +
+ .../devicetree/bindings/display/panel/sony,acx565akm.yaml        | 1 +
+ 2 files changed, 2 insertions(+)
 
- drivers/gpu/drm/gma500/cdv_intel_lvds.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/gpu/drm/gma500/cdv_intel_lvds.c b/drivers/gpu/drm/gma500/cdv_intel_lvds.c
-index 9e1cdb11023c..581fc8315631 100644
---- a/drivers/gpu/drm/gma500/cdv_intel_lvds.c
-+++ b/drivers/gpu/drm/gma500/cdv_intel_lvds.c
-@@ -310,6 +310,11 @@ static int cdv_intel_lvds_get_modes(struct drm_connector *connector)
- 	if (mode_dev->panel_fixed_mode != NULL) {
- 		struct drm_display_mode *mode =
- 		    drm_mode_duplicate(dev, mode_dev->panel_fixed_mode);
-+		if (!mode) {
-+			dev_err(dev->dev, "drm_mode_duplicate() failed.\n");
-+			return 0;
-+		}
-+
- 		drm_mode_probed_add(connector, mode);
- 		return 1;
- 	}
+diff --git a/Documentation/devicetree/bindings/display/panel/lgphilips,lb035q02.yaml b/Documentation/devicetree/bindings/display/panel/lgphilips,lb035q02.yaml
+index 830e335ddb53..240a884b7fa7 100644
+--- a/Documentation/devicetree/bindings/display/panel/lgphilips,lb035q02.yaml
++++ b/Documentation/devicetree/bindings/display/panel/lgphilips,lb035q02.yaml
+@@ -14,6 +14,7 @@ maintainers:
+   - Tomi Valkeinen <tomi.valkeinen@ti.com>
+ 
+ allOf:
++  - $ref: ../../spi/spi-peripheral-props.yaml
+   - $ref: panel-common.yaml#
+ 
+ properties:
+diff --git a/Documentation/devicetree/bindings/display/panel/sony,acx565akm.yaml b/Documentation/devicetree/bindings/display/panel/sony,acx565akm.yaml
+index 95d053c548ab..4459d746592f 100644
+--- a/Documentation/devicetree/bindings/display/panel/sony,acx565akm.yaml
++++ b/Documentation/devicetree/bindings/display/panel/sony,acx565akm.yaml
+@@ -14,6 +14,7 @@ maintainers:
+   - Tomi Valkeinen <tomi.valkeinen@ti.com>
+ 
+ allOf:
++  - $ref: ../../spi/spi-peripheral-props.yaml
+   - $ref: panel-common.yaml#
+ 
+ properties:
 -- 
-2.25.1
+2.33.1
 
