@@ -1,41 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCD3E467CBE
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 18:42:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EB2D467CF0
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Dec 2021 19:05:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 040077B05F;
-	Fri,  3 Dec 2021 17:42:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C32C67B221;
+	Fri,  3 Dec 2021 18:05:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81BA87B05F;
- Fri,  3 Dec 2021 17:42:30 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10187"; a="236961736"
-X-IronPort-AV: E=Sophos;i="5.87,284,1631602800"; d="scan'208";a="236961736"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Dec 2021 09:42:05 -0800
-X-IronPort-AV: E=Sophos;i="5.87,284,1631602800"; d="scan'208";a="501270784"
-Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.205])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Dec 2021 09:42:03 -0800
-Date: Fri, 3 Dec 2021 23:15:18 +0530
-From: Ramalingam C <ramalingam.c@intel.com>
-To: Matthew Auld <matthew.auld@intel.com>
-Subject: Re: [PATCH v2 2/8] drm/i915/gtt: add xehpsdv_ppgtt_insert_entry
-Message-ID: <20211203174518.GE27873@intel.com>
-References: <20211203122426.2859679-1-matthew.auld@intel.com>
- <20211203122426.2859679-3-matthew.auld@intel.com>
- <20211203165915.GB26974@intel.com>
- <bf75ead5-fa0a-2be8-6d70-7f57c57dfb9d@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9ADF7B220;
+ Fri,  3 Dec 2021 18:05:06 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10187"; a="235761353"
+X-IronPort-AV: E=Sophos;i="5.87,284,1631602800"; d="scan'208";a="235761353"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Dec 2021 10:04:42 -0800
+X-IronPort-AV: E=Sophos;i="5.87,284,1631602800"; d="scan'208";a="746782818"
+Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Dec 2021 10:04:41 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: <intel-gfx@lists.freedesktop.org>,
+	<dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/i915: Rollback seqno when request creation fails
+Date: Fri,  3 Dec 2021 09:59:10 -0800
+Message-Id: <20211203175910.28516-1-matthew.brost@intel.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <bf75ead5-fa0a-2be8-6d70-7f57c57dfb9d@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,118 +42,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: bob.beckett@collabora.com,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, adrian.larumbe@collabora.com,
- dri-devel@lists.freedesktop.org
+Cc: daniele.ceraolospurio@intel.com, john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-12-03 at 17:31:11 +0000, Matthew Auld wrote:
-> On 03/12/2021 16:59, Ramalingam C wrote:
-> > On 2021-12-03 at 12:24:20 +0000, Matthew Auld wrote:
-> > > If this is LMEM then we get a 32 entry PT, with each PTE pointing to
-> > > some 64K block of memory, otherwise it's just the usual 512 entry PT.
-> > > This very much assumes the caller knows what they are doing.
-> > > 
-> > > Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> > > Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> > > Cc: Ramalingam C <ramalingam.c@intel.com>
-> > > ---
-> > >   drivers/gpu/drm/i915/gt/gen8_ppgtt.c | 50 ++++++++++++++++++++++++++--
-> > >   1 file changed, 48 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-> > > index bd3ca0996a23..312b2267bf87 100644
-> > > --- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-> > > +++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-> > > @@ -728,13 +728,56 @@ static void gen8_ppgtt_insert_entry(struct i915_address_space *vm,
-> > >   		gen8_pdp_for_page_index(vm, idx);
-> > >   	struct i915_page_directory *pd =
-> > >   		i915_pd_entry(pdp, gen8_pd_index(idx, 2));
-> > > +	struct i915_page_table *pt = i915_pt_entry(pd, gen8_pd_index(idx, 1));
-> > >   	gen8_pte_t *vaddr;
-> > > -	vaddr = px_vaddr(i915_pt_entry(pd, gen8_pd_index(idx, 1)));
-> > > +	GEM_BUG_ON(pt->is_compact);
-> > 
-> > Do we have compact PT for smem with 64k pages?
-> 
-> It's technically possible but we don't bother trying to support it in the
-> driver.
-Ok.
+gem_ctx_create.basic-files can slam on kernel contexts to the extent
+where request creation fails because the ring is full. When this happens
+seqno numbers are skipped which can result the below GEM_BUG_ON blowing
+in gt/intel_engine_pm.c:__engine_unpark:
 
-Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
-> 
-> > 
-> > > +
-> > > +	vaddr = px_vaddr(pt);
-> > >   	vaddr[gen8_pd_index(idx, 0)] = gen8_pte_encode(addr, level, flags);
-> > >   	clflush_cache_range(&vaddr[gen8_pd_index(idx, 0)], sizeof(*vaddr));
-> > >   }
-> > > +static void __xehpsdv_ppgtt_insert_entry_lm(struct i915_address_space *vm,
-> > > +					    dma_addr_t addr,
-> > > +					    u64 offset,
-> > > +					    enum i915_cache_level level,
-> > > +					    u32 flags)
-> > > +{
-> > > +	u64 idx = offset >> GEN8_PTE_SHIFT;
-> > > +	struct i915_page_directory * const pdp =
-> > > +		gen8_pdp_for_page_index(vm, idx);
-> > > +	struct i915_page_directory *pd =
-> > > +		i915_pd_entry(pdp, gen8_pd_index(idx, 2));
-> > > +	struct i915_page_table *pt = i915_pt_entry(pd, gen8_pd_index(idx, 1));
-> > > +	gen8_pte_t *vaddr;
-> > > +
-> > > +	GEM_BUG_ON(!IS_ALIGNED(addr, SZ_64K));
-> > > +	GEM_BUG_ON(!IS_ALIGNED(offset, SZ_64K));
-> > > +
-> > > +	if (!pt->is_compact) {
-> > > +		vaddr = px_vaddr(pd);
-> > > +		vaddr[gen8_pd_index(idx, 1)] |= GEN12_PDE_64K;
-> > > +		pt->is_compact = true;
-> > > +	}
-> > > +
-> > > +	vaddr = px_vaddr(pt);
-> > > +	vaddr[gen8_pd_index(idx, 0) / 16] = gen8_pte_encode(addr, level, flags);
-> > > +}
-> > > +
-> > > +static void xehpsdv_ppgtt_insert_entry(struct i915_address_space *vm,
-> > > +				       dma_addr_t addr,
-> > > +				       u64 offset,
-> > > +				       enum i915_cache_level level,
-> > > +				       u32 flags)
-> > > +{
-> > > +	if (flags & PTE_LM)
-> > > +		return __xehpsdv_ppgtt_insert_entry_lm(vm, addr, offset,
-> > > +						       level, flags);
-> > > +
-> > > +	return gen8_ppgtt_insert_entry(vm, addr, offset, level, flags);
-> > Matt,
-> > 
-> > Is this call for gen8_*** is for insertion of smem PTE entries on the
-> > 64K capable platforms like DG2?
-> 
-> Yeah, this just falls back to the generic 512 entry layout for the PT.
-> 
-> > 
-> > Ram
-> > 
-> > > +}
-> > > +
-> > >   static int gen8_init_scratch(struct i915_address_space *vm)
-> > >   {
-> > >   	u32 pte_flags;
-> > > @@ -937,7 +980,10 @@ struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt,
-> > >   	ppgtt->vm.bind_async_flags = I915_VMA_LOCAL_BIND;
-> > >   	ppgtt->vm.insert_entries = gen8_ppgtt_insert;
-> > > -	ppgtt->vm.insert_page = gen8_ppgtt_insert_entry;
-> > > +	if (HAS_64K_PAGES(gt->i915))
-> > > +		ppgtt->vm.insert_page = xehpsdv_ppgtt_insert_entry;
-> > > +	else
-> > > +		ppgtt->vm.insert_page = gen8_ppgtt_insert_entry;
-> > >   	ppgtt->vm.allocate_va_range = gen8_ppgtt_alloc;
-> > >   	ppgtt->vm.clear_range = gen8_ppgtt_clear;
-> > >   	ppgtt->vm.foreach = gen8_ppgtt_foreach;
-> > > -- 
-> > > 2.31.1
-> > > 
+GEM_BUG_ON(ce->timeline->seqno !=
+           READ_ONCE(*ce->timeline->hwsp_seqno));
+
+Fixup request creation code to roll back seqno when request creation
+fails.
+
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_timeline.c | 5 +++++
+ drivers/gpu/drm/i915/gt/intel_timeline.h | 1 +
+ drivers/gpu/drm/i915/i915_request.c      | 1 +
+ 3 files changed, 7 insertions(+)
+
+diff --git a/drivers/gpu/drm/i915/gt/intel_timeline.c b/drivers/gpu/drm/i915/gt/intel_timeline.c
+index 438bbc7b8147..64ea9a90c7a0 100644
+--- a/drivers/gpu/drm/i915/gt/intel_timeline.c
++++ b/drivers/gpu/drm/i915/gt/intel_timeline.c
+@@ -301,6 +301,11 @@ static u32 timeline_advance(struct intel_timeline *tl)
+ 	return tl->seqno += 1 + tl->has_initial_breadcrumb;
+ }
+ 
++void intel_timeline_rollback_seqno(struct intel_timeline *tl)
++{
++	timeline_rollback(tl);
++}
++
+ static noinline int
+ __intel_timeline_get_seqno(struct intel_timeline *tl,
+ 			   u32 *seqno)
+diff --git a/drivers/gpu/drm/i915/gt/intel_timeline.h b/drivers/gpu/drm/i915/gt/intel_timeline.h
+index 57308c4d664a..a2f2e0ea186f 100644
+--- a/drivers/gpu/drm/i915/gt/intel_timeline.h
++++ b/drivers/gpu/drm/i915/gt/intel_timeline.h
+@@ -72,6 +72,7 @@ void intel_timeline_enter(struct intel_timeline *tl);
+ int intel_timeline_get_seqno(struct intel_timeline *tl,
+ 			     struct i915_request *rq,
+ 			     u32 *seqno);
++void intel_timeline_rollback_seqno(struct intel_timeline *tl);
+ void intel_timeline_exit(struct intel_timeline *tl);
+ void intel_timeline_unpin(struct intel_timeline *tl);
+ 
+diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+index a72c8f0346a0..86f32ee082f7 100644
+--- a/drivers/gpu/drm/i915/i915_request.c
++++ b/drivers/gpu/drm/i915/i915_request.c
+@@ -966,6 +966,7 @@ __i915_request_create(struct intel_context *ce, gfp_t gfp)
+ 
+ err_unwind:
+ 	ce->ring->emit = rq->head;
++	intel_timeline_rollback_seqno(tl);
+ 
+ 	/* Make sure we didn't add ourselves to external state before freeing */
+ 	GEM_BUG_ON(!list_empty(&rq->sched.signalers_list));
+-- 
+2.33.1
+
