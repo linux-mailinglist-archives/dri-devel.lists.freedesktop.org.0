@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79E2F469394
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 11:25:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1469F46935C
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 11:20:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B03C07A35C;
-	Mon,  6 Dec 2021 10:20:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E16EE73EAA;
+	Mon,  6 Dec 2021 10:19:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B1FF6E8A0;
- Sat,  4 Dec 2021 10:55:43 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id bu18so12973624lfb.0;
- Sat, 04 Dec 2021 02:55:43 -0800 (PST)
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
+ [IPv6:2a00:1450:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E9E56E8A0;
+ Sat,  4 Dec 2021 10:55:44 +0000 (UTC)
+Received: by mail-lj1-x235.google.com with SMTP id 13so11089697ljj.11;
+ Sat, 04 Dec 2021 02:55:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=C0d0CUW1B7x3fzQqz6q8k32dtwb0GdQ9fNSXToABtcU=;
- b=qpphbWrfpXnlbiEVlqmUTcigeUTFRQk5OfwQa4Ljt0drpgNZXGtP/7wYUQvB+P5wWo
- 5OCIs84DZfeAm+D2tn+ER42zog8GCcuiMVv8vsHlaJor7SWsKcirDBGxW+7Nq8+0+nMc
- FHKRnvdXJpAk8bow2fW7Q3o8xUX/TLvfBzPKI7p6rDn4F89plBLoYXZa3PpFpfr6Pq/f
- IzfVIghLys9BlstnmC8Ku4Gy4QIXDDioPkKXtxzKMuMFS/VJ02U+ddaw0FBmKRY85TTQ
- 2n7v9qziFq3ltljQQdm6S5HqmMT3rMoVOAz66h1rZDsrS9jEOUhY7cEjTOtJSjxanfrL
- bCHA==
+ bh=KpJG+dZIKMWfHUy9cRIbi/fWUlXgNegU2DlqIwxqCCg=;
+ b=XSuEd/aztjZTNFkVTdND9ThEpZC8tfRUibgQ0FbuO+Y9pTS9AIFhjcM59HnI1TMibt
+ pkLkC8Tu/km/G3bs+gRczOpS1fyIWVtvknfTft6mcrbTqn+17snNs+zzedOGKanu6wnS
+ oG0YyYqtaj5WYteewkMioSabHEek0sCxzA0OtKvE9YO1Xi8cmsYFpc/iR2uPiVxKJK/m
+ iQ8TQWTC7H8+R5ooTzd8OWTRMkR9/2PkwlqGI67c37kb9weU4u4HQCadsLDAVMKb2ro1
+ 2BK3mq8F/8bqRxwE1zLa4+Spy8m0VJ9VfYRfHs3wTu9QOC75X9Uojny3U3ytkV9LRWJh
+ Qlbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=C0d0CUW1B7x3fzQqz6q8k32dtwb0GdQ9fNSXToABtcU=;
- b=2kl5CBsYdHss24qxe3DxqfQkWmOYStXBqRMwCY1/CT2FPyM0dfQNWS4lbGwCuCPaA/
- t2cZTzzyjwdMm2D/pxQQAJSiF3Sqk9yfp0tpnDY/K8TAoTjG0E0SeC6BLLzZsXCD2Okk
- +WZEzl9McUWMFK5/xQ8WlhFVcbjMxyjzRCx8pwp9YLrfJdHIUgJLqMl2/DZieOkkz3OR
- CqfNcfEy8euf8ZMSCmN1h/2ZhbEH3xNyiWU94Kwm93OeI6hdAeQ01FtNHeJWInZgZwTv
- Y7W3ZTB5Z2iINlzJ03KJDMgCaaZbud2YQXOz8grxaI3q+zdx2YiTc9MCB/s2EYIYYeg7
- 5FlA==
-X-Gm-Message-State: AOAM5305/Uo5NkHmopS9wTQRVCy5MuJJPo1RyZh4kEph2FevVxlfviUs
- izCBrJe/wessXvHwKDueVSx1kaWjwlttmA==
-X-Google-Smtp-Source: ABdhPJwpksWaueUjfxQN8EXKZ8uyMOdB4TxPhlVFPayupsVJ63romup+0geZhDZmninOVvoeqbkCTw==
-X-Received: by 2002:a19:5e59:: with SMTP id z25mr23826496lfi.686.1638615341727; 
- Sat, 04 Dec 2021 02:55:41 -0800 (PST)
+ bh=KpJG+dZIKMWfHUy9cRIbi/fWUlXgNegU2DlqIwxqCCg=;
+ b=jq2hvK6YIe+Mm7GqXOnBJ9IBv/tJ29+95v3WdHzfA663YTz69jC7tIYIlkpGx9nt3l
+ S+JkFjQUDBGWwDada0TSvE1JBvYckeQmT6yIe21iaZY5qvguCWhK0Wd3DdQ6IrCcd2eJ
+ UNRAu8THdFLWir0BU1cUWnJJciGc2Y41Ky9G8xIGsVXoekmEr90BER91Z7we3NNcl2M4
+ DgpkefV041Lba2GjP8FL97xTLqQvWgli79JiCD8f9Mu3vyzv5dWI2tKif9omXtjA0pH6
+ K/D+HgFW48L43jAgH9BjxWHE5OaOAakbbz6eduMkfFlMDkmQUPpSkuul1sqIgOguGmWU
+ gyVA==
+X-Gm-Message-State: AOAM531ksI3alEArejxNvv9Q1udGm1SL4E/8uWxgtNU2aE8nw5ig61Pn
+ JF/bGmrzVFwFXpM+3mCRSGkbkoEK5HmOTQ==
+X-Google-Smtp-Source: ABdhPJwR00P/dErhD2wD/pyjqENrBh+9h5sjMb5T9+VNLzmG+b3L31NMSBiUlvXBCEk8Sxocwb3p+A==
+X-Received: by 2002:a2e:a482:: with SMTP id h2mr23375178lji.87.1638615342575; 
+ Sat, 04 Dec 2021 02:55:42 -0800 (PST)
 Received: from localhost.localdomain (h-155-4-221-129.NA.cust.bahnhof.se.
  [155.4.221.129])
- by smtp.gmail.com with ESMTPSA id d23sm723918lfm.107.2021.12.04.02.55.40
+ by smtp.gmail.com with ESMTPSA id d23sm723918lfm.107.2021.12.04.02.55.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Dec 2021 02:55:41 -0800 (PST)
+ Sat, 04 Dec 2021 02:55:42 -0800 (PST)
 From: Rikard Falkeborn <rikard.falkeborn@gmail.com>
 To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
  Jani Nikula <jani.nikula@linux.intel.com>,
@@ -53,9 +53,9 @@ To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 7/9] drm/i915/gvt: Constify formats
-Date: Sat,  4 Dec 2021 11:55:25 +0100
-Message-Id: <20211204105527.15741-8-rikard.falkeborn@gmail.com>
+Subject: [PATCH 8/9] drm/i915/gvt: Constify gtt_type_table_entry
+Date: Sat,  4 Dec 2021 11:55:26 +0100
+Message-Id: <20211204105527.15741-9-rikard.falkeborn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20211204105527.15741-1-rikard.falkeborn@gmail.com>
 References: <20211204105527.15741-1-rikard.falkeborn@gmail.com>
@@ -79,75 +79,27 @@ Cc: Rikard Falkeborn <rikard.falkeborn@gmail.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These are never modified, so make them const to allow the compiler to
-put them in read-only memory. WHile at it, make the description const
-char* since it is never modified.
+It is never modified, so make it const to allow the compiler to put it
+in read-only memory.
 
 Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
 ---
- drivers/gpu/drm/i915/gvt/fb_decoder.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/i915/gvt/gtt.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gvt/fb_decoder.c b/drivers/gpu/drm/i915/gvt/fb_decoder.c
-index 11a8baba6822..3c8736ae8fed 100644
---- a/drivers/gpu/drm/i915/gvt/fb_decoder.c
-+++ b/drivers/gpu/drm/i915/gvt/fb_decoder.c
-@@ -40,12 +40,12 @@
+diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/gtt.c
+index c8cd6bf28ea8..614156856f16 100644
+--- a/drivers/gpu/drm/i915/gvt/gtt.c
++++ b/drivers/gpu/drm/i915/gvt/gtt.c
+@@ -185,7 +185,7 @@ struct gtt_type_table_entry {
+ 		.pse_entry_type = pse_type, \
+ 	}
  
- #define PRIMARY_FORMAT_NUM	16
- struct pixel_format {
--	int	drm_format;	/* Pixel format in DRM definition */
--	int	bpp;		/* Bits per pixel, 0 indicates invalid */
--	char	*desc;		/* The description */
-+	int		drm_format;	/* Pixel format in DRM definition */
-+	int		bpp;		/* Bits per pixel, 0 indicates invalid */
-+	const char	*desc;		/* The description */
- };
- 
--static struct pixel_format bdw_pixel_formats[] = {
-+static const struct pixel_format bdw_pixel_formats[] = {
- 	{DRM_FORMAT_C8, 8, "8-bit Indexed"},
- 	{DRM_FORMAT_RGB565, 16, "16-bit BGRX (5:6:5 MSB-R:G:B)"},
- 	{DRM_FORMAT_XRGB8888, 32, "32-bit BGRX (8:8:8:8 MSB-X:R:G:B)"},
-@@ -58,7 +58,7 @@ static struct pixel_format bdw_pixel_formats[] = {
- 	{0, 0, NULL},
- };
- 
--static struct pixel_format skl_pixel_formats[] = {
-+static const struct pixel_format skl_pixel_formats[] = {
- 	{DRM_FORMAT_YUYV, 16, "16-bit packed YUYV (8:8:8:8 MSB-V:Y2:U:Y1)"},
- 	{DRM_FORMAT_UYVY, 16, "16-bit packed UYVY (8:8:8:8 MSB-Y2:V:Y1:U)"},
- 	{DRM_FORMAT_YVYU, 16, "16-bit packed YVYU (8:8:8:8 MSB-U:Y2:V:Y1)"},
-@@ -278,14 +278,14 @@ int intel_vgpu_decode_primary_plane(struct intel_vgpu *vgpu,
- 
- #define CURSOR_FORMAT_NUM	(1 << 6)
- struct cursor_mode_format {
--	int	drm_format;	/* Pixel format in DRM definition */
--	u8	bpp;		/* Bits per pixel; 0 indicates invalid */
--	u32	width;		/* In pixel */
--	u32	height;		/* In lines */
--	char	*desc;		/* The description */
-+	int		drm_format;	/* Pixel format in DRM definition */
-+	u8		bpp;		/* Bits per pixel; 0 indicates invalid */
-+	u32		width;		/* In pixel */
-+	u32		height;		/* In lines */
-+	const char	*desc;		/* The description */
- };
- 
--static struct cursor_mode_format cursor_pixel_formats[] = {
-+static const struct cursor_mode_format cursor_pixel_formats[] = {
- 	{DRM_FORMAT_ARGB8888, 32, 128, 128, "128x128 32bpp ARGB"},
- 	{DRM_FORMAT_ARGB8888, 32, 256, 256, "256x256 32bpp ARGB"},
- 	{DRM_FORMAT_ARGB8888, 32, 64, 64, "64x64 32bpp ARGB"},
-@@ -391,7 +391,7 @@ int intel_vgpu_decode_cursor_plane(struct intel_vgpu *vgpu,
- 
- #define SPRITE_FORMAT_NUM	(1 << 3)
- 
--static struct pixel_format sprite_pixel_formats[SPRITE_FORMAT_NUM] = {
-+static const struct pixel_format sprite_pixel_formats[SPRITE_FORMAT_NUM] = {
- 	[0x0] = {DRM_FORMAT_YUV422, 16, "YUV 16-bit 4:2:2 packed"},
- 	[0x1] = {DRM_FORMAT_XRGB2101010, 32, "RGB 32-bit 2:10:10:10"},
- 	[0x2] = {DRM_FORMAT_XRGB8888, 32, "RGB 32-bit 8:8:8:8"},
+-static struct gtt_type_table_entry gtt_type_table[] = {
++static const struct gtt_type_table_entry gtt_type_table[] = {
+ 	GTT_TYPE_TABLE_ENTRY(GTT_TYPE_PPGTT_ROOT_L4_ENTRY,
+ 			GTT_TYPE_PPGTT_ROOT_L4_ENTRY,
+ 			GTT_TYPE_INVALID,
 -- 
 2.34.1
 
