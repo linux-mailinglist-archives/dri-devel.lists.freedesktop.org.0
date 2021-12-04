@@ -2,66 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00B4F46936C
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 11:21:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AA224693BB
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 11:27:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5978D73EE0;
-	Mon,  6 Dec 2021 10:19:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 159737AB7F;
+	Mon,  6 Dec 2021 10:20:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 162B76E8A0;
- Sat,  4 Dec 2021 10:55:45 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id r26so12809125lfn.8;
- Sat, 04 Dec 2021 02:55:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=/ZsaCGjkX57VU37ZwPgn6ut1UEGl/i4rIkhwzK9YXBM=;
- b=VbjZssCqahnEymdQXcugkZM7CINrIXO5t9jSAm+Eh1GBeOrM029IZ7lisGsN2PjAAr
- GAtNyIdsfkAv3UL58N7abxCO+OfvpgnJ74wF4M/7t1xV1yFH3QfACbyE9A5Qy2bq8eX5
- mnDtxBPIOKugY0cN7RXl9Of+xgZPnk9JtTOmBtqzGRvAPnkFmN/0GmOlQLhy5fQzeKhV
- TviY0fd40sOg/8Np4s+rmVC2GVPDWvpjjRVkadRz27Eo6bWinsXoRCjSRyIZURsqbm3X
- c6jPzBhz2S3o37CaQtbVCXcJy6bEIUyZvzJX3QMvVykNijnjBCfg3DW3Ao+Pz04+NlyG
- K07A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=/ZsaCGjkX57VU37ZwPgn6ut1UEGl/i4rIkhwzK9YXBM=;
- b=19oBFNGvdmdtX+/omz8ekNzOoiKlyvTTpl+EfoBZ+LyCOotkzD1amSLMkOmSJLxl/6
- A/0BQj59xRybTR0vFsHvlUvloSlS1jR08LIVy5LSF8C6tbKYjqkNomiRBM6IO5tNrrxB
- DM0aoG8v/3Rr+Mt6HZnQvYkfGznWM/OpAH0uBDZLbhXd8O7sJQ/HGwHoV1ym7WFL/VTV
- tfE22/j2L2QwOOaZrkgc72rZXcd7oZ0wxVCAA6nFCvreaZ/8j2ms8r/+fAI1uKY9F9ej
- q5+pcehFYLYnuFgP2q5xULavi0q98DMK1wpJQDey4gA50tBHyRIFag6feXBKJE4YWQ5q
- NPgA==
-X-Gm-Message-State: AOAM530P020bnJGFeZk4S/BT7WYO1q7Pw6uV+INgecyCTY7hyUgWPw2G
- 56AoMTBvKTtPNda4BOsIkws=
-X-Google-Smtp-Source: ABdhPJzrSS7wNoxNyAhHl4z41bEtVkFVwiO6lKZhMVCjLQSo3N3FFW3/Lz5atIf67FXVDwU2xT4v+g==
-X-Received: by 2002:a05:6512:13aa:: with SMTP id
- p42mr22646580lfa.474.1638615343479; 
- Sat, 04 Dec 2021 02:55:43 -0800 (PST)
-Received: from localhost.localdomain (h-155-4-221-129.NA.cust.bahnhof.se.
- [155.4.221.129])
- by smtp.gmail.com with ESMTPSA id d23sm723918lfm.107.2021.12.04.02.55.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Dec 2021 02:55:43 -0800 (PST)
-From: Rikard Falkeborn <rikard.falkeborn@gmail.com>
-To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 9/9] drm/i915/gvt: Constify vgpu_types
-Date: Sat,  4 Dec 2021 11:55:27 +0100
-Message-Id: <20211204105527.15741-10-rikard.falkeborn@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20211204105527.15741-1-rikard.falkeborn@gmail.com>
-References: <20211204105527.15741-1-rikard.falkeborn@gmail.com>
+X-Greylist: delayed 1698 seconds by postgrey-1.36 at gabe;
+ Sat, 04 Dec 2021 13:11:11 UTC
+Received: from mail.sig21.net (mail.sig21.net [217.197.84.222])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42AF16EE97
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Dec 2021 13:11:11 +0000 (UTC)
+Received: from localhorst ([127.0.0.1])
+ by mail.sig21.net with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <js@sig21.net>)
+ id 1mtULv-0001cO-Gx ; Sat, 04 Dec 2021 13:41:19 +0100
+Received: from js by abc.local with local (Exim 4.95)
+ (envelope-from <js@sig21.net>) id 1mtULp-0005XL-2J;
+ Sat, 04 Dec 2021 13:41:13 +0100
+Date: Sat, 4 Dec 2021 13:41:13 +0100
+From: Johannes Stezenbach <js@sig21.net>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH v2] Revert "drm/fb-helper: improve DRM fbdev emulation
+ device names"
+Message-ID: <Yath6T5ET17GbkI7@sig21.net>
+References: <20211020165740.3011927-1-javierm@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211020165740.3011927-1-javierm@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,42 +45,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rikard Falkeborn <rikard.falkeborn@gmail.com>,
- intel-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It is never modified, so make it const to allow the compiler to put it
-in read-only memory. While at it, make name a const char*.
+Hi,
 
-Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
----
- drivers/gpu/drm/i915/gvt/vgpu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Wed, Oct 20, 2021 at 06:57:40PM +0200, Javier Martinez Canillas wrote:
+> This reverts commit b3484d2b03e4c940a9598aa841a52d69729c582a.
+> 
+> That change attempted to improve the DRM drivers fbdev emulation device
+> names to avoid having confusing names like "simpledrmdrmfb" in /proc/fb.
+> 
+> But unfortunately, there are user-space programs such as pm-utils that
+> match against the fbdev names and so broke after the mentioned commit.
+> 
+> Since the names in /proc/fb are used by tools that consider it an uAPI,
+> let's restore the old names even when this lead to silly names like the
+> one mentioned above.
 
-diff --git a/drivers/gpu/drm/i915/gvt/vgpu.c b/drivers/gpu/drm/i915/gvt/vgpu.c
-index fa6b92615799..8dddd0a940a1 100644
---- a/drivers/gpu/drm/i915/gvt/vgpu.c
-+++ b/drivers/gpu/drm/i915/gvt/vgpu.c
-@@ -77,7 +77,7 @@ void populate_pvinfo_page(struct intel_vgpu *vgpu)
- #define VGPU_WEIGHT(vgpu_num)	\
- 	(VGPU_MAX_WEIGHT / (vgpu_num))
- 
--static struct {
-+static const struct {
- 	unsigned int low_mm;
- 	unsigned int high_mm;
- 	unsigned int fence;
-@@ -88,7 +88,7 @@ static struct {
- 	 */
- 	unsigned int weight;
- 	enum intel_vgpu_edid edid;
--	char *name;
-+	const char *name;
- } vgpu_types[] = {
- /* Fixed vGPU type table */
- 	{ MB_TO_BYTES(64), MB_TO_BYTES(384), 4, VGPU_WEIGHT(8), GVT_EDID_1024_768, "8" },
--- 
-2.34.1
+I would like to ask about the fate of this patch. It doesn't
+seem to have been picked up by anyone, does it?
 
+
+Thanks,
+Johannes
+
+
+> Fixes: b3484d2b03e4 ("drm/fb-helper: improve DRM fbdev emulation device names")
+> Reported-by: Johannes Stezenbach <js@sig21.net>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> ---
+> 
+> Changes in v2:
+> - Add a comment explaining that the current /proc/fb names are an uAPI.
+> - Add a Fixes: tag so it can be cherry-picked by stable kernels.
+> - Add Ville Syrjälä's Reviewed-by tag.
+> 
+>  drivers/gpu/drm/drm_fb_helper.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> index 8e7a124d6c5a..22bf690910b2 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -1743,7 +1743,13 @@ void drm_fb_helper_fill_info(struct fb_info *info,
+>  			       sizes->fb_width, sizes->fb_height);
+>  
+>  	info->par = fb_helper;
+> -	snprintf(info->fix.id, sizeof(info->fix.id), "%s",
+> +	/*
+> +	 * The DRM drivers fbdev emulation device name can be confusing if the
+> +	 * driver name also has a "drm" suffix on it. Leading to names such as
+> +	 * "simpledrmdrmfb" in /proc/fb. Unfortunately, it's an uAPI and can't
+> +	 * be changed due user-space tools (e.g: pm-utils) matching against it.
+> +	 */
+> +	snprintf(info->fix.id, sizeof(info->fix.id), "%sdrmfb",
+>  		 fb_helper->dev->driver->name);
+>  
+>  }
+> -- 
+> 2.31.1
+> 
+> 
