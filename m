@@ -1,47 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B35E4693C3
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 11:28:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B049B469383
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 11:23:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 443B87ACC9;
-	Mon,  6 Dec 2021 10:20:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F14C273DB4;
+	Mon,  6 Dec 2021 10:20:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 576 seconds by postgrey-1.36 at gabe;
- Sat, 04 Dec 2021 17:56:19 UTC
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A067C6FBB6
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Dec 2021 17:56:19 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F314B6E492
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Dec 2021 22:29:08 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 97E4360ED7;
- Sat,  4 Dec 2021 17:46:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC333C341C2;
- Sat,  4 Dec 2021 17:46:49 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B0DDF60F4B
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Dec 2021 22:29:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B5C01C341CC
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Dec 2021 22:29:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1638640012;
- bh=m53DYrzONUqXySnuyI8Iv8xHXEMmcTWjOknPMtQWpbU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=rC7Zy9oKyV5tet0TB29vkn49q0Ijv3HDdkSoK40B0JTRJvQO1WfXJgismeFAJGFRD
- wKn32hfbg+EMbHeOgQ7V3FgZA1aiGIkS2sGYzDlOE6NPJenvuASa5VD7Y8E85+Gp3x
- k4p2Eru1hUBJkF3YD1MOwhSYjJKFqNad0GDEjjlZQIQJ4+gwRPJ6MO3oc+zcWiqPGp
- 6YzacJ9jFjVb2s/W0R+wdcaymfnflDIyEu9Kn41L5y7SEVX0+GsHZi8a0vE+Tl4f/0
- 9UlQ+KHAOi0XeAWAWX8O209zBA6Si2l9X+RFsnf/mi81NbgeFYbOP+HDcVChZuvGir
- dAv1HFpi7txug==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Joel Stanley <joel@jms.id.au>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 2/2] drm: aspeed: select CONFIG_DRM_GEM_CMA_HELPER
-Date: Sat,  4 Dec 2021 18:46:23 +0100
-Message-Id: <20211204174637.1160725-2-arnd@kernel.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20211204174637.1160725-1-arnd@kernel.org>
-References: <20211204174637.1160725-1-arnd@kernel.org>
+ s=k20201202; t=1638656946;
+ bh=W1OgG83WftC8BQdxD0SR0rkNr4t/OVGiYXyIXKDwgls=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=nfOI5mSwhY0rqvHQjAO7U7fMjC81aKZRiWXu8aLUOqT2PgxgMztX/jti2G6po2Q0y
+ UK2jhsoD6fqNVZ+lTlxOg6ykkPtjYx30KIRqXLjJL59ZE7X5o96U2uiLOCwgUZtBda
+ 1kUW4bYqR8kIJrMsFzfBiNcqIwcTPxrMxmAEy4DPnZYBBSqRB5sPCcXA5O7DZY50z2
+ g5qYuOCaGM6x5imSgXsh3boUK49NVa3oC3g2QikjTm0cDScDs/EAhnQQvDcXGx3csm
+ 1tPmyqg6STxOYXGENmV31pQGXDxe1vQdCLBxRAuZQ/cMWrHheJ1LBqEdW2lrPa8lv2
+ YOH7E9nz5kwfQ==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id A1B7A60F5B; Sat,  4 Dec 2021 22:29:06 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211277] sometimes crash at s2ram-wake (Ryzen 3500U): amdgpu,
+ drm, commit_tail, amdgpu_dm_atomic_commit_tail
+Date: Sat, 04 Dec 2021 22:29:05 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: kolAflash@kolahilft.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-211277-2300-zeB1ikohAT@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211277-2300@https.bugzilla.kernel.org/>
+References: <bug-211277-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,42 +72,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-aspeed@lists.ozlabs.org,
- Andrew Jeffery <andrew@aj.id.au>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D211277
 
-The aspeed driver uses the gem_cma_helper code, but does
-noto enforce enabling this through Kconfig:
+--- Comment #87 from kolAflash (kolAflash@kolahilft.de) ---
+(In reply to James Zhu from comment #86)
+> Hi @kolAflash, thanks so much for your effort on this verification!
+> Would you mind help apply those patches on 5.12 stable to check also?
+> it should be automatically merged.  Thanks! James
 
-x86_64-linux-ld: drivers/gpu/drm/aspeed/aspeed_gfx_drv.o:(.rodata+0x2c8): undefined reference to `drm_gem_cma_prime_import_sg_table'
-x86_64-linux-ld: drivers/gpu/drm/aspeed/aspeed_gfx_drv.o:(.rodata+0x2d8): undefined reference to `drm_gem_cma_dumb_create'
-x86_64-linux-ld: drivers/gpu/drm/aspeed/aspeed_gfx_crtc.o: in function `aspeed_gfx_pipe_update':
-aspeed_gfx_crtc.c:(.text+0xe5): undefined reference to `drm_fb_cma_get_gem_obj'
+I'm testing Linux-5.12.19 with the patch from attachment 299697 since
+2021-12-02.
+Until now everything works fine.
 
-Add the same 'select' that is used in other such drivers.
+--=20
+You may reply to this email to add a comment.
 
-Fixes: 09717af7d13d ("drm: Remove CONFIG_DRM_KMS_CMA_HELPER option")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/gpu/drm/aspeed/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/aspeed/Kconfig b/drivers/gpu/drm/aspeed/Kconfig
-index 36c4a7e86981..024ccab14f88 100644
---- a/drivers/gpu/drm/aspeed/Kconfig
-+++ b/drivers/gpu/drm/aspeed/Kconfig
-@@ -5,6 +5,7 @@ config DRM_ASPEED_GFX
- 	depends on (COMPILE_TEST || ARCH_ASPEED)
- 	depends on MMU
- 	select DRM_KMS_HELPER
-+	select DRM_GEM_CMA_HELPER
- 	select DMA_CMA if HAVE_DMA_CONTIGUOUS
- 	select CMA if HAVE_DMA_CONTIGUOUS
- 	select MFD_SYSCON
--- 
-2.29.2
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
