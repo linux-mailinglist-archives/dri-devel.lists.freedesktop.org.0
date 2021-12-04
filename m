@@ -1,48 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA6854695A6
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 13:28:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 697C54695A8
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 13:28:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06C1073FAA;
-	Mon,  6 Dec 2021 12:28:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8D8473FB3;
+	Mon,  6 Dec 2021 12:28:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCB1E6E135
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Dec 2021 09:55:18 +0000 (UTC)
-Received: by mail-io1-f70.google.com with SMTP id
- 85-20020a6b0258000000b005ed47a95f03so4518802ioc.0
- for <dri-devel@lists.freedesktop.org>; Sat, 04 Dec 2021 01:55:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
- bh=+J1qB2+49Im0EdmYLOfWiB0MLUw0lYYruCB9JuWbtuw=;
- b=tTweVeSjSehLCaeYQcd+OxgWJDzwGrB077Vdcy2m2LgRUaX04G1hUuP45uNV0AFhoO
- Y/SH1mVJ8Ty9//c77+g7Hd5X/g4Ccd/jhYP3TAWpnytgR0Vyv1JXLyn6SB5TQ13QlSIz
- RFN8Nd0xWOsfgv5QQpwKI/pIKms+COTI8LOrG65CJyGoK3wklrxkFg5WBGiWlWB+c2h7
- y6g1tN78sxnr9O500u+HUGv3/Gq+/KUPXgXwgFskZGCmI6gWoyUifuS/x5CQD7YKjMp2
- 0Cgf5oMpnoSeVVeMVEKTXIMKW8uG6eiIXXKfFQ4ttgOU4Zvjr2XkRWwdI2kMiZSPrqpT
- XV4Q==
-X-Gm-Message-State: AOAM533kyJndTqFY928aQOStohS40sa6jPPz5av9zV2UOzzCEVrlmCYv
- bJaOWfBmQtHFBIVvmiJho++5M7EewwK518CiRurHap2FGpWF
-X-Google-Smtp-Source: ABdhPJxpdSl19Wc1+2UwAjyN9FL6e2TTzFsOgSkv+B2wKH2hfC55afG+DZWoWox1lThLLCVAyltLIsO7EZAST6BUQgoZgujD34+j
+X-Greylist: delayed 992 seconds by postgrey-1.36 at gabe;
+ Sat, 04 Dec 2021 16:56:47 UTC
+Received: from manul.sfritsch.de (manul.sfritsch.de
+ [IPv6:2a01:4f8:172:195f:112::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 274F06E86F;
+ Sat,  4 Dec 2021 16:56:47 +0000 (UTC)
+Message-ID: <da142fb9-07d7-24fe-4533-0247b8d16cdd@sfritsch.de>
+Date: Sat, 4 Dec 2021 17:40:10 +0100
 MIME-Version: 1.0
-X-Received: by 2002:a6b:7307:: with SMTP id e7mr24491133ioh.211.1638611718158; 
- Sat, 04 Dec 2021 01:55:18 -0800 (PST)
-Date: Sat, 04 Dec 2021 01:55:18 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000062bce805d24f05ca@google.com>
-Subject: [syzbot] KASAN: out-of-bounds Write in
- virtio_gpu_cmd_transfer_to_host_2d
-From: syzbot <syzbot+f01248cf57e6929868e4@syzkaller.appspotmail.com>
-To: airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
- kraxel@redhat.com, linux-kernel@vger.kernel.org, 
- syzkaller-bugs@googlegroups.com, virtualization@lists.linux-foundation.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Content-Language: de-DE
+From: Stefan Fritsch <sf@sfritsch.de>
+To: nouveau@lists.freedesktop.org, =?UTF-8?Q?Christian_K=c3=b6nig?=
+ <christian.koenig@amd.com>
+Subject: Regression in 5.15 in nouveau
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Mon, 06 Dec 2021 12:28:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,194 +40,223 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Ben Skeggs <bskeggs@redhat.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Hi,
 
-syzbot found the following issue on:
+when updating from 5.14 to 5.15 on a system with NVIDIA GP108 [GeForce 
+GT 1030] (NV138) and Ryzen 9 3900XT using kde/plasma on X (not wayland), 
+there is a regression: There is now some annoying black flickering in 
+some applications, for example thunderbird, firefox, or mpv. It mostly 
+happens when scrolling or when playing video. Only the window of the 
+application flickers, not the whole screen. But the flickering is not 
+limited to the scrolled area: for example in firefox the url and 
+bookmark bars flicker, too, not only the web site. I have bisected the 
+issue to this commit:
 
-HEAD commit:    e66435936756 mm: fix mismerge of folio page flag manipulat..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=14c79e0eb00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=ca1c2027dfeaf335
-dashboard link: https://syzkaller.appspot.com/bug?extid=f01248cf57e6929868e4
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+commit 3e1ad79bf66165bdb2baca3989f9227939241f11 (HEAD)
+Author: Christian König <christian.koenig@amd.com>
+Date:   Sun Jun 6 11:50:15 2021 +0200
 
-Unfortunately, I don't have any reproducer for this issue yet.
+     drm/nouveau: always wait for the exclusive fence
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+f01248cf57e6929868e4@syzkaller.appspotmail.com
+     Drivers also need to to sync to the exclusive fence when
+     a shared one is present.
 
-R13: 00007ffe6190e50f R14: 00007f51be874300 R15: 0000000000022000
-==================================================================
-BUG: KASAN: out-of-bounds in memset include/linux/fortify-string.h:175 [inline]
-BUG: KASAN: out-of-bounds in virtio_gpu_cmd_transfer_to_host_2d+0x160/0x4a0 drivers/gpu/drm/virtio/virtgpu_vq.c:618
-Write of size 56 at addr fffffffffffffff4 by task syz-executor.1/13670
-
-CPU: 2 PID: 13670 Comm: syz-executor.1 Not tainted 5.15.0-syzkaller #0
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.14.0-2 04/01/2014
-Call Trace:
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
- print_address_description.constprop.0.cold+0xf/0x2d6 mm/kasan/report.c:256
- __kasan_report mm/kasan/report.c:442 [inline]
- kasan_report.cold+0x83/0xdf mm/kasan/report.c:459
- check_region_inline mm/kasan/generic.c:183 [inline]
- kasan_check_range+0x13d/0x180 mm/kasan/generic.c:189
- memset+0x20/0x40 mm/kasan/shadow.c:44
- memset include/linux/fortify-string.h:175 [inline]
- virtio_gpu_cmd_transfer_to_host_2d+0x160/0x4a0 drivers/gpu/drm/virtio/virtgpu_vq.c:618
- virtio_gpu_update_dumb_bo drivers/gpu/drm/virtio/virtgpu_plane.c:128 [inline]
- virtio_gpu_primary_plane_update+0xfcb/0x1650 drivers/gpu/drm/virtio/virtgpu_plane.c:199
- drm_atomic_helper_commit_planes+0x332/0xb60 drivers/gpu/drm/drm_atomic_helper.c:2552
- drm_atomic_helper_commit_tail+0x62/0xf0 drivers/gpu/drm/drm_atomic_helper.c:1582
- commit_tail+0x32d/0x420 drivers/gpu/drm/drm_atomic_helper.c:1667
- drm_atomic_helper_commit drivers/gpu/drm/drm_atomic_helper.c:1884 [inline]
- drm_atomic_helper_commit+0x2eb/0x370 drivers/gpu/drm/drm_atomic_helper.c:1817
- drm_atomic_commit+0xd8/0x110 drivers/gpu/drm/drm_atomic.c:1412
- drm_client_modeset_commit_atomic+0x685/0x7c0 drivers/gpu/drm/drm_client_modeset.c:1043
- drm_client_modeset_commit_locked+0x145/0x580 drivers/gpu/drm/drm_client_modeset.c:1146
- drm_client_modeset_commit+0x4d/0x80 drivers/gpu/drm/drm_client_modeset.c:1172
- __drm_fb_helper_restore_fbdev_mode_unlocked drivers/gpu/drm/drm_fb_helper.c:252 [inline]
- __drm_fb_helper_restore_fbdev_mode_unlocked drivers/gpu/drm/drm_fb_helper.c:231 [inline]
- drm_fb_helper_restore_fbdev_mode_unlocked drivers/gpu/drm/drm_fb_helper.c:279 [inline]
- drm_fb_helper_lastclose drivers/gpu/drm/drm_fb_helper.c:1997 [inline]
- drm_fbdev_client_restore+0xe3/0x1a0 drivers/gpu/drm/drm_fb_helper.c:2397
- drm_client_dev_restore+0x184/0x290 drivers/gpu/drm/drm_client.c:226
- drm_lastclose drivers/gpu/drm/drm_file.c:467 [inline]
- drm_release+0x441/0x530 drivers/gpu/drm/drm_file.c:498
- __fput+0x286/0x9f0 fs/file_table.c:280
- task_work_run+0xdd/0x1a0 kernel/task_work.c:164
- tracehook_notify_resume include/linux/tracehook.h:189 [inline]
- exit_to_user_mode_loop kernel/entry/common.c:175 [inline]
- exit_to_user_mode_prepare+0x27e/0x290 kernel/entry/common.c:207
- __syscall_exit_to_user_mode_work kernel/entry/common.c:289 [inline]
- syscall_exit_to_user_mode+0x19/0x60 kernel/entry/common.c:300
- do_syscall_64+0x42/0xb0 arch/x86/entry/common.c:86
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-RIP: 0033:0x7f51c12b1a04
-Code: 84 00 00 00 00 00 44 89 54 24 0c e8 96 f9 ff ff 44 8b 54 24 0c 44 89 e2 48 89 ee 41 89 c0 bf 9c ff ff ff b8 01 01 00 00 0f 05 <48> 3d 00 f0 ff ff 77 34 44 89 c7 89 44 24 0c e8 c8 f9 ff ff 8b 44
-RSP: 002b:00007f51be873cc0 EFLAGS: 00000293 ORIG_RAX: 0000000000000101
-RAX: ffffffffffffffea RBX: 6666666666666667 RCX: 00007f51c12b1a04
-RDX: 000000000000ff00 RSI: 00007f51be873d60 RDI: 00000000ffffff9c
-RBP: 00007f51be873d60 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000293 R12: 000000000000ff00
-R13: 00007ffe6190e50f R14: 00007f51be874300 R15: 0000000000022000
+     Signed-off-by: Christian König <christian.koenig@amd.com>
+     Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+     Link: 
+https://patchwork.freedesktop.org/patch/msgid/20210702111642.17259-4-christian.koenig@amd.com
 
 
-Memory state around the buggy address:
- fffffffffffffe80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
- ffffffffffffff00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->ffffffffffffff80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-general protection fault, maybe for address 0xffffc9000422f80c: 0000 [#1] PREEMPT SMP KASAN
-CPU: 2 PID: 13670 Comm: syz-executor.1 Not tainted 5.15.0-syzkaller #0
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.14.0-2 04/01/2014
-RIP: 0010:memcpy_erms+0x6/0x10 arch/x86/lib/memcpy_64.S:55
-Code: cc cc cc cc eb 1e 0f 1f 00 48 89 f8 48 89 d1 48 c1 e9 03 83 e2 07 f3 48 a5 89 d1 f3 a4 c3 66 0f 1f 44 00 00 48 89 f8 48 89 d1 <f3> a4 c3 0f 1f 80 00 00 00 00 48 89 f8 48 83 fa 20 72 7e 40 38 fe
-RSP: 0018:ffffc9000422f800 EFLAGS: 00010086
-RAX: ffffc9000422f80c RBX: 0000000000000000 RCX: 0000000000000010
-RDX: 0000000000000010 RSI: dffffc0000000000 RDI: ffffc9000422f80c
-RBP: fffffffffffffff4 R08: 0000000000000000 R09: 0000000000000000
-R10: ffffffff83f599a3 R11: 0000000000000000 R12: 0000000000000001
-R13: 0000000000000080 R14: ffffffff84620a60 R15: 0000000000000000
-FS:  00007f51be874700(0000) GS:ffff88802cc00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f51be873f78 CR3: 0000000077e04000 CR4: 0000000000150ee0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- print_memory_metadata+0x5a/0xdf mm/kasan/report.c:322
- __kasan_report mm/kasan/report.c:444 [inline]
- kasan_report.cold+0x99/0xdf mm/kasan/report.c:459
- check_region_inline mm/kasan/generic.c:183 [inline]
- kasan_check_range+0x13d/0x180 mm/kasan/generic.c:189
- memset+0x20/0x40 mm/kasan/shadow.c:44
- memset include/linux/fortify-string.h:175 [inline]
- virtio_gpu_cmd_transfer_to_host_2d+0x160/0x4a0 drivers/gpu/drm/virtio/virtgpu_vq.c:618
- virtio_gpu_update_dumb_bo drivers/gpu/drm/virtio/virtgpu_plane.c:128 [inline]
- virtio_gpu_primary_plane_update+0xfcb/0x1650 drivers/gpu/drm/virtio/virtgpu_plane.c:199
- drm_atomic_helper_commit_planes+0x332/0xb60 drivers/gpu/drm/drm_atomic_helper.c:2552
- drm_atomic_helper_commit_tail+0x62/0xf0 drivers/gpu/drm/drm_atomic_helper.c:1582
- commit_tail+0x32d/0x420 drivers/gpu/drm/drm_atomic_helper.c:1667
- drm_atomic_helper_commit drivers/gpu/drm/drm_atomic_helper.c:1884 [inline]
- drm_atomic_helper_commit+0x2eb/0x370 drivers/gpu/drm/drm_atomic_helper.c:1817
- drm_atomic_commit+0xd8/0x110 drivers/gpu/drm/drm_atomic.c:1412
- drm_client_modeset_commit_atomic+0x685/0x7c0 drivers/gpu/drm/drm_client_modeset.c:1043
- drm_client_modeset_commit_locked+0x145/0x580 drivers/gpu/drm/drm_client_modeset.c:1146
- drm_client_modeset_commit+0x4d/0x80 drivers/gpu/drm/drm_client_modeset.c:1172
- __drm_fb_helper_restore_fbdev_mode_unlocked drivers/gpu/drm/drm_fb_helper.c:252 [inline]
- __drm_fb_helper_restore_fbdev_mode_unlocked drivers/gpu/drm/drm_fb_helper.c:231 [inline]
- drm_fb_helper_restore_fbdev_mode_unlocked drivers/gpu/drm/drm_fb_helper.c:279 [inline]
- drm_fb_helper_lastclose drivers/gpu/drm/drm_fb_helper.c:1997 [inline]
- drm_fbdev_client_restore+0xe3/0x1a0 drivers/gpu/drm/drm_fb_helper.c:2397
- drm_client_dev_restore+0x184/0x290 drivers/gpu/drm/drm_client.c:226
- drm_lastclose drivers/gpu/drm/drm_file.c:467 [inline]
- drm_release+0x441/0x530 drivers/gpu/drm/drm_file.c:498
- __fput+0x286/0x9f0 fs/file_table.c:280
- task_work_run+0xdd/0x1a0 kernel/task_work.c:164
- tracehook_notify_resume include/linux/tracehook.h:189 [inline]
- exit_to_user_mode_loop kernel/entry/common.c:175 [inline]
- exit_to_user_mode_prepare+0x27e/0x290 kernel/entry/common.c:207
- __syscall_exit_to_user_mode_work kernel/entry/common.c:289 [inline]
- syscall_exit_to_user_mode+0x19/0x60 kernel/entry/common.c:300
- do_syscall_64+0x42/0xb0 arch/x86/entry/common.c:86
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-RIP: 0033:0x7f51c12b1a04
-Code: 84 00 00 00 00 00 44 89 54 24 0c e8 96 f9 ff ff 44 8b 54 24 0c 44 89 e2 48 89 ee 41 89 c0 bf 9c ff ff ff b8 01 01 00 00 0f 05 <48> 3d 00 f0 ff ff 77 34 44 89 c7 89 44 24 0c e8 c8 f9 ff ff 8b 44
-RSP: 002b:00007f51be873cc0 EFLAGS: 00000293 ORIG_RAX: 0000000000000101
-RAX: ffffffffffffffea RBX: 6666666666666667 RCX: 00007f51c12b1a04
-RDX: 000000000000ff00 RSI: 00007f51be873d60 RDI: 00000000ffffff9c
-RBP: 00007f51be873d60 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000293 R12: 000000000000ff00
-R13: 00007ffe6190e50f R14: 00007f51be874300 R15: 0000000000022000
-Modules linked in:
----[ end trace f65df7177f1d34a7 ]---
-RIP: 0010:memcpy_erms+0x6/0x10 arch/x86/lib/memcpy_64.S:55
-Code: cc cc cc cc eb 1e 0f 1f 00 48 89 f8 48 89 d1 48 c1 e9 03 83 e2 07 f3 48 a5 89 d1 f3 a4 c3 66 0f 1f 44 00 00 48 89 f8 48 89 d1 <f3> a4 c3 0f 1f 80 00 00 00 00 48 89 f8 48 83 fa 20 72 7e 40 38 fe
-RSP: 0018:ffffc9000422f800 EFLAGS: 00010086
-RAX: ffffc9000422f80c RBX: 0000000000000000 RCX: 0000000000000010
-RDX: 0000000000000010 RSI: dffffc0000000000 RDI: ffffc9000422f80c
-RBP: fffffffffffffff4 R08: 0000000000000000 R09: 0000000000000000
-R10: ffffffff83f599a3 R11: 0000000000000000 R12: 0000000000000001
-R13: 0000000000000080 R14: ffffffff84620a60 R15: 0000000000000000
-FS:  00007f51be874700(0000) GS:ffff88802cc00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f51be873f78 CR3: 0000000077e04000 CR4: 0000000000150ee0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-----------------
-Code disassembly (best guess):
-   0:	cc                   	int3
-   1:	cc                   	int3
-   2:	cc                   	int3
-   3:	cc                   	int3
-   4:	eb 1e                	jmp    0x24
-   6:	0f 1f 00             	nopl   (%rax)
-   9:	48 89 f8             	mov    %rdi,%rax
-   c:	48 89 d1             	mov    %rdx,%rcx
-   f:	48 c1 e9 03          	shr    $0x3,%rcx
-  13:	83 e2 07             	and    $0x7,%edx
-  16:	f3 48 a5             	rep movsq %ds:(%rsi),%es:(%rdi)
-  19:	89 d1                	mov    %edx,%ecx
-  1b:	f3 a4                	rep movsb %ds:(%rsi),%es:(%rdi)
-  1d:	c3                   	retq
-  1e:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
-  24:	48 89 f8             	mov    %rdi,%rax
-  27:	48 89 d1             	mov    %rdx,%rcx
-* 2a:	f3 a4                	rep movsb %ds:(%rsi),%es:(%rdi) <-- trapping instruction
-  2c:	c3                   	retq
-  2d:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
-  34:	48 89 f8             	mov    %rdi,%rax
-  37:	48 83 fa 20          	cmp    $0x20,%rdx
-  3b:	72 7e                	jb     0xbb
-  3d:	40 38 fe             	cmp    %dil,%sil
+This sounds like performance is impacted severely by that commit. Can 
+this be fixed somehow? A partial dmesg is below.
+
+Cheers,
+Stefan
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+dmesg |grep -i -e drm -e dri -e nvidia -e nouveau -e fb
+[    0.000000] BIOS-e820: [mem 0x00000000bc552000-0x00000000bc8fbfff] 
+reserved
+[    0.004971] ACPI: XSDT 0x00000000BCFB0728 0000CC (v01 ALASKA A M I 
+01072009 AMI  01000013)
+[    0.010838] PM: hibernation: Registered nosave memory: [mem 
+0xbc552000-0xbc8fbfff]
+[    0.204873] Performance Events: Fam17h+ core perfctr, AMD PMU driver.
+[    0.292761] Registering PCC driver as Mailbox controller
+[    0.292761] acpiphp: ACPI Hot Plug PCI Controller Driver version: 0.5
+[    0.518295] pci 0000:06:00.0: reg 0x10: [mem 0xfb000000-0xfbffffff]
+[    0.519132] pci 0000:06:00.1: [10de:0fb8] type 00 class 0x040300
+[    0.519653] pci 0000:00:03.1:   bridge window [mem 0xfb000000-0xfc0fffff]
+[    0.549101] pci 0000:00:03.1:   bridge window [mem 0xfb000000-0xfc0fffff]
+[    0.550994] pci_bus 0000:06: resource 1 [mem 0xfb000000-0xfc0fffff]
+[    0.561285] Block layer SCSI generic (bsg) driver version 0.4 loaded 
+(major 250)
+[    0.564152] shpchp: Standard Hot Plug PCI Controller Driver version: 0.4
+[    0.570870] Serial: 8250/16550 driver, 4 ports, IRQ sharing enabled
+[    0.571531] AMD-Vi: AMD IOMMUv2 driver by Joerg Roedel <jroedel@suse.de>
+[    0.988343] microcode: Microcode Update Driver: v2.2.
+[    1.112435] ACPI: OSL: Resource conflict; ACPI support missing from 
+driver?
+[    1.114174] usbcore: registered new interface driver usbfs
+[    1.114331] usbcore: registered new interface driver hub
+[    1.114599] usbcore: registered new device driver usb
+[    2.373857] hid: raw HID events driver (C) Jiri Kosina
+[    2.378553] usbcore: registered new interface driver usbhid
+[    2.378641] usbhid: USB HID core driver
+[    2.581069] ata3.00: supports DRM functions and may not be fully 
+accessible
+[    2.582388] ata3.00: supports DRM functions and may not be fully 
+accessible
+[    3.371574] ata5.00: supports DRM functions and may not be fully 
+accessible
+[    3.396636] ata5.00: supports DRM functions and may not be fully 
+accessible
+[    4.159005] sr 1:0:0:0: [sr0] scsi3-mmc drive: 48x/48x writer dvd-ram 
+cd/rw xa/form2 cdda tray
+[    4.159120] cdrom: Uniform CD-ROM driver Revision: 3.20
+[    5.936017] systemd[1]: Starting Load Kernel Module drm...
+[    5.957038] systemd[1]: modprobe@drm.service: Deactivated successfully.
+[    5.957238] systemd[1]: Finished Load Kernel Module drm.
+[    6.104901] sp5100_tco: SP5100/SB800 TCO WatchDog Timer Driver
+[    6.122007] usbcore: registered new device driver apple-mfi-fastcharge
+[    6.213866] input: HDA NVidia HDMI/DP,pcm=3 as 
+/devices/pci0000:00/0000:00:03.1/0000:06:00.1/sound/card0/input8
+[    6.236581] AMD64 EDAC driver v3.5.0
+[    6.259473] input: HDA NVidia HDMI/DP,pcm=7 as 
+/devices/pci0000:00/0000:00:03.1/0000:06:00.1/sound/card0/input9
+[    6.259631] input: HDA NVidia HDMI/DP,pcm=8 as 
+/devices/pci0000:00/0000:00:03.1/0000:06:00.1/sound/card0/input10
+[    6.260559] input: HDA NVidia HDMI/DP,pcm=9 as 
+/devices/pci0000:00/0000:00:03.1/0000:06:00.1/sound/card0/input11
+[    6.260913] input: HDA NVidia HDMI/DP,pcm=10 as 
+/devices/pci0000:00/0000:00:03.1/0000:06:00.1/sound/card0/input12
+[    6.485220] nouveau 0000:06:00.0: vgaarb: deactivate vga console
+[    6.486484] nouveau 0000:06:00.0: NVIDIA GP108 (138000a1)
+[    6.612994] nouveau 0000:06:00.0: bios: version 86.08.24.00.23
+[    6.617303] nouveau 0000:06:00.0: pmu: firmware unavailable
+[    6.621410] nouveau 0000:06:00.0: fb: 2048 MiB GDDR5
+[    6.653892] nouveau 0000:06:00.0: DRM: VRAM: 2048 MiB
+[    6.653895] nouveau 0000:06:00.0: DRM: GART: 536870912 MiB
+[    6.653897] nouveau 0000:06:00.0: DRM: BIT table 'A' not found
+[    6.653899] nouveau 0000:06:00.0: DRM: BIT table 'L' not found
+[    6.653900] nouveau 0000:06:00.0: DRM: TMDS table version 2.0
+[    6.653902] nouveau 0000:06:00.0: DRM: DCB version 4.1
+[    6.653904] nouveau 0000:06:00.0: DRM: DCB outp 00: 01800346 04600010
+[    6.653906] nouveau 0000:06:00.0: DRM: DCB outp 01: 01000342 00020010
+[    6.653908] nouveau 0000:06:00.0: DRM: DCB outp 02: 01011352 00020020
+[    6.653909] nouveau 0000:06:00.0: DRM: DCB conn 00: 00001046
+[    6.653911] nouveau 0000:06:00.0: DRM: DCB conn 01: 00002161
+[    6.654295] nouveau 0000:06:00.0: DRM: MM: using COPY for buffer copies
+[    6.655460] snd_hda_intel 0000:06:00.1: bound 0000:06:00.0 (ops 
+nv50_audio_component_bind_ops [nouveau])
+[    6.828018] nouveau 0000:06:00.0: DRM: allocated 3840x2160 fb: 
+0x200000, bo 000000001a41f1fe
+[    6.828086] fbcon: nouveau (fb0) is primary device
+[    6.915486] nouveau 0000:06:00.0: [drm] fb0: nouveau frame buffer device
+[    6.939244] [drm] Initialized nouveau 1.3.1 20120801 for 0000:06:00.0 
+on minor 0
+[   11.338075] audit: type=1400 audit(1638634273.245:6): 
+apparmor="STATUS" operation="profile_load" profile="unconfined" 
+name="nvidia_modprobe" pid=1354 comm="apparmor_parser"
+[   11.338078] audit: type=1400 audit(1638634273.245:7): 
+apparmor="STATUS" operation="profile_load" profile="unconfined" 
+name="nvidia_modprobe//kmod" pid=1354 comm="apparmor_parser"
+[   11.479123] RTL8226B_RTL8221B 2.5Gbps PHY r8169-500:00: attached PHY 
+driver (mii_bus:phy_addr=r8169-500:00, irq=MAC)
+stf@k:~/comp/linux/linux$ sudo dmesg |less
+stf@k:~/comp/linux/linux$ sudo dmesg |grep -i -e drm -e dri -e nvidia -e 
+nouveau -e fb
+[    0.000000] BIOS-e820: [mem 0x00000000bc552000-0x00000000bc8fbfff] 
+reserved
+[    0.004971] ACPI: XSDT 0x00000000BCFB0728 0000CC (v01 ALASKA A M I 
+01072009 AMI  01000013)
+[    0.010838] PM: hibernation: Registered nosave memory: [mem 
+0xbc552000-0xbc8fbfff]
+[    0.204873] Performance Events: Fam17h+ core perfctr, AMD PMU driver.
+[    0.292761] Registering PCC driver as Mailbox controller
+[    0.292761] acpiphp: ACPI Hot Plug PCI Controller Driver version: 0.5
+[    0.518295] pci 0000:06:00.0: reg 0x10: [mem 0xfb000000-0xfbffffff]
+[    0.519132] pci 0000:06:00.1: [10de:0fb8] type 00 class 0x040300
+[    0.519653] pci 0000:00:03.1:   bridge window [mem 0xfb000000-0xfc0fffff]
+[    0.549101] pci 0000:00:03.1:   bridge window [mem 0xfb000000-0xfc0fffff]
+[    0.550994] pci_bus 0000:06: resource 1 [mem 0xfb000000-0xfc0fffff]
+[    0.561285] Block layer SCSI generic (bsg) driver version 0.4 loaded 
+(major 250)
+[    0.564152] shpchp: Standard Hot Plug PCI Controller Driver version: 0.4
+[    0.570870] Serial: 8250/16550 driver, 4 ports, IRQ sharing enabled
+[    0.571531] AMD-Vi: AMD IOMMUv2 driver by Joerg Roedel <jroedel@suse.de>
+[    0.988343] microcode: Microcode Update Driver: v2.2.
+[    1.112435] ACPI: OSL: Resource conflict; ACPI support missing from 
+driver?
+[    1.114174] usbcore: registered new interface driver usbfs
+[    1.114331] usbcore: registered new interface driver hub
+[    1.114599] usbcore: registered new device driver usb
+[    2.373857] hid: raw HID events driver (C) Jiri Kosina
+[    2.378553] usbcore: registered new interface driver usbhid
+[    2.378641] usbhid: USB HID core driver
+[    2.581069] ata3.00: supports DRM functions and may not be fully 
+accessible
+[    2.582388] ata3.00: supports DRM functions and may not be fully 
+accessible
+[    3.371574] ata5.00: supports DRM functions and may not be fully 
+accessible
+[    3.396636] ata5.00: supports DRM functions and may not be fully 
+accessible
+[    4.159005] sr 1:0:0:0: [sr0] scsi3-mmc drive: 48x/48x writer dvd-ram 
+cd/rw xa/form2 cdda tray
+[    4.159120] cdrom: Uniform CD-ROM driver Revision: 3.20
+[    5.936017] systemd[1]: Starting Load Kernel Module drm...
+[    5.957038] systemd[1]: modprobe@drm.service: Deactivated successfully.
+[    5.957238] systemd[1]: Finished Load Kernel Module drm.
+[    6.104901] sp5100_tco: SP5100/SB800 TCO WatchDog Timer Driver
+[    6.122007] usbcore: registered new device driver apple-mfi-fastcharge
+[    6.213866] input: HDA NVidia HDMI/DP,pcm=3 as 
+/devices/pci0000:00/0000:00:03.1/0000:06:00.1/sound/card0/input8
+[    6.236581] AMD64 EDAC driver v3.5.0
+[    6.259473] input: HDA NVidia HDMI/DP,pcm=7 as 
+/devices/pci0000:00/0000:00:03.1/0000:06:00.1/sound/card0/input9
+[    6.259631] input: HDA NVidia HDMI/DP,pcm=8 as 
+/devices/pci0000:00/0000:00:03.1/0000:06:00.1/sound/card0/input10
+[    6.260559] input: HDA NVidia HDMI/DP,pcm=9 as 
+/devices/pci0000:00/0000:00:03.1/0000:06:00.1/sound/card0/input11
+[    6.260913] input: HDA NVidia HDMI/DP,pcm=10 as 
+/devices/pci0000:00/0000:00:03.1/0000:06:00.1/sound/card0/input12
+[    6.485220] nouveau 0000:06:00.0: vgaarb: deactivate vga console
+[    6.486484] nouveau 0000:06:00.0: NVIDIA GP108 (138000a1)
+[    6.612994] nouveau 0000:06:00.0: bios: version 86.08.24.00.23
+[    6.617303] nouveau 0000:06:00.0: pmu: firmware unavailable
+[    6.621410] nouveau 0000:06:00.0: fb: 2048 MiB GDDR5
+[    6.653892] nouveau 0000:06:00.0: DRM: VRAM: 2048 MiB
+[    6.653895] nouveau 0000:06:00.0: DRM: GART: 536870912 MiB
+[    6.653897] nouveau 0000:06:00.0: DRM: BIT table 'A' not found
+[    6.653899] nouveau 0000:06:00.0: DRM: BIT table 'L' not found
+[    6.653900] nouveau 0000:06:00.0: DRM: TMDS table version 2.0
+[    6.653902] nouveau 0000:06:00.0: DRM: DCB version 4.1
+[    6.653904] nouveau 0000:06:00.0: DRM: DCB outp 00: 01800346 04600010
+[    6.653906] nouveau 0000:06:00.0: DRM: DCB outp 01: 01000342 00020010
+[    6.653908] nouveau 0000:06:00.0: DRM: DCB outp 02: 01011352 00020020
+[    6.653909] nouveau 0000:06:00.0: DRM: DCB conn 00: 00001046
+[    6.653911] nouveau 0000:06:00.0: DRM: DCB conn 01: 00002161
+[    6.654295] nouveau 0000:06:00.0: DRM: MM: using COPY for buffer copies
+[    6.655460] snd_hda_intel 0000:06:00.1: bound 0000:06:00.0 (ops 
+nv50_audio_component_bind_ops [nouveau])
+[    6.828018] nouveau 0000:06:00.0: DRM: allocated 3840x2160 fb: 
+0x200000, bo 000000001a41f1fe
+[    6.828086] fbcon: nouveau (fb0) is primary device
+[    6.915486] nouveau 0000:06:00.0: [drm] fb0: nouveau frame buffer device
+[    6.939244] [drm] Initialized nouveau 1.3.1 20120801 for 0000:06:00.0 
+on minor 0
+[   11.338075] audit: type=1400 audit(1638634273.245:6): 
+apparmor="STATUS" operation="profile_load" profile="unconfined" 
+name="nvidia_modprobe" pid=1354 comm="apparmor_parser"
+[   11.338078] audit: type=1400 audit(1638634273.245:7): 
+apparmor="STATUS" operation="profile_load" profile="unconfined" 
+name="nvidia_modprobe//kmod" pid=1354 comm="apparmor_parser"
+[   11.479123] RTL8226B_RTL8221B 2.5Gbps PHY r8169-500:00: attached PHY 
+driver (mii_bus:phy_addr=r8169-500:00, irq=MAC)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
