@@ -2,64 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B049B469383
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 11:23:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 907BC469393
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 11:25:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F14C273DB4;
-	Mon,  6 Dec 2021 10:20:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FC2F73E81;
+	Mon,  6 Dec 2021 10:20:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F314B6E492
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Dec 2021 22:29:08 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B0DDF60F4B
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Dec 2021 22:29:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B5C01C341CC
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Dec 2021 22:29:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1638656946;
- bh=W1OgG83WftC8BQdxD0SR0rkNr4t/OVGiYXyIXKDwgls=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=nfOI5mSwhY0rqvHQjAO7U7fMjC81aKZRiWXu8aLUOqT2PgxgMztX/jti2G6po2Q0y
- UK2jhsoD6fqNVZ+lTlxOg6ykkPtjYx30KIRqXLjJL59ZE7X5o96U2uiLOCwgUZtBda
- 1kUW4bYqR8kIJrMsFzfBiNcqIwcTPxrMxmAEy4DPnZYBBSqRB5sPCcXA5O7DZY50z2
- g5qYuOCaGM6x5imSgXsh3boUK49NVa3oC3g2QikjTm0cDScDs/EAhnQQvDcXGx3csm
- 1tPmyqg6STxOYXGENmV31pQGXDxe1vQdCLBxRAuZQ/cMWrHheJ1LBqEdW2lrPa8lv2
- YOH7E9nz5kwfQ==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id A1B7A60F5B; Sat,  4 Dec 2021 22:29:06 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211277] sometimes crash at s2ram-wake (Ryzen 3500U): amdgpu,
- drm, commit_tail, amdgpu_dm_atomic_commit_tail
-Date: Sat, 04 Dec 2021 22:29:05 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: kolAflash@kolahilft.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-211277-2300-zeB1ikohAT@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211277-2300@https.bugzilla.kernel.org/>
-References: <bug-211277-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 754636FBD9
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Dec 2021 00:04:54 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id bu18so15992109lfb.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 04 Dec 2021 16:04:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=QHHT00VDKbwiouuYvA1Na4+bMK2mwHXPvhFSQ6VIIAQ=;
+ b=SwRQubzrVU07x/VktGwMithEDwR0OtcUO9ZRFHzLW29oKvJBZZrIj3BQgW4J1XqokR
+ rp2LCfezWTiENH43r57iXD7DQ5kMd/og8uEKihoNgjX9GfRuBouLkTgq5DNIASWEVZ5l
+ sah5gLr05evGtVIBNyJwZn3dmNmHwTD9luKmqnv7wSFkPyEnIc8XJ36qmg+DPYe6wEnQ
+ iH72RIuchoJnPUgGR6qo2f/CrIKy3SsJv7o69ZvmNc5qakkyvpo7/6s0buqpjodOXWhb
+ fnx13/BsnQtUKnwKlUaXH8m6oM3j8KTnEOnJTULiFm2WXKCS/AutviM7TzmrK5HXtVyO
+ ciDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=QHHT00VDKbwiouuYvA1Na4+bMK2mwHXPvhFSQ6VIIAQ=;
+ b=vTd+9AGnpL59kuSGBRdnKiiZjL6eQrQvaQjpJKzCbLSnAppo22z9B8q3JdYgu4YvBY
+ VP4n0koY2powjRQdvgykS7HFnqOn520PUbIDCAayz5TRrVU4C/t3Uk2KNv/Hk4ynogwW
+ CNX+1x4kqVNSUnWprwBi6y4gSFXE7dhmp4/jDB7nRQ/3rHMWUpP7LeMylnbGJ4v77cQo
+ iWOnVZI84to6vy0UFWQMG/y5eCu9je8zKk9iNAPYAXbgp3u/l9c7qdECo7IRfBkEtWO3
+ iOenRsr+9MV3DcgygDg1mzLoshBV85is8xzRqCrl9o/FEAhWuWCLhEik//xEXz10BVi9
+ Vg9g==
+X-Gm-Message-State: AOAM533WjMllTW1LUaLlyPvvPRt6JeqljL7t1VkmRteVzMswjW4SySjQ
+ uQ7Q844bMOcdOQJg2qbWhB7gKw==
+X-Google-Smtp-Source: ABdhPJyf0aWmyyXdQuK9tcW9hG+AZg5FYjzqR1EZHhkn86w8R8hWq3kojn/veWvo4kuYm0XtzbmClg==
+X-Received: by 2002:a05:6512:3f0c:: with SMTP id
+ y12mr18196895lfa.579.1638662692680; 
+ Sat, 04 Dec 2021 16:04:52 -0800 (PST)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id x6sm910322lff.125.2021.12.04.16.04.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 04 Dec 2021 16:04:52 -0800 (PST)
+Message-ID: <9ef59b63-fb05-5a4b-4327-479eb48cf618@linaro.org>
+Date: Sun, 5 Dec 2021 03:04:51 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH] drm/msm/dp: Add "qcom, sc7280-dp" to support display port.
+Content-Language: en-GB
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, robdclark@gmail.com,
+ sean@poorly.run, swboyd@chromium.org, vkoul@kernel.org, daniel@ffwll.ch,
+ airlied@linux.ie, agross@kernel.org, bjorn.andersson@linaro.org
+References: <1638568959-7564-1-git-send-email-quic_khsieh@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <1638568959-7564-1-git-send-email-quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,23 +74,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D211277
+On 04/12/2021 01:02, Kuogee Hsieh wrote:
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 
---- Comment #87 from kolAflash (kolAflash@kolahilft.de) ---
-(In reply to James Zhu from comment #86)
-> Hi @kolAflash, thanks so much for your effort on this verification!
-> Would you mind help apply those patches on 5.12 stable to check also?
-> it should be automatically merged.  Thanks! James
+Reviewed by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-I'm testing Linux-5.12.19 with the patch from attachment 299697 since
-2021-12-02.
-Until now everything works fine.
+> ---
+>   drivers/gpu/drm/msm/dp/dp_display.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index d44f18b..91582d3 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -146,6 +146,7 @@ static const struct msm_dp_config sc7280_dp_cfg = {
+>   static const struct of_device_id dp_dt_match[] = {
+>   	{ .compatible = "qcom,sc7180-dp", .data = &sc7180_dp_cfg },
+>   	{ .compatible = "qcom,sc7280-edp", .data = &sc7280_dp_cfg },
+> +	{ .compatible = "qcom,sc7280-dp", .data = &sc7280_dp_cfg },
+>   	{}
+>   };
+>   
+> 
 
---=20
-You may reply to this email to add a comment.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-- 
+With best wishes
+Dmitry
