@@ -2,97 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A811646A52E
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 19:53:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65E6146A537
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 19:55:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00BF273640;
-	Mon,  6 Dec 2021 18:53:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 571F86F420;
+	Mon,  6 Dec 2021 18:55:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2064.outbound.protection.outlook.com [40.107.236.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CEDC732E9;
- Mon,  6 Dec 2021 18:53:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Dq8OXMmIP7s9BVDJ5+5uxLNF0SmMtnamJLeAfxAmj3F0XGsxlHkm704EthWGjZxVC7KgI6bGMeRj/0pPSzI8ixEOk72eLYlqzer9fg7QwQgPz2+xm+v7hKjfxx+U8ubmf1M15ksgC980dzaWeomal5ohLPWObS/zfbmJGF2S/BFHNZ0CLojeIllXUpKeOjEnuC5iw274upkr6j+WFurFhWlkQ6YDw3MW9AYW21FPWp+Fa0OyMSuolFyrIScy3KW1MFzR1GjtKUXFMDzXYb9KSHiQJ8toOVNpPt11jfCbwcVUfHCxLNormihwAjhd2zRfXlXIFlbyBJCcGzufa5B3nw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dd1gqU23taV2RuOXaFgROP6Az4Jec/HPM4h/VMMEzbI=;
- b=Qovkb3sd9ftj8VYTlOOORnir+ZorUXNyd/LIWhaHlQRcKOeW2Yo36RvIGTlmdBfzLSP65WMr6nll+FYvwe7BVUaW/gWJ/XOQIIyECOrZVL7TrC8fUDKqw9A4LuPq5GsBQKZRQbHMsqgU5Szffz/Fxbr4MD5Jg+x9uQe6mwwonqu7rlTWoD1ogS8e1i1b5zenTiFNdK4l6HFykUhAQacSiGtlcZUBJPFgnXjyPUBsq9tZSt8uKT5KgfIsIb7oSFDAjNxm7Bu0aXUTLr1QpwPdVfHILVEkS8VtcEg6ajXPodGc65A77UGzTEcqlD+svJ5rACqHnBxbf6/nfP4/qOgZ4Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linux-foundation.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dd1gqU23taV2RuOXaFgROP6Az4Jec/HPM4h/VMMEzbI=;
- b=S3i+b8hEjvdzsCfc8hU3UNEMppAsmReVtUIHxPHc4SaqvyLAoTcX9y9AT9wVjhOSBRoCvl20KUGGn7PiW9g8nOcRVwx+YCv/97Mhz2q1SMaIaEvoNZtxpgkduUJv9eCbY2LaI7vgbkw+H94u2emfBJkwiRQ7k/+G5U8yoHMV92Q=
-Received: from DM5PR15CA0053.namprd15.prod.outlook.com (2603:10b6:3:ae::15) by
- DM6PR12MB2698.namprd12.prod.outlook.com (2603:10b6:5:42::12) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4755.21; Mon, 6 Dec 2021 18:53:10 +0000
-Received: from DM6NAM11FT050.eop-nam11.prod.protection.outlook.com
- (2603:10b6:3:ae:cafe::7) by DM5PR15CA0053.outlook.office365.com
- (2603:10b6:3:ae::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.19 via Frontend
- Transport; Mon, 6 Dec 2021 18:53:10 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT050.mail.protection.outlook.com (10.13.173.111) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4755.13 via Frontend Transport; Mon, 6 Dec 2021 18:53:10 +0000
-Received: from alex-MS-7B09.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Mon, 6 Dec
- 2021 12:53:08 -0600
-From: Alex Sierra <alex.sierra@amd.com>
-To: <akpm@linux-foundation.org>, <Felix.Kuehling@amd.com>,
- <linux-mm@kvack.org>, <rcampbell@nvidia.com>, <linux-ext4@vger.kernel.org>,
- <linux-xfs@vger.kernel.org>
-Subject: [PATCH v2 11/11] tools: add hmm gup test for long term pinned device
- pages
-Date: Mon, 6 Dec 2021 12:52:51 -0600
-Message-ID: <20211206185251.20646-12-alex.sierra@amd.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211206185251.20646-1-alex.sierra@amd.com>
-References: <20211206185251.20646-1-alex.sierra@amd.com>
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD1336F420;
+ Mon,  6 Dec 2021 18:55:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1638816922; x=1670352922;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=z7WvmWdWQOJCI+kYLiYK4MSPMuxrEiLfyImGyc2vcgE=;
+ b=j8FHSaSutXwQVvQGhVkPQ+cWkgLRnQ/AIyuOIj+jIMHTH0mL4tIkei+u
+ OsJYErFzIEVaiWp19kAXLcvkAldMag+itnoWLthhh4tX6lANeEr60JR7P
+ 3J6e5jpIc6Vf9FdDp7v+3cLlBKd+oaIMVh+/lkI1ZZdB4Kzdieo/6QxIf E=;
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+ by alexa-out.qualcomm.com with ESMTP; 06 Dec 2021 10:55:21 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Dec 2021 10:55:20 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Mon, 6 Dec 2021 10:54:40 -0800
+Received: from [10.111.164.126] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Mon, 6 Dec 2021
+ 10:54:36 -0800
+Message-ID: <ae600a78-aa7f-9c9e-949b-0e946869a032@quicinc.com>
+Date: Mon, 6 Dec 2021 10:54:34 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b48d376e-b3a9-4f37-fdfc-08d9b8e9a656
-X-MS-TrafficTypeDiagnostic: DM6PR12MB2698:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR12MB269867CCB4710E20F847F6D7FD6D9@DM6PR12MB2698.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PzzdunYPS3Tiw0GKArGjLJ9poDKemaH+y5xKaSWXkQnZMqZYH0FXt9aJXZ2cJTEVeGvPnXrdgFqThQ9Mn/AWwa16Lbb0QfnVungkqo/22CWycXKXLROOuImluLmGEhxrMFwlXUZRj4x4eDRbyztzgNl5i6yde1XOBrj23lfeQncPmuYGIzZCihyyUQnd7Xy49K+ZsuyE2Q3rjtlH7Vao0hQpbzakO8Fd1VJ1sWtvAt3Al/qlSB5Vuvf4oPkVqqEowpel5SjBNSI17rirjQVvCIgUVqFLLvGXnBZ+rSrHJXiut/y7Tuh5rrWmKRz7BHnM8HHw09aPYMzGpwctKI8W/lcjDxgv7bgZCdwAQIHfJuRegu7zYaIzwX8ieo2EfjmN6ibBzCzs+LX3Xa0nyHtjMuWpVHMlkdW0v9vt3XtZs+foLloJsLOr0/evosLMkQHUsrbGdF5lzI9KclNGStiNe9agne/jVVwhJDgFkOGgebIkxVYMo9ZLp38PyYfaDGbBQfKStS7NeS6vGGIAZj2YUa3Q47+bSYPx0dXIhRYXBtpU7DnPlvAozUqK1k9dsdhx1sxUDN2QtfPM+CqlorpDAl4Lz/v9mqLlskWagDxXfW57hHsufkdwn65yyIXGLKc915WG7YvWG7bpgVi8Wjdlc0RbVxpjBWPuCCvwh4s0jfESKsQKEyhIc6ix81q7sp4cL3XXUTCMUOIVvTMbQJmTrBsq2tqLldpIJRoXp8qaAvDf1H1NG11xDpjgL+aUGPWHClkiYQYPslLBJYHSLyWSno6UYXndn+MzQUhB8sqDepg=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(36840700001)(46966006)(40470700001)(426003)(7696005)(16526019)(186003)(2616005)(26005)(40460700001)(7416002)(336012)(82310400004)(4326008)(5660300002)(36860700001)(6666004)(54906003)(1076003)(36756003)(2906002)(81166007)(44832011)(356005)(83380400001)(508600001)(86362001)(110136005)(70586007)(8676002)(8936002)(70206006)(316002)(47076005)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2021 18:53:10.6620 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b48d376e-b3a9-4f37-fdfc-08d9b8e9a656
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT050.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB2698
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH v5] drm/msm/dp: employ bridge mechanism for display enable
+ and disable
+Content-Language: en-US
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, <robdclark@gmail.com>,
+ <sean@poorly.run>, <swboyd@chromium.org>, <vkoul@kernel.org>,
+ <daniel@ffwll.ch>, <airlied@linux.ie>, <agross@kernel.org>,
+ <dmitry.baryshkov@linaro.org>, <bjorn.andersson@linaro.org>
+References: <1638205444-4616-1-git-send-email-quic_khsieh@quicinc.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <1638205444-4616-1-git-send-email-quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,137 +67,270 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: willy@infradead.org, apopple@nvidia.com, dri-devel@lists.freedesktop.org,
- jglisse@redhat.com, amd-gfx@lists.freedesktop.org, jgg@nvidia.com, hch@lst.de
+Cc: linux-arm-msm@vger.kernel.org, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The intention is to test device coherent type pages that have been
-called through get user pages with PIN_LONGTERM flag set.
 
-Signed-off-by: Alex Sierra <alex.sierra@amd.com>
----
- tools/testing/selftests/vm/Makefile    |  2 +-
- tools/testing/selftests/vm/hmm-tests.c | 81 ++++++++++++++++++++++++++
- 2 files changed, 82 insertions(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/vm/Makefile b/tools/testing/selftests/vm/Makefile
-index d9605bd10f2d..527a7bfd80bd 100644
---- a/tools/testing/selftests/vm/Makefile
-+++ b/tools/testing/selftests/vm/Makefile
-@@ -141,7 +141,7 @@ $(OUTPUT)/mlock-random-test $(OUTPUT)/memfd_secret: LDLIBS += -lcap
- 
- $(OUTPUT)/gup_test: ../../../../mm/gup_test.h
- 
--$(OUTPUT)/hmm-tests: local_config.h
-+$(OUTPUT)/hmm-tests: local_config.h ../../../../mm/gup_test.h
- 
- # HMM_EXTRA_LIBS may get set in local_config.mk, or it may be left empty.
- $(OUTPUT)/hmm-tests: LDLIBS += $(HMM_EXTRA_LIBS)
-diff --git a/tools/testing/selftests/vm/hmm-tests.c b/tools/testing/selftests/vm/hmm-tests.c
-index 8eb81dfba4b3..9a0b7e44a674 100644
---- a/tools/testing/selftests/vm/hmm-tests.c
-+++ b/tools/testing/selftests/vm/hmm-tests.c
-@@ -36,6 +36,7 @@
-  * in the usual include/uapi/... directory.
-  */
- #include "../../../../lib/test_hmm_uapi.h"
-+#include "../../../../mm/gup_test.h"
- 
- struct hmm_buffer {
- 	void		*ptr;
-@@ -60,6 +61,8 @@ enum {
- #define NTIMES		10
- 
- #define ALIGN(x, a) (((x) + (a - 1)) & (~((a) - 1)))
-+/* Just the flags we need, copied from mm.h: */
-+#define FOLL_WRITE	0x01	/* check pte is writable */
- 
- FIXTURE(hmm)
- {
-@@ -1723,4 +1726,82 @@ TEST_F(hmm, exclusive_cow)
- 	hmm_buffer_free(buffer);
- }
- 
-+/*
-+ * Test get user device pages through gup_test. Setting PIN_LONGTERM flag.
-+ * This should trigger a migration back to system memory for both, private
-+ * and coherent type pages.
-+ * This test makes use of gup_test module. Make sure GUP_TEST_CONFIG is added
-+ * to your configuration before you run it.
-+ */
-+TEST_F(hmm, hmm_gup_test)
-+{
-+	struct hmm_buffer *buffer;
-+	struct gup_test gup;
-+	int gup_fd;
-+	unsigned long npages;
-+	unsigned long size;
-+	unsigned long i;
-+	int *ptr;
-+	int ret;
-+	unsigned char *m;
-+
-+	gup_fd = open("/sys/kernel/debug/gup_test", O_RDWR);
-+	if (gup_fd == -1)
-+		SKIP(return, "Skipping test, could not find gup_test driver");
-+
-+	npages = 4;
-+	ASSERT_NE(npages, 0);
-+	size = npages << self->page_shift;
-+
-+	buffer = malloc(sizeof(*buffer));
-+	ASSERT_NE(buffer, NULL);
-+
-+	buffer->fd = -1;
-+	buffer->size = size;
-+	buffer->mirror = malloc(size);
-+	ASSERT_NE(buffer->mirror, NULL);
-+
-+	buffer->ptr = mmap(NULL, size,
-+			   PROT_READ | PROT_WRITE,
-+			   MAP_PRIVATE | MAP_ANONYMOUS,
-+			   buffer->fd, 0);
-+	ASSERT_NE(buffer->ptr, MAP_FAILED);
-+
-+	/* Initialize buffer in system memory. */
-+	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+		ptr[i] = i;
-+
-+	/* Migrate memory to device. */
-+	ret = hmm_migrate_sys_to_dev(self->fd, buffer, npages);
-+	ASSERT_EQ(ret, 0);
-+	ASSERT_EQ(buffer->cpages, npages);
-+	/* Check what the device read. */
-+	for (i = 0, ptr = buffer->mirror; i < size / sizeof(*ptr); ++i)
-+		ASSERT_EQ(ptr[i], i);
-+
-+	gup.nr_pages_per_call = npages;
-+	gup.addr = (unsigned long)buffer->ptr;
-+	gup.gup_flags = FOLL_WRITE;
-+	gup.size = size;
-+	/*
-+	 * Calling gup_test ioctl. It will try to PIN_LONGTERM these device pages
-+	 * causing a migration back to system memory for both, private and coherent
-+	 * type pages.
-+	 */
-+	if (ioctl(gup_fd, PIN_LONGTERM_BENCHMARK, &gup)) {
-+		perror("ioctl on PIN_LONGTERM_BENCHMARK\n");
-+		goto out_test;
-+	}
-+
-+	/* Take snapshot to make sure pages have been migrated to sys memory */
-+	ret = hmm_dmirror_cmd(self->fd, HMM_DMIRROR_SNAPSHOT, buffer, npages);
-+	ASSERT_EQ(ret, 0);
-+	ASSERT_EQ(buffer->cpages, npages);
-+	m = buffer->mirror;
-+	for (i = 0; i < npages; i++)
-+		ASSERT_EQ(m[i], HMM_DMIRROR_PROT_WRITE);
-+out_test:
-+	close(gup_fd);
-+	hmm_buffer_free(buffer);
-+}
- TEST_HARNESS_MAIN
--- 
-2.32.0
-
+On 11/29/2021 9:04 AM, Kuogee Hsieh wrote:
+> Currently the msm_dp_*** functions implement the same sequence which would
+> happen when drm_bridge is used. hence get rid of this intermediate layer
+> and align with the drm_bridge usage to avoid customized implementation.
+> 
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> 
+> Changes in v2:
+> -- revise commit text
+> -- rename dp_bridge to msm_dp_bridge
+> -- delete empty functions
+> 
+> Changes in v3:
+> -- replace kzalloc() with devm_kzalloc()
+> -- replace __dp_display_enable() with dp_display_enable()
+> -- replace __dp_display_disable() with dp_display_disable()
+> 
+> Changes in v4:
+> -- msm_dp_bridge_init() called from msm_dp_modeset_init() same as dsi
+> 
+> Changes in v5:
+> -- delete attach, mode_fixup and pre_enable from dp_bridge_ops
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 21 --------
+>   drivers/gpu/drm/msm/dp/dp_display.c         | 16 +++++-
+>   drivers/gpu/drm/msm/dp/dp_display.h         |  1 +
+>   drivers/gpu/drm/msm/dp/dp_drm.c             | 77 +++++++++++++++++++++++++++++
+>   drivers/gpu/drm/msm/msm_drv.h               | 12 +++--
+>   5 files changed, 100 insertions(+), 27 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> index 31050aa..c4e08c4 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> @@ -1003,9 +1003,6 @@ static void dpu_encoder_virt_mode_set(struct drm_encoder *drm_enc,
+>   
+>   	trace_dpu_enc_mode_set(DRMID(drm_enc));
+>   
+> -	if (drm_enc->encoder_type == DRM_MODE_ENCODER_TMDS)
+> -		msm_dp_display_mode_set(dpu_enc->dp, drm_enc, mode, adj_mode);
+> -
+>   	list_for_each_entry(conn_iter, connector_list, head)
+>   		if (conn_iter->encoder == drm_enc)
+>   			conn = conn_iter;
+> @@ -1181,14 +1178,6 @@ static void dpu_encoder_virt_enable(struct drm_encoder *drm_enc)
+>   
+>   	_dpu_encoder_virt_enable_helper(drm_enc);
+>   
+> -	if (drm_enc->encoder_type == DRM_MODE_ENCODER_TMDS) {
+> -		ret = msm_dp_display_enable(dpu_enc->dp, drm_enc);
+> -		if (ret) {
+> -			DPU_ERROR_ENC(dpu_enc, "dp display enable failed: %d\n",
+> -				ret);
+> -			goto out;
+> -		}
+> -	}
+>   	dpu_enc->enabled = true;
+>   
+>   out:
+> @@ -1214,11 +1203,6 @@ static void dpu_encoder_virt_disable(struct drm_encoder *drm_enc)
+>   	/* wait for idle */
+>   	dpu_encoder_wait_for_event(drm_enc, MSM_ENC_TX_COMPLETE);
+>   
+> -	if (drm_enc->encoder_type == DRM_MODE_ENCODER_TMDS) {
+> -		if (msm_dp_display_pre_disable(dpu_enc->dp, drm_enc))
+> -			DPU_ERROR_ENC(dpu_enc, "dp display push idle failed\n");
+> -	}
+> -
+>   	dpu_encoder_resource_control(drm_enc, DPU_ENC_RC_EVENT_PRE_STOP);
+>   
+>   	for (i = 0; i < dpu_enc->num_phys_encs; i++) {
+> @@ -1243,11 +1227,6 @@ static void dpu_encoder_virt_disable(struct drm_encoder *drm_enc)
+>   
+>   	DPU_DEBUG_ENC(dpu_enc, "encoder disabled\n");
+>   
+> -	if (drm_enc->encoder_type == DRM_MODE_ENCODER_TMDS) {
+> -		if (msm_dp_display_disable(dpu_enc->dp, drm_enc))
+> -			DPU_ERROR_ENC(dpu_enc, "dp display disable failed\n");
+> -	}
+> -
+>   	mutex_unlock(&dpu_enc->enc_lock);
+>   }
+>   
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index 2f113ff..89a8d43 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -1571,6 +1571,18 @@ int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
+>   	}
+>   
+>   	priv->connectors[priv->num_connectors++] = dp_display->connector;
+> +
+> +	dp_display->bridge = msm_dp_bridge_init(dp_display, dev, encoder);
+> +	if (IS_ERR(dp_display->bridge)) {
+> +		ret = PTR_ERR(dp_display->bridge);
+> +		DRM_DEV_ERROR(dev->dev,
+> +			"failed to create dp bridge: %d\n", ret);
+> +		dp_display->bridge = NULL;
+> +		return ret;
+> +	}
+> +
+> +	priv->bridges[priv->num_bridges++] = dp_display->bridge;
+> +
+>   	return 0;
+>   }
+>   
+> @@ -1674,8 +1686,8 @@ int msm_dp_display_disable(struct msm_dp *dp, struct drm_encoder *encoder)
+>   }
+>   
+>   void msm_dp_display_mode_set(struct msm_dp *dp, struct drm_encoder *encoder,
+> -				struct drm_display_mode *mode,
+> -				struct drm_display_mode *adjusted_mode)
+> +				const struct drm_display_mode *mode,
+> +				const struct drm_display_mode *adjusted_mode)
+>   {
+>   	struct dp_display_private *dp_display;
+>   
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
+> index 76f45f9..2237e80 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
+> @@ -13,6 +13,7 @@
+>   struct msm_dp {
+>   	struct drm_device *drm_dev;
+>   	struct device *codec_dev;
+> +	struct drm_bridge *bridge;
+>   	struct drm_connector *connector;
+>   	struct drm_encoder *encoder;
+>   	struct drm_panel *drm_panel;
+> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
+> index f33e315..15c0309e 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_drm.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
+> @@ -5,12 +5,21 @@
+>   
+>   #include <drm/drm_atomic_helper.h>
+>   #include <drm/drm_atomic.h>
+> +#include <drm/drm_bridge.h>
+>   #include <drm/drm_crtc.h>
+>   
+>   #include "msm_drv.h"
+>   #include "msm_kms.h"
+>   #include "dp_drm.h"
+>   
+> +
+> +struct msm_dp_bridge {
+> +	struct drm_bridge bridge;
+> +	struct msm_dp *dp_display;
+> +};
+> +
+> +#define to_dp_display(x)     container_of((x), struct msm_dp_bridge, bridge)
+> +
+>   struct dp_connector {
+>   	struct drm_connector base;
+>   	struct msm_dp *dp_display;
+> @@ -162,3 +171,71 @@ struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display)
+>   
+>   	return connector;
+>   }
+> +
+> +static void dp_bridge_mode_set(struct drm_bridge *drm_bridge,
+> +				const struct drm_display_mode *mode,
+> +				const struct drm_display_mode *adjusted_mode)
+> +{
+> +	struct msm_dp_bridge *dp_bridge = to_dp_display(drm_bridge);
+> +	struct msm_dp *dp_display = dp_bridge->dp_display;
+> +
+> +	msm_dp_display_mode_set(dp_display, drm_bridge->encoder, mode, adjusted_mode);
+> +}
+> +
+> +static void dp_bridge_enable(struct drm_bridge *drm_bridge)
+> +{
+> +	struct msm_dp_bridge *dp_bridge = to_dp_display(drm_bridge);
+> +	struct msm_dp *dp_display = dp_bridge->dp_display;
+> +
+> +	msm_dp_display_enable(dp_display, drm_bridge->encoder);
+> +}
+> +
+> +static void dp_bridge_disable(struct drm_bridge *drm_bridge)
+> +{
+> +	struct msm_dp_bridge *dp_bridge = to_dp_display(drm_bridge);
+> +	struct msm_dp *dp_display = dp_bridge->dp_display;
+> +
+> +	msm_dp_display_pre_disable(dp_display, drm_bridge->encoder);
+> +}
+> +
+> +static void dp_bridge_post_disable(struct drm_bridge *drm_bridge)
+> +{
+> +	struct msm_dp_bridge *dp_bridge = to_dp_display(drm_bridge);
+> +	struct msm_dp *dp_display = dp_bridge->dp_display;
+> +
+> +	msm_dp_display_disable(dp_display, drm_bridge->encoder);
+> +}
+> +
+> +static const struct drm_bridge_funcs dp_bridge_ops = {
+> +	.enable       = dp_bridge_enable,
+> +	.disable      = dp_bridge_disable,
+> +	.post_disable = dp_bridge_post_disable,
+> +	.mode_set     = dp_bridge_mode_set,
+> +};
+> +
+> +struct drm_bridge *msm_dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
+> +			struct drm_encoder *encoder)
+> +{
+> +	int rc;
+> +	struct msm_dp_bridge *dp_bridge;
+> +	struct drm_bridge *bridge;
+> +
+> +	dp_bridge = devm_kzalloc(dev->dev, sizeof(*dp_bridge), GFP_KERNEL);
+> +	if (!dp_bridge)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	dp_bridge->dp_display = dp_display;
+> +
+> +	bridge = &dp_bridge->bridge;
+> +	bridge->funcs = &dp_bridge_ops;
+> +	bridge->encoder = encoder;
+> +
+> +	rc = drm_bridge_attach(encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+> +	if (rc) {
+> +		DRM_ERROR("failed to attach bridge, rc=%d\n", rc);
+> +		kfree(dp_bridge);
+> +		return ERR_PTR(rc);
+> +	}
+> +
+> +	return bridge;
+> +}
+> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+> index 4bb797e..c18a959 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.h
+> +++ b/drivers/gpu/drm/msm/msm_drv.h
+> @@ -388,8 +388,12 @@ int msm_dp_display_enable(struct msm_dp *dp, struct drm_encoder *encoder);
+>   int msm_dp_display_disable(struct msm_dp *dp, struct drm_encoder *encoder);
+>   int msm_dp_display_pre_disable(struct msm_dp *dp, struct drm_encoder *encoder);
+>   void msm_dp_display_mode_set(struct msm_dp *dp, struct drm_encoder *encoder,
+> -				struct drm_display_mode *mode,
+> -				struct drm_display_mode *adjusted_mode);
+> +				const struct drm_display_mode *mode,
+> +				const struct drm_display_mode *adjusted_mode);
+> +
+> +struct drm_bridge *msm_dp_bridge_init(struct msm_dp *dp_display,
+> +					struct drm_device *dev,
+> +					struct drm_encoder *encoder);
+>   void msm_dp_irq_postinstall(struct msm_dp *dp_display);
+>   void msm_dp_snapshot(struct msm_disp_state *disp_state, struct msm_dp *dp_display);
+>   
+> @@ -426,8 +430,8 @@ static inline int msm_dp_display_pre_disable(struct msm_dp *dp,
+>   }
+>   static inline void msm_dp_display_mode_set(struct msm_dp *dp,
+>   				struct drm_encoder *encoder,
+> -				struct drm_display_mode *mode,
+> -				struct drm_display_mode *adjusted_mode)
+> +				const struct drm_display_mode *mode,
+> +				const struct drm_display_mode *adjusted_mode)
+>   {
+>   }
+>   
+> 
