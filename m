@@ -2,71 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DAEF4694AA
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 12:01:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40AA74694AB
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 12:01:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E413D73757;
-	Mon,  6 Dec 2021 11:01:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C600173759;
+	Mon,  6 Dec 2021 11:01:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
  [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2FB873757
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Dec 2021 11:01:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80AE073759
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Dec 2021 11:01:49 +0000 (UTC)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 5D46D32003C0;
- Mon,  6 Dec 2021 06:01:44 -0500 (EST)
+ by mailout.west.internal (Postfix) with ESMTP id 24BAA3200E42;
+ Mon,  6 Dec 2021 06:01:48 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Mon, 06 Dec 2021 06:01:45 -0500
+ by compute5.internal (MEProxy); Mon, 06 Dec 2021 06:01:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:content-type:mime-version
- :content-transfer-encoding; s=fm1; bh=uURppObJUNaK7HN8Uz06T+BghE
- KAPHKvYBlC9UTRey8=; b=ert9unh+8PLRLSbFRyxhaSxwn+6mqE55WEiv04CvCE
- y39Mn4695qowixifpOUEcAYolBMWVgCB0iPd+Khqkwl+a+P2IwV8bzlmMG/GjHR9
- w7SL7rN5hZ3qkSn5+MCInhR8b6BcRN3qYyxAQAstC0gmsSZPmY0rTu86tsz6euUW
- D3S4NSVvWQCKbqtLLu0ZWXp3P3QA8ha9/XO43GrNnHvmw7Sn/QOXfwtyYXdOSZjK
- RwmugihsHQN1ieA5t6CFk8SgMBcb2RxLOxCjNj/ISjb4NJ/b/0STv60DTyjZ2y3G
- j22crE4HRoeDIyWv84Z6GcmXsdVDGB8w3Oett9BbOsfQ==
+ from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm1; bh=O3ZaCzF3uiaQs
+ dLmrwEBkmvz3VulhurD7dF6G1DfwV8=; b=gCvPMk0SZy0bqIHly38I/tFhOpGAf
+ f6EmNsQedLBTCxkCLV4BED5cnDntC9esqfFqeVNn9Z3MRWoGt3hUxDiwNjeXtNZc
+ 08fcJJ/I/AmPjAHE8vQJ6N9A2xdCmDROA9B5eOZ9U0cbn8l/8SQEDpYDbQgWrDBX
+ vknQZkiJTf0nzocTVWL2QqgQbR53NXR0j68l0rU1ghzkhwWpshGTpkBUlXARGsUw
+ oRv6AQMJjTI8crPHlLVtIn/CF9aseOI8HC6oKMjKfQ1IYdx0fYTDb3lgvveGskEO
+ zAW1Y1GxZtX3xz6kdC0lhlc+GExs8BJHR4FULB2Cl9TDebfJdnpX2qMSg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=uURppO
- bJUNaK7HN8Uz06T+BghEKAPHKvYBlC9UTRey8=; b=VSCHbKdYNK41eH13KimPmE
- 0xuSiPH7ytX+7pwIHLqhWyDm/80hf0IQvovCWu4su/ffmeRJlCMFcy9AgGZ7Wu+o
- zXI5+Gr2o1vcDuwpRDqz9HermcpO9t1F+t+QVvnfL5M/AS2pUsJ0aKFx3Pm/bUfs
- CjfyM4kolaAHN5gP+o3YXzv1IENimaKkRFIup8uDPAdJJLpOBsqmTjyYLzRae1IT
- HdTlq61Cwipav8eMEo8pSQEZIdO2FeV7vNJhYCgUuJ23Eu6z02WXYldTv3vzUXKX
- M5wLhE92ULmx478Sfw7NgSoQVuX4fj6DwSsU2B4guHdt4PeM+h0oE4K95PEZkW6A
- ==
-X-ME-Sender: <xms:lu2tYQ7y2ZB2SXnGnx02NN0daSa7LRVypFjXMq29BF8AY43dLYPheA>
- <xme:lu2tYR7AIg3Ajx52HVq779Z3wHnNvfZQR7meTXcDgG-cXG0qUoUdfa5knHIbz3Cyv
- CoK1TNxUBjQBC6-Yf4>
-X-ME-Received: <xmr:lu2tYfcYb-cYH4v8IyVHZfSXRLX_tBy8t2Fxq_ICC223_a8MnPK4RKN44pzXSD-eyT3e0crDeSXVlFUVUtBBDLcS_PUnMXKIBnRcLnE_YEhsHQ>
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; bh=O3ZaCzF3uiaQsdLmrwEBkmvz3VulhurD7dF6G1DfwV8=; b=Se0vVHqw
+ sDAf7kZB/SSsGF4CYvjV05UG4Bbay2Rqgv02IHgE5Mw7dHaJ3OItuqsEW4nctK65
+ DVD7tP6AirQbKP27s/gYP4578RC6a3JPyduT3+mgWoA9F454fm7Y/hABj2GnUlns
+ gyR5ELSqLrKdL4PtpDCxMhpBE2Z1FPkNMa8VNLopB2hM4DjwEWd5lttGP6WlQfDT
+ cp9LEypITcCqBGcWabBcNNfQqMTXGfGOpxYpc1nE9r+QWsOVpwBY7k08AraCJFCI
+ ko31gpZfvGbWj0Gus1i2VYS5fAXhMN4a5pPfh8gXdwZdbt5GtX5h31ixFOmS7nCl
+ p9S/I1b8tr2i3w==
+X-ME-Sender: <xms:m-2tYdT9veVNoYYCuhQB36gK7HJC3YnM_jnTCVfO1mSYQp-xOZ45Lg>
+ <xme:m-2tYWynV6NJxUHsDKcEGxeFRwR84xQSAWDtDenuOvmz3Ge5erzGnDn5ZjLknk_3A
+ FlYOXFhQk80potSd_s>
+X-ME-Received: <xmr:m-2tYS2prUM0dC34Hz6GLYT1Pg8H1AFvjFGtiGusWmz3F4anASOlVON2XVT4zU1wn9BfafHknLHdKXRUFLVxsWYpaIriSJDrSXp5fRjki_ASNA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrjeefgddvvdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpeforgigihhmvgcu
- tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
- hrnhepteeikefgffekgeekledtheduteetjefgkeeuvefhhfetgedugfektdeugeffgfef
- necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgi
- himhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:lu2tYVL3UtX354NXHz_PJMl9aa6vQx9ShPS5twzp3hF0-utatfIWog>
- <xmx:lu2tYUK-YrbQnnLbIfxgxNYoQWU8ugiwChDlEKVbDXunFc_3GlAwvw>
- <xmx:lu2tYWzquIA5VSqC02WVO7kdE2OUA2HsGJMJl94oWX6dNQMJK_78lg>
- <xmx:l-2tYT8tAslNjdgxdREZLVBZhynK3lf4O1zb3__XA8q1RX51qetjDQ>
+ fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
+ vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:m-2tYVDiThdQweCFswErLNp9HBcp5K8r5r1kU6Vn1U_-bJQshPmePA>
+ <xmx:m-2tYWgA7gkoxp1y2x4j2DwWCPAmIbLzw_FEwEHcROMn3R4R2Jlb_w>
+ <xmx:m-2tYZo4eh96f6LWoTnXElyaoMuKx3nbfdyQhY0uDQ3EWxReJXU03g>
+ <xmx:m-2tYfU2fUrNWXGNNdExKzL7V7vdyaX9q6PiPKDnxtrMilHtNjSnIw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 6 Dec 2021 06:01:42 -0500 (EST)
+ 6 Dec 2021 06:01:46 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v2 0/3] drm/vc4: Support for 30 bits YUV formats
-Date: Mon,  6 Dec 2021 12:01:37 +0100
-Message-Id: <20211206110140.119650-1-maxime@cerno.tech>
+Subject: [PATCH v2 1/3] drm/fourcc: Add packed 10bit YUV 4:2:0 format
+Date: Mon,  6 Dec 2021 12:01:38 +0100
+Message-Id: <20211206110140.119650-2-maxime@cerno.tech>
 X-Mailer: git-send-email 2.33.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20211206110140.119650-1-maxime@cerno.tech>
+References: <20211206110140.119650-1-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,30 +86,63 @@ Cc: Tim Gover <tim.gover@raspberrypi.com>, Dom Cobley <dom@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,=0D
-=0D
-Here are a few patches adding support for the P030 and the BT709 and BT2020=
-=0D
-colorspaces.=0D
-=0D
-Let me know what you think,=0D
-Maxime=0D
-=0D
-Changes from v1:=0D
- - Reworded the format description=0D
- - Fixed use before initialisation=0D
-=0D
-Dave Stevenson (3):=0D
-  drm/fourcc: Add packed 10bit YUV 4:2:0 format=0D
-  drm/vc4: plane: Add support for DRM_FORMAT_P030=0D
-  drm/vc4: plane: Add support for YUV color encodings and ranges=0D
-=0D
- drivers/gpu/drm/drm_fourcc.c    |   3 +=0D
- drivers/gpu/drm/vc4/vc4_plane.c | 199 ++++++++++++++++++++++++++------=0D
- drivers/gpu/drm/vc4/vc4_regs.h  |  19 ++-=0D
- include/uapi/drm/drm_fourcc.h   |  11 ++=0D
- 4 files changed, 193 insertions(+), 39 deletions(-)=0D
-=0D
--- =0D
-2.33.1=0D
-=0D
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+
+Adds a format that is 3 10bit YUV 4:2:0 samples packed into
+a 32bit work (with 2 spare bits).
+
+Supported on Broadcom BCM2711 chips.
+
+Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/gpu/drm/drm_fourcc.c  |  3 +++
+ include/uapi/drm/drm_fourcc.h | 11 +++++++++++
+ 2 files changed, 14 insertions(+)
+
+diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+index 25837b1d6639..07741b678798 100644
+--- a/drivers/gpu/drm/drm_fourcc.c
++++ b/drivers/gpu/drm/drm_fourcc.c
+@@ -269,6 +269,9 @@ const struct drm_format_info *__drm_format_info(u32 format)
+ 		  .num_planes = 3, .char_per_block = { 2, 2, 2 },
+ 		  .block_w = { 1, 1, 1 }, .block_h = { 1, 1, 1 }, .hsub = 0,
+ 		  .vsub = 0, .is_yuv = true },
++		{ .format = DRM_FORMAT_P030,            .depth = 0,  .num_planes = 2,
++		  .char_per_block = { 4, 8, 0 }, .block_w = { 3, 3, 0 }, .block_h = { 1, 1, 0 },
++		  .hsub = 2, .vsub = 2, .is_yuv = true},
+ 	};
+ 
+ 	unsigned int i;
+diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+index 7f652c96845b..fc0c1454d275 100644
+--- a/include/uapi/drm/drm_fourcc.h
++++ b/include/uapi/drm/drm_fourcc.h
+@@ -314,6 +314,13 @@ extern "C" {
+  */
+ #define DRM_FORMAT_P016		fourcc_code('P', '0', '1', '6') /* 2x2 subsampled Cr:Cb plane 16 bits per channel */
+ 
++/* 2 plane YCbCr420.
++ * 3 10 bit components and 2 padding bits packed into 4 bytes.
++ * index 0 = Y plane, [31:0] x:Y2:Y1:Y0 2:10:10:10 little endian
++ * index 1 = Cr:Cb plane, [63:0] x:Cr2:Cb2:Cr1:x:Cb1:Cr0:Cb0 [2:10:10:10:2:10:10:10] little endian
++ */
++#define DRM_FORMAT_P030		fourcc_code('P', '0', '3', '0') /* 2x2 subsampled Cr:Cb plane 10 bits per channel packed */
++
+ /* 3 plane non-subsampled (444) YCbCr
+  * 16 bits per component, but only 10 bits are used and 6 bits are padded
+  * index 0: Y plane, [15:0] Y:x [10:6] little endian
+@@ -854,6 +861,10 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
+  * and UV.  Some SAND-using hardware stores UV in a separate tiled
+  * image from Y to reduce the column height, which is not supported
+  * with these modifiers.
++ *
++ * The DRM_FORMAT_MOD_BROADCOM_SAND128_COL_HEIGHT modifier is also
++ * supported for DRM_FORMAT_P030 where the columns remain as 128 bytes
++ * wide, but as this is a 10 bpp format that translates to 96 pixels.
+  */
+ 
+ #define DRM_FORMAT_MOD_BROADCOM_SAND32_COL_HEIGHT(v) \
+-- 
+2.33.1
+
