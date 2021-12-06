@@ -1,61 +1,126 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB4E94693E5
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 11:29:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A9C74693D3
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 11:28:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9EC27B48B;
-	Mon,  6 Dec 2021 10:21:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D553C7AF77;
+	Mon,  6 Dec 2021 10:21:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 558AE72DA4
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Dec 2021 09:11:31 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id E485B21B38;
- Mon,  6 Dec 2021 09:11:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1638781889; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bMCaNdw6a1Ja7upQ4N3Uodp4tr2riFznMk8i0Epk9qU=;
- b=06CgQuohofA2t4FWXnn1S2bq2nj1oJn+OrWFkIXxpqkmeiGOIAJT73hIYRZJjkx8QiMmrW
- m+ED67kUEiMfHyVk/12rXZYEd1738nOLJjoK/bOc2ugxFM10POckfaJdD/MJypNe38Kl4R
- kLyeUoDy6eMDkEtFSinEHV9HBzb9aJE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1638781889;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bMCaNdw6a1Ja7upQ4N3Uodp4tr2riFznMk8i0Epk9qU=;
- b=v8kZCgnyXf8c31+L9PT9/mlehguhyHt5RMT8lyPGgmXLNW9b0fLvpKwc7CJNrdqY+e5pjq
- Mp9bnaImdniVOkBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B658413B2D;
- Mon,  6 Dec 2021 09:11:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 0BiHK8HTrWE8IwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 06 Dec 2021 09:11:29 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@redhat.com, daniel@ffwll.ch, sam@ravnborg.org,
- kuohsiang_chou@aspeedtech.com
-Subject: [PATCH v2 3/3] drm/ast: Move I2C code into separate source file
-Date: Mon,  6 Dec 2021 10:11:25 +0100
-Message-Id: <20211206091125.29501-4-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20211206091125.29501-1-tzimmermann@suse.de>
-References: <20211206091125.29501-1-tzimmermann@suse.de>
-MIME-Version: 1.0
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam08on2058.outbound.protection.outlook.com [40.107.100.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0EB073CA6
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Dec 2021 09:55:24 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YBkYViaiGnbDzfoTvkz7SrsvEsiPoXjYqNkVqLkOdf18b/rYFPzDs8WlQXYj7SrErRpi8OlaYilCPZjrvgnCgK/OdpRBTQA8/KVFqkfrBJBGsO9ceeQgYYEBitHlVzERSxbU6uzlfCZnzjL5uH0WJEifBgn9OVqW7PUIl+b2ABFHocME7Wu/bskR6i0waxW79fgnYVu6FYEnnyDq3LcI7egMxo+mmnDvxkDx9lODq0JlRvtqLlNyDGvoO4pZv9TQq6j2vTvr7TDmZFOFR07mBhipt8NLJC4YcpHbZ0liNZ+WBMzA64vHx9gCLv5nLa3u/OYHWxNFdE8j63qoiuNozQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5QTjCuoHORsIaYoDA38EAYujltYQA5bCxi4W2CzFP50=;
+ b=gM6MCu7eplmoNDBHzJQU9YB7JmFd89URusbcDPqxusDFzNlIIBIurAtE2++Kl5iwprPdtYxC6SqKnYdQ2Ey+k6hAKdWL2ppON+XoaOf//F+yP2Um9NI/1o/giKx+UWXuLy/qxnGVkwPM7N17y5po+kEKad3xSQ3d0QwGJUaMjBAsaw1ePQIQs94PJNQulduYKoddsVAPfwv2KpdJk3uTQJbD7tdyzhPMqproKO1mbtNXRdZwaBIhzwyRxo/ExRtg8rl0CtjKRE08P41sEjh1apTrnxbwuSjRVAviLyrvOBifFym/u1i2MGledAAhkR5UUHkh8Ue0K8wGU9j4tv+Uwg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5QTjCuoHORsIaYoDA38EAYujltYQA5bCxi4W2CzFP50=;
+ b=kNps0xHo7R2Nd4LFsEgK08J0qS+VhJ3lCoCgzgTr/V4gG81Pe198IbRRxtRcKAp9o34pYnSgq5xZ63TsLGLgxZ2+cLPIAa6lQdBx7Ex4hzprJl+kz12D9tUIy0L1CeXW/jqrqnUzJ8xZAPPYOZEkxlk4t53w0ctRU8TWDiBaNa1BQtxgsjEaaniiTcRFRrNR+O63wqXpQ9e0yhmSyK51EmLoP7045Bt1QV5sH2WdT74LNPLInZbPMJp05Tr9YRsEvM1Xx/xsd6DugX58RKf2igq4jQ4GkCLvNG8zCuSTymB9LZ4FkMZjkjvPNEOf1JN/D5iCXZJS280Hi5HQGF2Dvw==
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=nvidia.com;
+Received: from CO6PR12MB5444.namprd12.prod.outlook.com (2603:10b6:5:35e::8) by
+ CO6PR12MB5457.namprd12.prod.outlook.com (2603:10b6:5:355::16) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4669.11; Mon, 6 Dec 2021 09:55:19 +0000
+Received: from CO6PR12MB5444.namprd12.prod.outlook.com
+ ([fe80::ecac:528f:e36c:39d0]) by CO6PR12MB5444.namprd12.prod.outlook.com
+ ([fe80::ecac:528f:e36c:39d0%5]) with mapi id 15.20.4755.022; Mon, 6 Dec 2021
+ 09:55:19 +0000
+Subject: Re: [PATCH v2 0/8] Host1x context isolation support
+To: joro@8bytes.org, will@kernel.org, robh+dt@kernel.org, robin.murphy@arm.com
+References: <20210916143302.2024933-1-mperttunen@nvidia.com>
+ <10de82cf-27a5-8890-93a5-0e58c74e5bcc@kapsi.fi>
+From: Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <c382fb0e-6b73-5ca0-7f63-d2843351325e@nvidia.com>
+Date: Mon, 6 Dec 2021 09:55:09 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+In-Reply-To: <10de82cf-27a5-8890-93a5-0e58c74e5bcc@kapsi.fi>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: VI1PR07CA0283.eurprd07.prod.outlook.com
+ (2603:10a6:800:130::11) To CO6PR12MB5444.namprd12.prod.outlook.com
+ (2603:10b6:5:35e::8)
+MIME-Version: 1.0
+Received: from [10.26.49.14] (195.110.77.193) by
+ VI1PR07CA0283.eurprd07.prod.outlook.com (2603:10a6:800:130::11) with
+ Microsoft SMTP Server (version=TLS1_2, cipher=) via Frontend Transport;
+ Mon, 6 Dec 2021 09:55:15 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b0ed521c-f8a8-4317-5592-08d9b89e82d6
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5457:
+X-Microsoft-Antispam-PRVS: <CO6PR12MB54574CC72F3FB1535F0CB7BCD96D9@CO6PR12MB5457.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: kUdvvjnWnYGJffYlgouwPVkuIeReDOsiQXuDRXHyDW93Idoj5O7JFMW8jZ0Eod23MRcVoD1j1J6K+PZliJHpune8Q6Ihegjcx5GXx9KGW5Sc0h++tbaKLKAUdU21aF4SuevjLEGbZT8/sab/lRvCcndxl6HgUcvEWQiIgZID5Ah1D5AijrViOGUx/hQn2CxEwiP0AOwutxYpMVj74VciW49gx1gTToRvW1ZGGSThnb30PamEuKH9ucsVqYXElZBrhbxLdbOu2Aj8JdtP13zcpYJLFcR25KQbIo4bO0OHL/S4Iqxx8pvSY+6aRvVIyT+erYroCAXRyG7+OqGLemr48ExK3tN9JkNQQNWY0IPVxpPtl+ItRkNXQ9z5SOUTAuCGEHJ/O8VU8Yr61Pf1JqZn/xhpToQy5UIYQo/StibPiKWEAXc9CEFfvL+zaSFzQ0xW0aZj3kD2Y0vsFjv1KFkWh7gzl76ciHfi4YTv9UvW92b70LyprstAOgoRSKTSQzYnXeTe577x7UJUhMiR7zh7cWyzZYhfds4RoAS75g0QtGNTluNmAFM5Lq5yqrVsih2kiBeaw1scWZ0YrfhK7q8Xsc36UzY7v/0q9VfoO746rGZeqXnryfZUz01LL0EL0tC8WeAQDIepMusoEboNmlWjX3ihKV3GeWRChDovOQ64p1oq33+Fobl430I9Ffw4JGSl1QDZ7mTxuKQSPheM9YFYELQzPkkyuA573GUOvgrgGQgBAVNadux8CC6jKXhvgHgxyvwppWFHkC0hzDGdj3/aHhBGXs8nNP7ouurQWGPO69g=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5444.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(86362001)(66946007)(83380400001)(38100700002)(6486002)(956004)(2906002)(36756003)(508600001)(2616005)(31686004)(66556008)(31696002)(8936002)(66476007)(8676002)(55236004)(316002)(4326008)(16576012)(7416002)(54906003)(53546011)(6666004)(26005)(186003)(5660300002)(32563001)(45980500001)(43740500002)(357404004);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cm9PZ3IvNXBnUVdVcG11NXRZYnFWeXZCT01QSUVadFBlVUZhZ0dEcGJVY3ho?=
+ =?utf-8?B?NDJHSURJVzZjKythK04xcVNoNGtHVFdiMUkxTkhWQkFzS1FGOGdRc3BnOFhT?=
+ =?utf-8?B?R2xENmVSQURhYm1VVkdqcVFaV2hXMVRMck1xejFCK2FjeXlzQStGdnNPcjIr?=
+ =?utf-8?B?V0RlYXMrazVsZ0FnRm9WenA3NkZZKzl2WGVKRFAvZGVQNXVxK2JPVzVVYVlv?=
+ =?utf-8?B?TmhaY1dWQXBCNGFtWEZyZk9DUEJSNk04NUJlTGQ0K3FaUUxTWFBWKzQ5N0xj?=
+ =?utf-8?B?N21CZ3FmcWxHQWp6Wkw2SkJZUGZzdFMrMWxxamx4VUEwTjcxZWkyV2ZFL1hT?=
+ =?utf-8?B?T3dIYkE1YTVDODZiL1pJc2VsYUd5RTc3MkZHdSs3NDRxMVNnazRySnJ2UzN3?=
+ =?utf-8?B?bnhwY3I3ZXRkUzhFUi9JQWdxYS8xcCtvL0lxMWxNK0NJdEozS1M4YU9QeGgx?=
+ =?utf-8?B?eHJIY2w5SlJUbzM0bE1lOWZKOVBFV0hFN0IwV05tZkZXQkJINlVndW5zeFdr?=
+ =?utf-8?B?VmhnbFl2V2lMejVqR2J0aFdkY3ZZL0EwbjVkQ2dtdkROVExJbTM5L3RTSzZL?=
+ =?utf-8?B?MExJWUowdmxpeExDd3VnUVY4SXlydlRqREpNdUZrbVg1L05rTUtnRXRONjQz?=
+ =?utf-8?B?SnJqMGdsVEFkRTVmVHJSQmpRS1dlMzkxTmF2a0pFVjQ5L3JCU2hNRjZwUEZJ?=
+ =?utf-8?B?NFFXT0p5K0RGb08yZmtZeWR5Y0hweW95ZTh4eGFSVkRaVDNPaTR4VnlPd3dW?=
+ =?utf-8?B?cGlObjl3U1BCOSs1QUlOZHdBY2NSdlVvbGh6bC9FTFdEYmZDdisyMjlqaXd2?=
+ =?utf-8?B?UmdkeTFMSksyYlpkN0J6cG9WVURuK21tNzY5L2FQUWs1am9qTW1EMXVuZnQ3?=
+ =?utf-8?B?MEFvUXlwN3pMUWNmZ29Rc2RFaFc0MHF0OVRDN1hGNEpSVU5zaXlxQVZYVXJp?=
+ =?utf-8?B?bUtDUWJRSDV6R2ltWVhxK2F2VDdzcjJVQUpnR3RGMm0vOFMxTWJyTmQvRTU1?=
+ =?utf-8?B?Wnk3ck9pWEZQTjc4ZUpydGhYVWJLalRGSWRHYzN5OTJrTEd1T0tLUUl3Skpj?=
+ =?utf-8?B?akRaQXNZdnQ1MWFWZ2JPUEhHcm5JV3NuL2J2VjMrQStiZ0J2TG5aZFplamFH?=
+ =?utf-8?B?M3hMWjl2ZlpKSW10aEZhaG1XZG5jM21mNldscTUvbXNGaldJL3hJVUh1aGJk?=
+ =?utf-8?B?UWx5V3VMbzVtVW9CT3BaU0xwbjlxeGYrenBQK0hiV3V0c3dlMU1NbHRWK2VW?=
+ =?utf-8?B?UUdJSnBhT01YUzBrM3FoN3RVRThEMFZSeUNJQXFtR0RKbXdRSFNGVDFLQm55?=
+ =?utf-8?B?TWVENURLUGVYdkhVOEdXZ1pvdk5HcHJCaWs4c3cxelhmS2duZDM5bG1USVFR?=
+ =?utf-8?B?VkVGQWVvYlJreUhlYzNMMUJrNko1dmlxY3A3eGdES3JHbC9zczVZQXkwRDAw?=
+ =?utf-8?B?WjlEenoySTN6TzBEcG9KcnhtUXllT3E3WGZ6VXByM1NuT1pUdzVhUGYyZ3lh?=
+ =?utf-8?B?VmNVNFF6dGF4UEdhYnhuemNFNVJob0piTVJpOW4waldPaEp4WkNMWVZnQ0pL?=
+ =?utf-8?B?Vzk0aFZTNytoOU1tNFpMNjJBOUNNRUw4OVliRHQ3Z1YzK001MUlvMHZ5bU5E?=
+ =?utf-8?B?SGxwa21tRDNVcWwxdHc4cWN2U25BcCsyRk1mVkJkeTRyMlg2NXJFcXlQaHpO?=
+ =?utf-8?B?dkRPTmhDakFvUStRSHptUnprbXNDNTc3RVVCa1dqVnFPVmxub0h5Qm1Mb1JB?=
+ =?utf-8?B?dHlNTFFWTTJIb3JydlJJVnR6L0w1VlJhUDFVbG1nVFovQzY2UU5yUVJJSFhR?=
+ =?utf-8?B?ZXpHZ2V1ZFZwRVAvamtLNHhCaFRkMEdlOEhWd1czM1Bkd3FDcFRqZ0hUQ09Y?=
+ =?utf-8?B?K1ZqUnJ1M3BTV2UyYnUyUmJ6VFZmY2d3RmN5R0VvRWU3S1YvaEZ6QkVhN2M5?=
+ =?utf-8?B?bE5jaVVlZXRWS1JlME1SWXNnMllxdk5NR3ZORHBiWGRYQW5GNGpYOFdkZjEx?=
+ =?utf-8?B?VjRDWCtybFBvb0NZd2g1ZUUydVVwSlByNk1wTkIrYitROFYzTzA4RFN0ZXU5?=
+ =?utf-8?B?SldPNW5Cb0g0QzBJcm5XcXQxNjlnSzFqY2VtOEtocllaQUgrOVplN2o5UVNJ?=
+ =?utf-8?B?S3U3SitLbmhBREZPU2Y3YjJLeTloUHUxYmlpL1FkVFd6NSt2VXpiVFZoZHpm?=
+ =?utf-8?Q?1eOwKwSPgfVsGBwiSiVZrUY=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b0ed521c-f8a8-4317-5592-08d9b89e82d6
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5444.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2021 09:55:19.3315 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OtbvDo+wjHKJEbk0XCITUl8jRFiKTRxRc4W2iGvLHnK5ZsJeRkJuZSaDuKNjDN51+Ci8q055zizRrUQIdtuzGg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5457
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,354 +133,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Mikko Perttunen <cyndis@kapsi.fi>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Mikko Perttunen <mperttunen@nvidia.com>, iommu@lists.linux-foundation.org,
+ thierry.reding@gmail.com, linux-tegra@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move I2C code into its own source file. Makes the mode-setting
-code a little less convoluted.
+Will, Joerg, Rob,
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/ast/Makefile   |   2 +-
- drivers/gpu/drm/ast/ast_drv.h  |   3 +
- drivers/gpu/drm/ast/ast_i2c.c  | 152 +++++++++++++++++++++++++++++++++
- drivers/gpu/drm/ast/ast_mode.c | 128 ---------------------------
- 4 files changed, 156 insertions(+), 129 deletions(-)
- create mode 100644 drivers/gpu/drm/ast/ast_i2c.c
+On 08/11/2021 10:36, Mikko Perttunen wrote:
+> On 9/16/21 5:32 PM, Mikko Perttunen wrote:
+>> Hi all,
+>>
+>> ***
+>> New in v2:
+>>
+>> Added support for Tegra194
+>> Use standard iommu-map property instead of custom mechanism
+>> ***
+>>
+>> this series adds support for Host1x 'context isolation'. Since
+>> when programming engines through Host1x, userspace can program in
+>> any addresses it wants, we need some way to isolate the engines'
+>> memory spaces. Traditionally this has either been done imperfectly
+>> with a single shared IOMMU domain, or by copying and verifying the
+>> programming command stream at submit time (Host1x firewall).
+>>
+>> Since Tegra186 there is a privileged (only usable by kernel)
+>> Host1x opcode that allows setting the stream ID sent by the engine
+>> to the SMMU. So, by allocating a number of context banks and stream
+>> IDs for this purpose, and using this opcode at the beginning of
+>> each job, we can implement isolation. Due to the limited number of
+>> context banks only each process gets its own context, and not
+>> each channel.
+>>
+>> This feature also allows sharing engines among multiple VMs when
+>> used with Host1x's hardware virtualization support - up to 8 VMs
+>> can be configured with a subset of allowed stream IDs, enforced
+>> at hardware level.
+>>
+>> To implement this, this series adds a new host1x context bus, which
+>> will contain the 'struct device's corresponding to each context
+>> bank / stream ID, changes to device tree and SMMU code to allow
+>> registering the devices and using the bus, as well as the Host1x
+>> stream ID programming code and support in TegraDRM.
+>>
+>> Device tree bindings are not updated yet pending consensus that the
+>> proposed changes make sense.
+>>
+>> Thanks,
+>> Mikko
+>>
+>> Mikko Perttunen (8):
+>>    gpu: host1x: Add context bus
+>>    gpu: host1x: Add context device management code
+>>    gpu: host1x: Program context stream ID on submission
+>>    iommu/arm-smmu: Attach to host1x context device bus
+>>    arm64: tegra: Add Host1x context stream IDs on Tegra186+
+>>    drm/tegra: falcon: Set DMACTX field on DMA transactions
+>>    drm/tegra: vic: Implement get_streamid_offset
+>>    drm/tegra: Support context isolation
+>>
+>>   arch/arm64/boot/dts/nvidia/tegra186.dtsi  |  12 ++
+>>   arch/arm64/boot/dts/nvidia/tegra194.dtsi  |  12 ++
+>>   drivers/gpu/Makefile                      |   3 +-
+>>   drivers/gpu/drm/tegra/drm.h               |   2 +
+>>   drivers/gpu/drm/tegra/falcon.c            |   8 +
+>>   drivers/gpu/drm/tegra/falcon.h            |   1 +
+>>   drivers/gpu/drm/tegra/submit.c            |  13 ++
+>>   drivers/gpu/drm/tegra/uapi.c              |  34 ++++-
+>>   drivers/gpu/drm/tegra/vic.c               |  38 +++++
+>>   drivers/gpu/host1x/Kconfig                |   5 +
+>>   drivers/gpu/host1x/Makefile               |   2 +
+>>   drivers/gpu/host1x/context.c              | 174 ++++++++++++++++++++++
+>>   drivers/gpu/host1x/context.h              |  27 ++++
+>>   drivers/gpu/host1x/context_bus.c          |  31 ++++
+>>   drivers/gpu/host1x/dev.c                  |  12 +-
+>>   drivers/gpu/host1x/dev.h                  |   2 +
+>>   drivers/gpu/host1x/hw/channel_hw.c        |  52 ++++++-
+>>   drivers/gpu/host1x/hw/host1x06_hardware.h |  10 ++
+>>   drivers/gpu/host1x/hw/host1x07_hardware.h |  10 ++
+>>   drivers/iommu/arm/arm-smmu/arm-smmu.c     |  13 ++
+>>   include/linux/host1x.h                    |  21 +++
+>>   include/linux/host1x_context_bus.h        |  15 ++
+>>   22 files changed, 488 insertions(+), 9 deletions(-)
+>>   create mode 100644 drivers/gpu/host1x/context.c
+>>   create mode 100644 drivers/gpu/host1x/context.h
+>>   create mode 100644 drivers/gpu/host1x/context_bus.c
+>>   create mode 100644 include/linux/host1x_context_bus.h
+>>
+> 
+> IOMMU/DT folks, any thoughts about this approach? The patches that are 
+> of interest outside of Host1x/TegraDRM specifics are patches 1, 2, 4, 
+> and 5.
 
-diff --git a/drivers/gpu/drm/ast/Makefile b/drivers/gpu/drm/ast/Makefile
-index 438a2d05b115..21f71160bc3e 100644
---- a/drivers/gpu/drm/ast/Makefile
-+++ b/drivers/gpu/drm/ast/Makefile
-@@ -3,6 +3,6 @@
- # Makefile for the drm device driver.  This driver provides support for the
- # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
- 
--ast-y := ast_drv.o ast_main.o ast_mm.o ast_mode.o ast_post.o ast_dp501.o
-+ast-y := ast_drv.o ast_i2c.o ast_main.o ast_mm.o ast_mode.o ast_post.o ast_dp501.o
- 
- obj-$(CONFIG_DRM_AST) := ast.o
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index 2cfce7dc95af..00bfa41ff7cb 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -357,4 +357,7 @@ bool ast_dp501_read_edid(struct drm_device *dev, u8 *ediddata);
- u8 ast_get_dp501_max_clk(struct drm_device *dev);
- void ast_init_3rdtx(struct drm_device *dev);
- 
-+/* ast_i2c.c */
-+struct ast_i2c_chan *ast_i2c_create(struct drm_device *dev);
-+
- #endif
-diff --git a/drivers/gpu/drm/ast/ast_i2c.c b/drivers/gpu/drm/ast/ast_i2c.c
-new file mode 100644
-index 000000000000..8e4589d74b21
---- /dev/null
-+++ b/drivers/gpu/drm/ast/ast_i2c.c
-@@ -0,0 +1,152 @@
-+// SPDX-License: MIT
-+/*
-+ * Permission is hereby granted, free of charge, to any person obtaining a
-+ * copy of this software and associated documentation files (the
-+ * "Software"), to deal in the Software without restriction, including
-+ * without limitation the rights to use, copy, modify, merge, publish,
-+ * distribute, sub license, and/or sell copies of the Software, and to
-+ * permit persons to whom the Software is furnished to do so, subject to
-+ * the following conditions:
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
-+ * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
-+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-+ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-+ * USE OR OTHER DEALINGS IN THE SOFTWARE.
-+ *
-+ * The above copyright notice and this permission notice (including the
-+ * next paragraph) shall be included in all copies or substantial portions
-+ * of the Software.
-+ */
-+
-+#include <drm/drm_managed.h>
-+#include <drm/drm_print.h>
-+
-+#include "ast_drv.h"
-+
-+static void ast_i2c_setsda(void *i2c_priv, int data)
-+{
-+	struct ast_i2c_chan *i2c = i2c_priv;
-+	struct ast_private *ast = to_ast_private(i2c->dev);
-+	int i;
-+	u8 ujcrb7, jtemp;
-+
-+	for (i = 0; i < 0x10000; i++) {
-+		ujcrb7 = ((data & 0x01) ? 0 : 1) << 2;
-+		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0xf1, ujcrb7);
-+		jtemp = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0x04);
-+		if (ujcrb7 == jtemp)
-+			break;
-+	}
-+}
-+
-+static void ast_i2c_setscl(void *i2c_priv, int clock)
-+{
-+	struct ast_i2c_chan *i2c = i2c_priv;
-+	struct ast_private *ast = to_ast_private(i2c->dev);
-+	int i;
-+	u8 ujcrb7, jtemp;
-+
-+	for (i = 0; i < 0x10000; i++) {
-+		ujcrb7 = ((clock & 0x01) ? 0 : 1);
-+		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0xf4, ujcrb7);
-+		jtemp = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0x01);
-+		if (ujcrb7 == jtemp)
-+			break;
-+	}
-+}
-+
-+static int ast_i2c_getsda(void *i2c_priv)
-+{
-+	struct ast_i2c_chan *i2c = i2c_priv;
-+	struct ast_private *ast = to_ast_private(i2c->dev);
-+	uint32_t val, val2, count, pass;
-+
-+	count = 0;
-+	pass = 0;
-+	val = (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0x20) >> 5) & 0x01;
-+	do {
-+		val2 = (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0x20) >> 5) & 0x01;
-+		if (val == val2) {
-+			pass++;
-+		} else {
-+			pass = 0;
-+			val = (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0x20) >> 5) & 0x01;
-+		}
-+	} while ((pass < 5) && (count++ < 0x10000));
-+
-+	return val & 1 ? 1 : 0;
-+}
-+
-+static int ast_i2c_getscl(void *i2c_priv)
-+{
-+	struct ast_i2c_chan *i2c = i2c_priv;
-+	struct ast_private *ast = to_ast_private(i2c->dev);
-+	uint32_t val, val2, count, pass;
-+
-+	count = 0;
-+	pass = 0;
-+	val = (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0x10) >> 4) & 0x01;
-+	do {
-+		val2 = (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0x10) >> 4) & 0x01;
-+		if (val == val2) {
-+			pass++;
-+		} else {
-+			pass = 0;
-+			val = (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0x10) >> 4) & 0x01;
-+		}
-+	} while ((pass < 5) && (count++ < 0x10000));
-+
-+	return val & 1 ? 1 : 0;
-+}
-+
-+static void ast_i2c_release(struct drm_device *dev, void *res)
-+{
-+	struct ast_i2c_chan *i2c = res;
-+
-+	i2c_del_adapter(&i2c->adapter);
-+	kfree(i2c);
-+}
-+
-+struct ast_i2c_chan *ast_i2c_create(struct drm_device *dev)
-+{
-+	struct ast_i2c_chan *i2c;
-+	int ret;
-+
-+	i2c = kzalloc(sizeof(struct ast_i2c_chan), GFP_KERNEL);
-+	if (!i2c)
-+		return NULL;
-+
-+	i2c->adapter.owner = THIS_MODULE;
-+	i2c->adapter.class = I2C_CLASS_DDC;
-+	i2c->adapter.dev.parent = dev->dev;
-+	i2c->dev = dev;
-+	i2c_set_adapdata(&i2c->adapter, i2c);
-+	snprintf(i2c->adapter.name, sizeof(i2c->adapter.name),
-+		 "AST i2c bit bus");
-+	i2c->adapter.algo_data = &i2c->bit;
-+
-+	i2c->bit.udelay = 20;
-+	i2c->bit.timeout = 2;
-+	i2c->bit.data = i2c;
-+	i2c->bit.setsda = ast_i2c_setsda;
-+	i2c->bit.setscl = ast_i2c_setscl;
-+	i2c->bit.getsda = ast_i2c_getsda;
-+	i2c->bit.getscl = ast_i2c_getscl;
-+	ret = i2c_bit_add_bus(&i2c->adapter);
-+	if (ret) {
-+		drm_err(dev, "Failed to register bit i2c\n");
-+		goto out_kfree;
-+	}
-+
-+	ret = drmm_add_action_or_reset(dev, ast_i2c_release, i2c);
-+	if (ret)
-+		return NULL;
-+	return i2c;
-+
-+out_kfree:
-+	kfree(i2c);
-+	return NULL;
-+}
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index abb8a3fdd812..44c2aafcb7c2 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -40,7 +40,6 @@
- #include <drm/drm_gem_atomic_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_gem_vram_helper.h>
--#include <drm/drm_managed.h>
- #include <drm/drm_plane_helper.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_simple_kms_helper.h>
-@@ -48,8 +47,6 @@
- #include "ast_drv.h"
- #include "ast_tables.h"
- 
--static struct ast_i2c_chan *ast_i2c_create(struct drm_device *dev);
--
- static inline void ast_load_palette_index(struct ast_private *ast,
- 				     u8 index, u8 red, u8 green,
- 				     u8 blue)
-@@ -1408,128 +1405,3 @@ int ast_mode_config_init(struct ast_private *ast)
- 
- 	return 0;
- }
--
--static int get_clock(void *i2c_priv)
--{
--	struct ast_i2c_chan *i2c = i2c_priv;
--	struct ast_private *ast = to_ast_private(i2c->dev);
--	uint32_t val, val2, count, pass;
--
--	count = 0;
--	pass = 0;
--	val = (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0x10) >> 4) & 0x01;
--	do {
--		val2 = (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0x10) >> 4) & 0x01;
--		if (val == val2) {
--			pass++;
--		} else {
--			pass = 0;
--			val = (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0x10) >> 4) & 0x01;
--		}
--	} while ((pass < 5) && (count++ < 0x10000));
--
--	return val & 1 ? 1 : 0;
--}
--
--static int get_data(void *i2c_priv)
--{
--	struct ast_i2c_chan *i2c = i2c_priv;
--	struct ast_private *ast = to_ast_private(i2c->dev);
--	uint32_t val, val2, count, pass;
--
--	count = 0;
--	pass = 0;
--	val = (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0x20) >> 5) & 0x01;
--	do {
--		val2 = (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0x20) >> 5) & 0x01;
--		if (val == val2) {
--			pass++;
--		} else {
--			pass = 0;
--			val = (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0x20) >> 5) & 0x01;
--		}
--	} while ((pass < 5) && (count++ < 0x10000));
--
--	return val & 1 ? 1 : 0;
--}
--
--static void set_clock(void *i2c_priv, int clock)
--{
--	struct ast_i2c_chan *i2c = i2c_priv;
--	struct ast_private *ast = to_ast_private(i2c->dev);
--	int i;
--	u8 ujcrb7, jtemp;
--
--	for (i = 0; i < 0x10000; i++) {
--		ujcrb7 = ((clock & 0x01) ? 0 : 1);
--		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0xf4, ujcrb7);
--		jtemp = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0x01);
--		if (ujcrb7 == jtemp)
--			break;
--	}
--}
--
--static void set_data(void *i2c_priv, int data)
--{
--	struct ast_i2c_chan *i2c = i2c_priv;
--	struct ast_private *ast = to_ast_private(i2c->dev);
--	int i;
--	u8 ujcrb7, jtemp;
--
--	for (i = 0; i < 0x10000; i++) {
--		ujcrb7 = ((data & 0x01) ? 0 : 1) << 2;
--		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0xf1, ujcrb7);
--		jtemp = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb7, 0x04);
--		if (ujcrb7 == jtemp)
--			break;
--	}
--}
--
--static void ast_i2c_release(struct drm_device *dev, void *res)
--{
--	struct ast_i2c_chan *i2c = res;
--
--	i2c_del_adapter(&i2c->adapter);
--	kfree(i2c);
--}
--
--static struct ast_i2c_chan *ast_i2c_create(struct drm_device *dev)
--{
--	struct ast_i2c_chan *i2c;
--	int ret;
--
--	i2c = kzalloc(sizeof(struct ast_i2c_chan), GFP_KERNEL);
--	if (!i2c)
--		return NULL;
--
--	i2c->adapter.owner = THIS_MODULE;
--	i2c->adapter.class = I2C_CLASS_DDC;
--	i2c->adapter.dev.parent = dev->dev;
--	i2c->dev = dev;
--	i2c_set_adapdata(&i2c->adapter, i2c);
--	snprintf(i2c->adapter.name, sizeof(i2c->adapter.name),
--		 "AST i2c bit bus");
--	i2c->adapter.algo_data = &i2c->bit;
--
--	i2c->bit.udelay = 20;
--	i2c->bit.timeout = 2;
--	i2c->bit.data = i2c;
--	i2c->bit.setsda = set_data;
--	i2c->bit.setscl = set_clock;
--	i2c->bit.getsda = get_data;
--	i2c->bit.getscl = get_clock;
--	ret = i2c_bit_add_bus(&i2c->adapter);
--	if (ret) {
--		drm_err(dev, "Failed to register bit i2c\n");
--		goto out_kfree;
--	}
--
--	ret = drmm_add_action_or_reset(dev, ast_i2c_release, i2c);
--	if (ret)
--		return NULL;
--	return i2c;
--
--out_kfree:
--	kfree(i2c);
--	return NULL;
--}
+
+Any feedback on this?
+
+Jon
+
 -- 
-2.34.1
-
+nvpublic
