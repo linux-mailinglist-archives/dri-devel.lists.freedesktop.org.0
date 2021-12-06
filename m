@@ -1,41 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD75846A9D0
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 22:17:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8418B46A9D1
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 22:17:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BB1E73217;
-	Mon,  6 Dec 2021 21:17:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9FEF72DED;
+	Mon,  6 Dec 2021 21:17:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A1D472D9E;
- Mon,  6 Dec 2021 21:17:10 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C6EF72DED;
+ Mon,  6 Dec 2021 21:17:20 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 63B39B81235;
- Mon,  6 Dec 2021 21:17:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A70BDC341C8;
- Mon,  6 Dec 2021 21:17:04 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTPS id A224ACE1862;
+ Mon,  6 Dec 2021 21:17:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B705C341C1;
+ Mon,  6 Dec 2021 21:17:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1638825428;
- bh=fanTPIOiggeE08IYJBl2qo9gpsCFENd0t+vdv02drJM=;
+ s=k20201202; t=1638825437;
+ bh=AyoHifn+/ImfQlTAtfaiyUdaCTt/T06uqlHG0spFmN0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=btfywATqm5Fby+DYDUk9zXaakCiRMJebhUsHZtvyAWBDG/EbTmUJoiP+VlUFDCrCy
- 9wxm8cTAGqwyy3kSkLfMdhBq399gdBASldBCDGH+azL+Q9/1m4pEdqmLLo5DOaozvD
- DgM8gKTmlwGQAJm9L+5orMvbeMAdGoGB7ILa8aPSjLpQNwOUW9t2mmmU/Zm6K44x66
- 9WduOLULAJVIeHcM82WHCwWllhfojx9HTJ+ksWU0ViI5uhjlUbqTFJ4RmkSp/PoB59
- +ZcMnNniabohUSDqk9p0FD34ArxDtf8UWRz8V6pVNd3UnJfGCb13pub0P7Ou4SG/dF
- hoBPJ5rmMUKCg==
+ b=NZs2zz28KIWHkgoVtXVO2BMe/N2IbxdbotCwRovnTDNY6BH9zA9HqBAdNG9uoNPjc
+ q1IKzi3iO8pkI1hXYf9MluT5ONNwCfgCfeEqhsYzX9Mo+1JGrn8wrIfPiwpRndPnWV
+ 10J2G58F1eUmj6DQ9tq2w5WAxzPvvixqwqVUQHoUPfe1vvPB3QFISsJPEUIYb+29Iw
+ 079GGN9dpUb2bqFbR7sEwArxRTMoET3SZcE3meGN48p4snZAEgY+/7U4JGB34o2mdj
+ 77zpCqONjY/8temDGq/cQEnnd6tQVSHYNG1q4oMO3SqGXk/aojBXuSgq/bIGyCoQkp
+ HGr1myaGhe9sw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 13/15] drm/amd/display: Fix for the no Audio bug
- with Tiled Displays
-Date: Mon,  6 Dec 2021 16:15:13 -0500
-Message-Id: <20211206211520.1660478-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 14/15] drm/amd/display: add connector type check
+ for CRC source set
+Date: Mon,  6 Dec 2021 16:15:14 -0500
+Message-Id: <20211206211520.1660478-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211206211520.1660478-1-sashal@kernel.org>
 References: <20211206211520.1660478-1-sashal@kernel.org>
@@ -55,57 +56,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
- Jun Lei <Jun.Lei@amd.com>, Mustapha Ghaddar <mghaddar@amd.com>,
- Sasha Levin <sashal@kernel.org>, Rodrigo.Siqueira@amd.com,
- amd-gfx@lists.freedesktop.org, Jerry.Zuo@amd.com, Dmytro.Laktyushkin@amd.com,
- Jimmy.Kizito@amd.com, sunpeng.li@amd.com,
- Daniel Wheeler <daniel.wheeler@amd.com>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- Mustapha Ghaddar <mustapha.ghaddar@amd.com>, Xinhui.Pan@amd.com,
- christian.koenig@amd.com, vladimir.stempen@amd.com,
- Alex Deucher <alexander.deucher@amd.com>, nicholas.kazlauskas@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, dingchen.zhang@amd.com, eryk.brol@amd.com,
+ sunpeng.li@amd.com, Xinhui.Pan@amd.com,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
+ Nicholas.Kazlauskas@amd.com, airlied@linux.ie, Perry Yuan <Perry.Yuan@amd.com>,
+ dri-devel@lists.freedesktop.org, Wayne.Lin@amd.com,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mustapha Ghaddar <mghaddar@amd.com>
+From: Perry Yuan <Perry.Yuan@amd.com>
 
-[ Upstream commit 5ceaebcda9061c04f439c93961f0819878365c0f ]
+[ Upstream commit 2da34b7bb59e1caa9a336e0e20a76b8b6a4abea2 ]
 
-[WHY]
-It seems like after a series of plug/unplugs we end up in a situation
-where tiled display doesnt support Audio.
+[Why]
+IGT bypass test will set crc source as DPRX,and display DM didn`t check
+connection type, it run the test on the HDMI connector ,then the kernel
+will be crashed because aux->transfer is set null for HDMI connection.
+This patch will skip the invalid connection test and fix kernel crash issue.
 
-[HOW]
-The issue seems to be related to when we check streams changed after an
-HPD, we should be checking the audio_struct as well to see if any of its
-values changed.
+[How]
+Check the connector type while setting the pipe crc source as DPRX or
+auto,if the type is not DP or eDP, the crtc crc source will not be set
+and report error code to IGT test,IGT will show the this subtest as no
+valid crtc/connector combinations found.
 
-Reviewed-by: Jun Lei <Jun.Lei@amd.com>
-Acked-by: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
-Signed-off-by: Mustapha Ghaddar <mustapha.ghaddar@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+116.779714] [IGT] amd_bypass: starting subtest 8bpc-bypass-mode
+[ 117.730996] BUG: kernel NULL pointer dereference, address: 0000000000000000
+[ 117.731001] #PF: supervisor instruction fetch in kernel mode
+[ 117.731003] #PF: error_code(0x0010) - not-present page
+[ 117.731004] PGD 0 P4D 0
+[ 117.731006] Oops: 0010 [#1] SMP NOPTI
+[ 117.731009] CPU: 11 PID: 2428 Comm: amd_bypass Tainted: G OE 5.11.0-34-generic #36~20.04.1-Ubuntu
+[ 117.731011] Hardware name: AMD CZN/, BIOS AB.FD 09/07/2021
+[ 117.731012] RIP: 0010:0x0
+[ 117.731015] Code: Unable to access opcode bytes at RIP 0xffffffffffffffd6.
+[ 117.731016] RSP: 0018:ffffa8d64225bab8 EFLAGS: 00010246
+[ 117.731017] RAX: 0000000000000000 RBX: 0000000000000020 RCX: ffffa8d64225bb5e
+[ 117.731018] RDX: ffff93151d921880 RSI: ffffa8d64225bac8 RDI: ffff931511a1a9d8
+[ 117.731022] CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 117.731023] CR2: ffffffffffffffd6 CR3: 000000010d5a4000 CR4: 0000000000750ee0
+[ 117.731023] PKRU: 55555554
+[ 117.731024] Call Trace:
+[ 117.731027] drm_dp_dpcd_access+0x72/0x110 [drm_kms_helper]
+[ 117.731036] drm_dp_dpcd_read+0xb7/0xf0 [drm_kms_helper]
+[ 117.731040] drm_dp_start_crc+0x38/0xb0 [drm_kms_helper]
+[ 117.731047] amdgpu_dm_crtc_set_crc_source+0x1ae/0x3e0 [amdgpu]
+[ 117.731149] crtc_crc_open+0x174/0x220 [drm]
+[ 117.731162] full_proxy_open+0x168/0x1f0
+[ 117.731165] ? open_proxy_open+0x100/0x100
+
+BugLink: https://gitlab.freedesktop.org/drm/amd/-/issues/1546
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+Reviewed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Signed-off-by: Perry Yuan <Perry.Yuan@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc_resource.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-index 59d48cf819ea8..5f4cdb05c4db9 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-@@ -1698,6 +1698,10 @@ bool dc_is_stream_unchanged(
- 	if (old_stream->ignore_msa_timing_param != stream->ignore_msa_timing_param)
- 		return false;
- 
-+	// Only Have Audio left to check whether it is same or not. This is a corner case for Tiled sinks
-+	if (old_stream->audio_info.mode_count != stream->audio_info.mode_count)
-+		return false;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
+index e00a30e7d2529..04c20ce6e94df 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
+@@ -226,6 +226,14 @@ int amdgpu_dm_crtc_set_crc_source(struct drm_crtc *crtc, const char *src_name)
+ 			ret = -EINVAL;
+ 			goto cleanup;
+ 		}
 +
- 	return true;
- }
++		if ((aconn->base.connector_type != DRM_MODE_CONNECTOR_DisplayPort) &&
++				(aconn->base.connector_type != DRM_MODE_CONNECTOR_eDP)) {
++			DRM_DEBUG_DRIVER("No DP connector available for CRC source\n");
++			ret = -EINVAL;
++			goto cleanup;
++		}
++
+ 	}
  
+ 	if (amdgpu_dm_crtc_configure_crc_source(crtc, crtc_state, source)) {
 -- 
 2.33.0
 
