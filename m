@@ -1,64 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E0944693D7
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 11:28:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E11484693EA
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 11:29:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E60A7B0D5;
-	Mon,  6 Dec 2021 10:21:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 748007B5B8;
+	Mon,  6 Dec 2021 10:22:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10F366FF23
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Dec 2021 08:37:55 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id A480B1FD2F;
- Mon,  6 Dec 2021 08:37:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1638779871; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=972ohPie0Z0KqBX9H7clElE9YIL3jOwiptpokykEtBE=;
- b=iMGX8K+uEF/YgwCbln3FzoDL9aNMgoT535ctYWyUDaUkcCFrDNPjJzRyK2b6TeMX4OKgzd
- sGjn7wU3GhK1y04eot6jyUf+paG9cjw6poE5awQG3Es9nl7Qudz1nRD0Lji9AEN47SqdY9
- Xrfgt7VJENpF4BkP0xjk3W1EoLjqmyU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1638779871;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=972ohPie0Z0KqBX9H7clElE9YIL3jOwiptpokykEtBE=;
- b=BflOTt4X1dIBvTgcAU+Sddycj98FbUpybrauX8Mh/D7iewoYOYaDt9pxyFUOtzSZmeq9H+
- Ho9YwqfDvdDM9+AA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6DDAE1330B;
- Mon,  6 Dec 2021 08:37:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id +E/AGd/LrWF2EgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 06 Dec 2021 08:37:51 +0000
-Message-ID: <845d7175-8c35-9061-3751-6292a9336c8f@suse.de>
-Date: Mon, 6 Dec 2021 09:37:50 +0100
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com
+ [209.85.222.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A1ED6F58B
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Dec 2021 08:53:34 +0000 (UTC)
+Received: by mail-ua1-f46.google.com with SMTP id az37so18029500uab.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Dec 2021 00:53:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Fa88EzZGCDt/on2PK9adyVtAB10G/5IDqGLBZHmYHC8=;
+ b=f/fFayVKTTIoROvXSjpx8Ws7FQw1M3P5BbD09OTkG02vHJ2hmUKWDdrNo0ZDGdnYfa
+ G9WOqWYcV1irB4VR9o36ZfbapVwXfaiw79Yn1tyMfU/DI5L6IJqKRAA1Q82QtMAdzPtA
+ uOQMFOlCDGepwS+8wnsIBHpXmSKaXZRznueT+tFFL0TQxsPX4Anmryb7dEw6fDpE2CmF
+ eNcyFP47cUn30iETeYsMWMv8EUjID7CFNiJEy3a/cn15XHq2kGyd/J2NZgGRZAzV5+MN
+ C2y05kEE5TFa/hPMktTX3rNZ00+RLtUFreNvzB1FzGu5qYM+YJHPbhYMNubzg+c5smzC
+ 3BPw==
+X-Gm-Message-State: AOAM532yPnZgrh960GDJK3X2fxt295BUYNxsAVVtGVdAabGbEcmxKd7I
+ erwU3EvhXrNh0Nko8tgBtULsBVwOgfTSpw==
+X-Google-Smtp-Source: ABdhPJwQ1yL+zzDBq54HfAqLgbimJg4XnnG7ayOSvW2Ib6v/aQVnpcxP3fMV9exvCN4Hio2Q5n3UgA==
+X-Received: by 2002:a05:6102:3ec9:: with SMTP id
+ n9mr33100417vsv.22.1638780812839; 
+ Mon, 06 Dec 2021 00:53:32 -0800 (PST)
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com.
+ [209.85.222.43])
+ by smtp.gmail.com with ESMTPSA id 62sm4013640uam.6.2021.12.06.00.53.32
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Dec 2021 00:53:32 -0800 (PST)
+Received: by mail-ua1-f43.google.com with SMTP id a14so18207221uak.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Dec 2021 00:53:32 -0800 (PST)
+X-Received: by 2002:a9f:3e01:: with SMTP id o1mr37900038uai.89.1638780812238; 
+ Mon, 06 Dec 2021 00:53:32 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH 2/2] drm: aspeed: select CONFIG_DRM_GEM_CMA_HELPER
-Content-Language: en-US
-To: Arnd Bergmann <arnd@kernel.org>, Joel Stanley <joel@jms.id.au>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-References: <20211204174637.1160725-1-arnd@kernel.org>
- <20211204174637.1160725-2-arnd@kernel.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20211204174637.1160725-2-arnd@kernel.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------8R89IqoHERVJMb3PbTk8pCki"
+References: <20211124150757.17929-1-noralf@tronnes.org>
+ <20211124150757.17929-2-noralf@tronnes.org>
+In-Reply-To: <20211124150757.17929-2-noralf@tronnes.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 6 Dec 2021 09:53:21 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUhtwXVFNCzijdtXtuRD=VeHQm2sEQ8WZfin6uBmY0QHg@mail.gmail.com>
+Message-ID: <CAMuHMdUhtwXVFNCzijdtXtuRD=VeHQm2sEQ8WZfin6uBmY0QHg@mail.gmail.com>
+Subject: Re: [PATCH 1/6] dt-bindings: display: sitronix, st7735r: Fix backlight
+ in example
+To: =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,75 +67,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-aspeed@lists.ozlabs.org,
- Andrew Jeffery <andrew@aj.id.au>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ David Lechner <david@lechnology.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-staging@lists.linux.dev,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------8R89IqoHERVJMb3PbTk8pCki
-Content-Type: multipart/mixed; boundary="------------0xhI9fQKvQOX086OhseY7365";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Arnd Bergmann <arnd@kernel.org>, Joel Stanley <joel@jms.id.au>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Cc: Arnd Bergmann <arnd@arndb.de>, Andrew Jeffery <andrew@aj.id.au>,
- linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Message-ID: <845d7175-8c35-9061-3751-6292a9336c8f@suse.de>
-Subject: Re: [PATCH 2/2] drm: aspeed: select CONFIG_DRM_GEM_CMA_HELPER
-References: <20211204174637.1160725-1-arnd@kernel.org>
- <20211204174637.1160725-2-arnd@kernel.org>
-In-Reply-To: <20211204174637.1160725-2-arnd@kernel.org>
+On Thu, Nov 25, 2021 at 4:17 PM Noralf Tr=C3=B8nnes <noralf@tronnes.org> wr=
+ote:
+> The backlight property was lost during conversion to yaml in commit
+> abdd9e3705c8 ("dt-bindings: display: sitronix,st7735r: Convert to DT sche=
+ma").
+> Put it back.
+>
+> Fixes: abdd9e3705c8 ("dt-bindings: display: sitronix,st7735r: Convert to =
+DT schema")
+> Signed-off-by: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
 
---------------0xhI9fQKvQOX086OhseY7365
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Mea culpa
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-SGkgQXJuZA0KDQpBbSAwNC4xMi4yMSB1bSAxODo0NiBzY2hyaWViIEFybmQgQmVyZ21hbm46
-DQo+IEZyb206IEFybmQgQmVyZ21hbm4gPGFybmRAYXJuZGIuZGU+DQo+IA0KPiBUaGUgYXNw
-ZWVkIGRyaXZlciB1c2VzIHRoZSBnZW1fY21hX2hlbHBlciBjb2RlLCBidXQgZG9lcw0KPiBu
-b3RvIGVuZm9yY2UgZW5hYmxpbmcgdGhpcyB0aHJvdWdoIEtjb25maWc6DQo+IA0KPiB4ODZf
-NjQtbGludXgtbGQ6IGRyaXZlcnMvZ3B1L2RybS9hc3BlZWQvYXNwZWVkX2dmeF9kcnYubzoo
-LnJvZGF0YSsweDJjOCk6IHVuZGVmaW5lZCByZWZlcmVuY2UgdG8gYGRybV9nZW1fY21hX3By
-aW1lX2ltcG9ydF9zZ190YWJsZScNCj4geDg2XzY0LWxpbnV4LWxkOiBkcml2ZXJzL2dwdS9k
-cm0vYXNwZWVkL2FzcGVlZF9nZnhfZHJ2Lm86KC5yb2RhdGErMHgyZDgpOiB1bmRlZmluZWQg
-cmVmZXJlbmNlIHRvIGBkcm1fZ2VtX2NtYV9kdW1iX2NyZWF0ZScNCj4geDg2XzY0LWxpbnV4
-LWxkOiBkcml2ZXJzL2dwdS9kcm0vYXNwZWVkL2FzcGVlZF9nZnhfY3J0Yy5vOiBpbiBmdW5j
-dGlvbiBgYXNwZWVkX2dmeF9waXBlX3VwZGF0ZSc6DQo+IGFzcGVlZF9nZnhfY3J0Yy5jOigu
-dGV4dCsweGU1KTogdW5kZWZpbmVkIHJlZmVyZW5jZSB0byBgZHJtX2ZiX2NtYV9nZXRfZ2Vt
-X29iaicNCj4gDQo+IEFkZCB0aGUgc2FtZSAnc2VsZWN0JyB0aGF0IGlzIHVzZWQgaW4gb3Ro
-ZXIgc3VjaCBkcml2ZXJzLg0KPiANCj4gRml4ZXM6IDA5NzE3YWY3ZDEzZCAoImRybTogUmVt
-b3ZlIENPTkZJR19EUk1fS01TX0NNQV9IRUxQRVIgb3B0aW9uIikNCj4gU2lnbmVkLW9mZi1i
-eTogQXJuZCBCZXJnbWFubiA8YXJuZEBhcm5kYi5kZT4NCg0KVGhhbmtzISBJJ3ZlIGFkZGVk
-IGJvdGggcGF0Y2hlcyB0byBkcm0tbWlzYy1uZXh0Lg0KDQpCZXN0IHJlZ2FyZHMNClRob21h
-cw0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVy
-DQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUs
-IDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0K
-R2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+Gr{oetje,eeting}s,
 
---------------0xhI9fQKvQOX086OhseY7365--
+                        Geert
 
---------------8R89IqoHERVJMb3PbTk8pCki
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmGty94FAwAAAAAACgkQlh/E3EQov+A6
-2Q//fWsXVQMvMxgfdhp3XDAoLjbs2RECtKZEOpmfynytSmJdQ/58PchUo1sizAVOrz5vm78W5DT2
-3COftJa9PTHEbjHT99lzjXMXrMf8x2GR6wiUpP3q6LRLiycxO92ElLC/JPttb4FChd5fZF876POK
-sBRyPvnHAstfOC2yBoKLYI9QVk8dj0NRsWz3kKAE5gY5x6wJ6kamIvh3Vx4D+udWfivIUtozOsx1
-ap9L0C7ybnmFeKqOhPHLl+KXPKl8Hm0Dt6LDLs7K9bXRRTh8awYu0LijjF0GfY/iC+k7IYDbHD1z
-dnZcI4BdfQO4ce4usvso3hKx95N7Amf3yr2fEmwwIivC9v7g2qZRek4fpHuCkwXUjell/yuHo08i
-li3RVP3E+0i2rQ1a7+1xmDToXvImkPfFZfYwlm0TjrmxNKx+1V/37C45o9D0WuwTlB+OdCVQD7pZ
-jjUNId7X9s9C1P54p/J7mAcp4Eb/gx5sS8+N28soLRyB+uEmtP1VlQC/ySSRpezABbrbF9eO4ple
-NF4mnMsWc/jk4UqAR7qBFzG8Mh1zLddjBJAVel8CUkizZwYJtx1H6+61TMjTnizrx0+GJeg1RgpE
-+oFyiaY+T9qJ49mBGnceffJ+Za9VMe/GlhaDcW6RIBsGEo4LRMTJftVn67g7LWvLyI6FTQqt1GhO
-a94=
-=VCLf
------END PGP SIGNATURE-----
-
---------------8R89IqoHERVJMb3PbTk8pCki--
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
