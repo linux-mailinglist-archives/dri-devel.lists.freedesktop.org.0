@@ -1,41 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED90F46A9E5
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 22:17:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F5BF46AA01
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 22:19:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60841731B5;
-	Mon,  6 Dec 2021 21:17:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7ADC6E0E8;
+	Mon,  6 Dec 2021 21:19:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33F19733E2;
- Mon,  6 Dec 2021 21:17:50 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA3476E0E8;
+ Mon,  6 Dec 2021 21:19:16 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id F303FB81235;
- Mon,  6 Dec 2021 21:17:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27ED0C341C6;
- Mon,  6 Dec 2021 21:17:46 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id B76F0B81084;
+ Mon,  6 Dec 2021 21:19:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4343EC341C6;
+ Mon,  6 Dec 2021 21:19:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1638825468;
- bh=GQokSa4i+2CGdyoT/xYJ7/ZpQkkuAmTHc9GaFqI9gjM=;
- h=From:To:Cc:Subject:Date:From;
- b=hw0h4XJcMRZiMZvesxmxZjkplsz/TwU3qvxVzy40IMSPYWUExb5TgW1qCDsCNzImA
- FFNVZa211SYV+AraTxGyNghzQNRBwMuhmv6J68gLqYOPNeZq+uwFcXjWLpk68sRGXd
- nZGBPjrUcbqFNIKWoDpK5cu1fyYjiwgmc0W4UNUZDLAS0/R20sP/XjZwRD7Uq5WhMR
- 3VHuLhQVAc1C1+MiaJB3JwIyLWyNkSPHksMdRDv4lw4ODb80Xjp8eS7Mx9gNV3/57A
- gxJ9NEQpYQMpdDpHi7v7DRq+zGdtrcrRcG6ovn8t9b9UmEC1g0TZD0oL1xZZX6BrFr
- 3pE9ZYWvCJeYw==
+ s=k20201202; t=1638825554;
+ bh=ijfdEIMXipzfofjjcBwYmFaTIINZkUL3W1yDWk+poaM=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=kmzDBaV1ZZac8XmVsUL5rPz+HdXsBkXkhA2YMI1uHvienpy5l1H3LCL8BhY04PvCb
+ UoiXPGWzPvFJWicApNe+06n127xZawWSYNxbYdw0qOqPjHUP+WyuOBJDvqW6JmD2Ga
+ D0w2/lzUM74RCUuscWcNLZHqXGR2XhWinvazhaPDtKhRjh3w9uImZhYEPGKUUAD+gc
+ tbNpDKhQrflMQzDw6ZZ78P4ERsSl57f2MjlKghKYIm809Q2shvhfGHZgZS1fXhv0Qg
+ EYWqyM+0buEPnpIdFxPp2pVmbC+wPGC55M0kkwHmoGEY6dWdUY16ypKWh74DsKPQCo
+ PfY5oImL4o6FA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 01/10] drm/msm/dsi: set default num_data_lanes
-Date: Mon,  6 Dec 2021 16:17:20 -0500
-Message-Id: <20211206211738.1661003-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 08/10] drm/amd/display: Fix for the no Audio bug
+ with Tiled Displays
+Date: Mon,  6 Dec 2021 16:17:27 -0500
+Message-Id: <20211206211738.1661003-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211206211738.1661003-1-sashal@kernel.org>
+References: <20211206211738.1661003-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -52,51 +56,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
- Philip Chen <philipchen@chromium.org>, dri-devel@lists.freedesktop.org,
- jonathan@marek.ca, airlied@linux.ie, linux-arm-msm@vger.kernel.org,
- jesszhan@codeaurora.org, freedreno@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>, abhinavk@codeaurora.org,
- Stephen Boyd <swboyd@chromium.org>, tiny.windzz@gmail.com, vulab@iscas.ac.cn,
- dmitry.baryshkov@linaro.org, bjorn.andersson@linaro.org, sean@poorly.run
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ Jun Lei <Jun.Lei@amd.com>, lee.jones@linaro.org,
+ Mustapha Ghaddar <mghaddar@amd.com>, Sasha Levin <sashal@kernel.org>,
+ Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org, Jerry.Zuo@amd.com,
+ Dmytro.Laktyushkin@amd.com, Jimmy.Kizito@amd.com, sunpeng.li@amd.com,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ Mustapha Ghaddar <mustapha.ghaddar@amd.com>, Xinhui.Pan@amd.com,
+ vladimir.stempen@amd.com, Alex Deucher <alexander.deucher@amd.com>,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Philip Chen <philipchen@chromium.org>
+From: Mustapha Ghaddar <mghaddar@amd.com>
 
-[ Upstream commit cd92cc187c053ab010a1570e2d61d68394a5c725 ]
+[ Upstream commit 5ceaebcda9061c04f439c93961f0819878365c0f ]
 
-If "data_lanes" property of the dsi output endpoint is missing in
-the DT, num_data_lanes would be 0 by default, which could cause
-dsi_host_attach() to fail if dsi->lanes is set to a non-zero value
-by the bridge driver.
+[WHY]
+It seems like after a series of plug/unplugs we end up in a situation
+where tiled display doesnt support Audio.
 
-According to the binding document of msm dsi controller, the
-input/output endpoint of the controller is expected to have 4 lanes.
-So let's set num_data_lanes to 4 by default.
+[HOW]
+The issue seems to be related to when we check streams changed after an
+HPD, we should be checking the audio_struct as well to see if any of its
+values changed.
 
-Signed-off-by: Philip Chen <philipchen@chromium.org>
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-Link: https://lore.kernel.org/r/20211030100812.1.I6cd9af36b723fed277d34539d3b2ba4ca233ad2d@changeid
-Signed-off-by: Rob Clark <robdclark@chromium.org>
+Reviewed-by: Jun Lei <Jun.Lei@amd.com>
+Acked-by: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+Signed-off-by: Mustapha Ghaddar <mustapha.ghaddar@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/dsi/dsi_host.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/amd/display/dc/core/dc_resource.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index 5613234823f7d..423c4ae2be10d 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -1669,6 +1669,8 @@ static int dsi_host_parse_lane_data(struct msm_dsi_host *msm_host,
- 	if (!prop) {
- 		DRM_DEV_DEBUG(dev,
- 			"failed to find data lane mapping, using default\n");
-+		/* Set the number of date lanes to 4 by default. */
-+		msm_host->num_data_lanes = 4;
- 		return 0;
- 	}
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+index f25ac17f47fa9..95a5310e9e661 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+@@ -1546,6 +1546,10 @@ bool dc_is_stream_unchanged(
+ 	if (old_stream->ignore_msa_timing_param != stream->ignore_msa_timing_param)
+ 		return false;
+ 
++	// Only Have Audio left to check whether it is same or not. This is a corner case for Tiled sinks
++	if (old_stream->audio_info.mode_count != stream->audio_info.mode_count)
++		return false;
++
+ 	return true;
+ }
  
 -- 
 2.33.0
