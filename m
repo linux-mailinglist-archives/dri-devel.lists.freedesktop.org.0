@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 085B346A94E
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 22:13:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8135746A96B
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 22:14:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE0A96E876;
-	Mon,  6 Dec 2021 21:13:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A916D6E5D1;
+	Mon,  6 Dec 2021 21:14:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78E156E8E7
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Dec 2021 21:13:09 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 328336E5D1;
+ Mon,  6 Dec 2021 21:14:45 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 255E8B812A5;
- Mon,  6 Dec 2021 21:13:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 367B6C341C7;
- Mon,  6 Dec 2021 21:13:04 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 5AAE9CE13C6;
+ Mon,  6 Dec 2021 21:14:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8105C341CA;
+ Mon,  6 Dec 2021 21:14:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1638825187;
- bh=H4uUvM5pppAu6WzREmO2UlgD4GP2fvGc+Ml8KZHDA48=;
+ s=k20201202; t=1638825277;
+ bh=fxnpeYtn5lzA1D9cDoDh9K8sHKNQ4nQR9xKxEguVNx0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Eo0ZRvNgGlVh2u62uSm0aX6OKemDRtFFAgJ2wN2BnWMafYgrHx47gGWFcYrQHH73/
- BgUJd4Ck8mLycyaTaywauEUxxzWaibtMT4i4gQTfCdyj0GOuMEJ7bSaB+YZP2r8LRh
- lJ4kSJCXAG2E29gr1wo0bYIr5A1keppXq6uYSmC41auRQ0tOjDKPF3ePtVqG8Xn676
- GKfF1K5xCEFJGaT2mqv8qMrU6R6HivLXEUjXwOE6nvPqPX2X+zD06gVDB5nf+RZKL6
- mb/3GoO5JDbbbEtQxLzQv1/SiudHB4vzWKJm7iZKP/5nvKiAYaWAT1F3vb3M2hrOUC
- poXqNkbAMKHWg==
+ b=RJUkYMjmWo4SacPeDUVZymBIi46RU3orRDqhOWzvDjZugFOMYovfsMZHjq4XCtGzD
+ 41MnERetNpdlMRE9Vkw/JE/0Nn/kNrCkU/BXfjNip3sgOz03fx90e7FLs0G2H+dBJE
+ CLW5tduuf4A8DChx4VSSyzJTkeQvw5w3xAplSWnqRzyzx/AaWcnKnUfoLJ7q2j4JA/
+ 8mL450utGvasMUfa4xsrX+3GnWJbBNDFYTb6K0CfD05ju2YfXL3XMlXj4l11DGLQNr
+ 7JNp670AaXiIZZGwMwD9vujfVTxB9KusOdNRhuXb+mx3GDIV9yGh/LnWMiZV8Jfc6P
+ inpjGa+D27d1w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 04/24] drm/msm/dp: Avoid unpowered AUX xfers that
- caused crashes
-Date: Mon,  6 Dec 2021 16:12:09 -0500
-Message-Id: <20211206211230.1660072-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 17/24] drm/amdgpu: cancel the correct hrtimer on
+ exit
+Date: Mon,  6 Dec 2021 16:12:22 -0500
+Message-Id: <20211206211230.1660072-17-sashal@kernel.org>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211206211230.1660072-1-sashal@kernel.org>
 References: <20211206211230.1660072-1-sashal@kernel.org>
@@ -56,135 +56,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
- airlied@linux.ie, linux-arm-msm@vger.kernel.org, swboyd@chromium.org,
- freedreno@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- khsieh@codeaurora.org, Kuogee Hsieh <quic_khsieh@quicinc.com>, sean@poorly.run
+Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie, Xinhui.Pan@amd.com,
+ Ryan.Taylor@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Flora Cui <flora.cui@amd.com>, christian.koenig@amd.com,
+ dan.carpenter@oracle.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Douglas Anderson <dianders@chromium.org>
+From: Flora Cui <flora.cui@amd.com>
 
-[ Upstream commit d03fcc1de0863b1188ceb867cfa84a578fdc96bc ]
+[ Upstream commit 3e467e478ed3a9701bb588d648d6e0ccb82ced09 ]
 
-If you happened to try to access `/dev/drm_dp_aux` devices provided by
-the MSM DP AUX driver too early at bootup you could go boom. Let's
-avoid that by only allowing AUX transfers when the controller is
-powered up.
-
-Specifically the crash that was seen (on Chrome OS 5.4 tree with
-relevant backports):
-  Kernel panic - not syncing: Asynchronous SError Interrupt
-  CPU: 0 PID: 3131 Comm: fwupd Not tainted 5.4.144-16620-g28af11b73efb #1
-  Hardware name: Google Lazor (rev3+) with KB Backlight (DT)
-  Call trace:
-   dump_backtrace+0x0/0x14c
-   show_stack+0x20/0x2c
-   dump_stack+0xac/0x124
-   panic+0x150/0x390
-   nmi_panic+0x80/0x94
-   arm64_serror_panic+0x78/0x84
-   do_serror+0x0/0x118
-   do_serror+0xa4/0x118
-   el1_error+0xbc/0x160
-   dp_catalog_aux_write_data+0x1c/0x3c
-   dp_aux_cmd_fifo_tx+0xf0/0x1b0
-   dp_aux_transfer+0x1b0/0x2bc
-   drm_dp_dpcd_access+0x8c/0x11c
-   drm_dp_dpcd_read+0x64/0x10c
-   auxdev_read_iter+0xd4/0x1c4
-
-I did a little bit of tracing and found that:
-* We register the AUX device very early at bootup.
-* Power isn't actually turned on for my system until
-  hpd_event_thread() -> dp_display_host_init() -> dp_power_init()
-* You can see that dp_power_init() calls dp_aux_init() which is where
-  we start allowing AUX channel requests to go through.
-
-In general this patch is a bit of a bandaid but at least it gets us
-out of the current state where userspace acting at the wrong time can
-fully crash the system.
-* I think the more proper fix (which requires quite a bit more
-  changes) is to power stuff on while an AUX transfer is
-  happening. This is like the solution we did for ti-sn65dsi86. This
-  might be required for us to move to populating the panel via the
-  DP-AUX bus.
-* Another fix considered was to dynamically register / unregister. I
-  tried that at <https://crrev.com/c/3169431/3> but it got
-  ugly. Currently there's a bug where the pm_runtime() state isn't
-  tracked properly and that causes us to just keep registering more
-  and more.
-
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
-Reviewed-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Link: https://lore.kernel.org/r/20211109100403.1.I4e23470d681f7efe37e2e7f1a6466e15e9bb1d72@changeid
-Signed-off-by: Rob Clark <robdclark@chromium.org>
+Signed-off-by: Flora Cui <flora.cui@amd.com>
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/dp/dp_aux.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
-index eb40d8413bca9..6d36f63c33388 100644
---- a/drivers/gpu/drm/msm/dp/dp_aux.c
-+++ b/drivers/gpu/drm/msm/dp/dp_aux.c
-@@ -33,6 +33,7 @@ struct dp_aux_private {
- 	bool read;
- 	bool no_send_addr;
- 	bool no_send_stop;
-+	bool initted;
- 	u32 offset;
- 	u32 segment;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
+index ce982afeff913..ac9a8cd21c4b6 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
+@@ -504,8 +504,8 @@ static int amdgpu_vkms_sw_fini(void *handle)
+ 	int i = 0;
  
-@@ -331,6 +332,10 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux *dp_aux,
- 	}
+ 	for (i = 0; i < adev->mode_info.num_crtc; i++)
+-		if (adev->mode_info.crtcs[i])
+-			hrtimer_cancel(&adev->mode_info.crtcs[i]->vblank_timer);
++		if (adev->amdgpu_vkms_output[i].vblank_hrtimer.function)
++			hrtimer_cancel(&adev->amdgpu_vkms_output[i].vblank_hrtimer);
  
- 	mutex_lock(&aux->mutex);
-+	if (!aux->initted) {
-+		ret = -EIO;
-+		goto exit;
-+	}
- 
- 	dp_aux_update_offset_and_segment(aux, msg);
- 	dp_aux_transfer_helper(aux, msg, true);
-@@ -380,6 +385,8 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux *dp_aux,
- 	}
- 
- 	aux->cmd_busy = false;
-+
-+exit:
- 	mutex_unlock(&aux->mutex);
- 
- 	return ret;
-@@ -431,8 +438,13 @@ void dp_aux_init(struct drm_dp_aux *dp_aux)
- 
- 	aux = container_of(dp_aux, struct dp_aux_private, dp_aux);
- 
-+	mutex_lock(&aux->mutex);
-+
- 	dp_catalog_aux_enable(aux->catalog, true);
- 	aux->retry_cnt = 0;
-+	aux->initted = true;
-+
-+	mutex_unlock(&aux->mutex);
- }
- 
- void dp_aux_deinit(struct drm_dp_aux *dp_aux)
-@@ -441,7 +453,12 @@ void dp_aux_deinit(struct drm_dp_aux *dp_aux)
- 
- 	aux = container_of(dp_aux, struct dp_aux_private, dp_aux);
- 
-+	mutex_lock(&aux->mutex);
-+
-+	aux->initted = false;
- 	dp_catalog_aux_enable(aux->catalog, false);
-+
-+	mutex_unlock(&aux->mutex);
- }
- 
- int dp_aux_register(struct drm_dp_aux *dp_aux)
+ 	kfree(adev->mode_info.bios_hardcoded_edid);
+ 	kfree(adev->amdgpu_vkms_output);
 -- 
 2.33.0
 
