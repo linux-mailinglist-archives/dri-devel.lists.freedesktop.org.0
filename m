@@ -1,65 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA32F469D30
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 16:26:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EF80469E5F
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 16:37:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C19186F952;
-	Mon,  6 Dec 2021 15:26:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EE1E72CA4;
+	Mon,  6 Dec 2021 15:37:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from vern.gendns.com (vern.gendns.com [98.142.107.122])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F39D6F952
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Dec 2021 15:26:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=lechnology.com; s=default; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ju0HGoaDlI3NtJceOq4hz3W9DZf1MVSOEOEdOkJiahM=; b=OebpVDLsG197RJ/t6TgUimh/As
- 6SjtAQcP4Qpp4FiOgxoy03gzCXUprPE2oxk5plLyhbEUh1rD1DUz3EHfDBrBm6cVNxBOMVJKsIG+E
- r9s3BzOyVd4s8Welkty1B51f6brKAbdkz18Cf6Q+r4z1dadNUTTQfy9RFTAlBtRdTaABKnfR6aa5g
- +rcC53mM23azXzHBvsQWYd1scoP2CbDM90unAPf5xMr1tBPuPy6Sc1lqTYMfE1W4jO8YBaFbDoCKc
- Wy8CeRKPkMSEU/mQhJk3GNaaIYuZwlnLiv7anCb7BA0AdnguFxW/8bLPs11ELEMFX9s3ojKFyg3i/
- ycDeSZtw==;
-Received: from 108-198-5-147.lightspeed.okcbok.sbcglobal.net
- ([108.198.5.147]:49498 helo=[192.168.0.134])
- by vern.gendns.com with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
- (envelope-from <david@lechnology.com>)
- id 1muFsy-0007g0-Vb; Mon, 06 Dec 2021 10:26:39 -0500
-Subject: Re: [PATCH 0/6] drm/tiny/st7735r: Match up with staging/fbtft driver
-To: Maxime Ripard <maxime@cerno.tech>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
- <noralf@tronnes.org>
-References: <20211124150757.17929-1-noralf@tronnes.org>
- <eba23198-5c52-6520-079b-d2d41f71dc25@lechnology.com>
- <20211129093946.xhp22mvdut3m67sc@houat>
- <ca9e432a-6b04-9935-2469-135a9b47514e@tronnes.org>
- <20211201145237.6ezs4pwkmku3pesv@houat>
-From: David Lechner <david@lechnology.com>
-Message-ID: <1fec2480-195a-b1ec-a58e-caedf7798019@lechnology.com>
-Date: Mon, 6 Dec 2021 09:26:38 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D12C72CA4
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Dec 2021 15:37:04 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8C169EE;
+ Mon,  6 Dec 2021 16:37:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1638805022;
+ bh=D56lLRSArY1yZEqn5UzHN7KQ17j7Zx/KUEelXTFST4c=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=DqOENKAYqqR0MuNItitMj3SHFH10Llyk4x6FPG39I48osyLouoEbOW+ecj/lDp9bL
+ IWp/9TDlcqDU3O2e8JDhL8K2hMTPrzpzXga2T5/S19wtIeUw5polWm3jZqxqZJpi1f
+ XMlae0W23/AM6yrwGape6t7Oxq3X9Hy6nGlBVuJQ=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <20211201145237.6ezs4pwkmku3pesv@houat>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - vern.gendns.com
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lechnology.com
-X-Get-Message-Sender-Via: vern.gendns.com: authenticated_id:
- davidmain+lechnology.com/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: vern.gendns.com: davidmain@lechnology.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20211206140601.18912-1-laurent.pinchart+renesas@ideasonboard.com>
+References: <20211206140601.18912-1-laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH] drm: rcar-du: dsi: Fix hsfreq range matching
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+Date: Mon, 06 Dec 2021 15:36:59 +0000
+Message-ID: <163880501967.995700.15407363888149324944@Monstersaurus>
+User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,111 +48,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dave.stevenson@raspberrypi.com, linux-staging@lists.linux.dev,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org
+Cc: linux-renesas-soc@vger.kernel.org, LUU HOAI <hoai.luu.ub@renesas.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/1/21 8:52 AM, Maxime Ripard wrote:
-> Hi Noralf,
-> 
-> On Tue, Nov 30, 2021 at 03:30:11PM +0100, Noralf Trønnes wrote:
->> Den 29.11.2021 10.39, skrev Maxime Ripard:
->>> On Wed, Nov 24, 2021 at 04:03:07PM -0600, David Lechner wrote:
->>>> On 11/24/21 9:07 AM, Noralf Trønnes wrote:
->>> I agree that it doesn't really fit in the DT either though. Noralf, what
->>> kind of data do we need to setup a display in fbtft? The init sequence,
->>> and maybe some enable/reset GPIO, plus some timing duration maybe?
->>>
->>> There's one similar situation I can think of: wifi chips. Those also
->>> need a few infos from the DT (like what bus it's connected to, enable
->>> GPIO, etc) and a different sequence (firmware), sometimes different from
->>> one board to the other.
->>>
->>> Could we have a binding that would be something like:
->>>
->>> panel@42 {
->>> 	 compatible = "panel-spi";
->>> 	 model = "panel-from-random-place-42";
->>> 	 enable-gpios = <&...>;
->>> }
->>>
->>> And then, the driver would request the init sequence through the
->>> firmware mechanism using a name generated from the model property.
->>>
->>> It allows to support multiple devices in a given system, since the
->>> firmware name wouldn't conflict, it makes a decent binding, and users
->>> can adjust the init sequence easily (maybe with a bit of tooling)
->>>
->>> Would that work?
->>
->> I really like this idea. An added benefit is that one driver can handle
->> all MIPI DBI compatible controllers avoiding the need to do a patchset
->> like this for all the various MIPI DBI controllers. The firmware will
->> just contain numeric commands with parameters, so no need for different
->> controller drivers to handle the controller specific command names.
->>
->> The following is a list of the MIPI DBI compatible controllers currently
->> in staging/fbtft: ili9341, hx8357d, st7735r, ili9163, ili9163, ili9163,
->> ili9163, ili9486, ili9481, tinylcd, s6d02a1, s6d02a1, hx8340bn, ili9340.
->>
->> The compatible needs to be a bit more specific though since there are 2
->> major SPI protocols for these display: MIPI DBI and the one used by
->> ILI9325 and others.
->>
->> The full binding would be something like this:
->>
->> panel@42 {
->> 	compatible = "panel-mipi-dbi-spi";
->> 	model = "panel-from-random-place-42";
->>
->> 	/* The MIPI DBI spec lists these powers supply pins */
->> 	vdd-supply = <&...>;
->> 	vddi-supply = <&...>;
->>
->> 	/* Optional gpio to drive the RESX line */
->> 	reset-gpios = <&...>;
->>
->> 	/*
->> 	 * D/CX: Data/Command, Command is active low
->> 	 * Abcense: Interface option 1 (D/C embedded in 9-bit word)
->> 	 * Precense: Interface option 3
->> 	 */
->> 	dc-gpios = <&...>;
->>
->> 	/*
->> 	 * If set the driver won't try to read from the controller to see
->> 	 * if it's already configured by the bootloader or previously by
->> 	 * the driver. A readable controller avoids flicker and/or delay
->> 	 * enabling the pipeline.
->> 	 *
->> 	 * This property might not be necessary if we are guaranteed to
->> 	 * always read back all 1's or 0's when MISO is not connected.
->> 	 * I don't know if all setups can guarantee that.
->> 	 */
->> 	write-only;
->>
->> 	/* Optional ref to backlight node */
->> 	backlight = <&...>;
->> }
-> 
-> It looks decent to me. We'll want Rob to give his opinion though, but it
-> looks in a much better shape compared to what we usually have :)
-> 
->> Many of these controllers also have a RGB interface option for the
->> pixels and only do configuration over SPI.
->> Maybe the compatible should reflect these 2 options somehow?
-> 
-> I think we'll want a "real" panel for RGB, with its own compatible
-> though. We have a few of these drivers in tree already, so it's better
-> to remain consistent.
-> 
-> Maxime
-> 
+Quoting Laurent Pinchart (2021-12-06 14:06:01)
+> When iterating over hsfreqrange_table, rcar_mipi_dsi_parameters_calc()
+> may dereference the sentinel table entry. Fix the loop condition to
+> break as soon as a suitable entry is found, defined by the lower bound
+> of the frequency range stored in the table being equal to or higher than
+> the target frequency.
+>=20
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.co=
+m>
+> ---
+> I will squash this with "drm: rcar-du: Add R-Car DSI driver", but I'm
+> posting it separately to ease review.
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rc=
+ar-du/rcar_mipi_dsi.c
+> index faf993eae564..891bb956fd61 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+> @@ -219,9 +219,8 @@ static void rcar_mipi_dsi_parameters_calc(struct rcar=
+_mipi_dsi *dsi,
+>         /* Find hsfreqrange */
+>         hsfreq =3D fout_target * 2;
+>         for (i =3D 0; i < ARRAY_SIZE(hsfreqrange_table); i++) {
+> -               if (hsfreq > hsfreqrange_table[i][0] &&
+> -                       hsfreq <=3D hsfreqrange_table[i+1][0]) {
+> -                       setup_info->hsfreqrange =3D hsfreqrange_table[i+1=
+][1];
+> +               if (hsfreqrange_table[i][0] >=3D hsfreq) {
 
-I'm on board with the idea of the init sequence as firmware as well.
+It's hard to tell from this patch, or this point alone, but I see that
+fout_target is already limited at 1250000000, so hsfreq can never be
+bigger than 2500000000U.
 
-It looks like Rob might have missed this thread, so maybe just apply
-the acked patches and submit a v2 with the firmware implementation?
+So ... this is fine (as long as the table and validation check are kept
+in sync if anyone updates this).
 
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+Also validated that it still boots/probes and displays pictures with
+kmstest and kmstest --flip.
+
+--
+Kieran
+
+
+> +                       setup_info->hsfreqrange =3D hsfreqrange_table[i][=
+1];
+>                         break;
+>                 }
+>         }
+>=20
+> base-commit: c18c8891111bb5e014e144716044991112f16833
+> prerequisite-patch-id: dc9121a1b85ea05bf3eae2b0ac2168d47101ee87
+> prerequisite-patch-id: 6754b2ec4caec03e235550004003fe63c1cc793b
+> prerequisite-patch-id: d69c605df34d40934fa5d4e00f23d5785105099d
+> prerequisite-patch-id: 7d9edfb4758cafe8aec92d32709c0ad25a50942c
+> prerequisite-patch-id: 86c526fb41f9f9cbe95c50ba8a140e20484f187f
+> prerequisite-patch-id: a9649b53b55858f023b8d3d29afb9be7ad39ea3b
+> --=20
+> Regards,
+>=20
+> Laurent Pinchart
+>
