@@ -2,38 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C71954694D5
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 12:15:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8D144694DB
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 12:16:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3D3A6E1A5;
-	Mon,  6 Dec 2021 11:15:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DC7A7379F;
+	Mon,  6 Dec 2021 11:16:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF5C36E1A5
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Dec 2021 11:15:26 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 43177EE;
- Mon,  6 Dec 2021 12:15:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1638789324;
- bh=k0ZU6PLmhXKBxLaBzJoAUKNd4bvHTx6pfs1ZbhL2Pm4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=W3OPGacYT546ADQBceHRCDoFMowDLwe+k/HaNqbCe2bUQG7+iP5u/Xw4f40v9fgb+
- HbiSs5JoPWttxC0xSwHateilD1BuL1XVSMMP8QKj/bqZPROoyIDM5hfHt2+zaNvWd9
- eiC5EjOgiZ8YI8pJeq29hHy71COiQik0AThkjsAE=
-Date: Mon, 6 Dec 2021 13:14:56 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [PATCH] omapdrm: dss: mark runtime PM functions __maybe_unused
-Message-ID: <Ya3wsKEVEtkTsmSU@pendragon.ideasonboard.com>
-References: <20211205131612.3192652-1-arnd@kernel.org>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F98F73706;
+ Mon,  6 Dec 2021 11:16:27 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id D3B6A1FD54;
+ Mon,  6 Dec 2021 11:16:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1638789385; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=T8jQ8QG5yfyovABTsMwzloL81Lw8VmQNtebtZoCYYFQ=;
+ b=uNKSmiJarb6VyZvwlMLbG5SEHLBUqrku86v5aCFZutccjE/li/91njyYEimcFk9Cl8qBt/
+ Bp/clpeArneU7iqBVXHbx6Pk0MXEqn49cTy0PuSzppRV3lTVqSWA3ZGk0vbDVbiaARDhc8
+ wPlh/byU1Evwpnn8iH+TsqLITjVKJyU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1638789385;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=T8jQ8QG5yfyovABTsMwzloL81Lw8VmQNtebtZoCYYFQ=;
+ b=sbErUmmGlhyCbfsCBm8kMWeu4jBptM3zZrTK22KB3pIL+KMeGQtgqs0Rt93SySidmzqLyi
+ P3drltobQg7/gfCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7138B13B2C;
+ Mon,  6 Dec 2021 11:16:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id +5SNGgnxrWENXgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 06 Dec 2021 11:16:25 +0000
+Message-ID: <4fa29fcb-f936-b590-7691-90f0579a54ae@suse.de>
+Date: Mon, 6 Dec 2021 12:16:24 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211205131612.3192652-1-arnd@kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH] drm: Return error codes from struct
+ drm_driver.gem_create_object
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@oracle.com>
+References: <20211130095255.26710-1-tzimmermann@suse.de>
+ <20211206104233.GD1978@kadam>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20211206104233.GD1978@kadam>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------oH0RlGTbsvofw0BB3mvWo040"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,137 +71,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomba@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Jyri Sarha <jsarha@ti.com>, linux-kernel@vger.kernel.org,
- Cai Huoqing <caihuoqing@baidu.com>, dri-devel@lists.freedesktop.org
+Cc: kraxel@redhat.com, emma@anholt.net, tomeu.vizoso@collabora.com,
+ airlied@linux.ie, dri-devel@lists.freedesktop.org, steven.price@arm.com,
+ lima@lists.freedesktop.org, yuq825@gmail.com, gurchetansingh@chromium.org,
+ virtualization@lists.linux-foundation.org, alyssa.rosenzweig@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Arnd,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------oH0RlGTbsvofw0BB3mvWo040
+Content-Type: multipart/mixed; boundary="------------tti0ytzmBu0adVQa9Gb8zCmd";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch, yuq825@gmail.com, robh@kernel.org,
+ tomeu.vizoso@collabora.com, steven.price@arm.com,
+ alyssa.rosenzweig@collabora.com, emma@anholt.net, kraxel@redhat.com,
+ gurchetansingh@chromium.org, olvaffe@gmail.com,
+ dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org
+Message-ID: <4fa29fcb-f936-b590-7691-90f0579a54ae@suse.de>
+Subject: Re: [PATCH] drm: Return error codes from struct
+ drm_driver.gem_create_object
+References: <20211130095255.26710-1-tzimmermann@suse.de>
+ <20211206104233.GD1978@kadam>
+In-Reply-To: <20211206104233.GD1978@kadam>
 
-Thank you for the patch.
+--------------tti0ytzmBu0adVQa9Gb8zCmd
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-On Sun, Dec 05, 2021 at 02:15:56PM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> Using the SET_RUNTIME_PM_OPS() macro causes a warning about the
-> referenced functions when they are marked static but not __maybe_unused:
-> 
-> drivers/gpu/drm/omapdrm/dss/dss.c:1572:12: error: unused function 'dss_runtime_suspend' [-Werror,-Wunused-function]
-> drivers/gpu/drm/omapdrm/dss/dss.c:1584:12: error: unused function 'dss_runtime_resume' [-Werror,-Wunused-function]
-> drivers/gpu/drm/omapdrm/dss/dispc.c:4845:12: error: unused function 'dispc_runtime_suspend' [-Werror,-Wunused-function]
-> drivers/gpu/drm/omapdrm/dss/dispc.c:4860:12: error: unused function 'dispc_runtime_resume' [-Werror,-Wunused-function]
-> 
-> Fixes: b92f7ea556f8 ("drm/omap: dss: Make use of the helper macro SET_RUNTIME_PM_OPS()")
+SGkNCg0KQW0gMDYuMTIuMjEgdW0gMTE6NDIgc2NocmllYiBEYW4gQ2FycGVudGVyOg0KPiBP
+biBUdWUsIE5vdiAzMCwgMjAyMSBhdCAxMDo1Mjo1NUFNICswMTAwLCBUaG9tYXMgWmltbWVy
+bWFubiB3cm90ZToNCj4+IEdFTSBoZWxwZXIgbGlicmFyaWVzIHVzZSBzdHJ1Y3QgZHJtX2Ry
+aXZlci5nZW1fY3JlYXRlX29iamVjdCB0byBsZXQNCj4+IGRyaXZlcnMgb3ZlcnJpZGUgR0VN
+IG9iamVjdCBhbGxvY2F0aW9uLiBPbiBmYWlsdXJlLCB0aGUgY2FsbCByZXR1cm5zDQo+PiBO
+VUxMLg0KPj4NCj4+IENoYW5nZSB0aGUgc2VtYW50aWNzIHRvIG1ha2UgdGhlIGNhbGxzIHJl
+dHVybiBhIHBvaW50ZXItZW5jb2RlZCBlcnJvci4NCj4+IFRoaXMgYWxpZ25zIHRoZSBjYWxs
+YmFjayB3aXRoIGl0cyBjYWxsZXJzLiBGaXhlcyB0aGUgaW5nZW5pYyBkcml2ZXIsDQo+PiB3
+aGljaCBhbHJlYWR5IHJldHVybnMgYW4gZXJyb3IgcG9pbnRlci4NCj4+DQo+PiBBbHNvIHVw
+ZGF0ZSB0aGUgY2FsbGVycyB0byBoYW5kbGUgdGhlIGludm9sdmVkIHR5cGVzIG1vcmUgc3Ry
+aWN0bHkuDQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1t
+ZXJtYW5uQHN1c2UuZGU+DQo+PiAtLS0NCj4+IFRoZXJlIGlzIGFuIGFsdGVybmF0aXZlIHBh
+dGNoIGF0IFsxXSB0aGF0IHVwZGF0ZXMgdGhlIHZhbHVlIHJldHVybmVkDQo+PiBieSBpbmdl
+bmljcycgZ2VtX2NyZWF0ZV9vYmplY3QgdG8gTlVMTC4gRml4aW5nIHRoZSBpbnRlcmZhY2Ug
+dG8gcmV0dXJuDQo+PiBhbiBlcnJubyBjb2RlIGlzIG1vcmUgY29uc2lzdGVudCB3aXRoIHRo
+ZSByZXN0IG9mIHRoZSBHRU0gZnVuY3Rpb25zLg0KPj4NCj4+IFsxXSBodHRwczovL2xvcmUu
+a2VybmVsLm9yZy9kcmktZGV2ZWwvMjAyMTExMTgxMTE1MjIuR0QxMTQ3QGtpbGkvDQo+IA0K
+PiBNeSBmaXggd2FzIGFscmVhZHkgYXBwbGllZCBhbmQgYmFja3BvcnRlZCB0byAtc3RhYmxl
+IGV0Yy4uLiAgWW91cg0KPiBwYXRjaCBpcyBub3QgZGV2ZWxvcGVkIGFnYWluc3QgYSBjdXJy
+ZW50IHRyZWUgc28geW91IGJyb2tlIGl0Lg0KDQpEbyB5b3UgaGF2ZSBhIHNwZWNpZmljIGxp
+bms/IEkganVzdCBjaGVja2VkIHRoZSBzdGFibGUgdHJlZSBhdCBbMV0gYW5kIA0KdGhlcmUg
+bm8gdHJhY2Ugb2YgeW91ciBwYXRjaC4NCg0KUGF0Y2hlcyBmb3IgRFJNIHNob3VsZCBnbyB0
+aHJvdWdoIHRocm91Z2ggRFJNIHRyZWVzOyBkcm0tbWlzYy1maXhlcyBpbiANCnRoaXMgY2Fz
+ZS4gRXhjZXB0aW9ucyBzaG91bGQgYXQgbGVhc3QgYmUgYW5ub3VuY2Ugb24gZHJpLWRldmVs
+LiBOZWl0aGVyIA0KaXMgdGhlIGNhc2UgaGVyZS4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMN
+Cg0KWzFdIA0KaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9n
+aXQvc3RhYmxlL2xpbnV4LmdpdC90cmVlL2RyaXZlcnMvZ3B1L2RybS9pbmdlbmljL2luZ2Vu
+aWMtZHJtLWRydi5jDQoNCj4gDQo+IFRoYXQncyB0aGUgdHJpY2t5IHRoaW5nIHdpdGggY2hh
+bmdpbmcgdGhlIEFQSSBiZWNhdXNlIHNheSBwZW9wbGUgd3JvdGUNCj4gdGhlaXIgY29kZSBs
+YXN0IHdlZWsgd2hlcmUgcmV0dXJuaW5nIE5VTEwgd2FzIGNvcnJlY3QuICBXaGVuIHRoZXkg
+c3VibWl0DQo+IHRoZWlyIGRyaXZlciB1cHN0cmVhbSwgZXZlcnl0aGluZyB3aWxsIG1lcmdl
+IGFuZCBidWlsZCBidXQgaXQgd2lsbCBicmVhaw0KPiBhdCBydW50aW1lLg0KPiANCj4gRm9y
+IG5vdywgaXQncyBvbmx5IHZjNF9jcmVhdGVfb2JqZWN0KCkgd2hpY2ggaXMgYnJva2VuLg0K
+PiANCj4gcmVnYXJkcywNCj4gZGFuIGNhcnBlbnRlcg0KPiANCg0KLS0gDQpUaG9tYXMgWmlt
+bWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1
+dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdl
+cm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJ
+dm8gVG90ZXYNCg==
 
-I wonder how well drivers are tested with !CONFIG_PM. We may be going
-through hoops and loops to support this when it actually won't work in
-most drivers. That's a separate issue though :-)
+--------------tti0ytzmBu0adVQa9Gb8zCmd--
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+--------------oH0RlGTbsvofw0BB3mvWo040
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Tomi, could you apply this ?
+-----BEGIN PGP SIGNATURE-----
 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/gpu/drm/omapdrm/dss/dispc.c | 4 ++--
->  drivers/gpu/drm/omapdrm/dss/dsi.c   | 4 ++--
->  drivers/gpu/drm/omapdrm/dss/dss.c   | 4 ++--
->  drivers/gpu/drm/omapdrm/dss/venc.c  | 4 ++--
->  4 files changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/omapdrm/dss/dispc.c b/drivers/gpu/drm/omapdrm/dss/dispc.c
-> index b440147ae28b..ab259efe132b 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/dispc.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/dispc.c
-> @@ -4842,7 +4842,7 @@ static int dispc_remove(struct platform_device *pdev)
->  	return 0;
->  }
->  
-> -static int dispc_runtime_suspend(struct device *dev)
-> +static __maybe_unused int dispc_runtime_suspend(struct device *dev)
->  {
->  	struct dispc_device *dispc = dev_get_drvdata(dev);
->  
-> @@ -4857,7 +4857,7 @@ static int dispc_runtime_suspend(struct device *dev)
->  	return 0;
->  }
->  
-> -static int dispc_runtime_resume(struct device *dev)
-> +static __maybe_unused int dispc_runtime_resume(struct device *dev)
->  {
->  	struct dispc_device *dispc = dev_get_drvdata(dev);
->  
-> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> index d730bf67fed9..a6845856cbce 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> @@ -5058,7 +5058,7 @@ static int dsi_remove(struct platform_device *pdev)
->  	return 0;
->  }
->  
-> -static int dsi_runtime_suspend(struct device *dev)
-> +static __maybe_unused int dsi_runtime_suspend(struct device *dev)
->  {
->  	struct dsi_data *dsi = dev_get_drvdata(dev);
->  
-> @@ -5071,7 +5071,7 @@ static int dsi_runtime_suspend(struct device *dev)
->  	return 0;
->  }
->  
-> -static int dsi_runtime_resume(struct device *dev)
-> +static __maybe_unused int dsi_runtime_resume(struct device *dev)
->  {
->  	struct dsi_data *dsi = dev_get_drvdata(dev);
->  
-> diff --git a/drivers/gpu/drm/omapdrm/dss/dss.c b/drivers/gpu/drm/omapdrm/dss/dss.c
-> index 66db28bfe824..69b3e15b9356 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/dss.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/dss.c
-> @@ -1569,7 +1569,7 @@ static void dss_shutdown(struct platform_device *pdev)
->  	DSSDBG("shutdown\n");
->  }
->  
-> -static int dss_runtime_suspend(struct device *dev)
-> +static __maybe_unused int dss_runtime_suspend(struct device *dev)
->  {
->  	struct dss_device *dss = dev_get_drvdata(dev);
->  
-> @@ -1581,7 +1581,7 @@ static int dss_runtime_suspend(struct device *dev)
->  	return 0;
->  }
->  
-> -static int dss_runtime_resume(struct device *dev)
-> +static __maybe_unused int dss_runtime_resume(struct device *dev)
->  {
->  	struct dss_device *dss = dev_get_drvdata(dev);
->  	int r;
-> diff --git a/drivers/gpu/drm/omapdrm/dss/venc.c b/drivers/gpu/drm/omapdrm/dss/venc.c
-> index 508fddd376cf..4480b69ab5a7 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/venc.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/venc.c
-> @@ -879,7 +879,7 @@ static int venc_remove(struct platform_device *pdev)
->  	return 0;
->  }
->  
-> -static int venc_runtime_suspend(struct device *dev)
-> +static __maybe_unused int venc_runtime_suspend(struct device *dev)
->  {
->  	struct venc_device *venc = dev_get_drvdata(dev);
->  
-> @@ -889,7 +889,7 @@ static int venc_runtime_suspend(struct device *dev)
->  	return 0;
->  }
->  
-> -static int venc_runtime_resume(struct device *dev)
-> +static __maybe_unused int venc_runtime_resume(struct device *dev)
->  {
->  	struct venc_device *venc = dev_get_drvdata(dev);
->  
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmGt8QgFAwAAAAAACgkQlh/E3EQov+BM
+Yw/9HICOZ7UpUzcT5OmJTyjStySM5OgcJRv4h8o9a0T2Z/PVehzxMjdlUsunz7tXlWggTo7lB5eW
+wOgkg30hl9BrmBOMpyqnhiPoJEd5GCtSa/aey8IAv/WTHUjOrzVmMwMA60QyGzhSthhx+nXOx8zq
+QwbBCoO32AhCn4biTv7E3mJpqvDM0nwP7J0++N3VYBXiv5sGvsZ62AEj3KK4nqiSTzR72sVZ9+KB
+W2welh/Ok4OZPIbV3KbCq2H7jwROaUEHzbuuGC4wkCs03Ygf3nUI3Ls9VHdm7kGTTz8y33xHc8C5
+mAF5d29Am5thR5YOT/6uvFHodJ0jzXnWMT3FXng+f3q/uYciqTqsHU+us46GJ+BntMBs8OVx28rI
+iH66z0CNEln8/lYKHTJyQU7Yyr2pELOgWmAV7Pp+BFtn1cqYkOGwji/7wHE94JjcR7tbqwZwq8OW
+2zcCWeq8M8Rlnxh5MOAViPitZyapdobRFACtQK49PZapxnW7XUvgrAaarXvHv5o7pcauQK3XwYqF
+A1jDOP1RBSV7tAWC1MHSuqTy8SPQsJxxQSx1yaU+pjUtmgH+eJ7kOSJ7+WuND2QdNPBmBOni0LSS
+i2xAzo6yga0OR5deMwwcYRE+XYArhUlD8hcSga7k7YqBGBgPfp34B5xnduYkdNguYUXfEEEIz9dm
+Ess=
+=g1AO
+-----END PGP SIGNATURE-----
 
--- 
-Regards,
-
-Laurent Pinchart
+--------------oH0RlGTbsvofw0BB3mvWo040--
