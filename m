@@ -1,53 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0FF44693D5
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 11:28:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82B9A4693BF
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 11:27:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D06B57A403;
-	Mon,  6 Dec 2021 10:21:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39E207AC65;
+	Mon,  6 Dec 2021 10:20:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C013272DA4
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Dec 2021 09:11:31 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2B1F72DA4
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Dec 2021 09:11:30 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 5DF42212BA;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 92EEE1FD59;
  Mon,  6 Dec 2021 09:11:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1638781889; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=N3hPv4sxladXc5DC7KBdtP2ySpiFeOIn8eTMyXFy4mI=;
- b=1Uxa0t575s1H0O1USfbJ71eLvdjs8latQkHfo80XmYUIxLkoXRBhTq7M3wgRSzD4WsS3Py
- mSzKPCKVCF8kIEAF6sIHoRhjsHuUfwimjd3/HabQX6NEtwkjBDjvsDvYP+0K/48GQddW+p
- XSitFW+jH3DtSOSpl/2OqnAR77nVn88=
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VhubsVGX+tZLv/vKMsGrHoKMHW45cQIpb83eJfKk5N4=;
+ b=DQQYNGo3zchlMIQztmZExUuWPovZSNRp1OTBPWDgk+NQnJNqc3+UidQOacvxQ1y+kAbBXk
+ aDiRgxdN5UwSa0VkaazanCps99Q5hA3w9bBCzZvnl+tjyJXmX/OWiZSqApAhK7LvQ/LQ4N
+ RFdTFayXMbfQJS9sBhV0D6rhh9kO1g4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1638781889;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=N3hPv4sxladXc5DC7KBdtP2ySpiFeOIn8eTMyXFy4mI=;
- b=VoQ8eVqZyaw2/44XMWuq+RAKXk6/e8LOzlenj7FL6bV5+/yM69ipiN/luR/V+durVPKZvl
- NxO3KoLSPkcKFLDQ==
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VhubsVGX+tZLv/vKMsGrHoKMHW45cQIpb83eJfKk5N4=;
+ b=DBl37WRKS947it5VrARCTMnekhlyb0IvPCGLMAOUlxgdry97i3uZgljs/APcLu9plvngiu
+ V51jx3Q1a+9OVECQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3371213B27;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5FF2713B2D;
  Mon,  6 Dec 2021 09:11:29 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id g3+NC8HTrWE8IwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id uIh2FsHTrWE8IwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Mon, 06 Dec 2021 09:11:29 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, daniel@ffwll.ch, sam@ravnborg.org,
  kuohsiang_chou@aspeedtech.com
-Subject: [PATCH v2 0/3] ast: Fix I2C corner cases wrt init/cleanup
-Date: Mon,  6 Dec 2021 10:11:22 +0100
-Message-Id: <20211206091125.29501-1-tzimmermann@suse.de>
+Subject: [PATCH v2 1/3] drm/ast: Handle failed I2C initialization gracefully
+Date: Mon,  6 Dec 2021 10:11:23 +0100
+Message-Id: <20211206091125.29501-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20211206091125.29501-1-tzimmermann@suse.de>
+References: <20211206091125.29501-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,32 +72,63 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The VGA connector in ast is supposed to work without I2C. Currently,
-this isn't implemented correctly in several places. Fix this. Also
-add managed cleanup of the I2C code and move it into separate source
-file.
+I2C initialization is allowed to fail. In this case, create a connector
+without DDC adapter. The current code would dereference a NULL pointer.
 
-Tested on AST2100 hardware.
+Reading the modes from the connector is supposed to work without I2C
+adapter. Add the respective test.
 
 v2:
 	* init edid to NULL to avoid uninitialized read
-	* drop test for drm_connector_init() for now
-	* move I2C code into separate source file
 
-Thomas Zimmermann (3):
-  drm/ast: Handle failed I2C initialization gracefully
-  drm/ast: Convert I2C code to managed cleanup
-  drm/ast: Move I2C code into separate source file
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/ast/ast_mode.c | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
- drivers/gpu/drm/ast/Makefile   |   2 +-
- drivers/gpu/drm/ast/ast_drv.h  |   3 +
- drivers/gpu/drm/ast/ast_i2c.c  | 152 +++++++++++++++++++++++++++++++++
- drivers/gpu/drm/ast/ast_mode.c | 151 +++-----------------------------
- 4 files changed, 167 insertions(+), 141 deletions(-)
- create mode 100644 drivers/gpu/drm/ast/ast_i2c.c
-
-
-base-commit: 909bf926eaf382123d9b215871143d9e3cf44aa3
---
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index 1e30eaeb0e1b..692e7a3b3555 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -1210,9 +1210,9 @@ static int ast_get_modes(struct drm_connector *connector)
+ {
+ 	struct ast_connector *ast_connector = to_ast_connector(connector);
+ 	struct ast_private *ast = to_ast_private(connector->dev);
+-	struct edid *edid;
+-	int ret;
++	struct edid *edid = NULL;
+ 	bool flags = false;
++	int ret;
+ 
+ 	if (ast->tx_chip_type == AST_TX_DP501) {
+ 		ast->dp501_maxclk = 0xff;
+@@ -1226,7 +1226,7 @@ static int ast_get_modes(struct drm_connector *connector)
+ 		else
+ 			kfree(edid);
+ 	}
+-	if (!flags)
++	if (!flags && ast_connector->i2c)
+ 		edid = drm_get_edid(connector, &ast_connector->i2c->adapter);
+ 	if (edid) {
+ 		drm_connector_update_edid_property(&ast_connector->base, edid);
+@@ -1332,10 +1332,13 @@ static int ast_connector_init(struct drm_device *dev)
+ 	if (!ast_connector->i2c)
+ 		drm_err(dev, "failed to add ddc bus for connector\n");
+ 
+-	drm_connector_init_with_ddc(dev, connector,
+-				    &ast_connector_funcs,
+-				    DRM_MODE_CONNECTOR_VGA,
+-				    &ast_connector->i2c->adapter);
++	if (ast_connector->i2c)
++		drm_connector_init_with_ddc(dev, connector, &ast_connector_funcs,
++					    DRM_MODE_CONNECTOR_VGA,
++					    &ast_connector->i2c->adapter);
++	else
++		drm_connector_init(dev, connector, &ast_connector_funcs,
++				   DRM_MODE_CONNECTOR_VGA);
+ 
+ 	drm_connector_helper_add(connector, &ast_connector_helper_funcs);
+ 
+-- 
 2.34.1
 
