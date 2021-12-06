@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51D53469720
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 14:32:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7DC8469722
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 14:32:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97E8F739D5;
-	Mon,  6 Dec 2021 13:32:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1ABE77A480;
+	Mon,  6 Dec 2021 13:32:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61F0E739D5;
- Mon,  6 Dec 2021 13:32:30 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10189"; a="237537390"
-X-IronPort-AV: E=Sophos;i="5.87,291,1631602800"; d="scan'208";a="237537390"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9C797A46F;
+ Mon,  6 Dec 2021 13:32:31 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10189"; a="237537395"
+X-IronPort-AV: E=Sophos;i="5.87,291,1631602800"; d="scan'208";a="237537395"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Dec 2021 05:32:29 -0800
-X-IronPort-AV: E=Sophos;i="5.87,291,1631602800"; d="scan'208";a="514737397"
+ 06 Dec 2021 05:32:31 -0800
+X-IronPort-AV: E=Sophos;i="5.87,291,1631602800"; d="scan'208";a="514737415"
 Received: from bgodonne-mobl1.amr.corp.intel.com (HELO mwauld-desk1.intel.com)
  ([10.252.17.226])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Dec 2021 05:32:28 -0800
+ 06 Dec 2021 05:32:29 -0800
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 3/8] drm/i915/migrate: fix length calculation
-Date: Mon,  6 Dec 2021 13:31:35 +0000
-Message-Id: <20211206133140.3166205-4-matthew.auld@intel.com>
+Subject: [PATCH v3 4/8] drm/i915/selftests: handle object rounding
+Date: Mon,  6 Dec 2021 13:31:36 +0000
+Message-Id: <20211206133140.3166205-5-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211206133140.3166205-1-matthew.auld@intel.com>
 References: <20211206133140.3166205-1-matthew.auld@intel.com>
@@ -50,31 +50,29 @@ Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-No need to insert PTEs for the PTE window itself, also foreach expects a
-length not an end offset, which could be gigantic here with a second
-engine.
+Ensure we account for any object rounding due to min_page_size
+restrictions.
 
 Signed-off-by: Matthew Auld <matthew.auld@intel.com>
 Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Cc: Ramalingam C <ramalingam.c@intel.com>
 Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_migrate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/i915/gt/selftest_migrate.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
-index 6f2c4388ebb4..0192b61ab541 100644
---- a/drivers/gpu/drm/i915/gt/intel_migrate.c
-+++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
-@@ -134,7 +134,7 @@ static struct i915_address_space *migrate_vm(struct intel_gt *gt)
- 			goto err_vm;
+diff --git a/drivers/gpu/drm/i915/gt/selftest_migrate.c b/drivers/gpu/drm/i915/gt/selftest_migrate.c
+index 12ef2837c89b..e21787301bbd 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_migrate.c
++++ b/drivers/gpu/drm/i915/gt/selftest_migrate.c
+@@ -49,6 +49,7 @@ static int copy(struct intel_migrate *migrate,
+ 	if (IS_ERR(src))
+ 		return 0;
  
- 		/* Now allow the GPU to rewrite the PTE via its own ppGTT */
--		vm->vm.foreach(&vm->vm, base, base + sz, insert_pte, &d);
-+		vm->vm.foreach(&vm->vm, base, d.offset - base, insert_pte, &d);
- 	}
- 
- 	return &vm->vm;
++	sz = src->base.size;
+ 	dst = i915_gem_object_create_internal(i915, sz);
+ 	if (IS_ERR(dst))
+ 		goto err_free_src;
 -- 
 2.31.1
 
