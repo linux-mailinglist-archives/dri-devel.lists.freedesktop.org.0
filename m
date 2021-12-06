@@ -2,70 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1508146AC04
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 23:30:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8881B46AD09
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Dec 2021 23:47:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0E086E112;
-	Mon,  6 Dec 2021 22:30:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D8D57361A;
+	Mon,  6 Dec 2021 22:47:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
- [IPv6:2607:f8b0:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC65C6E112
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Dec 2021 22:30:13 +0000 (UTC)
-Received: by mail-ot1-x32c.google.com with SMTP id
- u18-20020a9d7212000000b00560cb1dc10bso15538539otj.11
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Dec 2021 14:30:13 -0800 (PST)
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com
+ [IPv6:2607:f8b0:4864:20::731])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55A327361A
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Dec 2021 22:47:33 +0000 (UTC)
+Received: by mail-qk1-x731.google.com with SMTP id 193so12781697qkh.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Dec 2021 14:47:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=CAVwfz79yxFN2Zk0PuDTv4duedCcEHp7DsaCS0xQ+pg=;
- b=cylFgKGs8JTtZhUXod/RUHTI1lDPe2mC/w0AiRtgMLPOimB3h4/G63R66IzxlwhQiL
- LT/RcvC0cnJdfhL2dzo8q5traVgXhuRBDBUxl1h+pmZV0+uaLtwSK16fPdhSDItJZUc+
- HVXH8Z5RzmiFySF0gB70R/sz7Rji8XbSA3R0+ddTcjP0qXF/vNk77DvxFdQe/oTs+5e3
- IU0ks9vQ291kAIEywt81qqdfPmpDjYgV+TgxpYAONHZVjnsUOfSeAnT0J6S2AYM2bkh5
- yxcYCHP293ScqYlC+0l+LXnckkZnSIKqpu/Sd67Eewm7qy3dTT6JGy7GasYe5OPBv9Aa
- Jb9w==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rJg63bDnYCKR7waAmZRq0poFfeFECLfAFsoS9TMX6QQ=;
+ b=lfMPmSz5Tmyt3DcoN3xW9gJu/QqzYvy0Luy2+Yvbnl0KVYmqYDmG5vP/+sLmGjOmjg
+ zFjvr5lukja9wH3UC8hX4DirkColywofwiPOyv0/VohGh9x2lEh0xdLLilLzp1BodNEq
+ N7e5fQ+5Sb4i4DNUVEcwKm35MzrqhAHSETxMNucO5vK/G1KqmgdmhoDiakSVbbIfKv4j
+ fg0A++rNNJjJTZvl7CdYQ9DQOWykf/rHaOes3bxsqllq3C6/3+zOJsT8UqAj2ucwGgpE
+ bX0Jm/YxamYCa8OCR2ETWp1mcgBJBHvxmeO6CWFtrzTNOd0yFRURkUn5w4tpkCeE7+xI
+ RInw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=CAVwfz79yxFN2Zk0PuDTv4duedCcEHp7DsaCS0xQ+pg=;
- b=mKfAAlsBIHHZjRbnM/XBmMQoB2rhF6UoH2uZ7liNR9eJGK0/54jbigYuVinFGH7zNY
- xbEL6LE5rRzCQ4MHxGKCyJCE403Wqg3APgnvyLEI/sRVFG+vWG/mIg1vt6DRsrWTtFQ7
- hfe76Ce8aU5hn6CvZ5kcAQYwzmZ3HK4cYP3+6/MkeL/0NYZdWuasqoNcbEVDLVPf+n2G
- ZTcJTn4u1tikTF3/Adt8LRjLDX2OAo9T/VuR4x+l2igSWg0I2XLjBIW1nP0IftzMwF5V
- ndqYWfp7rT2GtD8PK7In4ffEbIpTvIa9FYIRkLEHYlrfcEw3Gxn7M8yUocRvsE2CKs0a
- DuGQ==
-X-Gm-Message-State: AOAM530deWQ3+Peh525x6iQitmoz+3H8RZ4Xl0pmdqv1Lu42CplQc4F+
- /WAcPMBwJYbkTyfydvrQm5PIfg==
-X-Google-Smtp-Source: ABdhPJwJoHiYQW5ssIUBVBMkso32IzKsSY64OY0b75kyPHvg1HEXXLecizsZ4zwpDefzzbDVmVjchw==
-X-Received: by 2002:a9d:7a8c:: with SMTP id l12mr31262381otn.84.1638829812821; 
- Mon, 06 Dec 2021 14:30:12 -0800 (PST)
-Received: from ripper (104-57-184-186.lightspeed.austtx.sbcglobal.net.
- [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id y17sm2510204ote.48.2021.12.06.14.30.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Dec 2021 14:30:12 -0800 (PST)
-Date: Mon, 6 Dec 2021 14:31:40 -0800
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Subject: Re: [RFC] drm/msm/dp: Allow attaching a drm_panel
-Message-ID: <Ya6PTGN4zaZ8RD9K@ripper>
-References: <YVd3YdfgFVc0Br5T@ripper>
- <CAD=FV=U=xVLuKOYHbGPTkLjGa8_U+F1ZtEvJt4LGaRuR5SsKFw@mail.gmail.com>
- <YVumL1lHLqtb/HKS@ripper>
- <CAD=FV=W9uKq00wXn4H1ax0u2D=R8Wn3J-Je43uxcPyDtk7AK7Q@mail.gmail.com>
- <YVyMwsvLl6XalJxB@ripper>
- <CAD=FV=WY+g38p7--QKZCaQnSqx7VvdwC36jH-VKnrEWoxK=XHQ@mail.gmail.com>
- <YV0KBWxVtKgOp2Cj@ripper>
- <CAD=FV=X5JFE3u9BtxxocaUrYNSpYXJN90UJ8HOvXZE6oYiVsDQ@mail.gmail.com>
- <CACeCKac4b_ej87cQD692TNwpsoFsmBwDcSeLy5fp+pvLX1si7g@mail.gmail.com>
- <YV7JNH9QvI4cBz5s@kuha.fi.intel.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rJg63bDnYCKR7waAmZRq0poFfeFECLfAFsoS9TMX6QQ=;
+ b=yYx0i9i/IyUMK0Qi1mqcMmFHJfLBacj/8Bqnm0f+eqEhQq30a0jrAR0GnZnjv1+h/F
+ yNbn4t34YaTyncdMgeuJ11gxmHsNe6vFiWmGqaY1M43Xe+3jTPNtx2FimaG5WL8iBABt
+ vxObmTYFvS2pcjWNbW7+acq/LlCuFkJ4neo4KLTmCpsUEzNnb5rbt/Lm54K+QSXPvEky
+ os2FMtgpQpmS7ZshMIMYM9V12/QNsWNEWOYCxYlXf/IvL49N6hlR8+RDG8mLmwIU+Rzl
+ BB4BFah1lYd3pKeL4SqzLm2YQ7pzGcaZrSrA1yOaWWyzOFLfl6f6/WjKi3ZbSbZsrMYO
+ 2ajw==
+X-Gm-Message-State: AOAM532wigvODkm9tvQIGfh8v+wKZSRAxVTr4AkAGxRw9f13foFVeDuW
+ ql+QB7LjTsIr56qjz2E7zLw2bxE+QM+M1auqDlzvag==
+X-Google-Smtp-Source: ABdhPJx/cEVf6MukAwgfIWLR4lauuiaGzXvbJmY9rT1Gg2VahZ98I76dtngG/imUvYGwdC0Fhi4TwK/k14VIvJPxaMU=
+X-Received: by 2002:a05:620a:13ea:: with SMTP id
+ h10mr36591169qkl.30.1638830852103; 
+ Mon, 06 Dec 2021 14:47:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YV7JNH9QvI4cBz5s@kuha.fi.intel.com>
+References: <20211015001100.4193241-1-dmitry.baryshkov@linaro.org>
+ <20211015001100.4193241-2-dmitry.baryshkov@linaro.org>
+ <8d90118d26b0e36fff84dc32ab047dd8@codeaurora.org>
+ <CAA8EJpo1zsK9hVbN63DkdMHXk2gqq48v1cQ0gw_Lg7KtF130pQ@mail.gmail.com>
+ <7cffbdf36f1da12976c4fb142bd4a331@codeaurora.org>
+ <1df4eff7-b90e-39e5-d158-15380e6c9324@linaro.org>
+ <2b2194b3-90ef-c3f2-9cfe-1e7f6df42733@quicinc.com>
+In-Reply-To: <2b2194b3-90ef-c3f2-9cfe-1e7f6df42733@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 7 Dec 2021 01:47:21 +0300
+Message-ID: <CAA8EJpo0eT=y9z91eriOOKigMxviSTxnzpMU3_b7oChK1bEarA@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH 2/2] drm/msm/hdmi: switch to
+ drm_bridge_connector
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,58 +69,578 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Doug Anderson <dianders@chromium.org>, Abhinav Kumar <abhinavk@codeaurora.org>,
- LKML <linux-kernel@vger.kernel.org>, Kuogee Hsieh <khsieh@codeaurora.org>,
- Prashant Malani <pmalani@chromium.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Vara Reddy <varar@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
- Sean Paul <sean@poorly.run>
+Cc: Sean Paul <sean@poorly.run>, Jonathan Marek <jonathan@marek.ca>,
+ Stephen Boyd <sboyd@kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, David Airlie <airlied@linux.ie>,
+ abhinavk@codeaurora.org, freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu 07 Oct 03:17 PDT 2021, Heikki Krogerus wrote:
-> On Wed, Oct 06, 2021 at 01:26:35PM -0700, Prashant Malani wrote:
-> > (CC+ Heikki)
-[..]
-> > On Wed, Oct 6, 2021 at 8:19 AM Doug Anderson <dianders@chromium.org> wrote:
-[..]
->         void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode);
-> 
-> If your USB Type-C controller/port driver does not yet register the DP
-> alt mode, the it's responsible of handling HPD separately by calling
-> drm_connector_oob_hotplug_event() on its own.
-> 
+On Mon, 6 Dec 2021 at 23:42, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+>
+>
+> On 11/25/2021 4:50 AM, Dmitry Baryshkov wrote:
+> > On 19/10/2021 02:54, abhinavk@codeaurora.org wrote:
+> >> On 2021-10-16 07:21, Dmitry Baryshkov wrote:
+> >>> On Sat, 16 Oct 2021 at 01:25, <abhinavk@codeaurora.org> wrote:
+> >>>>
+> >>>> Hi Dmitry
+> >>>>
+> >>>> On 2021-10-14 17:11, Dmitry Baryshkov wrote:
+> >>>> > Merge old hdmi_bridge and hdmi_connector implementations. Use
+> >>>> > drm_bridge_connector instead.
+> >>>> >
+> >>>> Can you please comment on the validation done on this change?
+> >>>> Has basic bootup been verified on db820c as thats the only platform
+> >>>> which shall use this.
+> >>>
+> >>> Yes, this has been developed and validated on db820c
+> >> Thanks for confirming.
+> >>>
+> >>>>
+> >>>> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >>>> > ---
+> >>>> >  drivers/gpu/drm/msm/Makefile                  |   2 +-
+> >>>> >  drivers/gpu/drm/msm/hdmi/hdmi.c               |  12 +-
+> >>>> >  drivers/gpu/drm/msm/hdmi/hdmi.h               |  19 ++-
+> >>>> >  drivers/gpu/drm/msm/hdmi/hdmi_bridge.c        |  81 ++++++++-
+> >>>> >  .../msm/hdmi/{hdmi_connector.c => hdmi_hpd.c} | 154
+> >>>> ++----------------
+> >>>> >  5 files changed, 109 insertions(+), 159 deletions(-)
+> >>>> >  rename drivers/gpu/drm/msm/hdmi/{hdmi_connector.c => hdmi_hpd.c}
+> >>>> (62%)
+> >>>> >
+> >>>> > diff --git a/drivers/gpu/drm/msm/Makefile
+> >>>> > b/drivers/gpu/drm/msm/Makefile
+> >>>> > index 904535eda0c4..91b09cda8a9c 100644
+> >>>> > --- a/drivers/gpu/drm/msm/Makefile
+> >>>> > +++ b/drivers/gpu/drm/msm/Makefile
+> >>>> > @@ -19,7 +19,7 @@ msm-y := \
+> >>>> >       hdmi/hdmi.o \
+> >>>> >       hdmi/hdmi_audio.o \
+> >>>> >       hdmi/hdmi_bridge.o \
+> >>>> > -     hdmi/hdmi_connector.o \
+> >>>> > +     hdmi/hdmi_hpd.o \
+> >>>> >       hdmi/hdmi_i2c.o \
+> >>>> >       hdmi/hdmi_phy.o \
+> >>>> >       hdmi/hdmi_phy_8960.o \
+> >>>> > diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c
+> >>>> > b/drivers/gpu/drm/msm/hdmi/hdmi.c
+> >>>> > index db17a000d968..d1cf4df7188c 100644
+> >>>> > --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
+> >>>> > +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
+> >>>> > @@ -8,6 +8,8 @@
+> >>>> >  #include <linux/of_irq.h>
+> >>>> >  #include <linux/of_gpio.h>
+> >>>> >
+> >>>> > +#include <drm/drm_bridge_connector.h>
+> >>>> > +
+> >>>> >  #include <sound/hdmi-codec.h>
+> >>>> >  #include "hdmi.h"
+> >>>> >
+> >>>> > @@ -41,7 +43,7 @@ static irqreturn_t msm_hdmi_irq(int irq, void
+> >>>> > *dev_id)
+> >>>> >       struct hdmi *hdmi = dev_id;
+> >>>> >
+> >>>> >       /* Process HPD: */
+> >>>> > -     msm_hdmi_connector_irq(hdmi->connector);
+> >>>> > +     msm_hdmi_hpd_irq(hdmi->bridge);
+> >>>> >
+> >>>> >       /* Process DDC: */
+> >>>> >       msm_hdmi_i2c_irq(hdmi->i2c);
+> >>>> > @@ -283,7 +285,7 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
+> >>>> >               goto fail;
+> >>>> >       }
+> >>>> >
+> >>>> > -     hdmi->connector = msm_hdmi_connector_init(hdmi);
+> >>>> > +     hdmi->connector = drm_bridge_connector_init(hdmi->dev,
+> >>>> encoder);
+> >>>> >       if (IS_ERR(hdmi->connector)) {
+> >>>> >               ret = PTR_ERR(hdmi->connector);
+> >>>> >               DRM_DEV_ERROR(dev->dev, "failed to create HDMI
+> >>>> connector: %d\n",
+> >>>> > ret);
+> >>>> > @@ -291,6 +293,8 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
+> >>>> >               goto fail;
+> >>>> >       }
+> >>>> >
+> >>>> > +     drm_connector_attach_encoder(hdmi->connector, hdmi->encoder);
+> >>>> > +
+> >>>> >       hdmi->irq = irq_of_parse_and_map(pdev->dev.of_node, 0);
+> >>>> >       if (hdmi->irq < 0) {
+> >>>> >               ret = hdmi->irq;
+> >>>> > @@ -307,7 +311,9 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
+> >>>> >               goto fail;
+> >>>> >       }
+> >>>> >
+> >>>> > -     ret = msm_hdmi_hpd_enable(hdmi->connector);
+> >>>> > +     drm_bridge_connector_enable_hpd(hdmi->connector);
+> >>>> > +
+> >>>> > +     ret = msm_hdmi_hpd_enable(hdmi->bridge);
+> >>>> >       if (ret < 0) {
+> >>>> >               DRM_DEV_ERROR(&hdmi->pdev->dev, "failed to enable
+> >>>> HPD: %d\n", ret);
+> >>>> >               goto fail;
+> >>>> > diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.h
+> >>>> > b/drivers/gpu/drm/msm/hdmi/hdmi.h
+> >>>> > index 82261078c6b1..736f348befb3 100644
+> >>>> > --- a/drivers/gpu/drm/msm/hdmi/hdmi.h
+> >>>> > +++ b/drivers/gpu/drm/msm/hdmi/hdmi.h
+> >>>> > @@ -114,6 +114,13 @@ struct hdmi_platform_config {
+> >>>> >       struct hdmi_gpio_data gpios[HDMI_MAX_NUM_GPIO];
+> >>>> >  };
+> >>>> >
+> >>>> > +struct hdmi_bridge {
+> >>>> > +     struct drm_bridge base;
+> >>>> > +     struct hdmi *hdmi;
+> >>>> > +     struct work_struct hpd_work;
+> >>>> > +};
+> >>>> > +#define to_hdmi_bridge(x) container_of(x, struct hdmi_bridge, base)
+> >>>> > +
+> >>>> >  void msm_hdmi_set_mode(struct hdmi *hdmi, bool power_on);
+> >>>> >
+> >>>> >  static inline void hdmi_write(struct hdmi *hdmi, u32 reg, u32 data)
+> >>>> > @@ -230,13 +237,11 @@ void msm_hdmi_audio_set_sample_rate(struct hdmi
+> >>>> > *hdmi, int rate);
+> >>>> >  struct drm_bridge *msm_hdmi_bridge_init(struct hdmi *hdmi);
+> >>>> >  void msm_hdmi_bridge_destroy(struct drm_bridge *bridge);
+> >>>> >
+> >>>> > -/*
+> >>>> > - * hdmi connector:
+> >>>> > - */
+> >>>> > -
+> >>>> > -void msm_hdmi_connector_irq(struct drm_connector *connector);
+> >>>> > -struct drm_connector *msm_hdmi_connector_init(struct hdmi *hdmi);
+> >>>> > -int msm_hdmi_hpd_enable(struct drm_connector *connector);
+> >>>> > +void msm_hdmi_hpd_irq(struct drm_bridge *bridge);
+> >>>> > +enum drm_connector_status msm_hdmi_bridge_detect(
+> >>>> > +             struct drm_bridge *bridge);
+> >>>> > +int msm_hdmi_hpd_enable(struct drm_bridge *bridge);
+> >>>> > +void msm_hdmi_hpd_disable(struct hdmi_bridge *hdmi_bridge);
+> >>>> >
+> >>>> >  /*
+> >>>> >   * i2c adapter for ddc:
+> >>>> > diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+> >>>> > b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+> >>>> > index f04eb4a70f0d..211b73dddf65 100644
+> >>>> > --- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+> >>>> > +++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+> >>>> > @@ -5,17 +5,16 @@
+> >>>> >   */
+> >>>> >
+> >>>> >  #include <linux/delay.h>
+> >>>> > +#include <drm/drm_bridge_connector.h>
+> >>>> >
+> >>>> > +#include "msm_kms.h"
+> >>>> >  #include "hdmi.h"
+> >>>> >
+> >>>> > -struct hdmi_bridge {
+> >>>> > -     struct drm_bridge base;
+> >>>> > -     struct hdmi *hdmi;
+> >>>> > -};
+> >>>> > -#define to_hdmi_bridge(x) container_of(x, struct hdmi_bridge, base)
+> >>>> > -
+> >>>> >  void msm_hdmi_bridge_destroy(struct drm_bridge *bridge)
+> >>>> >  {
+> >>>> > +     struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
+> >>>> > +
+> >>>> > +     msm_hdmi_hpd_disable(hdmi_bridge);
+> >>>> >  }
+> >>>> >
+> >>>> >  static void msm_hdmi_power_on(struct drm_bridge *bridge)
+> >>>> > @@ -251,14 +250,76 @@ static void msm_hdmi_bridge_mode_set(struct
+> >>>> > drm_bridge *bridge,
+> >>>> >               msm_hdmi_audio_update(hdmi);
+> >>>> >  }
+> >>>> >
+> >>>> > +static struct edid *msm_hdmi_bridge_get_edid(struct drm_bridge
+> >>>> > *bridge,
+> >>>> > +             struct drm_connector *connector)
+> >>>> > +{
+> >>>> > +     struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
+> >>>> > +     struct hdmi *hdmi = hdmi_bridge->hdmi;
+> >>>> > +     struct edid *edid;
+> >>>> > +     uint32_t hdmi_ctrl;
+> >>>> > +
+> >>>> > +     hdmi_ctrl = hdmi_read(hdmi, REG_HDMI_CTRL);
+> >>>> > +     hdmi_write(hdmi, REG_HDMI_CTRL, hdmi_ctrl | HDMI_CTRL_ENABLE);
+> >>>> > +
+> >>>> > +     edid = drm_get_edid(connector, hdmi->i2c);
+> >>>> > +
+> >>>> > +     hdmi_write(hdmi, REG_HDMI_CTRL, hdmi_ctrl);
+> >>>> > +
+> >>>> > +     hdmi->hdmi_mode = drm_detect_hdmi_monitor(edid);
+> >>>> > +
+> >>>> > +     return edid;
+> >>>> > +}
+> >>>> > +
+> >>>> > +static enum drm_mode_status msm_hdmi_bridge_mode_valid(struct
+> >>>> > drm_bridge *bridge,
+> >>>> > +             const struct drm_display_info *info,
+> >>>> > +             const struct drm_display_mode *mode)
+> >>>> > +{
+> >>>> > +     struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
+> >>>> > +     struct hdmi *hdmi = hdmi_bridge->hdmi;
+> >>>> > +     const struct hdmi_platform_config *config = hdmi->config;
+> >>>> > +     struct msm_drm_private *priv = bridge->dev->dev_private;
+> >>>> > +     struct msm_kms *kms = priv->kms;
+> >>>> > +     long actual, requested;
+> >>>> > +
+> >>>> > +     requested = 1000 * mode->clock;
+> >>>> > +     actual = kms->funcs->round_pixclk(kms,
+> >>>> > +                     requested, hdmi_bridge->hdmi->encoder);
+> >>>> > +
+> >>>> > +     /* for mdp5/apq8074, we manage our own pixel clk (as opposed to
+> >>>> > +      * mdp4/dtv stuff where pixel clk is assigned to mdp/encoder
+> >>>> > +      * instead):
+> >>>> > +      */
+> >>>> > +     if (config->pwr_clk_cnt > 0)
+> >>>> > +             actual = clk_round_rate(hdmi->pwr_clks[0], actual);
+> >>>> > +
+> >>>> > +     DBG("requested=%ld, actual=%ld", requested, actual);
+> >>>> > +
+> >>>> > +     if (actual != requested)
+> >>>> > +             return MODE_CLOCK_RANGE;
+> >>>> > +
+> >>>> > +     return 0;
+> >>>> > +}
+> >>>> > +
+> >>>> >  static const struct drm_bridge_funcs msm_hdmi_bridge_funcs = {
+> >>>> >               .pre_enable = msm_hdmi_bridge_pre_enable,
+> >>>> >               .enable = msm_hdmi_bridge_enable,
+> >>>> >               .disable = msm_hdmi_bridge_disable,
+> >>>> >               .post_disable = msm_hdmi_bridge_post_disable,
+> >>>> >               .mode_set = msm_hdmi_bridge_mode_set,
+> >>>> > +             .mode_valid = msm_hdmi_bridge_mode_valid,
+> >>>> > +             .get_edid = msm_hdmi_bridge_get_edid,
+> >>>> > +             .detect = msm_hdmi_bridge_detect,
+> >>>> >  };
+> >>>> >
+> >>>> > +static void
+> >>>> > +msm_hdmi_hotplug_work(struct work_struct *work)
+> >>>> > +{
+> >>>> > +     struct hdmi_bridge *hdmi_bridge =
+> >>>> > +             container_of(work, struct hdmi_bridge, hpd_work);
+> >>>> > +     struct drm_bridge *bridge = &hdmi_bridge->base;
+> >>>> > +
+> >>>> > +     drm_bridge_hpd_notify(bridge, drm_bridge_detect(bridge));
+> >>>> > +}
+> >>>> >
+> >>>> >  /* initialize bridge */
+> >>>> >  struct drm_bridge *msm_hdmi_bridge_init(struct hdmi *hdmi)
+> >>>> > @@ -275,11 +336,17 @@ struct drm_bridge *msm_hdmi_bridge_init(struct
+> >>>> > hdmi *hdmi)
+> >>>> >       }
+> >>>> >
+> >>>> >       hdmi_bridge->hdmi = hdmi;
+> >>>> > +     INIT_WORK(&hdmi_bridge->hpd_work, msm_hdmi_hotplug_work);
+> >>>> >
+> >>>> >       bridge = &hdmi_bridge->base;
+> >>>> >       bridge->funcs = &msm_hdmi_bridge_funcs;
+> >>>> > +     bridge->ddc = hdmi->i2c;
+> >>>> > +     bridge->type = DRM_MODE_CONNECTOR_HDMIA;
+> >>>> > +     bridge->ops = DRM_BRIDGE_OP_HPD |
+> >>>> > +             DRM_BRIDGE_OP_DETECT |
+> >>>> > +             DRM_BRIDGE_OP_EDID;
+> >> Please correct me if wrong here. When we set DRM_BRIDGE_OP_HPD, it
+> >> means we need to
+> >> set the hpd_enable and hpd_disable callbacks. I am not seeing those
+> >> being set.
+> >>
+> >> 707      * @DRM_BRIDGE_OP_HPD: The bridge can detect hot-plug and
+> >> hot-unplug
+> >> 708      * without requiring polling. Bridges that set this flag shall
+> >> 709      * implement the &drm_bridge_funcs->hpd_enable and
+> >> 710      * &drm_bridge_funcs->hpd_disable callbacks if they support
+> >> enabling
+> >> 711      * and disabling hot-plug detection dynamically.
+> >> 712      */
+> >> 713     DRM_BRIDGE_OP_HPD = BIT(2),
+> >>
+> >> So when drm_bridge_connector_enable_hpd() is called, its a no-op as
+> >> hpd_enable() callback
+> >> is not set.
+> >>
+> >> msm_hdmi_hpd_enable() actually enables the HPD logic which is getting
+> >> called from msm_hdmi_modeset_init()
+> >> and not from hpd_enable().
+> >>
+> >> In that case, do we need to set DRM_BRIDGE_OP_HPD for this? If we
+> >> dont, what will happen?
+> >>
+> >
+> > Without this flag, the drm_bridge_connector will not know that this
+> > bridge is capable of generating HPD events on its own, ending up with
+> > polling implementation. See drm_bridge_connector_init(),
+> > drm_helper_hpd_irq_event(), etc.
+> >
+>
+> Thanks for the details. Then, as per the documentation on the
+> DRM_BRIDGE_OP_HPD, shouldnt we also assign msm_hdmi_hpd_enable to
+> hpd_enable callback? Since we are already calling
+> drm_bridge_connector_enable_hpd(), that should take care of calling it
+> using the callback then.
+>
+> Similarly, you can assign msm_hdmi_hpd_disable to hpd_disable op and
+> then call drm_bridge_connector_disable_hpd() in those places.
 
-Finally found my way back to this topic and it doesn't look like I can
-reuse the existing altmode code with the firmware interface provided by
-Qualcomm, so  I just hacked something up that invokes
-drm_connector_oob_hotplug_event().
+Since that would be a change in the functionality, I'd prefer to have
+that in a separate patch.
+It looks like a nice cleanup idea, so I'd implement that at some point.
 
-But I'm not able to make sense of what the expected usage is. Reading
-altmode/displayport.c, it seems that I should only invoke
-drm_connector_oob_hotplug_event() as HPD state toggles.
+>
+> That way, functionality remains intact and we follow the documentation.
+>
+> >>
+> >>
+> >>>> >
+> >>>> > -     ret = drm_bridge_attach(hdmi->encoder, bridge, NULL, 0);
+> >>>> > +     ret = drm_bridge_attach(hdmi->encoder, bridge, NULL,
+> >>>> > DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+> >>>> >       if (ret)
+> >>>> >               goto fail;
+> >>>> >
+> >>>> > diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_connector.c
+> >>>> > b/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
+> >>>> > similarity index 62%
+> >>>> > rename from drivers/gpu/drm/msm/hdmi/hdmi_connector.c
+> >>>> > rename to drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
+> >>>> > index a7f729cdec7b..1cda7bf23b3b 100644
+> >>>> > --- a/drivers/gpu/drm/msm/hdmi/hdmi_connector.c
+> >>>> > +++ b/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
+> >>>> > @@ -11,13 +11,6 @@
+> >>>> >  #include "msm_kms.h"
+> >>>> >  #include "hdmi.h"
+> >>>> >
+> >>>> > -struct hdmi_connector {
+> >>>> > -     struct drm_connector base;
+> >>>> > -     struct hdmi *hdmi;
+> >>>> > -     struct work_struct hpd_work;
+> >>>> > -};
+> >>>> > -#define to_hdmi_connector(x) container_of(x, struct hdmi_connector,
+> >>>> > base)
+> >>>> > -
+> >>>> >  static void msm_hdmi_phy_reset(struct hdmi *hdmi)
+> >>>> >  {
+> >>>> >       unsigned int val;
+> >>>> > @@ -139,10 +132,10 @@ static void enable_hpd_clocks(struct hdmi
+> >>>> *hdmi,
+> >>>> > bool enable)
+> >>>> >       }
+> >>>> >  }
+> >>>> >
+> >>>> > -int msm_hdmi_hpd_enable(struct drm_connector *connector)
+> >>>> > +int msm_hdmi_hpd_enable(struct drm_bridge *bridge)
+> >>>> >  {
+> >>>> > -     struct hdmi_connector *hdmi_connector =
+> >>>> to_hdmi_connector(connector);
+> >>>> > -     struct hdmi *hdmi = hdmi_connector->hdmi;
+> >>>> > +     struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
+> >>>> > +     struct hdmi *hdmi = hdmi_bridge->hdmi;
+> >>>> >       const struct hdmi_platform_config *config = hdmi->config;
+> >>>> >       struct device *dev = &hdmi->pdev->dev;
+> >>>> >       uint32_t hpd_ctrl;
+> >>>> > @@ -199,9 +192,9 @@ int msm_hdmi_hpd_enable(struct drm_connector
+> >>>> > *connector)
+> >>>> >       return ret;
+> >>>> >  }
+> >>>> >
+> >>>> > -static void hdp_disable(struct hdmi_connector *hdmi_connector)
+> >>>> > +void msm_hdmi_hpd_disable(struct hdmi_bridge *hdmi_bridge)
+> >>>> >  {
+> >>>> > -     struct hdmi *hdmi = hdmi_connector->hdmi;
+> >>>> > +     struct hdmi *hdmi = hdmi_bridge->hdmi;
+> >>>> >       const struct hdmi_platform_config *config = hdmi->config;
+> >>>> >       struct device *dev = &hdmi->pdev->dev;
+> >>>> >       int ret;
+> >>>> > @@ -227,19 +220,10 @@ static void hdp_disable(struct hdmi_connector
+> >>>> > *hdmi_connector)
+> >>>> >               dev_warn(dev, "failed to disable hpd regulator:
+> >>>> %d\n", ret);
+> >>>> >  }
+> >>>> >
+> >>>> > -static void
+> >>>> > -msm_hdmi_hotplug_work(struct work_struct *work)
+> >>>> > -{
+> >>>> > -     struct hdmi_connector *hdmi_connector =
+> >>>> > -             container_of(work, struct hdmi_connector, hpd_work);
+> >>>> > -     struct drm_connector *connector = &hdmi_connector->base;
+> >>>> > -     drm_helper_hpd_irq_event(connector->dev);
+> >>>> > -}
+> >>>> > -
+> >>>> > -void msm_hdmi_connector_irq(struct drm_connector *connector)
+> >>>> > +void msm_hdmi_hpd_irq(struct drm_bridge *bridge)
+> >>>> >  {
+> >>>> > -     struct hdmi_connector *hdmi_connector =
+> >>>> to_hdmi_connector(connector);
+> >>>> > -     struct hdmi *hdmi = hdmi_connector->hdmi;
+> >>>> > +     struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
+> >>>> > +     struct hdmi *hdmi = hdmi_bridge->hdmi;
+> >>>> >       uint32_t hpd_int_status, hpd_int_ctrl;
+> >>>> >
+> >>>> >       /* Process HPD: */
+> >>>> > @@ -262,7 +246,7 @@ void msm_hdmi_connector_irq(struct drm_connector
+> >>>> > *connector)
+> >>>> >                       hpd_int_ctrl |= HDMI_HPD_INT_CTRL_INT_CONNECT;
+> >>>> >               hdmi_write(hdmi, REG_HDMI_HPD_INT_CTRL, hpd_int_ctrl);
+> >>>> >
+> >>>> > -             queue_work(hdmi->workq, &hdmi_connector->hpd_work);
+> >>>> > +             queue_work(hdmi->workq, &hdmi_bridge->hpd_work);
+> >>>> >       }
+> >>>> >  }
+> >>>> >
+> >>>> > @@ -293,11 +277,11 @@ static enum drm_connector_status
+> >>>> > detect_gpio(struct hdmi *hdmi)
+> >>>> >                       connector_status_disconnected;
+> >>>> >  }
+> >>>> >
+> >>>> > -static enum drm_connector_status hdmi_connector_detect(
+> >>>> > -             struct drm_connector *connector, bool force)
+> >>>> > +enum drm_connector_status msm_hdmi_bridge_detect(
+> >>>> > +             struct drm_bridge *bridge)
+> >>>> >  {
+> >>>> > -     struct hdmi_connector *hdmi_connector =
+> >>>> to_hdmi_connector(connector);
+> >>>> > -     struct hdmi *hdmi = hdmi_connector->hdmi;
+> >>>> > +     struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
+> >>>> > +     struct hdmi *hdmi = hdmi_bridge->hdmi;
+> >>>> >       const struct hdmi_platform_config *config = hdmi->config;
+> >>>> >       struct hdmi_gpio_data hpd_gpio = config->gpios[HPD_GPIO_INDEX];
+> >>>> >       enum drm_connector_status stat_gpio, stat_reg;
+> >>>> > @@ -331,115 +315,3 @@ static enum drm_connector_status
+> >>>> > hdmi_connector_detect(
+> >>>> >
+> >>>> >       return stat_gpio;
+> >>>> >  }
+> >>>> > -
+> >>>> > -static void hdmi_connector_destroy(struct drm_connector *connector)
+> >>>> > -{
+> >>>> > -     struct hdmi_connector *hdmi_connector =
+> >>>> to_hdmi_connector(connector);
+> >>>> > -
+> >>>> > -     hdp_disable(hdmi_connector);
+> >>>> > -
+> >>>> > -     drm_connector_cleanup(connector);
+> >>>> > -
+> >>>> > -     kfree(hdmi_connector);
+> >>>> > -}
+> >>>> > -
+> >>>> > -static int msm_hdmi_connector_get_modes(struct drm_connector
+> >>>> > *connector)
+> >>>> > -{
+> >>>> > -     struct hdmi_connector *hdmi_connector =
+> >>>> to_hdmi_connector(connector);
+> >>>> > -     struct hdmi *hdmi = hdmi_connector->hdmi;
+> >>>> > -     struct edid *edid;
+> >>>> > -     uint32_t hdmi_ctrl;
+> >>>> > -     int ret = 0;
+> >>>> > -
+> >>>> > -     hdmi_ctrl = hdmi_read(hdmi, REG_HDMI_CTRL);
+> >>>> > -     hdmi_write(hdmi, REG_HDMI_CTRL, hdmi_ctrl | HDMI_CTRL_ENABLE);
+> >>>> > -
+> >>>> > -     edid = drm_get_edid(connector, hdmi->i2c);
+> >>>> > -
+> >>>> > -     hdmi_write(hdmi, REG_HDMI_CTRL, hdmi_ctrl);
+> >>>> > -
+> >>>> > -     hdmi->hdmi_mode = drm_detect_hdmi_monitor(edid);
+> >>>> > -     drm_connector_update_edid_property(connector, edid);
+> >>>> > -
+> >>>> > -     if (edid) {
+> >>>> > -             ret = drm_add_edid_modes(connector, edid);
+> >>>> > -             kfree(edid);
+> >>>> > -     }
+> >>>> > -
+> >>>> > -     return ret;
+> >>>> > -}
+> >>>> > -
+> >>>> > -static int msm_hdmi_connector_mode_valid(struct drm_connector
+> >>>> > *connector,
+> >>>> > -                              struct drm_display_mode *mode)
+> >>>> > -{
+> >>>> > -     struct hdmi_connector *hdmi_connector =
+> >>>> to_hdmi_connector(connector);
+> >>>> > -     struct hdmi *hdmi = hdmi_connector->hdmi;
+> >>>> > -     const struct hdmi_platform_config *config = hdmi->config;
+> >>>> > -     struct msm_drm_private *priv = connector->dev->dev_private;
+> >>>> > -     struct msm_kms *kms = priv->kms;
+> >>>> > -     long actual, requested;
+> >>>> > -
+> >>>> > -     requested = 1000 * mode->clock;
+> >>>> > -     actual = kms->funcs->round_pixclk(kms,
+> >>>> > -                     requested, hdmi_connector->hdmi->encoder);
+> >>>> > -
+> >>>> > -     /* for mdp5/apq8074, we manage our own pixel clk (as opposed to
+> >>>> > -      * mdp4/dtv stuff where pixel clk is assigned to mdp/encoder
+> >>>> > -      * instead):
+> >>>> > -      */
+> >>>> > -     if (config->pwr_clk_cnt > 0)
+> >>>> > -             actual = clk_round_rate(hdmi->pwr_clks[0], actual);
+> >>>> > -
+> >>>> > -     DBG("requested=%ld, actual=%ld", requested, actual);
+> >>>> > -
+> >>>> > -     if (actual != requested)
+> >>>> > -             return MODE_CLOCK_RANGE;
+> >>>> > -
+> >>>> > -     return 0;
+> >>>> > -}
+> >>>> > -
+> >>>> > -static const struct drm_connector_funcs hdmi_connector_funcs = {
+> >>>> > -     .detect = hdmi_connector_detect,
+> >>>> > -     .fill_modes = drm_helper_probe_single_connector_modes,
+> >>>> > -     .destroy = hdmi_connector_destroy,
+> >>>> > -     .reset = drm_atomic_helper_connector_reset,
+> >>>> > -     .atomic_duplicate_state =
+> >>>> > drm_atomic_helper_connector_duplicate_state,
+> >>>> > -     .atomic_destroy_state =
+> >>>> drm_atomic_helper_connector_destroy_state,
+> >>>> > -};
+> >>>> > -
+> >>>> > -static const struct drm_connector_helper_funcs
+> >>>> > msm_hdmi_connector_helper_funcs = {
+> >>>> > -     .get_modes = msm_hdmi_connector_get_modes,
+> >>>> > -     .mode_valid = msm_hdmi_connector_mode_valid,
+> >>>> > -};
+> >>>> > -
+> >>>> > -/* initialize connector */
+> >>>> > -struct drm_connector *msm_hdmi_connector_init(struct hdmi *hdmi)
+> >>>> > -{
+> >>>> > -     struct drm_connector *connector = NULL;
+> >>>> > -     struct hdmi_connector *hdmi_connector;
+> >>>> > -
+> >>>> > -     hdmi_connector = kzalloc(sizeof(*hdmi_connector), GFP_KERNEL);
+> >>>> > -     if (!hdmi_connector)
+> >>>> > -             return ERR_PTR(-ENOMEM);
+> >>>> > -
+> >>>> > -     hdmi_connector->hdmi = hdmi;
+> >>>> > -     INIT_WORK(&hdmi_connector->hpd_work, msm_hdmi_hotplug_work);
+> >>>> > -
+> >>>> > -     connector = &hdmi_connector->base;
+> >>>> > -
+> >>>> > -     drm_connector_init_with_ddc(hdmi->dev, connector,
+> >>>> > -                                 &hdmi_connector_funcs,
+> >>>> > -                                 DRM_MODE_CONNECTOR_HDMIA,
+> >>>> > -                                 hdmi->i2c);
+> >>>> > -     drm_connector_helper_add(connector,
+> >>>> > &msm_hdmi_connector_helper_funcs);
+> >>>> > -
+> >>>> > -     connector->polled = DRM_CONNECTOR_POLL_CONNECT |
+> >>>> > -                     DRM_CONNECTOR_POLL_DISCONNECT;
+> >>>> > -
+> >>>> > -     connector->interlace_allowed = 0;
+> >>>> > -     connector->doublescan_allowed = 0;
+> >>>> > -
+> >>>> > -     drm_connector_attach_encoder(connector, hdmi->encoder);
+> >>>> > -
+> >>>> > -     return connector;
+> >>>> > -}
+> >
+> >
 
-I made a trial implementation of this, where my firmware interface
-driver calls drm_connector_oob_hotplug_event() every time HPD state
-changes and then in my oob_hotplug_event callback I flip the DP
-controller between on and off.
 
-Unfortunately when I then connect my HDMI dongle, I get HPD state HIGH,
-call the oob_hotplug_event, the DP driver powers up and concludes that
-there's nothing connected to the dongle and goes to idle. I then connect
-the HDMI cable to the dongle, the firmware sends me another message with
-HPD irq and state HIGH, which I ignore because it's not a change in
-state.
 
-In the end I hacked up drm_connector_oob_hotplug_event() to allow me to
-pass the HPD state and this solves my problem. I can now distinguish
-between connect, disconnect and attention.
-
-Can you please help shed some light on what I might be missing?
-
-Thanks,
-Bjorn
+-- 
+With best wishes
+Dmitry
