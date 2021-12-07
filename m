@@ -2,64 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7103346B5AC
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 09:24:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C691846B67B
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 09:56:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74AA372E00;
-	Tue,  7 Dec 2021 08:24:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 966BEAB9AF;
+	Tue,  7 Dec 2021 08:56:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9AAD6EEAB;
- Tue,  7 Dec 2021 08:24:29 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 4FA741FD2F;
- Tue,  7 Dec 2021 08:24:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1638865468; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=W5jLcuZazUUuw7Whz1Rf5Umfdfm36PuIGLfkgkEGDdI=;
- b=NIr8H9om47imH9l6dS2YzZGMnR9CpiXsKX6idihqwLUo5nGE9CqVAgr40ej1lUO4z8My8l
- g3PzWRRQ2soAjftQemCR4KdI30I8ymXOdTIuwrTexjX7bP7MWPUvdGHLtlwYda6P+Kt700
- HtzrSd09YaEpYy6ALkFMPpBWdWoCaYs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1638865468;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=W5jLcuZazUUuw7Whz1Rf5Umfdfm36PuIGLfkgkEGDdI=;
- b=CKnPnB/+/8UjuSviLRiL4ao7JDmKNE94EibNmxWuVAWK8LXz+lfsptjx5XD8kmckYSayZR
- aHXuiu7XWTFSKBBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0D23413524;
- Tue,  7 Dec 2021 08:24:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id Wb0sAjwar2HpMgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 07 Dec 2021 08:24:28 +0000
-Message-ID: <53405618-2e3d-c15b-d971-be2543c116f7@suse.de>
-Date: Tue, 7 Dec 2021 09:24:27 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
+ [205.220.165.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EBB0AB9AF;
+ Tue,  7 Dec 2021 08:56:12 +0000 (UTC)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B7542iU007619; 
+ Tue, 7 Dec 2021 08:56:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=R6PmhxLsc39IEf+ckXJcs9cyk+07tpq6lWw0ujsHVA4=;
+ b=OY26Ctv+6wd+CM7uzZuHIRJwfQHFE3Hx9WIiL6WnPFr+eRp2c4eEcS0gnMtyUsKHxn/5
+ J6RWLtEb1HQerbgr7RFr0vMvZV3bs9obMzRt3QI5Kh2iNZbZ6w1Xe3VEgU9nBtJ9E4J0
+ qda245CdixwQhKN1uJZ+Q894UZkBeGuLhrDsrAdsOA5mtp8j9WZaRNkKQ0afWkoEEV6E
+ 30Fr5gd1wo4S0RPm6TPv3UosoQKYEERlQp1FSGusV0CPwWxsERxk7rShSQUah7CYEd7C
+ g0qdLvUDBY1SOAp7ln/RKpdEFQPvHuylLcCID9s4pQ3j5qrcOMcoXZOEtSTFIY61ZVzP tA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3csd2ycfru-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 07 Dec 2021 08:56:00 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1B78kd3K019609;
+ Tue, 7 Dec 2021 08:55:59 GMT
+Received: from nam02-sn1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02lp2046.outbound.protection.outlook.com [104.47.57.46])
+ by userp3020.oracle.com with ESMTP id 3cr1snn3uf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 07 Dec 2021 08:55:59 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=obej9hQ+HenqrrRXJVWtJ0XMWfelxcyrHKBs1QoUVPGCDcC+JvAf/klu251ldxA1ZitEbvazKAhzntySHwpiwyBYlLRJ7xkcFHHQd4abBAN3EoT5s6DvS9PfadkeUp+yb7CE/offGrL/08Y0lz9X0ji07ovwqDCuw7g4akA5USFRV9TODV/FjghbH+95ebRXQgLGW//MbO5EpDu34HX0NSO7KH2mIEWXH8/hr+0VgDVe7Ji42hvsTPW3uK7bBb6wV6s2cyxPwprGzf/9BI8bAt8Zv7HzPpEqmCuqn4K6OB30CRgyp9sslXP8iu+om9awM+rx+rNsPrXS7IB1eS/lSA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=R6PmhxLsc39IEf+ckXJcs9cyk+07tpq6lWw0ujsHVA4=;
+ b=b7JgAIoASYrPl07SwwS1u43/YrZsqc2uLvT0v/TIp0t6YD6UBEeLrBH3ppE8Wse5kHtLDb3XPVs88pwlHxVwpISgbACm6UI4FFSm1H1Bb/qXpC7XurzhkcLGJNhO+8EdrPaQII5axye7kBZV2t31Mtnr4wu2moDZt7hi9EtpHbpSduLMo5E9ukiCWGcyuWYzV156Sh7ziK0kR1NsIZkFO7RYzYKFhPidA4fVFSE41h1N+YBBtBHg9Its1y485T1hNmT8uQgJJtQCw/yL1cNnpNpIR2+zMCgtmb/pZOdecIgksehltFpd4Oi+m5YB/nAp6ID9SQBARgr7hQS31TIiig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=R6PmhxLsc39IEf+ckXJcs9cyk+07tpq6lWw0ujsHVA4=;
+ b=CQGHojFseqOD6WArT8BOQu0E4IESELRTtIls6p6dv1SyMQoN1I1SctXDjlduOIyrIRgHC4xmUriEiK0vAMZJ2BXJyO2UBoajMGVaccb0Tcq5W6y26Qny4pQSYtR4LwzzT1CJrO4LQtyPvhG725iPmJ4fAX9N1qoFD/ijjAHiS1g=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by CO1PR10MB4724.namprd10.prod.outlook.com
+ (2603:10b6:303:96::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.20; Tue, 7 Dec
+ 2021 08:55:57 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::7194:c377:36cc:d9f0]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::7194:c377:36cc:d9f0%6]) with mapi id 15.20.4755.022; Tue, 7 Dec 2021
+ 08:55:57 +0000
+Date: Tue, 7 Dec 2021 11:55:21 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
 Subject: Re: [PATCH] drm: Return error codes from struct
  drm_driver.gem_create_object
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@oracle.com>
+Message-ID: <20211207085521.GF1978@kadam>
 References: <20211130095255.26710-1-tzimmermann@suse.de>
- <20211206104233.GD1978@kadam> <4fa29fcb-f936-b590-7691-90f0579a54ae@suse.de>
+ <20211206104233.GD1978@kadam>
+ <4fa29fcb-f936-b590-7691-90f0579a54ae@suse.de>
  <20211206144007.GE1978@kadam>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20211206144007.GE1978@kadam>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------YqtB29ll08H1k4R4vBHkaEMY"
+ <53405618-2e3d-c15b-d971-be2543c116f7@suse.de>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <53405618-2e3d-c15b-d971-be2543c116f7@suse.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JN2P275CA0037.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:2::25)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
+MIME-Version: 1.0
+Received: from kadam (102.222.70.114) by
+ JN2P275CA0037.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:2::25) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4755.16 via Frontend Transport; Tue, 7 Dec 2021 08:55:45 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 331cc6ab-b970-420a-7f6b-08d9b95f624f
+X-MS-TrafficTypeDiagnostic: CO1PR10MB4724:EE_
+X-Microsoft-Antispam-PRVS: <CO1PR10MB4724C5C490ED6E4DAC600FE08E6E9@CO1PR10MB4724.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:397;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: J6fFS7TIDUUOG/3f6caxy4F8zR4M7NAkdyDZAd6RQw1btWMeL0D6VwGMEKevYGAerLBIUZ7YoPRQyzANufCu3Cr60kc10Mv6+UjoAYm0acIHgca1XJMqohssoG1Sujz6eclcLulmJQKsbNXofEnOr2eFaU8sB4oVnI4efL03LX6I3B8FxmIVRBgqh2DRYIQuejgzSVdUZFe/GBMhZY2K/FNzItZkig/gl1/iGfwt+d0GmJ71hOEoUKGhBpSmRI747+sLZt43XJlpFHzGII4UC6xY0V90gBivys11yGW1rrtst0c7UG7wGcsG4Axa277iWPgwtFi6e+yMhLzp0wiq8uP5IicFIBgM4WAPHcaBDR4TsX6ad7yI1l+mtwXIUc+EZ5nsb2WOuoM9vdjZVqhmgM7a9oypiBkv3duaGAUiFrz+6L6fIdLCpAOujO4/wmAwNu1Nre5dBdu3NQ2A+NrJTgNxmFvkMrV1C8rpWrri9Ygc8RAOnE1xWWBgOPKWijK5IyVbqOFoyd6AYLV2ZAJ0iQkSXFXbIVWsboEi7y0YyausG6LeMB+flOB/85Qwwez8I3ywhrBdLf3OiJ2Jlp1wVvGUGS7Eb+YMXoIPgvymGKxSK4YdugMsVEjqxpx7ihyDLoq/e9yhHvHZxb94D+c0LZecCTaGAZXTY997XF6Sj7mxw+FMHIWLtFLM8/P9RfQ5eiVkoMjILF9gZPy79JjeBg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(66946007)(66476007)(66556008)(6496006)(1076003)(52116002)(316002)(33716001)(4326008)(44832011)(86362001)(956004)(6916009)(33656002)(38100700002)(38350700002)(508600001)(5660300002)(53546011)(83380400001)(2906002)(26005)(7416002)(966005)(186003)(9576002)(9686003)(8936002)(6666004)(55016003)(8676002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vKqnqrq3ll6eejAirRDYFFe1ZnKtTx4uuYEafq0VLlH1OaCTw+ClbBXiPINf?=
+ =?us-ascii?Q?Gayrs7spYPKfOaqZnGu30xBFW5UYPT2kD0R9I6yQ6+CEx2lweHFqokxjrgjK?=
+ =?us-ascii?Q?KXMIqacuiM1zq7E0HKUVszj9AfPnTrFnYATh/Ei7ZByNvE+VLTW9X+eogByb?=
+ =?us-ascii?Q?WSE2GvqO5C9eo5S/eAQwuwlBAmWKjmDFTpaoVO5YOijLLl4llQy8YKQ1EOuY?=
+ =?us-ascii?Q?Xv7hujjMq6dwqZVZhUYfRpQg8rAUbRlo9/ZdGXjHrzEpG/5ZR8kXzEjUXr3/?=
+ =?us-ascii?Q?63Dna6RmUGk1aI88rWqVaprBGbWJI47q4NWqy/eMHme2QsjF4U7TNo7x7tok?=
+ =?us-ascii?Q?G3b3yUbaE9UuLHJ/q8WMmPLWPDy03HrtdKwS+3cOhbxkqr3sxdanR7ay19oH?=
+ =?us-ascii?Q?ZVqGZU98ophugdPhyLlt5g9+Zb7zBnOqYWM5q8nNgQND4mvDXH/MNKLrNJu0?=
+ =?us-ascii?Q?u9YPr6CFgAO5YqUTJYlYJC+LdYE52FSfOHweOwGJHNbKOnvp3dLA5avroOlS?=
+ =?us-ascii?Q?D7R1tj8sZY5qTqWFt+9a+jvyxJtKFly7r0h7GPOvkgd2/JrKRVj9v+oDTGs8?=
+ =?us-ascii?Q?tAMt0MtXqsqHAK4+TSWufMznLIXlzaQfboUo01ONO/fHfn9ZutUvcQNvA6cr?=
+ =?us-ascii?Q?lqz9RbmyNGp+3iH/augEo0bFMpV4Rt6LChezVCQR352JNwkv9IBCukX0t6ub?=
+ =?us-ascii?Q?T006+QyC9Ba0WQPvUxj7GZsWiFYw/LEA5lbG26VyKPO5lmQgW+jlKauLMww8?=
+ =?us-ascii?Q?a/PBmK1PVAEKFfZhGHlplfJs3VIzSELVSkdEPliopVrjfGtrGCDvE29K2ugL?=
+ =?us-ascii?Q?++kezZYYe+I++kdjF2HBlXKQLNM4OW+UEhBcQ93+LVWXk0sV97SmnDbgr980?=
+ =?us-ascii?Q?dJVkWFLIGTe6pM6CmpCbGSAxEj7rCnm5h8pvHm4W62mBRrx1L4K/LE+v4f9z?=
+ =?us-ascii?Q?4RigqNbM4dhu7/LNUtNxpYOlnR3sjgsMq9EP1dbkIEGxc8gCt0oEms90UPHM?=
+ =?us-ascii?Q?GBsWIdhvSY/+dSWDi7xvnnvZo35KrF44cp/u1ghXKIRrWCHbd4H7clLRjVpT?=
+ =?us-ascii?Q?adzQtcOu3/SAqhsuH7KsrTabJ5n6kKZMbazIo7aIKkU5PAgpH+mEB3HAiH7i?=
+ =?us-ascii?Q?EpzaglqdES78MUU2k36OjQC/y3sOdIYTJlUsSbbkUfWbOcuNIzBW21H+M9df?=
+ =?us-ascii?Q?nENkKatwW/T//Uwms411827OSwof58nICWwsqfZZNpZbzTUhCcLyERjqA4Y9?=
+ =?us-ascii?Q?IKHT/oPJy0XE7xUv+f3fzuYTcUQLBVieAUpDoY+IGlKOmWyKhuX/IyA352+u?=
+ =?us-ascii?Q?2ZIa+mjtzkXTOm4E9rYwh3bavWq9zN8jWnhYIb30hIJptH9Pfx3NyLD9UoxH?=
+ =?us-ascii?Q?DhAe89mjEw3PuvCQDL09knnLdQLhpZ9jFcuhYoixwnBSYXN048gWJk82KdEg?=
+ =?us-ascii?Q?RMbgba2aRjP1BPaqofEWN+U3mY9nLkZnyhGD0jGX1mK9GfbPEITdKeX+rin4?=
+ =?us-ascii?Q?iDsfNunyxcmJGZaxh+MG9QLPuPcMfClbt1xIYwkWfSwy1zCN+Bu2zbppIcDw?=
+ =?us-ascii?Q?32ImSI13noWWzIfHzxiR1o+ce8uQVA+rNxYSFCf33l/PXrmsWx2IijGf5Ru1?=
+ =?us-ascii?Q?g5MBaySE9FiHK/KYfnF4fWYcTFzg8d7q+5o5A4RXK+U20ykq+SGDJFPimjE7?=
+ =?us-ascii?Q?jp2NmnLSfRV8E+4qe6u47ohPP7E=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 331cc6ab-b970-420a-7f6b-08d9b95f624f
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2021 08:55:57.4323 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Eoo6I7H9zmbLWeKxK9PTUsa+Fez/MP+nF5AEtvukCgilAVC5mGFuko16vV2hJYR2sKpudV02n48UDn2JS3+bUXmMz5oBUPZMNjdE7A2WLQs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4724
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10190
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ mlxscore=0 spamscore=0
+ phishscore=0 bulkscore=0 suspectscore=0 malwarescore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2112070052
+X-Proofpoint-GUID: CYVygd2SjIqeqyK3Q12pmaX_kht6YBYY
+X-Proofpoint-ORIG-GUID: CYVygd2SjIqeqyK3Q12pmaX_kht6YBYY
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,95 +167,217 @@ Cc: emma@anholt.net, tomeu.vizoso@collabora.com, airlied@linux.ie,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------YqtB29ll08H1k4R4vBHkaEMY
-Content-Type: multipart/mixed; boundary="------------1XXEJVdHYUw0EmXVSVAtRq8S";
- protected-headers="v1"
+I appologize.  This thread has been really frustrating.  I got mixed up
+because I recently sent patches for ingenic and vc4.  Also we are
+working against different trees so maybe that is part of the problem?
+
+I'm looking at today's linux-next.  Your patch has been applied.
+
+Yes.  You updated all the drivers.  But somehow the vc4 chunk from your
+patch was dropped.  It was *NOT* dropped by Stephen Rothwell.  It got
+dropped earlier.  I am including the `git format-patch -1 <hash>` output
+from the commit.
+
+regards,
+dan carpenter
+
+
+From 4ff22f487f8c26b99cbe1678344595734c001a39 Mon Sep 17 00:00:00 2001
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: kraxel@redhat.com, emma@anholt.net, tomeu.vizoso@collabora.com,
- airlied@linux.ie, dri-devel@lists.freedesktop.org, steven.price@arm.com,
- lima@lists.freedesktop.org, yuq825@gmail.com, gurchetansingh@chromium.org,
- virtualization@lists.linux-foundation.org, alyssa.rosenzweig@collabora.com
-Message-ID: <53405618-2e3d-c15b-d971-be2543c116f7@suse.de>
-Subject: Re: [PATCH] drm: Return error codes from struct
+Date: Tue, 30 Nov 2021 10:52:55 +0100
+Subject: [PATCH] drm: Return error codes from struct
  drm_driver.gem_create_object
-References: <20211130095255.26710-1-tzimmermann@suse.de>
- <20211206104233.GD1978@kadam> <4fa29fcb-f936-b590-7691-90f0579a54ae@suse.de>
- <20211206144007.GE1978@kadam>
-In-Reply-To: <20211206144007.GE1978@kadam>
 
---------------1XXEJVdHYUw0EmXVSVAtRq8S
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+GEM helper libraries use struct drm_driver.gem_create_object to let
+drivers override GEM object allocation. On failure, the call returns
+NULL.
 
-SGkNCg0KQW0gMDYuMTIuMjEgdW0gMTU6NDAgc2NocmllYiBEYW4gQ2FycGVudGVyOg0KPiBP
-biBNb24sIERlYyAwNiwgMjAyMSBhdCAxMjoxNjoyNFBNICswMTAwLCBUaG9tYXMgWmltbWVy
-bWFubiB3cm90ZToNCj4+IEhpDQo+Pg0KPj4gQW0gMDYuMTIuMjEgdW0gMTE6NDIgc2Nocmll
-YiBEYW4gQ2FycGVudGVyOg0KPj4+IE9uIFR1ZSwgTm92IDMwLCAyMDIxIGF0IDEwOjUyOjU1
-QU0gKzAxMDAsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4+PiBHRU0gaGVscGVyIGxp
-YnJhcmllcyB1c2Ugc3RydWN0IGRybV9kcml2ZXIuZ2VtX2NyZWF0ZV9vYmplY3QgdG8gbGV0
-DQo+Pj4+IGRyaXZlcnMgb3ZlcnJpZGUgR0VNIG9iamVjdCBhbGxvY2F0aW9uLiBPbiBmYWls
-dXJlLCB0aGUgY2FsbCByZXR1cm5zDQo+Pj4+IE5VTEwuDQo+Pj4+DQo+Pj4+IENoYW5nZSB0
-aGUgc2VtYW50aWNzIHRvIG1ha2UgdGhlIGNhbGxzIHJldHVybiBhIHBvaW50ZXItZW5jb2Rl
-ZCBlcnJvci4NCj4+Pj4gVGhpcyBhbGlnbnMgdGhlIGNhbGxiYWNrIHdpdGggaXRzIGNhbGxl
-cnMuIEZpeGVzIHRoZSBpbmdlbmljIGRyaXZlciwNCj4+Pj4gd2hpY2ggYWxyZWFkeSByZXR1
-cm5zIGFuIGVycm9yIHBvaW50ZXIuDQo+Pj4+DQo+Pj4+IEFsc28gdXBkYXRlIHRoZSBjYWxs
-ZXJzIHRvIGhhbmRsZSB0aGUgaW52b2x2ZWQgdHlwZXMgbW9yZSBzdHJpY3RseS4NCj4+Pj4N
-Cj4+Pj4gU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1
-c2UuZGU+DQo+Pj4+IC0tLQ0KPj4+PiBUaGVyZSBpcyBhbiBhbHRlcm5hdGl2ZSBwYXRjaCBh
-dCBbMV0gdGhhdCB1cGRhdGVzIHRoZSB2YWx1ZSByZXR1cm5lZA0KPj4+PiBieSBpbmdlbmlj
-cycgZ2VtX2NyZWF0ZV9vYmplY3QgdG8gTlVMTC4gRml4aW5nIHRoZSBpbnRlcmZhY2UgdG8g
-cmV0dXJuDQo+Pj4+IGFuIGVycm5vIGNvZGUgaXMgbW9yZSBjb25zaXN0ZW50IHdpdGggdGhl
-IHJlc3Qgb2YgdGhlIEdFTSBmdW5jdGlvbnMuDQo+Pj4+DQo+Pj4+IFsxXSBodHRwczovL2xv
-cmUua2VybmVsLm9yZy9kcmktZGV2ZWwvMjAyMTExMTgxMTE1MjIuR0QxMTQ3QGtpbGkvDQo+
-Pj4NCj4+PiBNeSBmaXggd2FzIGFscmVhZHkgYXBwbGllZCBhbmQgYmFja3BvcnRlZCB0byAt
-c3RhYmxlIGV0Yy4uLiAgWW91cg0KPj4+IHBhdGNoIGlzIG5vdCBkZXZlbG9wZWQgYWdhaW5z
-dCBhIGN1cnJlbnQgdHJlZSBzbyB5b3UgYnJva2UgaXQuDQo+Pg0KPj4gRG8geW91IGhhdmUg
-YSBzcGVjaWZpYyBsaW5rPyBJIGp1c3QgY2hlY2tlZCB0aGUgc3RhYmxlIHRyZWUgYXQgWzFd
-IGFuZCB0aGVyZQ0KPj4gbm8gdHJhY2Ugb2YgeW91ciBwYXRjaC4NCj4gDQo+IEl0J3MgaW4g
-NS4xNS42IGFuZCBwcm9iYWJseSBhbGwgdGhlIG90aGVyIHN1cHBvcnRlZCAtc3RhYmxlIHRy
-ZWVzLg0KPiANCj4gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5l
-bC9naXQvc3RhYmxlL2xpbnV4LmdpdC90cmVlL2RyaXZlcnMvZ3B1L2RybS92YzQvdmM0X2Jv
-LmM/aD12NS4xNS42I24zODcNCg0KSSdtIG5vdCBzdXJlIHRoYXQgSSB1bmRlcnN0YW5kIHRo
-ZSBwcm9ibGVtLg0KDQpUaGUgVVJMIHBvaW50cyB0byB2YzQsIGJ1dCBteSBsaW5rIHdhcyB0
-byB5b3VyIHBhdGNoIGZvciBpbmdlbmljLiB2YzQgaXMgDQpiZWluZyB1cGRhdGVkIGhlcmUg
-YXMgd2VsbCB0byBFUlJfUFRSLiBUaGUgaW5nZW5pYyBwYXRjaCBuZXZlciBtYWRlIGl0IA0K
-aW50byBhbnkgdHJlZS4gSXQgYWN0dWFsbHkgd2FzIHRoZSByZWFzb24gdG8gZml4IHRoZSBp
-bnRlcmZhY2UuDQoNCldoZW4gdGhlIGN1cnJlbnQgcGF0Y2ggbWFrZXMgaXQgdGhyb3VnaCB0
-aGUgdHJlZXMsIGl0IHNob3VsZCBmaXggYWxsIHRoZSANCmFmZmVjdGVkIGRyaXZlcnMuDQoN
-CkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+Pg0KPj4gUGF0Y2hlcyBmb3IgRFJNIHNo
-b3VsZCBnbyB0aHJvdWdoIHRocm91Z2ggRFJNIHRyZWVzOyBkcm0tbWlzYy1maXhlcyBpbiB0
-aGlzDQo+PiBjYXNlLiBFeGNlcHRpb25zIHNob3VsZCBhdCBsZWFzdCBiZSBhbm5vdW5jZSBv
-biBkcmktZGV2ZWwuIE5laXRoZXIgaXMgdGhlDQo+PiBjYXNlIGhlcmUuDQo+IA0KPiBZZWFo
-LiAgVGhhdCdzIGEgZ29vZCBxdWVzdGlvbi4gIEkgZG9uJ3Qga25vdywgYmVjYXVzZSBJIGp1
-c3Qgd29yaw0KPiBhZ2FpbnN0IGxpbnV4LW5leHQuLi4NCj4gDQo+IHJlZ2FyZHMsDQo+IGRh
-biBjYXJwZW50ZXINCj4gDQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGlj
-cyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdt
-YkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgw
-OSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+Change the semantics to make the calls return a pointer-encoded error.
+This aligns the callback with its callers. Fixes the ingenic driver,
+which already returns an error pointer.
 
---------------1XXEJVdHYUw0EmXVSVAtRq8S--
+Also update the callers to handle the involved types more strictly.
 
---------------YqtB29ll08H1k4R4vBHkaEMY
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Steven Price <steven.price@arm.com>
+Acked-by: Maxime Ripard <maxime@cerno.tech>
+Link: https://patchwork.freedesktop.org/patch/msgid/20211130095255.26710-1-tzimmermann@suse.de
+---
+ drivers/gpu/drm/drm_gem_cma_helper.c    | 17 ++++++++++-------
+ drivers/gpu/drm/drm_gem_shmem_helper.c  | 17 ++++++++++-------
+ drivers/gpu/drm/drm_gem_vram_helper.c   |  4 ++--
+ drivers/gpu/drm/lima/lima_gem.c         |  2 +-
+ drivers/gpu/drm/panfrost/panfrost_gem.c |  2 +-
+ drivers/gpu/drm/v3d/v3d_bo.c            |  4 ++--
+ drivers/gpu/drm/vgem/vgem_drv.c         |  2 +-
+ drivers/gpu/drm/virtio/virtgpu_object.c |  2 +-
+ include/drm/drm_drv.h                   |  5 +++--
+ 9 files changed, 31 insertions(+), 24 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
+index 5f42e44b2ab3..6f18f143dd30 100644
+--- a/drivers/gpu/drm/drm_gem_cma_helper.c
++++ b/drivers/gpu/drm/drm_gem_cma_helper.c
+@@ -67,18 +67,21 @@ __drm_gem_cma_create(struct drm_device *drm, size_t size, bool private)
+ 	struct drm_gem_object *gem_obj;
+ 	int ret = 0;
+ 
+-	if (drm->driver->gem_create_object)
++	if (drm->driver->gem_create_object) {
+ 		gem_obj = drm->driver->gem_create_object(drm, size);
+-	else
+-		gem_obj = kzalloc(sizeof(*cma_obj), GFP_KERNEL);
+-	if (!gem_obj)
+-		return ERR_PTR(-ENOMEM);
++		if (IS_ERR(gem_obj))
++			return ERR_CAST(gem_obj);
++		cma_obj = to_drm_gem_cma_obj(gem_obj);
++	} else {
++		cma_obj = kzalloc(sizeof(*cma_obj), GFP_KERNEL);
++		if (!cma_obj)
++			return ERR_PTR(-ENOMEM);
++		gem_obj = &cma_obj->base;
++	}
+ 
+ 	if (!gem_obj->funcs)
+ 		gem_obj->funcs = &drm_gem_cma_default_funcs;
+ 
+-	cma_obj = container_of(gem_obj, struct drm_gem_cma_object, base);
+-
+ 	if (private) {
+ 		drm_gem_private_object_init(drm, gem_obj, size);
+ 
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index 0eeda1012364..7915047cb041 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -56,14 +56,17 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private)
+ 
+ 	size = PAGE_ALIGN(size);
+ 
+-	if (dev->driver->gem_create_object)
++	if (dev->driver->gem_create_object) {
+ 		obj = dev->driver->gem_create_object(dev, size);
+-	else
+-		obj = kzalloc(sizeof(*shmem), GFP_KERNEL);
+-	if (!obj)
+-		return ERR_PTR(-ENOMEM);
+-
+-	shmem = to_drm_gem_shmem_obj(obj);
++		if (IS_ERR(obj))
++			return ERR_CAST(obj);
++		shmem = to_drm_gem_shmem_obj(obj);
++	} else {
++		shmem = kzalloc(sizeof(*shmem), GFP_KERNEL);
++		if (!shmem)
++			return ERR_PTR(-ENOMEM);
++		obj = &shmem->base;
++	}
+ 
+ 	if (!obj->funcs)
+ 		obj->funcs = &drm_gem_shmem_funcs;
+diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+index bfa386b98134..3f00192215d1 100644
+--- a/drivers/gpu/drm/drm_gem_vram_helper.c
++++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+@@ -197,8 +197,8 @@ struct drm_gem_vram_object *drm_gem_vram_create(struct drm_device *dev,
+ 
+ 	if (dev->driver->gem_create_object) {
+ 		gem = dev->driver->gem_create_object(dev, size);
+-		if (!gem)
+-			return ERR_PTR(-ENOMEM);
++		if (IS_ERR(gem))
++			return ERR_CAST(gem);
+ 		gbo = drm_gem_vram_of_gem(gem);
+ 	} else {
+ 		gbo = kzalloc(sizeof(*gbo), GFP_KERNEL);
+diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
+index 2723d333c608..f9a9198ef198 100644
+--- a/drivers/gpu/drm/lima/lima_gem.c
++++ b/drivers/gpu/drm/lima/lima_gem.c
+@@ -221,7 +221,7 @@ struct drm_gem_object *lima_gem_create_object(struct drm_device *dev, size_t siz
+ 
+ 	bo = kzalloc(sizeof(*bo), GFP_KERNEL);
+ 	if (!bo)
+-		return NULL;
++		return ERR_PTR(-ENOMEM);
+ 
+ 	mutex_init(&bo->lock);
+ 	INIT_LIST_HEAD(&bo->va);
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
+index 6d9bdb9180cb..ead65f5fa2bc 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gem.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+@@ -223,7 +223,7 @@ struct drm_gem_object *panfrost_gem_create_object(struct drm_device *dev, size_t
+ 
+ 	obj = kzalloc(sizeof(*obj), GFP_KERNEL);
+ 	if (!obj)
+-		return NULL;
++		return ERR_PTR(-ENOMEM);
+ 
+ 	INIT_LIST_HEAD(&obj->mappings.list);
+ 	mutex_init(&obj->mappings.lock);
+diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
+index 0d9af62f69ad..6e3113f419f4 100644
+--- a/drivers/gpu/drm/v3d/v3d_bo.c
++++ b/drivers/gpu/drm/v3d/v3d_bo.c
+@@ -70,11 +70,11 @@ struct drm_gem_object *v3d_create_object(struct drm_device *dev, size_t size)
+ 	struct drm_gem_object *obj;
+ 
+ 	if (size == 0)
+-		return NULL;
++		return ERR_PTR(-EINVAL);
+ 
+ 	bo = kzalloc(sizeof(*bo), GFP_KERNEL);
+ 	if (!bo)
+-		return NULL;
++		return ERR_PTR(-ENOMEM);
+ 	obj = &bo->base.base;
+ 
+ 	obj->funcs = &v3d_gem_funcs;
+diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
+index a87eafa89e9f..c5e3e5457737 100644
+--- a/drivers/gpu/drm/vgem/vgem_drv.c
++++ b/drivers/gpu/drm/vgem/vgem_drv.c
+@@ -97,7 +97,7 @@ static struct drm_gem_object *vgem_gem_create_object(struct drm_device *dev, siz
+ 
+ 	obj = kzalloc(sizeof(*obj), GFP_KERNEL);
+ 	if (!obj)
+-		return NULL;
++		return ERR_PTR(-ENOMEM);
+ 
+ 	/*
+ 	 * vgem doesn't have any begin/end cpu access ioctls, therefore must use
+diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+index 187e10da2f17..baef2c5f2aaf 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_object.c
++++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+@@ -139,7 +139,7 @@ struct drm_gem_object *virtio_gpu_create_object(struct drm_device *dev,
+ 
+ 	shmem = kzalloc(sizeof(*shmem), GFP_KERNEL);
+ 	if (!shmem)
+-		return NULL;
++		return ERR_PTR(-ENOMEM);
+ 
+ 	dshmem = &shmem->base.base;
+ 	dshmem->base.funcs = &virtio_gpu_shmem_funcs;
+diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+index da0c836fe8e1..f6159acb8856 100644
+--- a/include/drm/drm_drv.h
++++ b/include/drm/drm_drv.h
+@@ -291,8 +291,9 @@ struct drm_driver {
+ 	/**
+ 	 * @gem_create_object: constructor for gem objects
+ 	 *
+-	 * Hook for allocating the GEM object struct, for use by the CMA and
+-	 * SHMEM GEM helpers.
++	 * Hook for allocating the GEM object struct, for use by the CMA
++	 * and SHMEM GEM helpers. Returns a GEM object on success, or an
++	 * ERR_PTR()-encoded error code otherwise.
+ 	 */
+ 	struct drm_gem_object *(*gem_create_object)(struct drm_device *dev,
+ 						    size_t size);
+-- 
+2.20.1
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmGvGjsFAwAAAAAACgkQlh/E3EQov+Ab
-gA//Rd8fa13VzfiH9eC9nn8ZqBlTTGyOWGNHPZNU0JpnWhs3jHRtcWdk8ZpfEu0j+zZFT73gZzda
-9lAFCde81ZCzlBsz8iU9M8k4rT8Zt88Zy3BuNQen+cTVMAkzimMuxVg8i0prwIgJ2q8ZkQqBusC6
-XP9sdcEyfDd65TxktaXWAoW5iy5kjkJxdEVhYHPJuj1ZnY1IwuU1PJY1+rUEHEcLCasjtDvMWd+G
-mCOE9Ctsiz/Agtx8a2nd4Iwfd26GdNuAesx/OvJjHhEtu5YW5SdQ9nBlBkEhTyUat7VjrXpT8CjM
-jsyN7oPGi4Tm4Uo1/tYhaTTCwozso8GAO+gMQiMUlwJJzOgkb7rGAmSXcAl7r45qU1dIMYdDfs4J
-kdD8SZ1KqepKNa/9B6+qx2P8L7EHijd7IbovO1OJTdA4Bleqyyk6SfOvRfa8wQ+XrUXkdBRBg2D+
-kk0NOqtqJ7veB3xsiHYxWTccQoRa7PdL+3hIU97905tajG3KFgfcUM6fyCptc/MCr/IapoJNUrCN
-qySziCpuDZhKmpk39bQGthYdmfN//9lG9kJIXbmHET7+LCy8gxJ6PeYMKwBmSsIHuLbpNzEokVI2
-sAM37xJXlHjqGtF6XHDW67UqEnIhz/nnWhl94IeO5KU7F89PWNLdlWSTRQbPFGL4QpPv7ETkgBRg
-KK4=
-=j7UY
------END PGP SIGNATURE-----
 
---------------YqtB29ll08H1k4R4vBHkaEMY--
