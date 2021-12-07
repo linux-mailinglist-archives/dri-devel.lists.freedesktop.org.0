@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F04246AF2A
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 01:29:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E13746AFCE
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 02:32:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31CDA6E937;
-	Tue,  7 Dec 2021 00:29:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC77573BEE;
+	Tue,  7 Dec 2021 01:32:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
- [IPv6:2607:f8b0:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D07B46F3CE
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Dec 2021 00:29:38 +0000 (UTC)
-Received: by mail-pl1-x62b.google.com with SMTP id k4so8199647plx.8
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Dec 2021 16:29:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4504B73BEE
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Dec 2021 01:32:40 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id o13so26020575wrs.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Dec 2021 17:32:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=basnieuwenhuizen.nl; s=google;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=KwSNWNmS5A3o/1YUiJZz0ef7pg3vZf37AUR9Jx7txiA=;
- b=j5TPG5D6iGGlUhUGkz7lWoOFUl5Zcy1I25YFqtVQzQMd9hRvxHo1g8FJghAKUzJwyn
- qQ9W1va6XU4ulE3fo6MjQcXlsVdrZfbY24YqeqzgelWwCLDS2lLgtFm4n4T/Rv3efjcO
- TgoCHgwehFBceoxjK1ztr3yugEkMOttl+KZIA=
+ bh=ov6NmFfn2KOdbrAOSyyJhZZ3QFfk7XcAFTsXrWKZIFk=;
+ b=hNXGWtgrTIt0EBrLBJry9rtHevgDCGyN5WKpj8eLt42+KR2R71Ttf8BfNdS1Ta4YXK
+ 3xFHWL24f+Pd6nkip0Dmxf2t4AzP9I8YeBHdhMQJn44OdPLy5rip9VVMQ7c/KK/JAJQz
+ IEew6xJTnv9FN8f+iVRTwqMC8RoRnZWiS02UweW+aJjI5sXlEiKhOaZR16qZZPU+5LXZ
+ 16lztObWuPKNOYfep5z2dM5mE4KJggZXoXJVOClkbIbCiWTiSKpMQ4GSBI8BLoTIMHO0
+ DTJvy7T+xS34hHqcEjSjlEV1fMe4/fB85z/pGU765iO9dqym+P1bOpzsUqZu+H/WN2Ng
+ XLPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=KwSNWNmS5A3o/1YUiJZz0ef7pg3vZf37AUR9Jx7txiA=;
- b=LtCIh5MO5lWWnC62r+m0g2q7g+D+5AwxN0v+HeltYpAenrhHukP6ydlLGcSAKii7Ao
- Pxx8sWWyoCvq/m2SSBpHBLy5HAAmNIgfgRwbgu5BnarUv4jZ5eYXmVwIak0kxRGvORYE
- M7EbEfWTdMztH1TGYcLWiMhNwgIQhq5ZFm59wycwoJZ9lYZPUx25JppabzkynV8vNgzm
- quh7p0OoHpQvK9CZgJDS9eQFbzELaVY3PxOF6NEL8JuvJmXzSEJqBJHuj8Wh74LQwIqA
- VuYsFHzRC1d7l1QUp1U+hMTKW5njZELOB6ECOBjdc1xku7YDpwBnEJ6YYPGFjCdWj5K5
- WP5w==
-X-Gm-Message-State: AOAM53180gBNbKu0nWb3m66MQS1ntuYUv3JiuXY2eo1lR98JRUkWnAE8
- o8P0c9DYwcVqasyyAiEcfptyj3A87R7Q9Q==
-X-Google-Smtp-Source: ABdhPJy4GyDRBHTZ2ZmWGQRiCTI+9pVPBVlT1KvfSYKm8ucP4rQoWfP/6Hqa+/0WzTjprT3f1yzInQ==
-X-Received: by 2002:a17:902:bb97:b0:144:d5cb:969f with SMTP id
- m23-20020a170902bb9700b00144d5cb969fmr47338882pls.36.1638836978293; 
- Mon, 06 Dec 2021 16:29:38 -0800 (PST)
-Received: from tictac2.mtv.corp.google.com
- ([2620:15c:202:201:a783:e7e8:acf6:96a5])
- by smtp.gmail.com with ESMTPSA id b8sm13141154pfr.213.2021.12.06.16.29.37
+ bh=ov6NmFfn2KOdbrAOSyyJhZZ3QFfk7XcAFTsXrWKZIFk=;
+ b=Ov6+ii7X/ukXlwAn+z/3oB6is9zPPqlcbYDayWL6oxEaxdmuS9gP/3L96IAsa++GbG
+ wZOPWd/S9tUGUgV5SoEMSxxrYpXw/AzZL2xdcx45YAjdYe0mUPt6cOn0l5oY58YL6FbP
+ fmGnrpaAhZNjqNG1pGrHYyILJu/FT2k0yaR87idfK5qaX1Mn8Im1ef+IzyhghZbLs0WZ
+ h3MTjadLr1+iZRlAsfR/PgdjPmwbHRFE7Z1ROCPQC6kMT1+2bw07CWcPdk2+MQ0BkGCc
+ rlwXI0r6iDIeJ0UrwTKBB+r6eqUdj/3EPFhPpB4mf+9YHQ9hUoGs2jCApdHnu1sGX55d
+ yEXw==
+X-Gm-Message-State: AOAM533AHIxXOciBWi0CrKicNJM41dEqcyTcq5H4Q+v4eW/Ozw4Ikt8G
+ gU/Qiw4tyBJW+4Vswvj9tYoIVMIeoaumMA==
+X-Google-Smtp-Source: ABdhPJz1v2UhAoPvMz7BxrFH9hPP7mcUYPVRgsZ3GGZ39+iG4CaJSv/xlTKE429w9hs98RBfBpYGYA==
+X-Received: by 2002:adf:e84e:: with SMTP id d14mr46741229wrn.472.1638840758785; 
+ Mon, 06 Dec 2021 17:32:38 -0800 (PST)
+Received: from bas-workstation.. ([2a02:aa12:a77f:2000:7285:c2ff:fe67:a82f])
+ by smtp.gmail.com with ESMTPSA id g198sm1010018wme.23.2021.12.06.17.32.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Dec 2021 16:29:38 -0800 (PST)
-From: Douglas Anderson <dianders@chromium.org>
+ Mon, 06 Dec 2021 17:32:38 -0800 (PST)
+From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/bridge: parade-ps8640: Add backpointer to drm_device in
- drm_dp_aux
-Date: Mon,  6 Dec 2021 16:29:16 -0800
-Message-Id: <20211206162907.1.I1f5d1eba741e4663050ec1b8e39a753f6e42e38b@changeid>
-X-Mailer: git-send-email 2.34.1.400.ga245620fadb-goog
+Subject: [PATCH] drm/syncobj: Deal with signalled fences in transfer.
+Date: Tue,  7 Dec 2021 02:32:35 +0100
+Message-Id: <20211207013235.5985-1-bas@basnieuwenhuizen.nl>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,45 +66,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Philip Chen <philipchen@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Douglas Anderson <dianders@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Stephen Boyd <swboyd@chromium.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org
+Cc: david1.zhou@amd.com, stable@vger.kernel.org, christian.koenig@amd.com,
+ lionel.g.landwerlin@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When we added the support for the AUX channel in commit 13afcdd7277e
-("drm/bridge: parade-ps8640: Add support for AUX channel") we forgot
-to set "drm_dev" to avoid the warning splat at the beginning of
-drm_dp_aux_register(). Since everything was working I guess I never
-noticed the splat when testing against mainline. In any case, it's
-easy to fix. This is basically just like commit 6cba3fe43341 ("drm/dp:
-Add backpointer to drm_device in drm_dp_aux") but just for the
-parade-ps8640.
+See the comments in the code. Basically if the seqno is already
+signalled then we get a NULL fence. If we then put the NULL fence
+in a binary syncobj it counts as unsignalled, making that syncobj
+pretty much useless for all expected uses.
 
-Fixes: 13afcdd7277e ("drm/bridge: parade-ps8640: Add support for AUX channel")
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
+Not 100% sure about the transfer to a timeline syncobj but I
+believe it is needed there too, as AFAICT the add_point function
+assumes the fence isn't NULL.
+
+Fixes: ea569910cbab ("drm/syncobj: add transition iotcls between binary and timeline v2")
+Cc: stable@vger.kernel.org
+Signed-off-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
 ---
+ drivers/gpu/drm/drm_syncobj.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
- drivers/gpu/drm/bridge/parade-ps8640.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-index 26898042ba3d..818704bf5e86 100644
---- a/drivers/gpu/drm/bridge/parade-ps8640.c
-+++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-@@ -449,6 +449,7 @@ static int ps8640_bridge_attach(struct drm_bridge *bridge,
- 	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
- 		return -EINVAL;
- 
-+	ps_bridge->aux.drm_dev = bridge->dev;
- 	ret = drm_dp_aux_register(&ps_bridge->aux);
- 	if (ret) {
- 		dev_err(dev, "failed to register DP AUX channel: %d\n", ret);
+diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+index fdd2ec87cdd1..eb28a40400d2 100644
+--- a/drivers/gpu/drm/drm_syncobj.c
++++ b/drivers/gpu/drm/drm_syncobj.c
+@@ -861,6 +861,19 @@ static int drm_syncobj_transfer_to_timeline(struct drm_file *file_private,
+ 				     &fence);
+ 	if (ret)
+ 		goto err;
++
++	/* If the requested seqno is already signaled drm_syncobj_find_fence may
++	 * return a NULL fence. To make sure the recipient gets signalled, use
++	 * a new fence instead.
++	 */
++	if (!fence) {
++		fence = dma_fence_allocate_private_stub();
++		if (!fence) {
++			ret = -ENOMEM;
++			goto err;
++		}
++	}
++
+ 	chain = kzalloc(sizeof(struct dma_fence_chain), GFP_KERNEL);
+ 	if (!chain) {
+ 		ret = -ENOMEM;
+@@ -890,6 +903,19 @@ drm_syncobj_transfer_to_binary(struct drm_file *file_private,
+ 				     args->src_point, args->flags, &fence);
+ 	if (ret)
+ 		goto err;
++
++	/* If the requested seqno is already signaled drm_syncobj_find_fence may
++	 * return a NULL fence. To make sure the recipient gets signalled, use
++	 * a new fence instead.
++	 */
++	if (!fence) {
++		fence = dma_fence_allocate_private_stub();
++		if (!fence) {
++			ret = -ENOMEM;
++			goto err;
++		}
++	}
++
+ 	drm_syncobj_replace_fence(binary_syncobj, fence);
+ 	dma_fence_put(fence);
+ err:
 -- 
-2.34.1.400.ga245620fadb-goog
+2.34.1
 
