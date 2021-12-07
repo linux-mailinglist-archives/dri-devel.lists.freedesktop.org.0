@@ -2,40 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D9D446B98A
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 11:52:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C620E46B9AE
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 12:00:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E88EAA524;
-	Tue,  7 Dec 2021 10:51:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69C346F400;
+	Tue,  7 Dec 2021 11:00:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFC75AA524
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Dec 2021 10:51:56 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10190"; a="224420890"
-X-IronPort-AV: E=Sophos;i="5.87,293,1631602800"; d="scan'208";a="224420890"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Dec 2021 02:51:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,293,1631602800"; d="scan'208";a="611630779"
-Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
- by orsmga004.jf.intel.com with ESMTP; 07 Dec 2021 02:51:53 -0800
-Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1muY4e-000MTV-L4; Tue, 07 Dec 2021 10:51:52 +0000
-Date: Tue, 7 Dec 2021 18:51:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dan Carpenter <error27@gmail.com>, Antonino Daplas <adaplas@gmail.com>
-Subject: Re: [PATCH] fbdev: savagefb: make a variable local
-Message-ID: <202112071822.Ry2XAYAN-lkp@intel.com>
-References: <20211203095715.GD2480@kili>
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam08on2044.outbound.protection.outlook.com [40.107.100.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18D896F400
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Dec 2021 11:00:42 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Z0I5FY56FErJfCT9cwEqCgfPDaOZgFJl7kohyJhOVFQVenDDeWYsk1zb2SiUhyeA9QJDDDg4CfqSPnehTdtehEhnkc3n8GR2hMfCwSFfa2gTUHJRmdXvCvovHebufWmi6Wv30BMIj1tnb4KqcyiVPPJzRgR3iMLgvWDhabZbtbqU5zsCltf/F7vPwEQjeaWuFJjUK6wff7iG7C2e+58OBna+0nC3APnv3fwSLWzvAUIf7tIhDS9aHhED78VFXLiTU8Q6X+n2OPgymNA4o+ZdnUC+SWT1UNM+esci2hRel6e67cjLIemBAg/zMkwo8gfGVy9yhD2UKORP/ObrOnzVyQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qMwGIo+QRhZsHvEfxltFNDnzYrp7bdCqgItAxKefpAA=;
+ b=DLrOiXjEQkgmLqn8lwybbqRudjPF5+n79Mi56TKHpWuTeOZvKjP3ra0aguCUzzUpW3N9d3ftmx7746oIRE+fOc9UCAkZ90xPqzOnGqwlWJnRJ8YurCbo3oA8uye0U3F1g0CjdPMYP/ZzeuuUFALp7QyyVeKma/J0wgJIMoexgZQU5QCO7ySJZcbrr6oj99yv4a6QY3SMU605ZZWNMSOGsZEssm6HnD2FXSFJToPIBgCTkIuQNR9HIILZd2nV/w3+OSdELZ/yqUd+tG0LDkwTIQxdjsPeI/vhJEJ6abCsZx8KLnAPGgEbL35nRkHTDrh7luo2yeSYoIIHc4UFMreEOw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qMwGIo+QRhZsHvEfxltFNDnzYrp7bdCqgItAxKefpAA=;
+ b=OHQcnSMyCUWAwm5Kjn9e7HT1XzBABwZ94aTp2N4Q3RewCWh2jt8BoCYhaV/l2ipF+K4T4r0ckX5U79ZBOi8lwNZQ/Z8gf0ashvs++gJy3sSdXpmcfr7T3n1geHY3Mfif6TvgfqC5RIeBBD+a2Hz3qdsUmuWK+Y1vEGBjutklk1c=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
+ (2603:10b6:301:5a::14) by MWHPR1201MB0238.namprd12.prod.outlook.com
+ (2603:10b6:301:57::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.21; Tue, 7 Dec
+ 2021 11:00:38 +0000
+Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
+ ([fe80::d16c:a6d5:5d2e:f9d4]) by MWHPR1201MB0192.namprd12.prod.outlook.com
+ ([fe80::d16c:a6d5:5d2e:f9d4%12]) with mapi id 15.20.4755.022; Tue, 7 Dec 2021
+ 11:00:37 +0000
+Subject: Re: [PATCH] drm/syncobj: Deal with signalled fences in transfer.
+To: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+References: <20211207013235.5985-1-bas@basnieuwenhuizen.nl>
+ <05f1e475-3483-b780-d66a-a80577edee39@intel.com>
+ <7d2f372f-36f5-1ecc-7ddb-25cf7d444e5d@amd.com>
+ <CAP+8YyEzsedvYObj=FVUFTtYo4sdHH354=gBfCAu16qtL1jqLg@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <9540e080-6b07-c82c-d4d2-d2711a50066d@amd.com>
+Date: Tue, 7 Dec 2021 12:00:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+In-Reply-To: <CAP+8YyEzsedvYObj=FVUFTtYo4sdHH354=gBfCAu16qtL1jqLg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-ClientProxiedBy: AM6P193CA0140.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:209:85::45) To MWHPR1201MB0192.namprd12.prod.outlook.com
+ (2603:10b6:301:5a::14)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20211203095715.GD2480@kili>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Received: from [192.168.178.21] (87.176.191.248) by
+ AM6P193CA0140.EURP193.PROD.OUTLOOK.COM (2603:10a6:209:85::45) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4755.20 via Frontend Transport; Tue, 7 Dec 2021 11:00:36 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 04641400-dce9-4cbd-a26e-08d9b970ccff
+X-MS-TrafficTypeDiagnostic: MWHPR1201MB0238:EE_
+X-Microsoft-Antispam-PRVS: <MWHPR1201MB0238AA92D46ECBE80DE71AA8836E9@MWHPR1201MB0238.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: eB4Gk93WbFEn2FWrVCA2gM5PSBYJeVHW+cN36goSQOn0MjCK2zaMUcuz3q7s4cdW+SH1ghTt092PWf7bW0azAWQ2G+JNhoWdeg1uS/xtaHblDf8Pokojab5mIISh5ipIRvhgx8Sg/ev7aNfZLKT8Iu9TUWr4nHSJGmlE0xCB8Ne7L6euyouJIYHUO6knf0s9Lr0bsxASQ41gi5VXlFSqzQA8C/8XBVn9lUpZwF1Z96R+e5FZ994aj5jQGh6vdEAncAgvwdQn7pwNEStb31b7NCcFt7ed51ArvfUSxty8yKNi8mhsDsKXm+zak44CLzb/xsmBJBJyjU/6aI9Lbs7CHFqbfeGiUKgcgWNs4RugwL6cqhGpRKc5Q5nKIfvFfuoVf6Ct/2t7LAqx1strCJfOyQOW5OJNCm3cYNyOeX1N0LIUw7TkO3nTy/AkN8Gx8Yhvnn55JLpZBTMtVHB8MccPEtOhdgA7kZ+BWopbAMFfp4yoO/6dRjfu0K0qP2p4JL/Lve1MvtppLJonQqP70wYAupQ2kBOOtSXEwKqJ/Jp8Sj+4F0JT1USngCRAgz1MWjm3ZOh98zZpTV16BaTpRYnHMBHcmVlEYNorYWVRjNuEHm2kRVpqZN9dtLW7SNxGaWeZYZKT0YfYqd89jvhcdq20P94kNaQmW67SPwO6BDYvA9w5egqN77GHlU9DiO+y17ytmaxG6Odk8cH+vIFFIw4OtSEiukpxFpkGkRhDjTbWcOC4N4nDjQMc9aonyWnxWN/Y
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1201MB0192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(508600001)(66946007)(66476007)(66556008)(966005)(83380400001)(8676002)(186003)(956004)(5660300002)(45080400002)(6666004)(86362001)(6916009)(26005)(8936002)(38100700002)(4326008)(2616005)(36756003)(316002)(31696002)(6486002)(16576012)(53546011)(31686004)(54906003)(2906002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Sk1la3poWkNzYks0eHY1L2E4NHJxUGdQNit0TEFyYVB0WkUrbWoyc3hlNkd4?=
+ =?utf-8?B?bkJLTXlVUXNOZ3crU2VlVldvN1YrS0J4bnMvWllJeUo3SGw3UVNEbGkyb212?=
+ =?utf-8?B?MEVnZHhnWnhmN2tBSVN5UXBwZjIzOWNNRU9ySmtGQWdDYjBlUWhmUi91QnhO?=
+ =?utf-8?B?NWp1ZVR5WlMyZGdkMG9abXRjOHNWNUlPWTU1enBxalNPUHpXcFNqcmJwazNG?=
+ =?utf-8?B?UlNFdGc2aS9yS0ZueEpKREYwUmhQdzJYc3FVaERCV2RkUGZwRDlGOHdXb1Vy?=
+ =?utf-8?B?UXRuV0VWM0EzVTVRc1dJOFA4aEpWWXlhYkliVk1GSVFXVDc2SXJ3SXArazZr?=
+ =?utf-8?B?a3RZY3JBMlJPTGFEcWdCdStjZjJiQldYYmJyRVlWMDNtcDBrZGVMVlFuY0Rh?=
+ =?utf-8?B?OEkvNm9Cdk0rN20xU1hFSGNaczgxa0pzL0Uza3Q5NGtKNGRVeFRodGZJY29G?=
+ =?utf-8?B?N2d0TFc3ZklydmFsenJNVld3cG9MVUNxUDhKSjB4NExuQnQzeVpSaS91Ny83?=
+ =?utf-8?B?dWk3b0M5NVcxZ2x0NHN5YVVMalo3SDFlOVE0UVJwNVBXZlp2UkxuK1M3akZo?=
+ =?utf-8?B?NkVnbjZ6bEszaUlkTzc0UnkrdzEyeHh2ZWpHMUE1dFBDVUZYN0QxcW84VXZS?=
+ =?utf-8?B?R0w4YVQ0N3M1OGhQd1F6MExtZWNSdXBsbVZwWkhXQkNzbzN5N0RwVHcwL1B4?=
+ =?utf-8?B?YllXbEIrZUVGZDNGRlNoL3l0dTM1UGtRZEJsN2hTVmVPT1Vhb0FxemxDTlRH?=
+ =?utf-8?B?K0lzL3IvWk9HZkg1ODZNTjNYa2p5UGg5QmRuSVIvSU80QnlxdDl6ZmxVMVI2?=
+ =?utf-8?B?RkJEVHhrM085UktJMDIzTkgydGxCV1N6bXZDQk5JRy9takhQQ1BGblNnam1w?=
+ =?utf-8?B?azVHSmlIekZvU1d1eWVUOGV6d3hOdVQ0U015SGY4L3pXbDhhRmYyRjI5SEdK?=
+ =?utf-8?B?QzB1blRUeWxlZVdkT283UGZETzF2YmxDVlJpOWFFUUdvWHk3UkE3U2xLWVZB?=
+ =?utf-8?B?V3hhZWtJM2dZRjlhaXVjNmdJWjBJcm5SV2VPQ2kwRjg3N29Ua0VIQktuNXR4?=
+ =?utf-8?B?MXhMWmtpVHpkVXZzSnJVQUdnbXBaV3pZejZka3R4MzUyYnZPYU1lcTFycmlk?=
+ =?utf-8?B?dWtmQk5lbFhqd2pPNzd4MzltYzJ2QzRNMzV0OHkrbGw2Q3BRWmhCcnZ5aGwr?=
+ =?utf-8?B?U3RPVXpKampZUGNWQkFoWFJFSHEzZTBZMzhhdklFK1dJUzV6TjViWFJVVmYw?=
+ =?utf-8?B?bjMzTytJYzR3alpoSlMzZWVvdWVGZXBSZ0Nlak4xOTl1dk9nT2JRK0N2WGJD?=
+ =?utf-8?B?T0tIaWJzcitISldjdTllTklGbDlLY3VKWjU5dmd4OUlUckxmdjBtRHdiNnRC?=
+ =?utf-8?B?SkFCbGtRbHBOcnduWjZCRldiWlE4QjNtdVZUUEpqWUdKQ0NEeTZlcy95c0xz?=
+ =?utf-8?B?TFdEcUZQUDFFdkhxKzdIYjM0SVBuU2ZNeUdicVdyRmNaYmVObGNBVGllb0Q2?=
+ =?utf-8?B?QmordlcrSkhEYjNwNThhYzNWK3Naa2hFdnRibnM0QjE4TFllcVh3NElCUHE5?=
+ =?utf-8?B?Z1VMVURrbjl4NUEybnZkVXJnSndhbElORjA5aVd1aFNNcm1sYVRxeWJFbTJ6?=
+ =?utf-8?B?SnZzdVhETlBGc2JLOWV3T3IxdDNkU1dDVTc2UXloZ2FTc0NMR3BnbzB4aS9L?=
+ =?utf-8?B?Rm5iTkxvUWJDNW1IVjRQL2xKbUhBZTZzb0JGS0Z2N1crMmMvMmRUVDlZLzRp?=
+ =?utf-8?B?eXdTbDlKY2NIMDc4K3V1Vi9SaUVqOTVSZVJQdzlURmFPRjBMNlcxSUY0Nk93?=
+ =?utf-8?B?MENwcS9QcnZ6d0laeFh0VXJZcExzVi81Q0hHZUMvczZvc0RZMkhHNHZuTHlo?=
+ =?utf-8?B?YnJNWDlDWURnaUhNcHR3VkE5bkN0STJMN0NqVWoxVHRDUjFZaFNFVHFxQ1Y3?=
+ =?utf-8?B?YVEwTDN3YzIzSk11NkNTNWRPUmNXQU1JRVlqK1lIUzV2TDFQMkRPVlBIRUFi?=
+ =?utf-8?B?RWd2NTNMQlY1VnliekdjV1BSRENETThuZElYeThsdkttT08wdTlqKzhQUmtx?=
+ =?utf-8?B?c1YxdERYZnVXRExHcEJManJMN05vTTh6OGUvYWl1YWk3OG5CdWFTRy9IWGtU?=
+ =?utf-8?Q?tkpE=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 04641400-dce9-4cbd-a26e-08d9b970ccff
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1201MB0192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2021 11:00:37.7886 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UcausHx0cKN+Y2/79jsRBgkTz19NjxV1UoNpIx9Oqob/iG5XMSj6eb/hUtscei2K
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1201MB0238
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,284 +133,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, kbuild-all@lists.01.org, llvm@lists.linux.dev,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: stable@vger.kernel.org, ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dan,
+Am 07.12.21 um 11:40 schrieb Bas Nieuwenhuizen:
+> On Tue, Dec 7, 2021 at 8:21 AM Christian König <christian.koenig@amd.com> wrote:
+>> Am 07.12.21 um 08:10 schrieb Lionel Landwerlin:
+>>> On 07/12/2021 03:32, Bas Nieuwenhuizen wrote:
+>>>> See the comments in the code. Basically if the seqno is already
+>>>> signalled then we get a NULL fence. If we then put the NULL fence
+>>>> in a binary syncobj it counts as unsignalled, making that syncobj
+>>>> pretty much useless for all expected uses.
+>>>>
+>>>> Not 100% sure about the transfer to a timeline syncobj but I
+>>>> believe it is needed there too, as AFAICT the add_point function
+>>>> assumes the fence isn't NULL.
+>>>>
+>>>> Fixes: ea569910cbab ("drm/syncobj: add transition iotcls between
+>>>> binary and timeline v2")
+>>>> Cc: stable@vger.kernel.org
+>>>> Signed-off-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+>>>> ---
+>>>>    drivers/gpu/drm/drm_syncobj.c | 26 ++++++++++++++++++++++++++
+>>>>    1 file changed, 26 insertions(+)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/drm_syncobj.c
+>>>> b/drivers/gpu/drm/drm_syncobj.c
+>>>> index fdd2ec87cdd1..eb28a40400d2 100644
+>>>> --- a/drivers/gpu/drm/drm_syncobj.c
+>>>> +++ b/drivers/gpu/drm/drm_syncobj.c
+>>>> @@ -861,6 +861,19 @@ static int
+>>>> drm_syncobj_transfer_to_timeline(struct drm_file *file_private,
+>>>>                         &fence);
+>>>>        if (ret)
+>>>>            goto err;
+>>>> +
+>>>> +    /* If the requested seqno is already signaled
+>>>> drm_syncobj_find_fence may
+>>>> +     * return a NULL fence. To make sure the recipient gets
+>>>> signalled, use
+>>>> +     * a new fence instead.
+>>>> +     */
+>>>> +    if (!fence) {
+>>>> +        fence = dma_fence_allocate_private_stub();
+>>>> +        if (!fence) {
+>>>> +            ret = -ENOMEM;
+>>>> +            goto err;
+>>>> +        }
+>>>> +    }
+>>>> +
+>>>
+>>> Shouldn't we fix drm_syncobj_find_fence() instead?
+>> Mhm, now that you mention it. Bas, why do you think that
+>> dma_fence_chain_find_seqno() may return NULL when the fence is already
+>> signaled?
+>>
+>> Double checking the code that should never ever happen.
+> Well, I tested the patch with
+> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgitlab.freedesktop.org%2Fmesa%2Fmesa%2F-%2Fmerge_requests%2F14097%2Fdiffs%3Fcommit_id%3Dd4c5c840f4e3839f9f5c1747a9034eb2b565f5c0&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7Cc1ab29fc100842826f5d08d9b96e102a%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637744705383763833%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=sXkTJWm%2FWm2xwgLGdepVWAOlqj%2FeArnvmMvnJpQ9YEs%3D&amp;reserved=0
+> so I'm pretty sure it happens, and this patch fixes  it, though I may
+> have misidentified what the code should do.
+>
+> My reading is that the dma_fence_chain_for_each in
+> dma_fence_chain_find_seqno will never visit a signalled fence (unless
+> the top one is signalled), as dma_fence_chain_walk will never return a
+> signalled fence (it only returns on NULL or !signalled).
 
-Thank you for the patch! Perhaps something to improve:
+Ah, yes that suddenly makes more sense.
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v5.16-rc4 next-20211207]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+> Happy to move this to drm_syncobj_find_fence.
 
-url:    https://github.com/0day-ci/linux/commits/Dan-Carpenter/fbdev-savage=
-fb-make-a-variable-local/20211203-175849
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-5f58da2befa58edf3a70b91ed87ed9bf77f1e70e
-config: mips-buildonly-randconfig-r004-20211207 (https://download.01.org/0d=
-ay-ci/archive/20211207/202112071822.Ry2XAYAN-lkp@intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project f50be8=
-eb0a12a61d23db6cda452c693001d76898)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips-linux-gnu
-        # https://github.com/0day-ci/linux/commit/9ea7012b220fc1bd8aa2f0a65=
-b97403cea046343
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Dan-Carpenter/fbdev-savagefb-make-=
-a-variable-local/20211203-175849
-        git checkout 9ea7012b220fc1bd8aa2f0a65b97403cea046343
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross W=3D=
-1 O=3Dbuild_dir ARCH=3Dmips SHELL=3D/bin/bash drivers/video/fbdev/savage/
+No, I think that your current patch is fine.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+That drm_syncobj_find_fence() only returns NULL when it can't find 
+anything !signaled is correct behavior I think.
 
-All warnings (new ones prefixed by >>):
+Going to push your original patch if nobody has any more objections.
 
->> drivers/video/fbdev/savage/savagefb_driver.c:2173:17: warning: unused va=
-riable 'edid'
-   unsigned char
-   ^
-   fatal error: error in backend: Nested variants found in inline asm strin=
-g: '.if ( 0x00 ) !=3D -1)) 0x00 ) !=3D -1)) : ($( static struct ftrace_bran=
-ch_data __attribute__((__aligned__(4))) __attribute__((__section__("_ftrace=
-_branch"))) __if_trace =3D $( .func =3D __func__, .file =3D "arch/mips/incl=
-ude/asm/barrier.h", .line =3D 16, $); 0x00 ) !=3D -1)) : $))) ) && ( (1 << =
-0) ); .set push; .set mips64r2; .rept 1; sync 0x00; .endr; .set pop; .else;=
- ; .endif'
-   PLEASE submit a bug report to https://bugs.llvm.org/ and include the cra=
-sh backtrace, preprocessed source, and associated run script.
-   Stack dump:
-   0. Program arguments: clang -Wp,-MMD,drivers/video/fbdev/savage/.savagef=
-b_driver.o.d -nostdinc -Iarch/mips/include -I./arch/mips/include/generated =
--Iinclude -I./include -Iarch/mips/include/uapi -I./arch/mips/include/genera=
-ted/uapi -Iinclude/uapi -I./include/generated/uapi -include include/linux/c=
-ompiler-version.h -include include/linux/kconfig.h -include include/linux/c=
-ompiler_types.h -D__KERNEL__ -DVMLINUX_LOAD_ADDRESS=3D0xffffffff80100000 -D=
-LINKER_LOAD_ADDRESS=3D0xffffffff80100000 -DDATAOFFSET=3D0 -Qunused-argument=
-s -fmacro-prefix-map=3D=3D -DKBUILD_EXTRA_WARN1 -Wall -Wundef -Werror=3Dstr=
-ict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -fshort-wcha=
-r -fno-PIE -Werror=3Dimplicit-function-declaration -Werror=3Dimplicit-int -=
-Werror=3Dreturn-type -Wno-format-security -std=3Dgnu89 --target=3Dmips64el-=
-linux -fintegrated-as -Werror=3Dunknown-warning-option -Werror=3Dignored-op=
-timization-argument -mabi=3D64 -G 0 -mno-abicalls -fno-pic -pipe -msoft-flo=
-at -DGAS_HAS_SET_HARDFLOAT -Wa,-msoft-float -ffreestanding -EL -fno-stack-c=
-heck -march=3Dmips64 -Wa,--trap -DTOOLCHAIN_SUPPORTS_VIRT -Iarch/mips/inclu=
-de/asm/mach-malta -Iarch/mips/include/asm/mach-generic -fno-asynchronous-un=
-wind-tables -fno-delete-null-pointer-checks -Wno-frame-address -Wno-address=
--of-packed-member -O2 -Wframe-larger-than=3D2048 -fstack-protector -Wimplic=
-it-fallthrough -Wno-gnu -mno-global-merge -Wno-unused-but-set-variable -Wno=
--unused-const-variable -ftrivial-auto-var-init=3Dzero -enable-trivial-auto-=
-var-init-zero-knowing-it-will-be-removed-from-clang -fno-stack-clash-protec=
-tion -pg -falign-functions=3D64 -Wdeclaration-after-statement -Wvla -Wno-po=
-inter-sign -Wno-array-bounds -fno-strict-overflow -fno-stack-check -Werror=
-=3Ddate-time -Werror=3Dincompatible-pointer-types -Wextra -Wunused -Wno-unu=
-sed-parameter -Wmissing-declarations -Wmissing-format-attribute -Wmissing-p=
-rototypes -Wold-style-definition -Wmissing-include-dirs -Wunused-but-set-va=
-riable -Wunused-const-variable -Wno-missing-field-initializers -Wno-sign-co=
-mpare -Wno-type-limits -I drivers/video/fbdev/savage -I ./drivers/video/fbd=
-ev/savage -ffunction-sections -fdata-sections -DKBUILD_MODFILE=3D"drivers/v=
-ideo/fbdev/savage/savagefb" -DKBUILD_BASENAME=3D"savagefb_driver" -DKBUILD_=
-MODNAME=3D"savagefb" -D__KBUILD_MODNAME=3Dkmod_savagefb -c -o drivers/video=
-/fbdev/savage/savagefb_driver.o drivers/video/fbdev/savage/savagefb_driver.c
-   1. <eof> parser at end of file
-   2. Code generation
-   3. Running pass 'Function Pass Manager' on module 'drivers/video/fbdev/s=
-avage/savagefb_driver.c'.
-   4. Running pass 'Mips Assembly Printer' on function '@savagefb_probe'
-   #0 0x000055c047cb37df Signals.cpp:0:0
-   #1 0x000055c047cb16fc llvm::sys::CleanupOnSignal(unsigned long) (/opt/cr=
-oss/clang-097a1cb1d5/bin/clang-14+0x339a6fc)
-   #2 0x000055c047bfef87 llvm::CrashRecoveryContext::HandleExit(int) (/opt/=
-cross/clang-097a1cb1d5/bin/clang-14+0x32e7f87)
-   #3 0x000055c047ca9dae llvm::sys::Process::Exit(int, bool) (/opt/cross/cl=
-ang-097a1cb1d5/bin/clang-14+0x3392dae)
-   #4 0x000055c04597378b (/opt/cross/clang-097a1cb1d5/bin/clang-14+0x105c78=
-b)
-   #5 0x000055c047c05a2c llvm::report_fatal_error(llvm::Twine const&, bool)=
- (/opt/cross/clang-097a1cb1d5/bin/clang-14+0x32eea2c)
-   #6 0x000055c0488b15e8 llvm::AsmPrinter::emitInlineAsm(llvm::MachineInstr=
- const (/opt/cross/clang-097a1cb1d5/bin/clang-14+0x3f9a5e8)
-   #7 0x000055c0488ad3e9 llvm::AsmPrinter::emitFunctionBody() (/opt/cross/c=
-lang-097a1cb1d5/bin/clang-14+0x3f963e9)
-   #8 0x000055c0463c0afe llvm::MipsAsmPrinter::runOnMachineFunction(llvm::M=
-achineFunction&) (/opt/cross/clang-097a1cb1d5/bin/clang-14+0x1aa9afe)
-   #9 0x000055c047045a1d llvm::MachineFunctionPass::runOnFunction(llvm::Fun=
-ction&) (.part.53) MachineFunctionPass.cpp:0:0
-   #10 0x000055c04746dfc7 llvm::FPPassManager::runOnFunction(llvm::Function=
-&) (/opt/cross/clang-097a1cb1d5/bin/clang-14+0x2b56fc7)
-   #11 0x000055c04746e141 llvm::FPPassManager::runOnModule(llvm::Module&) (=
-/opt/cross/clang-097a1cb1d5/bin/clang-14+0x2b57141)
-   #12 0x000055c04746f41f llvm::legacy::PassManagerImpl::run(llvm::Module&)=
- (/opt/cross/clang-097a1cb1d5/bin/clang-14+0x2b5841f)
-   #13 0x000055c047fbab9a clang::EmitBackendOutput(clang::DiagnosticsEngine=
-&, clang::HeaderSearchOptions const&, clang::CodeGenOptions const&, clang::=
-TargetOptions const&, clang::LangOptions const&, llvm::StringRef, clang::Ba=
-ckendAction, std::unique_ptr<llvm::raw_pwrite_stream, std::default_delete<l=
-lvm::raw_pwrite_stream> >) (/opt/cross/clang-097a1cb1d5/bin/clang-14+0x36a3=
-b9a)
-   #14 0x000055c048c39443 clang::BackendConsumer::HandleTranslationUnit(cla=
-ng::ASTContext&) (/opt/cross/clang-097a1cb1d5/bin/clang-14+0x4322443)
-   #15 0x000055c049738d99 clang::ParseAST(clang::Sema&, bool, bool) (/opt/c=
-ross/clang-097a1cb1d5/bin/clang-14+0x4e21d99)
-   #16 0x000055c048c3829f clang::CodeGenAction::ExecuteAction() (/opt/cross=
-/clang-097a1cb1d5/bin/clang-14+0x432129f)
-   #17 0x000055c0485c1401 clang::FrontendAction::Execute() (/opt/cross/clan=
-g-097a1cb1d5/bin/clang-14+0x3caa401)
-   #18 0x000055c0485594ea clang::CompilerInstance::ExecuteAction(clang::Fro=
-ntendAction&) (/opt/cross/clang-097a1cb1d5/bin/clang-14+0x3c424ea)
-   #19 0x000055c04868a5ab (/opt/cross/clang-097a1cb1d5/bin/clang-14+0x3d735=
-ab)
-   #20 0x000055c0459744d4 cc1_main(llvm::ArrayRef<char char (/opt/cross/cla=
-ng-097a1cb1d5/bin/clang-14+0x105d4d4)
-   #21 0x000055c045971a1b ExecuteCC1Tool(llvm::SmallVectorImpl<char driver.=
-cpp:0:0
-   #22 0x000055c0483fc4b5 void llvm::function_ref<void ()>::callback_fn<cla=
-ng::driver::CC1Command::Execute(llvm::ArrayRef<llvm::Optional<llvm::StringR=
-ef> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::alloca=
-tor<char> const::'lambda'()>(long) Job.cpp:0:0
-   #23 0x000055c047bfee43 llvm::CrashRecoveryContext::RunSafely(llvm::funct=
-ion_ref<void ()>) (/opt/cross/clang-097a1cb1d5/bin/clang-14+0x32e7e43)
-   #24 0x000055c0483fcdb7 clang::driver::CC1Command::Execute(llvm::ArrayRef=
-<llvm::Optional<llvm::StringRef> >, std::__cxx11::basic_string<char, std::c=
-har_traits<char>, std::allocator<char> const (.part.216) Job.cpp:0:0
-   #25 0x000055c0483d40c7 clang::driver::Compilation::ExecuteCommand(clang:=
-:driver::Command const&, clang::driver::Command const (/opt/cross/clang-097=
-a1cb1d5/bin/clang-14+0x3abd0c7)
-   #26 0x000055c0483d4aa7 clang::driver::Compilation::ExecuteJobs(clang::dr=
-iver::JobList const&, llvm::SmallVectorImpl<std::pair<int, clang::driver::C=
-ommand >&) const (/opt/cross/clang-097a1cb1d5/bin/clang-14+0x3abdaa7)
-   #27 0x000055c0483ddde9 clang::driver::Driver::ExecuteCompilation(clang::=
-driver::Compilation&, llvm::SmallVectorImpl<std::pair<int, clang::driver::C=
-ommand >&) (/opt/cross/clang-097a1cb1d5/bin/clang-14+0x3ac6de9)
-   #28 0x000055c04589f17f main (/opt/cross/clang-097a1cb1d5/bin/clang-14+0x=
-f8817f)
-   #29 0x00007f312c6b8d0a __libc_start_main (/lib/x86_64-linux-gnu/libc.so.=
-6+0x26d0a)
-   #30 0x000055c04597153a _start (/opt/cross/clang-097a1cb1d5/bin/clang-14+=
-0x105a53a)
-   clang-14: error: clang frontend command failed with exit code 70 (use -v=
- to see invocation)
-   clang version 14.0.0 (git://gitmirror/llvm_project 097a1cb1d5ebb3a0ec4bc=
-aed8ba3ff6a8e33c00a)
-   Target: mips64el-unknown-linux
-   Thread model: posix
-   InstalledDir: /opt/cross/clang-097a1cb1d5/bin
-   clang-14: note: diagnostic msg:
-   Makefile arch drivers include kernel nr_bisected scripts source usr
+But somebody might want to take care of the IGT as well.
 
+Regards,
+Christian.
 
-vim +/edid +2173 drivers/video/fbdev/savage/savagefb_driver.c
+>> Regards,
+>> Christian.
+>>
+>>> By returning a stub fence for the timeline case if there isn't one.
+>>>
+>>>
+>>> Because the same NULL fence check appears missing in amdgpu (and
+>>> probably other drivers).
+>>>
+>>>
+>>> Also we should have tests for this in IGT.
+>>>
+>>> AMD contributed some tests when this code was written but they never
+>>> got reviewed :(
+>>>
+>>>
+>>> -Lionel
+>>>
+>>>
+>>>>        chain = kzalloc(sizeof(struct dma_fence_chain), GFP_KERNEL);
+>>>>        if (!chain) {
+>>>>            ret = -ENOMEM;
+>>>> @@ -890,6 +903,19 @@ drm_syncobj_transfer_to_binary(struct drm_file
+>>>> *file_private,
+>>>>                         args->src_point, args->flags, &fence);
+>>>>        if (ret)
+>>>>            goto err;
+>>>> +
+>>>> +    /* If the requested seqno is already signaled
+>>>> drm_syncobj_find_fence may
+>>>> +     * return a NULL fence. To make sure the recipient gets
+>>>> signalled, use
+>>>> +     * a new fence instead.
+>>>> +     */
+>>>> +    if (!fence) {
+>>>> +        fence = dma_fence_allocate_private_stub();
+>>>> +        if (!fence) {
+>>>> +            ret = -ENOMEM;
+>>>> +            goto err;
+>>>> +        }
+>>>> +    }
+>>>> +
+>>>>        drm_syncobj_replace_fence(binary_syncobj, fence);
+>>>>        dma_fence_put(fence);
+>>>>    err:
+>>>
 
-  2167=09
-  2168	static int savagefb_probe(struct pci_dev *dev, const struct pci_devi=
-ce_id *id)
-  2169	{
-  2170		struct fb_info *info;
-  2171		struct savagefb_par *par;
-  2172		u_int h_sync, v_sync;
-> 2173		unsigned char *edid;
-  2174		int err, lpitch;
-  2175		int video_len;
-  2176=09
-  2177		DBG("savagefb_probe");
-  2178=09
-  2179		info =3D framebuffer_alloc(sizeof(struct savagefb_par), &dev->dev);
-  2180		if (!info)
-  2181			return -ENOMEM;
-  2182		par =3D info->par;
-  2183		mutex_init(&par->open_lock);
-  2184		err =3D pci_enable_device(dev);
-  2185		if (err)
-  2186			goto failed_enable;
-  2187=09
-  2188		if ((err =3D pci_request_regions(dev, "savagefb"))) {
-  2189			printk(KERN_ERR "cannot request PCI regions\n");
-  2190			goto failed_enable;
-  2191		}
-  2192=09
-  2193		err =3D -ENOMEM;
-  2194=09
-  2195		if ((err =3D savage_init_fb_info(info, dev, id)))
-  2196			goto failed_init;
-  2197=09
-  2198		err =3D savage_map_mmio(info);
-  2199		if (err)
-  2200			goto failed_mmio;
-  2201=09
-  2202		video_len =3D savage_init_hw(par);
-  2203		/* FIXME: can't be negative */
-  2204		if (video_len < 0) {
-  2205			err =3D video_len;
-  2206			goto failed_mmio;
-  2207		}
-  2208=09
-  2209		err =3D savage_map_video(info, video_len);
-  2210		if (err)
-  2211			goto failed_video;
-  2212=09
-  2213		INIT_LIST_HEAD(&info->modelist);
-  2214	#if defined(CONFIG_FB_SAVAGE_I2C)
-  2215		savagefb_create_i2c_busses(info);
-  2216		savagefb_probe_i2c_connector(info, &edid);
-  2217		fb_edid_to_monspecs(edid, &info->monspecs);
-  2218		kfree(edid);
-  2219		fb_videomode_to_modelist(info->monspecs.modedb,
-  2220					 info->monspecs.modedb_len,
-  2221					 &info->modelist);
-  2222	#endif
-  2223		info->var =3D savagefb_var800x600x8;
-  2224		/* if a panel was detected, default to a CVT mode instead */
-  2225		if (par->SavagePanelWidth) {
-  2226			struct fb_videomode cvt_mode;
-  2227=09
-  2228			memset(&cvt_mode, 0, sizeof(cvt_mode));
-  2229			cvt_mode.xres =3D par->SavagePanelWidth;
-  2230			cvt_mode.yres =3D par->SavagePanelHeight;
-  2231			cvt_mode.refresh =3D 60;
-  2232			/* FIXME: if we know there is only the panel
-  2233			 * we can enable reduced blanking as well */
-  2234			if (fb_find_mode_cvt(&cvt_mode, 0, 0))
-  2235				printk(KERN_WARNING "No CVT mode found for panel\n");
-  2236			else if (fb_find_mode(&info->var, info, NULL, NULL, 0,
-  2237					      &cvt_mode, 0) !=3D 3)
-  2238				info->var =3D savagefb_var800x600x8;
-  2239		}
-  2240=09
-  2241		if (mode_option) {
-  2242			fb_find_mode(&info->var, info, mode_option,
-  2243				     info->monspecs.modedb, info->monspecs.modedb_len,
-  2244				     NULL, 8);
-  2245		} else if (info->monspecs.modedb !=3D NULL) {
-  2246			const struct fb_videomode *mode;
-  2247=09
-  2248			mode =3D fb_find_best_display(&info->monspecs, &info->modelist);
-  2249			savage_update_var(&info->var, mode);
-  2250		}
-  2251=09
-  2252		/* maximize virtual vertical length */
-  2253		lpitch =3D info->var.xres_virtual*((info->var.bits_per_pixel + 7) >=
-> 3);
-  2254		info->var.yres_virtual =3D info->fix.smem_len/lpitch;
-  2255=09
-  2256		if (info->var.yres_virtual < info->var.yres) {
-  2257			err =3D -ENOMEM;
-  2258			goto failed;
-  2259		}
-  2260=09
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
