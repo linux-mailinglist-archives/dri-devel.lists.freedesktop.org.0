@@ -2,42 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F34B46B86B
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 11:06:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAD6A46B887
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 11:12:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB3C4732BD;
-	Tue,  7 Dec 2021 10:06:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFF72AB8BB;
+	Tue,  7 Dec 2021 10:12:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE55973894;
- Tue,  7 Dec 2021 10:06:41 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10190"; a="261610367"
-X-IronPort-AV: E=Sophos;i="5.87,293,1631602800"; d="scan'208";a="261610367"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Dec 2021 02:06:41 -0800
-X-IronPort-AV: E=Sophos;i="5.87,293,1631602800"; d="scan'208";a="515213213"
-Received: from rbogdano-mobl.ger.corp.intel.com (HELO [10.252.51.186])
- ([10.252.51.186])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Dec 2021 02:06:39 -0800
-Message-ID: <efa921e6-2a26-a275-9532-11d8efeb650c@linux.intel.com>
-Date: Tue, 7 Dec 2021 11:06:36 +0100
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
+ [IPv6:2607:f8b0:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6177CAB8E2
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Dec 2021 10:12:10 +0000 (UTC)
+Received: by mail-ot1-x32d.google.com with SMTP id
+ u18-20020a9d7212000000b00560cb1dc10bso17384009otj.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Dec 2021 02:12:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=endlessos.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=wE37XgFFuURouMpTDq3V8x3RTSt4lM6vt+lYQCj7/GI=;
+ b=QGH9/si30Blm2O4S79KpRoukjvFlIwH/EVW6hGu1aRF2bJxxx2PeTLg66cLLeBh3nh
+ NPWDZ1EQEafv4sYGe4fDnzU8ZPaJx4Bf8vSsyXCSKHjCz5fnLLdbl1/k566eSuWECoBN
+ GBTCYpjFdm4CvY59hpGBspQ+kMsqBBBmO6XdgntBctqXARJh5bQVHJpfh+6Jsa17HOxf
+ t6bwbWIOPu7MYedmgyTpyTJm1YT9loMjx9+P+N9Jb0hhGeXJHh8BAa1Q6Q1Saq3oY3ef
+ JVQ8aBMPpVTHqbFk1Bl7H5AnS+wWsuQdo0HkQi8K0EkP8lp5i3ZV4XJU2kXBcYKA3EgF
+ NCkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=wE37XgFFuURouMpTDq3V8x3RTSt4lM6vt+lYQCj7/GI=;
+ b=7koVB6Ym+ltUPsD2tQxDIzXLFydgbPF2JbTeYhD8p3l2XAPeMCcBr868o21TgUfwZt
+ yEBlvecPi88ZroM0n/P6mvyNQqza1A0M2ZhUvwvBnd5aAEMBbRg6ags4R0j3Thd2Y2P7
+ kuV7gzN4ADXTQw+PmDz7/WE0hcuEE8BjB4LLaDqRfqgjzOFT8uxtl78vCqEjMVgyDv/K
+ yHKmENBQse77/UR8GcDYxx8eA6e1LoI5FlmIr9WKGhmBGqyxWWBbJOerldG9aEiLAXZc
+ nB7kF/k3NzBE0bnClI+FD7bUCsy9rsXuZEWqtDKaHTrcDuTZ6NXuPTn8XWoUq+rnYuZr
+ 5hyA==
+X-Gm-Message-State: AOAM530NfwsgGi3yzaTH8h4Ld4iTUrQd5oHwLfGl1mGoPkAXSSTEvqzS
+ qY5om6YTGNr9/5SYAhJXnOjRSrqh8Z45IlNPF9CLGA==
+X-Google-Smtp-Source: ABdhPJzycbQj6HafmAY064XdqmaLsWlJvbQzhOGTxNcYQhHWR+OVXizKLZQLfW7H/5Jpqp5zcEeG/bbhIrNu4uZxZng=
+X-Received: by 2002:a9d:7e84:: with SMTP id m4mr34228451otp.102.1638871929452; 
+ Tue, 07 Dec 2021 02:12:09 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.3.2
-Subject: Re: [Intel-gfx] [PATCH v2 03/16] drm/i915: Remove pages_mutex and
- intel_gtt->vma_ops.set/clear_pages members, v2.
-Content-Language: en-US
-To: Matthew Auld <matthew.william.auld@gmail.com>
-References: <20211129134735.628712-1-maarten.lankhorst@linux.intel.com>
- <20211129134735.628712-4-maarten.lankhorst@linux.intel.com>
- <CAM0jSHMdahtPqwh559wBNitxm=XBm1Mws6F7UEWVrns2Qtxa1g@mail.gmail.com>
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-In-Reply-To: <CAM0jSHMdahtPqwh559wBNitxm=XBm1Mws6F7UEWVrns2Qtxa1g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20211117094527.146275-1-maxime@cerno.tech>
+ <CAPpJ_eewp9Z_xdpmB+E_NFH1GGq8oyckVBmS1PD84CvCRUminQ@mail.gmail.com>
+ <20211118104009.jkvkhxi5nh4e4zlp@gilmour>
+ <CAPpJ_ef5XeLKpHAzxsrokkdg8M8uqrLo9X9E5uGbFn1-Baroig@mail.gmail.com>
+ <20211126154532.nqlqkoxa77apioxu@houat>
+ <CAPpJ_edY+HXfv_rNL01piUFYaTUdFb9KEj2h-xN0MH0cYRyMTQ@mail.gmail.com>
+ <20211203140355.p2aj7d3s4feubtap@houat>
+In-Reply-To: <20211203140355.p2aj7d3s4feubtap@houat>
+From: Jian-Hong Pan <jhp@endlessos.org>
+Date: Tue, 7 Dec 2021 18:11:13 +0800
+Message-ID: <CAPpJ_eeWVYyjmOSCkqJqYU9kqXvVfBZTubY2TJiruhfoVJkfdw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] drm/vc4: kms: Misc fixes for HVS commits
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,87 +71,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
+ linux@endlessos.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06-12-2021 18:10, Matthew Auld wrote:
-> On Mon, 29 Nov 2021 at 13:57, Maarten Lankhorst
-> <maarten.lankhorst@linux.intel.com> wrote:
->> Big delta, but boils down to moving set_pages to i915_vma.c, and removing
->> the special handling, all callers use the defaults anyway. We only remap
->> in ggtt, so default case will fall through.
->>
->> Because we still don't require locking in i915_vma_unpin(), handle this by
->> using xchg in get_pages(), as it's locked with obj->mutex, and cmpxchg in
->> unpin, which only fails if we race a against a new pin.
->>
->> Changes since v1:
->> - aliasing gtt sets ZERO_SIZE_PTR, not -ENODEV, remove special case
->>   from __i915_vma_get_pages(). (Matt)
->>
->> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> <snip>
+Maxime Ripard <maxime@cerno.tech> =E6=96=BC 2021=E5=B9=B412=E6=9C=883=E6=97=
+=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=8810:03=E5=AF=AB=E9=81=93=EF=BC=9A
 >
->> +static int
->> +__i915_vma_get_pages(struct i915_vma *vma)
->> +{
->> +       struct sg_table *pages;
->> +       int ret;
->> +
->> +       /*
->> +        * The vma->pages are only valid within the lifespan of the borrowed
->> +        * obj->mm.pages. When the obj->mm.pages sg_table is regenerated, so
->> +        * must be the vma->pages. A simple rule is that vma->pages must only
->> +        * be accessed when the obj->mm.pages are pinned.
->> +        */
->> +       GEM_BUG_ON(!i915_gem_object_has_pinned_pages(vma->obj));
->> +
->> +       switch (vma->ggtt_view.type) {
->> +       default:
->> +               GEM_BUG_ON(vma->ggtt_view.type);
->> +               fallthrough;
->> +       case I915_GGTT_VIEW_NORMAL:
->> +               pages = vma->obj->mm.pages;
->> +               break;
->> +
->> +       case I915_GGTT_VIEW_ROTATED:
->> +               pages =
->> +                       intel_rotate_pages(&vma->ggtt_view.rotated, vma->obj);
->> +               break;
->> +
->> +       case I915_GGTT_VIEW_REMAPPED:
->> +               pages =
->> +                       intel_remap_pages(&vma->ggtt_view.remapped, vma->obj);
->> +               break;
->> +
->> +       case I915_GGTT_VIEW_PARTIAL:
->> +               pages = intel_partial_pages(&vma->ggtt_view, vma->obj);
->> +               break;
->> +       }
->> +
->> +       ret = 0;
->> +       if (IS_ERR(pages)) {
->> +               ret = PTR_ERR(pages);
->> +               pages = NULL;
->> +               drm_err(&vma->vm->i915->drm,
->> +                       "Failed to get pages for VMA view type %u (%d)!\n",
->> +                       vma->ggtt_view.type, ret);
->> +       }
->> +
->> +       pages = xchg(&vma->pages, pages);
->> +
->> +       /* did we race against a put_pages? */
->> +       if (pages && pages != vma->obj->mm.pages) {
->> +               sg_free_table(vma->pages);
->> +               kfree(vma->pages);
-> So should this one rather be:
+> On Mon, Nov 29, 2021 at 04:31:57PM +0800, Jian-Hong Pan wrote:
+> > Maxime Ripard <maxime@cerno.tech> =E6=96=BC 2021=E5=B9=B411=E6=9C=8826=
+=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=8811:45=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+> > >
+> > > On Fri, Nov 19, 2021 at 06:24:34PM +0800, Jian-Hong Pan wrote:
+> > > > Maxime Ripard <maxime@cerno.tech> =E6=96=BC 2021=E5=B9=B411=E6=9C=
+=8818=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=886:40=E5=AF=AB=E9=81=93=
+=EF=BC=9A
+> > > > >
+> > > > > On Thu, Nov 18, 2021 at 02:42:58PM +0800, Jian-Hong Pan wrote:
+> > > > > > Maxime Ripard <maxime@cerno.tech> =E6=96=BC 2021=E5=B9=B411=E6=
+=9C=8817=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=885:45=E5=AF=AB=E9=81=
+=93=EF=BC=9A
+> > > > > > > The conversion to DRM commit helpers (f3c420fe19f8, "drm/vc4:=
+ kms: Convert to
+> > > > > > > atomic helpers") introduced a number of issues in corner case=
+s, most of them
+> > > > > > > showing themselves in the form of either a vblank timeout or =
+use-after-free
+> > > > > > > error.
+> > > > > > >
+> > > > > > > These patches should fix most of them, some of them still bei=
+ng debugged.
+> > > > > > >
+> > > > > > > Maxime
+> > > > > > >
+> > > > > > > Changes from v1:
+> > > > > > >   - Prevent a null pointer dereference
+> > > > > > >
+> > > > > > > Maxime Ripard (6):
+> > > > > > >   drm/vc4: kms: Wait for the commit before increasing our clo=
+ck rate
+> > > > > > >   drm/vc4: kms: Fix return code check
+> > > > > > >   drm/vc4: kms: Add missing drm_crtc_commit_put
+> > > > > > >   drm/vc4: kms: Clear the HVS FIFO commit pointer once done
+> > > > > > >   drm/vc4: kms: Don't duplicate pending commit
+> > > > > > >   drm/vc4: kms: Fix previous HVS commit wait
+> > > > > > >
+> > > > > > >  drivers/gpu/drm/vc4/vc4_kms.c | 42 ++++++++++++++++---------=
+----------
+> > > > > > >  1 file changed, 19 insertions(+), 23 deletions(-)
+> > > > > >
+> > > > > > I tested the v2 patches based on latest mainline kernel with RP=
+i 4B.
+> > > > > > System can boot up into desktop environment.
+> > > > >
+> > > > > So the thing that was broken initially isn't anymore?
+> > > >
+> > > > No.  It does not appear anymore.
+> > > >
+> > > > > > Although it still hit the bug [1], which might be under debuggi=
+ng, I
+> > > > > > think these patches LGTM.
+> > > > >
+> > > > > The vblank timeout stuff is a symptom of various different bugs. =
+Can you
+> > > > > share your setup, your config.txt, and what you're doing to trigg=
+er it?
+> > > >
+> > > > I get the RPi boot firmware files from raspberrypi's repository at =
+tag
+> > > > 1.20211029 [1]
+> > > > And, make system boots:
+> > > > RPi firmware -> U-Boot -> Linux kernel (aarch64) with corresponding=
+ DTB
+> > > >
+> > > > The config.txt only has:
+> > > > enable_uart=3D1
+> > > > arm_64bit=3D1
+> > > > kernel=3Duboot.bin
+> > > >
+> > > > This bug can be reproduced with es2gears command easily.  May need =
+to
+> > > > wait it running a while.
+> > > >
+> > > > Mesa: 21.2.2
+> > > > libdrm: 2.4.107
+> > > > xserver/wayland: 1.20.11  Using wayland
+> > > >
+> > > > This bug happens with direct boot path as well:
+> > > > RPi firmware -> Linux kernel (aarch64) with corresponding DTB
+> > > >
+> > > > I tried with Endless OS and Ubuntu's RPi 4B images.
+> > > > An easy setup is using Ubuntu 21.10 RPi 4B image [2].  Then, replac=
+e
+> > > > the kernel & device tree blob and edit the config.txt.
+> > >
+> > > Does it still appear if you raise the core clock in the config.txt fi=
+le
+> > > using: core_freq_min=3D600 ?
+> >
+> > It still appears when I raise the core clock in the config.txt file:
+> > core_freq_min=3D600
 >
-> sg_free_table(pages);
-> kfree(pages);
+> That's weird, we had some issues like that already but could never point
+> exactly what was going on.
 >
-> Or am I missing something?
+> Is testing the official raspberrypi kernel an option for you? If so,
+> trying the same workload with fkms would certainly help
 
-Correct! I missed it. Will fix it up when committing, or if a new version is needed.
+I tested the raspberrypi kernel on rpi-5.16.y branch at commit
+bcb52df6df52 ("xhci: add a quirk to work around a suspected cache bug
+on VLI controllers").  Also, enabled the fkms.  So, vc4 and v3d are
+loaded.  However, the "flip_done timed out" error does not appear like
+mainline kernel.
 
+Jian-Hong Pan
