@@ -2,53 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7203B46BD1E
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 14:59:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C43446BD36
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 15:05:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB3786ECF2;
-	Tue,  7 Dec 2021 13:59:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB02DAA4AB;
+	Tue,  7 Dec 2021 14:05:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B31056ECF2
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Dec 2021 13:59:52 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 330D382058;
- Tue,  7 Dec 2021 14:59:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1638885591;
- bh=8moHGBmWf7fUJdOQJenYjYTvvpB7DbspovVkB1RVFkQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=qTlnVKNis0iDSCHjSc5CWpyl5oQtqiJfGqUJoFDeR33FKYSDGzsUEBlo2DzFFBDEg
- JRD+ZqHsBDQn4Vjq2sRtXFhwaKZ6C/I/4DZxdfJ23Mfd/Sgk9zrwAPYPC/uoyX5jNe
- 3Z3zA6XebD3jdRzFkaDaN886JNVehJHuLRqTENi6wrmunRRpM9+31x18eFmaepIc9g
- Q//eB4A1/H8v7Z5RvBq0oXRc8vb1xpfwwFieIE9/1wohE6TNmzNBVyYM+CMMXtoTDI
- xmMz13W44ChVgj82gXijlkiKYsveBT4WimnUtFdB2WLckZakS4JeoSS7zRsINbhOqr
- VleXp+8tncPUw==
-Message-ID: <4ed56b2f-7d00-60bf-180b-fcf13b0ec107@denx.de>
-Date: Tue, 7 Dec 2021 14:59:49 +0100
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18485AA4AB;
+ Tue,  7 Dec 2021 14:05:48 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10190"; a="217604369"
+X-IronPort-AV: E=Sophos;i="5.87,293,1631602800"; d="scan'208";a="217604369"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Dec 2021 06:05:47 -0800
+X-IronPort-AV: E=Sophos;i="5.87,293,1631602800"; d="scan'208";a="600174578"
+Received: from iodintso-mobl.ger.corp.intel.com (HELO [10.252.18.50])
+ ([10.252.18.50])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Dec 2021 06:05:46 -0800
+Message-ID: <52fadb30-bdc2-6432-931b-ef1bbf3be0ba@intel.com>
+Date: Tue, 7 Dec 2021 14:05:44 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH 2/4] drm/bridge: tc358767: Move hardware init to enable
- callback
-Content-Language: en-US
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-References: <20211127032405.283435-1-marex@denx.de>
- <20211127032405.283435-2-marex@denx.de>
- <CAPY8ntAhWH0Wdg4EX2DOMPp-8CKimqmSHpMeJ64QFPpVfp1d2g@mail.gmail.com>
- <77d26622-843b-1009-b331-5834d2d195d6@denx.de>
- <CAPY8ntBd1o-OpXAUf3s-OHCHrJ2VOt0HVn9sGOcXRd_2kUYG3g@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <CAPY8ntBd1o-OpXAUf3s-OHCHrJ2VOt0HVn9sGOcXRd_2kUYG3g@mail.gmail.com>
+ Thunderbird/91.2.0
+Subject: Re: [Intel-gfx] [PATCH v9 2/8] drm/i915/ttm: add tt shmem backend
+Content-Language: en-GB
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org
+References: <20211018091055.1998191-1-matthew.auld@intel.com>
+ <20211018091055.1998191-2-matthew.auld@intel.com>
+ <1a8431eb-566d-ac2b-85b7-31c590ec84ff@linux.intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <1a8431eb-566d-ac2b-85b7-31c590ec84ff@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,84 +50,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- Neil Armstrong <narmstrong@baylibre.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ Oak Zeng <oak.zeng@intel.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/7/21 14:34, Dave Stevenson wrote:
-
-Hi,
-
->>>> The TC358767/TC358867/TC9595 are all capable of operating either from
->>>> attached Xtal or from DSI clock lane clock. In case the later is used,
->>>> all I2C accesses will fail until the DSI clock lane is running and
->>>> supplying clock to the chip.
->>>>
->>>> Move all hardware initialization to enable callback to guarantee the
->>>> DSI clock lane is running before accessing the hardware. In case Xtal
->>>> is attached to the chip, this change has no effect.
->>>
->>> This puzzles me as there seem to be a couple of ambiguities over how
->>> it would be used.
->>>
->>> Firstly the DT binding lists the clock as a required property, but
->>> there isn't one present if deriving the clock from the DSI clock lane.
+On 07/12/2021 13:10, Tvrtko Ursulin wrote:
+> 
+> On 18/10/2021 10:10, Matthew Auld wrote:
+>> For cached objects we can allocate our pages directly in shmem. This
+>> should make it possible(in a later patch) to utilise the existing
+>> i915-gem shrinker code for such objects. For now this is still disabled.
 >>
->> That's correct, the clock for the internal PLLs are derived from the DSI
->> clock lane.
-> 
-> Does that mean you're creating a dummy clock device?
-> If it's a required property then presumably yes, but it seems a little
-> odd as that reflck does not exist.
-
-No. The refclk will become optional, but for that I need some more 
-infrastructure work, i.e. some way to communicate the requirements of 
-the DSI clock lane to the DSI host.
-
->>> Secondly the datasheet states that the DSI Reference Clock Source
->>> Division Selection is done by the MODE1 pin, and switches between
->>> HSCKBY2 divided by 7 and HSCKBY2 divided by 9. There is a stated
->>> assumption that HSCK is either 364MHz or 468MHz, thereby ending up
->>> with 26MHz. To do this we have to be running DSI in burst mode, but
->>> the support for that in DRM is near zero.
+>> v2(Thomas):
+>>    - Add optional try_to_writeback hook for objects. Importantly we need
+>>      to check if the object is even still shrinkable; in between us
+>>      dropping the shrinker LRU lock and acquiring the object lock it 
+>> could for
+>>      example have been moved. Also we need to differentiate between
+>>      "lazy" shrinking and the immediate writeback mode. Also later we 
+>> need to
+>>      handle objects which don't even have mm.pages, so bundling this into
+>>      put_pages() would require somehow handling that edge case, hence
+>>      just letting the ttm backend handle everything in try_to_writeback
+>>      doesn't seem too bad.
+>> v3(Thomas):
+>>    - Likely a bad idea to touch the object from the unpopulate hook,
+>>      since it's not possible to hold a reference, without also creating
+>>      circular dependency, so likely this is too fragile. For now just
+>>      ensure we at least mark the pages as dirty/accessed when called 
+>> from the
+>>      shrinker on WILLNEED objects.
+>>    - s/try_to_writeback/shrinker_release_pages, since this can do more
+>>      than just writeback.
+>>    - Get rid of do_backup boolean and just set the SWAPPED flag prior to
+>>      calling unpopulate.
+>>    - Keep shmem_tt as lowest priority for the TTM LRU bo_swapout walk, 
+>> since
+>>      these just get skipped anyway. We can try to come up with something
+>>      better later.
+>> v4(Thomas):
+>>    - s/PCI_DMA/DMA/. Also drop NO_KERNEL_MAPPING and NO_WARN, which
+>>      apparently doesn't do anything with streaming mappings.
+>>    - Just pass along the error for ->truncate, and assume nothing.
 >>
->> Yes, you have to run the DSI clock lane at either of the two clock
->> frequencies, that is rather limiting. The DSI has to be running in
->> continuous clock mode, this has nothing to do with burst mode, the burst
->> mode is a DSI host setting which is supported by most DSI hosts.
+>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Oak Zeng <oak.zeng@intel.com>
+>> Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>> Acked-by: Oak Zeng <oak.zeng@intel.com>
 > 
-> OK burst mode is technically dropping the lane to LP mode, and you
-> don't need that state transition.
+> [snip]
 > 
-> To quote the Toshiba datasheet:
-> "As the clock derived from the
-> DSICLK has to be fixed at 13, 26, 19.2 or 38.4 MHz, the DSI Host may
-> need to run DSI clock lane at
-> higher frequency than needed by frame rate and may have to send the
-> DSI video mode transmissions in
-> burst mode (explained in DSI section of this specification) "
+>> -static void try_to_writeback(struct drm_i915_gem_object *obj,
+>> -                 unsigned int flags)
+>> +static int try_to_writeback(struct drm_i915_gem_object *obj, unsigned 
+>> int flags)
+>>   {
+>> +    if (obj->ops->shrinker_release_pages)
+>> +        return obj->ops->shrinker_release_pages(obj,
+>> +                            flags & I915_SHRINK_WRITEBACK);
 > 
-> So where are you configuring the DSI clock lane to be running at one
-> of those frequencies? Or are you requiring your panel to be running
-> with a matching pixel clock?
+> I have a high level question about how does this new vfunc fit with the 
+> existing code.
+> 
+> Because I notice in the implementation (i915_ttm_shrinker_release_pages) 
+> it ends up doing:
+> ...
+> 
+>         switch (obj->mm.madv) {
+>         case I915_MADV_DONTNEED:
+>                 return i915_ttm_purge(obj);
+>         case __I915_MADV_PURGED:
+>                 return 0;
+>         }
+> 
+> ... and then...
+> 
+>         if (should_writeback)
+>                 __shmem_writeback(obj->base.size, 
+> i915_tt->filp->f_mapping);
+> 
+> Which on a glance looks like a possible conceptual duplication of the 
+> concepts in this very function (try_to_writeback):
+> 
+>> +
+>>       switch (obj->mm.madv) {
+>>       case I915_MADV_DONTNEED:
+>>           i915_gem_object_truncate(obj);
+>> -        return;
+>> +        return 0;
+>>       case __I915_MADV_PURGED:
+>> -        return;
+>> +        return 0;
+>>       }
+>>       if (flags & I915_SHRINK_WRITEBACK)
+>>           i915_gem_object_writeback(obj);
+> 
+> So question is this the final design or some futher tidy is 
+> possible/planned?
 
-This is a preparatory patch, so nowhere yet. I forced the clock lane to 
-the required clock frequency on the DSI host side thus far. You can 
-still configure the chip to derive clock from Xtal, even with DSI as 
-data input.
+It seems ok to me, all things considered. The TTM version needs to check 
+if the object is still shrinkable at the start(plus some other stuff), 
+upon acquiring the object lock. If that succeeds we can do the above 
+madv checks and potentially just call truncate. Otherwise we can proceed 
+with shrinking, but again TTM is special here, and we have to call 
+ttm_bo_validate() underneath(we might not even have mm.pages here). And 
+then if that all works we might be able to also perform the writeback, 
+if needed. So I suppose we could add all that directly in 
+try_to_writeback(), and make it conditional for TTM devices, or I guess 
+we need two separate hooks, one to do some pre-checking and another do 
+the actual swap step. Not sure if that is better or worse though.
 
->>> Can I ask how the chip has actually been configured and run in this mode?
->>
->> REFCLK Xtal disconnected and HSCKBY2/7 MODE0=H MODE1=L , that should be
->> all you need. Do you plan to develop a board with this bridge ?
 > 
-> Yes, I have a board with this chip in DSI to DPI mode that I'm trying
-> to get to work. The intent was to configure it via DSI LP commands
-> rather than I2C, but currently it's refusing to do anything.
+> Background to my question is that I will float a patch which proposes to 
+> remove writeback altogether. There are reports from the fields that it 
+> causes deadlocks and looking at 2d6692e642e7 ("drm/i915: Start writeback 
+> from the shrinker") and its history it seems like it was a known risk.
+> 
+> Apart from the code organisation questions, on the practical level - do 
+> you need writeback from the TTM backend or while I am proposing to 
+> remove it from the "legacy" paths, I can propose removing it from the 
+> TTM flow as well?
 
-I see.
+Yeah, if that is somehow busted then we should remove from TTM backend also.
+
+> 
+> Regards,
+> 
+> Tvrtko
