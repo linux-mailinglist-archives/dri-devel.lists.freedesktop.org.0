@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03C4A46BAC4
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 13:13:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C271D46BB07
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 13:26:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACDE1EBA75;
-	Tue,  7 Dec 2021 12:13:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 751BEAB48F;
+	Tue,  7 Dec 2021 12:26:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1117 seconds by postgrey-1.36 at gabe;
- Tue, 07 Dec 2021 12:13:14 UTC
-Received: from metanate.com (unknown [IPv6:2001:8b0:1628:5005::111])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28CB6EBA78
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Dec 2021 12:13:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=metanate.com; s=stronger; h=In-Reply-To:Content-Type:References:Message-ID:
- Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description; bh=/p4R2MJ54JWAasn2vcmZIBkf95G1c272J6p1ijwkBXY=; b=KFHxJ
- /a1LGziBgLC66FJecVCE5eu8F9MBJejLwjEFLY/BShx3ZKR3znFdhxYkmpNJD5/VWocZ9wK0WAoRJ
- HYmligvo5UhsR5YIzUaqUKJSvVdcS/scS8KEayPtElxazPEkMxx7kCYgMY+qpUiPkvX/4nNoXnGKv
- B5SLQs4aw13xSFWtQcw34u+xmlEZSNqHF/LHYN1jeRSvYqklerValcq59dvP2fMAPNstOB0lYFyux
- 0nPnHrAbo4JsYWSOByz5KK3PO2Ihb6ynYpimR5KjAZgCM+991usv+43/kENF7+czf4VDsdxs/7o3D
- vbUbHPdlojAfjkPMFEGIfcwVHWkUA==;
-Received: from [81.174.171.191] (helo=donbot)
- by email.metanate.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
- (Exim 4.93) (envelope-from <john@metanate.com>)
- id 1muZ3I-0005EC-4g; Tue, 07 Dec 2021 11:54:32 +0000
-Date: Tue, 7 Dec 2021 11:54:30 +0000
-From: John Keeping <john@metanate.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/rockchip: use generic fbdev setup
-Message-ID: <Ya9LdiutXV7lCOtT@donbot>
-References: <20211029115014.264084-1-john@metanate.com>
- <ab7ace79-0148-1efa-ec17-6994bb35fd2f@suse.de>
- <YX01C6l93I2YPgku@donbot>
- <6e69f9bb-5a1e-7b79-38e8-d2860e5ee615@suse.de>
- <20211101113415.3bed0f62.john@metanate.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C9E9AB48F;
+ Tue,  7 Dec 2021 12:26:12 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10190"; a="323819004"
+X-IronPort-AV: E=Sophos;i="5.87,293,1631602800"; d="scan'208";a="323819004"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Dec 2021 04:26:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,293,1631602800"; d="scan'208";a="657661600"
+Received: from kuha.fi.intel.com ([10.237.72.166])
+ by fmsmga001.fm.intel.com with SMTP; 07 Dec 2021 04:26:06 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
+ Tue, 07 Dec 2021 14:26:05 +0200
+Date: Tue, 7 Dec 2021 14:26:05 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Hans de Goede <hdegoede@redhat.com>, Imre Deak <imre.deak@intel.com>
+Subject: Re: [RFC] drm/msm/dp: Allow attaching a drm_panel
+Message-ID: <Ya9S3cFo0rOUotqY@kuha.fi.intel.com>
+References: <CAD=FV=U=xVLuKOYHbGPTkLjGa8_U+F1ZtEvJt4LGaRuR5SsKFw@mail.gmail.com>
+ <YVumL1lHLqtb/HKS@ripper>
+ <CAD=FV=W9uKq00wXn4H1ax0u2D=R8Wn3J-Je43uxcPyDtk7AK7Q@mail.gmail.com>
+ <YVyMwsvLl6XalJxB@ripper>
+ <CAD=FV=WY+g38p7--QKZCaQnSqx7VvdwC36jH-VKnrEWoxK=XHQ@mail.gmail.com>
+ <YV0KBWxVtKgOp2Cj@ripper>
+ <CAD=FV=X5JFE3u9BtxxocaUrYNSpYXJN90UJ8HOvXZE6oYiVsDQ@mail.gmail.com>
+ <CACeCKac4b_ej87cQD692TNwpsoFsmBwDcSeLy5fp+pvLX1si7g@mail.gmail.com>
+ <YV7JNH9QvI4cBz5s@kuha.fi.intel.com> <Ya6PTGN4zaZ8RD9K@ripper>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211101113415.3bed0f62.john@metanate.com>
-X-Authenticated: YES
+In-Reply-To: <Ya6PTGN4zaZ8RD9K@ripper>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,82 +54,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sandy Huang <hjc@rock-chips.com>,
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Doug Anderson <dianders@chromium.org>, Abhinav Kumar <abhinavk@codeaurora.org>,
+ LKML <linux-kernel@vger.kernel.org>, Kuogee Hsieh <khsieh@codeaurora.org>,
+ Prashant Malani <pmalani@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Vara Reddy <varar@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
++Hans and Imre
 
-On Mon, Nov 01, 2021 at 11:34:15AM +0000, John Keeping wrote:
-> On Sun, 31 Oct 2021 19:09:39 +0100
-> Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> > Am 30.10.21 um 14:05 schrieb John Keeping:
-> > > On Fri, Oct 29, 2021 at 09:00:08PM +0200, Thomas Zimmermann wrote:  
-> > >> Am 29.10.21 um 13:50 schrieb John Keeping:  
-> > >>> The Rockchip fbdev code does not add anything compared to
-> > >>> drm_fbdev_generic_setup(); the one custom function for .fb_mmap does the
-> > >>> same thing as gem_prime_mmap which is called by the helper.
-> > >>>
-> > >>> Signed-off-by: John Keeping <john@metanate.com>
-> > >>> ---
-> > >>>    drivers/gpu/drm/rockchip/Makefile             |   1 -
-> > >>>    drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |  10 +-
-> > >>>    drivers/gpu/drm/rockchip/rockchip_drm_drv.h   |   2 -
-> > >>>    drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c | 164 ------------------
-> > >>>    drivers/gpu/drm/rockchip/rockchip_drm_fbdev.h |  24 ---
-> > >>>    5 files changed, 2 insertions(+), 199 deletions(-)
-> > >>>    delete mode 100644 drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c
-> > >>>    delete mode 100644 drivers/gpu/drm/rockchip/rockchip_drm_fbdev.h
-> > >>>
-> > >>> diff --git a/drivers/gpu/drm/rockchip/Makefile b/drivers/gpu/drm/rockchip/Makefile
-> > >>> index 17a9e7eb2130..1a56f696558c 100644
-> > >>> --- a/drivers/gpu/drm/rockchip/Makefile
-> > >>> +++ b/drivers/gpu/drm/rockchip/Makefile
-> > >>> @@ -5,7 +5,6 @@
-> > >>>    rockchipdrm-y := rockchip_drm_drv.o rockchip_drm_fb.o \
-> > >>>    		rockchip_drm_gem.o rockchip_drm_vop.o rockchip_vop_reg.o
-> > >>> -rockchipdrm-$(CONFIG_DRM_FBDEV_EMULATION) += rockchip_drm_fbdev.o
-> > >>>    rockchipdrm-$(CONFIG_ROCKCHIP_ANALOGIX_DP) += analogix_dp-rockchip.o
-> > >>>    rockchipdrm-$(CONFIG_ROCKCHIP_CDN_DP) += cdn-dp-core.o cdn-dp-reg.o
-> > >>> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> > >>> index 69c699459dce..20d81ae69828 100644
-> > >>> --- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> > >>> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> > >>> @@ -26,7 +26,6 @@
-> > >>>    #include "rockchip_drm_drv.h"
-> > >>>    #include "rockchip_drm_fb.h"
-> > >>> -#include "rockchip_drm_fbdev.h"
-> > >>>    #include "rockchip_drm_gem.h"
-> > >>>    #define DRIVER_NAME	"rockchip"
-> > >>> @@ -159,10 +158,6 @@ static int rockchip_drm_bind(struct device *dev)
-> > >>>    	drm_mode_config_reset(drm_dev);
-> > >>> -	ret = rockchip_drm_fbdev_init(drm_dev);
-> > >>> -	if (ret)
-> > >>> -		goto err_unbind_all;
-> > >>> -
-> > >>>    	/* init kms poll for handling hpd */
-> > >>>    	drm_kms_helper_poll_init(drm_dev);
-> > >>> @@ -170,10 +165,11 @@ static int rockchip_drm_bind(struct device *dev)
-> > >>>    	if (ret)
-> > >>>    		goto err_kms_helper_poll_fini;
-> > >>> +	drm_fbdev_generic_setup(drm_dev, 32);  
-> > >>
-> > >> Please pass 0 for the final argument. The fbdev helpers pick 32 by default.
-> > >> Maybe leave a comment if you require 32 here.  
-> > > 
-> > > I wanted to minimise the changes introduced here - passing 32 matches
-> > > the value passed to drm_fb_helper_initial_config() in the deleted code
-> > > from rockchip_drm_fbdev.c.  
+On Mon, Dec 06, 2021 at 02:31:40PM -0800, Bjorn Andersson wrote:
+> On Thu 07 Oct 03:17 PDT 2021, Heikki Krogerus wrote:
+> > On Wed, Oct 06, 2021 at 01:26:35PM -0700, Prashant Malani wrote:
+> > > (CC+ Heikki)
+> [..]
+> > > On Wed, Oct 6, 2021 at 8:19 AM Doug Anderson <dianders@chromium.org> wrote:
+> [..]
+> >         void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode);
 > > 
-> > In that case
+> > If your USB Type-C controller/port driver does not yet register the DP
+> > alt mode, the it's responsible of handling HPD separately by calling
+> > drm_connector_oob_hotplug_event() on its own.
 > > 
-> > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 > 
-> Thanks!
+> Finally found my way back to this topic and it doesn't look like I can
+> reuse the existing altmode code with the firmware interface provided by
+> Qualcomm, so  I just hacked something up that invokes
+> drm_connector_oob_hotplug_event().
+> 
+> But I'm not able to make sense of what the expected usage is. Reading
+> altmode/displayport.c, it seems that I should only invoke
+> drm_connector_oob_hotplug_event() as HPD state toggles.
+> 
+> I made a trial implementation of this, where my firmware interface
+> driver calls drm_connector_oob_hotplug_event() every time HPD state
+> changes and then in my oob_hotplug_event callback I flip the DP
+> controller between on and off.
+> 
+> Unfortunately when I then connect my HDMI dongle, I get HPD state HIGH,
+> call the oob_hotplug_event, the DP driver powers up and concludes that
+> there's nothing connected to the dongle and goes to idle. I then connect
+> the HDMI cable to the dongle, the firmware sends me another message with
+> HPD irq and state HIGH, which I ignore because it's not a change in
+> state.
+> 
+> In the end I hacked up drm_connector_oob_hotplug_event() to allow me to
+> pass the HPD state and this solves my problem. I can now distinguish
+> between connect, disconnect and attention.
+> 
+> Can you please help shed some light on what I might be missing?
 
-Are you able to pick this up (and [1])?  Otherwise what is needed here
-and who should pick this up?
+Originally I wanted an API that we could use to pass all the details
+that we have in the USB Type-C drivers (that would be the
+configuration and status) to the GPU drivers, but Hans was against
+that because, if I remember correctly, the OOB hotplug event may need
+to be delivered to the GPU drivers in some cases even when the
+connector is not USB Type-C connector, and he wanted a common API.
+Hans, please correct me if I got it wrong.
 
-[1] https://lore.kernel.org/dri-devel/20211101114622.813536-1-john@metanate.com/
+I think that the GPU drivers need to handle USB Type-C connectors
+separately one way or the other, but maybe the notification from the
+connector can continue to be generic - not USB Type-C specific.
+
+Imre proposed that the GPU drivers should be able to query the
+DisplayPort configuration and status from the USB Type-C drivers
+instead of the USB Type-C drivers just dumping the information
+together with the notification about some event (so connection,
+disconnection or attention) like I originally proposed. Imre, please
+correct me if I misunderstood you :-).
+
+I'm fine with anything, but we do need improvement here as you guys
+can see.
+
+thanks,
+
+-- 
+heikki
