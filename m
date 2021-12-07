@@ -1,58 +1,105 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04DEE46C290
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 19:19:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD1D846C2A2
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 19:22:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9448F6F572;
-	Tue,  7 Dec 2021 18:19:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F6426F3C0;
+	Tue,  7 Dec 2021 18:22:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 932636F572
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Dec 2021 18:19:11 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id a18so31338624wrn.6
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Dec 2021 10:19:11 -0800 (PST)
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E571C6F4D1
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Dec 2021 18:22:19 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id t18so7404118wrg.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Dec 2021 10:22:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=ryBB1dJoJAjwQetkQUG1CkdXjTwGO2uIq3Be4erfjLI=;
- b=GkieuRCAxWKFS03VV9C6Bquc4bDeerCOXSoIFakdnaM7ADQo9mPtOFZAaiYO5pe1zJ
- N9Vrb1Pe+MdDqFqIE9ivzVkr98Y7WZRvw/f2e8+tobjY82al+y5Y8O6uMahnUXVGikU8
- D3/G5zcSlX2AKONlLp775RfJ9rbYEAGp7rdOM=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=08Y7iJI/PLTRM2a75Lt/X18n1ghFVyrjUSIXA87jB1c=;
+ b=NaDI0vUgbYnBOYtMUBltHLOUYkBXWIXJLzv1PJ7Qa9rHdOKP9n7wD2RgoiI26BUkdU
+ CZEv7LjjD++6EkU7BPSrcm5S5wjFQxbu6pQpfZBClnaei3kVbRcKDTFCdpA2g/elj3oJ
+ 9KfrkXcOBOAK/G7Zr0zvdI5whTEkEdr8KfEX0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ryBB1dJoJAjwQetkQUG1CkdXjTwGO2uIq3Be4erfjLI=;
- b=JMvytYTWh8Xq/gH87pjYNlqsND4SlwPr6wib0vj5roMzTGSAb8fB/PKTUi7e3ByRDT
- fvIAJK/ZvHKqzW6XdIBDD64sxOuN+XQJRTLanBSBfJsiU1j38fUWclt3odlj2ciRgASl
- Cnptr4mMg14reNT5PbVTI9zBFSpJsKLHYpMmYZLEVLWVX7e4ktlv7OcKfdL1vQ247Rkh
- MOI6aTVd62PisryqVXLxzd5E0MFpdp8s4deTFiC5giwMIurx92LnWbJ0/gjBShjyIp/A
- fiTDRccJXWKXQPUl/MeS1z7wNzgP5P9Gl5EmJfQaRYFOu1UNVJsyj6IhYMmRsf2/Bycf
- oqvA==
-X-Gm-Message-State: AOAM5316hWHSS9JiywK/BzSrpnrtf0ObljKW6uGsRxuM6HoDJ8jReUkG
- 5c5x6hm59wIaEjyBDy9BbeaN1A==
-X-Google-Smtp-Source: ABdhPJys+7fkflB/7uVRaDXSUkVakrY1E7ZzZ4ixrqIvd1ejF0OBx2V85+mJtPAb8y/5g4keFYmJng==
-X-Received: by 2002:a5d:68d2:: with SMTP id p18mr53846531wrw.21.1638901150128; 
- Tue, 07 Dec 2021 10:19:10 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=08Y7iJI/PLTRM2a75Lt/X18n1ghFVyrjUSIXA87jB1c=;
+ b=qZyYwDAQ9iICd1P+0iq+aL+urELXtjMaoDBwnvG1gdDn3JKQaVfd8TQVr/6UR+7K2f
+ HJK0JqcREDhBWaa9D6FhGwdAAqJrDNaIgjnOtwE5qyi63yLHWOUlR8AFdypizgV8/jbg
+ DJ6hooBCabWHgB7vrKOqo6iNs94gSMxs9ibFr9KwkqAbcZ7osjdFSCvPDn0VAeiRUUIO
+ EU/55HQjIEpx7sdAhVFzwIx9UggZTDKyuA9qS44RkDbm91zfgbCzcpMLOMf1Ki6qaGEP
+ DXfPvcmrFKrQr94m+2iZwy/K0pweGdAtCoJtBXb4W+rdAdEMVyURFdSvY6skiVv7tRaA
+ i08w==
+X-Gm-Message-State: AOAM532/ZhmhCzol1q0a3U16ERyZGT4+SlHSnZGO5h68L8FyEbgM6N+B
+ RUBdzxe3oxk6LzZopvRksXzKpw==
+X-Google-Smtp-Source: ABdhPJxK2mhzgF3YMS/fG40gJ9DDy/bEcttiC7rT6MkCLhX411tsNH3w2Tru9t1nhhNXbQLQaKdz8Q==
+X-Received: by 2002:adf:d1e2:: with SMTP id g2mr54445987wrd.362.1638901338335; 
+ Tue, 07 Dec 2021 10:22:18 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id y6sm3346625wma.37.2021.12.07.10.19.08
+ by smtp.gmail.com with ESMTPSA id w4sm421952wrs.88.2021.12.07.10.22.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Dec 2021 10:19:09 -0800 (PST)
-Date: Tue, 7 Dec 2021 19:19:07 +0100
+ Tue, 07 Dec 2021 10:22:17 -0800 (PST)
+Date: Tue, 7 Dec 2021 19:22:15 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Subject: Re: [PATCH v2 6/6] Documentation/gpu: Add amdgpu and dc glossary
-Message-ID: <Ya+lm9B8opSSkHsu@phenom.ffwll.local>
-References: <20211202160132.2263330-1-Rodrigo.Siqueira@amd.com>
- <20211202160132.2263330-7-Rodrigo.Siqueira@amd.com>
+To: Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH v4 00/34] component: Make into an aggregate bus
+Message-ID: <Ya+mV/zuRVVIGVy1@phenom.ffwll.local>
+Mail-Followup-To: Stephen Boyd <swboyd@chromium.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ Arnd Bergmann <arnd@arndb.de>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Chen Feng <puck.chen@hisilicon.com>, Chen-Yu Tsai <wens@csie.org>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Emma Anholt <emma@anholt.net>,
+ Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+ Inki Dae <inki.dae@samsung.com>,
+ James Qian Wang <james.qian.wang@arm.com>,
+ Jaroslav Kysela <perex@perex.cz>, Joerg Roedel <joro@8bytes.org>,
+ John Stultz <john.stultz@linaro.org>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-pm@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Mark Brown <broonie@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Paul Cercueil <paul@crapouillou.net>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Rob Clark <robdclark@gmail.com>,
+ Russell King <linux@armlinux.org.uk>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Russell King <rmk+kernel@arm.linux.org.uk>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Saravana Kannan <saravanak@google.com>,
+ Sebastian Reichel <sre@kernel.org>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Takashi Iwai <tiwai@suse.com>, Tian Tao <tiantao6@hisilicon.com>,
+ Tomas Winkler <tomas.winkler@intel.com>,
+ Tomi Valkeinen <tomba@kernel.org>, Will Deacon <will@kernel.org>,
+ Xinliang Liu <xinliang.liu@linaro.org>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Yong Wu <yong.wu@mediatek.com>,
+ Vitaly Lubart <vitaly.lubart@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+References: <20211202222732.2453851-1-swboyd@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20211202160132.2263330-7-Rodrigo.Siqueira@amd.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211202222732.2453851-1-swboyd@chromium.org>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,372 +113,220 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, aurabindo.pillai@amd.com,
- Roman Gilg <subdiff@gmail.com>, Marek Olsak <marek.olsak@amd.com>,
- Yann Dirson <ydirson@free.fr>, Michel Daenzer <michel@daenzer.net>,
- Sean Paul <seanpaul@chromium.org>, bhawanpreet.lakha@amd.com,
- Mark Yacoub <markyacoub@chromium.org>, qingqing.zhuo@amd.com, roman.li@amd.com,
- Christian Koenig <christian.koenig@amd.com>, nicholas.choi@amd.com,
- Alex Deucher <alexander.deucher@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Cc: linux-fbdev@vger.kernel.org, Emma Anholt <emma@anholt.net>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Xinliang Liu <xinliang.liu@linaro.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
+ Jaroslav Kysela <perex@perex.cz>, Paul Cercueil <paul@crapouillou.net>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Russell King <linux@armlinux.org.uk>, Will Deacon <will@kernel.org>,
+ Vitaly Lubart <vitaly.lubart@intel.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Saravana Kannan <saravanak@google.com>, Joerg Roedel <joro@8bytes.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Chen-Yu Tsai <wens@csie.org>, Sandy Huang <hjc@rock-chips.com>,
+ James Qian Wang <james.qian.wang@arm.com>, Chen Feng <puck.chen@hisilicon.com>,
+ Russell King <rmk+kernel@arm.linux.org.uk>,
+ Tomas Winkler <tomas.winkler@intel.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>, Mark Brown <broonie@kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Takashi Iwai <tiwai@suse.com>,
+ linux-omap@vger.kernel.org, Yong Wu <yong.wu@mediatek.com>,
+ Tomi Valkeinen <tomba@kernel.org>, Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, linux-kernel@vger.kernel.org,
+ Kyungmin Park <kyungmin.park@samsung.com>, Sebastian Reichel <sre@kernel.org>,
+ Tian Tao <tiantao6@hisilicon.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 02, 2021 at 11:01:32AM -0500, Rodrigo Siqueira wrote:
-> In the DC driver, we have multiple acronyms that are not obvious most of
-> the time; the same idea is valid for amdgpu. This commit introduces a DC
-> and amdgpu glossary in order to make it easier to navigate through our
-> driver.
+On Thu, Dec 02, 2021 at 02:26:58PM -0800, Stephen Boyd wrote:
+> This series is from discussion we had on reordering the device lists for
+> drm shutdown paths[1]. I've introduced an 'aggregate' bus that we put
+> the aggregate device onto and then we probe the aggregate device once
+> all the components are probed and call component_add(). The probe/remove
+> hooks are where the bind/unbind calls go, and then a shutdown hook is
+> added that can be used to shutdown the drm display pipeline at the right
+> time.
 > 
-> Changes since V1:
->  - Yann: Divide glossary based on driver context.
->  - Alex: Make terms more consistent and update CPLIB
->  - Add new acronyms to the glossary
+> This works for me on my sc7180 board. I no longer get a warning from i2c
+> at shutdown that we're trying to make an i2c transaction after the i2c
+> bus has been shutdown. There's more work to do on the msm drm driver to
+> extract component device resources like clks, regulators, etc. out of
+> the component bind function into the driver probe but I wanted to move
+> everything over now in other component drivers before tackling that
+> problem.
 > 
-> Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-> ---
->  Documentation/gpu/amdgpu/amdgpu-glossary.rst  |  47 ++++
->  .../gpu/amdgpu/display/dc-glossary.rst        | 243 ++++++++++++++++++
->  Documentation/gpu/amdgpu/display/index.rst    |   1 +
->  Documentation/gpu/amdgpu/index.rst            |   7 +
->  4 files changed, 298 insertions(+)
->  create mode 100644 Documentation/gpu/amdgpu/amdgpu-glossary.rst
->  create mode 100644 Documentation/gpu/amdgpu/display/dc-glossary.rst
-> 
-> diff --git a/Documentation/gpu/amdgpu/amdgpu-glossary.rst b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
-> new file mode 100644
-> index 000000000000..e635851025e7
-> --- /dev/null
-> +++ b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
-> @@ -0,0 +1,47 @@
-> +===============
-> +AMDGPU Glossary
-> +===============
-> +
-> +Here you can find some generic acronyms used in the amdgpu driver. Notice that
-> +we have a dedicated glossary for Display Core.
+> Tested-by tags would be appreciated, and Acked-by/Reviewed-by tags too.
 
-Maybe add a link to that here so it's easier to find? sphinx autogenerates
-header targets so pretty easy (if the heading is unique at least).
--Daniel
+Thanks for pushing this forward. Unfortunately I'm completely burried and
+it's just not improving, so merge plan:
 
-> +
-> +.. glossary::
-> +
-> +    CPLIB
-> +      Content Protection Library
-> +
-> +    DFS
-> +      Digital Frequency Synthesizer
-> +
-> +    ECP
-> +      Enhanced Content Protection
-> +
-> +    EOP
-> +      End Of Pipe/Pipeline
-> +
-> +    HQD
-> +      Hardware Queue Descriptor
-> +
-> +    KCQ
-> +      Kernel Compute Queue
-> +
-> +    KGQ
-> +      Kernel Graphics Queue
-> +
-> +    KIQ
-> +      Kernel Interface Queue
-> +
-> +    MQD
-> +      Memory Queue Descriptor
-> +
-> +    PPLib
-> +      PowerPlay Library - PowerPlay is the power management component.
-> +
-> +    SMU
-> +      System Management Unit
-> +
-> +    VCE
-> +      Video Compression Engine
-> +
-> +    VCN
-> +      Video Codec Next
-> diff --git a/Documentation/gpu/amdgpu/display/dc-glossary.rst b/Documentation/gpu/amdgpu/display/dc-glossary.rst
-> new file mode 100644
-> index 000000000000..547c0bfbb3e2
-> --- /dev/null
-> +++ b/Documentation/gpu/amdgpu/display/dc-glossary.rst
-> @@ -0,0 +1,243 @@
-> +===========
-> +DC Glossary
-> +===========
-> +
-> +On this page, we try to keep track of acronyms related to the display
-> +component. If you do not find what you are looking for, look at the amdgpu
-> +glossary; if you cannot find it anywhere, consider asking in the amdgfx and
-> +update this page.
-> +
-> +.. glossary::
-> +
-> +    ABM
-> +      Adaptive Backlight Modulation
-> +
-> +    APU
-> +      Accelerated Processing Unit
-> +
-> +    ASIC
-> +      Application-Specific Integrated Circuit
-> +
-> +    ASSR
-> +      Alternate Scrambler Seed Reset
-> +
-> +    AZ
-> +      Azalia (HD audio DMA engine)
-> +
-> +    BPC
-> +      Bits Per Colour/Component
-> +
-> +    BPP
-> +      Bits Per Pixel
-> +
-> +    Clocks
-> +      * PCLK: Pixel Clock
-> +      * SYMCLK: Symbol Clock
-> +      * SOCCLK: GPU Engine Clock
-> +      * DISPCLK: Display Clock
-> +      * DPPCLK: DPP Clock
-> +      * DCFCLK: Display Controller Fabric Clock
-> +      * REFCLK: Real Time Reference Clock
-> +      * PPLL: Pixel PLL
-> +      * FCLK: Fabric Clock
-> +      * MCLK: Memory Clock
-> +
-> +    CRC
-> +      Cyclic Redundancy Check
-> +
-> +    CRTC
-> +      Cathode Ray Tube Controller - commonly called "Controller" - Generates
-> +      raw stream of pixels, clocked at pixel clock
-> +
-> +    CVT
-> +      Coordinated Video Timings
-> +
-> +    DAL
-> +      Display Abstraction layer
-> +
-> +    DC (Software)
-> +      Display Core
-> +
-> +    DC (Hardware)
-> +      Display Controller
-> +
-> +    DCC
-> +      Delta Colour Compression
-> +
-> +    DCE
-> +      Display Controller Engine
-> +
-> +    DCHUB
-> +      Display Controller HUB
-> +
-> +    ARB
-> +      Arbiter
-> +
-> +    VTG
-> +      Vertical Timing Generator
-> +
-> +    DCN
-> +      Display Core Next
-> +
-> +    DCCG
-> +      Display Clock Generator block
-> +
-> +    DDC
-> +      Display Data Channel
-> +
-> +    DIO
-> +      Display IO
-> +
-> +    DPP
-> +      Display Pipes and Planes
-> +
-> +    DSC
-> +      Display Stream Compression (Reduce the amount of bits to represent pixel
-> +      count while at the same pixel clock)
-> +
-> +    dGPU
-> +      discrete GPU
-> +
-> +    DMIF
-> +      Display Memory Interface
-> +
-> +    DML
-> +      Display Mode Library
-> +
-> +    DMCU
-> +      Display Micro-Controller Unit
-> +
-> +    DMCUB
-> +      Display Micro-Controller Unit, version B
-> +
-> +    DPCD
-> +      DisplayPort Configuration Data
-> +
-> +    DPM(S)
-> +      Display Power Management (Signaling)
-> +
-> +    DRR
-> +      Dynamic Refresh Rate
-> +
-> +    DWB
-> +      Display Writeback
-> +
-> +    FB
-> +      Frame Buffer
-> +
-> +    FBC
-> +      Frame Buffer Compression
-> +
-> +    FEC
-> +      Forward Error Correction
-> +
-> +    FRL
-> +      Fixed Rate Link
-> +
-> +    GCO
-> +      Graphical Controller Object
-> +
-> +    GMC
-> +      Graphic Memory Controller
-> +
-> +    GSL
-> +      Global Swap Lock
-> +
-> +    iGPU
-> +      integrated GPU
-> +
-> +    IH
-> +      Interrupt Handler
-> +
-> +    ISR
-> +      Interrupt Service Request
-> +
-> +    ISV
-> +      Independent Software Vendor
-> +
-> +    KMD
-> +      Kernel Mode Driver
-> +
-> +    LB
-> +      Line Buffer
-> +
-> +    LFC
-> +      Low Framerate Compensation
-> +
-> +    LTTPR
-> +      Link Training Tunable Phy Repeater
-> +
-> +    LUT
-> +      Lookup Table
-> +
-> +    MALL
-> +      Memory Access at Last Level
-> +
-> +    MC
-> +      Memory Controller
-> +
-> +    MPC
-> +      Multiple pipes and plane combine
-> +
-> +    MPO
-> +      Multi Plane Overlay
-> +
-> +    MST
-> +      Multi Stream Transport
-> +
-> +    NBP State
-> +      Northbridge Power State
-> +
-> +    NBIO
-> +      North Bridge Input/Output
-> +
-> +    ODM
-> +      Output Data Mapping
-> +
-> +    OPM
-> +      Output Protection Manager
-> +
-> +    OPP
-> +      Output Plane Processor
-> +
-> +    OPTC
-> +      Output Pipe Timing Combiner
-> +
-> +    OTG
-> +      Output Timing Generator
-> +
-> +    PCON
-> +      Power Controller
-> +
-> +    PGFSM
-> +      Power Gate Finite State Machine
-> +
-> +    PSR
-> +      Panel Self Refresh
-> +
-> +    SCL
-> +      Scaler
-> +
-> +    SDP
-> +      Scalable Data Port
-> +
-> +    SLS
-> +      Single Large Surface
-> +
-> +    SST
-> +      Single Stream Transport
-> +
-> +    TMDS
-> +      Transition-Minimized Differential Signaling
-> +
-> +    TMZ
-> +      Trusted Memory Zone
-> +
-> +    TTU
-> +      Time to Underflow
-> +
-> +    VRR
-> +      Variable Refresh Rate
-> +
-> +    UVD
-> +      Unified Video Decoder
-> diff --git a/Documentation/gpu/amdgpu/display/index.rst b/Documentation/gpu/amdgpu/display/index.rst
-> index fe2ecad8df81..e23c752ee5f5 100644
-> --- a/Documentation/gpu/amdgpu/display/index.rst
-> +++ b/Documentation/gpu/amdgpu/display/index.rst
-> @@ -26,3 +26,4 @@ table of content:
->     display-manager.rst
->     dc-debug.rst
->     dcn-overview.rst
-> +   dc-glossary.rst
-> diff --git a/Documentation/gpu/amdgpu/index.rst b/Documentation/gpu/amdgpu/index.rst
-> index 5c8cbf514097..ff38c360b04e 100644
-> --- a/Documentation/gpu/amdgpu/index.rst
-> +++ b/Documentation/gpu/amdgpu/index.rst
-> @@ -334,3 +334,10 @@ smartshift_bias
->  
->  .. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
->     :doc: smartshift_bias
-> +
-> +AMDGPU Glossary
-> +===============
-> +
-> +.. toctree::
-> +
-> +   amdgpu-glossary.rst
+- please get Greg KH to ack the bus/driver core stuff
+
+- please get one of the drm-misc committers we have from Google's Chromeos
+  team (there should be a few by now) to review&push this.
+
+Otherwise I fear this might get stuck and I'd really like to avoid that.
+
+Cheers, Daniel
+
+> 
+> Changes since v3 (https://lore.kernel.org/r/20211026000044.885195-1-swboyd@chromium.org):
+>  - Picked up tags
+>  - Rebased to v5.16-rc2
+>  - Updated component.c for a few new patches there
+>  - Dropped a conversion patch
+>  - Added a conversion patch
+> 
+> Changes since v2 (https://lore.kernel.org/r/20211006193819.2654854-1-swboyd@chromium.org):
+>  - Picked up acks
+>  - Fixed build warnings/errors
+>  - Reworked patch series to rename 'master' in a different patch
+> 
+> Changes since v1 (https://lore.kernel.org/r/20210520002519.3538432-1-swboyd@chromium.org):
+>  - Use devlink to connect components to the aggregate device
+>  - Don't set the registering device as a parent of the aggregate device
+>  - New patch for bind_component/unbind_component ops that takes the
+>    aggregate device
+>  - Convert all drivers in the tree to use the aggregate driver approach
+>  - Allow one aggregate driver to be used for multiple aggregate devices
+> 
+> [1] https://lore.kernel.org/r/20210508074118.1621729-1-swboyd@chromium.org
+> 
+> 
+> Stephen Boyd (34):
+>   component: Introduce struct aggregate_device
+>   component: Remove most references to 'master'
+>   component: Introduce the aggregate bus_type
+>   component: Move struct aggregate_device out to header file
+>   component: Add {bind,unbind}_component() ops that take aggregate
+>     device
+>   drm/of: Add a drm_of_aggregate_probe() API
+>   drm/msm: Migrate to aggregate driver
+>   drm/komeda: Migrate to aggregate driver
+>   drm/arm/hdlcd: Migrate to aggregate driver
+>   drm/malidp: Migrate to aggregate driver
+>   drm/armada: Migrate to aggregate driver
+>   drm/etnaviv: Migrate to aggregate driver
+>   drm/kirin: Migrate to aggregate driver
+>   drm/exynos: Migrate to aggregate driver
+>   drm/imx: Migrate to aggregate driver
+>   drm/ingenic: Migrate to aggregate driver
+>   drm/mcde: Migrate to aggregate driver
+>   drm/mediatek: Migrate to aggregate driver
+>   drm/meson: Migrate to aggregate driver
+>   drm/omap: Migrate to aggregate driver
+>   drm/rockchip: Migrate to aggregate driver
+>   drm/sti: Migrate to aggregate driver
+>   drm/sun4i: Migrate to aggregate driver
+>   drm/tilcdc: Migrate to aggregate driver
+>   drm/vc4: Migrate to aggregate driver
+>   iommu/mtk: Migrate to aggregate driver
+>   mei: Migrate to aggregate driver
+>   power: supply: ab8500: Migrate to aggregate driver
+>   fbdev: omap2: Migrate to aggregate driver
+>   sound: hdac: Migrate to aggregate driver
+>   ASoC: codecs: wcd938x: Migrate to aggregate driver
+>   mei: pxp: Migrate to aggregate driver
+>   component: Get rid of drm_of_component_probe()
+>   component: Remove component_master_ops and friends
+> 
+>  drivers/base/component.c                      | 544 ++++++++++--------
+>  .../gpu/drm/arm/display/komeda/komeda_drv.c   |  20 +-
+>  drivers/gpu/drm/arm/hdlcd_drv.c               |  21 +-
+>  drivers/gpu/drm/arm/malidp_drv.c              |  21 +-
+>  drivers/gpu/drm/armada/armada_drv.c           |  23 +-
+>  drivers/gpu/drm/drm_drv.c                     |   2 +-
+>  drivers/gpu/drm/drm_of.c                      |  18 +-
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c         |  20 +-
+>  drivers/gpu/drm/exynos/exynos_drm_drv.c       |  21 +-
+>  .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |  20 +-
+>  drivers/gpu/drm/imx/imx-drm-core.c            |  20 +-
+>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  25 +-
+>  drivers/gpu/drm/mcde/mcde_drv.c               |  23 +-
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  20 +-
+>  drivers/gpu/drm/meson/meson_drv.c             |  21 +-
+>  drivers/gpu/drm/msm/msm_drv.c                 |  46 +-
+>  drivers/gpu/drm/omapdrm/dss/dss.c             |  20 +-
+>  drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |  20 +-
+>  drivers/gpu/drm/sti/sti_drv.c                 |  20 +-
+>  drivers/gpu/drm/sun4i/sun4i_drv.c             |  26 +-
+>  drivers/gpu/drm/tilcdc/tilcdc_drv.c           |  28 +-
+>  drivers/gpu/drm/vc4/vc4_drv.c                 |  20 +-
+>  drivers/iommu/mtk_iommu.c                     |  14 +-
+>  drivers/iommu/mtk_iommu.h                     |   6 +-
+>  drivers/iommu/mtk_iommu_v1.c                  |  14 +-
+>  drivers/misc/mei/hdcp/mei_hdcp.c              |  22 +-
+>  drivers/misc/mei/pxp/mei_pxp.c                |  22 +-
+>  drivers/power/supply/ab8500_charger.c         |  22 +-
+>  drivers/video/fbdev/omap2/omapfb/dss/dss.c    |  20 +-
+>  include/drm/drm_of.h                          |  10 +-
+>  include/linux/component.h                     |  92 ++-
+>  sound/hda/hdac_component.c                    |  21 +-
+>  sound/soc/codecs/wcd938x.c                    |  20 +-
+>  33 files changed, 772 insertions(+), 490 deletions(-)
+> 
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+> Cc: Chen Feng <puck.chen@hisilicon.com>
+> Cc: Chen-Yu Tsai <wens@csie.org>
+> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Emma Anholt <emma@anholt.net>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: "Heiko Stübner" <heiko@sntech.de>
+> Cc: Inki Dae <inki.dae@samsung.com>
+> Cc: James Qian Wang (Arm Technology China) <james.qian.wang@arm.com>
+> Cc: Jaroslav Kysela <perex@perex.cz>
+> Cc: Joerg Roedel <joro@8bytes.org>
+> Cc: John Stultz <john.stultz@linaro.org>
+> Cc: Joonyoung Shim <jy0922.shim@samsung.com>
+> Cc: Jyri Sarha <jyri.sarha@iki.fi>
+> Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+> Cc: Kyungmin Park <kyungmin.park@samsung.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: <linux-fbdev@vger.kernel.org>
+> Cc: <linux-omap@vger.kernel.org>
+> Cc: <linux-pm@vger.kernel.org>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Liviu Dudau <liviu.dudau@arm.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Paul Cercueil <paul@crapouillou.net>
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: Russell King <linux@armlinux.org.uk>
+> Cc: Russell King <linux+etnaviv@armlinux.org.uk>
+> Cc: Russell King <rmk+kernel@arm.linux.org.uk>
+> Cc: Sandy Huang <hjc@rock-chips.com>
+> Cc: Saravana Kannan <saravanak@google.com>
+> Cc: Sebastian Reichel <sre@kernel.org>
+> Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
+> Cc: Takashi Iwai <tiwai@suse.com>
+> Cc: Tian Tao <tiantao6@hisilicon.com>
+> Cc: Tomas Winkler <tomas.winkler@intel.com>
+> Cc: Tomi Valkeinen <tomba@kernel.org>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Xinliang Liu <xinliang.liu@linaro.org>
+> Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
+> Cc: Yong Wu <yong.wu@mediatek.com>
+> Cc: Vitaly Lubart <vitaly.lubart@intel.com>
+> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+> 
+> base-commit: 136057256686de39cc3a07c2e39ef6bc43003ff6
 > -- 
-> 2.25.1
+> https://chromeos.dev
 > 
 
 -- 
