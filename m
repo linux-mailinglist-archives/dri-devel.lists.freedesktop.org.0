@@ -1,43 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C43446BD36
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 15:05:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6ABC46BD98
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 15:26:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB02DAA4AB;
-	Tue,  7 Dec 2021 14:05:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0315F73C4C;
+	Tue,  7 Dec 2021 14:26:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18485AA4AB;
- Tue,  7 Dec 2021 14:05:48 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10190"; a="217604369"
-X-IronPort-AV: E=Sophos;i="5.87,293,1631602800"; d="scan'208";a="217604369"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Dec 2021 06:05:47 -0800
-X-IronPort-AV: E=Sophos;i="5.87,293,1631602800"; d="scan'208";a="600174578"
-Received: from iodintso-mobl.ger.corp.intel.com (HELO [10.252.18.50])
- ([10.252.18.50])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Dec 2021 06:05:46 -0800
-Message-ID: <52fadb30-bdc2-6432-931b-ef1bbf3be0ba@intel.com>
-Date: Tue, 7 Dec 2021 14:05:44 +0000
+Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com
+ [IPv6:2607:f8b0:4864:20::833])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C457EAA4C9;
+ Tue,  7 Dec 2021 14:26:27 +0000 (UTC)
+Received: by mail-qt1-x833.google.com with SMTP id t34so14377660qtc.7;
+ Tue, 07 Dec 2021 06:26:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=e7rj1CsKDKzIJm7+JHPdHBzLjFXKBEnM/tALIHYhPN0=;
+ b=M3i+JcynXtKk4qlW3axnXK++Rdg/cH/8CB04Y4onAV51ww7mqjyjzW3ZZvUI86ndte
+ 1f+BCv0ND1WPllqq40WPKdutQajSjOzeH68IoGvnzbX+xl70jyJ6Y1CGCqTrvUnf5aCq
+ Ppx+H3HIRLdzB806qJx6fYie9mnWfMU0myLS7TN5t9rOyxLZob3ZPybStDQU396XFJyM
+ E5S/J7Q+3yOz+3KdsJkYi+/62X3C3BrA7EZjZsKnzsP2cH8tNmRcs24DPocLzy+YAQQE
+ YZftURmiZn7GgykwvI1O5fpRT9j+7wpyn7+mmkeks119ZwvMefp2r2zBuLY2eAwmibVr
+ ZS5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=e7rj1CsKDKzIJm7+JHPdHBzLjFXKBEnM/tALIHYhPN0=;
+ b=eQ8db+TN7QUhgoRevaimBgtpG576bRtQpcgHQ2xctRVZUwUE5PD7niKg6ai+G4o6fl
+ XuP5tGazwPUN3F6/AGprLWHePK1EjgdwaH+ZNqRBMETvCKLdF//LWExbFHGVeST0vp3T
+ ql5NCotKu9XB/DRve0OXaKDk4OcekBOhblspxXAiRE+KbJXA6V3vCzUXGmNxKg0ycztI
+ i/yIxrNc6jxKglnENwyx24TDl5fvGcuU9lEnJYW5GwGJ4fesix0i3HXuOaLuVud6wptF
+ x4bOxE+vXvTNzgRkgbycPyOsS+29xCeJwn2wKmeg6cOJCv7xzia6pYNTdzmKIjENhGUp
+ 5jSQ==
+X-Gm-Message-State: AOAM532bRtKbY9HoUcDi24zcxlIOOETt5XJbiUcqtxRelnb66oXZ8tfi
+ D/dFbVtvswCxltEyZ5qgqIibsh12Zji+AOYyJ3COm/5M4Kk=
+X-Google-Smtp-Source: ABdhPJwLdoJPWKmsAVqGgMmZlGCmN93uaS8qriHkBgRHDAy2h6iP+xT/KDV69ctWgxIDVuzLwbmhGk/0cxdMVTbhpGA=
+X-Received: by 2002:a05:622a:1055:: with SMTP id
+ f21mr48473555qte.421.1638887186880; 
+ Tue, 07 Dec 2021 06:26:26 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [Intel-gfx] [PATCH v9 2/8] drm/i915/ttm: add tt shmem backend
-Content-Language: en-GB
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org
-References: <20211018091055.1998191-1-matthew.auld@intel.com>
- <20211018091055.1998191-2-matthew.auld@intel.com>
- <1a8431eb-566d-ac2b-85b7-31c590ec84ff@linux.intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <1a8431eb-566d-ac2b-85b7-31c590ec84ff@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20211129134735.628712-1-maarten.lankhorst@linux.intel.com>
+ <20211129134735.628712-9-maarten.lankhorst@linux.intel.com>
+In-Reply-To: <20211129134735.628712-9-maarten.lankhorst@linux.intel.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Tue, 7 Dec 2021 14:26:00 +0000
+Message-ID: <CAM0jSHOiNUnPzzAwFB6d4z54MTtcyXBNWV02pgnkA_jD7sz5ZA@mail.gmail.com>
+Subject: Re: [PATCH v2 08/16] drm/i915: Pass trylock context to callers
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,135 +63,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Oak Zeng <oak.zeng@intel.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/12/2021 13:10, Tvrtko Ursulin wrote:
-> 
-> On 18/10/2021 10:10, Matthew Auld wrote:
->> For cached objects we can allocate our pages directly in shmem. This
->> should make it possible(in a later patch) to utilise the existing
->> i915-gem shrinker code for such objects. For now this is still disabled.
->>
->> v2(Thomas):
->>    - Add optional try_to_writeback hook for objects. Importantly we need
->>      to check if the object is even still shrinkable; in between us
->>      dropping the shrinker LRU lock and acquiring the object lock it 
->> could for
->>      example have been moved. Also we need to differentiate between
->>      "lazy" shrinking and the immediate writeback mode. Also later we 
->> need to
->>      handle objects which don't even have mm.pages, so bundling this into
->>      put_pages() would require somehow handling that edge case, hence
->>      just letting the ttm backend handle everything in try_to_writeback
->>      doesn't seem too bad.
->> v3(Thomas):
->>    - Likely a bad idea to touch the object from the unpopulate hook,
->>      since it's not possible to hold a reference, without also creating
->>      circular dependency, so likely this is too fragile. For now just
->>      ensure we at least mark the pages as dirty/accessed when called 
->> from the
->>      shrinker on WILLNEED objects.
->>    - s/try_to_writeback/shrinker_release_pages, since this can do more
->>      than just writeback.
->>    - Get rid of do_backup boolean and just set the SWAPPED flag prior to
->>      calling unpopulate.
->>    - Keep shmem_tt as lowest priority for the TTM LRU bo_swapout walk, 
->> since
->>      these just get skipped anyway. We can try to come up with something
->>      better later.
->> v4(Thomas):
->>    - s/PCI_DMA/DMA/. Also drop NO_KERNEL_MAPPING and NO_WARN, which
->>      apparently doesn't do anything with streaming mappings.
->>    - Just pass along the error for ->truncate, and assume nothing.
->>
->> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
->> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->> Cc: Christian König <christian.koenig@amd.com>
->> Cc: Oak Zeng <oak.zeng@intel.com>
->> Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->> Acked-by: Oak Zeng <oak.zeng@intel.com>
-> 
-> [snip]
-> 
->> -static void try_to_writeback(struct drm_i915_gem_object *obj,
->> -                 unsigned int flags)
->> +static int try_to_writeback(struct drm_i915_gem_object *obj, unsigned 
->> int flags)
->>   {
->> +    if (obj->ops->shrinker_release_pages)
->> +        return obj->ops->shrinker_release_pages(obj,
->> +                            flags & I915_SHRINK_WRITEBACK);
-> 
-> I have a high level question about how does this new vfunc fit with the 
-> existing code.
-> 
-> Because I notice in the implementation (i915_ttm_shrinker_release_pages) 
-> it ends up doing:
-> ...
-> 
->         switch (obj->mm.madv) {
->         case I915_MADV_DONTNEED:
->                 return i915_ttm_purge(obj);
->         case __I915_MADV_PURGED:
->                 return 0;
->         }
-> 
-> ... and then...
-> 
->         if (should_writeback)
->                 __shmem_writeback(obj->base.size, 
-> i915_tt->filp->f_mapping);
-> 
-> Which on a glance looks like a possible conceptual duplication of the 
-> concepts in this very function (try_to_writeback):
-> 
->> +
->>       switch (obj->mm.madv) {
->>       case I915_MADV_DONTNEED:
->>           i915_gem_object_truncate(obj);
->> -        return;
->> +        return 0;
->>       case __I915_MADV_PURGED:
->> -        return;
->> +        return 0;
->>       }
->>       if (flags & I915_SHRINK_WRITEBACK)
->>           i915_gem_object_writeback(obj);
-> 
-> So question is this the final design or some futher tidy is 
-> possible/planned?
-
-It seems ok to me, all things considered. The TTM version needs to check 
-if the object is still shrinkable at the start(plus some other stuff), 
-upon acquiring the object lock. If that succeeds we can do the above 
-madv checks and potentially just call truncate. Otherwise we can proceed 
-with shrinking, but again TTM is special here, and we have to call 
-ttm_bo_validate() underneath(we might not even have mm.pages here). And 
-then if that all works we might be able to also perform the writeback, 
-if needed. So I suppose we could add all that directly in 
-try_to_writeback(), and make it conditional for TTM devices, or I guess 
-we need two separate hooks, one to do some pre-checking and another do 
-the actual swap step. Not sure if that is better or worse though.
-
-> 
-> Background to my question is that I will float a patch which proposes to 
-> remove writeback altogether. There are reports from the fields that it 
-> causes deadlocks and looking at 2d6692e642e7 ("drm/i915: Start writeback 
-> from the shrinker") and its history it seems like it was a known risk.
-> 
-> Apart from the code organisation questions, on the practical level - do 
-> you need writeback from the TTM backend or while I am proposing to 
-> remove it from the "legacy" paths, I can propose removing it from the 
-> TTM flow as well?
-
-Yeah, if that is somehow busted then we should remove from TTM backend also.
-
-> 
-> Regards,
-> 
-> Tvrtko
+On Mon, 29 Nov 2021 at 13:58, Maarten Lankhorst
+<maarten.lankhorst@linux.intel.com> wrote:
+>
+> We are moving away from short term pinning, and need a way to evict
+> objects locked by the current context. Pass the ww context to all
+> eviction functions, so that they can evict objects that are already
+> locked by the current ww context.
+>
+> On top of that, this slightly improves ww handling because the locked
+> objects are marked as locked by the correct ww.
+>
+> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
