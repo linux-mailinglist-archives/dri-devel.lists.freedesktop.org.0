@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2FF846BB31
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 13:34:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7092246BB30
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 13:34:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07A846F56C;
-	Tue,  7 Dec 2021 12:34:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FA4A6FDD9;
+	Tue,  7 Dec 2021 12:34:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6ABB6E08A
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Dec 2021 12:34:19 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id j3so29230831wrp.1
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Dec 2021 04:34:19 -0800 (PST)
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAF226E08A
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Dec 2021 12:34:20 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id j3so29230899wrp.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Dec 2021 04:34:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=6AcIBFyYiDz9TRlGiyxrwcI9ljYqwbYG6/Pwbh2ETwE=;
- b=nLMhJRylYFQ1o+vqghbs9XYIOLuR7516NFBkx3whKf7eyeIlEFShoniqsfvNeCbfkU
- i8aIPhkHAfqX89Pufuwj2rAZn+PVs9WwlZAGfaikf8Hv2RhRgzaa/3Uvu04VIETLrLQc
- t/mSY8xt4aeuPrN5eEKAjigOrv6pZriLTKqHIGUgXq/HganmpRxnhhRA9QRCB093fwoU
- gpO+Wypzy6yfD6T+pDkReq6WJFqVIkn7kkHlIyA+bwtdZlrPQuJuTFfyai4aWkjYGcSp
- bG2e5PYC+3GG7F1sJL0sStLk/cIzOs66zPWF4LVj88sh58QjoWhwHFpKSr0pFU0GWgtL
- KFJA==
+ bh=dLcViOC9XeBrn0i9874Oh2sdjjvie7K1Wv9yyTZ+XyU=;
+ b=ksASwDpOozDKfkgmuhUobuf5S+I3igKxv057Mq0YdeUClMti17zjuyO0dtPhIazBsa
+ K0CQ6idQkVK53Ighc4orZ61bwrxnVYlaJaNvTiNLm2zT4WyZ1+Vg63hBQxfJwbvIYdgH
+ p3wRzx+xtLq68nkO/8Xa5tCLVOrk/XLVqG9ZOBWN7hC945PoSsvp4WzQOBE8wsEGnH++
+ 6gMVexLIrOGxz0r/ppgDu+yCTAaxb0+Y7nnZ4+HFF1AhVI/8Da63+d8K41B+MZXyyqHW
+ 8o3spLKQIYxFAipICqIkNy+m6bO+YYK2AIpJaTQEQ2Nk3QfHBjrk/NWgJ9vv+y0WgmRx
+ PE8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6AcIBFyYiDz9TRlGiyxrwcI9ljYqwbYG6/Pwbh2ETwE=;
- b=gX+MXtk62AFZ3388W9UmOWsn778sicYJd04ly+ht9TDB/Zv2vEwrKAuiRjJ9AvheZV
- /1vquUr+KzEHknHTQEEtSwxLTbC4KRJX/xf1mBWi1wH3EoMdtaG2l65/+YrxiUJIjUx9
- 6DoE+xYj56PcIpbYLTyk5Am7NQ0mz/7q1weKT8hjVIGgs+A8i+v4Fo3Icf1gvYcuaYER
- H37iXBQNzZcMPUDTb1U5OFxpAEWw4/DNdG2ekw1Wn+Pz6kasl0v/t6DAdZgBDBsIqy+h
- gNR5C9Kwlxw2MDY6kMcbSnHwgvMrO0ctaZnCURRfwcSG2cHHYIubI7VUAub/amVgCamW
- In7A==
-X-Gm-Message-State: AOAM533LVHZIPRsAbYtviQqTgzDHYcpTBhK4m9P2dajenrzL5YhaF9xi
- KqqujIkdyGt07zLP6HxfL9U=
-X-Google-Smtp-Source: ABdhPJxvH6SQRpwHRdkvErlx/XUWNc4bPOW0BP1aMMbSKlSQmbcqjwoCe+/IisCzVw/4d/H9C1sxdQ==
-X-Received: by 2002:a05:6000:1564:: with SMTP id
- 4mr51437456wrz.9.1638880458279; 
- Tue, 07 Dec 2021 04:34:18 -0800 (PST)
+ bh=dLcViOC9XeBrn0i9874Oh2sdjjvie7K1Wv9yyTZ+XyU=;
+ b=vZrYpQ/yfSpJ+5nwZUk5YrB2PjpqMjlDdFGYtJdzh3jDp+VBuM1Y722rNHK5dLuLUp
+ 29zfiAZorqXURH5WzRHBsAMHyykCMfQKOAW6u4qfKbCxprc3m3xWxOkJ2bEXb1EcoL6P
+ BusirGBxl4ne6L+k2WrqAhzbZw8tknz8VHIxBCIZqWc9Kms18cot1LtFE3tf4AEVpMND
+ WLCLSZpFBUo+bLZsNRYCHM6uo9rD7fFaQuCVm3cNWoiDQ/Abegw710wCJB3KtLsQXFI5
+ 0FvUpVt3F7cOUBD1KMvQM3k5dvbp1n4pJQW9S9RdI+p7IIrI2D8uM2r3x60XXRs8O4Jw
+ dsmg==
+X-Gm-Message-State: AOAM533rp3yxZa0Tflv1LfKV5rtSg3+q0D83/p8kdVsI2//u2+Jpn05i
+ 69HaKTuOPDnlOY1PY1HhOGsC7FuceDXaWg==
+X-Google-Smtp-Source: ABdhPJzmkbXp8UBZZZZabjHsDdIHC7Z8dlHeQlWcOGJ0jrJG4Bh/1ieAer3oIVyym2DfcGtOqSssTw==
+X-Received: by 2002:a5d:5888:: with SMTP id n8mr50578793wrf.234.1638880459108; 
+ Tue, 07 Dec 2021 04:34:19 -0800 (PST)
 Received: from abel.fritz.box (p57b0bff8.dip0.t-ipconnect.de. [87.176.191.248])
- by smtp.gmail.com with ESMTPSA id f19sm2802203wmq.34.2021.12.07.04.34.17
+ by smtp.gmail.com with ESMTPSA id f19sm2802203wmq.34.2021.12.07.04.34.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Dec 2021 04:34:17 -0800 (PST)
+ Tue, 07 Dec 2021 04:34:18 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
  linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 04/24] dma-buf: add dma_resv_get_singleton v2
-Date: Tue,  7 Dec 2021 13:33:51 +0100
-Message-Id: <20211207123411.167006-5-christian.koenig@amd.com>
+Subject: [PATCH 05/24] RDMA: use dma_resv_wait() instead of extracting the
+ fence
+Date: Tue,  7 Dec 2021 13:33:52 +0100
+Message-Id: <20211207123411.167006-6-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211207123411.167006-1-christian.koenig@amd.com>
 References: <20211207123411.167006-1-christian.koenig@amd.com>
@@ -75,100 +75,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a function to simplify getting a single fence for all the fences in
-the dma_resv object.
-
-v2: fix ref leak in error handling
+Use dma_resv_wait() instead of extracting the exclusive fence and
+waiting on it manually.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/dma-buf/dma-resv.c | 52 ++++++++++++++++++++++++++++++++++++++
- include/linux/dma-resv.h   |  2 ++
- 2 files changed, 54 insertions(+)
+ drivers/infiniband/core/umem_dmabuf.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-index 480c305554a1..694716a3d66d 100644
---- a/drivers/dma-buf/dma-resv.c
-+++ b/drivers/dma-buf/dma-resv.c
-@@ -34,6 +34,7 @@
-  */
- 
- #include <linux/dma-resv.h>
-+#include <linux/dma-fence-array.h>
- #include <linux/export.h>
- #include <linux/mm.h>
- #include <linux/sched/mm.h>
-@@ -657,6 +658,57 @@ int dma_resv_get_fences(struct dma_resv *obj, bool write,
+diff --git a/drivers/infiniband/core/umem_dmabuf.c b/drivers/infiniband/core/umem_dmabuf.c
+index f0760741f281..d32cd7538835 100644
+--- a/drivers/infiniband/core/umem_dmabuf.c
++++ b/drivers/infiniband/core/umem_dmabuf.c
+@@ -16,7 +16,6 @@ int ib_umem_dmabuf_map_pages(struct ib_umem_dmabuf *umem_dmabuf)
+ {
+ 	struct sg_table *sgt;
+ 	struct scatterlist *sg;
+-	struct dma_fence *fence;
+ 	unsigned long start, end, cur = 0;
+ 	unsigned int nmap = 0;
+ 	int i;
+@@ -68,11 +67,8 @@ int ib_umem_dmabuf_map_pages(struct ib_umem_dmabuf *umem_dmabuf)
+ 	 * may be not up-to-date. Wait for the exporter to finish
+ 	 * the migration.
+ 	 */
+-	fence = dma_resv_excl_fence(umem_dmabuf->attach->dmabuf->resv);
+-	if (fence)
+-		return dma_fence_wait(fence, false);
+-
+-	return 0;
++	return dma_resv_wait_timeout(umem_dmabuf->attach->dmabuf->resv, false,
++				     false, MAX_SCHEDULE_TIMEOUT);
  }
- EXPORT_SYMBOL_GPL(dma_resv_get_fences);
+ EXPORT_SYMBOL(ib_umem_dmabuf_map_pages);
  
-+/**
-+ * dma_resv_get_singleton - Get a single fence for all the fences
-+ * @obj: the reservation object
-+ * @write: true if we should return all fences
-+ * @fence: the resulting fence
-+ *
-+ * Get a single fence representing all the fences inside the resv object.
-+ * Returns either 0 for success or -ENOMEM.
-+ *
-+ * Warning: This can't be used like this when adding the fence back to the resv
-+ * object since that can lead to stack corruption when finalizing the
-+ * dma_fence_array.
-+ */
-+int dma_resv_get_singleton(struct dma_resv *obj, bool write,
-+			   struct dma_fence **fence)
-+{
-+	struct dma_fence_array *array;
-+	struct dma_fence **fences;
-+	unsigned count;
-+	int r;
-+
-+	r = dma_resv_get_fences(obj, write, &count, &fences);
-+        if (r)
-+		return r;
-+
-+	if (count == 0) {
-+		*fence = NULL;
-+		return 0;
-+	}
-+
-+	if (count == 1) {
-+		*fence = fences[0];
-+		kfree(fences);
-+		return 0;
-+	}
-+
-+	array = dma_fence_array_create(count, fences,
-+				       dma_fence_context_alloc(1),
-+				       1, false);
-+	if (!array) {
-+		while (count--)
-+			dma_fence_put(fences[count]);
-+		kfree(fences);
-+		return -ENOMEM;
-+	}
-+
-+	*fence = &array->base;
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(dma_resv_get_singleton);
-+
- /**
-  * dma_resv_wait_timeout - Wait on reservation's objects
-  * shared and/or exclusive fences.
-diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-index fa2002939b19..cdfbbda6f600 100644
---- a/include/linux/dma-resv.h
-+++ b/include/linux/dma-resv.h
-@@ -438,6 +438,8 @@ void dma_resv_replace_fences(struct dma_resv *obj, uint64_t context,
- void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence);
- int dma_resv_get_fences(struct dma_resv *obj, bool write,
- 			unsigned int *num_fences, struct dma_fence ***fences);
-+int dma_resv_get_singleton(struct dma_resv *obj, bool write,
-+			   struct dma_fence **fence);
- int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src);
- long dma_resv_wait_timeout(struct dma_resv *obj, bool wait_all, bool intr,
- 			   unsigned long timeout);
 -- 
 2.25.1
 
