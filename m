@@ -1,68 +1,123 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C74346B7A3
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 10:40:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EB7F46B807
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 10:52:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C13306E4CD;
-	Tue,  7 Dec 2021 09:40:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99CFFEA612;
+	Tue,  7 Dec 2021 09:52:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 182716E4CD
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Dec 2021 09:40:10 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id ABC8D212C3;
- Tue,  7 Dec 2021 09:40:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1638870008; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BGOwNbAQGVIBF7UmNtlxW+k8rlp9WwMteRqlEQpQndc=;
- b=1jxuTRjO5lBuEpANILgwYKy2C3YAiJJ09hb6se6vV1Eshpg3adQx/VLBKHozTMScym8MSa
- By3vzdIpCh2tgRswEC3rTEifpimuJDNyajWgcp/3+LGnpe2dwz/6kFetyxXTGJXnyEXMfZ
- q1CMaCokFGyVCOtF4LVGH4j6lxIPPo0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1638870008;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BGOwNbAQGVIBF7UmNtlxW+k8rlp9WwMteRqlEQpQndc=;
- b=9oW2IOzS9fT3jefAF9b1YtJlfSmEGwkGT1cxB9sOhUd9tncLtfvxOc4QKV2uTdPMyjfhrC
- 30gaYCqx7hUwzcDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 702C1139F0;
- Tue,  7 Dec 2021 09:40:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id Rs9BGvgrr2HSWAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 07 Dec 2021 09:40:08 +0000
-Message-ID: <03a52a64-7be3-b401-7711-b7b1452f433d@suse.de>
-Date: Tue, 7 Dec 2021 10:40:07 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH v2 2/3] drm/format-helper: Add
- drm_fb_xrgb8888_to_xrgb2101010_toio()
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2085.outbound.protection.outlook.com [40.107.223.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E69CAEA612;
+ Tue,  7 Dec 2021 09:52:10 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=P68uazn8Q+vXU/d+KUXeoCQUaF28AWIkN3cOBP74AQ/P84tlRxSDi5eWOgNYPjBrn/ukISiN9vDcZc0skW97457NMtCjZDEDsXn0WohT+25XmjB96kmGufQEnt2pDz84bTDbtpR3096N9+/dACjqaOKwcW0xRiCPVX9Cx9Ljyxl6RM7yCdG4XH5J70WA/xGTCw606HLH6lb4HKc+VllzY27rrtsCzgBkTvPZUxqzO59d50BzCglQ6mAWqLmPW2NJKeXmHctWwqkprEceNNLFj2CUCQZZZRRT4DqJGxmmj+3TGZmW6XtFGfqs0oysEHJ4+foOQcqNK54vJnqY7vmN4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6jbyoDC1xi0OiP5bTq7T193bnikpXjgJMcWyQbRuAzw=;
+ b=GIUbuoroB2rYUPmS9KWjWaXrAE3/MSx3mbIG1PtWcVc+9HjgFKKHpgjrDS41hpBdrelnHXpLzJAfGMbAoEpc3uhIOtpdLg/VXdh+Z6sj4T79EWG+UUkXsuux3Z7vvD/LXiWveTiGacLRvja7Azbb2KL+AofHWBrJnzqXHDKVZdlV93kVLwWYJjYK5dugETvP7h9RyEPQR90/bHnH7EelFPdo8Pr+8FZkJysXq1FplXPc39XKKtLuARh5ZUDAPsXk7mgeDwdk4dW/Ih+GsFhpM7XJEzqo2xb2YJXF2k6QEC5O8EyXMMohtozTxI2fEmqbCRmJ6lwE9DaMOe24n6yhKQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6jbyoDC1xi0OiP5bTq7T193bnikpXjgJMcWyQbRuAzw=;
+ b=QgcZnk6K9NwocyvwDSLZaJLn/FFwlWHeO1AiuB/OOYVQnO9m5mPIp6VjIbvHTvkNasD6i/W232kudzkiN1Y0NwQek56f7Tep4xRW3ma0kE44T/ZggCvgCNbEVMOfZKysAQBgfkJ+BpjK9dU276CJIqsYe54OnOR9VzSXaM5kDuE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
+ (2603:10b6:301:5a::14) by MW2PR12MB2362.namprd12.prod.outlook.com
+ (2603:10b6:907:e::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.23; Tue, 7 Dec
+ 2021 09:52:07 +0000
+Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
+ ([fe80::d16c:a6d5:5d2e:f9d4]) by MWHPR1201MB0192.namprd12.prod.outlook.com
+ ([fe80::d16c:a6d5:5d2e:f9d4%12]) with mapi id 15.20.4755.022; Tue, 7 Dec 2021
+ 09:52:07 +0000
+Subject: Re: [Nouveau] Regression in 5.15 in nouveau
+To: Dan Moulding <dmoulding@me.com>, regressions@leemhuis.info
+References: <5dafba25-5424-3fe2-5046-ae1d4320f9c1@leemhuis.info>
+ <20211206183721.6495-1-dmoulding@me.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <6f62bd8c-3a2c-e553-898c-d42fb1583208@amd.com>
+Date: Tue, 7 Dec 2021 10:52:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+In-Reply-To: <20211206183721.6495-1-dmoulding@me.com>
+Content-Type: multipart/mixed; boundary="------------3BA109AAA43B28248511E32F"
 Content-Language: en-US
-To: Hector Martin <marcan@marcan.st>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Hans de Goede <hdegoede@redhat.com>
-References: <20211207072943.121961-1-marcan@marcan.st>
- <20211207072943.121961-3-marcan@marcan.st>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20211207072943.121961-3-marcan@marcan.st>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------Q0UzHGc5hdA1B5jj5ZE6I2GI"
+X-ClientProxiedBy: AM0PR08CA0018.eurprd08.prod.outlook.com
+ (2603:10a6:208:d2::31) To MWHPR1201MB0192.namprd12.prod.outlook.com
+ (2603:10b6:301:5a::14)
+MIME-Version: 1.0
+Received: from [192.168.178.21] (87.176.191.248) by
+ AM0PR08CA0018.eurprd08.prod.outlook.com (2603:10a6:208:d2::31) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4755.16 via Frontend Transport; Tue, 7 Dec 2021 09:52:05 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5b83238b-bf74-4a0b-2673-08d9b9673ae8
+X-MS-TrafficTypeDiagnostic: MW2PR12MB2362:EE_
+X-Microsoft-Antispam-PRVS: <MW2PR12MB23629C4A20CA45E3CA056121836E9@MW2PR12MB2362.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2958;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /ualQeV/+ShJ+l/oeTr43qHmdz0E+tUl9YZo2fxFH7I2Akkz5uQjh3wO52rfQNGV52b/RPih9j8Ctl+2mYZsMS54ozqfdGhVwrlciNvCJ3CkvDe3fc3+PZQzrWyveAvJd2r+2rZxErKZd3Vu0dfzbtrf+EKjshR/SrpMRJYUsqIkRutMsHsXX8TQhLIrhTDG0jgtkhv0x+75guufHBzyCJWCF4fgaiDl/WW6sooXkm5JtpR0lMx9+j6WYRs2I89UTW4DwtSjOJzzjXq/dq+jFXqn04AAnJaHlv65cPSLYBg+EAtmsNQuMTz3Cvq9QO8S8G7+qbzAxWlzZaaS6uRiyDKbX+dIVUqZ8Vrk1NUMja92YInJlqVBVWPzT0eS1D8Lhah0wozlICIJjyjqv5Odhvfu8HM9RDUgGOatz6Vk2HpS4TNNFSDVYZs2IJOEFbIxvqFSqunCJIYUlEbRRqI1d3zmyA+/LAA8w8xSKv2nKVDe6nPX78z2/6MlYMlUyNDIKhkL4NNM6bB9WeOkCC7SF7UxlapV0R/pBhrpZS2qHJ3rIcBFRNgLGnT9cZzeICHHozSDMKKaBmEMscNJivOzEKjov2xUIPznNLoT4Q63d41AJZbHO+9Wy9cqjl73+vD+xW3fBannck5xGbOYZBpQ0oikHC+JpYzLM/Qzn4ECN81NK8YrQjf0I17yE8Q/6YqJ
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1201MB0192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(8676002)(66946007)(38100700002)(16576012)(316002)(53546011)(6666004)(8936002)(66556008)(66476007)(36756003)(508600001)(6486002)(86362001)(186003)(2906002)(83380400001)(31686004)(5660300002)(235185007)(31696002)(33964004)(4326008)(26005)(2616005)(956004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?emNRWFA3c1V0M2JPeTJnT0RhRGhGQjR5T2toUXNFMHlPejlIOVJjaEI3Q1Yz?=
+ =?utf-8?B?TVgxQkdjcVRJNWRZb3BZN0VhTmpoNDQ1Ymh5SzhKVnNGL21Lc2tLK011NWpJ?=
+ =?utf-8?B?UktSblg0UW5kMUxxcnFNTUtaZTRoenVMb1BCMkFIZFhIbkQwV09xUVJ3Qm9q?=
+ =?utf-8?B?MTdmOGpGWkdJTG9rSld5Y1BwaXBjNnFnNmp6b1V5dFlNcUNST01GNG9KcDln?=
+ =?utf-8?B?d0NoWHYvbm5iNUZ6SnBpUTJOODBGRjlUTXFqd0RjUWZ5alc4Z2pWWEhxak93?=
+ =?utf-8?B?R2tpOFdRMlZWTGVBYktoeE9FdWRQNGUrc2UxTkNaU2ZKNXV5RW50TmlDRjVK?=
+ =?utf-8?B?aW4xM3Y5MXJjNzd4ZmNTUjNtVlFwd3FySXVFYStab3NiTCtqS2tNdFRiS0pT?=
+ =?utf-8?B?dzM4UXZLVW8vNHV0eTdBaXQ4QXVjUmhhSDZmQVVjSnpxK2ZydWM2TzdZWWRD?=
+ =?utf-8?B?aXg2VVBQR0lrWnRuenlqaDBnb3VUdHVhSlBFd2pVbU1VbXVPRHRZazR2SHpR?=
+ =?utf-8?B?VHBtaXpJQVI4ZXlUYU5lNGlBRDFrYUhzakQ3Wlc1U0dFU0M2bldFM1BudnBL?=
+ =?utf-8?B?N2ZDWi9WRDVHclJrS1A4YnE0NVUxd1BFeTRyRTlyUUJ3NHNUbkQ0d1RkZ01a?=
+ =?utf-8?B?N29UVFJ0YTBBeGZTaDV4SE9UMDFGb3ZIWHU3SVM1QUJRaldVMnJjcUx4UzNZ?=
+ =?utf-8?B?aXZ6V3RwQUd4M0xGQm5tMFVVM242bWF5OFRVc2tnYUVvUVgxS2k4MkRNYyt2?=
+ =?utf-8?B?d0ZLb0R1c0ZUM1owaGsyclZwTlRLQjBrdjNDWUZ3TGVCcVhqc3YyK0h6N2hj?=
+ =?utf-8?B?Y2gyMHVGdVBzcVVzUkR6Wm93ZHpBK0dRWGcxU2E1NzFYRzJyNmRBbys0RTNB?=
+ =?utf-8?B?M1ZrSjNidTcwN0xBMTZ1WUlPZjZydWZhbU9JVU9PUXBIMi9iNzA3SzJWNko2?=
+ =?utf-8?B?NEpzY29ocU5Wb2VBQ0FHVzBnZ1NpcUVWZUtDU0JST0MvdUdKNUdodDNodHds?=
+ =?utf-8?B?WDdmazNuWU53bmpOZUZvc0VraE9NUDNMSVhnSExIaklJa3llRGp4TERCTzhC?=
+ =?utf-8?B?UGwrK3hub25nRUlUaVQrN3dBWkpIbXI5cEJPSmZhVlpnOTRWTWo2S2xKa2g3?=
+ =?utf-8?B?aVJ5cFBlTTJxcklxMnVWQ3prQ2Z3eWEzSGRjWXhyMDNBSlR2RFZRTy9Fa29Y?=
+ =?utf-8?B?RHVrNGUxblZQcEFGcGlSUEZrbm9TRlZOL3NjdnZhQm02TCtaT3hNOW5xZGJH?=
+ =?utf-8?B?RkxGZ3pKaG9pL2hJWjI0TDZRN1JpN0J5eVRxMXJPV3hCcFRyYStVMlRaM01K?=
+ =?utf-8?B?SjMwaUFsY2l0cDRCS2dZVmRpUWNqWGhDbGhoM0lRUzc2dG1vV2JUalpVNC9L?=
+ =?utf-8?B?K2J6NUdDU21tM1h1dFNCeC9neS9zZmJkWWJQelA5UlY2eVN4dFNHUVhjVXN0?=
+ =?utf-8?B?MWdaSnNNS1dSbVJVeTVFRmlIMndMSEkreDE3VG1lWlVobzlFdjhneHh0Qnl2?=
+ =?utf-8?B?WFRDOFJmRlVWcnRiUFBVb2xiSEVSVGJJMnVRVnFObTFvKzBiUldVMjg3d1Ra?=
+ =?utf-8?B?K1F5REQ1SldjSUcyTkY4cVYzUHJaZVc5TWpSTFk0V1JGR3prM1JST1M2VG5H?=
+ =?utf-8?B?M0lWdDAwL3FlczNMUTFza3RsYVhVbGRWdktTQmdBSjUzOUR0TnN4VEd5bnRY?=
+ =?utf-8?B?V25jYkZiTEliWmJGWVdkQW5BTXVGVDhTSnJkZmRUTWhsTTdoblNJMUxYL1VE?=
+ =?utf-8?B?cjNDbG4xWmtXVG5ERFl0MHBFVEVGdkdZYTBvUmhybFQwcXJnNFRwQTlObjd4?=
+ =?utf-8?B?bnREM1lMMmZpZStzWnRtMkRSeHp2WjVldXJzUWdBUnNtVW5Tc2ptV3MrSDVp?=
+ =?utf-8?B?UWQ3R0RlZmRWOFJYa1IyUGlRTjBWd0pmTzRweTlpd1JxTHhMOW5vNFpsVUlO?=
+ =?utf-8?B?MHFGSTNINWdBUjYzZkY3aUhqblFGNGR4ZzlORG5ta00rRVFPRy9XQ0plbnhG?=
+ =?utf-8?B?cktpa3Y0ZUNBK1JobzFBREZTK1ltZy9rczlUWmh2NUx0NVEyc1NudWtDKzNi?=
+ =?utf-8?B?QS9jTUNGK3pCdUZaaTlWZGFSZ3RNKy9PWUhXbjRhbzlZdEx4d2VsWmlrYkJn?=
+ =?utf-8?Q?QFB8=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5b83238b-bf74-4a0b-2673-08d9b9673ae8
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1201MB0192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2021 09:52:07.2547 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: m99+LxaXyxVxf5p2S5oMOAYzW0dozTczUtJsLAUyF+Y8B7Yalhbsf/GGMGi05m0i
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR12MB2362
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,153 +130,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Javier Martinez Canillas <javier@dowhile0.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org, sf@sfritsch.de, bskeggs@redhat.com,
+ dri-devel@lists.freedesktop.org, regressions@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------Q0UzHGc5hdA1B5jj5ZE6I2GI
-Content-Type: multipart/mixed; boundary="------------v792wfspeNDV9pFwEXetWoU0";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Hector Martin <marcan@marcan.st>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Hans de Goede <hdegoede@redhat.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javier@dowhile0.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Message-ID: <03a52a64-7be3-b401-7711-b7b1452f433d@suse.de>
-Subject: Re: [PATCH v2 2/3] drm/format-helper: Add
- drm_fb_xrgb8888_to_xrgb2101010_toio()
-References: <20211207072943.121961-1-marcan@marcan.st>
- <20211207072943.121961-3-marcan@marcan.st>
-In-Reply-To: <20211207072943.121961-3-marcan@marcan.st>
+--------------3BA109AAA43B28248511E32F
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---------------v792wfspeNDV9pFwEXetWoU0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Am 06.12.21 um 19:37 schrieb Dan Moulding:
+> On 04.12.21 17:40, Stefan Fritsch wrote:
+>> Hi,
+>>
+>> when updating from 5.14 to 5.15 on a system with NVIDIA GP108 [GeForce
+>> GT 1030] (NV138) and Ryzen 9 3900XT using kde/plasma on X (not wayland),
+>> there is a regression: There is now some annoying black flickering in
+>> some applications, for example thunderbird, firefox, or mpv. It mostly
+>> happens when scrolling or when playing video. Only the window of the
+>> application flickers, not the whole screen. But the flickering is not
+>> limited to the scrolled area: for example in firefox the url and
+>> bookmark bars flicker, too, not only the web site. I have bisected the
+>> issue to this commit:
+>>
+>> commit 3e1ad79bf66165bdb2baca3989f9227939241f11 (HEAD)
+> I have been experiencing this same issue since switching to 5.15. I
+> can confirm that reverting the above mentioned commit fixes the issue
+> for me. I'm on GP104 hardware (GeForce GTX 1070), also running KDE
+> Plasma on X.
 
-SGkNCg0KQW0gMDcuMTIuMjEgdW0gMDg6Mjkgc2NocmllYiBIZWN0b3IgTWFydGluOg0KPiBB
-ZGQgWFJHQjg4ODggZW11bGF0aW9uIHN1cHBvcnQgZm9yIGRldmljZXMgdGhhdCBjYW4gb25s
-eSBkbyBYUkdCMjEwMTAxMC4NCj4gDQo+IFRoaXMgaXMgY2hpZWZseSB1c2VmdWwgZm9yIHNp
-bXBsZWRybSBvbiBBcHBsZSBkZXZpY2VzIHdoZXJlIHRoZQ0KPiBib290bG9hZGVyLXByb3Zp
-ZGVkIGZyYW1lYnVmZmVyIGlzIDEwLWJpdC4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEhlY3Rv
-ciBNYXJ0aW4gPG1hcmNhbkBtYXJjYW4uc3Q+DQo+IC0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2Ry
-bS9kcm1fZm9ybWF0X2hlbHBlci5jIHwgNjIgKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysNCj4gICBpbmNsdWRlL2RybS9kcm1fZm9ybWF0X2hlbHBlci5oICAgICB8ICAzICsrDQo+
-ICAgMiBmaWxlcyBjaGFuZ2VkLCA2NSBpbnNlcnRpb25zKCspDQo+IA0KPiBkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9ncHUvZHJtL2RybV9mb3JtYXRfaGVscGVyLmMgYi9kcml2ZXJzL2dwdS9k
-cm0vZHJtX2Zvcm1hdF9oZWxwZXIuYw0KPiBpbmRleCBkYmUzZTgzMDA5NmUuLmVkZDYxMWQz
-YWI2YSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9mb3JtYXRfaGVscGVy
-LmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9mb3JtYXRfaGVscGVyLmMNCj4gQEAg
-LTQwOSw2ICs0MDksNTkgQEAgdm9pZCBkcm1fZmJfeHJnYjg4ODhfdG9fcmdiODg4X3RvaW8o
-dm9pZCBfX2lvbWVtICpkc3QsIHVuc2lnbmVkIGludCBkc3RfcGl0Y2gsDQo+ICAgfQ0KPiAg
-IEVYUE9SVF9TWU1CT0woZHJtX2ZiX3hyZ2I4ODg4X3RvX3JnYjg4OF90b2lvKTsNCj4gICAN
-Cj4gK3N0YXRpYyB2b2lkIGRybV9mYl94cmdiODg4OF90b194cmdiMjEwMTAxMF9saW5lKHUz
-MiAqZGJ1ZiwgY29uc3QgdTMyICpzYnVmLA0KPiArCQkJCQkJdW5zaWduZWQgaW50IHBpeGVs
-cykNCj4gK3sNCj4gKwl1bnNpZ25lZCBpbnQgeDsNCj4gKw0KPiArCWZvciAoeCA9IDA7IHgg
-PCBwaXhlbHM7IHgrKykgew0KPiArCQkqZGJ1ZisrID0gKChzYnVmW3hdICYgMHgwMDAwMDBG
-RikgPDwgMikgfA0KPiArCQkJICAoKHNidWZbeF0gJiAweDAwMDBGRjAwKSA8PCA0KSB8DQo+
-ICsJCQkgICgoc2J1Zlt4XSAmIDB4MDBGRjAwMDApIDw8IDYpOw0KDQpUaGlzIGlzbid0IHF1
-aXRlIHJpZ2h0LiBUaGUgbG93ZXN0IHR3byBkZXN0aW5hdGlvbiBiaXRzIGluIGVhY2ggDQpj
-b21wb25lbnQgd2lsbCBhbHdheXMgYmUgemVyby4gWW91IGhhdmUgdG8gZG8gdGhlIHNoaWZ0
-aW5nIGFzIGFib3ZlIGFuZCANCmZvciBlYWNoIGNvbXBvbmVudCB0aGUgdHdvIGhpZ2hlc3Qg
-c291cmNlIGJpdHMgaGF2ZSB0byBiZSBPUidlZCBpbnRvIHRoZSANCnR3byBsb3dlc3QgZGVz
-dGluYXRpb24gYml0cy4gRm9yIGV4YW1wbGUgdGhlIHNvdXJjZSBiaXRzIGluIGEgY29tcG9u
-ZW50IA0KYXJlIG51bWJlcmVkIDcgdG8gMA0KDQogIHwgNyA2IDUgNCAzIDIgMSAwIHwNCg0K
-dGhlbiB0aGUgZGVzdGluYXRpb24gYml0cyBzaG91bGQgYmUNCg0KICB8IDcgNiA1IDQgMyAy
-IDEgMCA3IDYgfA0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+ICsJfQ0KPiArfQ0KPiAr
-DQo+ICsvKioNCj4gKyAqIGRybV9mYl94cmdiODg4OF90b194cmdiMjEwMTAxMF90b2lvIC0g
-Q29udmVydCBYUkdCODg4OCB0byBYUkdCMjEwMTAxMCBjbGlwDQo+ICsgKiBidWZmZXINCj4g
-KyAqIEBkc3Q6IFhSR0IyMTAxMDEwIGRlc3RpbmF0aW9uIGJ1ZmZlciAoaW9tZW0pDQo+ICsg
-KiBAZHN0X3BpdGNoOiBOdW1iZXIgb2YgYnl0ZXMgYmV0d2VlbiB0d28gY29uc2VjdXRpdmUg
-c2NhbmxpbmVzIHdpdGhpbiBkc3QNCj4gKyAqIEB2YWRkcjogWFJHQjg4ODggc291cmNlIGJ1
-ZmZlcg0KPiArICogQGZiOiBEUk0gZnJhbWVidWZmZXINCj4gKyAqIEBjbGlwOiBDbGlwIHJl
-Y3RhbmdsZSBhcmVhIHRvIGNvcHkNCj4gKyAqDQo+ICsgKiBEcml2ZXJzIGNhbiB1c2UgdGhp
-cyBmdW5jdGlvbiBmb3IgWFJHQjIxMDEwMTAgZGV2aWNlcyB0aGF0IGRvbid0IG5hdGl2ZWx5
-DQo+ICsgKiBzdXBwb3J0IFhSR0I4ODg4Lg0KPiArICovDQo+ICt2b2lkIGRybV9mYl94cmdi
-ODg4OF90b194cmdiMjEwMTAxMF90b2lvKHZvaWQgX19pb21lbSAqZHN0LA0KPiArCQkJCQkg
-dW5zaWduZWQgaW50IGRzdF9waXRjaCwgY29uc3Qgdm9pZCAqdmFkZHIsDQo+ICsJCQkJCSBj
-b25zdCBzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYiwNCj4gKwkJCQkJIGNvbnN0IHN0cnVj
-dCBkcm1fcmVjdCAqY2xpcCkNCj4gK3sNCj4gKwlzaXplX3QgbGluZXBpeGVscyA9IGNsaXAt
-PngyIC0gY2xpcC0+eDE7DQo+ICsJc2l6ZV90IGRzdF9sZW4gPSBsaW5lcGl4ZWxzICogc2l6
-ZW9mKHUzMik7DQo+ICsJdW5zaWduZWQgeSwgbGluZXMgPSBjbGlwLT55MiAtIGNsaXAtPnkx
-Ow0KPiArCXZvaWQgKmRidWY7DQo+ICsNCj4gKwlpZiAoIWRzdF9waXRjaCkNCj4gKwkJZHN0
-X3BpdGNoID0gZHN0X2xlbjsNCj4gKw0KPiArCWRidWYgPSBrbWFsbG9jKGRzdF9sZW4sIEdG
-UF9LRVJORUwpOw0KPiArCWlmICghZGJ1ZikNCj4gKwkJcmV0dXJuOw0KPiArDQo+ICsJdmFk
-ZHIgKz0gY2xpcF9vZmZzZXQoY2xpcCwgZmItPnBpdGNoZXNbMF0sIHNpemVvZih1MzIpKTsN
-Cj4gKwlmb3IgKHkgPSAwOyB5IDwgbGluZXM7IHkrKykgew0KPiArCQlkcm1fZmJfeHJnYjg4
-ODhfdG9feHJnYjIxMDEwMTBfbGluZShkYnVmLCB2YWRkciwgbGluZXBpeGVscyk7DQo+ICsJ
-CW1lbWNweV90b2lvKGRzdCwgZGJ1ZiwgZHN0X2xlbik7DQo+ICsJCXZhZGRyICs9IGZiLT5w
-aXRjaGVzWzBdOw0KPiArCQlkc3QgKz0gZHN0X3BpdGNoOw0KPiArCX0NCj4gKw0KPiArCWtm
-cmVlKGRidWYpOw0KPiArfQ0KPiArRVhQT1JUX1NZTUJPTChkcm1fZmJfeHJnYjg4ODhfdG9f
-eHJnYjIxMDEwMTBfdG9pbyk7DQo+ICsNCj4gICAvKioNCj4gICAgKiBkcm1fZmJfeHJnYjg4
-ODhfdG9fZ3JheTggLSBDb252ZXJ0IFhSR0I4ODg4IHRvIGdyYXlzY2FsZQ0KPiAgICAqIEBk
-c3Q6IDgtYml0IGdyYXlzY2FsZSBkZXN0aW5hdGlvbiBidWZmZXINCj4gQEAgLTUwMCw2ICs1
-NTMsMTAgQEAgaW50IGRybV9mYl9ibGl0X3RvaW8odm9pZCBfX2lvbWVtICpkc3QsIHVuc2ln
-bmVkIGludCBkc3RfcGl0Y2gsIHVpbnQzMl90IGRzdF9mb3INCj4gICAJCWZiX2Zvcm1hdCA9
-IERSTV9GT1JNQVRfWFJHQjg4ODg7DQo+ICAgCWlmIChkc3RfZm9ybWF0ID09IERSTV9GT1JN
-QVRfQVJHQjg4ODgpDQo+ICAgCQlkc3RfZm9ybWF0ID0gRFJNX0ZPUk1BVF9YUkdCODg4ODsN
-Cj4gKwlpZiAoZmJfZm9ybWF0ID09IERSTV9GT1JNQVRfQVJHQjIxMDEwMTApDQo+ICsJCWZi
-X2Zvcm1hdCA9IERSTV9GT1JNQVRfWFJHQjIxMDEwMTA7DQo+ICsJaWYgKGRzdF9mb3JtYXQg
-PT0gRFJNX0ZPUk1BVF9BUkdCMjEwMTAxMCkNCj4gKwkJZHN0X2Zvcm1hdCA9IERSTV9GT1JN
-QVRfWFJHQjIxMDEwMTA7DQo+ICAgDQo+ICAgCWlmIChkc3RfZm9ybWF0ID09IGZiX2Zvcm1h
-dCkgew0KPiAgIAkJZHJtX2ZiX21lbWNweV90b2lvKGRzdCwgZHN0X3BpdGNoLCB2bWFwLCBm
-YiwgY2xpcCk7DQo+IEBAIC01MTUsNiArNTcyLDExIEBAIGludCBkcm1fZmJfYmxpdF90b2lv
-KHZvaWQgX19pb21lbSAqZHN0LCB1bnNpZ25lZCBpbnQgZHN0X3BpdGNoLCB1aW50MzJfdCBk
-c3RfZm9yDQo+ICAgCQkJZHJtX2ZiX3hyZ2I4ODg4X3RvX3JnYjg4OF90b2lvKGRzdCwgZHN0
-X3BpdGNoLCB2bWFwLCBmYiwgY2xpcCk7DQo+ICAgCQkJcmV0dXJuIDA7DQo+ICAgCQl9DQo+
-ICsJfSBlbHNlIGlmIChkc3RfZm9ybWF0ID09IERSTV9GT1JNQVRfWFJHQjIxMDEwMTApIHsN
-Cj4gKwkJaWYgKGZiX2Zvcm1hdCA9PSBEUk1fRk9STUFUX1hSR0I4ODg4KSB7DQo+ICsJCQlk
-cm1fZmJfeHJnYjg4ODhfdG9feHJnYjIxMDEwMTBfdG9pbyhkc3QsIGRzdF9waXRjaCwgdm1h
-cCwgZmIsIGNsaXApOw0KPiArCQkJcmV0dXJuIDA7DQo+ICsJCX0NCj4gICAJfQ0KPiAgIA0K
-PiAgIAlyZXR1cm4gLUVJTlZBTDsNCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9m
-b3JtYXRfaGVscGVyLmggYi9pbmNsdWRlL2RybS9kcm1fZm9ybWF0X2hlbHBlci5oDQo+IGlu
-ZGV4IDk3ZTRjMzIyM2FmMy4uYjMwZWQ1ZGUwYTMzIDEwMDY0NA0KPiAtLS0gYS9pbmNsdWRl
-L2RybS9kcm1fZm9ybWF0X2hlbHBlci5oDQo+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9mb3Jt
-YXRfaGVscGVyLmgNCj4gQEAgLTMzLDYgKzMzLDkgQEAgdm9pZCBkcm1fZmJfeHJnYjg4ODhf
-dG9fcmdiODg4KHZvaWQgKmRzdCwgdW5zaWduZWQgaW50IGRzdF9waXRjaCwgY29uc3Qgdm9p
-ZCAqc3INCj4gICB2b2lkIGRybV9mYl94cmdiODg4OF90b19yZ2I4ODhfdG9pbyh2b2lkIF9f
-aW9tZW0gKmRzdCwgdW5zaWduZWQgaW50IGRzdF9waXRjaCwNCj4gICAJCQkJICAgIGNvbnN0
-IHZvaWQgKnZhZGRyLCBjb25zdCBzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYiwNCj4gICAJ
-CQkJICAgIGNvbnN0IHN0cnVjdCBkcm1fcmVjdCAqY2xpcCk7DQo+ICt2b2lkIGRybV9mYl94
-cmdiODg4OF90b194cmdiMjEwMTAxMF90b2lvKHZvaWQgX19pb21lbSAqZHN0LCB1bnNpZ25l
-ZCBpbnQgZHN0X3BpdGNoLA0KPiArCQkJCQkgY29uc3Qgdm9pZCAqdmFkZHIsIGNvbnN0IHN0
-cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZiLA0KPiArCQkJCQkgY29uc3Qgc3RydWN0IGRybV9y
-ZWN0ICpjbGlwKTsNCj4gICB2b2lkIGRybV9mYl94cmdiODg4OF90b19ncmF5OCh2b2lkICpk
-c3QsIHVuc2lnbmVkIGludCBkc3RfcGl0Y2gsIGNvbnN0IHZvaWQgKnZhZGRyLA0KPiAgIAkJ
-CSAgICAgIGNvbnN0IHN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZiLCBjb25zdCBzdHJ1Y3Qg
-ZHJtX3JlY3QgKmNsaXApOw0KPiAgIA0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0K
-R3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2Vy
-bWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihI
-UkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYN
-Cg==
+I'm still scratching my head what's going wrong here.
 
---------------v792wfspeNDV9pFwEXetWoU0--
+Either we trigger some performance problem because we now wait twice for 
+submissions or nouveau is doing something very nasty and not syncing 
+it's memory accesses correctly.
 
---------------Q0UzHGc5hdA1B5jj5ZE6I2GI
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Attached is an only compile tested patch which might mitigate the first 
+problem.
 
------BEGIN PGP SIGNATURE-----
+But if it's the second then nouveau has a really nasty design issue here 
+and somebody with more background on that driver design needs to take a 
+look.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmGvK/cFAwAAAAAACgkQlh/E3EQov+Dk
-9Q/+IVYFrIGR74l7jxASmZjVJOOHr4GtH4FmubenyKBtXtHesWuIoCZwX0zMAKnZUdsN+7buIrIO
-qx8wl8gGKe9jDgcOJ5qxnR5RiLAoLHx+SWgfeZ+tWWlRdF8EJuUEWYIwhDnCdyPR38P20EhWwcVI
-oAyzyE5ynL3v/eNexXZH6oF5z9zaPcwWYMPUzICxCA2RNVZMzj1Mi5cLmRiep++eBsrloxW2Vn5T
-S2ISylsbeeEECDdJOHassbaYYBXfk4qC3kJfTyqaNb09Z08hsPCvWl9PbXa6eOQpMia49cHR+bE8
-CAu3MWx4KXP59sOI920Elvw9B7stOydq76cYN0Zr5VPWtEBvJYIND//SBABaH2fC1aZV3JBbshxk
-wb+cC++L6FFbPBrlFiW/3XyaPcVkVGDpcf82M7WvU2FH6rgR3Pj4BJi0cX5kWME2dAEgEOjPSu5V
-oC56mV9pgNwfYo/SLOXdeBKkDTLnsdgD+yJQL7RWACYCzUEQS9G1U/b0M5DSPqJzqXW4gj+8w7o+
-rP7yOyRifMolxYS6Ug/jzNKc/pPK2rYcnzQFp4p1JDY+587JBk6PM3iLxnC9YrlEcvImQOKdGlme
-D7TpQIzzYp8zh4CHHj/BWByi1TOdNWAdL2/3UJrDCS+VTU5hkCGxsrI5rgyCvslNJXo4EpxZf42y
-GoM=
-=3rvo
------END PGP SIGNATURE-----
+Please test if that patch changes anything.
 
---------------Q0UzHGc5hdA1B5jj5ZE6I2GI--
+Thanks,
+Christian.
+
+>
+> Cheers,
+>
+> -- Dan
+
+
+--------------3BA109AAA43B28248511E32F
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0001-drm-nouveau-wait-for-the-exclusive-fence-after-the-s.patch"
+Content-Transfer-Encoding: 8bit
+Content-Disposition: attachment;
+ filename*0="0001-drm-nouveau-wait-for-the-exclusive-fence-after-the-s.pa";
+ filename*1="tch"
+
+From bcb86d62569c0131288c8b032f848f28f0178648 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Date: Tue, 7 Dec 2021 10:10:15 +0100
+Subject: [PATCH] drm/nouveau: wait for the exclusive fence after the shared
+ ones
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Always waiting for the exclusive fence resulted on some performance
+regressions. So try to wait for the shared fences first, then the
+exclusive fence should always be signaled already.
+
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/gpu/drm/nouveau/nouveau_fence.c | 25 ++++++++++++-------------
+ 1 file changed, 12 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
+index 05d0b3eb3690..0947e332371b 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_fence.c
++++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+@@ -353,15 +353,19 @@ nouveau_fence_sync(struct nouveau_bo *nvbo, struct nouveau_channel *chan, bool e
+ 
+ 		if (ret)
+ 			return ret;
+-	}
+ 
+-	fobj = dma_resv_shared_list(resv);
+-	fence = dma_resv_excl_fence(resv);
++		fobj = NULL;
++	} else {
++		fobj = dma_resv_shared_list(resv);
++	}
+ 
+-	if (fence) {
++	for (i = 0; (i < fobj ? fobj->shared_count : 0) && !ret; ++i) {
+ 		struct nouveau_channel *prev = NULL;
+ 		bool must_wait = true;
+ 
++		fence = rcu_dereference_protected(fobj->shared[i],
++						dma_resv_held(resv));
++
+ 		f = nouveau_local_fence(fence, chan->drm);
+ 		if (f) {
+ 			rcu_read_lock();
+@@ -373,20 +377,13 @@ nouveau_fence_sync(struct nouveau_bo *nvbo, struct nouveau_channel *chan, bool e
+ 
+ 		if (must_wait)
+ 			ret = dma_fence_wait(fence, intr);
+-
+-		return ret;
+ 	}
+ 
+-	if (!exclusive || !fobj)
+-		return ret;
+-
+-	for (i = 0; i < fobj->shared_count && !ret; ++i) {
++	fence = dma_resv_excl_fence(resv);
++	if (fence) {
+ 		struct nouveau_channel *prev = NULL;
+ 		bool must_wait = true;
+ 
+-		fence = rcu_dereference_protected(fobj->shared[i],
+-						dma_resv_held(resv));
+-
+ 		f = nouveau_local_fence(fence, chan->drm);
+ 		if (f) {
+ 			rcu_read_lock();
+@@ -398,6 +395,8 @@ nouveau_fence_sync(struct nouveau_bo *nvbo, struct nouveau_channel *chan, bool e
+ 
+ 		if (must_wait)
+ 			ret = dma_fence_wait(fence, intr);
++
++		return ret;
+ 	}
+ 
+ 	return ret;
+-- 
+2.25.1
+
+
+--------------3BA109AAA43B28248511E32F--
