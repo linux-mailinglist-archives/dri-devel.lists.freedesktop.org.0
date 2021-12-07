@@ -2,53 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E46246C2F2
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 19:34:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 074AF46C347
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 20:01:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 876C37ACD0;
-	Tue,  7 Dec 2021 18:34:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 790656E9B6;
+	Tue,  7 Dec 2021 19:01:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A250C7ACCB;
- Tue,  7 Dec 2021 18:34:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1638902089; x=1670438089;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=sWh8yU3fot/mgjt7cYkS/eLOk6VLCRquU0OYM5BxnuM=;
- b=lw2kikz4sgx9XTSDmYCl76xaZ9lo+QrSXyWAbJUKq9xh05Vk18TgVP38
- JvR9Rw6blcp6NpV+nwloVEmjyReofgrP1nD2v+tfgoJXpgqae8Sa8dpV1
- oX/ujyoBtAxMcnBqLiglJHfFPEPF9iGv0tUcfwvJ9jGqJ3mblFBjYi6wl M=;
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
- by alexa-out.qualcomm.com with ESMTP; 07 Dec 2021 10:34:49 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Dec 2021 10:34:48 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Tue, 7 Dec 2021 10:33:47 -0800
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Tue, 7 Dec 2021 10:33:47 -0800
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
- <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
- <bjorn.andersson@linaro.org>
-Subject: [PATCH v5] drm/msm/dp: do not initialize phy until plugin interrupt
- received
-Date: Tue, 7 Dec 2021 10:33:37 -0800
-Message-ID: <1638902017-24044-1-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+Received: from mr85p00im-zteg06011601.me.com (mr85p00im-zteg06011601.me.com
+ [17.58.23.186])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF9816E9B6
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Dec 2021 19:01:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
+ t=1638903678; bh=9GTVw0OtCiKlOgYaMzSd1b5ZZeeoLOOAJkAdI7ZAnXw=;
+ h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type;
+ b=J+R44s+sedIxachQwH3Qa6bHgFMDETt9VJLQebfAQKWOHz3vNPSlbFgbywssdVTI7
+ eYEur0owqZwHE8fv93d+LwJsPJJfc1Ebc9Z7459aKexbOwsVulGUIA+AryH9/kF26u
+ cilwOxsJvEzSx3knEZ6NkEApony2VNmjVjeAndGM2hFzIxMQppQkK+VJysrhZhDgVr
+ HVw3DntY9IekMN8Q9VNg3Fjy0ZEfQG7pB5TSnGYiL4t1e0tFLbmI85zQGI1mNUMIAm
+ sz+7PX6iTaMrz2aSqIb2IWaBPWZGMRlDSrCoG0VuG5CeHLsNTfAstbvZVCYy6SSBTf
+ O8vkEvy8CQwGQ==
+Received: from hitch.danm.net (c-73-98-236-45.hsd1.ut.comcast.net
+ [73.98.236.45])
+ by mr85p00im-zteg06011601.me.com (Postfix) with ESMTPSA id 7BD0D920B21;
+ Tue,  7 Dec 2021 19:01:17 +0000 (UTC)
+From: Dan Moulding <dmoulding@me.com>
+To: christian.koenig@amd.com
+Subject: Re: [Nouveau] Regression in 5.15 in nouveau
+Date: Tue,  7 Dec 2021 12:01:11 -0700
+Message-Id: <20211207190111.5266-1-dmoulding@me.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <6f62bd8c-3a2c-e553-898c-d42fb1583208@amd.com>
+References: <6f62bd8c-3a2c-e553-898c-d42fb1583208@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.425,18.0.790,17.11.62.513.0000000_definitions?=
+ =?UTF-8?Q?=3D2021-12-07=5F06:2021-12-06=5F01,2021-12-07=5F06,2021-12-02?=
+ =?UTF-8?Q?=5F01_signatures=3D0?=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ bulkscore=0 mlxlogscore=999
+ malwarescore=0 clxscore=1015 adultscore=0 suspectscore=0 mlxscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2112070118
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,415 +58,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- quic_khsieh@quicinc.com, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: regressions@lists.linux.dev, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, dmoulding@me.com, regressions@leemhuis.info,
+ bskeggs@redhat.com, sf@sfritsch.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Current DP drivers have regulators, clocks, irq and phy are grouped
-together within a function and executed not in a symmetric manner.
-This increase difficulty of code maintenance and limited code scalability.
-This patch divided the driver life cycle of operation into four states,
-resume (including booting up), dongle plugin, dongle unplugged and suspend.
-Regulators, core clocks and irq are grouped together and enabled at resume
-(or booting up) so that the DP controller is armed and ready to receive HPD
-plugin interrupts. HPD plugin interrupt is generated when a dongle plugs
-into DUT (device under test). Once HPD plugin interrupt is received, DP
-controller will initialize phy so that dpcd read/write will function and
-following link training can be proceeded successfully. DP phy will be
-disabled after main link is teared down at end of unplugged HPD interrupt
-handle triggered by dongle unplugged out of DUT. Finally regulators, code
-clocks and irq are disabled at corresponding suspension.
+> Please test if that patch changes anything.
 
-Changes in V2:
--- removed unnecessary dp_ctrl NULL check
--- removed unnecessary phy init_count and power_count DRM_DEBUG_DP logs
--- remove flip parameter out of dp_ctrl_irq_enable()
--- add fixes tag
+Looks like the driver is not functional after applying that patch. As
+soon as the display manager is supposed to start I get a black screen
+with just a (working) mouse pointer. VT switching doesn't work after
+that point.
 
-Changes in V3:
--- call dp_display_host_phy_init() instead of dp_ctrl_phy_init() at
-        dp_display_host_init() for eDP
+I got the following warning when compiling with that patch applied:
 
-Changes in V4:
--- rewording commit text to match this commit changes
+drivers/gpu/drm/nouveau/nouveau_fence.c: In function ‘nouveau_fence_sync’:
+drivers/gpu/drm/nouveau/nouveau_fence.c:362:24: warning: comparison between pointer and integer
+  362 |         for (i = 0; (i < fobj ? fobj->shared_count : 0) && !ret; ++i) {
+      |                        ^
 
-Changes in V5:
--- rebase on top of msm-next branch
+Below are the relevant portions from dmesg after attempting to run
+with the patch applied.
 
-Fixes: 8ede2ecc3e5e ("drm/msm/dp: Add DP compliance tests on Snapdragon Chipsets")
+Cheers,
 
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
----
- drivers/gpu/drm/msm/dp/dp_ctrl.c    | 87 ++++++++++++++++---------------------
- drivers/gpu/drm/msm/dp/dp_ctrl.h    |  9 ++--
- drivers/gpu/drm/msm/dp/dp_display.c | 80 ++++++++++++++++++++++++++--------
- 3 files changed, 104 insertions(+), 72 deletions(-)
+-- Dan
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index c724cb0..7f0d647 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -1365,60 +1365,54 @@ static int dp_ctrl_enable_stream_clocks(struct dp_ctrl_private *ctrl)
- 	return ret;
- }
- 
--int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip, bool reset)
-+void dp_ctrl_irq_enable(struct dp_ctrl *dp_ctrl)
-+{
-+	struct dp_ctrl_private *ctrl;
-+
-+	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
-+
-+	dp_catalog_ctrl_reset(ctrl->catalog);
-+
-+	dp_catalog_ctrl_enable_irq(ctrl->catalog, true);
-+}
-+
-+void dp_ctrl_irq_disable(struct dp_ctrl *dp_ctrl)
-+{
-+	struct dp_ctrl_private *ctrl;
-+
-+	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
-+
-+	dp_catalog_ctrl_reset(ctrl->catalog);
-+
-+	dp_catalog_ctrl_enable_irq(ctrl->catalog, false);
-+}
-+
-+void dp_ctrl_phy_init(struct dp_ctrl *dp_ctrl)
- {
- 	struct dp_ctrl_private *ctrl;
- 	struct dp_io *dp_io;
- 	struct phy *phy;
- 
--	if (!dp_ctrl) {
--		DRM_ERROR("Invalid input data\n");
--		return -EINVAL;
--	}
--
- 	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
- 	dp_io = &ctrl->parser->io;
- 	phy = dp_io->phy;
- 
--	ctrl->dp_ctrl.orientation = flip;
--
--	if (reset)
--		dp_catalog_ctrl_reset(ctrl->catalog);
--
--	DRM_DEBUG_DP("flip=%d\n", flip);
- 	dp_catalog_ctrl_phy_reset(ctrl->catalog);
- 	phy_init(phy);
--	dp_catalog_ctrl_enable_irq(ctrl->catalog, true);
--
--	return 0;
- }
- 
--/**
-- * dp_ctrl_host_deinit() - Uninitialize DP controller
-- * @dp_ctrl: Display Port Driver data
-- *
-- * Perform required steps to uninitialize DP controller
-- * and its resources.
-- */
--void dp_ctrl_host_deinit(struct dp_ctrl *dp_ctrl)
-+void dp_ctrl_phy_exit(struct dp_ctrl *dp_ctrl)
- {
- 	struct dp_ctrl_private *ctrl;
- 	struct dp_io *dp_io;
- 	struct phy *phy;
- 
--	if (!dp_ctrl) {
--		DRM_ERROR("Invalid input data\n");
--		return;
--	}
--
- 	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
- 	dp_io = &ctrl->parser->io;
- 	phy = dp_io->phy;
- 
--	dp_catalog_ctrl_enable_irq(ctrl->catalog, false);
-+	dp_catalog_ctrl_phy_reset(ctrl->catalog);
- 	phy_exit(phy);
--
--	DRM_DEBUG_DP("Host deinitialized successfully\n");
- }
- 
- static bool dp_ctrl_use_fixed_nvid(struct dp_ctrl_private *ctrl)
-@@ -1893,8 +1887,14 @@ int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl)
- 		return ret;
- 	}
- 
-+	DRM_DEBUG_DP("Before, phy=%x init_count=%d power_on=%d\n",
-+		(u32)(uintptr_t)phy, phy->init_count, phy->power_count);
-+
- 	phy_power_off(phy);
- 
-+	DRM_DEBUG_DP("After, phy=%x init_count=%d power_on=%d\n",
-+		(u32)(uintptr_t)phy, phy->init_count, phy->power_count);
-+
- 	/* aux channel down, reinit phy */
- 	phy_exit(phy);
- 	phy_init(phy);
-@@ -1903,23 +1903,6 @@ int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl)
- 	return ret;
- }
- 
--void dp_ctrl_off_phy(struct dp_ctrl *dp_ctrl)
--{
--	struct dp_ctrl_private *ctrl;
--	struct dp_io *dp_io;
--	struct phy *phy;
--
--	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
--	dp_io = &ctrl->parser->io;
--	phy = dp_io->phy;
--
--	dp_catalog_ctrl_reset(ctrl->catalog);
--
--	phy_exit(phy);
--
--	DRM_DEBUG_DP("DP off phy done\n");
--}
--
- int dp_ctrl_off(struct dp_ctrl *dp_ctrl)
- {
- 	struct dp_ctrl_private *ctrl;
-@@ -1947,10 +1930,14 @@ int dp_ctrl_off(struct dp_ctrl *dp_ctrl)
- 		DRM_ERROR("Failed to disable link clocks. ret=%d\n", ret);
- 	}
- 
-+	DRM_DEBUG_DP("Before, phy=%x init_count=%d power_on=%d\n",
-+		(u32)(uintptr_t)phy, phy->init_count, phy->power_count);
-+
- 	phy_power_off(phy);
--	phy_exit(phy);
- 
--	DRM_DEBUG_DP("DP off done\n");
-+	DRM_DEBUG_DP("After, phy=%x init_count=%d power_on=%d\n",
-+		(u32)(uintptr_t)phy, phy->init_count, phy->power_count);
-+
- 	return ret;
- }
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-index 2363a2d..30f9414 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-@@ -19,12 +19,9 @@ struct dp_ctrl {
- 	u32 pixel_rate;
- };
- 
--int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip, bool reset);
--void dp_ctrl_host_deinit(struct dp_ctrl *dp_ctrl);
- int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl);
- int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl);
- int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl);
--void dp_ctrl_off_phy(struct dp_ctrl *dp_ctrl);
- int dp_ctrl_off(struct dp_ctrl *dp_ctrl);
- void dp_ctrl_push_idle(struct dp_ctrl *dp_ctrl);
- void dp_ctrl_isr(struct dp_ctrl *dp_ctrl);
-@@ -34,4 +31,10 @@ struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
- 			struct dp_power *power, struct dp_catalog *catalog,
- 			struct dp_parser *parser);
- 
-+void dp_ctrl_irq_enable(struct dp_ctrl *dp_ctrl);
-+void dp_ctrl_irq_disable(struct dp_ctrl *dp_ctrl);
-+void dp_ctrl_phy_init(struct dp_ctrl *dp_ctrl);
-+void dp_ctrl_phy_exit(struct dp_ctrl *dp_ctrl);
-+void dp_ctrl_irq_phy_exit(struct dp_ctrl *dp_ctrl);
-+
- #endif /* _DP_CTRL_H_ */
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index d44f18b..0261640 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -83,6 +83,7 @@ struct dp_display_private {
- 
- 	/* state variables */
- 	bool core_initialized;
-+	bool phy_initialized;
- 	bool hpd_irq_on;
- 	bool audio_supported;
- 
-@@ -375,7 +376,29 @@ static int dp_display_process_hpd_high(struct dp_display_private *dp)
- 	return rc;
- }
- 
--static void dp_display_host_init(struct dp_display_private *dp, int reset)
-+static void dp_display_host_phy_init(struct dp_display_private *dp)
-+{
-+	DRM_DEBUG_DP("core_init=%d phy_init=%d\n",
-+			dp->core_initialized, dp->phy_initialized);
-+
-+	if (!dp->phy_initialized) {
-+		dp_ctrl_phy_init(dp->ctrl);
-+		dp->phy_initialized = true;
-+	}
-+}
-+
-+static void dp_display_host_phy_exit(struct dp_display_private *dp)
-+{
-+	DRM_DEBUG_DP("core_init=%d phy_init=%d\n",
-+			dp->core_initialized, dp->phy_initialized);
-+
-+	if (dp->phy_initialized) {
-+		dp_ctrl_phy_exit(dp->ctrl);
-+		dp->phy_initialized = false;
-+	}
-+}
-+
-+static void dp_display_host_init(struct dp_display_private *dp)
- {
- 	bool flip = false;
- 
-@@ -388,8 +411,16 @@ static void dp_display_host_init(struct dp_display_private *dp, int reset)
- 	if (dp->usbpd->orientation == ORIENTATION_CC2)
- 		flip = true;
- 
--	dp_power_init(dp->power, flip);
--	dp_ctrl_host_init(dp->ctrl, flip, reset);
-+	dp_power_init(dp->power, false);
-+	dp_ctrl_irq_enable(dp->ctrl);
-+
-+	/*
-+	 * eDP is the embedded primary display and has its own phy
-+	 * initialize phy immediately
-+	 */
-+	if (dp->dp_display.connector_type == DRM_MODE_CONNECTOR_eDP)
-+		dp_display_host_phy_init(dp);
-+
- 	dp_aux_init(dp->aux);
- 	dp->core_initialized = true;
- }
-@@ -401,7 +432,7 @@ static void dp_display_host_deinit(struct dp_display_private *dp)
- 		return;
- 	}
- 
--	dp_ctrl_host_deinit(dp->ctrl);
-+	dp_ctrl_irq_disable(dp->ctrl);
- 	dp_aux_deinit(dp->aux);
- 	dp_power_deinit(dp->power);
- 
-@@ -412,7 +443,7 @@ static int dp_display_usbpd_configure_cb(struct device *dev)
- {
- 	struct dp_display_private *dp = dev_get_dp_display_private(dev);
- 
--	dp_display_host_init(dp, false);
-+	dp_display_host_phy_init(dp);
- 
- 	return dp_display_process_hpd_high(dp);
- }
-@@ -536,7 +567,7 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
- 		dp->hpd_state = ST_DISCONNECTED;
- 
- 		if (ret == -ECONNRESET) { /* cable unplugged */
--			dp->core_initialized = false;
-+			dp->phy_initialized = false;
- 		}
- 
- 	} else {
-@@ -608,8 +639,7 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
- 	if (state == ST_DISCONNECTED) {
- 		/* triggered by irq_hdp with sink_count = 0 */
- 		if (dp->link->sink_count == 0) {
--			dp_ctrl_off_phy(dp->ctrl);
--			dp->core_initialized = false;
-+			dp_display_host_phy_exit(dp);
- 		}
- 		mutex_unlock(&dp->event_mutex);
- 		return 0;
-@@ -698,7 +728,7 @@ static int dp_irq_hpd_handle(struct dp_display_private *dp, u32 data)
- 
- 	ret = dp_display_usbpd_attention_cb(&dp->pdev->dev);
- 	if (ret == -ECONNRESET) { /* cable unplugged */
--		dp->core_initialized = false;
-+		dp->phy_initialized = false;
- 	}
- 	DRM_DEBUG_DP("hpd_state=%d\n", state);
- 
-@@ -890,12 +920,19 @@ static int dp_display_disable(struct dp_display_private *dp, u32 data)
- 
- 	dp_display->audio_enabled = false;
- 
--	/* triggered by irq_hpd with sink_count = 0 */
- 	if (dp->link->sink_count == 0) {
-+		/*
-+		 * irq_hpd with sink_count = 0
-+		 * hdmi unplugged out of dongle
-+		 */
- 		dp_ctrl_off_link_stream(dp->ctrl);
- 	} else {
-+		/*
-+		 * unplugged interrupt
-+		 * dongle unplugged out of DUT
-+		 */
- 		dp_ctrl_off(dp->ctrl);
--		dp->core_initialized = false;
-+		dp_display_host_phy_exit(dp);
- 	}
- 
- 	dp_display->power_on = false;
-@@ -1025,7 +1062,7 @@ void msm_dp_snapshot(struct msm_disp_state *disp_state, struct msm_dp *dp)
- static void dp_display_config_hpd(struct dp_display_private *dp)
- {
- 
--	dp_display_host_init(dp, true);
-+	dp_display_host_init(dp);
- 	dp_catalog_ctrl_hpd_config(dp->catalog);
- 
- 	/* Enable interrupt first time
-@@ -1304,20 +1341,23 @@ static int dp_pm_resume(struct device *dev)
- 	dp->hpd_state = ST_DISCONNECTED;
- 
- 	/* turn on dp ctrl/phy */
--	dp_display_host_init(dp, true);
-+	dp_display_host_init(dp);
- 
- 	dp_catalog_ctrl_hpd_config(dp->catalog);
- 
--	/*
--	 * set sink to normal operation mode -- D0
--	 * before dpcd read
--	 */
--	dp_link_psm_config(dp->link, &dp->panel->link_info, false);
- 
- 	if (dp_catalog_link_is_connected(dp->catalog)) {
-+		/*
-+		 * set sink to normal operation mode -- D0
-+		 * before dpcd read
-+		 */
-+		dp_display_host_phy_init(dp);
-+		dp_link_psm_config(dp->link, &dp->panel->link_info, false);
- 		sink_count = drm_dp_read_sink_count(dp->aux);
- 		if (sink_count < 0)
- 			sink_count = 0;
-+
-+		dp_display_host_phy_exit(dp);
- 	}
- 
- 	dp->link->sink_count = sink_count;
-@@ -1364,6 +1404,8 @@ static int dp_pm_suspend(struct device *dev)
- 		dp_display_host_deinit(dp);
- 	}
- 
-+	dp_display_host_phy_exit(dp);
-+
- 	dp->hpd_state = ST_SUSPENDED;
- 
- 	/* host_init will be called at pm_resume */
-@@ -1521,7 +1563,7 @@ int msm_dp_display_enable(struct msm_dp *dp, struct drm_encoder *encoder)
- 	state =  dp_display->hpd_state;
- 
- 	if (state == ST_DISPLAY_OFF)
--		dp_display_host_init(dp_display, true);
-+		dp_display_host_phy_init(dp_display);
- 
- 	dp_display_enable(dp_display, 0);
- 
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+dmesg:
+=====
 
+<snip>
+
+[    0.269958] nouveau 0000:01:00.0: NVIDIA GP104 (134000a1)
+[    0.377100] nouveau 0000:01:00.0: bios: version 86.04.50.80.13
+[    0.377210] nouveau 0000:01:00.0: pmu: firmware unavailable
+[    0.377711] nouveau 0000:01:00.0: fb: 8192 MiB GDDR5
+[    0.391160] nouveau 0000:01:00.0: DRM: VRAM: 8192 MiB
+[    0.391164] nouveau 0000:01:00.0: DRM: GART: 536870912 MiB
+[    0.391166] nouveau 0000:01:00.0: DRM: BIT table 'A' not found
+[    0.391168] nouveau 0000:01:00.0: DRM: BIT table 'L' not found
+[    0.391170] nouveau 0000:01:00.0: DRM: TMDS table version 2.0
+[    0.391172] nouveau 0000:01:00.0: DRM: DCB version 4.1
+[    0.391174] nouveau 0000:01:00.0: DRM: DCB outp 00: 01000f42 00020030
+[    0.391176] nouveau 0000:01:00.0: DRM: DCB outp 01: 04811f96 04600020
+[    0.391178] nouveau 0000:01:00.0: DRM: DCB outp 02: 04011f92 00020020
+[    0.391180] nouveau 0000:01:00.0: DRM: DCB outp 03: 04822f86 04600010
+[    0.391182] nouveau 0000:01:00.0: DRM: DCB outp 04: 04022f82 00020010
+[    0.391184] nouveau 0000:01:00.0: DRM: DCB outp 06: 02033f62 00020010
+[    0.391186] nouveau 0000:01:00.0: DRM: DCB outp 07: 02844f76 04600020
+[    0.391188] nouveau 0000:01:00.0: DRM: DCB outp 08: 02044f72 00020020
+[    0.391190] nouveau 0000:01:00.0: DRM: DCB conn 00: 00001031
+[    0.391191] nouveau 0000:01:00.0: DRM: DCB conn 01: 02000146
+[    0.391193] nouveau 0000:01:00.0: DRM: DCB conn 02: 01000246
+[    0.391194] nouveau 0000:01:00.0: DRM: DCB conn 03: 00010361
+[    0.391196] nouveau 0000:01:00.0: DRM: DCB conn 04: 00020446
+[    0.391489] nouveau 0000:01:00.0: DRM: MM: using COPY for buffer copies
+[    0.891103] nouveau 0000:01:00.0: DRM: allocated 1920x1080 fb: 0x200000, bo 00000000bba11dd4
+[    0.892559] fbcon: nouveau (fb0) is primary device
+[    1.298487] tsc: Refined TSC clocksource calibration: 2999.999 MHz
+[    1.298492] clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x2b3e44b2357, max_idle_ns: 440795324996 ns
+[    1.298555] clocksource: Switched to clocksource tsc
+[    1.340790] Console: switching to colour frame buffer device 240x67
+[    1.341249] nouveau 0000:01:00.0: [drm] fb0: nouveau frame buffer device
+[    1.341412] [drm] Initialized nouveau 1.3.1 20120801 for 0000:01:00.0 on minor 0
+[    1.341420] nouveau 0000:01:00.0: DRM: Disabling PCI power management to avoid bug
+
+<snip>
+
+[   19.742986] general protection fault, probably for non-canonical address 0x3e40c25cd2e657bd: 0000 [#1] SMP
+[   19.742989] CPU: 0 PID: 3588 Comm: X Tainted: G                T 5.15.6p2+ #1
+[   19.742991] Hardware name: Dell Inc. XPS 8930/0T2HR0, BIOS 1.1.17 06/22/2021
+[   19.742992] RIP: 0010:nouveau_fence_sync+0x6f/0x240
+[   19.742995] Code: 00 8b 7b 10 85 ff 0f 84 a7 00 00 00 41 89 cd 31 ed 31 d2 49 be ff ff ff ff ff ff ff 7f 4c 8b 7c d3 18 49 8b 94 24 90 00 00 00 <49> 8b 47 08 48 3d 00 37 0f a0 74 0c 48 3d 60 37 0f a0 0f 85 16 01
+[   19.742996] RSP: 0018:ffffb3bc413e7c10 EFLAGS: 00010202
+[   19.742998] RAX: 0000000000001001 RBX: ffff897383c07980 RCX: 0000000000000003
+[   19.742999] RDX: ffff897380cce000 RSI: 0000000000000001 RDI: 0000000000000001
+[   19.743000] RBP: 0000000000000001 R08: ffff897382af6c00 R09: ffff8973868641b8
+[   19.743001] R10: 0000000000000002 R11: ffff8973868641dc R12: ffff897386862400
+[   19.743001] R13: 0000000000000001 R14: 7fffffffffffffff R15: 3e40c25cd2e657b5
+[   19.743002] FS:  00007f5e661be8c0(0000) GS:ffff897ae0c00000(0000) knlGS:0000000000000000
+[   19.743003] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   19.743004] CR2: 000055c9e8e33d50 CR3: 00000001152b7001 CR4: 00000000003706f0
+[   19.743005] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[   19.743006] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[   19.743006] Call Trace:
+[   19.743008]  <TASK>
+[   19.743009]  nouveau_gem_ioctl_pushbuf+0x6ba/0x11a0
+[   19.743011]  ? nouveau_gem_ioctl_new+0x100/0x100
+[   19.743012]  drm_ioctl_kernel+0x9f/0xe0
+[   19.743015]  drm_ioctl+0x214/0x3f0
+[   19.743016]  ? nouveau_gem_ioctl_new+0x100/0x100
+[   19.743017]  ? syscall_exit_to_user_mode+0x1d/0x40
+[   19.743019]  ? do_syscall_64+0x63/0x80
+[   19.743021]  __x64_sys_ioctl+0x80/0xa0
+[   19.743023]  do_syscall_64+0x56/0x80
+[   19.743025]  ? exc_page_fault+0x18c/0x4e0
+[   19.743026]  ? __do_sys_getpid+0x15/0x20
+[   19.743029]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+[   19.743030] RIP: 0033:0x7f5e666c52d7
+[   19.743031] Code: 3c 1c e8 2c ff ff ff 85 c0 79 97 5b 49 c7 c4 ff ff ff ff 5d 4c 89 e0 41 5c c3 66 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 69 4b 0c 00 f7 d8 64 89 01 48
+[   19.743032] RSP: 002b:00007ffe8a5c2588 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+[   19.743034] RAX: ffffffffffffffda RBX: 00007ffe8a5c25e0 RCX: 00007f5e666c52d7
+[   19.743034] RDX: 00007ffe8a5c25e0 RSI: 00000000c0406481 RDI: 000000000000000e
+[   19.743035] RBP: 00000000c0406481 R08: 0000000000000000 R09: 00007f5e6678ac00
+[   19.743036] R10: 000055c9e96d3f10 R11: 0000000000000246 R12: 000055c9e8e17eb0
+[   19.743036] R13: 000000000000000e R14: 000055c9e8e14340 R15: 000055c9e9791120
+[   19.743037]  </TASK>
+[   19.743038] ---[ end trace e5a33326c4208bdb ]---
+[   19.743039] RIP: 0010:nouveau_fence_sync+0x6f/0x240
+[   19.743040] Code: 00 8b 7b 10 85 ff 0f 84 a7 00 00 00 41 89 cd 31 ed 31 d2 49 be ff ff ff ff ff ff ff 7f 4c 8b 7c d3 18 49 8b 94 24 90 00 00 00 <49> 8b 47 08 48 3d 00 37 0f a0 74 0c 48 3d 60 37 0f a0 0f 85 16 01
+[   19.743041] RSP: 0018:ffffb3bc413e7c10 EFLAGS: 00010202
+[   19.743042] RAX: 0000000000001001 RBX: ffff897383c07980 RCX: 0000000000000003
+[   19.743043] RDX: ffff897380cce000 RSI: 0000000000000001 RDI: 0000000000000001
+[   19.743043] RBP: 0000000000000001 R08: ffff897382af6c00 R09: ffff8973868641b8
+[   19.743044] R10: 0000000000000002 R11: ffff8973868641dc R12: ffff897386862400
+[   19.743045] R13: 0000000000000001 R14: 7fffffffffffffff R15: 3e40c25cd2e657b5
+[   19.743045] FS:  00007f5e661be8c0(0000) GS:ffff897ae0c00000(0000) knlGS:0000000000000000
+[   19.743046] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   19.743047] CR2: 000055c9e8e33d50 CR3: 00000001152b7001 CR4: 00000000003706f0
+[   19.743048] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[   19.743048] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
