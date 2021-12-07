@@ -1,59 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1D2F46B94F
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 11:41:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C107A46B960
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 11:45:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE9B9EAC1B;
-	Tue,  7 Dec 2021 10:41:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50CBB73074;
+	Tue,  7 Dec 2021 10:45:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
- [IPv6:2607:f8b0:4864:20::b31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9735EAC1B
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Dec 2021 10:41:01 +0000 (UTC)
-Received: by mail-yb1-xb31.google.com with SMTP id e136so39635379ybc.4
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Dec 2021 02:41:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=basnieuwenhuizen.nl; s=google;
+Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com
+ [IPv6:2607:f8b0:4864:20::835])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5496D73074;
+ Tue,  7 Dec 2021 10:45:14 +0000 (UTC)
+Received: by mail-qt1-x835.google.com with SMTP id m25so13798272qtq.13;
+ Tue, 07 Dec 2021 02:45:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=pScc3ssxK44brT1donktLtNeL6CZhUwDaYqiqX+57wk=;
- b=ApSIMjmhvNSIhcGGfgUEURyTWBqUsME0oblKLRdRDSDrltfw1jkPWBOBV3UwcORsOq
- S6t+wycP31Y8fRze20C1b9rrvlhKhzbvwbMGw8nIqRWsiQemNbvownbqBs42jmfZyd8/
- jAxt5Y4jgaNCeDtftMvkB6X2Yb+cxSV8HsILbLGB8AU9wbewHNbQMruev8SLAlChZjtr
- NN53s0LfeWG1YVh5nYih63EJgEagBOWqWTHfhKO5lj6veJknXCNzGIbpA/fTegRQmqKf
- HvjRjl4x8A9f1rdOviraWAW3RQiz6PFOU/rGQTiGicPccPyA6lvzfuqEKUC0Nv+emYLJ
- q/Zw==
+ :cc; bh=Y80ggJvGuAbpF9DPBV/2FvdX32V8tH3X6g9Jb9D4e0c=;
+ b=AhzRujFZ5+F26N1DDqn1t7WY2GwlrBeDt9ny+LHvKawZxRMfrT0dxjOLhOXLPJh0Q0
+ /NGI2E5WMYDrwDmK1IbST5ZbA6ZeNm0fD62k9UCof3JfVikowPZw3qpaMZYUXHNCx+7v
+ T4wqeSC5/UUqUwkw99aP82YTjXn/woP0W5y5/4xKJsj7w+FLBKu0nty5cSNh7re5wW1v
+ edcZjnmsHzPto14pLeZX1SI6TtkbQ5XjF7SMUArd5PV2tidOrAGCMfODbWo/EqNW57oI
+ UD03SO78UwHlF6kfW/mftjkRfkinq+b824rvShk1BAUZHs5GgXbvQbaYrwe8IDcsNTIh
+ 0qXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=pScc3ssxK44brT1donktLtNeL6CZhUwDaYqiqX+57wk=;
- b=psS1j3AX8myqFHUKboy0xpZu2UdOlah1EUGhPJsqkTEDudodElWqx8xONozr5+IQ3J
- /l9i6BjY3sAu6qblU8TT5D1ZqbCjxEEYBOcpe5A9dMXLr6EpNnpeEDg95myGTJ7YpIMH
- grNoi6PauiWrRXfNqD88dFJTaF2YBfkYhvBGbHBeYNH8ceFjZsf1d3VGcDeZZTXGP4RM
- npCm5GRq+oE1JRNODLB6pKXjTjKzlidoyevYy6uHzGdNtUoguQw481tdw2ChCHQQK+N9
- Plv+Bm7Wiw9KxAakOKgqMRk+OgYuSACTB7CXhaO0W/ByHkX6OARppP5ogdJC3nQQj7n5
- nRLA==
-X-Gm-Message-State: AOAM530WHyBoOkeVIXxjfF+ok4tcWMhaY1/KbTSM1znvEOKux4hqEm2q
- xbsthyLmBfzWOKp9A4Y/lABVV7+2BrQw+pE9p/ys1Q==
-X-Google-Smtp-Source: ABdhPJxdMWUDaXFu6u63ZbI25qXwwZjYTXpxeeKTv86I4DZdYW0IiMwTbAWjVZY66O7U9jNd3NVLfZs0MOd4ob9LoBs=
-X-Received: by 2002:a25:ac21:: with SMTP id w33mr50967307ybi.616.1638873660994; 
- Tue, 07 Dec 2021 02:41:00 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=Y80ggJvGuAbpF9DPBV/2FvdX32V8tH3X6g9Jb9D4e0c=;
+ b=CIHSU7lHQAEeKiHJDrh3tXr7Ofl1m9B2b7HfNTzq/aHWjOQD9kMzjs8MtHZpK23pT9
+ 8s0mMyHoeAS7IGvbywCmgvEmvek6/uixo8WNvAnKmu9kPhdQGFAWlJlUL3cr8W6CHnlw
+ qskXtiIaeW/fyy9CvsZRfGd64EdDxn0jLFQlz0+fm/9M/+7jMxA5dZb1X+4XHda2RNbC
+ cGBkgH2dvZdF0RjpsKzW405dpZVHhxvZrbe6Z3GpVgrHAWIe13+ypLvmUI12w6K/4MZI
+ wd1sjeEG2EfHAReU1oOqpuhg0yht4+1DMCdAs/cS9ZopYyanz7GvFblIOkdcLjJZxOoq
+ 07qQ==
+X-Gm-Message-State: AOAM533qkftSs3/2//crL1cTk0Mvgh0rhqPpM3J3lviMl1A9JWaahARW
+ aWh4Baf04pElX8tAoJCF3bb5xvoCUYPMUNQndlSp/T12i8joLg==
+X-Google-Smtp-Source: ABdhPJxcksFmAqZD82u9NUOKc5I20fPwAeJowgG5m5VwiSnrhG4QAUaL1F0qXGKj7/CRuFcI1KkodGVu92rHIHWlbNE=
+X-Received: by 2002:a05:622a:1990:: with SMTP id
+ u16mr47194670qtc.355.1638873913181; 
+ Tue, 07 Dec 2021 02:45:13 -0800 (PST)
 MIME-Version: 1.0
-References: <20211207013235.5985-1-bas@basnieuwenhuizen.nl>
- <05f1e475-3483-b780-d66a-a80577edee39@intel.com>
- <7d2f372f-36f5-1ecc-7ddb-25cf7d444e5d@amd.com>
-In-Reply-To: <7d2f372f-36f5-1ecc-7ddb-25cf7d444e5d@amd.com>
-From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-Date: Tue, 7 Dec 2021 11:40:47 +0100
-Message-ID: <CAP+8YyEzsedvYObj=FVUFTtYo4sdHH354=gBfCAu16qtL1jqLg@mail.gmail.com>
-Subject: Re: [PATCH] drm/syncobj: Deal with signalled fences in transfer.
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+References: <20211129134735.628712-1-maarten.lankhorst@linux.intel.com>
+ <20211129134735.628712-7-maarten.lankhorst@linux.intel.com>
+In-Reply-To: <20211129134735.628712-7-maarten.lankhorst@linux.intel.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Tue, 7 Dec 2021 10:44:46 +0000
+Message-ID: <CAM0jSHPbcU9wJyKasz_c9uXHuSe=B7rx5bHfhBoV4joFGi-YNg@mail.gmail.com>
+Subject: Re: [PATCH v2 06/16] drm/i915: Ensure gem_contexts selftests work
+ with unbind changes.
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,127 +64,190 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org, ML dri-devel <dri-devel@lists.freedesktop.org>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 7, 2021 at 8:21 AM Christian K=C3=B6nig <christian.koenig@amd.c=
-om> wrote:
+On Mon, 29 Nov 2021 at 13:57, Maarten Lankhorst
+<maarten.lankhorst@linux.intel.com> wrote:
 >
-> Am 07.12.21 um 08:10 schrieb Lionel Landwerlin:
-> > On 07/12/2021 03:32, Bas Nieuwenhuizen wrote:
-> >> See the comments in the code. Basically if the seqno is already
-> >> signalled then we get a NULL fence. If we then put the NULL fence
-> >> in a binary syncobj it counts as unsignalled, making that syncobj
-> >> pretty much useless for all expected uses.
-> >>
-> >> Not 100% sure about the transfer to a timeline syncobj but I
-> >> believe it is needed there too, as AFAICT the add_point function
-> >> assumes the fence isn't NULL.
-> >>
-> >> Fixes: ea569910cbab ("drm/syncobj: add transition iotcls between
-> >> binary and timeline v2")
-> >> Cc: stable@vger.kernel.org
-> >> Signed-off-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-> >> ---
-> >>   drivers/gpu/drm/drm_syncobj.c | 26 ++++++++++++++++++++++++++
-> >>   1 file changed, 26 insertions(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/drm_syncobj.c
-> >> b/drivers/gpu/drm/drm_syncobj.c
-> >> index fdd2ec87cdd1..eb28a40400d2 100644
-> >> --- a/drivers/gpu/drm/drm_syncobj.c
-> >> +++ b/drivers/gpu/drm/drm_syncobj.c
-> >> @@ -861,6 +861,19 @@ static int
-> >> drm_syncobj_transfer_to_timeline(struct drm_file *file_private,
-> >>                        &fence);
-> >>       if (ret)
-> >>           goto err;
-> >> +
-> >> +    /* If the requested seqno is already signaled
-> >> drm_syncobj_find_fence may
-> >> +     * return a NULL fence. To make sure the recipient gets
-> >> signalled, use
-> >> +     * a new fence instead.
-> >> +     */
-> >> +    if (!fence) {
-> >> +        fence =3D dma_fence_allocate_private_stub();
-> >> +        if (!fence) {
-> >> +            ret =3D -ENOMEM;
-> >> +            goto err;
-> >> +        }
-> >> +    }
-> >> +
-> >
-> >
-> > Shouldn't we fix drm_syncobj_find_fence() instead?
+> In the next commit, we don't evict when refcount = 0.
 >
-> Mhm, now that you mention it. Bas, why do you think that
-> dma_fence_chain_find_seqno() may return NULL when the fence is already
-> signaled?
+> igt_vm_isolation() continuously tries to pin/unpin at same address,
+> but also calls put() on the object, which means the object may not
+> be unpinned in time.
 >
-> Double checking the code that should never ever happen.
+> Instead of this, re-use the same object over and over, so they can
+> be unbound as required.
+>
+> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 
-Well, I tested the patch with
-https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/14097/diffs?commi=
-t_id=3Dd4c5c840f4e3839f9f5c1747a9034eb2b565f5c0
-so I'm pretty sure it happens, and this patch fixes  it, though I may
-have misidentified what the code should do.
+Is this something to be worried about in the real world, outside of
+the selftests?
 
-My reading is that the dma_fence_chain_for_each in
-dma_fence_chain_find_seqno will never visit a signalled fence (unless
-the top one is signalled), as dma_fence_chain_walk will never return a
-signalled fence (it only returns on NULL or !signalled).
+> ---
+>  .../drm/i915/gem/selftests/i915_gem_context.c | 54 +++++++++++--------
+>  1 file changed, 32 insertions(+), 22 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+> index b32f7fed2d9c..3fc595b57cf4 100644
+> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+> @@ -1481,10 +1481,10 @@ static int check_scratch(struct i915_address_space *vm, u64 offset)
+>
+>  static int write_to_scratch(struct i915_gem_context *ctx,
+>                             struct intel_engine_cs *engine,
+> +                           struct drm_i915_gem_object *obj,
+>                             u64 offset, u32 value)
+>  {
+>         struct drm_i915_private *i915 = ctx->i915;
+> -       struct drm_i915_gem_object *obj;
+>         struct i915_address_space *vm;
+>         struct i915_request *rq;
+>         struct i915_vma *vma;
+> @@ -1497,15 +1497,9 @@ static int write_to_scratch(struct i915_gem_context *ctx,
+>         if (err)
+>                 return err;
+>
+> -       obj = i915_gem_object_create_internal(i915, PAGE_SIZE);
+> -       if (IS_ERR(obj))
+> -               return PTR_ERR(obj);
+> -
+>         cmd = i915_gem_object_pin_map_unlocked(obj, I915_MAP_WB);
+> -       if (IS_ERR(cmd)) {
+> -               err = PTR_ERR(cmd);
+> -               goto out;
+> -       }
+> +       if (IS_ERR(cmd))
+> +               return PTR_ERR(cmd);
+>
+>         *cmd++ = MI_STORE_DWORD_IMM_GEN4;
+>         if (GRAPHICS_VER(i915) >= 8) {
+> @@ -1569,17 +1563,19 @@ static int write_to_scratch(struct i915_gem_context *ctx,
+>         i915_vma_unpin(vma);
+>  out_vm:
+>         i915_vm_put(vm);
+> -out:
+> -       i915_gem_object_put(obj);
+> +
+> +       if (!err)
+> +               err = i915_gem_object_wait(obj, 0, MAX_SCHEDULE_TIMEOUT);
+> +
+>         return err;
+>  }
+>
+>  static int read_from_scratch(struct i915_gem_context *ctx,
+>                              struct intel_engine_cs *engine,
+> +                            struct drm_i915_gem_object *obj,
+>                              u64 offset, u32 *value)
+>  {
+>         struct drm_i915_private *i915 = ctx->i915;
+> -       struct drm_i915_gem_object *obj;
+>         struct i915_address_space *vm;
+>         const u32 result = 0x100;
+>         struct i915_request *rq;
+> @@ -1594,10 +1590,6 @@ static int read_from_scratch(struct i915_gem_context *ctx,
+>         if (err)
+>                 return err;
+>
+> -       obj = i915_gem_object_create_internal(i915, PAGE_SIZE);
+> -       if (IS_ERR(obj))
+> -               return PTR_ERR(obj);
+> -
+>         if (GRAPHICS_VER(i915) >= 8) {
+>                 const u32 GPR0 = engine->mmio_base + 0x600;
+>
+> @@ -1615,7 +1607,7 @@ static int read_from_scratch(struct i915_gem_context *ctx,
+>                 cmd = i915_gem_object_pin_map_unlocked(obj, I915_MAP_WB);
+>                 if (IS_ERR(cmd)) {
+>                         err = PTR_ERR(cmd);
+> -                       goto out;
+> +                       goto err_unpin;
+>                 }
+>
+>                 memset(cmd, POISON_INUSE, PAGE_SIZE);
+> @@ -1651,7 +1643,7 @@ static int read_from_scratch(struct i915_gem_context *ctx,
+>                 cmd = i915_gem_object_pin_map_unlocked(obj, I915_MAP_WB);
+>                 if (IS_ERR(cmd)) {
+>                         err = PTR_ERR(cmd);
+> -                       goto out;
+> +                       goto err_unpin;
+>                 }
+>
+>                 memset(cmd, POISON_INUSE, PAGE_SIZE);
+> @@ -1722,8 +1714,10 @@ static int read_from_scratch(struct i915_gem_context *ctx,
+>         i915_vma_unpin(vma);
+>  out_vm:
+>         i915_vm_put(vm);
+> -out:
+> -       i915_gem_object_put(obj);
+> +
+> +       if (!err)
+> +               err = i915_gem_object_wait(obj, 0, MAX_SCHEDULE_TIMEOUT);
+> +
+>         return err;
+>  }
+>
+> @@ -1765,6 +1759,7 @@ static int igt_vm_isolation(void *arg)
+>         u64 vm_total;
+>         u32 expected;
+>         int err;
+> +       struct drm_i915_gem_object *obj_a, *obj_b;
 
-Happy to move this to drm_syncobj_find_fence.
+Nit: Christmas tree-ish
+
 >
-> Regards,
-> Christian.
+>         if (GRAPHICS_VER(i915) < 7)
+>                 return 0;
+> @@ -1810,6 +1805,18 @@ static int igt_vm_isolation(void *arg)
+>         vm_total = ctx_a->vm->total;
+>         GEM_BUG_ON(ctx_b->vm->total != vm_total);
 >
-> >
-> > By returning a stub fence for the timeline case if there isn't one.
-> >
-> >
-> > Because the same NULL fence check appears missing in amdgpu (and
-> > probably other drivers).
-> >
-> >
-> > Also we should have tests for this in IGT.
-> >
-> > AMD contributed some tests when this code was written but they never
-> > got reviewed :(
-> >
-> >
-> > -Lionel
-> >
-> >
-> >>       chain =3D kzalloc(sizeof(struct dma_fence_chain), GFP_KERNEL);
-> >>       if (!chain) {
-> >>           ret =3D -ENOMEM;
-> >> @@ -890,6 +903,19 @@ drm_syncobj_transfer_to_binary(struct drm_file
-> >> *file_private,
-> >>                        args->src_point, args->flags, &fence);
-> >>       if (ret)
-> >>           goto err;
-> >> +
-> >> +    /* If the requested seqno is already signaled
-> >> drm_syncobj_find_fence may
-> >> +     * return a NULL fence. To make sure the recipient gets
-> >> signalled, use
-> >> +     * a new fence instead.
-> >> +     */
-> >> +    if (!fence) {
-> >> +        fence =3D dma_fence_allocate_private_stub();
-> >> +        if (!fence) {
-> >> +            ret =3D -ENOMEM;
-> >> +            goto err;
-> >> +        }
-> >> +    }
-> >> +
-> >>       drm_syncobj_replace_fence(binary_syncobj, fence);
-> >>       dma_fence_put(fence);
-> >>   err:
-> >
-> >
+> +       obj_a = i915_gem_object_create_internal(i915, PAGE_SIZE);
+> +       if (IS_ERR(obj_a)) {
+> +               err = PTR_ERR(obj_a);
+> +               goto out_file;
+> +       }
+> +
+> +       obj_b = i915_gem_object_create_internal(i915, PAGE_SIZE);
+> +       if (IS_ERR(obj_b)) {
+> +               err = PTR_ERR(obj_b);
+> +               goto put_a;
+> +       }
+> +
+>         count = 0;
+>         num_engines = 0;
+>         for_each_uabi_engine(engine, i915) {
+> @@ -1832,10 +1839,10 @@ static int igt_vm_isolation(void *arg)
+>                                                    I915_GTT_PAGE_SIZE, vm_total,
+>                                                    sizeof(u32), alignof_dword);
+>
+> -                       err = write_to_scratch(ctx_a, engine,
+> +                       err = write_to_scratch(ctx_a, engine, obj_a,
+>                                                offset, 0xdeadbeef);
+>                         if (err == 0)
+> -                               err = read_from_scratch(ctx_b, engine,
+> +                               err = read_from_scratch(ctx_b, engine, obj_b,
+>                                                         offset, &value);
+>                         if (err)
+>                                 goto out_file;
+
+goto put_b; below also?
+
+Otherwise,
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+
+> @@ -1858,6 +1865,9 @@ static int igt_vm_isolation(void *arg)
+>         pr_info("Checked %lu scratch offsets across %lu engines\n",
+>                 count, num_engines);
+>
+> +       i915_gem_object_put(obj_b);
+> +put_a:
+> +       i915_gem_object_put(obj_a);
+>  out_file:
+>         if (igt_live_test_end(&t))
+>                 err = -EIO;
+> --
+> 2.34.0
 >
