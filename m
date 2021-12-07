@@ -1,37 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE7CC46C13F
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 18:01:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33F9846C14B
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 18:04:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AE1EEBEBC;
-	Tue,  7 Dec 2021 17:01:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF02A6F9D2;
+	Tue,  7 Dec 2021 17:04:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8B0C4EBEB5
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Dec 2021 17:01:30 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 36F9011D4;
- Tue,  7 Dec 2021 09:01:30 -0800 (PST)
-Received: from [10.57.34.58] (unknown [10.57.34.58])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 57E6C3F73B;
- Tue,  7 Dec 2021 09:01:28 -0800 (PST)
-Message-ID: <d9646a05-2588-339f-24f6-e8cd2f2de746@arm.com>
-Date: Tue, 7 Dec 2021 17:01:20 +0000
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BDFA6EA01
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Dec 2021 17:04:14 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 73F7C556;
+ Tue,  7 Dec 2021 18:04:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1638896652;
+ bh=Oo3zNiuAJNfk53ZJOP0z97e653AwK2d7kec4ofNwVdI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=kl/KMtXAAHUo291X7sZ3J72YBdOLxgQv40+/sKNiZzsQd9cbJLtxMnUh84tOxWayN
+ h7dbg8Kha+OSxqo6uQXCSpQpgiRBtVSx96wML0dKuKO8EchOrd1mogRIrvfXWDGVtB
+ 7GrhLJN4iicVjJEeDSYFY3VSVjChOXQIZcgopnNY=
+Date: Tue, 7 Dec 2021 19:03:43 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH 1/4] dt-bindings: display: bridge: tc358867: Document DPI
+ output support
+Message-ID: <Ya+T7zPigqtBzdR+@pendragon.ideasonboard.com>
+References: <20211127032405.283435-1-marex@denx.de>
+ <Ya+PRMvq3cjJ46s/@pendragon.ideasonboard.com>
+ <1a7967f0-ed4b-9cd2-28c8-eb9d181448ae@denx.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH 04/12] drm/rockchip: dw_hdmi: add regulator support
-Content-Language: en-GB
-To: Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org
-References: <20211117143347.314294-1-s.hauer@pengutronix.de>
- <20211117143347.314294-5-s.hauer@pengutronix.de>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <20211117143347.314294-5-s.hauer@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1a7967f0-ed4b-9cd2-28c8-eb9d181448ae@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,159 +49,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Peter Geis <pgwipeout@gmail.com>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-11-17 14:33, Sascha Hauer wrote:
-> The RK3568 has HDMI_TX_AVDD0V9 and HDMI_TX_AVDD_1V8 supply inputs needed
-> for the HDMI port. add support for these to the driver for boards which
-> have them supplied by switchable regulators.
+On Tue, Dec 07, 2021 at 05:47:29PM +0100, Marek Vasut wrote:
+> On 12/7/21 17:43, Laurent Pinchart wrote:
 > 
-> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> ---
->   .../display/rockchip/rockchip,dw-hdmi.yaml    |  6 ++
->   drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c   | 58 ++++++++++++++++++-
->   2 files changed, 61 insertions(+), 3 deletions(-)
+> [...]
 > 
-> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-> index 53fa42479d5b7..293b2cfbf739f 100644
-> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-> @@ -28,6 +28,12 @@ properties:
->     reg-io-width:
->       const: 4
->   
-> +  avdd-0v9-supply:
-> +    description: A 0.9V supply that powers up the SoC internal circuitry.
-> +
-> +  avdd-1v8-supply:
-> +    description: A 0.9V supply that powers up the SoC internal circuitry.
-> +
->     clocks:
->       minItems: 2
->       items:
-> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> index 29608c25e2d0e..b8fe56c89cdc9 100644
-> --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> @@ -9,6 +9,7 @@
->   #include <linux/platform_device.h>
->   #include <linux/phy/phy.h>
->   #include <linux/regmap.h>
-> +#include <linux/regulator/consumer.h>
->   
->   #include <drm/bridge/dw_hdmi.h>
->   #include <drm/drm_edid.h>
-> @@ -83,6 +84,8 @@ struct rockchip_hdmi {
->   	struct clk *vpll_clk;
->   	struct clk *grf_clk;
->   	struct dw_hdmi *hdmi;
-> +	struct regulator *avdd_0v9;
-> +	struct regulator *avdd_1v8;
->   	struct phy *phy;
->   };
->   
-> @@ -222,6 +225,22 @@ static int rockchip_hdmi_parse_dt(struct rockchip_hdmi *hdmi)
->   	hdmi->vpll_clk = hdmi->clks[RK_HDMI_CLK_VPLL].clk;
->   	hdmi->grf_clk = hdmi->clks[RK_HDMI_CLK_GRF].clk;
->   
-> +	hdmi->avdd_0v9 = devm_regulator_get_optional(hdmi->dev, "avdd-0v9");
-
-These are clearly *not* optional, unless the HDMI block is magic and can 
-still work without physical power. Use devm_regulator_get(), and if the 
-real supply is missing from the DT for whatever reason you should get a 
-dummy regulator back, which you can then successfully disable and enable 
-without all the conditional mess.
-
-Robin.
-
-> +	if (IS_ERR(hdmi->avdd_0v9)) {
-> +		if (PTR_ERR(hdmi->avdd_0v9) != -ENODEV)
-> +			return PTR_ERR(hdmi->avdd_0v9);
-> +
-> +		hdmi->avdd_0v9 = NULL;
-> +	}
-> +
-> +	hdmi->avdd_1v8 = devm_regulator_get_optional(hdmi->dev, "avdd-1v8");
-> +	if (IS_ERR(hdmi->avdd_1v8)) {
-> +		if (PTR_ERR(hdmi->avdd_1v8) != -ENODEV)
-> +			return PTR_ERR(hdmi->avdd_1v8);
-> +
-> +		hdmi->avdd_1v8 = NULL;
-> +	}
-> +
->   	return 0;
->   }
->   
-> @@ -559,11 +578,27 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
->   		return ret;
->   	}
->   
-> +	if (hdmi->avdd_0v9) {
-> +		ret = regulator_enable(hdmi->avdd_0v9);
-> +		if (ret) {
-> +			DRM_DEV_ERROR(hdmi->dev, "failed to enable avdd0v9: %d\n", ret);
-> +			goto err_avdd_0v9;
-> +		}
-> +	}
-> +
-> +	if (hdmi->avdd_1v8) {
-> +		ret = regulator_enable(hdmi->avdd_1v8);
-> +		if (ret) {
-> +			DRM_DEV_ERROR(hdmi->dev, "failed to enable avdd1v8: %d\n", ret);
-> +			goto err_avdd_1v8;
-> +		}
-> +	}
-> +
->   	ret = clk_bulk_prepare_enable(RK_HDMI_NCLOCKS_HDMI, hdmi->clks);
->   	if (ret) {
->   		DRM_DEV_ERROR(hdmi->dev, "Failed to enable HDMI vpll: %d\n",
->   			      ret);
-> -		return ret;
-> +		goto err_clk;
->   	}
->   
->   	if (hdmi->chip_data == &rk3568_chip_data) {
-> @@ -587,10 +622,21 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
->   	 */
->   	if (IS_ERR(hdmi->hdmi)) {
->   		ret = PTR_ERR(hdmi->hdmi);
-> -		drm_encoder_cleanup(encoder);
-> -		clk_bulk_disable_unprepare(RK_HDMI_NCLOCKS_HDMI, hdmi->clks);
-> +		goto err_bind;
->   	}
->   
-> +	return 0;
-> +
-> +err_bind:
-> +	clk_bulk_disable_unprepare(RK_HDMI_NCLOCKS_HDMI, hdmi->clks);
-> +	drm_encoder_cleanup(encoder);
-> +err_clk:
-> +	if (hdmi->avdd_1v8)
-> +		regulator_disable(hdmi->avdd_1v8);
-> +err_avdd_1v8:
-> +	if (hdmi->avdd_0v9)
-> +		regulator_disable(hdmi->avdd_0v9);
-> +err_avdd_0v9:
->   	return ret;
->   }
->   
-> @@ -601,6 +647,12 @@ static void dw_hdmi_rockchip_unbind(struct device *dev, struct device *master,
->   
->   	dw_hdmi_unbind(hdmi->hdmi);
->   	clk_bulk_disable_unprepare(RK_HDMI_NCLOCKS_HDMI, hdmi->clks);
-> +
-> +	if (hdmi->avdd_1v8)
-> +		regulator_disable(hdmi->avdd_1v8);
-> +
-> +	if (hdmi->avdd_0v9)
-> +		regulator_disable(hdmi->avdd_0v9);
->   }
->   
->   static const struct component_ops dw_hdmi_rockchip_ops = {
+> >> diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
+> >> index f1541cc05297..5cfda6f2ba69 100644
+> >> --- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
+> >> +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
+> >> @@ -61,8 +61,8 @@ properties:
+> >>         port@1:
+> >>           $ref: /schemas/graph.yaml#/properties/port
+> >>           description: |
+> >> -            DPI input port. The remote endpoint phandle should be a
+> >> -            reference to a valid DPI output endpoint node
+> >> +            DPI input/output port. The remote endpoint phandle should be a
+> >> +            reference to a valid DPI output or input endpoint node.
+> > 
+> > I assume the mode of operation (input or output) will be fixed for a
+> > given hardware design. Isn't this something that should be recorded in
+> > DT ? It would simplify configuration of the device in the driver.
 > 
+> Currently the configuration (DSI-to-DPI / DPI-to-eDP) is inferred from 
+> the presence of DPI panel. If DPI panel present, DSI-to-DPI, else, 
+> DPI-to-eDP.
+
+I've had a look at the driver side, and it seems to complicate things
+quite a bit. It seems that specifying the mode of operation explicitly
+in DT could make software implementations quite a bit simpler.
+
+-- 
+Regards,
+
+Laurent Pinchart
