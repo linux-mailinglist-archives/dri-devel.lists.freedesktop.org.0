@@ -1,116 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E320846B5E5
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 09:26:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B2E846B5E2
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 09:26:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16EFFAA55C;
-	Tue,  7 Dec 2021 08:26:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8B09AA556;
+	Tue,  7 Dec 2021 08:26:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from APC01-HK2-obe.outbound.protection.outlook.com
- (mail-eopbgr1300127.outbound.protection.outlook.com [40.107.130.127])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E79BF72E34
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Dec 2021 02:44:03 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iIm0QzbEd7RmtG2+rRKHsBq3xPPHldojUA5l8cGDEw9W8MJ+l+sVJVQJsHrpb7uWkA9jC8GUWnwA91amKX2VKlN3hKmLFi7xKjNISxsqlp7d8xienQJ1AeF5oSZMNNas6qkH8GKfrgfZd7PwVzDd8c/E1yQv+fJTTJg/nbhDCZIAptWTWhm8DTv7NHxUPR4kKox00TrLhZ7mj6lOdjuokb/I6kH1LvspFu5L5ORispWwrXn/mK7fEukAjaE0PcmVOx6sQ2jNdcOuSaSz9yZqg0O7frn2nMui7MH9+z21QEuptShredL5nMQ4gF3d/XcGqZ0UxFtMS/lNuPsRQZvJww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cirse+5pX9YLWKdE/R3V/IMOuRRToxyqfY81JzG3l/c=;
- b=HCML6taQNJYuGdAJL+WjdJfecAw5k1LszO02bYZnjb+oZp3vbkzmOpASZd19VZKt+j4w6uKodXCZGjQAjD8A1bfvg4RiQhGNO1q/vogF9YAUNaKIXqNFDXNIJgpHe8ks7QJJ+Cw9N4liEvOKEHQKYm5jT+OdecStxKs5WKvr5Jc2Q2jEAN7zsIL+rUGjWuZn8TCYkTlJmdqO4OB3AL1YeMn7xAgGLgebkVTkcHYsVM9uMBER0SmaGCPH2XAnrzb084pkD/PicuImlRK+WsKi9HRmg0EbY8St0AeSdn+G99qr0eBy8QdiPTtaPbM2cZhR1EPLK7Lq5Re5mMbVJyYHWQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com; 
- s=selector2-vivo0-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cirse+5pX9YLWKdE/R3V/IMOuRRToxyqfY81JzG3l/c=;
- b=n2EoLv+7u8JGGt5JrjlvApAfYcTjkOD+F+JNgSO0t0W8paL9C+WdWnD5qlpaahMCBH2ylhMjNXlaxhSV4oOWFL/LSjzTWXpbwz2pDAR4Km/t1j1JYs4XvYF1cKkKPzGUqNpOj8RzLhQd9mpppwUgBa5avlKi5P5kppJrMgPIrl0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from TYZPR06MB4173.apcprd06.prod.outlook.com (2603:1096:400:26::14)
- by TY2PR06MB2974.apcprd06.prod.outlook.com (2603:1096:404:95::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.21; Tue, 7 Dec
- 2021 02:44:00 +0000
-Received: from TYZPR06MB4173.apcprd06.prod.outlook.com
- ([fe80::6093:831:2123:6092]) by TYZPR06MB4173.apcprd06.prod.outlook.com
- ([fe80::6093:831:2123:6092%8]) with mapi id 15.20.4755.022; Tue, 7 Dec 2021
- 02:44:00 +0000
-From: Yihao Han <hanyihao@vivo.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/shmem-helper: Remove duplicated include
-Date: Mon,  6 Dec 2021 18:43:45 -0800
-Message-Id: <20211207024345.37262-1-hanyihao@vivo.com>
-X-Mailer: git-send-email 2.17.1
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR01CA0192.apcprd01.prod.exchangelabs.com
- (2603:1096:4:189::21) To TYZPR06MB4173.apcprd06.prod.outlook.com
- (2603:1096:400:26::14)
+X-Greylist: delayed 562 seconds by postgrey-1.36 at gabe;
+ Tue, 07 Dec 2021 03:25:54 UTC
+Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
+ [64.147.123.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57F7C736C7
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Dec 2021 03:25:54 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.west.internal (Postfix) with ESMTP id 76D0D2B000FE;
+ Mon,  6 Dec 2021 22:16:28 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Mon, 06 Dec 2021 22:16:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:content-transfer-encoding:in-reply-to; s=fm1; bh=K
+ DwpeRiMBZ51a/1N537G6MpuhOZKtEbUes449q2dxHA=; b=aMSVqlTgdlw0z4qzM
+ jhsxSmzCok04+3Ub8TZuJRQFEilsZUiVfV5tRwxqtKK7Kvkuwkx2LXPvycBx2d7l
+ 9N8VmLkcPANwMi6mSuo3tSQjEQg1ZchvrtMJ73faDvC9mPDDJyOUd2CDzU56jcSx
+ N/ibXUgMxl83B9tf4KZVGfabXL8MfAyJvhbwNHQiHiZosl+r97LFopr2VXOZUNxT
+ ztaabFr8IqjrxRO6RtWoJygsRezHqXXOqBYorI2X4D7WhezS3a0J05KT7f6jV6m+
+ 8UzIrlu+cHtjBO74JbIDSIMy+bOd9+UIUHqs0qkt4LtHcqjVZqnj90EDjt1qJRHA
+ jVkxQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; bh=KDwpeRiMBZ51a/1N537G6MpuhOZKtEbUes449q2dx
+ HA=; b=Wjgizc0i5kuQ49PQnaS0dZyj7XWwusgQ8K38W5zQ2uHc/bhPBd6l/TUnc
+ ndCtVqqYhudhtuWA05eAOXHfYP4toV/TYqp0PX6xlEPkdVxu3VbtZ1qc+1IgnNRD
+ zeVruVhdGtzVslfW6YAbCSBjw/SHBNDPnqhthtz9Q/9sOOiAGpGJ6FN61gIkc2Na
+ oUIY6B5cKUbhe5mkhXJ3WUocdM7633zG3HKOoEYC8xlrbH9c0fsHpZx0InB2HlJe
+ MNdHzbn6hf4uG3UcXpAlNOKyBzPgrE4pfZOQ80pId3YHL7kCgq7ncXKRn7uOuFfD
+ nAP0e7A2TZGlPX9l0Izunr3+3oTfQ==
+X-ME-Sender: <xms:C9KuYY3yF_ZwjRG9Xv3bxTZesMsUR4MqCTjytAZW6Rcfb4CQPONoeQ>
+ <xme:C9KuYTEQD3RbrHY7ir45q9C8NR74L6Gs76FIPpwQ0wLTKIDmsbwGbnug34Zth8F7v
+ GgHWTYT-z0fR21EaEg>
+X-ME-Received: <xmr:C9KuYQ5DglWL4yyQjaK65vj9wf3eDjNIxzXVHTUYw_bKjI4RipH5k9RNFzifW7edKAYflvvII8QqSNUmlrEMjT5YVkDI5EPuogTL>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrjeeggdehiecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefrvghtvghr
+ ucfjuhhtthgvrhgvrhcuoehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
+ eqnecuggftrfgrthhtvghrnhepveeuveeifeetgedvvdehgeefieehveekffevteeiudei
+ hfevvdejieeuleefleefnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhush
+ htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehpvghtvghrrdhhuhht
+ thgvrhgvrhesfihhohdqthdrnhgvth
+X-ME-Proxy: <xmx:C9KuYR2NgKorlsKgWHKhNABkmON_FpvJAX2Yp0yhLyHCUpx24z9b-Q>
+ <xmx:C9KuYbHng5AsCOalPPnoCNqeqRC92Np16M2wRpd2DaOUCdEQDHXX0A>
+ <xmx:C9KuYa9IZaBsRgGQ3CjK6qn6kafZOkXZ4K1WSbVQ8_-ZFf3D4nqe9g>
+ <xmx:C9KuYYdQupVdu8lccYCGrOfdRRLo-5bYAkb2_01tz5y2qrYgiGRJXqmF9nQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 6 Dec 2021 22:16:22 -0500 (EST)
+Date: Tue, 7 Dec 2021 13:16:16 +1000
+From: Peter Hutterer <peter.hutterer@who-t.net>
+To: Brian Norris <briannorris@chromium.org>
+Subject: Re: [PATCH v2 1/2] drm/input_helper: Add new input-handling helper
+Message-ID: <Ya7SAHD39m/CLJqw@quokka>
+References: <20211117224841.3442482-1-briannorris@chromium.org>
+ <20211117144807.v2.1.I09b516eff75ead160a6582dd557e7e7e900c9e8e@changeid>
+ <20211118123928.545dec8a@eldfell> <YZcB4ooqpvP3gHdx@google.com>
+ <20211119123841.1d628cb6@eldfell> <YaaLITQF+lngE+VZ@google.com>
 MIME-Version: 1.0
-Received: from ubuntu.vivo.xyz (218.213.202.189) by
- SG2PR01CA0192.apcprd01.prod.exchangelabs.com (2603:1096:4:189::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.16 via Frontend
- Transport; Tue, 7 Dec 2021 02:43:58 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6efcd14d-26c0-4b6b-b8ee-08d9b92b6c33
-X-MS-TrafficTypeDiagnostic: TY2PR06MB2974:EE_
-X-Microsoft-Antispam-PRVS: <TY2PR06MB2974681E5CF92BFAF44D4A7CA26E9@TY2PR06MB2974.apcprd06.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:854;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jOnjIiWQBB7S+ryb0XkM39fHsw8z+2dKZRXnysBkKADMq99TV+ozPdTz2zmsAZbekpeSKbRi3bWHBOeoRAkIpTYHg8ZOUKLjcCZGhICZSZhItEgts20WcpRmfaxLompPDcGLq+OQefMk93kmE3ikyuFYUOwLh0quwB++ZtchHLSxHrsKNZtOubG6rdcpZz4wc+VGM5q9OnJRfCJUgxL0DGZpkIdNY/XNLQ764CrGYWOgXZbA0CHA8ZQyKqt9FnvwWCumayT4jUnonv+mv+ff1/IWc1hucoNnkVkRyohq3POvS/dbxqIvRsz/8OY3SgkR7Cr6KlVzQx4bzR6p4gfoI4rPrsuJ5EvZ27h1uzcfWveETRF323nHk3FFlePqp3MlAlmfMij0UmcxV4Fbt3videLOXI0BS+B5kSHDF80thwH+JBVDSfxAVpkgv8fB1TskO0OOUz42COxAy4I3yEvX2cGm0XpIykByXquGnMlXbWB//dbhUfvIT846v2IUMMyxrn+29qtEt6Zo0OuVbWSZI4yrEGkL9/bxl9sBnQOuGdcMc9c9khoxC2h5LpBWQ6jkhz0vN5tf2So0M+ZtFKLS7oSH/xwAahEqEF8vbpkGtjkrTzdmr5ZAolxsDomyTCtYnBStulzF8GKT6/8RwZYcwC+Ca9m3xZggRwRcpvj11K6yjcKZ8YhGvrFsMcBuu9zKaRBvLVkBBCdCNkJkObXQ+PFT5xuuYhvUzA6d5FVHD4g=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYZPR06MB4173.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(4744005)(186003)(83380400001)(8676002)(316002)(8936002)(6506007)(52116002)(36756003)(5660300002)(26005)(2906002)(110136005)(1076003)(38350700002)(86362001)(66946007)(4326008)(6486002)(6666004)(508600001)(66556008)(956004)(107886003)(38100700002)(66476007)(6512007)(2616005)(182500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?j0nYCboOYPp3a51zZFhVBW8XPYwupecr4QnalP8fnJOOxu/4JDTBS/cPahX5?=
- =?us-ascii?Q?qLaBcz4d+vH/FCyXuQktUykmW0SMFxfILq6XJV62bAUdhbuKziUIVNVnUH0g?=
- =?us-ascii?Q?9TfeB5swn+o7k7K/Nabw4g0SCcvUaIdCQy/Pgv6RQHHdzxwaXHD9exsrTqZd?=
- =?us-ascii?Q?SxrL8LVRLoFvtRa0Vgb0t5zyyOVM/fTorYpt/4JDpq3uz5m30vNfXvCkjtx+?=
- =?us-ascii?Q?SkHuimeY+ZN6czgGp4mKlxebr7MJpndYWlCYbytic5pT+CkTDdaRJJeOip5o?=
- =?us-ascii?Q?Bqr+r6STueH+07ppnku4x1J1uyq7VVn6DnGUbugiPss/5CVYl+QTfH2aDTSY?=
- =?us-ascii?Q?65/G4As94x8NCThnZQQRaf2leKBE+7zwV9/eJO0lvge6as0x4JGE1BhiBfNX?=
- =?us-ascii?Q?Ra5HNVHqP+/RKX0vubTGgd0RhHT+O3xadqRSk/rmIsawp3Yvp9jZdv7LJjRw?=
- =?us-ascii?Q?DlxuQgmKcU1+M/nm9wkA3xpxGxtsseBrZEW5FewzK12r2KqSfGYiwyNUkfw3?=
- =?us-ascii?Q?QoxOelExDh3gGzLZfpHq4N4dwo7xKjkKCdUJgqU3U1+Bb0uTxSLYZcCqViWC?=
- =?us-ascii?Q?Onr/EYzjYBpC7qNDW2aGe3ZGirgfabHe5I2YDsM+VfIDRXtS33rjxB6buKuS?=
- =?us-ascii?Q?/jzCvpKtX7afW9h9i+HbdQrGU10gUBVa7AUI/8V+louka9FDJMJS/v9fPnQz?=
- =?us-ascii?Q?HF8otgnjkpcYwMWpktjrJp6LK5T11dI5e59vt9FEJksB9hd96rK1IxHeuwWj?=
- =?us-ascii?Q?ga7/RTHHiUxOJuu+0/6oxxFdJKA8CW6080CSzBs09VUX140hq8aEeO/Ou1o0?=
- =?us-ascii?Q?iSh2OW4VWb6MXLOdhpzXjDO4oOFewiS7rps4ZDANwyS+TncE0LGoB9qr83IX?=
- =?us-ascii?Q?dn7Qe/8/IIwrJL8/8fJ7kFSPMk3n8pRiK/Evb60ELwQwaTrrbw+h+FAV90Hy?=
- =?us-ascii?Q?Ew8qSisw+YyR7+YOC6KvMPo5yZRmN4fgCdf5+DKASpQ3wru9SxBBU7KQcYUo?=
- =?us-ascii?Q?qImY6Ts//6lb3nykgLnf9wPV4QwcUA8uZoCp2W+rHn6S5qpFKif8PlzXfyhM?=
- =?us-ascii?Q?3WZyAc1YR8V+YNFu37n/qrFvI2oWH7a9x3GNQcn2L69znQlzPhXXMa7HGCSs?=
- =?us-ascii?Q?AY85Ur0mI1wPVoGxwbCWWF7rixb9ttTZJZJ+Ds3fTMM9p34+Xt/1kHRkGMnk?=
- =?us-ascii?Q?y60Hh70sqzQLj+xz9d5DdHcXZ451pOEblmOXjgEGauU+7avlLBVhiZVOnEdD?=
- =?us-ascii?Q?o6Z/5Dmc+1p87mE2FSXTEK2VNDSUmV7MqGtIaO353mzXdCx4unS2nDCq8XLy?=
- =?us-ascii?Q?/XXBCchdu74VOj4mlCS42Qc5XHOCh3yNnOPxwCHcEH1JBPI5ETUfuo5fui4L?=
- =?us-ascii?Q?gsLQGLzSnh1MGq7XCPYJeeaGpNq+NOSTC+gjqhIok+mK+xYGegLzsQy5RQeO?=
- =?us-ascii?Q?b9InII60B/2B+HShzpd0ohYNraJ+Q6NR4Rfw8JTwkFlNQsWY5A+t/I3Ih7dV?=
- =?us-ascii?Q?absYpdQaCzpn+NABZyooJFMzdFRy1Q2sVxkmZuVWSPZEvPNDlvUDltlBGDcU?=
- =?us-ascii?Q?VeDSXoC678T2SsiB4xzXe/qHeOQ2nT6kLUJ3z+8u/y2+R82vZ5FzjytiGyNj?=
- =?us-ascii?Q?V52+fJrhj+9GO+2MTq1v0ec=3D?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6efcd14d-26c0-4b6b-b8ee-08d9b92b6c33
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB4173.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2021 02:44:00.1329 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fkJKmnEyk0wunSHK5XSd9kAQHGAs6Rwv/osTkPQXsjZ1Y0Pn3HQVVShRXss2K9T1WMwHTiOV5pHUc20LRLx5hQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR06MB2974
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YaaLITQF+lngE+VZ@google.com>
 X-Mailman-Approved-At: Tue, 07 Dec 2021 08:26:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -124,29 +87,178 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@vivo.com, Yihao Han <hanyihao@vivo.com>
+Cc: Rob Clark <robdclark@chromium.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ David Airlie <airlied@linux.ie>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-kernel@vger.kernel.org, Doug Anderson <dianders@chromium.org>,
+ linux-rockchip@lists.infradead.org,
+ "Kristian H . Kristensen" <hoegsberg@google.com>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-input@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove duplicated include in drm_gem_shmem_helper.c
+On Tue, Nov 30, 2021 at 12:35:45PM -0800, Brian Norris wrote:
+> Hi Pekka,
+> 
+> On Fri, Nov 19, 2021 at 12:38:41PM +0200, Pekka Paalanen wrote:
+> > On Thu, 18 Nov 2021 17:46:10 -0800
+> > Brian Norris <briannorris@chromium.org> wrote:
+> > > On Thu, Nov 18, 2021 at 12:39:28PM +0200, Pekka Paalanen wrote:
+> > > > On Wed, 17 Nov 2021 14:48:40 -0800
+> > > > Brian Norris <briannorris@chromium.org> wrote:
+> > > > If KMS gets a pageflip or modeset in no time after an input event, then
+> > > > what's the gain. OTOH, if the display server is locking on to vblank,
+> > > > there might be a delay worth avoiding. But then, is it worth
+> > > > short-circuiting the wake-up in kernel vs. adding a new ioctl that
+> > > > userspace could hit to start the warming up process?  
+> > > 
+> > > Rob responded to the first part to some extent (there is definitely gain
+> > > to be had).
+> > > 
+> > > To the last part: I wrote a simple debugfs hook to allow user space to
+> > > force a PSR exit, and then a simple user space program to read input
+> > > events and smash that debugfs file whenever it sees one. Testing in the
+> > > same scenarios, this appears to lose less than 100 microseconds versus
+> > > the in-kernel approach, which is negligible for this use case. (I'm not
+> > > sure about the other use cases.)
+> > > 
+> > > So, this is technically doable in user space.
+> > 
+> > This is crucial information I would like you to include in some commit
+> > message. I think it is very interesting for the reviewers. Maybe also
+> > copy that in the cover letter.
+> > 
+> > In my opinion there is a clear and obvious decision due that
+> > measurement: Add the new ioctl for userspace to hit, do not try to
+> > hardcode or upload the wake-up policy into the kernel.
+> 
+> Perhaps.
+> 
+> I'll admit, I'm not eager to go write the fd-passing solutions that
+> others are designing on the fly. I'm currently torn on whether I'll just
+> live with this current patch set out-of-tree (or, y'all can decide that
+> a simple, 99% working solution is better than no solution), because it's
+> simple; or possibly figuring out how to utilize such an ioctl cleanly
+> within our display manager. I'm not super hopeful on the latter.
+> 
+> IOW, I'm approximately in line with Doug's thoughts:
+> https://lore.kernel.org/all/CAD=FV=XARhZoj+0p-doxcbC=4K+NuMc=uR6wqG6kWk-MkPkNdQ@mail.gmail.com/
+> But then, we're obviously biased.
+> 
+> > > I can't speak to the ease of _actually_ integrating this into even our
+> > > own Chrome display manager, but I highly doubt it will get integrated
+> > > into others. I'd posit this should weigh into the relative worth, but
+> > > otherwise can't really give you an answer there.
+> > 
+> > I think such a thing would be very simple to add to any display server.
+> > They already have hooks for things like resetting idle timeout timers on
+> > any relevant input event.
+> > 
+> > > I'd also note, software-directed PSR is so far designed to be completely
+> > > opaque to user space. There's no way to disable it; no way to know it's
+> > > active; and no way to know anything about the parameters it's computing
+> > > (like average entry/exit delay). Would you suggest a whole set of new
+> > > IOCTLs for this?
+> > 
+> > Just one ioctl on the DRM device: "Hey, wake up!". Because that's what
+> > your patch does in-kernel, right?
+> 
+> Well, we'd at least want something to advertise that the feature does
+> something ("is supported") I think, otherwise we're just asking user
+> space to do useless work.
+> 
+> > If there are use case specific parameters, then how did you intend to
+> > allow adjusting those in your proposal?
+> 
+> Another commenter mentioned the latency tradeoff -- it's possible that
+> there are panels/eDP-links that resume fast enough that one doesn't care
+> to use this ioctl. For an in-kernel solution, one has all the data
+> available and could use hardware information to make decisions, if
+> needed. For a user space solution, we won't have any of that, and we'd
+> have to work to expose that information.
+> 
+> I suppose we could ignore that problem and only expose a minimal UAPI
+> until we need something more, but it feels like exposing a UAPI for
+> something is a critical point where one should make sure it's reasonably
+> descriptive and useful.
+> 
+> > > > How do you know userspace is using this input device at all? If
+> > > > userspace is not using the input device, then DRM should not be opening
+> > > > it either, as it must have no effect on anything.
+> > > > 
+> > > > If you open an input device that userspace does not use, you also cause
+> > > > a power consumption regression, because now the input device itself is
+> > > > active and possibly flooding the kernel with events (e.g. an
+> > > > accelerometer).  
+> > > 
+> > > Well, I don't think accelerometers show up as input devices, but I
+> > > suppose your point could apply to actual input devices.
 
-Signed-off-by: Yihao Han <hanyihao@vivo.com>
----
- drivers/gpu/drm/drm_gem_shmem_helper.c | 1 -
- 1 file changed, 1 deletion(-)
+fwiw, filtering INPUT_PROP_ACCELEROMETER would go a long way towards ignoring
+accelerometers.
 
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 621924116eb4..7915047cb041 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -10,7 +10,6 @@
- #include <linux/shmem_fs.h>
- #include <linux/slab.h>
- #include <linux/vmalloc.h>
--#include <linux/module.h>
- 
- #ifdef CONFIG_X86
- #include <asm/set_memory.h>
--- 
-2.17.1
+> > My understanding is that accelerometers are evdev (input) devices,
+> > especially when used as input e.g. for controlling games. I'm not aware
+> > of any other interface for it.
 
+> I'm not familiar with game-controlling accelerometers, but many types of
+> accelerometers are serviced by drivers/iio/.
+
+you can also unbind devices and use hidraw directly.
+
+> And even if they register as input devices, do they match the ID list in
+> this patch?
+
+device type assignment is problematic, but i think in this case it doesn't
+matter if the associations are a bit rough. You don't care about the type of
+device, you merely care about "is this likely to be used". And I think for
+that the list is good enough.
+
+though tbh, having this policy in userspace would still be better IMO.
+
+Cheers,
+  Peter
+
+> > Even audio sockets are input devices for detecting whether a plug has
+> > been plugged in, but those probably wouldn't flood anything.
+> 
+> They also won't match the input_handler ID list, because they won't
+> support the key or position combinations in the heuristic.
+> 
+> > > > Yet another problem here is that this completely ignores the concept of
+> > > > physical seats. Of course it does so, because seats are a pure
+> > > > userspace concept.
+> > > > 
+> > > > The kernel VT console already has problems because the kernel has no
+> > > > concept of seats, which means that if there is a second seat defined and
+> > > > a desktop running on it, while the first seat is in the normal VT text
+> > > > mode, then everything typed in the desktop will be delivered to the VT
+> > > > shell as well! (This has a possible workaround in userspace [1], by opening
+> > > > the evdev input devices in some kind of exclusive mode - which is not
+> > > > common practise AFAIK.)  
+> > > 
+> > > Sure.
+> > > 
+> > > I'd bet the intersection of systems that use SW-directed PSR and
+> > > "multi-seat" is negligibly close to zero, but I can't guarantee that.
+> > > Chalk one up for a user space policy.
+> > 
+> > Your cover letter has also the other bullet point: ramping up GPUs.
+> > That applies to a lot more systems than PSR, right?
+> > 
+> > Maybe that is an acceptable trade-off: be 100 µs faster (your
+> > measurement) by ramping up all GPUs in a system instead of only the
+> > relevant ones?
+> > 
+> > Or maybe that will hurt normal gaming computers by ramping up the iGPU
+> > when the OS and game only uses the dGPU, which makes iGPU eat away the
+> > CPU power budget, causing the CPU to slow down? I suppose that would be
+> > handled by ramping up only GPUs that userspace has opened.
+> 
+> FWIW, the current work we have out-of-tree involves only select GPU
+> drivers that know they are slow to ramp up. If this were generalized,
+> then yes, it could potentially have undesireable side effects. I'm
+> certainly not an expert on Rob's work though, so I can't speak to this
+> very much, but I imagine we could resolve the {d,i}GPU problem easily.
+> 
+> Brian
