@@ -1,57 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F09446B684
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 09:59:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5D7146B689
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Dec 2021 10:02:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 084006E222;
-	Tue,  7 Dec 2021 08:59:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3D90AB9D0;
+	Tue,  7 Dec 2021 09:02:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com
- [209.85.222.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C48F6E222
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Dec 2021 08:59:25 +0000 (UTC)
-Received: by mail-ua1-f54.google.com with SMTP id 30so6512897uag.13
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Dec 2021 00:59:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lzwgy7wXN8Jjydn3ji6mL/biJ5JYjvPjWPkziik7m2Q=;
- b=SKu2TfhDIoIjkmjrE33D55zsRwF/PWZZ50HFREVkq25Hnv2oCFdWHnrj4ubEkvPDn6
- o1SH8IIYT0QOk49eXJHB8rYRVMgA1Xo2at9xm473366uCbhABB589UfEz0T6pkCxQFES
- U7ZaRqjyg7VTxma4YrkwioKTP/Qdc84qD4SDgdjKGHwUi19zjf1YY4bjUqSVLe6uUNF/
- 8Jq0PyEmmUeDJGwbFg3jF+7wGbuB/UehVmi64oowp49pELWLrj6jsaletZUsdFxbl7yu
- 4KAIHjtuFSZID7XLKjET2rqLhdY+LafrqUhXNnKQ9XI/gUkaYOQ9t9nwAGE4MkIAPqoi
- j7lg==
-X-Gm-Message-State: AOAM531tuzhJv+t7vEHZSyec5xY0VWdM1HZMKGBQuikCd50s6yMewQ/Q
- /Tcc/KLQuR2rqhW3SpjTRRleY7F+9Jxayg==
-X-Google-Smtp-Source: ABdhPJzISjsW9u/8TTkqRKMfMb3lhj4hTo50gM039Ss5GZI4hiZVFaDQ3XGt0waFVCpxQIC00Zkudg==
-X-Received: by 2002:a67:af0a:: with SMTP id v10mr43380282vsl.35.1638867564381; 
- Tue, 07 Dec 2021 00:59:24 -0800 (PST)
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com.
- [209.85.221.177])
- by smtp.gmail.com with ESMTPSA id n10sm5647603uaj.20.2021.12.07.00.59.23
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Dec 2021 00:59:24 -0800 (PST)
-Received: by mail-vk1-f177.google.com with SMTP id f7so8771242vkf.10
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Dec 2021 00:59:23 -0800 (PST)
-X-Received: by 2002:a05:6122:104f:: with SMTP id
- z15mr51606124vkn.39.1638867563566; 
- Tue, 07 Dec 2021 00:59:23 -0800 (PST)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D41DAB9D0
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Dec 2021 09:02:43 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 361591FD2F;
+ Tue,  7 Dec 2021 09:02:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1638867762; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ShmJ81dXUTEKr2HU5HKD5HOF9rm7VFvmZwbi1wxB4yk=;
+ b=1emgFIIOLCnhU4VgSAsOICDN4y27QpU4vGWrpkzM7THotU/e4RvXWZVe7XUXCxSPDh6JbZ
+ t8THflQtXRjMIr4JXueZIIPXa/Wcn4ZNBL1AOLRzkzosPvPlywjZXmeLiqqQAaOnjgQhJW
+ KA1NNySDYx+KTH9uUTr6cop6SnWkF0I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1638867762;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ShmJ81dXUTEKr2HU5HKD5HOF9rm7VFvmZwbi1wxB4yk=;
+ b=Ofijg8Yid7k3gfgyDc/dtigbRm831VrboeoLvqyqr3ayuteqItsYJq04a35c+0pLaNgo9D
+ ao0aQSVLIYhYjjBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3810313513;
+ Tue,  7 Dec 2021 09:02:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 9/DWCTEjr2ESRgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 07 Dec 2021 09:02:41 +0000
+Message-ID: <353db677-0060-f673-28ef-72401dd5b84b@suse.de>
+Date: Tue, 7 Dec 2021 10:02:40 +0100
 MIME-Version: 1.0
-References: <8a27c986-4767-bd29-2073-6c4ffed49bba@jetfuse.net>
-In-Reply-To: <8a27c986-4767-bd29-2073-6c4ffed49bba@jetfuse.net>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 7 Dec 2021 09:59:12 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUep8xc3Ay5o6=KWsF8Hp7fUKdgPuW-_WOr1=KAxkou2Q@mail.gmail.com>
-Message-ID: <CAMuHMdUep8xc3Ay5o6=KWsF8Hp7fUKdgPuW-_WOr1=KAxkou2Q@mail.gmail.com>
-Subject: Re: [Bug Report] Desktop monitor sleep regression
-To: Brandon Nielsen <nielsenb@jetfuse.net>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH v2 1/3] of: Move simple-framebuffer device handling from
+ simplefb to of
+Content-Language: en-US
+To: Hector Martin <marcan@marcan.st>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>
+References: <20211207072943.121961-1-marcan@marcan.st>
+ <20211207072943.121961-2-marcan@marcan.st>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20211207072943.121961-2-marcan@marcan.st>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------O3vwcP36Pqs9LacqxReePlAm"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,39 +75,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- stable <stable@vger.kernel.org>, Peter Jones <pjones@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javier@dowhile0.org>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add CCs
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------O3vwcP36Pqs9LacqxReePlAm
+Content-Type: multipart/mixed; boundary="------------xUoc8AiyS5inbFdzoNanszRM";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Hector Martin <marcan@marcan.st>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Javier Martinez Canillas <javier@dowhile0.org>,
+ Pekka Paalanen <ppaalanen@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Message-ID: <353db677-0060-f673-28ef-72401dd5b84b@suse.de>
+Subject: Re: [PATCH v2 1/3] of: Move simple-framebuffer device handling from
+ simplefb to of
+References: <20211207072943.121961-1-marcan@marcan.st>
+ <20211207072943.121961-2-marcan@marcan.st>
+In-Reply-To: <20211207072943.121961-2-marcan@marcan.st>
 
-On Tue, Dec 7, 2021 at 7:37 AM Brandon Nielsen <nielsenb@jetfuse.net> wrote:
-> Monitors no longer sleep properly on my system (dual monitor connected
-> via DP->DVI, amdgpu, x86_64). The monitors slept properly on 5.14, but
-> stopped during the 5.15 series. I have also filed this bug on the kernel
-> bugzilla[0] and downstream[1].
->
-> I have performed a bisect, first "bad" commit to master is
-> 55285e21f04517939480966164a33898c34b2af2[1], the same change made it
-> into the 5.15 branch as e3b39825ed0813f787cb3ebdc5ecaa5131623647. I have
-> verified the issue exists in latest master
-> (a51e3ac43ddbad891c2b1a4f3aa52371d6939570).
->
->
-> Steps to reproduce:
->
->    1. Boot system (Fedora Workstation 35 in this case)
->    2. Log in
->    3. Lock screen (after a few seconds, monitors will enter power save
-> "sleep" state with backlight off)
->    4. Wait (usually no more than 30 seconds, sometimes up to a few minutes)
->    5. Observe monitor leaving "sleep" state (backlight comes back on),
-> but nothing is displayed
->
->
-> [0] - https://bugzilla.kernel.org/show_bug.cgi?id=215203
-> [1] - https://bugzilla.redhat.com/show_bug.cgi?id=2028613
+--------------xUoc8AiyS5inbFdzoNanszRM
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+
+SGkNCg0KQW0gMDcuMTIuMjEgdW0gMDg6Mjkgc2NocmllYiBIZWN0b3IgTWFydGluOg0KPiBU
+aGlzIGNvZGUgaXMgcmVxdWlyZWQgZm9yIGJvdGggc2ltcGxlZmIgYW5kIHNpbXBsZWRybSwg
+c28gbGV0J3MgbW92ZSBpdA0KPiBpbnRvIHRoZSBPRiBjb3JlIGluc3RlYWQgb2YgaGF2aW5n
+IGl0IGFzIGFuIGFkLWhvYyBpbml0Y2FsbCBpbiB0aGUNCj4gZHJpdmVycy4NCj4gDQo+IFNp
+Z25lZC1vZmYtYnk6IEhlY3RvciBNYXJ0aW4gPG1hcmNhbkBtYXJjYW4uc3Q+DQoNCkFja2Vk
+LWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCg0KVGhpcyBs
+b29rcyBtdWNoIGJldHRlciB0aGFuIGJlZm9yZS4gVGhhbmsgeW91Lg0KDQo+IC0tLQ0KPiAg
+IGRyaXZlcnMvb2YvcGxhdGZvcm0uYyAgICAgICAgICB8ICA1ICsrKysrDQo+ICAgZHJpdmVy
+cy92aWRlby9mYmRldi9zaW1wbGVmYi5jIHwgMjEgKy0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+
+ICAgMiBmaWxlcyBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDIwIGRlbGV0aW9ucygtKQ0K
+PiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvb2YvcGxhdGZvcm0uYyBiL2RyaXZlcnMvb2Yv
+cGxhdGZvcm0uYw0KPiBpbmRleCBiM2ZhZjg5NzQ0YWEuLmUwOTdmNDBiMDNjMCAxMDA2NDQN
+Cj4gLS0tIGEvZHJpdmVycy9vZi9wbGF0Zm9ybS5jDQo+ICsrKyBiL2RyaXZlcnMvb2YvcGxh
+dGZvcm0uYw0KPiBAQCAtNTQwLDYgKzU0MCwxMSBAQCBzdGF0aWMgaW50IF9faW5pdCBvZl9w
+bGF0Zm9ybV9kZWZhdWx0X3BvcHVsYXRlX2luaXQodm9pZCkNCj4gICAJCW9mX25vZGVfcHV0
+KG5vZGUpOw0KPiAgIAl9DQo+ICAgDQo+ICsJZm9yX2VhY2hfY2hpbGRfb2Zfbm9kZShvZl9j
+aG9zZW4sIG5vZGUpIHsNCj4gKwkJaWYgKG9mX2RldmljZV9pc19jb21wYXRpYmxlKG5vZGUs
+ICJzaW1wbGUtZnJhbWVidWZmZXIiKSkNCj4gKwkJCW9mX3BsYXRmb3JtX2RldmljZV9jcmVh
+dGUobm9kZSwgTlVMTCwgTlVMTCk7DQo+ICsJfQ0KPiArDQo+ICAgCS8qIFBvcHVsYXRlIGV2
+ZXJ5dGhpbmcgZWxzZS4gKi8NCj4gICAJb2ZfcGxhdGZvcm1fZGVmYXVsdF9wb3B1bGF0ZShO
+VUxMLCBOVUxMLCBOVUxMKTsNCj4gICANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdmlkZW8v
+ZmJkZXYvc2ltcGxlZmIuYyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvc2ltcGxlZmIuYw0KPiBp
+bmRleCBiNjMwNzRmZDg5MmUuLjU3NTQxODg3MTg4YiAxMDA2NDQNCj4gLS0tIGEvZHJpdmVy
+cy92aWRlby9mYmRldi9zaW1wbGVmYi5jDQo+ICsrKyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYv
+c2ltcGxlZmIuYw0KPiBAQCAtNTQxLDI2ICs1NDEsNyBAQCBzdGF0aWMgc3RydWN0IHBsYXRm
+b3JtX2RyaXZlciBzaW1wbGVmYl9kcml2ZXIgPSB7DQo+ICAgCS5yZW1vdmUgPSBzaW1wbGVm
+Yl9yZW1vdmUsDQo+ICAgfTsNCj4gICANCj4gLXN0YXRpYyBpbnQgX19pbml0IHNpbXBsZWZi
+X2luaXQodm9pZCkNCj4gLXsNCj4gLQlpbnQgcmV0Ow0KPiAtCXN0cnVjdCBkZXZpY2Vfbm9k
+ZSAqbnA7DQo+IC0NCj4gLQlyZXQgPSBwbGF0Zm9ybV9kcml2ZXJfcmVnaXN0ZXIoJnNpbXBs
+ZWZiX2RyaXZlcik7DQo+IC0JaWYgKHJldCkNCj4gLQkJcmV0dXJuIHJldDsNCj4gLQ0KPiAt
+CWlmIChJU19FTkFCTEVEKENPTkZJR19PRl9BRERSRVNTKSAmJiBvZl9jaG9zZW4pIHsNCj4g
+LQkJZm9yX2VhY2hfY2hpbGRfb2Zfbm9kZShvZl9jaG9zZW4sIG5wKSB7DQo+IC0JCQlpZiAo
+b2ZfZGV2aWNlX2lzX2NvbXBhdGlibGUobnAsICJzaW1wbGUtZnJhbWVidWZmZXIiKSkNCj4g
+LQkJCQlvZl9wbGF0Zm9ybV9kZXZpY2VfY3JlYXRlKG5wLCBOVUxMLCBOVUxMKTsNCj4gLQkJ
+fQ0KPiAtCX0NCj4gLQ0KPiAtCXJldHVybiAwOw0KPiAtfQ0KPiAtDQo+IC1mc19pbml0Y2Fs
+bChzaW1wbGVmYl9pbml0KTsNCj4gK21vZHVsZV9wbGF0Zm9ybV9kcml2ZXIoc2ltcGxlZmJf
+ZHJpdmVyKTsNCj4gICANCj4gICBNT0RVTEVfQVVUSE9SKCJTdGVwaGVuIFdhcnJlbiA8c3dh
+cnJlbkB3d3dkb3Rvcmcub3JnPiIpOw0KPiAgIE1PRFVMRV9ERVNDUklQVElPTigiU2ltcGxl
+IGZyYW1lYnVmZmVyIGRyaXZlciIpOw0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0K
+R3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2Vy
+bWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihI
+UkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYN
+Cg==
+
+--------------xUoc8AiyS5inbFdzoNanszRM--
+
+--------------O3vwcP36Pqs9LacqxReePlAm
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmGvIzAFAwAAAAAACgkQlh/E3EQov+Dl
+fw//UTEwcU6GCohXfdYRQak1m2CwfMIQ+FmpWTz3CbEYyMYxxLKfKEBvd1YKEsZkeKRp3DWEAQig
+j1rjgMDepEuv865lMwrR7UuYuvaqQRjOGoQDiSW4A9mwWEr2soId9ahvQ9TvoWhzSzrpUlVnTm5/
+lYrSEi3HWBfUaPFRIu0wyVzALzU+hNKA0jn6hUneZMJMqUSx82djZVSRx+UKqjhUictkpH96gDyC
+8wjd12CqXTPKxfbD4gh9cuQiYYtvwpAF5Uy98BTSy/+4Ma+QxHdNBBSSo5Z1lnwOgwqMm4zwoiCb
+IGmOLSyHMsjbLopCYU4u6a3l9V2uqWcx6jynO4VBB5kce3U5zo1GP34bEllFwWS5pX0nmVhvh7Ze
+VQvWBcwtGPSpeQlC/xGorta2mrU94g6xBvnTpKXEARBeDvgco8ecdVIDwLwZwudQiDC8m8vsD/JI
+7kehwDmwTNjUqLrAFUnOSrO1FEvhdjfAZzzaIEGBIjFcCg6TZ7TngonO+3NhqTp7IT0IKnm8bKUC
+ycuLo7B2K1Gg0TXKo62kYXpKPQwIDiweIJMjOaOkSuvP6IH52LWHxNeEP5mMzcqcUxG7rYPoWaRH
+klnR2D8Scxc9WOqmd75JbPEiXF49yvuXTYhbxumPAk5N+EziIkPuTnkhlKRZR2P/29GicOFjwtal
+BBs=
+=bgnp
+-----END PGP SIGNATURE-----
+
+--------------O3vwcP36Pqs9LacqxReePlAm--
