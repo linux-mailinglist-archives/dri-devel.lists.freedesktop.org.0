@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6386146CED1
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 09:25:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39D7646CF08
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 09:31:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 977BC6EB7D;
-	Wed,  8 Dec 2021 08:25:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B88AB6E859;
+	Wed,  8 Dec 2021 08:31:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E2B36EA15;
- Wed,  8 Dec 2021 08:25:17 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10191"; a="236522367"
-X-IronPort-AV: E=Sophos;i="5.87,296,1631602800"; d="scan'208";a="236522367"
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 656CF6E523;
+ Wed,  8 Dec 2021 08:31:44 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10191"; a="261859205"
+X-IronPort-AV: E=Sophos;i="5.87,297,1631602800"; d="scan'208";a="261859205"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Dec 2021 00:25:16 -0800
-X-IronPort-AV: E=Sophos;i="5.87,296,1631602800"; d="scan'208";a="515669584"
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Dec 2021 00:30:56 -0800
+X-IronPort-AV: E=Sophos;i="5.87,296,1631602800"; d="scan'208";a="515671165"
 Received: from amgotede-mobl1.ger.corp.intel.com (HELO [10.213.194.97])
  ([10.213.194.97])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Dec 2021 00:25:14 -0800
-Message-ID: <f1acb427-efca-c58c-d0fb-f50c046ef53b@linux.intel.com>
-Date: Wed, 8 Dec 2021 08:25:12 +0000
+ 08 Dec 2021 00:30:55 -0800
+Message-ID: <64b203a7-b09f-2982-ef3b-b33da7708d0f@linux.intel.com>
+Date: Wed, 8 Dec 2021 08:30:53 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.1
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/dg2: make GuC FW a requirement for
- Gen12 and beyond devices
+Subject: Re: [Intel-gfx] [PATCH v9 2/8] drm/i915/ttm: add tt shmem backend
 Content-Language: en-US
-To: Adrian Larumbe <adrian.larumbe@collabora.com>, daniel@ffwll.ch,
- ramalingam.c@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20211207175301.321119-1-adrian.larumbe@collabora.com>
+To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20211018091055.1998191-1-matthew.auld@intel.com>
+ <20211018091055.1998191-2-matthew.auld@intel.com>
+ <1a8431eb-566d-ac2b-85b7-31c590ec84ff@linux.intel.com>
+ <52fadb30-bdc2-6432-931b-ef1bbf3be0ba@intel.com>
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Organization: Intel Corporation UK Plc
-In-Reply-To: <20211207175301.321119-1-adrian.larumbe@collabora.com>
+In-Reply-To: <52fadb30-bdc2-6432-931b-ef1bbf3be0ba@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,131 +51,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniels@collabora.com
+Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ Oak Zeng <oak.zeng@intel.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 07/12/2021 17:53, Adrian Larumbe wrote:
-> Beginning with DG2, all successive devices will require GuC FW to be
-> present and loaded at probe() time. This change alters error handling in
-> the FW init and load functions so that the driver's probe() function will
-> fail if GuC could not be loaded.
+On 07/12/2021 14:05, Matthew Auld wrote:
+> On 07/12/2021 13:10, Tvrtko Ursulin wrote:
+>>
+>> On 18/10/2021 10:10, Matthew Auld wrote:
+>>> For cached objects we can allocate our pages directly in shmem. This
+>>> should make it possible(in a later patch) to utilise the existing
+>>> i915-gem shrinker code for such objects. For now this is still disabled.
+>>>
+>>> v2(Thomas):
+>>>    - Add optional try_to_writeback hook for objects. Importantly we need
+>>>      to check if the object is even still shrinkable; in between us
+>>>      dropping the shrinker LRU lock and acquiring the object lock it 
+>>> could for
+>>>      example have been moved. Also we need to differentiate between
+>>>      "lazy" shrinking and the immediate writeback mode. Also later we 
+>>> need to
+>>>      handle objects which don't even have mm.pages, so bundling this 
+>>> into
+>>>      put_pages() would require somehow handling that edge case, hence
+>>>      just letting the ttm backend handle everything in try_to_writeback
+>>>      doesn't seem too bad.
+>>> v3(Thomas):
+>>>    - Likely a bad idea to touch the object from the unpopulate hook,
+>>>      since it's not possible to hold a reference, without also creating
+>>>      circular dependency, so likely this is too fragile. For now just
+>>>      ensure we at least mark the pages as dirty/accessed when called 
+>>> from the
+>>>      shrinker on WILLNEED objects.
+>>>    - s/try_to_writeback/shrinker_release_pages, since this can do more
+>>>      than just writeback.
+>>>    - Get rid of do_backup boolean and just set the SWAPPED flag prior to
+>>>      calling unpopulate.
+>>>    - Keep shmem_tt as lowest priority for the TTM LRU bo_swapout 
+>>> walk, since
+>>>      these just get skipped anyway. We can try to come up with something
+>>>      better later.
+>>> v4(Thomas):
+>>>    - s/PCI_DMA/DMA/. Also drop NO_KERNEL_MAPPING and NO_WARN, which
+>>>      apparently doesn't do anything with streaming mappings.
+>>>    - Just pass along the error for ->truncate, and assume nothing.
+>>>
+>>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>>> Cc: Christian König <christian.koenig@amd.com>
+>>> Cc: Oak Zeng <oak.zeng@intel.com>
+>>> Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>>> Acked-by: Oak Zeng <oak.zeng@intel.com>
+>>
+>> [snip]
+>>
+>>> -static void try_to_writeback(struct drm_i915_gem_object *obj,
+>>> -                 unsigned int flags)
+>>> +static int try_to_writeback(struct drm_i915_gem_object *obj, 
+>>> unsigned int flags)
+>>>   {
+>>> +    if (obj->ops->shrinker_release_pages)
+>>> +        return obj->ops->shrinker_release_pages(obj,
+>>> +                            flags & I915_SHRINK_WRITEBACK);
+>>
+>> I have a high level question about how does this new vfunc fit with 
+>> the existing code.
+>>
+>> Because I notice in the implementation 
+>> (i915_ttm_shrinker_release_pages) it ends up doing:
+>> ...
+>>
+>>         switch (obj->mm.madv) {
+>>         case I915_MADV_DONTNEED:
+>>                 return i915_ttm_purge(obj);
+>>         case __I915_MADV_PURGED:
+>>                 return 0;
+>>         }
+>>
+>> ... and then...
+>>
+>>         if (should_writeback)
+>>                 __shmem_writeback(obj->base.size, 
+>> i915_tt->filp->f_mapping);
+>>
+>> Which on a glance looks like a possible conceptual duplication of the 
+>> concepts in this very function (try_to_writeback):
+>>
+>>> +
+>>>       switch (obj->mm.madv) {
+>>>       case I915_MADV_DONTNEED:
+>>>           i915_gem_object_truncate(obj);
+>>> -        return;
+>>> +        return 0;
+>>>       case __I915_MADV_PURGED:
+>>> -        return;
+>>> +        return 0;
+>>>       }
+>>>       if (flags & I915_SHRINK_WRITEBACK)
+>>>           i915_gem_object_writeback(obj);
+>>
+>> So question is this the final design or some futher tidy is 
+>> possible/planned?
 > 
-> Signed-off-by: Adrian Larumbe <adrian.larumbe@collabora.com>
-> ---
->   drivers/gpu/drm/i915/gt/uc/intel_uc.c | 20 ++++++++++++++++----
->   drivers/gpu/drm/i915/gt/uc/intel_uc.h |  4 ++--
->   drivers/gpu/drm/i915/i915_gem.c       |  7 ++++++-
->   3 files changed, 24 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> index 7660eba893fa..8b0778b6d9ab 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> @@ -277,14 +277,19 @@ static void guc_disable_communication(struct intel_guc *guc)
->   	drm_dbg(&i915->drm, "GuC communication disabled\n");
->   }
->   
-> -static void __uc_fetch_firmwares(struct intel_uc *uc)
-> +static int __uc_fetch_firmwares(struct intel_uc *uc)
->   {
-> +	struct drm_i915_private *i915 = uc_to_gt(uc)->i915;
->   	int err;
->   
->   	GEM_BUG_ON(!intel_uc_wants_guc(uc));
->   
->   	err = intel_uc_fw_fetch(&uc->guc.fw);
->   	if (err) {
-> +		/* GuC is mandatory on Gen12 and beyond */
-> +		if (GRAPHICS_VER(i915) >= 12)
-> +			return err;
-> +
+> It seems ok to me, all things considered. The TTM version needs to check 
+> if the object is still shrinkable at the start(plus some other stuff), 
+> upon acquiring the object lock. If that succeeds we can do the above 
+> madv checks and potentially just call truncate. Otherwise we can proceed 
+> with shrinking, but again TTM is special here, and we have to call 
+> ttm_bo_validate() underneath(we might not even have mm.pages here). And 
+> then if that all works we might be able to also perform the writeback, 
+> if needed. So I suppose we could add all that directly in 
+> try_to_writeback(), and make it conditional for TTM devices, or I guess 
+> we need two separate hooks, one to do some pre-checking and another do 
+> the actual swap step. Not sure if that is better or worse though.
 
-Is it DG2 or Gen12, latter starts from Tigerlake?
+Would implementing the shrinker_release_pages for all objects work? It 
+would contain what currently is in try_to_writeback and so the two 
+paths, if not compatible, would diverge cleanly on the same level of 
+indirection. I mean we would not have two effectively mutually exclusive 
+vfuncs (shrinker_release_pages and writeback) and could unexport 
+i915_gem_object_writeback.
+
+>> Background to my question is that I will float a patch which proposes 
+>> to remove writeback altogether. There are reports from the fields that 
+>> it causes deadlocks and looking at 2d6692e642e7 ("drm/i915: Start 
+>> writeback from the shrinker") and its history it seems like it was a 
+>> known risk.
+>>
+>> Apart from the code organisation questions, on the practical level - 
+>> do you need writeback from the TTM backend or while I am proposing to 
+>> remove it from the "legacy" paths, I can propose removing it from the 
+>> TTM flow as well?
+> 
+> Yeah, if that is somehow busted then we should remove from TTM backend 
+> also.
+
+Okay thanks, I wanted to check in case there was an extra need in TTM. I 
+will float a patch soon hopefully but testing will be a problem since it 
+seems very hard to repro at the moment.
 
 Regards,
 
 Tvrtko
-
->   		/* Make sure we transition out of transient "SELECTED" state */
->   		if (intel_uc_wants_huc(uc)) {
->   			drm_dbg(&uc_to_gt(uc)->i915->drm,
-> @@ -293,11 +298,13 @@ static void __uc_fetch_firmwares(struct intel_uc *uc)
->   						  INTEL_UC_FIRMWARE_ERROR);
->   		}
->   
-> -		return;
-> +		return 0;
->   	}
->   
->   	if (intel_uc_wants_huc(uc))
->   		intel_uc_fw_fetch(&uc->huc.fw);
-> +
-> +	return 0;
->   }
->   
->   static void __uc_cleanup_firmwares(struct intel_uc *uc)
-> @@ -308,14 +315,19 @@ static void __uc_cleanup_firmwares(struct intel_uc *uc)
->   
->   static int __uc_init(struct intel_uc *uc)
->   {
-> +	struct drm_i915_private *i915 = uc_to_gt(uc)->i915;
->   	struct intel_guc *guc = &uc->guc;
->   	struct intel_huc *huc = &uc->huc;
->   	int ret;
->   
->   	GEM_BUG_ON(!intel_uc_wants_guc(uc));
->   
-> -	if (!intel_uc_uses_guc(uc))
-> -		return 0;
-> +	if (!intel_uc_uses_guc(uc)) {
-> +		if (GRAPHICS_VER(i915) >= 12)
-> +			return -EINVAL;
-> +		else
-> +			return 0;
-> +	}
->   
->   	if (i915_inject_probe_failure(uc_to_gt(uc)->i915))
->   		return -ENOMEM;
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.h b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-> index 866b462821c0..3bcd781447bc 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-> @@ -17,7 +17,7 @@ struct intel_uc;
->   
->   struct intel_uc_ops {
->   	int (*sanitize)(struct intel_uc *uc);
-> -	void (*init_fw)(struct intel_uc *uc);
-> +	int (*init_fw)(struct intel_uc *uc);
->   	void (*fini_fw)(struct intel_uc *uc);
->   	int (*init)(struct intel_uc *uc);
->   	void (*fini)(struct intel_uc *uc);
-> @@ -104,7 +104,7 @@ static inline _TYPE intel_uc_##_NAME(struct intel_uc *uc) \
->   	return _RET; \
->   }
->   intel_uc_ops_function(sanitize, sanitize, int, 0);
-> -intel_uc_ops_function(fetch_firmwares, init_fw, void, );
-> +intel_uc_ops_function(fetch_firmwares, init_fw, int, 0);
->   intel_uc_ops_function(cleanup_firmwares, fini_fw, void, );
->   intel_uc_ops_function(init, init, int, 0);
->   intel_uc_ops_function(fini, fini, void, );
-> diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
-> index 527228d4da7e..7f8204af6826 100644
-> --- a/drivers/gpu/drm/i915/i915_gem.c
-> +++ b/drivers/gpu/drm/i915/i915_gem.c
-> @@ -1049,7 +1049,12 @@ int i915_gem_init(struct drm_i915_private *dev_priv)
->   	if (ret)
->   		return ret;
->   
-> -	intel_uc_fetch_firmwares(&dev_priv->gt.uc);
-> +	ret = intel_uc_fetch_firmwares(&dev_priv->gt.uc);
-> +	if (ret) {
-> +		i915_probe_error(dev_priv, "Failed to fetch firmware\n");
-> +		return ret;
-> +	}
-> +
->   	intel_wopcm_init(&dev_priv->wopcm);
->   
->   	ret = i915_init_ggtt(dev_priv);
-> 
