@@ -2,39 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C71946DDE9
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 22:57:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2464746DDF3
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 23:01:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44B986E041;
-	Wed,  8 Dec 2021 21:57:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BB896E2F2;
+	Wed,  8 Dec 2021 22:01:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 182266E08E
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Dec 2021 21:57:18 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10192"; a="236697089"
-X-IronPort-AV: E=Sophos;i="5.88,190,1635231600"; d="scan'208";a="236697089"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Dec 2021 13:51:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,190,1635231600"; d="scan'208";a="564284920"
-Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
- by fmsmga008.fm.intel.com with ESMTP; 08 Dec 2021 13:50:58 -0800
-Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1mv4q2-00015x-1C; Wed, 08 Dec 2021 21:50:58 +0000
-Date: Thu, 9 Dec 2021 05:50:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 17/18] drm: rockchip: Add VOP2 driver
-Message-ID: <202112090519.Beunfs20-lkp@intel.com>
-References: <20211208151230.3695378-18-s.hauer@pengutronix.de>
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 483956E08E;
+ Wed,  8 Dec 2021 22:01:28 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ n33-20020a05600c502100b0032fb900951eso5206348wmr.4; 
+ Wed, 08 Dec 2021 14:01:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=78Ifs23TtoxatfN7VFvq9AEVPiNcwkeZ+FD9JLKmw8c=;
+ b=eoOfS+6CmChrGqIET8UbG2Mcyt7PpnxNsqQBcTKKvvFva2oPLikaLax+o6UFRiitOo
+ F75w0TsDGEYb+iHtNj/MgluUFT8K+9sdMVBYHdnKn5GGTM4IuGFSYqfLbj6lKsZVw3cG
+ jkY6YDhnrUB/XZ8F7VksJaZbQUZWqAPSCh/CTY1a+j5/SNACoVhI16F5r8rjuQ+8b68t
+ RlDrDjlTixZBpkLzx/KRMVrwiNoSvRbJdoOr7k33A/FURILhHfRcEoENHTDBQoChozph
+ 8NGQBK13gFNv9z3teV47WwN0Voj2yeN7eK9RoFG8b2QlNdIn6hIX4dOGfm0uf5tiwJKZ
+ w2Sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=78Ifs23TtoxatfN7VFvq9AEVPiNcwkeZ+FD9JLKmw8c=;
+ b=F9qSfnqUZYPCZkUrGtdLhhIB63LjwQqD1yFaBXuEg16YvzX+ZmJg6dn9fygNiz1TDx
+ xEoHlCbNgshE6Qa250claoqh2QVxKEUOyRIOJVGa70JSlYuuNg/OxyzwU/a1N+wReqn+
+ EIilM72RPqsZ6D23DcIRjLs2fJx9Bj3M5XHwQ2SeShXN/TVNVzM7+Hff0Zt1NDyLk3at
+ XAI6Ww5LuxY6K1hS63cUyUUAw+I4d5+oXHISB4iklGp4f87PBvKkj/y9Zm9hN4ONvRVn
+ e/Hw4mOkb4Xz3E/d9Dyp5wywhrvjk7GEKY46C3T/6auheyD7Jsgx8qgsP8hWmcsU5W+c
+ ftZA==
+X-Gm-Message-State: AOAM532cnl98UNITc/KTs1O1mhRPqlTpPp65niMiaN9po6CRYsTsZwwn
+ 5ImiAeeINa6T635g5yveTmIOJ7PVNKLbXqXRip8=
+X-Google-Smtp-Source: ABdhPJx4+51IKWNFMWdRf7kFk0fQGiVNH4ObQU0Pt5G58JOq7C+3hI5cdOhoebAHEgcFR4QJtJpoZ99D+N6A9Eu9azc=
+X-Received: by 2002:a05:600c:4f4b:: with SMTP id
+ m11mr1665243wmq.151.1639000886773; 
+ Wed, 08 Dec 2021 14:01:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211208151230.3695378-18-s.hauer@pengutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20211105030434.2828845-1-sean@poorly.run>
+ <20211105030434.2828845-14-sean@poorly.run>
+In-Reply-To: <20211105030434.2828845-14-sean@poorly.run>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 8 Dec 2021 14:06:43 -0800
+Message-ID: <CAF6AEGv9ghHcd1zhWiBQ40pwx1uMeJ=Y_T5EVo2EV5gTRTtAew@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH v4 13/14] arm64: dts: qcom: sc7180: Add
+ support for HDCP in dp-controller
+To: Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,96 +65,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, kbuild-all@lists.01.org, kernel@pengutronix.de,
- Sascha Hauer <s.hauer@pengutronix.de>, Sandy Huang <hjc@rock-chips.com>,
- linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Peter Geis <pgwipeout@gmail.com>, Andy Yan <andy.yan@rock-chips.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Jani Nikula <jani.nikula@intel.com>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Andy Gross <agross@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Sean Paul <seanpaul@chromium.org>, Abhinav Kumar <abhinavk@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sascha,
+On Thu, Nov 4, 2021 at 8:05 PM Sean Paul <sean@poorly.run> wrote:
+>
+> From: Sean Paul <seanpaul@chromium.org>
+>
+> This patch adds the register ranges required for HDCP key injection and
+> HDCP TrustZone interaction as described in the dt-bindings for the
+> sc7180 dp controller. Now that these are supported, change the
+> compatible string to "dp-hdcp".
+>
+> Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> Link: https://patchwork.freedesktop.org/patch/msgid/20210913175747.47456-15-sean@poorly.run #v1
+> Link: https://patchwork.freedesktop.org/patch/msgid/20210915203834.1439-14-sean@poorly.run #v2
+> Link: https://patchwork.freedesktop.org/patch/msgid/20211001151145.55916-14-sean@poorly.run #v3
+>
+> Changes in v3:
+> -Split off into a new patch containing just the dts change (Stephen)
+> -Add hdcp compatible string (Stephen)
+> Changes in v4:
+> -Rebase on Bjorn's multi-dp patchset
+> ---
+>  arch/arm64/boot/dts/qcom/sc7180.dtsi | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+>
+> diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> index c8921e2d6480..838270f70b62 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> @@ -3088,7 +3088,13 @@ mdss_dp: displayport-controller@ae90000 {
+>                                 compatible = "qcom,sc7180-dp";
+>                                 status = "disabled";
+>
+> -                               reg = <0 0x0ae90000 0 0x1400>;
+> +                               reg = <0 0x0ae90000 0 0x200>,
+> +                                     <0 0x0ae90200 0 0x200>,
+> +                                     <0 0x0ae90400 0 0xc00>,
+> +                                     <0 0x0ae91000 0 0x400>,
+> +                                     <0 0x0ae91400 0 0x400>,
+> +                                     <0 0x0aed1000 0 0x175>,
+> +                                     <0 0x0aee1000 0 0x2c>;
 
-Thank you for the patch! Perhaps something to improve:
+So one small issue, if someone tries to get linux running on a sc7180
+windows laptop (which uses qcom's tz instead of the CrOS tz), things
+will go BOOM!
 
-[auto build test WARNING on rockchip/for-next]
-[also build test WARNING on drm/drm-next drm-intel/for-linux-next drm-exynos/exynos-drm-next v5.16-rc4]
-[cannot apply to drm-tip/drm-tip tegra-drm/drm/tegra/for-next airlied/drm-next next-20211208]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+We might want instead to move this somewhere chromebook specific,
+maybe sc7180-trogdor.dtsi?
 
-url:    https://github.com/0day-ci/linux/commits/Sascha-Hauer/drm-rockchip-RK356x-VOP2-support/20211208-231502
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
-config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20211209/202112090519.Beunfs20-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/8d57a528cbdfec4716a21d22d3d6c04c40451355
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Sascha-Hauer/drm-rockchip-RK356x-VOP2-support/20211208-231502
-        git checkout 8d57a528cbdfec4716a21d22d3d6c04c40451355
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=mips SHELL=/bin/bash drivers/gpu/drm/rockchip/
+BR,
+-R
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   drivers/gpu/drm/rockchip/rockchip_drm_vop2.c: In function 'vop2_setup_cluster_alpha':
->> drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:1861:33: warning: variable 'top_win_pstate' set but not used [-Wunused-but-set-variable]
-    1861 |         struct drm_plane_state *top_win_pstate;
-         |                                 ^~~~~~~~~~~~~~
-
-
-vim +/top_win_pstate +1861 drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-
-  1855	
-  1856	static void vop2_setup_cluster_alpha(struct vop2 *vop2, struct vop2_win *main_win)
-  1857	{
-  1858		uint32_t offset = (main_win->data->phys_id * 0x10);
-  1859		struct vop2_alpha_config alpha_config;
-  1860		struct vop2_alpha alpha;
-> 1861		struct drm_plane_state *top_win_pstate;
-  1862		struct drm_plane_state *bottom_win_pstate;
-  1863		bool src_pixel_alpha_en = false;
-  1864		uint16_t src_glb_alpha_val, dst_glb_alpha_val;
-  1865		bool premulti_en = false;
-  1866		bool swap = false;
-  1867	
-  1868		/* At one win mode, win0 is dst/bottom win, and win1 is a all zero src/top win */
-  1869		top_win_pstate = NULL;
-  1870		bottom_win_pstate = main_win->base.state;
-  1871		src_glb_alpha_val = 0;
-  1872		dst_glb_alpha_val = main_win->base.state->alpha;
-  1873	
-  1874		if (!bottom_win_pstate->fb)
-  1875			return;
-  1876	
-  1877		alpha_config.src_premulti_en = premulti_en;
-  1878		alpha_config.dst_premulti_en = false;
-  1879		alpha_config.src_pixel_alpha_en = src_pixel_alpha_en;
-  1880		alpha_config.dst_pixel_alpha_en = true; /* alpha value need transfer to next mix */
-  1881		alpha_config.src_glb_alpha_value = src_glb_alpha_val;
-  1882		alpha_config.dst_glb_alpha_value = dst_glb_alpha_val;
-  1883		vop2_parse_alpha(&alpha_config, &alpha);
-  1884	
-  1885		alpha.src_color_ctrl.bits.src_dst_swap = swap;
-  1886		vop2_writel(vop2, RK3568_CLUSTER0_MIX_SRC_COLOR_CTRL + offset,
-  1887			    alpha.src_color_ctrl.val);
-  1888		vop2_writel(vop2, RK3568_CLUSTER0_MIX_DST_COLOR_CTRL + offset,
-  1889			    alpha.dst_color_ctrl.val);
-  1890		vop2_writel(vop2, RK3568_CLUSTER0_MIX_SRC_ALPHA_CTRL + offset,
-  1891			    alpha.src_alpha_ctrl.val);
-  1892		vop2_writel(vop2, RK3568_CLUSTER0_MIX_DST_ALPHA_CTRL + offset,
-  1893			    alpha.dst_alpha_ctrl.val);
-  1894	}
-  1895	
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+>
+>                                 interrupt-parent = <&mdss>;
+>                                 interrupts = <12>;
+> --
+> Sean Paul, Software Engineer, Google / Chromium OS
+>
