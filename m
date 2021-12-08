@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D29C546DE78
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 23:37:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D33346EDFC
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 17:54:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 077846E087;
-	Wed,  8 Dec 2021 22:37:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 439A110E596;
+	Thu,  9 Dec 2021 16:53:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
  [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4E1D6E087
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Dec 2021 22:37:45 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id j3so6671506wrp.1
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Dec 2021 14:37:45 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45B8E10E116
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Dec 2021 06:17:21 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id t9so7853382wrx.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Dec 2021 22:17:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=ltEh61NUR5opsmEls4nl8qwF170eYcG3QnbnvsYmLkc=;
- b=Vv1SnbI3Hnmh/yVAYnhqqnaCYZW/MWbUHZQ574aDiL95EWaS9us80hpNVP57iFaGSm
- 331JvFk7M8N0PL1+E3v1P0NRDUsDEWGWqoUttdDvUJtD9zVPm0D6J9juH6yLmNYDVpr2
- Uos/3n84IFMmegHCsQQx3NzhrLTTnhLKoWRGa8IZsGZlA16khSgixXfW5qALU7s0QFjw
- 1AIGn69RFK+U1rVSib/xnGAaF7wYj1kj2lwZrUgVwuFnDcWtZF6ulKibSybipdjo8e+w
- qXHC7sYYsd5kV+kFkU9xOrVvLMVRIcBLmGVQCKl4v3vrkIfUxhrJs5iVQB8riA5ejioJ
- QKlg==
+ bh=BO9nbrCqEDiSGWCUM5cTLwYHN/IOtl/sVUgALANPl0E=;
+ b=qeCe964S7RjGD6PpPajxIZxCX8xfhqHb0es4v1b0LkIlutlBu8RTJp/9mhxjCjqGxv
+ BKqdLrcezudsgERmC5Em3S7GPcq74AlNVf8ryeuhR8Q/dnTfuWnii+5DqxdWYMO6kcbo
+ WYNYfEGox6PAZ/Ronf8geqC7zniIfXi6fWbMPV78fvvpQe6Ru14nfqpFPTX6OH6+OiTB
+ K5zEoLkJ4GBoTc8Ez7jceGnHSohYuZJKE+uiFF5HdOSAQruwFZ8PG07TIG1UXEJS0vub
+ IxxOTf+gRtjjC60i9u5Tf9OT9t9kfUHbS7EN7zVAConFDLwD7377JVlb+E6pKDsE2pqz
+ 8uNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=ltEh61NUR5opsmEls4nl8qwF170eYcG3QnbnvsYmLkc=;
- b=wuf67AtVamNTTKpvRX6E02lDBD/RrpbrrLKhJ36tR3j2Wv0XWYycEf/SS2lXcWeHrz
- EQ5edSmFbsPu1DoQOKUYXxjMg6KG0PkgDJvQL69L/eKkNUqW9hQPaaKKz6rbA99bI5GM
- 5A5KkRVvNdhyET7k8u9ZlZQflPkwFEe5CtiwpopoTIntXuktgGrMp2s3w2h99R6EGcfT
- xuUO7cbTwZfj8T85/miT0AMgU1DaCXMljEtssnpyNEDoF5J3RJ5V3xJE5jP0rv9ARgiD
- OuZnzRhsLRq16PvJWrv+BjTBRjca0+io2zx0594CGotHPJMPRoe0N7a9F/6oGx6KWNu2
- zKFg==
-X-Gm-Message-State: AOAM531h3JNQk7Jj7xTVvSI8tf0SSZ4u+VN5r/fcDXWz/TT1J/gNodet
- t9bWPd48i7LeLTUNSLeLqEM=
-X-Google-Smtp-Source: ABdhPJw14QKUmBDLUvt7AbHOxb6KmnlLuia4Ejrt7gieEu7zj7nD8l/9Pf/+40qNSkKWuBwex673fg==
-X-Received: by 2002:adf:dc12:: with SMTP id t18mr1808383wri.566.1639003064320; 
- Wed, 08 Dec 2021 14:37:44 -0800 (PST)
+ bh=BO9nbrCqEDiSGWCUM5cTLwYHN/IOtl/sVUgALANPl0E=;
+ b=fqju8qnwvY9TWfSZjyK5wLuMgdbuE4SHK4GgNitxxCxpx9awmWH4SMdawE6RBcCc8I
+ 8un4jVIrDwNxFGGG2we7pgjDWmfA5apAANMMVB78xlFhCmNtDQt4yo8FR1n/ZUOmDfQL
+ R+X04g6PQHa6vCeAMGqZjXcHatJvm33JhczE7YWZ5PwZoTZicY43V/tlsJ2lQkhe+S9e
+ M826HA5JKEgoQVkOD/ADW90j7cBL9+gLuiM4qkWzvV9I+d7iafJIIhST3Y1v9gZr01+p
+ Jj+mZuJxc9Y4fcRFMcACrWVx60ihjCF632uHFD1lswydVaAqbN9xnyax1kXaQ07rxLHn
+ L4BQ==
+X-Gm-Message-State: AOAM532az0Eq5sDaSsFkTqsRFy+dty+zWJNn9KB4gxkVzkJyts3WXTHu
+ jadWRw3yCxr0ureAL7XN1G9ltOkwbtcktg==
+X-Google-Smtp-Source: ABdhPJy69Ek9fK5A5upGrRrqH5buKwRKgOq1FazUbo/B+CY9FooPqU8wpL0dBIvx0DgttEKtUlj5Cw==
+X-Received: by 2002:adf:f151:: with SMTP id y17mr1910804wro.153.1639004565485; 
+ Wed, 08 Dec 2021 15:02:45 -0800 (PST)
 Received: from localhost.localdomain ([217.113.240.86])
- by smtp.gmail.com with ESMTPSA id n184sm6957308wme.2.2021.12.08.14.37.42
+ by smtp.gmail.com with ESMTPSA id j8sm3733795wrh.16.2021.12.08.15.02.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Dec 2021 14:37:43 -0800 (PST)
+ Wed, 08 Dec 2021 15:02:45 -0800 (PST)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-To: kys@microsoft.com
-Subject: [PATCH] net: mana: Fix memory leak in mana_hwc_create_wq
-Date: Wed,  8 Dec 2021 23:37:23 +0100
-Message-Id: <20211208223723.18520-1-jose.exposito89@gmail.com>
+To: airlied@linux.ie
+Subject: [PATCH] drm/selftests/test-drm_dp_mst_helper: Fix memory leak in
+ sideband_msg_req_encode_decode
+Date: Thu,  9 Dec 2021 00:02:38 +0100
+Message-Id: <20211208230238.24541-1-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -66,53 +67,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: wei.liu@kernel.org, sthemmin@microsoft.com, christian.koenig@amd.com,
- netdev@vger.kernel.org, haiyangz@microsoft.com, decui@microsoft.com,
- linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org,
- davem@davemloft.net, linaro-mm-sig@lists.linaro.org,
- =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Cc: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+ lee.jones@linaro.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If allocating the DMA buffer fails, mana_hwc_destroy_wq was called
-without previously storing the pointer to the queue.
-
-In order to avoid leaking the pointer to the queue, store it as soon as
-it is allocated.
-
-Addresses-Coverity-ID: 1484720 ("Resource leak")
+Fixes: 09234b88ef55 ("drm/selftests/test-drm_dp_mst_helper: Move 'sideband_msg_req_encode_decode' onto the heap")
+Addresses-Coverity-ID: 1475685 ("Resource leak")
 Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- drivers/net/ethernet/microsoft/mana/hw_channel.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/net/ethernet/microsoft/mana/hw_channel.c
-index 34b971ff8ef8..078d6a5a0768 100644
---- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
-+++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
-@@ -480,16 +480,16 @@ static int mana_hwc_create_wq(struct hw_channel_context *hwc,
- 	if (err)
- 		goto out;
+diff --git a/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c b/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
+index 6b4759ed6bfd..c491429f1a02 100644
+--- a/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
++++ b/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
+@@ -131,8 +131,10 @@ sideband_msg_req_encode_decode(struct drm_dp_sideband_msg_req_body *in)
+ 		return false;
  
--	err = mana_hwc_alloc_dma_buf(hwc, q_depth, max_msg_size,
--				     &hwc_wq->msg_buf);
--	if (err)
--		goto out;
--
- 	hwc_wq->hwc = hwc;
- 	hwc_wq->gdma_wq = queue;
- 	hwc_wq->queue_depth = q_depth;
- 	hwc_wq->hwc_cq = hwc_cq;
+ 	txmsg = kzalloc(sizeof(*txmsg), GFP_KERNEL);
+-	if (!txmsg)
++	if (!txmsg) {
++		kfree(out);
+ 		return false;
++	}
  
-+	err = mana_hwc_alloc_dma_buf(hwc, q_depth, max_msg_size,
-+				     &hwc_wq->msg_buf);
-+	if (err)
-+		goto out;
-+
- 	*hwc_wq_ptr = hwc_wq;
- 	return 0;
- out:
+ 	drm_dp_encode_sideband_req(in, txmsg);
+ 	ret = drm_dp_decode_sideband_req(txmsg, out);
 -- 
 2.25.1
 
