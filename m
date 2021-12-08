@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0F6046D2E0
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 13:01:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3551546D2F5
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 13:08:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C2E56F63E;
-	Wed,  8 Dec 2021 12:01:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DE5472DE3;
+	Wed,  8 Dec 2021 12:08:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com
- [IPv6:2607:f8b0:4864:20::72e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59C576F5FC;
- Wed,  8 Dec 2021 12:01:42 +0000 (UTC)
-Received: by mail-qk1-x72e.google.com with SMTP id 193so1698023qkh.10;
- Wed, 08 Dec 2021 04:01:42 -0800 (PST)
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
+ [IPv6:2607:f8b0:4864:20::72d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66B6C72DE5;
+ Wed,  8 Dec 2021 12:08:12 +0000 (UTC)
+Received: by mail-qk1-x72d.google.com with SMTP id de30so1799847qkb.0;
+ Wed, 08 Dec 2021 04:08:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ac47yCDzGbB62pbQWVOPBxd2hhH97T+NHeyW7o92Jvc=;
- b=B4SUoQYWluH/XIv8f+QSXC+YZwRaYARnwT5DhpHUR2afbyBInXdpgamA5rlxghJL1+
- w0Vb65fd8D/AOxKLBhy/Iab+h0WoiCy/ttsXw5aJiGMllcbzeTubPczmDid946AXQB5q
- wHNUpg9gOn6ygZ1gMHy9Gi4kzgc1em0L0++TxoL0xZmEKyVQY4OFxTP6fEd7WW4OToDR
- Yisjmb2ZN7N9G9QGVEU+GUzyIZO+eErs1YlQqp3eRBkomV7jbCPlXuCfObiSISsHJyNz
- It4RFnQGeK8BVo4tbonCbepAGM17zkQFgxAbbAgle7RuVZNcuG7cH+SO7vwHG1xHTZGJ
- X8kQ==
+ :cc; bh=DUWyCuH1GjHTizo9OL3sty+WXQ/L+4z/cJ7qo785EO8=;
+ b=pd237NZ86Wp5VgcSfQFafztqzdNeKZCnZJqysyV1ntNc2gf0Hyh4tUS9WnatV4ujQ7
+ g4Wd3R+3BER26FKzFg89aMBAaT/pC2k8T9tnxOwWOFsh2SPlb2xZjIr6FGSmS4GcW44t
+ tZrPrIEVmUx3jd7tUlPZ8jW9DUKdr9Ley5s+VHO1Nl0NNHYHvtC+AsPo85bydLRjOUYX
+ 5UFOlF1MyrGq2i5tJo75NbhoimcxuMYqD9NHTkJhZFxoD45iZWyrVFE5ac5UuSRSKqaO
+ z6QRXdQVaP7bMVKpR2ZrC9d162BFM0qW11Xbaswmb7AdSHINVd9YgAQ8Z5+k6CoHnD10
+ zonw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ac47yCDzGbB62pbQWVOPBxd2hhH97T+NHeyW7o92Jvc=;
- b=YIBnSVng11GViO9k97p2p6wsFTWnji0Lm7/KH2leJtTLBfEUspwd5HK+iojU94YLqg
- xGQT0eYVIpZXXh0lC9V945u8ugCdp+1qMeBAzX0Fh8xGsmoD96EoKaTcAjRskblvTO+o
- CCOF3qO6FpvKUNM4krb8EOLH93TZ+vaqMfHR5qGR2ZS3oROMR+DnXM3dDvhSMuMPBQqk
- oAPBpr1eg2md9ZoSSV65WRTb/OJVJbkucBLmGwMnhrzBlcKQUt5SV3kj65LtE6QfYzkd
- nSlpyW/pqaJcr9gqjwABW3WSjmhO/VNyG5RGF7JhLUiKtnWo34uBF47EMlgHZ192DCnj
- K3hw==
-X-Gm-Message-State: AOAM530aQSkWmBbpyQvopgGoauPj6cmluK+tkso98RQJRrEyyCoqbiDi
- 7X6qpuKEInPY9guVL1KWYkaj923SWJvzxjRyd4+TwDp0KuM=
-X-Google-Smtp-Source: ABdhPJxuBsn0l7S9ZMLXepjUb+uxQx3fFblNP3NIZm+xBAlFzvEDOtChiJZrbLcW9Gip+mevlKjkXiPLjns8rBR4r54=
+ bh=DUWyCuH1GjHTizo9OL3sty+WXQ/L+4z/cJ7qo785EO8=;
+ b=PgIqDznxRdteFWDc30tjYPeVWR2jpUJnnufLVTD1R5CzaS49k3A75K7MaxYEqIMwNT
+ bj3Ej7fyc9cHN5xVmEVGFrzwfM2/JR2nNvnAlXoA/9/YnA8wtOXiSMaIaT3q+bIWeN2M
+ tLJWT0n1xnlq4GRD0KJfcWH3bpTgv5Upglvv9DIX+WDMVQXjL4T524CnpaEM+XaLj4pf
+ IF8z1m1mQz5YOEngIWb3YKyGRqMUFCW89SrZg8De7BWyH5Xv9ldcjOsJo6FAwAupM5oF
+ 4llL4LV8m0hUG4FVzvCZhWcqoJh58iDuaef3MaNw5AM5iAlrC9agclJB1eV95PrbDlhp
+ ow2Q==
+X-Gm-Message-State: AOAM532qziZkjPK5uTb2tQvj6bhYb5b0IHS3t6nNguq/Ht8ecVImxSF0
+ io8ET8+FE1WQzEuVvDwiiWhwJPp/noo+Xt2EVxv7VFiMB7E=
+X-Google-Smtp-Source: ABdhPJy8LHHkVgx+4+lMSJcULNW/LIL2PwL+ZKo8SQl+ajim2skUh145u3S4SmnEFo41rMJ7UxGQCS8sdqzX7isMInU=
 X-Received: by 2002:a05:620a:2413:: with SMTP id
- d19mr6163514qkn.82.1638964901153; 
- Wed, 08 Dec 2021 04:01:41 -0800 (PST)
+ d19mr6208161qkn.82.1638965291460; 
+ Wed, 08 Dec 2021 04:08:11 -0800 (PST)
 MIME-Version: 1.0
 References: <20211129134735.628712-1-maarten.lankhorst@linux.intel.com>
- <20211129134735.628712-10-maarten.lankhorst@linux.intel.com>
- <CAM0jSHNwB1Vtcv7owM8rEEXiTJEpuhYAf8j6i9f5xx8LH9kcig@mail.gmail.com>
-In-Reply-To: <CAM0jSHNwB1Vtcv7owM8rEEXiTJEpuhYAf8j6i9f5xx8LH9kcig@mail.gmail.com>
+ <20211129134735.628712-11-maarten.lankhorst@linux.intel.com>
+In-Reply-To: <20211129134735.628712-11-maarten.lankhorst@linux.intel.com>
 From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Wed, 8 Dec 2021 12:01:14 +0000
-Message-ID: <CAM0jSHMG1xpUqNZs-JV4yD6G00kGgZoHed=xfR2s-S6UoLvwCQ@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH v2 09/16] drm/i915: Ensure i915_vma tests do
- not get -ENOSPC with the locking changes.
+Date: Wed, 8 Dec 2021 12:07:45 +0000
+Message-ID: <CAM0jSHPrBmKN+o27ZYvYxHj9BvM3y3tF4ZVh2HCH_AZtPboPbg@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH v2 10/16] drm/i915: Make i915_gem_evict_vm
+ work correctly for already locked objects
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,76 +69,74 @@ Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 8 Dec 2021 at 11:49, Matthew Auld
-<matthew.william.auld@gmail.com> wrote:
+On Mon, 29 Nov 2021 at 13:58, Maarten Lankhorst
+<maarten.lankhorst@linux.intel.com> wrote:
 >
-> On Mon, 29 Nov 2021 at 13:58, Maarten Lankhorst
-> <maarten.lankhorst@linux.intel.com> wrote:
-> >
-> > Now that we require locking to evict, multiple vmas from the same object
-> > might not be evicted. This is expected and required, because execbuf will
-> > move to short-term pinning by using the lock only. This will cause these
-> > tests to fail, because they create a ton of vma's for the same object.
-> >
-> > Unbind manually to prevent spurious -ENOSPC in those mock tests.
-> >
-> > Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> i915_gem_execbuf will call i915_gem_evict_vm() after failing to pin
+> all objects in the first round. We are about to remove those short-term
+> pins, but even without those the objects are still locked. Add a special
+> case to allow i915_gem_evict_vm to evict locked objects as well.
 >
-> Hmm, do we need this? It looks like we should be able to handle such
-> scenarios, with already locked objects sharing the same dma-resv? Or
-> is something else going on here?
+> This might also allow multiple objects sharing the same resv to be evicted.
+>
+> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 
-Oh, because trylock still "fails' in such cases? Do the later changes
-to evict_vm, where it is able to handle already locked objects fix
-this? Do we not need similar treatment for things like evict_for_node?
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 
+Do we need similar treatment for stuff like evict_for_node etc?
+
+> ---
+>  drivers/gpu/drm/i915/i915_gem_evict.c | 23 ++++++++++++++++++++++-
+>  1 file changed, 22 insertions(+), 1 deletion(-)
 >
-> > ---
-> >  drivers/gpu/drm/i915/selftests/i915_vma.c | 17 ++++++++++++++++-
-> >  1 file changed, 16 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/selftests/i915_vma.c b/drivers/gpu/drm/i915/selftests/i915_vma.c
-> > index 1f10fe36619b..5c5809dfe9b2 100644
-> > --- a/drivers/gpu/drm/i915/selftests/i915_vma.c
-> > +++ b/drivers/gpu/drm/i915/selftests/i915_vma.c
-> > @@ -691,7 +691,11 @@ static int igt_vma_rotate_remap(void *arg)
-> >                                         }
-> >
-> >                                         i915_vma_unpin(vma);
-> > -
-> > +                                       err = i915_vma_unbind(vma);
-> > +                                       if (err) {
-> > +                                               pr_err("Unbinding returned %i\n", err);
-> > +                                               goto out_object;
-> > +                                       }
-> >                                         cond_resched();
-> >                                 }
-> >                         }
-> > @@ -848,6 +852,11 @@ static int igt_vma_partial(void *arg)
-> >
-> >                                 i915_vma_unpin(vma);
-> >                                 nvma++;
-> > +                               err = i915_vma_unbind(vma);
-> > +                               if (err) {
-> > +                                       pr_err("Unbinding returned %i\n", err);
-> > +                                       goto out_object;
-> > +                               }
-> >
-> >                                 cond_resched();
-> >                         }
-> > @@ -882,6 +891,12 @@ static int igt_vma_partial(void *arg)
-> >
-> >                 i915_vma_unpin(vma);
-> >
-> > +               err = i915_vma_unbind(vma);
-> > +               if (err) {
-> > +                       pr_err("Unbinding returned %i\n", err);
-> > +                       goto out_object;
-> > +               }
-> > +
-> >                 count = 0;
-> >                 list_for_each_entry(vma, &obj->vma.list, obj_link)
-> >                         count++;
-> > --
-> > 2.34.0
-> >
+> diff --git a/drivers/gpu/drm/i915/i915_gem_evict.c b/drivers/gpu/drm/i915/i915_gem_evict.c
+> index 24f5e3345e43..f502a617b35c 100644
+> --- a/drivers/gpu/drm/i915/i915_gem_evict.c
+> +++ b/drivers/gpu/drm/i915/i915_gem_evict.c
+> @@ -410,21 +410,42 @@ int i915_gem_evict_vm(struct i915_address_space *vm, struct i915_gem_ww_ctx *ww)
+>         do {
+>                 struct i915_vma *vma, *vn;
+>                 LIST_HEAD(eviction_list);
+> +               LIST_HEAD(locked_eviction_list);
+>
+>                 list_for_each_entry(vma, &vm->bound_list, vm_link) {
+>                         if (i915_vma_is_pinned(vma))
+>                                 continue;
+>
+> +                       /*
+> +                        * If we already own the lock, trylock fails. In case the resv
+> +                        * is shared among multiple objects, we still need the object ref.
+> +                        */
+> +                       if (ww && (dma_resv_locking_ctx(vma->obj->base.resv) == &ww->ctx)) {
+> +                               __i915_vma_pin(vma);
+> +                               list_add(&vma->evict_link, &locked_eviction_list);
+> +                               continue;
+> +                       }
+> +
+>                         if (!i915_gem_object_trylock(vma->obj, ww))
+>                                 continue;
+>
+>                         __i915_vma_pin(vma);
+>                         list_add(&vma->evict_link, &eviction_list);
+>                 }
+> -               if (list_empty(&eviction_list))
+> +               if (list_empty(&eviction_list) && list_empty(&locked_eviction_list))
+>                         break;
+>
+>                 ret = 0;
+> +               /* Unbind locked objects first, before unlocking the eviction_list */
+> +               list_for_each_entry_safe(vma, vn, &locked_eviction_list, evict_link) {
+> +                       __i915_vma_unpin(vma);
+> +
+> +                       if (ret == 0)
+> +                               ret = __i915_vma_unbind(vma);
+> +                       if (ret != -EINTR) /* "Get me out of here!" */
+> +                               ret = 0;
+> +               }
+> +
+>                 list_for_each_entry_safe(vma, vn, &eviction_list, evict_link) {
+>                         __i915_vma_unpin(vma);
+>                         if (ret == 0)
+> --
+> 2.34.0
+>
