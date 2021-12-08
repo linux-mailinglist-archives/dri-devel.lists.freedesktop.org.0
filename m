@@ -1,31 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8012F46D6B5
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 16:13:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47D2846D696
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 16:13:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68E55737A3;
-	Wed,  8 Dec 2021 15:13:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AA6073784;
+	Wed,  8 Dec 2021 15:12:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99DC17377B
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Dec 2021 15:12:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B196573784
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Dec 2021 15:12:52 +0000 (UTC)
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <sha@pengutronix.de>)
- id 1muyck-0004UO-73; Wed, 08 Dec 2021 16:12:50 +0100
+ id 1muyck-0004UP-7M; Wed, 08 Dec 2021 16:12:50 +0100
 Received: from sha by dude02.hi.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <sha@pengutronix.de>)
- id 1muycc-00FVZC-U9; Wed, 08 Dec 2021 16:12:42 +0100
+ id 1muycc-00FVZF-Um; Wed, 08 Dec 2021 16:12:42 +0100
 From: Sascha Hauer <s.hauer@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 03/18] drm/rockchip: dw_hdmi: add rk3568 support
-Date: Wed,  8 Dec 2021 16:12:15 +0100
-Message-Id: <20211208151230.3695378-4-s.hauer@pengutronix.de>
+Subject: [PATCH 04/18] drm/rockchip: dw_hdmi: add regulator support
+Date: Wed,  8 Dec 2021 16:12:16 +0100
+Message-Id: <20211208151230.3695378-5-s.hauer@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211208151230.3695378-1-s.hauer@pengutronix.de>
 References: <20211208151230.3695378-1-s.hauer@pengutronix.de>
@@ -57,84 +57,108 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a new dw_hdmi_plat_data struct and new compatible for rk3568.
+The RK3568 has HDMI_TX_AVDD0V9 and HDMI_TX_AVDD_1V8 supply inputs needed
+for the HDMI port. add support for these to the driver for boards which
+have them supplied by switchable regulators.
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 ---
- drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 31 +++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 41 +++++++++++++++++++--
+ 1 file changed, 38 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-index e352e0404f772..262eef614cb12 100644
+index 262eef614cb12..3d7c3f6fdf223 100644
 --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
 +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-@@ -50,6 +50,10 @@
- #define RK3399_GRF_SOC_CON20		0x6250
- #define RK3399_HDMI_LCDC_SEL		BIT(6)
+@@ -9,6 +9,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/phy/phy.h>
+ #include <linux/regmap.h>
++#include <linux/regulator/consumer.h>
  
-+#define RK3568_GRF_VO_CON1		0x0364
-+#define RK3568_HDMI_SDAIN_MSK		BIT(15)
-+#define RK3568_HDMI_SCLIN_MSK		BIT(14)
-+
- #define HIWORD_UPDATE(val, mask)	(val | (mask) << 16)
- 
- /**
-@@ -470,6 +474,19 @@ static const struct dw_hdmi_plat_data rk3399_hdmi_drv_data = {
- 	.use_drm_infoframe = true,
+ #include <drm/bridge/dw_hdmi.h>
+ #include <drm/drm_edid.h>
+@@ -76,6 +77,8 @@ struct rockchip_hdmi {
+ 	struct clk *ref_clk;
+ 	struct clk *grf_clk;
+ 	struct dw_hdmi *hdmi;
++	struct regulator *avdd_0v9;
++	struct regulator *avdd_1v8;
+ 	struct phy *phy;
  };
  
-+static struct rockchip_hdmi_chip_data rk3568_chip_data = {
-+	.lcdsel_grf_reg = -1,
-+};
-+
-+static const struct dw_hdmi_plat_data rk3568_hdmi_drv_data = {
-+	.mode_valid = dw_hdmi_rockchip_mode_valid,
-+	.mpll_cfg   = rockchip_mpll_cfg,
-+	.cur_ctr    = rockchip_cur_ctr,
-+	.phy_config = rockchip_phy_config,
-+	.phy_data = &rk3568_chip_data,
-+	.use_drm_infoframe = true,
-+};
-+
- static const struct of_device_id dw_hdmi_rockchip_dt_ids[] = {
- 	{ .compatible = "rockchip,rk3228-dw-hdmi",
- 	  .data = &rk3228_hdmi_drv_data
-@@ -483,6 +500,9 @@ static const struct of_device_id dw_hdmi_rockchip_dt_ids[] = {
- 	{ .compatible = "rockchip,rk3399-dw-hdmi",
- 	  .data = &rk3399_hdmi_drv_data
- 	},
-+	{ .compatible = "rockchip,rk3568-dw-hdmi",
-+	  .data = &rk3568_hdmi_drv_data
-+	},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, dw_hdmi_rockchip_dt_ids);
-@@ -517,6 +537,9 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
- 	encoder = &hdmi->encoder;
+@@ -223,6 +226,14 @@ static int rockchip_hdmi_parse_dt(struct rockchip_hdmi *hdmi)
+ 		return PTR_ERR(hdmi->grf_clk);
+ 	}
  
- 	encoder->possible_crtcs = drm_of_find_possible_crtcs(drm, dev->of_node);
++	hdmi->avdd_0v9 = devm_regulator_get(hdmi->dev, "avdd-0v9");
++	if (IS_ERR(hdmi->avdd_0v9))
++		return PTR_ERR(hdmi->avdd_0v9);
 +
-+	encoder->port = of_graph_get_port_by_id(dev->of_node, 0);
++	hdmi->avdd_1v8 = devm_regulator_get(hdmi->dev, "avdd-1v8");
++	if (IS_ERR(hdmi->avdd_1v8))
++		return PTR_ERR(hdmi->avdd_1v8);
 +
- 	/*
- 	 * If we failed to find the CRTC(s) which this encoder is
- 	 * supposed to be connected to, it's because the CRTC has
-@@ -547,6 +570,14 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
+ 	return 0;
+ }
+ 
+@@ -563,11 +574,23 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
  		return ret;
  	}
  
-+	if (hdmi->chip_data == &rk3568_chip_data) {
-+		regmap_write(hdmi->regmap, RK3568_GRF_VO_CON1,
-+			     HIWORD_UPDATE(RK3568_HDMI_SDAIN_MSK |
-+					   RK3568_HDMI_SCLIN_MSK,
-+					   RK3568_HDMI_SDAIN_MSK |
-+					   RK3568_HDMI_SCLIN_MSK));
++	ret = regulator_enable(hdmi->avdd_0v9);
++	if (ret) {
++		DRM_DEV_ERROR(hdmi->dev, "failed to enable avdd0v9: %d\n", ret);
++		goto err_avdd_0v9;
 +	}
 +
- 	drm_encoder_helper_add(encoder, &dw_hdmi_rockchip_encoder_helper_funcs);
- 	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TMDS);
++	ret = regulator_enable(hdmi->avdd_1v8);
++	if (ret) {
++		DRM_DEV_ERROR(hdmi->dev, "failed to enable avdd1v8: %d\n", ret);
++		goto err_avdd_1v8;
++	}
++
+ 	ret = clk_prepare_enable(hdmi->ref_clk);
+ 	if (ret) {
+ 		DRM_DEV_ERROR(hdmi->dev, "Failed to enable HDMI reference clock: %d\n",
+ 			      ret);
+-		return ret;
++		goto err_clk;
+ 	}
  
+ 	if (hdmi->chip_data == &rk3568_chip_data) {
+@@ -591,10 +614,19 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
+ 	 */
+ 	if (IS_ERR(hdmi->hdmi)) {
+ 		ret = PTR_ERR(hdmi->hdmi);
+-		drm_encoder_cleanup(encoder);
+-		clk_disable_unprepare(hdmi->ref_clk);
++		goto err_bind;
+ 	}
+ 
++	return 0;
++
++err_bind:
++	clk_disable_unprepare(hdmi->ref_clk);
++	drm_encoder_cleanup(encoder);
++err_clk:
++	regulator_disable(hdmi->avdd_1v8);
++err_avdd_1v8:
++	regulator_disable(hdmi->avdd_0v9);
++err_avdd_0v9:
+ 	return ret;
+ }
+ 
+@@ -605,6 +637,9 @@ static void dw_hdmi_rockchip_unbind(struct device *dev, struct device *master,
+ 
+ 	dw_hdmi_unbind(hdmi->hdmi);
+ 	clk_disable_unprepare(hdmi->ref_clk);
++
++	regulator_disable(hdmi->avdd_1v8);
++	regulator_disable(hdmi->avdd_0v9);
+ }
+ 
+ static const struct component_ops dw_hdmi_rockchip_ops = {
 -- 
 2.30.2
 
