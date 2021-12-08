@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40F2246D6BB
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 16:13:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE16C46D694
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 16:13:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B1A8737B4;
-	Wed,  8 Dec 2021 15:13:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57BA873780;
+	Wed,  8 Dec 2021 15:12:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E430737AF
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Dec 2021 15:13:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A92DE7377D
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Dec 2021 15:12:52 +0000 (UTC)
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <sha@pengutronix.de>)
- id 1muyck-0004US-7G; Wed, 08 Dec 2021 16:12:50 +0100
+ id 1muyck-0004UT-74; Wed, 08 Dec 2021 16:12:50 +0100
 Received: from sha by dude02.hi.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <sha@pengutronix.de>)
- id 1muycd-00FVZO-0X; Wed, 08 Dec 2021 16:12:43 +0100
+ id 1muycd-00FVZR-18; Wed, 08 Dec 2021 16:12:43 +0100
 From: Sascha Hauer <s.hauer@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 07/18] dt-bindings: display: rockchip: dw-hdmi: Allow "ref" as
- clock name
-Date: Wed,  8 Dec 2021 16:12:19 +0100
-Message-Id: <20211208151230.3695378-8-s.hauer@pengutronix.de>
+Subject: [PATCH 08/18] dt-bindings: display: rockchip: dw-hdmi: Add regulator
+ support
+Date: Wed,  8 Dec 2021 16:12:20 +0100
+Message-Id: <20211208151230.3695378-9-s.hauer@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211208151230.3695378-1-s.hauer@pengutronix.de>
 References: <20211208151230.3695378-1-s.hauer@pengutronix.de>
@@ -58,37 +58,28 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-"vpll" is a misnomer. A clock input to a device should be named after
-the usage in the device, not after the clock that drives it. On the
-rk3568 the same clock is driven by the HPLL.
-To fix that, this patch renames the vpll clock to ref clock.  The clock
-name "vpll" is left for compatibility to old device trees.
-
 Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 ---
- .../bindings/display/rockchip/rockchip,dw-hdmi.yaml         | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ .../bindings/display/rockchip/rockchip,dw-hdmi.yaml         | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-index 6e09dd2ee05ac..2ab6578033da2 100644
+index 2ab6578033da2..b9dca49aa6e05 100644
 --- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
 +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-@@ -48,10 +48,14 @@ properties:
-           - cec
-           - grf
-           - vpll
-+          - ref
-       - enum:
-           - grf
-           - vpll
--      - const: vpll
-+          - ref
-+      - enum:
-+          - vpll
-+          - ref
+@@ -28,6 +28,12 @@ properties:
+   reg-io-width:
+     const: 4
  
-   ddc-i2c-bus:
-     $ref: /schemas/types.yaml#/definitions/phandle
++  avdd-0v9-supply:
++    description: A 0.9V supply that powers up the SoC internal circuitry.
++
++  avdd-1v8-supply:
++    description: A 1.8V supply that powers up the SoC internal circuitry.
++
+   clocks:
+     minItems: 2
+     items:
 -- 
 2.30.2
 
