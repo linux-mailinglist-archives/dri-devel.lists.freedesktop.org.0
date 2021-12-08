@@ -2,63 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A62CF46D061
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 10:53:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E57046D09C
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 11:08:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E77F6ECBA;
-	Wed,  8 Dec 2021 09:53:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30E0F6F399;
+	Wed,  8 Dec 2021 10:08:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 986986ECBA
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Dec 2021 09:53:45 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id E765BCE2078
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Dec 2021 09:53:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 253EBC341CB
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Dec 2021 09:53:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1638957222;
- bh=sf8R76LNwy2PPSyurYXWE1D1sfSPxz6O/zBMXv2Jaww=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=da7OpEyBtNcxQleOCCva3jM0MflOflgBQQngrLDrarAqfwW0baRZ1omScA7VfpeWI
- 10ql9l0/EH2QF9ZIqtcOfqASUH+e8+ctmTqf1owVN/V68PN0CsGsB5PTig5jNL5IkN
- m12KT0ZBnesVkqsHTvPjRPTkOPKNcMo0Rocry8QMLZ0LI6Ta3QPnukS6VjhyAVm6Lm
- RvgpIsjj4mTxiDcfXU/rg9h8wVzCZriTjWbL5faXvyMG/wkTyVX5arenqhl5ibOOjW
- ebRdnprRWFnXyFRbcAROHUJ0VUF2WO+cpIS30Af0LAyxVz8OpguINH65+n+28M4sef
- xECygIpYoSoYA==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 161AD60F9C; Wed,  8 Dec 2021 09:53:42 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205185] amdgpu compile failure
-Date: Wed, 08 Dec 2021 09:53:41 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: stijn+bugs@linux-ipv6.be
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: OBSOLETE
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-205185-2300-96NyNcr5hV@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205185-2300@https.bugzilla.kernel.org/>
-References: <bug-205185-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 562E36F38F
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Dec 2021 10:08:22 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10191"; a="324058225"
+X-IronPort-AV: E=Sophos;i="5.87,297,1631602800"; d="scan'208";a="324058225"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Dec 2021 02:08:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,297,1631602800"; d="scan'208";a="612042658"
+Received: from linux.intel.com ([10.54.29.200])
+ by orsmga004.jf.intel.com with ESMTP; 08 Dec 2021 02:08:21 -0800
+Received: from [10.252.36.35] (unknown [10.252.36.35])
+ by linux.intel.com (Postfix) with ESMTP id B11F6580641;
+ Wed,  8 Dec 2021 02:08:20 -0800 (PST)
+Message-ID: <ca5724e4-85a7-11a7-51fa-1152e0cf403f@intel.com>
+Date: Wed, 8 Dec 2021 12:08:19 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.1
+Subject: Re: [PATCH v2] drm/syncobj: Deal with signalled fences in
+ drm_syncobj_find_fence.
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>, dri-devel@lists.freedesktop.org
+References: <20211208023935.17018-1-bas@basnieuwenhuizen.nl>
+ <2e0269eb-d007-4577-d760-343ccfb05c9a@amd.com>
+From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+In-Reply-To: <2e0269eb-d007-4577-d760-343ccfb05c9a@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,24 +52,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D205185
+On 08/12/2021 11:28, Christian König wrote:
+> Am 08.12.21 um 03:39 schrieb Bas Nieuwenhuizen:
+>> dma_fence_chain_find_seqno only ever returns the top fence in the
+>> chain or an unsignalled fence. Hence if we request a seqno that
+>> is already signalled it returns a NULL fence. Some callers are
+>> not prepared to handle this, like the syncobj transfer functions
+>> for example.
+>>
+>> This behavior is "new" with timeline syncobj and it looks like
+>> not all callers were updated. To fix this behavior make sure
+>> that a successful drm_sync_find_fence always returns a non-NULL
+>> fence.
+>>
+>> v2: Move the fix to drm_syncobj_find_fence from the transfer
+>>      functions.
+>>
+>> Fixes: ea569910cbab ("drm/syncobj: add transition iotcls between 
+>> binary and timeline v2")
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+>
+> Reviewed-by: Christian König <christian.koenig@amd.com>
 
-Stijn Tintel (stijn+bugs@linux-ipv6.be) changed:
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |OBSOLETE
+Thanks!
 
---- Comment #3 from Stijn Tintel (stijn+bugs@linux-ipv6.be) ---
-As more recent kernels don't seem to have DRM_AMD_DC_DSC_SUPPORT anymore, I
-don't know how to reproduce this anymore so let's just close it.
 
---=20
-You may reply to this email to add a comment.
+Acked-by: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+
+>
+>> ---
+>>   drivers/gpu/drm/drm_syncobj.c | 11 ++++++++++-
+>>   1 file changed, 10 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_syncobj.c 
+>> b/drivers/gpu/drm/drm_syncobj.c
+>> index fdd2ec87cdd1..11be91b5709b 100644
+>> --- a/drivers/gpu/drm/drm_syncobj.c
+>> +++ b/drivers/gpu/drm/drm_syncobj.c
+>> @@ -404,8 +404,17 @@ int drm_syncobj_find_fence(struct drm_file 
+>> *file_private,
+>>         if (*fence) {
+>>           ret = dma_fence_chain_find_seqno(fence, point);
+>> -        if (!ret)
+>> +        if (!ret) {
+>> +            /* If the requested seqno is already signaled
+>> +             * drm_syncobj_find_fence may return a NULL
+>> +             * fence. To make sure the recipient gets
+>> +             * signalled, use a new fence instead.
+>> +             */
+>> +            if (!*fence)
+>> +                *fence = dma_fence_get_stub();
+>> +
+>>               goto out;
+>> +        }
+>>           dma_fence_put(*fence);
+>>       } else {
+>>           ret = -EINVAL;
+>
+
