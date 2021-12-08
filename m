@@ -1,44 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E57046D09C
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 11:08:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5794D46D0E2
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 11:21:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30E0F6F399;
-	Wed,  8 Dec 2021 10:08:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61F026F521;
+	Wed,  8 Dec 2021 10:21:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 562E36F38F
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Dec 2021 10:08:22 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10191"; a="324058225"
-X-IronPort-AV: E=Sophos;i="5.87,297,1631602800"; d="scan'208";a="324058225"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Dec 2021 02:08:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,297,1631602800"; d="scan'208";a="612042658"
-Received: from linux.intel.com ([10.54.29.200])
- by orsmga004.jf.intel.com with ESMTP; 08 Dec 2021 02:08:21 -0800
-Received: from [10.252.36.35] (unknown [10.252.36.35])
- by linux.intel.com (Postfix) with ESMTP id B11F6580641;
- Wed,  8 Dec 2021 02:08:20 -0800 (PST)
-Message-ID: <ca5724e4-85a7-11a7-51fa-1152e0cf403f@intel.com>
-Date: Wed, 8 Dec 2021 12:08:19 +0200
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E6C988843;
+ Wed,  8 Dec 2021 10:21:02 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10191"; a="261878371"
+X-IronPort-AV: E=Sophos;i="5.87,297,1631602800"; d="scan'208";a="261878371"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Dec 2021 02:20:50 -0800
+X-IronPort-AV: E=Sophos;i="5.87,297,1631602800"; d="scan'208";a="679842481"
+Received: from ramaling-i9x.iind.intel.com ([10.99.66.205])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Dec 2021 02:20:48 -0800
+From: Ramalingam C <ramalingam.c@intel.com>
+To: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 0/3] drm/i915: Sanity Check for device memory region
+Date: Wed,  8 Dec 2021 15:50:28 +0530
+Message-Id: <20211208102031.4397-1-ramalingam.c@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.1
-Subject: Re: [PATCH v2] drm/syncobj: Deal with signalled fences in
- drm_syncobj_find_fence.
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>, dri-devel@lists.freedesktop.org
-References: <20211208023935.17018-1-bas@basnieuwenhuizen.nl>
- <2e0269eb-d007-4577-d760-343ccfb05c9a@amd.com>
-From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-In-Reply-To: <2e0269eb-d007-4577-d760-343ccfb05c9a@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,68 +42,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org
+Cc: Hellstrom Thomas <thomas.hellstrom@intel.com>, Andi <andi.shyti@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/12/2021 11:28, Christian König wrote:
-> Am 08.12.21 um 03:39 schrieb Bas Nieuwenhuizen:
->> dma_fence_chain_find_seqno only ever returns the top fence in the
->> chain or an unsignalled fence. Hence if we request a seqno that
->> is already signalled it returns a NULL fence. Some callers are
->> not prepared to handle this, like the syncobj transfer functions
->> for example.
->>
->> This behavior is "new" with timeline syncobj and it looks like
->> not all callers were updated. To fix this behavior make sure
->> that a successful drm_sync_find_fence always returns a non-NULL
->> fence.
->>
->> v2: Move the fix to drm_syncobj_find_fence from the transfer
->>      functions.
->>
->> Fixes: ea569910cbab ("drm/syncobj: add transition iotcls between 
->> binary and timeline v2")
->> Cc: stable@vger.kernel.org
->> Signed-off-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
->
-> Reviewed-by: Christian König <christian.koenig@amd.com>
+Changes for introducing the quick test on the device memory range and
+also a test of detailed validation for each addr of the range with read
+and write.
 
+Detailed testing is optionally enabled with a modparam i915.memtest=1
 
-Thanks!
+And third patch fixes the driver accessible stolen memory.
 
+Chris Wilson (3):
+  drm/i915: Sanitycheck device iomem on probe
+  drm/i915: Test all device memory on probing
+  drm/i915: Exclude reserved stolen from driver use
 
-Acked-by: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c |   3 +
+ drivers/gpu/drm/i915/i915_params.c         |   3 +
+ drivers/gpu/drm/i915/i915_params.h         |   1 +
+ drivers/gpu/drm/i915/intel_memory_region.c | 116 +++++++++++++++++++++
+ 4 files changed, 123 insertions(+)
 
-
->
->> ---
->>   drivers/gpu/drm/drm_syncobj.c | 11 ++++++++++-
->>   1 file changed, 10 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/drm_syncobj.c 
->> b/drivers/gpu/drm/drm_syncobj.c
->> index fdd2ec87cdd1..11be91b5709b 100644
->> --- a/drivers/gpu/drm/drm_syncobj.c
->> +++ b/drivers/gpu/drm/drm_syncobj.c
->> @@ -404,8 +404,17 @@ int drm_syncobj_find_fence(struct drm_file 
->> *file_private,
->>         if (*fence) {
->>           ret = dma_fence_chain_find_seqno(fence, point);
->> -        if (!ret)
->> +        if (!ret) {
->> +            /* If the requested seqno is already signaled
->> +             * drm_syncobj_find_fence may return a NULL
->> +             * fence. To make sure the recipient gets
->> +             * signalled, use a new fence instead.
->> +             */
->> +            if (!*fence)
->> +                *fence = dma_fence_get_stub();
->> +
->>               goto out;
->> +        }
->>           dma_fence_put(*fence);
->>       } else {
->>           ret = -EINVAL;
->
+-- 
+2.20.1
 
