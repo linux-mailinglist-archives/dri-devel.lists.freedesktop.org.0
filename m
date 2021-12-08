@@ -1,66 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D50DE46D4DD
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 14:53:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC75646D56B
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 15:16:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 455AE6F4FF;
-	Wed,  8 Dec 2021 13:53:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 732816FEAA;
+	Wed,  8 Dec 2021 14:16:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com
- [IPv6:2607:f8b0:4864:20::830])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 466BE6F5CC
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Dec 2021 13:53:48 +0000 (UTC)
-Received: by mail-qt1-x830.google.com with SMTP id o17so2240181qtk.1
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Dec 2021 05:53:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=n9Y+oLn3kk/oxvbwaSHPA0YUJg6Lr4J3Kc7nJ3JG/nE=;
- b=GoexrLnjj1VsVdZoaP5pXTc9vHNtb3FB/yqoPYxnUbJ+/S+d+vBnWe6dlAY4RUbiHb
- YEIRVrACKQidTrAVCzxZrfgOkALMUBdtNg3xnk5TlFEnnLGZIYssGyDfwIuVAmGISuRj
- VArI6DY0phSTcH16IZiubLx6kuEL//Sf3bK1iiUeL66xetRRuTIHb52KOy53R2oEnBsl
- 5+9PifTqlvZzWLgqbsPTPkl9yTPcJbID5QJXtWjjg3Kj9lp7EXRSfLCsT2fqIsqnCxOl
- Yx7nCNwEt1VOHHNcJ4MNJdMatjqwgaaioDRXeq68Gv72oT5rChdSGBcB6jERNyYT7WNq
- Zk3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=n9Y+oLn3kk/oxvbwaSHPA0YUJg6Lr4J3Kc7nJ3JG/nE=;
- b=tLWsFuVhk28iiDvUWUM2aZUha5ALySnGKA1ecwHdaGFlADFnQgP+rAnInV4JnZD7kF
- Xd2jOhmuUAJTCDmao+PEh+3FPSoKWtJJIQpaFuUSblULrWpPTdCKGy3qSaCgMSKy8H1y
- IGi5Sc9Tc9/zqDag5MLlj2Sv9P4+aBu/TVE52RB0UWhfVDWUbyDwbPCBE3diSJnTg8Ur
- 0qh8tKfRtHdbqgvbXWrKI4StzZWAg594f5LK3ugAn+Xb59n6ybCblkEn7qu5GObbV5DX
- DKUqg7A+tLwcYnH4y1Tm806pjYY4YN4zsob8ZiP2O+Sc4xHS+JMCo+Dg0W33gD+AEkAN
- hVkg==
-X-Gm-Message-State: AOAM533qxOWOj9xgrPevcsjHcHoMLcfO/spoKtgYLf4BRbGE7wzxWrEm
- YFVs8wQj4hCK84butTeOq5RoQw==
-X-Google-Smtp-Source: ABdhPJyYKvKS0NpCR6PWWVWY6+Vf6yq8PVBWsAJ1cY1C/Ayv7lr1154+ZV+fGaKDlVe8F/mvWjHimA==
-X-Received: by 2002:a05:622a:4ca:: with SMTP id
- q10mr8015431qtx.631.1638971627307; 
- Wed, 08 Dec 2021 05:53:47 -0800 (PST)
-Received: from ziepe.ca ([206.223.160.26])
- by smtp.gmail.com with ESMTPSA id c7sm1763527qtc.32.2021.12.08.05.53.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Dec 2021 05:53:46 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1muxOD-000nGF-Ki; Wed, 08 Dec 2021 09:53:45 -0400
-Date: Wed, 8 Dec 2021 09:53:45 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Alistair Popple <apopple@nvidia.com>
-Subject: Re: [PATCH v2 03/11] mm/gup: migrate PIN_LONGTERM dev coherent pages
- to system
-Message-ID: <20211208135345.GC6467@ziepe.ca>
-References: <20211206185251.20646-1-alex.sierra@amd.com>
- <20211206185251.20646-4-alex.sierra@amd.com>
- <2858338.J0npWUQLIM@nvdebian>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0061F6FEA6;
+ Wed,  8 Dec 2021 14:16:32 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10191"; a="217861165"
+X-IronPort-AV: E=Sophos;i="5.88,189,1635231600"; d="scan'208";a="217861165"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Dec 2021 06:16:32 -0800
+X-IronPort-AV: E=Sophos;i="5.88,189,1635231600"; d="scan'208";a="516252122"
+Received: from ramaling-i9x.iind.intel.com ([10.99.66.205])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Dec 2021 06:16:31 -0800
+From: Ramalingam C <ramalingam.c@intel.com>
+To: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 0/4] drm/i915: Basic enabling of 64k page support
+Date: Wed,  8 Dec 2021 19:46:09 +0530
+Message-Id: <20211208141613.7251-1-ramalingam.c@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2858338.J0npWUQLIM@nvdebian>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,76 +43,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Sierra <alex.sierra@amd.com>, rcampbell@nvidia.com,
- willy@infradead.org, Felix.Kuehling@amd.com, amd-gfx@lists.freedesktop.org,
- linux-xfs@vger.kernel.org, linux-mm@kvack.org, jglisse@redhat.com,
- dri-devel@lists.freedesktop.org, akpm@linux-foundation.org,
- linux-ext4@vger.kernel.org, hch@lst.de
+Cc: Hellstrom Thomas <thomas.hellstrom@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 08, 2021 at 10:31:58PM +1100, Alistair Popple wrote:
-> On Tuesday, 7 December 2021 5:52:43 AM AEDT Alex Sierra wrote:
-> > Avoid long term pinning for Coherent device type pages. This could
-> > interfere with their own device memory manager.
-> > If caller tries to get user device coherent pages with PIN_LONGTERM flag
-> > set, those pages will be migrated back to system memory.
-> > 
-> > Signed-off-by: Alex Sierra <alex.sierra@amd.com>
-> >  mm/gup.c | 32 ++++++++++++++++++++++++++++++--
-> >  1 file changed, 30 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/mm/gup.c b/mm/gup.c
-> > index 886d6148d3d0..1572eacf07f4 100644
-> > +++ b/mm/gup.c
-> > @@ -1689,17 +1689,37 @@ struct page *get_dump_page(unsigned long addr)
-> >  #endif /* CONFIG_ELF_CORE */
-> >  
-> >  #ifdef CONFIG_MIGRATION
-> > +static int migrate_device_page(unsigned long address,
-> > +				struct page *page)
-> > +{
-> > +	struct vm_area_struct *vma = find_vma(current->mm, address);
-> > +	struct vm_fault vmf = {
-> > +		.vma = vma,
-> > +		.address = address & PAGE_MASK,
-> > +		.flags = FAULT_FLAG_USER,
-> > +		.pgoff = linear_page_index(vma, address),
-> > +		.gfp_mask = GFP_KERNEL,
-> > +		.page = page,
-> > +	};
-> > +	if (page->pgmap && page->pgmap->ops->migrate_to_ram)
-> > +		return page->pgmap->ops->migrate_to_ram(&vmf);
-> 
-> How does this synchronise against pgmap being released? As I understand things
-> at this point we're not holding a reference on either the page or pgmap, so
-> the page and therefore the pgmap may have been freed.
+Preparational patches for 64k page support.
 
-For sure, this can't keep touching the pages[] array after it unpinned
-them:
+Matthew Auld (3):
+  drm/i915/xehpsdv: set min page-size to 64K
+  drm/i915/gtt/xehpsdv: move scratch page to system memory
+  drm/i915: enforce min page size for scratch
 
-> >  	if (gup_flags & FOLL_PIN) {
-> >  		unpin_user_pages(pages, nr_pages);
-               ^^^^^^^^^^^^^^^^^^^
+Stuart Summers (1):
+  drm/i915: Add has_64k_pages flag
 
-> >  	} else {
-> >  		for (i = 0; i < nr_pages; i++)
-> >  			put_page(pages[i]);
-> >  	}
-> > +	if (is_device_page(head))
-> > +		return migrate_device_page(start + page_index * PAGE_SIZE, head);
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c  |  6 +++++-
+ drivers/gpu/drm/i915/gt/gen6_ppgtt.c        |  1 +
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c        | 23 +++++++++++++++++++--
+ drivers/gpu/drm/i915/gt/intel_ggtt.c        |  3 +++
+ drivers/gpu/drm/i915/gt/intel_gtt.c         | 14 ++++++++++++-
+ drivers/gpu/drm/i915/gt/intel_gtt.h         |  2 ++
+ drivers/gpu/drm/i915/gt/intel_region_lmem.c |  5 ++++-
+ drivers/gpu/drm/i915/i915_drv.h             |  8 +++++++
+ drivers/gpu/drm/i915/i915_pci.c             |  2 ++
+ drivers/gpu/drm/i915/intel_device_info.h    |  1 +
+ drivers/gpu/drm/i915/selftests/mock_gtt.c   |  2 ++
+ 11 files changed, 62 insertions(+), 5 deletions(-)
 
-It was safe before this patch as isolate_lru_page(head) has a
-get_page() inside.
+-- 
+2.20.1
 
-Also, please try hard not to turn this function into goto spaghetti
-
-> I think a similar problem exists for device private fault handling as well and
-> it has been on my list of things to fix for a while. I think the solution is to
-> call try_get_page(), except it doesn't work with device pages due to the whole
-> refcount thing. That issue is blocking a fair bit of work now so I've started
-> looking into it.
-
-Where is this?
-
-Jason
