@@ -1,38 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2DC246CF40
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 09:41:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F79646CFBD
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 10:10:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFC796E8EF;
-	Wed,  8 Dec 2021 08:41:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA1336E8D4;
+	Wed,  8 Dec 2021 09:10:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 116D56E8FE;
- Wed,  8 Dec 2021 08:41:05 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10191"; a="235298656"
-X-IronPort-AV: E=Sophos;i="5.87,297,1631602800"; d="scan'208";a="235298656"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Dec 2021 00:40:56 -0800
-X-IronPort-AV: E=Sophos;i="5.87,297,1631602800"; d="scan'208";a="679819062"
-Received: from cahanley-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.19.1])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Dec 2021 00:40:53 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: cgel.zte@gmail.com
-Subject: Re: [PATCH linux-next] drm/i915/display: Remove the useless
- variable offset and its assignment
-In-Reply-To: <20211208074952.404381-1-luo.penghao@zte.com.cn>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20211208074952.404381-1-luo.penghao@zte.com.cn>
-Date: Wed, 08 Dec 2021 10:40:49 +0200
-Message-ID: <87y24v4hgu.fsf@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD8DA6E8D4;
+ Wed,  8 Dec 2021 09:10:19 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10191"; a="261867660"
+X-IronPort-AV: E=Sophos;i="5.87,297,1631602800"; d="scan'208";a="261867660"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Dec 2021 01:10:19 -0800
+X-IronPort-AV: E=Sophos;i="5.87,297,1631602800"; d="scan'208";a="515682918"
+Received: from amgotede-mobl1.ger.corp.intel.com (HELO [10.213.194.97])
+ ([10.213.194.97])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Dec 2021 01:10:17 -0800
+Message-ID: <c34cd01e-ff00-5137-5dc4-0085157328d2@linux.intel.com>
+Date: Wed, 8 Dec 2021 09:10:15 +0000
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.1
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Don't disable interrupts and
+ pretend a lock as been acquired in __timeline_mark_lock().
+Content-Language: en-US
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20211118165914.pckik75emivsilek@linutronix.de>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20211118165914.pckik75emivsilek@linutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,77 +50,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, David Airlie <airlied@linux.ie>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, luo penghao <luo.penghao@zte.com.cn>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Zeal Robot <zealci@zte.com.cn>
+Cc: David Airlie <airlied@linux.ie>, Peter Zijlstra <peterz@infradead.org>,
+ Thomas Gleixner <tglx@linutronix.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 08 Dec 2021, cgel.zte@gmail.com wrote:
-> From: luo penghao <luo.penghao@zte.com.cn>
->
-> The existence of offset is meaningless, so it should be deleted.
->
-> The clang_analyzer complains as follows:
->
-> Value stored to 'offset' is never read
->
-> Reported-by: Zeal Robot <zealci@zte.com.cn>
-> Signed-off-by: luo penghao <luo.penghao@zte.com.cn>
 
-I've said the same things before, and I'll say them again.
+On 18/11/2021 16:59, Sebastian Andrzej Siewior wrote:
+> This is a revert of commits
+>     d67739268cf0e ("drm/i915/gt: Mark up the nested engine-pm timeline lock as irqsafe")
+>     6c69a45445af9 ("drm/i915/gt: Mark context->active_count as protected by timeline->mutex")
 
-Having an unused variable like this could be an indication of a bug
-introduced by an earlier change; maybe we should still be using the
-variable but no longer do. Please figure out when the variable became
-unused and reference the commit so we can tell.
+6dcb85a0ad99 ("drm/i915: Hold irq-off for the entire fake lock period") 
+is very relevant as well.
 
-If cgel.zte@gmail.com sends the patches, we'll need their name and
-Signed-off-by too.
+> The existing code leads to a different behaviour depending on whether
+> lockdep is enabled or not. Any following lock that is acquired without
+> disabling interrupts (but needs to) will not be noticed by lockdep.
 
-Thanks for the report, but I'll consider this as a report only.
+Agreed this is not good.
 
+> This it not just a lockdep annotation but is used but an actual mutex_t
+> that is properly used as a lock but in case of __timeline_mark_lock()
+> lockdep is only told that it is acquired but no lock has been acquired.
+> 
+> It appears that its purpose is just satisfy the lockdep_assert_held()
+> check in intel_context_mark_active(). The other problem with disabling
+> interrupts is that on PREEMPT_RT interrupts are also disabled which
+> leads to problems for instance later during memory allocation.
 
-BR,
-Jani.
+Hmm commit message of d67739268cf0 ("drm/i915/gt: Mark up the nested 
+engine-pm timeline lock as irqsafe") makes it sound like parking can run 
+with interrupts disabled already. I mean outside of the irq disable hack 
+in here.
 
+I don't see it possible though, both due might_lock in intel_wakeref_put 
+and GFP_NOWAIT in switch_to_kernel_context. So I will assume that commit 
+message refers to an earlier state of the code base.
 
+So the approach in this patch looks good to me.
+
+> Add a CONTEXT_IS_PARKED bit to intel_engine_cs and set_bit/clear_bit it
+> instead of mutex_acquire/mutex_release. Use test_bit in the two
+> identified spots which relied on the lockdep annotation.
+> 
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 > ---
->  drivers/gpu/drm/i915/display/i9xx_plane.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/i9xx_plane.c b/drivers/gpu/drm/i915/display/i9xx_plane.c
-> index b1439ba..a478b7f 100644
-> --- a/drivers/gpu/drm/i915/display/i9xx_plane.c
-> +++ b/drivers/gpu/drm/i915/display/i9xx_plane.c
-> @@ -964,7 +964,7 @@ i9xx_get_initial_plane_config(struct intel_crtc *crtc,
->  	struct intel_plane *plane = to_intel_plane(crtc->base.primary);
->  	enum i9xx_plane_id i9xx_plane = plane->i9xx_plane;
->  	enum pipe pipe;
-> -	u32 val, base, offset;
-> +	u32 val, base;
->  	int fourcc, pixel_format;
->  	unsigned int aligned_height;
->  	struct drm_framebuffer *fb;
-> @@ -1006,14 +1006,14 @@ i9xx_get_initial_plane_config(struct intel_crtc *crtc,
->  	fb->format = drm_format_info(fourcc);
->  
->  	if (IS_HASWELL(dev_priv) || IS_BROADWELL(dev_priv)) {
-> -		offset = intel_de_read(dev_priv, DSPOFFSET(i9xx_plane));
-> +		intel_de_read(dev_priv, DSPOFFSET(i9xx_plane));
->  		base = intel_de_read(dev_priv, DSPSURF(i9xx_plane)) & 0xfffff000;
->  	} else if (DISPLAY_VER(dev_priv) >= 4) {
->  		if (plane_config->tiling)
-> -			offset = intel_de_read(dev_priv,
-> +			intel_de_read(dev_priv,
->  					       DSPTILEOFF(i9xx_plane));
->  		else
-> -			offset = intel_de_read(dev_priv,
-> +			intel_de_read(dev_priv,
->  					       DSPLINOFF(i9xx_plane));
->  		base = intel_de_read(dev_priv, DSPSURF(i9xx_plane)) & 0xfffff000;
->  	} else {
+>   drivers/gpu/drm/i915/gt/intel_context.h       |    3 +-
+>   drivers/gpu/drm/i915/gt/intel_context_types.h |    1
+>   drivers/gpu/drm/i915/gt/intel_engine_pm.c     |   38 +-------------------------
+>   drivers/gpu/drm/i915/i915_request.h           |    3 +-
+>   4 files changed, 7 insertions(+), 38 deletions(-)
+> 
+> --- a/drivers/gpu/drm/i915/gt/intel_context.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_context.h
+> @@ -211,7 +211,8 @@ static inline void intel_context_enter(s
+>   
+>   static inline void intel_context_mark_active(struct intel_context *ce)
+>   {
+> -	lockdep_assert_held(&ce->timeline->mutex);
+> +	lockdep_assert(lockdep_is_held(&ce->timeline->mutex) ||
+> +		       test_bit(CONTEXT_IS_PARKED, &ce->flags));
+>   	++ce->active_count;
+>   }
+>   
+> --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> @@ -118,6 +118,7 @@ struct intel_context {
+>   #define CONTEXT_LRCA_DIRTY		9
+>   #define CONTEXT_GUC_INIT		10
+>   #define CONTEXT_PERMA_PIN		11
+> +#define CONTEXT_IS_PARKED		12
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Pedantic comment is that semantics of the bit flag suggest it should be 
+name CONTEXT_IS_PARKING, or along those lines. Since the flag gets clear 
+as soon as the parking completes. I'd suggest doing that change for the 
+self-documenting benefit.
+
+Regards,
+
+Tvrtko
+
+>   
+>   	struct {
+>   		u64 timeout_us;
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+> @@ -80,39 +80,6 @@ static int __engine_unpark(struct intel_
+>   	return 0;
+>   }
+>   
+> -#if IS_ENABLED(CONFIG_LOCKDEP)
+> -
+> -static unsigned long __timeline_mark_lock(struct intel_context *ce)
+> -{
+> -	unsigned long flags;
+> -
+> -	local_irq_save(flags);
+> -	mutex_acquire(&ce->timeline->mutex.dep_map, 2, 0, _THIS_IP_);
+> -
+> -	return flags;
+> -}
+> -
+> -static void __timeline_mark_unlock(struct intel_context *ce,
+> -				   unsigned long flags)
+> -{
+> -	mutex_release(&ce->timeline->mutex.dep_map, _THIS_IP_);
+> -	local_irq_restore(flags);
+> -}
+> -
+> -#else
+> -
+> -static unsigned long __timeline_mark_lock(struct intel_context *ce)
+> -{
+> -	return 0;
+> -}
+> -
+> -static void __timeline_mark_unlock(struct intel_context *ce,
+> -				   unsigned long flags)
+> -{
+> -}
+> -
+> -#endif /* !IS_ENABLED(CONFIG_LOCKDEP) */
+> -
+>   static void duration(struct dma_fence *fence, struct dma_fence_cb *cb)
+>   {
+>   	struct i915_request *rq = to_request(fence);
+> @@ -159,7 +126,6 @@ static bool switch_to_kernel_context(str
+>   {
+>   	struct intel_context *ce = engine->kernel_context;
+>   	struct i915_request *rq;
+> -	unsigned long flags;
+>   	bool result = true;
+>   
+>   	/*
+> @@ -214,7 +180,7 @@ static bool switch_to_kernel_context(str
+>   	 * engine->wakeref.count, we may see the request completion and retire
+>   	 * it causing an underflow of the engine->wakeref.
+>   	 */
+> -	flags = __timeline_mark_lock(ce);
+> +	set_bit(CONTEXT_IS_PARKED, &ce->flags);
+>   	GEM_BUG_ON(atomic_read(&ce->timeline->active_count) < 0);
+>   
+>   	rq = __i915_request_create(ce, GFP_NOWAIT);
+> @@ -246,7 +212,7 @@ static bool switch_to_kernel_context(str
+>   
+>   	result = false;
+>   out_unlock:
+> -	__timeline_mark_unlock(ce, flags);
+> +	clear_bit(CONTEXT_IS_PARKED, &ce->flags);
+>   	return result;
+>   }
+>   
+> --- a/drivers/gpu/drm/i915/i915_request.h
+> +++ b/drivers/gpu/drm/i915/i915_request.h
+> @@ -642,7 +642,8 @@ i915_request_timeline(const struct i915_
+>   {
+>   	/* Valid only while the request is being constructed (or retired). */
+>   	return rcu_dereference_protected(rq->timeline,
+> -					 lockdep_is_held(&rcu_access_pointer(rq->timeline)->mutex));
+> +					 lockdep_is_held(&rcu_access_pointer(rq->timeline)->mutex) ||
+> +					 test_bit(CONTEXT_IS_PARKED, &rq->context->flags));
+>   }
+>   
+>   static inline struct i915_gem_context *
+> 
