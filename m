@@ -1,32 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A3F246D6B6
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 16:13:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D36BF46D692
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 16:12:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67180737A0;
-	Wed,  8 Dec 2021 15:13:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A322C7377D;
+	Wed,  8 Dec 2021 15:12:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 675C773788
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Dec 2021 15:13:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA8AC73780
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Dec 2021 15:12:52 +0000 (UTC)
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <sha@pengutronix.de>)
- id 1muyck-0004UZ-7F; Wed, 08 Dec 2021 16:12:50 +0100
+ id 1muyck-0004Ua-78; Wed, 08 Dec 2021 16:12:50 +0100
 Received: from sha by dude02.hi.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <sha@pengutronix.de>)
- id 1muycd-00FVZj-50; Wed, 08 Dec 2021 16:12:43 +0100
+ id 1muycd-00FVZm-5U; Wed, 08 Dec 2021 16:12:43 +0100
 From: Sascha Hauer <s.hauer@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 14/18] arm64: dts: rockchip: enable vop2 and hdmi tx on
- quartz64a
-Date: Wed,  8 Dec 2021 16:12:26 +0100
-Message-Id: <20211208151230.3695378-15-s.hauer@pengutronix.de>
+Subject: [PATCH 15/18] drm/encoder: Add of_graph port to struct drm_encoder
+Date: Wed,  8 Dec 2021 16:12:27 +0100
+Message-Id: <20211208151230.3695378-16-s.hauer@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211208151230.3695378-1-s.hauer@pengutronix.de>
 References: <20211208151230.3695378-1-s.hauer@pengutronix.de>
@@ -58,70 +57,28 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Michael Riesch <michael.riesch@wolfvision.net>
+Add a device node to drm_encoder which corresponds with the port node
+in the DT description of the encoder. This allows drivers to find the
+of_graph link between a crtc and an encoder.
 
-Enable the RK356x Video Output Processor (VOP) 2 on the Pine64
-Quartz64 Model A.
-
-Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
 Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 ---
- .../boot/dts/rockchip/rk3566-quartz64-a.dts   | 31 +++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ include/drm/drm_encoder.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dts b/arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dts
-index 4d4b2a301b1a4..ccebd6bb19cea 100644
---- a/arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dts
-@@ -4,6 +4,7 @@
+diff --git a/include/drm/drm_encoder.h b/include/drm/drm_encoder.h
+index 6e91a0280f31b..3acd054b1eb3e 100644
+--- a/include/drm/drm_encoder.h
++++ b/include/drm/drm_encoder.h
+@@ -99,6 +99,8 @@ struct drm_encoder {
+ 	struct drm_device *dev;
+ 	struct list_head head;
  
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/pinctrl/rockchip.h>
-+#include <dt-bindings/soc/rockchip,vop2.h>
- #include "rk3566.dtsi"
- 
- / {
-@@ -205,6 +206,12 @@ &gmac1m0_clkinout
- 	status = "okay";
- };
- 
-+&hdmi {
-+	avdd-0v9-supply = <&vdda_0v9>;
-+	avdd-1v8-supply = <&vcc_1v8>;
-+	status = "okay";
-+};
++	struct device_node *port;
 +
- &i2c0 {
- 	status = "okay";
- 
-@@ -546,3 +553,27 @@ bluetooth {
- &uart2 {
- 	status = "okay";
- };
-+
-+&vop {
-+	assigned-clocks = <&cru DCLK_VOP0>, <&cru DCLK_VOP1>;
-+	assigned-clock-parents = <&pmucru PLL_HPLL>, <&cru PLL_VPLL>;
-+	status = "okay";
-+};
-+
-+&vop_mmu {
-+	status = "okay";
-+};
-+
-+&hdmi_in {
-+	hdmi_in_vp0: endpoint@0 {
-+		reg = <0>;
-+		remote-endpoint = <&vp0_out_hdmi>;
-+	};
-+};
-+
-+&vp0 {
-+	vp0_out_hdmi: endpoint@RK3568_VOP2_EP_HDMI {
-+		reg = <RK3568_VOP2_EP_HDMI>;
-+		remote-endpoint = <&hdmi_in_vp0>;
-+	};
-+};
+ 	struct drm_mode_object base;
+ 	char *name;
+ 	/**
 -- 
 2.30.2
 
