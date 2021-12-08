@@ -2,54 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6716446DD50
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 21:56:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3CD846DD52
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 21:56:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FFCD6E959;
-	Wed,  8 Dec 2021 20:56:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57BC36E945;
+	Wed,  8 Dec 2021 20:56:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D904F6E8F1;
- Wed,  8 Dec 2021 20:56:08 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id c4so6212458wrd.9;
- Wed, 08 Dec 2021 12:56:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CJdDQMhYJ6d11BQ4V6PS5aK//Lt1I9eil0VryL8BiHs=;
- b=diNzzL/bmu6IXSKa7EYhlc/sF1RDPca+QHs2fCuSpNWquM4myOiXaUkrcLpBYWAp9y
- BVQwpo5fn++KRgB3/uyVYa6XimL+VzNa0yEw3+3UyCQKE1J/nBi0RUaIXV/R0HD+rU2H
- b6xLu3pLUU3+gdW5NTVSzFbMhFy2CFGll4e7nejfHZN+q8c55k1tDGm1iO1sSyCtVmux
- SgMHuADJE+1q42YofxSmJY7je0MaUX78Gi6xCUrhLn8kPj+TzgD/sdNtSu+WyxuLmOvV
- GvD3gYFcKYWVvvJn+vdrvWEbZW/X3JyyNBeG+Yqlq1TnTDfUEyJvsZYJIxKj6SPWcvM4
- nOqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CJdDQMhYJ6d11BQ4V6PS5aK//Lt1I9eil0VryL8BiHs=;
- b=0JKCtrdBMBnsrfDCCXuJsn24cvdz/dQ2TeFwDJK26nqJnOjvjvOhbUqWIOhbT97YII
- kuWVWTcvnRni4FZ4cUyibljy1pTvfbl6IU14b+NX57lOAjsbR1yE1EKWjm3qXgmpEJum
- GhQ/onfW6PV6cxZbXxZH5SLCm8stVgMyC2yVQ5JOShfBAF+RxI+GOuO9wnY6DlZC2UkV
- PuPJMRl0zmSsw6fD/BTLfa6Bw5cu5Dt/0dVKYICR+B2nm7XPo+vQ2zYvolMto2R8idhk
- qzMCB2R7JocHZlG3BrA6Rlup339MR+rlv2kNiS7tJSz0+VLvOtJgeQNJ5jCUHUvH+XXY
- 2Neg==
-X-Gm-Message-State: AOAM530w2BO90G0BlRMtOhdl2ldn8xP4VsrwplYLGZUpGEFaFBHXLUqm
- Gbo0jANaeYCKkM+JM7Y38ipAlbvyx96Sh2Q14m8=
-X-Google-Smtp-Source: ABdhPJzwjXwlVKvdHYUQ/foo40aFsu61uxV259oMyWxrLZWwYlB3cBMpPDHb9TMbXrKHbUTXb1qj1ssgIBWeDk/LOAE=
-X-Received: by 2002:a5d:6a46:: with SMTP id t6mr1196355wrw.141.1638996967126; 
- Wed, 08 Dec 2021 12:56:07 -0800 (PST)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5B9C6E041;
+ Wed,  8 Dec 2021 20:56:48 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10192"; a="218625928"
+X-IronPort-AV: E=Sophos;i="5.88,190,1635231600"; d="scan'208";a="218625928"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Dec 2021 12:56:48 -0800
+X-IronPort-AV: E=Sophos;i="5.88,190,1635231600"; d="scan'208";a="752029952"
+Received: from eatci-mobl.amr.corp.intel.com (HELO [10.212.194.205])
+ ([10.212.194.205])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Dec 2021 12:56:46 -0800
+Subject: Re: [v3 1/3] drm/i915/rpl-s: Add PCI IDS for Raptor Lake S
+To: Anusha Srivatsa <anusha.srivatsa@intel.com>,
+ intel-gfx@lists.freedesktop.org
+References: <20211203063545.2254380-1-anusha.srivatsa@intel.com>
+ <20211203063545.2254380-2-anusha.srivatsa@intel.com>
+From: Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <659bed84-f675-8f65-8eeb-f91bb5ed905e@intel.com>
+Date: Wed, 8 Dec 2021 12:56:43 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20211105030434.2828845-1-sean@poorly.run>
-In-Reply-To: <20211105030434.2828845-1-sean@poorly.run>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 8 Dec 2021 12:55:55 -0800
-Message-ID: <CAF6AEGvD-2gtqhbWCUMmbJYsOBYKk9DUxzX5+tE7O+Z-BQfghQ@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH v4 00/14] drm/hdcp: Pull HDCP
- auth/exchange/check into helpers
-To: Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20211203063545.2254380-2-anusha.srivatsa@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,106 +92,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, Sean Paul <seanpaul@chromium.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ dri-devel@lists.freedesktop.org, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>,
+ =?UTF-8?Q?Jos=c3=a9_Roberto_de_Souza?= <jose.souza@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 4, 2021 at 8:04 PM Sean Paul <sean@poorly.run> wrote:
->
-> From: Sean Paul <seanpaul@chromium.org>
->
-> Just me with another revision of HDCP support for msm.
->
-> This v4 patch series is mostly a retread of v3 with the following
-> changes:
-> - rebased on Bjorn's displayport-controller register refactor
-> - another change to the dt bindings to remove the compatible string added in v3
-> - updated review tags
->
-> I'm missing reviews on the core, i915 patches, and the final patch. It would be
-> fantastic to get some feedback on these before the set once again drifts too far
-> from -tip and I need a painful rebase :-)
->
-> Thank you to the reviewers for their feedback thus far!
->
-> Please take a look,
+On 12/2/21 10:35 PM, Anusha Srivatsa wrote:
+> diff --git a/arch/x86/kernel/early-quirks.c b/arch/x86/kernel/early-quirks.c
+> index 391a4e2b8604..fd2d3ab38ebb 100644
+> --- a/arch/x86/kernel/early-quirks.c
+> +++ b/arch/x86/kernel/early-quirks.c
+> @@ -554,6 +554,7 @@ static const struct pci_device_id intel_early_ids[] __initconst = {
+>  	INTEL_RKL_IDS(&gen11_early_ops),
+>  	INTEL_ADLS_IDS(&gen11_early_ops),
+>  	INTEL_ADLP_IDS(&gen11_early_ops),
+> +	INTEL_RPLS_IDS(&gen11_early_ops),
+>  };
 
-It looks like all but the last two (msm specific) patches have at
-least a-b or r-b.. I'll try and get someone to look at those last two
+For arch/x86 purposes:
 
-Any thoughts about preferred way to land this.  I currently have a few
-of the msm patches which don't depend on core patches in
-msm-next-staging, but I can drop those before it gets pushed to
-msm-next.  Maybe we want a topic branch that both msm and i915 can
-pull into their -next branches?
-
-BR,
--R
-
->
-> Sean
->
-> Link: https://patchwork.freedesktop.org/series/94623/ #v1
-> Link: https://patchwork.freedesktop.org/series/94713/ #v2
-> Link: https://patchwork.freedesktop.org/series/94712/ #v3
->
-> Sean Paul (14):
->   drm/hdcp: Add drm_hdcp_atomic_check()
->   drm/hdcp: Avoid changing crtc state in hdcp atomic check
->   drm/hdcp: Update property value on content type and user changes
->   drm/hdcp: Expand HDCP helper library for enable/disable/check
->   drm/i915/hdcp: Consolidate HDCP setup/state cache
->   drm/i915/hdcp: Retain hdcp_capable return codes
->   drm/i915/hdcp: Use HDCP helpers for i915
->   drm/msm/dpu_kms: Re-order dpu includes
->   drm/msm/dpu: Remove useless checks in dpu_encoder
->   drm/msm/dpu: Remove encoder->enable() hack
->   drm/msm/dp: Re-order dp_audio_put in deinit_sub_modules
->   dt-bindings: msm/dp: Add bindings for HDCP registers
->   arm64: dts: qcom: sc7180: Add support for HDCP in dp-controller
->   drm/msm: Implement HDCP 1.x using the new drm HDCP helpers
->
->  .../bindings/display/msm/dp-controller.yaml   |    8 +-
->  arch/arm64/boot/dts/qcom/sc7180.dtsi          |    8 +-
->  drivers/gpu/drm/drm_hdcp.c                    | 1197 ++++++++++++++++-
->  drivers/gpu/drm/i915/display/intel_atomic.c   |    7 +-
->  drivers/gpu/drm/i915/display/intel_ddi.c      |   29 +-
->  .../drm/i915/display/intel_display_debugfs.c  |   11 +-
->  .../drm/i915/display/intel_display_types.h    |   58 +-
->  drivers/gpu/drm/i915/display/intel_dp_hdcp.c  |  345 ++---
->  drivers/gpu/drm/i915/display/intel_dp_mst.c   |   17 +-
->  drivers/gpu/drm/i915/display/intel_hdcp.c     | 1011 +++-----------
->  drivers/gpu/drm/i915/display/intel_hdcp.h     |   36 +-
->  drivers/gpu/drm/i915/display/intel_hdmi.c     |  256 ++--
->  drivers/gpu/drm/msm/Makefile                  |    1 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   |   17 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   30 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |    2 -
->  drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h     |    4 -
->  drivers/gpu/drm/msm/dp/dp_debug.c             |   46 +-
->  drivers/gpu/drm/msm/dp/dp_debug.h             |    6 +-
->  drivers/gpu/drm/msm/dp/dp_display.c           |   48 +-
->  drivers/gpu/drm/msm/dp/dp_display.h           |    5 +
->  drivers/gpu/drm/msm/dp/dp_drm.c               |   68 +-
->  drivers/gpu/drm/msm/dp/dp_drm.h               |    5 +
->  drivers/gpu/drm/msm/dp/dp_hdcp.c              |  462 +++++++
->  drivers/gpu/drm/msm/dp/dp_hdcp.h              |   27 +
->  drivers/gpu/drm/msm/dp/dp_parser.c            |   20 +-
->  drivers/gpu/drm/msm/dp/dp_parser.h            |    4 +
->  drivers/gpu/drm/msm/dp/dp_reg.h               |   32 +-
->  drivers/gpu/drm/msm/msm_atomic.c              |   15 +
->  include/drm/drm_hdcp.h                        |  194 +++
->  30 files changed, 2592 insertions(+), 1377 deletions(-)
->  create mode 100644 drivers/gpu/drm/msm/dp/dp_hdcp.c
->  create mode 100644 drivers/gpu/drm/msm/dp/dp_hdcp.h
->
-> --
-> Sean Paul, Software Engineer, Google / Chromium OS
->
+Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
