@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2464746DDF3
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 23:01:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D29C546DE78
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 23:37:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BB896E2F2;
-	Wed,  8 Dec 2021 22:01:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 077846E087;
+	Wed,  8 Dec 2021 22:37:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 483956E08E;
- Wed,  8 Dec 2021 22:01:28 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id
- n33-20020a05600c502100b0032fb900951eso5206348wmr.4; 
- Wed, 08 Dec 2021 14:01:28 -0800 (PST)
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4E1D6E087
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Dec 2021 22:37:45 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id j3so6671506wrp.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Dec 2021 14:37:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=78Ifs23TtoxatfN7VFvq9AEVPiNcwkeZ+FD9JLKmw8c=;
- b=eoOfS+6CmChrGqIET8UbG2Mcyt7PpnxNsqQBcTKKvvFva2oPLikaLax+o6UFRiitOo
- F75w0TsDGEYb+iHtNj/MgluUFT8K+9sdMVBYHdnKn5GGTM4IuGFSYqfLbj6lKsZVw3cG
- jkY6YDhnrUB/XZ8F7VksJaZbQUZWqAPSCh/CTY1a+j5/SNACoVhI16F5r8rjuQ+8b68t
- RlDrDjlTixZBpkLzx/KRMVrwiNoSvRbJdoOr7k33A/FURILhHfRcEoENHTDBQoChozph
- 8NGQBK13gFNv9z3teV47WwN0Voj2yeN7eK9RoFG8b2QlNdIn6hIX4dOGfm0uf5tiwJKZ
- w2Sg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ltEh61NUR5opsmEls4nl8qwF170eYcG3QnbnvsYmLkc=;
+ b=Vv1SnbI3Hnmh/yVAYnhqqnaCYZW/MWbUHZQ574aDiL95EWaS9us80hpNVP57iFaGSm
+ 331JvFk7M8N0PL1+E3v1P0NRDUsDEWGWqoUttdDvUJtD9zVPm0D6J9juH6yLmNYDVpr2
+ Uos/3n84IFMmegHCsQQx3NzhrLTTnhLKoWRGa8IZsGZlA16khSgixXfW5qALU7s0QFjw
+ 1AIGn69RFK+U1rVSib/xnGAaF7wYj1kj2lwZrUgVwuFnDcWtZF6ulKibSybipdjo8e+w
+ qXHC7sYYsd5kV+kFkU9xOrVvLMVRIcBLmGVQCKl4v3vrkIfUxhrJs5iVQB8riA5ejioJ
+ QKlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=78Ifs23TtoxatfN7VFvq9AEVPiNcwkeZ+FD9JLKmw8c=;
- b=F9qSfnqUZYPCZkUrGtdLhhIB63LjwQqD1yFaBXuEg16YvzX+ZmJg6dn9fygNiz1TDx
- xEoHlCbNgshE6Qa250claoqh2QVxKEUOyRIOJVGa70JSlYuuNg/OxyzwU/a1N+wReqn+
- EIilM72RPqsZ6D23DcIRjLs2fJx9Bj3M5XHwQ2SeShXN/TVNVzM7+Hff0Zt1NDyLk3at
- XAI6Ww5LuxY6K1hS63cUyUUAw+I4d5+oXHISB4iklGp4f87PBvKkj/y9Zm9hN4ONvRVn
- e/Hw4mOkb4Xz3E/d9Dyp5wywhrvjk7GEKY46C3T/6auheyD7Jsgx8qgsP8hWmcsU5W+c
- ftZA==
-X-Gm-Message-State: AOAM532cnl98UNITc/KTs1O1mhRPqlTpPp65niMiaN9po6CRYsTsZwwn
- 5ImiAeeINa6T635g5yveTmIOJ7PVNKLbXqXRip8=
-X-Google-Smtp-Source: ABdhPJx4+51IKWNFMWdRf7kFk0fQGiVNH4ObQU0Pt5G58JOq7C+3hI5cdOhoebAHEgcFR4QJtJpoZ99D+N6A9Eu9azc=
-X-Received: by 2002:a05:600c:4f4b:: with SMTP id
- m11mr1665243wmq.151.1639000886773; 
- Wed, 08 Dec 2021 14:01:26 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ltEh61NUR5opsmEls4nl8qwF170eYcG3QnbnvsYmLkc=;
+ b=wuf67AtVamNTTKpvRX6E02lDBD/RrpbrrLKhJ36tR3j2Wv0XWYycEf/SS2lXcWeHrz
+ EQ5edSmFbsPu1DoQOKUYXxjMg6KG0PkgDJvQL69L/eKkNUqW9hQPaaKKz6rbA99bI5GM
+ 5A5KkRVvNdhyET7k8u9ZlZQflPkwFEe5CtiwpopoTIntXuktgGrMp2s3w2h99R6EGcfT
+ xuUO7cbTwZfj8T85/miT0AMgU1DaCXMljEtssnpyNEDoF5J3RJ5V3xJE5jP0rv9ARgiD
+ OuZnzRhsLRq16PvJWrv+BjTBRjca0+io2zx0594CGotHPJMPRoe0N7a9F/6oGx6KWNu2
+ zKFg==
+X-Gm-Message-State: AOAM531h3JNQk7Jj7xTVvSI8tf0SSZ4u+VN5r/fcDXWz/TT1J/gNodet
+ t9bWPd48i7LeLTUNSLeLqEM=
+X-Google-Smtp-Source: ABdhPJw14QKUmBDLUvt7AbHOxb6KmnlLuia4Ejrt7gieEu7zj7nD8l/9Pf/+40qNSkKWuBwex673fg==
+X-Received: by 2002:adf:dc12:: with SMTP id t18mr1808383wri.566.1639003064320; 
+ Wed, 08 Dec 2021 14:37:44 -0800 (PST)
+Received: from localhost.localdomain ([217.113.240.86])
+ by smtp.gmail.com with ESMTPSA id n184sm6957308wme.2.2021.12.08.14.37.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Dec 2021 14:37:43 -0800 (PST)
+From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To: kys@microsoft.com
+Subject: [PATCH] net: mana: Fix memory leak in mana_hwc_create_wq
+Date: Wed,  8 Dec 2021 23:37:23 +0100
+Message-Id: <20211208223723.18520-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20211105030434.2828845-1-sean@poorly.run>
- <20211105030434.2828845-14-sean@poorly.run>
-In-Reply-To: <20211105030434.2828845-14-sean@poorly.run>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 8 Dec 2021 14:06:43 -0800
-Message-ID: <CAF6AEGv9ghHcd1zhWiBQ40pwx1uMeJ=Y_T5EVo2EV5gTRTtAew@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH v4 13/14] arm64: dts: qcom: sc7180: Add
- support for HDCP in dp-controller
-To: Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,71 +66,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Jani Nikula <jani.nikula@intel.com>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Andy Gross <agross@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Sean Paul <seanpaul@chromium.org>, Abhinav Kumar <abhinavk@codeaurora.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: wei.liu@kernel.org, sthemmin@microsoft.com, christian.koenig@amd.com,
+ netdev@vger.kernel.org, haiyangz@microsoft.com, decui@microsoft.com,
+ linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ davem@davemloft.net, linaro-mm-sig@lists.linaro.org,
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 4, 2021 at 8:05 PM Sean Paul <sean@poorly.run> wrote:
->
-> From: Sean Paul <seanpaul@chromium.org>
->
-> This patch adds the register ranges required for HDCP key injection and
-> HDCP TrustZone interaction as described in the dt-bindings for the
-> sc7180 dp controller. Now that these are supported, change the
-> compatible string to "dp-hdcp".
->
-> Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> Link: https://patchwork.freedesktop.org/patch/msgid/20210913175747.47456-15-sean@poorly.run #v1
-> Link: https://patchwork.freedesktop.org/patch/msgid/20210915203834.1439-14-sean@poorly.run #v2
-> Link: https://patchwork.freedesktop.org/patch/msgid/20211001151145.55916-14-sean@poorly.run #v3
->
-> Changes in v3:
-> -Split off into a new patch containing just the dts change (Stephen)
-> -Add hdcp compatible string (Stephen)
-> Changes in v4:
-> -Rebase on Bjorn's multi-dp patchset
-> ---
->  arch/arm64/boot/dts/qcom/sc7180.dtsi | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
->
-> diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-> index c8921e2d6480..838270f70b62 100644
-> --- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-> @@ -3088,7 +3088,13 @@ mdss_dp: displayport-controller@ae90000 {
->                                 compatible = "qcom,sc7180-dp";
->                                 status = "disabled";
->
-> -                               reg = <0 0x0ae90000 0 0x1400>;
-> +                               reg = <0 0x0ae90000 0 0x200>,
-> +                                     <0 0x0ae90200 0 0x200>,
-> +                                     <0 0x0ae90400 0 0xc00>,
-> +                                     <0 0x0ae91000 0 0x400>,
-> +                                     <0 0x0ae91400 0 0x400>,
-> +                                     <0 0x0aed1000 0 0x175>,
-> +                                     <0 0x0aee1000 0 0x2c>;
+If allocating the DMA buffer fails, mana_hwc_destroy_wq was called
+without previously storing the pointer to the queue.
 
-So one small issue, if someone tries to get linux running on a sc7180
-windows laptop (which uses qcom's tz instead of the CrOS tz), things
-will go BOOM!
+In order to avoid leaking the pointer to the queue, store it as soon as
+it is allocated.
 
-We might want instead to move this somewhere chromebook specific,
-maybe sc7180-trogdor.dtsi?
+Addresses-Coverity-ID: 1484720 ("Resource leak")
+Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+---
+ drivers/net/ethernet/microsoft/mana/hw_channel.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-BR,
--R
+diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/net/ethernet/microsoft/mana/hw_channel.c
+index 34b971ff8ef8..078d6a5a0768 100644
+--- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
++++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
+@@ -480,16 +480,16 @@ static int mana_hwc_create_wq(struct hw_channel_context *hwc,
+ 	if (err)
+ 		goto out;
+ 
+-	err = mana_hwc_alloc_dma_buf(hwc, q_depth, max_msg_size,
+-				     &hwc_wq->msg_buf);
+-	if (err)
+-		goto out;
+-
+ 	hwc_wq->hwc = hwc;
+ 	hwc_wq->gdma_wq = queue;
+ 	hwc_wq->queue_depth = q_depth;
+ 	hwc_wq->hwc_cq = hwc_cq;
+ 
++	err = mana_hwc_alloc_dma_buf(hwc, q_depth, max_msg_size,
++				     &hwc_wq->msg_buf);
++	if (err)
++		goto out;
++
+ 	*hwc_wq_ptr = hwc_wq;
+ 	return 0;
+ out:
+-- 
+2.25.1
 
->
->                                 interrupt-parent = <&mdss>;
->                                 interrupts = <12>;
-> --
-> Sean Paul, Software Engineer, Google / Chromium OS
->
