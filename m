@@ -1,92 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECD8E46DD4A
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 21:54:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6716446DD50
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 21:56:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 555FF6E8BE;
-	Wed,  8 Dec 2021 20:54:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FFCD6E959;
+	Wed,  8 Dec 2021 20:56:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam08on2043.outbound.protection.outlook.com [40.107.102.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3C046E8AA;
- Wed,  8 Dec 2021 20:54:01 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eU2VAQR2ZVeGXWv5joi/XHkjHp0qFkDcXYxCgsqIHdvlWLIfKmq8E8neWj3Xuy9CIMnq0sJ3cHgsIeavH014oB/mxJgKz5CpP6fIzbkTaeFQ2ZuaEMYKb7RG8mouMiW7XUTVRe9hgvrgIdkJYomWyT2EpKKrlq6yzs8iPVTEsXsQW/DqYeBzzHVktiGC/NmPAezyqdSrW6uNrHmM4M3jqFWAfBB9q5Jd2GjREKqchIpKAaC6qwEiJSSJIlnFOQO8Nab9/TrfRFqUikUlr7F5ceUyxzW0RfbwF60Gq5Np9IVPJSBeDa6PD6s+//QOYfk8jbpwu/UaeM0hfYEj38l8Yg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Tcc9h4EbgsyotCesshM2fqMwVEPPGXgtknZEvn/KBx8=;
- b=CTkavNnFHsHw9a7YxfULFxRjH2BBYbeCSlRP/dtbcWUXrtK3f+xoA3s9DkK3mzA/xG1PxPquZcUHO0aoNERAm885LiAt8fTIwv4v9oPX40UPen0Jr4+jNnEyGu1w9D8XNgoBk/+9inrRMnZFdneA9bBiBRJwMLjgA2U0HehVkLuJOXrTRPTo2hUxj4k58NS3T0pcfqGAOTmCCYylfC2Fk3KZi0R8qYigrByw4w1Mgmk/84FCN5jVQG7X4YZ0A8xiNCIWUnJxKNfnn44o6Q895DTOMh/No8CUuAzQu/chXmzchFv41myyBn9GhA2FBR+OTK7RgXkoLMFiKdubT9OGJQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Tcc9h4EbgsyotCesshM2fqMwVEPPGXgtknZEvn/KBx8=;
- b=nTUvNF67qer2Mwi/PCCHQTIWFM9yuG4WjRFY2eQyhDRgY86Vjo1/NG+C/t7p62nSZIhhDHC7WFx0vwPDwfR5TOGsZ5XblmWNWarwkP9uzoETdHeh9k8kf8PM1BOy3sgZ86CGJcG6/00U41Frd478U9L00D9+Y4XJcv67tihmr/8=
-Received: from BN6PR11CA0049.namprd11.prod.outlook.com (2603:10b6:404:f7::11)
- by MN2PR12MB4303.namprd12.prod.outlook.com (2603:10b6:208:198::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.20; Wed, 8 Dec
- 2021 20:53:58 +0000
-Received: from BN8NAM11FT007.eop-nam11.prod.protection.outlook.com
- (2603:10b6:404:f7:cafe::f7) by BN6PR11CA0049.outlook.office365.com
- (2603:10b6:404:f7::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.17 via Frontend
- Transport; Wed, 8 Dec 2021 20:53:58 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com;
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- BN8NAM11FT007.mail.protection.outlook.com (10.13.177.109) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4755.13 via Frontend Transport; Wed, 8 Dec 2021 20:53:57 +0000
-Received: from rajneesh-desk.amd.com (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Wed, 8 Dec
- 2021 14:53:56 -0600
-From: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/ttm: Don't inherit GEM object VMAs in child process
-Date: Wed, 8 Dec 2021 15:53:44 -0500
-Message-ID: <20211208205344.3034-1-rajneesh.bhardwaj@amd.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D904F6E8F1;
+ Wed,  8 Dec 2021 20:56:08 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id c4so6212458wrd.9;
+ Wed, 08 Dec 2021 12:56:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=CJdDQMhYJ6d11BQ4V6PS5aK//Lt1I9eil0VryL8BiHs=;
+ b=diNzzL/bmu6IXSKa7EYhlc/sF1RDPca+QHs2fCuSpNWquM4myOiXaUkrcLpBYWAp9y
+ BVQwpo5fn++KRgB3/uyVYa6XimL+VzNa0yEw3+3UyCQKE1J/nBi0RUaIXV/R0HD+rU2H
+ b6xLu3pLUU3+gdW5NTVSzFbMhFy2CFGll4e7nejfHZN+q8c55k1tDGm1iO1sSyCtVmux
+ SgMHuADJE+1q42YofxSmJY7je0MaUX78Gi6xCUrhLn8kPj+TzgD/sdNtSu+WyxuLmOvV
+ GvD3gYFcKYWVvvJn+vdrvWEbZW/X3JyyNBeG+Yqlq1TnTDfUEyJvsZYJIxKj6SPWcvM4
+ nOqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=CJdDQMhYJ6d11BQ4V6PS5aK//Lt1I9eil0VryL8BiHs=;
+ b=0JKCtrdBMBnsrfDCCXuJsn24cvdz/dQ2TeFwDJK26nqJnOjvjvOhbUqWIOhbT97YII
+ kuWVWTcvnRni4FZ4cUyibljy1pTvfbl6IU14b+NX57lOAjsbR1yE1EKWjm3qXgmpEJum
+ GhQ/onfW6PV6cxZbXxZH5SLCm8stVgMyC2yVQ5JOShfBAF+RxI+GOuO9wnY6DlZC2UkV
+ PuPJMRl0zmSsw6fD/BTLfa6Bw5cu5Dt/0dVKYICR+B2nm7XPo+vQ2zYvolMto2R8idhk
+ qzMCB2R7JocHZlG3BrA6Rlup339MR+rlv2kNiS7tJSz0+VLvOtJgeQNJ5jCUHUvH+XXY
+ 2Neg==
+X-Gm-Message-State: AOAM530w2BO90G0BlRMtOhdl2ldn8xP4VsrwplYLGZUpGEFaFBHXLUqm
+ Gbo0jANaeYCKkM+JM7Y38ipAlbvyx96Sh2Q14m8=
+X-Google-Smtp-Source: ABdhPJzwjXwlVKvdHYUQ/foo40aFsu61uxV259oMyWxrLZWwYlB3cBMpPDHb9TMbXrKHbUTXb1qj1ssgIBWeDk/LOAE=
+X-Received: by 2002:a5d:6a46:: with SMTP id t6mr1196355wrw.141.1638996967126; 
+ Wed, 08 Dec 2021 12:56:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB03.amd.com
- (10.181.40.144)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 328691fe-0f6f-400d-4d19-08d9ba8cdb2b
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4303:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR12MB43034BBB71C8B2FB350B03FFFE6F9@MN2PR12MB4303.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6BK2iFyauzEkjgWrCRB3zSANfUKXiuOwLuvPp0Wx6AcHUmGVTVA5pK74UDLIu8/1jTFiN3e2/V7+RZt0AszsX6hUvTQfzx+IXE6Gy88BFo/UttV8fTAQj6aWAzFFB/K7lcsk5s4M5IUBSDKVt1R4EPKjeN8qY/RuOseW+HrpLPZe75SHvqrBg9131jQD6xvfBgkoLnFu7d0j2RoILneq0iv8x+bNaeI8sV/m8GikscyA5/b4H1pCuGOJoklasKhj0jmI316Jw1NbFoT1OuVkq5eulmZczdHvNpJh/S5INQ0v3E8/aXM5d8kZfrkpRfkTb0AJ15Tacr7sRGYEeSUmZYHVXqH6jYY5bxz+7YzKrHsXROKjULJdV8Wxawg2o4mw8YuqBK3nKXBhTZ8/zilWtkvFN1n0DbKIr91l88BLRXwY+JCJyGOU77hageIGble927HUReo7Q7Y2Erhf85PJg2eWylQ39zPvIQum4gdxbPQdc94lGH7hGzRLhHCeFpvUUXZOq6K2a8foIhxsCHpY0ArvQH2f1UesMp1qHwEMMlPzDleIL4AC0vcbnepysjk4MwLQIy7NkVlCnuzCgogeJkrnD+oScCzJ4HVQIp50gJtg9OmfusuXBr63vSNKRJSBZN9b30wgyufgOLDZ5iLT9h5UZINT6gTYbOh1TCDWdyZSkw27BS/LI9KmwEwpIt7mKlVKNOke175qQQJKX6lyjFJfY6JYcOi19c1fcRon0xchAHna1QbDMH9ceNtopfskI31jdmzJbh60QlD9gx9DsUe/vE0byJLx629GMggwIT4=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(40470700001)(8676002)(83380400001)(86362001)(356005)(81166007)(8936002)(1076003)(40460700001)(7696005)(82310400004)(508600001)(2616005)(44832011)(5660300002)(426003)(186003)(2906002)(16526019)(70586007)(70206006)(54906003)(26005)(36860700001)(4326008)(36756003)(110136005)(47076005)(6666004)(336012)(316002)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2021 20:53:57.8622 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 328691fe-0f6f-400d-4d19-08d9ba8cdb2b
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT007.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4303
+References: <20211105030434.2828845-1-sean@poorly.run>
+In-Reply-To: <20211105030434.2828845-1-sean@poorly.run>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 8 Dec 2021 12:55:55 -0800
+Message-ID: <CAF6AEGvD-2gtqhbWCUMmbJYsOBYKk9DUxzX5+tE7O+Z-BQfghQ@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH v4 00/14] drm/hdcp: Pull HDCP
+ auth/exchange/check into helpers
+To: Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,67 +62,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, Felix Kuehling <Felix.Kuehling@amd.com>,
- Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>, David
- Yat Sin <david.yatsin@amd.com>, alexander.deucher@amd.com, airlied@redhat.com,
- christian.koenig@amd.com
+Cc: Jani Nikula <jani.nikula@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, Sean Paul <seanpaul@chromium.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When an application having open file access to a node forks, its shared
-mappings also get reflected in the address space of child process even
-though it cannot access them with the object permissions applied. With the
-existing permission checks on the gem objects, it might be reasonable to
-also create the VMAs with VM_DONTCOPY flag so a user space application
-doesn't need to explicitly call the madvise(addr, len, MADV_DONTFORK)
-system call to prevent the pages in the mapped range to appear in the
-address space of the child process. It also prevents the memory leaks
-due to additional reference counts on the mapped BOs in the child
-process that prevented freeing the memory in the parent for which we had
-worked around earlier in the user space inside the thunk library.
+On Thu, Nov 4, 2021 at 8:04 PM Sean Paul <sean@poorly.run> wrote:
+>
+> From: Sean Paul <seanpaul@chromium.org>
+>
+> Just me with another revision of HDCP support for msm.
+>
+> This v4 patch series is mostly a retread of v3 with the following
+> changes:
+> - rebased on Bjorn's displayport-controller register refactor
+> - another change to the dt bindings to remove the compatible string added in v3
+> - updated review tags
+>
+> I'm missing reviews on the core, i915 patches, and the final patch. It would be
+> fantastic to get some feedback on these before the set once again drifts too far
+> from -tip and I need a painful rebase :-)
+>
+> Thank you to the reviewers for their feedback thus far!
+>
+> Please take a look,
 
-Additionally, we faced this issue when using CRIU to checkpoint restore
-an application that had such inherited mappings in the child which
-confuse CRIU when it mmaps on restore. Having this flag set for the
-render node VMAs helps. VMAs mapped via KFD already take care of this so
-this is needed only for the render nodes.
+It looks like all but the last two (msm specific) patches have at
+least a-b or r-b.. I'll try and get someone to look at those last two
 
-Cc: Felix Kuehling <Felix.Kuehling@amd.com>
+Any thoughts about preferred way to land this.  I currently have a few
+of the msm patches which don't depend on core patches in
+msm-next-staging, but I can drop those before it gets pushed to
+msm-next.  Maybe we want a topic branch that both msm and i915 can
+pull into their -next branches?
 
-Signed-off-by: David Yat Sin <david.yatsin@amd.com>
-Signed-off-by: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
----
- drivers/gpu/drm/drm_gem.c       | 3 ++-
- drivers/gpu/drm/ttm/ttm_bo_vm.c | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+BR,
+-R
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 09c820045859..d9c4149f36dd 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -1058,7 +1058,8 @@ int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long obj_size,
- 			goto err_drm_gem_object_put;
- 		}
- 
--		vma->vm_flags |= VM_IO | VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP;
-+		vma->vm_flags |= VM_IO | VM_PFNMAP | VM_DONTEXPAND
-+				| VM_DONTDUMP | VM_DONTCOPY;
- 		vma->vm_page_prot = pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
- 		vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
- 	}
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-index 33680c94127c..420a4898fdd2 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-@@ -566,7 +566,7 @@ int ttm_bo_mmap_obj(struct vm_area_struct *vma, struct ttm_buffer_object *bo)
- 
- 	vma->vm_private_data = bo;
- 
--	vma->vm_flags |= VM_PFNMAP;
-+	vma->vm_flags |= VM_PFNMAP | VM_DONTCOPY;
- 	vma->vm_flags |= VM_IO | VM_DONTEXPAND | VM_DONTDUMP;
- 	return 0;
- }
--- 
-2.17.1
-
+>
+> Sean
+>
+> Link: https://patchwork.freedesktop.org/series/94623/ #v1
+> Link: https://patchwork.freedesktop.org/series/94713/ #v2
+> Link: https://patchwork.freedesktop.org/series/94712/ #v3
+>
+> Sean Paul (14):
+>   drm/hdcp: Add drm_hdcp_atomic_check()
+>   drm/hdcp: Avoid changing crtc state in hdcp atomic check
+>   drm/hdcp: Update property value on content type and user changes
+>   drm/hdcp: Expand HDCP helper library for enable/disable/check
+>   drm/i915/hdcp: Consolidate HDCP setup/state cache
+>   drm/i915/hdcp: Retain hdcp_capable return codes
+>   drm/i915/hdcp: Use HDCP helpers for i915
+>   drm/msm/dpu_kms: Re-order dpu includes
+>   drm/msm/dpu: Remove useless checks in dpu_encoder
+>   drm/msm/dpu: Remove encoder->enable() hack
+>   drm/msm/dp: Re-order dp_audio_put in deinit_sub_modules
+>   dt-bindings: msm/dp: Add bindings for HDCP registers
+>   arm64: dts: qcom: sc7180: Add support for HDCP in dp-controller
+>   drm/msm: Implement HDCP 1.x using the new drm HDCP helpers
+>
+>  .../bindings/display/msm/dp-controller.yaml   |    8 +-
+>  arch/arm64/boot/dts/qcom/sc7180.dtsi          |    8 +-
+>  drivers/gpu/drm/drm_hdcp.c                    | 1197 ++++++++++++++++-
+>  drivers/gpu/drm/i915/display/intel_atomic.c   |    7 +-
+>  drivers/gpu/drm/i915/display/intel_ddi.c      |   29 +-
+>  .../drm/i915/display/intel_display_debugfs.c  |   11 +-
+>  .../drm/i915/display/intel_display_types.h    |   58 +-
+>  drivers/gpu/drm/i915/display/intel_dp_hdcp.c  |  345 ++---
+>  drivers/gpu/drm/i915/display/intel_dp_mst.c   |   17 +-
+>  drivers/gpu/drm/i915/display/intel_hdcp.c     | 1011 +++-----------
+>  drivers/gpu/drm/i915/display/intel_hdcp.h     |   36 +-
+>  drivers/gpu/drm/i915/display/intel_hdmi.c     |  256 ++--
+>  drivers/gpu/drm/msm/Makefile                  |    1 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   |   17 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   30 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |    2 -
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h     |    4 -
+>  drivers/gpu/drm/msm/dp/dp_debug.c             |   46 +-
+>  drivers/gpu/drm/msm/dp/dp_debug.h             |    6 +-
+>  drivers/gpu/drm/msm/dp/dp_display.c           |   48 +-
+>  drivers/gpu/drm/msm/dp/dp_display.h           |    5 +
+>  drivers/gpu/drm/msm/dp/dp_drm.c               |   68 +-
+>  drivers/gpu/drm/msm/dp/dp_drm.h               |    5 +
+>  drivers/gpu/drm/msm/dp/dp_hdcp.c              |  462 +++++++
+>  drivers/gpu/drm/msm/dp/dp_hdcp.h              |   27 +
+>  drivers/gpu/drm/msm/dp/dp_parser.c            |   20 +-
+>  drivers/gpu/drm/msm/dp/dp_parser.h            |    4 +
+>  drivers/gpu/drm/msm/dp/dp_reg.h               |   32 +-
+>  drivers/gpu/drm/msm/msm_atomic.c              |   15 +
+>  include/drm/drm_hdcp.h                        |  194 +++
+>  30 files changed, 2592 insertions(+), 1377 deletions(-)
+>  create mode 100644 drivers/gpu/drm/msm/dp/dp_hdcp.c
+>  create mode 100644 drivers/gpu/drm/msm/dp/dp_hdcp.h
+>
+> --
+> Sean Paul, Software Engineer, Google / Chromium OS
+>
