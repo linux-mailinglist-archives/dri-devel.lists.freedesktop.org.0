@@ -2,57 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6348446D340
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 13:26:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD71646D386
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 13:43:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C27776FDC8;
-	Wed,  8 Dec 2021 12:25:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89C0872C89;
+	Wed,  8 Dec 2021 12:43:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com
- [209.85.221.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 675ED6FDC1
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Dec 2021 12:25:56 +0000 (UTC)
-Received: by mail-vk1-f181.google.com with SMTP id u68so1421125vke.11
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Dec 2021 04:25:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8jEZuxyTH0INbolsiPEAQffoHG2ckrzZgo9Hq7QWaxk=;
- b=GuKIEBQmKinFJmGg95El8SSjbGmEJNsOK2sTL2LLLmBIf+791YlYXzgL2N2b4nFxV3
- tAA19svpUoTR3z1I6605kjWoY8s0n1i5lj//2hq0Fis913/57QC9hb19VVHXOWFe3fQd
- AdhxJlvKnaXxP4W1IVwqGmlALmmoNnUwo4IWxw4Xr1wjZlau8zUyTYkfDHBlRk/dEwWF
- ezgv0/HA7V+CwgqO893ZDIyjmI4iDytojBuIUGUtqlWxYXcVX63J+/aVBVdlNwWn2o5b
- Zs6Mjf73R1R54rT3mNkB+hSF+gkJWN/nARMbiZQdQ8AssFvqm6vNQTBW/RZsbxUCVqhk
- GF7w==
-X-Gm-Message-State: AOAM532b/CjNABaePC8Zdhl1OkoqCulJvNj+gyFgf0uVC90JlCu/Xf4l
- epUJCKghtgtLU7HeaSZndGVXBvAEKy7+vw==
-X-Google-Smtp-Source: ABdhPJxaOZO8bJVrocJ4qV+Z0o7eZQtqV652evMDMQydkwMZjWx/6zgTXXGgbn4oCyVgLBrvM9/iqQ==
-X-Received: by 2002:a05:6122:889:: with SMTP id
- 9mr61789061vkf.21.1638966355345; 
- Wed, 08 Dec 2021 04:25:55 -0800 (PST)
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com.
- [209.85.222.44])
- by smtp.gmail.com with ESMTPSA id a5sm1657567uaj.17.2021.12.08.04.25.54
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Dec 2021 04:25:55 -0800 (PST)
-Received: by mail-ua1-f44.google.com with SMTP id p2so4300491uad.11
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Dec 2021 04:25:54 -0800 (PST)
-X-Received: by 2002:ab0:15a1:: with SMTP id i30mr8228271uae.122.1638966354316; 
- Wed, 08 Dec 2021 04:25:54 -0800 (PST)
+Received: from ste-pvt-msa1.bahnhof.se (ste-pvt-msa1.bahnhof.se
+ [213.80.101.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DAF872C89;
+ Wed,  8 Dec 2021 12:43:52 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 435243F3A3;
+ Wed,  8 Dec 2021 13:43:50 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -3.11
+X-Spam-Level: 
+X-Spam-Status: No, score=-3.11 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.011,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Authentication-Results: ste-pvt-msa1.bahnhof.se (amavisd-new);
+ dkim=pass (1024-bit key) header.d=shipmail.org
+Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
+ by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id j_LNOhDnzbrL; Wed,  8 Dec 2021 13:43:49 +0100 (CET)
+Received: by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id ABF6D3F2BA;
+ Wed,  8 Dec 2021 13:43:48 +0100 (CET)
+Received: from [192.168.0.209] (h-155-4-205-35.A357.priv.bahnhof.se
+ [155.4.205.35])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 0FE14362AD5;
+ Wed,  8 Dec 2021 13:43:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1638967428; bh=Vnjh/rwjY5pEUQbAi5NHBWfwvB2JgTimbzUPdqEI+OM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=mv93Du13AcqWKiEHUFAHADV5WiQgV6paT8evVliB9vAh/cj3EWvy813sUZcyeVwvq
+ ckNDmWWOOeftXote2ZZqNNzZgwW5BKxC1k4DV3N+nxGiW5YtXGgnc98SMUbE5YFm1l
+ 7IKlx4HKKG0H8kH+hk/xrE4JGe2hfWdOCQa14EO8=
+Message-ID: <801b9d8b-1b5c-ce2f-dc05-e804cafc3683@shipmail.org>
+Date: Wed, 8 Dec 2021 13:43:47 +0100
 MIME-Version: 1.0
-References: <62adddea1fc5e9133766af2d953be7334f4622aa.1638959417.git.geert+renesas@glider.be>
- <163896464129.995700.3492964836875185548@Monstersaurus>
-In-Reply-To: <163896464129.995700.3492964836875185548@Monstersaurus>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 8 Dec 2021 13:25:43 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX8=ZftyH2_WVxQ6_=X81UniF3q+uGveHAv+nz2QYtjrQ@mail.gmail.com>
-Message-ID: <CAMuHMdX8=ZftyH2_WVxQ6_=X81UniF3q+uGveHAv+nz2QYtjrQ@mail.gmail.com>
-Subject: Re: [PATCH] drm: rcar-du: Use dev_err_probe() helper
-To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [Intel-gfx] [PATCH 1/4] drm/i915: Add has_64k_pages flag
+Content-Language: en-US
+To: Ramalingam C <ramalingam.c@intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+References: <20211207165156.31244-1-ramalingam.c@intel.com>
+ <20211207165156.31244-2-ramalingam.c@intel.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+In-Reply-To: <20211207165156.31244-2-ramalingam.c@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,61 +69,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Hellstrom Thomas <thomas.hellstrom@intel.com>, Andi <andi.shyti@intel.com>,
+ Chris_intel_ID <chris.p.wilson@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kieran,
+Hi,
 
-On Wed, Dec 8, 2021 at 12:57 PM Kieran Bingham
-<kieran.bingham+renesas@ideasonboard.com> wrote:
-> Quoting Geert Uytterhoeven (2021-12-08 10:30:53)
-> > Use the dev_err_probe() helper, instead of open-coding the same
-> > operation.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> >  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 5 ++---
-> >  1 file changed, 2 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > index 5612a9e7a9056cf7..86eeda769e2ebd10 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > @@ -661,9 +661,8 @@ static int rcar_du_probe(struct platform_device *pdev)
-> >         /* DRM/KMS objects */
-> >         ret = rcar_du_modeset_init(rcdu);
-> >         if (ret < 0) {
-> > -               if (ret != -EPROBE_DEFER)
-> > -                       dev_err(&pdev->dev,
-> > -                               "failed to initialize DRM/KMS (%d)\n", ret);
-> > +               dev_err_probe(&pdev->dev, ret,
-> > +                             "failed to initialize DRM/KMS\n");
+On 12/7/21 17:51, Ramalingam C wrote:
+> From: Stuart Summers <stuart.summers@intel.com>
 >
-> I've just learned that dev_err_probe() sets a 'reason' for the deferral.
-> Seems like a nice feature when exploring devices that are still waiting
-> to probe. Is the message still appropriate enough in that case?
+> Add a new platform flag, has_64k_pages, for platforms supporting
+> base page sizes of 64k.
 >
-> I think it's probably fine, so
+> Signed-off-by: Stuart Summers <stuart.summers@intel.com>
+> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+> Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+> ---
+>   drivers/gpu/drm/i915/i915_drv.h          | 2 ++
+>   drivers/gpu/drm/i915/i915_pci.c          | 2 ++
+>   drivers/gpu/drm/i915/intel_device_info.h | 1 +
+>   3 files changed, 5 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+> index 85bb8d3107f0..6132163e1cb3 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.h
+> +++ b/drivers/gpu/drm/i915/i915_drv.h
+> @@ -1528,6 +1528,8 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
+>   #define HAS_MSLICES(dev_priv) \
+>   	(INTEL_INFO(dev_priv)->has_mslices)
+>   
+> +#define HAS_64K_PAGES(dev_priv) (INTEL_INFO(dev_priv)->has_64k_pages)
+> +
 
-I have no idea why it could fail. So if you think the message is
-fine, it must be fine ;-)
+Could we please have some documentation of the exact meaning of this flag.
+Like, smallest page size of LMEM is 64K. Hardware supports 64k pages etc?
 
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+for future reference.
 
-Thanks!
+/Thomas
 
-Gr{oetje,eeting}s,
 
-                        Geert
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
+>   #define HAS_IPC(dev_priv)		 (INTEL_INFO(dev_priv)->display.has_ipc)
+>   
+>   #define HAS_REGION(i915, i) (INTEL_INFO(i915)->memory_regions & (i))
+> diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+> index 6aaa7c644c9b..634282edadb7 100644
+> --- a/drivers/gpu/drm/i915/i915_pci.c
+> +++ b/drivers/gpu/drm/i915/i915_pci.c
+> @@ -1029,6 +1029,7 @@ static const struct intel_device_info xehpsdv_info = {
+>   	DGFX_FEATURES,
+>   	PLATFORM(INTEL_XEHPSDV),
+>   	.display = { },
+> +	.has_64k_pages = 1,
+>   	.pipe_mask = 0,
+>   	.platform_engine_mask =
+>   		BIT(RCS0) | BIT(BCS0) |
+> @@ -1047,6 +1048,7 @@ static const struct intel_device_info dg2_info = {
+>   	.graphics.rel = 55,
+>   	.media.rel = 55,
+>   	PLATFORM(INTEL_DG2),
+> +	.has_64k_pages = 1,
+>   	.platform_engine_mask =
+>   		BIT(RCS0) | BIT(BCS0) |
+>   		BIT(VECS0) | BIT(VECS1) |
+> diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
+> index 669f0d26c3c3..f38ac5bd837b 100644
+> --- a/drivers/gpu/drm/i915/intel_device_info.h
+> +++ b/drivers/gpu/drm/i915/intel_device_info.h
+> @@ -123,6 +123,7 @@ enum intel_ppgtt_type {
+>   	func(is_dgfx); \
+>   	/* Keep has_* in alphabetical order */ \
+>   	func(has_64bit_reloc); \
+> +	func(has_64k_pages); \
+>   	func(gpu_reset_clobbers_display); \
+>   	func(has_reset_engine); \
+>   	func(has_global_mocs); \
