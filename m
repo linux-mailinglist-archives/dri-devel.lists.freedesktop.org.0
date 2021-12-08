@@ -2,59 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DC5546CEA6
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 09:07:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FB9946CE60
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 08:27:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 878C06EA38;
-	Wed,  8 Dec 2021 08:07:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE03E6E99E;
+	Wed,  8 Dec 2021 07:27:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
- [IPv6:2607:f8b0:4864:20::b2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77DF36E250;
- Tue,  7 Dec 2021 23:51:48 +0000 (UTC)
-Received: by mail-yb1-xb2a.google.com with SMTP id d10so1983171ybn.0;
- Tue, 07 Dec 2021 15:51:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=CujyJvIN7SOSIGQhr5MNfgZy2RZkFmGfN+lgDE3xOpI=;
- b=LPeOR7OMEY4WH/VtqqIoKBsxK6PM05qqKtdsIW2l9888ysJRxAb5VH/JGQSeTqeg8J
- WKcmP5qTnLYwdvlaKTy2nVgpEdVmcgkgghx5a+3Zr843ssI056HIv0HxaqRjz0TiWN6v
- Fl4a+o5oSA3uipQEV1leuY3BFsn3tbMevDFXuKwJl3yPiw/h3aMWQagNqXob2RQ2+8bW
- m/ZE0kCzexiXpTvmHra8GWUCSeRWUAET84SfCLFwf62w1NxQUKkffh7eMuQRGGt+Z6Vz
- vr2W4uv5X+cbn04PoHldfZea72wDgN3+xygn5dFPFlAbqIznC9l+CdoX48gCLEwvLuEl
- lQ1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=CujyJvIN7SOSIGQhr5MNfgZy2RZkFmGfN+lgDE3xOpI=;
- b=g9gxwC0UzRQs+viqgdXEH+JJNSMBxzYI1TYcBFRxDQlxqp52VvwWdDNFolW4FPuIjj
- ubE3HD96JECNnU/GEuLOKKSthMyMyYcqC74uIapvAoXEPB7rQp8I2YkMyUhzAjCRV8i8
- SOXdiIUcfoUn7xRwMBBgiZllRvGZlrvJyNi419TZjRCTfvugFgYYbPRYaoB4ZCXV5R3I
- F4U76IKlPe9LSPQgICJJ8Y4Luy6ulnPhAIHnQJGpToxqNurATMRZT1/pgWwX5x7pz9N2
- rRbOf4ZEG6/RMyM1Ute//UG0HkR5Dfz25HLvEUCm9b15/1wJw4sDo6SeozRRylug2j/O
- 74rw==
-X-Gm-Message-State: AOAM530l4psHwjM6ZIODps/Fq71oWyj6pUnxA39onJHb5fXtzOCPmvAh
- FYbOvooY9zrzUZaDmNs36iWYV5hhGWKSo3Qzx24=
-X-Google-Smtp-Source: ABdhPJzu0S8tCxkGhcwk0L1LZ7Cvmy07wp6aE4fcDuaoQVMuQ6WFU9ZlwcbvlQXiHYLD5ws9AUqIbM6jkrAYZyout/o=
-X-Received: by 2002:a25:69cc:: with SMTP id
- e195mr56262486ybc.456.1638921107605; 
- Tue, 07 Dec 2021 15:51:47 -0800 (PST)
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63C126E99E
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Dec 2021 07:27:53 +0000 (UTC)
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B81Uh4u002860; 
+ Wed, 8 Dec 2021 07:27:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
+ bh=tP6uhSvHySINEU3Z6hlCf/8EFWFwlWEnJuniTfnKdcA=;
+ b=vHNPCUumh9FciYl48Cdb6iyN9shdVq9O5QSP0BcKodgryEtRggmHl2FO3gXtIYsraO0E
+ iAN88ntMEmxEAFFcpitvdq0gMl6rRTVJYjvnajKJxGzIxNAj5rocXDjk5zB2hJLEnwSn
+ z5I/BbjZIuD+dgnHrdAqaihrX84N6sX49tzYYRyId65It2E3NBK+UL95KICGaYS12ywc
+ nzyh/kMMrE3Ud+/wG7muJ541FSJrg830o7T6td7xvEZzBAb21eBwkjKHmAIsDdXCU2FW
+ n7xiThzTsS6Y5gnxefwX5gY0OQZo6mD7ZMl0GiOBOElPSn1ip9RugU9w4n9zi2Gh++x7 tA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3csbbqqw42-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 08 Dec 2021 07:27:51 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1B87GhDO121173;
+ Wed, 8 Dec 2021 07:27:50 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12lp2173.outbound.protection.outlook.com [104.47.59.173])
+ by userp3020.oracle.com with ESMTP id 3cr1sq8vv1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 08 Dec 2021 07:27:50 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TSVDkRf/Knx55aKdxyMpFXU3xFyVt8KT4f6jmdXbMFN6k+9W5vqH7I5Ci37CWAqfe52m48l3rQU0R1PdpQG2FHtvxyEcgVqD7AwFzhXTJFqRpA6Si6USAtFjSMm8gOcQBYeisWJQXTawmRJXGywohFxP7rtjfUxQISZlwlznG5jc4hmiuqYkLRWlBnJEdm5Bpvmc4YO+rzH26fMOAT0ogDQItsbKehorK44YrDu4z0BjbnI9wBiU1XaaG9TMl2ijTeAF40twgKQqXes8TbdwDZ9DFgrh55o3kFiPmLg6r+5j5qMhg2iNfN65HjO7jIuSufu0sSiFSrtGDdX/kZ3MlQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tP6uhSvHySINEU3Z6hlCf/8EFWFwlWEnJuniTfnKdcA=;
+ b=PsWxuGeb4pB7bdBeopZgMwSmJnjB3LZzjajFzAYqeCYrD3NfiovUEIyP3ZpS1APwHf5yFzaOWzak8upuQ4H/nmZHcyNmKfFbCeqRsh99arrhm4DbJQRRIQOyVX4pWOJRHw9uiOnExFi/KugwwXRk3CUe7ymG9YG+giA/z/4ASwSt6wu5Kd+6EgeVuhzsNP6VQa0XMtkqZ3a8WfeleDcA98L2Jn6q3DDcahLZjZm0Rx4Gf4tquWWZbkC1mJITgHAigo3xwkx5tpiXaSKg8TtBjDC0rauY8VtpjSN0M6d4v58yPmgL8/WxJURKM1E0jKc3+R36ln9tgqV7YTmkWg/gIA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tP6uhSvHySINEU3Z6hlCf/8EFWFwlWEnJuniTfnKdcA=;
+ b=IX9texMwEWesJJTRAj1stnFxgZadvr7eVfq8NyTs+3wYRUU+RI3WO2NdM5UTmMBYyVvGWDFVut8Ax+94HqNtDg8hjprwRirtMD4mySLJzgDLrMvhVt9kVCgVQQNNpc3R95XD+zWumEaEJM3ynIJfn9BofEc/umfKF/jHNBrm9Yo=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by MWHPR1001MB2159.namprd10.prod.outlook.com
+ (2603:10b6:301:2c::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.21; Wed, 8 Dec
+ 2021 07:27:48 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::7194:c377:36cc:d9f0]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::7194:c377:36cc:d9f0%6]) with mapi id 15.20.4755.023; Wed, 8 Dec 2021
+ 07:27:48 +0000
+Date: Wed, 8 Dec 2021 10:27:36 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Antonino Daplas <adaplas@gmail.com>
+Subject: [PATCH v2] fbdev: savagefb: make a variable local
+Message-ID: <20211208072736.GA17615@kili>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-ClientProxiedBy: ZR0P278CA0127.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:40::6) To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 MIME-Version: 1.0
-References: <20211027212339.29259-1-ramalingam.c@intel.com>
- <20211027212339.29259-14-ramalingam.c@intel.com>
-In-Reply-To: <20211027212339.29259-14-ramalingam.c@intel.com>
-From: Nanley Chery <nanleychery@gmail.com>
-Date: Tue, 7 Dec 2021 18:51:11 -0500
-Message-ID: <CAJDL4uLzxxjw0vp+en3vVpJFBBBrm-g7PwFVBMMmDZEUoiJp3w@mail.gmail.com>
-Subject: Re: [Mesa-dev] [PATCH v3 13/17] uapi/drm/dg2: Format modifier for DG2
- unified compression and clear color
-To: Ramalingam C <ramalingam.c@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Wed, 08 Dec 2021 08:07:23 +0000
+Received: from kili (102.222.70.114) by ZR0P278CA0127.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:40::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.17 via Frontend
+ Transport; Wed, 8 Dec 2021 07:27:45 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f03754d0-22e9-448f-0ac1-08d9ba1c3bfa
+X-MS-TrafficTypeDiagnostic: MWHPR1001MB2159:EE_
+X-Microsoft-Antispam-PRVS: <MWHPR1001MB21595C10D0AAAE23C0A85B4F8E6F9@MWHPR1001MB2159.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: og1mJFLTLkfLM7epNOSEAtyLWdvBfpLCBIYxC9mMVv/a7OsvIAGSAxjIcWMQom0rlku6913iJSBkzKEwUB0fCDdpwIL/YokubnVVOKLkcVl5mQoW6sYwts7PAnzfGwdGERdJs2dcOi3f3NmczAJ6rZjcykk+KiFbua+zR19FZDAkZ3cjG1L34gNvaBUfs88tPXkkCSOufKKG3JDFsUV2pf8+VmUA9188iQLsR4+B5C1cCdukCFO8k2KEiZa9VP4PKgoqh8m0AunK2Hzt6RS6kRzrEPIUdaZy0JUX1wXb3/Zh+SDwAaaLpdd1EVJ5N2HIYAy+JhIqb5Bnp77+f0i7XeoDIte2nI6zTKkVlDk/btC89hYTMlwdLuU89bQFuG5UrJvwA1PorvYGWfCdqJxWUiYMcm7mSmNljZRUZOYWvSGIeAzFiHJrS6mZjQ2pJCMdsUiveaYMXFMX+zfTTtWn8MwVjOuYo4z7gFB+oiTh9i7H70IVvmbaMTTHR5BQ72VD/ocrZkrQ9wDJgJkTkC1IkohQ5wVP8AbPDOklXEKCEzo0fqM+XhZ99a3l8zbXgwO4T7gbnvU9OSiF4G3xNHhOVqqZYO+imF3qK2ihXVxpe8fzDSOXf0pFkDkoKDet34VCsf82BI3CxXUqLQpSJJTBmejkOvArufWnOeuev7q8ooThXM86hTsxNd0WTHc2wRAGzs///RsLgG0OlQBHNiSfHg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(33716001)(316002)(5660300002)(6916009)(83380400001)(508600001)(55016003)(4326008)(9686003)(9576002)(6496006)(33656002)(66556008)(2906002)(186003)(66946007)(26005)(8676002)(8936002)(86362001)(956004)(52116002)(44832011)(38350700002)(6666004)(1076003)(66476007)(38100700002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WmzRyf8uURYunkgiKvVKehXAyVvEfE2w37p6fYrwMXQBqQ8cpH5lCks6QtMY?=
+ =?us-ascii?Q?LC8cxRWWqwdNF4/04OKpSWSdxw9+dgkwd0SPihKt7nWvcdzNOcbb8s9vm7gs?=
+ =?us-ascii?Q?POzf+RmbaCL1RaAd7zHB3b9Xw3tlkjvVUR/t+sYZYxHSC4ynM8yeZVH9Du5j?=
+ =?us-ascii?Q?YP1Cz2iw6ZzYTYE4aHToRogpfII/9Ih1NAgXyPeQAqMHaVZOTmNWZPvYEL9O?=
+ =?us-ascii?Q?DKg6Fx7OShMigtTg0McM5jovrrZQrbCKsFAjc74RWhAK4ilE7q6VIve2iM0e?=
+ =?us-ascii?Q?/I8ORXkd26619H1xbvgUI5ldEyYl59FYeocJGDvV1tqsbfCWJ0NXXEeFrLX4?=
+ =?us-ascii?Q?HgqTxbD7b+tKKJkt4PEGFYYO0cZXp3v2bu1b0yBS2d6JeD4SUZUti/sCN4yR?=
+ =?us-ascii?Q?grIs9IQQzucWTXzWM4UFEdg3A72TC5tZjTCAMbecQQCh4P4Xu+a0E+Hu9nSX?=
+ =?us-ascii?Q?oGbB3x/aFVqFGLr1/ZLbg7AxGBypR5kebOYYFEellphDP5d2M/AAwyqzlW0T?=
+ =?us-ascii?Q?2GdFYBInbgr6cIl27tshbw+bxQvxKP+mZOR3+T8jP3BTcmL1zdMDmhbay8cz?=
+ =?us-ascii?Q?KvbW0+JwM6fOMCRfYWzTPD8xNdO2wCjlbXaApg4G3P5wvvuMeVNr6PwtmTtP?=
+ =?us-ascii?Q?O1CCXNqkFFljEEzAKFjwvTQpp1EKLPgivFn97F6THgnhRFMggfGz8LYKZfvo?=
+ =?us-ascii?Q?XkCDQB0z22WlK2zHFBdIJVwWjmWI0o9FtY7+J3nqpuSdYOBLrf5wwiyFQPTl?=
+ =?us-ascii?Q?94SuVjY+lHFCTKcsPMlzEldhv0c2UCGZP0Jdzw9+0X5dXTNsvcu8pgPPlQLE?=
+ =?us-ascii?Q?/ZMmsrUUrNdJsuzLNB5ajvqsjQzxm5J5SK9Rm9qF+0os5ULf2jdubVCWnf1R?=
+ =?us-ascii?Q?WRmL9y5SlksjBpVPmSWv22Fkx6WF5hWiU3+Ejg5KowV7UG2C9F5zJ93P7w25?=
+ =?us-ascii?Q?LWYmwGCLi6ftfJDPsD1zf1ZsNo5GQN7ZvhO8PY7iJYdPmyY/4qbWZa8YlNo9?=
+ =?us-ascii?Q?xHO84+NXWPzpMMgjPsQEcN7KSjVL1XnEeIrDeLe4gvzi09PTNAIp7VrDfoo8?=
+ =?us-ascii?Q?fFifg1dBFzmsR/SZu3rHPmsR2bCr0j/PBqKWpWIVDHvESzor6gfkKpk9cRrd?=
+ =?us-ascii?Q?Yx51aO8Pj9vQlh/b5TN36UmemrYwf5+sqeaP/VVgqAgzWBlhoASdNQ51HpLA?=
+ =?us-ascii?Q?mIXchTIf6bqH75jr1knZSrpB8OgDYgFZVD1LSFTyfjwMextWLBA+j27jm27D?=
+ =?us-ascii?Q?RtMt8HVKShuhL5B9KfIzW0j+9PX6sWAEaqAowK2RZUedPHlFxK+Q7pp2ToS6?=
+ =?us-ascii?Q?XbIIDnsHHjf2RONxKV3Khii8mmYPuUdGxGx+w2JLqSeDdvI5gPwpOWfMvFvs?=
+ =?us-ascii?Q?2Mr1a7pRE6UzqNQ9+QTYXZBd6ir9foZH3AHLw2LQ+MAqAvRaWOyV+GzCPm3e?=
+ =?us-ascii?Q?g4BRd5xF5e24Gg2gAOW3gB7IaNvXiU72rozzPm6B+REAmxaDym1gE9RXpAOC?=
+ =?us-ascii?Q?uP/WUVqabZHWGJ7lv+MAcQQsjtFpcNqY4aL4hcvFBC6lfDfp5C803YhzhC1S?=
+ =?us-ascii?Q?R7dyKJxrnYR0R3KayX4ZYfNXGxIVDmzYAklm0Ln5O12MaHkoTbXkp3BTzZYr?=
+ =?us-ascii?Q?nTZYF2hgBc/xkOUN5JhTwZeJuVzyBuAaLQpdkG1q95EP2JSX5pGZ0expP166?=
+ =?us-ascii?Q?/8fV8qgc67lgZW1AMokKXFYQJ28=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f03754d0-22e9-448f-0ac1-08d9ba1c3bfa
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2021 07:27:48.1516 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9D4Agin/dvbgQf6B2FgKq/7h/QDl74BOx520GrzOKoAeHSYHz1i1VD1vf2G/MZ/JQkdVeqjJBOaQrQ/yMHrePFG0Nk55Mtcew7j2MjuZGlg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1001MB2159
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10191
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ mlxscore=0 spamscore=0
+ phishscore=0 bulkscore=0 suspectscore=0 malwarescore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2112080049
+X-Proofpoint-GUID: 6eKZ2HCoa-eOA5Aw84dx-CL4S2d5qlgQ
+X-Proofpoint-ORIG-GUID: 6eKZ2HCoa-eOA5Aw84dx-CL4S2d5qlgQ
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,290 +152,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Ye <tony.ye@intel.com>, intel-gfx <intel-gfx@lists.freedesktop.org>,
- Kenneth Graunke <kenneth@whitecape.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Slawomir Milczarek <slawomir.milczarek@intel.com>,
- Hellstrom Thomas <thomas.hellstrom@intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Jordan Justen <jordan.l.justen@intel.com>,
- mesa-dev <mesa-dev@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ramalingam,
+The "edid" struct member is only used during probe() and it's freed
+right away.  There is no point in storing a freed pointer for the
+whole life of the driver.
 
-On Wed, Oct 27, 2021 at 5:22 PM Ramalingam C <ramalingam.c@intel.com> wrote=
-:
->
-> From: Matt Roper <matthew.d.roper@intel.com>
->
-> DG2 unifies render compression and media compression into a single
-> format for the first time.  The programming and buffer layout is
-> supposed to match compression on older gen12 platforms, but the
-> actual compression algorithm is different from any previous platform; as
-> such, we need a new framebuffer modifier to represent buffers in this
-> format, but otherwise we can re-use the existing gen12 compression driver
-> logic.
->
-> DG2 clear color render compression uses Tile4 layout. Therefore, we need
-> to define a new format modifier for uAPI to support clear color rendering=
-.
->
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+v2: use __maybe_unused annotation to silence an unused variable warning
+    depending on the .config
 
-I left some feedback on the modifier texts below, but I think it also
-applies to this commit message.
+ drivers/video/fbdev/savage/savagefb.h        | 1 -
+ drivers/video/fbdev/savage/savagefb_driver.c | 7 ++++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-> v2: Rebased on new format modifier check [Ram]
->
-> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-> Signed-off-by: Mika Kahola <mika.kahola@intel.com> (v2)
-> Signed-off-by: Juha-Pekka Heikkil=C3=A4 <juha-pekka.heikkila@intel.com>
-> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-> cc: Simon Ser <contact@emersion.fr>
-> Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> Cc: Jordan Justen <jordan.l.justen@intel.com>
-> Cc: Kenneth Graunke <kenneth@whitecape.org>
-> Cc: mesa-dev@lists.freedesktop.org
-> Cc: Tony Ye <tony.ye@intel.com>
-> Cc: Slawomir Milczarek <slawomir.milczarek@intel.com>
-> Acked-by: Simon Ser <contact@emersion.fr>
-> ---
->  drivers/gpu/drm/i915/display/intel_fb.c       | 43 +++++++++++++++++++
->  .../drm/i915/display/skl_universal_plane.c    | 29 ++++++++++++-
->  include/uapi/drm/drm_fourcc.h                 | 30 +++++++++++++
->  3 files changed, 101 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_fb.c b/drivers/gpu/drm/i9=
-15/display/intel_fb.c
-> index 562d5244688d..484ae1fd0e94 100644
-> --- a/drivers/gpu/drm/i915/display/intel_fb.c
-> +++ b/drivers/gpu/drm/i915/display/intel_fb.c
-> @@ -106,6 +106,21 @@ static const struct drm_format_info gen12_ccs_cc_for=
-mats[] =3D {
->           .hsub =3D 1, .vsub =3D 1, .has_alpha =3D true },
->  };
->
-> +static const struct drm_format_info gen12_flat_ccs_cc_formats[] =3D {
-> +       { .format =3D DRM_FORMAT_XRGB8888, .depth =3D 24, .num_planes =3D=
- 2,
-> +         .char_per_block =3D { 4, 0 }, .block_w =3D { 1, 2 }, .block_h =
-=3D { 1, 1 },
-> +         .hsub =3D 1, .vsub =3D 1, },
-> +       { .format =3D DRM_FORMAT_XBGR8888, .depth =3D 24, .num_planes =3D=
- 2,
-> +         .char_per_block =3D { 4, 0 }, .block_w =3D { 1, 2 }, .block_h =
-=3D { 1, 1 },
-> +         .hsub =3D 1, .vsub =3D 1, },
-> +       { .format =3D DRM_FORMAT_ARGB8888, .depth =3D 32, .num_planes =3D=
- 2,
-> +         .char_per_block =3D { 4, 0 }, .block_w =3D { 1, 2 }, .block_h =
-=3D { 1, 1 },
-> +         .hsub =3D 1, .vsub =3D 1, .has_alpha =3D true },
-> +       { .format =3D DRM_FORMAT_ABGR8888, .depth =3D 32, .num_planes =3D=
- 2,
-> +         .char_per_block =3D { 4, 0 }, .block_w =3D { 1, 2 }, .block_h =
-=3D { 1, 1 },
-> +         .hsub =3D 1, .vsub =3D 1, .has_alpha =3D true },
-> +};
-> +
->  struct intel_modifier_desc {
->         u64 modifier;
->         struct {
-> @@ -166,6 +181,27 @@ static const struct intel_modifier_desc intel_modifi=
-ers[] =3D {
->                 .ccs.packed_aux_planes =3D BIT(1),
->
->                 FORMAT_OVERRIDE(gen12_ccs_cc_formats),
-> +       }, {
-> +               .modifier =3D I915_FORMAT_MOD_4_TILED_DG2_RC_CCS,
-> +               .display_ver =3D { 12, 13 },
-> +               .tiling =3D I915_TILING_NONE,
-> +
-> +               .ccs.type =3D INTEL_CCS_RC,
-> +       }, {
-> +               .modifier =3D I915_FORMAT_MOD_4_TILED_DG2_MC_CCS,
-> +               .display_ver =3D { 12, 13 },
-> +               .tiling =3D I915_TILING_NONE,
-> +
-> +               .ccs.type =3D INTEL_CCS_MC,
-> +       }, {
-> +               .modifier =3D I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC,
-> +               .display_ver =3D { 12, 13 },
-> +               .tiling =3D I915_TILING_NONE,
-> +
-> +               .ccs.type =3D INTEL_CCS_RC_CC,
-> +               .ccs.cc_planes =3D BIT(1),
-> +
-> +               FORMAT_OVERRIDE(gen12_flat_ccs_cc_formats),
->         }, {
->                 .modifier =3D I915_FORMAT_MOD_Yf_TILED_CCS,
->                 .display_ver =3D { 9, 11 },
-> @@ -582,6 +618,9 @@ intel_tile_width_bytes(const struct drm_framebuffer *=
-fb, int color_plane)
->                         return 128;
->                 else
->                         return 512;
-> +       case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS:
-> +       case I915_FORMAT_MOD_4_TILED_DG2_MC_CCS:
-> +       case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC:
->         case I915_FORMAT_MOD_4_TILED:
->                 /*
->                  * Each 4K tile consists of 64B(8*8) subtiles, with
-> @@ -759,6 +798,10 @@ unsigned int intel_surf_alignment(const struct drm_f=
-ramebuffer *fb,
->         case I915_FORMAT_MOD_4_TILED:
->         case I915_FORMAT_MOD_Yf_TILED:
->                 return 1 * 1024 * 1024;
-> +       case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS:
-> +       case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC:
-> +       case I915_FORMAT_MOD_4_TILED_DG2_MC_CCS:
-> +               return 16 * 1024;
->         default:
->                 MISSING_CASE(fb->modifier);
->                 return 0;
-> diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers=
-/gpu/drm/i915/display/skl_universal_plane.c
-> index aeca96925feb..136b3f74a290 100644
-> --- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
-> +++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-> @@ -753,6 +753,16 @@ static u32 skl_plane_ctl_tiling(u64 fb_modifier)
->                 return PLANE_CTL_TILED_Y;
->         case I915_FORMAT_MOD_4_TILED:
->                 return PLANE_CTL_TILED_4;
-> +       case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS:
-> +               return PLANE_CTL_TILED_4 |
-> +                       PLANE_CTL_RENDER_DECOMPRESSION_ENABLE |
-> +                       PLANE_CTL_CLEAR_COLOR_DISABLE;
-> +       case I915_FORMAT_MOD_4_TILED_DG2_MC_CCS:
-> +               return PLANE_CTL_TILED_4 |
-> +                       PLANE_CTL_MEDIA_DECOMPRESSION_ENABLE |
-> +                       PLANE_CTL_CLEAR_COLOR_DISABLE;
-> +       case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC:
-> +               return PLANE_CTL_TILED_4 | PLANE_CTL_RENDER_DECOMPRESSION=
-_ENABLE;
->         case I915_FORMAT_MOD_Y_TILED_CCS:
->         case I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS_CC:
->                 return PLANE_CTL_TILED_Y | PLANE_CTL_RENDER_DECOMPRESSION=
-_ENABLE;
-> @@ -1983,6 +1993,9 @@ skl_plane_disable_flip_done(struct intel_plane *pla=
-ne)
->  static bool skl_plane_has_rc_ccs(struct drm_i915_private *i915,
->                                  enum pipe pipe, enum plane_id plane_id)
->  {
-> +       if (IS_DG2(i915) && !HAS_4TILE(i915))
-> +               return false;
-> +
->         /* Wa_22011186057 */
->         if (IS_ADLP_DISPLAY_STEP(i915, STEP_A0, STEP_B0))
->                 return false;
-> @@ -2001,6 +2014,10 @@ static bool skl_plane_has_rc_ccs(struct drm_i915_p=
-rivate *i915,
->  static bool gen12_plane_has_mc_ccs(struct drm_i915_private *i915,
->                                    enum plane_id plane_id)
->  {
-> +       /* Wa_14013215631:dg2[a0,b0] */
-> +       if (IS_DG2_DISP_STEP(i915, STEP_A0, STEP_C0))
-> +               return false;
-> +
->         /* Wa_14010477008:tgl[a0..c0],rkl[all],dg1[all] */
->         if (IS_DG1(i915) || IS_ROCKETLAKE(i915) ||
->             IS_TGL_DISPLAY_STEP(i915, STEP_A0, STEP_D0))
-> @@ -2243,7 +2260,17 @@ skl_get_initial_plane_config(struct intel_crtc *cr=
-tc,
->                 break;
->         case PLANE_CTL_TILED_YF: /* aka PLANE_CTL_TILED_4 on XE_LPD+ */
->                 if (DISPLAY_VER(dev_priv) >=3D 13) {
-> -                       fb->modifier =3D I915_FORMAT_MOD_4_TILED;
-> +                       u32 rc_mask =3D PLANE_CTL_RENDER_DECOMPRESSION_EN=
-ABLE |
-> +                                       PLANE_CTL_CLEAR_COLOR_DISABLE;
-> +
-> +                       if ((val & rc_mask) =3D=3D rc_mask)
-> +                               fb->modifier =3D I915_FORMAT_MOD_4_TILED_=
-DG2_RC_CCS;
-> +                       else if (val & PLANE_CTL_MEDIA_DECOMPRESSION_ENAB=
-LE)
-> +                               fb->modifier =3D I915_FORMAT_MOD_4_TILED_=
-DG2_MC_CCS;
-> +                       else if (val & PLANE_CTL_RENDER_DECOMPRESSION_ENA=
-BLE)
-> +                               fb->modifier =3D I915_FORMAT_MOD_4_TILED_=
-DG2_RC_CCS_CC;
-> +                       else
-> +                               fb->modifier =3D I915_FORMAT_MOD_4_TILED;
->                 } else {
->                         if (val & PLANE_CTL_RENDER_DECOMPRESSION_ENABLE)
->                                 fb->modifier =3D I915_FORMAT_MOD_Yf_TILED=
-_CCS;
-> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.=
-h
-> index 982b0a9fa78b..719c17847e07 100644
-> --- a/include/uapi/drm/drm_fourcc.h
-> +++ b/include/uapi/drm/drm_fourcc.h
-> @@ -567,6 +567,36 @@ extern "C" {
->   */
->  #define I915_FORMAT_MOD_4_TILED         fourcc_mod_code(INTEL, 12)
->
-> +/*
-> + * Intel color control surfaces (CCS) for DG2 render compression.
-> + *
-> + * DG2 uses a new compression format for render compression. The general
-> + * layout is the same as I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS,
-> + * but a new hashing/compression algorithm is used, so a fresh modifier =
-must
-> + * be associated with buffers of this type. Render compression uses 128 =
-byte
-> + * compression blocks.
-> + */
-> +#define I915_FORMAT_MOD_4_TILED_DG2_RC_CCS fourcc_mod_code(INTEL, 13)
-> +
-> +/*
-> + * Intel color control surfaces (CCS) for DG2 media compression.
-> + *
-> + * DG2 uses a new compression format for media compression. The general
-> + * layout is the same as I915_FORMAT_MOD_Y_TILED_GEN12_MC_CCS,
-> + * but a new hashing/compression algorithm is used, so a fresh modifier =
-must
-> + * be associated with buffers of this type. Media compression uses 256 b=
-yte
-> + * compression blocks.
-> + */
+diff --git a/drivers/video/fbdev/savage/savagefb.h b/drivers/video/fbdev/savage/savagefb.h
+index 3314d5b6b43b..b6b8cc208293 100644
+--- a/drivers/video/fbdev/savage/savagefb.h
++++ b/drivers/video/fbdev/savage/savagefb.h
+@@ -195,7 +195,6 @@ struct savagefb_par {
+ 	struct savage_reg initial;
+ 	struct vgastate vgastate;
+ 	struct mutex open_lock;
+-	unsigned char   *edid;
+ 	u32 pseudo_palette[16];
+ 	u32 open_count;
+ 	int paletteEnabled;
+diff --git a/drivers/video/fbdev/savage/savagefb_driver.c b/drivers/video/fbdev/savage/savagefb_driver.c
+index 0ac750cc5ea1..8114c921ceb8 100644
+--- a/drivers/video/fbdev/savage/savagefb_driver.c
++++ b/drivers/video/fbdev/savage/savagefb_driver.c
+@@ -2170,6 +2170,7 @@ static int savagefb_probe(struct pci_dev *dev, const struct pci_device_id *id)
+ 	struct fb_info *info;
+ 	struct savagefb_par *par;
+ 	u_int h_sync, v_sync;
++	unsigned char __maybe_unused *edid;
+ 	int err, lpitch;
+ 	int video_len;
+ 
+@@ -2212,9 +2213,9 @@ static int savagefb_probe(struct pci_dev *dev, const struct pci_device_id *id)
+ 	INIT_LIST_HEAD(&info->modelist);
+ #if defined(CONFIG_FB_SAVAGE_I2C)
+ 	savagefb_create_i2c_busses(info);
+-	savagefb_probe_i2c_connector(info, &par->edid);
+-	fb_edid_to_monspecs(par->edid, &info->monspecs);
+-	kfree(par->edid);
++	savagefb_probe_i2c_connector(info, &edid);
++	fb_edid_to_monspecs(edid, &info->monspecs);
++	kfree(edid);
+ 	fb_videomode_to_modelist(info->monspecs.modedb,
+ 				 info->monspecs.modedb_len,
+ 				 &info->modelist);
+-- 
+2.20.1
 
-More so than new compression algorithms, these modifiers are needed
-due to the lack of CCS planes.
-
-The layout of these surfaces are more like I915_FORMAT_MOD_4_TILED, right?
-
-> +#define I915_FORMAT_MOD_4_TILED_DG2_MC_CCS fourcc_mod_code(INTEL, 14)
-> +
-> +/*
-> + * Intel color control surfaces (CCS) for DG2 clear color render compres=
-sion.
-> + *
-> + * DG2 uses a unified compression format for clear color render compress=
-ion.
-
-This seems to imply a different format than RC_CCS (with additional
-clear color tracking).
-
-> + * The general layout is a tiled layout using 4Kb tiles i.e. Tile4 layou=
-t.
-> + */
-
-It's unclear where the clear color is located from this description
-(by comparison, the GEN12 modifier states that the clear color can be
-found at plane index 2).
-
-Regards,
-Nanley
-
-
-> +#define I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC fourcc_mod_code(INTEL, 15)
-> +
->  /*
->   * Tiled, NV12MT, grouped in 64 (pixels) x 32 (lines) -sized macroblocks
->   *
-> --
-> 2.20.1
->
