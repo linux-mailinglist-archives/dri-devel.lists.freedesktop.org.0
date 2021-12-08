@@ -2,36 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8496346D718
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 16:34:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5047246D72A
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Dec 2021 16:39:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02C527397E;
-	Wed,  8 Dec 2021 15:34:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB97B739D7;
+	Wed,  8 Dec 2021 15:39:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3ABFF7396A;
- Wed,  8 Dec 2021 15:34:40 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10192"; a="301234035"
-X-IronPort-AV: E=Sophos;i="5.88,189,1635231600"; d="scan'208";a="301234035"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Dec 2021 07:34:29 -0800
-X-IronPort-AV: E=Sophos;i="5.88,189,1635231600"; d="scan'208";a="679919214"
-Received: from ramaling-i9x.iind.intel.com ([10.99.66.205])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Dec 2021 07:34:27 -0800
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1921D7339D;
+ Wed,  8 Dec 2021 15:39:43 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10192"; a="224721263"
+X-IronPort-AV: E=Sophos;i="5.88,189,1635231600"; d="scan'208";a="224721263"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Dec 2021 07:39:42 -0800
+X-IronPort-AV: E=Sophos;i="5.88,189,1635231600"; d="scan'208";a="462803287"
+Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.205])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Dec 2021 07:39:40 -0800
+Date: Wed, 8 Dec 2021 21:09:22 +0530
 From: Ramalingam C <ramalingam.c@intel.com>
-To: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 3/3] drm/i915: Test all device memory on probing
-Date: Wed,  8 Dec 2021 21:04:04 +0530
-Message-Id: <20211208153404.27546-4-ramalingam.c@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20211208153404.27546-1-ramalingam.c@intel.com>
-References: <20211208153404.27546-1-ramalingam.c@intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH 2/3] drm/i915: Sanitycheck device iomem on
+ probe
+Message-ID: <20211208153922.GC5006@intel.com>
+References: <20211208145800.27246-1-ramalingam.c@intel.com>
+ <20211208145800.27246-3-ramalingam.c@intel.com>
+ <YbDN7pb6WUIWselA@intel.intel>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YbDN7pb6WUIWselA@intel.intel>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,130 +47,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Auld <matthew.auld@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Matthew Auld <matthew.auld@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
  Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Wilson <chris@chris-wilson.co.uk>
+On 2021-12-08 at 17:23:26 +0200, Andi Shyti wrote:
+> Hi Ram,
+> 
+> > +static int intel_memory_region_memtest(struct intel_memory_region *mem,
+> > +				       void *caller)
+> > +{
+> > +	struct drm_i915_private *i915 = mem->i915;
+> > +	int err = 0;
+> > +
+> > +	if (!mem->io_start)
+> > +		return 0;
+> > +
+> > +	if (IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM))
+> > +		err = iomemtest(mem, caller);
+> 
+> I don't understand the debugging part of the iomemtest, if memory
+> is failing we wouldn't relise if DEBUG_GEM is not enabled.
+Thanks for the review Andi!
 
-This extends the previous sanitychecking of device memory to read/write
-all the memory on the device during the device probe, ala memtest86,
-as an optional module parameter: i915.memtest=1. This is not expected to
-be fast, but a reasonably thorough verfification that the device memory
-is accessible and doesn't return bit errors.
+Since this is in the system init path, running the time taking mem
+test only (on demand basis) when the DEBUG_GEM is set or mod_param
+is set as per the next patch.
 
-v2: Rebased.
-
-Suggested-by: Matthew Auld <matthew.auld@intel.com>
-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Matthew Auld <matthew.auld@intel.com>
-Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
----
- drivers/gpu/drm/i915/i915_params.c         |  3 ++
- drivers/gpu/drm/i915/i915_params.h         |  1 +
- drivers/gpu/drm/i915/intel_memory_region.c | 36 ++++++++++++++--------
- 3 files changed, 28 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/i915_params.c b/drivers/gpu/drm/i915/i915_params.c
-index e07f4cfea63a..525ae832aa9a 100644
---- a/drivers/gpu/drm/i915/i915_params.c
-+++ b/drivers/gpu/drm/i915/i915_params.c
-@@ -140,6 +140,9 @@ i915_param_named_unsafe(invert_brightness, int, 0400,
- i915_param_named(disable_display, bool, 0400,
- 	"Disable display (default: false)");
- 
-+i915_param_named(memtest, bool, 0400,
-+	"Perform a read/write test of all device memory on module load (default: off)");
-+
- i915_param_named(mmio_debug, int, 0400,
- 	"Enable the MMIO debug code for the first N failures (default: off). "
- 	"This may negatively affect performance.");
-diff --git a/drivers/gpu/drm/i915/i915_params.h b/drivers/gpu/drm/i915/i915_params.h
-index 8d725b64592d..c9d53ff910a0 100644
---- a/drivers/gpu/drm/i915/i915_params.h
-+++ b/drivers/gpu/drm/i915/i915_params.h
-@@ -64,6 +64,7 @@ struct drm_printer;
- 	param(char *, guc_firmware_path, NULL, 0400) \
- 	param(char *, huc_firmware_path, NULL, 0400) \
- 	param(char *, dmc_firmware_path, NULL, 0400) \
-+	param(bool, memtest, false, 0400) \
- 	param(int, mmio_debug, -IS_ENABLED(CONFIG_DRM_I915_DEBUG_MMIO), 0600) \
- 	param(int, edp_vswing, 0, 0400) \
- 	param(unsigned int, reset, 3, 0600) \
-diff --git a/drivers/gpu/drm/i915/intel_memory_region.c b/drivers/gpu/drm/i915/intel_memory_region.c
-index 458afc648772..bab5b5caa6d8 100644
---- a/drivers/gpu/drm/i915/intel_memory_region.c
-+++ b/drivers/gpu/drm/i915/intel_memory_region.c
-@@ -93,9 +93,12 @@ static resource_size_t random_page(resource_size_t last)
- 	return prandom_u32_max(last >> PAGE_SHIFT) << PAGE_SHIFT;
- }
- 
--static int iomemtest(struct intel_memory_region *mem, const void *caller)
-+static int iomemtest(struct intel_memory_region *mem,
-+		     bool test_all,
-+		     const void *caller)
- {
- 	resource_size_t last = resource_size(&mem->region) - PAGE_SIZE;
-+	resource_size_t page;
- 	int err;
- 
- 	/*
-@@ -109,17 +112,25 @@ static int iomemtest(struct intel_memory_region *mem, const void *caller)
- 	 * a random offset within as a quick spot check for bad memory.
- 	 */
- 
--	err = iopagetest(mem, 0, caller);
--	if (err)
--		return err;
-+	if (test_all) {
-+		for (page = 0; page <= last; page += PAGE_SIZE) {
-+			err = iopagetest(mem, page, caller);
-+			if (err)
-+				return err;
-+		}
-+	} else {
-+		err = iopagetest(mem, 0, caller);
-+		if (err)
-+			return err;
- 
--	err = iopagetest(mem, last, caller);
--	if (err)
--		return err;
-+		err = iopagetest(mem, last, caller);
-+		if (err)
-+			return err;
- 
--	err = iopagetest(mem, random_page(last), caller);
--	if (err)
--		return err;
-+		err = iopagetest(mem, random_page(last), caller);
-+		if (err)
-+			return err;
-+	}
- 
- 	return 0;
- }
-@@ -188,13 +199,14 @@ void intel_memory_region_debug(struct intel_memory_region *mr,
- static int intel_memory_region_memtest(struct intel_memory_region *mem,
- 				       void *caller)
- {
-+	struct drm_i915_private *i915 = mem->i915;
- 	int err = 0;
- 
- 	if (!mem->io_start)
- 		return 0;
- 
--	if (IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM))
--		err = iomemtest(mem, caller);
-+	if (IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM) || i915->params.memtest)
-+		err = iomemtest(mem, i915->params.memtest, caller);
- 
- 	return err;
- }
--- 
-2.20.1
-
+Ram
+> 
+> In any case,
+> 
+> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+> 
+> Andi
