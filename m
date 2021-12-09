@@ -1,60 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 545D546F79E
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 00:41:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D6EA46F7A6
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 00:44:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 370C988894;
-	Thu,  9 Dec 2021 23:41:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAA3610E125;
+	Thu,  9 Dec 2021 23:44:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
- [IPv6:2607:f8b0:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29A9F10E125
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Dec 2021 23:41:28 +0000 (UTC)
-Received: by mail-pl1-x62e.google.com with SMTP id p18so5053603plf.13
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Dec 2021 15:41:28 -0800 (PST)
+Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com
+ [IPv6:2607:f8b0:4864:20::f2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EB4310E125
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Dec 2021 23:44:52 +0000 (UTC)
+Received: by mail-qv1-xf2e.google.com with SMTP id m17so6593351qvx.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Dec 2021 15:44:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=r5IxUk7IoRTtrl9b80LUZD9vVdZvTnVgPepWlX6Ohsg=;
- b=jdweGnXL6ND3BiYR6OrJRdg5Np7KCGmUX0f6pWmIZofXaOe97M4P6exXy9VtmzFCIx
- 98frCoSGt4fnj1kVXOYDRhRccWPuK0L10zo03sxW2Kic2fIoxAYQ3fFXW9fWADAswkgK
- UG/ty3h235tjYAvc3RVKU0nlEccy7zoJpzcGE=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=z8ul/68TTMd0vCXelwEXbTf2Y8+4CmIOh8pjnYzpEeY=;
+ b=HKchMdZDouQpqT1O5HjguvjPWBPz5meO4ShyPblqGvL14MCZ+bL7PTDY/4z9k56BpQ
+ KZCb2a2oVelWePKPdWYqk3djkd1IimxvXoic+QwJFtOjUv8T6uBHfuHOfBVQOVd6sOaW
+ fQJ5P1RPrRuXBjunLQ+OT9IAVh/3dd4uJx0Bg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=r5IxUk7IoRTtrl9b80LUZD9vVdZvTnVgPepWlX6Ohsg=;
- b=jmpuJDliWtJqxJTMsTx20+toQAqbVnv8bx8cOqQUyhOWmmL5KYLfsvTfjh4UgwGeyC
- Uj7p4rDWTcj7FOvPOzx5n4PlgTXG2XeVveXnBQCBXPFeVLIe78ve6y4WC/dVeNHtcDqr
- KmgAOidX/mjyDa3rcgH82ebB6dk39ooJcd+Rl1gYXcTZMB6QHQi6HS/O30tdiFh2EL2q
- T6/RG/IusLodC43uYt/P2KNYtwzk4Km374cXRzokGUc29keCUrnsZoIS6F/hDX1KT10g
- oZIVHqNR5ZT0TpJRjIO7TIJnAIDBNA+OhCWcGo4wc8gK9N4M1I1LSE/VBOOlO7afloRk
- oThQ==
-X-Gm-Message-State: AOAM533ii5J2l2HcgZkKjM3adr1LpGAnyLS6pxnzQpGmGu40PorkC9Dm
- XU0+G+kS4kChbbsgrDydga9KRw==
-X-Google-Smtp-Source: ABdhPJzyk4sf1WNPIubTmnLyaDj9YqUyzvUL41XvKfsOUs2io7OX0emxdLtUfl9UQJ01SI14m51qjw==
-X-Received: by 2002:a17:90b:3ecd:: with SMTP id
- rm13mr19136275pjb.157.1639093287759; 
- Thu, 09 Dec 2021 15:41:27 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id mu4sm11720860pjb.8.2021.12.09.15.41.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Dec 2021 15:41:27 -0800 (PST)
-Date: Thu, 9 Dec 2021 15:41:26 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [PATCH] drm/dp: Actually read Adjust Request Post Cursor2 register
-Message-ID: <202112091539.6B349AC@keescook>
-References: <20211203084354.3105253-1-keescook@chromium.org>
- <87o85r4a4f.fsf@intel.com> <202112082220.81ECDC63D@keescook>
- <2b7d760c-9ab8-b607-efc6-1ed276d67668@amd.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=z8ul/68TTMd0vCXelwEXbTf2Y8+4CmIOh8pjnYzpEeY=;
+ b=61De3zrgdTSmMMSJt4WgZugib+WYfYbYNb0+OFBOvG1WwKd2DFLPh42ch9ZOfa0vMm
+ OtBahmQD19+8tiMT06MhWu6EHcvTvzQxqZMOtboZekWvSxCEcxBt/JP8B+6H6oaUyzI4
+ TA0EhGGSh9TNMVTpKWua4D9HP+/kDF9I9zDt6srrYmR4o6OycU/+SQo1/dD40DUm9ukM
+ NmxVT9xQ7S66XkMJni40iKVicLlxsWgsyZK2wYcJxd1QS2unP75Kow3Jq1Bme9hL5FaK
+ b8uqxzdLEBL7Cfr7x2l1enebQiWXuBes3Z3ytLLsxtW96Aq5qmmZzIg9Es+KbbubysVL
+ Mq8A==
+X-Gm-Message-State: AOAM533gALgJZp1PtSJJl/dBeq3Az1a+n9HpSyJ+tuCW/tnCTZSwKK20
+ HzZMMW9O20EZLfIAsLrRXJp4xNgtRq2NnYHgsMcHQg==
+X-Google-Smtp-Source: ABdhPJzV6/TnXjUOLjFzM/ma9fmG9Nt8FCU/gSZz36pPI4LByD43heeF0Dr9GJ2LVcnM2DQhO0cSrj4qiEKvoaPI/+c=
+X-Received: by 2002:a05:6214:5193:: with SMTP id
+ kl19mr20845472qvb.77.1639093491509; 
+ Thu, 09 Dec 2021 15:44:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2b7d760c-9ab8-b607-efc6-1ed276d67668@amd.com>
+References: <20211202034544.2750-1-yunfei.dong@mediatek.com>
+ <20211202034544.2750-14-yunfei.dong@mediatek.com>
+In-Reply-To: <20211202034544.2750-14-yunfei.dong@mediatek.com>
+From: Steve Cho <stevecho@chromium.org>
+Date: Thu, 9 Dec 2021 15:44:41 -0800
+Message-ID: <CAC-pXoPV0MrX91DfuiscmkOwviJ6Gh4RcYRZ+GW6482NpMGFtg@mail.gmail.com>
+Subject: Re: [PATCH v12, 13/19] media: mtk-vcodec: Add work queue for core
+ hardware decode
+To: Yunfei Dong <yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,59 +61,230 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Thierry Reding <treding@nvidia.com>, linux-hardening@vger.kernel.org
+Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Irui Wang <irui.wang@mediatek.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Tzung-Bi Shih <tzungbi@chromium.org>,
+ Tomasz Figa <tfiga@google.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Tiffany Lin <tiffany.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Alexandre Courbot <acourbot@chromium.org>, srv_heupstream@mediatek.com,
+ linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 09, 2021 at 05:20:45PM -0500, Harry Wentland wrote:
-> 
-> 
-> On 2021-12-09 01:23, Kees Cook wrote:
-> > On Wed, Dec 08, 2021 at 01:19:28PM +0200, Jani Nikula wrote:
-> >> On Fri, 03 Dec 2021, Kees Cook <keescook@chromium.org> wrote:
-> >>> The link_status array was not large enough to read the Adjust Request
-> >>> Post Cursor2 register. Adjust the size to include it. Found with a
-> >>> -Warray-bounds build:
-> >>>
-> >>> drivers/gpu/drm/drm_dp_helper.c: In function 'drm_dp_get_adjust_request_post_cursor':
-> >>> drivers/gpu/drm/drm_dp_helper.c:59:27: error: array subscript 10 is outside array bounds of 'const u8[6]' {aka 'const unsigned char[6]'} [-Werror=array-bounds]
-> >>>    59 |         return link_status[r - DP_LANE0_1_STATUS];
-> >>>       |                ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
-> >>> drivers/gpu/drm/drm_dp_helper.c:147:51: note: while referencing 'link_status'
-> >>>   147 | u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZE],
-> >>>       |                                          ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >>>
-> >>> Fixes: 79465e0ffeb9 ("drm/dp: Add helper to get post-cursor adjustments")
-> >>> Signed-off-by: Kees Cook <keescook@chromium.org>
-> >>
-> >> Using DP_ADJUST_REQUEST_POST_CURSOR2 has been deprecated since DP 1.3
-> >> published in 2014, and Tegra is the only user of
-> >> drm_dp_get_adjust_request_post_cursor().
-> > 
-> > I see POST_CURSOR2 is used here too:
-> > 
-> > drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-> > 
-> 
-> Looks like we read and parse that in the admgpu driver without
-> using drm_dp_get_adjust_request_post_cursor.
+On Wed, Dec 1, 2021 at 7:46 PM Yunfei Dong <yunfei.dong@mediatek.com> wrote:
+>
+> Add work queue to process core hardware information.
+> First, get lat_buf from message queue, then call core
+> hardware of each codec(H264/VP9/AV1) to decode, finally
+> puts lat_buf back to the message.
+>
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>  .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  | 16 +++++++-
+>  .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  3 ++
+>  .../platform/mtk-vcodec/vdec_msg_queue.c      | 41 ++++++++++++++++---
+>  .../platform/mtk-vcodec/vdec_msg_queue.h      |  8 ++--
+>  4 files changed, 57 insertions(+), 11 deletions(-)
+>
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+> index d460703f335d..4fbff61d2334 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+> @@ -341,6 +341,17 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+>                 goto err_dec_pm;
+>         }
+>
+> +       if (IS_VDEC_LAT_ARCH(dev->vdec_pdata->hw_arch)) {
+> +               vdec_msg_queue_init_ctx(&dev->msg_queue_core_ctx, MTK_VDEC_CORE);
+> +               dev->core_workqueue = alloc_ordered_workqueue("core-decoder",
+> +                       WQ_MEM_RECLAIM | WQ_FREEZABLE);
+> +               if (!dev->core_workqueue) {
+> +                       mtk_v4l2_err("Failed to create core workqueue");
+> +                       ret = -EINVAL;
+> +                       goto err_res;
+> +               }
+> +       }
+> +
+>         for (i = 0; i < MTK_VDEC_HW_MAX; i++)
+>                 mutex_init(&dev->dec_mutex[i]);
+>         spin_lock_init(&dev->irqlock);
+> @@ -351,7 +362,7 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+>         ret = v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
+>         if (ret) {
+>                 mtk_v4l2_err("v4l2_device_register err=%d", ret);
+> -               goto err_res;
+> +               goto err_core_workq;
+>         }
+>
+>         init_waitqueue_head(&dev->queue);
+> @@ -450,6 +461,9 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+>         video_unregister_device(vfd_dec);
+>  err_dec_alloc:
+>         v4l2_device_unregister(&dev->v4l2_dev);
+> +err_core_workq:
+> +       if (IS_VDEC_LAT_ARCH(dev->vdec_pdata->hw_arch))
+> +               destroy_workqueue(dev->core_workqueue);
+>  err_res:
+>         mtk_vcodec_release_dec_pm(&dev->pm);
+>  err_dec_pm:
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> index cbaed96dcfa2..a558cc16026d 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
+> @@ -27,6 +27,7 @@
+>  #define MTK_VCODEC_MAX_PLANES  3
+>  #define MTK_V4L2_BENCHMARK     0
+>  #define WAIT_INTR_TIMEOUT_MS   1000
+> +#define IS_VDEC_LAT_ARCH(hw_arch) ((hw_arch) >= MTK_VDEC_LAT_SINGLE_CORE)
 
-Right, and probably that could be switched to use it, but I'm not sure
-what the impact of the larger link_status read is.
+Basic question: What is practical meaning of this? What architectures
+are supported?
 
-> 
-> I don't have a strong feeling but I liked your original
-> patch a bit better. I'm not sure what it means when part
-> of a spec is deprecated. Once a spec is written display
-> vendors might implement it. We should make sure that
-> displays like that are always handled in a sane manner.
+>
+>  /*
+>   * enum mtk_hw_reg_idx - MTK hw register base index
+> @@ -464,6 +465,7 @@ struct mtk_vcodec_enc_pdata {
+>   * @dec_capability: used to identify decode capability, ex: 4k
+>   * @enc_capability: used to identify encode capability
+>   *
+> + * @core_workqueue: queue used for core hardware decode
+>   * @msg_queue_core_ctx: msg queue context used for core workqueue
+>   *
+>   * @subdev_dev: subdev hardware device
+> @@ -506,6 +508,7 @@ struct mtk_vcodec_dev {
+>         unsigned int dec_capability;
+>         unsigned int enc_capability;
+>
+> +       struct workqueue_struct *core_workqueue;
+>         struct vdec_msg_queue_ctx msg_queue_core_ctx;
+>
+>         void *subdev_dev[MTK_VDEC_HW_MAX];
+> diff --git a/drivers/media/platform/mtk-vcodec/vdec_msg_queue.c b/drivers/media/platform/mtk-vcodec/vdec_msg_queue.c
+> index 913aefa67618..24f1d03df9f1 100644
+> --- a/drivers/media/platform/mtk-vcodec/vdec_msg_queue.c
+> +++ b/drivers/media/platform/mtk-vcodec/vdec_msg_queue.c
+> @@ -68,6 +68,9 @@ int vdec_msg_queue_qbuf(struct vdec_msg_queue_ctx *msg_ctx, struct vdec_lat_buf
+>
+>         if (msg_ctx->hardware_index != MTK_VDEC_CORE)
+>                 wake_up_all(&msg_ctx->ready_to_use);
+> +       else
+> +               queue_work(buf->ctx->dev->core_workqueue,
+> +                       &buf->ctx->msg_queue.core_work);
 
-Jani, Dave, any guidance here? I'm fine with whatever, but the current
-code is for sure broken. ;)
+need {} for else here?
 
--Kees
+>
+>         mtk_v4l2_debug(3, "enqueue buf type: %d addr: 0x%p num: %d",
+>                 msg_ctx->hardware_index, buf, msg_ctx->ready_num);
+> @@ -169,8 +172,7 @@ bool vdec_msg_queue_wait_lat_buf_full(struct vdec_msg_queue *msg_queue)
+>         return false;
+>  }
+>
+> -void vdec_msg_queue_deinit(
+> -       struct vdec_msg_queue *msg_queue,
+> +void vdec_msg_queue_deinit(struct vdec_msg_queue *msg_queue,
+>         struct mtk_vcodec_ctx *ctx)
+>  {
+>         struct vdec_lat_buf *lat_buf;
+> @@ -196,10 +198,36 @@ void vdec_msg_queue_deinit(
+>         }
+>  }
+>
+> -int vdec_msg_queue_init(
+> -       struct vdec_msg_queue *msg_queue,
+> -       struct mtk_vcodec_ctx *ctx,
+> -       core_decode_cb_t core_decode,
+> +static void vdec_msg_queue_core_work(struct work_struct *work)
+> +{
+> +       struct vdec_msg_queue *msg_queue =
+> +               container_of(work, struct vdec_msg_queue, core_work);
+> +       struct mtk_vcodec_ctx *ctx =
+> +               container_of(msg_queue, struct mtk_vcodec_ctx, msg_queue);
+> +       struct mtk_vcodec_dev *dev = ctx->dev;
+> +       struct vdec_lat_buf *lat_buf;
+> +
+> +       lat_buf = vdec_msg_queue_dqbuf(&dev->msg_queue_core_ctx);
+> +       if (!lat_buf)
+> +               return;
 
--- 
-Kees Cook
+If we were to return in this error condition,
+isn't it better to also differentiate this error with return code and
+change void return type?
+
+> +
+> +       ctx = lat_buf->ctx;
+> +       mtk_vcodec_set_curr_ctx(dev, ctx, MTK_VDEC_CORE);
+> +
+> +       lat_buf->core_decode(lat_buf);
+> +
+> +       mtk_vcodec_set_curr_ctx(dev, NULL, MTK_VDEC_CORE);
+> +       vdec_msg_queue_qbuf(&ctx->msg_queue.lat_ctx, lat_buf);
+> +
+> +       if (!list_empty(&ctx->msg_queue.lat_ctx.ready_queue)) {
+> +               mtk_v4l2_debug(3, "re-schedule to decode for core",
+> +                       dev->msg_queue_core_ctx.ready_num);
+> +               queue_work(dev->core_workqueue, &msg_queue->core_work);
+> +       }
+> +}
+> +
+> +int vdec_msg_queue_init(struct vdec_msg_queue *msg_queue,
+> +       struct mtk_vcodec_ctx *ctx,     core_decode_cb_t core_decode,
+>         int private_size)
+>  {
+>         struct vdec_lat_buf *lat_buf;
+> @@ -210,6 +238,7 @@ int vdec_msg_queue_init(
+>                 return 0;
+>
+>         vdec_msg_queue_init_ctx(&msg_queue->lat_ctx, MTK_VDEC_LAT0);
+> +       INIT_WORK(&msg_queue->core_work, vdec_msg_queue_core_work);
+>         msg_queue->wdma_addr.size = vde_msg_queue_get_trans_size(
+>                 ctx->picinfo.buf_w, ctx->picinfo.buf_h);
+>
+> diff --git a/drivers/media/platform/mtk-vcodec/vdec_msg_queue.h b/drivers/media/platform/mtk-vcodec/vdec_msg_queue.h
+> index 21a9c0aeb1b4..43eae638a2a8 100644
+> --- a/drivers/media/platform/mtk-vcodec/vdec_msg_queue.h
+> +++ b/drivers/media/platform/mtk-vcodec/vdec_msg_queue.h
+> @@ -67,6 +67,7 @@ struct vdec_lat_buf {
+>   * @wdma_addr: wdma address used for ube
+>   * @wdma_rptr_addr: ube read point
+>   * @wdma_wptr_addr: ube write point
+> + * @core_work: core hardware work
+>   * @lat_ctx: used to store lat buffer list
+>   */
+>  struct vdec_msg_queue {
+> @@ -76,6 +77,7 @@ struct vdec_msg_queue {
+>         uint64_t wdma_rptr_addr;
+>         uint64_t wdma_wptr_addr;
+>
+> +       struct work_struct core_work;
+>         struct vdec_msg_queue_ctx lat_ctx;
+>  };
+>
+> @@ -86,10 +88,8 @@ struct vdec_msg_queue {
+>   * @core_decode: core decode callback for each codec
+>   * @private_size: the private data size used to share with core
+>   */
+> -int vdec_msg_queue_init(
+> -       struct vdec_msg_queue *msg_queue,
+> -       struct mtk_vcodec_ctx *ctx,
+> -       core_decode_cb_t core_decode,
+> +int vdec_msg_queue_init(struct vdec_msg_queue *msg_queue,
+> +       struct mtk_vcodec_ctx *ctx,     core_decode_cb_t core_decode,
+
+Not sure about the formatting rule, but is it supposed to be one param per line?
+If so, this comment also applied to function definition part.
+
+>         int private_size);
+>
+>  /**
+> --
+> 2.25.1
+>
