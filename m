@@ -2,56 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5726646EF09
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 17:59:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74D9146EF9A
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 18:01:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F1E010EA43;
-	Thu,  9 Dec 2021 16:54:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50B9510E635;
+	Thu,  9 Dec 2021 16:54:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3729F89E52
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Dec 2021 16:47:04 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id x15so21900455edv.1
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Dec 2021 08:47:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DUAsoZN2GGfXs7xQeUpyANUvSViGhaNjFhPoPPs6f6w=;
- b=RpGzTAlgLa3PO+98+sxBAbJQER/+75BJLrqyfbj/7lQCThJk8X1lniI4djnUqtNlYu
- 80sTAOOhS+raFRuicrgI0z7zBxkKAV/xSc03ImNww6wNqn0MUk2hp6LCQuOsvpPvlZSX
- zgMEummyAHUQoVNwNw6swxxwAaWXSLnT9OHEY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DUAsoZN2GGfXs7xQeUpyANUvSViGhaNjFhPoPPs6f6w=;
- b=43u+q8koKY6jiPG0AvEvm51jIG73BH9MX+oIaBK3lCZP/s2bq1aYwy/uO3ljAg/hwe
- fmY08Vcg/cOfmUn6nyow1rF6CBjMgg76yR8en9bKkFqIc9LsH2k5ittIz497GWXV5pfm
- ucRaNsiHFJ4UXBtcu1JkUebVGe0V67N7pM9OFpJzLemJHiyYCEvOiEb6Bn3SQIISTbMz
- vCAfF0/l5wb3zwmP8mWMgsD+MkrqlQwbFM18Ddr+y0ATmw9eRDtf+voQT18qAfoan7qP
- Z2NkoRERt05mrg89EhFqaxz4dIxrlohADCpV0zr3pUMWE9e8SbAt5DPsnEjjSrVKN2pj
- Yd/g==
-X-Gm-Message-State: AOAM532dwmPSEvQI6fXcbRPEUi5N+CoXd3M3ddM1IHbptXzHLlDfkzff
- lt9EMLn9u1hHBXMhzquqU3ssP3vcV8hTPuHnvSTogg==
-X-Google-Smtp-Source: ABdhPJyZzquwre+pYVHYp87LvqgSYqSMCpLuONQzj5RR6wgSoijqysjMjPU/d1+HrNnE2sU69dCeTVN4iRq0C4XuGoY=
-X-Received: by 2002:a17:907:6d28:: with SMTP id
- sa40mr16885730ejc.201.1639068308655; 
- Thu, 09 Dec 2021 08:45:08 -0800 (PST)
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 425CE89CDB;
+ Thu,  9 Dec 2021 16:46:47 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id 37CC62020B9;
+ Thu,  9 Dec 2021 17:46:46 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id Tq8NWqNYIXA2; Thu,  9 Dec 2021 17:46:45 +0100 (CET)
+Received: from kaveri (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
+ [85.2.99.24])
+ by netline-mail3.netline.ch (Postfix) with ESMTPA id 361EF2020C2;
+ Thu,  9 Dec 2021 17:46:45 +0100 (CET)
+Received: from daenzer by kaveri with local (Exim 4.95)
+ (envelope-from <michel@daenzer.net>) id 1mvMZA-006o00-LE;
+ Thu, 09 Dec 2021 17:46:44 +0100
+From: =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Subject: [PATCH 2/2] drm/amd/display: Reduce stack size for dml31
+ UseMinimumDCFCLK
+Date: Thu,  9 Dec 2021 17:46:44 +0100
+Message-Id: <20211209164644.1622152-2-michel@daenzer.net>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20211209164644.1622152-1-michel@daenzer.net>
+References: <20211209164644.1622152-1-michel@daenzer.net>
 MIME-Version: 1.0
-References: <20211118091955.3009900-1-alexander.stein@ew.tq-group.com>
- <20211118091955.3009900-5-alexander.stein@ew.tq-group.com>
- <CAMty3ZCQ+JDvojX0QiLEJLSA=J+kzi9kY1QE+dzf35fgO3T4aQ@mail.gmail.com>
- <YbIxGc8faqUQhUWP@pendragon.ideasonboard.com>
-In-Reply-To: <YbIxGc8faqUQhUWP@pendragon.ideasonboard.com>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Thu, 9 Dec 2021 22:14:57 +0530
-Message-ID: <CAMty3ZA+BwtGLhFM8gS5f_=j4JnMrvnqf01bTW4mbe0ddyiG-Q@mail.gmail.com>
-Subject: Re: [PATCH v4 4/4] drm/bridge: ti-sn65dsi83: Add vcc supply regulator
- support
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,67 +52,439 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
- Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <a.hajda@samsung.com>,
- David Airlie <airlied@linux.ie>, Rob Herring <robh+dt@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+From: Michel Dänzer <mdaenzer@redhat.com>
 
-On Thu, Dec 9, 2021 at 10:09 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Jagan,
->
-> On Thu, Dec 09, 2021 at 12:34:49PM +0530, Jagan Teki wrote:
-> > On Thu, Nov 18, 2021 at 2:50 PM Alexander Stein wrote:
-> > >
-> > > VCC needs to be enabled before releasing the enable GPIO.
-> > >
-> > > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > > ---
-> > >  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 19 +++++++++++++++++++
-> > >  1 file changed, 19 insertions(+)
-> > >
-> > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> > > index 065610edc37a..54d18e82ed74 100644
-> > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> > > @@ -33,6 +33,7 @@
-> > >  #include <linux/of_device.h>
-> > >  #include <linux/of_graph.h>
-> > >  #include <linux/regmap.h>
-> > > +#include <linux/regulator/consumer.h>
-> > >
-> > >  #include <drm/drm_atomic_helper.h>
-> > >  #include <drm/drm_bridge.h>
-> > > @@ -143,6 +144,7 @@ struct sn65dsi83 {
-> > >         struct mipi_dsi_device          *dsi;
-> > >         struct drm_bridge               *panel_bridge;
-> > >         struct gpio_desc                *enable_gpio;
-> > > +       struct regulator                *vcc;
-> > >         int                             dsi_lanes;
-> > >         bool                            lvds_dual_link;
-> > >         bool                            lvds_dual_link_even_odd_swap;
-> > > @@ -337,6 +339,12 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
-> > >         u16 val;
-> > >         int ret;
-> > >
-> > > +       ret = regulator_enable(ctx->vcc);
-> > > +       if (ret) {
-> > > +               dev_err(ctx->dev, "Failed to enable vcc\n");
-> > > +               return;
-> > > +       }
-> >
-> > Better check the vcc and enable it since it is an optional one.
->
-> Won't the regulator core create a dummy regulator if none is specified
-> in DT ?
+Use the struct display_mode_lib pointer instead of passing lots of large
+arrays as parameters by value.
 
-Agreed, thanks (Usually I do check to avoid NULL pointer if any).
+Addresses this warning (resulting in failure to build a RHEL debug kernel
+with Werror enabled):
 
-Jagan.
+../drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/display_mode_vba_31.c: In function ‘UseMinimumDCFCLK’:
+../drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/display_mode_vba_31.c:7478:1: warning: the frame size of 2128 bytes is larger than 2048 bytes [-Wframe-larger-than=]
+
+NOTE: AFAICT this function previously had no observable effect, since it
+only modified parameters passed by value and doesn't return anything.
+Now it may modify some values in struct display_mode_lib passed in by
+reference.
+
+Signed-off-by: Michel Dänzer <mdaenzer@redhat.com>
+---
+ .../dc/dml/dcn31/display_mode_vba_31.c        | 304 ++++--------------
+ 1 file changed, 69 insertions(+), 235 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
+index 8965f9af9d0a..6feb23432f8d 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
+@@ -422,62 +422,8 @@ static void CalculateUrgentBurstFactor(
+ 
+ static void UseMinimumDCFCLK(
+ 		struct display_mode_lib *mode_lib,
+-		int MaxInterDCNTileRepeaters,
+ 		int MaxPrefetchMode,
+-		double FinalDRAMClockChangeLatency,
+-		double SREnterPlusExitTime,
+-		int ReturnBusWidth,
+-		int RoundTripPingLatencyCycles,
+-		int ReorderingBytes,
+-		int PixelChunkSizeInKByte,
+-		int MetaChunkSize,
+-		bool GPUVMEnable,
+-		int GPUVMMaxPageTableLevels,
+-		bool HostVMEnable,
+-		int NumberOfActivePlanes,
+-		double HostVMMinPageSize,
+-		int HostVMMaxNonCachedPageTableLevels,
+-		bool DynamicMetadataVMEnabled,
+-		enum immediate_flip_requirement ImmediateFlipRequirement,
+-		bool ProgressiveToInterlaceUnitInOPP,
+-		double MaxAveragePercentOfIdealFabricAndSDPPortBWDisplayCanUseInNormalSystemOperation,
+-		double PercentOfIdealFabricAndSDPPortBWReceivedAfterUrgLatency,
+-		int VTotal[],
+-		int VActive[],
+-		int DynamicMetadataTransmittedBytes[],
+-		int DynamicMetadataLinesBeforeActiveRequired[],
+-		bool Interlace[],
+-		double RequiredDPPCLK[][2][DC__NUM_DPP__MAX],
+-		double RequiredDISPCLK[][2],
+-		double UrgLatency[],
+-		unsigned int NoOfDPP[][2][DC__NUM_DPP__MAX],
+-		double ProjectedDCFCLKDeepSleep[][2],
+-		double MaximumVStartup[][2][DC__NUM_DPP__MAX],
+-		double TotalVActivePixelBandwidth[][2],
+-		double TotalVActiveCursorBandwidth[][2],
+-		double TotalMetaRowBandwidth[][2],
+-		double TotalDPTERowBandwidth[][2],
+-		unsigned int TotalNumberOfActiveDPP[][2],
+-		unsigned int TotalNumberOfDCCActiveDPP[][2],
+-		int dpte_group_bytes[],
+-		double PrefetchLinesY[][2][DC__NUM_DPP__MAX],
+-		double PrefetchLinesC[][2][DC__NUM_DPP__MAX],
+-		int swath_width_luma_ub_all_states[][2][DC__NUM_DPP__MAX],
+-		int swath_width_chroma_ub_all_states[][2][DC__NUM_DPP__MAX],
+-		int BytePerPixelY[],
+-		int BytePerPixelC[],
+-		int HTotal[],
+-		double PixelClock[],
+-		double PDEAndMetaPTEBytesPerFrame[][2][DC__NUM_DPP__MAX],
+-		double DPTEBytesPerRow[][2][DC__NUM_DPP__MAX],
+-		double MetaRowBytes[][2][DC__NUM_DPP__MAX],
+-		bool DynamicMetadataEnable[],
+-		double VActivePixelBandwidth[][2][DC__NUM_DPP__MAX],
+-		double VActiveCursorBandwidth[][2][DC__NUM_DPP__MAX],
+-		double ReadBandwidthLuma[],
+-		double ReadBandwidthChroma[],
+-		double DCFCLKPerState[],
+-		double DCFCLKState[][2]);
++		int ReorderingBytes);
+ 
+ static void CalculatePixelDeliveryTimes(
+ 		unsigned int NumberOfActivePlanes,
+@@ -5175,66 +5121,8 @@ void dml31_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
+ 		}
+ 	}
+ 
+-	if (v->UseMinimumRequiredDCFCLK == true) {
+-		UseMinimumDCFCLK(
+-				mode_lib,
+-				v->MaxInterDCNTileRepeaters,
+-				MaxPrefetchMode,
+-				v->DRAMClockChangeLatency,
+-				v->SREnterPlusExitTime,
+-				v->ReturnBusWidth,
+-				v->RoundTripPingLatencyCycles,
+-				ReorderingBytes,
+-				v->PixelChunkSizeInKByte,
+-				v->MetaChunkSize,
+-				v->GPUVMEnable,
+-				v->GPUVMMaxPageTableLevels,
+-				v->HostVMEnable,
+-				v->NumberOfActivePlanes,
+-				v->HostVMMinPageSize,
+-				v->HostVMMaxNonCachedPageTableLevels,
+-				v->DynamicMetadataVMEnabled,
+-				v->ImmediateFlipRequirement[0],
+-				v->ProgressiveToInterlaceUnitInOPP,
+-				v->MaxAveragePercentOfIdealFabricAndSDPPortBWDisplayCanUseInNormalSystemOperation,
+-				v->PercentOfIdealFabricAndSDPPortBWReceivedAfterUrgLatency,
+-				v->VTotal,
+-				v->VActive,
+-				v->DynamicMetadataTransmittedBytes,
+-				v->DynamicMetadataLinesBeforeActiveRequired,
+-				v->Interlace,
+-				v->RequiredDPPCLK,
+-				v->RequiredDISPCLK,
+-				v->UrgLatency,
+-				v->NoOfDPP,
+-				v->ProjectedDCFCLKDeepSleep,
+-				v->MaximumVStartup,
+-				v->TotalVActivePixelBandwidth,
+-				v->TotalVActiveCursorBandwidth,
+-				v->TotalMetaRowBandwidth,
+-				v->TotalDPTERowBandwidth,
+-				v->TotalNumberOfActiveDPP,
+-				v->TotalNumberOfDCCActiveDPP,
+-				v->dpte_group_bytes,
+-				v->PrefetchLinesY,
+-				v->PrefetchLinesC,
+-				v->swath_width_luma_ub_all_states,
+-				v->swath_width_chroma_ub_all_states,
+-				v->BytePerPixelY,
+-				v->BytePerPixelC,
+-				v->HTotal,
+-				v->PixelClock,
+-				v->PDEAndMetaPTEBytesPerFrame,
+-				v->DPTEBytesPerRow,
+-				v->MetaRowBytes,
+-				v->DynamicMetadataEnable,
+-				v->VActivePixelBandwidth,
+-				v->VActiveCursorBandwidth,
+-				v->ReadBandwidthLuma,
+-				v->ReadBandwidthChroma,
+-				v->DCFCLKPerState,
+-				v->DCFCLKState);
+-	}
++	if (v->UseMinimumRequiredDCFCLK == true)
++		UseMinimumDCFCLK(mode_lib, MaxPrefetchMode, ReorderingBytes);
+ 
+ 	for (i = 0; i < v->soc.num_states; ++i) {
+ 		for (j = 0; j <= 1; ++j) {
+@@ -7262,69 +7150,15 @@ static double CalculateUrgentLatency(
+ 
+ static void UseMinimumDCFCLK(
+ 		struct display_mode_lib *mode_lib,
+-		int MaxInterDCNTileRepeaters,
+ 		int MaxPrefetchMode,
+-		double FinalDRAMClockChangeLatency,
+-		double SREnterPlusExitTime,
+-		int ReturnBusWidth,
+-		int RoundTripPingLatencyCycles,
+-		int ReorderingBytes,
+-		int PixelChunkSizeInKByte,
+-		int MetaChunkSize,
+-		bool GPUVMEnable,
+-		int GPUVMMaxPageTableLevels,
+-		bool HostVMEnable,
+-		int NumberOfActivePlanes,
+-		double HostVMMinPageSize,
+-		int HostVMMaxNonCachedPageTableLevels,
+-		bool DynamicMetadataVMEnabled,
+-		enum immediate_flip_requirement ImmediateFlipRequirement,
+-		bool ProgressiveToInterlaceUnitInOPP,
+-		double MaxAveragePercentOfIdealFabricAndSDPPortBWDisplayCanUseInNormalSystemOperation,
+-		double PercentOfIdealFabricAndSDPPortBWReceivedAfterUrgLatency,
+-		int VTotal[],
+-		int VActive[],
+-		int DynamicMetadataTransmittedBytes[],
+-		int DynamicMetadataLinesBeforeActiveRequired[],
+-		bool Interlace[],
+-		double RequiredDPPCLK[][2][DC__NUM_DPP__MAX],
+-		double RequiredDISPCLK[][2],
+-		double UrgLatency[],
+-		unsigned int NoOfDPP[][2][DC__NUM_DPP__MAX],
+-		double ProjectedDCFCLKDeepSleep[][2],
+-		double MaximumVStartup[][2][DC__NUM_DPP__MAX],
+-		double TotalVActivePixelBandwidth[][2],
+-		double TotalVActiveCursorBandwidth[][2],
+-		double TotalMetaRowBandwidth[][2],
+-		double TotalDPTERowBandwidth[][2],
+-		unsigned int TotalNumberOfActiveDPP[][2],
+-		unsigned int TotalNumberOfDCCActiveDPP[][2],
+-		int dpte_group_bytes[],
+-		double PrefetchLinesY[][2][DC__NUM_DPP__MAX],
+-		double PrefetchLinesC[][2][DC__NUM_DPP__MAX],
+-		int swath_width_luma_ub_all_states[][2][DC__NUM_DPP__MAX],
+-		int swath_width_chroma_ub_all_states[][2][DC__NUM_DPP__MAX],
+-		int BytePerPixelY[],
+-		int BytePerPixelC[],
+-		int HTotal[],
+-		double PixelClock[],
+-		double PDEAndMetaPTEBytesPerFrame[][2][DC__NUM_DPP__MAX],
+-		double DPTEBytesPerRow[][2][DC__NUM_DPP__MAX],
+-		double MetaRowBytes[][2][DC__NUM_DPP__MAX],
+-		bool DynamicMetadataEnable[],
+-		double VActivePixelBandwidth[][2][DC__NUM_DPP__MAX],
+-		double VActiveCursorBandwidth[][2][DC__NUM_DPP__MAX],
+-		double ReadBandwidthLuma[],
+-		double ReadBandwidthChroma[],
+-		double DCFCLKPerState[],
+-		double DCFCLKState[][2])
++		int ReorderingBytes)
+ {
+ 	struct vba_vars_st *v = &mode_lib->vba;
+ 	int dummy1, i, j, k;
+ 	double NormalEfficiency,  dummy2, dummy3;
+ 	double TotalMaxPrefetchFlipDPTERowBandwidth[DC__VOLTAGE_STATES][2];
+ 
+-	NormalEfficiency = PercentOfIdealFabricAndSDPPortBWReceivedAfterUrgLatency / 100.0;
++	NormalEfficiency = v->PercentOfIdealFabricAndSDPPortBWReceivedAfterUrgLatency / 100.0;
+ 	for (i = 0; i < v->soc.num_states; ++i) {
+ 		for (j = 0; j <= 1; ++j) {
+ 			double PixelDCFCLKCyclesRequiredInPrefetch[DC__NUM_DPP__MAX];
+@@ -7342,61 +7176,61 @@ static void UseMinimumDCFCLK(
+ 			double MinimumTvmPlus2Tr0;
+ 
+ 			TotalMaxPrefetchFlipDPTERowBandwidth[i][j] = 0;
+-			for (k = 0; k < NumberOfActivePlanes; ++k) {
++			for (k = 0; k < v->NumberOfActivePlanes; ++k) {
+ 				TotalMaxPrefetchFlipDPTERowBandwidth[i][j] = TotalMaxPrefetchFlipDPTERowBandwidth[i][j]
+-						+ NoOfDPP[i][j][k] * DPTEBytesPerRow[i][j][k] / (15.75 * HTotal[k] / PixelClock[k]);
++						+ v->NoOfDPP[i][j][k] * v->DPTEBytesPerRow[i][j][k] / (15.75 * v->HTotal[k] / v->PixelClock[k]);
+ 			}
+ 
+-			for (k = 0; k <= NumberOfActivePlanes - 1; ++k) {
+-				NoOfDPPState[k] = NoOfDPP[i][j][k];
++			for (k = 0; k <= v->NumberOfActivePlanes - 1; ++k) {
++				NoOfDPPState[k] = v->NoOfDPP[i][j][k];
+ 			}
+ 
+-			MinimumTWait = CalculateTWait(MaxPrefetchMode, FinalDRAMClockChangeLatency, UrgLatency[i], SREnterPlusExitTime);
+-			NonDPTEBandwidth = TotalVActivePixelBandwidth[i][j] + TotalVActiveCursorBandwidth[i][j] + TotalMetaRowBandwidth[i][j];
+-			DPTEBandwidth = (HostVMEnable == true || ImmediateFlipRequirement == dm_immediate_flip_required) ?
+-					TotalMaxPrefetchFlipDPTERowBandwidth[i][j] : TotalDPTERowBandwidth[i][j];
++			MinimumTWait = CalculateTWait(MaxPrefetchMode, v->FinalDRAMClockChangeLatency, v->UrgLatency[i], v->SREnterPlusExitTime);
++			NonDPTEBandwidth = v->TotalVActivePixelBandwidth[i][j] + v->TotalVActiveCursorBandwidth[i][j] + v->TotalMetaRowBandwidth[i][j];
++			DPTEBandwidth = (v->HostVMEnable == true || v->ImmediateFlipRequirement[0] == dm_immediate_flip_required) ?
++					TotalMaxPrefetchFlipDPTERowBandwidth[i][j] : v->TotalDPTERowBandwidth[i][j];
+ 			DCFCLKRequiredForAverageBandwidth = dml_max3(
+-					ProjectedDCFCLKDeepSleep[i][j],
+-					(NonDPTEBandwidth + TotalDPTERowBandwidth[i][j]) / ReturnBusWidth
+-							/ (MaxAveragePercentOfIdealFabricAndSDPPortBWDisplayCanUseInNormalSystemOperation / 100),
+-					(NonDPTEBandwidth + DPTEBandwidth / NormalEfficiency) / NormalEfficiency / ReturnBusWidth);
++					v->ProjectedDCFCLKDeepSleep[i][j],
++					(NonDPTEBandwidth + v->TotalDPTERowBandwidth[i][j]) / v->ReturnBusWidth
++							/ (v->MaxAveragePercentOfIdealFabricAndSDPPortBWDisplayCanUseInNormalSystemOperation / 100),
++					(NonDPTEBandwidth + DPTEBandwidth / NormalEfficiency) / NormalEfficiency / v->ReturnBusWidth);
+ 
+ 			ExtraLatencyBytes = CalculateExtraLatencyBytes(
+ 					ReorderingBytes,
+-					TotalNumberOfActiveDPP[i][j],
+-					PixelChunkSizeInKByte,
+-					TotalNumberOfDCCActiveDPP[i][j],
+-					MetaChunkSize,
+-					GPUVMEnable,
+-					HostVMEnable,
+-					NumberOfActivePlanes,
++					v->TotalNumberOfActiveDPP[i][j],
++					v->PixelChunkSizeInKByte,
++					v->TotalNumberOfDCCActiveDPP[i][j],
++					v->MetaChunkSize,
++					v->GPUVMEnable,
++					v->HostVMEnable,
++					v->NumberOfActivePlanes,
+ 					NoOfDPPState,
+-					dpte_group_bytes,
++					v->dpte_group_bytes,
+ 					1,
+-					HostVMMinPageSize,
+-					HostVMMaxNonCachedPageTableLevels);
+-			ExtraLatencyCycles = RoundTripPingLatencyCycles + __DML_ARB_TO_RET_DELAY__ + ExtraLatencyBytes / NormalEfficiency / ReturnBusWidth;
+-			for (k = 0; k < NumberOfActivePlanes; ++k) {
++					v->HostVMMinPageSize,
++					v->HostVMMaxNonCachedPageTableLevels);
++			ExtraLatencyCycles = v->RoundTripPingLatencyCycles + __DML_ARB_TO_RET_DELAY__ + ExtraLatencyBytes / NormalEfficiency / v->ReturnBusWidth;
++			for (k = 0; k < v->NumberOfActivePlanes; ++k) {
+ 				double DCFCLKCyclesRequiredInPrefetch;
+ 				double ExpectedPrefetchBWAcceleration;
+ 				double PrefetchTime;
+ 
+-				PixelDCFCLKCyclesRequiredInPrefetch[k] = (PrefetchLinesY[i][j][k] * swath_width_luma_ub_all_states[i][j][k] * BytePerPixelY[k]
+-						+ PrefetchLinesC[i][j][k] * swath_width_chroma_ub_all_states[i][j][k] * BytePerPixelC[k]) / NormalEfficiency / ReturnBusWidth;
++				PixelDCFCLKCyclesRequiredInPrefetch[k] = (v->PrefetchLinesY[i][j][k] * v->swath_width_luma_ub_all_states[i][j][k] * v->BytePerPixelY[k]
++						+ v->PrefetchLinesC[i][j][k] * v->swath_width_chroma_ub_all_states[i][j][k] * v->BytePerPixelC[k]) / NormalEfficiency / v->ReturnBusWidth;
+ 				DCFCLKCyclesRequiredInPrefetch = 2 * ExtraLatencyCycles / NoOfDPPState[k]
+-						+ PDEAndMetaPTEBytesPerFrame[i][j][k] / NormalEfficiency / NormalEfficiency / ReturnBusWidth * (GPUVMMaxPageTableLevels > 2 ? 1 : 0)
+-						+ 2 * DPTEBytesPerRow[i][j][k] / NormalEfficiency / NormalEfficiency / ReturnBusWidth
+-						+ 2 * MetaRowBytes[i][j][k] / NormalEfficiency / ReturnBusWidth + PixelDCFCLKCyclesRequiredInPrefetch[k];
+-				PrefetchPixelLinesTime[k] = dml_max(PrefetchLinesY[i][j][k], PrefetchLinesC[i][j][k]) * HTotal[k] / PixelClock[k];
+-				ExpectedPrefetchBWAcceleration = (VActivePixelBandwidth[i][j][k] + VActiveCursorBandwidth[i][j][k])
+-						/ (ReadBandwidthLuma[k] + ReadBandwidthChroma[k]);
++						+ v->PDEAndMetaPTEBytesPerFrame[i][j][k] / NormalEfficiency / NormalEfficiency / v->ReturnBusWidth * (v->GPUVMMaxPageTableLevels > 2 ? 1 : 0)
++						+ 2 * v->DPTEBytesPerRow[i][j][k] / NormalEfficiency / NormalEfficiency / v->ReturnBusWidth
++						+ 2 * v->MetaRowBytes[i][j][k] / NormalEfficiency / v->ReturnBusWidth + PixelDCFCLKCyclesRequiredInPrefetch[k];
++				PrefetchPixelLinesTime[k] = dml_max(v->PrefetchLinesY[i][j][k], v->PrefetchLinesC[i][j][k]) * v->HTotal[k] / v->PixelClock[k];
++				ExpectedPrefetchBWAcceleration = (v->VActivePixelBandwidth[i][j][k] + v->VActiveCursorBandwidth[i][j][k])
++						/ (v->ReadBandwidthLuma[k] + v->ReadBandwidthChroma[k]);
+ 				DynamicMetadataVMExtraLatency[k] =
+-						(GPUVMEnable == true && DynamicMetadataEnable[k] == true && DynamicMetadataVMEnabled == true) ?
+-								UrgLatency[i] * GPUVMMaxPageTableLevels * (HostVMEnable == true ? HostVMMaxNonCachedPageTableLevels + 1 : 1) : 0;
+-				PrefetchTime = (MaximumVStartup[i][j][k] - 1) * HTotal[k] / PixelClock[k] - MinimumTWait
+-						- UrgLatency[i]
+-								* ((GPUVMMaxPageTableLevels <= 2 ? GPUVMMaxPageTableLevels : GPUVMMaxPageTableLevels - 2)
+-										* (HostVMEnable == true ? HostVMMaxNonCachedPageTableLevels + 1 : 1) - 1)
++						(v->GPUVMEnable == true && v->DynamicMetadataEnable[k] == true && v->DynamicMetadataVMEnabled == true) ?
++								v->UrgLatency[i] * v->GPUVMMaxPageTableLevels * (v->HostVMEnable == true ? v->HostVMMaxNonCachedPageTableLevels + 1 : 1) : 0;
++				PrefetchTime = (v->MaximumVStartup[i][j][k] - 1) * v->HTotal[k] / v->PixelClock[k] - MinimumTWait
++						- v->UrgLatency[i]
++								* ((v->GPUVMMaxPageTableLevels <= 2 ? v->GPUVMMaxPageTableLevels : v->GPUVMMaxPageTableLevels - 2)
++										* (v->HostVMEnable == true ? v->HostVMMaxNonCachedPageTableLevels + 1 : 1) - 1)
+ 						- DynamicMetadataVMExtraLatency[k];
+ 
+ 				if (PrefetchTime > 0) {
+@@ -7405,14 +7239,14 @@ static void UseMinimumDCFCLK(
+ 							/ (PrefetchTime * PixelDCFCLKCyclesRequiredInPrefetch[k] / DCFCLKCyclesRequiredInPrefetch);
+ 					DCFCLKRequiredForPeakBandwidthPerPlane[k] = NoOfDPPState[k] * PixelDCFCLKCyclesRequiredInPrefetch[k] / PrefetchPixelLinesTime[k]
+ 							* dml_max(1.0, ExpectedVRatioPrefetch) * dml_max(1.0, ExpectedVRatioPrefetch / 4) * ExpectedPrefetchBWAcceleration;
+-					if (HostVMEnable == true || ImmediateFlipRequirement == dm_immediate_flip_required) {
++					if (v->HostVMEnable == true || v->ImmediateFlipRequirement[0] == dm_immediate_flip_required) {
+ 						DCFCLKRequiredForPeakBandwidthPerPlane[k] = DCFCLKRequiredForPeakBandwidthPerPlane[k]
+-								+ NoOfDPPState[k] * DPTEBandwidth / NormalEfficiency / NormalEfficiency / ReturnBusWidth;
++								+ NoOfDPPState[k] * DPTEBandwidth / NormalEfficiency / NormalEfficiency / v->ReturnBusWidth;
+ 					}
+ 				} else {
+-					DCFCLKRequiredForPeakBandwidthPerPlane[k] = DCFCLKPerState[i];
++					DCFCLKRequiredForPeakBandwidthPerPlane[k] = v->DCFCLKPerState[i];
+ 				}
+-				if (DynamicMetadataEnable[k] == true) {
++				if (v->DynamicMetadataEnable[k] == true) {
+ 					double TSetupPipe;
+ 					double TdmbfPipe;
+ 					double TdmsksPipe;
+@@ -7420,17 +7254,17 @@ static void UseMinimumDCFCLK(
+ 					double AllowedTimeForUrgentExtraLatency;
+ 
+ 					CalculateVupdateAndDynamicMetadataParameters(
+-							MaxInterDCNTileRepeaters,
+-							RequiredDPPCLK[i][j][k],
+-							RequiredDISPCLK[i][j],
+-							ProjectedDCFCLKDeepSleep[i][j],
+-							PixelClock[k],
+-							HTotal[k],
+-							VTotal[k] - VActive[k],
+-							DynamicMetadataTransmittedBytes[k],
+-							DynamicMetadataLinesBeforeActiveRequired[k],
+-							Interlace[k],
+-							ProgressiveToInterlaceUnitInOPP,
++							v->MaxInterDCNTileRepeaters,
++							v->RequiredDPPCLK[i][j][k],
++							v->RequiredDISPCLK[i][j],
++							v->ProjectedDCFCLKDeepSleep[i][j],
++							v->PixelClock[k],
++							v->HTotal[k],
++							v->VTotal[k] - v->VActive[k],
++							v->DynamicMetadataTransmittedBytes[k],
++							v->DynamicMetadataLinesBeforeActiveRequired[k],
++							v->Interlace[k],
++							v->ProgressiveToInterlaceUnitInOPP,
+ 							&TSetupPipe,
+ 							&TdmbfPipe,
+ 							&TdmecPipe,
+@@ -7438,31 +7272,31 @@ static void UseMinimumDCFCLK(
+ 							&dummy1,
+ 							&dummy2,
+ 							&dummy3);
+-					AllowedTimeForUrgentExtraLatency = MaximumVStartup[i][j][k] * HTotal[k] / PixelClock[k] - MinimumTWait - TSetupPipe - TdmbfPipe - TdmecPipe
++					AllowedTimeForUrgentExtraLatency = v->MaximumVStartup[i][j][k] * v->HTotal[k] / v->PixelClock[k] - MinimumTWait - TSetupPipe - TdmbfPipe - TdmecPipe
+ 							- TdmsksPipe - DynamicMetadataVMExtraLatency[k];
+ 					if (AllowedTimeForUrgentExtraLatency > 0) {
+ 						DCFCLKRequiredForPeakBandwidthPerPlane[k] = dml_max(
+ 								DCFCLKRequiredForPeakBandwidthPerPlane[k],
+ 								ExtraLatencyCycles / AllowedTimeForUrgentExtraLatency);
+ 					} else {
+-						DCFCLKRequiredForPeakBandwidthPerPlane[k] = DCFCLKPerState[i];
++						DCFCLKRequiredForPeakBandwidthPerPlane[k] = v->DCFCLKPerState[i];
+ 					}
+ 				}
+ 			}
+ 			DCFCLKRequiredForPeakBandwidth = 0;
+-			for (k = 0; k <= NumberOfActivePlanes - 1; ++k) {
++			for (k = 0; k <= v->NumberOfActivePlanes - 1; ++k) {
+ 				DCFCLKRequiredForPeakBandwidth = DCFCLKRequiredForPeakBandwidth + DCFCLKRequiredForPeakBandwidthPerPlane[k];
+ 			}
+-			MinimumTvmPlus2Tr0 = UrgLatency[i]
+-					* (GPUVMEnable == true ?
+-							(HostVMEnable == true ?
+-									(GPUVMMaxPageTableLevels + 2) * (HostVMMaxNonCachedPageTableLevels + 1) - 1 : GPUVMMaxPageTableLevels + 1) :
++			MinimumTvmPlus2Tr0 = v->UrgLatency[i]
++					* (v->GPUVMEnable == true ?
++							(v->HostVMEnable == true ?
++									(v->GPUVMMaxPageTableLevels + 2) * (v->HostVMMaxNonCachedPageTableLevels + 1) - 1 : v->GPUVMMaxPageTableLevels + 1) :
+ 							0);
+-			for (k = 0; k < NumberOfActivePlanes; ++k) {
++			for (k = 0; k < v->NumberOfActivePlanes; ++k) {
+ 				double MaximumTvmPlus2Tr0PlusTsw;
+-				MaximumTvmPlus2Tr0PlusTsw = (MaximumVStartup[i][j][k] - 2) * HTotal[k] / PixelClock[k] - MinimumTWait - DynamicMetadataVMExtraLatency[k];
++				MaximumTvmPlus2Tr0PlusTsw = (v->MaximumVStartup[i][j][k] - 2) * v->HTotal[k] / v->PixelClock[k] - MinimumTWait - DynamicMetadataVMExtraLatency[k];
+ 				if (MaximumTvmPlus2Tr0PlusTsw <= MinimumTvmPlus2Tr0 + PrefetchPixelLinesTime[k] / 4) {
+-					DCFCLKRequiredForPeakBandwidth = DCFCLKPerState[i];
++					DCFCLKRequiredForPeakBandwidth = v->DCFCLKPerState[i];
+ 				} else {
+ 					DCFCLKRequiredForPeakBandwidth = dml_max3(
+ 							DCFCLKRequiredForPeakBandwidth,
+@@ -7470,7 +7304,7 @@ static void UseMinimumDCFCLK(
+ 							(2 * ExtraLatencyCycles + PixelDCFCLKCyclesRequiredInPrefetch[k]) / (MaximumTvmPlus2Tr0PlusTsw - MinimumTvmPlus2Tr0));
+ 				}
+ 			}
+-			DCFCLKState[i][j] = dml_min(DCFCLKPerState[i], 1.05 * dml_max(DCFCLKRequiredForAverageBandwidth, DCFCLKRequiredForPeakBandwidth));
++			v->DCFCLKState[i][j] = dml_min(v->DCFCLKPerState[i], 1.05 * dml_max(DCFCLKRequiredForAverageBandwidth, DCFCLKRequiredForPeakBandwidth));
+ 		}
+ 	}
+ }
+-- 
+2.34.1
+
