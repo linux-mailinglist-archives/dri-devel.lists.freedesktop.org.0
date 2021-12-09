@@ -2,56 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 115E646EF9F
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 18:01:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7296446EFA9
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 18:01:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40D0510E634;
-	Thu,  9 Dec 2021 16:54:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3448010EC79;
+	Thu,  9 Dec 2021 16:54:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com
- [IPv6:2607:f8b0:4864:20::f32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4128410E116;
- Thu,  9 Dec 2021 16:23:05 +0000 (UTC)
-Received: by mail-qv1-xf32.google.com with SMTP id u16so5560042qvk.4;
- Thu, 09 Dec 2021 08:23:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=H5gMk/Ll3lKHidyq5YhvRSlIyK9BJM0aB84Iyd3NPRA=;
- b=fHfqMwJ8P2ySuZkcCMm093Db0SEkQtUsCIJGANCsX7WewIsWR7lAFnc63d8RGtcSMa
- suVJnB64LChfjkmCE/Ntj5a56ePCBbu3XyEzugHT/0mO7Np17bqtwY5m0lq+QyhGE56S
- LezoCti1eKqfOO5bzutWNj30dy+ILf46yifkh/Tu6a7XDWJ724xNNelhVA8XQm4Xy7zP
- MxGM35UDEfjUYj3mj8oUVkW66F/0QgyN4aT6uDC0t3AGRp0jplENY87MWk/IqyfPW5+w
- P4Khsq4nxKee0LtUqsT45RrHy/phBIlutAlFktb8OMdDJEQHTtryDCxWcgJ2sn3HE1+7
- oPOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=H5gMk/Ll3lKHidyq5YhvRSlIyK9BJM0aB84Iyd3NPRA=;
- b=5+j5zeTLwyxhk14xhum7IEfbI8hhPboTELTcOWCvfUNz0DG1ZAicZMUxI45UHPvxuS
- YJl9HdzC8yNoPK+OVM6AZKg6ZwfJP59EZMMudKrjJbYfC0AYQfwfCK3rW+IjI1SjlwNE
- h1Wk/PRXj7VoJqOnXmB3rD0u9QRA1kSQGKyPS1SMylmIk0EJ1rObfUHMaBYatPeO5CE7
- omaDfY0EhHjhFdQQ4OqxPNgum85T4SHixPkJ8AcGAbTujHA4exKOBN/el13ruYXKO5qJ
- +65mWz6OH/Dgg3eFUx8GhWDAvRUDnBJ3A5HkhOWJxfCd7SPyq74Gs2+24I51uoABJleZ
- 7seA==
-X-Gm-Message-State: AOAM530DaaFg1M8i6D7g3c6IZb2cbALNvF7GZ5x4y2Uf0y6T0CXjU5vz
- Z3yHpRhCC2xqd7XA6cB/35jC+bmrhufQ1EHMJVI=
-X-Google-Smtp-Source: ABdhPJxYBIY4X70LxpObOx5KRVG+1Az603IzbMeJDMkmG+1kvPHX6Pd5coYnaDWUU+HK5CTioiLPM23A6BKU0k7/tFk=
-X-Received: by 2002:a05:6214:18c7:: with SMTP id
- cy7mr16521470qvb.0.1639066984303; 
- Thu, 09 Dec 2021 08:23:04 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79F5A10E117
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Dec 2021 16:38:31 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C2CEB501;
+ Thu,  9 Dec 2021 17:38:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1639067909;
+ bh=3Mxsi+WW5Zpuvl3ENZtcA5oQXgRkwpop2sTOz0mMFWA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Px+1KY2eYvkEXP1a7b7q99oGsXpoezQC2Q+yZDzaWTe2TZbFBrF3k78kti3zS8eIY
+ coi12OxSRPad2ULKNvJLq38crfmH09oIj81hc4WTh4D43HVMVmqNn7t5i40UAze210
+ syqms//Fdn/Pr19GOKxVQNfgVzPhfLTC/2+GmWJA=
+Date: Thu, 9 Dec 2021 18:37:59 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Subject: Re: [PATCH v4 4/4] drm/bridge: ti-sn65dsi83: Add vcc supply
+ regulator support
+Message-ID: <YbIw56OtJQuLA+9t@pendragon.ideasonboard.com>
+References: <20211118091955.3009900-1-alexander.stein@ew.tq-group.com>
+ <20211118091955.3009900-5-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
-References: <20211129134735.628712-1-maarten.lankhorst@linux.intel.com>
- <20211129134735.628712-17-maarten.lankhorst@linux.intel.com>
-In-Reply-To: <20211129134735.628712-17-maarten.lankhorst@linux.intel.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Thu, 9 Dec 2021 16:22:38 +0000
-Message-ID: <CAM0jSHM2w81HASG2TWKWdQPyJr3=m9WBB5t_V8C6gJPwrF5ouw@mail.gmail.com>
-Subject: Re: [PATCH v2 16/16] drm/i915: Remove short-term pins from execbuf,
- v5.
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211118091955.3009900-5-alexander.stein@ew.tq-group.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,52 +48,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: devicetree@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Jonas Karlman <jonas@kwiboo.se>, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 29 Nov 2021 at 13:58, Maarten Lankhorst
-<maarten.lankhorst@linux.intel.com> wrote:
->
-> Add a flag PIN_VALIDATE, to indicate we don't need to pin and only
-> protected by the object lock.
->
-> This removes the need to unpin, which is done by just releasing the
-> lock.
->
-> eb_reserve is slightly reworked for readability, but the same steps
-> are still done:
-> - First pass pins with NONBLOCK.
-> - Second pass unbinds all objects first, then pins.
-> - Third pass is only called when not all objects are softpinned, and
->   unbinds all objects, then calls i915_gem_evict_vm(), then pins.
->
-> When evicting the entire vm in eb_reserve() we do temporarily pin objects
-> that are marked with EXEC_OBJECT_PINNED. This is because they are already
-> at their destination, and i915_gem_evict_vm() would otherwise unbind them.
->
-> However, we reduce the visibility of those pins by limiting the pin
-> to our call to i915_gem_evict_vm() only, and pin with vm->mutex held,
-> instead of the entire duration of the execbuf.
->
-> Not sure the latter matters, one can hope..
-> In theory we could kill the pinning by adding an extra flag to the vma
-> to temporarily prevent unbinding for gtt for i915_gem_evict_vm only, but
-> I think that might be overkill. We're still holding the object lock, and
-> we don't have blocking eviction yet. It's likely sufficient to simply
-> enforce EXEC_OBJECT_PINNED for all objects on >= gen12.
->
-> Changes since v1:
-> - Split out eb_reserve() into separate functions for readability.
-> Changes since v2:
-> - Make batch buffer mappable on platforms where only GGTT is available,
->   to prevent moving the batch buffer during relocations.
-> Changes since v3:
-> - Preserve current behavior for batch buffer, instead be cautious when
->   calling i915_gem_object_ggtt_pin_ww, and re-use the current batch vma
->   if it's inside ggtt and map-and-fenceable.
-> - Remove impossible condition check from eb_reserve. (Matt)
->
-> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+Hi Alexander,
+
+Thank you for the patch.
+
+On Thu, Nov 18, 2021 at 10:19:55AM +0100, Alexander Stein wrote:
+> VCC needs to be enabled before releasing the enable GPIO.
+> 
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> ---
+>  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> index 065610edc37a..54d18e82ed74 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> @@ -33,6 +33,7 @@
+>  #include <linux/of_device.h>
+>  #include <linux/of_graph.h>
+>  #include <linux/regmap.h>
+> +#include <linux/regulator/consumer.h>
+>  
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_bridge.h>
+> @@ -143,6 +144,7 @@ struct sn65dsi83 {
+>  	struct mipi_dsi_device		*dsi;
+>  	struct drm_bridge		*panel_bridge;
+>  	struct gpio_desc		*enable_gpio;
+> +	struct regulator		*vcc;
+>  	int				dsi_lanes;
+>  	bool				lvds_dual_link;
+>  	bool				lvds_dual_link_even_odd_swap;
+> @@ -337,6 +339,12 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
+>  	u16 val;
+>  	int ret;
+>  
+> +	ret = regulator_enable(ctx->vcc);
+> +	if (ret) {
+> +		dev_err(ctx->dev, "Failed to enable vcc\n");
+
+I'd print the error code here as you do so in
+sn65dsi83_atomic_disable().
+
+> +		return;
+> +	}
+> +
+>  	/* Deassert reset */
+>  	gpiod_set_value(ctx->enable_gpio, 1);
+>  	usleep_range(1000, 1100);
+> @@ -486,11 +494,16 @@ static void sn65dsi83_atomic_disable(struct drm_bridge *bridge,
+>  				     struct drm_bridge_state *old_bridge_state)
+>  {
+>  	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
+> +	int ret;
+>  
+>  	/* Put the chip in reset, pull EN line low, and assure 10ms reset low timing. */
+>  	gpiod_set_value(ctx->enable_gpio, 0);
+>  	usleep_range(10000, 11000);
+>  
+> +	ret = regulator_disable(ctx->vcc);
+> +	if (ret)
+> +		dev_err(ctx->dev, "Failed to disable vcc: %i\n", ret);
+
+I wish printf didn't have identical %i and %d specifiers :-)
+
+> +
+>  	regcache_mark_dirty(ctx->regmap);
+>  }
+>  
+> @@ -599,6 +612,12 @@ static int sn65dsi83_parse_dt(struct sn65dsi83 *ctx, enum sn65dsi83_model model)
+>  
+>  	ctx->panel_bridge = panel_bridge;
+>  
+> +	ctx->vcc = devm_regulator_get(dev, "vcc");
+> +	if (IS_ERR(ctx->vcc))
+> +		return dev_err_probe(dev, PTR_ERR(ctx->vcc),
+> +				     "Failed to get supply 'vcc': %pe\n",
+> +				     ERR_PTR(ret));
+
+This doesn't seem right, ret doesn't contain any useful error code at
+this point.
+
+		return dev_err_probe(dev, PTR_ERR(ctx->vcc),
+				     "Failed to get supply 'vcc'\n");
+
+should be enough, as dev_err_probe() adds the error to the message
+internally.
+
+With those small fixes,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +
+>  	return 0;
+>  }
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
