@@ -2,32 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01B1E46F60D
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 22:36:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2696846F6C9
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 23:27:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF84210E391;
-	Thu,  9 Dec 2021 21:36:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BD9B10E15E;
+	Thu,  9 Dec 2021 22:26:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
- by gabe.freedesktop.org (Postfix) with ESMTP id 42F4810E38E
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Dec 2021 21:36:32 +0000 (UTC)
-Received: from uucp (helo=alpha)
- by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
- id 1mvR5U-0006qc-00; Thu, 09 Dec 2021 22:36:24 +0100
-Received: by alpha.franken.de (Postfix, from userid 1000)
- id C2D81C02CD; Thu,  9 Dec 2021 18:11:09 +0100 (CET)
-Date: Thu, 9 Dec 2021 18:11:09 +0100
-From: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Subject: Re: [PATCH v11 0/8] MIPS: JZ4780 and CI20 HDMI
-Message-ID: <20211209171109.GA18973@alpha.franken.de>
-References: <cover.1638470392.git.hns@goldelico.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 437E410E217;
+ Thu,  9 Dec 2021 18:00:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version
+ :Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=Du1ulIl0nJfgyvVBjJv/Ni5rMz9pM/5JhDhCLOiqtLI=; b=f5ccjmB3z3Zsg2zp2C8KIiTaiG
+ tahGEqJAgk3bk+K6yWDfuLwt/tvjKrhO1YMODbN6TCytk2eORd1BC9+cWTxGJTO7rQTSWoue7nkI2
+ VcTT1bf1bG0L8QDTZUsmuykcluNaxRhqPPoUEQBqNJ84NB4cMX34ZxurAV9R5iA/EZJsS3MGi14ba
+ agwm4gNpMR0pdaoRzsI9RQUo12pkECE3pBX/XPpuQVouGHr5DA68VtRiegqmfxnVg0GGTQ+eWjWod
+ E2HJ2Nv2Nre8M1b/JYa6wKSlp8Be1AWvTV5CETadnDwF8arM/0Ka8hG/l+s8kKKDKs5YOG/PILlV+
+ jBVbIt0Q==;
+Received: from [177.103.99.151] (helo=[192.168.1.60])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1mvNiD-000C0Z-09; Thu, 09 Dec 2021 19:00:09 +0100
+Subject: Re: Reuse framebuffer after a kexec (amdgpu / efifb)
+To: Alex Deucher <alexdeucher@gmail.com>
+References: <62aab616-53cb-ff9f-c5f3-169c547bd1ee@igalia.com>
+ <CADnq5_O8x3_8f7GZ=tme55-QW+nqMJ2YoqvROjDPg2YZP2catQ@mail.gmail.com>
+From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Message-ID: <a1f4d263-b3d2-4ceb-8a89-948c8129500f@igalia.com>
+Date: Thu, 9 Dec 2021 14:59:52 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1638470392.git.hns@goldelico.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CADnq5_O8x3_8f7GZ=tme55-QW+nqMJ2YoqvROjDPg2YZP2catQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Thu, 09 Dec 2021 22:26:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,65 +56,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- Paul Cercueil <paul@crapouillou.net>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org,
- Kees Cook <keescook@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- letux-kernel@openphoenux.org, Liam Girdwood <lgirdwood@gmail.com>,
- Robert Foss <robert.foss@linaro.org>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, "Eric W. Biederman" <ebiederm@xmission.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: "open list:EFIFB FRAMEBUFFER DRIVER" <linux-fbdev@vger.kernel.org>,
+ xinhui pan <Xinhui.Pan@amd.com>, kasong@redhat.com,
+ Baoquan He <bhe@redhat.com>,
+ =?UTF-8?Q?Samuel_Iglesias_Gons=c3=a1lvez?= <siglesias@igalia.com>,
+ kernel@gpiccoli.net, kexec@lists.infradead.org,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, pjones@redhat.com,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>, Dave Young <dyoung@redhat.com>,
+ Christian Koenig <christian.koenig@amd.com>, Vivek Goyal <vgoyal@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 02, 2021 at 07:39:45PM +0100, H. Nikolaus Schaller wrote:
-> [..] 
-> This series adds HDMI support for JZ4780 and CI20 board
+On 09/12/2021 14:31, Alex Deucher wrote:
+> [...] 
+> Once the driver takes over, none of the pre-driver state is retained.
+> You'll need to load the driver in the new kernel to initialize the
+> displays.  Note the efifb doesn't actually have the ability to program
+> any hardware, it just takes over the memory region that was used for
+> the pre-OS framebuffer and whatever display timing was set up by the
+> GOP driver prior to the OS loading.  Once that OS driver has loaded
+> the area is gone and the display configuration may have changed.
 > 
-> 
-> 
-> H. Nikolaus Schaller (3):
->   drm/ingenic: prepare ingenic drm for later addition of JZ4780
->   MIPS: defconfig: CI20: configure for DRM_DW_HDMI_JZ4780
->   [RFC] MIPS: DTS: Ingenic: adjust register size to available registers
-> 
-> Paul Boddie (4):
->   drm/ingenic: Add support for JZ4780 and HDMI output
->   drm/ingenic: Add dw-hdmi driver for jz4780
->   MIPS: DTS: jz4780: Account for Synopsys HDMI driver and LCD
->     controllers
->   MIPS: DTS: CI20: Add DT nodes for HDMI setup
-> 
-> Sam Ravnborg (1):
->   dt-bindings: display: Add ingenic,jz4780-dw-hdmi DT Schema
-> 
->  .../display/bridge/ingenic,jz4780-hdmi.yaml   |  78 ++++++++++
->  .../display/bridge/synopsys,dw-hdmi.yaml      |   3 +
->  arch/mips/boot/dts/ingenic/ci20.dts           |  72 +++++++++-
->  arch/mips/boot/dts/ingenic/jz4725b.dtsi       |   2 +-
->  arch/mips/boot/dts/ingenic/jz4740.dtsi        |   2 +-
->  arch/mips/boot/dts/ingenic/jz4770.dtsi        |   2 +-
->  arch/mips/boot/dts/ingenic/jz4780.dtsi        |  40 ++++++
->  arch/mips/configs/ci20_defconfig              |   6 +
->  drivers/gpu/drm/ingenic/Kconfig               |   9 ++
->  drivers/gpu/drm/ingenic/Makefile              |   1 +
->  drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  62 +++++++-
->  drivers/gpu/drm/ingenic/ingenic-drm.h         |  38 +++++
->  drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c     | 136 ++++++++++++++++++
->  13 files changed, 443 insertions(+), 8 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.yaml
->  create mode 100644 drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
 
-applied patches 5-8 to mips-next.
+Hi Christian and Alex, thanks for the clarifications!
 
-Thomas.
+Is there any way to save/retain this state before amdgpu takes over?
+Would simpledrm be able to program the device again, to a working state?
 
--- 
-Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
-good idea.                                                [ RFC1925, 2.3 ]
+Finally, do you have any example of such a GOP driver (open source) so I
+can take a look? I tried to find something like that in Tianocore
+project, but didn't find anything that seemed useful for my issue.
+
+Thanks again!
