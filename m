@@ -2,45 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A949C46F4FE
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 21:34:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91BDC46F6CA
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 23:27:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B95710E1EB;
-	Thu,  9 Dec 2021 20:34:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9C9410E17F;
+	Thu,  9 Dec 2021 22:27:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 584 seconds by postgrey-1.36 at gabe;
- Thu, 09 Dec 2021 20:34:25 UTC
-Received: from lynxeye.de (ns.lynxeye.de [87.118.118.114])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4953410E1EB
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Dec 2021 20:34:25 +0000 (UTC)
-Received: by lynxeye.de (Postfix, from userid 501)
- id 8CDEBE74217; Thu,  9 Dec 2021 21:24:10 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on lynxeye.de
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=3.0 tests=ALL_TRUSTED,BAYES_00
- autolearn=ham version=3.3.1
-Received: from [192.168.178.22] (a89-183-24-88.net-htp.de [89.183.24.88])
- by lynxeye.de (Postfix) with ESMTPSA id E6DBFE74023;
- Thu,  9 Dec 2021 21:24:07 +0100 (CET)
-Message-ID: <ad3feb990ea73d258075e9bf3d3034189266bad2.camel@lynxeye.de>
-Subject: Re: [RFC PATCH 00/17] drm: bridge: Samsung MIPI DSIM bridge
-From: Lucas Stach <dev@lynxeye.de>
-To: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>, Tim Harvey
- <tharvey@gateworks.com>
-Date: Thu, 09 Dec 2021 21:24:07 +0100
-In-Reply-To: <CAOf5uw=Cts+V+amSrTzVyRyFZA=eKSVtRPtXae40-4M0bu6pwg@mail.gmail.com>
-References: <20210704090230.26489-1-jagan@amarulasolutions.com>
- <YP2ZvoVQyvwTXP++@ravnborg.org>
- <CAMty3ZANJz=HSKFzZ8gn896uw98iVwMEpGhmanXNbj77Ren4hw@mail.gmail.com>
- <CAJ+vNU1Hy_94TYgs0isNc2pmiH2sOReZJLhphzQFTN2Z50JPrA@mail.gmail.com>
- <CAOf5uwm6+tFS8temhPmSx6nFVTSyk0Ckd9eDEToQNmNaiO2c=A@mail.gmail.com>
- <CAJ+vNU2pQCHqnyNJnz_rhczGRwcU=9XDFG1ix_V=Sc-1oWvhjA@mail.gmail.com>
- <CAOf5uw=Cts+V+amSrTzVyRyFZA=eKSVtRPtXae40-4M0bu6pwg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-2.fc34) 
+X-Greylist: delayed 905 seconds by postgrey-1.36 at gabe;
+ Thu, 09 Dec 2021 06:51:49 UTC
+Received: from mail-m973.mail.163.com (mail-m973.mail.163.com [123.126.97.3])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 409BB89226;
+ Thu,  9 Dec 2021 06:51:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=JoVvK
+ DToD3PXJ0AIpygi6y+ynr/fGiQ/SakOwvbqvD8=; b=TAGzuls7r2B/BIVROco77
+ AFgtafDPUuwE2XKEEPy7QPnazcOdRTFJRSqAEdqWtDRAh9pWTzFC4WZOiEflbRKZ
+ FFEXqtllTjWTCIWaJw1uZwp3MLjLg4zTFGiSLvzmNvobs1Wt1YKZVXQPUAKsMwjc
+ GtS9PsRMPdY5x3q5h0nvPc=
+Received: from localhost.localdomain (unknown [218.106.182.227])
+ by smtp3 (Coremail) with SMTP id G9xpCgAnkwHlo7Fhcrc6Aw--.49676S4;
+ Thu, 09 Dec 2021 14:36:29 +0800 (CST)
+From: Jianglei Nie <niejianglei2021@163.com>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@linux.ie, daniel@ffwll.ch, Hawking.Zhang@amd.com,
+ john.clements@amd.com, candice.li@amd.com, lijo.lazar@amd.com,
+ Jinzhou.Su@amd.com, jonathan.kim@amd.com
+Subject: [PATCH] drm/amdgpu: Fix reference leak in
+ psp_xgmi_reflect_topology_info()
+Date: Thu,  9 Dec 2021 14:36:18 +0800
+Message-Id: <20211209063618.123473-1-niejianglei2021@163.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: G9xpCgAnkwHlo7Fhcrc6Aw--.49676S4
+X-Coremail-Antispam: 1Uf129KBjvJXoW7CFWkZw47XFy7ZryDWrW3ZFb_yoW8ZryrpF
+ 4rKwnxurWDZr15G3ykKay8Zr1Yvws2gaySyr47uw1I939xJF95WF1UJr45tryrGrWvkF47
+ tFy5X39rXFWq9rJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jlxRfUUUUU=
+X-Originating-IP: [218.106.182.227]
+X-CM-SenderInfo: xqlhyxxdqjzvrlsqjii6rwjhhfrp/1tbi6xFkjFXlyeWT7AABsw
+X-Mailman-Approved-At: Thu, 09 Dec 2021 22:26:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,180 +55,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, devicetree <devicetree@vger.kernel.org>,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Sam Ravnborg <sam@ravnborg.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Andrzej Hajda <a.hajda@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>,
- NXP Linux Team <Linux-imx@nxp.com>, Daniel Vetter <daniel.vetter@intel.com>,
- Robert Foss <robert.foss@linaro.org>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: Jianglei Nie <niejianglei2021@163.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Donnerstag, dem 09.12.2021 um 18:09 +0100 schrieb Michael Nazzareno
-Trimarchi:
-> Hi Tim
-> 
-> On Thu, Dec 9, 2021 at 5:40 PM Tim Harvey <tharvey@gateworks.com> wrote:
-> > 
-> > On Thu, Dec 9, 2021 at 12:36 AM Michael Nazzareno Trimarchi
-> > <michael@amarulasolutions.com> wrote:
-> > > 
-> > > Hi Tim
-> > > 
-> > > On Tue, Oct 5, 2021 at 11:43 PM Tim Harvey <tharvey@gateworks.com> wrote:
-> > > > 
-> > > > On Sun, Jul 25, 2021 at 10:14 AM Jagan Teki <jagan@amarulasolutions.com> wrote:
-> > > > > 
-> > > > > Hi Sam,
-> > > > > 
-> > > > > On Sun, Jul 25, 2021 at 10:35 PM Sam Ravnborg <sam@ravnborg.org> wrote:
-> > > > > > 
-> > > > > > Hi Jagan,
-> > > > > > 
-> > > > > > On Sun, Jul 04, 2021 at 02:32:13PM +0530, Jagan Teki wrote:
-> > > > > > > This series supports common bridge support for Samsung MIPI DSIM
-> > > > > > > which is used in Exynos and i.MX8MM SoC's.
-> > > > > > > 
-> > > > > > > The final bridge supports both the Exynos and i.MX8MM DSI devices.
-> > > > > > > 
-> > > > > > > Right now bridge offers two sets of implementations.
-> > > > > > > 
-> > > > > > > A. With component_ops and exynos specific code exclusively for
-> > > > > > >    exynos dsi drivers and it's legacy bindings.
-> > > > > > > 
-> > > > > > > B. Without componenet_ops for newly implemented bridges and its
-> > > > > > >    users like i.MX8MM.
-> > > > > > > 
-> > > > > > > The future plan is to fix the implementation A) by dropping
-> > > > > > > component_ops and fixing exynos specific code in order to make
-> > > > > > > the bridge more mature to use and the same is mentioned in
-> > > > > > > drivers TODO.
-> > > > > > > 
-> > > > > > > Patch 0001 - 0006: Bridge conversion
-> > > > > > > Patch 0007 - 0017: Samsung MIPI DSIM bridge fixes, additions
-> > > > > > > 
-> > > > > > > Tested in Engicam i.Core MX8M Mini SoM.
-> > > > > > > 
-> > > > > > > Anyone interest, please have a look on this repo
-> > > > > > > https://github.com/openedev/linux/tree/070421-imx8mm-dsim
-> > > > > > > 
-> > > > > > > Would appreciate anyone from the exynos team to test it on
-> > > > > > > the exynos platform?
-> > > > > > > 
-> > > > > > > Any inputs?
-> > > > > > 
-> > > > > > I really like where you are headign with this!
-> > > > > > No testing - sorry. But I will try to provide a bit of feedback on the
-> > > > > > individual patches.
-> > > > > > 
-> > > > > > I hope you find a way to move forward with this.
-> > > > > 
-> > > > > Thanks for the response.
-> > > > > 
-> > > > > We have found some issues with Bridge conversion on existing exynos
-> > > > > drivers. The component based DSI drivers(like exynos) are difficult to
-> > > > > attach if it involves kms hotplug. kms hotplug would require drm
-> > > > > pointer and that pointer would only available after the bind call
-> > > > > finishes. But the bridge attach in bind call will defer till it find
-> > > > > the attached bridge.
-> > > > > 
-> > > > > Right now I'm trying to find the proper way to attach the bridges for
-> > > > > component based DSI drivers which involves kms hot-plug.
-> > > > > 
-> > > > > If you have any ideas on this, please let me know.
-> > > > > 
-> > > > 
-> > > > Jagan,
-> > > > 
-> > > > How is your progress on this series? Looking at your repo it looks
-> > > > like you've rebased on top of 5.13-rc3 in your 070121-imx8mm-dsim
-> > > > branch but you've got a lot of things there that are likely not
-> > > > related to this series?
-> > > 
-> > > I have a bit of work on those patches and tested on imx8mn. Basically:
-> > > 
-> > > - add the dsi timing calculation
-> > > - change few difference with samsung bridge
-> > > - fix crashes of my dsi panels
-> > > - compare with NXP driver the final results
-> > > 
-> > > I found that I have one problem that gives me some instability. In the
-> > > NXP original driver the panel needs to be
-> > > enabled in bridge_enable before out the standby. If I understand
-> > > correctly, our standby should be done after.
-> > > I would like to have some feedback and help and testing on other
-> > > boards/devices and some suggestions on how to handle
-> > > some of the differences. Another big problem is etnavi that is not stable
-> > > 
-> > 
-> > Michael,
-> > 
-> > Where can I find your patches?
-> > 
-> 
-> I will push on some tree and share
-> 
-> > What do you mean by etnaviv not being stable?
-> > 
-> > I did some limited testing with etnaviv on imx8mm with 5.15 + dsi
-> 
-> 
-> 
-> > patches on an Ubuntu focal root filesystem by:
-> > apt update
-> > apt install gnome-session gnome-terminal
-> > ^^^ 2D hardware acceleration appears to be working (dragging opaque
-> > windows around)
-> > apt install mesa-utils glmark2
-> > glxgears
-> > ^^^ ~160fps on IMX8MM
-> > glmark2
-> > ^^^ score of 39 on IMX8MM
-> > 
-> > I haven't seen any updates from Jagan since Nov 24
-> > (https://www.spinics.net/lists/dri-devel/msg324059.html) and am not
-> > sure if he's been able to work through drm/exynos issues that have
-> > been blocking his progress.
-> 
-> I plan to push on github
-> 
-> [17:07:42.315] Sending ready to systemd
-> [  214.052085] etnaviv-gpu 38000000.gpu: recover hung GPU!
-> [  214.595998] etnaviv-gpu 38000000.gpu: recover hung GPU!
-> 
-> ** (maynard:386): WARNING **: 17:07:43.874: failed to setup mixer: Success
-> [17:07:44.175] Added surface 0xaaab02630440, app_id (null) to pending list
-> [17:07:44.176] Added surface 0xaaab026172b0, app_id (null) to pending list
-> ** Message: 17:07:44.289: New advertisement app id maynard
-> ** Message: 17:07:44.290: New advertisement app id maynard
-> [17:07:45.171] (background) position view 0xaaab0261f860, x 0, y 0, on
-> output DSI-1
-> [17:07:45.171] (panel) geom.width 100, geom.height 480, geom.x 0, geom.y 0
-> [17:07:45.171] (panel) edge 2 position view 0xaaab02634510, x 0, y 0
-> [17:07:45.172] panel type 2 inited on output DSI-1
-> [17:07:45.172] Usable area: 380x480+100,0
-> [  216.932080] etnaviv-gpu 38000000.gpu: recover hung GPU!
-> [  217.476015] etnaviv-gpu 38000000.gpu: recover hung GPU!
-> [  218.020157] etnaviv-gpu 38000000.gpu: recover hung GPU!
-> 
-> This is my problem on imx8mn
+In line 1138 (#1), amdgpu_get_xgmi_hive() increases the kobject reference
+counter of the hive it returned. The hive returned by
+amdgpu_get_xgmi_hive()should be released with the help of
+amdgpu_put_xgmi_hive() to balance its kobject reference counter properly.
+Forgetting the amdgpu_put_xgmi_hive() operation will result in reference
+leak.
 
-Note that the GPU on the 8MN is from the GC7000 generation, which
-genreally has bogus feature registers, as VeriSilicon stopped using
-them in favor of a hardware database. To get the GPu working you need
-to transcribe the entry for this specific GPU from the downstream GPU
-driver into the etanviv HWDB format, to make the kernel and userspace
-driver aware of how to drive this GPU.
+We can fix it by calling amdgpu_put_xgmi_hive() before the end of the
+function (#2).
 
-Regards,
-Lucas
+1128 static void psp_xgmi_reflect_topology_info(struct psp_context *psp,
+1129 			struct psp_xgmi_node_info node_info)
+1130 {
+
+1138 	hive = amdgpu_get_xgmi_hive(psp->adev);
+	// #1: kzalloc space reference increment
+1139 	list_for_each_entry(mirror_adev, &hive->device_list, gmc.xgmi.head) {
+1140		struct psp_xgmi_topology_info *mirror_top_info;
+1141		int j;
+
+1143		if (mirror_adev->gmc.xgmi.node_id != dst_node_id)
+1144			continue;
+
+1146		mirror_top_info = &mirror_adev->psp.xgmi_context.top_info;
+1147		for (j = 0; j < mirror_top_info->num_nodes; j++) {
+1148			if (mirror_top_info->nodes[j].node_id != src_node_id)
+1149				continue;
+
+1151			mirror_top_info->nodes[j].num_hops = dst_num_hops;
+
+1157			if (dst_num_links)
+1158				mirror_top_info->nodes[j].num_links = dst_num_links;
+
+1160			break;
+1161		}
+
+1163		break;
+1164	}
+	// #2: missing reference decrement
+1165 }
+
+Signed-off-by: Jianglei Nie <niejianglei2021@163.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+index c641f84649d6..f6362047ed71 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+@@ -1162,6 +1162,7 @@ static void psp_xgmi_reflect_topology_info(struct psp_context *psp,
+ 
+ 		break;
+ 	}
++	amdgpu_put_xgmi_hive(hive);
+ }
+ 
+ int psp_xgmi_get_topology_info(struct psp_context *psp,
+-- 
+2.25.1
 
