@@ -2,60 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D72BA46EEAC
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 17:58:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3AEC46EF5D
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 18:00:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E73E210E8D7;
-	Thu,  9 Dec 2021 16:53:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D004D10EB0A;
+	Thu,  9 Dec 2021 16:54:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
- [IPv6:2607:f8b0:4864:20::734])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CABF189E59;
- Thu,  9 Dec 2021 14:27:48 +0000 (UTC)
-Received: by mail-qk1-x734.google.com with SMTP id de30so5051244qkb.0;
- Thu, 09 Dec 2021 06:27:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/0cDy0z+fhEje508h1DeCadhZVBvPccbE1h0Fcx0X3c=;
- b=YQslUMIUb48xtLcZ4Mhc9SfHtjisQhu4wHGXIe3ldB68qvNt11G0+RZDvZ5OIKb2aP
- x6dD1VmchxW9JFN/3YrQkjEKV3EwOShE2/fEShnIshllfwAw5PrnuSJEhaK4OxrKA1eB
- F55HieDnWAg+ugLxV49S3c0zi4AHq2CeX5gi9mpKZNRmi2gZrU/MSVXBVhVYJezsg9h7
- NwtncvT5W6YnA8JiWcWkcEm2fjYK9pAt7q7v9KazAPGi5fgD8sC8AUsOgWRXqz6kwnE9
- DuNMuC/0xRPkwfEkR2pe3sFUpUYhSMeIlZocOo1g0I9LF6ELT6P89X86ga+OuZKmiM2Q
- 239A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/0cDy0z+fhEje508h1DeCadhZVBvPccbE1h0Fcx0X3c=;
- b=tCM1ynmj6o6PStGBMATaIklm76HxxpjF/wWXgnl/9QqRoG71LGgglclmpuozjxhlV8
- sz8Ke6MW++Xpy3Gp0y5zTsBoEusrwxheyWktnoeJcIF5DhnZy3AEE5E0prvId0eHwi+m
- LraTrjT+rzDe6NtA0DwvYeIrlZDD71jLLCKgW8ajcsUVIXHSZQTiWL8cY+QRk6EBIi9o
- SC0JeMj/+WErlw5/MoktGDZUGW0lQrcqiu++93GosSIVLeDG5hQMP/Nh0F30LIHnIUDT
- k7AM2PTx672OAT+YX8KON1pvE9dKMA4xXQc7FdbO38iI9NFA2Pb1ChGYaSoZSuiyxJI7
- htTA==
-X-Gm-Message-State: AOAM5300j/7aMvretQip7y178vI6XkaI3k2Tav+To2oidpDh5LTADzdP
- H0I8WV28oFUpEyucjRjmnVfekIXb83KMtlMWjNShZ/xOeuA=
-X-Google-Smtp-Source: ABdhPJx+5cRyaanHtZ3Vk/3q9kxImvBJ87Fnno98rJ8ruMzZWNukQWMpeTn/DlMvSIkV2wEa/cmsOdUQHKS0mdHtKVs=
-X-Received: by 2002:a05:620a:2413:: with SMTP id
- d19mr14202022qkn.82.1639060067905; 
- Thu, 09 Dec 2021 06:27:47 -0800 (PST)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC6A310E120;
+ Thu,  9 Dec 2021 14:41:12 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: bbeckett) with ESMTPSA id 3B06C1F4687E
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+ t=1639060871; bh=JZ/nZhASuTMvolUcxhB3BhtKFTHxteip2/rGO03+Y24=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=lr8N6OUlMI6Cbg/W9mywE/giJoXS71oqBtlK9G1VUz+uULdFNkXTkzccll43XXenM
+ /5qUlkUN5POznMivYFCm/eLJ2VAFWA1xjmeN5lZRE/51YuMNZ0zigDIou2hlWra9Ya
+ RpbogbdOuY1rRUH3J1fC63kWjGt3rpECFYStLw/CoXR96wNVx2Bv1c0qad7DvB3vDK
+ TYJLeinzcHus0m5D99hbcrczpQeZ0NjN5r9AfrG6mL6KfFDa8sF638dGdozF9CpPfn
+ f8SmVXgqKBfQCWwkoUq40oj0nVLPakWdTMbW4CWwefrB3uAIB1B7o1Wj++NQ/A/w6r
+ FDlKE2G2QooWA==
+Message-ID: <b9770df9-e6ca-a5a4-dd8e-eb27125dbc2c@collabora.com>
+Date: Thu, 9 Dec 2021 14:41:09 +0000
 MIME-Version: 1.0
-References: <20211129134735.628712-1-maarten.lankhorst@linux.intel.com>
- <20211129134735.628712-13-maarten.lankhorst@linux.intel.com>
- <CAM0jSHM1P0-UqYC01vpjvogW_5ECwonnnmtmiKi3go4Di4+NKQ@mail.gmail.com>
- <f7bb808e-65c6-5e81-e129-58858a94db79@linux.intel.com>
- <CAM0jSHOZv54mLng+CHCajFq2eberkaRX8RdKWsSDwOQPG2rdGQ@mail.gmail.com>
- <1188bcc7-9415-adbb-1ec2-7016392d2923@linux.intel.com>
-In-Reply-To: <1188bcc7-9415-adbb-1ec2-7016392d2923@linux.intel.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Thu, 9 Dec 2021 14:27:21 +0000
-Message-ID: <CAM0jSHPdWQ3_ee0dO5gwPK4rOzbLiiKJ-yujwXYEcuPc6C1HTw@mail.gmail.com>
-Subject: Re: [PATCH v2 12/16] drm/i915: Add i915_vma_unbind_unlocked, and take
- obj lock for i915_vma_unbind
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.1
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/dg2: make GuC FW a requirement for
+ Gen12 and beyond devices
+Content-Language: en-US
+To: John Harrison <john.c.harrison@intel.com>,
+ Adrian Larumbe <adrian.larumbe@collabora.com>, daniel@ffwll.ch,
+ ramalingam.c@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20211207175301.321119-1-adrian.larumbe@collabora.com>
+ <c91e8065-56a6-d758-5089-2405c5841858@intel.com>
+ <971555a0-6bd8-4c1c-7235-6072aaac1257@collabora.com>
+ <27c067e1-3bb3-efce-ee6f-ffce2224f5d1@intel.com>
+From: Robert Beckett <bob.beckett@collabora.com>
+In-Reply-To: <27c067e1-3bb3-efce-ee6f-ffce2224f5d1@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,94 +56,177 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: daniels@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 9 Dec 2021 at 13:46, Maarten Lankhorst
-<maarten.lankhorst@linux.intel.com> wrote:
->
-> On 09-12-2021 14:40, Matthew Auld wrote:
-> > On Thu, 9 Dec 2021 at 13:25, Maarten Lankhorst
-> > <maarten.lankhorst@linux.intel.com> wrote:
-> >> On 09-12-2021 14:05, Matthew Auld wrote:
-> >>> On Mon, 29 Nov 2021 at 13:58, Maarten Lankhorst
-> >>> <maarten.lankhorst@linux.intel.com> wrote:
-> >>>> We want to remove more members of i915_vma, which requires the locking to be
-> >>>> held more often.
-> >>>>
-> >>>> Start requiring gem object lock for i915_vma_unbind, as it's one of the
-> >>>> callers that may unpin pages.
-> >>>>
-> >>>> Some special care is needed when evicting, because the last reference to the
-> >>>> object may be held by the VMA, so after __i915_vma_unbind, vma may be garbage,
-> >>>> and we need to cache vma->obj before unlocking.
-> >>>>
-> >>>> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> >>>> ---
-> >>> <snip>
-> >>>
-> >>>> @@ -129,22 +129,47 @@ void i915_ggtt_suspend_vm(struct i915_address_space *vm)
-> >>>>
-> >>>>         drm_WARN_ON(&vm->i915->drm, !vm->is_ggtt && !vm->is_dpt);
-> >>>>
-> >>>> +retry:
-> >>>> +       i915_gem_drain_freed_objects(vm->i915);
-> >>>> +
-> >>>>         mutex_lock(&vm->mutex);
-> >>>>
-> >>>>         /* Skip rewriting PTE on VMA unbind. */
-> >>>>         open = atomic_xchg(&vm->open, 0);
-> >>>>
-> >>>>         list_for_each_entry_safe(vma, vn, &vm->bound_list, vm_link) {
-> >>>> +               struct drm_i915_gem_object *obj = vma->obj;
-> >>>> +
-> >>>>                 GEM_BUG_ON(!drm_mm_node_allocated(&vma->node));
-> >>>> +
-> >>>>                 i915_vma_wait_for_bind(vma);
-> >>>>
-> >>>> -               if (i915_vma_is_pinned(vma))
-> >>>> +               if (i915_vma_is_pinned(vma) || !i915_vma_is_bound(vma, I915_VMA_GLOBAL_BIND))
-> >>>>                         continue;
-> >>>>
-> >>>> -               if (!i915_vma_is_bound(vma, I915_VMA_GLOBAL_BIND)) {
-> >>>> -                       __i915_vma_evict(vma);
-> >>>> -                       drm_mm_remove_node(&vma->node);
-> >>>> +               /* unlikely to race when GPU is idle, so no worry about slowpath.. */
-> >>>> +               if (!i915_gem_object_trylock(obj, NULL)) {
-> >>>> +                       atomic_set(&vm->open, open);
-> >>> Does this need a comment about barriers?
-> >> Not sure, it's guarded by vm->mutex.
-> >>>> +
-> >>>> +                       i915_gem_object_get(obj);
-> >>> Should this not be kref_get_unless_zero? Assuming the vm->mutex is the
-> >>> only thing keeping the object alive here, won't this lead to potential
-> >>> uaf/double-free or something? Also should we not plonk this before the
-> >>> trylock? Or maybe I'm missing something here?
-> >> Normally you're correct, this is normally the case, but we drain freed objects and this path should only be run during s/r, at which point userspace should be dead, GPU idle, and we just drained all freed objects above.
-> >>
-> >> It would be a bug if we still found a dead object, as nothing should be running.
-> > Hmm, Ok. So why do we expect the trylock to ever fail here? Who else
-> > can grab it at this stage?
-> It probably shouldn't, should probably be a WARN if it happens.
 
-r-b with that then.
 
-> >>>> +                       mutex_unlock(&vm->mutex);
-> >>>> +
-> >>>> +                       i915_gem_object_lock(obj, NULL);
-> >>>> +                       open = i915_vma_unbind(vma);
-> >>>> +                       i915_gem_object_unlock(obj);
-> >>>> +
-> >>>> +                       GEM_WARN_ON(open);
-> >>>> +
-> >>>> +                       i915_gem_object_put(obj);
-> >>>> +                       goto retry;
-> >>>>                 }
-> >>>> +
-> >>>> +               i915_vma_wait_for_bind(vma);
-> >>> We also call wait_for_bind above, is that intentional?
-> >> Should be harmless, but first one should probably be removed. :)
-> >>
->
+On 09/12/2021 00:24, John Harrison wrote:
+> On 12/8/2021 09:58, Robert Beckett wrote:
+>> On 07/12/2021 23:15, John Harrison wrote:
+>>> On 12/7/2021 09:53, Adrian Larumbe wrote:
+>>>> Beginning with DG2, all successive devices will require GuC FW to be
+>>>> present and loaded at probe() time. This change alters error 
+>>>> handling in
+>>>> the FW init and load functions so that the driver's probe() function 
+>>>> will
+>>>> fail if GuC could not be loaded.
+>>> We still need to load the i915 driver in fall back mode (display but 
+>>> no engines) if the GuC is missing. Otherwise you may have just 
+>>> bricked the user's device.
+>>
+>> good point, well made.
+>> though this still seems like an issue for gen12+ (excluding rkl and adl).
+>>
+>> maybe a redesign of toplevel driver probe, with 
+>> i915_driver_early_probe before i915_driver_create could work. If the 
+>> GuC fw is not found, it could then register a new kms only version of 
+>> i915_drm_driver.
+>>
+>> or something like like that ...
+> Or we could just leave it all alone?
+> 
+> AFAIK, this is working just fine at the moment. If the platform default 
+> is to use GuC submission and you have the fw then the driver loads fine. 
+> If the platform default is to use GuC submission and you don't have the 
+> firmware then the driver wedges but keeps loading. That means it returns 
+> no engines to userland but the display is unaffected. Hence the user 
+> gets a slow but safe fallback path in which they can still load their 
+> Ubuntu desktop and try to work out what package they need to install.
+> 
+> What is the problem that this patch is trying to fix?
+
+In dg2 enablement branch, when fw was unavailable, submissions could 
+still be attempted and it would segfault the kernel due to some function 
+pointers not being set up.
+
+ From what you said, it sounds like this may just be a bug in the dg2 
+enablement, which we can diagnose and fix if so.
+
+Though I still think it would be a better design to only register kms 
+capabilities if that is all that will be supported without the fw. It 
+seems a bit messy to advertise render and create the render node for 
+userland sw to attempt to use and have it fail, but if that is the 
+prefered design, then we can make dg2 match that.
+
+
+> 
+> John.
+> 
+> 
+>>
+>>>
+>>> Also, we do want to be able to disable the GuC via the enable_guc 
+>>> module parameter.
+>>>
+>>> John.
+>>>
+>>>
+>>>> Signed-off-by: Adrian Larumbe <adrian.larumbe@collabora.com>
+>>>> ---
+>>>>   drivers/gpu/drm/i915/gt/uc/intel_uc.c | 20 ++++++++++++++++----
+>>>>   drivers/gpu/drm/i915/gt/uc/intel_uc.h |  4 ++--
+>>>>   drivers/gpu/drm/i915/i915_gem.c       |  7 ++++++-
+>>>>   3 files changed, 24 insertions(+), 7 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c 
+>>>> b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+>>>> index 7660eba893fa..8b0778b6d9ab 100644
+>>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+>>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+>>>> @@ -277,14 +277,19 @@ static void guc_disable_communication(struct 
+>>>> intel_guc *guc)
+>>>>       drm_dbg(&i915->drm, "GuC communication disabled\n");
+>>>>   }
+>>>> -static void __uc_fetch_firmwares(struct intel_uc *uc)
+>>>> +static int __uc_fetch_firmwares(struct intel_uc *uc)
+>>>>   {
+>>>> +    struct drm_i915_private *i915 = uc_to_gt(uc)->i915;
+>>>>       int err;
+>>>>       GEM_BUG_ON(!intel_uc_wants_guc(uc));
+>>>>       err = intel_uc_fw_fetch(&uc->guc.fw);
+>>>>       if (err) {
+>>>> +        /* GuC is mandatory on Gen12 and beyond */
+>>>> +        if (GRAPHICS_VER(i915) >= 12)
+>>>> +            return err;
+>>>> +
+>>>>           /* Make sure we transition out of transient "SELECTED" 
+>>>> state */
+>>>>           if (intel_uc_wants_huc(uc)) {
+>>>>               drm_dbg(&uc_to_gt(uc)->i915->drm,
+>>>> @@ -293,11 +298,13 @@ static void __uc_fetch_firmwares(struct 
+>>>> intel_uc *uc)
+>>>>                             INTEL_UC_FIRMWARE_ERROR);
+>>>>           }
+>>>> -        return;
+>>>> +        return 0;
+>>>>       }
+>>>>       if (intel_uc_wants_huc(uc))
+>>>>           intel_uc_fw_fetch(&uc->huc.fw);
+>>>> +
+>>>> +    return 0;
+>>>>   }
+>>>>   static void __uc_cleanup_firmwares(struct intel_uc *uc)
+>>>> @@ -308,14 +315,19 @@ static void __uc_cleanup_firmwares(struct 
+>>>> intel_uc *uc)
+>>>>   static int __uc_init(struct intel_uc *uc)
+>>>>   {
+>>>> +    struct drm_i915_private *i915 = uc_to_gt(uc)->i915;
+>>>>       struct intel_guc *guc = &uc->guc;
+>>>>       struct intel_huc *huc = &uc->huc;
+>>>>       int ret;
+>>>>       GEM_BUG_ON(!intel_uc_wants_guc(uc));
+>>>> -    if (!intel_uc_uses_guc(uc))
+>>>> -        return 0;
+>>>> +    if (!intel_uc_uses_guc(uc)) {
+>>>> +        if (GRAPHICS_VER(i915) >= 12)
+>>>> +            return -EINVAL;
+>>>> +        else
+>>>> +            return 0;
+>>>> +    }
+>>>>       if (i915_inject_probe_failure(uc_to_gt(uc)->i915))
+>>>>           return -ENOMEM;
+>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.h 
+>>>> b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
+>>>> index 866b462821c0..3bcd781447bc 100644
+>>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.h
+>>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
+>>>> @@ -17,7 +17,7 @@ struct intel_uc;
+>>>>   struct intel_uc_ops {
+>>>>       int (*sanitize)(struct intel_uc *uc);
+>>>> -    void (*init_fw)(struct intel_uc *uc);
+>>>> +    int (*init_fw)(struct intel_uc *uc);
+>>>>       void (*fini_fw)(struct intel_uc *uc);
+>>>>       int (*init)(struct intel_uc *uc);
+>>>>       void (*fini)(struct intel_uc *uc);
+>>>> @@ -104,7 +104,7 @@ static inline _TYPE intel_uc_##_NAME(struct 
+>>>> intel_uc *uc) \
+>>>>       return _RET; \
+>>>>   }
+>>>>   intel_uc_ops_function(sanitize, sanitize, int, 0);
+>>>> -intel_uc_ops_function(fetch_firmwares, init_fw, void, );
+>>>> +intel_uc_ops_function(fetch_firmwares, init_fw, int, 0);
+>>>>   intel_uc_ops_function(cleanup_firmwares, fini_fw, void, );
+>>>>   intel_uc_ops_function(init, init, int, 0);
+>>>>   intel_uc_ops_function(fini, fini, void, );
+>>>> diff --git a/drivers/gpu/drm/i915/i915_gem.c 
+>>>> b/drivers/gpu/drm/i915/i915_gem.c
+>>>> index 527228d4da7e..7f8204af6826 100644
+>>>> --- a/drivers/gpu/drm/i915/i915_gem.c
+>>>> +++ b/drivers/gpu/drm/i915/i915_gem.c
+>>>> @@ -1049,7 +1049,12 @@ int i915_gem_init(struct drm_i915_private 
+>>>> *dev_priv)
+>>>>       if (ret)
+>>>>           return ret;
+>>>> -    intel_uc_fetch_firmwares(&dev_priv->gt.uc);
+>>>> +    ret = intel_uc_fetch_firmwares(&dev_priv->gt.uc);
+>>>> +    if (ret) {
+>>>> +        i915_probe_error(dev_priv, "Failed to fetch firmware\n");
+>>>> +        return ret;
+>>>> +    }
+>>>> +
+>>>>       intel_wopcm_init(&dev_priv->wopcm);
+>>>>       ret = i915_init_ggtt(dev_priv);
+>>>
+> 
