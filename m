@@ -2,53 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3971D46F76F
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 00:29:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B63646F777
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 00:34:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B63910E116;
-	Thu,  9 Dec 2021 23:29:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C30F810E120;
+	Thu,  9 Dec 2021 23:34:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com
- [IPv6:2607:f8b0:4864:20::829])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EBE410E116
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Dec 2021 23:29:36 +0000 (UTC)
-Received: by mail-qt1-x829.google.com with SMTP id v22so6910618qtx.8
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Dec 2021 15:29:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IbOEMI28nASzKHAb9buRXOtiMkMJWgekmoM38MUNYmA=;
- b=gJQy1Lw/G9giKVRXbwOgVwUzE6UYNFqB6pnwiAkQfTPIhDeJifPg9U+iUgNyFTSjF1
- wu28P/+/GnGUsUCXiLnISLWsK8H3qML/xg8xYDnthnhtIJr5ixATXSQnOdZEpOpdB5K/
- J4/tKLJehHfqGqVMDJIFwNFcWPbhKwi6TiFJA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IbOEMI28nASzKHAb9buRXOtiMkMJWgekmoM38MUNYmA=;
- b=Q0FNU1qwqTBgd3f01RilVHDYRHSDsbf8AdDBy6TdwCUkbkun/IaN7PK4SGZiO8eE69
- btvmqnxo8VYBWGWEPAPWm/chZlkzgii6V/SDwmj8dxCSe+3dmJovMESkxSEuvCo4Lkd2
- K74yIOtTzQZoMZZUPdS8LpQAcg5xidFCkqYaZtwUG8dDQboBULHAAo28RwloF+JRIYIR
- TUxiZbI59v7RZULufOreYmH1eyZGjM2ApEnYiqtSj2k3k2eYg3ARZAdzZTKLldDAfBwK
- VksRMCgqRr9k88b1HN3iN0b22kJh/0ekrziDL6YvNcAz0R435j/TboteudkBt3qdxA4q
- Rhdw==
-X-Gm-Message-State: AOAM533xo19sTYKcP2cRQNnWKDOWqmKAKdfKFrbXVIciR3mUJf8x2WEG
- 6sZSJOYu34iuXiaNOuMsrmMPw++HzxNwrIWS3KZi3A==
-X-Google-Smtp-Source: ABdhPJx4+vUufclqMNiGDGoR46zNpBsTiFyKc9lBKRpP10i+yk+/fUyDBl/Jvj1P0aws745dDryf62K7UYoeYsHUkkY=
-X-Received: by 2002:a05:622a:130e:: with SMTP id
- v14mr21992060qtk.458.1639092575087; 
- Thu, 09 Dec 2021 15:29:35 -0800 (PST)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0B5310E120;
+ Thu,  9 Dec 2021 23:34:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1639092841; x=1670628841;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=WBmZmsmcTppP4sWhzskF3rOHWbgeLF7HOMs8shoBLWc=;
+ b=S8QUzZ49XJVNd2qDfR+3ZuLiP0c1xdkoUF98pleGToC2pc/nYhpPXqiB
+ /LqAP8Li59630DJyekZydqdCcNjmCzY9ZGh9HhsF304bHY5yetdpgETNR
+ D+UG5boqCc0O97OiP4rVptSG7Rmj3R//OB1++bBiXF1o7wlNx2Kl/FG1W
+ lbUVUL6Kq+xyj+rtfDNuA4OCwY/XrOAFNgBd6cL33mJ/MlxtjNR7/U4Ir
+ JKn8qpH5eoYj+U+uNdmcZ7GIawIXH+cYjEokY6VNXptx5bwxDI2lo17wA
+ Eiuf5pUb/YtjVkV2pifDt+ZhanyJom+0MUH3kPdhlSVdyWyAkDIqiNS99 w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10193"; a="225096983"
+X-IronPort-AV: E=Sophos;i="5.88,193,1635231600"; d="scan'208";a="225096983"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Dec 2021 15:34:01 -0800
+X-IronPort-AV: E=Sophos;i="5.88,193,1635231600"; d="scan'208";a="752806586"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Dec 2021 15:34:00 -0800
+Date: Thu, 9 Dec 2021 15:33:59 -0800
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+Subject: Re: [PATCH v6 04/11] drm/i915/gt: Use to_gt() helper
+Message-ID: <20211209233359.GR2219399@mdroper-desk1.amr.corp.intel.com>
+References: <20211209132512.47241-1-andi.shyti@linux.intel.com>
+ <20211209132512.47241-5-andi.shyti@linux.intel.com>
 MIME-Version: 1.0
-References: <20211202034544.2750-1-yunfei.dong@mediatek.com>
- <20211202034544.2750-7-yunfei.dong@mediatek.com>
-In-Reply-To: <20211202034544.2750-7-yunfei.dong@mediatek.com>
-From: Steve Cho <stevecho@chromium.org>
-Date: Thu, 9 Dec 2021 15:29:24 -0800
-Message-ID: <CAC-pXoOCa+13u--9sCKDorh+RbuhL89Ajur1t8bSx6w=MgoyYg@mail.gmail.com>
-Subject: Re: [PATCH v12, 06/19] media: mtk-vcodec: Add to support multi
- hardware decode
-To: Yunfei Dong <yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211209132512.47241-5-andi.shyti@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,584 +58,490 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Irui Wang <irui.wang@mediatek.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Tzung-Bi Shih <tzungbi@chromium.org>,
- Tomasz Figa <tfiga@google.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Tiffany Lin <tiffany.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Alexandre Courbot <acourbot@chromium.org>, srv_heupstream@mediatek.com,
- linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ DRI Devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>, Andi Shyti <andi@etezian.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Few comments and questions.
+On Thu, Dec 09, 2021 at 03:25:05PM +0200, Andi Shyti wrote:
+> From: Michał Winiarski <michal.winiarski@intel.com>
+> 
+> Use to_gt() helper consistently throughout the codebase.
+> Pure mechanical s/i915->gt/to_gt(i915). No functional changes.
+> 
+> Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 
-On Wed, Dec 1, 2021 at 7:46 PM Yunfei Dong <yunfei.dong@mediatek.com> wrote:
->
-> There are more than two hardwares for decoder: LAT0, LAT1 and CORE. In order to
-> manage these hardwares, register each hardware as independent platform device
-> for the larbs are different.
+Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
 
-basic question: what is "larbs"?
-
->
-> Each hardware module controls its own information which includes interrupt/power/
-> clocks/registers.
->
-> Calling of_platform_populate in parent device, and use subdev_bitmap to record
-> whether the hardwares are registered done.
-
-nit: s/registered done/registered/ ?
-
->
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 > ---
->  drivers/media/platform/mtk-vcodec/Makefile    |   5 +-
->  .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  | 111 +++++++----
->  .../platform/mtk-vcodec/mtk_vcodec_dec_hw.c   | 172 ++++++++++++++++++
->  .../platform/mtk-vcodec/mtk_vcodec_dec_hw.h   |  51 ++++++
->  .../mtk-vcodec/mtk_vcodec_dec_stateful.c      |   1 +
->  .../mtk-vcodec/mtk_vcodec_dec_stateless.c     |   2 +
->  .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  19 ++
->  7 files changed, 329 insertions(+), 32 deletions(-)
->  create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.c
->  create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.h
->
-> diff --git a/drivers/media/platform/mtk-vcodec/Makefile b/drivers/media/platform/mtk-vcodec/Makefile
-> index ca8e9e7a9c4e..c61bfb179bcc 100644
-> --- a/drivers/media/platform/mtk-vcodec/Makefile
-> +++ b/drivers/media/platform/mtk-vcodec/Makefile
-> @@ -2,7 +2,8 @@
->
->  obj-$(CONFIG_VIDEO_MEDIATEK_VCODEC) += mtk-vcodec-dec.o \
->                                        mtk-vcodec-enc.o \
-> -                                      mtk-vcodec-common.o
-> +                                      mtk-vcodec-common.o \
-> +                                      mtk-vcodec-dec-hw.o
->
->  mtk-vcodec-dec-y := vdec/vdec_h264_if.o \
->                 vdec/vdec_vp8_if.o \
-> @@ -16,6 +17,8 @@ mtk-vcodec-dec-y := vdec/vdec_h264_if.o \
->                 mtk_vcodec_dec_stateless.o \
->                 mtk_vcodec_dec_pm.o \
->
-> +mtk-vcodec-dec-hw-y := mtk_vcodec_dec_hw.o
-> +
->  mtk-vcodec-enc-y := venc/venc_vp8_if.o \
->                 venc/venc_h264_if.o \
->                 mtk_vcodec_enc.o \
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> index b7a51e96d4ba..95fbe9be3f6d 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-> @@ -18,19 +18,40 @@
->
->  #include "mtk_vcodec_drv.h"
->  #include "mtk_vcodec_dec.h"
-> +#include "mtk_vcodec_dec_hw.h"
->  #include "mtk_vcodec_dec_pm.h"
->  #include "mtk_vcodec_intr.h"
->  #include "mtk_vcodec_util.h"
->  #include "mtk_vcodec_fw.h"
->
-> -#define VDEC_HW_ACTIVE 0x10
-> -#define VDEC_IRQ_CFG   0x11
-> -#define VDEC_IRQ_CLR   0x10
-> -#define VDEC_IRQ_CFG_REG       0xa4
-> -
->  module_param(mtk_v4l2_dbg_level, int, 0644);
->  module_param(mtk_vcodec_dbg, bool, 0644);
->
-> +static int mtk_vcodec_subdev_device_check(struct mtk_vcodec_dev *vdec_dev)
-> +{
-> +       struct platform_device *pdev = vdec_dev->plat_dev;
-> +       struct device_node *subdev_node;
-> +       enum mtk_vdec_hw_id hw_idx;
-> +       const struct of_device_id *of_id;
-> +       int i;
-> +
-> +       for (i = 0; i < ARRAY_SIZE(mtk_vdec_hw_match); i++) {
-> +               of_id = &mtk_vdec_hw_match[i];
-> +               subdev_node = of_find_compatible_node(NULL, NULL,
-> +                       of_id->compatible);
-> +               if (!subdev_node)
-> +                       continue;
-> +
-> +               hw_idx = (enum mtk_vdec_hw_id)(uintptr_t)of_id->data;
-> +               if (!test_bit(hw_idx, vdec_dev->subdev_bitmap)) {
-> +                       dev_err(&pdev->dev, "Vdec %d is not ready", hw_idx);
-> +                       return -EAGAIN;
-> +               }
-> +       }
-> +
-> +       return 0;
-> +}
-> +
->  static irqreturn_t mtk_vcodec_dec_irq_handler(int irq, void *priv)
+>  drivers/gpu/drm/i915/gt/intel_engine_user.c         |  2 +-
+>  drivers/gpu/drm/i915/gt/intel_ggtt.c                |  2 +-
+>  drivers/gpu/drm/i915/gt/intel_rps.c                 | 12 ++++++------
+>  drivers/gpu/drm/i915/gt/intel_workarounds.c         |  2 +-
+>  drivers/gpu/drm/i915/gt/mock_engine.c               | 10 +++++-----
+>  drivers/gpu/drm/i915/gt/selftest_context.c          |  2 +-
+>  drivers/gpu/drm/i915/gt/selftest_engine.c           |  2 +-
+>  drivers/gpu/drm/i915/gt/selftest_engine_cs.c        |  4 ++--
+>  drivers/gpu/drm/i915/gt/selftest_engine_heartbeat.c |  4 ++--
+>  drivers/gpu/drm/i915/gt/selftest_execlists.c        |  6 +++---
+>  drivers/gpu/drm/i915/gt/selftest_gt_pm.c            |  8 ++++----
+>  drivers/gpu/drm/i915/gt/selftest_hangcheck.c        |  2 +-
+>  drivers/gpu/drm/i915/gt/selftest_lrc.c              |  2 +-
+>  drivers/gpu/drm/i915/gt/selftest_migrate.c          |  4 ++--
+>  drivers/gpu/drm/i915/gt/selftest_mocs.c             |  2 +-
+>  drivers/gpu/drm/i915/gt/selftest_reset.c            |  2 +-
+>  drivers/gpu/drm/i915/gt/selftest_ring_submission.c  |  4 ++--
+>  drivers/gpu/drm/i915/gt/selftest_slpc.c             |  6 +++---
+>  drivers/gpu/drm/i915/gt/selftest_timeline.c         |  6 +++---
+>  drivers/gpu/drm/i915/gt/selftest_workarounds.c      |  4 ++--
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c         |  2 +-
+>  drivers/gpu/drm/i915/gt/uc/selftest_guc.c           |  2 +-
+>  drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c |  2 +-
+>  23 files changed, 46 insertions(+), 46 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> index 8f8bea08e734..9ce85a845105 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> @@ -116,7 +116,7 @@ static void set_scheduler_caps(struct drm_i915_private *i915)
+>  			disabled |= (I915_SCHEDULER_CAP_ENABLED |
+>  				     I915_SCHEDULER_CAP_PRIORITY);
+>  
+> -		if (intel_uc_uses_guc_submission(&i915->gt.uc))
+> +		if (intel_uc_uses_guc_submission(&to_gt(i915)->uc))
+>  			enabled |= I915_SCHEDULER_CAP_STATIC_PRIORITY_MAP;
+>  
+>  		for (i = 0; i < ARRAY_SIZE(map); i++) {
+> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> index cbc6d2b1fd9e..f5c8fd3911b0 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> @@ -1229,7 +1229,7 @@ int i915_ggtt_probe_hw(struct drm_i915_private *i915)
 >  {
->         struct mtk_vcodec_dev *dev = priv;
-> @@ -95,6 +116,42 @@ static int mtk_vcodec_get_reg_bases(struct mtk_vcodec_dev *dev)
->         return 0;
+>  	int ret;
+>  
+> -	ret = ggtt_probe_hw(&i915->ggtt, &i915->gt);
+> +	ret = ggtt_probe_hw(&i915->ggtt, to_gt(i915));
+>  	if (ret)
+>  		return ret;
+>  
+> diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
+> index 07ff7ba7b2b7..36eb980d757e 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_rps.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+> @@ -2302,7 +2302,7 @@ unsigned long i915_read_mch_val(void)
+>  		return 0;
+>  
+>  	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
+> -		struct intel_ips *ips = &i915->gt.rps.ips;
+> +		struct intel_ips *ips = &to_gt(i915)->rps.ips;
+>  
+>  		spin_lock_irq(&mchdev_lock);
+>  		chipset_val = __ips_chipset_val(ips);
+> @@ -2329,7 +2329,7 @@ bool i915_gpu_raise(void)
+>  	if (!i915)
+>  		return false;
+>  
+> -	rps = &i915->gt.rps;
+> +	rps = &to_gt(i915)->rps;
+>  
+>  	spin_lock_irq(&mchdev_lock);
+>  	if (rps->max_freq_softlimit < rps->max_freq)
+> @@ -2356,7 +2356,7 @@ bool i915_gpu_lower(void)
+>  	if (!i915)
+>  		return false;
+>  
+> -	rps = &i915->gt.rps;
+> +	rps = &to_gt(i915)->rps;
+>  
+>  	spin_lock_irq(&mchdev_lock);
+>  	if (rps->max_freq_softlimit > rps->min_freq)
+> @@ -2382,7 +2382,7 @@ bool i915_gpu_busy(void)
+>  	if (!i915)
+>  		return false;
+>  
+> -	ret = i915->gt.awake;
+> +	ret = to_gt(i915)->awake;
+>  
+>  	drm_dev_put(&i915->drm);
+>  	return ret;
+> @@ -2405,11 +2405,11 @@ bool i915_gpu_turbo_disable(void)
+>  	if (!i915)
+>  		return false;
+>  
+> -	rps = &i915->gt.rps;
+> +	rps = &to_gt(i915)->rps;
+>  
+>  	spin_lock_irq(&mchdev_lock);
+>  	rps->max_freq_softlimit = rps->min_freq;
+> -	ret = !__gen5_rps_set(&i915->gt.rps, rps->min_freq);
+> +	ret = !__gen5_rps_set(&to_gt(i915)->rps, rps->min_freq);
+>  	spin_unlock_irq(&mchdev_lock);
+>  
+>  	drm_dev_put(&i915->drm);
+> diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> index 3113266c286e..ab3277a3d593 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> @@ -929,7 +929,7 @@ hsw_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
+>  static void
+>  gen9_wa_init_mcr(struct drm_i915_private *i915, struct i915_wa_list *wal)
+>  {
+> -	const struct sseu_dev_info *sseu = &i915->gt.info.sseu;
+> +	const struct sseu_dev_info *sseu = &to_gt(i915)->info.sseu;
+>  	unsigned int slice, subslice;
+>  	u32 mcr, mcr_mask;
+>  
+> diff --git a/drivers/gpu/drm/i915/gt/mock_engine.c b/drivers/gpu/drm/i915/gt/mock_engine.c
+> index bb99fc03f503..a94b8d56c4bb 100644
+> --- a/drivers/gpu/drm/i915/gt/mock_engine.c
+> +++ b/drivers/gpu/drm/i915/gt/mock_engine.c
+> @@ -345,7 +345,7 @@ struct intel_engine_cs *mock_engine(struct drm_i915_private *i915,
+>  	struct mock_engine *engine;
+>  
+>  	GEM_BUG_ON(id >= I915_NUM_ENGINES);
+> -	GEM_BUG_ON(!i915->gt.uncore);
+> +	GEM_BUG_ON(!to_gt(i915)->uncore);
+>  
+>  	engine = kzalloc(sizeof(*engine) + PAGE_SIZE, GFP_KERNEL);
+>  	if (!engine)
+> @@ -353,8 +353,8 @@ struct intel_engine_cs *mock_engine(struct drm_i915_private *i915,
+>  
+>  	/* minimal engine setup for requests */
+>  	engine->base.i915 = i915;
+> -	engine->base.gt = &i915->gt;
+> -	engine->base.uncore = i915->gt.uncore;
+> +	engine->base.gt = to_gt(i915);
+> +	engine->base.uncore = to_gt(i915)->uncore;
+>  	snprintf(engine->base.name, sizeof(engine->base.name), "%s", name);
+>  	engine->base.id = id;
+>  	engine->base.mask = BIT(id);
+> @@ -377,8 +377,8 @@ struct intel_engine_cs *mock_engine(struct drm_i915_private *i915,
+>  
+>  	engine->base.release = mock_engine_release;
+>  
+> -	i915->gt.engine[id] = &engine->base;
+> -	i915->gt.engine_class[0][id] = &engine->base;
+> +	to_gt(i915)->engine[id] = &engine->base;
+> +	to_gt(i915)->engine_class[0][id] = &engine->base;
+>  
+>  	/* fake hw queue */
+>  	spin_lock_init(&engine->hw_lock);
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_context.c b/drivers/gpu/drm/i915/gt/selftest_context.c
+> index fa7b99a671dd..76fbae358072 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_context.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_context.c
+> @@ -442,7 +442,7 @@ int intel_context_live_selftests(struct drm_i915_private *i915)
+>  		SUBTEST(live_active_context),
+>  		SUBTEST(live_remote_context),
+>  	};
+> -	struct intel_gt *gt = &i915->gt;
+> +	struct intel_gt *gt = to_gt(i915);
+>  
+>  	if (intel_gt_is_wedged(gt))
+>  		return 0;
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_engine.c b/drivers/gpu/drm/i915/gt/selftest_engine.c
+> index 262764f6d90a..57fea9ea1705 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_engine.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_engine.c
+> @@ -12,7 +12,7 @@ int intel_engine_live_selftests(struct drm_i915_private *i915)
+>  		live_engine_pm_selftests,
+>  		NULL,
+>  	};
+> -	struct intel_gt *gt = &i915->gt;
+> +	struct intel_gt *gt = to_gt(i915);
+>  	typeof(*tests) *fn;
+>  
+>  	for (fn = tests; *fn; fn++) {
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_engine_cs.c b/drivers/gpu/drm/i915/gt/selftest_engine_cs.c
+> index 64abf5feabfa..1b75f478d1b8 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_engine_cs.c
+> @@ -361,10 +361,10 @@ int intel_engine_cs_perf_selftests(struct drm_i915_private *i915)
+>  		SUBTEST(perf_mi_noop),
+>  	};
+>  
+> -	if (intel_gt_is_wedged(&i915->gt))
+> +	if (intel_gt_is_wedged(to_gt(i915)))
+>  		return 0;
+>  
+> -	return intel_gt_live_subtests(tests, &i915->gt);
+> +	return intel_gt_live_subtests(tests, to_gt(i915));
 >  }
->
-> +static int mtk_vcodec_init_dec_resources(struct mtk_vcodec_dev *dev)
-> +{
-> +       struct platform_device *pdev = dev->plat_dev;
-> +       int ret;
-> +
-> +       ret = mtk_vcodec_get_reg_bases(dev);
-> +       if (ret)
-> +               return ret;
-> +
-> +       if (dev->vdec_pdata->is_subdev_supported)
-> +               return 0;
-> +
-> +       dev->dec_irq = platform_get_irq(pdev, 0);
-> +       if (dev->dec_irq < 0) {
-> +               dev_err(&pdev->dev, "failed to get irq number");
-> +               return dev->dec_irq;
-> +       }
-> +
-> +       irq_set_status_flags(dev->dec_irq, IRQ_NOAUTOEN);
-> +       ret = devm_request_irq(&pdev->dev, dev->dec_irq,
-> +               mtk_vcodec_dec_irq_handler, 0, pdev->name, dev);
-> +       if (ret) {
-> +               dev_err(&pdev->dev, "failed to install dev->dec_irq %d (%d)",
-> +                       dev->dec_irq, ret);
-> +               return ret;
-> +       }
-> +
-> +       ret = mtk_vcodec_init_dec_pm(pdev, &dev->pm);
-> +       if (ret < 0) {
-> +               dev_err(&pdev->dev, "failed to get mt vcodec clock source");
-> +               return ret;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
->  static int fops_vcodec_open(struct file *file)
+>  
+>  static int intel_mmio_bases_check(void *arg)
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_engine_heartbeat.c b/drivers/gpu/drm/i915/gt/selftest_engine_heartbeat.c
+> index 6e6e4d747cca..273d440a53e3 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_engine_heartbeat.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_engine_heartbeat.c
+> @@ -378,13 +378,13 @@ int intel_heartbeat_live_selftests(struct drm_i915_private *i915)
+>  	int saved_hangcheck;
+>  	int err;
+>  
+> -	if (intel_gt_is_wedged(&i915->gt))
+> +	if (intel_gt_is_wedged(to_gt(i915)))
+>  		return 0;
+>  
+>  	saved_hangcheck = i915->params.enable_hangcheck;
+>  	i915->params.enable_hangcheck = INT_MAX;
+>  
+> -	err = intel_gt_live_subtests(tests, &i915->gt);
+> +	err = intel_gt_live_subtests(tests, to_gt(i915));
+>  
+>  	i915->params.enable_hangcheck = saved_hangcheck;
+>  	return err;
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+> index b367ecfa42de..e10da897e07a 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+> @@ -4502,11 +4502,11 @@ int intel_execlists_live_selftests(struct drm_i915_private *i915)
+>  		SUBTEST(live_virtual_reset),
+>  	};
+>  
+> -	if (i915->gt.submission_method != INTEL_SUBMISSION_ELSP)
+> +	if (to_gt(i915)->submission_method != INTEL_SUBMISSION_ELSP)
+>  		return 0;
+>  
+> -	if (intel_gt_is_wedged(&i915->gt))
+> +	if (intel_gt_is_wedged(to_gt(i915)))
+>  		return 0;
+>  
+> -	return intel_gt_live_subtests(tests, &i915->gt);
+> +	return intel_gt_live_subtests(tests, to_gt(i915));
+>  }
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_gt_pm.c b/drivers/gpu/drm/i915/gt/selftest_gt_pm.c
+> index 55c5cdb99f45..8bf62a5826cc 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_gt_pm.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_gt_pm.c
+> @@ -193,10 +193,10 @@ int intel_gt_pm_live_selftests(struct drm_i915_private *i915)
+>  		SUBTEST(live_gt_resume),
+>  	};
+>  
+> -	if (intel_gt_is_wedged(&i915->gt))
+> +	if (intel_gt_is_wedged(to_gt(i915)))
+>  		return 0;
+>  
+> -	return intel_gt_live_subtests(tests, &i915->gt);
+> +	return intel_gt_live_subtests(tests, to_gt(i915));
+>  }
+>  
+>  int intel_gt_pm_late_selftests(struct drm_i915_private *i915)
+> @@ -210,8 +210,8 @@ int intel_gt_pm_late_selftests(struct drm_i915_private *i915)
+>  		SUBTEST(live_rc6_ctx_wa),
+>  	};
+>  
+> -	if (intel_gt_is_wedged(&i915->gt))
+> +	if (intel_gt_is_wedged(to_gt(i915)))
+>  		return 0;
+>  
+> -	return intel_gt_live_subtests(tests, &i915->gt);
+> +	return intel_gt_live_subtests(tests, to_gt(i915));
+>  }
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+> index e5ad4d5a91c0..15d63435ec4d 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+> @@ -2018,7 +2018,7 @@ int intel_hangcheck_live_selftests(struct drm_i915_private *i915)
+>  		SUBTEST(igt_reset_evict_fence),
+>  		SUBTEST(igt_handle_error),
+>  	};
+> -	struct intel_gt *gt = &i915->gt;
+> +	struct intel_gt *gt = to_gt(i915);
+>  	intel_wakeref_t wakeref;
+>  	int err;
+>  
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_lrc.c b/drivers/gpu/drm/i915/gt/selftest_lrc.c
+> index b0977a3b699b..618c905daa19 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_lrc.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_lrc.c
+> @@ -1847,5 +1847,5 @@ int intel_lrc_live_selftests(struct drm_i915_private *i915)
+>  	if (!HAS_LOGICAL_RING_CONTEXTS(i915))
+>  		return 0;
+>  
+> -	return intel_gt_live_subtests(tests, &i915->gt);
+> +	return intel_gt_live_subtests(tests, to_gt(i915));
+>  }
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_migrate.c b/drivers/gpu/drm/i915/gt/selftest_migrate.c
+> index e21787301bbd..f637691b5bcb 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_migrate.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_migrate.c
+> @@ -442,7 +442,7 @@ int intel_migrate_live_selftests(struct drm_i915_private *i915)
+>  		SUBTEST(thread_global_copy),
+>  		SUBTEST(thread_global_clear),
+>  	};
+> -	struct intel_gt *gt = &i915->gt;
+> +	struct intel_gt *gt = to_gt(i915);
+>  
+>  	if (!gt->migrate.context)
+>  		return 0;
+> @@ -658,7 +658,7 @@ int intel_migrate_perf_selftests(struct drm_i915_private *i915)
+>  		SUBTEST(perf_clear_blt),
+>  		SUBTEST(perf_copy_blt),
+>  	};
+> -	struct intel_gt *gt = &i915->gt;
+> +	struct intel_gt *gt = to_gt(i915);
+>  
+>  	if (intel_gt_is_wedged(gt))
+>  		return 0;
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_mocs.c b/drivers/gpu/drm/i915/gt/selftest_mocs.c
+> index 13d25bf2a94a..c1d861333c44 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_mocs.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_mocs.c
+> @@ -451,5 +451,5 @@ int intel_mocs_live_selftests(struct drm_i915_private *i915)
+>  	if (!get_mocs_settings(i915, &table))
+>  		return 0;
+>  
+> -	return intel_gt_live_subtests(tests, &i915->gt);
+> +	return intel_gt_live_subtests(tests, to_gt(i915));
+>  }
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_reset.c b/drivers/gpu/drm/i915/gt/selftest_reset.c
+> index 7a50c9f4071b..8a873f6bda7f 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_reset.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_reset.c
+> @@ -376,7 +376,7 @@ int intel_reset_live_selftests(struct drm_i915_private *i915)
+>  		SUBTEST(igt_atomic_reset),
+>  		SUBTEST(igt_atomic_engine_reset),
+>  	};
+> -	struct intel_gt *gt = &i915->gt;
+> +	struct intel_gt *gt = to_gt(i915);
+>  
+>  	if (!intel_has_gpu_reset(gt))
+>  		return 0;
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_ring_submission.c b/drivers/gpu/drm/i915/gt/selftest_ring_submission.c
+> index 041954408d0f..70f9ac1ec2c7 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_ring_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_ring_submission.c
+> @@ -291,8 +291,8 @@ int intel_ring_submission_live_selftests(struct drm_i915_private *i915)
+>  		SUBTEST(live_ctx_switch_wa),
+>  	};
+>  
+> -	if (i915->gt.submission_method > INTEL_SUBMISSION_RING)
+> +	if (to_gt(i915)->submission_method > INTEL_SUBMISSION_RING)
+>  		return 0;
+>  
+> -	return intel_gt_live_subtests(tests, &i915->gt);
+> +	return intel_gt_live_subtests(tests, to_gt(i915));
+>  }
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_slpc.c b/drivers/gpu/drm/i915/gt/selftest_slpc.c
+> index 9334bad131a2..b768cea5943d 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_slpc.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_slpc.c
+> @@ -39,7 +39,7 @@ static int slpc_set_max_freq(struct intel_guc_slpc *slpc, u32 freq)
+>  static int live_slpc_clamp_min(void *arg)
 >  {
->         struct mtk_vcodec_dev *dev = video_drvdata(file);
-> @@ -116,6 +173,12 @@ static int fops_vcodec_open(struct file *file)
->         init_waitqueue_head(&ctx->queue);
->         mutex_init(&ctx->lock);
->
-> +       ret = mtk_vcodec_subdev_device_check(dev);
-> +       if (ret) {
-> +               mtk_v4l2_err("Failed to check vdec comp device.");
-
-basic question: what is "comp" device?
-
-> +               goto err_ctrls_setup;
-> +       }
-> +
->         ctx->type = MTK_INST_DECODER;
->         ret = dev->vdec_pdata->ctrls_setup(ctx);
->         if (ret) {
-> @@ -220,7 +283,6 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+>  	struct drm_i915_private *i915 = arg;
+> -	struct intel_gt *gt = &i915->gt;
+> +	struct intel_gt *gt = to_gt(i915);
+>  	struct intel_guc_slpc *slpc = &gt->uc.guc.slpc;
+>  	struct intel_rps *rps = &gt->rps;
+>  	struct intel_engine_cs *engine;
+> @@ -166,7 +166,7 @@ static int live_slpc_clamp_min(void *arg)
+>  static int live_slpc_clamp_max(void *arg)
 >  {
->         struct mtk_vcodec_dev *dev;
->         struct video_device *vfd_dec;
-> -       struct resource *res;
->         phandle rproc_phandle;
->         enum mtk_vcodec_fw_type fw_type;
->         int ret;
-> @@ -249,32 +311,10 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
->         if (IS_ERR(dev->fw_handler))
->                 return PTR_ERR(dev->fw_handler);
->
-> -       ret = mtk_vcodec_init_dec_pm(dev->plat_dev, &dev->pm);
-> -       if (ret < 0) {
-> -               dev_err(&pdev->dev, "Failed to get mt vcodec clock source");
-> -               goto err_dec_pm;
-> -       }
-> -
-> -       ret = mtk_vcodec_get_reg_bases(dev);
-> -       if (ret)
-> -               goto err_res;
-> -
-> -       res = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
-> -       if (res == NULL) {
-> -               dev_err(&pdev->dev, "failed to get irq resource");
-> -               ret = -ENOENT;
-> -               goto err_res;
-> -       }
-> -
-> -       dev->dec_irq = platform_get_irq(pdev, 0);
-> -       irq_set_status_flags(dev->dec_irq, IRQ_NOAUTOEN);
-> -       ret = devm_request_irq(&pdev->dev, dev->dec_irq,
-> -                       mtk_vcodec_dec_irq_handler, 0, pdev->name, dev);
-> +       ret = mtk_vcodec_init_dec_resources(dev);
->         if (ret) {
-> -               dev_err(&pdev->dev, "Failed to install dev->dec_irq %d (%d)",
-> -                       dev->dec_irq,
-> -                       ret);
-> -               goto err_res;
-> +               dev_err(&pdev->dev, "Failed to init dec resources");
-> +               goto err_dec_pm;
->         }
->
->         mutex_init(&dev->dec_mutex);
-> @@ -329,6 +369,15 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
->                 goto err_event_workq;
->         }
->
-> +       if (dev->vdec_pdata->is_subdev_supported) {
-> +               ret = of_platform_populate(pdev->dev.of_node, NULL, NULL,
-> +                       &pdev->dev);
-> +               if (ret) {
-> +                       mtk_v4l2_err("Main device of_platform_populate failed.");
-> +                       goto err_event_workq;
-> +               }
-> +       }
-> +
->         if (dev->vdec_pdata->uses_stateless_api) {
->                 dev->mdev_dec.dev = &pdev->dev;
->                 strscpy(dev->mdev_dec.model, MTK_VCODEC_DEC_NAME,
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.c
-> new file mode 100644
-> index 000000000000..025a103008ba
-> --- /dev/null
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.c
-> @@ -0,0 +1,172 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2021 MediaTek Inc.
-> + * Author: Yunfei Dong <yunfei.dong@mediatek.com>
-> + */
-> +
-> +#include <linux/interrupt.h>
-> +#include <linux/irq.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_device.h>
-> +#include <linux/slab.h>
-> +
-> +#include "mtk_vcodec_drv.h"
-> +#include "mtk_vcodec_dec.h"
-> +#include "mtk_vcodec_dec_hw.h"
-> +#include "mtk_vcodec_dec_pm.h"
-> +#include "mtk_vcodec_intr.h"
-> +#include "mtk_vcodec_util.h"
-> +
-> +const struct of_device_id mtk_vdec_hw_match[] = {
-> +       {
-> +               .compatible = "mediatek,mtk-vcodec-lat",
-> +               .data = (void *)MTK_VDEC_LAT0,
-> +       },
+>  	struct drm_i915_private *i915 = arg;
+> -	struct intel_gt *gt = &i915->gt;
+> +	struct intel_gt *gt = to_gt(i915);
+>  	struct intel_guc_slpc *slpc;
+>  	struct intel_rps *rps;
+>  	struct intel_engine_cs *engine;
+> @@ -304,7 +304,7 @@ int intel_slpc_live_selftests(struct drm_i915_private *i915)
+>  		SUBTEST(live_slpc_clamp_min),
+>  	};
+>  
+> -	if (intel_gt_is_wedged(&i915->gt))
+> +	if (intel_gt_is_wedged(to_gt(i915)))
+>  		return 0;
+>  
+>  	return i915_live_subtests(tests, i915);
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_timeline.c b/drivers/gpu/drm/i915/gt/selftest_timeline.c
+> index d0b6a3afcf44..e2eb686a9763 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_timeline.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_timeline.c
+> @@ -159,7 +159,7 @@ static int mock_hwsp_freelist(void *arg)
+>  	INIT_RADIX_TREE(&state.cachelines, GFP_KERNEL);
+>  	state.prng = I915_RND_STATE_INITIALIZER(i915_selftest.random_seed);
+>  
+> -	state.gt = &i915->gt;
+> +	state.gt = to_gt(i915);
+>  
+>  	/*
+>  	 * Create a bunch of timelines and check that their HWSP do not overlap.
+> @@ -1416,8 +1416,8 @@ int intel_timeline_live_selftests(struct drm_i915_private *i915)
+>  		SUBTEST(live_hwsp_rollover_user),
+>  	};
+>  
+> -	if (intel_gt_is_wedged(&i915->gt))
+> +	if (intel_gt_is_wedged(to_gt(i915)))
+>  		return 0;
+>  
+> -	return intel_gt_live_subtests(tests, &i915->gt);
+> +	return intel_gt_live_subtests(tests, to_gt(i915));
+>  }
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_workarounds.c b/drivers/gpu/drm/i915/gt/selftest_workarounds.c
+> index 962e91ba3be4..0287c2573c51 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_workarounds.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_workarounds.c
+> @@ -1387,8 +1387,8 @@ int intel_workarounds_live_selftests(struct drm_i915_private *i915)
+>  		SUBTEST(live_engine_reset_workarounds),
+>  	};
+>  
+> -	if (intel_gt_is_wedged(&i915->gt))
+> +	if (intel_gt_is_wedged(to_gt(i915)))
+>  		return 0;
+>  
+> -	return intel_gt_live_subtests(tests, &i915->gt);
+> +	return intel_gt_live_subtests(tests, to_gt(i915));
+>  }
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+> index 22c1c12369f2..13b27b8ff74e 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+> @@ -623,7 +623,7 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
+>  	if (unlikely(ret < 0))
+>  		return ret;
+>  
+> -	intel_guc_pm_intrmsk_enable(&i915->gt);
+> +	intel_guc_pm_intrmsk_enable(to_gt(i915));
+>  
+>  	slpc_get_rp_values(slpc);
+>  
+> diff --git a/drivers/gpu/drm/i915/gt/uc/selftest_guc.c b/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
+> index fb0e4a7bd8ca..e8cd030137e5 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
+> @@ -115,7 +115,7 @@ int intel_guc_live_selftests(struct drm_i915_private *i915)
+>  	static const struct i915_subtest tests[] = {
+>  		SUBTEST(intel_guc_scrub_ctbs),
+>  	};
+> -	struct intel_gt *gt = &i915->gt;
+> +	struct intel_gt *gt = to_gt(i915);
+>  
+>  	if (intel_gt_is_wedged(gt))
+>  		return 0;
+> diff --git a/drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c b/drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c
+> index 50953c8e8b53..1297ddbf7f88 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c
+> @@ -167,7 +167,7 @@ int intel_guc_multi_lrc_live_selftests(struct drm_i915_private *i915)
+>  	static const struct i915_subtest tests[] = {
+>  		SUBTEST(intel_guc_multi_lrc_basic),
+>  	};
+> -	struct intel_gt *gt = &i915->gt;
+> +	struct intel_gt *gt = to_gt(i915);
+>  
+>  	if (intel_gt_is_wedged(gt))
+>  		return 0;
+> -- 
+> 2.34.1
+> 
 
-Are we supposed to have LAT1 here as well?
-
-> +       {
-> +               .compatible = "mediatek,mtk-vcodec-core",
-> +               .data = (void *)MTK_VDEC_CORE,
-> +       },
-> +       {},
-> +};
-> +EXPORT_SYMBOL_GPL(mtk_vdec_hw_match);
-> +
-> +MODULE_DEVICE_TABLE(of, mtk_vdec_hw_match);
-> +
-> +static irqreturn_t mtk_vdec_hw_irq_handler(int irq, void *priv)
-> +{
-> +       struct mtk_vdec_hw_dev *dev = priv;
-> +       struct mtk_vcodec_ctx *ctx;
-> +       u32 cg_status;
-> +       unsigned int dec_done_status;
-> +       void __iomem *vdec_misc_addr = dev->reg_base[VDEC_HW_MISC] +
-> +                                       VDEC_IRQ_CFG_REG;
-> +
-> +       ctx = mtk_vcodec_get_curr_ctx(dev->main_dev);
-> +
-> +       /* check if HW active or not */
-> +       cg_status = readl(dev->reg_base[VDEC_HW_SYS]);
-> +       if (cg_status & VDEC_HW_ACTIVE) {
-> +               mtk_v4l2_err("vdec active is not 0x0 (0x%08x)",
-> +                       cg_status);
-> +               return IRQ_HANDLED;
-> +       }
-> +
-> +       dec_done_status = readl(vdec_misc_addr);
-> +       if ((dec_done_status & MTK_VDEC_IRQ_STATUS_DEC_SUCCESS) !=
-> +           MTK_VDEC_IRQ_STATUS_DEC_SUCCESS)
-> +               return IRQ_HANDLED;
-> +
-> +       /* clear interrupt */
-> +       writel(dec_done_status | VDEC_IRQ_CFG, vdec_misc_addr);
-
-Is VDEC_IRQ_CFG also intended for clear interrupt?
-
-> +       writel(dec_done_status & ~VDEC_IRQ_CLR, vdec_misc_addr);
-> +
-> +       wake_up_ctx(ctx, MTK_INST_IRQ_RECEIVED);
-> +
-> +       mtk_v4l2_debug(3, "wake up ctx %d, dec_done_status=%x",
-> +               ctx->id, dec_done_status);
-> +
-> +       return IRQ_HANDLED;
-> +}
-> +
-> +static int mtk_vdec_hw_init_irq(struct mtk_vdec_hw_dev *dev)
-> +{
-> +       struct platform_device *pdev = dev->plat_dev;
-> +       int ret;
-> +
-> +       dev->dec_irq = platform_get_irq(pdev, 0);
-> +       if (dev->dec_irq < 0) {
-> +               dev_err(&pdev->dev, "Failed to get irq resource");
-> +               return dev->dec_irq;
-> +       }
-> +
-> +       irq_set_status_flags(dev->dec_irq, IRQ_NOAUTOEN);
-> +       ret = devm_request_irq(&pdev->dev, dev->dec_irq,
-> +                               mtk_vdec_hw_irq_handler, 0, pdev->name, dev);
-> +       if (ret) {
-> +               dev_err(&pdev->dev, "Failed to install dev->dec_irq %d (%d)",
-> +                       dev->dec_irq, ret);
-> +               return ret;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static int mtk_vdec_hw_probe(struct platform_device *pdev)
-> +{
-> +       struct device *dev = &pdev->dev;
-> +       struct mtk_vdec_hw_dev *subdev_dev;
-> +       struct mtk_vcodec_dev *main_dev;
-> +       const struct of_device_id *of_id;
-> +       int hw_idx;
-> +       int ret;
-> +
-> +       if (!dev->parent) {
-> +               dev_err(dev, "no parent for hardware devices.\n");
-> +               return -ENODEV;
-> +       }
-> +
-> +       main_dev = dev_get_drvdata(dev->parent);
-> +       if (!main_dev) {
-> +               dev_err(dev, "failed to get parent driver data");
-> +               return -EINVAL;
-> +       }
-> +
-> +       subdev_dev = devm_kzalloc(dev, sizeof(*subdev_dev), GFP_KERNEL);
-> +       if (!subdev_dev)
-> +               return -ENOMEM;
-> +
-> +       subdev_dev->plat_dev = pdev;
-> +       ret = mtk_vcodec_init_dec_pm(pdev, &subdev_dev->pm);
-> +       if (ret)
-> +               return ret;
-> +
-> +       subdev_dev->reg_base[VDEC_HW_MISC] =
-> +               devm_platform_ioremap_resource(pdev, 0);
-> +       if (IS_ERR((__force void *)subdev_dev->reg_base[VDEC_HW_MISC])) {
-> +               ret = PTR_ERR((__force void *)subdev_dev->reg_base[VDEC_HW_MISC]);
-> +               goto err;
-> +       }
-> +
-> +       ret = mtk_vdec_hw_init_irq(subdev_dev);
-> +       if (ret)
-> +               goto err;
-> +
-> +       of_id = of_match_device(mtk_vdec_hw_match, dev);
-> +       if (!of_id) {
-> +               dev_err(dev, "Can't get vdec subdev id.\n");
-> +               ret = -EINVAL;
-> +               goto err;
-> +       }
-> +
-> +       hw_idx = (enum mtk_vdec_hw_id)(uintptr_t)of_id->data;
-> +       if (hw_idx >= MTK_VDEC_HW_MAX) {
-> +               dev_err(dev, "Hardware index %d not correct.\n", hw_idx);
-> +               ret = -EINVAL;
-> +               goto err;
-> +       }
-> +
-> +       main_dev->subdev_dev[hw_idx] = subdev_dev;
-> +       subdev_dev->hw_idx = hw_idx;
-> +       subdev_dev->main_dev = main_dev;
-> +       subdev_dev->reg_base[VDEC_HW_SYS] = main_dev->reg_base[VDEC_HW_SYS];
-> +       set_bit(subdev_dev->hw_idx, main_dev->subdev_bitmap);
-> +
-> +       platform_set_drvdata(pdev, subdev_dev);
-> +       return 0;
-> +err:
-> +       mtk_vcodec_release_dec_pm(&subdev_dev->pm);
-> +       return ret;
-> +}
-> +
-> +static struct platform_driver mtk_vdec_driver = {
-> +       .probe  = mtk_vdec_hw_probe,
-> +       .driver = {
-> +               .name   = "mtk-vdec-comp",
-> +               .of_match_table = mtk_vdec_hw_match,
-> +       },
-> +};
-> +module_platform_driver(mtk_vdec_driver);
-> +
-> +MODULE_LICENSE("GPL v2");
-> +MODULE_DESCRIPTION("Mediatek video decoder hardware driver");
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.h
-> new file mode 100644
-> index 000000000000..f7f36790629d
-> --- /dev/null
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.h
-> @@ -0,0 +1,51 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2021 MediaTek Inc.
-> + * Author: Yunfei Dong <yunfei.dong@mediatek.com>
-> + */
-> +
-> +#ifndef _MTK_VCODEC_DEC_HW_H_
-> +#define _MTK_VCODEC_DEC_HW_H_
-> +
-> +#include <linux/io.h>
-> +#include <linux/platform_device.h>
-> +
-> +#include "mtk_vcodec_drv.h"
-> +
-> +#define VDEC_HW_ACTIVE 0x10
-> +#define VDEC_IRQ_CFG 0x11
-> +#define VDEC_IRQ_CLR 0x10
-> +#define VDEC_IRQ_CFG_REG 0xa4
-> +
-> +extern const struct of_device_id mtk_vdec_hw_match[MTK_VDEC_HW_MAX];
-> +
-> +/**
-> + * enum mtk_vdec_hw_reg_idx - subdev hardware register base index
-> + */
-> +enum mtk_vdec_hw_reg_idx {
-> +       VDEC_HW_SYS,
-> +       VDEC_HW_MISC,
-> +       VDEC_HW_MAX
-> +};
-> +
-> +/**
-> + * struct mtk_vdec_hw_dev - vdec hardware driver data
-> + * @plat_dev: platform device
-> + * @main_dev: main device
-> + * @reg_base: Mapped address of MTK Vcodec registers.
-> + *
-> + * @dec_irq: decoder irq resource
-> + * @pm: power management control
-> + * @hw_idx: each hardware index
-> + */
-> +struct mtk_vdec_hw_dev {
-> +       struct platform_device *plat_dev;
-> +       struct mtk_vcodec_dev *main_dev;
-> +       void __iomem *reg_base[VDEC_HW_MAX];
-> +
-> +       int dec_irq;
-> +       struct mtk_vcodec_pm pm;
-> +       int hw_idx;
-> +};
-> +
-> +#endif /* _MTK_VCODEC_DEC_HW_H_ */
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c
-> index bef49244e61b..c7f9259ad094 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c
-> @@ -625,4 +625,5 @@ const struct mtk_vcodec_dec_pdata mtk_vdec_8173_pdata = {
->         .num_framesizes = NUM_SUPPORTED_FRAMESIZE,
->         .worker = mtk_vdec_worker,
->         .flush_decoder = mtk_vdec_flush_decoder,
-> +       .is_subdev_supported = false,
->  };
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
-> index 26e4d6f4ec04..2d285515b625 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
-> @@ -357,6 +357,7 @@ const struct mtk_vcodec_dec_pdata mtk_vdec_8183_pdata = {
-
-8173 might be only one for stateful. But we have multiple platforms
-for 8183. Shouldn't this name reflect this?
-
->         .uses_stateless_api = true,
->         .worker = mtk_vdec_worker,
->         .flush_decoder = mtk_vdec_flush_decoder,
-> +       .is_subdev_supported = false,
->  };
->
->  const struct mtk_vcodec_dec_pdata mtk_lat_sig_core_pdata = {
-> @@ -373,4 +374,5 @@ const struct mtk_vcodec_dec_pdata mtk_lat_sig_core_pdata = {
-
-Which platforms is this supposed to be used? Some comments on this
-might be helpful.
-
->         .uses_stateless_api = true,
->         .worker = mtk_vdec_worker,
->         .flush_decoder = mtk_vdec_flush_decoder,
-> +       .is_subdev_supported = true,
->  };
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-> index 0fa9d85114b9..2160f26263ef 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h
-> @@ -93,6 +93,17 @@ enum mtk_fmt_type {
->         MTK_FMT_FRAME = 2,
->  };
->
-> +/**
-> + * struct mtk_vdec_hw_id - Hardware index used to separate
-> + *                         different hardware
-> + */
-> +enum mtk_vdec_hw_id {
-> +       MTK_VDEC_CORE,
-> +       MTK_VDEC_LAT0,
-> +       MTK_VDEC_LAT1,
-> +       MTK_VDEC_HW_MAX,
-> +};
-> +
->  /*
->   * struct mtk_video_fmt - Structure used to store information about pixelformats
->   */
-> @@ -332,6 +343,7 @@ enum mtk_chip {
->   *
->   * @chip: chip this decoder is compatible with
->   *
-> + * @is_subdev_supported: whether support parent-node architecture(subdev)
->   * @uses_stateless_api: whether the decoder uses the stateless API with requests
->   */
->
-> @@ -353,6 +365,7 @@ struct mtk_vcodec_dec_pdata {
->
->         enum mtk_chip chip;
->
-> +       bool is_subdev_supported;
->         bool uses_stateless_api;
->  };
->
-> @@ -423,6 +436,9 @@ struct mtk_vcodec_enc_pdata {
->   * @pm: power management control
->   * @dec_capability: used to identify decode capability, ex: 4k
->   * @enc_capability: used to identify encode capability
-> + *
-> + * @subdev_dev: subdev hardware device
-> + * @subdev_bitmap: used to record hardware is ready or not
->   */
->  struct mtk_vcodec_dev {
->         struct v4l2_device v4l2_dev;
-> @@ -460,6 +476,9 @@ struct mtk_vcodec_dev {
->         struct mtk_vcodec_pm pm;
->         unsigned int dec_capability;
->         unsigned int enc_capability;
-> +
-> +       void *subdev_dev[MTK_VDEC_HW_MAX];
-> +       DECLARE_BITMAP(subdev_bitmap, MTK_VDEC_HW_MAX);
->  };
->
->  static inline struct mtk_vcodec_ctx *fh_to_ctx(struct v4l2_fh *fh)
-> --
-> 2.25.1
->
+-- 
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
+(916) 356-2795
