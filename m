@@ -1,40 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C479446F1CE
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 18:26:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE79646F1E3
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 18:28:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9767B10E1DB;
-	Thu,  9 Dec 2021 17:26:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1596410E203;
+	Thu,  9 Dec 2021 17:28:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25FD710E1DB;
- Thu,  9 Dec 2021 17:26:07 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10193"; a="298950809"
-X-IronPort-AV: E=Sophos;i="5.88,193,1635231600"; d="scan'208";a="298950809"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2021 09:26:06 -0800
-X-IronPort-AV: E=Sophos;i="5.88,193,1635231600"; d="scan'208";a="516397649"
-Received: from achlenov-mobl2.ccr.corp.intel.com (HELO intel.com)
- ([10.252.52.59])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2021 09:26:04 -0800
-Date: Thu, 9 Dec 2021 19:26:00 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH v6 01/11] drm/i915: Store backpointer to GT
- in uncore
-Message-ID: <YbI8KBKFMSjWhEKl@intel.intel>
-References: <20211209132512.47241-1-andi.shyti@linux.intel.com>
- <20211209132512.47241-2-andi.shyti@linux.intel.com>
- <87ilvx3dz9.fsf@intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E044010E200;
+ Thu,  9 Dec 2021 17:28:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1639070924; x=1670606924;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=jXAOejeBpNoneYL0ELO2p9H9kwuhTQsjeBJRbVaa07o=;
+ b=IqEz0+vGR6dIW8UImoAGVGSubVFptkxnJ+kqGiSx+Jy+Fi3MpwK8aLFA
+ EdbE3VsE79/e9SZKzlRyeQkwbnOEARWfZjGkzpRgshrgRm8GmDYRF6hJP
+ JpuaQHpPH2Vn2jJJ7iGCpzJf2C+VZAZH+RMX1mrs+iBCVQhbUtSVlfWnw
+ FBlbcqqSVbx30YmR3i8rs58z5Ts/kr86TggXgAh33oaeG/xdJi73EZfmG
+ pVlejvjscARiPLEhzd3yGCnomxvo3dY+Cd3JejB7m9XdZPwptt/3R5Ews
+ /hpcWCYfFTkj/WC+ET8+OhT0UjWfX1AX8/YHE+K0zaagP8ojuEgzuhQJ9 Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10193"; a="225028175"
+X-IronPort-AV: E=Sophos;i="5.88,193,1635231600"; d="scan'208";a="225028175"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Dec 2021 09:28:44 -0800
+X-IronPort-AV: E=Sophos;i="5.88,193,1635231600"; d="scan'208";a="480419786"
+Received: from mkeogh1-mobl1.ger.corp.intel.com (HELO [10.252.18.252])
+ ([10.252.18.252])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Dec 2021 09:28:42 -0800
+Message-ID: <c90325d8-acdd-0833-5b24-9d0effa873d1@intel.com>
+Date: Thu, 9 Dec 2021 17:28:40 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87ilvx3dz9.fsf@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH] drm/i915: Don't leak the capture list items
+Content-Language: en-GB
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20211209141304.393479-1-thomas.hellstrom@linux.intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20211209141304.393479-1-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,43 +60,16 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- DRI Devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Andi Shyti <andi.shyti@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jani,
-
-thanks for looking at it.
-
-> > -	intel_gt_init_early(&dev_priv->gt, dev_priv);
-> > +	__intel_gt_init_early(&dev_priv->gt, dev_priv);
+On 09/12/2021 14:13, Thomas Hellström wrote:
+> When we recently converted the capture code to use vma snapshots,
+> we forgot to free the struct i915_capture_list list items after use.
 > 
-> Why double underscores here? It looks like it's supposed to be internal
-> to intel_gt, not to be called by anyone else.
-
-I forgot to write two lines in the commit log about this.
-
-It's a temporary solution that will go away in the next patch
-series[*].
-
-The reason for it is because at this point I need to break the
-early initialization of the gt into two parts. In the specific
-the '__intel_gt_init_early' assigns the i915 private data and the
-uncore.
-
-It's not pretty, but, knowing what's coming next, it's the change
-with the smallest impact.
-
-> >  
-> >  	i915_gem_init_early(dev_priv);
-> >  
-
-Thank you,
-Andi
-
-[*] https://patchwork.freedesktop.org/patch/464475/?series=97352&rev=1
+> Fix that by bringing back a kfree.
+> 
+> Fixes: ff20afc4cee7 ("drm/i915: Update error capture code to avoid using the current vma state")
+> Cc: Ramalingam C <ramalingam.c@intel.com>
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
