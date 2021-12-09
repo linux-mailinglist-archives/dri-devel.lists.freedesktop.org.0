@@ -2,44 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74D9146EF9A
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 18:01:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 687DA46EFD5
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 18:02:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50B9510E635;
-	Thu,  9 Dec 2021 16:54:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB01410EEA6;
+	Thu,  9 Dec 2021 16:54:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
- by gabe.freedesktop.org (Postfix) with ESMTP id 425CE89CDB;
- Thu,  9 Dec 2021 16:46:47 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 37CC62020B9;
- Thu,  9 Dec 2021 17:46:46 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id Tq8NWqNYIXA2; Thu,  9 Dec 2021 17:46:45 +0100 (CET)
-Received: from kaveri (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
- [85.2.99.24])
- by netline-mail3.netline.ch (Postfix) with ESMTPA id 361EF2020C2;
- Thu,  9 Dec 2021 17:46:45 +0100 (CET)
-Received: from daenzer by kaveri with local (Exim 4.95)
- (envelope-from <michel@daenzer.net>) id 1mvMZA-006o00-LE;
- Thu, 09 Dec 2021 17:46:44 +0100
-From: =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Subject: [PATCH 2/2] drm/amd/display: Reduce stack size for dml31
- UseMinimumDCFCLK
-Date: Thu,  9 Dec 2021 17:46:44 +0100
-Message-Id: <20211209164644.1622152-2-michel@daenzer.net>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20211209164644.1622152-1-michel@daenzer.net>
-References: <20211209164644.1622152-1-michel@daenzer.net>
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0324310E121;
+ Thu,  9 Dec 2021 15:09:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=axis.com; q=dns/txt; s=axis-central1; t=1639062553;
+ x=1670598553; h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=W2ubuTB0lhYmOjPQa69hEhEIuxyUGZeyP9M+nuyzdoI=;
+ b=l42P+TdouKR//8y/s1tY7Dq14beSJhmkqg48OUmWKmYZl8zu1L7wGl9g
+ nL6YkfaeWLoKl0wgbNsAqENKKefGOUm7Tq61mpG6xjCretjywP5AMi4ye
+ mcc7EXpGZRdC+SAGCYT1WpeUsoNuf4bcUbxzgbLgFPMuPDofV4Kb868Rf
+ +oklWYDuj6kQf/kilASoii+yLC+XP3BPt6Uy+UdI3Zyg4HaB01IhSUhXv
+ 2ohEgIznLTO3UPLgOo9ix27DfKigzVTT8K6kumkU1HvaGjvjTqUjZh4B7
+ 3/iC4cjhx2ozMYySoFPrcTvAiy5lsgMkrkd3DRSExVwmhdFB8sGPQNgDu w==;
+Date: Thu, 9 Dec 2021 16:09:10 +0100
+From: Vincent Whitchurch <vincent.whitchurch@axis.com>
+To: "jim.cromie@gmail.com" <jim.cromie@gmail.com>
+Subject: Re: [PATCH v10 08/10] dyndbg: add print-to-tracefs, selftest with it
+ - RFC
+Message-ID: <20211209150910.GA23668@axis.com>
+References: <20211111220206.121610-1-jim.cromie@gmail.com>
+ <20211111220206.121610-9-jim.cromie@gmail.com>
+ <20211112114953.GA1381@axis.com>
+ <CAJfuBxxnuXAR7Jgn74MNQC7MLRc0xcDLw1cCidUJ9Xyar+O_2g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <CAJfuBxxnuXAR7Jgn74MNQC7MLRc0xcDLw1cCidUJ9Xyar+O_2g@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,439 +50,416 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: "quic_saipraka@quicinc.com" <quic_saipraka@quicinc.com>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Will Deacon <will@kernel.org>,
+ "maz@kernel.org" <maz@kernel.org>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ Ingo Molnar <mingo@redhat.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Arnd Bergmann <arnd@arndb.de>,
+ "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Jason Baron <jbaron@akamai.com>,
+ Sean Paul <seanpaul@chromium.org>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, Sean Paul <sean@poorly.run>,
+ Greg KH <gregkh@linuxfoundation.org>, LKML <linux-kernel@vger.kernel.org>,
+ "quic_psodagud@quicinc.com" <quic_psodagud@quicinc.com>,
+ "mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Michel Dänzer <mdaenzer@redhat.com>
+On Wed, Dec 08, 2021 at 06:16:10AM +0100, jim.cromie@gmail.com wrote:
+> are you planning to dust this patchset off and resubmit it ?
+> 
+> Ive been playing with it and learning ftrace (decade+ late),
+> I found your boot-line example very helpful as 1st steps
+> (still havent even tried the filtering)
+> 
+> 
+> with these adjustments (voiced partly to test my understanding)
+> I would support it, and rework my patchset to use it.
+> 
+> - change flag to -e, good mnemonics for event/trace-event
+>    T is good too, but uppercase, no need to go there.
 
-Use the struct display_mode_lib pointer instead of passing lots of large
-arrays as parameters by value.
+Any flag name works for me.
 
-Addresses this warning (resulting in failure to build a RHEL debug kernel
-with Werror enabled):
+> - include/trace/events/dyndbg.h - separate file, not mixed with print.h
+>   dyndbg class, so trace_event=dyndbg:*
+> 
+> - 1 event type per pr_debug, dev_dbg, netdev_dbg ? ibdev_dbg ?
+>   with the extra args: descriptor that Steven wanted,
+>   probably also struct <|net|ib>dev
 
-../drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/display_mode_vba_31.c: In function ‘UseMinimumDCFCLK’:
-../drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/display_mode_vba_31.c:7478:1: warning: the frame size of 2128 bytes is larger than 2048 bytes [-Wframe-larger-than=]
+For my use cases I don't see much value in having separate events for
+the different debug functions, but since all of them can be easily
+enabled (dyndbg:*, as you noted), that works for me too.
 
-NOTE: AFAICT this function previously had no observable effect, since it
-only modified parameters passed by value and doesn't return anything.
-Now it may modify some values in struct display_mode_lib passed in by
-reference.
+> If youre too busy for a while, I'd eventually take a (slow) run at it.
 
-Signed-off-by: Michel Dänzer <mdaenzer@redhat.com>
----
- .../dc/dml/dcn31/display_mode_vba_31.c        | 304 ++++--------------
- 1 file changed, 69 insertions(+), 235 deletions(-)
+You're welcome to have a go.  I think you've already rebased the
+patchset, but here's a diff top of v5.16-rc4 for reference.  I noticed a
+bug inside the CONFIG_JUMP_LABEL handling (also present in the last
+version I posted) which should be fixed as part of the diff below (I've
+added a comment).  Proper tests for this, like the ones you are adding
+in your patchset, would certainly be a good idea.  Thanks.
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
-index 8965f9af9d0a..6feb23432f8d 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
-@@ -422,62 +422,8 @@ static void CalculateUrgentBurstFactor(
+8<-------------
+diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+index a89cfa083155..b9c4e808befc 100644
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -228,6 +228,7 @@ of the characters::
+ The flags are::
  
- static void UseMinimumDCFCLK(
- 		struct display_mode_lib *mode_lib,
--		int MaxInterDCNTileRepeaters,
- 		int MaxPrefetchMode,
--		double FinalDRAMClockChangeLatency,
--		double SREnterPlusExitTime,
--		int ReturnBusWidth,
--		int RoundTripPingLatencyCycles,
--		int ReorderingBytes,
--		int PixelChunkSizeInKByte,
--		int MetaChunkSize,
--		bool GPUVMEnable,
--		int GPUVMMaxPageTableLevels,
--		bool HostVMEnable,
--		int NumberOfActivePlanes,
--		double HostVMMinPageSize,
--		int HostVMMaxNonCachedPageTableLevels,
--		bool DynamicMetadataVMEnabled,
--		enum immediate_flip_requirement ImmediateFlipRequirement,
--		bool ProgressiveToInterlaceUnitInOPP,
--		double MaxAveragePercentOfIdealFabricAndSDPPortBWDisplayCanUseInNormalSystemOperation,
--		double PercentOfIdealFabricAndSDPPortBWReceivedAfterUrgLatency,
--		int VTotal[],
--		int VActive[],
--		int DynamicMetadataTransmittedBytes[],
--		int DynamicMetadataLinesBeforeActiveRequired[],
--		bool Interlace[],
--		double RequiredDPPCLK[][2][DC__NUM_DPP__MAX],
--		double RequiredDISPCLK[][2],
--		double UrgLatency[],
--		unsigned int NoOfDPP[][2][DC__NUM_DPP__MAX],
--		double ProjectedDCFCLKDeepSleep[][2],
--		double MaximumVStartup[][2][DC__NUM_DPP__MAX],
--		double TotalVActivePixelBandwidth[][2],
--		double TotalVActiveCursorBandwidth[][2],
--		double TotalMetaRowBandwidth[][2],
--		double TotalDPTERowBandwidth[][2],
--		unsigned int TotalNumberOfActiveDPP[][2],
--		unsigned int TotalNumberOfDCCActiveDPP[][2],
--		int dpte_group_bytes[],
--		double PrefetchLinesY[][2][DC__NUM_DPP__MAX],
--		double PrefetchLinesC[][2][DC__NUM_DPP__MAX],
--		int swath_width_luma_ub_all_states[][2][DC__NUM_DPP__MAX],
--		int swath_width_chroma_ub_all_states[][2][DC__NUM_DPP__MAX],
--		int BytePerPixelY[],
--		int BytePerPixelC[],
--		int HTotal[],
--		double PixelClock[],
--		double PDEAndMetaPTEBytesPerFrame[][2][DC__NUM_DPP__MAX],
--		double DPTEBytesPerRow[][2][DC__NUM_DPP__MAX],
--		double MetaRowBytes[][2][DC__NUM_DPP__MAX],
--		bool DynamicMetadataEnable[],
--		double VActivePixelBandwidth[][2][DC__NUM_DPP__MAX],
--		double VActiveCursorBandwidth[][2][DC__NUM_DPP__MAX],
--		double ReadBandwidthLuma[],
--		double ReadBandwidthChroma[],
--		double DCFCLKPerState[],
--		double DCFCLKState[][2]);
-+		int ReorderingBytes);
+   p    enables the pr_debug() callsite.
++  x    enables trace to the printk:dyndbg event
+   f    Include the function name in the printed message
+   l    Include line number in the printed message
+   m    Include module name in the printed message
+diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
+index dce631e678dd..bc21bfb0fdc6 100644
+--- a/include/linux/dynamic_debug.h
++++ b/include/linux/dynamic_debug.h
+@@ -27,7 +27,7 @@ struct _ddebug {
+ 	 * writes commands to <debugfs>/dynamic_debug/control
+ 	 */
+ #define _DPRINTK_FLAGS_NONE	0
+-#define _DPRINTK_FLAGS_PRINT	(1<<0) /* printk() a message using the format */
++#define _DPRINTK_FLAGS_PRINTK	(1<<0) /* printk() a message using the format */
+ #define _DPRINTK_FLAGS_INCL_MODNAME	(1<<1)
+ #define _DPRINTK_FLAGS_INCL_FUNCNAME	(1<<2)
+ #define _DPRINTK_FLAGS_INCL_LINENO	(1<<3)
+@@ -37,8 +37,11 @@ struct _ddebug {
+ 	(_DPRINTK_FLAGS_INCL_MODNAME | _DPRINTK_FLAGS_INCL_FUNCNAME |\
+ 	 _DPRINTK_FLAGS_INCL_LINENO  | _DPRINTK_FLAGS_INCL_TID)
  
- static void CalculatePixelDeliveryTimes(
- 		unsigned int NumberOfActivePlanes,
-@@ -5175,66 +5121,8 @@ void dml31_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
- 		}
- 	}
++#define _DPRINTK_FLAGS_TRACE		(1<<5)
++#define _DPRINTK_FLAGS_ENABLE		(_DPRINTK_FLAGS_PRINTK | \
++					 _DPRINTK_FLAGS_TRACE)
+ #if defined DEBUG
+-#define _DPRINTK_FLAGS_DEFAULT _DPRINTK_FLAGS_PRINT
++#define _DPRINTK_FLAGS_DEFAULT _DPRINTK_FLAGS_PRINTK
+ #else
+ #define _DPRINTK_FLAGS_DEFAULT 0
+ #endif
+@@ -120,10 +123,10 @@ void __dynamic_ibdev_dbg(struct _ddebug *descriptor,
  
--	if (v->UseMinimumRequiredDCFCLK == true) {
--		UseMinimumDCFCLK(
--				mode_lib,
--				v->MaxInterDCNTileRepeaters,
--				MaxPrefetchMode,
--				v->DRAMClockChangeLatency,
--				v->SREnterPlusExitTime,
--				v->ReturnBusWidth,
--				v->RoundTripPingLatencyCycles,
--				ReorderingBytes,
--				v->PixelChunkSizeInKByte,
--				v->MetaChunkSize,
--				v->GPUVMEnable,
--				v->GPUVMMaxPageTableLevels,
--				v->HostVMEnable,
--				v->NumberOfActivePlanes,
--				v->HostVMMinPageSize,
--				v->HostVMMaxNonCachedPageTableLevels,
--				v->DynamicMetadataVMEnabled,
--				v->ImmediateFlipRequirement[0],
--				v->ProgressiveToInterlaceUnitInOPP,
--				v->MaxAveragePercentOfIdealFabricAndSDPPortBWDisplayCanUseInNormalSystemOperation,
--				v->PercentOfIdealFabricAndSDPPortBWReceivedAfterUrgLatency,
--				v->VTotal,
--				v->VActive,
--				v->DynamicMetadataTransmittedBytes,
--				v->DynamicMetadataLinesBeforeActiveRequired,
--				v->Interlace,
--				v->RequiredDPPCLK,
--				v->RequiredDISPCLK,
--				v->UrgLatency,
--				v->NoOfDPP,
--				v->ProjectedDCFCLKDeepSleep,
--				v->MaximumVStartup,
--				v->TotalVActivePixelBandwidth,
--				v->TotalVActiveCursorBandwidth,
--				v->TotalMetaRowBandwidth,
--				v->TotalDPTERowBandwidth,
--				v->TotalNumberOfActiveDPP,
--				v->TotalNumberOfDCCActiveDPP,
--				v->dpte_group_bytes,
--				v->PrefetchLinesY,
--				v->PrefetchLinesC,
--				v->swath_width_luma_ub_all_states,
--				v->swath_width_chroma_ub_all_states,
--				v->BytePerPixelY,
--				v->BytePerPixelC,
--				v->HTotal,
--				v->PixelClock,
--				v->PDEAndMetaPTEBytesPerFrame,
--				v->DPTEBytesPerRow,
--				v->MetaRowBytes,
--				v->DynamicMetadataEnable,
--				v->VActivePixelBandwidth,
--				v->VActiveCursorBandwidth,
--				v->ReadBandwidthLuma,
--				v->ReadBandwidthChroma,
--				v->DCFCLKPerState,
--				v->DCFCLKState);
--	}
-+	if (v->UseMinimumRequiredDCFCLK == true)
-+		UseMinimumDCFCLK(mode_lib, MaxPrefetchMode, ReorderingBytes);
+ #ifdef DEBUG
+ #define DYNAMIC_DEBUG_BRANCH(descriptor) \
+-	likely(descriptor.flags & _DPRINTK_FLAGS_PRINT)
++	likely(descriptor.flags & _DPRINTK_FLAGS_ENABLE)
+ #else
+ #define DYNAMIC_DEBUG_BRANCH(descriptor) \
+-	unlikely(descriptor.flags & _DPRINTK_FLAGS_PRINT)
++	unlikely(descriptor.flags & _DPRINTK_FLAGS_ENABLE)
+ #endif
  
- 	for (i = 0; i < v->soc.num_states; ++i) {
- 		for (j = 0; j <= 1; ++j) {
-@@ -7262,69 +7150,15 @@ static double CalculateUrgentLatency(
+ #endif /* CONFIG_JUMP_LABEL */
+diff --git a/include/trace/events/printk.h b/include/trace/events/printk.h
+index 13d405b2fd8b..1f78bd237a91 100644
+--- a/include/trace/events/printk.h
++++ b/include/trace/events/printk.h
+@@ -7,7 +7,7 @@
  
- static void UseMinimumDCFCLK(
- 		struct display_mode_lib *mode_lib,
--		int MaxInterDCNTileRepeaters,
- 		int MaxPrefetchMode,
--		double FinalDRAMClockChangeLatency,
--		double SREnterPlusExitTime,
--		int ReturnBusWidth,
--		int RoundTripPingLatencyCycles,
--		int ReorderingBytes,
--		int PixelChunkSizeInKByte,
--		int MetaChunkSize,
--		bool GPUVMEnable,
--		int GPUVMMaxPageTableLevels,
--		bool HostVMEnable,
--		int NumberOfActivePlanes,
--		double HostVMMinPageSize,
--		int HostVMMaxNonCachedPageTableLevels,
--		bool DynamicMetadataVMEnabled,
--		enum immediate_flip_requirement ImmediateFlipRequirement,
--		bool ProgressiveToInterlaceUnitInOPP,
--		double MaxAveragePercentOfIdealFabricAndSDPPortBWDisplayCanUseInNormalSystemOperation,
--		double PercentOfIdealFabricAndSDPPortBWReceivedAfterUrgLatency,
--		int VTotal[],
--		int VActive[],
--		int DynamicMetadataTransmittedBytes[],
--		int DynamicMetadataLinesBeforeActiveRequired[],
--		bool Interlace[],
--		double RequiredDPPCLK[][2][DC__NUM_DPP__MAX],
--		double RequiredDISPCLK[][2],
--		double UrgLatency[],
--		unsigned int NoOfDPP[][2][DC__NUM_DPP__MAX],
--		double ProjectedDCFCLKDeepSleep[][2],
--		double MaximumVStartup[][2][DC__NUM_DPP__MAX],
--		double TotalVActivePixelBandwidth[][2],
--		double TotalVActiveCursorBandwidth[][2],
--		double TotalMetaRowBandwidth[][2],
--		double TotalDPTERowBandwidth[][2],
--		unsigned int TotalNumberOfActiveDPP[][2],
--		unsigned int TotalNumberOfDCCActiveDPP[][2],
--		int dpte_group_bytes[],
--		double PrefetchLinesY[][2][DC__NUM_DPP__MAX],
--		double PrefetchLinesC[][2][DC__NUM_DPP__MAX],
--		int swath_width_luma_ub_all_states[][2][DC__NUM_DPP__MAX],
--		int swath_width_chroma_ub_all_states[][2][DC__NUM_DPP__MAX],
--		int BytePerPixelY[],
--		int BytePerPixelC[],
--		int HTotal[],
--		double PixelClock[],
--		double PDEAndMetaPTEBytesPerFrame[][2][DC__NUM_DPP__MAX],
--		double DPTEBytesPerRow[][2][DC__NUM_DPP__MAX],
--		double MetaRowBytes[][2][DC__NUM_DPP__MAX],
--		bool DynamicMetadataEnable[],
--		double VActivePixelBandwidth[][2][DC__NUM_DPP__MAX],
--		double VActiveCursorBandwidth[][2][DC__NUM_DPP__MAX],
--		double ReadBandwidthLuma[],
--		double ReadBandwidthChroma[],
--		double DCFCLKPerState[],
--		double DCFCLKState[][2])
-+		int ReorderingBytes)
- {
- 	struct vba_vars_st *v = &mode_lib->vba;
- 	int dummy1, i, j, k;
- 	double NormalEfficiency,  dummy2, dummy3;
- 	double TotalMaxPrefetchFlipDPTERowBandwidth[DC__VOLTAGE_STATES][2];
+ #include <linux/tracepoint.h>
  
--	NormalEfficiency = PercentOfIdealFabricAndSDPPortBWReceivedAfterUrgLatency / 100.0;
-+	NormalEfficiency = v->PercentOfIdealFabricAndSDPPortBWReceivedAfterUrgLatency / 100.0;
- 	for (i = 0; i < v->soc.num_states; ++i) {
- 		for (j = 0; j <= 1; ++j) {
- 			double PixelDCFCLKCyclesRequiredInPrefetch[DC__NUM_DPP__MAX];
-@@ -7342,61 +7176,61 @@ static void UseMinimumDCFCLK(
- 			double MinimumTvmPlus2Tr0;
+-TRACE_EVENT(console,
++DECLARE_EVENT_CLASS(printk,
+ 	TP_PROTO(const char *text, size_t len),
  
- 			TotalMaxPrefetchFlipDPTERowBandwidth[i][j] = 0;
--			for (k = 0; k < NumberOfActivePlanes; ++k) {
-+			for (k = 0; k < v->NumberOfActivePlanes; ++k) {
- 				TotalMaxPrefetchFlipDPTERowBandwidth[i][j] = TotalMaxPrefetchFlipDPTERowBandwidth[i][j]
--						+ NoOfDPP[i][j][k] * DPTEBytesPerRow[i][j][k] / (15.75 * HTotal[k] / PixelClock[k]);
-+						+ v->NoOfDPP[i][j][k] * v->DPTEBytesPerRow[i][j][k] / (15.75 * v->HTotal[k] / v->PixelClock[k]);
- 			}
+ 	TP_ARGS(text, len),
+@@ -31,6 +31,16 @@ TRACE_EVENT(console,
  
--			for (k = 0; k <= NumberOfActivePlanes - 1; ++k) {
--				NoOfDPPState[k] = NoOfDPP[i][j][k];
-+			for (k = 0; k <= v->NumberOfActivePlanes - 1; ++k) {
-+				NoOfDPPState[k] = v->NoOfDPP[i][j][k];
- 			}
+ 	TP_printk("%s", __get_str(msg))
+ );
++
++DEFINE_EVENT(printk, console,
++	TP_PROTO(const char *text, size_t len),
++	TP_ARGS(text, len)
++);
++
++DEFINE_EVENT(printk, dyndbg,
++	TP_PROTO(const char *text, size_t len),
++	TP_ARGS(text, len)
++);
+ #endif /* _TRACE_PRINTK_H */
  
--			MinimumTWait = CalculateTWait(MaxPrefetchMode, FinalDRAMClockChangeLatency, UrgLatency[i], SREnterPlusExitTime);
--			NonDPTEBandwidth = TotalVActivePixelBandwidth[i][j] + TotalVActiveCursorBandwidth[i][j] + TotalMetaRowBandwidth[i][j];
--			DPTEBandwidth = (HostVMEnable == true || ImmediateFlipRequirement == dm_immediate_flip_required) ?
--					TotalMaxPrefetchFlipDPTERowBandwidth[i][j] : TotalDPTERowBandwidth[i][j];
-+			MinimumTWait = CalculateTWait(MaxPrefetchMode, v->FinalDRAMClockChangeLatency, v->UrgLatency[i], v->SREnterPlusExitTime);
-+			NonDPTEBandwidth = v->TotalVActivePixelBandwidth[i][j] + v->TotalVActiveCursorBandwidth[i][j] + v->TotalMetaRowBandwidth[i][j];
-+			DPTEBandwidth = (v->HostVMEnable == true || v->ImmediateFlipRequirement[0] == dm_immediate_flip_required) ?
-+					TotalMaxPrefetchFlipDPTERowBandwidth[i][j] : v->TotalDPTERowBandwidth[i][j];
- 			DCFCLKRequiredForAverageBandwidth = dml_max3(
--					ProjectedDCFCLKDeepSleep[i][j],
--					(NonDPTEBandwidth + TotalDPTERowBandwidth[i][j]) / ReturnBusWidth
--							/ (MaxAveragePercentOfIdealFabricAndSDPPortBWDisplayCanUseInNormalSystemOperation / 100),
--					(NonDPTEBandwidth + DPTEBandwidth / NormalEfficiency) / NormalEfficiency / ReturnBusWidth);
-+					v->ProjectedDCFCLKDeepSleep[i][j],
-+					(NonDPTEBandwidth + v->TotalDPTERowBandwidth[i][j]) / v->ReturnBusWidth
-+							/ (v->MaxAveragePercentOfIdealFabricAndSDPPortBWDisplayCanUseInNormalSystemOperation / 100),
-+					(NonDPTEBandwidth + DPTEBandwidth / NormalEfficiency) / NormalEfficiency / v->ReturnBusWidth);
+ /* This part must be outside protection */
+diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+index dd7f56af9aed..161454fa0af8 100644
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -36,6 +36,7 @@
+ #include <linux/sched.h>
+ #include <linux/device.h>
+ #include <linux/netdevice.h>
++#include <trace/events/printk.h>
  
- 			ExtraLatencyBytes = CalculateExtraLatencyBytes(
- 					ReorderingBytes,
--					TotalNumberOfActiveDPP[i][j],
--					PixelChunkSizeInKByte,
--					TotalNumberOfDCCActiveDPP[i][j],
--					MetaChunkSize,
--					GPUVMEnable,
--					HostVMEnable,
--					NumberOfActivePlanes,
-+					v->TotalNumberOfActiveDPP[i][j],
-+					v->PixelChunkSizeInKByte,
-+					v->TotalNumberOfDCCActiveDPP[i][j],
-+					v->MetaChunkSize,
-+					v->GPUVMEnable,
-+					v->HostVMEnable,
-+					v->NumberOfActivePlanes,
- 					NoOfDPPState,
--					dpte_group_bytes,
-+					v->dpte_group_bytes,
- 					1,
--					HostVMMinPageSize,
--					HostVMMaxNonCachedPageTableLevels);
--			ExtraLatencyCycles = RoundTripPingLatencyCycles + __DML_ARB_TO_RET_DELAY__ + ExtraLatencyBytes / NormalEfficiency / ReturnBusWidth;
--			for (k = 0; k < NumberOfActivePlanes; ++k) {
-+					v->HostVMMinPageSize,
-+					v->HostVMMaxNonCachedPageTableLevels);
-+			ExtraLatencyCycles = v->RoundTripPingLatencyCycles + __DML_ARB_TO_RET_DELAY__ + ExtraLatencyBytes / NormalEfficiency / v->ReturnBusWidth;
-+			for (k = 0; k < v->NumberOfActivePlanes; ++k) {
- 				double DCFCLKCyclesRequiredInPrefetch;
- 				double ExpectedPrefetchBWAcceleration;
- 				double PrefetchTime;
+ #include <rdma/ib_verbs.h>
  
--				PixelDCFCLKCyclesRequiredInPrefetch[k] = (PrefetchLinesY[i][j][k] * swath_width_luma_ub_all_states[i][j][k] * BytePerPixelY[k]
--						+ PrefetchLinesC[i][j][k] * swath_width_chroma_ub_all_states[i][j][k] * BytePerPixelC[k]) / NormalEfficiency / ReturnBusWidth;
-+				PixelDCFCLKCyclesRequiredInPrefetch[k] = (v->PrefetchLinesY[i][j][k] * v->swath_width_luma_ub_all_states[i][j][k] * v->BytePerPixelY[k]
-+						+ v->PrefetchLinesC[i][j][k] * v->swath_width_chroma_ub_all_states[i][j][k] * v->BytePerPixelC[k]) / NormalEfficiency / v->ReturnBusWidth;
- 				DCFCLKCyclesRequiredInPrefetch = 2 * ExtraLatencyCycles / NoOfDPPState[k]
--						+ PDEAndMetaPTEBytesPerFrame[i][j][k] / NormalEfficiency / NormalEfficiency / ReturnBusWidth * (GPUVMMaxPageTableLevels > 2 ? 1 : 0)
--						+ 2 * DPTEBytesPerRow[i][j][k] / NormalEfficiency / NormalEfficiency / ReturnBusWidth
--						+ 2 * MetaRowBytes[i][j][k] / NormalEfficiency / ReturnBusWidth + PixelDCFCLKCyclesRequiredInPrefetch[k];
--				PrefetchPixelLinesTime[k] = dml_max(PrefetchLinesY[i][j][k], PrefetchLinesC[i][j][k]) * HTotal[k] / PixelClock[k];
--				ExpectedPrefetchBWAcceleration = (VActivePixelBandwidth[i][j][k] + VActiveCursorBandwidth[i][j][k])
--						/ (ReadBandwidthLuma[k] + ReadBandwidthChroma[k]);
-+						+ v->PDEAndMetaPTEBytesPerFrame[i][j][k] / NormalEfficiency / NormalEfficiency / v->ReturnBusWidth * (v->GPUVMMaxPageTableLevels > 2 ? 1 : 0)
-+						+ 2 * v->DPTEBytesPerRow[i][j][k] / NormalEfficiency / NormalEfficiency / v->ReturnBusWidth
-+						+ 2 * v->MetaRowBytes[i][j][k] / NormalEfficiency / v->ReturnBusWidth + PixelDCFCLKCyclesRequiredInPrefetch[k];
-+				PrefetchPixelLinesTime[k] = dml_max(v->PrefetchLinesY[i][j][k], v->PrefetchLinesC[i][j][k]) * v->HTotal[k] / v->PixelClock[k];
-+				ExpectedPrefetchBWAcceleration = (v->VActivePixelBandwidth[i][j][k] + v->VActiveCursorBandwidth[i][j][k])
-+						/ (v->ReadBandwidthLuma[k] + v->ReadBandwidthChroma[k]);
- 				DynamicMetadataVMExtraLatency[k] =
--						(GPUVMEnable == true && DynamicMetadataEnable[k] == true && DynamicMetadataVMEnabled == true) ?
--								UrgLatency[i] * GPUVMMaxPageTableLevels * (HostVMEnable == true ? HostVMMaxNonCachedPageTableLevels + 1 : 1) : 0;
--				PrefetchTime = (MaximumVStartup[i][j][k] - 1) * HTotal[k] / PixelClock[k] - MinimumTWait
--						- UrgLatency[i]
--								* ((GPUVMMaxPageTableLevels <= 2 ? GPUVMMaxPageTableLevels : GPUVMMaxPageTableLevels - 2)
--										* (HostVMEnable == true ? HostVMMaxNonCachedPageTableLevels + 1 : 1) - 1)
-+						(v->GPUVMEnable == true && v->DynamicMetadataEnable[k] == true && v->DynamicMetadataVMEnabled == true) ?
-+								v->UrgLatency[i] * v->GPUVMMaxPageTableLevels * (v->HostVMEnable == true ? v->HostVMMaxNonCachedPageTableLevels + 1 : 1) : 0;
-+				PrefetchTime = (v->MaximumVStartup[i][j][k] - 1) * v->HTotal[k] / v->PixelClock[k] - MinimumTWait
-+						- v->UrgLatency[i]
-+								* ((v->GPUVMMaxPageTableLevels <= 2 ? v->GPUVMMaxPageTableLevels : v->GPUVMMaxPageTableLevels - 2)
-+										* (v->HostVMEnable == true ? v->HostVMMaxNonCachedPageTableLevels + 1 : 1) - 1)
- 						- DynamicMetadataVMExtraLatency[k];
- 
- 				if (PrefetchTime > 0) {
-@@ -7405,14 +7239,14 @@ static void UseMinimumDCFCLK(
- 							/ (PrefetchTime * PixelDCFCLKCyclesRequiredInPrefetch[k] / DCFCLKCyclesRequiredInPrefetch);
- 					DCFCLKRequiredForPeakBandwidthPerPlane[k] = NoOfDPPState[k] * PixelDCFCLKCyclesRequiredInPrefetch[k] / PrefetchPixelLinesTime[k]
- 							* dml_max(1.0, ExpectedVRatioPrefetch) * dml_max(1.0, ExpectedVRatioPrefetch / 4) * ExpectedPrefetchBWAcceleration;
--					if (HostVMEnable == true || ImmediateFlipRequirement == dm_immediate_flip_required) {
-+					if (v->HostVMEnable == true || v->ImmediateFlipRequirement[0] == dm_immediate_flip_required) {
- 						DCFCLKRequiredForPeakBandwidthPerPlane[k] = DCFCLKRequiredForPeakBandwidthPerPlane[k]
--								+ NoOfDPPState[k] * DPTEBandwidth / NormalEfficiency / NormalEfficiency / ReturnBusWidth;
-+								+ NoOfDPPState[k] * DPTEBandwidth / NormalEfficiency / NormalEfficiency / v->ReturnBusWidth;
- 					}
- 				} else {
--					DCFCLKRequiredForPeakBandwidthPerPlane[k] = DCFCLKPerState[i];
-+					DCFCLKRequiredForPeakBandwidthPerPlane[k] = v->DCFCLKPerState[i];
- 				}
--				if (DynamicMetadataEnable[k] == true) {
-+				if (v->DynamicMetadataEnable[k] == true) {
- 					double TSetupPipe;
- 					double TdmbfPipe;
- 					double TdmsksPipe;
-@@ -7420,17 +7254,17 @@ static void UseMinimumDCFCLK(
- 					double AllowedTimeForUrgentExtraLatency;
- 
- 					CalculateVupdateAndDynamicMetadataParameters(
--							MaxInterDCNTileRepeaters,
--							RequiredDPPCLK[i][j][k],
--							RequiredDISPCLK[i][j],
--							ProjectedDCFCLKDeepSleep[i][j],
--							PixelClock[k],
--							HTotal[k],
--							VTotal[k] - VActive[k],
--							DynamicMetadataTransmittedBytes[k],
--							DynamicMetadataLinesBeforeActiveRequired[k],
--							Interlace[k],
--							ProgressiveToInterlaceUnitInOPP,
-+							v->MaxInterDCNTileRepeaters,
-+							v->RequiredDPPCLK[i][j][k],
-+							v->RequiredDISPCLK[i][j],
-+							v->ProjectedDCFCLKDeepSleep[i][j],
-+							v->PixelClock[k],
-+							v->HTotal[k],
-+							v->VTotal[k] - v->VActive[k],
-+							v->DynamicMetadataTransmittedBytes[k],
-+							v->DynamicMetadataLinesBeforeActiveRequired[k],
-+							v->Interlace[k],
-+							v->ProgressiveToInterlaceUnitInOPP,
- 							&TSetupPipe,
- 							&TdmbfPipe,
- 							&TdmecPipe,
-@@ -7438,31 +7272,31 @@ static void UseMinimumDCFCLK(
- 							&dummy1,
- 							&dummy2,
- 							&dummy3);
--					AllowedTimeForUrgentExtraLatency = MaximumVStartup[i][j][k] * HTotal[k] / PixelClock[k] - MinimumTWait - TSetupPipe - TdmbfPipe - TdmecPipe
-+					AllowedTimeForUrgentExtraLatency = v->MaximumVStartup[i][j][k] * v->HTotal[k] / v->PixelClock[k] - MinimumTWait - TSetupPipe - TdmbfPipe - TdmecPipe
- 							- TdmsksPipe - DynamicMetadataVMExtraLatency[k];
- 					if (AllowedTimeForUrgentExtraLatency > 0) {
- 						DCFCLKRequiredForPeakBandwidthPerPlane[k] = dml_max(
- 								DCFCLKRequiredForPeakBandwidthPerPlane[k],
- 								ExtraLatencyCycles / AllowedTimeForUrgentExtraLatency);
- 					} else {
--						DCFCLKRequiredForPeakBandwidthPerPlane[k] = DCFCLKPerState[i];
-+						DCFCLKRequiredForPeakBandwidthPerPlane[k] = v->DCFCLKPerState[i];
- 					}
- 				}
- 			}
- 			DCFCLKRequiredForPeakBandwidth = 0;
--			for (k = 0; k <= NumberOfActivePlanes - 1; ++k) {
-+			for (k = 0; k <= v->NumberOfActivePlanes - 1; ++k) {
- 				DCFCLKRequiredForPeakBandwidth = DCFCLKRequiredForPeakBandwidth + DCFCLKRequiredForPeakBandwidthPerPlane[k];
- 			}
--			MinimumTvmPlus2Tr0 = UrgLatency[i]
--					* (GPUVMEnable == true ?
--							(HostVMEnable == true ?
--									(GPUVMMaxPageTableLevels + 2) * (HostVMMaxNonCachedPageTableLevels + 1) - 1 : GPUVMMaxPageTableLevels + 1) :
-+			MinimumTvmPlus2Tr0 = v->UrgLatency[i]
-+					* (v->GPUVMEnable == true ?
-+							(v->HostVMEnable == true ?
-+									(v->GPUVMMaxPageTableLevels + 2) * (v->HostVMMaxNonCachedPageTableLevels + 1) - 1 : v->GPUVMMaxPageTableLevels + 1) :
- 							0);
--			for (k = 0; k < NumberOfActivePlanes; ++k) {
-+			for (k = 0; k < v->NumberOfActivePlanes; ++k) {
- 				double MaximumTvmPlus2Tr0PlusTsw;
--				MaximumTvmPlus2Tr0PlusTsw = (MaximumVStartup[i][j][k] - 2) * HTotal[k] / PixelClock[k] - MinimumTWait - DynamicMetadataVMExtraLatency[k];
-+				MaximumTvmPlus2Tr0PlusTsw = (v->MaximumVStartup[i][j][k] - 2) * v->HTotal[k] / v->PixelClock[k] - MinimumTWait - DynamicMetadataVMExtraLatency[k];
- 				if (MaximumTvmPlus2Tr0PlusTsw <= MinimumTvmPlus2Tr0 + PrefetchPixelLinesTime[k] / 4) {
--					DCFCLKRequiredForPeakBandwidth = DCFCLKPerState[i];
-+					DCFCLKRequiredForPeakBandwidth = v->DCFCLKPerState[i];
- 				} else {
- 					DCFCLKRequiredForPeakBandwidth = dml_max3(
- 							DCFCLKRequiredForPeakBandwidth,
-@@ -7470,7 +7304,7 @@ static void UseMinimumDCFCLK(
- 							(2 * ExtraLatencyCycles + PixelDCFCLKCyclesRequiredInPrefetch[k]) / (MaximumTvmPlus2Tr0PlusTsw - MinimumTvmPlus2Tr0));
- 				}
- 			}
--			DCFCLKState[i][j] = dml_min(DCFCLKPerState[i], 1.05 * dml_max(DCFCLKRequiredForAverageBandwidth, DCFCLKRequiredForPeakBandwidth));
-+			v->DCFCLKState[i][j] = dml_min(v->DCFCLKPerState[i], 1.05 * dml_max(DCFCLKRequiredForAverageBandwidth, DCFCLKRequiredForPeakBandwidth));
- 		}
- 	}
+@@ -86,11 +87,12 @@ static inline const char *trim_prefix(const char *path)
  }
--- 
-2.34.1
-
+ 
+ static struct { unsigned flag:8; char opt_char; } opt_array[] = {
+-	{ _DPRINTK_FLAGS_PRINT, 'p' },
++	{ _DPRINTK_FLAGS_PRINTK, 'p' },
+ 	{ _DPRINTK_FLAGS_INCL_MODNAME, 'm' },
+ 	{ _DPRINTK_FLAGS_INCL_FUNCNAME, 'f' },
+ 	{ _DPRINTK_FLAGS_INCL_LINENO, 'l' },
+ 	{ _DPRINTK_FLAGS_INCL_TID, 't' },
++	{ _DPRINTK_FLAGS_TRACE, 'x' },
+ 	{ _DPRINTK_FLAGS_NONE, '_' },
+ };
+ 
+@@ -210,11 +212,23 @@ static int ddebug_change(const struct ddebug_query *query,
+ 			if (newflags == dp->flags)
+ 				continue;
+ #ifdef CONFIG_JUMP_LABEL
+-			if (dp->flags & _DPRINTK_FLAGS_PRINT) {
+-				if (!(modifiers->flags & _DPRINTK_FLAGS_PRINT))
++			if (dp->flags & _DPRINTK_FLAGS_ENABLE) {
++				/*
++				 * The newflags check is to ensure that the
++				 * static branch doesn't get disabled in step
++				 * 3:
++				 *
++				 * (1) +pf
++				 * (2) +x
++				 * (3) -pf
++				 */
++				if (!(modifiers->flags & _DPRINTK_FLAGS_ENABLE) &&
++				    !(newflags & _DPRINTK_FLAGS_ENABLE)) {
+ 					static_branch_disable(&dp->key.dd_key_true);
+-			} else if (modifiers->flags & _DPRINTK_FLAGS_PRINT)
++				}
++			} else if (modifiers->flags & _DPRINTK_FLAGS_ENABLE) {
+ 				static_branch_enable(&dp->key.dd_key_true);
++			}
+ #endif
+ 			dp->flags = newflags;
+ 			v4pr_info("changed %s:%d [%s]%s =%s\n",
+@@ -621,6 +635,96 @@ static char *__dynamic_emit_prefix(const struct _ddebug *desc, char *buf)
+ 	return buf;
+ }
+ 
++/*
++ * This code is heavily based on __ftrace_trace_stack().
++ *
++ * Allow 4 levels of nesting: normal, softirq, irq, NMI.
++ */
++#define DYNAMIC_TRACE_NESTING	4
++
++struct dynamic_trace_buf {
++	char buf[256];
++};
++
++struct dynamic_trace_bufs {
++	struct dynamic_trace_buf bufs[DYNAMIC_TRACE_NESTING];
++};
++
++static DEFINE_PER_CPU(struct dynamic_trace_bufs, dynamic_trace_bufs);
++static DEFINE_PER_CPU(int, dynamic_trace_reserve);
++
++static void dynamic_trace(const char *fmt, va_list args)
++{
++	struct dynamic_trace_buf *buf;
++	int bufidx;
++	int len;
++
++	preempt_disable_notrace();
++
++	bufidx = __this_cpu_inc_return(dynamic_trace_reserve) - 1;
++
++	if (WARN_ON_ONCE(bufidx > DYNAMIC_TRACE_NESTING))
++		goto out;
++
++	/* For the same reasons as in __ftrace_trace_stack(). */
++	barrier();
++
++	buf = this_cpu_ptr(dynamic_trace_bufs.bufs) + bufidx;
++
++	len = vscnprintf(buf->buf, sizeof(buf->buf), fmt, args);
++	trace_dyndbg(buf->buf, len);
++
++out:
++	/* As above. */
++	barrier();
++	__this_cpu_dec(dynamic_trace_reserve);
++	preempt_enable_notrace();
++}
++
++static void dynamic_printk(unsigned int flags, const char *fmt, ...)
++{
++	if (flags & _DPRINTK_FLAGS_TRACE) {
++		va_list args;
++
++		va_start(args, fmt);
++		/*
++		 * All callers include the KERN_DEBUG prefix to keep the
++		 * vprintk case simple; strip it out for tracing.
++		 */
++		dynamic_trace(fmt + strlen(KERN_DEBUG), args);
++		va_end(args);
++	}
++
++	if (flags & _DPRINTK_FLAGS_PRINTK) {
++		va_list args;
++
++		va_start(args, fmt);
++		vprintk(fmt, args);
++		va_end(args);
++	}
++}
++
++static void dynamic_dev_printk(unsigned int flags, const struct device *dev,
++			       const char *fmt, ...)
++{
++
++	if (flags & _DPRINTK_FLAGS_TRACE) {
++		va_list args;
++
++		va_start(args, fmt);
++		dynamic_trace(fmt, args);
++		va_end(args);
++	}
++
++	if (flags & _DPRINTK_FLAGS_PRINTK) {
++		va_list args;
++
++		va_start(args, fmt);
++		dev_vprintk_emit(LOGLEVEL_DEBUG, dev, fmt, args);
++		va_end(args);
++	}
++}
++
+ static inline char *dynamic_emit_prefix(struct _ddebug *desc, char *buf)
+ {
+ 	if (unlikely(desc->flags & _DPRINTK_FLAGS_INCL_ANY))
+@@ -642,7 +746,8 @@ void __dynamic_pr_debug(struct _ddebug *descriptor, const char *fmt, ...)
+ 	vaf.fmt = fmt;
+ 	vaf.va = &args;
+ 
+-	printk(KERN_DEBUG "%s%pV", dynamic_emit_prefix(descriptor, buf), &vaf);
++	dynamic_printk(descriptor->flags, KERN_DEBUG "%s%pV",
++		       dynamic_emit_prefix(descriptor, buf), &vaf);
+ 
+ 	va_end(args);
+ }
+@@ -652,6 +757,7 @@ void __dynamic_dev_dbg(struct _ddebug *descriptor,
+ 		      const struct device *dev, const char *fmt, ...)
+ {
+ 	struct va_format vaf;
++	unsigned int flags;
+ 	va_list args;
+ 
+ 	BUG_ON(!descriptor);
+@@ -661,16 +767,18 @@ void __dynamic_dev_dbg(struct _ddebug *descriptor,
+ 
+ 	vaf.fmt = fmt;
+ 	vaf.va = &args;
++	flags = descriptor->flags;
+ 
+ 	if (!dev) {
+-		printk(KERN_DEBUG "(NULL device *): %pV", &vaf);
++		dynamic_printk(flags, KERN_DEBUG "(NULL device *): %pV",
++			      &vaf);
+ 	} else {
+ 		char buf[PREFIX_SIZE] = "";
+ 
+-		dev_printk_emit(LOGLEVEL_DEBUG, dev, "%s%s %s: %pV",
+-				dynamic_emit_prefix(descriptor, buf),
+-				dev_driver_string(dev), dev_name(dev),
+-				&vaf);
++		dynamic_dev_printk(flags, dev, "%s%s %s: %pV",
++				   dynamic_emit_prefix(descriptor, buf),
++				   dev_driver_string(dev), dev_name(dev),
++				   &vaf);
+ 	}
+ 
+ 	va_end(args);
+@@ -683,6 +791,7 @@ void __dynamic_netdev_dbg(struct _ddebug *descriptor,
+ 			  const struct net_device *dev, const char *fmt, ...)
+ {
+ 	struct va_format vaf;
++	unsigned int flags;
+ 	va_list args;
+ 
+ 	BUG_ON(!descriptor);
+@@ -692,22 +801,24 @@ void __dynamic_netdev_dbg(struct _ddebug *descriptor,
+ 
+ 	vaf.fmt = fmt;
+ 	vaf.va = &args;
++	flags = descriptor->flags;
+ 
+ 	if (dev && dev->dev.parent) {
+ 		char buf[PREFIX_SIZE] = "";
+ 
+-		dev_printk_emit(LOGLEVEL_DEBUG, dev->dev.parent,
+-				"%s%s %s %s%s: %pV",
+-				dynamic_emit_prefix(descriptor, buf),
+-				dev_driver_string(dev->dev.parent),
+-				dev_name(dev->dev.parent),
+-				netdev_name(dev), netdev_reg_state(dev),
+-				&vaf);
++		dynamic_dev_printk(flags, dev->dev.parent,
++				   "%s%s %s %s%s: %pV",
++				   dynamic_emit_prefix(descriptor, buf),
++				   dev_driver_string(dev->dev.parent),
++				   dev_name(dev->dev.parent),
++				   netdev_name(dev), netdev_reg_state(dev),
++				   &vaf);
+ 	} else if (dev) {
+-		printk(KERN_DEBUG "%s%s: %pV", netdev_name(dev),
+-		       netdev_reg_state(dev), &vaf);
++		dynamic_printk(flags, KERN_DEBUG "%s%s: %pV",
++			       netdev_name(dev), netdev_reg_state(dev), &vaf);
+ 	} else {
+-		printk(KERN_DEBUG "(NULL net_device): %pV", &vaf);
++		dynamic_printk(flags, KERN_DEBUG "(NULL net_device): %pV",
++			       &vaf);
+ 	}
+ 
+ 	va_end(args);
+@@ -722,27 +833,31 @@ void __dynamic_ibdev_dbg(struct _ddebug *descriptor,
+ 			 const struct ib_device *ibdev, const char *fmt, ...)
+ {
+ 	struct va_format vaf;
++	unsigned int flags;
+ 	va_list args;
+ 
+ 	va_start(args, fmt);
+ 
+ 	vaf.fmt = fmt;
+ 	vaf.va = &args;
++	flags = descriptor->flags;
+ 
+ 	if (ibdev && ibdev->dev.parent) {
+ 		char buf[PREFIX_SIZE] = "";
+ 
+-		dev_printk_emit(LOGLEVEL_DEBUG, ibdev->dev.parent,
+-				"%s%s %s %s: %pV",
+-				dynamic_emit_prefix(descriptor, buf),
+-				dev_driver_string(ibdev->dev.parent),
+-				dev_name(ibdev->dev.parent),
+-				dev_name(&ibdev->dev),
+-				&vaf);
++		dynamic_dev_printk(flags, ibdev->dev.parent,
++				   "%s%s %s %s: %pV",
++				   dynamic_emit_prefix(descriptor, buf),
++				   dev_driver_string(ibdev->dev.parent),
++				   dev_name(ibdev->dev.parent),
++				   dev_name(&ibdev->dev),
++				   &vaf);
+ 	} else if (ibdev) {
+-		printk(KERN_DEBUG "%s: %pV", dev_name(&ibdev->dev), &vaf);
++		dynamic_printk(flags, KERN_DEBUG "%s: %pV",
++			       dev_name(&ibdev->dev), &vaf);
+ 	} else {
+-		printk(KERN_DEBUG "(NULL ib_device): %pV", &vaf);
++		dynamic_printk(flags, KERN_DEBUG "(NULL ib_device): %pV",
++			       &vaf);
+ 	}
+ 
+ 	va_end(args);
