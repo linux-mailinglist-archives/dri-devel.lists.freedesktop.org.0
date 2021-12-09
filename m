@@ -2,67 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25AAF46EE6A
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 17:56:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8075046EE05
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 17:54:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65ED310E704;
-	Thu,  9 Dec 2021 16:53:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09F8010E57B;
+	Thu,  9 Dec 2021 16:53:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
- [IPv6:2607:f8b0:4864:20::734])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6875310E116
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Dec 2021 06:30:07 +0000 (UTC)
-Received: by mail-qk1-x734.google.com with SMTP id p4so4115004qkm.7
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Dec 2021 22:30:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=9lZzV6uRxUvt0RqeIyM4DCy//4WwHZcCj15yKoRWKv0=;
- b=MuH7fGvI/9AD+8Jf3135+Y84ksGN91yCSTt0zoUDEqseX7B2K0YN6lCaPdgDeOMRpm
- GOe7MfuQdBr+Z4wyPuK/X3Oq+E11gqhW44bDipD/o7JNOnqwTqyXLLafarAjz6Qto1ro
- aG+jBeBbWAiByCuS0S6B9hU+pATvx85RKkpkIAQIfLRbW2qUaPcS9Uu6YIpp8W008vUj
- AvLKcneW2BuqADAMC9NC6N/Val8HXTIHMS7sQv01juWNQbBHSKaBSpUv61IEYCjx2r7c
- hWVEXyKPTi4aa/SWCsc4zb+EUhNMyK5Z6Ko/CgGa+RO3zAgIsW2+q5scXiLYdGdjXPHA
- IZ9w==
+Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com
+ [IPv6:2607:f8b0:4864:20::c30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66EE689739
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Dec 2021 05:54:37 +0000 (UTC)
+Received: by mail-oo1-xc30.google.com with SMTP id
+ w15-20020a4a9d0f000000b002c5cfa80e84so1453677ooj.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Dec 2021 21:54:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=ySPyFFqtdyuBIHLLUyShef42vTuQW5UVEw4YMSFTCGs=;
+ b=fcOFBaKN8igGFkv5Hq4B7LT8hZS+vXtlE7scQQo7aB4iwIcYau2OHRYW5Hr8XJtXdY
+ FPxqyzqqLvqLUKNKzo55KbG2bwgwxVsHz5NfdwiuH2UTcoA//BK4vw2rotjNxRBdIYjS
+ tXawiWlofuozRlbcisqruXLxzXU4PeKNd8N7Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=9lZzV6uRxUvt0RqeIyM4DCy//4WwHZcCj15yKoRWKv0=;
- b=ftjv2zyb6dWN02+a+3p5MoDbRhckWvSxErTOqSvdvZKpkFBRbD6nNPVntM/56iKZnM
- 6mModG/IdV/pYRJrPobZDhC22Kt4chWjLIFnfRmw7T8uDu3JijkPriV/kJFVuUlHwv60
- kZpelMY5k63OD/636yk7O3o2O4ZfIDsuMF3KxRonXsfkyuCxP2gHfELgDZwnScQAwgV8
- ay8lLK3ni6JFu4qgPjLUhWC1dE4cS44BvrWGLh8RIXzkMBVf+IYbcUGCMNObzxlokKmK
- qO/3SlJOxmeacQDdcwTzrSq9SBK936Fpp869As41mXC4Hy2QtNfr+VZALh+Io4t5tjL5
- aKsw==
-X-Gm-Message-State: AOAM53052asfRzO1HyihECaHE9xYgj4YcvZX7Pq1I0ohYYB1sUcLc0+k
- Ga3yNzu8v3bufVAnVW+kL/xlaCW6IzhhhQ==
-X-Google-Smtp-Source: ABdhPJzd7PgIaK+OliA8j4qPmgBHphO7odQ23RlPROnXGhIchmoXCBqWvKGTqHwv0CnaCCZT+fN4FA==
-X-Received: by 2002:a05:622a:8d:: with SMTP id
- o13mr13208686qtw.574.1639018404025; 
- Wed, 08 Dec 2021 18:53:24 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.162.113.129])
- by smtp.gmail.com with ESMTPSA id m1sm2800768qtk.34.2021.12.08.18.53.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Dec 2021 18:53:23 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1mv9Yg-000zXC-FC; Wed, 08 Dec 2021 22:53:22 -0400
-Date: Wed, 8 Dec 2021 22:53:22 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Alistair Popple <apopple@nvidia.com>
-Subject: Re: [PATCH v2 03/11] mm/gup: migrate PIN_LONGTERM dev coherent pages
- to system
-Message-ID: <20211209025322.GE6467@ziepe.ca>
-References: <20211206185251.20646-1-alex.sierra@amd.com>
- <2858338.J0npWUQLIM@nvdebian> <20211208135345.GC6467@ziepe.ca>
- <117075453.Ddeq1f3ylz@nvdebian>
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=ySPyFFqtdyuBIHLLUyShef42vTuQW5UVEw4YMSFTCGs=;
+ b=owtqPmHOGdg/MSK42pogUv0fKLnWHnaLAOSkJn1+f34twt5pTq63OEwhOH4Twhyl/M
+ C3tdMUowT3yZsZFJbG/LzMsUu6JYPkftWpi8gYBTQpye5d2BLKhxV2c0xzf0Xhb+7oGc
+ mtJIOoY9DaXPQ6lqVenPrdMmGtvSsSdu/kmi0qzsr413jSWkw+BzT/hPqOY/eBFKsvCK
+ 6jU50M/ha2dfrZ+IvNnJABWcqkddYDbmJQQh+s1V88ENFnwEzoke/hutCrEPh72+WvqA
+ AY+AtZ7XXKfFxkVJgvj9d3OYPuwe2xHAxJdsnM1qvHxJaG0zrWiv82hVbOLTcvwQiky8
+ vMHA==
+X-Gm-Message-State: AOAM530EODUGSSRQPLTZSXW/OpZaxUWsVVtj72hbpM/q1rr5ceFgDTju
+ S94KWjidzuH6+WTbq+CfALNKp++My3eYhx59HQDRCi3R06w=
+X-Google-Smtp-Source: ABdhPJzfm1mjganFNfDgL21KPQZnDL2HCeKKT5S1lwgHg6taD+gRMfe1My60dFjkJru25ZQx0pTSz4jer+PE/I2RKY0=
+X-Received: by 2002:a4a:cf12:: with SMTP id l18mr2340150oos.25.1639018897050; 
+ Wed, 08 Dec 2021 19:01:37 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 8 Dec 2021 19:01:36 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <117075453.Ddeq1f3ylz@nvdebian>
+In-Reply-To: <1638985262-2072-1-git-send-email-quic_khsieh@quicinc.com>
+References: <1638985262-2072-1-git-send-email-quic_khsieh@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date: Wed, 8 Dec 2021 19:01:36 -0800
+Message-ID: <CAE-0n51FCOwPeWz=SFaRY58J3=yGnKdE5aHMCGx-tzK_CVEUQQ@mail.gmail.com>
+Subject: Re: [PATCH v5] drm/msm/dp: dp_link_parse_sink_count() return
+ immediately if aux read failed
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
+ bjorn.andersson@linaro.org, daniel@ffwll.ch, dmitry.baryshkov@linaro.org, 
+ robdclark@gmail.com, sean@poorly.run, vkoul@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,67 +66,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Sierra <alex.sierra@amd.com>, rcampbell@nvidia.com,
- willy@infradead.org, Felix.Kuehling@amd.com, amd-gfx@lists.freedesktop.org,
- linux-xfs@vger.kernel.org, linux-mm@kvack.org, jglisse@redhat.com,
- dri-devel@lists.freedesktop.org, akpm@linux-foundation.org,
- linux-ext4@vger.kernel.org, hch@lst.de
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 09, 2021 at 12:45:24PM +1100, Alistair Popple wrote:
-> On Thursday, 9 December 2021 12:53:45 AM AEDT Jason Gunthorpe wrote:
-> > > I think a similar problem exists for device private fault handling as well and
-> > > it has been on my list of things to fix for a while. I think the solution is to
-> > > call try_get_page(), except it doesn't work with device pages due to the whole
-> > > refcount thing. That issue is blocking a fair bit of work now so I've started
-> > > looking into it.
-> > 
-> > Where is this?
->  
-> Nothing posted yet. I've been going through the mailing list and the old
-> thread[1] to get an understanding of what is left to do. If you have any
-> suggestions they would be welcome.
+Quoting Kuogee Hsieh (2021-12-08 09:41:02)
+> Add checking aux read/write status at both dp_link_parse_sink_count()
+> and dp_link_parse_sink_status_filed() to avoid long timeout delay if
+> dp aux read/write failed at timeout due to cable unplugged.
+>
+> Changes in V4:
+> -- split this patch as stand alone patch
+>
+> Changes in v5:
+> -- rebase on msm-next branch
+>
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>
 
-Oh, that
+Remove this newline please.
 
-Joao's series here is the first step:
+> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+> Tested-by: Stephen Boyd <swboyd@chromium.org>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_display.c | 12 +++++++++---
+>  drivers/gpu/drm/msm/dp/dp_link.c    | 19 ++++++++++++++-----
+>  2 files changed, 23 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index 3d61459..0766752 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -692,9 +692,15 @@ static int dp_irq_hpd_handle(struct dp_display_private *dp, u32 data)
+>                 return 0;
+>         }
+>
+> -       ret = dp_display_usbpd_attention_cb(&dp->pdev->dev);
+> -       if (ret == -ECONNRESET) { /* cable unplugged */
+> -               dp->core_initialized = false;
+> +       /*
+> +        * dp core (ahb/aux clks) must be initialized before
+> +        * irq_hpd be handled
+> +        */
+> +       if (dp->core_initialized) {
 
-https://lore.kernel.org/linux-mm/20211202204422.26777-1-joao.m.martins@oracle.com/
+This part of the commit isn't described in the commit text. Can you add
+some more details in the commit text about this?
 
-I already sent a patch to remove the DRM usage of PUD/PMD -
-0d979509539e ("drm/ttm: remove ttm_bo_vm_insert_huge()")
-
-Next, someone needs to change FSDAX to have a folio covering the
-ZONE_DEVICE pages before it installs a PUD or PMD. I don't know
-anything about FS's to know how to do this at all.
-
-Thus all PUD/PMD entries will point at a head page or larger of a
-compound. This is important because all the existing machinery for THP
-assumes 1 PUD/PMD means 1 struct page to manipulate.
-
-Then, consolidate all the duplicated code that runs when a page is
-removed from a PTE/PMD/PUD etc into a function. Figure out why the
-duplications are different to make them the same (I have some rough
-patches for this step)
-
-Start with PUD and have zap on PUD call the consolidated function and
-make vmf_insert_pfn_pud_prot() accept a struct page not pfn and incr
-the refcount. PUD is easy because there is no THP
-
-Then do the same to PMD without breaking the THP code
-
-Then make the PTE also incr the refcount on insert and zap
-
-Exterminate vma_is_special_huge() along the way, there is no such
-thing as a special huge VMA without a pud/pmd_special flag so all
-things installed here must be struct page and not special.
-
-Then the patches that are already posted are applicable and we can
-kill the refcount == 1 stuff. No 0 ref count pages installed in page
-tables.
-
-Once all of that is done it is fairly straightforward to remove
-pud/pmd/pte_devmap entirely and the pgmap stuff from gup.c
-
-Jason
+> +               ret = dp_display_usbpd_attention_cb(&dp->pdev->dev);
+> +               if (ret == -ECONNRESET) { /* cable unplugged */
+> +                       dp->core_initialized = false;
+> +               }
+>         }
+>         DRM_DEBUG_DP("hpd_state=%d\n", state);
+>
