@@ -2,48 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 988D246F6C8
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 23:27:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01B1E46F60D
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 22:36:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DE9210E164;
-	Thu,  9 Dec 2021 22:26:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF84210E391;
+	Thu,  9 Dec 2021 21:36:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2352 seconds by postgrey-1.36 at gabe;
- Thu, 09 Dec 2021 16:39:54 UTC
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97F3010E116;
- Thu,  9 Dec 2021 16:39:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Date:
- Message-ID:Cc:To:Subject:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=uQm73i/SP9nDAwtnCDdFJdGwSWts5HhgvbF+8/OlYWI=; b=niubyPA5iUr8u1NrlH8/EszIgN
- izee9wd9bTJMaselSh4RK/XNr2psA8MWTmJsGuDRR9ZHGUn1FC/OXNBs+J2tr9btf1r9Atg6ZKoOV
- M6qy8zuJofVZcHN1E4hDmbUFS8aPTuckD26T5EPDXjCqQoVENpVJ4XKx2EpugQMZcU82n9sAdmtr/
- XTWkiR6ibFILabpmDCnHzWwIA8EB3pvdGRSdgGdLwZao8oUS7kRfan36IrjsGWLhghe8ofYhli2yJ
- gRtPpHRpFM61JJzRFrIFQD3ML7jt5+HFn5lmds9hwZ+xBKETz4xZLCFceiqVleKqS9M5aPgN9+E3N
- sBOE9/gQ==;
-Received: from [177.103.99.151] (helo=[192.168.1.60])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1mvLqG-0008HM-8F; Thu, 09 Dec 2021 17:00:20 +0100
-From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Subject: Reuse framebuffer after a kexec (amdgpu / efifb)
-To: linux-fbdev@vger.kernel.org, kexec@lists.infradead.org,
- amd-gfx@lists.freedesktop.org
-Message-ID: <62aab616-53cb-ff9f-c5f3-169c547bd1ee@igalia.com>
-Date: Thu, 9 Dec 2021 13:00:04 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 42F4810E38E
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Dec 2021 21:36:32 +0000 (UTC)
+Received: from uucp (helo=alpha)
+ by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
+ id 1mvR5U-0006qc-00; Thu, 09 Dec 2021 22:36:24 +0100
+Received: by alpha.franken.de (Postfix, from userid 1000)
+ id C2D81C02CD; Thu,  9 Dec 2021 18:11:09 +0100 (CET)
+Date: Thu, 9 Dec 2021 18:11:09 +0100
+From: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Subject: Re: [PATCH v11 0/8] MIPS: JZ4780 and CI20 HDMI
+Message-ID: <20211209171109.GA18973@alpha.franken.de>
+References: <cover.1638470392.git.hns@goldelico.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Thu, 09 Dec 2021 22:26:50 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1638470392.git.hns@goldelico.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,53 +40,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@gpiccoli.net, kasong@redhat.com, Baoquan He <bhe@redhat.com>,
- =?UTF-8?Q?Samuel_Iglesias_Gons=c3=a1lvez?= <siglesias@igalia.com>,
- Xinhui.Pan@amd.com, dri-devel@lists.freedesktop.org, gpiccoli@igalia.com,
- pjones@redhat.com, kraxel@redhat.com, alexander.deucher@amd.com,
- Dave Young <dyoung@redhat.com>, christian.koenig@amd.com,
- Vivek Goyal <vgoyal@redhat.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ Paul Cercueil <paul@crapouillou.net>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org,
+ Kees Cook <keescook@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ letux-kernel@openphoenux.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Robert Foss <robert.foss@linaro.org>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, "Eric W. Biederman" <ebiederm@xmission.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all, I have a question about the possibility of reusing a framebuffer
-after a regular (or panic) kexec - my case is with amdgpu (APU, aka, not
-a separate GPU hardware), but I guess the question is kinda generic
-hence I've looped most of the lists / people I think does make sense
-(apologies for duplicates).
+On Thu, Dec 02, 2021 at 07:39:45PM +0100, H. Nikolaus Schaller wrote:
+> [..] 
+> This series adds HDMI support for JZ4780 and CI20 board
+> 
+> 
+> 
+> H. Nikolaus Schaller (3):
+>   drm/ingenic: prepare ingenic drm for later addition of JZ4780
+>   MIPS: defconfig: CI20: configure for DRM_DW_HDMI_JZ4780
+>   [RFC] MIPS: DTS: Ingenic: adjust register size to available registers
+> 
+> Paul Boddie (4):
+>   drm/ingenic: Add support for JZ4780 and HDMI output
+>   drm/ingenic: Add dw-hdmi driver for jz4780
+>   MIPS: DTS: jz4780: Account for Synopsys HDMI driver and LCD
+>     controllers
+>   MIPS: DTS: CI20: Add DT nodes for HDMI setup
+> 
+> Sam Ravnborg (1):
+>   dt-bindings: display: Add ingenic,jz4780-dw-hdmi DT Schema
+> 
+>  .../display/bridge/ingenic,jz4780-hdmi.yaml   |  78 ++++++++++
+>  .../display/bridge/synopsys,dw-hdmi.yaml      |   3 +
+>  arch/mips/boot/dts/ingenic/ci20.dts           |  72 +++++++++-
+>  arch/mips/boot/dts/ingenic/jz4725b.dtsi       |   2 +-
+>  arch/mips/boot/dts/ingenic/jz4740.dtsi        |   2 +-
+>  arch/mips/boot/dts/ingenic/jz4770.dtsi        |   2 +-
+>  arch/mips/boot/dts/ingenic/jz4780.dtsi        |  40 ++++++
+>  arch/mips/configs/ci20_defconfig              |   6 +
+>  drivers/gpu/drm/ingenic/Kconfig               |   9 ++
+>  drivers/gpu/drm/ingenic/Makefile              |   1 +
+>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  62 +++++++-
+>  drivers/gpu/drm/ingenic/ingenic-drm.h         |  38 +++++
+>  drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c     | 136 ++++++++++++++++++
+>  13 files changed, 443 insertions(+), 8 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.yaml
+>  create mode 100644 drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
 
+applied patches 5-8 to mips-next.
 
-The context is: we have a hardware that has an amdgpu-controlled device
-(Vangogh model) and as soon as the machine boots, efifb is providing
-graphics - I understand the UEFI/GRUB outputs rely in EFI framebuffer as
-well. As soon amdgpu module is available, kernel loads it and it takes
-over the GPU, providing graphics. The kexec_file_load syscall allows to
-pass a valid screen_info structure, so by kexec'ing a new kernel, we
-have again efifb taking over on boot time, but this time I see nothing
-in the screen. I've manually blacklisted amdgpu in this new kexec'ed
-kernel, I'd like to rely in the simple framebuffer - the goal is to have
-a tiny kernel kexec'ed. I'm using kernel version 5.16.0-rc4.
+Thomas.
 
-I've done some other experiments, for exemple: I've forced screen_info
-model to match VLFB, so vesafb took over after the kexec, with the same
-result. Also noticed that BusMaster bit was off after kexec, in the AMD
-APU PCIe device, so I've set it on efifb before probe, and finally
-tested the same things in qemu, with qxl, all with the same result
-(blank screen).
-The most interesting result I got (both with amdgpu and qemu/qxl) is
-that if I blacklist these drivers and let the machine continue using
-efifb since the beginning, after kexec the efifb is still able to
-produce graphics.
-
-Which then led me to think that likely there's something fundamentally
-"blocking" the reuse of the simple framebuffer after kexec, like maybe
-DRM stack is destroying the old framebuffer somehow? What kind of
-preparation is required at firmware level to make the simple EFI VGA
-framebuffer work, and could we perform this in a kexec (or "save it"
-before the amdgpu/qxl drivers take over and reuse later)?
-
-Any advice is greatly appreciated!
-Thanks in advance,
-
-
-Guilherme
+-- 
+Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
+good idea.                                                [ RFC1925, 2.3 ]
