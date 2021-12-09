@@ -2,70 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1A9546EED6
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 17:58:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BEFC46EE9B
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 17:57:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77BCB10E9FE;
-	Thu,  9 Dec 2021 16:53:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A57A210E418;
+	Thu,  9 Dec 2021 16:53:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0856589FF6
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Dec 2021 12:24:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1639052644; x=1670588644;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=MAK4o+PK3ziY28c7nROFdQy4/tjx0fQJIR78lzQYWjY=;
- b=jc+8Qc3CcWuxfmn/FmFGwu0S5pgvWL2u/w0L2V2URmbwcKKE/tG/dogo
- 7hUrKgYoKZ92BHE5MeDSv+s9wgwLLpr4s7i5vJrtS+52Wa4pKNCtNBSr5
- SDlKpjEqTzllZgJkwSjxJcVpzKg/fA92zapqItaIU47jVycWN66kX3hHw
- mPCHBcOk9yusZTzrWKs8F2iai7Lq/WCHYY0MLD8mEMn7ptf3DXdu2gYZV
- tgoAh/gHm7Iw55fiY27b7pF00bgAsNWAjP7LO7vix27cwNEbsQJesHKT2
- nurSgPLrX2bbdtJ7FQpI/bZ3Et0LRVinSk9tzfpMtxEe+P3pNjCqYyd+K g==;
-X-IronPort-AV: E=Sophos;i="5.88,192,1635199200"; d="scan'208";a="20954244"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
- by mx1-pgp.tq-group.com with ESMTP; 09 Dec 2021 13:24:01 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
- by tq-pgp-pr1.tq-net.de (PGP Universal service);
- Thu, 09 Dec 2021 13:24:01 +0100
-X-PGP-Universal: processed;
- by tq-pgp-pr1.tq-net.de on Thu, 09 Dec 2021 13:24:01 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1639052641; x=1670588641;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=MAK4o+PK3ziY28c7nROFdQy4/tjx0fQJIR78lzQYWjY=;
- b=RKyd6IAZImR6Z50zX3A9Wj+DJgOEJQAyGW2CMUNCKFTTNLwKJTYfZyxF
- qxPVm2kFTMDX6tMlddDI2x3QtyQwHRuQvScYfvSryx/un4JWAeyaKeCx4
- XSoc3q39FjZVdV1bWlTFsyW53a0B8XcFiIfgC4ePCP0OzigRfYs3oNcHs
- UUoSaDHB57rUBU7AlHMpbZZkSedxKlIIguX5B9HGWWbmprWFP6jl7OP2m
- 1+euglSA9wXL0EJosyMst93GVj5G9HTx5rsVNQRCwD0g+zpgt8rrYwBS2
- FOYFlqxGAfOIBcPU/AjOHGDJdOSYVU2mCu467XruTZLT8ZAKBh08vwaf6 g==;
-X-IronPort-AV: E=Sophos;i="5.88,192,1635199200"; d="scan'208";a="20954243"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 09 Dec 2021 13:24:01 +0100
-Received: from steina-w (unknown [10.123.49.12])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id E5B5F280065;
- Thu,  9 Dec 2021 13:24:00 +0100 (CET)
-Message-ID: <802891a3e0ddf2ce833a269df7c43f12614988b7.camel@ew.tq-group.com>
-Subject: Re: (EXT) Re: [PATCH v4 1/4] dt-bindings: display: bridge:
- sn65dsi83: Make enable GPIO optional
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Date: Thu, 09 Dec 2021 13:23:58 +0100
-In-Reply-To: <CAMty3ZA7d9bSvmG4nGd9Lncw9wm6wiAq1pKSOFX03h_BU7JR-A@mail.gmail.com>
-References: <20211118091955.3009900-1-alexander.stein@ew.tq-group.com>
- <20211118091955.3009900-2-alexander.stein@ew.tq-group.com>
- <CAMty3ZA7d9bSvmG4nGd9Lncw9wm6wiAq1pKSOFX03h_BU7JR-A@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2022889FF6
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Dec 2021 12:26:19 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10192"; a="237891940"
+X-IronPort-AV: E=Sophos;i="5.88,192,1635231600"; d="scan'208";a="237891940"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Dec 2021 04:26:09 -0800
+X-IronPort-AV: E=Sophos;i="5.88,192,1635231600"; d="scan'208";a="462109743"
+Received: from smile.fi.intel.com ([10.237.72.184])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Dec 2021 04:25:58 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+ (envelope-from <andy.shevchenko@gmail.com>) id 1mvITo-0045BO-MA;
+ Thu, 09 Dec 2021 14:24:56 +0200
+Date: Thu, 9 Dec 2021 14:24:56 +0200
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v1 1/1] drm: Replace kernel.h with the necessary inclusions
+Message-ID: <YbH1mBlbuysch15b@smile.fi.intel.com>
+References: <20211110102423.54282-1-andriy.shevchenko@linux.intel.com>
+ <887a15cb-3a3b-4ba2-aa0f-a241e70a19fa@suse.de>
+ <CAHp75VdY57xQBLN8vT3RdagQx=4kLx69qAyuzLwqTvNGC2xUbQ@mail.gmail.com>
+ <d536e7d2-891e-e0a8-6abc-6694987a65f7@suse.de>
+ <YZJGEi6Qqh1aGCxa@smile.fi.intel.com>
+ <YZ0Xrus5wZar3QN7@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YZ0Xrus5wZar3QN7@smile.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,44 +52,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
- Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Donnerstag, dem 09.12.2021 um 12:37 +0530 schrieb Jagan Teki:
-> On Thu, Nov 18, 2021 at 2:50 PM Alexander Stein
-> <
-> alexander.stein@ew.tq-group.com
-> > wrote:
-> > From: Laurent Pinchart <
-> > laurent.pinchart@ideasonboard.com
-> > >
+On Tue, Nov 23, 2021 at 06:32:46PM +0200, Andy Shevchenko wrote:
+> On Mon, Nov 15, 2021 at 01:35:47PM +0200, Andy Shevchenko wrote:
+> > On Wed, Nov 10, 2021 at 05:39:33PM +0100, Thomas Zimmermann wrote:
+> > > Am 10.11.21 um 17:34 schrieb Andy Shevchenko:
+> > > > On Wed, Nov 10, 2021 at 3:55 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> > > > > Am 10.11.21 um 11:24 schrieb Andy Shevchenko:
 > > 
-> > The SN65DSI8x EN signal may be tied to VCC, or otherwise controlled
-> > by
-> > means not available to the kernel. Make the GPIO optional.
+> > ...
+> > 
+> > > > > > +#include <linux/container_of.h>
+> > > > > 
+> > > > > I built this patch on a recent drm-misc-next, but there's no
+> > > > > linux/container_of.h
+> > > > 
+> > > > Thank you for trying. It's in the upstream, whenever drm-misc-next
+> > > > switches to newer/newest upstream it will be there. I assume it will
+> > > > happen after v5.16-rc1?
+> > > 
+> > > Yes, we'll certainly backmerge soon after rc1 has been released. If I forget
+> > > to add the patch then, please send a reminder.
+> > > 
+> > > Once the necessary headers are available,
+> > 
+> > $ git log --oneline v5.16-rc1 -- include/linux/container_of.h
+> > e1edc277e6f6 linux/container_of.h: switch to static_assert
+> > d2a8ebbf8192 kernel.h: split out container_of() and typeof_member() macros
+> > 
+> > > the patch is
+> > > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > 
+> > Thanks!
 > 
-> Sorry, I couldn't understand what it means. Does it mean VCC enabled
-> designs no need to enable GPIO? I've a design that do support both EN
-> and VCC.
+> Maybe I misunderstood something, I thought that DRM people may apply this,
+> is it incorrect assumption?
 
-The patches 1 & 2 are only about the "enable" gpio for the bridge, it's
-unrelated to the VCC regulator introduced in patch 3 & 4.
-Maybe the commit message should say:
-> The SN65DSI8x EN signal may be hard-wired to VCC, or otherwise
-controlled[...]
-But I copied the message from bbda1704fc15 ("drm/bridge: ti-sn65dsi86:
-Make enable GPIO optional").
+It still does not appear in Linux Next...
+What should I do to move this forward, please?
 
-This is for use-cases where there is no GPIO the kernel can use, to
-control the EN pad of the bridge. Thus make this gpio optional in
-bindings and driver.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-HTH
-Alexander
 
