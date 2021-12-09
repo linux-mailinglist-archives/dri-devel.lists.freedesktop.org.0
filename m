@@ -1,47 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5319746F6A8
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 23:18:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0E4D46F6AC
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 23:18:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4C6810E220;
-	Thu,  9 Dec 2021 22:18:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AF0B10E29A;
+	Thu,  9 Dec 2021 22:18:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42F1F10E220;
- Thu,  9 Dec 2021 22:18:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639088296; x=1670624296;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=ExDWmgbFmgQ3T+PD5ZiQaZV/em6QjeWb0HbwidEPOGM=;
- b=GRy73aoot9o0tM9vsjDYrUD0LYMVZNyEUoE4PlLWdBPwlet4zrMtXxdt
- PvEE03ZiIwfeLz+jvfPW3exl3rNE2muTrhYwmj9U5ygq2QvPo36ayf1OV
- hVyFI5vVMlo8ksTsIXeD1qpY5PP5PbrSCJxdD5cZuCSjG4DLa3TbXiPcG
- T2yV2fsHwob4XX3Z4x3w+Q5cSPE03yil0ev+3kDHGF/OW82yzVi+9oGe4
- c01OGGba51xxCnnBVKBictjcRXvfJdvkSg4WYSSZcoB4WB/orEdLGsx8z
- OnzVuH/WUOp/Td9CkvgyAGvZ1gxwJOk2c2gZXjYE60Ob85yzEG0MZjhvy w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10193"; a="225488593"
-X-IronPort-AV: E=Sophos;i="5.88,193,1635231600"; d="scan'208";a="225488593"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2021 14:18:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,193,1635231600"; d="scan'208";a="680507761"
-Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
- by orsmga005.jf.intel.com with ESMTP; 09 Dec 2021 14:18:15 -0800
-From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/i915/guc: Request RP0 before loading firmware
-Date: Thu,  9 Dec 2021 14:18:05 -0800
-Message-Id: <20211209221805.26960-1-vinay.belgaumkar@intel.com>
-X-Mailer: git-send-email 2.34.0
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22A6B10E29A;
+ Thu,  9 Dec 2021 22:18:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1639088318; x=1670624318;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Glf5Y/8htfFQCGD6RtBjOXzVpdqs/z+p2V+SIsmjiOg=;
+ b=rGqNhMQXuxojW2qB9xSUU8lxmkHxKwKrcGTNXZMrue96zAnlCkQneCvy
+ sqWVQzNjyL6SxAeSDsYyDgzlGKpqrV0RWdzPxjn3MtkVoiM0/cjjM97C3
+ kU6dfgnEZWMRiM0iozxl7C4rmkb2o2FFtSNZr8uBxTMxw1dLHYxBaRSjb E=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 09 Dec 2021 14:18:38 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Dec 2021 14:18:37 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Thu, 9 Dec 2021 14:18:24 -0800
+Received: from [10.111.171.222] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Thu, 9 Dec 2021
+ 14:18:22 -0800
+Message-ID: <fcebac6e-05ea-73ad-f592-fc1721d4ecfb@quicinc.com>
+Date: Thu, 9 Dec 2021 14:18:20 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH v1 8/8] drm/msm/dpu: move SSPP debugfs support from plane
+ to SSPP code
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
+ <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
+ <sean@poorly.run>, Abhinav Kumar <abhinavk@codeaurora.org>
+References: <20211201222633.2476780-1-dmitry.baryshkov@linaro.org>
+ <20211201222633.2476780-9-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20211201222633.2476780-9-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,172 +67,271 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Cc: Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-By default, GT (and GuC) run at RPn. Requesting for RP0
-before firmware load can speed up DMA and HuC auth as well.
-In addition to writing to 0xA008, we also need to enable
-swreq in 0xA024 so that Punit will pay heed to our request.
 
-SLPC will restore the frequency back to RPn after initialization,
-but we need to manually do that for the non-SLPC path.
 
-Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_rps.c   | 59 +++++++++++++++++++++++++++
- drivers/gpu/drm/i915/gt/intel_rps.h   |  2 +
- drivers/gpu/drm/i915/gt/uc/intel_uc.c |  9 ++++
- drivers/gpu/drm/i915/i915_reg.h       |  4 ++
- 4 files changed, 74 insertions(+)
+On 12/1/2021 2:26 PM, Dmitry Baryshkov wrote:
+> We are preparing to change DPU plane implementation. Move SSPP debugfs
+> code from dpu_plane.c to dpu_hw_sspp.c, where it belongs.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c | 67 +++++++++++++++++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h |  4 +
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  1 +
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 82 +++------------------
+>   4 files changed, 84 insertions(+), 70 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> index d77eb7da5daf..ae3cf2e4d7d9 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> @@ -8,6 +8,8 @@
+>   #include "dpu_hw_sspp.h"
+>   #include "dpu_kms.h"
+>   
+> +#include <drm/drm_file.h>
+> +
+>   #define DPU_FETCH_CONFIG_RESET_VALUE   0x00000087
+>   
+>   /* DPU_SSPP_SRC */
+> @@ -686,6 +688,71 @@ static void _setup_layer_ops(struct dpu_hw_pipe *c,
+>   		c->ops.setup_cdp = dpu_hw_sspp_setup_cdp;
+>   }
+>   
+> +#ifdef CONFIG_DEBUG_FS
+> +int _dpu_hw_sspp_init_debugfs(struct dpu_hw_pipe *hw_pipe, struct dpu_kms *kms, struct dentry *entry)
+> +{
+> +	const struct dpu_sspp_cfg *cfg = hw_pipe->cap;
+> +	const struct dpu_sspp_sub_blks *sblk = cfg->sblk;
+> +	struct dentry *debugfs_root;
+> +	char sspp_name[32];
+> +
+> +	snprintf(sspp_name, sizeof(sspp_name), "%d", hw_pipe->idx);
+> +
+> +	/* create overall sub-directory for the pipe */
+> +	debugfs_root =
+> +		debugfs_create_dir(sspp_name, entry);
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
-index 07ff7ba7b2b7..4f7fe079ed4a 100644
---- a/drivers/gpu/drm/i915/gt/intel_rps.c
-+++ b/drivers/gpu/drm/i915/gt/intel_rps.c
-@@ -2226,6 +2226,65 @@ u32 intel_rps_read_state_cap(struct intel_rps *rps)
- 		return intel_uncore_read(uncore, GEN6_RP_STATE_CAP);
- }
- 
-+static void intel_rps_set_manual(struct intel_rps *rps, bool enable)
-+{
-+	struct intel_uncore *uncore = rps_to_uncore(rps);
-+	u32 state = enable ? GEN9_RPSWCTL_ENABLE : GEN9_RPSWCTL_DISABLE;
-+
-+	if (enable)
-+		intel_rps_clear_timer(rps);
-+
-+	/* Allow punit to process software requests */
-+	intel_uncore_write(uncore, GEN6_RP_CONTROL, state);
-+
-+	if (!enable)
-+		intel_rps_set_timer(rps);
-+}
-+
-+void intel_rps_raise_unslice(struct intel_rps *rps)
-+{
-+	struct intel_uncore *uncore = rps_to_uncore(rps);
-+	u32 rp0_unslice_req;
-+
-+	intel_rps_set_manual(rps, true);
-+
-+	/* RP limits have not been read yet */
-+	if (!rps->rp0_freq)
-+		rp0_unslice_req = ((intel_rps_read_state_cap(rps) >> 0)
-+				   & 0xff) * GEN9_FREQ_SCALER;
-+	else
-+		rp0_unslice_req = rps->rp0_freq;
-+
-+	intel_uncore_write(uncore, GEN6_RPNSWREQ,
-+			   ((rp0_unslice_req <<
-+			   GEN9_SW_REQ_UNSLICE_RATIO_SHIFT) |
-+			   GEN9_IGNORE_SLICE_RATIO));
-+
-+	intel_rps_set_manual(rps, false);
-+}
-+
-+void intel_rps_lower_unslice(struct intel_rps *rps)
-+{
-+	struct intel_uncore *uncore = rps_to_uncore(rps);
-+	u32 rpn_unslice_req;
-+
-+	intel_rps_set_manual(rps, true);
-+
-+	/* RP limits have not been read yet */
-+	if (!rps->min_freq)
-+		rpn_unslice_req = ((intel_rps_read_state_cap(rps) >> 16)
-+				   & 0xff) * GEN9_FREQ_SCALER;
-+	else
-+		rpn_unslice_req = rps->min_freq;
-+
-+	intel_uncore_write(uncore, GEN6_RPNSWREQ,
-+			   ((rpn_unslice_req <<
-+			   GEN9_SW_REQ_UNSLICE_RATIO_SHIFT) |
-+			   GEN9_IGNORE_SLICE_RATIO));
-+
-+	intel_rps_set_manual(rps, false);
-+}
-+
- /* External interface for intel_ips.ko */
- 
- static struct drm_i915_private __rcu *ips_mchdev;
-diff --git a/drivers/gpu/drm/i915/gt/intel_rps.h b/drivers/gpu/drm/i915/gt/intel_rps.h
-index aee12f37d38a..c6d76a3d1331 100644
---- a/drivers/gpu/drm/i915/gt/intel_rps.h
-+++ b/drivers/gpu/drm/i915/gt/intel_rps.h
-@@ -45,6 +45,8 @@ u32 intel_rps_get_rpn_frequency(struct intel_rps *rps);
- u32 intel_rps_read_punit_req(struct intel_rps *rps);
- u32 intel_rps_read_punit_req_frequency(struct intel_rps *rps);
- u32 intel_rps_read_state_cap(struct intel_rps *rps);
-+void intel_rps_raise_unslice(struct intel_rps *rps);
-+void intel_rps_lower_unslice(struct intel_rps *rps);
- 
- void gen5_rps_irq_handler(struct intel_rps *rps);
- void gen6_rps_irq_handler(struct intel_rps *rps, u32 pm_iir);
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-index 2fef3b0bbe95..3693c4e7dad0 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-@@ -8,6 +8,7 @@
- #include "intel_guc.h"
- #include "intel_guc_ads.h"
- #include "intel_guc_submission.h"
-+#include "gt/intel_rps.h"
- #include "intel_uc.h"
- 
- #include "i915_drv.h"
-@@ -462,6 +463,8 @@ static int __uc_init_hw(struct intel_uc *uc)
- 	else
- 		attempts = 1;
- 
-+	intel_rps_raise_unslice(&uc_to_gt(uc)->rps);
-+
- 	while (attempts--) {
- 		/*
- 		 * Always reset the GuC just before (re)loading, so
-@@ -499,6 +502,9 @@ static int __uc_init_hw(struct intel_uc *uc)
- 		ret = intel_guc_slpc_enable(&guc->slpc);
- 		if (ret)
- 			goto err_submission;
-+	} else {
-+		/* Restore GT back to RPn for non-SLPC path */
-+		intel_rps_lower_unslice(&uc_to_gt(uc)->rps);
- 	}
- 
- 	drm_info(&i915->drm, "%s firmware %s version %u.%u %s:%s\n",
-@@ -529,6 +535,9 @@ static int __uc_init_hw(struct intel_uc *uc)
- err_log_capture:
- 	__uc_capture_load_err_log(uc);
- err_out:
-+	/* Return GT back to RPn */
-+	intel_rps_lower_unslice(&uc_to_gt(uc)->rps);
-+
- 	__uc_sanitize(uc);
- 
- 	if (!ret) {
-diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-index 1891e7fac39b..b2a86a26b843 100644
---- a/drivers/gpu/drm/i915/i915_reg.h
-+++ b/drivers/gpu/drm/i915/i915_reg.h
-@@ -9399,6 +9399,7 @@ enum {
- #define   GEN6_OFFSET(x)			((x) << 19)
- #define   GEN6_AGGRESSIVE_TURBO			(0 << 15)
- #define   GEN9_SW_REQ_UNSLICE_RATIO_SHIFT	23
-+#define   GEN9_IGNORE_SLICE_RATIO		(0 << 0)
- 
- #define GEN6_RC_VIDEO_FREQ			_MMIO(0xA00C)
- #define GEN6_RC_CONTROL				_MMIO(0xA090)
-@@ -9434,6 +9435,9 @@ enum {
- #define   GEN6_RP_UP_BUSY_CONT			(0x4 << 3)
- #define   GEN6_RP_DOWN_IDLE_AVG			(0x2 << 0)
- #define   GEN6_RP_DOWN_IDLE_CONT		(0x1 << 0)
-+#define   GEN6_RPSWCTL_SHIFT			9
-+#define   GEN9_RPSWCTL_ENABLE			(0x2 << GEN6_RPSWCTL_SHIFT)
-+#define   GEN9_RPSWCTL_DISABLE			(0x0 << GEN6_RPSWCTL_SHIFT)
- #define GEN6_RP_UP_THRESHOLD			_MMIO(0xA02C)
- #define GEN6_RP_DOWN_THRESHOLD			_MMIO(0xA030)
- #define GEN6_RP_CUR_UP_EI			_MMIO(0xA050)
--- 
-2.34.0
 
+I would like to take a different approach to this. Let me know what you 
+think.
+
+Let the directory names still be the drm plane names as someone who 
+would first get the DRM state and then try to lookup the register values 
+of that plane would not know where to look now.
+
+Inside the /sys/kernel/debug/***/plane-X/ directory you can expose an 
+extra entry which tells the sspp_index.
+
+This will also establish the plane to SSPP mapping.
+
+Now when planes go virtual in the future, this will be helpful even more
+so that we can know the plane to SSPP mapping.
+
+
+> +
+> +	/* don't error check these */
+> +	debugfs_create_xul("features", 0600,
+> +			debugfs_root, (unsigned long *)&hw_pipe->cap->features);
+> +
+> +	/* add register dump support */
+> +	dpu_debugfs_create_regset32("src_blk", 0400,
+> +			debugfs_root,
+> +			sblk->src_blk.base + cfg->base,
+> +			sblk->src_blk.len,
+> +			kms);
+> +
+> +	if (cfg->features & BIT(DPU_SSPP_SCALER_QSEED3) ||
+> +			cfg->features & BIT(DPU_SSPP_SCALER_QSEED3LITE) ||
+> +			cfg->features & BIT(DPU_SSPP_SCALER_QSEED2) ||
+> +			cfg->features & BIT(DPU_SSPP_SCALER_QSEED4))
+> +		dpu_debugfs_create_regset32("scaler_blk", 0400,
+> +				debugfs_root,
+> +				sblk->scaler_blk.base + cfg->base,
+> +				sblk->scaler_blk.len,
+> +				kms);
+> +
+> +	if (cfg->features & BIT(DPU_SSPP_CSC) ||
+> +			cfg->features & BIT(DPU_SSPP_CSC_10BIT))
+> +		dpu_debugfs_create_regset32("csc_blk", 0400,
+> +				debugfs_root,
+> +				sblk->csc_blk.base + cfg->base,
+> +				sblk->csc_blk.len,
+> +				kms);
+> +
+> +	debugfs_create_u32("xin_id",
+> +			0400,
+> +			debugfs_root,
+> +			(u32 *) &cfg->xin_id);
+> +	debugfs_create_u32("clk_ctrl",
+> +			0400,
+> +			debugfs_root,
+> +			(u32 *) &cfg->clk_ctrl);
+> +	debugfs_create_x32("creq_vblank",
+> +			0600,
+> +			debugfs_root,
+> +			(u32 *) &sblk->creq_vblank);
+> +	debugfs_create_x32("danger_vblank",
+> +			0600,
+> +			debugfs_root,
+> +			(u32 *) &sblk->danger_vblank);
+> +
+> +	return 0;
+> +}
+> +#endif
+> +
+> +
+>   static const struct dpu_sspp_cfg *_sspp_offset(enum dpu_sspp sspp,
+>   		void __iomem *addr,
+>   		struct dpu_mdss_cfg *catalog,
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> index e8939d7387cb..cef281687bab 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> @@ -381,6 +381,7 @@ struct dpu_hw_pipe {
+>   	struct dpu_hw_sspp_ops ops;
+>   };
+>   
+> +struct dpu_kms;
+>   /**
+>    * dpu_hw_sspp_init - initializes the sspp hw driver object.
+>    * Should be called once before accessing every pipe.
+> @@ -400,5 +401,8 @@ struct dpu_hw_pipe *dpu_hw_sspp_init(enum dpu_sspp idx,
+>    */
+>   void dpu_hw_sspp_destroy(struct dpu_hw_pipe *ctx);
+>   
+> +void dpu_debugfs_sspp_init(struct dpu_kms *dpu_kms, struct dentry *debugfs_root);
+> +int _dpu_hw_sspp_init_debugfs(struct dpu_hw_pipe *hw_pipe, struct dpu_kms *kms, struct dentry *entry);
+> +
+>   #endif /*_DPU_HW_SSPP_H */
+>   
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> index 7e7a619769a8..de9efe6dcf7c 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> @@ -281,6 +281,7 @@ static int dpu_kms_debugfs_init(struct msm_kms *kms, struct drm_minor *minor)
+>   	dpu_debugfs_danger_init(dpu_kms, entry);
+>   	dpu_debugfs_vbif_init(dpu_kms, entry);
+>   	dpu_debugfs_core_irq_init(dpu_kms, entry);
+> +	dpu_debugfs_sspp_init(dpu_kms, entry);
+>   
+>   	for (i = 0; i < ARRAY_SIZE(priv->dp); i++) {
+>   		if (priv->dp[i])
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index ef66af696a40..cc7a7eb84fdd 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -13,7 +13,6 @@
+>   #include <drm/drm_atomic.h>
+>   #include <drm/drm_atomic_uapi.h>
+>   #include <drm/drm_damage_helper.h>
+> -#include <drm/drm_file.h>
+>   #include <drm/drm_gem_atomic_helper.h>
+>   
+>   #include "msm_drv.h"
+> @@ -1356,78 +1355,22 @@ void dpu_plane_danger_signal_ctrl(struct drm_plane *plane, bool enable)
+>   	pm_runtime_put_sync(&dpu_kms->pdev->dev);
+>   }
+>   
+> -static int _dpu_plane_init_debugfs(struct drm_plane *plane)
+> +/* SSPP live inside dpu_plane private data only. Enumerate them here. */
+> +void dpu_debugfs_sspp_init(struct dpu_kms *dpu_kms, struct dentry *debugfs_root)
+>   {
+> -	struct dpu_plane *pdpu = to_dpu_plane(plane);
+> -	struct dpu_kms *kms = _dpu_plane_get_kms(plane);
+> -	const struct dpu_sspp_cfg *cfg = pdpu->pipe_hw->cap;
+> -	const struct dpu_sspp_sub_blks *sblk = cfg->sblk;
+> -	struct dentry *debugfs_root;
+> -
+> -	/* create overall sub-directory for the pipe */
+> -	debugfs_root =
+> -		debugfs_create_dir(plane->name,
+> -				plane->dev->primary->debugfs_root);
+> -
+> -	/* don't error check these */
+> -	debugfs_create_xul("features", 0600,
+> -			debugfs_root, (unsigned long *)&pdpu->pipe_hw->cap->features);
+> -
+> -	/* add register dump support */
+> -	dpu_debugfs_create_regset32("src_blk", 0400,
+> -			debugfs_root,
+> -			sblk->src_blk.base + cfg->base,
+> -			sblk->src_blk.len,
+> -			kms);
+> -
+> -	if (cfg->features & BIT(DPU_SSPP_SCALER_QSEED3) ||
+> -			cfg->features & BIT(DPU_SSPP_SCALER_QSEED3LITE) ||
+> -			cfg->features & BIT(DPU_SSPP_SCALER_QSEED2) ||
+> -			cfg->features & BIT(DPU_SSPP_SCALER_QSEED4))
+> -		dpu_debugfs_create_regset32("scaler_blk", 0400,
+> -				debugfs_root,
+> -				sblk->scaler_blk.base + cfg->base,
+> -				sblk->scaler_blk.len,
+> -				kms);
+> -
+> -	if (cfg->features & BIT(DPU_SSPP_CSC) ||
+> -			cfg->features & BIT(DPU_SSPP_CSC_10BIT))
+> -		dpu_debugfs_create_regset32("csc_blk", 0400,
+> -				debugfs_root,
+> -				sblk->csc_blk.base + cfg->base,
+> -				sblk->csc_blk.len,
+> -				kms);
+> -
+> -	debugfs_create_u32("xin_id",
+> -			0400,
+> -			debugfs_root,
+> -			(u32 *) &cfg->xin_id);
+> -	debugfs_create_u32("clk_ctrl",
+> -			0400,
+> -			debugfs_root,
+> -			(u32 *) &cfg->clk_ctrl);
+> -	debugfs_create_x32("creq_vblank",
+> -			0600,
+> -			debugfs_root,
+> -			(u32 *) &sblk->creq_vblank);
+> -	debugfs_create_x32("danger_vblank",
+> -			0600,
+> -			debugfs_root,
+> -			(u32 *) &sblk->danger_vblank);
+> +	struct drm_plane *plane;
+> +	struct dentry *entry = debugfs_create_dir("sspp", debugfs_root);
+>   
+> -	return 0;
+> -}
+> -#else
+> -static int _dpu_plane_init_debugfs(struct drm_plane *plane)
+> -{
+> -	return 0;
+> -}
+> -#endif
+> +	if (IS_ERR(entry))
+> +		return;
+>   
+> -static int dpu_plane_late_register(struct drm_plane *plane)
+> -{
+> -	return _dpu_plane_init_debugfs(plane);
+> +	drm_for_each_plane(plane, dpu_kms->dev) {
+> +		struct dpu_plane *pdpu = to_dpu_plane(plane);
+> +
+> +		_dpu_hw_sspp_init_debugfs(pdpu->pipe_hw, dpu_kms, entry);
+> +	}
+>   }
+> +#endif
+>   
+>   static bool dpu_plane_format_mod_supported(struct drm_plane *plane,
+>   		uint32_t format, uint64_t modifier)
+> @@ -1453,7 +1396,6 @@ static const struct drm_plane_funcs dpu_plane_funcs = {
+>   		.reset = dpu_plane_reset,
+>   		.atomic_duplicate_state = dpu_plane_duplicate_state,
+>   		.atomic_destroy_state = dpu_plane_destroy_state,
+> -		.late_register = dpu_plane_late_register,
+>   		.format_mod_supported = dpu_plane_format_mod_supported,
+>   };
+>   
+> 
