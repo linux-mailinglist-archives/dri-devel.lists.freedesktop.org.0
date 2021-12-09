@@ -2,58 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07CB146EE55
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 17:56:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D08E46EE2C
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 17:55:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF92210E668;
-	Thu,  9 Dec 2021 16:53:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B75F910E252;
+	Thu,  9 Dec 2021 16:53:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
- [IPv6:2607:f8b0:4864:20::1030])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBADF10E116;
- Thu,  9 Dec 2021 06:17:47 +0000 (UTC)
-Received: by mail-pj1-x1030.google.com with SMTP id
- k6-20020a17090a7f0600b001ad9d73b20bso4005671pjl.3; 
- Wed, 08 Dec 2021 22:17:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ERNdknSdRVKl939EP+EZZR/PoW0Nj1vOL+LFqLPaFaE=;
- b=VnKZQdzGR1KwvVlbMhJ9w4yN5SAgf36Tsu/EQkyNyyDawfgQ9W+WbDf1o1BNf73lum
- LNDL0ZsH9/EqlAIF4Fno0CGooNpVWAJnpiEx/h4Ps2yE9uCrxI9wfG/Lk9U0XHtDZbSs
- 7lpV5zElgJ16wRwhg6Bx9McSbWutm+HQ/EV7H2OlaVe8d0FJv51Mtvtylcg/gy6cq5EZ
- UCrvSfnuFJ23q+ZlJUbDbXF6sJGXVJTDI+jt4mkVgjJUvV9Rz9GXZ3+7dhS5vZXqbAaX
- 4C/iBOy85IGRN/mtQhSfYjy4y1x5WLzd60NZGpmQDiFfHv1Kf4Qm0tDulOeOFurPk/Kg
- Eazw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ERNdknSdRVKl939EP+EZZR/PoW0Nj1vOL+LFqLPaFaE=;
- b=DarKV38RzE7w+4uANNtYycLCCVBWDTvefFsEorcWRq3HOEnB6T8nAWlONpo3eGFMmm
- J78QBUcJTnweD2SqQ9znjDL5tE1VpAmgQA/rUyDR8jPxsRMaCSNtKHQjVW7rzmNVfiJa
- BQaIUz113cW0PdsG5oPx5+aB5Lm2auJcem7a8NmzparOXk57p2B5VBCtItoO3GLHEXjf
- tJEXGk5o778maw8I9B8PnkZ5aao5GUfexz4E3b22yJ7USK5Tfjp8P6sbgmncLjGskRVU
- CW+Uh/MB5DGaOImljPNz0Ff4f+giTkCagK79QAy6S/+h2/K8eDnivNvome6bNfiAh+iX
- goEA==
-X-Gm-Message-State: AOAM533bS6bUIyryj3vUjp3DtW3M4oE705EVfkHWyCWPiaGT9ofNXK10
- tpEzo17gXgDAwlQm9wohBxEV5rIvHnc=
-X-Google-Smtp-Source: ABdhPJxALjGW3u4AEFGEvQxsHH3WOQo5kRwErZMyqNAPO4fMR36Pgv0iMSHN7+mt1Z/nZUz0vkYO5A==
-X-Received: by 2002:a17:902:6a8a:b0:143:905f:aec7 with SMTP id
- n10-20020a1709026a8a00b00143905faec7mr64773494plk.8.1639015108752; 
- Wed, 08 Dec 2021 17:58:28 -0800 (PST)
-Received: from localhost.localdomain ([193.203.214.57])
- by smtp.gmail.com with ESMTPSA id m10sm3619593pgv.75.2021.12.08.17.58.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Dec 2021 17:58:28 -0800 (PST)
-From: cgel.zte@gmail.com
-X-Google-Original-From: chi.minghao@zte.com.cn
-To: alexander.deucher@amd.com
-Subject: [PATCH] drm:amdgpu:remove unneeded variable
-Date: Thu,  9 Dec 2021 01:58:23 +0000
-Message-Id: <20211209015823.409947-1-chi.minghao@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BF4410E116
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Dec 2021 06:28:41 +0000 (UTC)
+Received: from vertex.localdomain (pool-108-36-85-85.phlapa.fios.verizon.net
+ [108.36.85.85]) (Authenticated sender: zack)
+ by letterbox.kde.org (Postfix) with ESMTPSA id EB73729F879;
+ Thu,  9 Dec 2021 02:49:36 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
+ t=1639018177; bh=YXG5BhkLwROr20dr615B2sjJ6G1wLcQj39XHO/upPFk=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=LOyTFF/9I4agwt3qSwtKYPJlT9O5ZITR9/Lb8Y92GHZpQnjd0XSZvmxDKA1cOAdE2
+ HvtTgprxN9jYEOR8EnOUDUuGRkML6QmIYn2hWV0ZaFTFR2HsFUYHasF/sbMeO1fFiM
+ riQTtpldiHyrQGvET2jKTbKR80f7zw6A8DFtxfyJzzqIc3JXXMcTmncRTp1Jm7YJxh
+ YpUKFQzFehYMHqhJRyHK5k0+SozGWYBajOk8NeksvaskvfFuFnZ5keMNvtJIT7F/4d
+ sOHKF6A5wU806UMg7SUULQc/bDEP2S+dKPnMnROOgovOKXZhPw6lkcx4Yh4can3qQp
+ +M4YxH3Zq1ZhQ==
+From: Zack Rusin <zack@kde.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/vmwgfx: Bump the minor version
+Date: Wed,  8 Dec 2021 21:49:24 -0500
+Message-Id: <20211209024924.3298137-1-zack@kde.org>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20211206172620.3139754-13-zack@kde.org>
+References: <20211206172620.3139754-13-zack@kde.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,68 +47,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alex.sierra@amd.com, dri-devel@lists.freedesktop.org, airlied@linux.ie,
- Zeal Robot <zealci@zte.com.cm>, Oak.Zeng@amd.com, Xinhui.Pan@amd.com,
- rajneesh.bhardwaj@amd.com, chi.minghao@zte.com.cn,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, Likun.Gao@amd.com,
- john.clements@amd.com, christian.koenig@amd.com, Hawking.Zhang@amd.com
+Reply-To: Zack Rusin <zackr@vmware.com>
+Cc: krastevm@vmware.com, mombasawalam@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: chiminghao <chi.minghao@zte.com.cn>
+From: Zack Rusin <zackr@vmware.com>
 
-return value form directly instead of
-taking this in another redundant variable.
+v2: Old userspace doesn't like 3.x.x and we'd like to keep it working,
+so lets just bump the minor version until we have no choice.
 
-Reported-by: Zeal Robot <zealci@zte.com.cm>
-Signed-off-by: chiminghao <chi.minghao@zte.com.cn>
+With GEM, GL4.3, stats and removal of a lot of old code it's time to bump
+the minor version of the driver.
+
+Signed-off-by: Zack Rusin <zackr@vmware.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ioc32.c | 5 +----
- drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c     | 6 ++----
- 2 files changed, 3 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ioc32.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ioc32.c
-index 5cf142e849bb..fb92f827eeb7 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ioc32.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ioc32.c
-@@ -37,12 +37,9 @@
- long amdgpu_kms_compat_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
- {
- 	unsigned int nr = DRM_IOCTL_NR(cmd);
--	int ret;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+index 1760ba1b0d4a..4ec2b99351cf 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+@@ -54,9 +54,9 @@
  
- 	if (nr < DRM_COMMAND_BASE)
- 		return drm_compat_ioctl(filp, cmd, arg);
  
--	ret = amdgpu_drm_ioctl(filp, cmd, arg);
--
--	return ret;
-+	return amdgpu_drm_ioctl(filp, cmd, arg);
- }
-diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-index cb82404df534..269a7b04b7e7 100644
---- a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-@@ -1742,7 +1742,7 @@ static int gmc_v9_0_hw_init(void *handle)
- {
- 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
- 	bool value;
--	int r, i;
-+	int i;
- 
- 	/* The sequence of these two function calls matters.*/
- 	gmc_v9_0_init_golden_registers(adev);
-@@ -1777,9 +1777,7 @@ static int gmc_v9_0_hw_init(void *handle)
- 	if (adev->umc.funcs && adev->umc.funcs->init_registers)
- 		adev->umc.funcs->init_registers(adev);
- 
--	r = gmc_v9_0_gart_enable(adev);
--
--	return r;
-+	return gmc_v9_0_gart_enable(adev);
- }
- 
- /**
+ #define VMWGFX_DRIVER_NAME "vmwgfx"
+-#define VMWGFX_DRIVER_DATE "20210722"
++#define VMWGFX_DRIVER_DATE "20211206"
+ #define VMWGFX_DRIVER_MAJOR 2
+-#define VMWGFX_DRIVER_MINOR 19
++#define VMWGFX_DRIVER_MINOR 20
+ #define VMWGFX_DRIVER_PATCHLEVEL 0
+ #define VMWGFX_FIFO_STATIC_SIZE (1024*1024)
+ #define VMWGFX_MAX_RELOCATIONS 2048
 -- 
-2.25.1
+2.32.0
 
