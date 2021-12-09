@@ -1,51 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C0B646F7BA
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 00:55:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF3C546F7C3
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 00:57:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86DBD10E13C;
-	Thu,  9 Dec 2021 23:55:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9224310E149;
+	Thu,  9 Dec 2021 23:57:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C7D610E13C;
- Thu,  9 Dec 2021 23:55:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639094151; x=1670630151;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=gh5eF15iO+Qa0ndpNz1JP68+2/bzYveCtyRtosqol+8=;
- b=CNBmHBvqmZxxv5wagNSnepaZxwNK2LVbrZDQIrNfwcsA/RCNnqR3vap9
- WNdI4R6biX7XLvPnPb+n7ebw0rkpphQqMaSh2/x1laeDPYX9tooaI3CQ/
- b2ZYMwFQDVvGTotO/ffUICJTJ2x4MVFzDgDfhMzDkkRUcBHSJfSSzEwTi
- 8xpwYkCPg71yzJ/wYhap3MRICkQxrmEa+OwegwkllmbcBr2P3CqI2i3ao
- oNsh3kM/IvGsMmpAfHaNvie9KBkXZYDXupGa61XQeNSXtQgLLRoDwWfnR
- 88bGUnIH0WzVEgWgsg1kUHQbKZUKz0jo23pqbnQ479O4PNQj8JXQuVT5/ A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10193"; a="301614317"
-X-IronPort-AV: E=Sophos;i="5.88,193,1635231600"; d="scan'208";a="301614317"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2021 15:55:50 -0800
-X-IronPort-AV: E=Sophos;i="5.88,194,1635231600"; d="scan'208";a="680540415"
-Received: from mdroper-desk1.fm.intel.com (HELO
- mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2021 15:55:50 -0800
-Date: Thu, 9 Dec 2021 15:55:49 -0800
-From: Matt Roper <matthew.d.roper@intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Subject: Re: [PATCH v6 07/11] drm/i915/selftests: Use to_gt() helper
-Message-ID: <20211209235549.GU2219399@mdroper-desk1.amr.corp.intel.com>
-References: <20211209132512.47241-1-andi.shyti@linux.intel.com>
- <20211209132512.47241-8-andi.shyti@linux.intel.com>
+Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com
+ [IPv6:2607:f8b0:4864:20::732])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8F4F10E149
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Dec 2021 23:57:33 +0000 (UTC)
+Received: by mail-qk1-x732.google.com with SMTP id 132so6367208qkj.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Dec 2021 15:57:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Uki05wBt2Curw3Rk1sCic8HVPmQ/onh9arpdABDNhZE=;
+ b=Lx73rRhgsqhUQaq2ygcCUymM7fIcuNnfcFeVbUxwD4LvPpxCgPAdvZ+us2j5P0S0jG
+ qhNF9BmUY0cqiJcxQX/H4oxcFCz4hRaYAJD7ARBi58y7PGyKnMRXut/xnqbwbmOogJx1
+ rQkDuM1oiyGSNkU/IoqhRxoxesnfzWKAwbBBA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Uki05wBt2Curw3Rk1sCic8HVPmQ/onh9arpdABDNhZE=;
+ b=tf0ZNdC1LIqEXXZanqgcg7XmWeLjzoal8HBRFRta1k8WNoMtYeXHQAmecAwTKcPNKN
+ gHEZO9K4TJF6aAk7QPyNFjsLE6b4zKse/QCHp/+x0M0nJq9o4h0jYODVvK1xKlOu4SY0
+ QK5LAbVfh0hFNyb4FUAqr+lmBrm451NkVU4cBkKInsga3uUwaFdF+sB0wWM67gdzRhql
+ AnySNmpW6U0rMR0hSCiWFGQ9K+kyQe6OvuEJT5kzdItWXiFopq0xlcGUHEO/oLU85nqp
+ 7B8Mi9DvP0sEqXbYwJti43SUs8i5G+Le06jyaWwHwbn+RKLYzqwsfa6zshF50ok5alxM
+ y47A==
+X-Gm-Message-State: AOAM533QmGKY+3W5BuH9RU5Zg01Ejg2z4Qn1ZbAwuFfj5VmqPiaUJQCh
+ +afQHPnOhU8zpo+Jm+P/8YgaY7bfGSRkkXL6hBBL6cB86uRXuQ==
+X-Google-Smtp-Source: ABdhPJxoC/884U4HksLH+wuiXs0WNjfeYhB0s6I4Zf+ZCyxoMZNQDfLnuG+wprFJ15I8geJzMLWy+Mi42/aX2oXvpjU=
+X-Received: by 2002:a05:620a:4446:: with SMTP id
+ w6mr17194393qkp.273.1639094252842; 
+ Thu, 09 Dec 2021 15:57:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211209132512.47241-8-andi.shyti@linux.intel.com>
+References: <20211202034544.2750-1-yunfei.dong@mediatek.com>
+ <20211202034544.2750-16-yunfei.dong@mediatek.com>
+In-Reply-To: <20211202034544.2750-16-yunfei.dong@mediatek.com>
+From: Steve Cho <stevecho@chromium.org>
+Date: Thu, 9 Dec 2021 15:57:22 -0800
+Message-ID: <CAC-pXoNYXSoL0L8OEoVg+tU1JoMU5VU-voXNKQD1is0HBYmT_A@mail.gmail.com>
+Subject: Re: [PATCH v12, 15/19] dt-bindings: media: mtk-vcodec: Adds decoder
+ dt-bindings for mt8192
+To: Yunfei Dong <yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,399 +61,320 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- DRI Devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>, Andi Shyti <andi@etezian.org>
+Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Irui Wang <irui.wang@mediatek.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Tzung-Bi Shih <tzungbi@chromium.org>,
+ Tomasz Figa <tfiga@google.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Tiffany Lin <tiffany.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Alexandre Courbot <acourbot@chromium.org>, srv_heupstream@mediatek.com,
+ linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 09, 2021 at 03:25:08PM +0200, Andi Shyti wrote:
-> Use to_gt() helper consistently throughout the codebase.
-> Pure mechanical s/i915->gt/to_gt(i915). No functional changes.
-> 
-> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> Cc: Michał Winiarski <michal.winiarski@intel.com>
+Reviewed-by: Steve Cho <stevecho@chromium.org>
 
-Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+On Wed, Dec 1, 2021 at 7:46 PM Yunfei Dong <yunfei.dong@mediatek.com> wrote:
+>
+> Adds decoder dt-bindings for mt8192.
 
+basic question: what is dt-bindings?
+
+Is this yaml file supposed to be used for some settings?
+
+>
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 > ---
->  drivers/gpu/drm/i915/selftests/i915_active.c  |  2 +-
->  drivers/gpu/drm/i915/selftests/i915_gem.c     |  2 +-
->  .../gpu/drm/i915/selftests/i915_gem_evict.c   |  6 ++--
->  drivers/gpu/drm/i915/selftests/i915_gem_gtt.c |  4 +--
->  drivers/gpu/drm/i915/selftests/i915_perf.c    |  2 +-
->  drivers/gpu/drm/i915/selftests/i915_request.c | 10 +++----
->  .../gpu/drm/i915/selftests/i915_selftest.c    |  4 +--
->  .../gpu/drm/i915/selftests/igt_flush_test.c   |  2 +-
->  .../gpu/drm/i915/selftests/igt_live_test.c    |  4 +--
->  .../drm/i915/selftests/intel_memory_region.c  |  4 +--
->  drivers/gpu/drm/i915/selftests/intel_uncore.c |  2 +-
->  .../gpu/drm/i915/selftests/mock_gem_device.c  | 30 +++++++++----------
->  drivers/gpu/drm/i915/selftests/mock_gtt.c     |  6 ++--
->  drivers/gpu/drm/i915/selftests/mock_uncore.c  |  2 +-
->  14 files changed, 40 insertions(+), 40 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/selftests/i915_active.c b/drivers/gpu/drm/i915/selftests/i915_active.c
-> index 61bf4560d8af..2dac9be1de58 100644
-> --- a/drivers/gpu/drm/i915/selftests/i915_active.c
-> +++ b/drivers/gpu/drm/i915/selftests/i915_active.c
-> @@ -254,7 +254,7 @@ int i915_active_live_selftests(struct drm_i915_private *i915)
->  		SUBTEST(live_active_barrier),
->  	};
->  
-> -	if (intel_gt_is_wedged(&i915->gt))
-> +	if (intel_gt_is_wedged(to_gt(i915)))
->  		return 0;
->  
->  	return i915_subtests(tests, i915);
-> diff --git a/drivers/gpu/drm/i915/selftests/i915_gem.c b/drivers/gpu/drm/i915/selftests/i915_gem.c
-> index 152d9ab135b1..b5576888cd78 100644
-> --- a/drivers/gpu/drm/i915/selftests/i915_gem.c
-> +++ b/drivers/gpu/drm/i915/selftests/i915_gem.c
-> @@ -248,7 +248,7 @@ int i915_gem_live_selftests(struct drm_i915_private *i915)
->  		SUBTEST(igt_gem_ww_ctx),
->  	};
->  
-> -	if (intel_gt_is_wedged(&i915->gt))
-> +	if (intel_gt_is_wedged(to_gt(i915)))
->  		return 0;
->  
->  	return i915_live_subtests(tests, i915);
-> diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_evict.c b/drivers/gpu/drm/i915/selftests/i915_gem_evict.c
-> index 7e0658a77659..75b709c26dd3 100644
-> --- a/drivers/gpu/drm/i915/selftests/i915_gem_evict.c
-> +++ b/drivers/gpu/drm/i915/selftests/i915_gem_evict.c
-> @@ -545,7 +545,7 @@ int i915_gem_evict_mock_selftests(void)
->  		return -ENOMEM;
->  
->  	with_intel_runtime_pm(&i915->runtime_pm, wakeref)
-> -		err = i915_subtests(tests, &i915->gt);
-> +		err = i915_subtests(tests, to_gt(i915));
->  
->  	mock_destroy_device(i915);
->  	return err;
-> @@ -557,8 +557,8 @@ int i915_gem_evict_live_selftests(struct drm_i915_private *i915)
->  		SUBTEST(igt_evict_contexts),
->  	};
->  
-> -	if (intel_gt_is_wedged(&i915->gt))
-> +	if (intel_gt_is_wedged(to_gt(i915)))
->  		return 0;
->  
-> -	return intel_gt_live_subtests(tests, &i915->gt);
-> +	return intel_gt_live_subtests(tests, to_gt(i915));
->  }
-> diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-> index 46f4236039a9..48123c3e1ff0 100644
-> --- a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-> +++ b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-> @@ -155,7 +155,7 @@ static int igt_ppgtt_alloc(void *arg)
->  	if (!HAS_PPGTT(dev_priv))
->  		return 0;
->  
-> -	ppgtt = i915_ppgtt_create(&dev_priv->gt, 0);
-> +	ppgtt = i915_ppgtt_create(to_gt(dev_priv), 0);
->  	if (IS_ERR(ppgtt))
->  		return PTR_ERR(ppgtt);
->  
-> @@ -1053,7 +1053,7 @@ static int exercise_ppgtt(struct drm_i915_private *dev_priv,
->  	if (IS_ERR(file))
->  		return PTR_ERR(file);
->  
-> -	ppgtt = i915_ppgtt_create(&dev_priv->gt, 0);
-> +	ppgtt = i915_ppgtt_create(to_gt(dev_priv), 0);
->  	if (IS_ERR(ppgtt)) {
->  		err = PTR_ERR(ppgtt);
->  		goto out_free;
-> diff --git a/drivers/gpu/drm/i915/selftests/i915_perf.c b/drivers/gpu/drm/i915/selftests/i915_perf.c
-> index 9e9a6cb1d9e5..88db2e3d81d0 100644
-> --- a/drivers/gpu/drm/i915/selftests/i915_perf.c
-> +++ b/drivers/gpu/drm/i915/selftests/i915_perf.c
-> @@ -424,7 +424,7 @@ int i915_perf_live_selftests(struct drm_i915_private *i915)
->  	if (!perf->metrics_kobj || !perf->ops.enable_metric_set)
->  		return 0;
->  
-> -	if (intel_gt_is_wedged(&i915->gt))
-> +	if (intel_gt_is_wedged(to_gt(i915)))
->  		return 0;
->  
->  	err = alloc_empty_config(&i915->perf);
-> diff --git a/drivers/gpu/drm/i915/selftests/i915_request.c b/drivers/gpu/drm/i915/selftests/i915_request.c
-> index 9979ef9197cd..92a859b34190 100644
-> --- a/drivers/gpu/drm/i915/selftests/i915_request.c
-> +++ b/drivers/gpu/drm/i915/selftests/i915_request.c
-> @@ -841,7 +841,7 @@ static struct i915_vma *empty_batch(struct drm_i915_private *i915)
->  	__i915_gem_object_flush_map(obj, 0, 64);
->  	i915_gem_object_unpin_map(obj);
->  
-> -	intel_gt_chipset_flush(&i915->gt);
-> +	intel_gt_chipset_flush(to_gt(i915));
->  
->  	vma = i915_vma_instance(obj, &i915->ggtt.vm, NULL);
->  	if (IS_ERR(vma)) {
-> @@ -982,7 +982,7 @@ static struct i915_vma *recursive_batch(struct drm_i915_private *i915)
->  	if (IS_ERR(obj))
->  		return ERR_CAST(obj);
->  
-> -	vma = i915_vma_instance(obj, i915->gt.vm, NULL);
-> +	vma = i915_vma_instance(obj, to_gt(i915)->vm, NULL);
->  	if (IS_ERR(vma)) {
->  		err = PTR_ERR(vma);
->  		goto err;
-> @@ -1014,7 +1014,7 @@ static struct i915_vma *recursive_batch(struct drm_i915_private *i915)
->  	__i915_gem_object_flush_map(obj, 0, 64);
->  	i915_gem_object_unpin_map(obj);
->  
-> -	intel_gt_chipset_flush(&i915->gt);
-> +	intel_gt_chipset_flush(to_gt(i915));
->  
->  	return vma;
->  
-> @@ -1700,7 +1700,7 @@ int i915_request_live_selftests(struct drm_i915_private *i915)
->  		SUBTEST(live_breadcrumbs_smoketest),
->  	};
->  
-> -	if (intel_gt_is_wedged(&i915->gt))
-> +	if (intel_gt_is_wedged(to_gt(i915)))
->  		return 0;
->  
->  	return i915_subtests(tests, i915);
-> @@ -3091,7 +3091,7 @@ int i915_request_perf_selftests(struct drm_i915_private *i915)
->  		SUBTEST(perf_parallel_engines),
->  	};
->  
-> -	if (intel_gt_is_wedged(&i915->gt))
-> +	if (intel_gt_is_wedged(to_gt(i915)))
->  		return 0;
->  
->  	return i915_subtests(tests, i915);
-> diff --git a/drivers/gpu/drm/i915/selftests/i915_selftest.c b/drivers/gpu/drm/i915/selftests/i915_selftest.c
-> index 484759c9409c..2d6d7bd13c3c 100644
-> --- a/drivers/gpu/drm/i915/selftests/i915_selftest.c
-> +++ b/drivers/gpu/drm/i915/selftests/i915_selftest.c
-> @@ -298,10 +298,10 @@ int __i915_live_setup(void *data)
->  	struct drm_i915_private *i915 = data;
->  
->  	/* The selftests expect an idle system */
-> -	if (intel_gt_pm_wait_for_idle(&i915->gt))
-> +	if (intel_gt_pm_wait_for_idle(to_gt(i915)))
->  		return -EIO;
->  
-> -	return intel_gt_terminally_wedged(&i915->gt);
-> +	return intel_gt_terminally_wedged(to_gt(i915));
->  }
->  
->  int __i915_live_teardown(int err, void *data)
-> diff --git a/drivers/gpu/drm/i915/selftests/igt_flush_test.c b/drivers/gpu/drm/i915/selftests/igt_flush_test.c
-> index a6c71fca61aa..b84594601d30 100644
-> --- a/drivers/gpu/drm/i915/selftests/igt_flush_test.c
-> +++ b/drivers/gpu/drm/i915/selftests/igt_flush_test.c
-> @@ -14,7 +14,7 @@
->  
->  int igt_flush_test(struct drm_i915_private *i915)
->  {
-> -	struct intel_gt *gt = &i915->gt;
-> +	struct intel_gt *gt = to_gt(i915);
->  	int ret = intel_gt_is_wedged(gt) ? -EIO : 0;
->  
->  	cond_resched();
-> diff --git a/drivers/gpu/drm/i915/selftests/igt_live_test.c b/drivers/gpu/drm/i915/selftests/igt_live_test.c
-> index 1c721542e277..72b58b66692a 100644
-> --- a/drivers/gpu/drm/i915/selftests/igt_live_test.c
-> +++ b/drivers/gpu/drm/i915/selftests/igt_live_test.c
-> @@ -16,7 +16,7 @@ int igt_live_test_begin(struct igt_live_test *t,
->  			const char *func,
->  			const char *name)
->  {
-> -	struct intel_gt *gt = &i915->gt;
-> +	struct intel_gt *gt = to_gt(i915);
->  	struct intel_engine_cs *engine;
->  	enum intel_engine_id id;
->  	int err;
-> @@ -57,7 +57,7 @@ int igt_live_test_end(struct igt_live_test *t)
->  		return -EIO;
->  	}
->  
-> -	for_each_engine(engine, &i915->gt, id) {
-> +	for_each_engine(engine, to_gt(i915), id) {
->  		if (t->reset_engine[id] ==
->  		    i915_reset_engine_count(&i915->gpu_error, engine))
->  			continue;
-> diff --git a/drivers/gpu/drm/i915/selftests/intel_memory_region.c b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
-> index 0d5df0dc7212..8255561ff853 100644
-> --- a/drivers/gpu/drm/i915/selftests/intel_memory_region.c
-> +++ b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
-> @@ -1217,7 +1217,7 @@ int intel_memory_region_live_selftests(struct drm_i915_private *i915)
->  		return 0;
->  	}
->  
-> -	if (intel_gt_is_wedged(&i915->gt))
-> +	if (intel_gt_is_wedged(to_gt(i915)))
->  		return 0;
->  
->  	return i915_live_subtests(tests, i915);
-> @@ -1229,7 +1229,7 @@ int intel_memory_region_perf_selftests(struct drm_i915_private *i915)
->  		SUBTEST(perf_memcpy),
->  	};
->  
-> -	if (intel_gt_is_wedged(&i915->gt))
-> +	if (intel_gt_is_wedged(to_gt(i915)))
->  		return 0;
->  
->  	return i915_live_subtests(tests, i915);
-> diff --git a/drivers/gpu/drm/i915/selftests/intel_uncore.c b/drivers/gpu/drm/i915/selftests/intel_uncore.c
-> index bc8128170a99..cdd196783535 100644
-> --- a/drivers/gpu/drm/i915/selftests/intel_uncore.c
-> +++ b/drivers/gpu/drm/i915/selftests/intel_uncore.c
-> @@ -344,5 +344,5 @@ int intel_uncore_live_selftests(struct drm_i915_private *i915)
->  		SUBTEST(live_forcewake_domains),
->  	};
->  
-> -	return intel_gt_live_subtests(tests, &i915->gt);
-> +	return intel_gt_live_subtests(tests, to_gt(i915));
->  }
-> diff --git a/drivers/gpu/drm/i915/selftests/mock_gem_device.c b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-> index eeb632aac4a7..8aa7b1d33865 100644
-> --- a/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-> +++ b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-> @@ -45,7 +45,7 @@
->  
->  void mock_device_flush(struct drm_i915_private *i915)
->  {
-> -	struct intel_gt *gt = &i915->gt;
-> +	struct intel_gt *gt = to_gt(i915);
->  	struct intel_engine_cs *engine;
->  	enum intel_engine_id id;
->  
-> @@ -64,7 +64,7 @@ static void mock_device_release(struct drm_device *dev)
->  		goto out;
->  
->  	mock_device_flush(i915);
-> -	intel_gt_driver_remove(&i915->gt);
-> +	intel_gt_driver_remove(to_gt(i915));
->  
->  	i915_gem_drain_workqueue(i915);
->  	i915_gem_drain_freed_objects(i915);
-> @@ -73,7 +73,7 @@ static void mock_device_release(struct drm_device *dev)
->  	destroy_workqueue(i915->wq);
->  
->  	intel_region_ttm_device_fini(i915);
-> -	intel_gt_driver_late_release(&i915->gt);
-> +	intel_gt_driver_late_release(to_gt(i915));
->  	intel_memory_regions_driver_release(i915);
->  
->  	drm_mode_config_cleanup(&i915->drm);
-> @@ -178,11 +178,11 @@ struct drm_i915_private *mock_gem_device(void)
->  	spin_lock_init(&i915->gpu_error.lock);
->  
->  	i915_gem_init__mm(i915);
-> -	intel_gt_init_early(&i915->gt, i915);
-> -	__intel_gt_init_early(&i915->gt, i915);
-> +	intel_gt_init_early(to_gt(i915), i915);
-> +	__intel_gt_init_early(to_gt(i915), i915);
->  	mock_uncore_init(&i915->uncore, i915);
-> -	atomic_inc(&i915->gt.wakeref.count); /* disable; no hw support */
-> -	i915->gt.awake = -ENODEV;
-> +	atomic_inc(&to_gt(i915)->wakeref.count); /* disable; no hw support */
-> +	to_gt(i915)->awake = -ENODEV;
->  
->  	ret = intel_region_ttm_device_init(i915);
->  	if (ret)
-> @@ -195,19 +195,19 @@ struct drm_i915_private *mock_gem_device(void)
->  	mock_init_contexts(i915);
->  
->  	mock_init_ggtt(i915, &i915->ggtt);
-> -	i915->gt.vm = i915_vm_get(&i915->ggtt.vm);
-> +	to_gt(i915)->vm = i915_vm_get(&i915->ggtt.vm);
->  
->  	mkwrite_device_info(i915)->platform_engine_mask = BIT(0);
-> -	i915->gt.info.engine_mask = BIT(0);
-> +	to_gt(i915)->info.engine_mask = BIT(0);
->  
-> -	i915->gt.engine[RCS0] = mock_engine(i915, "mock", RCS0);
-> -	if (!i915->gt.engine[RCS0])
-> +	to_gt(i915)->engine[RCS0] = mock_engine(i915, "mock", RCS0);
-> +	if (!to_gt(i915)->engine[RCS0])
->  		goto err_unlock;
->  
-> -	if (mock_engine_init(i915->gt.engine[RCS0]))
-> +	if (mock_engine_init(to_gt(i915)->engine[RCS0]))
->  		goto err_context;
->  
-> -	__clear_bit(I915_WEDGED, &i915->gt.reset.flags);
-> +	__clear_bit(I915_WEDGED, &to_gt(i915)->reset.flags);
->  	intel_engines_driver_register(i915);
->  
->  	i915->do_release = true;
-> @@ -216,13 +216,13 @@ struct drm_i915_private *mock_gem_device(void)
->  	return i915;
->  
->  err_context:
-> -	intel_gt_driver_remove(&i915->gt);
-> +	intel_gt_driver_remove(to_gt(i915));
->  err_unlock:
->  	destroy_workqueue(i915->wq);
->  err_drv:
->  	intel_region_ttm_device_fini(i915);
->  err_ttm:
-> -	intel_gt_driver_late_release(&i915->gt);
-> +	intel_gt_driver_late_release(to_gt(i915));
->  	intel_memory_regions_driver_release(i915);
->  	drm_mode_config_cleanup(&i915->drm);
->  	mock_destroy_device(i915);
-> diff --git a/drivers/gpu/drm/i915/selftests/mock_gtt.c b/drivers/gpu/drm/i915/selftests/mock_gtt.c
-> index cc047ec594f9..f0b87de0aca3 100644
-> --- a/drivers/gpu/drm/i915/selftests/mock_gtt.c
-> +++ b/drivers/gpu/drm/i915/selftests/mock_gtt.c
-> @@ -70,7 +70,7 @@ struct i915_ppgtt *mock_ppgtt(struct drm_i915_private *i915, const char *name)
->  	if (!ppgtt)
->  		return NULL;
->  
-> -	ppgtt->vm.gt = &i915->gt;
-> +	ppgtt->vm.gt = to_gt(i915);
->  	ppgtt->vm.i915 = i915;
->  	ppgtt->vm.total = round_down(U64_MAX, PAGE_SIZE);
->  	ppgtt->vm.dma = i915->drm.dev;
-> @@ -109,7 +109,7 @@ void mock_init_ggtt(struct drm_i915_private *i915, struct i915_ggtt *ggtt)
->  {
->  	memset(ggtt, 0, sizeof(*ggtt));
->  
-> -	ggtt->vm.gt = &i915->gt;
-> +	ggtt->vm.gt = to_gt(i915);
->  	ggtt->vm.i915 = i915;
->  	ggtt->vm.is_ggtt = true;
->  
-> @@ -130,7 +130,7 @@ void mock_init_ggtt(struct drm_i915_private *i915, struct i915_ggtt *ggtt)
->  	ggtt->vm.vma_ops.clear_pages = clear_pages;
->  
->  	i915_address_space_init(&ggtt->vm, VM_CLASS_GGTT);
-> -	i915->gt.ggtt = ggtt;
-> +	to_gt(i915)->ggtt = ggtt;
->  }
->  
->  void mock_fini_ggtt(struct i915_ggtt *ggtt)
-> diff --git a/drivers/gpu/drm/i915/selftests/mock_uncore.c b/drivers/gpu/drm/i915/selftests/mock_uncore.c
-> index b3790ef137e4..f2d6be5e1230 100644
-> --- a/drivers/gpu/drm/i915/selftests/mock_uncore.c
-> +++ b/drivers/gpu/drm/i915/selftests/mock_uncore.c
-> @@ -42,7 +42,7 @@ __nop_read(64)
->  void mock_uncore_init(struct intel_uncore *uncore,
->  		      struct drm_i915_private *i915)
->  {
-> -	intel_uncore_init_early(uncore, &i915->gt);
-> +	intel_uncore_init_early(uncore, to_gt(i915));
->  
->  	ASSIGN_RAW_WRITE_MMIO_VFUNCS(uncore, nop);
->  	ASSIGN_RAW_READ_MMIO_VFUNCS(uncore, nop);
-> -- 
-> 2.34.1
-> 
+>  .../media/mediatek,vcodec-subdev-decoder.yaml | 266 ++++++++++++++++++
+>  1 file changed, 266 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+> new file mode 100644
+> index 000000000000..67cbcf8b3373
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+> @@ -0,0 +1,266 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/media/mediatek,vcodec-subdev-decoder.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +
+> +title: Mediatek Video Decode Accelerator With Multi Hardware
 
--- 
-Matt Roper
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
-Intel Corporation
-(916) 356-2795
+Is Multi Hardware supposed to mean parent & child devices in this context?
+
+> +
+> +maintainers:
+> +  - Yunfei Dong <yunfei.dong@mediatek.com>
+> +
+> +description: |
+> +  Mediatek Video Decode is the video decode hardware present in Mediatek
+> +  SoCs which supports high resolution decoding functionalities. Required
+> +  parent and child device node.
+> +
+> +  About the Decoder Hardware Block Diagram, please check below:
+
+Great to see this diagram and description!
+
+
+> +
+> +    +---------------------------------+------------------------------------+
+> +    |                                 |                                    |
+> +    | input -> lat HW -> lat buffer --|--> lat buffer -> core HW -> output |
+> +    |            ||                   |                     ||             |
+> +    +------------||-------------------+---------------------||-------------+
+> +              lat workqueue           |              core workqueue     <parent>
+> +    -------------||-----------------------------------------||------------------
+> +                 ||                                         ||          <child>
+> +                 \/ <----------------HW index-------------->\/
+> +           +------------------------------------------------------+
+> +           |                    enable/disable                    |
+> +           |           clk     power    irq    iommu              |
+> +           |                 (lat/lat soc/core0/core1)            |
+> +           +------------------------------------------------------+
+> +
+> +  As above, there are parent and child devices, child mean each hardware. The child device
+> +  controls the information of each hardware independent which include clk/power/irq.
+> +
+> +  There are two workqueues in parent device: lat workqueue and core workqueue. They are used
+> +  to lat and core hardware deocder. Lat workqueue need to get input bitstream and lat buffer,
+> +  then enable lat to decode, writing the result to lat buffer, dislabe hardware when lat decode
+> +  done. Core workqueue need to get lat buffer and output buffer, then enable core to decode,
+> +  writing the result to output buffer, disable hardware when core decode done. These two
+> +  hardwares will decode each frame cyclically.
+> +
+> +  For the smi common may not the same for each hardware, can't combine all hardware in one node,
+> +  or leading to iommu fault when access dram data.
+> +
+> +properties:
+> +  compatible:
+> +    const: mediatek,mt8192-vcodec-dec
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  iommus:
+> +    minItems: 1
+> +    maxItems: 32
+> +    description: |
+> +      List of the hardware port in respective IOMMU block for current Socs.
+> +      Refer to bindings/iommu/mediatek,iommu.yaml.
+> +
+> +  mediatek,scp:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    maxItems: 1
+> +    description: |
+> +      The node of system control processor (SCP), using
+> +      the remoteproc & rpmsg framework.
+> +      $ref: /schemas/remoteproc/mtk,scp.yaml
+> +
+> +  dma-ranges:
+> +    maxItems: 1
+> +    description: |
+> +      Describes the physical address space of IOMMU maps to memory.
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 1
+> +
+> +  ranges: true
+> +
+> +# Required child node:
+> +patternProperties:
+> +  vcodec-lat:
+> +    type: object
+> +
+> +    properties:
+> +      compatible:
+> +        const: mediatek,mtk-vcodec-lat
+> +
+> +      reg:
+> +        maxItems: 1
+> +
+> +      interrupts:
+> +        maxItems: 1
+> +
+> +      iommus:
+> +        minItems: 1
+> +        maxItems: 32
+> +        description: |
+> +          List of the hardware port in respective IOMMU block for current Socs.
+> +          Refer to bindings/iommu/mediatek,iommu.yaml.
+> +
+> +      clocks:
+> +        maxItems: 5
+> +
+> +      clock-names:
+> +        items:
+> +          - const: sel
+> +          - const: soc-vdec
+> +          - const: soc-lat
+> +          - const: vdec
+> +          - const: top
+> +
+> +      assigned-clocks:
+> +        maxItems: 1
+> +
+> +      assigned-clock-parents:
+> +        maxItems: 1
+> +
+> +      power-domains:
+> +        maxItems: 1
+> +
+> +    required:
+> +      - compatible
+> +      - reg
+> +      - interrupts
+> +      - iommus
+> +      - clocks
+> +      - clock-names
+> +      - assigned-clocks
+> +      - assigned-clock-parents
+> +      - power-domains
+> +
+> +    additionalProperties: false
+> +
+> +  vcodec-core:
+> +    type: object
+> +
+> +    properties:
+> +      compatible:
+> +        const: mediatek,mtk-vcodec-core
+> +
+> +      reg:
+> +        maxItems: 1
+> +
+> +      interrupts:
+> +        maxItems: 1
+> +
+> +      iommus:
+> +        minItems: 1
+> +        maxItems: 32
+> +        description: |
+> +          List of the hardware port in respective IOMMU block for current Socs.
+> +          Refer to bindings/iommu/mediatek,iommu.yaml.
+> +
+> +      clocks:
+> +        maxItems: 5
+> +
+> +      clock-names:
+> +        items:
+> +          - const: sel
+> +          - const: soc-vdec
+> +          - const: soc-lat
+> +          - const: vdec
+> +          - const: top
+> +
+> +      assigned-clocks:
+> +        maxItems: 1
+> +
+> +      assigned-clock-parents:
+> +        maxItems: 1
+> +
+> +      power-domains:
+> +        maxItems: 1
+> +
+> +    required:
+> +      - compatible
+> +      - reg
+> +      - interrupts
+> +      - iommus
+> +      - clocks
+> +      - clock-names
+> +      - assigned-clocks
+> +      - assigned-clock-parents
+> +      - power-domains
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - iommus
+> +  - mediatek,scp
+> +  - dma-ranges
+> +  - ranges
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/memory/mt8192-larb-port.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/clock/mt8192-clk.h>
+> +    #include <dt-bindings/power/mt8192-power.h>
+> +
+> +    video-codec@16000000 {
+> +        compatible = "mediatek,mt8192-vcodec-dec";
+> +        mediatek,scp = <&scp>;
+> +        iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>;
+> +        dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
+> +        #address-cells = <1>;
+> +        #size-cells = <1>;
+> +        ranges = <0 0x16000000 0x40000>;
+> +        reg = <0x16000000 0x1000>;             /* VDEC_SYS */
+> +        vcodec-lat@10000 {
+> +            compatible = "mediatek,mtk-vcodec-lat";
+> +            reg = <0x10000 0x800>;
+> +            interrupts = <GIC_SPI 426 IRQ_TYPE_LEVEL_HIGH 0>;
+> +            iommus = <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD_EXT>,
+> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD2_EXT>,
+> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_AVC_MV_EXT>,
+> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_PRED_RD_EXT>,
+> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_TILE_EXT>,
+> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_WDMA_EXT>,
+> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_RG_CTRL_DMA_EXT>,
+> +                <&iommu0 M4U_PORT_L5_VDEC_UFO_ENC_EXT>;
+> +            clocks = <&topckgen CLK_TOP_VDEC_SEL>,
+> +                <&vdecsys_soc CLK_VDEC_SOC_VDEC>,
+> +                <&vdecsys_soc CLK_VDEC_SOC_LAT>,
+> +                <&vdecsys_soc CLK_VDEC_SOC_LARB1>,
+> +                <&topckgen CLK_TOP_MAINPLL_D4>;
+> +            clock-names = "sel", "soc-vdec", "soc-lat", "vdec", "top";
+> +            assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
+> +            assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
+> +            power-domains = <&spm MT8192_POWER_DOMAIN_VDEC>;
+> +        };
+> +
+> +        vcodec-core@25000 {
+> +            compatible = "mediatek,mtk-vcodec-core";
+> +            reg = <0x25000 0x1000>;
+> +            interrupts = <GIC_SPI 425 IRQ_TYPE_LEVEL_HIGH 0>;
+> +            iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_UFO_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_PP_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_PRED_RD_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_PRED_WR_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_PPWRAP_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_TILE_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_VLD_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_VLD2_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_AVC_MV_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_RG_CTRL_DMA_EXT>;
+> +            clocks = <&topckgen CLK_TOP_VDEC_SEL>,
+> +                <&vdecsys CLK_VDEC_VDEC>,
+> +                <&vdecsys CLK_VDEC_LAT>,
+> +                <&vdecsys CLK_VDEC_LARB1>,
+> +                <&topckgen CLK_TOP_MAINPLL_D4>;
+> +            clock-names = "sel", "soc-vdec", "soc-lat", "vdec", "top";
+> +            assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
+> +            assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
+> +            power-domains = <&spm MT8192_POWER_DOMAIN_VDEC2>;
+> +        };
+> +    };
+> --
+> 2.25.1
+>
