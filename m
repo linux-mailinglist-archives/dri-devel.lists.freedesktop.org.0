@@ -1,63 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7A3246F65B
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 23:01:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1344E46F65C
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 23:01:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DFBB10E3A0;
-	Thu,  9 Dec 2021 22:01:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52F7210E394;
+	Thu,  9 Dec 2021 22:01:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
  [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CB7A10E384
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Dec 2021 22:00:58 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id i5so12091060wrb.2
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Dec 2021 14:00:58 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E30F10E384
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Dec 2021 22:00:59 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id t18so12016150wrg.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Dec 2021 14:00:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=astier-eu.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tv97wjKw0Y8ehSCnX1x5EJHKbZ3kV1xxY26ROlCSsJc=;
- b=E51l3n8mz8vT9trm4JWzXXQ1S/pZlnP4ywxZrBSk/qbcexWSNwzP4hM6m5VcSGhkdA
- IcJsKXGFO7aXLd36bY1urLg3JNWAn00+tb4TzEwwZ4g9qLvUNRQoghIoZH+KiYnYuxiq
- awCkpdCYMfBwdfzFVczU2O75keW5LoYG4Ldc5QVOWpRNCOQPkbXEK7WJqp/7ui1GTXCF
- PipQ4HF3r2erc6CU6WMNaOAAG/SWnCx95MdW2C2UNTzAogOsQXFWXtVEAy7mLxWmc4lM
- Ws8xHGYrDL+/dhmRW6wTBl9q5r2JiV56h8qo2/XmFQwFx0SN8PCqnB/PpfmLJOnSCjXM
- ovNw==
+ bh=EBT+Bo+JugjtZ2kT7aaQIcYQDl1vT3SMacbUPRi1MAo=;
+ b=lYO2OMLCnPsA34QyK1y707HcmkT7ulqJpki5hB/a9c6SXnfYLwBPMlY8wnCZ2FMqgs
+ HKVMRvJpcm7BrKlbUxe1XjG1NfTSMRTW6H/xkret/o4yQcvZk/Q7pI6XR2enfVo8hhxe
+ sylBb7DczAwYKO5C9NNDnANBjO0OJv3CoimLQPjD3u6g2zBGxjKuOxOjygrgY69crtnN
+ 56hg0lIF81rd79EYkBk7PrBBL6+XY2xl54GP/DvNE4H644brYlCNRnp8s6KcVfdOYh5W
+ 26w3tnLG0VPN4D8gz7sXHg3mlBHhpUigOP97Ha9MTjbQT9+wceCKBKDACNJHFy4H9LYm
+ aibg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tv97wjKw0Y8ehSCnX1x5EJHKbZ3kV1xxY26ROlCSsJc=;
- b=G6+1qf6nVMI3zNyfbD5Cl/wJxaXG2gVIw6tYbkvf1l1AVqv/xqEqfeO6oZicL5vg/D
- EOoZp1TSKoNJ+BubPIPIR8kn6lEXHH7yyOAiJwMMmd7APGxujQVaHs9o35F0FhwGY7Lv
- aNyX/CvIW/o3Lq9E9Q83DZytAzDYJuU+4nStShBCVcHybGt1fK0aZqpbBhlMfOmg+uyM
- +RYr+uIZeEhyTviC5SiikH37cU4P53yfXwqD16FR6tT3jSNnreyp2R+WAhm/IlpDqJCd
- VDKZGR8pYDNKzy1BhMIPnVJ6lD1OfercEI3mtsIgFZtQU5/WjklQwwnAHm/taPnt/8ce
- 2DqA==
-X-Gm-Message-State: AOAM532fE6EBKE4mgwBiX9tD99I1sl4FvTzN6vlMDgsqWs6eVFp/5mEG
- eNqZtsIHMPvhBqrhxlA3M/QPTA==
-X-Google-Smtp-Source: ABdhPJysc/476tOkL/fANXiCgW1sFdzNgBVcB8JWFD4ZjzfGY93j1tSzWW4tqGDu5vKLR+f6vvUdbQ==
-X-Received: by 2002:adf:e702:: with SMTP id c2mr9663987wrm.586.1639087256984; 
- Thu, 09 Dec 2021 14:00:56 -0800 (PST)
+ bh=EBT+Bo+JugjtZ2kT7aaQIcYQDl1vT3SMacbUPRi1MAo=;
+ b=dPt20RygKFlmNjp7XakG6aiadHgEMKiNKeaWBZcnhIrpot6AMV/559EjSUsG/4HkNY
+ StPWs4LfJ7aOGejTmI8IOG27pWb2RQll4VnIIYOUkFX+bH2Tj2cNQOP518ym6S76sTLa
+ tUJ99VBgSltWBE67kgnI2R6QEDNds1IcdFf6Sv60m5DE9EV3BSjLMn0mrKmFd83L/Pdd
+ Xtj5NmLBoOGa+OesD1jtiXAOhNbFHEctY+jLoXHtrJkVrG6hj94q4Euc7Vtd4xxNrGPp
+ mUwGkj0k7Jz0W6sTjFxM2L99uXyMK8PD5NwDO0FtEIZEz7CgEs9a6KhJcpYmvnu+Vv/i
+ cGGg==
+X-Gm-Message-State: AOAM532BeHUEpwChwp0SzVMPXX9pbJi2x4c+YVBuyahuW/GKbHpS94GB
+ RpLFovTClUwxqaiF8j4Yk2EAKanpfaPx5A==
+X-Google-Smtp-Source: ABdhPJzgv9ob3mqrAubTfgc38gMWaKYGzAlPKe67AqpZQk/iwcpEVi9zOicF3mEr4b7xaaSkGugUXg==
+X-Received: by 2002:a05:6000:23a:: with SMTP id
+ l26mr9568813wrz.215.1639087257809; 
+ Thu, 09 Dec 2021 14:00:57 -0800 (PST)
 Received: from gpdmax.. ([2a01:e0a:28f:75b0:cf6:c90f:f3b1:89c1])
- by smtp.gmail.com with ESMTPSA id f7sm1061524wri.74.2021.12.09.14.00.56
+ by smtp.gmail.com with ESMTPSA id f7sm1061524wri.74.2021.12.09.14.00.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Dec 2021 14:00:56 -0800 (PST)
+ Thu, 09 Dec 2021 14:00:57 -0800 (PST)
 From: Anisse Astier <anisse@astier.eu>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 RESEND 1/2] drm/i915/opregion: add support for mailbox #5
- EDID
-Date: Thu,  9 Dec 2021 23:00:41 +0100
-Message-Id: <20211209220042.310848-2-anisse@astier.eu>
+Subject: [PATCH v4 RESEND 2/2] drm: Add orientation quirk for GPD Win Max
+Date: Thu,  9 Dec 2021 23:00:42 +0100
+Message-Id: <20211209220042.310848-3-anisse@astier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211209220042.310848-1-anisse@astier.eu>
 References: <20211209220042.310848-1-anisse@astier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,190 +76,31 @@ Cc: Daniel Dadap <ddadap@nvidia.com>, Jani Nikula <jani.nikula@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ACPI OpRegion Mailbox #5 ASLE extension may contain an EDID to be
-used for the embedded display. Add support for using it via by adding
-the EDID to the list of available modes on the connector, and use it for
-eDP when available.
+Panel is 800x1280, but mounted on a laptop form factor, sideways.
 
-If a panel's EDID is broken, there may be an override EDID set in the
-ACPI OpRegion mailbox #5. Use it if available.
-
-Fixes the GPD Win Max display.
-
-Based on original patch series by: Jani Nikula <jani.nikula@intel.com>
-https://patchwork.kernel.org/project/intel-gfx/patch/20200828061941.17051-1-jani.nikula@intel.com/
-
-Changes:
- - EDID is copied and validated with drm_edid_is_valid
- - EDID is now only used as a fallback.
- - squashed the two patches
-
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Uma Shankar <uma.shankar@intel.com>
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Co-developed-by: Jani Nikula <jani.nikula@intel.com>
 Signed-off-by: Anisse Astier <anisse@astier.eu>
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/gpu/drm/i915/display/intel_dp.c       |  8 +++
- drivers/gpu/drm/i915/display/intel_opregion.c | 55 ++++++++++++++++++-
- drivers/gpu/drm/i915/display/intel_opregion.h | 10 ++++
- 3 files changed, 72 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 0a424bf69396..a3c64125405e 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -4962,6 +4962,14 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
- 
- 	mutex_lock(&dev->mode_config.mutex);
- 	edid = drm_get_edid(connector, &intel_dp->aux.ddc);
-+	if (!edid) {
-+		/* Fallback to EDID from ACPI OpRegion, if any */
-+		edid = intel_opregion_get_edid(intel_connector);
-+		if (edid)
-+			drm_dbg_kms(&dev_priv->drm,
-+			            "[CONNECTOR:%d:%s] Using OpRegion EDID\n",
-+			            connector->base.id, connector->name);
-+	}
- 	if (edid) {
- 		if (drm_add_edid_modes(connector, edid)) {
- 			drm_connector_update_edid_property(connector, edid);
-diff --git a/drivers/gpu/drm/i915/display/intel_opregion.c b/drivers/gpu/drm/i915/display/intel_opregion.c
-index 0065111593a6..985790a66a4d 100644
---- a/drivers/gpu/drm/i915/display/intel_opregion.c
-+++ b/drivers/gpu/drm/i915/display/intel_opregion.c
-@@ -195,6 +195,8 @@ struct opregion_asle_ext {
- #define ASLE_IUER_WINDOWS_BTN		(1 << 1)
- #define ASLE_IUER_POWER_BTN		(1 << 0)
- 
-+#define ASLE_PHED_EDID_VALID_MASK	0x3
-+
- /* Software System Control Interrupt (SWSCI) */
- #define SWSCI_SCIC_INDICATOR		(1 << 0)
- #define SWSCI_SCIC_MAIN_FUNCTION_SHIFT	1
-@@ -908,8 +910,10 @@ int intel_opregion_setup(struct drm_i915_private *dev_priv)
- 		opregion->asle->ardy = ASLE_ARDY_NOT_READY;
- 	}
- 
--	if (mboxes & MBOX_ASLE_EXT)
-+	if (mboxes & MBOX_ASLE_EXT) {
- 		drm_dbg(&dev_priv->drm, "ASLE extension supported\n");
-+		opregion->asle_ext = base + OPREGION_ASLE_EXT_OFFSET;
-+	}
- 
- 	if (intel_load_vbt_firmware(dev_priv) == 0)
- 		goto out;
-@@ -1036,6 +1040,54 @@ intel_opregion_get_panel_type(struct drm_i915_private *dev_priv)
- 	return ret - 1;
- }
- 
-+/**
-+ * intel_opregion_get_edid - Fetch EDID from ACPI OpRegion mailbox #5
-+ * @intel_connector: eDP connector
-+ *
-+ * This reads the ACPI Opregion mailbox #5 to extract the EDID that is passed
-+ * to it.
-+ *
-+ * Returns:
-+ * The EDID in the OpRegion, or NULL if there is none or it's invalid.
-+ *
-+ */
-+struct edid *intel_opregion_get_edid(struct intel_connector *intel_connector)
-+{
-+	struct drm_connector *connector = &intel_connector->base;
-+	struct drm_i915_private *i915 = to_i915(connector->dev);
-+	struct intel_opregion *opregion = &i915->opregion;
-+	const void *in_edid;
-+	const struct edid *edid;
-+	struct edid *new_edid;
-+	int len;
-+
-+	if (!opregion->asle_ext)
-+		return NULL;
-+
-+	in_edid = opregion->asle_ext->bddc;
-+
-+	/* Validity corresponds to number of 128-byte blocks */
-+	len = (opregion->asle_ext->phed & ASLE_PHED_EDID_VALID_MASK) * 128;
-+	if (!len || !memchr_inv(in_edid, 0, len))
-+		return NULL;
-+
-+	edid = in_edid;
-+
-+	if (len < EDID_LENGTH * (1 + edid->extensions)) {
-+		drm_dbg_kms(&i915->drm, "Invalid EDID in ACPI OpRegion (Mailbox #5): too short\n");
-+		return NULL;
-+	}
-+	new_edid = drm_edid_duplicate(edid);
-+	if (!new_edid)
-+		return NULL;
-+	if (!drm_edid_is_valid(new_edid)) {
-+		kfree(new_edid);
-+		drm_dbg_kms(&i915->drm, "Invalid EDID in ACPI OpRegion (Mailbox #5)\n");
-+		return NULL;
-+	}
-+	return new_edid;
-+}
-+
- void intel_opregion_register(struct drm_i915_private *i915)
- {
- 	struct intel_opregion *opregion = &i915->opregion;
-@@ -1129,6 +1181,7 @@ void intel_opregion_unregister(struct drm_i915_private *i915)
- 	opregion->acpi = NULL;
- 	opregion->swsci = NULL;
- 	opregion->asle = NULL;
-+	opregion->asle_ext = NULL;
- 	opregion->vbt = NULL;
- 	opregion->lid_state = NULL;
- }
-diff --git a/drivers/gpu/drm/i915/display/intel_opregion.h b/drivers/gpu/drm/i915/display/intel_opregion.h
-index 4aa68ffbd30e..7ebf99b89822 100644
---- a/drivers/gpu/drm/i915/display/intel_opregion.h
-+++ b/drivers/gpu/drm/i915/display/intel_opregion.h
-@@ -29,12 +29,14 @@
- #include <linux/pci.h>
- 
- struct drm_i915_private;
-+struct intel_connector;
- struct intel_encoder;
- 
- struct opregion_header;
- struct opregion_acpi;
- struct opregion_swsci;
- struct opregion_asle;
-+struct opregion_asle_ext;
- 
- struct intel_opregion {
- 	struct opregion_header *header;
-@@ -43,6 +45,7 @@ struct intel_opregion {
- 	u32 swsci_gbda_sub_functions;
- 	u32 swsci_sbcb_sub_functions;
- 	struct opregion_asle *asle;
-+	struct opregion_asle_ext *asle_ext;
- 	void *rvda;
- 	void *vbt_firmware;
- 	const void *vbt;
-@@ -71,6 +74,7 @@ int intel_opregion_notify_encoder(struct intel_encoder *intel_encoder,
- int intel_opregion_notify_adapter(struct drm_i915_private *dev_priv,
- 				  pci_power_t state);
- int intel_opregion_get_panel_type(struct drm_i915_private *dev_priv);
-+struct edid * intel_opregion_get_edid(struct intel_connector *connector);
- 
- #else /* CONFIG_ACPI*/
- 
-@@ -117,6 +121,12 @@ static inline int intel_opregion_get_panel_type(struct drm_i915_private *dev)
- 	return -ENODEV;
- }
- 
-+static inline struct edid *
-+intel_opregion_get_edid(struct intel_connector *connector)
-+{
-+	return NULL;
-+}
-+
- #endif /* CONFIG_ACPI */
- 
- #endif
+diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+index 042bb80383c9..3dc383b1e2ba 100644
+--- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
++++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+@@ -174,6 +174,12 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "MicroPC"),
+ 		},
+ 		.driver_data = (void *)&lcd720x1280_rightside_up,
++	}, {	/* GPD Win Max */
++		.matches = {
++		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "GPD"),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "G1619-01"),
++		},
++		.driver_data = (void *)&lcd800x1280_rightside_up,
+ 	}, {	/*
+ 		 * GPD Pocket, note that the the DMI data is less generic then
+ 		 * it seems, devices with a board-vendor of "AMI Corporation"
 -- 
 2.31.1
 
