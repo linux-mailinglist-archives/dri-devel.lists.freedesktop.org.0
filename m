@@ -1,59 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B50846EEE4
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 17:59:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C65A246EFB8
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 18:02:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 289F110E166;
-	Thu,  9 Dec 2021 16:53:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8105510E2B2;
+	Thu,  9 Dec 2021 16:54:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1287589E57
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Dec 2021 15:37:44 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id r25so20423848edq.7
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Dec 2021 07:37:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=8lxkFDRMwg8pNfKVoAyUh19eKSO8wmq+MV5O7kUhYxI=;
- b=esWLlSPHynxWr5honL+GAEx/gqvDANyWuVRIgrW1bOxZBXPPpdzkngm0lr3iTi31DN
- taGQfbAYqHrKHjUhKXSMXiU9OZoBhG7h+0YIYUBmWV6MBnoEHyK72T0MJnQu93fGrQF/
- A9bXGbUTXq5mENYIV3z2bA93OHTcySlsg3LWFqGQuLj16ZIMJ5FaUHlw4jYj5dxFmFwR
- Ehh9Q9b3zbJlHwxaWmX9UNO7aREverDxv/1pcPAmXbdqyZDscw3Njt8a/fcAyp5Dm+WU
- jqsoCBAo2UnZKc9hd8Qsu2Hv+tGSaHlD31TP/LCI7md1zpzZ1o/mKBQaimhi0G8/JLby
- cEQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=8lxkFDRMwg8pNfKVoAyUh19eKSO8wmq+MV5O7kUhYxI=;
- b=OJnQKWhx9iobxKHoe2qshJYyNCeeRTi3LwBcrk5F+Q/T1fL9YqUDZRwlcMwRATHp/P
- 9iVgLsP8EeQLwe9tfJq+gtG+AzM+RFKX81cZR0RqV3KToALeFl3aoPNtOC/IWHV1Ou67
- nGdGOunInLHuj5GzfUbZ5fhOgd4oG/xCZyuX3IpOyZ6/4OTOVKXiCxQ6sc3zTYqUZcAn
- zVmoKQ8EdeGWj2HRMmAuOrA3e3s2WHPfLJJSCilEeHL9/pJDft0F0C2xmE5xm3w9Kb5l
- 1RWoDk28diiXSSxhXzsFS2yupWR0CB0y/N+0wzcw/AmxgjVa/4CKA7BQ3WtuaoglcM1O
- VB1w==
-X-Gm-Message-State: AOAM5301p1u9bIQHeN9uiGsL3Lc5BfcrgL1RL9DuQWv0gVzHgJf2giP6
- Rv8H5i9HRmLpAY0MEF7OevlNR0+mLIjJoABSpw5C43pJ6ajSLA==
-X-Google-Smtp-Source: ABdhPJyMKzJQYJxTsKbBv+y62UDyk4QFBVKlhVjI7qC3dvWq418bPqN5fQgjAP7p0KHuljU4XKmV8Y+t89+fa5Sh8eA=
-X-Received: by 2002:aa7:d0d1:: with SMTP id u17mr29711824edo.135.1639064121144; 
- Thu, 09 Dec 2021 07:35:21 -0800 (PST)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DCF010E117;
+ Thu,  9 Dec 2021 15:46:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1639064765; x=1670600765;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=KwT0VLZsoPNktxDtG/+UHKdhejWu622/NZrOQpJLTsk=;
+ b=UlqDemSW1tn66NwB/3tMoKeQCCdLavqA9zEfJSKbQNAF7U5LAQh08NvD
+ n6Us5+h3o44yUaMjqrRoMpL3nMJePAOcyvV7/b6KK6JXGdRqZKJPaJW2K
+ RjNrjppyUzDN7Bo3K0woDd2dyVLcotp6iH6Lwoven4pysMZX7wZhPPQNP
+ yRTP8n9IzF6HA4L5Oqo0QVxlSqSjmb/kNmWnr2acBhQIiJv6TQGb3LLiu
+ VoSy/XVHtnyD7gkCMvB/sdTEFjRdfQ5wSjS7SzgIAg73oY8//IIVuJyPY
+ fDDntqttHfYfQxhoR8DHA307QxQ7YR1h5XzV0fxt3oeEtovVqV9CagEKO A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10192"; a="298916789"
+X-IronPort-AV: E=Sophos;i="5.88,192,1635231600"; d="scan'208";a="298916789"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Dec 2021 07:45:52 -0800
+X-IronPort-AV: E=Sophos;i="5.88,192,1635231600"; d="scan'208";a="503535091"
+Received: from ramaling-i9x.iind.intel.com ([10.99.66.205])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Dec 2021 07:45:49 -0800
+From: Ramalingam C <ramalingam.c@intel.com>
+To: dri-devel <dri-devel@lists.freedesktop.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>
+Subject: [PATCH v4 00/16] drm/i915/dg2: Enabling 64k page size and flat ccs
+Date: Thu,  9 Dec 2021 21:15:17 +0530
+Message-Id: <20211209154533.4084-1-ramalingam.c@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <1639062321-18840-1-git-send-email-akhilrajeev@nvidia.com>
- <1639062321-18840-3-git-send-email-akhilrajeev@nvidia.com>
- <976c8d73-d137-2050-ca82-18326456c9e8@gmail.com>
-In-Reply-To: <976c8d73-d137-2050-ca82-18326456c9e8@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 9 Dec 2021 17:33:46 +0200
-Message-ID: <CAHp75VdzrT5z13qx-mMRdrS2=GrMOv87WaEPL5eoPO5cBiqjDg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] i2c: tegra: Add SMBus block read and SMBus alert
- functions
-To: Dmitry Osipenko <digetx@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,44 +55,201 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>, Akhil R <akhilrajeev@nvidia.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Jon Hunter <jonathanh@nvidia.com>,
- linaro-mm-sig@lists.linaro.org, Rob Herring <robh+dt@kernel.org>,
- Laxman Dewangan <ldewangan@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- linux-i2c <linux-i2c@vger.kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Christian Koenig <christian.koenig@amd.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Hellstrom Thomas <thomas.hellstrom@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 9, 2021 at 5:30 PM Dmitry Osipenko <digetx@gmail.com> wrote:
-> 09.12.2021 18:05, Akhil R =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > +static int tegra_i2c_setup_smbalert(struct tegra_i2c_dev *i2c_dev)
-> > +{
-> > +     struct tegra_i2c_smbalert *smbalert =3D &i2c_dev->smbalert;
-> > +     struct gpio_desc *alert_gpiod;
-> > +     struct i2c_client *ara;
-> > +
-> > +     alert_gpiod =3D devm_gpiod_get(i2c_dev->dev, "smbalert", GPIOD_IN=
-);
-> > +     if (IS_ERR(alert_gpiod))
-> > +             return PTR_ERR(alert_gpiod);
-> > +
-> > +     smbalert->alert_data.irq =3D gpiod_to_irq(alert_gpiod);
-> > +     if (smbalert->alert_data.irq <=3D 0)
-> > +             return smbalert->alert_data.irq;
->
-> 0 is the error condition.
+This series introduces the enabling patches for new memory compression
+feature Flat CCS and 64k page support for i915 local memory, along with
+documentation on the uAPI impact. Included the details of the feature and
+the implications on the uAPI below. Which is also added into
+Documentation/gpu/rfc/i915_dg2.rst
 
-I'm not sure what you implied here. gpiod_to_irq() returns 0 if and
-only if it goes to the architectures where it might be possible to
-have valid vIRQ 0, but this is not the case (at least I never heard of
-a such) for GPIO controllers on such platforms. So, looking at the
-above code I may tell that the '=3D' part is redundant.
+DG2 64K page size support:
+=========================
 
---=20
-With Best Regards,
-Andy Shevchenko
+On discrete platforms, starting from DG2, we have to contend with GTT
+page size restrictions when dealing with I915_MEMORY_CLASS_DEVICE
+objects. Specifically the hardware only supports 64K or larger GTT page
+sizes for such memory. The kernel will already ensure that all
+I915_MEMORY_CLASS_DEVICE memory is allocated using 64K or larger page
+sizes underneath.
+
+Note that the returned size here will always reflect any required
+rounding up done by the kernel, i.e 4K will now become 64K on devices
+such as DG2.
+
+Special DG2 GTT address alignment requirement:
+=============================================
+
+The GTT alignment will also need be at least 64K for such objects.
+
+Note that due to how the hardware implements 64K GTT page support, we
+have some further complications:
+
+1) The entire PDE(which covers a 2M virtual address range), must contain
+only 64K PTEs, i.e mixing 4K and 64K PTEs in the same PDE is forbidden
+by the hardware.
+
+2) We still need to support 4K PTEs for I915_MEMORY_CLASS_SYSTEM
+objects.
+
+To handle the above the kernel implements a memory coloring scheme to
+prevent userspace from mixing I915_MEMORY_CLASS_DEVICE and
+I915_MEMORY_CLASS_SYSTEM objects in the same PDE. If the kernel is ever
+unable to evict the required pages for the given PDE(different color)
+when inserting the object into the GTT then it will simply fail the
+request.
+
+Since userspace needs to manage the GTT address space themselves,
+special care is needed to ensure this doesn’t happen. The simplest
+scheme is to simply align and round up all I915_MEMORY_CLASS_DEVICE
+objects to 2M, which avoids any issues here. At the very least this is
+likely needed for objects that can be placed in both
+I915_MEMORY_CLASS_DEVICE and I915_MEMORY_CLASS_SYSTEM, to avoid
+potential issues when the kernel needs to migrate the object behind the
+scenes, since that might also involve evicting other objects.
+
+To summarise the GTT rules, on platforms like DG2:
+
+1) All objects that can be placed in I915_MEMORY_CLASS_DEVICE must have
+64K alignment. The kernel will reject this otherwise.
+
+2) All I915_MEMORY_CLASS_DEVICE objects must never be placed in the same
+PDE with other I915_MEMORY_CLASS_SYSTEM objects. The kernel will reject
+this otherwise.
+
+3) Objects that can be placed in both I915_MEMORY_CLASS_DEVICE and
+I915_MEMORY_CLASS_SYSTEM should probably be aligned and padded out to
+2M.
+
+Flat CCS support for lmem
+=========================
+On Xe-HP and later devices, we use dedicated compression control state
+(CCS) stored in local memory for each surface, to support the 3D and
+media compression formats.
+
+The memory required for the CCS of the entire local memory is 1/256 of
+the local memory size. So before the kernel boot, the required memory is
+reserved for the CCS data and a secure register will be programmed with
+the CCS base address.
+
+Flat CCS data needs to be cleared when a lmem object is allocated. And
+CCS data can be copied in and out of CCS region through
+XY_CTRL_SURF_COPY_BLT. CPU can’t access the CCS data directly.
+
+When we exaust the lmem, if the object’s placements support smem, then
+we can directly decompress the compressed lmem object into smem and
+start using it from smem itself.
+
+But when we need to swapout the compressed lmem object into a smem
+region though objects’ placement doesn’t support smem, then we copy the
+lmem content as it is into smem region along with ccs data (using
+XY_CTRL_SURF_COPY_BLT). When the object is referred, lmem content will
+be swaped in along with restoration of the CCS data (using
+XY_CTRL_SURF_COPY_BLT) at corresponding location.
+
+Flat-CCS Modifiers for different compression formats
+====================================================
+I915_FORMAT_MOD_F_TILED_DG2_RC_CCS - used to indicate the buffers of
+Flat CCS render compression formats. Though the general layout is same
+as I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS, new hashing/compression
+algorithm is used. Render compression uses 128 byte compression blocks
+
+I915_FORMAT_MOD_F_TILED_DG2_MC_CCS -used to indicate the buffers of Flat
+CCS media compression formats. Though the general layout is same as
+I915_FORMAT_MOD_Y_TILED_GEN12_MC_CCS, new hashing/compression algorithm
+is used. Media compression uses 256 byte compression blocks.
+
+I915_FORMAT_MOD_F_TILED_DG2_RC_CCS_CC - used to indicate the buffers of
+Flat CCS clear color render compression formats. Unified compression
+format for clear color render compression. The genral layout is a tiled
+layout using 4Kb tiles i.e Tile4 layout.
+
+v2:
+  Fixed some formatting issues and platform naming issues
+  Added some more documentation on Flat-CCS
+
+v3:
+  Plane programming is handled for flat-ccs and clear color
+  Tile4 and flat ccs modifier patches are rebased on table based
+    modifier reference method
+  Three patches are squashed
+  Y tile is pruned for DG2.
+  flat_ccs_cc plane format info is added
+  Added mesa, compute and media ppl for required uAPI ack.
+
+v4:
+  Rebasing of the patches
+
+
+Abdiel Janulgue (1):
+  drm/i915/lmem: Enable lmem for platforms with Flat CCS
+
+Anshuman Gupta (1):
+  drm/i915/dg2: Flat CCS Support
+
+Ayaz A Siddiqui (1):
+  drm/i915/gt: Clear compress metadata for Xe_HP platforms
+
+CQ Tang (1):
+  drm/i915/xehpsdv: Add has_flat_ccs to device info
+
+Matt Roper (1):
+  drm/i915/dg2: Add DG2 unified compression
+
+Matthew Auld (7):
+  drm/i915/xehpsdv: enforce min GTT alignment
+  drm/i915/xehpsdv: support 64K GTT pages
+  drm/i915/xehpsdv: implement memory coloring
+  drm/i915/gtt: allow overriding the pt alignment
+  drm/i915/gtt: add xehpsdv_ppgtt_insert_entry
+  drm/i915/migrate: add acceleration support for DG2
+  drm/i915/uapi: document behaviour for DG2 64K support
+
+Mika Kahola (1):
+  uapi/drm/dg2: Introduce format modifier for DG2 clear color
+
+Ramalingam C (2):
+  drm/i915/Flat-CCS: Document on Flat-CCS memory compression
+  Doc/gpu/rfc/i915: i915 DG2 uAPI
+
+Stanislav Lisovskiy (1):
+  drm/i915/dg2: Tile 4 plane format support
+
+ Documentation/gpu/rfc/i915_dg2.rst            |  32 ++
+ Documentation/gpu/rfc/index.rst               |   3 +
+ drivers/gpu/drm/i915/display/intel_display.c  |   5 +-
+ drivers/gpu/drm/i915/display/intel_fb.c       |  68 +++-
+ drivers/gpu/drm/i915/display/intel_fb.h       |   1 +
+ drivers/gpu/drm/i915/display/intel_fbc.c      |   1 +
+ .../drm/i915/display/intel_plane_initial.c    |   1 +
+ .../drm/i915/display/skl_universal_plane.c    |  75 +++-
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |  60 ++++
+ .../i915/gem/selftests/i915_gem_client_blt.c  |  23 +-
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c          | 175 ++++++++-
+ drivers/gpu/drm/i915/gt/intel_gpu_commands.h  |  14 +
+ drivers/gpu/drm/i915/gt/intel_gt.c            |  19 +
+ drivers/gpu/drm/i915/gt/intel_gt.h            |   1 +
+ drivers/gpu/drm/i915/gt/intel_gtt.c           |   9 +
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |  28 +-
+ drivers/gpu/drm/i915/gt/intel_migrate.c       | 338 ++++++++++++++++--
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c         |  17 +-
+ drivers/gpu/drm/i915/gt/intel_region_lmem.c   |  22 +-
+ drivers/gpu/drm/i915/i915_drv.h               |   3 +
+ drivers/gpu/drm/i915/i915_gem_evict.c         |  17 +
+ drivers/gpu/drm/i915/i915_pci.c               |   2 +
+ drivers/gpu/drm/i915/i915_reg.h               |   4 +
+ drivers/gpu/drm/i915/i915_vma.c               |  50 ++-
+ drivers/gpu/drm/i915/intel_device_info.h      |   2 +
+ drivers/gpu/drm/i915/intel_pm.c               |   1 +
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c |  96 +++--
+ include/uapi/drm/drm_fourcc.h                 |  41 +++
+ include/uapi/drm/i915_drm.h                   |  67 +++-
+ 29 files changed, 1040 insertions(+), 135 deletions(-)
+ create mode 100644 Documentation/gpu/rfc/i915_dg2.rst
+
+-- 
+2.20.1
+
