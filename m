@@ -1,52 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2CDA46EDBF
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 17:53:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C863746EE51
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 17:56:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 685C510E244;
-	Thu,  9 Dec 2021 16:52:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70CBB10E2F4;
+	Thu,  9 Dec 2021 16:53:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
- [IPv6:2607:f8b0:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 490A589739
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Dec 2021 05:54:22 +0000 (UTC)
-Received: by mail-pg1-x535.google.com with SMTP id q16so4111251pgq.10
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Dec 2021 21:54:22 -0800 (PST)
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
+ [IPv6:2607:f8b0:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B04A10E116
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Dec 2021 06:23:01 +0000 (UTC)
+Received: by mail-pf1-x430.google.com with SMTP id r130so4541864pfc.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Dec 2021 22:23:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=VrQSge7TRWDKkJ/NvI+IySV465glHv+ZocrZlO0KKLc=;
- b=GwxsWc9TXhDApOFEL/JXhjsV9zSbjJeT0oLyTkyB6ZihumuUGdydtg8KBz0U/BPemU
- PjDBnSYoxW96WhtWCFQwAdCivrglko3agPb3OzbCtWAbWnKytB1JimtDtnP6iU+ujBL+
- LTT9w4xm2Xv0YXmzAgJZkFs6RDlsEZ3C7BHoc=
+ bh=ZB6EumHZfLPmCBlB1+11VhhFb2CYopwmNO5zELXp+vw=;
+ b=n5dCX+a1yr/v0ySJVni9m4p2Mondq/yRCq0RnttRSxKNjQdkseZiEzzsE2LWPtcOd2
+ Moz+moSUGcCLD7tbLvK7+1KzpTRYiFolwru/SzAYIAyfkQnMbQOWyztHfrBIyCOuGSoN
+ vSyzd3Uq5WVJuq1snUUEn72FsjeLpykHWDxIw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=VrQSge7TRWDKkJ/NvI+IySV465glHv+ZocrZlO0KKLc=;
- b=bd6ZivQxnA0s2aVW6A8EdkM6Gx+H7UvFS9p2vzDRqN6z405cJlvtAFpKnA4B2CR4ay
- KsecA138pjjHwkRAni6jD+/DosMxWHL1yIIjHlWcBFnHUyZojIJwtItInP0hgfYcvZkt
- scs5dOueJ28OeUmEyEBPvtZ+FshIW4lNbFHcYc+Xpvv+86faII6ehAbK7b/sbx9tX4tZ
- YQkU+XvHL8gIrqp7rQ270hl65a1jv9p+rvDD2qEFmBZpt9g7YHBFiISMQiv5LtdFxFAG
- PQ+/XU1Db0Wuu5Jm/RutkqkFWq10DgzXF6xviud2EmdsIXt0QCz5+z8LlV5m43KzbdaK
- t+cQ==
-X-Gm-Message-State: AOAM532xO97zx0YYOMeslcfVM1piD4xTyxO6XYXb9ixN7mzu2/tnU8B8
- 6gdEvGWqPypNi6GB55DkPRKufw==
-X-Google-Smtp-Source: ABdhPJw8fMNaqi867+Q0o7P8PwLjqLLz+a8UL0QwyJXwzAIkjkGfkpnsGWaw+UK72GiByB5F9hC9CQ==
-X-Received: by 2002:a63:2212:: with SMTP id i18mr32303736pgi.586.1639029261855; 
- Wed, 08 Dec 2021 21:54:21 -0800 (PST)
+ bh=ZB6EumHZfLPmCBlB1+11VhhFb2CYopwmNO5zELXp+vw=;
+ b=PhpFBBIySiTq4B168i3OLCQrouQj0NxYoUZsvQL4aK4QqJx4oLSxEDyRtZbIn7VSYg
+ yRjpmdgA759ZHxMF/nPa5oyzQX/iK4x9yaxQf/l0fdJJtgnNwNSUAJif/x6DRdflgiLR
+ q3N6BIWWpDF60WKHHHnb6L7IoFmrsz3qOQMdlMTC7Onbfl5UiOH91/nFUn+PVMl4yH15
+ bLg2WEue+5T4cT5gliCybgsp6PfES9DkLxQ28WX4YmuXTyCC2HvJP9RILwPKVXFlY2AW
+ 8aVNWtU2dPBS/TDh9M0WL+lDFmKFm9KYAuWL7z9pyn/8jTKnTgceUltycX526yWOAqCT
+ Tc2w==
+X-Gm-Message-State: AOAM5329Re8lA7cAsE8mGP1IhczH6rVhr426yGsgDeXmdo2aikZGLLda
+ oMqbm7jI2UBiu/QLd2iSZgtqTQ==
+X-Google-Smtp-Source: ABdhPJxA46OA9bE4pj9ZiILs+26cF+O6BpoLWGmAIVpD76RtUu0B9bGNU1ILev+x50q54U/+11hxHQ==
+X-Received: by 2002:a05:6a00:1583:b0:49f:dc1c:a0fe with SMTP id
+ u3-20020a056a00158300b0049fdc1ca0femr9943229pfk.46.1639030981150; 
+ Wed, 08 Dec 2021 22:23:01 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id i185sm5416946pfg.80.2021.12.08.21.54.21
+ by smtp.gmail.com with ESMTPSA id j22sm5689636pfj.130.2021.12.08.22.23.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Dec 2021 21:54:21 -0800 (PST)
-Date: Wed, 8 Dec 2021 21:54:20 -0800
+ Wed, 08 Dec 2021 22:23:00 -0800 (PST)
+Date: Wed, 8 Dec 2021 22:23:00 -0800
 From: Kees Cook <keescook@chromium.org>
 To: Jani Nikula <jani.nikula@linux.intel.com>
 Subject: Re: [PATCH] drm/dp: Actually read Adjust Request Post Cursor2 register
-Message-ID: <202112082143.3BE8ABAE@keescook>
+Message-ID: <202112082220.81ECDC63D@keescook>
 References: <20211203084354.3105253-1-keescook@chromium.org>
  <87o85r4a4f.fsf@intel.com>
 MIME-Version: 1.0
@@ -91,13 +92,13 @@ On Wed, Dec 08, 2021 at 01:19:28PM +0200, Jani Nikula wrote:
 > Using DP_ADJUST_REQUEST_POST_CURSOR2 has been deprecated since DP 1.3
 > published in 2014, and Tegra is the only user of
 > drm_dp_get_adjust_request_post_cursor().
-> 
-> Instead of bumping the link status read size from 6 to 11 for all
-> drivers I'd much rather see some other (maybe Tegra specific) solution
-> to this.
 
-Hmmm... Well given this is currently non-functional on Tegra (and is an
-OOB memory read), how about just removing it entirely?
+I see POST_CURSOR2 is used here too:
+
+drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+
+Here's a version of that for tegra (untested):
+
 
 diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
 index 23f9073bc473..c9528aa62c9c 100644
@@ -121,16 +122,31 @@ index 23f9073bc473..c9528aa62c9c 100644
  {
  	if (rd_interval > 4)
 diff --git a/drivers/gpu/drm/tegra/dp.c b/drivers/gpu/drm/tegra/dp.c
-index 70dfb7d1dec5..bb5bfa93950f 100644
+index 70dfb7d1dec5..f5535eb04c6b 100644
 --- a/drivers/gpu/drm/tegra/dp.c
 +++ b/drivers/gpu/drm/tegra/dp.c
-@@ -559,8 +559,7 @@ static void drm_dp_link_get_adjustments(struct drm_dp_link *link,
- 			drm_dp_get_adjust_request_pre_emphasis(status, i) >>
+@@ -549,6 +549,15 @@ static void drm_dp_link_get_adjustments(struct drm_dp_link *link,
+ {
+ 	struct drm_dp_link_train_set *adjust = &link->train.adjust;
+ 	unsigned int i;
++	u8 post_cursor;
++	int err;
++
++	err = drm_dp_dpcd_read(link->aux, DP_ADJUST_REQUEST_POST_CURSOR2,
++			       &post_cursor, sizeof(post_cursor));
++	if (err < 0) {
++		DRM_ERROR("failed to read post_cursor2: %d\n", err);
++		post_cursor = 0;
++	}
+ 
+ 	for (i = 0; i < link->lanes; i++) {
+ 		adjust->voltage_swing[i] =
+@@ -560,7 +569,7 @@ static void drm_dp_link_get_adjustments(struct drm_dp_link *link,
  				DP_TRAIN_PRE_EMPHASIS_SHIFT;
  
--		adjust->post_cursor[i] =
+ 		adjust->post_cursor[i] =
 -			drm_dp_get_adjust_request_post_cursor(status, i);
-+		adjust->post_cursor[i] = 0;
++			(post_cursor >> (i << 1)) & 0x3;
  	}
  }
  
@@ -149,7 +165,7 @@ index 30359e434c3f..28378db676c8 100644
  #define DP_RECEIVER_CAP_SIZE		0xf
 
 
-Or maybe do a long link status read in Tegra only?
+Is that the right way to go?
 
 -- 
 Kees Cook
