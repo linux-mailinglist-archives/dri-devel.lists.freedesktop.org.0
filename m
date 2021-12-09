@@ -1,102 +1,130 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B929346F027
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 18:03:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF92946F025
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 18:03:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59C0A10F76C;
-	Thu,  9 Dec 2021 16:55:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A060210F723;
+	Thu,  9 Dec 2021 16:55:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2051.outbound.protection.outlook.com [40.107.243.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1125710E125
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Dec 2021 16:28:59 +0000 (UTC)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2054.outbound.protection.outlook.com [40.107.92.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44ADC10E116;
+ Thu,  9 Dec 2021 16:30:00 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KM6sFUDGZnDgtoDohH+ID6JB3eDBlLMDrjKAj8g/iA0RKrSf31ec7qrlVLHi5DC6F1CTqqUTOM4J9QcB0W/1MNYS/0TUFkREX2zLw0FfnjErJ0jPVIjxZUp2nqIBydGvLDhqnd45S7OoIyCIe+oOWZiKJFc/TfHn7P6yIHoilje58jpmyzaNw6scjbgy4il/itAUrZ6AoUMlk/4m02f6LjYQj36Uj8BHw5jxivSTpdKHKDXgWVW6tD80KQxRHAahzgBGAdnS05IRTtOK2Y0k2k/plPW0e0waTxBdozcaX5ldRaPyiJEgmAEhvqvdXW3pXoFRfAge/cJXy1L2UUq8VA==
+ b=lH1ry+rpxAHgAEiaQMP/625wJk8F6PSsg96OMy+CzoN7bnvROi19WtSn7sEiyjTB+p4lwnIxEyKcLqq6MmtyiIVdt1LQSlN4YgeeMp7zAJcSaYFD732OkNQq5wwkwUXNe2PD23y5CPo47+27CGrMKCyVz12dAqNGtz9JSj50GEe+zbZ9G2wIuEH2M00VjFLPYdxsUvG1Zfbt4Ey8HWGSd+0csnYsQvMYSwsw+ybD0wTbz44JLw/Eu9wBZxpyZHzKtmRz333HOc+VxuQpUq50FcEWKUb3/a+XytTWVOVVp50psjR3zyHaYt91oeFI1nC1jKJP6OJoRAapBun3mtmM5w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jQXtpYTz3fHgmzQCUaqieeDXe9NZ/JylikbbBgksVkc=;
- b=XMNMAfXwZoof7vTM+OvwoVwrkqqZX4u1CttJM5BvAqd0dRDEonkPWA8YgugvfdPxAscoMwj0+ttdx+suy2y3H254F+8/V45ZjTJNB8c0fyKES3vfp53Khqj7+vNYuyBmWS3/PcRzU8iRnyzT6tg4OOKvJS5n1LLY7AOqw0oRZxOHk49ugVgBaMuTQZkrqAPhTvOpDyCbUhQ+hhK02er/Un6J4V8Ioq2FtiIsiQnbje89De32of5an7OIEusbBY8R9KpQfl7eDrxNfiK/1i0XvHbrLLrWBqj7O5tAIwtOHf8MjRF01iYKJC1+TKx2oKp4xJ2lsnVh0UWrqbkOmzFUdQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 203.18.50.13) smtp.rcpttodomain=amd.com smtp.mailfrom=nvidia.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ bh=Z/EJXld3TPW0y+6tVhnUMJaavQGPrfQof/h9xPCEuHw=;
+ b=cSkttlSC08z2Mcu51eFyJSGBCgR7f61UczcpW0dT2xpyVvETnb5XCjGbB2IIgcUP7mqbcnvnBDA5GK6TVw2kcV4qxrp+UICirxYPpP1kpiYC1OPmpT8uUHIUR1bJZxpnKKwLMUaKuf9oKL6WwKtOINV7vfXL0VXSrD9F8GkTUmJ3cd14PRiv4mxLQzjygm4fq3ROa4iLf58w1DiygsHSWB+OmcTW2Y0sEH+V+ataKVxa/PAn+i99d7RWQ9O5wUai834DwzW5VdAqc2mq6XG0FdNKWCdfIdJPGZ8ZshnEHUQ89Mw2wBKJtLO2NlLIYxF2YyHpY2K90PWEO6gtV8p9Hg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jQXtpYTz3fHgmzQCUaqieeDXe9NZ/JylikbbBgksVkc=;
- b=Gb+u6d7id6oizkAzbRuS/mCbzeP6EtyqJCm8kFah9TycIvUmamglg0MZliYmEr6ciVeNymOz89pA3CS1PTN7wR/tp1U1DNsIDLamJ/yOUO3KzGe3XY5vAuVAsGBtLbIdAoNIxdI7VzMfAdRmj74CVBvuJdekboUE3aIW6v6hPMcdvuzAPts/hJL8pPoSG9f98cLX7y0exoJivFvTfNWJvcWW4/Q+ZqLGGo0d8NtWkvGQr2HC6F6vKpQmk2rnv3MPm/KwgJtbgBbOXMMtEcFzoVIuwVUERD9GdR/+RzY4In28rAoJ5L4Ler5G701KvJCraYJBQ6qkgLB4ih9ou0Y6GA==
-Received: from MW4PR03CA0251.namprd03.prod.outlook.com (2603:10b6:303:b4::16)
- by CH0PR12MB5140.namprd12.prod.outlook.com (2603:10b6:610:bf::5) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=Z/EJXld3TPW0y+6tVhnUMJaavQGPrfQof/h9xPCEuHw=;
+ b=2c72bjIdpvHXdsWDF88oZcwYhXbCfb16dinfKlzJFv9cUV58eyEmJcvMcLreS/ESG485GyUWP9T3cZm4g/A/9XBWW0wqmb17cQbVUQDHb7gHSfDabGLIdBG6pdn7Z76/L7NAh7VEgDXfRnGky8IOqAc4S0BsQH09dPlq/S6b4rM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
+ by BN9PR12MB5113.namprd12.prod.outlook.com (2603:10b6:408:136::17)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.21; Thu, 9 Dec
- 2021 16:28:56 +0000
-Received: from CO1NAM11FT034.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:b4:cafe::26) by MW4PR03CA0251.outlook.office365.com
- (2603:10b6:303:b4::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.21 via Frontend
- Transport; Thu, 9 Dec 2021 16:28:56 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 203.18.50.13)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 203.18.50.13 as permitted sender) receiver=protection.outlook.com;
- client-ip=203.18.50.13; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (203.18.50.13) by
- CO1NAM11FT034.mail.protection.outlook.com (10.13.174.248) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4755.13 via Frontend Transport; Thu, 9 Dec 2021 16:28:56 +0000
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HKMAIL102.nvidia.com
- (10.18.16.11) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Thu, 9 Dec
- 2021 16:28:54 +0000
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Thu, 9 Dec
- 2021 16:28:52 +0000
-Received: from kyarlagadda-linux.nvidia.com (172.20.187.6) by mail.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server id 15.0.1497.18 via
- Frontend Transport; Thu, 9 Dec 2021 16:28:48 +0000
-From: Akhil R <akhilrajeev@nvidia.com>
-To: <andy.shevchenko@gmail.com>, <christian.koenig@amd.com>,
- <digetx@gmail.com>, <dri-devel@lists.freedesktop.org>,
- <jonathanh@nvidia.com>, <ldewangan@nvidia.com>,
- <linaro-mm-sig@lists.linaro.org>, <linux-i2c@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
- <linux-tegra@vger.kernel.org>, <p.zabel@pengutronix.de>,
- <sumit.semwal@linaro.org>, <thierry.reding@gmail.com>
-Subject: [PATCH v2] i2c: tegra: use i2c_timings for bus clock freq
-Date: Thu, 9 Dec 2021 21:58:38 +0530
-Message-ID: <1639067318-29014-1-git-send-email-akhilrajeev@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-X-NVConfidentiality: public
+ 2021 16:29:57 +0000
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::9dfe:ccc6:102c:5300]) by BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::9dfe:ccc6:102c:5300%7]) with mapi id 15.20.4755.022; Thu, 9 Dec 2021
+ 16:29:57 +0000
+Subject: Re: [PATCH v2 03/11] mm/gup: migrate PIN_LONGTERM dev coherent pages
+ to system
+To: Alistair Popple <apopple@nvidia.com>, akpm@linux-foundation.org,
+ linux-mm@kvack.org, rcampbell@nvidia.com, linux-ext4@vger.kernel.org,
+ linux-xfs@vger.kernel.org,
+ "Sierra Guiza, Alejandro (Alex)" <alex.sierra@amd.com>
+References: <20211206185251.20646-1-alex.sierra@amd.com>
+ <2b996383-ebe6-e9d8-d794-58ecfd4a16e8@amd.com>
+ <3f8a48d6-7ee7-fb30-5942-29054c34aac5@amd.com> <2497746.4npHOaMrmn@nvdebian>
+From: Felix Kuehling <felix.kuehling@amd.com>
+Message-ID: <b9163ccc-829e-9939-8177-a66ab41187e7@amd.com>
+Date: Thu, 9 Dec 2021 11:29:55 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+In-Reply-To: <2497746.4npHOaMrmn@nvdebian>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-ClientProxiedBy: YTXPR0101CA0052.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:1::29) To BN9PR12MB5115.namprd12.prod.outlook.com
+ (2603:10b6:408:118::14)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
+Received: from [192.168.2.100] (142.127.191.123) by
+ YTXPR0101CA0052.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:1::29) with
+ Microsoft SMTP Server (version=TLS1_2, cipher=) via Frontend Transport;
+ Thu, 9 Dec 2021 16:29:56 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d8b3e4d9-cf3d-4d60-18b6-08d9bb30ff30
-X-MS-TrafficTypeDiagnostic: CH0PR12MB5140:EE_
-X-Microsoft-Antispam-PRVS: <CH0PR12MB51405EF26321E114AFE9895EC0709@CH0PR12MB5140.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:513;
+X-MS-Office365-Filtering-Correlation-Id: 9576076e-7b12-4803-0bd5-08d9bb312386
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5113:EE_
+X-Microsoft-Antispam-PRVS: <BN9PR12MB51136402E1795826BDEADD4492709@BN9PR12MB5113.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Mn/ETjGNYkBtbcb/HJilpXXXI1zIBUX2qh5MjKCesbIZsfL2COg3tLOrLhNTB7dl1KkwAAcC2EyO+fCtX2hSgZ1bPkQ5QIN+GljoIjnFCpMGWo0IYaRhvG04QWdK/G5TnhtEgzWY9Oku6lEH9pR8NPzn2UGPEnF9pri7AtCGfKl88BH47rwJt1iNtfPQ2VFpdx4tAteF44Pp1ROl9AxKY4Qs2HuP14Q6QorC8gohvuYE/Xp+afubMSa5F+7di5aGYWvIL/9GtiFcCZuSAUIQFuUzAti4O/J2urzAYztr3ozNU5HtnYu4yPTyEQbBvYV+p7BLHRykrPjj37vxNdps90MZbTo3yruBrYYAs7UYdyUTqDPqoH8OjzEWuwyJzTTcEvisb2zahKPzSTZBWhHzwQ3SdGotDiW3tZqe0BrrJzwZTJ9o0qC82L+gE1WjQpFXfbBY9Ge3AiqOkHETR0sgfhjefbFi9mVTGW4HgTyxtybOnVgUZnyo6rtbnVCOn2wUQiJ/0cneuenJ4a+S31OKDEz8F6TKKhue5UwKii3A5ya0zsJrpUy1eOxUkPExli0VC9vNBAKniXPiNdQJrvCeNV9T87pIlTOX+r2GOZeuGJ4C+/gTzUSCaQSt6xxmOBUKRayEYBfLT2JtKCnrjG2rLLrpFi3sBQAOVo1SilpKZd/LUu/Ct0nm0QoqoSx1IhkeIB1a/sxK13UeKIr00W0Zt1RqFxI2BF1rFuDCCRkDqSHnSrT26VlqqZ6+G6PP/QS4UqkxDDrNNIY4hCcyImiOETIwABqYaa+TEYnBWgUT6JvUCOlTzfA0atKLlVkiZxtO4M1hsWVofWM3cuhvCMbnz9mdp/BzfnA9MBlI4Mu9UMM=
-X-Forefront-Antispam-Report: CIP:203.18.50.13; CTRY:HK; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:hkhybrid02.nvidia.com; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(40470700001)(107886003)(316002)(7416002)(8936002)(26005)(2906002)(82310400004)(110136005)(4326008)(7696005)(36860700001)(34020700004)(83380400001)(36756003)(356005)(40460700001)(47076005)(7636003)(2616005)(5660300002)(86362001)(8676002)(921005)(508600001)(336012)(6666004)(426003)(70206006)(70586007)(186003)(2101003)(83996005);
+X-Microsoft-Antispam-Message-Info: RMFHwQ6ecnc3wSIiyVbu+rDd1MLTtmnsn+MXhb7Lwxc8ZtKEakjUhFtZN12RlWn751paZU3s4A8tnc1aMeZdmxZQSZ+xg5c4O7W5FEbqtoiCZBhCib1vJ92Wt3XAV9Jmm99erV6DjCCO4R5VlvloNFniORoHmHYxUyRIy8CdOoSzGG/8B7Qny7CJrsu/a3IP6NzjIjf/nKJ9GZ8keFNeIJxBhm8/2tXM11m6PINEnKJXRDpaBK1OXJtuZIRJTyq5cEVABNE1VzN/y/URkvkmTYyTLhP0TPdYjXffuAKUYDryltuuHedTQAlwaviSNjanEuUGoa5UEmWIIZUJOIFTSOhn6pRIOj8RjTNdaLQgiyESYn0yqBOamWh5sfcpmooIpefxzpWEAryo+pPTOeIKGvr2qLticvkpHpymtYk6N8cyZ86x2vgyLkzTJrz21ccr/8RVOrlwnctqja8KSfScAbewvrMSz+4llZHgrFRtXMNsbcTCa4QyFurVV1Ns+9atClxPY5uQzasOYaypvGc5WN9FvxF37Z5sF3Ck4nyvslKoXNAA0nD8bPtDzifXLrp5ISqzmxcKX2k71xRLlh1uafbKt92EkfICCqWVEU6JuWGY4blFlQT8Qi2jG9LY8z759qp7J4xMk1tEz6+N7JrdAfuh6ZDcJ0tIzfxptmwOpuNRf3Sr61wXcXMXBbGWPyNPESN/tBsnPYYAL7NsEN6qNcMEc+fI8tHVciJ/fQgDEV1exW72CHK3AAMkgxSqTP5Z
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(316002)(508600001)(53546011)(66476007)(5660300002)(186003)(36756003)(26005)(86362001)(7416002)(31696002)(16576012)(110136005)(956004)(83380400001)(38100700002)(44832011)(6486002)(6636002)(66946007)(2616005)(4326008)(66556008)(8676002)(8936002)(2906002)(31686004)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2021 16:28:56.0365 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d8b3e4d9-cf3d-4d60-18b6-08d9bb30ff30
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[203.18.50.13];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT034.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5140
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VEt6U2F0YW5zZjQrNmI0VXdOMHpEdlB3VEJsSFBrdG9lcmZ0Um1yQmptMTlW?=
+ =?utf-8?B?aUJ1aHRCYVROVno4WVVHOUFDWjdhWlRBSGlJd3YrMUdzYWc2R0lkcVpraFJm?=
+ =?utf-8?B?NDg4Mmd0WDduWmw0SlRTQUxFTHlCb0dNS0FWaEdBclFqWmlMVkp4MlNpWTJv?=
+ =?utf-8?B?YjBiMm5XNjRtT0laUVphU2xHMXRGNGxyYkxFZlYxMUw5ZllBV3BqWCs0L1Vi?=
+ =?utf-8?B?NEZUblFFZVZES3ZCSXZvQTlaNDltUjJQNktWdnZvWVMyS3JObC9jcFQwL3g1?=
+ =?utf-8?B?blFGVnpwcWtNYU0zSEdDREd1TGVIenljOFZId2Q1OFh2WkJQM2xKSkNTalUx?=
+ =?utf-8?B?UDJvZE84OXlLL3FwNkpzTTJYSXFGQnNVQTE0L25tdHRhdEs0ZGVKdUlRVE5G?=
+ =?utf-8?B?MGU4NEVwSU1ET0xiSmdNMERYaVQ2Rm1xTkxkbXdaSmFUVytwMDVQdzdYdEhP?=
+ =?utf-8?B?Q0xqQnd3N1hHamJhZ0pzbzlJRkRTY0NCVVk1WEpaTDFBaWZ6djlXR2ZjTWhF?=
+ =?utf-8?B?Wm0xMkR0QTRMVXFIV3o2YUJUKzM5KzhETU5ySXI5ZE9SSzNSQUNVc3ZncGdj?=
+ =?utf-8?B?eWhGRHhWdEMxMUdnbDdmTUozREdJSVNmYW1wcXJ3STFqL3I0Qmp3cGhTYjZ3?=
+ =?utf-8?B?cS90bWl3UGNjRVlicWtZTjFYblJ3ZHYybnAza0t3clAvRjluUFA5dldxZlZD?=
+ =?utf-8?B?RTE4STNlaTVKd2JXZ081eW1MQ1lFZEdlZjRJWXVsS290QURhb1c4c1h6NVp4?=
+ =?utf-8?B?V0x2R3IvRVdseXlXYkNwMFJteHJ6R043bHpDdy9WM3loZkYvWVZuRDMzTTVY?=
+ =?utf-8?B?MmJYRE5YR21QaVorYjBjZVBFU1JNaitIR29JcHNwenZ1VStXaGpSZWU2M0Mv?=
+ =?utf-8?B?TWh5VjVOTDZraXZYZ1V5WDBlWDQ5Z0JSMjdWZE05ajh6OVY1YmcrZ29MckJT?=
+ =?utf-8?B?YlpUSVNpdWJGdjFYakpScStQaWowNFhoaStwSTdhVStqUUVxRDJwS0JrZEhk?=
+ =?utf-8?B?anJxYWZJS09SbUwrNEVSalJ0TEdZVnlyV05ldi9PT1BFNHhVUHZlZmRrSlcv?=
+ =?utf-8?B?dzEzS3VqNUo4UG9Qd2lPb3lnNXZxMUl6R0lBOEpnMEJ6WHI0WXBZWHU3c3RZ?=
+ =?utf-8?B?OFErckdNVjZEZkFIcUp5dmtuKzdIcDlhL0hYZTZRbmx1eFFMV1ArcnI0T2JN?=
+ =?utf-8?B?dkFZWHZ2Ky9vWGI1OTJZVkVIRzNoVmdWK3NtMDBYSmZpVjdZQlRYVWNyRTM3?=
+ =?utf-8?B?QWYvTGFYaERGVHVCd2NkNUo2NlhxUndBcGtTbE45aUVpQndUakUyM2QwdTV1?=
+ =?utf-8?B?aXB2MUUzckZ3VmJLVEFHZ0s1UG1NOENSQ2hHYVhJV3hOSjVSdVlFbGhudzly?=
+ =?utf-8?B?WTFDTVlwbjdReDBoWm0vbERpdFMvWkVMRFIyMmk2Wi9ocXRRWTF3VDNEd2JY?=
+ =?utf-8?B?UXBQMmJKbmk1NzVQV0lLZ2xSL2U3ZXhRT0NVbXlpR2JWbmkrR253UmZiUC9H?=
+ =?utf-8?B?NTE2QndGYXcvVlRheGlzdit4SjRZeVhGRnJFZFg3Q2RSZkgyaE91MG9wYktI?=
+ =?utf-8?B?eHZsWGdwbUw2ckxhSWlmVmVzSnNrUnFMNVZlejFTU1Y5VmNVY1R0NlZFTng1?=
+ =?utf-8?B?WWxIN205YXdrdHV0ZEdSZlU2alR0cVJjR3c1a21kOE5nanNjd2wyMXlFUWRl?=
+ =?utf-8?B?enVvNUo0dE1MNGFVaDI3MVM3NUdOS2Fxa2s3YjZCcTUvV0ZjakdPOFlONXpv?=
+ =?utf-8?B?QmZHaUxQeGY1bjRZTXI2aGM1VDJRd2hsYnlleVRCanZmVnRJZXI1aVk5S01U?=
+ =?utf-8?B?NXhKSnVFa0JNVEt2UU9ubTRQUE5JRHI3UUVjTEVKcSs3S1haR3VYc0t5cTVi?=
+ =?utf-8?B?NmNWaWErMEh4WVl6d25FaC9VN0pGZkdzSW5BdHErNXdWazJNR3AvOHY3OE5S?=
+ =?utf-8?B?RkZ6NkFhb2lORVh0U0Zwb3NLMXdXMVE1ZEo5Rk5DdS9SN3NhWUhGMDdadUVB?=
+ =?utf-8?B?RUZDS3B0dmcwNFpOOVNCOXFPWm41cVZJRUxxUkJFZk1iaDVjQ0sxRDJ1K1dO?=
+ =?utf-8?B?MmhuakkwODdBVTUzRGk2aFp2MllJTUt0aE1aRC9iZGNheDQ3U2s4a09tQkIr?=
+ =?utf-8?B?QmUxc0dyK0ZhU1E1anR6bm51Vi9zOTUwSitreDVPRWhaNWhpNmlCSFpVNnpO?=
+ =?utf-8?Q?CosaqJvkK41WNeKsGR94VcQ=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9576076e-7b12-4803-0bd5-08d9bb312386
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2021 16:29:57.4858 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mDIbPRNKTM5PNMH2bBTRHdTr0trcorGFcQ9GPyI0Zhz75695PAI90phsXiwzL4tgLkZyS2vDd8qGqaaZKurQ8Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5113
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,107 +137,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: akhilrajeev@nvidia.com
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ jglisse@redhat.com, willy@infradead.org, jgg@nvidia.com, hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use i2c_timings struct and corresponding methods to get bus clock frequency
+Am 2021-12-09 um 5:53 a.m. schrieb Alistair Popple:
+> On Thursday, 9 December 2021 5:55:26 AM AEDT Sierra Guiza, Alejandro (Alex) wrote:
+>> On 12/8/2021 11:30 AM, Felix Kuehling wrote:
+>>> Am 2021-12-08 um 11:58 a.m. schrieb Felix Kuehling:
+>>>> Am 2021-12-08 um 6:31 a.m. schrieb Alistair Popple:
+>>>>> On Tuesday, 7 December 2021 5:52:43 AM AEDT Alex Sierra wrote:
+>>>>>> Avoid long term pinning for Coherent device type pages. This could
+>>>>>> interfere with their own device memory manager.
+>>>>>> If caller tries to get user device coherent pages with PIN_LONGTERM flag
+>>>>>> set, those pages will be migrated back to system memory.
+>>>>>>
+>>>>>> Signed-off-by: Alex Sierra <alex.sierra@amd.com>
+>>>>>> ---
+>>>>>>   mm/gup.c | 32 ++++++++++++++++++++++++++++++--
+>>>>>>   1 file changed, 30 insertions(+), 2 deletions(-)
+>>>>>>
+>>>>>> diff --git a/mm/gup.c b/mm/gup.c
+>>>>>> index 886d6148d3d0..1572eacf07f4 100644
+>>>>>> --- a/mm/gup.c
+>>>>>> +++ b/mm/gup.c
+>>>>>> @@ -1689,17 +1689,37 @@ struct page *get_dump_page(unsigned long addr)
+>>>>>>   #endif /* CONFIG_ELF_CORE */
+>>>>>>   
+>>>>>>   #ifdef CONFIG_MIGRATION
+>>>>>> +static int migrate_device_page(unsigned long address,
+>>>>>> +				struct page *page)
+>>>>>> +{
+>>>>>> +	struct vm_area_struct *vma = find_vma(current->mm, address);
+>>>>>> +	struct vm_fault vmf = {
+>>>>>> +		.vma = vma,
+>>>>>> +		.address = address & PAGE_MASK,
+>>>>>> +		.flags = FAULT_FLAG_USER,
+>>>>>> +		.pgoff = linear_page_index(vma, address),
+>>>>>> +		.gfp_mask = GFP_KERNEL,
+>>>>>> +		.page = page,
+>>>>>> +	};
+>>>>>> +	if (page->pgmap && page->pgmap->ops->migrate_to_ram)
+>>>>>> +		return page->pgmap->ops->migrate_to_ram(&vmf);
+>>>>> How does this synchronise against pgmap being released? As I understand things
+>>>>> at this point we're not holding a reference on either the page or pgmap, so
+>>>>> the page and therefore the pgmap may have been freed.
+>>>>>
+>>>>> I think a similar problem exists for device private fault handling as well and
+>>>>> it has been on my list of things to fix for a while. I think the solution is to
+>>>>> call try_get_page(), except it doesn't work with device pages due to the whole
+>>>>> refcount thing. That issue is blocking a fair bit of work now so I've started
+>>>>> looking into it.
+>>>> At least the page should have been pinned by the __get_user_pages_locked
+>>>> call in __gup_longterm_locked. That refcount is dropped in
+>>>> check_and_migrate_movable_pages when it returns 0 or an error.
+>>> Never mind. We unpin the pages first. Alex, would the migration work if
+>>> we unpinned them afterwards? Also, the normal CPU page fault code path
+>>> seems to make sure the page is locked (check in pfn_swap_entry_to_page)
+>>> before calling migrate_to_ram.
+> I don't think that's true. The check in pfn_swap_entry_to_page() is only for
+> migration entries:
+>
+> 	BUG_ON(is_migration_entry(entry) && !PageLocked(p));
+>
+> As this is coherent memory though why do we have to call into a device driver
+> to do the migration? Couldn't this all be done in the kernel?
 
-Signed-off-by: Akhil R <akhilrajeev@nvidia.com>
-Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
----
- drivers/i2c/busses/i2c-tegra.c | 20 +++++++++-----------
- 1 file changed, 9 insertions(+), 11 deletions(-)
+I think you're right. I hadn't thought of that mainly because I'm even
+less familiar with the non-device migration code. Alex, can you give
+that a try? As long as the driver still gets a page-free callback when
+the device page is freed, it should work.
 
-v1->v2: Added temp var for i2c_timings struct in function.
+Regards,
+  Felix
 
-diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
-index a5be8f0..4cbe89b 100644
---- a/drivers/i2c/busses/i2c-tegra.c
-+++ b/drivers/i2c/busses/i2c-tegra.c
-@@ -246,7 +246,7 @@ struct tegra_i2c_hw_feature {
-  * @msg_buf: pointer to current message data
-  * @msg_buf_remaining: size of unsent data in the message buffer
-  * @msg_read: indicates that the transfer is a read access
-- * @bus_clk_rate: current I2C bus clock rate
-+ * @timings: i2c timings information like bus frequency
-  * @multimaster_mode: indicates that I2C controller is in multi-master mode
-  * @tx_dma_chan: DMA transmit channel
-  * @rx_dma_chan: DMA receive channel
-@@ -273,7 +273,7 @@ struct tegra_i2c_dev {
- 	unsigned int nclocks;
- 
- 	struct clk *div_clk;
--	u32 bus_clk_rate;
-+	struct i2c_timings timings;
- 
- 	struct completion msg_complete;
- 	size_t msg_buf_remaining;
-@@ -610,6 +610,7 @@ static int tegra_i2c_init(struct tegra_i2c_dev *i2c_dev)
- {
- 	u32 val, clk_divisor, clk_multiplier, tsu_thd, tlow, thigh, non_hs_mode;
- 	acpi_handle handle = ACPI_HANDLE(i2c_dev->dev);
-+	struct i2c_timings *t = &i2c_dev->timings;
- 	int err;
- 
- 	/*
-@@ -642,14 +643,14 @@ static int tegra_i2c_init(struct tegra_i2c_dev *i2c_dev)
- 	if (i2c_dev->is_vi)
- 		tegra_i2c_vi_init(i2c_dev);
- 
--	switch (i2c_dev->bus_clk_rate) {
-+	switch (t->bus_freq_hz) {
- 	case I2C_MAX_STANDARD_MODE_FREQ + 1 ... I2C_MAX_FAST_MODE_PLUS_FREQ:
- 	default:
- 		tlow = i2c_dev->hw->tlow_fast_fastplus_mode;
- 		thigh = i2c_dev->hw->thigh_fast_fastplus_mode;
- 		tsu_thd = i2c_dev->hw->setup_hold_time_fast_fast_plus_mode;
- 
--		if (i2c_dev->bus_clk_rate > I2C_MAX_FAST_MODE_FREQ)
-+		if (t->bus_freq_hz > I2C_MAX_FAST_MODE_FREQ)
- 			non_hs_mode = i2c_dev->hw->clk_divisor_fast_plus_mode;
- 		else
- 			non_hs_mode = i2c_dev->hw->clk_divisor_fast_mode;
-@@ -685,7 +686,7 @@ static int tegra_i2c_init(struct tegra_i2c_dev *i2c_dev)
- 	clk_multiplier = (tlow + thigh + 2) * (non_hs_mode + 1);
- 
- 	err = clk_set_rate(i2c_dev->div_clk,
--			   i2c_dev->bus_clk_rate * clk_multiplier);
-+			   t->bus_freq_hz * clk_multiplier);
- 	if (err) {
- 		dev_err(i2c_dev->dev, "failed to set div-clk rate: %d\n", err);
- 		return err;
-@@ -724,7 +725,7 @@ static int tegra_i2c_disable_packet_mode(struct tegra_i2c_dev *i2c_dev)
- 	 * before disabling the controller so that the STOP condition has
- 	 * been delivered properly.
- 	 */
--	udelay(DIV_ROUND_UP(2 * 1000000, i2c_dev->bus_clk_rate));
-+	udelay(DIV_ROUND_UP(2 * 1000000, i2c_dev->timings.bus_freq_hz));
- 
- 	cnfg = i2c_readl(i2c_dev, I2C_CNFG);
- 	if (cnfg & I2C_CNFG_PACKET_MODE_EN)
-@@ -1254,7 +1255,7 @@ static int tegra_i2c_xfer_msg(struct tegra_i2c_dev *i2c_dev,
- 	 * Total bits = 9 bits per byte (including ACK bit) + Start & stop bits
- 	 */
- 	xfer_time += DIV_ROUND_CLOSEST(((xfer_size * 9) + 2) * MSEC_PER_SEC,
--				       i2c_dev->bus_clk_rate);
-+				       i2c_dev->timings.bus_freq_hz);
- 
- 	int_mask = I2C_INT_NO_ACK | I2C_INT_ARBITRATION_LOST;
- 	tegra_i2c_unmask_irq(i2c_dev, int_mask);
-@@ -1633,10 +1634,7 @@ static void tegra_i2c_parse_dt(struct tegra_i2c_dev *i2c_dev)
- 	bool multi_mode;
- 	int err;
- 
--	err = device_property_read_u32(i2c_dev->dev, "clock-frequency",
--				       &i2c_dev->bus_clk_rate);
--	if (err)
--		i2c_dev->bus_clk_rate = I2C_MAX_STANDARD_MODE_FREQ;
-+	i2c_parse_fw_timings(i2c_dev->dev, &i2c_dev->timings, true);
- 
- 	multi_mode = device_property_read_bool(i2c_dev->dev, "multi-master");
- 	i2c_dev->multimaster_mode = multi_mode;
--- 
-2.7.4
 
+>
+>> No, you can not unpinned after migration. Due to the expected_count VS 
+>> page_count condition at migrate_page_move_mapping, during migrate_page call.
+>>
+>> Regards,
+>> Alex Sierra
+>>
+>>> Regards,
+>>>    Felix
+>>>
+>>>
+>
+>
