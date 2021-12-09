@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7284146EE83
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 17:57:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A67746EE3B
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 17:55:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9528B10E7DF;
-	Thu,  9 Dec 2021 16:53:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5750B10E30B;
+	Thu,  9 Dec 2021 16:53:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45AB810E116
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Dec 2021 07:05:01 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id g14so15997818edb.8
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Dec 2021 23:05:01 -0800 (PST)
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46ABC10E116
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Dec 2021 07:07:45 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id v1so16425489edx.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Dec 2021 23:07:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qVU5Loc6hksTp1952+Z9jZgUOebCMuiLV3i1M3R7u/E=;
- b=doCHp4Kq4AF0PDScixlzQBJCNH1ws9hIs0ub9VwDZ7mR1+4izBKgBN6KpNRnn4ze/w
- cn8RnXEueo697Yc6vv1gsXrMQ6UKLY+DG1D9BV3CtbF087/zxc6emw9SSMs1R2tYf7+1
- oVZoeQ7t7MUfIBddhgEer2OLv2//p/ANqVB08=
+ :cc; bh=NW4Te5KT8RywZLAuo2ZfeBAFffXT3U9YKMlaGLK1mhI=;
+ b=Q88N14t0tBnLbGIq3e/NPlPtuFANXa6rJURj0gRGgPqfSaOB7tSEOPqld30GzxDv81
+ aBOxp2GhUcyBkaqNfZNn4E6drFm2t1GtRxN4Ms78Qz0eaoptMOVuJYloQZg0F+bI77ZF
+ N94SB4kUcC8W86uXarfk90mwFfhHVQIWH5CuU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=qVU5Loc6hksTp1952+Z9jZgUOebCMuiLV3i1M3R7u/E=;
- b=Ze6ls/Rd7sfIkRYW3vEv+plZz/i2o9fuJu/VGJcrlLf/r6MeK6wacbKpXGp03o9kdf
- z4tqq9NPjINDFWM7wJ1ZRsud6UXVmbXbEYpyQeWNHzMbu0Cr+Itty92Ogy1Feg0OieGR
- 9rqfeGTEaFpPyciNHHszMnHg/SmLQU/hjydpUTjLqxwhPmyqxw/BhTb0UiEn7LjscHxi
- EPgXQzTgr5rVi35cLMLktki7gH/+xjNFKBNpfaPc4VOMndrzhguk7Vmk5r0shy3lQmw4
- 4kLddhBI27RYPu6g9AVyZfiJpfYTuHsOsGTxJOdJhiThud3/3i40ugnRZlFIDNWsf4oa
- tjZA==
-X-Gm-Message-State: AOAM532uvMjJ0fLEJfWMsNTOs9osEd6U0IVBK/16vy8PkyqsymGCVifo
- 9oNeQRrgzLE5JgFfIwA6c3leYVbOUy1PshTl6EF1rw==
-X-Google-Smtp-Source: ABdhPJwrjTA8RhjI1067mxUfhRrV0zOMawErdKNO7fuIBJSU8tX+H8HT66FUPa6ZclkaRuZTdTjz8FF3/mmGTR+dOw8=
-X-Received: by 2002:a17:907:1c82:: with SMTP id
- nb2mr12787011ejc.218.1639033500339; 
- Wed, 08 Dec 2021 23:05:00 -0800 (PST)
+ bh=NW4Te5KT8RywZLAuo2ZfeBAFffXT3U9YKMlaGLK1mhI=;
+ b=NMsIrhAJJ6s2IbQgZ4Tdwv1phBjtBg6UX3Lz97+aIZsZ9vh/T4nrLVWGttfjiBKLXP
+ n5UfzFvxG3c4BN3jgOYOvrRnbbwNw4198Cu3M1Wu/EIBUu0SdlfUz9NnX2WVFUlyo3TW
+ dFtng/UzUif3FqvdpN7J3XhYi+ZZC0MWcOvAqgH/uJ06pVWPse5M9jWfunU5BMVv2+BE
+ koUBLBSPDktpgwu8d57maJFRZgX33x+o0Scg2/nquLxjWC4DgjUpBvhEf4VHv436Uhkd
+ 0Ov2rj7VlmvOEIYWgitJcNzPEmOQtdd+c9tDaN+ilMczYpdTPeEz2Orx0oTqn77H18hz
+ rPAg==
+X-Gm-Message-State: AOAM5338xRPAszMZQ0qaHGvo8bUxvfLKUmllnQyWxThPeV/L1xhV1zJ2
+ j16lQJkgVXfwrq4B8XrEQjeh+i3FhkpaA4VOcmPAcQ==
+X-Google-Smtp-Source: ABdhPJwY+75DQZYXB+oeBio1GxAeI2nXtnrDaL/tLtJd3UFELFDSODnnKe8N0hbncOE9M1IDExKcWekXwrLqDw3e358=
+X-Received: by 2002:a05:6402:1768:: with SMTP id
+ da8mr27012500edb.252.1639033663999; 
+ Wed, 08 Dec 2021 23:07:43 -0800 (PST)
 MIME-Version: 1.0
 References: <20211118091955.3009900-1-alexander.stein@ew.tq-group.com>
- <20211118091955.3009900-5-alexander.stein@ew.tq-group.com>
-In-Reply-To: <20211118091955.3009900-5-alexander.stein@ew.tq-group.com>
+ <20211118091955.3009900-2-alexander.stein@ew.tq-group.com>
+In-Reply-To: <20211118091955.3009900-2-alexander.stein@ew.tq-group.com>
 From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Thu, 9 Dec 2021 12:34:49 +0530
-Message-ID: <CAMty3ZCQ+JDvojX0QiLEJLSA=J+kzi9kY1QE+dzf35fgO3T4aQ@mail.gmail.com>
-Subject: Re: [PATCH v4 4/4] drm/bridge: ti-sn65dsi83: Add vcc supply regulator
- support
+Date: Thu, 9 Dec 2021 12:37:33 +0530
+Message-ID: <CAMty3ZA7d9bSvmG4nGd9Lncw9wm6wiAq1pKSOFX03h_BU7JR-A@mail.gmail.com>
+Subject: Re: [PATCH v4 1/4] dt-bindings: display: bridge: sn65dsi83: Make
+ enable GPIO optional
 To: Alexander Stein <alexander.stein@ew.tq-group.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,43 +74,13 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Thu, Nov 18, 2021 at 2:50 PM Alexander Stein
 <alexander.stein@ew.tq-group.com> wrote:
 >
-> VCC needs to be enabled before releasing the enable GPIO.
+> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 >
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
->
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> index 065610edc37a..54d18e82ed74 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> @@ -33,6 +33,7 @@
->  #include <linux/of_device.h>
->  #include <linux/of_graph.h>
->  #include <linux/regmap.h>
-> +#include <linux/regulator/consumer.h>
->
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_bridge.h>
-> @@ -143,6 +144,7 @@ struct sn65dsi83 {
->         struct mipi_dsi_device          *dsi;
->         struct drm_bridge               *panel_bridge;
->         struct gpio_desc                *enable_gpio;
-> +       struct regulator                *vcc;
->         int                             dsi_lanes;
->         bool                            lvds_dual_link;
->         bool                            lvds_dual_link_even_odd_swap;
-> @@ -337,6 +339,12 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
->         u16 val;
->         int ret;
->
-> +       ret = regulator_enable(ctx->vcc);
-> +       if (ret) {
-> +               dev_err(ctx->dev, "Failed to enable vcc\n");
-> +               return;
-> +       }
+> The SN65DSI8x EN signal may be tied to VCC, or otherwise controlled by
+> means not available to the kernel. Make the GPIO optional.
 
-Better check the vcc and enable it since it is an optional one.
+Sorry, I couldn't understand what it means. Does it mean VCC enabled
+designs no need to enable GPIO? I've a design that do support both EN
+and VCC.
 
 Jagan.
