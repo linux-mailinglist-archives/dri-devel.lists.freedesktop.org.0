@@ -1,100 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 775D446EE19
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 17:55:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07CB146EE55
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 17:56:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09AD310E5C4;
-	Thu,  9 Dec 2021 16:53:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF92210E668;
+	Thu,  9 Dec 2021 16:53:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2071.outbound.protection.outlook.com [40.107.92.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30B1689ABE;
- Thu,  9 Dec 2021 06:00:46 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jFwamrN+acnf51V9itEVZaabZQlA//DmD5xMbQZYVL/IDVmE6LhuaMWHe0v8fLa8f4CFNmJOFK12P3gmjvh+/7wIQVTPFkDl2cuSUxyJ3hPWQYhSIsyJyQF0qLuR8+BrfIsqv03KVu/HfLdafSGu5pyEE5HNmFgxPvWh27xU7uM6xJ3t6sw+GWCaAIi1/IVDqVnQcK3lwuMKRpVoalaoTor07M/XTlKfjqYW7sSwW+X5mzOVDO3peSf0rjRdUw/9LtpxZP16X3hBK29bQeBD012sjP7yPxNGE3VoQBLqd1fyTKoippLyYlSsaB7AKaVbz37olJTf01eQjtG6pjCKSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xwUBwTTD6eMyUmidV+05of0MgoF7nwOYHtAHvU6N0Sg=;
- b=ZdCVrC+RevN0RgwhiK6sZRPh1HTUMOD+knMMYP+OjaHWewsw13Szo0FI93tzLBM7ov7ntoaZzG9YGnGN8fzBTAuDwVEbwInKS48crhFJHVO0gnsew16RcEeFSu3F13TSdRz4R7sKg84sjQ1ydrWIVsCqUWROYW0gyAbBoZOySqe38r/wMhEbLeHCV1SKYKA/w8BZkS3FSTF0yriiaCG2k6h9mRszuQEVOMvaY+FVBPcxoX1d8/K/FB7nGgtuzACJuG58g3Mqb8F5uKSTsAQvu9AW2lGrySz3uTMtc3vnMerWQMFrkFF692313qe1uJjSmsgXZYCINRoTwnO7u3mouQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 203.18.50.12) smtp.rcpttodomain=lists.freedesktop.org
- smtp.mailfrom=nvidia.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
- action=none header.from=nvidia.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xwUBwTTD6eMyUmidV+05of0MgoF7nwOYHtAHvU6N0Sg=;
- b=nJbux1Qw5Je2ZWXKLkM0PncpYRHutKyOrXE7GZZPPPEzvdtXi4QxzST0o1DSZRd7ZIJMhOqRv8TKwX5Es3/h3rvkeRUyNCxfaJ6HNwikte6rlq1Hk5hF/PgbB1XzjynpPV3g5mDVWt24ns79WLOb9HErENvXG1pShuHEnaqjWmIUKBksnJ4+7VXCZ1MYD+eStInnK5pM4FgHOJZ99WMNMJVoes5PoPXE0qjjbt5STkZQVu8SlEhlf+06kqoXmNbOboUItghW/kuiCs1dtR16pZAcWhLniKMJ/58yzeXBgGuXKJazHZubwd1DDl3am589kE3/E3BmPy1BfCNkwqTKpg==
-Received: from MW2PR16CA0060.namprd16.prod.outlook.com (2603:10b6:907:1::37)
- by PH0PR12MB5465.namprd12.prod.outlook.com (2603:10b6:510:ec::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.19; Thu, 9 Dec
- 2021 01:45:33 +0000
-Received: from CO1NAM11FT012.eop-nam11.prod.protection.outlook.com
- (2603:10b6:907:1:cafe::73) by MW2PR16CA0060.outlook.office365.com
- (2603:10b6:907:1::37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.16 via Frontend
- Transport; Thu, 9 Dec 2021 01:45:33 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 203.18.50.12)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 203.18.50.12 as permitted sender) receiver=protection.outlook.com;
- client-ip=203.18.50.12; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (203.18.50.12) by
- CO1NAM11FT012.mail.protection.outlook.com (10.13.175.192) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4755.13 via Frontend Transport; Thu, 9 Dec 2021 01:45:32 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by HKMAIL101.nvidia.com
- (10.18.16.10) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Thu, 9 Dec
- 2021 01:45:31 +0000
-Received: from nvdebian.localnet (172.20.187.5) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.9; Wed, 8 Dec 2021
- 17:45:26 -0800
-From: Alistair Popple <apopple@nvidia.com>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH v2 03/11] mm/gup: migrate PIN_LONGTERM dev coherent pages
- to system
-Date: Thu, 9 Dec 2021 12:45:24 +1100
-Message-ID: <117075453.Ddeq1f3ylz@nvdebian>
-In-Reply-To: <20211208135345.GC6467@ziepe.ca>
-References: <20211206185251.20646-1-alex.sierra@amd.com>
- <2858338.J0npWUQLIM@nvdebian> <20211208135345.GC6467@ziepe.ca>
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
+ [IPv6:2607:f8b0:4864:20::1030])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBADF10E116;
+ Thu,  9 Dec 2021 06:17:47 +0000 (UTC)
+Received: by mail-pj1-x1030.google.com with SMTP id
+ k6-20020a17090a7f0600b001ad9d73b20bso4005671pjl.3; 
+ Wed, 08 Dec 2021 22:17:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ERNdknSdRVKl939EP+EZZR/PoW0Nj1vOL+LFqLPaFaE=;
+ b=VnKZQdzGR1KwvVlbMhJ9w4yN5SAgf36Tsu/EQkyNyyDawfgQ9W+WbDf1o1BNf73lum
+ LNDL0ZsH9/EqlAIF4Fno0CGooNpVWAJnpiEx/h4Ps2yE9uCrxI9wfG/Lk9U0XHtDZbSs
+ 7lpV5zElgJ16wRwhg6Bx9McSbWutm+HQ/EV7H2OlaVe8d0FJv51Mtvtylcg/gy6cq5EZ
+ UCrvSfnuFJ23q+ZlJUbDbXF6sJGXVJTDI+jt4mkVgjJUvV9Rz9GXZ3+7dhS5vZXqbAaX
+ 4C/iBOy85IGRN/mtQhSfYjy4y1x5WLzd60NZGpmQDiFfHv1Kf4Qm0tDulOeOFurPk/Kg
+ Eazw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ERNdknSdRVKl939EP+EZZR/PoW0Nj1vOL+LFqLPaFaE=;
+ b=DarKV38RzE7w+4uANNtYycLCCVBWDTvefFsEorcWRq3HOEnB6T8nAWlONpo3eGFMmm
+ J78QBUcJTnweD2SqQ9znjDL5tE1VpAmgQA/rUyDR8jPxsRMaCSNtKHQjVW7rzmNVfiJa
+ BQaIUz113cW0PdsG5oPx5+aB5Lm2auJcem7a8NmzparOXk57p2B5VBCtItoO3GLHEXjf
+ tJEXGk5o778maw8I9B8PnkZ5aao5GUfexz4E3b22yJ7USK5Tfjp8P6sbgmncLjGskRVU
+ CW+Uh/MB5DGaOImljPNz0Ff4f+giTkCagK79QAy6S/+h2/K8eDnivNvome6bNfiAh+iX
+ goEA==
+X-Gm-Message-State: AOAM533bS6bUIyryj3vUjp3DtW3M4oE705EVfkHWyCWPiaGT9ofNXK10
+ tpEzo17gXgDAwlQm9wohBxEV5rIvHnc=
+X-Google-Smtp-Source: ABdhPJxALjGW3u4AEFGEvQxsHH3WOQo5kRwErZMyqNAPO4fMR36Pgv0iMSHN7+mt1Z/nZUz0vkYO5A==
+X-Received: by 2002:a17:902:6a8a:b0:143:905f:aec7 with SMTP id
+ n10-20020a1709026a8a00b00143905faec7mr64773494plk.8.1639015108752; 
+ Wed, 08 Dec 2021 17:58:28 -0800 (PST)
+Received: from localhost.localdomain ([193.203.214.57])
+ by smtp.gmail.com with ESMTPSA id m10sm3619593pgv.75.2021.12.08.17.58.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Dec 2021 17:58:28 -0800 (PST)
+From: cgel.zte@gmail.com
+X-Google-Original-From: chi.minghao@zte.com.cn
+To: alexander.deucher@amd.com
+Subject: [PATCH] drm:amdgpu:remove unneeded variable
+Date: Thu,  9 Dec 2021 01:58:23 +0000
+Message-Id: <20211209015823.409947-1-chi.minghao@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-IP: [172.20.187.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8face818-25b4-4b88-7b71-08d9bab5968e
-X-MS-TrafficTypeDiagnostic: PH0PR12MB5465:EE_
-X-Microsoft-Antispam-PRVS: <PH0PR12MB546575A97EC67D418FA8DEF4DF709@PH0PR12MB5465.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 61859y8NJ0Ntt5/r7EgRvwsDN5dHeI8FzC6C4ACjhC9FHv00bR8RiZUS5kibLdzaok1Jz+mrBX/HdjCg6tpuB7t5R096gQdQ4/khv+O+b9jWmusMJfqnc5CTJsewQzS6NIqqpo58psmtnN9neaAOD140LUDE/IveJLCaqFQ89xSQ0p8W//jAGseHgU4Zgm6v5L6wUnQ75k1L8q57Fyve/of+Y1SFJlfzEjlLjjH/o4ilTHkiQRIzAVByyEunum87q0iwV1EEZk6yN/12+fctos+sPHhNbPZ8FXFvW+QQxMGoYCkLuSZdAMvHTT3tbezmCM6z2+ZWK1OAzPvVDM1apj8w4cnIp/GuEeMwyTtNugUT+dnW0ORUx6GimWqtLQX9OT8HsjzuNlC6FbLvUZ23ol+JUqsbAYRFWHnUA9viafRqzdb9KPh/T8/KuYlDs6I5EV4CGTFi/2jD0oPc+FfLrd7I1EY1JVFNECcdEqEodeBsWV7EOrSmV8CS4JA+lxp//0X4DesoeS01Q7X/kpRmL2hDGlOZC34S7SIrqPSmQuLaHbbZoT6kYVomB7GJTzJHhL6kIJ8ZM3I8VdE8rBPe/cCRgCL1/UbxUwc80lRLUSk3ZzNqyiWgFq+WGFX4WGjY45Cxcg5NX4hkIyOAd3kIxWSXoMlbKThmv+EqQXqOnd9Nmg5cCYz3ytp2L0A3TBWyOYbAROFX3UQirrStNV3X991HoXTn2+4OakoN9+wu4PTkpvgjDPa3tqQIhgaLgEwRTfOExXN+4F/JaLQUn924Apa0XgSg/6Kq4QPGSQnnE/S+H2JixcHL7xYcieR/cppNc/Xduh1UQItjGrlRsHN6gT/GApgtppMQPvoquk7EqaQA/lp8eY5MWB3v0pUCOV9+
-X-Forefront-Antispam-Report: CIP:203.18.50.12; CTRY:HK; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:hkhybrid01.nvidia.com; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(40470700001)(4744005)(6916009)(336012)(54906003)(426003)(7416002)(316002)(7636003)(186003)(5660300002)(966005)(70206006)(70586007)(26005)(47076005)(9576002)(8936002)(16526019)(8676002)(4326008)(508600001)(36860700001)(86362001)(40460700001)(9686003)(34070700002)(83380400001)(356005)(82310400004)(33716001)(2906002);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2021 01:45:32.3904 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8face818-25b4-4b88-7b71-08d9bab5968e
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[203.18.50.12];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT012.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB5465
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,28 +68,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Sierra <alex.sierra@amd.com>, rcampbell@nvidia.com,
- willy@infradead.org, Felix.Kuehling@amd.com, amd-gfx@lists.freedesktop.org,
- linux-xfs@vger.kernel.org, linux-mm@kvack.org, jglisse@redhat.com,
- dri-devel@lists.freedesktop.org, akpm@linux-foundation.org,
- linux-ext4@vger.kernel.org, hch@lst.de
+Cc: alex.sierra@amd.com, dri-devel@lists.freedesktop.org, airlied@linux.ie,
+ Zeal Robot <zealci@zte.com.cm>, Oak.Zeng@amd.com, Xinhui.Pan@amd.com,
+ rajneesh.bhardwaj@amd.com, chi.minghao@zte.com.cn,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, Likun.Gao@amd.com,
+ john.clements@amd.com, christian.koenig@amd.com, Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thursday, 9 December 2021 12:53:45 AM AEDT Jason Gunthorpe wrote:
-> > I think a similar problem exists for device private fault handling as well and
-> > it has been on my list of things to fix for a while. I think the solution is to
-> > call try_get_page(), except it doesn't work with device pages due to the whole
-> > refcount thing. That issue is blocking a fair bit of work now so I've started
-> > looking into it.
-> 
-> Where is this?
+From: chiminghao <chi.minghao@zte.com.cn>
+
+return value form directly instead of
+taking this in another redundant variable.
+
+Reported-by: Zeal Robot <zealci@zte.com.cm>
+Signed-off-by: chiminghao <chi.minghao@zte.com.cn>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ioc32.c | 5 +----
+ drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c     | 6 ++----
+ 2 files changed, 3 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ioc32.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ioc32.c
+index 5cf142e849bb..fb92f827eeb7 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ioc32.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ioc32.c
+@@ -37,12 +37,9 @@
+ long amdgpu_kms_compat_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+ {
+ 	unsigned int nr = DRM_IOCTL_NR(cmd);
+-	int ret;
  
-Nothing posted yet. I've been going through the mailing list and the old
-thread[1] to get an understanding of what is left to do. If you have any
-suggestions they would be welcome.
-
-[1] https://lore.kernel.org/all/20211014153928.16805-3-alex.sierra@amd.com/
-
-
+ 	if (nr < DRM_COMMAND_BASE)
+ 		return drm_compat_ioctl(filp, cmd, arg);
+ 
+-	ret = amdgpu_drm_ioctl(filp, cmd, arg);
+-
+-	return ret;
++	return amdgpu_drm_ioctl(filp, cmd, arg);
+ }
+diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
+index cb82404df534..269a7b04b7e7 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
+@@ -1742,7 +1742,7 @@ static int gmc_v9_0_hw_init(void *handle)
+ {
+ 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+ 	bool value;
+-	int r, i;
++	int i;
+ 
+ 	/* The sequence of these two function calls matters.*/
+ 	gmc_v9_0_init_golden_registers(adev);
+@@ -1777,9 +1777,7 @@ static int gmc_v9_0_hw_init(void *handle)
+ 	if (adev->umc.funcs && adev->umc.funcs->init_registers)
+ 		adev->umc.funcs->init_registers(adev);
+ 
+-	r = gmc_v9_0_gart_enable(adev);
+-
+-	return r;
++	return gmc_v9_0_gart_enable(adev);
+ }
+ 
+ /**
+-- 
+2.25.1
 
