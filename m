@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 076F846EFFE
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 18:02:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9282246EFEA
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 18:02:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1357710F445;
-	Thu,  9 Dec 2021 16:55:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87B7010F0D8;
+	Thu,  9 Dec 2021 16:55:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86A04891BB;
- Thu,  9 Dec 2021 15:46:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B90AF891BB;
+ Thu,  9 Dec 2021 15:46:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639064796; x=1670600796;
+ t=1639064800; x=1670600800;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=+Ms4o8MOBp9yV/IwgCjbnr1MGM81PSz+4/En43u0BfE=;
- b=e9NfwvwZfYC/xF7lpVFL0TaSZW0w2WHzL/Uf2y4NzWhDQ2b+V1b0opk2
- hCVKcGj2zU4OcOlNFc9v/XG7MwfZ/i8Zl1ng1kMqy2i6rslZoUstnUN4u
- 8eNqzgnm/rnXcwJ9qjbpUkipyOwDn84i2I2/gtDbTef7y55IPkhzo9uuY
- YGK0E06/FTbj3zJqKPOMrclDHopYu/1dy9IUlal+3C+J17POWgYTn348U
- Su/ac6e5voKtPFcqnfNaW07ImTqRz9FATFJzsyQ7bbv30gibvy4bV/ddi
- V8pIzMLSKR1RW2438ScBWnf7PLAhoNVK4oHfdep1uBWwjB0ApmS6PsTF6 Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10192"; a="298917074"
-X-IronPort-AV: E=Sophos;i="5.88,192,1635231600"; d="scan'208";a="298917074"
+ bh=/YZINTUP80qemEcthVKIBo9gnQMSH6wAfWHwcFROzz4=;
+ b=TMVzhsAt485Uep39+3y1gULjGuG2WwdTwG4JBew+V1u7fbryWjRdExpL
+ jKVSQ7EM4WuutE+mTumFeRfKgvxtQtPyw/VHdQHjtBT1kFvgVgdhKA1kh
+ 7tGZNSgdXmTtDkGlKsagD2xeRyS4A9Qv5wt4ern6t84p3VgC0gvasyx2P
+ JkcfqtJP8IO7u+Xpjzn8LrOJ2qxf0Pbwe4WM8EOBuQ16XHUJqCi4fNJRj
+ BxNM9uBINUWYkfiwHt3IU5eVN1tNPWWfvOjqNEVlKl57909Xa8ThCbUv8
+ J5wQsteq8GiI0t1wlwQiNCf1+WCChnbAaNWwfBgMHmTKrk/yvEzoDYfem Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10192"; a="298917101"
+X-IronPort-AV: E=Sophos;i="5.88,192,1635231600"; d="scan'208";a="298917101"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2021 07:46:22 -0800
-X-IronPort-AV: E=Sophos;i="5.88,192,1635231600"; d="scan'208";a="503535223"
+ 09 Dec 2021 07:46:25 -0800
+X-IronPort-AV: E=Sophos;i="5.88,192,1635231600"; d="scan'208";a="503535234"
 Received: from ramaling-i9x.iind.intel.com ([10.99.66.205])
  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2021 07:46:19 -0800
+ 09 Dec 2021 07:46:22 -0800
 From: Ramalingam C <ramalingam.c@intel.com>
 To: dri-devel <dri-devel@lists.freedesktop.org>,
  intel-gfx <intel-gfx@lists.freedesktop.org>
-Subject: [PATCH v4 11/16] drm/i915/dg2: Add DG2 unified compression
-Date: Thu,  9 Dec 2021 21:15:28 +0530
-Message-Id: <20211209154533.4084-12-ramalingam.c@intel.com>
+Subject: [PATCH v4 12/16] uapi/drm/dg2: Introduce format modifier for DG2
+ clear color
+Date: Thu,  9 Dec 2021 21:15:29 +0530
+Message-Id: <20211209154533.4084-13-ramalingam.c@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211209154533.4084-1-ramalingam.c@intel.com>
 References: <20211209154533.4084-1-ramalingam.c@intel.com>
@@ -57,164 +58,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Radhakrishna Sripada <radhakrishna.sripada@intel.com>,
- Anshuman Gupta <anshuman.gupta@intel.com>,
+Cc: Mika Kahola <mika.kahola@intel.com>,
  Hellstrom Thomas <thomas.hellstrom@intel.com>,
- Matthew Auld <matthew.auld@intel.com>
+ Matthew Auld <matthew.auld@intel.com>,
+ Anshuman Gupta <anshuman.gupta@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Matt Roper <matthew.d.roper@intel.com>
+From: Mika Kahola <mika.kahola@intel.com>
 
-DG2 unifies render compression and media compression into a single
-format for the first time.  The programming and buffer layout is
-supposed to match compression on older gen12 platforms, but the actual
-compression algorithm is different from any previous platform; as such,
-we need a new framebuffer modifier to represent buffers in this format,
-but otherwise we can re-use the existing gen12 compression driver logic.
+DG2 clear color render compression uses Tile4 layout. Therefore, we need
+to define a new format modifier for uAPI to support clear color rendering.
 
-Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-cc: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
-Signed-off-by: Mika Kahola <mika.kahola@intel.com> (v2)
+Signed-off-by: Mika Kahola <mika.kahola@intel.com>
 cc: Anshuman Gupta <anshuman.gupta@intel.com>
 Signed-off-by: Juha-Pekka Heikkilä <juha-pekka.heikkila@intel.com>
 Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_fb.c       | 13 ++++++++
- .../drm/i915/display/skl_universal_plane.c    | 33 +++++++++++++++----
- include/uapi/drm/drm_fourcc.h                 | 22 +++++++++++++
- 3 files changed, 61 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/i915/display/intel_fb.c            | 8 ++++++++
+ drivers/gpu/drm/i915/display/skl_universal_plane.c | 9 ++++++++-
+ include/uapi/drm/drm_fourcc.h                      | 8 ++++++++
+ 3 files changed, 24 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/i915/display/intel_fb.c b/drivers/gpu/drm/i915/display/intel_fb.c
-index 46505c69fe72..e15216f1cb82 100644
+index e15216f1cb82..f10e77cb5b4a 100644
 --- a/drivers/gpu/drm/i915/display/intel_fb.c
 +++ b/drivers/gpu/drm/i915/display/intel_fb.c
-@@ -141,6 +141,14 @@ struct intel_modifier_desc {
- 
- static const struct intel_modifier_desc intel_modifiers[] = {
- 	{
-+		.modifier = I915_FORMAT_MOD_4_TILED_DG2_MC_CCS,
-+		.display_ver = { 13, 14 },
-+		.plane_caps = INTEL_PLANE_CAP_TILING_4 | INTEL_PLANE_CAP_CCS_MC,
-+	}, {
-+		.modifier = I915_FORMAT_MOD_4_TILED_DG2_RC_CCS,
-+		.display_ver = { 13, 14 },
-+		.plane_caps = INTEL_PLANE_CAP_TILING_4 | INTEL_PLANE_CAP_CCS_RC,
-+	}, {
- 		.modifier = I915_FORMAT_MOD_4_TILED,
+@@ -144,6 +144,12 @@ static const struct intel_modifier_desc intel_modifiers[] = {
+ 		.modifier = I915_FORMAT_MOD_4_TILED_DG2_MC_CCS,
  		.display_ver = { 13, 14 },
- 		.plane_caps = INTEL_PLANE_CAP_TILING_4,
-@@ -550,6 +558,8 @@ intel_tile_width_bytes(const struct drm_framebuffer *fb, int color_plane)
- 			return 128;
+ 		.plane_caps = INTEL_PLANE_CAP_TILING_4 | INTEL_PLANE_CAP_CCS_MC,
++	}, {
++		.modifier = I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC,
++		.display_ver = { 13, 14 },
++		.plane_caps = INTEL_PLANE_CAP_TILING_4 | INTEL_PLANE_CAP_CCS_RC_CC,
++
++		.ccs.cc_planes = BIT(1),
+ 	}, {
+ 		.modifier = I915_FORMAT_MOD_4_TILED_DG2_RC_CCS,
+ 		.display_ver = { 13, 14 },
+@@ -559,6 +565,7 @@ intel_tile_width_bytes(const struct drm_framebuffer *fb, int color_plane)
  		else
  			return 512;
-+	case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS:
-+	case I915_FORMAT_MOD_4_TILED_DG2_MC_CCS:
+ 	case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS:
++	case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC:
+ 	case I915_FORMAT_MOD_4_TILED_DG2_MC_CCS:
  	case I915_FORMAT_MOD_4_TILED:
  		/*
- 		 * Each 4K tile consists of 64B(8*8) subtiles, with
-@@ -752,6 +762,9 @@ unsigned int intel_surf_alignment(const struct drm_framebuffer *fb,
- 	case I915_FORMAT_MOD_4_TILED:
+@@ -763,6 +770,7 @@ unsigned int intel_surf_alignment(const struct drm_framebuffer *fb,
  	case I915_FORMAT_MOD_Yf_TILED:
  		return 1 * 1024 * 1024;
-+	case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS:
-+	case I915_FORMAT_MOD_4_TILED_DG2_MC_CCS:
-+		return 16 * 1024;
+ 	case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS:
++	case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC:
+ 	case I915_FORMAT_MOD_4_TILED_DG2_MC_CCS:
+ 		return 16 * 1024;
  	default:
- 		MISSING_CASE(fb->modifier);
- 		return 0;
 diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-index f62ba027fcf9..d80424194c75 100644
+index d80424194c75..9a89df9c0243 100644
 --- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
 +++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-@@ -764,6 +764,14 @@ static u32 skl_plane_ctl_tiling(u64 fb_modifier)
- 		return PLANE_CTL_TILED_Y;
- 	case I915_FORMAT_MOD_4_TILED:
- 		return PLANE_CTL_TILED_4;
-+	case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS:
-+		return PLANE_CTL_TILED_4 |
-+			PLANE_CTL_RENDER_DECOMPRESSION_ENABLE |
-+			PLANE_CTL_CLEAR_COLOR_DISABLE;
-+	case I915_FORMAT_MOD_4_TILED_DG2_MC_CCS:
-+		return PLANE_CTL_TILED_4 |
-+			PLANE_CTL_MEDIA_DECOMPRESSION_ENABLE |
-+			PLANE_CTL_CLEAR_COLOR_DISABLE;
+@@ -772,6 +772,8 @@ static u32 skl_plane_ctl_tiling(u64 fb_modifier)
+ 		return PLANE_CTL_TILED_4 |
+ 			PLANE_CTL_MEDIA_DECOMPRESSION_ENABLE |
+ 			PLANE_CTL_CLEAR_COLOR_DISABLE;
++	case I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC:
++		return PLANE_CTL_TILED_4 | PLANE_CTL_RENDER_DECOMPRESSION_ENABLE;
  	case I915_FORMAT_MOD_Y_TILED_CCS:
  	case I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS_CC:
  		return PLANE_CTL_TILED_Y | PLANE_CTL_RENDER_DECOMPRESSION_ENABLE;
-@@ -2073,6 +2081,10 @@ static bool gen12_plane_has_mc_ccs(struct drm_i915_private *i915,
- 	if (IS_ADLP_DISPLAY_STEP(i915, STEP_A0, STEP_B0))
- 		return false;
- 
-+	/* Wa_14013215631 */
-+	if (IS_DG2_DISPLAY_STEP(i915, STEP_A0, STEP_C0))
-+		return false;
-+
- 	return plane_id < PLANE_SPRITE4;
- }
- 
-@@ -2312,18 +2324,25 @@ skl_get_initial_plane_config(struct intel_crtc *crtc,
- 		break;
- 	case PLANE_CTL_TILED_Y:
- 		plane_config->tiling = I915_TILING_Y;
--		if (val & PLANE_CTL_RENDER_DECOMPRESSION_ENABLE)
--			fb->modifier = DISPLAY_VER(dev_priv) >= 12 ?
--				I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS :
--				I915_FORMAT_MOD_Y_TILED_CCS;
--		else if (val & PLANE_CTL_MEDIA_DECOMPRESSION_ENABLE)
-+		if (val & PLANE_CTL_RENDER_DECOMPRESSION_ENABLE) {
-+			if (DISPLAY_VER(dev_priv) >= 12)
-+				fb->modifier = I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS;
-+			else
-+				fb->modifier = I915_FORMAT_MOD_Y_TILED_CCS;
-+		} else if (val & PLANE_CTL_MEDIA_DECOMPRESSION_ENABLE) {
- 			fb->modifier = I915_FORMAT_MOD_Y_TILED_GEN12_MC_CCS;
--		else
-+		} else {
- 			fb->modifier = I915_FORMAT_MOD_Y_TILED;
-+		}
+@@ -2337,10 +2339,15 @@ skl_get_initial_plane_config(struct intel_crtc *crtc,
  		break;
  	case PLANE_CTL_TILED_YF: /* aka PLANE_CTL_TILED_4 on XE_LPD+ */
  		if (HAS_4TILE(dev_priv)) {
--			fb->modifier = I915_FORMAT_MOD_4_TILED;
-+			if (val & PLANE_CTL_RENDER_DECOMPRESSION_ENABLE)
-+				fb->modifier = I915_FORMAT_MOD_4_TILED_DG2_RC_CCS;
-+			else if (val & PLANE_CTL_MEDIA_DECOMPRESSION_ENABLE)
-+				fb->modifier = I915_FORMAT_MOD_4_TILED_DG2_MC_CCS;
-+			else
-+				fb->modifier = I915_FORMAT_MOD_4_TILED;
+-			if (val & PLANE_CTL_RENDER_DECOMPRESSION_ENABLE)
++			u32 rc_mask = PLANE_CTL_RENDER_DECOMPRESSION_ENABLE |
++				      PLANE_CTL_CLEAR_COLOR_DISABLE;
++
++			if ((val & rc_mask) == rc_mask)
+ 				fb->modifier = I915_FORMAT_MOD_4_TILED_DG2_RC_CCS;
+ 			else if (val & PLANE_CTL_MEDIA_DECOMPRESSION_ENABLE)
+ 				fb->modifier = I915_FORMAT_MOD_4_TILED_DG2_MC_CCS;
++			else if (val & PLANE_CTL_RENDER_DECOMPRESSION_ENABLE)
++				fb->modifier = I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC;
+ 			else
+ 				fb->modifier = I915_FORMAT_MOD_4_TILED;
  		} else {
- 			if (val & PLANE_CTL_RENDER_DECOMPRESSION_ENABLE)
- 				fb->modifier = I915_FORMAT_MOD_Yf_TILED_CCS;
 diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-index a146c6df1066..51fdda26844a 100644
+index 51fdda26844a..b155f69f2344 100644
 --- a/include/uapi/drm/drm_fourcc.h
 +++ b/include/uapi/drm/drm_fourcc.h
-@@ -576,6 +576,28 @@ extern "C" {
+@@ -598,6 +598,14 @@ extern "C" {
   */
- #define I915_FORMAT_MOD_4_TILED         fourcc_mod_code(INTEL, 9)
+ #define I915_FORMAT_MOD_4_TILED_DG2_MC_CCS fourcc_mod_code(INTEL, 11)
  
 +/*
-+ * Intel color control surfaces (CCS) for DG2 render compression.
++ * Intel color control surfaces (CCS) for DG2 clear color render compression.
 + *
-+ * DG2 uses a new compression format for render compression. The general
-+ * layout is the same as I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS,
-+ * but a new hashing/compression algorithm is used, so a fresh modifier must
-+ * be associated with buffers of this type. Render compression uses 128 byte
-+ * compression blocks.
++ * DG2 uses a unified compression format for clear color render compression.
++ * The general layout is a tiled layout using 4Kb tiles i.e. Tile4 layout.
 + */
-+#define I915_FORMAT_MOD_4_TILED_DG2_RC_CCS fourcc_mod_code(INTEL, 10)
-+
-+/*
-+ * Intel color control surfaces (CCS) for DG2 media compression.
-+ *
-+ * DG2 uses a new compression format for media compression. The general
-+ * layout is the same as I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS,
-+ * but a new hashing/compression algorithm is used, so a fresh modifier must
-+ * be associated with buffers of this type. Media compression uses 256 byte
-+ * compression blocks.
-+ */
-+#define I915_FORMAT_MOD_4_TILED_DG2_MC_CCS fourcc_mod_code(INTEL, 11)
++#define I915_FORMAT_MOD_4_TILED_DG2_RC_CCS_CC fourcc_mod_code(INTEL, 12)
 +
  /*
   * Tiled, NV12MT, grouped in 64 (pixels) x 32 (lines) -sized macroblocks
