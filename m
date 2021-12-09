@@ -1,47 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEB3646F383
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 19:57:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A29546F3B4
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 20:13:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A2A310E237;
-	Thu,  9 Dec 2021 18:57:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99BB410E22F;
+	Thu,  9 Dec 2021 19:13:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB49D10E234;
- Thu,  9 Dec 2021 18:57:19 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC51C10E226;
+ Thu,  9 Dec 2021 19:13:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639076240; x=1670612240;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=QMRY9/2Sg/dLApOz+9TkX5plCaAnhLuG1/KEB7LeElI=;
- b=HYSBVLubWNjS400FeY6hv5A/Q07Vu/scQCmhkD67SD/2H4DSiMdWBhsO
- Ka9v1XU0IlyHBBWr8+UvoPI6aPRuF+zN5+gp0XO4LLsdr8ykZ6eQRoNtb
- KEx6KTEXgN+d/hpcQY/5aRV94o9j+qGGoIBVG74bn/t0ynFex70XYWRad
- OUSr5IajZzBmstT03Otev2IPd9WrI8Q9JES/qARnLi4wc4WAkb4CX7p7S
- 7xIpwkj+A3SgBgJHAp4k9Sqz+PBPY5jiFrdEijpEHwbE9tKHGlxhWtjIt
- yLvPHXTRlteb+QmrRQsBcbMOnoULFQ9MyKfCKDeuO6TzbmwQS7ymxI2sx w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10193"; a="237988229"
-X-IronPort-AV: E=Sophos;i="5.88,193,1635231600"; d="scan'208";a="237988229"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2021 10:57:08 -0800
-X-IronPort-AV: E=Sophos;i="5.88,193,1635231600"; d="scan'208";a="612630549"
-Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2021 10:57:08 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: <intel-gfx@lists.freedesktop.org>,
-	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/i915/guc: Remove racey GEM_BUG_ON
-Date: Thu,  9 Dec 2021 10:51:41 -0800
-Message-Id: <20211209185141.21292-1-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.33.1
+ t=1639077217; x=1670613217;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=Ow/YKksX5LK6u3qn+uHd9cd6ijwbKKwS2Wp2CKRY4wY=;
+ b=FR0zFuKiDXKWix5hWQeg5eGLDNJPjwOZjjkXSXuvFlqsqIY8wDYY7lhs
+ ycF17NSp7CtUf0Kz73Cr8R0LBjIWGEuuSDij+x1b2vDe7DkhdR1HAavmi
+ C3IWbG+tcFJW1ORmErX2dHL/rSnuRBVhH43eQPNLm4J1zMXYErHxWjlqi
+ NUi5IyAZZ8zmSXRUR9G5/y+aTjW+hxWAHW+4wLyN3U3jcQGX+n6Ga9Pqj
+ tqdJifdmsRxG/f3zcrReZnHqhLIxs3zkMQbdjB4noP9vWY4xiaqhxKbhz
+ bF/mZ1aDVqFd+zkcAwYZYXa54oc4eIGdlf0tfiX/gUofVriH8Rw6qDIQb Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10193"; a="238412557"
+X-IronPort-AV: E=Sophos;i="5.88,193,1635231600"; d="scan'208";a="238412557"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Dec 2021 11:13:36 -0800
+X-IronPort-AV: E=Sophos;i="5.88,193,1635231600"; d="scan'208";a="516446288"
+Received: from mmathpal-mobl.amr.corp.intel.com (HELO intel.com)
+ ([10.255.39.146])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Dec 2021 11:13:31 -0800
+Date: Thu, 9 Dec 2021 14:13:29 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-fixes
+Message-ID: <YbJVWYAd/jeERCYY@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,33 +53,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniele.ceraolospurio@intel.com, john.c.harrison@intel.com
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A full GT can race with the last context put resulting in the context
-ref count being zero but the destroyed bit not yet being set. Remove
-GEM_BUG_ON in scrub_guc_desc_for_outstanding_g2h that asserts the
-destroyed bit must be set in ref count is zero.
+Hi Dave and Daniel,
 
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 2 --
- 1 file changed, 2 deletions(-)
+Here goes drm-intel-fixes-2021-12-09:
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 9b7b4f4e0d91..0f99bb83293a 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -1040,8 +1040,6 @@ static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
- 
- 		spin_unlock(&ce->guc_state.lock);
- 
--		GEM_BUG_ON(!do_put && !destroyed);
--
- 		if (pending_enable || destroyed || deregister) {
- 			decr_outstanding_submission_g2h(guc);
- 			if (deregister)
--- 
-2.33.1
+A fix to a error pointer dereference in gem_execbuffer and
+a fix for GT initialization when GuC/HuC are used on ICL.
 
+Thanks,
+Rodrigo.
+
+The following changes since commit 0fcfb00b28c0b7884635dacf38e46d60bf3d4eb1:
+
+  Linux 5.16-rc4 (2021-12-05 14:08:22 -0800)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2021-12-09
+
+for you to fetch changes up to 52255ef662a5d490678fbad64a735f88fcba564d:
+
+  drm/i915/gen11: Moving WAs to icl_gt_workarounds_init() (2021-12-09 08:30:22 -0500)
+
+----------------------------------------------------------------
+A fix to a error pointer dereference in gem_execbuffer and
+a fix for GT initialization when GuC/HuC are used on ICL.
+
+----------------------------------------------------------------
+Dan Carpenter (1):
+      drm/i915: Fix error pointer dereference in i915_gem_do_execbuffer()
+
+Raviteja Goud Talla (1):
+      drm/i915/gen11: Moving WAs to icl_gt_workarounds_init()
+
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c |  1 +
+ drivers/gpu/drm/i915/gt/intel_workarounds.c    | 18 +++++++++---------
+ 2 files changed, 10 insertions(+), 9 deletions(-)
