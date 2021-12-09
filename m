@@ -2,59 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6814C46F29C
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 18:57:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86AB146F2A4
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 18:58:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B829410E20F;
-	Thu,  9 Dec 2021 17:57:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54A8610E177;
+	Thu,  9 Dec 2021 17:58:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
- [IPv6:2607:f8b0:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 953DA10E177
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Dec 2021 17:57:12 +0000 (UTC)
-Received: by mail-pf1-x430.google.com with SMTP id x5so6197077pfr.0
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Dec 2021 09:57:12 -0800 (PST)
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B6FB10E177
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Dec 2021 17:58:26 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id t18so11043263wrg.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Dec 2021 09:58:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gateworks-com.20210112.gappssmtp.com; s=20210112;
+ d=raspberrypi.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=z5+7qgzAffjpX4D95KV24/hFMJKfChebjkYZm32y/ck=;
- b=jyspa9LuAGELzKCkE/6331dnNKz+fXgXIkDJg0UAW3jIHrGlb+2HZyHuAvVu/+bidM
- HxB+px2X0+5PBTPriw6JeTqrk5jxe47Gh7bi3vhkpkgatveqszajG6VJe0xUvU4O3LSM
- PnUQ/UwihSWvqoNW8suzbtZ6WRI1l4J0NJKsX15oQ2tRUcrCKim5VWBKn5ZEFqJ/BAkV
- hZY4LlOhknxyeJ7ace8N5RT2mufFJwAXxZIq/ybTHU7CW+M0RiuEiPAuniK1k+tvbI4M
- T7md4t7amc3xbtjWIw+SDGpWSiaILycQPD1iq2cXg+0n180ZdNdYRGe0cNifQqSPKk0t
- Sb5A==
+ :cc; bh=FbKdKTlNvOZTPqWdf9KLrts7pIKJ4noiQI6tgMHVFus=;
+ b=noKGFs8Q+4eWgQNiVZJvHBZN+0ht/EMnKMRGXMlDn/ZYX2TXOH2GV6p8kbd5G/Z1sv
+ s4hCjaffDcFzyJKO7NjZTzFHPwWbc2m3Mv+udIqCCmX1Ai7m3Gb6kjwkw8fY+XROduYz
+ RvUOR8NYgYo+w0C7beQZn4WWj0v3ec5AuqUFLZwRvDAh0ivBAc6kW0Zay0p7XO2BZYxg
+ KiXgojz4xS9arowVEt+AzcGtq5LGQFjKS6AssS9LVgQ9b+4HqkPcmKvcf7JHLQZ9DH3r
+ Vj+fHNwCrnKJRTKfp51WUuodFtHjhXi0zQG/NsZNN3XuKQB3ESoau59erkflA+C6SDa7
+ +c9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=z5+7qgzAffjpX4D95KV24/hFMJKfChebjkYZm32y/ck=;
- b=MtyhQ0O5qVPaFMRkPcKiLG45ppaXWy+6ep6lawlb2KoKuppH/ppYgGJanSx5sOSNdo
- 7ZUcBpQWCp9dpJyq9BkBCOL9BHTcNMpfPKdtT0cuigWI2ysQn5oNaVlPo18FHFOr3skG
- x6+oXusUu54jCmqBbGPavHhlqPorsnpTVRbCQBASA8OorXVubM/+BSf5zfzz7VzrEn+3
- quiq882sU0IWbux/2z3IaRC04NTaPcm82piNWuUz+YUuCS3NDOwIWCyl2N1u9p1s1v0L
- Tk1krftw38MFMNBJVqk/urSjodpLmF6rt4vDXDJux95mczd1r/V1pJvMIydSq3jD7LUp
- 5mwQ==
-X-Gm-Message-State: AOAM533L6S51GQ30MHf0FyJT6Z3dTVaLkIsswgM/R9ktBR2gsn1PZqZL
- pSgWxvLXLshoG95+KjP7cijNOZ/Sj/SNlQnEweFfNA==
-X-Google-Smtp-Source: ABdhPJx6hBQ91azuKOfGobN3Ack6F3SygyEarJ5hhT0+0li8k4m/3gKLjBxF2S8c7NTS1BnlwndszH4XY3pW8v//DII=
-X-Received: by 2002:a62:8786:0:b0:4b1:1ef1:2063 with SMTP id
- i128-20020a628786000000b004b11ef12063mr1114345pfe.73.1639072631890; Thu, 09
- Dec 2021 09:57:11 -0800 (PST)
+ bh=FbKdKTlNvOZTPqWdf9KLrts7pIKJ4noiQI6tgMHVFus=;
+ b=wWx+iZJuMsnEWKmQNCi/5XvedyBSD4wz5sTTaMxyzwPqstoZY9hzm9S2lO6C0punHf
+ YJfoXqtWz9Al1+Q7CpwDYKXCAb2vnqSznFtvtEP8jumqTa507AdjsRHZ/G4GIwvfrNDN
+ kwRbZ0WZJCKTj3Bug8Y6nPzG0Xa4DkZ080M6Mr/3ZVDhvHqjyOyogwcQSHSKXYp4n114
+ gw2DcoifwDgZw42qFINotBHAy30w2eNwIJZqH4ayB+ntBkPmEQJPtNPdoIqP6OiosL6F
+ D9Hh2kK2/2nG0WJSky+aUwiGEOYlfA1vmOC/cuwcgnwa8LyWaPGqojSESOxkHiHRMLID
+ PDMg==
+X-Gm-Message-State: AOAM533K/4l4IJl/tsZVSiuLF37OFT/YHH4naEZdlXLu1BIsjGw8ASaX
+ HYWWvOZS988WhjoTA6aC7KeCkm1VxBgesXupjmibcg==
+X-Google-Smtp-Source: ABdhPJwezHUaU5Kg2uskyPhHc+KeM2L83FIwIRh1S8wuCID9bQhQeGNKGeboVYybrze2WYAxg7m32YD4n1RekaYqg08=
+X-Received: by 2002:a5d:4883:: with SMTP id g3mr8130890wrq.590.1639072704891; 
+ Thu, 09 Dec 2021 09:58:24 -0800 (PST)
 MIME-Version: 1.0
-References: <20210704090230.26489-1-jagan@amarulasolutions.com>
- <YP2ZvoVQyvwTXP++@ravnborg.org>
- <CAMty3ZANJz=HSKFzZ8gn896uw98iVwMEpGhmanXNbj77Ren4hw@mail.gmail.com>
- <CAJ+vNU1Hy_94TYgs0isNc2pmiH2sOReZJLhphzQFTN2Z50JPrA@mail.gmail.com>
- <CAOf5uwm6+tFS8temhPmSx6nFVTSyk0Ckd9eDEToQNmNaiO2c=A@mail.gmail.com>
- <CAJ+vNU2pQCHqnyNJnz_rhczGRwcU=9XDFG1ix_V=Sc-1oWvhjA@mail.gmail.com>
- <CAOf5uw=Cts+V+amSrTzVyRyFZA=eKSVtRPtXae40-4M0bu6pwg@mail.gmail.com>
-In-Reply-To: <CAOf5uw=Cts+V+amSrTzVyRyFZA=eKSVtRPtXae40-4M0bu6pwg@mail.gmail.com>
-From: Tim Harvey <tharvey@gateworks.com>
-Date: Thu, 9 Dec 2021 09:57:00 -0800
-Message-ID: <CAJ+vNU0_CguvaLjGEQ3tTiJq1bqOQYb+o1e1OvbPCmtTW9iGiA@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/17] drm: bridge: Samsung MIPI DSIM bridge
+References: <20211016145827.586870-1-michael@amarulasolutions.com>
+ <CAOf5uw=DffhS=WAh-OFXOCO+4kd5ey=2Eqf0Zhyrgd_d5D8meA@mail.gmail.com>
+In-Reply-To: <CAOf5uw=DffhS=WAh-OFXOCO+4kd5ey=2Eqf0Zhyrgd_d5D8meA@mail.gmail.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 9 Dec 2021 17:58:10 +0000
+Message-ID: <CAPY8ntCvAnu9HS1WxWRkveXnQ_vD8EOdshX-ob8vGuGqOKp+RA@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: ilitek-ili9881c: Avoid unbalance
+ prepare/unprepare
 To: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,181 +64,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, devicetree <devicetree@vger.kernel.org>,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, NXP Linux Team <Linux-imx@nxp.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Andrzej Hajda <a.hajda@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: David Airlie <airlied@linux.ie>, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 9, 2021 at 9:09 AM Michael Nazzareno Trimarchi
+Hi Michael
+
+On Thu, 9 Dec 2021 at 16:58, Michael Nazzareno Trimarchi
 <michael@amarulasolutions.com> wrote:
 >
-> Hi Tim
+> Hi all
 >
-> On Thu, Dec 9, 2021 at 5:40 PM Tim Harvey <tharvey@gateworks.com> wrote:
+> On Sat, Oct 16, 2021 at 4:58 PM Michael Trimarchi
+> <michael@amarulasolutions.com> wrote:
 > >
-> > On Thu, Dec 9, 2021 at 12:36 AM Michael Nazzareno Trimarchi
-> > <michael@amarulasolutions.com> wrote:
-> > >
-> > > Hi Tim
-> > >
-> > > On Tue, Oct 5, 2021 at 11:43 PM Tim Harvey <tharvey@gateworks.com> wrote:
-> > > >
-> > > > On Sun, Jul 25, 2021 at 10:14 AM Jagan Teki <jagan@amarulasolutions.com> wrote:
-> > > > >
-> > > > > Hi Sam,
-> > > > >
-> > > > > On Sun, Jul 25, 2021 at 10:35 PM Sam Ravnborg <sam@ravnborg.org> wrote:
-> > > > > >
-> > > > > > Hi Jagan,
-> > > > > >
-> > > > > > On Sun, Jul 04, 2021 at 02:32:13PM +0530, Jagan Teki wrote:
-> > > > > > > This series supports common bridge support for Samsung MIPI DSIM
-> > > > > > > which is used in Exynos and i.MX8MM SoC's.
-> > > > > > >
-> > > > > > > The final bridge supports both the Exynos and i.MX8MM DSI devices.
-> > > > > > >
-> > > > > > > Right now bridge offers two sets of implementations.
-> > > > > > >
-> > > > > > > A. With component_ops and exynos specific code exclusively for
-> > > > > > >    exynos dsi drivers and it's legacy bindings.
-> > > > > > >
-> > > > > > > B. Without componenet_ops for newly implemented bridges and its
-> > > > > > >    users like i.MX8MM.
-> > > > > > >
-> > > > > > > The future plan is to fix the implementation A) by dropping
-> > > > > > > component_ops and fixing exynos specific code in order to make
-> > > > > > > the bridge more mature to use and the same is mentioned in
-> > > > > > > drivers TODO.
-> > > > > > >
-> > > > > > > Patch 0001 - 0006: Bridge conversion
-> > > > > > > Patch 0007 - 0017: Samsung MIPI DSIM bridge fixes, additions
-> > > > > > >
-> > > > > > > Tested in Engicam i.Core MX8M Mini SoM.
-> > > > > > >
-> > > > > > > Anyone interest, please have a look on this repo
-> > > > > > > https://github.com/openedev/linux/tree/070421-imx8mm-dsim
-> > > > > > >
-> > > > > > > Would appreciate anyone from the exynos team to test it on
-> > > > > > > the exynos platform?
-> > > > > > >
-> > > > > > > Any inputs?
-> > > > > >
-> > > > > > I really like where you are headign with this!
-> > > > > > No testing - sorry. But I will try to provide a bit of feedback on the
-> > > > > > individual patches.
-> > > > > >
-> > > > > > I hope you find a way to move forward with this.
-> > > > >
-> > > > > Thanks for the response.
-> > > > >
-> > > > > We have found some issues with Bridge conversion on existing exynos
-> > > > > drivers. The component based DSI drivers(like exynos) are difficult to
-> > > > > attach if it involves kms hotplug. kms hotplug would require drm
-> > > > > pointer and that pointer would only available after the bind call
-> > > > > finishes. But the bridge attach in bind call will defer till it find
-> > > > > the attached bridge.
-> > > > >
-> > > > > Right now I'm trying to find the proper way to attach the bridges for
-> > > > > component based DSI drivers which involves kms hot-plug.
-> > > > >
-> > > > > If you have any ideas on this, please let me know.
-> > > > >
-> > > >
-> > > > Jagan,
-> > > >
-> > > > How is your progress on this series? Looking at your repo it looks
-> > > > like you've rebased on top of 5.13-rc3 in your 070121-imx8mm-dsim
-> > > > branch but you've got a lot of things there that are likely not
-> > > > related to this series?
-> > >
-> > > I have a bit of work on those patches and tested on imx8mn. Basically:
-> > >
-> > > - add the dsi timing calculation
-> > > - change few difference with samsung bridge
-> > > - fix crashes of my dsi panels
-> > > - compare with NXP driver the final results
-> > >
-> > > I found that I have one problem that gives me some instability. In the
-> > > NXP original driver the panel needs to be
-> > > enabled in bridge_enable before out the standby. If I understand
-> > > correctly, our standby should be done after.
-> > > I would like to have some feedback and help and testing on other
-> > > boards/devices and some suggestions on how to handle
-> > > some of the differences. Another big problem is etnavi that is not stable
-> > >
+> > All the panel driver check the fact that their prepare/unprepare
+> > call was already called. It's not an ideal solution but fix
+> > for now the problem on ili9881c
 > >
-> > Michael,
+> > [ 9862.283296] ------------[ cut here ]------------
+> > [ 9862.288490] unbalanced disables for vcc3v3_lcd
+> > [ 9862.293555] WARNING: CPU: 0 PID: 1 at drivers/regulator/core.c:2851
+> > _regulator_disable+0xd4/0x190
 > >
-> > Where can I find your patches?
+> > from:
 > >
->
-> I will push on some tree and share
->
-> > What do you mean by etnaviv not being stable?
+> > [ 9862.038619]  drm_panel_unprepare+0x2c/0x4c
+> > [ 9862.043212]  panel_bridge_post_disable+0x18/0x24
+> > [ 9862.048390]  dw_mipi_dsi_bridge_post_disable+0x3c/0xf0
+> > [ 9862.054153]  drm_atomic_bridge_chain_post_disable+0x8c/0xd0
 > >
-> > I did some limited testing with etnaviv on imx8mm with 5.15 + dsi
->
->
->
-> > patches on an Ubuntu focal root filesystem by:
-> > apt update
-> > apt install gnome-session gnome-terminal
-> > ^^^ 2D hardware acceleration appears to be working (dragging opaque
-> > windows around)
-> > apt install mesa-utils glmark2
-> > glxgears
-> > ^^^ ~160fps on IMX8MM
-> > glmark2
-> > ^^^ score of 39 on IMX8MM
+> > and:
 > >
-> > I haven't seen any updates from Jagan since Nov 24
-> > (https://www.spinics.net/lists/dri-devel/msg324059.html) and am not
-> > sure if he's been able to work through drm/exynos issues that have
-> > been blocking his progress.
->
-> I plan to push on github
->
-> [17:07:42.315] Sending ready to systemd
-> [  214.052085] etnaviv-gpu 38000000.gpu: recover hung GPU!
-> [  214.595998] etnaviv-gpu 38000000.gpu: recover hung GPU!
->
-> ** (maynard:386): WARNING **: 17:07:43.874: failed to setup mixer: Success
-> [17:07:44.175] Added surface 0xaaab02630440, app_id (null) to pending list
-> [17:07:44.176] Added surface 0xaaab026172b0, app_id (null) to pending list
-> ** Message: 17:07:44.289: New advertisement app id maynard
-> ** Message: 17:07:44.290: New advertisement app id maynard
-> [17:07:45.171] (background) position view 0xaaab0261f860, x 0, y 0, on
-> output DSI-1
-> [17:07:45.171] (panel) geom.width 100, geom.height 480, geom.x 0, geom.y 0
-> [17:07:45.171] (panel) edge 2 position view 0xaaab02634510, x 0, y 0
-> [17:07:45.172] panel type 2 inited on output DSI-1
-> [17:07:45.172] Usable area: 380x480+100,0
-> [  216.932080] etnaviv-gpu 38000000.gpu: recover hung GPU!
-> [  217.476015] etnaviv-gpu 38000000.gpu: recover hung GPU!
-> [  218.020157] etnaviv-gpu 38000000.gpu: recover hung GPU!
->
-> This is my problem on imx8mn
->
+> > [ 9862.183103]  drm_panel_unprepare+0x2c/0x4c
+> > [ 9862.187695]  panel_bridge_post_disable+0x18/0x24
+> > [ 9862.192872]  drm_atomic_bridge_chain_post_disable+0x8c/0xd0
+> > [ 9862.199117]  disable_outputs+0x120/0x31c
 
-Do you have an imx8mm to compare with? Unfortunately I do not have an
-imx8mn with a MIPI DSI connector and can only test with imx8mm.
+This is down to the dw-mipi-dsi driver calling the post_disable hook
+explicitly at [1], but then also allowing the framework to call it.
+The explicit call is down to limitations in the DSI support, so we
+can't control the DSI host state to a fine enough degree (an ongoing
+discussion [2] [3]). There shouldn't be a need to handle mismatched
+calling in individual panel drivers.
 
-What software (other than kernel which you will share) do you have
-installed above and how is it configured or run to show the issue?
+  Dave
 
-Best regards,
+[1] https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c#L894
+[2] https://lists.freedesktop.org/archives/dri-devel/2021-November/332060.html
+[3] https://lists.freedesktop.org/archives/dri-devel/2021-December/334007.html
 
-Tim
+
+> > Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
+> > ---
+> >  drivers/gpu/drm/panel/panel-ilitek-ili9881c.c | 14 ++++++++++++++
+> >  1 file changed, 14 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
+> > index 103a16018975..f75eecb0e65c 100644
+> > --- a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
+> > +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
+> > @@ -52,6 +52,8 @@ struct ili9881c {
+> >
+> >         struct regulator        *power;
+> >         struct gpio_desc        *reset;
+> > +
+> > +       bool                    prepared;
+> >  };
+> >
+>
+> I found that this can be a general problem. Should not mandatory to
+> track panel status
+>
+> DRM_PANEL_PREPARED
+> DRM_PANEL_ENABLED
+>
+> Michael
+> >  #define ILI9881C_SWITCH_PAGE_INSTR(_page)      \
+> > @@ -707,6 +709,10 @@ static int ili9881c_prepare(struct drm_panel *panel)
+> >         unsigned int i;
+> >         int ret;
+> >
+> > +       /* Preparing when already prepared is a no-op */
+> > +       if (ctx->prepared)
+> > +               return 0;
+> > +
+> >         /* Power the panel */
+> >         ret = regulator_enable(ctx->power);
+> >         if (ret)
+> > @@ -745,6 +751,8 @@ static int ili9881c_prepare(struct drm_panel *panel)
+> >         if (ret)
+> >                 return ret;
+> >
+> > +       ctx->prepared = true;
+> > +
+> >         return 0;
+> >  }
+> >
+> > @@ -770,10 +778,16 @@ static int ili9881c_unprepare(struct drm_panel *panel)
+> >  {
+> >         struct ili9881c *ctx = panel_to_ili9881c(panel);
+> >
+> > +       /* Unpreparing when already unprepared is a no-op */
+> > +       if (!ctx->prepared)
+> > +               return 0;
+> > +
+> >         mipi_dsi_dcs_enter_sleep_mode(ctx->dsi);
+> >         regulator_disable(ctx->power);
+> >         gpiod_set_value(ctx->reset, 1);
+> >
+> > +       ctx->prepared = false;
+> > +
+> >         return 0;
+> >  }
+> >
+> > --
+> > 2.25.1
+> >
+>
+>
+> --
+> Michael Nazzareno Trimarchi
+> Co-Founder & Chief Executive Officer
+> M. +39 347 913 2170
+> michael@amarulasolutions.com
+> __________________________________
+>
+> Amarula Solutions BV
+> Joop Geesinkweg 125, 1114 AB, Amsterdam, NL
+> T. +31 (0)85 111 9172
+> info@amarulasolutions.com
+> www.amarulasolutions.com
