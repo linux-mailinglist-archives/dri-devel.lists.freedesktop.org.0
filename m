@@ -1,50 +1,104 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F47A46EEFA
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 17:59:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 771EB46EE84
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 17:57:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4944510EA15;
-	Thu,  9 Dec 2021 16:53:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3F1510E3D8;
+	Thu,  9 Dec 2021 16:53:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4EC689A72;
- Thu,  9 Dec 2021 10:48:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639046895; x=1670582895;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=ufyRm7rfKYhiPrbJJ6u4+XIyL1a3y5Zvh7lisw9g/DI=;
- b=ki4Li8wnocS2z+JR9ykQeUsADdXIGiFSzEBOooDgO97z0mdfbsahztEH
- Bzx+/JRA93f5+qxO3uiCbbacWky1b0Fg4FieMIRSubpAloWSHCdYo8VCP
- pEYIib1fqBOct135Vkj58JR0v8WiztOIv4wJp+RlmIJDWwuNlmfsteXmq
- FsqNVkTC0SZTaZ2faG8xKj7jMWj4VvmlmEu236cdhQcoBwtVVcATvNaXj
- Ia42ADsKLeOJlOOoAN/kejdIj3qDyFtdeG6qdsF3wLvccssZC4TZX21pu
- 8qlT9n0R8mzFJ/O2Iv2QZAmg+LV+4e0reDYvxjdrZGQ9kxG1AcxHyfPWV A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10192"; a="218761069"
-X-IronPort-AV: E=Sophos;i="5.88,192,1635231600"; d="scan'208";a="218761069"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2021 02:47:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,192,1635231600"; d="scan'208";a="680287481"
-Received: from unknown (HELO slisovsk-Lenovo-ideapad-720S-13IKB.fi.intel.com)
- ([10.237.72.167])
- by orsmga005.jf.intel.com with ESMTP; 09 Dec 2021 02:47:15 -0800
-From: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/i915/dg2: Tile 4 plane format support
-Date: Thu,  9 Dec 2021 12:47:11 +0200
-Message-Id: <20211209104711.14790-2-stanislav.lisovskiy@intel.com>
-X-Mailer: git-send-email 2.24.1.485.gad05a3d8e5
-In-Reply-To: <20211209104711.14790-1-stanislav.lisovskiy@intel.com>
-References: <20211209104711.14790-1-stanislav.lisovskiy@intel.com>
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2084.outbound.protection.outlook.com [40.107.243.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFB9C10E119;
+ Thu,  9 Dec 2021 10:53:24 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NJIk6BJ0Pz8UO5lPwvuID/PmNIisSBpR9iLooc4XbLGfPEpC4yz6H9otMi5IH4tQgbbLzGGLzCJQp4kGr00+FvwKIw/6XHfJbpQMPi9MAtpiOprvoCGV3lEpfYVpUe3gQPrWLnqqxAs2gZDxH6Mt5BjdHJddR5NKkWZSKXWPC331QSPrvQYPZD7hkWmi6Xi/cM4ObFDA7WUbKy8dlTMoKGdBxlC8owGKJuXGmQpq1HZAskPvMYn9XyxgcsNaQbkPEKV5Xi4yt7yORNA06tF95rsTGiT1bSOu8koS4Rpfvh7ZOI7rX6Jb7ZycFQOImzPnY8Get0R6M/orz55UpHAF5Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OxkNY6q++y/FT9Sq+BwUn4Q3sk8rLT1vE6MTEsaT3NA=;
+ b=aNfuTtj3FaM/MupmpciL1Sw6P0alRT9SlaQHvWjiLDbnPXmlKL5zcL7mpJ1o0kq/jdxzr3IlHnZBF0w0l2f7dAt63obdpZHdt6QNijKqIvkcPGr+fmPQiv4YAsPGN1VivdEmDonHBQ5tghZWpOm9MjaQ6Vt5sBEYjYvfu+a3h8RnxmpIGIpovcJifuYflW8irSIxzdrcobeDeLtIT7qVlRXQMdhY1U4q5iqJFTnHXyDtCbDWuveNKllO7NJ5sJiuWvtGmKsevEw/zeGwrsdufM1hItTVkbPYRG0OvItTcz92uaI/BHPpo2l3nPfyHkEsUZSXCwOUedi2VT3jhRP/yA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 203.18.50.13) smtp.rcpttodomain=infradead.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OxkNY6q++y/FT9Sq+BwUn4Q3sk8rLT1vE6MTEsaT3NA=;
+ b=G7sZF/AvwcFSyL+5RasI2whs4YB6lpNEGKWH8E5izeda/ydQATe1uzRGyASLtI613ppqPtSNt0TX0RaJoNVjoeu/ZwljtRz3GpVuyhTw7S7oXvw1GBXM8CWzGxpSAXz4rU5KKl4iwNGEtPsP1TzeJTTVEetZKD9I9VNjUi26HzDw8CIt5O2RYJic69F8pUeQcNXkZfHNHdTBcu6npU4B9Gx5jFCoKchUDbSp/SU95xE/Nj1vJGrMe0LTKi+eROhwKMVVdPive5t7og/qfj8xKIvjPDXMbb89pRM0nNzK2W/qrmUw7MFXL7P5RW+fkA16wjJwFHBbM9r2kAWXWg5LIQ==
+Received: from CO2PR06CA0071.namprd06.prod.outlook.com (2603:10b6:104:3::29)
+ by DM5PR12MB1228.namprd12.prod.outlook.com (2603:10b6:3:74::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.16; Thu, 9 Dec
+ 2021 10:53:21 +0000
+Received: from CO1NAM11FT063.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:104:3:cafe::1a) by CO2PR06CA0071.outlook.office365.com
+ (2603:10b6:104:3::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.12 via Frontend
+ Transport; Thu, 9 Dec 2021 10:53:21 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 203.18.50.13)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 203.18.50.13 as permitted sender) receiver=protection.outlook.com;
+ client-ip=203.18.50.13; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (203.18.50.13) by
+ CO1NAM11FT063.mail.protection.outlook.com (10.13.175.37) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4755.13 via Frontend Transport; Thu, 9 Dec 2021 10:53:20 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by HKMAIL102.nvidia.com
+ (10.18.16.11) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Thu, 9 Dec
+ 2021 10:53:20 +0000
+Received: from nvdebian.localnet (172.20.187.6) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.9; Thu, 9 Dec 2021
+ 02:53:15 -0800
+From: Alistair Popple <apopple@nvidia.com>
+To: Felix Kuehling <felix.kuehling@amd.com>, <akpm@linux-foundation.org>,
+ <linux-mm@kvack.org>, <rcampbell@nvidia.com>, <linux-ext4@vger.kernel.org>,
+ <linux-xfs@vger.kernel.org>, "Sierra Guiza, Alejandro (Alex)"
+ <alex.sierra@amd.com>
+Subject: Re: [PATCH v2 03/11] mm/gup: migrate PIN_LONGTERM dev coherent pages
+ to system
+Date: Thu, 9 Dec 2021 21:53:12 +1100
+Message-ID: <2497746.4npHOaMrmn@nvdebian>
+In-Reply-To: <3f8a48d6-7ee7-fb30-5942-29054c34aac5@amd.com>
+References: <20211206185251.20646-1-alex.sierra@amd.com>
+ <2b996383-ebe6-e9d8-d794-58ecfd4a16e8@amd.com>
+ <3f8a48d6-7ee7-fb30-5942-29054c34aac5@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [172.20.187.6]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 67640458-1c38-42ff-80f8-08d9bb021da8
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1228:EE_
+X-Microsoft-Antispam-PRVS: <DM5PR12MB1228B442E6B148341F5CE1C9DF709@DM5PR12MB1228.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: CS7Ti9uliB2LOKuv4TVrRzPIi6xamrevZU0k7KufNpKtXED7Ip6cX36RpxqFHAKGxXOEGoS5I5y1FygeY723zg7m4tpNPh6RAFF1LLuKobY35L0U0IjKPrdA3BllcCEJh8w0Me26P4B2D1idPoKbeGnsZutMcWdWSV5ZFZuBGsJU9ntjZkzKDQBMBxtQxfRzapBva7c0izYs8Pdr6nOjVZeRinqlpSd5X1aDkAl2cvz/DPgAgKHPcIWlpFa52VvFVwzDHXsmCrvAG2rjH6aW85AbEamJ25h16fDwQdC3SvYnBmBclzjH11myzwvB6XN48lMtwlenflcIMjXFiOS00pcIL2LMPIDMPqCduJpzLVTHzYuzXTnUhlmSQbmdUQJeZ5UjOaIiMihR9PdfSpMEArTSlEDDCi4B3GLS5BKPRbEJ6rSr3o6bab9cInevibSwgg7BTHW2526D/A8IG1z553hPOQrgS3vdTix/ostlPMwtbR1D4268eiWbkZX5ziBrNs1RCO0Csgipf9awjoC03d0O1MmzxBU4WU66D64S7ERn3WT1dNbibRXtnsoNJEkPmXic06Wi59K9kGayxh60/uj96ZFGBVEjI+y8qTiUXQGgtjYsEV6q2LJao9gCyq+kXZ9WIOCdhjQz00TGfhZOMG/3GoJD4iM/2qK/yqiztMbxu6HZd6+6rEHTxWHbbfbtr1CZxvVx1p/Qs6BEmPpNl1+kyNs0m5Z1H5kaygW33IfKMUvT17bheQcWBxbhi8gi79IcWefDVNC+kp3Fhv+EEUHS3kezMdTxx1qCvclT43S3X18N6iL4XLsOiLJkbp0waNYgtEIxAHOu5LwOKG6sow==
+X-Forefront-Antispam-Report: CIP:203.18.50.13; CTRY:HK; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:hkhybrid02.nvidia.com; CAT:NONE;
+ SFS:(4636009)(46966006)(36840700001)(40470700001)(7416002)(356005)(110136005)(54906003)(6666004)(86362001)(47076005)(336012)(5660300002)(7636003)(9576002)(426003)(26005)(8676002)(2906002)(53546011)(33716001)(36860700001)(8936002)(186003)(16526019)(34070700002)(70206006)(508600001)(9686003)(316002)(70586007)(82310400004)(40460700001)(83380400001)(4326008)(39026012);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2021 10:53:20.8109 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 67640458-1c38-42ff-80f8-08d9bb021da8
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[203.18.50.13];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT063.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1228
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,270 +111,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nanley.g.chery@intel.com, dri-devel@lists.freedesktop.org,
- Stanislav.Lisovskiy@intel.com, jani.saarinen@intel.com
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ jglisse@redhat.com, willy@infradead.org, jgg@nvidia.com, hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Tile4 in bspec format is 4K tile organized into
-64B subtiles with same basic shape as for legacy TileY
-which will be supported by Display13.
+On Thursday, 9 December 2021 5:55:26 AM AEDT Sierra Guiza, Alejandro (Alex) wrote:
+> 
+> On 12/8/2021 11:30 AM, Felix Kuehling wrote:
+> > Am 2021-12-08 um 11:58 a.m. schrieb Felix Kuehling:
+> >> Am 2021-12-08 um 6:31 a.m. schrieb Alistair Popple:
+> >>> On Tuesday, 7 December 2021 5:52:43 AM AEDT Alex Sierra wrote:
+> >>>> Avoid long term pinning for Coherent device type pages. This could
+> >>>> interfere with their own device memory manager.
+> >>>> If caller tries to get user device coherent pages with PIN_LONGTERM flag
+> >>>> set, those pages will be migrated back to system memory.
+> >>>>
+> >>>> Signed-off-by: Alex Sierra <alex.sierra@amd.com>
+> >>>> ---
+> >>>>   mm/gup.c | 32 ++++++++++++++++++++++++++++++--
+> >>>>   1 file changed, 30 insertions(+), 2 deletions(-)
+> >>>>
+> >>>> diff --git a/mm/gup.c b/mm/gup.c
+> >>>> index 886d6148d3d0..1572eacf07f4 100644
+> >>>> --- a/mm/gup.c
+> >>>> +++ b/mm/gup.c
+> >>>> @@ -1689,17 +1689,37 @@ struct page *get_dump_page(unsigned long addr)
+> >>>>   #endif /* CONFIG_ELF_CORE */
+> >>>>   
+> >>>>   #ifdef CONFIG_MIGRATION
+> >>>> +static int migrate_device_page(unsigned long address,
+> >>>> +				struct page *page)
+> >>>> +{
+> >>>> +	struct vm_area_struct *vma = find_vma(current->mm, address);
+> >>>> +	struct vm_fault vmf = {
+> >>>> +		.vma = vma,
+> >>>> +		.address = address & PAGE_MASK,
+> >>>> +		.flags = FAULT_FLAG_USER,
+> >>>> +		.pgoff = linear_page_index(vma, address),
+> >>>> +		.gfp_mask = GFP_KERNEL,
+> >>>> +		.page = page,
+> >>>> +	};
+> >>>> +	if (page->pgmap && page->pgmap->ops->migrate_to_ram)
+> >>>> +		return page->pgmap->ops->migrate_to_ram(&vmf);
+> >>> How does this synchronise against pgmap being released? As I understand things
+> >>> at this point we're not holding a reference on either the page or pgmap, so
+> >>> the page and therefore the pgmap may have been freed.
+> >>>
+> >>> I think a similar problem exists for device private fault handling as well and
+> >>> it has been on my list of things to fix for a while. I think the solution is to
+> >>> call try_get_page(), except it doesn't work with device pages due to the whole
+> >>> refcount thing. That issue is blocking a fair bit of work now so I've started
+> >>> looking into it.
+> >> At least the page should have been pinned by the __get_user_pages_locked
+> >> call in __gup_longterm_locked. That refcount is dropped in
+> >> check_and_migrate_movable_pages when it returns 0 or an error.
+> > Never mind. We unpin the pages first. Alex, would the migration work if
+> > we unpinned them afterwards? Also, the normal CPU page fault code path
+> > seems to make sure the page is locked (check in pfn_swap_entry_to_page)
+> > before calling migrate_to_ram.
 
-v2: - Moved Tile4 assocating struct for modifier/display to
-      the beginning(Imre Deak)
-    - Removed unneeded case I915_FORMAT_MOD_4_TILED modifier
-      checks(Imre Deak)
-    - Fixed I915_FORMAT_MOD_4_TILED to be 9 instead of 12
-      (Imre Deak)
+I don't think that's true. The check in pfn_swap_entry_to_page() is only for
+migration entries:
 
-v3: - Rebased patch on top of new changes related to plane_caps.
-    - Added static assert to check that PLANE_CTL_TILING_YF
-      matches PLANE_CTL_TILING_4(Nanley Chery)
-    - Fixed naming and layout description for Tile 4 in drm uapi
-      header(Nanley Chery)
+	BUG_ON(is_migration_entry(entry) && !PageLocked(p));
 
-v4: - Extracted drm_fourcc changes to separate patch(Nanley Chery)
+As this is coherent memory though why do we have to call into a device driver
+to do the migration? Couldn't this all be done in the kernel?
 
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Signed-off-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
-Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-Signed-off-by: Juha-Pekka Heikkilä <juha-pekka.heikkila@intel.com>
----
- drivers/gpu/drm/i915/display/intel_display.c  |  1 +
- drivers/gpu/drm/i915/display/intel_fb.c       | 15 +++++++++++-
- drivers/gpu/drm/i915/display/intel_fb.h       |  1 +
- drivers/gpu/drm/i915/display/intel_fbc.c      |  1 +
- .../drm/i915/display/intel_plane_initial.c    |  1 +
- .../drm/i915/display/skl_universal_plane.c    | 23 ++++++++++++-------
- drivers/gpu/drm/i915/i915_drv.h               |  1 +
- drivers/gpu/drm/i915/i915_pci.c               |  1 +
- drivers/gpu/drm/i915/i915_reg.h               |  1 +
- drivers/gpu/drm/i915/intel_device_info.h      |  1 +
- drivers/gpu/drm/i915/intel_pm.c               |  1 +
- 11 files changed, 38 insertions(+), 9 deletions(-)
+> No, you can not unpinned after migration. Due to the expected_count VS 
+> page_count condition at migrate_page_move_mapping, during migrate_page call.
+> 
+> Regards,
+> Alex Sierra
+> 
+> > Regards,
+> >    Felix
+> >
+> >
+> 
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 128d4943a43b..83253c62b6d6 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -7777,6 +7777,7 @@ static int intel_atomic_check_async(struct intel_atomic_state *state, struct int
- 		case I915_FORMAT_MOD_X_TILED:
- 		case I915_FORMAT_MOD_Y_TILED:
- 		case I915_FORMAT_MOD_Yf_TILED:
-+		case I915_FORMAT_MOD_4_TILED:
- 			break;
- 		default:
- 			drm_dbg_kms(&i915->drm,
-diff --git a/drivers/gpu/drm/i915/display/intel_fb.c b/drivers/gpu/drm/i915/display/intel_fb.c
-index 23cfe2e5ce2a..94c57facbb46 100644
---- a/drivers/gpu/drm/i915/display/intel_fb.c
-+++ b/drivers/gpu/drm/i915/display/intel_fb.c
-@@ -135,11 +135,16 @@ struct intel_modifier_desc {
- 					 INTEL_PLANE_CAP_CCS_MC)
- #define INTEL_PLANE_CAP_TILING_MASK	(INTEL_PLANE_CAP_TILING_X | \
- 					 INTEL_PLANE_CAP_TILING_Y | \
--					 INTEL_PLANE_CAP_TILING_Yf)
-+					 INTEL_PLANE_CAP_TILING_Yf | \
-+					 INTEL_PLANE_CAP_TILING_4)
- #define INTEL_PLANE_CAP_TILING_NONE	0
- 
- static const struct intel_modifier_desc intel_modifiers[] = {
- 	{
-+		.modifier = I915_FORMAT_MOD_4_TILED,
-+		.display_ver = { 13, 13 },
-+		.plane_caps = INTEL_PLANE_CAP_TILING_4,
-+	}, {
- 		.modifier = I915_FORMAT_MOD_Y_TILED_GEN12_MC_CCS,
- 		.display_ver = { 12, 13 },
- 		.plane_caps = INTEL_PLANE_CAP_TILING_Y | INTEL_PLANE_CAP_CCS_MC,
-@@ -545,6 +550,12 @@ intel_tile_width_bytes(const struct drm_framebuffer *fb, int color_plane)
- 			return 128;
- 		else
- 			return 512;
-+	case I915_FORMAT_MOD_4_TILED:
-+		/*
-+		 * Each 4K tile consists of 64B(8*8) subtiles, with
-+		 * same shape as Y Tile(i.e 4*16B OWords)
-+		 */
-+		return 128;
- 	case I915_FORMAT_MOD_Y_TILED_CCS:
- 		if (intel_fb_is_ccs_aux_plane(fb, color_plane))
- 			return 128;
-@@ -650,6 +661,7 @@ static unsigned int intel_fb_modifier_to_tiling(u64 fb_modifier)
- 		return I915_TILING_Y;
- 	case INTEL_PLANE_CAP_TILING_X:
- 		return I915_TILING_X;
-+	case INTEL_PLANE_CAP_TILING_4:
- 	case INTEL_PLANE_CAP_TILING_Yf:
- 	case INTEL_PLANE_CAP_TILING_NONE:
- 		return I915_TILING_NONE;
-@@ -737,6 +749,7 @@ unsigned int intel_surf_alignment(const struct drm_framebuffer *fb,
- 	case I915_FORMAT_MOD_Y_TILED_CCS:
- 	case I915_FORMAT_MOD_Yf_TILED_CCS:
- 	case I915_FORMAT_MOD_Y_TILED:
-+	case I915_FORMAT_MOD_4_TILED:
- 	case I915_FORMAT_MOD_Yf_TILED:
- 		return 1 * 1024 * 1024;
- 	default:
-diff --git a/drivers/gpu/drm/i915/display/intel_fb.h b/drivers/gpu/drm/i915/display/intel_fb.h
-index ba9df8986c1e..12386f13a4e0 100644
---- a/drivers/gpu/drm/i915/display/intel_fb.h
-+++ b/drivers/gpu/drm/i915/display/intel_fb.h
-@@ -27,6 +27,7 @@ struct intel_plane_state;
- #define INTEL_PLANE_CAP_TILING_X	BIT(3)
- #define INTEL_PLANE_CAP_TILING_Y	BIT(4)
- #define INTEL_PLANE_CAP_TILING_Yf	BIT(5)
-+#define INTEL_PLANE_CAP_TILING_4	BIT(6)
- 
- bool intel_fb_is_ccs_modifier(u64 modifier);
- bool intel_fb_is_rc_ccs_cc_modifier(u64 modifier);
-diff --git a/drivers/gpu/drm/i915/display/intel_fbc.c b/drivers/gpu/drm/i915/display/intel_fbc.c
-index 6efbef7a1fc0..aee3c9b48b84 100644
---- a/drivers/gpu/drm/i915/display/intel_fbc.c
-+++ b/drivers/gpu/drm/i915/display/intel_fbc.c
-@@ -936,6 +936,7 @@ static bool tiling_is_valid(const struct intel_plane_state *plane_state)
- 	case I915_FORMAT_MOD_Y_TILED:
- 	case I915_FORMAT_MOD_Yf_TILED:
- 		return DISPLAY_VER(i915) >= 9;
-+	case I915_FORMAT_MOD_4_TILED:
- 	case I915_FORMAT_MOD_X_TILED:
- 		return true;
- 	default:
-diff --git a/drivers/gpu/drm/i915/display/intel_plane_initial.c b/drivers/gpu/drm/i915/display/intel_plane_initial.c
-index 01ce1d72297f..4ae9730ceeff 100644
---- a/drivers/gpu/drm/i915/display/intel_plane_initial.c
-+++ b/drivers/gpu/drm/i915/display/intel_plane_initial.c
-@@ -126,6 +126,7 @@ intel_alloc_initial_plane_obj(struct intel_crtc *crtc,
- 	case DRM_FORMAT_MOD_LINEAR:
- 	case I915_FORMAT_MOD_X_TILED:
- 	case I915_FORMAT_MOD_Y_TILED:
-+	case I915_FORMAT_MOD_4_TILED:
- 		break;
- 	default:
- 		drm_dbg(&dev_priv->drm,
-diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-index d5359cf3d270..f62ba027fcf9 100644
---- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
-+++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-@@ -762,6 +762,8 @@ static u32 skl_plane_ctl_tiling(u64 fb_modifier)
- 		return PLANE_CTL_TILED_X;
- 	case I915_FORMAT_MOD_Y_TILED:
- 		return PLANE_CTL_TILED_Y;
-+	case I915_FORMAT_MOD_4_TILED:
-+		return PLANE_CTL_TILED_4;
- 	case I915_FORMAT_MOD_Y_TILED_CCS:
- 	case I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS_CC:
- 		return PLANE_CTL_TILED_Y | PLANE_CTL_RENDER_DECOMPRESSION_ENABLE;
-@@ -1990,9 +1992,7 @@ static bool gen12_plane_format_mod_supported(struct drm_plane *_plane,
- 	case DRM_FORMAT_Y216:
- 	case DRM_FORMAT_XVYU12_16161616:
- 	case DRM_FORMAT_XVYU16161616:
--		if (modifier == DRM_FORMAT_MOD_LINEAR ||
--		    modifier == I915_FORMAT_MOD_X_TILED ||
--		    modifier == I915_FORMAT_MOD_Y_TILED)
-+		if (!intel_fb_is_ccs_modifier(modifier))
- 			return true;
- 		fallthrough;
- 	default:
-@@ -2085,6 +2085,8 @@ static u8 skl_get_plane_caps(struct drm_i915_private *i915,
- 		caps |= INTEL_PLANE_CAP_TILING_Y;
- 	if (DISPLAY_VER(i915) < 12)
- 		caps |= INTEL_PLANE_CAP_TILING_Yf;
-+	if (HAS_4TILE(i915))
-+		caps |= INTEL_PLANE_CAP_TILING_4;
- 
- 	if (skl_plane_has_rc_ccs(i915, pipe, plane_id)) {
- 		caps |= INTEL_PLANE_CAP_CCS_RC;
-@@ -2257,6 +2259,7 @@ skl_get_initial_plane_config(struct intel_crtc *crtc,
- 	unsigned int aligned_height;
- 	struct drm_framebuffer *fb;
- 	struct intel_framebuffer *intel_fb;
-+	static_assert(PLANE_CTL_TILED_YF == PLANE_CTL_TILED_4);
- 
- 	if (!plane->get_hw_state(plane, &pipe))
- 		return;
-@@ -2318,11 +2321,15 @@ skl_get_initial_plane_config(struct intel_crtc *crtc,
- 		else
- 			fb->modifier = I915_FORMAT_MOD_Y_TILED;
- 		break;
--	case PLANE_CTL_TILED_YF:
--		if (val & PLANE_CTL_RENDER_DECOMPRESSION_ENABLE)
--			fb->modifier = I915_FORMAT_MOD_Yf_TILED_CCS;
--		else
--			fb->modifier = I915_FORMAT_MOD_Yf_TILED;
-+	case PLANE_CTL_TILED_YF: /* aka PLANE_CTL_TILED_4 on XE_LPD+ */
-+		if (HAS_4TILE(dev_priv)) {
-+			fb->modifier = I915_FORMAT_MOD_4_TILED;
-+		} else {
-+			if (val & PLANE_CTL_RENDER_DECOMPRESSION_ENABLE)
-+				fb->modifier = I915_FORMAT_MOD_Yf_TILED_CCS;
-+			else
-+				fb->modifier = I915_FORMAT_MOD_Yf_TILED;
-+		}
- 		break;
- 	default:
- 		MISSING_CASE(tiling);
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index ae7dc7862b5d..3e247881862c 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -1444,6 +1444,7 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
- #define CMDPARSER_USES_GGTT(dev_priv) (GRAPHICS_VER(dev_priv) == 7)
- 
- #define HAS_LLC(dev_priv)	(INTEL_INFO(dev_priv)->has_llc)
-+#define HAS_4TILE(dev_priv)	(INTEL_INFO(dev_priv)->has_4tile)
- #define HAS_SNOOP(dev_priv)	(INTEL_INFO(dev_priv)->has_snoop)
- #define HAS_EDRAM(dev_priv)	((dev_priv)->edram_size_mb)
- #define HAS_SECURE_BATCHES(dev_priv) (GRAPHICS_VER(dev_priv) < 6)
-diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-index c8f574eea5aa..3aeb05aa45c0 100644
---- a/drivers/gpu/drm/i915/i915_pci.c
-+++ b/drivers/gpu/drm/i915/i915_pci.c
-@@ -1046,6 +1046,7 @@ static const struct intel_device_info dg2_info = {
- 	DGFX_FEATURES,
- 	.graphics.rel = 55,
- 	.media.rel = 55,
-+	.has_4tile = 1,
- 	PLATFORM(INTEL_DG2),
- 	.platform_engine_mask =
- 		BIT(RCS0) | BIT(BCS0) |
-diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-index d27ba273cc68..a6bb55e5ecde 100644
---- a/drivers/gpu/drm/i915/i915_reg.h
-+++ b/drivers/gpu/drm/i915/i915_reg.h
-@@ -7285,6 +7285,7 @@ enum {
- #define   PLANE_CTL_TILED_X			(1 << 10)
- #define   PLANE_CTL_TILED_Y			(4 << 10)
- #define   PLANE_CTL_TILED_YF			(5 << 10)
-+#define   PLANE_CTL_TILED_4			(5 << 10)
- #define   PLANE_CTL_ASYNC_FLIP			(1 << 9)
- #define   PLANE_CTL_FLIP_HORIZONTAL		(1 << 8)
- #define   PLANE_CTL_MEDIA_DECOMPRESSION_ENABLE	(1 << 4) /* TGL+ */
-diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
-index 2bedf73e0a7d..82c0a78e2e49 100644
---- a/drivers/gpu/drm/i915/intel_device_info.h
-+++ b/drivers/gpu/drm/i915/intel_device_info.h
-@@ -128,6 +128,7 @@ enum intel_ppgtt_type {
- 	func(has_64bit_reloc); \
- 	func(gpu_reset_clobbers_display); \
- 	func(has_reset_engine); \
-+	func(has_4tile); \
- 	func(has_global_mocs); \
- 	func(has_gt_uc); \
- 	func(has_l3_dpf); \
-diff --git a/drivers/gpu/drm/i915/intel_pm.c b/drivers/gpu/drm/i915/intel_pm.c
-index fe3787425780..145b2fb60ca8 100644
---- a/drivers/gpu/drm/i915/intel_pm.c
-+++ b/drivers/gpu/drm/i915/intel_pm.c
-@@ -5381,6 +5381,7 @@ skl_compute_wm_params(const struct intel_crtc_state *crtc_state,
- 	}
- 
- 	wp->y_tiled = modifier == I915_FORMAT_MOD_Y_TILED ||
-+		      modifier == I915_FORMAT_MOD_4_TILED ||
- 		      modifier == I915_FORMAT_MOD_Yf_TILED ||
- 		      modifier == I915_FORMAT_MOD_Y_TILED_CCS ||
- 		      modifier == I915_FORMAT_MOD_Yf_TILED_CCS;
--- 
-2.24.1.485.gad05a3d8e5
+
+
 
