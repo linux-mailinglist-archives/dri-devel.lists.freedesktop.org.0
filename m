@@ -1,59 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D994A46EDF5
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 17:54:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B325A46EE2E
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Dec 2021 17:55:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D1C510E1FB;
-	Thu,  9 Dec 2021 16:53:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3032610E5CE;
+	Thu,  9 Dec 2021 16:53:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
- [IPv6:2607:f8b0:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFF7E10E116
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Dec 2021 06:14:01 +0000 (UTC)
-Received: by mail-ot1-x32d.google.com with SMTP id
- u18-20020a9d7212000000b00560cb1dc10bso5126903otj.11
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Dec 2021 22:14:01 -0800 (PST)
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
+ [IPv6:2607:f8b0:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C54489ABE
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Dec 2021 06:01:20 +0000 (UTC)
+Received: by mail-oi1-x22e.google.com with SMTP id n66so7278862oia.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Dec 2021 22:01:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=1cPZqZQ5XXpMaeXUoSIDgfs6PiXbab5Qo1dirmlsOlA=;
- b=VzmkGZ3e4DQTeu+cm8+BfcJ+4iQ2lFk6VPcFAMJe0T5RRdo5W1M00anDghybC/iCRT
- DBplnY4kGe5ydtSRL6Pyhr+R7t/TnEa9Aw/NjHcScYFZ+jyk34ZF6O/fMLqb9KSFwtvJ
- f6HIqbOFwhGIhW9G0sSgIlUocZYE2nQCJQKf8=
+ bh=4RvTOElFtjC6K+YtTFs0DQWYPsT5j+ievJDMuHacLoY=;
+ b=gTDcbQcQviVXwGHqelMkl3tznVzOOD5dAldIOXwUNq+Wb1juxj6sy9VNnuyEWs/YxX
+ tz3IyuWVcGMGCogH+EVFDY1oAMYdGobKJ8y3qO7McBYMVIakK40oIYrJP0Nf36vN1PVC
+ r6kBOj5+1or6IhEa/Gd8Z9Anz82J5FcBxWq9k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=1cPZqZQ5XXpMaeXUoSIDgfs6PiXbab5Qo1dirmlsOlA=;
- b=oEWaQc8ovVNjl7/OJGC6qsmnlQxUmgVjidPzIar/Ut3cu4+m19fOF1MXBVUYZ9dZP7
- jw4gR48rB5lTe/mtLWDNZzkegdS1/ehXi/Pmy3AcZZV9XxZXIPWPm8afFiQYcKUYIfcq
- g5WxFj8YMdN6JM9k/di5m3Jmk1rYOanrSa/AJoyZRkGV+tD67SQkz/1Jmt8fnttGfqnY
- wi9wIFZ1/dZpwAo3KRT4Y7yPY/e1DvMWQ3UVbdfA/xfZ+o0Kw9kkHWSyPBDeO4yBlNR2
- odn3ulF1s8q1LEBjPmV1lzf7K0fj/QZ3zpMFjSMyLKgdAjE1Q57zyLy1U2+g9WDcHCNl
- yNGA==
-X-Gm-Message-State: AOAM530uulungQeGYfOIGdhdDLtw0H+325PqUh/MKcdBBnnh89iWCy5d
- rObwXn57WRwYyArx5rN83TqjFH22tDdNIeeIsS1DcpUK/tQ=
-X-Google-Smtp-Source: ABdhPJyoJSGOo1mM1QKF1JzR3sT6eRKKjdIs0+cvyUHpEHJf6dwy3NkEIFu8fRXaRrmyr7f1SsjvXyf4wwkyeLfUegc=
-X-Received: by 2002:a05:6830:30b7:: with SMTP id
- g23mr3130288ots.159.1639019719943; 
- Wed, 08 Dec 2021 19:15:19 -0800 (PST)
+ bh=4RvTOElFtjC6K+YtTFs0DQWYPsT5j+ievJDMuHacLoY=;
+ b=p01o3ALPe4LMPZ8xIgfwZr7G7nn0RozYnroTePWtg5nmGTTBrohmyTlJDikSQwxpi4
+ RVJJeuIPQ+B+DlJH+S2g5rjccosMmt9iNf4DrIe50EhpjdNsAW9fSQ9fTfjMdshRgIZ3
+ fBurHFs2/sm1QkrRe18wjGn1G3E8l9TkvhofHlUgyZ23FOni6mQrVj4njSMEV5OrnGWA
+ vJpC2zDY0vdV3JS+EhFmLsMy4XkcWOxWNH/1+1ba9BhUb9ZI+L1W7AhD3LAaTCIzdGQi
+ oG7OAVJixo3uaTl51IUpDdqhk8ZS2MQzLnvNft0hw5wSK0yAjVWmRv8YqkKvgGmbUBiS
+ hC4Q==
+X-Gm-Message-State: AOAM532zw0EPJ29xgFN7gVMRZFJN4mqpLcA/6F+605z4Bzozse62CeG/
+ MS4hZtOK9eIbWzDWDjh4WXd7gfRFQ6IFGyut/MFCzp+Nujs=
+X-Google-Smtp-Source: ABdhPJw8baMKy/6HPjiu44S1WLMWj6mF5r6iglZK7qkpnBQ5pEqKEVCpHcUPy2GTKqgvmEhssF1HWgZQSw1p/Flt/rI=
+X-Received: by 2002:aca:2319:: with SMTP id e25mr3730698oie.164.1639020663186; 
+ Wed, 08 Dec 2021 19:31:03 -0800 (PST)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 8 Dec 2021 19:15:19 -0800
+ HTTPREST; Wed, 8 Dec 2021 19:31:02 -0800
 MIME-Version: 1.0
-In-Reply-To: <1638995784-30187-1-git-send-email-quic_khsieh@quicinc.com>
-References: <1638995784-30187-1-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <20211105030434.2828845-15-sean@poorly.run>
+References: <20211105030434.2828845-1-sean@poorly.run>
+ <20211105030434.2828845-15-sean@poorly.run>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.9.1
-Date: Wed, 8 Dec 2021 19:15:19 -0800
-Message-ID: <CAE-0n50pU9uuSvFNOJYksH=e6L_69JyA2V7Y8wiwp+qjTtk=tQ@mail.gmail.com>
-Subject: Re: [PATCH v6] drm/msm/dp: do not initialize phy until plugin
- interrupt received
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
- bjorn.andersson@linaro.org, daniel@ffwll.ch, dmitry.baryshkov@linaro.org, 
- robdclark@gmail.com, sean@poorly.run, vkoul@kernel.org
+Date: Wed, 8 Dec 2021 19:31:02 -0800
+Message-ID: <CAE-0n511nL2iwNztf=4900sYa-+W8V09c6G5uN=fo+Lr1Ws3HA@mail.gmail.com>
+Subject: Re: [PATCH v4 14/14] drm/msm: Implement HDCP 1.x using the new drm
+ HDCP helpers
+To: Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,242 +65,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org
+Cc: jani.nikula@intel.com, linux-arm-msm@vger.kernel.org,
+ abhinavk@codeaurora.org, bjorn.andersson@linaro.org,
+ David Airlie <airlied@linux.ie>, Sean Paul <seanpaul@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Kuogee Hsieh (2021-12-08 12:36:24)
-> Current DP drivers have regulators, clocks, irq and phy are grouped
-> together within a function and executed not in a symmetric manner.
-> This increase difficulty of code maintenance and limited code scalability.
-> This patch divided the driver life cycle of operation into four states,
+Quoting Sean Paul (2021-11-04 20:04:31)
+> From: Sean Paul <seanpaul@chromium.org>
+>
+> This patch adds HDCP 1.x support to msm DP connectors using the new HDCP
 
-s/divided/divides/
+ $ git grep "This patch" -- Documentation/process/
 
-> resume (including booting up), dongle plugin, dongle unplugged and suspend.
-> Regulators, core clocks and irq are grouped together and enabled at resume
-> (or booting up) so that the DP controller is armed and ready to receive HPD
-> plugin interrupts. HPD plugin interrupt is generated when a dongle plugs
-> into DUT (device under test). Once HPD plugin interrupt is received, DP
-> controller will initialize phy so that dpcd read/write will function and
-> following link training can be proceeded successfully. DP phy will be
-> disabled after main link is teared down at end of unplugged HPD interrupt
-> handle triggered by dongle unplugged out of DUT. Finally regulators, code
-> clocks and irq are disabled at corresponding suspension.
+> helpers.
 >
-> Changes in V2:
-> -- removed unnecessary dp_ctrl NULL check
-> -- removed unnecessary phy init_count and power_count DRM_DEBUG_DP logs
-> -- remove flip parameter out of dp_ctrl_irq_enable()
-> -- add fixes tag
+> Cc: Stephen Boyd <swboyd@chromium.org>
+> Cc: Abhinav Kumar <abhinavk@codeaurora.org>
+> Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> Link: https://patchwork.freedesktop.org/patch/msgid/20210913175747.47456-15-sean@poorly.run #v1
+> Link: https://patchwork.freedesktop.org/patch/msgid/20210915203834.1439-14-sean@poorly.run #v2
+> Link: https://patchwork.freedesktop.org/patch/msgid/20211001151145.55916-15-sean@poorly.run #v3
 >
-> Changes in V3:
-> -- call dp_display_host_phy_init() instead of dp_ctrl_phy_init() at
->         dp_display_host_init() for eDP
+> Changes in v2:
+> -Squash [1] into this patch with the following changes (Stephen)
+>   -Update the sc7180 dtsi file
+>   -Remove resource names and just use index (Stephen)
+> Changes in v3:
+> -Split out the dtsi change from v2 (Stephen)
+> -Fix set-but-unused warning identified by 0-day
+> -Fix up a couple of style nits (Stephen)
+> -Store HDCP key directly in dp_hdcp struct (Stephen)
+> -Remove wmb in HDCP key initialization, move an_seed (Stephen)
+> -Use FIELD_PREP for bstatus/bcaps (Stephen)
+> -#define read_poll_timeout values (Stephen)
+> -Remove unnecessary parentheses in dp_hdcp_store_ksv_fifo (Stephen)
+> -Add compatible string for hdcp (Stephen)
+> -Rename dp_hdcp_write_* functions (Abhinav)
+> -Add 1us delay between An reads (Abhinav)
+> -Delete unused dp_hdcp_read_* functions
+> Changes in v4:
+> -Rebase on Bjorn's multi-dp patchset
 >
-> Changes in V4:
-> -- rewording commit text to match this commit changes
->
-> Changes in V5:
-> -- rebase on top of msm-next branch
->
-> Changes in V6:
-> -- delete flip variable
->
-> Fixes: 8ede2ecc3e5e ("drm/msm/dp: Add DP compliance tests on Snapdragon Chipsets")
->
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_ctrl.c    | 87 ++++++++++++++++---------------------
->  drivers/gpu/drm/msm/dp/dp_ctrl.h    |  9 ++--
->  drivers/gpu/drm/msm/dp/dp_display.c | 81 ++++++++++++++++++++++++----------
->  3 files changed, 102 insertions(+), 75 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> index c724cb0..7f0d647 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> @@ -1365,60 +1365,54 @@ static int dp_ctrl_enable_stream_clocks(struct dp_ctrl_private *ctrl)
->         return ret;
+> [1] https://patchwork.freedesktop.org/patch/msgid/20210913175747.47456-14-sean@poorly.run
+
+Looks mostly ok to me. One nit below but otherwise you can have my
+
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+
+> diff --git a/drivers/gpu/drm/msm/dp/dp_debug.c b/drivers/gpu/drm/msm/dp/dp_debug.c
+> index da4323556ef3..c16fce17d096 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_debug.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_debug.c
+> @@ -198,6 +201,35 @@ static int dp_test_active_open(struct inode *inode,
+>                         inode->i_private);
 >  }
 >
-> -int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip, bool reset)
-> +void dp_ctrl_irq_enable(struct dp_ctrl *dp_ctrl)
-> +{
-> +       struct dp_ctrl_private *ctrl;
-> +
-> +       ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
-> +
-> +       dp_catalog_ctrl_reset(ctrl->catalog);
-> +
-> +       dp_catalog_ctrl_enable_irq(ctrl->catalog, true);
-> +}
-> +
-> +void dp_ctrl_irq_disable(struct dp_ctrl *dp_ctrl)
-> +{
-> +       struct dp_ctrl_private *ctrl;
-> +
-> +       ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
-> +
-> +       dp_catalog_ctrl_reset(ctrl->catalog);
-> +
-> +       dp_catalog_ctrl_enable_irq(ctrl->catalog, false);
-> +}
+> +static ssize_t dp_hdcp_key_write(struct file *file, const char __user *ubuf,
+> +                                size_t len, loff_t *offp)
 
-The above could be one function with true/false for enable wrappers and
-be a little shorter or the same length. It would also avoid problems if
-the sequence needs to change. But speaking of that sequence, why doesn't
-a dp_catalog_ctrl_reset() disable the irq automatically? I'd think we
-could simply reset the whole controller for irq disable? But then,
-shouldn't we only reset the controller on the enable path and only
-disable the irq bits on irq_disable? If not, then the function name is
-misleading. We're resetting the dp controller and enabling or disabling
-irqs.
+I deem this API through debugfs no good, but I can see that opening the
+can of worms that is programming the key other ways is worse, so alright.
 
+> +{
+> +       char *input_buffer;
+> +       int ret;
+> +       struct dp_debug_private *debug = file->private_data;
 > +
-> +void dp_ctrl_phy_init(struct dp_ctrl *dp_ctrl)
->  {
->         struct dp_ctrl_private *ctrl;
->         struct dp_io *dp_io;
->         struct phy *phy;
->
-> -       if (!dp_ctrl) {
-> -               DRM_ERROR("Invalid input data\n");
-> -               return -EINVAL;
-> -       }
-> -
->         ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
->         dp_io = &ctrl->parser->io;
->         phy = dp_io->phy;
->
-> -       ctrl->dp_ctrl.orientation = flip;
-> -
-> -       if (reset)
-> -               dp_catalog_ctrl_reset(ctrl->catalog);
-> -
-> -       DRM_DEBUG_DP("flip=%d\n", flip);
->         dp_catalog_ctrl_phy_reset(ctrl->catalog);
->         phy_init(phy);
-> -       dp_catalog_ctrl_enable_irq(ctrl->catalog, true);
-> -
-> -       return 0;
->  }
->
+> +       if (len != (DRM_HDCP_KSV_LEN + DP_HDCP_NUM_KEYS * DP_HDCP_KEY_LEN))
+> +               return -EINVAL;
+> +
+[....]
+> diff --git a/drivers/gpu/drm/msm/dp/dp_hdcp.c b/drivers/gpu/drm/msm/dp/dp_hdcp.c
+> new file mode 100644
+> index 000000000000..03ea3a974576
+> --- /dev/null
+> +++ b/drivers/gpu/drm/msm/dp/dp_hdcp.c
+> @@ -0,0 +1,462 @@
 [...]
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index d44f18b..0a53066 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -83,6 +83,7 @@ struct dp_display_private {
->
->         /* state variables */
->         bool core_initialized;
-> +       bool phy_initialized;
->         bool hpd_irq_on;
->         bool audio_supported;
->
-> @@ -375,21 +376,46 @@ static int dp_display_process_hpd_high(struct dp_display_private *dp)
->         return rc;
->  }
->
-> -static void dp_display_host_init(struct dp_display_private *dp, int reset)
-> +static void dp_display_host_phy_init(struct dp_display_private *dp)
->  {
-> -       bool flip = false;
-> +       DRM_DEBUG_DP("core_init=%d phy_init=%d\n",
-> +                       dp->core_initialized, dp->phy_initialized);
->
-> +       if (!dp->phy_initialized) {
-> +               dp_ctrl_phy_init(dp->ctrl);
-> +               dp->phy_initialized = true;
-> +       }
-> +}
 > +
-> +static void dp_display_host_phy_exit(struct dp_display_private *dp)
+> +int dp_hdcp_attach(struct dp_hdcp *hdcp, struct drm_connector *connector)
 > +{
-> +       DRM_DEBUG_DP("core_init=%d phy_init=%d\n",
-> +                       dp->core_initialized, dp->phy_initialized);
+> +       struct drm_device *dev = connector->dev;
+> +       struct drm_hdcp_helper_data *helper_data;
+> +       int ret;
 > +
-> +       if (dp->phy_initialized) {
-> +               dp_ctrl_phy_exit(dp->ctrl);
-> +               dp->phy_initialized = false;
+> +       /* HDCP is not configured for this device */
+> +       if (!hdcp->parser->io.dp_controller.hdcp_key.base)
+> +               return 0;
+> +
+> +       helper_data = drm_hdcp_helper_initialize_dp(connector, hdcp->aux,
+> +                                                   &dp_hdcp_funcs, false);
+> +       if (IS_ERR_OR_NULL(helper_data))
+
+Just IS_ERR()?
+
+> +               return PTR_ERR(helper_data);
+
+Because PTR_ERR() on NULL is zero. Maybe return PTR_ERR_OR_ZERO() is
+supposed to be here? Or I don't understand why
+drm_hdcp_helper_initialize_dp() would return NULL.
+
+> +
+> +       ret = drm_connector_attach_content_protection_property(connector, false);
+> +       if (ret) {
+> +               drm_hdcp_helper_destroy(helper_data);
+> +               drm_err(dev, "Failed to attach content protection prop %d\n", ret);
+> +               return ret;
 > +       }
-> +}
-> +
-> +static void dp_display_host_init(struct dp_display_private *dp)
-> +{
->         DRM_DEBUG_DP("core_initialized=%d\n", dp->core_initialized);
->         if (dp->core_initialized) {
->                 DRM_DEBUG_DP("DP core already initialized\n");
->                 return;
->         }
->
-> -       if (dp->usbpd->orientation == ORIENTATION_CC2)
-> -               flip = true;
-> +       dp_power_init(dp->power, false);
-
-Does it turn on with the registers in some unknown state? It feels like
-dp_power_init() turning on the regulators and clks would bring it into a
-power on reset state, so the reset inside dp_ctrl_irq_enable() isn't
-necessary.
-
-> +       dp_ctrl_irq_enable(dp->ctrl);
-> +
-> +       /*
-> +        * eDP is the embedded primary display and has its own phy
-> +        * initialize phy immediately
-> +        */
-> +       if (dp->dp_display.connector_type == DRM_MODE_CONNECTOR_eDP)
-> +               dp_display_host_phy_init(dp);
->
-> -       dp_power_init(dp->power, flip);
-> -       dp_ctrl_host_init(dp->ctrl, flip, reset);
->         dp_aux_init(dp->aux);
->         dp->core_initialized = true;
->  }
-> @@ -401,7 +427,7 @@ static void dp_display_host_deinit(struct dp_display_private *dp)
->                 return;
->         }
->
-> -       dp_ctrl_host_deinit(dp->ctrl);
-> +       dp_ctrl_irq_disable(dp->ctrl);
->         dp_aux_deinit(dp->aux);
->         dp_power_deinit(dp->power);
->
-> @@ -412,7 +438,7 @@ static int dp_display_usbpd_configure_cb(struct device *dev)
->  {
->         struct dp_display_private *dp = dev_get_dp_display_private(dev);
->
-> -       dp_display_host_init(dp, false);
-> +       dp_display_host_phy_init(dp);
->
->         return dp_display_process_hpd_high(dp);
->  }
-> @@ -536,7 +562,7 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
->                 dp->hpd_state = ST_DISCONNECTED;
->
->                 if (ret == -ECONNRESET) { /* cable unplugged */
-> -                       dp->core_initialized = false;
-> +                       dp->phy_initialized = false;
->                 }
->
->         } else {
-> @@ -698,7 +723,7 @@ static int dp_irq_hpd_handle(struct dp_display_private *dp, u32 data)
->
->         ret = dp_display_usbpd_attention_cb(&dp->pdev->dev);
->         if (ret == -ECONNRESET) { /* cable unplugged */
-> -               dp->core_initialized = false;
-> +               dp->phy_initialized = false;
-
-Won't this conflict with
-https://lore.kernel.org/r/1638985262-2072-1-git-send-email-quic_khsieh@quicinc.com
-that was sent around the same time? Can you combine your outstanding
-patches into one patch series and send them together so we don't get
-conflicts?
-
->         }
->         DRM_DEBUG_DP("hpd_state=%d\n", state);
->
