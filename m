@@ -1,121 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C008A470D93
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 23:20:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24AD5470E15
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 23:40:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08AEF10E29C;
-	Fri, 10 Dec 2021 22:20:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5186210E2D3;
+	Fri, 10 Dec 2021 22:40:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2075.outbound.protection.outlook.com [40.107.244.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B7F510E27A;
- Fri, 10 Dec 2021 22:20:51 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Mjb4wYI8rLx3BRh81hgMrd6A2eYrzxtI3d6c8hwHcmrF25Wdeu2YL63LS7tiJoQmKNHmQ4O2QIl2tFCejLQyEDhpWYU0U6ydw2q3mRPPtMmjjZhTrmOA4bskeCwcuyc3mjUHb1VQT25RzOpQNKg+Xf9rZ7MO0bP1SWUurFBcSyqPB1SFeUa3Udsj4ZOXwdewDINdyFivUdRptF5KH89x2uoeaYr5smatGb/Xs0d06zRl+gN8bS0kE4JvLXIoSqgX8w6Nbf9MW2Aq56yHUBDjvGuLJNNeU82RbSPcgTWHx/AOmLeOnNL3tSgneXJ6rino3BJc6AkV0R6EGLLor0VmcA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AXv+0hjhI2VXDZqL2G55xyGctdCS4fzmi6SBmqPk6SQ=;
- b=dO/F39wWKqMckDEGAhlq3tO1tAf5Lbsos0xf44VyX2fTwR5PibD1bUwsh7E4M0iewuhOYa/aLkbqKeqKiJ1AGNre6K3Cc2XelTNHbT1xM88ruGK8TtrDzx1S6/9wxInjz38zlzFUc172g3vwXmAZ8QJ8P/XPwXsjVNt/Ns/WBDvubqOalyvNzbFXbSLoIqNlWm6mz9z12L3mCrQajpU8lh3bIHtk7av4GNLYMNF9MxvxMao3WnqCmK4SbVjNiVt3XRO7WunF9/FTZ9jYiSegsVbrLyCis8Lj0gqOgh3P7Fb+e8/Mp0dMcro3JRwFFRRWOYXYrQoyJ2ro6JAOnJy8rQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AXv+0hjhI2VXDZqL2G55xyGctdCS4fzmi6SBmqPk6SQ=;
- b=2WgPapRldepMBjI3biOSscdKtlnVSca7LxzuGlzlQkqh73QkevR1iCCBwTVd+9rKv5dhfSpQCaWIOd72H1cdlbJvm5a6eGzIkBCs+r0HSbMW5DdwEoyDm934K8YdjWrpe0Y/VRYfuE2oq+hVF7EC0KmA2A5/2/QiNW3UebvJxME=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB2896.namprd12.prod.outlook.com (2603:10b6:208:ab::22)
- by MN2PR12MB3005.namprd12.prod.outlook.com (2603:10b6:208:c5::24)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.14; Fri, 10 Dec
- 2021 22:20:49 +0000
-Received: from MN2PR12MB2896.namprd12.prod.outlook.com
- ([fe80::44f7:66fe:4419:d8d3]) by MN2PR12MB2896.namprd12.prod.outlook.com
- ([fe80::44f7:66fe:4419:d8d3%7]) with mapi id 15.20.4778.011; Fri, 10 Dec 2021
- 22:20:49 +0000
-Subject: Re: [PATCH v4 0/6] Expand display core documentation
-To: Yann Dirson <ydirson@free.fr>, Harry Wentland <harry.wentland@amd.com>
-References: <1142902978.47042257.1639083849979.JavaMail.root@zimbra39-e7>
-From: Rodrigo Siqueira Jordao <rjordrigo@amd.com>
-Message-ID: <9ddd7f26-5a0a-475d-d30a-a82eed3984df@amd.com>
-Date: Fri, 10 Dec 2021 17:20:46 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-In-Reply-To: <1142902978.47042257.1639083849979.JavaMail.root@zimbra39-e7>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH2PR12CA0006.namprd12.prod.outlook.com
- (2603:10b6:610:57::16) To MN2PR12MB2896.namprd12.prod.outlook.com
- (2603:10b6:208:ab::22)
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
+ [IPv6:2607:f8b0:4864:20::102a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 590F810E2D3
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 22:40:05 +0000 (UTC)
+Received: by mail-pj1-x102a.google.com with SMTP id v23so7812060pjr.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 14:40:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gateworks-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UHVYH7z73P1hVGee4CA3Ob6ox8hxfkGtbv9FXYXA3jk=;
+ b=NLfvKMSBohANE88RXQkIDXOERiP6IG4NQlYkB+Ts0xRmwOKxYV6X4piI+v2UqZDEsk
+ GS4UkGQUG9BRusZYjmmpWPwOkSOVvntYN0eJoiU3a5ROLsFJzBeAyHDS/oF1VBOYDxD4
+ wJvH62QKNCniWEVioPvX27YigrvBi4AfK3qF9jih3PxSWObCyi5t/G1DeA9urkhmK7N4
+ ZHu1dYjm6M9/vF4xcgVp/Qcxxcf/2u72YRWILivttZBtQC1Ew1jxKBKOXmXVF7Hlc1ZX
+ Qlmy04oXgSmZyQjDOykBxIwtsfLOPEkAAbwMMr6Whhde6sNNy/rnNIrZkyWXLt4azZtp
+ yHpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UHVYH7z73P1hVGee4CA3Ob6ox8hxfkGtbv9FXYXA3jk=;
+ b=mNFlP+1jZppwCOy3VxaqwszNJnkMrCOlL1cOc8MTo2a84hPHPEr3PHsRvR4SQ5HhUd
+ BLHPdmsgqJAsbIwVZmIjOx86wPoJKE+YIy4FTqP4jGUe15u7uM0yM+5odhLaapp5tDrx
+ xu/EfYEjTjp2Njh/JqL/hD8LbcB2Z8sX0mBHc1jK7e5wUIr9VIkr55MoH6wlwDsqutsJ
+ 9dA0aa5zEyjmK38upW8w3M3RPZVJG4V2pwuRumkOuYEnc3mGzzPuiFBWUtp7lWOlFwgJ
+ gZjfJL6Je6dUtRTv/3JfsdH5sgvxIFgVARNQhU/J4wwPse7cj2OBJw8vYsZYad6kjtsJ
+ rajw==
+X-Gm-Message-State: AOAM530VgaN5A3rmZKpORuhkQH7nbku9CnNu0rU+/RWX/parJ6+EeY99
+ Ln33xt2u9UTAcZGARddXiOD/XoIWvSTsdVnoWhNCoQ==
+X-Google-Smtp-Source: ABdhPJzQatIfP/rMn74fj44OTRoVdtaIeEpC3ox1VBuN6XieLvEfoQGW96rvItbHM8R8uls5gBtVhkrLUQKI1vg8GHo=
+X-Received: by 2002:a17:90b:17cc:: with SMTP id
+ me12mr27409709pjb.179.1639176004660; 
+ Fri, 10 Dec 2021 14:40:04 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 482baac3-3704-4839-7f1e-08d9bc2b51a6
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3005:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR12MB300504A83183484E779805AE98719@MN2PR12MB3005.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pcSum0vabOYghDPhFpICKVtGBvJSWZnLTr/D5RrcZ90IMpvbXPVmfHCO/r0xLR+4gGRomu4kAOqufkdhKBYpEQecI6yk6B2v4aYOGEjHnOM4576cYKogu0BezZPy2odfZr7WZAQQ07ySofQ7LTvPGuC2dE8NTj6OFPfpxrvDv8lSgW+1CZofo4WTNQ31s17kNUBg4E5p639xSN79Cv1zUkiFzxA+5aaFRSBMERTulmw3bGX8Tg/NZJFyK2j5fyDxNogwahf2QZKbHrQdR/RtxWmKvmmYkcv/Et2IIWuygkiMCriJsWmlWIkrpJ5HabeUJzuIr2CtuC9xOTWjggFNBBqSE2n5c2Ah1bHL8/e5eAlvtIs88GTeGn+W4NZDQTUcDXE8iPYukNSSmCUKYvfnZsEBDMhOZBou1QB61c/9qL5WYlXQWH7xOwkAMNisfhfneqYdhC9vdg36y4oDSx8bQRazjRVB/RAUOsRkxMw4svY+JlR7zyHbe4QXxhdHzxtMNW+Qmp60m+R1SelMvdbqN4v0ao0vV1UgxqssvMGUjKYzOkxqJdAV4+ZTb9sRCbKUctv/B44hvQ8Lbp17HdpK0P77SiOvqhS9zuCIPkPrLVOUzpwT4OOnF/Z+rBuy0vDJAK0hFO0mXYcSwN/ssSyU8rrG0YTgf5oKQVc3Gd0y6Hn/Im/61+qo5nZGffhBxeWnLdG7N9iMC7uoFk65/+dJEXInn/iEiqffQoLH6KW/8POyyU8MDDNMLEL/gsqLsUdS7nbF6vX/t+IESovys2GoSQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB2896.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(6486002)(2906002)(83380400001)(6666004)(7416002)(2616005)(186003)(6512007)(31696002)(31686004)(38100700002)(36756003)(54906003)(8676002)(8936002)(66556008)(5660300002)(66476007)(66946007)(4326008)(508600001)(6636002)(53546011)(316002)(6506007)(110136005)(43740500002)(45980500001)(15866825006);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cGIvUlJUR3NHem9QRFhMbStnMjYxaHJJMXBzcWh4bXhINXVuMXlHWUVhTzhZ?=
- =?utf-8?B?Z21vU0M3KzNEYjNaUjFNNktCN1p5VURZM0h2bm5wSjRTeXk4N2dxdXJ5RzRO?=
- =?utf-8?B?K2xQZC9ReDJHU1dIeVBNeUcxMzJMbFNiS2RkV1lGSW5KVGVKditFSVEyT3Bx?=
- =?utf-8?B?M1dlcDNQWmRvRXhkOHJpTlh3emgvSHdCWlF5QjB2YzB5U2RGYlVHQXk0Q2FT?=
- =?utf-8?B?R2NnaVZrODl1Nkp4TktGN1FOblJOSjdyMHRKZXpORnZKOW10bjZMNVdIUXBU?=
- =?utf-8?B?UXlPOHlFeUpXZ3hrZHJoZWQ4WnY4MUJLT3dHTXpiM1ZuRnB4TmllNDhOTGdh?=
- =?utf-8?B?S2pFaGptWkdlVjRmRjEveGQrcXFLMjVkMzJqTmRZWllvczJLcWZKOVFMMHda?=
- =?utf-8?B?MGorNWVGRGIxZTNLWVZEZ0dCQ1ZUWWdaUkhXdW9GVWExSEpmbWFISXBtUDNh?=
- =?utf-8?B?UWlWdU50QVpFREp4MGNSTGM1NnpveGx2elMxc1cvWkFrRXNLOXplaEhQWThh?=
- =?utf-8?B?R0JHUldib294THpaN2htSmNlVkVVZURNWTRHM0Ztb3FPbXNJZ1IxajJSaElq?=
- =?utf-8?B?MlNDeFQ1M3lVaGxSbXVhaDNybmhQRStYS3dJbEV5VlhjRk9UVndEcDRRaERl?=
- =?utf-8?B?ZGh3cnpIcjAxVnlELzA0eVhEdnFZbVYwR2N0bzZIUEtGU2dheVRTa0JGVlNu?=
- =?utf-8?B?aEJ2S2JTdzlBSGRnZFR0T0lkU0dnb1lHQy9UUEhvemZXRDJSSVhxSnhjREJL?=
- =?utf-8?B?UjhhaHlvQnF3ZEJyTGVPL1RDbDRqWGIrNlkrQm9KenNnN2ZRbTNYdVlYTU9x?=
- =?utf-8?B?QURWcHVxcWFNWXZxQlErN2RsWDljUlpreVJaUGliT3RuajZvSkttRGdpZmRJ?=
- =?utf-8?B?dXRIeXA0SUJnRnJRTDZhQWg3MG5PUnlWZElTOGVZOUs2bHRNWGt1a0JFK05w?=
- =?utf-8?B?ZmZGWkJtNHcvTmt5THpHREFvaEJHbUNYK1FKV3IrYkdlYS92NFB6MW81bmpX?=
- =?utf-8?B?SExPS1JUMHFsN2oxb2I4eUhPdElaWDc0ckJnZy9SWDBHUmNLZGFFaE5wZCtP?=
- =?utf-8?B?dHo0bVExUzhZR0Q1MXJ3WWZ4VHlvYmRxNExUeVkvb01pYi9FUlNVNEZHZklP?=
- =?utf-8?B?YWEweTM1ZE1Ha2lEbUlMKzZBTlRocjdxUmRhbVF4TlVNZU9DSnZ4ZGtoSkNW?=
- =?utf-8?B?aFhkeUx5bE9HeTBvdWNXWEpDTkZOZk5vdEc3dU4yeFE0TGdpZVEvdWhZWnh5?=
- =?utf-8?B?NUJLR2VxOUhOQkZyT3FLTkwvalZ5ZmR4Y1ppSWkvTENFZm5udFg4UThIM01h?=
- =?utf-8?B?YmFsMzFLZlF1eVJhMDQ1U3h2Nm5TdGl6L1lEMWFyOTR5aUdFelM0cjlGc0Zn?=
- =?utf-8?B?ZENIRS9kSFpBTnNOY0pjbDhveXRNdGgwQ0puWnQrSDVmaFQ2b2lXV2xjOUN3?=
- =?utf-8?B?ZlFDei9zZEVKYzJadm5RekRRN21vTWxYR1VzcHl4OWt1QkFNdEIwNHhLUk5W?=
- =?utf-8?B?dlJlbDdwV3V3eEI1SEV6RWJyUUpsS1dWaS9PcE1zSXpHU0VDT3pqajhsZWwx?=
- =?utf-8?B?MkdtYzZaQU45dTF0d3JRN2E5blpWak9uRTgrNVoySThENnE2aUhhVE5pOHpq?=
- =?utf-8?B?VTV6eGd4eDhtVGpMcUtKaWtzSEE4TXd3NUFVQ1h0c2NsSmtDUFRSUFpqRjcw?=
- =?utf-8?B?dXQ3RWxkb3hSZ0RlaTVSbGx1WUE3UStyK0dhbEZCQ01hV0lFbTk2OHpYVFg4?=
- =?utf-8?B?cjNZTzBkYWpRcmtWcWhBTzlNS0FmbGgyS2lENExhb1hab2tiZ0l0d0l4TEY3?=
- =?utf-8?B?MGt3bm1SQi9KdHhNMm52c3Ziakh4QloyRlpUNnVMbHJkaGE2NEV0bjlwWTho?=
- =?utf-8?B?bExWOUlia1RmS2IxZUo1bEFNeUZmL1pEU1FiUHhPbmRFYlVkVTNLSlBxZkwz?=
- =?utf-8?B?ZkhBcjU5OCs2S2thYkFpaWVvR2VBMUtUQTdScmFPZ29iYksvM0x1ejZ0RGFs?=
- =?utf-8?B?VlJVZ1ZXUk5NZ2xTNXRYY0lCVW5yOHZLVzVSSVJsWUxwYStlR1c1WXllN1JS?=
- =?utf-8?B?MEs2T0E1Y2tKTksyKzNSU0F1TVo4cEJ4YjlramR3MklTMS84dTJDMkJYK2Z0?=
- =?utf-8?B?b1RSK3g3aFZ2dnpNOUF5Z0lkeVBNdGVCNlBXTTBydjVXdVFwRGl1SUNPaS9I?=
- =?utf-8?B?MmtCcUNlNUVZdXlsOHdvU2hPTUhRY2N1UGYrUGd5c1NaMlR1c0tjbHp2VlNM?=
- =?utf-8?Q?QBQjbMKOP/ne89Ky8+yndVayyEHpBVviVJOUxnchWw=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 482baac3-3704-4839-7f1e-08d9bc2b51a6
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB2896.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2021 22:20:49.2125 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jFWrkBx2FyJd2i9epSLMsqyFLXcPndugDBzxe4ullp2bgP2w5u85p0DvOyNZLLQL1etG8TqvdNjrxuDYSaLVpQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3005
+References: <CAJ+vNU2A8J_72UgdoBw0Z0T0p1GzwWs-OK3UP14Y7KcoDjFOaQ@mail.gmail.com>
+ <CAPY8ntBeUhqn==To83i8=88KxH0MQzp9n+NVe4Y8eFns1NMFaw@mail.gmail.com>
+ <CAJ+vNU0a8gN-4cdFz3qAW3S3zzMt7_bQywAF8OcZ4sp7ZZuQxg@mail.gmail.com>
+ <CAPY8ntAHAVtf_-EFD76h9Ua9nOxggwcgYM7GerjZYUZNmOrnUA@mail.gmail.com>
+ <CAJ+vNU1Gz64d8i53LeoP-X0aV_83e61YS9d8DQjkaiNZ48oxHw@mail.gmail.com>
+ <CAJ+vNU1GbcmtBhQp+RtZ95wmV5YmAhAOZpnLu2y5jnVxato44A@mail.gmail.com>
+ <CAPY8ntBkB3ExJGUAhvsWRvhq66F7hbsxB5GZZHMSKP77svSVcw@mail.gmail.com>
+ <CAJ+vNU3Z-A8=pqQmTiPZXS-GSdcYMZ578RjLrgW6qHckBX=4nQ@mail.gmail.com>
+In-Reply-To: <CAJ+vNU3Z-A8=pqQmTiPZXS-GSdcYMZ578RjLrgW6qHckBX=4nQ@mail.gmail.com>
+From: Tim Harvey <tharvey@gateworks.com>
+Date: Fri, 10 Dec 2021 14:39:53 -0800
+Message-ID: <CAJ+vNU0uU0hKWv8p0nN4jtERYZzDByOg_GbS8CAnEvoBxPMv+Q@mail.gmail.com>
+Subject: Re: RPI 7" display touch controller
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,143 +70,329 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Yacoub <markyacoub@chromium.org>, linux-doc@vger.kernel.org,
- qingqing zhuo <qingqing.zhuo@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, roman li <roman.li@amd.com>,
- amd-gfx@lists.freedesktop.org, Roman Gilg <subdiff@gmail.com>,
- Michel Daenzer <michel@daenzer.net>,
- aurabindo pillai <aurabindo.pillai@amd.com>,
- nicholas choi <nicholas.choi@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Sean Paul <seanpaul@chromium.org>,
- Marek Olsak <marek.olsak@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- bhawanpreet lakha <bhawanpreet.lakha@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: Marek Vasut <marex@denx.de>, Eric Anholt <eric@anholt.net>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Dec 10, 2021 at 11:29 AM Tim Harvey <tharvey@gateworks.com> wrote:
+>
+> On Fri, Dec 10, 2021 at 10:41 AM Dave Stevenson
+> <dave.stevenson@raspberrypi.com> wrote:
+> >
+> > On Fri, 10 Dec 2021 at 18:20, Tim Harvey <tharvey@gateworks.com> wrote:
+> > >
+> > > On Thu, Nov 18, 2021 at 12:52 PM Tim Harvey <tharvey@gateworks.com> wrote:
+> > > >
+> > > > On Thu, Nov 18, 2021 at 10:30 AM Dave Stevenson
+> > > > <dave.stevenson@raspberrypi.com> wrote:
+> > > > >
+> > > > > On Thu, 18 Nov 2021 at 17:36, Tim Harvey <tharvey@gateworks.com> wrote:
+> > > > > >
+> > > > > > On Thu, Nov 18, 2021 at 6:28 AM Dave Stevenson
+> > > > > > <dave.stevenson@raspberrypi.com> wrote:
+> > > > > > >
+> > > > > > > Hi Tim
+> > > > > > >
+> > > > > > > On Thu, 18 Nov 2021 at 01:26, Tim Harvey <tharvey@gateworks.com> wrote:
+> > > > > > > >
+> > > > > > > > Greetings,
+> > > > > > > >
+> > > > > > > > I'm trying to get a RPI 7" touchscreen display working on an IMX8MM
+> > > > > > > > board and while I've been able to get the MIPI DSI display and
+> > > > > > > > backlight working I still can't seem to figure out the touch
+> > > > > > > > controller.
+> > > > > > > >
+> > > > > > > > It's supposed to have an FT5406 controller on it without an interrupt
+> > > > > > > > so I added polling support drivers/input/touchscreen/edt-ft5x06.c
+> > > > > > > > which I was able to verify using another touchscreen with that
+> > > > > > > > controller but when reading data from the FT5406 on the RPI controller
+> > > > > > > > the data does not make sense.
+> > > > > > > >
+> > > > > > > > These panels appear to route the I2C from the FT5406 to a STM32F103
+> > > > > > > > MPU that then provides a different I2C slave interface to the 15pin
+> > > > > > > > connector that I'm connected to. On that I2C interface I see an i2c
+> > > > > > > > slave at 0x45 which is managed by the regulator driver Marek wrote
+> > > > > > > > (drivers/regulator/rpi-panel-attiny-regulator.c) and there is also an
+> > > > > > > > i2c slave at 0x38 which I assumed was the FT5406 but I believe the MPU
+> > > > > > > > is perhaps obfuscating that touch data.
+> > > > > > > >
+> > > > > > > > Anyone have any ideas on how to make that touch controller useful?
+> > > > > > >
+> > > > > > > There should be nothing unusual. 0x38 is the EDT touch controller.
+> > > > > > > Starting with the Raspberry Pi OS Bullseye release, we're now using
+> > > > > > > the panel directly from DRM rather than through the firmware. That's
+> > > > > > > based on the branch at
+> > > > > > > https://github.com/raspberrypi/linux/tree/rpi-5.10.y/
+> > > > > > >
+> > > > > >
+> > > > > > Dave,
+> > > > > >
+> > > > > > That sounds like the driver that made it into mainline with Eric's
+> > > > > > commit 2f733d6194bd ("drm/panel: Add support for the Raspberry Pi 7"
+> > > > > > Touchscreen."). I looked there but that driver just deals with the DSI
+> > > > > > and not with touch.
+> > > > >
+> > > > > No, we've reverted away from that driver as it exposes no regulator
+> > > > > framework either, so again the touch element loses power.
+> > > > >
+> > > > > > > I also added polling support to edt-ft5x04.c.
+> > > > > > > For DT, it uses a combination of the overlays vc4-kms-v3d,
+> > > > > > > vc4-kms-dsi-7inch, and that includes edt-ft5406.dtsi, all of which are
+> > > > > > > in /arch/arm/boot/dts/overlays
+> > > > > >
+> > > > > > It doesn't look like you ever submitted your edt-ft5x04 polling mode
+> > > > > > support upstream. I saw another series to add polling support
+> > > > > > submitted by Nicolas back in 2019 but was never followed up on
+> > > > > > (https://patchwork.kernel.org/project/linux-input/list/?series=112187&archive=both).
+> > > > >
+> > > > > No I haven't as it's been crazy trying to get this lot to work under
+> > > > > KMS at all over the last couple of months.
+> > > > >
+> > > > > > I have updated Nicolas' patch with the changes requested and am happy
+> > > > > > to submit it upstream. The benefit of his patch is that it uses a dt
+> > > > > > binding for the polling interval. I'm happy to submit this upstream.
+> > > > >
+> > > > > I hadn't seen Nicolas' patches, hence implementing it myself.
+> > > > >
+> > > > > If you've implemented the requested changes, could you check that the
+> > > > > polling rate is as expected? We were seeing that the input framework
+> > > > > wasn't delivering the requested poll rate when CONFIG_HZ=100 is
+> > > > > defined in the config. I must confess that I haven't checked it on my
+> > > > > current patch, but it was on my list of things to do.
+> > > > > There was a report that "bd88ce25335d Input: raspberrypi-ts - switch
+> > > > > to using polled mode of input devices" dropped the polling rate from
+> > > > > the desired 60Hz in switching to that framework.
+> > > >
+> > > > Ok, I'll make a note to test that and submit it.
+> > > >
+> > > > >
+> > > > > > >
+> > > > > > > The main issue I had was configuring the regulator framework
+> > > > > > > appropriately to allow the touch controller power to be separate from
+> > > > > > > the bridge power. Without that if DRM powered down the panel it killed
+> > > > > > > the touch controller too, and the touch driver never reinitialised
+> > > > > > > itself.
+> > > > > >
+> > > > > > I'm using the same drivers/regulator/rpi-panel-attiny-regulator.c
+> > > > > > regulator driver from mainline that Marek added as the power-supply
+> > > > > > for the panel as well as the backlight controller. It looks like the
+> > > > > > version in the rpi-5.10.y has several patches on top of it so I'll
+> > > > > > take a look at those differences to see if it may be affecting the
+> > > > > > touchscreen controller. It's really strange to me that the touch
+> > > > > > controller's I2C goes through the STM32F103 MPU (as in the MPU's I2C
+> > > > > > master connects to the touchscreen controller and a different MPU I2C
+> > > > > > bus presents the touch controller like they are translating
+> > > > > > something?).
+> > > > >
+> > > > > The touchscreen I2C does NOT go through the STM.
+> > > > > The TS interrupt line does feed into the STM, but it's not actually used.
+> > > > > The TC358762 I2C does go through the STM, but it isn't used other than
+> > > > > a kick to bring the bridge out of reset.
+> > > >
+> > > > Ok, I've determined the DFROBOT Rpi displays do differ from the
+> > > > official Rpi 7in display.
+> > > >
+> > > > Official 7in RPI display:
+> > > > - I can't find a schematic anywhere for the official display but I an
+> > > > ohmmeter confirms your claim that the touch controller I2C is
+> > > > connected to the 15pin display I2C.
+> > > > - I do not see the ft5406@0x38 on the i2c bus until I send a command a
+> > > > REG_POWERON cmdto the ATTINY@0x45 'i2c dev 2 && i2c mw 0x45 0x85 1 1'
+> > > > in u-boot
+> > > > - I must disable the rpi-panel-attiny-regulator.c driver as its probe
+> > > > disables REG_POWERON and the linux driver won't see the FT5406
+> > > > - The linux edt-ft5x06.c driver with polling added works fine and
+> > > > gives me expected touch events
+> > > >
+> > > > With the DFROBOT 5in and 7in displays:
+> > > > - the touch interface I2C does not connect directly to the 15pin
+> > > > connector's I2C (shown in the schematic at schematic:
+> > > > https://github.com/DFRobot/Wiki/raw/master/DFR0550_Schematics.pdf and
+> > > > also verified with an ohmeter)
+> > > > - I see the ft5406@0x38 on the i2c bus regardless of setting or
+> > > > clearing REG_POWERON on the ATTINY@0x45
+> > > > - The linux edt-ft5x06.c driver with polling added gives me data that
+> > > > does not make sense for touch events
+> > > >
+> > > > So I can only assume the DFROBOT displays are doing something strange
+> > > > but I'm not clear how what they are doing is compatible with the RPI.
+> > > > I guess I have to get an RPI, hook it up and see if the touch screen
+> > > > works with the rpi 5.10.y kernel.
+> > > >
+> > > > >
+> > > > > > I wonder if I'm hitting that reinitialization issue. Do you recall any
+> > > > > > details about that? Was it that the driver returned seemingly invalid
+> > > > > > touch data like I'm getting or did it just not respond?
+> > > > >
+> > > > > If the power goes down then all the registers written during probe [1]
+> > > > > are reset. I don't recall exactly what the data then contained, but I
+> > > > > did get a load of I2C transactions fail with -EREMOTEIO as the
+> > > > > messages weren't ACKed.
+> > > > >
+> > > > > [1] https://elixir.bootlin.com/linux/latest/source/drivers/input/touchscreen/edt-ft5x06.c#L1207
+> > > > >
+> > > > > > Silly question likely but how do I power down the DRM portion to test
+> > > > > > to see if it affects the touch controller?
+> > > > >
+> > > > > xrandr --output DSI-1 --off
+> > > > > There must be a libdrm call to do the equivalent, but I'll admit that
+> > > > > I can't think of an existing tool that implements it.
+> > > >
+> > > > do you know of a sysfs way to do this or something that doesn't require xrandr?
+> > > >
+> > > > >
+> > > > > > > On our branch rpi-panel-attiny-regulator.c has been updated to control
+> > > > > > > those functions independently as GPIOs, which then get used via
+> > > > > > > regulator-fixed, or as reset-gpios.
+> > > > > > > Telling both bridge and touch that they shared a regulator didn't work
+> > > > > > > as the DSI bridge seems mildly fussy about the DSI state when it is
+> > > > > > > powered up.
+> > > > > >
+> > > > > > Hmm... I wonder if this is the problem I had with the 'official' rpi
+> > > > > > 7in display that I never got working. I did get the DFROBOT rpi 5in
+> > > > > > and 7in displays working.
+> > > > >
+> > > > > I'm not that familiar with the DFRobot displays.
+> > > > > I have tried an Osoyoo 3.5" panel [2] that pretends to be the Pi
+> > > > > panel, and it looks similar. Reality is that it uses a Lattice FPGA to
+> > > > > convert from DSI to DPI. All the LP configuration commands sent to it
+> > > > > are ignored. Startup requirements of that compared to the Toshiba are
+> > > > > unknown.
+> > > > >
+> > > > > [2] https://www.amazon.co.uk/OSOYOO-Capacitive-Connector-Resolution-Raspberry/dp/B087WVC1J2
+> > > > >
+> > > > > > > Hope that helps.
+> > > > > > >
+> > > > > >
+> > > > > > The fact you tell me that the rpi-5.10.y branch goes away from the
+> > > > > > strange 'firmware' driver I found at
+> > > > > > https://github.com/raspberrypi/linux/blob/rpi-4.2.y/drivers/input/touchscreen/rpi-ft5406.c
+> > > > > > and uses the standard ft5406.c driver (with polling mode added) is
+> > > > > > very helpful in that I feel I have a hope of getting this working.
+> > > > >
+> > > > > I have one of our panels working in front of me using my patched
+> > > > > version of edt-ft5x06 as the driver for the touch element.
+> > > > >
+> > > > > > Does the rpi-5.10.y kernel work for the official rpi 7in display as
+> > > > > > well as the DFROBOT displays as far as you know?
+> > > > >
+> > > > > As above, I'm not aware of DFRobot.
+> > > > > With the Osoyoo I can't recall exactly what it was doing with I2C. I
+> > > > > think it only really responded to the ID command and PWM for the
+> > > > > backlight. The reset and power control that is required on our boards
+> > > > > isn't really relevant to them.
+> > > > > I was doing i2cset -y -f <bus> 0x45 0x85 [1|0] to turn power on/off,
+> > > > > and I seem to recall it did nothing.
+> > > >
+> > > > Right... this is also the same with the DFROBOT touchscreen displays.
+> > > >
+> > > > I do really like the build quality, availability, and pricing of the
+> > > > DFROBOT displays but also a huge advantage is that they derive power
+> > > > from the 15pin connector 3.3V pins so there are no other connections.
+> > > > Their backlight doesn't appear to be controllable via PWM however and
+> > > > instead they have a manual brightness thumbwheel on them.
+> > > >
+> > > > The other advantage for me at the moment is that I still haven't
+> > > > gotten the official RPI 7in display to work with the IMX8MM (no pixels
+> > > > displayed) where as the DFROBOT one is working for me.
+> > > >
+> > > > > ...
+> > > > > Just for you I fired it up. It ACKs all I2C addresses just for a
+> > > > > laugh, and indeed it takes no action on 0x85, only 0x86 (for PWM), and
+> > > > > reading 0x80 (ID).
+> > > > >
+> > > >
+> > >
+> > > Dave,
+> > >
+> > > After some more investigation I've found that while the DFRobot
+> > > DRF0550 and DFR0678 touch controller does not work with the ft5x06
+> > > driver it does indeed work on a Rpi with the raspberrypi-ts driver. So
+> > > from an Rpi perspective the latest OS image doesn't work but the
+> > > 'Legacy' OS image does (which appears to have the same 5.10 kernel but
+> > > uses legacy drivers?).
+> >
+> > You have to love cloned devices.
+> > Have you checked with DFRobot as to what the actual touchscreen
+> > controller chip is?
+>
+> Dave,
+>
+> I tore one apart and verified it has a  FT5316 I2C touchscreen
+> controller (without IRQ) but again it routes directly to a STM32F103
+> (see https://dfimg.dfrobot.com/nobody/wiki/208d6cf05cacd2ee3b349341d5bfd6e2.pdf).
+> So the key difference is that while the official rpi 7in display has
+> both the ft5x06 and whatever the mcu emulates on the soc's i2c the
+> DRROBOT only has the emulated device. Note that I 'can' probe 0x45
+> 'and' 0x38 but the slave at 0x38 does not behave like an ft5x06
+>
+> >
+> > > So if I understand correctly the Rpi has some firmware that talks over
+> > > I2C and translates touch events from this 'legacy API' over to a
+> > > memory mapped area. How can I learn about this firmware and what kind
+> > > of translation it does to make these touch controllers work on a non
+> > > rpi?
+> >
+> > It does very little different from edt-ft5x06.
+> >
+> > At an I2C level it reads register 0x02 of the touchscreen controller
+> > to get the current number of points, and then does that number of 4
+> > byte reads for register (3+6*i) to get the touch information.
+> > The edt-ft5x06 driver just reads all registers from 0 to generally
+> > 0x21 to get all points in one hit. It then parses all the point
+> > information instead of looking at the reported number of points.
+>
+> That seems reasonable with respect to the ft5x06 but then the firmware
+> must present this data somehow as I2C registers (on 0x38 or 0x45?) or
+> I don't see how the DSROBOT touch controllers currently work with
+> raspberrypi-ts as they only have i2c slaves at those addresses.
+>
+> Is this firmware source available?
+>
+> >
+> > There are a couple more commits to our kernel tree for edt-ft5x06 as
+> > we were seeing some issues.
+> > The main one is that it seems unreliable in reporting TOUCH_UP events.
+> > Whilst it's implemented explicitly in the driver with the current
+> > patches, I believe it could be done via the INPUT_MT_DROP_UNUSED flag
+> > if input_mt_sync_frame is used as well. When time allows I was
+> > intending to upstream that fix.
+> >
+>
+> Ok, I see those in your tree.
+>
+> DFROBOT has not been extremely helpful but to be honest I don't think
+> they understand the issue (I didn't until this morning) that their
+> touch controllers work on the old Raspberrypi OS releases using
+> raspberrypi-ts but not the new ones using ft5x06. I explained that
+> this switch took place earlier this year when official OS releases
+> bumped to 5.10 (hope I was correct there) and that they would likely
+> be getting a lot of tech support calls for users with new software.
+> I'm not sure how you can tell the latest software to use the
+> raspberrypi-ts driver instead of the ft5x06 driver (I assume all of
+> that is via device-tree) but I did find that the 'legacy' version of
+> the software uses the old raspberrypi-ts driver. This part does not
+> concern 'me' too much as my goal is to get the touch controllers
+> working on a non rpi.
+>
 
+Dave,
 
-On 2021-12-09 4:04 p.m., Yann Dirson wrote:
-> 
->> Thanks for this. It's really good to see this.
->>
->> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-> 
-> Hearfully seconded, let's get this rolling :)
-> 
-> Reviewed-by: Yann Dirson <ydirson@free.fr>
+Looking at the i2c regs from the DFROBOT panels from slave address
+0x38 I've been able to decode the following:
+0x00[7:4] event_type? (always 0x8)
+0x00[3:0] MSBX
+0x01[7:0] LSBX
+0x02[7:4] touchid? (typically 0x0 but when I pinch sometimes it goes to a 0x1)
+0x02[3:0] MSBY
+0x03[7:0] LSBY
 
-Series applied to amd-staging-drm-next
+I can't quite figure out how to determine up/down events yet.
+Comparing this to FT5x06 registers and raspberrypi-ts.c I would guess
+that 0x00[7:4] is event_type and 0x02[7:4] is touchid but I never see
+event_type change from 0x8 and touchid is 0x0 unless I pinch/unpinch
+(but that seems very unreliable).
 
-Thanks a lot!
-
->>
->> Harry
->>
->> On 2021-12-09 09:20, Rodrigo Siqueira wrote:
->>> Display Core (DC) is one of the components under amdgpu, and it has
->>> multiple features directly related to the KMS API. Unfortunately,
->>> we
->>> don't have enough documentation about DC in the upstream, which
->>> makes
->>> the life of some external contributors a little bit more
->>> challenging.
->>> For these reasons, this patchset reworks part of the DC
->>> documentation
->>> and introduces a new set of details on how the display core works
->>> on DCN
->>> IP. Another improvement that this documentation effort tries to
->>> bring is
->>> making explicit some of our hardware-specific details to guide
->>> user-space developers better.
->>>
->>> In my view, it is easier to review this series if you apply it in
->>> your
->>> local kernel and build the HTML version (make htmldocs). I'm
->>> suggesting
->>> this approach because I added a few SVG diagrams that will be
->>> easier to
->>> see in the HTML version. If you cannot build the documentation, try
->>> to
->>> open the SVG images while reviewing the content. In summary, in
->>> this
->>> series, you will find:
->>>
->>> 1. Patch 1: Re-arrange of display core documentation. This is
->>>     preparation work for the other patches, but it is also a way to
->>>     expand
->>>     this documentation.
->>> 2. Patch 2 to 4: Document some common debug options related to
->>> display.
->>> 3. Patch 5: This patch provides an overview of how our display core
->>> next
->>>     works and a brief explanation of each component.
->>> 4. Patch 6: We use a lot of acronyms in our driver; for this
->>> reason, we
->>>     exposed a glossary with common terms used by display core.
->>>
->>> Please let us know what you think we can improve this series and
->>> what
->>> kind of content you want to see for the next series.
->>>
->>> Changes since V3:
->>>   - Add new acronyms to amdgpu glossary
->>>   - Add link between dc and amdgpu glossary
->>> Changes since V2:
->>>   - Add a comment about MMHUBBUB
->>> Changes since V1:
->>>   - Group amdgpu documentation together.
->>>   - Create index pages.
->>>   - Mirror display folder in the documentation.
->>>   - Divide glossary based on driver context.
->>>   - Make terms more consistent and update CPLIB
->>>   - Add new acronyms to the glossary
->>>
->>> Thanks
->>> Siqueira
->>>
->>> Rodrigo Siqueira (6):
->>>    Documentation/gpu: Reorganize DC documentation
->>>    Documentation/gpu: Document amdgpu_dm_visual_confirm debugfs
->>>    entry
->>>    Documentation/gpu: Document pipe split visual confirmation
->>>    Documentation/gpu: How to collect DTN log
->>>    Documentation/gpu: Add basic overview of DC pipeline
->>>    Documentation/gpu: Add amdgpu and dc glossary
->>>
->>>   Documentation/gpu/amdgpu-dc.rst               |   74 --
->>>   Documentation/gpu/amdgpu/amdgpu-glossary.rst  |   87 ++
->>>   .../gpu/amdgpu/display/config_example.svg     |  414 ++++++
->>>   Documentation/gpu/amdgpu/display/dc-debug.rst |   77 ++
->>>   .../gpu/amdgpu/display/dc-glossary.rst        |  237 ++++
->>>   .../amdgpu/display/dc_pipeline_overview.svg   | 1125
->>>   +++++++++++++++++
->>>   .../gpu/amdgpu/display/dcn-overview.rst       |  171 +++
->>>   .../gpu/amdgpu/display/display-manager.rst    |   42 +
->>>   .../gpu/amdgpu/display/global_sync_vblank.svg |  485 +++++++
->>>   Documentation/gpu/amdgpu/display/index.rst    |   29 +
->>>   .../gpu/{amdgpu.rst => amdgpu/index.rst}      |   25 +-
->>>   Documentation/gpu/drivers.rst                 |    3 +-
->>>   12 files changed, 2690 insertions(+), 79 deletions(-)
->>>   delete mode 100644 Documentation/gpu/amdgpu-dc.rst
->>>   create mode 100644 Documentation/gpu/amdgpu/amdgpu-glossary.rst
->>>   create mode 100644
->>>   Documentation/gpu/amdgpu/display/config_example.svg
->>>   create mode 100644 Documentation/gpu/amdgpu/display/dc-debug.rst
->>>   create mode 100644
->>>   Documentation/gpu/amdgpu/display/dc-glossary.rst
->>>   create mode 100644
->>>   Documentation/gpu/amdgpu/display/dc_pipeline_overview.svg
->>>   create mode 100644
->>>   Documentation/gpu/amdgpu/display/dcn-overview.rst
->>>   create mode 100644
->>>   Documentation/gpu/amdgpu/display/display-manager.rst
->>>   create mode 100644
->>>   Documentation/gpu/amdgpu/display/global_sync_vblank.svg
->>>   create mode 100644 Documentation/gpu/amdgpu/display/index.rst
->>>   rename Documentation/gpu/{amdgpu.rst => amdgpu/index.rst} (95%)
->>>
->>
->>
-
+Tim
