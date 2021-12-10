@@ -1,41 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EC5B46FD5E
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 10:06:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B07E46FE3F
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 10:55:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B88C10E5A2;
-	Fri, 10 Dec 2021 09:06:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A977510E3D6;
+	Fri, 10 Dec 2021 09:55:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [IPv6:2a01:488:42:1000:50ed:8234::])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C621710E59F;
- Fri, 10 Dec 2021 09:06:19 +0000 (UTC)
-Received: from ip4d173d4a.dynamic.kabel-deutschland.de ([77.23.61.74]
- helo=[192.168.66.200]); authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1mvbr6-0005NW-Fu; Fri, 10 Dec 2021 10:06:16 +0100
-Message-ID: <079d8b88-f3bf-e3ed-677e-8bfdd27b67fb@leemhuis.info>
-Date: Fri, 10 Dec 2021 10:06:15 +0100
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB93710E3D6
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 09:55:23 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 78A44B823BC;
+ Fri, 10 Dec 2021 09:55:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4F8DC341C8;
+ Fri, 10 Dec 2021 09:55:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1639130121;
+ bh=dTWmHw0aiFAZ/D/gliRdCRkGlRhvUl1LgpPrJMOMQ9k=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+ b=AvrmOsj+CQalgcUlbaZ1i0xgKLJZaKA6+JzY80G3jc/Mi8aU+eVgEhJ6pGSli/2tS
+ M/KEh/g7LDJW4f/YZNFRULAJklYYPeKPMKksFDbO5ci+1uqRm7JG+8XLlgh5r5szlP
+ fgUsCjciTFKZ5W9C58+ICnjTMrOSooFzJSSmuvb/KvZOSW47FuZjDc//EcKjbmKGkI
+ JZqqYhwPxOSrDcMIVW1ukdx+wI4xIBgjNljT+F+yBPSV7DWp6tjT2PDgdLVFgYZ7AO
+ YWqzYpSIJRZN6cH10SuEMZRpb0zPMNGXMd/RXukiWN/oTuo5b+3H9AXMJ0AXHLFRPh
+ cVmLI9E7sbg7Q==
+Message-ID: <a2c1d56378748b037a8d62dcc2934c4f8eabf5b2.camel@kernel.org>
+Subject: Re: [PATCH v2 3/3] drm/vc4: Notify the firmware when DRM is in charge
+From: nicolas saenz julienne <nsaenz@kernel.org>
+To: Maxime Ripard <maxime@cerno.tech>, Ray Jui <rjui@broadcom.com>, Scott
+ Branden <sbranden@broadcom.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>, Frank Rowand
+ <frowand.list@gmail.com>,  Florian Fainelli <f.fainelli@gmail.com>, Daniel
+ Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
+Date: Fri, 10 Dec 2021 10:55:12 +0100
+In-Reply-To: <20211203135126.700165-4-maxime@cerno.tech>
+References: <20211203135126.700165-1-maxime@cerno.tech>
+ <20211203135126.700165-4-maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.1 (3.42.1-1.fc35) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [Nouveau] [PATCH] drm/nouveau: wait for the exclusive fence after
- the shared ones v2
-Content-Language: de-DE
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dmoulding@me.com, sf@sfritsch.de, bskeggs@redhat.com
-References: <20211209102335.18321-1-christian.koenig@amd.com>
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-In-Reply-To: <20211209102335.18321-1-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1639127179;
- 38ea121e; 
-X-HE-SMSGID: 1mvbr6-0005NW-Fu
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,66 +59,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Dom Cobley <dom@raspberrypi.com>,
+ Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, this is your Linux kernel regression tracker speaking.
+Hi Maxime,
 
-On 09.12.21 11:23, Christian König wrote:
-> Always waiting for the exclusive fence resulted on some performance
-> regressions. So try to wait for the shared fences first, then the
-> exclusive fence should always be signaled already.
+On Fri, 2021-12-03 at 14:51 +0100, Maxime Ripard wrote:
+> Once the call to drm_fb_helper_remove_conflicting_framebuffers() has
+> been made, simplefb has been unregistered and the KMS driver is entirely
+> in charge of the display.
 > 
-> v2: fix incorrectly placed "(", add some comment why we do this.
+> Thus, we can notify the firmware it can free whatever resource it was
+> using to maintain simplefb functional.
 > 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>  drivers/gpu/drm/vc4/vc4_drv.c | 19 +++++++++++++++++++
+>  drivers/gpu/drm/vc4/vc4_drv.h |  2 ++
+>  2 files changed, 21 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
+> index 8ab89f805826..38d55a47c831 100644
+> --- a/drivers/gpu/drm/vc4/vc4_drv.c
+> +++ b/drivers/gpu/drm/vc4/vc4_drv.c
+> @@ -37,6 +37,8 @@
+>  #include <drm/drm_fb_helper.h>
+>  #include <drm/drm_vblank.h>
+>  
+> +#include <soc/bcm2835/raspberrypi-firmware.h>
+> +
+>  #include "uapi/drm/vc4_drm.h"
+>  
+>  #include "vc4_drv.h"
+> @@ -251,10 +253,27 @@ static int vc4_drm_bind(struct device *dev)
+>  	if (ret)
+>  		return ret;
+>  
+> +	node = of_find_compatible_node(NULL, NULL, "raspberrypi,bcm2835-firmware");
+> +	if (node) {
+> +		vc4->firmware = devm_rpi_firmware_get(dev, node);
 
-FWIW: In case you need to send an improved patch, could you please add
-this (see (¹) below for the reasoning):
+I'm really sorry for contradicting myself, but I think it makes more sense to
+do rpi_firmware_get() here...
 
-Link:
-https://lore.kernel.org/dri-devel/da142fb9-07d7-24fe-4533-0247b8d16cdd@sfritsch.de/
+> +		of_node_put(node);
+> +
+> +		if (!vc4->firmware)
+> +			return -EPROBE_DEFER;
+> +	}
+> +
+>  	ret = drm_aperture_remove_framebuffers(false, &vc4_drm_driver);
+>  	if (ret)
+>  		return ret;
+>  
+> +	if (vc4->firmware) {
+> +		ret = rpi_firmware_property(vc4->firmware,
+> +					    RPI_FIRMWARE_NOTIFY_DISPLAY_DONE,
+> +					    NULL, 0);
+> +		if (ret)
+> +			drm_warn(drm, "Couldn't stop firmware display driver: %d\n", ret);
+> +	}
+> +
 
-And if the patch is already good to go: could the subsystem maintainer
-please add it when applying? See (¹) for the reasoning.
+...and rpi_firmware_put() here. IIUC after this the fw handle isn't needed
+anymore.
 
-BTW, these two lines afaics are missing as well:
+Other than that, the series looks fine to me.
 
-Fixes: 3e1ad79bf661 ("drm/nouveau: always wait for the exclusive fence")
-Reported-by: Stefan Fritsch <sf@sfritsch.de>
-
-Ciao, Thorsten
-
-(¹) Long story: The commit message would benefit from a link to the
-regression report, for reasons explained in
-Documentation/process/submitting-patches.rst. To quote:
-
-```
-If related discussions or any other background information behind the
-change can be found on the web, add 'Link:' tags pointing to it. In case
-your patch fixes a bug, for example, add a tag with a URL referencing
-the report in the mailing list archives or a bug tracker;
-```
-
-This concept is old, but the text was reworked recently to make this use
-case for the Link: tag clearer. For details see:
-https://git.kernel.org/linus/1f57bd42b77c
-
-Yes, that "Link:" is not really crucial; but it's good to have if
-someone needs to look into the backstory of this change sometime in the
-future. But I care for a different reason. I'm tracking this regression
-(and others) with regzbot, my Linux kernel regression tracking bot. This
-bot will notice if a patch with a Link: tag to a tracked regression gets
-posted and record that, which allowed anyone looking into the regression
-to quickly gasp the current status from regzbot's webui
-(https://linux-regtracking.leemhuis.info/regzbot ) or its reports. The
-bot will also notice if a commit with a Link: tag to a regression report
-is applied by Linus and then automatically mark the regression as
-resolved then.
-
-IOW: this tag makes my life a regression tracker a lot easier, as I
-otherwise have to tell regzbot manually when the fix lands. :-/
-
-#regzbot ^backmonitor:
-https://lore.kernel.org/dri-devel/da142fb9-07d7-24fe-4533-0247b8d16cdd@sfritsch.de/
+Regards,
+Nicolas
