@@ -1,52 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B07E46FE3F
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 10:55:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E2C346FE6A
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 11:06:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A977510E3D6;
-	Fri, 10 Dec 2021 09:55:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E8E610E21D;
+	Fri, 10 Dec 2021 10:06:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB93710E3D6
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 09:55:23 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 78A44B823BC;
- Fri, 10 Dec 2021 09:55:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4F8DC341C8;
- Fri, 10 Dec 2021 09:55:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1639130121;
- bh=dTWmHw0aiFAZ/D/gliRdCRkGlRhvUl1LgpPrJMOMQ9k=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=AvrmOsj+CQalgcUlbaZ1i0xgKLJZaKA6+JzY80G3jc/Mi8aU+eVgEhJ6pGSli/2tS
- M/KEh/g7LDJW4f/YZNFRULAJklYYPeKPMKksFDbO5ci+1uqRm7JG+8XLlgh5r5szlP
- fgUsCjciTFKZ5W9C58+ICnjTMrOSooFzJSSmuvb/KvZOSW47FuZjDc//EcKjbmKGkI
- JZqqYhwPxOSrDcMIVW1ukdx+wI4xIBgjNljT+F+yBPSV7DWp6tjT2PDgdLVFgYZ7AO
- YWqzYpSIJRZN6cH10SuEMZRpb0zPMNGXMd/RXukiWN/oTuo5b+3H9AXMJ0AXHLFRPh
- cVmLI9E7sbg7Q==
-Message-ID: <a2c1d56378748b037a8d62dcc2934c4f8eabf5b2.camel@kernel.org>
-Subject: Re: [PATCH v2 3/3] drm/vc4: Notify the firmware when DRM is in charge
-From: nicolas saenz julienne <nsaenz@kernel.org>
-To: Maxime Ripard <maxime@cerno.tech>, Ray Jui <rjui@broadcom.com>, Scott
- Branden <sbranden@broadcom.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>, Frank Rowand
- <frowand.list@gmail.com>,  Florian Fainelli <f.fainelli@gmail.com>, Daniel
- Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Date: Fri, 10 Dec 2021 10:55:12 +0100
-In-Reply-To: <20211203135126.700165-4-maxime@cerno.tech>
-References: <20211203135126.700165-1-maxime@cerno.tech>
- <20211203135126.700165-4-maxime@cerno.tech>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.1 (3.42.1-1.fc35) 
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EE6289815
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 10:06:31 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10193"; a="238263625"
+X-IronPort-AV: E=Sophos;i="5.88,195,1635231600"; d="scan'208";a="238263625"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Dec 2021 02:06:30 -0800
+X-IronPort-AV: E=Sophos;i="5.88,195,1635231600"; d="scan'208";a="602070300"
+Received: from mpcorrig-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.4.173])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Dec 2021 02:06:27 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Kees Cook <keescook@chromium.org>, Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [PATCH] drm/dp: Actually read Adjust Request Post Cursor2 register
+In-Reply-To: <202112091539.6B349AC@keescook>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20211203084354.3105253-1-keescook@chromium.org>
+ <87o85r4a4f.fsf@intel.com> <202112082220.81ECDC63D@keescook>
+ <2b7d760c-9ab8-b607-efc6-1ed276d67668@amd.com>
+ <202112091539.6B349AC@keescook>
+Date: Fri, 10 Dec 2021 12:06:20 +0200
+Message-ID: <87a6h83hb7.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,78 +47,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Dom Cobley <dom@raspberrypi.com>,
- Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-hardening@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Thierry Reding <treding@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+On Thu, 09 Dec 2021, Kees Cook <keescook@chromium.org> wrote:
+> On Thu, Dec 09, 2021 at 05:20:45PM -0500, Harry Wentland wrote:
+>> 
+>> 
+>> On 2021-12-09 01:23, Kees Cook wrote:
+>> > On Wed, Dec 08, 2021 at 01:19:28PM +0200, Jani Nikula wrote:
+>> >> On Fri, 03 Dec 2021, Kees Cook <keescook@chromium.org> wrote:
+>> >>> The link_status array was not large enough to read the Adjust Request
+>> >>> Post Cursor2 register. Adjust the size to include it. Found with a
+>> >>> -Warray-bounds build:
+>> >>>
+>> >>> drivers/gpu/drm/drm_dp_helper.c: In function 'drm_dp_get_adjust_request_post_cursor':
+>> >>> drivers/gpu/drm/drm_dp_helper.c:59:27: error: array subscript 10 is outside array bounds of 'const u8[6]' {aka 'const unsigned char[6]'} [-Werror=array-bounds]
+>> >>>    59 |         return link_status[r - DP_LANE0_1_STATUS];
+>> >>>       |                ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+>> >>> drivers/gpu/drm/drm_dp_helper.c:147:51: note: while referencing 'link_status'
+>> >>>   147 | u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZE],
+>> >>>       |                                          ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> >>>
+>> >>> Fixes: 79465e0ffeb9 ("drm/dp: Add helper to get post-cursor adjustments")
+>> >>> Signed-off-by: Kees Cook <keescook@chromium.org>
+>> >>
+>> >> Using DP_ADJUST_REQUEST_POST_CURSOR2 has been deprecated since DP 1.3
+>> >> published in 2014, and Tegra is the only user of
+>> >> drm_dp_get_adjust_request_post_cursor().
+>> > 
+>> > I see POST_CURSOR2 is used here too:
+>> > 
+>> > drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+>> > 
+>> 
+>> Looks like we read and parse that in the admgpu driver without
+>> using drm_dp_get_adjust_request_post_cursor.
+>
+> Right, and probably that could be switched to use it, but I'm not sure
+> what the impact of the larger link_status read is.
+>
+>> 
+>> I don't have a strong feeling but I liked your original
+>> patch a bit better. I'm not sure what it means when part
+>> of a spec is deprecated. Once a spec is written display
+>> vendors might implement it. We should make sure that
+>> displays like that are always handled in a sane manner.
+>
+> Jani, Dave, any guidance here? I'm fine with whatever, but the current
+> code is for sure broken. ;)
 
-On Fri, 2021-12-03 at 14:51 +0100, Maxime Ripard wrote:
-> Once the call to drm_fb_helper_remove_conflicting_framebuffers() has
-> been made, simplefb has been unregistered and the KMS driver is entirely
-> in charge of the display.
-> 
-> Thus, we can notify the firmware it can free whatever resource it was
-> using to maintain simplefb functional.
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->  drivers/gpu/drm/vc4/vc4_drv.c | 19 +++++++++++++++++++
->  drivers/gpu/drm/vc4/vc4_drv.h |  2 ++
->  2 files changed, 21 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-> index 8ab89f805826..38d55a47c831 100644
-> --- a/drivers/gpu/drm/vc4/vc4_drv.c
-> +++ b/drivers/gpu/drm/vc4/vc4_drv.c
-> @@ -37,6 +37,8 @@
->  #include <drm/drm_fb_helper.h>
->  #include <drm/drm_vblank.h>
->  
-> +#include <soc/bcm2835/raspberrypi-firmware.h>
-> +
->  #include "uapi/drm/vc4_drm.h"
->  
->  #include "vc4_drv.h"
-> @@ -251,10 +253,27 @@ static int vc4_drm_bind(struct device *dev)
->  	if (ret)
->  		return ret;
->  
-> +	node = of_find_compatible_node(NULL, NULL, "raspberrypi,bcm2835-firmware");
-> +	if (node) {
-> +		vc4->firmware = devm_rpi_firmware_get(dev, node);
+Post Cursor2 was completely optional for the transmitter even before it
+was deprecated.
 
-I'm really sorry for contradicting myself, but I think it makes more sense to
-do rpi_firmware_get() here...
+And now we'd be adding 5 bytes extra to all link status reads. To fix
+the only user of drm_dp_get_adjust_request_post_cursor() that apparently
+has never worked as intended. I'm just not convinced.
 
-> +		of_node_put(node);
-> +
-> +		if (!vc4->firmware)
-> +			return -EPROBE_DEFER;
-> +	}
-> +
->  	ret = drm_aperture_remove_framebuffers(false, &vc4_drm_driver);
->  	if (ret)
->  		return ret;
->  
-> +	if (vc4->firmware) {
-> +		ret = rpi_firmware_property(vc4->firmware,
-> +					    RPI_FIRMWARE_NOTIFY_DISPLAY_DONE,
-> +					    NULL, 0);
-> +		if (ret)
-> +			drm_warn(drm, "Couldn't stop firmware display driver: %d\n", ret);
-> +	}
-> +
+I was trying to look through the implications of DP_LINK_STATUS_SIZE
+increase, and at least drm_dp_dpcd_read_phy_link_status() comes across
+as something probably needing attention.
 
-...and rpi_firmware_put() here. IIUC after this the fw handle isn't needed
-anymore.
 
-Other than that, the series looks fine to me.
+BR,
+Jani.
 
-Regards,
-Nicolas
+-- 
+Jani Nikula, Intel Open Source Graphics Center
