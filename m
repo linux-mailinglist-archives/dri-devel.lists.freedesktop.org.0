@@ -2,53 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B8BC4707E0
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 18:55:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBF254707CE
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 18:55:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB2CB10E48D;
-	Fri, 10 Dec 2021 17:55:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7901910E45D;
+	Fri, 10 Dec 2021 17:55:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2703C10E54E;
- Fri, 10 Dec 2021 17:55:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639158925; x=1670694925;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=yGQ8dD52UewsyCaU8H+F3rrt+TRzzvYwcwOBm160nnI=;
- b=jWTG0wKNGQz7lw2mINScB0JMfVfezamGwkxlsAkXsEfnBMFMHQrHXk/Q
- 5/98iGiziiAQFUSGgVdDFoyrePg2N1xkt27FflpN4XJmM8GidBgufVWWI
- rKJ1+b/pShhnUaQwyV+C9Y61g0E8p3+JzSgRbUHMHg6E4hDOi8zPSYFl2
- bxcCK79tqZa7y9TNssoi+2isU2C2+9ux1400N9huG19UfUi7/QSefYP/V
- Tgozidg4mpvgXs5PY+Xz0uGxDAd7QHTxs9cVDwE62Z0vUCGVUfuXWJENL
- /q/vwIko7KvYXhLSOqd2JSjWHc+kwKY8MbJG8diG1Ikd3eKIgfPcFhz1K Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10194"; a="301787907"
-X-IronPort-AV: E=Sophos;i="5.88,196,1635231600"; d="scan'208";a="301787907"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2021 09:55:24 -0800
-X-IronPort-AV: E=Sophos;i="5.88,196,1635231600"; d="scan'208";a="463751625"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2021 09:55:23 -0800
-Date: Fri, 10 Dec 2021 09:50:00 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc: Use correct context lock when
- callig clr_context_registered
-Message-ID: <20211210175000.GA35534@jons-linux-dev-box>
-References: <20211209184814.21125-1-matthew.brost@intel.com>
- <d1fb9875-4af7-301e-cd83-9aeb7e8a5b52@intel.com>
- <439fb357-cdda-2996-bb63-eaf41a7fe4d1@linux.intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 52B9B10E45D
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 17:55:06 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B380813D5;
+ Fri, 10 Dec 2021 09:55:05 -0800 (PST)
+Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com
+ [10.1.196.40])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 224493F73B;
+ Fri, 10 Dec 2021 09:55:04 -0800 (PST)
+From: Robin Murphy <robin.murphy@arm.com>
+To: joro@8bytes.org,
+	will@kernel.org
+Subject: [PATCH v2 02/11] gpu: host1x: Add missing DMA API include
+Date: Fri, 10 Dec 2021 17:54:43 +0000
+Message-Id: <cba5353b636117835512fab7646788d89db033bf.1639157090.git.robin.murphy@arm.com>
+X-Mailer: git-send-email 2.28.0.dirty
+In-Reply-To: <cover.1639157090.git.robin.murphy@arm.com>
+References: <cover.1639157090.git.robin.murphy@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <439fb357-cdda-2996-bb63-eaf41a7fe4d1@linux.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,90 +42,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: john.garry@huawei.com, linux-kernel@vger.kernel.org, willy@infradead.org,
+ Mikko Perttunen <mperttunen@nvidia.com>, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org, Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel@lists.freedesktop.org, suravee.suthikulpanit@amd.com,
+ baolu.lu@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 10, 2021 at 08:41:22AM +0000, Tvrtko Ursulin wrote:
-> 
-> On 09/12/2021 19:14, Daniele Ceraolo Spurio wrote:
-> > 
-> > 
-> > On 12/9/2021 10:48 AM, Matthew Brost wrote:
-> > > s/ce/cn/ when grabbing guc_state.lock before calling
-> > > clr_context_registered.
-> > > 
-> > > Fixes: 0f7976506de61 ("drm/i915/guc: Rework and simplify locking")
-> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > > Cc: <stable@vger.kernel.org>
-> 
-> I think Cc: stable is not needed here:
-> 
-> $ git tag --contains 0f7976506de61
-> drm-intel-fixes-2021-11-18
-> drm-intel-gt-next-2021-10-08
-> drm-intel-gt-next-2021-10-21
-> drm-intel-gt-next-2021-11-22
-> drm-intel-next-2021-10-15
-> drm-intel-next-fixes-2021-11-09
-> v5.16-rc1
-> v5.16-rc2
-> v5.16-rc3
-> v5.16-rc4
-> 
-> So still can hit 5.16 via fixes. Rodrigo, did I get this right and you will
-> be able to pick it up next week or so?
-> 
+Host1x seems to be relying on picking up dma-mapping.h transitively from
+iova.h, which has no reason to include it in the first place. Fix the
+former issue before we totally break things by fixing the latter one.
 
-Will remove.
+CC: Thierry Reding <thierry.reding@gmail.com>
+CC: Mikko Perttunen <mperttunen@nvidia.com>
+CC: dri-devel@lists.freedesktop.org
+Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+---
 
-> > Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> > 
-> > I'm assuming we didn't see any splat from the lockdep assert in
-> > clr_context_registered in our CI runs because we never hit this case as
-> > it requires 64k+ contexts. Maybe we can add a selftest to purposely
-> > exercise this path? Not a blocker for merging this fix.
-> 
-> Was the bug found by inspection or reported?
->
+v2: No change
 
-Internal testing.
+ drivers/gpu/host1x/bus.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
+index 218e3718fd68..881fad5c3307 100644
+--- a/drivers/gpu/host1x/bus.c
++++ b/drivers/gpu/host1x/bus.c
+@@ -5,6 +5,7 @@
+  */
  
-> Given the buggy function is called steal_guc_id, so if the implication is
-> there is no testing for guc id stealing, then it indeed please add some
-> coverage ASAP.
->
+ #include <linux/debugfs.h>
++#include <linux/dma-mapping.h>
+ #include <linux/host1x.h>
+ #include <linux/of.h>
+ #include <linux/seq_file.h>
+-- 
+2.28.0.dirty
 
-Will do. I'll aim to get something out next week.
-
-Matt
- 
-> Regards,
-> 
-> Tvrtko
-> 
-> > 
-> > Daniele
-> > 
-> > > ---
-> > >   drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 4 ++--
-> > >   1 file changed, 2 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > index 1f9d4fde421f..9b7b4f4e0d91 100644
-> > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > @@ -1937,9 +1937,9 @@ static int steal_guc_id(struct intel_guc *guc,
-> > > struct intel_context *ce)
-> > >           list_del_init(&cn->guc_id.link);
-> > >           ce->guc_id = cn->guc_id;
-> > > -        spin_lock(&ce->guc_state.lock);
-> > > +        spin_lock(&cn->guc_state.lock);
-> > >           clr_context_registered(cn);
-> > > -        spin_unlock(&ce->guc_state.lock);
-> > > +        spin_unlock(&cn->guc_state.lock);
-> > >           set_context_guc_id_invalid(cn);
-> > 
