@@ -1,51 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C23746F7ED
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 01:19:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C790746F7F1
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 01:19:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F19B910E15A;
-	Fri, 10 Dec 2021 00:19:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53C9A10E1AA;
+	Fri, 10 Dec 2021 00:19:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAD8F10E187;
- Fri, 10 Dec 2021 00:19:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639095541; x=1670631541;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=Xdvhf3junbQFds68YVDi+SPaGAYIN1yagRQQS8Yn9Ug=;
- b=CXEPEFHVOhEHG8qzvgZ6wdhHAtxDDFGkSmzf+SKTUP3kj5zP0AQlstwf
- QD7eJqNeC15VAcNUBC5czCkhgIp/wZHZFtmkRuJgumcBLWpunbD1SNR7X
- qTZIdNStP+ryz6JCtwZdY+tqQBO57omjgzgLuGwjZf4EMHovivgxAxLaQ
- +JeJcgEb7uUs8t2m9eQFk71fPTF86slMN87+rWfiM4115K9tijW2BZQaX
- BBEtB2zVnLR/0TaW+FpVoLD0WBRi+2W/Wx7y4NpIGLmsfDljc7WZwzBVZ
- lsiC75phGJlusMabd/vmrMKLzk5/MzP3f2VfVBTlaOQz4rD1gKVxZNRMx w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10193"; a="301619003"
-X-IronPort-AV: E=Sophos;i="5.88,194,1635231600"; d="scan'208";a="301619003"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2021 16:19:00 -0800
-X-IronPort-AV: E=Sophos;i="5.88,194,1635231600"; d="scan'208";a="565004883"
-Received: from mdroper-desk1.fm.intel.com (HELO
- mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2021 16:19:00 -0800
-Date: Thu, 9 Dec 2021 16:18:58 -0800
-From: Matt Roper <matthew.d.roper@intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Subject: Re: [PATCH v6 10/11] drm/i915: Use to_gt() helper for GGTT accesses
-Message-ID: <20211210001858.GX2219399@mdroper-desk1.amr.corp.intel.com>
-References: <20211209132512.47241-1-andi.shyti@linux.intel.com>
- <20211209132512.47241-11-andi.shyti@linux.intel.com>
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E22B710E196
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 00:19:47 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id v15so11564819ljc.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Dec 2021 16:19:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=eRGtcpLeYdA2Qv9yCVejlKAWtr2JQg9B1moca2/DjKE=;
+ b=Y4fcdbQB+Rd0t8tXa1OABHNo3lx4+dBF+DZxHX0rNrrAxwPjNfI44b2S3AZ5gB0fY/
+ l+COl3Pziz6DVJsT4Z0QjvSzSUvOurpBXxNbfXEeOPe3e+zulncp2eJ8yBv+VXvhKZco
+ HvW4T3Gfyd8QT9KqOPcC+zEZrLkAc0rYR0Er2u0KO6Z9GBauSnU8hJ7i/uZu8pnmP0KU
+ VK/vH6LdPSuAyi0LZA4EUEoalGOwdLaPOdIDl+SKR2oO23wfbztxatR3N7ugj4KWFjgi
+ rRWTt+wzdvcie3FvuW7MLtA3QG+HXpvAvlXqhnRcmG5J8727U/hbReEIm+Ed6WXOIWLt
+ N7+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=eRGtcpLeYdA2Qv9yCVejlKAWtr2JQg9B1moca2/DjKE=;
+ b=fgek2dqvlnDRnxN+FLdaTRP7p9+oAYRX0XeA4golKKfY95uLhSLb3tUODGdQjuB7wi
+ HhK9ns47EkArvTG5Q1FwYHUt3gwGjS8/oiOzrBL0DO8dp69w8QOosNtWzjfjh0XFs7pz
+ CX4fQCkjFtbXOKo2RlysRrswrWHcdb83tjYtu7Ooz4UKp9qYJt3qJNkwkKvkvo7A4hRP
+ dhmNcyIHhDaZUum4tpSaranCbcDhuCuggDHIxjP+dlxeflO374qidjC1FRGKElA+JIET
+ 5tJHCDYCMl5SmLsc5pGFlxhfefuHsKKun6p6THj3YNY7KntkCmfibCpzz3tuSEs55VIW
+ KSIw==
+X-Gm-Message-State: AOAM531NQtmfl+ZyKzgOtfj4Oy4/E5bfG7ChcC79emjCRN6gkzWLT8dn
+ g9Qc5jlPkEFBF3P0qwT9bBfPcrBONsRd+94Qr1ovuA==
+X-Google-Smtp-Source: ABdhPJxr6+yxZP/ZV9jXkhByHqqRiGUjjeVMRwvakRGlFBRNLzQ73xR305iNeE2ugpMjsydrhbnSzQ==
+X-Received: by 2002:a2e:2206:: with SMTP id i6mr9528235lji.357.1639095586077; 
+ Thu, 09 Dec 2021 16:19:46 -0800 (PST)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id o12sm146077lft.134.2021.12.09.16.19.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Dec 2021 16:19:45 -0800 (PST)
+Message-ID: <0d6574c2-c811-22c6-39d3-379ac93afe0d@linaro.org>
+Date: Fri, 10 Dec 2021 03:19:44 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [Freedreno] [PATCH v1 8/8] drm/msm/dpu: move SSPP debugfs support
+ from plane to SSPP code
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <abhinavk@codeaurora.org>
+References: <20211201222633.2476780-1-dmitry.baryshkov@linaro.org>
+ <20211201222633.2476780-9-dmitry.baryshkov@linaro.org>
+ <fcebac6e-05ea-73ad-f592-fc1721d4ecfb@quicinc.com>
+ <df5a6583-8c94-e43a-e62d-d2be3918cbea@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <df5a6583-8c94-e43a-e62d-d2be3918cbea@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211209132512.47241-11-andi.shyti@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,762 +78,289 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- DRI Devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>, Andi Shyti <andi@etezian.org>
+Cc: Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 09, 2021 at 03:25:11PM +0200, Andi Shyti wrote:
-> From: Michał Winiarski <michal.winiarski@intel.com>
+On 10/12/2021 01:27, Abhinav Kumar wrote:
 > 
-> GGTT is currently available both through i915->ggtt and gt->ggtt, and we
-> eventually want to get rid of the i915->ggtt one.
-> Use to_gt() for all i915->ggtt accesses to help with the future
-> refactoring.
-
-I think we can also convert the two references in i915_drm_suspend() and
-i915_drm_resume(), right?  With those converted, I think the only
-remaining use of i915->ggtt will be the call to intel_gt_init_hw_early()
-during startup that assigns the gt->ggtt pointer.  Maybe we should just
-make that function assign a drmm_kzalloc() and drop the i915->ggtt
-completely?
-
-
-Matt
-
 > 
-> Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
-> Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_fbc.c         |  2 +-
->  .../gpu/drm/i915/display/intel_plane_initial.c   |  2 +-
->  drivers/gpu/drm/i915/gem/i915_gem_context.h      |  2 +-
->  drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c   |  2 +-
->  drivers/gpu/drm/i915/gem/i915_gem_mman.c         | 16 ++++++++--------
->  drivers/gpu/drm/i915/gem/i915_gem_pm.c           |  2 +-
->  drivers/gpu/drm/i915/gem/i915_gem_shrinker.c     |  6 +++---
->  drivers/gpu/drm/i915/gem/i915_gem_stolen.c       |  2 +-
->  .../drm/i915/gem/selftests/i915_gem_client_blt.c |  2 +-
->  .../drm/i915/gem/selftests/i915_gem_context.c    |  2 +-
->  .../gpu/drm/i915/gem/selftests/i915_gem_mman.c   | 16 ++++++++--------
->  .../gpu/drm/i915/gem/selftests/i915_gem_object.c |  2 +-
->  drivers/gpu/drm/i915/gt/intel_ggtt.c             | 14 +++++++-------
->  drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c     |  6 +++---
->  drivers/gpu/drm/i915/gt/intel_region_lmem.c      |  4 ++--
->  drivers/gpu/drm/i915/gt/selftest_reset.c         |  2 +-
->  drivers/gpu/drm/i915/i915_driver.c               |  4 ++--
->  drivers/gpu/drm/i915/i915_drv.h                  |  2 +-
->  drivers/gpu/drm/i915/i915_gem.c                  | 16 ++++++++--------
->  drivers/gpu/drm/i915/i915_gem_gtt.c              |  6 +++---
->  drivers/gpu/drm/i915/i915_getparam.c             |  2 +-
->  drivers/gpu/drm/i915/i915_perf.c                 |  4 ++--
->  drivers/gpu/drm/i915/selftests/i915_gem.c        |  8 ++++----
->  drivers/gpu/drm/i915/selftests/i915_gem_gtt.c    |  6 +++---
->  drivers/gpu/drm/i915/selftests/i915_request.c    |  2 +-
->  drivers/gpu/drm/i915/selftests/i915_vma.c        |  2 +-
->  drivers/gpu/drm/i915/selftests/mock_gem_device.c |  4 ++--
->  drivers/gpu/drm/i915/selftests/mock_gtt.c        |  2 +-
->  28 files changed, 70 insertions(+), 70 deletions(-)
+> On 12/9/2021 2:18 PM, Abhinav Kumar wrote:
+>>
+>>
+>> On 12/1/2021 2:26 PM, Dmitry Baryshkov wrote:
+>>> We are preparing to change DPU plane implementation. Move SSPP debugfs
+>>> code from dpu_plane.c to dpu_hw_sspp.c, where it belongs.
+>>>
+>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>> ---
+>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c | 67 +++++++++++++++++
+>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h |  4 +
+>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  1 +
+>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 82 +++------------------
+>>>   4 files changed, 84 insertions(+), 70 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c 
+>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+>>> index d77eb7da5daf..ae3cf2e4d7d9 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+>>> @@ -8,6 +8,8 @@
+>>>   #include "dpu_hw_sspp.h"
+>>>   #include "dpu_kms.h"
+>>> +#include <drm/drm_file.h>
+>>> +
+>>>   #define DPU_FETCH_CONFIG_RESET_VALUE   0x00000087
+>>>   /* DPU_SSPP_SRC */
+>>> @@ -686,6 +688,71 @@ static void _setup_layer_ops(struct dpu_hw_pipe *c,
+>>>           c->ops.setup_cdp = dpu_hw_sspp_setup_cdp;
+>>>   }
+>>> +#ifdef CONFIG_DEBUG_FS
+>>> +int _dpu_hw_sspp_init_debugfs(struct dpu_hw_pipe *hw_pipe, struct 
+>>> dpu_kms *kms, struct dentry *entry)
+>>> +{
+>>> +    const struct dpu_sspp_cfg *cfg = hw_pipe->cap;
+>>> +    const struct dpu_sspp_sub_blks *sblk = cfg->sblk;
+>>> +    struct dentry *debugfs_root;
+>>> +    char sspp_name[32];
+>>> +
+>>> +    snprintf(sspp_name, sizeof(sspp_name), "%d", hw_pipe->idx);
+>>> +
+>>> +    /* create overall sub-directory for the pipe */
+>>> +    debugfs_root =
+>>> +        debugfs_create_dir(sspp_name, entry);
+>>
+>>
+>> I would like to take a different approach to this. Let me know what 
+>> you think.
+>>
+>> Let the directory names still be the drm plane names as someone who 
+>> would first get the DRM state and then try to lookup the register 
+>> values of that plane would not know where to look now.
+>>
+>> Inside the /sys/kernel/debug/***/plane-X/ directory you can expose an 
+>> extra entry which tells the sspp_index.
+>>
+>> This will also establish the plane to SSPP mapping.
+>>
+>> Now when planes go virtual in the future, this will be helpful even more
+>> so that we can know the plane to SSPP mapping.
 > 
-> diff --git a/drivers/gpu/drm/i915/display/intel_fbc.c b/drivers/gpu/drm/i915/display/intel_fbc.c
-> index 8be01b93015f..98319c0322d7 100644
-> --- a/drivers/gpu/drm/i915/display/intel_fbc.c
-> +++ b/drivers/gpu/drm/i915/display/intel_fbc.c
-> @@ -595,7 +595,7 @@ static void ivb_fbc_activate(struct intel_fbc *fbc)
->  	else if (DISPLAY_VER(i915) == 9)
->  		skl_fbc_program_cfb_stride(fbc);
->  
-> -	if (i915->ggtt.num_fences)
-> +	if (to_gt(i915)->ggtt->num_fences)
->  		snb_fbc_program_fence(fbc);
->  
->  	intel_de_write(i915, ILK_DPFC_CONTROL,
-> diff --git a/drivers/gpu/drm/i915/display/intel_plane_initial.c b/drivers/gpu/drm/i915/display/intel_plane_initial.c
-> index 01ce1d72297f..e4186a0b8edb 100644
-> --- a/drivers/gpu/drm/i915/display/intel_plane_initial.c
-> +++ b/drivers/gpu/drm/i915/display/intel_plane_initial.c
-> @@ -94,7 +94,7 @@ initial_plane_vma(struct drm_i915_private *i915,
->  		goto err_obj;
->  	}
->  
-> -	vma = i915_vma_instance(obj, &i915->ggtt.vm, NULL);
-> +	vma = i915_vma_instance(obj, &to_gt(i915)->ggtt->vm, NULL);
->  	if (IS_ERR(vma))
->  		goto err_obj;
->  
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.h b/drivers/gpu/drm/i915/gem/i915_gem_context.h
-> index babfecb17ad1..e5b0f66ea1fe 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.h
-> @@ -174,7 +174,7 @@ i915_gem_context_get_eb_vm(struct i915_gem_context *ctx)
->  
->  	vm = ctx->vm;
->  	if (!vm)
-> -		vm = &ctx->i915->ggtt.vm;
-> +		vm = &to_gt(ctx->i915)->ggtt->vm;
->  	vm = i915_vm_get(vm);
->  
->  	return vm;
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> index ec7c4a29a720..3078611d5bfe 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> @@ -1106,7 +1106,7 @@ static inline struct i915_ggtt *cache_to_ggtt(struct reloc_cache *cache)
->  {
->  	struct drm_i915_private *i915 =
->  		container_of(cache, struct i915_execbuffer, reloc_cache)->i915;
-> -	return &i915->ggtt;
-> +	return to_gt(i915)->ggtt;
->  }
->  
->  static void reloc_cache_reset(struct reloc_cache *cache, struct i915_execbuffer *eb)
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> index 1ca5c062974e..bd5890780810 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> @@ -295,7 +295,7 @@ static vm_fault_t vm_fault_gtt(struct vm_fault *vmf)
->  	struct drm_device *dev = obj->base.dev;
->  	struct drm_i915_private *i915 = to_i915(dev);
->  	struct intel_runtime_pm *rpm = &i915->runtime_pm;
-> -	struct i915_ggtt *ggtt = &i915->ggtt;
-> +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
->  	bool write = area->vm_flags & VM_WRITE;
->  	struct i915_gem_ww_ctx ww;
->  	intel_wakeref_t wakeref;
-> @@ -388,16 +388,16 @@ static vm_fault_t vm_fault_gtt(struct vm_fault *vmf)
->  	assert_rpm_wakelock_held(rpm);
->  
->  	/* Mark as being mmapped into userspace for later revocation */
-> -	mutex_lock(&i915->ggtt.vm.mutex);
-> +	mutex_lock(&to_gt(i915)->ggtt->vm.mutex);
->  	if (!i915_vma_set_userfault(vma) && !obj->userfault_count++)
-> -		list_add(&obj->userfault_link, &i915->ggtt.userfault_list);
-> -	mutex_unlock(&i915->ggtt.vm.mutex);
-> +		list_add(&obj->userfault_link, &to_gt(i915)->ggtt->userfault_list);
-> +	mutex_unlock(&to_gt(i915)->ggtt->vm.mutex);
->  
->  	/* Track the mmo associated with the fenced vma */
->  	vma->mmo = mmo;
->  
->  	if (CONFIG_DRM_I915_USERFAULT_AUTOSUSPEND)
-> -		intel_wakeref_auto(&i915->ggtt.userfault_wakeref,
-> +		intel_wakeref_auto(&to_gt(i915)->ggtt->userfault_wakeref,
->  				   msecs_to_jiffies_timeout(CONFIG_DRM_I915_USERFAULT_AUTOSUSPEND));
->  
->  	if (write) {
-> @@ -512,7 +512,7 @@ void i915_gem_object_release_mmap_gtt(struct drm_i915_gem_object *obj)
->  	 * wakeref.
->  	 */
->  	wakeref = intel_runtime_pm_get(&i915->runtime_pm);
-> -	mutex_lock(&i915->ggtt.vm.mutex);
-> +	mutex_lock(&to_gt(i915)->ggtt->vm.mutex);
->  
->  	if (!obj->userfault_count)
->  		goto out;
-> @@ -530,7 +530,7 @@ void i915_gem_object_release_mmap_gtt(struct drm_i915_gem_object *obj)
->  	wmb();
->  
->  out:
-> -	mutex_unlock(&i915->ggtt.vm.mutex);
-> +	mutex_unlock(&to_gt(i915)->ggtt->vm.mutex);
->  	intel_runtime_pm_put(&i915->runtime_pm, wakeref);
->  }
->  
-> @@ -787,7 +787,7 @@ i915_gem_mmap_offset_ioctl(struct drm_device *dev, void *data,
->  
->  	switch (args->flags) {
->  	case I915_MMAP_OFFSET_GTT:
-> -		if (!i915_ggtt_has_aperture(&i915->ggtt))
-> +		if (!i915_ggtt_has_aperture(to_gt(i915)->ggtt))
->  			return -ENODEV;
->  		type = I915_MMAP_TYPE_GTT;
->  		break;
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pm.c b/drivers/gpu/drm/i915/gem/i915_gem_pm.c
-> index ac56124760e1..6da68b38f00f 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_pm.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_pm.c
-> @@ -23,7 +23,7 @@ void i915_gem_suspend(struct drm_i915_private *i915)
->  {
->  	GEM_TRACE("%s\n", dev_name(i915->drm.dev));
->  
-> -	intel_wakeref_auto(&i915->ggtt.userfault_wakeref, 0);
-> +	intel_wakeref_auto(&to_gt(i915)->ggtt->userfault_wakeref, 0);
->  	flush_workqueue(i915->wq);
->  
->  	/*
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-> index 05a1ba2f2e7b..793fbf3da46b 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-> @@ -403,9 +403,9 @@ i915_gem_shrinker_vmap(struct notifier_block *nb, unsigned long event, void *ptr
->  					       I915_SHRINK_VMAPS);
->  
->  	/* We also want to clear any cached iomaps as they wrap vmap */
-> -	mutex_lock(&i915->ggtt.vm.mutex);
-> +	mutex_lock(&to_gt(i915)->ggtt->vm.mutex);
->  	list_for_each_entry_safe(vma, next,
-> -				 &i915->ggtt.vm.bound_list, vm_link) {
-> +				 &to_gt(i915)->ggtt->vm.bound_list, vm_link) {
->  		unsigned long count = vma->node.size >> PAGE_SHIFT;
->  
->  		if (!vma->iomap || i915_vma_is_active(vma))
-> @@ -414,7 +414,7 @@ i915_gem_shrinker_vmap(struct notifier_block *nb, unsigned long event, void *ptr
->  		if (__i915_vma_unbind(vma) == 0)
->  			freed_pages += count;
->  	}
-> -	mutex_unlock(&i915->ggtt.vm.mutex);
-> +	mutex_unlock(&to_gt(i915)->ggtt->vm.mutex);
->  
->  	*(unsigned long *)ptr += freed_pages;
->  	return NOTIFY_DONE;
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> index bce03d74a0b4..eb6bf6779d2c 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> @@ -71,7 +71,7 @@ void i915_gem_stolen_remove_node(struct drm_i915_private *i915,
->  static int i915_adjust_stolen(struct drm_i915_private *i915,
->  			      struct resource *dsm)
->  {
-> -	struct i915_ggtt *ggtt = &i915->ggtt;
-> +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
->  	struct intel_uncore *uncore = ggtt->vm.gt->uncore;
->  	struct resource *r;
->  
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c
-> index 75947e9dada2..c08f766e6e15 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c
-> @@ -543,7 +543,7 @@ static bool has_bit17_swizzle(int sw)
->  
->  static bool bad_swizzling(struct drm_i915_private *i915)
->  {
-> -	struct i915_ggtt *ggtt = &i915->ggtt;
-> +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
->  
->  	if (i915->quirks & QUIRK_PIN_SWIZZLED_PAGES)
->  		return true;
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-> index 45398adda9c8..250fe3ba6def 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-> @@ -1374,7 +1374,7 @@ static int igt_ctx_readonly(void *arg)
->  		goto out_file;
->  	}
->  
-> -	vm = ctx->vm ?: &i915->ggtt.alias->vm;
-> +	vm = ctx->vm ?: &to_gt(i915)->ggtt->alias->vm;
->  	if (!vm || !vm->has_read_only) {
->  		err = 0;
->  		goto out_file;
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-> index 743e6ab2c40b..ebe41a8ea36c 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-> @@ -307,7 +307,7 @@ static int igt_partial_tiling(void *arg)
->  	int tiling;
->  	int err;
->  
-> -	if (!i915_ggtt_has_aperture(&i915->ggtt))
-> +	if (!i915_ggtt_has_aperture(to_gt(i915)->ggtt))
->  		return 0;
->  
->  	/* We want to check the page mapping and fencing of a large object
-> @@ -320,7 +320,7 @@ static int igt_partial_tiling(void *arg)
->  
->  	obj = huge_gem_object(i915,
->  			      nreal << PAGE_SHIFT,
-> -			      (1 + next_prime_number(i915->ggtt.vm.total >> PAGE_SHIFT)) << PAGE_SHIFT);
-> +			      (1 + next_prime_number(to_gt(i915)->ggtt->vm.total >> PAGE_SHIFT)) << PAGE_SHIFT);
->  	if (IS_ERR(obj))
->  		return PTR_ERR(obj);
->  
-> @@ -366,10 +366,10 @@ static int igt_partial_tiling(void *arg)
->  		tile.tiling = tiling;
->  		switch (tiling) {
->  		case I915_TILING_X:
-> -			tile.swizzle = i915->ggtt.bit_6_swizzle_x;
-> +			tile.swizzle = to_gt(i915)->ggtt->bit_6_swizzle_x;
->  			break;
->  		case I915_TILING_Y:
-> -			tile.swizzle = i915->ggtt.bit_6_swizzle_y;
-> +			tile.swizzle = to_gt(i915)->ggtt->bit_6_swizzle_y;
->  			break;
->  		}
->  
-> @@ -440,7 +440,7 @@ static int igt_smoke_tiling(void *arg)
->  	IGT_TIMEOUT(end);
->  	int err;
->  
-> -	if (!i915_ggtt_has_aperture(&i915->ggtt))
-> +	if (!i915_ggtt_has_aperture(to_gt(i915)->ggtt))
->  		return 0;
->  
->  	/*
-> @@ -457,7 +457,7 @@ static int igt_smoke_tiling(void *arg)
->  
->  	obj = huge_gem_object(i915,
->  			      nreal << PAGE_SHIFT,
-> -			      (1 + next_prime_number(i915->ggtt.vm.total >> PAGE_SHIFT)) << PAGE_SHIFT);
-> +			      (1 + next_prime_number(to_gt(i915)->ggtt->vm.total >> PAGE_SHIFT)) << PAGE_SHIFT);
->  	if (IS_ERR(obj))
->  		return PTR_ERR(obj);
->  
-> @@ -486,10 +486,10 @@ static int igt_smoke_tiling(void *arg)
->  			break;
->  
->  		case I915_TILING_X:
-> -			tile.swizzle = i915->ggtt.bit_6_swizzle_x;
-> +			tile.swizzle = to_gt(i915)->ggtt->bit_6_swizzle_x;
->  			break;
->  		case I915_TILING_Y:
-> -			tile.swizzle = i915->ggtt.bit_6_swizzle_y;
-> +			tile.swizzle = to_gt(i915)->ggtt->bit_6_swizzle_y;
->  			break;
->  		}
->  
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_object.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_object.c
-> index 740ee8086a27..fe0a890775e2 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_object.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_object.c
-> @@ -43,7 +43,7 @@ static int igt_gem_huge(void *arg)
->  
->  	obj = huge_gem_object(i915,
->  			      nreal * PAGE_SIZE,
-> -			      i915->ggtt.vm.total + PAGE_SIZE);
-> +			      to_gt(i915)->ggtt->vm.total + PAGE_SIZE);
->  	if (IS_ERR(obj))
->  		return PTR_ERR(obj);
->  
-> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> index f5c8fd3911b0..75e99160b31f 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> @@ -89,7 +89,7 @@ int i915_ggtt_init_hw(struct drm_i915_private *i915)
->  	 * beyond the end of the batch buffer, across the page boundary,
->  	 * and beyond the end of the GTT if we do not provide a guard.
->  	 */
-> -	ret = ggtt_init_hw(&i915->ggtt);
-> +	ret = ggtt_init_hw(to_gt(i915)->ggtt);
->  	if (ret)
->  		return ret;
->  
-> @@ -725,14 +725,14 @@ int i915_init_ggtt(struct drm_i915_private *i915)
->  {
->  	int ret;
->  
-> -	ret = init_ggtt(&i915->ggtt);
-> +	ret = init_ggtt(to_gt(i915)->ggtt);
->  	if (ret)
->  		return ret;
->  
->  	if (INTEL_PPGTT(i915) == INTEL_PPGTT_ALIASING) {
-> -		ret = init_aliasing_ppgtt(&i915->ggtt);
-> +		ret = init_aliasing_ppgtt(to_gt(i915)->ggtt);
->  		if (ret)
-> -			cleanup_init_ggtt(&i915->ggtt);
-> +			cleanup_init_ggtt(to_gt(i915)->ggtt);
->  	}
->  
->  	return 0;
-> @@ -775,7 +775,7 @@ static void ggtt_cleanup_hw(struct i915_ggtt *ggtt)
->   */
->  void i915_ggtt_driver_release(struct drm_i915_private *i915)
->  {
-> -	struct i915_ggtt *ggtt = &i915->ggtt;
-> +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
->  
->  	fini_aliasing_ppgtt(ggtt);
->  
-> @@ -790,7 +790,7 @@ void i915_ggtt_driver_release(struct drm_i915_private *i915)
->   */
->  void i915_ggtt_driver_late_release(struct drm_i915_private *i915)
->  {
-> -	struct i915_ggtt *ggtt = &i915->ggtt;
-> +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
->  
->  	GEM_WARN_ON(kref_read(&ggtt->vm.resv_ref) != 1);
->  	dma_resv_fini(&ggtt->vm._resv);
-> @@ -1229,7 +1229,7 @@ int i915_ggtt_probe_hw(struct drm_i915_private *i915)
->  {
->  	int ret;
->  
-> -	ret = ggtt_probe_hw(&i915->ggtt, to_gt(i915));
-> +	ret = ggtt_probe_hw(to_gt(i915)->ggtt, to_gt(i915));
->  	if (ret)
->  		return ret;
->  
-> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c b/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
-> index f8948de72036..beabf3bc9b75 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
-> @@ -728,8 +728,8 @@ static void detect_bit_6_swizzle(struct i915_ggtt *ggtt)
->  		swizzle_y = I915_BIT_6_SWIZZLE_NONE;
->  	}
->  
-> -	i915->ggtt.bit_6_swizzle_x = swizzle_x;
-> -	i915->ggtt.bit_6_swizzle_y = swizzle_y;
-> +	to_gt(i915)->ggtt->bit_6_swizzle_x = swizzle_x;
-> +	to_gt(i915)->ggtt->bit_6_swizzle_y = swizzle_y;
->  }
->  
->  /*
-> @@ -896,7 +896,7 @@ void intel_gt_init_swizzling(struct intel_gt *gt)
->  	struct intel_uncore *uncore = gt->uncore;
->  
->  	if (GRAPHICS_VER(i915) < 5 ||
-> -	    i915->ggtt.bit_6_swizzle_x == I915_BIT_6_SWIZZLE_NONE)
-> +	    to_gt(i915)->ggtt->bit_6_swizzle_x == I915_BIT_6_SWIZZLE_NONE)
->  		return;
->  
->  	intel_uncore_rmw(uncore, DISP_ARB_CTL, 0, DISP_TILE_SURFACE_SWIZZLING);
-> diff --git a/drivers/gpu/drm/i915/gt/intel_region_lmem.c b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-> index 9ea49e0a27c0..b255cf4c26e6 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-> @@ -15,7 +15,7 @@
->  static int init_fake_lmem_bar(struct intel_memory_region *mem)
->  {
->  	struct drm_i915_private *i915 = mem->i915;
-> -	struct i915_ggtt *ggtt = &i915->ggtt;
-> +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
->  	unsigned long n;
->  	int ret;
->  
-> @@ -131,7 +131,7 @@ intel_gt_setup_fake_lmem(struct intel_gt *gt)
->  	if (!i915->params.fake_lmem_start)
->  		return ERR_PTR(-ENODEV);
->  
-> -	GEM_BUG_ON(i915_ggtt_has_aperture(&i915->ggtt));
-> +	GEM_BUG_ON(i915_ggtt_has_aperture(to_gt(i915)->ggtt));
->  
->  	/* Your mappable aperture belongs to me now! */
->  	mappable_end = pci_resource_len(pdev, 2);
-> diff --git a/drivers/gpu/drm/i915/gt/selftest_reset.c b/drivers/gpu/drm/i915/gt/selftest_reset.c
-> index 8a873f6bda7f..37c38bdd5f47 100644
-> --- a/drivers/gpu/drm/i915/gt/selftest_reset.c
-> +++ b/drivers/gpu/drm/i915/gt/selftest_reset.c
-> @@ -19,7 +19,7 @@ __igt_reset_stolen(struct intel_gt *gt,
->  		   intel_engine_mask_t mask,
->  		   const char *msg)
->  {
-> -	struct i915_ggtt *ggtt = &gt->i915->ggtt;
-> +	struct i915_ggtt *ggtt = gt->ggtt;
->  	const struct resource *dsm = &gt->i915->dsm;
->  	resource_size_t num_pages, page;
->  	struct intel_engine_cs *engine;
-> diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-> index 95174938b160..60f8cbf24de7 100644
-> --- a/drivers/gpu/drm/i915/i915_driver.c
-> +++ b/drivers/gpu/drm/i915/i915_driver.c
-> @@ -571,6 +571,8 @@ static int i915_driver_hw_probe(struct drm_i915_private *dev_priv)
->  
->  	i915_perf_init(dev_priv);
->  
-> +	intel_gt_init_hw_early(to_gt(dev_priv), &dev_priv->ggtt);
-> +
->  	ret = i915_ggtt_probe_hw(dev_priv);
->  	if (ret)
->  		goto err_perf;
-> @@ -587,8 +589,6 @@ static int i915_driver_hw_probe(struct drm_i915_private *dev_priv)
->  	if (ret)
->  		goto err_ggtt;
->  
-> -	intel_gt_init_hw_early(to_gt(dev_priv), &dev_priv->ggtt);
-> -
->  	ret = intel_gt_probe_lmem(to_gt(dev_priv));
->  	if (ret)
->  		goto err_mem_regions;
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index b0d929012ff3..96e3553838ef 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -1757,7 +1757,7 @@ static inline bool i915_gem_object_needs_bit17_swizzle(struct drm_i915_gem_objec
->  {
->  	struct drm_i915_private *i915 = to_i915(obj->base.dev);
->  
-> -	return i915->ggtt.bit_6_swizzle_x == I915_BIT_6_SWIZZLE_9_10_17 &&
-> +	return to_gt(i915)->ggtt->bit_6_swizzle_x == I915_BIT_6_SWIZZLE_9_10_17 &&
->  		i915_gem_object_is_tiled(obj);
->  }
->  
-> diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
-> index 8ba2119092f2..d94f901ea61f 100644
-> --- a/drivers/gpu/drm/i915/i915_gem.c
-> +++ b/drivers/gpu/drm/i915/i915_gem.c
-> @@ -289,7 +289,7 @@ static struct i915_vma *i915_gem_gtt_prepare(struct drm_i915_gem_object *obj,
->  					     bool write)
->  {
->  	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-> -	struct i915_ggtt *ggtt = &i915->ggtt;
-> +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
->  	struct i915_vma *vma;
->  	struct i915_gem_ww_ctx ww;
->  	int ret;
-> @@ -350,7 +350,7 @@ static void i915_gem_gtt_cleanup(struct drm_i915_gem_object *obj,
->  				 struct i915_vma *vma)
->  {
->  	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-> -	struct i915_ggtt *ggtt = &i915->ggtt;
-> +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
->  
->  	i915_gem_object_unpin_pages(obj);
->  	if (drm_mm_node_allocated(node)) {
-> @@ -366,7 +366,7 @@ i915_gem_gtt_pread(struct drm_i915_gem_object *obj,
->  		   const struct drm_i915_gem_pread *args)
->  {
->  	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-> -	struct i915_ggtt *ggtt = &i915->ggtt;
-> +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
->  	intel_wakeref_t wakeref;
->  	struct drm_mm_node node;
->  	void __user *user_data;
-> @@ -522,7 +522,7 @@ i915_gem_gtt_pwrite_fast(struct drm_i915_gem_object *obj,
->  			 const struct drm_i915_gem_pwrite *args)
->  {
->  	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-> -	struct i915_ggtt *ggtt = &i915->ggtt;
-> +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
->  	struct intel_runtime_pm *rpm = &i915->runtime_pm;
->  	intel_wakeref_t wakeref;
->  	struct drm_mm_node node;
-> @@ -823,7 +823,7 @@ void i915_gem_runtime_suspend(struct drm_i915_private *i915)
->  	 */
->  
->  	list_for_each_entry_safe(obj, on,
-> -				 &i915->ggtt.userfault_list, userfault_link)
-> +				 &to_gt(i915)->ggtt->userfault_list, userfault_link)
->  		__i915_gem_object_release_mmap_gtt(obj);
->  
->  	/*
-> @@ -831,8 +831,8 @@ void i915_gem_runtime_suspend(struct drm_i915_private *i915)
->  	 * in use by hardware (i.e. they are pinned), we should not be powering
->  	 * down! All other fences will be reacquired by the user upon waking.
->  	 */
-> -	for (i = 0; i < i915->ggtt.num_fences; i++) {
-> -		struct i915_fence_reg *reg = &i915->ggtt.fence_regs[i];
-> +	for (i = 0; i < to_gt(i915)->ggtt->num_fences; i++) {
-> +		struct i915_fence_reg *reg = &to_gt(i915)->ggtt->fence_regs[i];
->  
->  		/*
->  		 * Ideally we want to assert that the fence register is not
-> @@ -873,7 +873,7 @@ i915_gem_object_ggtt_pin_ww(struct drm_i915_gem_object *obj,
->  			    u64 size, u64 alignment, u64 flags)
->  {
->  	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-> -	struct i915_ggtt *ggtt = &i915->ggtt;
-> +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
->  	struct i915_vma *vma;
->  	int ret;
->  
-> diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.c b/drivers/gpu/drm/i915/i915_gem_gtt.c
-> index cd5f2348a187..2f2ba7a2955d 100644
-> --- a/drivers/gpu/drm/i915/i915_gem_gtt.c
-> +++ b/drivers/gpu/drm/i915/i915_gem_gtt.c
-> @@ -56,7 +56,7 @@ void i915_gem_gtt_finish_pages(struct drm_i915_gem_object *obj,
->  			       struct sg_table *pages)
->  {
->  	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-> -	struct i915_ggtt *ggtt = &i915->ggtt;
-> +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
->  
->  	/* XXX This does not prevent more requests being submitted! */
->  	if (unlikely(ggtt->do_idle_maps))
-> @@ -103,7 +103,7 @@ int i915_gem_gtt_reserve(struct i915_address_space *vm,
->  	GEM_BUG_ON(!IS_ALIGNED(size, I915_GTT_PAGE_SIZE));
->  	GEM_BUG_ON(!IS_ALIGNED(offset, I915_GTT_MIN_ALIGNMENT));
->  	GEM_BUG_ON(range_overflows(offset, size, vm->total));
-> -	GEM_BUG_ON(vm == &vm->i915->ggtt.alias->vm);
-> +	GEM_BUG_ON(vm == &to_gt(vm->i915)->ggtt->alias->vm);
->  	GEM_BUG_ON(drm_mm_node_allocated(node));
->  
->  	node->size = size;
-> @@ -201,7 +201,7 @@ int i915_gem_gtt_insert(struct i915_address_space *vm,
->  	GEM_BUG_ON(start >= end);
->  	GEM_BUG_ON(start > 0  && !IS_ALIGNED(start, I915_GTT_PAGE_SIZE));
->  	GEM_BUG_ON(end < U64_MAX && !IS_ALIGNED(end, I915_GTT_PAGE_SIZE));
-> -	GEM_BUG_ON(vm == &vm->i915->ggtt.alias->vm);
-> +	GEM_BUG_ON(vm == &to_gt(vm->i915)->ggtt->alias->vm);
->  	GEM_BUG_ON(drm_mm_node_allocated(node));
->  
->  	if (unlikely(range_overflows(start, size, end)))
-> diff --git a/drivers/gpu/drm/i915/i915_getparam.c b/drivers/gpu/drm/i915/i915_getparam.c
-> index 7f80ad247bc8..5b8a2157d797 100644
-> --- a/drivers/gpu/drm/i915/i915_getparam.c
-> +++ b/drivers/gpu/drm/i915/i915_getparam.c
-> @@ -31,7 +31,7 @@ int i915_getparam_ioctl(struct drm_device *dev, void *data,
->  		value = pdev->revision;
->  		break;
->  	case I915_PARAM_NUM_FENCES_AVAIL:
-> -		value = i915->ggtt.num_fences;
-> +		value = to_gt(i915)->ggtt->num_fences;
->  		break;
->  	case I915_PARAM_HAS_OVERLAY:
->  		value = !!i915->overlay;
-> diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
-> index 170bba913c30..128315aec517 100644
-> --- a/drivers/gpu/drm/i915/i915_perf.c
-> +++ b/drivers/gpu/drm/i915/i915_perf.c
-> @@ -1630,7 +1630,7 @@ static int alloc_noa_wait(struct i915_perf_stream *stream)
->  	struct drm_i915_gem_object *bo;
->  	struct i915_vma *vma;
->  	const u64 delay_ticks = 0xffffffffffffffff -
-> -		intel_gt_ns_to_clock_interval(stream->perf->i915->ggtt.vm.gt,
-> +		intel_gt_ns_to_clock_interval(to_gt(stream->perf->i915)->ggtt->vm.gt,
->  					      atomic64_read(&stream->perf->noa_programming_delay));
->  	const u32 base = stream->engine->mmio_base;
->  #define CS_GPR(x) GEN8_RING_CS_GPR(base, x)
-> @@ -3542,7 +3542,7 @@ i915_perf_open_ioctl_locked(struct i915_perf *perf,
->  
->  static u64 oa_exponent_to_ns(struct i915_perf *perf, int exponent)
->  {
-> -	return intel_gt_clock_interval_to_ns(perf->i915->ggtt.vm.gt,
-> +	return intel_gt_clock_interval_to_ns(to_gt(perf->i915)->ggtt->vm.gt,
->  					     2ULL << exponent);
->  }
->  
-> diff --git a/drivers/gpu/drm/i915/selftests/i915_gem.c b/drivers/gpu/drm/i915/selftests/i915_gem.c
-> index b5576888cd78..1628b81d0a35 100644
-> --- a/drivers/gpu/drm/i915/selftests/i915_gem.c
-> +++ b/drivers/gpu/drm/i915/selftests/i915_gem.c
-> @@ -41,7 +41,7 @@ static int switch_to_context(struct i915_gem_context *ctx)
->  
->  static void trash_stolen(struct drm_i915_private *i915)
->  {
-> -	struct i915_ggtt *ggtt = &i915->ggtt;
-> +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
->  	const u64 slot = ggtt->error_capture.start;
->  	const resource_size_t size = resource_size(&i915->dsm);
->  	unsigned long page;
-> @@ -99,7 +99,7 @@ static void igt_pm_suspend(struct drm_i915_private *i915)
->  	intel_wakeref_t wakeref;
->  
->  	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
-> -		i915_ggtt_suspend(&i915->ggtt);
-> +		i915_ggtt_suspend(to_gt(i915)->ggtt);
->  		i915_gem_suspend_late(i915);
->  	}
->  }
-> @@ -109,7 +109,7 @@ static void igt_pm_hibernate(struct drm_i915_private *i915)
->  	intel_wakeref_t wakeref;
->  
->  	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
-> -		i915_ggtt_suspend(&i915->ggtt);
-> +		i915_ggtt_suspend(to_gt(i915)->ggtt);
->  
->  		i915_gem_freeze(i915);
->  		i915_gem_freeze_late(i915);
-> @@ -125,7 +125,7 @@ static void igt_pm_resume(struct drm_i915_private *i915)
->  	 * that runtime-pm just works.
->  	 */
->  	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
-> -		i915_ggtt_resume(&i915->ggtt);
-> +		i915_ggtt_resume(to_gt(i915)->ggtt);
->  		i915_gem_resume(i915);
->  	}
->  }
-> diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-> index 48123c3e1ff0..9afe7cf9d068 100644
-> --- a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-> +++ b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-> @@ -1122,7 +1122,7 @@ static int exercise_ggtt(struct drm_i915_private *i915,
->  				     u64 hole_start, u64 hole_end,
->  				     unsigned long end_time))
->  {
-> -	struct i915_ggtt *ggtt = &i915->ggtt;
-> +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
->  	u64 hole_start, hole_end, last = 0;
->  	struct drm_mm_node *node;
->  	IGT_TIMEOUT(end_time);
-> @@ -1182,7 +1182,7 @@ static int igt_ggtt_page(void *arg)
->  	const unsigned int count = PAGE_SIZE/sizeof(u32);
->  	I915_RND_STATE(prng);
->  	struct drm_i915_private *i915 = arg;
-> -	struct i915_ggtt *ggtt = &i915->ggtt;
-> +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
->  	struct drm_i915_gem_object *obj;
->  	intel_wakeref_t wakeref;
->  	struct drm_mm_node tmp;
-> @@ -2110,7 +2110,7 @@ int i915_gem_gtt_live_selftests(struct drm_i915_private *i915)
->  		SUBTEST(igt_cs_tlb),
->  	};
->  
-> -	GEM_BUG_ON(offset_in_page(i915->ggtt.vm.total));
-> +	GEM_BUG_ON(offset_in_page(to_gt(i915)->ggtt->vm.total));
->  
->  	return i915_subtests(tests, i915);
->  }
-> diff --git a/drivers/gpu/drm/i915/selftests/i915_request.c b/drivers/gpu/drm/i915/selftests/i915_request.c
-> index 92a859b34190..7f66f6d299b2 100644
-> --- a/drivers/gpu/drm/i915/selftests/i915_request.c
-> +++ b/drivers/gpu/drm/i915/selftests/i915_request.c
-> @@ -843,7 +843,7 @@ static struct i915_vma *empty_batch(struct drm_i915_private *i915)
->  
->  	intel_gt_chipset_flush(to_gt(i915));
->  
-> -	vma = i915_vma_instance(obj, &i915->ggtt.vm, NULL);
-> +	vma = i915_vma_instance(obj, &to_gt(i915)->ggtt->vm, NULL);
->  	if (IS_ERR(vma)) {
->  		err = PTR_ERR(vma);
->  		goto err;
-> diff --git a/drivers/gpu/drm/i915/selftests/i915_vma.c b/drivers/gpu/drm/i915/selftests/i915_vma.c
-> index 1f10fe36619b..6ac15d3bc5bc 100644
-> --- a/drivers/gpu/drm/i915/selftests/i915_vma.c
-> +++ b/drivers/gpu/drm/i915/selftests/i915_vma.c
-> @@ -967,7 +967,7 @@ static int igt_vma_remapped_gtt(void *arg)
->  	intel_wakeref_t wakeref;
->  	int err = 0;
->  
-> -	if (!i915_ggtt_has_aperture(&i915->ggtt))
-> +	if (!i915_ggtt_has_aperture(to_gt(i915)->ggtt))
->  		return 0;
->  
->  	obj = i915_gem_object_create_internal(i915, 10 * 10 * PAGE_SIZE);
-> diff --git a/drivers/gpu/drm/i915/selftests/mock_gem_device.c b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-> index 8aa7b1d33865..2f12f8748262 100644
-> --- a/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-> +++ b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-> @@ -69,7 +69,7 @@ static void mock_device_release(struct drm_device *dev)
->  	i915_gem_drain_workqueue(i915);
->  	i915_gem_drain_freed_objects(i915);
->  
-> -	mock_fini_ggtt(&i915->ggtt);
-> +	mock_fini_ggtt(to_gt(i915)->ggtt);
->  	destroy_workqueue(i915->wq);
->  
->  	intel_region_ttm_device_fini(i915);
-> @@ -195,7 +195,7 @@ struct drm_i915_private *mock_gem_device(void)
->  	mock_init_contexts(i915);
->  
->  	mock_init_ggtt(i915, &i915->ggtt);
-> -	to_gt(i915)->vm = i915_vm_get(&i915->ggtt.vm);
-> +	to_gt(i915)->vm = i915_vm_get(&to_gt(i915)->ggtt->vm);
->  
->  	mkwrite_device_info(i915)->platform_engine_mask = BIT(0);
->  	to_gt(i915)->info.engine_mask = BIT(0);
-> diff --git a/drivers/gpu/drm/i915/selftests/mock_gtt.c b/drivers/gpu/drm/i915/selftests/mock_gtt.c
-> index f0b87de0aca3..41fae5c9ea34 100644
-> --- a/drivers/gpu/drm/i915/selftests/mock_gtt.c
-> +++ b/drivers/gpu/drm/i915/selftests/mock_gtt.c
-> @@ -130,7 +130,7 @@ void mock_init_ggtt(struct drm_i915_private *i915, struct i915_ggtt *ggtt)
->  	ggtt->vm.vma_ops.clear_pages = clear_pages;
->  
->  	i915_address_space_init(&ggtt->vm, VM_CLASS_GGTT);
-> -	to_gt(i915)->ggtt = ggtt;
-> +	intel_gt_init_hw_early(to_gt(i915), ggtt);
->  }
->  
->  void mock_fini_ggtt(struct i915_ggtt *ggtt)
-> -- 
-> 2.34.1
-> 
+> OR i like rob's suggestion of implementing the atomic_print_state 
+> callback which will printout the drm plane to SSPP mapping along with 
+> this change so that when we look at DRM state, we also know the plane
+> to SSPP mapping and look in the right SSPP's dir.
+
+I'd add atomic_print_state(), it seems simpler (and more future-proof).
+
+>>
+>>
+>>> +
+>>> +    /* don't error check these */
+>>> +    debugfs_create_xul("features", 0600,
+>>> +            debugfs_root, (unsigned long *)&hw_pipe->cap->features);
+>>> +
+>>> +    /* add register dump support */
+>>> +    dpu_debugfs_create_regset32("src_blk", 0400,
+>>> +            debugfs_root,
+>>> +            sblk->src_blk.base + cfg->base,
+>>> +            sblk->src_blk.len,
+>>> +            kms);
+>>> +
+>>> +    if (cfg->features & BIT(DPU_SSPP_SCALER_QSEED3) ||
+>>> +            cfg->features & BIT(DPU_SSPP_SCALER_QSEED3LITE) ||
+>>> +            cfg->features & BIT(DPU_SSPP_SCALER_QSEED2) ||
+>>> +            cfg->features & BIT(DPU_SSPP_SCALER_QSEED4))
+>>> +        dpu_debugfs_create_regset32("scaler_blk", 0400,
+>>> +                debugfs_root,
+>>> +                sblk->scaler_blk.base + cfg->base,
+>>> +                sblk->scaler_blk.len,
+>>> +                kms);
+>>> +
+>>> +    if (cfg->features & BIT(DPU_SSPP_CSC) ||
+>>> +            cfg->features & BIT(DPU_SSPP_CSC_10BIT))
+>>> +        dpu_debugfs_create_regset32("csc_blk", 0400,
+>>> +                debugfs_root,
+>>> +                sblk->csc_blk.base + cfg->base,
+>>> +                sblk->csc_blk.len,
+>>> +                kms);
+>>> +
+>>> +    debugfs_create_u32("xin_id",
+>>> +            0400,
+>>> +            debugfs_root,
+>>> +            (u32 *) &cfg->xin_id);
+>>> +    debugfs_create_u32("clk_ctrl",
+>>> +            0400,
+>>> +            debugfs_root,
+>>> +            (u32 *) &cfg->clk_ctrl);
+>>> +    debugfs_create_x32("creq_vblank",
+>>> +            0600,
+>>> +            debugfs_root,
+>>> +            (u32 *) &sblk->creq_vblank);
+>>> +    debugfs_create_x32("danger_vblank",
+>>> +            0600,
+>>> +            debugfs_root,
+>>> +            (u32 *) &sblk->danger_vblank);
+>>> +
+>>> +    return 0;
+>>> +}
+>>> +#endif
+>>> +
+>>> +
+>>>   static const struct dpu_sspp_cfg *_sspp_offset(enum dpu_sspp sspp,
+>>>           void __iomem *addr,
+>>>           struct dpu_mdss_cfg *catalog,
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h 
+>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+>>> index e8939d7387cb..cef281687bab 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+>>> @@ -381,6 +381,7 @@ struct dpu_hw_pipe {
+>>>       struct dpu_hw_sspp_ops ops;
+>>>   };
+>>> +struct dpu_kms;
+>>>   /**
+>>>    * dpu_hw_sspp_init - initializes the sspp hw driver object.
+>>>    * Should be called once before accessing every pipe.
+>>> @@ -400,5 +401,8 @@ struct dpu_hw_pipe *dpu_hw_sspp_init(enum 
+>>> dpu_sspp idx,
+>>>    */
+>>>   void dpu_hw_sspp_destroy(struct dpu_hw_pipe *ctx);
+>>> +void dpu_debugfs_sspp_init(struct dpu_kms *dpu_kms, struct dentry 
+>>> *debugfs_root);
+>>> +int _dpu_hw_sspp_init_debugfs(struct dpu_hw_pipe *hw_pipe, struct 
+>>> dpu_kms *kms, struct dentry *entry);
+>>> +
+>>>   #endif /*_DPU_HW_SSPP_H */
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c 
+>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>>> index 7e7a619769a8..de9efe6dcf7c 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>>> @@ -281,6 +281,7 @@ static int dpu_kms_debugfs_init(struct msm_kms 
+>>> *kms, struct drm_minor *minor)
+>>>       dpu_debugfs_danger_init(dpu_kms, entry);
+>>>       dpu_debugfs_vbif_init(dpu_kms, entry);
+>>>       dpu_debugfs_core_irq_init(dpu_kms, entry);
+>>> +    dpu_debugfs_sspp_init(dpu_kms, entry);
+>>>       for (i = 0; i < ARRAY_SIZE(priv->dp); i++) {
+>>>           if (priv->dp[i])
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c 
+>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+>>> index ef66af696a40..cc7a7eb84fdd 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+>>> @@ -13,7 +13,6 @@
+>>>   #include <drm/drm_atomic.h>
+>>>   #include <drm/drm_atomic_uapi.h>
+>>>   #include <drm/drm_damage_helper.h>
+>>> -#include <drm/drm_file.h>
+>>>   #include <drm/drm_gem_atomic_helper.h>
+>>>   #include "msm_drv.h"
+>>> @@ -1356,78 +1355,22 @@ void dpu_plane_danger_signal_ctrl(struct 
+>>> drm_plane *plane, bool enable)
+>>>       pm_runtime_put_sync(&dpu_kms->pdev->dev);
+>>>   }
+>>> -static int _dpu_plane_init_debugfs(struct drm_plane *plane)
+>>> +/* SSPP live inside dpu_plane private data only. Enumerate them 
+>>> here. */
+>>> +void dpu_debugfs_sspp_init(struct dpu_kms *dpu_kms, struct dentry 
+>>> *debugfs_root)
+>>>   {
+>>> -    struct dpu_plane *pdpu = to_dpu_plane(plane);
+>>> -    struct dpu_kms *kms = _dpu_plane_get_kms(plane);
+>>> -    const struct dpu_sspp_cfg *cfg = pdpu->pipe_hw->cap;
+>>> -    const struct dpu_sspp_sub_blks *sblk = cfg->sblk;
+>>> -    struct dentry *debugfs_root;
+>>> -
+>>> -    /* create overall sub-directory for the pipe */
+>>> -    debugfs_root =
+>>> -        debugfs_create_dir(plane->name,
+>>> -                plane->dev->primary->debugfs_root);
+>>> -
+>>> -    /* don't error check these */
+>>> -    debugfs_create_xul("features", 0600,
+>>> -            debugfs_root, (unsigned long 
+>>> *)&pdpu->pipe_hw->cap->features);
+>>> -
+>>> -    /* add register dump support */
+>>> -    dpu_debugfs_create_regset32("src_blk", 0400,
+>>> -            debugfs_root,
+>>> -            sblk->src_blk.base + cfg->base,
+>>> -            sblk->src_blk.len,
+>>> -            kms);
+>>> -
+>>> -    if (cfg->features & BIT(DPU_SSPP_SCALER_QSEED3) ||
+>>> -            cfg->features & BIT(DPU_SSPP_SCALER_QSEED3LITE) ||
+>>> -            cfg->features & BIT(DPU_SSPP_SCALER_QSEED2) ||
+>>> -            cfg->features & BIT(DPU_SSPP_SCALER_QSEED4))
+>>> -        dpu_debugfs_create_regset32("scaler_blk", 0400,
+>>> -                debugfs_root,
+>>> -                sblk->scaler_blk.base + cfg->base,
+>>> -                sblk->scaler_blk.len,
+>>> -                kms);
+>>> -
+>>> -    if (cfg->features & BIT(DPU_SSPP_CSC) ||
+>>> -            cfg->features & BIT(DPU_SSPP_CSC_10BIT))
+>>> -        dpu_debugfs_create_regset32("csc_blk", 0400,
+>>> -                debugfs_root,
+>>> -                sblk->csc_blk.base + cfg->base,
+>>> -                sblk->csc_blk.len,
+>>> -                kms);
+>>> -
+>>> -    debugfs_create_u32("xin_id",
+>>> -            0400,
+>>> -            debugfs_root,
+>>> -            (u32 *) &cfg->xin_id);
+>>> -    debugfs_create_u32("clk_ctrl",
+>>> -            0400,
+>>> -            debugfs_root,
+>>> -            (u32 *) &cfg->clk_ctrl);
+>>> -    debugfs_create_x32("creq_vblank",
+>>> -            0600,
+>>> -            debugfs_root,
+>>> -            (u32 *) &sblk->creq_vblank);
+>>> -    debugfs_create_x32("danger_vblank",
+>>> -            0600,
+>>> -            debugfs_root,
+>>> -            (u32 *) &sblk->danger_vblank);
+>>> +    struct drm_plane *plane;
+>>> +    struct dentry *entry = debugfs_create_dir("sspp", debugfs_root);
+>>> -    return 0;
+>>> -}
+>>> -#else
+>>> -static int _dpu_plane_init_debugfs(struct drm_plane *plane)
+>>> -{
+>>> -    return 0;
+>>> -}
+>>> -#endif
+>>> +    if (IS_ERR(entry))
+>>> +        return;
+>>> -static int dpu_plane_late_register(struct drm_plane *plane)
+>>> -{
+>>> -    return _dpu_plane_init_debugfs(plane);
+>>> +    drm_for_each_plane(plane, dpu_kms->dev) {
+>>> +        struct dpu_plane *pdpu = to_dpu_plane(plane);
+>>> +
+>>> +        _dpu_hw_sspp_init_debugfs(pdpu->pipe_hw, dpu_kms, entry);
+>>> +    }
+>>>   }
+>>> +#endif
+>>>   static bool dpu_plane_format_mod_supported(struct drm_plane *plane,
+>>>           uint32_t format, uint64_t modifier)
+>>> @@ -1453,7 +1396,6 @@ static const struct drm_plane_funcs 
+>>> dpu_plane_funcs = {
+>>>           .reset = dpu_plane_reset,
+>>>           .atomic_duplicate_state = dpu_plane_duplicate_state,
+>>>           .atomic_destroy_state = dpu_plane_destroy_state,
+>>> -        .late_register = dpu_plane_late_register,
+>>>           .format_mod_supported = dpu_plane_format_mod_supported,
+>>>   };
+>>>
+
 
 -- 
-Matt Roper
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
-Intel Corporation
-(916) 356-2795
+With best wishes
+Dmitry
