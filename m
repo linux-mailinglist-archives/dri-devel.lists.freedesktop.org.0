@@ -1,63 +1,94 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24AD5470E15
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 23:40:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED642470E41
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 23:56:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5186210E2D3;
-	Fri, 10 Dec 2021 22:40:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B8CA10E2A8;
+	Fri, 10 Dec 2021 22:56:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
- [IPv6:2607:f8b0:4864:20::102a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 590F810E2D3
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 22:40:05 +0000 (UTC)
-Received: by mail-pj1-x102a.google.com with SMTP id v23so7812060pjr.5
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 14:40:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gateworks-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UHVYH7z73P1hVGee4CA3Ob6ox8hxfkGtbv9FXYXA3jk=;
- b=NLfvKMSBohANE88RXQkIDXOERiP6IG4NQlYkB+Ts0xRmwOKxYV6X4piI+v2UqZDEsk
- GS4UkGQUG9BRusZYjmmpWPwOkSOVvntYN0eJoiU3a5ROLsFJzBeAyHDS/oF1VBOYDxD4
- wJvH62QKNCniWEVioPvX27YigrvBi4AfK3qF9jih3PxSWObCyi5t/G1DeA9urkhmK7N4
- ZHu1dYjm6M9/vF4xcgVp/Qcxxcf/2u72YRWILivttZBtQC1Ew1jxKBKOXmXVF7Hlc1ZX
- Qlmy04oXgSmZyQjDOykBxIwtsfLOPEkAAbwMMr6Whhde6sNNy/rnNIrZkyWXLt4azZtp
- yHpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UHVYH7z73P1hVGee4CA3Ob6ox8hxfkGtbv9FXYXA3jk=;
- b=mNFlP+1jZppwCOy3VxaqwszNJnkMrCOlL1cOc8MTo2a84hPHPEr3PHsRvR4SQ5HhUd
- BLHPdmsgqJAsbIwVZmIjOx86wPoJKE+YIy4FTqP4jGUe15u7uM0yM+5odhLaapp5tDrx
- xu/EfYEjTjp2Njh/JqL/hD8LbcB2Z8sX0mBHc1jK7e5wUIr9VIkr55MoH6wlwDsqutsJ
- 9dA0aa5zEyjmK38upW8w3M3RPZVJG4V2pwuRumkOuYEnc3mGzzPuiFBWUtp7lWOlFwgJ
- gZjfJL6Je6dUtRTv/3JfsdH5sgvxIFgVARNQhU/J4wwPse7cj2OBJw8vYsZYad6kjtsJ
- rajw==
-X-Gm-Message-State: AOAM530VgaN5A3rmZKpORuhkQH7nbku9CnNu0rU+/RWX/parJ6+EeY99
- Ln33xt2u9UTAcZGARddXiOD/XoIWvSTsdVnoWhNCoQ==
-X-Google-Smtp-Source: ABdhPJzQatIfP/rMn74fj44OTRoVdtaIeEpC3ox1VBuN6XieLvEfoQGW96rvItbHM8R8uls5gBtVhkrLUQKI1vg8GHo=
-X-Received: by 2002:a17:90b:17cc:: with SMTP id
- me12mr27409709pjb.179.1639176004660; 
- Fri, 10 Dec 2021 14:40:04 -0800 (PST)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2073.outbound.protection.outlook.com [40.107.93.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5832C10E2A8;
+ Fri, 10 Dec 2021 22:56:37 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XNWJfp4VHMBPA8K8TyxHUlEkcN//oy/RDDQ2s0H7NXi/QYlOPIsTAjoetznX+SVeu5a1JkgLDD7tMZm4O6Q0NF5taV/n72kd4iv3+X9Ud+RhTYd5w1Jw5fdN1b/Xnx4KnHsxL9jzhZr25DBolZ78SwOsR44aEdYfkEuGfp3He3dJQu8/p5JX/ijEvkeI4WaHI5TA+qKdwO55RMLg/RzywQ9V7nyob+Op4k4w+ZSy0vs2xohYwmG/daN+HG51ZTp8G2vEaa+pZNZw61ICOEcw7gOkFr7HF7PlPJM6C28xaAWNxO72zjhMkq0ReNGyxM44eudCk97utThrUWVSPsAtlA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ycByBgNLd4Wd89F2GNCvOKj/tVb9AwvUHJe0Gss4e7w=;
+ b=W7TLKLCED0xfam5/aQBGkaI94hn8FFk589HBTm36MWKGF/72SRDevw12a/xlTueIV/7ewBGVq/AY4dazym/uJ61ehb+y1T2u4ZCrVCEe6Hk9ff7ZwszPum7NuJ8HL/prtJ4/kSjoIM5ABQA4rds5284Mernhr6zbvgUCZHJr/fk7ZUdeYS/wIkp9txqvMDyji/kFIQMmfxPexar4O9XOPjKUj7T/7iV+y8rBA7dqbXqUbpw9jmDtlayibPynByOzoxV7WtQc5al1lE4Ap7AYeldD1yiVGdU460Rx/PSKr3yrf/33h1YyCa40G2KTBCl/Aw/zEsAhlnzLRRLCFK6ang==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ycByBgNLd4Wd89F2GNCvOKj/tVb9AwvUHJe0Gss4e7w=;
+ b=Pw+zl6y32b/RYBzd+2JBg9V0GXB9otdJU7qjUB+2fZG5QfC5bwyH+bFVZU5wSPeH7sGbj+pqiSIdmxtL5PtSwcI3MVRddngj2Fbh5t+vGd8pB25dwyVnRKWgbampgmNhU5/pf0rcFlKB5zvyzspRroUmA1gOmL656YlrZxSNHpY=
+Received: from BN6PR16CA0048.namprd16.prod.outlook.com (2603:10b6:405:14::34)
+ by DM5PR1201MB0059.namprd12.prod.outlook.com (2603:10b6:4:54::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.11; Fri, 10 Dec
+ 2021 22:56:35 +0000
+Received: from BN8NAM11FT020.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:405:14:cafe::98) by BN6PR16CA0048.outlook.office365.com
+ (2603:10b6:405:14::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.12 via Frontend
+ Transport; Fri, 10 Dec 2021 22:56:35 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT020.mail.protection.outlook.com (10.13.176.223) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4778.13 via Frontend Transport; Fri, 10 Dec 2021 22:56:32 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Fri, 10 Dec
+ 2021 16:56:31 -0600
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
+Subject: [pull] amdgpu, amdkfd drm-next-5.17
+Date: Fri, 10 Dec 2021 17:56:18 -0500
+Message-ID: <20211210225618.5947-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <CAJ+vNU2A8J_72UgdoBw0Z0T0p1GzwWs-OK3UP14Y7KcoDjFOaQ@mail.gmail.com>
- <CAPY8ntBeUhqn==To83i8=88KxH0MQzp9n+NVe4Y8eFns1NMFaw@mail.gmail.com>
- <CAJ+vNU0a8gN-4cdFz3qAW3S3zzMt7_bQywAF8OcZ4sp7ZZuQxg@mail.gmail.com>
- <CAPY8ntAHAVtf_-EFD76h9Ua9nOxggwcgYM7GerjZYUZNmOrnUA@mail.gmail.com>
- <CAJ+vNU1Gz64d8i53LeoP-X0aV_83e61YS9d8DQjkaiNZ48oxHw@mail.gmail.com>
- <CAJ+vNU1GbcmtBhQp+RtZ95wmV5YmAhAOZpnLu2y5jnVxato44A@mail.gmail.com>
- <CAPY8ntBkB3ExJGUAhvsWRvhq66F7hbsxB5GZZHMSKP77svSVcw@mail.gmail.com>
- <CAJ+vNU3Z-A8=pqQmTiPZXS-GSdcYMZ578RjLrgW6qHckBX=4nQ@mail.gmail.com>
-In-Reply-To: <CAJ+vNU3Z-A8=pqQmTiPZXS-GSdcYMZ578RjLrgW6qHckBX=4nQ@mail.gmail.com>
-From: Tim Harvey <tharvey@gateworks.com>
-Date: Fri, 10 Dec 2021 14:39:53 -0800
-Message-ID: <CAJ+vNU0uU0hKWv8p0nN4jtERYZzDByOg_GbS8CAnEvoBxPMv+Q@mail.gmail.com>
-Subject: Re: RPI 7" display touch controller
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e21361c9-8f82-4145-f94f-08d9bc304fd8
+X-MS-TrafficTypeDiagnostic: DM5PR1201MB0059:EE_
+X-Microsoft-Antispam-PRVS: <DM5PR1201MB0059FBB8EA01635B8AA69D83F7719@DM5PR1201MB0059.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:33;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: TCIa8l5RQmLsGrMF6KKl7cI6FWpsdovzq1ubGpObM1Lf00P3bGRFAMR8CBRMLTtJqz+4L9n1fVn2JSTL540jhrCrAxkqPUL97dGChW8wxDEGXuRqj204s/tWE3z4Q5AX6QkLxC503NlbDRU6G6zQ2PpxqUkXcoXJe9CjHUYglTyDN1ULo/TEStav4sOnTAmPeCrCjF3zR8n5Q3Xoy+49mL3x9p5GOzuHSceaEs/A/uop5VFN2rR8ZSdbsmiJ0JbsOslcKpzsb5AexIKhPfDoKuBrAy17/QGgRrRZWbVpDJ4RDIZJHCLe7FvVEUgFNnYpEtlC9Xete7qcd5MJc0uw29fqK/958PqJnxylwtArBJjjlrLGujd6YEP3kREU5vu6bzd9kIWSfNDpCqZEaP6S6JyFpXH9f68QpKNCR32ina7aRSW5Id1Pf8yhg/m1qjoSaMmZBjRHzebFd/CIz7Rdz0WDN5eLwoAWO+I9VZ1NU1tkDgfhWn6wWQz89c9nAAJRyMRPpurGu1YmSe3YYxmJyYtmF/eixgfF80GO1biXOf2CYEHyR9irmN3yYHrM9gIuNcYmw9kYifyfvyNT3YJ0IHUry2sRF4vQqobyNbOUxq/8mI+HA3yyEdNkUdaNNE6V3YZLdVoVdcIXYXFPCJTF/51rZvFkAr26Mph6cTvYGTNxPUMcOQmQ5uSDazLCCv4qgncmGDucILgjAh5gcBWtCRO7MaFCGASD4XryJZwEWl29vEKK/bK6vYbR11fnWPJSijQxc7+Lnjrl+00H2/H/21JrhXww9wvrXFOnHR/TW4A=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(46966006)(36840700001)(40470700001)(6666004)(4326008)(110136005)(36860700001)(316002)(2906002)(81166007)(336012)(47076005)(86362001)(40460700001)(36756003)(82310400004)(356005)(8676002)(8936002)(83380400001)(186003)(5660300002)(16526019)(26005)(30864003)(966005)(426003)(508600001)(70586007)(2616005)(70206006)(1076003)(7696005)(4001150100001)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2021 22:56:32.3766 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e21361c9-8f82-4145-f94f-08d9bc304fd8
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT020.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1201MB0059
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,329 +101,282 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Eric Anholt <eric@anholt.net>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 10, 2021 at 11:29 AM Tim Harvey <tharvey@gateworks.com> wrote:
->
-> On Fri, Dec 10, 2021 at 10:41 AM Dave Stevenson
-> <dave.stevenson@raspberrypi.com> wrote:
-> >
-> > On Fri, 10 Dec 2021 at 18:20, Tim Harvey <tharvey@gateworks.com> wrote:
-> > >
-> > > On Thu, Nov 18, 2021 at 12:52 PM Tim Harvey <tharvey@gateworks.com> wrote:
-> > > >
-> > > > On Thu, Nov 18, 2021 at 10:30 AM Dave Stevenson
-> > > > <dave.stevenson@raspberrypi.com> wrote:
-> > > > >
-> > > > > On Thu, 18 Nov 2021 at 17:36, Tim Harvey <tharvey@gateworks.com> wrote:
-> > > > > >
-> > > > > > On Thu, Nov 18, 2021 at 6:28 AM Dave Stevenson
-> > > > > > <dave.stevenson@raspberrypi.com> wrote:
-> > > > > > >
-> > > > > > > Hi Tim
-> > > > > > >
-> > > > > > > On Thu, 18 Nov 2021 at 01:26, Tim Harvey <tharvey@gateworks.com> wrote:
-> > > > > > > >
-> > > > > > > > Greetings,
-> > > > > > > >
-> > > > > > > > I'm trying to get a RPI 7" touchscreen display working on an IMX8MM
-> > > > > > > > board and while I've been able to get the MIPI DSI display and
-> > > > > > > > backlight working I still can't seem to figure out the touch
-> > > > > > > > controller.
-> > > > > > > >
-> > > > > > > > It's supposed to have an FT5406 controller on it without an interrupt
-> > > > > > > > so I added polling support drivers/input/touchscreen/edt-ft5x06.c
-> > > > > > > > which I was able to verify using another touchscreen with that
-> > > > > > > > controller but when reading data from the FT5406 on the RPI controller
-> > > > > > > > the data does not make sense.
-> > > > > > > >
-> > > > > > > > These panels appear to route the I2C from the FT5406 to a STM32F103
-> > > > > > > > MPU that then provides a different I2C slave interface to the 15pin
-> > > > > > > > connector that I'm connected to. On that I2C interface I see an i2c
-> > > > > > > > slave at 0x45 which is managed by the regulator driver Marek wrote
-> > > > > > > > (drivers/regulator/rpi-panel-attiny-regulator.c) and there is also an
-> > > > > > > > i2c slave at 0x38 which I assumed was the FT5406 but I believe the MPU
-> > > > > > > > is perhaps obfuscating that touch data.
-> > > > > > > >
-> > > > > > > > Anyone have any ideas on how to make that touch controller useful?
-> > > > > > >
-> > > > > > > There should be nothing unusual. 0x38 is the EDT touch controller.
-> > > > > > > Starting with the Raspberry Pi OS Bullseye release, we're now using
-> > > > > > > the panel directly from DRM rather than through the firmware. That's
-> > > > > > > based on the branch at
-> > > > > > > https://github.com/raspberrypi/linux/tree/rpi-5.10.y/
-> > > > > > >
-> > > > > >
-> > > > > > Dave,
-> > > > > >
-> > > > > > That sounds like the driver that made it into mainline with Eric's
-> > > > > > commit 2f733d6194bd ("drm/panel: Add support for the Raspberry Pi 7"
-> > > > > > Touchscreen."). I looked there but that driver just deals with the DSI
-> > > > > > and not with touch.
-> > > > >
-> > > > > No, we've reverted away from that driver as it exposes no regulator
-> > > > > framework either, so again the touch element loses power.
-> > > > >
-> > > > > > > I also added polling support to edt-ft5x04.c.
-> > > > > > > For DT, it uses a combination of the overlays vc4-kms-v3d,
-> > > > > > > vc4-kms-dsi-7inch, and that includes edt-ft5406.dtsi, all of which are
-> > > > > > > in /arch/arm/boot/dts/overlays
-> > > > > >
-> > > > > > It doesn't look like you ever submitted your edt-ft5x04 polling mode
-> > > > > > support upstream. I saw another series to add polling support
-> > > > > > submitted by Nicolas back in 2019 but was never followed up on
-> > > > > > (https://patchwork.kernel.org/project/linux-input/list/?series=112187&archive=both).
-> > > > >
-> > > > > No I haven't as it's been crazy trying to get this lot to work under
-> > > > > KMS at all over the last couple of months.
-> > > > >
-> > > > > > I have updated Nicolas' patch with the changes requested and am happy
-> > > > > > to submit it upstream. The benefit of his patch is that it uses a dt
-> > > > > > binding for the polling interval. I'm happy to submit this upstream.
-> > > > >
-> > > > > I hadn't seen Nicolas' patches, hence implementing it myself.
-> > > > >
-> > > > > If you've implemented the requested changes, could you check that the
-> > > > > polling rate is as expected? We were seeing that the input framework
-> > > > > wasn't delivering the requested poll rate when CONFIG_HZ=100 is
-> > > > > defined in the config. I must confess that I haven't checked it on my
-> > > > > current patch, but it was on my list of things to do.
-> > > > > There was a report that "bd88ce25335d Input: raspberrypi-ts - switch
-> > > > > to using polled mode of input devices" dropped the polling rate from
-> > > > > the desired 60Hz in switching to that framework.
-> > > >
-> > > > Ok, I'll make a note to test that and submit it.
-> > > >
-> > > > >
-> > > > > > >
-> > > > > > > The main issue I had was configuring the regulator framework
-> > > > > > > appropriately to allow the touch controller power to be separate from
-> > > > > > > the bridge power. Without that if DRM powered down the panel it killed
-> > > > > > > the touch controller too, and the touch driver never reinitialised
-> > > > > > > itself.
-> > > > > >
-> > > > > > I'm using the same drivers/regulator/rpi-panel-attiny-regulator.c
-> > > > > > regulator driver from mainline that Marek added as the power-supply
-> > > > > > for the panel as well as the backlight controller. It looks like the
-> > > > > > version in the rpi-5.10.y has several patches on top of it so I'll
-> > > > > > take a look at those differences to see if it may be affecting the
-> > > > > > touchscreen controller. It's really strange to me that the touch
-> > > > > > controller's I2C goes through the STM32F103 MPU (as in the MPU's I2C
-> > > > > > master connects to the touchscreen controller and a different MPU I2C
-> > > > > > bus presents the touch controller like they are translating
-> > > > > > something?).
-> > > > >
-> > > > > The touchscreen I2C does NOT go through the STM.
-> > > > > The TS interrupt line does feed into the STM, but it's not actually used.
-> > > > > The TC358762 I2C does go through the STM, but it isn't used other than
-> > > > > a kick to bring the bridge out of reset.
-> > > >
-> > > > Ok, I've determined the DFROBOT Rpi displays do differ from the
-> > > > official Rpi 7in display.
-> > > >
-> > > > Official 7in RPI display:
-> > > > - I can't find a schematic anywhere for the official display but I an
-> > > > ohmmeter confirms your claim that the touch controller I2C is
-> > > > connected to the 15pin display I2C.
-> > > > - I do not see the ft5406@0x38 on the i2c bus until I send a command a
-> > > > REG_POWERON cmdto the ATTINY@0x45 'i2c dev 2 && i2c mw 0x45 0x85 1 1'
-> > > > in u-boot
-> > > > - I must disable the rpi-panel-attiny-regulator.c driver as its probe
-> > > > disables REG_POWERON and the linux driver won't see the FT5406
-> > > > - The linux edt-ft5x06.c driver with polling added works fine and
-> > > > gives me expected touch events
-> > > >
-> > > > With the DFROBOT 5in and 7in displays:
-> > > > - the touch interface I2C does not connect directly to the 15pin
-> > > > connector's I2C (shown in the schematic at schematic:
-> > > > https://github.com/DFRobot/Wiki/raw/master/DFR0550_Schematics.pdf and
-> > > > also verified with an ohmeter)
-> > > > - I see the ft5406@0x38 on the i2c bus regardless of setting or
-> > > > clearing REG_POWERON on the ATTINY@0x45
-> > > > - The linux edt-ft5x06.c driver with polling added gives me data that
-> > > > does not make sense for touch events
-> > > >
-> > > > So I can only assume the DFROBOT displays are doing something strange
-> > > > but I'm not clear how what they are doing is compatible with the RPI.
-> > > > I guess I have to get an RPI, hook it up and see if the touch screen
-> > > > works with the rpi 5.10.y kernel.
-> > > >
-> > > > >
-> > > > > > I wonder if I'm hitting that reinitialization issue. Do you recall any
-> > > > > > details about that? Was it that the driver returned seemingly invalid
-> > > > > > touch data like I'm getting or did it just not respond?
-> > > > >
-> > > > > If the power goes down then all the registers written during probe [1]
-> > > > > are reset. I don't recall exactly what the data then contained, but I
-> > > > > did get a load of I2C transactions fail with -EREMOTEIO as the
-> > > > > messages weren't ACKed.
-> > > > >
-> > > > > [1] https://elixir.bootlin.com/linux/latest/source/drivers/input/touchscreen/edt-ft5x06.c#L1207
-> > > > >
-> > > > > > Silly question likely but how do I power down the DRM portion to test
-> > > > > > to see if it affects the touch controller?
-> > > > >
-> > > > > xrandr --output DSI-1 --off
-> > > > > There must be a libdrm call to do the equivalent, but I'll admit that
-> > > > > I can't think of an existing tool that implements it.
-> > > >
-> > > > do you know of a sysfs way to do this or something that doesn't require xrandr?
-> > > >
-> > > > >
-> > > > > > > On our branch rpi-panel-attiny-regulator.c has been updated to control
-> > > > > > > those functions independently as GPIOs, which then get used via
-> > > > > > > regulator-fixed, or as reset-gpios.
-> > > > > > > Telling both bridge and touch that they shared a regulator didn't work
-> > > > > > > as the DSI bridge seems mildly fussy about the DSI state when it is
-> > > > > > > powered up.
-> > > > > >
-> > > > > > Hmm... I wonder if this is the problem I had with the 'official' rpi
-> > > > > > 7in display that I never got working. I did get the DFROBOT rpi 5in
-> > > > > > and 7in displays working.
-> > > > >
-> > > > > I'm not that familiar with the DFRobot displays.
-> > > > > I have tried an Osoyoo 3.5" panel [2] that pretends to be the Pi
-> > > > > panel, and it looks similar. Reality is that it uses a Lattice FPGA to
-> > > > > convert from DSI to DPI. All the LP configuration commands sent to it
-> > > > > are ignored. Startup requirements of that compared to the Toshiba are
-> > > > > unknown.
-> > > > >
-> > > > > [2] https://www.amazon.co.uk/OSOYOO-Capacitive-Connector-Resolution-Raspberry/dp/B087WVC1J2
-> > > > >
-> > > > > > > Hope that helps.
-> > > > > > >
-> > > > > >
-> > > > > > The fact you tell me that the rpi-5.10.y branch goes away from the
-> > > > > > strange 'firmware' driver I found at
-> > > > > > https://github.com/raspberrypi/linux/blob/rpi-4.2.y/drivers/input/touchscreen/rpi-ft5406.c
-> > > > > > and uses the standard ft5406.c driver (with polling mode added) is
-> > > > > > very helpful in that I feel I have a hope of getting this working.
-> > > > >
-> > > > > I have one of our panels working in front of me using my patched
-> > > > > version of edt-ft5x06 as the driver for the touch element.
-> > > > >
-> > > > > > Does the rpi-5.10.y kernel work for the official rpi 7in display as
-> > > > > > well as the DFROBOT displays as far as you know?
-> > > > >
-> > > > > As above, I'm not aware of DFRobot.
-> > > > > With the Osoyoo I can't recall exactly what it was doing with I2C. I
-> > > > > think it only really responded to the ID command and PWM for the
-> > > > > backlight. The reset and power control that is required on our boards
-> > > > > isn't really relevant to them.
-> > > > > I was doing i2cset -y -f <bus> 0x45 0x85 [1|0] to turn power on/off,
-> > > > > and I seem to recall it did nothing.
-> > > >
-> > > > Right... this is also the same with the DFROBOT touchscreen displays.
-> > > >
-> > > > I do really like the build quality, availability, and pricing of the
-> > > > DFROBOT displays but also a huge advantage is that they derive power
-> > > > from the 15pin connector 3.3V pins so there are no other connections.
-> > > > Their backlight doesn't appear to be controllable via PWM however and
-> > > > instead they have a manual brightness thumbwheel on them.
-> > > >
-> > > > The other advantage for me at the moment is that I still haven't
-> > > > gotten the official RPI 7in display to work with the IMX8MM (no pixels
-> > > > displayed) where as the DFROBOT one is working for me.
-> > > >
-> > > > > ...
-> > > > > Just for you I fired it up. It ACKs all I2C addresses just for a
-> > > > > laugh, and indeed it takes no action on 0x85, only 0x86 (for PWM), and
-> > > > > reading 0x80 (ID).
-> > > > >
-> > > >
-> > >
-> > > Dave,
-> > >
-> > > After some more investigation I've found that while the DFRobot
-> > > DRF0550 and DFR0678 touch controller does not work with the ft5x06
-> > > driver it does indeed work on a Rpi with the raspberrypi-ts driver. So
-> > > from an Rpi perspective the latest OS image doesn't work but the
-> > > 'Legacy' OS image does (which appears to have the same 5.10 kernel but
-> > > uses legacy drivers?).
-> >
-> > You have to love cloned devices.
-> > Have you checked with DFRobot as to what the actual touchscreen
-> > controller chip is?
->
-> Dave,
->
-> I tore one apart and verified it has a  FT5316 I2C touchscreen
-> controller (without IRQ) but again it routes directly to a STM32F103
-> (see https://dfimg.dfrobot.com/nobody/wiki/208d6cf05cacd2ee3b349341d5bfd6e2.pdf).
-> So the key difference is that while the official rpi 7in display has
-> both the ft5x06 and whatever the mcu emulates on the soc's i2c the
-> DRROBOT only has the emulated device. Note that I 'can' probe 0x45
-> 'and' 0x38 but the slave at 0x38 does not behave like an ft5x06
->
-> >
-> > > So if I understand correctly the Rpi has some firmware that talks over
-> > > I2C and translates touch events from this 'legacy API' over to a
-> > > memory mapped area. How can I learn about this firmware and what kind
-> > > of translation it does to make these touch controllers work on a non
-> > > rpi?
-> >
-> > It does very little different from edt-ft5x06.
-> >
-> > At an I2C level it reads register 0x02 of the touchscreen controller
-> > to get the current number of points, and then does that number of 4
-> > byte reads for register (3+6*i) to get the touch information.
-> > The edt-ft5x06 driver just reads all registers from 0 to generally
-> > 0x21 to get all points in one hit. It then parses all the point
-> > information instead of looking at the reported number of points.
->
-> That seems reasonable with respect to the ft5x06 but then the firmware
-> must present this data somehow as I2C registers (on 0x38 or 0x45?) or
-> I don't see how the DSROBOT touch controllers currently work with
-> raspberrypi-ts as they only have i2c slaves at those addresses.
->
-> Is this firmware source available?
->
-> >
-> > There are a couple more commits to our kernel tree for edt-ft5x06 as
-> > we were seeing some issues.
-> > The main one is that it seems unreliable in reporting TOUCH_UP events.
-> > Whilst it's implemented explicitly in the driver with the current
-> > patches, I believe it could be done via the INPUT_MT_DROP_UNUSED flag
-> > if input_mt_sync_frame is used as well. When time allows I was
-> > intending to upstream that fix.
-> >
->
-> Ok, I see those in your tree.
->
-> DFROBOT has not been extremely helpful but to be honest I don't think
-> they understand the issue (I didn't until this morning) that their
-> touch controllers work on the old Raspberrypi OS releases using
-> raspberrypi-ts but not the new ones using ft5x06. I explained that
-> this switch took place earlier this year when official OS releases
-> bumped to 5.10 (hope I was correct there) and that they would likely
-> be getting a lot of tech support calls for users with new software.
-> I'm not sure how you can tell the latest software to use the
-> raspberrypi-ts driver instead of the ft5x06 driver (I assume all of
-> that is via device-tree) but I did find that the 'legacy' version of
-> the software uses the old raspberrypi-ts driver. This part does not
-> concern 'me' too much as my goal is to get the touch controllers
-> working on a non rpi.
->
+Hi Dave, Daniel,
 
-Dave,
+More stuff for 5.17.
 
-Looking at the i2c regs from the DFROBOT panels from slave address
-0x38 I've been able to decode the following:
-0x00[7:4] event_type? (always 0x8)
-0x00[3:0] MSBX
-0x01[7:0] LSBX
-0x02[7:4] touchid? (typically 0x0 but when I pinch sometimes it goes to a 0x1)
-0x02[3:0] MSBY
-0x03[7:0] LSBY
+The following changes since commit 70897848730470cc477d5d89e6222c0f6a9ac173:
 
-I can't quite figure out how to determine up/down events yet.
-Comparing this to FT5x06 registers and raspberrypi-ts.c I would guess
-that 0x00[7:4] is event_type and 0x02[7:4] is touchid but I never see
-event_type change from 0x8 and touchid is 0x0 unless I pinch/unpinch
-(but that seems very unreliable).
+  drm/amdgpu/display: Only set vblank_disable_immediate when PSR is not enabled (2021-12-01 16:00:58 -0500)
 
-Tim
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-next-5.17-2021-12-10
+
+for you to fetch changes up to 3c021931023a30316db415044531b116b85e6ebd:
+
+  drm/amdgpu: replace drm_detect_hdmi_monitor() with drm_display_info.is_hdmi (2021-12-07 13:13:07 -0500)
+
+----------------------------------------------------------------
+amd-drm-next-5.17-2021-12-10:
+
+amdgpu:
+- warning fixes
+- vkms fixes
+- Misc code cleanups
+- RAS fixes
+- IH fixes
+- DP to HDMI PCON support
+- DSC MST fixes
+- LTTPR fixes
+- Misc display fixes
+
+amdkfd:
+- Misc code cleanups
+- Double free fix
+- More IP version enumeration changes and cleanups
+
+----------------------------------------------------------------
+Alex Deucher (1):
+      drm/amdgpu: handle SRIOV VCN revision parsing
+
+Anthony Koo (2):
+      drm/amd/display: [FW Promotion] Release 0.0.95
+      drm/amd/display: [FW Promotion] Release 0.0.96
+
+Aric Cyr (2):
+      drm/amd/display: 3.2.164
+      drm/amd/display: Reduce stack usage
+
+Brandon Syu (1):
+      drm/amd/display: Fix dual eDP abnormal display issue
+
+Christophe JAILLET (2):
+      drm/amdkfd: Use bitmap_zalloc() when applicable
+      drm/amdkfd: Slighly optimize 'init_doorbell_bitmap()'
+
+Claudio Suarez (3):
+      drm/amdgpu: update drm_display_info correctly when the edid is read
+      drm/amdgpu: use drm_edid_get_monitor_name() instead of duplicating the code
+      drm/amdgpu: replace drm_detect_hdmi_monitor() with drm_display_info.is_hdmi
+
+Dale Zhao (1):
+      drm/amd/display: add hdmi disable debug check
+
+Darren Powell (2):
+      amdgpu/pm: Create shared array of power profile name strings
+      amdgpu/pm: Modify implmentations of get_power_profile_mode to use amdgpu_pp_profile_name
+
+Evgenii Krasnikov (1):
+      drm/amd/display: add function for eDP and backlight power on
+
+Fangzhi Zuo (2):
+      drm/amd/display: Add DP-HDMI FRL PCON SST Support in DM
+      drm/amd/display: Add DP-HDMI FRL PCON Support in DC
+
+Flora Cui (5):
+      drm/amdgpu: cancel the correct hrtimer on exit
+      drm/amdgpu: fix vkms crtc settings
+      drm/amdgpu: check atomic flag to differeniate with legacy path
+      drm/amdgpu: drop the critial WARN_ON in amdgpu_vkms
+      drm/amdgpu: free vkms_output after use
+
+George Shen (5):
+      drm/amd/display: Add vendor specific LTTPR workarounds for DCN31
+      drm/amd/display: Skip vendor specific LTTPR w/a outside link training
+      drm/amd/display: Add 16ms AUX RD interval W/A for specific LTTPR
+      drm/amd/display: Apply LTTPR workarounds to non-transparent mode
+      drm/amd/display: Add W/A for PHY tests with certain LTTPR
+
+Graham Sider (3):
+      drm/amdkfd: replace asic_name with amdgpu_asic_name
+      drm/amdkfd: add kfd_device_info_init function
+      drm/amdkfd: remove hardcoded device_info structs
+
+Guchun Chen (2):
+      drm/amdgpu: declare static function to fix compiler warning
+      drm/amdgpu: fix the missed handling for SDMA2 and SDMA3
+
+Jane Jian (1):
+      drm/amdgpu/sriov/vcn: add new vcn ip revision check case for SIENNA_CICHLID
+
+Jarif Aftab (1):
+      drm/amd/display: Added Check For dc->res_pool
+
+Jiapeng Chong (1):
+      drm/amd/display: Fix warning comparing pointer to 0
+
+Jimmy Kizito (1):
+      drm/amd/display: Add work around for tunneled MST.
+
+Jude Shih (1):
+      drm/amd/display: Move link_enc init logic to DC
+
+Lijo Lazar (3):
+      drm/amd/pm: Add warning for unexpected PG requests
+      drm/amdgpu: Use MAX_HWIP instead of HW_ID_MAX
+      drm/amdgpu: Don't halt RLC on GFX suspend
+
+Lv Ruyi (1):
+      drm/amd/display: fix application of sizeof to pointer
+
+Meenakshikumar Somasundaram (2):
+      drm/amd/display: Fix for otg synchronization logic
+      drm/amd/display: Adding dpia debug bits for hpd delay
+
+Michael Strauss (1):
+      drm/amd/display: Add force detile buffer size debug flag
+
+Mikita Lipski (2):
+      drm/amd/display: PSR panel capability debugfs
+      drm/amd/display: prevent reading unitialized links
+
+Mustapha Ghaddar (1):
+      drm/amd/display: Fix for the no Audio bug with Tiled Displays
+
+Nicholas Kazlauskas (4):
+      drm/amd/display: Allow DSC on supported MST branch devices
+      drm/amd/display: Fix DPIA outbox timeout after S3/S4/reset
+      drm/amd/display: Query DMCUB for dp alt status
+      drm/amd/display: Fix out of bounds access on DNC31 stream encoder regs
+
+Oliver Logush (1):
+      drm/amd/display: Rename a struct field to describe a cea component better
+
+Perry Yuan (1):
+      drm/amd/display: add connector type check for CRC source set
+
+Philip Yang (5):
+      drm/amdgpu: handle IH ring1 overflow
+      drm/amdkfd: set "r = 0" explicitly before goto
+      drm/amdkfd: fix double free mem structure
+      drm/amdkfd: process_info lock not needed for svm
+      drm/amdkfd: err_pin_bo path leaks kfd_bo_list
+
+Shen, George (1):
+      drm/amd/display: Clear DPCD lane settings after repeater training
+
+Stanley.Yang (4):
+      drm/amdgpu: fix disable ras feature failed when unload drvier v2
+      drm/amdgpu: skip query ecc info in gpu recovery
+      drm/amdgpu: only skip get ecc info for aldebaran
+      drm/amdgpu: skip umc ras error count harvest
+
+Stylon Wang (1):
+      drm/amd/display: Enable P010 for DCN3x ASICs
+
+Vlad Zahorodnii (1):
+      drm/amd/display: Use oriented source size when checking cursor scaling
+
+Wayne Lin (1):
+      drm/amd/display: Fix bug in debugfs crc_win_update entry
+
+Wenjing Liu (1):
+      drm/amd/display: add a debug option to force dp2 lt fallback method
+
+Wyatt Wood (1):
+      drm/amd/display: Prevent PSR disable/reenable in HPD IRQ
+
+Yann Dirson (1):
+      drm/amdgpu: update fw_load_type module parameter doc to match code
+
+Zhou Qingyang (2):
+      drm/amdgpu: Fix a NULL pointer dereference in amdgpu_connector_lcd_native_mode()
+      drm/radeon/radeon_kms: Fix a NULL pointer dereference in radeon_driver_open_kms()
+
+chen gong (1):
+      drm/amdkfd: Correct the value of the no_atomic_fw_version variable
+
+shaoyunl (1):
+      drm/amdgpu: adjust the kfd reset sequence in reset sriov function
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h                |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   |  22 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c     |  23 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  21 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c      |  18 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c        |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   7 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_encoders.c       |   4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            |   8 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.h            |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ih.c             |  55 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ih.h             |  16 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c            |   6 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |  11 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c            |   1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.h            |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c           |  57 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.h           |   5 +-
+ drivers/gpu/drm/amd/amdgpu/atombios_encoders.c     |   6 +-
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c              |   7 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c             |   2 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c              |   2 +-
+ drivers/gpu/drm/amd/amdgpu/navi10_ih.c             |   1 +
+ drivers/gpu/drm/amd/amdgpu/nv.c                    |   1 -
+ drivers/gpu/drm/amd/amdgpu/vega10_ih.c             |   1 +
+ drivers/gpu/drm/amd/amdgpu/vega20_ih.c             |   1 +
+ drivers/gpu/drm/amd/amdkfd/kfd_device.c            | 744 +++++----------------
+ .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.c  |   8 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_doorbell.c          |   8 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c    |   2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_interrupt.c         |  18 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_iommu.c             |   2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_kernel_queue.c      |   6 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.c       |   2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_priv.h              |   3 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_process.c           |  13 +-
+ .../gpu/drm/amd/amdkfd/kfd_process_queue_manager.c |   9 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_svm.c               |  15 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_topology.c          |  18 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  99 ++-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c  |   8 +
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c  |  49 +-
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  |  50 +-
+ .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |  20 +-
+ drivers/gpu/drm/amd/display/dc/core/dc.c           |  47 +-
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c      |  31 +
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   | 408 ++++++++++-
+ drivers/gpu/drm/amd/display/dc/core/dc_resource.c  |  78 ++-
+ drivers/gpu/drm/amd/display/dc/dc.h                |  27 +-
+ drivers/gpu/drm/amd/display/dc/dc_dp_types.h       |  31 +
+ drivers/gpu/drm/amd/display/dc/dc_hw_types.h       |   3 +
+ drivers/gpu/drm/amd/display/dc/dc_link.h           |   9 +
+ drivers/gpu/drm/amd/display/dc/dc_types.h          |   1 +
+ .../gpu/drm/amd/display/dc/dce/dce_link_encoder.c  |   5 +-
+ .../amd/display/dc/dce110/dce110_hw_sequencer.c    |  16 +-
+ .../drm/amd/display/dc/dcn10/dcn10_link_encoder.c  |   5 +-
+ .../gpu/drm/amd/display/dc/dcn20/dcn20_resource.c  |   2 +
+ .../gpu/drm/amd/display/dc/dcn21/dcn21_resource.c  |   2 +
+ .../gpu/drm/amd/display/dc/dcn30/dcn30_resource.c  |   4 +-
+ .../drm/amd/display/dc/dcn301/dcn301_resource.c    |   2 +-
+ .../drm/amd/display/dc/dcn302/dcn302_resource.c    |   2 +-
+ .../drm/amd/display/dc/dcn303/dcn303_resource.c    |   2 +-
+ .../amd/display/dc/dcn31/dcn31_dio_link_encoder.c  |  97 +--
+ .../gpu/drm/amd/display/dc/dcn31/dcn31_resource.c  |  13 +-
+ drivers/gpu/drm/amd/display/dc/dm_helpers.h        |   2 +-
+ drivers/gpu/drm/amd/display/dc/dml/dml_wrapper.c   |   4 +-
+ .../gpu/drm/amd/display/dc/dml/dsc/rc_calc_fpu.c   |   2 +-
+ drivers/gpu/drm/amd/display/dc/inc/core_types.h    |   1 +
+ drivers/gpu/drm/amd/display/dc/inc/dc_link_dp.h    |   2 +
+ drivers/gpu/drm/amd/display/dc/inc/resource.h      |  11 +
+ drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h    |  35 +-
+ drivers/gpu/drm/amd/include/kgd_pp_interface.h     |   4 +
+ drivers/gpu/drm/amd/pm/amdgpu_pm.c                 |  10 +
+ .../gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c   |   9 +-
+ .../gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c    |  14 +-
+ .../gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c  |  12 +-
+ .../gpu/drm/amd/pm/powerplay/hwmgr/vega20_hwmgr.c  |  10 +-
+ drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |   8 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c  |  10 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c    |  10 +-
+ .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    |  10 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c   |  10 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c    |  10 +-
+ drivers/gpu/drm/radeon/radeon_kms.c                |  36 +-
+ 85 files changed, 1338 insertions(+), 1016 deletions(-)
