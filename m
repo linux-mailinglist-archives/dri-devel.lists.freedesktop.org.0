@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A19D64706F6
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 18:26:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBCF34706FA
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 18:26:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FB3B10EC23;
-	Fri, 10 Dec 2021 17:26:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8904310E620;
+	Fri, 10 Dec 2021 17:26:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B9F010EC23
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 17:26:22 +0000 (UTC)
-X-UUID: 4b3bb49e7aeb4cc39fcb24e7d8ad14d8-20211211
-X-UUID: 4b3bb49e7aeb4cc39fcb24e7d8ad14d8-20211211
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AA9610E620
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 17:26:40 +0000 (UTC)
+X-UUID: 0a5f46073efc4afeb2408acb8cd5efd5-20211211
+X-UUID: 0a5f46073efc4afeb2408acb8cd5efd5-20211211
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
  mailgw01.mediatek.com (envelope-from <flora.fu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 650089352; Sat, 11 Dec 2021 01:26:19 +0800
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1998795543; Sat, 11 Dec 2021 01:26:36 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Sat, 11 Dec 2021 01:26:18 +0800
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Sat, 11 Dec 2021 01:26:35 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Sat, 11 Dec 2021 01:26:17 +0800
+ Frontend Transport; Sat, 11 Dec 2021 01:26:34 +0800
 From: Flora Fu <flora.fu@mediatek.com>
 To: Matthias Brugger <matthias.bgg@gmail.com>, Liam Girdwood
  <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Sumit Semwal
  <sumit.semwal@linaro.org>, Yong Wu <yong.wu@mediatek.com>, Pi-Cheng Chen
  <pi-cheng.chen@mediatek.com>
-Subject: [PATCH 01/17] dt-bindings: mailbox: mediatek: Add APU mailbox
- compatible
-Date: Sat, 11 Dec 2021 01:25:49 +0800
-Message-ID: <20211210172605.30618-2-flora.fu@mediatek.com>
+Subject: [PATCH 02/17] dt-bindings: memory: mediatek: Add MT8192 apu iommu
+ bindings
+Date: Sat, 11 Dec 2021 01:25:50 +0800
+Message-ID: <20211210172605.30618-3-flora.fu@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20211210172605.30618-1-flora.fu@mediatek.com>
 References: <20211210172605.30618-1-flora.fu@mediatek.com>
@@ -59,70 +59,60 @@ Cc: JB Tsai <jb.tsai@mediatek.com>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the mailbox compatible for the MediaTek APU.
-The MT8192 and MT8195 SOC will use it.
+MT8192 has one APU iommu hardware and add apu iommu bindings.
 
-Signed-off-by: Pi-Cheng Chen <pi-cheng.chen@mediatek.com>
 Signed-off-by: Flora Fu <flora.fu@mediatek.com>
 
 ---
- .../mailbox/mediatek,apu-mailbox.yaml         | 47 +++++++++++++++++++
- 1 file changed, 47 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/mailbox/mediatek,apu-mailbox.yaml
+ .../devicetree/bindings/iommu/mediatek,iommu.yaml          | 7 +++++--
+ include/dt-bindings/memory/mt8192-larb-port.h              | 4 ++++
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/mailbox/mediatek,apu-mailbox.yaml b/Documentation/devicetree/bindings/mailbox/mediatek,apu-mailbox.yaml
-new file mode 100644
-index 000000000000..ffd0e1623955
---- /dev/null
-+++ b/Documentation/devicetree/bindings/mailbox/mediatek,apu-mailbox.yaml
-@@ -0,0 +1,47 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+# Copyright (C) 2021 MediaTek Inc.
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/mailbox/mediatek,apu-mailbox.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml b/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
+index c528a299afa9..14fae9642ec9 100644
+--- a/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
++++ b/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
+@@ -77,6 +77,7 @@ properties:
+           - mediatek,mt8173-m4u  # generation two
+           - mediatek,mt8183-m4u  # generation two
+           - mediatek,mt8192-m4u  # generation two
++          - mediatek,mt8192-iommu-apu        # generation two
+           - mediatek,mt8195-iommu-vdo        # generation two
+           - mediatek,mt8195-iommu-vpp        # generation two
+           - mediatek,mt8195-iommu-infra      # generation two
+@@ -154,6 +155,7 @@ allOf:
+         compatible:
+           enum:
+             - mediatek,mt8192-m4u
++            - mediatek,mt8192-iommu-apu
+             - mediatek,mt8195-iommu-vdo
+             - mediatek,mt8195-iommu-vpp
+ 
+@@ -165,8 +167,9 @@ allOf:
+       not:
+         properties:
+           compatible:
+-            contains:
+-              const: mediatek,mt8195-iommu-infra
++            enum:
++              - mediatek,mt8192-iommu-apu
++              - mediatek,mt8195-iommu-infra
+ 
+     then:
+       required:
+diff --git a/include/dt-bindings/memory/mt8192-larb-port.h b/include/dt-bindings/memory/mt8192-larb-port.h
+index 23035a52c675..908d6831bf99 100644
+--- a/include/dt-bindings/memory/mt8192-larb-port.h
++++ b/include/dt-bindings/memory/mt8192-larb-port.h
+@@ -240,4 +240,8 @@
+ #define M4U_PORT_L20_IPE_RSC_RDMA0		MTK_M4U_ID(20, 4)
+ #define M4U_PORT_L20_IPE_RSC_WDMA		MTK_M4U_ID(20, 5)
+ 
++#define IOMMU_PORT_APU_DATA			MTK_M4U_ID(0, 0)
++#define IOMMU_PORT_APU_VLM			MTK_M4U_ID(0, 1)
++#define IOMMU_PORT_APU_VPU			MTK_M4U_ID(0, 2)
 +
-+title: MediaTek AI Processing Unit mailbox controller bindings
-+
-+description:
-+  The APU mailbox controller provides access from the
-+  application processor to the MediaTek AI Processing Unit.
-+
-+maintainers:
-+  - Pi-Cheng Chen <pi-cheng.chen@mediatek.com>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - mediatek,mtk-apu-mailbox
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  "#mbox-cells":
-+    const: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - "#mbox-cells"
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    apu_mailbox: apu_mailbox@19000000 {
-+      compatible = "mediatek,mtk-apu-mailbox";
-+      reg = <0x19000000 0x100>;
-+      interrupts = <GIC_SPI 404 IRQ_TYPE_LEVEL_HIGH 0>;
-+      #mbox-cells = <1>;
-+    };
+ #endif
 -- 
 2.18.0
 
