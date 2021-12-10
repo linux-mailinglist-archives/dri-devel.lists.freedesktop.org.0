@@ -2,34 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9016846FF6C
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 12:06:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6432B46FFA5
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 12:17:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD16510E765;
-	Fri, 10 Dec 2021 11:06:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60A6910E2B9;
+	Fri, 10 Dec 2021 11:17:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B316F10E764;
- Fri, 10 Dec 2021 11:06:09 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10193"; a="225600658"
-X-IronPort-AV: E=Sophos;i="5.88,195,1635231600"; d="scan'208";a="225600658"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2021 03:06:08 -0800
-X-IronPort-AV: E=Sophos;i="5.88,195,1635231600"; d="scan'208";a="602081981"
-Received: from kbinis1x-mobl2.gar.corp.intel.com (HELO tursulin-mobl2.home)
- ([10.209.148.127])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2021 03:06:05 -0800
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915: Stop doing writeback from the shrinker
-Date: Fri, 10 Dec 2021 11:05:56 +0000
-Message-Id: <20211210110556.883735-1-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.32.0
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
+ [IPv6:2607:f8b0:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2784B10E2B9
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 11:17:23 +0000 (UTC)
+Received: by mail-pf1-x434.google.com with SMTP id g19so8193015pfb.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 03:17:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=041LGo95ekC9SiULpMPWta6fBO2f32KbmNR1inhaPRM=;
+ b=M7ooGiEltJoCk3g/j1bMsGM6QF4RZ1wXnBwQjMdZnnZ34W75ank6M+i8F9l+NiS8id
+ QB1q2rYXy+YDS75daDHcURou/0CPXfaRAKeB4lBDQcQN6wm3Y3ki3R8P/VaH0YSP7wOS
+ SaDpnMbUiNSr1TYcMaMBLJlKvb75vSje6f1Cs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=041LGo95ekC9SiULpMPWta6fBO2f32KbmNR1inhaPRM=;
+ b=zSyP6+dt57D7psvLdk3AFVFWnQBMvjYx9IpCvLaR+np6SvjnU078Qb6fFQqEuDkaFU
+ h6TOe+wt64nrzLbq7n6fNExrpPg/Jya9a3fB7w+h239k8Zd6RAR5H8sXxyc240DtVHZz
+ vkYJyoQ7BgkfT6n+r0qVEDxrhrJauKef34nyQY4FXguQF1MfRNapecsCKiSjEb5FTQ0K
+ OHpBGU+kywq3nSfkvwN3UlP/bTpaAFZxG6HCG09FxbMiU5a2Yr+np9pDumbNFATpH8Yf
+ oI95Yanqd0qDZX/ssZIQmBwD5hSyFfZS1uBN2kdf55EIPCKHX+xaC3pgXRtQZxYBww4D
+ tNLA==
+X-Gm-Message-State: AOAM5322+bR6DPaPFLHNnx0VX2JRzlqEtA3lgubD71FgENf+s/k9nbsI
+ KiQpQa2RXsMDs6cAjpKbek1JYg==
+X-Google-Smtp-Source: ABdhPJy3v8HoY7k+U+kRYTzeLw2P8ajCsvXjLkXHI+M+GrVmBRIpasf+RjGIlthjQUFF4dQq7KJQmQ==
+X-Received: by 2002:a62:8042:0:b0:4a8:15eb:db10 with SMTP id
+ j63-20020a628042000000b004a815ebdb10mr17229368pfd.28.1639135042734; 
+ Fri, 10 Dec 2021 03:17:22 -0800 (PST)
+Received: from localhost.localdomain ([2405:201:c00a:a0a9:c40f:36d4:b45d:731])
+ by smtp.gmail.com with ESMTPSA id
+ qe12sm13125607pjb.29.2021.12.10.03.17.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Dec 2021 03:17:22 -0800 (PST)
+From: Jagan Teki <jagan@amarulasolutions.com>
+To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>, Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH v6 0/6] drm: sun4i: dsi: Bridge support
+Date: Fri, 10 Dec 2021 16:47:05 +0530
+Message-Id: <20211210111711.2072660-1-jagan@amarulasolutions.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,388 +68,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Michal Hocko <mhocko@suse.com>, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Mika Kuoppala <mika.kuoppala@linux.intel.com>, intel-gfx@lists.freedesktop.org,
- Hugh Dickins <hughd@google.com>, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Renato Pereyra <renatopereyra@google.com>,
- Matthew Auld <matthew.auld@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- stable@vger.kernel.org,
- Sushma Venkatesh Reddy <sushma.venkatesh.reddy@intel.com>
+Cc: linux-sunxi@googlegroups.com, linux-amarula@amarulasolutions.com,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+This series add bridge support for Allwinner DSI controller.
 
-This effectively removes writeback which was added in 2d6692e642e7
-("drm/i915: Start writeback from the shrinker").
+In addition to previous version, this series add bridge support
+only not doing any bridge conversion at the moment.
 
-Digging through the history it seems we went back and forth on the topic
-of whether it would be safe a couple of times. See for instance
-5537252b6b6d ("drm/i915: Invalidate our pages under memory pressure")
-where Hugh Dickins has advised against it. I do not have enough expertise
-in the memory management area so am hoping for expert input here.
+Previous version changes [1].
 
-Reason for proposing removal is that there are reports from the field
-which indicate a sysetm wide deadlock (of a sort) implicating i915 doing
-writeback at shrinking time.
+Patch 1: Drop the DRM bind race while attaching bridges
 
-Signature is a hung task notifier kicking in and task traces such as:
+Patch 2: Move component_add into sun6i_dsi_attach
 
- [  247.030274] minijail-init   D    0  1773   1770 0x80004082
- [  247.036419] Call Trace:
- [  247.039167]  __schedule+0x57e/0x10d2
- [  247.043175]  ? __schedule+0x586/0x10d2
- [  247.047381]  ? _raw_spin_unlock+0xe/0x20
- [  247.051779]  ? __queue_work+0x316/0x371
- [   247.056079]  schedule+0x7c/0x9f
- [  247.059602]  rwsem_down_write_slowpath+0x2ae/0x494
- [  247.064971]  unregister_shrinker+0x20/0x65
- [  247.069562]  deactivate_locked_super+0x38/0x88
- [  247.074538]  cleanup_mnt+0xcc/0x10e
- [  247.078447]  task_work_run+0x7d/0xa6
- [  247.082459]  do_exit+0x23d/0x831
- [  247.086079]  ? syscall_trace_enter+0x207/0x20e
- [  247.091055]  do_group_exit+0x8d/0x9d
- [  247.095062]  __x64_sys_exit_group+0x17/0x17
- [  247.099750]  do_syscall_64+0x54/0x7e
- [  247.103758]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+Patch 3: Add Bridge driver
 
- [  246.876816] chrome          D    0  1791   1785 0x00004080
- [  246.882965] Call Trace:
- [  246.885713]  __schedule+0x57e/0x10d2
- [  246.889724]  ? pcpu_alloc_area+0x25d/0x273
- [  246.894314]  schedule+0x7c/0x9f
- [  246.897836]  rwsem_down_write_slowpath+0x2ae/0x494
- [  246.903207]  register_shrinker_prepared+0x19/0x48
- [  246.908479]  ? test_single_super+0x10/0x10
- [  246.913071]  sget_fc+0x1fc/0x20e
- [  246.916691]  ? kill_litter_super+0x40/0x40
- [  246.921334]  ? proc_apply_options+0x42/0x42
- [  246.926044]  vfs_get_super+0x3a/0xdf
- [  246.930053]  vfs_get_tree+0x2b/0xc3
- [  246.933965]  fc_mount+0x12/0x39
- [  246.937492]  pid_ns_prepare_proc+0x9d/0xc5
- [  246.942085]  alloc_pid+0x275/0x289
- [  246.945900]  copy_process+0x5e5/0xeea
- [  246.950006]  _do_fork+0x95/0x303
- [  246.953628]  __se_sys_clone+0x65/0x7f
- [  246.957735]  do_syscall_64+0x54/0x7e
- [  246.961743]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+Patch 4: Add mode_set API
 
-And finally the smoking gun in:
+Patch 5: Enable DSI Panel
 
- [  247.383338] CPU: 3 PID: 88 Comm: kswapd0 Tainted: G     U            5.4.154 #36
- [  247.383338] Hardware name: Google Delbin/Delbin, BIOS Google_Delbin.13672.57.0 02/09/2021
- [  247.383339] RIP: 0010:__rcu_read_lock+0x0/0x1a
- [  247.383339] Code: ff ff 0f 0b e9 61 fe ff ff 0f 0b e9 76 fe ff ff 0f 0b 49 8b 44 24 20 e9 59 ff ff ff 0f 0b e9 67 ff ff ff 0f 0b e9 1b ff ff ff <0f> 1f 44 00 00 55 48 89 e5 65 48 8b 04 25 80 5d 01 00 ff 80 f8 03
- [  247.383340] RSP: 0018:ffffb0aa0031b978 EFLAGS: 00000286
- [  247.383340] RAX: 0000000000000000 RBX: fffff6b944ca8040 RCX: fffff6b944ca8001
- [  247.383341] RDX: 0000000000000028 RSI: 0000000000000001 RDI: ffff8b52bc618c18
- [  247.383341] RBP: ffffb0aa0031b9d0 R08: 0000000000000000 R09: ffff8b52fb5f00d8
- [  247.383341] R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
- [  247.383342] R13: 61c8864680b583eb R14: 0000000000000001 R15: ffffb0aa0031b980
- [  247.383342] FS:  0000000000000000(0000) GS:ffff8b52fbf80000(0000) knlGS:0000000000000000
- [  247.383343] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
- [  247.383343] CR2: 00007c78a400d680 CR3: 0000000120f46006 CR4: 0000000000762ee0
- [  247.383344] PKRU: 55555554
- [  247.383344] Call Trace:
- [  247.383345]  find_get_entry+0x4c/0x116
- [  247.383345]  find_lock_entry+0xc8/0xec
- [  247.383346]  shmem_writeback+0x7b/0x163
- [  247.383346]  i915_gem_shrink+0x302/0x40b
- [  247.383347]  ? __intel_runtime_pm_get+0x22/0x82
- [  247.383347]  i915_gem_shrinker_scan+0x86/0xa8
- [  247.383348]  shrink_slab+0x272/0x48b
- [  247.383348]  shrink_node+0x784/0xbea
- [  247.383348]  ? rcu_read_unlock_special+0x66/0x15f
- [  247.383349]  ? update_batch_size+0x78/0x78
- [  247.383349]  kswapd+0x75c/0xa56
- [  247.383350]  kthread+0x147/0x156
- [  247.383350]  ? kswapd_run+0xb6/0xb6
- [  247.383351]  ? kthread_blkcg+0x2e/0x2e
- [  247.383351]  ret_from_fork+0x1f/0x40
+Patch 6: Enable DSI Bridge
 
-You will notice the trace is from an older kernel, the problem being
-reproducing the issue on latest upstream base is proving to be tricky due
-other (unrelated) issues.
+Patch 7: Enable DSI Bridge (I2C)
 
-It is even tricky to repro on an older kernel, with it seemingly needing a
-very specific game, transparent huge pages enabled and a specific memory
-configuration.
+[1] https://patchwork.kernel.org/project/dri-devel/cover/20211122065223.88059-1-jagan@amarulasolutions.com/
 
-However given the history on the topic I could find, assuming what I found
-is not incomplete, suspicion on writeback being not the right thing to do
-in general is still there. I would therefore like to have input from the
-experts here.
+Any inputs?
+Jagan.
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Fixes: 2d6692e642e7 ("drm/i915: Start writeback from the shrinker")
-References: 5537252b6b6d ("drm/i915: Invalidate our pages under memory pressure")
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Michal Hocko <mhocko@suse.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com> #v1
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: Hugh Dickins <hughd@google.com>
-Cc: Sushma Venkatesh Reddy <sushma.venkatesh.reddy@intel.com>
-Cc: Renato Pereyra <renatopereyra@google.com>
-Cc: intel-gfx@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.3+
----
- drivers/gpu/drm/i915/gem/i915_gem_object.h    |  2 -
- .../gpu/drm/i915/gem/i915_gem_object_types.h  |  4 +-
- drivers/gpu/drm/i915/gem/i915_gem_pages.c     | 10 ----
- drivers/gpu/drm/i915/gem/i915_gem_shmem.c     | 49 -------------------
- drivers/gpu/drm/i915/gem/i915_gem_shrinker.c  | 18 +++----
- drivers/gpu/drm/i915/gem/i915_gem_shrinker.h  |  1 -
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |  6 +--
- .../gpu/drm/i915/gem/selftests/huge_pages.c   |  3 +-
- 8 files changed, 11 insertions(+), 82 deletions(-)
+Jagan Teki (6):
+  drm: sun4i: dsi: Drop DRM bind race with bridge attach
+  drm: sun4i: dsi: Add component only once DSI device attached
+  drm: sun4i: dsi: Add bridge support
+  [DO NOT MERGE] ARM: dts: sun8i: bananapi-m2m: Enable iS070WV20-CT16 DSI Panel
+  [DO NOT MERGE] ARM: dts: sun8i: bananapi-m2m: Enable ICN6211 DSI Bridge
+  [DO NOT MERGE] ARM: dts: sun8i: bananapi-m2m: Enable DLPC3433 Bridge (I2C)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-index 66f20b803b01..352c7158a487 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-@@ -455,7 +455,6 @@ i915_gem_object_unpin_pages(struct drm_i915_gem_object *obj)
- 
- int __i915_gem_object_put_pages(struct drm_i915_gem_object *obj);
- int i915_gem_object_truncate(struct drm_i915_gem_object *obj);
--void i915_gem_object_writeback(struct drm_i915_gem_object *obj);
- 
- /**
-  * i915_gem_object_pin_map - return a contiguous mapping of the entire object
-@@ -621,7 +620,6 @@ int shmem_sg_alloc_table(struct drm_i915_private *i915, struct sg_table *st,
- 			 unsigned int max_segment);
- void shmem_sg_free_table(struct sg_table *st, struct address_space *mapping,
- 			 bool dirty, bool backup);
--void __shmem_writeback(size_t size, struct address_space *mapping);
- 
- #ifdef CONFIG_MMU_NOTIFIER
- static inline bool
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-index f9f7e44099fe..e188d6137cc0 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-@@ -57,10 +57,8 @@ struct drm_i915_gem_object_ops {
- 	void (*put_pages)(struct drm_i915_gem_object *obj,
- 			  struct sg_table *pages);
- 	int (*truncate)(struct drm_i915_gem_object *obj);
--	void (*writeback)(struct drm_i915_gem_object *obj);
- 	int (*shrinker_release_pages)(struct drm_i915_gem_object *obj,
--				      bool no_gpu_wait,
--				      bool should_writeback);
-+				      bool no_gpu_wait);
- 
- 	int (*pread)(struct drm_i915_gem_object *obj,
- 		     const struct drm_i915_gem_pread *arg);
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-index 49c6e55c68ce..52e975f57956 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-@@ -168,16 +168,6 @@ int i915_gem_object_truncate(struct drm_i915_gem_object *obj)
- 	return 0;
- }
- 
--/* Try to discard unwanted pages */
--void i915_gem_object_writeback(struct drm_i915_gem_object *obj)
--{
--	assert_object_held_shared(obj);
--	GEM_BUG_ON(i915_gem_object_has_pages(obj));
--
--	if (obj->ops->writeback)
--		obj->ops->writeback(obj);
--}
--
- static void __i915_gem_object_reset_page_iter(struct drm_i915_gem_object *obj)
- {
- 	struct radix_tree_iter iter;
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-index cc9fe258fba7..b4b8c921063e 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-@@ -283,54 +283,6 @@ shmem_truncate(struct drm_i915_gem_object *obj)
- 	return 0;
- }
- 
--void __shmem_writeback(size_t size, struct address_space *mapping)
--{
--	struct writeback_control wbc = {
--		.sync_mode = WB_SYNC_NONE,
--		.nr_to_write = SWAP_CLUSTER_MAX,
--		.range_start = 0,
--		.range_end = LLONG_MAX,
--		.for_reclaim = 1,
--	};
--	unsigned long i;
--
--	/*
--	 * Leave mmapings intact (GTT will have been revoked on unbinding,
--	 * leaving only CPU mmapings around) and add those pages to the LRU
--	 * instead of invoking writeback so they are aged and paged out
--	 * as normal.
--	 */
--
--	/* Begin writeback on each dirty page */
--	for (i = 0; i < size >> PAGE_SHIFT; i++) {
--		struct page *page;
--
--		page = find_lock_page(mapping, i);
--		if (!page)
--			continue;
--
--		if (!page_mapped(page) && clear_page_dirty_for_io(page)) {
--			int ret;
--
--			SetPageReclaim(page);
--			ret = mapping->a_ops->writepage(page, &wbc);
--			if (!PageWriteback(page))
--				ClearPageReclaim(page);
--			if (!ret)
--				goto put;
--		}
--		unlock_page(page);
--put:
--		put_page(page);
--	}
--}
--
--static void
--shmem_writeback(struct drm_i915_gem_object *obj)
--{
--	__shmem_writeback(obj->base.size, obj->base.filp->f_mapping);
--}
--
- void
- __i915_gem_object_release_shmem(struct drm_i915_gem_object *obj,
- 				struct sg_table *pages,
-@@ -503,7 +455,6 @@ const struct drm_i915_gem_object_ops i915_gem_shmem_ops = {
- 	.get_pages = shmem_get_pages,
- 	.put_pages = shmem_put_pages,
- 	.truncate = shmem_truncate,
--	.writeback = shmem_writeback,
- 
- 	.pwrite = shmem_pwrite,
- 	.pread = shmem_pread,
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-index 157a9765f483..99a38e016780 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-@@ -55,12 +55,11 @@ static bool unsafe_drop_pages(struct drm_i915_gem_object *obj,
- 	return false;
- }
- 
--static int try_to_writeback(struct drm_i915_gem_object *obj, unsigned int flags)
-+static int obj_invalidate(struct drm_i915_gem_object *obj, unsigned int flags)
- {
- 	if (obj->ops->shrinker_release_pages)
- 		return obj->ops->shrinker_release_pages(obj,
--							!(flags & I915_SHRINK_ACTIVE),
--							flags & I915_SHRINK_WRITEBACK);
-+							!(flags & I915_SHRINK_ACTIVE));
- 
- 	switch (obj->mm.madv) {
- 	case I915_MADV_DONTNEED:
-@@ -70,8 +69,9 @@ static int try_to_writeback(struct drm_i915_gem_object *obj, unsigned int flags)
- 		return 0;
- 	}
- 
--	if (flags & I915_SHRINK_WRITEBACK)
--		i915_gem_object_writeback(obj);
-+       if (obj->base.filp)
-+		invalidate_mapping_pages(file_inode(obj->base.filp)->i_mapping,
-+					 0, (loff_t)-1);
- 
- 	return 0;
- }
-@@ -227,7 +227,7 @@ i915_gem_shrink(struct i915_gem_ww_ctx *ww,
- 				}
- 
- 				if (!__i915_gem_object_put_pages(obj)) {
--					if (!try_to_writeback(obj, shrink))
-+					if (!obj_invalidate(obj, shrink))
- 						count += obj->base.size >> PAGE_SHIFT;
- 				}
- 				if (!ww)
-@@ -339,8 +339,7 @@ i915_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
- 						 &sc->nr_scanned,
- 						 I915_SHRINK_ACTIVE |
- 						 I915_SHRINK_BOUND |
--						 I915_SHRINK_UNBOUND |
--						 I915_SHRINK_WRITEBACK);
-+						 I915_SHRINK_UNBOUND);
- 		}
- 	}
- 
-@@ -361,8 +360,7 @@ i915_gem_shrinker_oom(struct notifier_block *nb, unsigned long event, void *ptr)
- 	with_intel_runtime_pm(&i915->runtime_pm, wakeref)
- 		freed_pages += i915_gem_shrink(NULL, i915, -1UL, NULL,
- 					       I915_SHRINK_BOUND |
--					       I915_SHRINK_UNBOUND |
--					       I915_SHRINK_WRITEBACK);
-+					       I915_SHRINK_UNBOUND);
- 
- 	/* Because we may be allocating inside our own driver, we cannot
- 	 * assert that there are no objects with pinned pages that are not
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.h b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.h
-index 8512470f6fd6..789d6947f9b9 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.h
-@@ -22,7 +22,6 @@ unsigned long i915_gem_shrink(struct i915_gem_ww_ctx *ww,
- #define I915_SHRINK_BOUND	BIT(1)
- #define I915_SHRINK_ACTIVE	BIT(2)
- #define I915_SHRINK_VMAPS	BIT(3)
--#define I915_SHRINK_WRITEBACK	BIT(4)
- 
- unsigned long i915_gem_shrink_all(struct drm_i915_private *i915);
- void i915_gem_driver_register__shrinker(struct drm_i915_private *i915);
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index 218a9b3037c7..b7ca7b66afe7 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -425,8 +425,7 @@ int i915_ttm_purge(struct drm_i915_gem_object *obj)
- }
- 
- static int i915_ttm_shrinker_release_pages(struct drm_i915_gem_object *obj,
--					   bool no_wait_gpu,
--					   bool should_writeback)
-+					   bool no_wait_gpu)
- {
- 	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
- 	struct i915_ttm_tt *i915_tt =
-@@ -467,9 +466,6 @@ static int i915_ttm_shrinker_release_pages(struct drm_i915_gem_object *obj,
- 		return ret;
- 	}
- 
--	if (should_writeback)
--		__shmem_writeback(obj->base.size, i915_tt->filp->f_mapping);
--
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-index c69c7d45aabc..24bbf4d6a63d 100644
---- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-@@ -1647,8 +1647,7 @@ static int igt_shrink_thp(void *arg)
- 	i915_gem_shrink(NULL, i915, -1UL, NULL,
- 			I915_SHRINK_BOUND |
- 			I915_SHRINK_UNBOUND |
--			I915_SHRINK_ACTIVE |
--			I915_SHRINK_WRITEBACK);
-+			I915_SHRINK_ACTIVE);
- 	if (should_swap == i915_gem_object_has_pages(obj)) {
- 		pr_err("unexpected pages mismatch, should_swap=%s\n",
- 		       yesno(should_swap));
+ .../boot/dts/sun8i-r16-bananapi-m2m-i2c.dts   |  69 +++++++
+ .../boot/dts/sun8i-r16-bananapi-m2m-panel.dts |  41 ++++
+ arch/arm/boot/dts/sun8i-r16-bananapi-m2m.dts  |  64 ++++++
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c        | 187 ++++++++----------
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h        |  10 +-
+ 5 files changed, 256 insertions(+), 115 deletions(-)
+
 -- 
-2.32.0
+2.25.1
 
