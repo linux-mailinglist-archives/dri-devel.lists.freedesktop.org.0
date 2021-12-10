@@ -2,56 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 324B54703CD
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 16:24:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12FA34703D8
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 16:27:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AA5610EA4A;
-	Fri, 10 Dec 2021 15:24:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEF8C10E857;
+	Fri, 10 Dec 2021 15:27:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6AF310EA2E;
- Fri, 10 Dec 2021 15:24:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version
- :Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=d08zJAZ3+ydMRlW1z18ca2luIEumMp+4R6/Ga55iTkY=; b=jOYJBW/64rbuxHSlYHcFWfVuHm
- rzUxLqTop0VJ7hVH1LKGivj03Q5tzJUNYZW1/jjbHjbqo23+tazb4f+ZOF7V2XBbF+v+EmpyJPBlh
- 72RT6kCVOHFNv3oLauDhdm8mlIz/F0bcMEYGcip2j+XgaoQxRHr+O03RENo8AH7GOyRz0n3WGXqSE
- O5OkRce0/wSCSVy1DnBkX5FrpeKcPzGaeY73OdeB/oFe0ig7qqOQKOrCB/Ps+G73Nzs9bo1C0o/9T
- +9Y01K2FyOx7lxhYDb4551Szkjt4QeWdhUDr9QaToRf23jiWT49WFOc4Y6sj2le/Gy0vtXvyAIUdb
- 2bcpPLEA==;
-Received: from [177.103.99.151] (helo=[192.168.1.60])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1mvhl6-0002LH-QH; Fri, 10 Dec 2021 16:24:29 +0100
-Subject: Re: Reuse framebuffer after a kexec (amdgpu / efifb)
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Alex Deucher <alexdeucher@gmail.com>
-References: <62aab616-53cb-ff9f-c5f3-169c547bd1ee@igalia.com>
- <CADnq5_O8x3_8f7GZ=tme55-QW+nqMJ2YoqvROjDPg2YZP2catQ@mail.gmail.com>
- <a1f4d263-b3d2-4ceb-8a89-948c8129500f@igalia.com>
- <CADnq5_N9ptK4c86LO77YcrF5_M==hket+L7eYjsGCaKbORO=ug@mail.gmail.com>
- <eaea0143-a961-b83c-3c6c-4d612cd003bc@igalia.com>
- <6d3c7acf-a23f-3073-56ed-375ccb8cc815@suse.de>
- <99b38881-8c63-de04-50f8-aa4119b52b25@igalia.com>
- <CADnq5_NqPEY6vPSsBQSst5Gsw-VpJ-sp-5DHMeB+EGA2t7KoAQ@mail.gmail.com>
- <56dfb915-036b-0584-f0ef-83c786970d6e@igalia.com>
- <d1de6ca3-11ae-af9e-a2fb-7bcb6fae01d6@amd.com>
-From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Message-ID: <0847ff12-8b1c-a046-eb05-f0011f81e172@igalia.com>
-Date: Fri, 10 Dec 2021 12:24:08 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAE1010E882;
+ Fri, 10 Dec 2021 15:27:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1639150058; x=1670686058;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=41OkHryt8MZcDNl8Shd1uQUUlxidAZfGNk5+1Vr5xRY=;
+ b=IqyOeJiA9qV9jzOzbGh7qASaGGqxhdgAKuRAmng/VXGwSWwhL6xy8J4I
+ M2meCNCVeeDXbH8ZuG5vGOZVnIWbLe01RlV05wIiqNRnGmHc+E73XOGD6
+ l6I7kuVNn3hKT7GGXm8Grq1fLWIo+2AHCqPFqFJ3PJJtZWidylwzJ1jno
+ uvlh2UfH6ZWmwY4mG4zAru2au5R9RybzuqCzuDqqUW7b2/hfpYGpBoy9X
+ vo9BNyJLExhRJNujeuFPt6Av6TIbh6SgnDhA7c8WxxPiJ0uLKRntKHVIF
+ YDzUOyuRyiu0dQYrKiDSp+1mjOus8WpncUFbqpFgaTeMhWZHY2uE2L2eR Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10193"; a="301748148"
+X-IronPort-AV: E=Sophos;i="5.88,196,1635231600"; d="scan'208";a="301748148"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Dec 2021 07:27:38 -0800
+X-IronPort-AV: E=Sophos;i="5.88,196,1635231600"; d="scan'208";a="462574434"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Dec 2021 07:27:38 -0800
+Date: Fri, 10 Dec 2021 07:27:36 -0800
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+Subject: Re: [PATCH v7 08/11] drm/i915/pxp: Use to_gt() helper
+Message-ID: <20211210152736.GA2219399@mdroper-desk1.amr.corp.intel.com>
+References: <20211209132512.47241-9-andi.shyti@linux.intel.com>
+ <20211210010756.6423-1-andi.shyti@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <d1de6ca3-11ae-af9e-a2fb-7bcb6fae01d6@amd.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211210010756.6423-1-andi.shyti@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,36 +57,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:EFIFB FRAMEBUFFER DRIVER" <linux-fbdev@vger.kernel.org>,
- xinhui pan <Xinhui.Pan@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Baoquan He <bhe@redhat.com>,
- =?UTF-8?Q?Samuel_Iglesias_Gons=c3=a1lvez?= <siglesias@igalia.com>,
- kernel@gpiccoli.net, kexec@lists.infradead.org,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, pjones@redhat.com,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- "Deucher, Alexander" <alexander.deucher@amd.com>,
- Dave Young <dyoung@redhat.com>, Vivek Goyal <vgoyal@redhat.com>
+Cc: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ DRI Devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>, Andi Shyti <andi@etezian.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/12/2021 12:13, Christian König wrote:
-> [...]
-> How about issuing a PCIe reset and re-initializing the ASIC with just 
-> the VBIOS?
+On Fri, Dec 10, 2021 at 03:07:56AM +0200, Andi Shyti wrote:
+> Use to_gt() helper consistently throughout the codebase.
+> Pure mechanical s/i915->gt/to_gt(i915). No functional changes.
 > 
-> That should be pretty straightforward I think.
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+
+Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+
+> ---
+> Hi,
 > 
-> Christian.
+> the inline of i915_dev_to_pxp() was accidentally removed in v6.
+> Thanks Matt.
+> 
+> Andi
+> 
+>  drivers/gpu/drm/i915/pxp/intel_pxp_tee.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+> index 5d169624ad60..195b2323ec00 100644
+> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+> @@ -16,7 +16,9 @@
+>  
+>  static inline struct intel_pxp *i915_dev_to_pxp(struct device *i915_kdev)
+>  {
+> -	return &kdev_to_i915(i915_kdev)->gt.pxp;
+> +	struct drm_i915_private *i915 = kdev_to_i915(i915_kdev);
+> +
+> +	return &to_gt(i915)->pxp;
+>  }
+>  
+>  static int intel_pxp_tee_io_message(struct intel_pxp *pxp,
+> -- 
+> 2.34.1
+> 
 
-
-Thanks Christian, that'd be perfect! Is it feasible? Per Alex comment,
-we'd need to run atombios commands to reprogram the timings, display
-info, etc...like a small driver would do, a full init.
-
-Also, what kind of PCIe reset is recommended for this adapter? Like a
-hot reset, powering-off/re-power, FLR or that MODE2 reset present in
-amdgpu code? Remembering this is an APU device.
-
-Thanks a lot!
-
+-- 
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
+(916) 356-2795
