@@ -2,39 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04058470704
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 18:26:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96425470706
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 18:26:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC4E410E65E;
-	Fri, 10 Dec 2021 17:26:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE3DE10E9BD;
+	Fri, 10 Dec 2021 17:26:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D88A710E64C
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 17:26:47 +0000 (UTC)
-X-UUID: cc5b368096fe44c9831be78be0aa153d-20211211
-X-UUID: cc5b368096fe44c9831be78be0aa153d-20211211
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw02.mediatek.com (envelope-from <flora.fu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1342538033; Sat, 11 Dec 2021 01:26:45 +0800
-Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Sat, 11 Dec 2021 01:26:43 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb01.mediatek.inc
- (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Sat, 11 Dec 2021 01:26:43 +0800
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D51310E9BD
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 17:26:49 +0000 (UTC)
+X-UUID: f6184c85e41d4b64b8936494185a5018-20211211
+X-UUID: f6184c85e41d4b64b8936494185a5018-20211211
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+ (envelope-from <flora.fu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 26101188; Sat, 11 Dec 2021 01:26:46 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Sat, 11 Dec 2021 01:26:45 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Sat, 11 Dec 2021 01:26:43 +0800
+ Frontend Transport; Sat, 11 Dec 2021 01:26:44 +0800
 From: Flora Fu <flora.fu@mediatek.com>
 To: Matthias Brugger <matthias.bgg@gmail.com>, Liam Girdwood
  <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Sumit Semwal
  <sumit.semwal@linaro.org>, Yong Wu <yong.wu@mediatek.com>, Pi-Cheng Chen
  <pi-cheng.chen@mediatek.com>
-Subject: [PATCH 06/17] mailbox: mediatek: add mtk-apu-mailbox driver
-Date: Sat, 11 Dec 2021 01:25:54 +0800
-Message-ID: <20211210172605.30618-7-flora.fu@mediatek.com>
+Subject: [PATCH 07/17] iommu/mediatek: Support APU iommu and config data for
+ mt8192
+Date: Sat, 11 Dec 2021 01:25:55 +0800
+Message-ID: <20211210172605.30618-8-flora.fu@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20211210172605.30618-1-flora.fu@mediatek.com>
 References: <20211210172605.30618-1-flora.fu@mediatek.com>
@@ -60,220 +58,124 @@ Cc: JB Tsai <jb.tsai@mediatek.com>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add mtk-apu-mailbox driver to support communication with
-APU remote microprocessor.
+APU IOMMU is a new iommu HW. it uses a new pagetable.
+Add support for mt8192 apu iommu.
 
-Signed-off-by: Pi-Cheng Chen <pi-cheng.chen@mediatek.com>
+Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 Signed-off-by: Flora Fu <flora.fu@mediatek.com>
 
 ---
- drivers/mailbox/Kconfig           |   9 ++
- drivers/mailbox/Makefile          |   2 +
- drivers/mailbox/mtk-apu-mailbox.c | 162 ++++++++++++++++++++++++++++++
- 3 files changed, 173 insertions(+)
- create mode 100644 drivers/mailbox/mtk-apu-mailbox.c
+ drivers/iommu/mtk_iommu.c | 45 ++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 44 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/mailbox/Kconfig b/drivers/mailbox/Kconfig
-index d9cd3606040e..aeaaadd4cb8d 100644
---- a/drivers/mailbox/Kconfig
-+++ b/drivers/mailbox/Kconfig
-@@ -238,6 +238,15 @@ config STM32_IPCC
- 	  with hardware for Inter-Processor Communication Controller (IPCC)
- 	  between processors. Say Y here if you want to have this support.
+diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
+index 8377f3c37283..4bc7c76062e6 100644
+--- a/drivers/iommu/mtk_iommu.c
++++ b/drivers/iommu/mtk_iommu.c
+@@ -133,6 +133,7 @@
+ /* 2 bits: iommu type */
+ #define MTK_IOMMU_TYPE_MM		(0x0 << 13)
+ #define MTK_IOMMU_TYPE_INFRA		(0x1 << 13)
++#define MTK_IOMMU_TYPE_APU		(0x2 << 13)
+ #define MTK_IOMMU_TYPE_MASK		(0x3 << 13)
+ #define IFA_IOMMU_PCIe_SUPPORT		BIT(15)
  
-+config MTK_APU_MBOX
-+	tristate "MediaTek APU Mailbox Support"
-+	depends on ARCH_MEDIATEK || COMPILE_TEST
-+	help
-+	  Say yes here to add support for the MediaTek APU Mailbox
-+	  driver. The mailbox implementation provides access from the
-+	  application processor to the MediaTek AI Processing Unit.
-+	  If unsure say N.
-+
- config MTK_CMDQ_MBOX
- 	tristate "MediaTek CMDQ Mailbox Support"
- 	depends on ARCH_MEDIATEK || COMPILE_TEST
-diff --git a/drivers/mailbox/Makefile b/drivers/mailbox/Makefile
-index 338cc05e5431..e24ad25c3378 100644
---- a/drivers/mailbox/Makefile
-+++ b/drivers/mailbox/Makefile
-@@ -49,6 +49,8 @@ obj-$(CONFIG_TEGRA_HSP_MBOX)	+= tegra-hsp.o
+@@ -185,6 +186,7 @@ static int mtk_iommu_hw_init(const struct mtk_iommu_data *data, unsigned int ban
+ #define MTK_IOMMU_4GB_MODE_REMAP_BASE	 0x140000000UL
  
- obj-$(CONFIG_STM32_IPCC) 	+= stm32-ipcc.o
+ static LIST_HEAD(m4ulist);	/* List all the M4U HWs */
++static LIST_HEAD(apulist);	/* List the apu iommu HWs */
  
-+obj-$(CONFIG_MTK_APU_MBOX)	+= mtk-apu-mailbox.o
-+
- obj-$(CONFIG_MTK_CMDQ_MBOX)	+= mtk-cmdq-mailbox.o
+ #define for_each_m4u(data, head)  list_for_each_entry(data, head, list)
  
- obj-$(CONFIG_ZYNQMP_IPI_MBOX)	+= zynqmp-ipi-mailbox.o
-diff --git a/drivers/mailbox/mtk-apu-mailbox.c b/drivers/mailbox/mtk-apu-mailbox.c
-new file mode 100644
-index 000000000000..860db0504907
---- /dev/null
-+++ b/drivers/mailbox/mtk-apu-mailbox.c
-@@ -0,0 +1,162 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2021 MediaTek Inc.
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/interrupt.h>
-+#include <linux/io.h>
-+#include <linux/of_irq.h>
-+#include <linux/of_platform.h>
-+#include <linux/platform_device.h>
-+#include <linux/mailbox_controller.h>
-+
-+#define INBOX		(0x0)
-+#define OUTBOX		(0x20)
-+#define INBOX_IRQ	(0xc0)
-+#define OUTBOX_IRQ	(0xc4)
-+#define INBOX_IRQ_MASK	(0xd0)
-+
-+#define MSG_MBOX_SLOTS	(4)
-+
-+struct mtk_apu_mailbox {
-+	struct device *dev;
-+	void __iomem *regs;
-+	spinlock_t lock; /* register access lock */
-+	struct mbox_controller controller;
-+	u32 msgs[MSG_MBOX_SLOTS];
+@@ -209,6 +211,13 @@ static const struct mtk_iommu_iova_region mt8192_multi_dom[] = {
+ 	#endif
+ };
+ 
++static const struct mtk_iommu_iova_region mt8192_multi_dom_apu[] = {
++	{ .iova_base = 0x0,		.size = SZ_4G}, /* APU DATA */
++	{ .iova_base = 0x4000000ULL,	.size = 0x4000000},  /* APU VLM */
++	{ .iova_base = 0x10000000ULL,	.size = 0x10000000}, /* APU VPU */
++	{ .iova_base = 0x70000000ULL,	.size = 0x12600000}, /* APU REG */
 +};
 +
-+static irqreturn_t mtk_apu_mailbox_threaded_irq(int irq, void *dev_id)
-+{
-+	struct mtk_apu_mailbox *mbox = dev_id;
-+	struct mbox_chan *link = &mbox->controller.chans[0];
-+	int i;
-+
-+	for (i = 0; i < MSG_MBOX_SLOTS; i++)
-+		mbox->msgs[i] = readl(mbox->regs + OUTBOX + i * sizeof(u32));
-+
-+	mbox_chan_received_data(link, &mbox->msgs);
-+	writel(readl(mbox->regs + OUTBOX_IRQ), mbox->regs + OUTBOX_IRQ);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static int mtk_apu_mailbox_send_data(struct mbox_chan *chan, void *data)
-+{
-+	struct mtk_apu_mailbox *mbox = container_of(chan->mbox,
-+						    struct mtk_apu_mailbox,
-+						    controller);
-+	int i;
-+
-+	spin_lock(&mbox->lock);
-+	writel(~BIT(MSG_MBOX_SLOTS - 1), mbox->regs + INBOX_IRQ_MASK);
-+	for (i = 0; i < MSG_MBOX_SLOTS; i++)
-+		writel(((u32 *)data)[i], mbox->regs + INBOX + i * sizeof(u32));
-+	spin_unlock(&mbox->lock);
-+
-+	return 0;
-+}
-+
-+static bool mtk_apu_mailbox_last_tx_done(struct mbox_chan *chan)
-+{
-+	struct mtk_apu_mailbox *mbox = container_of(chan->mbox,
-+						    struct mtk_apu_mailbox,
-+						    controller);
-+
-+	return readl(mbox->regs + INBOX_IRQ) == 0;
-+}
-+
-+static const struct mbox_chan_ops mtk_apu_mailbox_ops = {
-+	.send_data = mtk_apu_mailbox_send_data,
-+	.last_tx_done = mtk_apu_mailbox_last_tx_done,
-+};
-+
-+static int mtk_apu_mailbox_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct resource *res;
-+	struct mtk_apu_mailbox *mbox;
-+	int ret = 0;
-+
-+	mbox = devm_kzalloc(dev, sizeof(*mbox), GFP_KERNEL);
-+	if (!mbox)
-+		return -ENOMEM;
-+
-+	mbox->dev = dev;
-+	platform_set_drvdata(pdev, mbox);
-+	spin_lock_init(&mbox->lock);
-+
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	if (!res)
-+		return -ENODEV;
-+
-+	mbox->regs = devm_ioremap_resource(dev, res);
-+	if (IS_ERR(mbox->regs))
-+		return PTR_ERR(mbox->regs);
-+
-+	ret = devm_request_threaded_irq(dev,
-+					irq_of_parse_and_map(dev->of_node, 0),
-+					NULL, mtk_apu_mailbox_threaded_irq,
-+					IRQF_ONESHOT, dev_name(dev), mbox);
-+	if (ret) {
-+		dev_err(dev, "Failed to register apu mailbox IRQ: %d\n", ret);
-+		return -ENODEV;
+ /* If 2 M4U share a domain(use the same hwlist), Put the corresponding info in first data.*/
+ static struct mtk_iommu_data *mtk_iommu_get_frst_data(struct list_head *hwlist)
+ {
+@@ -638,24 +647,45 @@ static phys_addr_t mtk_iommu_iova_to_phys(struct iommu_domain *domain,
+ 
+ static struct iommu_device *mtk_iommu_probe_device(struct device *dev)
+ {
++	unsigned int flag = DL_FLAG_PM_RUNTIME | DL_FLAG_STATELESS;
+ 	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+-	struct mtk_iommu_data *data;
++	struct mtk_iommu_data *data, *curdata;
++	struct device_link *link;
+ 
+ 	if (!fwspec || fwspec->ops != &mtk_iommu_ops)
+ 		return ERR_PTR(-ENODEV); /* Not a iommu client device */
+ 
+ 	data = dev_iommu_priv_get(dev);
+ 
++	if (MTK_IOMMU_IS_TYPE(data->plat_data, MTK_IOMMU_TYPE_APU)) {
++		/*
++		 * The APU IOMMU HWs must work together. The consumer device
++		 * must connect with all the apu iommu HWs at the same time.
++		 */
++		for_each_m4u(curdata, data->hw_list) {
++			link = device_link_add(dev, curdata->dev, flag);
++			if (!link)
++				dev_err(dev, "Unable to link %s\n", dev_name(curdata->dev));
++		}
 +	}
+ 	return &data->iommu;
+ }
+ 
+ static void mtk_iommu_release_device(struct device *dev)
+ {
+ 	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
++	struct mtk_iommu_data *data;
+ 
+ 	if (!fwspec || fwspec->ops != &mtk_iommu_ops)
+ 		return;
+ 
++	data = dev_iommu_priv_get(dev);
++	if (MTK_IOMMU_IS_TYPE(data->plat_data, MTK_IOMMU_TYPE_APU)) {
++		struct list_head *head = data->hw_list;
 +
-+	mbox->controller.txdone_irq = false;
-+	mbox->controller.txdone_poll = true;
-+	mbox->controller.txpoll_period = 1;
-+	mbox->controller.ops = &mtk_apu_mailbox_ops;
-+	mbox->controller.dev = dev;
-+	mbox->controller.num_chans = 1;
-+	mbox->controller.chans = devm_kcalloc(dev, mbox->controller.num_chans,
-+					      sizeof(*mbox->controller.chans),
-+					      GFP_KERNEL);
-+	if (!mbox->controller.chans)
-+		return -ENOMEM;
-+
-+	ret = devm_mbox_controller_register(dev, &mbox->controller);
-+	if (ret)
-+		return ret;
-+
-+	dev_info(dev, "registered apu mailbox\n");
-+
-+	return 0;
-+}
-+
-+static int mtk_apu_mailbox_remove(struct platform_device *pdev)
-+{
-+	return 0;
-+}
-+
-+static const struct of_device_id mtk_apu_mailbox_of_match[] = {
-+	{.compatible = "mediatek,mtk-apu-mailbox"},
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, mtk_apu_mailbox_of_match);
-+
-+static struct platform_driver mtk_apu_mailbox_driver = {
-+	.probe = mtk_apu_mailbox_probe,
-+	.remove = mtk_apu_mailbox_remove,
-+	.driver = {
-+		.name = "mtk-apu-mailbox",
-+		.of_match_table = mtk_apu_mailbox_of_match,
-+	},
++		for_each_m4u(data, head)
++			device_link_remove(dev, data->dev);
++	}
+ 	iommu_fwspec_free(dev);
+ }
+ 
+@@ -1270,6 +1300,18 @@ static const struct mtk_iommu_plat_data mt8192_data = {
+ 			   {0, 14, 16}, {0, 13, 18, 17}},
+ };
+ 
++static const struct mtk_iommu_plat_data mt8192_data_apu = {
++	.m4u_plat       = M4U_MT8192,
++	.flags          = DCM_DISABLE | MTK_IOMMU_TYPE_APU |
++			  SHARE_PGTABLE,
++	.inv_sel_reg    = REG_MMU_INV_SEL_GEN2,
++	.hw_list        = &apulist,
++	.bank_nr	= 1,
++	.bank_enable    = {true},
++	.iova_region    = mt8192_multi_dom_apu,
++	.iova_region_nr = ARRAY_SIZE(mt8192_multi_dom_apu),
 +};
 +
-+static int __init apu_mailbox_init(void)
-+{
-+	return platform_driver_register(&mtk_apu_mailbox_driver);
-+}
-+
-+static void __exit apu_mailbox_exit(void)
-+{
-+	platform_driver_unregister(&mtk_apu_mailbox_driver);
-+}
-+
-+module_init(apu_mailbox_init);
-+module_exit(apu_mailbox_exit);
-+MODULE_LICENSE("GPL v2");
-+MODULE_DESCRIPTION("APU Mailbox Driver");
+ static const struct mtk_iommu_plat_data mt8195_data_infra = {
+ 	.m4u_plat	  = M4U_MT8195,
+ 	.flags            = WR_THROT_EN | DCM_DISABLE |
+@@ -1325,6 +1367,7 @@ static const struct of_device_id mtk_iommu_of_ids[] = {
+ 	{ .compatible = "mediatek,mt8173-m4u", .data = &mt8173_data},
+ 	{ .compatible = "mediatek,mt8183-m4u", .data = &mt8183_data},
+ 	{ .compatible = "mediatek,mt8192-m4u", .data = &mt8192_data},
++	{ .compatible = "mediatek,mt8192-iommu-apu",   .data = &mt8192_data_apu},
+ 	{ .compatible = "mediatek,mt8195-iommu-infra", .data = &mt8195_data_infra},
+ 	{ .compatible = "mediatek,mt8195-iommu-vdo",   .data = &mt8195_data_vdo},
+ 	{ .compatible = "mediatek,mt8195-iommu-vpp",   .data = &mt8195_data_vpp},
 -- 
 2.18.0
 
