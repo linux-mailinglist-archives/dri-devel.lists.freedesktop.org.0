@@ -2,130 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9555B4705F6
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 17:39:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26079470649
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 17:49:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DABBB10E338;
-	Fri, 10 Dec 2021 16:39:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77B9510E63C;
+	Fri, 10 Dec 2021 16:49:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2067.outbound.protection.outlook.com [40.107.244.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8B7510E2AB;
- Fri, 10 Dec 2021 16:39:43 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ki9OpU2W/UHje94LexT912XAJLwqiappC2hgTdxtHZAM2WoYWbVW/vgiVEB5zR9FYy6QxMC4X/OwkFjCNFmpRCA27f5yVxXY37dhyXm4CKlawUqm3ALFoK9iqzF4IuGpVzw1JOivhJqnkVmf66WWSUGhQgI9wQBkNfnDnObEU7B9Vk7aPeF7tt24f+sugQQQpzmSA8I8SM9JuePFWX0ifNVEqrLlQV71cSCYzVFwUwDqTamgLcVCevcHCilSLVe2MnEj6pO+cjNBJGn/IFQF3HwmFvpsiOnlqVPEwl3I9HfPJoQ5glsUSdN0Uxi/CNG+JkMjSrQc4F3Fs93KNIxnPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rh4jmBvwEY2nt94lkeONIwZhxQcBnz9hoAnB1NqqLY0=;
- b=JhSZGfD2IvehN9QxMv4d02jJk3BcNqJDFKJgrGpc64GXFVaUWdA0XyGQogNPXhfWYx5XlRP5N/PoTKjN6FTz7Us8P38SthSz9xW5dA5D4O3dubyK8LGnSTSKBMc9Qgwatz3I+VOyrHjQLp9zb9uVK61Jg5GhQmFifQgeFog+zy9H23nWtTEVpTffg5xZPR1aXdhd4/N+sgCwk97b3pyakUVPWrKn3YI9NY0SMgGG8cu2fnnjyAKLKp0s5Jb5VF5sfTHPfKpiI1kUPIpfdOy+QNLZHL/snMLm04EgANOoRxDnKqwBa3QbVxgqrIfAaIzt0hJMLqALnHHju16PciiYLA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rh4jmBvwEY2nt94lkeONIwZhxQcBnz9hoAnB1NqqLY0=;
- b=TVU5ZOz4BJvfUqb43nEqM6ZN4LjTHPI9r43N6bYtQOP4qgf/O5OZmGsMscJVD131ttIEIFzPavNikw3T/OtfkrgB93SfYwWF33RsIGpP/72Af4VtusyqUtG5FqRDh913RteGUGY7GaWXIcF04GRwQw7PXzEGRaSk9mI8C9czMzc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by BN9PR12MB5196.namprd12.prod.outlook.com (2603:10b6:408:11d::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.25; Fri, 10 Dec
- 2021 16:39:42 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::9dfe:ccc6:102c:5300]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::9dfe:ccc6:102c:5300%7]) with mapi id 15.20.4755.022; Fri, 10 Dec 2021
- 16:39:42 +0000
-Subject: Re: [PATCH v2 03/11] mm/gup: migrate PIN_LONGTERM dev coherent pages
- to system
-To: Alistair Popple <apopple@nvidia.com>, akpm@linux-foundation.org,
- linux-mm@kvack.org, rcampbell@nvidia.com, linux-ext4@vger.kernel.org,
- linux-xfs@vger.kernel.org,
- "Sierra Guiza, Alejandro (Alex)" <alex.sierra@amd.com>
-References: <20211206185251.20646-1-alex.sierra@amd.com>
- <b9163ccc-829e-9939-8177-a66ab41187e7@amd.com>
- <72fe6b48-4aa5-b766-3f33-8c3445fdcc99@amd.com> <2613033.KcdVtnzQgr@nvdebian>
-From: Felix Kuehling <felix.kuehling@amd.com>
-Organization: AMD Inc.
-Message-ID: <4ceda6e1-76c4-d92a-e4a3-a78d08620058@amd.com>
-Date: Fri, 10 Dec 2021 11:39:39 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-In-Reply-To: <2613033.KcdVtnzQgr@nvdebian>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: CH0PR13CA0002.namprd13.prod.outlook.com
- (2603:10b6:610:b1::7) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
+ [209.85.210.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC69210E698
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 16:49:11 +0000 (UTC)
+Received: by mail-ot1-f47.google.com with SMTP id
+ w6-20020a9d77c6000000b0055e804fa524so10205330otl.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 08:49:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=R1u8JfXmciJCFqDSMknQo7wtZU2Pe1PbpM15/fYsUMw=;
+ b=FEnc1XJPR6qPxh5F3ZJU44AuJSIVQeoi3KbS40T/AcL1PKnmbanDwCaZ8vgfDUjZQz
+ PaNQ8M1bvzUtK9ey4SyfgmMChKcSgQzU1KwJBr7rVyquADEd5ZSj+MWMJTxagr1os3j2
+ lfQw5zS2lDfi2RvhhWHqHV3avFt8VCC+8yM2UolK4OTxTWMzGXPPH8hBWl/sR2SxSkSf
+ g9OFfB2ZscmZkkwMBBsoQo08bGdD53GW8fvAo6I+/UD9+1NZ+TDKITmlZ7jZytzLD7Fg
+ dreLnTH+bVhls/z4KJ6E2EQAhpApxxc5mUn1uIqc+1py3Oh5g+424B7DUGxLN1iJLca+
+ qCQQ==
+X-Gm-Message-State: AOAM533TA4hasF7PO34cZmkWj0aDgBKxgadiTM6WcDiozBWyigSo6Id4
+ uKkUaLBH9FX9patWiHEM1g==
+X-Google-Smtp-Source: ABdhPJyuaD2QJT1/a5c1++aQx4QeDssGUsaSBHDuhlfZPf5Fd15F84bvZJiSGqkejIpmgQ6JsVKY/w==
+X-Received: by 2002:a9d:6358:: with SMTP id y24mr12390478otk.369.1639154951086; 
+ Fri, 10 Dec 2021 08:49:11 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.gmail.com with ESMTPSA id w5sm596372otk.70.2021.12.10.08.49.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Dec 2021 08:49:10 -0800 (PST)
+Received: (nullmailer pid 1507028 invoked by uid 1000);
+ Fri, 10 Dec 2021 16:49:08 -0000
+Date: Fri, 10 Dec 2021 10:49:08 -0600
+From: Rob Herring <robh@kernel.org>
+To: Yunfei Dong <yunfei.dong@mediatek.com>
+Subject: Re: [PATCH v12, 15/19] dt-bindings: media: mtk-vcodec: Adds decoder
+ dt-bindings for mt8192
+Message-ID: <YbOFBMyABgTfTMM7@robh.at.kernel.org>
+References: <20211202034544.2750-1-yunfei.dong@mediatek.com>
+ <20211202034544.2750-16-yunfei.dong@mediatek.com>
 MIME-Version: 1.0
-Received: from [172.27.226.80] (165.204.55.251) by
- CH0PR13CA0002.namprd13.prod.outlook.com (2603:10b6:610:b1::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=) via Frontend Transport;
- Fri, 10 Dec 2021 16:39:41 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9c30a377-793c-4381-65fc-08d9bbfbaa3a
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5196:EE_
-X-Microsoft-Antispam-PRVS: <BN9PR12MB519694EBEF424DB6B845D27F92719@BN9PR12MB5196.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 42eDIuy+RUcZSCoroFkkH+H3BWGwQA5mJ4K1SzpgzHeo/8Tb5gCVjz5y2WdGx3iP+U3rla89AbkXfEY3sdy+fSOPEccoFZXwlxfIoeBrc2bbWxpJuJcp/BntDVj1fcecq9YpaTaumzyk3bhyF5PPD1puDL+MeT8dWqkHLUjCOAl8zgRyMp7rFQQV/Xporo9BXTjtxgopj4SKxx/ciM6Klm5LJ15nWld4ZvJvZj+YaOMWEGyQku99HBmnkYDRw6/B9IplXOOhOL5/jUeLgLGXVlUhyBgIJKaOm0qlQxfrPjU7/laVz0awIDDEDky/yky+S02h24DG95PIYAcLkscMrXM09tl+w0s5yuXOLtNHkV7FNmukVTp/VfsYx6P0XTk3ZM0e/di7QXTYf62bsuNHrsP8HmXwQhNGhz/x75CnLATtb2t/Na1iGVKM1a1aSwLKqyuw5KxbK+PA8OWG2ftywlzmKh6iaPxeupNKRFHmae2LGXqRBuEyOjwKKtmSq+njgmGJpvf+yJF/rU9E2hMJe+ps6SOhVSBJ3eU1rt7Sly9Gr833QnhJ/PaO7fVu4D9KhAs+vbVpo4jFN3s/WJYwTHgMyGesgG7BLdEz4DL55ZWFsA4OpxpxFZE/p4AVUZ56EdwsGn+HnZZXNBZMOlljMNMTqz4JksgftBAyndb+rp2rBJFVSPAdUdZofxx3GelnKIP2LymJMWMGZlqz7qI6Rwn2eflfgxruUMDXh7eQer8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(6636002)(31696002)(38100700002)(16576012)(36756003)(2906002)(8676002)(8936002)(44832011)(36916002)(5660300002)(956004)(26005)(2616005)(83380400001)(186003)(31686004)(66556008)(66476007)(66946007)(86362001)(7416002)(508600001)(6486002)(110136005)(53546011)(316002)(4326008)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eSt3aWt0MDBIaVo0ZGUrQTVxejNDU3hHS05KRWNKaHJqRkwzYnROYXh4WmJZ?=
- =?utf-8?B?VWVLVDlWUUhnNFJqNlBKbXdXNjUrdSt1cUpkN2pQNVNxaTJOS3o0eW1FckN1?=
- =?utf-8?B?cksyNnd4NUxHZnBEQmdrZlFhbHljU0RwYS9Bcjk1VVIzMm5Oc20vUTBGbzMz?=
- =?utf-8?B?T0tJcWtkQTZJREo3Q0cvMGpROGlNQXNnd1ZuSTdkYkxlZjZqRkhPM0FhaVdV?=
- =?utf-8?B?TUk3TDhZYk9Ha2dvMDhOcUVwenFvSmpBWGNsUERNRlJ3R2lMOTQ4bi9jZnJU?=
- =?utf-8?B?WFNaeHVYd0I1ekZSTkpSZmhibktqMXJYakJvL2ZveWRFYkE1WXRSVGlKZmRa?=
- =?utf-8?B?N3Eyd2RyampCa1hObmp5RW9qeUtsMEZHYXcrVUtHMHE2MXFDZXQwRFdiMVFK?=
- =?utf-8?B?SnVWais0TnlpV3A2Zi8zRXB6OFMxc1VFZ0xIeGdMeTJuOTMyU1YyYS9GQnFB?=
- =?utf-8?B?T0dLZWVvSmJMLysrei9jUjFiK3k1NUw2WWJwMjNZdlIrY1pPaytBVkN1a2VS?=
- =?utf-8?B?QVVTMmxFZ2phQjc4cGNoTjhCSXViSkh0cU5LK0hWMlFyZ2tWMmZEcHpFZnc5?=
- =?utf-8?B?ais1S3A2bDE5THRLdjhIWVcza1EvMnROYWh4U3BOcTArenNLVVdDelpuNTlF?=
- =?utf-8?B?MVpDTDBjd2Jjd3hwZDJlbEl2Wjk0b09XR2lNdnpFMm5namovd2ZTNkk1UlJr?=
- =?utf-8?B?LzNFM1BNTU5hbkJIbjVvcnZHa3ZSSXoxZVRUeFNXSno0OHFHV3JwYnpoV1pZ?=
- =?utf-8?B?cXZMZnhDM1BudGFFZ2lGTEdZV3U3aUE0SWREZ3VnUERzdWJTTHl2ZzJOUklR?=
- =?utf-8?B?SVc4dHFiU3BCbGtpVTRjQ0lGd05ROFlFVHR2OUtmRHJYdnFHazFoSFRWMU5z?=
- =?utf-8?B?TW1aYXZiZWJ4bFJiTC8vZzlLYzhGUmwzeW1aMTdDK2RMWXdsWkpROS9iaGFa?=
- =?utf-8?B?aHN0NXVSR0pCdnBFcE13UWNyeEFudnNsZlhrZ1dYNE5mRk1pYkh6dnFsZ1BK?=
- =?utf-8?B?V3B3d0R3UFV6eXB6RG82S0srRDEyUGVCRG5WUXJ6RDFBQWNBT29oV0J4Z1Zw?=
- =?utf-8?B?N2hnb0NBME9wUU1nZFVRdE40d2NqRExtQ2xaOGw3YUJtTTg2aGdlc0V4WU1R?=
- =?utf-8?B?YW5VRlJGTXFyWmtHdUtxQnpsbW1VbzdFUEZsWmx4ZHR1QVI4UG5YK1MxNkd4?=
- =?utf-8?B?OWtjdWthb1BXN3hIdnRTVVN5azl1M0JCTzlQa0xjdWpUMjZqYWhuQ0p0UGVt?=
- =?utf-8?B?OWhwcW9wQ2F3YUpDNG9UemRsQ0dUTFliT2dkVUZuUTFFajJFNmc4T2Q5SnEy?=
- =?utf-8?B?S0syRE5QdnpGLzNsK29DQkdOY3kzeE5DZDRXZklneElxb24ydzQ4UXVMU2Mw?=
- =?utf-8?B?M0hxNEZtZU8wSnJRdWhYaDEvbVlYY1ZuaUx0L1BKWFczNElYU205Mm9qMHAv?=
- =?utf-8?B?WUVqOVllNkpFbnVRU0dEUGx2Q0RWaHp6Q0o3RU9ERDFmSnFOSlB1cjdJc0Fq?=
- =?utf-8?B?L3U4eDFzRkQ1b2pzdE94YSt6R0s5NGJmS3MyVHV6bzJONlo5TDZVdlJNN3lB?=
- =?utf-8?B?cTg0cmFoZUxtdDNCWHpzcFN0RlErZWtEQ0Q2M1lVVDI0VzdCU2RCQXorZkd2?=
- =?utf-8?B?bWJFNTZ5MC94OUVJY2hnblg5b0J1TFZIK0xraWp1cXdIMTNUUDJYeXFlRzlS?=
- =?utf-8?B?cG1xcnFxeDRNM3RoYkw5Z1lQcXpkdE5oQ0FkWjdKR3RJVnBINzFOVVRlQVNL?=
- =?utf-8?B?MVp4MWJ4TUhvUlcvR3Y0YnZ5Zmk1cC81M2xTZVF0M2FwL09FNHl5Z3NrVTg0?=
- =?utf-8?B?RHgxTFlqdWpBV1FrQ1k3WnJGcU9keG11enJPZ3NsV0hKY2E1bG5YZ0JYaGV6?=
- =?utf-8?B?aGV6Y3Q5Z1hCcGl0WnI3cEMrMU5GMUw5NXc0V0ZZU29ESG9qOUEyZ0g0dWQ0?=
- =?utf-8?B?ampOS0VMN2lUU3R2bTBlS0F4c0ZRaDdJcUViZm00Q2NiRElGeEZpRkFaSmsw?=
- =?utf-8?B?a3Z0bUU5MmdxT0VRdExyOE9JLzlmWGtOMzh4V0Q3RkZsZkV5cERyM1YxY25O?=
- =?utf-8?B?NXplRlliWW5oU2k4dlpWdE1rcjVTbGJHSUY0WW9VWkpnb2phZzJnSGtxRVBT?=
- =?utf-8?B?d3cxVnRWQ2hTT2pXMGpUbFFFZVhaQktSMkVsajYrYUdhanV6anN3VXR0K1R6?=
- =?utf-8?Q?5qul1p++2YUfFvW5TxaIs5g=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9c30a377-793c-4381-65fc-08d9bbfbaa3a
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2021 16:39:42.0110 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 110y5jQmWAJ84ApBYP47xMpIyscmjBxdmJNfwubyuXocXRI8xR0iwhAN4TB7NnyoSc1xOECGaBNdcfIsfNntuQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5196
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211202034544.2750-16-yunfei.dong@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,117 +63,314 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, willy@infradead.org, jglisse@redhat.com,
- dri-devel@lists.freedesktop.org, jgg@nvidia.com, hch@lst.de
+Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Steve Cho <stevecho@chromium.org>,
+ Irui Wang <irui.wang@mediatek.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Tzung-Bi Shih <tzungbi@chromium.org>,
+ Tomasz Figa <tfiga@google.com>, linux-mediatek@lists.infradead.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Tiffany Lin <tiffany.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Alexandre Courbot <acourbot@chromium.org>, srv_heupstream@mediatek.com,
+ linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-12-09 8:31 p.m., Alistair Popple wrote:
-> On Friday, 10 December 2021 3:54:31 AM AEDT Sierra Guiza, Alejandro (Alex) wrote:
->> On 12/9/2021 10:29 AM, Felix Kuehling wrote:
->>> Am 2021-12-09 um 5:53 a.m. schrieb Alistair Popple:
->>>> On Thursday, 9 December 2021 5:55:26 AM AEDT Sierra Guiza, Alejandro (Alex) wrote:
->>>>> On 12/8/2021 11:30 AM, Felix Kuehling wrote:
->>>>>> Am 2021-12-08 um 11:58 a.m. schrieb Felix Kuehling:
->>>>>>> Am 2021-12-08 um 6:31 a.m. schrieb Alistair Popple:
->>>>>>>> On Tuesday, 7 December 2021 5:52:43 AM AEDT Alex Sierra wrote:
->>>>>>>>> Avoid long term pinning for Coherent device type pages. This could
->>>>>>>>> interfere with their own device memory manager.
->>>>>>>>> If caller tries to get user device coherent pages with PIN_LONGTERM flag
->>>>>>>>> set, those pages will be migrated back to system memory.
->>>>>>>>>
->>>>>>>>> Signed-off-by: Alex Sierra<alex.sierra@amd.com>
->>>>>>>>> ---
->>>>>>>>>     mm/gup.c | 32 ++++++++++++++++++++++++++++++--
->>>>>>>>>     1 file changed, 30 insertions(+), 2 deletions(-)
->>>>>>>>>
->>>>>>>>> diff --git a/mm/gup.c b/mm/gup.c
->>>>>>>>> index 886d6148d3d0..1572eacf07f4 100644
->>>>>>>>> --- a/mm/gup.c
->>>>>>>>> +++ b/mm/gup.c
->>>>>>>>> @@ -1689,17 +1689,37 @@ struct page *get_dump_page(unsigned long addr)
->>>>>>>>>     #endif /* CONFIG_ELF_CORE */
->>>>>>>>>     
->>>>>>>>>     #ifdef CONFIG_MIGRATION
->>>>>>>>> +static int migrate_device_page(unsigned long address,
->>>>>>>>> +				struct page *page)
->>>>>>>>> +{
->>>>>>>>> +	struct vm_area_struct *vma = find_vma(current->mm, address);
->>>>>>>>> +	struct vm_fault vmf = {
->>>>>>>>> +		.vma = vma,
->>>>>>>>> +		.address = address & PAGE_MASK,
->>>>>>>>> +		.flags = FAULT_FLAG_USER,
->>>>>>>>> +		.pgoff = linear_page_index(vma, address),
->>>>>>>>> +		.gfp_mask = GFP_KERNEL,
->>>>>>>>> +		.page = page,
->>>>>>>>> +	};
->>>>>>>>> +	if (page->pgmap && page->pgmap->ops->migrate_to_ram)
->>>>>>>>> +		return page->pgmap->ops->migrate_to_ram(&vmf);
->>>>>>>> How does this synchronise against pgmap being released? As I understand things
->>>>>>>> at this point we're not holding a reference on either the page or pgmap, so
->>>>>>>> the page and therefore the pgmap may have been freed.
->>>>>>>>
->>>>>>>> I think a similar problem exists for device private fault handling as well and
->>>>>>>> it has been on my list of things to fix for a while. I think the solution is to
->>>>>>>> call try_get_page(), except it doesn't work with device pages due to the whole
->>>>>>>> refcount thing. That issue is blocking a fair bit of work now so I've started
->>>>>>>> looking into it.
->>>>>>> At least the page should have been pinned by the __get_user_pages_locked
->>>>>>> call in __gup_longterm_locked. That refcount is dropped in
->>>>>>> check_and_migrate_movable_pages when it returns 0 or an error.
->>>>>> Never mind. We unpin the pages first. Alex, would the migration work if
->>>>>> we unpinned them afterwards? Also, the normal CPU page fault code path
->>>>>> seems to make sure the page is locked (check in pfn_swap_entry_to_page)
->>>>>> before calling migrate_to_ram.
->>>> I don't think that's true. The check in pfn_swap_entry_to_page() is only for
->>>> migration entries:
->>>>
->>>> 	BUG_ON(is_migration_entry(entry) && !PageLocked(p));
->>>>
->>>> As this is coherent memory though why do we have to call into a device driver
->>>> to do the migration? Couldn't this all be done in the kernel?
->>> I think you're right. I hadn't thought of that mainly because I'm even
->>> less familiar with the non-device migration code. Alex, can you give
->>> that a try? As long as the driver still gets a page-free callback when
->>> the device page is freed, it should work.
-> Yes, you should still get the page-free callback when the migration code drops
-> the last page reference.
->
->> ACK.Will do
-> There is currently not really any support for migrating device pages based on
-> pfn. What I think is needed is something like migrate_pages(), but that API
-> won't work for a couple of reasons - main one being that it relies on pages
-> being LRU pages.
->
-> I've been working on a series to implement an equivalent of migrate_pages() for
-> device-private (and by extension device-coherent) pages. It might also be useful
-> here so I will try and get it posted as an RFC next week.
-If we want to make progress on this patch series in the shorter term, we 
-could just fail get_user_pages with FOLL_LONGTERM for DEVICE_COHERENT 
-pages. Then add the migration support when your patch series is ready.
+On Thu, Dec 02, 2021 at 11:45:40AM +0800, Yunfei Dong wrote:
+> Adds decoder dt-bindings for mt8192.
+> 
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>  .../media/mediatek,vcodec-subdev-decoder.yaml | 266 ++++++++++++++++++
+>  1 file changed, 266 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+> new file mode 100644
+> index 000000000000..67cbcf8b3373
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+> @@ -0,0 +1,266 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/media/mediatek,vcodec-subdev-decoder.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +
+> +title: Mediatek Video Decode Accelerator With Multi Hardware
+> +
+> +maintainers:
+> +  - Yunfei Dong <yunfei.dong@mediatek.com>
+> +
+> +description: |
+> +  Mediatek Video Decode is the video decode hardware present in Mediatek
+> +  SoCs which supports high resolution decoding functionalities. Required
+> +  parent and child device node.
+> +
+> +  About the Decoder Hardware Block Diagram, please check below:
+> +
+> +    +---------------------------------+------------------------------------+
+> +    |                                 |                                    |
+> +    | input -> lat HW -> lat buffer --|--> lat buffer -> core HW -> output |
+> +    |            ||                   |                     ||             |
+> +    +------------||-------------------+---------------------||-------------+
+> +              lat workqueue           |              core workqueue     <parent>
+> +    -------------||-----------------------------------------||------------------
+> +                 ||                                         ||          <child>
+> +                 \/ <----------------HW index-------------->\/
+> +           +------------------------------------------------------+
+> +           |                    enable/disable                    |
+> +           |           clk     power    irq    iommu              |
+> +           |                 (lat/lat soc/core0/core1)            |
+> +           +------------------------------------------------------+
+> +
+> +  As above, there are parent and child devices, child mean each hardware. The child device
+> +  controls the information of each hardware independent which include clk/power/irq.
+> +
+> +  There are two workqueues in parent device: lat workqueue and core workqueue. They are used
+> +  to lat and core hardware deocder. Lat workqueue need to get input bitstream and lat buffer,
+> +  then enable lat to decode, writing the result to lat buffer, dislabe hardware when lat decode
+> +  done. Core workqueue need to get lat buffer and output buffer, then enable core to decode,
+> +  writing the result to output buffer, disable hardware when core decode done. These two
+> +  hardwares will decode each frame cyclically.
+> +
+> +  For the smi common may not the same for each hardware, can't combine all hardware in one node,
+> +  or leading to iommu fault when access dram data.
+> +
+> +properties:
+> +  compatible:
+> +    const: mediatek,mt8192-vcodec-dec
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  iommus:
+> +    minItems: 1
+> +    maxItems: 32
+> +    description: |
+> +      List of the hardware port in respective IOMMU block for current Socs.
+> +      Refer to bindings/iommu/mediatek,iommu.yaml.
+> +
+> +  mediatek,scp:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    maxItems: 1
+> +    description: |
+> +      The node of system control processor (SCP), using
+> +      the remoteproc & rpmsg framework.
+> +      $ref: /schemas/remoteproc/mtk,scp.yaml
 
-Regards,
-   Felix
+'$ref' is not valid here. Just 'See remoteproc/mtk,scp.yaml'
 
+> +
+> +  dma-ranges:
+> +    maxItems: 1
+> +    description: |
+> +      Describes the physical address space of IOMMU maps to memory.
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 1
+> +
+> +  ranges: true
+> +
+> +# Required child node:
+> +patternProperties:
+> +  vcodec-lat:
 
->
->   - Alistair
->
->> Alex Sierra
->>
->>> Regards,
->>>     Felix
->>>
->>>
->>>>> No, you can not unpinned after migration. Due to the expected_count VS
->>>>> page_count condition at migrate_page_move_mapping, during migrate_page call.
->>>>>
->>>>> Regards,
->>>>> Alex Sierra
->>>>>
->>>>>> Regards,
->>>>>>      Felix
->>>>>>
->>>>>>
->
->
+'^vcodec-lat@[0-9a-f]+$':
+
+> +    type: object
+> +
+> +    properties:
+> +      compatible:
+> +        const: mediatek,mtk-vcodec-lat
+> +
+> +      reg:
+> +        maxItems: 1
+> +
+> +      interrupts:
+> +        maxItems: 1
+> +
+> +      iommus:
+> +        minItems: 1
+> +        maxItems: 32
+> +        description: |
+> +          List of the hardware port in respective IOMMU block for current Socs.
+> +          Refer to bindings/iommu/mediatek,iommu.yaml.
+> +
+> +      clocks:
+> +        maxItems: 5
+> +
+> +      clock-names:
+> +        items:
+> +          - const: sel
+> +          - const: soc-vdec
+> +          - const: soc-lat
+> +          - const: vdec
+> +          - const: top
+> +
+> +      assigned-clocks:
+> +        maxItems: 1
+> +
+> +      assigned-clock-parents:
+> +        maxItems: 1
+> +
+> +      power-domains:
+> +        maxItems: 1
+> +
+> +    required:
+> +      - compatible
+> +      - reg
+> +      - interrupts
+> +      - iommus
+> +      - clocks
+> +      - clock-names
+> +      - assigned-clocks
+> +      - assigned-clock-parents
+> +      - power-domains
+> +
+> +    additionalProperties: false
+> +
+> +  vcodec-core:
+
+Same here.
+
+> +    type: object
+> +
+> +    properties:
+> +      compatible:
+> +        const: mediatek,mtk-vcodec-core
+> +
+> +      reg:
+> +        maxItems: 1
+> +
+> +      interrupts:
+> +        maxItems: 1
+> +
+> +      iommus:
+> +        minItems: 1
+> +        maxItems: 32
+> +        description: |
+> +          List of the hardware port in respective IOMMU block for current Socs.
+> +          Refer to bindings/iommu/mediatek,iommu.yaml.
+> +
+> +      clocks:
+> +        maxItems: 5
+> +
+> +      clock-names:
+> +        items:
+> +          - const: sel
+> +          - const: soc-vdec
+> +          - const: soc-lat
+> +          - const: vdec
+> +          - const: top
+> +
+> +      assigned-clocks:
+> +        maxItems: 1
+> +
+> +      assigned-clock-parents:
+> +        maxItems: 1
+> +
+> +      power-domains:
+> +        maxItems: 1
+> +
+> +    required:
+> +      - compatible
+> +      - reg
+> +      - interrupts
+> +      - iommus
+> +      - clocks
+> +      - clock-names
+> +      - assigned-clocks
+> +      - assigned-clock-parents
+> +      - power-domains
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - iommus
+> +  - mediatek,scp
+> +  - dma-ranges
+> +  - ranges
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/memory/mt8192-larb-port.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/clock/mt8192-clk.h>
+> +    #include <dt-bindings/power/mt8192-power.h>
+> +
+> +    video-codec@16000000 {
+> +        compatible = "mediatek,mt8192-vcodec-dec";
+> +        mediatek,scp = <&scp>;
+> +        iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>;
+> +        dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
+> +        #address-cells = <1>;
+> +        #size-cells = <1>;
+> +        ranges = <0 0x16000000 0x40000>;
+> +        reg = <0x16000000 0x1000>;		/* VDEC_SYS */
+> +        vcodec-lat@10000 {
+> +            compatible = "mediatek,mtk-vcodec-lat";
+> +            reg = <0x10000 0x800>;
+> +            interrupts = <GIC_SPI 426 IRQ_TYPE_LEVEL_HIGH 0>;
+> +            iommus = <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD_EXT>,
+> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD2_EXT>,
+> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_AVC_MV_EXT>,
+> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_PRED_RD_EXT>,
+> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_TILE_EXT>,
+> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_WDMA_EXT>,
+> +                <&iommu0 M4U_PORT_L5_VDEC_LAT0_RG_CTRL_DMA_EXT>,
+> +                <&iommu0 M4U_PORT_L5_VDEC_UFO_ENC_EXT>;
+> +            clocks = <&topckgen CLK_TOP_VDEC_SEL>,
+> +                <&vdecsys_soc CLK_VDEC_SOC_VDEC>,
+> +                <&vdecsys_soc CLK_VDEC_SOC_LAT>,
+> +                <&vdecsys_soc CLK_VDEC_SOC_LARB1>,
+> +                <&topckgen CLK_TOP_MAINPLL_D4>;
+> +            clock-names = "sel", "soc-vdec", "soc-lat", "vdec", "top";
+> +            assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
+> +            assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
+> +            power-domains = <&spm MT8192_POWER_DOMAIN_VDEC>;
+> +        };
+> +
+> +        vcodec-core@25000 {
+> +            compatible = "mediatek,mtk-vcodec-core";
+> +            reg = <0x25000 0x1000>;
+> +            interrupts = <GIC_SPI 425 IRQ_TYPE_LEVEL_HIGH 0>;
+> +            iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_UFO_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_PP_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_PRED_RD_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_PRED_WR_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_PPWRAP_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_TILE_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_VLD_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_VLD2_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_AVC_MV_EXT>,
+> +                <&iommu0 M4U_PORT_L4_VDEC_RG_CTRL_DMA_EXT>;
+> +            clocks = <&topckgen CLK_TOP_VDEC_SEL>,
+> +                <&vdecsys CLK_VDEC_VDEC>,
+> +                <&vdecsys CLK_VDEC_LAT>,
+> +                <&vdecsys CLK_VDEC_LARB1>,
+> +                <&topckgen CLK_TOP_MAINPLL_D4>;
+> +            clock-names = "sel", "soc-vdec", "soc-lat", "vdec", "top";
+> +            assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
+> +            assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
+> +            power-domains = <&spm MT8192_POWER_DOMAIN_VDEC2>;
+> +        };
+> +    };
+> -- 
+> 2.25.1
+> 
+> 
