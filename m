@@ -2,55 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14F4047066C
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 17:53:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C01C4470672
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 17:53:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABEFF10E431;
-	Fri, 10 Dec 2021 16:53:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C09010E43F;
+	Fri, 10 Dec 2021 16:53:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
- [209.85.210.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B485510E431
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 16:53:21 +0000 (UTC)
-Received: by mail-ot1-f47.google.com with SMTP id
- w6-20020a9d77c6000000b0055e804fa524so10217331otl.3
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 08:53:21 -0800 (PST)
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
+ [IPv6:2607:f8b0:4864:20::1030])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E5FB10E43F
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 16:53:46 +0000 (UTC)
+Received: by mail-pj1-x1030.google.com with SMTP id
+ gf14-20020a17090ac7ce00b001a7a2a0b5c3so9837285pjb.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 08:53:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=LVSQkz5B+7KeAhCjFmGdpHWfCyvLYQVjjI6sRW9JpRw=;
+ b=RkOnCtneuOSJW2iuk1Cm7g5yzWudSU0qS42J4LYEu3Hz2uoIh7aG9koIpHtXnzlkqY
+ vf4J4048EcoKv5nLnS0izFCqlYXZxEJKRiGBcWeZK6fD1ftEYNTH7lMnO4yhOal4k0Pz
+ d1u2PqIIpC/7fNu17zCZa7WFQeQ4dEnEtjXRo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=f2wp1hAWgrRC49VCftrTow4JceyJ/E3jGWRhqUONy3E=;
- b=bNISxH0PoevuO7EjhMp3w6VIqmasNK6btMjHVkdIRrHPjd2GSffTOxnA+m4Vbbn3nW
- dD61Pf6m7kOMhpXpj7PHv0jA/oTZxZl8n9viHLIZnBO90R14AAkiYxErKCdGKiUYdjza
- hmn8WPYpdN7XoucfYfhE6/Wp7SepApVDnWpOriOzFOmdVfNIPapSpMZs+H1x7cGZ/LDE
- jVAmtAWdXxjLEyqdqj/VxJ6i1CR7ndnbbLqZQm594f4NaNlhjswwGIgkri4jgwsB/B4R
- DQiSyzfndF02G05QfuXo4mk7qjDq2D7Y3mTs69uATKjLg3aSfmG+cc0bOYVeMgt89gYL
- wGzA==
-X-Gm-Message-State: AOAM533C7wLrjTfS2BoV3iggCp4YRBLuWEmSabCVlB/QMsK+pv89H0l+
- UKgaFQz2TpdjwpoljVArdQ==
-X-Google-Smtp-Source: ABdhPJxhzRUkJAKFVqmngli/4xluAGV/SNq6SdpzNQU9xFUHh/yAnJa6IWohu6L2xwq0z1bo5kLV7A==
-X-Received: by 2002:a9d:6d98:: with SMTP id x24mr11507597otp.371.1639155200962; 
- Fri, 10 Dec 2021 08:53:20 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id f9sm587878oto.56.2021.12.10.08.53.19
+ bh=LVSQkz5B+7KeAhCjFmGdpHWfCyvLYQVjjI6sRW9JpRw=;
+ b=tr+vM0mAhAb4oput5Kqdda5kXHyCHdDcgPviEp/HhdfbrHo9MRWT75Wy+8rry7Lme6
+ hDaWIlc8BlpAUKnGtgNSAY3I7P/pIJphNAxLMZnr1Kdy05MOxnsczZAEJwnojlnx2peZ
+ TK7+ts7fwQlIEJ4Zxr/yh81iLtSbzr3ncqnVYx1UNyKl/N0e0UZlHhOfJBDCf+L+O+No
+ CwwbQ9DEZc+OSEgFgar772cUOxdg9/u+rxn+Ahry5G/tpYzqiR1JHKC8+n41loP7vuyq
+ t9SHuS0+DsE+E+A7AXPx66NvnrNbjmLpUpmBh4OcNRTeMfPrPIVYbBRWeYSnWTEn3MJP
+ tDag==
+X-Gm-Message-State: AOAM531Xjkr2D1IALr5DZHoNo5CRoXh1vaTf1ZhvqshQlDx6fAhnO8qu
+ FgjnJSoFoTDu4wyTqXiUIZxIOg==
+X-Google-Smtp-Source: ABdhPJzSyniFUpawTf97SmHGpFTfTB0FCc6mDMWVupxmHh+f0BcevSZsWPwoq3ya/luBEUOxpW/9BQ==
+X-Received: by 2002:a17:902:e5d1:b0:141:cd4a:f318 with SMTP id
+ u17-20020a170902e5d100b00141cd4af318mr77124757plf.47.1639155226164; 
+ Fri, 10 Dec 2021 08:53:46 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id r76sm3057454pgr.61.2021.12.10.08.53.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Dec 2021 08:53:20 -0800 (PST)
-Received: (nullmailer pid 1513473 invoked by uid 1000);
- Fri, 10 Dec 2021 16:53:18 -0000
-Date: Fri, 10 Dec 2021 10:53:18 -0600
-From: Rob Herring <robh@kernel.org>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Subject: Re: [PATCH v11 3/8] dt-bindings: display: Add ingenic, jz4780-dw-hdmi
- DT Schema
-Message-ID: <YbOF/pwib/VXoqkx@robh.at.kernel.org>
-References: <cover.1638470392.git.hns@goldelico.com>
- <ac147196cd7744a7d50cf25197fe08bf9e81f88a.1638470392.git.hns@goldelico.com>
+ Fri, 10 Dec 2021 08:53:45 -0800 (PST)
+Date: Fri, 10 Dec 2021 08:53:45 -0800
+From: Kees Cook <keescook@chromium.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH] drm/dp: Actually read Adjust Request Post Cursor2 register
+Message-ID: <202112100853.FDB294B86@keescook>
+References: <20211203084354.3105253-1-keescook@chromium.org>
+ <87o85r4a4f.fsf@intel.com> <202112082220.81ECDC63D@keescook>
+ <2b7d760c-9ab8-b607-efc6-1ed276d67668@amd.com>
+ <202112091539.6B349AC@keescook> <87a6h83hb7.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ac147196cd7744a7d50cf25197fe08bf9e81f88a.1638470392.git.hns@goldelico.com>
+In-Reply-To: <87a6h83hb7.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,149 +69,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- Paul Cercueil <paul@crapouillou.net>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org,
- Kees Cook <keescook@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- letux-kernel@openphoenux.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Liam Girdwood <lgirdwood@gmail.com>, Robert Foss <robert.foss@linaro.org>,
- linux-kernel@vger.kernel.org, "Eric W. Biederman" <ebiederm@xmission.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-hardening@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Thierry Reding <treding@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 02, 2021 at 07:39:48PM +0100, H. Nikolaus Schaller wrote:
-> From: Sam Ravnborg <sam@ravnborg.org>
+On Fri, Dec 10, 2021 at 12:06:20PM +0200, Jani Nikula wrote:
+> On Thu, 09 Dec 2021, Kees Cook <keescook@chromium.org> wrote:
+> > On Thu, Dec 09, 2021 at 05:20:45PM -0500, Harry Wentland wrote:
+> >> 
+> >> 
+> >> On 2021-12-09 01:23, Kees Cook wrote:
+> >> > On Wed, Dec 08, 2021 at 01:19:28PM +0200, Jani Nikula wrote:
+> >> >> On Fri, 03 Dec 2021, Kees Cook <keescook@chromium.org> wrote:
+> >> >>> The link_status array was not large enough to read the Adjust Request
+> >> >>> Post Cursor2 register. Adjust the size to include it. Found with a
+> >> >>> -Warray-bounds build:
+> >> >>>
+> >> >>> drivers/gpu/drm/drm_dp_helper.c: In function 'drm_dp_get_adjust_request_post_cursor':
+> >> >>> drivers/gpu/drm/drm_dp_helper.c:59:27: error: array subscript 10 is outside array bounds of 'const u8[6]' {aka 'const unsigned char[6]'} [-Werror=array-bounds]
+> >> >>>    59 |         return link_status[r - DP_LANE0_1_STATUS];
+> >> >>>       |                ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+> >> >>> drivers/gpu/drm/drm_dp_helper.c:147:51: note: while referencing 'link_status'
+> >> >>>   147 | u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZE],
+> >> >>>       |                                          ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >> >>>
+> >> >>> Fixes: 79465e0ffeb9 ("drm/dp: Add helper to get post-cursor adjustments")
+> >> >>> Signed-off-by: Kees Cook <keescook@chromium.org>
+> >> >>
+> >> >> Using DP_ADJUST_REQUEST_POST_CURSOR2 has been deprecated since DP 1.3
+> >> >> published in 2014, and Tegra is the only user of
+> >> >> drm_dp_get_adjust_request_post_cursor().
+> >> > 
+> >> > I see POST_CURSOR2 is used here too:
+> >> > 
+> >> > drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+> >> > 
+> >> 
+> >> Looks like we read and parse that in the admgpu driver without
+> >> using drm_dp_get_adjust_request_post_cursor.
+> >
+> > Right, and probably that could be switched to use it, but I'm not sure
+> > what the impact of the larger link_status read is.
+> >
+> >> 
+> >> I don't have a strong feeling but I liked your original
+> >> patch a bit better. I'm not sure what it means when part
+> >> of a spec is deprecated. Once a spec is written display
+> >> vendors might implement it. We should make sure that
+> >> displays like that are always handled in a sane manner.
+> >
+> > Jani, Dave, any guidance here? I'm fine with whatever, but the current
+> > code is for sure broken. ;)
 > 
-> Add DT bindings for the hdmi driver for the Ingenic JZ4780 SoC.
-> Based on .txt binding from Zubair Lutfullah Kakakhel
+> Post Cursor2 was completely optional for the transmitter even before it
+> was deprecated.
 > 
-> We also add generic ddc-i2c-bus to synopsys,dw-hdmi.yaml
+> And now we'd be adding 5 bytes extra to all link status reads. To fix
+> the only user of drm_dp_get_adjust_request_post_cursor() that apparently
+> has never worked as intended. I'm just not convinced.
 > 
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: devicetree@vger.kernel.org
-> ---
->  .../display/bridge/ingenic,jz4780-hdmi.yaml   | 78 +++++++++++++++++++
->  .../display/bridge/synopsys,dw-hdmi.yaml      |  3 +
->  2 files changed, 81 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.yaml b/Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.yaml
-> new file mode 100644
-> index 0000000000000..49ae1130efded
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.yaml
-> @@ -0,0 +1,78 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/ingenic,jz4780-hdmi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Bindings for Ingenic JZ4780 HDMI Transmitter
-> +
-> +maintainers:
-> +  - H. Nikolaus Schaller <hns@goldelico.com>
-> +
-> +description: |
-> +  The HDMI Transmitter in the Ingenic JZ4780 is a Synopsys DesignWare HDMI 1.4
-> +  TX controller IP with accompanying PHY IP.
-> +
-> +allOf:
-> +  - $ref: synopsys,dw-hdmi.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: ingenic,jz4780-dw-hdmi
-> +
-> +  reg-io-width:
-> +    const: 4
-> +
-> +  clocks:
-> +    maxItems: 2
-> +
-> +  hdmi-5v-supply:
-> +    description: regulator to provide +5V at the connector
+> I was trying to look through the implications of DP_LINK_STATUS_SIZE
+> increase, and at least drm_dp_dpcd_read_phy_link_status() comes across
+> as something probably needing attention.
 
-Being part of the connector, that belongs in a connector node.
+Okay, it sounds like you'd prefer the "make it tegra-specific" patch I
+proposed. I will work that up as a proper patch and send it.
 
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
+Thanks!
 
-You need to define what each 'port' node is.
-
-> +
-> +required:
-> +  - compatible
-> +  - clocks
-> +  - clock-names
-> +  - hdmi-5v-supply
-> +  - ports
-> +  - reg-io-width
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/ingenic,jz4780-cgu.h>
-> +
-> +    hdmi: hdmi@10180000 {
-> +        compatible = "ingenic,jz4780-dw-hdmi";
-> +        reg = <0x10180000 0x8000>;
-> +        reg-io-width = <4>;
-> +        ddc-i2c-bus = <&i2c4>;
-> +        interrupt-parent = <&intc>;
-> +        interrupts = <3>;
-> +        clocks = <&cgu JZ4780_CLK_AHB0>, <&cgu JZ4780_CLK_HDMI>;
-> +        clock-names = "iahb", "isfr";
-> +        hdmi-5v-supply = <&hdmi_power>;
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +            hdmi_in: port@0 {
-> +                reg = <0>;
-> +                dw_hdmi_in: endpoint {
-> +                    remote-endpoint = <&jz4780_lcd_out>;
-> +                };
-> +            };
-> +            hdmi_out: port@1 {
-> +                reg = <1>;
-> +                dw_hdmi_out: endpoint {
-> +                    remote-endpoint = <&hdmi_con>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> diff --git a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
-> index 9be44a682e67a..9cbeabaee0968 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
-> @@ -50,6 +50,9 @@ properties:
->    interrupts:
->      maxItems: 1
->  
-> +  ddc-i2c-bus:
-> +    description: An I2C interface if the internal DDC I2C driver is not to be used
-
-That too is already defined to be part of the connector node.
-
-> +
->  additionalProperties: true
->  
->  ...
-> -- 
-> 2.33.0
-> 
-> 
+-- 
+Kees Cook
