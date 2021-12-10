@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D4D946FB99
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 08:33:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AA5E46FC1B
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 08:54:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5A5E10E670;
-	Fri, 10 Dec 2021 07:33:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 861CF10E798;
+	Fri, 10 Dec 2021 07:53:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA5AC10E670;
- Fri, 10 Dec 2021 07:33:18 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9276010E797;
+ Fri, 10 Dec 2021 07:53:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639121598; x=1670657598;
+ t=1639122837; x=1670658837;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:content-transfer-encoding:in-reply-to;
- bh=AnZcDbV6HpTWHGpHi/20P4ob6TBiEV5eFbUKJZgzD5I=;
- b=T3Ue+78XikAJkUTL9jSNoIqVfS02Y2M6FYtBfUcuq9Pp2bcHbRfKt3dw
- F6zFFCbQrL3ve+obR+d7/7rvUi+9R6tJR1n6/2upJx4wPV0Oyo/V4ItpJ
- LZNbw8K6HyZ9+eSwkKFFAG4h9khuBQ9d7AR/vTmRBUx+3qUV4cATv/bzu
- 73Vp4U0mjBJyVe1tmy+48BXfdDOBOPBXGkgF0pFkg8x+1+uClO04tmrt4
- c82HsLvYWOk3VK+3v6ASmXfa6LR9FNEP1Bk/5mzPlB6E0QVCNv6JckGIh
- rL00nnLGGpT2HMLNZ6kBE7GYmKlCUmi0EjXabONlr7C1qeh4AeCGswR7A Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10193"; a="324557601"
-X-IronPort-AV: E=Sophos;i="5.88,194,1635231600"; d="scan'208";a="324557601"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2021 23:33:18 -0800
-X-IronPort-AV: E=Sophos;i="5.88,194,1635231600"; d="scan'208";a="503830402"
+ bh=eMWZow7m06A7iHiG/e505Cjzo5rDUrupLTMl5XIExXw=;
+ b=J9NK6H3e+4I5z108M4rg1OdbcKPfRh+ztkRIQaYCPIPBTs3vcWpMTJpv
+ k8l2JZ2Bih2HZf6qQBPtaGQ3WDUgSf+MdJViqFOjC9uECzNLcLjmQAvWZ
+ oJHLwFFm/l68UHSDAq5JIv63vH0HX3WuovI1koXm/523oq8ympGCAL+bg
+ cPGH4vx3Zvi49kpYtrRzJsVqQYD14GsaDT0n+7oCaWeA4gAqEn9JhmzFd
+ uEsQgr14BZYBmhaaKWhe8jnhNDbvNhAQz07gpfUxhkC1EAs6scgNhkxLp
+ cNuAj+u21XFEn6cv6hQln6FZUaHV1ulPTCgYox1PFhh5gveUkcrLzqWyz Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10193"; a="237033471"
+X-IronPort-AV: E=Sophos;i="5.88,194,1635231600"; d="scan'208";a="237033471"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Dec 2021 23:53:56 -0800
+X-IronPort-AV: E=Sophos;i="5.88,194,1635231600"; d="scan'208";a="612846902"
 Received: from unknown (HELO intel.com) ([10.237.72.167])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2021 23:33:15 -0800
-Date: Fri, 10 Dec 2021 09:33:07 +0200
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Dec 2021 23:53:54 -0800
+Date: Fri, 10 Dec 2021 09:53:48 +0200
 From: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
 To: Ramalingam C <ramalingam.c@intel.com>
 Subject: Re: [PATCH v4 07/16] drm/i915/dg2: Tile 4 plane format support
-Message-ID: <20211210073307.GA27698@intel.com>
+Message-ID: <20211210075347.GA27837@intel.com>
 References: <20211209154533.4084-1-ramalingam.c@intel.com>
  <20211209154533.4084-8-ramalingam.c@intel.com>
 MIME-Version: 1.0
@@ -84,19 +84,14 @@ On Thu, Dec 09, 2021 at 09:15:24PM +0530, Ramalingam C wrote:
 >       matches PLANE_CTL_TILING_4(Nanley Chery)
 >     - Fixed naming and layout description for Tile 4 in drm uapi
 >       header(Nanley Chery)
+> 
 
-Hi Ramalingam,
 
-This is probably wrong patch to use as I've sent a newer series,
-where drm_fourcc.h changes are separately introducing new tiling
-format.
-I would be also resending this series today as Nanley Chery
-suggested that drm_foucc changes should be introduced after
-the kernel support is introduced.
+P.S: Actually combined patch seems to be fine as well, according to 
+Nanley.
 
 Stan
 
-> 
 > Cc: Matt Roper <matthew.d.roper@intel.com>
 > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 > Signed-off-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
