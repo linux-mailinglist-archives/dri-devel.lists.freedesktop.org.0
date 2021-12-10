@@ -1,51 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71B0E4706EF
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 18:25:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B4674706F4
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 18:26:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA71A10EBF1;
-	Fri, 10 Dec 2021 17:25:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7D3C10EC1D;
+	Fri, 10 Dec 2021 17:26:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66D5610EBF1;
- Fri, 10 Dec 2021 17:25:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639157109; x=1670693109;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=U5UuDcLlUBY6hNX9XfK3sNQ4qtaq14yyKEoZ4SuQcqo=;
- b=ZRTq3ue6rpvrK4BmWTuOgeneHYrY1qe2IRBQsE4V3yLRCu5JbkXNZwHE
- c01lGnHnwOCzXkmUZmolQLBGiA9q9yLgn8YaYj/lPrDxCOVLIvjm8DC4N
- HvM6l4CTTOzs/Lf7Cv4YK6XUSybTxG/uPaPC4WTkZFLPvEY9LkDStZb95
- SjnMD1GK0E43wlp0sE6pC8wgN/6TkeHngXsyJeoL7TM4MkcpfXSijSQ8u
- q2J/G7LlqNBYgMccjaoPTBo7om254k4uqVaR4A0d2mj9+VbdpUDtAfWjs
- i3onv+gqyacduzpUFJ+lcPan6m0JS0a1/YSHu7Brli50Eqf5lRcP09csh A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10194"; a="225256199"
-X-IronPort-AV: E=Sophos;i="5.88,196,1635231600"; d="scan'208";a="225256199"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2021 09:25:08 -0800
-X-IronPort-AV: E=Sophos;i="5.88,196,1635231600"; d="scan'208";a="612993405"
-Received: from lgfecara-mobl2.amr.corp.intel.com (HELO ldmartin-desk2)
- ([10.209.84.224])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2021 09:25:06 -0800
-Date: Fri, 10 Dec 2021 09:25:05 -0800
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-Subject: Re: [PATCH] drm: i915: display: intel_dmc: Fixes an unsigned
- subtraction which can never be negative.
-Message-ID: <20211210172505.vdjhyvawwvte3lp7@ldmartin-desk2>
-X-Patchwork-Hint: comment
-References: <20211210044129.12422-1-harshit.m.mogalapalli@oracle.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBE9410EC1D
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 17:26:15 +0000 (UTC)
+X-UUID: e42e9bcb832c4acc9c6a7d8bcb73a8d2-20211211
+X-UUID: e42e9bcb832c4acc9c6a7d8bcb73a8d2-20211211
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw01.mediatek.com (envelope-from <flora.fu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1884081379; Sat, 11 Dec 2021 01:26:09 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Sat, 11 Dec 2021 01:26:08 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Sat, 11 Dec 2021 01:26:07 +0800
+From: Flora Fu <flora.fu@mediatek.com>
+To: Matthias Brugger <matthias.bgg@gmail.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Yong Wu <yong.wu@mediatek.com>, Pi-Cheng Chen
+ <pi-cheng.chen@mediatek.com>
+Subject: [PATCH 00/17] MediaTek MT8192 APU
+Date: Sat, 11 Dec 2021 01:25:48 +0800
+Message-ID: <20211210172605.30618-1-flora.fu@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20211210044129.12422-1-harshit.m.mogalapalli@oracle.com>
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,53 +48,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Anusha Srivatsa <anusha.srivatsa@intel.com>, David Airlie <airlied@linux.ie>,
- intel-gfx@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>,
- =?utf-8?B?Sm9zw6k=?= Roberto de Souza <jose.souza@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, dan.carpenter@oracle.com
+Cc: JB Tsai <jb.tsai@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Flora Fu <flora.fu@mediatek.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 09, 2021 at 08:41:24PM -0800, Harshit Mogalapalli wrote:
->smatch warning:
->drivers/gpu/drm/i915/display/intel_dmc.c:601 parse_dmc_fw() warn:
->unsigned 'fw->size - offset' is never less than zero
->
->Firmware size is size_t and offset is u32. So the subtraction is
->unsigned which can never be less than zero.
->
->Fixes: 3d5928a168a9 ("drm/i915/xelpd: Pipe A DMC plugging")
->Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+The MediaTek AI Processing Unit (APU) is a proprietary hardware
+in the SoC to support AI functions.
+The patches support the MT8192 APU runs on internal microprocessor.
+Software packages contins mailbox, iommu, APU remote processor,
+power control, middleware and debug looger.
 
+This series is based on drivers implemented in
+MT8192 apu power domain[1], apu SMC[2] and IOMMU[2] patches.
+[1] https://patchwork.kernel.org/project/linux-mediatek/list/?series=593809
+[2] https://patchwork.kernel.org/patch/12670253
+[3] https://patchwork.kernel.org/project/linux-mediatek/list/?series=551641
+The device tree depends on [4][5][6] which haven't yet been accepted.
+[4] https://patchwork.kernel.org/patch/12456165
+[5] https://patchwork.kernel.org/patch/12134935
+[6] https://patchwork.kernel.org/patch/12140237
 
-Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Change notes:
+Initial RFC: https://patchwork.kernel.org/project/linux-mediatek/list/?series=568939
 
-"s|drm: i915: display: Fixes|drm/i915/display: Fix|" in the subject,
-that I will do when applying after we have the CI results.
+Flora Fu (17):
+  dt-bindings: mailbox: mediatek: Add APU mailbox compatible
+  dt-bindings: memory: mediatek: Add MT8192 apu iommu bindings
+  dt-bindings: remoteproc: mediatek: Add APU rproc compatible
+  dt-bindings: soc: mediatek: apu: Add APU power compatible
+  dt-bindings: soc: mediatek: apu: Add apu logger compatible
+  mailbox: mediatek: add mtk-apu-mailbox driver
+  iommu/mediatek: Support APU iommu and config data for mt8192
+  remoteproc: mediatek: Add APU remoteproc driver
+  soc: mediatek: apu: Add Apu power driver
+  soc: mediatek: apu: Add APU software logger dirver
+  soc: mediatek: apu: Add middleware driver
+  arm64: dts: mt8192: Add APU mtk-apu-mailbox node
+  arm64: dts: mt8192: Add APU-IOMMU nodes
+  arm64: dts: mt8192: Add apu tinysys node
+  arm64: dts: mt8192: Add APU power nodes
+  arm64: dts: mt8192: Add apu-sw-logger node
+  arm64: dts: mt8192: Set up regulators for APU subsys
 
-thanks
-Lucas De Marchi
+ .../bindings/iommu/mediatek,iommu.yaml        |    7 +-
+ .../mailbox/mediatek,apu-mailbox.yaml         |   47 +
+ .../bindings/remoteproc/mediatek,apu-rv.yaml  |  106 ++
+ .../soc/mediatek/mediatek,apu-logger.yaml     |   42 +
+ .../soc/mediatek/mediatek,apu-pwr.yaml        |   80 ++
+ arch/arm64/boot/dts/mediatek/mt8192-evb.dts   |    5 +
+ arch/arm64/boot/dts/mediatek/mt8192.dtsi      |  118 ++
+ drivers/iommu/mtk_iommu.c                     |   45 +-
+ drivers/mailbox/Kconfig                       |    9 +
+ drivers/mailbox/Makefile                      |    2 +
+ drivers/mailbox/mtk-apu-mailbox.c             |  162 +++
+ drivers/remoteproc/Kconfig                    |   12 +
+ drivers/remoteproc/Makefile                   |    2 +
+ drivers/remoteproc/mtk-apu-ipi.c              |  474 ++++++++
+ drivers/remoteproc/mtk-apu-rproc.c            | 1054 +++++++++++++++++
+ drivers/soc/mediatek/apusys/Kconfig           |   23 +
+ drivers/soc/mediatek/apusys/Makefile          |   17 +
+ drivers/soc/mediatek/apusys/apu-device.h      |   39 +
+ drivers/soc/mediatek/apusys/apu-pwr-dbg.c     |  167 +++
+ drivers/soc/mediatek/apusys/apu-pwr-ipi.c     |  377 ++++++
+ drivers/soc/mediatek/apusys/apu-pwr.c         |  613 ++++++++++
+ drivers/soc/mediatek/apusys/apu-pwr.h         |  260 ++++
+ drivers/soc/mediatek/apusys/apu-sw-logger.c   |  540 +++++++++
+ drivers/soc/mediatek/apusys/mdw-cmd.c         |  618 ++++++++++
+ drivers/soc/mediatek/apusys/mdw-drv.c         |  226 ++++
+ drivers/soc/mediatek/apusys/mdw-ioctl.c       |  331 ++++++
+ drivers/soc/mediatek/apusys/mdw-ioctl.h       |  256 ++++
+ drivers/soc/mediatek/apusys/mdw-mem.c         |  938 +++++++++++++++
+ drivers/soc/mediatek/apusys/mdw-mem.h         |   23 +
+ drivers/soc/mediatek/apusys/mdw-rv-cmd.c      |  158 +++
+ drivers/soc/mediatek/apusys/mdw-rv-dev.c      |  386 ++++++
+ drivers/soc/mediatek/apusys/mdw-rv-msg.h      |   90 ++
+ drivers/soc/mediatek/apusys/mdw-rv.c          |  131 ++
+ drivers/soc/mediatek/apusys/mdw-rv.h          |   98 ++
+ drivers/soc/mediatek/apusys/mdw-sysfs.c       |  200 ++++
+ drivers/soc/mediatek/apusys/mdw.h             |  207 ++++
+ include/dt-bindings/memory/mt8192-larb-port.h |    4 +
+ include/linux/remoteproc/mtk-apu-config.h     |  100 ++
+ include/linux/remoteproc/mtk-apu.h            |  217 ++++
+ 39 files changed, 8181 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/mailbox/mediatek,apu-mailbox.yaml
+ create mode 100644 Documentation/devicetree/bindings/remoteproc/mediatek,apu-rv.yaml
+ create mode 100644 Documentation/devicetree/bindings/soc/mediatek/mediatek,apu-logger.yaml
+ create mode 100644 Documentation/devicetree/bindings/soc/mediatek/mediatek,apu-pwr.yaml
+ create mode 100644 drivers/mailbox/mtk-apu-mailbox.c
+ create mode 100644 drivers/remoteproc/mtk-apu-ipi.c
+ create mode 100644 drivers/remoteproc/mtk-apu-rproc.c
+ create mode 100644 drivers/soc/mediatek/apusys/apu-device.h
+ create mode 100644 drivers/soc/mediatek/apusys/apu-pwr-dbg.c
+ create mode 100644 drivers/soc/mediatek/apusys/apu-pwr-ipi.c
+ create mode 100644 drivers/soc/mediatek/apusys/apu-pwr.c
+ create mode 100644 drivers/soc/mediatek/apusys/apu-pwr.h
+ create mode 100644 drivers/soc/mediatek/apusys/apu-sw-logger.c
+ create mode 100644 drivers/soc/mediatek/apusys/mdw-cmd.c
+ create mode 100644 drivers/soc/mediatek/apusys/mdw-drv.c
+ create mode 100644 drivers/soc/mediatek/apusys/mdw-ioctl.c
+ create mode 100644 drivers/soc/mediatek/apusys/mdw-ioctl.h
+ create mode 100644 drivers/soc/mediatek/apusys/mdw-mem.c
+ create mode 100644 drivers/soc/mediatek/apusys/mdw-mem.h
+ create mode 100644 drivers/soc/mediatek/apusys/mdw-rv-cmd.c
+ create mode 100644 drivers/soc/mediatek/apusys/mdw-rv-dev.c
+ create mode 100644 drivers/soc/mediatek/apusys/mdw-rv-msg.h
+ create mode 100644 drivers/soc/mediatek/apusys/mdw-rv.c
+ create mode 100644 drivers/soc/mediatek/apusys/mdw-rv.h
+ create mode 100644 drivers/soc/mediatek/apusys/mdw-sysfs.c
+ create mode 100644 drivers/soc/mediatek/apusys/mdw.h
+ create mode 100644 include/linux/remoteproc/mtk-apu-config.h
+ create mode 100644 include/linux/remoteproc/mtk-apu.h
 
->---
-> drivers/gpu/drm/i915/display/intel_dmc.c | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->
->diff --git a/drivers/gpu/drm/i915/display/intel_dmc.c b/drivers/gpu/drm/i915/display/intel_dmc.c
->index 0cab18f972d1..2f477c298b00 100644
->--- a/drivers/gpu/drm/i915/display/intel_dmc.c
->+++ b/drivers/gpu/drm/i915/display/intel_dmc.c
->@@ -598,7 +598,7 @@ static void parse_dmc_fw(struct drm_i915_private *dev_priv,
-> 			continue;
->
-> 		offset = readcount + dmc->dmc_info[id].dmc_offset * 4;
->-		if (fw->size - offset < 0) {
->+		if (offset > fw->size) {
-> 			drm_err(&dev_priv->drm, "Reading beyond the fw_size\n");
-> 			continue;
-> 		}
->-- 
->2.27.0
->
+-- 
+2.18.0
+
