@@ -1,48 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C116D46FE99
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 11:17:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60DCE46FEC5
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 11:30:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46B4110E3A4;
-	Fri, 10 Dec 2021 10:17:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8695910E537;
+	Fri, 10 Dec 2021 10:30:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAD2610E3A4
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 10:17:49 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 8F6441F4709E
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
- t=1639131468; bh=Gjv8pg77wAZyx6FV9xWPNtCyByurMxg6U07KqvM1fqo=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=ODmsPABiBeHD9ryRiRsKqYvoOLjFkrf37+cM12Q+/qOrTPyAHT5tDzYjzPztfv7h7
- 6ZuxRLiPfUCS/jdP6+D8QZqEp2Tm7Z/mEM7oxGgbN1+mc2ON3/u1dnmbonnifIOpWd
- GdEkYJq3aE5UosKSAQP2lngcpf2RjejnVSYaYo+RNNGk8FdbxYydCG5MC+PTFf3q7O
- oNoh1FTPvQWXNcDaPWmtBMzKHpS1GgAa8Z1n75qah1vZzLMIWcyyBrtTaf0SbnreEb
- SYlI6p/Ful7B/1LgJoDoXcoxeuI3aK5ScEnUvQbitFYzeYzDbEEzN1hE8O9vVcI0yv
- MxSCAIw7FE6BA==
-Subject: Re: [PATCH v6 7/7] drm/mediatek: Add mt8195 DisplayPort driver
-To: Guillaume Ranquet <granquet@baylibre.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>
-References: <20211110130623.20553-1-granquet@baylibre.com>
- <20211110130623.20553-8-granquet@baylibre.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Message-ID: <b307d567-774b-ca9e-d7d7-09846782c988@collabora.com>
-Date: Fri, 10 Dec 2021 11:17:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56AA610E535;
+ Fri, 10 Dec 2021 10:30:16 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10193"; a="301706704"
+X-IronPort-AV: E=Sophos;i="5.88,195,1635231600"; d="scan'208";a="301706704"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Dec 2021 02:30:15 -0800
+X-IronPort-AV: E=Sophos;i="5.88,195,1635231600"; d="scan'208";a="517179939"
+Received: from mpcorrig-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.4.173])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Dec 2021 02:30:08 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Daniele Ceraolo Spurio
+ <daniele.ceraolospurio@intel.com>, Matthew Brost
+ <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc: Use correct context lock when
+ callig clr_context_registered
+In-Reply-To: <439fb357-cdda-2996-bb63-eaf41a7fe4d1@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20211209184814.21125-1-matthew.brost@intel.com>
+ <d1fb9875-4af7-301e-cd83-9aeb7e8a5b52@intel.com>
+ <439fb357-cdda-2996-bb63-eaf41a7fe4d1@linux.intel.com>
+Date: Fri, 10 Dec 2021 12:30:01 +0200
+Message-ID: <877dcc3g7q.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20211110130623.20553-8-granquet@baylibre.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,90 +51,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Markus Schneider-Pargmann <msp@baylibre.com>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 10/11/21 14:06, Guillaume Ranquet ha scritto:
-> From: Markus Schneider-Pargmann <msp@baylibre.com>
-> 
-> This patch adds a DisplayPort driver for the Mediatek mt8195 SoC and a
-> according phy driver mediatek-dp-phy.
-> 
-> It supports both functional units on the mt8195, the embedded
-> DisplayPort as well as the external DisplayPort units. It offers
-> hot-plug-detection, audio up to 8 channels, and DisplayPort 1.4 with up
-> to 4 lanes.
-> 
-> The driver creates a child device for the phy. The child device will
-> never exist without the parent being active. As they are sharing a
-> register range, the parent passes a regmap pointer to the child so that
-> both can work with the same register range. The phy driver sets device
-> data that is read by the parent to get the phy device that can be used
-> to control the phy properties.
-> 
-> This driver is based on an initial version by
-> Jason-JH.Lin <jason-jh.lin@mediatek.com>.
-> 
-> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> Reported-by: kernel test robot <lkp@intel.com>
+On Fri, 10 Dec 2021, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
+> On 09/12/2021 19:14, Daniele Ceraolo Spurio wrote:
+>>=20
+>>=20
+>> On 12/9/2021 10:48 AM, Matthew Brost wrote:
+>>> s/ce/cn/ when grabbing guc_state.lock before calling
+>>> clr_context_registered.
+>>>
+>>> Fixes: 0f7976506de61 ("drm/i915/guc: Rework and simplify locking")
+>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>>> Cc: <stable@vger.kernel.org>
+>
+> I think Cc: stable is not needed here:
+>
+> $ git tag --contains 0f7976506de61
+> drm-intel-fixes-2021-11-18
+> drm-intel-gt-next-2021-10-08
+> drm-intel-gt-next-2021-10-21
+> drm-intel-gt-next-2021-11-22
+> drm-intel-next-2021-10-15
+> drm-intel-next-fixes-2021-11-09
+> v5.16-rc1
+> v5.16-rc2
+> v5.16-rc3
+> v5.16-rc4
 
-Hello Markus, Guillaume,
+'dim fixes 0f7976506de61' concurs.
 
-there is a critical issue with this patch. Please check below.
+BR,
+Jani.
 
-> ---
->   drivers/gpu/drm/drm_edid.c              |    2 +-
->   drivers/gpu/drm/mediatek/Kconfig        |    7 +
->   drivers/gpu/drm/mediatek/Makefile       |    2 +
->   drivers/gpu/drm/mediatek/mtk_dp.c       | 3094 +++++++++++++++++++++++
->   drivers/gpu/drm/mediatek/mtk_dp_reg.h   |  568 +++++
->   drivers/gpu/drm/mediatek/mtk_dpi.c      |  111 +-
->   drivers/gpu/drm/mediatek/mtk_dpi_regs.h |   26 +
->   drivers/gpu/drm/mediatek/mtk_drm_drv.c  |    1 +
->   drivers/gpu/drm/mediatek/mtk_drm_drv.h  |    1 +
->   9 files changed, 3799 insertions(+), 13 deletions(-)
->   create mode 100644 drivers/gpu/drm/mediatek/mtk_dp.c
->   create mode 100644 drivers/gpu/drm/mediatek/mtk_dp_reg.h
-> 
 
-<snip>
 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> index 384074f69111b..e6e88e3cd811d 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
 
-<snip>
 
-> @@ -979,6 +1051,16 @@ static int mtk_dpi_probe(struct platform_device *pdev)
->   		return ret;
->   	}
->   
-> +	dpi->dpi_ck_cg = devm_clk_get(dev, "ck_cg");
 
-mtk_dpi is used on MT2701, MT7183, MT8183, MT8192, but these platforms haven't
-got any "ck_cg" clock defined in their device-trees (regardless of whether these
-can support adding this clock or not, any code change shall be retro-compatible
-hence not breaking compatibility/functionality with older device-trees).
+>
+> So still can hit 5.16 via fixes. Rodrigo, did I get this right and you=20
+> will be able to pick it up next week or so?
+>
+>> Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+>>=20
+>> I'm assuming we didn't see any splat from the lockdep assert in=20
+>> clr_context_registered in our CI runs because we never hit this case as=
+=20
+>> it requires 64k+ contexts. Maybe we can add a selftest to purposely=20
+>> exercise this path? Not a blocker for merging this fix.
+>
+> Was the bug found by inspection or reported?
+>
+> Given the buggy function is called steal_guc_id, so if the implication=20
+> is there is no testing for guc id stealing, then it indeed please add=20
+> some coverage ASAP.
+>
+> Regards,
+>
+> Tvrtko
+>
+>>=20
+>> Daniele
+>>=20
+>>> ---
+>>> =C2=A0 drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 4 ++--
+>>> =C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c=20
+>>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> index 1f9d4fde421f..9b7b4f4e0d91 100644
+>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> @@ -1937,9 +1937,9 @@ static int steal_guc_id(struct intel_guc *guc,=20
+>>> struct intel_context *ce)
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 list_del_init(&c=
+n->guc_id.link);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ce->guc_id =3D c=
+n->guc_id;
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spin_lock(&ce->guc_state.lo=
+ck);
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spin_lock(&cn->guc_state.lo=
+ck);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 clr_context_regi=
+stered(cn);
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spin_unlock(&ce->guc_state.=
+lock);
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spin_unlock(&cn->guc_state.=
+lock);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 set_context_guc_=
+id_invalid(cn);
+>>=20
 
-Reminding that:
-- mediatek-drm uses the component framework
-- mtk_drm_drv is the component master
-- mtk_drm_drv bind() won't be called unless all of the components added with
-   match aren't calling component_add()
-
-... this change not only breaks DisplayPort support for *all* of the
-aforementioned SoCs, but also makes the entire mediatek-drm to not finish
-probing, producing a global breakage that also includes DSI and the entire
-stack of components of that master (so, no display on all of them).
-
-To avoid breaking any SoC that's not MT8195, please use devm_clk_get_optional()
-here in the next version.
-
-Thanks,
-- Angelo
-
+--=20
+Jani Nikula, Intel Open Source Graphics Center
