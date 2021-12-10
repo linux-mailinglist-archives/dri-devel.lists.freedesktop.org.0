@@ -1,53 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA4A0470B36
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 20:58:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF744470B9F
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 21:11:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F29310ECCC;
-	Fri, 10 Dec 2021 19:58:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9FC210E58A;
+	Fri, 10 Dec 2021 20:11:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 503DF10ECCD
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 19:58:50 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 462D3B829D7;
- Fri, 10 Dec 2021 19:58:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 18769C341CA;
- Fri, 10 Dec 2021 19:58:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1639166326;
- bh=fnNZwD/qJ/E4/7TN8VbxUfN5A4foEOaZ9nLOwDEkmYA=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=lwAlZxDJfSRgiustOkBE5GUoNcNz6kB68ZQUoLFeuU5OFDu682Pk4P601FFvi6nC6
- NJ/4PGB6Ny33ar4nRjCTPG7ZuA9FTgaZgOn1TT8df7eiE6H2J1G46CNUB8RL1OEkgN
- Z5oxZQO5tQPc5gImcV9duk7tYbzJTiAvzl5NYxq0FH0HY8iRtAqb11CC1yVSgBgl4d
- 6PwQ3Vz9kW8AN4v5AB/08YvXr6zpvQDp7TtpMj+8zDa1vsfVKKIbeuFk4cqP4IfqlW
- GR22MQC6jNgQ/T4DTM4/kz4V+3vF1srrB+1D77RqOWicGMsOHhwE1RBxf8l/PMInip
- q9DfdZj77G+kw==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain
- [127.0.0.1])
- by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 08D2660A39;
- Fri, 10 Dec 2021 19:58:46 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 5.16-rc5
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9twm_TjmNrr7VELofghf58qpo=-1VmFf_pNr6tBNKZL-aw@mail.gmail.com>
-References: <CAPM=9twm_TjmNrr7VELofghf58qpo=-1VmFf_pNr6tBNKZL-aw@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAPM=9twm_TjmNrr7VELofghf58qpo=-1VmFf_pNr6tBNKZL-aw@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2021-12-10
-X-PR-Tracked-Commit-Id: 675a095789a2663fe02fdebd6023e29d7f1f51ac
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 9b302ffe4e8d7e62f3170aa0097ff979880ba61d
-Message-Id: <163916632603.27955.13646553226998147096.pr-tracker-bot@kernel.org>
-Date: Fri, 10 Dec 2021 19:58:46 +0000
-To: Dave Airlie <airlied@gmail.com>
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com
+ [IPv6:2607:f8b0:4864:20::b4a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8776C10E580
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 20:11:49 +0000 (UTC)
+Received: by mail-yb1-xb4a.google.com with SMTP id
+ s128-20020a255e86000000b005f89a35e57eso2939248ybb.19
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 12:11:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=mVZR4NW2NH5z/l+VDAPU353h9uYgJcW0LaZCIEsF1jk=;
+ b=LtVI2zYkXnuBq/kjSog3krMAswj0f4DadCb+rkLJKX2utG6x1szOvIP9QzSDgzBIcm
+ Ch9DMsrH6Rcsw1hhgTJJvkdAQyS5XdQv5yAOYwWWrno57zfqRVhqezFIG0GpapKcv+1e
+ NTyp2pOey8lHPSth8GNQod2Tk228xjt+t/2Q8p9+OXIgFtLmEqL+P1VRGZ30IbGmQed8
+ YeYEjX48RhmGDeB5lE3mpZP7hc9Hlr3SQJpYIuDRVe1C/EKfeY/RhQoCaTi3aqBoE/0B
+ xXxRXxFjGfEDuaQD1EMT6T83miSczCmaNawkxX78nAA6PshO8FdEzPm3Ldj/2vbIxmbJ
+ 5C5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=mVZR4NW2NH5z/l+VDAPU353h9uYgJcW0LaZCIEsF1jk=;
+ b=38YM/+AaNfQsIaSte/7mcRwGL8WAmFVcNgLDh/RxRUks+uzuUbX9cAPBdnWCdZuC8m
+ +zuw2Zu/H1i2tLCnX3dSqJGXQgoazWFF0nFeLGfLQUfXn200D6pQHmho1Ka3f3SIu8g+
+ fT4OHsgK5A13WfDjYZSsK9o7YiYahtXy4jrm56GimtjzLUWUNC1nsdqoS/QoaRZHt20G
+ 2t3aMGN9OP9EVuFte/OzakbA68B4RdRsIiOg1n45nn6Rzmyj49Vptpiu3IzWrXJZdLGP
+ omdRnKqyTbO/khlvU7d1TYS0GysooaizGMwVNQvu1vCc8Bcd6XVEmin9DeQnL1qGxKY7
+ Ifew==
+X-Gm-Message-State: AOAM533JynSjoAMZ3wJTfQ6AD7r0wQFregXytQKUV8NV4AENRiKs1JGN
+ bl2Bi/fTOb2P3jcWVz4GdNtdVC2Silx+
+X-Google-Smtp-Source: ABdhPJz1lgeFMYc85C/POqMgxCQmHqxO2zBUc3vvCO1jWDYUoNFx7IkHZAuGeq1O012657U4w+NRPMLP/hbZ
+X-Received: from rajat2.mtv.corp.google.com
+ ([2620:15c:202:201:9ecf:cc67:420b:ba67])
+ (user=rajatja job=sendgmr) by 2002:a05:6902:114a:: with SMTP id
+ p10mr16953372ybu.272.1639167108627; Fri, 10 Dec 2021 12:11:48 -0800 (PST)
+Date: Fri, 10 Dec 2021 12:11:43 -0800
+Message-Id: <20211210201144.1975655-1-rajatja@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.34.1.173.g76aa8bc2d0-goog
+Subject: [PATCH 1/2] drm/privacy_screen_x86: Add entry for ChromeOS
+ privacy-screen
+From: Rajat Jain <rajatja@google.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Hans de Goede <hdegoede@redhat.com>, 
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Benson Leung <bleung@chromium.org>, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ gwendal@google.com, seanpaul@google.com, marcheau@google.com, 
+ intel-gfx <intel-gfx@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,22 +70,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Rajat Jain <rajatja@google.com>, rajatxjain@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 10 Dec 2021 14:28:53 +1000:
+Add a static entry in the x86 table, to detect and wait for
+privacy-screen on some ChromeOS platforms.
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-12-10
+Please note that this means that if CONFIG_CHROMEOS_PRIVACY_SCREEN is
+enabled, and if "GOOG0010" device is found in ACPI, then the i915 probe
+shall return EPROBE_DEFER until a platform driver actually registers the
+privacy-screen: https://hansdegoede.livejournal.com/25948.html
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/9b302ffe4e8d7e62f3170aa0097ff979880ba61d
+Signed-off-by: Rajat Jain <rajatja@google.com>
+---
+This patch is rebased on top of linux-next/master
 
-Thank you!
+ drivers/gpu/drm/drm_privacy_screen_x86.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
+diff --git a/drivers/gpu/drm/drm_privacy_screen_x86.c b/drivers/gpu/drm/drm_privacy_screen_x86.c
+index a2cafb294ca6..3728870a98e7 100644
+--- a/drivers/gpu/drm/drm_privacy_screen_x86.c
++++ b/drivers/gpu/drm/drm_privacy_screen_x86.c
+@@ -45,6 +45,17 @@ static bool __init detect_thinkpad_privacy_screen(void)
+ 
+ 	return (output & 0x10000) ? true : false;
+ }
++#elif IS_ENABLED(CONFIG_CHROMEOS_PRIVACY_SCREEN)
++
++static bool __init detect_chromeos_privacy_screen(void)
++{
++	if (!acpi_dev_present("GOOG0010", NULL, -1))
++		return false;
++
++	pr_info("%s: Need to wait for ChromeOS privacy-screen", __func__);
++	return true;
++
++}
+ #endif
+ 
+ static const struct arch_init_data arch_init_data[] __initconst = {
+@@ -57,6 +68,15 @@ static const struct arch_init_data arch_init_data[] __initconst = {
+ 		},
+ 		.detect = detect_thinkpad_privacy_screen,
+ 	},
++#elif IS_ENABLED(CONFIG_CHROMEOS_PRIVACY_SCREEN)
++	{
++		.lookup = {
++			.dev_id = NULL,
++			.con_id = NULL,
++			.provider = "privacy_screen-GOOG0010:00",
++		},
++		.detect = detect_chromeos_privacy_screen,
++	},
+ #endif
+ };
+ 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.34.1.173.g76aa8bc2d0-goog
+
