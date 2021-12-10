@@ -2,50 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 770B946FD11
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 09:55:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37F5546FD18
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 09:56:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BC3210E54A;
-	Fri, 10 Dec 2021 08:55:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5CDD10E1C6;
+	Fri, 10 Dec 2021 08:56:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB23710E548
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 08:55:38 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1mvbgn-0000TC-1L; Fri, 10 Dec 2021 09:55:37 +0100
-Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1mvbgm-0002Mi-En; Fri, 10 Dec 2021 09:55:36 +0100
-Date: Fri, 10 Dec 2021 09:55:36 +0100
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: Johan Jonker <jbx6244@gmail.com>
-Subject: Re: [PATCH 17/18] drm: rockchip: Add VOP2 driver
-Message-ID: <20211210085536.GC25513@pengutronix.de>
-References: <20211208151230.3695378-1-s.hauer@pengutronix.de>
- <20211208151230.3695378-18-s.hauer@pengutronix.de>
- <bd576949-a42b-9750-fe97-b9b567c7ea75@gmail.com>
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0894410E288
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 08:56:35 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id o29so6276976wms.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 00:56:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=ugWZHzEIl/ed3UDm2nkNMQGNSpbu5KKxXnSYP4z8tmE=;
+ b=V1Hc554AnCsotFmE/SYmLUYY13GxEa0a/+6yg6iYQxXVQooWp4UIl1EXOR/ohWtaoh
+ SSDSNJHt4bNUl/dJwy0wej4Ep8UARUR21gHDlk+x663IHiyy4a/NgKCRovFDYw/X0GqK
+ B0GvmtraFjTWvvl8t8r0RLTXTsXkqXtW8LJlkQ+OKgUTPFT8X4K/hmLXYq6iNBIRHRDE
+ 5fEAb3Dz3vp1/xo0UjoVyow4VJpvk8nnqABG1vfT3GWt/VPgf3y2fDFVg0N08aw/nD4M
+ 9oCdjVfig+4ewNy8Vv94fP+lE9ZFAlF1cWVDMK/Bm2xCoBxzeXAVuJWqn4ALjpPKRpg0
+ 0oAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=ugWZHzEIl/ed3UDm2nkNMQGNSpbu5KKxXnSYP4z8tmE=;
+ b=RityU82qmrxmQldLWOO5ExZBgyr/UzqZUYhVjRxuwXxdcc/aA5PRsAWA/TJzYuxbrl
+ ikH9Kys+or7n/a/sFAWojvNHgaV75lfBPz7vueEzhiSoiEzFOmOBEDv2QcN2T8KXpKoF
+ a9X/noIM7mptEmlkSmzN21aXlpP+8G8wLsu0DRgeGpRTF1bPCPOCFqBUmLYTdAEhmjVi
+ 72BcvAboSIpVecXJIx/Y8TFi6FpI6AI1j06o1wr/ga5YPWmLlQNpzw73QYWZ4wp0RdMm
+ SRtOnFz8C/jdlbKJskkfth7rfVlSgfPm9d+FK/1AKXQ9NY8RPPWvh6G2Ucx0TIezMJch
+ crLA==
+X-Gm-Message-State: AOAM530XY9zWW8bv9zIQVOCmjKtHVi4MorIMxQXQ0zuRuQ4HQ62CRMpN
+ /RYogNo/z2WyyG8xNg/vKWw=
+X-Google-Smtp-Source: ABdhPJzpGB9V66upS/EkyZnBy/vCflZB/b4r7xftEE8qItQGNebjwjNFs3haPcemiq8JZjpXgnqFTw==
+X-Received: by 2002:a05:600c:3489:: with SMTP id
+ a9mr14966701wmq.53.1639126593509; 
+ Fri, 10 Dec 2021 00:56:33 -0800 (PST)
+Received: from orome ([193.209.96.43])
+ by smtp.gmail.com with ESMTPSA id w17sm2333809wmc.14.2021.12.10.00.56.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Dec 2021 00:56:32 -0800 (PST)
+Date: Fri, 10 Dec 2021 09:56:28 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH 0/2] Add SMBus features to Tegra I2C
+Message-ID: <YbMWPGMcHEQXGkHf@orome>
+References: <1639062321-18840-1-git-send-email-akhilrajeev@nvidia.com>
+ <e3deea6a-3854-e58c-0d27-602413f2a496@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="2IhQJxqBxhd1xrh2"
 Content-Disposition: inline
-In-Reply-To: <bd576949-a42b-9750-fe97-b9b567c7ea75@gmail.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 09:51:38 up 295 days, 12:15, 150 users,  load average: 0.22, 0.19,
- 0.18
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+In-Reply-To: <e3deea6a-3854-e58c-0d27-602413f2a496@gmail.com>
+User-Agent: Mutt/2.1.3 (987dde4c) (2021-09-10)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,117 +71,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Akhil R <akhilrajeev@nvidia.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ jonathanh@nvidia.com, linaro-mm-sig@lists.linaro.org, robh+dt@kernel.org,
+ andy.shevchenko@gmail.com, ldewangan@nvidia.com, linux-i2c@vger.kernel.org,
+ linux-tegra@vger.kernel.org, christian.koenig@amd.com,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Johan,
 
-On Wed, Dec 08, 2021 at 05:59:16PM +0100, Johan Jonker wrote:
-> Hi,
-> 
-> On 12/8/21 4:12 PM, Sascha Hauer wrote:
-> > From: Andy Yan <andy.yan@rock-chips.com>
-> > 
-> > The VOP2 unit is found on Rockchip SoCs beginning with rk3566/rk3568.
-> > It replaces the VOP unit found in the older Rockchip SoCs.
-> > 
-> > This driver has been derived from the downstream Rockchip Kernel and
-> > heavily modified:
-> > 
-> > - All nonstandard DRM properties have been removed
-> > - dropped struct vop2_plane_state and pass around less data between
-> >   functions
-> > - Dropped all DRM_FORMAT_* not known on upstream
-> > - rework register access to get rid of excessively used macros
-> > - Drop all waiting for framesyncs
-> > 
-> > The driver is tested with HDMI and MIPI-DSI display on a RK3568-EVB
-> > board. Overlay support is tested with the modetest utility. AFBC support
-> > on the cluster windows is tested with weston-simple-dmabuf-egl on
-> > weston using the (yet to be upstreamed) panfrost driver support.
-> > 
-> > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> > ---
-> 
-> [..]
-> 
-> > +
-> > +static const struct of_device_id vop2_dt_match[] = {
-> > +	{
-> > +		.compatible = "rockchip,rk3568-vop",
-> > +		.data = &rk3568_vop
-> > +	}, {
-> 
-> > +		.compatible = "rockchip,rk3568-vop",
-> 
-> Maybe use:
-> .compatible = "rockchip,rk3566-vop",
+--2IhQJxqBxhd1xrh2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Copy/Paste bug. Will fix.
+On Thu, Dec 09, 2021 at 07:04:30PM +0300, Dmitry Osipenko wrote:
+> 09.12.2021 18:05, Akhil R =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > Add support for SMBus Alert and SMBus block read functions to
+> > i2c-tegra driver
+> >=20
+> > Akhil R (2):
+> >   dt-bindings: i2c: tegra: Add SMBus feature properties
+> >   i2c: tegra: Add SMBus block read and SMBus alert functions
+> >=20
+> >  .../devicetree/bindings/i2c/nvidia,tegra20-i2c.txt |  4 ++
+> >  drivers/i2c/busses/i2c-tegra.c                     | 54 ++++++++++++++=
++++++++-
+> >  2 files changed, 57 insertions(+), 1 deletion(-)
+> >=20
+>=20
+> How this was tested? This series must include the DT patch. If there is
+> no real user in upstream for this feature, then I don't think that we
+> should bother at all about it.
 
-> 
-> > +		.data = &rk3566_vop
-> > +	}, {
-> > +	},
-> 
-> Maybe sort this list alphabetical based on compatible in case later more
-> SoCs are added.
-> 
-> rk3566
-> rk3568
+This is primarily used by a device that uses ACPI and the driver uses
+the firmware-agnostic APIs to get at this. However, it also means that
+the driver effectively provides this same support for DT via those APIs
+and therefore it makes sense to document that part even if there are no
+current users of the DT bits.
 
-Ok.
+One big advantage of this is that it helps keep the ACPI and DT bindings
+in sync, and document this on the DT side also allows us to document the
+ACPI side of things where no formal documentation exists, as far as I
+know.
 
-> 
-> ===
-> 
-> The structure layout size above could be reduced for if we get more
-> compatible strings additions.
-> 
-> Example vop1:
-> 
-> static const struct of_device_id vop_driver_dt_match[] = {
-> 	{ .compatible = "rockchip,rk3036-vop",
-> 	  .data = &rk3036_vop },
-> 	{ .compatible = "rockchip,rk3126-vop",
-> 	  .data = &rk3126_vop },
-> 	{ .compatible = "rockchip,px30-vop-big",
-> 	  .data = &px30_vop_big },
-> 	{ .compatible = "rockchip,px30-vop-lit",
-> 	  .data = &px30_vop_lit },
-> 	{ .compatible = "rockchip,rk3066-vop",
-> 	  .data = &rk3066_vop },
-> 	{ .compatible = "rockchip,rk3188-vop",
-> 	  .data = &rk3188_vop },
-> 	{ .compatible = "rockchip,rk3288-vop",
-> 	  .data = &rk3288_vop },
-> 	{ .compatible = "rockchip,rk3368-vop",
-> 	  .data = &rk3368_vop },
-> 	{ .compatible = "rockchip,rk3366-vop",
-> 	  .data = &rk3366_vop },
-> 	{ .compatible = "rockchip,rk3399-vop-big",
-> 	  .data = &rk3399_vop_big },
-> 	{ .compatible = "rockchip,rk3399-vop-lit",
-> 	  .data = &rk3399_vop_lit },
-> 	{ .compatible = "rockchip,rk3228-vop",
-> 	  .data = &rk3228_vop },
-> 	{ .compatible = "rockchip,rk3328-vop",
-> 	  .data = &rk3328_vop },
-> 	{},
+Thierry
 
-It's shorter, but ugly ;)
-That's only my personal taste though, I don't care much.
+--2IhQJxqBxhd1xrh2
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Sascha
+-----BEGIN PGP SIGNATURE-----
 
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmGzFjwACgkQ3SOs138+
+s6F8mQ/9Fc5fNDbeJjUOJvaNOnGBiFoOwLTvUU5rJe09sJUQNqqXte8PM4BhTxGm
+rnqsAjSmfY3Hgw9XbdIad4hEj3GAtKavsAdK5oyDcqmCyyIcP2k2DxcPSP+LsOCN
+MnH6Byzm6HeMPX+FunjtCXxuJT1Htsb+Uy5iUkGctqZeW13f60qMSfmyKlcX6uxJ
+b4///ebppLbU9u989KnLx6WDQX9tfppHzCqYR8K9yYH25nidvmr5uu8EHUBYq0s2
+t+CyKM+IXbpCsk6ZS1eIPuKIkKntvl8DHkIiEMUX3Vs45DGWc6oYYF/Wa9GSZn3q
+xBI1B2nUfQCvumi0cyTwjJBSpkSjnBFLon3KAoqs20LygKF6XLjcHJZDtltuLKXB
+XqXCOoR2qoH6JwxdpXgYAr+pXEz1XJeKfQCZ61RDWI34I/nt2SYUxmEJIzFUXhmJ
+VgrugrKVa3yeGz8H6oni8YvQLufMPn+MrInuvAy24ndt0ICnB9f970tZwEngFacp
+YlxjV63f+KvH78B2KWjxtTTzqExZi393GHoxLjahWWx+EYXrYIdh2F+7DDwHN+NI
+6Ac+uWK3ZJZuoLADboTmoc45ShoN0NTkFjIiIGzmzU2cgcxG0D8d33+kT6GBNNPi
+z2ZODA/uePOon1EdVR6lbdAFMTA/8RnKQbK5BtuNEZ+YcRnRFqY=
+=eLpi
+-----END PGP SIGNATURE-----
+
+--2IhQJxqBxhd1xrh2--
