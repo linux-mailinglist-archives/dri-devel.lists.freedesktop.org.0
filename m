@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39366470E9C
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Dec 2021 00:24:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6252D470E9E
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Dec 2021 00:24:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E724110E593;
-	Fri, 10 Dec 2021 23:24:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3108C10E598;
+	Fri, 10 Dec 2021 23:24:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE87710E57F;
- Fri, 10 Dec 2021 23:24:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 459CB10E58E;
+ Fri, 10 Dec 2021 23:24:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1639178652; x=1670714652;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=XiALd5f06n3blk5zwMdSEUYN4OgzR63VH6agsJ1iuzU=;
- b=beVT9UZR74keTL0gB5y/O2Upw4g/bUDwQ4CZo/OmqiXA8dektPanqxvL
- LnZTVDDxlFCPbNmzoaoPvc44/5ncRFMzh1QSMfNGUKhod8nAPTx1yCZlK
- lvmrO6rg3WQoCKP56tcxDvPBeyNwQANAEsXOLsjrI/zl/oGl6QrUqXmFU
- qawU25k3DZoFpWC4g3g7FKVH3nhV3JQAOVeAALExr74MfmCeGEsSCIOrF
- MYYOncOTFvdVycJzusY2dRCpcMlbrunDfQXR6kvGHBrGssi8tFaFveFt7
- nNyVS3ztC52uCDoPBSxhAH9CwG1F0TYCVnOet9oqMpJtJCDUtZvsosxcD Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10194"; a="237212378"
-X-IronPort-AV: E=Sophos;i="5.88,196,1635231600"; d="scan'208";a="237212378"
+ bh=8QsQEKSxoLGHydWZTS5T8WXMzBP5ZWfGvu6Ze1y391U=;
+ b=Ey4W1cFPxfTiPAPSO1axv1Wr/VRxcjsdvzADEfY1UdD4i5Ohpn1DWI/P
+ 3FASgLeStwZlVVMl1rYRxziwL6VjlT7lfbkwJmGO1Z1WVtrfMN3QN0NF4
+ lCukREHp13kGK56v82pLpsm+Hsal+OViuAxJ6fB/miF1YyUyBLLCyZpCN
+ jyymw4nsTc8OhPaYJ6Zk30Sla7oYFB4ARHuhQzesw2h1pvBpXkiDh0tT1
+ G+nC6uNsAKWHohRzUWemDmIIrkMMulOCzy8cKU4ZQnINq5UtoRCUaj2RQ
+ EH6qJ7ZD/ZtFTNtVTewapKbCFDuKlmq+op8WIocsxaVmbRJDnx6sgKb0W w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10194"; a="237212382"
+X-IronPort-AV: E=Sophos;i="5.88,196,1635231600"; d="scan'208";a="237212382"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 Dec 2021 15:24:11 -0800
-X-IronPort-AV: E=Sophos;i="5.88,196,1635231600"; d="scan'208";a="463861465"
+X-IronPort-AV: E=Sophos;i="5.88,196,1635231600"; d="scan'208";a="463861476"
 Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 Dec 2021 15:24:11 -0800
@@ -37,9 +37,9 @@ From: ira.weiny@intel.com
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-Subject: [PATCH 5/7] drm/msm: Alter comment to use kmap_local_page()
-Date: Fri, 10 Dec 2021 15:24:02 -0800
-Message-Id: <20211210232404.4098157-6-ira.weiny@intel.com>
+Subject: [PATCH 6/7] drm/amdgpu: Ensure kunmap is called on error
+Date: Fri, 10 Dec 2021 15:24:03 -0800
+Message-Id: <20211210232404.4098157-7-ira.weiny@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211210232404.4098157-1-ira.weiny@intel.com>
 References: <20211210232404.4098157-1-ira.weiny@intel.com>
@@ -65,31 +65,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ira Weiny <ira.weiny@intel.com>
 
-kmap() is being deprecated.  So this comment could be misleading in the
-future.
+The default case leaves the buffer object mapped in error.
 
-Change this comment to point to using kmap_local_page().  While here
-remove 'we' from the comment.
+Add amdgpu_bo_kunmap() to that case to ensure the mapping is cleaned up.
 
 Signed-off-by: Ira Weiny <ira.weiny@intel.com>
----
- drivers/gpu/drm/msm/msm_gem_submit.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index 282628d6b72c..654ae0d13eaf 100644
---- a/drivers/gpu/drm/msm/msm_gem_submit.c
-+++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -438,8 +438,8 @@ static int submit_reloc(struct msm_gem_submit *submit, struct msm_gem_object *ob
- 		return -EINVAL;
- 	}
+---
+NOTE: It seems like this function could use a fair bit of refactoring
+but this is the easiest way to fix the actual bug.
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+index 6f8de11a17f1..b3ffd0f6b35f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+@@ -889,6 +889,7 @@ static int amdgpu_uvd_cs_msg(struct amdgpu_uvd_cs_ctx *ctx,
+ 		return 0;
  
--	/* For now, just map the entire thing.  Eventually we probably
--	 * to do it page-by-page, w/ kmap() if not vmap()d..
-+	/* For now, just map the entire thing.  Eventually it should probably
-+	 * be done page-by-page, w/ kmap_local_page() if not vmap()d..
- 	 */
- 	ptr = msm_gem_get_vaddr_locked(&obj->base);
+ 	default:
++		amdgpu_bo_kunmap(bo);
+ 		DRM_ERROR("Illegal UVD message type (%d)!\n", msg_type);
+ 	}
  
 -- 
 2.31.1
