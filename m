@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 700CA46FFAA
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 12:17:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CBA346FFAB
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 12:17:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A67610E354;
-	Fri, 10 Dec 2021 11:17:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98C3710E39D;
+	Fri, 10 Dec 2021 11:17:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
- [IPv6:2607:f8b0:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD98D10E354
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 11:17:44 +0000 (UTC)
-Received: by mail-pl1-x631.google.com with SMTP id m24so6045797pls.10
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 03:17:44 -0800 (PST)
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
+ [IPv6:2607:f8b0:4864:20::1031])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 307E810E3AF
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 11:17:49 +0000 (UTC)
+Received: by mail-pj1-x1031.google.com with SMTP id
+ gx15-20020a17090b124f00b001a695f3734aso7295863pjb.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 03:17:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0NNSlBkMytmlUqdX2xwQU1vlLDJZ1w1h/BzLFbdr4yY=;
- b=RqnPQEYavJNPeWxOrBLnyw0D3NtNdnT0SH5VJa58LzdHAfh0382UeHnRRq/6cFZ4NO
- u7dN1MLadLcWpg8UUFfF6NZXi9w8gJoALaumO/1tJjOIAw655giypkgddgi4vMbHwBqp
- wMqfRhjFxlJgndUhPKZ9LpYFUx8jcIvjIH7yw=
+ bh=4LeTyuQUOX40vOSJ+axYvrUW6lyOFj2kxIyIdKNHdkA=;
+ b=cZjFf3cN7NOfae4xxky5BtCKTowofQ3hHy2B+3z1jB2MxPKJ36FFH7qod97uUt20RQ
+ nP0t9uIPy1RFKGNiNoqTGc7k0Lt7EyJqP7Zo6kR0+AqRCmCe1LlnReSr8RQlHiHisO9p
+ 3coiseYvbIY0Bf3Bnu1oAGOA0Ld6Ehfaevl00=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0NNSlBkMytmlUqdX2xwQU1vlLDJZ1w1h/BzLFbdr4yY=;
- b=i0CphbC2qTHFP6SfFNd9YnRyw0BqnWOnOOViqR2OHvER84Vxdmsz97i2gsvMGPLP4i
- 89tSKfREPbMTiaWL/1+tLXFFoqtov3bXxe1hfiYb0EPNXeWdvA3Tkynjvcl85OQu+neE
- W+f2ahMRBwVaaYh4mmVB2++eEz/RHI/kSa3MDuRhSGM2H1osx/DKDNg/XGlmIc1zxht0
- zu/RwAu6c2MpWUFiHS5OE8g/WDP29xaHjJs30OhIf3Oz4tAHF0zX5nS36l0idZfE7tNK
- R8Jud14oveCBpghc2Irz8ZtH0bzN/2vQtgESjjM10FvsFehERtxp8b9DelYcKQpUss2x
- 6QBA==
-X-Gm-Message-State: AOAM531oll1lx5Te2toxMeIZLWWkJ2imwFRle+rNpq/nGLJnIXB1HloU
- ThRZjCrFEaMtzTSYrEXpgjuCgg==
-X-Google-Smtp-Source: ABdhPJy/bmsOZ/tu5QGGP0pWpCMvmCixy399EDtTxuOo97cSowv1bB9e6RCMQlDQr9ybsnIaZ8geQw==
-X-Received: by 2002:a17:902:f092:b0:141:ccb6:897 with SMTP id
- p18-20020a170902f09200b00141ccb60897mr75163980pla.89.1639135064477; 
- Fri, 10 Dec 2021 03:17:44 -0800 (PST)
+ bh=4LeTyuQUOX40vOSJ+axYvrUW6lyOFj2kxIyIdKNHdkA=;
+ b=FsJplHjTPjbhQitLUv1tS7cBkFmFYNoMwdY5UtrgWCGks8Yi+Sq0LkPausF1U4LX4u
+ wY51MOxqcDsHNTLExQCnoP2WEq6Yc2WZCtWs3Jv3FRq5d4yo2dkBP2Z5xGvcZI4Xp1el
+ wun2Drps/yiHI+sBeeDk45igvnE5VwhjEc2idqgkNH47SWLVVPXVwhHVlx6zuxIkcQOU
+ 80lLTI9QeviUdLBLvQZYD16G/KDhOFms54Z2FeXbja/ZpbhFKdTXsUDLvB0/y05exViZ
+ OJZX07dPoKgf511Wqd43pt47w3zqEYKUwHRsftsWiLQPmZFQ2UJw95JFcKayeVPrgNYR
+ Qb0g==
+X-Gm-Message-State: AOAM532m0e/l7834umHPYzp3xwWAoopPvJUN9SCeDW1hrhVCha7rNhr/
+ 97MMJYWlhBF6jQk6YWPgAXINtg==
+X-Google-Smtp-Source: ABdhPJyeY9RTXOJ9FIWAmfqqM2uCC4z2LP/XFVNSnSy+Sp9Hp5PcwZA/MTW9lYtLjKqgOsI22qGRww==
+X-Received: by 2002:a17:902:ab0c:b0:142:343d:4548 with SMTP id
+ ik12-20020a170902ab0c00b00142343d4548mr73742135plb.14.1639135068822; 
+ Fri, 10 Dec 2021 03:17:48 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:c00a:a0a9:c40f:36d4:b45d:731])
  by smtp.gmail.com with ESMTPSA id
- qe12sm13125607pjb.29.2021.12.10.03.17.40
+ qe12sm13125607pjb.29.2021.12.10.03.17.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Dec 2021 03:17:44 -0800 (PST)
+ Fri, 10 Dec 2021 03:17:48 -0800 (PST)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Neil Armstrong <narmstrong@baylibre.com>,
  Robert Foss <robert.foss@linaro.org>, Sam Ravnborg <sam@ravnborg.org>
-Subject: [DO NOT MERGE] [PATCH v6 4/6] ARM: dts: sun8i: bananapi-m2m: Enable
- iS070WV20-CT16 DSI Panel
-Date: Fri, 10 Dec 2021 16:47:09 +0530
-Message-Id: <20211210111711.2072660-5-jagan@amarulasolutions.com>
+Subject: [DO NOT MERGE] [PATCH v6 5/6] ARM: dts: sun8i: bananapi-m2m: Enable
+ ICN6211 DSI Bridge
+Date: Fri, 10 Dec 2021 16:47:10 +0530
+Message-Id: <20211210111711.2072660-6-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211210111711.2072660-1-jagan@amarulasolutions.com>
 References: <20211210111711.2072660-1-jagan@amarulasolutions.com>
@@ -80,17 +81,17 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Bananapi S070WV20-CT16 is a pure RGB output panel with ICN6211
 DSI/RGB convertor bridge.
 
-Enable support for it.
+Enable bridge along with associated panel.
 
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
- .../boot/dts/sun8i-r16-bananapi-m2m-panel.dts | 41 +++++++++++++++++++
- 1 file changed, 41 insertions(+)
+ arch/arm/boot/dts/sun8i-r16-bananapi-m2m.dts | 64 ++++++++++++++++++++
+ 1 file changed, 64 insertions(+)
 
-diff --git a/arch/arm/boot/dts/sun8i-r16-bananapi-m2m-panel.dts b/arch/arm/boot/dts/sun8i-r16-bananapi-m2m-panel.dts
-index bf5b5e2f6168..04392358b492 100644
---- a/arch/arm/boot/dts/sun8i-r16-bananapi-m2m-panel.dts
-+++ b/arch/arm/boot/dts/sun8i-r16-bananapi-m2m-panel.dts
+diff --git a/arch/arm/boot/dts/sun8i-r16-bananapi-m2m.dts b/arch/arm/boot/dts/sun8i-r16-bananapi-m2m.dts
+index bf5b5e2f6168..501666dfb5ee 100644
+--- a/arch/arm/boot/dts/sun8i-r16-bananapi-m2m.dts
++++ b/arch/arm/boot/dts/sun8i-r16-bananapi-m2m.dts
 @@ -44,6 +44,7 @@
  #include "sun8i-a33.dtsi"
  
@@ -121,7 +122,26 @@ index bf5b5e2f6168..04392358b492 100644
  	leds {
  		compatible = "gpio-leds";
  
-@@ -122,6 +132,27 @@ &dai {
+@@ -81,6 +91,18 @@ led-2 {
+ 		};
+ 	};
+ 
++	panel {
++		compatible = "bananapi,s070wv20-ct16";
++		enable-gpios = <&pio 1 7 GPIO_ACTIVE_HIGH>; /* LCD-PWR-EN: PB7 */
++		backlight = <&backlight>;
++
++		port {
++			panel_out_bridge: endpoint {
++				remote-endpoint = <&bridge_out_panel>;
++			};
++		};
++	};
++
+ 	reg_vcc5v0: vcc5v0 {
+ 		compatible = "regulator-fixed";
+ 		regulator-name = "vcc5v0";
+@@ -122,6 +144,38 @@ &dai {
  	status = "okay";
  };
  
@@ -137,19 +157,30 @@ index bf5b5e2f6168..04392358b492 100644
 +	vcc-dsi-supply = <&reg_dcdc1>;		/* VCC-DSI */
 +	status = "okay";
 +
-+	panel@0 {
-+		compatible = "bananapi,s070wv20-ct16-icn6211";
++	bridge@0 {
++		compatible = "chipone,icn6211";
 +		reg = <0>;
-+		reset-gpios = <&r_pio 0 5 GPIO_ACTIVE_HIGH>; /* LCD-RST: PL5 */
-+		enable-gpios = <&pio 1 7 GPIO_ACTIVE_HIGH>; /* LCD-PWR-EN: PB7 */
-+		backlight = <&backlight>;
++		enable-gpios = <&r_pio 0 5 GPIO_ACTIVE_HIGH>; /* LCD-RST: PL5 */
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			bridge_out: port@1 {
++				reg = <1>;
++
++				bridge_out_panel: endpoint {
++					remote-endpoint = <&panel_out_bridge>;
++				};
++			};
++		};
 +	};
 +};
 +
  &ehci0 {
  	status = "okay";
  };
-@@ -157,6 +188,12 @@ &ohci0 {
+@@ -157,6 +211,12 @@ &ohci0 {
  	status = "okay";
  };
  
@@ -162,7 +193,7 @@ index bf5b5e2f6168..04392358b492 100644
  &r_rsb {
  	status = "okay";
  
-@@ -269,6 +306,10 @@ &sound {
+@@ -269,6 +329,10 @@ &sound {
  	status = "okay";
  };
  
