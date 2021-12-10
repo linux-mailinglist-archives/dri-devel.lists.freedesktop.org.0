@@ -2,47 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 883AE470286
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 15:16:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEA864702C0
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 15:25:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6AFC10E3A6;
-	Fri, 10 Dec 2021 14:16:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E49F210E9A6;
+	Fri, 10 Dec 2021 14:25:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
- [IPv6:2607:f8b0:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 127C410E3D9;
- Fri, 10 Dec 2021 14:16:42 +0000 (UTC)
-Received: by mail-ot1-x32a.google.com with SMTP id
- x19-20020a9d7053000000b0055c8b39420bso9773319otj.1; 
- Fri, 10 Dec 2021 06:16:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EOSoarCCbZM7dlcjmgAvZBd2Ge5y+aGOq0kCRiTe4tw=;
- b=lsFSompV1OCJP8n00tqcmPhSB4U7IEQ6pnwkl8mM6i6SPt5ZGXNzqYRzrPCP5ycozH
- Lc3LBns3JreH4ulGaPEkT0EvnFOmNL1PcYb0Qw+uUvtessMSUOo98/sZ/GLwK8Gt54VH
- A1uDTNRyt4uJ9V17abTvznDzwv6cXKkwpOOtBGseHvco62o5nH5qrvscNezxp31rzhLW
- XSI2SOU7HaIxeJs/iVe+prYJRREV0R/BLvqXBg14JIr8UtOAFmNTWCeukrXynVoTExe+
- HWbjByukta9YKjkT+O5Ei/60PnnNLqkikjpNVlrxuUuduCHmGGxBAazDgtSIKxGB9eTR
- oC6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EOSoarCCbZM7dlcjmgAvZBd2Ge5y+aGOq0kCRiTe4tw=;
- b=JM+G0hrkhW2W7/pPm3ne0HeTwZfcR+BngIhoB6J7zKfEvXF1+q66E1S2P8tNEXU+25
- 2+qFTVigoJeEF31oVVS8jsk5vxNW73JwZeQL+RblRItP2a+Xe4J/rDaxc8XycKJg4Z4R
- mXqbm8zi+Ek76Z1EA1zx55TJi9MX0aKcDxddQZfwwn9lB9kyIwY6LVE3WTDi/iUROR0P
- 7EIw5m7inf/L52dABBfLRKfsoqOLFSjBHHXxODwOhIdm+jIy4peH85u7jCm501rSmM9s
- H0ImF0JGKdnFDpbe99DQYDocrDTZmm3Hresjn2N7KElEtUqyQE3LOWTrrPrhnw9tMXPh
- 5yIw==
-X-Gm-Message-State: AOAM5327s8iATk6xurxBUi8d6v9nHFV0v6jnnJt/QF7qpW1vg5GaJT48
- OzS9TvcgYrZ1zPmJAfEGm5M40/Hk18OAX2u1QzFi5pqf
-X-Google-Smtp-Source: ABdhPJzxEixHNY/ukDs1bIqZdHB/bSDP4VRdSeRVaKe8t7pjUL4W1JYcWPxk99li/psv45WFTLJCZZdgC34P0aaSQV4=
-X-Received: by 2002:a05:6830:1bcf:: with SMTP id
- v15mr11608187ota.200.1639145801225; 
- Fri, 10 Dec 2021 06:16:41 -0800 (PST)
-MIME-Version: 1.0
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46AAE10E9A6;
+ Fri, 10 Dec 2021 14:25:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version
+ :Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=KFezokHMMZ7/qP5YwEHN9+x2rpnAI51Dsg5absG2eVQ=; b=g4Mzr6e0UZ+RYapzcQBEkjTVqY
+ i4ZAmpJOVZ6Qd4+vA9NMsWqM8nHLOh1hr1xhrFCUPRSvfC7eUrhADBBzFO4zVU+/V/UX4lUGoh8/m
+ B5yL7Q0VsJJI10PG2OpcpQVC4UOPR2M8YBumlQI8UyboHJ1ZVokbk1OWMydzEH0ZSz9rKQ9ktcywP
+ 4IuvWEe4kI8l6Y21xJoUNAmxI1wewrjcQeDa+F4+dVshtdUyhzhFWdwxqYEzspDKoyfoXpFQJhXH8
+ gsvHSRLM096qS9nSZkYpSAo8rrLB5GAW9jyWaXwcLfSJb+sP1hBj9RtFtZBV68yyVG/AYmmKAYZH/
+ /+vNee6A==;
+Received: from [177.103.99.151] (helo=[192.168.1.60])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1mvgpt-0000xM-DH; Fri, 10 Dec 2021 15:25:21 +0100
+Subject: Re: Reuse framebuffer after a kexec (amdgpu / efifb)
+To: Alex Deucher <alexdeucher@gmail.com>
 References: <62aab616-53cb-ff9f-c5f3-169c547bd1ee@igalia.com>
  <CADnq5_O8x3_8f7GZ=tme55-QW+nqMJ2YoqvROjDPg2YZP2catQ@mail.gmail.com>
  <a1f4d263-b3d2-4ceb-8a89-948c8129500f@igalia.com>
@@ -50,13 +38,17 @@ References: <62aab616-53cb-ff9f-c5f3-169c547bd1ee@igalia.com>
  <eaea0143-a961-b83c-3c6c-4d612cd003bc@igalia.com>
  <6d3c7acf-a23f-3073-56ed-375ccb8cc815@suse.de>
  <99b38881-8c63-de04-50f8-aa4119b52b25@igalia.com>
-In-Reply-To: <99b38881-8c63-de04-50f8-aa4119b52b25@igalia.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 10 Dec 2021 09:16:30 -0500
-Message-ID: <CADnq5_NqPEY6vPSsBQSst5Gsw-VpJ-sp-5DHMeB+EGA2t7KoAQ@mail.gmail.com>
-Subject: Re: Reuse framebuffer after a kexec (amdgpu / efifb)
-To: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
+ <CADnq5_NqPEY6vPSsBQSst5Gsw-VpJ-sp-5DHMeB+EGA2t7KoAQ@mail.gmail.com>
+From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Message-ID: <56dfb915-036b-0584-f0ef-83c786970d6e@igalia.com>
+Date: Fri, 10 Dec 2021 11:25:03 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <CADnq5_NqPEY6vPSsBQSst5Gsw-VpJ-sp-5DHMeB+EGA2t7KoAQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,7 +65,7 @@ Cc: "open list:EFIFB FRAMEBUFFER DRIVER" <linux-fbdev@vger.kernel.org>,
  xinhui pan <Xinhui.Pan@amd.com>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
  Baoquan He <bhe@redhat.com>,
- =?UTF-8?Q?Samuel_Iglesias_Gons=C3=A1lvez?= <siglesias@igalia.com>,
+ =?UTF-8?Q?Samuel_Iglesias_Gons=c3=a1lvez?= <siglesias@igalia.com>,
  kernel@gpiccoli.net, kexec@lists.infradead.org,
  amd-gfx list <amd-gfx@lists.freedesktop.org>, pjones@redhat.com,
  Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -83,24 +75,21 @@ Cc: "open list:EFIFB FRAMEBUFFER DRIVER" <linux-fbdev@vger.kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 10, 2021 at 9:09 AM Guilherme G. Piccoli
-<gpiccoli@igalia.com> wrote:
->
-> Thanks a lot Alex / Gerd and Thomas, very informative stuff! I'm glad
-> there are projects to collect/save the data and reuse after a kdump,
-> this is very useful.
->
-> I'll continue my study on the atombios thing of AMD and QXL, maybe at
-> least we can make it work in qemu, that'd be great (like a small
-> initdriver to reprogram de paravirtual device on kexec boot).
+On 10/12/2021 11:16, Alex Deucher wrote:> [...]
+> Why not just reload the driver after kexec?
+> 
+> Alex
 
-Why not just reload the driver after kexec?
+Because the original issue is the kdump case, and we want a very very
+tiny kernel - also, the crash originally could have been caused by
+amdgpu itself, so if it's a GPU issue, we don't want to mess with that
+in kdump. And I confess I tried modprobe amdgpu after a kdump, no
+success - kdump won't call shutdown handlers, so GPU will be in a
+"rogue" state...
 
-Alex
+My question was about regular kexec because it's much simpler usually,
+we can do whatever we want there. My line of thought was: if I make it
+work in regular kexec with a simple framebuffer, I might be able to get
+it working on kdump heheh
 
 
->
-> Cheers,
->
->
-> Guilherme
