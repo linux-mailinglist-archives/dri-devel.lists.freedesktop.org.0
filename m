@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F191F47070C
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 18:27:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AFAB470714
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 18:27:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A2FF10EC26;
-	Fri, 10 Dec 2021 17:26:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03AE210EC35;
+	Fri, 10 Dec 2021 17:27:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 357FB10E9BD
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 17:26:52 +0000 (UTC)
-X-UUID: 69c60ca8554f4c30a30c518e6f22846e-20211211
-X-UUID: 69c60ca8554f4c30a30c518e6f22846e-20211211
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw02.mediatek.com (envelope-from <flora.fu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 15731223; Sat, 11 Dec 2021 01:26:49 +0800
-Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Sat, 11 Dec 2021 01:26:47 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb01.mediatek.inc
- (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Sat, 11 Dec 2021 01:26:47 +0800
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FA3710EB13
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 17:26:53 +0000 (UTC)
+X-UUID: 5db32c13bbbb4c5eb1707471c550d1a9-20211211
+X-UUID: 5db32c13bbbb4c5eb1707471c550d1a9-20211211
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw01.mediatek.com (envelope-from <flora.fu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 46113754; Sat, 11 Dec 2021 01:26:50 +0800
+Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Sat, 11 Dec 2021 01:26:49 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb02.mediatek.inc
+ (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Sat, 11 Dec 2021 01:26:48 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Sat, 11 Dec 2021 01:26:46 +0800
+ Frontend Transport; Sat, 11 Dec 2021 01:26:47 +0800
 From: Flora Fu <flora.fu@mediatek.com>
 To: Matthias Brugger <matthias.bgg@gmail.com>, Liam Girdwood
  <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Sumit Semwal
  <sumit.semwal@linaro.org>, Yong Wu <yong.wu@mediatek.com>, Pi-Cheng Chen
  <pi-cheng.chen@mediatek.com>
-Subject: [PATCH 09/17] soc: mediatek: apu: Add Apu power driver
-Date: Sat, 11 Dec 2021 01:25:57 +0800
-Message-ID: <20211210172605.30618-10-flora.fu@mediatek.com>
+Subject: [PATCH 10/17] soc: mediatek: apu: Add APU software logger dirver
+Date: Sat, 11 Dec 2021 01:25:58 +0800
+Message-ID: <20211210172605.30618-11-flora.fu@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20211210172605.30618-1-flora.fu@mediatek.com>
 References: <20211210172605.30618-1-flora.fu@mediatek.com>
@@ -60,1510 +61,575 @@ Cc: JB Tsai <jb.tsai@mediatek.com>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add APU power driver to support for subsys clock
-and regulator controller.
-Add MT8192 platform APU power driver's platform data.
+The APU software logger is for debug for remote processor.
+The remote microprocessor's logs will be output to the mapped
+memory and application processor can read logs from the
+dedicated reserved registers
 
 Signed-off-by: Flora Fu <flora.fu@mediatek.com>
 
 ---
- drivers/soc/mediatek/apusys/Kconfig       |  23 +
- drivers/soc/mediatek/apusys/Makefile      |   5 +
- drivers/soc/mediatek/apusys/apu-pwr-dbg.c | 167 ++++++
- drivers/soc/mediatek/apusys/apu-pwr-ipi.c | 377 +++++++++++++
- drivers/soc/mediatek/apusys/apu-pwr.c     | 613 ++++++++++++++++++++++
- drivers/soc/mediatek/apusys/apu-pwr.h     | 260 +++++++++
- 6 files changed, 1445 insertions(+)
- create mode 100644 drivers/soc/mediatek/apusys/apu-pwr-dbg.c
- create mode 100644 drivers/soc/mediatek/apusys/apu-pwr-ipi.c
- create mode 100644 drivers/soc/mediatek/apusys/apu-pwr.c
- create mode 100644 drivers/soc/mediatek/apusys/apu-pwr.h
+ drivers/soc/mediatek/apusys/Makefile        |   2 +
+ drivers/soc/mediatek/apusys/apu-sw-logger.c | 540 ++++++++++++++++++++
+ 2 files changed, 542 insertions(+)
+ create mode 100644 drivers/soc/mediatek/apusys/apu-sw-logger.c
 
-diff --git a/drivers/soc/mediatek/apusys/Kconfig b/drivers/soc/mediatek/apusys/Kconfig
-index 332e323e02ae..1daf73c74c17 100644
---- a/drivers/soc/mediatek/apusys/Kconfig
-+++ b/drivers/soc/mediatek/apusys/Kconfig
-@@ -11,4 +11,27 @@ config MTK_APU_PM
- 	  APU power domain shall be enabled before accessing the
- 	  internal sub modules.
- 
-+config MTK_APU
-+	tristate "MediaTek APUSYS Support"
-+	select REGMAP
-+	select MAILBOX
-+	select MTK_APU_MBOX
-+	select MTK_APU_RPROC
-+	select MTK_SCP
-+	help
-+	  Say yes here to add support for the APU tinysys and enable
-+	  sub modules include apu power and middleware.
-+	  The tinysys firmware is loaded and booted from Kernel side through
-+	  rproc framework. The related sub modules in application processor
-+	  use IPI to communicate with APU tinysys.
-+
-+config MTK_APU_DEBUG
-+	tristate "MediaTek APUSYS debug functions"
-+	depends on MTK_APU
-+	help
-+	  Say yes here to enable debug features in APU.
-+	  The debug configuration will enable kernel driver debug and register a
-+	  logger for retrieving debug logs from remote processor.
-+	  Disable it if you don't need them.
-+
- endif # MTK_APUSYS
 diff --git a/drivers/soc/mediatek/apusys/Makefile b/drivers/soc/mediatek/apusys/Makefile
-index 8821c0f0b7b7..8fff18d63dc1 100644
+index 8fff18d63dc1..6fb69abcf3b9 100644
 --- a/drivers/soc/mediatek/apusys/Makefile
 +++ b/drivers/soc/mediatek/apusys/Makefile
-@@ -1,2 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
- obj-$(CONFIG_MTK_APU_PM) += mtk-apu-pm.o
+@@ -5,3 +5,5 @@ obj-$(CONFIG_MTK_APU) += mtk_apu_pwr.o
+ mtk_apu_pwr-objs += apu-pwr.o
+ mtk_apu_pwr-objs += apu-pwr-ipi.o
+ mtk_apu_pwr-$(CONFIG_MTK_APU_DEBUG) += apu-pwr-dbg.o
 +
-+obj-$(CONFIG_MTK_APU) += mtk_apu_pwr.o
-+mtk_apu_pwr-objs += apu-pwr.o
-+mtk_apu_pwr-objs += apu-pwr-ipi.o
-+mtk_apu_pwr-$(CONFIG_MTK_APU_DEBUG) += apu-pwr-dbg.o
-diff --git a/drivers/soc/mediatek/apusys/apu-pwr-dbg.c b/drivers/soc/mediatek/apusys/apu-pwr-dbg.c
++obj-$(CONFIG_MTK_APU_DEBUG) += apu-sw-logger.o
+diff --git a/drivers/soc/mediatek/apusys/apu-sw-logger.c b/drivers/soc/mediatek/apusys/apu-sw-logger.c
 new file mode 100644
-index 000000000000..ee81271cbb2c
+index 000000000000..98a9748e92a7
 --- /dev/null
-+++ b/drivers/soc/mediatek/apusys/apu-pwr-dbg.c
-@@ -0,0 +1,167 @@
++++ b/drivers/soc/mediatek/apusys/apu-sw-logger.c
+@@ -0,0 +1,540 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Copyright (c) 2021 MediaTek Inc.
 + */
 +
 +#include <linux/debugfs.h>
-+#include <linux/fs.h>
-+#include <linux/io.h>
-+#include <linux/seq_file.h>
-+#include <linux/slab.h>
-+#include <linux/string.h>
-+#include <linux/uaccess.h>
-+
-+#include "apu-pwr.h"
-+
-+#define DEBUG_MAX_ARGS_NUM (5)
-+
-+struct dentry *apu_power_debugfs;
-+
-+static int apu_power_set_parameter(struct apu_power *apupwr,
-+				   enum APU_POWER_PARAM param,
-+				   u32 argc, u32 *args)
-+{
-+	struct device *dev = apupwr->dev;
-+	int ret = 0;
-+
-+	switch (param) {
-+	case POWER_PARAM_FIX_OPP:
-+		if (args[0] == 0) {
-+			apu_update_fixed_opp_by_reg(dev, 0xffffffff);
-+			apu_power_notify_uP_opp_limit(apupwr,
-+						      OPP_LIMIT_FIX_OPP);
-+		}
-+		break;
-+	case POWER_PARAM_DVFS_DEBUG:
-+		if (args[0] >= 0 && args[0] <= 0xffffffff) {
-+			apu_update_fixed_opp_by_reg(dev, args[0]);
-+			apu_power_notify_uP_opp_limit(apupwr,
-+						      OPP_LIMIT_DVFS_DEBUG);
-+		}
-+		break;
-+	case POWER_PARAM_ULOG_LEVEL:
-+		ret = (argc == 1) ? 0 : -EINVAL;
-+		if (ret) {
-+			dev_err(dev,
-+				"invalid argument, expected:1, received:%d\n",
-+				argc);
-+			goto out;
-+		}
-+		apupwr->dbg_option = POWER_PARAM_ULOG_LEVEL;
-+		apupwr->ulog_level = args[0];
-+		apu_power_set_ulog_level(apupwr, args[0]);
-+		break;
-+
-+	default:
-+		dev_err(dev, "unsupport the power parameter:%d\n", param);
-+		break;
-+	}
-+
-+out:
-+	return ret;
-+}
-+
-+static int apu_power_dbg_show(struct seq_file *s, void *unused)
-+{
-+	struct apu_power *apupwr = (struct apu_power *)s->private;
-+	u32 ulog_level = apupwr->ulog_level;
-+	u32 dbg_option = apupwr->dbg_option;
-+
-+	switch (dbg_option) {
-+	case POWER_PARAM_ULOG_LEVEL:
-+		seq_printf(s, "ulog_level = %d\n", ulog_level);
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+static int apu_power_dbg_open(struct inode *inode, struct file *file)
-+{
-+	return single_open(file, apu_power_dbg_show, inode->i_private);
-+}
-+
-+static ssize_t apu_power_dbg_write(struct file *filp,
-+				   const char __user *buffer,
-+				   size_t count, loff_t *f_pos)
-+{
-+	struct apu_power *obj = file_inode(filp)->i_private;
-+	char *tmp, *token, *cursor;
-+	int ret, i;
-+	enum APU_POWER_PARAM param;
-+	unsigned int args[DEBUG_MAX_ARGS_NUM];
-+
-+	tmp = kzalloc(count + 1, GFP_KERNEL);
-+	if (!tmp)
-+		return -ENOMEM;
-+
-+	ret = copy_from_user(tmp, buffer, count);
-+	if (ret) {
-+		dev_err(obj->dev, "copy_from_user failed, ret=%d\n", ret);
-+		goto out;
-+	}
-+
-+	tmp[count] = '\0';
-+	cursor = tmp;
-+
-+	/* parse a command */
-+	token = strsep(&cursor, " ");
-+	if (strcmp(token, "fix_opp") == 0) {
-+		param = POWER_PARAM_FIX_OPP;
-+	} else if (strcmp(token, "dvfs_debug") == 0) {
-+		param = POWER_PARAM_DVFS_DEBUG;
-+	} else if (strcmp(token, "ulog") == 0) {
-+		param = POWER_PARAM_ULOG_LEVEL;
-+	} else {
-+		ret = -EINVAL;
-+		dev_err(obj->dev, "no power param[%s]!\n", token);
-+		goto out;
-+	}
-+
-+	/* parse arguments */
-+	for (i = 0;
-+	     i < DEBUG_MAX_ARGS_NUM && (token = strsep(&cursor, " ")); i++) {
-+		ret = kstrtouint(token, 0, &args[i]);
-+		if (ret) {
-+			dev_err(obj->dev, "fail to parse args[%d]\n", i);
-+			goto out;
-+		}
-+	}
-+
-+	apu_power_set_parameter(obj, param, i, args);
-+	ret = count;
-+out:
-+	kfree(tmp);
-+	return ret;
-+}
-+
-+static const struct file_operations apu_power_dbg_fops = {
-+	.open = apu_power_dbg_open,
-+	.read = seq_read,
-+	.llseek = seq_lseek,
-+	.release = seq_release,
-+	.write = apu_power_dbg_write,
-+};
-+
-+void apu_power_debugfs_init(struct apu_power *apupwr)
-+{
-+	int ret;
-+
-+	apu_power_debugfs = debugfs_create_dir("apu_power",
-+					       apupwr->dbg_root);
-+	ret = IS_ERR_OR_NULL(apu_power_debugfs);
-+	if (ret) {
-+		dev_err(apupwr->dev, "failed to create debug dir.\n");
-+		apu_power_debugfs = NULL;
-+	}
-+
-+	debugfs_create_file("power", (0644),
-+			    apu_power_debugfs, apupwr, &apu_power_dbg_fops);
-+}
-+
-+void apu_power_debugfs_exit(void)
-+{
-+	debugfs_remove_recursive(apu_power_debugfs);
-+}
-diff --git a/drivers/soc/mediatek/apusys/apu-pwr-ipi.c b/drivers/soc/mediatek/apusys/apu-pwr-ipi.c
-new file mode 100644
-index 000000000000..c7bbcd1de73d
---- /dev/null
-+++ b/drivers/soc/mediatek/apusys/apu-pwr-ipi.c
-@@ -0,0 +1,377 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2021 MediaTek Inc.
-+ */
-+
 +#include <linux/delay.h>
-+#include <linux/err.h>
-+#include <linux/io.h>
++#include <linux/dma-mapping.h>
++#include <linux/fs.h>
 +#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/platform_device.h>
-+#include <linux/rpmsg.h>
-+#include <linux/slab.h>
-+#include <linux/workqueue.h>
-+
-+#include "apu-pwr.h"
-+
-+#define APU_TX_MSG_TIMEOUT	1000
-+#define RX_MAGIC0		0xaabb
-+#define RX_MAGIC1		0xccdd
-+
-+#define to_rpmsg_driver(__drv) container_of(__drv, struct rpmsg_driver, drv)
-+#define tx_to_apu_power(__d)	\
-+	container_of(__d, struct apu_power, tx_rpmsg_driver)
-+#define rx_to_apu_power(__d)	\
-+	container_of(__d, struct apu_power, rx_rpmsg_driver)
-+
-+struct apu_power_rpmsg {
-+	struct rpmsg_device *rpdev;
-+	struct rpmsg_endpoint *ept;
-+	struct mutex lock;  /* wait remote msg */
-+	struct completion comp;
-+	int initialized;
-+	struct power_ipi_cmd_reply ipi_rply;
-+};
-+
-+static int apu_power_tx_send(struct apu_power *apupwr,
-+			     struct power_cmd_AP *pcmd,
-+			     u32 *data0, u32 *data1)
-+{
-+	struct rpmsg_device *rpdev = apupwr->tx_rpmsg_device;
-+	struct apu_power_rpmsg *power_rpmsg = dev_get_drvdata(&rpdev->dev);
-+	struct power_ipi_cmd_AP ipi_cmd_send;
-+	struct timespec64 ts64;
-+	unsigned long timeout = msecs_to_jiffies(APU_TX_MSG_TIMEOUT);
-+	u64 timestamp;
-+	int ret = 0;
-+
-+	if (!power_rpmsg || !power_rpmsg->initialized) {
-+		dev_err(&rpdev->dev, "%s: rpmsg not valid\n", __func__);
-+		ret = -EINVAL;
-+		return ret;
-+	}
-+
-+	memset(&ipi_cmd_send, 0, sizeof(struct power_ipi_cmd_AP));
-+	ktime_get_real_ts64(&ts64);
-+	timestamp = ((ts64.tv_sec & 0xFFF) * USEC_PER_SEC) +
-+		    (ts64.tv_nsec / NSEC_PER_USEC);
-+	ipi_cmd_send.cmd_sn = (u32)timestamp;
-+	ipi_cmd_send.pwr_cmd = *pcmd;
-+
-+	/* transport normal raw data */
-+	ipi_cmd_send.data0 = *data0;
-+	ipi_cmd_send.data1 = *data1;
-+
-+	mutex_lock(&power_rpmsg->lock);
-+	reinit_completion(&power_rpmsg->comp);
-+
-+	ret = rpmsg_send(power_rpmsg->ept,
-+			 (void *)&ipi_cmd_send, sizeof(ipi_cmd_send));
-+	if (ret) {
-+		dev_err(&rpdev->dev,
-+			"%s: failed to send msg to remote, ret=%d\n",
-+			__func__, ret);
-+		goto out;
-+	}
-+
-+	ret = wait_for_completion_interruptible_timeout(&power_rpmsg->comp,
-+							timeout);
-+	if (ret <= 0) {
-+		dev_err(&rpdev->dev,
-+			"%s waiting for ack interrupted or timeout, ret=%d\n",
-+			__func__, ret);
-+		goto out;
-+	}
-+
-+out:
-+	mutex_unlock(&power_rpmsg->lock);
-+	return ret;
-+}
-+
-+void apu_power_set_ulog_level(struct apu_power *apupwr,
-+			      int level)
-+{
-+	struct power_cmd_AP pwr_cmd;
-+	u32 data0;
-+	u32 data1;
-+
-+	memset(&pwr_cmd, 0, sizeof(struct power_cmd_AP));
-+	memset(&data0, 0, sizeof(u32));
-+	memset(&data1, 0, sizeof(u32));
-+
-+	pwr_cmd.req_id = CHANGE_LOG_LEVEL;
-+	data0 = level;
-+	apu_power_tx_send(apupwr, &pwr_cmd, &data0, &data1);
-+}
-+
-+void apu_power_notify_uP_opp_limit(struct apu_power *apupwr,
-+				   enum request_id_AP req)
-+{
-+	struct power_cmd_AP pwr_cmd;
-+	u32 data0;
-+	u32 data1;
-+
-+	memset(&pwr_cmd, 0, sizeof(struct power_cmd_AP));
-+	memset(&data0, 0, sizeof(u32));
-+	memset(&data1, 0, sizeof(u32));
-+
-+	pwr_cmd.req_id = req;
-+	switch (pwr_cmd.req_id) {
-+	case OPP_LIMIT_THERM:
-+	case OPP_LIMIT_FIX_OPP:
-+	case OPP_LIMIT_DVFS_DEBUG:
-+		break;
-+	default:
-+		return;
-+	}
-+
-+	apu_power_tx_send(apupwr, &pwr_cmd, &data0, &data1);
-+}
-+
-+static int apu_power_rx_callback(struct rpmsg_device *rpdev, void *data,
-+				 int len, void *priv, u32 src)
-+{
-+	struct apu_power_rpmsg *power_rpmsg = dev_get_drvdata(&rpdev->dev);
-+	struct rpmsg_driver *rpdrv = to_rpmsg_driver(rpdev->dev.driver);
-+	struct apu_power *apupwr = rx_to_apu_power(rpdrv);
-+	int ret = 0;
-+	struct device *dev = &rpdev->dev;
-+	struct power_ipi_cmd_uP *received_data = NULL;
-+	struct power_ipi_cmd_reply reply_data;
-+	static u32 prev_cmd_sn;
-+	u32 cmd_sn;
-+	struct power_cmd_uP pwr_cmd;
-+	u32 data0;
-+	u32 data1;
-+
-+	if (!len) {
-+		dev_warn(dev, "apu power rpmsg received empty cmd");
-+		return -EINVAL;
-+	}
-+
-+	received_data = data;
-+	cmd_sn = received_data->cmd_sn;
-+	pwr_cmd = received_data->pwr_cmd;
-+	data0 = received_data->data0;
-+	data1 = received_data->data1;
-+
-+	if (cmd_sn != prev_cmd_sn)
-+		prev_cmd_sn = cmd_sn;
-+	else
-+		return -EINVAL;
-+
-+	switch (pwr_cmd.req_id) {
-+	case CHANGE_DEV_CLKSRC:
-+		/*
-+		 * received_data.data0 : user
-+		 * received_data.data1 : on
-+		 */
-+		if (data1 == 1)
-+			ret = apu_enable_dev_clksrc(apupwr->dev, data0);
-+		else
-+			apu_disable_dev_clksrc(apupwr->dev, data0);
-+		break;
-+	case CHANGE_DEV_CLOCK:
-+		/*
-+		 * received_data.data0 : target_freq
-+		 * received_data.data1 : volt_domain
-+		 */
-+		ret = apu_set_clk_freq(apupwr->dev, data0, data1);
-+		break;
-+	case CHANGE_SYS_VCORE:
-+		/*
-+		 * received_data.data0 : user
-+		 * received_data.data1 : vcore_opp
-+		 */
-+		ret = apu_config_vcore_volt(apupwr->dev, data1);
-+		break;
-+	default:
-+		dev_err(dev, "invalid request id:%d (cmd_sn:0x%08x)\n",
-+			pwr_cmd.req_id,
-+			cmd_sn);
-+		return -EINVAL;
-+	}
-+
-+	/* prepare reply data to remote */
-+	memset(&reply_data, 0, sizeof(struct power_ipi_cmd_reply));
-+	reply_data.cmd_sn = cmd_sn;
-+	reply_data.data0 = RX_MAGIC0;
-+	reply_data.data1 = RX_MAGIC1;
-+
-+	/* send reply data to remote (no blocking) */
-+	ret = rpmsg_send(power_rpmsg->ept,
-+			 (void *)&reply_data, sizeof(reply_data));
-+	if (ret)
-+		dev_err(dev, "%s: failed to send msg to remote, ret=%d\n",
-+			__func__, ret);
-+
-+	return ret;
-+}
-+
-+static int apu_power_rx_probe(struct rpmsg_device *rpdev)
-+{
-+	struct device *dev = &rpdev->dev;
-+	struct rpmsg_channel_info chinfo = {};
-+	struct rpmsg_endpoint *ept;
-+	struct apu_power_rpmsg *power_rpmsg;
-+	struct rpmsg_driver *rpdrv = to_rpmsg_driver(rpdev->dev.driver);
-+	struct apu_power *apupwr = rx_to_apu_power(rpdrv);
-+
-+	power_rpmsg = devm_kzalloc(dev,
-+				   sizeof(struct apu_power_rpmsg), GFP_KERNEL);
-+	if (!power_rpmsg)
-+		return -ENOMEM;
-+
-+	strscpy(chinfo.name, rpdev->id.name, RPMSG_NAME_SIZE);
-+	chinfo.src = rpdev->src;
-+	chinfo.dst = RPMSG_ADDR_ANY;
-+	ept = rpmsg_create_ept(rpdev, apu_power_rx_callback, NULL, chinfo);
-+	if (!ept) {
-+		dev_err(dev, "failed to create ept\n");
-+		return -ENODEV;
-+	}
-+
-+	init_completion(&power_rpmsg->comp);
-+	mutex_init(&power_rpmsg->lock);
-+	power_rpmsg->ept = ept;
-+	power_rpmsg->rpdev = rpdev;
-+	power_rpmsg->initialized = 1;
-+	memset(&power_rpmsg->ipi_rply, 0x0,
-+	       sizeof(struct power_ipi_cmd_reply));
-+	dev_set_drvdata(dev, power_rpmsg);
-+	apupwr->rx_rpmsg_device = rpdev;
-+
-+	return 0;
-+}
-+
-+static void apu_power_rx_remove(struct rpmsg_device *rpdev)
-+{
-+	struct apu_power_rpmsg *power_rpmsg = dev_get_drvdata(&rpdev->dev);
-+	struct rpmsg_driver *rpdrv = to_rpmsg_driver(rpdev->dev.driver);
-+	struct apu_power *apupwr = rx_to_apu_power(rpdrv);
-+
-+	rpmsg_destroy_ept(power_rpmsg->ept);
-+	apupwr->rx_rpmsg_device = NULL;
-+}
-+
-+static int apu_power_tx_callback(struct rpmsg_device *rpdev, void *data,
-+				 int len, void *priv, u32 src)
-+{
-+	struct device *dev = &rpdev->dev;
-+	struct apu_power_rpmsg *power_rpmsg = dev_get_drvdata(&rpdev->dev);
-+
-+	if (!len) {
-+		dev_err(dev, "apu power rpmsg received empty rply");
-+		complete(&power_rpmsg->comp);
-+		return -EINVAL;
-+	}
-+
-+	memcpy(&power_rpmsg->ipi_rply, data,
-+	       sizeof(struct power_ipi_cmd_reply));
-+	complete(&power_rpmsg->comp);
-+
-+	return 0;
-+}
-+
-+static int apu_power_tx_probe(struct rpmsg_device *rpdev)
-+{
-+	struct device *dev = &rpdev->dev;
-+	struct rpmsg_channel_info chinfo = {};
-+	struct rpmsg_endpoint *ept;
-+	struct apu_power_rpmsg *power_rpmsg;
-+	struct rpmsg_driver *rpdrv = to_rpmsg_driver(rpdev->dev.driver);
-+	struct apu_power *apupwr = tx_to_apu_power(rpdrv);
-+
-+	power_rpmsg = devm_kzalloc(dev,
-+				   sizeof(struct apu_power_rpmsg), GFP_KERNEL);
-+	if (!power_rpmsg)
-+		return -ENOMEM;
-+
-+	strscpy(chinfo.name, rpdev->id.name, RPMSG_NAME_SIZE);
-+	chinfo.src = rpdev->src;
-+	chinfo.dst = RPMSG_ADDR_ANY;
-+	ept = rpmsg_create_ept(rpdev, apu_power_tx_callback, NULL, chinfo);
-+	if (!ept) {
-+		dev_err(dev, "failed to create ept\n");
-+		return -ENODEV;
-+	}
-+
-+	init_completion(&power_rpmsg->comp);
-+	mutex_init(&power_rpmsg->lock);
-+	power_rpmsg->ept = ept;
-+	power_rpmsg->rpdev = rpdev;
-+	power_rpmsg->initialized = 1;
-+	memset(&power_rpmsg->ipi_rply, 0x0,
-+	       sizeof(struct power_ipi_cmd_reply));
-+	dev_set_drvdata(dev, power_rpmsg);
-+	apupwr->tx_rpmsg_device = rpdev;
-+
-+	return 0;
-+}
-+
-+static void apu_power_tx_remove(struct rpmsg_device *rpdev)
-+{
-+	struct apu_power_rpmsg *power_rpmsg = dev_get_drvdata(&rpdev->dev);
-+	struct rpmsg_driver *rpdrv = to_rpmsg_driver(rpdev->dev.driver);
-+	struct apu_power *apupwr = tx_to_apu_power(rpdrv);
-+
-+	rpmsg_destroy_ept(power_rpmsg->ept);
-+	apupwr->tx_rpmsg_device = NULL;
-+}
-+
-+static const struct of_device_id apupwr_tx_rpmsg_of_match[] = {
-+	{ .compatible = "mediatek,apupwr-tx-rpmsg"},
-+	{},
-+};
-+
-+static const struct of_device_id apupwr_rx_rpmsg_of_match[] = {
-+	{ .compatible = "mediatek,apupwr-rx-rpmsg"},
-+	{},
-+};
-+
-+static struct rpmsg_driver pwr_tx_rpmsg_drv = {
-+	.drv = {
-+		.name = "apupwr-tx-rpmsg",
-+		.owner = THIS_MODULE,
-+		.of_match_table = apupwr_tx_rpmsg_of_match,
-+	},
-+	.probe = apu_power_tx_probe,
-+	.remove = apu_power_tx_remove,
-+};
-+
-+static struct rpmsg_driver pwr_rx_rpmsg_drv = {
-+	.drv = {
-+		.name = "apupwr-rx-rpmsg",
-+		.owner = THIS_MODULE,
-+		.of_match_table = apupwr_rx_rpmsg_of_match,
-+	},
-+	.probe = apu_power_rx_probe,
-+	.remove = apu_power_rx_remove,
-+};
-+
-+int apu_power_ipi_init(struct apu_power *apupwr)
-+{
-+	int ret = 0;
-+
-+	apupwr->tx_rpmsg_driver = pwr_tx_rpmsg_drv;
-+	ret = register_rpmsg_driver(&apupwr->tx_rpmsg_driver);
-+	if (ret)
-+		return ret;
-+
-+	apupwr->rx_rpmsg_driver = pwr_rx_rpmsg_drv;
-+	ret = register_rpmsg_driver(&apupwr->rx_rpmsg_driver);
-+	if (ret)
-+		goto err;
-+
-+	return 0;
-+err:
-+	unregister_rpmsg_driver(&apupwr->tx_rpmsg_driver);
-+	return ret;
-+}
-+
-+void apu_power_ipi_exit(struct apu_power *apupwr)
-+{
-+	unregister_rpmsg_driver(&apupwr->tx_rpmsg_driver);
-+	unregister_rpmsg_driver(&apupwr->rx_rpmsg_driver);
-+}
-diff --git a/drivers/soc/mediatek/apusys/apu-pwr.c b/drivers/soc/mediatek/apusys/apu-pwr.c
-new file mode 100644
-index 000000000000..e8e54a767aff
---- /dev/null
-+++ b/drivers/soc/mediatek/apusys/apu-pwr.c
-@@ -0,0 +1,613 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2021 MediaTek Inc.
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/err.h>
-+#include <linux/init.h>
-+#include <linux/io.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/of.h>
 +#include <linux/of_platform.h>
 +#include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/regulator/consumer.h>
++#include <linux/remoteproc/mtk-apu-config.h>
++#include <linux/sched/signal.h>
++#include <linux/seq_file.h>
 +#include <linux/slab.h>
++#include <linux/spinlock.h>
++#include <linux/timer.h>
 +
-+#include "apu-pwr.h"
++#define APUSYS_LOGGER_DIR "apu_logger"
 +
-+static const char *mt8192_apu_clks[CLK_NUM] = {
-+	[CLK_TOP_DSP_SEL] = "clk_top_dsp_sel",
-+	[CLK_TOP_DSP1_SEL] = "clk_top_dsp1_sel",
-+	[CLK_TOP_DSP1_NPUPLL_SEL] = "clk_top_dsp1_npupll_sel",
-+	[CLK_TOP_DSP2_SEL] = "clk_top_dsp2_sel",
-+	[CLK_TOP_DSP2_NPUPLL_SEL] = "clk_top_dsp2_npupll_sel",
-+	[CLK_TOP_DSP5_SEL] = "clk_top_dsp5_sel",
-+	[CLK_TOP_DSP5_APUPLL_SEL] = "clk_top_dsp5_apupll_sel",
-+	[CLK_TOP_IPU_IF_SEL] = "clk_top_ipu_if_sel",
-+	[CLK_CLK26M] = "clk_top_clk26m",
-+	[CLK_TOP_MAINPLL_D4_D2] = "clk_top_mainpll_d4_d2",
-+	[CLK_TOP_UNIVPLL_D4_D2] = "clk_top_univpll_d4_d2",
-+	[CLK_TOP_UNIVPLL_D6_D2] = "clk_top_univpll_d6_d2",
-+	[CLK_TOP_MMPLL_D6] = "clk_top_mmpll_d6",
-+	[CLK_TOP_MMPLL_D5] = "clk_top_mmpll_d5",
-+	[CLK_TOP_MMPLL_D4] = "clk_top_mmpll_d4",
-+	[CLK_TOP_UNIVPLL_D5] = "clk_top_univpll_d5",
-+	[CLK_TOP_UNIVPLL_D4] = "clk_top_univpll_d4",
-+	[CLK_TOP_UNIVPLL_D3] = "clk_top_univpll_d3",
-+	[CLK_TOP_MAINPLL_D6] = "clk_top_mainpll_d6",
-+	[CLK_TOP_MAINPLL_D4] = "clk_top_mainpll_d4",
-+	[CLK_TOP_MAINPLL_D3] = "clk_top_mainpll_d3",
-+	[CLK_TOP_TVDPLL] = "clk_top_tvdpll_ck",
-+	[CLK_TOP_APUPLL] = "clk_top_apupll_ck",
-+	[CLK_TOP_NPUPLL] = "clk_top_npupll_ck",
-+	[CLK_APMIXED_APUPLL] = "clk_apmixed_apupll_rate",
-+	[CLK_APMIXED_NPUPLL] = "clk_apmixed_npupll_rate",
++#define LOG_LINE_MAX_LENS SZ_128
++#define APU_LOG_SIZE SZ_1M
++#define APU_LOG_BUF_SIZE SZ_1M
++
++#define LOG_W_PTR 0x0
++#define LOG_R_PTR 0x4
++#define LOG_OV_FLG 0xC
++
++struct sw_logger_seq_data {
++	u32 w_ptr;
++	u32 r_ptr;
++	u32 overflow_flg;
++	int i;
++	int is_finished;
++	char *data;
++	bool startl_first;
 +};
 +
-+static void apu_power_reg_init(struct device *dev)
++struct apu_sw_logger {
++	struct device *dev;
++	struct dentry *dbg_root;
++	dma_addr_t handle;
++	char *sw_log_buf;
++	void __iomem *apu_slog;
++	spinlock_t logger_spinlock; /* logger status update lock */
++	struct sw_logger_seq_data pseqdata_lock;
++	struct sw_logger_seq_data *pseqdata;
++};
++
++static struct dentry *log_root;
++static struct dentry *log_seqlog;
++static struct dentry *log_seqlogl;
++static struct device *sw_logger_dev;
++
++static void sw_logger_buf_invalidate(struct apu_sw_logger *logger)
 +{
-+	struct apu_power *apupwr = dev_get_drvdata(dev);
-+	const struct apupwr_plat_reg *plat_regs;
-+	void __iomem *spare_base;
-+
-+	spare_base = apupwr->spare_base;
-+	plat_regs = apupwr->plat_data->plat_regs;
-+
-+	writel(0xffffffff, spare_base + plat_regs->opp_user);
-+	writel(0xffffffff, spare_base + plat_regs->opp_curr);
-+	writel(0xffffffff, spare_base + plat_regs->opp_thermal);
++	dma_sync_single_for_cpu(logger->dev, logger->handle, APU_LOG_SIZE,
++				DMA_FROM_DEVICE);
 +}
 +
-+static int apu_power_regulator_init(struct device *dev)
++static int sw_logger_buf_alloc(struct device *dev)
 +{
-+	struct apu_power *apupwr = dev_get_drvdata(dev);
++	struct apu_sw_logger *logger = dev_get_drvdata(dev);
 +	int ret;
 +
-+	apupwr->vvpu_reg_id = devm_regulator_get_optional(dev, "vvpu");
-+	if (IS_ERR(apupwr->vvpu_reg_id)) {
-+		ret = PTR_ERR(apupwr->vvpu_reg_id);
-+		if (ret != -EPROBE_DEFER)
-+			dev_err(dev, "Failed to get vvpu regulator");
-+
-+		return ret;
-+	}
-+
-+	apupwr->vmdla_reg_id = devm_regulator_get_optional(dev, "vmdla");
-+	if (IS_ERR(apupwr->vmdla_reg_id)) {
-+		ret = PTR_ERR(apupwr->vmdla_reg_id);
-+		if (ret != -EPROBE_DEFER)
-+			dev_err(dev, "Failed to get vmdla regulator");
-+
-+		return ret;
-+	}
-+
-+	ret = regulator_enable(apupwr->vvpu_reg_id);
++	ret = dma_set_coherent_mask(logger->dev, DMA_BIT_MASK(64));
 +	if (ret)
 +		return ret;
 +
-+	ret = regulator_enable(apupwr->vmdla_reg_id);
-+	if (ret)
-+		return ret;
-+
-+	return ret;
-+}
-+
-+static void apu_power_regulator_exit(struct device *dev)
-+{
-+	struct apu_power *apupwr = dev_get_drvdata(dev);
-+
-+	if (apupwr->vvpu_reg_id) {
-+		if (regulator_disable(apupwr->vvpu_reg_id))
-+			dev_err(apupwr->dev, "disable vvpu fail\n");
-+	}
-+
-+	if (apupwr->vmdla_reg_id) {
-+		if (regulator_disable(apupwr->vmdla_reg_id))
-+			dev_err(apupwr->dev, "disable mdla fail\n");
-+	}
-+}
-+
-+static int mt8192_apu_clock_init(struct device *dev)
-+{
-+	struct apu_power *apupwr = dev_get_drvdata(dev);
-+	int i = 0;
-+
-+	apupwr->clk = devm_kcalloc(dev, CLK_NUM,
-+				   sizeof(*apupwr->clk), GFP_KERNEL);
-+	if (!apupwr->clk)
++	logger->sw_log_buf = kzalloc(APU_LOG_SIZE, GFP_KERNEL);
++	if (!logger->sw_log_buf)
 +		return -ENOMEM;
 +
-+	for (i = 0; i < CLK_NUM; i++) {
-+		apupwr->clk[i] = devm_clk_get(dev, mt8192_apu_clks[i]);
-+		if (IS_ERR(apupwr->clk[i])) {
-+			dev_warn(dev, "%s devm_clk_get %s fail\n",
-+				 __func__,
-+				 mt8192_apu_clks[i]);
-+			apupwr->clk[i] = NULL;
++	logger->handle = dma_map_single(logger->dev, logger->sw_log_buf,
++					APU_LOG_SIZE, DMA_FROM_DEVICE);
++	if (dma_mapping_error(logger->dev, logger->handle) != 0) {
++		kfree(logger->sw_log_buf);
++		logger->sw_log_buf = NULL;
++		return -EFAULT;
++	}
++
++	return 0;
++}
++
++int sw_logger_config_init(struct config_v1 *conf)
++{
++	int ret;
++	unsigned long flags;
++	struct logger_init_info *st_logger_init_info;
++	struct apu_sw_logger *logger;
++
++	if (!conf)
++		return -EINVAL;
++
++	if (!sw_logger_dev) {
++		pr_debug("%s: logger NA and skip logger\n",
++			 __func__);
++		return 0;
++	}
++
++	logger = dev_get_drvdata(sw_logger_dev);
++	if (!logger->sw_log_buf) {
++		ret = sw_logger_buf_alloc(logger->dev);
++		if (ret) {
++			dev_err(logger->dev, "%s: sw_logger_buf_alloc fail\n",
++				__func__);
++			return ret;
 +		}
 +	}
 +
-+	return 0;
-+}
++	spin_lock_irqsave(&logger->logger_spinlock, flags);
++	iowrite32(0, logger->apu_slog + LOG_W_PTR);
++	iowrite32(0, logger->apu_slog + LOG_R_PTR);
++	iowrite32(0, logger->apu_slog + LOG_OV_FLG);
++	spin_unlock_irqrestore(&logger->logger_spinlock, flags);
 +
-+static int mt8192_enable_vpu_clksrc(struct apu_power *apupwr)
-+{
-+	int ret;
++	st_logger_init_info = (struct logger_init_info *)
++		get_apu_config_user_ptr(conf, LOGGER_INIT_INFO);
 +
-+	ret = clk_prepare_enable(apupwr->clk[CLK_TOP_DSP1_SEL]);
-+	if (ret)
-+		goto dsp1_sel_err;
-+
-+	ret = clk_prepare_enable(apupwr->clk[CLK_TOP_DSP2_SEL]);
-+	if (ret)
-+		goto dsp2_sel_err;
-+
-+	ret = clk_prepare_enable(apupwr->clk[CLK_TOP_NPUPLL]);
-+	if (ret)
-+		goto npupll_sel_err;
-+
-+	ret = clk_prepare_enable(apupwr->clk[CLK_TOP_DSP1_NPUPLL_SEL]);
-+	if (ret)
-+		goto dsp1_npupll_sel_err;
-+
-+	ret = clk_prepare_enable(apupwr->clk[CLK_TOP_DSP2_NPUPLL_SEL]);
-+	if (ret)
-+		goto dsp2_npupll_sel_err;
++	st_logger_init_info->iova = logger->handle;
 +
 +	return 0;
-+
-+dsp2_npupll_sel_err:
-+	clk_disable_unprepare(apupwr->clk[CLK_TOP_DSP1_NPUPLL_SEL]);
-+dsp1_npupll_sel_err:
-+	clk_disable_unprepare(apupwr->clk[CLK_TOP_NPUPLL]);
-+npupll_sel_err:
-+	clk_disable_unprepare(apupwr->clk[CLK_TOP_DSP2_SEL]);
-+dsp2_sel_err:
-+	clk_disable_unprepare(apupwr->clk[CLK_TOP_DSP1_SEL]);
-+dsp1_sel_err:
-+	dev_err(apupwr->dev, "failed to enable vpu clk src\n");
-+	return ret;
 +}
++EXPORT_SYMBOL(sw_logger_config_init);
 +
-+static int mt8192_enable_mdla_clksrc(struct apu_power *apupwr)
++void sw_logger_config_remove(void)
 +{
-+	int ret;
++	struct apu_sw_logger *logger = dev_get_drvdata(sw_logger_dev);
 +
-+	ret = clk_prepare_enable(apupwr->clk[CLK_TOP_DSP5_SEL]);
-+	if (ret)
-+		goto dsp5_sel_err;
-+
-+	ret = clk_prepare_enable(apupwr->clk[CLK_TOP_APUPLL]);
-+	if (ret)
-+		goto apupll_err;
-+
-+	ret = clk_prepare_enable(apupwr->clk[CLK_TOP_DSP5_APUPLL_SEL]);
-+	if (ret)
-+		goto dsp5_apupll_sel_err;
-+
-+	return 0;
-+
-+dsp5_apupll_sel_err:
-+	clk_disable_unprepare(apupwr->clk[CLK_TOP_APUPLL]);
-+apupll_err:
-+	clk_disable_unprepare(apupwr->clk[CLK_TOP_DSP5_APUPLL_SEL]);
-+dsp5_sel_err:
-+	dev_err(apupwr->dev, "failed to enable mdla clk src\n");
-+	return ret;
++	if (logger->handle)
++		dma_unmap_single(logger->dev, logger->handle,
++				 APU_LOG_SIZE, DMA_FROM_DEVICE);
++	kfree(logger->sw_log_buf);
++	logger->sw_log_buf = NULL;
 +}
++EXPORT_SYMBOL(sw_logger_config_remove);
 +
-+static int mt8192_apu_enable_dev_clksrc(struct device *dev, enum DVFS_USER user)
++/*
++ * seq_start() takes a position as an argument and returns an iterator which
++ * will start reading at that position.
++ * start->show->next->show...->next->show->next->stop->start->stop
++ */
++static void *seq_start(struct seq_file *s, loff_t *pos)
 +{
-+	struct apu_power *apupwr = dev_get_drvdata(dev);
-+	int ret = 0;
++	struct apu_sw_logger *logger = (struct apu_sw_logger *)s->private;
++	u32 w_ptr, r_ptr, overflow_flg;
++	unsigned long flags;
 +
-+	switch (user) {
-+	case VPU0:
-+	case VPU1:
-+		ret = mt8192_enable_vpu_clksrc(apupwr);
-+		break;
-+	case MDLA0:
-+		ret = mt8192_enable_mdla_clksrc(apupwr);
-+		break;
-+	default:
-+		dev_err(dev, "%s illegal DVFS_USER: %d\n", __func__, user);
-+		ret = -EINVAL;
-+	}
-+
-+	return ret;
-+}
-+
-+static void mt8192_apu_disable_dev_clksrc(struct device *dev,
-+					  enum DVFS_USER user)
-+{
-+	struct apu_power *apupwr = dev_get_drvdata(dev);
-+
-+	switch (user) {
-+	case VPU0:
-+	case VPU1:
-+		clk_disable_unprepare(apupwr->clk[CLK_TOP_DSP2_NPUPLL_SEL]);
-+		clk_disable_unprepare(apupwr->clk[CLK_TOP_DSP1_NPUPLL_SEL]);
-+		clk_disable_unprepare(apupwr->clk[CLK_TOP_NPUPLL]);
-+		clk_disable_unprepare(apupwr->clk[CLK_TOP_DSP2_SEL]);
-+		clk_disable_unprepare(apupwr->clk[CLK_TOP_DSP1_SEL]);
-+		break;
-+	case MDLA0:
-+		clk_disable_unprepare(apupwr->clk[CLK_TOP_DSP5_APUPLL_SEL]);
-+		clk_disable_unprepare(apupwr->clk[CLK_TOP_APUPLL]);
-+		clk_disable_unprepare(apupwr->clk[CLK_TOP_DSP5_SEL]);
-+		break;
-+	default:
-+		dev_err(dev, "%s illegal DVFS_USER: %d\n", __func__, user);
-+	}
-+}
-+
-+static struct clk *find_clk_by_domain(struct device *dev,
-+				      enum DVFS_VOLTAGE_DOMAIN domain)
-+{
-+	struct apu_power *apupwr = dev_get_drvdata(dev);
-+
-+	switch (domain) {
-+	case V_APU_CONN:
-+		return apupwr->clk[CLK_TOP_DSP_SEL];
-+
-+	case V_VPU0:
-+		return apupwr->clk[CLK_TOP_DSP1_SEL];
-+
-+	case V_VPU1:
-+		return apupwr->clk[CLK_TOP_DSP2_SEL];
-+
-+	case V_MDLA0:
-+		return apupwr->clk[CLK_TOP_DSP5_SEL];
-+
-+	case V_VCORE:
-+		return apupwr->clk[CLK_TOP_IPU_IF_SEL];
-+
-+	default:
-+		dev_err(dev, "%s fail to find clk !\n", __func__);
++	if (!logger->sw_log_buf) {
++		pr_err("%s: sw_log_buf == NULL\n", __func__);
 +		return NULL;
 +	}
-+}
 +
-+static int mt8192_apu_set_clk_freq(struct device *dev,
-+				   enum DVFS_FREQ freq,
-+				   enum DVFS_VOLTAGE_DOMAIN domain)
-+{
-+	struct apu_power *apupwr = dev_get_drvdata(dev);
-+	int ret = 0;
-+	struct clk *clk_src = NULL;
-+	struct clk *clk_target = NULL;
++	spin_lock_irqsave(&logger->logger_spinlock, flags);
++	w_ptr = ioread32(logger->apu_slog + LOG_W_PTR);
++	r_ptr = ioread32(logger->apu_slog + LOG_R_PTR);
++	overflow_flg = ioread32(logger->apu_slog + LOG_OV_FLG);
++	spin_unlock_irqrestore(&logger->logger_spinlock, flags);
 +
-+	switch (freq) {
-+	case DVFS_FREQ_00_026000_F:
-+		clk_src = apupwr->clk[CLK_CLK26M];
-+		break;
++	sw_logger_buf_invalidate(logger);
 +
-+	case DVFS_FREQ_00_208000_F:
-+		clk_src = apupwr->clk[CLK_TOP_UNIVPLL_D6_D2];
-+		break;
++	if (w_ptr == r_ptr && overflow_flg == 0)
++		return NULL;
 +
-+	case DVFS_FREQ_00_273000_F:
-+		clk_src = apupwr->clk[CLK_TOP_MAINPLL_D4_D2];
-+		break;
++	if (!logger->pseqdata) {
++		logger->pseqdata = kzalloc(sizeof(*logger->pseqdata),
++					   GFP_KERNEL);
++		if (logger->pseqdata) {
++			logger->pseqdata->w_ptr = w_ptr;
++			logger->pseqdata->r_ptr = r_ptr;
++			logger->pseqdata->overflow_flg = overflow_flg;
++			if (overflow_flg == 0)
++				logger->pseqdata->i = r_ptr;
++			else
++				logger->pseqdata->i = w_ptr;
 +
-+	case DVFS_FREQ_00_312000_F:
-+		clk_src = apupwr->clk[CLK_TOP_UNIVPLL_D4_D2];
-+		break;
-+
-+	case DVFS_FREQ_00_499200_F:
-+		clk_src = apupwr->clk[CLK_TOP_UNIVPLL_D5];
-+		break;
-+
-+	case DVFS_FREQ_00_546000_F:
-+		clk_src = apupwr->clk[CLK_TOP_MAINPLL_D4];
-+		break;
-+
-+	case DVFS_FREQ_00_624000_F:
-+		clk_src = apupwr->clk[CLK_TOP_UNIVPLL_D4];
-+		break;
-+
-+	case DVFS_FREQ_00_687500_F:
-+		clk_src = apupwr->clk[CLK_TOP_MMPLL_D4];
-+		break;
-+
-+	case DVFS_FREQ_00_728000_F:
-+		clk_src = apupwr->clk[CLK_TOP_MAINPLL_D3];
-+		break;
-+
-+	case DVFS_FREQ_00_832000_F:
-+		clk_src = apupwr->clk[CLK_TOP_UNIVPLL_D3];
-+		break;
-+
-+	case DVFS_FREQ_NOT_SUPPORT:
-+	default:
-+		clk_src = apupwr->clk[CLK_CLK26M];
-+		dev_warn(dev, "%s wrong freq : %d, force assign 26M\n",
-+			 __func__, freq);
-+	}
-+
-+	clk_target = find_clk_by_domain(dev, domain);
-+	if (clk_target) {
-+		ret = clk_set_parent(clk_target, clk_src);
-+		if (ret) {
-+			dev_err(dev, "%s fail p1 fail\n", __func__);
-+			return ret;
-+		}
-+		switch (domain) {
-+		case V_VPU0:
-+			clk_target = apupwr->clk[CLK_TOP_DSP1_NPUPLL_SEL];
-+			clk_src = apupwr->clk[CLK_TOP_DSP1_SEL];
-+			break;
-+
-+		case V_VPU1:
-+			clk_target = apupwr->clk[CLK_TOP_DSP2_NPUPLL_SEL];
-+			clk_src = apupwr->clk[CLK_TOP_DSP2_SEL];
-+			break;
-+
-+		case V_MDLA0:
-+			clk_target = apupwr->clk[CLK_TOP_DSP5_APUPLL_SEL];
-+			clk_src = apupwr->clk[CLK_TOP_DSP5_SEL];
-+			break;
-+
-+		default:
-+			break;
-+		}
-+		ret = clk_set_parent(clk_target, clk_src);
-+		if (ret) {
-+			dev_err(dev, "%s fail p2 fail\n", __func__);
-+			return ret;
++			logger->pseqdata->is_finished = 0;
 +		}
 +	}
 +
-+	return ret;
++	return logger->pseqdata;
 +}
 +
-+static int apu_clock_init(struct device *dev)
++/*
++ * seq_start() takes a position as an argument and returns an iterator which
++ * will start reading at that position.
++ */
++static void *seq_startl(struct seq_file *s, loff_t *pos)
 +{
-+	struct apu_power *apupwr = dev_get_drvdata(dev);
-+	int ret = 0;
++	struct apu_sw_logger *logger = s->private;
++	u32 w_ptr, r_ptr, overflow_flg;
++	struct sw_logger_seq_data *pseqdata_lock = &logger->pseqdata_lock;
++	unsigned long flags;
 +
-+	if (!apupwr->plat_data->ops)
++	if (!logger->sw_log_buf)
++		return NULL;
++
++	spin_lock_irqsave(&logger->logger_spinlock, flags);
++	w_ptr = ioread32(logger->apu_slog + LOG_W_PTR);
++	r_ptr = ioread32(logger->apu_slog + LOG_R_PTR);
++	overflow_flg = ioread32(logger->apu_slog + LOG_OV_FLG);
++	spin_unlock_irqrestore(&logger->logger_spinlock, flags);
++
++	sw_logger_buf_invalidate(logger);
++
++	/* for ctrl-c to force exit the loop */
++	while (!signal_pending(current) && w_ptr == r_ptr) {
++		usleep_range(10000, 12000);
++
++		spin_lock_irqsave(&logger->logger_spinlock, flags);
++		w_ptr = ioread32(logger->apu_slog + LOG_W_PTR);
++		r_ptr = ioread32(logger->apu_slog + LOG_R_PTR);
++		overflow_flg = ioread32(logger->apu_slog + LOG_OV_FLG);
++		spin_unlock_irqrestore(&logger->logger_spinlock, flags);
++
++		sw_logger_buf_invalidate(logger);
++
++		pseqdata_lock->w_ptr = w_ptr;
++		pseqdata_lock->r_ptr = r_ptr;
++		pseqdata_lock->overflow_flg = overflow_flg;
++		pseqdata_lock->i = r_ptr;
++	}
++
++	if (pseqdata_lock->startl_first ||
++	    pseqdata_lock->i == pseqdata_lock->w_ptr) {
++		pseqdata_lock->startl_first = false;
++		pseqdata_lock->w_ptr = w_ptr;
++		pseqdata_lock->r_ptr = r_ptr;
++		pseqdata_lock->overflow_flg = overflow_flg;
++		pseqdata_lock->i = r_ptr;
++	}
++
++	if (signal_pending(current))
++		pseqdata_lock->startl_first = true;
++
++	return pseqdata_lock;
++}
++
++/*
++ * move the iterator forward to the next position in the sequence
++ */
++static void *seq_next(struct seq_file *s, void *v, loff_t *pos)
++{
++	struct sw_logger_seq_data *psdata = v;
++
++	if (!psdata) {
++		pr_err("%s: psdata == NULL\n", __func__);
++		return NULL;
++	}
++
++	psdata->i = (psdata->i + LOG_LINE_MAX_LENS) % APU_LOG_SIZE;
++
++	/* prevent kernel warning */
++	*pos = psdata->i;
++
++	if (psdata->i != psdata->w_ptr)
++		return v;
++
++	psdata->is_finished = 1;
++	return NULL;
++}
++
++/*
++ * move the iterator forward to the next position in the sequence
++ */
++static void *seq_next_lock(struct seq_file *s, void *v, loff_t *pos)
++{
++	struct apu_sw_logger *logger = s->private;
++	struct sw_logger_seq_data *psdata = v;
++
++	if (!psdata) {
++		pr_err("%s: psdata == NULL\n", __func__);
++		return NULL;
++	}
++
++	psdata->i = (psdata->i + LOG_LINE_MAX_LENS) % APU_LOG_SIZE;
++
++	/* prevent kernel warning */
++	*pos = psdata->i;
++
++	if (psdata->i != psdata->w_ptr)
++		return v;
++
++	iowrite32(psdata->i, logger->apu_slog + LOG_R_PTR);
++	return NULL;
++}
++
++/*
++ * stop() is called when iteration is complete (clean up)
++ */
++static void seq_stop(struct seq_file *s, void *v)
++{
++	struct apu_sw_logger *logger = (struct apu_sw_logger *)s->private;
++	unsigned long flags;
++
++	if (logger->pseqdata) {
++		if (logger->pseqdata->is_finished == 1) {
++			spin_lock_irqsave(&logger->logger_spinlock, flags);
++			iowrite32(logger->pseqdata->i,
++				  logger->apu_slog + LOG_R_PTR);
++			/* fixme: assume next overflow won't happen
++			 * until next seq_start
++			 */
++			iowrite32(0, logger->apu_slog + LOG_OV_FLG);
++			spin_unlock_irqrestore(&logger->logger_spinlock, flags);
++			kfree(logger->pseqdata);
++			logger->pseqdata = NULL;
++		}
++	}
++}
++
++/*
++ * stop() is called when iteration is complete (clean up)
++ */
++static void seq_stopl(struct seq_file *s, void *v)
++{
++}
++
++/*
++ * success return 0, otherwise return error code
++ */
++static int seq_show(struct seq_file *s, void *v)
++{
++	struct apu_sw_logger *logger = (struct apu_sw_logger *)s->private;
++	struct sw_logger_seq_data *psdata = v;
++
++	seq_printf(s, "%s", logger->sw_log_buf + psdata->i);
++
++	return 0;
++}
++
++static int seq_showl(struct seq_file *s, void *v)
++{
++	struct apu_sw_logger *logger = (struct apu_sw_logger *)s->private;
++	struct sw_logger_seq_data *psdata = v;
++
++	if (psdata->i != psdata->w_ptr)
++		seq_printf(s, "%s", logger->sw_log_buf + psdata->i);
++
++	return 0;
++}
++
++static const struct seq_operations seq_ops = {
++	.start = seq_start,
++	.next  = seq_next,
++	.stop  = seq_stop,
++	.show  = seq_show
++};
++
++static const struct seq_operations seq_ops_lock = {
++	.start = seq_startl,
++	.next  = seq_next_lock,
++	.stop  = seq_stopl,
++	.show  = seq_showl
++};
++
++static int debug_sqopen_lock(struct inode *inode, struct file *file)
++{
++	struct apu_sw_logger *logger = inode->i_private;
++	int ret;
++
++	ret = seq_open(file, &seq_ops_lock);
++	if (ret)
 +		return ret;
 +
-+	if (apupwr->plat_data->ops->clock_init)
-+		ret = apupwr->plat_data->ops->clock_init(dev);
++	((struct seq_file *)file->private_data)->private = logger;
 +
-+	return ret;
++	return 0;
 +}
 +
-+int apu_enable_dev_clksrc(struct device *dev, enum DVFS_USER user)
++static int debug_sqopen(struct inode *inode, struct file *file)
 +{
-+	struct apu_power *apupwr = dev_get_drvdata(dev);
-+	int ret = 0;
++	struct apu_sw_logger *logger = inode->i_private;
++	int ret;
 +
-+	if (!apupwr->plat_data->ops)
++	ret = seq_open(file, &seq_ops);
++	if (ret)
 +		return ret;
 +
-+	if (apupwr->plat_data->ops->enable_dev_clksrc)
-+		ret = apupwr->plat_data->ops->enable_dev_clksrc(dev, user);
++	((struct seq_file *)file->private_data)->private = logger;
 +
-+	return ret;
++	return 0;
 +}
 +
-+void apu_disable_dev_clksrc(struct device *dev, enum DVFS_USER user)
++static const struct file_operations seqlog_ops = {
++	.owner   = THIS_MODULE,
++	.open    = debug_sqopen,
++	.read    = seq_read,
++	.llseek  = seq_lseek,
++	.release = seq_release,
++};
++
++static const struct file_operations seqlogl_ops = {
++	.owner   = THIS_MODULE,
++	.open    = debug_sqopen_lock,
++	.read    = seq_read,
++	.llseek  = seq_lseek,
++	.release = seq_release,
++};
++
++static int sw_logger_create_debugfs(struct device *dev)
 +{
-+	struct apu_power *apupwr = dev_get_drvdata(dev);
-+
-+	if (!apupwr->plat_data->ops)
-+		return;
-+
-+	if (apupwr->plat_data->ops->disable_dev_clksrc)
-+		apupwr->plat_data->ops->disable_dev_clksrc(dev, user);
-+}
-+
-+int apu_set_clk_freq(struct device *dev,
-+		     enum DVFS_FREQ freq,
-+		     enum DVFS_VOLTAGE_DOMAIN domain)
-+{
-+	struct apu_power *apupwr = dev_get_drvdata(dev);
++	struct apu_sw_logger *logger = dev_get_drvdata(dev);
 +	int ret = 0;
 +
-+	if (!apupwr->plat_data->ops)
-+		return ret;
++	logger->dbg_root = NULL;
++	log_root = debugfs_create_dir(APUSYS_LOGGER_DIR, logger->dbg_root);
++	ret = IS_ERR_OR_NULL(log_root);
++	if (ret) {
++		dev_err(dev, "(%d)failed to create apusys_logger dir\n", ret);
++		goto out;
++	}
 +
-+	if (apupwr->plat_data->ops->set_clk_freq)
-+		ret = apupwr->plat_data->ops->set_clk_freq(dev,
-+							      freq, domain);
++	log_seqlog = debugfs_create_file("seq_log", 0444,
++					 log_root, logger, &seqlog_ops);
++	ret = IS_ERR_OR_NULL(log_seqlog);
++	if (ret) {
++		dev_err(dev, "(%d)failed to create apusys_logger node(seqlog)\n",
++			ret);
++		goto out;
++	}
 +
++	log_seqlogl = debugfs_create_file("seq_logl", 0444,
++					  log_root, logger, &seqlogl_ops);
++	ret = IS_ERR_OR_NULL(log_seqlogl);
++	if (ret) {
++		dev_err(dev, "(%d)failed to create apusys_logger node(seqlogL)\n",
++			ret);
++		goto out;
++	}
++
++	return 0;
++
++out:
++	debugfs_remove_recursive(log_root);
 +	return ret;
 +}
 +
-+void apu_update_fixed_opp_by_reg(struct device *dev,
-+				 u32 opp_limit_stat)
++static void sw_logger_remove_debugfs(struct device *dev)
 +{
-+	struct apu_power *apupwr = dev_get_drvdata(dev);
-+	const struct apupwr_plat_reg *plat_regs;
-+	void __iomem *spare_base;
-+
-+	spare_base = apupwr->spare_base;
-+	plat_regs = apupwr->plat_data->plat_regs;
-+	writel(opp_limit_stat, spare_base + plat_regs->opp_user);
++	debugfs_remove_recursive(log_root);
 +}
 +
-+void apu_check_curr_opp_by_reg(struct device *dev,
-+			       enum DVFS_USER specify_usr)
-+{
-+	struct apu_power *apupwr = dev_get_drvdata(dev);
-+	const struct apupwr_plat_reg *plat_regs;
-+	void __iomem *spare_base;
-+	u32 curr_opp_stat;
-+
-+	spare_base = apupwr->spare_base;
-+	plat_regs = apupwr->plat_data->plat_regs;
-+
-+	curr_opp_stat = readl(spare_base + plat_regs->opp_curr);
-+	dev_info(dev, "%s user:%d curr opp:%d\n",
-+		 __func__, specify_usr, curr_opp_stat);
-+}
-+
-+void apu_update_thermal_opp_by_reg(struct device *dev,
-+				   enum DVFS_USER user, int therm_opp)
-+{
-+	struct apu_power *apupwr = dev_get_drvdata(dev);
-+	const struct apupwr_plat_reg *plat_regs;
-+	void __iomem *spare_base;
-+	u32 curr_therm_stat;
-+
-+	spare_base = apupwr->spare_base;
-+	plat_regs = apupwr->plat_data->plat_regs;
-+
-+	curr_therm_stat = readl(spare_base + plat_regs->opp_thermal);
-+	curr_therm_stat &= ~(0xf << user);
-+	curr_therm_stat |= ((therm_opp & 0xf) << user);
-+
-+	writel(curr_therm_stat, spare_base + plat_regs->opp_thermal);
-+}
-+
-+int apu_config_vcore_volt(struct device *dev, enum DVFS_VOLTAGE volt)
-+{
-+	struct apu_power *apupwr = dev_get_drvdata(dev);
-+	int ret = 0;
-+
-+	if (apupwr->plat_data->ops->set_vcore)
-+		ret = apupwr->plat_data->ops->set_vcore(dev, volt);
-+
-+	return ret;
-+}
-+
-+static int apu_power_probe(struct platform_device *pdev)
++static int sw_logger_probe(struct platform_device *pdev)
 +{
 +	struct device *dev = &pdev->dev;
-+	struct apu_power *apupwr;
++	struct apu_sw_logger *logger;
 +	struct resource *res;
 +	int ret = 0;
 +
-+	apupwr = devm_kzalloc(dev, sizeof(struct apu_power), GFP_KERNEL);
-+	if (!apupwr)
++	logger = devm_kzalloc(dev, sizeof(struct apu_sw_logger), GFP_KERNEL);
++	if (!logger)
 +		return -ENOMEM;
 +
-+	platform_set_drvdata(pdev, apupwr);
++	platform_set_drvdata(pdev, logger);
 +
-+	apupwr->dev = &pdev->dev;
-+	apupwr->plat_data = device_get_match_data(dev);
-+	res = platform_get_resource_byname(pdev,
-+					   IORESOURCE_MEM, "apu_spare");
-+	apupwr->spare_base = devm_ioremap_resource(dev, res);
-+	if (IS_ERR(apupwr->spare_base)) {
-+		dev_err(dev, "Unable to ioremap spare_base\n");
-+		apupwr->spare_base = NULL;
-+		return PTR_ERR(apupwr->spare_base);
-+	}
++	logger->dev = dev;
++	sw_logger_dev = dev;
++	spin_lock_init(&logger->logger_spinlock);
 +
-+	/* prepare registers */
-+	apu_power_reg_init(dev);
-+
-+	/* prepare regulators */
-+	ret = apu_power_regulator_init(dev);
-+	if (ret)
-+		goto err_regulator;
-+
-+	/* prepare clocks */
-+	ret = apu_clock_init(dev);
-+	if (ret)
-+		goto err_regulator;
-+
-+	/* debugfs */
-+	apupwr->dbg_root = NULL;
-+	apu_power_debugfs_init(apupwr);
-+
-+	/* init remote ipi channel */
-+	ret = apu_power_ipi_init(apupwr);
++	ret = sw_logger_create_debugfs(dev);
 +	if (ret) {
-+		dev_err(dev, "failed to rpmsg channel\n");
-+		goto err_exit;
++		dev_err(dev, "%s fail\n", __func__);
++		goto remove_debugfs;
 +	}
 +
-+	ret = devm_of_platform_populate(&pdev->dev);
-+	if (ret  < 0)
-+		dev_err(&pdev->dev, "Fail to populate child nodes: %d\n", ret);
-+
-+	pm_runtime_enable(dev);
++	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	if (!res) {
++		dev_info(dev, "%s: apu log get resource fail\n", __func__);
++		ret = -ENODEV;
++		goto remove_ioremap;
++	}
++	logger->apu_slog = ioremap(res->start, res->end - res->start + 1);
++	if (IS_ERR((void const *)logger->apu_slog)) {
++		dev_info(dev, "%s: apu_slog remap base fail\n", __func__);
++		ret = -ENOMEM;
++		goto remove_ioremap;
++	}
 +
 +	return 0;
 +
-+err_exit:
-+	apu_power_ipi_exit(apupwr);
-+	apu_power_debugfs_exit();
-+err_regulator:
-+	apu_power_regulator_exit(dev);
++remove_ioremap:
++	if (logger->apu_slog)
++		iounmap(logger->apu_slog);
++
++remove_debugfs:
++	sw_logger_remove_debugfs(dev);
 +
 +	return ret;
 +}
 +
-+static int apu_power_remove(struct platform_device *pdev)
++static int sw_logger_remove(struct platform_device *pdev)
 +{
 +	struct device *dev = &pdev->dev;
-+	struct apu_power *apupwr = platform_get_drvdata(pdev);
 +
-+	if (!apupwr)
-+		return -ENODEV;
++	sw_logger_remove_debugfs(dev);
 +
-+	pm_runtime_disable(dev);
-+	apu_power_ipi_exit(apupwr);
-+	apu_power_debugfs_exit();
-+	apu_power_regulator_exit(dev);
 +	return 0;
 +}
 +
-+static const struct apupwr_plat_reg mt8192_pwr_reg = {
-+	.opp_user = 0x40,
-+	.opp_thermal = 0x44,
-+	.opp_curr = 0x48,
-+	.opp_mask = 0xF,
++static const struct of_device_id sw_logger_of_match[] = {
++	{ .compatible = "mediatek,apu-sw-logger"},
++	{},
 +};
++MODULE_DEVICE_TABLE(of, sw_logger_of_match);
 +
-+static struct apupwr_plat_ops mt8192_pwr_ops = {
-+	.clock_init = mt8192_apu_clock_init,
-+	.enable_dev_clksrc = mt8192_apu_enable_dev_clksrc,
-+	.disable_dev_clksrc = mt8192_apu_disable_dev_clksrc,
-+	.set_clk_freq = mt8192_apu_set_clk_freq,
-+	.set_vcore = NULL,
-+};
-+
-+static struct apupwr_plat_data mt8192_apu_power_data = {
-+	.dvfs_user = MDLA0,
-+	.plat_regs = &mt8192_pwr_reg,
-+	.ops = &mt8192_pwr_ops,
-+};
-+
-+static const struct of_device_id apu_power_of_match[] = {
-+	{
-+		.compatible = "mediatek,mt8192-apu-power",
-+		.data = &mt8192_apu_power_data
-+	}, {
-+		/* Terminator */
-+	},
-+};
-+MODULE_DEVICE_TABLE(of, apu_power_of_match);
-+
-+static struct platform_driver apu_power_driver = {
-+	.probe	= apu_power_probe,
-+	.remove	= apu_power_remove,
++static struct platform_driver sw_logger_driver = {
++	.probe = sw_logger_probe,
++	.remove = sw_logger_remove,
 +	.driver = {
-+		.name = "apusys_power",
-+		.of_match_table = of_match_ptr(apu_power_of_match),
-+	},
++		.name = "apu-sw-logger",
++		.of_match_table = of_match_ptr(sw_logger_of_match),
++	}
 +};
 +
-+static int __init apu_power_drv_init(void)
++static int __init sw_logger_init(void)
 +{
-+	return platform_driver_register(&apu_power_driver);
++	int ret = 0;
++
++	allow_signal(SIGKILL);
++	ret = platform_driver_register(&sw_logger_driver);
++	if (ret != 0) {
++		pr_err("failed to register sw_logger driver");
++		return -ENODEV;
++	}
++
++	return ret;
 +}
 +
-+static void __exit apu_power_drv_exit(void)
++static void __exit sw_logger_exit(void)
 +{
-+	platform_driver_unregister(&apu_power_driver);
++	platform_driver_unregister(&sw_logger_driver);
 +}
 +
-+module_init(apu_power_drv_init);
-+module_exit(apu_power_drv_exit);
++module_init(sw_logger_init);
++module_exit(sw_logger_exit);
 +MODULE_LICENSE("GPL v2");
-+MODULE_DESCRIPTION("apu power driver");
-diff --git a/drivers/soc/mediatek/apusys/apu-pwr.h b/drivers/soc/mediatek/apusys/apu-pwr.h
-new file mode 100644
-index 000000000000..4b6d90d5f206
---- /dev/null
-+++ b/drivers/soc/mediatek/apusys/apu-pwr.h
-@@ -0,0 +1,260 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (c) 2021 MediaTek Inc.
-+ */
++MODULE_DESCRIPTION("MediaTek APU SW Logger Driver");
 +
-+#ifndef APU_PWR_H
-+#define APU_PWR_H
-+
-+#include <linux/platform_device.h>
-+#include <linux/rpmsg.h>
-+
-+enum DVFS_USER {
-+	VPU0 = 0,
-+	VPU1,
-+	MDLA0,
-+	MDLA1,
-+	APUSYS_DVFS_USER_NUM,
-+};
-+
-+enum DVFS_VOLTAGE_DOMAIN {
-+	V_VPU0 = 0,
-+	V_VPU1,
-+	V_MDLA0,
-+	V_APU_CONN,
-+	V_VCORE,
-+	APUSYS_BUCK_DOMAIN_NUM,
-+};
-+
-+enum DVFS_USER_TYPE {
-+	TYPE_VPU,
-+	TYPE_MDLA,
-+	DVFS_USER_TYPE_NUM,
-+	TYPE_UNKNOWN,
-+};
-+
-+/* mt8192 apu clocks*/
-+enum {
-+	CLK_TOP_DSP_SEL = 0,
-+	CLK_TOP_DSP1_SEL,
-+	CLK_TOP_DSP1_NPUPLL_SEL,
-+	CLK_TOP_DSP2_SEL,
-+	CLK_TOP_DSP2_NPUPLL_SEL,
-+	CLK_TOP_DSP5_SEL,
-+	CLK_TOP_DSP5_APUPLL_SEL,
-+	CLK_TOP_IPU_IF_SEL,
-+	CLK_CLK26M,
-+	CLK_TOP_MAINPLL_D4_D2,
-+	CLK_TOP_UNIVPLL_D4_D2,
-+	CLK_TOP_UNIVPLL_D6_D2,
-+	CLK_TOP_MMPLL_D6,
-+	CLK_TOP_MMPLL_D5,
-+	CLK_TOP_MMPLL_D4,
-+	CLK_TOP_UNIVPLL_D5,
-+	CLK_TOP_UNIVPLL_D4,
-+	CLK_TOP_UNIVPLL_D3,
-+	CLK_TOP_MAINPLL_D6,
-+	CLK_TOP_MAINPLL_D4,
-+	CLK_TOP_MAINPLL_D3,
-+	CLK_TOP_TVDPLL,
-+	CLK_TOP_APUPLL,
-+	CLK_TOP_NPUPLL,
-+	CLK_APMIXED_APUPLL,
-+	CLK_APMIXED_NPUPLL,
-+	CLK_NUM
-+};
-+
-+enum DVFS_VOLTAGE {
-+	DVFS_VOLT_NOT_SUPPORT = 0,
-+	DVFS_VOLT_00_550000_V = 550000,
-+	DVFS_VOLT_00_575000_V = 575000,
-+	DVFS_VOLT_00_600000_V = 600000,
-+	DVFS_VOLT_00_650000_V = 650000,
-+	DVFS_VOLT_00_700000_V = 700000,
-+	DVFS_VOLT_00_725000_V = 725000,
-+	DVFS_VOLT_00_750000_V = 750000,
-+	DVFS_VOLT_00_775000_V = 775000,
-+	DVFS_VOLT_00_800000_V = 800000,
-+	DVFS_VOLT_00_825000_V = 825000,
-+	DVFS_VOLT_MAX = 825000 + 1,
-+};
-+
-+enum DVFS_FREQ {
-+	DVFS_FREQ_NOT_SUPPORT = 0,
-+	DVFS_FREQ_00_026000_F = 26000,
-+	DVFS_FREQ_00_208000_F = 208000,
-+	DVFS_FREQ_00_273000_F = 273000,
-+	DVFS_FREQ_00_312000_F = 312000,
-+	DVFS_FREQ_00_499200_F = 499200,
-+	DVFS_FREQ_00_525000_F = 525000,
-+	DVFS_FREQ_00_546000_F = 546000,
-+	DVFS_FREQ_00_594000_F = 594000,
-+	DVFS_FREQ_00_624000_F = 624000,
-+	DVFS_FREQ_00_688000_F = 688000,
-+	DVFS_FREQ_00_687500_F = 687500,
-+	DVFS_FREQ_00_728000_F = 728000,
-+	DVFS_FREQ_00_800000_F = 800000,
-+	DVFS_FREQ_00_832000_F = 832000,
-+	DVFS_FREQ_00_960000_F = 960000,
-+	DVFS_FREQ_00_1100000_F = 1100000,
-+	DVFS_FREQ_MAX,
-+};
-+
-+enum APU_POWER_PARAM {
-+	POWER_PARAM_FIX_OPP,
-+	POWER_PARAM_DVFS_DEBUG,
-+	POWER_PARAM_GET_POWER_REG,
-+	POWER_PARAM_POWER_STRESS,
-+	POWER_PARAM_OPP_TABLE,
-+	POWER_PARAM_CURR_STATUS,
-+	POWER_PARAM_LOG_LEVEL,
-+	POWER_PARAM_ULOG_LEVEL,
-+};
-+
-+struct apu_dev_power_data {
-+	int dev_type;
-+	int dev_core;
-+	void *pdata;
-+};
-+
-+struct apupwr_plat_reg {
-+	u32 opp_user;
-+	u32 opp_thermal;
-+	u32 opp_curr;
-+	u32 opp_mask;
-+};
-+
-+struct apupwr_plat_ops {
-+	int (*clock_init)(struct device *dev);
-+	int (*enable_dev_clksrc)(struct device *dev, enum DVFS_USER user);
-+	void (*disable_dev_clksrc)(struct device *dev, enum DVFS_USER user);
-+	int (*set_clk_freq)(struct device *dev, enum DVFS_FREQ freq,
-+			    enum DVFS_VOLTAGE_DOMAIN domain);
-+	int (*set_vcore)(struct device *dev, enum DVFS_VOLTAGE volt);
-+};
-+
-+struct apupwr_plat_data {
-+	u32 flags;
-+	int dvfs_user;
-+	const struct apupwr_plat_reg *plat_regs;
-+	const struct apupwr_plat_ops *ops;
-+};
-+
-+struct apu_power {
-+	struct device *dev;
-+	void __iomem *spare_base;
-+	const struct apupwr_plat_data *plat_data;
-+	struct clk **clk;
-+	struct regulator *vvpu_reg_id;
-+	struct regulator *vmdla_reg_id;
-+
-+	/* rpmsg device for power ipi */
-+	struct rpmsg_driver tx_rpmsg_driver;
-+	struct rpmsg_device *tx_rpmsg_device;
-+	struct rpmsg_driver rx_rpmsg_driver;
-+	struct rpmsg_device *rx_rpmsg_device;
-+
-+	/*debug*/
-+	struct dentry *dbg_root;
-+	u32 dbg_option;
-+	u32 ulog_level;
-+};
-+
-+/* request send from AP to uP */
-+enum request_id_AP {
-+	DVFS_STAT_UPDATE = 0,
-+	OPP_LIMIT_THERM,
-+	OPP_LIMIT_FIX_OPP,
-+	OPP_LIMIT_DVFS_DEBUG,
-+	CHANGE_LOG_LEVEL,
-+	STRESS_TEST,
-+};
-+
-+/* request send from uP to AP */
-+enum request_id_uP {
-+	CHANGE_DEV_CLKSRC = 0,
-+	CHANGE_DEV_CLOCK,
-+	CHANGE_SYS_VCORE,
-+	SYNC_STAT_UP_POWER,
-+	SYNC_STAT_DEV_POWER,
-+	DUMP_POWER_INFO,
-+};
-+
-+/* power cmd format (from AP to uP) */
-+struct power_cmd_AP {
-+	u32 req_id:4,
-+	    reserved0:4,
-+	    reserved1:4,
-+	    reserved2:4,
-+	    reserved3:4,
-+	    reserved4:4,
-+	    reserved5:4,
-+	    need_handle_ack:4;
-+};
-+
-+/* ipi cmd format (from AP to uP) */
-+struct power_ipi_cmd_AP {
-+	u32 cmd_sn;
-+	struct power_cmd_AP pwr_cmd;
-+	u32 data0;
-+	u32 data1;
-+};
-+
-+/*power cmd format (from uP to AP) */
-+struct power_cmd_uP {
-+	u32 req_id:4,
-+	    dev_id:4,
-+	    target_opp:4,
-+	    reserved0:4,
-+	    reserved1:4,
-+	    reserved2:4,
-+	    reserved3:4,
-+	    need_handle_ack:4;
-+};
-+
-+/* ipi cmd format (from uP to AP) */
-+struct power_ipi_cmd_uP {
-+	u32 cmd_sn;
-+	struct power_cmd_uP pwr_cmd;
-+	u32 data0;
-+	u32 data1;
-+};
-+
-+/* reply to remote that we are completed */
-+struct power_ipi_cmd_reply {
-+	u32 cmd_sn;
-+	u32 data0;
-+	u32 data1;
-+	u32 reserved3[61];
-+};
-+
-+int apu_enable_dev_clksrc(struct device *dev, enum DVFS_USER);
-+void apu_disable_dev_clksrc(struct device *dev, enum DVFS_USER);
-+int apu_set_clk_freq(struct device *dev,
-+		     enum DVFS_FREQ freq,
-+		     enum DVFS_VOLTAGE_DOMAIN domain);
-+
-+void apu_update_fixed_opp_by_reg(struct device *dev,
-+				 u32 opp_limit_stat);
-+void apu_check_curr_opp_by_reg(struct device *dev,
-+			       enum DVFS_USER specify_usr);
-+void apu_update_thermal_opp_by_reg(struct device *dev,
-+				   enum DVFS_USER user, int therm_opp);
-+
-+int apu_config_vcore_volt(struct device *dev, enum DVFS_VOLTAGE volt);
-+
-+int apu_power_ipi_init(struct apu_power *apupwr);
-+void apu_power_ipi_exit(struct apu_power *apupwr);
-+void apu_power_set_ulog_level(struct apu_power *apupwr,
-+			      int level);
-+void apu_power_notify_uP_opp_limit(struct apu_power *apu_power,
-+				   enum request_id_AP req);
-+
-+#if IS_ENABLED(CONFIG_MTK_APU_DEBUG)
-+void apu_power_debugfs_init(struct apu_power *apupwr);
-+void apu_power_debugfs_exit(void);
-+#else
-+static inline void apu_power_debugfs_init(struct apu_power *apupwr) { }
-+static inline void apu_power_debugfs_exit(void) { }
-+#endif
-+#endif
 -- 
 2.18.0
 
