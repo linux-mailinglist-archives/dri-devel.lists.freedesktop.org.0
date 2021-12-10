@@ -2,26 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E21747070F
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 18:27:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACC11470716
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Dec 2021 18:27:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96C8D10EC28;
-	Fri, 10 Dec 2021 17:26:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB90010EC38;
+	Fri, 10 Dec 2021 17:27:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C24C010EB17
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0E9510E9BD
  for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 17:26:54 +0000 (UTC)
-X-UUID: f0bb3757669543f290d83e22d08f47c4-20211211
-X-UUID: f0bb3757669543f290d83e22d08f47c4-20211211
+X-UUID: 0707d7ab912a42bb8c1c74b13a1f4f55-20211211
+X-UUID: 0707d7ab912a42bb8c1c74b13a1f4f55-20211211
 Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
  (envelope-from <flora.fu@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 900033792; Sat, 11 Dec 2021 01:26:52 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ with ESMTP id 1353861907; Sat, 11 Dec 2021 01:26:52 +0800
+Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
  mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Sat, 11 Dec 2021 01:26:50 +0800
+ Sat, 11 Dec 2021 01:26:51 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb01.mediatek.inc
+ (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Sat, 11 Dec 2021 01:26:51 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
  Frontend Transport; Sat, 11 Dec 2021 01:26:50 +0800
@@ -30,9 +33,9 @@ To: Matthias Brugger <matthias.bgg@gmail.com>, Liam Girdwood
  <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Sumit Semwal
  <sumit.semwal@linaro.org>, Yong Wu <yong.wu@mediatek.com>, Pi-Cheng Chen
  <pi-cheng.chen@mediatek.com>
-Subject: [PATCH 13/17] arm64: dts: mt8192: Add APU-IOMMU nodes
-Date: Sat, 11 Dec 2021 01:26:01 +0800
-Message-ID: <20211210172605.30618-14-flora.fu@mediatek.com>
+Subject: [PATCH 14/17] arm64: dts: mt8192: Add apu tinysys node
+Date: Sat, 11 Dec 2021 01:26:02 +0800
+Message-ID: <20211210172605.30618-15-flora.fu@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20211210172605.30618-1-flora.fu@mediatek.com>
 References: <20211210172605.30618-1-flora.fu@mediatek.com>
@@ -58,42 +61,60 @@ Cc: JB Tsai <jb.tsai@mediatek.com>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add APU-IOMMI nodes
+Add node for APU tinysys.
 
-Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 Signed-off-by: Flora Fu <flora.fu@mediatek.com>
 
 ---
- arch/arm64/boot/dts/mediatek/mt8192.dtsi | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ arch/arm64/boot/dts/mediatek/mt8192.dtsi | 35 ++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/mediatek/mt8192.dtsi b/arch/arm64/boot/dts/mediatek/mt8192.dtsi
-index 5c97dc7985b4..62acaba7b033 100644
+index 62acaba7b033..de73fbf0cb90 100644
 --- a/arch/arm64/boot/dts/mediatek/mt8192.dtsi
 +++ b/arch/arm64/boot/dts/mediatek/mt8192.dtsi
-@@ -8,6 +8,7 @@
- #include <dt-bindings/clock/mt8192-clk.h>
- #include <dt-bindings/interrupt-controller/arm-gic.h>
- #include <dt-bindings/interrupt-controller/irq.h>
-+#include <dt-bindings/memory/mt8192-larb-port.h>
- #include <dt-bindings/pinctrl/mt8192-pinfunc.h>
- #include <dt-bindings/power/mt8192-power.h>
- 
-@@ -913,6 +914,14 @@
+@@ -914,6 +914,41 @@
  			#mbox-cells = <1>;
  		};
  
-+		iommu_apu: iommu@19010000 {
-+			compatible = "mediatek,mt8192-iommu-apu";
-+			reg = <0 0x19010000 0 0x1000>;
-+			interrupts = <GIC_SPI 394 IRQ_TYPE_LEVEL_HIGH 0>;
++		apusys_rv@19001000 {
++			compatible = "mediatek,mt8192-apusys-rv", "simple-mfd";
++			reg = <0 0x19000000 0 0x1000>,
++			      <0 0x19001000 0 0x1000>,
++			      <0 0x19002000 0 0x10>;
++			reg-names = "apu_mbox",
++				    "md32_sysctrl",
++				    "apu_wdt";
 +			power-domains = <&apuspm 0>;
-+			#iommu-cells = <1>;
++			iommus = <&iommu_apu IOMMU_PORT_APU_DATA>;
++			interrupts = <GIC_SPI 393 IRQ_TYPE_LEVEL_HIGH 0>;
++			interrupt-names = "apu_wdt";
++			mboxes = <&apu_mailbox 0>;
++
++			apu_ctrl {
++				compatible = "mediatek,apu-ctrl-rpmsg";
++				mtk,rpmsg-name = "apu-ctrl-rpmsg";
++			};
++
++			apu_pwr_tx {
++				compatible = "mediatek,apupwr-tx-rpmsg";
++				mtk,rpmsg-name = "apupwr-tx-rpmsg";
++			};
++
++			apu_pwr_rx {
++				compatible = "mediatek,apupwr-rx-rpmsg";
++				mtk,rpmsg-name = "apupwr-rx-rpmsg";
++			};
++
++			apu_mdw_rpmsg {
++				compatible = "mediatek,apu-mdw-rpmsg";
++				mtk,rpmsg-name = "apu-mdw-rpmsg";
++			};
 +		};
 +
- 		apu_conn: apu_conn@19020000 {
- 			compatible = "mediatek,mt8192-apu-conn", "syscon";
- 			reg = <0 0x19020000 0 0x1000>;
+ 		iommu_apu: iommu@19010000 {
+ 			compatible = "mediatek,mt8192-iommu-apu";
+ 			reg = <0 0x19010000 0 0x1000>;
 -- 
 2.18.0
 
