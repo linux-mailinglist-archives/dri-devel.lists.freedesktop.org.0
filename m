@@ -2,54 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7D2347121E
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Dec 2021 07:30:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3028D47124D
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Dec 2021 07:59:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B692C10E9BE;
-	Sat, 11 Dec 2021 06:30:08 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
- [IPv6:2a00:1450:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17A9E10E9BE
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Dec 2021 06:30:05 +0000 (UTC)
-Received: by mail-ed1-x52b.google.com with SMTP id t5so35910758edd.0
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Dec 2021 22:30:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=45gYyp/LH8Yh+4Quc0RZZryBEQFveslIoKz3TB5FrP4=;
- b=ciXDvjftMrr9Nf2NKNvcndMo/u9VbeWTyHwikmAUaIXZILeDHotOpLIdApFHeBZuGy
- E8roVb5/e0sBBwhK7QdkAGq0VZTe3Do+f9kK/AAy/QgZUKxoXkOuG/hl1uyxnkrt38If
- 2pPBtTyhXThQ8jEGw0ft7UbmsU4EF9bMePUGA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=45gYyp/LH8Yh+4Quc0RZZryBEQFveslIoKz3TB5FrP4=;
- b=WvpciRixMrfA2m0uXGmCgVRJY6qnDw8JwwxJ/msxdpjodes0JQCzVKo94MHryVbEd8
- NzMFYRCRTQ5gVtm2dSoziKdUAvkTcVEWGrCOLVtzOdZ9berP6PZIVDoQRPjk3QlXV3B0
- eN8SHjcksqp5YaqEkiWBIBhpORQsAkWEKsrNf9OrP293wsQrfdnx1/IqEj0/29FtIkC5
- s9PmcZRLi3lcmtq+oBYSz1ZVtu5xMTgv46Ej4eekS/Jeg1OY8QCeD/7MkTM2B7/OlW3M
- oJ9cp1bOFHPOlIApMIU1WAkj8bz6rHstlnjOtW9CdAiieTOU6e7uKhYTiKtXpLGm3GHh
- XGBA==
-X-Gm-Message-State: AOAM531XD31dh1UwrEYKQoOTSftXOEWZKEGCKZmnyoFb7iHXdpv6yfsL
- skpyeKymB+/tlc8P4wKtLwx8c+ZVxXwjph8k3T/hRw==
-X-Google-Smtp-Source: ABdhPJzOc7DXoTv6rRM6jE61YHbKn0YtCORKfDFzJ1FTBp3lshE0zR5AwnU8/KYRvsWcgp0xVZ0JZAeYGbNOhgn2+wo=
-X-Received: by 2002:a17:906:4099:: with SMTP id
- u25mr30932419ejj.453.1639204204296; 
- Fri, 10 Dec 2021 22:30:04 -0800 (PST)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6521810E3C4;
+	Sat, 11 Dec 2021 06:59:02 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE66F10E3A3;
+ Sat, 11 Dec 2021 06:59:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1639205940; x=1670741940;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=mqUEUc+k0IVqvy59u65ruNbfLrjfne0QlF/whZ1qY3w=;
+ b=jqkfCO8HGj4onbGtoxLMkywyvXTndk0rKhhG9pZqTxm3hKj9e/XkCLFi
+ kY4TWfzpKNCx8nVjuyWQo4j40KtO364IH8uNI4g3QXd0vCysWOWFkEgnL
+ wElSCAgtlxcO2M0zR1gbwdyZAT+VzDajBK3q0XMh+1oZCHl6lFHZlt6GO
+ aEr/9m3wQdgbKOkNDaN3yrPBLI0JfpSLeOcqAYauKPcvSf7jSTrNqNl7s
+ JXHFizZaLeFwlwAvFX/V06ganbvTXtJDIf82h/mBe2dQ12L0suwhfNtM+
+ EzLV3ZHmEhyyRp77g4Ell4JQ++UQGO53zpbP9E9FVLRgeLLTkeoIQxCnj Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10194"; a="237249045"
+X-IronPort-AV: E=Sophos;i="5.88,197,1635231600"; d="scan'208";a="237249045"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Dec 2021 22:59:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,197,1635231600"; d="scan'208";a="463979848"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
+ by orsmga006.jf.intel.com with ESMTP; 10 Dec 2021 22:58:59 -0800
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Subject: [PATCH 0/4] More fixes/tweaks to GuC support
+Date: Fri, 10 Dec 2021 22:58:55 -0800
+Message-Id: <20211211065859.2248188-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20211210174819.2250178-1-jagan@amarulasolutions.com>
- <20211210174819.2250178-3-jagan@amarulasolutions.com>
- <CACRpkdb4JGCNyjncqgh8=3wWi4BRCqGNuLyTBRzLiVLK38UzqA@mail.gmail.com>
-In-Reply-To: <CACRpkdb4JGCNyjncqgh8=3wWi4BRCqGNuLyTBRzLiVLK38UzqA@mail.gmail.com>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Sat, 11 Dec 2021 11:59:53 +0530
-Message-ID: <CAMty3ZDDdxkTiC2GByuiVW9obXW_jdBFK+R2-BAh0k_uB=GApQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] drm: bridge: Switch to devm_drm_of_get_bridge
-To: Linus Walleij <linus.walleij@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,97 +55,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, dri-devel@lists.freedesktop.org,
- Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
- Yannick Fertre <yannick.fertre@foss.st.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Sam Ravnborg <sam@ravnborg.org>, linux-stm32@st-md-mailman.stormreply.com,
- linux-amarula@amarulasolutions.com
+Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+From: John Harrison <John.C.Harrison@Intel.com>
 
-On Sat, Dec 11, 2021 at 5:37 AM Linus Walleij <linus.walleij@linaro.org> wrote:
->
-> On Fri, Dec 10, 2021 at 6:49 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
-> >
-> > devm_drm_of_get_bridge is capable of looking up the downstream
-> > bridge and panel and trying to add a panel bridge if the panel
-> > is found.
-> >
-> > Replace explicit finding calls with devm_drm_of_get_bridge.
-> >
-> > Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> > Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
->
-> Nice overall!
->
-> > -       /* Look for a panel as a child to this node */
-> > -       for_each_available_child_of_node(dev->of_node, child) {
-> > -               panel = of_drm_find_panel(child);
-> > -               if (IS_ERR(panel)) {
-> > -                       dev_err(dev, "failed to find panel try bridge (%ld)\n",
-> > -                               PTR_ERR(panel));
-> > -                       panel = NULL;
-> > -
-> > -                       bridge = of_drm_find_bridge(child);
-> > -                       if (!bridge) {
-> > -                               dev_err(dev, "failed to find bridge\n");
-> > -                               return -EINVAL;
-> > -                       }
-> > -               }
-> > -       }
-> > -       if (panel) {
-> > -               bridge = drm_panel_bridge_add_typed(panel,
-> > -                                                   DRM_MODE_CONNECTOR_DSI);
->
-> And we are guaranteed that the right type of connector will be
-> used here? (Just checking.)
+Allow engine resets on RCS, report problems with engine resets,
+improve GuC log usability.
 
-Yes. Each panel driver initialised the connector_type via
-drm_panel_init and it will check during devm_drm_of_get_bridge.
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 
->
-> > -               if (IS_ERR(bridge)) {
-> > -                       dev_err(dev, "error adding panel bridge\n");
-> > -                       return PTR_ERR(bridge);
-> > -               }
-> > -               dev_info(dev, "connected to panel\n");
-> > -               d->panel = panel;
->
-> How does this assignment happen after your patch?
-> I'm using that...
->
-> devm_drm_of_get_bridge() needs some more argument right?
 
-Yes, but I think we don't need to preserve the panel here. Yes I
-didn't add that change, will take care in v2.
+John Harrison (4):
+  drm/i915/guc: Speed up GuC log dumps
+  drm/i915/guc: Increase GuC log size for CONFIG_DEBUG_GEM
+  drm/i915/guc: Flag an error if an engine reset fails
+  drm/i915: Improve long running OCL w/a for GuC submission
 
->
-> > -       } else if (bridge) {
-> > -               /* TODO: AV8100 HDMI encoder goes here for example */
-> > -               dev_info(dev, "connected to non-panel bridge (unsupported)\n");
-> > -               return -ENODEV;
-> > -       } else {
-> > -               dev_err(dev, "no panel or bridge\n");
-> > -               return -ENODEV;
-> > +       bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
-> > +       if (IS_ERR(bridge)) {
-> > +               dev_err(dev, "error to get bridge\n");
-> > +               return PTR_ERR(bridge);
->
-> I'm gonna want to test this somehow on the hardware. But the TODO comment
-> there wasn't supposed to be deleted if I will still need to take some special
-> action whether this is a panel bridge or some other bridge.
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     | 42 +++++++++++++-
+ drivers/gpu/drm/i915/gt/intel_gt_debugfs.h    | 21 +++++--
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.h    |  5 +-
+ .../drm/i915/gt/uc/intel_guc_log_debugfs.c    | 58 ++++++++++++++++++-
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 14 ++++-
+ 5 files changed, 125 insertions(+), 15 deletions(-)
 
-Agreed. Even I do like to add this prints, since
-devm_drm_of_get_bridge is not able to return differentiated bridge so
-it it not possible now. May be we can discuss this point.
+-- 
+2.25.1
 
-Thanks,
-Jagan.
