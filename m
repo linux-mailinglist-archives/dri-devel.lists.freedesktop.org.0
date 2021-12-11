@@ -1,50 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ED6E470E9A
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Dec 2021 00:24:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62E96470F26
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Dec 2021 01:03:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3469810E59A;
-	Fri, 10 Dec 2021 23:24:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05BDD10E3D3;
+	Sat, 11 Dec 2021 00:03:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC31A10E598;
- Fri, 10 Dec 2021 23:24:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639178652; x=1670714652;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=zEYfjvBMHvPx4GKgUpSX8H8PHdgwuH8BVfo+Q46AGGo=;
- b=fCdF3tJWUhn/KiuRLbIU6WXsnI0et6hoz7lQKjtPyjFABIGHwLEywUxx
- BvVnvowjGjPG6xw4bz9DgyU+4KuxQ3jXPNoUMd1FekkkAui/FCvvZcuue
- bLO8eyc8085wmFC5+1AY/F2oDKodxRTHhDcEKfLiZP/A6Z+jdECmfOtnO
- m34/lOE3Ry4s+SZJh4DY4lf6WQqtj/1Lfk5Y18tq7Y2ASgLy4/xBxvHdk
- gA8akHCyxA/nvLAOSeTqj6g2k5C01JrgzXnGLmtb0ehxfoc8FssApRasH
- tbdJ1iDYA/PMSZ1BYj/vnn/sN/EcjSQgPPgcJiH8ffoKdmBT8rJnPs9ER A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10194"; a="237212387"
-X-IronPort-AV: E=Sophos;i="5.88,196,1635231600"; d="scan'208";a="237212387"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2021 15:24:12 -0800
-X-IronPort-AV: E=Sophos;i="5.88,196,1635231600"; d="scan'208";a="463861484"
-Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2021 15:24:12 -0800
-From: ira.weiny@intel.com
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-Subject: [PATCH 7/7] drm/radeon: Ensure kunmap is called on error
-Date: Fri, 10 Dec 2021 15:24:04 -0800
-Message-Id: <20211210232404.4098157-8-ira.weiny@intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211210232404.4098157-1-ira.weiny@intel.com>
-References: <20211210232404.4098157-1-ira.weiny@intel.com>
+Received: from relay05.th.seeweb.it (relay05.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B049210E2B1
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Dec 2021 00:03:26 +0000 (UTC)
+Received: from SoMainline.org (94-209-165-62.cable.dynamic.v4.ziggo.nl
+ [94.209.165.62])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id E9DC43EEF3;
+ Sat, 11 Dec 2021 01:03:22 +0100 (CET)
+Date: Sat, 11 Dec 2021 01:03:15 +0100
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Vinod Koul <vkoul@kernel.org>
+Subject: Re: [PATCH v3 12/13] drm/msm/dsi: Add support for DSC configuration
+Message-ID: <20211211000315.pavmcc7cc73ilb6l@SoMainline.org>
+References: <20211116062256.2417186-1-vkoul@kernel.org>
+ <20211116062256.2417186-13-vkoul@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211116062256.2417186-13-vkoul@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,39 +43,255 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Ira Weiny <ira.weiny@intel.com>
+Cc: Jonathan Marek <jonathan@marek.ca>, Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, linux-kernel@vger.kernel.org,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ira Weiny <ira.weiny@intel.com>
+Hi Vinod,
 
-The default case leaves the buffer object mapped in error.
+On 2021-11-16 11:52:55, Vinod Koul wrote:
+> When DSC is enabled, we need to configure DSI registers accordingly and
+> configure the respective stream compression registers.
+> 
+> Add support to calculate the register setting based on DSC params and
+> timing information and configure these registers.
+> 
+> Signed-off-by: Vinod Koul <vkoul@kernel.org>
+> ---
+>  drivers/gpu/drm/msm/dsi/dsi.xml.h  |  10 +++
+>  drivers/gpu/drm/msm/dsi/dsi_host.c | 113 ++++++++++++++++++++++++++++-
+>  2 files changed, 122 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi.xml.h b/drivers/gpu/drm/msm/dsi/dsi.xml.h
+> index 49b551ad1bff..c1c85df58c4b 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi.xml.h
+> +++ b/drivers/gpu/drm/msm/dsi/dsi.xml.h
+> @@ -706,4 +706,14 @@ static inline uint32_t DSI_VERSION_MAJOR(uint32_t val)
+>  #define REG_DSI_CPHY_MODE_CTRL					0x000002d4
+>  
+>  
+> +#define REG_DSI_VIDEO_COMPRESSION_MODE_CTRL			0x0000029c
+> +
+> +#define REG_DSI_VIDEO_COMPRESSION_MODE_CTRL2			0x000002a0
+> +
+> +#define REG_DSI_COMMAND_COMPRESSION_MODE_CTRL			0x000002a4
+> +
+> +#define REG_DSI_COMMAND_COMPRESSION_MODE_CTRL2			0x000002a8
+> +
+> +#define REG_DSI_COMMAND_COMPRESSION_MODE_CTRL3			0x000002ac
 
-Add radeon_bo_kunmap() to that case to ensure the mapping is cleaned up.
+I presume you are aware that these files are autogenerated, but there
+does not seem to be any link to patches adding these registers to the
+XML files in either envytools to mesa, nor could I find any merge/pull
+requests on the matter.  Would you mind posting those?  Before doing so
+though, consider the comment below about register mapping.
 
-Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> +
+>  #endif /* DSI_XML */
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> index 31d385d8d834..2c14c36f0b3d 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> @@ -908,6 +908,20 @@ static void dsi_ctrl_config(struct msm_dsi_host *msm_host, bool enable,
+>  		dsi_write(msm_host, REG_DSI_CPHY_MODE_CTRL, BIT(0));
+>  }
+>  
+> +static int dsi_dsc_update_pic_dim(struct msm_display_dsc_config *dsc,
+> +				  int pic_width, int pic_height)
 
----
-NOTE: It seems like this function could use a fair bit of refactoring
-but this is the easiest way to fix the actual bug.
----
- drivers/gpu/drm/radeon/radeon_uvd.c | 1 +
- 1 file changed, 1 insertion(+)
+This function - adopted from downstream - does not seem to perform a
+whole lot, especially without the modulo checks against the slice size.
+Perhaps it can be inlined?
 
-diff --git a/drivers/gpu/drm/radeon/radeon_uvd.c b/drivers/gpu/drm/radeon/radeon_uvd.c
-index 2ea86919d953..7462010e0e6d 100644
---- a/drivers/gpu/drm/radeon/radeon_uvd.c
-+++ b/drivers/gpu/drm/radeon/radeon_uvd.c
-@@ -563,6 +563,7 @@ static int radeon_uvd_cs_msg(struct radeon_cs_parser *p, struct radeon_bo *bo,
- 
- 	default:
- 
-+		radeon_bo_kunmap(bo);
- 		DRM_ERROR("Illegal UVD message type (%d)!\n", msg_type);
- 		return -EINVAL;
- 	}
--- 
-2.31.1
+> +{
+> +	if (!dsc || !pic_width || !pic_height) {
+> +		pr_err("DSI: invalid input: pic_width: %d pic_height: %d\n", pic_width, pic_height);
+> +		return -EINVAL;
+> +	}
+> +
+> +	dsc->drm->pic_width = pic_width;
+> +	dsc->drm->pic_height = pic_height;
+> +
+> +	return 0;
+> +}
+> +
+>  static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+>  {
+>  	struct drm_display_mode *mode = msm_host->mode;
+> @@ -940,7 +954,68 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+>  		hdisplay /= 2;
+>  	}
+>  
+> +	if (msm_host->dsc) {
+> +		struct msm_display_dsc_config *dsc = msm_host->dsc;
+> +
+> +		/* update dsc params with timing params */
+> +		dsi_dsc_update_pic_dim(dsc, mode->hdisplay, mode->vdisplay);
+> +		DBG("Mode Width- %d x Height %d\n", dsc->drm->pic_width, dsc->drm->pic_height);
 
+This seems to be pretty non-standard and perhaps unnecessary debug code,
+with a stray dash in there.  Is is needed here, and if so how about
+using %dx%d\n to format width and height?
+
+> +
+> +		/* we do the calculations for dsc parameters here so that
+> +		 * panel can use these parameters
+> +		 */
+> +		dsi_populate_dsc_params(dsc);
+> +
+> +		/* Divide the display by 3 but keep back/font porch and
+> +		 * pulse width same
+> +		 */
+
+A more general nit on the comments in this patch series: it is
+appreciated if comments explain the rationale rather than - or in
+addition to - merely paraphrasing the code that follows.
+
+> +		h_total -= hdisplay;
+> +		hdisplay /= 3;
+> +		h_total += hdisplay;
+> +		ha_end = ha_start + hdisplay;
+> +	}
+> +
+>  	if (msm_host->mode_flags & MIPI_DSI_MODE_VIDEO) {
+> +		if (msm_host->dsc) {
+> +			struct msm_display_dsc_config *dsc = msm_host->dsc;
+> +			u32 reg, intf_width, slice_per_intf;
+> +			u32 total_bytes_per_intf;
+> +
+> +			/* first calculate dsc parameters and then program
+> +			 * compress mode registers
+> +			 */
+> +			intf_width = hdisplay;
+> +			slice_per_intf = DIV_ROUND_UP(intf_width, dsc->drm->slice_width);
+> +
+> +			dsc->drm->slice_count = 1;
+> +			dsc->bytes_in_slice = DIV_ROUND_UP(dsc->drm->slice_width * 8, 8);
+
+If I am not mistaken this is the same value as dsc->drm->slice_width,
+since a multiple of 8 is inherently "a multiple of 8" and hence needs no
+rounding when divided by 8 again.
+
+Also note that the cmdmode variant below uses bits_per_pixel here; is
+that discrepancy intended?
+
+> +			total_bytes_per_intf = dsc->bytes_in_slice * slice_per_intf;
+> +
+> +			dsc->eol_byte_num = total_bytes_per_intf % 3;
+> +			dsc->pclk_per_line =  DIV_ROUND_UP(total_bytes_per_intf, 3);
+> +			dsc->bytes_per_pkt = dsc->bytes_in_slice * dsc->drm->slice_count;
+> +			dsc->pkt_per_line = slice_per_intf / dsc->drm->slice_count;
+> +
+> +			reg = dsc->bytes_per_pkt << 16;
+> +			reg |= (0x0b << 8);    /* dtype of compressed image */
+> +
+> +			/* pkt_per_line:
+> +			 * 0 == 1 pkt
+> +			 * 1 == 2 pkt
+> +			 * 2 == 4 pkt
+> +			 * 3 pkt is not supported
+> +			 * above translates to ffs() - 1
+> +			 */
+> +			reg |= (ffs(dsc->pkt_per_line) - 1) << 6;
+> +
+> +			dsc->eol_byte_num = total_bytes_per_intf % 3;
+
+This was already calculated and assigned just a couple lines above.
+
+> +			reg |= dsc->eol_byte_num << 4;
+> +			reg |= 1;
+
+Note that the XML register file exists to map out the layout of these
+registers, including bit offset, size, and (enum) constant values.  It
+is appreciated if you can replace all these magical shifts and magic
+flags/bits with the appropriate enum constants and constructor
+functions, after mapping them out in the XML file.
+
+> +
+> +			dsi_write(msm_host,
+> +				  REG_DSI_VIDEO_COMPRESSION_MODE_CTRL, reg);
+> +		}
+> +
+>  		dsi_write(msm_host, REG_DSI_ACTIVE_H,
+>  			DSI_ACTIVE_H_START(ha_start) |
+>  			DSI_ACTIVE_H_END(ha_end));
+> @@ -959,8 +1034,40 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+>  			DSI_ACTIVE_VSYNC_VPOS_START(vs_start) |
+>  			DSI_ACTIVE_VSYNC_VPOS_END(vs_end));
+>  	} else {		/* command mode */
+> +		if (msm_host->dsc) {
+> +			struct msm_display_dsc_config *dsc = msm_host->dsc;
+> +			u32 reg, reg_ctrl, reg_ctrl2;
+> +			u32 slice_per_intf, bytes_in_slice, total_bytes_per_intf;
+> +
+> +			reg_ctrl = dsi_read(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL);
+> +			reg_ctrl2 = dsi_read(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL2);
+
+Shouldn't old values be masked out first, before writing new bits or
+values below?  The video-mode variant doesn't read back old register
+values.
+
+> +
+> +			slice_per_intf = DIV_ROUND_UP(hdisplay, dsc->drm->slice_width);
+> +			bytes_in_slice = DIV_ROUND_UP(dsc->drm->slice_width *
+> +						      dsc->drm->bits_per_pixel, 8);
+> +			dsc->drm->slice_chunk_size = bytes_in_slice;
+> +			total_bytes_per_intf = dsc->bytes_in_slice * slice_per_intf;
+> +			dsc->pkt_per_line = slice_per_intf / dsc->drm->slice_count;
+> +
+> +			reg = 0x39 << 8;
+
+Same comment about moving magic constants and shifts into the XML file.
+
+> +			reg |= ffs(dsc->pkt_per_line) << 6;
+
+Doesn't the calculation need -1 here just like video mode?
+
+Thanks!
+
+- Marijn
+
+> +
+> +			dsc->eol_byte_num = total_bytes_per_intf % 3;
+> +			reg |= dsc->eol_byte_num << 4;
+> +			reg |= 1;
+> +
+> +			reg_ctrl |= reg;
+> +			reg_ctrl2 |= bytes_in_slice;
+> +
+> +			dsi_write(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL, reg);
+> +			dsi_write(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL2, reg_ctrl2);
+> +		}
+> +
+>  		/* image data and 1 byte write_memory_start cmd */
+> -		wc = hdisplay * dsi_get_bpp(msm_host->format) / 8 + 1;
+> +		if (!msm_host->dsc)
+> +			wc = hdisplay * dsi_get_bpp(msm_host->format) / 8 + 1;
+> +		else
+> +			wc = mode->hdisplay / 2 + 1;
+>  
+>  		dsi_write(msm_host, REG_DSI_CMD_MDP_STREAM0_CTRL,
+>  			DSI_CMD_MDP_STREAM0_CTRL_WORD_COUNT(wc) |
+> @@ -2051,9 +2158,13 @@ int msm_dsi_host_modeset_init(struct mipi_dsi_host *host,
+>  {
+>  	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
+>  	const struct msm_dsi_cfg_handler *cfg_hnd = msm_host->cfg_hnd;
+> +	struct msm_drm_private *priv;
+>  	int ret;
+>  
+>  	msm_host->dev = dev;
+> +	priv = dev->dev_private;
+> +	priv->dsc = msm_host->dsc;
+> +
+>  	ret = cfg_hnd->ops->tx_buf_alloc(msm_host, SZ_4K);
+>  	if (ret) {
+>  		pr_err("%s: alloc tx gem obj failed, %d\n", __func__, ret);
+> -- 
+> 2.31.1
+> 
