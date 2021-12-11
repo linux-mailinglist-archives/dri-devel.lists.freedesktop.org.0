@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E1514716CC
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Dec 2021 22:38:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E22F64716CA
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Dec 2021 22:38:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C4A310E82F;
-	Sat, 11 Dec 2021 21:38:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7209810E7ED;
+	Sat, 11 Dec 2021 21:38:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65E4B10E6DC
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02FF910E7ED
  for <dri-devel@lists.freedesktop.org>; Sat, 11 Dec 2021 21:38:07 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id bu18so24330294lfb.0
+Received: by mail-lf1-x130.google.com with SMTP id m6so12369493lfu.1
  for <dri-devel@lists.freedesktop.org>; Sat, 11 Dec 2021 13:38:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=a8C2Ox9mLAi+48xHMMaxUeraFYeN7fBArVOxNr3R0I8=;
- b=QaE2nnf/2Ogb8IBsN2aGR8hcuFjn0C/bwIbtDK1cUUTuEY5/wc1Iz6l6z7uz9laLd+
- Tlt3ezJN1y3dbA05wlBAHptRCt4J4uBd30PJtIdG3Sk1B3mzlEoAEeg9EI9r8KtJ5k/7
- y1SbuRSUc9ppr7NLH33eq75WmPCffemZ5Ad0pbK9ZNBM838m/rUWtspvYCmGBta8z0wf
- aAEFg+8YxnRUllhNcQ7Bu6Usgk9D+OHcDCyHudYHpvIkXMgyuaSgt25azzVe16k+Q6xF
- jeZ4j6H0xYEKRXmCJK0Tuug9KZO3GjX887WSAh5TP7TYIzLdh2m0ffyqG15OlUFBMK1o
- UBAg==
+ bh=9cbSD0n7UkiGS9/Kt4+Mg/mlrW7rIQ8OPKpNN0HsBs0=;
+ b=mUIzrz+TnolWe2p3gaMz28V5YhGUucp69yNWFSAVRz/SeSyGbV/EZRawLZTmoy/Lha
+ 5Mv0+nINyKcTogdjnEJZvO+8/nR5k4E3Fe5w5vXounCCgsYWZlH4LjLmHPQUmu/dNg59
+ /zZFy6Pij/F8jEks7duf4VAim3VZ8zYg5+/lh9lLsTSqYK82YatFP0NcgLBtzBHKzxUd
+ qvYciCyC8RESc92gNAO7XfGZnlS1QtyZISwSEW7slibt4qaZ7xG/Px3/rU+H38v9QCMF
+ D4FygNxIsSRdLjKa6g4yIcZjVIvOCAmKFNkj88Ro35spUBBsy9vPSotTQpTzOKDd4Iqd
+ 2T4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=a8C2Ox9mLAi+48xHMMaxUeraFYeN7fBArVOxNr3R0I8=;
- b=gOmaxE6vaNfRcZF49RWuYu34KqcQrE3OiMDGBK3x3725cwurx7QMRn+SuqWYwmqedw
- oEksFjIIUoQyShfEP+RKs8VHlLAdKhZiwLFZxymdHU4nDkuHGPJkYs7ZezBfVLp8wAin
- RZOwVoU6RurOLwM66fNfUS2cqycJ47EfO2KaBglKxonZfKV8ITvXzengp76sC7YHm68Y
- sUMiydk5R6d2+97KvTvagm2/+xtBvGrwgIRImuy3S80Hp2Xn6XoD9RBYxfQpSN2IaG3i
- PA4Id+5nNlv/n1/ps0tzT/7byL/I+U4OnZSwZosay4DzkTqykAuU8SepcccrGJghApKx
- 7sfg==
-X-Gm-Message-State: AOAM530KPyr/h/CNLG46F43TNhlzK5qPYjjJgySFWwo0HIyOn1HocFD0
- XoP5PXsEbdWaaZJwSM5k5H4=
-X-Google-Smtp-Source: ABdhPJzzQaET53q/FDFQJ9CyBQfgCK/ECu+LJ6oDv/04jXNG6kWMXPjoDGISTC/hUXs0JaRT+NWkGA==
-X-Received: by 2002:a05:6512:3185:: with SMTP id
- i5mr18737901lfe.341.1639258685583; 
- Sat, 11 Dec 2021 13:38:05 -0800 (PST)
+ bh=9cbSD0n7UkiGS9/Kt4+Mg/mlrW7rIQ8OPKpNN0HsBs0=;
+ b=mgLi0zayWx+LXRrC89AmT+ULcYY2nQiiaDLLehoeUDJF509qeWiipBy2rNi0P6QyJJ
+ x8rKzja57yrhnokhlTE0v9TDtdRSroSerzj1PDUITVQM4QI3ZnMfz5LlPFXpKyLB8+ei
+ sY82wbECqGbfFM8K4X5XRxEUJd6/YhMzEokoPMCwFIFqmvgFVC5YLSd+B2mjPFk4g9q8
+ s+bEteDuZZNWCpLOJ7l5iMoWv95w09nRMcee6BDLGCxD+aDVIyiM+S0yMbhoEgJuoR38
+ QQ6Yw/1GSVhRhe3Aubl84zAb7iLk65ULKPR1WnzGpu5yDZp22YXAPiiQMYJPJVc7xB7X
+ QImA==
+X-Gm-Message-State: AOAM530iXkB2wCxnPwRJQ/tvgA+p0kMjHw3/d/xhiPpfSytU4TbEcNxp
+ hcUEFrp9Jl1USoG5Dg59dhI=
+X-Google-Smtp-Source: ABdhPJykkoZWZcLnXR5dIqNSNBzj40yRLsyWVWz5Fj+XnDeWPuf7zB7DeJQXztOK9DtJIQ+NyJN5Lg==
+X-Received: by 2002:a05:6512:3213:: with SMTP id
+ d19mr20107074lfe.519.1639258686323; 
+ Sat, 11 Dec 2021 13:38:06 -0800 (PST)
 Received: from localhost.localdomain (94-29-46-111.dynamic.spd-mgts.ru.
  [94.29.46.111])
- by smtp.gmail.com with ESMTPSA id w14sm786844ljj.7.2021.12.11.13.38.04
+ by smtp.gmail.com with ESMTPSA id w14sm786844ljj.7.2021.12.11.13.38.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Dec 2021 13:38:05 -0800 (PST)
+ Sat, 11 Dec 2021 13:38:06 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  Rob Herring <robh+dt@kernel.org>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, Svyatoslav Ryhel <clamor95@gmail.com>,
  Anton Bambura <jenneron@protonmail.com>
-Subject: [PATCH v2 1/3] dt-bindings: sharp,
- lq101r1sx01: Add compatible for LQ101R1SX03
-Date: Sun, 12 Dec 2021 00:36:51 +0300
-Message-Id: <20211211213653.17700-2-digetx@gmail.com>
+Subject: [PATCH v2 2/3] dt-bindings: display: simple: Add HannStar HSD101PWW2
+Date: Sun, 12 Dec 2021 00:36:52 +0300
+Message-Id: <20211211213653.17700-3-digetx@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211211213653.17700-1-digetx@gmail.com>
 References: <20211211213653.17700-1-digetx@gmail.com>
@@ -78,38 +77,31 @@ Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Anton Bambura <jenneron@protonmail.com>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
 
-LQ101R1SX03 is compatible with LQ101R1SX01 from software perspective,
-document it. The LQ101R1SX03 is a newer revision of LQ101R1SX01, it has
-minor differences in hardware pins in comparison to the older version.
-The newer version of the panel can be found on Android tablets, like
-ASUS TF701T.
+Add HannStar HSD101PWW2 10.1" WXGA (1280x800) TFT-LCD LVDS panel
+to the list of compatibles.
 
-Signed-off-by: Anton Bambura <jenneron@protonmail.com>
+Acked-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- .../bindings/display/panel/sharp,lq101r1sx01.yaml          | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/sharp,lq101r1sx01.yaml b/Documentation/devicetree/bindings/display/panel/sharp,lq101r1sx01.yaml
-index a679d3647dbd..9ec0e8aae4c6 100644
---- a/Documentation/devicetree/bindings/display/panel/sharp,lq101r1sx01.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/sharp,lq101r1sx01.yaml
-@@ -30,7 +30,12 @@ allOf:
- 
- properties:
-   compatible:
--    const: sharp,lq101r1sx01
-+    oneOf:
-+      - items:
-+          - const: sharp,lq101r1sx03
-+          - const: sharp,lq101r1sx01
-+      - items:
-+          - const: sharp,lq101r1sx01
- 
-   reg: true
-   power-supply: true
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index f3c9395d23b6..ecb9a79c2e78 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -156,6 +156,8 @@ properties:
+       - hannstar,hsd070pww1
+         # HannStar Display Corp. HSD100PXN1 10.1" XGA LVDS panel
+       - hannstar,hsd100pxn1
++        # HannStar Display Corp. HSD101PWW2 10.1" WXGA (1280x800) LVDS panel
++      - hannstar,hsd101pww2
+         # Hitachi Ltd. Corporation 9" WVGA (800x480) TFT LCD panel
+       - hit,tx23d38vm0caa
+         # InfoVision Optoelectronics M133NWF4 R0 13.3" FHD (1920x1080) TFT LCD panel
 -- 
 2.33.1
 
