@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 018C8471509
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Dec 2021 18:41:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 977D2471500
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Dec 2021 18:41:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 820CF10E6A2;
-	Sat, 11 Dec 2021 17:41:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53A0010E5F2;
+	Sat, 11 Dec 2021 17:41:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C77F10E330;
- Sat, 11 Dec 2021 17:41:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 454D310E5FF;
+ Sat, 11 Dec 2021 17:41:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639244474; x=1670780474;
+ t=1639244475; x=1670780475;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=+t+IYa+onmrRcxvOJjKYFtf3l6LDynZbl3ClATBruNA=;
- b=bknpqkvGSRXJdpq2gD9V+AxXR3rAu4I/uYczksk/tPgDZO8bc8/rRuNv
- 4g+n1LwMwTdpse1ID+gdDFZAonmltHmppp0UywkH4ZlHC8EnLjtyGg1wv
- lUczSPq0Y3zepl8Mxb51lsypdtttsPUFgAqd/5ubabmcFHvVXBXTp4+Jy
- 7TlrC0Bhi+6Eq7Im60AsxWjQi7kgHQxF3fCKwO9zTTReKQNIrYaX8rmhs
- vs5ZAmBRi/rcGMlzXmWtelVB7BKxtd8qC0N3rrcuP/gro6xo7outbeqUl
- BEo19kVnvony2elVSUqri5hv6rNxvuJsTqNk7AkyoLCOxaXoQo6wrt065 w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10195"; a="238493211"
-X-IronPort-AV: E=Sophos;i="5.88,198,1635231600"; d="scan'208";a="238493211"
+ bh=jaCS0XMFCrae8Su33E7J0Rx/nsJ2glq4igpMu1fVzX0=;
+ b=eHDeXScZR7IQG/7tRhbsrRE2ORqnHHVl6MMxyzo/EN49GbyC8YH42opo
+ F1ScB9Sb5UikSzfa1ho3Q5ksSXh3tfqZAn4c9QgoJk9SanzaP/1PqFyga
+ XPlLcbFGukui2GulujrY+oTcep0AgEp5ihxS1izRwF10RrE9KQaqyuNR2
+ rwt+ygqLVv1194F3ydwQui2zE2zDToxryCJvitC4QLcqTlDUP7/abGSt3
+ CgtgX4ZAWklolMeuf3LO4I7AhmS+VkYLpkP5JVdyhmebp7XpbsBLLu0vI
+ 3MbH3nPHToiWMq2XvRZdgLu1lSCdx51TjT3DfiKiwIFXSVMBfJ011IoIK A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10195"; a="238493215"
+X-IronPort-AV: E=Sophos;i="5.88,198,1635231600"; d="scan'208";a="238493215"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Dec 2021 09:41:13 -0800
-X-IronPort-AV: E=Sophos;i="5.88,198,1635231600"; d="scan'208";a="602548108"
+ 11 Dec 2021 09:41:14 -0800
+X-IronPort-AV: E=Sophos;i="5.88,198,1635231600"; d="scan'208";a="602548114"
 Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  11 Dec 2021 09:41:13 -0800
 From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH 3/7] drm/i915/guc: Remove racey GEM_BUG_ON
-Date: Sat, 11 Dec 2021 09:35:41 -0800
-Message-Id: <20211211173545.23536-4-matthew.brost@intel.com>
+Subject: [PATCH 4/7] drm/i915/guc: Don't hog IRQs when destroying contexts
+Date: Sat, 11 Dec 2021 09:35:42 -0800
+Message-Id: <20211211173545.23536-5-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211211173545.23536-1-matthew.brost@intel.com>
 References: <20211211173545.23536-1-matthew.brost@intel.com>
@@ -60,30 +60,119 @@ Cc: daniele.ceraolospurio@intel.com, john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A full GT reset can race with the last context put resulting in the
-context ref count being zero but the destroyed bit not yet being set.
-Remove GEM_BUG_ON in scrub_guc_desc_for_outstanding_g2h that asserts the
-destroyed bit must be set in ref count is zero.
+From: John Harrison <John.C.Harrison@Intel.com>
 
-Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+While attempting to debug a CT deadlock issue in various CI failures
+(most easily reproduced with gem_ctx_create/basic-files), I was seeing
+CPU deadlock errors being reported. This were because the context
+destroy loop was blocking waiting on H2G space from inside an IRQ
+spinlock. There no was deadlock as such, it's just that the H2G queue
+was full of context destroy commands and GuC was taking a long time to
+process them. However, the kernel was seeing the large amount of time
+spent inside the IRQ lock as a dead CPU. Various Bad Things(tm) would
+then happen (heartbeat failures, CT deadlock errors, outstanding H2G
+WARNs, etc.).
+
+Re-working the loop to only acquire the spinlock around the list
+management (which is all it is meant to protect) rather than the
+entire destroy operation seems to fix all the above issues.
+
+v2:
+ (John Harrison)
+  - Fix typo in comment message
+
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 2 --
- 1 file changed, 2 deletions(-)
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 45 ++++++++++++-------
+ 1 file changed, 28 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 0fb2eeff0262..36c2965db49b 100644
+index 36c2965db49b..96fcf869e3ff 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -1040,8 +1040,6 @@ static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
+@@ -2644,7 +2644,6 @@ static inline void guc_lrc_desc_unpin(struct intel_context *ce)
+ 	unsigned long flags;
+ 	bool disabled;
  
- 		spin_unlock(&ce->guc_state.lock);
+-	lockdep_assert_held(&guc->submission_state.lock);
+ 	GEM_BUG_ON(!intel_gt_pm_is_awake(gt));
+ 	GEM_BUG_ON(!lrc_desc_registered(guc, ce->guc_id.id));
+ 	GEM_BUG_ON(ce != __get_context(guc, ce->guc_id.id));
+@@ -2660,7 +2659,7 @@ static inline void guc_lrc_desc_unpin(struct intel_context *ce)
+ 	}
+ 	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+ 	if (unlikely(disabled)) {
+-		__release_guc_id(guc, ce);
++		release_guc_id(guc, ce);
+ 		__guc_context_destroy(ce);
+ 		return;
+ 	}
+@@ -2694,36 +2693,48 @@ static void __guc_context_destroy(struct intel_context *ce)
  
--		GEM_BUG_ON(!do_put && !destroyed);
--
- 		if (pending_enable || destroyed || deregister) {
- 			decr_outstanding_submission_g2h(guc);
- 			if (deregister)
+ static void guc_flush_destroyed_contexts(struct intel_guc *guc)
+ {
+-	struct intel_context *ce, *cn;
++	struct intel_context *ce;
+ 	unsigned long flags;
+ 
+ 	GEM_BUG_ON(!submission_disabled(guc) &&
+ 		   guc_submission_initialized(guc));
+ 
+-	spin_lock_irqsave(&guc->submission_state.lock, flags);
+-	list_for_each_entry_safe(ce, cn,
+-				 &guc->submission_state.destroyed_contexts,
+-				 destroyed_link) {
+-		list_del_init(&ce->destroyed_link);
+-		__release_guc_id(guc, ce);
++	while (!list_empty(&guc->submission_state.destroyed_contexts)) {
++		spin_lock_irqsave(&guc->submission_state.lock, flags);
++		ce = list_first_entry_or_null(&guc->submission_state.destroyed_contexts,
++					      struct intel_context,
++					      destroyed_link);
++		if (ce)
++			list_del_init(&ce->destroyed_link);
++		spin_unlock_irqrestore(&guc->submission_state.lock, flags);
++
++		if (!ce)
++			break;
++
++		release_guc_id(guc, ce);
+ 		__guc_context_destroy(ce);
+ 	}
+-	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+ }
+ 
+ static void deregister_destroyed_contexts(struct intel_guc *guc)
+ {
+-	struct intel_context *ce, *cn;
++	struct intel_context *ce;
+ 	unsigned long flags;
+ 
+-	spin_lock_irqsave(&guc->submission_state.lock, flags);
+-	list_for_each_entry_safe(ce, cn,
+-				 &guc->submission_state.destroyed_contexts,
+-				 destroyed_link) {
+-		list_del_init(&ce->destroyed_link);
++	while (!list_empty(&guc->submission_state.destroyed_contexts)) {
++		spin_lock_irqsave(&guc->submission_state.lock, flags);
++		ce = list_first_entry_or_null(&guc->submission_state.destroyed_contexts,
++					      struct intel_context,
++					      destroyed_link);
++		if (ce)
++			list_del_init(&ce->destroyed_link);
++		spin_unlock_irqrestore(&guc->submission_state.lock, flags);
++
++		if (!ce)
++			break;
++
+ 		guc_lrc_desc_unpin(ce);
+ 	}
+-	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+ }
+ 
+ static void destroyed_worker_func(struct work_struct *w)
 -- 
 2.33.1
 
