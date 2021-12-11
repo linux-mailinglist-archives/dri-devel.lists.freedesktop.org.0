@@ -2,49 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 108ED4716EB
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Dec 2021 22:57:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AEDC47171B
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Dec 2021 23:19:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8EA910E365;
-	Sat, 11 Dec 2021 21:57:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBFFF10E2A7;
+	Sat, 11 Dec 2021 22:19:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay04.th.seeweb.it (relay04.th.seeweb.it [5.144.164.165])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 626FC10E365;
- Sat, 11 Dec 2021 21:57:22 +0000 (UTC)
-Received: from SoMainline.org (94-209-165-62.cable.dynamic.v4.ziggo.nl
- [94.209.165.62])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 07868202E0;
- Sat, 11 Dec 2021 22:57:20 +0100 (CET)
-Date: Sat, 11 Dec 2021 22:57:18 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v2 2/2] drm/msm/dpu: Fix timeout issues on command mode
- panels
-Message-ID: <20211211215718.pe675o5wvculxavc@SoMainline.org>
-Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- robdclark@gmail.com, sean@poorly.run, airlied@linux.ie,
- daniel@ffwll.ch, abhinavk@codeaurora.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- konrad.dybcio@somainline.org, martin.botka@somainline.org,
- ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
- paul.bouchara@somainline.org
-References: <20210911163919.47173-1-angelogioacchino.delregno@somainline.org>
- <20210911163919.47173-2-angelogioacchino.delregno@somainline.org>
- <b325fc8d-e06b-36de-b40a-b5ffbcebb1c5@linaro.org>
- <94bedea3-0e5f-5ae8-79d1-ceb17ccdea23@somainline.org>
- <20211211213528.uroqfdksvokspbxf@SoMainline.org>
- <CAA8EJprT5gcWOsS5jJk8egUpxutBpUdW2Pnh-8FFXhgOd3hr=A@mail.gmail.com>
+Received: from lynxeye.de (ns.lynxeye.de [87.118.118.114])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A534A10E2A7
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Dec 2021 22:19:23 +0000 (UTC)
+Received: by lynxeye.de (Postfix, from userid 501)
+ id 87B29E74225; Sat, 11 Dec 2021 23:18:52 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on lynxeye.de
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=3.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=ham version=3.3.1
+Received: from astat.fritz.box (a89-183-15-126.net-htp.de [89.183.15.126])
+ by lynxeye.de (Postfix) with ESMTPA id A443CE74023;
+ Sat, 11 Dec 2021 23:18:51 +0100 (CET)
+From: Lucas Stach <dev@lynxeye.de>
+To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Subject: [PATCH 1/2] drm/imx/dcss: add missing drm_bridge.h include
+Date: Sat, 11 Dec 2021 23:18:47 +0100
+Message-Id: <20211211221848.1665958-1-dev@lynxeye.de>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAA8EJprT5gcWOsS5jJk8egUpxutBpUdW2Pnh-8FFXhgOd3hr=A@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,33 +42,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, konrad.dybcio@somainline.org,
- linux-kernel@vger.kernel.org, abhinavk@codeaurora.org,
- paul.bouchara@somainline.org, martin.botka@somainline.org,
- dri-devel@lists.freedesktop.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- phone-devel@vger.kernel.org, sean@poorly.run,
- ~postmarketos/upstreaming@lists.sr.ht
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-12-12 00:49:09, Dmitry Baryshkov wrote:
-> On Sun, 12 Dec 2021 at 00:35, Marijn Suijten
-> <marijn.suijten@somainline.org> wrote:
-> > [..]
-> > On this note, does it perhaps make more sense to call the "internal"
-> > _dpu_encoder_phys_cmd_wait_for_idle function directly, instead of going
-> > through the "public" dpu_encoder_phys_cmd_wait_for_tx_complete which
-> > seems solely intended to handle the wait_for_tx_complete callback?
-> 
-> Either one would work. The main difference is the error message. Do
-> you want to see it here if the wait times out or not?
+This has been pulled in via some other include before, which is no
+longer true.
 
-I prefer calling _dpu_encoder_phys_cmd_wait_for_idle directly and
-optionally adding our own error message.  IIRC DRM_ERROR prints source
-information such as the function this originated from, and that makes it
-impossible to distinguish between the wait_for_tx_complete callback or
-the invocation through dpu_encoder_phys_cmd_wait_for_commit_done anyway.
+Signed-off-by: Lucas Stach <dev@lynxeye.de>
+---
+ drivers/gpu/drm/imx/dcss/dcss-kms.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-- Marijn
+diff --git a/drivers/gpu/drm/imx/dcss/dcss-kms.c b/drivers/gpu/drm/imx/dcss/dcss-kms.c
+index 9b84df34a6a1..96a9517021fe 100644
+--- a/drivers/gpu/drm/imx/dcss/dcss-kms.c
++++ b/drivers/gpu/drm/imx/dcss/dcss-kms.c
+@@ -5,6 +5,7 @@
+ 
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
++#include <drm/drm_bridge.h>
+ #include <drm/drm_bridge_connector.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_fb_helper.h>
+-- 
+2.31.1
+
