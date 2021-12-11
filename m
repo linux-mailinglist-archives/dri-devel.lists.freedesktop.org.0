@@ -1,50 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC27E471253
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Dec 2021 07:59:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE3B2471326
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Dec 2021 10:27:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B333410E603;
-	Sat, 11 Dec 2021 06:59:07 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 621B910E3A3;
- Sat, 11 Dec 2021 06:59:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639205941; x=1670741941;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=rIJnYoAjhrOOkWPNRWUi/BrcwvPrM/K4Ak699pCY9Dk=;
- b=TK12NSGDh+sdm3Qrbi7a/jDAfeHYPRTyNKx9pIErqXlfNDvp1ZRE57Uz
- g1AsPNAM8yvLMrwG/uoUWUZv+MyvN4eBi79jA9y64ywex2igdcUfFbI/x
- 7v8afk9BYM6tOENgBqK0fUI1j/gAsCqn+JUDPDX9FIUvJFopW1kBHTo1E
- t5XnCk9v5a58TD9ubAKuFpFRFhWX68c/rHSXTiQUHTFNji4YkraE76qgD
- mfYjRIXQWQ+BlHq3dqH/xddxI3mOH9MIzEnwyjerzsnpFCS4mbzREuKKp
- VJSVXenslN31zlrbL4ulK7IsteVcOlMIpopDCwZ6TndrsDJc/7ojAjjuB A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10194"; a="237249049"
-X-IronPort-AV: E=Sophos;i="5.88,197,1635231600"; d="scan'208";a="237249049"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2021 22:59:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,197,1635231600"; d="scan'208";a="463979859"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
- by orsmga006.jf.intel.com with ESMTP; 10 Dec 2021 22:58:59 -0800
-From: John.C.Harrison@Intel.com
-To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH 4/4] drm/i915: Improve long running OCL w/a for GuC submission
-Date: Fri, 10 Dec 2021 22:58:59 -0800
-Message-Id: <20211211065859.2248188-5-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211211065859.2248188-1-John.C.Harrison@Intel.com>
-References: <20211211065859.2248188-1-John.C.Harrison@Intel.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7039E10E7AA;
+	Sat, 11 Dec 2021 09:26:54 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB85810E793
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Dec 2021 09:26:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639214811;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=FuzLqB82BcW0UP+PPCzPY/LPJgq+aPig3zfEP1M1Qiw=;
+ b=F813cUURlJjmBcbdwRgiOFxz5Pas/02oYhQypyppczieTDv/hOlAnRVGOLkIX6XQiZ89za
+ V5s26eE7P9XbnLOV+/mLJhtBejFbVyetSpRZOdGAmhopB8wj3VJzPfu1LaHsLcGVUPDOlA
+ RoS7Twiejj+SqKm/c+3JwWVQdIJehtw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-396-wb8vZXmRPh-pKWUdhmnIAQ-1; Sat, 11 Dec 2021 04:26:48 -0500
+X-MC-Unique: wb8vZXmRPh-pKWUdhmnIAQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B8E68042E0;
+ Sat, 11 Dec 2021 09:26:46 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4CBA545D66;
+ Sat, 11 Dec 2021 09:26:33 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 38AED1800091; Sat, 11 Dec 2021 10:20:50 +0100 (CET)
+Date: Sat, 11 Dec 2021 10:20:50 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Felix Kuehling <felix.kuehling@amd.com>
+Subject: Re: Reuse framebuffer after a kexec (amdgpu / efifb)
+Message-ID: <20211211092050.wbczxxrnzoywbns6@sirius.home.kraxel.org>
+References: <CADnq5_O8x3_8f7GZ=tme55-QW+nqMJ2YoqvROjDPg2YZP2catQ@mail.gmail.com>
+ <a1f4d263-b3d2-4ceb-8a89-948c8129500f@igalia.com>
+ <CADnq5_N9ptK4c86LO77YcrF5_M==hket+L7eYjsGCaKbORO=ug@mail.gmail.com>
+ <eaea0143-a961-b83c-3c6c-4d612cd003bc@igalia.com>
+ <6d3c7acf-a23f-3073-56ed-375ccb8cc815@suse.de>
+ <99b38881-8c63-de04-50f8-aa4119b52b25@igalia.com>
+ <CADnq5_NqPEY6vPSsBQSst5Gsw-VpJ-sp-5DHMeB+EGA2t7KoAQ@mail.gmail.com>
+ <56dfb915-036b-0584-f0ef-83c786970d6e@igalia.com>
+ <d1de6ca3-11ae-af9e-a2fb-7bcb6fae01d6@amd.com>
+ <3988a221-2f6a-540a-3d77-18c2c67ddbe7@amd.com>
 MIME-Version: 1.0
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3988a221-2f6a-540a-3d77-18c2c67ddbe7@amd.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,92 +70,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
+Cc: "open list:EFIFB FRAMEBUFFER DRIVER" <linux-fbdev@vger.kernel.org>,
+ kernel@gpiccoli.net, Baoquan He <bhe@redhat.com>,
+ Samuel Iglesias =?utf-8?Q?Gons=C3=A1lvez?= <siglesias@igalia.com>,
+ xinhui pan <Xinhui.Pan@amd.com>, kexec@lists.infradead.org,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ "Guilherme G. Piccoli" <gpiccoli@igalia.com>, pjones@redhat.com,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>, Dave Young <dyoung@redhat.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Vivek Goyal <vgoyal@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
-
-A workaround was added to the driver to allow OpenCL workloads to run
-'forever' by disabling pre-emption on the RCS engine for Gen12.
-It is not totally unbound as the heartbeat will kick in eventually
-and cause a reset of the hung engine.
-
-However, this does not work well in GuC submission mode. In GuC mode,
-the pre-emption timeout is how GuC detects hung contexts and triggers
-a per engine reset. Thus, disabling the timeout means also losing all
-per engine reset ability. A full GT reset will still occur when the
-heartbeat finally expires, but that is a much more destructive and
-undesirable mechanism.
-
-The purpose of the workaround is actually to give OpenCL tasks longer
-to reach a pre-emption point after a pre-emption request has been
-issued. This is necessary because Gen12 does not support mid-thread
-pre-emption and OpenCL can have long running threads.
-
-So, rather than disabling the timeout completely, just set it to a
-'long' value. Likewise, bump the heartbeat interval. That gives the
-OpenCL thread sufficient time to reach a pre-emption point without
-being killed off either by the GuC or by the heartbeat.
-
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
----
- drivers/gpu/drm/i915/gt/intel_engine_cs.c | 42 +++++++++++++++++++++--
- 1 file changed, 39 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-index 352254e001b4..26af8d60fe2b 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-@@ -382,9 +382,45 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id,
- 	engine->props.timeslice_duration_ms =
- 		CONFIG_DRM_I915_TIMESLICE_DURATION;
+On Fri, Dec 10, 2021 at 07:54:34PM -0500, Felix Kuehling wrote:
  
--	/* Override to uninterruptible for OpenCL workloads. */
--	if (GRAPHICS_VER(i915) == 12 && engine->class == RENDER_CLASS)
--		engine->props.preempt_timeout_ms = 0;
-+	/*
-+	 * Mid-thread pre-emption is not available in Gen12. Unfortunately,
-+	 * some OpenCL workloads run quite long threads. That means they get
-+	 * reset due to not pre-empting in a timely manner.
-+	 * The execlist solution was to disable pre-emption completely.
-+	 * However, pre-emption timeouts are the way GuC detects hung contexts
-+	 * and triggers engine resets. Thus, without pre-emption, there is no
-+	 * per engine reset. And full GT reset is much more intrusive. So keep
-+	 * the timeout for GuC submission platforms and just bump it to be
-+	 * much larger. Also bump the heartbeat timeout to match, otherwise
-+	 * the heartbeat can expire before the pre-emption can timeout and
-+	 * thus trigger a full GT reset anyway.
-+	 */
-+	if (GRAPHICS_VER(i915) == 12 && engine->class == RENDER_CLASS) {
-+		if (intel_uc_wants_guc_submission(&gt->uc)) {
-+			const unsigned long min_preempt = 7500;
-+			const unsigned long min_beat = 5000;
-+
-+			if (engine->props.preempt_timeout_ms &&
-+			    engine->props.preempt_timeout_ms < min_preempt) {
-+				drm_info(&gt->i915->drm, "Bumping pre-emption timeout from %ld to %ld on %s to allow slow compute pre-emption\n",
-+					 engine->props.preempt_timeout_ms,
-+					 min_preempt, engine->name);
-+
-+				engine->props.preempt_timeout_ms = min_preempt;
-+			}
-+
-+			if (engine->props.heartbeat_interval_ms &&
-+			    engine->props.heartbeat_interval_ms < min_beat) {
-+				drm_info(&gt->i915->drm, "Bumping heartbeat interval from %ld to %ld on %s to allow slow compute pre-emption\n",
-+					 engine->props.heartbeat_interval_ms,
-+					 min_beat, engine->name);
-+
-+				engine->props.heartbeat_interval_ms = min_beat;
-+			}
-+		} else {
-+			engine->props.preempt_timeout_ms = 0;
-+		}
-+	}
- 
- 	engine->defaults = engine->props; /* never to change again */
- 
--- 
-2.25.1
+> Do you actually need to restore the exact boot-up mode? If you have the same
+> framebuffer memory layout (width, height, bpp, stride) the precise display
+> timing doesn't really matter. So we "just" need to switch to a mode that's
+> compatible with the efifb framebuffer parameters and point the display
+> engine at the efifb as the scan-out buffer.
+
+That'll probably doable for a normal kexec but in case of a crashdump
+kexec I don't think it is a good idea to touch the gpu using the driver
+of the kernel which just crashed ...
+
+take care,
+  Gerd
 
