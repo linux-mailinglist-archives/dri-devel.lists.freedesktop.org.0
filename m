@@ -1,33 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A4AB47133A
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Dec 2021 10:59:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA1A0471383
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Dec 2021 11:56:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 619E010E6E3;
-	Sat, 11 Dec 2021 09:59:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A296610EA30;
+	Sat, 11 Dec 2021 10:56:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from manul.sfritsch.de (manul.sfritsch.de
- [IPv6:2a01:4f8:172:195f:112::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72C5210E6E3;
- Sat, 11 Dec 2021 09:59:33 +0000 (UTC)
-Message-ID: <b6acb31c-ec63-4242-32da-a35e950e5a67@sfritsch.de>
-Date: Sat, 11 Dec 2021 10:59:23 +0100
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 001C510EA30
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Dec 2021 10:56:11 +0000 (UTC)
+Received: from ip4d17a2ab.dynamic.kabel-deutschland.de ([77.23.162.171]
+ helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <heiko@sntech.de>)
+ id 1mw02p-0007zm-NW; Sat, 11 Dec 2021 11:55:59 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Sandy Huang <hjc@rock-chips.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ - <opensource@rock-chips.com>, David Heidelberg <david@ixit.cz>
+Subject: Re: [PATCH] dt-bindings: convert power domain node for rockchip DW
+ MIPI DSI
+Date: Sat, 11 Dec 2021 11:55:58 +0100
+Message-ID: <26502781.jAYDHVeSjN@diego>
+In-Reply-To: <20211206212651.126405-1-david@ixit.cz>
+References: <20211206212651.126405-1-david@ixit.cz>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH] drm/nouveau: wait for the exclusive fence after the
- shared ones v2
-Content-Language: de-DE
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dmoulding@me.com, bskeggs@redhat.com
-References: <20211209102335.18321-1-christian.koenig@amd.com>
-From: Stefan Fritsch <sf@sfritsch.de>
-In-Reply-To: <20211209102335.18321-1-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,90 +42,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ David Heidelberg <david@ixit.cz>, ~okias/devicetree@lists.sr.ht,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09.12.21 11:23, Christian König wrote:
-> Always waiting for the exclusive fence resulted on some performance
-> regressions. So try to wait for the shared fences first, then the
-> exclusive fence should always be signaled already.
+Hi David,
+
+Am Montag, 6. Dezember 2021, 22:26:50 CET schrieb David Heidelberg:
+> Convert into YAML format into format, which can be validated.
 > 
-> v2: fix incorrectly placed "(", add some comment why we do this.
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
+> Changes:
+>  - drop panel from example
 
-Tested-by: Stefan Fritsch <sf@sfritsch.de>
+the patch subject is strange, talking about a "power domain node".
+That needs a fix.
 
-Please also add a cc for linux-stable, so that this is fixed in 5.15.x
+Some more things below.
 
-Cheers,
-Stefan
 
-> ---
->   drivers/gpu/drm/nouveau/nouveau_fence.c | 28 +++++++++++++------------
->   1 file changed, 15 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
-> index 05d0b3eb3690..0ae416aa76dc 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-> @@ -353,15 +353,22 @@ nouveau_fence_sync(struct nouveau_bo *nvbo, struct nouveau_channel *chan, bool e
->   
->   		if (ret)
->   			return ret;
-> -	}
->   
-> -	fobj = dma_resv_shared_list(resv);
-> -	fence = dma_resv_excl_fence(resv);
-> +		fobj = NULL;
-> +	} else {
-> +		fobj = dma_resv_shared_list(resv);
-> +	}
->   
-> -	if (fence) {
-> +	/* Waiting for the exclusive fence first causes performance regressions
-> +	 * under some circumstances. So manually wait for the shared ones first.
-> +	 */
-> +	for (i = 0; i < (fobj ? fobj->shared_count : 0) && !ret; ++i) {
->   		struct nouveau_channel *prev = NULL;
->   		bool must_wait = true;
->   
-> +		fence = rcu_dereference_protected(fobj->shared[i],
-> +						dma_resv_held(resv));
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - rockchip,px30-mipi-dsi
+> +              - rockchip,rk3288-mipi-dsi
+> +              - rockchip,rk3399-mipi-dsi
+> +          - const: snps,dw-mipi-dsi
+
+> +      - items:
+> +          - const: rockchip,px30-mipi-dsi
+> +      - items:
+> +          - const: rockchip,rk3288-mipi-dsi
+> +      - items:
+> +          - const: rockchip,rk3399-mipi-dsi
+
+what are these for?
+
+I see that px30 uses the dsi without the snps part, but you
+can also just add a patch adding that second compatible to px30.dtsi
+
+I don't think we need to support both ways.
+
 > +
->   		f = nouveau_local_fence(fence, chan->drm);
->   		if (f) {
->   			rcu_read_lock();
-> @@ -373,20 +380,13 @@ nouveau_fence_sync(struct nouveau_bo *nvbo, struct nouveau_channel *chan, bool e
->   
->   		if (must_wait)
->   			ret = dma_fence_wait(fence, intr);
-> -
-> -		return ret;
->   	}
->   
-> -	if (!exclusive || !fobj)
-> -		return ret;
-> -
-> -	for (i = 0; i < fobj->shared_count && !ret; ++i) {
-> +	fence = dma_resv_excl_fence(resv);
-> +	if (fence) {
->   		struct nouveau_channel *prev = NULL;
->   		bool must_wait = true;
->   
-> -		fence = rcu_dereference_protected(fobj->shared[i],
-> -						dma_resv_held(resv));
-> -
->   		f = nouveau_local_fence(fence, chan->drm);
->   		if (f) {
->   			rcu_read_lock();
-> @@ -398,6 +398,8 @@ nouveau_fence_sync(struct nouveau_bo *nvbo, struct nouveau_channel *chan, bool e
->   
->   		if (must_wait)
->   			ret = dma_fence_wait(fence, intr);
+> +  reg:
+> +    maxItems: 1
 > +
-> +		return ret;
->   	}
->   
->   	return ret;
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks: true
+> +
+> +  clock-names: true
+> +
+> +  phys:
+> +    maxItems: 1
+> +    description: The external PHY
+
+make that "Optional external PHY perhaps"?
+
+Heiko
+
+
