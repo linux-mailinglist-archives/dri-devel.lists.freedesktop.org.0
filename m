@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09675471252
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Dec 2021 07:59:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC27E471253
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Dec 2021 07:59:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92B4010E5D5;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B333410E603;
 	Sat, 11 Dec 2021 06:59:07 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 407E110E3BF;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 621B910E3A3;
  Sat, 11 Dec 2021 06:59:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1639205941; x=1670741941;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Lz6kcdq5Ya6xFKebpRqe9l48NRg0MJy/TW8PC0vQhBA=;
- b=CuRk3/gsaQAJn80tiAlh5T+wGccfQix6beVN745KeMd9R8+vsR8hRBSR
- Rc1SjLlu/DmMWND324R/pID+cj9LtyutahiOaa7ycBhor7UFy5AsDyKcY
- 66XS8xgc20T1fTubkIEFn8B7+F8o0eUS+/CDmyMpnwVz36MjkncvY2Xeo
- BDLQugwrnEu1+Pvzz5ta9zcCKQUoUlZowpljK2HqXXSeO3urcev9jJQVB
- b+Dp2AHZhOwW4gERruLIsXYYnVsQqXeTpcDrEjUhvxDyTg5EmCCMir2vh
- +c8H28tx9RC5TXrYAIh1Jb68P9KFTZhyyAnUrIQSenOf1lrPlmKYhInA0 g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10194"; a="237249048"
-X-IronPort-AV: E=Sophos;i="5.88,197,1635231600"; d="scan'208";a="237249048"
+ bh=rIJnYoAjhrOOkWPNRWUi/BrcwvPrM/K4Ak699pCY9Dk=;
+ b=TK12NSGDh+sdm3Qrbi7a/jDAfeHYPRTyNKx9pIErqXlfNDvp1ZRE57Uz
+ g1AsPNAM8yvLMrwG/uoUWUZv+MyvN4eBi79jA9y64ywex2igdcUfFbI/x
+ 7v8afk9BYM6tOENgBqK0fUI1j/gAsCqn+JUDPDX9FIUvJFopW1kBHTo1E
+ t5XnCk9v5a58TD9ubAKuFpFRFhWX68c/rHSXTiQUHTFNji4YkraE76qgD
+ mfYjRIXQWQ+BlHq3dqH/xddxI3mOH9MIzEnwyjerzsnpFCS4mbzREuKKp
+ VJSVXenslN31zlrbL4ulK7IsteVcOlMIpopDCwZ6TndrsDJc/7ojAjjuB A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10194"; a="237249049"
+X-IronPort-AV: E=Sophos;i="5.88,197,1635231600"; d="scan'208";a="237249049"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 Dec 2021 22:59:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,197,1635231600"; d="scan'208";a="463979857"
+X-IronPort-AV: E=Sophos;i="5.88,197,1635231600"; d="scan'208";a="463979859"
 Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
  by orsmga006.jf.intel.com with ESMTP; 10 Dec 2021 22:58:59 -0800
 From: John.C.Harrison@Intel.com
 To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH 3/4] drm/i915/guc: Flag an error if an engine reset fails
-Date: Fri, 10 Dec 2021 22:58:58 -0800
-Message-Id: <20211211065859.2248188-4-John.C.Harrison@Intel.com>
+Subject: [PATCH 4/4] drm/i915: Improve long running OCL w/a for GuC submission
+Date: Fri, 10 Dec 2021 22:58:59 -0800
+Message-Id: <20211211065859.2248188-5-John.C.Harrison@Intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211211065859.2248188-1-John.C.Harrison@Intel.com>
 References: <20211211065859.2248188-1-John.C.Harrison@Intel.com>
@@ -63,58 +63,86 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: John Harrison <John.C.Harrison@Intel.com>
 
-If GuC encounters an error during engine reset, the i915 driver
-promotes to full GT reset. This includes an info message about why the
-reset is happening. However, that is not treated as a failure by any
-of the CI systems because resets are an expected occurrance during
-testing. This kind of failure is a major problem and should never
-happen. So, complain more loudly and make sure CI notices.
+A workaround was added to the driver to allow OpenCL workloads to run
+'forever' by disabling pre-emption on the RCS engine for Gen12.
+It is not totally unbound as the heartbeat will kick in eventually
+and cause a reset of the hung engine.
+
+However, this does not work well in GuC submission mode. In GuC mode,
+the pre-emption timeout is how GuC detects hung contexts and triggers
+a per engine reset. Thus, disabling the timeout means also losing all
+per engine reset ability. A full GT reset will still occur when the
+heartbeat finally expires, but that is a much more destructive and
+undesirable mechanism.
+
+The purpose of the workaround is actually to give OpenCL tasks longer
+to reach a pre-emption point after a pre-emption request has been
+issued. This is necessary because Gen12 does not support mid-thread
+pre-emption and OpenCL can have long running threads.
+
+So, rather than disabling the timeout completely, just set it to a
+'long' value. Likewise, bump the heartbeat interval. That gives the
+OpenCL thread sufficient time to reach a pre-emption point without
+being killed off either by the GuC or by the heartbeat.
 
 Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c | 42 +++++++++++++++++++++--
+ 1 file changed, 39 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 97311119da6f..6015815f1da0 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -4018,11 +4018,12 @@ int intel_guc_engine_failure_process_msg(struct intel_guc *guc,
- 					 const u32 *msg, u32 len)
- {
- 	struct intel_engine_cs *engine;
-+	struct intel_gt *gt = guc_to_gt(guc);
- 	u8 guc_class, instance;
- 	u32 reason;
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+index 352254e001b4..26af8d60fe2b 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+@@ -382,9 +382,45 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id,
+ 	engine->props.timeslice_duration_ms =
+ 		CONFIG_DRM_I915_TIMESLICE_DURATION;
  
- 	if (unlikely(len != 3)) {
--		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u", len);
-+		drm_err(&gt->i915->drm, "Invalid length %u", len);
- 		return -EPROTO;
- 	}
- 
-@@ -4032,12 +4033,19 @@ int intel_guc_engine_failure_process_msg(struct intel_guc *guc,
- 
- 	engine = guc_lookup_engine(guc, guc_class, instance);
- 	if (unlikely(!engine)) {
--		drm_err(&guc_to_gt(guc)->i915->drm,
-+		drm_err(&gt->i915->drm,
- 			"Invalid engine %d:%d", guc_class, instance);
- 		return -EPROTO;
- 	}
- 
--	intel_gt_handle_error(guc_to_gt(guc), engine->mask,
+-	/* Override to uninterruptible for OpenCL workloads. */
+-	if (GRAPHICS_VER(i915) == 12 && engine->class == RENDER_CLASS)
+-		engine->props.preempt_timeout_ms = 0;
 +	/*
-+	 * This is an unexpected failure of a hardware feature. So, log a real
-+	 * error message not just the informational that comes with the reset.
++	 * Mid-thread pre-emption is not available in Gen12. Unfortunately,
++	 * some OpenCL workloads run quite long threads. That means they get
++	 * reset due to not pre-empting in a timely manner.
++	 * The execlist solution was to disable pre-emption completely.
++	 * However, pre-emption timeouts are the way GuC detects hung contexts
++	 * and triggers engine resets. Thus, without pre-emption, there is no
++	 * per engine reset. And full GT reset is much more intrusive. So keep
++	 * the timeout for GuC submission platforms and just bump it to be
++	 * much larger. Also bump the heartbeat timeout to match, otherwise
++	 * the heartbeat can expire before the pre-emption can timeout and
++	 * thus trigger a full GT reset anyway.
 +	 */
-+	drm_err(&gt->i915->drm, "GuC engine reset request failed on %d:%d (%s) because %d",
-+		guc_class, instance, engine->name, reason);
++	if (GRAPHICS_VER(i915) == 12 && engine->class == RENDER_CLASS) {
++		if (intel_uc_wants_guc_submission(&gt->uc)) {
++			const unsigned long min_preempt = 7500;
++			const unsigned long min_beat = 5000;
 +
-+	intel_gt_handle_error(gt, engine->mask,
- 			      I915_ERROR_CAPTURE,
- 			      "GuC failed to reset %s (reason=0x%08x)\n",
- 			      engine->name, reason);
++			if (engine->props.preempt_timeout_ms &&
++			    engine->props.preempt_timeout_ms < min_preempt) {
++				drm_info(&gt->i915->drm, "Bumping pre-emption timeout from %ld to %ld on %s to allow slow compute pre-emption\n",
++					 engine->props.preempt_timeout_ms,
++					 min_preempt, engine->name);
++
++				engine->props.preempt_timeout_ms = min_preempt;
++			}
++
++			if (engine->props.heartbeat_interval_ms &&
++			    engine->props.heartbeat_interval_ms < min_beat) {
++				drm_info(&gt->i915->drm, "Bumping heartbeat interval from %ld to %ld on %s to allow slow compute pre-emption\n",
++					 engine->props.heartbeat_interval_ms,
++					 min_beat, engine->name);
++
++				engine->props.heartbeat_interval_ms = min_beat;
++			}
++		} else {
++			engine->props.preempt_timeout_ms = 0;
++		}
++	}
+ 
+ 	engine->defaults = engine->props; /* never to change again */
+ 
 -- 
 2.25.1
 
