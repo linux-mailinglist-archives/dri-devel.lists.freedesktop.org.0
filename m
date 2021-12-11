@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9308470FAF
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Dec 2021 02:02:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4317C470FAA
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Dec 2021 02:02:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90CBE10E69E;
-	Sat, 11 Dec 2021 01:02:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2B9010E68D;
+	Sat, 11 Dec 2021 01:01:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5724E10E691;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A32710E68E;
  Sat, 11 Dec 2021 01:01:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1639184516; x=1670720516;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=EhdUVVr9eIE9WCSz8TAVFuFLdO2xUveYEDO6k+ucB7k=;
- b=Cf/zz6PBymb3C8cn4XL6/y6vZX61xMpRHYnevjfivLasbzQl2UN9GlfU
- eh/cHUmDDKaLjnYflF7zQsm67pVgdlC/g4MyLpITI4s+zQI3BUsASLLWw
- 1ryAqkxjJJQXU8UMvrbaXy2iVbu6rcDfKrEweNGQO6m/mmw6teddkDA7P
- JKIEA+Ipr3F6uIBHpG5khoKx1f9/wbI9K+Vr4F5x41f4N5umcOylUV41n
- uEYDJXKzPJD6Jtrm+IqREbtOYfpuGdQ7Azq/ODcfrB0sW/8qTA/Q5VSSs
- 4MS7P99Bx/PvHPp5lWSlDBwFwpI8hJQgbiohwpPKwvLW3SFqC4rSEvZt2 A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10194"; a="238298245"
-X-IronPort-AV: E=Sophos;i="5.88,197,1635231600"; d="scan'208";a="238298245"
+ bh=+t+IYa+onmrRcxvOJjKYFtf3l6LDynZbl3ClATBruNA=;
+ b=QsugoUZ455YdmHSInKxjQdjgxtow4KoyQ4/GD/TQNLlNNTj+cJtGNjeh
+ hHu3ctl8LGnp49lo7WoqbC6ibT1utSK+lg0r3aQaAjW5Q9O/KU4TJcu+M
+ UonvSivPbinJL4q6sYdCqf6w3lDvO7YUgSPYdH7K+Vqg8/coPCVk+DrWq
+ O0FTDgDEN67n0lan00wroT6xKDP2txZtM2wBr+l58peExbZymdZBmezkc
+ DGjX6MLE1Sowl2sJcTpNu0sB8gUeUOqVaGdkRHOZc2agGuxjTQQldn1et
+ qeUXYDpbwefRHVinUykTr3X0yD69L+jwOKTpxWiKoQ7huKDTn229G1E2p w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10194"; a="238298246"
+X-IronPort-AV: E=Sophos;i="5.88,197,1635231600"; d="scan'208";a="238298246"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2021 17:01:41 -0800
-X-IronPort-AV: E=Sophos;i="5.88,197,1635231600"; d="scan'208";a="517002951"
+ 10 Dec 2021 17:01:42 -0800
+X-IronPort-AV: E=Sophos;i="5.88,197,1635231600"; d="scan'208";a="517002955"
 Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 Dec 2021 17:01:41 -0800
 From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH 2/7] drm/i915/guc: Only assign guc_id.id when stealing guc_id
-Date: Fri, 10 Dec 2021 16:56:07 -0800
-Message-Id: <20211211005612.8575-3-matthew.brost@intel.com>
+Subject: [PATCH 3/7] drm/i915/guc: Remove racey GEM_BUG_ON
+Date: Fri, 10 Dec 2021 16:56:08 -0800
+Message-Id: <20211211005612.8575-4-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211211005612.8575-1-matthew.brost@intel.com>
 References: <20211211005612.8575-1-matthew.brost@intel.com>
@@ -60,28 +60,30 @@ Cc: daniele.ceraolospurio@intel.com, john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Previously assigned whole guc_id structure (list, spin lock) which is
-incorrect, only assign the guc_id.id.
+A full GT reset can race with the last context put resulting in the
+context ref count being zero but the destroyed bit not yet being set.
+Remove GEM_BUG_ON in scrub_guc_desc_for_outstanding_g2h that asserts the
+destroyed bit must be set in ref count is zero.
 
-Fixes: 0f7976506de61 ("drm/i915/guc: Rework and simplify locking")
+Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 9b7b4f4e0d91..0fb2eeff0262 100644
+index 0fb2eeff0262..36c2965db49b 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -1935,7 +1935,7 @@ static int steal_guc_id(struct intel_guc *guc, struct intel_context *ce)
- 		GEM_BUG_ON(intel_context_is_parent(cn));
+@@ -1040,8 +1040,6 @@ static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
  
- 		list_del_init(&cn->guc_id.link);
--		ce->guc_id = cn->guc_id;
-+		ce->guc_id.id = cn->guc_id.id;
+ 		spin_unlock(&ce->guc_state.lock);
  
- 		spin_lock(&cn->guc_state.lock);
- 		clr_context_registered(cn);
+-		GEM_BUG_ON(!do_put && !destroyed);
+-
+ 		if (pending_enable || destroyed || deregister) {
+ 			decr_outstanding_submission_g2h(guc);
+ 			if (deregister)
 -- 
 2.33.1
 
