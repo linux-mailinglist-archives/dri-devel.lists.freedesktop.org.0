@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AECD471146
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Dec 2021 04:37:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FE4D471149
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Dec 2021 04:38:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6E6F10E2D0;
-	Sat, 11 Dec 2021 03:37:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33B3310E31C;
+	Sat, 11 Dec 2021 03:38:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A70F10E2D0;
- Sat, 11 Dec 2021 03:37:02 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FED910E30F;
+ Sat, 11 Dec 2021 03:38:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639193822; x=1670729822;
+ t=1639193895; x=1670729895;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:content-transfer-encoding:in-reply-to;
- bh=aszu+NnniLpH9hpF+Bq+Ga5LcrIHUrjR5xlT9PROAmI=;
- b=a9CDrd1ijLq/NYyKX5EU03AW+ICj2n7fL5bUsuZJePl+GOuOKbLKRSNy
- oGcT0n8GF7mAJl3g/VnUKcyhsV0zt+laP2N3DSwP7Dxj3fvoWHFOKGc93
- CwZa1fGgJGSQ2XLyGXAnBZcshuQyu/O99hMs9rcgASzPOAD54fP7gIYDf
- Sp9zrfwGh9M7D/WzmIscSirZUu9LhzR/5xrjqz2ALKND2P8dA55Ep7nR2
- 4QwF6KYkTBi6UmrKMsa6qU7picYlUH+As2nTONafKzQcctapWn09Ncq94
- H0Yb9gxUa2YqBMOVDvmY8poeZqxUh2Tw7nKlhvFVAk7Np7Tfkwjl/cuDh w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10194"; a="225367385"
-X-IronPort-AV: E=Sophos;i="5.88,197,1635231600"; d="scan'208";a="225367385"
+ bh=b0QLpEM+kVsY5UgvIP79lE3gWFbxwnjQBYVgvrt80CI=;
+ b=ZlxUS/ZQYyTWdxBDRXSFZ7XkOuywuaVMLkCKiTI2gmk8kNIpzi85ha+z
+ jBUNMzj+N9j8fzZRzVBtCzD4vFwXOBoBIs+ASel7TFdSoPh5ptuR0slSa
+ DMQUoelGomDldlNPAkoo9dGoSYIQkJe1uP/Y7EaB6y8H5g0UxlzDgSzIW
+ 8PwlSqTURwHOrebVj0XHLFnXpjqtw7coqCySMdwMAfJZhvm6bO5tI2ici
+ ZGKWchYGwOhwdoMZdx0XFMqcXLy4BRNZyNsnayOdx0K3KsoCspY87wrN8
+ JjD0HMG42Twkby5oXU8BUFDvji8gNVBlvmFsviBt8n53bJJUUbXaP/WQ2 w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10194"; a="218524409"
+X-IronPort-AV: E=Sophos;i="5.88,197,1635231600"; d="scan'208";a="218524409"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2021 19:37:01 -0800
-X-IronPort-AV: E=Sophos;i="5.88,197,1635231600"; d="scan'208";a="680978890"
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Dec 2021 19:38:15 -0800
+X-IronPort-AV: E=Sophos;i="5.88,197,1635231600"; d="scan'208";a="680979117"
 Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
  ([10.1.27.20])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2021 19:37:01 -0800
-Date: Fri, 10 Dec 2021 19:31:37 -0800
+ 10 Dec 2021 19:38:14 -0800
+Date: Fri, 10 Dec 2021 19:32:50 -0800
 From: Matthew Brost <matthew.brost@intel.com>
 To: John Harrison <john.c.harrison@intel.com>
 Subject: Re: [PATCH 7/7] drm/i915/guc: Selftest for stealing of guc ids
-Message-ID: <20211211033137.GA8899@jons-linux-dev-box>
+Message-ID: <20211211033250.GB8899@jons-linux-dev-box>
 References: <20211211005612.8575-1-matthew.brost@intel.com>
  <20211211005612.8575-8-matthew.brost@intel.com>
  <111dd483-dff5-2e60-2913-e6bacf35dda9@intel.com>
@@ -74,16 +74,10 @@ On Fri, Dec 10, 2021 at 05:33:02PM -0800, John Harrison wrote:
 > > ids, and forces a steal. Details of test has comment in code so will not
 > has -> are
 > 
-
-Yep.
-
 > But would a copy&paste really be so hard? It is useful to be able to read
 > what a patch does from the commit log and not have to delve inside every
 > time.
 > 
-
-Will c & p.
-
 > 
 > > repeat here.
 > > 
@@ -110,6 +104,12 @@ Will c & p.
 > Should have a CONFIG_SELFTEST around it? And define a wrapper that is
 > GUC_MAX_LRC_DESCRIPTORS or num_guc_ids as appropriate.
 > 
+
+Missed this. Basically decided again a SELFTEST wrapper because SRIOV
+needs this anyways. Can hide this if you insist.
+
+Matt
+
 > 
 > > +		 */
 > > +		int num_guc_ids;
@@ -128,9 +128,6 @@ Will c & p.
 > > +	int number_guc_id_stole;
 > stole -> stolen (in all three cases)
 > 
-
-Sure.
-
 > > +#endif
 > >   };
 > >   static inline struct intel_guc *log_to_guc(struct intel_guc_log *log)
@@ -145,12 +142,7 @@ Sure.
 > > -#define NUMBER_MULTI_LRC_GUC_ID		(GUC_MAX_LRC_DESCRIPTORS / 16)
 > > +#define NUMBER_MULTI_LRC_GUC_ID(guc)	(guc->submission_state.num_guc_ids / 16)
 > And keep the original definition for the non CONFIG_SELFTEST case?
->
-
-Probably could hide submission_state.num_guc_ids behind a
-CONFIG_SELFTEST define but SRIOV needs this anyways so didn't bother. If
-you insist can I hide this.
- 
+> 
 > >   /*
 > >    * Below is a set of functions which control the GuC scheduling state which
 > > @@ -1775,7 +1775,7 @@ int intel_guc_submission_init(struct intel_guc *guc)
@@ -251,9 +243,6 @@ you insist can I hide this.
 > > +	struct i915_request *spin_rq = NULL, *rq, *last = NULL;
 > > +	int number_guc_id_stole = guc->number_guc_id_stole;
 > stole -> stolen
-
-Yep to all of the above.
-
 > 
 > > +
 > > +	ce = kzalloc(sizeof(*ce) * GUC_MAX_LRC_DESCRIPTORS, GFP_KERNEL);
@@ -274,9 +263,6 @@ Yep to all of the above.
 > > +		ret = PTR_ERR(ce[i - 1]);
 > Would be less peculiar looking to do the i++ after the if statement.
 > 
-
-I guess?
-
 > > +		pr_err("Failed to create context: %d\n", ret);
 > > +		goto err_wakeref;
 > > +	}
@@ -309,12 +295,7 @@ I guess?
 > and immediately abort the clean up loop. Need to do the i++ after the if
 > statement. Or after the nop_user_request call to get rid of all the ce[i -
 > 1] things.
->
-
-Sure. Can refactor this.
-
-Matt
- 
+> 
 > John.
 > 
 > > +		}
