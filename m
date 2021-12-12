@@ -1,62 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0EB4471B98
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Dec 2021 17:31:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B86A7471B9D
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Dec 2021 17:39:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA62610E7BE;
-	Sun, 12 Dec 2021 16:31:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C316410E7C6;
+	Sun, 12 Dec 2021 16:39:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA48F89FC9;
- Sun, 12 Dec 2021 16:31:29 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id a37so19452606ljq.13;
- Sun, 12 Dec 2021 08:31:29 -0800 (PST)
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
+ [IPv6:2a00:1450:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B434310E5F1;
+ Sun, 12 Dec 2021 16:39:25 +0000 (UTC)
+Received: by mail-lj1-x22b.google.com with SMTP id p8so20580155ljo.5;
+ Sun, 12 Dec 2021 08:39:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=eQdIOft1oYAqdZXW3N3vDzYovCItAhD3mQzWFf5HB24=;
- b=YqfScbKsBHI/NoNETMQ7U1DyexFNvL5oLjAkvyPEiJf3PsvdarLnzxjzdZpkaDaNeG
- lMB9pU8AG4esjWdSlKefZ3TpGzn49P9RfUSRVFmTi8Q3DXaDO418ikSiLH6MoanIzQXb
- Kg5iDQuubTDuzlZqYCI5JvHLUf3k2Fdr98Rasfk5LwQCmMXVYTWrwvioDJ7bSrCMVYUh
- 1DndqasTcZymXSD63dFqKOFzFtNsIgEruJLgPkeaWjV9X3a+aKku9xLxMX2ogL+iH3tD
- BxWfcodoon6nSMUML20aQKaCvTeuBJr7uLeC9G5camZ9IcpOnAlDSFwu+F4D81ygIDVm
- LsGA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=I/KGHR66/uoO7zyvDC3r34YM2SXZEMEA1Z2R9AMuiVI=;
+ b=SpXhfGTNVDWxv1L8OBD3nfxBRI+YaGfP8LLKHWfyfHcLNPyY2jNM8AQel/C81KzzVk
+ 6UQNc/kXX99KIwigiJRruiCTi0d6/ff+olw+Gf5zvzoW/gcqdxZujH8b9McTxgOCrb39
+ uUFc9eLHR2ZMr8zEgukfb9Ma1tEdY8NF2UI8pM9Y8Zx16XonQpeSZPpK/XB4uAhLuuTd
+ /hFnHL+HgOt2Q5XhvcMtbuQUlDPJMr5Z1wA533BbZl/xqhkbj2IAvB28h8m+uh2knAa5
+ wHGwKVuRfNek4IutOWAJBVxwMK9lxY9xt8phoY4O4ZlSeGkrj8lnzD6zNc+VXIM1BlQc
+ dHXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=eQdIOft1oYAqdZXW3N3vDzYovCItAhD3mQzWFf5HB24=;
- b=4pkOn/h86HhRdYscMDOUnMmxx5RKliVz9B9MOX9UxSFCgaLH52SC8oKG+HgXGad3OK
- xleBwxHO1J8UpzlwFcDpAHodlvaSKDXyEDyISMoapFlgcy5UGN57xnhAq+AlycKCT0e7
- e0P5Voxvk/ROzme627v54JSyx26U2D4kzFiXx6qnGUJ2Fs7cj5GuLX3accJAMmVTnFgX
- BGazHMM0dJbmV2X/c8IvgZTdE0wad0jQ7I9geXHOySNKZD1JXgkR1uBPxazOkfYy52bM
- ZKFba22uDJQpxQt8ZGOwCjKSKDmthQDOqFG+0Nr8L/1Awp1AckKpwexFI5A2wdzHJ3AP
- O2eg==
-X-Gm-Message-State: AOAM5304fdMcYTkP1+yOrvmxUwqd9EhUURX5iYUsrh1Ob4Ia+QqU5BBE
- 87TM/Q2kZWR3kirPoWldbQlrkaf4C3BKM+y5aEY=
-X-Google-Smtp-Source: ABdhPJxNRTqbYOnypQev6NPLw5f5F4aKudoYQj4wp9j9KozfyEV/1ORfo6k4+6He4jzgVAnFlMjKpw==
-X-Received: by 2002:a2e:7819:: with SMTP id t25mr24793253ljc.374.1639326688211; 
- Sun, 12 Dec 2021 08:31:28 -0800 (PST)
-Received: from trashcan (public-nat-10.vpngate.v4.open.ad.jp. [219.100.37.242])
- by smtp.gmail.com with ESMTPSA id b14sm1090934lfs.174.2021.12.12.08.31.08
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=I/KGHR66/uoO7zyvDC3r34YM2SXZEMEA1Z2R9AMuiVI=;
+ b=Il5BXhGUVq6GpoZsLxpmdde40fm3tqyqHVW/u3ZChUpp8l/DnYETFUrJIk9ZxS/OzM
+ 6CyGQInpre5oJ4qxukl8X0rNHrO65GQxy9QmlGZWA5QaaoTHRs/8/5H38ZdJHfUerYIV
+ CutADndQgjvxtHhLPx3CUwMP/8aTHjVMoO7whWrU+on3fAWiuP44uibVDR7R4cuavx5z
+ vFHObMN0A2+qr+IVY/CVUQHY8U8L4awFYl7WraYBvHHi8HEoSXxF21T5azXIWJh9HmdC
+ nQFRB/wUX4anpqQ3xgQwkMbGg4blxczbk9dQCBRiusOVjQZUi1ocjMSUJoN/qpoaexaQ
+ JtlA==
+X-Gm-Message-State: AOAM532OkIdnh3LV5/OuPltKjmHvv7ZSzhSvvHSjePaOpx4TcoEgekNo
+ riKVewLg6b+qVmOwS65hwNL/saIeD0Ah1lSW
+X-Google-Smtp-Source: ABdhPJzTQAArmKZ/OQ/icHIFWtYpG6BLP248muVMqgvUkMc49Bwo4DvEWRik66fHDavEdrW3MQtbcg==
+X-Received: by 2002:a2e:a806:: with SMTP id l6mr25003083ljq.126.1639327164088; 
+ Sun, 12 Dec 2021 08:39:24 -0800 (PST)
+Received: from localhost.localdomain (public-nat-10.vpngate.v4.open.ad.jp.
+ [219.100.37.242])
+ by smtp.gmail.com with ESMTPSA id u7sm1110936lja.58.2021.12.12.08.39.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Dec 2021 08:31:27 -0800 (PST)
-Date: Sun, 12 Dec 2021 15:57:09 +0000
+ Sun, 12 Dec 2021 08:39:23 -0800 (PST)
 From: Vladimir Lypak <vladimir.lypak@gmail.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH] drm/msm/a5xx: Add support for Adreno 506 GPU
-Message-ID: <YbYbmXGKIACRT+wO@trashcan>
-References: <20211022114349.102552-1-vladimir.lypak@gmail.com>
- <YXL16V17upehvUwt@ripper>
- <8ee2b4d4-44f3-6d03-b674-613b5b04a754@linaro.org>
+To: Vladimir Lypak <vladimir.lypak@gmail.com>
+Subject: [PATCH v2 1/2] drm/msm/a5xx: Add support for Adreno 506 GPU
+Date: Sun, 12 Dec 2021 16:03:16 +0000
+Message-Id: <20211212160333.980343-1-vladimir.lypak@gmail.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8ee2b4d4-44f3-6d03-b674-613b5b04a754@linaro.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,84 +66,195 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Iskren Chernev <iskren.chernev@gmail.com>,
+Cc: freedreno@lists.freedesktop.org,
  Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
  Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
  linux-arm-msm@vger.kernel.org, Konrad Dybcio <konrad.dybcio@somainline.org>,
  Akhil P Oommen <akhilpo@codeaurora.org>, dri-devel@lists.freedesktop.org,
- Jordan Crouse <jordan@cosmicpenguin.net>, freedreno@lists.freedesktop.org,
- "Kristian H. Kristensen" <hoegsberg@google.com>,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ Iskren Chernev <iskren.chernev@gmail.com>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
  linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 03, 2021 at 09:51:10PM +0300, Dmitry Baryshkov wrote:
-> On 22/10/2021 20:33, Bjorn Andersson wrote:
-> > On Fri 22 Oct 04:43 PDT 2021, Vladimir Lypak wrote:
-> > 
-> > > This GPU is found on SoCs such as MSM8953(650MHz), SDM450(600MHz),
-> > > SDM632(725MHz).
-> > > 
-> > > Signed-off-by: Vladimir Lypak <vladimir.lypak@gmail.com>
-> > > ---
-> > >   drivers/gpu/drm/msm/adreno/a5xx_gpu.c      | 34 ++++++++++++++--------
-> > >   drivers/gpu/drm/msm/adreno/adreno_device.c | 18 ++++++++++++
-> > >   drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  5 ++++
-> > >   3 files changed, 45 insertions(+), 12 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-> > > index 5e2750eb3810..249a0d8bc673 100644
-> > > --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-> > > +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-> > > @@ -441,7 +441,7 @@ void a5xx_set_hwcg(struct msm_gpu *gpu, bool state)
-> > >   	const struct adreno_five_hwcg_regs *regs;
-> > >   	unsigned int i, sz;
-> > > -	if (adreno_is_a508(adreno_gpu)) {
-> > > +	if (adreno_is_a506(adreno_gpu) || adreno_is_a508(adreno_gpu)) {
-> > >   		regs = a50x_hwcg;
-> > >   		sz = ARRAY_SIZE(a50x_hwcg);
-> > >   	} else if (adreno_is_a509(adreno_gpu) || adreno_is_a512(adreno_gpu)) {
-> > > @@ -485,7 +485,7 @@ static int a5xx_me_init(struct msm_gpu *gpu)
-> > >   	OUT_RING(ring, 0x00000000);
-> > >   	/* Specify workarounds for various microcode issues */
-> > > -	if (adreno_is_a530(adreno_gpu)) {
-> > > +	if (adreno_is_a506(adreno_gpu) || adreno_is_a530(adreno_gpu)) {
-> > >   		/* Workaround for token end syncs
-> > >   		 * Force a WFI after every direct-render 3D mode draw and every
-> > >   		 * 2D mode 3 draw
-> > > @@ -620,8 +620,17 @@ static int a5xx_ucode_init(struct msm_gpu *gpu)
-> > >   static int a5xx_zap_shader_resume(struct msm_gpu *gpu)
-> > >   {
-> > > +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-> > >   	int ret;
-> > > +	/*
-> > > +	 * Adreno 506,508,512 have CPZ Retention feature and
-> > > +	 * don't need to resume zap shader
-> > > +	 */
-> > > +	if (adreno_is_a506(adreno_gpu) || adreno_is_a508(adreno_gpu) ||
-> > > +	    adreno_is_a512(adreno_gpu))
-> > > +		return 0;
-> > 
-> > Afaict all other changes in the patch adds a506 support, but this hunk
-> > changes a508 and a512 behavior.
-> > 
-> > I'm not saying that the change is wrong, but this hunk deserves to be in
-> > it's own patch - so that if there's any impact on those other versions
-> > it can be tracked down to that specific patch.
-> 
-> Vladimir, any plans to submit v2? This comment requests splitting the patch
-> in two.
-> 
-> 
-> -- 
-> With best wishes
-> Dmitry
+This GPU is found on SoCs such as MSM8953 (650 MHz), SDM450 (600 MHz),
+SDM632 (725 MHz).
 
-Hello, Dmitry!
-Sorry for delay. Yes, i'm going to submit v2 soon.
+Signed-off-by: Vladimir Lypak <vladimir.lypak@gmail.com>
+---
+Changes since v1:
+- don't change behaviour for other GPU revisions
+- also setup CP_PROTECT for SMMU
+- correct formatting
+---
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c      | 39 +++++++++++++---------
+ drivers/gpu/drm/msm/adreno/adreno_device.c | 18 ++++++++++
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  5 +++
+ 3 files changed, 47 insertions(+), 15 deletions(-)
 
-Thanks
-Vladimir
+diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+index 5e2750eb3810..894881d273b8 100644
+--- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+@@ -441,7 +441,7 @@ void a5xx_set_hwcg(struct msm_gpu *gpu, bool state)
+ 	const struct adreno_five_hwcg_regs *regs;
+ 	unsigned int i, sz;
+ 
+-	if (adreno_is_a508(adreno_gpu)) {
++	if (adreno_is_a506(adreno_gpu) || adreno_is_a508(adreno_gpu)) {
+ 		regs = a50x_hwcg;
+ 		sz = ARRAY_SIZE(a50x_hwcg);
+ 	} else if (adreno_is_a509(adreno_gpu) || adreno_is_a512(adreno_gpu)) {
+@@ -485,7 +485,7 @@ static int a5xx_me_init(struct msm_gpu *gpu)
+ 	OUT_RING(ring, 0x00000000);
+ 
+ 	/* Specify workarounds for various microcode issues */
+-	if (adreno_is_a530(adreno_gpu)) {
++	if (adreno_is_a506(adreno_gpu) || adreno_is_a530(adreno_gpu)) {
+ 		/* Workaround for token end syncs
+ 		 * Force a WFI after every direct-render 3D mode draw and every
+ 		 * 2D mode 3 draw
+@@ -620,8 +620,16 @@ static int a5xx_ucode_init(struct msm_gpu *gpu)
+ 
+ static int a5xx_zap_shader_resume(struct msm_gpu *gpu)
+ {
++	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+ 	int ret;
+ 
++	/*
++	 * Adreno 506 have CPZ Retention feature and doesn't require
++	 * to resume zap shader
++	 */
++	if (adreno_is_a506(adreno_gpu))
++		return 0;
++
+ 	ret = qcom_scm_set_remote_state(SCM_GPU_ZAP_SHADER_RESUME, GPU_PAS_ID);
+ 	if (ret)
+ 		DRM_ERROR("%s: zap-shader resume failed: %d\n",
+@@ -733,9 +741,10 @@ static int a5xx_hw_init(struct msm_gpu *gpu)
+ 		0x00100000 + adreno_gpu->gmem - 1);
+ 	gpu_write(gpu, REG_A5XX_UCHE_GMEM_RANGE_MAX_HI, 0x00000000);
+ 
+-	if (adreno_is_a508(adreno_gpu) || adreno_is_a510(adreno_gpu)) {
++	if (adreno_is_a506(adreno_gpu) || adreno_is_a508(adreno_gpu) ||
++	    adreno_is_a510(adreno_gpu)) {
+ 		gpu_write(gpu, REG_A5XX_CP_MEQ_THRESHOLDS, 0x20);
+-		if (adreno_is_a508(adreno_gpu))
++		if (adreno_is_a506(adreno_gpu) || adreno_is_a508(adreno_gpu))
+ 			gpu_write(gpu, REG_A5XX_CP_MERCIU_SIZE, 0x400);
+ 		else
+ 			gpu_write(gpu, REG_A5XX_CP_MERCIU_SIZE, 0x20);
+@@ -751,7 +760,7 @@ static int a5xx_hw_init(struct msm_gpu *gpu)
+ 		gpu_write(gpu, REG_A5XX_CP_ROQ_THRESHOLDS_1, 0x40201B16);
+ 	}
+ 
+-	if (adreno_is_a508(adreno_gpu))
++	if (adreno_is_a506(adreno_gpu) || adreno_is_a508(adreno_gpu))
+ 		gpu_write(gpu, REG_A5XX_PC_DBG_ECO_CNTL,
+ 			  (0x100 << 11 | 0x100 << 22));
+ 	else if (adreno_is_a509(adreno_gpu) || adreno_is_a510(adreno_gpu) ||
+@@ -769,8 +778,8 @@ static int a5xx_hw_init(struct msm_gpu *gpu)
+ 	 * Disable the RB sampler datapath DP2 clock gating optimization
+ 	 * for 1-SP GPUs, as it is enabled by default.
+ 	 */
+-	if (adreno_is_a508(adreno_gpu) || adreno_is_a509(adreno_gpu) ||
+-	    adreno_is_a512(adreno_gpu))
++	if (adreno_is_a506(adreno_gpu) || adreno_is_a508(adreno_gpu) ||
++	    adreno_is_a509(adreno_gpu) || adreno_is_a512(adreno_gpu))
+ 		gpu_rmw(gpu, REG_A5XX_RB_DBG_ECO_CNTL, 0, (1 << 9));
+ 
+ 	/* Disable UCHE global filter as SP can invalidate/flush independently */
+@@ -851,9 +860,9 @@ static int a5xx_hw_init(struct msm_gpu *gpu)
+ 	/* UCHE */
+ 	gpu_write(gpu, REG_A5XX_CP_PROTECT(16), ADRENO_PROTECT_RW(0xE80, 16));
+ 
+-	if (adreno_is_a508(adreno_gpu) || adreno_is_a509(adreno_gpu) ||
+-	    adreno_is_a510(adreno_gpu) || adreno_is_a512(adreno_gpu) ||
+-	    adreno_is_a530(adreno_gpu))
++	if (adreno_is_a506(adreno_gou) || adreno_is_a508(adreno_gpu) ||
++	    adreno_is_a509(adreno_gpu) || adreno_is_a510(adreno_gpu) ||
++	    adreno_is_a512(adreno_gpu) || adreno_is_a530(adreno_gpu))
+ 		gpu_write(gpu, REG_A5XX_CP_PROTECT(17),
+ 			ADRENO_PROTECT_RW(0x10000, 0x8000));
+ 
+@@ -895,8 +904,7 @@ static int a5xx_hw_init(struct msm_gpu *gpu)
+ 	if (ret)
+ 		return ret;
+ 
+-	if (!(adreno_is_a508(adreno_gpu) || adreno_is_a509(adreno_gpu) ||
+-	      adreno_is_a510(adreno_gpu) || adreno_is_a512(adreno_gpu)))
++	if (adreno_is_a530(adreno_gpu) || adreno_is_a540(adreno_gpu))
+ 		a5xx_gpmu_ucode_init(gpu);
+ 
+ 	ret = a5xx_ucode_init(gpu);
+@@ -1338,7 +1346,7 @@ static int a5xx_pm_resume(struct msm_gpu *gpu)
+ 	if (ret)
+ 		return ret;
+ 
+-	/* Adreno 508, 509, 510, 512 needs manual RBBM sus/res control */
++	/* Adreno 506, 508, 509, 510, 512 needs manual RBBM sus/res control */
+ 	if (!(adreno_is_a530(adreno_gpu) || adreno_is_a540(adreno_gpu))) {
+ 		/* Halt the sp_input_clk at HM level */
+ 		gpu_write(gpu, REG_A5XX_RBBM_CLOCK_CNTL, 0x00000055);
+@@ -1381,8 +1389,9 @@ static int a5xx_pm_suspend(struct msm_gpu *gpu)
+ 	u32 mask = 0xf;
+ 	int i, ret;
+ 
+-	/* A508, A510 have 3 XIN ports in VBIF */
+-	if (adreno_is_a508(adreno_gpu) || adreno_is_a510(adreno_gpu))
++	/* A506, A508, A510 have 3 XIN ports in VBIF */
++	if (adreno_is_a506(adreno_gpu) || adreno_is_a508(adreno_gpu) ||
++	    adreno_is_a510(adreno_gpu))
+ 		mask = 0x7;
+ 
+ 	/* Clear the VBIF pipe before shutting down */
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+index 2a6ce76656aa..eada4de8b46e 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_device.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+@@ -131,6 +131,24 @@ static const struct adreno_info gpulist[] = {
+ 		.gmem  = (SZ_1M + SZ_512K),
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+ 		.init  = a4xx_gpu_init,
++	}, {
++		.rev   = ADRENO_REV(5, 0, 6, ANY_ID),
++		.revn = 506,
++		.name = "A506",
++		.fw = {
++			[ADRENO_FW_PM4] = "a530_pm4.fw",
++			[ADRENO_FW_PFP] = "a530_pfp.fw",
++		},
++		.gmem = (SZ_128K + SZ_8K),
++		/*
++		 * Increase inactive period to 250 to avoid bouncing
++		 * the GDSC which appears to make it grumpy
++		 */
++		.inactive_period = 250,
++		.quirks = ADRENO_QUIRK_TWO_PASS_USE_WFI |
++			  ADRENO_QUIRK_LMLOADKILL_DISABLE,
++		.init = a5xx_gpu_init,
++		.zapfw = "a506_zap.mdt",
+ 	}, {
+ 		.rev   = ADRENO_REV(5, 0, 8, ANY_ID),
+ 		.revn = 508,
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+index 225c277a6223..427a96d81280 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+@@ -201,6 +201,11 @@ static inline int adreno_is_a430(struct adreno_gpu *gpu)
+        return gpu->revn == 430;
+ }
+ 
++static inline int adreno_is_a506(struct adreno_gpu *gpu)
++{
++	return gpu->revn == 506;
++}
++
+ static inline int adreno_is_a508(struct adreno_gpu *gpu)
+ {
+ 	return gpu->revn == 508;
+-- 
+2.33.1
+
