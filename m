@@ -2,63 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6505C471E25
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Dec 2021 23:00:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4F98471E28
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Dec 2021 23:09:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A730E10F637;
-	Sun, 12 Dec 2021 22:00:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B9BA10E790;
+	Sun, 12 Dec 2021 22:09:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6103F10F637
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 22:00:03 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id CC663B80DA1
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 22:00:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 78604C341C6
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 21:59:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1639346399;
- bh=9n4e7LkRp8G8dTBaaJBpwpeINXNDvG/Iu98GlTKQFKY=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=kCv6SxYdhClQSGZC8ey9RskpNlXWi/R5ZzLRBXNL2PaiRThKM6MLM4POnKcfOEBWH
- Nq6gNv6P1WgpH1N0z+WPS+F0fUjd+2HLCsaGFEINBpb4L3Wwk1GwndcJ9nUMr/k11O
- SxxissL50pWodnEFRhxwFrs8DZer4xJzxywZgA5ubo8m97uOodhDMhydoSeU38EDTG
- PRegOD8awWqHK9kMkvcM1nJahfQpCHlwIkEgL0l5NYnyn4vgxtbMVoR9KCOcB6scHw
- WXUZkQOdNZ5ZvX/KD0zkQxr/Qzrx5igcjiv3OLjXu8n1vCnXHv85s7MYJ3zxNfxQe/
- nyUvXnJBKImkA==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 5F23061106; Sun, 12 Dec 2021 21:59:59 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 201957] amdgpu: ring gfx timeout
-Date: Sun, 12 Dec 2021 21:59:57 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: aussir@tutanota.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-201957-2300-XKjkqIeR33@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-201957-2300@https.bugzilla.kernel.org/>
-References: <bug-201957-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02C2210E790
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 22:09:28 +0000 (UTC)
+Received: from p508fc708.dip0.t-ipconnect.de ([80.143.199.8]
+ helo=phil.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <heiko@sntech.de>)
+ id 1mwX24-0006Qe-S7; Sun, 12 Dec 2021 23:09:24 +0100
+From: Heiko Stuebner <heiko@sntech.de>
+To: dri-devel@lists.freedesktop.org, Sascha Hauer <s.hauer@pengutronix.de>
+Subject: Re: [PATCH 07/18] dt-bindings: display: rockchip: dw-hdmi: Allow
+ "ref" as clock name
+Date: Sun, 12 Dec 2021 23:09:24 +0100
+Message-ID: <3032544.f5MXlUzpl7@phil>
+In-Reply-To: <20211208151230.3695378-8-s.hauer@pengutronix.de>
+References: <20211208151230.3695378-1-s.hauer@pengutronix.de>
+ <20211208151230.3695378-8-s.hauer@pengutronix.de>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,22 +41,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D201957
+Am Mittwoch, 8. Dezember 2021, 16:12:19 CET schrieb Sascha Hauer:
+> "vpll" is a misnomer. A clock input to a device should be named after
+> the usage in the device, not after the clock that drives it. On the
+> rk3568 the same clock is driven by the HPLL.
+> To fix that, this patch renames the vpll clock to ref clock.  The clock
+> name "vpll" is left for compatibility to old device trees.
 
---- Comment #51 from T. Noah (aussir@tutanota.com) ---
-A possible solution is to pass
-amdgpu.dpm=3D0
-as a kernel launch option.
+Can't we just say that the binding only takes the "ref" name, but
+the code still allows "vpll".
 
-However: this kills fps in many games and probably anything that depends on=
- the
-gpu for rendering.
+I think I remember Rob suggesting something similar in the past.
 
---=20
-You may reply to this email to add a comment.
+I don't think that we need to keep the binding(-validation)
+compatible with old devicetrees, but the kernel itself should stay
+compatible.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+
+Heiko
+
+
+> 
+> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> ---
+>  .../bindings/display/rockchip/rockchip,dw-hdmi.yaml         | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> index 6e09dd2ee05ac..2ab6578033da2 100644
+> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> @@ -48,10 +48,14 @@ properties:
+>            - cec
+>            - grf
+>            - vpll
+> +          - ref
+>        - enum:
+>            - grf
+>            - vpll
+> -      - const: vpll
+> +          - ref
+> +      - enum:
+> +          - vpll
+> +          - ref
+>  
+>    ddc-i2c-bus:
+>      $ref: /schemas/types.yaml#/definitions/phandle
+> 
+
+
+
+
