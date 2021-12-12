@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CD7E471B22
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Dec 2021 16:11:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7894471B25
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Dec 2021 16:12:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE78310F57B;
-	Sun, 12 Dec 2021 15:11:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F4C210F586;
+	Sun, 12 Dec 2021 15:12:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AC0910F552;
- Sun, 12 Dec 2021 15:11:49 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10195"; a="225885372"
-X-IronPort-AV: E=Sophos;i="5.88,200,1635231600"; d="scan'208";a="225885372"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6637F10F586;
+ Sun, 12 Dec 2021 15:12:07 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10195"; a="225885397"
+X-IronPort-AV: E=Sophos;i="5.88,200,1635231600"; d="scan'208";a="225885397"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2021 07:11:48 -0800
-X-IronPort-AV: E=Sophos;i="5.88,200,1635231600"; d="scan'208";a="464326510"
+ 12 Dec 2021 07:12:06 -0800
+X-IronPort-AV: E=Sophos;i="5.88,200,1635231600"; d="scan'208";a="464326570"
 Received: from nipunpan-mobl1.ger.corp.intel.com (HELO intel.com)
  ([10.252.53.91])
  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2021 07:11:45 -0800
+ 12 Dec 2021 07:12:03 -0800
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: Intel GFX <intel-gfx@lists.freedesktop.org>,
  DRI Devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v7 03/12] drm/i915/display: Use to_gt() helper
-Date: Sun, 12 Dec 2021 17:11:40 +0200
-Message-Id: <20211212151140.118024-1-andi.shyti@linux.intel.com>
+Subject: [PATCH v7 04/12] drm/i915/gt: Use to_gt() helper
+Date: Sun, 12 Dec 2021 17:11:55 +0200
+Message-Id: <20211212151155.118047-1-andi.shyti@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -60,146 +60,463 @@ Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
 Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
 ---
- .../gpu/drm/i915/display/intel_atomic_plane.c  |  4 ++--
- drivers/gpu/drm/i915/display/intel_display.c   | 18 +++++++++---------
- drivers/gpu/drm/i915/display/intel_dpt.c       |  2 +-
- drivers/gpu/drm/i915/display/intel_overlay.c   |  2 +-
- .../gpu/drm/i915/display/skl_universal_plane.c |  2 +-
- 5 files changed, 14 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_engine_user.c         |  2 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c                |  2 +-
+ drivers/gpu/drm/i915/gt/intel_rps.c                 | 12 ++++++------
+ drivers/gpu/drm/i915/gt/intel_workarounds.c         |  2 +-
+ drivers/gpu/drm/i915/gt/mock_engine.c               | 10 +++++-----
+ drivers/gpu/drm/i915/gt/selftest_context.c          |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_engine.c           |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_engine_cs.c        |  4 ++--
+ drivers/gpu/drm/i915/gt/selftest_engine_heartbeat.c |  4 ++--
+ drivers/gpu/drm/i915/gt/selftest_execlists.c        |  6 +++---
+ drivers/gpu/drm/i915/gt/selftest_gt_pm.c            |  8 ++++----
+ drivers/gpu/drm/i915/gt/selftest_hangcheck.c        |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_lrc.c              |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_migrate.c          |  4 ++--
+ drivers/gpu/drm/i915/gt/selftest_mocs.c             |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_reset.c            |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_ring_submission.c  |  4 ++--
+ drivers/gpu/drm/i915/gt/selftest_slpc.c             |  6 +++---
+ drivers/gpu/drm/i915/gt/selftest_timeline.c         |  6 +++---
+ drivers/gpu/drm/i915/gt/selftest_workarounds.c      |  4 ++--
+ drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c         |  2 +-
+ drivers/gpu/drm/i915/gt/uc/selftest_guc.c           |  2 +-
+ drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c |  2 +-
+ 23 files changed, 46 insertions(+), 46 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-index 89005628cc3a..c2c512cd8ec0 100644
---- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-+++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-@@ -819,7 +819,7 @@ intel_prepare_plane_fb(struct drm_plane *_plane,
- 	 * maximum clocks following a vblank miss (see do_rps_boost()).
- 	 */
- 	if (!state->rps_interactive) {
--		intel_rps_mark_interactive(&dev_priv->gt.rps, true);
-+		intel_rps_mark_interactive(&to_gt(dev_priv)->rps, true);
- 		state->rps_interactive = true;
- 	}
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+index 8f8bea08e734..9ce85a845105 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+@@ -116,7 +116,7 @@ static void set_scheduler_caps(struct drm_i915_private *i915)
+ 			disabled |= (I915_SCHEDULER_CAP_ENABLED |
+ 				     I915_SCHEDULER_CAP_PRIORITY);
  
-@@ -853,7 +853,7 @@ intel_cleanup_plane_fb(struct drm_plane *plane,
- 		return;
+-		if (intel_uc_uses_guc_submission(&i915->gt.uc))
++		if (intel_uc_uses_guc_submission(&to_gt(i915)->uc))
+ 			enabled |= I915_SCHEDULER_CAP_STATIC_PRIORITY_MAP;
  
- 	if (state->rps_interactive) {
--		intel_rps_mark_interactive(&dev_priv->gt.rps, false);
-+		intel_rps_mark_interactive(&to_gt(dev_priv)->rps, false);
- 		state->rps_interactive = false;
- 	}
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 4eda1b88531b..aa12da321b60 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -843,7 +843,7 @@ __intel_display_resume(struct drm_device *dev,
- static bool gpu_reset_clobbers_display(struct drm_i915_private *dev_priv)
+ 		for (i = 0; i < ARRAY_SIZE(map); i++) {
+diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+index d85a1050f4a8..971e737b37b2 100644
+--- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
++++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+@@ -1232,7 +1232,7 @@ int i915_ggtt_probe_hw(struct drm_i915_private *i915)
  {
- 	return (INTEL_INFO(dev_priv)->gpu_reset_clobbers_display &&
--		intel_has_gpu_reset(&dev_priv->gt));
-+		intel_has_gpu_reset(to_gt(dev_priv)));
+ 	int ret;
+ 
+-	ret = ggtt_probe_hw(&i915->ggtt, &i915->gt);
++	ret = ggtt_probe_hw(&i915->ggtt, to_gt(i915));
+ 	if (ret)
+ 		return ret;
+ 
+diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
+index 07ff7ba7b2b7..36eb980d757e 100644
+--- a/drivers/gpu/drm/i915/gt/intel_rps.c
++++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+@@ -2302,7 +2302,7 @@ unsigned long i915_read_mch_val(void)
+ 		return 0;
+ 
+ 	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
+-		struct intel_ips *ips = &i915->gt.rps.ips;
++		struct intel_ips *ips = &to_gt(i915)->rps.ips;
+ 
+ 		spin_lock_irq(&mchdev_lock);
+ 		chipset_val = __ips_chipset_val(ips);
+@@ -2329,7 +2329,7 @@ bool i915_gpu_raise(void)
+ 	if (!i915)
+ 		return false;
+ 
+-	rps = &i915->gt.rps;
++	rps = &to_gt(i915)->rps;
+ 
+ 	spin_lock_irq(&mchdev_lock);
+ 	if (rps->max_freq_softlimit < rps->max_freq)
+@@ -2356,7 +2356,7 @@ bool i915_gpu_lower(void)
+ 	if (!i915)
+ 		return false;
+ 
+-	rps = &i915->gt.rps;
++	rps = &to_gt(i915)->rps;
+ 
+ 	spin_lock_irq(&mchdev_lock);
+ 	if (rps->max_freq_softlimit > rps->min_freq)
+@@ -2382,7 +2382,7 @@ bool i915_gpu_busy(void)
+ 	if (!i915)
+ 		return false;
+ 
+-	ret = i915->gt.awake;
++	ret = to_gt(i915)->awake;
+ 
+ 	drm_dev_put(&i915->drm);
+ 	return ret;
+@@ -2405,11 +2405,11 @@ bool i915_gpu_turbo_disable(void)
+ 	if (!i915)
+ 		return false;
+ 
+-	rps = &i915->gt.rps;
++	rps = &to_gt(i915)->rps;
+ 
+ 	spin_lock_irq(&mchdev_lock);
+ 	rps->max_freq_softlimit = rps->min_freq;
+-	ret = !__gen5_rps_set(&i915->gt.rps, rps->min_freq);
++	ret = !__gen5_rps_set(&to_gt(i915)->rps, rps->min_freq);
+ 	spin_unlock_irq(&mchdev_lock);
+ 
+ 	drm_dev_put(&i915->drm);
+diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+index 3113266c286e..ab3277a3d593 100644
+--- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
++++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+@@ -929,7 +929,7 @@ hsw_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
+ static void
+ gen9_wa_init_mcr(struct drm_i915_private *i915, struct i915_wa_list *wal)
+ {
+-	const struct sseu_dev_info *sseu = &i915->gt.info.sseu;
++	const struct sseu_dev_info *sseu = &to_gt(i915)->info.sseu;
+ 	unsigned int slice, subslice;
+ 	u32 mcr, mcr_mask;
+ 
+diff --git a/drivers/gpu/drm/i915/gt/mock_engine.c b/drivers/gpu/drm/i915/gt/mock_engine.c
+index bb99fc03f503..a94b8d56c4bb 100644
+--- a/drivers/gpu/drm/i915/gt/mock_engine.c
++++ b/drivers/gpu/drm/i915/gt/mock_engine.c
+@@ -345,7 +345,7 @@ struct intel_engine_cs *mock_engine(struct drm_i915_private *i915,
+ 	struct mock_engine *engine;
+ 
+ 	GEM_BUG_ON(id >= I915_NUM_ENGINES);
+-	GEM_BUG_ON(!i915->gt.uncore);
++	GEM_BUG_ON(!to_gt(i915)->uncore);
+ 
+ 	engine = kzalloc(sizeof(*engine) + PAGE_SIZE, GFP_KERNEL);
+ 	if (!engine)
+@@ -353,8 +353,8 @@ struct intel_engine_cs *mock_engine(struct drm_i915_private *i915,
+ 
+ 	/* minimal engine setup for requests */
+ 	engine->base.i915 = i915;
+-	engine->base.gt = &i915->gt;
+-	engine->base.uncore = i915->gt.uncore;
++	engine->base.gt = to_gt(i915);
++	engine->base.uncore = to_gt(i915)->uncore;
+ 	snprintf(engine->base.name, sizeof(engine->base.name), "%s", name);
+ 	engine->base.id = id;
+ 	engine->base.mask = BIT(id);
+@@ -377,8 +377,8 @@ struct intel_engine_cs *mock_engine(struct drm_i915_private *i915,
+ 
+ 	engine->base.release = mock_engine_release;
+ 
+-	i915->gt.engine[id] = &engine->base;
+-	i915->gt.engine_class[0][id] = &engine->base;
++	to_gt(i915)->engine[id] = &engine->base;
++	to_gt(i915)->engine_class[0][id] = &engine->base;
+ 
+ 	/* fake hw queue */
+ 	spin_lock_init(&engine->hw_lock);
+diff --git a/drivers/gpu/drm/i915/gt/selftest_context.c b/drivers/gpu/drm/i915/gt/selftest_context.c
+index fa7b99a671dd..76fbae358072 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_context.c
++++ b/drivers/gpu/drm/i915/gt/selftest_context.c
+@@ -442,7 +442,7 @@ int intel_context_live_selftests(struct drm_i915_private *i915)
+ 		SUBTEST(live_active_context),
+ 		SUBTEST(live_remote_context),
+ 	};
+-	struct intel_gt *gt = &i915->gt;
++	struct intel_gt *gt = to_gt(i915);
+ 
+ 	if (intel_gt_is_wedged(gt))
+ 		return 0;
+diff --git a/drivers/gpu/drm/i915/gt/selftest_engine.c b/drivers/gpu/drm/i915/gt/selftest_engine.c
+index 262764f6d90a..57fea9ea1705 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_engine.c
++++ b/drivers/gpu/drm/i915/gt/selftest_engine.c
+@@ -12,7 +12,7 @@ int intel_engine_live_selftests(struct drm_i915_private *i915)
+ 		live_engine_pm_selftests,
+ 		NULL,
+ 	};
+-	struct intel_gt *gt = &i915->gt;
++	struct intel_gt *gt = to_gt(i915);
+ 	typeof(*tests) *fn;
+ 
+ 	for (fn = tests; *fn; fn++) {
+diff --git a/drivers/gpu/drm/i915/gt/selftest_engine_cs.c b/drivers/gpu/drm/i915/gt/selftest_engine_cs.c
+index 64abf5feabfa..1b75f478d1b8 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/selftest_engine_cs.c
+@@ -361,10 +361,10 @@ int intel_engine_cs_perf_selftests(struct drm_i915_private *i915)
+ 		SUBTEST(perf_mi_noop),
+ 	};
+ 
+-	if (intel_gt_is_wedged(&i915->gt))
++	if (intel_gt_is_wedged(to_gt(i915)))
+ 		return 0;
+ 
+-	return intel_gt_live_subtests(tests, &i915->gt);
++	return intel_gt_live_subtests(tests, to_gt(i915));
  }
  
- void intel_display_prepare_reset(struct drm_i915_private *dev_priv)
-@@ -862,14 +862,14 @@ void intel_display_prepare_reset(struct drm_i915_private *dev_priv)
- 		return;
+ static int intel_mmio_bases_check(void *arg)
+diff --git a/drivers/gpu/drm/i915/gt/selftest_engine_heartbeat.c b/drivers/gpu/drm/i915/gt/selftest_engine_heartbeat.c
+index 6e6e4d747cca..273d440a53e3 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_engine_heartbeat.c
++++ b/drivers/gpu/drm/i915/gt/selftest_engine_heartbeat.c
+@@ -378,13 +378,13 @@ int intel_heartbeat_live_selftests(struct drm_i915_private *i915)
+ 	int saved_hangcheck;
+ 	int err;
  
- 	/* We have a modeset vs reset deadlock, defensively unbreak it. */
--	set_bit(I915_RESET_MODESET, &dev_priv->gt.reset.flags);
-+	set_bit(I915_RESET_MODESET, &to_gt(dev_priv)->reset.flags);
- 	smp_mb__after_atomic();
--	wake_up_bit(&dev_priv->gt.reset.flags, I915_RESET_MODESET);
-+	wake_up_bit(&to_gt(dev_priv)->reset.flags, I915_RESET_MODESET);
+-	if (intel_gt_is_wedged(&i915->gt))
++	if (intel_gt_is_wedged(to_gt(i915)))
+ 		return 0;
  
- 	if (atomic_read(&dev_priv->gpu_error.pending_fb_pin)) {
- 		drm_dbg_kms(&dev_priv->drm,
- 			    "Modeset potentially stuck, unbreaking through wedging\n");
--		intel_gt_set_wedged(&dev_priv->gt);
-+		intel_gt_set_wedged(to_gt(dev_priv));
- 	}
+ 	saved_hangcheck = i915->params.enable_hangcheck;
+ 	i915->params.enable_hangcheck = INT_MAX;
+ 
+-	err = intel_gt_live_subtests(tests, &i915->gt);
++	err = intel_gt_live_subtests(tests, to_gt(i915));
+ 
+ 	i915->params.enable_hangcheck = saved_hangcheck;
+ 	return err;
+diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+index b367ecfa42de..e10da897e07a 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
++++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+@@ -4502,11 +4502,11 @@ int intel_execlists_live_selftests(struct drm_i915_private *i915)
+ 		SUBTEST(live_virtual_reset),
+ 	};
+ 
+-	if (i915->gt.submission_method != INTEL_SUBMISSION_ELSP)
++	if (to_gt(i915)->submission_method != INTEL_SUBMISSION_ELSP)
+ 		return 0;
+ 
+-	if (intel_gt_is_wedged(&i915->gt))
++	if (intel_gt_is_wedged(to_gt(i915)))
+ 		return 0;
+ 
+-	return intel_gt_live_subtests(tests, &i915->gt);
++	return intel_gt_live_subtests(tests, to_gt(i915));
+ }
+diff --git a/drivers/gpu/drm/i915/gt/selftest_gt_pm.c b/drivers/gpu/drm/i915/gt/selftest_gt_pm.c
+index 55c5cdb99f45..8bf62a5826cc 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_gt_pm.c
++++ b/drivers/gpu/drm/i915/gt/selftest_gt_pm.c
+@@ -193,10 +193,10 @@ int intel_gt_pm_live_selftests(struct drm_i915_private *i915)
+ 		SUBTEST(live_gt_resume),
+ 	};
+ 
+-	if (intel_gt_is_wedged(&i915->gt))
++	if (intel_gt_is_wedged(to_gt(i915)))
+ 		return 0;
+ 
+-	return intel_gt_live_subtests(tests, &i915->gt);
++	return intel_gt_live_subtests(tests, to_gt(i915));
+ }
+ 
+ int intel_gt_pm_late_selftests(struct drm_i915_private *i915)
+@@ -210,8 +210,8 @@ int intel_gt_pm_late_selftests(struct drm_i915_private *i915)
+ 		SUBTEST(live_rc6_ctx_wa),
+ 	};
+ 
+-	if (intel_gt_is_wedged(&i915->gt))
++	if (intel_gt_is_wedged(to_gt(i915)))
+ 		return 0;
+ 
+-	return intel_gt_live_subtests(tests, &i915->gt);
++	return intel_gt_live_subtests(tests, to_gt(i915));
+ }
+diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+index e5ad4d5a91c0..15d63435ec4d 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
++++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+@@ -2018,7 +2018,7 @@ int intel_hangcheck_live_selftests(struct drm_i915_private *i915)
+ 		SUBTEST(igt_reset_evict_fence),
+ 		SUBTEST(igt_handle_error),
+ 	};
+-	struct intel_gt *gt = &i915->gt;
++	struct intel_gt *gt = to_gt(i915);
+ 	intel_wakeref_t wakeref;
+ 	int err;
+ 
+diff --git a/drivers/gpu/drm/i915/gt/selftest_lrc.c b/drivers/gpu/drm/i915/gt/selftest_lrc.c
+index b0977a3b699b..618c905daa19 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_lrc.c
++++ b/drivers/gpu/drm/i915/gt/selftest_lrc.c
+@@ -1847,5 +1847,5 @@ int intel_lrc_live_selftests(struct drm_i915_private *i915)
+ 	if (!HAS_LOGICAL_RING_CONTEXTS(i915))
+ 		return 0;
+ 
+-	return intel_gt_live_subtests(tests, &i915->gt);
++	return intel_gt_live_subtests(tests, to_gt(i915));
+ }
+diff --git a/drivers/gpu/drm/i915/gt/selftest_migrate.c b/drivers/gpu/drm/i915/gt/selftest_migrate.c
+index e21787301bbd..f637691b5bcb 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_migrate.c
++++ b/drivers/gpu/drm/i915/gt/selftest_migrate.c
+@@ -442,7 +442,7 @@ int intel_migrate_live_selftests(struct drm_i915_private *i915)
+ 		SUBTEST(thread_global_copy),
+ 		SUBTEST(thread_global_clear),
+ 	};
+-	struct intel_gt *gt = &i915->gt;
++	struct intel_gt *gt = to_gt(i915);
+ 
+ 	if (!gt->migrate.context)
+ 		return 0;
+@@ -658,7 +658,7 @@ int intel_migrate_perf_selftests(struct drm_i915_private *i915)
+ 		SUBTEST(perf_clear_blt),
+ 		SUBTEST(perf_copy_blt),
+ 	};
+-	struct intel_gt *gt = &i915->gt;
++	struct intel_gt *gt = to_gt(i915);
+ 
+ 	if (intel_gt_is_wedged(gt))
+ 		return 0;
+diff --git a/drivers/gpu/drm/i915/gt/selftest_mocs.c b/drivers/gpu/drm/i915/gt/selftest_mocs.c
+index 13d25bf2a94a..c1d861333c44 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_mocs.c
++++ b/drivers/gpu/drm/i915/gt/selftest_mocs.c
+@@ -451,5 +451,5 @@ int intel_mocs_live_selftests(struct drm_i915_private *i915)
+ 	if (!get_mocs_settings(i915, &table))
+ 		return 0;
+ 
+-	return intel_gt_live_subtests(tests, &i915->gt);
++	return intel_gt_live_subtests(tests, to_gt(i915));
+ }
+diff --git a/drivers/gpu/drm/i915/gt/selftest_reset.c b/drivers/gpu/drm/i915/gt/selftest_reset.c
+index 7a50c9f4071b..8a873f6bda7f 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_reset.c
++++ b/drivers/gpu/drm/i915/gt/selftest_reset.c
+@@ -376,7 +376,7 @@ int intel_reset_live_selftests(struct drm_i915_private *i915)
+ 		SUBTEST(igt_atomic_reset),
+ 		SUBTEST(igt_atomic_engine_reset),
+ 	};
+-	struct intel_gt *gt = &i915->gt;
++	struct intel_gt *gt = to_gt(i915);
+ 
+ 	if (!intel_has_gpu_reset(gt))
+ 		return 0;
+diff --git a/drivers/gpu/drm/i915/gt/selftest_ring_submission.c b/drivers/gpu/drm/i915/gt/selftest_ring_submission.c
+index 041954408d0f..70f9ac1ec2c7 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_ring_submission.c
++++ b/drivers/gpu/drm/i915/gt/selftest_ring_submission.c
+@@ -291,8 +291,8 @@ int intel_ring_submission_live_selftests(struct drm_i915_private *i915)
+ 		SUBTEST(live_ctx_switch_wa),
+ 	};
+ 
+-	if (i915->gt.submission_method > INTEL_SUBMISSION_RING)
++	if (to_gt(i915)->submission_method > INTEL_SUBMISSION_RING)
+ 		return 0;
+ 
+-	return intel_gt_live_subtests(tests, &i915->gt);
++	return intel_gt_live_subtests(tests, to_gt(i915));
+ }
+diff --git a/drivers/gpu/drm/i915/gt/selftest_slpc.c b/drivers/gpu/drm/i915/gt/selftest_slpc.c
+index 9334bad131a2..b768cea5943d 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_slpc.c
++++ b/drivers/gpu/drm/i915/gt/selftest_slpc.c
+@@ -39,7 +39,7 @@ static int slpc_set_max_freq(struct intel_guc_slpc *slpc, u32 freq)
+ static int live_slpc_clamp_min(void *arg)
+ {
+ 	struct drm_i915_private *i915 = arg;
+-	struct intel_gt *gt = &i915->gt;
++	struct intel_gt *gt = to_gt(i915);
+ 	struct intel_guc_slpc *slpc = &gt->uc.guc.slpc;
+ 	struct intel_rps *rps = &gt->rps;
+ 	struct intel_engine_cs *engine;
+@@ -166,7 +166,7 @@ static int live_slpc_clamp_min(void *arg)
+ static int live_slpc_clamp_max(void *arg)
+ {
+ 	struct drm_i915_private *i915 = arg;
+-	struct intel_gt *gt = &i915->gt;
++	struct intel_gt *gt = to_gt(i915);
+ 	struct intel_guc_slpc *slpc;
+ 	struct intel_rps *rps;
+ 	struct intel_engine_cs *engine;
+@@ -304,7 +304,7 @@ int intel_slpc_live_selftests(struct drm_i915_private *i915)
+ 		SUBTEST(live_slpc_clamp_min),
+ 	};
+ 
+-	if (intel_gt_is_wedged(&i915->gt))
++	if (intel_gt_is_wedged(to_gt(i915)))
+ 		return 0;
+ 
+ 	return i915_live_subtests(tests, i915);
+diff --git a/drivers/gpu/drm/i915/gt/selftest_timeline.c b/drivers/gpu/drm/i915/gt/selftest_timeline.c
+index d0b6a3afcf44..e2eb686a9763 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_timeline.c
++++ b/drivers/gpu/drm/i915/gt/selftest_timeline.c
+@@ -159,7 +159,7 @@ static int mock_hwsp_freelist(void *arg)
+ 	INIT_RADIX_TREE(&state.cachelines, GFP_KERNEL);
+ 	state.prng = I915_RND_STATE_INITIALIZER(i915_selftest.random_seed);
+ 
+-	state.gt = &i915->gt;
++	state.gt = to_gt(i915);
  
  	/*
-@@ -920,7 +920,7 @@ void intel_display_finish_reset(struct drm_i915_private *dev_priv)
- 		return;
+ 	 * Create a bunch of timelines and check that their HWSP do not overlap.
+@@ -1416,8 +1416,8 @@ int intel_timeline_live_selftests(struct drm_i915_private *i915)
+ 		SUBTEST(live_hwsp_rollover_user),
+ 	};
  
- 	/* reset doesn't touch the display */
--	if (!test_bit(I915_RESET_MODESET, &dev_priv->gt.reset.flags))
-+	if (!test_bit(I915_RESET_MODESET, &to_gt(dev_priv)->reset.flags))
- 		return;
+-	if (intel_gt_is_wedged(&i915->gt))
++	if (intel_gt_is_wedged(to_gt(i915)))
+ 		return 0;
  
- 	state = fetch_and_zero(&dev_priv->modeset_restore_state);
-@@ -958,7 +958,7 @@ void intel_display_finish_reset(struct drm_i915_private *dev_priv)
- 	drm_modeset_acquire_fini(ctx);
- 	mutex_unlock(&dev->mode_config.mutex);
- 
--	clear_bit_unlock(I915_RESET_MODESET, &dev_priv->gt.reset.flags);
-+	clear_bit_unlock(I915_RESET_MODESET, &to_gt(dev_priv)->reset.flags);
+-	return intel_gt_live_subtests(tests, &i915->gt);
++	return intel_gt_live_subtests(tests, to_gt(i915));
  }
+diff --git a/drivers/gpu/drm/i915/gt/selftest_workarounds.c b/drivers/gpu/drm/i915/gt/selftest_workarounds.c
+index 962e91ba3be4..0287c2573c51 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_workarounds.c
++++ b/drivers/gpu/drm/i915/gt/selftest_workarounds.c
+@@ -1387,8 +1387,8 @@ int intel_workarounds_live_selftests(struct drm_i915_private *i915)
+ 		SUBTEST(live_engine_reset_workarounds),
+ 	};
  
- static void icl_set_pipe_chicken(const struct intel_crtc_state *crtc_state)
-@@ -8566,19 +8566,19 @@ static void intel_atomic_commit_fence_wait(struct intel_atomic_state *intel_stat
- 	for (;;) {
- 		prepare_to_wait(&intel_state->commit_ready.wait,
- 				&wait_fence, TASK_UNINTERRUPTIBLE);
--		prepare_to_wait(bit_waitqueue(&dev_priv->gt.reset.flags,
-+		prepare_to_wait(bit_waitqueue(&to_gt(dev_priv)->reset.flags,
- 					      I915_RESET_MODESET),
- 				&wait_reset, TASK_UNINTERRUPTIBLE);
+-	if (intel_gt_is_wedged(&i915->gt))
++	if (intel_gt_is_wedged(to_gt(i915)))
+ 		return 0;
  
- 
- 		if (i915_sw_fence_done(&intel_state->commit_ready) ||
--		    test_bit(I915_RESET_MODESET, &dev_priv->gt.reset.flags))
-+		    test_bit(I915_RESET_MODESET, &to_gt(dev_priv)->reset.flags))
- 			break;
- 
- 		schedule();
- 	}
- 	finish_wait(&intel_state->commit_ready.wait, &wait_fence);
--	finish_wait(bit_waitqueue(&dev_priv->gt.reset.flags,
-+	finish_wait(bit_waitqueue(&to_gt(dev_priv)->reset.flags,
- 				  I915_RESET_MODESET),
- 		    &wait_reset);
+-	return intel_gt_live_subtests(tests, &i915->gt);
++	return intel_gt_live_subtests(tests, to_gt(i915));
  }
-diff --git a/drivers/gpu/drm/i915/display/intel_dpt.c b/drivers/gpu/drm/i915/display/intel_dpt.c
-index 963ca7155b06..ce760402a89a 100644
---- a/drivers/gpu/drm/i915/display/intel_dpt.c
-+++ b/drivers/gpu/drm/i915/display/intel_dpt.c
-@@ -264,7 +264,7 @@ intel_dpt_create(struct intel_framebuffer *fb)
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+index 22c1c12369f2..13b27b8ff74e 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+@@ -623,7 +623,7 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
+ 	if (unlikely(ret < 0))
+ 		return ret;
  
- 	vm = &dpt->vm;
+-	intel_guc_pm_intrmsk_enable(&i915->gt);
++	intel_guc_pm_intrmsk_enable(to_gt(i915));
  
--	vm->gt = &i915->gt;
-+	vm->gt = to_gt(i915);
- 	vm->i915 = i915;
- 	vm->dma = i915->drm.dev;
- 	vm->total = (size / sizeof(gen8_pte_t)) * I915_GTT_PAGE_SIZE;
-diff --git a/drivers/gpu/drm/i915/display/intel_overlay.c b/drivers/gpu/drm/i915/display/intel_overlay.c
-index 7e3f5c6ca484..1a376e9a1ff3 100644
---- a/drivers/gpu/drm/i915/display/intel_overlay.c
-+++ b/drivers/gpu/drm/i915/display/intel_overlay.c
-@@ -1382,7 +1382,7 @@ void intel_overlay_setup(struct drm_i915_private *dev_priv)
- 	if (!HAS_OVERLAY(dev_priv))
- 		return;
+ 	slpc_get_rp_values(slpc);
  
--	engine = dev_priv->gt.engine[RCS0];
-+	engine = to_gt(dev_priv)->engine[RCS0];
- 	if (!engine || !engine->kernel_context)
- 		return;
+diff --git a/drivers/gpu/drm/i915/gt/uc/selftest_guc.c b/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
+index fb0e4a7bd8ca..e8cd030137e5 100644
+--- a/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
++++ b/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
+@@ -115,7 +115,7 @@ int intel_guc_live_selftests(struct drm_i915_private *i915)
+ 	static const struct i915_subtest tests[] = {
+ 		SUBTEST(intel_guc_scrub_ctbs),
+ 	};
+-	struct intel_gt *gt = &i915->gt;
++	struct intel_gt *gt = to_gt(i915);
  
-diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-index d5359cf3d270..93a385396512 100644
---- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
-+++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-@@ -1737,7 +1737,7 @@ static bool bo_has_valid_encryption(struct drm_i915_gem_object *obj)
- {
- 	struct drm_i915_private *i915 = to_i915(obj->base.dev);
+ 	if (intel_gt_is_wedged(gt))
+ 		return 0;
+diff --git a/drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c b/drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c
+index 50953c8e8b53..1297ddbf7f88 100644
+--- a/drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c
++++ b/drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c
+@@ -167,7 +167,7 @@ int intel_guc_multi_lrc_live_selftests(struct drm_i915_private *i915)
+ 	static const struct i915_subtest tests[] = {
+ 		SUBTEST(intel_guc_multi_lrc_basic),
+ 	};
+-	struct intel_gt *gt = &i915->gt;
++	struct intel_gt *gt = to_gt(i915);
  
--	return intel_pxp_key_check(&i915->gt.pxp, obj, false) == 0;
-+	return intel_pxp_key_check(&to_gt(i915)->pxp, obj, false) == 0;
- }
- 
- static bool pxp_is_borked(struct drm_i915_gem_object *obj)
+ 	if (intel_gt_is_wedged(gt))
+ 		return 0;
 -- 
 2.34.1
 
