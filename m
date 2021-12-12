@@ -1,34 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4F98471E28
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Dec 2021 23:09:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B240471E9B
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 00:08:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B9BA10E790;
-	Sun, 12 Dec 2021 22:09:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7C4510F7DB;
+	Sun, 12 Dec 2021 23:08:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02C2210E790
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 22:09:28 +0000 (UTC)
-Received: from p508fc708.dip0.t-ipconnect.de ([80.143.199.8]
- helo=phil.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <heiko@sntech.de>)
- id 1mwX24-0006Qe-S7; Sun, 12 Dec 2021 23:09:24 +0100
-From: Heiko Stuebner <heiko@sntech.de>
-To: dri-devel@lists.freedesktop.org, Sascha Hauer <s.hauer@pengutronix.de>
-Subject: Re: [PATCH 07/18] dt-bindings: display: rockchip: dw-hdmi: Allow
- "ref" as clock name
-Date: Sun, 12 Dec 2021 23:09:24 +0100
-Message-ID: <3032544.f5MXlUzpl7@phil>
-In-Reply-To: <20211208151230.3695378-8-s.hauer@pengutronix.de>
-References: <20211208151230.3695378-1-s.hauer@pengutronix.de>
- <20211208151230.3695378-8-s.hauer@pengutronix.de>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45C1F10F7DB
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 23:08:33 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 45DBFB80D8E
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 23:08:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EA665C341CA
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 23:08:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1639350509;
+ bh=d8/K6xL0tp4zqfZygx5Z4OCO95MpUxurEW/NxfCA/8g=;
+ h=From:To:Subject:Date:From;
+ b=YHm6Igjy1XJ82ENLSJVhW8pHI73s916zVN37q5SibfY4fhCIDce75KEZTFVHmmSlU
+ p0fUhqPd2Sr0x5ew4MqAXvuYnRwECcxWHWyR54zo1lQ9BTlhzkTYCGpyvJ1XvIbLAy
+ au0obvr/0cQGuEWHaWqEhV6xyZnJwzwPen28dRq1KyKSBVP8w9uI6uO5siAu9AKkCy
+ HLTfAXuAkJSUa6TlreV6W4EdLxxQxX1mrdBN6iaun6aimTSDcXhCLntieJw3pRgX87
+ hwcpNypAPmMNVwRZahbbyjgFco9SN3P5MfxCZ1/gLyrYzOh4/sLhaAFjFK63rhaM6g
+ pjb/3/4sM/GEg==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id D178B61106; Sun, 12 Dec 2021 23:08:28 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 215315] New: [REGRESSION BISECTED] amdgpu crashes system
+ suspend - NUC8i7HVKVA
+Date: Sun, 12 Dec 2021 23:08:28 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: lenb@kernel.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-215315-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,63 +71,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Mittwoch, 8. Dezember 2021, 16:12:19 CET schrieb Sascha Hauer:
-> "vpll" is a misnomer. A clock input to a device should be named after
-> the usage in the device, not after the clock that drives it. On the
-> rk3568 the same clock is driven by the HPLL.
-> To fix that, this patch renames the vpll clock to ref clock.  The clock
-> name "vpll" is left for compatibility to old device trees.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215315
 
-Can't we just say that the binding only takes the "ref" name, but
-the code still allows "vpll".
+            Bug ID: 215315
+           Summary: [REGRESSION BISECTED] amdgpu crashes system suspend -
+                    NUC8i7HVKVA
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.15-rc1, 5.15, 5.16-rc4
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: lenb@kernel.org
+        Regression: No
 
-I think I remember Rob suggesting something similar in the past.
+My Intel NUC8i7HVKVA has an AMD GPU.
 
-I don't think that we need to keep the binding(-validation)
-compatible with old devicetrees, but the kernel itself should stay
-compatible.
+Until 5.15-rc1, this machine was rock solid in suspend stress testing -- ne=
+ver
+crashing after hundreds of hours of back-to-back suspend cycles.
 
+Until this patch went upstream:
 
-Heiko
+commit f7d6779df642720e22bffd449e683bb8690bd3bf (refs/bisect/bad)
+Author: Guchun Chen <guchun.chen@amd.com>
+Date:   Fri Aug 27 18:31:41 2021 +0800
 
+    drm/amdgpu: stop scheduler when calling hw_fini (v2)
 
-> 
-> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> ---
->  .../bindings/display/rockchip/rockchip,dw-hdmi.yaml         | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-> index 6e09dd2ee05ac..2ab6578033da2 100644
-> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-> @@ -48,10 +48,14 @@ properties:
->            - cec
->            - grf
->            - vpll
-> +          - ref
->        - enum:
->            - grf
->            - vpll
-> -      - const: vpll
-> +          - ref
-> +      - enum:
-> +          - vpll
-> +          - ref
->  
->    ddc-i2c-bus:
->      $ref: /schemas/types.yaml#/definitions/phandle
-> 
+    This gurantees no more work on the ring can be submitted
+    to hardware in suspend/resume case, otherwise a potential
+    race will occur and the ring will get no chance to stay
+    empty before suspend.
 
+    v2: Call drm_sched_resubmit_job before drm_sched_start to
+    restart jobs from the pending list.
 
+    Suggested-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+    Suggested-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+    Signed-off-by: Guchun Chen <guchun.chen@amd.com>
+    Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+    Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+    Cc: stable@vger.kernel.org
 
+I bisected that the patch before this one was integrated can handle over 1,=
+000
+back-to-back "freeze" system suspend cycles.  Yet, when this patch is prese=
+nt,
+the system may crash before it completes only 100 cycles, and at most lasts=
+ a
+few hundred cycles.
 
+This crash is present in all following upstream rc's, including 5.15-rc4.
+
+When I revert this patch from 5.15-rc4, stability returns.
+
+Usually, the crash is manifest by a black screen, and a system that does not
+respond to ping, and will only respond to a long AC power button press to
+remove power; and a subsequent cold reboot.
+
+I have witnessed the crash occur, and the "ubuntu color themed" screen ente=
+rs
+some sort of reverse video mode.  In this weird color mode, I've seen a text
+window oscillate between scrolling and un-scrolling for a line -- sort of l=
+ike
+it is going back in time, but then changes its mind.  There is no response =
+to
+keyboard, mouse, or network input.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
