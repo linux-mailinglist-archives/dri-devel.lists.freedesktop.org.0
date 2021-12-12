@@ -1,47 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C257471B57
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Dec 2021 16:26:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0EB4471B98
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Dec 2021 17:31:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4F9289C16;
-	Sun, 12 Dec 2021 15:26:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA62610E7BE;
+	Sun, 12 Dec 2021 16:31:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 046C388089
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 15:26:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639322789; x=1670858789;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=oUSM3WJHmfPDs99/XnQblVNSNtTyrRI58YJ5gcqWrbU=;
- b=anVTrz2ranIsZBBic3pidJrJPgCE0GIu5L8fv7yJjQU0MOAz7t/oAFYQ
- 3st62g+q8anAbFLWyQZ4BxT6HdfJ9gXT/E7FEYtnXC1olA2Rvmd+ePSWG
- BTpmbIqWHopyu7ZrBQI2rb80QiCeRg6RYHUdiMTh8cq0vL7GIP9x9fh9a
- xX16KMKVA1AqrvnLUIUg7q0BvdDMqY0DMyNT8j8uvsVwrSa7BzVT5bjBK
- dEV5Qbxm/YXJp618+alLBLMNpucJ5/klmwHvyEqCKX+Gbgek+qM3fOIE2
- Wk/FMPmzSSxQdf86c9TKeZUedDbvbOZnEhmn/V7VRkk3afmw3J15kRb8e A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10195"; a="238426008"
-X-IronPort-AV: E=Sophos;i="5.88,200,1635231600"; d="scan'208";a="238426008"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2021 07:26:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,200,1635231600"; d="scan'208";a="602974965"
-Received: from shawnle1-build-machine.itwn.intel.com ([10.5.253.78])
- by FMSMGA003.fm.intel.com with ESMTP; 12 Dec 2021 07:26:26 -0800
-From: Lee Shawn C <shawn.c.lee@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/edid: Refine HDMI VSDB detect
-Date: Sun, 12 Dec 2021 23:33:31 +0800
-Message-Id: <20211212153331.15457-1-shawn.c.lee@intel.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
+ [IPv6:2a00:1450:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA48F89FC9;
+ Sun, 12 Dec 2021 16:31:29 +0000 (UTC)
+Received: by mail-lj1-x234.google.com with SMTP id a37so19452606ljq.13;
+ Sun, 12 Dec 2021 08:31:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=eQdIOft1oYAqdZXW3N3vDzYovCItAhD3mQzWFf5HB24=;
+ b=YqfScbKsBHI/NoNETMQ7U1DyexFNvL5oLjAkvyPEiJf3PsvdarLnzxjzdZpkaDaNeG
+ lMB9pU8AG4esjWdSlKefZ3TpGzn49P9RfUSRVFmTi8Q3DXaDO418ikSiLH6MoanIzQXb
+ Kg5iDQuubTDuzlZqYCI5JvHLUf3k2Fdr98Rasfk5LwQCmMXVYTWrwvioDJ7bSrCMVYUh
+ 1DndqasTcZymXSD63dFqKOFzFtNsIgEruJLgPkeaWjV9X3a+aKku9xLxMX2ogL+iH3tD
+ BxWfcodoon6nSMUML20aQKaCvTeuBJr7uLeC9G5camZ9IcpOnAlDSFwu+F4D81ygIDVm
+ LsGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=eQdIOft1oYAqdZXW3N3vDzYovCItAhD3mQzWFf5HB24=;
+ b=4pkOn/h86HhRdYscMDOUnMmxx5RKliVz9B9MOX9UxSFCgaLH52SC8oKG+HgXGad3OK
+ xleBwxHO1J8UpzlwFcDpAHodlvaSKDXyEDyISMoapFlgcy5UGN57xnhAq+AlycKCT0e7
+ e0P5Voxvk/ROzme627v54JSyx26U2D4kzFiXx6qnGUJ2Fs7cj5GuLX3accJAMmVTnFgX
+ BGazHMM0dJbmV2X/c8IvgZTdE0wad0jQ7I9geXHOySNKZD1JXgkR1uBPxazOkfYy52bM
+ ZKFba22uDJQpxQt8ZGOwCjKSKDmthQDOqFG+0Nr8L/1Awp1AckKpwexFI5A2wdzHJ3AP
+ O2eg==
+X-Gm-Message-State: AOAM5304fdMcYTkP1+yOrvmxUwqd9EhUURX5iYUsrh1Ob4Ia+QqU5BBE
+ 87TM/Q2kZWR3kirPoWldbQlrkaf4C3BKM+y5aEY=
+X-Google-Smtp-Source: ABdhPJxNRTqbYOnypQev6NPLw5f5F4aKudoYQj4wp9j9KozfyEV/1ORfo6k4+6He4jzgVAnFlMjKpw==
+X-Received: by 2002:a2e:7819:: with SMTP id t25mr24793253ljc.374.1639326688211; 
+ Sun, 12 Dec 2021 08:31:28 -0800 (PST)
+Received: from trashcan (public-nat-10.vpngate.v4.open.ad.jp. [219.100.37.242])
+ by smtp.gmail.com with ESMTPSA id b14sm1090934lfs.174.2021.12.12.08.31.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 12 Dec 2021 08:31:27 -0800 (PST)
+Date: Sun, 12 Dec 2021 15:57:09 +0000
+From: Vladimir Lypak <vladimir.lypak@gmail.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH] drm/msm/a5xx: Add support for Adreno 506 GPU
+Message-ID: <YbYbmXGKIACRT+wO@trashcan>
+References: <20211022114349.102552-1-vladimir.lypak@gmail.com>
+ <YXL16V17upehvUwt@ripper>
+ <8ee2b4d4-44f3-6d03-b674-613b5b04a754@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8ee2b4d4-44f3-6d03-b674-613b5b04a754@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,37 +69,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lee Shawn C <shawn.c.lee@intel.com>, Dave Airlie <airlied@redhat.com>
+Cc: Iskren Chernev <iskren.chernev@gmail.com>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>, dri-devel@lists.freedesktop.org,
+ Jordan Crouse <jordan@cosmicpenguin.net>, freedreno@lists.freedesktop.org,
+ "Kristian H. Kristensen" <hoegsberg@google.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-According to CEA-861-F chapter 7.5.4. It says "The VSDB shall contain the
-3 bytes of the IEEE OUI as well as any additional payload bytes needed."
-Now DRM driver check HDMI OUI but VSDB payload size at least five bytes.
-That may caused some HDMI monitors' audio feature can't be enabled.
-Because of they only have three bytes payload (OUI only) in VSDB.
+On Fri, Dec 03, 2021 at 09:51:10PM +0300, Dmitry Baryshkov wrote:
+> On 22/10/2021 20:33, Bjorn Andersson wrote:
+> > On Fri 22 Oct 04:43 PDT 2021, Vladimir Lypak wrote:
+> > 
+> > > This GPU is found on SoCs such as MSM8953(650MHz), SDM450(600MHz),
+> > > SDM632(725MHz).
+> > > 
+> > > Signed-off-by: Vladimir Lypak <vladimir.lypak@gmail.com>
+> > > ---
+> > >   drivers/gpu/drm/msm/adreno/a5xx_gpu.c      | 34 ++++++++++++++--------
+> > >   drivers/gpu/drm/msm/adreno/adreno_device.c | 18 ++++++++++++
+> > >   drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  5 ++++
+> > >   3 files changed, 45 insertions(+), 12 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> > > index 5e2750eb3810..249a0d8bc673 100644
+> > > --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> > > +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> > > @@ -441,7 +441,7 @@ void a5xx_set_hwcg(struct msm_gpu *gpu, bool state)
+> > >   	const struct adreno_five_hwcg_regs *regs;
+> > >   	unsigned int i, sz;
+> > > -	if (adreno_is_a508(adreno_gpu)) {
+> > > +	if (adreno_is_a506(adreno_gpu) || adreno_is_a508(adreno_gpu)) {
+> > >   		regs = a50x_hwcg;
+> > >   		sz = ARRAY_SIZE(a50x_hwcg);
+> > >   	} else if (adreno_is_a509(adreno_gpu) || adreno_is_a512(adreno_gpu)) {
+> > > @@ -485,7 +485,7 @@ static int a5xx_me_init(struct msm_gpu *gpu)
+> > >   	OUT_RING(ring, 0x00000000);
+> > >   	/* Specify workarounds for various microcode issues */
+> > > -	if (adreno_is_a530(adreno_gpu)) {
+> > > +	if (adreno_is_a506(adreno_gpu) || adreno_is_a530(adreno_gpu)) {
+> > >   		/* Workaround for token end syncs
+> > >   		 * Force a WFI after every direct-render 3D mode draw and every
+> > >   		 * 2D mode 3 draw
+> > > @@ -620,8 +620,17 @@ static int a5xx_ucode_init(struct msm_gpu *gpu)
+> > >   static int a5xx_zap_shader_resume(struct msm_gpu *gpu)
+> > >   {
+> > > +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+> > >   	int ret;
+> > > +	/*
+> > > +	 * Adreno 506,508,512 have CPZ Retention feature and
+> > > +	 * don't need to resume zap shader
+> > > +	 */
+> > > +	if (adreno_is_a506(adreno_gpu) || adreno_is_a508(adreno_gpu) ||
+> > > +	    adreno_is_a512(adreno_gpu))
+> > > +		return 0;
+> > 
+> > Afaict all other changes in the patch adds a506 support, but this hunk
+> > changes a508 and a512 behavior.
+> > 
+> > I'm not saying that the change is wrong, but this hunk deserves to be in
+> > it's own patch - so that if there's any impact on those other versions
+> > it can be tracked down to that specific patch.
+> 
+> Vladimir, any plans to submit v2? This comment requests splitting the patch
+> in two.
+> 
+> 
+> -- 
+> With best wishes
+> Dmitry
 
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: Adam Jackson <ajax@redhat.com>
-Cc: Dave Airlie <airlied@redhat.com>
-Signed-off-by: Lee Shawn C <shawn.c.lee@intel.com>
----
- drivers/gpu/drm/drm_edid.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hello, Dmitry!
+Sorry for delay. Yes, i'm going to submit v2 soon.
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 12893e7be89b..5aa4a6bf4a13 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -4205,7 +4205,7 @@ static bool cea_db_is_hdmi_vsdb(const u8 *db)
- 	if (cea_db_tag(db) != VENDOR_BLOCK)
- 		return false;
- 
--	if (cea_db_payload_len(db) < 5)
-+	if (cea_db_payload_len(db) < 3)
- 		return false;
- 
- 	return oui(db[3], db[2], db[1]) == HDMI_IEEE_OUI;
--- 
-2.31.1
-
+Thanks
+Vladimir
