@@ -1,55 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C02B471E0F
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Dec 2021 22:29:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6505C471E25
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Dec 2021 23:00:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2062B10F67D;
-	Sun, 12 Dec 2021 21:29:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A730E10F637;
+	Sun, 12 Dec 2021 22:00:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org
  [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77AA310F67D
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 21:29:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6103F10F637
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 22:00:03 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 0EEDCB80D90
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 21:29:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B57EC341D2
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 21:29:22 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id CC663B80DA1
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 22:00:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 78604C341C6
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 21:59:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1639344562;
- bh=LlxB3rcX8pfg5j2Qcjxycor4wz60/36vh1CIxrmwBig=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=SHctnyFq//XhEggeIz01MLzbKQba/Y/5FNzsSzwycf30W5kFWprkUPxK9p7cPEl8L
- mYaHvJ+kSgxiUiJh42jc9dWGcQtzLnu6p3DFot2nEaD+56YCo3oAkL8GmEMPQ/AwTf
- P1xBbjIjYGtWBnkCzVFZMfdIkY+kGTfJj9e9mVRx8G/J5mf+HuhGkyVgpDfVsChAHK
- uMqVBVgCHGYH3ZYgvzLISYeYOin3oTYBYqjmcAKyKg/mjJGo90Z3hwQlWOSzZshfwi
- AMpjLWCbBcxthL2iKKq+tEW2ipgy/v1ZPUeHZPDJN7m2SpluIitdB0wh0MSShbP3Zr
- McZr1keqJLImA==
-Received: by mail-ed1-f49.google.com with SMTP id w1so46042561edc.6
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 13:29:22 -0800 (PST)
-X-Gm-Message-State: AOAM531U3fJ7F9Ez6JHI0kYyHx5ekGQaX1UgNvfY2uKd/al5ywVkZNGG
- h9UST0Hq6aFrE8kz2FjCuT+L2BETk7LpzTvDpg==
-X-Google-Smtp-Source: ABdhPJzLtlkhCMoGmQBUywxk2+JoY0BZKDxU6ibta6QGByc19kVnbgbJRKPRHI6qdooKbzeyxkIU+oB+jTkG1tKCVaE=
-X-Received: by 2002:a17:907:3f24:: with SMTP id
- hq36mr39247926ejc.390.1639344560281; 
- Sun, 12 Dec 2021 13:29:20 -0800 (PST)
-MIME-Version: 1.0
-References: <20211212062407.138309-1-marcan@marcan.st>
- <20211212062407.138309-2-marcan@marcan.st>
-In-Reply-To: <20211212062407.138309-2-marcan@marcan.st>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Sun, 12 Dec 2021 15:29:08 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+0=3V7noGbK2-h+yXeCPZ4QMXVroWvTTL5u7i22ibc6w@mail.gmail.com>
-Message-ID: <CAL_Jsq+0=3V7noGbK2-h+yXeCPZ4QMXVroWvTTL5u7i22ibc6w@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] of: Move simple-framebuffer device handling from
- simplefb to of
-To: Hector Martin <marcan@marcan.st>
+ s=k20201202; t=1639346399;
+ bh=9n4e7LkRp8G8dTBaaJBpwpeINXNDvG/Iu98GlTKQFKY=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=kCv6SxYdhClQSGZC8ey9RskpNlXWi/R5ZzLRBXNL2PaiRThKM6MLM4POnKcfOEBWH
+ Nq6gNv6P1WgpH1N0z+WPS+F0fUjd+2HLCsaGFEINBpb4L3Wwk1GwndcJ9nUMr/k11O
+ SxxissL50pWodnEFRhxwFrs8DZer4xJzxywZgA5ubo8m97uOodhDMhydoSeU38EDTG
+ PRegOD8awWqHK9kMkvcM1nJahfQpCHlwIkEgL0l5NYnyn4vgxtbMVoR9KCOcB6scHw
+ WXUZkQOdNZ5ZvX/KD0zkQxr/Qzrx5igcjiv3OLjXu8n1vCnXHv85s7MYJ3zxNfxQe/
+ nyUvXnJBKImkA==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 5F23061106; Sun, 12 Dec 2021 21:59:59 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 201957] amdgpu: ring gfx timeout
+Date: Sun, 12 Dec 2021 21:59:57 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: aussir@tutanota.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-201957-2300-XKjkqIeR33@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-201957-2300@https.bugzilla.kernel.org/>
+References: <bug-201957-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,27 +71,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Hans de Goede <hdegoede@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Javier Martinez Canillas <javier@dowhile0.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Dec 12, 2021 at 12:24 AM Hector Martin <marcan@marcan.st> wrote:
->
-> This code is required for both simplefb and simpledrm, so let's move it
-> into the OF core instead of having it as an ad-hoc initcall in the
-> drivers.
->
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Hector Martin <marcan@marcan.st>
-> ---
->  drivers/of/platform.c          |  4 ++++
->  drivers/video/fbdev/simplefb.c | 21 +--------------------
->  2 files changed, 5 insertions(+), 20 deletions(-)
+https://bugzilla.kernel.org/show_bug.cgi?id=3D201957
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+--- Comment #51 from T. Noah (aussir@tutanota.com) ---
+A possible solution is to pass
+amdgpu.dpm=3D0
+as a kernel launch option.
+
+However: this kills fps in many games and probably anything that depends on=
+ the
+gpu for rendering.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
