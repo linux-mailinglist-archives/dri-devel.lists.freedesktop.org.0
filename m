@@ -2,35 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90A4E471C89
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Dec 2021 20:20:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C02B471E0F
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Dec 2021 22:29:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7592310E791;
-	Sun, 12 Dec 2021 19:20:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2062B10F67D;
+	Sun, 12 Dec 2021 21:29:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lynxeye.de (ns.lynxeye.de [87.118.118.114])
- by gabe.freedesktop.org (Postfix) with ESMTP id 675B010E791
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 19:20:27 +0000 (UTC)
-Received: by lynxeye.de (Postfix, from userid 501)
- id 6F914E7422A; Sun, 12 Dec 2021 20:19:56 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on lynxeye.de
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=3.0 tests=ALL_TRUSTED,BAYES_00
- autolearn=ham version=3.3.1
-Received: from astat.fritz.box (a89-183-66-37.net-htp.de [89.183.66.37])
- by lynxeye.de (Postfix) with ESMTPA id 8008EE74214;
- Sun, 12 Dec 2021 20:19:55 +0100 (CET)
-From: Lucas Stach <dev@lynxeye.de>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH] drm/bridge: don't print EPROBE_DEFER as an error on bridge
- attach
-Date: Sun, 12 Dec 2021 20:19:52 +0100
-Message-Id: <20211212191952.2148605-1-dev@lynxeye.de>
-X-Mailer: git-send-email 2.31.1
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77AA310F67D
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 21:29:26 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 0EEDCB80D90
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 21:29:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B57EC341D2
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 21:29:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1639344562;
+ bh=LlxB3rcX8pfg5j2Qcjxycor4wz60/36vh1CIxrmwBig=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=SHctnyFq//XhEggeIz01MLzbKQba/Y/5FNzsSzwycf30W5kFWprkUPxK9p7cPEl8L
+ mYaHvJ+kSgxiUiJh42jc9dWGcQtzLnu6p3DFot2nEaD+56YCo3oAkL8GmEMPQ/AwTf
+ P1xBbjIjYGtWBnkCzVFZMfdIkY+kGTfJj9e9mVRx8G/J5mf+HuhGkyVgpDfVsChAHK
+ uMqVBVgCHGYH3ZYgvzLISYeYOin3oTYBYqjmcAKyKg/mjJGo90Z3hwQlWOSzZshfwi
+ AMpjLWCbBcxthL2iKKq+tEW2ipgy/v1ZPUeHZPDJN7m2SpluIitdB0wh0MSShbP3Zr
+ McZr1keqJLImA==
+Received: by mail-ed1-f49.google.com with SMTP id w1so46042561edc.6
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 13:29:22 -0800 (PST)
+X-Gm-Message-State: AOAM531U3fJ7F9Ez6JHI0kYyHx5ekGQaX1UgNvfY2uKd/al5ywVkZNGG
+ h9UST0Hq6aFrE8kz2FjCuT+L2BETk7LpzTvDpg==
+X-Google-Smtp-Source: ABdhPJzLtlkhCMoGmQBUywxk2+JoY0BZKDxU6ibta6QGByc19kVnbgbJRKPRHI6qdooKbzeyxkIU+oB+jTkG1tKCVaE=
+X-Received: by 2002:a17:907:3f24:: with SMTP id
+ hq36mr39247926ejc.390.1639344560281; 
+ Sun, 12 Dec 2021 13:29:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211212062407.138309-1-marcan@marcan.st>
+ <20211212062407.138309-2-marcan@marcan.st>
+In-Reply-To: <20211212062407.138309-2-marcan@marcan.st>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Sun, 12 Dec 2021 15:29:08 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+0=3V7noGbK2-h+yXeCPZ4QMXVroWvTTL5u7i22ibc6w@mail.gmail.com>
+Message-ID: <CAL_Jsq+0=3V7noGbK2-h+yXeCPZ4QMXVroWvTTL5u7i22ibc6w@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] of: Move simple-framebuffer device handling from
+ simplefb to of
+To: Hector Martin <marcan@marcan.st>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,42 +62,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Javier Martinez Canillas <javier@dowhile0.org>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-EPROBE_DEFER is a special error return code, that can happen during
-normal system boot and should not be printed as an error.
+On Sun, Dec 12, 2021 at 12:24 AM Hector Martin <marcan@marcan.st> wrote:
+>
+> This code is required for both simplefb and simpledrm, so let's move it
+> into the OF core instead of having it as an ad-hoc initcall in the
+> drivers.
+>
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> ---
+>  drivers/of/platform.c          |  4 ++++
+>  drivers/video/fbdev/simplefb.c | 21 +--------------------
+>  2 files changed, 5 insertions(+), 20 deletions(-)
 
-Signed-off-by: Lucas Stach <dev@lynxeye.de>
----
- drivers/gpu/drm/drm_bridge.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index c96847fc0ebc..ee6a16b9046f 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -287,13 +287,15 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
- 	bridge->encoder = NULL;
- 	list_del(&bridge->chain_node);
- 
-+	if (ret != -EPROBE_DEFER) {
- #ifdef CONFIG_OF
--	DRM_ERROR("failed to attach bridge %pOF to encoder %s: %d\n",
--		  bridge->of_node, encoder->name, ret);
-+		DRM_ERROR("failed to attach bridge %pOF to encoder %s: %d\n",
-+			  bridge->of_node, encoder->name, ret);
- #else
--	DRM_ERROR("failed to attach bridge to encoder %s: %d\n",
--		  encoder->name, ret);
-+		DRM_ERROR("failed to attach bridge to encoder %s: %d\n",
-+			  encoder->name, ret);
- #endif
-+	}
- 
- 	return ret;
- }
--- 
-2.31.1
-
+Reviewed-by: Rob Herring <robh@kernel.org>
