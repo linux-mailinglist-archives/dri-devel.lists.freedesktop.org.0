@@ -2,33 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89A5D4718E2
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Dec 2021 07:24:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F35D4718E3
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Dec 2021 07:24:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C28110EA74;
-	Sun, 12 Dec 2021 06:24:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C12010EA75;
+	Sun, 12 Dec 2021 06:24:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7252310EA74
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 06:24:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD37310EA75
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 06:24:30 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: hector@marcansoft.com)
- by mail.marcansoft.com (Postfix) with ESMTPSA id 2924E425DF;
- Sun, 12 Dec 2021 06:24:20 +0000 (UTC)
+ by mail.marcansoft.com (Postfix) with ESMTPSA id 67AF6424CD;
+ Sun, 12 Dec 2021 06:24:25 +0000 (UTC)
 From: Hector Martin <marcan@marcan.st>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
  Hans de Goede <hdegoede@redhat.com>
-Subject: [PATCH v3 2/3] drm/format-helper: Add
- drm_fb_xrgb8888_to_xrgb2101010_toio()
-Date: Sun, 12 Dec 2021 15:24:06 +0900
-Message-Id: <20211212062407.138309-3-marcan@marcan.st>
+Subject: [PATCH v3 3/3] drm/simpledrm: Add [AX]RGB2101010 formats
+Date: Sun, 12 Dec 2021 15:24:07 +0900
+Message-Id: <20211212062407.138309-4-marcan@marcan.st>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211212062407.138309-1-marcan@marcan.st>
 References: <20211212062407.138309-1-marcan@marcan.st>
@@ -53,120 +52,30 @@ Cc: devicetree@vger.kernel.org, Hector Martin <marcan@marcan.st>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add XRGB8888 emulation support for devices that can only do XRGB2101010.
+This is the format used by the bootloader framebuffer on Apple ARM64
+platforms.
 
-This is chiefly useful for simpledrm on Apple devices where the
-bootloader-provided framebuffer is 10-bit.
-
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Hector Martin <marcan@marcan.st>
 ---
- drivers/gpu/drm/drm_format_helper.c | 64 +++++++++++++++++++++++++++++
- include/drm/drm_format_helper.h     |  3 ++
- 2 files changed, 67 insertions(+)
+ drivers/gpu/drm/tiny/simpledrm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-index dbe3e830096e..0f28dd2bdd72 100644
---- a/drivers/gpu/drm/drm_format_helper.c
-+++ b/drivers/gpu/drm/drm_format_helper.c
-@@ -409,6 +409,61 @@ void drm_fb_xrgb8888_to_rgb888_toio(void __iomem *dst, unsigned int dst_pitch,
- }
- EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb888_toio);
+diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
+index 2f999915b9aa..b977f5c94562 100644
+--- a/drivers/gpu/drm/tiny/simpledrm.c
++++ b/drivers/gpu/drm/tiny/simpledrm.c
+@@ -571,8 +571,8 @@ static const uint32_t simpledrm_default_formats[] = {
+ 	//DRM_FORMAT_XRGB1555,
+ 	//DRM_FORMAT_ARGB1555,
+ 	DRM_FORMAT_RGB888,
+-	//DRM_FORMAT_XRGB2101010,
+-	//DRM_FORMAT_ARGB2101010,
++	DRM_FORMAT_XRGB2101010,
++	DRM_FORMAT_ARGB2101010,
+ };
  
-+static void drm_fb_xrgb8888_to_xrgb2101010_line(u32 *dbuf, const u32 *sbuf,
-+						unsigned int pixels)
-+{
-+	unsigned int x;
-+	u32 val32;
-+
-+	for (x = 0; x < pixels; x++) {
-+		val32 = ((sbuf[x] & 0x000000FF) << 2) |
-+			((sbuf[x] & 0x0000FF00) << 4) |
-+			((sbuf[x] & 0x00FF0000) << 6);
-+		*dbuf++ = val32 | ((val32 >> 8) & 0x00300C03);
-+	}
-+}
-+
-+/**
-+ * drm_fb_xrgb8888_to_xrgb2101010_toio - Convert XRGB8888 to XRGB2101010 clip
-+ * buffer
-+ * @dst: XRGB2101010 destination buffer (iomem)
-+ * @dst_pitch: Number of bytes between two consecutive scanlines within dst
-+ * @vaddr: XRGB8888 source buffer
-+ * @fb: DRM framebuffer
-+ * @clip: Clip rectangle area to copy
-+ *
-+ * Drivers can use this function for XRGB2101010 devices that don't natively
-+ * support XRGB8888.
-+ */
-+void drm_fb_xrgb8888_to_xrgb2101010_toio(void __iomem *dst,
-+					 unsigned int dst_pitch, const void *vaddr,
-+					 const struct drm_framebuffer *fb,
-+					 const struct drm_rect *clip)
-+{
-+	size_t linepixels = clip->x2 - clip->x1;
-+	size_t dst_len = linepixels * sizeof(u32);
-+	unsigned int y, lines = clip->y2 - clip->y1;
-+	void *dbuf;
-+
-+	if (!dst_pitch)
-+		dst_pitch = dst_len;
-+
-+	dbuf = kmalloc(dst_len, GFP_KERNEL);
-+	if (!dbuf)
-+		return;
-+
-+	vaddr += clip_offset(clip, fb->pitches[0], sizeof(u32));
-+	for (y = 0; y < lines; y++) {
-+		drm_fb_xrgb8888_to_xrgb2101010_line(dbuf, vaddr, linepixels);
-+		memcpy_toio(dst, dbuf, dst_len);
-+		vaddr += fb->pitches[0];
-+		dst += dst_pitch;
-+	}
-+
-+	kfree(dbuf);
-+}
-+EXPORT_SYMBOL(drm_fb_xrgb8888_to_xrgb2101010_toio);
-+
- /**
-  * drm_fb_xrgb8888_to_gray8 - Convert XRGB8888 to grayscale
-  * @dst: 8-bit grayscale destination buffer
-@@ -500,6 +555,10 @@ int drm_fb_blit_toio(void __iomem *dst, unsigned int dst_pitch, uint32_t dst_for
- 		fb_format = DRM_FORMAT_XRGB8888;
- 	if (dst_format == DRM_FORMAT_ARGB8888)
- 		dst_format = DRM_FORMAT_XRGB8888;
-+	if (fb_format == DRM_FORMAT_ARGB2101010)
-+		fb_format = DRM_FORMAT_XRGB2101010;
-+	if (dst_format == DRM_FORMAT_ARGB2101010)
-+		dst_format = DRM_FORMAT_XRGB2101010;
- 
- 	if (dst_format == fb_format) {
- 		drm_fb_memcpy_toio(dst, dst_pitch, vmap, fb, clip);
-@@ -515,6 +574,11 @@ int drm_fb_blit_toio(void __iomem *dst, unsigned int dst_pitch, uint32_t dst_for
- 			drm_fb_xrgb8888_to_rgb888_toio(dst, dst_pitch, vmap, fb, clip);
- 			return 0;
- 		}
-+	} else if (dst_format == DRM_FORMAT_XRGB2101010) {
-+		if (fb_format == DRM_FORMAT_XRGB8888) {
-+			drm_fb_xrgb8888_to_xrgb2101010_toio(dst, dst_pitch, vmap, fb, clip);
-+			return 0;
-+		}
- 	}
- 
- 	return -EINVAL;
-diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
-index 97e4c3223af3..b30ed5de0a33 100644
---- a/include/drm/drm_format_helper.h
-+++ b/include/drm/drm_format_helper.h
-@@ -33,6 +33,9 @@ void drm_fb_xrgb8888_to_rgb888(void *dst, unsigned int dst_pitch, const void *sr
- void drm_fb_xrgb8888_to_rgb888_toio(void __iomem *dst, unsigned int dst_pitch,
- 				    const void *vaddr, const struct drm_framebuffer *fb,
- 				    const struct drm_rect *clip);
-+void drm_fb_xrgb8888_to_xrgb2101010_toio(void __iomem *dst, unsigned int dst_pitch,
-+					 const void *vaddr, const struct drm_framebuffer *fb,
-+					 const struct drm_rect *clip);
- void drm_fb_xrgb8888_to_gray8(void *dst, unsigned int dst_pitch, const void *vaddr,
- 			      const struct drm_framebuffer *fb, const struct drm_rect *clip);
- 
+ static const uint64_t simpledrm_format_modifiers[] = {
 -- 
 2.33.0
 
