@@ -1,43 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66F6E472323
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 09:43:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6501D472325
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 09:44:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E444D10E6B2;
-	Mon, 13 Dec 2021 08:43:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04A7A10E6B6;
+	Mon, 13 Dec 2021 08:43:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-41103.protonmail.ch (mail-41103.protonmail.ch
- [185.70.41.103])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77A9A10F12F
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 12:05:48 +0000 (UTC)
-Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com
- [51.77.79.158])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested)
- by mail-41103.protonmail.ch (Postfix) with ESMTPS id 4JBjyf5P1hz4x0Tr
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 12:05:46 +0000 (UTC)
-Authentication-Results: mail-41103.protonmail.ch;
- dkim=pass (2048-bit key) header.d=acoro.eu header.i=@acoro.eu
- header.b="YHaddwk5"
-Date: Sun, 12 Dec 2021 12:05:28 +0000
+X-Greylist: delayed 14434 seconds by postgrey-1.36 at gabe;
+ Sun, 12 Dec 2021 16:06:18 UTC
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E2AE10E5F1
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 16:06:18 +0000 (UTC)
+Date: Sun, 12 Dec 2021 16:06:02 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acoro.eu;
- s=protonmail3; t=1639310741;
+ s=protonmail3; t=1639325175;
  bh=58J3xn/bCtRIZhmEH6XTE/KJPyH/4XpTgvWYSnoD75Y=;
  h=Date:To:From:Cc:Reply-To:Subject:Message-ID:From:To:Cc;
- b=YHaddwk5k8n8rWsrA3+dfhL3zs/X9A1fvOH7hkmaQE95Xbu9r+vUyVPN9eiEGQL/m
- lwBQj/7klm5WTyXWS98xrE4OwMiFQxxHenjOn++ObQ9bbdITlbX3DO8Nu7x6bvJ+YP
- say+lQ66WUetM7uZsQ0+jgl0mlA3c1HueghRQcWkkgZauUvNDoJqukTxs1ng+W8c4o
- Jzkfqg6QOXTFKoGMZwQZUkmvX8hZ0CYzOzIfGWs4ATzlhdWEHVMKDoJVbyFB46hmE2
- kdqavvgGMAGNgkrgBiJDo8uROs7o5oPsKTNUD3sOicbtxaCV+2psrCOp2bJthScqpy
- ewT4+f/+WSn7g==
-To: tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch, maxime@cerno.tech
+ b=R/J28pha7lteLLvHIZA04J/cYQaE718BZ3dU4GJQoetCdslXf92+wxyOB7Wy1e4q3
+ iuEyaehymm6DdH14+jSbC0N3oMc/snUJkBXH5Z9w94FbFfeuungyIooOg+ls6NLmdY
+ P1fyAO5CePUzwCG5FU12j4+93MnR1T5K7xO/BJV32+FJtgNSGqMbTA0sO8B8QYmjF0
+ QbDGcLCVVgksX/Q92UoLCYBKNYiRhnM1vqmjO/IDBusNXb2NdHYQHbD8bwcTkBtbIn
+ IMkDuJ2JHb7Lu47DXP1xEtcgtZAd42MgSQZhYe7Gn5W4g/YeJKYSs9rOlSaKXmrB0J
+ T9TuYqwBispew==
+To: tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch, maxime@cerno.tech,
+ dri-devel@lists.freedesktop.org
 From: Alejandro Concepcion-Rodriguez <asconcepcion@acoro.eu>
 Subject: [PATCH] drm: simpledrm: fix wrong unit with pixel clock
-Message-ID: <3c4ed29d-1cc7-8346-03e8-1cdc05fe2e9b@acoro.eu>
+Message-ID: <6f8554ef-1305-0dda-821c-f7d2e5644a48@acoro.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -60,7 +52,7 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: Alejandro Concepcion-Rodriguez <asconcepcion@acoro.eu>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, asconcepcion@acoro.eu
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
