@@ -2,33 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7861E4718DC
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Dec 2021 07:24:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93C9E4718DF
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Dec 2021 07:24:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D1FD10EA70;
-	Sun, 12 Dec 2021 06:24:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D42D410EA71;
+	Sun, 12 Dec 2021 06:24:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E0D610EA70
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 06:24:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E6A910EA71
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 06:24:22 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: hector@marcansoft.com)
- by mail.marcansoft.com (Postfix) with ESMTPSA id 990CF424CD;
- Sun, 12 Dec 2021 06:24:12 +0000 (UTC)
+ by mail.marcansoft.com (Postfix) with ESMTPSA id DD556425C1;
+ Sun, 12 Dec 2021 06:24:16 +0000 (UTC)
 From: Hector Martin <marcan@marcan.st>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
  Hans de Goede <hdegoede@redhat.com>
-Subject: [PATCH v3 0/3] drm/simpledrm: Apple M1 / DT platform support fixes
-Date: Sun, 12 Dec 2021 15:24:04 +0900
-Message-Id: <20211212062407.138309-1-marcan@marcan.st>
+Subject: [PATCH v3 1/3] of: Move simple-framebuffer device handling from
+ simplefb to of
+Date: Sun, 12 Dec 2021 15:24:05 +0900
+Message-Id: <20211212062407.138309-2-marcan@marcan.st>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211212062407.138309-1-marcan@marcan.st>
+References: <20211212062407.138309-1-marcan@marcan.st>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -50,33 +53,64 @@ Cc: devicetree@vger.kernel.org, Hector Martin <marcan@marcan.st>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi DRM folks,
+This code is required for both simplefb and simpledrm, so let's move it
+into the OF core instead of having it as an ad-hoc initcall in the
+drivers.
 
-This short series makes simpledrm work on Apple M1 (including Pro/Max)
-platforms the way simplefb already does, by adding XRGB2101010 support
-and making it bind to framebuffers in /chosen the same way simplefb
-does.
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+Signed-off-by: Hector Martin <marcan@marcan.st>
+---
+ drivers/of/platform.c          |  4 ++++
+ drivers/video/fbdev/simplefb.c | 21 +--------------------
+ 2 files changed, 5 insertions(+), 20 deletions(-)
 
-This avoids breaking the bootloader-provided framebuffer console when
-simpledrm is selected to replace simplefb, as these FBs always seem to
-be 10-bit (at least when a real screen is attached).
-
-Changes since v2:
-- Made 10-bit conversion code fill the LSBs
-- Added ARGB2101010 to supported formats list
-- Simplified OF core code per review feedback
-Hector Martin (3):
-  of: Move simple-framebuffer device handling from simplefb to of
-  drm/format-helper: Add drm_fb_xrgb8888_to_xrgb2101010_toio()
-  drm/simpledrm: Add [AX]RGB2101010 formats
-
- drivers/gpu/drm/drm_format_helper.c | 64 +++++++++++++++++++++++++++++
- drivers/gpu/drm/tiny/simpledrm.c    |  4 +-
- drivers/of/platform.c               |  4 ++
- drivers/video/fbdev/simplefb.c      | 21 +---------
- include/drm/drm_format_helper.h     |  3 ++
- 5 files changed, 74 insertions(+), 22 deletions(-)
-
+diff --git a/drivers/of/platform.c b/drivers/of/platform.c
+index b3faf89744aa..793350028906 100644
+--- a/drivers/of/platform.c
++++ b/drivers/of/platform.c
+@@ -540,6 +540,10 @@ static int __init of_platform_default_populate_init(void)
+ 		of_node_put(node);
+ 	}
+ 
++	node = of_get_compatible_child(of_chosen, "simple-framebuffer");
++	of_platform_device_create(node, NULL, NULL);
++	of_node_put(node);
++
+ 	/* Populate everything else. */
+ 	of_platform_default_populate(NULL, NULL, NULL);
+ 
+diff --git a/drivers/video/fbdev/simplefb.c b/drivers/video/fbdev/simplefb.c
+index b63074fd892e..57541887188b 100644
+--- a/drivers/video/fbdev/simplefb.c
++++ b/drivers/video/fbdev/simplefb.c
+@@ -541,26 +541,7 @@ static struct platform_driver simplefb_driver = {
+ 	.remove = simplefb_remove,
+ };
+ 
+-static int __init simplefb_init(void)
+-{
+-	int ret;
+-	struct device_node *np;
+-
+-	ret = platform_driver_register(&simplefb_driver);
+-	if (ret)
+-		return ret;
+-
+-	if (IS_ENABLED(CONFIG_OF_ADDRESS) && of_chosen) {
+-		for_each_child_of_node(of_chosen, np) {
+-			if (of_device_is_compatible(np, "simple-framebuffer"))
+-				of_platform_device_create(np, NULL, NULL);
+-		}
+-	}
+-
+-	return 0;
+-}
+-
+-fs_initcall(simplefb_init);
++module_platform_driver(simplefb_driver);
+ 
+ MODULE_AUTHOR("Stephen Warren <swarren@wwwdotorg.org>");
+ MODULE_DESCRIPTION("Simple framebuffer driver");
 -- 
 2.33.0
 
