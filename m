@@ -2,64 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B58EC472B3C
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 12:23:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B933B472B69
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 12:30:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38DB689CD8;
-	Mon, 13 Dec 2021 11:23:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6A1710E7D7;
+	Mon, 13 Dec 2021 11:30:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBFBF89CD8
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 11:23:36 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 4CA71CE100E
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 11:23:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6A384C34607
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 11:23:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1639394612;
- bh=fzKUyd7QAUd7ifa5UGoPoKsYW6+J01QpFB/J0VbcwEs=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=cflPvX2t2wRCjREZndWp8ROJ4TPtpD/6aM20k/60T/nt7WrqmPT6cNKT1PAfy6wsb
- 7M9+rWs5o0uw54OXqZ4dkuSqPg4fWogyG8aVhDB2WzH6XgyCNQjeGiUuxMmcKOkWQ3
- kdsN3lR2HjV0f+mPP58ISua+r3CUwEQX4JLnvN5Kfc/js3x5Etmkp5sZ6AXlafSANb
- 2j5IB6GV3LXLwh4Dmg/8XkH/l9377NsMOe3Kf4O+y+nVvQYAIOy4CWR5Khwi4G+Loh
- zKmQdBoU8Xj7SNe0V8Ylae0NO9mQ7OGB0iCE50zAiOFmn+h4kcN3Rji7n5NdYDqkj4
- SdLK/gYujmAtw==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 560AD61104; Mon, 13 Dec 2021 11:23:32 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211807] [drm:drm_dp_mst_dpcd_read] *ERROR* mstb
- 000000004e6288dd port 3: DPCD read on addr 0x60 for 1 bytes NAKed
-Date: Mon, 13 Dec 2021 11:23:31 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: kernelorg@iopsthecloud.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-211807-2300-AT4x5LBSHY@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211807-2300@https.bugzilla.kernel.org/>
-References: <bug-211807-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com
+ [IPv6:2607:f8b0:4864:20::f2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 401C910E7D7
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 11:30:45 +0000 (UTC)
+Received: by mail-qv1-xf2a.google.com with SMTP id jo22so14036295qvb.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 03:30:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dowhile0-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZPqukJKw+aJBcf7sVwYgzPRYDwCX4VM/xhe1xZEheMA=;
+ b=K6HqxFk42efNCxNHGO4jUvpFZ0y56TPdzOc+msGLHuukwbiqUHG1l5tW2GM2TtrTj6
+ +5wuhZdV2b1XhGuPHlMvDznWfOGT1V6vZGfbeszPDpWxhVMvXYctFlWrgD1hyrDqAysx
+ gkOLd0l3Pp3A/stwcdgKJ5Yc0vDHfwmyTgvjUjszuVj2FP542IuVZ+X1FMvLnGF1c4/G
+ 7sPk5O4GWGuuS7GwO/WIzlMZ7HpY2iN53bv41590J+YgEXGsY0gLBRSt/Ns8PY7SBGUI
+ mX2WxqNLpu06xIuNtLNGgFGZEI/3nL+J6PUOHHYSZC8296DM9VWp8BgmVn6ViMfq8xIp
+ QgzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZPqukJKw+aJBcf7sVwYgzPRYDwCX4VM/xhe1xZEheMA=;
+ b=fl1wwQ+NQofVomjeYC64dlEnt/uD4pEMw+ebj0cIU0tMvvRQw+mCoa7/QbHnXS0H0T
+ m7x9H7Lko8JQr8Asj7TnOPJe8Sr7K9twigO3mX6GJqUIWQo/yYf7NyO8H6dfmDW6Ow4R
+ 46Yh45a9pXg+U08ZjkhbXs0y6XSkm/2ugF74gxbna9W66kquXRdjhwyn9V6wJwNd1cdx
+ E2smuYG6DEeKxy+ChijURoPvdwmgdrckp8C3ZmnUb/vHEAM6FCvQRp1HzSJOMnJ63mUx
+ x/loH/EHLpoqd6jDw9/h/LNjmTmBiyd6+EmncK2DKGTNli6dBK4u9lnB+jUwllU4ZLJS
+ ckgA==
+X-Gm-Message-State: AOAM5320BX8EjmNj/E2cK3Yss6CxKDR/NCgc7gIm9wZ9BopXMUziSNpz
+ i5VTikwZ5PZfOtIUgF95i4z1oG91hxQ6JN/w8rOzcw==
+X-Google-Smtp-Source: ABdhPJx1aXzbU2HxJNyzGovz3AXrpAZQOQ6O5RVdez48MO4SqNz2fgsb0bWhAFSkk7gge8JddcEQuC3EGfOap3RH2eI=
+X-Received: by 2002:a05:6214:410e:: with SMTP id
+ kc14mr42995139qvb.73.1639395044220; 
+ Mon, 13 Dec 2021 03:30:44 -0800 (PST)
 MIME-Version: 1.0
+References: <20211212062407.138309-1-marcan@marcan.st>
+ <20211212062407.138309-2-marcan@marcan.st>
+ <CABxcv=m4fu8h=FwY7R=thuvd13_ZbFqB9rNNN07QOAd__jdYSQ@mail.gmail.com>
+ <63334964-d63d-7625-e46f-a6e6ec19e908@marcan.st>
+In-Reply-To: <63334964-d63d-7625-e46f-a6e6ec19e908@marcan.st>
+From: Javier Martinez Canillas <javier@dowhile0.org>
+Date: Mon, 13 Dec 2021 12:30:33 +0100
+Message-ID: <CABxcv=kbR5GX3yEfqchKJPkCqpWp_oKWjG=pu7LikBwoSX8W3A@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] of: Move simple-framebuffer device handling from
+ simplefb to of
+To: Hector Martin <marcan@marcan.st>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,22 +67,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Linux Kernel <linux-kernel@vger.kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>, Rob Herring <robh+dt@kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D211807
+On Mon, Dec 13, 2021 at 11:46 AM Hector Martin <marcan@marcan.st> wrote:
+>
+> On 13/12/2021 17.44, Javier Martinez Canillas wrote:
+> > Hello Hector,
+> >
+> > On Sun, Dec 12, 2021 at 7:24 AM Hector Martin <marcan@marcan.st> wrote:
+> >>
+> >> This code is required for both simplefb and simpledrm, so let's move it
+> >> into the OF core instead of having it as an ad-hoc initcall in the
+> >> drivers.
+> >>
+> >> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> >> Signed-off-by: Hector Martin <marcan@marcan.st>
+> >> ---
+> >>   drivers/of/platform.c          |  4 ++++
+> >>   drivers/video/fbdev/simplefb.c | 21 +--------------------
+> >>   2 files changed, 5 insertions(+), 20 deletions(-)
+> >>
+> >
+> > This is indeed a much better approach than what I suggested. I just
+> > have one comment.
+> >
+> >> diff --git a/drivers/of/platform.c b/drivers/of/platform.c
+> >> index b3faf89744aa..793350028906 100644
+> >> --- a/drivers/of/platform.c
+> >> +++ b/drivers/of/platform.c
+> >> @@ -540,6 +540,10 @@ static int __init of_platform_default_populate_init(void)
+> >>                  of_node_put(node);
+> >>          }
+> >>
+> >> +       node = of_get_compatible_child(of_chosen, "simple-framebuffer");
+> >
+> > You have to check if the node variable is NULL here.
+> >
+> >> +       of_platform_device_create(node, NULL, NULL);
+> >
+> > Otherwise this could lead to a NULL pointer dereference if debug
+> > output is enabled (the node->full_name is printed).
+>
+> Where is it printed? I thought I might need a NULL check, but this code
 
---- Comment #19 from Renaud R. (kernelorg@iopsthecloud.com) ---
-(In reply to Renaud R. from comment #18)
-> My setup:
-> * Latitude E5570 via dock DisplayPort
-> * Kernel: https://bugzilla.kernel.org
+Sorry, I misread of_amba_device_create() as
+of_platform_device_create(), which uses the "%pOF" printk format
+specifier [0] to print the node's full name as a debug output [1].
 
+[0]: https://elixir.bootlin.com/linux/v5.16-rc5/source/Documentation/core-api/printk-formats.rst#L462
+[1]: https://elixir.bootlin.com/linux/v5.16-rc5/source/drivers/of/platform.c#L233
 
-Kernel: 5.15.7-051507-generic #202112080459 SMP
+> was suggested verbatim by Rob in v2 without the NULL check and digging
+> through I found that the NULL codepath is safe.
+>
 
---=20
-You may reply to this email to add a comment.
+You are right that passing NULL is a safe code path for now due the
+of_device_is_available(node) check, but that seems fragile to me since
+just adding a similar debug output to of_platform_device_create()
+could trigger the NULL pointer dereference.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Best regards,
+Javier
