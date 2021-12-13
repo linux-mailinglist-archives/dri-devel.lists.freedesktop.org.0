@@ -2,37 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CCE5472D64
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 14:34:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A016D472D7B
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 14:36:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 078A310E8E2;
-	Mon, 13 Dec 2021 13:34:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6123E10E76C;
+	Mon, 13 Dec 2021 13:36:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E8B110E8E2;
- Mon, 13 Dec 2021 13:34:20 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10196"; a="238675399"
-X-IronPort-AV: E=Sophos;i="5.88,202,1635231600"; d="scan'208";a="238675399"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2021 05:34:19 -0800
-X-IronPort-AV: E=Sophos;i="5.88,202,1635231600"; d="scan'208";a="517751011"
-Received: from ppolasze-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.20.7])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2021 05:34:15 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, airlied@linux.ie, daniel@ffwll.ch
-Subject: Re: [PATCH 0/3] drm/dp: Move DisplayPort helpers into own module
-In-Reply-To: <20211213093650.19598-1-tzimmermann@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20211213093650.19598-1-tzimmermann@suse.de>
-Date: Mon, 13 Dec 2021 15:34:12 +0200
-Message-ID: <87lf0o7hnv.fsf@intel.com>
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94F0210E717
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 13:36:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1639402596; x=1670938596;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=OC4DluTv7Ck+tGkqPC2WyfnXfKegKd/Vd10PxezlL6o=;
+ b=jTSggTJ885cLqB6PfCzXONqQjZue8XvQpVMvBgXfGOCGJugrYaJEH2iQ
+ Dk7sRfjrKSxYyNu0bEnTLlmUklbHW0GO4KDn3iGJ8jS8LI4zqKxi3daaq
+ nOnJ0t+NBIclMq56cu4xCpQHoW6vqlkd6F8trX6zydmC9VJ+pxp2npS1J
+ N8PoZJ36HVXQg0R3x6D3mPklOWP/yHOQrvoZRzzabO7F1kIBLzqvOD9xS
+ ivdaJA0Na6komVtpjtWDFQiQCIST1/oOyLs4oYpoVMwnxd3OLL4s58kLv
+ Jju4xBHkPIjsMntV8JfQKi75OOcr99M1Vk1u3/DcsXWm29arHGrupcEE6 g==;
+X-IronPort-AV: E=Sophos;i="5.88,202,1635199200"; d="scan'208";a="21012620"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+ by mx1-pgp.tq-group.com with ESMTP; 13 Dec 2021 14:36:34 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+ by tq-pgp-pr1.tq-net.de (PGP Universal service);
+ Mon, 13 Dec 2021 14:36:34 +0100
+X-PGP-Universal: processed;
+ by tq-pgp-pr1.tq-net.de on Mon, 13 Dec 2021 14:36:34 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1639402594; x=1670938594;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=OC4DluTv7Ck+tGkqPC2WyfnXfKegKd/Vd10PxezlL6o=;
+ b=EI5og9WFsjBheOm9lfGrcNRPQ1bYC6FLrv6+mxH7hdFMu7Eu9ze4G2Jn
+ dlb7cC59YYJ2I4LRFig9xuWF1rrRN1106jMnewQ2Ib2vhccd3/r5iBHoe
+ NOsh21Yf+zyCEkZI1YR1iIntDb1Wyq74H9wfXVxwL+Oi6kSgn0WnFYsbW
+ AhVS+L7bTZkqhr/fwhaBgvjGhdjRZuzCWVMkR4qHjf5reVISxb1EYtEZV
+ Z3zTyjoXAXfByjdyNFAvPX3aSvcjq+5fa9BCzzjwoZVy1EXxH4jfP1A3M
+ lBzhlEf3NooI8KLvk/MdMDgXj+HK2q6hN5si3k+wGi7bWkK5lcxTlI9xA Q==;
+X-IronPort-AV: E=Sophos;i="5.88,202,1635199200"; d="scan'208";a="21012619"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 13 Dec 2021 14:36:34 +0100
+Received: from steina-w.tq-net.de (unknown [10.123.49.12])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id F0870280065;
+ Mon, 13 Dec 2021 14:36:33 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH v5 0/4] ti-sn65dsi83 patches
+Date: Mon, 13 Dec 2021 14:36:22 +0100
+Message-Id: <20211213133626.2498056-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,71 +77,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-msm@vger.kernel.org,
- linux-tegra@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 13 Dec 2021, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Split-off DisplayPort functions from KMS helper library and move them
-> into their own module. Reduces the size of drm_kms_helper.ko by ~50%.
->
-> This patchset is part of an on-going effort to reduce the minimum
-> binary size of the DRM core and helpers. It's helpful for systems with
-> early-boot DRM graphics, which requires DRM to be linked into the
-> kernel image.
+Changes in V5 of this set:
+* Rebased to next-20211208
+* Fix format string in error message
+* Remove superfluous error value for dev_err_probe()
+* Added Reviewed-by: Jagan Teki for patch 3 & 4
 
-Would it be time to add a subdirectory for each non-driver, non-core drm
-module? We've touched this topic before. I find it increasingly hard to
-remember which files are part of helpers. This would also help with the
-arbitrary drm_dp_helper_mod.c naming.
+Changes in V4 of this set:
+* Rebased to next-20211118 (due to merge-conflict in linux-next)
+* Added Rob Herring's Ack on Patch 1 & 3
+* Reworked patch 4 due to other changes in linux-next
+* Removed Sam Ravnborg's Reviewed-by for patch4 due to rework
 
-Perhaps drivers/gpu/drm/drm_dp/?
+Changes in V3 of this set:
+* Do not require vcc-supply in bindings, making it purely optional
+* Move regulator enable/disable to sn65dsi83_atomic_pre_enable and
+  sn65dsi83_atomic_disable
 
-BR,
-Jani.
+Changes in V2 of this set:
+* Add patch from Laurent for fixing the binding regarding optional GPIO
+* Reorder patches so bindings are changed beforehand
+* Add small fixes from Sam's review
 
 
+Alexander Stein (3):
+  drm/bridge: ti-sn65dsi83: Make enable GPIO optional
+  dt-bindings: drm/bridge: ti-sn65dsi83: Add vcc supply bindings
+  drm/bridge: ti-sn65dsi83: Add vcc supply regulator support
 
->
-> Thomas Zimmermann (3):
->   drm/dp_mst: Remove trailing whitespace.
->   drm/dp: Move DP declarations into separate header file
->   drm/dp: Move DisplayPort helpers into separate helper module
->
->  drivers/gpu/drm/Kconfig                       |  8 ++++++
->  drivers/gpu/drm/Makefile                      | 14 ++++++----
->  drivers/gpu/drm/bridge/Kconfig                |  4 +++
->  drivers/gpu/drm/bridge/analogix/Kconfig       |  2 ++
->  drivers/gpu/drm/bridge/cadence/Kconfig        |  1 +
->  drivers/gpu/drm/drm_crtc_helper_internal.h    | 27 ------------------
->  drivers/gpu/drm/{drm_dp_helper.c => drm_dp.c} |  2 +-
->  drivers/gpu/drm/drm_dp_aux_dev.c              |  2 +-
->  drivers/gpu/drm/drm_dp_helper_internal.h      | 28 +++++++++++++++++++
->  drivers/gpu/drm/drm_dp_helper_mod.c           | 22 +++++++++++++++
->  drivers/gpu/drm/drm_dp_mst_topology.c         |  4 +--
->  drivers/gpu/drm/drm_kms_helper_common.c       | 14 ----------
->  drivers/gpu/drm/i915/Kconfig                  |  1 +
->  drivers/gpu/drm/msm/Kconfig                   |  1 +
->  drivers/gpu/drm/nouveau/Kconfig               |  1 +
->  drivers/gpu/drm/rockchip/Kconfig              |  1 +
->  drivers/gpu/drm/tegra/Kconfig                 |  1 +
->  drivers/gpu/drm/xlnx/Kconfig                  |  1 +
->  18 files changed, 83 insertions(+), 51 deletions(-)
->  rename drivers/gpu/drm/{drm_dp_helper.c => drm_dp.c} (99%)
->  create mode 100644 drivers/gpu/drm/drm_dp_helper_internal.h
->  create mode 100644 drivers/gpu/drm/drm_dp_helper_mod.c
->
->
-> base-commit: 3f422828221d9ceefcddef0be33561b1646a1cbe
-> prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
-> prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
-> --
-> 2.34.1
->
+Laurent Pinchart (1):
+  dt-bindings: display: bridge: sn65dsi83: Make enable GPIO optional
+
+ .../bindings/display/bridge/ti,sn65dsi83.yaml |  5 ++++-
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c         | 21 ++++++++++++++++++-
+ 2 files changed, 24 insertions(+), 2 deletions(-)
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.25.1
+
