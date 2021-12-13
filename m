@@ -1,57 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74B57473488
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 20:00:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55B6E47351D
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 20:39:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1003010E89F;
-	Mon, 13 Dec 2021 18:59:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D744E10E8AB;
+	Mon, 13 Dec 2021 19:39:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D80FD10E89B;
- Mon, 13 Dec 2021 18:59:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639421995; x=1670957995;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=3DSnH3aPn2UEKno4/0ycYOSfP+SiCu7Boeri48+VzE0=;
- b=J+SvaQIFThUNHyOyUuHR3pw95m/dMSkhLGgVqUHMauTWdL44EvyRnGKx
- na8j8rL1QiTrCHuqJm85At3dNB187OBsk2CJaSRN5nyqHpQPoeWCiICgn
- /vPkJ+PPR1I/EEwh0gzyxPLzYvXnjEDpXc3ApLKK1vjSlP6wxjt4L8mYD
- lzIi7hLPx2pnvjAT2fbBSIa/SF0fpbEZaI0zbH306upVtOoDfuppWbwrd
- JyJkHdY9UzT3VpQfEXGodMfBMjXUwfwIs/eAryaOIEV2NeQiAaYcMqRax
- LmIpho8i89xOAsVaPU9fTquwvmCl6+dpGX7udjim8rTl1Z7XA51kZB5hg g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10197"; a="218819850"
-X-IronPort-AV: E=Sophos;i="5.88,203,1635231600"; d="scan'208";a="218819850"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2021 10:59:43 -0800
-X-IronPort-AV: E=Sophos;i="5.88,203,1635231600"; d="scan'208";a="463488464"
-Received: from ttbuckle-mobl.ger.corp.intel.com (HELO [10.252.5.128])
- ([10.252.5.128])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2021 10:59:41 -0800
-Message-ID: <7613e294-eab5-b034-aad9-857bd049d9c6@intel.com>
-Date: Mon, 13 Dec 2021 18:59:39 +0000
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
+ [IPv6:2607:f8b0:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D142C10E8A7
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 19:39:22 +0000 (UTC)
+Received: by mail-pg1-x52e.google.com with SMTP id 133so15435425pgc.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 11:39:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gateworks-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GokQXFslQgOCDABNnavV+giS3bU3tPTqCX1bf57AgiA=;
+ b=cLTUWTBfWmejBFU78x7/AMd+sGmW0TXQQLcjQrPIH0SiodJqwj+eBnGFtOQ5lqFv0y
+ OOuWURiiKlsDN9wi1fP0vguDTaX3jqGYO19q5Vv0D9pVcKgCX0VyImbl2DCXPhqM242o
+ mrBD13YPRNMzheUfQjkm6XJu0tpmEV0I0gY+U1EuL92/Uhqo57rLZBsqa+SHl55fAcZf
+ k3osuHVQp0fANyubesmliME2AA5heJTPmVjGDVR1ubr/oK+cMySrPsn9+08Vlm7SKf+g
+ bgVyV0Zj5wIowiHuWmZiN4/Qdp1FJJhNE7UmuYF2O3ywYxhkhbYfFSb19qs3Rlx3ZGvP
+ /vVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GokQXFslQgOCDABNnavV+giS3bU3tPTqCX1bf57AgiA=;
+ b=YYM564l/mAe4gjrh0CrMt9c+E6N59oU/u4pi0wyZWHOZ4bkcs98LkchjQaimtEu6/U
+ IlJDORLDyy4n2ltqkV3/YlrUkmut+TX8NqsCVxeaYIcvm1t7+1H9T2yxzuADCakbGOak
+ JrASl0lyBCUf/akMuf4JnVb7V849c5IB5LCyw3OoDLVK3rj/H3rTlbDqJG+3EtKWbCff
+ 9RNFI/3Q02HxgcVaqCMKnM7/exrKiLyru6hOTJtYS2pOX+ckdvTcDeRnz8od577A4HJl
+ 91jVhgagLyzrpTncMmSljRGM1ctB1lDFassGMQDk19dzT0gDh5XZ3NoJD3eoc6NITeWK
+ YSxw==
+X-Gm-Message-State: AOAM532ICMQM+VpA7wI3vn2ZRXpCcsReYC+8SlFa8xqExO8xDwc+qqo1
+ EncIz96x5FSPhfuOq0nlnPx9yzmI9fm1JmaDxxzNTA==
+X-Google-Smtp-Source: ABdhPJzyUI7PVDqPBIQG0/0vEKAc5qmjCDEhu21OUoFsIyImPjNanp/DlIN7vhUy/2jZXMiFZqcLDUDX2Mhlebv4EOU=
+X-Received: by 2002:a05:6a00:1c56:b0:4a4:f8cb:2604 with SMTP id
+ s22-20020a056a001c5600b004a4f8cb2604mr184341pfw.34.1639424361750; Mon, 13 Dec
+ 2021 11:39:21 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v4 2/6] drm: improve drm_buddy_alloc function
-Content-Language: en-GB
-To: "Paneer Selvam, Arunpravin" <Arunpravin.PaneerSelvam@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
-References: <20211201163938.133226-1-Arunpravin.PaneerSelvam@amd.com>
- <20211201163938.133226-2-Arunpravin.PaneerSelvam@amd.com>
- <MN2PR12MB4342EA8DD09D84589AE3C0A0E4709@MN2PR12MB4342.namprd12.prod.outlook.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <MN2PR12MB4342EA8DD09D84589AE3C0A0E4709@MN2PR12MB4342.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <CAJ+vNU2A8J_72UgdoBw0Z0T0p1GzwWs-OK3UP14Y7KcoDjFOaQ@mail.gmail.com>
+ <CAPY8ntBeUhqn==To83i8=88KxH0MQzp9n+NVe4Y8eFns1NMFaw@mail.gmail.com>
+ <CAJ+vNU0a8gN-4cdFz3qAW3S3zzMt7_bQywAF8OcZ4sp7ZZuQxg@mail.gmail.com>
+ <CAPY8ntAHAVtf_-EFD76h9Ua9nOxggwcgYM7GerjZYUZNmOrnUA@mail.gmail.com>
+ <CAJ+vNU1Gz64d8i53LeoP-X0aV_83e61YS9d8DQjkaiNZ48oxHw@mail.gmail.com>
+ <CAJ+vNU1GbcmtBhQp+RtZ95wmV5YmAhAOZpnLu2y5jnVxato44A@mail.gmail.com>
+ <CAPY8ntBkB3ExJGUAhvsWRvhq66F7hbsxB5GZZHMSKP77svSVcw@mail.gmail.com>
+ <CAJ+vNU3Z-A8=pqQmTiPZXS-GSdcYMZ578RjLrgW6qHckBX=4nQ@mail.gmail.com>
+ <CAJ+vNU0uU0hKWv8p0nN4jtERYZzDByOg_GbS8CAnEvoBxPMv+Q@mail.gmail.com>
+ <CAPY8ntDOW9S7Awxz0VS0vaEQTy7WZ39t-gh9oNioqtS1VxO_ag@mail.gmail.com>
+In-Reply-To: <CAPY8ntDOW9S7Awxz0VS0vaEQTy7WZ39t-gh9oNioqtS1VxO_ag@mail.gmail.com>
+From: Tim Harvey <tharvey@gateworks.com>
+Date: Mon, 13 Dec 2021 11:39:10 -0800
+Message-ID: <CAJ+vNU3ZQy2SodE0sxiep-FaSUc4ugGK5BkZxowJF79tZ9iTpA@mail.gmail.com>
+Subject: Re: RPI 7" display touch controller
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,619 +72,505 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>, "Koenig,
- Christian" <Christian.Koenig@amd.com>
+Cc: Marek Vasut <marex@denx.de>, Eric Anholt <eric@anholt.net>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/12/2021 15:47, Paneer Selvam, Arunpravin wrote:
-> [AMD Official Use Only]
-> 
-> Hi Matthew,
-> 
-> Ping on this?
+On Mon, Dec 13, 2021 at 4:04 AM Dave Stevenson
+<dave.stevenson@raspberrypi.com> wrote:
+>
+> On Fri, 10 Dec 2021 at 22:40, Tim Harvey <tharvey@gateworks.com> wrote:
+> >
+> > On Fri, Dec 10, 2021 at 11:29 AM Tim Harvey <tharvey@gateworks.com> wrote:
+> > >
+> > > On Fri, Dec 10, 2021 at 10:41 AM Dave Stevenson
+> > > <dave.stevenson@raspberrypi.com> wrote:
+> > > >
+> > > > On Fri, 10 Dec 2021 at 18:20, Tim Harvey <tharvey@gateworks.com> wrote:
+> > > > >
+> > > > > On Thu, Nov 18, 2021 at 12:52 PM Tim Harvey <tharvey@gateworks.com> wrote:
+> > > > > >
+> > > > > > On Thu, Nov 18, 2021 at 10:30 AM Dave Stevenson
+> > > > > > <dave.stevenson@raspberrypi.com> wrote:
+> > > > > > >
+> > > > > > > On Thu, 18 Nov 2021 at 17:36, Tim Harvey <tharvey@gateworks.com> wrote:
+> > > > > > > >
+> > > > > > > > On Thu, Nov 18, 2021 at 6:28 AM Dave Stevenson
+> > > > > > > > <dave.stevenson@raspberrypi.com> wrote:
+> > > > > > > > >
+> > > > > > > > > Hi Tim
+> > > > > > > > >
+> > > > > > > > > On Thu, 18 Nov 2021 at 01:26, Tim Harvey <tharvey@gateworks.com> wrote:
+> > > > > > > > > >
+> > > > > > > > > > Greetings,
+> > > > > > > > > >
+> > > > > > > > > > I'm trying to get a RPI 7" touchscreen display working on an IMX8MM
+> > > > > > > > > > board and while I've been able to get the MIPI DSI display and
+> > > > > > > > > > backlight working I still can't seem to figure out the touch
+> > > > > > > > > > controller.
+> > > > > > > > > >
+> > > > > > > > > > It's supposed to have an FT5406 controller on it without an interrupt
+> > > > > > > > > > so I added polling support drivers/input/touchscreen/edt-ft5x06.c
+> > > > > > > > > > which I was able to verify using another touchscreen with that
+> > > > > > > > > > controller but when reading data from the FT5406 on the RPI controller
+> > > > > > > > > > the data does not make sense.
+> > > > > > > > > >
+> > > > > > > > > > These panels appear to route the I2C from the FT5406 to a STM32F103
+> > > > > > > > > > MPU that then provides a different I2C slave interface to the 15pin
+> > > > > > > > > > connector that I'm connected to. On that I2C interface I see an i2c
+> > > > > > > > > > slave at 0x45 which is managed by the regulator driver Marek wrote
+> > > > > > > > > > (drivers/regulator/rpi-panel-attiny-regulator.c) and there is also an
+> > > > > > > > > > i2c slave at 0x38 which I assumed was the FT5406 but I believe the MPU
+> > > > > > > > > > is perhaps obfuscating that touch data.
+> > > > > > > > > >
+> > > > > > > > > > Anyone have any ideas on how to make that touch controller useful?
+> > > > > > > > >
+> > > > > > > > > There should be nothing unusual. 0x38 is the EDT touch controller.
+> > > > > > > > > Starting with the Raspberry Pi OS Bullseye release, we're now using
+> > > > > > > > > the panel directly from DRM rather than through the firmware. That's
+> > > > > > > > > based on the branch at
+> > > > > > > > > https://github.com/raspberrypi/linux/tree/rpi-5.10.y/
+> > > > > > > > >
+> > > > > > > >
+> > > > > > > > Dave,
+> > > > > > > >
+> > > > > > > > That sounds like the driver that made it into mainline with Eric's
+> > > > > > > > commit 2f733d6194bd ("drm/panel: Add support for the Raspberry Pi 7"
+> > > > > > > > Touchscreen."). I looked there but that driver just deals with the DSI
+> > > > > > > > and not with touch.
+> > > > > > >
+> > > > > > > No, we've reverted away from that driver as it exposes no regulator
+> > > > > > > framework either, so again the touch element loses power.
+> > > > > > >
+> > > > > > > > > I also added polling support to edt-ft5x04.c.
+> > > > > > > > > For DT, it uses a combination of the overlays vc4-kms-v3d,
+> > > > > > > > > vc4-kms-dsi-7inch, and that includes edt-ft5406.dtsi, all of which are
+> > > > > > > > > in /arch/arm/boot/dts/overlays
+> > > > > > > >
+> > > > > > > > It doesn't look like you ever submitted your edt-ft5x04 polling mode
+> > > > > > > > support upstream. I saw another series to add polling support
+> > > > > > > > submitted by Nicolas back in 2019 but was never followed up on
+> > > > > > > > (https://patchwork.kernel.org/project/linux-input/list/?series=112187&archive=both).
+> > > > > > >
+> > > > > > > No I haven't as it's been crazy trying to get this lot to work under
+> > > > > > > KMS at all over the last couple of months.
+> > > > > > >
+> > > > > > > > I have updated Nicolas' patch with the changes requested and am happy
+> > > > > > > > to submit it upstream. The benefit of his patch is that it uses a dt
+> > > > > > > > binding for the polling interval. I'm happy to submit this upstream.
+> > > > > > >
+> > > > > > > I hadn't seen Nicolas' patches, hence implementing it myself.
+> > > > > > >
+> > > > > > > If you've implemented the requested changes, could you check that the
+> > > > > > > polling rate is as expected? We were seeing that the input framework
+> > > > > > > wasn't delivering the requested poll rate when CONFIG_HZ=100 is
+> > > > > > > defined in the config. I must confess that I haven't checked it on my
+> > > > > > > current patch, but it was on my list of things to do.
+> > > > > > > There was a report that "bd88ce25335d Input: raspberrypi-ts - switch
+> > > > > > > to using polled mode of input devices" dropped the polling rate from
+> > > > > > > the desired 60Hz in switching to that framework.
+> > > > > >
+> > > > > > Ok, I'll make a note to test that and submit it.
+> > > > > >
+> > > > > > >
+> > > > > > > > >
+> > > > > > > > > The main issue I had was configuring the regulator framework
+> > > > > > > > > appropriately to allow the touch controller power to be separate from
+> > > > > > > > > the bridge power. Without that if DRM powered down the panel it killed
+> > > > > > > > > the touch controller too, and the touch driver never reinitialised
+> > > > > > > > > itself.
+> > > > > > > >
+> > > > > > > > I'm using the same drivers/regulator/rpi-panel-attiny-regulator.c
+> > > > > > > > regulator driver from mainline that Marek added as the power-supply
+> > > > > > > > for the panel as well as the backlight controller. It looks like the
+> > > > > > > > version in the rpi-5.10.y has several patches on top of it so I'll
+> > > > > > > > take a look at those differences to see if it may be affecting the
+> > > > > > > > touchscreen controller. It's really strange to me that the touch
+> > > > > > > > controller's I2C goes through the STM32F103 MPU (as in the MPU's I2C
+> > > > > > > > master connects to the touchscreen controller and a different MPU I2C
+> > > > > > > > bus presents the touch controller like they are translating
+> > > > > > > > something?).
+> > > > > > >
+> > > > > > > The touchscreen I2C does NOT go through the STM.
+> > > > > > > The TS interrupt line does feed into the STM, but it's not actually used.
+> > > > > > > The TC358762 I2C does go through the STM, but it isn't used other than
+> > > > > > > a kick to bring the bridge out of reset.
+> > > > > >
+> > > > > > Ok, I've determined the DFROBOT Rpi displays do differ from the
+> > > > > > official Rpi 7in display.
+> > > > > >
+> > > > > > Official 7in RPI display:
+> > > > > > - I can't find a schematic anywhere for the official display but I an
+> > > > > > ohmmeter confirms your claim that the touch controller I2C is
+> > > > > > connected to the 15pin display I2C.
+> > > > > > - I do not see the ft5406@0x38 on the i2c bus until I send a command a
+> > > > > > REG_POWERON cmdto the ATTINY@0x45 'i2c dev 2 && i2c mw 0x45 0x85 1 1'
+> > > > > > in u-boot
+> > > > > > - I must disable the rpi-panel-attiny-regulator.c driver as its probe
+> > > > > > disables REG_POWERON and the linux driver won't see the FT5406
+> > > > > > - The linux edt-ft5x06.c driver with polling added works fine and
+> > > > > > gives me expected touch events
+> > > > > >
+> > > > > > With the DFROBOT 5in and 7in displays:
+> > > > > > - the touch interface I2C does not connect directly to the 15pin
+> > > > > > connector's I2C (shown in the schematic at schematic:
+> > > > > > https://github.com/DFRobot/Wiki/raw/master/DFR0550_Schematics.pdf and
+> > > > > > also verified with an ohmeter)
+> > > > > > - I see the ft5406@0x38 on the i2c bus regardless of setting or
+> > > > > > clearing REG_POWERON on the ATTINY@0x45
+> > > > > > - The linux edt-ft5x06.c driver with polling added gives me data that
+> > > > > > does not make sense for touch events
+> > > > > >
+> > > > > > So I can only assume the DFROBOT displays are doing something strange
+> > > > > > but I'm not clear how what they are doing is compatible with the RPI.
+> > > > > > I guess I have to get an RPI, hook it up and see if the touch screen
+> > > > > > works with the rpi 5.10.y kernel.
+> > > > > >
+> > > > > > >
+> > > > > > > > I wonder if I'm hitting that reinitialization issue. Do you recall any
+> > > > > > > > details about that? Was it that the driver returned seemingly invalid
+> > > > > > > > touch data like I'm getting or did it just not respond?
+> > > > > > >
+> > > > > > > If the power goes down then all the registers written during probe [1]
+> > > > > > > are reset. I don't recall exactly what the data then contained, but I
+> > > > > > > did get a load of I2C transactions fail with -EREMOTEIO as the
+> > > > > > > messages weren't ACKed.
+> > > > > > >
+> > > > > > > [1] https://elixir.bootlin.com/linux/latest/source/drivers/input/touchscreen/edt-ft5x06.c#L1207
+> > > > > > >
+> > > > > > > > Silly question likely but how do I power down the DRM portion to test
+> > > > > > > > to see if it affects the touch controller?
+> > > > > > >
+> > > > > > > xrandr --output DSI-1 --off
+> > > > > > > There must be a libdrm call to do the equivalent, but I'll admit that
+> > > > > > > I can't think of an existing tool that implements it.
+> > > > > >
+> > > > > > do you know of a sysfs way to do this or something that doesn't require xrandr?
+> > > > > >
+> > > > > > >
+> > > > > > > > > On our branch rpi-panel-attiny-regulator.c has been updated to control
+> > > > > > > > > those functions independently as GPIOs, which then get used via
+> > > > > > > > > regulator-fixed, or as reset-gpios.
+> > > > > > > > > Telling both bridge and touch that they shared a regulator didn't work
+> > > > > > > > > as the DSI bridge seems mildly fussy about the DSI state when it is
+> > > > > > > > > powered up.
+> > > > > > > >
+> > > > > > > > Hmm... I wonder if this is the problem I had with the 'official' rpi
+> > > > > > > > 7in display that I never got working. I did get the DFROBOT rpi 5in
+> > > > > > > > and 7in displays working.
+> > > > > > >
+> > > > > > > I'm not that familiar with the DFRobot displays.
+> > > > > > > I have tried an Osoyoo 3.5" panel [2] that pretends to be the Pi
+> > > > > > > panel, and it looks similar. Reality is that it uses a Lattice FPGA to
+> > > > > > > convert from DSI to DPI. All the LP configuration commands sent to it
+> > > > > > > are ignored. Startup requirements of that compared to the Toshiba are
+> > > > > > > unknown.
+> > > > > > >
+> > > > > > > [2] https://www.amazon.co.uk/OSOYOO-Capacitive-Connector-Resolution-Raspberry/dp/B087WVC1J2
+> > > > > > >
+> > > > > > > > > Hope that helps.
+> > > > > > > > >
+> > > > > > > >
+> > > > > > > > The fact you tell me that the rpi-5.10.y branch goes away from the
+> > > > > > > > strange 'firmware' driver I found at
+> > > > > > > > https://github.com/raspberrypi/linux/blob/rpi-4.2.y/drivers/input/touchscreen/rpi-ft5406.c
+> > > > > > > > and uses the standard ft5406.c driver (with polling mode added) is
+> > > > > > > > very helpful in that I feel I have a hope of getting this working.
+> > > > > > >
+> > > > > > > I have one of our panels working in front of me using my patched
+> > > > > > > version of edt-ft5x06 as the driver for the touch element.
+> > > > > > >
+> > > > > > > > Does the rpi-5.10.y kernel work for the official rpi 7in display as
+> > > > > > > > well as the DFROBOT displays as far as you know?
+> > > > > > >
+> > > > > > > As above, I'm not aware of DFRobot.
+> > > > > > > With the Osoyoo I can't recall exactly what it was doing with I2C. I
+> > > > > > > think it only really responded to the ID command and PWM for the
+> > > > > > > backlight. The reset and power control that is required on our boards
+> > > > > > > isn't really relevant to them.
+> > > > > > > I was doing i2cset -y -f <bus> 0x45 0x85 [1|0] to turn power on/off,
+> > > > > > > and I seem to recall it did nothing.
+> > > > > >
+> > > > > > Right... this is also the same with the DFROBOT touchscreen displays.
+> > > > > >
+> > > > > > I do really like the build quality, availability, and pricing of the
+> > > > > > DFROBOT displays but also a huge advantage is that they derive power
+> > > > > > from the 15pin connector 3.3V pins so there are no other connections.
+> > > > > > Their backlight doesn't appear to be controllable via PWM however and
+> > > > > > instead they have a manual brightness thumbwheel on them.
+> > > > > >
+> > > > > > The other advantage for me at the moment is that I still haven't
+> > > > > > gotten the official RPI 7in display to work with the IMX8MM (no pixels
+> > > > > > displayed) where as the DFROBOT one is working for me.
+> > > > > >
+> > > > > > > ...
+> > > > > > > Just for you I fired it up. It ACKs all I2C addresses just for a
+> > > > > > > laugh, and indeed it takes no action on 0x85, only 0x86 (for PWM), and
+> > > > > > > reading 0x80 (ID).
+> > > > > > >
+> > > > > >
+> > > > >
+> > > > > Dave,
+> > > > >
+> > > > > After some more investigation I've found that while the DFRobot
+> > > > > DRF0550 and DFR0678 touch controller does not work with the ft5x06
+> > > > > driver it does indeed work on a Rpi with the raspberrypi-ts driver. So
+> > > > > from an Rpi perspective the latest OS image doesn't work but the
+> > > > > 'Legacy' OS image does (which appears to have the same 5.10 kernel but
+> > > > > uses legacy drivers?).
+> > > >
+> > > > You have to love cloned devices.
+> > > > Have you checked with DFRobot as to what the actual touchscreen
+> > > > controller chip is?
+> > >
+> > > Dave,
+> > >
+> > > I tore one apart and verified it has a  FT5316 I2C touchscreen
+> > > controller (without IRQ) but again it routes directly to a STM32F103
+> > > (see https://dfimg.dfrobot.com/nobody/wiki/208d6cf05cacd2ee3b349341d5bfd6e2.pdf).
+> > > So the key difference is that while the official rpi 7in display has
+> > > both the ft5x06 and whatever the mcu emulates on the soc's i2c the
+> > > DRROBOT only has the emulated device. Note that I 'can' probe 0x45
+> > > 'and' 0x38 but the slave at 0x38 does not behave like an ft5x06
+> > >
+> > > >
+> > > > > So if I understand correctly the Rpi has some firmware that talks over
+> > > > > I2C and translates touch events from this 'legacy API' over to a
+> > > > > memory mapped area. How can I learn about this firmware and what kind
+> > > > > of translation it does to make these touch controllers work on a non
+> > > > > rpi?
+> > > >
+> > > > It does very little different from edt-ft5x06.
+> > > >
+> > > > At an I2C level it reads register 0x02 of the touchscreen controller
+> > > > to get the current number of points, and then does that number of 4
+> > > > byte reads for register (3+6*i) to get the touch information.
+> > > > The edt-ft5x06 driver just reads all registers from 0 to generally
+> > > > 0x21 to get all points in one hit. It then parses all the point
+> > > > information instead of looking at the reported number of points.
+> > >
+> > > That seems reasonable with respect to the ft5x06 but then the firmware
+> > > must present this data somehow as I2C registers (on 0x38 or 0x45?) or
+> > > I don't see how the DSROBOT touch controllers currently work with
+> > > raspberrypi-ts as they only have i2c slaves at those addresses.
+> > >
+> > > Is this firmware source available?
+> > >
+> > > >
+> > > > There are a couple more commits to our kernel tree for edt-ft5x06 as
+> > > > we were seeing some issues.
+> > > > The main one is that it seems unreliable in reporting TOUCH_UP events.
+> > > > Whilst it's implemented explicitly in the driver with the current
+> > > > patches, I believe it could be done via the INPUT_MT_DROP_UNUSED flag
+> > > > if input_mt_sync_frame is used as well. When time allows I was
+> > > > intending to upstream that fix.
+> > > >
+> > >
+> > > Ok, I see those in your tree.
+> > >
+> > > DFROBOT has not been extremely helpful but to be honest I don't think
+> > > they understand the issue (I didn't until this morning) that their
+> > > touch controllers work on the old Raspberrypi OS releases using
+> > > raspberrypi-ts but not the new ones using ft5x06. I explained that
+> > > this switch took place earlier this year when official OS releases
+> > > bumped to 5.10 (hope I was correct there) and that they would likely
+> > > be getting a lot of tech support calls for users with new software.
+> > > I'm not sure how you can tell the latest software to use the
+> > > raspberrypi-ts driver instead of the ft5x06 driver (I assume all of
+> > > that is via device-tree) but I did find that the 'legacy' version of
+> > > the software uses the old raspberrypi-ts driver. This part does not
+> > > concern 'me' too much as my goal is to get the touch controllers
+> > > working on a non rpi.
+>
+> The change happened with the release of Bullseye at the start of November.
+>
+> You can't safely use raspberrypi-ts alongside
+> rpi-panel-attiny-regulator, hence the change to edt-ft5x06.
+> There is no inter-processor arbitration, so the I2C controller can
+> only be used by either the firmware (raspberrypi-ts) or Linux
+> (rpi-panel-attiny-regulator). Trying to do it from both causes race
+> conditions and responding to transactions from the other processor.
+>
 
-No new comments from me :) I guess just a question of what we should do 
-with the selftests, and then ofc at some point being able to throw this 
-at CI, or at least test locally, once the series builds.
+Yes this makes sense - you can't have the Linux and the embedded
+firmware accessing the same I2C controller at the same time.
 
-> 
-> Regards,
-> Arun
-> -----Original Message-----
-> From: amd-gfx <amd-gfx-bounces@lists.freedesktop.org> On Behalf Of Arunpravin
-> Sent: Wednesday, December 1, 2021 10:10 PM
-> To: dri-devel@lists.freedesktop.org; intel-gfx@lists.freedesktop.org; amd-gfx@lists.freedesktop.org
-> Cc: daniel@ffwll.ch; Paneer Selvam, Arunpravin <Arunpravin.PaneerSelvam@amd.com>; jani.nikula@linux.intel.com; matthew.auld@intel.com; tzimmermann@suse.de; Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian <Christian.Koenig@amd.com>
-> Subject: [PATCH v4 2/6] drm: improve drm_buddy_alloc function
-> 
-> - Make drm_buddy_alloc a single function to handle
->    range allocation and non-range allocation demands
-> 
-> - Implemented a new function alloc_range() which allocates
->    the requested power-of-two block comply with range limitations
-> 
-> - Moved order computation and memory alignment logic from
->    i915 driver to drm buddy
-> 
-> v2:
->    merged below changes to keep the build unbroken
->     - drm_buddy_alloc_range() becomes obsolete and may be removed
->     - enable ttm range allocation (fpfn / lpfn) support in i915 driver
->     - apply enhanced drm_buddy_alloc() function to i915 driver
-> 
-> v3(Matthew Auld):
->    - Fix alignment issues and remove unnecessary list_empty check
->    - add more validation checks for input arguments
->    - make alloc_range() block allocations as bottom-up
->    - optimize order computation logic
->    - replace uint64_t with u64, which is preferred in the kernel
-> 
-> v4(Matthew Auld):
->    - keep drm_buddy_alloc_range() function implementation for generic
->      actual range allocations
->    - keep alloc_range() implementation for end bias allocations
-> 
-> Signed-off-by: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
-> ---
->   drivers/gpu/drm/drm_buddy.c                   | 316 +++++++++++++-----
->   drivers/gpu/drm/i915/i915_ttm_buddy_manager.c |  67 ++--
->   drivers/gpu/drm/i915/i915_ttm_buddy_manager.h |   2 +
->   include/drm/drm_buddy.h                       |  22 +-
->   4 files changed, 285 insertions(+), 122 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c index 9340a4b61c5a..7f47632821f4 100644
-> --- a/drivers/gpu/drm/drm_buddy.c
-> +++ b/drivers/gpu/drm/drm_buddy.c
-> @@ -280,23 +280,97 @@ void drm_buddy_free_list(struct drm_buddy_mm *mm, struct list_head *objects)  }  EXPORT_SYMBOL(drm_buddy_free_list);
->   
-> -/**
-> - * drm_buddy_alloc - allocate power-of-two blocks
-> - *
-> - * @mm: DRM buddy manager to allocate from
-> - * @order: size of the allocation
-> - *
-> - * The order value here translates to:
-> - *
-> - * 0 = 2^0 * mm->chunk_size
-> - * 1 = 2^1 * mm->chunk_size
-> - * 2 = 2^2 * mm->chunk_size
-> - *
-> - * Returns:
-> - * allocated ptr to the &drm_buddy_block on success
-> - */
-> -struct drm_buddy_block *
-> -drm_buddy_alloc(struct drm_buddy_mm *mm, unsigned int order)
-> +static inline bool overlaps(u64 s1, u64 e1, u64 s2, u64 e2) {
-> +	return s1 <= e2 && e1 >= s2;
-> +}
-> +
-> +static inline bool contains(u64 s1, u64 e1, u64 s2, u64 e2) {
-> +	return s1 <= s2 && e1 >= e2;
-> +}
-> +
-> +static struct drm_buddy_block *
-> +alloc_range_bias(struct drm_buddy_mm *mm,
-> +		 u64 start, u64 end,
-> +		 unsigned int order)
-> +{
-> +	struct drm_buddy_block *block;
-> +	struct drm_buddy_block *buddy;
-> +	LIST_HEAD(dfs);
-> +	int err;
-> +	int i;
-> +
-> +	end = end - 1;
-> +
-> +	for (i = 0; i < mm->n_roots; ++i)
-> +		list_add_tail(&mm->roots[i]->tmp_link, &dfs);
-> +
-> +	do {
-> +		u64 block_start;
-> +		u64 block_end;
-> +
-> +		block = list_first_entry_or_null(&dfs,
-> +						 struct drm_buddy_block,
-> +						 tmp_link);
-> +		if (!block)
-> +			break;
-> +
-> +		list_del(&block->tmp_link);
-> +
-> +		if (drm_buddy_block_order(block) < order)
-> +			continue;
-> +
-> +		block_start = drm_buddy_block_offset(block);
-> +		block_end = block_start + drm_buddy_block_size(mm, block) - 1;
-> +
-> +		if (!overlaps(start, end, block_start, block_end))
-> +			continue;
-> +
-> +		if (drm_buddy_block_is_allocated(block))
-> +			continue;
-> +
-> +		if (contains(start, end, block_start, block_end) &&
-> +		    order == drm_buddy_block_order(block)) {
-> +			/*
-> +			 * Find the free block within the range.
-> +			 */
-> +			if (drm_buddy_block_is_free(block))
-> +				return block;
-> +
-> +			continue;
-> +		}
-> +
-> +		if (!drm_buddy_block_is_split(block)) {
-> +			err = split_block(mm, block);
-> +			if (unlikely(err))
-> +				goto err_undo;
-> +		}
-> +
-> +		list_add(&block->right->tmp_link, &dfs);
-> +		list_add(&block->left->tmp_link, &dfs);
-> +	} while (1);
-> +
-> +	return ERR_PTR(-ENOSPC);
-> +
-> +err_undo:
-> +	/*
-> +	 * We really don't want to leave around a bunch of split blocks, since
-> +	 * bigger is better, so make sure we merge everything back before we
-> +	 * free the allocated blocks.
-> +	 */
-> +	buddy = get_buddy(block);
-> +	if (buddy &&
-> +	    (drm_buddy_block_is_free(block) &&
-> +	     drm_buddy_block_is_free(buddy)))
-> +		__drm_buddy_free(mm, block);
-> +	return ERR_PTR(err);
-> +}
-> +
-> +static struct drm_buddy_block *
-> +alloc_from_freelist(struct drm_buddy_mm *mm,
-> +		    unsigned int order,
-> +		    unsigned long flags)
->   {
->   	struct drm_buddy_block *block = NULL;
->   	unsigned int i;
-> @@ -318,78 +392,28 @@ drm_buddy_alloc(struct drm_buddy_mm *mm, unsigned int order)
->   	while (i != order) {
->   		err = split_block(mm, block);
->   		if (unlikely(err))
-> -			goto out_free;
-> +			goto err_undo;
->   
-> -		/* Go low */
-> -		block = block->left;
-> +		block = block->right;
->   		i--;
->   	}
-> -
-> -	mark_allocated(block);
-> -	mm->avail -= drm_buddy_block_size(mm, block);
-> -	kmemleak_update_trace(block);
->   	return block;
->   
-> -out_free:
-> +err_undo:
->   	if (i != order)
->   		__drm_buddy_free(mm, block);
->   	return ERR_PTR(err);
->   }
-> -EXPORT_SYMBOL(drm_buddy_alloc);
-> -
-> -static inline bool overlaps(u64 s1, u64 e1, u64 s2, u64 e2) -{
-> -	return s1 <= e2 && e1 >= s2;
-> -}
->   
-> -static inline bool contains(u64 s1, u64 e1, u64 s2, u64 e2) -{
-> -	return s1 <= s2 && e1 >= e2;
-> -}
-> -
-> -/**
-> - * drm_buddy_alloc_range - allocate range
-> - *
-> - * @mm: DRM buddy manager to allocate from
-> - * @blocks: output list head to add allocated blocks
-> - * @start: start of the allowed range for this block
-> - * @size: size of the allocation
-> - *
-> - * Intended for pre-allocating portions of the address space, for example to
-> - * reserve a block for the initial framebuffer or similar, hence the expectation
-> - * here is that drm_buddy_alloc() is still the main vehicle for
-> - * allocations, so if that's not the case then the drm_mm range allocator is
-> - * probably a much better fit, and so you should probably go use that instead.
-> - *
-> - * Note that it's safe to chain together multiple alloc_ranges
-> - * with the same blocks list
-> - *
-> - * Returns:
-> - * 0 on success, error code on failure.
-> - */
-> -int drm_buddy_alloc_range(struct drm_buddy_mm *mm,
-> -			  struct list_head *blocks,
-> -			  u64 start, u64 size)
-> +static int __alloc_range(struct drm_buddy_mm *mm,
-> +			 struct list_head *dfs,
-> +			 u64 start, u64 size,
-> +			 struct list_head *blocks)
->   {
->   	struct drm_buddy_block *block;
->   	struct drm_buddy_block *buddy;
-> -	LIST_HEAD(allocated);
-> -	LIST_HEAD(dfs);
->   	u64 end;
->   	int err;
-> -	int i;
-> -
-> -	if (size < mm->chunk_size)
-> -		return -EINVAL;
-> -
-> -	if (!IS_ALIGNED(size | start, mm->chunk_size))
-> -		return -EINVAL;
-> -
-> -	if (range_overflows(start, size, mm->size))
-> -		return -EINVAL;
-> -
-> -	for (i = 0; i < mm->n_roots; ++i)
-> -		list_add_tail(&mm->roots[i]->tmp_link, &dfs);
->   
->   	end = start + size - 1;
->   
-> @@ -397,7 +421,7 @@ int drm_buddy_alloc_range(struct drm_buddy_mm *mm,
->   		u64 block_start;
->   		u64 block_end;
->   
-> -		block = list_first_entry_or_null(&dfs,
-> +		block = list_first_entry_or_null(dfs,
->   						 struct drm_buddy_block,
->   						 tmp_link);
->   		if (!block)
-> @@ -424,7 +448,7 @@ int drm_buddy_alloc_range(struct drm_buddy_mm *mm,
->   
->   			mark_allocated(block);
->   			mm->avail -= drm_buddy_block_size(mm, block);
-> -			list_add_tail(&block->link, &allocated);
-> +			list_add_tail(&block->link, blocks);
->   			continue;
->   		}
->   
-> @@ -434,11 +458,10 @@ int drm_buddy_alloc_range(struct drm_buddy_mm *mm,
->   				goto err_undo;
->   		}
->   
-> -		list_add(&block->right->tmp_link, &dfs);
-> -		list_add(&block->left->tmp_link, &dfs);
-> +		list_add(&block->right->tmp_link, dfs);
-> +		list_add(&block->left->tmp_link, dfs);
->   	} while (1);
->   
-> -	list_splice_tail(&allocated, blocks);
->   	return 0;
->   
->   err_undo:
-> @@ -453,11 +476,144 @@ int drm_buddy_alloc_range(struct drm_buddy_mm *mm,
->   	     drm_buddy_block_is_free(buddy)))
->   		__drm_buddy_free(mm, block);
->   
-> +err_free:
-> +	drm_buddy_free_list(mm, blocks);
-> +	return err;
-> +}
-> +
-> +/**
-> + * __drm_buddy_alloc_range - actual range allocation
-> + *
-> + * @mm: DRM buddy manager to allocate from
-> + * @start: start of the allowed range for this block
-> + * @size: size of the allocation
-> + * @blocks: output list head to add allocated blocks
-> + *
-> + * Intended for pre-allocating portions of the address space, for
-> +example to
-> + * reserve a block for the initial framebuffer or similar
-> + *
-> + * Note that it's safe to chain together multiple alloc_ranges
-> + * with the same blocks list
-> + *
-> + * Returns:
-> + * 0 on success, error code on failure.
-> + */
-> +static int __drm_buddy_alloc_range(struct drm_buddy_mm *mm,
-> +				   u64 start,
-> +				   u64 size,
-> +				   struct list_head *blocks)
-> +{
-> +	LIST_HEAD(dfs);
-> +	int i;
-> +
-> +	for (i = 0; i < mm->n_roots; ++i)
-> +		list_add_tail(&mm->roots[i]->tmp_link, &dfs);
-> +
-> +	return __alloc_range(mm, &dfs, start, size, blocks); }
-> +
-> +/**
-> + * drm_buddy_alloc - allocate power-of-two blocks
-> + *
-> + * @mm: DRM buddy manager to allocate from
-> + * @start: start of the allowed range for this block
-> + * @end: end of the allowed range for this block
-> + * @size: size of the allocation
-> + * @min_page_size: alignment of the allocation
-> + * @blocks: output list head to add allocated blocks
-> + * @flags: DRM_BUDDY_*_ALLOCATION flags
-> + *
-> + * alloc_range_bias() called on range limitations, which traverses
-> + * the tree and returns the desired block.
-> + *
-> + * alloc_from_freelist() called when *no* range restrictions
-> + * are enforced, which picks the block from the freelist.
-> + *
-> + * blocks are allocated in order, the order value here translates to:
-> + *
-> + * 0 = 2^0 * mm->chunk_size
-> + * 1 = 2^1 * mm->chunk_size
-> + * 2 = 2^2 * mm->chunk_size
-> + *
-> + * Returns:
-> + * 0 on success, error code on failure.
-> + */
-> +int drm_buddy_alloc(struct drm_buddy_mm *mm,
-> +		    u64 start, u64 end, u64 size,
-> +		    u64 min_page_size,
-> +		    struct list_head *blocks,
-> +		    unsigned long flags)
-> +{
-> +	struct drm_buddy_block *block = NULL;
-> +	unsigned int min_order, order;
-> +	unsigned long pages;
-> +	LIST_HEAD(allocated);
-> +	int err;
-> +
-> +	if (size < mm->chunk_size)
-> +		return -EINVAL;
-> +
-> +	if (min_page_size < mm->chunk_size)
-> +		return -EINVAL;
-> +
-> +	if (!is_power_of_2(min_page_size))
-> +		return -EINVAL;
-> +
-> +	if (!IS_ALIGNED(start | end | size, mm->chunk_size))
-> +		return -EINVAL;
-> +
-> +	if (check_range_overflow(start, end, size, mm->size))
-> +		return -EINVAL;
-> +
-> +	/* Actual range allocation */
-> +	if (start + size == end)
-> +		return __drm_buddy_alloc_range(mm, start, size, blocks);
-> +
-> +	pages = size >> ilog2(mm->chunk_size);
-> +	order = fls(pages) - 1;
-> +	min_order = ilog2(min_page_size) - ilog2(mm->chunk_size);
-> +
-> +	do {
-> +		order = min(order, (unsigned int)fls(pages) - 1);
-> +		BUG_ON(order > mm->max_order);
-> +		BUG_ON(order < min_order);
-> +
-> +		do {
-> +			if (flags & DRM_BUDDY_RANGE_ALLOCATION)
-> +				/* Allocate traversing within the range */
-> +				block = alloc_range_bias(mm, start, end, order);
-> +			else
-> +				/* Allocate from freelist */
-> +				block = alloc_from_freelist(mm, order, flags);
-> +
-> +			if (!IS_ERR(block))
-> +				break;
-> +
-> +			if (order-- == min_order) {
-> +				err = -ENOSPC;
-> +				goto err_free;
-> +			}
-> +		} while (1);
-> +
-> +		mark_allocated(block);
-> +		mm->avail -= drm_buddy_block_size(mm, block);
-> +		kmemleak_update_trace(block);
-> +		list_add_tail(&block->link, &allocated);
-> +
-> +		pages -= BIT(order);
-> +
-> +		if (!pages)
-> +			break;
-> +	} while (1);
-> +
-> +	list_splice_tail(&allocated, blocks);
-> +	return 0;
-> +
->   err_free:
->   	drm_buddy_free_list(mm, &allocated);
->   	return err;
->   }
-> -EXPORT_SYMBOL(drm_buddy_alloc_range);
-> +EXPORT_SYMBOL(drm_buddy_alloc);
->   
->   /**
->    * drm_buddy_block_print - print block information diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-> index c4b70cb8c248..7621d42155e6 100644
-> --- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-> +++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-> @@ -36,13 +36,14 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
->   	struct i915_ttm_buddy_manager *bman = to_buddy_manager(man);
->   	struct i915_ttm_buddy_resource *bman_res;
->   	struct drm_buddy_mm *mm = &bman->mm;
-> -	unsigned long n_pages;
-> -	unsigned int min_order;
-> +	unsigned long n_pages, lpfn;
->   	u64 min_page_size;
->   	u64 size;
->   	int err;
->   
-> -	GEM_BUG_ON(place->fpfn || place->lpfn);
-> +	lpfn = place->lpfn;
-> +	if (!lpfn)
-> +		lpfn = man->size;
->   
->   	bman_res = kzalloc(sizeof(*bman_res), GFP_KERNEL);
->   	if (!bman_res)
-> @@ -52,6 +53,9 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
->   	INIT_LIST_HEAD(&bman_res->blocks);
->   	bman_res->mm = mm;
->   
-> +	if (place->fpfn || lpfn != man->size)
-> +		bman_res->flags |= DRM_BUDDY_RANGE_ALLOCATION;
-> +
->   	GEM_BUG_ON(!bman_res->base.num_pages);
->   	size = bman_res->base.num_pages << PAGE_SHIFT;
->   
-> @@ -60,10 +64,16 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
->   		min_page_size = bo->page_alignment << PAGE_SHIFT;
->   
->   	GEM_BUG_ON(min_page_size < mm->chunk_size);
-> -	min_order = ilog2(min_page_size) - ilog2(mm->chunk_size);
-> +
->   	if (place->flags & TTM_PL_FLAG_CONTIGUOUS) {
-> +		unsigned long pages;
-> +
->   		size = roundup_pow_of_two(size);
-> -		min_order = ilog2(size) - ilog2(mm->chunk_size);
-> +		min_page_size = size;
-> +
-> +		pages = size >> ilog2(mm->chunk_size);
-> +		if (pages > lpfn)
-> +			lpfn = pages;
->   	}
->   
->   	if (size > mm->size) {
-> @@ -73,34 +83,16 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
->   
->   	n_pages = size >> ilog2(mm->chunk_size);
->   
-> -	do {
-> -		struct drm_buddy_block *block;
-> -		unsigned int order;
-> -
-> -		order = fls(n_pages) - 1;
-> -		GEM_BUG_ON(order > mm->max_order);
-> -		GEM_BUG_ON(order < min_order);
-> -
-> -		do {
-> -			mutex_lock(&bman->lock);
-> -			block = drm_buddy_alloc(mm, order);
-> -			mutex_unlock(&bman->lock);
-> -			if (!IS_ERR(block))
-> -				break;
-> -
-> -			if (order-- == min_order) {
-> -				err = -ENOSPC;
-> -				goto err_free_blocks;
-> -			}
-> -		} while (1);
-> -
-> -		n_pages -= BIT(order);
-> -
-> -		list_add_tail(&block->link, &bman_res->blocks);
-> -
-> -		if (!n_pages)
-> -			break;
-> -	} while (1);
-> +	mutex_lock(&bman->lock);
-> +	err = drm_buddy_alloc(mm, (u64)place->fpfn << PAGE_SHIFT,
-> +			(u64)place->lpfn << PAGE_SHIFT,
-> +			(u64)n_pages << PAGE_SHIFT,
-> +			 min_page_size,
-> +			 &bman_res->blocks,
-> +			 bman_res->flags);
-> +	mutex_unlock(&bman->lock);
-> +	if (unlikely(err))
-> +		goto err_free_blocks;
->   
->   	*res = &bman_res->base;
->   	return 0;
-> @@ -266,10 +258,17 @@ int i915_ttm_buddy_man_reserve(struct ttm_resource_manager *man,  {
->   	struct i915_ttm_buddy_manager *bman = to_buddy_manager(man);
->   	struct drm_buddy_mm *mm = &bman->mm;
-> +	unsigned long flags = 0;
->   	int ret;
->   
-> +	flags |= DRM_BUDDY_RANGE_ALLOCATION;
-> +
->   	mutex_lock(&bman->lock);
-> -	ret = drm_buddy_alloc_range(mm, &bman->reserved, start, size);
-> +	ret = drm_buddy_alloc(mm, start,
-> +			start + size,
-> +			size, mm->chunk_size,
-> +			&bman->reserved,
-> +			flags);
->   	mutex_unlock(&bman->lock);
->   
->   	return ret;
-> diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.h b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.h
-> index fa644b512c2e..5ba490875f66 100644
-> --- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.h
-> +++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.h
-> @@ -20,6 +20,7 @@ struct drm_buddy_mm;
->    *
->    * @base: struct ttm_resource base class we extend
->    * @blocks: the list of struct i915_buddy_block for this resource/allocation
-> + * @flags: DRM_BUDDY_*_ALLOCATION flags
->    * @mm: the struct i915_buddy_mm for this resource
->    *
->    * Extends the struct ttm_resource to manage an address space allocation with @@ -28,6 +29,7 @@ struct drm_buddy_mm;  struct i915_ttm_buddy_resource {
->   	struct ttm_resource base;
->   	struct list_head blocks;
-> +	unsigned long flags;
->   	struct drm_buddy_mm *mm;
->   };
->   
-> diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h index f9ff48a3f3a6..221de702e909 100644
-> --- a/include/drm/drm_buddy.h
-> +++ b/include/drm/drm_buddy.h
-> @@ -13,15 +13,22 @@
->   
->   #include <drm/drm_print.h>
->   
-> -#define range_overflows(start, size, max) ({ \
-> +#define check_range_overflow(start, end, size, max) ({ \
->   	typeof(start) start__ = (start); \
-> +	typeof(end) end__ = (end);\
->   	typeof(size) size__ = (size); \
->   	typeof(max) max__ = (max); \
->   	(void)(&start__ == &size__); \
->   	(void)(&start__ == &max__); \
-> -	start__ >= max__ || size__ > max__ - start__; \
-> +	(void)(&start__ == &end__); \
-> +	(void)(&end__ == &size__); \
-> +	(void)(&end__ == &max__); \
-> +	start__ >= max__ || end__ > max__ || \
-> +	size__ > end__ - start__; \
->   })
->   
-> +#define DRM_BUDDY_RANGE_ALLOCATION (1 << 0)
-> +
->   struct drm_buddy_block {
->   #define DRM_BUDDY_HEADER_OFFSET GENMASK_ULL(63, 12)  #define DRM_BUDDY_HEADER_STATE  GENMASK_ULL(11, 10) @@ -132,12 +139,11 @@ int drm_buddy_init(struct drm_buddy_mm *mm, u64 size, u64 chunk_size);
->   
->   void drm_buddy_fini(struct drm_buddy_mm *mm);
->   
-> -struct drm_buddy_block *
-> -drm_buddy_alloc(struct drm_buddy_mm *mm, unsigned int order);
-> -
-> -int drm_buddy_alloc_range(struct drm_buddy_mm *mm,
-> -			  struct list_head *blocks,
-> -			  u64 start, u64 size);
-> +int drm_buddy_alloc(struct drm_buddy_mm *mm,
-> +		    u64 start, u64 end, u64 size,
-> +		    u64 min_page_size,
-> +		    struct list_head *blocks,
-> +		    unsigned long flags);
->   
->   void drm_buddy_free(struct drm_buddy_mm *mm, struct drm_buddy_block *block);
->   
-> --
-> 2.25.1
-> 
+> > Looking at the i2c regs from the DFROBOT panels from slave address
+> > 0x38 I've been able to decode the following:
+> > 0x00[7:4] event_type? (always 0x8)
+> > 0x00[3:0] MSBX
+> > 0x01[7:0] LSBX
+> > 0x02[7:4] touchid? (typically 0x0 but when I pinch sometimes it goes to a 0x1)
+> > 0x02[3:0] MSBY
+> > 0x03[7:0] LSBY
+> >
+> > I can't quite figure out how to determine up/down events yet.
+> > Comparing this to FT5x06 registers and raspberrypi-ts.c I would guess
+> > that 0x00[7:4] is event_type and 0x02[7:4] is touchid but I never see
+> > event_type change from 0x8 and touchid is 0x0 unless I pinch/unpinch
+> > (but that seems very unreliable).
+>
+> Sorry, but I have no information as to what the DFROBOT panel is
+> doing. It's not our product.
+
+I realize that but somehow it is mimicking the official rpi
+touchscreen enough to where the firmware/raspberrypi-ts works.
+
+>
+> On the Raspberry Pi panel we have an FT5406 directly on the I2C bus at
+> address 0x38.
+> It sounds like DFROBOT are bridging the FT5316 to look like a FT5406,
+> but potentially only implementing the access pattern that the Pi
+> firmware uses.
+>
+
+Here is an i2c dump from the official rpi panel:
+u-boot=> i2c dev 2 && i2c probe
+Setting bus to 2
+Valid chip addresses: 45
+u-boot=> i2c mw 0x45 0x85 1 1
+u-boot=> i2c dev 2 && i2c probe
+Setting bus to 2
+Valid chip addresses: 38 45
+u-boot=> i2c md 0x38 0 10
+0000: 00 ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+u-boot=> i2c md 0x38 0 100
+0000: 00 ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+0010: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+0020: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+0030: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+0040: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+0050: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+0060: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+0070: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+0080: 2d 2d 12 14 11 a0 01 05 00 1e 00 01 00 00 00 00    --..............
+0090: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 22    ..............."
+00a0: 13 00 02 54 01 01 0b 01 79 01 0c 00 00 01 01 0a    ...T....y.......
+00b0: 00 09 00 00 00 00 00 00 00 00 00 00 00 00 00 55    ...............U
+00c0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00    ................
+00d0: 00 00 00 00 00 00 00 00 00 00 00 00 17 0d 00 0a    ................
+00e0: ff ff ff ff ff ff ff ff ff ff ff eb aa 08 eb aa    ................
+00f0: ff ff ff ff ff ff ff ff ff ff ff ff 01 00 32 ff    ..............2.
+
+This does identify as a M09/Generic edt_ft5x06 and when I apply:
+
+a single touch point:
+u-boot=> i2c md 0x38 0 10
+0000: 00 00 01 80 de 00 fc 00 00 ff ff ff ff ff ff ff    ................
+^^^ 0x02=1 pt
+
+2 points:
+u-boot=> i2c md 0x38 0 10
+0000: 00 00 02 81 ab 00 f4 00 00 80 b0 10 f1 00 00 ff    ................
+^^^ 0x02=2 pt
+
+0 points:
+u-boot=> i2c md 0x38 0 10
+0000: 00 00 00 40 f7 01 4c 00 00 ff ff ff ff ff ff ff    ...@..L.........
+
+This all makes sense.
+
+When I look at the DFROBOT touch controller data:
+u-boot=> i2c md 0x38 0 100
+0000: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
+0010: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
+0020: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
+0030: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
+0040: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
+0050: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
+0060: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
+0070: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
+0080: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
+0090: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
+00a0: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
+00b0: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
+00c0: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
+00d0: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
+00e0: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
+00f0: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
+
+This also gets identified as a M09/Generic edt_ft5x06
+
+But when apply a single touch point:
+
+u-boot=> i2c md 0x38 0 10
+0000: 82 3e 00 47 3e 00 47 3e 00 47 3e 00 47 3e 00 47    .>.G>.G>.G>.G>.G
+^^^ 0x02=0 points
+
+So this clearly does not follow the ft5x06 register mapping. Again I
+was able to determine the register mapping is
+0x00[7:4] event_type? (always 0x8)
+0x00[3:0] MSBX
+0x01[7:0] LSBX
+0x02[7:4] touchid? (typically 0x0 but when I pinch sometimes it goes to a 0x1)
+0x02[3:0] MSBY
+0x03[7:0] LSBY
+
+It seems to only report 1 point regardless of how many points I apply
+as the data after reg 0 just seems to repeat the values of reg 1,2,3.
+It also does not seem to indicate any difference when I remove the
+press so I'm not clear how to determine 0 point or pen-up
+
+What I don't understand is how does this work on an actual Rpi with
+raspberrypi-ts if the firmware in the broadcom is doing what you
+describe below?
+
+> The firmware is closed source, but there's nothing secret or clever in
+> the loop that polls the touchscreen
+>
+>       while (in_use)
+>       {
+>          int err;
+>          unsigned char num_points;
+>
+>          vcos_sleep(17); // 60fps
+>
+>          // This is a special number meaning there is no new information to be
+>          // read.  We will set the num correctly after the read is complete
+>          touch_data[2] = 99;
+>          // Read number of presses
+>          err = i2c_driver->read(i2c_handle, 2, 1, &num_points);
+> //handle, register address, num_bytes_to_read, addr.
+>          if (err || num_points > 10)
+>             num_points = 0;
+>          for (i = 0; i < num_points; i++)
+>             i2c_driver->read(i2c_handle, 3+6*i, 4, touch_data+3+6*i);
+> //handle, register address, num_bytes_to_read, addr.
+>
+>          for (i = 0; i < num_points; i++)
+>          {
+>             int x = (touch_data[3+6*i] & 0xf) << 8 | touch_data[4+6*i] << 0;
+>             int y = (touch_data[5+6*i] & 0xf) << 8 | touch_data[6+6*i] << 0;
+>             if (TC358762_state.flips & 1<<2)
+>                x = TC358762_DISPLAY_WIDTH-1-x;
+>             if (!(TC358762_state.flips & 1<<3))
+>                y = TC358762_DISPLAY_HEIGHT-1-y;
+>             touch_data[3+6*i] = touch_data[3+6*i] & 0xf0 | (x >> 8) & 0xf;
+>             touch_data[4+6*i] = x >> 0;
+>             touch_data[5+6*i] = touch_data[5+6*i] & 0xf0 | (y >> 8) & 0xf;
+>             touch_data[6+6*i] = y >> 0;
+>          }
+>          // Make sure the setting of the number of points occurs after
+> setting up x,y
+>          touch_data[2] = num_points;
+>       }
+>
+> touch_data is the address of the buffer that is shared with raspberrypi-ts.
+> All those I2C reads are for address 0x38.
+> touch_data is processed by
+> https://github.com/torvalds/linux/blob/master/drivers/input/touchscreen/raspberrypi-ts.c#L84
+> Note that raspberrypi-ts does do a input_mt_report_slot_inactive for
+> each ID not included in an update, so there is no need for the TS
+> controller to send an explicit touch up event.
+>
+> edt-ft5x06.c reads ID registers to identify the TS controller. Does it
+> get an erroneous answer there and try processing as EDT_M06?
+
+No, it processes it as GENERIC_FT but it does not respond with a
+FT5x06 compatible register set, yet again somehow 'it works' when
+connected to a Rpi running the 'legacy OS" with the 5.10 kernel and
+the raspberrypi-ts driver (and does not work on the rpi using the
+non-legacy OS which uses the ft5x06 driver).
+
+Tim
