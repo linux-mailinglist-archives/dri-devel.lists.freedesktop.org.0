@@ -2,58 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B315A472CC4
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 14:03:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2666472CD5
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 14:08:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8C5E10E7B1;
-	Mon, 13 Dec 2021 13:03:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBE2B10E71F;
+	Mon, 13 Dec 2021 13:08:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CFD810E721;
- Mon, 13 Dec 2021 13:03:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639400598; x=1670936598;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=+hkuBro1FIArmqCU4DnYmYNozBM1ig92k/dHzqugSr8=;
- b=jsS/11Lc+tlKoDF1hLnGwklKACOKve/n3NLQmX5gC9a1sgka8zTL3l8w
- 6ye2nG8ZrRb45LgXEYOaIFVIOcSnoG8CoFp9fYhBX4CVQDRrfnzafa3de
- KeO0qy4TGtLQue96AakNDgxQS6RgvqRIhVh7wBjHIJZIuSK8SsY1CUOBK
- G4S9KuyPquN03CLTXwx93dbb1TVMN+LdovkNjLVLs29ox6n1HjQzjg0xg
- O83/2OCA3N5dZnaWyk8XIxxCzoj/C2QJNAUosVYqfot+NDH4Hn5a1Op3n
- MKvdW93/XgbOIhQs6Fb6EN+N8tvNIWCJomJCMYWDGRNFGAVlRRWUwgUp1 g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10196"; a="324995993"
-X-IronPort-AV: E=Sophos;i="5.88,202,1635231600"; d="scan'208";a="324995993"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2021 05:02:54 -0800
-X-IronPort-AV: E=Sophos;i="5.88,202,1635231600"; d="scan'208";a="463371551"
-Received: from ttbuckle-mobl.ger.corp.intel.com (HELO [10.252.5.128])
- ([10.252.5.128])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2021 05:02:46 -0800
-Message-ID: <e7cad6ca-d106-c529-6f22-93a7847cd7c0@intel.com>
-Date: Mon, 13 Dec 2021 13:02:44 +0000
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA13510E70B
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 13:08:35 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id B5E8DB80ED7
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 13:08:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66A7CC34602
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 13:08:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1639400910;
+ bh=9ydNHDYKsiCtb2ZflappRnVfHZy3RsZlLzo1HG0qTQ8=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=oueOIM3fIOMj2+TI5XA1CuIizd/7PqMKjSRQFUKpBoHYyyBRgIocAGC4RblG6hYv1
+ Q01/UVxT1MSebp672T/LsHpMogQVz15GFTDohMUXtvNjYsMGQI/pviD65bOTsi1eBg
+ JtjiCQjOf4E3/UN8xY4VvXyaKQv9SQdZ2I5axkmTjOt4Yb1HwQZHIjJ2hfFBMrBQu6
+ HWY1FKffwOl14/i0ZT2s1MYIcX2nntfok6J7gSaHA/KD5dY8jjgy3MdcdK538Jda3S
+ NHxAHBRE/lax6+Xys4loXUuTACV4OKIbzLFO5E7yq7oyL/QtUbDVGDQ4G3tFMQtcoN
+ xofGjuGP5PVwA==
+Received: by mail-ed1-f49.google.com with SMTP id x10so34489909edd.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 05:08:30 -0800 (PST)
+X-Gm-Message-State: AOAM532oWc71QDyot8FmmhGp5euVQ5EMq2Wl6MGnwmTSnqjDIOM/YBW9
+ l70KuZy9WiWea01Vtf6QU6GqYZDK8bF85NrPJA==
+X-Google-Smtp-Source: ABdhPJyYH9M8ZF1ALPPysi0+E5P/GHohfR0mv1DVIz4G6JHoIMRL1u/arPHp4YYjl7O+tsaAU4Q6wDrSLDSQCkFycpk=
+X-Received: by 2002:a50:d883:: with SMTP id p3mr63843811edj.94.1639400906772; 
+ Mon, 13 Dec 2021 05:08:26 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH] drm/i915/ttm: fix large buffer population trucation
-Content-Language: en-GB
-To: Robert Beckett <bob.beckett@collabora.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Oak Zeng <oak.zeng@intel.com>
-References: <20211210195005.2582884-1-bob.beckett@collabora.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20211210195005.2582884-1-bob.beckett@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20211028074311.57842-1-angelogioacchino.delregno@collabora.com>
+ <000ba19e-0220-f5c3-0efd-abb8338bb8f2@collabora.com>
+In-Reply-To: <000ba19e-0220-f5c3-0efd-abb8338bb8f2@collabora.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Mon, 13 Dec 2021 21:08:15 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_87ugiuo+nz2D1upTX+oO8r3yHHLsU3r07qkpvu3UESDQ@mail.gmail.com>
+Message-ID: <CAAOTY_87ugiuo+nz2D1upTX+oO8r3yHHLsU3r07qkpvu3UESDQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek: hdmi: Perform NULL pointer check for
+ mtk_hdmi_conf
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,38 +62,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Collabora Kernel ML <kernel@collabora.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/12/2021 19:50, Robert Beckett wrote:
-> ttm->num_pages is uint32_t which was causing very large buffers to
-> only populate a truncated size.
-> 
-> This fixes gem_create@create-clear igt test on large memory systems.
-> 
-> Fixes: 7ae034590cea ("drm/i915/ttm: add tt shmem backend")
-> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+ Hi, Angelo:
 
-Nice catch,
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> =E6=96=
+=BC
+2021=E5=B9=B412=E6=9C=8813=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=886:=
+02=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> Il 28/10/21 09:43, AngeloGioacchino Del Regno ha scritto:
+> > In commit 41ca9caaae0b ("drm/mediatek: hdmi: Add check for CEA modes on=
+ly")
+> > a check for CEA modes was added to function mtk_hdmi_bridge_mode_valid(=
+)
+> > in order to address possible issues on MT8167; moreover, with commit
+> > c91026a938c2 ("drm/mediatek: hdmi: Add optional limit on maximal HDMI m=
+ode clock")
+> > another similar check was introduced.
+> >
+> > Unfortunately though, at the time of writing, MT8173 does not provide
+> > any mtk_hdmi_conf structure and this is crashing the kernel with NULL
+> > pointer upon entering mtk_hdmi_bridge_mode_valid(), which happens as
+> > soon as a HDMI cable gets plugged in.
+> >
+> > To fix this regression, add a NULL pointer check for hdmi->conf in the
+> > said function, restoring HDMI functionality and avoiding NULL pointer
+> > kernel panics.
+> >
+> > Fixes: 41ca9caaae0b ("drm/mediatek: hdmi: Add check for CEA modes only"=
+)
+> > Fixes: c91026a938c2 ("drm/mediatek: hdmi: Add optional limit on maximal=
+ HDMI mode clock")
+> > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@co=
+llabora.com>
+> > ---
+> >   drivers/gpu/drm/mediatek/mtk_hdmi.c | 12 +++++++-----
+> >   1 file changed, 7 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/medi=
+atek/mtk_hdmi.c
+> > index 5838c44cbf6f..3196189429bc 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+> > @@ -1224,12 +1224,14 @@ static int mtk_hdmi_bridge_mode_valid(struct dr=
+m_bridge *bridge,
+> >                       return MODE_BAD;
+> >       }
+> >
+> > -     if (hdmi->conf->cea_modes_only && !drm_match_cea_mode(mode))
+> > -             return MODE_BAD;
+> > +     if (hdmi->conf) {
+> > +             if (hdmi->conf->cea_modes_only && !drm_match_cea_mode(mod=
+e))
+> > +                     return MODE_BAD;
+> >
+> > -     if (hdmi->conf->max_mode_clock &&
+> > -         mode->clock > hdmi->conf->max_mode_clock)
+> > -             return MODE_CLOCK_HIGH;
+> > +             if (hdmi->conf->max_mode_clock &&
+> > +                 mode->clock > hdmi->conf->max_mode_clock)
+> > +                     return MODE_CLOCK_HIGH;
+> > +     }
+> >
+> >       if (mode->clock < 27000)
+> >               return MODE_CLOCK_LOW;
+> >
+>
+> Hello, friendly ping!
+>
+> Can I please get a review (or merge) of this commit?
+>
+> This is an important fix for a null pointer KP and restores HDMI function=
+ality.
 
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> index 218a9b3037c7..923cc7ad8d70 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> @@ -166,7 +166,7 @@ static int i915_ttm_tt_shmem_populate(struct ttm_device *bdev,
->   	struct intel_memory_region *mr = i915->mm.regions[INTEL_MEMORY_SYSTEM];
->   	struct i915_ttm_tt *i915_tt = container_of(ttm, typeof(*i915_tt), ttm);
->   	const unsigned int max_segment = i915_sg_segment_size();
-> -	const size_t size = ttm->num_pages << PAGE_SHIFT;
-> +	const size_t size = (size_t)ttm->num_pages << PAGE_SHIFT;
->   	struct file *filp = i915_tt->filp;
->   	struct sgt_iter sgt_iter;
->   	struct sg_table *st;
-> 
+Applied to mediatek-drm-fixes [1], thanks.
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-fixes
+
+Regards,
+Chun-Kuang.
+
+>
+> Thanks,
+> - Angelo
