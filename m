@@ -2,54 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94E1A473160
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 17:14:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAD204731A5
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 17:25:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7426810E76E;
-	Mon, 13 Dec 2021 16:14:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A80D10E7C0;
+	Mon, 13 Dec 2021 16:25:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC5B510E741;
- Mon, 13 Dec 2021 16:14:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639412071; x=1670948071;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=6+QrT9PT0z1rtduUNr8ZmGIGhH54pt3OP/+NNkLfl0U=;
- b=k8DoblDzR19iMF1A6vayVecpYpAbBS+uze8NJoqD97QKwVKOxVyAuH6+
- 3S+e0Epu5q2OtRPy1jEbZTiRfWhcxEyPhlUdhqFW+3w3nplwlfbtT3p7O
- 2MkiICHeHZ73VolpHVnRqwAzV4RIA5G4t9cp2eNBdq15UhYqXJp6OZFko
- a45Esg/0Q6NbrEE7BH5F4xWN7RC6xcRhDTSBpZpz8yPhj1Rlr3p8/R3Lx
- AJ9OUIDpZ4fiQoQV3bq4kaxweiFHc/datvwHkKEuyGt500lIha3I8CBfa
- edVjOsbFOVe0xTBBzEP4kPNpDzfMIN2vx/SArx9CNM2BR2CtBOpL18g3m A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10196"; a="302147522"
-X-IronPort-AV: E=Sophos;i="5.88,202,1635231600"; d="scan'208";a="302147522"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2021 08:12:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,202,1635231600"; d="scan'208";a="613879560"
-Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
- by orsmga004.jf.intel.com with ESMTP; 13 Dec 2021 08:12:50 -0800
-Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1mwnwY-0006ov-0u; Mon, 13 Dec 2021 16:12:50 +0000
-Date: Tue, 14 Dec 2021 00:12:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
- DRI Devel <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH RESEND v7 12/12] drm/i915: Move the GGTT from i915
- private data to the GT
-Message-ID: <202112132358.IwEcWeWW-lkp@intel.com>
-References: <20211212152117.118428-13-andi.shyti@linux.intel.com>
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+ [66.111.4.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A31B10E7C0
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 16:25:40 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id A0040580231;
+ Mon, 13 Dec 2021 11:25:39 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Mon, 13 Dec 2021 11:25:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=aer+B+lcnEMM49FAXe/Wa5BCXcZ
+ nwikS+/HAy+GpLRw=; b=bLWmuay8A21AJjemj5SEz1ZVyHdW0vtdJj32COFZREj
+ LPvAkL0W/lyToMmhTn6pp6cyYIEFrsJ4KgocaXU+iJUQxyVQx+yeRE3dGwSGcMDh
+ YYP5fLXnmDFD7z7Olum0A2tu3ahSZS7uaSbzfRqZx+N2xcsu+1VB8VHnJ9luoDTq
+ dmwCXeuz68BcjppSQ45y6BLnXmFcZ2j+5wSKpiI4+d3kcK7tvXVXuUEmA0+Ny66q
+ dGnuIKF9SB/ArM9TdTnPcQA2YPkLCeWbeCEK1sbSfDNUcgcYcFwbozEKuAJcowqN
+ /aj6JQoxwX2WqHg5xU/u09k0vCryYJGNJOl7Se2ZNIA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=aer+B+
+ lcnEMM49FAXe/Wa5BCXcZnwikS+/HAy+GpLRw=; b=TY8lZbjaLMfdcGLdPXCewD
+ pHk/k2CNxFH0vgI360CWOGaClaPemASm9LRo99CHonIy1mEpPwNj/ouCEpwLmOUi
+ 7GPmgd1+EgHWbVT5XedkdCWuN61XTjsYW9swKAYJntDVythcpZrp/4lYINHNGjjr
+ GIKp51LrmJIZHc4b1zAeRVgsYr7RRUDvvomJPy90nF28f/KtZFMQs0Hth3TB0ZK/
+ jxsEXc3ozXfpT2C4N2v2X2Puu8yXZvxmfFDp8kYruAIiHQGlejjH1cFRcCT7eJtT
+ dEG3x04lIQ8g7/1wz4ffC+DKE9OZnrNG8ClwLpwjKMcQXcymuA34HgvxpVOMApNA
+ ==
+X-ME-Sender: <xms:A3S3Yb4BdwbLNMV2TBYlpT0N339t74Fvo2UvpfXf5NKsWko-b-eOFw>
+ <xme:A3S3YQ6OWlM-nqFHiypazJlsVhpTRE5CdeSFRuvuTuMvPiZv-dehPiHN2SmW01vil
+ sHfYMYY0Tg56zCYAmc>
+X-ME-Received: <xmr:A3S3YSdod-lbbGmfUoTl9qep6bDZy3RL7zyG8VSASGo7Zn5hoDypK4kOcXk1-K4xNLib8WFmGgarMr8uaYZ178fNiTDkZjFLct7bSzHt>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrkeekgdeklecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+ udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:A3S3YcLOQcoIYfXMclG9av7BTc7PNPyzdVpsnNVJK0mMlci-bmyT8g>
+ <xmx:A3S3YfIY41CEW7_1Z9mr3UE2f6KZgECHKkkkg8535KpB5M5H9DQq6w>
+ <xmx:A3S3YVynGdVKA4wubL48ps4SctFVYYKZV9CVNNrwp2YFNekRlh8Y0Q>
+ <xmx:A3S3YUcbfwd1wEO6HKCJqwswhCwciyZ2VMY3AeNpgWEfM7VnYUzjQg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 13 Dec 2021 11:25:38 -0500 (EST)
+Date: Mon, 13 Dec 2021 17:25:36 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Ray Jui <rjui@broadcom.com>, Florian Fainelli <f.fainelli@gmail.com>,
+ Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Scott Branden <sbranden@broadcom.com>
+Subject: Re: [PATCH v4 0000/1584] drm/vc4: Use the firmware to stop the
+ display pipeline
+Message-ID: <20211213162536.u7abvsvystogpwu2@houat>
+References: <20211213162437.248949-1-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="dcxnv7jloknxsvje"
 Content-Disposition: inline
-In-Reply-To: <20211212152117.118428-13-andi.shyti@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20211213162437.248949-1-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,104 +86,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
- llvm@lists.linux.dev, Lucas De Marchi <lucas.demarchi@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>, Andi Shyti <andi@etezian.org>,
- kbuild-all@lists.01.org
+Cc: devicetree@vger.kernel.org, Dom Cobley <dom@raspberrypi.com>,
+ Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andi,
 
-I love your patch! Yet something to improve:
+--dcxnv7jloknxsvje
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[auto build test ERROR on drm-tip/drm-tip]
-[also build test ERROR on drm/drm-next]
-[cannot apply to drm-intel/for-linux-next drm-exynos/exynos-drm-next v5.16-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+On Mon, Dec 13, 2021 at 04:58:13PM +0100, Maxime Ripard wrote:
+> Hi,
+>=20
+> The VC4 driver has had limited support to disable the HDMI controllers and
+> pixelvalves at boot if the firmware has enabled them.
+>=20
+> However, this proved to be limited, and a bit unreliable so a new firmware
+> command has been introduced some time ago to make it free all its resourc=
+es and
+> disable any display output it might have enabled.
+>=20
+> This series takes advantage of that command to call it once the transitio=
+n from
+> simplefb to the KMS driver has been done.
+>=20
+> Let me know what you think,
+> Maxime
 
-url:    https://github.com/0day-ci/linux/commits/Andi-Shyti/More-preparation-for-multi-gt-patches/20211212-232416
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-config: x86_64-randconfig-a003-20211213 (https://download.01.org/0day-ci/archive/20211213/202112132358.IwEcWeWW-lkp@intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project b6a2ddb6c8ac29412b1361810972e15221fa021c)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/98ef49d710790dda7a193c10b5b7f28516f730bc
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Andi-Shyti/More-preparation-for-multi-gt-patches/20211212-232416
-        git checkout 98ef49d710790dda7a193c10b5b7f28516f730bc
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+That was obviously an error on my end, I'll resend it, sorry
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Maxime
 
-All errors (new ones prefixed by >>):
+--dcxnv7jloknxsvje
+Content-Type: application/pgp-signature; name="signature.asc"
 
->> drivers/gpu/drm/i915/gvt/gtt.c:321:25: error: passing 'struct i915_ggtt' to parameter of incompatible type 'struct i915_ggtt *'; take the address with &
-                   e->val64 = read_pte64(vgpu->gvt->gt->ggtt, index);
-                                         ^~~~~~~~~~~~~~~~~~~
-                                         &
-   drivers/gpu/drm/i915/gvt/gtt.c:282:41: note: passing argument to parameter 'ggtt' here
-   static u64 read_pte64(struct i915_ggtt *ggtt, unsigned long index)
-                                           ^
-   drivers/gpu/drm/i915/gvt/gtt.c:346:15: error: passing 'struct i915_ggtt' to parameter of incompatible type 'struct i915_ggtt *'; take the address with &
-                   write_pte64(vgpu->gvt->gt->ggtt, index, e->val64);
-                               ^~~~~~~~~~~~~~~~~~~
-                               &
-   drivers/gpu/drm/i915/gvt/gtt.c:296:43: note: passing argument to parameter 'ggtt' here
-   static void write_pte64(struct i915_ggtt *ggtt, unsigned long index, u64 pte)
-                                             ^
-   drivers/gpu/drm/i915/gvt/gtt.c:2900:17: error: passing 'struct i915_ggtt' to parameter of incompatible type 'struct i915_ggtt *'; take the address with &
-                                   write_pte64(vgpu->gvt->gt->ggtt, offset + idx, pte);
-                                               ^~~~~~~~~~~~~~~~~~~
-                                               &
-   drivers/gpu/drm/i915/gvt/gtt.c:296:43: note: passing argument to parameter 'ggtt' here
-   static void write_pte64(struct i915_ggtt *ggtt, unsigned long index, u64 pte)
-                                             ^
-   drivers/gpu/drm/i915/gvt/gtt.c:2908:17: error: passing 'struct i915_ggtt' to parameter of incompatible type 'struct i915_ggtt *'; take the address with &
-                                   write_pte64(vgpu->gvt->gt->ggtt, offset + idx, pte);
-                                               ^~~~~~~~~~~~~~~~~~~
-                                               &
-   drivers/gpu/drm/i915/gvt/gtt.c:296:43: note: passing argument to parameter 'ggtt' here
-   static void write_pte64(struct i915_ggtt *ggtt, unsigned long index, u64 pte)
-                                             ^
-   4 errors generated.
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYbd0AAAKCRDj7w1vZxhR
+xTbjAQDemkWZujO5xECuB2uudgoxUJuGoQxY0g5wdiyVl83yoQD/RjmrrukzVoHc
+INQOlEZXHs+9P7AkoI0oweQZ+kfwPg8=
+=V/aw
+-----END PGP SIGNATURE-----
 
-vim +321 drivers/gpu/drm/i915/gvt/gtt.c
-
-2707e44466881d Zhi Wang     2016-03-28  302  
-4b2dbbc22541e4 Changbin Du  2017-08-02  303  static inline int gtt_get_entry64(void *pt,
-2707e44466881d Zhi Wang     2016-03-28  304  		struct intel_gvt_gtt_entry *e,
-2707e44466881d Zhi Wang     2016-03-28  305  		unsigned long index, bool hypervisor_access, unsigned long gpa,
-2707e44466881d Zhi Wang     2016-03-28  306  		struct intel_vgpu *vgpu)
-2707e44466881d Zhi Wang     2016-03-28  307  {
-2707e44466881d Zhi Wang     2016-03-28  308  	const struct intel_gvt_device_info *info = &vgpu->gvt->device_info;
-2707e44466881d Zhi Wang     2016-03-28  309  	int ret;
-2707e44466881d Zhi Wang     2016-03-28  310  
-2707e44466881d Zhi Wang     2016-03-28  311  	if (WARN_ON(info->gtt_entry_size != 8))
-4b2dbbc22541e4 Changbin Du  2017-08-02  312  		return -EINVAL;
-2707e44466881d Zhi Wang     2016-03-28  313  
-2707e44466881d Zhi Wang     2016-03-28  314  	if (hypervisor_access) {
-2707e44466881d Zhi Wang     2016-03-28  315  		ret = intel_gvt_hypervisor_read_gpa(vgpu, gpa +
-2707e44466881d Zhi Wang     2016-03-28  316  				(index << info->gtt_entry_size_shift),
-2707e44466881d Zhi Wang     2016-03-28  317  				&e->val64, 8);
-4b2dbbc22541e4 Changbin Du  2017-08-02  318  		if (WARN_ON(ret))
-4b2dbbc22541e4 Changbin Du  2017-08-02  319  			return ret;
-2707e44466881d Zhi Wang     2016-03-28  320  	} else if (!pt) {
-a61ac1e75105a0 Chris Wilson 2020-03-06 @321  		e->val64 = read_pte64(vgpu->gvt->gt->ggtt, index);
-2707e44466881d Zhi Wang     2016-03-28  322  	} else {
-2707e44466881d Zhi Wang     2016-03-28  323  		e->val64 = *((u64 *)pt + index);
-2707e44466881d Zhi Wang     2016-03-28  324  	}
-4b2dbbc22541e4 Changbin Du  2017-08-02  325  	return 0;
-2707e44466881d Zhi Wang     2016-03-28  326  }
-2707e44466881d Zhi Wang     2016-03-28  327  
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--dcxnv7jloknxsvje--
