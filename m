@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EADBD4723D3
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 10:31:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9483F472383
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 10:07:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F198E10E6D4;
-	Mon, 13 Dec 2021 09:31:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D770310E38F;
+	Mon, 13 Dec 2021 09:07:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2598 seconds by postgrey-1.36 at gabe;
- Mon, 13 Dec 2021 09:31:13 UTC
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E403210E6D4
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 09:31:13 +0000 (UTC)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1BD6IGA5026382;
- Mon, 13 Dec 2021 09:47:52 +0100
+X-Greylist: delayed 574 seconds by postgrey-1.36 at gabe;
+ Mon, 13 Dec 2021 09:07:35 UTC
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C33D10E28D
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 09:07:35 +0000 (UTC)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1BD85p53007337;
+ Mon, 13 Dec 2021 09:57:58 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
  h=subject : to :
  references : from : message-id : date : mime-version : in-reply-to :
- content-type; s=selector1;
- bh=qLRnPS7AgqDpXP52Goprj3cYI/EZsOvaVxslaZoPL48=;
- b=r1l3/JW8Vmcp5+5togCnkWoXOPk5uuEEIS6W71l1RMYBJBOjLIXXgLyYZBlWnrXTREk6
- Zk9P7GnYdQdPUS8KMI7AtthOfrBF+Q5/p1YY11pFfmopqfmvMEvISCKEGcK5DtNVmO1U
- kSzF+d8EdsvfcSeggscF8Lmwyrrt2wF8F8K9Z3/8K7hYpa7obntZbWmBNp2mJ/Db5d0m
- yYB6ViFO8Unr/WIQ8DgeL/gARaFHH0h2cRHDXXzy4owjyVyH+cBpy4nAj13hwDbgdLCM
- pKYSjfswcZxhrqGZVu6Rh1J4Za+oLbOQUu4Yn2TVsdQs3lQnBNf6Zb7JkeCVXx46Chsn jA== 
+ content-type : content-transfer-encoding; s=selector1;
+ bh=SeZDBFVaRDbxNKpAz/6sNDYoE6Cy11vIthxzbtG3n/E=;
+ b=3twl9z0/8PmZf2fK15a5ruSE1VqhnbmZINcPTEK9JhNECNZVx6Jecz6zv4FE9dc88hP+
+ 9Mqv9wdEbWc1yLqoNm51wsmRWHJjmuZnMsSKlrWl9wP2bR74CZ02+JNhTNGWC6CmUzaI
+ R/CYSo782bpuEI5zJin4xZWSP/dPL3xUe23erKZWZLEQctHNk/6aX3bnP4fGnc8sseNZ
+ csW/11XJ1CVmsTIMRJixUiY7fFaxww10IapuDm3nRKz3NnA3Y34x+rVi5cFpMBFzkite
+ GzXgdQJOO8m40ewwl33cwweclI7vHIq+dA4BHF1Vg/7tJlFJfMYyypDKSUafcQoG+4HY XA== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3cx0sqruf6-1
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3cx2c709s8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Dec 2021 09:47:52 +0100
+ Mon, 13 Dec 2021 09:57:58 +0100
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id D9EA0100034;
- Mon, 13 Dec 2021 09:47:50 +0100 (CET)
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id A243110002A;
+ Mon, 13 Dec 2021 09:57:57 +0100 (CET)
 Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id C80D3226239;
- Mon, 13 Dec 2021 09:47:50 +0100 (CET)
-Received: from lmecxl0557.lme.st.com (10.75.127.45) by SFHDAG2NODE2.st.com
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9958522685D;
+ Mon, 13 Dec 2021 09:57:57 +0100 (CET)
+Received: from lmecxl0557.lme.st.com (10.75.127.47) by SFHDAG2NODE2.st.com
  (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.26; Mon, 13 Dec
- 2021 09:47:50 +0100
+ 2021 09:57:56 +0100
 Subject: Re: [PATCH] drm/stm: ltdc: support of new hardware version
 To: Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
  <philippe.cornu@foss.st.com>,
@@ -51,16 +51,16 @@ To: Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
  <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
 References: <20211203085618.11314-1-yannick.fertre@foss.st.com>
 From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-Message-ID: <7d371a3a-5fb5-06c6-8308-317ae01f80fb@foss.st.com>
-Date: Mon, 13 Dec 2021 09:47:49 +0100
+Message-ID: <57a01b8e-a894-09d1-523b-dd77f38783e6@foss.st.com>
+Date: Mon, 13 Dec 2021 09:57:56 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
 In-Reply-To: <20211203085618.11314-1-yannick.fertre@foss.st.com>
-Content-Type: multipart/alternative;
- boundary="------------DD24992B9DB85B64020E82DB"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-X-Originating-IP: [10.75.127.45]
+X-Originating-IP: [10.75.127.47]
 X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG2NODE2.st.com
  (10.75.127.5)
 X-Proofpoint-Virus-Version: vendor=baseguard
@@ -81,10 +81,6 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------DD24992B9DB85B64020E82DB
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
 Hello Yannick,
 
 
@@ -92,7 +88,6 @@ Thank you for this patch.
 
 
 Tested-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com <mailto:raphael.gallais-pou@foss.st.com>>
-
 Reviewed-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com <mailto:raphael.gallais-pou@foss.st.com>>
 
 
@@ -353,304 +348,3 @@ On 12/3/21 9:56 AM, Yannick Fertre wrote:
 >  	u32 bus_width;		/* bus width (32 or 64 bits) */
 >  	const u32 *pix_fmt_hw;	/* supported pixel formats */
 >  	bool non_alpha_only_l1; /* non-native no-alpha formats on layer 1 */
-
---------------DD24992B9DB85B64020E82DB
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p>Hello Yannick, <br>
-    </p>
-    <p><br>
-    </p>
-    <p>Thank you for this patch.</p>
-    <p><br>
-    </p>
-    <p>
-    </p>
-    <p>
-      Tested-by: Raphael Gallais-Pou &lt;<a
-        href="mailto:raphael.gallais-pou@foss.st.com"
-        title="raphael.gallais-pou@foss.st.com" class="mailto">raphael.gallais-pou@foss.st.com</a>&gt;
-    </p>
-    <p>
-    </p>
-    <p>
-      Reviewed-by: Raphael Gallais-Pou &lt;<a
-        href="mailto:raphael.gallais-pou@foss.st.com"
-        title="raphael.gallais-pou@foss.st.com" class="mailto">raphael.gallais-pou@foss.st.com</a>&gt;
-    </p>
-    <p><br>
-    </p>
-    <p>Regards, <br>
-    </p>
-    <p>Raphaël Gallais-Pou<br>
-    </p>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 12/3/21 9:56 AM, Yannick Fertre
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20211203085618.11314-1-yannick.fertre@foss.st.com">
-      <pre class="moz-quote-pre" wrap="">Add support of new hardware version 0x40100.
-
-Signed-off-by: Yannick Fertre <a class="moz-txt-link-rfc2396E" href="mailto:yannick.fertre@foss.st.com">&lt;yannick.fertre@foss.st.com&gt;</a>
----
- drivers/gpu/drm/stm/ltdc.c | 172 ++++++++++++++++++++++++++++++-------
- drivers/gpu/drm/stm/ltdc.h |   3 +-
- 2 files changed, 145 insertions(+), 30 deletions(-)
-
-diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-index dbdee954692a..c0619f372630 100644
---- a/drivers/gpu/drm/stm/ltdc.c
-+++ b/drivers/gpu/drm/stm/ltdc.c
-@@ -46,15 +46,15 @@
- #define HWVER_10200 0x010200
- #define HWVER_10300 0x010300
- #define HWVER_20101 0x020101
-+#define HWVER_40100 0x040100
- 
- /*
-  * The address of some registers depends on the HW version: such registers have
-- * an extra offset specified with reg_ofs.
-+ * an extra offset specified with layer_ofs.
-  */
--#define REG_OFS_NONE	0
--#define REG_OFS_4	4		/* Insertion of "Layer Conf. 2" reg */
--#define REG_OFS		(ldev-&gt;caps.reg_ofs)
--#define LAY_OFS		0x80		/* Register Offset between 2 layers */
-+#define LAY_OFS_0	0x80
-+#define LAY_OFS_1	0x100
-+#define LAY_OFS	(ldev-&gt;caps.layer_ofs)
- 
- /* Global register offsets */
- #define LTDC_IDR	0x0000		/* IDentification */
-@@ -75,29 +75,34 @@
- #define LTDC_LIPCR	0x0040		/* Line Interrupt Position Conf. */
- #define LTDC_CPSR	0x0044		/* Current Position Status */
- #define LTDC_CDSR	0x0048		/* Current Display Status */
-+#define LTDC_FUT	0x0090		/* Fifo underrun Threshold */
- 
- /* Layer register offsets */
--#define LTDC_L1LC1R	(0x80)		/* L1 Layer Configuration 1 */
--#define LTDC_L1LC2R	(0x84)		/* L1 Layer Configuration 2 */
--#define LTDC_L1CR	(0x84 + REG_OFS)/* L1 Control */
--#define LTDC_L1WHPCR	(0x88 + REG_OFS)/* L1 Window Hor Position Config */
--#define LTDC_L1WVPCR	(0x8C + REG_OFS)/* L1 Window Vert Position Config */
--#define LTDC_L1CKCR	(0x90 + REG_OFS)/* L1 Color Keying Configuration */
--#define LTDC_L1PFCR	(0x94 + REG_OFS)/* L1 Pixel Format Configuration */
--#define LTDC_L1CACR	(0x98 + REG_OFS)/* L1 Constant Alpha Config */
--#define LTDC_L1DCCR	(0x9C + REG_OFS)/* L1 Default Color Configuration */
--#define LTDC_L1BFCR	(0xA0 + REG_OFS)/* L1 Blend Factors Configuration */
--#define LTDC_L1FBBCR	(0xA4 + REG_OFS)/* L1 FrameBuffer Bus Control */
--#define LTDC_L1AFBCR	(0xA8 + REG_OFS)/* L1 AuxFB Control */
--#define LTDC_L1CFBAR	(0xAC + REG_OFS)/* L1 Color FrameBuffer Address */
--#define LTDC_L1CFBLR	(0xB0 + REG_OFS)/* L1 Color FrameBuffer Length */
--#define LTDC_L1CFBLNR	(0xB4 + REG_OFS)/* L1 Color FrameBuffer Line Nb */
--#define LTDC_L1AFBAR	(0xB8 + REG_OFS)/* L1 AuxFB Address */
--#define LTDC_L1AFBLR	(0xBC + REG_OFS)/* L1 AuxFB Length */
--#define LTDC_L1AFBLNR	(0xC0 + REG_OFS)/* L1 AuxFB Line Number */
--#define LTDC_L1CLUTWR	(0xC4 + REG_OFS)/* L1 CLUT Write */
--#define LTDC_L1YS1R	(0xE0 + REG_OFS)/* L1 YCbCr Scale 1 */
--#define LTDC_L1YS2R	(0xE4 + REG_OFS)/* L1 YCbCr Scale 2 */
-+#define LTDC_L1C0R	(ldev-&gt;caps.layer_regs[0])	/* L1 configuration 0 */
-+#define LTDC_L1C1R	(ldev-&gt;caps.layer_regs[1])	/* L1 configuration 1 */
-+#define LTDC_L1RCR	(ldev-&gt;caps.layer_regs[2])	/* L1 reload control */
-+#define LTDC_L1CR	(ldev-&gt;caps.layer_regs[3])	/* L1 control register */
-+#define LTDC_L1WHPCR	(ldev-&gt;caps.layer_regs[4])	/* L1 window horizontal position configuration */
-+#define LTDC_L1WVPCR	(ldev-&gt;caps.layer_regs[5])	/* L1 window vertical position configuration */
-+#define LTDC_L1CKCR	(ldev-&gt;caps.layer_regs[6])	/* L1 color keying configuration */
-+#define LTDC_L1PFCR	(ldev-&gt;caps.layer_regs[7])	/* L1 pixel format configuration */
-+#define LTDC_L1CACR	(ldev-&gt;caps.layer_regs[8])	/* L1 constant alpha configuration */
-+#define LTDC_L1DCCR	(ldev-&gt;caps.layer_regs[9])	/* L1 default color configuration */
-+#define LTDC_L1BFCR	(ldev-&gt;caps.layer_regs[10])	/* L1 blending factors configuration */
-+#define LTDC_L1BLCR	(ldev-&gt;caps.layer_regs[11])	/* L1 burst length configuration */
-+#define LTDC_L1PCR	(ldev-&gt;caps.layer_regs[12])	/* L1 planar configuration */
-+#define LTDC_L1CFBAR	(ldev-&gt;caps.layer_regs[13])	/* L1 color frame buffer address */
-+#define LTDC_L1CFBLR	(ldev-&gt;caps.layer_regs[14])	/* L1 color frame buffer length */
-+#define LTDC_L1CFBLNR	(ldev-&gt;caps.layer_regs[15])	/* L1 color frame buffer line number */
-+#define LTDC_L1AFBA0R	(ldev-&gt;caps.layer_regs[16])	/* L1 auxiliary frame buffer address 0 */
-+#define LTDC_L1AFBA1R	(ldev-&gt;caps.layer_regs[17])	/* L1 auxiliary frame buffer address 1 */
-+#define LTDC_L1AFBLR	(ldev-&gt;caps.layer_regs[18])	/* L1 auxiliary frame buffer length */
-+#define LTDC_L1AFBLNR	(ldev-&gt;caps.layer_regs[19])	/* L1 auxiliary frame buffer line number */
-+#define LTDC_L1CLUTWR	(ldev-&gt;caps.layer_regs[20])	/* L1 CLUT write */
-+#define LTDC_L1CYR0R	(ldev-&gt;caps.layer_regs[21])	/* L1 Conversion YCbCr RGB 0 */
-+#define LTDC_L1CYR1R	(ldev-&gt;caps.layer_regs[22])	/* L1 Conversion YCbCr RGB 1 */
-+#define LTDC_L1FPF0R	(ldev-&gt;caps.layer_regs[23])	/* L1 Flexible Pixel Format 0 */
-+#define LTDC_L1FPF1R	(ldev-&gt;caps.layer_regs[24])	/* L1 Flexible Pixel Format 1 */
- 
- /* Bit definitions */
- #define SSCR_VSH	GENMASK(10, 0)	/* Vertical Synchronization Height */
-@@ -208,7 +213,10 @@ enum ltdc_pix_fmt {
- 	/* Indexed formats */
- 	PF_L8,			/* Indexed 8 bits [8 bits] */
- 	PF_AL44,		/* Alpha:4 bits + indexed 4 bits [8 bits] */
--	PF_AL88			/* Alpha:8 bits + indexed 8 bits [16 bits] */
-+	PF_AL88,		/* Alpha:8 bits + indexed 8 bits [16 bits] */
-+	PF_ABGR8888,		/* ABGR [32 bits] */
-+	PF_BGRA8888,		/* BGRA [32 bits] */
-+	PF_BGR565		/* RGB [16 bits] */
- };
- 
- /* The index gives the encoding of the pixel format for an HW version */
-@@ -234,6 +242,102 @@ static const enum ltdc_pix_fmt ltdc_pix_fmt_a1[NB_PF] = {
- 	PF_ARGB4444		/* 0x07 */
- };
- 
-+static const enum ltdc_pix_fmt ltdc_pix_fmt_a2[NB_PF] = {
-+	PF_ARGB8888,		/* 0x00 */
-+	PF_ABGR8888,		/* 0x01 */
-+	PF_RGBA8888,		/* 0x02 */
-+	PF_BGRA8888,		/* 0x03 */
-+	PF_RGB565,		/* 0x04 */
-+	PF_BGR565,		/* 0x05 */
-+	PF_RGB888,		/* 0x06 */
-+	PF_ARGB1555		/* 0x07 */
-+};
-+
-+/* Layer register offsets */
-+static const u32 ltdc_layer_regs_a0[] = {
-+	0x80,	/* L1 configuration 0 */
-+	0x00,	/* not available */
-+	0x00,	/* not available */
-+	0x84,	/* L1 control register */
-+	0x88,	/* L1 window horizontal position configuration */
-+	0x8c,	/* L1 window vertical position configuration */
-+	0x90,	/* L1 color keying configuration */
-+	0x94,	/* L1 pixel format configuration */
-+	0x98,	/* L1 constant alpha configuration */
-+	0x9c,	/* L1 default color configuration */
-+	0xa0,	/* L1 blending factors configuration */
-+	0x00,	/* not available */
-+	0x00,	/* not available */
-+	0xac,	/* L1 color frame buffer address */
-+	0xb0,	/* L1 color frame buffer length */
-+	0xb4,	/* L1 color frame buffer line number */
-+	0x00,	/* not available */
-+	0x00,	/* not available */
-+	0x00,	/* not available */
-+	0x00,	/* not available */
-+	0xc4,	/* L1 CLUT write */
-+	0x00,	/* not available */
-+	0x00,	/* not available */
-+	0x00,	/* not available */
-+	0x00	/* not available */
-+};
-+
-+static const u32 ltdc_layer_regs_a1[] = {
-+	0x80,	/* L1 configuration 0 */
-+	0x84,	/* L1 configuration 1 */
-+	0x00,	/* L1 reload control */
-+	0x88,	/* L1 control register */
-+	0x8c,	/* L1 window horizontal position configuration */
-+	0x90,	/* L1 window vertical position configuration */
-+	0x94,	/* L1 color keying configuration */
-+	0x98,	/* L1 pixel format configuration */
-+	0x9c,	/* L1 constant alpha configuration */
-+	0xa0,	/* L1 default color configuration */
-+	0xa4,	/* L1 blending factors configuration */
-+	0xa8,	/* L1 burst length configuration */
-+	0x00,	/* not available */
-+	0xac,	/* L1 color frame buffer address */
-+	0xb0,	/* L1 color frame buffer length */
-+	0xb4,	/* L1 color frame buffer line number */
-+	0xb8,	/* L1 auxiliary frame buffer address 0 */
-+	0xbc,	/* L1 auxiliary frame buffer address 1 */
-+	0xc0,	/* L1 auxiliary frame buffer length */
-+	0xc4,	/* L1 auxiliary frame buffer line number */
-+	0xc8,	/* L1 CLUT write */
-+	0x00,	/* not available */
-+	0x00,	/* not available */
-+	0x00,	/* not available */
-+	0x00	/* not available */
-+};
-+
-+static const u32 ltdc_layer_regs_a2[] = {
-+	0x100,	/* L1 configuration 0 */
-+	0x104,	/* L1 configuration 1 */
-+	0x108,	/* L1 reload control */
-+	0x10c,	/* L1 control register */
-+	0x110,	/* L1 window horizontal position configuration */
-+	0x114,	/* L1 window vertical position configuration */
-+	0x118,	/* L1 color keying configuration */
-+	0x11c,	/* L1 pixel format configuration */
-+	0x120,	/* L1 constant alpha configuration */
-+	0x124,	/* L1 default color configuration */
-+	0x128,	/* L1 blending factors configuration */
-+	0x12c,	/* L1 burst length configuration */
-+	0x130,	/* L1 planar configuration */
-+	0x134,	/* L1 color frame buffer address */
-+	0x138,	/* L1 color frame buffer length */
-+	0x13c,	/* L1 color frame buffer line number */
-+	0x140,	/* L1 auxiliary frame buffer address 0 */
-+	0x144,	/* L1 auxiliary frame buffer address 1 */
-+	0x148,	/* L1 auxiliary frame buffer length */
-+	0x14c,	/* L1 auxiliary frame buffer line number */
-+	0x150,	/* L1 CLUT write */
-+	0x16c,	/* L1 Conversion YCbCr RGB 0 */
-+	0x170,	/* L1 Conversion YCbCr RGB 1 */
-+	0x174,	/* L1 Flexible Pixel Format 0 */
-+	0x178	/* L1 Flexible Pixel Format 1 */
-+};
-+
- static const u64 ltdc_format_modifiers[] = {
- 	DRM_FORMAT_MOD_LINEAR,
- 	DRM_FORMAT_MOD_INVALID
-@@ -1158,7 +1262,8 @@ static int ltdc_get_caps(struct drm_device *ddev)
- 	switch (ldev-&gt;caps.hw_version) {
- 	case HWVER_10200:
- 	case HWVER_10300:
--		ldev-&gt;caps.reg_ofs = REG_OFS_NONE;
-+		ldev-&gt;caps.layer_ofs = LAY_OFS_0;
-+		ldev-&gt;caps.layer_regs = ltdc_layer_regs_a0;
- 		ldev-&gt;caps.pix_fmt_hw = ltdc_pix_fmt_a0;
- 		/*
- 		 * Hw older versions support non-alpha color formats derived
-@@ -1174,12 +1279,21 @@ static int ltdc_get_caps(struct drm_device *ddev)
- 		ldev-&gt;caps.nb_irq = 2;
- 		break;
- 	case HWVER_20101:
--		ldev-&gt;caps.reg_ofs = REG_OFS_4;
-+		ldev-&gt;caps.layer_ofs = LAY_OFS_0;
-+		ldev-&gt;caps.layer_regs = ltdc_layer_regs_a1;
- 		ldev-&gt;caps.pix_fmt_hw = ltdc_pix_fmt_a1;
- 		ldev-&gt;caps.non_alpha_only_l1 = false;
- 		ldev-&gt;caps.pad_max_freq_hz = 150000000;
- 		ldev-&gt;caps.nb_irq = 4;
- 		break;
-+	case HWVER_40100:
-+		ldev-&gt;caps.layer_ofs = LAY_OFS_1;
-+		ldev-&gt;caps.layer_regs = ltdc_layer_regs_a2;
-+		ldev-&gt;caps.pix_fmt_hw = ltdc_pix_fmt_a2;
-+		ldev-&gt;caps.non_alpha_only_l1 = false;
-+		ldev-&gt;caps.pad_max_freq_hz = 90000000;
-+		ldev-&gt;caps.nb_irq = 2;
-+		break;
- 	default:
- 		return -ENODEV;
- 	}
-diff --git a/drivers/gpu/drm/stm/ltdc.h b/drivers/gpu/drm/stm/ltdc.h
-index f153b908c70e..55a125f89af6 100644
---- a/drivers/gpu/drm/stm/ltdc.h
-+++ b/drivers/gpu/drm/stm/ltdc.h
-@@ -14,7 +14,8 @@
- struct ltdc_caps {
- 	u32 hw_version;		/* hardware version */
- 	u32 nb_layers;		/* number of supported layers */
--	u32 reg_ofs;		/* register offset for applicable regs */
-+	u32 layer_ofs;		/* layer offset for applicable regs */
-+	const u32 *layer_regs;	/* layer register offset */
- 	u32 bus_width;		/* bus width (32 or 64 bits) */
- 	const u32 *pix_fmt_hw;	/* supported pixel formats */
- 	bool non_alpha_only_l1; /* non-native no-alpha formats on layer 1 */
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------DD24992B9DB85B64020E82DB--
