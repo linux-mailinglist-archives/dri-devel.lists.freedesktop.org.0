@@ -1,65 +1,155 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55B6E47351D
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 20:39:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0074347352E
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 20:45:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D744E10E8AB;
-	Mon, 13 Dec 2021 19:39:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E83A210E8AA;
+	Mon, 13 Dec 2021 19:45:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
- [IPv6:2607:f8b0:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D142C10E8A7
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 19:39:22 +0000 (UTC)
-Received: by mail-pg1-x52e.google.com with SMTP id 133so15435425pgc.12
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 11:39:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gateworks-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GokQXFslQgOCDABNnavV+giS3bU3tPTqCX1bf57AgiA=;
- b=cLTUWTBfWmejBFU78x7/AMd+sGmW0TXQQLcjQrPIH0SiodJqwj+eBnGFtOQ5lqFv0y
- OOuWURiiKlsDN9wi1fP0vguDTaX3jqGYO19q5Vv0D9pVcKgCX0VyImbl2DCXPhqM242o
- mrBD13YPRNMzheUfQjkm6XJu0tpmEV0I0gY+U1EuL92/Uhqo57rLZBsqa+SHl55fAcZf
- k3osuHVQp0fANyubesmliME2AA5heJTPmVjGDVR1ubr/oK+cMySrPsn9+08Vlm7SKf+g
- bgVyV0Zj5wIowiHuWmZiN4/Qdp1FJJhNE7UmuYF2O3ywYxhkhbYfFSb19qs3Rlx3ZGvP
- /vVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=GokQXFslQgOCDABNnavV+giS3bU3tPTqCX1bf57AgiA=;
- b=YYM564l/mAe4gjrh0CrMt9c+E6N59oU/u4pi0wyZWHOZ4bkcs98LkchjQaimtEu6/U
- IlJDORLDyy4n2ltqkV3/YlrUkmut+TX8NqsCVxeaYIcvm1t7+1H9T2yxzuADCakbGOak
- JrASl0lyBCUf/akMuf4JnVb7V849c5IB5LCyw3OoDLVK3rj/H3rTlbDqJG+3EtKWbCff
- 9RNFI/3Q02HxgcVaqCMKnM7/exrKiLyru6hOTJtYS2pOX+ckdvTcDeRnz8od577A4HJl
- 91jVhgagLyzrpTncMmSljRGM1ctB1lDFassGMQDk19dzT0gDh5XZ3NoJD3eoc6NITeWK
- YSxw==
-X-Gm-Message-State: AOAM532ICMQM+VpA7wI3vn2ZRXpCcsReYC+8SlFa8xqExO8xDwc+qqo1
- EncIz96x5FSPhfuOq0nlnPx9yzmI9fm1JmaDxxzNTA==
-X-Google-Smtp-Source: ABdhPJzyUI7PVDqPBIQG0/0vEKAc5qmjCDEhu21OUoFsIyImPjNanp/DlIN7vhUy/2jZXMiFZqcLDUDX2Mhlebv4EOU=
-X-Received: by 2002:a05:6a00:1c56:b0:4a4:f8cb:2604 with SMTP id
- s22-20020a056a001c5600b004a4f8cb2604mr184341pfw.34.1639424361750; Mon, 13 Dec
- 2021 11:39:21 -0800 (PST)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 568E510E8A7;
+ Mon, 13 Dec 2021 19:45:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1639424701; x=1670960701;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=SLGZATRFR/gnGL96L3VBs4ID7oJ2p8+tWemuN1QdByQ=;
+ b=luYRMw/srVozLEZGWLkQOSI39mXQnNJeGXwQvSyo6/iUy9OmL21X5bWv
+ KbOijafgIqu/4SR4u3DWTQ/D48hcdSWd/IKm1sAAwBS393W48qnvk6z5s
+ 0ddZv9Uhil++KbmeV2NUKJbY4XgkaRijMi5jrXIz/D5EtsR2WViqHjxNk
+ Jb8CIbBrMoQk6Tvo6CHYFB3+TgPYzER/WkLzQ2+v0ifZOztg02MvHwFYu
+ EV7kxcEzliLx2ooPmsMuRZI0AycNQlFmdTCkx8Oh7yoxP0+Nee50e7dR/
+ lwiSTjEMNmXkBQFUullNVGKhGhPy5t8X5Xd8AgjhZixCzLVIPUXyPIHmH g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10197"; a="236344394"
+X-IronPort-AV: E=Sophos;i="5.88,203,1635231600"; d="scan'208";a="236344394"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Dec 2021 11:44:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,203,1635231600"; d="scan'208";a="463503591"
+Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
+ by orsmga003.jf.intel.com with ESMTP; 13 Dec 2021 11:44:50 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Mon, 13 Dec 2021 11:44:50 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20 via Frontend Transport; Mon, 13 Dec 2021 11:44:50 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.45) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.20; Mon, 13 Dec 2021 11:44:50 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TVOwOLjbVmB6/neQFQ2kKeA8SPGDYwrKUEUAV97vOKMJSNm04UUOEOlfp8V13Xt+27r224xgrtOTvBJpC5yKlDRgnJTEVWGHHM6rD3fwllgTB9TKbbxpXxqP4xrMWo8FFyr/ozADNcWBrfwZHXovkwrCx74BiGSLLcaOm89Zfc5i2SuhX690WtHZsc51caZGD41gO+AqEr1GmF9hXkXdfDecMJyiZyPFKWBPPaL2GK6A+Jjjz+P++AmfX7lpftLwv7N2HCgm/oj8qogaKu8ThAEDMB1W83PRIDsyAQqYkwORi0Nmb8SxYttqIxy400jaPS0PrL/VMH/dPt3ySY/YoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TLSjx1rCUnoZkoQni+adFcr6tn9gpdlGPOxk/44EDGk=;
+ b=W1h1+UgcEYgoeKXv9li5sgAnURaY/OVKBjreXRUwTgEwgmw93XHrFClV+XcIxFmQ/s2HpHQfAbGs8YySSDJvJSTWUzkJK5CkrhpMPdDDkF04hn0xRBJTmEkw2G0lfieF4qO3+kWHX5OmGsBiDZ0yY3y69cicuWmgfFOPTV7x2YRcY4QyHEXg401Pb3byIwDovllvGd11ZaWUu2IKQxtr2jvFnN7GC56GNJyoNLNBI4yZuUqSOuB+ZBfkxqvRIBfAuYfjDL9BSxuo5xR+Q/sLbUncm7LO6SIDgV2Ad95WMnRlYuP3r4S27QAk9DA6ADe+7l349ab+ogdJQ8rBqz+I9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TLSjx1rCUnoZkoQni+adFcr6tn9gpdlGPOxk/44EDGk=;
+ b=hvhFkaOqbgJR+IiE2RKSX0bhE9xFYeHbGjQhtJe4s++zG6oZCPkLkUEp+hsZhmJhzdP1YXsUvi/eLaTdFlM4pXmtbRRhmGZavs+0r8hmYB06RnZrg43EV8XVCsopYZIpiuYjc5pAGvLdgp0zx4u8qBi8yNJoM4tGFV6zQkMzXco=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5488.namprd11.prod.outlook.com (2603:10b6:5:39d::5) by
+ DM4PR11MB5389.namprd11.prod.outlook.com (2603:10b6:5:394::17) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4778.17; Mon, 13 Dec 2021 19:44:48 +0000
+Received: from DM4PR11MB5488.namprd11.prod.outlook.com
+ ([fe80::d91a:c903:855e:5f24]) by DM4PR11MB5488.namprd11.prod.outlook.com
+ ([fe80::d91a:c903:855e:5f24%5]) with mapi id 15.20.4778.018; Mon, 13 Dec 2021
+ 19:44:48 +0000
+Message-ID: <54419919-9227-f4da-cf54-61f5d8c39ffc@intel.com>
+Date: Mon, 13 Dec 2021 11:44:46 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.3.2
+Subject: Re: [PATCH v2 0/3] drm/i915: Support bigger GuC RSA keys
+Content-Language: en-US
+To: <intel-gfx@lists.freedesktop.org>
+References: <20211211000756.1698923-1-daniele.ceraolospurio@intel.com>
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+In-Reply-To: <20211211000756.1698923-1-daniele.ceraolospurio@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BYAPR11CA0075.namprd11.prod.outlook.com
+ (2603:10b6:a03:f4::16) To DM4PR11MB5488.namprd11.prod.outlook.com
+ (2603:10b6:5:39d::5)
 MIME-Version: 1.0
-References: <CAJ+vNU2A8J_72UgdoBw0Z0T0p1GzwWs-OK3UP14Y7KcoDjFOaQ@mail.gmail.com>
- <CAPY8ntBeUhqn==To83i8=88KxH0MQzp9n+NVe4Y8eFns1NMFaw@mail.gmail.com>
- <CAJ+vNU0a8gN-4cdFz3qAW3S3zzMt7_bQywAF8OcZ4sp7ZZuQxg@mail.gmail.com>
- <CAPY8ntAHAVtf_-EFD76h9Ua9nOxggwcgYM7GerjZYUZNmOrnUA@mail.gmail.com>
- <CAJ+vNU1Gz64d8i53LeoP-X0aV_83e61YS9d8DQjkaiNZ48oxHw@mail.gmail.com>
- <CAJ+vNU1GbcmtBhQp+RtZ95wmV5YmAhAOZpnLu2y5jnVxato44A@mail.gmail.com>
- <CAPY8ntBkB3ExJGUAhvsWRvhq66F7hbsxB5GZZHMSKP77svSVcw@mail.gmail.com>
- <CAJ+vNU3Z-A8=pqQmTiPZXS-GSdcYMZ578RjLrgW6qHckBX=4nQ@mail.gmail.com>
- <CAJ+vNU0uU0hKWv8p0nN4jtERYZzDByOg_GbS8CAnEvoBxPMv+Q@mail.gmail.com>
- <CAPY8ntDOW9S7Awxz0VS0vaEQTy7WZ39t-gh9oNioqtS1VxO_ag@mail.gmail.com>
-In-Reply-To: <CAPY8ntDOW9S7Awxz0VS0vaEQTy7WZ39t-gh9oNioqtS1VxO_ag@mail.gmail.com>
-From: Tim Harvey <tharvey@gateworks.com>
-Date: Mon, 13 Dec 2021 11:39:10 -0800
-Message-ID: <CAJ+vNU3ZQy2SodE0sxiep-FaSUc4ugGK5BkZxowJF79tZ9iTpA@mail.gmail.com>
-Subject: Re: RPI 7" display touch controller
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ecdcffec-5a40-42ca-ed7e-08d9be7105ab
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5389:EE_
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-Microsoft-Antispam-PRVS: <DM4PR11MB53890D9F81B6118DF5CE103BF4749@DM4PR11MB5389.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ATMToBe+jbimFIF+lSjS3Fn4k+Pz0i1L1jIIo/2OGt7/qQhUmA2Y42HeXLCDU3w9gpU7jQbMvi7oAp7XHjDcc7ckB12ozSEiKzCA4TuxtdvelbCwr9b+ZFrkh8Y7c0FlbU3mvn6xuNlfTmRMSjOdZoYWpBduKU6rhN8LB36azlN/VCZxCxdEvsMgsy6gkPC4F05szkqPoUme8gItbetV6yJ2VzLrTWAKOPcj/p36lcdOazK3kyz9Kb+aIj5TihTcRVkkz8Stt/9JMEcnzuaeTi5+SvJygsGFR5IrQ+ICFAz/uChyGDdinWRdIchivnSzF27qOb6XOSIkYn32+SU3YbZuCnByA0pk5SjTVN3w1ctGcwJjN2GLyjNRFSet7g1ao/Iuj+1N1EAVHd8OJyl+qfExUIoOrg5WHT7V8mNEoRp1rkLPikgk/ltn6dDLZgXxm3Izig5ByH1KWZ8PmW36wceA1IpKfLYmYUUm8uVBoZc73PgHN9+9Gh19CewzsJdslYenn2m+GtmHXtM4rLjuuLd7SvFdkysFXJVE03E5UbIuJ9rf6vEyXFvhyE6RT/HJSAjNPZGFDoVYSsHlemZUs3JHI3t6utod6HCD9pjCXLOLbjraLtW9SIEByWWXHZxbPQmITwSvhA9+jEMv4Muw++v1aCS6OktSLHHRn63VFH5KcGcFvhgzUmIx9sYswTIdNThcGGsCuYFAHt+Xrjpg2OYxxOKlfwap7nZ5SUh/EfBzi/abGUXR87fEJKKmSdBqKMS1XjjtOsPE/OT97gakIw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5488.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(38100700002)(2616005)(86362001)(316002)(36756003)(66946007)(4326008)(450100002)(26005)(2906002)(186003)(31686004)(8676002)(54906003)(8936002)(6486002)(6916009)(6512007)(6506007)(107886003)(82960400001)(66476007)(31696002)(83380400001)(508600001)(53546011)(66556008)(5660300002)(135533001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aDhsWndFN0laY0kvSFIyVm4raHN3YU1OaUVtMklvZnRyYS9HWHhoQ3doQWhn?=
+ =?utf-8?B?cTVSUVpwYk53dnRjVHlNdHFNVHU0QVdDTDd6cGhvY3pqUi9OTGFuVk1oMVhN?=
+ =?utf-8?B?TUZDYUg3cGF1ZzRSaEh6VXI5b3FuRTlmQnMrd2pYcHdpajk3SnphRjYzbDBU?=
+ =?utf-8?B?NmFmOUhMdUNhQ3dSN0s4THZmSVBKTTgyYjdPUktWNjB1VEVyMkZjejFDVUJN?=
+ =?utf-8?B?bTFPQXA4QmUyMTB3MDlDa2gyQk5ac2VkOVlrWmRjOWswVkJxSjg0b2NkMDRC?=
+ =?utf-8?B?bG9QY1RPc2UvQk9za2FRVmI4Z2dkc0ZMUlZvRUF5WmVRano5eXhBbCtsZHVD?=
+ =?utf-8?B?LzJCRHU4dlhYZ09vSU5aUDQwQlkvRElPa1JPV2h2TytUVDM4MEFGUFN5OTE2?=
+ =?utf-8?B?Y0NVMTlMKzIyWldqZjJieXZwazljVTNLREJKaWhNUUhDakJCWE4xVUJVMmFs?=
+ =?utf-8?B?bUtSaE9EM3c5a1A0b01QN29ScUlZSFhQMk8vTzJTL0tieFZzdXVuVis1MW1t?=
+ =?utf-8?B?dEtWVWdTVGZjWVJRZExZQjJIRTUvWXdNOVRoZG03RVNDdlhqYTlrT2VtRWNY?=
+ =?utf-8?B?dDQvZ2RzbmZlUmV6YkdWc0RjRG5TMzVCNldwNGw3YklyKzNQL0JFTkdueDIr?=
+ =?utf-8?B?MExaa0tlQjhHc2d4TjlYeXYvc3kyY0xjMThHTzk4VXdiWklRQjdGcDRsa09n?=
+ =?utf-8?B?V2YyT0VOTWlDRmJGNkhEaEU3UFpKTEpHMVh6cWhYYk5HbVpCOW1DREt5S2Z1?=
+ =?utf-8?B?aklpc29vUXVEcDNSTW91TS9SdzE4a2lXSmNTVkVjVVJwcmtFUmZKY2FLTGxn?=
+ =?utf-8?B?dTVBRVl5WGJDUlA2S2Q5b1Bmd3lIcWkyTkkxT080TnZMK0dvQmRGTVdpZEd6?=
+ =?utf-8?B?VEh6YVF6dis0S0VkSTNUd1NrQ0tZbkp0N3NoRWFUa25kM1JlYjJqUHd0c0lK?=
+ =?utf-8?B?eC9icXRxOEdaUlJjTWJaRFhoNHZvZDFoZG5KMk5xeWxSalFKOHJZMWVrdndE?=
+ =?utf-8?B?bUliYXZCb2V2eWRpdTN1bnErbTRvZXlISmJEcC9LODRmbnhIakZ2ZGxrSzdE?=
+ =?utf-8?B?NnRFNkpFdHpOMDNFdE9mYUxxVTZLUmIweG5VanBVenhYSkJ5R3ZGQng2TUxy?=
+ =?utf-8?B?Uk9LSmZwQnpNdFhnNk5YaWJKb0NtN29EVWFyaTUxWWprR01YTHhyTTFoOXYx?=
+ =?utf-8?B?MFJyTFlKZ3BpaE5yRC9pTnNvVm05WmVCa3FROHEwakxJbGRHeFg5dTAvRWdC?=
+ =?utf-8?B?RUdnTlYwZkN3ZmxkcXZ1VXhwMkVQUFRyMmd0RDVKWU9UbkNRcTc0dHkwbkxm?=
+ =?utf-8?B?V2x6Q2VWMXV6d1R2dm5Ndk8xN1FpYjFqWHJUNlRyWEtrSFA0MDlNRWpIL3pZ?=
+ =?utf-8?B?WnpYRjZPYjQ2SngzblFtK1RpUndtc3RPc1ZZUzZsV2lGMjFzdU81blE3Tnh3?=
+ =?utf-8?B?ajhFOHRuZDJ5UTFyNGgzU1hlVkVKcTVvc1RnMnVvaWZkNkNoTCtnc1RhdXBo?=
+ =?utf-8?B?QjlySmxVSWpTc3dpc2U0dDhURmlTWFh0MkxqWkhmVzk1cTQxSVZHTjMyWE9E?=
+ =?utf-8?B?ZEpiWUFkRTcxNFpSZUhJZzNxcWRoZE90enM0NFI4UDdVSUhpcXEzMnlPcXpN?=
+ =?utf-8?B?a2xJL2xNaEpncUIrc3N2bEdhNnJNUXdXcVh1ZEVONmtvY1c5UkFNdUhlVmNF?=
+ =?utf-8?B?YTJSLzB3OHR5Vi9KRitTV29Fc0lBa1VwNW9ZMS9ScXdnRkdvNkZ1cHVtTThS?=
+ =?utf-8?B?ZEdlRmRTcEtGTGlTZmk5WFNtMUZUWkxZWlpUMnpSZnhkTGJPcmYwQmwxamxV?=
+ =?utf-8?B?bENnYkdPUmErMHQ0bGQrSi9Sam13OEhiVWhobDZIVjNDNEgvQ1BRcFpjZHF4?=
+ =?utf-8?B?bkwva2lVdkJvOWFuQXNpNCs0SEhaM1JYNGM4NEZzZlFlNGZkYldSR3F1L0NJ?=
+ =?utf-8?B?MitjalRQRzFMYWZLUHpqRkNXQ2tFL2tHNnBOV0Fwa0tKR0FNZ2ZyTUtzTHB0?=
+ =?utf-8?B?Qy9JbzFUbkFOOGZDSHFiMFhmWDhOWm8zdE96bEJWaHgyY3lFYS9iZnhCb3cx?=
+ =?utf-8?B?bEFpaUNNN2oveUdnTEszVkhYWEFIUnU1OTczMFdHR0U5azIzWUZLYjljWFJH?=
+ =?utf-8?B?RXJZY2k5OEdML0diMnptVXBKOEFwNFByenZwTXRybGpYUnJNR2Qrd0hlUTUw?=
+ =?utf-8?B?NjNITXJwRUUxQnRwR1lLTnNYRHBYWWlLK1JWcFdScHdvNFdNTmtGbEh0Mmc1?=
+ =?utf-8?B?SExvSVk4VWNiRjhnYVhYMGJKWHR3PT0=?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ecdcffec-5a40-42ca-ed7e-08d9be7105ab
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5488.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2021 19:44:48.7245 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AEPTGF+WP04NhK/X+YcUDO7R/W6wW9RdeY9XwXksAC7ZMAfZgfoRQ/iAk8lIdBs+I+1yTiRCEW/5bNnvtZybCyBtaiNsljopLbt2ZjCFt9c=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5389
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,505 +162,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Eric Anholt <eric@anholt.net>,
- DRI mailing list <dri-devel@lists.freedesktop.org>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>, dri-devel@lists.freedesktop.org,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 13, 2021 at 4:04 AM Dave Stevenson
-<dave.stevenson@raspberrypi.com> wrote:
->
-> On Fri, 10 Dec 2021 at 22:40, Tim Harvey <tharvey@gateworks.com> wrote:
-> >
-> > On Fri, Dec 10, 2021 at 11:29 AM Tim Harvey <tharvey@gateworks.com> wrote:
-> > >
-> > > On Fri, Dec 10, 2021 at 10:41 AM Dave Stevenson
-> > > <dave.stevenson@raspberrypi.com> wrote:
-> > > >
-> > > > On Fri, 10 Dec 2021 at 18:20, Tim Harvey <tharvey@gateworks.com> wrote:
-> > > > >
-> > > > > On Thu, Nov 18, 2021 at 12:52 PM Tim Harvey <tharvey@gateworks.com> wrote:
-> > > > > >
-> > > > > > On Thu, Nov 18, 2021 at 10:30 AM Dave Stevenson
-> > > > > > <dave.stevenson@raspberrypi.com> wrote:
-> > > > > > >
-> > > > > > > On Thu, 18 Nov 2021 at 17:36, Tim Harvey <tharvey@gateworks.com> wrote:
-> > > > > > > >
-> > > > > > > > On Thu, Nov 18, 2021 at 6:28 AM Dave Stevenson
-> > > > > > > > <dave.stevenson@raspberrypi.com> wrote:
-> > > > > > > > >
-> > > > > > > > > Hi Tim
-> > > > > > > > >
-> > > > > > > > > On Thu, 18 Nov 2021 at 01:26, Tim Harvey <tharvey@gateworks.com> wrote:
-> > > > > > > > > >
-> > > > > > > > > > Greetings,
-> > > > > > > > > >
-> > > > > > > > > > I'm trying to get a RPI 7" touchscreen display working on an IMX8MM
-> > > > > > > > > > board and while I've been able to get the MIPI DSI display and
-> > > > > > > > > > backlight working I still can't seem to figure out the touch
-> > > > > > > > > > controller.
-> > > > > > > > > >
-> > > > > > > > > > It's supposed to have an FT5406 controller on it without an interrupt
-> > > > > > > > > > so I added polling support drivers/input/touchscreen/edt-ft5x06.c
-> > > > > > > > > > which I was able to verify using another touchscreen with that
-> > > > > > > > > > controller but when reading data from the FT5406 on the RPI controller
-> > > > > > > > > > the data does not make sense.
-> > > > > > > > > >
-> > > > > > > > > > These panels appear to route the I2C from the FT5406 to a STM32F103
-> > > > > > > > > > MPU that then provides a different I2C slave interface to the 15pin
-> > > > > > > > > > connector that I'm connected to. On that I2C interface I see an i2c
-> > > > > > > > > > slave at 0x45 which is managed by the regulator driver Marek wrote
-> > > > > > > > > > (drivers/regulator/rpi-panel-attiny-regulator.c) and there is also an
-> > > > > > > > > > i2c slave at 0x38 which I assumed was the FT5406 but I believe the MPU
-> > > > > > > > > > is perhaps obfuscating that touch data.
-> > > > > > > > > >
-> > > > > > > > > > Anyone have any ideas on how to make that touch controller useful?
-> > > > > > > > >
-> > > > > > > > > There should be nothing unusual. 0x38 is the EDT touch controller.
-> > > > > > > > > Starting with the Raspberry Pi OS Bullseye release, we're now using
-> > > > > > > > > the panel directly from DRM rather than through the firmware. That's
-> > > > > > > > > based on the branch at
-> > > > > > > > > https://github.com/raspberrypi/linux/tree/rpi-5.10.y/
-> > > > > > > > >
-> > > > > > > >
-> > > > > > > > Dave,
-> > > > > > > >
-> > > > > > > > That sounds like the driver that made it into mainline with Eric's
-> > > > > > > > commit 2f733d6194bd ("drm/panel: Add support for the Raspberry Pi 7"
-> > > > > > > > Touchscreen."). I looked there but that driver just deals with the DSI
-> > > > > > > > and not with touch.
-> > > > > > >
-> > > > > > > No, we've reverted away from that driver as it exposes no regulator
-> > > > > > > framework either, so again the touch element loses power.
-> > > > > > >
-> > > > > > > > > I also added polling support to edt-ft5x04.c.
-> > > > > > > > > For DT, it uses a combination of the overlays vc4-kms-v3d,
-> > > > > > > > > vc4-kms-dsi-7inch, and that includes edt-ft5406.dtsi, all of which are
-> > > > > > > > > in /arch/arm/boot/dts/overlays
-> > > > > > > >
-> > > > > > > > It doesn't look like you ever submitted your edt-ft5x04 polling mode
-> > > > > > > > support upstream. I saw another series to add polling support
-> > > > > > > > submitted by Nicolas back in 2019 but was never followed up on
-> > > > > > > > (https://patchwork.kernel.org/project/linux-input/list/?series=112187&archive=both).
-> > > > > > >
-> > > > > > > No I haven't as it's been crazy trying to get this lot to work under
-> > > > > > > KMS at all over the last couple of months.
-> > > > > > >
-> > > > > > > > I have updated Nicolas' patch with the changes requested and am happy
-> > > > > > > > to submit it upstream. The benefit of his patch is that it uses a dt
-> > > > > > > > binding for the polling interval. I'm happy to submit this upstream.
-> > > > > > >
-> > > > > > > I hadn't seen Nicolas' patches, hence implementing it myself.
-> > > > > > >
-> > > > > > > If you've implemented the requested changes, could you check that the
-> > > > > > > polling rate is as expected? We were seeing that the input framework
-> > > > > > > wasn't delivering the requested poll rate when CONFIG_HZ=100 is
-> > > > > > > defined in the config. I must confess that I haven't checked it on my
-> > > > > > > current patch, but it was on my list of things to do.
-> > > > > > > There was a report that "bd88ce25335d Input: raspberrypi-ts - switch
-> > > > > > > to using polled mode of input devices" dropped the polling rate from
-> > > > > > > the desired 60Hz in switching to that framework.
-> > > > > >
-> > > > > > Ok, I'll make a note to test that and submit it.
-> > > > > >
-> > > > > > >
-> > > > > > > > >
-> > > > > > > > > The main issue I had was configuring the regulator framework
-> > > > > > > > > appropriately to allow the touch controller power to be separate from
-> > > > > > > > > the bridge power. Without that if DRM powered down the panel it killed
-> > > > > > > > > the touch controller too, and the touch driver never reinitialised
-> > > > > > > > > itself.
-> > > > > > > >
-> > > > > > > > I'm using the same drivers/regulator/rpi-panel-attiny-regulator.c
-> > > > > > > > regulator driver from mainline that Marek added as the power-supply
-> > > > > > > > for the panel as well as the backlight controller. It looks like the
-> > > > > > > > version in the rpi-5.10.y has several patches on top of it so I'll
-> > > > > > > > take a look at those differences to see if it may be affecting the
-> > > > > > > > touchscreen controller. It's really strange to me that the touch
-> > > > > > > > controller's I2C goes through the STM32F103 MPU (as in the MPU's I2C
-> > > > > > > > master connects to the touchscreen controller and a different MPU I2C
-> > > > > > > > bus presents the touch controller like they are translating
-> > > > > > > > something?).
-> > > > > > >
-> > > > > > > The touchscreen I2C does NOT go through the STM.
-> > > > > > > The TS interrupt line does feed into the STM, but it's not actually used.
-> > > > > > > The TC358762 I2C does go through the STM, but it isn't used other than
-> > > > > > > a kick to bring the bridge out of reset.
-> > > > > >
-> > > > > > Ok, I've determined the DFROBOT Rpi displays do differ from the
-> > > > > > official Rpi 7in display.
-> > > > > >
-> > > > > > Official 7in RPI display:
-> > > > > > - I can't find a schematic anywhere for the official display but I an
-> > > > > > ohmmeter confirms your claim that the touch controller I2C is
-> > > > > > connected to the 15pin display I2C.
-> > > > > > - I do not see the ft5406@0x38 on the i2c bus until I send a command a
-> > > > > > REG_POWERON cmdto the ATTINY@0x45 'i2c dev 2 && i2c mw 0x45 0x85 1 1'
-> > > > > > in u-boot
-> > > > > > - I must disable the rpi-panel-attiny-regulator.c driver as its probe
-> > > > > > disables REG_POWERON and the linux driver won't see the FT5406
-> > > > > > - The linux edt-ft5x06.c driver with polling added works fine and
-> > > > > > gives me expected touch events
-> > > > > >
-> > > > > > With the DFROBOT 5in and 7in displays:
-> > > > > > - the touch interface I2C does not connect directly to the 15pin
-> > > > > > connector's I2C (shown in the schematic at schematic:
-> > > > > > https://github.com/DFRobot/Wiki/raw/master/DFR0550_Schematics.pdf and
-> > > > > > also verified with an ohmeter)
-> > > > > > - I see the ft5406@0x38 on the i2c bus regardless of setting or
-> > > > > > clearing REG_POWERON on the ATTINY@0x45
-> > > > > > - The linux edt-ft5x06.c driver with polling added gives me data that
-> > > > > > does not make sense for touch events
-> > > > > >
-> > > > > > So I can only assume the DFROBOT displays are doing something strange
-> > > > > > but I'm not clear how what they are doing is compatible with the RPI.
-> > > > > > I guess I have to get an RPI, hook it up and see if the touch screen
-> > > > > > works with the rpi 5.10.y kernel.
-> > > > > >
-> > > > > > >
-> > > > > > > > I wonder if I'm hitting that reinitialization issue. Do you recall any
-> > > > > > > > details about that? Was it that the driver returned seemingly invalid
-> > > > > > > > touch data like I'm getting or did it just not respond?
-> > > > > > >
-> > > > > > > If the power goes down then all the registers written during probe [1]
-> > > > > > > are reset. I don't recall exactly what the data then contained, but I
-> > > > > > > did get a load of I2C transactions fail with -EREMOTEIO as the
-> > > > > > > messages weren't ACKed.
-> > > > > > >
-> > > > > > > [1] https://elixir.bootlin.com/linux/latest/source/drivers/input/touchscreen/edt-ft5x06.c#L1207
-> > > > > > >
-> > > > > > > > Silly question likely but how do I power down the DRM portion to test
-> > > > > > > > to see if it affects the touch controller?
-> > > > > > >
-> > > > > > > xrandr --output DSI-1 --off
-> > > > > > > There must be a libdrm call to do the equivalent, but I'll admit that
-> > > > > > > I can't think of an existing tool that implements it.
-> > > > > >
-> > > > > > do you know of a sysfs way to do this or something that doesn't require xrandr?
-> > > > > >
-> > > > > > >
-> > > > > > > > > On our branch rpi-panel-attiny-regulator.c has been updated to control
-> > > > > > > > > those functions independently as GPIOs, which then get used via
-> > > > > > > > > regulator-fixed, or as reset-gpios.
-> > > > > > > > > Telling both bridge and touch that they shared a regulator didn't work
-> > > > > > > > > as the DSI bridge seems mildly fussy about the DSI state when it is
-> > > > > > > > > powered up.
-> > > > > > > >
-> > > > > > > > Hmm... I wonder if this is the problem I had with the 'official' rpi
-> > > > > > > > 7in display that I never got working. I did get the DFROBOT rpi 5in
-> > > > > > > > and 7in displays working.
-> > > > > > >
-> > > > > > > I'm not that familiar with the DFRobot displays.
-> > > > > > > I have tried an Osoyoo 3.5" panel [2] that pretends to be the Pi
-> > > > > > > panel, and it looks similar. Reality is that it uses a Lattice FPGA to
-> > > > > > > convert from DSI to DPI. All the LP configuration commands sent to it
-> > > > > > > are ignored. Startup requirements of that compared to the Toshiba are
-> > > > > > > unknown.
-> > > > > > >
-> > > > > > > [2] https://www.amazon.co.uk/OSOYOO-Capacitive-Connector-Resolution-Raspberry/dp/B087WVC1J2
-> > > > > > >
-> > > > > > > > > Hope that helps.
-> > > > > > > > >
-> > > > > > > >
-> > > > > > > > The fact you tell me that the rpi-5.10.y branch goes away from the
-> > > > > > > > strange 'firmware' driver I found at
-> > > > > > > > https://github.com/raspberrypi/linux/blob/rpi-4.2.y/drivers/input/touchscreen/rpi-ft5406.c
-> > > > > > > > and uses the standard ft5406.c driver (with polling mode added) is
-> > > > > > > > very helpful in that I feel I have a hope of getting this working.
-> > > > > > >
-> > > > > > > I have one of our panels working in front of me using my patched
-> > > > > > > version of edt-ft5x06 as the driver for the touch element.
-> > > > > > >
-> > > > > > > > Does the rpi-5.10.y kernel work for the official rpi 7in display as
-> > > > > > > > well as the DFROBOT displays as far as you know?
-> > > > > > >
-> > > > > > > As above, I'm not aware of DFRobot.
-> > > > > > > With the Osoyoo I can't recall exactly what it was doing with I2C. I
-> > > > > > > think it only really responded to the ID command and PWM for the
-> > > > > > > backlight. The reset and power control that is required on our boards
-> > > > > > > isn't really relevant to them.
-> > > > > > > I was doing i2cset -y -f <bus> 0x45 0x85 [1|0] to turn power on/off,
-> > > > > > > and I seem to recall it did nothing.
-> > > > > >
-> > > > > > Right... this is also the same with the DFROBOT touchscreen displays.
-> > > > > >
-> > > > > > I do really like the build quality, availability, and pricing of the
-> > > > > > DFROBOT displays but also a huge advantage is that they derive power
-> > > > > > from the 15pin connector 3.3V pins so there are no other connections.
-> > > > > > Their backlight doesn't appear to be controllable via PWM however and
-> > > > > > instead they have a manual brightness thumbwheel on them.
-> > > > > >
-> > > > > > The other advantage for me at the moment is that I still haven't
-> > > > > > gotten the official RPI 7in display to work with the IMX8MM (no pixels
-> > > > > > displayed) where as the DFROBOT one is working for me.
-> > > > > >
-> > > > > > > ...
-> > > > > > > Just for you I fired it up. It ACKs all I2C addresses just for a
-> > > > > > > laugh, and indeed it takes no action on 0x85, only 0x86 (for PWM), and
-> > > > > > > reading 0x80 (ID).
-> > > > > > >
-> > > > > >
-> > > > >
-> > > > > Dave,
-> > > > >
-> > > > > After some more investigation I've found that while the DFRobot
-> > > > > DRF0550 and DFR0678 touch controller does not work with the ft5x06
-> > > > > driver it does indeed work on a Rpi with the raspberrypi-ts driver. So
-> > > > > from an Rpi perspective the latest OS image doesn't work but the
-> > > > > 'Legacy' OS image does (which appears to have the same 5.10 kernel but
-> > > > > uses legacy drivers?).
-> > > >
-> > > > You have to love cloned devices.
-> > > > Have you checked with DFRobot as to what the actual touchscreen
-> > > > controller chip is?
-> > >
-> > > Dave,
-> > >
-> > > I tore one apart and verified it has a  FT5316 I2C touchscreen
-> > > controller (without IRQ) but again it routes directly to a STM32F103
-> > > (see https://dfimg.dfrobot.com/nobody/wiki/208d6cf05cacd2ee3b349341d5bfd6e2.pdf).
-> > > So the key difference is that while the official rpi 7in display has
-> > > both the ft5x06 and whatever the mcu emulates on the soc's i2c the
-> > > DRROBOT only has the emulated device. Note that I 'can' probe 0x45
-> > > 'and' 0x38 but the slave at 0x38 does not behave like an ft5x06
-> > >
-> > > >
-> > > > > So if I understand correctly the Rpi has some firmware that talks over
-> > > > > I2C and translates touch events from this 'legacy API' over to a
-> > > > > memory mapped area. How can I learn about this firmware and what kind
-> > > > > of translation it does to make these touch controllers work on a non
-> > > > > rpi?
-> > > >
-> > > > It does very little different from edt-ft5x06.
-> > > >
-> > > > At an I2C level it reads register 0x02 of the touchscreen controller
-> > > > to get the current number of points, and then does that number of 4
-> > > > byte reads for register (3+6*i) to get the touch information.
-> > > > The edt-ft5x06 driver just reads all registers from 0 to generally
-> > > > 0x21 to get all points in one hit. It then parses all the point
-> > > > information instead of looking at the reported number of points.
-> > >
-> > > That seems reasonable with respect to the ft5x06 but then the firmware
-> > > must present this data somehow as I2C registers (on 0x38 or 0x45?) or
-> > > I don't see how the DSROBOT touch controllers currently work with
-> > > raspberrypi-ts as they only have i2c slaves at those addresses.
-> > >
-> > > Is this firmware source available?
-> > >
-> > > >
-> > > > There are a couple more commits to our kernel tree for edt-ft5x06 as
-> > > > we were seeing some issues.
-> > > > The main one is that it seems unreliable in reporting TOUCH_UP events.
-> > > > Whilst it's implemented explicitly in the driver with the current
-> > > > patches, I believe it could be done via the INPUT_MT_DROP_UNUSED flag
-> > > > if input_mt_sync_frame is used as well. When time allows I was
-> > > > intending to upstream that fix.
-> > > >
-> > >
-> > > Ok, I see those in your tree.
-> > >
-> > > DFROBOT has not been extremely helpful but to be honest I don't think
-> > > they understand the issue (I didn't until this morning) that their
-> > > touch controllers work on the old Raspberrypi OS releases using
-> > > raspberrypi-ts but not the new ones using ft5x06. I explained that
-> > > this switch took place earlier this year when official OS releases
-> > > bumped to 5.10 (hope I was correct there) and that they would likely
-> > > be getting a lot of tech support calls for users with new software.
-> > > I'm not sure how you can tell the latest software to use the
-> > > raspberrypi-ts driver instead of the ft5x06 driver (I assume all of
-> > > that is via device-tree) but I did find that the 'legacy' version of
-> > > the software uses the old raspberrypi-ts driver. This part does not
-> > > concern 'me' too much as my goal is to get the touch controllers
-> > > working on a non rpi.
->
-> The change happened with the release of Bullseye at the start of November.
->
-> You can't safely use raspberrypi-ts alongside
-> rpi-panel-attiny-regulator, hence the change to edt-ft5x06.
-> There is no inter-processor arbitration, so the I2C controller can
-> only be used by either the firmware (raspberrypi-ts) or Linux
-> (rpi-panel-attiny-regulator). Trying to do it from both causes race
-> conditions and responding to transactions from the other processor.
->
 
-Yes this makes sense - you can't have the Linux and the embedded
-firmware accessing the same I2C controller at the same time.
 
-> > Looking at the i2c regs from the DFROBOT panels from slave address
-> > 0x38 I've been able to decode the following:
-> > 0x00[7:4] event_type? (always 0x8)
-> > 0x00[3:0] MSBX
-> > 0x01[7:0] LSBX
-> > 0x02[7:4] touchid? (typically 0x0 but when I pinch sometimes it goes to a 0x1)
-> > 0x02[3:0] MSBY
-> > 0x03[7:0] LSBY
-> >
-> > I can't quite figure out how to determine up/down events yet.
-> > Comparing this to FT5x06 registers and raspberrypi-ts.c I would guess
-> > that 0x00[7:4] is event_type and 0x02[7:4] is touchid but I never see
-> > event_type change from 0x8 and touchid is 0x0 unless I pinch/unpinch
-> > (but that seems very unreliable).
+On 12/10/2021 4:07 PM, Daniele Ceraolo Spurio wrote:
+> Some of the newer platforms use a bigger RSA key to authenticate the GuC,
+> which is provided to the HW via a ggtt-pinned object instead of mmio.
 >
-> Sorry, but I have no information as to what the DFROBOT panel is
-> doing. It's not our product.
+> While doing the changes for this I've also spotted an inconsistency in
+> the error status of the fw on init failure, so I've added a path to fix
+> that as well.
+>
+> v2: clarify in comments that the expected RSA size is hardcoded in the
+> bootrom (Matt)
 
-I realize that but somehow it is mimicking the official rpi
-touchscreen enough to where the firmware/raspberrypi-ts works.
+I've confirmed with Matt that he's ok with the updated comment and pushed.
+
+Daniele
 
 >
-> On the Raspberry Pi panel we have an FT5406 directly on the I2C bus at
-> address 0x38.
-> It sounds like DFROBOT are bridging the FT5316 to look like a FT5406,
-> but potentially only implementing the access pattern that the Pi
-> firmware uses.
+> Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Cc: John Harrison <John.C.Harrison@Intel.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+>
+> Daniele Ceraolo Spurio (2):
+>    drm/i915/uc: correctly track uc_fw init failure
+>    drm/i915/guc: support bigger RSA keys
+>
+> Michal Wajdeczko (1):
+>    drm/i915/uc: Prepare for different firmware key sizes
+>
+>   drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c | 33 ++++++--
+>   drivers/gpu/drm/i915/gt/uc/intel_huc.c    | 75 +-----------------
+>   drivers/gpu/drm/i915/gt/uc/intel_huc.h    |  2 -
+>   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c  | 95 ++++++++++++++++++++---
+>   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h  | 18 +++--
+>   5 files changed, 128 insertions(+), 95 deletions(-)
 >
 
-Here is an i2c dump from the official rpi panel:
-u-boot=> i2c dev 2 && i2c probe
-Setting bus to 2
-Valid chip addresses: 45
-u-boot=> i2c mw 0x45 0x85 1 1
-u-boot=> i2c dev 2 && i2c probe
-Setting bus to 2
-Valid chip addresses: 38 45
-u-boot=> i2c md 0x38 0 10
-0000: 00 ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
-u-boot=> i2c md 0x38 0 100
-0000: 00 ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
-0010: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
-0020: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
-0030: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
-0040: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
-0050: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
-0060: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
-0070: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
-0080: 2d 2d 12 14 11 a0 01 05 00 1e 00 01 00 00 00 00    --..............
-0090: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 22    ..............."
-00a0: 13 00 02 54 01 01 0b 01 79 01 0c 00 00 01 01 0a    ...T....y.......
-00b0: 00 09 00 00 00 00 00 00 00 00 00 00 00 00 00 55    ...............U
-00c0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00    ................
-00d0: 00 00 00 00 00 00 00 00 00 00 00 00 17 0d 00 0a    ................
-00e0: ff ff ff ff ff ff ff ff ff ff ff eb aa 08 eb aa    ................
-00f0: ff ff ff ff ff ff ff ff ff ff ff ff 01 00 32 ff    ..............2.
-
-This does identify as a M09/Generic edt_ft5x06 and when I apply:
-
-a single touch point:
-u-boot=> i2c md 0x38 0 10
-0000: 00 00 01 80 de 00 fc 00 00 ff ff ff ff ff ff ff    ................
-^^^ 0x02=1 pt
-
-2 points:
-u-boot=> i2c md 0x38 0 10
-0000: 00 00 02 81 ab 00 f4 00 00 80 b0 10 f1 00 00 ff    ................
-^^^ 0x02=2 pt
-
-0 points:
-u-boot=> i2c md 0x38 0 10
-0000: 00 00 00 40 f7 01 4c 00 00 ff ff ff ff ff ff ff    ...@..L.........
-
-This all makes sense.
-
-When I look at the DFROBOT touch controller data:
-u-boot=> i2c md 0x38 0 100
-0000: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
-0010: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
-0020: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
-0030: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
-0040: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
-0050: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
-0060: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
-0070: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
-0080: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
-0090: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
-00a0: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
-00b0: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
-00c0: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
-00d0: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
-00e0: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
-00f0: ff ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00 ff 0f 00    ................
-
-This also gets identified as a M09/Generic edt_ft5x06
-
-But when apply a single touch point:
-
-u-boot=> i2c md 0x38 0 10
-0000: 82 3e 00 47 3e 00 47 3e 00 47 3e 00 47 3e 00 47    .>.G>.G>.G>.G>.G
-^^^ 0x02=0 points
-
-So this clearly does not follow the ft5x06 register mapping. Again I
-was able to determine the register mapping is
-0x00[7:4] event_type? (always 0x8)
-0x00[3:0] MSBX
-0x01[7:0] LSBX
-0x02[7:4] touchid? (typically 0x0 but when I pinch sometimes it goes to a 0x1)
-0x02[3:0] MSBY
-0x03[7:0] LSBY
-
-It seems to only report 1 point regardless of how many points I apply
-as the data after reg 0 just seems to repeat the values of reg 1,2,3.
-It also does not seem to indicate any difference when I remove the
-press so I'm not clear how to determine 0 point or pen-up
-
-What I don't understand is how does this work on an actual Rpi with
-raspberrypi-ts if the firmware in the broadcom is doing what you
-describe below?
-
-> The firmware is closed source, but there's nothing secret or clever in
-> the loop that polls the touchscreen
->
->       while (in_use)
->       {
->          int err;
->          unsigned char num_points;
->
->          vcos_sleep(17); // 60fps
->
->          // This is a special number meaning there is no new information to be
->          // read.  We will set the num correctly after the read is complete
->          touch_data[2] = 99;
->          // Read number of presses
->          err = i2c_driver->read(i2c_handle, 2, 1, &num_points);
-> //handle, register address, num_bytes_to_read, addr.
->          if (err || num_points > 10)
->             num_points = 0;
->          for (i = 0; i < num_points; i++)
->             i2c_driver->read(i2c_handle, 3+6*i, 4, touch_data+3+6*i);
-> //handle, register address, num_bytes_to_read, addr.
->
->          for (i = 0; i < num_points; i++)
->          {
->             int x = (touch_data[3+6*i] & 0xf) << 8 | touch_data[4+6*i] << 0;
->             int y = (touch_data[5+6*i] & 0xf) << 8 | touch_data[6+6*i] << 0;
->             if (TC358762_state.flips & 1<<2)
->                x = TC358762_DISPLAY_WIDTH-1-x;
->             if (!(TC358762_state.flips & 1<<3))
->                y = TC358762_DISPLAY_HEIGHT-1-y;
->             touch_data[3+6*i] = touch_data[3+6*i] & 0xf0 | (x >> 8) & 0xf;
->             touch_data[4+6*i] = x >> 0;
->             touch_data[5+6*i] = touch_data[5+6*i] & 0xf0 | (y >> 8) & 0xf;
->             touch_data[6+6*i] = y >> 0;
->          }
->          // Make sure the setting of the number of points occurs after
-> setting up x,y
->          touch_data[2] = num_points;
->       }
->
-> touch_data is the address of the buffer that is shared with raspberrypi-ts.
-> All those I2C reads are for address 0x38.
-> touch_data is processed by
-> https://github.com/torvalds/linux/blob/master/drivers/input/touchscreen/raspberrypi-ts.c#L84
-> Note that raspberrypi-ts does do a input_mt_report_slot_inactive for
-> each ID not included in an update, so there is no need for the TS
-> controller to send an explicit touch up event.
->
-> edt-ft5x06.c reads ID registers to identify the TS controller. Does it
-> get an erroneous answer there and try processing as EDT_M06?
-
-No, it processes it as GENERIC_FT but it does not respond with a
-FT5x06 compatible register set, yet again somehow 'it works' when
-connected to a Rpi running the 'legacy OS" with the 5.10 kernel and
-the raspberrypi-ts driver (and does not work on the rpi using the
-non-legacy OS which uses the ft5x06 driver).
-
-Tim
