@@ -2,39 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06800472A8D
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 11:46:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D469472ADA
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 12:08:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F7B710E7CD;
-	Mon, 13 Dec 2021 10:46:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23F8110E809;
+	Mon, 13 Dec 2021 11:08:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.marcansoft.com (marcansoft.com [IPv6:2a01:298:fe:f::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFE7310E7CD
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 10:46:04 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: marcan@marcan.st)
- by mail.marcansoft.com (Postfix) with ESMTPSA id 5E519419BC;
- Mon, 13 Dec 2021 10:45:59 +0000 (UTC)
-Subject: Re: [PATCH v3 1/3] of: Move simple-framebuffer device handling from
- simplefb to of
-To: Javier Martinez Canillas <javier@dowhile0.org>
-References: <20211212062407.138309-1-marcan@marcan.st>
- <20211212062407.138309-2-marcan@marcan.st>
- <CABxcv=m4fu8h=FwY7R=thuvd13_ZbFqB9rNNN07QOAd__jdYSQ@mail.gmail.com>
-From: Hector Martin <marcan@marcan.st>
-Message-ID: <63334964-d63d-7625-e46f-a6e6ec19e908@marcan.st>
-Date: Mon, 13 Dec 2021 19:45:56 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45E6310E809
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 11:08:25 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1mwjBv-0002cG-6X; Mon, 13 Dec 2021 12:08:23 +0100
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1mwjBr-0006po-V0; Mon, 13 Dec 2021 12:08:19 +0100
+Date: Mon, 13 Dec 2021 12:08:19 +0100
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Heiko Stuebner <heiko@sntech.de>
+Subject: Re: [PATCH 07/18] dt-bindings: display: rockchip: dw-hdmi: Allow
+ "ref" as clock name
+Message-ID: <20211213110819.GB6003@pengutronix.de>
+References: <20211208151230.3695378-1-s.hauer@pengutronix.de>
+ <20211208151230.3695378-8-s.hauer@pengutronix.de>
+ <3032544.f5MXlUzpl7@phil>
 MIME-Version: 1.0
-In-Reply-To: <CABxcv=m4fu8h=FwY7R=thuvd13_ZbFqB9rNNN07QOAd__jdYSQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: es-ES
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3032544.f5MXlUzpl7@phil>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 12:07:30 up 2 days, 19:53, 56 users, load average: 0.19, 0.24, 0.18
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,84 +58,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Linux Kernel <linux-kernel@vger.kernel.org>,
- Hans de Goede <hdegoede@redhat.com>, Rob Herring <robh+dt@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/12/2021 17.44, Javier Martinez Canillas wrote:
-> Hello Hector,
+On Sun, Dec 12, 2021 at 11:09:24PM +0100, Heiko Stuebner wrote:
+> Am Mittwoch, 8. Dezember 2021, 16:12:19 CET schrieb Sascha Hauer:
+> > "vpll" is a misnomer. A clock input to a device should be named after
+> > the usage in the device, not after the clock that drives it. On the
+> > rk3568 the same clock is driven by the HPLL.
+> > To fix that, this patch renames the vpll clock to ref clock.  The clock
+> > name "vpll" is left for compatibility to old device trees.
 > 
-> On Sun, Dec 12, 2021 at 7:24 AM Hector Martin <marcan@marcan.st> wrote:
->>
->> This code is required for both simplefb and simpledrm, so let's move it
->> into the OF core instead of having it as an ad-hoc initcall in the
->> drivers.
->>
->> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Signed-off-by: Hector Martin <marcan@marcan.st>
->> ---
->>   drivers/of/platform.c          |  4 ++++
->>   drivers/video/fbdev/simplefb.c | 21 +--------------------
->>   2 files changed, 5 insertions(+), 20 deletions(-)
->>
+> Can't we just say that the binding only takes the "ref" name, but
+> the code still allows "vpll".
 > 
-> This is indeed a much better approach than what I suggested. I just
-> have one comment.
+> I think I remember Rob suggesting something similar in the past.
 > 
->> diff --git a/drivers/of/platform.c b/drivers/of/platform.c
->> index b3faf89744aa..793350028906 100644
->> --- a/drivers/of/platform.c
->> +++ b/drivers/of/platform.c
->> @@ -540,6 +540,10 @@ static int __init of_platform_default_populate_init(void)
->>                  of_node_put(node);
->>          }
->>
->> +       node = of_get_compatible_child(of_chosen, "simple-framebuffer");
-> 
-> You have to check if the node variable is NULL here.
-> 
->> +       of_platform_device_create(node, NULL, NULL);
-> 
-> Otherwise this could lead to a NULL pointer dereference if debug
-> output is enabled (the node->full_name is printed).
+> I don't think that we need to keep the binding(-validation)
+> compatible with old devicetrees, but the kernel itself should stay
+> compatible.
 
-Where is it printed? I thought I might need a NULL check, but this code 
-was suggested verbatim by Rob in v2 without the NULL check and digging 
-through I found that the NULL codepath is safe.
+Sounds reasonable. I'll also add a patch changing the in-tree users next
+round.
 
-of_platform_device_create calls of_platform_device_create_pdata 
-directly, and:
-
-static struct platform_device *of_platform_device_create_pdata(
-                                         struct device_node *np,
-                                         const char *bus_id,
-                                         void *platform_data,
-                                         struct device *parent)
-{
-         struct platform_device *dev;
-
-         if (!of_device_is_available(np) ||
-             of_node_test_and_set_flag(np, OF_POPULATED))
-                 return NULL;
-
-of_device_is_available takes a global spinlock and then calls 
-__of_device_is_available, and that does:
-
-static bool __of_device_is_available(const struct device_node *device)
-{
-         const char *status;
-         int statlen;
-
-         if (!device)
-                 return false;
-
-... so I don't see how this can do anything but immediately return false 
-if node is NULL.
+Sascha
 
 -- 
-Hector Martin (marcan@marcan.st)
-Public Key: https://mrcn.st/pub
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
