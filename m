@@ -1,57 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6955E47219C
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 08:21:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 916844721CB
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 08:34:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EE5110E373;
-	Mon, 13 Dec 2021 07:21:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C011A10E2E7;
+	Mon, 13 Dec 2021 07:34:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
- [IPv6:2607:f8b0:4864:20::102f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70DE010E373
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 07:21:21 +0000 (UTC)
-Received: by mail-pj1-x102f.google.com with SMTP id
- np6-20020a17090b4c4600b001a90b011e06so12548098pjb.5
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 23:21:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id;
- bh=HVnnmDHMSAlLudHh2weJdjgBJk3noTgCFu3aVuhxzkY=;
- b=MAdYUJKJdsGLKqAVTkt2cBe7+7KjiOX3Aa6AEVkEwCXhRwOKzmlnnuyCrIxDdI+eTS
- 98JtjgVazDST37Wp0dLG54KZ6D4GgYZMMLLoUxXIVYlO+NqgREpy4my9cHMqNsOEOsd4
- bP0FX8vsnC2fSoU3fL5SrfNOTPBkop32ML/ucRsuPfFQSvKWekqYF06QxTWy/qtTZ4If
- wHnSb27/+TyPcXsj7T/nsWQF6If0YVVNrJUPuuDoOZxPZRPSf2aoL+q4QgAYmmldDhVq
- sMxLZT8eGDB3KLcMU0CKL8llLC9VdFwforaWmkfsd9Lukb7wiefb8CGoOaIJDIIkQ8DK
- 5Kmg==
+Received: from mail-il1-x136.google.com (mail-il1-x136.google.com
+ [IPv6:2607:f8b0:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64BAF10E2E7
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 07:34:43 +0000 (UTC)
+Received: by mail-il1-x136.google.com with SMTP id a11so14211352ilj.6
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Dec 2021 23:34:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pN73UJTcYa5JOMyuK9jaetarpbkD/7IbNdXwxXj6+68=;
+ b=cgjLob2ExtmzQgI8lE2pZ6tGgPX19y/hv8KNnoFSmCp0r9RjcHeTd2QSsKuKNt5Nq6
+ VJX2PjHvIOzpTKzrxkWN05NX0bV5P1jhFbZjGTlzKixL8K1QBfd32V7i5CDhjL90Qjyh
+ tpHI0VDFtYLu9vr+Mn7+o8teHVQl1zfyrqhz4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=HVnnmDHMSAlLudHh2weJdjgBJk3noTgCFu3aVuhxzkY=;
- b=AbxaliTRL53Hldgj9M8koVPHUk5aD3AvUJ8WRKPqhtyf4vc65rvNnY8j/Gf5i9CEry
- 1X3AkoXm+v1g1NRK3YI9EwRX6l99tFCDZxnU6dkCQ6QBL9vClYCyfkra6V3xO0Ynd6WA
- iJ7t4FxyKjk8gYtwf/1jSeOtXEWnRph23awscfEUud9S33A+og1+QVKFFveJ3J7PDWmS
- v7lm32Tvfkm8otskSLLfMKy2SLzRnb+Gf+rEFCcypCmb4uKwEBsy8nMNjh0FXcpGDCKh
- jSZEvG5f+/xzTL7nwUB8U2QfM1R/VnGMBejyFQFHkK9MKc3XKQ4JiJBldontBJt6O+tq
- gkxQ==
-X-Gm-Message-State: AOAM530BuyZbr6uvihU99iBC2Zb30pzF0wi6VZ4KXn22ZqqeGO+Mo/7R
- AyOLg+1usfBT1A1znCkiod4=
-X-Google-Smtp-Source: ABdhPJxxd9MY8IUrj1xFEfZXUxZ+y6bUFGcoD/7/OXAJyQ6k+fYHa2H2eB4Iw7r/NsOymwDkTrMhTg==
-X-Received: by 2002:a17:902:bf4b:b0:143:aa96:f608 with SMTP id
- u11-20020a170902bf4b00b00143aa96f608mr93035834pls.23.1639380081096; 
- Sun, 12 Dec 2021 23:21:21 -0800 (PST)
-Received: from localhost.localdomain ([159.226.95.43])
- by smtp.googlemail.com with ESMTPSA id
- y190sm10913520pfg.153.2021.12.12.23.21.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Dec 2021 23:21:20 -0800 (PST)
-From: Miaoqian Lin <linmq006@gmail.com>
-To: 
-Subject: [PATCH] udmabuf: Fix NULL vs IS_ERR() checking
-Date: Mon, 13 Dec 2021 07:21:15 +0000
-Message-Id: <20211213072115.18098-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pN73UJTcYa5JOMyuK9jaetarpbkD/7IbNdXwxXj6+68=;
+ b=sgBg7pdOl+th95ZG4OAykQQ7DMqvYawe4HKXJoBwx0menlXBVcSlHxivTVZBd5wsx7
+ tvfK26270mMfQqO+dUXmWLHsntBIgGqxftkobM24VBk2Q+pzZyAmg//yzykulyUNOwFS
+ W7vd7x4qeK6p72f0qEMKWAOHtKDR1pWIaQ/fh74xEu47olAx1IUeS+IzV6bcuBkPMo5r
+ nsL9iCjb8xiRc6/pFwOiJbeqKGo418UvogZmW6YiZwOl73Wkbv/T9329zKUWyg6YNv5i
+ 37HyjSN6j5s3U6OqwcgnnLMaccc/2zH6hqU6UmyxFzfQ8RY3d/wRMvby2eGP+7mg+oah
+ vXKQ==
+X-Gm-Message-State: AOAM530e10EYH5JLgkmnNodtyqZ/3HA4Y54zNEWPde2uXjggERH66bDq
+ XuUO5Jkpw0gO6aolpvsa6LtKItqfxfk4ClzoX1O8Gg==
+X-Google-Smtp-Source: ABdhPJxw/ioRoR157XgseUrw3c7HP3415u2sCKveQYQIo5zuO0Szx6eTkqgdfeHqipoMc7JlvROjw072kWhrEWww0PA=
+X-Received: by 2002:a92:c64f:: with SMTP id 15mr31217790ill.231.1639380882685; 
+ Sun, 12 Dec 2021 23:34:42 -0800 (PST)
+MIME-Version: 1.0
+References: <20211108100608.22401-1-xiazhengqiao@huaqin.corp-partner.google.com>
+In-Reply-To: <20211108100608.22401-1-xiazhengqiao@huaqin.corp-partner.google.com>
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+Date: Mon, 13 Dec 2021 15:34:16 +0800
+Message-ID: <CAJMQK-jTRt7OSkfCEmUBvC=2_dDo8vRC0awjJ4Jc+rzHFRUqzg@mail.gmail.com>
+Subject: Re: [RESEND] drm/panel: Add inx Himax8279d MIPI-DSI LCD panel driver
+To: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,33 +58,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linmq006@gmail.com, David Airlie <airlied@linux.ie>,
- Liviu Dudau <liviu.dudau@arm.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, thierry.reding@gmail.com, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The get_sg_table() function does not return NULL.
-It returns error pointers.
+On Mon, Nov 8, 2021 at 10:06 AM xiazhengqiao
+<xiazhengqiao@huaqin.corp-partner.google.com> wrote:
+>
+> Add STARRY 2081101QFH032011-53G 10.1" WUXGA TFT LCD panel
+>
+> Signed-off-by: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
 
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
- drivers/gpu/drm/arm/malidp_planes.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Tested-by: Hsin-Yi Wang <hsinyi@chromium.org>
 
-diff --git a/drivers/gpu/drm/arm/malidp_planes.c b/drivers/gpu/drm/arm/malidp_planes.c
-index 0562bdaac00c..2ef8feae8c4e 100644
---- a/drivers/gpu/drm/arm/malidp_planes.c
-+++ b/drivers/gpu/drm/arm/malidp_planes.c
-@@ -348,7 +348,7 @@ static bool malidp_check_pages_threshold(struct malidp_plane_state *ms,
- 		else
- 			sgt = obj->funcs->get_sg_table(obj);
- 
--		if (!sgt)
-+		if (IS_ERR(sgt))
- 			return false;
- 
- 		sgl = sgt->sgl;
--- 
-2.17.1
+Tested with a mt8183 katsu board [1] which uses this panel.
 
+[1] https://patchwork.kernel.org/project/linux-mediatek/patch/20211213072355.4079568-1-hsinyi@chromium.org/
+
+> ---
+>  drivers/gpu/drm/panel/Kconfig                 |   9 +
+>  drivers/gpu/drm/panel/Makefile                |   1 +
+>  .../gpu/drm/panel/panel-innolux-himax8279d.c  | 515 ++++++++++++++++++
+>  3 files changed, 525 insertions(+)
+>  create mode 100644 drivers/gpu/drm/panel/panel-innolux-himax8279d.c
+>
+> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+> index 2cb8eba76af8..dcf04c32f6ae 100644
+> --- a/drivers/gpu/drm/panel/Kconfig
+> +++ b/drivers/gpu/drm/panel/Kconfig
+> @@ -167,6 +167,15 @@ config DRM_PANEL_INNOLUX_EJ030NA
+>            320x480 3.0" panel as found in the RS97 V2.1, RG300(non-ips)
+>            and LDK handheld gaming consoles.
+>
+<snip>
