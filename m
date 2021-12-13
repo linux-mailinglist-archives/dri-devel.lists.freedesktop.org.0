@@ -1,57 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9FE14737FF
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 23:51:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A090D47386D
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 00:27:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32D4B10E88D;
-	Mon, 13 Dec 2021 22:51:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B732C10E8A6;
+	Mon, 13 Dec 2021 23:27:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com
- [209.85.210.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D32A110E88D
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 22:51:07 +0000 (UTC)
-Received: by mail-ot1-f49.google.com with SMTP id
- u18-20020a9d7212000000b00560cb1dc10bso19030873otj.11
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 14:51:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=TXNuhThSZzYh5dHlQEsy87eUYOOCcMvcopbthlMlzi0=;
- b=jFpiASBD4k7dHE9IWRVyiBOI+Gx536eox1eF7PHbbDe4Z7uq2M4lkYYb88oMbEFE1Q
- GDbroW2agHYyQDUDx79Bu60UgNCm8czxZQxY+DV+oDwTTiz9yRJkH8aBGAF7vaVIgzdl
- M/8jImeO4oWdr07wJSMGoAs7sOBZEVO3f/KFWn5JiKRo3zeq5HVvEvBKiLVzdam4nB1c
- /naWMFZvcvQ5pW0oWI0LaqKKf371FnXwvwZObdf717A2f3H5hZqbdM2nTKBhDmuhGtkT
- ru4PZB3qBqDJW1zTFZf1ipn27xmJCI9tZ6h/EXjINNKCuelitJZg4htsdcCsLPfZVdFV
- 6f1w==
-X-Gm-Message-State: AOAM533eVcLSTUhtyIhVTCwlxQZurL6bWNHpnIqdPVeV56mjxflqPxw9
- tKD3upXMWm02nLpeLsUgQg==
-X-Google-Smtp-Source: ABdhPJxCfZL3SzReunSYLPdv6bxyyePW0yFhigNTzi/mCZehsa7+8nCDGdg/U+lRD5jiU+CUp/zDpg==
-X-Received: by 2002:a9d:77d1:: with SMTP id w17mr1156068otl.329.1639435867068; 
- Mon, 13 Dec 2021 14:51:07 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id e4sm1490630oiy.12.2021.12.13.14.51.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Dec 2021 14:51:06 -0800 (PST)
-Received: (nullmailer pid 1725465 invoked by uid 1000);
- Mon, 13 Dec 2021 22:51:05 -0000
-Date: Mon, 13 Dec 2021 16:51:05 -0600
-From: Rob Herring <robh@kernel.org>
-To: Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-Subject: Re: [PATCH] dt-bindings: convert power domain node for rockchip DW
- MIPI DSI
-Message-ID: <YbfOWXZJAZDuEU1V@robh.at.kernel.org>
-References: <20211206212651.126405-1-david@ixit.cz> <26502781.jAYDHVeSjN@diego>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50A3910E8A6
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 23:27:43 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 862336127D
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 23:27:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBBC4C34601
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 23:27:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1639438062;
+ bh=5C4sKIJkDWnzqKi1DVmCPmhnZw+GJklmGaruVVfz/Us=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=DBDel3/b09B8MAqmRBftelzSWrRT0Fao0eN26+VIkmotRWYIz9khngk3zMQAFpFsV
+ UYPQ34xdcNQ9gN+St3ISrhi1cqpiX3jmEdbr/bKqhB2WUv75keiYb6Bahe+8refa+b
+ ok9Zb07gfwxi6+7FyO6MPnNttYlk2r+fAj/VE7nq5Z0M9uv/49R6Hg5iOhzHHJU9g4
+ t1AORzAOdrDkXo1HjPiQiRaim0tBjxnTYBNvBZzVyX+eRiVLAuj4z8KQvaX26Tniec
+ hmN53tFmQb/Wos2aIwoNYwbtPiLIBUCo6YbKWBXO2lpv7JSzNsU8QMfh7db7ykd81r
+ OyJpLvOHBnyLg==
+Received: by mail-ed1-f45.google.com with SMTP id r11so56559358edd.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 15:27:41 -0800 (PST)
+X-Gm-Message-State: AOAM530/xRJtpwju9KVT7UMLbOaPuZbiBe8MUaPDf4Iz8aAQYk35bZKc
+ va2ae+qt3CWxHN934bhstpkhGhTwwSOW+obiSQ==
+X-Google-Smtp-Source: ABdhPJwLnov5UNyZv+LEB38x0lFU1vvX2PYYVOPjAuD4tUbrtVO8ogqV6SxarYFeSUJAf2ZA8cFBGfsyhuXRPtjbOVk=
+X-Received: by 2002:a17:906:9b82:: with SMTP id
+ dd2mr1644254ejc.406.1639438060292; 
+ Mon, 13 Dec 2021 15:27:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <26502781.jAYDHVeSjN@diego>
+References: <20211027162806.2014022-1-markyacoub@chromium.org>
+ <20211213160742.744333-1-markyacoub@chromium.org>
+In-Reply-To: <20211213160742.744333-1-markyacoub@chromium.org>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Tue, 14 Dec 2021 07:27:52 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_81KaSEWAqTWgzmshDZ9BefO3pNrqQwWbB01E4L0+mqzg@mail.gmail.com>
+Message-ID: <CAAOTY_81KaSEWAqTWgzmshDZ9BefO3pNrqQwWbB01E4L0+mqzg@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/mediatek: Set the default value of rotation to
+ DRM_MODE_ROTATE_0
+To: Mark Yacoub <markyacoub@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,57 +62,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: - <opensource@rock-chips.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Sandy Huang <hjc@rock-chips.com>,
- David Heidelberg <david@ixit.cz>, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org,
- ~okias/devicetree@lists.sr.ht, linux-arm-kernel@lists.infradead.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
+ Jason-JH Lin <jason-jh.lin@mediatek.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>, tzungbi@google.com,
+ Sean Paul <seanpaul@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Dec 11, 2021 at 11:55:58AM +0100, Heiko Stübner wrote:
-> Hi David,
-> 
-> Am Montag, 6. Dezember 2021, 22:26:50 CET schrieb David Heidelberg:
-> > Convert into YAML format into format, which can be validated.
-> > 
-> > Changes:
-> >  - drop panel from example
-> 
-> the patch subject is strange, talking about a "power domain node".
-> That needs a fix.
-> 
-> Some more things below.
-> 
-> 
-> > +properties:
-> > +  compatible:
-> > +    oneOf:
-> > +      - items:
-> > +          - enum:
-> > +              - rockchip,px30-mipi-dsi
-> > +              - rockchip,rk3288-mipi-dsi
-> > +              - rockchip,rk3399-mipi-dsi
-> > +          - const: snps,dw-mipi-dsi
-> 
-> > +      - items:
-> > +          - const: rockchip,px30-mipi-dsi
-> > +      - items:
-> > +          - const: rockchip,rk3288-mipi-dsi
-> > +      - items:
-> > +          - const: rockchip,rk3399-mipi-dsi
-> 
-> what are these for?
-> 
-> I see that px30 uses the dsi without the snps part, but you
-> can also just add a patch adding that second compatible to px30.dtsi
+Hi, Mark:
 
-Or drop snps,dw-mipi-dsi as it doesn't seem to be all that meaningful. 
-But I guess that's more invasive so maybe stick with changing px30.
+Mark Yacoub <markyacoub@chromium.org> =E6=96=BC 2021=E5=B9=B412=E6=9C=8814=
+=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8A=E5=8D=8812:08=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+>
+> At the reset hook, call __drm_atomic_helper_plane_reset which is
+> called at the initialization of the plane and sets the default value of
+> rotation on all planes to DRM_MODE_ROTATE_0 which is equal to 1.
 
-> 
-> I don't think we need to support both ways.
+Applied to mediatek-drm-next [1], thanks.
 
-Agreed.
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-next
 
-Rob
+Regards,
+Chun-Kuang.
+
+>
+> Tested on Jacuzzi (MTK).
+> Resolves IGT@kms_properties@plane-properties-{legacy,atomic}
+>
+> Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_drm_plane.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm/m=
+ediatek/mtk_drm_plane.c
+> index e6dcb34d30522..accd26481b9fb 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+> @@ -44,9 +44,10 @@ static void mtk_plane_reset(struct drm_plane *plane)
+>                 state =3D kzalloc(sizeof(*state), GFP_KERNEL);
+>                 if (!state)
+>                         return;
+> -               plane->state =3D &state->base;
+>         }
+>
+> +       __drm_atomic_helper_plane_reset(plane, &state->base);
+> +
+>         state->base.plane =3D plane;
+>         state->pending.format =3D DRM_FORMAT_RGB565;
+>  }
+> --
+> 2.34.1.173.g76aa8bc2d0-goog
+>
