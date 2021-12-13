@@ -2,38 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C5EE4733BE
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 19:16:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60B3F4733C1
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 19:16:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38E2510E839;
-	Mon, 13 Dec 2021 18:16:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7314810E83C;
+	Mon, 13 Dec 2021 18:16:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC8D610E837;
- Mon, 13 Dec 2021 18:16:32 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10197"; a="218810302"
-X-IronPort-AV: E=Sophos;i="5.88,203,1635231600"; d="scan'208";a="218810302"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2021 10:16:32 -0800
-X-IronPort-AV: E=Sophos;i="5.88,203,1635231600"; d="scan'208";a="517862130"
-Received: from dlita-mobl2.ger.corp.intel.com (HELO intel.com) ([10.252.53.92])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2021 10:16:28 -0800
-Date: Mon, 13 Dec 2021 20:16:25 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [PATCH RESEND v7 11/12] drm/i915: Use to_gt() helper for GGTT
- accesses
-Message-ID: <YbeN+WRnQhfLDOSf@intel.intel>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B71A10E80F;
+ Mon, 13 Dec 2021 18:16:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1639419409; x=1670955409;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=lF3eyOacuv6NU3Y/Ctvg/p1Nfy9aDZQOQDk7w8muoHs=;
+ b=iNyY43WJWsUBDy/p0wnscgOccqI2L4ptC9IJfTb4JOqbRZW1c2Kw4WJ6
+ E+zMghhPMrKCmAsWwqgm8TDC2/SK1rgJk6GuAEyzVrUuj0S8aPmoceStt
+ fMUmJVwCjbkt8MpWiLsgDLtOUJj6gVO6CiEJDeizUlvRzAVAYamQ0U4ci
+ sLR4yXjyCRXI1zhE1rI0Q3DoRwSACrBygvHlp0IHuLGDvQnxRnuzilLjT
+ kQj73mYWS4FI0tG5R3W+xL0OOqgnwtuqRgjDD4ug2jvaMVzxewd7xYWD5
+ btZxTdalZJTimtkduYaHxGijcffyY3pj1vyaZ1x+TS9ign9/P/JIJD7BB w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10197"; a="299577138"
+X-IronPort-AV: E=Sophos;i="5.88,203,1635231600"; d="scan'208";a="299577138"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Dec 2021 10:16:49 -0800
+X-IronPort-AV: E=Sophos;i="5.88,203,1635231600"; d="scan'208";a="464741168"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Dec 2021 10:16:48 -0800
+Date: Mon, 13 Dec 2021 10:16:47 -0800
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+Subject: Re: [PATCH RESEND v7 12/12] drm/i915: Move the GGTT from i915
+ private data to the GT
+Message-ID: <20211213181647.GK2219399@mdroper-desk1.amr.corp.intel.com>
 References: <20211212152117.118428-1-andi.shyti@linux.intel.com>
- <20211212152117.118428-12-andi.shyti@linux.intel.com>
- <20211213181053.GJ2219399@mdroper-desk1.amr.corp.intel.com>
+ <20211212152117.118428-13-andi.shyti@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211213181053.GJ2219399@mdroper-desk1.amr.corp.intel.com>
+In-Reply-To: <20211212152117.118428-13-andi.shyti@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,45 +59,49 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
- Andi Shyti <andi@etezian.org>, Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
  Lucas De Marchi <lucas.demarchi@intel.com>,
  DRI Devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Andi Shyti <andi.shyti@linux.intel.com>
+ Chris Wilson <chris@chris-wilson.co.uk>, Andi Shyti <andi@etezian.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matt,
+On Sun, Dec 12, 2021 at 05:21:17PM +0200, Andi Shyti wrote:
+> GGTT was available both through i915->ggtt and gt->ggtt, and we
+> eventually want to get rid of the i915->ggtt one.
+> Move the GGTT from i915 to gt and use to_gt() for accesssing the
+> ggtt.
+> 
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Cc: Matt Roper <matthew.d.roper@intel.com>
+> ---
+...
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+> index 14216cc471b1..02fc7641b82e 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+> @@ -69,7 +69,7 @@ enum intel_submission_method {
+>  struct intel_gt {
+>  	struct drm_i915_private *i915;
+>  	struct intel_uncore *uncore;
+> -	struct i915_ggtt *ggtt;
+> +	struct i915_ggtt ggtt;
+>  
+>  	struct intel_uc uc;
+>  
 
-> > diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-> > index 95174938b160..2619bb17b6eb 100644
-> > --- a/drivers/gpu/drm/i915/i915_driver.c
-> > +++ b/drivers/gpu/drm/i915/i915_driver.c
-> > @@ -571,6 +571,8 @@ static int i915_driver_hw_probe(struct drm_i915_private *dev_priv)
-> >  
-> >  	i915_perf_init(dev_priv);
-> >  
-> > +	intel_gt_init_hw_early(to_gt(dev_priv), to_gt(dev_priv)->ggtt);
-> 
-> intel_gt_init_hw_early is defined as
-> 
->         void intel_gt_init_hw_early(struct intel_gt *gt, struct i915_ggtt *ggtt)
->         {
->                 gt->ggtt = ggtt;
->         }
-> 
-> so this call is now essentially doing
-> 
->         to_gt(dev_priv)->ggtt = to_gt(dev_priv)->ggtt
-> 
-> which isn't what you intended.  It might be better to just drop the
-> function completely and instead assign the gt's ggtt pointer here to a
-> drmm_kzalloc() dynamic allocation.
+I'm not sure this is the direction we want to go.  Although it works for
+the initial multi-tile support, there's some other stuff coming up soon
+that will require two intel_gt's to share the same ggtt rather than
+each having an independent one.
 
-ehehe... yes, I actually had this fixed (in mock device it's
-indeed correct), but I might have brought it back by mistake.
-Thanks for noticing it.
 
-The next patch removes it.
+Matt
 
-Andi
+-- 
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
+(916) 356-2795
