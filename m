@@ -2,70 +2,165 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9483F472383
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 10:07:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7174472386
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 10:09:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D770310E38F;
-	Mon, 13 Dec 2021 09:07:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 099EB10E46D;
+	Mon, 13 Dec 2021 09:09:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 574 seconds by postgrey-1.36 at gabe;
- Mon, 13 Dec 2021 09:07:35 UTC
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C33D10E28D
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 09:07:35 +0000 (UTC)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1BD85p53007337;
- Mon, 13 Dec 2021 09:57:58 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=subject : to :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=SeZDBFVaRDbxNKpAz/6sNDYoE6Cy11vIthxzbtG3n/E=;
- b=3twl9z0/8PmZf2fK15a5ruSE1VqhnbmZINcPTEK9JhNECNZVx6Jecz6zv4FE9dc88hP+
- 9Mqv9wdEbWc1yLqoNm51wsmRWHJjmuZnMsSKlrWl9wP2bR74CZ02+JNhTNGWC6CmUzaI
- R/CYSo782bpuEI5zJin4xZWSP/dPL3xUe23erKZWZLEQctHNk/6aX3bnP4fGnc8sseNZ
- csW/11XJ1CVmsTIMRJixUiY7fFaxww10IapuDm3nRKz3NnA3Y34x+rVi5cFpMBFzkite
- GzXgdQJOO8m40ewwl33cwweclI7vHIq+dA4BHF1Vg/7tJlFJfMYyypDKSUafcQoG+4HY XA== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3cx2c709s8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Dec 2021 09:57:58 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id A243110002A;
- Mon, 13 Dec 2021 09:57:57 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9958522685D;
- Mon, 13 Dec 2021 09:57:57 +0100 (CET)
-Received: from lmecxl0557.lme.st.com (10.75.127.47) by SFHDAG2NODE2.st.com
- (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.26; Mon, 13 Dec
- 2021 09:57:56 +0100
-Subject: Re: [PATCH] drm/stm: ltdc: support of new hardware version
-To: Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
- <philippe.cornu@foss.st.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre
- Torgue <alexandre.torgue@foss.st.com>, <dri-devel@lists.freedesktop.org>,
- <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-References: <20211203085618.11314-1-yannick.fertre@foss.st.com>
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-Message-ID: <57a01b8e-a894-09d1-523b-dd77f38783e6@foss.st.com>
-Date: Mon, 13 Dec 2021 09:57:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-MIME-Version: 1.0
-In-Reply-To: <20211203085618.11314-1-yannick.fertre@foss.st.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E66A10E46D
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 09:09:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1639386547; x=1670922547;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=tOXYKgkynKn9UTRXP+m0BwD3+0jUK7cuIJnKmbi27JM=;
+ b=Z0Z+KgTIJT5QGtGgHBCNAc14VrMYDgxw6W981CqgcBGqo1yE+BnDO+YU
+ KtL3RqwpvcTn7z2VKmliev92Wybmr3g7BfQDzlTnxnXJvyFkUuf1QB2FL
+ 8sT5OFWnSm2CkITrYpxPw81WThGIMm2ZsCPyjMWfeZdJbceFqDucZxm7+
+ Lc6I8CxO069u86b/v7RQ2s5WXff+pSXiY+GneRPpdjjw9Lhep543grSXA
+ lsE+UjioMSZbHPMlMIxf1JziFS3YjuIGXe6mgN0pyj1soFv2cJLosJlDO
+ I0jtEtogs69NlFBcd5CstXYXR4Pn4wVBHtz9AEAkrDc8wlXoUVpWncJ6P g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10196"; a="238508400"
+X-IronPort-AV: E=Sophos;i="5.88,202,1635231600"; d="scan'208";a="238508400"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Dec 2021 01:09:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,202,1635231600"; d="scan'208";a="463315088"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by orsmga003.jf.intel.com with ESMTP; 13 Dec 2021 01:09:06 -0800
+Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Mon, 13 Dec 2021 01:09:06 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20 via Frontend Transport; Mon, 13 Dec 2021 01:09:06 -0800
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.47) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.20; Mon, 13 Dec 2021 01:09:04 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OiNCenEYYuWGHXHA1CRARu7pOQmZMXTMGTrr55c0dqnZ+7IvP+GIMvrh/TkQFHrTjeN78YZXE2MNcFjD/vFwF2UpYeRfrblrNqHteXGreDgfdhE4AluRt54c5qtdV32YWtSfFwETpsXVN3gOxgY/rBEF9HnWSuG/kIOfAi4afTBuZPYmD3QyUceOx5ogyeRSsDalvAgcIF/XQcPittm8tYS68itNsYG2yMUYfIWULp+EsSC3p0xtCNmpKAwWxi5R4j9Z80SlX8i4sY89rbm5Alou73nulhp+1M/tnv0cHgm0AxJw+L8cfFEO7bVuUXbMDls4rflpRKsdZqEDDLG4ug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=h9JzsVsJFIW5KlCZZ+JOq17nB8G73yQAPHzwPwAlFwc=;
+ b=a1zLuuD4ISpRZO9fixaokZYQyjbo2jUfiZXgjXMmQF8stBClK3Z2IWwz4Ehp/j0uTxJJoMJna4+vCr/7WtItU046FvVRs9ZmeVK79HXirF/fW0RIvzVv55pU3t1LR19LRx8NN7Nri+SF6p1BvGk+ED4oAVq85T6rXN8S/+Ymcp/NyGQ+N6BXzrgnLnzsM3a+Aa1ByYSO38ZTMhTzgDxaMsLkzFi6qv+u+CDAhKmbq8tbCnlsO0JZ08UdYkyS4DuCO0LPVmXpg1QTfvwTABEpoBQW/FrpqO5qEexJxfIDRoGwOzy2bAu9bVyzVA6Lqkd+jdHW2vmnRXkpyTt9xy9lPQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=h9JzsVsJFIW5KlCZZ+JOq17nB8G73yQAPHzwPwAlFwc=;
+ b=EJR8EnPPXkkRtm1ELjJPFztlhxwR8wh0fwOIxdJmuRhrqTR7PYyQlgEdsmVdnBDhuhMlbf12WAmgVv94iKUWdTszZeAOywCJ31Nw4IfxIiRZzLOabPo9u6HhPwQ7S3NSoQl2k72qHd5RirqSvtIpBMY2257YgdWtFlReE1AAbno=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM6PR11MB3180.namprd11.prod.outlook.com (2603:10b6:5:9::13) by
+ DM4PR11MB5358.namprd11.prod.outlook.com (2603:10b6:5:395::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4778.17; Mon, 13 Dec 2021 09:09:03 +0000
+Received: from DM6PR11MB3180.namprd11.prod.outlook.com
+ ([fe80::a94a:21d4:f847:fda8]) by DM6PR11MB3180.namprd11.prod.outlook.com
+ ([fe80::a94a:21d4:f847:fda8%7]) with mapi id 15.20.4755.028; Mon, 13 Dec 2021
+ 09:09:03 +0000
+Message-ID: <0894ca20-71c8-0fbe-2ca4-70f42e5ed75d@intel.com>
+Date: Mon, 13 Dec 2021 10:08:57 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.4.0
+Subject: Re: [PATCH v3 2/7] drm: exynos: dsi: Use drm panel_bridge API
 Content-Language: en-US
-X-Originating-IP: [10.75.127.47]
-X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG2NODE2.st.com
- (10.75.127.5)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-13_03,2021-12-10_01,2021-12-02_01
+To: Jagan Teki <jagan@amarulasolutions.com>, Marek Szyprowski
+ <m.szyprowski@samsung.com>, Neil Armstrong <narmstrong@baylibre.com>, "Robert
+ Foss" <robert.foss@linaro.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Sam Ravnborg <sam@ravnborg.org>,
+ "Michael Nazzareno Trimarchi" <michael@amarulasolutions.com>, Inki Dae
+ <inki.dae@samsung.com>
+References: <20211212181416.3312656-1-jagan@amarulasolutions.com>
+ <20211212181416.3312656-3-jagan@amarulasolutions.com>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20211212181416.3312656-3-jagan@amarulasolutions.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO4P123CA0253.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:194::6) To DM6PR11MB3180.namprd11.prod.outlook.com
+ (2603:10b6:5:9::13)
+MIME-Version: 1.0
+Received: from [192.168.0.29] (88.156.143.198) by
+ LO4P123CA0253.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:194::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=) via Frontend Transport;
+ Mon, 13 Dec 2021 09:09:01 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e7bdd5f6-2b2c-495b-845f-08d9be183551
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5358:EE_
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-Microsoft-Antispam-PRVS: <DM4PR11MB5358DFFAA1B0719424A9A5D9EB749@DM4PR11MB5358.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: diHqa55y/Punqp7EylR1qc8o2o3DAuiFOWEHWS9ocVsukQXX/F4WTH02J/CFCEOsMzAuC6hb1pmzgoBufYgwPjkVPr/2LGv0QEwAYbaoFxlK0c1JS7XhDWGjt5yhrCw0W/uJTYkZIOOHJZy1J5kChkR6DNtXCULdBqDng10YGzj2atuLte5QFmVVL5wR9qt0fEr57K9orrD4qgVnE70joXfHSzMIoqDbh9LngSTlOXnQOwIxu4wL2w96+kzrlzfkXeRpAbCR/OfvXx3B+fqqhh5ZmcDbBrtRio0i7HGO1bX8ubMuSKWqIzNERQdxj2XbLXOSusg/ae971Zx3uYnm1ROuMA//SdTgcrzZZc0G7gipxY9UrHGQA8kTH6YhUz+W/0VRkVz/HIAzX9FKU1Rdi+fHeVjl+mv1V9kWMcBY5/ZmqpXxD4wfPiv+OPHhYC9WsmJvOUenWh7Us1z+4OPTwUhM6vuHiaGdiCJ/uH5GttzNhJ//hrubyMLtEIh/E9epW6KpenZimXG17W7iK7WPJjXVuQ0sL7eGRh+V3GrzzQGauacB7zEA/uc1OhbbMdG1aQqKdw96WlAx50Fh/7x/lyTE+WAmQVlNbZ0YrOtsAeTUMHz2QuJHSbJeziGjsRpYZgyTE2SG/Mn0tPj2z+wJCbf057ebdULaJ3mSk+huI7h1TByiY+L82MB6T/y5pztxdqeqFRoYEozKo7xM91DS04muNfRP3Qie6jOXHuQwPDA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR11MB3180.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(508600001)(66556008)(5660300002)(82960400001)(53546011)(31696002)(2906002)(8676002)(8936002)(36916002)(316002)(83380400001)(36756003)(956004)(38100700002)(2616005)(6666004)(16576012)(31686004)(26005)(66476007)(186003)(4326008)(44832011)(110136005)(86362001)(7416002)(6486002)(66946007)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d1B4NE03N25GRHlvV2NBcDVTYXFvQTRIV2hHRXIvZXQ4YTQ2bFJzdG5VNjdC?=
+ =?utf-8?B?UmF2R2pMOUY2VW81UmxveCtRaVdKTm5uVk5YMTExYUIzZ290czBYMElGaFFr?=
+ =?utf-8?B?SDBPU2FRVnllVnl5N1hGNGR2NjFyc09LMVpKbFJBQzJDK0NicU1zNGlJSGsx?=
+ =?utf-8?B?Q1FyODdMVEJSODNNbXp5dHJobWZIYnJuK0xPYU5LMUhvUHJoaHBEWkRveCt4?=
+ =?utf-8?B?UE9MbDQvdGhYcTVaYWNNL2xpRXlGQVRIeVUxM0dza0d3S21uMFNJU2tGYndR?=
+ =?utf-8?B?cVNBOWQrKzBZdEFzME5QNENqR01CZCtDUGZZWkIzdGZRT0tiRnd3NThaSkJq?=
+ =?utf-8?B?Qi9naWhWMml5Sndoc0RsS0pKQXRnWE42N1IxZkJFdUFqZTcwT1dwYjBXanZD?=
+ =?utf-8?B?VkFDamJUd3RlRXdqdUttdzdLc01hbFJtU1RmZmpQMzZ1d09kMWZ6cUNxQ0w1?=
+ =?utf-8?B?TkdQQ0VhZ3VmazhwMllxWDdKSWMyaTJvMk80QlRHanJoUU53MWcrR0pTVjVs?=
+ =?utf-8?B?dVZtNkdySlQ4SG5uSFdQOVZYclZRTSthRmN6dU5takJBUHFVZXE4SzR3cmd0?=
+ =?utf-8?B?ZmNoQzdUUjBUcXVVMko0VDVWbHNXTjhJQmtHdnJuQU92bmt5YUVjVVA0YlJT?=
+ =?utf-8?B?YmdRbkhoUVFzbWM0YjZ1YW0wcnErMzdISW1OVjBiWE02NzFLb1N5ZHU0Nzcy?=
+ =?utf-8?B?UlRxM1Y3Qm1GZW1jNVAwRzViNC9raXZnYkpRb1N1bWUvN1czNzU3ZGpKTG0w?=
+ =?utf-8?B?SnQ4RVUwMGYrMVcxeWRHbnRUZkI2dmg0WHhMekt1YmtGN2NkYkx5YWRBQ2ts?=
+ =?utf-8?B?ZlRLNjJYZjRTam1wczVzNEhHU2FkbjY1VVJURU1VdS92RnVmQ3haTVRpRG92?=
+ =?utf-8?B?K2tscjZtUGltZWRueERuRkxIbGhMUHo4WlM5bCs2d0l0NTBGRXFINko1UTRY?=
+ =?utf-8?B?WnZxTjZCRmVkeERQZllMdWhER1V0dEhLalpwZDdoSVhPZ0U5dHp6aGxsdCtJ?=
+ =?utf-8?B?MUJuUUlXSmJqai9jQ0lEMzdKTnczekJwNEZCeDdJMEpUYjVFYWZaamQ2SVQ0?=
+ =?utf-8?B?WUdCQlpUU09xRjlwQ21odS9PNDVLQUw4YlBlTDBWR2ZxTUkyaTQ1SXZqU0lH?=
+ =?utf-8?B?OGd3Z1Q1d1dFcnhPVExMUW94MzR5YkFzRjVDZkJGc2liL1krWDl3cnJiQ3dG?=
+ =?utf-8?B?TjU0YWozRGtXcmYvb2JDSitDRjZQdEV4VWxXV3dYZ01scUZOU0NUeU4yNHFX?=
+ =?utf-8?B?Y2RCcnV6Y1RyTmZoY2N0S2pFQlRhZUsyNFVxZTFVWFlzWUhNR1M3Vmo5ZU9i?=
+ =?utf-8?B?eU1yYndpR1E4UjJjYWIwR3pSRXFuYTJCV3M5R3FXNVRNU01xNmZjemtPVWhu?=
+ =?utf-8?B?Z2x3OTVLUkR5dHdjdi8rVzBjd044cmM5NGRMWkROVklwRGR3d05xYkFMYmJR?=
+ =?utf-8?B?dTZDYVBYT2pNNnk4b1VmZTF3L2JYdHJDMVkyeXlGTWVlVGtUZlNkRzJXTEFO?=
+ =?utf-8?B?c1V5TlBtSkhudmJ0WWN3alFLcmF6UlRlU3ZWT2NmVG5QRGlCUUZOZnZQTkVy?=
+ =?utf-8?B?dUdoS0NZZjlLK0hnaFNzVWJLbVN0eHdMU0RRM040ZHFBMmFXbXlmZlh0clAz?=
+ =?utf-8?B?SVZWNkJPSHc3aHdLNnlXbVJwYkg5aDVRYWppSjNIVHNrQlhvTmM1V0VhS0ND?=
+ =?utf-8?B?SXZvb0x3VFNZd2NzQVkzZUdTd3VnTXpuWXpFaUtycVJDeGxaNThlZkMyMUhM?=
+ =?utf-8?B?REZjcDdXdjVJbUtDZzAraEx4MXp6ZnorQUNrMFd6bXlpYmFBUHFzckhSOS9V?=
+ =?utf-8?B?K3orRjd0ZEwxVm14K3EzWldUekVkMTZKZEVrMUUzUkdwQm01YXNKN3ExaG8x?=
+ =?utf-8?B?Q3paQlFBSjk2clhJeVNSSHlMUGd1WEZ5R2dYSStTVitxQ293T0cydXhOK1FG?=
+ =?utf-8?B?OFBLdmpPa2dnL0Y1VllWY2RIWDRqK09KNmJibFBTclNkMEZZKzdTU2tLTHpt?=
+ =?utf-8?B?dk1VMHFhc0NmT21pM3VOeWtaQTJPNDB1WDdhZGZ3QkUzVTZXZzFMN0ZhenZk?=
+ =?utf-8?B?cENzV1kyc3Z4N3paNHpiWHNsTForblpOcW9jcC9CaE1LRGFXMW5COUI4LzhN?=
+ =?utf-8?B?RjViSzUvck4rSDUyMndFcnppeWpta09qVW1mVGNyYUhsRjNZaUtNckdJV0Yy?=
+ =?utf-8?Q?0W4tTorio/Uu56xO9+F6+xs=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7bdd5f6-2b2c-495b-845f-08d9be183551
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3180.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2021 09:09:03.4781 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8jwICiSL78ltKx1vJ3nPXG/1vtkxsABsR91EiQMR+UwOytSLI0rT4jvwOTIw7tezQQALJlNjvFW/hSOk4A0Nsw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5358
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,273 +173,309 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-amarula@amarulasolutions.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Yannick,
 
-
-Thank you for this patch.
-
-
-Tested-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com <mailto:raphael.gallais-pou@foss.st.com>>
-Reviewed-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com <mailto:raphael.gallais-pou@foss.st.com>>
-
-
-Regards,
-
-Raphaël Gallais-Pou
-
-
-On 12/3/21 9:56 AM, Yannick Fertre wrote:
-> Add support of new hardware version 0x40100.
+On 12.12.2021 19:14, Jagan Teki wrote:
+> Replace the manual panel handling code by a drm panel_bridge via
+> devm_drm_of_get_bridge().
 >
-> Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
+> Adding panel_bridge handling,
+>
+> - Drops drm_connector and related operations as drm_bridge_attach
+>    creates connector during attachment.
+>
+> - Drops panel pointer and iterate the bridge, so-that it can operate
+>    the normal bridge and panel_bridge in constitutive callbacks.
+>
+> This simplifies the driver and allows all components in the display
+> pipeline to be treated as bridges.
+>
+> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 > ---
->  drivers/gpu/drm/stm/ltdc.c | 172 ++++++++++++++++++++++++++++++-------
->  drivers/gpu/drm/stm/ltdc.h |   3 +-
->  2 files changed, 145 insertions(+), 30 deletions(-)
+> Changes for v3:
+> - fix port number
+> - add print for attached device
+> Changes for v2:
+> - new patch
 >
-> diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-> index dbdee954692a..c0619f372630 100644
-> --- a/drivers/gpu/drm/stm/ltdc.c
-> +++ b/drivers/gpu/drm/stm/ltdc.c
-> @@ -46,15 +46,15 @@
->  #define HWVER_10200 0x010200
->  #define HWVER_10300 0x010300
->  #define HWVER_20101 0x020101
-> +#define HWVER_40100 0x040100
->  
->  /*
->   * The address of some registers depends on the HW version: such registers have
-> - * an extra offset specified with reg_ofs.
-> + * an extra offset specified with layer_ofs.
->   */
-> -#define REG_OFS_NONE	0
-> -#define REG_OFS_4	4		/* Insertion of "Layer Conf. 2" reg */
-> -#define REG_OFS		(ldev->caps.reg_ofs)
-> -#define LAY_OFS		0x80		/* Register Offset between 2 layers */
-> +#define LAY_OFS_0	0x80
-> +#define LAY_OFS_1	0x100
-> +#define LAY_OFS	(ldev->caps.layer_ofs)
->  
->  /* Global register offsets */
->  #define LTDC_IDR	0x0000		/* IDentification */
-> @@ -75,29 +75,34 @@
->  #define LTDC_LIPCR	0x0040		/* Line Interrupt Position Conf. */
->  #define LTDC_CPSR	0x0044		/* Current Position Status */
->  #define LTDC_CDSR	0x0048		/* Current Display Status */
-> +#define LTDC_FUT	0x0090		/* Fifo underrun Threshold */
->  
->  /* Layer register offsets */
-> -#define LTDC_L1LC1R	(0x80)		/* L1 Layer Configuration 1 */
-> -#define LTDC_L1LC2R	(0x84)		/* L1 Layer Configuration 2 */
-> -#define LTDC_L1CR	(0x84 + REG_OFS)/* L1 Control */
-> -#define LTDC_L1WHPCR	(0x88 + REG_OFS)/* L1 Window Hor Position Config */
-> -#define LTDC_L1WVPCR	(0x8C + REG_OFS)/* L1 Window Vert Position Config */
-> -#define LTDC_L1CKCR	(0x90 + REG_OFS)/* L1 Color Keying Configuration */
-> -#define LTDC_L1PFCR	(0x94 + REG_OFS)/* L1 Pixel Format Configuration */
-> -#define LTDC_L1CACR	(0x98 + REG_OFS)/* L1 Constant Alpha Config */
-> -#define LTDC_L1DCCR	(0x9C + REG_OFS)/* L1 Default Color Configuration */
-> -#define LTDC_L1BFCR	(0xA0 + REG_OFS)/* L1 Blend Factors Configuration */
-> -#define LTDC_L1FBBCR	(0xA4 + REG_OFS)/* L1 FrameBuffer Bus Control */
-> -#define LTDC_L1AFBCR	(0xA8 + REG_OFS)/* L1 AuxFB Control */
-> -#define LTDC_L1CFBAR	(0xAC + REG_OFS)/* L1 Color FrameBuffer Address */
-> -#define LTDC_L1CFBLR	(0xB0 + REG_OFS)/* L1 Color FrameBuffer Length */
-> -#define LTDC_L1CFBLNR	(0xB4 + REG_OFS)/* L1 Color FrameBuffer Line Nb */
-> -#define LTDC_L1AFBAR	(0xB8 + REG_OFS)/* L1 AuxFB Address */
-> -#define LTDC_L1AFBLR	(0xBC + REG_OFS)/* L1 AuxFB Length */
-> -#define LTDC_L1AFBLNR	(0xC0 + REG_OFS)/* L1 AuxFB Line Number */
-> -#define LTDC_L1CLUTWR	(0xC4 + REG_OFS)/* L1 CLUT Write */
-> -#define LTDC_L1YS1R	(0xE0 + REG_OFS)/* L1 YCbCr Scale 1 */
-> -#define LTDC_L1YS2R	(0xE4 + REG_OFS)/* L1 YCbCr Scale 2 */
-> +#define LTDC_L1C0R	(ldev->caps.layer_regs[0])	/* L1 configuration 0 */
-> +#define LTDC_L1C1R	(ldev->caps.layer_regs[1])	/* L1 configuration 1 */
-> +#define LTDC_L1RCR	(ldev->caps.layer_regs[2])	/* L1 reload control */
-> +#define LTDC_L1CR	(ldev->caps.layer_regs[3])	/* L1 control register */
-> +#define LTDC_L1WHPCR	(ldev->caps.layer_regs[4])	/* L1 window horizontal position configuration */
-> +#define LTDC_L1WVPCR	(ldev->caps.layer_regs[5])	/* L1 window vertical position configuration */
-> +#define LTDC_L1CKCR	(ldev->caps.layer_regs[6])	/* L1 color keying configuration */
-> +#define LTDC_L1PFCR	(ldev->caps.layer_regs[7])	/* L1 pixel format configuration */
-> +#define LTDC_L1CACR	(ldev->caps.layer_regs[8])	/* L1 constant alpha configuration */
-> +#define LTDC_L1DCCR	(ldev->caps.layer_regs[9])	/* L1 default color configuration */
-> +#define LTDC_L1BFCR	(ldev->caps.layer_regs[10])	/* L1 blending factors configuration */
-> +#define LTDC_L1BLCR	(ldev->caps.layer_regs[11])	/* L1 burst length configuration */
-> +#define LTDC_L1PCR	(ldev->caps.layer_regs[12])	/* L1 planar configuration */
-> +#define LTDC_L1CFBAR	(ldev->caps.layer_regs[13])	/* L1 color frame buffer address */
-> +#define LTDC_L1CFBLR	(ldev->caps.layer_regs[14])	/* L1 color frame buffer length */
-> +#define LTDC_L1CFBLNR	(ldev->caps.layer_regs[15])	/* L1 color frame buffer line number */
-> +#define LTDC_L1AFBA0R	(ldev->caps.layer_regs[16])	/* L1 auxiliary frame buffer address 0 */
-> +#define LTDC_L1AFBA1R	(ldev->caps.layer_regs[17])	/* L1 auxiliary frame buffer address 1 */
-> +#define LTDC_L1AFBLR	(ldev->caps.layer_regs[18])	/* L1 auxiliary frame buffer length */
-> +#define LTDC_L1AFBLNR	(ldev->caps.layer_regs[19])	/* L1 auxiliary frame buffer line number */
-> +#define LTDC_L1CLUTWR	(ldev->caps.layer_regs[20])	/* L1 CLUT write */
-> +#define LTDC_L1CYR0R	(ldev->caps.layer_regs[21])	/* L1 Conversion YCbCr RGB 0 */
-> +#define LTDC_L1CYR1R	(ldev->caps.layer_regs[22])	/* L1 Conversion YCbCr RGB 1 */
-> +#define LTDC_L1FPF0R	(ldev->caps.layer_regs[23])	/* L1 Flexible Pixel Format 0 */
-> +#define LTDC_L1FPF1R	(ldev->caps.layer_regs[24])	/* L1 Flexible Pixel Format 1 */
->  
->  /* Bit definitions */
->  #define SSCR_VSH	GENMASK(10, 0)	/* Vertical Synchronization Height */
-> @@ -208,7 +213,10 @@ enum ltdc_pix_fmt {
->  	/* Indexed formats */
->  	PF_L8,			/* Indexed 8 bits [8 bits] */
->  	PF_AL44,		/* Alpha:4 bits + indexed 4 bits [8 bits] */
-> -	PF_AL88			/* Alpha:8 bits + indexed 8 bits [16 bits] */
-> +	PF_AL88,		/* Alpha:8 bits + indexed 8 bits [16 bits] */
-> +	PF_ABGR8888,		/* ABGR [32 bits] */
-> +	PF_BGRA8888,		/* BGRA [32 bits] */
-> +	PF_BGR565		/* RGB [16 bits] */
->  };
->  
->  /* The index gives the encoding of the pixel format for an HW version */
-> @@ -234,6 +242,102 @@ static const enum ltdc_pix_fmt ltdc_pix_fmt_a1[NB_PF] = {
->  	PF_ARGB4444		/* 0x07 */
->  };
->  
-> +static const enum ltdc_pix_fmt ltdc_pix_fmt_a2[NB_PF] = {
-> +	PF_ARGB8888,		/* 0x00 */
-> +	PF_ABGR8888,		/* 0x01 */
-> +	PF_RGBA8888,		/* 0x02 */
-> +	PF_BGRA8888,		/* 0x03 */
-> +	PF_RGB565,		/* 0x04 */
-> +	PF_BGR565,		/* 0x05 */
-> +	PF_RGB888,		/* 0x06 */
-> +	PF_ARGB1555		/* 0x07 */
+>   drivers/gpu/drm/exynos/exynos_drm_dsi.c | 165 ++++--------------------
+>   1 file changed, 26 insertions(+), 139 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+> index 0bb44e476633..d1039628b6f2 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+> @@ -221,6 +221,11 @@ enum exynos_dsi_transfer_type {
+>   	EXYNOS_DSI_RX,
+>   };
+>   
+> +enum {
+> +	DSI_PORT_IN,
+> +	DSI_PORT_OUT
 > +};
 > +
-> +/* Layer register offsets */
-> +static const u32 ltdc_layer_regs_a0[] = {
-> +	0x80,	/* L1 configuration 0 */
-> +	0x00,	/* not available */
-> +	0x00,	/* not available */
-> +	0x84,	/* L1 control register */
-> +	0x88,	/* L1 window horizontal position configuration */
-> +	0x8c,	/* L1 window vertical position configuration */
-> +	0x90,	/* L1 color keying configuration */
-> +	0x94,	/* L1 pixel format configuration */
-> +	0x98,	/* L1 constant alpha configuration */
-> +	0x9c,	/* L1 default color configuration */
-> +	0xa0,	/* L1 blending factors configuration */
-> +	0x00,	/* not available */
-> +	0x00,	/* not available */
-> +	0xac,	/* L1 color frame buffer address */
-> +	0xb0,	/* L1 color frame buffer length */
-> +	0xb4,	/* L1 color frame buffer line number */
-> +	0x00,	/* not available */
-> +	0x00,	/* not available */
-> +	0x00,	/* not available */
-> +	0x00,	/* not available */
-> +	0xc4,	/* L1 CLUT write */
-> +	0x00,	/* not available */
-> +	0x00,	/* not available */
-> +	0x00,	/* not available */
-> +	0x00	/* not available */
-> +};
+>   struct exynos_dsi_transfer {
+>   	struct list_head list;
+>   	struct completion completed;
+> @@ -254,8 +259,6 @@ struct exynos_dsi_driver_data {
+>   struct exynos_dsi {
+>   	struct drm_encoder encoder;
+>   	struct mipi_dsi_host dsi_host;
+> -	struct drm_connector connector;
+> -	struct drm_panel *panel;
+>   	struct list_head bridge_chain;
+>   	struct drm_bridge *out_bridge;
+>   	struct device *dev;
+> @@ -285,7 +288,6 @@ struct exynos_dsi {
+>   };
+>   
+>   #define host_to_dsi(host) container_of(host, struct exynos_dsi, dsi_host)
+> -#define connector_to_dsi(c) container_of(c, struct exynos_dsi, connector)
+>   
+>   static inline struct exynos_dsi *encoder_to_dsi(struct drm_encoder *e)
+>   {
+> @@ -1391,42 +1393,21 @@ static void exynos_dsi_enable(struct drm_encoder *encoder)
+>   
+>   	dsi->state |= DSIM_STATE_ENABLED;
+>   
+> -	if (dsi->panel) {
+> -		ret = drm_panel_prepare(dsi->panel);
+> -		if (ret < 0)
+> -			goto err_put_sync;
+> -	} else {
+> -		list_for_each_entry_reverse(iter, &dsi->bridge_chain,
+> -					    chain_node) {
+> -			if (iter->funcs->pre_enable)
+> -				iter->funcs->pre_enable(iter);
+> -		}
+> +	list_for_each_entry_reverse(iter, &dsi->bridge_chain, chain_node) {
+> +		if (iter->funcs->pre_enable)
+> +			iter->funcs->pre_enable(iter);
+>   	}
+>   
+>   	exynos_dsi_set_display_mode(dsi);
+>   	exynos_dsi_set_display_enable(dsi, true);
+>   
+> -	if (dsi->panel) {
+> -		ret = drm_panel_enable(dsi->panel);
+> -		if (ret < 0)
+> -			goto err_display_disable;
+> -	} else {
+> -		list_for_each_entry(iter, &dsi->bridge_chain, chain_node) {
+> -			if (iter->funcs->enable)
+> -				iter->funcs->enable(iter);
+> -		}
+> +	list_for_each_entry(iter, &dsi->bridge_chain, chain_node) {
+> +		if (iter->funcs->enable)
+> +			iter->funcs->enable(iter);
+>   	}
+>   
+>   	dsi->state |= DSIM_STATE_VIDOUT_AVAILABLE;
+>   	return;
+> -
+> -err_display_disable:
+> -	exynos_dsi_set_display_enable(dsi, false);
+> -	drm_panel_unprepare(dsi->panel);
+> -
+> -err_put_sync:
+> -	dsi->state &= ~DSIM_STATE_ENABLED;
+> -	pm_runtime_put(dsi->dev);
+>   }
+>   
+>   static void exynos_dsi_disable(struct drm_encoder *encoder)
+> @@ -1439,17 +1420,12 @@ static void exynos_dsi_disable(struct drm_encoder *encoder)
+>   
+>   	dsi->state &= ~DSIM_STATE_VIDOUT_AVAILABLE;
+>   
+> -	if (dsi->panel)
+> -		drm_panel_disable(dsi->panel);
+> -
+>   	list_for_each_entry_reverse(iter, &dsi->bridge_chain, chain_node) {
+>   		if (iter->funcs->disable)
+>   			iter->funcs->disable(iter);
+>   	}
+>   
+>   	exynos_dsi_set_display_enable(dsi, false);
+> -	if (dsi->panel)
+> -		drm_panel_unprepare(dsi->panel);
+>   
+>   	list_for_each_entry(iter, &dsi->bridge_chain, chain_node) {
+>   		if (iter->funcs->post_disable)
+> @@ -1460,70 +1436,6 @@ static void exynos_dsi_disable(struct drm_encoder *encoder)
+>   	pm_runtime_put_sync(dsi->dev);
+>   }
+>   
+> -static enum drm_connector_status
+> -exynos_dsi_detect(struct drm_connector *connector, bool force)
+> -{
+> -	return connector->status;
+> -}
+> -
+> -static void exynos_dsi_connector_destroy(struct drm_connector *connector)
+> -{
+> -	drm_connector_unregister(connector);
+> -	drm_connector_cleanup(connector);
+> -	connector->dev = NULL;
+> -}
+> -
+> -static const struct drm_connector_funcs exynos_dsi_connector_funcs = {
+> -	.detect = exynos_dsi_detect,
+> -	.fill_modes = drm_helper_probe_single_connector_modes,
+> -	.destroy = exynos_dsi_connector_destroy,
+> -	.reset = drm_atomic_helper_connector_reset,
+> -	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+> -	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+> -};
+> -
+> -static int exynos_dsi_get_modes(struct drm_connector *connector)
+> -{
+> -	struct exynos_dsi *dsi = connector_to_dsi(connector);
+> -
+> -	if (dsi->panel)
+> -		return drm_panel_get_modes(dsi->panel, connector);
+> -
+> -	return 0;
+> -}
+> -
+> -static const struct drm_connector_helper_funcs exynos_dsi_connector_helper_funcs = {
+> -	.get_modes = exynos_dsi_get_modes,
+> -};
+> -
+> -static int exynos_dsi_create_connector(struct drm_encoder *encoder)
+> -{
+> -	struct exynos_dsi *dsi = encoder_to_dsi(encoder);
+> -	struct drm_connector *connector = &dsi->connector;
+> -	struct drm_device *drm = encoder->dev;
+> -	int ret;
+> -
+> -	connector->polled = DRM_CONNECTOR_POLL_HPD;
+> -
+> -	ret = drm_connector_init(drm, connector, &exynos_dsi_connector_funcs,
+> -				 DRM_MODE_CONNECTOR_DSI);
+> -	if (ret) {
+> -		DRM_DEV_ERROR(dsi->dev,
+> -			      "Failed to initialize connector with drm\n");
+> -		return ret;
+> -	}
+> -
+> -	connector->status = connector_status_disconnected;
+> -	drm_connector_helper_add(connector, &exynos_dsi_connector_helper_funcs);
+> -	drm_connector_attach_encoder(connector, encoder);
+> -	if (!drm->registered)
+> -		return 0;
+> -
+> -	connector->funcs->reset(connector);
+> -	drm_connector_register(connector);
+> -	return 0;
+> -}
+> -
+>   static const struct drm_encoder_helper_funcs exynos_dsi_encoder_helper_funcs = {
+>   	.enable = exynos_dsi_enable,
+>   	.disable = exynos_dsi_disable,
+> @@ -1537,31 +1449,20 @@ static int exynos_dsi_host_attach(struct mipi_dsi_host *host,
+>   	struct exynos_dsi *dsi = host_to_dsi(host);
+>   	struct drm_encoder *encoder = &dsi->encoder;
+>   	struct drm_device *drm = encoder->dev;
+> -	struct drm_bridge *out_bridge;
+> -
+> -	out_bridge  = of_drm_find_bridge(device->dev.of_node);
+> -	if (out_bridge) {
+> -		drm_bridge_attach(encoder, out_bridge, NULL, 0);
+> -		dsi->out_bridge = out_bridge;
+> -		list_splice_init(&encoder->bridge_chain, &dsi->bridge_chain);
+> -	} else {
+> -		int ret = exynos_dsi_create_connector(encoder);
+> -
+> -		if (ret) {
+> -			DRM_DEV_ERROR(dsi->dev,
+> -				      "failed to create connector ret = %d\n",
+> -				      ret);
+> -			drm_encoder_cleanup(encoder);
+> -			return ret;
+> -		}
+> +	int ret;
+>   
+> -		dsi->panel = of_drm_find_panel(device->dev.of_node);
+> -		if (IS_ERR(dsi->panel))
+> -			dsi->panel = NULL;
+> -		else
+> -			dsi->connector.status = connector_status_connected;
+> +	dsi->out_bridge = devm_drm_of_get_bridge(dsi->dev, dsi->dev->of_node, DSI_PORT_OUT, 0);
+> +	if (IS_ERR(dsi->out_bridge)) {
+> +		ret = PTR_ERR(dsi->out_bridge);
+> +		DRM_DEV_ERROR(dsi->dev, "failed to find the bridge: %d\n", ret);
+> +		return ret;
+>   	}
+>   
+> +	DRM_DEV_INFO(dsi->dev, "Attached %s device\n", device->name);
 > +
-> +static const u32 ltdc_layer_regs_a1[] = {
-> +	0x80,	/* L1 configuration 0 */
-> +	0x84,	/* L1 configuration 1 */
-> +	0x00,	/* L1 reload control */
-> +	0x88,	/* L1 control register */
-> +	0x8c,	/* L1 window horizontal position configuration */
-> +	0x90,	/* L1 window vertical position configuration */
-> +	0x94,	/* L1 color keying configuration */
-> +	0x98,	/* L1 pixel format configuration */
-> +	0x9c,	/* L1 constant alpha configuration */
-> +	0xa0,	/* L1 default color configuration */
-> +	0xa4,	/* L1 blending factors configuration */
-> +	0xa8,	/* L1 burst length configuration */
-> +	0x00,	/* not available */
-> +	0xac,	/* L1 color frame buffer address */
-> +	0xb0,	/* L1 color frame buffer length */
-> +	0xb4,	/* L1 color frame buffer line number */
-> +	0xb8,	/* L1 auxiliary frame buffer address 0 */
-> +	0xbc,	/* L1 auxiliary frame buffer address 1 */
-> +	0xc0,	/* L1 auxiliary frame buffer length */
-> +	0xc4,	/* L1 auxiliary frame buffer line number */
-> +	0xc8,	/* L1 CLUT write */
-> +	0x00,	/* not available */
-> +	0x00,	/* not available */
-> +	0x00,	/* not available */
-> +	0x00	/* not available */
-> +};
+> +	drm_bridge_attach(encoder, dsi->out_bridge, NULL, 0);
+> +	list_splice_init(&encoder->bridge_chain, &dsi->bridge_chain);
 > +
-> +static const u32 ltdc_layer_regs_a2[] = {
-> +	0x100,	/* L1 configuration 0 */
-> +	0x104,	/* L1 configuration 1 */
-> +	0x108,	/* L1 reload control */
-> +	0x10c,	/* L1 control register */
-> +	0x110,	/* L1 window horizontal position configuration */
-> +	0x114,	/* L1 window vertical position configuration */
-> +	0x118,	/* L1 color keying configuration */
-> +	0x11c,	/* L1 pixel format configuration */
-> +	0x120,	/* L1 constant alpha configuration */
-> +	0x124,	/* L1 default color configuration */
-> +	0x128,	/* L1 blending factors configuration */
-> +	0x12c,	/* L1 burst length configuration */
-> +	0x130,	/* L1 planar configuration */
-> +	0x134,	/* L1 color frame buffer address */
-> +	0x138,	/* L1 color frame buffer length */
-> +	0x13c,	/* L1 color frame buffer line number */
-> +	0x140,	/* L1 auxiliary frame buffer address 0 */
-> +	0x144,	/* L1 auxiliary frame buffer address 1 */
-> +	0x148,	/* L1 auxiliary frame buffer length */
-> +	0x14c,	/* L1 auxiliary frame buffer line number */
-> +	0x150,	/* L1 CLUT write */
-> +	0x16c,	/* L1 Conversion YCbCr RGB 0 */
-> +	0x170,	/* L1 Conversion YCbCr RGB 1 */
-> +	0x174,	/* L1 Flexible Pixel Format 0 */
-> +	0x178	/* L1 Flexible Pixel Format 1 */
-> +};
-> +
->  static const u64 ltdc_format_modifiers[] = {
->  	DRM_FORMAT_MOD_LINEAR,
->  	DRM_FORMAT_MOD_INVALID
-> @@ -1158,7 +1262,8 @@ static int ltdc_get_caps(struct drm_device *ddev)
->  	switch (ldev->caps.hw_version) {
->  	case HWVER_10200:
->  	case HWVER_10300:
-> -		ldev->caps.reg_ofs = REG_OFS_NONE;
-> +		ldev->caps.layer_ofs = LAY_OFS_0;
-> +		ldev->caps.layer_regs = ltdc_layer_regs_a0;
->  		ldev->caps.pix_fmt_hw = ltdc_pix_fmt_a0;
->  		/*
->  		 * Hw older versions support non-alpha color formats derived
-> @@ -1174,12 +1279,21 @@ static int ltdc_get_caps(struct drm_device *ddev)
->  		ldev->caps.nb_irq = 2;
->  		break;
->  	case HWVER_20101:
-> -		ldev->caps.reg_ofs = REG_OFS_4;
-> +		ldev->caps.layer_ofs = LAY_OFS_0;
-> +		ldev->caps.layer_regs = ltdc_layer_regs_a1;
->  		ldev->caps.pix_fmt_hw = ltdc_pix_fmt_a1;
->  		ldev->caps.non_alpha_only_l1 = false;
->  		ldev->caps.pad_max_freq_hz = 150000000;
->  		ldev->caps.nb_irq = 4;
->  		break;
-> +	case HWVER_40100:
-> +		ldev->caps.layer_ofs = LAY_OFS_1;
-> +		ldev->caps.layer_regs = ltdc_layer_regs_a2;
-> +		ldev->caps.pix_fmt_hw = ltdc_pix_fmt_a2;
-> +		ldev->caps.non_alpha_only_l1 = false;
-> +		ldev->caps.pad_max_freq_hz = 90000000;
-> +		ldev->caps.nb_irq = 2;
-> +		break;
->  	default:
->  		return -ENODEV;
->  	}
-> diff --git a/drivers/gpu/drm/stm/ltdc.h b/drivers/gpu/drm/stm/ltdc.h
-> index f153b908c70e..55a125f89af6 100644
-> --- a/drivers/gpu/drm/stm/ltdc.h
-> +++ b/drivers/gpu/drm/stm/ltdc.h
-> @@ -14,7 +14,8 @@
->  struct ltdc_caps {
->  	u32 hw_version;		/* hardware version */
->  	u32 nb_layers;		/* number of supported layers */
-> -	u32 reg_ofs;		/* register offset for applicable regs */
-> +	u32 layer_ofs;		/* layer offset for applicable regs */
-> +	const u32 *layer_regs;	/* layer register offset */
->  	u32 bus_width;		/* bus width (32 or 64 bits) */
->  	const u32 *pix_fmt_hw;	/* supported pixel formats */
->  	bool non_alpha_only_l1; /* non-native no-alpha formats on layer 1 */
+>   	/*
+>   	 * This is a temporary solution and should be made by more generic way.
+>   	 *
+> @@ -1569,7 +1470,7 @@ static int exynos_dsi_host_attach(struct mipi_dsi_host *host,
+>   	 * TE interrupt handler.
+>   	 */
+>   	if (!(device->mode_flags & MIPI_DSI_MODE_VIDEO)) {
+> -		int ret = exynos_dsi_register_te_irq(dsi, &device->dev);
+> +		ret = exynos_dsi_register_te_irq(dsi, &device->dev);
+>   		if (ret)
+>   			return ret;
+>   	}
+> @@ -1596,18 +1497,9 @@ static int exynos_dsi_host_detach(struct mipi_dsi_host *host,
+>   	struct exynos_dsi *dsi = host_to_dsi(host);
+>   	struct drm_device *drm = dsi->encoder.dev;
+>   
+> -	if (dsi->panel) {
+> -		mutex_lock(&drm->mode_config.mutex);
+> -		exynos_dsi_disable(&dsi->encoder);
+> -		dsi->panel = NULL;
+> -		dsi->connector.status = connector_status_disconnected;
+> -		mutex_unlock(&drm->mode_config.mutex);
+> -	} else {
+> -		if (dsi->out_bridge->funcs->detach)
+> -			dsi->out_bridge->funcs->detach(dsi->out_bridge);
+> -		dsi->out_bridge = NULL;
+> -		INIT_LIST_HEAD(&dsi->bridge_chain);
+> -	}
+> +	if (dsi->out_bridge->funcs->detach)
+> +		dsi->out_bridge->funcs->detach(dsi->out_bridge);
+> +	INIT_LIST_HEAD(&dsi->bridge_chain);
+
+
+This is fishy. Currently the only bridge used with exynos_dsi (tc358764) 
+on detach callback unregisters/puts the connector it has created.
+
+With this code panel_bridge on detach will call drm_connector_cleanup, 
+which will WARN about unregistered connector - ie it assumes detach 
+should be called at least AFTER unregistration of exynos_drm device (???).
+
+Since panel/bridge unbind in general case is not handled properly maybe 
+it is not an issue :)
+
+
+Regards
+
+Andrzej
+
+
+>   
+>   	if (drm->mode_config.poll_enabled)
+>   		drm_kms_helper_hotplug_event(drm);
+> @@ -1663,11 +1555,6 @@ static int exynos_dsi_of_read_u32(const struct device_node *np,
+>   	return ret;
+>   }
+>   
+> -enum {
+> -	DSI_PORT_IN,
+> -	DSI_PORT_OUT
+> -};
+> -
+>   static int exynos_dsi_parse_dt(struct exynos_dsi *dsi)
+>   {
+>   	struct device *dev = dsi->dev;
