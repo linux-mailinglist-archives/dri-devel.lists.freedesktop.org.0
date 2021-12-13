@@ -1,63 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77ED6472707
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 10:59:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6332247270B
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 10:59:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA73510E6F8;
-	Mon, 13 Dec 2021 09:59:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8803110E711;
+	Mon, 13 Dec 2021 09:59:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D11C10E6F8
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 09:59:07 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 1E97C212B5;
- Mon, 13 Dec 2021 09:59:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1639389546; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FgFiLzjgbXLZxTBe4GEz5aIIqbjYxRyytqqqX3mrDuE=;
- b=ZK9OuRFsw7ZuOWNC41adF8WxDztCAH4n/XqZRkfySE7WDRHZbdeLxgui1+bBRo/U3MjCWs
- c8o6/9UTEFK9gQcwMJbZE4CVWESxg/rA8qqCysBwLmgIxsB0xc1LATPUaNZbhlFuBhkjB7
- fCKwtzpfMAcpjPwL6Zopao5kxSS8vR8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1639389546;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FgFiLzjgbXLZxTBe4GEz5aIIqbjYxRyytqqqX3mrDuE=;
- b=15MXXOfulmPEK8kcXwxrFsBqD0ENkARPnbaOAOtgPszH8LdEu1/Hy0pb9pwVVcBDlyTmJM
- ump/CoWRrgcopPBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EF6E213BB2;
- Mon, 13 Dec 2021 09:59:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 3OliOWkZt2GwMQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 13 Dec 2021 09:59:05 +0000
-Message-ID: <c1006921-19b4-4cd4-2522-4d83af575ff7@suse.de>
-Date: Mon, 13 Dec 2021 10:59:05 +0100
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 680B210E62C;
+ Mon, 13 Dec 2021 09:59:25 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10196"; a="324970232"
+X-IronPort-AV: E=Sophos;i="5.88,202,1635231600"; d="scan'208";a="324970232"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Dec 2021 01:59:25 -0800
+X-IronPort-AV: E=Sophos;i="5.88,202,1635231600"; d="scan'208";a="566495206"
+Received: from ppolasze-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.20.7])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Dec 2021 01:59:20 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, airlied@linux.ie, daniel@ffwll.ch
+Subject: Re: [Intel-gfx] [PATCH 2/3] drm/dp: Move DP declarations into
+ separate header file
+In-Reply-To: <20211213093650.19598-3-tzimmermann@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20211213093650.19598-1-tzimmermann@suse.de>
+ <20211213093650.19598-3-tzimmermann@suse.de>
+Date: Mon, 13 Dec 2021 11:59:18 +0200
+Message-ID: <87v8zs7rm1.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH] drm/ast: potential dereference of null pointer
-Content-Language: en-US
-To: Jiasheng Jiang <jiasheng@iscas.ac.cn>, airlied@redhat.com,
- airlied@linux.ie, daniel@ffwll.ch
-References: <20211213053912.2167066-1-jiasheng@iscas.ac.cn>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20211213053912.2167066-1-jiasheng@iscas.ac.cn>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------vgdy448xJ8wWkFJTMzeIyPCX"
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,76 +47,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-msm@vger.kernel.org,
+ linux-tegra@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------vgdy448xJ8wWkFJTMzeIyPCX
-Content-Type: multipart/mixed; boundary="------------SLQLno00Mmt0cNjfmolt8nGu";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jiasheng Jiang <jiasheng@iscas.ac.cn>, airlied@redhat.com,
- airlied@linux.ie, daniel@ffwll.ch
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Message-ID: <c1006921-19b4-4cd4-2522-4d83af575ff7@suse.de>
-Subject: Re: [PATCH] drm/ast: potential dereference of null pointer
-References: <20211213053912.2167066-1-jiasheng@iscas.ac.cn>
-In-Reply-To: <20211213053912.2167066-1-jiasheng@iscas.ac.cn>
+On Mon, 13 Dec 2021, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> Split the DP declarations from other helpers before moving the
+> DP functions into a separate module.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/drm_crtc_helper_internal.h | 27 ---------------------
+>  drivers/gpu/drm/drm_dp_aux_dev.c           |  2 +-
+>  drivers/gpu/drm/drm_dp_helper.c            |  2 +-
+>  drivers/gpu/drm/drm_dp_helper_internal.h   | 28 ++++++++++++++++++++++
+>  drivers/gpu/drm/drm_dp_mst_topology.c      |  2 +-
+>  drivers/gpu/drm/drm_kms_helper_common.c    |  1 +
+>  6 files changed, 32 insertions(+), 30 deletions(-)
+>  create mode 100644 drivers/gpu/drm/drm_dp_helper_internal.h
+>
+> diff --git a/drivers/gpu/drm/drm_crtc_helper_internal.h b/drivers/gpu/drm/drm_crtc_helper_internal.h
+> index 61e09f8a8d0f..28e04e750130 100644
+> --- a/drivers/gpu/drm/drm_crtc_helper_internal.h
+> +++ b/drivers/gpu/drm/drm_crtc_helper_internal.h
+> @@ -28,36 +28,9 @@
+>  
+>  #include <drm/drm_connector.h>
+>  #include <drm/drm_crtc.h>
+> -#include <drm/drm_dp_helper.h>
+>  #include <drm/drm_encoder.h>
+>  #include <drm/drm_modes.h>
+>  
+> -/* drm_dp_aux_dev.c */
+> -#ifdef CONFIG_DRM_DP_AUX_CHARDEV
+> -int drm_dp_aux_dev_init(void);
+> -void drm_dp_aux_dev_exit(void);
+> -int drm_dp_aux_register_devnode(struct drm_dp_aux *aux);
+> -void drm_dp_aux_unregister_devnode(struct drm_dp_aux *aux);
+> -#else
+> -static inline int drm_dp_aux_dev_init(void)
+> -{
+> -	return 0;
+> -}
+> -
+> -static inline void drm_dp_aux_dev_exit(void)
+> -{
+> -}
+> -
+> -static inline int drm_dp_aux_register_devnode(struct drm_dp_aux *aux)
+> -{
+> -	return 0;
+> -}
+> -
+> -static inline void drm_dp_aux_unregister_devnode(struct drm_dp_aux *aux)
+> -{
+> -}
+> -#endif
+> -
+>  /* drm_probe_helper.c */
+>  enum drm_mode_status drm_crtc_mode_valid(struct drm_crtc *crtc,
+>  					 const struct drm_display_mode *mode);
+> diff --git a/drivers/gpu/drm/drm_dp_aux_dev.c b/drivers/gpu/drm/drm_dp_aux_dev.c
+> index 06b374cae956..0618dfe16660 100644
+> --- a/drivers/gpu/drm/drm_dp_aux_dev.c
+> +++ b/drivers/gpu/drm/drm_dp_aux_dev.c
+> @@ -40,7 +40,7 @@
+>  #include <drm/drm_dp_mst_helper.h>
+>  #include <drm/drm_print.h>
+>  
+> -#include "drm_crtc_helper_internal.h"
+> +#include "drm_dp_helper_internal.h"
+>  
+>  struct drm_dp_aux_dev {
+>  	unsigned index;
+> diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+> index 23f9073bc473..e995a0262ed7 100644
+> --- a/drivers/gpu/drm/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/drm_dp_helper.c
+> @@ -35,7 +35,7 @@
+>  #include <drm/drm_dp_mst_helper.h>
+>  #include <drm/drm_panel.h>
+>  
+> -#include "drm_crtc_helper_internal.h"
+> +#include "drm_dp_helper_internal.h"
+>  
+>  struct dp_aux_backlight {
+>  	struct backlight_device *base;
+> diff --git a/drivers/gpu/drm/drm_dp_helper_internal.h b/drivers/gpu/drm/drm_dp_helper_internal.h
+> new file mode 100644
+> index 000000000000..5c9f8bb0c99a
+> --- /dev/null
+> +++ b/drivers/gpu/drm/drm_dp_helper_internal.h
+> @@ -0,0 +1,28 @@
+> +/* SPDX-License-Identifier: MIT */
+> +
+> +#include <drm/drm_dp_helper.h>
 
---------------SLQLno00Mmt0cNjfmolt8nGu
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Please don't include other headers if you can avoid them by using
+forward declarations.
 
-SGksDQoNCnRoYW5rcyBmb3IgdGhlIHBhdGNoLg0KDQpBbSAxMy4xMi4yMSB1bSAwNjozOSBz
-Y2hyaWViIEppYXNoZW5nIEppYW5nOg0KPiBoZSByZXR1cm4gdmFsdWUgb2Yga3phbGxvYygp
-IG5lZWRzIHRvIGJlIGNoZWNrZWQuDQoNCidUaGUnDQoNCj4gVG8gYXZvaWQgdXNlIG9mIG51
-bGwgcG9pbnRlciAnJmFzdF9zdGF0ZS0+YmFzZScgaW4gY2FzZSBvZiB0aGUNCj4gZmFpbHVy
-ZSBvZiBhbGxvYy4NCj4gDQo+IEZpeGVzOiBmMGFkYmMzODJiOGIgKCJkcm0vYXN0OiBBbGxv
-Y2F0ZSBpbml0aWFsIENSVEMgc3RhdGUgb2YgdGhlIGNvcnJlY3Qgc2l6ZSIpDQo+IFNpZ25l
-ZC1vZmYtYnk6IEppYXNoZW5nIEppYW5nIDxqaWFzaGVuZ0Bpc2Nhcy5hYy5jbj4NCj4gLS0t
-DQo+ICAgZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jIHwgMyArKy0NCj4gICAxIGZp
-bGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jIGIvZHJpdmVycy9ncHUv
-ZHJtL2FzdC9hc3RfbW9kZS5jDQo+IGluZGV4IDM2ZDk1NzVhYTI3Yi4uNjdmOGUzZjkwZWEy
-IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2RlLmMNCj4gKysr
-IGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jDQo+IEBAIC0xMTIwLDcgKzExMjAs
-OCBAQCBzdGF0aWMgdm9pZCBhc3RfY3J0Y19yZXNldChzdHJ1Y3QgZHJtX2NydGMgKmNydGMp
-DQo+ICAgCWlmIChjcnRjLT5zdGF0ZSkNCj4gICAJCWNydGMtPmZ1bmNzLT5hdG9taWNfZGVz
-dHJveV9zdGF0ZShjcnRjLCBjcnRjLT5zdGF0ZSk7DQo+ICAgDQo+IC0JX19kcm1fYXRvbWlj
-X2hlbHBlcl9jcnRjX3Jlc2V0KGNydGMsICZhc3Rfc3RhdGUtPmJhc2UpOw0KPiArCWlmIChh
-c3Rfc3RhdGUpDQo+ICsJCV9fZHJtX2F0b21pY19oZWxwZXJfY3J0Y19yZXNldChjcnRjLCAm
-YXN0X3N0YXRlLT5iYXNlKTsNCg0KSWYgYXN0X3N0YXRlIGlzIE5VTEwsIF9fZHJtX2F0b21p
-Y19oZWxwZXJfY3J0Y19yZXNldCgpIGhhcyB0byBiZSBjYWxsZWQgDQp3aXRoIGEgc3RhdGUg
-b2YgTlVMTC4gT3RoZXJ3aXNlIHRoZSByZXNldCBtaWdodCBsZWF2ZSB0aGUgZGFuZ2xpbmcg
-DQpwb2ludGVyIGluIHRoZSBDUlRDJ3Mgc3RhdGUgZmllbGQuDQoNCkJlc3QgcmVnYXJkcw0K
-VGhvbWFzDQoNCj4gICB9DQo+ICAgDQo+ICAgc3RhdGljIHN0cnVjdCBkcm1fY3J0Y19zdGF0
-ZSAqDQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2
-ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRz
-dHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5i
-ZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+BR,
+Jani.
 
---------------SLQLno00Mmt0cNjfmolt8nGu--
 
---------------vgdy448xJ8wWkFJTMzeIyPCX
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> +
+> +#ifdef CONFIG_DRM_DP_AUX_CHARDEV
+> +int drm_dp_aux_dev_init(void);
+> +void drm_dp_aux_dev_exit(void);
+> +int drm_dp_aux_register_devnode(struct drm_dp_aux *aux);
+> +void drm_dp_aux_unregister_devnode(struct drm_dp_aux *aux);
+> +#else
+> +static inline int drm_dp_aux_dev_init(void)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline void drm_dp_aux_dev_exit(void)
+> +{
+> +}
+> +
+> +static inline int drm_dp_aux_register_devnode(struct drm_dp_aux *aux)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline void drm_dp_aux_unregister_devnode(struct drm_dp_aux *aux)
+> +{
+> +}
+> +#endif
+> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+> index 7f0ff96261cf..9f7b0b606924 100644
+> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> @@ -45,7 +45,7 @@
+>  #include <drm/drm_print.h>
+>  #include <drm/drm_probe_helper.h>
+>  
+> -#include "drm_crtc_helper_internal.h"
+> +#include "drm_dp_helper_internal.h"
+>  #include "drm_dp_mst_topology_internal.h"
+>  
+>  /**
+> diff --git a/drivers/gpu/drm/drm_kms_helper_common.c b/drivers/gpu/drm/drm_kms_helper_common.c
+> index 47e92400548d..88260d26409c 100644
+> --- a/drivers/gpu/drm/drm_kms_helper_common.c
+> +++ b/drivers/gpu/drm/drm_kms_helper_common.c
+> @@ -29,6 +29,7 @@
+>  
+>  #include <drm/drm_print.h>
+>  
+> +#include "drm_dp_helper_internal.h"
+>  #include "drm_crtc_helper_internal.h"
+>  
+>  MODULE_AUTHOR("David Airlie, Jesse Barnes");
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmG3GWkFAwAAAAAACgkQlh/E3EQov+De
-zxAAnQjDWB6NElK8HofBKdqK3FhOM7r+wyTdOpOrW3w6wvpy4PGLaRIV6/rsW4OIno0fMYKeFvsr
-tXUllbM2fEj2RS0trzrmBINwC6jTPRHEgKgYFDOk1T98y+yJ3giSH+7l6pLrNSuE5ZKv4Bs2yBFA
-G6NOnwiaImByy23+Te2c1ZI0y1rwh2QtB+HvEVyEATJI0553ELdyWORKg6PvjccRiptwLzfC8W54
-Qo/UixE9aGCl/4zu518fpe7dYtPHdFCXihRlXd9Ok5x2Jb9+cNXH3B+zACGNWF/hugHCAQfmCLg3
-Go6nJWlISYp+L4Toil+b6VsP1t1TGpvDt/CFui8kcutOZOFPXuomyOmufsLVclSWgHPKVOc0Evcx
-wZzVDTKR4lySoTQJ3mmLscBN1gNUKdI3/wtBDLaid5i+8MgAPXABgx8sELILeKrn/K4fDeRBNOru
-sdnUFc8s8vrVswKW8FFp+OJ0zld0mZsk5bm28YC1ZwM92dta+ZNPLezafq1N21z4ALCj6uXBds1O
-RK4Sda3fib5bFAQMe2cbPznGQJiudm8Yy/61hzvLLN4T0FgU/f8TSO0d8NJPxGj0o0OOgmnPJsDd
-92+i/rARU/aOkO6xBnDDK1Q+IYMwxaENE1RqlbHOnLq+Uwrl2H29wM9hdX56sEdm+3ncOP69DZiF
-Aeo=
-=msep
------END PGP SIGNATURE-----
-
---------------vgdy448xJ8wWkFJTMzeIyPCX--
+-- 
+Jani Nikula, Intel Open Source Graphics Center
