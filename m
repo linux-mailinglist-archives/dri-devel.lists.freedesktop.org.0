@@ -1,41 +1,96 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 260FE4720E6
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 07:04:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 628C8472123
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 07:35:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 493E410EAD1;
-	Mon, 13 Dec 2021 06:04:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB25310EAC8;
+	Mon, 13 Dec 2021 06:35:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [IPv6:2a01:488:42:1000:50ed:8234::])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3820910EAD5
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 06:04:17 +0000 (UTC)
-Received: from ip4d173d4a.dynamic.kabel-deutschland.de ([77.23.61.74]
- helo=[192.168.66.200]); authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1mweRa-0005tn-Sf; Mon, 13 Dec 2021 07:04:14 +0100
-Message-ID: <8e1abb43-664b-5882-7c02-ef517c14fc94@leemhuis.info>
-Date: Mon, 13 Dec 2021 07:04:14 +0100
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2055.outbound.protection.outlook.com [40.107.220.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D07310E734;
+ Mon, 13 Dec 2021 06:35:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aZYKXOvKSAdeES6m3vNpb2mpHYaBvJfgFVLlNHbgPm29K3CfPupxouGXGIQmHRo4Gnl+nY+PMq+jdO6d3UR1J9pia3KCnsNQwSnDYg6KDKXOZZZgk++7BQlGN90KE2cxRQF6XJMIdv1FcRLRNmXB4GurE4MBRZrzTI5NCHacoDGTqyu3gjHLRUeE/ViKL9cBK8RalJDAhrYWJ+Zw5YcUXVVBE8QI4OfsdmElB1su24ABBvBSmpgnJlIGRrTEElfXyODR6x6TMFuP51MICL1+/6pkry3Q+zLAciphoGXrsgjat8YIUFydLB0KhzdGqrwoRH04YnNF0HR+jgdM39kFDg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OtFaLkXyIDaegFPZ1ycvUm7Tna4b2hyRVXN0VAM4SYE=;
+ b=PFLLSbOn6YR9ILz/NEvb1jtJ08EdhgDnO57FIKUFGbBZs149BC+XMjbTSDhMEDp+62JkDtFZg1umR+FSvM2g/UTu/9q3i+lNAnx2lAlooCAMnPBn6Xrx5Xcv6AsB0BFpzcwgZPqq8B5PmkafsdXObKJi8QmbpV7z707/lQDU7HZFdS14MzOiYDUGwctv/PzF0207ao13BpyYZg+JN2UC0wPyTfd8IAjEMD6hIdTTDOifhM0xjkQF4frRkQrHiBNxbieqSLizbKRHN/66vu9Zbdk5wGYGK2gu5xrgu8AHNFdvNdcZOI8Y83wRdOGQqqpneAxo5fq3i69wpyQM3wJlBw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OtFaLkXyIDaegFPZ1ycvUm7Tna4b2hyRVXN0VAM4SYE=;
+ b=vW0oj2M2ZZfCOiqv9mwbpN9ap0pDNf7yselfdqBSUb2wbzHXofjFdji0MxPw0HmpgMDGb0iJt7Ad/3leYDx8iwSdpIrIAkaE+7dRJ+VTNZ5VNDiPHHb8zwh68sRaDOZCzcOm69akVFoQoFvJiI2sG8Bh2vyJSjLUk/FfgpeBStA=
+Received: from DM5PR21CA0016.namprd21.prod.outlook.com (2603:10b6:3:ac::26) by
+ MN2PR12MB3325.namprd12.prod.outlook.com (2603:10b6:208:ce::13) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4778.17; Mon, 13 Dec 2021 06:35:00 +0000
+Received: from DM6NAM11FT018.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:3:ac:cafe::77) by DM5PR21CA0016.outlook.office365.com
+ (2603:10b6:3:ac::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.5 via Frontend
+ Transport; Mon, 13 Dec 2021 06:35:00 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com;
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ DM6NAM11FT018.mail.protection.outlook.com (10.13.172.110) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4778.13 via Frontend Transport; Mon, 13 Dec 2021 06:34:59 +0000
+Received: from hr-amd.amd.com (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Mon, 13 Dec
+ 2021 00:34:56 -0600
+From: Huang Rui <ray.huang@amd.com>
+To: <dri-devel@lists.freedesktop.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, "Sumit
+ Semwal" <sumit.semwal@linaro.org>
+Subject: [PATCH 1/3] dma-buf: make the flags can be configured during dma
+ fence init
+Date: Mon, 13 Dec 2021 14:34:20 +0800
+Message-ID: <20211213063422.2232155-1-ray.huang@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [Bug 215315] New: [REGRESSION BISECTED] amdgpu crashes system
- suspend - NUC8i7HVKVA
-Content-Language: en-BS
-To: bugzilla-daemon@bugzilla.kernel.org, dri-devel@lists.freedesktop.org,
- "regressions@lists.linux.dev" <regressions@lists.linux.dev>
-References: <bug-215315-2300@https.bugzilla.kernel.org/>
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-In-Reply-To: <bug-215315-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1639375457;
- 90c2d955; 
-X-HE-SMSGID: 1mweRa-0005tn-Sf
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB03.amd.com
+ (10.181.40.144)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 75041765-a86d-444e-c086-08d9be02af91
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3325:EE_
+X-Microsoft-Antispam-PRVS: <MN2PR12MB332542E459D14DF33673EDDAEC749@MN2PR12MB3325.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: vVecrs46S7J0or84IWwwun6frnIFPRwBwJ0bZeAiDFTV1VfI/Jk7h1/aUsz4tP890srgL8vTA+u1xA+tgv3jdHvNHA3X30GI3fqfVM6/Xwd4Oyp1+82JNuCyyQ5FAiVrrBNJIN/g0zIZFKEdVXkTHBKX6ict5KERdWpG4gIvZUCJyK+UvWWJ3AfR3P1kVtkS3DzpziWw30cDN/1igfm0ey1ASG5+A/52kZGWG2p10jxvwFIOmwKiCL4buMV9EoRirSV+Yks4cUSB8Luk7OEP+SzxHBppjeo7zn53fdogap/AuCRjWN4EdInNZSrloa1H+tmM32X/C+bL9guvL5QYIGKkuSfSGXL3s1a+15OIE3SXPuZoJ1yvV70YEPCr5DAvK5rXqEYXyL83mO2hIeAsXoD0jI40Yf91rfZqx0SsbyO01EZ8zYiBqun0XWhUAvr52lb76gMCiqgloDw9tEDW8OMrwNyyCAMs+cZ9KdKsZMzseEuKqccLvIlTkHfXvcPIGhLLd1xEjZxqEVoz3vXl467wzs6E+heEfyRqL9d/0BLfTl3+nHaZTJ8EAspekeiBCdu6XA6Cb3nUVP7hzS0khhyeI1eHzj2TCbwC7Y+TIQjoW7reRua3cM4ipVTLZ0c/gRms5rt60aNizz0riyMaMUR/lFYKY2mbZSNBGhV9Umv1ZmVFW8vRgOwpQSC33OGI8tAk1ZyHuGn5aDAHOAZvnMkHeszcViEYTNc41aC8AF7YgY73G+NvTOVGls//efdBhSqOS+rOC6BCEh+KjfT3pE6COwsmF2QBB5uRibcYPPQ=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(36840700001)(46966006)(40470700001)(70586007)(36860700001)(5660300002)(110136005)(54906003)(47076005)(40460700001)(316002)(81166007)(508600001)(4326008)(26005)(186003)(16526019)(70206006)(426003)(336012)(2616005)(6666004)(83380400001)(1076003)(8936002)(356005)(8676002)(86362001)(36756003)(82310400004)(2906002)(7696005)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2021 06:34:59.3631 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 75041765-a86d-444e-c086-08d9be02af91
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT018.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3325
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,129 +103,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Alex Deucher <alexander.deucher@amd.com>, Huang Rui <ray.huang@amd.com>,
+ Monk Liu <Monk.Liu@amd.com>, amd-gfx@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[TLDR: adding this regression to regzbot; most of this mail is compiled
-from a few templates paragraphs some of you might have seen already.]
+In some user scenarios, the get_timeline_name callback uses the flags to
+decide which way to return the timeline string name. Once the
+trace_dma_fence_init event is enabled, it will call get_timeline_name
+callback to dump the fence structure. However, at this moment, the flags
+are always 0, and it might trigger some issues in get_timeline_name
+callback implementation of different gpu driver. So make a member to
+initialize the flags in dma_fence_init().
 
-Hi, this is your Linux kernel regression tracker speaking.
+Signed-off-by: Huang Rui <ray.huang@amd.com>
+---
+ drivers/dma-buf/dma-fence.c | 2 +-
+ include/linux/dma-fence.h   | 7 +++++++
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-Top-posting for once, to make this easy accessible to everyone.
-
-Thanks for the report.
-
-Adding the regression mailing list to the list of recipients, as it
-should be in the loop for all regressions, as explained here:
-https://www.kernel.org/doc/html/latest/admin-guide/reporting-issues.html
-
-To be sure this issue doesn't fall through the cracks unnoticed, I'm
-adding it to regzbot, my Linux kernel regression tracking bot:
-
-#regzbot ^introduced f7d6779df642720e22bffd449e683bb8690bd3bf
-#regzbot title drm: amdgpu: NUC8i7HVKVA crashes during system suspend
-#regzbot link: https://bugzilla.kernel.org/show_bug.cgi?id=215315
-#regzbot ignore-activity
-
-Reminder: when fixing the issue, please add a 'Link:' tag with the URL
-to the report (the parent of this mail), then regzbot will automatically
-mark the regression as resolved once the fix lands in the appropriate
-tree. For more details about regzbot see footer.
-
-Sending this to everyone that got the initial report, to make all aware
-of the tracking. I also hope that messages like this motivate people to
-directly get at least the regression mailing list and ideally even
-regzbot involved when dealing with regressions, as messages like this
-wouldn't be needed then.
-
-Don't worry, I'll send further messages wrt to this regression just to
-the lists (with a tag in the subject so people can filter them away), as
-long as they are intended just for regzbot. With a bit of luck no such
-messages will be needed anyway.
-
-Ciao, Thorsten (wearing his 'Linux kernel regression tracker' hat).
-
-P.S.: As a Linux kernel regression tracker I'm getting a lot of reports
-on my table. I can only look briefly into most of them. Unfortunately
-therefore I sometimes will get things wrong or miss something important.
-I hope that's not the case here; if you think it is, don't hesitate to
-tell me about it in a public reply. That's in everyone's interest, as
-what I wrote above might be misleading to everyone reading this; any
-suggestion I gave thus might sent someone reading this down the wrong
-rabbit hole, which none of us wants.
-
-BTW, I have no personal interest in this issue, which is tracked using
-regzbot, my Linux kernel regression tracking bot
-(https://linux-regtracking.leemhuis.info/regzbot/). I'm only posting
-this mail to get things rolling again and hence don't need to be CC on
-all further activities wrt to this regression.
-
-
-On 13.12.21 00:08, bugzilla-daemon@bugzilla.kernel.org wrote:
-> https://bugzilla.kernel.org/show_bug.cgi?id=215315
-> 
->             Bug ID: 215315
->            Summary: [REGRESSION BISECTED] amdgpu crashes system suspend -
->                     NUC8i7HVKVA
->            Product: Drivers
->            Version: 2.5
->     Kernel Version: 5.15-rc1, 5.15, 5.16-rc4
->           Hardware: x86-64
->                 OS: Linux
->               Tree: Mainline
->             Status: NEW
->           Severity: normal
->           Priority: P1
->          Component: Video(DRI - non Intel)
->           Assignee: drivers_video-dri@kernel-bugs.osdl.org
->           Reporter: lenb@kernel.org
->         Regression: No
-> 
-> My Intel NUC8i7HVKVA has an AMD GPU.
-> 
-> Until 5.15-rc1, this machine was rock solid in suspend stress testing -- never
-> crashing after hundreds of hours of back-to-back suspend cycles.
-> 
-> Until this patch went upstream:
-> 
-> commit f7d6779df642720e22bffd449e683bb8690bd3bf (refs/bisect/bad)
-> Author: Guchun Chen <guchun.chen@amd.com>
-> Date:   Fri Aug 27 18:31:41 2021 +0800
-> 
->     drm/amdgpu: stop scheduler when calling hw_fini (v2)
-> 
->     This gurantees no more work on the ring can be submitted
->     to hardware in suspend/resume case, otherwise a potential
->     race will occur and the ring will get no chance to stay
->     empty before suspend.
-> 
->     v2: Call drm_sched_resubmit_job before drm_sched_start to
->     restart jobs from the pending list.
-> 
->     Suggested-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
->     Suggested-by: Christian König <christian.koenig@amd.com>
->     Signed-off-by: Guchun Chen <guchun.chen@amd.com>
->     Reviewed-by: Christian König <christian.koenig@amd.com>
->     Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
->     Cc: stable@vger.kernel.org
-> 
-> I bisected that the patch before this one was integrated can handle over 1,000
-> back-to-back "freeze" system suspend cycles.  Yet, when this patch is present,
-> the system may crash before it completes only 100 cycles, and at most lasts a
-> few hundred cycles.
-> 
-> This crash is present in all following upstream rc's, including 5.15-rc4.
-> 
-> When I revert this patch from 5.15-rc4, stability returns.
-> 
-> Usually, the crash is manifest by a black screen, and a system that does not
-> respond to ping, and will only respond to a long AC power button press to
-> remove power; and a subsequent cold reboot.
-> 
-> I have witnessed the crash occur, and the "ubuntu color themed" screen enters
-> some sort of reverse video mode.  In this weird color mode, I've seen a text
-> window oscillate between scrolling and un-scrolling for a line -- sort of like
-> it is going back in time, but then changes its mind.  There is no response to
-> keyboard, mouse, or network input.
-> 
+diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+index 066400ed8841..3e0622bf385f 100644
+--- a/drivers/dma-buf/dma-fence.c
++++ b/drivers/dma-buf/dma-fence.c
+@@ -952,7 +952,7 @@ dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+ 	fence->lock = lock;
+ 	fence->context = context;
+ 	fence->seqno = seqno;
+-	fence->flags = 0UL;
++	fence->flags = ops->init_flags;
+ 	fence->error = 0;
+ 
+ 	trace_dma_fence_init(fence);
+diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+index 1ea691753bd3..f9270c5bc07a 100644
+--- a/include/linux/dma-fence.h
++++ b/include/linux/dma-fence.h
+@@ -131,6 +131,13 @@ struct dma_fence_ops {
+ 	 */
+ 	bool use_64bit_seqno;
+ 
++	/**
++	 * @init_flags:
++	 *
++	 * The initial value of fence flags (A mask of DMA_FENCE_FLAG_* defined).
++	 */
++	unsigned long init_flags;
++
+ 	/**
+ 	 * @get_driver_name:
+ 	 *
+-- 
+2.25.1
 
