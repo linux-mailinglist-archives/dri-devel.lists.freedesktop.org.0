@@ -1,73 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8E2D472D7F
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 14:36:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDF64472DEE
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Dec 2021 14:51:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D65CF10E83F;
-	Mon, 13 Dec 2021 13:36:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF1BB10E80D;
+	Mon, 13 Dec 2021 13:51:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34CE310E7C7
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Dec 2021 13:36:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1639402599; x=1670938599;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=f0TcSdjQnv9GI4VZ9011XTyB+4bRaVnjqp87fSW/zWM=;
- b=cGQNy9dkxhUuKEOwMaVweihhWdC+HABEQUu9Mu01pzohhpeJONjsUQf0
- pOvuErltYjkeMqXI5TNQ7fpoLRNNOjSYJeHD2efpdgN58Qp4DSIKlyWhk
- Je3wXg/HTl+lzIUowGU8dTcIZhnsCaB0RjH85Hi5ichKNt1PZmeN4w8Ov
- 00FoAs3Tn5VkoxBfs4dDdqc1zREvST1TclTgfq42U6v9w0uoHVE+wK17A
- 9JvDBZoxu+rGBp12pPAsSHacPrWn/ICRvTnTl8hBB0E8XQYckfrbJuJAc
- e6payg6wwbDD04eVPHSPxK8A6ZSZD/daNc7Yo6hLpPuR1Q+OWbCZcwYpv A==;
-X-IronPort-AV: E=Sophos;i="5.88,202,1635199200"; d="scan'208";a="21012628"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
- by mx1-pgp.tq-group.com with ESMTP; 13 Dec 2021 14:36:35 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
- by tq-pgp-pr1.tq-net.de (PGP Universal service);
- Mon, 13 Dec 2021 14:36:35 +0100
-X-PGP-Universal: processed;
- by tq-pgp-pr1.tq-net.de on Mon, 13 Dec 2021 14:36:35 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1639402595; x=1670938595;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=f0TcSdjQnv9GI4VZ9011XTyB+4bRaVnjqp87fSW/zWM=;
- b=Dr2nCVGHANHuCzg4rh82qa6e9mJy9cG4zCKYc2jc+Gl3AwcoxnWERun6
- tLF+Ot7f9p2/pT2HAP8RrIrSJwor7mWBsKKDIkBpJy7YrofJpeTdr756V
- +IgxycZt29aTyf2NWe4jo/r5nsPPyk2Jwnap2W9L4+5X4hTHbw0q42ac/
- UdfoWf4yrM5zC+M0Czix8o5GH9/gMoMBlzxehRzw+6JHHqvPJ4oFGOSG7
- /G2ccplRJznAOlK8IcjIXAw5FXyMIif4xxJHkdTi9Y5bTscunAGcv1TdW
- NyFJHEhBclNJ6JumDk+12eSXOdqpuuVfNpqG3+HvEdEGTAi6Mfko3j7fT w==;
-X-IronPort-AV: E=Sophos;i="5.88,202,1635199200"; d="scan'208";a="21012627"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 13 Dec 2021 14:36:35 +0100
-Received: from steina-w.tq-net.de (unknown [10.123.49.12])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73B1010E7CE;
+ Mon, 13 Dec 2021 13:51:13 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id EEFF8280065;
- Mon, 13 Dec 2021 14:36:34 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v5 4/4] drm/bridge: ti-sn65dsi83: Add vcc supply regulator
- support
-Date: Mon, 13 Dec 2021 14:36:26 +0100
-Message-Id: <20211213133626.2498056-5-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211213133626.2498056-1-alexander.stein@ew.tq-group.com>
-References: <20211213133626.2498056-1-alexander.stein@ew.tq-group.com>
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 1C632212B6;
+ Mon, 13 Dec 2021 13:51:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1639403472; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3pbPGUydyhh3UOGI/DKu1/UXH5BGZJalpxxCmIrkR4A=;
+ b=BCVhQ2evX5ANkYcI7wTxdKLQflZOUvTsBBQts9UCbV/9fl0Bt8miDo965wV8vno8yAOzSC
+ abtG0JI8yU63CAQPPn3XvFVaIYnYZqCclRs/TpcfLYOsi+bl94UM26V2D2ESj1k65BJAL6
+ skT0avAgWwA0USl3ecnuAOLVq4AZZpc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1639403472;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3pbPGUydyhh3UOGI/DKu1/UXH5BGZJalpxxCmIrkR4A=;
+ b=IgN/KYzwiLXuwz8uXiYC+yyAUbgKd9iazcuZF6RAYxHs22CpZUA6P8WSh8aNKyXXUwRNPx
+ ioUWTUxf74Ehk0AQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D138713D90;
+ Mon, 13 Dec 2021 13:51:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id XQEOMs9Pt2HRGgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 13 Dec 2021 13:51:11 +0000
+Message-ID: <83ab4452-3744-20fe-e3ba-5bd4b48622e3@suse.de>
+Date: Mon, 13 Dec 2021 14:51:11 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH 0/3] drm/dp: Move DisplayPort helpers into own module
+Content-Language: en-US
+To: Jani Nikula <jani.nikula@linux.intel.com>, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, airlied@linux.ie, daniel@ffwll.ch
+References: <20211213093650.19598-1-tzimmermann@suse.de>
+ <87lf0o7hnv.fsf@intel.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <87lf0o7hnv.fsf@intel.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------Sx5n4XU3nlxLAa0gCfsogVHd"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,83 +71,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
- devicetree@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VCC needs to be enabled before releasing the enable GPIO.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------Sx5n4XU3nlxLAa0gCfsogVHd
+Content-Type: multipart/mixed; boundary="------------LAoMFDIye50DiRbbkDojKm0B";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jani Nikula <jani.nikula@linux.intel.com>, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, airlied@linux.ie, daniel@ffwll.ch
+Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Message-ID: <83ab4452-3744-20fe-e3ba-5bd4b48622e3@suse.de>
+Subject: Re: [PATCH 0/3] drm/dp: Move DisplayPort helpers into own module
+References: <20211213093650.19598-1-tzimmermann@suse.de>
+ <87lf0o7hnv.fsf@intel.com>
+In-Reply-To: <87lf0o7hnv.fsf@intel.com>
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
- drivers/gpu/drm/bridge/ti-sn65dsi83.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+--------------LAoMFDIye50DiRbbkDojKm0B
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-index 065610edc37a..5650a793db81 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-@@ -33,6 +33,7 @@
- #include <linux/of_device.h>
- #include <linux/of_graph.h>
- #include <linux/regmap.h>
-+#include <linux/regulator/consumer.h>
- 
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-@@ -143,6 +144,7 @@ struct sn65dsi83 {
- 	struct mipi_dsi_device		*dsi;
- 	struct drm_bridge		*panel_bridge;
- 	struct gpio_desc		*enable_gpio;
-+	struct regulator		*vcc;
- 	int				dsi_lanes;
- 	bool				lvds_dual_link;
- 	bool				lvds_dual_link_even_odd_swap;
-@@ -337,6 +339,12 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
- 	u16 val;
- 	int ret;
- 
-+	ret = regulator_enable(ctx->vcc);
-+	if (ret) {
-+		dev_err(ctx->dev, "Failed to enable vcc: %d\n", ret);
-+		return;
-+	}
-+
- 	/* Deassert reset */
- 	gpiod_set_value(ctx->enable_gpio, 1);
- 	usleep_range(1000, 1100);
-@@ -486,11 +494,16 @@ static void sn65dsi83_atomic_disable(struct drm_bridge *bridge,
- 				     struct drm_bridge_state *old_bridge_state)
- {
- 	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
-+	int ret;
- 
- 	/* Put the chip in reset, pull EN line low, and assure 10ms reset low timing. */
- 	gpiod_set_value(ctx->enable_gpio, 0);
- 	usleep_range(10000, 11000);
- 
-+	ret = regulator_disable(ctx->vcc);
-+	if (ret)
-+		dev_err(ctx->dev, "Failed to disable vcc: %d\n", ret);
-+
- 	regcache_mark_dirty(ctx->regmap);
- }
- 
-@@ -599,6 +612,11 @@ static int sn65dsi83_parse_dt(struct sn65dsi83 *ctx, enum sn65dsi83_model model)
- 
- 	ctx->panel_bridge = panel_bridge;
- 
-+	ctx->vcc = devm_regulator_get(dev, "vcc");
-+	if (IS_ERR(ctx->vcc))
-+		return dev_err_probe(dev, PTR_ERR(ctx->vcc),
-+				     "Failed to get supply 'vcc'\n");
-+
- 	return 0;
- }
- 
--- 
-2.25.1
+SGkNCg0KQW0gMTMuMTIuMjEgdW0gMTQ6MzQgc2NocmllYiBKYW5pIE5pa3VsYToNCj4gT24g
+TW9uLCAxMyBEZWMgMjAyMSwgVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2Uu
+ZGU+IHdyb3RlOg0KPj4gU3BsaXQtb2ZmIERpc3BsYXlQb3J0IGZ1bmN0aW9ucyBmcm9tIEtN
+UyBoZWxwZXIgbGlicmFyeSBhbmQgbW92ZSB0aGVtDQo+PiBpbnRvIHRoZWlyIG93biBtb2R1
+bGUuIFJlZHVjZXMgdGhlIHNpemUgb2YgZHJtX2ttc19oZWxwZXIua28gYnkgfjUwJS4NCj4+
+DQo+PiBUaGlzIHBhdGNoc2V0IGlzIHBhcnQgb2YgYW4gb24tZ29pbmcgZWZmb3J0IHRvIHJl
+ZHVjZSB0aGUgbWluaW11bQ0KPj4gYmluYXJ5IHNpemUgb2YgdGhlIERSTSBjb3JlIGFuZCBo
+ZWxwZXJzLiBJdCdzIGhlbHBmdWwgZm9yIHN5c3RlbXMgd2l0aA0KPj4gZWFybHktYm9vdCBE
+Uk0gZ3JhcGhpY3MsIHdoaWNoIHJlcXVpcmVzIERSTSB0byBiZSBsaW5rZWQgaW50byB0aGUN
+Cj4+IGtlcm5lbCBpbWFnZS4NCj4gDQo+IFdvdWxkIGl0IGJlIHRpbWUgdG8gYWRkIGEgc3Vi
+ZGlyZWN0b3J5IGZvciBlYWNoIG5vbi1kcml2ZXIsIG5vbi1jb3JlIGRybQ0KPiBtb2R1bGU/
+IFdlJ3ZlIHRvdWNoZWQgdGhpcyB0b3BpYyBiZWZvcmUuIEkgZmluZCBpdCBpbmNyZWFzaW5n
+bHkgaGFyZCB0bw0KPiByZW1lbWJlciB3aGljaCBmaWxlcyBhcmUgcGFydCBvZiBoZWxwZXJz
+LiBUaGlzIHdvdWxkIGFsc28gaGVscCB3aXRoIHRoZQ0KPiBhcmJpdHJhcnkgZHJtX2RwX2hl
+bHBlcl9tb2QuYyBuYW1pbmcuDQo+IA0KPiBQZXJoYXBzIGRyaXZlcnMvZ3B1L2RybS9kcm1f
+ZHAvPw0KDQpJdCdzIHByb2JhYmx5IHdvcnRoIGl0LCBidXQgSSdkIHByZWZlciBhIHNlcGFy
+YXRlIHBhdGNoc2V0IGFuZCANCmRpc2N1c3Npb24gb3ZlciB0aGlzLiBJdCBhZmZlY3RzIHNl
+dmVyYWwgbW9kdWxlcy4NCg0KSWYgYWRkaW5nIGRybV9kcF9oZWxwZXJfbW9kLmMgaXMgb3Zl
+cmtpbGwsIHRoYXQgbW9kdWxlIGNvZGUgY2FuIGFsc28gYmUgDQphZGRlZCB0byBkcm1fZHAu
+YyBmb3Igbm93Lg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiBCUiwNCj4gSmFu
+aS4NCj4gDQo+IA0KPiANCj4+DQo+PiBUaG9tYXMgWmltbWVybWFubiAoMyk6DQo+PiAgICBk
+cm0vZHBfbXN0OiBSZW1vdmUgdHJhaWxpbmcgd2hpdGVzcGFjZS4NCj4+ICAgIGRybS9kcDog
+TW92ZSBEUCBkZWNsYXJhdGlvbnMgaW50byBzZXBhcmF0ZSBoZWFkZXIgZmlsZQ0KPj4gICAg
+ZHJtL2RwOiBNb3ZlIERpc3BsYXlQb3J0IGhlbHBlcnMgaW50byBzZXBhcmF0ZSBoZWxwZXIg
+bW9kdWxlDQo+Pg0KPj4gICBkcml2ZXJzL2dwdS9kcm0vS2NvbmZpZyAgICAgICAgICAgICAg
+ICAgICAgICAgfCAgOCArKysrKysNCj4+ICAgZHJpdmVycy9ncHUvZHJtL01ha2VmaWxlICAg
+ICAgICAgICAgICAgICAgICAgIHwgMTQgKysrKysrLS0tLQ0KPj4gICBkcml2ZXJzL2dwdS9k
+cm0vYnJpZGdlL0tjb25maWcgICAgICAgICAgICAgICAgfCAgNCArKysNCj4+ICAgZHJpdmVy
+cy9ncHUvZHJtL2JyaWRnZS9hbmFsb2dpeC9LY29uZmlnICAgICAgIHwgIDIgKysNCj4+ICAg
+ZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9jYWRlbmNlL0tjb25maWcgICAgICAgIHwgIDEgKw0K
+Pj4gICBkcml2ZXJzL2dwdS9kcm0vZHJtX2NydGNfaGVscGVyX2ludGVybmFsLmggICAgfCAy
+NyAtLS0tLS0tLS0tLS0tLS0tLS0NCj4+ICAgZHJpdmVycy9ncHUvZHJtL3tkcm1fZHBfaGVs
+cGVyLmMgPT4gZHJtX2RwLmN9IHwgIDIgKy0NCj4+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9k
+cF9hdXhfZGV2LmMgICAgICAgICAgICAgIHwgIDIgKy0NCj4+ICAgZHJpdmVycy9ncHUvZHJt
+L2RybV9kcF9oZWxwZXJfaW50ZXJuYWwuaCAgICAgIHwgMjggKysrKysrKysrKysrKysrKysr
+Kw0KPj4gICBkcml2ZXJzL2dwdS9kcm0vZHJtX2RwX2hlbHBlcl9tb2QuYyAgICAgICAgICAg
+fCAyMiArKysrKysrKysrKysrKysNCj4+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9kcF9tc3Rf
+dG9wb2xvZ3kuYyAgICAgICAgIHwgIDQgKy0tDQo+PiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1f
+a21zX2hlbHBlcl9jb21tb24uYyAgICAgICB8IDE0IC0tLS0tLS0tLS0NCj4+ICAgZHJpdmVy
+cy9ncHUvZHJtL2k5MTUvS2NvbmZpZyAgICAgICAgICAgICAgICAgIHwgIDEgKw0KPj4gICBk
+cml2ZXJzL2dwdS9kcm0vbXNtL0tjb25maWcgICAgICAgICAgICAgICAgICAgfCAgMSArDQo+
+PiAgIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L0tjb25maWcgICAgICAgICAgICAgICB8ICAx
+ICsNCj4+ICAgZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL0tjb25maWcgICAgICAgICAgICAg
+IHwgIDEgKw0KPj4gICBkcml2ZXJzL2dwdS9kcm0vdGVncmEvS2NvbmZpZyAgICAgICAgICAg
+ICAgICAgfCAgMSArDQo+PiAgIGRyaXZlcnMvZ3B1L2RybS94bG54L0tjb25maWcgICAgICAg
+ICAgICAgICAgICB8ICAxICsNCj4+ICAgMTggZmlsZXMgY2hhbmdlZCwgODMgaW5zZXJ0aW9u
+cygrKSwgNTEgZGVsZXRpb25zKC0pDQo+PiAgIHJlbmFtZSBkcml2ZXJzL2dwdS9kcm0ve2Ry
+bV9kcF9oZWxwZXIuYyA9PiBkcm1fZHAuY30gKDk5JSkNCj4+ICAgY3JlYXRlIG1vZGUgMTAw
+NjQ0IGRyaXZlcnMvZ3B1L2RybS9kcm1fZHBfaGVscGVyX2ludGVybmFsLmgNCj4+ICAgY3Jl
+YXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9kcm1fZHBfaGVscGVyX21vZC5jDQo+
+Pg0KPj4NCj4+IGJhc2UtY29tbWl0OiAzZjQyMjgyODIyMWQ5Y2VlZmNkZGVmMGJlMzM1NjFi
+MTY0NmExY2JlDQo+PiBwcmVyZXF1aXNpdGUtcGF0Y2gtaWQ6IGMyYjJmMDhmMGVjY2M5ZjVk
+ZjBjMGRhNDlmYTFkMzYyNjdkZWIxMWQNCj4+IHByZXJlcXVpc2l0ZS1wYXRjaC1pZDogYzY3
+ZTVkODg2YTQ3YjdkMDI2NmQ4MTEwMDgzNzU1N2ZkYTM0Y2IyNA0KPj4gLS0NCj4+IDIuMzQu
+MQ0KPj4NCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBE
+ZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVs
+ZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xy
+bmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
+--------------LAoMFDIye50DiRbbkDojKm0B--
+
+--------------Sx5n4XU3nlxLAa0gCfsogVHd
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmG3T88FAwAAAAAACgkQlh/E3EQov+Bz
+FQ/9HqIxcguCQf8aqbHkJ6mtF97KK0U0NSUTx3DJFKTQ+2G1hYqxb9ppDhpR4EwKojU5lo44cj8G
+7IBTc+FaDUl3/7qn406FW0BELJKUvy9863kX6yYzB99lROIfYfkAVJt8Wm4ahbdBVYq8Wzu5UsZr
+2dInmA9TrCz6g+yhBUPvUC/zIgaCTVsKV7fSV1GQwgb3lcHTNQ6bfEBR6mnDU2C/pDJOFY/U4p4m
+NWD0j+O8UHugJ+tNO3O8IaqlCc+2RADZUMY6YMTrR9/tJkyqcbOE88m9RJR3dLOIFtoL+99LDZLd
+Ac0z/dvDzn2Ni3PEfwwxMv7pEmzHYT+Eh++xFal5XsG00EIfrwatre8EB277IzCLc9oHmmPwPihu
+QVbJhcJnrV7c7fgjL7wIrQDM0oOAoTeBRjgxG6FjpAGThRdPPsSkjOBCSme5V0Kjqvp13egOs/sE
+YonoYvYaVF57b1Tinv9/m7VTNYfUceeAnpxfyvdgtsBOlbsioHayxO6a5cvHyaN0MU79Khq0qsUk
+DfoBzzXK1+5OBkufOZN8X6TMJl21hO4fWgt83KGmZ9GGZvdqsIicpZZYhjX/YPv242gu48EWT1PR
+AQYHkWRRG/7OecpNC3inhi9zDTTIcq5BokW4wgePEeeg8/hGO7THg3qsOhj/4dZP1WvWIoXnEXh9
+78A=
+=j7+c
+-----END PGP SIGNATURE-----
+
+--------------Sx5n4XU3nlxLAa0gCfsogVHd--
