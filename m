@@ -1,73 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD65A474674
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 16:31:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D398474693
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 16:37:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5834010E554;
-	Tue, 14 Dec 2021 15:31:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BFD710E566;
+	Tue, 14 Dec 2021 15:37:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C1C610E554
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 15:31:16 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id b40so37464473lfv.10
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 07:31:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Cew1bsVh+uPPxFCPvivLMvnMySnBo7QVXMyLf4NUogc=;
- b=EIBs/m05yVAVjNZxKsVu8Oh0Ra+ssLFinvG7LKfMOy1Tb+DDQFa83JoEpSp/kyJ20f
- vtvaLZfleYaQEdO83kKRrCP8Y1G2P1VVBd1C8H/rC2FEvRABY4qZuLZF9MfzdbRNDmow
- cGRJTZrbJmdGnvJe7MN8XhbpvUlkpK10PBqiVAoE8HuxHw13OwKud0XkPDg5fcAHJYnV
- DUKRpnGNMPgJ7sbEiuJYUCWQTbbeQh0lDx39iMitKSXkglOeja3j0JlYaUtRccSzzC+C
- igtqlbPFWaGY1CMcs+PW8sdRnRh3ONs1rCgNZ4xxe4sqUVtqBu0PNS8azfyALy+nPF5r
- Y88A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Cew1bsVh+uPPxFCPvivLMvnMySnBo7QVXMyLf4NUogc=;
- b=4yCzHs1si+9g9/GzinPbtO0zNAzCKJzwX9PMl8TOY2UGzBF0JrWzEkoMlhkQG7Ier7
- mVRDz51wQAif0SwX/k7yiyZsHwkHj1fTmNWkjyyDHqfpslNa5mxmJVU0dQwN7IIJ41h1
- MnspzxaFVwklcW7ckuwS7mNuoSe4gMJedE10baoABPiiPvnHLseihkGg7G8PygpS3AqK
- yQwbMZ2sjIBxByMFf3A/VwPy0qBcsZeNas9ZUqoShVr8ESHL6qazlbYG2Ioz4lb+hL+X
- OrFivWUtCEkCOg7nk1PVX3ktEDRkSdGGxI/kxSKHzn4PnVGoueRy5tMnon8IY3V2ilKi
- sbRA==
-X-Gm-Message-State: AOAM530S7nBmTAs1s3hpLASUM3nscjv85kzPFwN9bRKdixsXiw5zEqRW
- qATDByEC8IJMj0fdpjnS3O4=
-X-Google-Smtp-Source: ABdhPJxmQNB9Dr/Fnytdwhc2WP3yKSVRtKMT+07lahidhyWpm3qWdRsLiGLH2I4Htvoh4G+FR0Ibzw==
-X-Received: by 2002:a05:6512:3053:: with SMTP id
- b19mr5387718lfb.276.1639495874691; 
- Tue, 14 Dec 2021 07:31:14 -0800 (PST)
-Received: from [192.168.2.145] (94-29-63-156.dynamic.spd-mgts.ru.
- [94.29.63.156])
- by smtp.googlemail.com with ESMTPSA id s4sm11501lfp.198.2021.12.14.07.31.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Dec 2021 07:31:14 -0800 (PST)
-Subject: Re: [PATCH v2 0/8] Host1x context isolation support
-To: Mikko Perttunen <cyndis@kapsi.fi>, Jon Hunter <jonathanh@nvidia.com>,
- joro@8bytes.org, will@kernel.org, robh+dt@kernel.org, robin.murphy@arm.com,
- Mikko Perttunen <mperttunen@nvidia.com>
-References: <20210916143302.2024933-1-mperttunen@nvidia.com>
- <10de82cf-27a5-8890-93a5-0e58c74e5bcc@kapsi.fi>
- <c382fb0e-6b73-5ca0-7f63-d2843351325e@nvidia.com>
- <91dddccd-a6c1-21b3-34d6-6a8082a386e7@nvidia.com>
- <a507b10b-395b-1f6d-87b9-7c7c436cab0e@gmail.com>
- <a62602df-91f6-783d-60f3-d9eba10da543@kapsi.fi>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <be8aec02-8651-0b12-ff13-237c75a5b29d@gmail.com>
-Date: Tue, 14 Dec 2021 18:31:13 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B8CF10E552;
+ Tue, 14 Dec 2021 15:37:34 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 9744ACE18EA;
+ Tue, 14 Dec 2021 15:37:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45E90C34604;
+ Tue, 14 Dec 2021 15:37:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1639496248;
+ bh=RsqIxw7l181YP8CsMrHMkGZWM3eQKUjSOlAiEt1c9Z0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=X/ot4IoekuSM4yLL1UUyI+1dPtb3HVfplV1+ex5sYgFnpg32AlhbJlga1P+xLbvRB
+ m68qNKuZ0AjmmhiJZT80bpwuuFy3AhoW2kYTAeLe+9/UFMSnWFIKMbxsZodICte8FW
+ 7XCRckyPKHOkLhvc4o88hxVaXQWuC59eCg/5EW6gD9HEvBkBWP/3dGn2y21pPtux5D
+ A4C7V58JkeE1IwGQmIlg3uQfLyN622kMzdUasowwlnVUEJoD8i0b7vCvkakk3H+3FP
+ lJXIM99ArskFYH4zq1+vL0RZHhT3rVdoZqInX8B0qR/1ISuFT+vbKfeDmLEHN1nZe+
+ /0dSqFlT8MTSA==
+Date: Tue, 14 Dec 2021 15:37:22 +0000
+From: Will Deacon <will@kernel.org>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v2 1/3] iommu/io-pgtable-arm: Add way to debug pgtable walk
+Message-ID: <20211214153722.GA15416@willie-the-truck>
+References: <20211005151633.1738878-1-robdclark@gmail.com>
+ <20211005151633.1738878-2-robdclark@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <a62602df-91f6-783d-60f3-d9eba10da543@kapsi.fi>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211005151633.1738878-2-robdclark@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,26 +54,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
- thierry.reding@gmail.com, linux-tegra@vger.kernel.org,
+Cc: Rob Clark <robdclark@chromium.org>,
+ "Isaac J. Manjarres" <isaacm@codeaurora.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Sven Peter <sven@svenpeter.dev>, freedreno@lists.freedesktop.org,
+ Joerg Roedel <joro@8bytes.org>, open list <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, Jordan Crouse <jordan@cosmicpenguin.net>,
+ "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Yong Wu <yong.wu@mediatek.com>, Robin Murphy <robin.murphy@arm.com>,
  linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-14.12.2021 17:53, Mikko Perttunen пишет:
-> On 12/14/21 16:35, Dmitry Osipenko wrote:
->> 14.12.2021 11:05, Jon Hunter пишет:
->>> Hi all,
->>>
->>> Still no response on this :-(
->>
->> I see only two patches on Tegra ML and others on DRI ML. Might be good
->> to start with re-sending this whole series and CCing MLs properly.
->>
+On Tue, Oct 05, 2021 at 08:16:25AM -0700, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
 > 
-> All patches should have been sent to the same set of addresses. At least
-> LWN's archive seems to agree..
+> Add an io-pgtable method to retrieve the raw PTEs that would be
+> traversed for a given iova access.
+> 
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>  drivers/iommu/io-pgtable-arm.c | 40 +++++++++++++++++++++++++++-------
+>  include/linux/io-pgtable.h     |  9 ++++++++
+>  2 files changed, 41 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
+> index dd9e47189d0d..c470fc0b3c2b 100644
+> --- a/drivers/iommu/io-pgtable-arm.c
+> +++ b/drivers/iommu/io-pgtable-arm.c
+> @@ -700,38 +700,61 @@ static size_t arm_lpae_unmap(struct io_pgtable_ops *ops, unsigned long iova,
+>  	return arm_lpae_unmap_pages(ops, iova, size, 1, gather);
+>  }
+>  
+> -static phys_addr_t arm_lpae_iova_to_phys(struct io_pgtable_ops *ops,
+> -					 unsigned long iova)
+> +static int arm_lpae_pgtable_walk(struct io_pgtable_ops *ops, unsigned long iova,
+> +				 void *_ptes, int *num_ptes)
+>  {
+>  	struct arm_lpae_io_pgtable *data = io_pgtable_ops_to_data(ops);
+>  	arm_lpae_iopte pte, *ptep = data->pgd;
+> +	arm_lpae_iopte *ptes = _ptes;
+> +	int max_ptes = *num_ptes;
+>  	int lvl = data->start_level;
+>  
+> +	*num_ptes = 0;
+> +
+>  	do {
+> +		if (*num_ptes >= max_ptes)
+> +			return -ENOSPC;
+> +
+>  		/* Valid IOPTE pointer? */
+>  		if (!ptep)
+> -			return 0;
+> +			return -EFAULT;
+>  
+>  		/* Grab the IOPTE we're interested in */
+>  		ptep += ARM_LPAE_LVL_IDX(iova, lvl, data);
+>  		pte = READ_ONCE(*ptep);
+>  
+> +		ptes[(*num_ptes)++] = pte;
+> +
+>  		/* Valid entry? */
+>  		if (!pte)
+> -			return 0;
+> +			return -EFAULT;
+>  
+>  		/* Leaf entry? */
+>  		if (iopte_leaf(pte, lvl, data->iop.fmt))
+> -			goto found_translation;
+> +			return 0;
+>  
+>  		/* Take it to the next level */
+>  		ptep = iopte_deref(pte, data);
+>  	} while (++lvl < ARM_LPAE_MAX_LEVELS);
+>  
+> -	/* Ran out of page tables to walk */
+> -	return 0;
+> +	return -EFAULT;
+> +}
+> +
+> +static phys_addr_t arm_lpae_iova_to_phys(struct io_pgtable_ops *ops,
+> +					 unsigned long iova)
+> +{
+> +	struct arm_lpae_io_pgtable *data = io_pgtable_ops_to_data(ops);
+> +	arm_lpae_iopte pte, ptes[ARM_LPAE_MAX_LEVELS];
+> +	int lvl, num_ptes = ARM_LPAE_MAX_LEVELS;
+> +	int ret;
+> +
+> +	ret = arm_lpae_pgtable_walk(ops, iova, ptes, &num_ptes);
+> +	if (ret)
+> +		return 0;
+> +
+> +	pte = ptes[num_ptes - 1];
+> +	lvl = num_ptes - 1 + data->start_level;
+>  
+> -found_translation:
+>  	iova &= (ARM_LPAE_BLOCK_SIZE(lvl, data) - 1);
+>  	return iopte_to_paddr(pte, data) | iova;
+>  }
+> @@ -816,6 +839,7 @@ arm_lpae_alloc_pgtable(struct io_pgtable_cfg *cfg)
+>  		.unmap		= arm_lpae_unmap,
+>  		.unmap_pages	= arm_lpae_unmap_pages,
+>  		.iova_to_phys	= arm_lpae_iova_to_phys,
+> +		.pgtable_walk	= arm_lpae_pgtable_walk,
+>  	};
+>  
+>  	return data;
+> diff --git a/include/linux/io-pgtable.h b/include/linux/io-pgtable.h
+> index 86af6f0a00a2..501f362a929c 100644
+> --- a/include/linux/io-pgtable.h
+> +++ b/include/linux/io-pgtable.h
+> @@ -148,6 +148,13 @@ struct io_pgtable_cfg {
+>   * @unmap:        Unmap a physically contiguous memory region.
+>   * @unmap_pages:  Unmap a range of virtually contiguous pages of the same size.
+>   * @iova_to_phys: Translate iova to physical address.
+> + * @pgtable_walk: Return details of a page table walk for a given iova.
+> + *                This returns the array of PTEs in a format that is
+> + *                specific to the page table format.  The number of
+> + *                PTEs can be format specific.  The num_ptes parameter
+> + *                on input specifies the size of the ptes array, and
+> + *                on output the number of PTEs filled in (which depends
+> + *                on the number of PTEs walked to resolve the iova)
 
-Indeed, I see that Tegra ML was CCed and I see all patches on Tegra
-patchwork, but I don't see them all on lore and gmane.
+I think this would be a fair bit cleaner if the interface instead took a
+callback function to invoke at each page-table level. It would be invoked
+with the pte value and the level. Depending on its return value the walk
+could be terminated early. That would also potentially scale to walking
+ranges of iovas as well if we ever need it and it may be more readily
+implementable by other formats too.
+
+>   *
+>   * These functions map directly onto the iommu_ops member functions with
+>   * the same names.
+
+This bit of the comment is no longer true with your change.
+
+Will
