@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45C68474B6B
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 20:01:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD86B474B75
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 20:03:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCA5510E13A;
-	Tue, 14 Dec 2021 19:01:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CE4410E12D;
+	Tue, 14 Dec 2021 19:03:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 645CF10E143
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 19:01:20 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id g14so65596495edb.8
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 11:01:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
+Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com
+ [IPv6:2607:f8b0:4864:20::835])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00C878903B
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 19:03:34 +0000 (UTC)
+Received: by mail-qt1-x835.google.com with SMTP id p19so19340678qtw.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 11:03:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=V5xsmmy7oHXnWtSlv73eniyPk4d9HcE6zpRG0aAXvgk=;
- b=C/9WC2zvk0WHxHKU/JH3fuLPcsQGYR2Q/VFvuXHvujLRoniC3Gj5a23rBL4dyyS9Pr
- G/iq9LlMnDLyrbUjF/vR6ahwmH9IquYEXiDgLtrtMM7sjK7tzKhxAHK/ByOvVgBlSd/C
- sFNmZeycYpVm/tyUAkbl2eKTVd764CjuFd6Z8=
+ :cc; bh=mPut++DE9oSDA7Chd0SjdQdqRXfrEo4dk9mIHr0IEwI=;
+ b=kmpqKRnXneoYfsEoIjy2oU4gKiI3YIyrYivpL88Ce7gsi6vwsJWmiAM6ovLZgU14QL
+ AWE8I3rlIbmWVDIt2WAsh6rnlRbqJ8yNvF+9CpYvVbjnFg9DFimIJ/CR6spR9kYPcEts
+ k/RJYsmNVVlkYMBmLW2w5dJ7/2QY3zdO0Od6+mtG9mo4Ycl6Zz7QvNugwNLkcyib8nQD
+ kdhm9AhH4HZ8EpHMYoy9Y9IQE3584FpiwovBTlmGIUNB9s/It8xRpfLRkH0R7ZhNP4VO
+ krwitEO0V0hVyz/znayeGuu6H3HBfpwxRZIYLKn71ovidZ/HECUkZPJMz7zbyav9HkxJ
+ jp0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=V5xsmmy7oHXnWtSlv73eniyPk4d9HcE6zpRG0aAXvgk=;
- b=xSPZkHduU2IYE2MdeuZi+pXF8lzS8/IusNiAoMxX7wbgxgBsXIYBYQu73V2zOy4xfQ
- Q9W961i/301w47xImy0CG7yvz8tsOmhv7b+J8rVC2P6uwddMQA9q7c9yD79t32puWa93
- eeGafkqROC5m/xA6du1eNyE3Bjp2qD8VMLja8yVVUf41ArFe9d5A7vqXvHr3lfLbfaD8
- DaPiWDlI0n9p290fhxuoh64IQBtIRYxuBZ2Bn+WA0i7S4Do56XtmJzvtfmFBMK6JRZFy
- 9dAns5rhId3YN+hA0s8/3I1B+gOB6o4o7rnaUDl/IBknFUUR2bSSBJC707lxZQTpuwql
- guFg==
-X-Gm-Message-State: AOAM530FnApxlEPrN1x1/H+Y109Q8h4WUODewFGrU7aafGJXdlbSqStH
- gvA3YR2pismkqd7ONF0+ajA+af64g7mneWM4Npeabw==
-X-Google-Smtp-Source: ABdhPJy7xBgQT3e/kZUCcveALeQRRiChfjiKS4pc+pxU7Bu7E6w7PO4aL/n1VmYKZQJ94r+9G3+/iC1ZLeew/DCwvyc=
-X-Received: by 2002:a17:906:b003:: with SMTP id
- v3mr7684892ejy.770.1639508479079; 
- Tue, 14 Dec 2021 11:01:19 -0800 (PST)
+ bh=mPut++DE9oSDA7Chd0SjdQdqRXfrEo4dk9mIHr0IEwI=;
+ b=Yw9N0GxggUdKST2F6o+pklS1hRGeSuCiZ+XHjUN/CeRfxUBxlxcbncIMjU5hm0QRaX
+ 9gx5UoUV6Wsw0fLOXdxbh8OcECFxhQZ2O+/51Oax3dklseBDjSWvifiaeKLZTvbCfEHg
+ yxt2qgC1yjxboHIjGS65PgjRMwomtwI5UjBlFnvxpF21e6RouGqGaeGRP1eYh1XJh0F9
+ jl1/u3aEIyVERaRLg2HUHT8qegGyiarlXDU+6+2PTkKjXhgNLyhNXzrxyGlFdg8cgsth
+ 18V8/MXd07p2ug9LNtcZQtncg1b0KozoG2eq7NetR2W9FJPt5udiqy5TI1U5OUOLDEhc
+ mjdQ==
+X-Gm-Message-State: AOAM531ZTmVTJ3rpYuxzHGD5xuivm9fDqnLaYTlAh3WKu1XuDlK1Z0+W
+ ODSygheks94m3i+UAQerSGmbeqguu5WSvWh1vLnLMQ==
+X-Google-Smtp-Source: ABdhPJzyRs/SkZa7rM8wtTsEOtQ+XLrgBbLZgqv/9SuBSu3jfTTmtv87+/mDKeEDQ/0sgKqI7jAue3Wsf24yk+u2F5w=
+X-Received: by 2002:a05:622a:40d:: with SMTP id
+ n13mr8112713qtx.511.1639508612966; 
+ Tue, 14 Dec 2021 11:03:32 -0800 (PST)
 MIME-Version: 1.0
-References: <20211212181416.3312656-1-jagan@amarulasolutions.com>
- <20211212181416.3312656-5-jagan@amarulasolutions.com>
- <84e905cd-5a0e-0b6d-1052-bc97acbfecdc@intel.com>
-In-Reply-To: <84e905cd-5a0e-0b6d-1052-bc97acbfecdc@intel.com>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Wed, 15 Dec 2021 00:31:08 +0530
-Message-ID: <CAMty3ZAVAy_pD0CjrFEG555VkvzCA2FqPFp5e1qwUtOmiwB6Tg@mail.gmail.com>
-Subject: Re: [PATCH v3 4/7] drm: exynos: dsi: Separate pre_enable,
- post_disable code
-To: Andrzej Hajda <andrzej.hajda@intel.com>
+References: <20211214173917.1496290-1-robdclark@gmail.com>
+ <20211214173917.1496290-4-robdclark@gmail.com>
+In-Reply-To: <20211214173917.1496290-4-robdclark@gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 14 Dec 2021 22:03:22 +0300
+Message-ID: <CAA8EJpo2ng0mVk0Hsqmg5yTi3Wm0nUp8Lx8+CGF=RBeuYPmviQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] drm/msm/debugfs: Add display/kms state snapshot
+To: Rob Clark <robdclark@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,97 +63,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- linux-amarula@amarulasolutions.com, dri-devel@lists.freedesktop.org,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Sam Ravnborg <sam@ravnborg.org>, Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Doug Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 13, 2021 at 3:27 PM Andrzej Hajda <andrzej.hajda@intel.com> wrote:
+On Tue, 14 Dec 2021 at 20:34, Rob Clark <robdclark@gmail.com> wrote:
 >
+> From: Rob Clark <robdclark@chromium.org>
 >
-> On 12.12.2021 19:14, Jagan Teki wrote:
-> > Existing driver is calling manual bridge pre_enable, enable,
-> > disable and post_disable helpers with their enable and
-> > disable functions.
-> >
-> > Separate the enable code with pre_enable and enable helpers
-> > like enable the DSI in pre_enable and set the display in enable.
-> >
-> > Separate the disable code with disable and post_disable helpers
-> > like disable the DSI in disable and reset the display in
-> > post_disable.
-> >
-> > This way the bridge functions are compatible with respective
-> > downstream bridge and panel_bridge drivers.
-> >
-> > Example of enable bridge function calls with panel_bridge is,
-> >
-> > [ 2.079030] panel_bridge_pre_enable: start
-> > [ 2.079043] panel_bridge_pre_enable: end!
-> > [ 2.079045] exynos_dsi_atomic_pre_enable: start
-> > [ 2.079723] exynos_dsi_atomic_pre_enable: end!
-> > [ 2.079728] exynos_dsi_atomic_enable: start
-> > [ 2.102500] exynos_dsi_atomic_enable: end
-> > [ 2.146505] panel_bridge_enable: start
-> > [ 2.148547] panel_bridge_enable: enable
-> > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> > ---
-> > Changes for v3:
-> > - new patch
-> >
-> >   drivers/gpu/drm/exynos/exynos_drm_dsi.c | 25 ++++++++++++-------------
-> >   1 file changed, 12 insertions(+), 13 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-> > index 1450187c1edc..07083a545948 100644
-> > --- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-> > +++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-> > @@ -1377,10 +1377,9 @@ static void exynos_dsi_unregister_te_irq(struct exynos_dsi *dsi)
-> >       }
-> >   }
-> >
-> > -static void exynos_dsi_enable(struct drm_bridge *bridge)
-> > +static void exynos_dsi_pre_enable(struct drm_bridge *bridge)
-> >   {
-> >       struct exynos_dsi *dsi = bridge_to_dsi(bridge);
-> > -     const struct drm_bridge_funcs *funcs = dsi->out_bridge->funcs;
-> >       int ret;
-> >
-> >       if (dsi->state & DSIM_STATE_ENABLED)
-> > @@ -1393,38 +1392,36 @@ static void exynos_dsi_enable(struct drm_bridge *bridge)
-> >       }
-> >
-> >       dsi->state |= DSIM_STATE_ENABLED;
-> > +}
-> >
-> > -     if (dsi->out_bridge)
-> > -             funcs->pre_enable(dsi->out_bridge);
-> > +static void exynos_dsi_enable(struct drm_bridge *bridge)
-> > +{
-> > +     struct exynos_dsi *dsi = bridge_to_dsi(bridge);
-> >
-> >       exynos_dsi_set_display_mode(bridge);
-> >       exynos_dsi_set_display_enable(dsi, true);
-> >
-> > -     if (dsi->out_bridge)
-> > -             funcs->enable(dsi->out_bridge);
-> > -
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>  drivers/gpu/drm/msm/msm_debugfs.c | 90 +++++++++++++++++++++++++++++++
+>  1 file changed, 90 insertions(+)
 >
+> diff --git a/drivers/gpu/drm/msm/msm_debugfs.c b/drivers/gpu/drm/msm/msm_debugfs.c
+> index 956b1efc3721..088f1160c892 100644
+> --- a/drivers/gpu/drm/msm/msm_debugfs.c
+> +++ b/drivers/gpu/drm/msm/msm_debugfs.c
+> @@ -15,6 +15,11 @@
+>  #include "msm_gpu.h"
+>  #include "msm_kms.h"
+>  #include "msm_debugfs.h"
+> +#include "disp/msm_disp_snapshot.h"
+> +
+> +/*
+> + * GPU Snapshot:
+> + */
 >
-> Ok, apparently I haven't catch that in previous patch you have left out
-> bridge attached to encoder->bridge_chain, before the previous patch out
-> bridge was detached from bridge_chain, which assured exynos_dsi has full
-> control about callbacks.
+>  struct msm_gpu_show_priv {
+>         struct msm_gpu_state *state;
+> @@ -109,6 +114,88 @@ static const struct file_operations msm_gpu_fops = {
+>         .release = msm_gpu_release,
+>  };
 >
-> Does it mean that after prev patch all bridge calls were called twice, I
-> think it is incorrect.
+> +/*
+> + * Display Snapshot:
+> + */
+> +
+> +struct msm_kms_show_priv {
+> +       struct msm_disp_state *state;
+> +       struct drm_device *dev;
 
-I think squash this to previous patch make sense. let me know if you
-are fine with it?
+I don't see ->dev being used outside of _open() callback. So, I'd
+suggest removing it and using struct msm_disp_state instead of struct
+msm_kms_show_priv.
 
-Thanks,
-Jagan.
+> +};
+> +
+> +static int msm_kms_show(struct seq_file *m, void *arg)
+> +{
+> +       struct drm_printer p = drm_seq_file_printer(m);
+> +       struct msm_kms_show_priv *show_priv = m->private;
+> +
+> +       msm_disp_state_print(show_priv->state, &p);
+> +
+> +       return 0;
+> +}
+> +
+> +static int msm_kms_release(struct inode *inode, struct file *file)
+> +{
+> +       struct seq_file *m = file->private_data;
+> +       struct msm_kms_show_priv *show_priv = m->private;
+> +
+> +       msm_disp_state_free(show_priv->state);
+> +       kfree(show_priv);
+> +
+> +       return single_release(inode, file);
+> +}
+> +
+> +static int msm_kms_open(struct inode *inode, struct file *file)
+> +{
+> +       struct drm_device *dev = inode->i_private;
+> +       struct msm_drm_private *priv = dev->dev_private;
+> +       struct msm_kms_show_priv *show_priv;
+> +       int ret;
+> +
+> +       if (!priv->kms)
+> +               return -ENODEV;
+> +
+> +       show_priv = kmalloc(sizeof(*show_priv), GFP_KERNEL);
+> +       if (!show_priv)
+> +               return -ENOMEM;
+> +
+> +       ret = mutex_lock_interruptible(&priv->kms->dump_mutex);
+> +       if (ret)
+> +               goto free_priv;
+> +
+> +       show_priv->state = msm_disp_snapshot_state_sync(priv->kms);
+> +
+> +       mutex_unlock(&priv->kms->dump_mutex);
+> +
+> +       if (IS_ERR(show_priv->state)) {
+> +               ret = PTR_ERR(show_priv->state);
+> +               goto free_priv;
+> +       }
+> +
+> +       show_priv->dev = dev;
+> +
+> +       ret = single_open(file, msm_kms_show, show_priv);
+> +       if (ret)
+> +               goto free_priv;
+> +
+> +       return 0;
+> +
+> +free_priv:
+> +       kfree(show_priv);
+> +       return ret;
+> +}
+> +
+> +static const struct file_operations msm_kms_fops = {
+> +       .owner = THIS_MODULE,
+> +       .open = msm_kms_open,
+> +       .read = seq_read,
+> +       .llseek = seq_lseek,
+> +       .release = msm_kms_release,
+> +};
+> +
+> +/*
+> + * Other debugfs:
+> + */
+> +
+>  static unsigned long last_shrink_freed;
+>
+>  static int
+> @@ -239,6 +326,9 @@ void msm_debugfs_init(struct drm_minor *minor)
+>         debugfs_create_file("gpu", S_IRUSR, minor->debugfs_root,
+>                 dev, &msm_gpu_fops);
+>
+> +       debugfs_create_file("kms", S_IRUSR, minor->debugfs_root,
+> +               dev, &msm_kms_fops);
+> +
+>         debugfs_create_u32("hangcheck_period_ms", 0600, minor->debugfs_root,
+>                 &priv->hangcheck_period);
+>
+> --
+> 2.33.1
+>
+
+
+-- 
+With best wishes
+Dmitry
