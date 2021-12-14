@@ -2,61 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DF67474987
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 18:34:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42C76474A2D
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 18:59:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FF3D10E1FB;
-	Tue, 14 Dec 2021 17:34:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A43D89D1D;
+	Tue, 14 Dec 2021 17:59:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com
- [IPv6:2607:f8b0:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AAF210E1EA;
- Tue, 14 Dec 2021 17:34:15 +0000 (UTC)
-Received: by mail-pg1-x52a.google.com with SMTP id a23so13280407pgm.4;
- Tue, 14 Dec 2021 09:34:15 -0800 (PST)
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B225089D1D
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 17:58:59 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id
+ a83-20020a1c9856000000b00344731e044bso1409128wme.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 09:58:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=MGWQoMYzhBAB2IQM3xcDS7ekxQKFM3AGil27CIrS8Io=;
- b=kpOVXTp9O8u083FN0cDMv8QEMx6qzsDj6dhRCQ/hhAFstQHJz+m13Py9LbAYcWOiJ2
- Jb10Xbw3L64I2D5Mc6rCmDww4uuiEbqqLKjGomPdT8eU9aWjqThycArxhL8p0FpFGnxj
- 7TeuJXz2xtmgM92cEOJpuTsZGAd5gaxpDgDAQmUr5iYPW2tPvkuofMtHCmKNl/A4uVYm
- 0RygnF9/Idj3dNJ/o7DQIYDalTQVLM3R9magmlOc7M4nhp98HCs0+8UXUVS3WxvGfiFm
- v9SPZSqXk43i/19vMwrF/7iBM8TT3ef746SOVAn3YBnvf/0azyoON3+gSZVlajKZd5CI
- uxVw==
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=djGu5F47ZDEGPk74n/k+snh9k77CtD6nTsKeSDd0WXg=;
+ b=RVjL5C6WAQIKdyIak0zrl0KhQ16O5G9WsIRC/7sv0S+am1czeu51b6VNZZSkUSFFUg
+ 6iD4Rr9d+b3XXB70FURx6biYfOgp2KWNPHR3Hrtv2qQ3SOC98xDj6JvU2TFw47fxgQrk
+ 0J+tz11ZNcIXkIgQEKrUFaAVBGSCOkPkCZ+Lc8ump8J6qwHisbMW01XP3GxRxZB7WSA7
+ DUCEQuosWC0JHtqbKfId8haFlYZ4RaR6EePdjEhJL+9hID5ghcCXpFxjt5z7vJwmGNZD
+ Z+ezIa6LUjWWGgjxlixn7tEiWK8jsm72yyHBhsWHsem+ol01zo3jWtUEwnPgq5RFi6BZ
+ u7og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MGWQoMYzhBAB2IQM3xcDS7ekxQKFM3AGil27CIrS8Io=;
- b=OPejDpVTtdZLRCyh41z+Xwr/ej+7VYqBHgAf7rEDoN6347E3jIv7GgarHU+1ldnE9n
- Z67g4cttRh0ZmAWMLp8g1h1kA7r8s84vTrXc7SXwJxRKmvBAGtgum10/Waf+NlQ7OM4A
- WdOGXfB2uDCyLQ3xfMbJ/WD0IDeVPR3+0I9BaC0bU/PnlNTEDqM8UYmDC+U2VmBapFPg
- mOtVj7N3iOKr//0uMqUQGEuhPOW8hTxVVgWIIKlOENWPxvqwAiiY1AJN/Etf1zvx8gL5
- 9ILZOTmteEuEoJjVG0zp/GPCkst4qeb3w/MPK5ewV3zolQJMeOJzKC5+dlcBitryrHSV
- dUSw==
-X-Gm-Message-State: AOAM531TtUgmUx3ewJ1wwU6Hp5gH4vrJP59QLsX+n6t5S5ucPsEQG2OF
- Cs6ZSmpHpBo9nS8KT3xpJAMlqcXvY64=
-X-Google-Smtp-Source: ABdhPJxM83Psw3lwIth4QeOPBbLdhAmJzqzCXZCXy1ejGpDzB8vLX8oSXAQcnAmfPI6/Pk6VfdW1cQ==
-X-Received: by 2002:aa7:93ce:0:b0:4a8:19fc:f024 with SMTP id
- y14-20020aa793ce000000b004a819fcf024mr5328681pff.10.1639503253926; 
- Tue, 14 Dec 2021 09:34:13 -0800 (PST)
-Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
- by smtp.gmail.com with ESMTPSA id
- y65sm310696pgd.79.2021.12.14.09.34.12
+ bh=djGu5F47ZDEGPk74n/k+snh9k77CtD6nTsKeSDd0WXg=;
+ b=HdtHkNA79RClv0fnYxj4ae4kiPS+mC7Mc4KHyvqaX7oxOXNiq2IgSOvfaLHh3EtPhx
+ zN95KgqdZPv5FhgOarfFEDcWiZl+Tr51N48hauIfKqzLrv4uABp9V9IOtwzNDAQSWJFE
+ 5X0Wt0ADupCAAsuWQsdHc73FMLaRIuRs9lq9XndfiI+8uNew1uxS2BxNKVNifAGpPAqE
+ oJ9NABc9XeLTIlo/BJZlXvq43N6lkxswxmzjlVVlAGTMZer2jbpxbuUI6kn1vdQtbD16
+ ROpVBRgHra34J0yYq0B6xh77Dj3FPrBD2fRSgluZSC40HujJvvGV7sIot22WuGnP9wYt
+ ZCow==
+X-Gm-Message-State: AOAM531R+Em4ES7wnRL+ZT6GCEsoFcOrPpW/k+9c0MbxsM+/tpyRpSxJ
+ ndR2eE9E6TiELV49qs2RHco=
+X-Google-Smtp-Source: ABdhPJwpnyv5VDLYai8280oakJLd8Q+2WnOYMjp4o9hxaCd8vCzo8UI9t1IWQRXt2ysfibFrCzMh1g==
+X-Received: by 2002:a1c:4e04:: with SMTP id g4mr633129wmh.15.1639504738260;
+ Tue, 14 Dec 2021 09:58:58 -0800 (PST)
+Received: from kista.localnet (cpe-86-58-29-253.static.triera.net.
+ [86.58.29.253])
+ by smtp.gmail.com with ESMTPSA id a1sm540407wru.113.2021.12.14.09.58.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Dec 2021 09:34:13 -0800 (PST)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/msm/debugfs: Add display/kms state snapshot
-Date: Tue, 14 Dec 2021 09:39:01 -0800
-Message-Id: <20211214173917.1496290-4-robdclark@gmail.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211214173917.1496290-1-robdclark@gmail.com>
-References: <20211214173917.1496290-1-robdclark@gmail.com>
+ Tue, 14 Dec 2021 09:58:57 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
+ Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
+Subject: Re: Empty IN_FORMATS in sun4i-drm
+Date: Tue, 14 Dec 2021 18:58:56 +0100
+Message-ID: <2084377.irdbgypaU6@kista>
+In-Reply-To: <20211214120248.y2zdzr5zsqowixjx@luna>
+References: <20211214120248.y2zdzr5zsqowixjx@luna>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,136 +71,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Doug Anderson <dianders@chromium.org>,
- Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>,
- freedreno@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+Dne torek, 14. december 2021 ob 13:02:48 CET je Emmanuel Gil Peyrot=20
+napisal(a):
+> Hi,
+>=20
+> After updating Weston from 9f8561e9 to 07326040 (latest master), it
+> fails to run on my PinePhone saying =E2=80=9Cformat 0x34325258 not suppor=
+ted by
+> output DSI-1=E2=80=9D and then exiting.
+>=20
+> This format is XR24, which would be extremely surprising not to be
+> present, and drm_info[1] says it is present.  Looking into Weston=E2=80=
+=99s
+> code, I found that drm_plane_populate_formats()=E2=80=99s docstring says =
+it uses
+> =E2=80=9Ceither the IN_FORMATS blob property (if available), or the plane=
+'s
+> format list if not.=E2=80=9D  Looking back at drm_info, I saw said IN_FOR=
+MATS
+> blob being empty of formats (while the format list is fully populated):
+> "IN_FORMATS" (immutable): blob =3D 32
+> =E2=94=94=E2=94=80=E2=94=80=E2=94=80DRM_FORMAT_MOD_LINEAR (0x0)
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/msm_debugfs.c | 90 +++++++++++++++++++++++++++++++
- 1 file changed, 90 insertions(+)
+Does this solve your issue? http://ix.io/3Ipo
 
-diff --git a/drivers/gpu/drm/msm/msm_debugfs.c b/drivers/gpu/drm/msm/msm_debugfs.c
-index 956b1efc3721..088f1160c892 100644
---- a/drivers/gpu/drm/msm/msm_debugfs.c
-+++ b/drivers/gpu/drm/msm/msm_debugfs.c
-@@ -15,6 +15,11 @@
- #include "msm_gpu.h"
- #include "msm_kms.h"
- #include "msm_debugfs.h"
-+#include "disp/msm_disp_snapshot.h"
-+
-+/*
-+ * GPU Snapshot:
-+ */
- 
- struct msm_gpu_show_priv {
- 	struct msm_gpu_state *state;
-@@ -109,6 +114,88 @@ static const struct file_operations msm_gpu_fops = {
- 	.release = msm_gpu_release,
- };
- 
-+/*
-+ * Display Snapshot:
-+ */
-+
-+struct msm_kms_show_priv {
-+	struct msm_disp_state *state;
-+	struct drm_device *dev;
-+};
-+
-+static int msm_kms_show(struct seq_file *m, void *arg)
-+{
-+	struct drm_printer p = drm_seq_file_printer(m);
-+	struct msm_kms_show_priv *show_priv = m->private;
-+
-+	msm_disp_state_print(show_priv->state, &p);
-+
-+	return 0;
-+}
-+
-+static int msm_kms_release(struct inode *inode, struct file *file)
-+{
-+	struct seq_file *m = file->private_data;
-+	struct msm_kms_show_priv *show_priv = m->private;
-+
-+	msm_disp_state_free(show_priv->state);
-+	kfree(show_priv);
-+
-+	return single_release(inode, file);
-+}
-+
-+static int msm_kms_open(struct inode *inode, struct file *file)
-+{
-+	struct drm_device *dev = inode->i_private;
-+	struct msm_drm_private *priv = dev->dev_private;
-+	struct msm_kms_show_priv *show_priv;
-+	int ret;
-+
-+	if (!priv->kms)
-+		return -ENODEV;
-+
-+	show_priv = kmalloc(sizeof(*show_priv), GFP_KERNEL);
-+	if (!show_priv)
-+		return -ENOMEM;
-+
-+	ret = mutex_lock_interruptible(&priv->kms->dump_mutex);
-+	if (ret)
-+		goto free_priv;
-+
-+	show_priv->state = msm_disp_snapshot_state_sync(priv->kms);
-+
-+	mutex_unlock(&priv->kms->dump_mutex);
-+
-+	if (IS_ERR(show_priv->state)) {
-+		ret = PTR_ERR(show_priv->state);
-+		goto free_priv;
-+	}
-+
-+	show_priv->dev = dev;
-+
-+	ret = single_open(file, msm_kms_show, show_priv);
-+	if (ret)
-+		goto free_priv;
-+
-+	return 0;
-+
-+free_priv:
-+	kfree(show_priv);
-+	return ret;
-+}
-+
-+static const struct file_operations msm_kms_fops = {
-+	.owner = THIS_MODULE,
-+	.open = msm_kms_open,
-+	.read = seq_read,
-+	.llseek = seq_lseek,
-+	.release = msm_kms_release,
-+};
-+
-+/*
-+ * Other debugfs:
-+ */
-+
- static unsigned long last_shrink_freed;
- 
- static int
-@@ -239,6 +326,9 @@ void msm_debugfs_init(struct drm_minor *minor)
- 	debugfs_create_file("gpu", S_IRUSR, minor->debugfs_root,
- 		dev, &msm_gpu_fops);
- 
-+	debugfs_create_file("kms", S_IRUSR, minor->debugfs_root,
-+		dev, &msm_kms_fops);
-+
- 	debugfs_create_u32("hangcheck_period_ms", 0600, minor->debugfs_root,
- 		&priv->hangcheck_period);
- 
--- 
-2.33.1
+Best regards,
+Jernej
+
+>=20
+> This makes me think the kernel should populate IN_FORMATS with at least
+> the same formats as the format list when supported, or stop advertising
+> this property altogether.
+>=20
+> Other compositors (such as phoc) still run file, probably because they
+> use the format list exclusively, without consideration for modifiers.
+>=20
+> Besides fixing this driver, would it make sense to also make Weston
+> ignore an empty IN_FORMATS and fall back to the format list?
+>=20
+> Thanks,
+>=20
+> [1] https://github.com/ascent12/drm_info
+>=20
+> --=20
+> Emmanuel Gil Peyrot
+>=20
+
 
