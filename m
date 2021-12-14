@@ -1,62 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFB69473E49
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 09:37:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6B83473EC3
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 09:53:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AADD810EA38;
-	Tue, 14 Dec 2021 08:37:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 944BD10EA56;
+	Tue, 14 Dec 2021 08:53:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com
- [IPv6:2607:f8b0:4864:20::729])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 708AA10EA38
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 08:37:41 +0000 (UTC)
-Received: by mail-qk1-x729.google.com with SMTP id m186so16157562qkb.4
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 00:37:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dowhile0-org.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=V775Jo7foyl5u33KO9wxNFO5Xpg512uth3xPug6/f9Y=;
- b=NmsmnUQjon4giEIPURXak6DNfz2uv3mxLeDEiVc8iUJV+WQGHo0oIywd2C3DSI4pVI
- 4GuYtTQuyOG7798S3lnZcHyrILmqUoL50dlmbyCyTixojp/IGFP2EkTyKQgP170Pl3hq
- 3ZZTfp+NvlUjYXYlRC9z5TqZF86aF2Zr51JO3mvpkOaTvBpEAUi9RCW9TtSQfOeQOXhx
- iHPWUKKEP3loANy/6Y5EPGU4/Y/NvufewNugTqqrzYw8tHGKjsES4Pu9OaWA58l7LcZH
- 8iUJjaT1SIRs1kDZ/7XPmBNEpbbLyESohomuDZ8Ply7kroWO48ooXLGjptuR/AuMiHbM
- Rk5Q==
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BA9510EA58
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 08:53:31 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id t9so31129782wrx.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 00:53:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=6F2v0HGZC8Zz1ENR2EsLemKYP8DvQFPfyP1kJZ4ji5Y=;
+ b=ZCJI84OmuiDwr93CN4gmhjaHX3QHTrprHQy6LYGFAsiDTIKu2ImCjo7MrS4yBW4VT5
+ jmKrru+kmsi4pueTIxrO8m7C7zTxNiEjANtdVE8kyX9G8hF2PV9mOCMolix0So3z6MAg
+ d+clfe9TV3JnPMdurRleagdEkZ8muj2Hzqi1U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=V775Jo7foyl5u33KO9wxNFO5Xpg512uth3xPug6/f9Y=;
- b=AlSEwXxP06sXOio3krdeM0qZ56SIwChZb8CemDibVO67lDenyohlJz7LPt5pX5V7bd
- dUMDESP1UlcpuqA3dQE+cEPPgCzf0hiWzviVTCBvk8Y9Vibm5xDmvv7dL9DD8BMyOROq
- FWr8RTK5ypDSFVX+DmxVgsQG+P/5xnKT3q8IUPqOH8F5YV+CITDHw8rkwA02Wes1t6fh
- JP97YyMhWNqQLbXHDFbDsTbn1lzCG7TgmTHYu9YznUvXWcrT0rXOPOU4WNw/XBz73Ark
- 8a3U8elWlYfCkA19OQAwRaA3IbsEbZtV4R5HDPOjNeRsYK3o/ltmbSKV1Ji0KvOu57T0
- HcFQ==
-X-Gm-Message-State: AOAM531BtQ7vUgySqvBFNk9Ls7pEbpkojmtIJsqKlttlRhfLeYTcUVZk
- SIse5TjTt6qSzvHBg13c+fy8kgRfimXEsQtNGfH9+Q==
-X-Google-Smtp-Source: ABdhPJwTLF1AMEeFod/l2CxZZeOst/LaOVrIJybQJ5YF/RyGQnZ4Krjx2+P/GvWwxeDL73OopPshCk3YG/laGaGdXjg=
-X-Received: by 2002:a05:620a:298a:: with SMTP id
- r10mr2844306qkp.447.1639471060440; 
- Tue, 14 Dec 2021 00:37:40 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=6F2v0HGZC8Zz1ENR2EsLemKYP8DvQFPfyP1kJZ4ji5Y=;
+ b=42d5rkw9ztpv5uS5VAUGcVXMTtSaSP/jx0CYioPxPTIhyW24odLzXpLi0sljMJYNxn
+ XWkZCMaxKG3wtkQOv+4xu5fexzbIsTLXuX+BV2q5EK06D0mhdnOFn46YTscnekEg+PUm
+ kj/u+mYYoplVrl1Qlxovt8YiYCBXHpeHdsQHsomMvgCbCcMtD8loDyiAIvKD90QZH8AU
+ PQzXq8d4+9QXvVB2A4FfClLL90p0y30iFIzjH0tGFjvzxB1a52N0A1GH1LUCZOQSCohp
+ 2KVt/5pmyz4g2VQCjhnYbXNP5Zit6it1aRTQvmz5v6P7JhpmFLyFH5jrvTUG7EBDaxOn
+ 0ZiQ==
+X-Gm-Message-State: AOAM533AbU/2PCT9qP02/b001/oSScaVn98ecea/TWreoEz7JYqhHIOU
+ mMJd8rnBXCNm36lwx2+Tekmj2g==
+X-Google-Smtp-Source: ABdhPJzMTUjYfMWjW7uUOJ4oGugcSHeNN11s2/s0tyZjrNM2qsC80Zow9PG/eCcACOB/usFblImNRA==
+X-Received: by 2002:a5d:6a4d:: with SMTP id t13mr4199216wrw.104.1639472009637; 
+ Tue, 14 Dec 2021 00:53:29 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id x13sm13236755wrr.47.2021.12.14.00.53.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Dec 2021 00:53:29 -0800 (PST)
+Date: Tue, 14 Dec 2021 09:53:27 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PULL] drm-misc-next
+Message-ID: <Ybhbh4wUKnNtB8rJ@phenom.ffwll.local>
+References: <YaSVz15Q7dAlEevU@linux-uq9g.fritz.box>
 MIME-Version: 1.0
-References: <20211212062407.138309-1-marcan@marcan.st>
- <20211212062407.138309-2-marcan@marcan.st>
- <CABxcv=m4fu8h=FwY7R=thuvd13_ZbFqB9rNNN07QOAd__jdYSQ@mail.gmail.com>
- <63334964-d63d-7625-e46f-a6e6ec19e908@marcan.st>
- <CABxcv=kbR5GX3yEfqchKJPkCqpWp_oKWjG=pu7LikBwoSX8W3A@mail.gmail.com>
- <CAL_JsqLLTL-_H3XgsZRZaxE6qO6y8CDpoHfDkOgwekb1ysNQFw@mail.gmail.com>
-In-Reply-To: <CAL_JsqLLTL-_H3XgsZRZaxE6qO6y8CDpoHfDkOgwekb1ysNQFw@mail.gmail.com>
-From: Javier Martinez Canillas <javier@dowhile0.org>
-Date: Tue, 14 Dec 2021 09:37:29 +0100
-Message-ID: <CABxcv=nFx9r+=qMXop6kp6E4KoXaX_8duLY7S9fo6uqs_539jw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] of: Move simple-framebuffer device handling from
- simplefb to of
-To: Rob Herring <robh+dt@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YaSVz15Q7dAlEevU@linux-uq9g.fritz.box>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,35 +67,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Hector Martin <marcan@marcan.st>,
- Linux Kernel <linux-kernel@vger.kernel.org>,
- Hans de Goede <hdegoede@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Cc: Sean Paul <sean@poorly.run>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 13, 2021 at 3:50 PM Rob Herring <robh+dt@kernel.org> wrote:
->
-> On Mon, Dec 13, 2021 at 5:30 AM Javier Martinez Canillas
-> <javier@dowhile0.org> wrote:
+On Mon, Nov 29, 2021 at 09:56:47AM +0100, Thomas Zimmermann wrote:
+> Hi Dave and Daniel,
+> 
+> here's the second PR for drm-misc-next for what will become Linux 5.17.
+> It's a bit late, as I was on vacation last week. The most significant
+> change moves the nomodeset parameter entirely into the DRM subsystem.
+> 
+> Best regards
+> Thomas
+> 
+> drm-misc-next-2021-11-29:
+> drm-misc-next for 5.17:
+> 
+> UAPI Changes:
+> 
+> Cross-subsystem Changes:
+> 
+>  * Move 'nomodeset' kernel boot option into DRM subsystem
+> 
+> Core Changes:
+> 
+>  * Replace several DRM_*() logging macros with drm_*() equivalents
+>  * panel: Add quirk for Lenovo Yoga Book X91F/L
+>  * ttm: Documentation fixes
+> 
+> Driver Changes:
+> 
+>  * Cleanup nomodeset handling in drivers
+>  * Fixes
+>  * bridge/anx7625: Fix reading EDID; Fix error code
+>  * bridge/megachips: Probe both bridges before registering
+>  * vboxvideo: Fix ERR_PTR usage
+> The following changes since commit a713ca234ea9d946235ac7248995c5fddfd9e523:
+> 
+>   Merge drm/drm-next into drm-misc-next (2021-11-18 09:36:39 +0100)
+> 
+> are available in the Git repository at:
+> 
+>   git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2021-11-29
 
-[snip]
+Pulled, thanks.
+-Daniel
 
-> >
-> > You are right that passing NULL is a safe code path for now due the
-> > of_device_is_available(node) check, but that seems fragile to me since
-> > just adding a similar debug output to of_platform_device_create()
-> > could trigger the NULL pointer dereference.
->
-> All/most DT functions work with a NULL node ptr, so why should this
-> one be different?
->
+> 
+> for you to fetch changes up to 69d846126e1653ca9043c3766c66684132586941:
+> 
+>   drm: Fix build error caused by missing drm_nomodeset.o (2021-11-27 21:05:58 +0100)
+> 
+> ----------------------------------------------------------------
+> drm-misc-next for 5.17:
+> 
+> UAPI Changes:
+> 
+> Cross-subsystem Changes:
+> 
+>  * Move 'nomodeset' kernel boot option into DRM subsystem
+> 
+> Core Changes:
+> 
+>  * Replace several DRM_*() logging macros with drm_*() equivalents
+>  * panel: Add quirk for Lenovo Yoga Book X91F/L
+>  * ttm: Documentation fixes
+> 
+> Driver Changes:
+> 
+>  * Cleanup nomodeset handling in drivers
+>  * Fixes
+>  * bridge/anx7625: Fix reading EDID; Fix error code
+>  * bridge/megachips: Probe both bridges before registering
+>  * vboxvideo: Fix ERR_PTR usage
+> 
+> ----------------------------------------------------------------
+> Christian König (1):
+>       drm/amdgpu: partially revert "svm bo enable_signal call condition"
+> 
+> Claudio Suarez (1):
+>       drm: get rid of DRM_DEBUG_* log calls in drm core, files drm_a*.c
+> 
+> Dan Carpenter (2):
+>       drm/vboxvideo: fix a NULL vs IS_ERR() check
+>       drm/bridge: anx7625: fix an error code in anx7625_register_audio()
+> 
+> Hans de Goede (1):
+>       drm: panel-orientation-quirks: Add quirk for the Lenovo Yoga Book X91F/L
+> 
+> Hsin-Yi Wang (1):
+>       drm/bridge: anx7625: Fix edid_read break case in sp_tx_edid_read()
+> 
+> Javier Martinez Canillas (7):
+>       drm: Don't print messages if drivers are disabled due nomodeset
+>       drm/vboxvideo: Drop CONFIG_VGA_CONSOLE guard to call vgacon_text_force()
+>       drm: Move nomodeset kernel parameter to the DRM subsystem
+>       drm: Decouple nomodeset from CONFIG_VGA_CONSOLE
+>       Documentation/admin-guide: Document nomodeset kernel parameter
+>       drm: Make the nomodeset message less sensational
+>       drm: Fix build error caused by missing drm_nomodeset.o
+> 
+> Martyn Welch (1):
+>       drm/bridge: megachips: Ensure both bridges are probed before registration
+> 
+> Randy Dunlap (1):
+>       drm: ttm: correct ttm_range_manager kernel-doc notation
+> 
+>  Documentation/admin-guide/kernel-parameters.txt    |   7 +
+>  drivers/gpu/drm/Kconfig                            |   6 +
+>  drivers/gpu/drm/Makefile                           |   2 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   5 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |   9 -
+>  drivers/gpu/drm/ast/ast_drv.c                      |   3 +-
+>  drivers/gpu/drm/bridge/analogix/anx7625.c          |   6 +-
+>  .../drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c   |  40 +++-
+>  drivers/gpu/drm/drm_atomic.c                       | 180 ++++++++-------
+>  drivers/gpu/drm/drm_atomic_helper.c                | 243 ++++++++++++---------
+>  drivers/gpu/drm/drm_atomic_uapi.c                  |   2 +-
+>  drivers/gpu/drm/drm_auth.c                         |  12 +-
+>  drivers/gpu/drm/drm_nomodeset.c                    |  24 ++
+>  drivers/gpu/drm/drm_panel_orientation_quirks.c     |   6 +
+>  drivers/gpu/drm/i915/i915_module.c                 |   4 +-
+>  drivers/gpu/drm/mgag200/mgag200_drv.c              |   3 +-
+>  drivers/gpu/drm/nouveau/nouveau_drm.c              |   4 +-
+>  drivers/gpu/drm/qxl/qxl_drv.c                      |   3 +-
+>  drivers/gpu/drm/radeon/radeon_drv.c                |   9 +-
+>  drivers/gpu/drm/tiny/bochs.c                       |   3 +-
+>  drivers/gpu/drm/tiny/cirrus.c                      |   4 +-
+>  drivers/gpu/drm/ttm/ttm_range_manager.c            |  11 +-
+>  drivers/gpu/drm/vboxvideo/vbox_drv.c               |   5 +-
+>  drivers/gpu/drm/vboxvideo/vbox_main.c              |   4 +-
+>  drivers/gpu/drm/virtio/virtgpu_drv.c               |   3 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c                |   3 +-
+>  drivers/video/console/vgacon.c                     |  21 --
+>  include/drm/drm_drv.h                              |   1 +
+>  include/linux/console.h                            |   6 -
+>  29 files changed, 344 insertions(+), 285 deletions(-)
+>  create mode 100644 drivers/gpu/drm/drm_nomodeset.c
+> 
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 Nürnberg, Germany
+> (HRB 36809, AG Nürnberg)
+> Geschäftsführer: Felix Imendörffer
 
-If you are OK with the patch as is, then I won't object :)
-
-> Rob
-
-Best regards,
-Javier
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
