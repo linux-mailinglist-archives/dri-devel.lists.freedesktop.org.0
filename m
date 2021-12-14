@@ -1,39 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D11E4748A9
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 17:58:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6622474B13
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 19:40:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC4CD10E31D;
-	Tue, 14 Dec 2021 16:58:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C84C810E123;
+	Tue, 14 Dec 2021 18:40:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C91510E31D;
- Tue, 14 Dec 2021 16:58:40 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 057776160E;
- Tue, 14 Dec 2021 16:58:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04180C34604;
- Tue, 14 Dec 2021 16:58:38 +0000 (UTC)
-Date: Tue, 14 Dec 2021 11:58:37 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 7/8] drm/i915: Disable tracing points on
- PREEMPT_RT
-Message-ID: <20211214115837.6f33a9b2@gandalf.local.home>
-In-Reply-To: <YbjHqlzqRqhdvLBM@intel.com>
-References: <20211214140301.520464-1-bigeasy@linutronix.de>
- <20211214140301.520464-8-bigeasy@linutronix.de>
- <20211214093652.0dfa5b6f@gandalf.local.home>
- <YbjHqlzqRqhdvLBM@intel.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+X-Greylist: delayed 557 seconds by postgrey-1.36 at gabe;
+ Tue, 14 Dec 2021 12:12:10 UTC
+Received: from luna.linkmauve.fr (82-65-109-163.subs.proxad.net
+ [82.65.109.163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C7ED10E415
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 12:12:10 +0000 (UTC)
+Received: by luna.linkmauve.fr (Postfix, from userid 1000)
+ id A5265F40D8A; Tue, 14 Dec 2021 13:02:48 +0100 (CET)
+Date: Tue, 14 Dec 2021 13:02:48 +0100
+From: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
+To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev
+Subject: Empty IN_FORMATS in sun4i-drm
+Message-ID: <20211214120248.y2zdzr5zsqowixjx@luna>
+Jabber-ID: linkmauve@linkmauve.fr
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ybmuzoimcjw3vsl4"
+Content-Disposition: inline
+X-Mailman-Approved-At: Tue, 14 Dec 2021 18:40:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,40 +41,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- dri-devel@lists.freedesktop.org, Luca Abeni <lucabe72@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 14 Dec 2021 18:34:50 +0200
-Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
 
-> Looks lightly tedious. Can't we have "slow" (or whatever) versions of
-> the trace macros so we could just declare these the same was as before
-> without having to manually write that wrapper for every event?
+--ybmuzoimcjw3vsl4
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-That would be quite tedious as well ;-)
+Hi,
 
-There's a couple of problems with doing it as a macro. One is that the data
-would need to be saved on stack. There's no guarantee that there will be
-enough stack available. We could probably add a way to limit the size. That
-is, adding something like:
+After updating Weston from 9f8561e9 to 07326040 (latest master), it
+fails to run on my PinePhone saying =E2=80=9Cformat 0x34325258 not supporte=
+d by
+output DSI-1=E2=80=9D and then exiting.
 
-#define MAX_SLOW_TRACE_ENTRY_SIZE	256
+This format is XR24, which would be extremely surprising not to be
+present, and drm_info[1] says it is present.  Looking into Weston=E2=80=99s
+code, I found that drm_plane_populate_formats()=E2=80=99s docstring says it=
+ uses
+=E2=80=9Ceither the IN_FORMATS blob property (if available), or the plane's
+format list if not.=E2=80=9D  Looking back at drm_info, I saw said IN_FORMA=
+TS
+blob being empty of formats (while the format list is fully populated):
+"IN_FORMATS" (immutable): blob =3D 32
+=E2=94=94=E2=94=80=E2=94=80=E2=94=80DRM_FORMAT_MOD_LINEAR (0x0)
 
-	BUILD_BUG_ON(sizeof(trace_event_raw_##call) > MAX_SLOW_TRACE_ENTRY_SIZE);
+This makes me think the kernel should populate IN_FORMATS with at least
+the same formats as the format list when supported, or stop advertising
+this property altogether.
 
-and then have the entry done outside the trace event. But even with that,
-this is specific to the perf and ftrace code, and not to the trace point
-that is called. We would need to figure out a way to make the macro work
-for all the users.
+Other compositors (such as phoc) still run file, probably because they
+use the format list exclusively, without consideration for modifiers.
 
-It may be possible to do, but it will be far from trivial, and I'm not sure
-I want this to be an easy option. Locks should not be taken from trace
-events in general, as they are not tested with lockdep when the trace
-points are not enabled, and could hide deadlocks that may not appear until
-running on production.
+Besides fixing this driver, would it make sense to also make Weston
+ignore an empty IN_FORMATS and fall back to the format list?
 
--- Steve
+Thanks,
+
+[1] https://github.com/ascent12/drm_info
+
+--=20
+Emmanuel Gil Peyrot
+
+--ybmuzoimcjw3vsl4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEjrVT1SzTln43kCLJOWgfYkb2LpAFAmG4h+UACgkQOWgfYkb2
+LpDFygf/TaPrdn4BSPmRmf7XJgZ4Jq1UuuwPTO+u54uiyThDjun/u8mW2aAVCF2d
+o5ypb3UChOtErClxIvsMi7MqtvP/zr0fKiWhM5tqrEq9y2+rqtpBgZvt9+gGsTRZ
+wCdhQoVpcx9eZz5BRMNHmpGD+x4uBYDFKuSdoRq7267e5P4hXKOPxyjjRKneuCTY
+XtzRrBTSiPrTnxxF3UkOvcK0uLdaUicswRiPPUQMk+kEpZvwAIywZYoENRpwOcOU
+9l9sEJvMmEIaKF2s/on57GefTM2dh24e9z2jRBRAU4RFdr6NOhoG3IDIxqHaVXMJ
+cz2MKuzhhUg+JYw99lGZlzWcpzKOFA==
+=dzqn
+-----END PGP SIGNATURE-----
+
+--ybmuzoimcjw3vsl4--
