@@ -1,33 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6622474B13
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 19:40:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45B51474B14
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 19:40:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C84C810E123;
-	Tue, 14 Dec 2021 18:40:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F14710E12F;
+	Tue, 14 Dec 2021 18:40:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 557 seconds by postgrey-1.36 at gabe;
- Tue, 14 Dec 2021 12:12:10 UTC
-Received: from luna.linkmauve.fr (82-65-109-163.subs.proxad.net
- [82.65.109.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C7ED10E415
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 12:12:10 +0000 (UTC)
-Received: by luna.linkmauve.fr (Postfix, from userid 1000)
- id A5265F40D8A; Tue, 14 Dec 2021 13:02:48 +0100 (CET)
-Date: Tue, 14 Dec 2021 13:02:48 +0100
-From: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
-To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev
-Subject: Empty IN_FORMATS in sun4i-drm
-Message-ID: <20211214120248.y2zdzr5zsqowixjx@luna>
-Jabber-ID: linkmauve@linkmauve.fr
+X-Greylist: delayed 448 seconds by postgrey-1.36 at gabe;
+ Tue, 14 Dec 2021 14:02:35 UTC
+Received: from smtpbg501.qq.com (smtpbg501.qq.com [203.205.250.101])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C3CD10E119;
+ Tue, 14 Dec 2021 14:02:35 +0000 (UTC)
+X-QQ-mid: bizesmtp46t1639489947t4knmgn0
+Received: from wangx.lan (unknown [171.221.148.2])
+ by esmtp6.qq.com (ESMTP) with 
+ id ; Tue, 14 Dec 2021 21:52:19 +0800 (CST)
+X-QQ-SSF: 0100000000200090C000B00A0000000
+X-QQ-FEAT: eTtJes0duVuCV5I93GIB5ZyjA1+F5l2Dnf6qN24mxYOihzHztWcvdOgxEkCCa
+ xz1TlrTAmtFmvsa8csE4t08n5PSZFY5PmMgyImpBqir0QDkeLuBClrnFH0HcxFArQ/5XG1H
+ QTdrX0k+6hpRSWIecxKu5GlelLBat3YCEI9fTBJCp6nI05Jx1gSAkFFP1mpZIYlvEK7l9B9
+ cGQtGI2mRNodkr7MHyBDQWWNTm33hhKZygr5phkqN15CQehSMJQv6AYpIYx5siCGFTc5XSY
+ bZcIFptTIGFbZiJshCv4cP3bSLhOEWjsKT9efdu8J7U3mYGzQshagYGSlhbKZY3tjo9Pl5r
+ Coo7DllVHSccTqgKsWe3Z0aHtse2A==
+X-QQ-GoodBg: 0
+From: Xiang wangx <wangxiang@cdjrlc.com>
+To: airlied@linux.ie
+Subject: [PATCH] drm/radeon: Fix syntax errors in comments
+Date: Tue, 14 Dec 2021 21:52:17 +0800
+Message-Id: <20211214135217.24444-1-wangxiang@cdjrlc.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ybmuzoimcjw3vsl4"
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:cdjrlc.com:qybgspam:qybgspam2
 X-Mailman-Approved-At: Tue, 14 Dec 2021 18:40:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,63 +49,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Xiang wangx <wangxiang@cdjrlc.com>, Xinhui.Pan@amd.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Delete the redundant word 'we'.
 
---ybmuzoimcjw3vsl4
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Xiang wangx <wangxiang@cdjrlc.com>
+---
+ drivers/gpu/drm/radeon/radeon_vce.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hi,
+diff --git a/drivers/gpu/drm/radeon/radeon_vce.c b/drivers/gpu/drm/radeon/radeon_vce.c
+index 511a942e851d..ca4a36464340 100644
+--- a/drivers/gpu/drm/radeon/radeon_vce.c
++++ b/drivers/gpu/drm/radeon/radeon_vce.c
+@@ -513,7 +513,7 @@ int radeon_vce_cs_reloc(struct radeon_cs_parser *p, int lo, int hi,
+  * @allocated: allocated a new handle?
+  *
+  * Validates the handle and return the found session index or -EINVAL
+- * we we don't have another free session index.
++ * we don't have another free session index.
+  */
+ static int radeon_vce_validate_handle(struct radeon_cs_parser *p,
+ 				      uint32_t handle, bool *allocated)
+-- 
+2.20.1
 
-After updating Weston from 9f8561e9 to 07326040 (latest master), it
-fails to run on my PinePhone saying =E2=80=9Cformat 0x34325258 not supporte=
-d by
-output DSI-1=E2=80=9D and then exiting.
-
-This format is XR24, which would be extremely surprising not to be
-present, and drm_info[1] says it is present.  Looking into Weston=E2=80=99s
-code, I found that drm_plane_populate_formats()=E2=80=99s docstring says it=
- uses
-=E2=80=9Ceither the IN_FORMATS blob property (if available), or the plane's
-format list if not.=E2=80=9D  Looking back at drm_info, I saw said IN_FORMA=
-TS
-blob being empty of formats (while the format list is fully populated):
-"IN_FORMATS" (immutable): blob =3D 32
-=E2=94=94=E2=94=80=E2=94=80=E2=94=80DRM_FORMAT_MOD_LINEAR (0x0)
-
-This makes me think the kernel should populate IN_FORMATS with at least
-the same formats as the format list when supported, or stop advertising
-this property altogether.
-
-Other compositors (such as phoc) still run file, probably because they
-use the format list exclusively, without consideration for modifiers.
-
-Besides fixing this driver, would it make sense to also make Weston
-ignore an empty IN_FORMATS and fall back to the format list?
-
-Thanks,
-
-[1] https://github.com/ascent12/drm_info
-
---=20
-Emmanuel Gil Peyrot
-
---ybmuzoimcjw3vsl4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEEjrVT1SzTln43kCLJOWgfYkb2LpAFAmG4h+UACgkQOWgfYkb2
-LpDFygf/TaPrdn4BSPmRmf7XJgZ4Jq1UuuwPTO+u54uiyThDjun/u8mW2aAVCF2d
-o5ypb3UChOtErClxIvsMi7MqtvP/zr0fKiWhM5tqrEq9y2+rqtpBgZvt9+gGsTRZ
-wCdhQoVpcx9eZz5BRMNHmpGD+x4uBYDFKuSdoRq7267e5P4hXKOPxyjjRKneuCTY
-XtzRrBTSiPrTnxxF3UkOvcK0uLdaUicswRiPPUQMk+kEpZvwAIywZYoENRpwOcOU
-9l9sEJvMmEIaKF2s/on57GefTM2dh24e9z2jRBRAU4RFdr6NOhoG3IDIxqHaVXMJ
-cz2MKuzhhUg+JYw99lGZlzWcpzKOFA==
-=dzqn
------END PGP SIGNATURE-----
-
---ybmuzoimcjw3vsl4--
