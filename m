@@ -2,38 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39D55474C21
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 20:36:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED32A474C42
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 20:47:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF6A610E1B3;
-	Tue, 14 Dec 2021 19:36:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C9F710E133;
+	Tue, 14 Dec 2021 19:47:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03C4810E1B3;
- Tue, 14 Dec 2021 19:36:01 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10197"; a="219754033"
-X-IronPort-AV: E=Sophos;i="5.88,205,1635231600"; d="scan'208";a="219754033"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Dec 2021 11:36:01 -0800
-X-IronPort-AV: E=Sophos;i="5.88,205,1635231600"; d="scan'208";a="463930205"
-Received: from njayagop-mobl2.ger.corp.intel.com (HELO intel.com)
- ([10.251.212.16])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Dec 2021 11:35:57 -0800
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Intel GFX <intel-gfx@lists.freedesktop.org>,
- DRI Devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v8 16/16] drm/i915: Remove unused i915->ggtt
-Date: Tue, 14 Dec 2021 21:33:46 +0200
-Message-Id: <20211214193346.21231-17-andi.shyti@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20211214193346.21231-1-andi.shyti@linux.intel.com>
-References: <20211214193346.21231-1-andi.shyti@linux.intel.com>
+Received: from relay06.th.seeweb.it (relay06.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::167])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B522B10E133
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 19:47:01 +0000 (UTC)
+Received: from SoMainline.org (94-209-165-62.cable.dynamic.v4.ziggo.nl
+ [94.209.165.62])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id CD3993F3BC;
+ Tue, 14 Dec 2021 20:46:57 +0100 (CET)
+Date: Tue, 14 Dec 2021 20:46:56 +0100
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Stephen Boyd <sboyd@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@chromium.org>
+Subject: Re: [PATCH v3 0/2] Use "ref" clocks from firmware for DSI PLL VCO
+ parent
+Message-ID: <20211214194656.mayiy4xhcshjluwf@SoMainline.org>
+Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>,
+ Stephen Boyd <sboyd@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@chromium.org>, phone-devel@vger.kernel.org,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>,
+ Matthias Kaehlcke <mka@chromium.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+References: <20210911131922.387964-1-marijn.suijten@somainline.org>
+ <163165584152.763609.4056232270079096475@swboyd.mtv.corp.google.com>
+ <20210918144038.6q352hzqopx7vvdu@SoMainline.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210918144038.6q352hzqopx7vvdu@SoMainline.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,246 +68,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
- Andi Shyti <andi@etezian.org>, Lucas De Marchi <lucas.demarchi@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Andi Shyti <andi.shyti@linux.intel.com>
+Cc: David Airlie <airlied@linux.ie>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ phone-devel@vger.kernel.org, linux-clk@vger.kernel.org,
+ Jonathan Marek <jonathan@marek.ca>, Andy Gross <agross@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <abhinavk@codeaurora.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Matthias Kaehlcke <mka@chromium.org>, Douglas Anderson <dianders@chromium.org>,
+ linux-kernel@vger.kernel.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The reference to the GGTT from the private date is not used
-anymore. Remove it.
+Hi all,
 
-Suggested-by: Matt Roper <matthew.d.roper@intel.com>
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Michał Winiarski <michal.winiarski@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_gt.c            |  7 +++++--
- drivers/gpu/drm/i915/gt/intel_gt.h            |  2 +-
- drivers/gpu/drm/i915/i915_driver.c            |  4 +++-
- drivers/gpu/drm/i915/i915_drv.h               |  2 --
- drivers/gpu/drm/i915/selftests/i915_gem_gtt.c | 20 ++++++++++---------
- drivers/gpu/drm/i915/selftests/i915_vma.c     | 20 ++++++++++---------
- .../gpu/drm/i915/selftests/mock_gem_device.c  |  9 +++++++--
- drivers/gpu/drm/i915/selftests/mock_gtt.c     |  9 ++++-----
- drivers/gpu/drm/i915/selftests/mock_gtt.h     |  3 ++-
- 9 files changed, 44 insertions(+), 32 deletions(-)
+On 2021-09-18 16:40:38, Marijn Suijten wrote:
+> On 2021-09-14 14:44:01, Stephen Boyd wrote:
+> > Quoting Marijn Suijten (2021-09-11 06:19:19)
+> > > All DSI PHY/PLL drivers were referencing their VCO parent clock by a
+> > > global name, most of which don't exist or have been renamed.  These
+> > > clock drivers seem to function fine without that except the 14nm driver
+> > > for sdm6xx [1].
+> > > 
+> > > At the same time all DTs provide a "ref" clock as per the requirements
+> > > of dsi-phy-common.yaml, but the clock is never used.  This patchset puts
+> > > that clock to use without relying on a global clock name, so that all
+> > > dependencies are explicitly defined in DT (the firmware) in the end.
+> > 
+> > I can take this through clk tree if it helps avoid conflicts. There are
+> > some other patches to sdm660.c in the clk tree already.
+> 
+> Might be useful to maintain proper ordering of these dependent patches
+> but it's up to Dmitry and Rob to decide, whom I'm sending this mail
+> directly to so that they can chime in.
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-index f98f0fb21efb..298ff32c8d0c 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-@@ -3,6 +3,7 @@
-  * Copyright © 2019 Intel Corporation
-  */
- 
-+#include <drm/drm_managed.h>
- #include <drm/intel-gtt.h>
- 
- #include "intel_gt_debugfs.h"
-@@ -85,9 +86,11 @@ int intel_gt_probe_lmem(struct intel_gt *gt)
- 	return 0;
- }
- 
--void intel_gt_init_hw_early(struct intel_gt *gt, struct i915_ggtt *ggtt)
-+int intel_gt_assign_ggtt(struct intel_gt *gt)
- {
--	gt->ggtt = ggtt;
-+	gt->ggtt = drmm_kzalloc(&gt->i915->drm, sizeof(*gt->ggtt), GFP_KERNEL);
-+
-+	return gt->ggtt ? 0 : -ENOMEM;
- }
- 
- static const struct intel_mmio_range icl_l3bank_steering_table[] = {
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
-index 3ace129eb2af..94e1bac8c0cc 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt.h
-@@ -36,7 +36,7 @@ static inline struct intel_gt *huc_to_gt(struct intel_huc *huc)
- 
- void intel_gt_init_early(struct intel_gt *gt, struct drm_i915_private *i915);
- void __intel_gt_init_early(struct intel_gt *gt, struct drm_i915_private *i915);
--void intel_gt_init_hw_early(struct intel_gt *gt, struct i915_ggtt *ggtt);
-+int intel_gt_assign_ggtt(struct intel_gt *gt);
- int intel_gt_probe_lmem(struct intel_gt *gt);
- int intel_gt_init_mmio(struct intel_gt *gt);
- int __must_check intel_gt_init_hw(struct intel_gt *gt);
-diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-index 3c984553d86f..5f2343389b5e 100644
---- a/drivers/gpu/drm/i915/i915_driver.c
-+++ b/drivers/gpu/drm/i915/i915_driver.c
-@@ -571,7 +571,9 @@ static int i915_driver_hw_probe(struct drm_i915_private *dev_priv)
- 
- 	i915_perf_init(dev_priv);
- 
--	intel_gt_init_hw_early(to_gt(dev_priv), &dev_priv->ggtt);
-+	ret = intel_gt_assign_ggtt(to_gt(dev_priv));
-+	if (ret)
-+		goto err_perf;
- 
- 	ret = i915_ggtt_probe_hw(dev_priv);
- 	if (ret)
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index 65724e4df3bd..8266df3e11ac 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -838,8 +838,6 @@ struct drm_i915_private {
- 	struct drm_atomic_state *modeset_restore_state;
- 	struct drm_modeset_acquire_ctx reset_ctx;
- 
--	struct i915_ggtt ggtt; /* VM representing the global address space */
--
- 	struct i915_gem_mm mm;
- 
- 	/* Kernel Modesetting */
-diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-index 9afe7cf9d068..f62f7dac57f2 100644
---- a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-+++ b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-@@ -1737,26 +1737,28 @@ int i915_gem_gtt_mock_selftests(void)
- 		SUBTEST(igt_gtt_insert),
- 	};
- 	struct drm_i915_private *i915;
--	struct i915_ggtt *ggtt;
-+	struct intel_gt *gt;
- 	int err;
- 
- 	i915 = mock_gem_device();
- 	if (!i915)
- 		return -ENOMEM;
- 
--	ggtt = kmalloc(sizeof(*ggtt), GFP_KERNEL);
--	if (!ggtt) {
--		err = -ENOMEM;
-+	/* allocate the ggtt */
-+	err = intel_gt_assign_ggtt(to_gt(i915));
-+	if (err)
- 		goto out_put;
--	}
--	mock_init_ggtt(i915, ggtt);
- 
--	err = i915_subtests(tests, ggtt);
-+	gt = to_gt(i915);
-+
-+	mock_init_ggtt(gt);
-+
-+	err = i915_subtests(tests, gt->ggtt);
- 
- 	mock_device_flush(i915);
- 	i915_gem_drain_freed_objects(i915);
--	mock_fini_ggtt(ggtt);
--	kfree(ggtt);
-+	mock_fini_ggtt(gt->ggtt);
-+
- out_put:
- 	mock_destroy_device(i915);
- 	return err;
-diff --git a/drivers/gpu/drm/i915/selftests/i915_vma.c b/drivers/gpu/drm/i915/selftests/i915_vma.c
-index 6ac15d3bc5bc..a87cba4eb92f 100644
---- a/drivers/gpu/drm/i915/selftests/i915_vma.c
-+++ b/drivers/gpu/drm/i915/selftests/i915_vma.c
-@@ -907,26 +907,28 @@ int i915_vma_mock_selftests(void)
- 		SUBTEST(igt_vma_partial),
- 	};
- 	struct drm_i915_private *i915;
--	struct i915_ggtt *ggtt;
-+	struct intel_gt *gt;
- 	int err;
- 
- 	i915 = mock_gem_device();
- 	if (!i915)
- 		return -ENOMEM;
- 
--	ggtt = kmalloc(sizeof(*ggtt), GFP_KERNEL);
--	if (!ggtt) {
--		err = -ENOMEM;
-+	/* allocate the ggtt */
-+	err = intel_gt_assign_ggtt(to_gt(i915));
-+	if (err)
- 		goto out_put;
--	}
--	mock_init_ggtt(i915, ggtt);
- 
--	err = i915_subtests(tests, ggtt);
-+	gt = to_gt(i915);
-+
-+	mock_init_ggtt(gt);
-+
-+	err = i915_subtests(tests, gt->ggtt);
- 
- 	mock_device_flush(i915);
- 	i915_gem_drain_freed_objects(i915);
--	mock_fini_ggtt(ggtt);
--	kfree(ggtt);
-+	mock_fini_ggtt(gt->ggtt);
-+
- out_put:
- 	mock_destroy_device(i915);
- 	return err;
-diff --git a/drivers/gpu/drm/i915/selftests/mock_gem_device.c b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-index 0b469ae0f474..28a0f054009a 100644
---- a/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-+++ b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-@@ -194,8 +194,13 @@ struct drm_i915_private *mock_gem_device(void)
- 
- 	mock_init_contexts(i915);
- 
--	mock_init_ggtt(i915, &i915->ggtt);
--	to_gt(i915)->vm = i915_vm_get(&i915->ggtt.vm);
-+	/* allocate the ggtt */
-+	ret = intel_gt_assign_ggtt(to_gt(i915));
-+	if (ret)
-+		goto err_unlock;
-+
-+	mock_init_ggtt(to_gt(i915));
-+	to_gt(i915)->vm = i915_vm_get(&to_gt(i915)->ggtt->vm);
- 
- 	mkwrite_device_info(i915)->platform_engine_mask = BIT(0);
- 	to_gt(i915)->info.engine_mask = BIT(0);
-diff --git a/drivers/gpu/drm/i915/selftests/mock_gtt.c b/drivers/gpu/drm/i915/selftests/mock_gtt.c
-index 13bb0c3c3f0d..a36f46d50e83 100644
---- a/drivers/gpu/drm/i915/selftests/mock_gtt.c
-+++ b/drivers/gpu/drm/i915/selftests/mock_gtt.c
-@@ -106,12 +106,12 @@ static void mock_unbind_ggtt(struct i915_address_space *vm,
- {
- }
- 
--void mock_init_ggtt(struct drm_i915_private *i915, struct i915_ggtt *ggtt)
-+void mock_init_ggtt(struct intel_gt *gt)
- {
--	memset(ggtt, 0, sizeof(*ggtt));
-+	struct i915_ggtt *ggtt = gt->ggtt;
- 
--	ggtt->vm.gt = to_gt(i915);
--	ggtt->vm.i915 = i915;
-+	ggtt->vm.gt = gt;
-+	ggtt->vm.i915 = gt->i915;
- 	ggtt->vm.is_ggtt = true;
- 
- 	ggtt->gmadr = (struct resource) DEFINE_RES_MEM(0, 2048 * PAGE_SIZE);
-@@ -132,7 +132,6 @@ void mock_init_ggtt(struct drm_i915_private *i915, struct i915_ggtt *ggtt)
- 	ggtt->vm.vma_ops.clear_pages = clear_pages;
- 
- 	i915_address_space_init(&ggtt->vm, VM_CLASS_GGTT);
--	to_gt(i915)->ggtt = ggtt;
- }
- 
- void mock_fini_ggtt(struct i915_ggtt *ggtt)
-diff --git a/drivers/gpu/drm/i915/selftests/mock_gtt.h b/drivers/gpu/drm/i915/selftests/mock_gtt.h
-index e3f224f43beb..d6eb90bd7f3f 100644
---- a/drivers/gpu/drm/i915/selftests/mock_gtt.h
-+++ b/drivers/gpu/drm/i915/selftests/mock_gtt.h
-@@ -27,8 +27,9 @@
- 
- struct drm_i915_private;
- struct i915_ggtt;
-+struct intel_gt;
- 
--void mock_init_ggtt(struct drm_i915_private *i915, struct i915_ggtt *ggtt);
-+void mock_init_ggtt(struct intel_gt *gt);
- void mock_fini_ggtt(struct i915_ggtt *ggtt);
- 
- struct i915_ppgtt *mock_ppgtt(struct drm_i915_private *i915, const char *name);
--- 
-2.34.1
+Dependent patch [3] landed in 5.15 and [2] made it into 5.16 rc's - is
+it time to pick this series up and if so through what tree?
 
+Repeating the links from patch 1/2:
+[2]: https://lore.kernel.org/linux-arm-msm/20210830175739.143401-1-marijn.suijten@somainline.org/
+[3]: https://lore.kernel.org/linux-arm-msm/20210829203027.276143-2-marijn.suijten@somainline.org/
+
+Thanks!
+
+- marijn
