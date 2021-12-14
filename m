@@ -2,55 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED39A473E44
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 09:31:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFB69473E49
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 09:37:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 051DD10EA1B;
-	Tue, 14 Dec 2021 08:30:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AADD810EA38;
+	Tue, 14 Dec 2021 08:37:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com
- [IPv6:2607:f8b0:4864:20::f2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A8D010EA1B
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 08:30:53 +0000 (UTC)
-Received: by mail-qv1-xf2d.google.com with SMTP id u16so16709293qvk.4
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 00:30:53 -0800 (PST)
+Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com
+ [IPv6:2607:f8b0:4864:20::729])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 708AA10EA38
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 08:37:41 +0000 (UTC)
+Received: by mail-qk1-x729.google.com with SMTP id m186so16157562qkb.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 00:37:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=dowhile0-org.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uajsDEex7bsoTTLmmIuCG5itA5xIQYPMZdhRY5ATmI8=;
- b=mf2RHFNUq8ZUdrJ8Aul4LWaMuwvk/wMCayWDi6NRibzflMBB26TwsKDFeFrXzwaQbm
- 3RlncRrQIk5ieKZq7okNZYnjmUoR6Sh5VtE5wn2ISElO1YPi+xNMaLqSd0g5ZITse6++
- oKkHpRkd47CnfQ27ld+1hcZnnIbM5agWdg48TZdaelKaaPFpctSRvaNzOgwuFBv2SzjW
- NQvh3fj1HIKiqdSO1iAdFocAiiETkAddgBVJS5BBJ47ICzq7l//V3NdGbdA7ePl3Iupj
- XkPciGV/NnJ5PgEWEFe2iNa+fq/eUtLzco2+CWiKtngMATkzaho0vbhTsVzGCjZh40kX
- 8nPg==
+ :cc; bh=V775Jo7foyl5u33KO9wxNFO5Xpg512uth3xPug6/f9Y=;
+ b=NmsmnUQjon4giEIPURXak6DNfz2uv3mxLeDEiVc8iUJV+WQGHo0oIywd2C3DSI4pVI
+ 4GuYtTQuyOG7798S3lnZcHyrILmqUoL50dlmbyCyTixojp/IGFP2EkTyKQgP170Pl3hq
+ 3ZZTfp+NvlUjYXYlRC9z5TqZF86aF2Zr51JO3mvpkOaTvBpEAUi9RCW9TtSQfOeQOXhx
+ iHPWUKKEP3loANy/6Y5EPGU4/Y/NvufewNugTqqrzYw8tHGKjsES4Pu9OaWA58l7LcZH
+ 8iUJjaT1SIRs1kDZ/7XPmBNEpbbLyESohomuDZ8Ply7kroWO48ooXLGjptuR/AuMiHbM
+ Rk5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=uajsDEex7bsoTTLmmIuCG5itA5xIQYPMZdhRY5ATmI8=;
- b=NCH9OoejqaD/Oimi7l+3ydt97/E/lTCpQdqMcoWfVE5tD34uxMAf9GHfXgxejyo+2k
- ZYwOoEPI9z7z/hGRe7SxHmklPjH+/V9yGUmzxlqW83kLBzoCf9ZLcIZT62644Ka/a4A2
- IbGdJcRcIT80KOqbbSZ6wvqQNB2+9SeHeWk8AQsjDAd5RorhSbg3rIZt/3H8qyhMYY1y
- 2Eb+qHtPyYWxCi1D4YuR6liKHRmjf9GV64XerHrJ/zu2SPD9/2Md9tMbFNK6DlQXLEj+
- Jv51+XT1pmF8rWmblJCA6h+5BawiC92J+pAssFMlXp65vhNIJ7KxrAewRvNVusfPkSrc
- YQGg==
-X-Gm-Message-State: AOAM533Jm+3lFbhZSGKz76JjwrmekVeGTU7HY8S/1o9kP2iMjnLar3kN
- eLfRgyKJ8N/JXE+P5owxD3tXWA0Bd2/1TJaANU//tw==
-X-Google-Smtp-Source: ABdhPJyv2ONMfdlytM9T3YUARkn73BeNNrUW2+f1SBfCkvo+sGCIXZFxwt0r7Bzz1StRpDHHIRWHv0A9Y5seMQu1H3s=
-X-Received: by 2002:a05:6214:410e:: with SMTP id
- kc14mr3893644qvb.73.1639470652830; 
- Tue, 14 Dec 2021 00:30:52 -0800 (PST)
+ bh=V775Jo7foyl5u33KO9wxNFO5Xpg512uth3xPug6/f9Y=;
+ b=AlSEwXxP06sXOio3krdeM0qZ56SIwChZb8CemDibVO67lDenyohlJz7LPt5pX5V7bd
+ dUMDESP1UlcpuqA3dQE+cEPPgCzf0hiWzviVTCBvk8Y9Vibm5xDmvv7dL9DD8BMyOROq
+ FWr8RTK5ypDSFVX+DmxVgsQG+P/5xnKT3q8IUPqOH8F5YV+CITDHw8rkwA02Wes1t6fh
+ JP97YyMhWNqQLbXHDFbDsTbn1lzCG7TgmTHYu9YznUvXWcrT0rXOPOU4WNw/XBz73Ark
+ 8a3U8elWlYfCkA19OQAwRaA3IbsEbZtV4R5HDPOjNeRsYK3o/ltmbSKV1Ji0KvOu57T0
+ HcFQ==
+X-Gm-Message-State: AOAM531BtQ7vUgySqvBFNk9Ls7pEbpkojmtIJsqKlttlRhfLeYTcUVZk
+ SIse5TjTt6qSzvHBg13c+fy8kgRfimXEsQtNGfH9+Q==
+X-Google-Smtp-Source: ABdhPJwTLF1AMEeFod/l2CxZZeOst/LaOVrIJybQJ5YF/RyGQnZ4Krjx2+P/GvWwxeDL73OopPshCk3YG/laGaGdXjg=
+X-Received: by 2002:a05:620a:298a:: with SMTP id
+ r10mr2844306qkp.447.1639471060440; 
+ Tue, 14 Dec 2021 00:37:40 -0800 (PST)
 MIME-Version: 1.0
-References: <20211213162635.252582-1-maxime@cerno.tech>
- <20211213162635.252582-3-maxime@cerno.tech>
-In-Reply-To: <20211213162635.252582-3-maxime@cerno.tech>
+References: <20211212062407.138309-1-marcan@marcan.st>
+ <20211212062407.138309-2-marcan@marcan.st>
+ <CABxcv=m4fu8h=FwY7R=thuvd13_ZbFqB9rNNN07QOAd__jdYSQ@mail.gmail.com>
+ <63334964-d63d-7625-e46f-a6e6ec19e908@marcan.st>
+ <CABxcv=kbR5GX3yEfqchKJPkCqpWp_oKWjG=pu7LikBwoSX8W3A@mail.gmail.com>
+ <CAL_JsqLLTL-_H3XgsZRZaxE6qO6y8CDpoHfDkOgwekb1ysNQFw@mail.gmail.com>
+In-Reply-To: <CAL_JsqLLTL-_H3XgsZRZaxE6qO6y8CDpoHfDkOgwekb1ysNQFw@mail.gmail.com>
 From: Javier Martinez Canillas <javier@dowhile0.org>
-Date: Tue, 14 Dec 2021 09:30:42 +0100
-Message-ID: <CABxcv=ka4uc0Mt7Yv2RKnSYG74WRP--U1n4PhOjCentGEGkaMg@mail.gmail.com>
-Subject: Re: [PATCH RESEND v4 v4 2/4] drm/vc4: Support nomodeset
-To: Maxime Ripard <maxime@cerno.tech>
+Date: Tue, 14 Dec 2021 09:37:29 +0100
+Message-ID: <CABxcv=nFx9r+=qMXop6kp6E4KoXaX_8duLY7S9fo6uqs_539jw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] of: Move simple-framebuffer device handling from
+ simplefb to of
+To: Rob Herring <robh+dt@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,57 +69,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
- Dom Cobley <dom@raspberrypi.com>, Scott Branden <sbranden@broadcom.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, Ray Jui <rjui@broadcom.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Rob Herring <robh+dt@kernel.org>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>,
- bcm-kernel-feedback-list@broadcom.com, Tim Gover <tim.gover@raspberrypi.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Frank Rowand <frowand.list@gmail.com>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Hector Martin <marcan@marcan.st>,
+ Linux Kernel <linux-kernel@vger.kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Maxime
-
-On Mon, Dec 13, 2021 at 5:26 PM Maxime Ripard <maxime@cerno.tech> wrote:
+On Mon, Dec 13, 2021 at 3:50 PM Rob Herring <robh+dt@kernel.org> wrote:
 >
-> If we have nomodeset on the kernel command line we should have the
-> firmware framebuffer driver kept as is and not try to load the
-> full-blown KMS driver.
+> On Mon, Dec 13, 2021 at 5:30 AM Javier Martinez Canillas
+> <javier@dowhile0.org> wrote:
+
+[snip]
+
+> >
+> > You are right that passing NULL is a safe code path for now due the
+> > of_device_is_available(node) check, but that seems fragile to me since
+> > just adding a similar debug output to of_platform_device_create()
+> > could trigger the NULL pointer dereference.
+>
+> All/most DT functions work with a NULL node ptr, so why should this
+> one be different?
 >
 
-Patch looks good to me. I just have a question, but I'm OK with either way.
+If you are OK with the patch as is, then I won't object :)
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
-> In this case, let's just register the v3d driver.
->
-
-I wonder if the v3d driver should be registered if nomodeset is
-present. Most (if not all?) drivers that currently check for this
-parameter disable both KMS and DRM. So even when it seems to imply
-that's about kernel mode settings, it is also used to disable DRM.
-
-This semantic was never documented and I attempted to do that in
-commit b22a15a5aca3 ("Documentation/admin-guide: Document nomodeset
-kernel parameter"). After feedback from folks in the list, the text
-ended as follows:
-
-```
-Disable kernel modesetting. DRM drivers will not perform
-display-mode changes or accelerated rendering. Only the
-system framebuffer will be available for use if this was
-set-up by the firmware or boot loader.
-
-Useful as fallback, or for testing and debugging.
-```
-
-So maybe vc4_drm_register() should just return -EINVAL if
-(drm_firmware_drivers_only()) like the other drivers do?
+> Rob
 
 Best regards,
 Javier
