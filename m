@@ -1,46 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D813747463C
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 16:18:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B515474665
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 16:26:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D90BD10E557;
-	Tue, 14 Dec 2021 15:18:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A000210E55C;
+	Tue, 14 Dec 2021 15:26:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C96210E552;
- Tue, 14 Dec 2021 15:18:40 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 236DDB81A76;
- Tue, 14 Dec 2021 15:18:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F9D8C3460A;
- Tue, 14 Dec 2021 15:18:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1639495117;
- bh=xA4qErAYFfQZoMVAgqmgJanxkAG/Pa06aExW8DKib+g=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=YdAF4vm+BGbwsTBNyD1SZIwyVqUjVeVO51lj2mafBgIGLDN5Gt+cqE5gxxaI+AZ0A
- JKGOfQsR73R+3MzpwP0IKcA0ztSfXU03oUS+66zUeKSU4A/BFTjaHKXxH5BvHO/xBG
- m/Rh6zc67ghxl5e+1lm+JV5HTNA11O/ed+dONdV9EnEvcKK2AC9apEUf9g9BP8/L7E
- cfBBU9Jm0quW8ILPZaaCJVh2JJt4Kaa0r9PHUpSydBMvcUmW47hN+Q2S72HKZJ/KKx
- JHQplMxt/v/U7mGqO/W6eXnC5vred/UOIfkvQHBa/CDhrsacV05TM1GdkwcaXx4fmu
- g/V5wU0WWTgEA==
-From: Will Deacon <will@kernel.org>
-To: Rob Clark <robdclark@gmail.com>,
-	iommu@lists.linux-foundation.org
-Subject: Re: [PATCH] iommu/arm-smmu-qcom: Fix TTBR0 read
-Date: Tue, 14 Dec 2021 15:18:15 +0000
-Message-Id: <163949295159.2865133.14830318061014713865.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20211108171724.470973-1-robdclark@gmail.com>
-References: <20211108171724.470973-1-robdclark@gmail.com>
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
+ [IPv6:2a00:1450:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3431010E55C
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 15:26:19 +0000 (UTC)
+Received: by mail-lj1-x234.google.com with SMTP id l7so28867034lja.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 07:26:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=E1s89Tuk39UOoZlOnaYWQ3Z1+01yfMXbQponNEtbH2M=;
+ b=WwgkRYx3+StpmQOX5zWNZea0LTRzvre8BcRBHN+bQETXffydPPalqRgKWQ3fW+eAFI
+ KFzK2WFm26VKLSwNLWJGuC39mWkVXz6LUdX/VmLg5SCCbnB+dsBXv5wlewTxhAUmboEF
+ 6hKcZV6qzTaHqqZb+PkOulHm19BA4/flkL+WM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=E1s89Tuk39UOoZlOnaYWQ3Z1+01yfMXbQponNEtbH2M=;
+ b=D2Fguge+ln3JxtiXkYk/KzR0J2yphsJuo6E6Eo6EZnpLQHLNO1y4Grz6bPmvsFL+lX
+ gQM3Kq1FhKmXXbhtuQixIHmPySkqJI4tfiezPnvkV7kl6o8g1oQme3RrstwD7a1rVsc8
+ +rZ3kUcatQl71mgDugoudH/ys7jn5+/NDhy9N43HNDyI5RvNVVBlMKLHhz1xRULRAkmW
+ gmicv1/6KnUp4ladNiyq6IfhyVVY6W5FrwJoqqcj1IIrkTJxTFGdNPht2gxt5ppW1Buw
+ WcSflOoPfVxBIjof5fxEQYNSSBQtS34N1l/ubotmtLwvRkqZtxfaTuR9xCZVrKVNbTTg
+ 2uXw==
+X-Gm-Message-State: AOAM533tFmQ1HaREFuPCYdaJpEdWy2TLlt9yWQjCm9DQw2VaucfG578U
+ aOcYG3WKhQg/ar/aVNhBBUutJUdx1Aur/dA43F03zTCM9RznbA==
+X-Google-Smtp-Source: ABdhPJxXEMFm5MO03ocP3YbIlaXlGoJzGI5gjZgD3+oeBt+anch+hjrguJ7Q8hdUWyFJf6G1XVFZ07wtaAndgQfCxnM=
+X-Received: by 2002:a05:651c:50c:: with SMTP id
+ o12mr5639330ljp.88.1639495577542; 
+ Tue, 14 Dec 2021 07:26:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20211027162806.2014022-1-markyacoub@chromium.org>
+ <20211213160742.744333-1-markyacoub@chromium.org>
+ <CAAOTY_81KaSEWAqTWgzmshDZ9BefO3pNrqQwWbB01E4L0+mqzg@mail.gmail.com>
+In-Reply-To: <CAAOTY_81KaSEWAqTWgzmshDZ9BefO3pNrqQwWbB01E4L0+mqzg@mail.gmail.com>
+From: Mark Yacoub <markyacoub@chromium.org>
+Date: Tue, 14 Dec 2021 10:26:06 -0500
+Message-ID: <CAJUqKUp_Q39S912_epc3pfT-uc3DN=u4sCSdLm9VetwqdH_Pzw@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/mediatek: Set the default value of rotation to
+ DRM_MODE_ROTATE_0
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,34 +64,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Will Deacon <will@kernel.org>, catalin.marinas@arm.com,
- Joerg Roedel <joro@8bytes.org>, Jordan Crouse <jordan@cosmicpenguin.net>,
- Robin Murphy <robin.murphy@arm.com>, dri-devel@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>, Eric Anholt <eric@anholt.net>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, linux-arm-msm@vger.kernel.org,
- kernel-team@android.com,
- "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>
+Cc: David Airlie <airlied@linux.ie>, Jason-JH Lin <jason-jh.lin@mediatek.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>, tzungbi@google.com,
+ Sean Paul <seanpaul@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 8 Nov 2021 09:17:23 -0800, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> It is a 64b register, lets not lose the upper bits.
-> 
-> 
+Thank you so much!
 
-Applied to will (for-joerg/arm-smmu/updates), thanks!
-
-[1/1] iommu/arm-smmu-qcom: Fix TTBR0 read
-      https://git.kernel.org/will/c/c31112fbd407
-
-Cheers,
--- 
-Will
-
-https://fixes.arm64.dev
-https://next.arm64.dev
-https://will.arm64.dev
+On Mon, Dec 13, 2021 at 6:27 PM Chun-Kuang Hu <chunkuang.hu@kernel.org> wro=
+te:
+>
+> Hi, Mark:
+>
+> Mark Yacoub <markyacoub@chromium.org> =E6=96=BC 2021=E5=B9=B412=E6=9C=881=
+4=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8A=E5=8D=8812:08=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+> >
+> > At the reset hook, call __drm_atomic_helper_plane_reset which is
+> > called at the initialization of the plane and sets the default value of
+> > rotation on all planes to DRM_MODE_ROTATE_0 which is equal to 1.
+>
+> Applied to mediatek-drm-next [1], thanks.
+>
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.gi=
+t/log/?h=3Dmediatek-drm-next
+>
+> Regards,
+> Chun-Kuang.
+>
+> >
+> > Tested on Jacuzzi (MTK).
+> > Resolves IGT@kms_properties@plane-properties-{legacy,atomic}
+> >
+> > Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
+> > ---
+> >  drivers/gpu/drm/mediatek/mtk_drm_plane.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm=
+/mediatek/mtk_drm_plane.c
+> > index e6dcb34d30522..accd26481b9fb 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+> > @@ -44,9 +44,10 @@ static void mtk_plane_reset(struct drm_plane *plane)
+> >                 state =3D kzalloc(sizeof(*state), GFP_KERNEL);
+> >                 if (!state)
+> >                         return;
+> > -               plane->state =3D &state->base;
+> >         }
+> >
+> > +       __drm_atomic_helper_plane_reset(plane, &state->base);
+> > +
+> >         state->base.plane =3D plane;
+> >         state->pending.format =3D DRM_FORMAT_RGB565;
+> >  }
+> > --
+> > 2.34.1.173.g76aa8bc2d0-goog
+> >
