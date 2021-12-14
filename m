@@ -2,36 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52D4A4742FE
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 13:54:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 760FA474443
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 15:03:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2E5D10E438;
-	Tue, 14 Dec 2021 12:54:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E39110E480;
+	Tue, 14 Dec 2021 14:03:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8A9E910E470
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 12:54:15 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 02AA26D;
- Tue, 14 Dec 2021 04:54:15 -0800 (PST)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D69B23F793;
- Tue, 14 Dec 2021 04:54:14 -0800 (PST)
-Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
- id 9329368527A; Tue, 14 Dec 2021 12:54:13 +0000 (GMT)
-Date: Tue, 14 Dec 2021 12:54:13 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Subject: Re: [PATCH v2] drm: mali-dp: potential dereference of null pointer
-Message-ID: <YbiT9SZ2sqrl3sJT@e110455-lin.cambridge.arm.com>
-References: <20211214125110.46979-1-jiasheng@iscas.ac.cn>
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0D3210E480;
+ Tue, 14 Dec 2021 14:03:11 +0000 (UTC)
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1639490588;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=PKOblzRcMQhKJJmJvMs0P/2nF/9bPXHu9vOjiwBdfbI=;
+ b=bu5DDXViUownEqbsFdzfaPQA5JdgpAdYjMyBciyYeEwbuE5yTfLLVGNPq14xMc8ncUe9fW
+ 1P6BVk08Suy6G1QZSIVQ8IBR7/FBmEq//o7GGYF124zI7da5/RLB2c5/EID024sBTELtYN
+ iHRdaGMwbQxIYYk05BXUFL7mnugcY0VUy5GncqFbU8iNafn6dR/gm1Xhxx+YouLoBFBIHr
+ 5ex0OfsXzyD1Gjev/fNtqzj7W7kiBQjRdMPzwOczY10OCw/w49EJrxw4DDN1mY0tgu76WJ
+ 2CcF9hNfGth82NdTrIH1eDNRwygdQJTFzgUTRVyYiv8AJqBrf4JhPlq4Sx6nGg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1639490588;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=PKOblzRcMQhKJJmJvMs0P/2nF/9bPXHu9vOjiwBdfbI=;
+ b=FhH1dlSZzJ0H8ijemQayIox20lmPXUx+33WimFACAkYxy1CboHdcUmtuUEHQQ67Z/Q4u4X
+ GD6iG0sWGzh9NYBA==
+To: dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org
+Subject: [PATCH 0/8] drm/i915: PREEMPT_RT related fixups.
+Date: Tue, 14 Dec 2021 15:02:53 +0100
+Message-Id: <20211214140301.520464-1-bigeasy@linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211214125110.46979-1-jiasheng@iscas.ac.cn>
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,67 +51,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Gleixner <tglx@linutronix.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jiasheng,
 
-On Tue, Dec 14, 2021 at 08:51:10PM +0800, Jiasheng Jiang wrote:
-> The return value of kzalloc() needs to be checked.
-> To avoid use of null pointer '&state->base' in case of the
-> failure of alloc.
-> 
-> Fixes: 99665d072183 ("drm: mali-dp: add malidp_crtc_state struct")
-> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-> Reported-by: Brian Starkey <brian.starkey@arm.com>
+Hi,
 
-By R-b Brian meant "Reviewed-by" but I now can see how it can be confused with "Reported-by".
+The following patches are from the PREEMPT_RT queue. One patch was
+applied, one added so here are eight again. I can post them in smaller
+batches if that is preferred.
+It is mostly about disabling interrupts/preemption which leads to
+problems.  Unfortunately DRM_I915_LOW_LEVEL_TRACEPOINTS had to be
+disabled because it acquires locks from within trace points. Making the
+lock a raw_spinlock_t led to higher latencies during video playback
+  https://lore.kernel.org/all/20211006164628.s2mtsdd2jdbfyf7g@linutronix.de/
 
-You don't have to send another version of the patch, I will add the correct tag to
-your v1 when pushing it into drm-misc-next.
+and I'm not sure if I hit the worse case here.
+I tested it on a SandyBridge with built-in i915 by using X, OpenGL and
+playing videos without noticing any warnings. However, some code paths
+were not entered.
 
-Best regards,
-Liviu
+Sebastian
 
-
-> ---
-> Changelog:
-> 
-> v1 -> v2
-> 
-> *Change 1. Add r-p.
-> ---
->  drivers/gpu/drm/arm/malidp_crtc.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/arm/malidp_crtc.c b/drivers/gpu/drm/arm/malidp_crtc.c
-> index 494075ddbef6..b5928b52e279 100644
-> --- a/drivers/gpu/drm/arm/malidp_crtc.c
-> +++ b/drivers/gpu/drm/arm/malidp_crtc.c
-> @@ -487,7 +487,10 @@ static void malidp_crtc_reset(struct drm_crtc *crtc)
->  	if (crtc->state)
->  		malidp_crtc_destroy_state(crtc, crtc->state);
->  
-> -	__drm_atomic_helper_crtc_reset(crtc, &state->base);
-> +	if (state)
-> +		__drm_atomic_helper_crtc_reset(crtc, &state->base);
-> +	else
-> +		__drm_atomic_helper_crtc_reset(crtc, NULL);
->  }
->  
->  static int malidp_crtc_enable_vblank(struct drm_crtc *crtc)
-> -- 
-> 2.25.1
-> 
-
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
