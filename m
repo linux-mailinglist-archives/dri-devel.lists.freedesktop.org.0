@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 276E147469E
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 16:39:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFD134746B1
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 16:41:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B572110E56D;
-	Tue, 14 Dec 2021 15:39:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42D2210E552;
+	Tue, 14 Dec 2021 15:41:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id C909910E56D
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 15:38:59 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 40EBBD6E;
- Tue, 14 Dec 2021 07:38:59 -0800 (PST)
-Received: from [10.57.34.58] (unknown [10.57.34.58])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 549423F774;
- Tue, 14 Dec 2021 07:38:54 -0800 (PST)
-Message-ID: <a1c8c438-72e6-0938-1b05-09694983164d@arm.com>
-Date: Tue, 14 Dec 2021 15:38:50 +0000
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3978D10E552;
+ Tue, 14 Dec 2021 15:41:27 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10197"; a="238949105"
+X-IronPort-AV: E=Sophos;i="5.88,205,1635231600"; d="scan'208";a="238949105"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Dec 2021 07:41:26 -0800
+X-IronPort-AV: E=Sophos;i="5.88,205,1635231600"; d="scan'208";a="682099432"
+Received: from nalbarnj-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.3.235])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Dec 2021 07:41:22 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Steven Rostedt <rostedt@goodmis.org>, Sebastian Andrzej Siewior
+ <bigeasy@linutronix.de>
+Subject: Re: [PATCH 7/8] drm/i915: Disable tracing points on PREEMPT_RT
+In-Reply-To: <20211214093652.0dfa5b6f@gandalf.local.home>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20211214140301.520464-1-bigeasy@linutronix.de>
+ <20211214140301.520464-8-bigeasy@linutronix.de>
+ <20211214093652.0dfa5b6f@gandalf.local.home>
+Date: Tue, 14 Dec 2021 17:41:17 +0200
+Message-ID: <87bl1j5h42.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH v2 0/8] Host1x context isolation support
-Content-Language: en-GB
-To: Mikko Perttunen <cyndis@kapsi.fi>, Mikko Perttunen
- <mperttunen@nvidia.com>, thierry.reding@gmail.com, jonathanh@nvidia.com,
- joro@8bytes.org, will@kernel.org, robh+dt@kernel.org
-References: <20210916143302.2024933-1-mperttunen@nvidia.com>
- <10de82cf-27a5-8890-93a5-0e58c74e5bcc@kapsi.fi>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <10de82cf-27a5-8890-93a5-0e58c74e5bcc@kapsi.fi>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,103 +47,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
- linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Luca Abeni <lucabe72@gmail.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-11-08 10:36, Mikko Perttunen wrote:
-> On 9/16/21 5:32 PM, Mikko Perttunen wrote:
->> Hi all,
->>
->> ***
->> New in v2:
->>
->> Added support for Tegra194
->> Use standard iommu-map property instead of custom mechanism
->> ***
->>
->> this series adds support for Host1x 'context isolation'. Since
->> when programming engines through Host1x, userspace can program in
->> any addresses it wants, we need some way to isolate the engines'
->> memory spaces. Traditionally this has either been done imperfectly
->> with a single shared IOMMU domain, or by copying and verifying the
->> programming command stream at submit time (Host1x firewall).
->>
->> Since Tegra186 there is a privileged (only usable by kernel)
->> Host1x opcode that allows setting the stream ID sent by the engine
->> to the SMMU. So, by allocating a number of context banks and stream
->> IDs for this purpose, and using this opcode at the beginning of
->> each job, we can implement isolation. Due to the limited number of
->> context banks only each process gets its own context, and not
->> each channel.
->>
->> This feature also allows sharing engines among multiple VMs when
->> used with Host1x's hardware virtualization support - up to 8 VMs
->> can be configured with a subset of allowed stream IDs, enforced
->> at hardware level.
->>
->> To implement this, this series adds a new host1x context bus, which
->> will contain the 'struct device's corresponding to each context
->> bank / stream ID, changes to device tree and SMMU code to allow
->> registering the devices and using the bus, as well as the Host1x
->> stream ID programming code and support in TegraDRM.
->>
->> Device tree bindings are not updated yet pending consensus that the
->> proposed changes make sense.
->>
->> Thanks,
->> Mikko
->>
->> Mikko Perttunen (8):
->>    gpu: host1x: Add context bus
->>    gpu: host1x: Add context device management code
->>    gpu: host1x: Program context stream ID on submission
->>    iommu/arm-smmu: Attach to host1x context device bus
->>    arm64: tegra: Add Host1x context stream IDs on Tegra186+
->>    drm/tegra: falcon: Set DMACTX field on DMA transactions
->>    drm/tegra: vic: Implement get_streamid_offset
->>    drm/tegra: Support context isolation
->>
->>   arch/arm64/boot/dts/nvidia/tegra186.dtsi  |  12 ++
->>   arch/arm64/boot/dts/nvidia/tegra194.dtsi  |  12 ++
->>   drivers/gpu/Makefile                      |   3 +-
->>   drivers/gpu/drm/tegra/drm.h               |   2 +
->>   drivers/gpu/drm/tegra/falcon.c            |   8 +
->>   drivers/gpu/drm/tegra/falcon.h            |   1 +
->>   drivers/gpu/drm/tegra/submit.c            |  13 ++
->>   drivers/gpu/drm/tegra/uapi.c              |  34 ++++-
->>   drivers/gpu/drm/tegra/vic.c               |  38 +++++
->>   drivers/gpu/host1x/Kconfig                |   5 +
->>   drivers/gpu/host1x/Makefile               |   2 +
->>   drivers/gpu/host1x/context.c              | 174 ++++++++++++++++++++++
->>   drivers/gpu/host1x/context.h              |  27 ++++
->>   drivers/gpu/host1x/context_bus.c          |  31 ++++
->>   drivers/gpu/host1x/dev.c                  |  12 +-
->>   drivers/gpu/host1x/dev.h                  |   2 +
->>   drivers/gpu/host1x/hw/channel_hw.c        |  52 ++++++-
->>   drivers/gpu/host1x/hw/host1x06_hardware.h |  10 ++
->>   drivers/gpu/host1x/hw/host1x07_hardware.h |  10 ++
->>   drivers/iommu/arm/arm-smmu/arm-smmu.c     |  13 ++
->>   include/linux/host1x.h                    |  21 +++
->>   include/linux/host1x_context_bus.h        |  15 ++
->>   22 files changed, 488 insertions(+), 9 deletions(-)
->>   create mode 100644 drivers/gpu/host1x/context.c
->>   create mode 100644 drivers/gpu/host1x/context.h
->>   create mode 100644 drivers/gpu/host1x/context_bus.c
->>   create mode 100644 include/linux/host1x_context_bus.h
->>
-> 
-> IOMMU/DT folks, any thoughts about this approach? The patches that are 
-> of interest outside of Host1x/TegraDRM specifics are patches 1, 2, 4, 
-> and 5.
+On Tue, 14 Dec 2021, Steven Rostedt <rostedt@goodmis.org> wrote:
+> On Tue, 14 Dec 2021 15:03:00 +0100
+> Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
+>
+>> Luca Abeni reported this:
+>> | BUG: scheduling while atomic: kworker/u8:2/15203/0x00000003
+>> | CPU: 1 PID: 15203 Comm: kworker/u8:2 Not tainted 4.19.1-rt3 #10
+>> | Call Trace:
+>> |  rt_spin_lock+0x3f/0x50
+>> |  gen6_read32+0x45/0x1d0 [i915]
+>> |  g4x_get_vblank_counter+0x36/0x40 [i915]
+>> |  trace_event_raw_event_i915_pipe_update_start+0x7d/0xf0 [i915]
+>> 
+>> The tracing events use trace_i915_pipe_update_start() among other events
+>> use functions acquire spinlock_t locks which are transformed into
+>> sleeping locks on PREEMPT_RT. A few trace points use
+>> intel_get_crtc_scanline(), others use ->get_vblank_counter() wich also
+>> might acquire a sleeping locks on PREEMPT_RT.
+>> At the time the arguments are evaluated within trace point, preemption
+>> is disabled and so the locks must not be acquired on PREEMPT_RT.
+>> 
+>> Based on this I don't see any other way than disable trace points on
+>> PREMPT_RT.
+>
+> Another way around this that I can see is if the data for the tracepoints
+> can fit on the stack and add wrappers around the tracepoints. For example,
+> looking at the first tracepoint in i915_trace.h:
 
-FWIW it looks fairly innocuous to me. I don't understand host1x - 
-neither hardware nor driver abstractions - well enough to meaningfully 
-review it all (e.g. maybe it's deliberate that the bus .dma_configure 
-method isn't used?), but the SMMU patch seems fine given the Kconfig 
-solution to avoid module linkage problems.
+FYI display portions of the file have been split to
+display/intel_display_trace.[ch] in current drm-intel-next, headed for
+v5.17 merge window.
 
-Cheers,
-Robin.
+BR,
+Jani.
+
+
+>
+> TRACE_EVENT(intel_pipe_enable,
+> 	    TP_PROTO(struct intel_crtc *crtc),
+> 	    TP_ARGS(crtc),
+>
+> 	    TP_STRUCT__entry(
+> 			     __array(u32, frame, 3)
+> 			     __array(u32, scanline, 3)
+> 			     __field(enum pipe, pipe)
+> 			     ),
+> 	    TP_fast_assign(
+> 			   struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
+> 			   struct intel_crtc *it__;
+> 			   for_each_intel_crtc(&dev_priv->drm, it__) {
+> 				   __entry->frame[it__->pipe] = intel_crtc_get_vblank_counter(it__);
+> 				   __entry->scanline[it__->pipe] = intel_get_crtc_scanline(it__);
+> 			   }
+> 			   __entry->pipe = crtc->pipe;
+> 			   ),
+>
+> 	    TP_printk("pipe %c enable, pipe A: frame=%u, scanline=%u, pipe B: frame=%u, scanline=%u, pipe C: frame=%u, scanline=%u",
+> 		      pipe_name(__entry->pipe),
+> 		      __entry->frame[PIPE_A], __entry->scanline[PIPE_A],
+> 		      __entry->frame[PIPE_B], __entry->scanline[PIPE_B],
+> 		      __entry->frame[PIPE_C], __entry->scanline[PIPE_C])
+> );
+>
+> We could modify this to be:
+>
+> TRACE_EVENT(intel_pipe_enable,
+> 	    TP_PROTO(u32 *frame, u32 *scanline, enum pipe),
+> 	    TP_ARGS(frame, scanline, pipe),
+>
+> 	    TP_STRUCT__entry(
+> 			     __array(u32, frame, 3)
+> 			     __array(u32, scanline, 3)
+> 			     __field(enum pipe, pipe)
+> 			     ),
+> 	    TP_fast_assign(
+> 			   int i;
+> 			   for (i = 0; i < 3; i++) {
+> 			      __entry->frame[i] = frame[i];
+> 			      __entry->scanline[i] = scanline[i];
+> 			   }
+> 			   __entry->pipe = pipe;
+> 			   ),
+>
+> 	    TP_printk("pipe %c enable, pipe A: frame=%u, scanline=%u, pipe B: frame=%u, scanline=%u, pipe C: frame=%u, scanline=%u",
+> 		      pipe_name(__entry->pipe),
+> 		      __entry->frame[PIPE_A], __entry->scanline[PIPE_A],
+> 		      __entry->frame[PIPE_B], __entry->scanline[PIPE_B],
+> 		      __entry->frame[PIPE_C], __entry->scanline[PIPE_C])
+> );
+>
+>
+> static inline void do_trace_intel_pipe(struct intel_crtc *crtc)
+> {
+> 	u32 frame[3];
+> 	u32 scanline[3];
+> 	enum pipe pipe;
+>
+> 	if (!trace_intel_pipe_enable_enabled())
+> 		return;
+>
+> 	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
+> 	struct intel_crtc *it__;
+> 	for_each_intel_crtc(&dev_priv->drm, it__) {
+> 		frame[it__->pipe] = intel_crtc_get_vblank_counter(it__);
+> 		scanline[it__->pipe] = intel_get_crtc_scanline(it__);
+> 	}
+>
+> 	trace_intel_pipe(frame, scanline, crtc->pipe);
+> }
+>
+>
+> The trace_intel_pipe_enable_enabled() is a static_branch that will act the
+> same as the nop of a trace event, so this will still not add overhead when
+> not enabled.
+>
+> All the processing will be done outside the trace event allowing it to be
+> preempted, and then when the trace event is executed, it will run quickly
+> without taking any locks.
+>
+> Then have the code call do_trace_intel_pipe() instead of trace_intel_pipe()
+> and this should fix the issue with preempt rt.
+>
+> -- Steve
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
