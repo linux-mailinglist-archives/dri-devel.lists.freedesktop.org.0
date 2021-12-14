@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD86B474B75
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 20:03:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08D08474BC6
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 20:21:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CE4410E12D;
-	Tue, 14 Dec 2021 19:03:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 719E010E14F;
+	Tue, 14 Dec 2021 19:21:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com
- [IPv6:2607:f8b0:4864:20::835])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00C878903B
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 19:03:34 +0000 (UTC)
-Received: by mail-qt1-x835.google.com with SMTP id p19so19340678qtw.12
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 11:03:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mPut++DE9oSDA7Chd0SjdQdqRXfrEo4dk9mIHr0IEwI=;
- b=kmpqKRnXneoYfsEoIjy2oU4gKiI3YIyrYivpL88Ce7gsi6vwsJWmiAM6ovLZgU14QL
- AWE8I3rlIbmWVDIt2WAsh6rnlRbqJ8yNvF+9CpYvVbjnFg9DFimIJ/CR6spR9kYPcEts
- k/RJYsmNVVlkYMBmLW2w5dJ7/2QY3zdO0Od6+mtG9mo4Ycl6Zz7QvNugwNLkcyib8nQD
- kdhm9AhH4HZ8EpHMYoy9Y9IQE3584FpiwovBTlmGIUNB9s/It8xRpfLRkH0R7ZhNP4VO
- krwitEO0V0hVyz/znayeGuu6H3HBfpwxRZIYLKn71ovidZ/HECUkZPJMz7zbyav9HkxJ
- jp0A==
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com
+ [209.85.210.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4820210E14F
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 19:21:40 +0000 (UTC)
+Received: by mail-ot1-f41.google.com with SMTP id
+ x43-20020a056830246b00b00570d09d34ebso22065446otr.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 11:21:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mPut++DE9oSDA7Chd0SjdQdqRXfrEo4dk9mIHr0IEwI=;
- b=Yw9N0GxggUdKST2F6o+pklS1hRGeSuCiZ+XHjUN/CeRfxUBxlxcbncIMjU5hm0QRaX
- 9gx5UoUV6Wsw0fLOXdxbh8OcECFxhQZ2O+/51Oax3dklseBDjSWvifiaeKLZTvbCfEHg
- yxt2qgC1yjxboHIjGS65PgjRMwomtwI5UjBlFnvxpF21e6RouGqGaeGRP1eYh1XJh0F9
- jl1/u3aEIyVERaRLg2HUHT8qegGyiarlXDU+6+2PTkKjXhgNLyhNXzrxyGlFdg8cgsth
- 18V8/MXd07p2ug9LNtcZQtncg1b0KozoG2eq7NetR2W9FJPt5udiqy5TI1U5OUOLDEhc
- mjdQ==
-X-Gm-Message-State: AOAM531ZTmVTJ3rpYuxzHGD5xuivm9fDqnLaYTlAh3WKu1XuDlK1Z0+W
- ODSygheks94m3i+UAQerSGmbeqguu5WSvWh1vLnLMQ==
-X-Google-Smtp-Source: ABdhPJzyRs/SkZa7rM8wtTsEOtQ+XLrgBbLZgqv/9SuBSu3jfTTmtv87+/mDKeEDQ/0sgKqI7jAue3Wsf24yk+u2F5w=
-X-Received: by 2002:a05:622a:40d:: with SMTP id
- n13mr8112713qtx.511.1639508612966; 
- Tue, 14 Dec 2021 11:03:32 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=+9ddLBfWJHBgIj2To9g0eYLCnZlV0ghMCRj6XN0Hhr4=;
+ b=TXoItWJ8SU0sYPDRHaNsIazyyvHun9hPwfj4nQiNyS/NMQJNsyu4TUPLXthk0anmFh
+ slFgPTfiVyuCFc6LUSecduvVRmw5JSSBzTYafTwaO90KLFiMfiHjsY5MsrOl/S3eHu2l
+ 1GQOkCl3hg+BnhL9/sqZOtpvk/yEofcI0kTfbAh7bkEx96ogpE7Tvry3RWFaO6vcdzos
+ IZeA7qMjKZ4ICMRIRmLyJ4repAXg+nXHsOi4EahQxbh+IOc02r6dPE26QaE/KuXjjzhh
+ o9C3v29FjU6MzVt4immmx5F+WiH89jInkOGvLMntnw251r841+MGtuHhKZFzf3vlCdyg
+ m89Q==
+X-Gm-Message-State: AOAM531lnQc5A8WGsjXLxEUwZ038r86LePsmCOV/INGJWwMZVSRrKdbC
+ s3D78hDXSBoDWEdAcMQIIQ==
+X-Google-Smtp-Source: ABdhPJxnxm3aHuNvY7i5AgZRlyQlqsxgfscPXHYBrIw+RM/u/poU0w24f4VXglnn8Fd/IAduxgBgmA==
+X-Received: by 2002:a9d:6394:: with SMTP id w20mr5832966otk.248.1639509699433; 
+ Tue, 14 Dec 2021 11:21:39 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.gmail.com with ESMTPSA id v2sm133687oto.3.2021.12.14.11.21.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Dec 2021 11:21:38 -0800 (PST)
+Received: (nullmailer pid 3758448 invoked by uid 1000);
+ Tue, 14 Dec 2021 19:21:37 -0000
+Date: Tue, 14 Dec 2021 13:21:37 -0600
+From: Rob Herring <robh@kernel.org>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v3 1/3] dt-bindings: gpu: mali-bifrost: Document RZ/G2L
+ support
+Message-ID: <YbjuwQYYO2begeDY@robh.at.kernel.org>
+References: <20211208104026.421-1-biju.das.jz@bp.renesas.com>
+ <20211208104026.421-2-biju.das.jz@bp.renesas.com>
+ <OS0PR01MB592202E727C32991DB852AA186719@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-References: <20211214173917.1496290-1-robdclark@gmail.com>
- <20211214173917.1496290-4-robdclark@gmail.com>
-In-Reply-To: <20211214173917.1496290-4-robdclark@gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 14 Dec 2021 22:03:22 +0300
-Message-ID: <CAA8EJpo2ng0mVk0Hsqmg5yTi3Wm0nUp8Lx8+CGF=RBeuYPmviQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] drm/msm/debugfs: Add display/kms state snapshot
-To: Rob Clark <robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <OS0PR01MB592202E727C32991DB852AA186719@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,149 +64,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Doug Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Chris Paterson <Chris.Paterson2@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ "tomeu.vizoso@collabora.com" <tomeu.vizoso@collabora.com>,
+ David Airlie <airlied@linux.ie>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Steven Price <steven.price@arm.com>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Biju Das <biju.das@bp.renesas.com>, Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 14 Dec 2021 at 20:34, Rob Clark <robdclark@gmail.com> wrote:
->
-> From: Rob Clark <robdclark@chromium.org>
->
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->  drivers/gpu/drm/msm/msm_debugfs.c | 90 +++++++++++++++++++++++++++++++
->  1 file changed, 90 insertions(+)
->
-> diff --git a/drivers/gpu/drm/msm/msm_debugfs.c b/drivers/gpu/drm/msm/msm_debugfs.c
-> index 956b1efc3721..088f1160c892 100644
-> --- a/drivers/gpu/drm/msm/msm_debugfs.c
-> +++ b/drivers/gpu/drm/msm/msm_debugfs.c
-> @@ -15,6 +15,11 @@
->  #include "msm_gpu.h"
->  #include "msm_kms.h"
->  #include "msm_debugfs.h"
-> +#include "disp/msm_disp_snapshot.h"
-> +
-> +/*
-> + * GPU Snapshot:
-> + */
->
->  struct msm_gpu_show_priv {
->         struct msm_gpu_state *state;
-> @@ -109,6 +114,88 @@ static const struct file_operations msm_gpu_fops = {
->         .release = msm_gpu_release,
->  };
->
-> +/*
-> + * Display Snapshot:
-> + */
-> +
-> +struct msm_kms_show_priv {
-> +       struct msm_disp_state *state;
-> +       struct drm_device *dev;
+On Fri, Dec 10, 2021 at 02:44:06PM +0000, Biju Das wrote:
+> Hi All,
+> 
+> Gentle ping.
 
-I don't see ->dev being used outside of _open() callback. So, I'd
-suggest removing it and using struct msm_disp_state instead of struct
-msm_kms_show_priv.
+2 days later is not a gentle ping. If you want to check status, go look 
+at PW[1]. If it is in there, it's in my queue (only about 100 patches 
+ATM).
 
-> +};
-> +
-> +static int msm_kms_show(struct seq_file *m, void *arg)
-> +{
-> +       struct drm_printer p = drm_seq_file_printer(m);
-> +       struct msm_kms_show_priv *show_priv = m->private;
-> +
-> +       msm_disp_state_print(show_priv->state, &p);
-> +
-> +       return 0;
-> +}
-> +
-> +static int msm_kms_release(struct inode *inode, struct file *file)
-> +{
-> +       struct seq_file *m = file->private_data;
-> +       struct msm_kms_show_priv *show_priv = m->private;
-> +
-> +       msm_disp_state_free(show_priv->state);
-> +       kfree(show_priv);
-> +
-> +       return single_release(inode, file);
-> +}
-> +
-> +static int msm_kms_open(struct inode *inode, struct file *file)
-> +{
-> +       struct drm_device *dev = inode->i_private;
-> +       struct msm_drm_private *priv = dev->dev_private;
-> +       struct msm_kms_show_priv *show_priv;
-> +       int ret;
-> +
-> +       if (!priv->kms)
-> +               return -ENODEV;
-> +
-> +       show_priv = kmalloc(sizeof(*show_priv), GFP_KERNEL);
-> +       if (!show_priv)
-> +               return -ENOMEM;
-> +
-> +       ret = mutex_lock_interruptible(&priv->kms->dump_mutex);
-> +       if (ret)
-> +               goto free_priv;
-> +
-> +       show_priv->state = msm_disp_snapshot_state_sync(priv->kms);
-> +
-> +       mutex_unlock(&priv->kms->dump_mutex);
-> +
-> +       if (IS_ERR(show_priv->state)) {
-> +               ret = PTR_ERR(show_priv->state);
-> +               goto free_priv;
-> +       }
-> +
-> +       show_priv->dev = dev;
-> +
-> +       ret = single_open(file, msm_kms_show, show_priv);
-> +       if (ret)
-> +               goto free_priv;
-> +
-> +       return 0;
-> +
-> +free_priv:
-> +       kfree(show_priv);
-> +       return ret;
-> +}
-> +
-> +static const struct file_operations msm_kms_fops = {
-> +       .owner = THIS_MODULE,
-> +       .open = msm_kms_open,
-> +       .read = seq_read,
-> +       .llseek = seq_lseek,
-> +       .release = msm_kms_release,
-> +};
-> +
-> +/*
-> + * Other debugfs:
-> + */
-> +
->  static unsigned long last_shrink_freed;
->
->  static int
-> @@ -239,6 +326,9 @@ void msm_debugfs_init(struct drm_minor *minor)
->         debugfs_create_file("gpu", S_IRUSR, minor->debugfs_root,
->                 dev, &msm_gpu_fops);
->
-> +       debugfs_create_file("kms", S_IRUSR, minor->debugfs_root,
-> +               dev, &msm_kms_fops);
-> +
->         debugfs_create_u32("hangcheck_period_ms", 0600, minor->debugfs_root,
->                 &priv->hangcheck_period);
->
-> --
-> 2.33.1
->
+Rob
 
-
--- 
-With best wishes
-Dmitry
+[1] https://patchwork.ozlabs.org/project/devicetree-bindings/list/
+> 
+> Cheers,
+> Biju
+> 
+> > Subject: [PATCH v3 1/3] dt-bindings: gpu: mali-bifrost: Document RZ/G2L
+> > support
+> > 
+> > The Renesas RZ/G2{L, LC} SoC (a.k.a R9A07G044) has a Bifrost Mali-G31 GPU,
+> > add a compatible string for it.
+> > 
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > v2->v3:
+> >  * Moved optional clock-names and reset-names to SoC-specific conditional
+> > schemas.
+> >  * minimum number of reset for the generic GPU is set to 1.
+> >  * Documented number of clocks, resets, interrupts and interrupt-names in
+> > RZ/G2L
+> >    SoC-specific conditional schemas.
+> > v1->v2:
+> >  * Updated minItems for resets as 2
+> >  * Documented optional property reset-names
+> >  * Documented reset-names as required property for RZ/G2L SoC.
+> > ---
+> >  .../bindings/gpu/arm,mali-bifrost.yaml        | 45 ++++++++++++++++++-
+> >  1 file changed, 43 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+> > b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+> > index 6f98dd55fb4c..63a08f3f321d 100644
+> > --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+> > +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+> > @@ -19,6 +19,7 @@ properties:
+> >            - amlogic,meson-g12a-mali
+> >            - mediatek,mt8183-mali
+> >            - realtek,rtd1619-mali
+> > +          - renesas,r9a07g044-mali
+> >            - rockchip,px30-mali
+> >            - rockchip,rk3568-mali
+> >        - const: arm,mali-bifrost # Mali Bifrost GPU model/revision is
+> > fully discoverable @@ -27,19 +28,26 @@ properties:
+> >      maxItems: 1
+> > 
+> >    interrupts:
+> > +    minItems: 3
+> >      items:
+> >        - description: Job interrupt
+> >        - description: MMU interrupt
+> >        - description: GPU interrupt
+> > +      - description: Event interrupt
+> > 
+> >    interrupt-names:
+> > +    minItems: 3
+> >      items:
+> >        - const: job
+> >        - const: mmu
+> >        - const: gpu
+> > +      - const: event
+> > 
+> >    clocks:
+> > -    maxItems: 1
+> > +    minItems: 1
+> > +    maxItems: 3
+> > +
+> > +  clock-names: true
+> > 
+> >    mali-supply: true
+> > 
+> > @@ -52,7 +60,10 @@ properties:
+> >      maxItems: 3
+> > 
+> >    resets:
+> > -    maxItems: 2
+> > +    minItems: 1
+> > +    maxItems: 3
+> > +
+> > +  reset-names: true
+> > 
+> >    "#cooling-cells":
+> >      const: 2
+> > @@ -94,6 +105,36 @@ allOf:
+> >      then:
+> >        required:
+> >          - resets
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            const: renesas,r9a07g044-mali
+> > +    then:
+> > +      properties:
+> > +        interrupts:
+> > +          minItems: 4
+> > +        interrupt-names:
+> > +          minItems: 4
+> > +        clocks:
+> > +          minItems: 3
+> > +        clock-names:
+> > +          items:
+> > +            - const: gpu
+> > +            - const: bus
+> > +            - const: bus_ace
+> > +        resets:
+> > +          minItems: 3
+> > +        reset-names:
+> > +          items:
+> > +            - const: rst
+> > +            - const: axi_rst
+> > +            - const: ace_rst
+> > +      required:
+> > +        - clock-names
+> > +        - power-domains
+> > +        - resets
+> > +        - reset-names
+> >    - if:
+> >        properties:
+> >          compatible:
+> > --
+> > 2.17.1
+> 
+> 
