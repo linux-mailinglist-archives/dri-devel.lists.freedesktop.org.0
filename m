@@ -1,58 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C253F474BCF
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 20:23:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A90C2474BD8
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 20:25:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C745110E153;
-	Tue, 14 Dec 2021 19:23:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AE5A10E158;
+	Tue, 14 Dec 2021 19:25:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc31.google.com (mail-oo1-xc31.google.com
- [IPv6:2607:f8b0:4864:20::c31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2205610E153;
- Tue, 14 Dec 2021 19:23:35 +0000 (UTC)
-Received: by mail-oo1-xc31.google.com with SMTP id
- v19-20020a4a2453000000b002bb88bfb594so5212308oov.4; 
- Tue, 14 Dec 2021 11:23:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Ly7ashr0Abfix6SoCDJYNsr0pgjAfUrtoNa4BxcGFmI=;
- b=DaubiwHwzJwXsWIRixjWAKO7YA+Njfarz7GWWLXaUfA2fcW40KoSMkWIh3y/Zkdxyh
- BdXsnDNnEGn2GhdebKFdq7tXv/4MW3ZEK7emL9lvnOVwIPB8udu9qVCEX085iBt40FAe
- eGrE6OmNnQjO/CHduWdRD9ucpoUFbkz+H6f+3IQox3dSQU4SYvd89vx/JvAJQFhrPmMl
- D0h14/RP1SoYbCNAbMbEV5rI3Bnsc2shomrnanhui91YPDbEzrbz/2BQ6GPWWxUVpV6P
- BsvQNY8RMOOQmXMxpnIi7V06SBq6apMW3fz80Tu4fpGNFJDDYjYP4qF0xN5mKRb3Vr+3
- sSQQ==
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com
+ [209.85.210.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0131D10E158
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 19:25:06 +0000 (UTC)
+Received: by mail-ot1-f46.google.com with SMTP id
+ x19-20020a9d7053000000b0055c8b39420bso22078464otj.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 11:25:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Ly7ashr0Abfix6SoCDJYNsr0pgjAfUrtoNa4BxcGFmI=;
- b=yDA/EMW4Pc7D4yi2DdmWUARIC1flzWgE35kuj6vEaT7L2EYC2Ef9xc+M+3C9yybGhE
- 7EFytOWRJ1Imy6OJcDdtli3Z3X1ZvrXy0fc9jsTl9ZlX+7Yx0z1gxM11PKcSwdaF2Po2
- Go8edkOVx/oZjQhTKXG83V+MmTBkjGeMQA/fXJCRKfMLNxsx9hD2hK+SW72+PgdEv0e8
- HXvEJjRwGS5TEIXFFQH44o56PE0OeSWXdapozDnftglYsoHW5sds7dR3qf80XKDWo22k
- a8MM751GIpRqP1mbvSH+GQvT8tq1cMqUB6e0QD2lPFClqQ1mmchG+evH9FJCLX0bhatT
- BBQA==
-X-Gm-Message-State: AOAM533AhpiZ+6nEsRobFc01nWNNqcuqe7/tnNRbLXLpTrkeJKWoyYZq
- 3pFJgcTjfqhnXZG1erGJLUxZYu8Wr3kxPmIXCv0=
-X-Google-Smtp-Source: ABdhPJz/pMYwME4RUdHlSZKIwCyCbYPbaG8SyeKTNS+1TSa4EuIzL7K2wrWvAQGoXRVaGW3cZxi1o4susTjozQai9T8=
-X-Received: by 2002:a4a:8701:: with SMTP id z1mr4746722ooh.68.1639509814392;
- Tue, 14 Dec 2021 11:23:34 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ehX+3DJbXBjGHccd4UxxHLFi5H4zFHeokElr31tDsV4=;
+ b=LNN8CFo58XJP7SsM8JocLNS1hz8rWkx8Ekj/J/Mg9KASSUBxwf3IX9N9UHfk/hftkV
+ OOB+J5yXaP5Oj2UKNDufRS+T/mMHQGkv6c94zykOqn5UBhfpg1brAMCpVaDljgCZTxEX
+ dHKxSDQg83O055yW7XsbMfH3AkhQjXaxo7eNuxqJW3pfDLaL2iiizL0hJNiSA+mzudwS
+ MXg8mphXtWV6yQhM60/8j1PGgpqaWUF12HTIf9Vvt8fAjFkcNVK/B7UwYngYoNtNH6A6
+ TMCDrSnLOUrQ7m9G4B4OmP26qI91RvmU9FNgf8JfrNauI4ZjEYVY1WKZoO2i6bqQwztC
+ OVLw==
+X-Gm-Message-State: AOAM531dLozz2dFjJpJtZL9WLcS+aI2ZEdgYMTNpI078XeuxjnuP1RwH
+ El/pYQbYWo5GOwKNmzZ/Fg==
+X-Google-Smtp-Source: ABdhPJwu1jtseHaGInt4Zd2I+MrBQntRx58iFI0349+rwEjHZmbf1ZznDQ8wYliHroSvnVQAj6PUHQ==
+X-Received: by 2002:a9d:a16:: with SMTP id 22mr5901834otg.57.1639509906121;
+ Tue, 14 Dec 2021 11:25:06 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.gmail.com with ESMTPSA id y17sm141839ote.48.2021.12.14.11.25.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Dec 2021 11:25:05 -0800 (PST)
+Received: (nullmailer pid 3763381 invoked by uid 1000);
+ Tue, 14 Dec 2021 19:25:04 -0000
+Date: Tue, 14 Dec 2021 13:25:04 -0600
+From: Rob Herring <robh@kernel.org>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v3 1/3] dt-bindings: gpu: mali-bifrost: Document RZ/G2L
+ support
+Message-ID: <YbjvkCChcK29D7WD@robh.at.kernel.org>
+References: <20211208104026.421-1-biju.das.jz@bp.renesas.com>
+ <20211208104026.421-2-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-References: <20211214135217.24444-1-wangxiang@cdjrlc.com>
- <ba96bb4f-1666-32a2-68a9-8fe3d6e2c10e@gmail.com>
-In-Reply-To: <ba96bb4f-1666-32a2-68a9-8fe3d6e2c10e@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 14 Dec 2021 14:23:23 -0500
-Message-ID: <CADnq5_M_VJ7jisaqJuq9x7GrUjQHCDLDJmwo+KNUpPuYgQEwxQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/radeon: Fix syntax errors in comments
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211208104026.421-2-biju.das.jz@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,49 +63,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xiang wangx <wangxiang@cdjrlc.com>, Dave Airlie <airlied@linux.ie>,
- xinhui pan <Xinhui.Pan@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: devicetree@vger.kernel.org, Chris Paterson <Chris.Paterson2@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, tomeu.vizoso@collabora.com,
+ David Airlie <airlied@linux.ie>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ dri-devel@lists.freedesktop.org, Biju Das <biju.das@bp.renesas.com>,
+ linux-renesas-soc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Steven Price <steven.price@arm.com>, Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On Wed, 08 Dec 2021 10:40:24 +0000, Biju Das wrote:
+> The Renesas RZ/G2{L, LC} SoC (a.k.a R9A07G044) has a Bifrost Mali-G31 GPU,
+> add a compatible string for it.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v2->v3:
+>  * Moved optional clock-names and reset-names to SoC-specific conditional schemas.
+>  * minimum number of reset for the generic GPU is set to 1.
+>  * Documented number of clocks, resets, interrupts and interrupt-names in RZ/G2L
+>    SoC-specific conditional schemas.
+> v1->v2:
+>  * Updated minItems for resets as 2
+>  * Documented optional property reset-names
+>  * Documented reset-names as required property for RZ/G2L SoC.
+> ---
+>  .../bindings/gpu/arm,mali-bifrost.yaml        | 45 ++++++++++++++++++-
+>  1 file changed, 43 insertions(+), 2 deletions(-)
+> 
 
-Alex
-
-On Tue, Dec 14, 2021 at 9:54 AM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> Am 14.12.21 um 14:52 schrieb Xiang wangx:
-> > Delete the redundant word 'we'.
-> >
-> > Signed-off-by: Xiang wangx <wangxiang@cdjrlc.com>
->
-> Well not a syntax error in the sense of a coding error, but valid fix
-> anyway :)
->
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
->
-> > ---
-> >   drivers/gpu/drm/radeon/radeon_vce.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/radeon/radeon_vce.c b/drivers/gpu/drm/rade=
-on/radeon_vce.c
-> > index 511a942e851d..ca4a36464340 100644
-> > --- a/drivers/gpu/drm/radeon/radeon_vce.c
-> > +++ b/drivers/gpu/drm/radeon/radeon_vce.c
-> > @@ -513,7 +513,7 @@ int radeon_vce_cs_reloc(struct radeon_cs_parser *p,=
- int lo, int hi,
-> >    * @allocated: allocated a new handle?
-> >    *
-> >    * Validates the handle and return the found session index or -EINVAL
-> > - * we we don't have another free session index.
-> > + * we don't have another free session index.
-> >    */
-> >   static int radeon_vce_validate_handle(struct radeon_cs_parser *p,
-> >                                     uint32_t handle, bool *allocated)
->
+Applied, thanks!
