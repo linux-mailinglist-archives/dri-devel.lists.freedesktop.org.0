@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E06C474584
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 15:48:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D2EE474599
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 15:52:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECB5410E53D;
-	Tue, 14 Dec 2021 14:48:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F11F210E545;
+	Tue, 14 Dec 2021 14:52:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
- [IPv6:2607:f8b0:4864:20::1035])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EFF910E53D;
- Tue, 14 Dec 2021 14:48:30 +0000 (UTC)
-Received: by mail-pj1-x1035.google.com with SMTP id h24so14492165pjq.2;
- Tue, 14 Dec 2021 06:48:30 -0800 (PST)
+Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com
+ [IPv6:2607:f8b0:4864:20::f29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D6F810E11D;
+ Tue, 14 Dec 2021 14:52:35 +0000 (UTC)
+Received: by mail-qv1-xf29.google.com with SMTP id m17so17416119qvx.8;
+ Tue, 14 Dec 2021 06:52:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id;
- bh=Iulmly40W1bDkhduoNsg+HBkwz1jkiNj6QQWr6cyxGI=;
- b=bVQ0yxfqR4gM8cvY3QfzVLBcKqhQI0nJLVV4RQfceHzyjSNcQpSou3zvsdx2WTGUGv
- xl3xVudr5Oeu4DaGKSB+/bmFlRpfPZkzOnRa1H6aIbsC1m4MCmw5UJhLd6/5njKfU0Wv
- LVuCbgS74ETHCAJ5Thx3+b+i0JoWHn5tSodY/IzyHg61gXSXY8uALr9Nh4fcM31JEPyY
- HEBkle6Lq92XyrBc94TZ4k6SoKkLl9hNzQO9/skGJZLIlcdpmU59AxMo6gNScBMD6plH
- DgvRUzAY6bJ7HJoTd8IjJnw/tfzo/NgepRbYNbEOp0JGh8owSwHG7t/iSAMYsdI8LBHa
- TdJQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Xf7q3Jbcz4/LEcmcTeVISoI2B4bGeUUdk0hxUCLs5rs=;
+ b=FHi3n63QOeG6gLzhJVCdkONlfQpsuxOmAKW/cofmDUuTckCd4qt7wzrPBtLFf38Tb+
+ xczhmQro+FHcyY+W6wlhd2Sq+Q344IDjN7C31P+Vs/LqsdG1ym0O/AnPKb36EWvJW8y/
+ /pr28c+ss/0UsW6wYuaNVwi0NwfBGCtzMBbNmDR73IqCHGKJj/ek4Xq8F83t9by2FunU
+ IAFZ435a4UvJ5CbpXMzQ3/gEcwcr2pH08XvUHL//xRzEm2DOW9ur1GyrfFVnyu98v1kI
+ fMMtbJ3zynCSm7ZbK99IzJ36XpRZZ7cd4a8Qr+lFLn//i6QS7Q9xAIgsFhZFdC2LAwr8
+ hEcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=Iulmly40W1bDkhduoNsg+HBkwz1jkiNj6QQWr6cyxGI=;
- b=M695SLfKq2t6y/HQf1P3U/YUwsBqR7ngRQAPcm1JZ+UAwA17Bd03RLP2/1GutYDPHM
- PqTA5YCLyNEqqTClexI1l9te43q0LAXJEOO5UY0ybRZ9r1EwBYz37085n4i6L3vwpdg3
- YK7jNk6Lzq7UeICed2dpXNSejOjBV9Oms37n9LIY5u9tdaAMaSXzKQPYk9GqqIVSewoS
- XtGCy8ZR9cIXGMsCL68Agl/m4GVX1ntxbBmmfahuikp4CnI2O+M6/TOgLRCIwNoFULP9
- DIqEUG72+920OcSNezeBYHU9hcGYCTaKgjTBlejkYKvFzkzvU7KzhMfoaF2S2iNPCCll
- sUmQ==
-X-Gm-Message-State: AOAM530IcqKIzigIWUbdMRKbvdbV2NCegVnIJmyFd9ziYWeURN4S7Uxh
- GnNaayLY1dflcPkizWGHtfJfTsijixGsy63Dlr8=
-X-Google-Smtp-Source: ABdhPJwZ1uKUDFQaXtTUt03NxX7hd0yKn9NTGJLMfjB3K+xhXU208vU7PYQTDnm0wNMJOYtiw2zB7Q==
-X-Received: by 2002:a17:90b:1c8d:: with SMTP id
- oo13mr6164377pjb.139.1639493309906; 
- Tue, 14 Dec 2021 06:48:29 -0800 (PST)
-Received: from localhost.localdomain ([159.226.95.43])
- by smtp.googlemail.com with ESMTPSA id d9sm2556776pjs.2.2021.12.14.06.48.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Dec 2021 06:48:29 -0800 (PST)
-From: Miaoqian Lin <linmq006@gmail.com>
-To: 
-Subject: [PATCH] drm/amdkfd: Fix missing check in kfd_parse_subtype_iolink
-Date: Tue, 14 Dec 2021 14:48:23 +0000
-Message-Id: <20211214144823.16057-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Xf7q3Jbcz4/LEcmcTeVISoI2B4bGeUUdk0hxUCLs5rs=;
+ b=pyk+t1odFHMq6ikdnbc+reXfsxNiDC5Yr0hW/SR6iAVWjMOwE6jtKEVRDIu5X14xKX
+ mOXh0EFEslnqk7hj6QX/+mdpi9R1/iCXAIyNh9KXnnFnTJcAX0d97LCH4jb5+Utsbmg+
+ iqrPNQKi5N6oJIRKNRuDeJ/qR80EFiduYefiq8skg1lJrq7huKbazYBb/l10Ph9sGEca
+ +QRREYtw5/QdWSxXcme+hXr4We+KvWS03mKk1HwHTPmsHvwP68EyHjANjeXbF2v4IA0o
+ hBkY5j9Ei4BZI21kQkwOQJlgsMqKpUa44UapAHxbRtmSJMH7XzqSN5u783s7fJ0aW7nD
+ PCnw==
+X-Gm-Message-State: AOAM530vH3Ku0SiCxcHzzbo7DmmNWs4Ws5H+rjWaQmk5LZ5fmyPmgniU
+ FXhgrnSNB4ybQcyFEImsVrLYgIKtb6mLa6nPb1s=
+X-Google-Smtp-Source: ABdhPJwS/wVbUCr/fISQSZfIT4fbHE551R+9VucYnxwH9401gRXCgl3ytnT4zp3UABFRvuUFhflcOEQJnA9jSart4iY=
+X-Received: by 2002:ad4:5ce8:: with SMTP id iv8mr5919659qvb.21.1639493554305; 
+ Tue, 14 Dec 2021 06:52:34 -0800 (PST)
+MIME-Version: 1.0
+References: <20211210195005.2582884-1-bob.beckett@collabora.com>
+ <e7cad6ca-d106-c529-6f22-93a7847cd7c0@intel.com>
+In-Reply-To: <e7cad6ca-d106-c529-6f22-93a7847cd7c0@intel.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Tue, 14 Dec 2021 14:52:08 +0000
+Message-ID: <CAM0jSHNn4yq1u_Qwr9v9kUCcEexBmb+=LML2=OF1Rspyf-TDfA@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/ttm: fix large buffer population
+ trucation
+To: Matthew Auld <matthew.auld@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,35 +63,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linmq006@gmail.com, David Airlie <airlied@linux.ie>,
- Felix Kuehling <Felix.Kuehling@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Robert Beckett <bob.beckett@collabora.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ David Airlie <airlied@linux.ie>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ kernel list <linux-kernel@vger.kernel.org>, Oak Zeng <oak.zeng@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The kmemdup() function may return NULL in case of error.
-Add NULL checking to prevent potential null deference.
+On Mon, 13 Dec 2021 at 13:03, Matthew Auld <matthew.auld@intel.com> wrote:
+>
+> On 10/12/2021 19:50, Robert Beckett wrote:
+> > ttm->num_pages is uint32_t which was causing very large buffers to
+> > only populate a truncated size.
+> >
+> > This fixes gem_create@create-clear igt test on large memory systems.
+> >
+> > Fixes: 7ae034590cea ("drm/i915/ttm: add tt shmem backend")
+> > Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+>
+> Nice catch,
+> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
- drivers/gpu/drm/amd/amdkfd/kfd_crat.c | 2 ++
- 1 file changed, 2 insertions(+)
+Pushed to drm-intel-gt-next. Thanks again for the fix.
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_crat.c b/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
-index cfedfb1e8596..59d55f752aa7 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
-@@ -1060,6 +1060,8 @@ static int kfd_parse_subtype_iolink(struct crat_subtype_iolink *iolink,
- 			return -ENODEV;
- 		/* same everything but the other direction */
- 		props2 = kmemdup(props, sizeof(*props2), GFP_KERNEL);
-+		if (!props2)
-+			return -ENOMEM;
- 		props2->node_from = id_to;
- 		props2->node_to = id_from;
- 		props2->kobj = NULL;
--- 
-2.17.1
-
+>
+> > ---
+> >   drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > index 218a9b3037c7..923cc7ad8d70 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > @@ -166,7 +166,7 @@ static int i915_ttm_tt_shmem_populate(struct ttm_device *bdev,
+> >       struct intel_memory_region *mr = i915->mm.regions[INTEL_MEMORY_SYSTEM];
+> >       struct i915_ttm_tt *i915_tt = container_of(ttm, typeof(*i915_tt), ttm);
+> >       const unsigned int max_segment = i915_sg_segment_size();
+> > -     const size_t size = ttm->num_pages << PAGE_SHIFT;
+> > +     const size_t size = (size_t)ttm->num_pages << PAGE_SHIFT;
+> >       struct file *filp = i915_tt->filp;
+> >       struct sgt_iter sgt_iter;
+> >       struct sg_table *st;
+> >
