@@ -1,57 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B515474665
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 16:26:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD65A474674
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 16:31:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A000210E55C;
-	Tue, 14 Dec 2021 15:26:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5834010E554;
+	Tue, 14 Dec 2021 15:31:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3431010E55C
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 15:26:19 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id l7so28867034lja.2
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 07:26:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=E1s89Tuk39UOoZlOnaYWQ3Z1+01yfMXbQponNEtbH2M=;
- b=WwgkRYx3+StpmQOX5zWNZea0LTRzvre8BcRBHN+bQETXffydPPalqRgKWQ3fW+eAFI
- KFzK2WFm26VKLSwNLWJGuC39mWkVXz6LUdX/VmLg5SCCbnB+dsBXv5wlewTxhAUmboEF
- 6hKcZV6qzTaHqqZb+PkOulHm19BA4/flkL+WM=
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C1C610E554
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 15:31:16 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id b40so37464473lfv.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 07:31:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Cew1bsVh+uPPxFCPvivLMvnMySnBo7QVXMyLf4NUogc=;
+ b=EIBs/m05yVAVjNZxKsVu8Oh0Ra+ssLFinvG7LKfMOy1Tb+DDQFa83JoEpSp/kyJ20f
+ vtvaLZfleYaQEdO83kKRrCP8Y1G2P1VVBd1C8H/rC2FEvRABY4qZuLZF9MfzdbRNDmow
+ cGRJTZrbJmdGnvJe7MN8XhbpvUlkpK10PBqiVAoE8HuxHw13OwKud0XkPDg5fcAHJYnV
+ DUKRpnGNMPgJ7sbEiuJYUCWQTbbeQh0lDx39iMitKSXkglOeja3j0JlYaUtRccSzzC+C
+ igtqlbPFWaGY1CMcs+PW8sdRnRh3ONs1rCgNZ4xxe4sqUVtqBu0PNS8azfyALy+nPF5r
+ Y88A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=E1s89Tuk39UOoZlOnaYWQ3Z1+01yfMXbQponNEtbH2M=;
- b=D2Fguge+ln3JxtiXkYk/KzR0J2yphsJuo6E6Eo6EZnpLQHLNO1y4Grz6bPmvsFL+lX
- gQM3Kq1FhKmXXbhtuQixIHmPySkqJI4tfiezPnvkV7kl6o8g1oQme3RrstwD7a1rVsc8
- +rZ3kUcatQl71mgDugoudH/ys7jn5+/NDhy9N43HNDyI5RvNVVBlMKLHhz1xRULRAkmW
- gmicv1/6KnUp4ladNiyq6IfhyVVY6W5FrwJoqqcj1IIrkTJxTFGdNPht2gxt5ppW1Buw
- WcSflOoPfVxBIjof5fxEQYNSSBQtS34N1l/ubotmtLwvRkqZtxfaTuR9xCZVrKVNbTTg
- 2uXw==
-X-Gm-Message-State: AOAM533tFmQ1HaREFuPCYdaJpEdWy2TLlt9yWQjCm9DQw2VaucfG578U
- aOcYG3WKhQg/ar/aVNhBBUutJUdx1Aur/dA43F03zTCM9RznbA==
-X-Google-Smtp-Source: ABdhPJxXEMFm5MO03ocP3YbIlaXlGoJzGI5gjZgD3+oeBt+anch+hjrguJ7Q8hdUWyFJf6G1XVFZ07wtaAndgQfCxnM=
-X-Received: by 2002:a05:651c:50c:: with SMTP id
- o12mr5639330ljp.88.1639495577542; 
- Tue, 14 Dec 2021 07:26:17 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Cew1bsVh+uPPxFCPvivLMvnMySnBo7QVXMyLf4NUogc=;
+ b=4yCzHs1si+9g9/GzinPbtO0zNAzCKJzwX9PMl8TOY2UGzBF0JrWzEkoMlhkQG7Ier7
+ mVRDz51wQAif0SwX/k7yiyZsHwkHj1fTmNWkjyyDHqfpslNa5mxmJVU0dQwN7IIJ41h1
+ MnspzxaFVwklcW7ckuwS7mNuoSe4gMJedE10baoABPiiPvnHLseihkGg7G8PygpS3AqK
+ yQwbMZ2sjIBxByMFf3A/VwPy0qBcsZeNas9ZUqoShVr8ESHL6qazlbYG2Ioz4lb+hL+X
+ OrFivWUtCEkCOg7nk1PVX3ktEDRkSdGGxI/kxSKHzn4PnVGoueRy5tMnon8IY3V2ilKi
+ sbRA==
+X-Gm-Message-State: AOAM530S7nBmTAs1s3hpLASUM3nscjv85kzPFwN9bRKdixsXiw5zEqRW
+ qATDByEC8IJMj0fdpjnS3O4=
+X-Google-Smtp-Source: ABdhPJxmQNB9Dr/Fnytdwhc2WP3yKSVRtKMT+07lahidhyWpm3qWdRsLiGLH2I4Htvoh4G+FR0Ibzw==
+X-Received: by 2002:a05:6512:3053:: with SMTP id
+ b19mr5387718lfb.276.1639495874691; 
+ Tue, 14 Dec 2021 07:31:14 -0800 (PST)
+Received: from [192.168.2.145] (94-29-63-156.dynamic.spd-mgts.ru.
+ [94.29.63.156])
+ by smtp.googlemail.com with ESMTPSA id s4sm11501lfp.198.2021.12.14.07.31.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Dec 2021 07:31:14 -0800 (PST)
+Subject: Re: [PATCH v2 0/8] Host1x context isolation support
+To: Mikko Perttunen <cyndis@kapsi.fi>, Jon Hunter <jonathanh@nvidia.com>,
+ joro@8bytes.org, will@kernel.org, robh+dt@kernel.org, robin.murphy@arm.com,
+ Mikko Perttunen <mperttunen@nvidia.com>
+References: <20210916143302.2024933-1-mperttunen@nvidia.com>
+ <10de82cf-27a5-8890-93a5-0e58c74e5bcc@kapsi.fi>
+ <c382fb0e-6b73-5ca0-7f63-d2843351325e@nvidia.com>
+ <91dddccd-a6c1-21b3-34d6-6a8082a386e7@nvidia.com>
+ <a507b10b-395b-1f6d-87b9-7c7c436cab0e@gmail.com>
+ <a62602df-91f6-783d-60f3-d9eba10da543@kapsi.fi>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <be8aec02-8651-0b12-ff13-237c75a5b29d@gmail.com>
+Date: Tue, 14 Dec 2021 18:31:13 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20211027162806.2014022-1-markyacoub@chromium.org>
- <20211213160742.744333-1-markyacoub@chromium.org>
- <CAAOTY_81KaSEWAqTWgzmshDZ9BefO3pNrqQwWbB01E4L0+mqzg@mail.gmail.com>
-In-Reply-To: <CAAOTY_81KaSEWAqTWgzmshDZ9BefO3pNrqQwWbB01E4L0+mqzg@mail.gmail.com>
-From: Mark Yacoub <markyacoub@chromium.org>
-Date: Tue, 14 Dec 2021 10:26:06 -0500
-Message-ID: <CAJUqKUp_Q39S912_epc3pfT-uc3DN=u4sCSdLm9VetwqdH_Pzw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/mediatek: Set the default value of rotation to
- DRM_MODE_ROTATE_0
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <a62602df-91f6-783d-60f3-d9eba10da543@kapsi.fi>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,64 +80,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Jason-JH Lin <jason-jh.lin@mediatek.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>, tzungbi@google.com,
- Sean Paul <seanpaul@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+ thierry.reding@gmail.com, linux-tegra@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thank you so much!
+14.12.2021 17:53, Mikko Perttunen пишет:
+> On 12/14/21 16:35, Dmitry Osipenko wrote:
+>> 14.12.2021 11:05, Jon Hunter пишет:
+>>> Hi all,
+>>>
+>>> Still no response on this :-(
+>>
+>> I see only two patches on Tegra ML and others on DRI ML. Might be good
+>> to start with re-sending this whole series and CCing MLs properly.
+>>
+> 
+> All patches should have been sent to the same set of addresses. At least
+> LWN's archive seems to agree..
 
-On Mon, Dec 13, 2021 at 6:27 PM Chun-Kuang Hu <chunkuang.hu@kernel.org> wro=
-te:
->
-> Hi, Mark:
->
-> Mark Yacoub <markyacoub@chromium.org> =E6=96=BC 2021=E5=B9=B412=E6=9C=881=
-4=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8A=E5=8D=8812:08=E5=AF=AB=E9=81=93=EF=
-=BC=9A
-> >
-> > At the reset hook, call __drm_atomic_helper_plane_reset which is
-> > called at the initialization of the plane and sets the default value of
-> > rotation on all planes to DRM_MODE_ROTATE_0 which is equal to 1.
->
-> Applied to mediatek-drm-next [1], thanks.
->
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.gi=
-t/log/?h=3Dmediatek-drm-next
->
-> Regards,
-> Chun-Kuang.
->
-> >
-> > Tested on Jacuzzi (MTK).
-> > Resolves IGT@kms_properties@plane-properties-{legacy,atomic}
-> >
-> > Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
-> > ---
-> >  drivers/gpu/drm/mediatek/mtk_drm_plane.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm=
-/mediatek/mtk_drm_plane.c
-> > index e6dcb34d30522..accd26481b9fb 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-> > @@ -44,9 +44,10 @@ static void mtk_plane_reset(struct drm_plane *plane)
-> >                 state =3D kzalloc(sizeof(*state), GFP_KERNEL);
-> >                 if (!state)
-> >                         return;
-> > -               plane->state =3D &state->base;
-> >         }
-> >
-> > +       __drm_atomic_helper_plane_reset(plane, &state->base);
-> > +
-> >         state->base.plane =3D plane;
-> >         state->pending.format =3D DRM_FORMAT_RGB565;
-> >  }
-> > --
-> > 2.34.1.173.g76aa8bc2d0-goog
-> >
+Indeed, I see that Tegra ML was CCed and I see all patches on Tegra
+patchwork, but I don't see them all on lore and gmane.
