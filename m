@@ -2,51 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46CCA4746F1
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 16:57:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D973D47471E
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 17:07:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84DFB10E579;
-	Tue, 14 Dec 2021 15:57:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4836910E599;
+	Tue, 14 Dec 2021 16:06:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galois.linutronix.de (Galois.linutronix.de
- [IPv6:2a0a:51c0:0:12e:550::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E884610E56E;
- Tue, 14 Dec 2021 15:56:58 +0000 (UTC)
-Date: Tue, 14 Dec 2021 16:56:55 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1639497417;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2VPVSl8tOhUZe8/mCtbW+OdOReAF7fBGbeG20fZbmgc=;
- b=aQfQVtvZG9c8YdrzJ7iZM/PpO2D6X01Wt02rrG3cyKf96/zjX4LeNiCgifl2a2dASLiBwY
- KQW48QW8NsfyZjBVPq8OI+G0CoE/Ifi/1pSCLuaIlR8K6CdNa9NbUvNK4gK40dS4KqCmG3
- QusDFMPp/nJXLc46mHF3FO/gqw6abmYXcl5KzIbZf0Dcu1KIVENDT8pRJ1LMKFluS1Snk6
- bo7abo/FnD7fwNfjZZ+++8j6IFDrKhknCuHTKho/a+ddlE0g46/r4S+GsgUdcdyFSUODPw
- jRB1IbmNqpb0P2++vTW0zZPHBBQXqUO9Xh2KTZWTyvvcY/irx1h/aqzXdCvZXQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1639497417;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2VPVSl8tOhUZe8/mCtbW+OdOReAF7fBGbeG20fZbmgc=;
- b=NQx5vXOrHaPlRpeTWJyhKM8ZrP5EPRbwzWX+bVjWzaY/WvWBSZ+UCQ/WZ02yzn0lYCD4O+
- TE9GLw2ub+G5T6AQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH 7/8] drm/i915: Disable tracing points on PREEMPT_RT
-Message-ID: <Ybi+x8ZmbnTZ3/C0@linutronix.de>
-References: <20211214140301.520464-1-bigeasy@linutronix.de>
- <20211214140301.520464-8-bigeasy@linutronix.de>
- <20211214093652.0dfa5b6f@gandalf.local.home>
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
+ [209.85.210.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DA8410E599
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 16:06:58 +0000 (UTC)
+Received: by mail-ot1-f47.google.com with SMTP id
+ x43-20020a056830246b00b00570d09d34ebso21365897otr.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 08:06:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=CWeglYX86Kh/jx6qsj0rbVo/zA4v+6dDtBcJ8ZfP9I8=;
+ b=q43uGIA+LMe0/K9wwyyyyyGDh9fS9IJDEXkXadt4uvlx5oXcZaOg54GeEuvN0eT/to
+ zGuMQo15zYlVazqDQHSNTpPpRBLifn0fqOAT7aewTllW021L0Ngn5e2i6Uci/3JcPTqj
+ MOPbgJhcAHSGUWY1XzHaJ/xm4tC1R7suz4t5Wl71C015kha0K+5BTWoeV1niiMTO8T0w
+ RY0wM4upjQRy1152udqWXuiv3PM/TucQJPL6hs4Xxiqg/vEV05Lr6Rxcn/24NrudhNjL
+ j/Gy1UAvlOtq9BFzUPBHqFc5dkydYIeuZDaLLFnA0UCth2kNvRDd4c5SafjlzBDtKHCi
+ ALJQ==
+X-Gm-Message-State: AOAM530K32juOegWfrGhF9c5cAyN5/ZwWIYfanZnOeJhcJfiRCgvy8Tg
+ s3o1QnZKEMTuvrL336gsXg==
+X-Google-Smtp-Source: ABdhPJzkIOmtEo5hn0+hMuoG7HvhDOIIqOzzWYSglSMtBtWvqRjpOAt28cIAYU9DiODBsaihaQ23kw==
+X-Received: by 2002:a9d:5190:: with SMTP id y16mr5121669otg.364.1639498017370; 
+ Tue, 14 Dec 2021 08:06:57 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.gmail.com with ESMTPSA id j5sm48247oou.23.2021.12.14.08.06.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Dec 2021 08:06:56 -0800 (PST)
+Received: (nullmailer pid 3472932 invoked by uid 1000);
+ Tue, 14 Dec 2021 16:06:55 -0000
+Date: Tue, 14 Dec 2021 10:06:55 -0600
+From: Rob Herring <robh@kernel.org>
+To: Yunfei Dong <yunfei.dong@mediatek.com>
+Subject: Re: [PATCH v13, 15/19] dt-bindings: media: mtk-vcodec: Adds decoder
+ dt-bindings for mt8192
+Message-ID: <YbjBHwMXFwi/Sds4@robh.at.kernel.org>
+References: <20211213084141.13363-1-yunfei.dong@mediatek.com>
+ <20211213084141.13363-16-yunfei.dong@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20211214093652.0dfa5b6f@gandalf.local.home>
+In-Reply-To: <20211213084141.13363-16-yunfei.dong@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,49 +63,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- Luca Abeni <lucabe72@gmail.com>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>
+Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Steve Cho <stevecho@chromium.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ Irui Wang <irui.wang@mediatek.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Tzung-Bi Shih <tzungbi@chromium.org>,
+ Tomasz Figa <tfiga@google.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Tiffany Lin <tiffany.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Alexandre Courbot <acourbot@chromium.org>, srv_heupstream@mediatek.com,
+ linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-12-14 09:36:52 [-0500], Steven Rostedt wrote:
-> Another way around this that I can see is if the data for the tracepoints
-> can fit on the stack and add wrappers around the tracepoints. For example,
-> looking at the first tracepoint in i915_trace.h:
-=E2=80=A6
+On Mon, 13 Dec 2021 16:41:37 +0800, Yunfei Dong wrote:
+> Adds decoder dt-bindings for mt8192.
+> 
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+> Fix comments from rob.
+> ---
+>  .../media/mediatek,vcodec-subdev-decoder.yaml | 265 ++++++++++++++++++
+>  1 file changed, 265 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+> 
 
-Nice.
-
-> We could modify this to be:
-=E2=80=A6
-> static inline void do_trace_intel_pipe(struct intel_crtc *crtc)
-> {
-> 	u32 frame[3];
-> 	u32 scanline[3];
-> 	enum pipe pipe;
->=20
-> 	if (!trace_intel_pipe_enable_enabled())
-> 		return;
->=20
-> 	struct drm_i915_private *dev_priv =3D to_i915(crtc->base.dev);
-> 	struct intel_crtc *it__;
-> 	for_each_intel_crtc(&dev_priv->drm, it__) {
-> 		frame[it__->pipe] =3D intel_crtc_get_vblank_counter(it__);
-> 		scanline[it__->pipe] =3D intel_get_crtc_scanline(it__);
-> 	}
->=20
-> 	trace_intel_pipe(frame, scanline, crtc->pipe);
-> }
-=E2=80=A6
-
-> Then have the code call do_trace_intel_pipe() instead of trace_intel_pipe=
-()
-> and this should fix the issue with preempt rt.
-
-Is this is something, that the i915 devs would accept?
-
-> -- Steve
-
-Sebastian
+Reviewed-by: Rob Herring <robh@kernel.org>
