@@ -2,50 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD3814740F3
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 11:57:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A2044740F8
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 11:59:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E863110E411;
-	Tue, 14 Dec 2021 10:57:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CEFA10E412;
+	Tue, 14 Dec 2021 10:59:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6559C10E11A;
- Tue, 14 Dec 2021 10:57:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639479429; x=1671015429;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=pgjiV1ELkcE8Us+tU3SJ1vvzhM6JH+ohH/hzlpFekKo=;
- b=R0sxNHpnD2Rn0JB/VltrUdxPlblnrwZ1X6WwmL5N99llouQ+QK1qzfyZ
- GD3/WX+j5puHfWAeA1LPvFziXTnvR9Xz/rzGeh6YIqqbqNpe1Nq4GTOOa
- sTaDyMDev1OnMptVtghXO3DWdwM5Q60/8z6OdWxsrVOw2mmGBQgoV6to+
- EmwPnk2BTEBvXtWsapZI/1/IlCK+ZnSvZtY6ZpAsfuAaf8ziUhISo1G2m
- e0sUqvzwfgsf2frqJbrSkaDs0hIw27B40ze1gnRK10cpmVf1ZnwW2qFZV
- EI1uSolOA0ZCaxyy25KegGo1RfKPa4tjkFu8Gy94SEXu6kK1pCfH8ayFA w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10197"; a="226232464"
-X-IronPort-AV: E=Sophos;i="5.88,205,1635231600"; d="scan'208";a="226232464"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Dec 2021 02:57:08 -0800
-X-IronPort-AV: E=Sophos;i="5.88,205,1635231600"; d="scan'208";a="518187535"
-Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.203.144.108])
- by orsmga008-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2021 02:57:07 -0800
-Date: Tue, 14 Dec 2021 16:26:53 +0530
-From: Ramalingam C <ramalingam.c@intel.com>
-To: Matthew Auld <matthew.auld@intel.com>
-Subject: Re: [PATCH v3 7/8] drm/i915/migrate: add acceleration support for DG2
-Message-ID: <20211214105651.GC31233@intel.com>
-References: <20211206133140.3166205-1-matthew.auld@intel.com>
- <20211206133140.3166205-8-matthew.auld@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr70082.outbound.protection.outlook.com [40.107.7.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABD7D10E412
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 10:59:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=L0++1zUP4rBhNfAmc5gcbquat5bz0Ez8A23T93niadM=;
+ b=dMCfqFUCnQ7DCswtUgpnP1HAzt8JQGCbpUTid9yCB9qisEIBsUY+PsHTulmJHvSO3bIPgsxDXmM0NssvYFNIufxG2BHm9syBUlxx7pFly68M8dgYBex7i34Pq7NFEV/M5f7ld7LqZErAmjrwKTN28yc6coSXvv7M7S/Uf2GU0Lo=
+Received: from AS9PR06CA0381.eurprd06.prod.outlook.com (2603:10a6:20b:460::28)
+ by HE1PR08MB2699.eurprd08.prod.outlook.com (2603:10a6:7:2b::30) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.24; Tue, 14 Dec
+ 2021 10:59:25 +0000
+Received: from AM5EUR03FT044.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:20b:460:cafe::e2) by AS9PR06CA0381.outlook.office365.com
+ (2603:10a6:20b:460::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.13 via Frontend
+ Transport; Tue, 14 Dec 2021 10:59:25 +0000
+X-MS-Exchange-Authentication-Results: spf=temperror (sender IP is
+ 63.35.35.123) smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=temperror action=none
+ header.from=arm.com;
+Received-SPF: TempError (protection.outlook.com: error in processing during
+ lookup of arm.com: DNS Timeout)
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AM5EUR03FT044.mail.protection.outlook.com (10.152.17.56) with
+ Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4778.12 via Frontend Transport; Tue, 14 Dec 2021 10:59:23 +0000
+Received: ("Tessian outbound c61f076cbd30:v110");
+ Tue, 14 Dec 2021 10:59:23 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: ddf12c7751255983
+X-CR-MTA-TID: 64aa7808
+Received: from 163d9da6a332.2
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com id
+ 6DD672C9-1834-468C-B916-3F9E4E0F8A09.1; 
+ Tue, 14 Dec 2021 10:59:18 +0000
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 163d9da6a332.2
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+ Tue, 14 Dec 2021 10:59:18 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TuKtQEHrznrMTs5c6Yc+ufj/hyx0WRwEEC6+16N1qLmj0QQAe62oUgdJmdgpKLGvJ9/SBW7IciPBSDgwol8beGQHffWWZIkpnEhL+9TKCt3HrA29l0D4AtpDnnmxO4kLHYjPoMn7NWNVPwu9fxkQl++g3dao0l/fe2EWeLnu8Rwt4zbt16z82jIzdUBbs0m0MNBg52+3H8WyGu7QAPLxrHhcIQYKX8r8ywYmVLkdz8w6TAz0+lNTIRV9Zt++3o8DXyzXXHVOmWdYhUmzokWqTygB5amrftPYa0KUroKRqKJJzX6ceqtCucy/r1NCYeE8dLOXTpG7hO9Z6QKv/xP8xg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=L0++1zUP4rBhNfAmc5gcbquat5bz0Ez8A23T93niadM=;
+ b=TgpTltiMmkGYCLWCbIq64r8qruTSqz6J1l8LqEqhUfWXqF3xXHt1KCK0q2UXTGw8cJkdhmjvz9iljN4F7IhtllKDLTFFugk9QIUd9wFNJsorILv+taMAjJVNIDiu/d/i4n7s61AnebNRwdame9p6NSFksKDnEv789nnwMr16jRDMdYp5w5Q3qKfPeygfEpupvleAFp0xt1Wn74GqAEP/gYlF1IIoXeTTvdqxGHRGta0ZGHc1ZBOuTB+TeInwGr3yH9g9+HkN9Ix/hSI2+n1g/nYJwac7OFOWeAlVyRTbr1Z4vuZnLa5DeSDpBPQrVAOVUez47EwIEYt0cBVcE2KpzA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=L0++1zUP4rBhNfAmc5gcbquat5bz0Ez8A23T93niadM=;
+ b=dMCfqFUCnQ7DCswtUgpnP1HAzt8JQGCbpUTid9yCB9qisEIBsUY+PsHTulmJHvSO3bIPgsxDXmM0NssvYFNIufxG2BHm9syBUlxx7pFly68M8dgYBex7i34Pq7NFEV/M5f7ld7LqZErAmjrwKTN28yc6coSXvv7M7S/Uf2GU0Lo=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from DB9PR08MB6812.eurprd08.prod.outlook.com (2603:10a6:10:2a2::15)
+ by DB8PR08MB4028.eurprd08.prod.outlook.com (2603:10a6:10:a8::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.17; Tue, 14 Dec
+ 2021 10:59:14 +0000
+Received: from DB9PR08MB6812.eurprd08.prod.outlook.com
+ ([fe80::fd1d:c45:53d5:79eb]) by DB9PR08MB6812.eurprd08.prod.outlook.com
+ ([fe80::fd1d:c45:53d5:79eb%9]) with mapi id 15.20.4778.013; Tue, 14 Dec 2021
+ 10:59:14 +0000
+Date: Tue, 14 Dec 2021 10:59:10 +0000
+From: Brian Starkey <brian.starkey@arm.com>
+To: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Subject: Re: [PATCH] drm/arm/mali: potential dereference of null pointer
+Message-ID: <20211214105910.zwmrgcaswgrtnb5t@000377403353>
+References: <20211214100000.23395-1-jiasheng@iscas.ac.cn>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211206133140.3166205-8-matthew.auld@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20211214100000.23395-1-jiasheng@iscas.ac.cn>
+X-ClientProxiedBy: LO4P123CA0367.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:18e::12) To DB9PR08MB6812.eurprd08.prod.outlook.com
+ (2603:10a6:10:2a2::15)
+MIME-Version: 1.0
+X-MS-Office365-Filtering-Correlation-Id: 46dc5ae4-bda0-4b2a-a3eb-08d9bef0c9fe
+X-MS-TrafficTypeDiagnostic: DB8PR08MB4028:EE_|AM5EUR03FT044:EE_|HE1PR08MB2699:EE_
+X-Microsoft-Antispam-PRVS: <HE1PR08MB2699DEB0D718BEBE147B383CF0759@HE1PR08MB2699.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Oob-TLC-OOBClassifiers: OLM:4714;OLM:4714;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: uJ5TT/YH+MAhT6wgi3w+MfxpxTh1+Q4pOILrx/BuYKfXPvzRDdk2kFeyf8a6bkK/66FknfequgBdJ7IzkXTTt3jE2fk32mwNZ3Xi8bNTRiL3l0K0/3lVbA/tK88fehADXndzRBEZKNbefGzT25lbj8HtiSiYsP2PK+3jBo4bvbNn4NS9I6n7ZvhNv4TrKWjEssxYgNQtHYtYhBCPW09nPIvcKkO18Cx+arXYXZxmFBdQjcvBhqSw5gDjx3n+Q2G4CBmqv5GBfW1q0S2MqqSEjV6JlAEO70JWC8QC0ovjzadvslz6o9JzfY63CYj+E3O15ZE1nF8BjG67hmypvEuIAlRsk1iR9QzemimBYz/WXkcHu57OvnUfqjVrspvSczhxr99sl0eMKHIe5yqkwsggXJbx840IfsajCzfXpUCNwIY1tLaQu/lPFYMsIOOon8GlGN9oEPZ8Hjx+gmdHuK9nmjT40mS/z+/6mjqXcuCQm63cQO3RRqd1nO3SbuwzK2eJp9ndKKlEmXRRuM67edkbXQkpPVyJ9yTxG0Ix68gSgubXSe3HZ6fJLldqkVTfb4NnehRTQV6CDHKCEZcwIleF+tiGQ5jG3ox5cwJs9R6mZ0OBKkjW9Gqyzh9dYI5K31gpa1FruZ6KNd+9T9Fhu2G1unMw1vPptezkgEKbyyzS4GgMWssoX6bzTwon6oGmKiqp09GR1WMrAQUL0KcX3d14Ww==
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
+ SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:DB9PR08MB6812.eurprd08.prod.outlook.com;
+ PTR:; CAT:NONE;
+ SFS:(7916004)(4636009)(366004)(6486002)(38100700002)(6666004)(38350700002)(33716001)(86362001)(83380400001)(66556008)(66476007)(508600001)(66946007)(186003)(6916009)(316002)(2906002)(1076003)(44832011)(52116002)(6512007)(26005)(9686003)(8936002)(8676002)(5660300002)(6506007)(4326008);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB4028
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM5EUR03FT044.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 6a1534bb-1364-48eb-7d06-08d9bef0c417
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: FwRSxVdcvTYpDsbWNB35GXFJInU120710tw9sdRjEKURds/ig0KhQICnO/QiLatxBUKbXhFRnR+Oj5ORDPdpFNKyAI7ZwY+jv09dNx55IoMv+1XR5cegNu3qhW6gjaYH9nqk/A7+W+2pjYP8RU7KuEVlzF3VRDam2BOhyH9moRhsczItVxn24ePrLp0pw1kTdi/v6i1bzos4WVumVgAK1ej/mBTY7lIE8k18bQyicgZVqYi97HgQL+PC3HR2JjfyjHwK/lNHXv8hAi7qi2MSBdllSOrvFw5Ng+7WmkzZghe/zKfVa3LIioX7XxAPjpbzjhDBKyBnPGJvdthtaa+JLvzn93j4htSwwNXXCBUxnN8DYRo+yWyJP6sqw8mHJHuruUQVetWWKa25mPTco/MAtAXIDvyx3RFyOy7Xe8pwSVz2HYXTNcE6VuRpn2E2SM7OaPP/OZ220T+CXYh6rHAY3HjPTQe6koYRfcgW/YaQqfNQzXDIrFRjWndBtzxcul9YfXegdEWzGMj11lYGoCGGxXNLvyz6tQ3O7nYLKDYd4x6nubvkgryyk8x5jjkgoQlFZZX3Pkk2MVkSxZHwHkGPDIPgpOKJoSgfQxloh1doUsL3iaFWRxGbLt7ZjQ9xWExGEHzNhhujDtZYmmSlO8nOC8J9SWW4wZgbV7CjSKOmZ3qj3r3lWREQO1kPLfLPVjyiPrKnxaLnp2GSAS/qKs8w3ZrXAGb1BFoMgU1wR17jAJjW/yQ+GZDcYLlNUweBDy/+ayERQdAZxAJRWhZUPVvO3A==
+X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
+ PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; CAT:NONE;
+ SFS:(4636009)(7916004)(36840700001)(46966006)(40470700001)(6486002)(5660300002)(26005)(186003)(8676002)(4326008)(81166007)(316002)(8936002)(63370400001)(2906002)(47076005)(63350400001)(40460700001)(6666004)(86362001)(82310400004)(70586007)(6862004)(33716001)(36860700001)(70206006)(356005)(6512007)(508600001)(6506007)(9686003)(336012)(83380400001)(1076003)(44832011);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Dec 2021 10:59:23.9347 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 46dc5ae4-bda0-4b2a-a3eb-08d9bef0c9fe
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
+ Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: AM5EUR03FT044.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR08MB2699
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,439 +142,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: airlied@linux.ie, liviu.dudau@arm.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, nd@arm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-12-06 at 13:31:39 +0000, Matthew Auld wrote:
-> This is all kinds of awkward since we now have to contend with using 64K
-> GTT pages when mapping anything in LMEM(including the page-tables
-> themselves).
+Hi Jiasheng,
+
+Thanks for the patch, that's a careless copy-paste on my part :-(
+
+On Tue, Dec 14, 2021 at 06:00:00PM +0800, Jiasheng Jiang wrote:
+> The return value of kzalloc() needs to be checked.
+> To avoid use of null pointer '&mw_state->base' in case of the
+> failure of alloc.
 > 
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Cc: Ramalingam C <ramalingam.c@intel.com>
+> Fixes: 8cbc5caf36ef ("drm: mali-dp: Add writeback connector")
+> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
 > ---
->  drivers/gpu/drm/i915/gt/intel_migrate.c | 189 +++++++++++++++++++-----
->  1 file changed, 150 insertions(+), 39 deletions(-)
+
+Reviewed-by: Brian Starkey <brian.starkey@arm.com>
+
+>  drivers/gpu/drm/arm/malidp_mw.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
-> index 0192b61ab541..fb658ae70a8d 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_migrate.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
-> @@ -33,6 +33,38 @@ static bool engine_supports_migration(struct intel_engine_cs *engine)
->  	return true;
+> diff --git a/drivers/gpu/drm/arm/malidp_mw.c b/drivers/gpu/drm/arm/malidp_mw.c
+> index f5847a79dd7e..612d386ee7d2 100644
+> --- a/drivers/gpu/drm/arm/malidp_mw.c
+> +++ b/drivers/gpu/drm/arm/malidp_mw.c
+> @@ -70,7 +70,11 @@ static void malidp_mw_connector_reset(struct drm_connector *connector)
+>  		__drm_atomic_helper_connector_destroy_state(connector->state);
+>  
+>  	kfree(connector->state);
+> -	__drm_atomic_helper_connector_reset(connector, &mw_state->base);
+> +
+> +	if (mw_state)
+> +		__drm_atomic_helper_connector_reset(connector, &mw_state->base);
+> +	else
+> +		__drm_atomic_helper_connector_reset(connector, NULL);
 >  }
 >  
-> +static void xehpsdv_toggle_pdes(struct i915_address_space *vm,
-> +				struct i915_page_table *pt,
-> +				void *data)
-> +{
-> +	struct insert_pte_data *d = data;
-> +
-> +	/*
-> +	 * Insert a dummy PTE into every PT that will map to LMEM to ensure
-> +	 * we have a correctly setup PDE structure for later use.
-> +	 */
-> +	vm->insert_page(vm, 0, d->offset, I915_CACHE_NONE, PTE_LM);
-This part i am not understanding. Why do we need to insert the dummy
-PTE here.?
-> +	GEM_BUG_ON(!pt->is_compact);
-> +	d->offset += SZ_2M;
-> +}
-> +
-> +static void xehpsdv_insert_pte(struct i915_address_space *vm,
-> +			       struct i915_page_table *pt,
-> +			       void *data)
-> +{
-> +	struct insert_pte_data *d = data;
-> +
-> +	/*
-> +	 * We are playing tricks here, since the actual pt, from the hw
-> +	 * pov, is only 256bytes with 32 entries, or 4096bytes with 512
-> +	 * entries, but we are still guaranteed that the physical
-> +	 * alignment is 64K underneath for the pt, and we are careful
-> +	 * not to access the space in the void.
-> +	 */
-> +	vm->insert_page(vm, px_dma(pt), d->offset, I915_CACHE_NONE, PTE_LM);
-> +	d->offset += SZ_64K;
-> +}
-> +
->  static void insert_pte(struct i915_address_space *vm,
->  		       struct i915_page_table *pt,
->  		       void *data)
-> @@ -75,7 +107,12 @@ static struct i915_address_space *migrate_vm(struct intel_gt *gt)
->  	 * i.e. within the same non-preemptible window so that we do not switch
->  	 * to another migration context that overwrites the PTE.
->  	 *
-> -	 * TODO: Add support for huge LMEM PTEs
-> +	 * On platforms with HAS_64K_PAGES support we have three windows, and
-> +	 * dedicate two windows just for mapping lmem pages(smem <-> smem is not
-> +	 * a thing), since we are forced to use 64K GTT pages underneath which
-> +	 * requires also modifying the PDE. An alternative might be to instead
-> +	 * map the PD into the GTT, and then on the fly toggle the 4K/64K mode
-> +	 * in the PDE from the same batch that also modifies the PTEs.
-Could we also add a layout of the ppGTT, incase of HAS_64K_PAGES?
->  	 */
->  
->  	vm = i915_ppgtt_create(gt, I915_BO_ALLOC_PM_EARLY);
-> @@ -87,6 +124,9 @@ static struct i915_address_space *migrate_vm(struct intel_gt *gt)
->  		goto err_vm;
->  	}
->  
-> +	if (HAS_64K_PAGES(gt->i915))
-> +		stash.pt_sz = I915_GTT_PAGE_SIZE_64K;
-> +
->  	/*
->  	 * Each engine instance is assigned its own chunk in the VM, so
->  	 * that we can run multiple instances concurrently
-> @@ -106,14 +146,20 @@ static struct i915_address_space *migrate_vm(struct intel_gt *gt)
->  		 * We copy in 8MiB chunks. Each PDE covers 2MiB, so we need
->  		 * 4x2 page directories for source/destination.
->  		 */
-> -		sz = 2 * CHUNK_SZ;
-> +		if (HAS_64K_PAGES(gt->i915))
-> +			sz = 3 * CHUNK_SZ;
-> +		else
-> +			sz = 2 * CHUNK_SZ;
->  		d.offset = base + sz;
->  
->  		/*
->  		 * We need another page directory setup so that we can write
->  		 * the 8x512 PTE in each chunk.
->  		 */
-> -		sz += (sz >> 12) * sizeof(u64);
-> +		if (HAS_64K_PAGES(gt->i915))
-> +			sz += (sz / SZ_2M) * SZ_64K;
-> +		else
-> +			sz += (sz >> 12) * sizeof(u64);
-Here for 4K page support, per page we assume the u64 as the length required. But
-for 64k page support we calculate the no of PDE and per PDE we allocate
-the 64k page so that we can map it for edit right?
-
-In this case i assume we have the unused space at the end. say after
-32*sizeof(u64)
-
-Ram
->  
->  		err = i915_vm_alloc_pt_stash(&vm->vm, &stash, sz);
->  		if (err)
-> @@ -134,7 +180,18 @@ static struct i915_address_space *migrate_vm(struct intel_gt *gt)
->  			goto err_vm;
->  
->  		/* Now allow the GPU to rewrite the PTE via its own ppGTT */
-> -		vm->vm.foreach(&vm->vm, base, d.offset - base, insert_pte, &d);
-> +		if (HAS_64K_PAGES(gt->i915)) {
-> +			vm->vm.foreach(&vm->vm, base, d.offset - base,
-> +				       xehpsdv_insert_pte, &d);
-> +			d.offset = base + CHUNK_SZ;
-> +			vm->vm.foreach(&vm->vm,
-> +				       d.offset,
-> +				       2 * CHUNK_SZ,
-> +				       xehpsdv_toggle_pdes, &d);
-> +		} else {
-> +			vm->vm.foreach(&vm->vm, base, d.offset - base,
-> +				       insert_pte, &d);
-> +		}
->  	}
->  
->  	return &vm->vm;
-> @@ -272,19 +329,38 @@ static int emit_pte(struct i915_request *rq,
->  		    u64 offset,
->  		    int length)
->  {
-> +	bool has_64K_pages = HAS_64K_PAGES(rq->engine->i915);
->  	const u64 encode = rq->context->vm->pte_encode(0, cache_level,
->  						       is_lmem ? PTE_LM : 0);
->  	struct intel_ring *ring = rq->ring;
-> -	int total = 0;
-> +	int pkt, dword_length;
-> +	u32 total = 0;
-> +	u32 page_size;
->  	u32 *hdr, *cs;
-> -	int pkt;
->  
->  	GEM_BUG_ON(GRAPHICS_VER(rq->engine->i915) < 8);
->  
-> +	page_size = I915_GTT_PAGE_SIZE;
-> +	dword_length = 0x400;
-> +
->  	/* Compute the page directory offset for the target address range */
-> -	offset >>= 12;
-> -	offset *= sizeof(u64);
-> -	offset += 2 * CHUNK_SZ;
-> +	if (has_64K_pages) {
-> +		GEM_BUG_ON(!IS_ALIGNED(offset, SZ_2M));
-> +
-> +		offset /= SZ_2M;
-> +		offset *= SZ_64K;
-> +		offset += 3 * CHUNK_SZ;
-> +
-> +		if (is_lmem) {
-> +			page_size = I915_GTT_PAGE_SIZE_64K;
-> +			dword_length = 0x40;
-> +		}
-> +	} else {
-> +		offset >>= 12;
-> +		offset *= sizeof(u64);
-> +		offset += 2 * CHUNK_SZ;
-> +	}
-> +
->  	offset += (u64)rq->engine->instance << 32;
->  
->  	cs = intel_ring_begin(rq, 6);
-> @@ -292,7 +368,7 @@ static int emit_pte(struct i915_request *rq,
->  		return PTR_ERR(cs);
->  
->  	/* Pack as many PTE updates as possible into a single MI command */
-> -	pkt = min_t(int, 0x400, ring->space / sizeof(u32) + 5);
-> +	pkt = min_t(int, dword_length, ring->space / sizeof(u32) + 5);
->  	pkt = min_t(int, pkt, (ring->size - ring->emit) / sizeof(u32) + 5);
->  
->  	hdr = cs;
-> @@ -302,6 +378,8 @@ static int emit_pte(struct i915_request *rq,
->  
->  	do {
->  		if (cs - hdr >= pkt) {
-> +			int dword_rem;
-> +
->  			*hdr += cs - hdr - 2;
->  			*cs++ = MI_NOOP;
->  
-> @@ -313,7 +391,18 @@ static int emit_pte(struct i915_request *rq,
->  			if (IS_ERR(cs))
->  				return PTR_ERR(cs);
->  
-> -			pkt = min_t(int, 0x400, ring->space / sizeof(u32) + 5);
-> +			dword_rem = dword_length;
-> +			if (has_64K_pages) {
-> +				if (IS_ALIGNED(total, SZ_2M)) {
-> +					offset = round_up(offset, SZ_64K);
-> +				} else {
-> +					dword_rem = SZ_2M - (total & (SZ_2M - 1));
-> +					dword_rem /= page_size;
-> +					dword_rem *= 2;
-> +				}
-> +			}
-> +
-> +			pkt = min_t(int, dword_rem, ring->space / sizeof(u32) + 5);
->  			pkt = min_t(int, pkt, (ring->size - ring->emit) / sizeof(u32) + 5);
->  
->  			hdr = cs;
-> @@ -322,13 +411,15 @@ static int emit_pte(struct i915_request *rq,
->  			*cs++ = upper_32_bits(offset);
->  		}
->  
-> +		GEM_BUG_ON(!IS_ALIGNED(it->dma, page_size));
-> +
->  		*cs++ = lower_32_bits(encode | it->dma);
->  		*cs++ = upper_32_bits(encode | it->dma);
->  
->  		offset += 8;
-> -		total += I915_GTT_PAGE_SIZE;
-> +		total += page_size;
->  
-> -		it->dma += I915_GTT_PAGE_SIZE;
-> +		it->dma += page_size;
->  		if (it->dma >= it->max) {
->  			it->sg = __sg_next(it->sg);
->  			if (!it->sg || sg_dma_len(it->sg) == 0)
-> @@ -359,7 +450,8 @@ static bool wa_1209644611_applies(int ver, u32 size)
->  	return height % 4 == 3 && height <= 8;
->  }
->  
-> -static int emit_copy(struct i915_request *rq, int size)
-> +static int emit_copy(struct i915_request *rq,
-> +		     u32 dst_offset, u32 src_offset, int size)
->  {
->  	const int ver = GRAPHICS_VER(rq->engine->i915);
->  	u32 instance = rq->engine->instance;
-> @@ -374,31 +466,31 @@ static int emit_copy(struct i915_request *rq, int size)
->  		*cs++ = BLT_DEPTH_32 | PAGE_SIZE;
->  		*cs++ = 0;
->  		*cs++ = size >> PAGE_SHIFT << 16 | PAGE_SIZE / 4;
-> -		*cs++ = CHUNK_SZ; /* dst offset */
-> +		*cs++ = dst_offset;
->  		*cs++ = instance;
->  		*cs++ = 0;
->  		*cs++ = PAGE_SIZE;
-> -		*cs++ = 0; /* src offset */
-> +		*cs++ = src_offset;
->  		*cs++ = instance;
->  	} else if (ver >= 8) {
->  		*cs++ = XY_SRC_COPY_BLT_CMD | BLT_WRITE_RGBA | (10 - 2);
->  		*cs++ = BLT_DEPTH_32 | BLT_ROP_SRC_COPY | PAGE_SIZE;
->  		*cs++ = 0;
->  		*cs++ = size >> PAGE_SHIFT << 16 | PAGE_SIZE / 4;
-> -		*cs++ = CHUNK_SZ; /* dst offset */
-> +		*cs++ = dst_offset;
->  		*cs++ = instance;
->  		*cs++ = 0;
->  		*cs++ = PAGE_SIZE;
-> -		*cs++ = 0; /* src offset */
-> +		*cs++ = src_offset;
->  		*cs++ = instance;
->  	} else {
->  		GEM_BUG_ON(instance);
->  		*cs++ = SRC_COPY_BLT_CMD | BLT_WRITE_RGBA | (6 - 2);
->  		*cs++ = BLT_DEPTH_32 | BLT_ROP_SRC_COPY | PAGE_SIZE;
->  		*cs++ = size >> PAGE_SHIFT << 16 | PAGE_SIZE;
-> -		*cs++ = CHUNK_SZ; /* dst offset */
-> +		*cs++ = dst_offset;
->  		*cs++ = PAGE_SIZE;
-> -		*cs++ = 0; /* src offset */
-> +		*cs++ = src_offset;
->  	}
->  
->  	intel_ring_advance(rq, cs);
-> @@ -426,6 +518,7 @@ intel_context_migrate_copy(struct intel_context *ce,
->  	GEM_BUG_ON(ce->ring->size < SZ_64K);
->  
->  	do {
-> +		u32 src_offset, dst_offset;
->  		int len;
->  
->  		rq = i915_request_create(ce);
-> @@ -453,15 +546,28 @@ intel_context_migrate_copy(struct intel_context *ce,
->  		if (err)
->  			goto out_rq;
->  
-> -		len = emit_pte(rq, &it_src, src_cache_level, src_is_lmem, 0,
-> -			       CHUNK_SZ);
-> +		src_offset = 0;
-> +		dst_offset = CHUNK_SZ;
-> +		if (HAS_64K_PAGES(ce->engine->i915)) {
-> +			GEM_BUG_ON(!src_is_lmem && !dst_is_lmem);
-> +
-> +			src_offset = 0;
-> +			dst_offset = 0;
-> +			if (src_is_lmem)
-> +				src_offset = CHUNK_SZ;
-> +			if (dst_is_lmem)
-> +				dst_offset = 2 * CHUNK_SZ;
-> +		}
-> +
-> +		len = emit_pte(rq, &it_src, src_cache_level, src_is_lmem,
-> +			       src_offset, CHUNK_SZ);
->  		if (len <= 0) {
->  			err = len;
->  			goto out_rq;
->  		}
->  
->  		err = emit_pte(rq, &it_dst, dst_cache_level, dst_is_lmem,
-> -			       CHUNK_SZ, len);
-> +			       dst_offset, len);
->  		if (err < 0)
->  			goto out_rq;
->  		if (err < len) {
-> @@ -473,7 +579,7 @@ intel_context_migrate_copy(struct intel_context *ce,
->  		if (err)
->  			goto out_rq;
->  
-> -		err = emit_copy(rq, len);
-> +		err = emit_copy(rq, dst_offset, src_offset, len);
->  
->  		/* Arbitration is re-enabled between requests. */
->  out_rq:
-> @@ -571,18 +677,20 @@ static u32 *_i915_ctrl_surf_copy_blt(u32 *cmd, u64 src_addr, u64 dst_addr,
->  }
->  
->  static int emit_clear(struct i915_request *rq,
-> +		      u64 offset,
->  		      int size,
->  		      u32 value,
->  		      bool is_lmem)
->  {
-> -	const int ver = GRAPHICS_VER(rq->engine->i915);
-> -	u32 instance = rq->engine->instance;
-> -	u32 *cs;
->  	struct drm_i915_private *i915 = rq->engine->i915;
-> +	const int ver = GRAPHICS_VER(rq->engine->i915);
->  	u32 num_ccs_blks, ccs_ring_size;
-> +	u32 *cs;
->  
->  	GEM_BUG_ON(size >> PAGE_SHIFT > S16_MAX);
->  
-> +	offset += (u64)rq->engine->instance << 32;
-> +
->  	/* Clear flat css only when value is 0 */
->  	ccs_ring_size = (is_lmem && !value) ?
->  			 calc_ctrl_surf_instr_size(i915, size)
-> @@ -597,17 +705,17 @@ static int emit_clear(struct i915_request *rq,
->  		*cs++ = BLT_DEPTH_32 | BLT_ROP_COLOR_COPY | PAGE_SIZE;
->  		*cs++ = 0;
->  		*cs++ = size >> PAGE_SHIFT << 16 | PAGE_SIZE / 4;
-> -		*cs++ = 0; /* offset */
-> -		*cs++ = instance;
-> +		*cs++ = lower_32_bits(offset);
-> +		*cs++ = upper_32_bits(offset);
->  		*cs++ = value;
->  		*cs++ = MI_NOOP;
->  	} else {
-> -		GEM_BUG_ON(instance);
-> +		GEM_BUG_ON(upper_32_bits(offset));
->  		*cs++ = XY_COLOR_BLT_CMD | BLT_WRITE_RGBA | (6 - 2);
->  		*cs++ = BLT_DEPTH_32 | BLT_ROP_COLOR_COPY | PAGE_SIZE;
->  		*cs++ = 0;
->  		*cs++ = size >> PAGE_SHIFT << 16 | PAGE_SIZE / 4;
-> -		*cs++ = 0;
-> +		*cs++ = lower_32_bits(offset);
->  		*cs++ = value;
->  	}
->  
-> @@ -623,17 +731,15 @@ static int emit_clear(struct i915_request *rq,
->  		 * and use it as a source.
->  		 */
->  
-> -		cs = i915_flush_dw(cs, (u64)instance << 32,
-> -				   MI_FLUSH_LLC | MI_FLUSH_CCS);
-> +		cs = i915_flush_dw(cs, offset, MI_FLUSH_LLC | MI_FLUSH_CCS);
->  		cs = _i915_ctrl_surf_copy_blt(cs,
-> -					      (u64)instance << 32,
-> -					      (u64)instance << 32,
-> +					      offset,
-> +					      offset,
->  					      DIRECT_ACCESS,
->  					      INDIRECT_ACCESS,
->  					      1, 1,
->  					      num_ccs_blks);
-> -		cs = i915_flush_dw(cs, (u64)instance << 32,
-> -				   MI_FLUSH_LLC | MI_FLUSH_CCS);
-> +		cs = i915_flush_dw(cs, offset, MI_FLUSH_LLC | MI_FLUSH_CCS);
->  	}
->  	intel_ring_advance(rq, cs);
->  	return 0;
-> @@ -658,6 +764,7 @@ intel_context_migrate_clear(struct intel_context *ce,
->  	GEM_BUG_ON(ce->ring->size < SZ_64K);
->  
->  	do {
-> +		u32 offset;
->  		int len;
->  
->  		rq = i915_request_create(ce);
-> @@ -685,7 +792,11 @@ intel_context_migrate_clear(struct intel_context *ce,
->  		if (err)
->  			goto out_rq;
->  
-> -		len = emit_pte(rq, &it, cache_level, is_lmem, 0, CHUNK_SZ);
-> +		offset = 0;
-> +		if (HAS_64K_PAGES(ce->engine->i915) && is_lmem)
-> +			offset = CHUNK_SZ;
-> +
-> +		len = emit_pte(rq, &it, cache_level, is_lmem, offset, CHUNK_SZ);
->  		if (len <= 0) {
->  			err = len;
->  			goto out_rq;
-> @@ -695,7 +806,7 @@ intel_context_migrate_clear(struct intel_context *ce,
->  		if (err)
->  			goto out_rq;
->  
-> -		err = emit_clear(rq, len, value, is_lmem);
-> +		err = emit_clear(rq, offset, len, value, is_lmem);
->  
->  		/* Arbitration is re-enabled between requests. */
->  out_rq:
+>  static enum drm_connector_status
 > -- 
-> 2.31.1
+> 2.25.1
 > 
