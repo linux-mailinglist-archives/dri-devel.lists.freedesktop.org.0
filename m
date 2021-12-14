@@ -2,35 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B608C474540
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 15:37:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E06C474584
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 15:48:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12AAD10E534;
-	Tue, 14 Dec 2021 14:36:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECB5410E53D;
+	Tue, 14 Dec 2021 14:48:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6798910E11D;
- Tue, 14 Dec 2021 14:36:56 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id A751C61524;
- Tue, 14 Dec 2021 14:36:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D813DC34601;
- Tue, 14 Dec 2021 14:36:53 +0000 (UTC)
-Date: Tue, 14 Dec 2021 09:36:52 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: Re: [PATCH 7/8] drm/i915: Disable tracing points on PREEMPT_RT
-Message-ID: <20211214093652.0dfa5b6f@gandalf.local.home>
-In-Reply-To: <20211214140301.520464-8-bigeasy@linutronix.de>
-References: <20211214140301.520464-1-bigeasy@linutronix.de>
- <20211214140301.520464-8-bigeasy@linutronix.de>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
+ [IPv6:2607:f8b0:4864:20::1035])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EFF910E53D;
+ Tue, 14 Dec 2021 14:48:30 +0000 (UTC)
+Received: by mail-pj1-x1035.google.com with SMTP id h24so14492165pjq.2;
+ Tue, 14 Dec 2021 06:48:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id;
+ bh=Iulmly40W1bDkhduoNsg+HBkwz1jkiNj6QQWr6cyxGI=;
+ b=bVQ0yxfqR4gM8cvY3QfzVLBcKqhQI0nJLVV4RQfceHzyjSNcQpSou3zvsdx2WTGUGv
+ xl3xVudr5Oeu4DaGKSB+/bmFlRpfPZkzOnRa1H6aIbsC1m4MCmw5UJhLd6/5njKfU0Wv
+ LVuCbgS74ETHCAJ5Thx3+b+i0JoWHn5tSodY/IzyHg61gXSXY8uALr9Nh4fcM31JEPyY
+ HEBkle6Lq92XyrBc94TZ4k6SoKkLl9hNzQO9/skGJZLIlcdpmU59AxMo6gNScBMD6plH
+ DgvRUzAY6bJ7HJoTd8IjJnw/tfzo/NgepRbYNbEOp0JGh8owSwHG7t/iSAMYsdI8LBHa
+ TdJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=Iulmly40W1bDkhduoNsg+HBkwz1jkiNj6QQWr6cyxGI=;
+ b=M695SLfKq2t6y/HQf1P3U/YUwsBqR7ngRQAPcm1JZ+UAwA17Bd03RLP2/1GutYDPHM
+ PqTA5YCLyNEqqTClexI1l9te43q0LAXJEOO5UY0ybRZ9r1EwBYz37085n4i6L3vwpdg3
+ YK7jNk6Lzq7UeICed2dpXNSejOjBV9Oms37n9LIY5u9tdaAMaSXzKQPYk9GqqIVSewoS
+ XtGCy8ZR9cIXGMsCL68Agl/m4GVX1ntxbBmmfahuikp4CnI2O+M6/TOgLRCIwNoFULP9
+ DIqEUG72+920OcSNezeBYHU9hcGYCTaKgjTBlejkYKvFzkzvU7KzhMfoaF2S2iNPCCll
+ sUmQ==
+X-Gm-Message-State: AOAM530IcqKIzigIWUbdMRKbvdbV2NCegVnIJmyFd9ziYWeURN4S7Uxh
+ GnNaayLY1dflcPkizWGHtfJfTsijixGsy63Dlr8=
+X-Google-Smtp-Source: ABdhPJwZ1uKUDFQaXtTUt03NxX7hd0yKn9NTGJLMfjB3K+xhXU208vU7PYQTDnm0wNMJOYtiw2zB7Q==
+X-Received: by 2002:a17:90b:1c8d:: with SMTP id
+ oo13mr6164377pjb.139.1639493309906; 
+ Tue, 14 Dec 2021 06:48:29 -0800 (PST)
+Received: from localhost.localdomain ([159.226.95.43])
+ by smtp.googlemail.com with ESMTPSA id d9sm2556776pjs.2.2021.12.14.06.48.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Dec 2021 06:48:29 -0800 (PST)
+From: Miaoqian Lin <linmq006@gmail.com>
+To: 
+Subject: [PATCH] drm/amdkfd: Fix missing check in kfd_parse_subtype_iolink
+Date: Tue, 14 Dec 2021 14:48:23 +0000
+Message-Id: <20211214144823.16057-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,123 +62,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- Luca Abeni <lucabe72@gmail.com>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>
+Cc: linmq006@gmail.com, David Airlie <airlied@linux.ie>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 14 Dec 2021 15:03:00 +0100
-Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
+The kmemdup() function may return NULL in case of error.
+Add NULL checking to prevent potential null deference.
 
-> Luca Abeni reported this:
-> | BUG: scheduling while atomic: kworker/u8:2/15203/0x00000003
-> | CPU: 1 PID: 15203 Comm: kworker/u8:2 Not tainted 4.19.1-rt3 #10
-> | Call Trace:
-> |  rt_spin_lock+0x3f/0x50
-> |  gen6_read32+0x45/0x1d0 [i915]
-> |  g4x_get_vblank_counter+0x36/0x40 [i915]
-> |  trace_event_raw_event_i915_pipe_update_start+0x7d/0xf0 [i915]
-> 
-> The tracing events use trace_i915_pipe_update_start() among other events
-> use functions acquire spinlock_t locks which are transformed into
-> sleeping locks on PREEMPT_RT. A few trace points use
-> intel_get_crtc_scanline(), others use ->get_vblank_counter() wich also
-> might acquire a sleeping locks on PREEMPT_RT.
-> At the time the arguments are evaluated within trace point, preemption
-> is disabled and so the locks must not be acquired on PREEMPT_RT.
-> 
-> Based on this I don't see any other way than disable trace points on
-> PREMPT_RT.
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+ drivers/gpu/drm/amd/amdkfd/kfd_crat.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Another way around this that I can see is if the data for the tracepoints
-can fit on the stack and add wrappers around the tracepoints. For example,
-looking at the first tracepoint in i915_trace.h:
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_crat.c b/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
+index cfedfb1e8596..59d55f752aa7 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
+@@ -1060,6 +1060,8 @@ static int kfd_parse_subtype_iolink(struct crat_subtype_iolink *iolink,
+ 			return -ENODEV;
+ 		/* same everything but the other direction */
+ 		props2 = kmemdup(props, sizeof(*props2), GFP_KERNEL);
++		if (!props2)
++			return -ENOMEM;
+ 		props2->node_from = id_to;
+ 		props2->node_to = id_from;
+ 		props2->kobj = NULL;
+-- 
+2.17.1
 
-TRACE_EVENT(intel_pipe_enable,
-	    TP_PROTO(struct intel_crtc *crtc),
-	    TP_ARGS(crtc),
-
-	    TP_STRUCT__entry(
-			     __array(u32, frame, 3)
-			     __array(u32, scanline, 3)
-			     __field(enum pipe, pipe)
-			     ),
-	    TP_fast_assign(
-			   struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
-			   struct intel_crtc *it__;
-			   for_each_intel_crtc(&dev_priv->drm, it__) {
-				   __entry->frame[it__->pipe] = intel_crtc_get_vblank_counter(it__);
-				   __entry->scanline[it__->pipe] = intel_get_crtc_scanline(it__);
-			   }
-			   __entry->pipe = crtc->pipe;
-			   ),
-
-	    TP_printk("pipe %c enable, pipe A: frame=%u, scanline=%u, pipe B: frame=%u, scanline=%u, pipe C: frame=%u, scanline=%u",
-		      pipe_name(__entry->pipe),
-		      __entry->frame[PIPE_A], __entry->scanline[PIPE_A],
-		      __entry->frame[PIPE_B], __entry->scanline[PIPE_B],
-		      __entry->frame[PIPE_C], __entry->scanline[PIPE_C])
-);
-
-We could modify this to be:
-
-TRACE_EVENT(intel_pipe_enable,
-	    TP_PROTO(u32 *frame, u32 *scanline, enum pipe),
-	    TP_ARGS(frame, scanline, pipe),
-
-	    TP_STRUCT__entry(
-			     __array(u32, frame, 3)
-			     __array(u32, scanline, 3)
-			     __field(enum pipe, pipe)
-			     ),
-	    TP_fast_assign(
-			   int i;
-			   for (i = 0; i < 3; i++) {
-			      __entry->frame[i] = frame[i];
-			      __entry->scanline[i] = scanline[i];
-			   }
-			   __entry->pipe = pipe;
-			   ),
-
-	    TP_printk("pipe %c enable, pipe A: frame=%u, scanline=%u, pipe B: frame=%u, scanline=%u, pipe C: frame=%u, scanline=%u",
-		      pipe_name(__entry->pipe),
-		      __entry->frame[PIPE_A], __entry->scanline[PIPE_A],
-		      __entry->frame[PIPE_B], __entry->scanline[PIPE_B],
-		      __entry->frame[PIPE_C], __entry->scanline[PIPE_C])
-);
-
-
-static inline void do_trace_intel_pipe(struct intel_crtc *crtc)
-{
-	u32 frame[3];
-	u32 scanline[3];
-	enum pipe pipe;
-
-	if (!trace_intel_pipe_enable_enabled())
-		return;
-
-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
-	struct intel_crtc *it__;
-	for_each_intel_crtc(&dev_priv->drm, it__) {
-		frame[it__->pipe] = intel_crtc_get_vblank_counter(it__);
-		scanline[it__->pipe] = intel_get_crtc_scanline(it__);
-	}
-
-	trace_intel_pipe(frame, scanline, crtc->pipe);
-}
-
-
-The trace_intel_pipe_enable_enabled() is a static_branch that will act the
-same as the nop of a trace event, so this will still not add overhead when
-not enabled.
-
-All the processing will be done outside the trace event allowing it to be
-preempted, and then when the trace event is executed, it will run quickly
-without taking any locks.
-
-Then have the code call do_trace_intel_pipe() instead of trace_intel_pipe()
-and this should fix the issue with preempt rt.
-
--- Steve
