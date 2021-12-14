@@ -2,122 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AD9F474276
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 13:26:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F5B4474296
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Dec 2021 13:33:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B3FC10E11B;
-	Tue, 14 Dec 2021 12:26:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E24A10E459;
+	Tue, 14 Dec 2021 12:33:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2052.outbound.protection.outlook.com [40.107.220.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBB6710E11B;
- Tue, 14 Dec 2021 12:26:34 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IhJhkyZVVpI8/iafri8nL8sQNC6AgvN+vCmmYOvYN5OxPTDgrSKtGudKDnqFUcTB9MyPMN/hXtEg6vSbkdk6C1sgcXE/F0w79mk/G77WEOVIsKvLblwZ0uqGi/FO0qpxL1fMaU83UeBZPQPvTm+dG0MNYYdx7+ZiBHgY37EbOK50RSsMVb0uYG1A/yslPB4hPa8+tLEHWRItFFZXXjTMb76SHmeV6zu/WIzAn5xaFfW/b/9701+JL0W/uBfzYZ2m2S3YwPfafB2i2OjggzILolsnlvVlaYiJb66VWS7GEwtSapsu1QkVONR2T8IadS+boqnC4la9YpE8L5B//bd3fQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=a53Dg8rwp5BYhnrjwo+0T8xzSZRVjseqV0N9cJ4Zo9U=;
- b=gCtuS1ROdHH/pNEFm9ejHeRncmtnyOznOoEct0nFyApss92wHYGQLs1Hr3mRl+tFZLdQ8mhGUoSQ657x47wVFmwaWS+pwNSjeC+M6pUhUr98If6in94mvB4MWFSK2l5ApSep90J3OcRna1u/v74HNPMK2/ko/Jqc5hFeVKE0fw3fqX2q0l+Hu+e5pZNK4z8YWlS3UJsmip8nIz6uyn0x40+91uytAXz/0Z6CwS5OWwBYGsoP+bt1JweUveu3EBdTOU9bknl3S+ftEmzyJIrB6jgLxJJt4+8+VsW0W2+8SAibnLcR9mJxlI4+D8ZVoWyj8X4H39nTIylU/FAiFzrBhw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a53Dg8rwp5BYhnrjwo+0T8xzSZRVjseqV0N9cJ4Zo9U=;
- b=bqwQT6/mCBf/cUGU89gOsbe4vyuLt5qnEXbtNrN8krKmZFITrIyMLV6xL/R1kYJGgOpiPrhAYgTtUlXnsGDApUHPF42wk3b8ZRrisq1N9xfjxrUmjsakk8L8V+zas9xxi0i4JjGKgB7ukApQTpnQjuy3ZfpQHIlBp/7tYvXvg2c=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
- (2603:10b6:301:5a::14) by MWHPR12MB1613.namprd12.prod.outlook.com
- (2603:10b6:301:11::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.17; Tue, 14 Dec
- 2021 12:26:32 +0000
-Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
- ([fe80::d16c:a6d5:5d2e:f9d4]) by MWHPR1201MB0192.namprd12.prod.outlook.com
- ([fe80::d16c:a6d5:5d2e:f9d4%12]) with mapi id 15.20.4778.018; Tue, 14 Dec
- 2021 12:26:32 +0000
-Subject: Re: [PATCH v2] drm/amdgpu: introduce new amdgpu_fence object to
- indicate the job embedded fence
-To: Huang Rui <ray.huang@amd.com>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>
-References: <20211214111554.2672812-1-ray.huang@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <30441c31-8ebe-e7b0-97ba-357bba24255a@amd.com>
-Date: Tue, 14 Dec 2021 13:26:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-In-Reply-To: <20211214111554.2672812-1-ray.huang@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-ClientProxiedBy: AS9PR06CA0366.eurprd06.prod.outlook.com
- (2603:10a6:20b:460::6) To MWHPR1201MB0192.namprd12.prod.outlook.com
- (2603:10b6:301:5a::14)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1F1F10E459;
+ Tue, 14 Dec 2021 12:33:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1639485193; x=1671021193;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=A3QHtEQRSgE7hvn25nsYszqfZBtMN4v5sT3UO+j0q50=;
+ b=GMCqJlVSK0bqzvtjW3vRHdUdP8UQv7V7x9jsdiIKDQIRWuVke8Z8l+HN
+ 9vrff+ynOxacFaF5M8CUaxYHk8I6Gore4jUwboQ/94ARQGrKQPy11iFmJ
+ LG3/CcX44QOc1cIe0QE/8jkHpWGnJj66Fs00dBM24hvSnSvsTiO0f5tba
+ OsB84APOblzDAKCOyFDtomZm+JurFiGWRr+VQ4z4zUZQdZ6FdWQjUQ59t
+ eDugs9QEProTKlx/N+N3dD2954H1B3R1tishHDSCH0cVE6/iEl/F3dYGZ
+ wtIc4pl13dXH/7XwXQFFnh7aWMsQHSUuM7G+MF2Aw1uPsNPKhJFHxc/p3 g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10197"; a="225826935"
+X-IronPort-AV: E=Sophos;i="5.88,205,1635231600"; d="scan'208";a="225826935"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Dec 2021 04:33:01 -0800
+X-IronPort-AV: E=Sophos;i="5.88,205,1635231600"; d="scan'208";a="505343877"
+Received: from vgavinx-mobl1.ger.corp.intel.com (HELO [10.252.22.20])
+ ([10.252.22.20])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Dec 2021 04:32:59 -0800
+Message-ID: <f994b09b-b11c-fcd7-c868-bd55125eecb8@intel.com>
+Date: Tue, 14 Dec 2021 12:32:57 +0000
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f564df4b-d20f-4475-b43d-08d9befcf5ef
-X-MS-TrafficTypeDiagnostic: MWHPR12MB1613:EE_
-X-Microsoft-Antispam-PRVS: <MWHPR12MB1613FC1B9D9A13CC574C128483759@MWHPR12MB1613.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3eX5Py2yhoTyGIeUIZ8SMtlbluwDWadWdoloCTTZ9wUT5//XHo6VvoszwHnlXX7WD3dBMxH/Iv6NFOkyZlLAeP9V1IEIR35fvdgrmb9VB1PUFBeqFSFTSgAkIZx9OVKHp2vXlLhz3Ld9/oliUV8QISvigiNM57vS3A3r/GONc5bQkJfGs7h4tkMwtvw3JupqXkbV2OOkOizzccNPcYWTlttiP8g78bh+PgrfJJ1WyGXAKekrkRl71sbZ7e005Sm6P3IkpTqPHuCq4N2O22p0hUa8v49ePC08ql0neYeJJXKWSO1v8+RP9cXY3HBprW2l6c83V4FHdXxaBC7oILu2H5b2ZZcda88hZi4nAPAdAGe03hRY5y0fOCjXl5ChDePxtS2tdHUMUMxYkYM8QY7yVjX/sBkzJRJaee2lmlNP95zm0hR7iHZLtg8PAyKf07AHwG2vM5xiIE6xOMhl2pKeoSFtSjpSKiXOXF7grNmxRxoeA6eRIX99lnOPPySV5uWhy5hbASMvpBb/HwjcZqJ0ReEoasDily6Xy5oHKU3bQ0tSO7HOl5/RNF8rnzEzSbYMnpebaN0Hjn8IJ/tZyxfM/eHovFFxeAePd/3bAfS7iyFvlxonK+HKEEhY+cAz1yLEY4szWsObYaCqvOTDy3snsb2H3Pr/024lIKF/eJQ7NGEPp+bJ5PM+d9lrY6BxSvFDmUweyrPRhAjaPKcF0vqr8fpsWPy/LxfY8+7fStIVf/RVDIGnGa/2/VFl9vw8vflQ
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR1201MB0192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(316002)(6666004)(2906002)(30864003)(186003)(31686004)(5660300002)(86362001)(8936002)(6506007)(8676002)(2616005)(36756003)(66946007)(6486002)(4326008)(66476007)(508600001)(31696002)(54906003)(6512007)(66556008)(110136005)(38100700002)(83380400001)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eVBCWG82SHJKLzB1YU5HSVdHK3hBQVRieXhTdUtxWVVNWEhhY3l0OHhGcnFD?=
- =?utf-8?B?dTlhWHNMakxvZkVFZnRZV1pZa0ROQXRCaFNqb29hdTVGS3N4NHdSY3Z0VGpQ?=
- =?utf-8?B?ZjIwM0RTdzdGenNaWjlYY0ZGZjdPeFoweWNXOFFPL0xEUURNRXJrUnQrd2RY?=
- =?utf-8?B?ejNCSnQrV1F2K3BndG43azlyYStEMVNPN3JPUnVKM2YxUDJxT1kwL1Fnc3hv?=
- =?utf-8?B?Wm9lMlYrVCtvM1oxNlZYTXk1Z01nMit6UjNkQzFCSURUL2l0amx0d2tadGUz?=
- =?utf-8?B?am9hZVR1elc2SlEwd25LUHN1OWxFL0pNTmcvZXo1STBWLzF0N0ROWlF3OGpK?=
- =?utf-8?B?ZkRxNFJFQjN1aGhHNGN1UWN1bU9BM045RXhVWjNWMG5QTXdNQ09lbE5yRDNC?=
- =?utf-8?B?bmI1cXRsbEFmMG1oOW5QZHNTZURzVitjUThRNXREQjRCSHArWGtVRCtHdFYv?=
- =?utf-8?B?SXpXNGJqZklOdXlGKzErdVB1UkRHd2lkUVB0dG0zWXVrSEFPQzVraTZWUlBk?=
- =?utf-8?B?RlNsSWdURlpwSE1mMjV0V3RiSkl6Q3RqTjI1aDJpa2pBZWNhVGtack1nNkYr?=
- =?utf-8?B?YS9FRzVRTlczYjhFSHRrN21kMC81elRka0JmZ3ExS3NWSzNrUWZMaXNOdDdV?=
- =?utf-8?B?M0NROFVEc2J0QS94U0IxWWYzbkNWMTZKWElWV1psYlV1TVJWTlFvMUViMEVl?=
- =?utf-8?B?VkNoeHNnRE4wNndoU2oxRXpsM1NhSzd6aVdVam9IS2FxQUFPRUFaeDYrRk9X?=
- =?utf-8?B?UW1SRkc4REJDak9pQ3grYXFYd25KdXJ5T1dzNkVKUXRZN2FhTG54Ky9DQUNa?=
- =?utf-8?B?Ri8waFExN245MjJyUm1nWTRtMk5CamxsQ1BxT2VBRlpyK3ZZQnpUR0lFbk42?=
- =?utf-8?B?MFBnbk5CN0RIa01sdUU0NzhQUmFSajgxbTg2c25Ed003a3QwSGdlOVErN1NI?=
- =?utf-8?B?QVo0M2lJcFJCVFpRb0ZLRkdGSVJWdVhhVllPeGpzWWVodWFlYWJvWHdXNUFO?=
- =?utf-8?B?M3A1dXJQOCtuTG85NTVvWEVuNmM1WjVVNERzRUlnaEpHR0Q0NUJMWjdVTlFp?=
- =?utf-8?B?akE3aVlydDNZbkViSm5GQ1g5V3I3bEloL2dkYXNKaUlkRVkrd0M5TnRjQTEv?=
- =?utf-8?B?MGVwSEdyQzl5NnJBMCtZZmRuSjJEb29lbElXWmlwQ0RMQktsRFBUbndHTmZG?=
- =?utf-8?B?a0FWczhQZTRtWVBQY1EwNmlTdkdnNW1vdi8xK3hHQ3BoZDlFbE9QT1dnUDI2?=
- =?utf-8?B?WDBSNzdiTWU5OEhJSHA5anBLQW5ZSDd3N0FhREVQNE1rUVdnei82L214UkYr?=
- =?utf-8?B?T0RJWHFVZTBWNW5nb2F4eS9pUXhrK3djcTVnM202SU9QNVNTVUhua3htZ1Vi?=
- =?utf-8?B?T0lsanBKZkErVllZMCt5UGZYc1Z2L2dRaEZLeEJwcm85RWJLMTB4eUtlSlpy?=
- =?utf-8?B?bEFkeVNFODB5aUNudlN5bWdLWjVrMWV0ZnRTVEJuaVdGSE5RUEYyTkRxelRs?=
- =?utf-8?B?Sk9rSGN0Kzl1cFBZeFkzeFFkVmVoTmRnV0x4T2dhenVFOWFMSDNBVGpGOHVO?=
- =?utf-8?B?L3ZqZjQ3a3p0NVl6eWxjMWNOSk45ZnpRYlBlbzlXeTM1THVtWDA2Q2hQRXB4?=
- =?utf-8?B?S2FrVUJxVkh3K0lQZlpFTXM0Rk14bnR5RnpOVmRIajU3cWJFUlc1aTNmMXZN?=
- =?utf-8?B?LzhFNVJaMXhJRXVYcnp5Q0xsb3p1djFwN2VFanNVMmdmeEd2ZEh2M00rd1dt?=
- =?utf-8?B?TWV2a0lTYlRXbW1pUEprbGwwcWpRbU04S2VYTnArM1JkZVJRT2QvU0N2eE9Q?=
- =?utf-8?B?S2luYTU0T2ZzUXlBVVVwTXhQMW9velRoZmdiZkcvd1FNZ1E1T002Y2NhekVF?=
- =?utf-8?B?WU1tM3c1c0FrbmZKQVp6ODVsbGRveENWajg2bGlxRmdpU2NkVnB1aW5venEv?=
- =?utf-8?B?QlJlTVl1T2NHZmc4ZTBiQ0lGdkNySDVJYjZFQkVSOWVVL0hvK2daRTF6ZUp1?=
- =?utf-8?B?OHBtZ3VBY3J4dWxPcEtRcDZ6K1V4K0g1NFJVSXVJdklPZCtmYkVmaDVNa0pw?=
- =?utf-8?B?SkNQV0hVRTAreS9NbWtETnpJQ2ZKck1oK3RaQ2lFcjdobDdtOGZwRTFvWlYx?=
- =?utf-8?B?R2QvbE1LeVg3azNOcGZsNVZVZ1VGN2Z1cElhTVl4R0N1R3pCUGN1a0lxOElq?=
- =?utf-8?Q?3bq/LZz2d/mxhVgrfmafRUQ=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f564df4b-d20f-4475-b43d-08d9befcf5ef
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1201MB0192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Dec 2021 12:26:31.9757 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wq2PGZc96/0YG2GL8hHMkcZY4YRKkxvttQYRwWYGpR1aRExUNspP6XU/DZCYi/en
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1613
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v3 7/8] drm/i915/migrate: add acceleration support for DG2
+Content-Language: en-GB
+To: Ramalingam C <ramalingam.c@intel.com>
+References: <20211206133140.3166205-1-matthew.auld@intel.com>
+ <20211206133140.3166205-8-matthew.auld@intel.com>
+ <20211214105651.GC31233@intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20211214105651.GC31233@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,300 +61,475 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>, Monk Liu <Monk.Liu@amd.com>,
- amd-gfx@lists.freedesktop.org, linux-media@vger.kernel.org
+Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 14/12/2021 10:56, Ramalingam C wrote:
+> On 2021-12-06 at 13:31:39 +0000, Matthew Auld wrote:
+>> This is all kinds of awkward since we now have to contend with using 64K
+>> GTT pages when mapping anything in LMEM(including the page-tables
+>> themselves).
+>>
+>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>> Cc: Ramalingam C <ramalingam.c@intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/gt/intel_migrate.c | 189 +++++++++++++++++++-----
+>>   1 file changed, 150 insertions(+), 39 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
+>> index 0192b61ab541..fb658ae70a8d 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_migrate.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
+>> @@ -33,6 +33,38 @@ static bool engine_supports_migration(struct intel_engine_cs *engine)
+>>   	return true;
+>>   }
+>>   
+>> +static void xehpsdv_toggle_pdes(struct i915_address_space *vm,
+>> +				struct i915_page_table *pt,
+>> +				void *data)
+>> +{
+>> +	struct insert_pte_data *d = data;
+>> +
+>> +	/*
+>> +	 * Insert a dummy PTE into every PT that will map to LMEM to ensure
+>> +	 * we have a correctly setup PDE structure for later use.
+>> +	 */
+>> +	vm->insert_page(vm, 0, d->offset, I915_CACHE_NONE, PTE_LM);
+> This part i am not understanding. Why do we need to insert the dummy
+> PTE here.?
+
+We have three windows, each CHUNK_SIZE in size. The first is reserved 
+for mapping system-memory, and that just uses the 512 entry layout using 
+4K GTT pages. The other two windows just map lmem pages and must use the 
+new compact 32 entry layout using 64K GTT pages, which ensures we can 
+address any lmem object that the user throws at us. The above is 
+basically just toggling the PDE bit(GEN12_PDE_64K) for us, to enable the 
+compact layout for each of these page-tables, that fall within the 2 * 
+CHUNK_SIZE range starting at CHUNK_SIZE.
 
 
-Am 14.12.21 um 12:15 schrieb Huang Rui:
-> The job embedded fence donesn't initialize the flags at
-> dma_fence_init(). Then we will go a wrong way in
-> amdgpu_fence_get_timeline_name callback and trigger a null pointer panic
-> once we enabled the trace event here. So introduce new amdgpu_fence
-> object to indicate the job embedded fence.
->
-> [  156.131790] BUG: kernel NULL pointer dereference, address: 00000000000002a0
-> [  156.131804] #PF: supervisor read access in kernel mode
-> [  156.131811] #PF: error_code(0x0000) - not-present page
-> [  156.131817] PGD 0 P4D 0
-> [  156.131824] Oops: 0000 [#1] PREEMPT SMP PTI
-> [  156.131832] CPU: 6 PID: 1404 Comm: sdma0 Tainted: G           OE     5.16.0-rc1-custom #1
-> [  156.131842] Hardware name: Gigabyte Technology Co., Ltd. Z170XP-SLI/Z170XP-SLI-CF, BIOS F20 11/04/2016
-> [  156.131848] RIP: 0010:strlen+0x0/0x20
-> [  156.131859] Code: 89 c0 c3 0f 1f 80 00 00 00 00 48 01 fe eb 0f 0f b6 07 38 d0 74 10 48 83 c7 01 84 c0 74 05 48 39 f7 75 ec 31 c0 c3 48 89 f8 c3 <80> 3f 00 74 10 48 89 f8 48 83 c0 01 80 38 00 75 f7 48 29 f8 c3 31
-> [  156.131872] RSP: 0018:ffff9bd0018dbcf8 EFLAGS: 00010206
-> [  156.131880] RAX: 00000000000002a0 RBX: ffff8d0305ef01b0 RCX: 000000000000000b
-> [  156.131888] RDX: ffff8d03772ab924 RSI: ffff8d0305ef01b0 RDI: 00000000000002a0
-> [  156.131895] RBP: ffff9bd0018dbd60 R08: ffff8d03002094d0 R09: 0000000000000000
-> [  156.131901] R10: 000000000000005e R11: 0000000000000065 R12: ffff8d03002094d0
-> [  156.131907] R13: 000000000000001f R14: 0000000000070018 R15: 0000000000000007
-> [  156.131914] FS:  0000000000000000(0000) GS:ffff8d062ed80000(0000) knlGS:0000000000000000
-> [  156.131923] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [  156.131929] CR2: 00000000000002a0 CR3: 000000001120a005 CR4: 00000000003706e0
-> [  156.131937] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> [  156.131942] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> [  156.131949] Call Trace:
-> [  156.131953]  <TASK>
-> [  156.131957]  ? trace_event_raw_event_dma_fence+0xcc/0x200
-> [  156.131973]  ? ring_buffer_unlock_commit+0x23/0x130
-> [  156.131982]  dma_fence_init+0x92/0xb0
-> [  156.131993]  amdgpu_fence_emit+0x10d/0x2b0 [amdgpu]
-> [  156.132302]  amdgpu_ib_schedule+0x2f9/0x580 [amdgpu]
-> [  156.132586]  amdgpu_job_run+0xed/0x220 [amdgpu]
->
-> Signed-off-by: Huang Rui <ray.huang@amd.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu.h        |   1 +
->   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |   3 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c  | 117 ++++++++++++++-------
->   drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h   |   3 -
->   4 files changed, 80 insertions(+), 44 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> index 9f017663ac50..fcaf6e9703f9 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> @@ -444,6 +444,7 @@ struct amdgpu_sa_bo {
->   
->   int amdgpu_fence_slab_init(void);
->   void amdgpu_fence_slab_fini(void);
-> +bool is_job_embedded_fence(struct dma_fence *f);
+>> +	GEM_BUG_ON(!pt->is_compact);
+>> +	d->offset += SZ_2M;
+>> +}
+>> +
+>> +static void xehpsdv_insert_pte(struct i915_address_space *vm,
+>> +			       struct i915_page_table *pt,
+>> +			       void *data)
+>> +{
+>> +	struct insert_pte_data *d = data;
+>> +
+>> +	/*
+>> +	 * We are playing tricks here, since the actual pt, from the hw
+>> +	 * pov, is only 256bytes with 32 entries, or 4096bytes with 512
+>> +	 * entries, but we are still guaranteed that the physical
+>> +	 * alignment is 64K underneath for the pt, and we are careful
+>> +	 * not to access the space in the void.
+>> +	 */
+>> +	vm->insert_page(vm, px_dma(pt), d->offset, I915_CACHE_NONE, PTE_LM);
+>> +	d->offset += SZ_64K;
+>> +}
+>> +
+>>   static void insert_pte(struct i915_address_space *vm,
+>>   		       struct i915_page_table *pt,
+>>   		       void *data)
+>> @@ -75,7 +107,12 @@ static struct i915_address_space *migrate_vm(struct intel_gt *gt)
+>>   	 * i.e. within the same non-preemptible window so that we do not switch
+>>   	 * to another migration context that overwrites the PTE.
+>>   	 *
+>> -	 * TODO: Add support for huge LMEM PTEs
+>> +	 * On platforms with HAS_64K_PAGES support we have three windows, and
+>> +	 * dedicate two windows just for mapping lmem pages(smem <-> smem is not
+>> +	 * a thing), since we are forced to use 64K GTT pages underneath which
+>> +	 * requires also modifying the PDE. An alternative might be to instead
+>> +	 * map the PD into the GTT, and then on the fly toggle the 4K/64K mode
+>> +	 * in the PDE from the same batch that also modifies the PTEs.
+> Could we also add a layout of the ppGTT, incase of HAS_64K_PAGES?
 
-We need a better name for this, especially with amdgpu in it. Something 
-like is_amdgpu_job_fence().
+[0, CHUNK_SZ) -> first window, maps smem
+[CHUNK_SZ, 2 * CHUNK_SZ) -> second window, maps lmem src
+[2 * CHUNK_SZ, 3 * CHUNK_SZ) -> third window, maps lmem dst
 
-But maybe we can avoid that function alltogether, see below.
+It starts to get strange here, since each PTE must point to some 64K 
+page, one for each PT(since it's in lmem), and yet each is only <= 
+4096bytes, but since the unused space within that PTE range is never 
+touched, this should be fine.
 
->   
->   /*
->    * IRQS.
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> index 5625f7736e37..444a19eb2248 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -4483,9 +4483,8 @@ int amdgpu_device_pre_asic_reset(struct amdgpu_device *adev,
->   
->   			ptr = &ring->fence_drv.fences[j];
->   			old = rcu_dereference_protected(*ptr, 1);
-> -			if (old && test_bit(AMDGPU_FENCE_FLAG_EMBED_IN_JOB_BIT, &old->flags)) {
-> +			if (old && is_job_embedded_fence(old))
->   				RCU_INIT_POINTER(*ptr, NULL);
-> -			}
+So basically each PT now needs 64K of virtual memory, instead of 4K. So 
+something like:
 
-This here is messing with the fence internals and so should probably be 
-a function in amdgpu_fence.c.
+[3 * CHUNK_SZ, 3 * CHUNK_SZ + ((3 * CHUNK_SZ / SZ_2M) * SZ_64K)] -> PTE
 
-This way we would have embedded the amdgpu fence in there as well. Apart 
-from that looks rather good to me.
+And then later when writing out the PTEs we know if the layout within a 
+particular PT is 512 vs 32 depending on if we are mapping lmem or not.
 
-Christian.
+>>   	 */
+>>   
+>>   	vm = i915_ppgtt_create(gt, I915_BO_ALLOC_PM_EARLY);
+>> @@ -87,6 +124,9 @@ static struct i915_address_space *migrate_vm(struct intel_gt *gt)
+>>   		goto err_vm;
+>>   	}
+>>   
+>> +	if (HAS_64K_PAGES(gt->i915))
+>> +		stash.pt_sz = I915_GTT_PAGE_SIZE_64K;
+>> +
+>>   	/*
+>>   	 * Each engine instance is assigned its own chunk in the VM, so
+>>   	 * that we can run multiple instances concurrently
+>> @@ -106,14 +146,20 @@ static struct i915_address_space *migrate_vm(struct intel_gt *gt)
+>>   		 * We copy in 8MiB chunks. Each PDE covers 2MiB, so we need
+>>   		 * 4x2 page directories for source/destination.
+>>   		 */
+>> -		sz = 2 * CHUNK_SZ;
+>> +		if (HAS_64K_PAGES(gt->i915))
+>> +			sz = 3 * CHUNK_SZ;
+>> +		else
+>> +			sz = 2 * CHUNK_SZ;
+>>   		d.offset = base + sz;
+>>   
+>>   		/*
+>>   		 * We need another page directory setup so that we can write
+>>   		 * the 8x512 PTE in each chunk.
+>>   		 */
+>> -		sz += (sz >> 12) * sizeof(u64);
+>> +		if (HAS_64K_PAGES(gt->i915))
+>> +			sz += (sz / SZ_2M) * SZ_64K;
+>> +		else
+>> +			sz += (sz >> 12) * sizeof(u64);
+> Here for 4K page support, per page we assume the u64 as the length required. But
+> for 64k page support we calculate the no of PDE and per PDE we allocate
+> the 64k page so that we can map it for edit right?
+> 
+> In this case i assume we have the unused space at the end. say after
+> 32*sizeof(u64)
 
->   		}
->   		/* after all hw jobs are reset, hw fence is meaningless, so force_completion */
->   		amdgpu_fence_driver_force_completion(ring);
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> index 3b7e86ea7167..3a81249b5660 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> @@ -77,16 +77,28 @@ void amdgpu_fence_slab_fini(void)
->    * Cast helper
->    */
->   static const struct dma_fence_ops amdgpu_fence_ops;
-> +static const struct dma_fence_ops amdgpu_job_fence_ops;
->   static inline struct amdgpu_fence *to_amdgpu_fence(struct dma_fence *f)
->   {
->   	struct amdgpu_fence *__f = container_of(f, struct amdgpu_fence, base);
->   
-> -	if (__f->base.ops == &amdgpu_fence_ops)
-> +	if (__f->base.ops == &amdgpu_fence_ops ||
-> +	    __f->base.ops == &amdgpu_job_fence_ops)
->   		return __f;
->   
->   	return NULL;
->   }
->   
-> +bool is_job_embedded_fence(struct dma_fence *f)
-> +{
-> +	struct amdgpu_fence *__f = container_of(f, struct amdgpu_fence, base);
-> +
-> +	if (__f->base.ops == &amdgpu_job_fence_ops)
-> +		return true;
-> +
-> +	return false;
-> +}
-> +
->   /**
->    * amdgpu_fence_write - write a fence value
->    *
-> @@ -158,19 +170,18 @@ int amdgpu_fence_emit(struct amdgpu_ring *ring, struct dma_fence **f, struct amd
->   	}
->   
->   	seq = ++ring->fence_drv.sync_seq;
-> -	if (job != NULL && job->job_run_counter) {
-> +	if (job && job->job_run_counter) {
->   		/* reinit seq for resubmitted jobs */
->   		fence->seqno = seq;
->   	} else {
-> -		dma_fence_init(fence, &amdgpu_fence_ops,
-> -				&ring->fence_drv.lock,
-> -				adev->fence_context + ring->idx,
-> -				seq);
-> -	}
-> -
-> -	if (job != NULL) {
-> -		/* mark this fence has a parent job */
-> -		set_bit(AMDGPU_FENCE_FLAG_EMBED_IN_JOB_BIT, &fence->flags);
-> +		if (job)
-> +			dma_fence_init(fence, &amdgpu_job_fence_ops,
-> +				       &ring->fence_drv.lock,
-> +				       adev->fence_context + ring->idx, seq);
-> +		else
-> +			dma_fence_init(fence, &amdgpu_fence_ops,
-> +				       &ring->fence_drv.lock,
-> +				       adev->fence_context + ring->idx, seq);
->   	}
->   
->   	amdgpu_ring_emit_fence(ring, ring->fence_drv.gpu_addr,
-> @@ -643,16 +654,14 @@ static const char *amdgpu_fence_get_driver_name(struct dma_fence *fence)
->   
->   static const char *amdgpu_fence_get_timeline_name(struct dma_fence *f)
->   {
-> -	struct amdgpu_ring *ring;
-> +	return (const char *)to_amdgpu_fence(f)->ring->name;
-> +}
->   
-> -	if (test_bit(AMDGPU_FENCE_FLAG_EMBED_IN_JOB_BIT, &f->flags)) {
-> -		struct amdgpu_job *job = container_of(f, struct amdgpu_job, hw_fence);
-> +static const char *amdgpu_job_fence_get_timeline_name(struct dma_fence *f)
-> +{
-> +	struct amdgpu_job *job = container_of(f, struct amdgpu_job, hw_fence);
->   
-> -		ring = to_amdgpu_ring(job->base.sched);
-> -	} else {
-> -		ring = to_amdgpu_fence(f)->ring;
-> -	}
-> -	return (const char *)ring->name;
-> +	return (const char *)to_amdgpu_ring(job->base.sched)->name;
->   }
->   
->   /**
-> @@ -665,18 +674,25 @@ static const char *amdgpu_fence_get_timeline_name(struct dma_fence *f)
->    */
->   static bool amdgpu_fence_enable_signaling(struct dma_fence *f)
->   {
-> -	struct amdgpu_ring *ring;
-> +	if (!timer_pending(&to_amdgpu_fence(f)->ring->fence_drv.fallback_timer))
-> +		amdgpu_fence_schedule_fallback(to_amdgpu_fence(f)->ring);
->   
-> -	if (test_bit(AMDGPU_FENCE_FLAG_EMBED_IN_JOB_BIT, &f->flags)) {
-> -		struct amdgpu_job *job = container_of(f, struct amdgpu_job, hw_fence);
-> +	return true;
-> +}
->   
-> -		ring = to_amdgpu_ring(job->base.sched);
-> -	} else {
-> -		ring = to_amdgpu_fence(f)->ring;
-> -	}
-> +/**
-> + * amdgpu_job_fence_enable_signaling - enable signalling on job fence
-> + * @f: fence
-> + *
-> + * This is the simliar function with amdgpu_fence_enable_signaling above, it
-> + * only handles the job embedded fence.
-> + */
-> +static bool amdgpu_job_fence_enable_signaling(struct dma_fence *f)
-> +{
-> +	struct amdgpu_job *job = container_of(f, struct amdgpu_job, hw_fence);
->   
-> -	if (!timer_pending(&ring->fence_drv.fallback_timer))
-> -		amdgpu_fence_schedule_fallback(ring);
-> +	if (!timer_pending(&to_amdgpu_ring(job->base.sched)->fence_drv.fallback_timer))
-> +		amdgpu_fence_schedule_fallback(to_amdgpu_ring(job->base.sched));
->   
->   	return true;
->   }
-> @@ -692,19 +708,23 @@ static void amdgpu_fence_free(struct rcu_head *rcu)
->   {
->   	struct dma_fence *f = container_of(rcu, struct dma_fence, rcu);
->   
-> -	if (test_bit(AMDGPU_FENCE_FLAG_EMBED_IN_JOB_BIT, &f->flags)) {
-> -	/* free job if fence has a parent job */
-> -		struct amdgpu_job *job;
-> -
-> -		job = container_of(f, struct amdgpu_job, hw_fence);
-> -		kfree(job);
-> -	} else {
->   	/* free fence_slab if it's separated fence*/
-> -		struct amdgpu_fence *fence;
-> +	kmem_cache_free(amdgpu_fence_slab, to_amdgpu_fence(f));
-> +}
->   
-> -		fence = to_amdgpu_fence(f);
-> -		kmem_cache_free(amdgpu_fence_slab, fence);
-> -	}
-> +/**
-> + * amdgpu_job_fence_free - free up the job with embedded fence
-> + *
-> + * @rcu: RCU callback head
-> + *
-> + * Free up the job with embedded fence after the RCU grace period.
-> + */
-> +static void amdgpu_job_fence_free(struct rcu_head *rcu)
-> +{
-> +	struct dma_fence *f = container_of(rcu, struct dma_fence, rcu);
-> +
-> +	/* free job if fence has a parent job */
-> +	kfree(container_of(f, struct amdgpu_job, hw_fence));
->   }
->   
->   /**
-> @@ -720,6 +740,19 @@ static void amdgpu_fence_release(struct dma_fence *f)
->   	call_rcu(&f->rcu, amdgpu_fence_free);
->   }
->   
-> +/**
-> + * amdgpu_job_fence_release - callback that job embedded fence can be freed
-> + *
-> + * @f: fence
-> + *
-> + * This is the simliar function with amdgpu_fence_release above, it
-> + * only handles the job embedded fence.
-> + */
-> +static void amdgpu_job_fence_release(struct dma_fence *f)
-> +{
-> +	call_rcu(&f->rcu, amdgpu_job_fence_free);
-> +}
-> +
->   static const struct dma_fence_ops amdgpu_fence_ops = {
->   	.get_driver_name = amdgpu_fence_get_driver_name,
->   	.get_timeline_name = amdgpu_fence_get_timeline_name,
-> @@ -727,6 +760,12 @@ static const struct dma_fence_ops amdgpu_fence_ops = {
->   	.release = amdgpu_fence_release,
->   };
->   
-> +static const struct dma_fence_ops amdgpu_job_fence_ops = {
-> +	.get_driver_name = amdgpu_fence_get_driver_name,
-> +	.get_timeline_name = amdgpu_job_fence_get_timeline_name,
-> +	.enable_signaling = amdgpu_job_fence_enable_signaling,
-> +	.release = amdgpu_job_fence_release,
-> +};
->   
->   /*
->    * Fence debugfs
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
-> index 4d380e79752c..c29554cf6e63 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
-> @@ -53,9 +53,6 @@ enum amdgpu_ring_priority_level {
->   #define AMDGPU_FENCE_FLAG_INT           (1 << 1)
->   #define AMDGPU_FENCE_FLAG_TC_WB_ONLY    (1 << 2)
->   
-> -/* fence flag bit to indicate the face is embedded in job*/
-> -#define AMDGPU_FENCE_FLAG_EMBED_IN_JOB_BIT		(DMA_FENCE_FLAG_USER_BITS + 1)
-> -
->   #define to_amdgpu_ring(s) container_of((s), struct amdgpu_ring, sched)
->   
->   #define AMDGPU_IB_POOL_SIZE	(1024 * 1024)
+For every PT(which is 2M va range), we need a 64K va chunk in order to 
+map it. Yes, there is some unused space at the end, but it is already 
+like that for the other PTEs. Also it seems strange to call 
+alloc_va_range without also rounding up the size to the correct page size.
 
+> 
+> Ram
+>>   
+>>   		err = i915_vm_alloc_pt_stash(&vm->vm, &stash, sz);
+>>   		if (err)
+>> @@ -134,7 +180,18 @@ static struct i915_address_space *migrate_vm(struct intel_gt *gt)
+>>   			goto err_vm;
+>>   
+>>   		/* Now allow the GPU to rewrite the PTE via its own ppGTT */
+>> -		vm->vm.foreach(&vm->vm, base, d.offset - base, insert_pte, &d);
+>> +		if (HAS_64K_PAGES(gt->i915)) {
+>> +			vm->vm.foreach(&vm->vm, base, d.offset - base,
+>> +				       xehpsdv_insert_pte, &d);
+>> +			d.offset = base + CHUNK_SZ;
+>> +			vm->vm.foreach(&vm->vm,
+>> +				       d.offset,
+>> +				       2 * CHUNK_SZ,
+>> +				       xehpsdv_toggle_pdes, &d);
+>> +		} else {
+>> +			vm->vm.foreach(&vm->vm, base, d.offset - base,
+>> +				       insert_pte, &d);
+>> +		}
+>>   	}
+>>   
+>>   	return &vm->vm;
+>> @@ -272,19 +329,38 @@ static int emit_pte(struct i915_request *rq,
+>>   		    u64 offset,
+>>   		    int length)
+>>   {
+>> +	bool has_64K_pages = HAS_64K_PAGES(rq->engine->i915);
+>>   	const u64 encode = rq->context->vm->pte_encode(0, cache_level,
+>>   						       is_lmem ? PTE_LM : 0);
+>>   	struct intel_ring *ring = rq->ring;
+>> -	int total = 0;
+>> +	int pkt, dword_length;
+>> +	u32 total = 0;
+>> +	u32 page_size;
+>>   	u32 *hdr, *cs;
+>> -	int pkt;
+>>   
+>>   	GEM_BUG_ON(GRAPHICS_VER(rq->engine->i915) < 8);
+>>   
+>> +	page_size = I915_GTT_PAGE_SIZE;
+>> +	dword_length = 0x400;
+>> +
+>>   	/* Compute the page directory offset for the target address range */
+>> -	offset >>= 12;
+>> -	offset *= sizeof(u64);
+>> -	offset += 2 * CHUNK_SZ;
+>> +	if (has_64K_pages) {
+>> +		GEM_BUG_ON(!IS_ALIGNED(offset, SZ_2M));
+>> +
+>> +		offset /= SZ_2M;
+>> +		offset *= SZ_64K;
+>> +		offset += 3 * CHUNK_SZ;
+>> +
+>> +		if (is_lmem) {
+>> +			page_size = I915_GTT_PAGE_SIZE_64K;
+>> +			dword_length = 0x40;
+>> +		}
+>> +	} else {
+>> +		offset >>= 12;
+>> +		offset *= sizeof(u64);
+>> +		offset += 2 * CHUNK_SZ;
+>> +	}
+>> +
+>>   	offset += (u64)rq->engine->instance << 32;
+>>   
+>>   	cs = intel_ring_begin(rq, 6);
+>> @@ -292,7 +368,7 @@ static int emit_pte(struct i915_request *rq,
+>>   		return PTR_ERR(cs);
+>>   
+>>   	/* Pack as many PTE updates as possible into a single MI command */
+>> -	pkt = min_t(int, 0x400, ring->space / sizeof(u32) + 5);
+>> +	pkt = min_t(int, dword_length, ring->space / sizeof(u32) + 5);
+>>   	pkt = min_t(int, pkt, (ring->size - ring->emit) / sizeof(u32) + 5);
+>>   
+>>   	hdr = cs;
+>> @@ -302,6 +378,8 @@ static int emit_pte(struct i915_request *rq,
+>>   
+>>   	do {
+>>   		if (cs - hdr >= pkt) {
+>> +			int dword_rem;
+>> +
+>>   			*hdr += cs - hdr - 2;
+>>   			*cs++ = MI_NOOP;
+>>   
+>> @@ -313,7 +391,18 @@ static int emit_pte(struct i915_request *rq,
+>>   			if (IS_ERR(cs))
+>>   				return PTR_ERR(cs);
+>>   
+>> -			pkt = min_t(int, 0x400, ring->space / sizeof(u32) + 5);
+>> +			dword_rem = dword_length;
+>> +			if (has_64K_pages) {
+>> +				if (IS_ALIGNED(total, SZ_2M)) {
+>> +					offset = round_up(offset, SZ_64K);
+>> +				} else {
+>> +					dword_rem = SZ_2M - (total & (SZ_2M - 1));
+>> +					dword_rem /= page_size;
+>> +					dword_rem *= 2;
+>> +				}
+>> +			}
+>> +
+>> +			pkt = min_t(int, dword_rem, ring->space / sizeof(u32) + 5);
+>>   			pkt = min_t(int, pkt, (ring->size - ring->emit) / sizeof(u32) + 5);
+>>   
+>>   			hdr = cs;
+>> @@ -322,13 +411,15 @@ static int emit_pte(struct i915_request *rq,
+>>   			*cs++ = upper_32_bits(offset);
+>>   		}
+>>   
+>> +		GEM_BUG_ON(!IS_ALIGNED(it->dma, page_size));
+>> +
+>>   		*cs++ = lower_32_bits(encode | it->dma);
+>>   		*cs++ = upper_32_bits(encode | it->dma);
+>>   
+>>   		offset += 8;
+>> -		total += I915_GTT_PAGE_SIZE;
+>> +		total += page_size;
+>>   
+>> -		it->dma += I915_GTT_PAGE_SIZE;
+>> +		it->dma += page_size;
+>>   		if (it->dma >= it->max) {
+>>   			it->sg = __sg_next(it->sg);
+>>   			if (!it->sg || sg_dma_len(it->sg) == 0)
+>> @@ -359,7 +450,8 @@ static bool wa_1209644611_applies(int ver, u32 size)
+>>   	return height % 4 == 3 && height <= 8;
+>>   }
+>>   
+>> -static int emit_copy(struct i915_request *rq, int size)
+>> +static int emit_copy(struct i915_request *rq,
+>> +		     u32 dst_offset, u32 src_offset, int size)
+>>   {
+>>   	const int ver = GRAPHICS_VER(rq->engine->i915);
+>>   	u32 instance = rq->engine->instance;
+>> @@ -374,31 +466,31 @@ static int emit_copy(struct i915_request *rq, int size)
+>>   		*cs++ = BLT_DEPTH_32 | PAGE_SIZE;
+>>   		*cs++ = 0;
+>>   		*cs++ = size >> PAGE_SHIFT << 16 | PAGE_SIZE / 4;
+>> -		*cs++ = CHUNK_SZ; /* dst offset */
+>> +		*cs++ = dst_offset;
+>>   		*cs++ = instance;
+>>   		*cs++ = 0;
+>>   		*cs++ = PAGE_SIZE;
+>> -		*cs++ = 0; /* src offset */
+>> +		*cs++ = src_offset;
+>>   		*cs++ = instance;
+>>   	} else if (ver >= 8) {
+>>   		*cs++ = XY_SRC_COPY_BLT_CMD | BLT_WRITE_RGBA | (10 - 2);
+>>   		*cs++ = BLT_DEPTH_32 | BLT_ROP_SRC_COPY | PAGE_SIZE;
+>>   		*cs++ = 0;
+>>   		*cs++ = size >> PAGE_SHIFT << 16 | PAGE_SIZE / 4;
+>> -		*cs++ = CHUNK_SZ; /* dst offset */
+>> +		*cs++ = dst_offset;
+>>   		*cs++ = instance;
+>>   		*cs++ = 0;
+>>   		*cs++ = PAGE_SIZE;
+>> -		*cs++ = 0; /* src offset */
+>> +		*cs++ = src_offset;
+>>   		*cs++ = instance;
+>>   	} else {
+>>   		GEM_BUG_ON(instance);
+>>   		*cs++ = SRC_COPY_BLT_CMD | BLT_WRITE_RGBA | (6 - 2);
+>>   		*cs++ = BLT_DEPTH_32 | BLT_ROP_SRC_COPY | PAGE_SIZE;
+>>   		*cs++ = size >> PAGE_SHIFT << 16 | PAGE_SIZE;
+>> -		*cs++ = CHUNK_SZ; /* dst offset */
+>> +		*cs++ = dst_offset;
+>>   		*cs++ = PAGE_SIZE;
+>> -		*cs++ = 0; /* src offset */
+>> +		*cs++ = src_offset;
+>>   	}
+>>   
+>>   	intel_ring_advance(rq, cs);
+>> @@ -426,6 +518,7 @@ intel_context_migrate_copy(struct intel_context *ce,
+>>   	GEM_BUG_ON(ce->ring->size < SZ_64K);
+>>   
+>>   	do {
+>> +		u32 src_offset, dst_offset;
+>>   		int len;
+>>   
+>>   		rq = i915_request_create(ce);
+>> @@ -453,15 +546,28 @@ intel_context_migrate_copy(struct intel_context *ce,
+>>   		if (err)
+>>   			goto out_rq;
+>>   
+>> -		len = emit_pte(rq, &it_src, src_cache_level, src_is_lmem, 0,
+>> -			       CHUNK_SZ);
+>> +		src_offset = 0;
+>> +		dst_offset = CHUNK_SZ;
+>> +		if (HAS_64K_PAGES(ce->engine->i915)) {
+>> +			GEM_BUG_ON(!src_is_lmem && !dst_is_lmem);
+>> +
+>> +			src_offset = 0;
+>> +			dst_offset = 0;
+>> +			if (src_is_lmem)
+>> +				src_offset = CHUNK_SZ;
+>> +			if (dst_is_lmem)
+>> +				dst_offset = 2 * CHUNK_SZ;
+>> +		}
+>> +
+>> +		len = emit_pte(rq, &it_src, src_cache_level, src_is_lmem,
+>> +			       src_offset, CHUNK_SZ);
+>>   		if (len <= 0) {
+>>   			err = len;
+>>   			goto out_rq;
+>>   		}
+>>   
+>>   		err = emit_pte(rq, &it_dst, dst_cache_level, dst_is_lmem,
+>> -			       CHUNK_SZ, len);
+>> +			       dst_offset, len);
+>>   		if (err < 0)
+>>   			goto out_rq;
+>>   		if (err < len) {
+>> @@ -473,7 +579,7 @@ intel_context_migrate_copy(struct intel_context *ce,
+>>   		if (err)
+>>   			goto out_rq;
+>>   
+>> -		err = emit_copy(rq, len);
+>> +		err = emit_copy(rq, dst_offset, src_offset, len);
+>>   
+>>   		/* Arbitration is re-enabled between requests. */
+>>   out_rq:
+>> @@ -571,18 +677,20 @@ static u32 *_i915_ctrl_surf_copy_blt(u32 *cmd, u64 src_addr, u64 dst_addr,
+>>   }
+>>   
+>>   static int emit_clear(struct i915_request *rq,
+>> +		      u64 offset,
+>>   		      int size,
+>>   		      u32 value,
+>>   		      bool is_lmem)
+>>   {
+>> -	const int ver = GRAPHICS_VER(rq->engine->i915);
+>> -	u32 instance = rq->engine->instance;
+>> -	u32 *cs;
+>>   	struct drm_i915_private *i915 = rq->engine->i915;
+>> +	const int ver = GRAPHICS_VER(rq->engine->i915);
+>>   	u32 num_ccs_blks, ccs_ring_size;
+>> +	u32 *cs;
+>>   
+>>   	GEM_BUG_ON(size >> PAGE_SHIFT > S16_MAX);
+>>   
+>> +	offset += (u64)rq->engine->instance << 32;
+>> +
+>>   	/* Clear flat css only when value is 0 */
+>>   	ccs_ring_size = (is_lmem && !value) ?
+>>   			 calc_ctrl_surf_instr_size(i915, size)
+>> @@ -597,17 +705,17 @@ static int emit_clear(struct i915_request *rq,
+>>   		*cs++ = BLT_DEPTH_32 | BLT_ROP_COLOR_COPY | PAGE_SIZE;
+>>   		*cs++ = 0;
+>>   		*cs++ = size >> PAGE_SHIFT << 16 | PAGE_SIZE / 4;
+>> -		*cs++ = 0; /* offset */
+>> -		*cs++ = instance;
+>> +		*cs++ = lower_32_bits(offset);
+>> +		*cs++ = upper_32_bits(offset);
+>>   		*cs++ = value;
+>>   		*cs++ = MI_NOOP;
+>>   	} else {
+>> -		GEM_BUG_ON(instance);
+>> +		GEM_BUG_ON(upper_32_bits(offset));
+>>   		*cs++ = XY_COLOR_BLT_CMD | BLT_WRITE_RGBA | (6 - 2);
+>>   		*cs++ = BLT_DEPTH_32 | BLT_ROP_COLOR_COPY | PAGE_SIZE;
+>>   		*cs++ = 0;
+>>   		*cs++ = size >> PAGE_SHIFT << 16 | PAGE_SIZE / 4;
+>> -		*cs++ = 0;
+>> +		*cs++ = lower_32_bits(offset);
+>>   		*cs++ = value;
+>>   	}
+>>   
+>> @@ -623,17 +731,15 @@ static int emit_clear(struct i915_request *rq,
+>>   		 * and use it as a source.
+>>   		 */
+>>   
+>> -		cs = i915_flush_dw(cs, (u64)instance << 32,
+>> -				   MI_FLUSH_LLC | MI_FLUSH_CCS);
+>> +		cs = i915_flush_dw(cs, offset, MI_FLUSH_LLC | MI_FLUSH_CCS);
+>>   		cs = _i915_ctrl_surf_copy_blt(cs,
+>> -					      (u64)instance << 32,
+>> -					      (u64)instance << 32,
+>> +					      offset,
+>> +					      offset,
+>>   					      DIRECT_ACCESS,
+>>   					      INDIRECT_ACCESS,
+>>   					      1, 1,
+>>   					      num_ccs_blks);
+>> -		cs = i915_flush_dw(cs, (u64)instance << 32,
+>> -				   MI_FLUSH_LLC | MI_FLUSH_CCS);
+>> +		cs = i915_flush_dw(cs, offset, MI_FLUSH_LLC | MI_FLUSH_CCS);
+>>   	}
+>>   	intel_ring_advance(rq, cs);
+>>   	return 0;
+>> @@ -658,6 +764,7 @@ intel_context_migrate_clear(struct intel_context *ce,
+>>   	GEM_BUG_ON(ce->ring->size < SZ_64K);
+>>   
+>>   	do {
+>> +		u32 offset;
+>>   		int len;
+>>   
+>>   		rq = i915_request_create(ce);
+>> @@ -685,7 +792,11 @@ intel_context_migrate_clear(struct intel_context *ce,
+>>   		if (err)
+>>   			goto out_rq;
+>>   
+>> -		len = emit_pte(rq, &it, cache_level, is_lmem, 0, CHUNK_SZ);
+>> +		offset = 0;
+>> +		if (HAS_64K_PAGES(ce->engine->i915) && is_lmem)
+>> +			offset = CHUNK_SZ;
+>> +
+>> +		len = emit_pte(rq, &it, cache_level, is_lmem, offset, CHUNK_SZ);
+>>   		if (len <= 0) {
+>>   			err = len;
+>>   			goto out_rq;
+>> @@ -695,7 +806,7 @@ intel_context_migrate_clear(struct intel_context *ce,
+>>   		if (err)
+>>   			goto out_rq;
+>>   
+>> -		err = emit_clear(rq, len, value, is_lmem);
+>> +		err = emit_clear(rq, offset, len, value, is_lmem);
+>>   
+>>   		/* Arbitration is re-enabled between requests. */
+>>   out_rq:
+>> -- 
+>> 2.31.1
+>>
