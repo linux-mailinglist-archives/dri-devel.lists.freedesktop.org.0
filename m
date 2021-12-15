@@ -2,58 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 693674761BF
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 20:32:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9278F4761C1
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 20:32:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD20C10EC87;
-	Wed, 15 Dec 2021 19:32:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E569F10F879;
+	Wed, 15 Dec 2021 19:32:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
- [IPv6:2607:f8b0:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7804E10EC87
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 19:32:03 +0000 (UTC)
-Received: by mail-ot1-x334.google.com with SMTP id
- h19-20020a9d3e53000000b0056547b797b2so26135784otg.4
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 11:32:03 -0800 (PST)
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
+ [IPv6:2607:f8b0:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2A3910F875
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 19:32:27 +0000 (UTC)
+Received: by mail-ot1-x32a.google.com with SMTP id
+ w6-20020a9d77c6000000b0055e804fa524so26201387otl.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 11:32:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=37iLZzDUpFh5yORXA/4h/zBCNj8hCkym8Zzk5p+f3PE=;
- b=KGFIaQru2Z19Fmrep8ZJB8Ug70QxNjXcSZBC9ySdiB7y0R5J/rUIYeqUE67vFDJqvr
- GB3AUtYVg4qOKdLO7Uy0oyOoy6THle1C/SCD4wAcVXwNfFBKdMQh5qqV2TuB0Q1sLdUI
- dxOmRcUJHEMtJicpaqLlDOLjPr2Dxxzb7QmyE=
+ bh=KCcCNfuto1fwE5eENpKC+nkF/sRCm+bkNjr97zeXP5k=;
+ b=AhonrVu+8ZlLbXNMR2eSNrdEE4oll8p9p2eAk4XvDMUN6TOEl7ESsoWlqAajD2BUlo
+ Q3SP30lGjRDjFsRSbz+fLXShWL6Xw2O0DsLTwzZ/RtslkBzbKd+kRGEOy2Vq/gc+2J6O
+ sMM13+zGYZSPKKUoikyktK9mtBV/VariK2nPM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=37iLZzDUpFh5yORXA/4h/zBCNj8hCkym8Zzk5p+f3PE=;
- b=Jq1y8zjIFO7mk0W54VqV0c1vLgMYLN73niDI3jtS7TWJr5JFKhww2R8DDEl3hoX5SL
- z0xyK1kEsCt7CRAYO2JRDP5GQAnjmgtbeM/UZlieCM71hOAnLpo+9NEYOEhmAm0ZGqH7
- isd6dXs4LekEZ9c72YJE5LjjzoNg+JzGSMaxjInfGFEZNlMyy/QxwIwxqybwIq1lD5+z
- 1PXuNv4PzGCBCyZhQTWIH69RIjiSORIeby90F4s5i5XuuCMqP2yvCTlQtJz0g8t6nqoY
- 5sFAE8/mTyhRr5mZDgm9X2ogOPKyujZYnLeGheDy3o764ZUy8RPQAXRIoptcDEt034dB
- mu6g==
-X-Gm-Message-State: AOAM530qic0nPVYgN4pYIQ9LzyQ7d2cu2OQ9Y9paEnc+YeMT5CFIFST6
- I2/LEVGu+9bu5RlCjXuPIwdesYaacHkOD1OY0tip8Q==
-X-Google-Smtp-Source: ABdhPJzehPr4Sd3IcF6mQ4BKkC++SK1JfZHU7wf7hmX1chD30TtsGgjUypAGJhCV+gaGtHafUqQwKCFzsRf7S1FrRLE=
-X-Received: by 2002:a9d:2243:: with SMTP id o61mr9964550ota.126.1639596722789; 
- Wed, 15 Dec 2021 11:32:02 -0800 (PST)
+ bh=KCcCNfuto1fwE5eENpKC+nkF/sRCm+bkNjr97zeXP5k=;
+ b=cVVZv/fVUtUZYyZVZlPUc8IeOhTlq5ESvZaeAPvswHwEU/bonIml7ZB6sZfhXCk2O4
+ fSVlbdoIkh0vMumyf67pr2etTldSBut0ilcilo0wBA/EgOxyC1XiR8fP0CMmrz1ritBW
+ LmBbWFCEVaMosAJw9TbAgROHNgePBC6OOpuKIs8DCBMBhhs5Gte1QeykIDTeAmGipaEk
+ dzuKC4VEzeMz11FbpNLupDBz46Hd2ROli3WjL0+EDSCdfc0TJZPT4X1e6PZc6pVcl6qP
+ BzmshwN9kHP+Ps8YxbQzw+WvJ1y8UYiF/zTbQELcWeWWVePHxtG85YpLOQKIX1b8jOJv
+ vilw==
+X-Gm-Message-State: AOAM531rdf02qwdoBvcewaDZqxZHowe/3lgx9Wr1KL4CJtCVihBMwMlP
+ yVjYiUjpGHWperveQA4fORvtHNH/t38Uu67AibcSlA==
+X-Google-Smtp-Source: ABdhPJyexg/795HehcLl8cNNfOqwAGaPZ/BtHR5KlkmgOJqRlq5kPbvEb0Ra/YXyAgX2GsXKtwH2fkUpUy+sB92eL9w=
+X-Received: by 2002:a05:6830:30b7:: with SMTP id
+ g23mr9739312ots.159.1639596747244; 
+ Wed, 15 Dec 2021 11:32:27 -0800 (PST)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 15 Dec 2021 11:32:02 -0800
+ HTTPREST; Wed, 15 Dec 2021 11:32:26 -0800
 MIME-Version: 1.0
-In-Reply-To: <20211215160912.2715956-2-dmitry.baryshkov@linaro.org>
-References: <20211215160912.2715956-1-dmitry.baryshkov@linaro.org>
- <20211215160912.2715956-2-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20211215085554.444351-1-deng.changcheng@zte.com.cn>
+References: <20211215085554.444351-1-deng.changcheng@zte.com.cn>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.9.1
-Date: Wed, 15 Dec 2021 11:32:02 -0800
-Message-ID: <CAE-0n51RCjyj=CW6Nz-Ei7kmAe2t-jKmZ5RbhFNfqDZ9V9gPsg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/msm/dpu: add dpu_plane_atomic_print_state
-To: Abhinav Kumar <abhinavk@codeaurora.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>
+Date: Wed, 15 Dec 2021 11:32:26 -0800
+Message-ID: <CAE-0n52Uf=rcGVxz1U3p6H+icOz1OoacdOFsQtDHCdcdKYTsJw@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dp: remove unneeded variable
+To: cgel.zte@gmail.com, robdclark@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,18 +64,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ airlied@linux.ie, linux-arm-msm@vger.kernel.org,
+ Zeal Robot <zealci@zte.com.cn>, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, quic_khsieh@quicinc.com,
+ dmitry.baryshkov@linaro.org, Changcheng Deng <deng.changcheng@zte.com.cn>,
+ bjorn.andersson@linaro.org, sean@poorly.run, linux@roeck-us.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2021-12-15 08:09:12)
-> Implement plane's atomic_print_state() callback, printing DPU-specific
-> plane state: blending stage, SSPP and multirect mode and index.
+Quoting cgel.zte@gmail.com (2021-12-15 00:55:54)
+> From: Changcheng Deng <deng.changcheng@zte.com.cn>
 >
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Remove unneeded variable used to store return value.
+>
+> Reported-by: Zeal Robot <zealci@zte.com.cn>
+> Signed-off-by: Changcheng Deng <deng.changcheng@zte.com.cn>
 > ---
-
-Same const comment applies here
 
 Reviewed-by: Stephen Boyd <swboyd@chromium.org>
