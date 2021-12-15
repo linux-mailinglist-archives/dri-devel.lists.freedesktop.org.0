@@ -2,60 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1728C475CC6
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 17:09:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1BCB475CF5
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 17:11:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA35210EE46;
-	Wed, 15 Dec 2021 16:09:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74C6910ED24;
+	Wed, 15 Dec 2021 16:11:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABB1810EE44
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 16:09:19 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id p8so34100006ljo.5
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 08:09:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=QdlZYDEg2Npa2/UOZIIxAI9S4NIeOJrywA2dsCR6BOI=;
- b=z3fLO+k3D0KXKxgHVZ/qrpAwc/J/XXxxg+KWwgi1W2ARobrtO6/lZmbwxHcAVc5UF/
- MbvvXZWUSAzT5FXrlxUNBR2KGQ5fbmWw4JckHPYxqnyR10NSoXdfOX7mpC1RVjBsdspJ
- qzse8CCQjFytx+KpIroNnru2jv2KtinxjNMkpb6AYVriYFZ1Ovj8CKozzcKo5c2BtHwB
- MQqcUzCYkPyx6yni2SifrXydTSrvbaiH8HUCBSXgtB/xUZ3yoVTRbI6mWjOOqLad3ZYg
- p8YpzeKLnELSXkNvNsevwGKgWoWVvszDl3w1ZIxQsJww3lTNX0HWCKpouaS6alVKh4m3
- WcMA==
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A70810ED24
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 16:11:56 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id 207so34047822ljf.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 08:11:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=xVG5B7SYBr3u6P2qpHezZS1RRrCpJWiliz1cwjgXHPU=;
+ b=MfLIVsUVi+6UjKkeOfI0SWNq8AXH2YggFu7ywHP79o0QYXM9HVXCVGjCAk+oNn9NqZ
+ NYCRvxnhWtZHwZ4emtwGdoZjRamabsNU42OtclVmR/5CTOZ7sZgYPgVwywMvu+kF4mUS
+ aJNvX2mOII/VEiLV83CfHaHbwj6zorAqRfm2cjUKs1Fa9iCNQrDPXMqIzxJ3rgPWTuLX
+ GjzNF1zdf6H31DQ4DWeLg43Fa3WgXEViRaZ+gRq/t/OmoFeO32V9dbtuJpgKE5iMU6Pf
+ u+OUQIbVNgsZ6US518XBPac+7esIc24pXvcwYUUqy5ecAQ2c3jDkQxnQ1rvoMr27iyGT
+ QpgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=QdlZYDEg2Npa2/UOZIIxAI9S4NIeOJrywA2dsCR6BOI=;
- b=CzGyxDWUfsUqt4Qsr/hWCMXPHPFREUK6bHHND6yzSEVvcxNVKHE5OT+eS8X41TZvKu
- /nq+z8PWNg266jeL3n6gwAstXqT09ZR1r9Yze7NugED4v7hogKahaCgI1yF3Q5OGZcYN
- zr7G9WCqOceC3SHxRNw1z4hu1Wi0jEDyAH4ZelxREtie5PdqnsFB2WAPvhKkKlHtbLkA
- PR7UKwXFjZ3jvg/kVmqNJvLsphBnVtp/W7HmkV/UJJo1F4j5dHxAMpkEtCwMloGpdKvW
- 3s7dMzHEJfoXj9PJ4Xou9d9COx9Qx3TlP55gTE7TacZRfD3Pc9Hn5Az68b01L63FbTBt
- seSg==
-X-Gm-Message-State: AOAM531BxcYsYWrHNKg645TTnfd8e4PKcF1uc+UebYh32t/sGNQDBp9V
- Dc4QNjLo3ZQUFV0delC+aQXdjQ==
-X-Google-Smtp-Source: ABdhPJxJy+yy9jINDuvepRp9N0wcx4oGTHViP6LIEndAKbsS4l47bJquWjs8tvQEFCChTxEtYmGPPA==
-X-Received: by 2002:a2e:7216:: with SMTP id n22mr10870580ljc.44.1639584557936; 
- Wed, 15 Dec 2021 08:09:17 -0800 (PST)
-Received: from eriador.lan ([2001:470:dd84:abc0::8a5])
- by smtp.gmail.com with ESMTPSA id p3sm384429lfo.162.2021.12.15.08.09.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Dec 2021 08:09:16 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <abhinavk@codeaurora.org>
-Subject: [PATCH 2/2] drm/msm/dpu: add dpu_plane_atomic_print_state
-Date: Wed, 15 Dec 2021 19:09:12 +0300
-Message-Id: <20211215160912.2715956-2-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211215160912.2715956-1-dmitry.baryshkov@linaro.org>
-References: <20211215160912.2715956-1-dmitry.baryshkov@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=xVG5B7SYBr3u6P2qpHezZS1RRrCpJWiliz1cwjgXHPU=;
+ b=HvkgW6sF91vUfOLqcgU6VLOnz/1cgvYKTevnu8q8k6D0iUqgSkaPVBmEzTAO/h39BI
+ gQROO0bqN07DPIrENAM7nU06UAZNvOYE02xX00MJfN9xsJmNUcvSo2SP1MIuPgfkMm5K
+ kQSif/eXZTHE4UktkrKCWsiN6NyhmEuAs4Co20VfCP9B+us/7USOohBge9wHwf9YDLjO
+ HaCiuLaZKeoQzIo7a89/Yg1Nd5ZHvLL5UI2pJ4gD3JCabsugKcTCWA40Tvoc4uABiu24
+ Y8imt/JoY2sCcNzcpah0eJDfDJkXtMSTw+ULGjbKYOdrgJ+de5OGK9mkeayWUmWF6+E1
+ ZMWQ==
+X-Gm-Message-State: AOAM533bYRgoms4L3vYmmpCSs1kb4co4cLMPpwoxIBJIE2km0m3HGxEz
+ B7eqkgVGmcbMHmjWJTaAB6k=
+X-Google-Smtp-Source: ABdhPJyW91GoZwqnrgyCst9/kcQTSRAGzVshAjgCuHC7JMUDYihZ1zeSVLqBM/gdk2wHRVzlCGewUw==
+X-Received: by 2002:a2e:3012:: with SMTP id w18mr10494861ljw.217.1639584714625; 
+ Wed, 15 Dec 2021 08:11:54 -0800 (PST)
+Received: from [192.168.2.145] (94-29-63-156.dynamic.spd-mgts.ru.
+ [94.29.63.156])
+ by smtp.googlemail.com with ESMTPSA id l4sm503086ljg.60.2021.12.15.08.11.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Dec 2021 08:11:54 -0800 (PST)
+Subject: Re: [PATCH v16 00/40] NVIDIA Tegra power management patches for 5.17
+To: Thierry Reding <thierry.reding@gmail.com>
+References: <20211130232347.950-1-digetx@gmail.com> <YboP9IFMUrUnEzrU@orome>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <6baf6013-fbb2-b42f-5b26-2d10a2ca9374@gmail.com>
+Date: Wed, 15 Dec 2021 19:11:53 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <YboP9IFMUrUnEzrU@orome>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,79 +72,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: Nishanth Menon <nm@ti.com>, linux-pwm@vger.kernel.org,
+ Ulf Hansson <ulf.hansson@linaro.org>, linux-clk@vger.kernel.org,
+ linux-pm@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ Viresh Kumar <vireshk@kernel.org>,
+ Peter De Schrijver <pdeschrijver@nvidia.com>, linux-mmc@vger.kernel.org,
+ Adrian Hunter <adrian.hunter@intel.com>, dri-devel@lists.freedesktop.org,
+ Mikko Perttunen <mperttunen@nvidia.com>, David Heidelberg <david@ixit.cz>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ linux-tegra@vger.kernel.org, Jonathan Hunter <jonathanh@nvidia.com>,
+ Lee Jones <lee.jones@linaro.org>, Michael Turquette <mturquette@baylibre.com>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement plane's atomic_print_state() callback, printing DPU-specific
-plane state: blending stage, SSPP and multirect mode and index.
+15.12.2021 18:55, Thierry Reding пишет:
+> On Wed, Dec 01, 2021 at 02:23:07AM +0300, Dmitry Osipenko wrote:
+>> This series adds runtime PM support to Tegra drivers and enables core
+>> voltage scaling for Tegra20/30 SoCs, resolving overheating troubles.
+>>
+>> All patches in this series are interdependent and should go via Tegra tree
+>> for simplicity.
+> 
+> So these can be applied in any order without breaking anything?
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 41 +++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+Please notice that the word is *inter* dependent, not *in* dependent.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index fe2f8221ab6e..bdecbe39a12b 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -1305,6 +1305,46 @@ dpu_plane_duplicate_state(struct drm_plane *plane)
- 	return &pstate->base;
- }
- 
-+static const char * const multirect_mode_name[] = {
-+	[DPU_SSPP_MULTIRECT_NONE] = "none",
-+	[DPU_SSPP_MULTIRECT_PARALLEL] = "parallel",
-+	[DPU_SSPP_MULTIRECT_TIME_MX] = "time_mx",
-+};
-+
-+static const char * const multirect_index_name[] = {
-+	[DPU_SSPP_RECT_SOLO] = "solo",
-+	[DPU_SSPP_RECT_0] = "rect_0",
-+	[DPU_SSPP_RECT_1] = "rect_1",
-+};
-+
-+static const char *dpu_get_multirect_mode(enum dpu_sspp_multirect_mode mode)
-+{
-+	if (WARN_ON(mode >= ARRAY_SIZE(multirect_mode_name)))
-+		return "unknown";
-+
-+	return multirect_mode_name[mode];
-+}
-+
-+static const char *dpu_get_multirect_index(enum dpu_sspp_multirect_index index)
-+{
-+	if (WARN_ON(index >= ARRAY_SIZE(multirect_index_name)))
-+		return "unknown";
-+
-+	return multirect_index_name[index];
-+}
-+
-+static void dpu_plane_atomic_print_state(struct drm_printer *p,
-+		const struct drm_plane_state *state)
-+{
-+	struct dpu_plane_state *pstate = to_dpu_plane_state(state);
-+	struct dpu_plane *pdpu = to_dpu_plane(state->plane);
-+
-+	drm_printf(p, "\tstage=%d\n", pstate->stage);
-+	drm_printf(p, "\tsspp=%s\n", pdpu->pipe_hw->cap->name);
-+	drm_printf(p, "\tmultirect_mode=%s\n", dpu_get_multirect_mode(pstate->multirect_mode));
-+	drm_printf(p, "\tmultirect_index=%s\n", dpu_get_multirect_index(pstate->multirect_index));
-+}
-+
- static void dpu_plane_reset(struct drm_plane *plane)
- {
- 	struct dpu_plane *pdpu;
-@@ -1388,6 +1428,7 @@ static const struct drm_plane_funcs dpu_plane_funcs = {
- 		.reset = dpu_plane_reset,
- 		.atomic_duplicate_state = dpu_plane_duplicate_state,
- 		.atomic_destroy_state = dpu_plane_destroy_state,
-+		.atomic_print_state = dpu_plane_atomic_print_state,
- 		.format_mod_supported = dpu_plane_format_mod_supported,
- };
- 
--- 
-2.33.0
+There is a build dependency for the patches. The first two "soc/tegra"
+must be applied first.
 
+The "soc/tegra: pmc: Enable core domain support for Tegra20 and Tegra30"
+*must* be the last applied patch if we want to preserve bisectability.
+The core voltage scaling can be enabled only once all the drivers got
+the power management support.
+
+The rest could be applied out-of-order.
