@@ -2,58 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8D7C476599
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 23:24:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F21764765AF
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 23:27:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45BF010F9D6;
-	Wed, 15 Dec 2021 22:24:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D0BC10F9DF;
+	Wed, 15 Dec 2021 22:27:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
- [IPv6:2607:f8b0:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C87510F9D6
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 22:24:30 +0000 (UTC)
-Received: by mail-pl1-x62e.google.com with SMTP id u11so17765990plf.3
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 14:24:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=ycDsmx3PyCZ6frecumpmSuFIqgxs7vNgPaQ/w3kiJEc=;
- b=DR7M8QbZ1tBnbdUmI6yi7VcT3mNXhvl8LO66qDfb0Jt1VZvST/nR9enfI7qM6YkPCX
- P3dWIwzZSQDuMU45iFz4vsXeSnxV6xjhP2MFIt9SQicS5/xLLAcA4JU2j2YqeUltjs5/
- HNEy0BuooiU7ZULR4tJ3QXZ6tRwyInfC3DA+A=
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
+ [IPv6:2607:f8b0:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2442110F9DF
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 22:27:55 +0000 (UTC)
+Received: by mail-oi1-x230.google.com with SMTP id t19so33749348oij.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 14:27:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=0k/4WghU8oFurHJHEHSouu6Us6eVLuVOzOhdp+JcH0k=;
+ b=NeDhHnDzQKmHQdukLfPb57fcY9sRvEeshRGWjl6VbHYN/VNd2WIdiGucN3VyQHfHyi
+ ODX0tPBTzdHUhS/K/UFskuk3zbVPplOGuu1x/3hM6Od2OgzHrir6KktuGRDLF4LOX+Vz
+ smHiXw5l4g/gYIGX3S+KGZWonIZx7TDqmoQI+DekZRsEy3SrNmlSXlyCCG5uZAu0Yfzf
+ LJrhT5CgejLIjStw/okC2VQgzpIsD4mkhq6Jnn8j/tcQRpqfLEkVXuhlhZMr5QdglWyz
+ S7wASV77km5m+lI0oQ4m2DMor4fr4TyP/uoOVeJECDFrpy5pBzEl3XpiE4O2sXMtjjSt
+ YvUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ycDsmx3PyCZ6frecumpmSuFIqgxs7vNgPaQ/w3kiJEc=;
- b=G0v3LNpW+8yOGMuZhJpKGFtG89XXTRO8LuIcUrEx8/NfZjarRfkUMk1DmpbSfJyUCv
- tkkhuIQS8I26K1pdl70TKvf9l774sAzcl1VBV3On+OD9w/QKhmAUw61Ka427y9DlseJ3
- roc1pz15J5U19OFzvPsSguuiWp2rlOdTsxb7C5eU8294Vv29WkO8GlMHwcfDdcU6Wl3+
- glB0jyxYOK2xeL2v+UVOvMNVj5DOPYJ3BtLEYCBeaLLkxiRPRZKx4xx+AYBhVl48e3uA
- yGTICxz+AAw0eKdIc5NcK5sn9XYiYXn66QisFAlSX+6JaUgptzNbwmmLs3gRij+eOiLS
- UR0A==
-X-Gm-Message-State: AOAM530+VDiJneaeLnMMRtbAeU1BcJdCIZjJBGm9x3wlLDVXRzN6Nu9n
- isDBu8psle0ElHpnZy0Y8d5TJg==
-X-Google-Smtp-Source: ABdhPJyPaKZPEyh99xkYURqN/PIzlVuqSRGBt2Np9ALE4Ou+FS1gPA5SR9cPXBOtOgKmZVaNLESR0w==
-X-Received: by 2002:a17:903:41ca:b0:142:1dff:1cb7 with SMTP id
- u10-20020a17090341ca00b001421dff1cb7mr12924238ple.37.1639607069738; 
- Wed, 15 Dec 2021 14:24:29 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id o4sm6289739pjq.23.2021.12.15.14.24.29
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=0k/4WghU8oFurHJHEHSouu6Us6eVLuVOzOhdp+JcH0k=;
+ b=ZanPu79/1WAD+5xq/lfOy6BQlgbWsweGlmccP/oyovmxQwsxm4bGqXptRPiZ3FKHwh
+ ad+N8SWe5BQobiyR4ojjypszfk4BkwnacY85j/CYPSL+BKv+Z8WDwMQSGar+mFayEjuQ
+ yzFAACdCefHo4im1RjCi1+tjACZEzWmAwhB2zS1FILPxeW4eQugxdCaLDGBKA3Kn1wBC
+ yuIhwscOM3AKULhGaFNTCEO8xH37/OLdOzdwygd6BPyKPz8e/CtBMQx09KnFrCH+KfEM
+ DhAdWxw9Z1puSMP660m43oW7cTROdGimGTsieX9ZA0kzgvefuSP+9BbKNc4AUGsZQUzU
+ S7ug==
+X-Gm-Message-State: AOAM532yHEgszfQxFfLl5L5vlZRAg+8aKfSZ6jf0Ir/G+PoVeiXfRS7n
+ Wk2/DvjBZfUOpEoG82lQoTL0fAOfWGvhBw==
+X-Google-Smtp-Source: ABdhPJyiZGSg7nl3iPZNacNkzzIriIsA8K+pbTW1R7BSm60R5ayfzMXsdIZwV+OW92zh2rfswPUntA==
+X-Received: by 2002:aca:1202:: with SMTP id 2mr1806801ois.63.1639607274378;
+ Wed, 15 Dec 2021 14:27:54 -0800 (PST)
+Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
+ [104.57.184.186])
+ by smtp.gmail.com with ESMTPSA id t14sm700500oth.81.2021.12.15.14.27.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Dec 2021 14:24:29 -0800 (PST)
-Date: Wed, 15 Dec 2021 14:24:28 -0800
-From: Kees Cook <keescook@chromium.org>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH] drm/dp: Fix off-by-one in register cache size
-Message-ID: <202112151424.A44D2B7A@keescook>
-References: <20211203084333.3105038-1-keescook@chromium.org>
- <20211214001849.GA62559@embeddedor>
+ Wed, 15 Dec 2021 14:27:53 -0800 (PST)
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: linux-arm-msm@vger.kernel.org,
+	Luca Weiss <luca.weiss@fairphone.com>
+Subject: Re: (subset) [PATCH 00/10] dt-binding patches for sm6350
+Date: Wed, 15 Dec 2021 16:27:26 -0600
+Message-Id: <163960723734.3062250.16152122166909189415.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20211213082614.22651-1-luca.weiss@fairphone.com>
+References: <20211213082614.22651-1-luca.weiss@fairphone.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211214001849.GA62559@embeddedor>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,33 +70,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jani Nikula <jani.nikula@intel.com>, Uma Shankar <uma.shankar@intel.com>,
- Ankit Nautiyal <ankit.k.nautiyal@intel.com>, linux-hardening@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, Amit Kucheria <amitk@kernel.org>,
+ linux-watchdog@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Manu Gautam <mgautam@codeaurora.org>, linux-pm@vger.kernel.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ de Goede <hdegoede@redhat.com>, devicetree@vger.kernel.org,
+ linux-usb@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Rishabh Bhatnagar <rishabhb@codeaurora.org>, linux-phy@lists.infradead.org,
+ Zhang Rui <rui.zhang@intel.com>, phone-devel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 13, 2021 at 06:18:49PM -0600, Gustavo A. R. Silva wrote:
-> On Fri, Dec 03, 2021 at 12:43:33AM -0800, Kees Cook wrote:
-> > The pcon_dsc_dpcd array holds 13 registers (0x92 through 0x9E). Fix the
-> > math to calculate the max size. Found from a -Warray-bounds build:
-> > 
-> > drivers/gpu/drm/drm_dp_helper.c: In function 'drm_dp_pcon_dsc_bpp_incr':
-> > drivers/gpu/drm/drm_dp_helper.c:3130:28: error: array subscript 12 is outside array bounds of 'const u8[12]' {aka 'const unsigned char[12]'} [-Werror=array-bounds]
-> >  3130 |         buf = pcon_dsc_dpcd[DP_PCON_DSC_BPP_INCR - DP_PCON_DSC_ENCODER];
-> >       |               ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > drivers/gpu/drm/drm_dp_helper.c:3126:39: note: while referencing 'pcon_dsc_dpcd'
-> >  3126 | int drm_dp_pcon_dsc_bpp_incr(const u8 pcon_dsc_dpcd[DP_PCON_DSC_ENCODER_CAP_SIZE])
-> >       |                              ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > 
-> > Fixes: e2e16da398d9 ("drm/dp_helper: Add support for Configuring DSC for HDMI2.1 Pcon")
+On Mon, 13 Dec 2021 09:26:01 +0100, Luca Weiss wrote:
+> This series adds compatibles to the dt-bindings documentation where it
+> was missed before.
 > 
-> This should be tagged for -stable:
+> Finally, the last patch solves some further dtbs_check errors by
+> modifying the sm6350.dtsi to match the binding docs more closely.
 > 
-> Cc: stable@vger.kernel.org
+> Please note, that the first patch from Konrad is a resend that wasn't
+> picked up when sent to the lists in August 2021.
+> 
+> [...]
 
-Ah yes, thank you! :)
+Applied, thanks!
 
+[10/10] arm64: dts: qcom: sm6350: Fix validation errors
+        commit: f56498fc6a9364a35dd74af791bd1251467e9cc1
+
+Best regards,
 -- 
-Kees Cook
+Bjorn Andersson <bjorn.andersson@linaro.org>
