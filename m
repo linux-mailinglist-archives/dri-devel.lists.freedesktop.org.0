@@ -2,48 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B55AD475608
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 11:16:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82B03475609
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 11:16:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AFFF10E467;
-	Wed, 15 Dec 2021 10:16:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F58C10E46A;
+	Wed, 15 Dec 2021 10:16:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
- [IPv6:2607:f8b0:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 690FA10E467
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 10:16:02 +0000 (UTC)
-Received: by mail-pf1-x42a.google.com with SMTP id g19so20300189pfb.8
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 02:16:02 -0800 (PST)
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
+ [IPv6:2607:f8b0:4864:20::1030])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6675B10E46A
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 10:16:06 +0000 (UTC)
+Received: by mail-pj1-x1030.google.com with SMTP id
+ nh10-20020a17090b364a00b001a69adad5ebso18750396pjb.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 02:16:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aUe7iWsFUanDnWU/hqGWtr7c387T6EcARkQ4NxMuaBw=;
- b=qOZAhpjKUojTrw7Mp6hk86Dut3qnZ+vwYEiNUZRCNp5koR3yknOQVLMiS5qS7gavfg
- K1r+urPleVnz74S943d7yhDnRa3+EU2qiX2uhq4/MQio1QYoM/rjepZj2bf4MRZy0k/R
- YYrC6TrhzQncz1oFPG+AsZFPs4eK40PGJXm1g=
+ bh=7mwCQQOx25soOzwU54V6juPjb/T8Ui/I/Y0mS6KWFZw=;
+ b=BIUrIsUXKu83RZkYaa2XXoZ1/a9QNG4/TJIDU5W+eAhXygc4AaD3YUyPGyCd3rVOIR
+ iyhbk9/IujX4xKTxj/Bp3vPQiA/L6JRnqx5FlmbRN4zJJk/df4JycYZYvqL1F5yXI24w
+ obyBRNyorwgTQKNa0HiCnO/Uks+PbuYfgWbqw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aUe7iWsFUanDnWU/hqGWtr7c387T6EcARkQ4NxMuaBw=;
- b=zO1iuXXnL6mQGqgTVbb6LEaPhBWcJB9ntoMYOp2wlOUMdGTOgc1Mz1qMz6ZYlwR7pG
- vDgRuBEXj4pCmqHPxXG49EpdsXXYVDLhFw/+ym7WD/XSz2bBHCKhMHw8xgIwZlLzDTKG
- QDXc9ri1ECfteiWtIkAZDoyUX5SDFEFo5u/IpEA87qT2OCCNiQBlovOEJcgAhaOL90r1
- ZcNRwLo+5mL22/LyfBWbKkh4OyPB7qK53JwsoxwjdUFN1N42Quf4b+oYBqj+1LWdJl+8
- 1+njObIPlRrDjZxeg8Fr/LIcxV2sPcSogYAOnAYzy3pAFGtiSmy4nTCzXjfrhV3cMh3H
- qWPQ==
-X-Gm-Message-State: AOAM531U6X0ucUJMqT1R3f57JEgCPLg5SY4j8NoPgfbBuDXCNvZrzdlz
- FOZnl/ddiASR6UQaGhIVpeTGuw==
-X-Google-Smtp-Source: ABdhPJzvr75GqA0vspIVHArvX8FJPznf4y4JKEy9+S9GVbtl3I6PkfRrfgeC22EcyUJCJclkeLbsew==
-X-Received: by 2002:a65:6a45:: with SMTP id o5mr7516185pgu.273.1639563362025; 
- Wed, 15 Dec 2021 02:16:02 -0800 (PST)
+ bh=7mwCQQOx25soOzwU54V6juPjb/T8Ui/I/Y0mS6KWFZw=;
+ b=jqWlnjVsI8LNrcYQecUkxpYSVCnqQZPu+wu3hAcLzMB6VYzhd8nJHF0u/574kkuJM8
+ zx1ViUBlrWznwXcJ7SqA6VumX/4ESyi3jsnIcZP/RQA9iiLzLp3Tm+QtulDwFi1jA48F
+ pjTBLce+8z06ppZ6kBDdcDlm24+Bu+XGZIfFAkCgqAxK2zDAy/PiQ7YEIqyRrUxXvRls
+ FGdf9lzHQjdzxJ8hlm1fNsQMvjv5yJWOSFfIFWAdokJoCGf6X+smBx6MgeDlcRThnyrZ
+ U9P0h2kmnrXxF7MwQ30TSOfw4HfntfhcYk+6++HMOkQufRq7nZRK2Gddvv8ebDwoJlb9
+ hzLg==
+X-Gm-Message-State: AOAM530I9XDqC9Z/J/4XBDPS9At4iBurkVGUDcVFYxuE/DJX9yq4Q/YC
+ 3YB8VW9IOZ825lXN7SAg/CLDfg==
+X-Google-Smtp-Source: ABdhPJwmSPxReWE8oDQtQI6c+Hjxhd4+ScZpuUzTsBByCi7LJxhaJoQop+igMJxxJryZCFMZ4Ul8ug==
+X-Received: by 2002:a17:902:b210:b0:143:789a:7418 with SMTP id
+ t16-20020a170902b21000b00143789a7418mr10193966plr.38.1639563366055; 
+ Wed, 15 Dec 2021 02:16:06 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:c00a:a0a9:a7:8328:d9c4:5bc9])
  by smtp.gmail.com with ESMTPSA id
- v11sm2408149pfu.184.2021.12.15.02.15.58
+ v11sm2408149pfu.184.2021.12.15.02.16.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Dec 2021 02:16:01 -0800 (PST)
+ Wed, 15 Dec 2021 02:16:05 -0800 (PST)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Marek Szyprowski <m.szyprowski@samsung.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -53,9 +55,9 @@ To: Marek Szyprowski <m.szyprowski@samsung.com>,
  Sam Ravnborg <sam@ravnborg.org>,
  Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
  Inki Dae <inki.dae@samsung.com>
-Subject: [PATCH v4 5/6] drm: exynos: dsi: Get the mode from bridge
-Date: Wed, 15 Dec 2021 15:45:33 +0530
-Message-Id: <20211215101534.45003-6-jagan@amarulasolutions.com>
+Subject: [PATCH v4 6/6] drm: exynos: dsi: Move DSI init in bridge enable
+Date: Wed, 15 Dec 2021 15:45:34 +0530
+Message-Id: <20211215101534.45003-7-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211215101534.45003-1-jagan@amarulasolutions.com>
 References: <20211215101534.45003-1-jagan@amarulasolutions.com>
@@ -78,81 +80,60 @@ Cc: linux-amarula@amarulasolutions.com, Jagan Teki <jagan@amarulasolutions.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now the exynos dsi driver is fully aware of bridge handling,
-so get the display mode from bridge, mode_set API instead of
-legacy encoder crtc.
+Host transfer in DSI master will invoke only when the DSI commands
+sent from DSI devices like DSI Panel or DSI bridges and this host
+transfer wouldn't invoke I2C based DSI bridge drivers.
 
-This makes bridge usage more efficient instead of relying on
-encoder stack.
+Handling DSI host initialization in transfer calls might miss the
+controller setup for I2C configured DSI bridges.
 
-Add mode_set in drm_bridge_funcs.
+So, move the DSI initialization from transfer to bridge enable as
+the bridge enable API as it is common across all classes of DSI
+device drivers.
 
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
-Changes for v4, v3:
+Changes for v4:
 - none
+Changes for v3:
+- new patch
 
- drivers/gpu/drm/exynos/exynos_drm_dsi.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-index 983e7cb65e2a..774ca265ed3b 100644
+index 774ca265ed3b..d853dd8d1271 100644
 --- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
 +++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-@@ -276,6 +276,7 @@ struct exynos_dsi {
- 	u32 format;
- 
- 	int state;
-+	struct drm_display_mode mode;
- 	struct drm_property *brightness;
- 	struct completion completed;
- 
-@@ -880,10 +881,9 @@ static int exynos_dsi_init_link(struct exynos_dsi *dsi)
- 	return 0;
- }
- 
--static void exynos_dsi_set_display_mode(struct drm_bridge *bridge)
-+static void exynos_dsi_set_display_mode(struct exynos_dsi *dsi)
- {
--	struct exynos_dsi *dsi = bridge_to_dsi(bridge);
--	struct drm_display_mode *m = &bridge->encoder->crtc->state->adjusted_mode;
-+	struct drm_display_mode *m = &dsi->mode;
- 	unsigned int num_bits_resol = dsi->driver_data->num_bits_resol;
- 	u32 reg;
- 
-@@ -1398,7 +1398,7 @@ static void exynos_dsi_atomic_enable(struct drm_bridge *bridge,
+@@ -1397,6 +1397,14 @@ static void exynos_dsi_atomic_enable(struct drm_bridge *bridge,
+ 				    struct drm_bridge_state *old_bridge_state)
  {
  	struct exynos_dsi *dsi = bridge_to_dsi(bridge);
++	int ret;
++
++	if (!(dsi->state & DSIM_STATE_INITIALIZED)) {
++		ret = exynos_dsi_init(dsi);
++		if (ret)
++			return;
++		dsi->state |= DSIM_STATE_INITIALIZED;
++	}
  
--	exynos_dsi_set_display_mode(bridge);
-+	exynos_dsi_set_display_mode(dsi);
+ 	exynos_dsi_set_display_mode(dsi);
  	exynos_dsi_set_display_enable(dsi, true);
+@@ -1539,13 +1547,6 @@ static ssize_t exynos_dsi_host_transfer(struct mipi_dsi_host *host,
+ 	if (!(dsi->state & DSIM_STATE_ENABLED))
+ 		return -EINVAL;
  
- 	dsi->state |= DSIM_STATE_VIDOUT_AVAILABLE;
-@@ -1428,6 +1428,15 @@ static void exynos_dsi_atomic_post_disable(struct drm_bridge *bridge,
- 	pm_runtime_put_sync(dsi->dev);
- }
- 
-+static void exynos_dsi_mode_set(struct drm_bridge *bridge,
-+				const struct drm_display_mode *mode,
-+				const struct drm_display_mode *adjusted_mode)
-+{
-+	struct exynos_dsi *dsi = bridge_to_dsi(bridge);
-+
-+	drm_mode_copy(&dsi->mode, adjusted_mode);
-+}
-+
- static int exynos_dsi_attach(struct drm_bridge *bridge,
- 			     enum drm_bridge_attach_flags flags)
- {
-@@ -1444,6 +1453,7 @@ static const struct drm_bridge_funcs exynos_dsi_bridge_funcs = {
- 	.atomic_enable			= exynos_dsi_atomic_enable,
- 	.atomic_disable			= exynos_dsi_atomic_disable,
- 	.atomic_post_disable		= exynos_dsi_atomic_post_disable,
-+	.mode_set			= exynos_dsi_mode_set,
- 	.attach				= exynos_dsi_attach,
- };
- 
+-	if (!(dsi->state & DSIM_STATE_INITIALIZED)) {
+-		ret = exynos_dsi_init(dsi);
+-		if (ret)
+-			return ret;
+-		dsi->state |= DSIM_STATE_INITIALIZED;
+-	}
+-
+ 	ret = mipi_dsi_create_packet(&xfer.packet, msg);
+ 	if (ret < 0)
+ 		return ret;
 -- 
 2.25.1
 
