@@ -1,54 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86714474FFE
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 02:03:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 391D847502A
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 02:03:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E07C10E1E5;
-	Wed, 15 Dec 2021 01:02:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6BBA10E1F3;
+	Wed, 15 Dec 2021 01:03:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
  [IPv6:2607:f8b0:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8919D10E1D3
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 01:02:55 +0000 (UTC)
-Received: by mail-oi1-x233.google.com with SMTP id n66so29498534oia.9
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 17:02:55 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83DAE10E1F3
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 01:03:14 +0000 (UTC)
+Received: by mail-oi1-x233.google.com with SMTP id bj13so29552634oib.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 17:03:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc; bh=uw6bN6d4TEpZ4w8TTcuB+Vquo3dAMeEaia/fJgaxXHs=;
- b=SACGvHfj5YdxBygMuhuGG+TiirG1OgYendw09HPlxdJBYSZtfYEj+mqWeJb0iunRuA
- QfIrvHdKjVwAYWnM9T9wOc409ulqh6XeAgE6qfUdYFVBSW+t0KISMR17JY8NzngiK6B0
- f427tIdUCy0F04lppByT6bj7C8BX39k3rlzSYFj337Sbusq70XyqPRdzcV5ndUdhcxLU
- QlbTETEsMrXSOEPVK8+BnNKnjjpcGAPfGZqx5oyThCJOLL07DQR617qX8po3pP7YEZqG
- yan2StqmxmjQkTwtEU93K4rs28Bznd8yZ8e2IoGyN/z/F9DBtJ3FuIUHGaQO/lmuAUte
- nPQQ==
+ b=H4muOgjK5/dmipKYb548E8BJxPqSbo3j0zUgv2RPxaIY0janIUUZNlsnqB/Uu2IjEV
+ X1oyh+GZmEWsi+4TIxhCX0N0XQ6y8IqecJX/8d+GY3LMattPjYOXZ41rmOfIh1b9cHgt
+ wPVE7vKeIPmfH95eql9uPMTETbzvrR9Nu9JECandS49rg0WENRiHo8c2p89DRJsi1G9j
+ 9ruLwk03ONpGADcAwzoOnNrqb+ug4Rh+Pm6Vxnlxw3tKhEiVGbbZ/5Rs0zmX9BMbiQ4S
+ KmJeYJmVSpuzUsBtnyHiTIwNPB1Gx1v+8zNwA6aS0EV6kTE43xLDlSD4yqxilZrI4UBk
+ rR5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
  bh=uw6bN6d4TEpZ4w8TTcuB+Vquo3dAMeEaia/fJgaxXHs=;
- b=K8u/iB74OxtQkBo/I6HUgZNtZgLx9+Ry9PSTkGpj7MdOCbhSaoWwfcGr2sULO0TZlA
- YEd5G/I2H//36JojfnOfbnqIQS1j/PryH9u6fDzZ2cyGULhHyPaTHPXXhInfmcmDTpWe
- a6ZIq9Kf63T+uvq+gN1t8wXaGt5cvZ8MS8tV4mWNfSZD4BdvVLdhD4t9SQ98QSiP+bWw
- S4p2AzItJq+UQpMWTlSjHJ4K0S06FVDJq1802c2NYv/gBEPzfL3qOVj6ZANLVyWWGCFf
- WA6RRoYRZpuIWb3LAMt3yZMK3Skca76/PX/0tft7Wa9N7XEoXpECrqbl16QFvaPmaIIk
- yIXw==
-X-Gm-Message-State: AOAM533tXQLl1NldP7TF0yqSGtHWSpWGc12NRF41BA26TBmCIJYx28+X
- YJoK8QaF2UMHtrIYlvkPJrwn8G8BJxpHgyzfDuGCuw==
-X-Google-Smtp-Source: ABdhPJzOAvpi3w1v48JflBnBVLjgIFqMwloypvvyPKwd3U/6VNHLw2B2yHodWXAdIWQxrvvexiygjlv+LBDb09azMPI=
-X-Received: by 2002:a05:6808:60e:: with SMTP id
- y14mr6839185oih.162.1639530174761; 
- Tue, 14 Dec 2021 17:02:54 -0800 (PST)
+ b=0qoKeF4D7vY4NoWLPlvGfKYclyzxWK0Y2yzxCxFJ4/50mnLzfdk6HFiSu4dXY0Socm
+ +Z+pqNPEzKcL7eTtuiCfC8ZslUiajdzxpV1t2bX5wAaNBh2XzOqVGzwtb8H7jy/C+pE5
+ J7V7N4okeQQcuducYEtucuOY3V0T+Rxw39NFwXjIBsu3rmvujdFYezVsiKCgvSWTD5uE
+ kNlLejkILS+3X/V/WuYPydV7qBxu1OvDQDNKjg1x8+ILW9zxSb88eXdGD9HKzcpUeLnQ
+ qp2hvOnmYPM/mBOJg4+bSCoOXXmwH8z6yNCOPuMsXxZzKWgwf6QYXUiR6O8iYjQvzJ+M
+ fACA==
+X-Gm-Message-State: AOAM5313FsyiQ93BeVZi+lq2CQSBgUn5H3B9KZTE1dIByBPUobDa5Wfz
+ q8aiNc9OxSebfZfkz4DPdX8lEO+j1M5N4Ru8P5vudKE+8STLig==
+X-Google-Smtp-Source: ABdhPJxliBCdAwd2D2fYqD1C2K2IdEZ42OdIUesvDoXQZeocLw/E99x719/CgLnSa9cMHZF1p6JG+ArPNcBQZ24Ri7Y=
+X-Received: by 2002:aca:120f:: with SMTP id 15mr6921450ois.132.1639530193662; 
+ Tue, 14 Dec 2021 17:03:13 -0800 (PST)
 MIME-Version: 1.0
 References: <20211215010008.2545520-1-javierm@redhat.com>
- <20211215010008.2545520-22-javierm@redhat.com>
-In-Reply-To: <20211215010008.2545520-22-javierm@redhat.com>
+ <20211215010008.2545520-57-javierm@redhat.com>
+In-Reply-To: <20211215010008.2545520-57-javierm@redhat.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 15 Dec 2021 02:02:43 +0100
-Message-ID: <CACRpkdaFvQOSZmo4t7uTGo8m2yKDS4_h0-CpKW5KSFv=WDcWtQ@mail.gmail.com>
-Subject: Re: [PATCH 21/60] drm/mcde: Add support for the nomodeset kernel
+Date: Wed, 15 Dec 2021 02:03:02 +0100
+Message-ID: <CACRpkdbmLyXhGbuKEaCL=M=52huK3H-8_O-z_gyjf_95gO-fsw@mail.gmail.com>
+Subject: Re: [PATCH 56/60] drm/tve200: Add support for the nomodeset kernel
  parameter
 To: Javier Martinez Canillas <javierm@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
