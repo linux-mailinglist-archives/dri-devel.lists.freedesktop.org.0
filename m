@@ -2,54 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 709984762A6
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 21:08:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6543A4762E1
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 21:14:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCDC410E949;
-	Wed, 15 Dec 2021 20:08:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0440010EC8A;
+	Wed, 15 Dec 2021 20:14:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73E5C10E66F;
- Wed, 15 Dec 2021 20:08:33 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id o13so40091437wrs.12;
- Wed, 15 Dec 2021 12:08:33 -0800 (PST)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E3EB10EC8A
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 20:14:22 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id a18so40207840wrn.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 12:14:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3w4bLnhbXz+gy4SSpVMo/9wv7aCJ9iSr/1jbBUNhCaU=;
- b=ATdR/dyVoQdaZhzVXDf29nzCxot+WfN8B5xJ5jG/FBPbFWGWJL839oattpLc20+WTL
- ps4AtKHyz3T0ot0009a+eTOiax5HNoybFydP6fHKZ/s4duQBZ+pGmTri8MS44+TTD0sr
- GqDvBWRokjMBZpxYDx7UEPltGDcUDq8TRnwXzW6WwD/qma3ZvsyVjpRLkOd77stfF/gW
- s+TZPOIZbHPeIvpVRhjMlJRXgJrZjkA/o6KVVx98ewUoD0GCHgutzioMPOa9yjN6CG+S
- NG0P1pLPsf2fHuj4+ImCnhItud7ra/q/NKaV2BPlM8iCy6dNKSmuTwZTv2RzSVtysBS2
- o7Cw==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=E1VZMDNDn7cqxKxApca8uJlehdzt88dyZchiwwKVm7U=;
+ b=g1YyMuTJ5GsMHrXtXUEAz4CRABMZW0S01hXe8QKWhyABEJi3BSEjuBy3EaXP0Yw2UM
+ Il36LK+Tu016+3Ogmt+dKV2opDXRvH3DInp+s2ABpg92+3aVMbIIxDVNTR0x8kbtqKnX
+ s5DlUfbxNhTFU7fWAbhPB9mSAi+mbLD7qYcVGGZo05cj+AlxhrTdSMZjMQ36IoS/H15U
+ Ncf4K+gfKNpj5EpmlPU3POL7uLtoU643+74wvawF0qyKP0FohOPXapbgdRi7JzHJBfBX
+ 8H3ZNubWMsoFWlFLipISi+RUENOj5G4b4eqHp/wHzdFCwzWSMDXNOX7tDscJQ/3P98zJ
+ U+Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3w4bLnhbXz+gy4SSpVMo/9wv7aCJ9iSr/1jbBUNhCaU=;
- b=o5xAfbCmgW3yOzgmN3sBhXfRtJuOqaHcEZytRZXzOUoNk5uyNXmZXKrn60jS0nGFbk
- OYvLmw1onFnVglo4NP1qF5IQyKIfAa9gksrgv/KhiriCfvI2jmlvwEj9J5UwBwsAVL35
- h1MY0CeyjC6ZSppnYbTwXZ1RhHggJVrT4P+1U/puJnAnD2JjnnydCFmG0zzi/1Gv0Z41
- wcoRcZHzEP5+zqMhEQWvHw/OVwURGUF39Az17RqvN9JU6lx8eC0PjeEJ3i2vs8ME+AN8
- V2PPIr6NJhMlyjBlqoZDXwo3/8jftuO2R+SZuzUKj33B+MOHE+SgO8C4UcnPviXjSPOY
- gOxA==
-X-Gm-Message-State: AOAM533BW9OmrbWfg4j3P9X55M+EsGu3+lHPoKBJkASujuLwyeNVScRG
- Q3mv1vnJ3lQeARktUCs4eNYFBNbZbX7YTQpViIE=
-X-Google-Smtp-Source: ABdhPJwK7KInIW25AHd0uB7Kp/T+/V2CIAVdobV+Z7fppew3Fl124A1Bw4BeAJs0FQtE816PMicxsU+qug0RS1Ov6Vo=
-X-Received: by 2002:a5d:5986:: with SMTP id n6mr6090673wri.297.1639598911879; 
- Wed, 15 Dec 2021 12:08:31 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=E1VZMDNDn7cqxKxApca8uJlehdzt88dyZchiwwKVm7U=;
+ b=y8BZIXT5YqGpBAenDd/1ei4GA9pbQMCxzOzy6ONGB/v2J8yHVCgVrTZZvm7cDH3mSd
+ q8j4iYf3hJDL8qIvKukJHAtc0BJHozknrFdXWBVULcqQee7QVirXQr9OodkWxtTr7rFq
+ yR7JOFQJB5HVh/t6BBv8UECT66hbmERsIfyIrXeKaDNyO8MLbnr4jzQHjG11lrn6aAnN
+ B1vOGQN3++pyZBaHZzl+RQTQEdhZl0cHWQ2nS//fHiioQgPVhvL7c7OYLWfdxrSF3G2H
+ 0YcfDuRSzyBxc5qczUTw/w0gRAI1CxBC/cuqCm4DFUjhYJUcQL0YUZzB0X61/IFkA0wn
+ 6qEw==
+X-Gm-Message-State: AOAM5300/WzS2LlsMrZK+hrXu1KNPdfqeYLZq4yfxOrG855zasBSeeYw
+ nIfbo9rRo5UZ8WrWpauQjZw=
+X-Google-Smtp-Source: ABdhPJxBcM7HgZAgdlpi5+nkMNlxm9PmJ9F1y1ZmeyiXC8WxsVPU+9cBAt9sxOLu46Lj9oHh7lCXAg==
+X-Received: by 2002:a5d:47a1:: with SMTP id 1mr6122296wrb.436.1639599260782;
+ Wed, 15 Dec 2021 12:14:20 -0800 (PST)
+Received: from [192.168.0.18] (81.172.62.207.dyn.user.ono.com. [81.172.62.207])
+ by smtp.gmail.com with ESMTPSA id a1sm3810907wri.89.2021.12.15.12.14.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Dec 2021 12:14:20 -0800 (PST)
+Message-ID: <5b90dd50-f088-8250-7683-fe359d9679a8@gmail.com>
+Date: Wed, 15 Dec 2021 21:14:19 +0100
 MIME-Version: 1.0
-References: <20211215175910.1744151-1-robdclark@gmail.com>
- <CAE-0n52CHwYAEwAC0Hthgbamjj2x4K3B2w=kTRw_AFLzVgDF-Q@mail.gmail.com>
-In-Reply-To: <CAE-0n52CHwYAEwAC0Hthgbamjj2x4K3B2w=kTRw_AFLzVgDF-Q@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 15 Dec 2021 12:13:52 -0800
-Message-ID: <CAF6AEGsrCssqo3v3uw00C0YmGAXd6DpqeCRpioqxKRkXeN27gg@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm: Don't use autosuspend for display
-To: Stephen Boyd <swboyd@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v6 5/7] drm/mediatek: dpi: Add dpintf support
+Content-Language: en-US
+To: Guillaume Ranquet <granquet@baylibre.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20211110130623.20553-1-granquet@baylibre.com>
+ <20211110130623.20553-6-granquet@baylibre.com>
+From: Matthias Brugger <matthias.bgg@gmail.com>
+In-Reply-To: <20211110130623.20553-6-granquet@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,46 +75,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Vladimir Lypak <vladimir.lypak@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rajeev Nandan <quic_rajeevny@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sean Paul <sean@poorly.run>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Markus Schneider-Pargmann <msp@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 15, 2021 at 11:10 AM Stephen Boyd <swboyd@chromium.org> wrote:
->
-> Quoting Rob Clark (2021-12-15 09:59:02)
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > No functional change, as we only actually enable autosuspend for the GPU
-> > device.  But lets not encourage thinking that autosuspend is a good idea
-> > for anything display related.
->
-> I'd prefer to see a small blurb about why it's not a good idea to use
-> autosuspend for display things. Then this commit can be dug out of the
-> history and someone new can quickly understand the reasoning behind it.
-> Just saying it's not a good idea doesn't really help.
 
-The issue is that we have multiple different devices at play, and
-potentially specific requirements about power sequencing when lighting
-up or shutting down the display.. autosuspend would just turn that
-into a giant race condition.  I'll squash something about this into
-the commit msg
 
-BR,
--R
+On 10/11/2021 14:06, Guillaume Ranquet wrote:
+> From: Markus Schneider-Pargmann <msp@baylibre.com>
+> 
+> dpintf is the displayport interface hardware unit. This unit is similar
+> to dpi and can reuse most of the code.
+> 
+> This patch adds support for mt8195-dpintf to this dpi driver. Main
+> differences are:
+>   - Some features/functional components are not available for dpintf
+>     which are now excluded from code execution once is_dpintf is set
+>   - dpintf can and needs to choose between different clockdividers based
+>     on the clockspeed. This is done by choosing a different clock parent.
+>   - There are two additional clocks that need to be managed. These are
+>     only set for dpintf and will be set to NULL if not supplied. The
+>     clk_* calls handle these as normal clocks then.
+>   - Some register contents differ slightly between the two components. To
+>     work around this I added register bits/masks with a DPINTF_ prefix
+>     and use them where different.
+> 
+> Based on a separate driver for dpintf created by
+> Jason-JH.Lin <jason-jh.lin@mediatek.com>.
+> 
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> ---
+[...]
+> diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/soc/mediatek/mtk-mmsys.h
+> index 4bba275e235ac..56ed2fa5f59e8 100644
+> --- a/include/linux/soc/mediatek/mtk-mmsys.h
+> +++ b/include/linux/soc/mediatek/mtk-mmsys.h
+> @@ -19,6 +19,8 @@ enum mtk_ddp_comp_id {
+>   	DDP_COMPONENT_DITHER,
+>   	DDP_COMPONENT_DPI0,
+>   	DDP_COMPONENT_DPI1,
+> +	DDP_COMPONENT_DP_INTF0,
+> +	DDP_COMPONENT_DP_INTF1,
+>   	DDP_COMPONENT_DSI0,
+>   	DDP_COMPONENT_DSI1,
+>   	DDP_COMPONENT_DSI2,
+> 
 
-> >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > ---
->
-> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+For the mtk-mmsys.h:
+Acked-by: Matthias Brugger <matthias.bgg@gmail.com>
