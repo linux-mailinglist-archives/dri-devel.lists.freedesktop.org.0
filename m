@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA3FB475606
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 11:15:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C193A475607
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 11:16:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69EEF10E464;
-	Wed, 15 Dec 2021 10:15:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7907910E468;
+	Wed, 15 Dec 2021 10:16:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
- [IPv6:2607:f8b0:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFDD410E464
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 10:15:54 +0000 (UTC)
-Received: by mail-pf1-x429.google.com with SMTP id o4so20246705pfp.13
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 02:15:54 -0800 (PST)
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
+ [IPv6:2607:f8b0:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9884B10E466
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 10:15:58 +0000 (UTC)
+Received: by mail-pg1-x535.google.com with SMTP id l10so8826217pgm.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 02:15:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vzWxnXfCEtfJtmf3hDGkV6u62l3KVpf2aBYAb8aByi8=;
- b=FkFA+o0IY70IPB/5tQZ4+aOisgZeCmKwnDW1brVATu3vAs1C7pzvXa4L+4tuOeLP5i
- hbXTGezghe1ZCysA4EenIKjdYs9sfsHbIJv9ZI7TAYmOhFKkEkn+MR5znak7byMDHEvE
- k7RZ+NE8PL/dw9FLfvj7AapldOfgX9X1JGSV0=
+ bh=+ZAOBOL9rgasMXWW86nZAQEbYkZElrISjQDknTY4WUs=;
+ b=HiXQKeySCP4xFs08WXmIGX9WG2sFio34vRXCZN/L+MLgckVf2ft72x+8kH3n0/FmYe
+ 0mCzHkoJDMHsi7rOCKZWr/E2nMQ5FDN3lqGsvyB7acskK0/oD2N1i0VCOQJJJliiy7RI
+ aCXIBu2w5UftouAkAOmE1hHXklhEzpxtL8JBA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vzWxnXfCEtfJtmf3hDGkV6u62l3KVpf2aBYAb8aByi8=;
- b=Y9SA2Hyk5STfILaebWkZHittEmvGIs9/6HriawxeM1e2Cx2u5XY+aUIhIp+P4Re7Z0
- d23+URC/xGVbF/sU0c9InVNpMVZNswga/aySGudLgVpTifpnRJQ2EFxZnlK/uDCXH10r
- gKgGIouCe5aQ3qxsW7CkdDM0QmWIas8Qb6ZAlTaLC15vbzKrKwWtdB2lL5us7os8N8k9
- h8gIwgrf8b3XuzQ7XiWiTCSmYYfPUfxl5CZ3af9ygU5lcUvyg89HFm8Tf3c+fnX5cU5j
- ZC0Zqw/mOPgAi8Am+dUfJLqb4CiYl9dQkUCJjWpNFmlzG5lKQ5oQEwSOlTzmgQ8dy0ER
- Pitg==
-X-Gm-Message-State: AOAM533Ruvk987uJGUUExyRkzKfIRJjyzmny/UXaWgTpVtkRRoyIp0xv
- ze1aAqUbJfSqErabbdyK/GfQIA==
-X-Google-Smtp-Source: ABdhPJwmwlicAHvr+5tNnKzqX3JWQCsI6wgtQz1qcAnLFTVVXz4DilIq9L8yGUPSb6GCCexmVfdIAA==
-X-Received: by 2002:a63:8a4b:: with SMTP id y72mr7342101pgd.1.1639563354413;
- Wed, 15 Dec 2021 02:15:54 -0800 (PST)
+ bh=+ZAOBOL9rgasMXWW86nZAQEbYkZElrISjQDknTY4WUs=;
+ b=dV9rpxeH8qCXsqVnRM5UwLSdRKWGllLagR2moWgvNAcBZiGsRC/nyx2xO8l2T7V7E6
+ lc57GulgVir3IsqbSGdxkT4P6Wp6eL01QJdCuzorDEHOI/i5EaRR2x+kMOJEf7iYhpY+
+ JJxIx9fMK4vp+hc9ZKj62pxvW2c6FIAZ1hkTII/5c6be4GJcPlMw3rjJO7A4Zh5yeUps
+ fivegnWNMaqqVNSHTjTN69D3GfP6oVPbF6A63K2+vDl598eDu5NPt7OxJejSuoDjcMPV
+ 6nqwpUnNs2SDnqmq4H6tW1uX/sBnsHkuzWROUvcPhHVj3qRWgHCY4bV7Jmy2fSd9DPaw
+ 9UjQ==
+X-Gm-Message-State: AOAM532qfwPVEOjBRc8sNpGisNYCpequBAvVT6FsBo8rpPwM61ge+afg
+ eWnMPFIJBwlkUq3BVFpxsWH7Lmlf26ltiuVQ
+X-Google-Smtp-Source: ABdhPJybINKS/ME1WXbZYn71YqGLJAYv9NUEhFtYem8rY3Qr9vITGMJawYrz/kdORUOYNdq/Nri9cQ==
+X-Received: by 2002:a63:2b88:: with SMTP id r130mr7480830pgr.80.1639563358174; 
+ Wed, 15 Dec 2021 02:15:58 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:c00a:a0a9:a7:8328:d9c4:5bc9])
  by smtp.gmail.com with ESMTPSA id
- v11sm2408149pfu.184.2021.12.15.02.15.51
+ v11sm2408149pfu.184.2021.12.15.02.15.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Dec 2021 02:15:54 -0800 (PST)
+ Wed, 15 Dec 2021 02:15:57 -0800 (PST)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Marek Szyprowski <m.szyprowski@samsung.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -53,9 +53,9 @@ To: Marek Szyprowski <m.szyprowski@samsung.com>,
  Sam Ravnborg <sam@ravnborg.org>,
  Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
  Inki Dae <inki.dae@samsung.com>
-Subject: [PATCH v4 3/6] drm: exynos: dsi: Convert to bridge driver
-Date: Wed, 15 Dec 2021 15:45:31 +0530
-Message-Id: <20211215101534.45003-4-jagan@amarulasolutions.com>
+Subject: [PATCH v4 4/6] drm: exynos: dsi: Switch to atomic funcs
+Date: Wed, 15 Dec 2021 15:45:32 +0530
+Message-Id: <20211215101534.45003-5-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211215101534.45003-1-jagan@amarulasolutions.com>
 References: <20211215101534.45003-1-jagan@amarulasolutions.com>
@@ -78,241 +78,90 @@ Cc: linux-amarula@amarulasolutions.com, Jagan Teki <jagan@amarulasolutions.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the encoders to bridge drivers in order to standardize on
-a single API with built-in dumb encoder support for compatibility
-with existing component drivers.
+The new support drm bridges are moving towards atomic functions.
 
-Driver bridge conversion will help to reuse the same bridge on
-different platforms as exynos dsi driver can be used as a Samsung
-DSIM and use it for i.MX8MM platform.
-
-Bridge conversion,
-
-- Drops drm_encoder_helper_funcs.
-
-- Adds drm_bridge_funcs and register a drm bridge.
-
-- Drops bridge_chain.
-
-- Separate pre_enable from enable function.
-
-- Separate post_disable from disable function.
-
-Convert it.
+Replace atomic version of functions to continue the transition
+to the atomic API.
 
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
-Changes for v4:
-- add pre_enable function
-- add post_disable function
-Changes for v3:
-- move bridge add in host_attach
-- move bridge remove in host_detach
-- use flags, bridge in drm_bridge_attach in attch 
-Changes for v2:
-- drop bridge_chain
+Changes for v4, v3:
+- none
 
- drivers/gpu/drm/exynos/exynos_drm_dsi.c | 85 +++++++++++++------------
- 1 file changed, 44 insertions(+), 41 deletions(-)
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c | 25 ++++++++++++++++---------
+ 1 file changed, 16 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-index 14e16f2d594b..29c68379e6be 100644
+index 29c68379e6be..983e7cb65e2a 100644
 --- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
 +++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-@@ -257,7 +257,7 @@ struct exynos_dsi_driver_data {
- struct exynos_dsi {
- 	struct drm_encoder encoder;
- 	struct mipi_dsi_host dsi_host;
--	struct list_head bridge_chain;
-+	struct drm_bridge bridge;
- 	struct drm_bridge *out_bridge;
- 	struct device *dev;
- 
-@@ -287,9 +287,9 @@ struct exynos_dsi {
- 
- #define host_to_dsi(host) container_of(host, struct exynos_dsi, dsi_host)
- 
--static inline struct exynos_dsi *encoder_to_dsi(struct drm_encoder *e)
-+static inline struct exynos_dsi *bridge_to_dsi(struct drm_bridge *b)
- {
--	return container_of(e, struct exynos_dsi, encoder);
-+	return container_of(b, struct exynos_dsi, bridge);
- }
- 
- enum reg_idx {
-@@ -880,9 +880,10 @@ static int exynos_dsi_init_link(struct exynos_dsi *dsi)
- 	return 0;
- }
- 
--static void exynos_dsi_set_display_mode(struct exynos_dsi *dsi)
-+static void exynos_dsi_set_display_mode(struct drm_bridge *bridge)
- {
--	struct drm_display_mode *m = &dsi->encoder.crtc->state->adjusted_mode;
-+	struct exynos_dsi *dsi = bridge_to_dsi(bridge);
-+	struct drm_display_mode *m = &bridge->encoder->crtc->state->adjusted_mode;
- 	unsigned int num_bits_resol = dsi->driver_data->num_bits_resol;
- 	u32 reg;
- 
-@@ -1374,10 +1375,9 @@ static void exynos_dsi_unregister_te_irq(struct exynos_dsi *dsi)
+@@ -1375,7 +1375,8 @@ static void exynos_dsi_unregister_te_irq(struct exynos_dsi *dsi)
  	}
  }
  
--static void exynos_dsi_enable(struct drm_encoder *encoder)
-+static void exynos_dsi_pre_enable(struct drm_bridge *bridge)
+-static void exynos_dsi_pre_enable(struct drm_bridge *bridge)
++static void exynos_dsi_atomic_pre_enable(struct drm_bridge *bridge,
++					 struct drm_bridge_state *old_bridge_state)
  {
--	struct exynos_dsi *dsi = encoder_to_dsi(encoder);
--	struct drm_bridge *iter;
-+	struct exynos_dsi *dsi = bridge_to_dsi(bridge);
+ 	struct exynos_dsi *dsi = bridge_to_dsi(bridge);
  	int ret;
- 
- 	if (dsi->state & DSIM_STATE_ENABLED)
-@@ -1390,53 +1390,54 @@ static void exynos_dsi_enable(struct drm_encoder *encoder)
- 	}
- 
+@@ -1392,7 +1393,8 @@ static void exynos_dsi_pre_enable(struct drm_bridge *bridge)
  	dsi->state |= DSIM_STATE_ENABLED;
-+}
+ }
  
--	list_for_each_entry_reverse(iter, &dsi->bridge_chain, chain_node) {
--		if (iter->funcs->pre_enable)
--			iter->funcs->pre_enable(iter);
--	}
-+static void exynos_dsi_enable(struct drm_bridge *bridge)
-+{
-+	struct exynos_dsi *dsi = bridge_to_dsi(bridge);
+-static void exynos_dsi_enable(struct drm_bridge *bridge)
++static void exynos_dsi_atomic_enable(struct drm_bridge *bridge,
++				    struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct exynos_dsi *dsi = bridge_to_dsi(bridge);
  
--	exynos_dsi_set_display_mode(dsi);
-+	exynos_dsi_set_display_mode(bridge);
- 	exynos_dsi_set_display_enable(dsi, true);
- 
--	list_for_each_entry(iter, &dsi->bridge_chain, chain_node) {
--		if (iter->funcs->enable)
--			iter->funcs->enable(iter);
--	}
--
- 	dsi->state |= DSIM_STATE_VIDOUT_AVAILABLE;
-+
+@@ -1404,7 +1406,8 @@ static void exynos_dsi_enable(struct drm_bridge *bridge)
  	return;
  }
  
--static void exynos_dsi_disable(struct drm_encoder *encoder)
-+static void exynos_dsi_disable(struct drm_bridge *bridge)
+-static void exynos_dsi_disable(struct drm_bridge *bridge)
++static void exynos_dsi_atomic_disable(struct drm_bridge *bridge,
++				      struct drm_bridge_state *old_bridge_state)
  {
--	struct exynos_dsi *dsi = encoder_to_dsi(encoder);
--	struct drm_bridge *iter;
-+	struct exynos_dsi *dsi = bridge_to_dsi(bridge);
+ 	struct exynos_dsi *dsi = bridge_to_dsi(bridge);
  
- 	if (!(dsi->state & DSIM_STATE_ENABLED))
- 		return;
- 
+@@ -1414,7 +1417,8 @@ static void exynos_dsi_disable(struct drm_bridge *bridge)
  	dsi->state &= ~DSIM_STATE_VIDOUT_AVAILABLE;
-+}
- 
--	list_for_each_entry_reverse(iter, &dsi->bridge_chain, chain_node) {
--		if (iter->funcs->disable)
--			iter->funcs->disable(iter);
--	}
-+static void exynos_dsi_post_disable(struct drm_bridge *bridge)
-+{
-+	struct exynos_dsi *dsi = bridge_to_dsi(bridge);
- 
- 	exynos_dsi_set_display_enable(dsi, false);
- 
--	list_for_each_entry(iter, &dsi->bridge_chain, chain_node) {
--		if (iter->funcs->post_disable)
--			iter->funcs->post_disable(iter);
--	}
--
- 	dsi->state &= ~DSIM_STATE_ENABLED;
- 	pm_runtime_put_sync(dsi->dev);
  }
  
--static const struct drm_encoder_helper_funcs exynos_dsi_encoder_helper_funcs = {
--	.enable = exynos_dsi_enable,
--	.disable = exynos_dsi_disable,
-+static int exynos_dsi_attach(struct drm_bridge *bridge,
-+			     enum drm_bridge_attach_flags flags)
-+{
-+	struct exynos_dsi *dsi = bridge_to_dsi(bridge);
-+
-+	return drm_bridge_attach(bridge->encoder, dsi->out_bridge, NULL, flags);
-+}
-+
-+static const struct drm_bridge_funcs exynos_dsi_bridge_funcs = {
-+	.pre_enable			= exynos_dsi_pre_enable,
-+	.enable				= exynos_dsi_enable,
-+	.disable			= exynos_dsi_disable,
-+	.post_disable			= exynos_dsi_post_disable,
-+	.attach				= exynos_dsi_attach,
+-static void exynos_dsi_post_disable(struct drm_bridge *bridge)
++static void exynos_dsi_atomic_post_disable(struct drm_bridge *bridge,
++					   struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct exynos_dsi *dsi = bridge_to_dsi(bridge);
+ 
+@@ -1433,10 +1437,13 @@ static int exynos_dsi_attach(struct drm_bridge *bridge,
+ }
+ 
+ static const struct drm_bridge_funcs exynos_dsi_bridge_funcs = {
+-	.pre_enable			= exynos_dsi_pre_enable,
+-	.enable				= exynos_dsi_enable,
+-	.disable			= exynos_dsi_disable,
+-	.post_disable			= exynos_dsi_post_disable,
++	.atomic_duplicate_state		= drm_atomic_helper_bridge_duplicate_state,
++	.atomic_destroy_state		= drm_atomic_helper_bridge_destroy_state,
++	.atomic_reset			= drm_atomic_helper_bridge_reset,
++	.atomic_pre_enable		= exynos_dsi_atomic_pre_enable,
++	.atomic_enable			= exynos_dsi_atomic_enable,
++	.atomic_disable			= exynos_dsi_atomic_disable,
++	.atomic_post_disable		= exynos_dsi_atomic_post_disable,
+ 	.attach				= exynos_dsi_attach,
  };
  
- MODULE_DEVICE_TABLE(of, exynos_dsi_of_match);
-@@ -1459,8 +1460,9 @@ static int exynos_dsi_host_attach(struct mipi_dsi_host *host,
- 
- 	DRM_DEV_INFO(dev, "Attached %s device\n", device->name);
- 
--	drm_bridge_attach(encoder, dsi->out_bridge, NULL, 0);
--	list_splice_init(&encoder->bridge_chain, &dsi->bridge_chain);
-+	drm_bridge_add(&dsi->bridge);
-+
-+	drm_bridge_attach(encoder, &dsi->bridge, NULL, 0);
- 
- 	/*
- 	 * This is a temporary solution and should be made by more generic way.
-@@ -1499,13 +1501,14 @@ static int exynos_dsi_host_detach(struct mipi_dsi_host *host,
- 	if (dsi->out_bridge->funcs->detach)
- 		dsi->out_bridge->funcs->detach(dsi->out_bridge);
- 	dsi->out_bridge = NULL;
--	INIT_LIST_HEAD(&dsi->bridge_chain);
- 
- 	if (drm->mode_config.poll_enabled)
- 		drm_kms_helper_hotplug_event(drm);
- 
- 	exynos_dsi_unregister_te_irq(dsi);
- 
-+	drm_bridge_remove(&dsi->bridge);
-+
- 	return 0;
- }
- 
-@@ -1591,8 +1594,6 @@ static int exynos_dsi_bind(struct device *dev, struct device *master,
- 
- 	drm_simple_encoder_init(drm_dev, encoder, DRM_MODE_ENCODER_TMDS);
- 
--	drm_encoder_helper_add(encoder, &exynos_dsi_encoder_helper_funcs);
--
- 	ret = exynos_drm_set_possible_crtcs(encoder, EXYNOS_DISPLAY_TYPE_LCD);
- 	if (ret < 0)
- 		return ret;
-@@ -1612,9 +1613,8 @@ static void exynos_dsi_unbind(struct device *dev, struct device *master,
- 				void *data)
+@@ -1614,7 +1621,7 @@ static void exynos_dsi_unbind(struct device *dev, struct device *master,
  {
  	struct exynos_dsi *dsi = dev_get_drvdata(dev);
--	struct drm_encoder *encoder = &dsi->encoder;
  
--	exynos_dsi_disable(encoder);
-+	exynos_dsi_disable(&dsi->bridge);
+-	exynos_dsi_disable(&dsi->bridge);
++	exynos_dsi_atomic_disable(&dsi->bridge, NULL);
  
  	mipi_dsi_host_unregister(&dsi->dsi_host);
  }
-@@ -1640,7 +1640,6 @@ static int exynos_dsi_probe(struct platform_device *pdev)
- 	init_completion(&dsi->completed);
- 	spin_lock_init(&dsi->transfer_lock);
- 	INIT_LIST_HEAD(&dsi->transfer_list);
--	INIT_LIST_HEAD(&dsi->bridge_chain);
- 
- 	dsi->dsi_host.ops = &exynos_dsi_ops;
- 	dsi->dsi_host.dev = dev;
-@@ -1708,6 +1707,10 @@ static int exynos_dsi_probe(struct platform_device *pdev)
- 
- 	pm_runtime_enable(dev);
- 
-+	dsi->bridge.funcs = &exynos_dsi_bridge_funcs;
-+	dsi->bridge.of_node = dev->of_node;
-+	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
-+
- 	ret = component_add(dev, &exynos_dsi_component_ops);
- 	if (ret)
- 		goto err_disable_runtime;
 -- 
 2.25.1
 
