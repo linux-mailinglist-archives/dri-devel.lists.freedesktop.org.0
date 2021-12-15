@@ -1,76 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BC1547557F
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 10:51:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40F9947559A
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 10:56:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3D0989A67;
-	Wed, 15 Dec 2021 09:51:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87DBB10E1F5;
+	Wed, 15 Dec 2021 09:56:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CABC610E270
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 09:51:29 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 277805801B1;
- Wed, 15 Dec 2021 04:51:29 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Wed, 15 Dec 2021 04:51:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=RqIRL4ZPwU58/
- g8eCUp1MElSyGBaUDT1H6iHs1T1CnU=; b=DthYzW41gxuezgmP8bR68niFtK23u
- Xo5qYUwb2azfKA4PKGDQp9ru1qgHW+KvtGevtHXFLtl4vIEAlVq36yEHflMMp9rB
- JpXFyV5Dy+d6mgfHGBOzvGWm43JttmQbEiad402sBgTenA2nkf6IiJZJ2ffTQ+Xa
- TLDPT+GQzAephZ8wKzlIcTbJlX+BO+iu7Mho7pWxCbY+VbB6hM1aAxr5jH7LSsUz
- iZcH3Ph+lB/x9QNLGFve0QMp9OyWN0xABKatpQYef+4Ui70JvWvYZMUKKLNPMN1A
- odMxlksIaAdbwolLgCcQWiu88F4/ukW6HfOTLHQGpovmA5iRA825h2Fvw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=RqIRL4ZPwU58/g8eCUp1MElSyGBaUDT1H6iHs1T1CnU=; b=WDNYokl9
- myWPIokTCQs1+nPxyNh7ouYOn0iwVukw/LjTC688oItXe2hzvynXwCd/hmK4IyQD
- t1MttDD/LGJocBAXYb6KZhTzBA2iIDbMLSRDbSX2s5kT6U0QhYEidXZ1/ahoMt5S
- RV64UJfu3As3N/pe7VBLoVEQPDgMgH3l2QPM0Eaul21vpQqIrkCMQ6sVfgsWJ4Bc
- isSQZhqhmjuaBfaaUuRCre79N+wvY3JaBnwb+AYeIQlOFMJXPy9SqkaH3lQqp5tq
- vNP3CdHllM4QFfP/OiGuo6yeZv+DuN4BkGD83wK4tS5+fP/RN0QxvMtSwJ6ipwxv
- NAxRiU8/b/FigA==
-X-ME-Sender: <xms:oLq5YdWxTaixI0CT8UrMHRC66O3a3qH9MV1t_x_vshzRh9_QBeqU7w>
- <xme:oLq5YdkxLGWhDg42zFUHHZuExvgiGuf_I12f5jbjePU6or63FQZMIaoOPFGmKYdQO
- ek29ACQuFtyAEnaMyQ>
-X-ME-Received: <xmr:oLq5YZaHBuK9Zy5BcXSm_oTdPryP0dCuLPD-bE8prFFUjajIhJ7zjc70v4BlzPctd8gtLD2gjMvN9RA5SCLvoe8yd4j094inWHV0D4I>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrledvgddtlecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:obq5YQXrw3Gg8uPYYM6Brv9nYNrTZEVoFglj5zx82_jejCB0KqIVYQ>
- <xmx:obq5YXlTcbAhRYIyGGc0oKBcTITvMvuOqogi-yw19D-p7TBz1fXoqw>
- <xmx:obq5YdfcsVO3mDmeF0GyrWT3y-DNgnYLIL7eYJfkZRL4ZHT6CGX2Og>
- <xmx:obq5YWfBdPo3xrO2bPCYkFpHoe-8jx94NJTBSeJZm6TqRkR8L4R-6A>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 15 Dec 2021 04:51:28 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Florian Fainelli <f.fainelli@gmail.com>, Ray Jui <rjui@broadcom.com>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
- Scott Branden <sbranden@broadcom.com>, Rob Herring <robh+dt@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>
-Subject: [PATCH RESEND v4 v5 4/4] drm/vc4: Notify the firmware when DRM is in
- charge
-Date: Wed, 15 Dec 2021 10:51:17 +0100
-Message-Id: <20211215095117.176435-5-maxime@cerno.tech>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211215095117.176435-1-maxime@cerno.tech>
-References: <20211215095117.176435-1-maxime@cerno.tech>
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 336A210E1F5
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 09:56:40 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id 207so32430841ljf.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 01:56:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=p/SKAYMrs/GzMLA7d2JR/TcXPA0mR6BvhD9+t/8AH8Q=;
+ b=itc9kjxlMhXQBPC8jrx+gv6j8zRYhwg2VuUiLV+Bh3vupyXh/O008OW493tQET3jDX
+ lj0kUSadknD5LkmknTU/rzElj13rvPstPnaOUK8U5FJdurdlyq4c32SxhxkuoxPANLhn
+ tzvU5Gqc06jrqOlltJSAjHToVRt0fB7iwVHgK0yaoUveO30kbcL/265rmut737K1h0v3
+ 3Ljk9KPQhVOmTMafnSkuZ3LR/SQ6/DD2U/xC5xFYC2BuU7M476J3JrDMUnCy6PWkHXdd
+ 5nqusR+mSaIGEyE+x+8r3y1ypsEpPyYei99WfRjiCdCHGRpLVMKg1vZ21vWpiS3iS+bu
+ sRDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=p/SKAYMrs/GzMLA7d2JR/TcXPA0mR6BvhD9+t/8AH8Q=;
+ b=vPfLbGE9aXDQfxvQJFD21yLrr1KlSkOm6TpiaJjvYAqZ6y5d2/6+Lh5guDaK1B24id
+ 3n57VSaResuiyZTpOV8RkkmfxK04r+gPJWaD1l2pJXIJ8d06myyBgU3LIREMKT12Km+e
+ P/n78xAhMzk1r//krD2KutBEJ+uSRQheYC9VUlRvOvUmrKbOzXSTsWTvw1bXvvL2GnhB
+ psFzIkIEBu0gWRLsp78nRjQjpS4FNzsfQeD5H0yv7w70G39XtNC21iuysYRkwJ0adCDF
+ UHrJQkoeqpI3VC6JEvwE/hum97okcvayucaxHPsApc3ZC6ZXxXcHk2UJ9fhgJm8K8ly/
+ rByA==
+X-Gm-Message-State: AOAM533mRda5y6az5flfzx5cRYeJMHiVLieDBIHfX6LfVuy2hso0pv1T
+ YLMR1B6orm7NlZQ5DOpSI9Z2ZA==
+X-Google-Smtp-Source: ABdhPJzVOkMT9FzjByx/A3OwyLhbgyfAKWE2Jhkkebxkaa5n5h/HbOL+R3t7S+OrpxFG14Y2a6RRgg==
+X-Received: by 2002:a2e:9510:: with SMTP id f16mr9592237ljh.409.1639562198497; 
+ Wed, 15 Dec 2021 01:56:38 -0800 (PST)
+Received: from eriador.lan ([2001:470:dd84:abc0::8a5])
+ by smtp.gmail.com with ESMTPSA id j20sm242085lfu.84.2021.12.15.01.56.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Dec 2021 01:56:38 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/plane: add alpha and blend_mode to atomic_print_state
+Date: Wed, 15 Dec 2021 12:56:36 +0300
+Message-Id: <20211215095636.2330563-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,78 +68,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Dom Cobley <dom@raspberrypi.com>,
- Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Once the call to drm_fb_helper_remove_conflicting_framebuffers() has
-been made, simplefb has been unregistered and the KMS driver is entirely
-in charge of the display.
+When dumping plane state also output plane's alpha and blending mode
+values to ease debugging of complex composition cases.
 
-Thus, we can notify the firmware it can free whatever resource it was
-using to maintain simplefb functional.
-
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/vc4/vc4_drv.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ drivers/gpu/drm/drm_atomic.c        |  3 +++
+ drivers/gpu/drm/drm_blend.c         | 21 +++++++++++++++++++++
+ drivers/gpu/drm/drm_crtc_internal.h |  3 +++
+ 3 files changed, 27 insertions(+)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-index 86c61ee120b7..a03053c8e22c 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.c
-+++ b/drivers/gpu/drm/vc4/vc4_drv.c
-@@ -37,6 +37,8 @@
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_vblank.h>
+diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+index ff1416cd609a..e2e715b5aaa8 100644
+--- a/drivers/gpu/drm/drm_atomic.c
++++ b/drivers/gpu/drm/drm_atomic.c
+@@ -709,6 +709,9 @@ static void drm_atomic_plane_print_state(struct drm_printer *p,
+ 		   drm_get_color_encoding_name(state->color_encoding));
+ 	drm_printf(p, "\tcolor-range=%s\n",
+ 		   drm_get_color_range_name(state->color_range));
++	drm_printf(p, "\talpha=%x\n", state->alpha);
++	drm_printf(p, "\tblend_mode=%s\n",
++		   drm_get_pixel_blend_mode_name(state->pixel_blend_mode));
  
-+#include <soc/bcm2835/raspberrypi-firmware.h>
+ 	if (plane->funcs->atomic_print_state)
+ 		plane->funcs->atomic_print_state(p, state);
+diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
+index ec37cbfabb50..e3971758ec53 100644
+--- a/drivers/gpu/drm/drm_blend.c
++++ b/drivers/gpu/drm/drm_blend.c
+@@ -616,3 +616,24 @@ int drm_plane_create_blend_mode_property(struct drm_plane *plane,
+ 	return 0;
+ }
+ EXPORT_SYMBOL(drm_plane_create_blend_mode_property);
 +
- #include "uapi/drm/vc4_drm.h"
- 
- #include "vc4_drv.h"
-@@ -215,6 +217,7 @@ static void vc4_match_add_drivers(struct device *dev,
- static int vc4_drm_bind(struct device *dev)
- {
- 	struct platform_device *pdev = to_platform_device(dev);
-+	struct rpi_firmware *firmware = NULL;
- 	struct drm_device *drm;
- 	struct vc4_dev *vc4;
- 	struct device_node *node;
-@@ -251,10 +254,29 @@ static int vc4_drm_bind(struct device *dev)
- 	if (ret)
- 		return ret;
- 
-+	node = of_find_compatible_node(NULL, NULL, "raspberrypi,bcm2835-firmware");
-+	if (node) {
-+		firmware = rpi_firmware_get(node);
-+		of_node_put(node);
++static const char * const pixel_blend_mode_name[] = {
++	[DRM_MODE_BLEND_PIXEL_NONE] = "None",
++	[DRM_MODE_BLEND_PREMULTI] = "Pre-multiplied",
++	[DRM_MODE_BLEND_COVERAGE] = "Coverage",
++};
 +
-+		if (!firmware)
-+			return -EPROBE_DEFER;
-+	}
++/**
++ * drm_get_pixel_blend_mode_name - return a string for color encoding
++ * @encoding: color encoding to compute name of
++ *
++ * In contrast to the other drm_get_*_name functions this one here returns a
++ * const pointer and hence is threadsafe.
++ */
++const char *drm_get_pixel_blend_mode_name(uint16_t blend_mode)
++{
++	if (WARN_ON(blend_mode >= ARRAY_SIZE(pixel_blend_mode_name)))
++		return "unknown";
 +
- 	ret = drm_aperture_remove_framebuffers(false, &vc4_drm_driver);
- 	if (ret)
- 		return ret;
- 
-+	if (firmware) {
-+		ret = rpi_firmware_property(firmware,
-+					    RPI_FIRMWARE_NOTIFY_DISPLAY_DONE,
-+					    NULL, 0);
-+		if (ret)
-+			drm_warn(drm, "Couldn't stop firmware display driver: %d\n", ret);
++	return pixel_blend_mode_name[blend_mode];
++}
+diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_crtc_internal.h
+index 63279e984342..0794307191cf 100644
+--- a/drivers/gpu/drm/drm_crtc_internal.h
++++ b/drivers/gpu/drm/drm_crtc_internal.h
+@@ -289,3 +289,6 @@ void drm_mode_fixup_1366x768(struct drm_display_mode *mode);
+ void drm_reset_display_info(struct drm_connector *connector);
+ u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edid);
+ void drm_update_tile_info(struct drm_connector *connector, const struct edid *edid);
 +
-+		rpi_firmware_put(firmware);
-+	}
-+
- 	ret = component_bind_all(dev, drm);
- 	if (ret)
- 		return ret;
++/* drm_blend.c */
++const char *drm_get_pixel_blend_mode_name(uint16_t blend_mode);
 -- 
-2.33.1
+2.33.0
 
