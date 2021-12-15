@@ -1,67 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A455B475A07
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 14:56:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A5B2475A2A
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 14:59:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70D3010E22E;
-	Wed, 15 Dec 2021 13:56:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC2B510EB6A;
+	Wed, 15 Dec 2021 13:59:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
- [IPv6:2607:f8b0:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0743C10E240
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 13:56:48 +0000 (UTC)
-Received: by mail-ot1-x32e.google.com with SMTP id
- w6-20020a9d77c6000000b0055e804fa524so25007633otl.3
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 05:56:47 -0800 (PST)
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
+ [IPv6:2607:f8b0:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 155E010EB6A
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 13:59:37 +0000 (UTC)
+Received: by mail-ot1-x331.google.com with SMTP id
+ x3-20020a05683000c300b0057a5318c517so24906779oto.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 05:59:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20210112.gappssmtp.com; s=20210112;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=M6j9hwTZmADnSfWaurTAQggHTqHGDGAa0M5rDiFAOho=;
- b=vU8K7qkTSSZ06CE/fefEWyKnsRXiJLlkp7YM5DiBN3h885TMUwRU64eceuisXus8DC
- IvN+bZn6DKihhsf8twYGvrDXkoqlcKrYqtCi7YiWEMbKZ8omTlfuI2rmhXjbCJ67tKol
- 5W4KjvFqtQvbFXyizzshpEnvg3A+9shfiBFO9JMtqbNeh7JqvHk0V4l/nJ1blHTe04H6
- pnlOoSlqClNTyiVRu/FB2ENduxZSRY5IiUCeAdETG1JH9WvsXzHOO2snbahquGr2dGD/
- 1wdu+osd202SSm9a1zPYo3zBhtCntFybwBv6qqGZpUjlpvbXWpVLQ0dM1EjVn4thKxR8
- Zp8w==
+ bh=jzXbIP5FciFwRo+uwKbSYKwE5J1uKZwuclMd+bHXm4Q=;
+ b=VW9meFnnbW+6LhQXBCYPKpSaQzDRpNnMKRUZyG7F83OPWZ35MX+n4Qr4fgwTmrF0rT
+ 6m9gcUNEEMjaYdGTbOnKqtEMFoY5B3WNGnlDW3U0KtLtgyFCfwQx1vmr/m4U05GTZcem
+ 5UtzSKqy2kFGXp/gUJ7EmPzPtoqMTDqIfQC/YvzVxo/LQ5kHKwkxE3jp5njcEelUv1kT
+ OG+iBv9RmWkUa5GARhS9NinLIasDgB8d9//7XMhh28GcjR8UhN7IY/fuvUBNap7Xo/3W
+ A+5v1+o116FlmWcud/nkiz8Y/GbQz/SNhtUr8kF1JFXv/F8gm1ythiT2qQn13y9snEdY
+ fydw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=M6j9hwTZmADnSfWaurTAQggHTqHGDGAa0M5rDiFAOho=;
- b=KvzIlhKE3a8nv+eyH4STkx6+xTBsSY28OM5iy+8UXm9nBwhebi1A37TRMpj5PNl2pS
- UPrB+IeNZFQaNNfQ5DAvx4Tr4RjQQ6kqAb7VBThlYtNbaX2ZLo4WvwP09bT8ZMjispEg
- ffAy5BO/nl/dIvaz//4RI4Tsekt+Z0iKfRb7NmUxQe9vMYMyPtcSk7qxmaJAHiFlQCId
- XpEjCpp6EsGAGa6tJ1i2qqzqs2/AYImIE5knTak1i3EuJoG+ILToK2QmumhJMHaSXZ4F
- wQvzzalNEFTF1QOTWKh1rN3JQLN/a5zZCW1JEut5fw8UGrCoDWm+RO9kLACOTIgQSToe
- P+mA==
-X-Gm-Message-State: AOAM531tw+V6JIKvWqbM4ya+awdE0lFcN1yEUgoNuF2/GVNIf6vj+C/x
- 4DWP8m1CEkO0NdVyi2X6cMjhLNOFv072tS+BpvVwdw==
-X-Google-Smtp-Source: ABdhPJz6k/y1XdmARoYBhmoL4faqs4b6EkaRNTG2VXEP5cLBplgJmHpeQGBuN65kQTb4Ae2ykOvi1JN8NvW5Yd0+nyo=
+ bh=jzXbIP5FciFwRo+uwKbSYKwE5J1uKZwuclMd+bHXm4Q=;
+ b=kIaVaMFUEDQjfgkOyuZ8eQ5uaq5G+tjPMS5ETOdGIerl+CK8VzNydnfIn34Kcefrz4
+ yQjRTYvtlf/f3NFfnjrQr2P2opoqPuAKUi2BKtVJBy+YG1Ij7vT1ePOdRD2qC+9ZmXTA
+ MgfzmahT7bRtsWUvd2Y0VWALJOQG6jMQTbVpp/R29lpnXCt5C3yRxR5ickxUj2SLBclb
+ YyhH8t8peR3JDwbo2c8iZDqq/1fqtz+1nhBuGa2XzDPD2WW2JWgPBY+lOCFAI0+8h3Qo
+ CoRTUPabunFXpac8pjiwmz4Q6HE+32YM63Ov5ECz+Aqxu8K4m254DcMrf0CsF/LJLtN7
+ ezVg==
+X-Gm-Message-State: AOAM530Dw7QdMKGbzYSAZHbb0AWMm90AS3jx2rOOXgRg3rkwkrZ0Blb+
+ pJEPl62XKSjWMbLSHRLJ6SUJD9OM1k0w+lOiSDnJPg==
+X-Google-Smtp-Source: ABdhPJw9vbo3GtL3umP4JTbk/hUjj33zlRQI9PHcpEYiz1E8UmKBHQI5Lfz+6KJ2nWa6o7LDr4U/YQDOVfofOzqmx08=
 X-Received: by 2002:a05:6830:200d:: with SMTP id
- e13mr9174519otp.109.1639576607244; 
- Wed, 15 Dec 2021 05:56:47 -0800 (PST)
+ e13mr9181654otp.109.1639576776133; 
+ Wed, 15 Dec 2021 05:59:36 -0800 (PST)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 15 Dec 2021 07:56:43 -0600
+ HTTPREST; Wed, 15 Dec 2021 07:59:35 -0600
 MIME-Version: 1.0
-In-Reply-To: <b307d567-774b-ca9e-d7d7-09846782c988@collabora.com>
+In-Reply-To: <CAJMQK-gGE78qZoR92d8OH6_vTzBR5ry04nKGS22Dw48vAo7+AA@mail.gmail.com>
 References: <20211110130623.20553-1-granquet@baylibre.com>
  <20211110130623.20553-8-granquet@baylibre.com>
- <b307d567-774b-ca9e-d7d7-09846782c988@collabora.com>
+ <CAJMQK-gGE78qZoR92d8OH6_vTzBR5ry04nKGS22Dw48vAo7+AA@mail.gmail.com>
 From: Guillaume Ranquet <granquet@baylibre.com>
 User-Agent: alot/0.10
-Date: Wed, 15 Dec 2021 07:56:43 -0600
-Message-ID: <CABnWg9sNOWJ_RgnvSdEtAVQrfELzJr8aj-FTB=oj6hQJScFCVA@mail.gmail.com>
+Date: Wed, 15 Dec 2021 07:59:35 -0600
+Message-ID: <CABnWg9tAMLWtPK1QjiqKyNgNhdqDDSc2fyAAmS3rzLQBwvT8SA@mail.gmail.com>
 Subject: Re: [PATCH v6 7/7] drm/mediatek: Add mt8195 DisplayPort driver
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, 
- David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, Maxime Ripard <mripard@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Thomas Zimmermann <tzimmermann@suse.de>
+To: Hsin-Yi Wang <hsinyi@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,16 +70,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Markus Schneider-Pargmann <msp@baylibre.com>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, Markus Schneider-Pargmann <msp@baylibre.com>,
+ linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Angelo,
+Hi Hsin-Yi,
 
-Quoting AngeloGioacchino Del Regno (2021-12-10 11:17:44)
-> Il 10/11/21 14:06, Guillaume Ranquet ha scritto:
+Quoting Hsin-Yi Wang (2021-12-09 07:29:30)
+> On Wed, Nov 10, 2021 at 9:08 PM Guillaume Ranquet <granquet@baylibre.com> wrote:
+> >
 > > From: Markus Schneider-Pargmann <msp@baylibre.com>
 > >
 > > This patch adds a DisplayPort driver for the Mediatek mt8195 SoC and a
@@ -108,67 +107,72 @@ Quoting AngeloGioacchino Del Regno (2021-12-10 11:17:44)
 > > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
 > > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
 > > Reported-by: kernel test robot <lkp@intel.com>
->
-> Hello Markus, Guillaume,
->
-> there is a critical issue with this patch. Please check below.
->
 > > ---
-> >   drivers/gpu/drm/drm_edid.c              |    2 +-
-> >   drivers/gpu/drm/mediatek/Kconfig        |    7 +
-> >   drivers/gpu/drm/mediatek/Makefile       |    2 +
-> >   drivers/gpu/drm/mediatek/mtk_dp.c       | 3094 +++++++++++++++++++++++
-> >   drivers/gpu/drm/mediatek/mtk_dp_reg.h   |  568 +++++
-> >   drivers/gpu/drm/mediatek/mtk_dpi.c      |  111 +-
-> >   drivers/gpu/drm/mediatek/mtk_dpi_regs.h |   26 +
-> >   drivers/gpu/drm/mediatek/mtk_drm_drv.c  |    1 +
-> >   drivers/gpu/drm/mediatek/mtk_drm_drv.h  |    1 +
-> >   9 files changed, 3799 insertions(+), 13 deletions(-)
-> >   create mode 100644 drivers/gpu/drm/mediatek/mtk_dp.c
-> >   create mode 100644 drivers/gpu/drm/mediatek/mtk_dp_reg.h
-> >
+>
 >
 > <snip>
 >
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > index 384074f69111b..e6e88e3cd811d 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > +static int mtk_dp_probe(struct platform_device *pdev)
+> > +{
+> > +       struct mtk_dp *mtk_dp;
+> > +       struct device *dev = &pdev->dev;
+> > +       int ret;
+> > +       int irq_num = 0;
+> > +       struct drm_panel *panel = NULL;
+> > +
+> > +       mtk_dp = devm_kzalloc(dev, sizeof(*mtk_dp), GFP_KERNEL);
+> > +       if (!mtk_dp)
+> > +               return -ENOMEM;
+> > +
+> > +       mtk_dp->dev = dev;
+> > +
+> > +       irq_num = platform_get_irq(pdev, 0);
+> > +       if (irq_num < 0) {
+> > +               dev_err(dev, "failed to request dp irq resource\n");
+> > +               return -EPROBE_DEFER;
+> > +       }
+> > +
+> > +       ret = drm_of_find_panel_or_bridge(dev->of_node, 1, 0, &panel,
+> > +                                         &mtk_dp->next_bridge);
+> > +       if (ret == -ENODEV) {
+> > +               dev_info(
+> > +                       dev,
+> > +                       "No panel connected in devicetree, continuing as external DP\n");
+> > +               mtk_dp->next_bridge = NULL;
+> > +       } else if (ret) {
+> > +               dev_err(dev, "Failed to find panel or bridge: %d\n", ret);
 >
-> <snip>
+> Hi,
 >
-> > @@ -979,6 +1051,16 @@ static int mtk_dpi_probe(struct platform_device *pdev)
-> >               return ret;
-> >       }
-> >
-> > +     dpi->dpi_ck_cg = devm_clk_get(dev, "ck_cg");
+> We're seeing
+> [    0.424599] mediatek-drm-dp 1c500000.edp_tx: Failed to find panel
+> or bridge: -517
 >
-> mtk_dpi is used on MT2701, MT7183, MT8183, MT8192, but these platforms haven't
-> got any "ck_cg" clock defined in their device-trees (regardless of whether these
-> can support adding this clock or not, any code change shall be retro-compatible
-> hence not breaking compatibility/functionality with older device-trees).
+> It's probably better to use dev_err_probe here.
 >
-> Reminding that:
-> - mediatek-drm uses the component framework
-> - mtk_drm_drv is the component master
-> - mtk_drm_drv bind() won't be called unless all of the components added with
->    match aren't calling component_add()
->
-> ... this change not only breaks DisplayPort support for *all* of the
-> aforementioned SoCs, but also makes the entire mediatek-drm to not finish
-> probing, producing a global breakage that also includes DSI and the entire
-> stack of components of that master (so, no display on all of them).
->
-> To avoid breaking any SoC that's not MT8195, please use devm_clk_get_optional()
-> here in the next version.
->
-> Thanks,
-> - Angelo
->
+> Thanks
 
-This is a good catch, I will update for v7.
+Good suggestion, it will be in v7.
 
-Thank you very much for your review.
-
-Thx,
+Thanks for your review,
 Guillaume.
+>
+> > +               return ret;
+> > +       }
+> > +
+> > +       if (panel) {
+> > +               mtk_dp->next_bridge = devm_drm_panel_bridge_add(dev, panel);
+> > +               if (IS_ERR(mtk_dp->next_bridge)) {
+> > +                       ret = PTR_ERR(mtk_dp->next_bridge);
+> > +                       dev_err(dev, "Failed to create bridge: %d\n", ret);
+> > +                       return -EPROBE_DEFER;
+> > +               }
+> > +       }
+>
+>
+> <snip>
+>
+> > _______________________________________________
+> > Linux-mediatek mailing list
+> > Linux-mediatek@lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/linux-mediatek
