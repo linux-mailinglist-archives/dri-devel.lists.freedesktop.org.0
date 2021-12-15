@@ -2,41 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87700475C56
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 16:55:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8089A475C5D
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 16:55:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B51D010EB32;
-	Wed, 15 Dec 2021 15:55:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CBED10EB52;
+	Wed, 15 Dec 2021 15:55:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D9D410EB39;
- Wed, 15 Dec 2021 15:55:11 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10198"; a="302629631"
-X-IronPort-AV: E=Sophos;i="5.88,207,1635231600"; d="scan'208";a="302629631"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Dec 2021 07:55:11 -0800
-X-IronPort-AV: E=Sophos;i="5.88,207,1635231600"; d="scan'208";a="682546537"
-Received: from tbarret1-mobl.ger.corp.intel.com (HELO [10.213.212.98])
- ([10.213.212.98])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Dec 2021 07:55:10 -0800
-Message-ID: <47715429-7e03-8fc8-4d30-0dae1d38c4b1@linux.intel.com>
-Date: Wed, 15 Dec 2021 15:55:09 +0000
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0428810EB52
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 15:55:39 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id u17so39025437wrt.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 07:55:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=R67lTnWwXbUTzFzCGUUL+WExD12deXb0Qh98T1uTW0w=;
+ b=OhHVBsH+JSjXGRjWW3dS71NC/5sbYxFPZeF0Q4crce9RPU1G+fwh5oGbAJmZOtYSDn
+ yjuE+M/vGo+HcrEQy22dlJU89eYUIQKX9sy91E3wHpbdRpvBDG7E9pqh+KnpWWxUSq9v
+ PNF4kbB9qDszar6MdLFK6vUT3qHSmSkZinyZ9tTuRpB9k8dn911giQKHsHtqs8Ub7qfH
+ d+kpMd6Mn09M8+dSrQ6c/fZrNlAwgj2PLcnx4Skskb/YzyUvtGrwTTyqbbEG/OT3HkPf
+ 3zJ8bhxulq+9LmiMbMGftBQwPezCtnNWvi9+c4T4qCyJR3jP+j7uHUtw5ctkZOex5L9X
+ 70hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=R67lTnWwXbUTzFzCGUUL+WExD12deXb0Qh98T1uTW0w=;
+ b=ECpi/gCYFMmiFZhT9tDiq06KGnxmKSdr4XjeCjk8rbcsbGD5TWWu+4w/NYqe9jXU7u
+ Gd6MjklcMPwpYgWFns3/chrVFCvcrEpkXWR30Spcmn7uHHunaWySdezvNVMnniDVSbOk
+ GhGdPS2nf5Pk46maNCdfLq0cmTYZbXkJyHKGPNXtPxJ5YMFODbeFnaDsl2s97vSB2GnJ
+ CgJ7YAe+s+E1yr2JC5g0Q70eOklMxAxax7WGYQr1IjcTm+gK0Oa3EKrZ7S1zQRVVc2v1
+ CdQK861bcgeaQJg/BeJLATNpo6ojfyW7vwRTdqz3pM8U449tQt9qPqBWmmyFCFVnblqN
+ 1Feg==
+X-Gm-Message-State: AOAM531hhTKQzRx/7GId6K6NVxGj8hcY2KQd1m4nsENkQBhHg356A1FR
+ KcrlRWJMdN7XjWZin8xJ7H4=
+X-Google-Smtp-Source: ABdhPJxHztDvenoHWfBqOVDnmyiUgaQWSSLPpt6XX3/VYHhw8RSChI7rhoZIlA+1HRtQtKu2hou5Tg==
+X-Received: by 2002:a5d:6488:: with SMTP id o8mr5000272wri.631.1639583737576; 
+ Wed, 15 Dec 2021 07:55:37 -0800 (PST)
+Received: from orome ([193.209.96.43])
+ by smtp.gmail.com with ESMTPSA id n7sm2363354wro.68.2021.12.15.07.55.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Dec 2021 07:55:36 -0800 (PST)
+Date: Wed, 15 Dec 2021 16:55:32 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v16 00/40] NVIDIA Tegra power management patches for 5.17
+Message-ID: <YboP9IFMUrUnEzrU@orome>
+References: <20211130232347.950-1-digetx@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.1
-Subject: Re: [PATCH 2/2] drm/i915: clean up shrinker_release_pages
-Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20211215110746.865-1-matthew.auld@intel.com>
- <20211215110746.865-2-matthew.auld@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20211215110746.865-2-matthew.auld@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="HWWUr3zWZyjxMtnU"
+Content-Disposition: inline
+In-Reply-To: <20211130232347.950-1-digetx@gmail.com>
+User-Agent: Mutt/2.1.3 (987dde4c) (2021-09-10)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,166 +69,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Nishanth Menon <nm@ti.com>, linux-pwm@vger.kernel.org,
+ Ulf Hansson <ulf.hansson@linaro.org>, linux-clk@vger.kernel.org,
+ linux-pm@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ Viresh Kumar <vireshk@kernel.org>,
+ Peter De Schrijver <pdeschrijver@nvidia.com>, linux-mmc@vger.kernel.org,
+ Adrian Hunter <adrian.hunter@intel.com>, dri-devel@lists.freedesktop.org,
+ Mikko Perttunen <mperttunen@nvidia.com>, David Heidelberg <david@ixit.cz>,
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ linux-tegra@vger.kernel.org, Jonathan Hunter <jonathanh@nvidia.com>,
+ Lee Jones <lee.jones@linaro.org>, Michael Turquette <mturquette@baylibre.com>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 15/12/2021 11:07, Matthew Auld wrote:
-> Add some proper flags for the different modes, and shorten the name to
-> something more snappy.
+--HWWUr3zWZyjxMtnU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Looks good to me - but since it touches TTM I leave for Thomas to approve.
+On Wed, Dec 01, 2021 at 02:23:07AM +0300, Dmitry Osipenko wrote:
+> This series adds runtime PM support to Tegra drivers and enables core
+> voltage scaling for Tegra20/30 SoCs, resolving overheating troubles.
+>=20
+> All patches in this series are interdependent and should go via Tegra tree
+> for simplicity.
 
-Regards,
+So these can be applied in any order without breaking anything?
 
-Tvrtko
+Thierry
 
-P.S. I hope writing the patch means you thought it is an improvement as 
-well, rather than feeling I was asking for it to be done.
+--HWWUr3zWZyjxMtnU
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> ---
->   .../gpu/drm/i915/gem/i915_gem_object_types.h  | 23 ++++++++++++++++---
->   drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  8 +++----
->   drivers/gpu/drm/i915/gem/i915_gem_shrinker.c  | 16 +++++++++----
->   drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 10 ++++----
->   4 files changed, 39 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> index 00c844caeabd..6f446cca4322 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> @@ -57,9 +57,26 @@ struct drm_i915_gem_object_ops {
->   	void (*put_pages)(struct drm_i915_gem_object *obj,
->   			  struct sg_table *pages);
->   	int (*truncate)(struct drm_i915_gem_object *obj);
-> -	int (*shrinker_release_pages)(struct drm_i915_gem_object *obj,
-> -				      bool no_gpu_wait,
-> -				      bool should_writeback);
-> +	/**
-> +	 * shrink - Perform further backend specific actions to facilate
-> +	 * shrinking.
-> +	 * @obj: The gem object
-> +	 * @flags: Extra flags to control shrinking behaviour in the backend
-> +	 *
-> +	 * Possible values for @flags:
-> +	 *
-> +	 * I915_GEM_OBJECT_SHRINK_WRITEBACK - Try to perform writeback of the
-> +	 * backing pages, if supported.
-> +	 *
-> +	 * I915_GEM_OBJECT_SHRINK_NO_GPU_WAIT - Don't wait for the object to
-> +	 * idle.  Active objects can be considered later. The TTM backend for
-> +	 * example might have aync migrations going on, which don't use any
-> +	 * i915_vma to track the active GTT binding, and hence having an unbound
-> +	 * object might not be enough.
-> +	 */
-> +#define I915_GEM_OBJECT_SHRINK_WRITEBACK   BIT(0)
-> +#define I915_GEM_OBJECT_SHRINK_NO_GPU_WAIT BIT(1)
-> +	int (*shrink)(struct drm_i915_gem_object *obj, unsigned int flags);
->   
->   	int (*pread)(struct drm_i915_gem_object *obj,
->   		     const struct drm_i915_gem_pread *arg);
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> index 7fdf4fa10b0e..6c57b0a79c8a 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> @@ -331,9 +331,7 @@ shmem_writeback(struct drm_i915_gem_object *obj)
->   	__shmem_writeback(obj->base.size, obj->base.filp->f_mapping);
->   }
->   
-> -static int shmem_shrinker_release_pages(struct drm_i915_gem_object *obj,
-> -					bool no_gpu_wait,
-> -					bool writeback)
-> +static int shmem_shrink(struct drm_i915_gem_object *obj, unsigned int flags)
->   {
->   	switch (obj->mm.madv) {
->   	case I915_MADV_DONTNEED:
-> @@ -342,7 +340,7 @@ static int shmem_shrinker_release_pages(struct drm_i915_gem_object *obj,
->   		return 0;
->   	}
->   
-> -	if (writeback)
-> +	if (flags & I915_GEM_OBJECT_SHRINK_WRITEBACK)
->   		shmem_writeback(obj);
->   
->   	return 0;
-> @@ -520,7 +518,7 @@ const struct drm_i915_gem_object_ops i915_gem_shmem_ops = {
->   	.get_pages = shmem_get_pages,
->   	.put_pages = shmem_put_pages,
->   	.truncate = shmem_truncate,
-> -	.shrinker_release_pages = shmem_shrinker_release_pages,
-> +	.shrink = shmem_shrink,
->   
->   	.pwrite = shmem_pwrite,
->   	.pread = shmem_pread,
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-> index fd54e05521f6..968ca0fdd57b 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-> @@ -57,10 +57,18 @@ static bool unsafe_drop_pages(struct drm_i915_gem_object *obj,
->   
->   static int try_to_writeback(struct drm_i915_gem_object *obj, unsigned int flags)
->   {
-> -	if (obj->ops->shrinker_release_pages)
-> -		return obj->ops->shrinker_release_pages(obj,
-> -							!(flags & I915_SHRINK_ACTIVE),
-> -							flags & I915_SHRINK_WRITEBACK);
-> +	if (obj->ops->shrink) {
-> +		unsigned int shrink_flags = 0;
-> +
-> +		if (!(flags & I915_SHRINK_ACTIVE))
-> +			shrink_flags |= I915_GEM_OBJECT_SHRINK_NO_GPU_WAIT;
-> +
-> +		if (flags & I915_SHRINK_WRITEBACK)
-> +			shrink_flags |= I915_GEM_OBJECT_SHRINK_WRITEBACK;
-> +
-> +		return obj->ops->shrink(obj, shrink_flags);
-> +	}
-> +
->   	return 0;
->   }
->   
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> index 923cc7ad8d70..21277f3c64e7 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> @@ -424,16 +424,14 @@ int i915_ttm_purge(struct drm_i915_gem_object *obj)
->   	return 0;
->   }
->   
-> -static int i915_ttm_shrinker_release_pages(struct drm_i915_gem_object *obj,
-> -					   bool no_wait_gpu,
-> -					   bool should_writeback)
-> +static int i915_ttm_shrink(struct drm_i915_gem_object *obj, unsigned int flags)
->   {
->   	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
->   	struct i915_ttm_tt *i915_tt =
->   		container_of(bo->ttm, typeof(*i915_tt), ttm);
->   	struct ttm_operation_ctx ctx = {
->   		.interruptible = true,
-> -		.no_wait_gpu = no_wait_gpu,
-> +		.no_wait_gpu = flags & I915_GEM_OBJECT_SHRINK_NO_GPU_WAIT,
->   	};
->   	struct ttm_placement place = {};
->   	int ret;
-> @@ -467,7 +465,7 @@ static int i915_ttm_shrinker_release_pages(struct drm_i915_gem_object *obj,
->   		return ret;
->   	}
->   
-> -	if (should_writeback)
-> +	if (flags & I915_GEM_OBJECT_SHRINK_WRITEBACK)
->   		__shmem_writeback(obj->base.size, i915_tt->filp->f_mapping);
->   
->   	return 0;
-> @@ -953,7 +951,7 @@ static const struct drm_i915_gem_object_ops i915_gem_ttm_obj_ops = {
->   	.get_pages = i915_ttm_get_pages,
->   	.put_pages = i915_ttm_put_pages,
->   	.truncate = i915_ttm_purge,
-> -	.shrinker_release_pages = i915_ttm_shrinker_release_pages,
-> +	.shrink = i915_ttm_shrink,
->   
->   	.adjust_lru = i915_ttm_adjust_lru,
->   	.delayed_free = i915_ttm_delayed_free,
-> 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmG6D/QACgkQ3SOs138+
+s6HzZw//SGRlSbxYGcf2puc+SV4jxqHgVmBVp8biQjzJoeSIatV6B+8n7NAvS0x/
+qMBw7S5I7uFy8rqsIUHNQI929PW2XNbz2H8qid5UjtDVlUo5ir1qtVgvH8HYQruX
+l+PlVayuhBblIEemscYhMNeuyKgrAMeho9ZnnJjITvMVBKRGOxGp38RUgf+Tzrpc
+lF7KIxOcm9FoYTeLxAiVFKtI6Evkt+xJbEvqxkIpaNAzo/AvX6ognGeUQCg7USWu
+v2Km4gqjV0bvZUi+HlMPnYGAFpt3X9ws5NCR5ED4huHislttMacNlkfWGpHw/KkU
+/VJlYrSnlpJkppzOio+g91qdXXlTfXpa3g5ZHSOLqsNFOPFppN9PU9K2DhwFN3Ej
+mNIVbs8Oarq/bJdCftc6dX9saiL9AdKCD1MJO+XgsJuHtQ4FkJHnxMk/p8m9KH33
+HurZ3qmVir9YQh9kyE3MVT95o3gSR+M6hpPcSDiCf4g9XjwvEfJ+sDSg7B8lmM+0
+ZYOmkLu0iLKGOLOn/gBU9Z/Zw9Kw2iW2J/glHU4E5/GI2MNgs99GQPOwyFEq6AvQ
+B4V/SN10i1F0RzeuqsFacfr25c9UGwcXUDNxJqebib27ZRhcGkwu53tEBqYWXep9
+7MAMtQ8il969lajf/1tAlUVPR6AXLiuGcKgZZTEcDUReMvR4Dqk=
+=drq6
+-----END PGP SIGNATURE-----
+
+--HWWUr3zWZyjxMtnU--
