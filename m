@@ -1,65 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 624E7475B1E
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 15:56:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73D0C475B4C
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 16:03:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB11E10E6E4;
-	Wed, 15 Dec 2021 14:56:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E397210E2C4;
+	Wed, 15 Dec 2021 15:03:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B57B210E749
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 14:56:14 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 55EC1212C4;
- Wed, 15 Dec 2021 14:56:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1639580173; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=G+NmoIzkZuO4G0g6yPchBpuxaynpXkLFkBnRHBKa+Ok=;
- b=eSuAyy9/xg2ZgqlmtnkmRX5MFEb8SNZpEEuN1U4SGc3ojIzLfkwGkMFfjfNRueMeVDq3w2
- rb5Mu2h10LFiEStgAXVqAzFtzeSNfoo79xkQbettMGK4hRfA3hAdbd2H+ISYW74qZ80sVF
- hvJoxEnxLyb7C2Ih+IB6HHCs6Vi9wYg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1639580173;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=G+NmoIzkZuO4G0g6yPchBpuxaynpXkLFkBnRHBKa+Ok=;
- b=lKV2xYu5HGmUf01OXSQOQu2T2zMkhPVg8Xd5XmaVL7aZacDs5v5z6vgswr/vg+mGFvNfDu
- Kj+xG8OZDHIr59Cw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 231E814012;
- Wed, 15 Dec 2021 14:56:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id DmvSBg0CumGUdgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 15 Dec 2021 14:56:13 +0000
-Message-ID: <651a182b-8438-0162-3349-ef7b1c9188ae@suse.de>
-Date: Wed, 15 Dec 2021 15:56:12 +0100
+Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com
+ [IPv6:2607:f8b0:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B63B010E2C4
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 15:03:03 +0000 (UTC)
+Received: by mail-ot1-x336.google.com with SMTP id
+ 47-20020a9d0332000000b005798ac20d72so25213674otv.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 07:03:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=4LmpLmMQVYKC4yB/BA8hDER3dAOgirX22kQhvIxfc6k=;
+ b=DeOyJJKMU55uXVXAS0+BuCIcPj0j26M6TG4y672SEPwqlgmp1UVx1zRbX2BqBX7JkO
+ rkbKQ0b7GXklGShwNwpvEzY1Y7DXrAmZY/EUtVvQ6Q71NyWTdv77TbqYa9TJ3EATM6t0
+ TlGyVtWPVpkyXDQ9ww2qMnLg5EfOIZHhTZimg2qTkerwlf25wHzEsWl2N5Klr3O/uK8N
+ rxW0RExVHGZExcJd1mcp9tulB7nGgXXXr/03wt84yF/KqLUUxd2FIwWdA6vCQgcotAJg
+ Lpc8yCUlDY2tquOM4md8re6GXHab2SfASS2u16DIkx0Iur+3WiwHyTbDY7f5Xh07gCFO
+ y1XQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=4LmpLmMQVYKC4yB/BA8hDER3dAOgirX22kQhvIxfc6k=;
+ b=z382O3AoIENqSkZcMjRITK8HX2mtSs+7Kua3X8vlW5zT9zWnydEiQZYKNacc4xCMm3
+ xZ27uLFFi4tOIXe35o++6ORL9/uOP+y73D4r8/JDQPQIF+1h+TPwBURRKx1PUbCLDLkS
+ ynUVbxzgdhGebVu+prv0KggEZd3+zzhL1SBwykYOPrrlBHqne1rgEyut5hkfi1JPxprz
+ TjfDaMs66BaLTIMWwF/QOpXj9sBfxNBavWBsfPFZmuaPHjAztc0dLJh+NgrG1Yi2zIwE
+ JyOwBStjO54TASzRW9uAQ4lKU2PMjJqI2cu78/qNZgzY+2mig+FBIX6Ul4JVXOxfXNhK
+ s/Sg==
+X-Gm-Message-State: AOAM530J4uE2RJD2M5S+7RRd+NYghRfGpvIDkZzLDi2ERINi8HdBqyb/
+ gJlEbbIY8DujFdJgjhYUOzWJBUBd18HSyS3CWZZRvre8nTs=
+X-Google-Smtp-Source: ABdhPJyPeXxGFCtUrFhryeIE/cEECu0paw5oNL0wX3jX1W1iBxtrTpdCkDYUCr1opeCgLBoVOByK1UUQi8cSw6cCRkg=
+X-Received: by 2002:a9d:2aa3:: with SMTP id e32mr8908943otb.6.1639580582790;
+ Wed, 15 Dec 2021 07:03:02 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 15 Dec 2021 09:03:01 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH v4 1/3] drm/fourcc: Add packed 10bit YUV 4:2:0 format
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter
- <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-References: <20211215091739.135042-1-maxime@cerno.tech>
- <20211215091739.135042-2-maxime@cerno.tech>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20211215091739.135042-2-maxime@cerno.tech>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------v6HaPkdnQ97D3jPrO2Ebrn87"
+In-Reply-To: <20211213165422.54n3oh72tjcb3a67@houat>
+References: <20211110130623.20553-1-granquet@baylibre.com>
+ <20211110130623.20553-8-granquet@baylibre.com>
+ <20211115101129.lyxxmb6i7paaonwi@gilmour>
+ <CABnWg9tNPGZSi1RLqF5+Qs1GHtynyVoOzAyw+i9mPRYEoByk8g@mail.gmail.com>
+ <20211116145112.xyoxzfll6exysnvt@gilmour>
+ <CABnWg9uhuchdWyBeTacR6Cy0A9OHziUi051BQ5wsZVU0ajYjyA@mail.gmail.com>
+ <20211125143034.tzikvlxxl6fdhsif@gilmour>
+ <CABnWg9tcWdfPQwNtFhqVZxCriT848fy42VHoQZs3X2UmL4LYSA@mail.gmail.com>
+ <20211213165422.54n3oh72tjcb3a67@houat>
+From: Guillaume Ranquet <granquet@baylibre.com>
+User-Agent: alot/0.10
+Date: Wed, 15 Dec 2021 09:03:01 -0600
+Message-ID: <CABnWg9uyoK0TkRZRJXstmtB4u2-UUCi-x_frosKhhQerNmFT=A@mail.gmail.com>
+Subject: Re: [PATCH v6 7/7] drm/mediatek: Add mt8195 DisplayPort driver
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,113 +75,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Dom Cobley <dom@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Markus Schneider-Pargmann <msp@baylibre.com>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------v6HaPkdnQ97D3jPrO2Ebrn87
-Content-Type: multipart/mixed; boundary="------------T0PyqYAT1an9lONvyYTbHN87";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter
- <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dom Cobley <dom@raspberrypi.com>, dri-devel@lists.freedesktop.org
-Message-ID: <651a182b-8438-0162-3349-ef7b1c9188ae@suse.de>
-Subject: Re: [PATCH v4 1/3] drm/fourcc: Add packed 10bit YUV 4:2:0 format
-References: <20211215091739.135042-1-maxime@cerno.tech>
- <20211215091739.135042-2-maxime@cerno.tech>
-In-Reply-To: <20211215091739.135042-2-maxime@cerno.tech>
+Hi Maxime,
 
---------------T0PyqYAT1an9lONvyYTbHN87
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Quoting Maxime Ripard (2021-12-13 17:54:22)
+> On Thu, Dec 02, 2021 at 06:48:12AM -0800, Guillaume Ranquet wrote:
+> > Hi,
+> >
+> > Quoting Maxime Ripard (2021-11-25 15:30:34)
+> > > On Wed, Nov 24, 2021 at 01:45:21PM +0000, Guillaume Ranquet wrote:
+> > > > Hi,
+> > > > Thanks for all your input, really appreciated.
+> > > >
+> > > > Quoting Maxime Ripard (2021-11-16 15:51:12)
+> > > > > Hi,
+> > > > >
+> > > > > On Mon, Nov 15, 2021 at 09:33:52AM -0500, Guillaume Ranquet wrote:
+> > > > > > Quoting Maxime Ripard (2021-11-15 11:11:29)
+> > > > > > > > The driver creates a child device for the phy. The child device will
+> > > > > > > > never exist without the parent being active. As they are sharing a
+> > > > > > > > register range, the parent passes a regmap pointer to the child so that
+> > > > > > > > both can work with the same register range. The phy driver sets device
+> > > > > > > > data that is read by the parent to get the phy device that can be used
+> > > > > > > > to control the phy properties.
+> > > > > > >
+> > > > > > > If the PHY is in the same register space than the DP controller, why do
+> > > > > > > you need a separate PHY driver in the first place?
+> > > > > >
+> > > > > > This has been asked by Chun-Kuang Hu in a previous revision of the series:
+> > > > > >
+> > > > > > https://lore.kernel.org/linux-mediatek/CAAOTY_-+T-wRCH2yw2XSm=ZbaBbqBQ4EqpU2P0TF90gAWQeRsg@mail.gmail.com/
+> > > > >
+> > > > > It's a bit of a circular argument though :)
+> > > > >
+> > > > > It's a separate phy driver because it needs to go through another
+> > > > > maintainer's tree, but it needs to go through another maintainer's tree
+> > > > > because it's a separate phy driver.
+> > > > >
+> > > > > It doesn't explain why it needs to be a separate phy driver? Why can't
+> > > > > the phy setup be done directly in the DP driver, if it's essentially a
+> > > > > single device?
+> > > > >
+> > > > > That being said, usually what those kind of questions mean is that
+> > > > > you're missing a comment or something in the commit log to provide that
+> > > > > context in the first place, so it would be great to add that context
+> > > > > here.
+> > > > >
+> > > > > And it will avoid the situation we're now in where multiple reviewers
+> > > > > ask the same questions over and over again :)
+> > > > >
+> > > > At first I didn't understand your reply, then I realized I gave you
+> > > > the wrong link...
+> > > > my bad! I'm struggling a bit with mail reviews, but I'll get there eventually.
+> > > >
+> > > > The driver and phy were a single driver until v2 of this patch series
+> > > > and the phy setup
+> > > > was done directly in the driver (single driver, single C file).
+> > > > Here's the relevant link to the discussion between Chun-Kuang and Markus
+> > > >
+> > > > https://lore.kernel.org/linux-mediatek/CAAOTY__cJMqcAieEraJ2sz4gi0Zs-aiNXz38_x7dPQea6HvYEg@mail.gmail.com/#t
+> > > >
+> > > > I'll try to find a way to make it clearer for v7.
+> > >
+> > > OK, it makes sense then :)
+> > >
+> > > There's something weird though: the devices definitely look like they're
+> > > in a separate register range, yet you mention a regmap to handle the
+> > > shared register range. That range doesn't seem described anywhere in the
+> > > device tree though? What is it for?
+> >
+> > My understanding is that 0x1000 to 0x1fff controls the phy
+> > functionalities and 0x2000 to 0x4fff controls "non-phy"
+> > functionalities. And you are right, there's no description of that in
+> > the device tree whatsoever. The ranges are in the same actual device
+> > and thus it has been decided to not have dt-bindings for the phy
+> > device.
+>
+> Sure, that last part makes sense, but then I'm not sure why you don't
+> have the full register range in the device node you have in the DT?
+>
+> > The phy driver is a child of the DP driver that we register using
+> > platform_device_register_data() and we pass along the same regmap as
+> > the DP driver in its platform data.
+>
+> Especially if it's used by something, it should be described in the DT
+> somewhere.
+>
+> Maxime
 
-SGkNCg0KQW0gMTUuMTIuMjEgdW0gMTA6MTcgc2NocmllYiBNYXhpbWUgUmlwYXJkOg0KPiBG
-cm9tOiBEYXZlIFN0ZXZlbnNvbiA8ZGF2ZS5zdGV2ZW5zb25AcmFzcGJlcnJ5cGkuY29tPg0K
-PiANCj4gQWRkcyBhIGZvcm1hdCB0aGF0IGlzIDMgMTBiaXQgWVVWIDQ6MjowIHNhbXBsZXMg
-cGFja2VkIGludG8NCj4gYSAzMmJpdCB3b3JkICh3aXRoIDIgc3BhcmUgYml0cykuDQo+IA0K
-PiBTdXBwb3J0ZWQgb24gQnJvYWRjb20gQkNNMjcxMSBjaGlwcy4NCj4gDQo+IFNpZ25lZC1v
-ZmYtYnk6IERhdmUgU3RldmVuc29uIDxkYXZlLnN0ZXZlbnNvbkByYXNwYmVycnlwaS5jb20+
-DQo+IFNpZ25lZC1vZmYtYnk6IE1heGltZSBSaXBhcmQgPG1heGltZUBjZXJuby50ZWNoPg0K
-PiAtLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vZHJtX2ZvdXJjYy5jICB8ICAzICsrKw0KPiAg
-IGluY2x1ZGUvdWFwaS9kcm0vZHJtX2ZvdXJjYy5oIHwgMTEgKysrKysrKysrKysNCj4gICAy
-IGZpbGVzIGNoYW5nZWQsIDE0IGluc2VydGlvbnMoKykNCj4gDQo+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL2dwdS9kcm0vZHJtX2ZvdXJjYy5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9mb3Vy
-Y2MuYw0KPiBpbmRleCAyNTgzN2IxZDY2MzkuLjA3NzQxYjY3ODc5OCAxMDA2NDQNCj4gLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL2RybV9mb3VyY2MuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9k
-cm0vZHJtX2ZvdXJjYy5jDQo+IEBAIC0yNjksNiArMjY5LDkgQEAgY29uc3Qgc3RydWN0IGRy
-bV9mb3JtYXRfaW5mbyAqX19kcm1fZm9ybWF0X2luZm8odTMyIGZvcm1hdCkNCj4gICAJCSAg
-Lm51bV9wbGFuZXMgPSAzLCAuY2hhcl9wZXJfYmxvY2sgPSB7IDIsIDIsIDIgfSwNCj4gICAJ
-CSAgLmJsb2NrX3cgPSB7IDEsIDEsIDEgfSwgLmJsb2NrX2ggPSB7IDEsIDEsIDEgfSwgLmhz
-dWIgPSAwLA0KPiAgIAkJICAudnN1YiA9IDAsIC5pc195dXYgPSB0cnVlIH0sDQo+ICsJCXsg
-LmZvcm1hdCA9IERSTV9GT1JNQVRfUDAzMCwgICAgICAgICAgICAuZGVwdGggPSAwLCAgLm51
-bV9wbGFuZXMgPSAyLA0KPiArCQkgIC5jaGFyX3Blcl9ibG9jayA9IHsgNCwgOCwgMCB9LCAu
-YmxvY2tfdyA9IHsgMywgMywgMCB9LCAuYmxvY2tfaCA9IHsgMSwgMSwgMCB9LA0KPiArCQkg
-IC5oc3ViID0gMiwgLnZzdWIgPSAyLCAuaXNfeXV2ID0gdHJ1ZX0sDQo+ICAgCX07DQo+ICAg
-DQo+ICAgCXVuc2lnbmVkIGludCBpOw0KPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS91YXBpL2Ry
-bS9kcm1fZm91cmNjLmggYi9pbmNsdWRlL3VhcGkvZHJtL2RybV9mb3VyY2MuaA0KPiBpbmRl
-eCA3ZjY1MmM5Njg0NWIuLmZjMGMxNDU0ZDI3NSAxMDA2NDQNCj4gLS0tIGEvaW5jbHVkZS91
-YXBpL2RybS9kcm1fZm91cmNjLmgNCj4gKysrIGIvaW5jbHVkZS91YXBpL2RybS9kcm1fZm91
-cmNjLmgNCj4gQEAgLTMxNCw2ICszMTQsMTMgQEAgZXh0ZXJuICJDIiB7DQo+ICAgICovDQo+
-ICAgI2RlZmluZSBEUk1fRk9STUFUX1AwMTYJCWZvdXJjY19jb2RlKCdQJywgJzAnLCAnMScs
-ICc2JykgLyogMngyIHN1YnNhbXBsZWQgQ3I6Q2IgcGxhbmUgMTYgYml0cyBwZXIgY2hhbm5l
-bCAqLw0KPiAgIA0KPiArLyogMiBwbGFuZSBZQ2JDcjQyMC4NCj4gKyAqIDMgMTAgYml0IGNv
-bXBvbmVudHMgYW5kIDIgcGFkZGluZyBiaXRzIHBhY2tlZCBpbnRvIDQgYnl0ZXMuDQo+ICsg
-KiBpbmRleCAwID0gWSBwbGFuZSwgWzMxOjBdIHg6WTI6WTE6WTAgMjoxMDoxMDoxMCBsaXR0
-bGUgZW5kaWFuDQo+ICsgKiBpbmRleCAxID0gQ3I6Q2IgcGxhbmUsIFs2MzowXSB4OkNyMjpD
-YjI6Q3IxOng6Q2IxOkNyMDpDYjAgWzI6MTA6MTA6MTA6MjoxMDoxMDoxMF0gbGl0dGxlIGVu
-ZGlhbg0KPiArICovDQo+ICsjZGVmaW5lIERSTV9GT1JNQVRfUDAzMAkJZm91cmNjX2NvZGUo
-J1AnLCAnMCcsICczJywgJzAnKSAvKiAyeDIgc3Vic2FtcGxlZCBDcjpDYiBwbGFuZSAxMCBi
-aXRzIHBlciBjaGFubmVsIHBhY2tlZCAqLw0KPiArDQoNCkFja2VkLWJ5OiBUaG9tYXMgWmlt
-bWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCg0KQnV0IGhvdyBkbyB5b3Uga25vdyB3
-aGljaCBjaGFyYWN0ZXJzIHRvIHVzZSBmb3IgdGhlIDRjYyBjb2RlPyBJcyB0aGVyZSBhIA0K
-cmVnaXN0cnkgc29tZXdoZXJlPw0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+ICAgLyog
-MyBwbGFuZSBub24tc3Vic2FtcGxlZCAoNDQ0KSBZQ2JDcg0KPiAgICAqIDE2IGJpdHMgcGVy
-IGNvbXBvbmVudCwgYnV0IG9ubHkgMTAgYml0cyBhcmUgdXNlZCBhbmQgNiBiaXRzIGFyZSBw
-YWRkZWQNCj4gICAgKiBpbmRleCAwOiBZIHBsYW5lLCBbMTU6MF0gWTp4IFsxMDo2XSBsaXR0
-bGUgZW5kaWFuDQo+IEBAIC04NTQsNiArODYxLDEwIEBAIGRybV9mb3VyY2NfY2Fub25pY2Fs
-aXplX252aWRpYV9mb3JtYXRfbW9kKF9fdTY0IG1vZGlmaWVyKQ0KPiAgICAqIGFuZCBVVi4g
-IFNvbWUgU0FORC11c2luZyBoYXJkd2FyZSBzdG9yZXMgVVYgaW4gYSBzZXBhcmF0ZSB0aWxl
-ZA0KPiAgICAqIGltYWdlIGZyb20gWSB0byByZWR1Y2UgdGhlIGNvbHVtbiBoZWlnaHQsIHdo
-aWNoIGlzIG5vdCBzdXBwb3J0ZWQNCj4gICAgKiB3aXRoIHRoZXNlIG1vZGlmaWVycy4NCj4g
-KyAqDQo+ICsgKiBUaGUgRFJNX0ZPUk1BVF9NT0RfQlJPQURDT01fU0FORDEyOF9DT0xfSEVJ
-R0hUIG1vZGlmaWVyIGlzIGFsc28NCj4gKyAqIHN1cHBvcnRlZCBmb3IgRFJNX0ZPUk1BVF9Q
-MDMwIHdoZXJlIHRoZSBjb2x1bW5zIHJlbWFpbiBhcyAxMjggYnl0ZXMNCj4gKyAqIHdpZGUs
-IGJ1dCBhcyB0aGlzIGlzIGEgMTAgYnBwIGZvcm1hdCB0aGF0IHRyYW5zbGF0ZXMgdG8gOTYg
-cGl4ZWxzLg0KPiAgICAqLw0KPiAgIA0KPiAgICNkZWZpbmUgRFJNX0ZPUk1BVF9NT0RfQlJP
-QURDT01fU0FORDMyX0NPTF9IRUlHSFQodikgXA0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVy
-bWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlv
-bnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1h
-bnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8g
-VG90ZXYNCg==
 
---------------T0PyqYAT1an9lONvyYTbHN87--
+So, to make things crystal clear to a newbie (like me).
+Would you describe it like this:
+compatible = "mediatek,mt8195-dp-tx";
+reg = <0 0x1c501000 0 0x0fff>,
+	<0 0x1c502000 0 0x2fff>;
 
---------------v6HaPkdnQ97D3jPrO2Ebrn87
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+instead of the current description:
+compatible = "mediatek,mt8195-dp-tx";
+reg = <0 0x1c500000 0 0x8000>;
 
------BEGIN PGP SIGNATURE-----
+I haven't checked what the rest of the 0x8000 range is used for though...
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmG6AgwFAwAAAAAACgkQlh/E3EQov+Am
-zA/+II2Ypxh4xk5GAPbAQp42LRRmIml8PfN2p+IiimMdu4zAo50u3uoEHxqq9MMxC4Zby5vW8JPT
-w7sbcOebzhARjstClDpfnHRLCclrYugagMOAjKcN4+ivaqHcN+8B5sFrH11Lgf9rSvMmmLViJeHl
-k8tpLVfikBOBnDxMjxdnaLw7/D5xd8KbalUFFawspE00ied1/Th3jxYj48I863l9nqdM5IaYBDH0
-7rXUjXWz6kMmd58goRvza/myAk36KhvcQoV0vhbTMATVoC8ST4vGH8jQukFNBKwBMkimgG6M9jiM
-Qih3iPmCUhEss+qVxVxJbKgXrG8Tizvl1yHc2XDpMSZ7f4PupkgNw+M3hSxq81J9TTvO5szkUwFs
-baeiRtucyr7g3fpa3+nw71klfiVRS3kTe4KVkUk2grnBaeUvRxHFZKMuH0CToA1HrioCvtu/fWWl
-YpFaJ6jPVWfKvDUMtMY67c6f+JLEkNmK2jAds6v1Tb7ZGDx4ywCqpIkjl4cyKNr3kqU2RbB7diRN
-rn+Dum3zy28LKqcVdCKBO+y1sBFd6iYVHthNFf2F8ReFB59IZ3tqS3iHiFpnMduMFY19aibS2cv0
-6QBh1O4VOymst0ChuVSofihen2LVTWmOPBoT6RZmidE5XQNeH3Ty2EUpUGHY01UWRj8P1JwxugdQ
-8hI=
-=mRXJ
------END PGP SIGNATURE-----
-
---------------v6HaPkdnQ97D3jPrO2Ebrn87--
+Thx,
+Guillaume.
