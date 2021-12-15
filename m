@@ -1,112 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E58B475850
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 13:01:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EB6F475904
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 13:44:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD37C10E8C2;
-	Wed, 15 Dec 2021 12:01:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6126F10EC80;
+	Wed, 15 Dec 2021 12:44:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6D7010E8C2
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 12:01:24 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20211215120122euoutp02fc36a18471e6712d69f91c4024f3dc6b~A6-CVloSS0749807498euoutp02Q
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 12:01:22 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20211215120122euoutp02fc36a18471e6712d69f91c4024f3dc6b~A6-CVloSS0749807498euoutp02Q
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1639569682;
- bh=fSZi4PhN1JaRJvewgX6y1hkPsgS+QPS0Et/bHDoJFVA=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=LDl09+KkGWFhTObOmrfeOTvq2JEw1NvLogBqAdFA7vbD/9PZZZGlFYfJNZu6O6L7l
- /yMa1A899+KYKnC2VKTeiUrv6Vd/c9GE+NCufnAgK9phcIOR2Hs8N5iSxjfQGseofP
- KNvq0ga67FlMjhrIn1ckqcusOvSktOffAGUvA3J8=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20211215120122eucas1p24694db815375f5f16b04d1a4452d3384~A6-B2u_tu1594515945eucas1p2I;
- Wed, 15 Dec 2021 12:01:22 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id C3.7E.09887.219D9B16; Wed, 15
- Dec 2021 12:01:22 +0000 (GMT)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20211215120121eucas1p296d3a792bafc5ea423e364beb7bac963~A6-BWCNZT1215212152eucas1p23;
- Wed, 15 Dec 2021 12:01:21 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20211215120121eusmtrp28d8fc0767e59af83d4aea0cafe96730b~A6-BVAhXZ2310623106eusmtrp2f;
- Wed, 15 Dec 2021 12:01:21 +0000 (GMT)
-X-AuditID: cbfec7f4-471ff7000000269f-42-61b9d912c4dd
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id A7.CD.09404.119D9B16; Wed, 15
- Dec 2021 12:01:21 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20211215120120eusmtip2bf17433382c34b69edb261d4648fc27d~A6-AXAK0U1275212752eusmtip2A;
- Wed, 15 Dec 2021 12:01:20 +0000 (GMT)
-Message-ID: <39f646d7-9d49-045a-2cf5-3cdc12486cb3@samsung.com>
-Date: Wed, 15 Dec 2021 13:01:20 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
- Gecko/20100101 Thunderbird/91.4.0
-Subject: Re: [PATCH v4 0/6] drm: exynos: dsi: Convert drm bridge
-Content-Language: en-US
-To: Jagan Teki <jagan@amarulasolutions.com>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <narmstrong@baylibre.com>, Robert
- Foss <robert.foss@linaro.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Sam Ravnborg <sam@ravnborg.org>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>, Inki Dae
- <inki.dae@samsung.com>
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20211215101534.45003-1-jagan@amarulasolutions.com>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrDKsWRmVeSWpSXmKPExsWy7djP87pCN3cmGqx6qWFxf/FnFosrX9+z
- WUy6P4HF4sumCWwWnROXsFssn7CPzeJUYyuLxaG+aItPsx4yW6z4uZXRgctj7cf7rB7vb7Sy
- e8zumMnqsXjPSyaPO9f2sHnc7z7O5LFk2lU2j74tqxgDOKK4bFJSczLLUov07RK4Mq7M6WQp
- +MtRsfrAHuYGxlb2LkZODgkBE4mzG7aydTFycQgJrGCUOPlkJytIQkjgC6PEojXZEInPjBLb
- rm1jgulY//g0E0RiOaPEhEMnoNo/AlV9eQ82l1fATmLn1bssXYwcHCwCqhLTe1UgwoISJ2c+
- YQGxRQWSJFo7/oANFRZwkGjo+Ay2mVlAXOLWk/lgC0QEHjFJPP3zHyrhLvH0zTZmEJtNwFCi
- 620XG4jNCdR8c/MRFogaeYntb+cwgzRLCHRzSvx/s4YV4mwXiR87LkHZwhKvjm+BBoCMxP+d
- ENskBJoZJR6eW8sO4fQwSlxumsEIUWUtcefcLzaQd5gFNCXW79KHCDtKvD91mhEkLCHAJ3Hj
- rSDEEXwSk7ZNZ4YI80p0tAlBVKtJzDq+Dm7twQuXmCcwKs1CCpdZSP6fheSdWQh7FzCyrGIU
- Ty0tzk1PLTbKSy3XK07MLS7NS9dLzs/dxAhMYKf/Hf+yg3H5q496hxiZOBgPMUpwMCuJ8C41
- 2JkoxJuSWFmVWpQfX1Sak1p8iFGag0VJnDc5c0OikEB6YklqdmpqQWoRTJaJg1OqgWm2qfHV
- VLfWdI0JhZv3XKr+GrHfoTvpXc3Lp/8d2a/Upxk/7m7ZF/xj3eP/PevbJ+/k2e5SeehXfd7m
- kCVaByoPrqmZ8cav55Grx1fTHUdVtiuuOC3PMKEr4VzKMaVU829Gp2PXHD2z+7sx42zr2ddL
- co8HVUz2TexcFeqh8rwuffvk8/4ik/VMUld57Tp4LqnE5djOi1+Tc+8tWb/k4TrW88mHOIpS
- uju3POU1Ml7mpHHyydSNjiovHaYvkeq6dudDWHKq3hwz64pQXZejHiozbbgifx/3uJGTfZr5
- r1+s1rmg/u96Ldd2Tg2fd8N74//mUyw62r/qT1y5HF9QrcjQpbV3gk5w7osMj++zksqUWIoz
- Eg21mIuKEwFTLizrzwMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrPIsWRmVeSWpSXmKPExsVy+t/xe7qCN3cmGny4YWFxf/FnFosrX9+z
- WUy6P4HF4sumCWwWnROXsFssn7CPzeJUYyuLxaG+aItPsx4yW6z4uZXRgctj7cf7rB7vb7Sy
- e8zumMnqsXjPSyaPO9f2sHnc7z7O5LFk2lU2j74tqxgDOKL0bIryS0tSFTLyi0tslaINLYz0
- DC0t9IxMLPUMjc1jrYxMlfTtbFJSczLLUov07RL0Mq7M6WQp+MtRsfrAHuYGxlb2LkZODgkB
- E4n1j08zdTFycQgJLGWU2HvsHzNEQkbi5LQGVghbWOLPtS42iKL3jBJ3TjwF6+YVsJPYefUu
- SxcjBweLgKrE9F4ViLCgxMmZT1hAbFGBJInd67aygdjCAg4SDR2fwWYyC4hL3HoyH2yxiMAz
- Jomjm9ZCJdwlnr7ZxgyxbDKjxP1bnYwgCTYBQ4mut11gkziBJt3cfIQFosFMomtrFyOELS+x
- /e0c5gmMQrOQHDILycJZSFpmIWlZwMiyilEktbQ4Nz232EivODG3uDQvXS85P3cTIzBmtx37
- uWUH48pXH/UOMTJxMB5ilOBgVhLhXWqwM1GINyWxsiq1KD++qDQntfgQoykwMCYyS4km5wOT
- Rl5JvKGZgamhiZmlgamlmbGSOK9nQUeikEB6YklqdmpqQWoRTB8TB6dUA9PMS7Fei5I3yeep
- W3GW2T3S+FPCn81Z5+5zbtLbjUrubKzHTF7P3X7cy2nbi3WJwhnbPglWS99+UrlZNfWd5KSF
- bQ4fl8/kXbt9bXX/nPADIlVXb/AIrGXSUny2nFXe+XfdA8HfrMZrXt8PSl386MDzc2dqX1a7
- 7Pr79p3hm92fIrrvzjKUldl+uuzQvu5/m9l2LG957967aG/ihqq1Zj82Mt68KX1kNoNFz+WP
- Rzb8ODPljt3GRczenLNmzNMTv7vmw4EJU1bkbyk2fZz46cCNX6suc62d4zZvbk577xdhrWn9
- 7Kmzy4Qm7GXt3pzQZP3ffZ61x603Wn48R15GeWloPwi4yTb7otIxdQ+RisQn95VYijMSDbWY
- i4oTARI9ck1iAwAA
-X-CMS-MailID: 20211215120121eucas1p296d3a792bafc5ea423e364beb7bac963
-X-Msg-Generator: CA
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
+ [64.147.123.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E87C10EC7F
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 12:44:15 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.west.internal (Postfix) with ESMTP id 56AA62B00252;
+ Wed, 15 Dec 2021 07:44:11 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Wed, 15 Dec 2021 07:44:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm1; bh=2338BSmEzy1xJRNZewyEw1F9F7
+ suTu/Nz2WV9iW8UXs=; b=JOx6xnD44ku0qKWHk99350GH2yCkyMiD3fg38roFCq
+ x9FtdJIc8uVe+hdY5BQLlaQWNrnNSxl9FWlsjObbiBrXoexckseWo9GQsZl+Vang
+ bLQhRPfbNrZJ2qr6AKRUP4uzt7jFG187kLSV2Wxc9jmZfguU7Dtyvib4sDEZWnEr
+ 650yRth/1tk7V6mANZo712VOoWgyGKauDEgR+NpUzXQbFaJEmythMS9DHz3r1tEh
+ QoXByBc3kdowoUTtzvh2V4rQUq0AtC6yKUQw+tRXy26R9ACVIizWwhUBqCVmJ1LB
+ cQKGxevvF815WdKv/Ro5gJ+JQffP49W/4AKGu3Ts5Vkw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=2338BS
+ mEzy1xJRNZewyEw1F9F7suTu/Nz2WV9iW8UXs=; b=cM/mxOTYfFXqeFnBzod1wC
+ KNgjjBr/tuLa2q5nhmxESrZqeeXEZRC2vBzhwnyGFNNweDRGs5YnZpk4Geqe0U9+
+ A9/dphc/Oba1SHiWcBkNmc1hu4xtg4mqxURtx6Nc4SjeFGEH6gntdouLmlfe44Ca
+ 4gsW7ms3P0bpsQx8D9Df/FdqUzLjLY46pGMbkP8KIy6AmoCcJU3UHKlWeSMiatAX
+ YI8Wy+T3U9FE74wpoZn12FdY/IcBP0dy20AMZMPJtUbfl6fHUpNCVDQFfzuc/bDV
+ taRhnfThqkEhS7awIqUifGJyqZBREvYVCCCBQiNJaCiwNW5fn+uGq+6okCnTRfVw
+ ==
+X-ME-Sender: <xms:GeO5YWjfMQRZ-RjZQsUx8Oyj6BMaZAFtgCOu7rVSVojHPm-w9yOMXw>
+ <xme:GeO5YXCryQNog6KSUeGN4OzL3mV_u3zGDwA_O8zQ90b3e0IP3G0l1QM9SI6lmOXoy
+ RDPXiY4tWOrN4jAM5M>
+X-ME-Received: <xmr:GeO5YeH2hO_kaO03_zDLNkR9Os8Sq9zbcg1xLtmka0oQ5nFI55inYzoLEONr2J5_yfpjR9BEktR2NCSOOmGzje-b09004C3pLmpqXyY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrledvgdeghecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpeforgigihhmvgcu
+ tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
+ hrnhepteetledtudejhffftdeugfduffelleelheejgeegffduvddvgfdvhffhlefgteff
+ necuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:GeO5YfSvumvQu8TgvOPJnzh3gScRD6ZJ2RgKcIRIb6o7zT1mmpA7Ug>
+ <xmx:GeO5YTznxaEkuSqpPXG9xRr1nKoV5Ll4H69mexJ7MNhcFUG4wJdIyg>
+ <xmx:GeO5Yd74OWPtvEWsJuUiJxbYpqF4ELAIRH9SsArcm4Nu9sxOcEMDpA>
+ <xmx:GuO5YYrApHaJ95aXkRIHUNSygaHe-BrnaiYx-KQ1YPtlXiXGK5KRaCjnt1I>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 15 Dec 2021 07:44:09 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
+Subject: [PATCH v2 00/14] drm/vc4: hdmi: Yet Another Approach to HDMI YUV
+ output
+Date: Wed, 15 Dec 2021 13:43:52 +0100
+Message-Id: <20211215124406.340180-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.33.1
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20211215101548eucas1p2a7f4a64ae55364181eec3db3ad5d6ef7
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20211215101548eucas1p2a7f4a64ae55364181eec3db3ad5d6ef7
-References: <CGME20211215101548eucas1p2a7f4a64ae55364181eec3db3ad5d6ef7@eucas1p2.samsung.com>
- <20211215101534.45003-1-jagan@amarulasolutions.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,47 +80,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-amarula@amarulasolutions.com, dri-devel@lists.freedesktop.org
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, Werner Sembach <wse@tuxedocomputers.com>,
+ Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jagan,
-
-On 15.12.2021 11:15, Jagan Teki wrote:
-> Updated series about drm bridge conversion of exynos dsi.
-> Previous version can be accessible, here [1].
->
-> Patch 1: connector reset
->
-> Patch 2: panel_bridge API
->
-> Patch 3: Bridge conversion
->
-> Patch 4: Atomic functions
->
-> Patch 5: atomic_set
->
-> Patch 6: DSI init in enable
-
-There is a little progress! :)
-
-Devices with a simple display pipeline (only a DSI panel, like 
-Trats/Trats2) works till the last patch. Then, after applying ("[PATCH 
-v4 6/6] drm: exynos: dsi: Move DSI init in bridge enable"), I get no 
-display at all.
-
-A TM2e board with in-bridge (Exynos MIC) stops displaying anything after 
-applying patch "[PATCH v4 2/6] drm: exynos: dsi: Use drm panel_bridge API".
-
-In case of the Arndale board with tc358764 bridge, no much progress. The 
-display is broken just after applying the "[PATCH v2] drm: bridge: 
-tc358764: Use drm panel_bridge API" patch on top of linux-next.
-
-In all cases the I had "drm: of: Lookup if child node has panel or 
-bridge" patch applied.
-
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
-
+Hi,=0D
+=0D
+This is another attempt at supporting the HDMI YUV output in the vc4 HDMI=0D
+driver.=0D
+=0D
+This is a follow-up of=0D
+https://lore.kernel.org/dri-devel/20210317154352.732095-1-maxime@cerno.tech=
+/=0D
+=0D
+And the discussions that occured recently on the mailing lists and IRC abou=
+t=0D
+this.=0D
+=0D
+The series mentioned above had multiple issues, the main one being that it =
+was=0D
+a bit too much complicated for what we wanted to achieve. This series is ta=
+king=0D
+a much simpler approach with an ad-hoc solution.=0D
+=0D
+I think some parts of it could still be moved to KMS helpers (notably, the=
+=0D
+output format enum, and the helper to set the infoframe for it) and structu=
+res=0D
+(the output format stored in drm_connector_state). This would also interact=
+=0D
+nicely with the work done here:=0D
+=0D
+https://lore.kernel.org/dri-devel/20211118103814.524670-1-maxime@cerno.tech=
+/=0D
+=0D
+This can come as a second step though.=0D
+=0D
+The other issues with the first attempt was that nothing was reported to=0D
+userspace about the decision we made about the format, and that this decisi=
+on=0D
+was essentially policy, without any way for the userspace to influence it.=
+=0D
+=0D
+Those two points however are being worked on by Werner in a cross-driver=0D
+effort:=0D
+=0D
+https://lore.kernel.org/dri-devel/e452775c-5b95-bbfd-e818-f1480f556336@tuxe=
+docomputers.com/=0D
+=0D
+Since it's a KMS decision, I don't think we should hold off any driver as l=
+ong=0D
+as it's consistent with what the other drivers are doing.=0D
+=0D
+Let me know what you think,=0D
+Maxime=0D
+=0D
+---=0D
+=0D
+Changes from v1:=0D
+  - Fixed an EDID parsing error for YUV422=0D
+  - Fixed the scrambling setup when using a bpc > 8=0D
+  - Added some logging=0D
+  - Fixed some build-bot warnings=0D
+  - Fixed a number of HDMI specifications and EDID issues=0D
+  - Try to max out the bpc every time=0D
+=0D
+Maxime Ripard (14):=0D
+  drm/edid: Don't clear YUV422 if using deep color=0D
+  drm/edid: Rename drm_hdmi_avi_infoframe_colorspace to _colorimetry=0D
+  drm/vc4: hdmi: Add full range RGB helper=0D
+  drm/vc4: hdmi: Use full range helper in csc functions=0D
+  drm/vc4: hdmi: Move XBAR setup to csc_setup=0D
+  drm/vc4: hdmi: Replace CSC_CTL hardcoded value by defines=0D
+  drm/vc4: hdmi: Define colorspace matrices=0D
+  drm/vc4: hdmi: Change CSC callback prototype=0D
+  drm/vc4: hdmi: Move clock validation to its own function=0D
+  drm/vc4: hdmi: Move clock calculation into its own function=0D
+  drm/vc4: hdmi: Take the sink maximum TMDS clock into account=0D
+  drm/vc4: hdmi: Take bpp into account for the scrambler=0D
+  drm/vc4: hdmi: Always try to have the highest bpc=0D
+  drm/vc4: hdmi: Support HDMI YUV output=0D
+=0D
+ drivers/gpu/drm/drm_edid.c                  |  13 +-=0D
+ drivers/gpu/drm/i915/display/intel_hdmi.c   |   2 +-=0D
+ drivers/gpu/drm/i915/display/intel_lspcon.c |   2 +-=0D
+ drivers/gpu/drm/vc4/vc4_hdmi.c              | 519 ++++++++++++++++----=0D
+ drivers/gpu/drm/vc4/vc4_hdmi.h              |  26 +-=0D
+ drivers/gpu/drm/vc4/vc4_hdmi_regs.h         |   6 +=0D
+ drivers/gpu/drm/vc4/vc4_regs.h              |  19 +=0D
+ include/drm/drm_edid.h                      |   4 +-=0D
+ 8 files changed, 495 insertions(+), 96 deletions(-)=0D
+=0D
+-- =0D
+2.33.1=0D
+=0D
