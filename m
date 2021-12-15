@@ -1,56 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 834354760DB
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 19:37:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEA414760E8
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 19:42:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB83310E6AA;
-	Wed, 15 Dec 2021 18:37:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5114610F59F;
+	Wed, 15 Dec 2021 18:42:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
- [209.85.210.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 633DF10E6AA
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 18:37:32 +0000 (UTC)
-Received: by mail-ot1-f54.google.com with SMTP id
- u18-20020a9d7212000000b00560cb1dc10bso25968559otj.11
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 10:37:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=1SeB84S69bpsa1PObCsguFCuIUK1jo7w+NpM6xYNgYQ=;
- b=NUeWy1TXD+/ffUSwWxok2cNgJ49y8rahmqPrG5S3AmAsKT9gKWatLBgMzkTIxkp0K4
- mrlkVj0uxO2DA+H7jn9yScBaLwTY/I6tw8HpU27BDiQ8LC01dSEzKRWRDIUAc2dELgxq
- TNcQBryORHIMsMfplYjeWB7kak7VYh3RvUZchi8XdBW0sP1Jn8mosi6eqadcFuL7g2QT
- ZJaSDwZo+V5XwYPkw3R+UgPWIv5ng9HnSR4armbiSFzUoHLyi1tJrRbuNJ8NJ4seUplW
- ZfH6rixpmnQTO7BCRPjyTMogDr26ywZK1rjr2TuL9OjLyxVufN+XYG70djv/3rshC+Gb
- zE9A==
-X-Gm-Message-State: AOAM5332MtdRw52ZUKCFfrT7x1ej47har+TU6NtSP52DYWY15IbHeHRg
- OnRtkaJ7iCXw6Z6itaHO5w==
-X-Google-Smtp-Source: ABdhPJwjTsE+G4GlNjpU1uHHk79mPFLVzI/DID9ltvFzWeKtA+cshnlVlgrxc/OfhJkOkys0N0IFIw==
-X-Received: by 2002:a05:6830:1ddd:: with SMTP id
- a29mr9883407otj.311.1639593451526; 
- Wed, 15 Dec 2021 10:37:31 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id b22sm474096oib.41.2021.12.15.10.37.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Dec 2021 10:37:30 -0800 (PST)
-Received: (nullmailer pid 1614869 invoked by uid 1000);
- Wed, 15 Dec 2021 18:37:29 -0000
-Date: Wed, 15 Dec 2021 12:37:29 -0600
-From: Rob Herring <robh@kernel.org>
-To: Akhil R <akhilrajeev@nvidia.com>
-Subject: Re: [PATCH 1/2] dt-bindings: i2c: tegra: Add SMBus feature properties
-Message-ID: <Ybo16aNZ5MBW6XY6@robh.at.kernel.org>
-References: <1639062321-18840-1-git-send-email-akhilrajeev@nvidia.com>
- <1639062321-18840-2-git-send-email-akhilrajeev@nvidia.com>
+Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B0DE10F57C
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 18:42:05 +0000 (UTC)
+Received: from vertex.localdomain (pool-108-36-85-85.phlapa.fios.verizon.net
+ [108.36.85.85]) (Authenticated sender: zack)
+ by letterbox.kde.org (Postfix) with ESMTPSA id A24DF29F678;
+ Wed, 15 Dec 2021 18:42:02 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
+ t=1639593723; bh=Ex+oonjAkjRO7BKVGJMQUCsWy0qFs8GiqewS6bGPD2Y=;
+ h=From:To:Cc:Subject:Date:From;
+ b=HW7+rZJ8Yn8neZfbT6oa2wFMC8JM37bBbHy8H0E4YNcol4hBsmHpPe07NUR21MyX4
+ qGAbowFhyB9A3uadsad5TxwnwPQBgMBXP/r7vGI7CVjHjBrwO4/QTX4FaOSmB17BWa
+ JwSOsxAJ6RWxoyHoO9TjOnAb1N9HpN02MlofU1gPIMOPH2N+yEVU+YFGLp4+3nA7q9
+ eogEAbl5zTWjAEeHqvT1x6DWofYLnaS6Ij2Ezvi2XbWanKon1EVLw8Kle/5q5Y9pIk
+ eJiI56la7VhkoWekMEJJBAEc0++ex5PsvD4NrxY5mZkJENhIyF/iXwCyXUAaLeLBRD
+ GdgxA4GjsZGzQ==
+From: Zack Rusin <zack@kde.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/3] drm/vmwgfx: Fix a size_t/long int format specifier
+ mismatch
+Date: Wed, 15 Dec 2021 13:41:45 -0500
+Message-Id: <20211215184147.3688785-1-zack@kde.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1639062321-18840-2-git-send-email-akhilrajeev@nvidia.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,44 +46,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, jonathanh@nvidia.com,
- linaro-mm-sig@lists.linaro.org, andy.shevchenko@gmail.com,
- ldewangan@nvidia.com, thierry.reding@gmail.com, linux-i2c@vger.kernel.org,
- linux-tegra@vger.kernel.org, digetx@gmail.com, christian.koenig@amd.com,
- linux-media@vger.kernel.org
+Reply-To: Zack Rusin <zackr@vmware.com>
+Cc: krastevm@vmware.com, mombasawalam@vmware.com,
+ kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 09, 2021 at 08:35:20PM +0530, Akhil R wrote:
-> Tegra I2C can use a gpio as an smbus-alert. Document the usage of
-> the same.
-> 
-> Signed-off-by: Akhil R <akhilrajeev@nvidia.com>
-> ---
->  Documentation/devicetree/bindings/i2c/nvidia,tegra20-i2c.txt | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/i2c/nvidia,tegra20-i2c.txt b/Documentation/devicetree/bindings/i2c/nvidia,tegra20-i2c.txt
-> index 3f2f990..71ee79b 100644
-> --- a/Documentation/devicetree/bindings/i2c/nvidia,tegra20-i2c.txt
-> +++ b/Documentation/devicetree/bindings/i2c/nvidia,tegra20-i2c.txt
-> @@ -70,6 +70,10 @@ Required properties:
->    - rx
->    - tx
->  
-> +optional properties:
-> +- smbalert-gpio: Must contain an entry for the gpio to be used as smbus alert.
-> +  It will be used only if optional smbus-alert property is present.
+From: Zack Rusin <zackr@vmware.com>
 
-There's already a standard way to do this with interrupts. And GPIOs can 
-be interrupts usually.
+On i386 size_t is of course 32bits and using long int throws warnings,
+trivially fix it by using the dedicated size_t format.
 
-> +
->  Example:
->  
->  	i2c@7000c000 {
-> -- 
-> 2.7.4
-> 
-> 
+This is enough to fix the following warning found by the kernel test
+robot:
+   drivers/gpu/drm/vmwgfx/vmwgfx_gem.c: In function 'vmw_bo_print_info':
+>> drivers/gpu/drm/vmwgfx/vmwgfx_gem.c:230:33: warning: format '%ld'
+expects argument of type 'long int', but argument 4 has type 'size_t'
+{aka 'unsigned int'} [-Wformat=]
+     230 |  seq_printf(m, "\t\t0x%08x: %12ld bytes %s, type = %s",
+         |                             ~~~~^
+         |                                 |
+         |                                 long int
+         |                             %12d
+     231 |      id, bo->base.base.size, placement, type);
+         |          ~~~~~~~~~~~~~~~~~~
+         |                       |
+
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Zack Rusin <zackr@vmware.com>
+Fixes: 8afa13a0583f ("drm/vmwgfx: Implement DRIVER_GEM")
+Reviewed-by: Martin Krastev <krastevm@vmware.com>
+Reviewed-by: Maaz Mombasawala <mombasawalam@vmware.com>
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_gem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+index c016c434b6cb..ce609e7d758f 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+@@ -227,7 +227,7 @@ static void vmw_bo_print_info(int id, struct vmw_buffer_object *bo, struct seq_f
+ 		break;
+ 	}
+ 
+-	seq_printf(m, "\t\t0x%08x: %12ld bytes %s, type = %s",
++	seq_printf(m, "\t\t0x%08x: %12zu bytes %s, type = %s",
+ 		   id, bo->base.base.size, placement, type);
+ 	seq_printf(m, ", priority = %u, pin_count = %u, GEM refs = %d, TTM refs = %d",
+ 		   bo->base.priority,
+-- 
+2.32.0
+
