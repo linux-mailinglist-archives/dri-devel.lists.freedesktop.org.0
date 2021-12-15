@@ -2,62 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F21764765AF
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 23:27:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A92647659F
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 23:27:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D0BC10F9DF;
-	Wed, 15 Dec 2021 22:27:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD70D10F9DC;
+	Wed, 15 Dec 2021 22:27:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
- [IPv6:2607:f8b0:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2442110F9DF
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 22:27:55 +0000 (UTC)
-Received: by mail-oi1-x230.google.com with SMTP id t19so33749348oij.1
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 14:27:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=0k/4WghU8oFurHJHEHSouu6Us6eVLuVOzOhdp+JcH0k=;
- b=NeDhHnDzQKmHQdukLfPb57fcY9sRvEeshRGWjl6VbHYN/VNd2WIdiGucN3VyQHfHyi
- ODX0tPBTzdHUhS/K/UFskuk3zbVPplOGuu1x/3hM6Od2OgzHrir6KktuGRDLF4LOX+Vz
- smHiXw5l4g/gYIGX3S+KGZWonIZx7TDqmoQI+DekZRsEy3SrNmlSXlyCCG5uZAu0Yfzf
- LJrhT5CgejLIjStw/okC2VQgzpIsD4mkhq6Jnn8j/tcQRpqfLEkVXuhlhZMr5QdglWyz
- S7wASV77km5m+lI0oQ4m2DMor4fr4TyP/uoOVeJECDFrpy5pBzEl3XpiE4O2sXMtjjSt
- YvUA==
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com
+ [209.85.161.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D349410F9DC
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 22:27:33 +0000 (UTC)
+Received: by mail-oo1-f43.google.com with SMTP id
+ r18-20020a4a7252000000b002c5f52d1834so6368785ooe.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 14:27:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=0k/4WghU8oFurHJHEHSouu6Us6eVLuVOzOhdp+JcH0k=;
- b=ZanPu79/1WAD+5xq/lfOy6BQlgbWsweGlmccP/oyovmxQwsxm4bGqXptRPiZ3FKHwh
- ad+N8SWe5BQobiyR4ojjypszfk4BkwnacY85j/CYPSL+BKv+Z8WDwMQSGar+mFayEjuQ
- yzFAACdCefHo4im1RjCi1+tjACZEzWmAwhB2zS1FILPxeW4eQugxdCaLDGBKA3Kn1wBC
- yuIhwscOM3AKULhGaFNTCEO8xH37/OLdOzdwygd6BPyKPz8e/CtBMQx09KnFrCH+KfEM
- DhAdWxw9Z1puSMP660m43oW7cTROdGimGTsieX9ZA0kzgvefuSP+9BbKNc4AUGsZQUzU
- S7ug==
-X-Gm-Message-State: AOAM532yHEgszfQxFfLl5L5vlZRAg+8aKfSZ6jf0Ir/G+PoVeiXfRS7n
- Wk2/DvjBZfUOpEoG82lQoTL0fAOfWGvhBw==
-X-Google-Smtp-Source: ABdhPJyiZGSg7nl3iPZNacNkzzIriIsA8K+pbTW1R7BSm60R5ayfzMXsdIZwV+OW92zh2rfswPUntA==
-X-Received: by 2002:aca:1202:: with SMTP id 2mr1806801ois.63.1639607274378;
- Wed, 15 Dec 2021 14:27:54 -0800 (PST)
-Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
- [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id t14sm700500oth.81.2021.12.15.14.27.53
+ h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+ :message-id;
+ bh=khz6XuxeDKafAUA9AHe6/aR/dP/aRvnjdJRNkKlCqTo=;
+ b=E0E2Q773FtQlZiOKk3H7QgfFSFOaP/PiWkL6ySo+dGSeDLHA5BscuSmLvfkYZ7hK9i
+ EUHyqlyHY2KOW5hNr2R/8OmSRj3ryKConYIF/jWL3+lJjl9EsgIwzObo0Z4QqLCvEWEI
+ LWKSWDMNUbCf8q3T4NcAt0Cesty+F0hEBFq2xsL1od8MSUh1Los1wcLSxr6GXMAGViqs
+ ChgLZZ6/zOpEMEvrdPKGXlxFJkQZP2GIWnI5W5Gg8U4kZa4VfH/hqKKh1CCz4JdNxzEA
+ E3SHysT9QRADggNL1Xt3jmHczNncBNcKTvohwdqZyZ+sWNPVbepdiLPuLkpfOuAhP6lo
+ q75g==
+X-Gm-Message-State: AOAM533Jj9JWw55f/Ne0NIH1VUnc4r+JFo387L3CXGxIUoflGsgRh+mS
+ tUAYSo1qaCWPYCzVMLorMg==
+X-Google-Smtp-Source: ABdhPJzNVqqhvP0NPVYe+ULeBlpmR/5grGdaEFpeSYXa09aXA387KoadkmV5AG04I5FgiwIo+QcSUA==
+X-Received: by 2002:a4a:ab05:: with SMTP id i5mr9069023oon.61.1639607252965;
+ Wed, 15 Dec 2021 14:27:32 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.gmail.com with ESMTPSA id bi20sm661315oib.29.2021.12.15.14.27.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Dec 2021 14:27:53 -0800 (PST)
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: linux-arm-msm@vger.kernel.org,
-	Luca Weiss <luca.weiss@fairphone.com>
-Subject: Re: (subset) [PATCH 00/10] dt-binding patches for sm6350
-Date: Wed, 15 Dec 2021 16:27:26 -0600
-Message-Id: <163960723734.3062250.16152122166909189415.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211213082614.22651-1-luca.weiss@fairphone.com>
-References: <20211213082614.22651-1-luca.weiss@fairphone.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+ Wed, 15 Dec 2021 14:27:32 -0800 (PST)
+Received: (nullmailer pid 1954728 invoked by uid 1000);
+ Wed, 15 Dec 2021 22:27:28 -0000
+From: Rob Herring <robh@kernel.org>
+To: David Heidelberg <david@ixit.cz>
+In-Reply-To: <20211215152712.72502-1-david@ixit.cz>
+References: <20211215152712.72502-1-david@ixit.cz>
+Subject: Re: [PATCH] dt-bindings: display: bridge: document Toshiba TC358768
+ cells and panel node
+Date: Wed, 15 Dec 2021 16:27:28 -0600
+Message-Id: <1639607248.090344.1954727.nullmailer@robh.at.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,39 +59,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Amit Kucheria <amitk@kernel.org>,
- linux-watchdog@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Manu Gautam <mgautam@codeaurora.org>, linux-pm@vger.kernel.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- de Goede <hdegoede@redhat.com>, devicetree@vger.kernel.org,
- linux-usb@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
- Manivannan Sadhasivam <mani@kernel.org>,
- Rishabh Bhatnagar <rishabhb@codeaurora.org>, linux-phy@lists.infradead.org,
- Zhang Rui <rui.zhang@intel.com>, phone-devel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Peter Ujfalusi <peter.ujfalusi@ti.com>, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Dmitry Osipenko <digetx@gmail.com>,
+ ~okias/devicetree@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 13 Dec 2021 09:26:01 +0100, Luca Weiss wrote:
-> This series adds compatibles to the dt-bindings documentation where it
-> was missed before.
+On Wed, 15 Dec 2021 16:27:12 +0100, David Heidelberg wrote:
+> Properties #address-cells and #size-cells are valid.
+> The bridge node can also contains panel node.
 > 
-> Finally, the last patch solves some further dtbs_check errors by
-> modifying the sm6350.dtsi to match the binding docs more closely.
+> Signed-off-by: David Heidelberg <david@ixit.cz>
+> ---
+>  .../bindings/display/bridge/toshiba,tc358768.yaml      | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 > 
-> Please note, that the first patch from Konrad is a resend that wasn't
-> picked up when sent to the lists in August 2021.
-> 
-> [...]
 
-Applied, thanks!
+Running 'make dtbs_check' with the schema in this patch gives the
+following warnings. Consider if they are expected or the schema is
+incorrect. These may not be new warnings.
 
-[10/10] arm64: dts: qcom: sm6350: Fix validation errors
-        commit: f56498fc6a9364a35dd74af791bd1251467e9cc1
+Note that it is not yet a requirement to have 0 warnings for dtbs_check.
+This will change in the future.
 
-Best regards,
--- 
-Bjorn Andersson <bjorn.andersson@linaro.org>
+Full log is available here: https://patchwork.ozlabs.org/patch/1568330
+
+
+tc358778@e: compatible: Additional items are not allowed ('toshiba,tc358768' was unexpected)
+	arch/arm/boot/dts/am571x-idk.dt.yaml
+	arch/arm/boot/dts/am572x-idk.dt.yaml
+	arch/arm/boot/dts/am574x-idk.dt.yaml
+
+tc358778@e: compatible: ['toshiba,tc358778', 'toshiba,tc358768'] is too long
+	arch/arm/boot/dts/am571x-idk.dt.yaml
+	arch/arm/boot/dts/am572x-idk.dt.yaml
+	arch/arm/boot/dts/am574x-idk.dt.yaml
+
