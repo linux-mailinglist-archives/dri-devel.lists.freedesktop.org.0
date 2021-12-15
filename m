@@ -2,62 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D9794752F6
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 07:28:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F417475305
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 07:36:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0685610E87C;
-	Wed, 15 Dec 2021 06:28:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA2C610E884;
+	Wed, 15 Dec 2021 06:36:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6954E10E871
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 06:28:25 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id e3so71873228edu.4
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 22:28:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+AnNSFvLJzSycmEnyO4VLHj6lIQq0EQd94E9Hve0BPE=;
- b=HprbkZgjQegWbrOjVbfSYDYFwZDkfqxyhczie9rJ//Ure5M7gmEZIExHayRn3uVIJZ
- +9LJsm1l0p45g0RvbAWys4On6wvkGwSX0aRIAIrWl/yy9k/DIvEiH4iVXyT/hyp7kFxh
- lRsEngRktEZIq226YnAPpUFJRn4XrT4HnrqWg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+AnNSFvLJzSycmEnyO4VLHj6lIQq0EQd94E9Hve0BPE=;
- b=RvCbBw5JEO+OUYsDvmcSbo9+EXtub1gpj5q4H7isrHR5oEZ5Ne519LzOO+Ly7q4QVn
- Ogg+5vkLmqssRhfCQFPqnLQds791OIbHqAGLbwheGEh1MlLWD2sqdtPaicJAweQPv2AY
- U1w+2mXaHvLHYGms15/7j+NK+0Wo7NLiwW+P3fB6s6t6dHKu+a5EnNRwOugKlIIkujQd
- +ladMjhsla2jqve/M+0dAXmuT0A5OV4aXSPmEsyGhatEFMZsVt6m3UDSHpIX4jSXh4BX
- WVAQXiiTIRdC1PE186NANEZZfjJrCi2GF+lePDtcTYhPdV1vfL7X9y82npycYg+tTDvu
- XkOQ==
-X-Gm-Message-State: AOAM532W7ydtJo2kvJu2i2Ku2YsyQwwdHG6BkV3OWP2RmrpK+GL41a0Q
- evBoBi13kZtp/BmHq81bDkvLnvKVqI/pYVONmWipMw==
-X-Google-Smtp-Source: ABdhPJw2yCQ+VkVxiY50MmtlV6WYQUxA76x0PPmVg0icXhbKNjxFsRJ34UyAxDS8Yr4piKtNMyEPzwJ4Avm/TjocsQ4=
-X-Received: by 2002:a05:6402:2744:: with SMTP id
- z4mr13309121edd.310.1639549703844; 
- Tue, 14 Dec 2021 22:28:23 -0800 (PST)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2060.outbound.protection.outlook.com [40.107.220.60])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 337EC10E871;
+ Wed, 15 Dec 2021 06:36:23 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gSBlVyS8mKTBIiDxM1LUo4kXyErIzes6bPaRRweE0AedpHjDi3VbJK+dCvvpBOHYaDLpnQ1TVELrX/DohPa6w5jupBYb1o/xZHcV4J1QW9hzHB4QPjmMoCoHKWM02Lb+mYyWOj1N4e1m5siVRrhes+v6y5vif6Cc8sQ/llthCbcgH8VyKCSTkqaANvMD3vdUyUSpDXQMorRO9tlind0ObIn8ossOsXSgMMxpMxuhxnfsopzxHbvZ8gvw2Zgiskyn3QMU5Ay0+hRlpTUoCtMSKyXWe15rhr7c5fJ9E0/BLjMkNDoNnvp5MjN7pcbQMYihUqQUVuY7j9P6e+DSM50Z5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MkJpTDEOV/NhgHyFM+e4uQDJbN4TeUz8jCzJdL9i+S4=;
+ b=CtpwVQEPKMoteIRrIdtf9OjJM431Z1bb1xPSKeZLxxgWo7y91yAcnkbjMf9d42pgpmdTGMDRp3QDqZ2FxqabcAjIlGjUqWhbjS8L13J3FT10C3K4gKQLtyv5eWrBkGr6q2ZhknKVxum+7k3ib6wTFPliyHjRXfLRnHkqii56tDtHPpb6boe3AYeQcupo2sAAMry0azdm+zipwKHqMYkqc5tnfUIwjX6vab9UQgN3jiXwSn54OX8fb6yuvYVSVjz0FxZ3NNH7BwDMFVe+yDCf2RPeg/JhbftMQsTb3dd2CARZr8A2+f8KHwr3lVYe6Xsoq8l8SzdwOaL5sP7AMdQHVA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MkJpTDEOV/NhgHyFM+e4uQDJbN4TeUz8jCzJdL9i+S4=;
+ b=I+/duAwmcUfJkeZfcmifX6OczL7tSu6UPOQcdyXPNDHbP70kU+g5MsqsiXRmpnqo9fvR5VABzE1QqmyXFKvhRcVlt/IznOTxY1E0tQ8cMvVqCOultZSmsy1oOPdqFx7Nsd3uR4d3+2j8idvxLmYHwn6hZ1kzW2x3ELEMM+rluMY=
+Received: from DM5PR18CA0067.namprd18.prod.outlook.com (2603:10b6:3:22::29) by
+ DM4PR12MB5165.namprd12.prod.outlook.com (2603:10b6:5:394::9) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4801.14; Wed, 15 Dec 2021 06:36:21 +0000
+Received: from DM6NAM11FT029.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:3:22:cafe::a3) by DM5PR18CA0067.outlook.office365.com
+ (2603:10b6:3:22::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.17 via Frontend
+ Transport; Wed, 15 Dec 2021 06:36:21 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT029.mail.protection.outlook.com (10.13.173.23) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4778.13 via Frontend Transport; Wed, 15 Dec 2021 06:36:21 +0000
+Received: from hr-amd.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Wed, 15 Dec
+ 2021 00:36:17 -0600
+From: Huang Rui <ray.huang@amd.com>
+To: <dri-devel@lists.freedesktop.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, "Sumit
+ Semwal" <sumit.semwal@linaro.org>
+Subject: [PATCH v3] drm/amdgpu: introduce new amdgpu_fence object to indicate
+ the job embedded fence
+Date: Wed, 15 Dec 2021 14:35:51 +0800
+Message-ID: <20211215063551.2810601-1-ray.huang@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <CGME20211212181442eucas1p2fe9d69d619f7f68be4473b79ddd136b0@eucas1p2.samsung.com>
- <20211212181416.3312656-1-jagan@amarulasolutions.com>
- <9c1f6bed-2a62-4d85-1bd0-95c0bd5f6c89@samsung.com>
- <CAMty3ZAX2thXTBcpwtUwP16wteKE_1OwWqPBivWTuRKb=B8ghQ@mail.gmail.com>
- <2b5810d5-8af7-f960-94fb-bd08188a9ae8@samsung.com>
- <CAMty3ZAsmMd0Vou0GhM=PbHF7=bDztbR6TV8QfQ95WESum9QQQ@mail.gmail.com>
- <bd410fb0-6594-e9ea-4163-0d0f2fcdfabe@samsung.com>
- <CAMty3ZBR-n0QS5DETYRmDFkcFv2QdOL8BfTmbduq7kHK=hBmAw@mail.gmail.com>
- <10780d37-76eb-23bd-48e5-809ff3cd465e@samsung.com>
- <CAMty3ZBDHs9JM9aZims97_Z213RWMUxcz_LUX_dZGeAYFE8Eew@mail.gmail.com>
- <018a4243-8815-120d-a151-09182e3ad486@samsung.com>
-In-Reply-To: <018a4243-8815-120d-a151-09182e3ad486@samsung.com>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Wed, 15 Dec 2021 11:58:12 +0530
-Message-ID: <CAMty3ZBQnUG6CgFh1eerUGacixCszJeA=DiVHwkg56SHaWOEQw@mail.gmail.com>
-Subject: Re: [PATCH v3 0/7] drm: exynos: dsi: Convert drm bridge
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 2f0bdeb9-50c1-4037-3760-08d9bf953539
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5165:EE_
+X-Microsoft-Antispam-PRVS: <DM4PR12MB51656D10661E3385D4BD8402EC769@DM4PR12MB5165.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:142;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: MLpmukgoMXfinB+YEdS1CWX8Q6/15fRuyqv4ooO4rdwzuV9S7yOg6SPKdYDdaMPVsRofU8JlA7VJwpmeUYbDPiT0PXv0NuL8XIuQDievv2JIXyzpXeww9x6tcj04ZEbzDbTUGF0m0aFscZvuzL2aZKpFGp6NhiwIScTX2Sh5anSulitjsVFsdNAEVavuuQb0TH6UkGGrwVE5X1azb2k0+78BVXJenVG6JO0qD195offHAXFah49XvW66DJb7xR8v9GnBu4vG6xxTlRwzTg1W0wLvGrrAX5ifth8e0MCheGahnMSRW3YaoqRYWhLsHk3DmyKlBuDkvvIKxgHV7JkpY+8uJNDCTqjxFW1kg+YB+PvaiCFF/9rz1cY57xmuR9l3DaWJi0G14elBwOo46EdNi511HM0/6am60Yv4GkRdgjHprDuGhVOwUqvm2LbkLojJnncFwZ5hw1Vej8wfeJ/pE7EvGgyf8/1LtSRXQ2GbjpGJ9H0Aa9hAY80ca0xZdIQ/eP/oBAG3/9lLSxF0CbIxqt8utzMzuo5sr0+htOd+lIWrkBXj8luqsP7Rnq6DkFNjAfm3SyHC38N5XIovo3SDtG0UbClJKk9nPR1HFVhU9+108V7m1ymyZw/pKJobgUdH+sHtFzvSDYl3N/KUSM+DTP/wO3rW76VSd/RIwv3L1IWddHXvLiqcu7+qbqkyWlLeKFac6KRcpdtv/Q5oF6UXs0/kz+8S4VafHlGvQjAvAaPW9O1y5E+v0SamXXuA58hvW3V1WFM9ffxwwmAQZyd52Jrj+8Q9NkHmIqMzLaICn3g=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(46966006)(36840700001)(40470700001)(70586007)(36860700001)(2906002)(356005)(8676002)(83380400001)(81166007)(36756003)(7696005)(426003)(40460700001)(8936002)(47076005)(70206006)(508600001)(86362001)(316002)(2616005)(5660300002)(6666004)(26005)(186003)(16526019)(4326008)(1076003)(30864003)(82310400004)(54906003)(336012)(110136005)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 06:36:21.2672 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2f0bdeb9-50c1-4037-3760-08d9bf953539
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT029.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5165
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,187 +103,312 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- linux-amarula@amarulasolutions.com, dri-devel@lists.freedesktop.org,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: amd-gfx@lists.freedesktop.org, Huang Rui <ray.huang@amd.com>, Alex
+ Deucher <alexander.deucher@amd.com>, Monk Liu <Monk.Liu@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 15, 2021 at 11:39 AM Marek Szyprowski
-<m.szyprowski@samsung.com> wrote:
->
-> Hi Jagan,
->
-> On 14.12.2021 11:47, Jagan Teki wrote:
-> > On Mon, Dec 13, 2021 at 7:42 PM Marek Szyprowski
-> > <m.szyprowski@samsung.com> wrote:
-> >> On 13.12.2021 14:56, Jagan Teki wrote:
-> >>> On Mon, Dec 13, 2021 at 6:51 PM Marek Szyprowski
-> >>> <m.szyprowski@samsung.com> wrote:
-> >>>> On 13.12.2021 13:31, Jagan Teki wrote:
-> >>>>> On Mon, Dec 13, 2021 at 5:42 PM Marek Szyprowski
-> >>>>> <m.szyprowski@samsung.com> wrote:
-> >>>>>> On 13.12.2021 13:08, Jagan Teki wrote:
-> >>>>>>> On Mon, Dec 13, 2021 at 5:34 PM Marek Szyprowski
-> >>>>>>> <m.szyprowski@samsung.com> wrote:
-> >>>>>>>> On 12.12.2021 19:14, Jagan Teki wrote:
-> >>>>>>>>> Updated series about drm bridge conversion of exynos dsi.
-> >>>>>>>>>
-> >>>>>>>>> Patch 1: panel checker
-> >>>>>>>>>
-> >>>>>>>>> Patch 2: panel_bridge API
-> >>>>>>>>>
-> >>>>>>>>> Patch 3: Bridge conversion
-> >>>>>>>>>
-> >>>>>>>>> Patch 4: pree_enable, post_disable
-> >>>>>>>>>
-> >>>>>>>>> Patch 5: Atomic functions
-> >>>>>>>>>
-> >>>>>>>>> Patch 6: atomic_set
-> >>>>>>>>>
-> >>>>>>>>> Patch 7: DSI init in enable
-> >>>>>>>>>
-> >>>>>>>>> [1] https://patchwork.kernel.org/project/dri-devel/cover/20211210191922.2367979-1-jagan@amarulasolutions.com/
-> >>>>>>>>>
-> >>>>>>>>> Any inputs?
-> >>>>>>>> I've checked this patchset on Exynos based Trats2 board (the one with
-> >>>>>>>> simplest display pipeline: Exynos FIMD -> Exynos DSI -> s6e8aa0 DSI
-> >>>>>>>> panel). DRM stops working after the 2nd patch ("[PATCH v3 2/7] drm:
-> >>>>>>>> exynos: dsi: Use drm panel_bridge API"):
-> >>>>>>>>
-> >>>>>>>> > [...]
-> >>> Thanks for testing it.
-> >>>
-> >>> Can you test it on the downstream bridge, tc358764 and post the result?
-> >> There were 2 logs in my reply. One from trats2 board (just dsi panel)
-> >> and one from arndale (tc bridge + simple panel).
-> > Okay. Got it.
-> >
-> > Can you test this tc358764 panel_bridge patch on linux-next? don't
-> > apply this series, apply only below patch and test.
-> >
-> Yes, sure. Sadly, it also breaks display operation:
->
-> OF: graph: no port node found in /soc/hdmi@14530000
-> [drm] Exynos DRM: using 14400000.fimd device for DMA mapping operations
-> exynos-drm exynos-drm: bound 14400000.fimd (ops fimd_component_ops)
-> exynos-drm exynos-drm: bound 14450000.mixer (ops mixer_component_ops)
-> OF: graph: no port node found in /soc/dsi@14500000
-> exynos-drm exynos-drm: bound 14500000.dsi (ops exynos_dsi_component_ops)
-> exynos-drm exynos-drm: bound 14530000.hdmi (ops hdmi_component_ops)
-> exynos-drm exynos-drm: [drm] Cannot find any crtc or sizes
-> exynos-drm exynos-drm: [drm] Cannot find any crtc or sizes
-> [drm] Initialized exynos 1.1.0 20180330 for exynos-drm on minor 0
-> panfrost 11800000.gpu: clock rate = 533000000
-> panfrost 11800000.gpu: mali-t600 id 0x600 major 0x0 minor 0x0 status 0x1
-> panfrost 11800000.gpu: features: 00000000,10206000, issues:
-> 00000000,31b4dfff
-> panfrost 11800000.gpu: Features: L2:0x07110206 Shader:0x00000000
-> Tiler:0x00000809 Mem:0x1 MMU:0x00002830 AS:0xf JS:0x7
-> panfrost 11800000.gpu: shader_present=0xf l2_present=0x1
-> [drm] Initialized panfrost 1.2.0 20180908 for 11800000.gpu on minor 1
-> ------------[ cut here ]------------
-> WARNING: CPU: 1 PID: 23 at drivers/gpu/drm/drm_atomic_state_helper.c:494
-> drm_atomic_helper_connector_duplicate_state+0x60/0x68
-> Modules linked in:
-> CPU: 1 PID: 23 Comm: kworker/1:1 Not tainted
-> 5.16.0-rc5-next-20211213-00001-gac4117943791 #11072
-> Hardware name: Samsung Exynos (Flattened Device Tree)
-> Workqueue: events output_poll_execute
-> [<c01110d0>] (unwind_backtrace) from [<c010cab0>] (show_stack+0x10/0x14)
-> [<c010cab0>] (show_stack) from [<c0b71b58>] (dump_stack_lvl+0x58/0x70)
-> [<c0b71b58>] (dump_stack_lvl) from [<c0126c9c>] (__warn+0x228/0x22c)
-> [<c0126c9c>] (__warn) from [<c0126d4c>] (warn_slowpath_fmt+0xac/0xb4)
-> [<c0126d4c>] (warn_slowpath_fmt) from [<c064e844>]
-> (drm_atomic_helper_connector_duplicate_state+0x60/0x68)
-> [<c064e844>] (drm_atomic_helper_connector_duplicate_state) from
-> [<c06685f4>] (drm_atomic_get_connector_state+0xd8/0x190)
-> [<c06685f4>] (drm_atomic_get_connector_state) from [<c066960c>]
-> (__drm_atomic_helper_set_config+0x2a0/0x368)
-> [<c066960c>] (__drm_atomic_helper_set_config) from [<c0680a20>]
-> (drm_client_modeset_commit_atomic+0x178/0x27c)
-> [<c0680a20>] (drm_client_modeset_commit_atomic) from [<c0680be0>]
-> (drm_client_modeset_commit_locked+0x48/0x1d0)
-> [<c0680be0>] (drm_client_modeset_commit_locked) from [<c0680d8c>]
-> (drm_client_modeset_commit+0x24/0x40)
-> [<c0680d8c>] (drm_client_modeset_commit) from [<c0652a94>]
-> (__drm_fb_helper_restore_fbdev_mode_unlocked+0x64/0xc8)
-> [<c0652a94>] (__drm_fb_helper_restore_fbdev_mode_unlocked) from
-> [<c0652b60>] (drm_fb_helper_set_par+0x38/0x64)
-> [<c0652b60>] (drm_fb_helper_set_par) from [<c0652c34>]
-> (drm_fb_helper_hotplug_event.part.5+0xa8/0xc0)
-> [<c0652c34>] (drm_fb_helper_hotplug_event.part.5) from [<c063dfbc>]
-> (drm_kms_helper_hotplug_event+0x24/0x30)
-> [<c063dfbc>] (drm_kms_helper_hotplug_event) from [<c063e210>]
-> (output_poll_execute+0x1ec/0x204)
-> [<c063e210>] (output_poll_execute) from [<c0148990>]
-> (process_one_work+0x2c8/0x7ec)
-> [<c0148990>] (process_one_work) from [<c0148f04>] (worker_thread+0x50/0x584)
-> [<c0148f04>] (worker_thread) from [<c0151300>] (kthread+0x13c/0x19c)
-> [<c0151300>] (kthread) from [<c0100108>] (ret_from_fork+0x14/0x2c)
-> Exception stack(0xc1d35fb0 to 0xc1d35ff8)
-> 5fa0:                                     00000000 00000000 00000000
-> 00000000
-> 5fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-> 00000000
-> 5fe0: 00000000 00000000 00000000 00000000 00000013 00000000
-> irq event stamp: 1287
-> hardirqs last  enabled at (1293): [<c01a3b94>] vprintk_emit+0x270/0x2b4
-> hardirqs last disabled at (1298): [<c01a3b50>] vprintk_emit+0x22c/0x2b4
-> softirqs last  enabled at (1260): [<c01016fc>] __do_softirq+0x4cc/0x5ec
-> softirqs last disabled at (1255): [<c01301c8>] irq_exit+0x1cc/0x200
-> ---[ end trace 0fa33551718d667f ]---
-> ------------[ cut here ]------------
-> WARNING: CPU: 0 PID: 7 at drivers/gpu/drm/drm_atomic_state_helper.c:494
-> drm_atomic_helper_connector_duplicate_state+0x60/0x68
-> Modules linked in:
-> CPU: 0 PID: 7 Comm: kworker/u4:0 Tainted: G        W
-> 5.16.0-rc5-next-20211213-00001-gac4117943791 #11072
-> Hardware name: Samsung Exynos (Flattened Device Tree)
-> Workqueue: events_unbound deferred_probe_work_func
-> [<c01110d0>] (unwind_backtrace) from [<c010cab0>] (show_stack+0x10/0x14)
-> [<c010cab0>] (show_stack) from [<c0b71b58>] (dump_stack_lvl+0x58/0x70)
-> [<c0b71b58>] (dump_stack_lvl) from [<c0126c9c>] (__warn+0x228/0x22c)
-> [<c0126c9c>] (__warn) from [<c0126d4c>] (warn_slowpath_fmt+0xac/0xb4)
-> [<c0126d4c>] (warn_slowpath_fmt) from [<c064e844>]
-> (drm_atomic_helper_connector_duplicate_state+0x60/0x68)
-> [<c064e844>] (drm_atomic_helper_connector_duplicate_state) from
-> [<c06685f4>] (drm_atomic_get_connector_state+0xd8/0x190)
-> [<c06685f4>] (drm_atomic_get_connector_state) from [<c066960c>]
-> (__drm_atomic_helper_set_config+0x2a0/0x368)
-> [<c066960c>] (__drm_atomic_helper_set_config) from [<c0680a20>]
-> (drm_client_modeset_commit_atomic+0x178/0x27c)
-> [<c0680a20>] (drm_client_modeset_commit_atomic) from [<c0680be0>]
-> (drm_client_modeset_commit_locked+0x48/0x1d0)
-> [<c0680be0>] (drm_client_modeset_commit_locked) from [<c0680d8c>]
-> (drm_client_modeset_commit+0x24/0x40)
-> [<c0680d8c>] (drm_client_modeset_commit) from [<c0652a94>]
-> (__drm_fb_helper_restore_fbdev_mode_unlocked+0x64/0xc8)
-> [<c0652a94>] (__drm_fb_helper_restore_fbdev_mode_unlocked) from
-> [<c0652b60>] (drm_fb_helper_set_par+0x38/0x64)
-> [<c0652b60>] (drm_fb_helper_set_par) from [<c05bbf28>]
-> (fbcon_init+0x48c/0x510)
-> [<c05bbf28>] (fbcon_init) from [<c0608b50>] (visual_init+0xc0/0x108)
-> [<c0608b50>] (visual_init) from [<c0609d78>]
-> (do_bind_con_driver+0x1ac/0x388)
-> [<c0609d78>] (do_bind_con_driver) from [<c060a2b0>]
-> (do_take_over_console+0x13c/0x1c8)
-> [<c060a2b0>] (do_take_over_console) from [<c05b90e0>]
-> (do_fbcon_takeover+0x74/0xcc)
-> [<c05b90e0>] (do_fbcon_takeover) from [<c05b38f0>]
-> (register_framebuffer+0x1c8/0x2d8)
-> [<c05b38f0>] (register_framebuffer) from [<c06524a4>]
-> (__drm_fb_helper_initial_config_and_unlock+0x440/0x65c)
-> [<c06524a4>] (__drm_fb_helper_initial_config_and_unlock) from
-> [<c063dfbc>] (drm_kms_helper_hotplug_event+0x24/0x30)
-> [<c063dfbc>] (drm_kms_helper_hotplug_event) from [<c0690fb8>]
-> (exynos_dsi_host_attach+0x170/0x2a4)
+The job embedded fence donesn't initialize the flags at
+dma_fence_init(). Then we will go a wrong way in
+amdgpu_fence_get_timeline_name callback and trigger a null pointer panic
+once we enabled the trace event here. So introduce new amdgpu_fence
+object to indicate the job embedded fence.
 
-I think I understand the issue. Please wait for next version patches.
+[  156.131790] BUG: kernel NULL pointer dereference, address: 00000000000002a0
+[  156.131804] #PF: supervisor read access in kernel mode
+[  156.131811] #PF: error_code(0x0000) - not-present page
+[  156.131817] PGD 0 P4D 0
+[  156.131824] Oops: 0000 [#1] PREEMPT SMP PTI
+[  156.131832] CPU: 6 PID: 1404 Comm: sdma0 Tainted: G           OE     5.16.0-rc1-custom #1
+[  156.131842] Hardware name: Gigabyte Technology Co., Ltd. Z170XP-SLI/Z170XP-SLI-CF, BIOS F20 11/04/2016
+[  156.131848] RIP: 0010:strlen+0x0/0x20
+[  156.131859] Code: 89 c0 c3 0f 1f 80 00 00 00 00 48 01 fe eb 0f 0f b6 07 38 d0 74 10 48 83 c7 01 84 c0 74 05 48 39 f7 75 ec 31 c0 c3 48 89 f8 c3 <80> 3f 00 74 10 48 89 f8 48 83 c0 01 80 38 00 75 f7 48 29 f8 c3 31
+[  156.131872] RSP: 0018:ffff9bd0018dbcf8 EFLAGS: 00010206
+[  156.131880] RAX: 00000000000002a0 RBX: ffff8d0305ef01b0 RCX: 000000000000000b
+[  156.131888] RDX: ffff8d03772ab924 RSI: ffff8d0305ef01b0 RDI: 00000000000002a0
+[  156.131895] RBP: ffff9bd0018dbd60 R08: ffff8d03002094d0 R09: 0000000000000000
+[  156.131901] R10: 000000000000005e R11: 0000000000000065 R12: ffff8d03002094d0
+[  156.131907] R13: 000000000000001f R14: 0000000000070018 R15: 0000000000000007
+[  156.131914] FS:  0000000000000000(0000) GS:ffff8d062ed80000(0000) knlGS:0000000000000000
+[  156.131923] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  156.131929] CR2: 00000000000002a0 CR3: 000000001120a005 CR4: 00000000003706e0
+[  156.131937] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[  156.131942] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[  156.131949] Call Trace:
+[  156.131953]  <TASK>
+[  156.131957]  ? trace_event_raw_event_dma_fence+0xcc/0x200
+[  156.131973]  ? ring_buffer_unlock_commit+0x23/0x130
+[  156.131982]  dma_fence_init+0x92/0xb0
+[  156.131993]  amdgpu_fence_emit+0x10d/0x2b0 [amdgpu]
+[  156.132302]  amdgpu_ib_schedule+0x2f9/0x580 [amdgpu]
+[  156.132586]  amdgpu_job_run+0xed/0x220 [amdgpu]
 
-Thanks,
-Jagan.
+Signed-off-by: Huang Rui <ray.huang@amd.com>
+---
+
+V1 -> V2: add another amdgpu_fence_ops which is for job-embedded fence.
+V2 -> V3: use amdgpu_fence_driver_clear_job_fences abstract the job fence
+clearing operation.
+
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |  11 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c  | 126 ++++++++++++++-------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h   |   4 +-
+ 3 files changed, 90 insertions(+), 51 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index 5625f7736e37..fecf7a09e5a2 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -4456,7 +4456,7 @@ int amdgpu_device_mode1_reset(struct amdgpu_device *adev)
+ int amdgpu_device_pre_asic_reset(struct amdgpu_device *adev,
+ 				 struct amdgpu_reset_context *reset_context)
+ {
+-	int i, j, r = 0;
++	int i, r = 0;
+ 	struct amdgpu_job *job = NULL;
+ 	bool need_full_reset =
+ 		test_bit(AMDGPU_NEED_FULL_RESET, &reset_context->flags);
+@@ -4478,15 +4478,8 @@ int amdgpu_device_pre_asic_reset(struct amdgpu_device *adev,
+ 
+ 		/*clear job fence from fence drv to avoid force_completion
+ 		 *leave NULL and vm flush fence in fence drv */
+-		for (j = 0; j <= ring->fence_drv.num_fences_mask; j++) {
+-			struct dma_fence *old, **ptr;
++		amdgpu_fence_driver_clear_job_fences(ring);
+ 
+-			ptr = &ring->fence_drv.fences[j];
+-			old = rcu_dereference_protected(*ptr, 1);
+-			if (old && test_bit(AMDGPU_FENCE_FLAG_EMBED_IN_JOB_BIT, &old->flags)) {
+-				RCU_INIT_POINTER(*ptr, NULL);
+-			}
+-		}
+ 		/* after all hw jobs are reset, hw fence is meaningless, so force_completion */
+ 		amdgpu_fence_driver_force_completion(ring);
+ 	}
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+index 3b7e86ea7167..db41d16838b9 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+@@ -77,11 +77,13 @@ void amdgpu_fence_slab_fini(void)
+  * Cast helper
+  */
+ static const struct dma_fence_ops amdgpu_fence_ops;
++static const struct dma_fence_ops amdgpu_job_fence_ops;
+ static inline struct amdgpu_fence *to_amdgpu_fence(struct dma_fence *f)
+ {
+ 	struct amdgpu_fence *__f = container_of(f, struct amdgpu_fence, base);
+ 
+-	if (__f->base.ops == &amdgpu_fence_ops)
++	if (__f->base.ops == &amdgpu_fence_ops ||
++	    __f->base.ops == &amdgpu_job_fence_ops)
+ 		return __f;
+ 
+ 	return NULL;
+@@ -158,19 +160,18 @@ int amdgpu_fence_emit(struct amdgpu_ring *ring, struct dma_fence **f, struct amd
+ 	}
+ 
+ 	seq = ++ring->fence_drv.sync_seq;
+-	if (job != NULL && job->job_run_counter) {
++	if (job && job->job_run_counter) {
+ 		/* reinit seq for resubmitted jobs */
+ 		fence->seqno = seq;
+ 	} else {
+-		dma_fence_init(fence, &amdgpu_fence_ops,
+-				&ring->fence_drv.lock,
+-				adev->fence_context + ring->idx,
+-				seq);
+-	}
+-
+-	if (job != NULL) {
+-		/* mark this fence has a parent job */
+-		set_bit(AMDGPU_FENCE_FLAG_EMBED_IN_JOB_BIT, &fence->flags);
++		if (job)
++			dma_fence_init(fence, &amdgpu_job_fence_ops,
++				       &ring->fence_drv.lock,
++				       adev->fence_context + ring->idx, seq);
++		else
++			dma_fence_init(fence, &amdgpu_fence_ops,
++				       &ring->fence_drv.lock,
++				       adev->fence_context + ring->idx, seq);
+ 	}
+ 
+ 	amdgpu_ring_emit_fence(ring, ring->fence_drv.gpu_addr,
+@@ -620,6 +621,25 @@ void amdgpu_fence_driver_hw_init(struct amdgpu_device *adev)
+ 	}
+ }
+ 
++/**
++ * amdgpu_fence_clear_job_fences - clear job embedded fences of ring
++ *
++ * @ring: fence of the ring to be cleared
++ *
++ */
++void amdgpu_fence_driver_clear_job_fences(struct amdgpu_ring *ring)
++{
++	int i;
++	struct dma_fence *old, **ptr;
++
++	for (i = 0; i <= ring->fence_drv.num_fences_mask; i++) {
++		ptr = &ring->fence_drv.fences[i];
++		old = rcu_dereference_protected(*ptr, 1);
++		if (old && old->ops == &amdgpu_job_fence_ops)
++			RCU_INIT_POINTER(*ptr, NULL);
++	}
++}
++
+ /**
+  * amdgpu_fence_driver_force_completion - force signal latest fence of ring
+  *
+@@ -643,16 +663,14 @@ static const char *amdgpu_fence_get_driver_name(struct dma_fence *fence)
+ 
+ static const char *amdgpu_fence_get_timeline_name(struct dma_fence *f)
+ {
+-	struct amdgpu_ring *ring;
++	return (const char *)to_amdgpu_fence(f)->ring->name;
++}
+ 
+-	if (test_bit(AMDGPU_FENCE_FLAG_EMBED_IN_JOB_BIT, &f->flags)) {
+-		struct amdgpu_job *job = container_of(f, struct amdgpu_job, hw_fence);
++static const char *amdgpu_job_fence_get_timeline_name(struct dma_fence *f)
++{
++	struct amdgpu_job *job = container_of(f, struct amdgpu_job, hw_fence);
+ 
+-		ring = to_amdgpu_ring(job->base.sched);
+-	} else {
+-		ring = to_amdgpu_fence(f)->ring;
+-	}
+-	return (const char *)ring->name;
++	return (const char *)to_amdgpu_ring(job->base.sched)->name;
+ }
+ 
+ /**
+@@ -665,18 +683,25 @@ static const char *amdgpu_fence_get_timeline_name(struct dma_fence *f)
+  */
+ static bool amdgpu_fence_enable_signaling(struct dma_fence *f)
+ {
+-	struct amdgpu_ring *ring;
++	if (!timer_pending(&to_amdgpu_fence(f)->ring->fence_drv.fallback_timer))
++		amdgpu_fence_schedule_fallback(to_amdgpu_fence(f)->ring);
+ 
+-	if (test_bit(AMDGPU_FENCE_FLAG_EMBED_IN_JOB_BIT, &f->flags)) {
+-		struct amdgpu_job *job = container_of(f, struct amdgpu_job, hw_fence);
++	return true;
++}
+ 
+-		ring = to_amdgpu_ring(job->base.sched);
+-	} else {
+-		ring = to_amdgpu_fence(f)->ring;
+-	}
++/**
++ * amdgpu_job_fence_enable_signaling - enable signalling on job fence
++ * @f: fence
++ *
++ * This is the simliar function with amdgpu_fence_enable_signaling above, it
++ * only handles the job embedded fence.
++ */
++static bool amdgpu_job_fence_enable_signaling(struct dma_fence *f)
++{
++	struct amdgpu_job *job = container_of(f, struct amdgpu_job, hw_fence);
+ 
+-	if (!timer_pending(&ring->fence_drv.fallback_timer))
+-		amdgpu_fence_schedule_fallback(ring);
++	if (!timer_pending(&to_amdgpu_ring(job->base.sched)->fence_drv.fallback_timer))
++		amdgpu_fence_schedule_fallback(to_amdgpu_ring(job->base.sched));
+ 
+ 	return true;
+ }
+@@ -692,19 +717,23 @@ static void amdgpu_fence_free(struct rcu_head *rcu)
+ {
+ 	struct dma_fence *f = container_of(rcu, struct dma_fence, rcu);
+ 
+-	if (test_bit(AMDGPU_FENCE_FLAG_EMBED_IN_JOB_BIT, &f->flags)) {
+-	/* free job if fence has a parent job */
+-		struct amdgpu_job *job;
+-
+-		job = container_of(f, struct amdgpu_job, hw_fence);
+-		kfree(job);
+-	} else {
+ 	/* free fence_slab if it's separated fence*/
+-		struct amdgpu_fence *fence;
++	kmem_cache_free(amdgpu_fence_slab, to_amdgpu_fence(f));
++}
+ 
+-		fence = to_amdgpu_fence(f);
+-		kmem_cache_free(amdgpu_fence_slab, fence);
+-	}
++/**
++ * amdgpu_job_fence_free - free up the job with embedded fence
++ *
++ * @rcu: RCU callback head
++ *
++ * Free up the job with embedded fence after the RCU grace period.
++ */
++static void amdgpu_job_fence_free(struct rcu_head *rcu)
++{
++	struct dma_fence *f = container_of(rcu, struct dma_fence, rcu);
++
++	/* free job if fence has a parent job */
++	kfree(container_of(f, struct amdgpu_job, hw_fence));
+ }
+ 
+ /**
+@@ -720,6 +749,19 @@ static void amdgpu_fence_release(struct dma_fence *f)
+ 	call_rcu(&f->rcu, amdgpu_fence_free);
+ }
+ 
++/**
++ * amdgpu_job_fence_release - callback that job embedded fence can be freed
++ *
++ * @f: fence
++ *
++ * This is the simliar function with amdgpu_fence_release above, it
++ * only handles the job embedded fence.
++ */
++static void amdgpu_job_fence_release(struct dma_fence *f)
++{
++	call_rcu(&f->rcu, amdgpu_job_fence_free);
++}
++
+ static const struct dma_fence_ops amdgpu_fence_ops = {
+ 	.get_driver_name = amdgpu_fence_get_driver_name,
+ 	.get_timeline_name = amdgpu_fence_get_timeline_name,
+@@ -727,6 +769,12 @@ static const struct dma_fence_ops amdgpu_fence_ops = {
+ 	.release = amdgpu_fence_release,
+ };
+ 
++static const struct dma_fence_ops amdgpu_job_fence_ops = {
++	.get_driver_name = amdgpu_fence_get_driver_name,
++	.get_timeline_name = amdgpu_job_fence_get_timeline_name,
++	.enable_signaling = amdgpu_job_fence_enable_signaling,
++	.release = amdgpu_job_fence_release,
++};
+ 
+ /*
+  * Fence debugfs
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
+index 4d380e79752c..fae7d185ad0d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
+@@ -53,9 +53,6 @@ enum amdgpu_ring_priority_level {
+ #define AMDGPU_FENCE_FLAG_INT           (1 << 1)
+ #define AMDGPU_FENCE_FLAG_TC_WB_ONLY    (1 << 2)
+ 
+-/* fence flag bit to indicate the face is embedded in job*/
+-#define AMDGPU_FENCE_FLAG_EMBED_IN_JOB_BIT		(DMA_FENCE_FLAG_USER_BITS + 1)
+-
+ #define to_amdgpu_ring(s) container_of((s), struct amdgpu_ring, sched)
+ 
+ #define AMDGPU_IB_POOL_SIZE	(1024 * 1024)
+@@ -114,6 +111,7 @@ struct amdgpu_fence_driver {
+ 	struct dma_fence		**fences;
+ };
+ 
++void amdgpu_fence_driver_clear_job_fences(struct amdgpu_ring *ring);
+ void amdgpu_fence_driver_force_completion(struct amdgpu_ring *ring);
+ 
+ int amdgpu_fence_driver_init_ring(struct amdgpu_ring *ring,
+-- 
+2.25.1
+
