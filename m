@@ -2,67 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6543A4762E1
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 21:14:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C82B14762B5
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 21:10:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0440010EC8A;
-	Wed, 15 Dec 2021 20:14:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9537E10E66F;
+	Wed, 15 Dec 2021 20:10:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E3EB10EC8A
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 20:14:22 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id a18so40207840wrn.6
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 12:14:22 -0800 (PST)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35FAA10E66F;
+ Wed, 15 Dec 2021 20:10:00 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id c4so40152505wrd.9;
+ Wed, 15 Dec 2021 12:10:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=E1VZMDNDn7cqxKxApca8uJlehdzt88dyZchiwwKVm7U=;
- b=g1YyMuTJ5GsMHrXtXUEAz4CRABMZW0S01hXe8QKWhyABEJi3BSEjuBy3EaXP0Yw2UM
- Il36LK+Tu016+3Ogmt+dKV2opDXRvH3DInp+s2ABpg92+3aVMbIIxDVNTR0x8kbtqKnX
- s5DlUfbxNhTFU7fWAbhPB9mSAi+mbLD7qYcVGGZo05cj+AlxhrTdSMZjMQ36IoS/H15U
- Ncf4K+gfKNpj5EpmlPU3POL7uLtoU643+74wvawF0qyKP0FohOPXapbgdRi7JzHJBfBX
- 8H3ZNubWMsoFWlFLipISi+RUENOj5G4b4eqHp/wHzdFCwzWSMDXNOX7tDscJQ/3P98zJ
- U+Mw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9fwJJay5x47r2hBghamMydvV9fq4hGtlRRKE3PJ0IAc=;
+ b=BKaQzk9NyxAqLkWnM4c8toF7n05vdSF75w7lD8VPAskRuFElT7GXRdHro2MkTBM9Uj
+ GFmEO8rsZVEMLm7A/IxB49zMs0kAum00uKlXE6KculfLdpdeZ0VIOpUmhAEy1Djw8Pm6
+ 9xR8XagaGFUffrcB8IXViHAv6jQe232mySn3WfyJ1PvkqEBj+FFF1+z9xFayw4hBGpxv
+ pWV4uGyXFw00ujRNkcOS4zDuT0z7O5bA7Mm/BEvlMZttF6YB7V+f/7MdMNMTN2E5V3O6
+ kEtP1rEwsAFj5sOUSByAz+e+uVyOq7q6SsKdm1uUe6ZF2ajHEyJuJrAWlpnIzoAtVnfb
+ lXcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=E1VZMDNDn7cqxKxApca8uJlehdzt88dyZchiwwKVm7U=;
- b=y8BZIXT5YqGpBAenDd/1ei4GA9pbQMCxzOzy6ONGB/v2J8yHVCgVrTZZvm7cDH3mSd
- q8j4iYf3hJDL8qIvKukJHAtc0BJHozknrFdXWBVULcqQee7QVirXQr9OodkWxtTr7rFq
- yR7JOFQJB5HVh/t6BBv8UECT66hbmERsIfyIrXeKaDNyO8MLbnr4jzQHjG11lrn6aAnN
- B1vOGQN3++pyZBaHZzl+RQTQEdhZl0cHWQ2nS//fHiioQgPVhvL7c7OYLWfdxrSF3G2H
- 0YcfDuRSzyBxc5qczUTw/w0gRAI1CxBC/cuqCm4DFUjhYJUcQL0YUZzB0X61/IFkA0wn
- 6qEw==
-X-Gm-Message-State: AOAM5300/WzS2LlsMrZK+hrXu1KNPdfqeYLZq4yfxOrG855zasBSeeYw
- nIfbo9rRo5UZ8WrWpauQjZw=
-X-Google-Smtp-Source: ABdhPJxBcM7HgZAgdlpi5+nkMNlxm9PmJ9F1y1ZmeyiXC8WxsVPU+9cBAt9sxOLu46Lj9oHh7lCXAg==
-X-Received: by 2002:a5d:47a1:: with SMTP id 1mr6122296wrb.436.1639599260782;
- Wed, 15 Dec 2021 12:14:20 -0800 (PST)
-Received: from [192.168.0.18] (81.172.62.207.dyn.user.ono.com. [81.172.62.207])
- by smtp.gmail.com with ESMTPSA id a1sm3810907wri.89.2021.12.15.12.14.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Dec 2021 12:14:20 -0800 (PST)
-Message-ID: <5b90dd50-f088-8250-7683-fe359d9679a8@gmail.com>
-Date: Wed, 15 Dec 2021 21:14:19 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9fwJJay5x47r2hBghamMydvV9fq4hGtlRRKE3PJ0IAc=;
+ b=0WcaRbGXdEe6ca0pg82k+AcKHW5pqg5RED/xznCLy56Gaj6NcI3p8/LJsZIqwCJ9Jf
+ 6654wjUMmUlKcduWWVJluVyEEh/Ec9i/AviLp3wP4a4jjCGxtCToeSHt4SX834xtWsZO
+ BrcfC7AEG4tKHFVU/UN+TrCmvjqGdHa0PC03tXMaVxlUQQQD5BBTt3ZiZ7rVA+S4MgdJ
+ dqvCvJe3I7Ns9xXcDrexHwYC/p/61HBD3+ksw5G9ylKgVob/bVpJ6AS41VmE0WkDmD+e
+ GS7CQOy/ArXu5QsPRQiqOJsZzdRXj2y0So0uzrMJLOcytcwnjIdyFcyxZM4Tpx9+gi9y
+ RgIQ==
+X-Gm-Message-State: AOAM532U5IiMgC6G5GNyVKuKbvPvGyzLRuvx4fp71c3NfWCybGPk/FFm
+ aU7KJj3R4+2puqgdccqkta2pxfb9cyhyPAXGwPw=
+X-Google-Smtp-Source: ABdhPJwkv3UG4cKShRx3f7/OeRZlRq4dZYeasRuU92iCRfO52EWo3lhGFGjRnkGj59tcU5Y7uA3xvAUmayT0BTzg338=
+X-Received: by 2002:adf:eac8:: with SMTP id o8mr4889507wrn.93.1639598998659;
+ Wed, 15 Dec 2021 12:09:58 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v6 5/7] drm/mediatek: dpi: Add dpintf support
-Content-Language: en-US
-To: Guillaume Ranquet <granquet@baylibre.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20211110130623.20553-1-granquet@baylibre.com>
- <20211110130623.20553-6-granquet@baylibre.com>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <20211110130623.20553-6-granquet@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20211215174524.1742389-1-robdclark@gmail.com>
+ <20211215174524.1742389-2-robdclark@gmail.com>
+ <CAA8EJpri+3AjazR2saJaa3Uo05BhC_2gEsRXHJ5wJ81zs5AUTw@mail.gmail.com>
+In-Reply-To: <CAA8EJpri+3AjazR2saJaa3Uo05BhC_2gEsRXHJ5wJ81zs5AUTw@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 15 Dec 2021 12:15:18 -0800
+Message-ID: <CAF6AEGsZmQR8FvAN5GrDT9psBsNwFL5mWRZq+i0rFcC8Zf09fQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] drm/msm/disp: Tweak display snapshot to match gpu
+ snapshot
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,54 +64,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Markus Schneider-Pargmann <msp@baylibre.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Guo Zhengkui <guozhengkui@vivo.com>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Doug Anderson <dianders@chromium.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Alexey Dobriyan <adobriyan@gmail.com>, Fernando Ramos <greenfoo@u92.eu>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Dec 15, 2021 at 11:17 AM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On Wed, 15 Dec 2021 at 20:49, Rob Clark <robdclark@gmail.com> wrote:
+> >
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > Add UTS_RELEASE and show timestamp the same way for consistency.
+> >
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>
+> > ---
+> >  drivers/gpu/drm/msm/disp/msm_disp_snapshot.h      | 4 ++--
+> >  drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c | 9 ++++++---
+> >  2 files changed, 8 insertions(+), 5 deletions(-)
+>
+> We should pull this out of disp/, it's no longer disp-specific.
 
+Or possibly just move dsi/etc into disp?  It is disp specific in the
+sense that dumping GPU state works quite differently..
 
-On 10/11/2021 14:06, Guillaume Ranquet wrote:
-> From: Markus Schneider-Pargmann <msp@baylibre.com>
-> 
-> dpintf is the displayport interface hardware unit. This unit is similar
-> to dpi and can reuse most of the code.
-> 
-> This patch adds support for mt8195-dpintf to this dpi driver. Main
-> differences are:
->   - Some features/functional components are not available for dpintf
->     which are now excluded from code execution once is_dpintf is set
->   - dpintf can and needs to choose between different clockdividers based
->     on the clockspeed. This is done by choosing a different clock parent.
->   - There are two additional clocks that need to be managed. These are
->     only set for dpintf and will be set to NULL if not supplied. The
->     clk_* calls handle these as normal clocks then.
->   - Some register contents differ slightly between the two components. To
->     work around this I added register bits/masks with a DPINTF_ prefix
->     and use them where different.
-> 
-> Based on a separate driver for dpintf created by
-> Jason-JH.Lin <jason-jh.lin@mediatek.com>.
-> 
-> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> ---
-[...]
-> diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/soc/mediatek/mtk-mmsys.h
-> index 4bba275e235ac..56ed2fa5f59e8 100644
-> --- a/include/linux/soc/mediatek/mtk-mmsys.h
-> +++ b/include/linux/soc/mediatek/mtk-mmsys.h
-> @@ -19,6 +19,8 @@ enum mtk_ddp_comp_id {
->   	DDP_COMPONENT_DITHER,
->   	DDP_COMPONENT_DPI0,
->   	DDP_COMPONENT_DPI1,
-> +	DDP_COMPONENT_DP_INTF0,
-> +	DDP_COMPONENT_DP_INTF1,
->   	DDP_COMPONENT_DSI0,
->   	DDP_COMPONENT_DSI1,
->   	DDP_COMPONENT_DSI2,
-> 
+BR,
+-R
 
-For the mtk-mmsys.h:
-Acked-by: Matthias Brugger <matthias.bgg@gmail.com>
+>
+> --
+> With best wishes
+> Dmitry
