@@ -1,43 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E383B4755A3
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 10:58:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 159824755D4
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 11:08:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A210410E24D;
-	Wed, 15 Dec 2021 09:58:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 710B910E267;
+	Wed, 15 Dec 2021 10:08:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 954E910E24D
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 09:58:19 +0000 (UTC)
-Date: Wed, 15 Dec 2021 09:58:16 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1639562296;
- bh=y61HC4/CbZjjotOesALb2CPVggqpksT55ESKDuNtL9w=;
- h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
- References:From:To:Cc;
- b=L2J2hPBpN7mSEZ7HQ1d5F6Jb61PWa6GyMdyvkWFgTkGu6uqFjZYDQFEeSv0Xtrxhc
- IUbQ1sWRz+a6wOR3jD6J9hdX/7NfIMDXEgOfrrxNDix+/ryBsSPA0TtrJx3WPqH/yY
- wnEEEWGyF6/JH23WuttQnjokKMcTegLbd/qj9ot1yk+cveGf372IADtq9xp1LFhkpE
- QdZnOu7AqdEg+9LU6R4+twkH98KDilFQMLybBPbCu9Sw5f1MqWAPV6iXHulLOM9A6E
- G7N+5DonAuPcJ58vmTZK9eLfvHr590Qk2QpcKTn3puVrsaYEp9yRE79/R9Z4W9kbVY
- 5ScX6wVA/+IRQ==
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm/plane: add alpha and blend_mode to atomic_print_state
-Message-ID: <NJH25z_TKgSybtTGJaa2Q4wbYBwO3q2l_MDS0YXy39faQ8F6PNg6NuEKqX2jlKiZhKkN76M_kc9UqQCQijtIeC_41J5I1nYVzmrT7m27KLs=@emersion.fr>
-In-Reply-To: <20211215095636.2330563-1-dmitry.baryshkov@linaro.org>
-References: <20211215095636.2330563-1-dmitry.baryshkov@linaro.org>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7547210E267
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 10:08:10 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 17BB821106;
+ Wed, 15 Dec 2021 10:08:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1639562889; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SZ3gWdPiA4l1PU3+PUxMuDd3U82lUuG/usU3L4subGs=;
+ b=bUkTXtUjGT+lIWvQ8HZqGVdqN+4ttTz+CyOON/eNnj4F8OMxJ23jZ5KqAu0BaNJqOd+UPn
+ cFhdDKEYDfaEyHUXsXftZYf2K4hw977FiyA6ujtu6CXFadMCpPyBa1fyZy3WvyD2Xo3ITc
+ YNhEuGWPUOiZPwdyRCYjp3c1AqbKhhw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1639562889;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SZ3gWdPiA4l1PU3+PUxMuDd3U82lUuG/usU3L4subGs=;
+ b=3nXOiMTooelnt5SZ2CW1zinNYaMQUVBJzWfuoZQpboqiwDGNb70g+/42M1mxd/EjTL8pwe
+ 66SJgxGy4Xt544Bw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AE9F213B09;
+ Wed, 15 Dec 2021 10:08:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id jlyWKYi+uWGAZgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 15 Dec 2021 10:08:08 +0000
+Message-ID: <36e94863-1e5c-a935-2f07-4b7041cec709@suse.de>
+Date: Wed, 15 Dec 2021 11:08:08 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH RESEND v4 v5 2/4] drm/vc4: Support nomodeset
+Content-Language: en-US
+To: Maxime Ripard <maxime@cerno.tech>, Florian Fainelli
+ <f.fainelli@gmail.com>, Ray Jui <rjui@broadcom.com>,
+ Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Scott Branden <sbranden@broadcom.com>, Rob Herring <robh+dt@kernel.org>,
+ Frank Rowand <frowand.list@gmail.com>
+References: <20211215095117.176435-1-maxime@cerno.tech>
+ <20211215095117.176435-3-maxime@cerno.tech>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20211215095117.176435-3-maxime@cerno.tech>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------iixYZJ0MIZsEQoF1kbbMrvV0"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,15 +76,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Dom Cobley <dom@raspberrypi.com>,
+ Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wednesday, December 15th, 2021 at 10:56, Dmitry Baryshkov <dmitry.barysh=
-kov@linaro.org> wrote:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------iixYZJ0MIZsEQoF1kbbMrvV0
+Content-Type: multipart/mixed; boundary="------------x7oLJZSLiYHzTN7HJApC2QE6";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Maxime Ripard <maxime@cerno.tech>, Florian Fainelli
+ <f.fainelli@gmail.com>, Ray Jui <rjui@broadcom.com>,
+ Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Scott Branden <sbranden@broadcom.com>, Rob Herring <robh+dt@kernel.org>,
+ Frank Rowand <frowand.list@gmail.com>
+Cc: bcm-kernel-feedback-list@broadcom.com,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dom Cobley <dom@raspberrypi.com>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
+Message-ID: <36e94863-1e5c-a935-2f07-4b7041cec709@suse.de>
+Subject: Re: [PATCH RESEND v4 v5 2/4] drm/vc4: Support nomodeset
+References: <20211215095117.176435-1-maxime@cerno.tech>
+ <20211215095117.176435-3-maxime@cerno.tech>
+In-Reply-To: <20211215095117.176435-3-maxime@cerno.tech>
 
-> +=09drm_printf(p, "\talpha=3D%x\n", state->alpha);
+--------------x7oLJZSLiYHzTN7HJApC2QE6
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Maybe use %04X here to make it clearer that 0xFFFF is the max?
+SGkNCg0KQW0gMTUuMTIuMjEgdW0gMTA6NTEgc2NocmllYiBNYXhpbWUgUmlwYXJkOg0KPiBJ
+ZiB3ZSBoYXZlIG5vbW9kZXNldCBvbiB0aGUga2VybmVsIGNvbW1hbmQgbGluZSB3ZSBzaG91
+bGQgaGF2ZSB0aGUNCj4gZmlybXdhcmUgZnJhbWVidWZmZXIgZHJpdmVyIGtlcHQgYXMgaXMg
+YW5kIG5vdCB0cnkgdG8gbG9hZCB0aGUNCj4gZnVsbC1ibG93biBLTVMgZHJpdmVyLg0KPiAN
+Cj4gSW4gdGhpcyBjYXNlLCBsZXQncyBqdXN0IHJlZ2lzdGVyIHRoZSB2M2QgZHJpdmVyLg0K
+PiANCj4gU2lnbmVkLW9mZi1ieTogTWF4aW1lIFJpcGFyZCA8bWF4aW1lQGNlcm5vLnRlY2g+
+DQo+IC0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS92YzQvdmM0X2Rydi5jIHwgMyArKysNCj4g
+ICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspDQo+IA0KPiBkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vdmM0L3Zj
+NF9kcnYuYw0KPiBpbmRleCAxNmFiYzNhM2Q2MDEuLmQzY2FlODRhNGM0ZSAxMDA2NDQNCj4g
+LS0tIGEvZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfZHJ2LmMNCj4gKysrIGIvZHJpdmVycy9n
+cHUvZHJtL3ZjNC92YzRfZHJ2LmMNCj4gQEAgLTM1Nyw2ICszNTcsOSBAQCBzdGF0aWMgaW50
+IF9faW5pdCB2YzRfZHJtX3JlZ2lzdGVyKHZvaWQpDQo+ICAgew0KPiAgIAlpbnQgcmV0Ow0K
+PiAgIA0KPiArCWlmIChkcm1fZmlybXdhcmVfZHJpdmVyc19vbmx5KCkpDQo+ICsJCXJldHVy
+biAtRU5PREVWOw0KPiArDQoNCkp1c3Qgbm93IHRoYXQgeW91J3ZlIHVwZGF0ZWQgaXQsIEx1
+Y2FzIFN0YWNoIGhhZCBhIHNpbWlsYXIgY29uY2VybiBhYm91dCANCmV0bmF2aXYsIHdoaWNo
+IGRvZXNuJ3QgZG8gbW9kZXNldHRpbmcgZWl0aGVyLiBTbyB3ZSBwcm9iYWJseSB3YW50IHRv
+IA0KZGlzY3VzcyB3aGF0IHRvIGRvIGFib3V0IGRyaXZlcnMgdGhhdCBoYXZlIG5vIG1vZGVz
+ZXR0aW5nIHNlcGFyYXRlbHkuDQoNCklmIHlvdSB3YW50IHRvIGxhbmQgdGhlIHBhdGNoLCBm
+b3IgZWl0aGVyIHZlcnNpb24gb2YgdGhlIGNvZGUsIHdpdGggb3IgDQp3aXRob3V0IHZjMzoN
+Cg0KUmV2aWV3ZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRl
+Pg0KDQpCZXN0IHJlZ2FyZA0KVGhvbWFzDQoNCj4gICAJcmV0ID0gcGxhdGZvcm1fcmVnaXN0
+ZXJfZHJpdmVycyhjb21wb25lbnRfZHJpdmVycywNCj4gICAJCQkJCUFSUkFZX1NJWkUoY29t
+cG9uZW50X2RyaXZlcnMpKTsNCj4gICAJaWYgKHJldCkNCj4gDQoNCi0tIA0KVGhvbWFzIFpp
+bW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29s
+dXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBH
+ZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjog
+SXZvIFRvdGV2DQo=
+
+--------------x7oLJZSLiYHzTN7HJApC2QE6--
+
+--------------iixYZJ0MIZsEQoF1kbbMrvV0
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmG5vogFAwAAAAAACgkQlh/E3EQov+Aa
+HA/+JE4Tj4bab3LlorohZhymI+gmBsA5+bLO+BkW6aGqSUz9mtXxjPxRXIJC50uR4CmFnOxgieLt
+gKDFfoKybfXAZG36duc38C57KKqYVZ11pBRL/9BDB5CpMOq21cBWex4YUY4990MuZN+X3TFC/7fM
+g8ubmPmo/xw7FZZJl29a964+6ayvmZ5k7FlY35lwCiLgytVkMsEtzCFLf6T8oFo6XV/qWGFnFtnO
+RhBk7+m3uTKyGEGE41Y+kj5gdzXkHWa+YdBfArEs75wCKfPOKI8FeXwX1ITgjTsWPQwGypo7i4Hh
+EcywVb263z/JlnL2aNzAsxX49VBElIQPEneLdj37C3lV+qZgGbxy1ggEOW7RuMTPVyTUGdN0cBar
+ngehzdpcKpWPx7IdAJF6h+KFnh9Wk/OzYb04asTmsBaripd2/BoKij5d15cdoPVAtVFUK4tq0AZ9
+71y3S+rYWviAobUdP8OEwIG/M54KszHp6bZRt0DDFft6AVRYUcVGAeolTEW8sQFtxUbKx0YgutXY
+4pv3s1s+kMS4xz5gMOCbTVLiuBoNru+w6uu422vpZVtcn7kcFVajejiTvGk5s5VwVCy+YaXos8vG
+6oImHxZm7CJO75iyQss2xw3rNQdysSoxw9PEgP39TifVevKOtpXJ4aHdpF60dkMKer0vETvkUfVr
+F3w=
+=H+8V
+-----END PGP SIGNATURE-----
+
+--------------iixYZJ0MIZsEQoF1kbbMrvV0--
