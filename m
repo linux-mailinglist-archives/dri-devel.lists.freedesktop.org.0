@@ -2,65 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAE54475B8D
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 16:13:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2748475B90
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 16:15:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B09A10EB41;
-	Wed, 15 Dec 2021 15:13:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7828B10EBBB;
+	Wed, 15 Dec 2021 15:15:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E26710EB41
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 15:13:21 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 2A7EF212CB;
- Wed, 15 Dec 2021 15:13:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1639581200; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KNdWYnKUfDxRjp5zSsA1Qvi7vON846H9arOA9Xd0UzM=;
- b=1XXx/fS90VWJQ2uxPDXtn+yWRqLxwjEjtbtsh+fjsz6zaSE148KwhIBNfxK4lNQDy7nHjc
- PGZDhBC7O1fT8YJEfNljd5gE0xBnxeswu1de/CkjymT0WZY9plY/4LjsDvxYHG2CAAqlhQ
- S3HzhA2ko3wIQ00Nn1bZN77HR2XxSvo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1639581200;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KNdWYnKUfDxRjp5zSsA1Qvi7vON846H9arOA9Xd0UzM=;
- b=w72KA2YuXM01Js6pn2+u1ABcj8LItw8ZDDkm05pAfL7uyF5rLKv3bKzoDqiyG0cFVqtOr9
- oQ/7UGcUcgKdDQAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E0EC41330B;
- Wed, 15 Dec 2021 15:13:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id MapKNQ8GumF8fgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 15 Dec 2021 15:13:19 +0000
-Message-ID: <ecbe0476-2fda-d5d8-d6f1-073b4ab9a180@suse.de>
-Date: Wed, 15 Dec 2021 16:13:19 +0100
+Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
+ [64.147.123.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91B7B10EBB8
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 15:15:13 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.west.internal (Postfix) with ESMTP id B2BFB2B00280;
+ Wed, 15 Dec 2021 10:15:11 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Wed, 15 Dec 2021 10:15:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=BgQfZ5cmTLEg6cfAdiBnNstLR/w
+ 6Eaqsba+2qCrgE3U=; b=UxyQrvNP5H9z8DjeJCSVCJSF4F7qx+Im+whlJrvye/O
+ NQD/BQCjWSZVyhpynD4txgI8c8CUUs5kUjzCNoWQFaMzhRVQ2Z7ZviHJD3Keuj2f
+ S+vGf5J8Gh/CpHjNTubKAqTEbWni2jHC9TSuj51YI6q8oryTHM3InILFRcXyfVPo
+ Nnoyei3MheVDEFgELkWrQpXRz/FJMvrrWXG9LfDPydbRiNajuvW33BAmcE61FlEw
+ qL9TAfhgoBLnHlEr5COe4r+TEnf0sJa+R69zGVsICnFMWbGpQ4khqfImIgTMKs1a
+ RV8SkIh+QFZfO0da/ZZBtIDEZ6nvKWdWnMmWMgwzbGg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=BgQfZ5
+ cmTLEg6cfAdiBnNstLR/w6Eaqsba+2qCrgE3U=; b=aCe1LeTQ/muxoLZFqzGKYz
+ y8UqxB/btSaJBsnA0/tnqWAkoap5TWK8Kjc1GczJL02Q/jMqwX/ZtngFs0BCZkmH
+ 9+AlwfSg5VLtZnkiHqgLTf9YhB25yF9tAJ1LVOFhEQF9m3tjQJdxjblVUWd4FCzN
+ enhoWp9N+0M7jUxCSVir0QPatrdhkQ3toUDx704NJYsE+ScH0WjI2k1nIxj/qF/2
+ wOPg9f3HDXqv5G7SZVeFZBpaX7Fx0L2aSUrQ3FfZ7iEwr2F10KjdVu8jSPs4f9Mf
+ H4pvkoD5yeUbxUgjWbJE5Y+7g7FqgflZF0PMhbHfop3w4QajzCi+CMfxu5ffZE4Q
+ ==
+X-ME-Sender: <xms:fga6YewyMBRnbO9eOIO2AOEHn8IiCI4sjSF2D1ElgLjlUG6lJvGHsA>
+ <xme:fga6YaTSy8et713HqV5php6RlZEp759Ss0zpSEf0BXXNpeiTbE74bIUG6mW_8Y8rK
+ QFnA3Gc7dGZ2O93JTU>
+X-ME-Received: <xmr:fga6YQVgmI8jtj16Jf-V2UuBNuhkegRPqHgcXNMI3Ztu-zGnPyX2qfqY6ce6_YG1FW0ielLeeyqC8VNczEGfTi5UO2Br-qI-QJu15BY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrledvgdejhecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeevveefffduveeitdegtefhhfetueffteefffdvheevvdehteethedvleffgfej
+ vdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:fga6YUjMpClCRS2EOz-At3snRCjqdv6WdjzGOy2d6X1iYSqyyFTKAA>
+ <xmx:fga6YQBvV8lkD0PCcF2rtee3UX6r8oGUzWEGDky5cZGaUHJ0ljz1pg>
+ <xmx:fga6YVLf2hwARidBL946sLKtm73nqU4Yb50s_2En8I6IYdKGUSogmw>
+ <xmx:fwa6Yc4PsujncKjBgPHfwsK96d0TdXCjruxJiNtCtWL2Ij_duAZeQa1Gkzw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 15 Dec 2021 10:15:10 -0500 (EST)
+Date: Wed, 15 Dec 2021 16:15:08 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Guillaume Ranquet <granquet@baylibre.com>
+Subject: Re: [PATCH v6 7/7] drm/mediatek: Add mt8195 DisplayPort driver
+Message-ID: <20211215151508.hc7blhh7p3wrjili@houat>
+References: <20211110130623.20553-1-granquet@baylibre.com>
+ <20211110130623.20553-8-granquet@baylibre.com>
+ <20211115101129.lyxxmb6i7paaonwi@gilmour>
+ <CABnWg9tNPGZSi1RLqF5+Qs1GHtynyVoOzAyw+i9mPRYEoByk8g@mail.gmail.com>
+ <20211116145112.xyoxzfll6exysnvt@gilmour>
+ <CABnWg9uhuchdWyBeTacR6Cy0A9OHziUi051BQ5wsZVU0ajYjyA@mail.gmail.com>
+ <20211125143034.tzikvlxxl6fdhsif@gilmour>
+ <CABnWg9tcWdfPQwNtFhqVZxCriT848fy42VHoQZs3X2UmL4LYSA@mail.gmail.com>
+ <20211213165422.54n3oh72tjcb3a67@houat>
+ <CABnWg9uyoK0TkRZRJXstmtB4u2-UUCi-x_frosKhhQerNmFT=A@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH v4 3/3] drm/vc4: plane: Add support for YUV color
- encodings and ranges
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter
- <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-References: <20211215091739.135042-1-maxime@cerno.tech>
- <20211215091739.135042-4-maxime@cerno.tech>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20211215091739.135042-4-maxime@cerno.tech>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------G0SRIHiK8i37o8rwbQ67Wxpe"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ndkzk456decuxgne"
+Content-Disposition: inline
+In-Reply-To: <CABnWg9uyoK0TkRZRJXstmtB4u2-UUCi-x_frosKhhQerNmFT=A@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,169 +88,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Dom Cobley <dom@raspberrypi.com>, dri-devel@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Markus Schneider-Pargmann <msp@baylibre.com>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------G0SRIHiK8i37o8rwbQ67Wxpe
-Content-Type: multipart/mixed; boundary="------------PryQuC80nHc2cYhNX3XQa2OZ";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter
- <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, Dom Cobley <dom@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-Message-ID: <ecbe0476-2fda-d5d8-d6f1-073b4ab9a180@suse.de>
-Subject: Re: [PATCH v4 3/3] drm/vc4: plane: Add support for YUV color
- encodings and ranges
-References: <20211215091739.135042-1-maxime@cerno.tech>
- <20211215091739.135042-4-maxime@cerno.tech>
-In-Reply-To: <20211215091739.135042-4-maxime@cerno.tech>
 
---------------PryQuC80nHc2cYhNX3XQa2OZ
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+--ndkzk456decuxgne
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-SGkNCg0KQW0gMTUuMTIuMjEgdW0gMTA6MTcgc2NocmllYiBNYXhpbWUgUmlwYXJkOg0KPiBG
-cm9tOiBEYXZlIFN0ZXZlbnNvbiA8ZGF2ZS5zdGV2ZW5zb25AcmFzcGJlcnJ5cGkuY29tPg0K
-PiANCj4gVGhlIEJUNjAxL0JUNzA5IGNvbG9yIGVuY29kaW5nIGFuZCBsaW1pdGVkIHZzIGZ1
-bGwNCj4gcmFuZ2UgcHJvcGVydGllcyB3ZXJlIG5vdCBiZWluZyBleHBvc2VkLCBkZWZhdWx0
-aW5nDQo+IGFsd2F5cyB0byBCVDYwMSBsaW1pdGVkIHJhbmdlLg0KPiANCj4gRXhwb3NlIHRo
-ZSBwYXJhbWV0ZXJzIGFuZCBzZXQgdGhlIHJlZ2lzdGVycyBhcHByb3ByaWF0ZWx5Lg0KPiAN
-Cj4gU2lnbmVkLW9mZi1ieTogRGF2ZSBTdGV2ZW5zb24gPGRhdmUuc3RldmVuc29uQHJhc3Bi
-ZXJyeXBpLmNvbT4NCj4gU2lnbmVkLW9mZi1ieTogTWF4aW1lIFJpcGFyZCA8bWF4aW1lQGNl
-cm5vLnRlY2g+DQoNCkFja2VkLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5A
-c3VzZS5kZT4NCg0KPiAtLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9wbGFuZS5j
-IHwgNzEgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0tDQo+ICAgZHJpdmVycy9n
-cHUvZHJtL3ZjNC92YzRfcmVncy5oICB8IDE5ICsrKysrKy0tLQ0KPiAgIDIgZmlsZXMgY2hh
-bmdlZCwgODIgaW5zZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9wbGFuZS5jIGIvZHJpdmVycy9ncHUvZHJt
-L3ZjNC92YzRfcGxhbmUuYw0KPiBpbmRleCAwMjJjZDEyZjU2MWUuLjkyMGE5ZWVmZTQyNiAx
-MDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfcGxhbmUuYw0KPiArKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9wbGFuZS5jDQo+IEBAIC02MjMsNiArNjIzLDUx
-IEBAIHN0YXRpYyBpbnQgdmM0X3BsYW5lX2FsbG9jYXRlX2xibShzdHJ1Y3QgZHJtX3BsYW5l
-X3N0YXRlICpzdGF0ZSkNCj4gICAJcmV0dXJuIDA7DQo+ICAgfQ0KPiAgIA0KPiArLyoNCj4g
-KyAqIFRoZSBjb2xvcnNwYWNlIGNvbnZlcnNpb24gbWF0cmljZXMgYXJlIGhlbGQgaW4gMyBl
-bnRyaWVzIGluIHRoZSBkbGlzdC4NCj4gKyAqIENyZWF0ZSBhbiBhcnJheSBvZiB0aGVtLCB3
-aXRoIGVudHJpZXMgZm9yIGVhY2ggZnVsbCBhbmQgbGltaXRlZCBtb2RlLCBhbmQNCj4gKyAq
-IGVhY2ggc3VwcG9ydGVkIGNvbG9yc3BhY2UuDQo+ICsgKi8NCj4gK3N0YXRpYyBjb25zdCB1
-MzIgY29sb3JzcGFjZV9jb2VmZnNbMl1bRFJNX0NPTE9SX0VOQ09ESU5HX01BWF1bM10gPSB7
-DQo+ICsJew0KPiArCQkvKiBMaW1pdGVkIHJhbmdlICovDQo+ICsJCXsNCj4gKwkJCS8qIEJU
-NjAxICovDQo+ICsJCQlTQ0FMRVJfQ1NDMF9JVFJfUl82MDFfNSwNCj4gKwkJCVNDQUxFUl9D
-U0MxX0lUUl9SXzYwMV81LA0KPiArCQkJU0NBTEVSX0NTQzJfSVRSX1JfNjAxXzUsDQo+ICsJ
-CX0sIHsNCj4gKwkJCS8qIEJUNzA5ICovDQo+ICsJCQlTQ0FMRVJfQ1NDMF9JVFJfUl83MDlf
-MywNCj4gKwkJCVNDQUxFUl9DU0MxX0lUUl9SXzcwOV8zLA0KPiArCQkJU0NBTEVSX0NTQzJf
-SVRSX1JfNzA5XzMsDQo+ICsJCX0sIHsNCj4gKwkJCS8qIEJUMjAyMCAqLw0KPiArCQkJU0NB
-TEVSX0NTQzBfSVRSX1JfMjAyMCwNCj4gKwkJCVNDQUxFUl9DU0MxX0lUUl9SXzIwMjAsDQo+
-ICsJCQlTQ0FMRVJfQ1NDMl9JVFJfUl8yMDIwLA0KPiArCQl9DQo+ICsJfSwgew0KPiArCQkv
-KiBGdWxsIHJhbmdlICovDQo+ICsJCXsNCj4gKwkJCS8qIEpGSUYgKi8NCj4gKwkJCVNDQUxF
-Ul9DU0MwX0pQRUdfSkZJRiwNCj4gKwkJCVNDQUxFUl9DU0MxX0pQRUdfSkZJRiwNCj4gKwkJ
-CVNDQUxFUl9DU0MyX0pQRUdfSkZJRiwNCj4gKwkJfSwgew0KPiArCQkJLyogQlQ3MDkgKi8N
-Cj4gKwkJCVNDQUxFUl9DU0MwX0lUUl9SXzcwOV8zX0ZSLA0KPiArCQkJU0NBTEVSX0NTQzFf
-SVRSX1JfNzA5XzNfRlIsDQo+ICsJCQlTQ0FMRVJfQ1NDMl9JVFJfUl83MDlfM19GUiwNCj4g
-KwkJfSwgew0KPiArCQkJLyogQlQyMDIwICovDQo+ICsJCQlTQ0FMRVJfQ1NDMF9JVFJfUl8y
-MDIwX0ZSLA0KPiArCQkJU0NBTEVSX0NTQzFfSVRSX1JfMjAyMF9GUiwNCj4gKwkJCVNDQUxF
-Ul9DU0MyX0lUUl9SXzIwMjBfRlIsDQo+ICsJCX0NCj4gKwl9DQo+ICt9Ow0KPiArDQo+ICAg
-LyogV3JpdGVzIG91dCBhIGZ1bGwgZGlzcGxheSBsaXN0IGZvciBhbiBhY3RpdmUgcGxhbmUg
-dG8gdGhlIHBsYW5lJ3MNCj4gICAgKiBwcml2YXRlIGRsaXN0IHN0YXRlLg0KPiAgICAqLw0K
-PiBAQCAtMTAxNyw5ICsxMDYyLDIwIEBAIHN0YXRpYyBpbnQgdmM0X3BsYW5lX21vZGVfc2V0
-KHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lLA0KPiAgIA0KPiAgIAkvKiBDb2xvcnNwYWNlIGNv
-bnZlcnNpb24gd29yZHMgKi8NCj4gICAJaWYgKHZjNF9zdGF0ZS0+aXNfeXV2KSB7DQo+IC0J
-CXZjNF9kbGlzdF93cml0ZSh2YzRfc3RhdGUsIFNDQUxFUl9DU0MwX0lUUl9SXzYwMV81KTsN
-Cj4gLQkJdmM0X2RsaXN0X3dyaXRlKHZjNF9zdGF0ZSwgU0NBTEVSX0NTQzFfSVRSX1JfNjAx
-XzUpOw0KPiAtCQl2YzRfZGxpc3Rfd3JpdGUodmM0X3N0YXRlLCBTQ0FMRVJfQ1NDMl9JVFJf
-Ul82MDFfNSk7DQo+ICsJCWVudW0gZHJtX2NvbG9yX2VuY29kaW5nIGNvbG9yX2VuY29kaW5n
-ID0gc3RhdGUtPmNvbG9yX2VuY29kaW5nOw0KPiArCQllbnVtIGRybV9jb2xvcl9yYW5nZSBj
-b2xvcl9yYW5nZSA9IHN0YXRlLT5jb2xvcl9yYW5nZTsNCj4gKwkJY29uc3QgdTMyICpjY207
-DQo+ICsNCj4gKwkJaWYgKGNvbG9yX2VuY29kaW5nID49IERSTV9DT0xPUl9FTkNPRElOR19N
-QVgpDQo+ICsJCQljb2xvcl9lbmNvZGluZyA9IERSTV9DT0xPUl9ZQ0JDUl9CVDYwMTsNCj4g
-KwkJaWYgKGNvbG9yX3JhbmdlID49IERSTV9DT0xPUl9SQU5HRV9NQVgpDQo+ICsJCQljb2xv
-cl9yYW5nZSA9IERSTV9DT0xPUl9ZQ0JDUl9MSU1JVEVEX1JBTkdFOw0KPiArDQo+ICsJCWNj
-bSA9IGNvbG9yc3BhY2VfY29lZmZzW2NvbG9yX3JhbmdlXVtjb2xvcl9lbmNvZGluZ107DQo+
-ICsNCj4gKwkJdmM0X2RsaXN0X3dyaXRlKHZjNF9zdGF0ZSwgY2NtWzBdKTsNCj4gKwkJdmM0
-X2RsaXN0X3dyaXRlKHZjNF9zdGF0ZSwgY2NtWzFdKTsNCj4gKwkJdmM0X2RsaXN0X3dyaXRl
-KHZjNF9zdGF0ZSwgY2NtWzJdKTsNCj4gICAJfQ0KPiAgIA0KPiAgIAl2YzRfc3RhdGUtPmxi
-bV9vZmZzZXQgPSAwOw0KPiBAQCAtMTQ0OCw2ICsxNTA0LDE1IEBAIHN0cnVjdCBkcm1fcGxh
-bmUgKnZjNF9wbGFuZV9pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsDQo+ICAgCQkJCQkg
-ICBEUk1fTU9ERV9SRUZMRUNUX1ggfA0KPiAgIAkJCQkJICAgRFJNX01PREVfUkVGTEVDVF9Z
-KTsNCj4gICANCj4gKwlkcm1fcGxhbmVfY3JlYXRlX2NvbG9yX3Byb3BlcnRpZXMocGxhbmUs
-DQo+ICsJCQkJCSAgQklUKERSTV9DT0xPUl9ZQ0JDUl9CVDYwMSkgfA0KPiArCQkJCQkgIEJJ
-VChEUk1fQ09MT1JfWUNCQ1JfQlQ3MDkpIHwNCj4gKwkJCQkJICBCSVQoRFJNX0NPTE9SX1lD
-QkNSX0JUMjAyMCksDQo+ICsJCQkJCSAgQklUKERSTV9DT0xPUl9ZQ0JDUl9MSU1JVEVEX1JB
-TkdFKSB8DQo+ICsJCQkJCSAgQklUKERSTV9DT0xPUl9ZQ0JDUl9GVUxMX1JBTkdFKSwNCj4g
-KwkJCQkJICBEUk1fQ09MT1JfWUNCQ1JfQlQ3MDksDQo+ICsJCQkJCSAgRFJNX0NPTE9SX1lD
-QkNSX0xJTUlURURfUkFOR0UpOw0KPiArDQo+ICAgCXJldHVybiBwbGFuZTsNCj4gICB9DQo+
-ICAgDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9yZWdzLmggYi9k
-cml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9yZWdzLmgNCj4gaW5kZXggNDg5ZjkyMWVmNDRkLi43
-NTM4Yjg0YTZkY2EgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92YzQvdmM0X3Jl
-Z3MuaA0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9yZWdzLmgNCj4gQEAgLTk3
-NSw3ICs5NzUsMTAgQEAgZW51bSBodnNfcGl4ZWxfZm9ybWF0IHsNCj4gICAjZGVmaW5lIFND
-QUxFUl9DU0MwX0NPRUZfQ1JfT0ZTX1NISUZUCQkwDQo+ICAgI2RlZmluZSBTQ0FMRVJfQ1ND
-MF9JVFJfUl82MDFfNQkJCTB4MDBmMDAwMDANCj4gICAjZGVmaW5lIFNDQUxFUl9DU0MwX0lU
-Ul9SXzcwOV8zCQkJMHgwMGYwMDAwMA0KPiArI2RlZmluZSBTQ0FMRVJfQ1NDMF9JVFJfUl8y
-MDIwCQkJMHgwMGYwMDAwMA0KPiAgICNkZWZpbmUgU0NBTEVSX0NTQzBfSlBFR19KRklGCQkJ
-MHgwMDAwMDAwMA0KPiArI2RlZmluZSBTQ0FMRVJfQ1NDMF9JVFJfUl83MDlfM19GUgkJMHgw
-MDAwMDAwMA0KPiArI2RlZmluZSBTQ0FMRVJfQ1NDMF9JVFJfUl8yMDIwX0ZSCQkweDAwMDAw
-MDAwDQo+ICAgDQo+ICAgLyogUzIuOCBjb250cmlidXRpb24gb2YgQ2IgdG8gR3JlZW4gKi8N
-Cj4gICAjZGVmaW5lIFNDQUxFUl9DU0MxX0NPRUZfQ0JfR1JOX01BU0sJCVZDNF9NQVNLKDMx
-LCAyMikNCj4gQEAgLTk5MCw4ICs5OTMsMTEgQEAgZW51bSBodnNfcGl4ZWxfZm9ybWF0IHsN
-Cj4gICAjZGVmaW5lIFNDQUxFUl9DU0MxX0NPRUZfQ1JfQkxVX01BU0sJCVZDNF9NQVNLKDEs
-IDApDQo+ICAgI2RlZmluZSBTQ0FMRVJfQ1NDMV9DT0VGX0NSX0JMVV9TSElGVAkJMA0KPiAg
-ICNkZWZpbmUgU0NBTEVSX0NTQzFfSVRSX1JfNjAxXzUJCQkweGU3MzMwNGE4DQo+IC0jZGVm
-aW5lIFNDQUxFUl9DU0MxX0lUUl9SXzcwOV8zCQkJMHhmMmI3ODRhOA0KPiAtI2RlZmluZSBT
-Q0FMRVJfQ1NDMV9KUEVHX0pGSUYJCQkweGVhMzRhNDAwDQo+ICsjZGVmaW5lIFNDQUxFUl9D
-U0MxX0lUUl9SXzcwOV8zCQkJMHhmMjc3ODRhOA0KPiArI2RlZmluZSBTQ0FMRVJfQ1NDMV9J
-VFJfUl8yMDIwCQkJMHhmNDM1OTRhOA0KPiArI2RlZmluZSBTQ0FMRVJfQ1NDMV9KUEVHX0pG
-SUYJCQkweGVhMzQ5NDAwDQo+ICsjZGVmaW5lIFNDQUxFUl9DU0MxX0lUUl9SXzcwOV8zX0ZS
-CQkweGY0Mzg4NDAwDQo+ICsjZGVmaW5lIFNDQUxFUl9DU0MxX0lUUl9SXzIwMjBfRlIJCTB4
-ZjViNmQ0MDANCj4gICANCj4gICAvKiBTMi44IGNvbnRyaWJ1dGlvbiBvZiBDYiB0byBSZWQg
-Ki8NCj4gICAjZGVmaW5lIFNDQUxFUl9DU0MyX0NPRUZfQ0JfUkVEX01BU0sJCVZDNF9NQVNL
-KDI5LCAyMCkNCj4gQEAgLTEwMDIsOSArMTAwOCwxMiBAQCBlbnVtIGh2c19waXhlbF9mb3Jt
-YXQgew0KPiAgIC8qIFMyLjggY29udHJpYnV0aW9uIG9mIENiIHRvIEJsdWUgKi8NCj4gICAj
-ZGVmaW5lIFNDQUxFUl9DU0MyX0NPRUZfQ0JfQkxVX01BU0sJCVZDNF9NQVNLKDE5LCAxMCkN
-Cj4gICAjZGVmaW5lIFNDQUxFUl9DU0MyX0NPRUZfQ0JfQkxVX1NISUZUCQkxMA0KPiAtI2Rl
-ZmluZSBTQ0FMRVJfQ1NDMl9JVFJfUl82MDFfNQkJCTB4MDAwNjYyMDQNCj4gLSNkZWZpbmUg
-U0NBTEVSX0NTQzJfSVRSX1JfNzA5XzMJCQkweDAwMDcyYTFjDQo+IC0jZGVmaW5lIFNDQUxF
-Ul9DU0MyX0pQRUdfSkZJRgkJCTB4MDAwNTk5YzUNCj4gKyNkZWZpbmUgU0NBTEVSX0NTQzJf
-SVRSX1JfNjAxXzUJCQkweDAwMDY2NjA0DQo+ICsjZGVmaW5lIFNDQUxFUl9DU0MyX0lUUl9S
-XzcwOV8zCQkJMHgwMDA3MmUxZA0KPiArI2RlZmluZSBTQ0FMRVJfQ1NDMl9JVFJfUl8yMDIw
-CQkJMHgwMDA2YjYyNA0KPiArI2RlZmluZSBTQ0FMRVJfQ1NDMl9KUEVHX0pGSUYJCQkweDAw
-MDU5ZGM2DQo+ICsjZGVmaW5lIFNDQUxFUl9DU0MyX0lUUl9SXzcwOV8zX0ZSCQkweDAwMDY0
-ZGRiDQo+ICsjZGVmaW5lIFNDQUxFUl9DU0MyX0lUUl9SXzIwMjBfRlIJCTB4MDAwNWU1ZTIN
-Cj4gICANCj4gICAjZGVmaW5lIFNDQUxFUl9UUFowX1ZFUlRfUkVDQUxDCQkJQklUKDMxKQ0K
-PiAgICNkZWZpbmUgU0NBTEVSX1RQWjBfU0NBTEVfTUFTSwkJCVZDNF9NQVNLKDI4LCA4KQ0K
-PiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Bl
-cg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1
-LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykN
-Ckdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+Hi,
 
---------------PryQuC80nHc2cYhNX3XQa2OZ--
+On Wed, Dec 15, 2021 at 09:03:01AM -0600, Guillaume Ranquet wrote:
+> Quoting Maxime Ripard (2021-12-13 17:54:22)
+> > On Thu, Dec 02, 2021 at 06:48:12AM -0800, Guillaume Ranquet wrote:
+> > > Hi,
+> > >
+> > > Quoting Maxime Ripard (2021-11-25 15:30:34)
+> > > > On Wed, Nov 24, 2021 at 01:45:21PM +0000, Guillaume Ranquet wrote:
+> > > > > Hi,
+> > > > > Thanks for all your input, really appreciated.
+> > > > >
+> > > > > Quoting Maxime Ripard (2021-11-16 15:51:12)
+> > > > > > Hi,
+> > > > > >
+> > > > > > On Mon, Nov 15, 2021 at 09:33:52AM -0500, Guillaume Ranquet wro=
+te:
+> > > > > > > Quoting Maxime Ripard (2021-11-15 11:11:29)
+> > > > > > > > > The driver creates a child device for the phy. The child =
+device will
+> > > > > > > > > never exist without the parent being active. As they are =
+sharing a
+> > > > > > > > > register range, the parent passes a regmap pointer to the=
+ child so that
+> > > > > > > > > both can work with the same register range. The phy drive=
+r sets device
+> > > > > > > > > data that is read by the parent to get the phy device tha=
+t can be used
+> > > > > > > > > to control the phy properties.
+> > > > > > > >
+> > > > > > > > If the PHY is in the same register space than the DP contro=
+ller, why do
+> > > > > > > > you need a separate PHY driver in the first place?
+> > > > > > >
+> > > > > > > This has been asked by Chun-Kuang Hu in a previous revision o=
+f the series:
+> > > > > > >
+> > > > > > > https://lore.kernel.org/linux-mediatek/CAAOTY_-+T-wRCH2yw2XSm=
+=3DZbaBbqBQ4EqpU2P0TF90gAWQeRsg@mail.gmail.com/
+> > > > > >
+> > > > > > It's a bit of a circular argument though :)
+> > > > > >
+> > > > > > It's a separate phy driver because it needs to go through anoth=
+er
+> > > > > > maintainer's tree, but it needs to go through another maintaine=
+r's tree
+> > > > > > because it's a separate phy driver.
+> > > > > >
+> > > > > > It doesn't explain why it needs to be a separate phy driver? Wh=
+y can't
+> > > > > > the phy setup be done directly in the DP driver, if it's essent=
+ially a
+> > > > > > single device?
+> > > > > >
+> > > > > > That being said, usually what those kind of questions mean is t=
+hat
+> > > > > > you're missing a comment or something in the commit log to prov=
+ide that
+> > > > > > context in the first place, so it would be great to add that co=
+ntext
+> > > > > > here.
+> > > > > >
+> > > > > > And it will avoid the situation we're now in where multiple rev=
+iewers
+> > > > > > ask the same questions over and over again :)
+> > > > > >
+> > > > > At first I didn't understand your reply, then I realized I gave y=
+ou
+> > > > > the wrong link...
+> > > > > my bad! I'm struggling a bit with mail reviews, but I'll get ther=
+e eventually.
+> > > > >
+> > > > > The driver and phy were a single driver until v2 of this patch se=
+ries
+> > > > > and the phy setup
+> > > > > was done directly in the driver (single driver, single C file).
+> > > > > Here's the relevant link to the discussion between Chun-Kuang and=
+ Markus
+> > > > >
+> > > > > https://lore.kernel.org/linux-mediatek/CAAOTY__cJMqcAieEraJ2sz4gi=
+0Zs-aiNXz38_x7dPQea6HvYEg@mail.gmail.com/#t
+> > > > >
+> > > > > I'll try to find a way to make it clearer for v7.
+> > > >
+> > > > OK, it makes sense then :)
+> > > >
+> > > > There's something weird though: the devices definitely look like th=
+ey're
+> > > > in a separate register range, yet you mention a regmap to handle the
+> > > > shared register range. That range doesn't seem described anywhere i=
+n the
+> > > > device tree though? What is it for?
+> > >
+> > > My understanding is that 0x1000 to 0x1fff controls the phy
+> > > functionalities and 0x2000 to 0x4fff controls "non-phy"
+> > > functionalities. And you are right, there's no description of that in
+> > > the device tree whatsoever. The ranges are in the same actual device
+> > > and thus it has been decided to not have dt-bindings for the phy
+> > > device.
+> >
+> > Sure, that last part makes sense, but then I'm not sure why you don't
+> > have the full register range in the device node you have in the DT?
+> >
+> > > The phy driver is a child of the DP driver that we register using
+> > > platform_device_register_data() and we pass along the same regmap as
+> > > the DP driver in its platform data.
+> >
+> > Especially if it's used by something, it should be described in the DT
+> > somewhere.
+> >
+> > Maxime
+>=20
+>=20
+> So, to make things crystal clear to a newbie (like me).
+> Would you describe it like this:
+> compatible =3D "mediatek,mt8195-dp-tx";
+> reg =3D <0 0x1c501000 0 0x0fff>,
+> 	<0 0x1c502000 0 0x2fff>;
+>=20
+> instead of the current description:
+> compatible =3D "mediatek,mt8195-dp-tx";
+> reg =3D <0 0x1c500000 0 0x8000>;
+>=20
+> I haven't checked what the rest of the 0x8000 range is used for though...
 
---------------G0SRIHiK8i37o8rwbQ67Wxpe
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+I'm confused, is that what you had before?
+
+I recall you had a DTSI somewhere where you have two devices, and the
+dp-tx device not having the phy range?
+
+If the latter is what you have, and there's no overlapping ranges over
+multiple nodes, then it's fine already.
+
+Maxime
+
+--ndkzk456decuxgne
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmG6Bg8FAwAAAAAACgkQlh/E3EQov+Ai
-uxAAsop062dQiM7nng8CpzlAffCXeci7PWdGaTTaOzyaU+pUaht/OpnrwZdXu0II7Ol4C3SWZts3
-5GzIMJw8mJXO9ya2lYhhYu7jPsR0xp6g0e5bZ/WUj8X+t+0muyTI+ZsMLAU83vOxF3QGqQKrx4Cw
-Qb3o9k33G6co/xESoTq+siZVV0DhGWhd/21IIau78ar/DQ58IU0WTmP29uJshUUJh/bRyk8/Yq7z
-FDteJM9rVOPfhYludUZCNuEo/Balw3MKbLuUn69mofOC3hl7vWHeyprhAJBbf2tlK6xhcO4vuyic
-JjwC9TsPx18HGgq378SUT8RijGALm2C8yARTyh8B4eXcmZ/+xVHx6PRTvXFNwjgjWXnk0DCf27fT
-mmdVUGtQhAnCF89MzuZt+GWLT4YVJ764QvxUXqvForZH/26kR2k0yjp5WAldPt0fdxv+dww86l5n
-mK+0LxhGQbb2Df3q4MWG5qA1yrHeuBc6wjIsxq7dFQUnBtPGdZ4Aan+ILEmPnOHSu0UULOo+6bwi
-MPsyjnOF9Nr3kO+vj4qof5TLsy675EaRDTPh3QnBr0RA4YvlJCvnHiou0Jts03WBEKqUpIeSD7Ys
-cWFoMzP+BFlobKS5l2unNGYjJ8UL1kqOLnT8aRFL9SJtJNqyBiEgLBfpaxWhX5X9Q5qz/cTG2xKF
-pWk=
-=DY8D
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYboGfAAKCRDj7w1vZxhR
+xd+NAQCzDSb3a8jsktzRpRmed41tbQPbdLx8RoZV1Z4ZIerXRQD5ASNI9HPxl3CG
+VgiUX/PsaEGNJr3KNbNwBWiUDdLLbAc=
+=GHKM
 -----END PGP SIGNATURE-----
 
---------------G0SRIHiK8i37o8rwbQ67Wxpe--
+--ndkzk456decuxgne--
