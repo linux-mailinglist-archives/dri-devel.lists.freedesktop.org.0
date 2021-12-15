@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C52D475603
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 11:15:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3D1F475604
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 11:15:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A724D10E452;
-	Wed, 15 Dec 2021 10:15:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09C5510E465;
+	Wed, 15 Dec 2021 10:15:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com
- [IPv6:2607:f8b0:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76DCD10E452
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 10:15:47 +0000 (UTC)
-Received: by mail-pf1-x42f.google.com with SMTP id f74so2926794pfa.3
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 02:15:47 -0800 (PST)
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
+ [IPv6:2607:f8b0:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C1CC10E464
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 10:15:51 +0000 (UTC)
+Received: by mail-pf1-x430.google.com with SMTP id o4so20246569pfp.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 02:15:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4RVJ1JFh0nGp4mR6xsbu8YLyMS3Djo2VpT6T0fYvhSg=;
- b=HMVMNlo677g+eswNQIZrEiUFz8PLAEaBZHRmlbkKL9BmE7LpMkBJzmxo90nED+qhNC
- qwIdPo7tGesj4aJKNKvGcYHn4/6iAny1X5MBd7OCIdDU8HIEafQKEhZHzCCF+SoQ2LJ9
- l24X7MQSxq3segAJOPEmlR3qcn7JA++AAYH3I=
+ bh=tASggvKbD+8kubIbPYJcEas91o6vPtNnVuuBr/gmYOg=;
+ b=h2E5KmgPdVxeRbnvgAx0dgoENyx6uSab3HRnnWedF10Vud4T3Jyv1+2kP86f7NSi1R
+ tlfIzNo2IyvitZArK9i7IX+Kn3as2rMF5qMN03Z32I/+eGbDswI5UxLryOdCnY4vnhaM
+ +T6cmcrOGNo9CKkgPVWqme4MY8Vruy4aPtBQ4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4RVJ1JFh0nGp4mR6xsbu8YLyMS3Djo2VpT6T0fYvhSg=;
- b=meGHQV63nQ7xwAgd4b2o5UA92gxprumEbTahQBBaB7ow8tsaiX30zx1EQBl0K7g/cC
- cWbOiRua06r3eYJK5rsaP2XdpsmG1BmJAWW4GuNjEXEedJsEfSxcWFayUZFdl59U2Mp9
- tJypnMXRN5zCRm2Hn1mlSXWFxOBgweMkIa13BZuHbD4cpShqv15i7aGcsA8tWx1kbBhP
- HEYjziVgjOka0gfI5KFCHAKQQ+RHoeto28XlYDzwSzQVfzPO7piRgXuUc1e9aKQAuL4N
- jaf9sHs/FwYthK7KwQqwdd5ShyCmE8ibgo5S1PXTccS5URDsgm8GTIBBVyyJYwPpbq++
- gIPQ==
-X-Gm-Message-State: AOAM530SbiXLteQGDdwZDiRveIrCPQbqRTrYI7xHmbi/Nhtn380Uufb6
- 66JCAN3uV5QypCrTjR9lJRqPkA==
-X-Google-Smtp-Source: ABdhPJxi95hWmDkrp29/c+oGbtJQSztKn3ldfouCvCErscA+rwKVVXRQeCdqXx9rpA08uKwIkifN8g==
-X-Received: by 2002:a63:451:: with SMTP id 78mr7552317pge.427.1639563347095;
- Wed, 15 Dec 2021 02:15:47 -0800 (PST)
+ bh=tASggvKbD+8kubIbPYJcEas91o6vPtNnVuuBr/gmYOg=;
+ b=TvTPsXf2yAG7PgSEc2A9eqtWSSsVz1KIOvb1ZGeAe9Q21h0Vg0UqCvqCYSX6Saxonl
+ cMdVWjt4anbzQ2r7Jvz3SNpg2Q1IoaHnTtE6I46A4u/uWl29/8fAFjHPgwsvOXOyT79P
+ 7qmyXmjCCa3aTbnkE0bDEtvDMEOSANAW7DE0sPQ4PNUoeTR8x0tbHQscguUauUkJGUEg
+ T0VajWSpHZlFesXkd2awmqODG1YLXHFiRyRAi3G+QUZp+Hiu84w0PcAfS6Tx1/qTIgq3
+ d44/Id85bqyVQnNVcgJ1mZvH9osSFustFn1i1Y8So4jPb2J4kc/fl9lGKWXrIcs4AF51
+ JT8A==
+X-Gm-Message-State: AOAM531chB37KPCGDwIpm3hcDZTdLtqV2tyeiJDuKXO+DK2c9++imD7M
+ Yxw26NHjJrHk3htGjogAlg/ADQ==
+X-Google-Smtp-Source: ABdhPJx4PaSquSFCMPx941GzhNWZlcUWI4mFKXJjXoEcp/AkVx8yYusNwcsNgRqD7DgZnFpa3gDf6Q==
+X-Received: by 2002:a63:6b81:: with SMTP id g123mr7548179pgc.140.1639563350772; 
+ Wed, 15 Dec 2021 02:15:50 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:c00a:a0a9:a7:8328:d9c4:5bc9])
  by smtp.gmail.com with ESMTPSA id
- v11sm2408149pfu.184.2021.12.15.02.15.43
+ v11sm2408149pfu.184.2021.12.15.02.15.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Dec 2021 02:15:46 -0800 (PST)
+ Wed, 15 Dec 2021 02:15:50 -0800 (PST)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Marek Szyprowski <m.szyprowski@samsung.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -53,9 +53,9 @@ To: Marek Szyprowski <m.szyprowski@samsung.com>,
  Sam Ravnborg <sam@ravnborg.org>,
  Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
  Inki Dae <inki.dae@samsung.com>
-Subject: [PATCH v4 1/6] drm: bridge: panel: Reset the connector state pointer
-Date: Wed, 15 Dec 2021 15:45:29 +0530
-Message-Id: <20211215101534.45003-2-jagan@amarulasolutions.com>
+Subject: [PATCH v4 2/6] drm: exynos: dsi: Use drm panel_bridge API
+Date: Wed, 15 Dec 2021 15:45:30 +0530
+Message-Id: <20211215101534.45003-3-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211215101534.45003-1-jagan@amarulasolutions.com>
 References: <20211215101534.45003-1-jagan@amarulasolutions.com>
@@ -78,66 +78,302 @@ Cc: linux-amarula@amarulasolutions.com, Jagan Teki <jagan@amarulasolutions.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Trigger hotplug event with drm_kms_helper_hotplug_event might fail if the
-connector state pointer is NULL.
+Replace the manual panel handling code by a drm panel_bridge via
+devm_drm_of_get_bridge().
 
-BUG observed in exynos dsi driver where drm_bridge_attach is trying to register
-a connector in panel_bridge before the hotplug event is triggered,
+Adding panel_bridge handling,
 
-WARNING: CPU: 1 PID: 1 at drivers/gpu/drm/drm_atomic_state_helper.c:494 drm_atomic_helper_connector_duplicate_state+0x94/0x9c
-Modules linked in:
-CPU: 1 PID: 1 Comm: swapper/0 Tainted: G W 5.16.0-rc1-00009-g704b1dbfa4c2 #11058
-Hardware name: Samsung Exynos (Flattened Device Tree)
-[<c0110b30>] (unwind_backtrace) from [<c010c618>] (show_stack+0x10/0x14)
-[<c010c618>] (show_stack) from [<c0b657d4>] (dump_stack_lvl+0x58/0x70)
-[<c0b657d4>] (dump_stack_lvl) from [<c01261dc>] (__warn+0xd0/0x134)
-[<c01261dc>] (__warn) from [<c0b5f628>] (warn_slowpath_fmt+0x5c/0xb4)
-[<c0b5f628>] (warn_slowpath_fmt) from [<c064bce4>] (drm_atomic_helper_connector_duplicate_state+0x94/0x9c)
-[<c064bce4>] (drm_atomic_helper_connector_duplicate_state) from [<c0666b64>] (drm_atomic_get_connector_state+0xd4/0x190)
-[<c0666b64>] (drm_atomic_get_connector_state) from [<c0667928>] (__drm_atomic_helper_set_config+0x314/0x368)
-[<c0667928>] (__drm_atomic_helper_set_config) from [<c067e628>] (drm_client_modeset_commit_atomic+0x170/0x278)
-[<c067e628>] (drm_client_modeset_commit_atomic) from [<c067e800>] (drm_client_modeset_commit_locked+0x60/0x1c8)
-[<c067e800>] (drm_client_modeset_commit_locked) from [<c067e98c>] (drm_client_modeset_commit+0x24/0x40)
-[<c067e98c>] (drm_client_modeset_commit) from [<c06509c0>] (drm_fb_helper_set_par+0xb8/0xf8)
-[<c06509c0>] (drm_fb_helper_set_par) from [<c05b86d0>] (fbcon_init+0x2c0/0x518)
-[<c05b86d0>] (fbcon_init) from [<c060636c>] (visual_init+0xc0/0x108)
-[<c060636c>] (visual_init) from [<c06085e4>] (do_bind_con_driver+0x1b8/0x3a4)
-[<c06085e4>] (do_bind_con_driver) from [<c0608b40>] (do_take_over_console+0x13c/0x1e8)
-[<c0608b40>] (do_take_over_console) from [<c05b6854>] (do_fbcon_takeover+0x78/0xd8)
-[<c05b6854>] (do_fbcon_takeover) from [<c05b1154>] (register_framebuffer+0x208/0x2e0)
-[<c05b1154>] (register_framebuffer) from [<c064ead0>] (__drm_fb_helper_initial_config_and_unlock+0x400/0x63c)
-[<c064ead0>] (__drm_fb_helper_initial_config_and_unlock) from [<c063a718>] (drm_kms_helper_hotplug_event+0x24/0x30)
-[<c063a718>] (drm_kms_helper_hotplug_event) from [<c068f668>] (exynos_dsi_host_attach+0x174/0x1fc)
-[<c068f668>] (exynos_dsi_host_attach) from [<c0699354>] (s6e8aa0_probe+0x1b4/0x218)
+- Drops drm_connector and related operations as drm_bridge_attach
+  creates connector during attachment.
 
-So reset the atomic state for a given connector by freeing the state pointer
-and allocate a new empty state object. This can be done using connector
-funcs->reset helper and has to be done before the hotplug even calls.
+- Drops panel pointer and iterate the bridge, so-that it can operate
+  the normal bridge and panel_bridge in constitutive callbacks.
 
-This patch calls the connector->funcs->reset in panel_bridge_attach.
+This simplifies the driver and allows all components in the display
+pipeline to be treated as bridges.
 
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
 Changes for v4:
+- drop unneeded headers
+Changes for v3:
+- fix port number
+- add print for attached device
+Changes for v2:
 - new patch
 
- drivers/gpu/drm/bridge/panel.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c | 167 ++++--------------------
+ 1 file changed, 28 insertions(+), 139 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-index b32295abd9e7..f6eea194482a 100644
---- a/drivers/gpu/drm/bridge/panel.c
-+++ b/drivers/gpu/drm/bridge/panel.c
-@@ -83,6 +83,9 @@ static int panel_bridge_attach(struct drm_bridge *bridge,
- 	drm_connector_attach_encoder(&panel_bridge->connector,
- 					  bridge->encoder);
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+index 8d137857818c..14e16f2d594b 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+@@ -25,9 +25,7 @@
  
-+	if (connector->funcs->reset)
-+		connector->funcs->reset(connector);
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
+-#include <drm/drm_fb_helper.h>
+ #include <drm/drm_mipi_dsi.h>
+-#include <drm/drm_panel.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_simple_kms_helper.h>
+@@ -221,6 +219,11 @@ enum exynos_dsi_transfer_type {
+ 	EXYNOS_DSI_RX,
+ };
+ 
++enum {
++	DSI_PORT_IN,
++	DSI_PORT_OUT
++};
 +
- 	return 0;
+ struct exynos_dsi_transfer {
+ 	struct list_head list;
+ 	struct completion completed;
+@@ -254,8 +257,6 @@ struct exynos_dsi_driver_data {
+ struct exynos_dsi {
+ 	struct drm_encoder encoder;
+ 	struct mipi_dsi_host dsi_host;
+-	struct drm_connector connector;
+-	struct drm_panel *panel;
+ 	struct list_head bridge_chain;
+ 	struct drm_bridge *out_bridge;
+ 	struct device *dev;
+@@ -285,7 +286,6 @@ struct exynos_dsi {
+ };
+ 
+ #define host_to_dsi(host) container_of(host, struct exynos_dsi, dsi_host)
+-#define connector_to_dsi(c) container_of(c, struct exynos_dsi, connector)
+ 
+ static inline struct exynos_dsi *encoder_to_dsi(struct drm_encoder *e)
+ {
+@@ -1391,42 +1391,21 @@ static void exynos_dsi_enable(struct drm_encoder *encoder)
+ 
+ 	dsi->state |= DSIM_STATE_ENABLED;
+ 
+-	if (dsi->panel) {
+-		ret = drm_panel_prepare(dsi->panel);
+-		if (ret < 0)
+-			goto err_put_sync;
+-	} else {
+-		list_for_each_entry_reverse(iter, &dsi->bridge_chain,
+-					    chain_node) {
+-			if (iter->funcs->pre_enable)
+-				iter->funcs->pre_enable(iter);
+-		}
++	list_for_each_entry_reverse(iter, &dsi->bridge_chain, chain_node) {
++		if (iter->funcs->pre_enable)
++			iter->funcs->pre_enable(iter);
+ 	}
+ 
+ 	exynos_dsi_set_display_mode(dsi);
+ 	exynos_dsi_set_display_enable(dsi, true);
+ 
+-	if (dsi->panel) {
+-		ret = drm_panel_enable(dsi->panel);
+-		if (ret < 0)
+-			goto err_display_disable;
+-	} else {
+-		list_for_each_entry(iter, &dsi->bridge_chain, chain_node) {
+-			if (iter->funcs->enable)
+-				iter->funcs->enable(iter);
+-		}
++	list_for_each_entry(iter, &dsi->bridge_chain, chain_node) {
++		if (iter->funcs->enable)
++			iter->funcs->enable(iter);
+ 	}
+ 
+ 	dsi->state |= DSIM_STATE_VIDOUT_AVAILABLE;
+ 	return;
+-
+-err_display_disable:
+-	exynos_dsi_set_display_enable(dsi, false);
+-	drm_panel_unprepare(dsi->panel);
+-
+-err_put_sync:
+-	dsi->state &= ~DSIM_STATE_ENABLED;
+-	pm_runtime_put(dsi->dev);
  }
  
+ static void exynos_dsi_disable(struct drm_encoder *encoder)
+@@ -1439,15 +1418,12 @@ static void exynos_dsi_disable(struct drm_encoder *encoder)
+ 
+ 	dsi->state &= ~DSIM_STATE_VIDOUT_AVAILABLE;
+ 
+-	drm_panel_disable(dsi->panel);
+-
+ 	list_for_each_entry_reverse(iter, &dsi->bridge_chain, chain_node) {
+ 		if (iter->funcs->disable)
+ 			iter->funcs->disable(iter);
+ 	}
+ 
+ 	exynos_dsi_set_display_enable(dsi, false);
+-	drm_panel_unprepare(dsi->panel);
+ 
+ 	list_for_each_entry(iter, &dsi->bridge_chain, chain_node) {
+ 		if (iter->funcs->post_disable)
+@@ -1458,70 +1434,6 @@ static void exynos_dsi_disable(struct drm_encoder *encoder)
+ 	pm_runtime_put_sync(dsi->dev);
+ }
+ 
+-static enum drm_connector_status
+-exynos_dsi_detect(struct drm_connector *connector, bool force)
+-{
+-	return connector->status;
+-}
+-
+-static void exynos_dsi_connector_destroy(struct drm_connector *connector)
+-{
+-	drm_connector_unregister(connector);
+-	drm_connector_cleanup(connector);
+-	connector->dev = NULL;
+-}
+-
+-static const struct drm_connector_funcs exynos_dsi_connector_funcs = {
+-	.detect = exynos_dsi_detect,
+-	.fill_modes = drm_helper_probe_single_connector_modes,
+-	.destroy = exynos_dsi_connector_destroy,
+-	.reset = drm_atomic_helper_connector_reset,
+-	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+-	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+-};
+-
+-static int exynos_dsi_get_modes(struct drm_connector *connector)
+-{
+-	struct exynos_dsi *dsi = connector_to_dsi(connector);
+-
+-	if (dsi->panel)
+-		return drm_panel_get_modes(dsi->panel, connector);
+-
+-	return 0;
+-}
+-
+-static const struct drm_connector_helper_funcs exynos_dsi_connector_helper_funcs = {
+-	.get_modes = exynos_dsi_get_modes,
+-};
+-
+-static int exynos_dsi_create_connector(struct drm_encoder *encoder)
+-{
+-	struct exynos_dsi *dsi = encoder_to_dsi(encoder);
+-	struct drm_connector *connector = &dsi->connector;
+-	struct drm_device *drm = encoder->dev;
+-	int ret;
+-
+-	connector->polled = DRM_CONNECTOR_POLL_HPD;
+-
+-	ret = drm_connector_init(drm, connector, &exynos_dsi_connector_funcs,
+-				 DRM_MODE_CONNECTOR_DSI);
+-	if (ret) {
+-		DRM_DEV_ERROR(dsi->dev,
+-			      "Failed to initialize connector with drm\n");
+-		return ret;
+-	}
+-
+-	connector->status = connector_status_disconnected;
+-	drm_connector_helper_add(connector, &exynos_dsi_connector_helper_funcs);
+-	drm_connector_attach_encoder(connector, encoder);
+-	if (!drm->registered)
+-		return 0;
+-
+-	connector->funcs->reset(connector);
+-	drm_connector_register(connector);
+-	return 0;
+-}
+-
+ static const struct drm_encoder_helper_funcs exynos_dsi_encoder_helper_funcs = {
+ 	.enable = exynos_dsi_enable,
+ 	.disable = exynos_dsi_disable,
+@@ -1533,33 +1445,23 @@ static int exynos_dsi_host_attach(struct mipi_dsi_host *host,
+ 				  struct mipi_dsi_device *device)
+ {
+ 	struct exynos_dsi *dsi = host_to_dsi(host);
++	struct device *dev = dsi->dev;
+ 	struct drm_encoder *encoder = &dsi->encoder;
+ 	struct drm_device *drm = encoder->dev;
+-	struct drm_bridge *out_bridge;
+-
+-	out_bridge  = of_drm_find_bridge(device->dev.of_node);
+-	if (out_bridge) {
+-		drm_bridge_attach(encoder, out_bridge, NULL, 0);
+-		dsi->out_bridge = out_bridge;
+-		list_splice_init(&encoder->bridge_chain, &dsi->bridge_chain);
+-	} else {
+-		int ret = exynos_dsi_create_connector(encoder);
+-
+-		if (ret) {
+-			DRM_DEV_ERROR(dsi->dev,
+-				      "failed to create connector ret = %d\n",
+-				      ret);
+-			drm_encoder_cleanup(encoder);
+-			return ret;
+-		}
++	int ret;
+ 
+-		dsi->panel = of_drm_find_panel(device->dev.of_node);
+-		if (IS_ERR(dsi->panel))
+-			dsi->panel = NULL;
+-		else
+-			dsi->connector.status = connector_status_connected;
++	dsi->out_bridge = devm_drm_of_get_bridge(dev, dev->of_node, DSI_PORT_OUT, 0);
++	if (IS_ERR(dsi->out_bridge)) {
++		ret = PTR_ERR(dsi->out_bridge);
++		DRM_DEV_ERROR(dev, "failed to find the bridge: %d\n", ret);
++		return ret;
+ 	}
+ 
++	DRM_DEV_INFO(dev, "Attached %s device\n", device->name);
++
++	drm_bridge_attach(encoder, dsi->out_bridge, NULL, 0);
++	list_splice_init(&encoder->bridge_chain, &dsi->bridge_chain);
++
+ 	/*
+ 	 * This is a temporary solution and should be made by more generic way.
+ 	 *
+@@ -1567,7 +1469,7 @@ static int exynos_dsi_host_attach(struct mipi_dsi_host *host,
+ 	 * TE interrupt handler.
+ 	 */
+ 	if (!(device->mode_flags & MIPI_DSI_MODE_VIDEO)) {
+-		int ret = exynos_dsi_register_te_irq(dsi, &device->dev);
++		ret = exynos_dsi_register_te_irq(dsi, &device->dev);
+ 		if (ret)
+ 			return ret;
+ 	}
+@@ -1594,18 +1496,10 @@ static int exynos_dsi_host_detach(struct mipi_dsi_host *host,
+ 	struct exynos_dsi *dsi = host_to_dsi(host);
+ 	struct drm_device *drm = dsi->encoder.dev;
+ 
+-	if (dsi->panel) {
+-		mutex_lock(&drm->mode_config.mutex);
+-		exynos_dsi_disable(&dsi->encoder);
+-		dsi->panel = NULL;
+-		dsi->connector.status = connector_status_disconnected;
+-		mutex_unlock(&drm->mode_config.mutex);
+-	} else {
+-		if (dsi->out_bridge->funcs->detach)
+-			dsi->out_bridge->funcs->detach(dsi->out_bridge);
+-		dsi->out_bridge = NULL;
+-		INIT_LIST_HEAD(&dsi->bridge_chain);
+-	}
++	if (dsi->out_bridge->funcs->detach)
++		dsi->out_bridge->funcs->detach(dsi->out_bridge);
++	dsi->out_bridge = NULL;
++	INIT_LIST_HEAD(&dsi->bridge_chain);
+ 
+ 	if (drm->mode_config.poll_enabled)
+ 		drm_kms_helper_hotplug_event(drm);
+@@ -1661,11 +1555,6 @@ static int exynos_dsi_of_read_u32(const struct device_node *np,
+ 	return ret;
+ }
+ 
+-enum {
+-	DSI_PORT_IN,
+-	DSI_PORT_OUT
+-};
+-
+ static int exynos_dsi_parse_dt(struct exynos_dsi *dsi)
+ {
+ 	struct device *dev = dsi->dev;
 -- 
 2.25.1
 
