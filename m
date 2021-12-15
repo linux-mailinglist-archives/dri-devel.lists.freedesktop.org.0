@@ -1,46 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEAD647613D
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 19:58:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27F3C476223
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 20:49:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E3FF10E48D;
-	Wed, 15 Dec 2021 18:58:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B1D010E2BB;
+	Wed, 15 Dec 2021 19:49:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7027710E48D
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 18:58:07 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 11EA461A56;
- Wed, 15 Dec 2021 18:58:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8ADB1C36AE3;
- Wed, 15 Dec 2021 18:58:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1639594684;
- bh=76eb7VDWfPRd7pvYjeAKY4dcwiM5H0xLKfZAlmiztxc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Z0iSKh3vKhdbFk1neCcrSe+Pzz9B7uk/gXVZqa7cqsyP5e3NuDNJ6g3TlIYzqioxP
- AsT6VSjdWNFxVYu2mzZyIhobGGJ3HWcSKXOmNHTIGdWY1eFuySt7/uVz3zlrPtmzMz
- KiCDM+GnCReT/Hi62TTcJXfML0VhsVLvJQYRPe93KdkP5Yxb13RLRf1GB1vO+mIxyE
- 656/TTsEcb+IGbWvQ4YUj8y1RRZfJVcHlxwZ4hEOIo+7Kk7I16v/5gkbL8QyQSjniv
- S/YgMUg4h1cCmeud1uX5gJECCwHGHVlXCwHrq9aDuc55ANZuTgmJtNC3OyH9pgfMiJ
- ayYMGgNNP1Eaw==
-Date: Wed, 15 Dec 2021 18:57:58 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v4 00/22] Support HDMI audio on NVIDIA Tegra20
-Message-ID: <Ybo6tsnQM6OacoZs@sirena.org.uk>
-References: <20211204143725.31646-1-digetx@gmail.com>
+X-Greylist: delayed 305 seconds by postgrey-1.36 at gabe;
+ Wed, 15 Dec 2021 09:29:40 UTC
+Received: from nksmu.kylinos.cn (mailgw.kylinos.cn [123.150.8.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06FC010E36A;
+ Wed, 15 Dec 2021 09:29:38 +0000 (UTC)
+X-UUID: f7c97c1c2b8a479baf36adbbbce09b56-20211215
+X-UUID: f7c97c1c2b8a479baf36adbbbce09b56-20211215
+X-User: zhouzongmin@kylinos.cn
+Received: from localhost.localdomain [(116.128.244.169)] by nksmu.kylinos.cn
+ (envelope-from <zhouzongmin@kylinos.cn>) (Generic MTA)
+ with ESMTP id 1907932870; Wed, 15 Dec 2021 17:32:29 +0800
+From: Zongmin Zhou <zhouzongmin@kylinos.cn>
+To: airlied@linux.ie,
+	daniel@ffwll.ch
+Subject: [PATCH] drm/amdgpu: fixup bad vram size on gmc v8
+Date: Wed, 15 Dec 2021 17:23:37 +0800
+Message-Id: <20211215092337.340266-1-zhouzongmin@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="r8pMqbbDVxb335U5"
-Content-Disposition: inline
-In-Reply-To: <20211204143725.31646-1-digetx@gmail.com>
-X-Cookie: No solicitors.
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Wed, 15 Dec 2021 19:49:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,52 +42,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
- Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
- Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Rob Herring <robh+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Agneli <poczt@protonmail.ch>, linux-tegra@vger.kernel.org,
- Jonathan Hunter <jonathanh@nvidia.com>
+Cc: Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Zongmin Zhou <zhouzongmin@kylinos.cn>,
+ amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Some boards(like RX550) seem to have garbage in the upper
+16 bits of the vram size register.  Check for
+this and clamp the size properly.  Fixes
+boards reporting bogus amounts of vram.
 
---r8pMqbbDVxb335U5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+after add this patch,the maximum GPU VRAM size is 64GB,
+otherwise only 64GB vram size will be used.
 
-On Sat, Dec 04, 2021 at 05:37:03PM +0300, Dmitry Osipenko wrote:
+Signed-off-by: Zongmin Zhou<zhouzongmin@kylinos.cn>
+---
+ drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-> I based S/PDIF patches on Arnd's Bergmann patch from a separate series [1]
-> that removes obsolete slave_id. This eases merging of the patches by
-> removing the merge conflict. This is a note for Mark Brown.
+diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
+index 492ebed2915b..63b890f1e8af 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
+@@ -515,10 +515,10 @@ static void gmc_v8_0_mc_program(struct amdgpu_device *adev)
+ static int gmc_v8_0_mc_init(struct amdgpu_device *adev)
+ {
+ 	int r;
++	u32 tmp;
+ 
+ 	adev->gmc.vram_width = amdgpu_atombios_get_vram_width(adev);
+ 	if (!adev->gmc.vram_width) {
+-		u32 tmp;
+ 		int chansize, numchan;
+ 
+ 		/* Get VRAM informations */
+@@ -562,8 +562,15 @@ static int gmc_v8_0_mc_init(struct amdgpu_device *adev)
+ 		adev->gmc.vram_width = numchan * chansize;
+ 	}
+ 	/* size in MB on si */
+-	adev->gmc.mc_vram_size = RREG32(mmCONFIG_MEMSIZE) * 1024ULL * 1024ULL;
+-	adev->gmc.real_vram_size = RREG32(mmCONFIG_MEMSIZE) * 1024ULL * 1024ULL;
++	tmp = RREG32(mmCONFIG_MEMSIZE);
++	/* some boards may have garbage in the upper 16 bits */
++	if (tmp & 0xffff0000) {
++		DRM_INFO("Probable bad vram size: 0x%08x\n", tmp);
++		if (tmp & 0xffff)
++			tmp &= 0xffff;
++	}
++	adev->gmc.mc_vram_size = tmp * 1024ULL * 1024ULL;
++	adev->gmc.real_vram_size = adev->gmc.mc_vram_size;
+ 
+ 	if (!(adev->flags & AMD_IS_APU)) {
+ 		r = amdgpu_device_resize_fb_bar(adev);
+-- 
+2.25.1
 
-That's not in my tree so I'll need either a pull request with the series
-or a resend after the merge window.  It's also not clear what to do
-about the DRM bits, I guess it's probably easiest to just apply them
-along with the ASoC patches.
 
-Please include human readable descriptions of things like commits and
-issues being discussed in e-mail in your mails, this makes them much
-easier for humans to read especially when they have no internet access.
-I do frequently catch up on my mail on flights or while otherwise
-travelling so this is even more pressing for me than just being about
-making things a bit easier to read.
-
---r8pMqbbDVxb335U5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmG6OrUACgkQJNaLcl1U
-h9CG4wf/R0NhMevfJzcrxbAImYtw8MIQXIBeRXJNM+viHozogArxj5HSQNArbEYW
-VBlrS/tCW9uXaIoqZgIAAkU5UoH8r01iharsCnm/GLer4aFfvFJqYfc6KPZAVhgu
-zu1AwsHPBiv59YBPE5eMNxwluv5AORqy98wy0i5eiyEBCpEeKgt3lLoFDr/GFIKt
-tXWuheE/2fqKASDvQvTHfbQ75Nb7oiCqdc/0xRkjmUgJX6JDrUPPASiQ38YfHgHw
-0X6L1Y2tWlLlGsQpdoXOceu0pnc0WdWWAxnLvJHjv6o+nMGECYBCZB/AmHYkqzrj
-vAkNiHZXRi+f3RikU7TRzEHgXszS2Q==
-=rihE
------END PGP SIGNATURE-----
-
---r8pMqbbDVxb335U5--
+No virus found
+		Checked by Hillstone Network AntiVirus
