@@ -2,61 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8089A475C5D
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 16:55:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65392475C71
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 16:57:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CBED10EB52;
-	Wed, 15 Dec 2021 15:55:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F24E10E66D;
+	Wed, 15 Dec 2021 15:57:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0428810EB52
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 15:55:39 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id u17so39025437wrt.3
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 07:55:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=R67lTnWwXbUTzFzCGUUL+WExD12deXb0Qh98T1uTW0w=;
- b=OhHVBsH+JSjXGRjWW3dS71NC/5sbYxFPZeF0Q4crce9RPU1G+fwh5oGbAJmZOtYSDn
- yjuE+M/vGo+HcrEQy22dlJU89eYUIQKX9sy91E3wHpbdRpvBDG7E9pqh+KnpWWxUSq9v
- PNF4kbB9qDszar6MdLFK6vUT3qHSmSkZinyZ9tTuRpB9k8dn911giQKHsHtqs8Ub7qfH
- d+kpMd6Mn09M8+dSrQ6c/fZrNlAwgj2PLcnx4Skskb/YzyUvtGrwTTyqbbEG/OT3HkPf
- 3zJ8bhxulq+9LmiMbMGftBQwPezCtnNWvi9+c4T4qCyJR3jP+j7uHUtw5ctkZOex5L9X
- 70hQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=R67lTnWwXbUTzFzCGUUL+WExD12deXb0Qh98T1uTW0w=;
- b=ECpi/gCYFMmiFZhT9tDiq06KGnxmKSdr4XjeCjk8rbcsbGD5TWWu+4w/NYqe9jXU7u
- Gd6MjklcMPwpYgWFns3/chrVFCvcrEpkXWR30Spcmn7uHHunaWySdezvNVMnniDVSbOk
- GhGdPS2nf5Pk46maNCdfLq0cmTYZbXkJyHKGPNXtPxJ5YMFODbeFnaDsl2s97vSB2GnJ
- CgJ7YAe+s+E1yr2JC5g0Q70eOklMxAxax7WGYQr1IjcTm+gK0Oa3EKrZ7S1zQRVVc2v1
- CdQK861bcgeaQJg/BeJLATNpo6ojfyW7vwRTdqz3pM8U449tQt9qPqBWmmyFCFVnblqN
- 1Feg==
-X-Gm-Message-State: AOAM531hhTKQzRx/7GId6K6NVxGj8hcY2KQd1m4nsENkQBhHg356A1FR
- KcrlRWJMdN7XjWZin8xJ7H4=
-X-Google-Smtp-Source: ABdhPJxHztDvenoHWfBqOVDnmyiUgaQWSSLPpt6XX3/VYHhw8RSChI7rhoZIlA+1HRtQtKu2hou5Tg==
-X-Received: by 2002:a5d:6488:: with SMTP id o8mr5000272wri.631.1639583737576; 
- Wed, 15 Dec 2021 07:55:37 -0800 (PST)
-Received: from orome ([193.209.96.43])
- by smtp.gmail.com with ESMTPSA id n7sm2363354wro.68.2021.12.15.07.55.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Dec 2021 07:55:36 -0800 (PST)
-Date: Wed, 15 Dec 2021 16:55:32 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v16 00/40] NVIDIA Tegra power management patches for 5.17
-Message-ID: <YboP9IFMUrUnEzrU@orome>
-References: <20211130232347.950-1-digetx@gmail.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1598310E5C3;
+ Wed, 15 Dec 2021 15:57:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1639583828; x=1671119828;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=A6szhfY6Suo6BYmthU5AH6lElsFjCSbSH0NgSC8V9KY=;
+ b=RWhjq+2N7g+D1plquaNCVkDEsid2st+JgfaJtfZgtI1SifkjPNeQX9Eq
+ lmgUjoiBocXMsG1K2C3q7a7r1rpLvZUv8iV16Pjx3l2MFG7FKgd9B770a
+ PKRXTeFFV9HtuUal316IhW+E3Zz+jS3aIWiG6GbDHYDlo1Thl6XWLsTs7
+ 1dDtRFA9YirlLxCF6KSaou+J+U6tAQviK+Xd/Xs/GskirjN/yAfU9rRTS
+ 8QiQs8PAICIN9kYpTGuyk3qQVTcTNPi09N1wnS1Kdl4czBEXHLjeirbK8
+ 8JftteLuJExZl89kV6XzwMTgeBU7MChVaqxmCEfE4f2qHwDCj8Lo1xic7 A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10198"; a="263410677"
+X-IronPort-AV: E=Sophos;i="5.88,207,1635231600"; d="scan'208";a="263410677"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Dec 2021 07:57:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,207,1635231600"; d="scan'208";a="465648261"
+Received: from lkp-server02.sh.intel.com (HELO 9f38c0981d9f) ([10.239.97.151])
+ by orsmga006.jf.intel.com with ESMTP; 15 Dec 2021 07:57:05 -0800
+Received: from kbuild by 9f38c0981d9f with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1mxWeP-0001za-51; Wed, 15 Dec 2021 15:57:05 +0000
+Date: Wed, 15 Dec 2021 23:56:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 7/7] drm/i915: Use struct vma_resource instead of struct
+ vma_snapshot
+Message-ID: <202112152305.rfWVQjLs-lkp@intel.com>
+References: <20211215103611.777665-8-thomas.hellstrom@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="HWWUr3zWZyjxMtnU"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211130232347.950-1-digetx@gmail.com>
-User-Agent: Mutt/2.1.3 (987dde4c) (2021-09-10)
+In-Reply-To: <20211215103611.777665-8-thomas.hellstrom@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,55 +61,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, linux-pwm@vger.kernel.org,
- Ulf Hansson <ulf.hansson@linaro.org>, linux-clk@vger.kernel.org,
- linux-pm@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- Viresh Kumar <vireshk@kernel.org>,
- Peter De Schrijver <pdeschrijver@nvidia.com>, linux-mmc@vger.kernel.org,
- Adrian Hunter <adrian.hunter@intel.com>, dri-devel@lists.freedesktop.org,
- Mikko Perttunen <mperttunen@nvidia.com>, David Heidelberg <david@ixit.cz>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- linux-tegra@vger.kernel.org, Jonathan Hunter <jonathanh@nvidia.com>,
- Lee Jones <lee.jones@linaro.org>, Michael Turquette <mturquette@baylibre.com>,
- linux-kernel@vger.kernel.org
+Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ kbuild-all@lists.01.org, matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi "Thomas,
 
---HWWUr3zWZyjxMtnU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you for the patch! Yet something to improve:
 
-On Wed, Dec 01, 2021 at 02:23:07AM +0300, Dmitry Osipenko wrote:
-> This series adds runtime PM support to Tegra drivers and enables core
-> voltage scaling for Tegra20/30 SoCs, resolving overheating troubles.
->=20
-> All patches in this series are interdependent and should go via Tegra tree
-> for simplicity.
+[auto build test ERROR on drm-tip/drm-tip]
+[also build test ERROR on next-20211214]
+[cannot apply to drm-exynos/exynos-drm-next drm/drm-next drm-intel/for-linux-next tegra-drm/drm/tegra/for-next airlied/drm-next v5.16-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-So these can be applied in any order without breaking anything?
+url:    https://github.com/0day-ci/linux/commits/Thomas-Hellstr-m/drm-i915-Asynchronous-vma-unbinding/20211215-183859
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+config: x86_64-randconfig-r002-20211214 (https://download.01.org/0day-ci/archive/20211215/202112152305.rfWVQjLs-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/0day-ci/linux/commit/ede025870be746e37b5bcde123cdf741aa685fab
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Thomas-Hellstr-m/drm-i915-Asynchronous-vma-unbinding/20211215-183859
+        git checkout ede025870be746e37b5bcde123cdf741aa685fab
+        # save the config file to linux build tree
+        mkdir build_dir
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
 
-Thierry
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
---HWWUr3zWZyjxMtnU
-Content-Type: application/pgp-signature; name="signature.asc"
+All errors (new ones prefixed by >>):
 
------BEGIN PGP SIGNATURE-----
+   In file included from drivers/gpu/drm/i915/i915_request.h:43,
+                    from drivers/gpu/drm/i915/i915_active.h:13,
+                    from drivers/gpu/drm/i915/gem/i915_gem_object_types.h:16,
+                    from drivers/gpu/drm/i915/display/intel_frontbuffer.h:30,
+                    from drivers/gpu/drm/i915/i915_vma.c:28:
+   drivers/gpu/drm/i915/i915_vma_resource.h:176:15: error: 'struct intel_memory_region' declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
+     176 |        struct intel_memory_region *mr,
+         |               ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_vma.c: In function 'i915_vma_resource_init_from_vma':
+>> drivers/gpu/drm/i915/i915_vma.c:394:48: error: passing argument 8 of 'i915_vma_resource_init' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     394 |           i915_gem_object_is_lmem(obj), obj->mm.region,
+         |                                         ~~~~~~~^~~~~~~
+         |                                                |
+         |                                                struct intel_memory_region *
+   In file included from drivers/gpu/drm/i915/i915_request.h:43,
+                    from drivers/gpu/drm/i915/i915_active.h:13,
+                    from drivers/gpu/drm/i915/gem/i915_gem_object_types.h:16,
+                    from drivers/gpu/drm/i915/display/intel_frontbuffer.h:30,
+                    from drivers/gpu/drm/i915/i915_vma.c:28:
+   drivers/gpu/drm/i915/i915_vma_resource.h:176:36: note: expected 'struct intel_memory_region *' but argument is of type 'struct intel_memory_region *'
+     176 |        struct intel_memory_region *mr,
+         |        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+   cc1: all warnings being treated as errors
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmG6D/QACgkQ3SOs138+
-s6HzZw//SGRlSbxYGcf2puc+SV4jxqHgVmBVp8biQjzJoeSIatV6B+8n7NAvS0x/
-qMBw7S5I7uFy8rqsIUHNQI929PW2XNbz2H8qid5UjtDVlUo5ir1qtVgvH8HYQruX
-l+PlVayuhBblIEemscYhMNeuyKgrAMeho9ZnnJjITvMVBKRGOxGp38RUgf+Tzrpc
-lF7KIxOcm9FoYTeLxAiVFKtI6Evkt+xJbEvqxkIpaNAzo/AvX6ognGeUQCg7USWu
-v2Km4gqjV0bvZUi+HlMPnYGAFpt3X9ws5NCR5ED4huHislttMacNlkfWGpHw/KkU
-/VJlYrSnlpJkppzOio+g91qdXXlTfXpa3g5ZHSOLqsNFOPFppN9PU9K2DhwFN3Ej
-mNIVbs8Oarq/bJdCftc6dX9saiL9AdKCD1MJO+XgsJuHtQ4FkJHnxMk/p8m9KH33
-HurZ3qmVir9YQh9kyE3MVT95o3gSR+M6hpPcSDiCf4g9XjwvEfJ+sDSg7B8lmM+0
-ZYOmkLu0iLKGOLOn/gBU9Z/Zw9Kw2iW2J/glHU4E5/GI2MNgs99GQPOwyFEq6AvQ
-B4V/SN10i1F0RzeuqsFacfr25c9UGwcXUDNxJqebib27ZRhcGkwu53tEBqYWXep9
-7MAMtQ8il969lajf/1tAlUVPR6AXLiuGcKgZZTEcDUReMvR4Dqk=
-=drq6
------END PGP SIGNATURE-----
 
---HWWUr3zWZyjxMtnU--
+vim +/i915_vma_resource_init +394 drivers/gpu/drm/i915/i915_vma.c
+
+   385	
+   386	I915_SELFTEST_EXPORT void
+   387	i915_vma_resource_init_from_vma(struct i915_vma_resource *vma_res,
+   388					struct i915_vma *vma)
+   389	{
+   390		struct drm_i915_gem_object *obj = vma->obj;
+   391	
+   392		i915_vma_resource_init(vma_res, vma->vm, vma->pages, &vma->page_sizes,
+   393				       obj->mm.rsgt, i915_gem_object_is_readonly(obj),
+ > 394				       i915_gem_object_is_lmem(obj), obj->mm.region,
+   395				       vma->ops, vma->private, vma->node.start,
+   396				       vma->node.size, vma->size);
+   397	}
+   398	
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
