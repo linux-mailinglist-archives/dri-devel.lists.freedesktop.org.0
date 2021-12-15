@@ -1,56 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EA804759AE
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 14:31:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3C404759BD
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 14:34:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F131C10E295;
-	Wed, 15 Dec 2021 13:31:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2EFA10E1A2;
+	Wed, 15 Dec 2021 13:34:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 126CA10E27B;
- Wed, 15 Dec 2021 13:31:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639575066; x=1671111066;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=k866ifHnZPwQQfxaHvaMlY4Jgk6Yu0xwg2XFEW7LZyw=;
- b=gRG8wGB/69lFmtF16ltlCm3lvp733dpCp6aGItYnXefHvW+TJLcdTKxv
- qF7F3qn9saohYB2MzYTLU7Bhp45reBMtxBkuSo8EjP3WGKP15cchFnhCD
- E4P03kxAQ+YP8I2Fqk38R56pqK4a2sFJG4nvcvU+ebEglRB9cFSHZg7Ap
- pc009DkXsyBXxaytEvAOULRaLgfRJ7iEQjprInVi/oUwUA6nkl0eQ7SB2
- 3M+4Igmz0+E4jwIikNkufa16O0WWKxb4sXvzz33co9BJh+xG0Kq8yPNEa
- U2jFYxh3msl7kMUalHSIuMCSmQ7WKsasUv7XLpQM4cymEuFXC1rsCabHJ A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10198"; a="226507069"
-X-IronPort-AV: E=Sophos;i="5.88,207,1635231600"; d="scan'208";a="226507069"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Dec 2021 05:31:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,207,1635231600"; d="scan'208";a="482389228"
-Received: from lkp-server02.sh.intel.com (HELO 9f38c0981d9f) ([10.239.97.151])
- by orsmga002.jf.intel.com with ESMTP; 15 Dec 2021 05:31:02 -0800
-Received: from kbuild by 9f38c0981d9f with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1mxUN3-0001pa-UZ; Wed, 15 Dec 2021 13:31:01 +0000
-Date: Wed, 15 Dec 2021 21:30:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Huang Rui <ray.huang@amd.com>, dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Subject: Re: [PATCH v3] drm/amdgpu: introduce new amdgpu_fence object to
- indicate the job embedded fence
-Message-ID: <202112152115.sqAqnvG7-lkp@intel.com>
-References: <20211215063551.2810601-1-ray.huang@amd.com>
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F0A110E250
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 13:34:19 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id y13so74486382edd.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 05:34:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=j83riijwkCGvjUh7Adz6XzCw5n1IEjGb/VrFZUAe4F8=;
+ b=ZeSpMXbrIhP/htoOtQwRrekNkWMdpf3EEk1eT/8CDPHo0zVuSPCe/zjHnMdWUnZUWr
+ stZdaBTu/q7znkoDE/+GMZ+I0fV/Q3zwGyV4ItCHSPNL934Lgfnigq/SPtZlYTBzFRLA
+ KoRmkE+pjK/4+8x50BEq+LHgDSzS4DjCx5c95HdaBS6cqPpDNYHkatxIcgGjD7AmCYDT
+ wgExYl9/AW5KpGegWdyQwpf6l8os4SSOD0JP8SxGkKWblzJwSt9AvmEI6BIsQZ9MwddH
+ j1U3Mw5lTZUwsSkAzgmP2tcfAHpTheqJWu2OjuzEQUNniz7SFIRLtHXBpxoARCOh5w+z
+ ETCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=j83riijwkCGvjUh7Adz6XzCw5n1IEjGb/VrFZUAe4F8=;
+ b=iNuUyzZwuYUhU120Sfi+uBFtjDhLzSsp7ceOeYCLUXf1PjblxGsCGpBeafy4ePeNV5
+ vgG4LLk5KZjuCyaZMDcCtkUrufMCbi6IRrULKepi64YxO1ChKT6fmUk3OpYJ0aTQppiY
+ xeeiW4qJ4OaENqgIY5C9mrANWFGoQNfbQLluWZRYut+FMqpqeXnJQwT3iS/dJnkiFYNi
+ aQDun+GfOoMrIKVNRxyuox/n1t+aaKVKcDn3OHGFIMGVc68JBFHBD8AiTl0phNo4IHLD
+ TSqPYXF/yKBpLyPcuprJ0SNy0KHkzHt20BSAuHKVpPj+DU5M4YreWRmDtgMTDTKShyKj
+ vFlA==
+X-Gm-Message-State: AOAM533tk8pD6cih/H4q3MdbRVbLX8keLijcZ8ZJBzwMbRkL91NWs9YN
+ +PrHw/IEehXb7mcqFTUCNsvaj/q0QvAuKeEDxBY=
+X-Google-Smtp-Source: ABdhPJx+lyo2eDU/yymI7uUr7Q0TQbS4aqYdE/gnmRWCO7rej1mxW1Okk54UFTfheTG/NmgfINc9s9Sx486rmDzuL8g=
+X-Received: by 2002:a17:906:6dce:: with SMTP id
+ j14mr2997439ejt.305.1639575257245; 
+ Wed, 15 Dec 2021 05:34:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211215063551.2810601-1-ray.huang@amd.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20210704090230.26489-1-jagan@amarulasolutions.com>
+ <YP2ZvoVQyvwTXP++@ravnborg.org>
+ <CAMty3ZANJz=HSKFzZ8gn896uw98iVwMEpGhmanXNbj77Ren4hw@mail.gmail.com>
+ <CAJ+vNU1Hy_94TYgs0isNc2pmiH2sOReZJLhphzQFTN2Z50JPrA@mail.gmail.com>
+ <CAOf5uwm6+tFS8temhPmSx6nFVTSyk0Ckd9eDEToQNmNaiO2c=A@mail.gmail.com>
+ <CAJ+vNU2pQCHqnyNJnz_rhczGRwcU=9XDFG1ix_V=Sc-1oWvhjA@mail.gmail.com>
+ <CAOf5uw=Cts+V+amSrTzVyRyFZA=eKSVtRPtXae40-4M0bu6pwg@mail.gmail.com>
+ <ad3feb990ea73d258075e9bf3d3034189266bad2.camel@lynxeye.de>
+ <CAOf5uwnSd0fBLHRgM2qvTH+4EorYamoED+XKL7dX=gA-eFKjkQ@mail.gmail.com>
+In-Reply-To: <CAOf5uwnSd0fBLHRgM2qvTH+4EorYamoED+XKL7dX=gA-eFKjkQ@mail.gmail.com>
+From: Adam Ford <aford173@gmail.com>
+Date: Wed, 15 Dec 2021 07:34:05 -0600
+Message-ID: <CAHCN7x+aQ3g3pb_w_DJ1oDcE6gRgpYDayemQrj-6Pn2bhKrDvA@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/17] drm: bridge: Samsung MIPI DSIM bridge
+To: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,66 +70,260 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, amd-gfx@lists.freedesktop.org,
- Huang Rui <ray.huang@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Monk Liu <Monk.Liu@amd.com>, linux-media@vger.kernel.org
+Cc: Marek Vasut <marex@denx.de>, devicetree <devicetree@vger.kernel.org>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Andrzej Hajda <a.hajda@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ NXP Linux Team <Linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Huang,
+On Thu, Dec 9, 2021 at 3:24 PM Michael Nazzareno Trimarchi
+<michael@amarulasolutions.com> wrote:
+>
+> Hi
+>
+> On Thu, Dec 9, 2021 at 9:24 PM Lucas Stach <dev@lynxeye.de> wrote:
+> >
+> > Am Donnerstag, dem 09.12.2021 um 18:09 +0100 schrieb Michael Nazzareno
+> > Trimarchi:
+> > > Hi Tim
+> > >
+> > > On Thu, Dec 9, 2021 at 5:40 PM Tim Harvey <tharvey@gateworks.com> wrote:
+> > > >
+> > > > On Thu, Dec 9, 2021 at 12:36 AM Michael Nazzareno Trimarchi
+> > > > <michael@amarulasolutions.com> wrote:
+> > > > >
+> > > > > Hi Tim
+> > > > >
+> > > > > On Tue, Oct 5, 2021 at 11:43 PM Tim Harvey <tharvey@gateworks.com> wrote:
+> > > > > >
+> > > > > > On Sun, Jul 25, 2021 at 10:14 AM Jagan Teki <jagan@amarulasolutions.com> wrote:
+> > > > > > >
+> > > > > > > Hi Sam,
+> > > > > > >
+> > > > > > > On Sun, Jul 25, 2021 at 10:35 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+> > > > > > > >
+> > > > > > > > Hi Jagan,
+> > > > > > > >
+> > > > > > > > On Sun, Jul 04, 2021 at 02:32:13PM +0530, Jagan Teki wrote:
+> > > > > > > > > This series supports common bridge support for Samsung MIPI DSIM
+> > > > > > > > > which is used in Exynos and i.MX8MM SoC's.
+> > > > > > > > >
+> > > > > > > > > The final bridge supports both the Exynos and i.MX8MM DSI devices.
+> > > > > > > > >
+> > > > > > > > > Right now bridge offers two sets of implementations.
+> > > > > > > > >
+> > > > > > > > > A. With component_ops and exynos specific code exclusively for
+> > > > > > > > >    exynos dsi drivers and it's legacy bindings.
+> > > > > > > > >
+> > > > > > > > > B. Without componenet_ops for newly implemented bridges and its
+> > > > > > > > >    users like i.MX8MM.
+> > > > > > > > >
+> > > > > > > > > The future plan is to fix the implementation A) by dropping
+> > > > > > > > > component_ops and fixing exynos specific code in order to make
+> > > > > > > > > the bridge more mature to use and the same is mentioned in
+> > > > > > > > > drivers TODO.
+> > > > > > > > >
+> > > > > > > > > Patch 0001 - 0006: Bridge conversion
+> > > > > > > > > Patch 0007 - 0017: Samsung MIPI DSIM bridge fixes, additions
+> > > > > > > > >
+> > > > > > > > > Tested in Engicam i.Core MX8M Mini SoM.
+> > > > > > > > >
+> > > > > > > > > Anyone interest, please have a look on this repo
+> > > > > > > > > https://github.com/openedev/linux/tree/070421-imx8mm-dsim
+> > > > > > > > >
+> > > > > > > > > Would appreciate anyone from the exynos team to test it on
+> > > > > > > > > the exynos platform?
+> > > > > > > > >
+> > > > > > > > > Any inputs?
+> > > > > > > >
+> > > > > > > > I really like where you are headign with this!
+> > > > > > > > No testing - sorry. But I will try to provide a bit of feedback on the
+> > > > > > > > individual patches.
+> > > > > > > >
+> > > > > > > > I hope you find a way to move forward with this.
+> > > > > > >
+> > > > > > > Thanks for the response.
+> > > > > > >
+> > > > > > > We have found some issues with Bridge conversion on existing exynos
+> > > > > > > drivers. The component based DSI drivers(like exynos) are difficult to
+> > > > > > > attach if it involves kms hotplug. kms hotplug would require drm
+> > > > > > > pointer and that pointer would only available after the bind call
+> > > > > > > finishes. But the bridge attach in bind call will defer till it find
+> > > > > > > the attached bridge.
+> > > > > > >
+> > > > > > > Right now I'm trying to find the proper way to attach the bridges for
+> > > > > > > component based DSI drivers which involves kms hot-plug.
+> > > > > > >
+> > > > > > > If you have any ideas on this, please let me know.
+> > > > > > >
+> > > > > >
+> > > > > > Jagan,
+> > > > > >
+> > > > > > How is your progress on this series? Looking at your repo it looks
+> > > > > > like you've rebased on top of 5.13-rc3 in your 070121-imx8mm-dsim
+> > > > > > branch but you've got a lot of things there that are likely not
+> > > > > > related to this series?
+> > > > >
+> > > > > I have a bit of work on those patches and tested on imx8mn. Basically:
+> > > > >
+> > > > > - add the dsi timing calculation
+> > > > > - change few difference with samsung bridge
+> > > > > - fix crashes of my dsi panels
+> > > > > - compare with NXP driver the final results
+> > > > >
+> > > > > I found that I have one problem that gives me some instability. In the
+> > > > > NXP original driver the panel needs to be
+> > > > > enabled in bridge_enable before out the standby. If I understand
+> > > > > correctly, our standby should be done after.
+> > > > > I would like to have some feedback and help and testing on other
+> > > > > boards/devices and some suggestions on how to handle
+> > > > > some of the differences. Another big problem is etnavi that is not stable
+> > > > >
+> > > >
+> > > > Michael,
+> > > >
+> > > > Where can I find your patches?
+> > > >
+> > >
+> > > I will push on some tree and share
+> > >
+> > > > What do you mean by etnaviv not being stable?
+> > > >
+> > > > I did some limited testing with etnaviv on imx8mm with 5.15 + dsi
+> > >
+> > >
+> > >
+> > > > patches on an Ubuntu focal root filesystem by:
+> > > > apt update
+> > > > apt install gnome-session gnome-terminal
+> > > > ^^^ 2D hardware acceleration appears to be working (dragging opaque
+> > > > windows around)
+> > > > apt install mesa-utils glmark2
+> > > > glxgears
+> > > > ^^^ ~160fps on IMX8MM
+> > > > glmark2
+> > > > ^^^ score of 39 on IMX8MM
+> > > >
+> > > > I haven't seen any updates from Jagan since Nov 24
+> > > > (https://www.spinics.net/lists/dri-devel/msg324059.html) and am not
+> > > > sure if he's been able to work through drm/exynos issues that have
+> > > > been blocking his progress.
+> > >
+> > > I plan to push on github
+> > >
+> > > [17:07:42.315] Sending ready to systemd
+> > > [  214.052085] etnaviv-gpu 38000000.gpu: recover hung GPU!
+> > > [  214.595998] etnaviv-gpu 38000000.gpu: recover hung GPU!
 
-I love your patch! Perhaps something to improve:
+Which Nano variant do you have?  Not all Nano's have a GPU.  I know
+Tim Harvey was having a similar issue, but it turns out his variant of
+the Nano did not include a GPU.
 
-[auto build test WARNING on drm/drm-next]
-[also build test WARNING on drm-intel/for-linux-next drm-tip/drm-tip v5.16-rc5 next-20211214]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Huang-Rui/drm-amdgpu-introduce-new-amdgpu_fence-object-to-indicate-the-job-embedded-fence/20211215-143731
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20211215/202112152115.sqAqnvG7-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/0day-ci/linux/commit/a47becf231b123760625c45242e89f5e5b5b4915
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Huang-Rui/drm-amdgpu-introduce-new-amdgpu_fence-object-to-indicate-the-job-embedded-fence/20211215-143731
-        git checkout a47becf231b123760625c45242e89f5e5b5b4915
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/amd/amdgpu/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c:631: warning: expecting prototype for amdgpu_fence_clear_job_fences(). Prototype was for amdgpu_fence_driver_clear_job_fences() instead
-
-
-vim +631 drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-
-   623	
-   624	/**
-   625	 * amdgpu_fence_clear_job_fences - clear job embedded fences of ring
-   626	 *
-   627	 * @ring: fence of the ring to be cleared
-   628	 *
-   629	 */
-   630	void amdgpu_fence_driver_clear_job_fences(struct amdgpu_ring *ring)
- > 631	{
-   632		int i;
-   633		struct dma_fence *old, **ptr;
-   634	
-   635		for (i = 0; i <= ring->fence_drv.num_fences_mask; i++) {
-   636			ptr = &ring->fence_drv.fences[i];
-   637			old = rcu_dereference_protected(*ptr, 1);
-   638			if (old && old->ops == &amdgpu_job_fence_ops)
-   639				RCU_INIT_POINTER(*ptr, NULL);
-   640		}
-   641	}
-   642	
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> > >
+> > > ** (maynard:386): WARNING **: 17:07:43.874: failed to setup mixer: Success
+> > > [17:07:44.175] Added surface 0xaaab02630440, app_id (null) to pending list
+> > > [17:07:44.176] Added surface 0xaaab026172b0, app_id (null) to pending list
+> > > ** Message: 17:07:44.289: New advertisement app id maynard
+> > > ** Message: 17:07:44.290: New advertisement app id maynard
+> > > [17:07:45.171] (background) position view 0xaaab0261f860, x 0, y 0, on
+> > > output DSI-1
+> > > [17:07:45.171] (panel) geom.width 100, geom.height 480, geom.x 0, geom.y 0
+> > > [17:07:45.171] (panel) edge 2 position view 0xaaab02634510, x 0, y 0
+> > > [17:07:45.172] panel type 2 inited on output DSI-1
+> > > [17:07:45.172] Usable area: 380x480+100,0
+> > > [  216.932080] etnaviv-gpu 38000000.gpu: recover hung GPU!
+> > > [  217.476015] etnaviv-gpu 38000000.gpu: recover hung GPU!
+> > > [  218.020157] etnaviv-gpu 38000000.gpu: recover hung GPU!
+> > >
+> > > This is my problem on imx8mn
+> >
+> > Note that the GPU on the 8MN is from the GC7000 generation, which
+> > genreally has bogus feature registers, as VeriSilicon stopped using
+> > them in favor of a hardware database. To get the GPu working you need
+> > to transcribe the entry for this specific GPU from the downstream GPU
+> > driver into the etanviv HWDB format, to make the kernel and userspace
+> > driver aware of how to drive this GPU.
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+> b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+> index f2fc645c7956..724f78fd37e5 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+> @@ -68,6 +68,37 @@ static const struct etnaviv_chip_identity
+> etnaviv_chip_identities[] = {
+>                 .minor_features10 = 0x00004040,
+>                 .minor_features11 = 0x00000024,
+>         },
+> +       {
+> +               .model = 0x7000,
+> +               .revision = 0x6203,
+> +               .product_id = ~0U,
+> +               .customer_id = ~0U,
+> +               .eco_id = 0,
+> +               .stream_count = 16,
+> +               .register_max = 64,
+> +               .thread_count = 512,
+> +               .shader_core_count = 2,
+> +               .vertex_cache_size = 16,
+> +               .vertex_output_buffer_size = 1024,
+> +               .pixel_pipes = 1,
+> +               .instruction_count = 512,
+> +               .num_constants = 320,
+> +               .buffer_size = 0,
+> +               .varyings_count = 16,
+> +               .features = 0xe0287c8c,
+> +               .minor_features0 = 0xc1589eff,
+> +               .minor_features1 = 0xfefbfad9,
+> +               .minor_features2 = 0xeb9d4fbf,
+> +               .minor_features3 = 0xedfffced,
+> +               .minor_features4 = 0xdb0dafc7,
+> +               .minor_features5 = 0x3b5ac333,
+> +               .minor_features6 = 0xfcce6000,
+> +               .minor_features7 = 0xfffbfa6f,
+> +               .minor_features8 = 0x00e10ef3,
+> +               .minor_features9 = 0x00c8003c,
+> +               .minor_features10 = 0x00004040,
+> +               .minor_features11 = 0x00000024,
+> +       },
+>         {
+>                 .model = 0x7000,
+>                 .revision = 0x6204,
+>
+> Ok, should something like this. Only does not know about this
+> gcFEATURE_BIT_DE_2D_FAST_CLEAR. I put in features but can even a
+> minor. Do you know the right mapping?
+>
+> Michael
+>
+> Michael
+>
+> >
+> > Regards,
+> > Lucas
+> >
+>
+>
+> --
+> Michael Nazzareno Trimarchi
+> Co-Founder & Chief Executive Officer
+> M. +39 347 913 2170
+> michael@amarulasolutions.com
+> __________________________________
+>
+> Amarula Solutions BV
+> Joop Geesinkweg 125, 1114 AB, Amsterdam, NL
+> T. +31 (0)85 111 9172
+> info@amarulasolutions.com
+> www.amarulasolutions.com
