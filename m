@@ -2,76 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26E604759F6
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 14:51:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A455B475A07
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 14:56:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1ACF10E8F3;
-	Wed, 15 Dec 2021 13:51:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70D3010E22E;
+	Wed, 15 Dec 2021 13:56:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
- [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C225A10E8F3
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 13:51:25 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 3D2A13200F72;
- Wed, 15 Dec 2021 08:51:22 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Wed, 15 Dec 2021 08:51:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=VLD2o6KRwPKN67qRiahEZCtrgaE
- 6DQ7hVe4yp76s5GU=; b=H0YVo3y9vsj81tUWTsqq6ynEb2fBX5CxVmrLxJBaQ17
- n5aj4lcybAAVhKgI/a8/ivafCvBHeTZiPc0hKEyJTrisv4w1BR9S2GPA8MWjIacJ
- kWeuDH1ci5TignC62HiLkx0Fkzx7kKt0UWdJ8BQ/bEkB6e1iZY4TVYeZvuDCpZby
- PDDHtHL4BtGXeC6dQ4RcHf6gf2cGb4nP6gH3MSGA+qJgZQ2HOYO+NJjBtzbxEU6s
- ZcGJRhJWKyOHrw/V9hSnoTkfseefetkLou2MQMarM4cLEQ0vcz+drZAK45Nw5XVd
- +bzMmoYS2HQCiIzQHd1wd4ORZQrqzFC+9Fuvy7qiAMQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=VLD2o6
- KRwPKN67qRiahEZCtrgaE6DQ7hVe4yp76s5GU=; b=ENMt960x05taVfBP35FjRO
- dHORxcaVchuSvwGdAYGDW2CLXt+NCMh57pgYMmgil7WqkRrO4s7ldI8Ht2NU6r4U
- JMRwtgM0Beml0OOVBabk5MD3zxeNgujpsTltenjk6GROGyXbcs3n1hBJjwSR75Po
- n7F+bmsU2GWbq3aKJkGlmRcxBZUg+04GuHYnFjHXwTMKAIsZA6no6xvlOTs/ExvX
- CbERq5zYy5ucrTnZWGZ7ebhy/wtl0m/GvCrUoWwuzRNeNDi69Q7yGcGx7zvaB33V
- y1etYxvXGx60/R05d+KK7ZqsDBhOuD0xcN8+cqMwYSL3aRwTYS+RHRBFZJU2ox2Q
- ==
-X-ME-Sender: <xms:2fK5YVYr-bBTdT6rPNdu5Y9CRhEK6QR3LmBCyNIkK8JGda-9xGtaEA>
- <xme:2fK5YcbTRAZHp9-wOhKJzC1swqZlUOV3tNlVtNXdeYTkrVeXD_8IdlFVhbae7ado_
- qPX4yudF-eNK_Vr6vU>
-X-ME-Received: <xmr:2fK5YX9nemfxxBQ3AH4s7G34YK1e8l7iZYSibPzX7vKTziqPEeCeBttTLNMsmLDUAQeS5J0HrmvJcvs48q5XhhlPoVT66Az85xGogxQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrledvgdehkecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeevveefffduveeitdegtefhhfetueffteefffdvheevvdehteethedvleffgfej
- vdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:2fK5YTqXEdiXhcAYbAPNZ3ePdnlY1-Oru1vm9qNZxSKnvY4opla0jg>
- <xmx:2fK5YQpEF788-20totYFsgJerfxC2lg1htdNIxuI7BUpqSyYULKJ7A>
- <xmx:2fK5YZSQJyrMktl_KQPiDA-zg_roVbOuqYI5MJre1F8Lp465zdtqtQ>
- <xmx:2fK5YcctHvgRv-LWzIejBaCqUN6Eoc4dA-na8YO6-iJB6s8h6Yfyqw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 15 Dec 2021 08:51:20 -0500 (EST)
-Date: Wed, 15 Dec 2021 14:51:18 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v2 00/13] drm: Add generic helpers for HDMI scrambling
-Message-ID: <20211215135118.skc7xew25s6voean@houat>
-References: <20211118103814.524670-1-maxime@cerno.tech>
- <YZfKSmWs3n8zRUd0@phenom.ffwll.local>
- <20211126154349.aksr4kjhvj3xueir@houat>
- <YaEVirocULCwNNnZ@phenom.ffwll.local>
- <20211129100741.pqxyvu5wcti7ntck@houat>
- <YaXg1ZsoS+aH3nB/@phenom.ffwll.local>
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
+ [IPv6:2607:f8b0:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0743C10E240
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 13:56:48 +0000 (UTC)
+Received: by mail-ot1-x32e.google.com with SMTP id
+ w6-20020a9d77c6000000b0055e804fa524so25007633otl.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 05:56:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=M6j9hwTZmADnSfWaurTAQggHTqHGDGAa0M5rDiFAOho=;
+ b=vU8K7qkTSSZ06CE/fefEWyKnsRXiJLlkp7YM5DiBN3h885TMUwRU64eceuisXus8DC
+ IvN+bZn6DKihhsf8twYGvrDXkoqlcKrYqtCi7YiWEMbKZ8omTlfuI2rmhXjbCJ67tKol
+ 5W4KjvFqtQvbFXyizzshpEnvg3A+9shfiBFO9JMtqbNeh7JqvHk0V4l/nJ1blHTe04H6
+ pnlOoSlqClNTyiVRu/FB2ENduxZSRY5IiUCeAdETG1JH9WvsXzHOO2snbahquGr2dGD/
+ 1wdu+osd202SSm9a1zPYo3zBhtCntFybwBv6qqGZpUjlpvbXWpVLQ0dM1EjVn4thKxR8
+ Zp8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=M6j9hwTZmADnSfWaurTAQggHTqHGDGAa0M5rDiFAOho=;
+ b=KvzIlhKE3a8nv+eyH4STkx6+xTBsSY28OM5iy+8UXm9nBwhebi1A37TRMpj5PNl2pS
+ UPrB+IeNZFQaNNfQ5DAvx4Tr4RjQQ6kqAb7VBThlYtNbaX2ZLo4WvwP09bT8ZMjispEg
+ ffAy5BO/nl/dIvaz//4RI4Tsekt+Z0iKfRb7NmUxQe9vMYMyPtcSk7qxmaJAHiFlQCId
+ XpEjCpp6EsGAGa6tJ1i2qqzqs2/AYImIE5knTak1i3EuJoG+ILToK2QmumhJMHaSXZ4F
+ wQvzzalNEFTF1QOTWKh1rN3JQLN/a5zZCW1JEut5fw8UGrCoDWm+RO9kLACOTIgQSToe
+ P+mA==
+X-Gm-Message-State: AOAM531tw+V6JIKvWqbM4ya+awdE0lFcN1yEUgoNuF2/GVNIf6vj+C/x
+ 4DWP8m1CEkO0NdVyi2X6cMjhLNOFv072tS+BpvVwdw==
+X-Google-Smtp-Source: ABdhPJz6k/y1XdmARoYBhmoL4faqs4b6EkaRNTG2VXEP5cLBplgJmHpeQGBuN65kQTb4Ae2ykOvi1JN8NvW5Yd0+nyo=
+X-Received: by 2002:a05:6830:200d:: with SMTP id
+ e13mr9174519otp.109.1639576607244; 
+ Wed, 15 Dec 2021 05:56:47 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 15 Dec 2021 07:56:43 -0600
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ncbmmgmki6dhxtyv"
-Content-Disposition: inline
-In-Reply-To: <YaXg1ZsoS+aH3nB/@phenom.ffwll.local>
+In-Reply-To: <b307d567-774b-ca9e-d7d7-09846782c988@collabora.com>
+References: <20211110130623.20553-1-granquet@baylibre.com>
+ <20211110130623.20553-8-granquet@baylibre.com>
+ <b307d567-774b-ca9e-d7d7-09846782c988@collabora.com>
+From: Guillaume Ranquet <granquet@baylibre.com>
+User-Agent: alot/0.10
+Date: Wed, 15 Dec 2021 07:56:43 -0600
+Message-ID: <CABnWg9sNOWJ_RgnvSdEtAVQrfELzJr8aj-FTB=oj6hQJScFCVA@mail.gmail.com>
+Subject: Re: [PATCH v6 7/7] drm/mediatek: Add mt8195 DisplayPort driver
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, 
+ David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, Maxime Ripard <mripard@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,131 +75,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>
+Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Markus Schneider-Pargmann <msp@baylibre.com>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Angelo,
 
---ncbmmgmki6dhxtyv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Quoting AngeloGioacchino Del Regno (2021-12-10 11:17:44)
+> Il 10/11/21 14:06, Guillaume Ranquet ha scritto:
+> > From: Markus Schneider-Pargmann <msp@baylibre.com>
+> >
+> > This patch adds a DisplayPort driver for the Mediatek mt8195 SoC and a
+> > according phy driver mediatek-dp-phy.
+> >
+> > It supports both functional units on the mt8195, the embedded
+> > DisplayPort as well as the external DisplayPort units. It offers
+> > hot-plug-detection, audio up to 8 channels, and DisplayPort 1.4 with up
+> > to 4 lanes.
+> >
+> > The driver creates a child device for the phy. The child device will
+> > never exist without the parent being active. As they are sharing a
+> > register range, the parent passes a regmap pointer to the child so that
+> > both can work with the same register range. The phy driver sets device
+> > data that is read by the parent to get the phy device that can be used
+> > to control the phy properties.
+> >
+> > This driver is based on an initial version by
+> > Jason-JH.Lin <jason-jh.lin@mediatek.com>.
+> >
+> > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> > Reported-by: kernel test robot <lkp@intel.com>
+>
+> Hello Markus, Guillaume,
+>
+> there is a critical issue with this patch. Please check below.
+>
+> > ---
+> >   drivers/gpu/drm/drm_edid.c              |    2 +-
+> >   drivers/gpu/drm/mediatek/Kconfig        |    7 +
+> >   drivers/gpu/drm/mediatek/Makefile       |    2 +
+> >   drivers/gpu/drm/mediatek/mtk_dp.c       | 3094 +++++++++++++++++++++++
+> >   drivers/gpu/drm/mediatek/mtk_dp_reg.h   |  568 +++++
+> >   drivers/gpu/drm/mediatek/mtk_dpi.c      |  111 +-
+> >   drivers/gpu/drm/mediatek/mtk_dpi_regs.h |   26 +
+> >   drivers/gpu/drm/mediatek/mtk_drm_drv.c  |    1 +
+> >   drivers/gpu/drm/mediatek/mtk_drm_drv.h  |    1 +
+> >   9 files changed, 3799 insertions(+), 13 deletions(-)
+> >   create mode 100644 drivers/gpu/drm/mediatek/mtk_dp.c
+> >   create mode 100644 drivers/gpu/drm/mediatek/mtk_dp_reg.h
+> >
+>
+> <snip>
+>
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > index 384074f69111b..e6e88e3cd811d 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+>
+> <snip>
+>
+> > @@ -979,6 +1051,16 @@ static int mtk_dpi_probe(struct platform_device *pdev)
+> >               return ret;
+> >       }
+> >
+> > +     dpi->dpi_ck_cg = devm_clk_get(dev, "ck_cg");
+>
+> mtk_dpi is used on MT2701, MT7183, MT8183, MT8192, but these platforms haven't
+> got any "ck_cg" clock defined in their device-trees (regardless of whether these
+> can support adding this clock or not, any code change shall be retro-compatible
+> hence not breaking compatibility/functionality with older device-trees).
+>
+> Reminding that:
+> - mediatek-drm uses the component framework
+> - mtk_drm_drv is the component master
+> - mtk_drm_drv bind() won't be called unless all of the components added with
+>    match aren't calling component_add()
+>
+> ... this change not only breaks DisplayPort support for *all* of the
+> aforementioned SoCs, but also makes the entire mediatek-drm to not finish
+> probing, producing a global breakage that also includes DSI and the entire
+> stack of components of that master (so, no display on all of them).
+>
+> To avoid breaking any SoC that's not MT8195, please use devm_clk_get_optional()
+> here in the next version.
+>
+> Thanks,
+> - Angelo
+>
 
-On Tue, Nov 30, 2021 at 09:29:09AM +0100, Daniel Vetter wrote:
-> On Mon, Nov 29, 2021 at 11:07:41AM +0100, Maxime Ripard wrote:
-> > On Fri, Nov 26, 2021 at 06:12:42PM +0100, Daniel Vetter wrote:
-> > > On Fri, Nov 26, 2021 at 04:43:49PM +0100, Maxime Ripard wrote:
-> > > > Hi Daniel,
-> > > >=20
-> > > > On Fri, Nov 19, 2021 at 05:01:14PM +0100, Daniel Vetter wrote:
-> > > > > On Thu, Nov 18, 2021 at 11:38:01AM +0100, Maxime Ripard wrote:
-> > > > > > This is a follow-up of the work to support the interactions bet=
-ween the hotplug
-> > > > > > and the scrambling support for vc4:
-> > > > > >=20
-> > > > > > https://lore.kernel.org/dri-devel/20210507150515.257424-11-maxi=
-me@cerno.tech/
-> > > > > > https://lore.kernel.org/dri-devel/20211025152903.1088803-10-max=
-ime@cerno.tech/
-> > > > > >=20
-> > > > > > Ville feedback was that the same discussion happened some time =
-ago for i915,
-> > > > > > and resulted in a function to do an full disable/enable cycle o=
-n reconnection
-> > > > > > to avoid breaking the HDMI 2.0 spec.
-> > > > > >=20
-> > > > > > This series improves the current scrambling support by adding g=
-eneric helpers
-> > > > > > for usual scrambling-related operations, and builds upon them t=
-o provide a
-> > > > > > generic alternative to intel_hdmi_reset_link.
-> > > > >=20
-> > > > > Out of curiosity, can we rebuild intel_hdmi_reset_link on top of =
-these?
-> > > > > Always better to have two drivers to actually show the helpers he=
-lp, than
-> > > > > just one.
-> > > >=20
-> > > > Unfortunately, I don't have any Intel system I can test it on, and =
-it
-> > > > looks like the changes wouldn't be trivial.
-> > > >=20
-> > > > Maybe we can use dw-hdmi instead?
-> > >=20
-> > > Hm I guess so, maybe Ville can be motivated. Just figured since this =
-seems
-> > > at least inspired by i915 code.
-> >=20
-> > It's not really the conversion to the new helper that I suspect would be
-> > hard to do, but rather the usage of the connector state that we do, and
-> > the scrambling computation, and how it's all tied together in i915.
-> >=20
-> > It seems to be fairly different from drivers that just rely on the
-> > atomic helpers, and I'm not really confident about changing that. But
-> > yeah, I guess I can give it a try and rely on the CI.
->=20
-> Hm yeah if wiring through connector state to the right places is real work
-> then skip the conversion. But I thought i915 modeset code has also gone
-> through some of the state rollout that you've done for atomic helpers.
+This is a good catch, I will update for v7.
 
-I kind of fell into a rabbit hole with this.
+Thank you very much for your review.
 
-I looked at other drivers and which one I could convert too. Tegra was
-easy enough, but dw-hdmi was more interesting.
-
-dw-hdmi also has YUV output, and the output format also impacts the TMDS
-rate and thus whether the scrambler needs to be enabled or not.
-
-In parallel, I also worked on the vc4 HDMI YUV output, trying to mimic
-what i915 is doing.
-
-However, the requirements around which YUV output and bpc we support are
-a bit non-trivial, and I think it should be part of some helpers to
-avoid as much as possible someone getting it wrong.
-
-For reference, i915 is starting with the highest bpc count it can, and
-tries either RGB or YUV420 for that bpc count. If any succeeds, we stop
-there, otherwise we repeat with a lower bit count.
-
-The iteration over the available bpc and formats should be easy enough,
-we would just need to have a bit field with supported bpc values and
-formats and be done with it.
-
-The part that would tell if the sink supports the formats and bpc can be
-generic as well since it's part of the EDID and we parse it already.
-
-However, one of the limitation we have to take into account is also the
-maximum TMDS rate the controller can achieve, and thus if we could
-output the TMDS clock for a bpc, format and mode triplet.
-
-So, if we were to sum up, we'd need:
-
-  - One bitfield for the formats supported by the connector (redundant
-    with ycbcr420_allowed?)
-  - One bitfield for the bpc supported by the connector
-  - One field to store the maximum TMDS clock the connector can achieve
-
-Then, in drm_connector_state, we'd have in addition to what we have so
-far the format to output for a given commit.
-
-Or maybe it's not worth the trouble and I should just stop trying to
-make this a helper?
-
-Maxime
-
---ncbmmgmki6dhxtyv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYbny1gAKCRDj7w1vZxhR
-xVblAQDpDCQLj8SLs3s6zQ3GD9tH2HoqT9jOBrcsZGz8uSHGfgEAwvkEsc4iBhfb
-txHNYwE2hpla1xPaoKwqGFWrf9Z9jgg=
-=h3Er
------END PGP SIGNATURE-----
-
---ncbmmgmki6dhxtyv--
+Thx,
+Guillaume.
