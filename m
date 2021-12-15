@@ -2,59 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 009B14765F4
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 23:33:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEFAB476625
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 23:46:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DACF610F504;
-	Wed, 15 Dec 2021 22:32:57 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
- [IPv6:2607:f8b0:4864:20::b29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2C8810F4F9;
- Wed, 15 Dec 2021 22:32:56 +0000 (UTC)
-Received: by mail-yb1-xb29.google.com with SMTP id v203so59301470ybe.6;
- Wed, 15 Dec 2021 14:32:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=nSNOK8CGzWG9o4EGKDRvXn+fAqlzalal6kJk2SdxUWo=;
- b=eC3NXcU4yGFKm5xMZeM4MGZaoslKrXV15YqG9yBjzGPizZgAP/O904vvsxhGYfCISP
- Y5VikEXhCSNPAeJdZQCSSqtd7jJbOAAi95PSnVadBG3qYrykd0h/vjfOkivZ29US7uE3
- mdav2zA/5s374hFZNnCTleWV0en0dkCmxu1LobprFcDQZk/Z3rExavhnCAewTbpVu6Iu
- oCJbryNIyTBMNLUvlGsFNMuVs2IDMjOfl80j2P5CEenf3T1WL7BDMbx9INxqOAsf3MGD
- 8LxAVF9xYTJ4BPUD9nzosV/gus7ZKXKFUdtOLKmnQ5An52ysUM6k7isTwdclZAiVte+8
- YjRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=nSNOK8CGzWG9o4EGKDRvXn+fAqlzalal6kJk2SdxUWo=;
- b=tX93Ka0IqHaAq3D4TGfAijpWxzwSOe4wCOhKZjaQyzC24l3mjtfPg9WCj3yNF2J4z3
- QCIjA/G7GJHlDppVKi7aCPRGYIAVeFgqSyQr0OyEqoPIR568SLnOLGmM4Q4uw2y13ecg
- bAqs/N8g9zKfaX/aEDkt7DIizKwhBaTg6CqWgmRDegTwloiPgL75d1jCZBlDAva6Ih34
- MBjgyYZ6fAx/yw2dkexlVp4S1tnzr2yH9dy5FtYLiljSzMVN02cBB8gNYuwhEz1eknqi
- DHu0hTflTw3vF99pz+NCHDaO5UzbC1HvgnJOS22qKMx/enm661DmqIrQVNlGdypI/Xie
- 6wNw==
-X-Gm-Message-State: AOAM533hqoxApIWzF1/ZLKo60VL16uHj5iIJH4TgkEDBj7PB7O+dUjn+
- QbpTNBCJjUBfowPslgaaddtBDAcHz7s6/XdHWrreE6Lwwvc=
-X-Google-Smtp-Source: ABdhPJxuFgIpoX7ccNghqERlx0qK6BbUWdm7zRvty5ahz4/qwp9TldKuNmT8joe6rdMvzt4WiWsrSmoMEPc5gpORnVE=
-X-Received: by 2002:a05:6902:1507:: with SMTP id
- q7mr9583142ybu.671.1639607575998; 
- Wed, 15 Dec 2021 14:32:55 -0800 (PST)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B03610FAFA;
+	Wed, 15 Dec 2021 22:45:59 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1FB810FAF9;
+ Wed, 15 Dec 2021 22:45:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1639608357; x=1671144357;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=0g2Jv1KjEPZ8natHZs+NwzyA5ZFrdak+79Ky/GUByU8=;
+ b=Sl1bnimgwWaTSD88WZpj/1J8k5OTo0VeFnGStScawxxutxPjR4m4V9u1
+ 8bkdpuV5UpVm8wJse3ykHwy7osq51lK+DoWjfhptUA/TM427nyCFPcDc3
+ H2Xhv05Grwjr9FEMpI69mHtBmR/EBrx6bsewP8VEXOZmQi/zjRL/tctRZ
+ k9W7luQ3+2bJXQIs6DTkJPYjpCWQ03aCj62oEVYQaU9/V6VgfSaQzXtnF
+ N2JH76/mlaGGlG6LalhmlNnqpipzxbPs3N96B06sE1E38D+fCid3IOPZS
+ 385XL1Szy6Nq/nstIXsqfFUD1G5s4NAOAoJn4qXpDQ3rzunwOW1AXPeGK w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10199"; a="300129574"
+X-IronPort-AV: E=Sophos;i="5.88,209,1635231600"; d="scan'208";a="300129574"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Dec 2021 14:45:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,209,1635231600"; d="scan'208";a="545749968"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
+ by orsmga001.jf.intel.com with ESMTP; 15 Dec 2021 14:45:56 -0800
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Subject: [PATCH] drm/i915/guc: Check for wedged before doing stuff
+Date: Wed, 15 Dec 2021 14:45:56 -0800
+Message-Id: <20211215224556.3382217-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20211209102335.18321-1-christian.koenig@amd.com>
- <b6acb31c-ec63-4242-32da-a35e950e5a67@sfritsch.de>
- <8aee128c-0699-5057-2655-4f7d91ac235b@gmail.com>
-In-Reply-To: <8aee128c-0699-5057-2655-4f7d91ac235b@gmail.com>
-From: Ben Skeggs <skeggsb@gmail.com>
-Date: Thu, 16 Dec 2021 08:32:44 +1000
-Message-ID: <CACAvsv7D7=Mud1YQ+GACFAqdvBGNp3rjY-eudkXy3uaefY6q+Q@mail.gmail.com>
-Subject: Re: [Nouveau] [PATCH] drm/nouveau: wait for the exclusive fence after
- the shared ones v2
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,107 +55,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML nouveau <nouveau@lists.freedesktop.org>, dmoulding@me.com,
- Stefan Fritsch <sf@sfritsch.de>, Ben Skeggs <bskeggs@redhat.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 14 Dec 2021 at 19:19, Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> Am 11.12.21 um 10:59 schrieb Stefan Fritsch:
-> > On 09.12.21 11:23, Christian K=C3=B6nig wrote:
-> >> Always waiting for the exclusive fence resulted on some performance
-> >> regressions. So try to wait for the shared fences first, then the
-> >> exclusive fence should always be signaled already.
-> >>
-> >> v2: fix incorrectly placed "(", add some comment why we do this.
-> >>
-> >> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> >
-> > Tested-by: Stefan Fritsch <sf@sfritsch.de>
->
-> Thanks.
->
-> >
-> > Please also add a cc for linux-stable, so that this is fixed in 5.15.x
->
-> Sure, but I still need some acked-by or rb from one of the Nouveau guys.
-> So gentle ping on that.
-Acked-by: Ben Skeggs <bskeggs@redhat.com>
+From: John Harrison <John.C.Harrison@Intel.com>
 
->
-> Regards,
-> Christian.
->
-> >
-> > Cheers,
-> > Stefan
-> >
-> >> ---
-> >>   drivers/gpu/drm/nouveau/nouveau_fence.c | 28 +++++++++++++----------=
---
-> >>   1 file changed, 15 insertions(+), 13 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c
-> >> b/drivers/gpu/drm/nouveau/nouveau_fence.c
-> >> index 05d0b3eb3690..0ae416aa76dc 100644
-> >> --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
-> >> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-> >> @@ -353,15 +353,22 @@ nouveau_fence_sync(struct nouveau_bo *nvbo,
-> >> struct nouveau_channel *chan, bool e
-> >>             if (ret)
-> >>               return ret;
-> >> -    }
-> >>   -    fobj =3D dma_resv_shared_list(resv);
-> >> -    fence =3D dma_resv_excl_fence(resv);
-> >> +        fobj =3D NULL;
-> >> +    } else {
-> >> +        fobj =3D dma_resv_shared_list(resv);
-> >> +    }
-> >>   -    if (fence) {
-> >> +    /* Waiting for the exclusive fence first causes performance
-> >> regressions
-> >> +     * under some circumstances. So manually wait for the shared
-> >> ones first.
-> >> +     */
-> >> +    for (i =3D 0; i < (fobj ? fobj->shared_count : 0) && !ret; ++i) {
-> >>           struct nouveau_channel *prev =3D NULL;
-> >>           bool must_wait =3D true;
-> >>   +        fence =3D rcu_dereference_protected(fobj->shared[i],
-> >> +                        dma_resv_held(resv));
-> >> +
-> >>           f =3D nouveau_local_fence(fence, chan->drm);
-> >>           if (f) {
-> >>               rcu_read_lock();
-> >> @@ -373,20 +380,13 @@ nouveau_fence_sync(struct nouveau_bo *nvbo,
-> >> struct nouveau_channel *chan, bool e
-> >>             if (must_wait)
-> >>               ret =3D dma_fence_wait(fence, intr);
-> >> -
-> >> -        return ret;
-> >>       }
-> >>   -    if (!exclusive || !fobj)
-> >> -        return ret;
-> >> -
-> >> -    for (i =3D 0; i < fobj->shared_count && !ret; ++i) {
-> >> +    fence =3D dma_resv_excl_fence(resv);
-> >> +    if (fence) {
-> >>           struct nouveau_channel *prev =3D NULL;
-> >>           bool must_wait =3D true;
-> >>   -        fence =3D rcu_dereference_protected(fobj->shared[i],
-> >> -                        dma_resv_held(resv));
-> >> -
-> >>           f =3D nouveau_local_fence(fence, chan->drm);
-> >>           if (f) {
-> >>               rcu_read_lock();
-> >> @@ -398,6 +398,8 @@ nouveau_fence_sync(struct nouveau_bo *nvbo,
-> >> struct nouveau_channel *chan, bool e
-> >>             if (must_wait)
-> >>               ret =3D dma_fence_wait(fence, intr);
-> >> +
-> >> +        return ret;
-> >>       }
-> >>         return ret;
->
+A fault injection probe test hit a BUG_ON in a GuC error path. It
+showed that the GuC code could potentially attempt to do many things
+when the device is actually wedged. So, add a check in to prevent that.
+
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+---
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+index 97311119da6f..88f002c4d41b 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+@@ -1350,7 +1350,8 @@ submission_disabled(struct intel_guc *guc)
+ 	struct i915_sched_engine * const sched_engine = guc->sched_engine;
+ 
+ 	return unlikely(!sched_engine ||
+-			!__tasklet_is_enabled(&sched_engine->tasklet));
++			!__tasklet_is_enabled(&sched_engine->tasklet) ||
++			test_bit(I915_WEDGED, &guc_to_gt(guc)->reset.flags));
+ }
+ 
+ static void disable_submission(struct intel_guc *guc)
+-- 
+2.25.1
+
