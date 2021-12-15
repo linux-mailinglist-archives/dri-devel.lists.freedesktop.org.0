@@ -2,45 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D4EC475E11
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 17:59:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AEFA475E3A
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 18:10:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5BCF10F0C4;
-	Wed, 15 Dec 2021 16:59:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A53710F1E0;
+	Wed, 15 Dec 2021 17:10:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE70710F0C1;
- Wed, 15 Dec 2021 16:59:31 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: bbeckett) with ESMTPSA id BF27A1F43D81
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
- t=1639587564; bh=Ga0vB0SMOR72oNzfGzk4aJr5UfnPmDSgXQQ7sM6cZBo=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=G+Cq6fwRlAieLzmL/nuu5Y4P1z+x6e+iw9m3hG9+80MeGCQ0VCymJpJ7ojNMCHM0T
- 3vKVqE+u01QMfxzuE2FwBZFa/8GL5yMSPK/hsME1WtclGAWbr858DWcNqUt4Rgu+5S
- +Kyb/BVOysY/vueFPE6WToNqmSe3ZayqvUmPfnPpbNKYQwxWHXAd8orQDp0x6vtLDb
- rrkcy0S4hTRWSTFrmVirQoYgCGtxehSxI2oLjaju1nddjgQzCRdIv2qbowjujiCRK2
- C5JS0zj+vDVTjARRsroMUeTcIIWXUqAwHiOppaJYYedGamzy1YiQucU9rIdzs/0UZc
- cLH6Pz+nJDWpQ==
-Message-ID: <c34cc151-7ba3-2ad7-efd7-64185560a5b8@collabora.com>
-Date: Wed, 15 Dec 2021 16:59:22 +0000
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B314710F1E0;
+ Wed, 15 Dec 2021 17:10:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1639588239; x=1671124239;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=hriYAFTChAanB4XlQeVWD9tRqr8gsxK2zv0M1MyUO9k=;
+ b=kWt91NseOCIeIcSZXOn67mjBCDRnO0+mu/uNwQkKDjiNPa8Ad9XA3kFo
+ kVHJPGykpBJmwi8FM4k8W9sfVkt4quto8RX2D82KUO7f7YynUETDHkciG
+ wLUoJb0b6BIRumT/5/AVgAsIru1apdErQ7yAEDl/v120kRq3Po3d1peLg
+ LHh1c2sIoC4pIL24pUk658PxaY93m8UAYvZIIeJa0Kgh1Tx0jp2bO8NYE
+ CfAQDvJklDw8/Avpje3wdAl9gmfMk1CnD0RMCFR3yH98YtESbPzIOH0xt
+ bjZxly6ZYkeYoW/BPVf7ApyPwh/25Om7aQ0gTGdOexutWAfashFVTUXnp A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10199"; a="238019243"
+X-IronPort-AV: E=Sophos;i="5.88,207,1635231600"; d="scan'208";a="238019243"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Dec 2021 09:09:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,207,1635231600"; d="scan'208";a="482464784"
+Received: from lkp-server02.sh.intel.com (HELO 9f38c0981d9f) ([10.239.97.151])
+ by orsmga002.jf.intel.com with ESMTP; 15 Dec 2021 09:09:08 -0800
+Received: from kbuild by 9f38c0981d9f with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1mxXm8-00026Z-6k; Wed, 15 Dec 2021 17:09:08 +0000
+Date: Thu, 16 Dec 2021 01:08:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/7] drm/i915: Avoid using the i915_fence_array when
+ collecting dependencies
+Message-ID: <202112160151.ZGYtb4Fp-lkp@intel.com>
+References: <20211215103611.777665-2-thomas.hellstrom@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.1
-Subject: Re: [Intel-gfx] [PATCH v4 06/16] drm/i915/gt: Clear compress metadata
- for Xe_HP platforms
-Content-Language: en-US
-To: Ramalingam C <ramalingam.c@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>
-References: <20211209154533.4084-1-ramalingam.c@intel.com>
- <20211209154533.4084-7-ramalingam.c@intel.com>
-From: Robert Beckett <bob.beckett@collabora.com>
-In-Reply-To: <20211209154533.4084-7-ramalingam.c@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211215103611.777665-2-thomas.hellstrom@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,264 +61,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: CQ Tang <cq.tang@intel.com>, Hellstrom Thomas <thomas.hellstrom@intel.com>,
- Matthew Auld <matthew.auld@intel.com>
+Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ kbuild-all@lists.01.org, matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The fixes below fix gem_lmem_swapping@basic igt test
+Hi "Thomas,
 
-On 09/12/2021 15:45, Ramalingam C wrote:
-> From: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
-> 
-> Xe-HP and latest devices support Flat CCS which reserved a portion of
-> the device memory to store compression metadata, during the clearing of
-> device memory buffer object we also need to clear the associated
-> CCS buffer.
-> 
-> Flat CCS memory can not be directly accessed by S/W.
-> Address of CCS buffer associated main BO is automatically calculated
-> by device itself. KMD/UMD can only access this buffer indirectly using
-> XY_CTRL_SURF_COPY_BLT cmd via the address of device memory buffer.
-> 
-> v2: Fixed issues with platform naming [Lucas]
-> 
-> Cc: CQ Tang <cq.tang@intel.com>
-> Signed-off-by: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
-> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/intel_gpu_commands.h |  14 +++
->   drivers/gpu/drm/i915/gt/intel_migrate.c      | 120 ++++++++++++++++++-
->   2 files changed, 131 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-> index f8253012d166..07bf5a1753bd 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-> @@ -203,6 +203,20 @@
->   #define GFX_OP_DRAWRECT_INFO     ((0x3<<29)|(0x1d<<24)|(0x80<<16)|(0x3))
->   #define GFX_OP_DRAWRECT_INFO_I965  ((0x7900<<16)|0x2)
->   
-> +#define XY_CTRL_SURF_INSTR_SIZE	5
-> +#define MI_FLUSH_DW_SIZE		3
-> +#define XY_CTRL_SURF_COPY_BLT		((2 << 29) | (0x48 << 22) | 3)
-> +#define   SRC_ACCESS_TYPE_SHIFT	21
-> +#define   DST_ACCESS_TYPE_SHIFT	20
-> +#define   CCS_SIZE_SHIFT		8
-> +#define   XY_CTRL_SURF_MOCS_SHIFT	25
-> +#define   NUM_CCS_BYTES_PER_BLOCK	256
-> +#define   NUM_CCS_BLKS_PER_XFER	1024
-> +#define   INDIRECT_ACCESS		0
-> +#define   DIRECT_ACCESS		1
-> +#define  MI_FLUSH_LLC			BIT(9)
-> +#define  MI_FLUSH_CCS			BIT(16)
-> +
->   #define COLOR_BLT_CMD			(2 << 29 | 0x40 << 22 | (5 - 2))
->   #define XY_COLOR_BLT_CMD		(2 << 29 | 0x50 << 22)
->   #define SRC_COPY_BLT_CMD		(2 << 29 | 0x43 << 22)
-> diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
-> index 19a01878fee3..64ffaacac1e0 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_migrate.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
-> @@ -16,6 +16,7 @@ struct insert_pte_data {
->   };
->   
->   #define CHUNK_SZ SZ_8M /* ~1ms at 8GiB/s preemption delay */
-> +#define GET_CCS_SIZE(i915, size)	(HAS_FLAT_CCS(i915) ? (size) >> 8 : 0)
+Thank you for the patch! Perhaps something to improve:
 
-do the rounding here. Don't manually round, use kernel macros:
+[auto build test WARNING on drm-tip/drm-tip]
+[also build test WARNING on drm-exynos/exynos-drm-next drm/drm-next next-20211214]
+[cannot apply to drm-intel/for-linux-next v5.16-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
--#define GET_CCS_SIZE(i915, size)       (HAS_FLAT_CCS(i915) ? (size) >> 
-8 : 0)
+url:    https://github.com/0day-ci/linux/commits/Thomas-Hellstr-m/drm-i915-Asynchronous-vma-unbinding/20211215-183859
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+config: i386-randconfig-a003-20211214 (https://download.01.org/0day-ci/archive/20211216/202112160151.ZGYtb4Fp-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/0day-ci/linux/commit/0f61eb08a6b9d7fa9f19eaa071ad5591de123633
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Thomas-Hellstr-m/drm-i915-Asynchronous-vma-unbinding/20211215-183859
+        git checkout 0f61eb08a6b9d7fa9f19eaa071ad5591de123633
+        # save the config file to linux build tree
+        mkdir build_dir
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/
 
-+#define GET_CCS_SIZE(i915, size)       (HAS_FLAT_CCS(i915) ? 
-DIV_ROUND_UP(size, NUM_CCS_BYTES_PER_BLOCK ) : 0)
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c:634:5: warning: no previous prototype for 'prev_deps' [-Wmissing-prototypes]
+     634 | int prev_deps(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx,
+         |     ^~~~~~~~~
 
 
->   
->   static bool engine_supports_migration(struct intel_engine_cs *engine)
->   {
-> @@ -488,15 +489,104 @@ intel_context_migrate_copy(struct intel_context *ce,
->   	return err;
->   }
->   
-> -static int emit_clear(struct i915_request *rq, int size, u32 value)
-> +static inline u32 *i915_flush_dw(u32 *cmd, u64 dst, u32 flags)
-> +{
-> +	/* Mask the 3 LSB to use the PPGTT address space */
-> +	*cmd++ = MI_FLUSH_DW | flags;
-> +	*cmd++ = lower_32_bits(dst);
-> +	*cmd++ = upper_32_bits(dst);
-> +
-> +	return cmd;
-> +}
-> +
-> +static u32 calc_ctrl_surf_instr_size(struct drm_i915_private *i915, int size)
-> +{
-> +	u32 num_cmds, num_blks, total_size;
-> +
-> +	if (!GET_CCS_SIZE(i915, size))
-> +		return 0;
-> +
-> +	/*
-> +	 * XY_CTRL_SURF_COPY_BLT transfers CCS in 256 byte
-> +	 * blocks. one XY_CTRL_SURF_COPY_BLT command can
-> +	 * trnasfer upto 1024 blocks.
-> +	 */
-> +	num_blks = (GET_CCS_SIZE(i915, size) +
-> +			   (NUM_CCS_BYTES_PER_BLOCK - 1)) >> 8;
+vim +/prev_deps +634 drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
 
--       num_blks = (GET_CCS_SIZE(i915, size) +
+   633	
+ > 634	int prev_deps(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx,
+   635		      struct i915_deps *deps)
+   636	{
+   637		int ret;
+   638	
+   639		ret = i915_deps_add_dependency(deps, bo->moving, ctx);
+   640		if (!ret)
+   641			/*
+   642			 * TODO: Only await excl fence here, and shared fences before
+   643			 * signaling the migration fence.
+   644			 */
+   645			ret = i915_deps_add_resv(deps, bo->base.resv, true, false, ctx);
+   646	
+   647		return ret;
+   648	}
+   649	
 
--                          (NUM_CCS_BYTES_PER_BLOCK - 1)) >> 8;
-
-+       num_blks = GET_CCS_SIZE(i915, size);
-
-
-
-> +	num_cmds = (num_blks + (NUM_CCS_BLKS_PER_XFER - 1)) >> 10;
-> +	total_size = (XY_CTRL_SURF_INSTR_SIZE) * num_cmds;
-> +
-> +	/*
-> +	 * We need to add a flush before and after
-> +	 * XY_CTRL_SURF_COPY_BLT
-> +	 */
-> +	total_size += 2 * MI_FLUSH_DW_SIZE;
-> +	return total_size;
-> +}
-> +
-> +static u32 *_i915_ctrl_surf_copy_blt(u32 *cmd, u64 src_addr, u64 dst_addr,
-> +				     u8 src_mem_access, u8 dst_mem_access,
-> +				     int src_mocs, int dst_mocs,
-> +				     u16 num_ccs_blocks)
-> +{
-> +	int i = num_ccs_blocks;
-> +
-> +	/*
-> +	 * The XY_CTRL_SURF_COPY_BLT instruction is used to copy the CCS
-> +	 * data in and out of the CCS region.
-> +	 *
-> +	 * We can copy at most 1024 blocks of 256 bytes using one
-> +	 * XY_CTRL_SURF_COPY_BLT instruction.
-> +	 *
-> +	 * In case we need to copy more than 1024 blocks, we need to add
-> +	 * another instruction to the same batch buffer.
-> +	 *
-> +	 * 1024 blocks of 256 bytes of CCS represent a total 256KB of CCS.
-> +	 *
-> +	 * 256 KB of CCS represents 256 * 256 KB = 64 MB of LMEM.
-> +	 */
-> +	do {
-> +		/*
-> +		 * We use logical AND with 1023 since the size field
-> +		 * takes values which is in the range of 0 - 1023
-> +		 */
-> +		*cmd++ = ((XY_CTRL_SURF_COPY_BLT) |
-> +			  (src_mem_access << SRC_ACCESS_TYPE_SHIFT) |
-> +			  (dst_mem_access << DST_ACCESS_TYPE_SHIFT) |
-> +			  (((i - 1) & 1023) << CCS_SIZE_SHIFT));
-> +		*cmd++ = lower_32_bits(src_addr);
-> +		*cmd++ = ((upper_32_bits(src_addr) & 0xFFFF) |
-> +			  (src_mocs << XY_CTRL_SURF_MOCS_SHIFT));
-> +		*cmd++ = lower_32_bits(dst_addr);
-> +		*cmd++ = ((upper_32_bits(dst_addr) & 0xFFFF) |
-> +			  (dst_mocs << XY_CTRL_SURF_MOCS_SHIFT));
-> +		src_addr += SZ_64M;
-> +		dst_addr += SZ_64M;
-> +		i -= NUM_CCS_BLKS_PER_XFER;
-> +	} while (i > 0);
-> +
-> +	return cmd;
-> +}
-> +
-> +static int emit_clear(struct i915_request *rq,
-> +		      int size,
-> +		      u32 value,
-> +		      bool is_lmem)
->   {
->   	const int ver = GRAPHICS_VER(rq->engine->i915);
->   	u32 instance = rq->engine->instance;
->   	u32 *cs;
-> +	struct drm_i915_private *i915 = rq->engine->i915;
-> +	u32 num_ccs_blks, ccs_ring_size;
->   
->   	GEM_BUG_ON(size >> PAGE_SHIFT > S16_MAX);
->   
-> -	cs = intel_ring_begin(rq, ver >= 8 ? 8 : 6);
-> +	/* Clear flat css only when value is 0 */
-> +	ccs_ring_size = (is_lmem && !value) ?
-> +			 calc_ctrl_surf_instr_size(i915, size)
-> +			 : 0;
-> +
-> +	cs = intel_ring_begin(rq, ver >= 8 ? 8 + ccs_ring_size : 6);
-
-round up to qword:
-
--       cs = intel_ring_begin(rq, ver >= 8 ? 8 + ccs_ring_size : 6);
-
-+       cs = intel_ring_begin(rq, round_up(ver >= 8 ? 8 + ccs_ring_size 
-: 6, 2));
-
-
-
->   	if (IS_ERR(cs))
->   		return PTR_ERR(cs);
->   
-> @@ -519,6 +609,30 @@ static int emit_clear(struct i915_request *rq, int size, u32 value)
->   		*cs++ = value;
->   	}
->   
-> +	if (is_lmem && HAS_FLAT_CCS(i915) && !value) {
-> +		num_ccs_blks = (GET_CCS_SIZE(i915, size) +
-> +				NUM_CCS_BYTES_PER_BLOCK - 1) >> 8;
-
--               num_ccs_blks = (GET_CCS_SIZE(i915, size) +
-
--                               NUM_CCS_BYTES_PER_BLOCK - 1) >> 8;
-
-+               num_ccs_blks = GET_CCS_SIZE(i915, size);
-
-
-> +		/*
-> +		 * Flat CCS surface can only be accessed via
-> +		 * XY_CTRL_SURF_COPY_BLT CMD and using indirect
-> +		 * mapping of associated LMEM.
-> +		 * We can clear ccs surface by writing all 0s,
-> +		 * so we will flush the previously cleared buffer
-> +		 * and use it as a source.
-> +		 */
-> +
-> +		cs = i915_flush_dw(cs, (u64)instance << 32,
-> +				   MI_FLUSH_LLC | MI_FLUSH_CCS);
-> +		cs = _i915_ctrl_surf_copy_blt(cs,
-> +					      (u64)instance << 32,
-> +					      (u64)instance << 32,
-> +					      DIRECT_ACCESS,
-> +					      INDIRECT_ACCESS,
-> +					      1, 1,
-> +					      num_ccs_blks);
-> +		cs = i915_flush_dw(cs, (u64)instance << 32,
-> +				   MI_FLUSH_LLC | MI_FLUSH_CCS);
-
-pad to qword:
-
-+               if (ccs_ring_size & 1)
-
-+                       *cs++ = MI_NOOP;
-
-
-
-> +	}
->   	intel_ring_advance(rq, cs);
->   	return 0;
->   }
-> @@ -579,7 +693,7 @@ intel_context_migrate_clear(struct intel_context *ce,
->   		if (err)
->   			goto out_rq;
->   
-> -		err = emit_clear(rq, len, value);
-> +		err = emit_clear(rq, len, value, is_lmem);
->   
->   		/* Arbitration is re-enabled between requests. */
->   out_rq:
-> 
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
