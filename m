@@ -2,114 +2,140 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D07C7475290
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 07:09:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65E4C475292
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 07:10:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2421610E21C;
-	Wed, 15 Dec 2021 06:09:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E39E10E274;
+	Wed, 15 Dec 2021 06:09:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE61510E21C
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 06:09:50 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20211215060948euoutp01484fed831084f52274f27fdc63317823~A2MEWiY4s2143721437euoutp01y
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 06:09:48 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20211215060948euoutp01484fed831084f52274f27fdc63317823~A2MEWiY4s2143721437euoutp01y
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1639548588;
- bh=qwPgwWOQuUA9YdNyUHoozCqEEJ3lpXAHtKEXW9Re11w=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=us6L+U6W25O4wPt6GI7pgMOhssGUK+8wXyqYWjMlUHZ5T7CPm6to+y30r/X/2TxoU
- 6GQvNJnTQ9+8Pdv8MGxl3KWaVkN+hon0X5UkMg8hATivu84QOX5SbfdF18M144L9Xh
- 1b1zEL8C/Onap2YQUHc/eNQtn+wuqdXUIiU/gh1I=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20211215060947eucas1p1f7be4f6550a484d1db2e7e1fc061b279~A2MD82BrJ2835328353eucas1p1a;
- Wed, 15 Dec 2021 06:09:47 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 86.80.09887.CA689B16; Wed, 15
- Dec 2021 06:09:48 +0000 (GMT)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20211215060947eucas1p171b101e6a34a3dc4a0fe158213b67dea~A2MDUWIQd2835328353eucas1p1Z;
- Wed, 15 Dec 2021 06:09:47 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20211215060947eusmtrp2ff72ced8bffa75a1f6f8bbd77e3c75f7~A2MDTZmC51038310383eusmtrp2f;
- Wed, 15 Dec 2021 06:09:47 +0000 (GMT)
-X-AuditID: cbfec7f4-471ff7000000269f-c5-61b986ac2e30
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id B4.E6.09404.AA689B16; Wed, 15
- Dec 2021 06:09:46 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20211215060946eusmtip2430ab244153cc3289c7c88bafc54f4c7~A2MCrbt4k2162321623eusmtip2l;
- Wed, 15 Dec 2021 06:09:46 +0000 (GMT)
-Message-ID: <018a4243-8815-120d-a151-09182e3ad486@samsung.com>
-Date: Wed, 15 Dec 2021 07:09:46 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
- Gecko/20100101 Thunderbird/91.4.0
-Subject: Re: [PATCH v3 0/7] drm: exynos: dsi: Convert drm bridge
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2076.outbound.protection.outlook.com [40.107.223.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01DC810E239;
+ Wed, 15 Dec 2021 06:09:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=odjEY9xPu0LHlAQEAG4IfGY5mGGvfmHDBbI8KXlL7y/HgME5pguBG7tL196jExFZsHitp+5ZT52BPcmZuBRKIeXN0AbtoUa9uQ1gQAelBaUX+PbqNnRuwOQICe5hvAV89M7tdeEb65TdP9b1BOL1M0ErmHTMAbbQcHcqOwecZgg4F4/9+iZBfFi35Ni8WgCqV2BoRAP6tP2vZs/yUnyysAvoxf55iemWqoQD0+eyjzWemgI2fa3VgY7fXb05bx1m+9+07PS3uOlxT7h7e9hbYI/o1wzzZkHBIpPLebaoWdoUO/xsuxlizygrTy0srK5Kn1lOeuyM3LRA63aK1Ef3DQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zxkrOts1zxq9unrP64E6gS3CdAJGFZEiiK6/iI24MRQ=;
+ b=JR71L+TEtiN3S1bSV7ALvuJq1aJSdySeoIeEWqa/flERholf420QF+buanG9FOX04eU97gM7xZxi4Flap0YavRxtcWsQ/wan2ggsgkSdZGCSj4ICEC6EBgS6J8jbSRaPFf0srUdt6KAvSPExuUFlSRKBPLaoAGYPqStcsMf9wojn49bMp435QOJyqiDkTDY96/VGQGZdiYKgciYXUILengbmMQCUIz6FrV5pjhSbd/fKyX3fw6j/jpTpPvhqB6qQ9lYqGaw1+9YM6LWYJ5wVlVJXMPIeGkwadVtVKeRy4DyeRr4sGomIQ707rVbkBPa7j8pkv3Uv5KpsfDp10hFODA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zxkrOts1zxq9unrP64E6gS3CdAJGFZEiiK6/iI24MRQ=;
+ b=sSkAjfmH097TI9SJEgTFHVYKOou+GtPEA1dyxdDMCtT5V4lbjCpTkjv+UWXSBywJIWpebXRrazW0QRw/m9CxN44IrYAOu1BxddCNlqdYPVx3QOPggh/xdiZ36MIcklaqt3FsJBpCjXQVmyP7XdZt/B6tdwQePm5OuwIl2lq7ySs=
+Received: from DM5PR12MB2504.namprd12.prod.outlook.com (2603:10b6:4:b5::19) by
+ DM6PR12MB4372.namprd12.prod.outlook.com (2603:10b6:5:2af::14) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4778.16; Wed, 15 Dec 2021 06:09:50 +0000
+Received: from DM5PR12MB2504.namprd12.prod.outlook.com
+ ([fe80::5d07:e475:316c:d187]) by DM5PR12MB2504.namprd12.prod.outlook.com
+ ([fe80::5d07:e475:316c:d187%5]) with mapi id 15.20.4755.027; Wed, 15 Dec 2021
+ 06:09:50 +0000
+From: "Huang, Ray" <Ray.Huang@amd.com>
+To: "Koenig, Christian" <Christian.Koenig@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, Daniel
+ Vetter <daniel.vetter@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
+Subject: RE: [PATCH v2] drm/amdgpu: introduce new amdgpu_fence object to
+ indicate the job embedded fence
+Thread-Topic: [PATCH v2] drm/amdgpu: introduce new amdgpu_fence object to
+ indicate the job embedded fence
+Thread-Index: AQHX8NwJBs8elJ0/CEGBZ7GYj2xD3Kwx6eSAgAEkWvA=
+Date: Wed, 15 Dec 2021 06:09:50 +0000
+Message-ID: <DM5PR12MB2504A078D627F8F392BA9B7AEC769@DM5PR12MB2504.namprd12.prod.outlook.com>
+References: <20211214111554.2672812-1-ray.huang@amd.com>
+ <30441c31-8ebe-e7b0-97ba-357bba24255a@amd.com>
+In-Reply-To: <30441c31-8ebe-e7b0-97ba-357bba24255a@amd.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: Jagan Teki <jagan@amarulasolutions.com>
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <CAMty3ZBDHs9JM9aZims97_Z213RWMUxcz_LUX_dZGeAYFE8Eew@mail.gmail.com>
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrAKsWRmVeSWpSXmKPExsWy7djPc7pr2nYmGnxYwG5xf/FnFosrX9+z
- WUy6P4HF4sumCWwWnROXsFssn7CPzeJUYyuLxaG+aItPsx4yW6z4uZXRgctj7cf7rB7vb7Sy
- e8zumMnqsXjPSyaPO9f2sHnc7z7O5LFk2lU2j74tqxgDOKK4bFJSczLLUov07RK4Mpb1zWcr
- 2HeSsWLDxHcsDYxHtzB2MXJySAiYSLy4fpyli5GLQ0hgBaPE7IcPmCGcL4wSH6/NYIRwPjNK
- LNzVDNdy7sItdojEckaJSdffsUE4Hxklrvz4wgJSxStgJ7Fq0k5WEJtFQFXiwo/1UHFBiZMz
- n4DZogJJEq0df5hAbGEBB4n/Lz+B1TMLiEvcejIfLC4ioC3xbeZrsAXMAv+YJE5teQ1WxCZg
- KNH1tosNxOYUCJQ4/P82E0SzvETz1tlgT0gI9HNKTOheywxxt4vEgZ+H2CBsYYlXx7ewQ9gy
- Ev93gmwDaWhmlHh4bi07hNPDKHG5aQbU19YSd879AurmAFqhKbF+lz5E2FFi55I3YGEJAT6J
- G28FIY7gk5i0bTozRJhXoqNNCKJaTWLW8XVwaw9euMQ8gVFpFlK4zELy/ywk78xC2LuAkWUV
- o3hqaXFuemqxUV5quV5xYm5xaV66XnJ+7iZGYCI7/e/4lx2My1991DvEyMTBeIhRgoNZSYR3
- qcHORCHelMTKqtSi/Pii0pzU4kOM0hwsSuK8yZkbEoUE0hNLUrNTUwtSi2CyTBycUg1MYf4p
- /SUcgjVOi95Gpbg3tbxMdcmelrJjEds7r/MaMcVvLtY0pDllZzjlFe4N6Zy1bXbdX8Z4E2On
- v1JhWqvKjK85PJaIbK/vLN/Ixj8rIebe8vp11nqc/acm2jr0rdONPTPNdb+Im27Gc8VnTgzt
- u2cwPQ45e/ief6+r+43vomGL9z+csz9glovE4S+BV1UW6320jt5zo/SMUUY686Y70Sqq5vWd
- Lb8vPmo2ihDpX/XpNN92S7UzrDPkbva36zFH2CdWTfZYPG+SXqaG9VSW7RY7T4SK2N6/7CO9
- 8vrhmaYcjJpV8skpRTK2pTy7HxzK4+BaYLpg+hcVi1O/XnDEStlxHtzxbfYjFo8EWSWW4oxE
- Qy3mouJEAA/6xxPTAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrIIsWRmVeSWpSXmKPExsVy+t/xe7qr2nYmGuyYpGZxf/FnFosrX9+z
- WUy6P4HF4sumCWwWnROXsFssn7CPzeJUYyuLxaG+aItPsx4yW6z4uZXRgctj7cf7rB7vb7Sy
- e8zumMnqsXjPSyaPO9f2sHnc7z7O5LFk2lU2j74tqxgDOKL0bIryS0tSFTLyi0tslaINLYz0
- DC0t9IxMLPUMjc1jrYxMlfTtbFJSczLLUov07RL0Mpb1zWcr2HeSsWLDxHcsDYxHtzB2MXJy
- SAiYSJy7cIu9i5GLQ0hgKaPExn8fmCASMhInpzWwQtjCEn+udbFBFL1nlHj/8QQbSIJXwE5i
- 1aSdYEUsAqoSF36sZ4GIC0qcnPkEzBYVSJLYvW4rWL2wgIPE/5efwOqZBcQlbj2ZD7ZMREBb
- 4tvM12ALmAWamCXaTiwHKxISaGWVmPY3EsRmEzCU6HrbBTaIUyBQ4vD/20wQg8wkurZ2MULY
- 8hLNW2czT2AUmoXkjllI9s1C0jILScsCRpZVjCKppcW56bnFRnrFibnFpXnpesn5uZsYgXG7
- 7djPLTsYV776qHeIkYmD8RCjBAezkgjvUoOdiUK8KYmVValF+fFFpTmpxYcYTYGBMZFZSjQ5
- H5g48kriDc0MTA1NzCwNTC3NjJXEeT0LOhKFBNITS1KzU1MLUotg+pg4OKUamKKCypOyFt2J
- YHoul6/qqLT70xyhJUYvBO+9ynkjtPvV7Rfp/P/Wsbo+NgqY+jfsiplTaY145K5fHzumzbxr
- d+a5VZjmoc8sVgEBnZN3Xzl9PDC472/5zAyTPd4X/AvXal3rfxkRdHiDasnTR7+vZ4grvdxd
- n5JVckhbRtvo/uH52hfL3D7wmirsOnW6V+Gyzx/lU5tKlDZc9DYIDXvbuPzxie8hm1aFvItc
- 4/34+OannUsjDcx3NKxnmFxt/WFF4fPT5zmXHc/atfarhuxT2Qqt66UvyysOzT/Fyq82cVrm
- Yj2Luqpfex1/nProWqxR9Px/85aITo17d675quvW7Cr6NenXvni3uhUNie9MnlcosRRnJBpq
- MRcVJwIAmfHFOmQDAAA=
-X-CMS-MailID: 20211215060947eucas1p171b101e6a34a3dc4a0fe158213b67dea
-X-Msg-Generator: CA
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Enabled=true;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SetDate=2021-12-15T05:52:45Z; 
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Method=Standard;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Name=AMD Official Use
+ Only-AIP 2.0;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ActionId=25650ace-102e-4d12-8f9a-7b58f234ca54;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ContentBits=1
+msip_label_88914ebd-7e6c-4e12-a031-a9906be2db14_enabled: true
+msip_label_88914ebd-7e6c-4e12-a031-a9906be2db14_setdate: 2021-12-15T06:09:47Z
+msip_label_88914ebd-7e6c-4e12-a031-a9906be2db14_method: Standard
+msip_label_88914ebd-7e6c-4e12-a031-a9906be2db14_name: AMD Official Use
+ Only-AIP 2.0
+msip_label_88914ebd-7e6c-4e12-a031-a9906be2db14_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
+msip_label_88914ebd-7e6c-4e12-a031-a9906be2db14_actionid: cef44d55-9fa1-4a7d-9664-d08775eb3080
+msip_label_88914ebd-7e6c-4e12-a031-a9906be2db14_contentbits: 0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 95e16701-88e4-467a-f7f4-08d9bf918108
+x-ms-traffictypediagnostic: DM6PR12MB4372:EE_
+x-microsoft-antispam-prvs: <DM6PR12MB4372101229414C4FF3D9BE89EC769@DM6PR12MB4372.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5797;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: OdCPNLlMyH3oJbz0ysJLUdjTDFkT0edzqOEaz+elZBYliEYDUB8GsLbYOch1ol8sZFmdASuDD1rbidPKi+pKk1ScL6ai6CQuwAiBlIAANOKeawnXZ0XMUgxXRJUDn0NMtH83rW/yyWZrD8yMQlq9LmrORFKURAgcqdcIOx6A41+mX/OWs/zNJ+QkQxLfKjY8SjNXtf4NlQZjM6wBDCcFyi15z8mpaFZfMSyqGQ4vdBj/7oFA/s+IxDxgczF0qYeO90z+WSKEO0IaicQMr4MMzH5luwtvWDjpd1zWKB+Lt27nc0ShkeMwms9dLfHyMbWF8s02hOBTta3Fd1O22WHnQKK5aPPgM3DLf3RkCCxpEew6MiKnI+GAYZ8LbEr686jfTWt6u9xTLjeP8f2iMBmJzMOXZVv3k4tDMTuuw9FG7tyloszYPKfe2v0I62kgeetBRYb4huCgKu6vkG4S7UbQ5uJOhFw/UnCpfGduiai63Nk6Li6wGfqAUcMStkmhbflJjZmWztI3OI+9qkODBy1B3dqOgIBmd7XQLmY2Xopw40E04VyhLayxpCyzIqOaQ6DJAhIv9MKJLCgrIaQjtHL6FAAp49L5AMBI2Y+PZMi5QMcGXE+mkACcPlvfms4GcE+mRDHOZ2mJgtxTqcZcOdmri6t1ITA0NQUurZI2xWEanhaQobUU7fPLjchCCQ2gkLJzBn7p/yAcLFatjytvCvNNoQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB2504.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(38070700005)(5660300002)(30864003)(508600001)(38100700002)(71200400001)(316002)(33656002)(55016003)(122000001)(4326008)(8676002)(53546011)(7696005)(26005)(52536014)(110136005)(186003)(76116006)(66476007)(54906003)(83380400001)(64756008)(66446008)(8936002)(66556008)(2906002)(6506007)(86362001)(66946007)(9686003);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?QnZXOTM3V0tCVjBkU0xXN09QRENRcXNwaFFUWmlES3E1eXBZWExnSUYzV0gz?=
+ =?utf-8?B?NFA3dmZLaE9GbkpNSjhLcUxoS2IvT01tTHRNc3FCRDNRdmhRTnArNnRWbGdB?=
+ =?utf-8?B?SXVRTjRyNlRBZThuQ1dwbWozaUZlM2xYajNpMGJZc3FKcWpGMytUdXJVQWtT?=
+ =?utf-8?B?Y25nclJPUC91ZDkwcDVGSiswd1hveDZJLzc1ZVdZNGpLVjY5T3lJQUdWKzRs?=
+ =?utf-8?B?eTRaUVpPNkR5bmRnYXBsRE02QjBqQ0dRenVqTlEwVmZ0a3I3Qi9ZdnZYMlBH?=
+ =?utf-8?B?WDRXYlVINDBYRXl5dlE1Sm05S3pnYk5iOVdJaW4vNkdEME1vTGQ4WnVkV3hy?=
+ =?utf-8?B?N2J1aG1NY2xxa0RwK25rcjhob3VMNE5Lcnh5Q25jVDFndW1MaURjN1JjbURT?=
+ =?utf-8?B?c29EL1o5M1A2NCtEU0xkRzhWU3lGdndaM0x4TGdVaVRVb0RScEp0V3FYUUFS?=
+ =?utf-8?B?ZEwwcWpxWDJBcktwSTZxTWpHVGN6REp2aDlUVlZ0QjBNUjlCZ1MzKzZsMGU3?=
+ =?utf-8?B?UG80eitZcFk5eksrWjliUE0wMlFRQjJsdXRqM3V3Nkh5WGxOeWNnM1ZHWGx0?=
+ =?utf-8?B?STRmczFFTCtrWW9VVWwzV2w3MXVkdzRRemUxcU40VUNvaFlaTi9VSHlZNWQ0?=
+ =?utf-8?B?RHZKclR0cksya3VVK21VbzJUYlFabVdnU3NSaEcxYnZRT1JXZUxkNTlYbXEw?=
+ =?utf-8?B?bUhUOHFDZU5IazlPSFp3Q1VNYVhZNTFuTUhYTnFXYktRQlRoM2QxQk9hOGdC?=
+ =?utf-8?B?WDZnTUpCb3dZMDVzUGx3dVc5d1ZhTHowaWlmOHhWN3YzT2pTZjE0TndrZE82?=
+ =?utf-8?B?OFJRM0JlNUo5aU16NHJvMUYrR1Z2VjRIZm5MNDdoZHNvZEFKRVpSSDZIOE5v?=
+ =?utf-8?B?QStIYjRkU2VjeUJCY1VPMXhYdXQxQ2swOGE1MXFCb1FDRjI1MndwK0NyT3la?=
+ =?utf-8?B?emZLQW9ZVFNyYmNtNjhDV0FXKzNBSEhVTlNSSEJ5cU5DQnZTdXV6WXYwMEdE?=
+ =?utf-8?B?Yks3VUNEQWpJeFI0c2FKYi9PeWtjOVhPc2ZuVVF2cGJIV3NmMTMvaHNaaHly?=
+ =?utf-8?B?NjZieW1qenhZK3k5NXdKQkhkQVJXdzVmWnUyRldCNTlWbkZXc3czTk5kWGZ2?=
+ =?utf-8?B?b25xNTBwQ0lNNENJVVZFSXd6VUpUMUFGbldxajVIMHMzZExqS0xsN2RHdjVP?=
+ =?utf-8?B?N0NpWWQzazhWM085MDZxNDZwd2ZGazFyZ3FaS2xGamFpV0prdWNYOU1BbVI2?=
+ =?utf-8?B?QWdER2VzdHZDQStneFh0SDljSVd4dVZZd2wveXVxR0EwUnh2aEdkbmN4Qnhr?=
+ =?utf-8?B?WkVWdCtiOEhtMHlQY0xXVjlHc1EyUi96T0l5REtnWkIwQ085elYxdFZ2OFFP?=
+ =?utf-8?B?TTJiZnZYMlFVbDZXaFdsMWJtTXJ0azdwcjRPdEgrTm1iSGtZRjhzSDc1emRP?=
+ =?utf-8?B?T1kyZ2xDQW1wY3NscGREZGNBZEsvblJCdldubWxzQ081Sk9PU3k2eVN1OHht?=
+ =?utf-8?B?c3hwKzZFdVRzbGRaY1hjM3JIY3lzR0VvUStkV21CdUdJWHBhYmJhUk0weE52?=
+ =?utf-8?B?SHNnQ1dkcml6QUNiZG5SR2hUQmhpdGFHWG1nZDM1QlNNelQ0U3g4WWhzdFI0?=
+ =?utf-8?B?YUFSaFlVemFPM2dES0VzbEFZc0hOSWxzS25MVjBtd3drWXA5cUJFT3dVWE4y?=
+ =?utf-8?B?NzE2WElLdlp1MkxVMFhVZ044Y0d4UW5OODI0dHk0ZkdxL2s0eGlMWFVyNzZC?=
+ =?utf-8?B?TFQrWUp2TXA1TnU5VDNZK3k3WUlOMmhQNXQxZ2lIaEJYclR6ejRGS21Cdlc2?=
+ =?utf-8?B?RS9BSGI4bjkrRGltZmZtOGc5d0FvL1E0ZjdaYmlIWTFVUzh1SnFPTUZEWUEr?=
+ =?utf-8?B?SFFFM0dSeFIvVGV2d2ZQVGhBb2xIam9RZFNpUHZyYjNOYzMwN3NkRzB2emNO?=
+ =?utf-8?B?YmRzdzd4UFRKRWxRblpnMkk1T1krVDRxb2NLWEw2Ukc0NHZ5N2xlRWhnNENX?=
+ =?utf-8?B?aFBzaXF2VHI4ejI0VUlmb3RSVERDbkZOYk01RGxSWkF5S2Rqb0JqajNTZEpP?=
+ =?utf-8?B?QnFpYWRrTnZGbk8zZmw0L2h5OU1wd3E1UjJDMW1qM1psY3VZNE04TU1RQnhM?=
+ =?utf-8?B?SDJZblZwSzBYSnR0RS85b2RzK041RGJteGNiTmJaeEVvTHF0eTVla3dYaEx3?=
+ =?utf-8?Q?6VZZ/Nf4V+ZyD5K8zklDUck=3D?=
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20211212181442eucas1p2fe9d69d619f7f68be4473b79ddd136b0
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20211212181442eucas1p2fe9d69d619f7f68be4473b79ddd136b0
-References: <CGME20211212181442eucas1p2fe9d69d619f7f68be4473b79ddd136b0@eucas1p2.samsung.com>
- <20211212181416.3312656-1-jagan@amarulasolutions.com>
- <9c1f6bed-2a62-4d85-1bd0-95c0bd5f6c89@samsung.com>
- <CAMty3ZAX2thXTBcpwtUwP16wteKE_1OwWqPBivWTuRKb=B8ghQ@mail.gmail.com>
- <2b5810d5-8af7-f960-94fb-bd08188a9ae8@samsung.com>
- <CAMty3ZAsmMd0Vou0GhM=PbHF7=bDztbR6TV8QfQ95WESum9QQQ@mail.gmail.com>
- <bd410fb0-6594-e9ea-4163-0d0f2fcdfabe@samsung.com>
- <CAMty3ZBR-n0QS5DETYRmDFkcFv2QdOL8BfTmbduq7kHK=hBmAw@mail.gmail.com>
- <10780d37-76eb-23bd-48e5-809ff3cd465e@samsung.com>
- <CAMty3ZBDHs9JM9aZims97_Z213RWMUxcz_LUX_dZGeAYFE8Eew@mail.gmail.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB2504.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 95e16701-88e4-467a-f7f4-08d9bf918108
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Dec 2021 06:09:50.4241 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: biTBJJfxkh6eJSVBmAVyOKVV9oK5WneeS6bryRBIUluBsFkqqqUoiyRRfqp5iawNZFhW80pVgLfRNcbqUhdK/Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4372
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,521 +148,238 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- linux-amarula@amarulasolutions.com, dri-devel@lists.freedesktop.org,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>, "Liu, Monk" <Monk.Liu@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jagan,
-
-On 14.12.2021 11:47, Jagan Teki wrote:
-> On Mon, Dec 13, 2021 at 7:42 PM Marek Szyprowski
-> <m.szyprowski@samsung.com> wrote:
->> On 13.12.2021 14:56, Jagan Teki wrote:
->>> On Mon, Dec 13, 2021 at 6:51 PM Marek Szyprowski
->>> <m.szyprowski@samsung.com> wrote:
->>>> On 13.12.2021 13:31, Jagan Teki wrote:
->>>>> On Mon, Dec 13, 2021 at 5:42 PM Marek Szyprowski
->>>>> <m.szyprowski@samsung.com> wrote:
->>>>>> On 13.12.2021 13:08, Jagan Teki wrote:
->>>>>>> On Mon, Dec 13, 2021 at 5:34 PM Marek Szyprowski
->>>>>>> <m.szyprowski@samsung.com> wrote:
->>>>>>>> On 12.12.2021 19:14, Jagan Teki wrote:
->>>>>>>>> Updated series about drm bridge conversion of exynos dsi.
->>>>>>>>>
->>>>>>>>> Patch 1: panel checker
->>>>>>>>>
->>>>>>>>> Patch 2: panel_bridge API
->>>>>>>>>
->>>>>>>>> Patch 3: Bridge conversion
->>>>>>>>>
->>>>>>>>> Patch 4: pree_enable, post_disable
->>>>>>>>>
->>>>>>>>> Patch 5: Atomic functions
->>>>>>>>>
->>>>>>>>> Patch 6: atomic_set
->>>>>>>>>
->>>>>>>>> Patch 7: DSI init in enable
->>>>>>>>>
->>>>>>>>> [1] https://patchwork.kernel.org/project/dri-devel/cover/20211210191922.2367979-1-jagan@amarulasolutions.com/
->>>>>>>>>
->>>>>>>>> Any inputs?
->>>>>>>> I've checked this patchset on Exynos based Trats2 board (the one with
->>>>>>>> simplest display pipeline: Exynos FIMD -> Exynos DSI -> s6e8aa0 DSI
->>>>>>>> panel). DRM stops working after the 2nd patch ("[PATCH v3 2/7] drm:
->>>>>>>> exynos: dsi: Use drm panel_bridge API"):
->>>>>>>>
->>>>>>>> > [...]
->>> Thanks for testing it.
->>>
->>> Can you test it on the downstream bridge, tc358764 and post the result?
->> There were 2 logs in my reply. One from trats2 board (just dsi panel)
->> and one from arndale (tc bridge + simple panel).
-> Okay. Got it.
->
-> Can you test this tc358764 panel_bridge patch on linux-next? don't
-> apply this series, apply only below patch and test.
->
-Yes, sure. Sadly, it also breaks display operation:
-
-OF: graph: no port node found in /soc/hdmi@14530000
-[drm] Exynos DRM: using 14400000.fimd device for DMA mapping operations
-exynos-drm exynos-drm: bound 14400000.fimd (ops fimd_component_ops)
-exynos-drm exynos-drm: bound 14450000.mixer (ops mixer_component_ops)
-OF: graph: no port node found in /soc/dsi@14500000
-exynos-drm exynos-drm: bound 14500000.dsi (ops exynos_dsi_component_ops)
-exynos-drm exynos-drm: bound 14530000.hdmi (ops hdmi_component_ops)
-exynos-drm exynos-drm: [drm] Cannot find any crtc or sizes
-exynos-drm exynos-drm: [drm] Cannot find any crtc or sizes
-[drm] Initialized exynos 1.1.0 20180330 for exynos-drm on minor 0
-panfrost 11800000.gpu: clock rate = 533000000
-panfrost 11800000.gpu: mali-t600 id 0x600 major 0x0 minor 0x0 status 0x1
-panfrost 11800000.gpu: features: 00000000,10206000, issues: 
-00000000,31b4dfff
-panfrost 11800000.gpu: Features: L2:0x07110206 Shader:0x00000000 
-Tiler:0x00000809 Mem:0x1 MMU:0x00002830 AS:0xf JS:0x7
-panfrost 11800000.gpu: shader_present=0xf l2_present=0x1
-[drm] Initialized panfrost 1.2.0 20180908 for 11800000.gpu on minor 1
-------------[ cut here ]------------
-WARNING: CPU: 1 PID: 23 at drivers/gpu/drm/drm_atomic_state_helper.c:494 
-drm_atomic_helper_connector_duplicate_state+0x60/0x68
-Modules linked in:
-CPU: 1 PID: 23 Comm: kworker/1:1 Not tainted 
-5.16.0-rc5-next-20211213-00001-gac4117943791 #11072
-Hardware name: Samsung Exynos (Flattened Device Tree)
-Workqueue: events output_poll_execute
-[<c01110d0>] (unwind_backtrace) from [<c010cab0>] (show_stack+0x10/0x14)
-[<c010cab0>] (show_stack) from [<c0b71b58>] (dump_stack_lvl+0x58/0x70)
-[<c0b71b58>] (dump_stack_lvl) from [<c0126c9c>] (__warn+0x228/0x22c)
-[<c0126c9c>] (__warn) from [<c0126d4c>] (warn_slowpath_fmt+0xac/0xb4)
-[<c0126d4c>] (warn_slowpath_fmt) from [<c064e844>] 
-(drm_atomic_helper_connector_duplicate_state+0x60/0x68)
-[<c064e844>] (drm_atomic_helper_connector_duplicate_state) from 
-[<c06685f4>] (drm_atomic_get_connector_state+0xd8/0x190)
-[<c06685f4>] (drm_atomic_get_connector_state) from [<c066960c>] 
-(__drm_atomic_helper_set_config+0x2a0/0x368)
-[<c066960c>] (__drm_atomic_helper_set_config) from [<c0680a20>] 
-(drm_client_modeset_commit_atomic+0x178/0x27c)
-[<c0680a20>] (drm_client_modeset_commit_atomic) from [<c0680be0>] 
-(drm_client_modeset_commit_locked+0x48/0x1d0)
-[<c0680be0>] (drm_client_modeset_commit_locked) from [<c0680d8c>] 
-(drm_client_modeset_commit+0x24/0x40)
-[<c0680d8c>] (drm_client_modeset_commit) from [<c0652a94>] 
-(__drm_fb_helper_restore_fbdev_mode_unlocked+0x64/0xc8)
-[<c0652a94>] (__drm_fb_helper_restore_fbdev_mode_unlocked) from 
-[<c0652b60>] (drm_fb_helper_set_par+0x38/0x64)
-[<c0652b60>] (drm_fb_helper_set_par) from [<c0652c34>] 
-(drm_fb_helper_hotplug_event.part.5+0xa8/0xc0)
-[<c0652c34>] (drm_fb_helper_hotplug_event.part.5) from [<c063dfbc>] 
-(drm_kms_helper_hotplug_event+0x24/0x30)
-[<c063dfbc>] (drm_kms_helper_hotplug_event) from [<c063e210>] 
-(output_poll_execute+0x1ec/0x204)
-[<c063e210>] (output_poll_execute) from [<c0148990>] 
-(process_one_work+0x2c8/0x7ec)
-[<c0148990>] (process_one_work) from [<c0148f04>] (worker_thread+0x50/0x584)
-[<c0148f04>] (worker_thread) from [<c0151300>] (kthread+0x13c/0x19c)
-[<c0151300>] (kthread) from [<c0100108>] (ret_from_fork+0x14/0x2c)
-Exception stack(0xc1d35fb0 to 0xc1d35ff8)
-5fa0:                                     00000000 00000000 00000000 
-00000000
-5fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 
-00000000
-5fe0: 00000000 00000000 00000000 00000000 00000013 00000000
-irq event stamp: 1287
-hardirqs last  enabled at (1293): [<c01a3b94>] vprintk_emit+0x270/0x2b4
-hardirqs last disabled at (1298): [<c01a3b50>] vprintk_emit+0x22c/0x2b4
-softirqs last  enabled at (1260): [<c01016fc>] __do_softirq+0x4cc/0x5ec
-softirqs last disabled at (1255): [<c01301c8>] irq_exit+0x1cc/0x200
----[ end trace 0fa33551718d667f ]---
-------------[ cut here ]------------
-WARNING: CPU: 0 PID: 7 at drivers/gpu/drm/drm_atomic_state_helper.c:494 
-drm_atomic_helper_connector_duplicate_state+0x60/0x68
-Modules linked in:
-CPU: 0 PID: 7 Comm: kworker/u4:0 Tainted: G        W 
-5.16.0-rc5-next-20211213-00001-gac4117943791 #11072
-Hardware name: Samsung Exynos (Flattened Device Tree)
-Workqueue: events_unbound deferred_probe_work_func
-[<c01110d0>] (unwind_backtrace) from [<c010cab0>] (show_stack+0x10/0x14)
-[<c010cab0>] (show_stack) from [<c0b71b58>] (dump_stack_lvl+0x58/0x70)
-[<c0b71b58>] (dump_stack_lvl) from [<c0126c9c>] (__warn+0x228/0x22c)
-[<c0126c9c>] (__warn) from [<c0126d4c>] (warn_slowpath_fmt+0xac/0xb4)
-[<c0126d4c>] (warn_slowpath_fmt) from [<c064e844>] 
-(drm_atomic_helper_connector_duplicate_state+0x60/0x68)
-[<c064e844>] (drm_atomic_helper_connector_duplicate_state) from 
-[<c06685f4>] (drm_atomic_get_connector_state+0xd8/0x190)
-[<c06685f4>] (drm_atomic_get_connector_state) from [<c066960c>] 
-(__drm_atomic_helper_set_config+0x2a0/0x368)
-[<c066960c>] (__drm_atomic_helper_set_config) from [<c0680a20>] 
-(drm_client_modeset_commit_atomic+0x178/0x27c)
-[<c0680a20>] (drm_client_modeset_commit_atomic) from [<c0680be0>] 
-(drm_client_modeset_commit_locked+0x48/0x1d0)
-[<c0680be0>] (drm_client_modeset_commit_locked) from [<c0680d8c>] 
-(drm_client_modeset_commit+0x24/0x40)
-[<c0680d8c>] (drm_client_modeset_commit) from [<c0652a94>] 
-(__drm_fb_helper_restore_fbdev_mode_unlocked+0x64/0xc8)
-[<c0652a94>] (__drm_fb_helper_restore_fbdev_mode_unlocked) from 
-[<c0652b60>] (drm_fb_helper_set_par+0x38/0x64)
-[<c0652b60>] (drm_fb_helper_set_par) from [<c05bbf28>] 
-(fbcon_init+0x48c/0x510)
-[<c05bbf28>] (fbcon_init) from [<c0608b50>] (visual_init+0xc0/0x108)
-[<c0608b50>] (visual_init) from [<c0609d78>] 
-(do_bind_con_driver+0x1ac/0x388)
-[<c0609d78>] (do_bind_con_driver) from [<c060a2b0>] 
-(do_take_over_console+0x13c/0x1c8)
-[<c060a2b0>] (do_take_over_console) from [<c05b90e0>] 
-(do_fbcon_takeover+0x74/0xcc)
-[<c05b90e0>] (do_fbcon_takeover) from [<c05b38f0>] 
-(register_framebuffer+0x1c8/0x2d8)
-[<c05b38f0>] (register_framebuffer) from [<c06524a4>] 
-(__drm_fb_helper_initial_config_and_unlock+0x440/0x65c)
-[<c06524a4>] (__drm_fb_helper_initial_config_and_unlock) from 
-[<c063dfbc>] (drm_kms_helper_hotplug_event+0x24/0x30)
-[<c063dfbc>] (drm_kms_helper_hotplug_event) from [<c0690fb8>] 
-(exynos_dsi_host_attach+0x170/0x2a4)
-[<c0690fb8>] (exynos_dsi_host_attach) from [<c069d064>] 
-(tc358764_probe+0xe8/0x160)
-[<c069d064>] (tc358764_probe) from [<c06b6fb0>] (really_probe+0x190/0x450)
-[<c06b6fb0>] (really_probe) from [<c06b7314>] 
-(__driver_probe_device+0xa4/0x204)
-[<c06b7314>] (__driver_probe_device) from [<c06b74a8>] 
-(driver_probe_device+0x34/0xd4)
-[<c06b74a8>] (driver_probe_device) from [<c06b7884>] 
-(__device_attach_driver+0xb0/0x11c)
-[<c06b7884>] (__device_attach_driver) from [<c06b5094>] 
-(bus_for_each_drv+0x70/0xb4)
-[<c06b5094>] (bus_for_each_drv) from [<c06b6d80>] 
-(__device_attach+0xe0/0x178)
-[<c06b6d80>] (__device_attach) from [<c06b5e0c>] 
-(bus_probe_device+0x88/0x90)
-[<c06b5e0c>] (bus_probe_device) from [<c06b632c>] 
-(deferred_probe_work_func+0x4c/0xe8)
-[<c06b632c>] (deferred_probe_work_func) from [<c0148990>] 
-(process_one_work+0x2c8/0x7ec)
-[<c0148990>] (process_one_work) from [<c0148f04>] (worker_thread+0x50/0x584)
-[<c0148f04>] (worker_thread) from [<c0151300>] (kthread+0x13c/0x19c)
-[<c0151300>] (kthread) from [<c0100108>] (ret_from_fork+0x14/0x2c)
-Exception stack(0xc1cc1fb0 to 0xc1cc1ff8)
-1fa0:                                     00000000 00000000 00000000 
-00000000
-1fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 
-00000000
-1fe0: 00000000 00000000 00000000 00000000 00000013 00000000
-irq event stamp: 24321
-hardirqs last  enabled at (24327): [<c01a3b94>] vprintk_emit+0x270/0x2b4
-hardirqs last disabled at (24332): [<c01a3b50>] vprintk_emit+0x22c/0x2b4
-softirqs last  enabled at (21880): [<c01016fc>] __do_softirq+0x4cc/0x5ec
-softirqs last disabled at (21875): [<c01301c8>] irq_exit+0x1cc/0x200
----[ end trace 0fa33551718d6680 ]---
-------------[ cut here ]------------
-WARNING: CPU: 0 PID: 7 at drivers/gpu/drm/drm_atomic_state_helper.c:494 
-drm_atomic_helper_connector_duplicate_state+0x60/0x68
-Modules linked in:
-CPU: 0 PID: 7 Comm: kworker/u4:0 Tainted: G        W 
-5.16.0-rc5-next-20211213-00001-gac4117943791 #11072
-Hardware name: Samsung Exynos (Flattened Device Tree)
-Workqueue: events_unbound deferred_probe_work_func
-[<c01110d0>] (unwind_backtrace) from [<c010cab0>] (show_stack+0x10/0x14)
-[<c010cab0>] (show_stack) from [<c0b71b58>] (dump_stack_lvl+0x58/0x70)
-[<c0b71b58>] (dump_stack_lvl) from [<c0126c9c>] (__warn+0x228/0x22c)
-[<c0126c9c>] (__warn) from [<c0126d4c>] (warn_slowpath_fmt+0xac/0xb4)
-[<c0126d4c>] (warn_slowpath_fmt) from [<c064e844>] 
-(drm_atomic_helper_connector_duplicate_state+0x60/0x68)
-[<c064e844>] (drm_atomic_helper_connector_duplicate_state) from 
-[<c06685f4>] (drm_atomic_get_connector_state+0xd8/0x190)
-[<c06685f4>] (drm_atomic_get_connector_state) from [<c066960c>] 
-(__drm_atomic_helper_set_config+0x2a0/0x368)
-[<c066960c>] (__drm_atomic_helper_set_config) from [<c0680a20>] 
-(drm_client_modeset_commit_atomic+0x178/0x27c)
-[<c0680a20>] (drm_client_modeset_commit_atomic) from [<c0680be0>] 
-(drm_client_modeset_commit_locked+0x48/0x1d0)
-[<c0680be0>] (drm_client_modeset_commit_locked) from [<c0651c60>] 
-(drm_fb_helper_pan_display+0x90/0x1c4)
-[<c0651c60>] (drm_fb_helper_pan_display) from [<c05b2ab0>] 
-(fb_pan_display+0xcc/0x138)
-[<c05b2ab0>] (fb_pan_display) from [<c05bd024>] (bit_update_start+0x14/0x30)
-[<c05bd024>] (bit_update_start) from [<c05bac30>] (fbcon_switch+0x2d0/0x3e4)
-[<c05bac30>] (fbcon_switch) from [<c0609afc>] (redraw_screen+0x15c/0x22c)
-[<c0609afc>] (redraw_screen) from [<c05ba7e4>] 
-(fbcon_prepare_logo+0x2d4/0x450)
-[<c05ba7e4>] (fbcon_prepare_logo) from [<c05bbe50>] (fbcon_init+0x3b4/0x510)
-[<c05bbe50>] (fbcon_init) from [<c0608b50>] (visual_init+0xc0/0x108)
-[<c0608b50>] (visual_init) from [<c0609d78>] 
-(do_bind_con_driver+0x1ac/0x388)
-[<c0609d78>] (do_bind_con_driver) from [<c060a2b0>] 
-(do_take_over_console+0x13c/0x1c8)
-[<c060a2b0>] (do_take_over_console) from [<c05b90e0>] 
-(do_fbcon_takeover+0x74/0xcc)
-[<c05b90e0>] (do_fbcon_takeover) from [<c05b38f0>] 
-(register_framebuffer+0x1c8/0x2d8)
-[<c05b38f0>] (register_framebuffer) from [<c06524a4>] 
-(__drm_fb_helper_initial_config_and_unlock+0x440/0x65c)
-[<c06524a4>] (__drm_fb_helper_initial_config_and_unlock) from 
-[<c063dfbc>] (drm_kms_helper_hotplug_event+0x24/0x30)
-[<c063dfbc>] (drm_kms_helper_hotplug_event) from [<c0690fb8>] 
-(exynos_dsi_host_attach+0x170/0x2a4)
-[<c0690fb8>] (exynos_dsi_host_attach) from [<c069d064>] 
-(tc358764_probe+0xe8/0x160)
-[<c069d064>] (tc358764_probe) from [<c06b6fb0>] (really_probe+0x190/0x450)
-[<c06b6fb0>] (really_probe) from [<c06b7314>] 
-(__driver_probe_device+0xa4/0x204)
-[<c06b7314>] (__driver_probe_device) from [<c06b74a8>] 
-(driver_probe_device+0x34/0xd4)
-[<c06b74a8>] (driver_probe_device) from [<c06b7884>] 
-(__device_attach_driver+0xb0/0x11c)
-[<c06b7884>] (__device_attach_driver) from [<c06b5094>] 
-(bus_for_each_drv+0x70/0xb4)
-[<c06b5094>] (bus_for_each_drv) from [<c06b6d80>] 
-(__device_attach+0xe0/0x178)
-[<c06b6d80>] (__device_attach) from [<c06b5e0c>] 
-(bus_probe_device+0x88/0x90)
-[<c06b5e0c>] (bus_probe_device) from [<c06b632c>] 
-(deferred_probe_work_func+0x4c/0xe8)
-[<c06b632c>] (deferred_probe_work_func) from [<c0148990>] 
-(process_one_work+0x2c8/0x7ec)
-[<c0148990>] (process_one_work) from [<c0148f04>] (worker_thread+0x50/0x584)
-[<c0148f04>] (worker_thread) from [<c0151300>] (kthread+0x13c/0x19c)
-[<c0151300>] (kthread) from [<c0100108>] (ret_from_fork+0x14/0x2c)
-Exception stack(0xc1cc1fb0 to 0xc1cc1ff8)
-1fa0:                                     00000000 00000000 00000000 
-00000000
-1fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 
-00000000
-1fe0: 00000000 00000000 00000000 00000000 00000013 00000000
-irq event stamp: 24393
-hardirqs last  enabled at (24399): [<c01a3b94>] vprintk_emit+0x270/0x2b4
-hardirqs last disabled at (24404): [<c01a3b50>] vprintk_emit+0x22c/0x2b4
-softirqs last  enabled at (21880): [<c01016fc>] __do_softirq+0x4cc/0x5ec
-softirqs last disabled at (21875): [<c01301c8>] irq_exit+0x1cc/0x200
----[ end trace 0fa33551718d6681 ]---
-Console: switching to colour frame buffer device 146x42
-------------[ cut here ]------------
-WARNING: CPU: 0 PID: 7 at drivers/gpu/drm/drm_atomic_state_helper.c:494 
-drm_atomic_helper_connector_duplicate_state+0x60/0x68
-Modules linked in:
-CPU: 0 PID: 7 Comm: kworker/u4:0 Tainted: G        W 
-5.16.0-rc5-next-20211213-00001-gac4117943791 #11072
-Hardware name: Samsung Exynos (Flattened Device Tree)
-Workqueue: events_unbound deferred_probe_work_func
-[<c01110d0>] (unwind_backtrace) from [<c010cab0>] (show_stack+0x10/0x14)
-[<c010cab0>] (show_stack) from [<c0b71b58>] (dump_stack_lvl+0x58/0x70)
-[<c0b71b58>] (dump_stack_lvl) from [<c0126c9c>] (__warn+0x228/0x22c)
-[<c0126c9c>] (__warn) from [<c0126d4c>] (warn_slowpath_fmt+0xac/0xb4)
-[<c0126d4c>] (warn_slowpath_fmt) from [<c064e844>] 
-(drm_atomic_helper_connector_duplicate_state+0x60/0x68)
-[<c064e844>] (drm_atomic_helper_connector_duplicate_state) from 
-[<c06685f4>] (drm_atomic_get_connector_state+0xd8/0x190)
-[<c06685f4>] (drm_atomic_get_connector_state) from [<c066960c>] 
-(__drm_atomic_helper_set_config+0x2a0/0x368)
-[<c066960c>] (__drm_atomic_helper_set_config) from [<c0680a20>] 
-(drm_client_modeset_commit_atomic+0x178/0x27c)
-[<c0680a20>] (drm_client_modeset_commit_atomic) from [<c0680be0>] 
-(drm_client_modeset_commit_locked+0x48/0x1d0)
-[<c0680be0>] (drm_client_modeset_commit_locked) from [<c0651c60>] 
-(drm_fb_helper_pan_display+0x90/0x1c4)
-[<c0651c60>] (drm_fb_helper_pan_display) from [<c05b2ab0>] 
-(fb_pan_display+0xcc/0x138)
-[<c05b2ab0>] (fb_pan_display) from [<c05bd024>] (bit_update_start+0x14/0x30)
-[<c05bd024>] (bit_update_start) from [<c05bac30>] (fbcon_switch+0x2d0/0x3e4)
-[<c05bac30>] (fbcon_switch) from [<c0609afc>] (redraw_screen+0x15c/0x22c)
-[<c0609afc>] (redraw_screen) from [<c0609e84>] 
-(do_bind_con_driver+0x2b8/0x388)
-[<c0609e84>] (do_bind_con_driver) from [<c060a2b0>] 
-(do_take_over_console+0x13c/0x1c8)
-[<c060a2b0>] (do_take_over_console) from [<c05b90e0>] 
-(do_fbcon_takeover+0x74/0xcc)
-[<c05b90e0>] (do_fbcon_takeover) from [<c05b38f0>] 
-(register_framebuffer+0x1c8/0x2d8)
-[<c05b38f0>] (register_framebuffer) from [<c06524a4>] 
-(__drm_fb_helper_initial_config_and_unlock+0x440/0x65c)
-[<c06524a4>] (__drm_fb_helper_initial_config_and_unlock) from 
-[<c063dfbc>] (drm_kms_helper_hotplug_event+0x24/0x30)
-[<c063dfbc>] (drm_kms_helper_hotplug_event) from [<c0690fb8>] 
-(exynos_dsi_host_attach+0x170/0x2a4)
-[<c0690fb8>] (exynos_dsi_host_attach) from [<c069d064>] 
-(tc358764_probe+0xe8/0x160)
-[<c069d064>] (tc358764_probe) from [<c06b6fb0>] (really_probe+0x190/0x450)
-[<c06b6fb0>] (really_probe) from [<c06b7314>] 
-(__driver_probe_device+0xa4/0x204)
-[<c06b7314>] (__driver_probe_device) from [<c06b74a8>] 
-(driver_probe_device+0x34/0xd4)
-[<c06b74a8>] (driver_probe_device) from [<c06b7884>] 
-(__device_attach_driver+0xb0/0x11c)
-[<c06b7884>] (__device_attach_driver) from [<c06b5094>] 
-(bus_for_each_drv+0x70/0xb4)
-[<c06b5094>] (bus_for_each_drv) from [<c06b6d80>] 
-(__device_attach+0xe0/0x178)
-[<c06b6d80>] (__device_attach) from [<c06b5e0c>] 
-(bus_probe_device+0x88/0x90)
-[<c06b5e0c>] (bus_probe_device) from [<c06b632c>] 
-(deferred_probe_work_func+0x4c/0xe8)
-[<c06b632c>] (deferred_probe_work_func) from [<c0148990>] 
-(process_one_work+0x2c8/0x7ec)
-[<c0148990>] (process_one_work) from [<c0148f04>] (worker_thread+0x50/0x584)
-[<c0148f04>] (worker_thread) from [<c0151300>] (kthread+0x13c/0x19c)
-[<c0151300>] (kthread) from [<c0100108>] (ret_from_fork+0x14/0x2c)
-Exception stack(0xc1cc1fb0 to 0xc1cc1ff8)
-1fa0:                                     00000000 00000000 00000000 
-00000000
-1fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 
-00000000
-1fe0: 00000000 00000000 00000000 00000000 00000013 00000000
-irq event stamp: 24477
-hardirqs last  enabled at (24483): [<c01a3b94>] vprintk_emit+0x270/0x2b4
-hardirqs last disabled at (24488): [<c01a3b50>] vprintk_emit+0x22c/0x2b4
-softirqs last  enabled at (21880): [<c01016fc>] __do_softirq+0x4cc/0x5ec
-softirqs last disabled at (21875): [<c01301c8>] irq_exit+0x1cc/0x200
----[ end trace 0fa33551718d6682 ]---
-
-
-Again, there is something wrong with connector registration:
-
-# ./modetest -C -Mexynos
-[   69.085387] ------------[ cut here ]------------
-[   69.088593] WARNING: CPU: 1 PID: 1299 at 
-drivers/gpu/drm/drm_atomic_state_helper.c:494 
-drm_atomic_helper_connector_duplicate_state+0x60/0x68
-[   69.101211] Modules linked in: s5p_mfc exynos_gsc v4l2_mem2mem 
-videobuf2_dma_contig videobuf2_memops videobuf2_v4l2 videobuf2_common 
-videodev mc
-[   69.114158] CPU: 1 PID: 1299 Comm: modetest Tainted: G W         
-5.16.0-rc5-next-20211213-00002-ga010c46089fa #11073
-[   69.125201] Hardware name: Samsung Exynos (Flattened Device Tree)
-[   69.131279] [<c01110d0>] (unwind_backtrace) from [<c010cab0>] 
-(show_stack+0x10/0x14)
-[   69.139002] [<c010cab0>] (show_stack) from [<c0b71c00>] 
-(dump_stack_lvl+0x58/0x70)
-[   69.146554] [<c0b71c00>] (dump_stack_lvl) from [<c0126c9c>] 
-(__warn+0x228/0x22c)
-[   69.153932] [<c0126c9c>] (__warn) from [<c0126d4c>] 
-(warn_slowpath_fmt+0xac/0xb4)
-[   69.161396] [<c0126d4c>] (warn_slowpath_fmt) from [<c064e844>] 
-(drm_atomic_helper_connector_duplicate_state+0x60/0x68)
-[   69.172074] [<c064e844>] 
-(drm_atomic_helper_connector_duplicate_state) from [<c06685f4>] 
-(drm_atomic_get_connector_state+0xd8/0x190)
-[   69.183966] [<c06685f4>] (drm_atomic_get_connector_state) from 
-[<c066960c>] (__drm_atomic_helper_set_config+0x2a0/0x368)
-[   69.194814] [<c066960c>] (__drm_atomic_helper_set_config) from 
-[<c0680a20>] (drm_client_modeset_commit_atomic+0x178/0x27c)
-[   69.205839] [<c0680a20>] (drm_client_modeset_commit_atomic) from 
-[<c0680be0>] (drm_client_modeset_commit_locked+0x48/0x1d0)
-[   69.216949] [<c0680be0>] (drm_client_modeset_commit_locked) from 
-[<c0680d8c>] (drm_client_modeset_commit+0x24/0x40)
-[   69.227364] [<c0680d8c>] (drm_client_modeset_commit) from 
-[<c0652a94>] (__drm_fb_helper_restore_fbdev_mode_unlocked+0x64/0xc8)
-[   69.238735] [<c0652a94>] 
-(__drm_fb_helper_restore_fbdev_mode_unlocked) from [<c0655ec8>] 
-(drm_lastclose+0x30/0x4c)
-[   69.249065] [<c0655ec8>] (drm_lastclose) from [<c0655ff4>] 
-(drm_release+0x110/0x114)
-[   69.256789] [<c0655ff4>] (drm_release) from [<c02e6058>] 
-(__fput+0x88/0x258)
-[   69.263821] [<c02e6058>] (__fput) from [<c014df0c>] 
-(task_work_run+0x8c/0xc8)
-[   69.270939] [<c014df0c>] (task_work_run) from [<c010c30c>] 
-(do_work_pending+0x534/0x63c)
-[   69.279010] [<c010c30c>] (do_work_pending) from [<c0100088>] 
-(slow_work_pending+0xc/0x20)
-[   69.287169] Exception stack(0xc3e4bfb0 to 0xc3e4bff8)
-[   69.292205] bfa0:                                     00000000 
-0000001f e4a15400 00000000
-[   69.300364] bfc0: 00000001 00000003 00000000 00000006 00022188 
-00000000 b6f2c000 00000000
-[   69.308523] bfe0: b6e2daa0 bee27a98 0000e7c4 b6e2dac0 60000010 00000003
-[   69.315292] irq event stamp: 3229
-[   69.318419] hardirqs last  enabled at (3237): [<c01a0cfc>] 
-__up_console_sem+0x50/0x60
-[   69.326275] hardirqs last disabled at (3252): [<c01a0ce8>] 
-__up_console_sem+0x3c/0x60
-[   69.334076] softirqs last  enabled at (3250): [<c01016fc>] 
-__do_softirq+0x4cc/0x5ec
-[   69.341680] softirqs last disabled at (3245): [<c01301c8>] 
-irq_exit+0x1cc/0x200
-[   69.349066] ---[ end trace ab79782cf462efca ]---
-could not get [   69.355098] ------------[ cut here ]------------
-[   69.359389] WARNING: CPU: 1 PID: 1299 at 
-drivers/gpu/drm/drm_atomic_state_helper.c:494 
-drm_atomic_helper_connector_duplicate_state+0x60/0x68
-[   69.372111] Modules linked in: s5p_mfc exynos_gsc v4l2_mem2mem 
-videobuf2_dma_contig videobuf2_memops videobuf2_v4l2 videobuf2_common 
-videodev mc
-[   69.384964] CPU: 1 PID: 1299 Comm: modetest Tainted: G W         
-5.16.0-rc5-next-20211213-00002-ga010c46089fa #11073
-[   69.396017] Hardware name: Samsung Exynos (Flattened Device Tree)
-[   69.402094] [<c01110d0>] (unwind_backtrace) from [<c010cab0>] 
-(show_stack+0x10/0x14)
-[   69.409818] [<c010cab0>] (show_stack) from [<c0b71c00>] 
-(dump_stack_lvl+0x58/0x70)
-[   69.417370] [<c0b71c00>] (dump_stack_lvl) from [<c0126c9c>] 
-(__warn+0x228/0x22c)
-[   69.424748] [<c0126c9c>] (__warn) from [<c0126d4c>] 
-(warn_slowpath_fmt+0xac/0xb4)
-[   69.432213] [<c0126d4c>] (warn_slowpath_fmt) from [<c064e844>] 
-(drm_atomic_helper_connector_duplicate_state+0x60/0x68)
-[   69.442889] [<c064e844>] 
-(drm_atomic_helper_connector_duplicate_state) from [<c06685f4>] 
-(drm_atomic_get_connector_state+0xd8/0x190)
-[   69.454781] [<c06685f4>] (drm_atomic_get_connector_state) from 
-[<c066960c>] (__drm_atomic_helper_set_config+0x2a0/0x368)
-[   69.465630] [<c066960c>] (__drm_atomic_helper_set_config) from 
-[<c0680a20>] (drm_client_modeset_commit_atomic+0x178/0x27c)
-[   69.476654] [<c0680a20>] (drm_client_modeset_commit_atomic) from 
-[<c0680be0>] (drm_client_modeset_commit_locked+0x48/0x1d0)
-[   69.487764] [<c0680be0>] (drm_client_modeset_commit_locked) from 
-[<c0680d8c>] (drm_client_modeset_commit+0x24/0x40)
-[   69.498181] [<c0680d8c>] (drm_client_modeset_commit) from 
-[<c0652a94>] (__drm_fb_helper_restore_fbdev_mode_unlocked+0x64/0xc8)
-[   69.509551] [<c0652a94>] 
-(__drm_fb_helper_restore_fbdev_mode_unlocked) from [<c0655ec8>] 
-(drm_lastclose+0x30/0x4c)
-[   69.519881] [<c0655ec8>] (drm_lastclose) from [<c0655ff4>] 
-(drm_release+0x110/0x114)
-[   69.527605] [<c0655ff4>] (drm_release) from [<c02e6058>] 
-(__fput+0x88/0x258)
-[   69.534636] [<c02e6058>] (__fput) from [<c014df0c>] 
-(task_work_run+0x8c/0xc8)
-[   69.541754] [<c014df0c>] (task_work_run) from [<c012cb20>] 
-(do_exit+0x3f8/0xc1c)
-[   69.549133] [<c012cb20>] (do_exit) from [<c012e6b8>] 
-(do_group_exit+0x2c/0xa0)
-[   69.556337] [<c012e6b8>] (do_group_exit) from [<c013d09c>] 
-(get_signal+0x1d0/0xe6c)
-[   69.563976] [<c013d09c>] (get_signal) from [<c010bef4>] 
-(do_work_pending+0x11c/0x63c)
-[   69.571786] [<c010bef4>] (do_work_pending) from [<c0100088>] 
-(slow_work_pending+0xc/0x20)
-[   69.579945] Exception stack(0xc3e4bfb0 to 0xc3e4bff8)
-[   69.584982] bfa0:                                     00000008 
-0000005f 00000002 00023388
-[   69.593140] bfc0: 00000001 000232a8 00000000 00023398 0000003e 
-00000000 00023360 00000000
-[   69.601299] bfe0: 00023590 bee27ae8 00009ec0 00009e9c 80000010 ffffffff
-[   69.608150] irq event stamp: 3691
-[   69.611237] hardirqs last  enabled at (3703): [<c015a6b0>] 
-finish_task_switch+0xc4/0x264
-[   69.619337] hardirqs last disabled at (3724): [<c01a0ce8>] 
-__up_console_sem+0x3c/0x60
-[   69.627123] softirqs last  enabled at (3722): [<c01016fc>] 
-__do_softirq+0x4cc/0x5ec
-[   69.634818] softirqs last disabled at (3711): [<c01301c8>] 
-irq_exit+0x1cc/0x200
-[   69.642009] ---[ end trace ab79782cf462efcb ]---
-connector 62: No such file or directory
-Segmentation fault
-
-
-This reminds me a discussion from last year:
-
-https://lore.kernel.org/all/f22146de-1660-035c-c476-f7b3354de7cb@samsung.com/
-
-
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
-
+W0FNRCBPZmZpY2lhbCBVc2UgT25seV0NCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0K
+PiBGcm9tOiBLb2VuaWcsIENocmlzdGlhbiA8Q2hyaXN0aWFuLktvZW5pZ0BhbWQuY29tPg0KPiBT
+ZW50OiBUdWVzZGF5LCBEZWNlbWJlciAxNCwgMjAyMSA4OjI2IFBNDQo+IFRvOiBIdWFuZywgUmF5
+IDxSYXkuSHVhbmdAYW1kLmNvbT47IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7DQo+
+IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+OyBTdW1pdCBTZW13YWwNCj4g
+PHN1bWl0LnNlbXdhbEBsaW5hcm8ub3JnPg0KPiBDYzogYW1kLWdmeEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmc7IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZzsgRGV1Y2hlciwNCj4gQWxleGFuZGVy
+IDxBbGV4YW5kZXIuRGV1Y2hlckBhbWQuY29tPjsgTGl1LCBNb25rDQo+IDxNb25rLkxpdUBhbWQu
+Y29tPg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHYyXSBkcm0vYW1kZ3B1OiBpbnRyb2R1Y2UgbmV3
+IGFtZGdwdV9mZW5jZSBvYmplY3QNCj4gdG8gaW5kaWNhdGUgdGhlIGpvYiBlbWJlZGRlZCBmZW5j
+ZQ0KPiANCj4gDQo+IA0KPiBBbSAxNC4xMi4yMSB1bSAxMjoxNSBzY2hyaWViIEh1YW5nIFJ1aToN
+Cj4gPiBUaGUgam9iIGVtYmVkZGVkIGZlbmNlIGRvbmVzbid0IGluaXRpYWxpemUgdGhlIGZsYWdz
+IGF0DQo+ID4gZG1hX2ZlbmNlX2luaXQoKS4gVGhlbiB3ZSB3aWxsIGdvIGEgd3Jvbmcgd2F5IGlu
+DQo+ID4gYW1kZ3B1X2ZlbmNlX2dldF90aW1lbGluZV9uYW1lIGNhbGxiYWNrIGFuZCB0cmlnZ2Vy
+IGEgbnVsbCBwb2ludGVyDQo+ID4gcGFuaWMgb25jZSB3ZSBlbmFibGVkIHRoZSB0cmFjZSBldmVu
+dCBoZXJlLiBTbyBpbnRyb2R1Y2UgbmV3DQo+ID4gYW1kZ3B1X2ZlbmNlIG9iamVjdCB0byBpbmRp
+Y2F0ZSB0aGUgam9iIGVtYmVkZGVkIGZlbmNlLg0KPiA+DQo+ID4gWyAgMTU2LjEzMTc5MF0gQlVH
+OiBrZXJuZWwgTlVMTCBwb2ludGVyIGRlcmVmZXJlbmNlLCBhZGRyZXNzOg0KPiA+IDAwMDAwMDAw
+MDAwMDAyYTAgWyAgMTU2LjEzMTgwNF0gI1BGOiBzdXBlcnZpc29yIHJlYWQgYWNjZXNzIGluIGtl
+cm5lbA0KPiA+IG1vZGUgWyAgMTU2LjEzMTgxMV0gI1BGOiBlcnJvcl9jb2RlKDB4MDAwMCkgLSBu
+b3QtcHJlc2VudCBwYWdlIFsNCj4gPiAxNTYuMTMxODE3XSBQR0QgMCBQNEQgMCBbICAxNTYuMTMx
+ODI0XSBPb3BzOiAwMDAwIFsjMV0gUFJFRU1QVCBTTVAgUFRJDQo+ID4gWyAgMTU2LjEzMTgzMl0g
+Q1BVOiA2IFBJRDogMTQwNCBDb21tOiBzZG1hMCBUYWludGVkOiBHICAgICAgICAgICBPRSAgICAg
+NS4xNi4wLQ0KPiByYzEtY3VzdG9tICMxDQo+ID4gWyAgMTU2LjEzMTg0Ml0gSGFyZHdhcmUgbmFt
+ZTogR2lnYWJ5dGUgVGVjaG5vbG9neSBDby4sIEx0ZC4NCj4gPiBaMTcwWFAtU0xJL1oxNzBYUC1T
+TEktQ0YsIEJJT1MgRjIwIDExLzA0LzIwMTYgWyAgMTU2LjEzMTg0OF0gUklQOg0KPiA+IDAwMTA6
+c3RybGVuKzB4MC8weDIwIFsgIDE1Ni4xMzE4NTldIENvZGU6IDg5IGMwIGMzIDBmIDFmIDgwIDAw
+IDAwIDAwDQo+ID4gMDAgNDggMDEgZmUgZWIgMGYgMGYgYjYgMDcgMzggZDAgNzQgMTAgNDggODMg
+YzcgMDEgODQgYzAgNzQgMDUgNDggMzkNCj4gPiBmNyA3NSBlYyAzMSBjMCBjMyA0OCA4OSBmOCBj
+MyA8ODA+IDNmIDAwIDc0IDEwIDQ4IDg5IGY4IDQ4IDgzIGMwIDAxIDgwDQo+ID4gMzggMDAgNzUg
+ZjcgNDggMjkgZjggYzMgMzEgWyAgMTU2LjEzMTg3Ml0gUlNQOiAwMDE4OmZmZmY5YmQwMDE4ZGJj
+ZjgNCj4gPiBFRkxBR1M6IDAwMDEwMjA2IFsgIDE1Ni4xMzE4ODBdIFJBWDogMDAwMDAwMDAwMDAw
+MDJhMCBSQlg6DQo+ID4gZmZmZjhkMDMwNWVmMDFiMCBSQ1g6IDAwMDAwMDAwMDAwMDAwMGIgWyAg
+MTU2LjEzMTg4OF0gUkRYOg0KPiA+IGZmZmY4ZDAzNzcyYWI5MjQgUlNJOiBmZmZmOGQwMzA1ZWYw
+MWIwIFJESTogMDAwMDAwMDAwMDAwMDJhMCBbDQo+ID4gMTU2LjEzMTg5NV0gUkJQOiBmZmZmOWJk
+MDAxOGRiZDYwIFIwODogZmZmZjhkMDMwMDIwOTRkMCBSMDk6DQo+ID4gMDAwMDAwMDAwMDAwMDAw
+MCBbICAxNTYuMTMxOTAxXSBSMTA6IDAwMDAwMDAwMDAwMDAwNWUgUjExOg0KPiA+IDAwMDAwMDAw
+MDAwMDAwNjUgUjEyOiBmZmZmOGQwMzAwMjA5NGQwIFsgIDE1Ni4xMzE5MDddIFIxMzoNCj4gPiAw
+MDAwMDAwMDAwMDAwMDFmIFIxNDogMDAwMDAwMDAwMDA3MDAxOCBSMTU6IDAwMDAwMDAwMDAwMDAw
+MDcgWw0KPiA+IDE1Ni4xMzE5MTRdIEZTOiAgMDAwMDAwMDAwMDAwMDAwMCgwMDAwKSBHUzpmZmZm
+OGQwNjJlZDgwMDAwKDAwMDApDQo+ID4ga25sR1M6MDAwMDAwMDAwMDAwMDAwMCBbICAxNTYuMTMx
+OTIzXSBDUzogIDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAgQ1IwOg0KPiAwMDAwMDAwMDgwMDUwMDMz
+IFsgIDE1Ni4xMzE5MjldIENSMjogMDAwMDAwMDAwMDAwMDJhMCBDUjM6DQo+IDAwMDAwMDAwMTEy
+MGEwMDUgQ1I0OiAwMDAwMDAwMDAwMzcwNmUwIFsgIDE1Ni4xMzE5MzddIERSMDoNCj4gMDAwMDAw
+MDAwMDAwMDAwMCBEUjE6IDAwMDAwMDAwMDAwMDAwMDAgRFIyOiAwMDAwMDAwMDAwMDAwMDAwDQo+
+IFsgIDE1Ni4xMzE5NDJdIERSMzogMDAwMDAwMDAwMDAwMDAwMCBEUjY6IDAwMDAwMDAwZmZmZTBm
+ZjAgRFI3Og0KPiAwMDAwMDAwMDAwMDAwNDAwIFsgIDE1Ni4xMzE5NDldIENhbGwgVHJhY2U6DQo+
+ID4gWyAgMTU2LjEzMTk1M10gIDxUQVNLPg0KPiA+IFsgIDE1Ni4xMzE5NTddICA/IHRyYWNlX2V2
+ZW50X3Jhd19ldmVudF9kbWFfZmVuY2UrMHhjYy8weDIwMA0KPiA+IFsgIDE1Ni4xMzE5NzNdICA/
+IHJpbmdfYnVmZmVyX3VubG9ja19jb21taXQrMHgyMy8weDEzMA0KPiA+IFsgIDE1Ni4xMzE5ODJd
+ICBkbWFfZmVuY2VfaW5pdCsweDkyLzB4YjAgWyAgMTU2LjEzMTk5M10NCj4gPiBhbWRncHVfZmVu
+Y2VfZW1pdCsweDEwZC8weDJiMCBbYW1kZ3B1XSBbICAxNTYuMTMyMzAyXQ0KPiA+IGFtZGdwdV9p
+Yl9zY2hlZHVsZSsweDJmOS8weDU4MCBbYW1kZ3B1XSBbICAxNTYuMTMyNTg2XQ0KPiA+IGFtZGdw
+dV9qb2JfcnVuKzB4ZWQvMHgyMjAgW2FtZGdwdV0NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEh1
+YW5nIFJ1aSA8cmF5Lmh1YW5nQGFtZC5jb20+DQo+ID4gLS0tDQo+ID4gICBkcml2ZXJzL2dwdS9k
+cm0vYW1kL2FtZGdwdS9hbWRncHUuaCAgICAgICAgfCAgIDEgKw0KPiA+ICAgZHJpdmVycy9ncHUv
+ZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2RldmljZS5jIHwgICAzICstDQo+ID4gICBkcml2ZXJzL2dw
+dS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZmVuY2UuYyAgfCAxMTcNCj4gKysrKysrKysrKysrKyst
+LS0tLS0tDQo+ID4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfcmluZy5oICAg
+fCAgIDMgLQ0KPiA+ICAgNCBmaWxlcyBjaGFuZ2VkLCA4MCBpbnNlcnRpb25zKCspLCA0NCBkZWxl
+dGlvbnMoLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdw
+dS9hbWRncHUuaA0KPiA+IGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1LmgNCj4g
+PiBpbmRleCA5ZjAxNzY2M2FjNTAuLmZjYWY2ZTk3MDNmOSAxMDA2NDQNCj4gPiAtLS0gYS9kcml2
+ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHUuaA0KPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9hbWQvYW1kZ3B1L2FtZGdwdS5oDQo+ID4gQEAgLTQ0NCw2ICs0NDQsNyBAQCBzdHJ1Y3QgYW1k
+Z3B1X3NhX2JvIHsNCj4gPg0KPiA+ICAgaW50IGFtZGdwdV9mZW5jZV9zbGFiX2luaXQodm9pZCk7
+DQo+ID4gICB2b2lkIGFtZGdwdV9mZW5jZV9zbGFiX2Zpbmkodm9pZCk7DQo+ID4gK2Jvb2wgaXNf
+am9iX2VtYmVkZGVkX2ZlbmNlKHN0cnVjdCBkbWFfZmVuY2UgKmYpOw0KPiANCj4gV2UgbmVlZCBh
+IGJldHRlciBuYW1lIGZvciB0aGlzLCBlc3BlY2lhbGx5IHdpdGggYW1kZ3B1IGluIGl0LiBTb21l
+dGhpbmcgbGlrZQ0KPiBpc19hbWRncHVfam9iX2ZlbmNlKCkuDQo+IA0KPiBCdXQgbWF5YmUgd2Ug
+Y2FuIGF2b2lkIHRoYXQgZnVuY3Rpb24gYWxsdG9nZXRoZXIsIHNlZSBiZWxvdy4NCj4gDQo+ID4N
+Cj4gPiAgIC8qDQo+ID4gICAgKiBJUlFTLg0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
+cm0vYW1kL2FtZGdwdS9hbWRncHVfZGV2aWNlLmMNCj4gPiBiL2RyaXZlcnMvZ3B1L2RybS9hbWQv
+YW1kZ3B1L2FtZGdwdV9kZXZpY2UuYw0KPiA+IGluZGV4IDU2MjVmNzczNmUzNy4uNDQ0YTE5ZWIy
+MjQ4IDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9k
+ZXZpY2UuYw0KPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kZXZp
+Y2UuYw0KPiA+IEBAIC00NDgzLDkgKzQ0ODMsOCBAQCBpbnQgYW1kZ3B1X2RldmljZV9wcmVfYXNp
+Y19yZXNldChzdHJ1Y3QNCj4gPiBhbWRncHVfZGV2aWNlICphZGV2LA0KPiA+DQo+ID4gICAJCQlw
+dHIgPSAmcmluZy0+ZmVuY2VfZHJ2LmZlbmNlc1tqXTsNCj4gPiAgIAkJCW9sZCA9IHJjdV9kZXJl
+ZmVyZW5jZV9wcm90ZWN0ZWQoKnB0ciwgMSk7DQo+ID4gLQkJCWlmIChvbGQgJiYNCj4gdGVzdF9i
+aXQoQU1ER1BVX0ZFTkNFX0ZMQUdfRU1CRURfSU5fSk9CX0JJVCwgJm9sZC0+ZmxhZ3MpKSB7DQo+
+ID4gKwkJCWlmIChvbGQgJiYgaXNfam9iX2VtYmVkZGVkX2ZlbmNlKG9sZCkpDQo+ID4gICAJCQkJ
+UkNVX0lOSVRfUE9JTlRFUigqcHRyLCBOVUxMKTsNCj4gPiAtCQkJfQ0KPiANCj4gVGhpcyBoZXJl
+IGlzIG1lc3Npbmcgd2l0aCB0aGUgZmVuY2UgaW50ZXJuYWxzIGFuZCBzbyBzaG91bGQgcHJvYmFi
+bHkgYmUgYQ0KPiBmdW5jdGlvbiBpbiBhbWRncHVfZmVuY2UuYy4NCj4gDQo+IFRoaXMgd2F5IHdl
+IHdvdWxkIGhhdmUgZW1iZWRkZWQgdGhlIGFtZGdwdSBmZW5jZSBpbiB0aGVyZSBhcyB3ZWxsLiBB
+cGFydA0KPiBmcm9tIHRoYXQgbG9va3MgcmF0aGVyIGdvb2QgdG8gbWUuDQo+IA0KDQpTbyB3ZSBj
+YW4gY3JlYXRlIG5ldyBmdW5jdGlvbiBpbiBhbWRncHVfZmVuY2UuYyB0byBpbXBsZW1lbnQgdGhl
+IGpvYiBmZW5jZSBjbGVhcmluZyBoZXJlIGFuZCBjYWxsIGl0IGhlcmUgaW5zdGVhZC4NClRoYXQg
+aXMgcHVyZSBqb2IgZmVuY2Ugb3BlcmF0aW9uLCBzbyB3ZSB3b24ndCBuZWVkIHRvIHB1dCBpdCBp
+biBhbWRncHVfZGV2aWNlLmMuDQoNClRoYW5rcywNClJheQ0KDQo+IENocmlzdGlhbi4NCj4gDQo+
+ID4gICAJCX0NCj4gPiAgIAkJLyogYWZ0ZXIgYWxsIGh3IGpvYnMgYXJlIHJlc2V0LCBodyBmZW5j
+ZSBpcyBtZWFuaW5nbGVzcywgc28NCj4gZm9yY2VfY29tcGxldGlvbiAqLw0KPiA+ICAgCQlhbWRn
+cHVfZmVuY2VfZHJpdmVyX2ZvcmNlX2NvbXBsZXRpb24ocmluZyk7DQo+ID4gZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9mZW5jZS5jDQo+ID4gYi9kcml2ZXJz
+L2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZmVuY2UuYw0KPiA+IGluZGV4IDNiN2U4NmVhNzE2
+Ny4uM2E4MTI0OWI1NjYwIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
+Z3B1L2FtZGdwdV9mZW5jZS5jDQo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
+YW1kZ3B1X2ZlbmNlLmMNCj4gPiBAQCAtNzcsMTYgKzc3LDI4IEBAIHZvaWQgYW1kZ3B1X2ZlbmNl
+X3NsYWJfZmluaSh2b2lkKQ0KPiA+ICAgICogQ2FzdCBoZWxwZXINCj4gPiAgICAqLw0KPiA+ICAg
+c3RhdGljIGNvbnN0IHN0cnVjdCBkbWFfZmVuY2Vfb3BzIGFtZGdwdV9mZW5jZV9vcHM7DQo+ID4g
+K3N0YXRpYyBjb25zdCBzdHJ1Y3QgZG1hX2ZlbmNlX29wcyBhbWRncHVfam9iX2ZlbmNlX29wczsN
+Cj4gPiAgIHN0YXRpYyBpbmxpbmUgc3RydWN0IGFtZGdwdV9mZW5jZSAqdG9fYW1kZ3B1X2ZlbmNl
+KHN0cnVjdCBkbWFfZmVuY2UNCj4gKmYpDQo+ID4gICB7DQo+ID4gICAJc3RydWN0IGFtZGdwdV9m
+ZW5jZSAqX19mID0gY29udGFpbmVyX29mKGYsIHN0cnVjdCBhbWRncHVfZmVuY2UsDQo+ID4gYmFz
+ZSk7DQo+ID4NCj4gPiAtCWlmIChfX2YtPmJhc2Uub3BzID09ICZhbWRncHVfZmVuY2Vfb3BzKQ0K
+PiA+ICsJaWYgKF9fZi0+YmFzZS5vcHMgPT0gJmFtZGdwdV9mZW5jZV9vcHMgfHwNCj4gPiArCSAg
+ICBfX2YtPmJhc2Uub3BzID09ICZhbWRncHVfam9iX2ZlbmNlX29wcykNCj4gPiAgIAkJcmV0dXJu
+IF9fZjsNCj4gPg0KPiA+ICAgCXJldHVybiBOVUxMOw0KPiA+ICAgfQ0KPiA+DQo+ID4gK2Jvb2wg
+aXNfam9iX2VtYmVkZGVkX2ZlbmNlKHN0cnVjdCBkbWFfZmVuY2UgKmYpIHsNCj4gPiArCXN0cnVj
+dCBhbWRncHVfZmVuY2UgKl9fZiA9IGNvbnRhaW5lcl9vZihmLCBzdHJ1Y3QgYW1kZ3B1X2ZlbmNl
+LA0KPiA+ICtiYXNlKTsNCj4gPiArDQo+ID4gKwlpZiAoX19mLT5iYXNlLm9wcyA9PSAmYW1kZ3B1
+X2pvYl9mZW5jZV9vcHMpDQo+ID4gKwkJcmV0dXJuIHRydWU7DQo+ID4gKw0KPiA+ICsJcmV0dXJu
+IGZhbHNlOw0KPiA+ICt9DQo+ID4gKw0KPiA+ICAgLyoqDQo+ID4gICAgKiBhbWRncHVfZmVuY2Vf
+d3JpdGUgLSB3cml0ZSBhIGZlbmNlIHZhbHVlDQo+ID4gICAgKg0KPiA+IEBAIC0xNTgsMTkgKzE3
+MCwxOCBAQCBpbnQgYW1kZ3B1X2ZlbmNlX2VtaXQoc3RydWN0IGFtZGdwdV9yaW5nDQo+ICpyaW5n
+LCBzdHJ1Y3QgZG1hX2ZlbmNlICoqZiwgc3RydWN0IGFtZA0KPiA+ICAgCX0NCj4gPg0KPiA+ICAg
+CXNlcSA9ICsrcmluZy0+ZmVuY2VfZHJ2LnN5bmNfc2VxOw0KPiA+IC0JaWYgKGpvYiAhPSBOVUxM
+ICYmIGpvYi0+am9iX3J1bl9jb3VudGVyKSB7DQo+ID4gKwlpZiAoam9iICYmIGpvYi0+am9iX3J1
+bl9jb3VudGVyKSB7DQo+ID4gICAJCS8qIHJlaW5pdCBzZXEgZm9yIHJlc3VibWl0dGVkIGpvYnMg
+Ki8NCj4gPiAgIAkJZmVuY2UtPnNlcW5vID0gc2VxOw0KPiA+ICAgCX0gZWxzZSB7DQo+ID4gLQkJ
+ZG1hX2ZlbmNlX2luaXQoZmVuY2UsICZhbWRncHVfZmVuY2Vfb3BzLA0KPiA+IC0JCQkJJnJpbmct
+PmZlbmNlX2Rydi5sb2NrLA0KPiA+IC0JCQkJYWRldi0+ZmVuY2VfY29udGV4dCArIHJpbmctPmlk
+eCwNCj4gPiAtCQkJCXNlcSk7DQo+ID4gLQl9DQo+ID4gLQ0KPiA+IC0JaWYgKGpvYiAhPSBOVUxM
+KSB7DQo+ID4gLQkJLyogbWFyayB0aGlzIGZlbmNlIGhhcyBhIHBhcmVudCBqb2IgKi8NCj4gPiAt
+CQlzZXRfYml0KEFNREdQVV9GRU5DRV9GTEFHX0VNQkVEX0lOX0pPQl9CSVQsDQo+ICZmZW5jZS0+
+ZmxhZ3MpOw0KPiA+ICsJCWlmIChqb2IpDQo+ID4gKwkJCWRtYV9mZW5jZV9pbml0KGZlbmNlLCAm
+YW1kZ3B1X2pvYl9mZW5jZV9vcHMsDQo+ID4gKwkJCQkgICAgICAgJnJpbmctPmZlbmNlX2Rydi5s
+b2NrLA0KPiA+ICsJCQkJICAgICAgIGFkZXYtPmZlbmNlX2NvbnRleHQgKyByaW5nLT5pZHgsIHNl
+cSk7DQo+ID4gKwkJZWxzZQ0KPiA+ICsJCQlkbWFfZmVuY2VfaW5pdChmZW5jZSwgJmFtZGdwdV9m
+ZW5jZV9vcHMsDQo+ID4gKwkJCQkgICAgICAgJnJpbmctPmZlbmNlX2Rydi5sb2NrLA0KPiA+ICsJ
+CQkJICAgICAgIGFkZXYtPmZlbmNlX2NvbnRleHQgKyByaW5nLT5pZHgsIHNlcSk7DQo+ID4gICAJ
+fQ0KPiA+DQo+ID4gICAJYW1kZ3B1X3JpbmdfZW1pdF9mZW5jZShyaW5nLCByaW5nLT5mZW5jZV9k
+cnYuZ3B1X2FkZHIsIEBAIC0NCj4gNjQzLDE2DQo+ID4gKzY1NCwxNCBAQCBzdGF0aWMgY29uc3Qg
+Y2hhciAqYW1kZ3B1X2ZlbmNlX2dldF9kcml2ZXJfbmFtZShzdHJ1Y3QNCj4gPiBkbWFfZmVuY2Ug
+KmZlbmNlKQ0KPiA+DQo+ID4gICBzdGF0aWMgY29uc3QgY2hhciAqYW1kZ3B1X2ZlbmNlX2dldF90
+aW1lbGluZV9uYW1lKHN0cnVjdCBkbWFfZmVuY2UNCj4gKmYpDQo+ID4gICB7DQo+ID4gLQlzdHJ1
+Y3QgYW1kZ3B1X3JpbmcgKnJpbmc7DQo+ID4gKwlyZXR1cm4gKGNvbnN0IGNoYXIgKil0b19hbWRn
+cHVfZmVuY2UoZiktPnJpbmctPm5hbWU7IH0NCj4gPg0KPiA+IC0JaWYgKHRlc3RfYml0KEFNREdQ
+VV9GRU5DRV9GTEFHX0VNQkVEX0lOX0pPQl9CSVQsICZmLT5mbGFncykpDQo+IHsNCj4gPiAtCQlz
+dHJ1Y3QgYW1kZ3B1X2pvYiAqam9iID0gY29udGFpbmVyX29mKGYsIHN0cnVjdCBhbWRncHVfam9i
+LA0KPiBod19mZW5jZSk7DQo+ID4gK3N0YXRpYyBjb25zdCBjaGFyICphbWRncHVfam9iX2ZlbmNl
+X2dldF90aW1lbGluZV9uYW1lKHN0cnVjdA0KPiA+ICtkbWFfZmVuY2UgKmYpIHsNCj4gPiArCXN0
+cnVjdCBhbWRncHVfam9iICpqb2IgPSBjb250YWluZXJfb2YoZiwgc3RydWN0IGFtZGdwdV9qb2Is
+DQo+ID4gK2h3X2ZlbmNlKTsNCj4gPg0KPiA+IC0JCXJpbmcgPSB0b19hbWRncHVfcmluZyhqb2It
+PmJhc2Uuc2NoZWQpOw0KPiA+IC0JfSBlbHNlIHsNCj4gPiAtCQlyaW5nID0gdG9fYW1kZ3B1X2Zl
+bmNlKGYpLT5yaW5nOw0KPiA+IC0JfQ0KPiA+IC0JcmV0dXJuIChjb25zdCBjaGFyICopcmluZy0+
+bmFtZTsNCj4gPiArCXJldHVybiAoY29uc3QgY2hhciAqKXRvX2FtZGdwdV9yaW5nKGpvYi0+YmFz
+ZS5zY2hlZCktPm5hbWU7DQo+ID4gICB9DQo+ID4NCj4gPiAgIC8qKg0KPiA+IEBAIC02NjUsMTgg
+KzY3NCwyNSBAQCBzdGF0aWMgY29uc3QgY2hhcg0KPiAqYW1kZ3B1X2ZlbmNlX2dldF90aW1lbGlu
+ZV9uYW1lKHN0cnVjdCBkbWFfZmVuY2UgKmYpDQo+ID4gICAgKi8NCj4gPiAgIHN0YXRpYyBib29s
+IGFtZGdwdV9mZW5jZV9lbmFibGVfc2lnbmFsaW5nKHN0cnVjdCBkbWFfZmVuY2UgKmYpDQo+ID4g
+ICB7DQo+ID4gLQlzdHJ1Y3QgYW1kZ3B1X3JpbmcgKnJpbmc7DQo+ID4gKwlpZiAoIXRpbWVyX3Bl
+bmRpbmcoJnRvX2FtZGdwdV9mZW5jZShmKS0+cmluZy0NCj4gPmZlbmNlX2Rydi5mYWxsYmFja190
+aW1lcikpDQo+ID4gKwkJYW1kZ3B1X2ZlbmNlX3NjaGVkdWxlX2ZhbGxiYWNrKHRvX2FtZGdwdV9m
+ZW5jZShmKS0NCj4gPnJpbmcpOw0KPiA+DQo+ID4gLQlpZiAodGVzdF9iaXQoQU1ER1BVX0ZFTkNF
+X0ZMQUdfRU1CRURfSU5fSk9CX0JJVCwgJmYtPmZsYWdzKSkNCj4gew0KPiA+IC0JCXN0cnVjdCBh
+bWRncHVfam9iICpqb2IgPSBjb250YWluZXJfb2YoZiwgc3RydWN0IGFtZGdwdV9qb2IsDQo+IGh3
+X2ZlbmNlKTsNCj4gPiArCXJldHVybiB0cnVlOw0KPiA+ICt9DQo+ID4NCj4gPiAtCQlyaW5nID0g
+dG9fYW1kZ3B1X3Jpbmcoam9iLT5iYXNlLnNjaGVkKTsNCj4gPiAtCX0gZWxzZSB7DQo+ID4gLQkJ
+cmluZyA9IHRvX2FtZGdwdV9mZW5jZShmKS0+cmluZzsNCj4gPiAtCX0NCj4gPiArLyoqDQo+ID4g
+KyAqIGFtZGdwdV9qb2JfZmVuY2VfZW5hYmxlX3NpZ25hbGluZyAtIGVuYWJsZSBzaWduYWxsaW5n
+IG9uIGpvYiBmZW5jZQ0KPiA+ICsgKiBAZjogZmVuY2UNCj4gPiArICoNCj4gPiArICogVGhpcyBp
+cyB0aGUgc2ltbGlhciBmdW5jdGlvbiB3aXRoIGFtZGdwdV9mZW5jZV9lbmFibGVfc2lnbmFsaW5n
+DQo+ID4gK2Fib3ZlLCBpdA0KPiA+ICsgKiBvbmx5IGhhbmRsZXMgdGhlIGpvYiBlbWJlZGRlZCBm
+ZW5jZS4NCj4gPiArICovDQo+ID4gK3N0YXRpYyBib29sIGFtZGdwdV9qb2JfZmVuY2VfZW5hYmxl
+X3NpZ25hbGluZyhzdHJ1Y3QgZG1hX2ZlbmNlICpmKSB7DQo+ID4gKwlzdHJ1Y3QgYW1kZ3B1X2pv
+YiAqam9iID0gY29udGFpbmVyX29mKGYsIHN0cnVjdCBhbWRncHVfam9iLA0KPiA+ICtod19mZW5j
+ZSk7DQo+ID4NCj4gPiAtCWlmICghdGltZXJfcGVuZGluZygmcmluZy0+ZmVuY2VfZHJ2LmZhbGxi
+YWNrX3RpbWVyKSkNCj4gPiAtCQlhbWRncHVfZmVuY2Vfc2NoZWR1bGVfZmFsbGJhY2socmluZyk7
+DQo+ID4gKwlpZiAoIXRpbWVyX3BlbmRpbmcoJnRvX2FtZGdwdV9yaW5nKGpvYi0+YmFzZS5zY2hl
+ZCktDQo+ID5mZW5jZV9kcnYuZmFsbGJhY2tfdGltZXIpKQ0KPiA+ICsJCWFtZGdwdV9mZW5jZV9z
+Y2hlZHVsZV9mYWxsYmFjayh0b19hbWRncHVfcmluZyhqb2ItDQo+ID5iYXNlLnNjaGVkKSk7DQo+
+ID4NCj4gPiAgIAlyZXR1cm4gdHJ1ZTsNCj4gPiAgIH0NCj4gPiBAQCAtNjkyLDE5ICs3MDgsMjMg
+QEAgc3RhdGljIHZvaWQgYW1kZ3B1X2ZlbmNlX2ZyZWUoc3RydWN0IHJjdV9oZWFkDQo+ICpyY3Up
+DQo+ID4gICB7DQo+ID4gICAJc3RydWN0IGRtYV9mZW5jZSAqZiA9IGNvbnRhaW5lcl9vZihyY3Us
+IHN0cnVjdCBkbWFfZmVuY2UsIHJjdSk7DQo+ID4NCj4gPiAtCWlmICh0ZXN0X2JpdChBTURHUFVf
+RkVOQ0VfRkxBR19FTUJFRF9JTl9KT0JfQklULCAmZi0+ZmxhZ3MpKQ0KPiB7DQo+ID4gLQkvKiBm
+cmVlIGpvYiBpZiBmZW5jZSBoYXMgYSBwYXJlbnQgam9iICovDQo+ID4gLQkJc3RydWN0IGFtZGdw
+dV9qb2IgKmpvYjsNCj4gPiAtDQo+ID4gLQkJam9iID0gY29udGFpbmVyX29mKGYsIHN0cnVjdCBh
+bWRncHVfam9iLCBod19mZW5jZSk7DQo+ID4gLQkJa2ZyZWUoam9iKTsNCj4gPiAtCX0gZWxzZSB7
+DQo+ID4gICAJLyogZnJlZSBmZW5jZV9zbGFiIGlmIGl0J3Mgc2VwYXJhdGVkIGZlbmNlKi8NCj4g
+PiAtCQlzdHJ1Y3QgYW1kZ3B1X2ZlbmNlICpmZW5jZTsNCj4gPiArCWttZW1fY2FjaGVfZnJlZShh
+bWRncHVfZmVuY2Vfc2xhYiwgdG9fYW1kZ3B1X2ZlbmNlKGYpKTsgfQ0KPiA+DQo+ID4gLQkJZmVu
+Y2UgPSB0b19hbWRncHVfZmVuY2UoZik7DQo+ID4gLQkJa21lbV9jYWNoZV9mcmVlKGFtZGdwdV9m
+ZW5jZV9zbGFiLCBmZW5jZSk7DQo+ID4gLQl9DQo+ID4gKy8qKg0KPiA+ICsgKiBhbWRncHVfam9i
+X2ZlbmNlX2ZyZWUgLSBmcmVlIHVwIHRoZSBqb2Igd2l0aCBlbWJlZGRlZCBmZW5jZQ0KPiA+ICsg
+Kg0KPiA+ICsgKiBAcmN1OiBSQ1UgY2FsbGJhY2sgaGVhZA0KPiA+ICsgKg0KPiA+ICsgKiBGcmVl
+IHVwIHRoZSBqb2Igd2l0aCBlbWJlZGRlZCBmZW5jZSBhZnRlciB0aGUgUkNVIGdyYWNlIHBlcmlv
+ZC4NCj4gPiArICovDQo+ID4gK3N0YXRpYyB2b2lkIGFtZGdwdV9qb2JfZmVuY2VfZnJlZShzdHJ1
+Y3QgcmN1X2hlYWQgKnJjdSkgew0KPiA+ICsJc3RydWN0IGRtYV9mZW5jZSAqZiA9IGNvbnRhaW5l
+cl9vZihyY3UsIHN0cnVjdCBkbWFfZmVuY2UsIHJjdSk7DQo+ID4gKw0KPiA+ICsJLyogZnJlZSBq
+b2IgaWYgZmVuY2UgaGFzIGEgcGFyZW50IGpvYiAqLw0KPiA+ICsJa2ZyZWUoY29udGFpbmVyX29m
+KGYsIHN0cnVjdCBhbWRncHVfam9iLCBod19mZW5jZSkpOw0KPiA+ICAgfQ0KPiA+DQo+ID4gICAv
+KioNCj4gPiBAQCAtNzIwLDYgKzc0MCwxOSBAQCBzdGF0aWMgdm9pZCBhbWRncHVfZmVuY2VfcmVs
+ZWFzZShzdHJ1Y3QNCj4gZG1hX2ZlbmNlICpmKQ0KPiA+ICAgCWNhbGxfcmN1KCZmLT5yY3UsIGFt
+ZGdwdV9mZW5jZV9mcmVlKTsNCj4gPiAgIH0NCj4gPg0KPiA+ICsvKioNCj4gPiArICogYW1kZ3B1
+X2pvYl9mZW5jZV9yZWxlYXNlIC0gY2FsbGJhY2sgdGhhdCBqb2IgZW1iZWRkZWQgZmVuY2UgY2Fu
+IGJlDQo+ID4gK2ZyZWVkDQo+ID4gKyAqDQo+ID4gKyAqIEBmOiBmZW5jZQ0KPiA+ICsgKg0KPiA+
+ICsgKiBUaGlzIGlzIHRoZSBzaW1saWFyIGZ1bmN0aW9uIHdpdGggYW1kZ3B1X2ZlbmNlX3JlbGVh
+c2UgYWJvdmUsIGl0DQo+ID4gKyAqIG9ubHkgaGFuZGxlcyB0aGUgam9iIGVtYmVkZGVkIGZlbmNl
+Lg0KPiA+ICsgKi8NCj4gPiArc3RhdGljIHZvaWQgYW1kZ3B1X2pvYl9mZW5jZV9yZWxlYXNlKHN0
+cnVjdCBkbWFfZmVuY2UgKmYpIHsNCj4gPiArCWNhbGxfcmN1KCZmLT5yY3UsIGFtZGdwdV9qb2Jf
+ZmVuY2VfZnJlZSk7IH0NCj4gPiArDQo+ID4gICBzdGF0aWMgY29uc3Qgc3RydWN0IGRtYV9mZW5j
+ZV9vcHMgYW1kZ3B1X2ZlbmNlX29wcyA9IHsNCj4gPiAgIAkuZ2V0X2RyaXZlcl9uYW1lID0gYW1k
+Z3B1X2ZlbmNlX2dldF9kcml2ZXJfbmFtZSwNCj4gPiAgIAkuZ2V0X3RpbWVsaW5lX25hbWUgPSBh
+bWRncHVfZmVuY2VfZ2V0X3RpbWVsaW5lX25hbWUsIEBAIC0NCj4gNzI3LDYNCj4gPiArNzYwLDEy
+IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZG1hX2ZlbmNlX29wcyBhbWRncHVfZmVuY2Vfb3BzID0g
+ew0KPiA+ICAgCS5yZWxlYXNlID0gYW1kZ3B1X2ZlbmNlX3JlbGVhc2UsDQo+ID4gICB9Ow0KPiA+
+DQo+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgZG1hX2ZlbmNlX29wcyBhbWRncHVfam9iX2ZlbmNl
+X29wcyA9IHsNCj4gPiArCS5nZXRfZHJpdmVyX25hbWUgPSBhbWRncHVfZmVuY2VfZ2V0X2RyaXZl
+cl9uYW1lLA0KPiA+ICsJLmdldF90aW1lbGluZV9uYW1lID0gYW1kZ3B1X2pvYl9mZW5jZV9nZXRf
+dGltZWxpbmVfbmFtZSwNCj4gPiArCS5lbmFibGVfc2lnbmFsaW5nID0gYW1kZ3B1X2pvYl9mZW5j
+ZV9lbmFibGVfc2lnbmFsaW5nLA0KPiA+ICsJLnJlbGVhc2UgPSBhbWRncHVfam9iX2ZlbmNlX3Jl
+bGVhc2UsIH07DQo+ID4NCj4gPiAgIC8qDQo+ID4gICAgKiBGZW5jZSBkZWJ1Z2ZzDQo+ID4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9yaW5nLmgNCj4gPiBi
+L2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9yaW5nLmgNCj4gPiBpbmRleCA0ZDM4
+MGU3OTc1MmMuLmMyOTU1NGNmNmU2MyAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
+YW1kL2FtZGdwdS9hbWRncHVfcmluZy5oDQo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9h
+bWRncHUvYW1kZ3B1X3JpbmcuaA0KPiA+IEBAIC01Myw5ICs1Myw2IEBAIGVudW0gYW1kZ3B1X3Jp
+bmdfcHJpb3JpdHlfbGV2ZWwgew0KPiA+ICAgI2RlZmluZSBBTURHUFVfRkVOQ0VfRkxBR19JTlQg
+ICAgICAgICAgICgxIDw8IDEpDQo+ID4gICAjZGVmaW5lIEFNREdQVV9GRU5DRV9GTEFHX1RDX1dC
+X09OTFkgICAgKDEgPDwgMikNCj4gPg0KPiA+IC0vKiBmZW5jZSBmbGFnIGJpdCB0byBpbmRpY2F0
+ZSB0aGUgZmFjZSBpcyBlbWJlZGRlZCBpbiBqb2IqLw0KPiA+IC0jZGVmaW5lIEFNREdQVV9GRU5D
+RV9GTEFHX0VNQkVEX0lOX0pPQl9CSVQNCj4gCShETUFfRkVOQ0VfRkxBR19VU0VSX0JJVFMgKyAx
+KQ0KPiA+IC0NCj4gPiAgICNkZWZpbmUgdG9fYW1kZ3B1X3JpbmcocykgY29udGFpbmVyX29mKChz
+KSwgc3RydWN0IGFtZGdwdV9yaW5nLA0KPiA+IHNjaGVkKQ0KPiA+DQo+ID4gICAjZGVmaW5lIEFN
+REdQVV9JQl9QT09MX1NJWkUJKDEwMjQgKiAxMDI0KQ0K
