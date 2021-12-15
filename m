@@ -2,54 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 391D847502A
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 02:03:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9B9247509C
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 02:50:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6BBA10E1F3;
-	Wed, 15 Dec 2021 01:03:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A43F10E1ED;
+	Wed, 15 Dec 2021 01:50:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
- [IPv6:2607:f8b0:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83DAE10E1F3
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 01:03:14 +0000 (UTC)
-Received: by mail-oi1-x233.google.com with SMTP id bj13so29552634oib.4
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 17:03:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uw6bN6d4TEpZ4w8TTcuB+Vquo3dAMeEaia/fJgaxXHs=;
- b=H4muOgjK5/dmipKYb548E8BJxPqSbo3j0zUgv2RPxaIY0janIUUZNlsnqB/Uu2IjEV
- X1oyh+GZmEWsi+4TIxhCX0N0XQ6y8IqecJX/8d+GY3LMattPjYOXZ41rmOfIh1b9cHgt
- wPVE7vKeIPmfH95eql9uPMTETbzvrR9Nu9JECandS49rg0WENRiHo8c2p89DRJsi1G9j
- 9ruLwk03ONpGADcAwzoOnNrqb+ug4Rh+Pm6Vxnlxw3tKhEiVGbbZ/5Rs0zmX9BMbiQ4S
- KmJeYJmVSpuzUsBtnyHiTIwNPB1Gx1v+8zNwA6aS0EV6kTE43xLDlSD4yqxilZrI4UBk
- rR5w==
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
+ [IPv6:2607:f8b0:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F10710E1AE
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 01:50:52 +0000 (UTC)
+Received: by mail-ot1-x334.google.com with SMTP id
+ 35-20020a9d08a6000000b00579cd5e605eso23122193otf.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 17:50:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=X8BNLsBux2AXya8Toe9pz3z2hfhJJ8ODRuIPLURO8n4=;
+ b=hxOuAmS0GH3gTmzxlY2ckaN2Zd1HLGwM5os8kOAmtBFXwBpB0KORzQTVfduGvFW2M6
+ R7Tmh4lmfXbJdpFEoW5Yt1rlLuMK6Z7/DlcgVNZ8EWUbyQxwMcVAhsz5c0nZtXtjSNXh
+ V0jc3gzeOuIUg8h1NLBAb12d2BQqYXVg7o35s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uw6bN6d4TEpZ4w8TTcuB+Vquo3dAMeEaia/fJgaxXHs=;
- b=0qoKeF4D7vY4NoWLPlvGfKYclyzxWK0Y2yzxCxFJ4/50mnLzfdk6HFiSu4dXY0Socm
- +Z+pqNPEzKcL7eTtuiCfC8ZslUiajdzxpV1t2bX5wAaNBh2XzOqVGzwtb8H7jy/C+pE5
- J7V7N4okeQQcuducYEtucuOY3V0T+Rxw39NFwXjIBsu3rmvujdFYezVsiKCgvSWTD5uE
- kNlLejkILS+3X/V/WuYPydV7qBxu1OvDQDNKjg1x8+ILW9zxSb88eXdGD9HKzcpUeLnQ
- qp2hvOnmYPM/mBOJg4+bSCoOXXmwH8z6yNCOPuMsXxZzKWgwf6QYXUiR6O8iYjQvzJ+M
- fACA==
-X-Gm-Message-State: AOAM5313FsyiQ93BeVZi+lq2CQSBgUn5H3B9KZTE1dIByBPUobDa5Wfz
- q8aiNc9OxSebfZfkz4DPdX8lEO+j1M5N4Ru8P5vudKE+8STLig==
-X-Google-Smtp-Source: ABdhPJxliBCdAwd2D2fYqD1C2K2IdEZ42OdIUesvDoXQZeocLw/E99x719/CgLnSa9cMHZF1p6JG+ArPNcBQZ24Ri7Y=
-X-Received: by 2002:aca:120f:: with SMTP id 15mr6921450ois.132.1639530193662; 
- Tue, 14 Dec 2021 17:03:13 -0800 (PST)
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=X8BNLsBux2AXya8Toe9pz3z2hfhJJ8ODRuIPLURO8n4=;
+ b=Yzurkz7PHogBZ3z7fax4Dcjp92dQafVIjBasPt/7uB0jVxAu3f7RgZudN05GWzqclC
+ 5aQpfAi5sP0xLQWXF1sQuL7kxT1iHCpeN8xNX93+e43V2C5ZS8viAUZdK8N16yrUy9E9
+ 4m2kuWiiiztEFzU6ANc1PkAjF4vwAWE7owtyB2MgfbAQFAsQDZ5j3XeGwt3NV7rukITx
+ aIFgiCsTyalbYNx1wpaFus8HeTGR11DYaIu7i4EBXb6jts1Urg3i5sgkuDhk7V9uAm22
+ sI7k+z77Fm9kBE3+WG2xmFVUfFln1+g5utl2Namuoyteae358k8G0p/1Wd/ior6jKuvT
+ WLgQ==
+X-Gm-Message-State: AOAM530sqIvazxo39GjMCW+oljkrjgVbgqDOIvQSjHb6C8Mq4niFhzGB
+ wrLq32ZREMw7ZbloGFr5KdMJ7ICH706QWyXd9/15Tw==
+X-Google-Smtp-Source: ABdhPJyXpuhWZ5m+m/2N9Y1iXuZP8AcuSjzJuNVAOm4SuBQtVSqPmW2e+rAaYwOg+X0ba7Sj5Ceq5UPVHtUml/aSv3c=
+X-Received: by 2002:a9d:70ce:: with SMTP id w14mr6924071otj.77.1639533051758; 
+ Tue, 14 Dec 2021 17:50:51 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 15 Dec 2021 02:50:51 +0100
 MIME-Version: 1.0
-References: <20211215010008.2545520-1-javierm@redhat.com>
- <20211215010008.2545520-57-javierm@redhat.com>
-In-Reply-To: <20211215010008.2545520-57-javierm@redhat.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 15 Dec 2021 02:03:02 +0100
-Message-ID: <CACRpkdbmLyXhGbuKEaCL=M=52huK3H-8_O-z_gyjf_95gO-fsw@mail.gmail.com>
-Subject: Re: [PATCH 56/60] drm/tve200: Add support for the nomodeset kernel
- parameter
-To: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <1639085707-27845-1-git-send-email-quic_khsieh@quicinc.com>
+References: <1639085707-27845-1-git-send-email-quic_khsieh@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date: Wed, 15 Dec 2021 02:50:51 +0100
+Message-ID: <CAE-0n51pbf3GqwA-wtTe5+rRvA_KMmb8kd6fqqDtZRX+X_3qiA@mail.gmail.com>
+Subject: Re: [PATCH v7 2/2] drm/msm/dp: do not initialize phy until plugin
+ interrupt received
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
+ bjorn.andersson@linaro.org, daniel@ffwll.ch, dmitry.baryshkov@linaro.org, 
+ robdclark@gmail.com, sean@poorly.run, vkoul@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,25 +66,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 15, 2021 at 2:01 AM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
-
-> According to disable Documentation/admin-guide/kernel-parameters.txt, this
-> parameter can be used to disable kernel modesetting.
+Quoting Kuogee Hsieh (2021-12-09 13:35:07)
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index 0766752..cfbc5e4 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -83,6 +83,7 @@ struct dp_display_private {
 >
-> DRM drivers will not perform display-mode changes or accelerated rendering
-> and only the systewm system framebuffer will be available if it was set-up.
+>         /* state variables */
+>         bool core_initialized;
+> +       bool phy_initialized;
+>         bool hpd_irq_on;
+>         bool audio_supported;
 >
-> But only a few DRM drivers currently check for nomodeset, make this driver
-> to also support the command line parameter.
+> @@ -371,21 +372,46 @@ static int dp_display_process_hpd_high(struct dp_display_private *dp)
+>         return rc;
+>  }
 >
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> -static void dp_display_host_init(struct dp_display_private *dp, int reset)
+> +static void dp_display_host_phy_init(struct dp_display_private *dp)
+>  {
+> -       bool flip = false;
+> +       DRM_DEBUG_DP("core_init=%d phy_init=%d\n",
+> +                       dp->core_initialized, dp->phy_initialized);
+>
+> +       if (!dp->phy_initialized) {
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Is this check only here because we don't know when this function is
+getting called? I see in the DP case we get here from
+dp_display_usbpd_configure_cb() but in the eDP case we get here from
+dp_display_host_init() and presumably again from
+dp_display_usbpd_configure_cb() called by dp_hpd_plug_handle().
 
-Yours,
-Linus Walleij
+If at all possible, I'd prefer to not have another tracking variable and
+call dp_display_host_phy_init() from the same place regardless of DP or
+eDP. Doing that would make it symmetric, per the commit text.
+
+> +               dp_ctrl_phy_init(dp->ctrl);
+> +               dp->phy_initialized = true;
+> +       }
+> +}
+> +
+> +static void dp_display_host_phy_exit(struct dp_display_private *dp)
+> +{
+> +       DRM_DEBUG_DP("core_init=%d phy_init=%d\n",
+> +                       dp->core_initialized, dp->phy_initialized);
+> +
+> +       if (dp->phy_initialized) {
+> +               dp_ctrl_phy_exit(dp->ctrl);
+> +               dp->phy_initialized = false;
+> +       }
+> +}
+> +
+> +static void dp_display_host_init(struct dp_display_private *dp)
+> +{
+>         DRM_DEBUG_DP("core_initialized=%d\n", dp->core_initialized);
+>         if (dp->core_initialized) {
+>                 DRM_DEBUG_DP("DP core already initialized\n");
+>                 return;
+>         }
+>
+> -       if (dp->usbpd->orientation == ORIENTATION_CC2)
+> -               flip = true;
+> +       dp_power_init(dp->power, false);
+> +       dp_ctrl_reset_irq_ctrl(dp->ctrl, true);
+> +
+> +       /*
+> +        * eDP is the embedded primary display and has its own phy
+> +        * initialize phy immediately
+
+Can we get some more details here? Why is it better to initialize the
+phy here vs. when HPD goes high on the panel? The comment says what the
+code is doing but it isn't telling us why that's OK.
+
+> +        */
+> +       if (dp->dp_display.connector_type == DRM_MODE_CONNECTOR_eDP)
+> +               dp_display_host_phy_init(dp);
+>
+> -       dp_power_init(dp->power, flip);
+> -       dp_ctrl_host_init(dp->ctrl, flip, reset);
+>         dp_aux_init(dp->aux);
+>         dp->core_initialized = true;
+>  }
