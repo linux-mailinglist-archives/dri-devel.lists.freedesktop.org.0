@@ -2,53 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95A5F475FD1
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 18:50:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0E03475FF7
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 18:56:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B99F010F5CF;
-	Wed, 15 Dec 2021 17:50:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D18510F613;
+	Wed, 15 Dec 2021 17:55:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74C1510F5CB;
- Wed, 15 Dec 2021 17:50:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639590613; x=1671126613;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=UXVAi9BXaydSML6j5ZDaOSyhxIpn0/1a6PgbOjLKiYU=;
- b=FWOsARvPDh1f5B8Y2HdIBHebvNaYeJfN3CbdKtw8CSUjH15ASg0oOdYB
- sA+goKjDqf970gVyJKRgGpo+yp6Mz9fqVOhbsdtB5nJSyJwWDOb0tljNC
- kEFoFTg6TZqDkEddHQZzsPU+gxfXFCBrWWdiUu03lTx5/VOmCSR0VWgK9
- rPFm0yfT6vIlm9PfZwuqyucbXJR+uuUl3Pi+xWlgI3uWjwM2KzTJ0FTXd
- lLsk1U4R4mS7PKJdMToDX0NJnDe/oZXgYmFV/frQLz6GEjSfH1swuJbwL
- MHe0YojomsULAi1peBpfyMaYg9UQ8o7fAvPfuz5vbUWSw9weBxhhUgpQa Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10199"; a="325572512"
-X-IronPort-AV: E=Sophos;i="5.88,207,1635231600"; d="scan'208";a="325572512"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Dec 2021 09:50:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,207,1635231600"; d="scan'208";a="614801880"
-Received: from lkp-server02.sh.intel.com (HELO 9f38c0981d9f) ([10.239.97.151])
- by orsmga004.jf.intel.com with ESMTP; 15 Dec 2021 09:50:10 -0800
-Received: from kbuild by 9f38c0981d9f with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1mxYPq-000291-90; Wed, 15 Dec 2021 17:50:10 +0000
-Date: Thu, 16 Dec 2021 01:49:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/7] drm/i915: Avoid using the i915_fence_array when
- collecting dependencies
-Message-ID: <202112160101.AqbkqxoO-lkp@intel.com>
-References: <20211215103611.777665-2-thomas.hellstrom@linux.intel.com>
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com
+ [IPv6:2607:f8b0:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03CE610F612;
+ Wed, 15 Dec 2021 17:55:55 +0000 (UTC)
+Received: by mail-pg1-x52b.google.com with SMTP id r5so20765866pgi.6;
+ Wed, 15 Dec 2021 09:55:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QZ3LpjtL0YwyX+2dJ2ef+7lZVvlqJTjbm/p+yQNc6As=;
+ b=ln+w3Wmc1irEPAgq4GSqmPmrFaT74X8U/B0ctUo+WElfqKyG7EbYw6e0Ij2mAFl+mN
+ cSMgK6H0EGR/Hcbzo82ViMs6m2V9JUC3n94U+bqPi9OT24jgKu5JnIBFXVBjf84Zi6B9
+ u9HkSFArVI6eBh4mTgCjGY62ulMTVx2kRczh39eVZZHmKP62Z5eQIuoqlUuMsVro+vtD
+ WRFCPF3e3CGo4Z7XJh4vpg6/JNxRY/ZvECW4BBl0z/lxZiLLkKJR+9VQKfJ9sFRVUf1i
+ fgI1HoEpOOIwbV1zfqE3RAU3oubbG2iAhm7IF4LoVG9GDGeXR5GEzRnjl9n6pmHg3XxB
+ IDwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QZ3LpjtL0YwyX+2dJ2ef+7lZVvlqJTjbm/p+yQNc6As=;
+ b=758zqNGFeMKwS4GX83SFdl+rY/sDsbr2a5au03e25WRaIY+6fHzEX8eH2b6N+zKTsz
+ qjo7qx7epthcLO4kPqnodqw76JsXGPM4kFkrXg4SLizaIQHvRALmw/kIaK1cymR4zJl1
+ fdE+QohdwVgua/9wDMBN1MzCfmFJE3KFo7r5TKSAQkPeYx9aCJVieupAitbz+kIJDRRE
+ jOlL1iMNCitr84YGAFYJVtvsvTTtP6c/S21rrrnio9eazQlAcafm0sGUFVhQebR660Wc
+ RlqOhhajQjh/EEbokWcR9MZ4MubD5avR8zpHWH+ChLmDHBSq0c5Yd4EqZ/gFXMjhrz++
+ XRTA==
+X-Gm-Message-State: AOAM531uyo6Kz4uI2ZiBsgmvG/gx132wAXw0Z8zEApr+epoCtj9jdb3S
+ Tf7cYjptcZ/5f9P+BbD++ScR7ykAfqg=
+X-Google-Smtp-Source: ABdhPJxDFJaT/pQWOIsDrLIBG60oATcp+dgTrUx2Pl/YVvoNcVC6KPYi9NxgjPfjNu8ZRmlkuK5yPw==
+X-Received: by 2002:a63:5c64:: with SMTP id n36mr8707927pgm.61.1639590954046; 
+ Wed, 15 Dec 2021 09:55:54 -0800 (PST)
+Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
+ by smtp.gmail.com with ESMTPSA id
+ t8sm3041723pgk.66.2021.12.15.09.55.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Dec 2021 09:55:52 -0800 (PST)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/msm: Don't use autosuspend for display
+Date: Wed, 15 Dec 2021 09:59:02 -0800
+Message-Id: <20211215175910.1744151-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211215103611.777665-2-thomas.hellstrom@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,72 +66,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- llvm@lists.linux.dev, kbuild-all@lists.01.org, matthew.auld@intel.com
+Cc: Rob Clark <robdclark@chromium.org>, Jonathan Marek <jonathan@marek.ca>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
+ Rajeev Nandan <quic_rajeevny@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi "Thomas,
+From: Rob Clark <robdclark@chromium.org>
 
-Thank you for the patch! Perhaps something to improve:
+No functional change, as we only actually enable autosuspend for the GPU
+device.  But lets not encourage thinking that autosuspend is a good idea
+for anything display related.
 
-[auto build test WARNING on drm-tip/drm-tip]
-[also build test WARNING on drm-exynos/exynos-drm-next drm/drm-next next-20211214]
-[cannot apply to drm-intel/for-linux-next tegra-drm/drm/tegra/for-next airlied/drm-next v5.16-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Thomas-Hellstr-m/drm-i915-Asynchronous-vma-unbinding/20211215-183859
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-config: x86_64-randconfig-a013-20211214 (https://download.01.org/0day-ci/archive/20211216/202112160101.AqbkqxoO-lkp@intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project dd245bab9fbb364faa1581e4f92ba3119a872fba)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/0f61eb08a6b9d7fa9f19eaa071ad5591de123633
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Thomas-Hellstr-m/drm-i915-Asynchronous-vma-unbinding/20211215-183859
-        git checkout 0f61eb08a6b9d7fa9f19eaa071ad5591de123633
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c:634:5: warning: no previous prototype for function 'prev_deps' [-Wmissing-prototypes]
-   int prev_deps(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx,
-       ^
-   drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c:634:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int prev_deps(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx,
-   ^
-   static 
-   1 warning generated.
-
-
-vim +/prev_deps +634 drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-
-   633	
- > 634	int prev_deps(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx,
-   635		      struct i915_deps *deps)
-   636	{
-   637		int ret;
-   638	
-   639		ret = i915_deps_add_dependency(deps, bo->moving, ctx);
-   640		if (!ret)
-   641			/*
-   642			 * TODO: Only await excl fence here, and shared fences before
-   643			 * signaling the migration fence.
-   644			 */
-   645			ret = i915_deps_add_resv(deps, bo->base.resv, true, false, ctx);
-   646	
-   647		return ret;
-   648	}
-   649	
-
+Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ drivers/gpu/drm/msm/dsi/dsi_host.c     | 8 ++++----
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c  | 2 +-
+ drivers/gpu/drm/msm/hdmi/hdmi_bridge.c | 2 +-
+ drivers/gpu/drm/msm/hdmi/hdmi_hpd.c    | 4 ++--
+ 4 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index 5b4bb722f750..6b3ced4aaaf5 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -2020,7 +2020,7 @@ void msm_dsi_host_xfer_restore(struct mipi_dsi_host *host,
+ 	/* TODO: unvote for bus bandwidth */
+ 
+ 	cfg_hnd->ops->link_clk_disable(msm_host);
+-	pm_runtime_put_autosuspend(&msm_host->pdev->dev);
++	pm_runtime_put(&msm_host->pdev->dev);
+ }
+ 
+ int msm_dsi_host_cmd_tx(struct mipi_dsi_host *host,
+@@ -2252,7 +2252,7 @@ int msm_dsi_host_enable(struct mipi_dsi_host *host)
+ 	 */
+ 	/* if (msm_panel->mode == MSM_DSI_CMD_MODE) {
+ 	 *	dsi_link_clk_disable(msm_host);
+-	 *	pm_runtime_put_autosuspend(&msm_host->pdev->dev);
++	 *	pm_runtime_put(&msm_host->pdev->dev);
+ 	 * }
+ 	 */
+ 	msm_host->enabled = true;
+@@ -2344,7 +2344,7 @@ int msm_dsi_host_power_on(struct mipi_dsi_host *host,
+ 
+ fail_disable_clk:
+ 	cfg_hnd->ops->link_clk_disable(msm_host);
+-	pm_runtime_put_autosuspend(&msm_host->pdev->dev);
++	pm_runtime_put(&msm_host->pdev->dev);
+ fail_disable_reg:
+ 	dsi_host_regulator_disable(msm_host);
+ unlock_ret:
+@@ -2371,7 +2371,7 @@ int msm_dsi_host_power_off(struct mipi_dsi_host *host)
+ 	pinctrl_pm_select_sleep_state(&msm_host->pdev->dev);
+ 
+ 	cfg_hnd->ops->link_clk_disable(msm_host);
+-	pm_runtime_put_autosuspend(&msm_host->pdev->dev);
++	pm_runtime_put(&msm_host->pdev->dev);
+ 
+ 	dsi_host_regulator_disable(msm_host);
+ 
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+index 0b2ae5c15240..c2ed177717c7 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+@@ -602,7 +602,7 @@ static int dsi_phy_enable_resource(struct msm_dsi_phy *phy)
+ static void dsi_phy_disable_resource(struct msm_dsi_phy *phy)
+ {
+ 	clk_disable_unprepare(phy->ahb_clk);
+-	pm_runtime_put_autosuspend(&phy->pdev->dev);
++	pm_runtime_put(&phy->pdev->dev);
+ }
+ 
+ static const struct of_device_id dsi_phy_dt_match[] = {
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+index 211b73dddf65..68fba4bf7212 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
++++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+@@ -69,7 +69,7 @@ static void power_off(struct drm_bridge *bridge)
+ 	if (ret)
+ 		DRM_DEV_ERROR(dev->dev, "failed to disable pwr regulator: %d\n", ret);
+ 
+-	pm_runtime_put_autosuspend(&hdmi->pdev->dev);
++	pm_runtime_put(&hdmi->pdev->dev);
+ }
+ 
+ #define AVI_IFRAME_LINE_NUMBER 1
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c b/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
+index 1cda7bf23b3b..75605ddac7c4 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
++++ b/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
+@@ -205,7 +205,7 @@ void msm_hdmi_hpd_disable(struct hdmi_bridge *hdmi_bridge)
+ 	msm_hdmi_set_mode(hdmi, false);
+ 
+ 	enable_hpd_clocks(hdmi, false);
+-	pm_runtime_put_autosuspend(dev);
++	pm_runtime_put(dev);
+ 
+ 	ret = gpio_config(hdmi, false);
+ 	if (ret)
+@@ -260,7 +260,7 @@ static enum drm_connector_status detect_reg(struct hdmi *hdmi)
+ 	hpd_int_status = hdmi_read(hdmi, REG_HDMI_HPD_INT_STATUS);
+ 
+ 	enable_hpd_clocks(hdmi, false);
+-	pm_runtime_put_autosuspend(&hdmi->pdev->dev);
++	pm_runtime_put(&hdmi->pdev->dev);
+ 
+ 	return (hpd_int_status & HDMI_HPD_INT_STATUS_CABLE_DETECTED) ?
+ 			connector_status_connected : connector_status_disconnected;
+-- 
+2.33.1
+
