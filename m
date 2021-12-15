@@ -1,68 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08B784754FB
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 10:17:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 553764754FC
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 10:18:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73CF510E263;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF35310E266;
 	Wed, 15 Dec 2021 09:17:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
  [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0E6210E266
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 09:17:49 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id DEC905C01B7;
- Wed, 15 Dec 2021 04:17:48 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FAA010E263
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 09:17:51 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id B971F5C0107;
+ Wed, 15 Dec 2021 04:17:50 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 15 Dec 2021 04:17:48 -0500
+ by compute3.internal (MEProxy); Wed, 15 Dec 2021 04:17:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=/MC6ocC+Uqq4G
- cLMXwG0i7l5TokcZOgvSd3Vc9LbGMg=; b=BG23RJKgOqfZL2OPLMRWT1rMifAYD
- hUIipLuZHfQjtXJFr6XN+t/vWnwuUmDN4NnKsioqLs4SuDLrzFVWrPpM1wIqvW+E
- oIZckM0474nUBpFxnIV08V5+BFeBcgXYFqOv+yMvXyAngwc03mnMZBibFconBJr1
- D2lgRjSMCHoY1aQNHuHE4fVlfLWMuECQUgXEA57JPNHEpkHFOPmmV2x5x4xv/jvB
- l1FpL6QqRvaFWKWkZ0Pw3iO4HXi208dhucVbyQtE0VTPtIm7Ub2J4YKxhx0H9S7s
- wmJuQQof75NeSdr7GX89blnUVne2qOWU3EwEA0TPoDjFAur7RWQ1KO0Uw==
+ :mime-version:content-transfer-encoding; s=fm1; bh=SWKkoJ3u7gNv2
+ b6mk3yQuHxlVLhBuzsDbHL5T7+761M=; b=Hupe2UPWICPtg6F9fTycUTK4DzqH7
+ 5e08qXryT21vxtU2pc/rPYaHmwF/+zX1lKlr+c5vImWEJz36bBo8YeSXPGnjdlmN
+ U3FMmED3BqGeUC+w+ODTyAfHtfQsffpWbPbncYSzNSir0pU9MNysJnXCOx7fNhLJ
+ TAfuChfK5EbULfEjJdWIf28abd7RUvmW/X0ScOod7ZySswMHAiB/34opoUjol5xS
+ Syfd2ZpNwxfNws9bFqYHH595IutD388s8ZryVCF5OWsYrNtshr/SABfhwq4Rog8g
+ lf5HrhVFNTjvlWJKeFxF9HTXV7yk1jnQtVcwf3nfpl0yYujIgJWkWCt+A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=/MC6ocC+Uqq4GcLMXwG0i7l5TokcZOgvSd3Vc9LbGMg=; b=c+4HYJ9V
- yY65nkKT1bAkbQYVDW+xnaYx85BRSYyt3bx73syzgf8emMYtGgf4O3/2WSVkz4WE
- rlTKMdctHniXJvsLD/KaO1FWarKqRLUVOr2kl3tTyIH8GJbJn05aokidAJEyc88y
- 6peEaVCz4tOcf0Ub8fw58gObHsHg8+IQ9dT98uRF0HJT/Yo2qKSsNd6+QYrGwQmK
- 9agNDmU2b37Pes+IhuH0FVhin7STwbMy0Aw9GZjpZds3Vr0eUtuOqb4nc8IBacGb
- iGsEgJU+BWlXwWYQUmwJNeJcNTMnBYjnxj7dF4/Ifsa2VYoezo0W4jIVjTSPRoR+
- 5e0xdvBrUmK6pA==
-X-ME-Sender: <xms:vLK5YRc3VxWYj7oXQtFI8sZJXbRkBDWeD7y5yW9IALuD7DZS2r-dUQ>
- <xme:vLK5YfM6y3T6rGnriPR-iS1IZ4jfYPfQmwlCzEABMTnCHiMOCKoEQw4jcddN_wdPe
- znzojwmafnaYxT6YoY>
-X-ME-Received: <xmr:vLK5YajD4lqaMDU-kzeTsH3zAoYzEPfMY_0sNRPth7hAAqLpN14HYcc9UKBORFAS1rU92Gjgyc4ETHrxzhMgPcrgZvmlg-HfV-wZA5Q>
+ fm1; bh=SWKkoJ3u7gNv2b6mk3yQuHxlVLhBuzsDbHL5T7+761M=; b=brmx8iAU
+ MIC8K8cpcNW3AF5F7H5DOo2Z4Iaifv9x67fB/R9zUuhAAtC/KXM64vFGfCJFSI7j
+ hnQgmkSADvenLozaayhtjaxoKNXvBAxiSqu08/SLd3yjxlFfXdnCgKEUEdqDbxfS
+ g9xL7m2sWUy9yM82cjYgkYRXkvOXX4x5RlxrnmJVKkX3Ais8s/XVPQupsJCvM0aN
+ YYTohEBnvRJzgq+woa2AeeOMKtcz4LQ2rswxREBHnycl+CAldQ/DvahfOPCUuwti
+ Gyogo5gnd1WNG2I/BO2nwCoMFmRQnPt58pipdRGqvRlr56R+H6JGJWyZ7gCh9hgi
+ zbnvfWSLpqTrCw==
+X-ME-Sender: <xms:vrK5YRmESXi2fvZndXPpdY7ipcN6Hrj-OVdC7FPS8iDTLHe9cUVKdA>
+ <xme:vrK5Yc3Q_QC3HqFve5eTeNrKAzzlHXdvvMei2grPtZMvyrxVxO90FqWV2daQs4q_M
+ cnedJrQGRYXTdw8yVw>
+X-ME-Received: <xmr:vrK5YXptBrBWur0yuuezxqTLR8Kbh_6N7LYnC61GCVASmGZYX0slOyZkTPEDweFl9k4CUM46sbkd-MVX2GJkA9_658Kg9rXBk5621Jw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrledvgddtvdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ vdenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:vLK5Ya-qGcK_0mlWnCT-32bQLPauNdpVNasmBwKLuCLJnYVLcjmcug>
- <xmx:vLK5Yduq3gvF3jeQG6-MndbA5S_Rqg91rRWi7X3pcfdx1tRwOkLuQA>
- <xmx:vLK5YZEdGghYL5xCBeAXBoquTSRPqXwX-rlM7yYgFNWRTvQ5mlJqyg>
- <xmx:vLK5YTDm6bga8WWobmStOIPvES4mxxRrAxO6T8grjTa7XSfMTEKvYQ>
+X-ME-Proxy: <xmx:vrK5YRmlc7Z6_BYpqO6Y8zji7FjD0GHd4PpuS8HIHA3S7N0cRfRBYQ>
+ <xmx:vrK5Yf2F4bK7yRPTLrgUn_l7VW8F_NryfLZWMBHewbmdlsW4cUbB2w>
+ <xmx:vrK5YQv3iTT5rATuV8YwehJKP2U4aFBAHYRPLDdBOFo8sDtQPgG3Nw>
+ <xmx:vrK5YYKoc1FVvGoMfVcbDyO26zeinoaXhSjEUx5IkyxfAbHqELmvKw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 15 Dec 2021 04:17:48 -0500 (EST)
+ 15 Dec 2021 04:17:50 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v4 2/3] drm/vc4: plane: Add support for DRM_FORMAT_P030
-Date: Wed, 15 Dec 2021 10:17:38 +0100
-Message-Id: <20211215091739.135042-3-maxime@cerno.tech>
+Subject: [PATCH v4 3/3] drm/vc4: plane: Add support for YUV color encodings
+ and ranges
+Date: Wed, 15 Dec 2021 10:17:39 +0100
+Message-Id: <20211215091739.135042-4-maxime@cerno.tech>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211215091739.135042-1-maxime@cerno.tech>
 References: <20211215091739.135042-1-maxime@cerno.tech>
@@ -88,217 +89,160 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-The P030 format, used with the DRM_FORMAT_MOD_BROADCOM_SAND128 modifier,
-is a format output by the video decoder on the BCM2711.
+The BT601/BT709 color encoding and limited vs full
+range properties were not being exposed, defaulting
+always to BT601 limited range.
 
-Add native support to the KMS planes for that format.
+Expose the parameters and set the registers appropriately.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_plane.c | 127 ++++++++++++++++++++++++--------
- 1 file changed, 96 insertions(+), 31 deletions(-)
+ drivers/gpu/drm/vc4/vc4_plane.c | 71 +++++++++++++++++++++++++++++++--
+ drivers/gpu/drm/vc4/vc4_regs.h  | 19 ++++++---
+ 2 files changed, 82 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
-index ac761c683663..022cd12f561e 100644
+index 022cd12f561e..920a9eefe426 100644
 --- a/drivers/gpu/drm/vc4/vc4_plane.c
 +++ b/drivers/gpu/drm/vc4/vc4_plane.c
-@@ -33,6 +33,7 @@ static const struct hvs_format {
- 	u32 hvs; /* HVS_FORMAT_* */
- 	u32 pixel_order;
- 	u32 pixel_order_hvs5;
-+	bool hvs5_only;
- } hvs_formats[] = {
- 	{
- 		.drm = DRM_FORMAT_XRGB8888,
-@@ -128,6 +129,12 @@ static const struct hvs_format {
- 		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV422_2PLANE,
- 		.pixel_order = HVS_PIXEL_ORDER_XYCRCB,
- 	},
+@@ -623,6 +623,51 @@ static int vc4_plane_allocate_lbm(struct drm_plane_state *state)
+ 	return 0;
+ }
+ 
++/*
++ * The colorspace conversion matrices are held in 3 entries in the dlist.
++ * Create an array of them, with entries for each full and limited mode, and
++ * each supported colorspace.
++ */
++static const u32 colorspace_coeffs[2][DRM_COLOR_ENCODING_MAX][3] = {
 +	{
-+		.drm = DRM_FORMAT_P030,
-+		.hvs = HVS_PIXEL_FORMAT_YCBCR_10BIT,
-+		.pixel_order = HVS_PIXEL_ORDER_XYCBCR,
-+		.hvs5_only = true,
-+	},
- };
- 
- static const struct hvs_format *vc4_get_hvs_format(u32 drm_format)
-@@ -762,47 +769,90 @@ static int vc4_plane_mode_set(struct drm_plane *plane,
- 	case DRM_FORMAT_MOD_BROADCOM_SAND128:
- 	case DRM_FORMAT_MOD_BROADCOM_SAND256: {
- 		uint32_t param = fourcc_mod_broadcom_param(fb->modifier);
--		u32 tile_w, tile, x_off, pix_per_tile;
--
--		hvs_format = HVS_PIXEL_FORMAT_H264;
--
--		switch (base_format_mod) {
--		case DRM_FORMAT_MOD_BROADCOM_SAND64:
--			tiling = SCALER_CTL0_TILING_64B;
--			tile_w = 64;
--			break;
--		case DRM_FORMAT_MOD_BROADCOM_SAND128:
--			tiling = SCALER_CTL0_TILING_128B;
--			tile_w = 128;
--			break;
--		case DRM_FORMAT_MOD_BROADCOM_SAND256:
--			tiling = SCALER_CTL0_TILING_256B_OR_T;
--			tile_w = 256;
--			break;
--		default:
--			break;
--		}
- 
- 		if (param > SCALER_TILE_HEIGHT_MASK) {
--			DRM_DEBUG_KMS("SAND height too large (%d)\n", param);
-+			DRM_DEBUG_KMS("SAND height too large (%d)\n",
-+				      param);
- 			return -EINVAL;
- 		}
- 
--		pix_per_tile = tile_w / fb->format->cpp[0];
--		tile = vc4_state->src_x / pix_per_tile;
--		x_off = vc4_state->src_x % pix_per_tile;
-+		if (fb->format->format == DRM_FORMAT_P030) {
-+			hvs_format = HVS_PIXEL_FORMAT_YCBCR_10BIT;
-+			tiling = SCALER_CTL0_TILING_128B;
-+		} else {
-+			hvs_format = HVS_PIXEL_FORMAT_H264;
-+
-+			switch (base_format_mod) {
-+			case DRM_FORMAT_MOD_BROADCOM_SAND64:
-+				tiling = SCALER_CTL0_TILING_64B;
-+				break;
-+			case DRM_FORMAT_MOD_BROADCOM_SAND128:
-+				tiling = SCALER_CTL0_TILING_128B;
-+				break;
-+			case DRM_FORMAT_MOD_BROADCOM_SAND256:
-+				tiling = SCALER_CTL0_TILING_256B_OR_T;
-+				break;
-+			default:
-+				return -EINVAL;
-+			}
++		/* Limited range */
++		{
++			/* BT601 */
++			SCALER_CSC0_ITR_R_601_5,
++			SCALER_CSC1_ITR_R_601_5,
++			SCALER_CSC2_ITR_R_601_5,
++		}, {
++			/* BT709 */
++			SCALER_CSC0_ITR_R_709_3,
++			SCALER_CSC1_ITR_R_709_3,
++			SCALER_CSC2_ITR_R_709_3,
++		}, {
++			/* BT2020 */
++			SCALER_CSC0_ITR_R_2020,
++			SCALER_CSC1_ITR_R_2020,
++			SCALER_CSC2_ITR_R_2020,
 +		}
- 
- 		/* Adjust the base pointer to the first pixel to be scanned
- 		 * out.
-+		 *
-+		 * For P030, y_ptr [31:4] is the 128bit word for the start pixel
-+		 * y_ptr [3:0] is the pixel (0-11) contained within that 128bit
-+		 * word that should be taken as the first pixel.
-+		 * Ditto uv_ptr [31:4] vs [3:0], however [3:0] contains the
-+		 * element within the 128bit word, eg for pixel 3 the value
-+		 * should be 6.
- 		 */
- 		for (i = 0; i < num_planes; i++) {
-+			u32 tile_w, tile, x_off, pix_per_tile;
-+
-+			if (fb->format->format == DRM_FORMAT_P030) {
-+				/*
-+				 * Spec says: bits [31:4] of the given address
-+				 * should point to the 128-bit word containing
-+				 * the desired starting pixel, and bits[3:0]
-+				 * should be between 0 and 11, indicating which
-+				 * of the 12-pixels in that 128-bit word is the
-+				 * first pixel to be used
-+				 */
-+				u32 remaining_pixels = vc4_state->src_x % 96;
-+				u32 aligned = remaining_pixels / 12;
-+				u32 last_bits = remaining_pixels % 12;
-+
-+				x_off = aligned * 16 + last_bits;
-+				tile_w = 128;
-+				pix_per_tile = 96;
-+			} else {
-+				switch (base_format_mod) {
-+				case DRM_FORMAT_MOD_BROADCOM_SAND64:
-+					tile_w = 64;
-+					break;
-+				case DRM_FORMAT_MOD_BROADCOM_SAND128:
-+					tile_w = 128;
-+					break;
-+				case DRM_FORMAT_MOD_BROADCOM_SAND256:
-+					tile_w = 256;
-+					break;
-+				default:
-+					return -EINVAL;
-+				}
-+				pix_per_tile = tile_w / fb->format->cpp[0];
-+				x_off = (vc4_state->src_x % pix_per_tile) /
-+					(i ? h_subsample : 1) *
-+					fb->format->cpp[i];
-+			}
-+
-+			tile = vc4_state->src_x / pix_per_tile;
-+
- 			vc4_state->offsets[i] += param * tile_w * tile;
- 			vc4_state->offsets[i] += src_y /
- 						 (i ? v_subsample : 1) *
- 						 tile_w;
--			vc4_state->offsets[i] += x_off /
--						 (i ? h_subsample : 1) *
--						 fb->format->cpp[i];
-+			vc4_state->offsets[i] += x_off & ~(i ? 1 : 0);
- 		}
- 
- 		pitch0 = VC4_SET_FIELD(param, SCALER_TILE_HEIGHT);
-@@ -955,7 +1005,8 @@ static int vc4_plane_mode_set(struct drm_plane *plane,
- 
- 	/* Pitch word 1/2 */
- 	for (i = 1; i < num_planes; i++) {
--		if (hvs_format != HVS_PIXEL_FORMAT_H264) {
-+		if (hvs_format != HVS_PIXEL_FORMAT_H264 &&
-+		    hvs_format != HVS_PIXEL_FORMAT_YCBCR_10BIT) {
- 			vc4_dlist_write(vc4_state,
- 					VC4_SET_FIELD(fb->pitches[i],
- 						      SCALER_SRC_PITCH));
-@@ -1315,6 +1366,13 @@ static bool vc4_format_mod_supported(struct drm_plane *plane,
- 		default:
- 			return false;
- 		}
-+	case DRM_FORMAT_P030:
-+		switch (fourcc_mod_broadcom_mod(modifier)) {
-+		case DRM_FORMAT_MOD_BROADCOM_SAND128:
-+			return true;
-+		default:
-+			return false;
-+		}
- 	case DRM_FORMAT_RGBX1010102:
- 	case DRM_FORMAT_BGRX1010102:
- 	case DRM_FORMAT_RGBA1010102:
-@@ -1347,8 +1405,11 @@ struct drm_plane *vc4_plane_init(struct drm_device *dev,
- 	struct drm_plane *plane = NULL;
- 	struct vc4_plane *vc4_plane;
- 	u32 formats[ARRAY_SIZE(hvs_formats)];
-+	int num_formats = 0;
- 	int ret = 0;
- 	unsigned i;
-+	bool hvs5 = of_device_is_compatible(dev->dev->of_node,
-+					    "brcm,bcm2711-vc5");
- 	static const uint64_t modifiers[] = {
- 		DRM_FORMAT_MOD_BROADCOM_VC4_T_TILED,
- 		DRM_FORMAT_MOD_BROADCOM_SAND128,
-@@ -1363,13 +1424,17 @@ struct drm_plane *vc4_plane_init(struct drm_device *dev,
- 	if (!vc4_plane)
- 		return ERR_PTR(-ENOMEM);
- 
--	for (i = 0; i < ARRAY_SIZE(hvs_formats); i++)
--		formats[i] = hvs_formats[i].drm;
-+	for (i = 0; i < ARRAY_SIZE(hvs_formats); i++) {
-+		if (!hvs_formats[i].hvs5_only || hvs5) {
-+			formats[num_formats] = hvs_formats[i].drm;
-+			num_formats++;
++	}, {
++		/* Full range */
++		{
++			/* JFIF */
++			SCALER_CSC0_JPEG_JFIF,
++			SCALER_CSC1_JPEG_JFIF,
++			SCALER_CSC2_JPEG_JFIF,
++		}, {
++			/* BT709 */
++			SCALER_CSC0_ITR_R_709_3_FR,
++			SCALER_CSC1_ITR_R_709_3_FR,
++			SCALER_CSC2_ITR_R_709_3_FR,
++		}, {
++			/* BT2020 */
++			SCALER_CSC0_ITR_R_2020_FR,
++			SCALER_CSC1_ITR_R_2020_FR,
++			SCALER_CSC2_ITR_R_2020_FR,
 +		}
 +	}
++};
++
+ /* Writes out a full display list for an active plane to the plane's
+  * private dlist state.
+  */
+@@ -1017,9 +1062,20 @@ static int vc4_plane_mode_set(struct drm_plane *plane,
  
- 	plane = &vc4_plane->base;
- 	ret = drm_universal_plane_init(dev, plane, 0,
- 				       &vc4_plane_funcs,
--				       formats, ARRAY_SIZE(formats),
-+				       formats, num_formats,
- 				       modifiers, type, NULL);
- 	if (ret)
- 		return ERR_PTR(ret);
+ 	/* Colorspace conversion words */
+ 	if (vc4_state->is_yuv) {
+-		vc4_dlist_write(vc4_state, SCALER_CSC0_ITR_R_601_5);
+-		vc4_dlist_write(vc4_state, SCALER_CSC1_ITR_R_601_5);
+-		vc4_dlist_write(vc4_state, SCALER_CSC2_ITR_R_601_5);
++		enum drm_color_encoding color_encoding = state->color_encoding;
++		enum drm_color_range color_range = state->color_range;
++		const u32 *ccm;
++
++		if (color_encoding >= DRM_COLOR_ENCODING_MAX)
++			color_encoding = DRM_COLOR_YCBCR_BT601;
++		if (color_range >= DRM_COLOR_RANGE_MAX)
++			color_range = DRM_COLOR_YCBCR_LIMITED_RANGE;
++
++		ccm = colorspace_coeffs[color_range][color_encoding];
++
++		vc4_dlist_write(vc4_state, ccm[0]);
++		vc4_dlist_write(vc4_state, ccm[1]);
++		vc4_dlist_write(vc4_state, ccm[2]);
+ 	}
+ 
+ 	vc4_state->lbm_offset = 0;
+@@ -1448,6 +1504,15 @@ struct drm_plane *vc4_plane_init(struct drm_device *dev,
+ 					   DRM_MODE_REFLECT_X |
+ 					   DRM_MODE_REFLECT_Y);
+ 
++	drm_plane_create_color_properties(plane,
++					  BIT(DRM_COLOR_YCBCR_BT601) |
++					  BIT(DRM_COLOR_YCBCR_BT709) |
++					  BIT(DRM_COLOR_YCBCR_BT2020),
++					  BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
++					  BIT(DRM_COLOR_YCBCR_FULL_RANGE),
++					  DRM_COLOR_YCBCR_BT709,
++					  DRM_COLOR_YCBCR_LIMITED_RANGE);
++
+ 	return plane;
+ }
+ 
+diff --git a/drivers/gpu/drm/vc4/vc4_regs.h b/drivers/gpu/drm/vc4/vc4_regs.h
+index 489f921ef44d..7538b84a6dca 100644
+--- a/drivers/gpu/drm/vc4/vc4_regs.h
++++ b/drivers/gpu/drm/vc4/vc4_regs.h
+@@ -975,7 +975,10 @@ enum hvs_pixel_format {
+ #define SCALER_CSC0_COEF_CR_OFS_SHIFT		0
+ #define SCALER_CSC0_ITR_R_601_5			0x00f00000
+ #define SCALER_CSC0_ITR_R_709_3			0x00f00000
++#define SCALER_CSC0_ITR_R_2020			0x00f00000
+ #define SCALER_CSC0_JPEG_JFIF			0x00000000
++#define SCALER_CSC0_ITR_R_709_3_FR		0x00000000
++#define SCALER_CSC0_ITR_R_2020_FR		0x00000000
+ 
+ /* S2.8 contribution of Cb to Green */
+ #define SCALER_CSC1_COEF_CB_GRN_MASK		VC4_MASK(31, 22)
+@@ -990,8 +993,11 @@ enum hvs_pixel_format {
+ #define SCALER_CSC1_COEF_CR_BLU_MASK		VC4_MASK(1, 0)
+ #define SCALER_CSC1_COEF_CR_BLU_SHIFT		0
+ #define SCALER_CSC1_ITR_R_601_5			0xe73304a8
+-#define SCALER_CSC1_ITR_R_709_3			0xf2b784a8
+-#define SCALER_CSC1_JPEG_JFIF			0xea34a400
++#define SCALER_CSC1_ITR_R_709_3			0xf27784a8
++#define SCALER_CSC1_ITR_R_2020			0xf43594a8
++#define SCALER_CSC1_JPEG_JFIF			0xea349400
++#define SCALER_CSC1_ITR_R_709_3_FR		0xf4388400
++#define SCALER_CSC1_ITR_R_2020_FR		0xf5b6d400
+ 
+ /* S2.8 contribution of Cb to Red */
+ #define SCALER_CSC2_COEF_CB_RED_MASK		VC4_MASK(29, 20)
+@@ -1002,9 +1008,12 @@ enum hvs_pixel_format {
+ /* S2.8 contribution of Cb to Blue */
+ #define SCALER_CSC2_COEF_CB_BLU_MASK		VC4_MASK(19, 10)
+ #define SCALER_CSC2_COEF_CB_BLU_SHIFT		10
+-#define SCALER_CSC2_ITR_R_601_5			0x00066204
+-#define SCALER_CSC2_ITR_R_709_3			0x00072a1c
+-#define SCALER_CSC2_JPEG_JFIF			0x000599c5
++#define SCALER_CSC2_ITR_R_601_5			0x00066604
++#define SCALER_CSC2_ITR_R_709_3			0x00072e1d
++#define SCALER_CSC2_ITR_R_2020			0x0006b624
++#define SCALER_CSC2_JPEG_JFIF			0x00059dc6
++#define SCALER_CSC2_ITR_R_709_3_FR		0x00064ddb
++#define SCALER_CSC2_ITR_R_2020_FR		0x0005e5e2
+ 
+ #define SCALER_TPZ0_VERT_RECALC			BIT(31)
+ #define SCALER_TPZ0_SCALE_MASK			VC4_MASK(28, 8)
 -- 
 2.33.1
 
