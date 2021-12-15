@@ -1,141 +1,112 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4215B47582A
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 12:49:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E58B475850
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 13:01:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 982E510E1AB;
-	Wed, 15 Dec 2021 11:49:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD37C10E8C2;
+	Wed, 15 Dec 2021 12:01:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
- [205.220.177.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0AC310E216;
- Wed, 15 Dec 2021 11:49:20 +0000 (UTC)
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BFBSuet028543; 
- Wed, 15 Dec 2021 11:49:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
- bh=kCLJlGeKm5XEiPIh0XtP3dohzdyA0M6MUtd0BRzJw2s=;
- b=f1UMYOrSMwto9h1KJ+kGRiBorHWSubefyKIvBT4SBTrUVP2bfU7pVGq+17erN9qSwW6K
- L8toVYmQGSPLPRRnUfwQpWLEnFp1wl1dnhcphVMuhXt7pvuLzUxS5j9cD/XYb4zKaAmH
- oz2GNGTB9KnhnaMsvEuIy/HeCoVZQUrx4KVhsCFbDfu925vkH+vMEdni6QjRi7UCWmAV
- zag2AmpBqCICVhoKa052QrlLFXmzEF80f9GFhawCn862AzyYBlDlGXVhC7dhojcu/XPn
- zIZq8Cfvdog6996W4AV0CVnw+MptTfGfLWp1Dps/FpFIOUJERSCm1paFWrqJJwNuWr8J PQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by mx0b-00069f02.pphosted.com with ESMTP id 3cx3ukek15-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Dec 2021 11:49:17 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1BFBg5t7154807;
- Wed, 15 Dec 2021 11:49:17 GMT
-Received: from nam04-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam08lp2174.outbound.protection.outlook.com [104.47.73.174])
- by aserp3030.oracle.com with ESMTP id 3cvj1fa72y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Dec 2021 11:49:17 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K8Ez8mgtopWH98ZAO561e/KeJLI86ww5LCiTcgcTC6THb97SVpKzujfeCAJJl+EULj7jje/iUTTF24z6Ec3sgdEOf9Z85v8gdQ0VgrybxOdkGPze641w8gHjotglyWWVJdu8Qs65cKaQcTF+l/8gu82UUrQJOU2cuwnq2KCp1tNk6/9r/xBXviEPltplCFL/PrCxy0srGSdbrWOwpOdlF+WYmb+cy8GJJ7AhvVwM8sj4j8sJ1SagOug6ZzLLnsFCV3/NYMFozTt6LFW+zA9Trt6FzJirOS6P4lZqk2AI3jJbQXnJzhvX/LUElXTvxIR3NtURjkEgPRbyyxAEsEz+oA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kCLJlGeKm5XEiPIh0XtP3dohzdyA0M6MUtd0BRzJw2s=;
- b=TVJxDBslCAB3zfSvQScZ5zddIRJES2aFmhgSWak3gOSJ0E3liqaxKN8cW0gpAF8or5BfBvtp91aqowPx3Uq5W/9rzASv0DTiJ8OHTNbbhiMGqt16DHIPR6UAy+fhkR1RjnSyEIkZNN+4P6XCiIen8UqgWHJvqIqJIATtAvgKARdat6pRCdlEK6RakiWosnYYR2L7FwWDODwCMtxkVxDZGb4hQb9rXWk9BATPBzaEho3hAwdNk/NmJmRwgLDdkSeFv7J8gjfXkhI3jVLZXGmTwBIKsybLhj9h9VYB4imI0xKo3BBmpCihiHrWN5xuJnHNLaWQNG1oDu+YvJnOI/4jIg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kCLJlGeKm5XEiPIh0XtP3dohzdyA0M6MUtd0BRzJw2s=;
- b=Bd2ghvTx5OCYekv0gyjRSSEq/5aA4gvwyhOd6wu5LP6ONqBCClvM41qt12tMu9ksQgzPgnU6xAvU01gzUVbGUDQTCwq/lneiRr417LR4XbT3Yg4jstZ8PPdOexBNbI40ClejtHN783HkSO6iHb9eagPl5yc3eZR9TW+tgJDGAiw=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by MWHPR10MB1664.namprd10.prod.outlook.com
- (2603:10b6:301:9::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.18; Wed, 15 Dec
- 2021 11:49:15 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::7194:c377:36cc:d9f0]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::7194:c377:36cc:d9f0%6]) with mapi id 15.20.4801.014; Wed, 15 Dec 2021
- 11:49:15 +0000
-Date: Wed, 15 Dec 2021 14:49:01 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Rob Clark <robdclark@gmail.com>, Kuogee Hsieh <quic_khsieh@quicinc.com>
-Subject: [PATCH] drm/msm/dp: Fix double free on error in msm_dp_bridge_init()
-Message-ID: <20211215114900.GD14552@kili>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-ClientProxiedBy: ZR0P278CA0136.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:40::15) To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6D7010E8C2
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 12:01:24 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20211215120122euoutp02fc36a18471e6712d69f91c4024f3dc6b~A6-CVloSS0749807498euoutp02Q
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 12:01:22 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20211215120122euoutp02fc36a18471e6712d69f91c4024f3dc6b~A6-CVloSS0749807498euoutp02Q
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1639569682;
+ bh=fSZi4PhN1JaRJvewgX6y1hkPsgS+QPS0Et/bHDoJFVA=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=LDl09+KkGWFhTObOmrfeOTvq2JEw1NvLogBqAdFA7vbD/9PZZZGlFYfJNZu6O6L7l
+ /yMa1A899+KYKnC2VKTeiUrv6Vd/c9GE+NCufnAgK9phcIOR2Hs8N5iSxjfQGseofP
+ KNvq0ga67FlMjhrIn1ckqcusOvSktOffAGUvA3J8=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20211215120122eucas1p24694db815375f5f16b04d1a4452d3384~A6-B2u_tu1594515945eucas1p2I;
+ Wed, 15 Dec 2021 12:01:22 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id C3.7E.09887.219D9B16; Wed, 15
+ Dec 2021 12:01:22 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20211215120121eucas1p296d3a792bafc5ea423e364beb7bac963~A6-BWCNZT1215212152eucas1p23;
+ Wed, 15 Dec 2021 12:01:21 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20211215120121eusmtrp28d8fc0767e59af83d4aea0cafe96730b~A6-BVAhXZ2310623106eusmtrp2f;
+ Wed, 15 Dec 2021 12:01:21 +0000 (GMT)
+X-AuditID: cbfec7f4-471ff7000000269f-42-61b9d912c4dd
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id A7.CD.09404.119D9B16; Wed, 15
+ Dec 2021 12:01:21 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20211215120120eusmtip2bf17433382c34b69edb261d4648fc27d~A6-AXAK0U1275212752eusmtip2A;
+ Wed, 15 Dec 2021 12:01:20 +0000 (GMT)
+Message-ID: <39f646d7-9d49-045a-2cf5-3cdc12486cb3@samsung.com>
+Date: Wed, 15 Dec 2021 13:01:20 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cbff2a61-7a30-458c-87b8-08d9bfc0eafb
-X-MS-TrafficTypeDiagnostic: MWHPR10MB1664:EE_
-X-Microsoft-Antispam-PRVS: <MWHPR10MB1664BB31936C7B42BD9D0F898E769@MWHPR10MB1664.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: k5CIXs8SotImzWn6BjeJhMHJethpRpuDIKtRgdZAGuKnaNi5qcUpcJiwzJN/VQtOGCkYT5plJamj2H6yxzIySLeldWg3JXYG4pbtUZJ02I3z6r3fXwqnYm2dWIpyRe4lmXmCgknSS2Aq5Vs7+3JvnrDxHCAdNRFwqo5VE3tRxX738Ub+mL6E4IcBNzKhcfPdZVu8TImQmAC8chIraxcnKUTuFjK2vLa+3cPRO5u7UaZZljCjNw9+EYITgSJNbArkBjA1mCPsBhOLFqX/LUzPapeAESXQnUgJvYl5CSAshCd/XR2g9DSlvzr//irh3iGpn4j8KC0VFA2MIxYCkyGCHgVQJ3CoErDK5womUsLUh8+FLCXgltflzuVT9AajQae9OGuEtAFIoTxrM+iVCXNlPGjMHhzWtDXNTTbT2zSsHk2r5hpcf4U6H1ElZKYVDWQnhKLsEyUaIuYkqmfBwDoGBiLRiUGWhADlZkk/TL/xv9ZkW1Fp1GYWEhzYsCq19cp2KMjdGxe9pOuc1z4pXsxZ0nhbJ5b3t+YsdOEcDRXYyRdxom+AfJpDouYCxwIPBnZREQd/nm5EnsuKBB3tGpMsAOKzZUdjJQFCrT5PsFmZkWRDnoImgKrA+MYoh4iFDaJLRubuxDDZYfoJg811bOdHifpxhqJ8oFGhftUQvgKqdBUfwA9lTXRdDxgixPCoTjgZ62kqnUwZjyeLrC3zwqq82g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(7916004)(366004)(38100700002)(6512007)(9686003)(4326008)(38350700002)(26005)(66946007)(6666004)(33716001)(44832011)(8676002)(66476007)(66556008)(5660300002)(86362001)(54906003)(1076003)(2906002)(110136005)(4744005)(8936002)(52116002)(83380400001)(508600001)(6506007)(6486002)(7416002)(186003)(33656002)(316002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?dZQ3PnfOp2XvWgdwNqff0qG6tC8BMh1FQr+SpfTQ1NIn8sL3dIPU5/dScAd4?=
- =?us-ascii?Q?meFtpPOslFDl2RArMSyUA0GVNfiyd/DdpuXkA4vbvrdbGPr4hn1vP9rJA9wR?=
- =?us-ascii?Q?jpybsKlmVWJ5E+JxzHD8tD+H7J0JdbU4TXp1FHj25M8fUL0FIF2mWznw+Ovy?=
- =?us-ascii?Q?bZ0cbWJLQUBB5FN10YpLY7iaMyYAZQF58e9DAdPhUKR5qyfjGSrN1SwrrpcE?=
- =?us-ascii?Q?VmwFY42NJSvYBwOQsgFfncpa9XHyr1ZV1ecg2VXtNkslMq0WQFwbDyLQRAmh?=
- =?us-ascii?Q?esEc16sWOCJeq7Vt5WNZQ2Em6oGgFcyrSa0SFJ8PLZScztr2B+9Pe1F1LxpU?=
- =?us-ascii?Q?hn24Y/6QdyYevcgECj5GU5JeSs4DfHq6lKiSpHzA5rhKrginCIhP5WMMrsVp?=
- =?us-ascii?Q?qyDtcIigWAZcm4Y5e/Z/RXSRA2dSHJSNGVw/hYKEQh0zuJycPFFBmrxi3BQh?=
- =?us-ascii?Q?EzES3492ixRPNWCfFk3cVkSGzQc3r2NL5hLClisJ8+FXe0hiHBdUoAu0PZDC?=
- =?us-ascii?Q?M0WpFomNluLc8qpIu0d4yx1MDYYKEtolLAgMPnvOUQd6B6JyOSiyidvpq6Hv?=
- =?us-ascii?Q?ufc/DHRaQMVXFQ097TroLr0AgwRRufFYdOihNtysiqp7NLQtPlXAXIlJc04F?=
- =?us-ascii?Q?ObP7Llk7ny0KkRBRv/FnsEkZGTy6DuwXA+z7rVqE18NtD54EIfNdhpexRQ+Z?=
- =?us-ascii?Q?KkeOCKfHvrBc0OZg3lPvTz0W52xz5alBMI2f7r3kvI8Yf+UScMSrKarWaNra?=
- =?us-ascii?Q?HL8NWiLlnR4WxB9X3UBcPloPPWZZEUEiq3yssdjMGwpDwY1JMSyrTJ4onbwx?=
- =?us-ascii?Q?R93UA+iokRROj/pN9mLtOVG9/gTBdBRwZ9wmHTsaZviDEQSstZWsPc+8hT6b?=
- =?us-ascii?Q?4pxItbfqt/S0XHh//F0PQsHBazT9DPXhExvatDzi6+mp7G4Lg5PNVn2j5Adi?=
- =?us-ascii?Q?wVWGL8HN4u/nwegDll8dpgLltqsNpb1wc4d4dHIus8TSj8Eg2WebfumXPt+z?=
- =?us-ascii?Q?olRHXjLKBOxexUhD2nstruZIkS1pi3AQpPrbSbIjyyiY57fqj/D/aehrzJZW?=
- =?us-ascii?Q?2JLiM7VCa2LEWcEpKKf+P85bRbDTTwgHu++CMpKLe7p7lzagD8TtpHgIqgxC?=
- =?us-ascii?Q?1pnthiYy5saiPVj/S7KBymoq37kUe/udvcYqdg6Xr0EaKeV3pqBP9V9Lb8fW?=
- =?us-ascii?Q?DSlT8woI1IThClbkdoSgP1iRF23Pibe/LG98/vUQq9AOb3qXlZYUwhHrJmfU?=
- =?us-ascii?Q?zWupkVpb32HhkF/QsAasGx7B7FaKSDYZqpyJvzRKlCPrprpliXpWB2k1QmX2?=
- =?us-ascii?Q?X3yCSSPTHgwpMN9nYWjhnOzDrpx2ycuwKXbTKIyZBnQuvdF1EnpdtM1vYxwd?=
- =?us-ascii?Q?uqMj94iCjDyGGhU9cy4BymPfWvN5rP51vpB1KvTypJiSQLvO7MN0i4HPQxOa?=
- =?us-ascii?Q?AUuewxzGFo8lSsh1aqHMVFHkJmSFXDNcexQiAyluIHMC53XBZl3TqNQCImzv?=
- =?us-ascii?Q?lq9dgA66r3S05b77SOhA9HPW7k0vDo7sS1hUN0bZy+NsGrkqB6ua4PkY3Sy4?=
- =?us-ascii?Q?Ol5cNWg0aDBPBQ7ghNku16wzvwnWVbl1/YM5bKf0vKT5Sh+18Y9bbmrvE3dO?=
- =?us-ascii?Q?G+L6fataSl9D4UxCWFBYxaGpwYrXEjctS36AzVESTOsG2KAvsmF9w3geFykf?=
- =?us-ascii?Q?qn4jBRhYvIMQS1ZnYG1Ry9Uj3gg=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cbff2a61-7a30-458c-87b8-08d9bfc0eafb
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2021 11:49:15.0732 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8hyBz2i2OMYAecVr3/V0vMJtldzyxQQUMSi89qYt5XixkMZF2qK5lNEgivSmuP2NWgVbl0OSqufp34M2QFD3mp8P/lil7sPJXciRCtepamo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1664
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10198
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- mlxlogscore=999
- suspectscore=0 bulkscore=0 mlxscore=0 spamscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112150065
-X-Proofpoint-GUID: X3IE-xODy5KVqjc7umG5BLJqkBfqe42y
-X-Proofpoint-ORIG-GUID: X3IE-xODy5KVqjc7umG5BLJqkBfqe42y
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
+ Gecko/20100101 Thunderbird/91.4.0
+Subject: Re: [PATCH v4 0/6] drm: exynos: dsi: Convert drm bridge
+Content-Language: en-US
+To: Jagan Teki <jagan@amarulasolutions.com>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <narmstrong@baylibre.com>, Robert
+ Foss <robert.foss@linaro.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>, Inki Dae
+ <inki.dae@samsung.com>
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20211215101534.45003-1-jagan@amarulasolutions.com>
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrDKsWRmVeSWpSXmKPExsWy7djP87pCN3cmGqx6qWFxf/FnFosrX9+z
+ WUy6P4HF4sumCWwWnROXsFssn7CPzeJUYyuLxaG+aItPsx4yW6z4uZXRgctj7cf7rB7vb7Sy
+ e8zumMnqsXjPSyaPO9f2sHnc7z7O5LFk2lU2j74tqxgDOKK4bFJSczLLUov07RK4Mq7M6WQp
+ +MtRsfrAHuYGxlb2LkZODgkBE4mzG7aydTFycQgJrGCUOPlkJytIQkjgC6PEojXZEInPjBLb
+ rm1jgulY//g0E0RiOaPEhEMnoNo/AlV9eQ82l1fATmLn1bssXYwcHCwCqhLTe1UgwoISJ2c+
+ YQGxRQWSJFo7/oANFRZwkGjo+Ay2mVlAXOLWk/lgC0QEHjFJPP3zHyrhLvH0zTZmEJtNwFCi
+ 620XG4jNCdR8c/MRFogaeYntb+cwgzRLCHRzSvx/s4YV4mwXiR87LkHZwhKvjm+BBoCMxP+d
+ ENskBJoZJR6eW8sO4fQwSlxumsEIUWUtcefcLzaQd5gFNCXW79KHCDtKvD91mhEkLCHAJ3Hj
+ rSDEEXwSk7ZNZ4YI80p0tAlBVKtJzDq+Dm7twQuXmCcwKs1CCpdZSP6fheSdWQh7FzCyrGIU
+ Ty0tzk1PLTbKSy3XK07MLS7NS9dLzs/dxAhMYKf/Hf+yg3H5q496hxiZOBgPMUpwMCuJ8C41
+ 2JkoxJuSWFmVWpQfX1Sak1p8iFGag0VJnDc5c0OikEB6YklqdmpqQWoRTJaJg1OqgWm2qfHV
+ VLfWdI0JhZv3XKr+GrHfoTvpXc3Lp/8d2a/Upxk/7m7ZF/xj3eP/PevbJ+/k2e5SeehXfd7m
+ kCVaByoPrqmZ8cav55Grx1fTHUdVtiuuOC3PMKEr4VzKMaVU829Gp2PXHD2z+7sx42zr2ddL
+ co8HVUz2TexcFeqh8rwuffvk8/4ik/VMUld57Tp4LqnE5djOi1+Tc+8tWb/k4TrW88mHOIpS
+ uju3POU1Ml7mpHHyydSNjiovHaYvkeq6dudDWHKq3hwz64pQXZejHiozbbgifx/3uJGTfZr5
+ r1+s1rmg/u96Ldd2Tg2fd8N74//mUyw62r/qT1y5HF9QrcjQpbV3gk5w7osMj++zksqUWIoz
+ Eg21mIuKEwFTLizrzwMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrPIsWRmVeSWpSXmKPExsVy+t/xe7qCN3cmGny4YWFxf/FnFosrX9+z
+ WUy6P4HF4sumCWwWnROXsFssn7CPzeJUYyuLxaG+aItPsx4yW6z4uZXRgctj7cf7rB7vb7Sy
+ e8zumMnqsXjPSyaPO9f2sHnc7z7O5LFk2lU2j74tqxgDOKL0bIryS0tSFTLyi0tslaINLYz0
+ DC0t9IxMLPUMjc1jrYxMlfTtbFJSczLLUov07RL0Mq7M6WQp+MtRsfrAHuYGxlb2LkZODgkB
+ E4n1j08zdTFycQgJLGWU2HvsHzNEQkbi5LQGVghbWOLPtS42iKL3jBJ3TjwF6+YVsJPYefUu
+ SxcjBweLgKrE9F4ViLCgxMmZT1hAbFGBJInd67aygdjCAg4SDR2fwWYyC4hL3HoyH2yxiMAz
+ Jomjm9ZCJdwlnr7ZxgyxbDKjxP1bnYwgCTYBQ4mut11gkziBJt3cfIQFosFMomtrFyOELS+x
+ /e0c5gmMQrOQHDILycJZSFpmIWlZwMiyilEktbQ4Nz232EivODG3uDQvXS85P3cTIzBmtx37
+ uWUH48pXH/UOMTJxMB5ilOBgVhLhXWqwM1GINyWxsiq1KD++qDQntfgQoykwMCYyS4km5wOT
+ Rl5JvKGZgamhiZmlgamlmbGSOK9nQUeikEB6YklqdmpqQWoRTB8TB6dUA9PMS7Fei5I3yeep
+ W3GW2T3S+FPCn81Z5+5zbtLbjUrubKzHTF7P3X7cy2nbi3WJwhnbPglWS99+UrlZNfWd5KSF
+ bQ4fl8/kXbt9bXX/nPADIlVXb/AIrGXSUny2nFXe+XfdA8HfrMZrXt8PSl386MDzc2dqX1a7
+ 7Pr79p3hm92fIrrvzjKUldl+uuzQvu5/m9l2LG957967aG/ihqq1Zj82Mt68KX1kNoNFz+WP
+ Rzb8ODPljt3GRczenLNmzNMTv7vmw4EJU1bkbyk2fZz46cCNX6suc62d4zZvbk577xdhrWn9
+ 7Kmzy4Qm7GXt3pzQZP3ffZ61x603Wn48R15GeWloPwi4yTb7otIxdQ+RisQn95VYijMSDbWY
+ i4oTARI9ck1iAwAA
+X-CMS-MailID: 20211215120121eucas1p296d3a792bafc5ea423e364beb7bac963
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20211215101548eucas1p2a7f4a64ae55364181eec3db3ad5d6ef7
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20211215101548eucas1p2a7f4a64ae55364181eec3db3ad5d6ef7
+References: <CGME20211215101548eucas1p2a7f4a64ae55364181eec3db3ad5d6ef7@eucas1p2.samsung.com>
+ <20211215101534.45003-1-jagan@amarulasolutions.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,35 +119,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, kernel-janitors@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>
+Cc: linux-amarula@amarulasolutions.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The "dp_bridge" pointer is allocated with devm_kzalloc() so it will be
-freed automatically.  Kfreeing it here will only lead to a double free.
+Hi Jagan,
 
-Fixes: 8a3b4c17f863 ("drm/msm/dp: employ bridge mechanism for display enable and disable")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
- drivers/gpu/drm/msm/dp/dp_drm.c | 1 -
- 1 file changed, 1 deletion(-)
+On 15.12.2021 11:15, Jagan Teki wrote:
+> Updated series about drm bridge conversion of exynos dsi.
+> Previous version can be accessible, here [1].
+>
+> Patch 1: connector reset
+>
+> Patch 2: panel_bridge API
+>
+> Patch 3: Bridge conversion
+>
+> Patch 4: Atomic functions
+>
+> Patch 5: atomic_set
+>
+> Patch 6: DSI init in enable
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-index 188e77c59885..d4d360d19eba 100644
---- a/drivers/gpu/drm/msm/dp/dp_drm.c
-+++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-@@ -243,7 +243,6 @@ struct drm_bridge *msm_dp_bridge_init(struct msm_dp *dp_display, struct drm_devi
- 	rc = drm_bridge_attach(encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
- 	if (rc) {
- 		DRM_ERROR("failed to attach bridge, rc=%d\n", rc);
--		kfree(dp_bridge);
- 		return ERR_PTR(rc);
- 	}
- 
+There is a little progress! :)
+
+Devices with a simple display pipeline (only a DSI panel, like 
+Trats/Trats2) works till the last patch. Then, after applying ("[PATCH 
+v4 6/6] drm: exynos: dsi: Move DSI init in bridge enable"), I get no 
+display at all.
+
+A TM2e board with in-bridge (Exynos MIC) stops displaying anything after 
+applying patch "[PATCH v4 2/6] drm: exynos: dsi: Use drm panel_bridge API".
+
+In case of the Arndale board with tc358764 bridge, no much progress. The 
+display is broken just after applying the "[PATCH v2] drm: bridge: 
+tc358764: Use drm panel_bridge API" patch on top of linux-next.
+
+In all cases the I had "drm: of: Lookup if child node has panel or 
+bridge" patch applied.
+
+Best regards
 -- 
-2.20.1
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
