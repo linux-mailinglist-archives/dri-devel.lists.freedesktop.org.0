@@ -1,38 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D29BA475639
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 11:24:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 739B1475634
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 11:24:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 142C810E478;
-	Wed, 15 Dec 2021 10:24:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A252510E471;
+	Wed, 15 Dec 2021 10:24:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76D7110E46F;
- Wed, 15 Dec 2021 10:24:35 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10198"; a="299974349"
-X-IronPort-AV: E=Sophos;i="5.88,207,1635231600"; d="scan'208";a="299974349"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Dec 2021 02:24:35 -0800
-X-IronPort-AV: E=Sophos;i="5.88,207,1635231600"; d="scan'208";a="614655687"
-Received: from adalyx-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.7.70])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Dec 2021 02:24:30 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, airlied@linux.ie, daniel@ffwll.ch
-Subject: Re: [PATCH 0/3] drm/dp: Move DisplayPort helpers into own module
-In-Reply-To: <83ab4452-3744-20fe-e3ba-5bd4b48622e3@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20211213093650.19598-1-tzimmermann@suse.de>
- <87lf0o7hnv.fsf@intel.com> <83ab4452-3744-20fe-e3ba-5bd4b48622e3@suse.de>
-Date: Wed, 15 Dec 2021 12:24:22 +0200
-Message-ID: <87sfuu4149.fsf@intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78D7910E450
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 10:24:34 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id B7060292;
+ Wed, 15 Dec 2021 11:24:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1639563873;
+ bh=4g2mn2I5Vuf+M4ULqrRTf1ix167MP5AovRDWSM6vWdY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hYc7IL/Ryo4b3RizgsZGK0HuKYBskoaqVfLBbSMp6Rrm9z2o9Pz6rArzdnG9pfXXS
+ 13Xfd3Hgcqx6WMcHUt+ZU9Gq1ENNgclQ794Sw1uSabXns3S2X/yDOaxOiKbP5p+k+M
+ sfA1tKgOONxFJakcUyXdAo8XLvXj+87s1PA1A7GA=
+Date: Wed, 15 Dec 2021 12:24:30 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH 1/3] drm: rcar-du: DRM_RCAR_DW_HDMI should depend on
+ ARCH_RENESAS
+Message-ID: <YbnCXreb5zjqH9r6@pendragon.ideasonboard.com>
+References: <cover.1639559338.git.geert+renesas@glider.be>
+ <0cb4593af06b64eb43a316913dc4bf83d46d7d7f.1639559338.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <0cb4593af06b64eb43a316913dc4bf83d46d7d7f.1639559338.git.geert+renesas@glider.be>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,55 +48,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- nouveau@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Cc: Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
+ Koji Matsuoka <koji.matsuoka.xm@renesas.com>, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Ulrich Hecht <ulrich.hecht+renesas@gmail.com>,
+ LUU HOAI <hoai.luu.ub@renesas.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 13 Dec 2021, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Hi
->
-> Am 13.12.21 um 14:34 schrieb Jani Nikula:
->> On Mon, 13 Dec 2021, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->>> Split-off DisplayPort functions from KMS helper library and move them
->>> into their own module. Reduces the size of drm_kms_helper.ko by ~50%.
->>>
->>> This patchset is part of an on-going effort to reduce the minimum
->>> binary size of the DRM core and helpers. It's helpful for systems with
->>> early-boot DRM graphics, which requires DRM to be linked into the
->>> kernel image.
->> 
->> Would it be time to add a subdirectory for each non-driver, non-core drm
->> module? We've touched this topic before. I find it increasingly hard to
->> remember which files are part of helpers. This would also help with the
->> arbitrary drm_dp_helper_mod.c naming.
->> 
->> Perhaps drivers/gpu/drm/drm_dp/?
->
-> It's probably worth it, but I'd prefer a separate patchset and 
-> discussion over this. It affects several modules.
+Hi Geert,
 
-I guess the only thing here that we need to get right from the start is
-the new module name, everything else is relatively easy to change
-later. drm_dp_helper.ko seems fine by me.
+Thank you for the patch.
 
-Note that this will also affect the drm_kms_helper.ko module parameters
-dp_aux_i2c_speed_khz, dp_aux_i2c_transfer_size and
-drm_dp_cec_unregister_delay, which will move to drm_dp_helper.ko.
+On Wed, Dec 15, 2021 at 10:27:45AM +0100, Geert Uytterhoeven wrote:
+> The Renesas R-Car Gen3 and RZ/G2 internal HDMI encoder is only present
+> on Renesas R-Car Gen3 and RZ/G2 SoCs.  Hence add a dependency on
+> ARCH_RENESAS, to prevent asking the user about this driver when
+> configuring a kernel without Renesas SoC support.
+> 
+> Fixes: 40d0fa7095d06c73 ("drm: rcar-du: Add Gen3 HDMI encoder support")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  drivers/gpu/drm/rcar-du/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+> index f6e6a6d5d987bf95..65d72be50f46f19e 100644
+> --- a/drivers/gpu/drm/rcar-du/Kconfig
+> +++ b/drivers/gpu/drm/rcar-du/Kconfig
+> @@ -25,6 +25,7 @@ config DRM_RCAR_CMM
+>  config DRM_RCAR_DW_HDMI
+>  	tristate "R-Car Gen3 and RZ/G2 DU HDMI Encoder Support"
+>  	depends on DRM && OF
+> +	depends on ARCH_RENESAS || COMPILE_TEST
 
-See the monstrosity near the top of drm_kms_helper_common.c I had to add
-for backward compatibility when I moved drm_edid_load.c from
-drm_kms_helper.ko to drm.ko. That was perhaps different, as these seem
-more like debug knobs, but at a minimum this needs to be mentioned in
-the commit message, and certainly needs acks from Dave and/or Daniel.
+Let's move this entry first to keep alphabetical order.
 
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-BR,
-Jani.
-
-
+>  	select DRM_DW_HDMI
+>  	help
+>  	  Enable support for R-Car Gen3 or RZ/G2 internal HDMI encoder.
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+Regards,
+
+Laurent Pinchart
