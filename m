@@ -1,39 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08C2147628B
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 21:02:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB12447628E
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 21:02:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A20DA10E45D;
-	Wed, 15 Dec 2021 20:02:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58B6310EC27;
+	Wed, 15 Dec 2021 20:02:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from letterbox.kde.org (letterbox.kde.org
- [IPv6:2001:41c9:1:41e::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 289C910E45D
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 20:02:38 +0000 (UTC)
-Received: from vertex.localdomain (pool-108-36-85-85.phlapa.fios.verizon.net
- [108.36.85.85]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id 737C12841E9;
- Wed, 15 Dec 2021 20:02:35 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1639598556; bh=EGdE6AlTiPorB9nCfwymHYgKluUiL6dlw63nY7or5ZE=;
- h=From:To:Cc:Subject:Date:From;
- b=C5oHD9JoborxpYc3ilZJMoM8whQxFTCG7o9O54fnlqvVXYBqEvC5gNOGCxWN971Oe
- in8DVVcULYYRc1DAGjiU4pwsEcxXJtHDn+EYTc16OLVhIYh0UCFDbgZHkmpaGepY15
- TVujZFWU+6CE372YEqo1JQQrEJ8V6EtOT/YYkXI70H+m3NhJxDu2wY2G6o5Us0NJTU
- EszzVMsudo8ln4IqK8Cr+ndBPiFS9rKGu2Tau3Eedi8hSCtRkpUwPTT7JSwJ7U3WhH
- H4Z6lB3++xCuxLBL9hUFnsJ2LGEa26YFWl0FcBtomTgAI0RN42GamwMIHy8XtaXSMw
- saO2jl/B5uDuA==
-From: Zack Rusin <zack@kde.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/vmwgfx: Fix possible usage of an uninitialized variable
-Date: Wed, 15 Dec 2021 15:02:24 -0500
-Message-Id: <20211215200224.3693345-1-zack@kde.org>
-X-Mailer: git-send-email 2.32.0
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FBBF10EC8E
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 20:02:48 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id d38so899947lfv.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 12:02:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=om/HCVC0CxSoU09KzvT/xb3Xt+kGoC0IjivC7aVdsOU=;
+ b=s8n8voY+G80iDGHzEN0iDm28Pjz+I27p2XDrzK3tqtodBaWLC4IKzkbZvcZIN4vqEK
+ 79k6DEND/LHkoSxewVx1C9wBFz+NXUFG3zUg7gMa+WfNCmJ9OzoXXAArgjpU3k/QucfX
+ GCN2pifirNrUBtX1ncbrfFNnNPBk6l8ElsOOmmTEFZ9xvrVOJKTsMhtYO2wijsFmmzTe
+ VpRgoH8WTi8ThTPNu/u5GsH/vYPOw8aRh03f2AvrAhnHo8tlKHFkQlyOB8F20pcJhype
+ ozJ4WzWLNQFb9jNsnwU/A1PyAlhGnauorBFcJ1nFBQFyd5SQHpY7gYHVAUlGez5nRIwO
+ OY0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=om/HCVC0CxSoU09KzvT/xb3Xt+kGoC0IjivC7aVdsOU=;
+ b=J7seD5ys79t1zzXzw6sNrEOrnQQFeTJYFtmbYcboxAmgdWj9Z1t0sEPJZUaDS6Db1n
+ h99OLc/3aI28YM61CTcdltT4iCDsMr1NLQBGTZRZNrL84p6OCODSTGC7RjWXPDdIyKuG
+ G67wyoX+0B4HYF5qbPxMSZmF0Bi6tkogdqWlc3H93SkOZWd0ZXqnNnqAyCn1sInvNT/8
+ 5UT1A6ZYObt9ljjm+QzJsuTp+Ywk2hQ7YOiIUopzVn0S8MloOyelBn0rcNi7ujw0zfl+
+ aciIpjuORScB+xocR+hJWAA/zxb8L+K3UgvqB/mLBw9CjZhHkRA4nqcYu/Y9qwOlrDCP
+ Os9w==
+X-Gm-Message-State: AOAM532+Ol/Dn82ejwTVav987zpS+1S6xzYbO/43zVONv7Nwt9yVyazT
+ jYk2lofpFOuLUaR4Ym0p2VXupw==
+X-Google-Smtp-Source: ABdhPJxKvLhKMJ67E0hXe0d5fyzxvqCglgRRlF00/Qa9W98zBCmYEUfHy4a8/tNcYKNvPFcLR29PMw==
+X-Received: by 2002:ac2:5f0e:: with SMTP id 14mr11833186lfq.625.1639598566321; 
+ Wed, 15 Dec 2021 12:02:46 -0800 (PST)
+Received: from ?IPV6:2001:470:dd84:abc0::8a5? ([2001:470:dd84:abc0::8a5])
+ by smtp.gmail.com with ESMTPSA id e10sm472204lfr.213.2021.12.15.12.02.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Dec 2021 12:02:45 -0800 (PST)
+Message-ID: <69e44191-201f-8714-8a83-1a65a7026b54@linaro.org>
+Date: Wed, 15 Dec 2021 23:02:37 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH v3 0/2] Use "ref" clocks from firmware for DSI PLL VCO
+ parent
+Content-Language: en-GB
+To: Marijn Suijten <marijn.suijten@somainline.org>,
+ Stephen Boyd <sboyd@kernel.org>, Rob Clark <robdclark@chromium.org>,
+ phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>, Andy Gross
+ <agross@kernel.org>, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Michael Turquette <mturquette@baylibre.com>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Abhinav Kumar <abhinavk@codeaurora.org>, Jonathan Marek <jonathan@marek.ca>,
+ Matthias Kaehlcke <mka@chromium.org>,
+ Douglas Anderson <dianders@chromium.org>, linux-arm-msm@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+References: <20210911131922.387964-1-marijn.suijten@somainline.org>
+ <163165584152.763609.4056232270079096475@swboyd.mtv.corp.google.com>
+ <20210918144038.6q352hzqopx7vvdu@SoMainline.org>
+ <20211214194656.mayiy4xhcshjluwf@SoMainline.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20211214194656.mayiy4xhcshjluwf@SoMainline.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,49 +90,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Zack Rusin <zackr@vmware.com>
-Cc: krastevm@vmware.com, Dan Carpenter <dan.carpenter@oracle.com>,
- mombasawalam@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zack Rusin <zackr@vmware.com>
+On 14/12/2021 22:46, Marijn Suijten wrote:
+> Hi all,
+> 
+> On 2021-09-18 16:40:38, Marijn Suijten wrote:
+>> On 2021-09-14 14:44:01, Stephen Boyd wrote:
+>>> Quoting Marijn Suijten (2021-09-11 06:19:19)
+>>>> All DSI PHY/PLL drivers were referencing their VCO parent clock by a
+>>>> global name, most of which don't exist or have been renamed.  These
+>>>> clock drivers seem to function fine without that except the 14nm driver
+>>>> for sdm6xx [1].
+>>>>
+>>>> At the same time all DTs provide a "ref" clock as per the requirements
+>>>> of dsi-phy-common.yaml, but the clock is never used.  This patchset puts
+>>>> that clock to use without relying on a global clock name, so that all
+>>>> dependencies are explicitly defined in DT (the firmware) in the end.
+>>>
+>>> I can take this through clk tree if it helps avoid conflicts. There are
+>>> some other patches to sdm660.c in the clk tree already.
+>>
+>> Might be useful to maintain proper ordering of these dependent patches
+>> but it's up to Dmitry and Rob to decide, whom I'm sending this mail
+>> directly to so that they can chime in.
+> 
+> Dependent patch [3] landed in 5.15 and [2] made it into 5.16 rc's - is
+> it time to pick this series up and if so through what tree?
 
-vmw_user_bo_lookup can fail to lookup user buffers, especially because
-the buffer handles come from the userspace. The return value has
-to be checked before the buffers are put back.
+I'd also second the idea of merging these two patches into 5.17.
+Most probably it'd be easier to merge both of them through the clk tree. 
+Or we can take the first patch into drm-msm (but then we'd have a 
+dependency between msm-next and clk-qcom-next).
 
-This was spotted by Dan's Smatch statick checker:
-    drivers/gpu/drm/vmwgfx/vmwgfx_bo.c:574 vmw_user_bo_synccpu_release()
-	error: uninitialized symbol 'vmw_bo'.
+Bjorn, Stephen?
 
-Signed-off-by: Zack Rusin <zackr@vmware.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Fixes: 8afa13a0583f ("drm/vmwgfx: Implement DRIVER_GEM")
----
- drivers/gpu/drm/vmwgfx/vmwgfx_bo.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-index 15fead85450c..31aecc46624b 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-@@ -568,10 +568,12 @@ static int vmw_user_bo_synccpu_release(struct drm_file *filp,
- 	struct vmw_buffer_object *vmw_bo;
- 	int ret = vmw_user_bo_lookup(filp, handle, &vmw_bo);
- 
--	if (!(flags & drm_vmw_synccpu_allow_cs)) {
--		atomic_dec(&vmw_bo->cpu_writers);
-+	if (!ret) {
-+		if (!(flags & drm_vmw_synccpu_allow_cs)) {
-+			atomic_dec(&vmw_bo->cpu_writers);
-+		}
-+		ttm_bo_put(&vmw_bo->base);
- 	}
--	ttm_bo_put(&vmw_bo->base);
- 
- 	return ret;
- }
+> 
+> Repeating the links from patch 1/2:
+> [2]: https://lore.kernel.org/linux-arm-msm/20210830175739.143401-1-marijn.suijten@somainline.org/
+> [3]: https://lore.kernel.org/linux-arm-msm/20210829203027.276143-2-marijn.suijten@somainline.org/
 -- 
-2.32.0
-
+With best wishes
+Dmitry
