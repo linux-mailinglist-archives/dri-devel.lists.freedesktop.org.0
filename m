@@ -2,65 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A6314759A5
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 14:29:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EA804759AE
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 14:31:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57D8110E232;
-	Wed, 15 Dec 2021 13:29:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F131C10E295;
+	Wed, 15 Dec 2021 13:31:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19B6110E232
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 13:29:13 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 780D51F387;
- Wed, 15 Dec 2021 13:29:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1639574951; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gJ2jyR7VN20r+seaSe1QDbMXvh1OvYB4PCD+TDYUlvA=;
- b=QpLHpTaJVVFSh6aewDo5f/rH0GBqqfLMbQJxfUptpMzyy3+LKlVUOmPd2Z/whIl6DNW6rx
- f7I1LJ62ZJzLID1rRHbO0ENivgATp3hc0bZVNY7FRK3UTIkjYA9ofzNgxg7e7sZxbQBtS3
- oTRZAVRZTrpycFPwHe5Kaio2Bfm8yes=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1639574951;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gJ2jyR7VN20r+seaSe1QDbMXvh1OvYB4PCD+TDYUlvA=;
- b=eWa/RbMxgh+BjSWJYP2QdUvpkhTHBQbMGPzqHelj/Ag60L1PGcoDbYtFx+E0PlpgZvv640
- SH8WKfeZD9vaXkAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2EDEC1330B;
- Wed, 15 Dec 2021 13:29:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 3sZSCqftuWGhTAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 15 Dec 2021 13:29:11 +0000
-Message-ID: <4d16ff4b-4060-49df-805f-66d293ffa186@suse.de>
-Date: Wed, 15 Dec 2021 14:29:10 +0100
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 126CA10E27B;
+ Wed, 15 Dec 2021 13:31:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1639575066; x=1671111066;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=k866ifHnZPwQQfxaHvaMlY4Jgk6Yu0xwg2XFEW7LZyw=;
+ b=gRG8wGB/69lFmtF16ltlCm3lvp733dpCp6aGItYnXefHvW+TJLcdTKxv
+ qF7F3qn9saohYB2MzYTLU7Bhp45reBMtxBkuSo8EjP3WGKP15cchFnhCD
+ E4P03kxAQ+YP8I2Fqk38R56pqK4a2sFJG4nvcvU+ebEglRB9cFSHZg7Ap
+ pc009DkXsyBXxaytEvAOULRaLgfRJ7iEQjprInVi/oUwUA6nkl0eQ7SB2
+ 3M+4Igmz0+E4jwIikNkufa16O0WWKxb4sXvzz33co9BJh+xG0Kq8yPNEa
+ U2jFYxh3msl7kMUalHSIuMCSmQ7WKsasUv7XLpQM4cymEuFXC1rsCabHJ A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10198"; a="226507069"
+X-IronPort-AV: E=Sophos;i="5.88,207,1635231600"; d="scan'208";a="226507069"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Dec 2021 05:31:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,207,1635231600"; d="scan'208";a="482389228"
+Received: from lkp-server02.sh.intel.com (HELO 9f38c0981d9f) ([10.239.97.151])
+ by orsmga002.jf.intel.com with ESMTP; 15 Dec 2021 05:31:02 -0800
+Received: from kbuild by 9f38c0981d9f with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1mxUN3-0001pa-UZ; Wed, 15 Dec 2021 13:31:01 +0000
+Date: Wed, 15 Dec 2021 21:30:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Huang Rui <ray.huang@amd.com>, dri-devel@lists.freedesktop.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+Subject: Re: [PATCH v3] drm/amdgpu: introduce new amdgpu_fence object to
+ indicate the job embedded fence
+Message-ID: <202112152115.sqAqnvG7-lkp@intel.com>
+References: <20211215063551.2810601-1-ray.huang@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH v3 0/3] drm/simpledrm: Apple M1 / DT platform support fixes
-Content-Language: en-US
-To: Hector Martin <marcan@marcan.st>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Hans de Goede <hdegoede@redhat.com>
-References: <20211212062407.138309-1-marcan@marcan.st>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20211212062407.138309-1-marcan@marcan.st>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------YKMJGICHJYklTHrMiV9Y0wVh"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211215063551.2810601-1-ray.huang@amd.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,88 +63,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javier@dowhile0.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Cc: kbuild-all@lists.01.org, amd-gfx@lists.freedesktop.org,
+ Huang Rui <ray.huang@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Monk Liu <Monk.Liu@amd.com>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------YKMJGICHJYklTHrMiV9Y0wVh
-Content-Type: multipart/mixed; boundary="------------aaASzzqf6IN1TtNz411BVreu";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Hector Martin <marcan@marcan.st>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Hans de Goede <hdegoede@redhat.com>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Javier Martinez Canillas <javier@dowhile0.org>,
- Pekka Paalanen <ppaalanen@gmail.com>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Message-ID: <4d16ff4b-4060-49df-805f-66d293ffa186@suse.de>
-Subject: Re: [PATCH v3 0/3] drm/simpledrm: Apple M1 / DT platform support
- fixes
-References: <20211212062407.138309-1-marcan@marcan.st>
-In-Reply-To: <20211212062407.138309-1-marcan@marcan.st>
+Hi Huang,
 
---------------aaASzzqf6IN1TtNz411BVreu
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+I love your patch! Perhaps something to improve:
 
-SGkNCg0KQW0gMTIuMTIuMjEgdW0gMDc6MjQgc2NocmllYiBIZWN0b3IgTWFydGluOg0KPiBI
-aSBEUk0gZm9sa3MsDQo+IA0KPiBUaGlzIHNob3J0IHNlcmllcyBtYWtlcyBzaW1wbGVkcm0g
-d29yayBvbiBBcHBsZSBNMSAoaW5jbHVkaW5nIFByby9NYXgpDQo+IHBsYXRmb3JtcyB0aGUg
-d2F5IHNpbXBsZWZiIGFscmVhZHkgZG9lcywgYnkgYWRkaW5nIFhSR0IyMTAxMDEwIHN1cHBv
-cnQNCj4gYW5kIG1ha2luZyBpdCBiaW5kIHRvIGZyYW1lYnVmZmVycyBpbiAvY2hvc2VuIHRo
-ZSBzYW1lIHdheSBzaW1wbGVmYg0KPiBkb2VzLg0KPiANCj4gVGhpcyBhdm9pZHMgYnJlYWtp
-bmcgdGhlIGJvb3Rsb2FkZXItcHJvdmlkZWQgZnJhbWVidWZmZXIgY29uc29sZSB3aGVuDQo+
-IHNpbXBsZWRybSBpcyBzZWxlY3RlZCB0byByZXBsYWNlIHNpbXBsZWZiLCBhcyB0aGVzZSBG
-QnMgYWx3YXlzIHNlZW0gdG8NCj4gYmUgMTAtYml0IChhdCBsZWFzdCB3aGVuIGEgcmVhbCBz
-Y3JlZW4gaXMgYXR0YWNoZWQpLg0KDQpJZiB0aGVyZSBhcmUgbm8gZnVydGhlciBjb21tZW50
-cywgSSdtIGdvaW5nIHRvIGFwcGx5IHRoZSBzZXJpZXMgdG8gDQpkcm0tbWlzYy1uZXh0Lg0K
-DQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiBDaGFuZ2VzIHNpbmNlIHYyOg0KPiAt
-IE1hZGUgMTAtYml0IGNvbnZlcnNpb24gY29kZSBmaWxsIHRoZSBMU0JzDQo+IC0gQWRkZWQg
-QVJHQjIxMDEwMTAgdG8gc3VwcG9ydGVkIGZvcm1hdHMgbGlzdA0KPiAtIFNpbXBsaWZpZWQg
-T0YgY29yZSBjb2RlIHBlciByZXZpZXcgZmVlZGJhY2sNCj4gSGVjdG9yIE1hcnRpbiAoMyk6
-DQo+ICAgIG9mOiBNb3ZlIHNpbXBsZS1mcmFtZWJ1ZmZlciBkZXZpY2UgaGFuZGxpbmcgZnJv
-bSBzaW1wbGVmYiB0byBvZg0KPiAgICBkcm0vZm9ybWF0LWhlbHBlcjogQWRkIGRybV9mYl94
-cmdiODg4OF90b194cmdiMjEwMTAxMF90b2lvKCkNCj4gICAgZHJtL3NpbXBsZWRybTogQWRk
-IFtBWF1SR0IyMTAxMDEwIGZvcm1hdHMNCj4gDQo+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9m
-b3JtYXRfaGVscGVyLmMgfCA2NCArKysrKysrKysrKysrKysrKysrKysrKysrKysrKw0KPiAg
-IGRyaXZlcnMvZ3B1L2RybS90aW55L3NpbXBsZWRybS5jICAgIHwgIDQgKy0NCj4gICBkcml2
-ZXJzL29mL3BsYXRmb3JtLmMgICAgICAgICAgICAgICB8ICA0ICsrDQo+ICAgZHJpdmVycy92
-aWRlby9mYmRldi9zaW1wbGVmYi5jICAgICAgfCAyMSArLS0tLS0tLS0tDQo+ICAgaW5jbHVk
-ZS9kcm0vZHJtX2Zvcm1hdF9oZWxwZXIuaCAgICAgfCAgMyArKw0KPiAgIDUgZmlsZXMgY2hh
-bmdlZCwgNzQgaW5zZXJ0aW9ucygrKSwgMjIgZGVsZXRpb25zKC0pDQo+IA0KDQotLSANClRo
-b21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3
-YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJu
-YmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bD
-vGhyZXI6IEl2byBUb3Rldg0K
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on drm-intel/for-linux-next drm-tip/drm-tip v5.16-rc5 next-20211214]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
---------------aaASzzqf6IN1TtNz411BVreu--
+url:    https://github.com/0day-ci/linux/commits/Huang-Rui/drm-amdgpu-introduce-new-amdgpu_fence-object-to-indicate-the-job-embedded-fence/20211215-143731
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20211215/202112152115.sqAqnvG7-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/0day-ci/linux/commit/a47becf231b123760625c45242e89f5e5b5b4915
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Huang-Rui/drm-amdgpu-introduce-new-amdgpu_fence-object-to-indicate-the-job-embedded-fence/20211215-143731
+        git checkout a47becf231b123760625c45242e89f5e5b5b4915
+        # save the config file to linux build tree
+        mkdir build_dir
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/amd/amdgpu/
 
---------------YKMJGICHJYklTHrMiV9Y0wVh
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
------BEGIN PGP SIGNATURE-----
+All warnings (new ones prefixed by >>):
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmG57aYFAwAAAAAACgkQlh/E3EQov+Dk
-AxAAs8xKAuo10t0j9jgIcJcbdfBgzKEDF1wtooz9GVCjTAsoqTiz0Eq83SG2bGjv1riybTKshNYq
-CriNW3gLP7LTg14Q8EXtnykoDaA4CfxuyEpAapBrM+BgAH8inkd908+cXJx776c59A7hr4YWdKTo
-1qtwfToXjYNnBbURPz6Ke89GO9ca288CifBn49JgGv9WOh35W2vakTV5UAtdVbKwiBh0q6qk+66P
-YvEhAl/h+p22PiRXzLN5BJMWQEWqlb19VdfBNXxGpzQ0UymLhDHeGjk0/2DKqDBG9zXRkDj8OpbD
-c+dxhhjKTNDngcUjpVsO7LMG/9tYuvuXGMMBWukPGLh4u+77WKLXYm5irT+ml57gUEaUqbJ7pmNN
-1AnH7rean0hmkjHteAYNO8tJW3w/LBPKNgMzrm1BLNkxX2TyocvxH6qTcS7YxHeQqX7i+VMTPu6B
-9hw6ZXML0P52JzzLHvX2SLvGt2O5z0iG+SNGPBIetF+dmtlhBgKbFe/dThvHZuQSVFOX5fIy3cJL
-uMLTQnWz3Gm3FscZGThDNnUGucHw7WurHZFKFsDazSjD3b24Jlw8ifD5NX05/SqpK8pv91nXtxSe
-zJox/IYEwNOuO45/moc7+AZIUsmGtXY+oEQJ/l+ZKBLV9LZKEeTLOEGVHSEUuCN+FSVaRnuHOLHx
-WSI=
-=7Djj
------END PGP SIGNATURE-----
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c:631: warning: expecting prototype for amdgpu_fence_clear_job_fences(). Prototype was for amdgpu_fence_driver_clear_job_fences() instead
 
---------------YKMJGICHJYklTHrMiV9Y0wVh--
+
+vim +631 drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+
+   623	
+   624	/**
+   625	 * amdgpu_fence_clear_job_fences - clear job embedded fences of ring
+   626	 *
+   627	 * @ring: fence of the ring to be cleared
+   628	 *
+   629	 */
+   630	void amdgpu_fence_driver_clear_job_fences(struct amdgpu_ring *ring)
+ > 631	{
+   632		int i;
+   633		struct dma_fence *old, **ptr;
+   634	
+   635		for (i = 0; i <= ring->fence_drv.num_fences_mask; i++) {
+   636			ptr = &ring->fence_drv.fences[i];
+   637			old = rcu_dereference_protected(*ptr, 1);
+   638			if (old && old->ops == &amdgpu_job_fence_ops)
+   639				RCU_INIT_POINTER(*ptr, NULL);
+   640		}
+   641	}
+   642	
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
