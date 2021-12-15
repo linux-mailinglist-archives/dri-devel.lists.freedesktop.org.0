@@ -2,68 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 159824755D4
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 11:08:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 875AC4755EE
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 11:12:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 710B910E267;
-	Wed, 15 Dec 2021 10:08:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62FE810E3F7;
+	Wed, 15 Dec 2021 10:12:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7547210E267
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 10:08:10 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 17BB821106;
- Wed, 15 Dec 2021 10:08:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1639562889; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SZ3gWdPiA4l1PU3+PUxMuDd3U82lUuG/usU3L4subGs=;
- b=bUkTXtUjGT+lIWvQ8HZqGVdqN+4ttTz+CyOON/eNnj4F8OMxJ23jZ5KqAu0BaNJqOd+UPn
- cFhdDKEYDfaEyHUXsXftZYf2K4hw977FiyA6ujtu6CXFadMCpPyBa1fyZy3WvyD2Xo3ITc
- YNhEuGWPUOiZPwdyRCYjp3c1AqbKhhw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1639562889;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SZ3gWdPiA4l1PU3+PUxMuDd3U82lUuG/usU3L4subGs=;
- b=3nXOiMTooelnt5SZ2CW1zinNYaMQUVBJzWfuoZQpboqiwDGNb70g+/42M1mxd/EjTL8pwe
- 66SJgxGy4Xt544Bw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AE9F213B09;
- Wed, 15 Dec 2021 10:08:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id jlyWKYi+uWGAZgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 15 Dec 2021 10:08:08 +0000
-Message-ID: <36e94863-1e5c-a935-2f07-4b7041cec709@suse.de>
-Date: Wed, 15 Dec 2021 11:08:08 +0100
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com
+ [209.85.221.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8418110E3F7
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 10:12:46 +0000 (UTC)
+Received: by mail-vk1-f182.google.com with SMTP id q21so14301834vkn.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 02:12:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=oYyudWNRvP8Hla1hFk2l+R+UaR2deY6N33lbhAdimyI=;
+ b=p+kNDPTucMj9PJ0hskC01+isoBGopXFbE5sug/rGohJH1LzzR89e+8/93/gxI+S96q
+ 4jYh/y1JRvNPLMtDWCpIizykfjEUL9ggs989aLXglh7Gcd4LOS1aXloPEJtypbX0OQfF
+ pvUSm2qeiBkSr09c4QnlzxapqUcjMMh8Sy0OmX9FZv/Q0WJNAERAyItOpo3y3er46g4i
+ GnSOrcOSGReAB2pUGE40jM9xk2tFNNJzV9TAciupY2jDU0NCZjLSIe7/53xZqPKQWXrQ
+ s/xM90lUDbJz5QiXW8YeSaiVHm6Eq1/ywOsa3qkWphWNq3goEGToN0kAjxih3Q4xpyU3
+ EgOQ==
+X-Gm-Message-State: AOAM533f40PkIWr0FPK44uJTWLzIrsnlFZBZLRs6J/MvOx4vkZzEQUBG
+ w9HPCjgt/Lq1qGml44kqdZm4fa9eNNaGug==
+X-Google-Smtp-Source: ABdhPJxxjy+dgjsOd81P5Mhcf4CxAiF8HBNWF2/k1qu0gad9n6uTTLlTu8xTlTyReMZUvf+0Y2cSGw==
+X-Received: by 2002:a05:6122:78c:: with SMTP id
+ k12mr2802403vkr.25.1639563165486; 
+ Wed, 15 Dec 2021 02:12:45 -0800 (PST)
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com.
+ [209.85.222.51])
+ by smtp.gmail.com with ESMTPSA id g28sm323759vkl.16.2021.12.15.02.12.44
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Dec 2021 02:12:45 -0800 (PST)
+Received: by mail-ua1-f51.google.com with SMTP id a14so40129948uak.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 02:12:44 -0800 (PST)
+X-Received: by 2002:a05:6102:21dc:: with SMTP id
+ r28mr2373758vsg.57.1639563164657; 
+ Wed, 15 Dec 2021 02:12:44 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH RESEND v4 v5 2/4] drm/vc4: Support nomodeset
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>, Florian Fainelli
- <f.fainelli@gmail.com>, Ray Jui <rjui@broadcom.com>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Scott Branden <sbranden@broadcom.com>, Rob Herring <robh+dt@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>
-References: <20211215095117.176435-1-maxime@cerno.tech>
- <20211215095117.176435-3-maxime@cerno.tech>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20211215095117.176435-3-maxime@cerno.tech>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------iixYZJ0MIZsEQoF1kbbMrvV0"
+References: <cover.1639559338.git.geert+renesas@glider.be>
+ <Ybm4oFaYgtl5+MRk@pendragon.ideasonboard.com>
+In-Reply-To: <Ybm4oFaYgtl5+MRk@pendragon.ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 15 Dec 2021 11:12:33 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWKdWvTPQ=9EHpEr5Rb_sSAQ=3cgchmeSFpEXs2_we4wA@mail.gmail.com>
+Message-ID: <CAMuHMdWKdWvTPQ=9EHpEr5Rb_sSAQ=3cgchmeSFpEXs2_we4wA@mail.gmail.com>
+Subject: Re: [PATCH 0/3] drm: rcar-du: Add missing dependencies
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,93 +66,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Dom Cobley <dom@raspberrypi.com>,
- Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
+ Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Ulrich Hecht <ulrich.hecht+renesas@gmail.com>,
+ LUU HOAI <hoai.luu.ub@renesas.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------iixYZJ0MIZsEQoF1kbbMrvV0
-Content-Type: multipart/mixed; boundary="------------x7oLJZSLiYHzTN7HJApC2QE6";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>, Florian Fainelli
- <f.fainelli@gmail.com>, Ray Jui <rjui@broadcom.com>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Scott Branden <sbranden@broadcom.com>, Rob Herring <robh+dt@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>
-Cc: bcm-kernel-feedback-list@broadcom.com,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dom Cobley <dom@raspberrypi.com>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
-Message-ID: <36e94863-1e5c-a935-2f07-4b7041cec709@suse.de>
-Subject: Re: [PATCH RESEND v4 v5 2/4] drm/vc4: Support nomodeset
-References: <20211215095117.176435-1-maxime@cerno.tech>
- <20211215095117.176435-3-maxime@cerno.tech>
-In-Reply-To: <20211215095117.176435-3-maxime@cerno.tech>
+Hi Laurent,
 
---------------x7oLJZSLiYHzTN7HJApC2QE6
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Wed, Dec 15, 2021 at 10:43 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Wed, Dec 15, 2021 at 10:27:44AM +0100, Geert Uytterhoeven wrote:
+> > This patch series adds missing dependencies to Kconfig symbols related
+> > to the R-Car Display Unit.  These dependencies prevent asking the user
+> > about R-Car display drivers when configuring a kernel without Renesas
+> > SoC support, or when the answer wouldn't have any impact on the kernel
+> > build.
+>
+> Won't this have an impact when someone will regenerate an ARM64
+> defconfig, given that we want to keep those options enabled in
+> arch/arm64/configs/defconfig ?
 
-SGkNCg0KQW0gMTUuMTIuMjEgdW0gMTA6NTEgc2NocmllYiBNYXhpbWUgUmlwYXJkOg0KPiBJ
-ZiB3ZSBoYXZlIG5vbW9kZXNldCBvbiB0aGUga2VybmVsIGNvbW1hbmQgbGluZSB3ZSBzaG91
-bGQgaGF2ZSB0aGUNCj4gZmlybXdhcmUgZnJhbWVidWZmZXIgZHJpdmVyIGtlcHQgYXMgaXMg
-YW5kIG5vdCB0cnkgdG8gbG9hZCB0aGUNCj4gZnVsbC1ibG93biBLTVMgZHJpdmVyLg0KPiAN
-Cj4gSW4gdGhpcyBjYXNlLCBsZXQncyBqdXN0IHJlZ2lzdGVyIHRoZSB2M2QgZHJpdmVyLg0K
-PiANCj4gU2lnbmVkLW9mZi1ieTogTWF4aW1lIFJpcGFyZCA8bWF4aW1lQGNlcm5vLnRlY2g+
-DQo+IC0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS92YzQvdmM0X2Rydi5jIHwgMyArKysNCj4g
-ICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspDQo+IA0KPiBkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vdmM0L3Zj
-NF9kcnYuYw0KPiBpbmRleCAxNmFiYzNhM2Q2MDEuLmQzY2FlODRhNGM0ZSAxMDA2NDQNCj4g
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfZHJ2LmMNCj4gKysrIGIvZHJpdmVycy9n
-cHUvZHJtL3ZjNC92YzRfZHJ2LmMNCj4gQEAgLTM1Nyw2ICszNTcsOSBAQCBzdGF0aWMgaW50
-IF9faW5pdCB2YzRfZHJtX3JlZ2lzdGVyKHZvaWQpDQo+ICAgew0KPiAgIAlpbnQgcmV0Ow0K
-PiAgIA0KPiArCWlmIChkcm1fZmlybXdhcmVfZHJpdmVyc19vbmx5KCkpDQo+ICsJCXJldHVy
-biAtRU5PREVWOw0KPiArDQoNCkp1c3Qgbm93IHRoYXQgeW91J3ZlIHVwZGF0ZWQgaXQsIEx1
-Y2FzIFN0YWNoIGhhZCBhIHNpbWlsYXIgY29uY2VybiBhYm91dCANCmV0bmF2aXYsIHdoaWNo
-IGRvZXNuJ3QgZG8gbW9kZXNldHRpbmcgZWl0aGVyLiBTbyB3ZSBwcm9iYWJseSB3YW50IHRv
-IA0KZGlzY3VzcyB3aGF0IHRvIGRvIGFib3V0IGRyaXZlcnMgdGhhdCBoYXZlIG5vIG1vZGVz
-ZXR0aW5nIHNlcGFyYXRlbHkuDQoNCklmIHlvdSB3YW50IHRvIGxhbmQgdGhlIHBhdGNoLCBm
-b3IgZWl0aGVyIHZlcnNpb24gb2YgdGhlIGNvZGUsIHdpdGggb3IgDQp3aXRob3V0IHZjMzoN
-Cg0KUmV2aWV3ZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRl
-Pg0KDQpCZXN0IHJlZ2FyZA0KVGhvbWFzDQoNCj4gICAJcmV0ID0gcGxhdGZvcm1fcmVnaXN0
-ZXJfZHJpdmVycyhjb21wb25lbnRfZHJpdmVycywNCj4gICAJCQkJCUFSUkFZX1NJWkUoY29t
-cG9uZW50X2RyaXZlcnMpKTsNCj4gICAJaWYgKHJldCkNCj4gDQoNCi0tIA0KVGhvbWFzIFpp
-bW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29s
-dXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBH
-ZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjog
-SXZvIFRvdGV2DQo=
+arch/arm64/configs/defconfig has CONFIG_ARCH_RENESAS=y, so it is
+not impacted.
 
---------------x7oLJZSLiYHzTN7HJApC2QE6--
+> > Geert Uytterhoeven (3):
+> >   drm: rcar-du: DRM_RCAR_DW_HDMI should depend on ARCH_RENESAS
+> >   drm: rcar-du: DRM_RCAR_USE_LVDS should depend on DRM_RCAR_DU
+> >   drm: rcar-du: DRM_RCAR_MIPI_DSI should depend on ARCH_RENESAS
 
---------------iixYZJ0MIZsEQoF1kbbMrvV0
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Gr{oetje,eeting}s,
 
------BEGIN PGP SIGNATURE-----
+                        Geert
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmG5vogFAwAAAAAACgkQlh/E3EQov+Aa
-HA/+JE4Tj4bab3LlorohZhymI+gmBsA5+bLO+BkW6aGqSUz9mtXxjPxRXIJC50uR4CmFnOxgieLt
-gKDFfoKybfXAZG36duc38C57KKqYVZ11pBRL/9BDB5CpMOq21cBWex4YUY4990MuZN+X3TFC/7fM
-g8ubmPmo/xw7FZZJl29a964+6ayvmZ5k7FlY35lwCiLgytVkMsEtzCFLf6T8oFo6XV/qWGFnFtnO
-RhBk7+m3uTKyGEGE41Y+kj5gdzXkHWa+YdBfArEs75wCKfPOKI8FeXwX1ITgjTsWPQwGypo7i4Hh
-EcywVb263z/JlnL2aNzAsxX49VBElIQPEneLdj37C3lV+qZgGbxy1ggEOW7RuMTPVyTUGdN0cBar
-ngehzdpcKpWPx7IdAJF6h+KFnh9Wk/OzYb04asTmsBaripd2/BoKij5d15cdoPVAtVFUK4tq0AZ9
-71y3S+rYWviAobUdP8OEwIG/M54KszHp6bZRt0DDFft6AVRYUcVGAeolTEW8sQFtxUbKx0YgutXY
-4pv3s1s+kMS4xz5gMOCbTVLiuBoNru+w6uu422vpZVtcn7kcFVajejiTvGk5s5VwVCy+YaXos8vG
-6oImHxZm7CJO75iyQss2xw3rNQdysSoxw9PEgP39TifVevKOtpXJ4aHdpF60dkMKer0vETvkUfVr
-F3w=
-=H+8V
------END PGP SIGNATURE-----
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
---------------iixYZJ0MIZsEQoF1kbbMrvV0--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
