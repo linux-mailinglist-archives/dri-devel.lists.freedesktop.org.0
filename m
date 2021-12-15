@@ -1,66 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D561474FF2
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 02:02:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8E81474FDE
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Dec 2021 02:02:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CABD10E196;
-	Wed, 15 Dec 2021 01:02:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2778810E1AF;
+	Wed, 15 Dec 2021 01:01:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F9E889E5B
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 01:01:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83A8110E163
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 01:01:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639530097;
+ s=mimecast20190719; t=1639530098;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Hzb21Riag0BzYvxQqZNndntEVa/HKVhBstIzR442xdc=;
- b=JsfMJ4okomgDk1T1FxMhiER3C1Rlwe8YiOe9ul6ceQcOe2/yBoiLnkrgAFRKl7vTo3aOae
- m2FZw/5vXADo8eLfuxJyJX9n4vm691cT+6xDnK3HjBUaOgJ2/0P1ttKakFeuqkmBfn9Ts4
- rYUALKxtnIOAvg7oNaFliym6W1ASOvQ=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=2uVXvqerQ3mIROsnwK4gbzNANyt6XjHgGbuV6EWNXUo=;
+ b=C6eljFCKCyd+JsjY5XgPq/Eo/uE/qevKfI8GeiM8jIT/d3TuRVXA//45+K7aW32UcC101a
+ 4s5ychj4Vhu2hl4hGj7T18UIZy7qHtMLWn8Tp/2zYm+NH4UILodldU7NMIkqoHgeylECcJ
+ ZMdDG4qJ/P71QBTwVOXA8iLEyYRcbfU=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-462-47rbkqGmNae-veps9iVGdQ-1; Tue, 14 Dec 2021 20:01:36 -0500
-X-MC-Unique: 47rbkqGmNae-veps9iVGdQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- w15-20020adfee4f000000b001a0e51ed4e5so791290wro.3
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 17:01:36 -0800 (PST)
+ us-mta-340-xUmxxyf3NCiyXcDbRDiFvA-1; Tue, 14 Dec 2021 20:01:37 -0500
+X-MC-Unique: xUmxxyf3NCiyXcDbRDiFvA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ d7-20020a5d6447000000b00186a113463dso5382277wrw.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Dec 2021 17:01:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Hzb21Riag0BzYvxQqZNndntEVa/HKVhBstIzR442xdc=;
- b=ylTv/km7YGlgro8IFqLEn+rnQsIVGBoj9V3JWBYt1gTsXoFUXk8Wo2DwwruoDPpHH0
- t7hwx1KaAmG6mJlcmYarclLgTkuwzTKmhXet7L+vW1h0gg99tARv2baw85MDvIRvqXKs
- n9tFW6DV9Z0Vz7SSDgOlZLdA+ngZuudGz0h8o+6r8M9Szjwi7Pd5bxeBeBXnZ4KSO5aq
- Q6fUUO/plzoxMdWvMau9OrIZFDrWQF8788MWRUR98qtfRYN0bojCFt4A04c7Dqv68oLa
- UCYQQFZl4aAPRb4XEy1QaZElp3+qQcUu1N2ehNsYoK6zdQFirULhzHBux0ktbn6WuGYY
- uv6w==
-X-Gm-Message-State: AOAM531l6XRixEMPLUVRiqZnUUOXsQzC31tDCTqyoYs4l4vOMKq7Xiwt
- wT4fIQzqbly2AK/MxqVN9h+A8m4x5YOj/Mc6pNldJJd+JD7JrlugWFcQq/tY+ijSYWVTFR77Mih
- gMm8XYPKOO9tNsiy6aVuEbWSvohY9
-X-Received: by 2002:a5d:4c87:: with SMTP id z7mr2232315wrs.108.1639530095064; 
+ bh=2uVXvqerQ3mIROsnwK4gbzNANyt6XjHgGbuV6EWNXUo=;
+ b=u5ycp5tZZT/u1H5MbxX9STiXXvyfUhYH1tFgdaRJBF7pKqc++Z5Ls07EIngE/k8iHe
+ pHKgZ/OCaMFFVIoOgRfzXxTULpD6/XATfPo8UqInzB7/eCBBHm6SGLX4fdrqa6724YH/
+ V71xVGx/VpM9RdbCsE2z1OiEB0jgqTba0fTKd5c0kJsABz6j3gix1n28sdeTqS+/ZICD
+ RbWgd93zvI6/Gosh/VGSwzHni9lF3Fgw6v8Q/0MBWevSkO2fRe8My2u8hzlsXyf4AbM0
+ XUbLbD5Rk2FBYU5YJprsIvPncHZa92I9hZEpXgYTW8dsUy/ZJnXbZXf8HLMIovbmqGd1
+ 24LQ==
+X-Gm-Message-State: AOAM530hKDSRquaSjF/9fBiyjICkKrIulX65KNJigJiDZ16DEvC4VA09
+ ntBLlU+0SOCf+x9SorJv7dmH3aPe9o5KiU+JCFD6GJX5d/o5EIvJs/cqX3Q2bWL/kVwSjsl9fhK
+ i5ZyaJzgeIvVPcKhyhLolDgHGy2OK
+X-Received: by 2002:a05:600c:1e26:: with SMTP id
+ ay38mr2330196wmb.14.1639530095999; 
  Tue, 14 Dec 2021 17:01:35 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwv/GbbCBx5XytBBwaLIiM9pzKWYQkrTmgkllinTV4/CSY0c7oGPrWn945cRBUw5QxDc9nqdg==
-X-Received: by 2002:a5d:4c87:: with SMTP id z7mr2232311wrs.108.1639530094912; 
- Tue, 14 Dec 2021 17:01:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxeOncOXUCZ6JUkydTsueQefbGvxmSVfS7725K9mjCeMZVVnN66la0zjp9Cmek/Nd65/4Y6iA==
+X-Received: by 2002:a05:600c:1e26:: with SMTP id
+ ay38mr2330182wmb.14.1639530095786; 
+ Tue, 14 Dec 2021 17:01:35 -0800 (PST)
 Received: from minerva.home ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id o64sm334543wme.28.2021.12.14.17.01.34
+ by smtp.gmail.com with ESMTPSA id o64sm334543wme.28.2021.12.14.17.01.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Dec 2021 17:01:34 -0800 (PST)
+ Tue, 14 Dec 2021 17:01:35 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 52/60] drm/mi0283qt: Add support for the nomodeset kernel
+Subject: [PATCH 53/60] drm/repaper: Add support for the nomodeset kernel
  parameter
-Date: Wed, 15 Dec 2021 02:00:00 +0100
-Message-Id: <20211215010008.2545520-53-javierm@redhat.com>
+Date: Wed, 15 Dec 2021 02:00:01 +0100
+Message-Id: <20211215010008.2545520-54-javierm@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211215010008.2545520-1-javierm@redhat.com>
 References: <20211215010008.2545520-1-javierm@redhat.com>
@@ -100,23 +102,23 @@ to also support the command line parameter.
 Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
 
- drivers/gpu/drm/tiny/mi0283qt.c | 3 +++
+ drivers/gpu/drm/tiny/repaper.c | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/tiny/mi0283qt.c b/drivers/gpu/drm/tiny/mi0283qt.c
-index 023de49e7a8e..f96fd350d373 100644
---- a/drivers/gpu/drm/tiny/mi0283qt.c
-+++ b/drivers/gpu/drm/tiny/mi0283qt.c
-@@ -186,6 +186,9 @@ static int mi0283qt_probe(struct spi_device *spi)
- 	u32 rotation = 0;
+diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/repaper.c
+index 97a775c48cea..ea97b8c06157 100644
+--- a/drivers/gpu/drm/tiny/repaper.c
++++ b/drivers/gpu/drm/tiny/repaper.c
+@@ -968,6 +968,9 @@ static int repaper_probe(struct spi_device *spi)
+ 	const void *match;
  	int ret;
  
 +	if (drm_firmware_drivers_only())
 +		return -ENODEV;
 +
- 	dbidev = devm_drm_dev_alloc(dev, &mi0283qt_driver,
- 				    struct mipi_dbi_dev, drm);
- 	if (IS_ERR(dbidev))
+ 	match = device_get_match_data(dev);
+ 	if (match) {
+ 		model = (enum repaper_model)match;
 -- 
 2.33.1
 
