@@ -2,23 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10653477486
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 15:28:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AC0B47748A
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 15:28:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FE0310FF3B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83A061122C7;
 	Thu, 16 Dec 2021 14:28:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mblankhorst.nl (mblankhorst.nl
- [IPv6:2a02:2308:0:7ec:e79c:4e97:b6c4:f0ae])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4469010FD19;
+Received: from mblankhorst.nl (mblankhorst.nl [141.105.120.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 761C810FF21;
  Thu, 16 Dec 2021 14:28:07 +0000 (UTC)
 From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 05/17] drm/i915: Force ww lock for
- i915_gem_object_ggtt_pin_ww, v2.
-Date: Thu, 16 Dec 2021 15:27:37 +0100
-Message-Id: <20211216142749.1966107-6-maarten.lankhorst@linux.intel.com>
+Subject: [PATCH v3 06/17] drm/i915: Ensure gem_contexts selftests work with
+ unbind changes, v2.
+Date: Thu, 16 Dec 2021 15:27:38 +0100
+Message-Id: <20211216142749.1966107-7-maarten.lankhorst@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20211216142749.1966107-1-maarten.lankhorst@linux.intel.com>
 References: <20211216142749.1966107-1-maarten.lankhorst@linux.intel.com>
@@ -36,97 +35,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Matthew Auld <matthew.auld@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We will need the lock to unbind the vma, and wait for bind to complete.
-Remove the special casing for the !ww path, and force ww locking for all.
+In the next commits, we may not evict when refcount = 0.
+
+igt_vm_isolation() continuously tries to pin/unpin at same address,
+but also calls put() on the object, which means the object may not
+be unpinned in time.
+
+Instead of this, re-use the same object over and over, so they can
+be unbound as required.
 
 Changes since v1:
-- Pass err to for_i915_gem_ww handling for -EDEADLK handling.
+- Fix cleaning up obj_b on failure. (Matt)
 
 Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 ---
- drivers/gpu/drm/i915/i915_drv.h |  7 ++-----
- drivers/gpu/drm/i915/i915_gem.c | 30 ++++++++++++++++++++++++++----
- 2 files changed, 28 insertions(+), 9 deletions(-)
+ .../drm/i915/gem/selftests/i915_gem_context.c | 59 +++++++++++--------
+ 1 file changed, 35 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index ed48179bacd8..d51628d10f9d 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -1652,13 +1652,10 @@ i915_gem_object_ggtt_pin_ww(struct drm_i915_gem_object *obj,
- 			    const struct i915_ggtt_view *view,
- 			    u64 size, u64 alignment, u64 flags);
+diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+index 21b71568cd5f..786c58412733 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
++++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+@@ -1481,10 +1481,10 @@ static int check_scratch(struct i915_address_space *vm, u64 offset)
  
--static inline struct i915_vma * __must_check
-+struct i915_vma * __must_check
- i915_gem_object_ggtt_pin(struct drm_i915_gem_object *obj,
- 			 const struct i915_ggtt_view *view,
--			 u64 size, u64 alignment, u64 flags)
--{
--	return i915_gem_object_ggtt_pin_ww(obj, NULL, view, size, alignment, flags);
--}
-+			 u64 size, u64 alignment, u64 flags);
- 
- int i915_gem_object_unbind(struct drm_i915_gem_object *obj,
- 			   unsigned long flags);
-diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
-index 527228d4da7e..6002045bd194 100644
---- a/drivers/gpu/drm/i915/i915_gem.c
-+++ b/drivers/gpu/drm/i915/i915_gem.c
-@@ -877,6 +877,8 @@ i915_gem_object_ggtt_pin_ww(struct drm_i915_gem_object *obj,
+ static int write_to_scratch(struct i915_gem_context *ctx,
+ 			    struct intel_engine_cs *engine,
++			    struct drm_i915_gem_object *obj,
+ 			    u64 offset, u32 value)
+ {
+ 	struct drm_i915_private *i915 = ctx->i915;
+-	struct drm_i915_gem_object *obj;
+ 	struct i915_address_space *vm;
+ 	struct i915_request *rq;
  	struct i915_vma *vma;
- 	int ret;
+@@ -1497,15 +1497,9 @@ static int write_to_scratch(struct i915_gem_context *ctx,
+ 	if (err)
+ 		return err;
  
-+	GEM_WARN_ON(!ww);
+-	obj = i915_gem_object_create_internal(i915, PAGE_SIZE);
+-	if (IS_ERR(obj))
+-		return PTR_ERR(obj);
+-
+ 	cmd = i915_gem_object_pin_map_unlocked(obj, I915_MAP_WB);
+-	if (IS_ERR(cmd)) {
+-		err = PTR_ERR(cmd);
+-		goto out;
+-	}
++	if (IS_ERR(cmd))
++		return PTR_ERR(cmd);
+ 
+ 	*cmd++ = MI_STORE_DWORD_IMM_GEN4;
+ 	if (GRAPHICS_VER(i915) >= 8) {
+@@ -1569,17 +1563,19 @@ static int write_to_scratch(struct i915_gem_context *ctx,
+ 	i915_vma_unpin(vma);
+ out_vm:
+ 	i915_vm_put(vm);
+-out:
+-	i915_gem_object_put(obj);
 +
- 	if (flags & PIN_MAPPABLE &&
- 	    (!view || view->type == I915_GGTT_VIEW_NORMAL)) {
- 		/*
-@@ -936,10 +938,7 @@ i915_gem_object_ggtt_pin_ww(struct drm_i915_gem_object *obj,
- 			return ERR_PTR(ret);
- 	}
- 
--	if (ww)
--		ret = i915_vma_pin_ww(vma, ww, size, alignment, flags | PIN_GLOBAL);
--	else
--		ret = i915_vma_pin(vma, size, alignment, flags | PIN_GLOBAL);
-+	ret = i915_vma_pin_ww(vma, ww, size, alignment, flags | PIN_GLOBAL);
- 
- 	if (ret)
- 		return ERR_PTR(ret);
-@@ -959,6 +958,29 @@ i915_gem_object_ggtt_pin_ww(struct drm_i915_gem_object *obj,
- 	return vma;
++	if (!err)
++		err = i915_gem_object_wait(obj, 0, MAX_SCHEDULE_TIMEOUT);
++
+ 	return err;
  }
  
-+struct i915_vma * __must_check
-+i915_gem_object_ggtt_pin(struct drm_i915_gem_object *obj,
-+			 const struct i915_ggtt_view *view,
-+			 u64 size, u64 alignment, u64 flags)
-+{
-+	struct i915_gem_ww_ctx ww;
-+	struct i915_vma *ret;
-+	int err;
+ static int read_from_scratch(struct i915_gem_context *ctx,
+ 			     struct intel_engine_cs *engine,
++			     struct drm_i915_gem_object *obj,
+ 			     u64 offset, u32 *value)
+ {
+ 	struct drm_i915_private *i915 = ctx->i915;
+-	struct drm_i915_gem_object *obj;
+ 	struct i915_address_space *vm;
+ 	const u32 result = 0x100;
+ 	struct i915_request *rq;
+@@ -1594,10 +1590,6 @@ static int read_from_scratch(struct i915_gem_context *ctx,
+ 	if (err)
+ 		return err;
+ 
+-	obj = i915_gem_object_create_internal(i915, PAGE_SIZE);
+-	if (IS_ERR(obj))
+-		return PTR_ERR(obj);
+-
+ 	if (GRAPHICS_VER(i915) >= 8) {
+ 		const u32 GPR0 = engine->mmio_base + 0x600;
+ 
+@@ -1615,7 +1607,7 @@ static int read_from_scratch(struct i915_gem_context *ctx,
+ 		cmd = i915_gem_object_pin_map_unlocked(obj, I915_MAP_WB);
+ 		if (IS_ERR(cmd)) {
+ 			err = PTR_ERR(cmd);
+-			goto out;
++			goto err_unpin;
+ 		}
+ 
+ 		memset(cmd, POISON_INUSE, PAGE_SIZE);
+@@ -1651,7 +1643,7 @@ static int read_from_scratch(struct i915_gem_context *ctx,
+ 		cmd = i915_gem_object_pin_map_unlocked(obj, I915_MAP_WB);
+ 		if (IS_ERR(cmd)) {
+ 			err = PTR_ERR(cmd);
+-			goto out;
++			goto err_unpin;
+ 		}
+ 
+ 		memset(cmd, POISON_INUSE, PAGE_SIZE);
+@@ -1722,8 +1714,10 @@ static int read_from_scratch(struct i915_gem_context *ctx,
+ 	i915_vma_unpin(vma);
+ out_vm:
+ 	i915_vm_put(vm);
+-out:
+-	i915_gem_object_put(obj);
 +
-+	for_i915_gem_ww(&ww, err, true) {
-+		err = i915_gem_object_lock(obj, &ww);
-+		if (err)
-+			continue;
++	if (!err)
++		err = i915_gem_object_wait(obj, 0, MAX_SCHEDULE_TIMEOUT);
 +
-+		ret = i915_gem_object_ggtt_pin_ww(obj, &ww, view, size,
-+						  alignment, flags);
-+		if (IS_ERR(ret))
-+			err = PTR_ERR(ret);
+ 	return err;
+ }
+ 
+@@ -1757,6 +1751,7 @@ static int igt_vm_isolation(void *arg)
+ {
+ 	struct drm_i915_private *i915 = arg;
+ 	struct i915_gem_context *ctx_a, *ctx_b;
++	struct drm_i915_gem_object *obj_a, *obj_b;
+ 	unsigned long num_engines, count;
+ 	struct intel_engine_cs *engine;
+ 	struct igt_live_test t;
+@@ -1810,6 +1805,18 @@ static int igt_vm_isolation(void *arg)
+ 	vm_total = ctx_a->vm->total;
+ 	GEM_BUG_ON(ctx_b->vm->total != vm_total);
+ 
++	obj_a = i915_gem_object_create_internal(i915, PAGE_SIZE);
++	if (IS_ERR(obj_a)) {
++		err = PTR_ERR(obj_a);
++		goto out_file;
 +	}
 +
-+	return err ? ERR_PTR(err) : ret;
-+}
++	obj_b = i915_gem_object_create_internal(i915, PAGE_SIZE);
++	if (IS_ERR(obj_b)) {
++		err = PTR_ERR(obj_b);
++		goto put_a;
++	}
 +
- int
- i915_gem_madvise_ioctl(struct drm_device *dev, void *data,
- 		       struct drm_file *file_priv)
+ 	count = 0;
+ 	num_engines = 0;
+ 	for_each_uabi_engine(engine, i915) {
+@@ -1832,13 +1839,13 @@ static int igt_vm_isolation(void *arg)
+ 						   I915_GTT_PAGE_SIZE, vm_total,
+ 						   sizeof(u32), alignof_dword);
+ 
+-			err = write_to_scratch(ctx_a, engine,
++			err = write_to_scratch(ctx_a, engine, obj_a,
+ 					       offset, 0xdeadbeef);
+ 			if (err == 0)
+-				err = read_from_scratch(ctx_b, engine,
++				err = read_from_scratch(ctx_b, engine, obj_b,
+ 							offset, &value);
+ 			if (err)
+-				goto out_file;
++				goto put_b;
+ 
+ 			if (value != expected) {
+ 				pr_err("%s: Read %08x from scratch (offset 0x%08x_%08x), after %lu reads!\n",
+@@ -1847,7 +1854,7 @@ static int igt_vm_isolation(void *arg)
+ 				       lower_32_bits(offset),
+ 				       this);
+ 				err = -EINVAL;
+-				goto out_file;
++				goto put_b;
+ 			}
+ 
+ 			this++;
+@@ -1858,6 +1865,10 @@ static int igt_vm_isolation(void *arg)
+ 	pr_info("Checked %lu scratch offsets across %lu engines\n",
+ 		count, num_engines);
+ 
++put_b:
++	i915_gem_object_put(obj_b);
++put_a:
++	i915_gem_object_put(obj_a);
+ out_file:
+ 	if (igt_live_test_end(&t))
+ 		err = -EIO;
 -- 
 2.34.1
 
