@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C12B4477617
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 16:39:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62D58477618
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 16:39:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B81510E331;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19F3D10E1EE;
 	Thu, 16 Dec 2021 15:39:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B97D310E2C3;
- Thu, 16 Dec 2021 15:39:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 332A810E31B;
+ Thu, 16 Dec 2021 15:39:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639669153; x=1671205153;
+ t=1639669155; x=1671205155;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=JUlEZzy3n+HHkCKPiBekNvFYRwWew6xIaXeNoJcpdRU=;
- b=LEOAEfvKkZ/o4JQmrR6fw2gYkCvtiBvtDeHRWmXdoohGan36g0U5JLcr
- 5geA2Wy5sDGH7nM6j03gtzHwkRgT4q49kIl9ZXefs14h6yYGfyv9Dit1B
- KOqAP5M91RbMFrSCD2vCb2jiAnvrid3MCwtXrU3qBiDF7qyUNf7mEhqLb
- F4PDulSGMNJ4VA9eH6n4y1FI6FkjhVwbrvFKBIjq3+NEpzln+13S34tiG
- CBVJLHaOUutpF8bAgQALqPsNMMYlprH2IwShgclMqoNJ+CGnMThJ4cOiX
- 2KW6qIpg46HZXy+iU9jXv0LI9l92ueYVOJObg/+Kjbq3g4zktYYEGgrlS A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10199"; a="238261407"
-X-IronPort-AV: E=Sophos;i="5.88,211,1635231600"; d="scan'208";a="238261407"
+ bh=YyopIr3xdQS9tWWbrosuWyeq8n4ijVYpqRc1lbsrY1k=;
+ b=Eu7bmCuY3UWH2IS+R0y/zduUm42exjKcBI4qSF2uptolna9IxEuOtdeA
+ Zi2e6OA1KTyQVa+olgvrzXG8GzzjS/zC6gqyBMyue974yZ91cgH4YF51u
+ DetUEwn6cYgU/1b7krsVxXQzMdt8JnbUUu3wEpfXVjLxxcko2zLRiV3Ay
+ 42B/lmfHdB6Dd81xpm3v47CezK1I0zZbU5GP5gWc/DCP7DevewHjGyr8O
+ 2j5vpMMjCSLK+vSQa7jfxFgkKpOOdQ542eOSVa5e7oK4u++28KXVFgmEi
+ WGJ+JfdF2EZynDJZOpO+84DtSu/PmGJx5a9rUkBtR+NM7K8Mp5pmbhu3z Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10199"; a="238261411"
+X-IronPort-AV: E=Sophos;i="5.88,211,1635231600"; d="scan'208";a="238261411"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Dec 2021 07:39:13 -0800
-X-IronPort-AV: E=Sophos;i="5.88,211,1635231600"; d="scan'208";a="611507325"
+ 16 Dec 2021 07:39:15 -0800
+X-IronPort-AV: E=Sophos;i="5.88,211,1635231600"; d="scan'208";a="611507331"
 Received: from yshchyok-mobl1.ccr.corp.intel.com (HELO mwauld-desk1.intel.com)
  ([10.252.21.121])
  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Dec 2021 07:39:12 -0800
+ 16 Dec 2021 07:39:13 -0800
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v4 1/3] drm/i915/gtt: allow overriding the pt alignment
-Date: Thu, 16 Dec 2021 15:38:45 +0000
-Message-Id: <20211216153847.185820-2-matthew.auld@intel.com>
+Subject: [PATCH v4 2/3] drm/i915/gtt: add xehpsdv_ppgtt_insert_entry
+Date: Thu, 16 Dec 2021 15:38:46 +0000
+Message-Id: <20211216153847.185820-3-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211216153847.185820-1-matthew.auld@intel.com>
 References: <20211216153847.185820-1-matthew.auld@intel.com>
@@ -57,103 +57,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On some platforms we have alignment restrictions when accessing LMEM
-from the GTT. In the next few patches we need to be able to modify the
-page-tables directly via the GTT itself.
+If this is LMEM then we get a 32 entry PT, with each PTE pointing to
+some 64K block of memory, otherwise it's just the usual 512 entry PT.
+This very much assumes the caller knows what they are doing.
 
-Suggested-by: Ramalingam C <ramalingam.c@intel.com>
 Signed-off-by: Matthew Auld <matthew.auld@intel.com>
 Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Cc: Ramalingam C <ramalingam.c@intel.com>
 Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_gtt.h   | 10 +++++++++-
- drivers/gpu/drm/i915/gt/intel_ppgtt.c | 16 ++++++++++++----
- 2 files changed, 21 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c | 50 ++++++++++++++++++++++++++--
+ 1 file changed, 48 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
-index 01e9a98846fb..5ca5caa667b8 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
-@@ -199,6 +199,14 @@ void *__px_vaddr(struct drm_i915_gem_object *p);
- struct i915_vm_pt_stash {
- 	/* preallocated chains of page tables/directories */
- 	struct i915_page_table *pt[2];
-+	/*
-+	 * Optionally override the alignment/size of the physical page that
-+	 * contains each PT. If not set defaults back to the usual
-+	 * I915_GTT_PAGE_SIZE_4K. This does not influence the other paging
-+	 * structures. MUST be a power-of-two. ONLY applicable on discrete
-+	 * platforms.
-+	 */
-+	int pt_sz;
- };
+diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+index 5db11d8f7c7a..b6e9bfecb023 100644
+--- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
++++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+@@ -728,13 +728,56 @@ static void gen8_ppgtt_insert_entry(struct i915_address_space *vm,
+ 		gen8_pdp_for_page_index(vm, idx);
+ 	struct i915_page_directory *pd =
+ 		i915_pd_entry(pdp, gen8_pd_index(idx, 2));
++	struct i915_page_table *pt = i915_pt_entry(pd, gen8_pd_index(idx, 1));
+ 	gen8_pte_t *vaddr;
  
- struct i915_vma_ops {
-@@ -586,7 +594,7 @@ void free_scratch(struct i915_address_space *vm);
+-	vaddr = px_vaddr(i915_pt_entry(pd, gen8_pd_index(idx, 1)));
++	GEM_BUG_ON(pt->is_compact);
++
++	vaddr = px_vaddr(pt);
+ 	vaddr[gen8_pd_index(idx, 0)] = gen8_pte_encode(addr, level, flags);
+ 	clflush_cache_range(&vaddr[gen8_pd_index(idx, 0)], sizeof(*vaddr));
+ }
  
- struct drm_i915_gem_object *alloc_pt_dma(struct i915_address_space *vm, int sz);
- struct drm_i915_gem_object *alloc_pt_lmem(struct i915_address_space *vm, int sz);
--struct i915_page_table *alloc_pt(struct i915_address_space *vm);
-+struct i915_page_table *alloc_pt(struct i915_address_space *vm, int sz);
- struct i915_page_directory *alloc_pd(struct i915_address_space *vm);
- struct i915_page_directory *__alloc_pd(int npde);
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_ppgtt.c b/drivers/gpu/drm/i915/gt/intel_ppgtt.c
-index b8238f5bc8b1..3c90aea25072 100644
---- a/drivers/gpu/drm/i915/gt/intel_ppgtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_ppgtt.c
-@@ -12,7 +12,7 @@
- #include "gen6_ppgtt.h"
- #include "gen8_ppgtt.h"
- 
--struct i915_page_table *alloc_pt(struct i915_address_space *vm)
-+struct i915_page_table *alloc_pt(struct i915_address_space *vm, int sz)
++static void __xehpsdv_ppgtt_insert_entry_lm(struct i915_address_space *vm,
++					    dma_addr_t addr,
++					    u64 offset,
++					    enum i915_cache_level level,
++					    u32 flags)
++{
++	u64 idx = offset >> GEN8_PTE_SHIFT;
++	struct i915_page_directory * const pdp =
++		gen8_pdp_for_page_index(vm, idx);
++	struct i915_page_directory *pd =
++		i915_pd_entry(pdp, gen8_pd_index(idx, 2));
++	struct i915_page_table *pt = i915_pt_entry(pd, gen8_pd_index(idx, 1));
++	gen8_pte_t *vaddr;
++
++	GEM_BUG_ON(!IS_ALIGNED(addr, SZ_64K));
++	GEM_BUG_ON(!IS_ALIGNED(offset, SZ_64K));
++
++	if (!pt->is_compact) {
++		vaddr = px_vaddr(pd);
++		vaddr[gen8_pd_index(idx, 1)] |= GEN12_PDE_64K;
++		pt->is_compact = true;
++	}
++
++	vaddr = px_vaddr(pt);
++	vaddr[gen8_pd_index(idx, 0) / 16] = gen8_pte_encode(addr, level, flags);
++}
++
++static void xehpsdv_ppgtt_insert_entry(struct i915_address_space *vm,
++				       dma_addr_t addr,
++				       u64 offset,
++				       enum i915_cache_level level,
++				       u32 flags)
++{
++	if (flags & PTE_LM)
++		return __xehpsdv_ppgtt_insert_entry_lm(vm, addr, offset,
++						       level, flags);
++
++	return gen8_ppgtt_insert_entry(vm, addr, offset, level, flags);
++}
++
+ static int gen8_init_scratch(struct i915_address_space *vm)
  {
- 	struct i915_page_table *pt;
+ 	u32 pte_flags;
+@@ -937,7 +980,10 @@ struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt,
  
-@@ -20,7 +20,7 @@ struct i915_page_table *alloc_pt(struct i915_address_space *vm)
- 	if (unlikely(!pt))
- 		return ERR_PTR(-ENOMEM);
- 
--	pt->base = vm->alloc_pt_dma(vm, I915_GTT_PAGE_SIZE_4K);
-+	pt->base = vm->alloc_pt_dma(vm, sz);
- 	if (IS_ERR(pt->base)) {
- 		kfree(pt);
- 		return ERR_PTR(-ENOMEM);
-@@ -219,17 +219,25 @@ int i915_vm_alloc_pt_stash(struct i915_address_space *vm,
- 			   u64 size)
- {
- 	unsigned long count;
--	int shift, n;
-+	int shift, n, pt_sz;
- 
- 	shift = vm->pd_shift;
- 	if (!shift)
- 		return 0;
- 
-+	pt_sz = stash->pt_sz;
-+	if (!pt_sz)
-+		pt_sz = I915_GTT_PAGE_SIZE_4K;
+ 	ppgtt->vm.bind_async_flags = I915_VMA_LOCAL_BIND;
+ 	ppgtt->vm.insert_entries = gen8_ppgtt_insert;
+-	ppgtt->vm.insert_page = gen8_ppgtt_insert_entry;
++	if (HAS_64K_PAGES(gt->i915))
++		ppgtt->vm.insert_page = xehpsdv_ppgtt_insert_entry;
 +	else
-+		GEM_BUG_ON(!IS_DGFX(vm->i915));
-+
-+	GEM_BUG_ON(!is_power_of_2(pt_sz));
-+
- 	count = pd_count(size, shift);
- 	while (count--) {
- 		struct i915_page_table *pt;
- 
--		pt = alloc_pt(vm);
-+		pt = alloc_pt(vm, pt_sz);
- 		if (IS_ERR(pt)) {
- 			i915_vm_free_pt_stash(vm, stash);
- 			return PTR_ERR(pt);
++		ppgtt->vm.insert_page = gen8_ppgtt_insert_entry;
+ 	ppgtt->vm.allocate_va_range = gen8_ppgtt_alloc;
+ 	ppgtt->vm.clear_range = gen8_ppgtt_clear;
+ 	ppgtt->vm.foreach = gen8_ppgtt_foreach;
 -- 
 2.31.1
 
