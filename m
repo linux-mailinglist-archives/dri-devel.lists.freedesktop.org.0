@@ -1,49 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 978AE47756E
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 16:12:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C212477571
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 16:13:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DB3C10E90F;
-	Thu, 16 Dec 2021 15:12:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23BFA10E983;
+	Thu, 16 Dec 2021 15:13:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
- [185.176.79.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B477E10E917
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 15:12:38 +0000 (UTC)
-Received: from fraeml715-chm.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JFFtb1m2gz67DWp;
- Thu, 16 Dec 2021 23:11:03 +0800 (CST)
-Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
- fraeml715-chm.china.huawei.com (10.206.15.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Thu, 16 Dec 2021 16:12:35 +0100
-Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
- fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2308.020;
- Thu, 16 Dec 2021 16:12:35 +0100
-From: Roberto Sassu <roberto.sassu@huawei.com>
-To: "airlied@linux.ie" <airlied@linux.ie>, "kraxel@redhat.com"
- <kraxel@redhat.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>
-Subject: RE: [PATCH] drm/virtio: Ensure that objs is not NULL in
- virtio_gpu_array_put_free()
-Thread-Topic: [PATCH] drm/virtio: Ensure that objs is not NULL in
- virtio_gpu_array_put_free()
-Thread-Index: AQHX8E+19jelqmPilEqoid7n1sYbcaw1Pc8Q
-Date: Thu, 16 Dec 2021 15:12:35 +0000
-Message-ID: <4b0d93611e8740afbf25870e8b54a8e9@huawei.com>
-References: <20211213183122.838119-1-roberto.sassu@huawei.com>
-In-Reply-To: <20211213183122.838119-1-roberto.sassu@huawei.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.204.63.33]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 273A110E955
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 15:13:20 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 94C69B8247E
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 15:13:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D300C36AE0
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 15:13:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1639667597;
+ bh=REimS41qgBurbspSIkR1kMxD0grK0fDoyp2v8fHLvWU=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=la1Nva7CY5Jjwk/Wm8lWv3aYBjlUl57ZAfIlbsOFzuOmJSPuKLopP/GuXByjC/AxG
+ d8FYa3Cmbcy/Oncgw2P12FORplfl01xThQnV8jXaFWhGL25GidA2g8k+ManOQFoc6j
+ 2F+cH8UL49wJ8NB4ZXlyoHdZTi6aEKZgK9+U7WrEXbLuLIlLZdlk2gbt6H/RyH7/CX
+ CQ8ZHrKOLJiH/rt4doqQ3JgqXTP2C/ix1yRkUCJNYrJm2Qapx2frWlRH0A5ZcMfOap
+ zPq992A0r6cmcuhnAFlsqwmf3nGPeRJCwyKLLDEBzZvGY+fLYhDo6HiTeJwdsq/1FI
+ 8sMVox38pRHdw==
+Received: by mail-ed1-f46.google.com with SMTP id y13so88000974edd.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 07:13:17 -0800 (PST)
+X-Gm-Message-State: AOAM530D7sLz3U2gn4lX2v0kaNIepJ15OToI9K9wQ5wBLfDxf6tczZoL
+ P8MUNF5GHC5XqutxTFSsy+a9oUnm3smaHx0ztA==
+X-Google-Smtp-Source: ABdhPJzaSjcXBqry8QmxPjHdP9FMmSwW8YKfAtjQEf0G8hozeKwYCJ5n4IhU9jxoGpU1d4mPc88zqtdZC7Q7FuBNpgY=
+X-Received: by 2002:a05:6402:4251:: with SMTP id
+ g17mr20936069edb.89.1639667595626; 
+ Thu, 16 Dec 2021 07:13:15 -0800 (PST)
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+References: <20211215152712.72502-1-david@ixit.cz>
+In-Reply-To: <20211215152712.72502-1-david@ixit.cz>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Thu, 16 Dec 2021 09:13:03 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqLyMr+apgqn31V7QPfqqxhJ1ro258WsDP=CO37zfyxVNw@mail.gmail.com>
+Message-ID: <CAL_JsqLyMr+apgqn31V7QPfqqxhJ1ro258WsDP=CO37zfyxVNw@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: display: bridge: document Toshiba TC358768
+ cells and panel node
+To: David Heidelberg <david@ixit.cz>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,63 +60,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "stable@vger.kernel.org" <stable@vger.kernel.org>,
- "syzbot+e9072e90624a31dfa85f@syzkaller.appspotmail.com"
- <syzbot+e9072e90624a31dfa85f@syzkaller.appspotmail.com>,
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "virtualization@lists.linux-foundation.org"
- <virtualization@lists.linux-foundation.org>
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Dmitry Osipenko <digetx@gmail.com>,
+ ~okias/devicetree@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> From: Roberto Sassu
-> Sent: Monday, December 13, 2021 7:31 PM
-> If virtio_gpu_object_shmem_init() fails (e.g. due to fault injection, as =
-it
-> happened in the bug report by syzbot), virtio_gpu_array_put_free() could =
-be
-> called with objs equal to NULL.
->=20
-> Ensure that objs is not NULL in virtio_gpu_array_put_free(), or otherwise
-> return from the function.
-
-Hello
-
-did you have the chance to look at this patch?
-
-Thanks
-
-Roberto
-
-HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
-Managing Director: Li Peng, Zhong Ronghua
-
-> Cc: stable@vger.kernel.org # 5.13.x
-> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
-> Reported-by: syzbot+e9072e90624a31dfa85f@syzkaller.appspotmail.com
-> Fixes: 377f8331d0565 ("drm/virtio: fix possible leak/unlock
-> virtio_gpu_object_array")
+On Wed, Dec 15, 2021 at 9:38 AM David Heidelberg <david@ixit.cz> wrote:
+>
+> Properties #address-cells and #size-cells are valid.
+> The bridge node can also contains panel node.
+>
+> Signed-off-by: David Heidelberg <david@ixit.cz>
 > ---
->  drivers/gpu/drm/virtio/virtgpu_gem.c | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c
-> b/drivers/gpu/drm/virtio/virtgpu_gem.c
-> index 2de61b63ef91..48d3c9955f0d 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_gem.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
-> @@ -248,6 +248,9 @@ void virtio_gpu_array_put_free(struct
-> virtio_gpu_object_array *objs)
->  {
->  	u32 i;
->=20
-> +	if (!objs)
-> +		return;
+>  .../bindings/display/bridge/toshiba,tc358768.yaml      | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
+> index eacfe7165083..3186d9dffd98 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
+> @@ -69,6 +69,16 @@ properties:
+>        - port@0
+>        - port@1
+>
+> +  '#address-cells':
+> +    const: 1
 > +
->  	for (i =3D 0; i < objs->nents; i++)
->  		drm_gem_object_put(objs->objs[i]);
->  	virtio_gpu_array_free(objs);
-> --
-> 2.32.0
+> +  '#size-cells':
+> +    const: 0
+> +
+> +patternProperties:
+> +  "^panel@[0-3]$":
+> +    $ref: ../panel/panel-common.yaml
 
+It's possible to attach something that doesn't use panel-common.yaml
+and if it did, it would be applied by that schema.
+
+What you need is to just reference dsi-controller.yaml at the top level.
+
+Rob
