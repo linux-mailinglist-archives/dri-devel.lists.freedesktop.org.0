@@ -2,45 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88483477430
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 15:15:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94AB347744E
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 15:19:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E6EF112199;
-	Thu, 16 Dec 2021 14:15:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61BE81121F8;
+	Thu, 16 Dec 2021 14:19:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 386A7112196;
- Thu, 16 Dec 2021 14:15:19 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 872CB1F46386;
- Thu, 16 Dec 2021 14:15:17 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
- t=1639664117; bh=EUdp6OVQgOVcce0WCDML3AjD7s+d4fLJvihp8sH0Ya4=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=k/+7lmXFO9IDxzIUltmqfPz1I41OjBDEIl3ZidvNwTSiyvYNL/1ZBG7cCKZ9r8E51
- Yem2tgMmgL+v9EmxsSjmat7mWU/MNymuMU0HHKwqngkQfulurtv1qOz94zGszoFOqQ
- nXGdjGT93E9uzKI0FnJNZtHFabAdf7nzkRM/+hqSRBGASgYH+pQp82H8upEtKJyweZ
- NYkFG1Ur7SSa84/Zaz+ROOF6vxlv9dsmI4RXqAjaa9TfY31lNV9NAfW17ZaMHbBxMS
- 04AjbHr1Wf5oTOUY/uoXi/upLWCkY6G8VA8wNml2Z0fCqZWLcc2HnNoww4MNdWUO5F
- 80b2bTTuwb4aQ==
-Date: Thu, 16 Dec 2021 15:15:13 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [bug report] new kvmalloc() WARN() triggered by DRM ioctls
- tracking
-Message-ID: <20211216151513.14ca3e8c@collabora.com>
-In-Reply-To: <8b02c4d8-cf36-6558-6e1d-9a0955483f4e@arm.com>
-References: <20211216120806.GA3691@kili>
- <8b02c4d8-cf36-6558-6e1d-9a0955483f4e@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C42E81121F8
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 14:19:10 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id b40so49916663lfv.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 06:19:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=FHZhtH3DW7AMrBjP8iVuxcvAkwhLC1m6PQhYldA9iJU=;
+ b=kfQna7lwKWEWNyGl0m+WM04u4GvDzlfWdVJpaVjT3VLpr11FElsgNikURpISaLmqEB
+ gSnfcAyYPclS/JMQBjs4BWeC4liYjwwJhGaI2CLj9zwVCtQp20VEezdXRdvXOfU+rQv+
+ cvdiG+BIckrRWvJ5LmWc6gi1KqhH5V1mE4tW41nr4+IFwNca4fR7ttL4xlWwn74TndKS
+ G0whMZLLYcMsAAhjjKd4W8N2DSbx8f8iAVMtBkeyqMXniFfccMFxE6qkDTG53a+wbF/W
+ fUHDrFY0WxEr+0Me59Iq1ISBYx2DSYnRx5jkh9GCiG6ldF+F7h4CTLIk/j1S9Ue9eW4l
+ GW3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FHZhtH3DW7AMrBjP8iVuxcvAkwhLC1m6PQhYldA9iJU=;
+ b=aW/ySwAvf6e7DqT4VOnF3tJ9pyK9wmJyJaSHAyH3zFNWrMEn8FRahBmnOvG2QqNkFl
+ WxrMJde664Q/CPZEliTX5My9fPpjAPiEoyTi4xohuEoi9FTz5v6T3ymTOVTZU0n21qK+
+ 80ZrTJ89caQQZ9oneOAGCkhhrWBPBTa3xrYL912sv6gpDTJPAlz1BiGqkSZSgYzeKeZK
+ i1INZZkCtAJ5nJbY0tli+ITz3f7sThi2BcgKnp4fpwjgDq2izxzAAuU/BMYhj7q+ohCJ
+ DhwBEwqiNk+7Seum3pD0RlUcPMmM9ozmdSL1Mbubkuk7gzIouUZP+2UZpfZQ91LTnL0s
+ oMHQ==
+X-Gm-Message-State: AOAM5309RmYe7y71zFZ5oKJM9MHun3YfADBoJPjeVkCqdwl2D7Y/5vlF
+ XJX7OACXbQpd+WTzOajAq6g=
+X-Google-Smtp-Source: ABdhPJwTCLw6X+g8WZv+7SknvWAEs+qjM7J+ZiSnSsKS4sTnaSQels7ZUzqMKyR6w73ajpLDsSHcBA==
+X-Received: by 2002:a19:8c48:: with SMTP id i8mr14971511lfj.179.1639664349109; 
+ Thu, 16 Dec 2021 06:19:09 -0800 (PST)
+Received: from [192.168.2.145] (94-29-63-156.dynamic.spd-mgts.ru.
+ [94.29.63.156])
+ by smtp.googlemail.com with ESMTPSA id k14sm1148653ljk.57.2021.12.16.06.19.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Dec 2021 06:19:08 -0800 (PST)
+Subject: Re: [PATCH v16 00/40] NVIDIA Tegra power management patches for 5.17
+To: Thierry Reding <thierry.reding@gmail.com>
+References: <20211130232347.950-1-digetx@gmail.com> <YboP9IFMUrUnEzrU@orome>
+ <6baf6013-fbb2-b42f-5b26-2d10a2ca9374@gmail.com> <Ybs7zKQY1uJCJ2f3@orome>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <f4ba1201-e3f4-d0cc-17df-9645783dee04@gmail.com>
+Date: Thu, 16 Dec 2021 17:19:07 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <Ybs7zKQY1uJCJ2f3@orome>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,48 +73,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lima@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- dri-devel@lists.freedesktop.org, Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Nishanth Menon <nm@ti.com>, linux-pwm@vger.kernel.org,
+ Ulf Hansson <ulf.hansson@linaro.org>, linux-clk@vger.kernel.org,
+ linux-pm@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ Viresh Kumar <vireshk@kernel.org>,
+ Peter De Schrijver <pdeschrijver@nvidia.com>, linux-mmc@vger.kernel.org,
+ Adrian Hunter <adrian.hunter@intel.com>, dri-devel@lists.freedesktop.org,
+ Mikko Perttunen <mperttunen@nvidia.com>, David Heidelberg <david@ixit.cz>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ linux-tegra@vger.kernel.org, Jonathan Hunter <jonathanh@nvidia.com>,
+ Lee Jones <lee.jones@linaro.org>, Michael Turquette <mturquette@baylibre.com>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Steve,
-
-On Thu, 16 Dec 2021 14:02:25 +0000
-Steven Price <steven.price@arm.com> wrote:
-
-> + Boris
+16.12.2021 16:14, Thierry Reding пишет:
+> On Wed, Dec 15, 2021 at 07:11:53PM +0300, Dmitry Osipenko wrote:
+>> 15.12.2021 18:55, Thierry Reding пишет:
+>>> On Wed, Dec 01, 2021 at 02:23:07AM +0300, Dmitry Osipenko wrote:
+>>>> This series adds runtime PM support to Tegra drivers and enables core
+>>>> voltage scaling for Tegra20/30 SoCs, resolving overheating troubles.
+>>>>
+>>>> All patches in this series are interdependent and should go via Tegra tree
+>>>> for simplicity.
+>>>
+>>> So these can be applied in any order without breaking anything?
+>>
+>> Please notice that the word is *inter* dependent, not *in* dependent.
+>>
+>> There is a build dependency for the patches. The first two "soc/tegra"
+>> must be applied first.
 > 
-> On 16/12/2021 12:08, Dan Carpenter wrote:
-> > Hi DRM Devs,
-> > 
-> > In commit 7661809d493b ("mm: don't allow oversized kvmalloc() calls")
-> > from July, Linus added a WARN_ONCE() for "crazy" allocations over 2GB.
-> > I have a static checker warning for this and most of the warnings are
-> > from DRM ioctls.
-> > 
-> > drivers/gpu/drm/lima/lima_drv.c:124 lima_ioctl_gem_submit() warn: uncapped user size for kvmalloc() will WARN
-> > drivers/gpu/drm/radeon/radeon_cs.c:291 radeon_cs_parser_init() warn: uncapped user size for kvmalloc() will WARN
-> > drivers/gpu/drm/v3d/v3d_gem.c:311 v3d_lookup_bos() warn: uncapped user size for kvmalloc() will WARN
-> > drivers/gpu/drm/v3d/v3d_gem.c:319 v3d_lookup_bos() warn: uncapped user size for kvmalloc() will WARN
-> > drivers/gpu/drm/v3d/v3d_gem.c:601 v3d_get_multisync_post_deps() warn: uncapped user size for kvmalloc() will WARN
-> > drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:476 etnaviv_ioctl_gem_submit() warn: uncapped user size for kvmalloc() will WARN
-> > drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:477 etnaviv_ioctl_gem_submit() warn: uncapped user size for kvmalloc() will WARN
-> > drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:478 etnaviv_ioctl_gem_submit() warn: uncapped user size for kvmalloc() will WARN
-> > drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:479 etnaviv_ioctl_gem_submit() warn: uncapped user size for kvmalloc() will WARN
-> > drivers/gpu/drm/virtio/virtgpu_ioctl.c:186 virtio_gpu_execbuffer_ioctl() warn: uncapped user size for kvmalloc() will WARN
-> > drivers/gpu/drm/panfrost/panfrost_drv.c:198 panfrost_copy_in_sync() warn: uncapped user size for kvmalloc() will WARN  
+> Okay, so I've separated the first two patches out into a separate stable
+> branch that I can share between the Tegra and drm/tegra trees to pull in
+> the build dependency and then I've applied the driver patches to those
+> two trees and I've verified that the two branches build correctly. I've
+> not done any runtime testing, but I'll trust you on that.
+
+I only compile-tested VIC and NVDEC drivers, but they should be okay,
+and thus, everything should be good.
+
+>> The "soc/tegra: pmc: Enable core domain support for Tegra20 and Tegra30"
+>> *must* be the last applied patch if we want to preserve bisectability.
+>> The core voltage scaling can be enabled only once all the drivers got
+>> the power management support.
+>>
+>> The rest could be applied out-of-order.
 > 
-> I believe this one in Panfrost would be fixed by Boris's series
-> reworking the submit ioctl[1].
+> One last remaining question: I don't think I can apply that one patch if
+> it requires that all the others are enabled first because it would
+> basically create a circular dependency.
 > 
-> Boris: are you planning on submitting that series soon - or is it worth
-> cherry picking the rework in patch 5 to fix this issue?
-
-Don't know when I'll get back to it, so I'd recommend cherry-picking
-what you need.
-
-Regards,
-
-Boris
+> Can I pick up the final 7 patches (the DT ones) independently of that
+> one patch without things breaking? If so, one option we could try is to
+> wait for both Tegra and drm/tegra trees to get merged into v5.17-rc1 and
+> then send that one patch (which is only a 4-line diff) right after
+> v5.17-rc1 so that it makes it into v5.17-rc2. That avoids the circular
+> dependency and should get everything enabled for v5.17.
+> 
+> Do you see any problems with that?
+Deferring that one patch till v5.17-rc2 will work, thank you.
