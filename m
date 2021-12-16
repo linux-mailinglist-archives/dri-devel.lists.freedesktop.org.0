@@ -1,63 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 691524775AD
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 16:18:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C2664775B8
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 16:20:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0448610EB55;
-	Thu, 16 Dec 2021 15:18:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00C4410ED50;
+	Thu, 16 Dec 2021 15:20:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B701810EB55
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 15:18:51 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id u17so44851990wrt.3
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 07:18:51 -0800 (PST)
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
+ [IPv6:2607:f8b0:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDADF10ED1B;
+ Thu, 16 Dec 2021 15:20:31 +0000 (UTC)
+Received: by mail-ot1-x334.google.com with SMTP id
+ u18-20020a9d7212000000b00560cb1dc10bso29307972otj.11; 
+ Thu, 16 Dec 2021 07:20:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=0NW4fFRtdMsPlhmkKhcfTmNZmyEs9QhErqbczxjv6B0=;
- b=kRAuUi3pHfp0vlymF4VGBZuEwSgT02dIRWqOT35hkagh6ntcNm8yIFOd8aC3cbEjeV
- oLvppbAZRB8W2b4GctTPRBCxTvug8AbYTh4eU9SKY464yhzZoIZbkU7NStoyhZo028uP
- 30G79hCtFKOTQZ41pob7oCKdpmnUyzF/WOr8HOUrKPj7pgtBjorDAt1r+B0SffNGb2nx
- PWYlXg3FMnVSoyx70RZYYypH0u6HTgYkYxQ9HgAu5RfJiVfJbT+9OBeFuOIHwD+kdpCQ
- wyyVlh6+vxWWobNr7aCMpPy2K3Psu4wUGD2t3a6B0oxiAEEZJtpoBjFYAB3fPwOhvgRJ
- rXHA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BzROn8ygEIvbgv1YLRyZ5KtKZ741t/BVqbnCoQQpFcI=;
+ b=hzrKz0GP7Af08AiTFt6vyTs82/qpYYXkPNcJsIJI5Cs2ooHjlq7z6GFiVWoHUaO4dJ
+ 809J0cpvrRGNBvLpNhWZ36mIEFtCIlvWUfrCVLpIscPlMfU8PgOKpdn+8xZeKDf5Ult8
+ tc/Rx4OBK5bzyo2lQgb39j8rzXManNzeXqRVDcCK7E/rgSoeUuokEI5A0N90opouRAki
+ sIbe8GLcaCPGvPQKu+Ju+5tMlrvi0m40UjjuujoS9oyyoF13WAotLpZpHzGjBPb9cvVP
+ HaSCBrFMYqy2oxNSfAQQTP4pQUivjXroQeua1IQkWmrZIAW450HcZY+23dZc5YVMiL99
+ VruA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=0NW4fFRtdMsPlhmkKhcfTmNZmyEs9QhErqbczxjv6B0=;
- b=s+sLXMbCbQwhSM1nzREd3mBe4VtH5do/Gi+kift+f3fupdNJ74t8VLEfcllayFlDYL
- 7uPLjQdbbRpR+uLH6GN5rf31HNsnQmE8EGJp2sRqzu44rUAPPwlV/MFN5mktGiOjIa/s
- FNW0Gopi1DpsiAXANHcEJOTwJ50jFnefe87f6CYsFse7otysbwa1gfcXCAWwI6qyT/jI
- ZzKgvXO8EcI2AUGhSamYgO7+eeikKPCGTAbcPz+sHOkXTWhDdXa4VgLuRL9OPydsi9EM
- fXDrHvuboayiWP7CyrS8R7es99lNQjEKBcLIad6tmR8Yoj0DA/0b8MW3R9YxpgsHUxjP
- PKxg==
-X-Gm-Message-State: AOAM533XdtW7yB2iZFlYSyQnKzyZ7Ai52R7N8NJwn1i9tnDTiBQ2SS0M
- FySbp0YVAB//R45Cby4sebY=
-X-Google-Smtp-Source: ABdhPJyy3q6RwT0+pTgk+dWoIRgzvgCOOBY61BwzAcTietGzu7v354AVmOOir3fo/hsmJoWX4Pt/IQ==
-X-Received: by 2002:adf:ea50:: with SMTP id j16mr8909726wrn.719.1639667930246; 
- Thu, 16 Dec 2021 07:18:50 -0800 (PST)
-Received: from orome ([193.209.96.43])
- by smtp.gmail.com with ESMTPSA id q13sm1597560wrr.64.2021.12.16.07.18.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Dec 2021 07:18:48 -0800 (PST)
-Date: Thu, 16 Dec 2021 16:18:45 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v4 08/22] ASoC: tegra20: spdif: Improve driver's code
-Message-ID: <YbtY1TfX3rdVbkzG@orome>
-References: <20211204143725.31646-1-digetx@gmail.com>
- <20211204143725.31646-9-digetx@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BzROn8ygEIvbgv1YLRyZ5KtKZ741t/BVqbnCoQQpFcI=;
+ b=1swk/lG/sAkiwnMmUusIinPQe0gWE56bWv3cBtHjUHmzkjIGdYhOtGUHtIdf4x6SFY
+ /GRR4MAkryJ94Qnv1Vn65Pm35k74sTQlEuQrI/Fy6W+juRn+Va07nuI9uTtgoF56ON1I
+ 7hfWQ2WrsJGa/R/gEOEu7PfbzgECFT2v28lXKxr6nU1QgP80WE4UN/qFvc573gI4fs6m
+ G4sOLpHNrQuGiZ1t0UenoTFzWcYQaVx1VTVJH1cmHtghNUqcH5Db69FkmKyPzuSbXA72
+ 34CEmqXn6nsDerP7RPfmuqX+XY2kOHiaFbL/TIMC5SNRY/dihi5GIO0RFdq7SnLBgT25
+ s3eA==
+X-Gm-Message-State: AOAM53331WO6ZNCh2LyjsNLMIyXHQh3dPsqivzH8ePbWZMGHGM12D6I+
+ ukHXP8MSvM8gPEetTreMXMEk4yApUXfFurw4RjsYfMU7
+X-Google-Smtp-Source: ABdhPJwic3C3ahfgH+CaAHrVLrjrsIqftmDBpwPvpOxhFIPcFLq3nEH9vzxZr7cRlDsGItxYtVYwg2vDH6jx+kmYxL4=
+X-Received: by 2002:a9d:6855:: with SMTP id c21mr13159059oto.357.1639668031273; 
+ Thu, 16 Dec 2021 07:20:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="TtAaL1I0tfYEZFLw"
-Content-Disposition: inline
-In-Reply-To: <20211204143725.31646-9-digetx@gmail.com>
-User-Agent: Mutt/2.1.3 (987dde4c) (2021-09-10)
+References: <20211216075017.73996-1-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <20211216075017.73996-1-jiapeng.chong@linux.alibaba.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 16 Dec 2021 10:20:20 -0500
+Message-ID: <CADnq5_N4rVUenOBs_oh1_AkyNYcKOKHp_gduiMYq-hGrkyrStw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Fix warning comparing pointer to 0
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,61 +62,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
- Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
- Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Rob Herring <robh+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
- Agneli <poczt@protonmail.ch>, linux-tegra@vger.kernel.org,
- Jonathan Hunter <jonathanh@nvidia.com>
+Cc: "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>, "Siqueira,
+ Rodrigo" <Rodrigo.Siqueira@amd.com>, xinhui pan <Xinhui.Pan@amd.com>,
+ Abaci Robot <abaci@linux.alibaba.com>, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Dave Airlie <airlied@linux.ie>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Applied.  Thanks!
 
---TtAaL1I0tfYEZFLw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Alex
 
-On Sat, Dec 04, 2021 at 05:37:11PM +0300, Dmitry Osipenko wrote:
-> - Clean up whitespaces, defines and variables.
->=20
-> - Remove obsolete code.
->=20
-> - Adhere to upstream coding style.
->=20
-> - Don't override returned error code.
->=20
-> - Replace pr_err with dev_err.
->=20
-> No functional changes are made by this patch. This is a minor code's
-> refactoring that will ease further maintenance of the driver.
->=20
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+On Thu, Dec 16, 2021 at 2:50 AM Jiapeng Chong
+<jiapeng.chong@linux.alibaba.com> wrote:
+>
+> Fix the following coccicheck warning:
+>
+> ./drivers/gpu/drm/amd/display/dc/clk_mgr/dcn301/vg_clk_mgr.c:744:35-36:
+> WARNING comparing pointer to 0.
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 > ---
->  sound/soc/tegra/tegra20_spdif.c | 49 ++++++++++++---------------------
->  1 file changed, 18 insertions(+), 31 deletions(-)
-
-Acked-by: Thierry Reding <treding@nvidia.com>
-
---TtAaL1I0tfYEZFLw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmG7WNUACgkQ3SOs138+
-s6GwvxAAvJ61geFKAbm8cP5N+pEbKgtEihkMw5PcFuU3W2atATXHSqSBZfJLV4ze
-A8EQ0s+6vh51dP9aXYxgKU3eiuilqw97kCSNPEwmq9kOiDe/ls7Z/hoEW/Djsir5
-wHOa7uBq4+10I4UNMlJQNs5XX9+bp1ajTmH5ia/KiTcburoqT1P/UllLwjboBgRm
-k9P3LKjBckI8u9wRx9meYGxA712IxAyOmbdlfHa7SlGKwXZw7aO3K2wuls7QAdZw
-NTSkpLHUbgQW9VIAyRIIA2iczZHlwm60Y43Bo6RRTlx8vH1pPlTikqFB+VMZHH4E
-awm7aD0p+VpvM+gBN2+cjmwlWsUXvVp34rQYZ4dR+bY078R4EOTA+nyMS4Z+693G
-kNwjF+02na0InBnxDg3VFKCCd+O72A+r5ydXcWDw88FhNy5D4kUIZl+EFBKBmMb4
-AWl/HxMmM13IVSfu4NpgpCpjqNaOAQokybxCH4YHs9JIUcHAP9XZR2IKTVxZaerC
-NxQqpp9BfrOiIevdNifxpp7XL7DA6yjpck7iYMFzrcZDkc2gmIb9jiS2Cn8Szwjq
-emDETf5gob2Pn4atJkeP5koMR57wmi70y7ulhTqtJtNjGCUlW2ahYykNoTjaueiw
-b/nN6nrnayfCg8YIh81xMas2Q81sANyy8a3JLwTj+0HqHBovOWI=
-=wYWM
------END PGP SIGNATURE-----
-
---TtAaL1I0tfYEZFLw--
+>  drivers/gpu/drm/amd/display/dc/clk_mgr/dcn301/vg_clk_mgr.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn301/vg_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn301/vg_clk_mgr.c
+> index 8f78e62b28b7..48005def1164 100644
+> --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn301/vg_clk_mgr.c
+> +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn301/vg_clk_mgr.c
+> @@ -741,7 +741,7 @@ void vg_clk_mgr_construct(
+>                                 sizeof(struct watermarks),
+>                                 &clk_mgr->smu_wm_set.mc_address.quad_part);
+>
+> -       if (clk_mgr->smu_wm_set.wm_set == 0) {
+> +       if (!clk_mgr->smu_wm_set.wm_set) {
+>                 clk_mgr->smu_wm_set.wm_set = &dummy_wms;
+>                 clk_mgr->smu_wm_set.mc_address.quad_part = 0;
+>         }
+> --
+> 2.20.1.7.g153144c
+>
