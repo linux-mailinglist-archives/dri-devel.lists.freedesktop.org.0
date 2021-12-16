@@ -2,66 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB04A476BC6
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 09:20:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D3D9476BD9
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 09:26:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86DE510E729;
-	Thu, 16 Dec 2021 08:20:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA7C910E42D;
+	Thu, 16 Dec 2021 08:26:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBF0010E729
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 08:20:45 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 803D9210FD;
- Thu, 16 Dec 2021 08:20:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1639642843; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=B1MEtPyU/D2PkANCH6wQEIbPHzWEZ/Tp0+Q3ym56Xpk=;
- b=q3ieCT8WcpnuQ/0iwOM1cgRGfIHnVfaKUgtByWe+69Xa/6P8On0J95FuXccdqTUzDPegy8
- MbDHDgEHUUy3D5C7JH63A91bSUeVV4XcT3xSNUJUN1+oQ8iyfmYJOd8DENnGLhWX9gwcd0
- LhyzjuIXmL6//YsXNHMA9PW31UQpqJI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1639642843;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=B1MEtPyU/D2PkANCH6wQEIbPHzWEZ/Tp0+Q3ym56Xpk=;
- b=6H4hpGldWIZLVYhsx+YCTIH0LnBTUK9y3Yrwd+Q3JhAdsx6Fu00SNfWpWeOrR/YZQf1tBy
- I7CRd1OmX92kAlDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 639BD13C0C;
- Thu, 16 Dec 2021 08:20:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id peVCF9v2umFEQwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 16 Dec 2021 08:20:43 +0000
-Message-ID: <041430de-c0a0-d0eb-81d5-eeee3204ce23@suse.de>
-Date: Thu, 16 Dec 2021 09:20:42 +0100
+Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
+ [64.147.123.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13F8310E1FF;
+ Thu, 16 Dec 2021 08:26:10 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.west.internal (Postfix) with ESMTP id 45B902B000E0;
+ Thu, 16 Dec 2021 03:26:07 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Thu, 16 Dec 2021 03:26:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:mime-version:content-type; s=
+ fm1; bh=khO/rWt3/nnU2RGdMyLCXbB8pMaklieWSXpoJIa4Wwg=; b=AU2XHg6I
+ VFVmJtTJmfGEgIwJ+n1MHeHDW25u2alFm3jwybA80iRjSf0BTY7m+nVaqtWQ7AlS
+ EPLZ6ieoV4rLH4EFr/8KuD0tvCCf4h8EQu7rNDAn+H3yLQKCMXbFm5Bcwo+lETyj
+ 2kaIXXxGskOQHGOdXdUqzfxlHvYn+yDwqGWUJ6hn0WooqXm4ivfGnWWv4W3Znx+4
+ s2TIcL56JVSKvoNTkdFe55e4cUoUbF1zjGep+a1yTIsDYcgYtqfGTqW+58iOdu8B
+ U9752kRRLV/N5uRxjI8k7iW5hiZrqo7BFY2H8uljpFaeV7xX/j4wvQeQERl0bo9R
+ ZiaExPk6s1ki0g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:message-id
+ :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
+ :x-me-sender:x-sasl-enc; s=fm1; bh=khO/rWt3/nnU2RGdMyLCXbB8pMakl
+ ieWSXpoJIa4Wwg=; b=jmn4ACFi0Wmmh8UBOEV3zoBTMYmypvLWb4Zur6ZcS42xW
+ 6FeB6BWdgihdAICtlQRR6wsjj/MYZ+1fNgnX9cSray7BjCiBlridZwNaq+aEt43L
+ AeAYdH3sALWO9NwkroIqvjXJUYnJDzMxlY7S2ln/jOwu3832V0dzt0Jzx7+DGcZS
+ w40KXAC/tnw7JUYx84SL5iVDbOVYZHixnhdEVK5pDC+F2ivfom7VIV8FXUJsPu8c
+ Yz6i9qeiVsvCz0wV5WDCLjZ9ssMV61jfWMpqJn7xt8iy75NDF6pElm3+0NfRCjhT
+ NOqnCjCgIiqyEYf7gKIwMnULGxt2f53RVo7iIzcKA==
+X-ME-Sender: <xms:Hvi6YVR7EUk8K1V0EW6mpDXc028FQnibn-6kAZDhjE4QjF3QBdYeNQ>
+ <xme:Hvi6YewWpaLsL70lbLWPrIl68gwixTiKbpY8rMOgQ_PGytqzDcDKE4_AWOiPht_Qa
+ LSmClGBw8DMbVmCuxk>
+X-ME-Received: <xmr:Hvi6Ya0i01Od5mn-Wz_XQ_AFiH_vPHjIV6_nKVZItxeCvzScvjfBfLZQgBQxoytwpAeuUIM9WqN6nF9WhdonOPxldEqmgadGorLEmYg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrleefgdduudejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfggtggusehgtderredttddvnecuhfhrohhmpeforgigihhmvgcu
+ tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
+ hrnhepgeeuvddtheeggeehhfeigeetffeufeelveeggfekveegieevudeljeeugedviefg
+ necuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecuvehluhhsthgvrhfuih
+ iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordht
+ vggthh
+X-ME-Proxy: <xmx:Hvi6YdCdbKQz2BmEQS8U5iItyJOeh2MWKPEnh0ufaJapjT-Eu44p1g>
+ <xmx:Hvi6YejVC7DuVXsQo2gIkvSZWj3r69h3015eeg0AvITzNO0OMto7UA>
+ <xmx:Hvi6YRog_3nf4LhNBkcn51srRzl2TFoBLmJNc620jUmK0ra7tqHMIg>
+ <xmx:Hvi6YZPSJDgI-RQ7tsBnHhtG8S9I9sROVnJE1SfQc2HTZifMuSozCTWSTQk>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 16 Dec 2021 03:26:05 -0500 (EST)
+Date: Thu, 16 Dec 2021 09:26:03 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20211216082603.pm6yzlckmxvwnqyv@houat>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH 11/60] drm/gud: Add support for the nomodeset kernel
- parameter
-Content-Language: en-US
-To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20211215010008.2545520-1-javierm@redhat.com>
- <20211215010008.2545520-12-javierm@redhat.com>
- <5b1d9578-1f74-a808-c4d4-6e8c38dd57fc@tronnes.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <5b1d9578-1f74-a808-c4d4-6e8c38dd57fc@tronnes.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------OuCp2pMrpe0bCrN8DB8Atd5e"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="7uzv5e5skyluybsp"
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,92 +77,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------OuCp2pMrpe0bCrN8DB8Atd5e
-Content-Type: multipart/mixed; boundary="------------1crH0C4rSftW08LJ0e6ypRRP";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Message-ID: <041430de-c0a0-d0eb-81d5-eeee3204ce23@suse.de>
-Subject: Re: [PATCH 11/60] drm/gud: Add support for the nomodeset kernel
- parameter
-References: <20211215010008.2545520-1-javierm@redhat.com>
- <20211215010008.2545520-12-javierm@redhat.com>
- <5b1d9578-1f74-a808-c4d4-6e8c38dd57fc@tronnes.org>
-In-Reply-To: <5b1d9578-1f74-a808-c4d4-6e8c38dd57fc@tronnes.org>
 
---------------1crH0C4rSftW08LJ0e6ypRRP
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+--7uzv5e5skyluybsp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-SGkNCg0KQW0gMTUuMTIuMjEgdW0gMjI6Mzcgc2NocmllYiBOb3JhbGYgVHLDuG5uZXM6DQo+
-IA0KPiANCj4gRGVuIDE1LjEyLjIwMjEgMDEuNTksIHNrcmV2IEphdmllciBNYXJ0aW5leiBD
-YW5pbGxhczoNCj4+IEFjY29yZGluZyB0byBkaXNhYmxlIERvY3VtZW50YXRpb24vYWRtaW4t
-Z3VpZGUva2VybmVsLXBhcmFtZXRlcnMudHh0LCB0aGlzDQo+PiBwYXJhbWV0ZXIgY2FuIGJl
-IHVzZWQgdG8gZGlzYWJsZSBrZXJuZWwgbW9kZXNldHRpbmcuDQo+Pg0KPj4gRFJNIGRyaXZl
-cnMgd2lsbCBub3QgcGVyZm9ybSBkaXNwbGF5LW1vZGUgY2hhbmdlcyBvciBhY2NlbGVyYXRl
-ZCByZW5kZXJpbmcNCj4+IGFuZCBvbmx5IHRoZSBzeXN0ZXdtIHN5c3RlbSBmcmFtZWJ1ZmZl
-ciB3aWxsIGJlIGF2YWlsYWJsZSBpZiBpdCB3YXMgc2V0LXVwLg0KPj4NCj4+IEJ1dCBvbmx5
-IGEgZmV3IERSTSBkcml2ZXJzIGN1cnJlbnRseSBjaGVjayBmb3Igbm9tb2Rlc2V0LCBtYWtl
-IHRoaXMgZHJpdmVyDQo+PiB0byBhbHNvIHN1cHBvcnQgdGhlIGNvbW1hbmQgbGluZSBwYXJh
-bWV0ZXIuDQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTogSmF2aWVyIE1hcnRpbmV6IENhbmlsbGFz
-IDxqYXZpZXJtQHJlZGhhdC5jb20+DQo+PiAtLS0NCj4+DQo+IA0KPiBJIGRvbid0IHVuZGVy
-c3RhbmQgd2h5IHRoaXMgaXMgYXBwbGljYWJsZSB0byBVU0IgZHJpdmVycywgdGhlcmUncyBu
-byB3YXkNCj4gdGhlIGZpcm13YXJlIGNhbiBzZXR1cCBhIGZyYW1lYnVmZmVyIGFuZCBjb250
-aW51ZSBwdXNoaW5nIHBpeGVscyBvdmVyDQo+IFVTQiB3aGVuIExpbnV4IGhhcyBiZWVuIGdp
-dmVuIGNvbnRyb2wgb3ZlciB0aGUgVVNCIGJ1cz8NCj4gDQo+IFRoZSBzYW1lIGFyZ3VtZW50
-IGdvZXMgZm9yIHRoZSBTUEkgZHJpdmVycyBpbiBkcm0vdGlueS8gYXMgd2VsbC4NCg0KVGhl
-IGludGVuZGVkIHNlbWFudGljcyBvZiB0aGUgb3B0aW9uIGlzIHRvIGRpc2FibGUgZXZlcnkg
-ZGlzcGxheSBvdXRwdXQgDQpleGNlcHQgZm9yIHRoZSBidWZmZXIgcHJvdmlkZWQgYnkgdGhl
-IGZpcm13YXJlLg0KDQpXaXRoIFVTQiBpdCBzdGlsbCB3b3VsZCBzdGlsbCBkaXNhYmxlIHRo
-ZSBkcml2ZXIuIFRoYXQncyB1c2VmdWwgaWYgb25seSANCmZvciBkZWJ1Z2dpbmcuIFRoZXJl
-IGFyZSBhbHNvIHN5c3RlbXMgd2l0aCBoYXJkLXdpcmVkIFVTQiBkaXNwbGF5cyB3aGVyZSAN
-Cm9uZSBjYW5ub3QganVzdCB1bnBsdWcgdGhlIGFkYXB0ZXIuDQoNCkFkbWl0dGVkbHksIFVT
-QiBncmFwaGljcyBpcyBhIGJpdCBvZiBhbiBvZGQgdXNlIGNhc2UsIGJ1dCBuZWl0aGVyIGlz
-IGl0IA0KdG9vIGZhciBmZXRjaGVkIElNSE8uDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoN
-Cj4gDQo+IE5vcmFsZi4NCj4gDQo+PiAgIGRyaXZlcnMvZ3B1L2RybS9ndWQvZ3VkX2Rydi5j
-IHwgMyArKysNCj4+ICAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQ0KPj4NCj4+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZ3VkL2d1ZF9kcnYuYyBiL2RyaXZlcnMv
-Z3B1L2RybS9ndWQvZ3VkX2Rydi5jDQo+PiBpbmRleCAzZjlkNGI5YTFlM2QuLjRkMjUzZDI0
-OTUxMiAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ndWQvZ3VkX2Rydi5jDQo+
-PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZ3VkL2d1ZF9kcnYuYw0KPj4gQEAgLTQ0Niw2ICs0
-NDYsOSBAQCBzdGF0aWMgaW50IGd1ZF9wcm9iZShzdHJ1Y3QgdXNiX2ludGVyZmFjZSAqaW50
-ZiwgY29uc3Qgc3RydWN0IHVzYl9kZXZpY2VfaWQgKmlkKQ0KPj4gICAJdTMyICpmb3JtYXRz
-Ow0KPj4gICAJaW50IHJldCwgaTsNCj4+ICAgDQo+PiArCWlmIChkcm1fZmlybXdhcmVfZHJp
-dmVyc19vbmx5KCkpDQo+PiArCQlyZXR1cm4gLUVOT0RFVjsNCj4+ICsNCj4+ICAgCXJldCA9
-IHVzYl9maW5kX2J1bGtfb3V0X2VuZHBvaW50KGludGYtPmN1cl9hbHRzZXR0aW5nLCAmYnVs
-a19vdXQpOw0KPj4gICAJaWYgKHJldCkNCj4+ICAgCQlyZXR1cm4gcmV0Ow0KPj4NCg0KLS0g
-DQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBT
-b2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBO
-w7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6Rm
-dHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+Hi Dave, Daniel,
 
---------------1crH0C4rSftW08LJ0e6ypRRP--
+Here's this week drm-misc-fixes PR.
 
---------------OuCp2pMrpe0bCrN8DB8Atd5e
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Note that dim pull-request was stalling when generating the email, so I
+had to send this with git request-pull, hence the odd tag name and the
+format slightly different.
+
+Maxime
+
+The following changes since commit b19926d4f3a660a8b76e5d989ffd1168e619a5c4:
+
+  drm/syncobj: Deal with signalled fences in drm_syncobj_find_fence. (2021-12-08 17:19:48 +0100)
+
+are available in the Git repository at:
+
+  ssh://git.freedesktop.org/git/drm/drm-misc tags/drm-misc-fixes-2021-12-16-1
+
+for you to fetch changes up to fea3fdf975dd9f3e5248afaab8fe023db313f005:
+
+  drm/ast: potential dereference of null pointer (2021-12-14 09:18:28 +0100)
+
+----------------------------------------------------------------
+One null pointer dereference fix for ast, a pixel clock unit fix for
+simpledrm and a user-space regression revert for fb-helper
+
+----------------------------------------------------------------
+Alejandro Concepcion-Rodriguez (1):
+      drm: simpledrm: fix wrong unit with pixel clock
+
+Javier Martinez Canillas (1):
+      Revert "drm/fb-helper: improve DRM fbdev emulation device names"
+
+Jiasheng Jiang (1):
+      drm/ast: potential dereference of null pointer
+
+ drivers/gpu/drm/ast/ast_mode.c   | 5 ++++-
+ drivers/gpu/drm/drm_fb_helper.c  | 8 +++++++-
+ drivers/gpu/drm/tiny/simpledrm.c | 2 +-
+ 3 files changed, 12 insertions(+), 3 deletions(-)
+
+--7uzv5e5skyluybsp
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmG69toFAwAAAAAACgkQlh/E3EQov+CC
-/A/+P2sDtTtuGwMGG08kv3L3bMnRYIrT3fx54SxznXWvPfb3BjpPn46CEZZprdelueBfDaPFxyyV
-XxPJxU2IXBet7++pYW1y+gQf5IlqA0+GcvTq9PlqmcyAayd7tGF6mLbzz+xJuCVomRfyUrM/OKWN
-QHPDOGvuUG+wSYx5QRYI47KtRYY6st+KXEy9VE2GW3c/klNPU85j9lV2aDwWBczN9/Wfh1CInpuK
-uJGx23JdvVuOADInKSEdvBvcrfoT4uGBm085tDwt3mqI8l0+Z9b2Rkz/2mTLNnqLrKSkzSuaWmHh
-rwIZNc5IFybk8rJ40Nig/yT7C1JjnwebAQlRLBcW11C/iOkOOFyHNCDco0P1/jmAJpiPPCPo48UJ
-wkuqjM8Ws1O4nhtTPoqGVNBpsHUwL+mj6IUkurvv6npgNv4ZLC4Tzw4PPCVimq5bdNpooCAgXlON
-IZQOCVLgWy3HqhnaFNJ4OIjhJXSy8vsF56U/h/JR7Py0FATIAOj8qNcVSuSe8A5pdMHzFvR4CvMS
-4/Uk8/RofMorOQWiYeHp1EeWvOOKjvW9DzmRWdBl6ri73qAT0RUi0QL6j68QnVwzZAnGRE0k9Zps
-tu1fiqbqVBJxh54WsiEq2hTGMWloaPqO6W6DkNSOcUl4EGGLk0dOHdOPeDJBi6DprPWcPfak1WBW
-h4o=
-=0cvI
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYbr4GwAKCRDj7w1vZxhR
+xfhoAQCkdRHgBw5o4McbF4gfFr163KJLmD3RorxTQ4oJSYak7QD8C8q+UCm9V98/
+6aP/ruPk1UMY2ir06nx1StYkIt0oQQw=
+=fdy3
 -----END PGP SIGNATURE-----
 
---------------OuCp2pMrpe0bCrN8DB8Atd5e--
+--7uzv5e5skyluybsp--
