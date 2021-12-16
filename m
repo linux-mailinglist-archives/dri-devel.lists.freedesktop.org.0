@@ -1,64 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB58B4772E2
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 14:15:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20389477351
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 14:38:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF8B410FD38;
-	Thu, 16 Dec 2021 13:15:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C68F410FE4C;
+	Thu, 16 Dec 2021 13:37:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA19910FD38
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 13:14:59 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id i22so14348835wrb.13
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 05:14:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=plntCnoEf4l+2O6n5K2//4k94Xfcj+XZd/AAN0qmlKg=;
- b=FIO7dAYdQsogQTPmvKNLvcHJmvCg6gKD4gaQUApx/L1OHKB+gdGjuTQwMR7iPm8Au8
- 4eDzFvrkcAOZXcQn5eov/jIed7iuyilK/FrmhhV9f8ipnM83966znpVIWxQ0y8rENrx/
- DR0dxbZOtzzl9ogZGBI4oY+EmvHQRGx2Ld8d2c1XyIEbnaK/FbMQjYo43feaOZmMoGu8
- UWjWd+D5bnSeZfuFe/mxr8MKKfHSA6tbWcxKs/BtvaTwP4U2sCSA86AZ5Wi7VNnPQfPJ
- tqn7Slclo/4qiAkuAew92t2U+kRMWgGGC7e1ZxGxqC6qyRRNj5UDm262Don06h799XPa
- /fuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=plntCnoEf4l+2O6n5K2//4k94Xfcj+XZd/AAN0qmlKg=;
- b=if5WI5j8LarcsbUm4o3DnO+tQqWsWC8uShyQNqLF9MSOI3Grm9eFSCXztxVNz6r6v/
- wPmDX4ET4bVg2b2yhBWnDrPTwL8ohAHmK55HOewiKg2m+aGaY0HjlJCC87am1cYRcby3
- OG/qeF2zzsvSH5UscRhT2TknYAbAUuEHYH8xjz4mAAF7IxU47kkIXX+6tpiCEmqyfwoX
- tIsVWRiqNl85n43or7Vfoo1DGSrBUFMjv7DmW0pSPm1k24SkqLIh8Fx/dB2umNYsUGEG
- 1bIA5p4nM3M1uqF2Ng0oSwA/D9cGJu7lkcGdL1MPevMACmt9vARZZNbc2Nvp00fgulzm
- xDeg==
-X-Gm-Message-State: AOAM531TCwhN4ExOEusUohMucc344gfhFwyx7+x43Y2U24NvvjXWb8J8
- 7ZLXwVqD4ee9wfNEZNOqORg=
-X-Google-Smtp-Source: ABdhPJxZUIxe16AL1U6OVyWzVyNBqRDFNcocl3pvTG2D4/71hffD8CvlNr25wmCQpMbdSJzLa6QbkQ==
-X-Received: by 2002:a05:6000:1787:: with SMTP id
- e7mr8860261wrg.433.1639660498311; 
- Thu, 16 Dec 2021 05:14:58 -0800 (PST)
-Received: from orome ([193.209.96.43])
- by smtp.gmail.com with ESMTPSA id x1sm4651630wru.40.2021.12.16.05.14.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Dec 2021 05:14:57 -0800 (PST)
-Date: Thu, 16 Dec 2021 14:14:52 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v16 00/40] NVIDIA Tegra power management patches for 5.17
-Message-ID: <Ybs7zKQY1uJCJ2f3@orome>
-References: <20211130232347.950-1-digetx@gmail.com> <YboP9IFMUrUnEzrU@orome>
- <6baf6013-fbb2-b42f-5b26-2d10a2ca9374@gmail.com>
+Received: from michel.telenet-ops.be (michel.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3D0110FE4B
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 13:37:57 +0000 (UTC)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:d13f:527c:5504:a743])
+ by michel.telenet-ops.be with bizsmtp
+ id X1dg2600W250X30061dgUe; Thu, 16 Dec 2021 14:37:55 +0100
+Received: from rox.of.borg ([192.168.97.57])
+ by ramsan.of.borg with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1mxqx2-005Q97-3L; Thu, 16 Dec 2021 14:37:40 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1mxqx1-009xvH-9H; Thu, 16 Dec 2021 14:37:39 +0100
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+To: Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>
+Subject: [PATCH v3 0/3] Add Mali-G31 GPU support for RZ/G2L SoC
+Date: Thu, 16 Dec 2021 14:37:36 +0100
+Message-Id: <20211208104026.421-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1639660956.git.geert@linux-m68k.org>
+References: <cover.1639660956.git.geert@linux-m68k.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="GBkk6fJUCkERZf+c"
-Content-Disposition: inline
-In-Reply-To: <6baf6013-fbb2-b42f-5b26-2d10a2ca9374@gmail.com>
-User-Agent: Mutt/2.1.3 (987dde4c) (2021-09-10)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,89 +50,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, linux-pwm@vger.kernel.org,
- Ulf Hansson <ulf.hansson@linaro.org>, linux-clk@vger.kernel.org,
- linux-pm@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- Viresh Kumar <vireshk@kernel.org>,
- Peter De Schrijver <pdeschrijver@nvidia.com>, linux-mmc@vger.kernel.org,
- Adrian Hunter <adrian.hunter@intel.com>, dri-devel@lists.freedesktop.org,
- Mikko Perttunen <mperttunen@nvidia.com>, David Heidelberg <david@ixit.cz>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- linux-tegra@vger.kernel.org, Jonathan Hunter <jonathanh@nvidia.com>,
- Lee Jones <lee.jones@linaro.org>, Michael Turquette <mturquette@baylibre.com>,
- linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, Damien Le Moal <damien.lemoal@wdc.com>,
+ Lewis Hanly <lewis.hanly@microchip.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, tomeu.vizoso@collabora.com,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Chris Paterson <Chris.Paterson2@renesas.com>, dri-devel@lists.freedesktop.org,
+ Steven Price <steven.price@arm.com>, linux-renesas-soc@vger.kernel.org,
+ Conor Dooley <conor.dooley@microchip.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>, linux-riscv@lists.infradead.org,
+ Biju Das <biju.das@bp.renesas.com>, Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
---GBkk6fJUCkERZf+c
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+RZ/G2L SoC embeds Mali-G31 bifrost GPU.
+This patch series aims to add support for the same
 
-On Wed, Dec 15, 2021 at 07:11:53PM +0300, Dmitry Osipenko wrote:
-> 15.12.2021 18:55, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > On Wed, Dec 01, 2021 at 02:23:07AM +0300, Dmitry Osipenko wrote:
-> >> This series adds runtime PM support to Tegra drivers and enables core
-> >> voltage scaling for Tegra20/30 SoCs, resolving overheating troubles.
-> >>
-> >> All patches in this series are interdependent and should go via Tegra =
-tree
-> >> for simplicity.
-> >=20
-> > So these can be applied in any order without breaking anything?
->=20
-> Please notice that the word is *inter* dependent, not *in* dependent.
->=20
-> There is a build dependency for the patches. The first two "soc/tegra"
-> must be applied first.
+It is tested with latest drm-misc-next + mesa 21.3.0 + 
+out of tree patch for (du + DSI) + 
+platform specific mesa configuration for RZ/G2L.
 
-Okay, so I've separated the first two patches out into a separate stable
-branch that I can share between the Tegra and drm/tegra trees to pull in
-the build dependency and then I've applied the driver patches to those
-two trees and I've verified that the two branches build correctly. I've
-not done any runtime testing, but I'll trust you on that.
+Tested the kmscube application.
 
-> The "soc/tegra: pmc: Enable core domain support for Tegra20 and Tegra30"
-> *must* be the last applied patch if we want to preserve bisectability.
-> The core voltage scaling can be enabled only once all the drivers got
-> the power management support.
->=20
-> The rest could be applied out-of-order.
+test logs:-
+root@smarc-rzg2l:~# kmscube
+Using display 0xaaaadb6e7d30 with EGL version 1.4
+===================================
+EGL information:
+  version: "1.4"
+  vendor: "Mesa Project"
+.....
+===================================
+OpenGL ES 2.x information:
+  version: "OpenGL ES 3.1 Mesa 21.3.0"
+  shading language version: "OpenGL ES GLSL ES 3.10"
+  vendor: "Panfrost"
+  renderer: "Mali-G31 (Panfrost)"
+  ....
+===================================
+^C
 
-One last remaining question: I don't think I can apply that one patch if
-it requires that all the others are enabled first because it would
-basically create a circular dependency.
+root@smarc-rzg2l:~# cat /proc/interrupts | grep panfrost
+ 82:     587287          0     GICv3 186 Level     panfrost-job
+ 83:          2          0     GICv3 187 Level     panfrost-mmu
+ 84:          8          0     GICv3 185 Level     panfrost-gpu
 
-Can I pick up the final 7 patches (the DT ones) independently of that
-one patch without things breaking? If so, one option we could try is to
-wait for both Tegra and drm/tegra trees to get merged into v5.17-rc1 and
-then send that one patch (which is only a 4-line diff) right after
-v5.17-rc1 so that it makes it into v5.17-rc2. That avoids the circular
-dependency and should get everything enabled for v5.17.
+root@smarc-rzg2l:~# cat /sys/class/devfreq/11840000.gpu/trans_stat
+     From  :   To
+           :  50000000  62500000 100000000 125000000 200000000 250000000 400000000 500000000   time(ms)
+*  50000000:         0         0         0         0         0         0         0         0        72
+   62500000:         0         0         0         0         0         0         0         0         0
+  100000000:         0         0         0         0         0         0         0         0         0
+  125000000:         0         0         0         0         0         0         0         1        68
+  200000000:         0         0         0         0         0         0         0         1        68
+  250000000:         1         0         0         0         0         0         0         0        84
+  400000000:         0         0         0         0         0         0         0         0         0
+  500000000:         0         0         0         1         1         1         0         0       736
+Total transition : 6
+root@smarc-rzg2l:~# kmscube
+Using display 0xaaaaf7a421b0 with EGL version 1.4
+===================================
+EGL information:
+  version: "1.4"
+  vendor: "Mesa Project"
+  .....
+===================================
+OpenGL ES 2.x information:
+  version: "OpenGL ES 3.1 Mesa 21.3.0"
+  shading language version: "OpenGL ES GLSL ES 3.10"
+  vendor: "Panfrost"
+  renderer: "Mali-G31 (Panfrost)"
+  ......
+===================================
 
-Do you see any problems with that?
+root@smarc-rzg2l:~#
+root@smarc-rzg2l:~#
+root@smarc-rzg2l:~# cat /sys/class/devfreq/11840000.gpu/trans_stat
+     From  :   To
+           :  50000000  62500000 100000000 125000000 200000000 250000000 400000000 500000000   time(ms)
+*  50000000:         0         0         0         0         0         0         0         1       144
+   62500000:         0         0         0         0         0         0         0         0         0
+  100000000:         0         0         0         0         0         0         0         9       524
+  125000000:         0         0         9         0         0         0         0         3      2544
+  200000000:         0         0         0        11         0         0         0        46      3304
+  250000000:         1         0         0         0        33         0         0         0      7496
+  400000000:         0         0         0         0        16        19         0         0      2024
+  500000000:         1         0         0         1         8        15        35         0      4032
+Total transition : 208
 
-Thierry
+Platform specific mesa configuration patch for RZ/G2L
+---------------------
+src/gallium/targets/dri/meson.build
++               'rcar-du_dri.so',
+src/gallium/targets/dri/target.c
++DEFINE_LOADER_DRM_ENTRYPOINT(rcar_du)
 
---GBkk6fJUCkERZf+c
-Content-Type: application/pgp-signature; name="signature.asc"
+V2->V3:
+ * Moved optional clock-names and reset-names to SoC-specific conditional schemas.
+ * minimum number of reset for the generic GPU is set to 1.
+ * Documented number of clocks, resets, interrupts and interrupt-names in RZ/G2L
+   SoC-specific conditional schemas.
+ * Updated commit description for patch#3
+V1->V2:
+ * Removed clock patches from this seies, as it is accepted for 5.17
+ * Added Rb tag from Geert
+ * Added reset-names required property for RZ/G2L and updated the board dtsi.
 
------BEGIN PGP SIGNATURE-----
+Biju Das (3):
+  dt-bindings: gpu: mali-bifrost: Document RZ/G2L support
+  arm64: dts: renesas: r9a07g044: Add Mali-G31 GPU node
+  arm64: dts: renesas: rzg2l-smarc-som: Add vdd core regulator
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmG7O8oACgkQ3SOs138+
-s6FaPxAAurtl9RVWzTQoPumQ6idPyH/LVTqdXH8uhMksiRkr4Y5/jwAgyN0Xds9g
-0elHBQwMR1RuXgChY1mCtzK5Bd7KYuXtbRrDNDuzdNeErVVWhAmkLfpaWx4gtsn+
-LnNMnNjGqhpJl+x4JET4cExLmzvsZPonV3KOJb11zqf0MHPPErBIUNVtN3fHEtEz
-mH2WbH3Kt7f1ih6syH6w+LcwdZ9Z6nRxSfzXTX1Y8IFrncwmwU7UIVAJ0/iPNXso
-7CVfEKEkR+3q2FNlHFpoZj+yeeSsk7pMC1EIHXIgjUqZmgVgZPbT4s02saWqsI0s
-SUOo2uLBW8xIsSvUltCBsi8fQ36zj8gWz0brqiAQu47t7XB7oX8Z1m7Y+9GjuFoz
-AlATrPX+VxyLryAxx4WgkYVarCHr67qjqRjZJ9LXqCES8IfwXxgNBRP7igTLkLzD
-dkMkGxw+n7T1Ic6hH4/UPK44ZfpHDhE8Fl1zD2P/h0hBm9kcd7P+8GO3SnKETaKS
-MsdJTA+1RUCdT/24s/obuMDA/3va8SoU6UEzaOqmsb+KujnSHb8kcR/NWHjAdDXP
-325SFxssz92BU7jiOnooUw1BhqGio6Ufv+EEHJCataCIczKt9XogPtLJrcO94qo1
-Qlb6JGF1/uUXQj3IaICdmPigTcyAdSuFM4pKXoyOL8HOToBjKcc=
-=AIks
------END PGP SIGNATURE-----
+ .../bindings/gpu/arm,mali-bifrost.yaml        | 45 ++++++++++++-
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi    | 65 +++++++++++++++++++
+ .../boot/dts/renesas/rzg2l-smarc-som.dtsi     | 13 ++++
+ 3 files changed, 121 insertions(+), 2 deletions(-)
 
---GBkk6fJUCkERZf+c--
+-- 
+2.17.1
+
+
