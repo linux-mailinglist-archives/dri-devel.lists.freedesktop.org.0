@@ -1,40 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4051347668E
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 00:35:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81A334766DA
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 01:14:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37C7F10FB7A;
-	Wed, 15 Dec 2021 23:35:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E302E10E279;
+	Thu, 16 Dec 2021 00:14:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 567D410FB78
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 23:35:09 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0709A3F6;
- Thu, 16 Dec 2021 00:35:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1639611307;
- bh=H51T6htQp2rWqAcUTAUazaCoHWQo+Tt50O7rqnloqnU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=r5OJn3x/nKWYmgh6sBxtmDAdiuDQUm9bxrhRMDSqj664EYEe73U4wGPRMNXxE1QKd
- DM6zrLQckv+sFcubsHRJ+1C8wE6dRNhhArwJWT/PU7C5F/TQOXxkqZqGpwzXJSezrH
- xA6ufouLRoaQ9brl8HJqV3M0ej2nO4G1tO1WSJ3w=
-Date: Thu, 16 Dec 2021 01:35:04 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDE4210E279
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 00:14:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639613642;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7W3D6aipQ7MmiTWUNGcz4ziDpKJUEwSYTscXbSv+wq0=;
+ b=DD04rvZe7U3wHykwQqa2P8NWhzX5WajhVcarMhDlLh8QiJigwc5RKGiwZEljSBYdzEmBfh
+ JhexM94FQEXPIiRzJwfdL3bWGCB8QBbZiFapPNzHwJvAsny9M4Cqp1BtgZ1gdBO5sbqdMY
+ cZsdr/WAZh/SRhE9hS360UjRa8pazs0=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-227-sy-OaWcmP1um1vxELmK9uQ-1; Wed, 15 Dec 2021 19:14:01 -0500
+X-MC-Unique: sy-OaWcmP1um1vxELmK9uQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ v18-20020a5d5912000000b001815910d2c0so6344321wrd.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 16:14:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=7W3D6aipQ7MmiTWUNGcz4ziDpKJUEwSYTscXbSv+wq0=;
+ b=DhA4UuoBNVHUCXQebuyCIZAzRMKOi13QKuvAm/g4VHdfaUk9/YQQg8WGvIfeFn/i5x
+ Bgi5qoLfiZxyauqcrwm9hn9/chqreEO1ryRXKa4f+7Uu+MlERO5d9EMjl59oZCXouBov
+ 6t/7+GqZNhZ7hwYUl7spE6obPS2PF0MyzJXCfR8kk5WINRbrlGZB15tabcBVZBi1F+LY
+ PRRcwEsb2X+lHiDXNT80CZoKTeUJna1upwERBdChOW+FvX5wOulQKejCNISVikYH8Kyl
+ mLzNFy6/DRmIg7TLkUvD/OLXnigBFd/H2hysUoG0C4NTHcBVhQHe91a5l+if7dkq8gFe
+ L9KA==
+X-Gm-Message-State: AOAM532SMXf7HEWvgNb/6mK4AF1ne625cGhp0v/tdHELmxcoLq6OJwQf
+ eIRDz5sISHXiPJHsQPXaXA2HjeAL9OeFI3B2B3xd9qSY0ISFxDfgHyi9TLbqee4/hc3ALJRqVdX
+ ogwox84FZwT4G+WlbQhSI9e/rtOql
+X-Received: by 2002:a5d:6988:: with SMTP id g8mr1098773wru.280.1639613640358; 
+ Wed, 15 Dec 2021 16:14:00 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwtFiQlo1OWJszH9sLjS9VrT9U/5Ah9t5B3NSP9Pp5WGOewg/23R8Cbq/5aTDTBp3WEMBppdA==
+X-Received: by 2002:a5d:6988:: with SMTP id g8mr1098754wru.280.1639613640157; 
+ Wed, 15 Dec 2021 16:14:00 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id b10sm3464915wrg.19.2021.12.15.16.13.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Dec 2021 16:13:59 -0800 (PST)
+Message-ID: <91c6b455-62cd-cec7-8445-e93c99230a03@redhat.com>
+Date: Thu, 16 Dec 2021 01:13:56 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
 Subject: Re: [PATCH 00/60] drm: Make all drivers to honour the nomodeset
  parameter
-Message-ID: <Ybp7qDs1p3x5GzNJ@pendragon.ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 References: <20211215010008.2545520-1-javierm@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211215010008.2545520-1-javierm@redhat.com>
+ <Ybp7qDs1p3x5GzNJ@pendragon.ideasonboard.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <Ybp7qDs1p3x5GzNJ@pendragon.ideasonboard.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,170 +110,48 @@ Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
  Boris Brezillon <bbrezillon@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Yannick Fertre <yannick.fertre@foss.st.com>, linux-kernel@vger.kernel.org,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
  Philippe Cornu <philippe.cornu@foss.st.com>, Tian Tao <tiantao6@hisilicon.com>,
  Jyri Sarha <jyri.sarha@iki.fi>, Erico Nunes <nunes.erico@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier,
+Hello Laurent,
 
-Thank you for the patches.
+On 12/16/21 00:35, Laurent Pinchart wrote:
 
-On Wed, Dec 15, 2021 at 01:59:08AM +0100, Javier Martinez Canillas wrote:
-> The nomodeset kernel command line parameter is used to prevent the KMS/DRM
-> drivers to be registered/probed. But only a few drivers implement support
-> for this parameter and most DRM drivers would just ignore it.
->
-> This (huge) patch series makes all DRM drivers to honour this parameter. It
-> is posted as separate patches to make easier for drivers maintainers to ack
-> or pick them independently at their own pace.
+[snip]
+
+>>
+>> I've built tested with 'make allmodconfig && make M=drivers/gpu/drm/', but
+>> only booted in a few devices with and without nomodeset in the cmdline. So
+>> testing and reviewing for all the drivers would be highly appreciated.
 > 
-> Patches are quite trivial and just add an if (drm_firmware_drivers_only())
-> check and return -ENODEV if that's true. The condition is checked as early
-> as possible, that is in the module_init handler for drivers that have one
-> or in the probe function for drivers that are using the module_*_driver()
-> macros and don't have their own module init function.
+> The fact that the series is so big makes me think it would be better to
+> handle this in the DRM core. Is there any way we could do so ? Otherwise
+> we'll chase this issue forever in new drivers, and will be plagued with
+> cargo cult problems.
 > 
-> I included all the DRM drivers that think makes sense. I only left the vc4
-> and v3d drivers, that Maxime is already handling in another patch series
-> and the vgem, vkms and simpledrm drivers that should ignore the param IMO.
-> 
-> I've built tested with 'make allmodconfig && make M=drivers/gpu/drm/', but
-> only booted in a few devices with and without nomodeset in the cmdline. So
-> testing and reviewing for all the drivers would be highly appreciated.
 
-The fact that the series is so big makes me think it would be better to
-handle this in the DRM core. Is there any way we could do so ? Otherwise
-we'll chase this issue forever in new drivers, and will be plagued with
-cargo cult problems.
+Yes, what Thomas suggested is to add a set of drm_module_{pci,platform}_driver()
+macros in include/drm/drm_drv.h, that will just check whether the driver should
+be registered or not and call the {pci,platform}_register_driver() functions.
 
-> Javier Martinez Canillas (60):
->   drm/komeda: Add support for the nomodeset kernel parameter
->   drm/arm/hdlcd: Add support for the nomodeset kernel parameter
->   drm/malidp: Add support for the nomodeset kernel parameter
->   drm/armada: Add support for the nomodeset kernel parameter
->   drm/aspeed: Add support for the nomodeset kernel parameter
->   drm/atmel-hlcdc: Add support for the nomodeset kernel parameter
->   drm/etnaviv: Add support for the nomodeset kernel parameter
->   drm/exynos: Add support for the nomodeset kernel parameter
->   drm/fsl-dcu: Add support for the nomodeset kernel parameter
->   drm/gma500: Add support for the nomodeset kernel parameter
->   drm/gud: Add support for the nomodeset kernel parameter
->   drm/hisilicon/hibmc: Add support for the nomodeset kernel parameter
->   drm/hisilicon/kirin: Add support for the nomodeset kernel parameter
->   drm/hyperv: Add support for the nomodeset kernel parameter
->   drm/i810: Add support for the nomodeset kernel parameter
->   drm/imx/dcss: Add support for the nomodeset kernel parameter
->   drm/imx: Add support for the nomodeset kernel parameter
->   drm/ingenic: Add support for the nomodeset kernel parameter
->   drm/kmb: Add support for the nomodeset kernel parameter
->   drm/lima: Add support for the nomodeset kernel parameter
->   drm/mcde: Add support for the nomodeset kernel parameter
->   drm/mediatek: Add support for the nomodeset kernel parameter
->   drm/meson: Add support for the nomodeset kernel parameter
->   drm/mga: Add support for the nomodeset kernel parameter
->   drm/msm: Add support for the nomodeset kernel parameter
->   drm: mxsfb: Add support for the nomodeset kernel parameter
->   drm/omap: Add support for the nomodeset kernel parameter
->   drm/panel: ilitek-ili9341: Add support for the nomodeset kernel
->     parameter
->   drm/panfrost: Add support for the nomodeset kernel parameter
->   drm/pl111: Add support for the nomodeset kernel parameter
->   drm/r128: Add support for the nomodeset kernel parameter
->   drm: rcar-du: Add support for the nomodeset kernel parameter
->   drm/rockchip: Add support for the nomodeset kernel parameter
->   drm/savage: Add support for the nomodeset kernel parameter
->   drm/shmobile: Add support for the nomodeset kernel parameter
->   drm/sis: Add support for the nomodeset kernel parameter
->   drm/sprd: Add support for the nomodeset kernel parameter
->   drm/sti: Add support for the nomodeset kernel parameter
->   drm/stm: Add support for the nomodeset kernel parameter
->   drm/sun4i: Add support for the nomodeset kernel parameter
->   drm/tdfx: Add support for the nomodeset kernel parameter
->   drm/tegra: Add support for the nomodeset kernel parameter
->   drm/tidss: Add support for the nomodeset kernel parameter
->   drm/tilcdc: Add support for the nomodeset kernel parameter
->   drm/arc: Add support for the nomodeset kernel parameter
->   drm/gm12u320: Add support for the nomodeset kernel parameter
->   drm/hx8357d: Add support for the nomodeset kernel parameter
->   drm/ili9163: Add support for the nomodeset kernel parameter
->   drm/ili9225: Add support for the nomodeset kernel parameter
->   drm/ili9341: Add support for the nomodeset kernel parameter
->   drm/ili9486: Add support for the nomodeset kernel parameter
->   drm/mi0283qt: Add support for the nomodeset kernel parameter
->   drm/repaper: Add support for the nomodeset kernel parameter
->   drm/st7586: Add support for the nomodeset kernel parameter
->   drm/st7735r: Add support for the nomodeset kernel parameter
->   drm/tve200: Add support for the nomodeset kernel parameter
->   drm/udl: Add support for the nomodeset kernel parameter
->   drm/via: Add support for the nomodeset kernel parameter
->   drm/xen: Add support for the nomodeset kernel parameter
->   drm/xlnx: Add support for the nomodeset kernel parameter
-> 
->  drivers/gpu/drm/arm/display/komeda/komeda_drv.c | 4 ++++
->  drivers/gpu/drm/arm/hdlcd_drv.c                 | 3 +++
->  drivers/gpu/drm/arm/malidp_drv.c                | 3 +++
->  drivers/gpu/drm/armada/armada_drv.c             | 3 +++
->  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c         | 3 +++
->  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c    | 3 +++
->  drivers/gpu/drm/etnaviv/etnaviv_drv.c           | 3 +++
->  drivers/gpu/drm/exynos/exynos_drm_drv.c         | 3 +++
->  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c       | 3 +++
->  drivers/gpu/drm/gma500/psb_drv.c                | 3 +++
->  drivers/gpu/drm/gud/gud_drv.c                   | 3 +++
->  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 3 +++
->  drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c | 3 +++
->  drivers/gpu/drm/hyperv/hyperv_drm_drv.c         | 3 +++
->  drivers/gpu/drm/i810/i810_drv.c                 | 3 +++
->  drivers/gpu/drm/imx/dcss/dcss-drv.c             | 3 +++
->  drivers/gpu/drm/imx/imx-drm-core.c              | 3 +++
->  drivers/gpu/drm/ingenic/ingenic-drm-drv.c       | 3 +++
->  drivers/gpu/drm/kmb/kmb_drv.c                   | 3 +++
->  drivers/gpu/drm/lima/lima_drv.c                 | 3 +++
->  drivers/gpu/drm/mcde/mcde_drv.c                 | 3 +++
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c          | 3 +++
->  drivers/gpu/drm/meson/meson_drv.c               | 3 +++
->  drivers/gpu/drm/mga/mga_drv.c                   | 3 +++
->  drivers/gpu/drm/msm/msm_drv.c                   | 3 +++
->  drivers/gpu/drm/mxsfb/mxsfb_drv.c               | 3 +++
->  drivers/gpu/drm/omapdrm/omap_drv.c              | 3 +++
->  drivers/gpu/drm/panel/panel-ilitek-ili9341.c    | 3 +++
->  drivers/gpu/drm/panfrost/panfrost_drv.c         | 3 +++
->  drivers/gpu/drm/pl111/pl111_drv.c               | 3 +++
->  drivers/gpu/drm/r128/r128_drv.c                 | 3 +++
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c           | 3 +++
->  drivers/gpu/drm/rockchip/rockchip_drm_drv.c     | 3 +++
->  drivers/gpu/drm/savage/savage_drv.c             | 3 +++
->  drivers/gpu/drm/shmobile/shmob_drm_drv.c        | 3 +++
->  drivers/gpu/drm/sis/sis_drv.c                   | 3 +++
->  drivers/gpu/drm/sprd/sprd_drm.c                 | 3 +++
->  drivers/gpu/drm/sti/sti_drv.c                   | 3 +++
->  drivers/gpu/drm/stm/drv.c                       | 3 +++
->  drivers/gpu/drm/sun4i/sun4i_drv.c               | 3 +++
->  drivers/gpu/drm/tdfx/tdfx_drv.c                 | 3 +++
->  drivers/gpu/drm/tegra/drm.c                     | 3 +++
->  drivers/gpu/drm/tidss/tidss_drv.c               | 3 +++
->  drivers/gpu/drm/tilcdc/tilcdc_drv.c             | 3 +++
->  drivers/gpu/drm/tiny/arcpgu.c                   | 3 +++
->  drivers/gpu/drm/tiny/gm12u320.c                 | 3 +++
->  drivers/gpu/drm/tiny/hx8357d.c                  | 3 +++
->  drivers/gpu/drm/tiny/ili9163.c                  | 3 +++
->  drivers/gpu/drm/tiny/ili9225.c                  | 3 +++
->  drivers/gpu/drm/tiny/ili9341.c                  | 3 +++
->  drivers/gpu/drm/tiny/ili9486.c                  | 3 +++
->  drivers/gpu/drm/tiny/mi0283qt.c                 | 3 +++
->  drivers/gpu/drm/tiny/repaper.c                  | 3 +++
->  drivers/gpu/drm/tiny/st7586.c                   | 3 +++
->  drivers/gpu/drm/tiny/st7735r.c                  | 3 +++
->  drivers/gpu/drm/tve200/tve200_drv.c             | 3 +++
->  drivers/gpu/drm/udl/udl_drv.c                   | 3 +++
->  drivers/gpu/drm/via/via_drv.c                   | 3 +++
->  drivers/gpu/drm/xen/xen_drm_front.c             | 3 +++
->  drivers/gpu/drm/xlnx/zynqmp_dpsub.c             | 3 +++
->  60 files changed, 181 insertions(+)
+That way the change in the drivers would just be something like the following:
 
+-module_platform_driver(malidp_platform_driver);
++drm_module_platform_driver(malidp_platform_driver);
+
+There are some drivers that still need a custom module init functions for various
+reasons (e.g: register a set of devices/drivers, need to be a late init call, etc)
+but at least for most drivers this should be handled transparently as long as they
+use these drm_*_register_driver() macros.
+
+So just ignore this series and I'll post a v2 soon.
+
+Best regards,
 -- 
-Regards,
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
-Laurent Pinchart
