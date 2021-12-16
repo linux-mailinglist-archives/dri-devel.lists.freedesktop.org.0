@@ -1,124 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B91A476C01
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 09:33:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D7D8476C05
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 09:34:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D091610E247;
-	Thu, 16 Dec 2021 08:33:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 647C610E22D;
+	Thu, 16 Dec 2021 08:34:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2061.outbound.protection.outlook.com [40.107.92.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B22A10E22D;
- Thu, 16 Dec 2021 08:33:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LnOHyVwZXbjD7Jr4FPrgGtVzxbW5mTaTLQh+bo4ihJ8GkQ7ttcBCG+kFKhVvErXS6kuVDdmqVFjCz23qeP1vkM8gBd1MCd4QkWLnDP/eZTbuyJZ9ikMvL7L4MnjgxuJCqb+gY2a+RRglf2DZB/Lf2bBrKn9403ypStQRjbByvG78lbiX4bXqn2GsTbFsL6RRnDwPJdbRy6GVGtpXW4YblcTwGKUrhZQkiFI7hoBa0rUIzJCLhR8Im/Im3GeC6l4rf2BHx7zQs3OnJ+yEY1bBz44y6FpAD148RvfijfZab4RBTdB6GwMsjbD2mkkIockqpq0PblT1VOP+ZLVg0tgYqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=H0GQ7izHkZE4k0wsKAWxbZQVTyMkmVS7v8KgFdugD10=;
- b=il9NQ+ygUeYLKzTcakXs2VQ3tlGci39490GL8qTdZv+QljYE2N+EnqERYkZiY7dK5mCz/nX1bAItZatNUMUimfDbXU3d39MZEyxzQIOM5gvuvQ6VFfH7dU6Z4FPN9nDLmnGVHQyeCG47QDPkBfnTWK9CXcDQPy5dfoi0p4KXbbzZSzuK4xGzD2V3ZUHklQGSG++bddtSAEJHgwx7XHcHYg8t4MoJUaX3IeSJZOYN9LIoc5mIVi7yPxNLgtg2ScGDk0FGmep9SlclgGdgzJ3XcAHfOIOZm6LxaR1jnpmOPqXnKyjvAB58FOAsq73C36x6sXqlajVsDWkev9sKZNViEQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H0GQ7izHkZE4k0wsKAWxbZQVTyMkmVS7v8KgFdugD10=;
- b=GYs2iA3MLDbCMhnBBpkW8uUrDXkCxjimyiJtlba71eoa4fUq7VujhxkC+kEhKHLmEaWfnuhHuKgfVFYROM8Za/A9gse0n+Mz54d8jvh6vsr9aqF+fNf6kgLmh3mhiC5ie5z50sngiPEPwW4Ewjfq6vmD6407fKjzPgCFVZpks2A=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
- (2603:10b6:301:5a::14) by MWHPR1201MB0077.namprd12.prod.outlook.com
- (2603:10b6:301:55::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.14; Thu, 16 Dec
- 2021 08:33:09 +0000
-Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
- ([fe80::d16c:a6d5:5d2e:f9d4]) by MWHPR1201MB0192.namprd12.prod.outlook.com
- ([fe80::d16c:a6d5:5d2e:f9d4%12]) with mapi id 15.20.4778.018; Thu, 16 Dec
- 2021 08:33:08 +0000
-Subject: Re: [PATCH 6/7] drm/amdgpu: Ensure kunmap is called on error
-To: Ira Weiny <ira.weiny@intel.com>
-References: <20211210232404.4098157-1-ira.weiny@intel.com>
- <20211210232404.4098157-7-ira.weiny@intel.com>
- <5bbd3c48-1388-9469-8b6f-deed64406d7d@amd.com>
- <20211214033725.GR3538886@iweiny-DESK2.sc.intel.com>
- <c3b173ea-6509-ebbe-b5f9-eeb29f1ce57e@amd.com>
- <20211215210949.GW3538886@iweiny-DESK2.sc.intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <2a7030f5-d55f-94c7-90ba-5a57235159f6@amd.com>
-Date: Thu, 16 Dec 2021 09:32:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-In-Reply-To: <20211215210949.GW3538886@iweiny-DESK2.sc.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: AM5PR0701CA0007.eurprd07.prod.outlook.com
- (2603:10a6:203:51::17) To MWHPR1201MB0192.namprd12.prod.outlook.com
- (2603:10b6:301:5a::14)
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
+ [64.147.123.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8182C10E22D
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 08:34:28 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 348F732009CC;
+ Thu, 16 Dec 2021 03:34:27 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Thu, 16 Dec 2021 03:34:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=i5jA6zrzD6KhNJNsLnAG5Q9XZV5
+ a4aUUIvHw6JpuQ1Y=; b=LqZLurJG/Nq2InCbRqGJbnTu0RxsN+ENPpYNCFSLbp0
+ vUfPGw5/pbPaKcVof4HcmsAVydZ+EyqWQ89hOvvd16i2khb4qslLByEPdRIvrlv8
+ 3falcPnN0YCXznu0f7PRdNqpJIv0x0AscOi7kxJnuwcedjtDdSLGP867FhiPxNVR
+ N9JpLSfZd9I4zt+y865rb4RT7i3qfk+oVvvSCLvC7W0wS3tw2mz9e2QdHwZnTYsg
+ nRRbILatIXW0IBSYf4hw77AZqJZPOWbsp8yhaGgprSmsN0WEAQvbFDiX7ZiL7dwR
+ F6PAIYdKJ/hLEPyoWwIJiYVpwhz5xIV8PoJzTFSotig==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=i5jA6z
+ rzD6KhNJNsLnAG5Q9XZV5a4aUUIvHw6JpuQ1Y=; b=VEKTAFYPVm/FhL+HfKxc/8
+ 47OjYeJQ6Q4ZRJxaREgg3wDMWEBkLrNGqV7sCWiMLGNyzSw0UFVduawQ020hso12
+ 2yCf6R6XkdIDR9qRVbag7T68t0Nghga1l76UH8de11o4mi+b68tm6argS55gUyQi
+ dfAH++T7ftT3XIYbgo9XbbktSs45vDHGl3vDYIcrPAkJSR6j1riatwnqcHQT/GHZ
+ lUSVY0vCrb2bsvah4v3mf5ex6ntuLQcJYJIeUlNV4G7e5jTC1L39j+uMuo0wVi6k
+ MtXmMUuEQonJGv32tp2u3OI6vdz0oLhrSCJtqISA4r3PDj4craNNQdyAMuA2gpyw
+ ==
+X-ME-Sender: <xms:Evq6YUscGEYuw5_0obyQlVRmT5Vhh7jxWkGU4tH6yvLf4NSiYYM4dA>
+ <xme:Evq6YReKyehsCxMxtEPLy56FBK3GDPJC4sqGlhXeh9BkeOctu_Sg6QKgIoynXC00L
+ MkoqkJ_LLhGDEP4uIo>
+X-ME-Received: <xmr:Evq6YfzNdGZ1Ef_hGWhA6xmPZE0ZPt-9LCiZjSbwC87a56-vAWKj1B6rxRPplBPh6H2-p6XCAdS2doZQRVr26WAMdQqRh046DEuaCsY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrleefgdduudekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:Evq6YXOI_0FIC_HugXAtVm80Dow3VWDYoOj1GeLNkIRzJlqxuXIh8g>
+ <xmx:Evq6YU8vrG6U_64gaGXcC6LqBX99v35GS7yCwW0FQzBJsx0NnLecvA>
+ <xmx:Evq6YfW6i3GBDpacTS0bM0cLIQOAm7rmRlhtbiret2_LlCgMQMFdzA>
+ <xmx:Evq6YRPIFdM-i5E99Al2xQ3Flx6SvC9JpJ0I7MrQuz_aHnazaD9Dpw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 16 Dec 2021 03:34:25 -0500 (EST)
+Date: Thu, 16 Dec 2021 09:34:24 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v4 2/3] drm/vc4: plane: Add support for DRM_FORMAT_P030
+Message-ID: <20211216083424.hz3fqdrgafmc4dap@houat>
+References: <20211215091739.135042-1-maxime@cerno.tech>
+ <20211215091739.135042-3-maxime@cerno.tech>
+ <d1fc2a05-a1c7-8fcf-3c5f-659a2735b4a4@suse.de>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 550f1c5f-b9ee-4f0c-dd84-08d9c06eb036
-X-MS-TrafficTypeDiagnostic: MWHPR1201MB0077:EE_
-X-Microsoft-Antispam-PRVS: <MWHPR1201MB0077EA66DE67AF9A095BEED183779@MWHPR1201MB0077.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Adt4c3+gDcqa+4OMTcZ9eMd7nj6/FrkF7cfhddRrDUYhBVbtQphxXNYzOsUqS3osXWTMpgNuSCuMvcXAYIYuGpLyUYLnJN4MPfOzc9IYxh84p3O/4q/1XcPtsAX1vvZBpHKIGzesKeFQ4q3EOtgg1hSShtLFi7WYde/0opVHcU/vXzTKFFF2QxbJtzIybWinGyvPrdDyTBZWv6MjCzdc/n+ighYYc0JqFuq7MrbKEEoo4OD0oBodhwdMaLSYJGV3Dl8SqQ2j0kJwyjh56/jdFhWQx4TslN96Fbljsc38dEPvGv4RXSpLNBi+vwt/JLCnYmwGQkHsSlP0laAUnSSgC6XWYqlPyqndIgEzSJJVkaSjvRoZeu805ZXq1g0VDMZ8yWepHFqGv9GFwhzu8gBFmQKJZg+n3QT50NTu5uenXYUIiRcsYjUKbs2BxcJzpD4MVTo5vXdGUmb1uHO9KQlbaKc8TDR+ddeNp9LeWZgG0trHvLUKMGR+j6UfO5DRytx2c2VbEo+JICZnw2mZso2V/mB0it5E9Sh0YlreHslABI1Hen3shkrnHM1ZJODyUQLpFIqJBRM5mttBHfvha8Xm4PJaCoE1VjQuVAv+tKyLx49HxYXLcsTRLFOWgqq9IMpdJCw6ickH+PHEvalt7g+9ENpDKjEDwfs03b6cuOAP+uVgAw9dayNhTKgQ1lcZwrU1vs9s0HmsuDfnLw+P9otK3vb10ufUvU+RlJ41AK3YybxjkK7rS5KA4gIF8Le1vydW
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR1201MB0192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(4326008)(6666004)(36756003)(2906002)(54906003)(186003)(8676002)(5660300002)(7416002)(6512007)(31696002)(38100700002)(66574015)(26005)(316002)(8936002)(6916009)(86362001)(6506007)(83380400001)(6486002)(31686004)(66556008)(66476007)(66946007)(2616005)(508600001)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NTMxVzI3eWRQU1BLMkdkYjJLMTBKK2oyT1JMN2RhbW9GQ0VzVlljb1A1UFJF?=
- =?utf-8?B?ZWZaYUN2VDhLZm5zZ2dNZ3NhMHlqa2gzMVJDeGxyZWt2RlJ5ZXhFeWdEbkdv?=
- =?utf-8?B?UDBITThrQkVkZmpjMXBZMHBFcFVCbG5QU2NmU0dEZytGd0VvYmZ1cWp3c3I2?=
- =?utf-8?B?OGs4a20vNjdiUjF0RTAvQU1KT0JHUHhoeTVnQWp1WFRpSDU4cFVQSGFQYklE?=
- =?utf-8?B?KzVPSHgyUEhHVzNrR3FpWEtlQjFISjd1a1kvMm55SzRtUy8zQXBlendINEU2?=
- =?utf-8?B?R1dyMS96Q0Zta2RHQjVNVUlSM0RzWHd1QnAvakg2a3JOdEthaWZQYitiQ1Zp?=
- =?utf-8?B?UXdnd2tsNW92a1JMRGlaenBiblU2REtpNjA5WURuNTl4dVg3QUF2b0FHRVZ6?=
- =?utf-8?B?TkwvOU5kTUY3K2FTM04rU2czanlOQ1RwQ2dXVHBWNjRwRnIxaUE3VjNjcUgw?=
- =?utf-8?B?VTZKZ1pZZW5xVkhWaUQyaStmdnpNQVZhNzY2cW1yMWJjbFJsSGRMeTNrR2VM?=
- =?utf-8?B?S0MrRTJzNFFXdnpsMHk4elh4alloQ2ZHb243eWpKN0VmSjI4aUhBdVBRdHht?=
- =?utf-8?B?RlVRNENXMUJMZWdjeUZnSkVVY0lNVmw1YUwxLzVZYzZhWW43RUcyZ0pKelVK?=
- =?utf-8?B?K3hrWEdqS1ljYUxMUnU5NDFMRVozdTlmTElJN2VUclNCS0V2VjFwVWJtUXkr?=
- =?utf-8?B?OEczMlZ3WDVXbGJKMHFwVXA1Q1ZzM3VXOGNWS0luNEhCb3EyZzdMUGpodzM2?=
- =?utf-8?B?WUtsSzZucGtVN3NXci9uck8vek1sZ0Y0cTBsWkNycG94aEZieGR4YzdiT09F?=
- =?utf-8?B?cEdncWFrTDFRQ1RnTjB1enVGWTZnbUkxY0xHdnd4TGVJNWkvYmlrZWx0eGZ4?=
- =?utf-8?B?ZnFPV0FlTlU1d1JNV3ZiejJIa1V4clhsalB0UmN6Q2xHek9OdklOcnRVMTY4?=
- =?utf-8?B?azUreGFVZmNkVlJqRVIwYjQyVGNVUmV6UnBSazdJOGFlMVVsa1RwSmhvamNz?=
- =?utf-8?B?SWxUaDNPeTBSYTlqbGZLNUdLek1VZ3VpLzgxQno2cDRzTUJYM212R2J0dmYy?=
- =?utf-8?B?UTg0aW1USHFIbkRRVkNMU3dRQnNQYU91R2ZkR2lpR01sUGl0L0gzNGdrazh3?=
- =?utf-8?B?eTY2VFVOS3FXbWVyNEpGQkRtQm5tclI4MTk2MVdyMElJQ0hJaGFadVZ2Y3F3?=
- =?utf-8?B?dDlha3ZkVTQ3cHZ1aTFqSkRzTk5LTysrNVhIbUR3VVNCYkhPWklMWTcxU1Nv?=
- =?utf-8?B?aFJUYWZCRTkveEh5SWZCenpTZXFJR0hxTStraUFObmUrOWRoYS9mUXhEZ0Ru?=
- =?utf-8?B?YTdoOStQVWNJTWFyWU5RSHhPcEFFMVZFeGpJdzV1NVEvcUI4ZXB4YVA0V2xS?=
- =?utf-8?B?bXJMaFE5WlhkajhFNzFpdjlYczI2MUhuUFFzVUJWL2FwL1ozRkxIemxnY28y?=
- =?utf-8?B?elpraDlxZ0locVkvOGRQUWEwaXlOWnN2VWFNTEI5a0RrVW9UUTRGdHpUaCts?=
- =?utf-8?B?WnpNT05Ic2lWMlphVlFrYWlJb3B6aUpDSG1IdU5pN0hqQUZxTUc4cTVRSDBn?=
- =?utf-8?B?MUE3T211eWtoS0FPWFErcWhzY0RxQ0U1UFh6bytDTDV4RmpSS0VROCt4Ynlo?=
- =?utf-8?B?WVNlUUI5VTNFNzJhSVFwYmdkb3NiRTd5T0ZZNkpSUkNjbXZFajc2ZS9mM3Ju?=
- =?utf-8?B?c2M5eFpiR1orVGh0RWRLMCsyQlRkSlBRazFHdy94REhDNkM4NGVZWGx1R0Zu?=
- =?utf-8?B?QjdUelMvZWpNeDhnYTExYUpPc3I2VjN2ajVET0hveDB2VFp0QWpCa2Fzblgx?=
- =?utf-8?B?cWgybGNFNzFMdStqZDEvWStxTGdMblNyL1hGa1NGeW5pdk92UHRmYjFtVXd4?=
- =?utf-8?B?NDJRZ09jd2FyTk9xUkh1bnc2a2RQSjNBK0FRMkpVTjFwaXN5OTVBbjFzRWta?=
- =?utf-8?B?b2lQbkd0WXNFeTk2dTV5aVJDQk84NHlHZ01JaGxHcHByZmlEckpnMWVGNmR6?=
- =?utf-8?B?N2VpbE9zeW11dVpocWRLdUo0NmZjNVRJM2lFWnowamVFOUpESFEyL1BmOWxm?=
- =?utf-8?B?YmZGSFZwRCtEdCtUMjFjYkVYWGRRWlA1cllOcTJxMnJ6MnFGNnNEWnNPdVVT?=
- =?utf-8?Q?J9So=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 550f1c5f-b9ee-4f0c-dd84-08d9c06eb036
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1201MB0192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2021 08:33:08.6396 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vQys50RsNhj9dk+e4CPDwc7+r1b9jCUVltR6C4Q5E5d60XY139BpWliCzdL14AId
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1201MB0077
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="yjapqddx42py7bzy"
+Content-Disposition: inline
+In-Reply-To: <d1fc2a05-a1c7-8fcf-3c5f-659a2735b4a4@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,90 +81,287 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sean Paul <sean@poorly.run>
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 15.12.21 um 22:09 schrieb Ira Weiny:
-> On Tue, Dec 14, 2021 at 08:09:29AM +0100, Christian König wrote:
->> Am 14.12.21 um 04:37 schrieb Ira Weiny:
->>> On Mon, Dec 13, 2021 at 09:37:32PM +0100, Christian König wrote:
->>>> Am 11.12.21 um 00:24 schrieb ira.weiny@intel.com:
->>>>> From: Ira Weiny <ira.weiny@intel.com>
->>>>>
->>>>> The default case leaves the buffer object mapped in error.
->>>>>
->>>>> Add amdgpu_bo_kunmap() to that case to ensure the mapping is cleaned up.
->>>> Mhm, good catch. But why do you want to do this in the first place?
->>> I'm not sure I understand the question.
->>>
->>> Any mapping of memory should be paired with an unmapping when no longer needed.
->>> And this is supported by the call to amdgpu_bo_kunmap() in the other
->>> non-default cases.
->>>
->>> Do you believe the mapping is not needed?
->> No, the unmapping is not needed here. See the function amdgpu_bo_kmap(), it
->> either creates the mapping or return the cached pointer.
-> Ah I missed that.  Thanks.
->
->> A call to amdgpu_bo_kunmap() is only done in a few places where we know that
->> the created mapping most likely won't be needed any more. If that's not done
->> the mapping is automatically destroyed when the BO is moved or freed up.
->>
->> I mean good bug fix, but you seem to see this as some kind of prerequisite
->> to some follow up work converting TTM to use kmap_local() which most likely
->> won't work in the first place.
-> Sure.  I see now that it is more complicated than I thought but I never thought
-> of this as a strict prerequisite.  Just something I found while trying to
-> figure out how this works.
->
-> How much of a speed up is it to maintain the ttm_bo_map_kmap map type?
 
-Good question. I don't really know.
+--yjapqddx42py7bzy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This used to be pretty important for older drivers since there the 
-kernel needs to kmap individual pages and patch them up before sending 
-the command stream to the hardware.
+Hi Thomas,
 
-It most likely doesn't matter for modern hardware.
+Thanks for your review
 
-> Could this all be done with vmap and just remove the kmap stuff?
+On Wed, Dec 15, 2021 at 04:11:50PM +0100, Thomas Zimmermann wrote:
+> Hi,
+>=20
+> I have a number of comments below. But if you want, you can add
+>=20
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Maybe, but I wouldn't bet on it and I don't really want to touch any of 
-the old drivers to figure that out.
+Thanks :)
 
-Christian.
+> Am 15.12.21 um 10:17 schrieb Maxime Ripard:
+> > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> >=20
+> > The P030 format, used with the DRM_FORMAT_MOD_BROADCOM_SAND128 modifier,
+> > is a format output by the video decoder on the BCM2711.
+> >=20
+> > Add native support to the KMS planes for that format.
+> >=20
+> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > ---
+> >   drivers/gpu/drm/vc4/vc4_plane.c | 127 ++++++++++++++++++++++++--------
+> >   1 file changed, 96 insertions(+), 31 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_=
+plane.c
+> > index ac761c683663..022cd12f561e 100644
+> > --- a/drivers/gpu/drm/vc4/vc4_plane.c
+> > +++ b/drivers/gpu/drm/vc4/vc4_plane.c
+> > @@ -33,6 +33,7 @@ static const struct hvs_format {
+> >   	u32 hvs; /* HVS_FORMAT_* */
+> >   	u32 pixel_order;
+> >   	u32 pixel_order_hvs5;
+> > +	bool hvs5_only;
+> >   } hvs_formats[] =3D {
+> >   	{
+> >   		.drm =3D DRM_FORMAT_XRGB8888,
+> > @@ -128,6 +129,12 @@ static const struct hvs_format {
+> >   		.hvs =3D HVS_PIXEL_FORMAT_YCBCR_YUV422_2PLANE,
+> >   		.pixel_order =3D HVS_PIXEL_ORDER_XYCRCB,
+> >   	},
+> > +	{
+> > +		.drm =3D DRM_FORMAT_P030,
+> > +		.hvs =3D HVS_PIXEL_FORMAT_YCBCR_10BIT,
+> > +		.pixel_order =3D HVS_PIXEL_ORDER_XYCBCR,
+> > +		.hvs5_only =3D true,
+> > +	},
+> >   };
+> >   static const struct hvs_format *vc4_get_hvs_format(u32 drm_format)
+> > @@ -762,47 +769,90 @@ static int vc4_plane_mode_set(struct drm_plane *p=
+lane,
+> >   	case DRM_FORMAT_MOD_BROADCOM_SAND128:
+> >   	case DRM_FORMAT_MOD_BROADCOM_SAND256: {
+> >   		uint32_t param =3D fourcc_mod_broadcom_param(fb->modifier);
+> > -		u32 tile_w, tile, x_off, pix_per_tile;
+> > -
+> > -		hvs_format =3D HVS_PIXEL_FORMAT_H264;
+> > -
+> > -		switch (base_format_mod) {
+> > -		case DRM_FORMAT_MOD_BROADCOM_SAND64:
+> > -			tiling =3D SCALER_CTL0_TILING_64B;
+> > -			tile_w =3D 64;
+> > -			break;
+> > -		case DRM_FORMAT_MOD_BROADCOM_SAND128:
+> > -			tiling =3D SCALER_CTL0_TILING_128B;
+> > -			tile_w =3D 128;
+> > -			break;
+> > -		case DRM_FORMAT_MOD_BROADCOM_SAND256:
+> > -			tiling =3D SCALER_CTL0_TILING_256B_OR_T;
+> > -			tile_w =3D 256;
+> > -			break;
+> > -		default:
+> > -			break;
+> > -		}
+> >   		if (param > SCALER_TILE_HEIGHT_MASK) {
+> > -			DRM_DEBUG_KMS("SAND height too large (%d)\n", param);
+> > +			DRM_DEBUG_KMS("SAND height too large (%d)\n",
+> > +				      param);
+>=20
+> Should be good for the 100-character limit.
+>=20
+> >   			return -EINVAL;
+> >   		}
+> > -		pix_per_tile =3D tile_w / fb->format->cpp[0];
+> > -		tile =3D vc4_state->src_x / pix_per_tile;
+> > -		x_off =3D vc4_state->src_x % pix_per_tile;
+> > +		if (fb->format->format =3D=3D DRM_FORMAT_P030) {
+> > +			hvs_format =3D HVS_PIXEL_FORMAT_YCBCR_10BIT;
+> > +			tiling =3D SCALER_CTL0_TILING_128B;
+> > +		} else {
+> > +			hvs_format =3D HVS_PIXEL_FORMAT_H264;
+> > +
+> > +			switch (base_format_mod) {
+> > +			case DRM_FORMAT_MOD_BROADCOM_SAND64:
+> > +				tiling =3D SCALER_CTL0_TILING_64B;
+> > +				break;
+> > +			case DRM_FORMAT_MOD_BROADCOM_SAND128:
+> > +				tiling =3D SCALER_CTL0_TILING_128B;
+> > +				break;
+> > +			case DRM_FORMAT_MOD_BROADCOM_SAND256:
+> > +				tiling =3D SCALER_CTL0_TILING_256B_OR_T;
+> > +				break;
+> > +			default:
+> > +				return -EINVAL;
+>=20
+> It's not atomic modesetting? I'm asking because the code returns errno co=
+des
+> in several places.
 
->
-> Ira
->
->> Regards,
->> Christian.
->>
->>> Ira
->>>
->>>> Christian.
->>>>
->>>>> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
->>>>>
->>>>> ---
->>>>> NOTE: It seems like this function could use a fair bit of refactoring
->>>>> but this is the easiest way to fix the actual bug.
->>>>> ---
->>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c | 1 +
->>>>>     1 file changed, 1 insertion(+)
->>>>> nice
->>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
->>>>> index 6f8de11a17f1..b3ffd0f6b35f 100644
->>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
->>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
->>>>> @@ -889,6 +889,7 @@ static int amdgpu_uvd_cs_msg(struct amdgpu_uvd_cs_ctx *ctx,
->>>>>     		return 0;
->>>>>     	default:
->>>>> +		amdgpu_bo_kunmap(bo);
->>>>>     		DRM_ERROR("Illegal UVD message type (%d)!\n", msg_type);
->>>>>     	}
+This is atomic modesetting, but we're allowed to return an error at this
+point :)
 
+The function name is a bit confusing but it's mostly due to how the
+hardware operates. We don't have the usual register set for the
+composition but instead we have a list of hardware descriptors that will
+describe the next frame.
+
+The driver builds it here, at atomic_check time, and then copy it to the
+hardware at atomic_commit time. So even though it's called
+vc4_plane_mode_set, and does the operations needed to setup the
+composition properly, we're still in atomic_check at this point.
+
+> > +			}
+> > +		}
+> >   		/* Adjust the base pointer to the first pixel to be scanned
+> >   		 * out.
+> > +		 *
+> > +		 * For P030, y_ptr [31:4] is the 128bit word for the start pixel
+> > +		 * y_ptr [3:0] is the pixel (0-11) contained within that 128bit
+> > +		 * word that should be taken as the first pixel.
+> > +		 * Ditto uv_ptr [31:4] vs [3:0], however [3:0] contains the
+> > +		 * element within the 128bit word, eg for pixel 3 the value
+> > +		 * should be 6.
+> >   		 */
+> >   		for (i =3D 0; i < num_planes; i++) {
+> > +			u32 tile_w, tile, x_off, pix_per_tile;
+> > +
+> > +			if (fb->format->format =3D=3D DRM_FORMAT_P030) {
+> > +				/*
+> > +				 * Spec says: bits [31:4] of the given address
+> > +				 * should point to the 128-bit word containing
+> > +				 * the desired starting pixel, and bits[3:0]
+> > +				 * should be between 0 and 11, indicating which
+> > +				 * of the 12-pixels in that 128-bit word is the
+> > +				 * first pixel to be used
+> > +				 */
+> > +				u32 remaining_pixels =3D vc4_state->src_x % 96;
+> > +				u32 aligned =3D remaining_pixels / 12;
+> > +				u32 last_bits =3D remaining_pixels % 12;
+> > +
+> > +				x_off =3D aligned * 16 + last_bits;
+> > +				tile_w =3D 128;
+> > +				pix_per_tile =3D 96;
+> > +			} else {
+> > +				switch (base_format_mod) {
+> > +				case DRM_FORMAT_MOD_BROADCOM_SAND64:
+> > +					tile_w =3D 64;
+> > +					break;
+> > +				case DRM_FORMAT_MOD_BROADCOM_SAND128:
+> > +					tile_w =3D 128;
+> > +					break;
+> > +				case DRM_FORMAT_MOD_BROADCOM_SAND256:
+> > +					tile_w =3D 256;
+> > +					break;
+> > +				default:
+> > +					return -EINVAL;
+> > +				}
+> > +				pix_per_tile =3D tile_w / fb->format->cpp[0];
+> > +				x_off =3D (vc4_state->src_x % pix_per_tile) /
+> > +					(i ? h_subsample : 1) *
+> > +					fb->format->cpp[i];
+> > +			}
+> > +
+> > +			tile =3D vc4_state->src_x / pix_per_tile;
+> > +
+>=20
+> It's hard to read. If you can put some of these switches into helpers, it
+> might be worth it.
+
+Indeed. The whole function would need some though, is it ok if I send a
+subsequent patch to fix it after merging this one?
+
+> >   			vc4_state->offsets[i] +=3D param * tile_w * tile;
+> >   			vc4_state->offsets[i] +=3D src_y /
+> >   						 (i ? v_subsample : 1) *
+> >   						 tile_w;
+> > -			vc4_state->offsets[i] +=3D x_off /
+> > -						 (i ? h_subsample : 1) *
+> > -						 fb->format->cpp[i];
+> > +			vc4_state->offsets[i] +=3D x_off & ~(i ? 1 : 0);
+> >   		}
+> >   		pitch0 =3D VC4_SET_FIELD(param, SCALER_TILE_HEIGHT);
+> > @@ -955,7 +1005,8 @@ static int vc4_plane_mode_set(struct drm_plane *pl=
+ane,
+> >   	/* Pitch word 1/2 */
+> >   	for (i =3D 1; i < num_planes; i++) {
+> > -		if (hvs_format !=3D HVS_PIXEL_FORMAT_H264) {
+> > +		if (hvs_format !=3D HVS_PIXEL_FORMAT_H264 &&
+> > +		    hvs_format !=3D HVS_PIXEL_FORMAT_YCBCR_10BIT) {
+>=20
+> This branch's condition looks like is could be a little helper.
+>=20
+> >   			vc4_dlist_write(vc4_state,
+> >   					VC4_SET_FIELD(fb->pitches[i],
+> >   						      SCALER_SRC_PITCH));
+> > @@ -1315,6 +1366,13 @@ static bool vc4_format_mod_supported(struct drm_=
+plane *plane,
+> >   		default:
+> >   			return false;
+> >   		}
+> > +	case DRM_FORMAT_P030:
+> > +		switch (fourcc_mod_broadcom_mod(modifier)) {
+> > +		case DRM_FORMAT_MOD_BROADCOM_SAND128:
+> > +			return true;
+> > +		default:
+> > +			return false;
+> > +		}
+> >   	case DRM_FORMAT_RGBX1010102:
+> >   	case DRM_FORMAT_BGRX1010102:
+> >   	case DRM_FORMAT_RGBA1010102:
+> > @@ -1347,8 +1405,11 @@ struct drm_plane *vc4_plane_init(struct drm_devi=
+ce *dev,
+> >   	struct drm_plane *plane =3D NULL;
+> >   	struct vc4_plane *vc4_plane;
+> >   	u32 formats[ARRAY_SIZE(hvs_formats)];
+> > +	int num_formats =3D 0;
+> >   	int ret =3D 0;
+> >   	unsigned i;
+> > +	bool hvs5 =3D of_device_is_compatible(dev->dev->of_node,
+> > +					    "brcm,bcm2711-vc5");
+>=20
+> Maybe also a little helper function?
+>=20
+> >   	static const uint64_t modifiers[] =3D {
+> >   		DRM_FORMAT_MOD_BROADCOM_VC4_T_TILED,
+> >   		DRM_FORMAT_MOD_BROADCOM_SAND128,
+> > @@ -1363,13 +1424,17 @@ struct drm_plane *vc4_plane_init(struct drm_dev=
+ice *dev,
+> >   	if (!vc4_plane)
+> >   		return ERR_PTR(-ENOMEM);
+> > -	for (i =3D 0; i < ARRAY_SIZE(hvs_formats); i++)
+> > -		formats[i] =3D hvs_formats[i].drm;
+> > +	for (i =3D 0; i < ARRAY_SIZE(hvs_formats); i++) {
+> > +		if (!hvs_formats[i].hvs5_only || hvs5) {
+> > +			formats[num_formats] =3D hvs_formats[i].drm;
+> > +			num_formats++;
+> > +		}
+> > +	}
+>=20
+> With this loop, could num_formats ever be 0?
+
+It shouldn't no, unless the older generation didn't define any format,
+which is highly unlikely.
+
+Maxime
+
+--yjapqddx42py7bzy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYbr6EAAKCRDj7w1vZxhR
+xepIAQDqK8gZkS6jL/qeXIAJFeEUZ3e6tJrQyotg6KpY7A6m5QD/TmhXCFnxkPwK
+NBNQP7z8jiIFRzlS+zVRRdusO8n2UgM=
+=DDtZ
+-----END PGP SIGNATURE-----
+
+--yjapqddx42py7bzy--
