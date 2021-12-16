@@ -1,63 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55B7A477588
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 16:15:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40C97477591
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 16:16:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00B8710ED68;
-	Thu, 16 Dec 2021 15:15:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04D1510E388;
+	Thu, 16 Dec 2021 15:16:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4478D10ED68
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 15:15:38 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id q16so4006569wrg.7
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 07:15:38 -0800 (PST)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42EF010E36A
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 15:16:44 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id t18so44749915wrg.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 07:16:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=7wfg2/f35dLEMNUi0braWFcvM9LG6JIBQ4wa0N2N+9Q=;
- b=K02jPVe6FfJPLsLfOx6aLSp6p2GvtVyyz7N6wDtzqIwXsRCI4cTDLOe3AKp/5WWZ9g
- sa+qFEoZ3X2OCvjCH4yFnmUGwx5VQOjbev+QAKRnZUMDQcVfYWE2/yLAzske3Jr4Id5A
- SKidD2w+NPbkRjjo7K2D+Bx8A9tJl/jFxUABwzf/HbgUSInjC40geoKXb4UmyeJrkJMT
- 97XSUhRI2rjVTebRnT6+dh5GvtcMvepH3YeRMrGljKYUG9YXfTRfIX0NHDA6F/4XJvEi
- hblnDIJzfcFP9Gssy37L4EB/WzIcSXrDZWLJ3iTgUAUDsEgCKhJfnOh8wHEsuIn3WDkX
- /kHA==
+ bh=YY9FZgJmPcsrvv1dDjxqyVtz1nIgdkKk67xLM0ZtgAc=;
+ b=GZcyGrESDUijhcGlmAgDyEACRWE72v4x7GWiBc6yS2aH74dRCA1Y3+gZd+icRAsgk/
+ jbEcpMe5d5KSkMbBICkq/rqdm7In9kQza4dIWoDlt2lPrFbK3yY4LA8oGN5UKwJqj1Dt
+ YaxYzweyskLjTCLMPGTDmov4lCKWtXsCmBnQys9ei1xj2X9jFCDK3SYckJ5caCREGz2L
+ z7W9HEj7osEIDxJl8Qr9dzT/KRzzkF56K6qj+GTSCbZsWklb/NK/uE5WFRQj5QHUK0CB
+ hrYBrYek82ZOp7Zf8HpnFsJWo3rPyNWJDYBbyQ0wWfUJnyWKH5PEwcujoLmeJqg5pNPt
+ P1Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=7wfg2/f35dLEMNUi0braWFcvM9LG6JIBQ4wa0N2N+9Q=;
- b=P+Whnym7LqFf8xb0kmbtNzAdeaWe9RqYeTIBuaqV32EfUf0GT0/XmTEW4dCGXF5/eN
- /4KDYEYqHwx0AQi0d+QjIHNKesHaibKnNdMjoj5c0bdB/dTH22IahVLNu0mfZshaBpln
- nrOXUAPrcR3rVwRLh3lPJc8M01hbI9TZapbM0Kx6ba4QwVFMqXzlpGzk2yVvtClOq+c8
- DQUVgLpTbpsb9Gj5lI6jN9CC0ycctRJa4VZtTTz3LG5tj1vUPuoKutM3tKqTSd2N0lxN
- KgGCDU7V07RBvM/fpwCNYxLfGoRGNyBn/e1cOfjKb9C8CpnZtpByZJilk14Z7t/BOBZI
- /MIw==
-X-Gm-Message-State: AOAM532GzrclY3ekDXJDVXBuAzWh/s1RscxpfFGNWUY6ElIFoKH+0Yj7
- WW0uofkOEDzuii+vEifbRjE=
-X-Google-Smtp-Source: ABdhPJxIjZcHYAgIzHJzFSWBtF2xpwNn98/7KzUbICH6lYJeYtkqC0HoC7Z9nFPbaR5XJD+omsmD6Q==
-X-Received: by 2002:a05:6000:18a8:: with SMTP id
- b8mr9330098wri.166.1639667736757; 
- Thu, 16 Dec 2021 07:15:36 -0800 (PST)
+ bh=YY9FZgJmPcsrvv1dDjxqyVtz1nIgdkKk67xLM0ZtgAc=;
+ b=AxPq8wcU88PLSWRohdzZ8mf76dPsrO6mRNXB3/CQWTxZtBTNJbK8UOQ1K1pl+OPM6N
+ Lkw2EbgYVVbuS00ANLmlGXSiADGbr0VBJmfY9R62ORlmwfLoibaCLTLrauwELp3yJj3n
+ v4cP5Js1mKvohJfC5r7mQFeVxqSNPXxxXFzU957NYveNeqAH95jD0NT8j83ae/NUqIwW
+ EwAKMGJ8PLh/U012Jp7u17NFPrKU52RqCOlWcOeQt5BQg+bvbc6xnng1y4pfWOJ/oosV
+ 8rGItX2DlQfZlMLguV3+LesJXbytGh5rt8A9wpyLreKj3Aaomez3ZranbV8o7zgi0C1y
+ II1A==
+X-Gm-Message-State: AOAM531qTE9UdZ2T7twKsMRj2UqjA/dO3EXWaOkShQW8EM9bs/YLBLrx
+ jcdwe4ZbdvIKXgDNqxcOHF0=
+X-Google-Smtp-Source: ABdhPJxBH32FXzbEF9kfDCQM7O3XzmCGCPyYvwo7dy80ekk+7njHTBz0zzBJAx5/tRWBcopUFGXr/g==
+X-Received: by 2002:adf:f189:: with SMTP id h9mr9495198wro.463.1639667802831; 
+ Thu, 16 Dec 2021 07:16:42 -0800 (PST)
 Received: from orome ([193.209.96.43])
- by smtp.gmail.com with ESMTPSA id n8sm3760461wri.47.2021.12.16.07.15.32
+ by smtp.gmail.com with ESMTPSA id b132sm4989939wmd.38.2021.12.16.07.16.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Dec 2021 07:15:34 -0800 (PST)
-Date: Thu, 16 Dec 2021 16:15:30 +0100
+ Thu, 16 Dec 2021 07:16:41 -0800 (PST)
+Date: Thu, 16 Dec 2021 16:16:38 +0100
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v4 05/22] ASoC: tegra20: spdif: Set FIFO trigger level
-Message-ID: <YbtYEml9OwaiO5IC@orome>
+Subject: Re: [PATCH v4 06/22] ASoC: tegra20-spdif: stop setting slave_id
+Message-ID: <YbtYVss3y8lgK1Z3@orome>
 References: <20211204143725.31646-1-digetx@gmail.com>
- <20211204143725.31646-6-digetx@gmail.com>
+ <20211204143725.31646-7-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="2AOAozvC3BJfdqc4"
+ protocol="application/pgp-signature"; boundary="f5K+xSKWjsvh7cW7"
 Content-Disposition: inline
-In-Reply-To: <20211204143725.31646-6-digetx@gmail.com>
+In-Reply-To: <20211204143725.31646-7-digetx@gmail.com>
 User-Agent: Mutt/2.1.3 (987dde4c) (2021-09-10)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,49 +81,54 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---2AOAozvC3BJfdqc4
+--f5K+xSKWjsvh7cW7
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Dec 04, 2021 at 05:37:08PM +0300, Dmitry Osipenko wrote:
-> FIFO trigger level must be not less than the size of DMA burst, otherwise
-
-"must be bigger than or equal to"?
-
-> audio will be played x4 faster that it should be because part of the DMA
-
-"faster than"
-
-> data will be dropped on FIFO input buffer overflow.
+On Sat, Dec 04, 2021 at 05:37:09PM +0300, Dmitry Osipenko wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 >=20
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> The DMA resource is never set up anywhere, and passing this as slave_id
+> has not been the proper procedure in a long time.
+>=20
+> As a preparation for removing all slave_id references from the ALSA code,
+> remove this one.
+>=20
+> According to Dmitry Osipenko, this driver has never been used and
+> the mechanism for configuring DMA would not work as it is implemented,
+> so this part will get rewritten when the driver gets put into use
+> again in the future.
+>=20
+> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->  sound/soc/tegra/tegra20_spdif.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  sound/soc/tegra/tegra20_spdif.c | 1 -
+>  1 file changed, 1 deletion(-)
 
-Makes sense:
+In case you want to pick this up into the ASoC tree and Vinod removes it
+=66rom the DMA tree:
 
 Acked-by: Thierry Reding <treding@nvidia.com>
 
---2AOAozvC3BJfdqc4
+--f5K+xSKWjsvh7cW7
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmG7WBAACgkQ3SOs138+
-s6ESDA/8DbIeZESt+My1mOIlSYpY4fVQpZkFchjl7VTpEtVebjXYgEHv4vGjmjY/
-OGd6DleF7MQc8GDZXXpTUgHXu6N3wR07FAPLv+2hwOy+ikYbSkvEcPRouU9bqXPP
-q0YaU7Uk4Rap6tXZt5Hftj4s1bCaDY7IpLx+24RMJT2s8OJtgSnlqe1YOAiXyEBk
-UZxAJztbek7OXcellOsfMj0ZctB68jS7cOt2/hQ/0W+q6hkwksORs2XbD69wDDsR
-ffq4z7CoZhxtZe9dxxphzXb8UaRr+40QmIRmtGFXS986geXAybN37lh7WZvC+Q4E
-FmQFh1xIdUqbGYdJfOCCsUnxdG1Fcp0+vuiJbRfWWgrKPQYvbSz1pyMyOFTgFxXH
-GcBz20DGnj2X86pvObeTVeLJqz3s9joZwbzhTTgL6osmUp3urxyl7A4jhKVK6vYZ
-lvUTBjpp9N7kKQ4HvKy3lc/mj3dt84Gn+Zxna1nw6MLlvwPp/81aUBq82sqISfiv
-iX87GcjYWzna2P61nKCX0GvLDs3NIbvPPQeBJ+TCYYhnVuNphbgFNa7Br1eJH3PD
-I7xZBuSgcMLy4LPatILEZHWk2fYrrX3Oa6kK4XbBiM+Cuux5orZ4VtDtWUtTxEX/
-dT2QwTi4s7PLXBGNYeA55d1mVvcKhIMicExH/ZQam5cdA+zHQYw=
-=Wn5s
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmG7WFYACgkQ3SOs138+
+s6Hi7A//WvSC6HaD4dz2sE4APvQvLcrg7UUf4Q12zWYMoso91uXcLGSE4K7y12yD
+bkRiCDYCsAmW2VCzapWMjLeTvpoUvVQPVDnZyXT/iY53m8GThFqnhNUZV+SUu4hx
+oYuH2I7i+2frmjS9b7HglTBshVz6ALvn+vCmS7sXzYbGVsv4BYc338j2P5s6R0NT
+AcoYb6/pav05eUTHLq086ipVUz9FxstCDhqq4A0x/7SJcY7TvVTzel9aqD6nfEiF
+LGzc7df6QzFkTkhu91FPKi0RiumCbQw4d4Gdm7c3wk3f6s6dLJoZ90HCCmxT9I+Y
+jUPPIjpmZl70RNDoWByu884ySe3b02sSGY1a5oLcOuBYx/M34rMo0mj71zHEKdQi
+IrD1Ayniv0NRnwNwkR7CwGJtMjB2mO15h8uEL5ujqWFHAqkwd3pNOx8m3DPo8pP0
+hpgHdTy0ogufgEy+Zs/V+w17WQVH/++zlxRJHvjfjWaAmJgBIP5jDJKpOtsZFxjd
+YLY35vN7331mQkzZZPfYyCna7q1qHEOm3UwRNzyVp0fuozZHl0GQBRQDB8q7emQB
+RROAE/QWJd7we/mF85Wfs8nKfYinG/iLM22oMZ6ZHIa81CoIiAXV7Ao89pDxCHcX
+A8b8dTnu42raqD/1R1Pb549QpdaPaIRHl6d43FzCPuETRCMIbpk=
+=o3sP
 -----END PGP SIGNATURE-----
 
---2AOAozvC3BJfdqc4--
+--f5K+xSKWjsvh7cW7--
