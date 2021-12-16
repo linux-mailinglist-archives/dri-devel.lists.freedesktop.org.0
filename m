@@ -1,63 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E07CA4779FD
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 18:05:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D879A477A08
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 18:10:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04F9510EBB3;
-	Thu, 16 Dec 2021 17:05:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D079D10EC09;
+	Thu, 16 Dec 2021 17:10:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B600910EBB3
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 17:05:37 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id j9so13275319wrc.0
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 09:05:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=7j+m2ZYPkntiUXroa7zFzzHZBrLkwbsxuUr+oxsqFNI=;
- b=L1dfsXv5k7AHZy+h4d/wKJGgSp6OOzSEMHbGjfzefgT4pE3pKnPm2Ka3UwpRmwSzDM
- LxXoZznVyvPD/S+vx8NvL2E1nSaCnSFVgD5S4udQjG5ln000pa4HYuUub+o9gk4WhX1Z
- qQZCboc9fQ0+lfLeZYvvhWVU7kv59K05MOwpQuwbJYOtEf6FkoMB5HT2OwvMRuoGiGBU
- lLJGf3Hd5mkfUroAAKVIfY+aYGUwTet6bGXz2O3aZMNVkmP0P74pOR7K4/d7RaF4c90f
- Y3hpjzCu2Es4f8208X8iDmwvuyw9SjWIl96nyhiJpWAAdtnOT8l1OL9aGYk75iS5lPnJ
- yiNQ==
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A954310EC19
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 17:10:20 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ bg2-20020a05600c3c8200b0034565c2be15so2270485wmb.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 09:10:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/875UjIeI/WJ8vJETC0FE0YD/vlu8AvDtauH40Y2gWE=;
+ b=csjFl4i8BgqLJ6vlmytOL5VCujMEkqZNZj36sscCD18vuWsyVxWvMjokPjes9slSh3
+ ZyaTE3U0f/e3NkKCvueAgEv7lARIYj6+ASipSy3lkt5UndutsAMsL+dOU5TYkIRwOP0j
+ yDodkrZ2UIDnL+oDG+ELW21SrhVF1ZL0cUQRL1AcF8P+o3tDHHe35CQOP4hAsTpPJbSt
+ 7INU0Lx/o3U/M9js0v5Oe1V9BnJfuNVItL/kUlWLf72Ip2ZIndtQOBMSXdb+lU2J5QmS
+ XtExVQxpsLKj6abUuEtV+Jt7kDDiHZoVAHswLoVH4BHb+Jl4+qGzl9NDmv0KGuWOApHu
+ GxOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=7j+m2ZYPkntiUXroa7zFzzHZBrLkwbsxuUr+oxsqFNI=;
- b=CbDOo7IAiT76x5Nd5Mlog5tvAPhXpgeJhl7PLeWqiwlM+XGyuOpwsR4ec3aMz3tgpt
- WKEnrQyPyH3utzU7Lb5Vhtrnux1vuTOdH78MBdCfJaxTcqPgzdF3/mdq3upAW/08o++s
- DZBRez7+D1vQJ7wuCPDm+ggiteKN/sGQbkprjfEEyF/J4LSXydY4UUiU0yMSRqfv+Qh7
- UkVeAoWOnUydCrG+0JuqeZHBkjUjVXiMUADcW/O1499GTTt0yibpQkAeEuIUGU+71lU3
- N4PVRNMUhzoGllaW52tlyuiN/1QVcKZnTOXOB7OEMEovaMfChm7aQbgAgJaqpUnyqAP5
- np9Q==
-X-Gm-Message-State: AOAM532VPwJ8zcJs14oWgsob9UB5ZDLs0v9HvGI1xXn/0FIUIWyNWCmo
- Qlc2ssYoxEhHvHbTSYTWc2s=
-X-Google-Smtp-Source: ABdhPJyZ8UBMUzr9lqUalxHqe/IZppy8n/amNPaUkBZXf5QsE1DF0oP6gIvv/f0zaMjDHE8IYYf9Rg==
-X-Received: by 2002:a5d:650f:: with SMTP id x15mr2198893wru.57.1639674336115; 
- Thu, 16 Dec 2021 09:05:36 -0800 (PST)
-Received: from elementary ([217.113.240.86])
- by smtp.gmail.com with ESMTPSA id g13sm6222488wri.102.2021.12.16.09.05.35
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/875UjIeI/WJ8vJETC0FE0YD/vlu8AvDtauH40Y2gWE=;
+ b=LSe3MyjkkyUMLx6hPmn+biSFqB1zRe791rnK/OABgpmCOJergJdh7nKmBjgyZRll8N
+ A6Ilab6u8+25i8QumOzpFEdhBA8dh/hWIXVzp+6KcI8HYmuURJ5inPUCXK0yISp8ICdv
+ vkKqt4dHWD8wbGdwF9YrB7/Ag4sBwnW3SjeScXrYe4e91DkTd4oBQR8AiNKhNWCX/xMt
+ e1e4bsWMPnv458wtnlzLb+d9FVC8EHwUW8DtDyGslyzseQSTjSbmZPuxQRIqSupoCj5R
+ 2arNUqcHdgHBph+RAtPHV7f6EuoLKD9ENPwZRDMnlPCcz1UOJTrzTGoYd7RM1oJ8SOtd
+ AgRw==
+X-Gm-Message-State: AOAM530GBC7p7CA6sXE4+h+McmXiRwKrQTokOsdrFxHBqIiaVZcjCOTn
+ 7K1bf+ygnqc+FD7mjZpaPpq17w==
+X-Google-Smtp-Source: ABdhPJxjxNIeJB6nYaZJ8T7V31trycXob0pijctG1UTk/tVAxm08sBb0CYmIcG8LFq7+Y/4oikmC6Q==
+X-Received: by 2002:a05:600c:a06:: with SMTP id z6mr5902582wmp.9.1639674619142; 
+ Thu, 16 Dec 2021 09:10:19 -0800 (PST)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175])
+ by smtp.gmail.com with ESMTPSA id e12sm6808415wrq.20.2021.12.16.09.10.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Dec 2021 09:05:35 -0800 (PST)
-Date: Thu, 16 Dec 2021 18:05:32 +0100
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm/vkms: set plane modifiers
-Message-ID: <20211216170532.GA16349@elementary>
-References: <20211215164213.9760-1-jose.exposito89@gmail.com>
- <3jzxPysjC6vyPfQXQoY5tuHmyXNupFZCZ3babQzWfWRMnI8epycdbhcSF12HWKrjojVo97MlLrJE2HGtM7jcliGZXGXUJSkNcAFn5eTZSu4=@emersion.fr>
+ Thu, 16 Dec 2021 09:10:18 -0800 (PST)
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/cma-helper: Describe what a "contiguous chunk" actually
+ means
+Date: Thu, 16 Dec 2021 17:10:04 +0000
+Message-Id: <20211216171004.18166-1-daniel.thompson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <3jzxPysjC6vyPfQXQoY5tuHmyXNupFZCZ3babQzWfWRMnI8epycdbhcSF12HWKrjojVo97MlLrJE2HGtM7jcliGZXGXUJSkNcAFn5eTZSu4=@emersion.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,55 +71,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- melissa.srw@gmail.com, cphealy@gmail.com
+Cc: Daniel Thompson <daniel.thompson@linaro.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 15, 2021 at 05:23:10PM +0000, Simon Ser wrote:
-> You'll need to set the format_mod_supported hook as well, otherwise the kernel
-> will expose a bogus IN_FORMATS prop with one modifier and zero formats.
+Since it's inception in 2012 it has been understood that the DRM GEM CMA
+helpers do not depend on CMA as the backend allocator. In fact the first
+bug fix to ensure the cma-helpers work correctly with an IOMMU backend
+appeared in 2014. However currently the documentation for
+drm_gem_cma_create() talks about "a contiguous chunk of memory" without
+making clear which address space it will be a contiguous part of.
+Additionally the CMA introduction is actively misleading because it only
+contemplates the CMA backend.
 
-Hi Simon,
+This matters because when the device accesses the bus through an IOMMU
+(and don't use the CMA backend) then the allocated memory is contiguous
+only in the IOVA space. This is a significant difference compared to the
+CMA bankend and the behaviour can be a surprise even to someone who does
+a reasonable level of code browsing (but doesn't find all the relevant
+function pointers ;-) ).
 
-Thank you very much for reviewing this patch, I just started learning
-about DRM and this kind of reviews are really helpful :)
+Improve the kernel doc comments accordingly.
 
-I was a bit confused by the docs[1]: (*stars* added in the relevant parts)
+Signed-off-by: Daniel Thompson <daniel.thompson@linaro.org>
+---
+ drivers/gpu/drm/drm_gem_cma_helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> format_mod_supported:
->
-> This *optional* hook is used for the DRM to determine if the given
-> format/modifier combination is valid for the plane. This allows the
-> DRM to generate the correct format bitmask (which formats apply to
-> which modifier), and to valdiate modifiers at atomic_check time.
->
-> *If not present*, then any modifier in the plane’s modifier list is
-> allowed with any of the plane’s formats.
+diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
+index 8467783e92f3..81d7181deebd 100644
+--- a/drivers/gpu/drm/drm_gem_cma_helper.c
++++ b/drivers/gpu/drm/drm_gem_cma_helper.c
+@@ -32,10 +32,10 @@
+  *
+  * For devices the access the memory bus through an (external) IOMMU then
+  * the buffer objects can be scattered in physical memory but linearized
+- * in the IOVA space by the MMU.
++ * in the IOVA space by the IOMMU.
+  *
+  * For other devices we must rely on the Contiguous Memory Allocator to
+- * reserve a pool of memory at early boot that is used to service requests
++ * reserve a pool of memory at early boot. This is then used to service requests
+  * for large blocks of physically contiguous memory.
+  */
 
-How I read it: "format_mod_supported" can be ignored where no filtering
-is intended.
 
-Looking at "create_in_format_blob" this does not look like a bug... But
-I am not sure. You probably know the answer.
-Whether the anwser is to chage the docs or "create_in_format_blob" I can
-send a patch.
+base-commit: 2585cf9dfaaddf00b069673f27bb3f8530e2039c
+prerequisite-patch-id: bfcd9122d2546ec77e0bd987663777192002bc91
+--
+2.34.1
 
-For what is worth, after extrating the relevant bits from Weston's
-"drm_plane_populate_formats" function to my test program [2], formats
-are not listed if "format_mod_supported" is not implemented. The same
-applies to drm_info.
-So, for the moment I emailed v2 implementing "format_mod_supported" [3].
-
-By the way, this could be related to [4], see commit
-b36a6bb8a151c056e1046e9d5b1192d90d9941c9. If we decided that the docs
-are wrong I can send a patch as well.
-
-Thanks again for your input,
-Jose
-
-[1] https://www.kernel.org/doc/html/latest/gpu/drm-kms.html?highlight=in_formats#c.drm_plane_funcs
-[2] https://github.com/JoseExposito/drm-sandbox/blob/main/in_formats.c
-[3] https://lore.kernel.org/dri-devel/20211216170140.15803-1-jose.exposito89@gmail.com/T/
-[4] https://lists.freedesktop.org/archives/wayland-devel/2021-December/042072.html
