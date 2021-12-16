@@ -1,37 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF6A54773E6
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 15:02:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88483477430
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 15:15:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8AAE10F509;
-	Thu, 16 Dec 2021 14:02:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E6EF112199;
+	Thu, 16 Dec 2021 14:15:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 94F5410F4F5;
- Thu, 16 Dec 2021 14:02:28 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 35CF91435;
- Thu, 16 Dec 2021 06:02:28 -0800 (PST)
-Received: from [10.57.5.127] (unknown [10.57.5.127])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 31D083F73B;
- Thu, 16 Dec 2021 06:02:27 -0800 (PST)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 386A7112196;
+ Thu, 16 Dec 2021 14:15:19 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 872CB1F46386;
+ Thu, 16 Dec 2021 14:15:17 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+ t=1639664117; bh=EUdp6OVQgOVcce0WCDML3AjD7s+d4fLJvihp8sH0Ya4=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=k/+7lmXFO9IDxzIUltmqfPz1I41OjBDEIl3ZidvNwTSiyvYNL/1ZBG7cCKZ9r8E51
+ Yem2tgMmgL+v9EmxsSjmat7mWU/MNymuMU0HHKwqngkQfulurtv1qOz94zGszoFOqQ
+ nXGdjGT93E9uzKI0FnJNZtHFabAdf7nzkRM/+hqSRBGASgYH+pQp82H8upEtKJyweZ
+ NYkFG1Ur7SSa84/Zaz+ROOF6vxlv9dsmI4RXqAjaa9TfY31lNV9NAfW17ZaMHbBxMS
+ 04AjbHr1Wf5oTOUY/uoXi/upLWCkY6G8VA8wNml2Z0fCqZWLcc2HnNoww4MNdWUO5F
+ 80b2bTTuwb4aQ==
+Date: Thu, 16 Dec 2021 15:15:13 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
 Subject: Re: [bug report] new kvmalloc() WARN() triggered by DRM ioctls
  tracking
-To: Dan Carpenter <dan.carpenter@oracle.com>, dri-devel@lists.freedesktop.org,
- Boris Brezillon <boris.brezillon@collabora.com>
+Message-ID: <20211216151513.14ca3e8c@collabora.com>
+In-Reply-To: <8b02c4d8-cf36-6558-6e1d-9a0955483f4e@arm.com>
 References: <20211216120806.GA3691@kili>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <8b02c4d8-cf36-6558-6e1d-9a0955483f4e@arm.com>
-Date: Thu, 16 Dec 2021 14:02:25 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ <8b02c4d8-cf36-6558-6e1d-9a0955483f4e@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20211216120806.GA3691@kili>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,65 +53,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: etnaviv@lists.freedesktop.org, lima@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Cc: lima@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ dri-devel@lists.freedesktop.org, Dan Carpenter <dan.carpenter@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+ Boris
+Hi Steve,
 
-On 16/12/2021 12:08, Dan Carpenter wrote:
-> Hi DRM Devs,
+On Thu, 16 Dec 2021 14:02:25 +0000
+Steven Price <steven.price@arm.com> wrote:
+
+> + Boris
 > 
-> In commit 7661809d493b ("mm: don't allow oversized kvmalloc() calls")
-> from July, Linus added a WARN_ONCE() for "crazy" allocations over 2GB.
-> I have a static checker warning for this and most of the warnings are
-> from DRM ioctls.
+> On 16/12/2021 12:08, Dan Carpenter wrote:
+> > Hi DRM Devs,
+> > 
+> > In commit 7661809d493b ("mm: don't allow oversized kvmalloc() calls")
+> > from July, Linus added a WARN_ONCE() for "crazy" allocations over 2GB.
+> > I have a static checker warning for this and most of the warnings are
+> > from DRM ioctls.
+> > 
+> > drivers/gpu/drm/lima/lima_drv.c:124 lima_ioctl_gem_submit() warn: uncapped user size for kvmalloc() will WARN
+> > drivers/gpu/drm/radeon/radeon_cs.c:291 radeon_cs_parser_init() warn: uncapped user size for kvmalloc() will WARN
+> > drivers/gpu/drm/v3d/v3d_gem.c:311 v3d_lookup_bos() warn: uncapped user size for kvmalloc() will WARN
+> > drivers/gpu/drm/v3d/v3d_gem.c:319 v3d_lookup_bos() warn: uncapped user size for kvmalloc() will WARN
+> > drivers/gpu/drm/v3d/v3d_gem.c:601 v3d_get_multisync_post_deps() warn: uncapped user size for kvmalloc() will WARN
+> > drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:476 etnaviv_ioctl_gem_submit() warn: uncapped user size for kvmalloc() will WARN
+> > drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:477 etnaviv_ioctl_gem_submit() warn: uncapped user size for kvmalloc() will WARN
+> > drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:478 etnaviv_ioctl_gem_submit() warn: uncapped user size for kvmalloc() will WARN
+> > drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:479 etnaviv_ioctl_gem_submit() warn: uncapped user size for kvmalloc() will WARN
+> > drivers/gpu/drm/virtio/virtgpu_ioctl.c:186 virtio_gpu_execbuffer_ioctl() warn: uncapped user size for kvmalloc() will WARN
+> > drivers/gpu/drm/panfrost/panfrost_drv.c:198 panfrost_copy_in_sync() warn: uncapped user size for kvmalloc() will WARN  
 > 
-> drivers/gpu/drm/lima/lima_drv.c:124 lima_ioctl_gem_submit() warn: uncapped user size for kvmalloc() will WARN
-> drivers/gpu/drm/radeon/radeon_cs.c:291 radeon_cs_parser_init() warn: uncapped user size for kvmalloc() will WARN
-> drivers/gpu/drm/v3d/v3d_gem.c:311 v3d_lookup_bos() warn: uncapped user size for kvmalloc() will WARN
-> drivers/gpu/drm/v3d/v3d_gem.c:319 v3d_lookup_bos() warn: uncapped user size for kvmalloc() will WARN
-> drivers/gpu/drm/v3d/v3d_gem.c:601 v3d_get_multisync_post_deps() warn: uncapped user size for kvmalloc() will WARN
-> drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:476 etnaviv_ioctl_gem_submit() warn: uncapped user size for kvmalloc() will WARN
-> drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:477 etnaviv_ioctl_gem_submit() warn: uncapped user size for kvmalloc() will WARN
-> drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:478 etnaviv_ioctl_gem_submit() warn: uncapped user size for kvmalloc() will WARN
-> drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:479 etnaviv_ioctl_gem_submit() warn: uncapped user size for kvmalloc() will WARN
-> drivers/gpu/drm/virtio/virtgpu_ioctl.c:186 virtio_gpu_execbuffer_ioctl() warn: uncapped user size for kvmalloc() will WARN
-> drivers/gpu/drm/panfrost/panfrost_drv.c:198 panfrost_copy_in_sync() warn: uncapped user size for kvmalloc() will WARN
-
-I believe this one in Panfrost would be fixed by Boris's series
-reworking the submit ioctl[1].
-
-Boris: are you planning on submitting that series soon - or is it worth
-cherry picking the rework in patch 5 to fix this issue?
-
-[1]
-https://lore.kernel.org/all/20210930190954.1525933-1-boris.brezillon@collabora.com/
-
-> drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:120 amdgpu_cs_parser_init() warn: uncapped user size for kvmalloc() will WARN
+> I believe this one in Panfrost would be fixed by Boris's series
+> reworking the submit ioctl[1].
 > 
-> These ioctls can all trigger the stack dump.  The line numbers are from
-> linux next (next-20211214).
-> 
-> I feel like ideally if this could be fixed in a central way, but if not
-> then hopefully I've added the relevant lists to the CC.
+> Boris: are you planning on submitting that series soon - or is it worth
+> cherry picking the rework in patch 5 to fix this issue?
 
-I've only looked at Panfrost, but at least here we're simply allowing
-user space to allocate an arbitrary amount of kernel memory in one go -
-which is always going to be a good way of triggering the OOM killer if
-nothing else. Boris's series includes a change that means instead trying
-to copy an (attacker controller) sized array into the kernel to process,
-we copy each each element of the array in turn.
+Don't know when I'll get back to it, so I'd recommend cherry-picking
+what you need.
 
-So I don't really see how this could be fixed in a central way (but some
-of the other cases might be different).
+Regards,
 
-Thanks,
-
-Steve
-
-> regards,
-> dan carpenter
-> 
-
+Boris
