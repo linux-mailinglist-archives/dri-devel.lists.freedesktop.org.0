@@ -2,41 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 843874766ED
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 01:24:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 497BA4766F3
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 01:38:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E12910E2CC;
-	Thu, 16 Dec 2021 00:24:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E7BF10E4A0;
+	Thu, 16 Dec 2021 00:38:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41DA810E2CC
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 00:24:37 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3A6173F6;
- Thu, 16 Dec 2021 01:24:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1639614275;
- bh=jluRvkznhFHQAEudwl6chNVc4AtO829dsSTMAFxI34o=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cviJ20aoht5w/BMK49EwlMpGgioG0ErkirGWvjTxg0fDBDNJcRre7ulVmKEVzBYii
- wQlZIlVvsOhBvhNCQoah91L4MF+KINUFx129SgaGMssdrgDAqk2iZyE6qAxlMMDjSm
- gmjQZN3KylbyHCYzrmYFjaAi4Ut+Ggv6xhcWlqGU=
-Date: Thu, 16 Dec 2021 02:24:32 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA5F010E4A0
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 00:38:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639615125;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=A1YMOdn1C6MZPJahwV7t8pHFMry4Mv4FHAgGI/HFscM=;
+ b=duC7JOwvyWDD0Psv7Fy1GOPmjAk8Pqn1u5bvJOr6Vxv9TqVLbkQtXNMHxo2m/JyyAWE4aX
+ KV4QNh/UyQU/1+ql9cUYXohmSjkL2L0iVw4LB2bt2kbDls6BRgdzZdr7XXHBHHqiDfEZKH
+ +fZHqP2JbWlVl1UG8QKfyjImsws5MUM=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-489-PR76BaedM_OhzAFkbj7fDQ-1; Wed, 15 Dec 2021 19:38:44 -0500
+X-MC-Unique: PR76BaedM_OhzAFkbj7fDQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ p17-20020adff211000000b0017b902a7701so6353563wro.19
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Dec 2021 16:38:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=A1YMOdn1C6MZPJahwV7t8pHFMry4Mv4FHAgGI/HFscM=;
+ b=32YnQv3WF8zdH3nu7+YpeRBYNjJwFCVolZ1f9NZnUbNTAAjw89WfoyUUO60Gj0EvZX
+ 0Cl7tZ81mbQReIBpVyxiPO8FdzvJBi++NLiaU0QzSb0QBZohbctyL4HDPHyt3WC4tXpK
+ kcHzYxb1CMMbjzHVoiEtZtnEsdVckA66Ue4VfhRPrrxtDU9HEA2dj4xkc0DWN634mIjj
+ PkPS0xDPrDqoHoHLmsVvVTQnjTZrS4mFGkYZTm4aU2uzmuYuiXwU9sTPliJu/bQ/oCMI
+ eydwbfityYQjNdmXLDtKf0olI0a3TypY4VQkvAQIrDm/EMBNfZB9bPRej8kfzwClW5cn
+ ml7g==
+X-Gm-Message-State: AOAM531ZqJ6aDiZSSPPou+z98r/F/WLKyxOzRCZ/S94dYX63kVk8pUWs
+ 2owsWig48rlzR5lBd9hC+/2GqAW/m6QSqM7dJJ5omgqgCjVw7cRTDgGUW7dXQeaQmf53csnOjQ5
+ HZ4CEHYPEBQCCN+u9J2aGaw/jojCh
+X-Received: by 2002:a05:600c:2dc1:: with SMTP id
+ e1mr2571348wmh.170.1639615123079; 
+ Wed, 15 Dec 2021 16:38:43 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyVEcx+ygTN18OiwOcRwaHX/vCxS1ywQrqGl2wbTZaQv+hJ4/etV0jJmZID1eJfR6DK11ZEWg==
+X-Received: by 2002:a05:600c:2dc1:: with SMTP id
+ e1mr2571294wmh.170.1639615122784; 
+ Wed, 15 Dec 2021 16:38:42 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id y11sm4270129wry.70.2021.12.15.16.38.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Dec 2021 16:38:42 -0800 (PST)
+Message-ID: <98702737-2104-6139-8bd3-2e926260263b@redhat.com>
+Date: Thu, 16 Dec 2021 01:38:39 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
 Subject: Re: [PATCH 00/60] drm: Make all drivers to honour the nomodeset
  parameter
-Message-ID: <YbqHQAFtwvTvYddZ@pendragon.ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 References: <20211215010008.2545520-1-javierm@redhat.com>
  <Ybp7qDs1p3x5GzNJ@pendragon.ideasonboard.com>
  <91c6b455-62cd-cec7-8445-e93c99230a03@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <91c6b455-62cd-cec7-8445-e93c99230a03@redhat.com>
+ <YbqHQAFtwvTvYddZ@pendragon.ideasonboard.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <YbqHQAFtwvTvYddZ@pendragon.ideasonboard.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,52 +113,71 @@ Cc: Emma Anholt <emma@anholt.net>, Neil Armstrong <narmstrong@baylibre.com>,
  Boris Brezillon <bbrezillon@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Yannick Fertre <yannick.fertre@foss.st.com>, linux-kernel@vger.kernel.org,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
  Philippe Cornu <philippe.cornu@foss.st.com>, Tian Tao <tiantao6@hisilicon.com>,
  Jyri Sarha <jyri.sarha@iki.fi>, Erico Nunes <nunes.erico@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier,
+On 12/16/21 01:24, Laurent Pinchart wrote:
+> Hi Javier,
+> 
+> On Thu, Dec 16, 2021 at 01:13:56AM +0100, Javier Martinez Canillas wrote:
+>> Hello Laurent,
+>>
+>> On 12/16/21 00:35, Laurent Pinchart wrote:
+>>
+>> [snip]
+>>
+>>>>
+>>>> I've built tested with 'make allmodconfig && make M=drivers/gpu/drm/', but
+>>>> only booted in a few devices with and without nomodeset in the cmdline. So
+>>>> testing and reviewing for all the drivers would be highly appreciated.
+>>>
+>>> The fact that the series is so big makes me think it would be better to
+>>> handle this in the DRM core. Is there any way we could do so ? Otherwise
+>>> we'll chase this issue forever in new drivers, and will be plagued with
+>>> cargo cult problems.
+>>>
+>>
+>> Yes, what Thomas suggested is to add a set of drm_module_{pci,platform}_driver()
+>> macros in include/drm/drm_drv.h, that will just check whether the driver should
+>> be registered or not and call the {pci,platform}_register_driver() functions.
+>>
+>> That way the change in the drivers would just be something like the following:
+>>
+>> -module_platform_driver(malidp_platform_driver);
+>> +drm_module_platform_driver(malidp_platform_driver);
+>>
+>> There are some drivers that still need a custom module init functions for various
+>> reasons (e.g: register a set of devices/drivers, need to be a late init call, etc)
+>> but at least for most drivers this should be handled transparently as long as they
+>> use these drm_*_register_driver() macros.
+> 
+> Another option could be to return an error from drm_dev_alloc(). That
+> may avoid changes in the drivers.
+>
 
-On Thu, Dec 16, 2021 at 01:13:56AM +0100, Javier Martinez Canillas wrote:
-> Hello Laurent,
-> 
-> On 12/16/21 00:35, Laurent Pinchart wrote:
-> 
-> [snip]
-> 
-> >>
-> >> I've built tested with 'make allmodconfig && make M=drivers/gpu/drm/', but
-> >> only booted in a few devices with and without nomodeset in the cmdline. So
-> >> testing and reviewing for all the drivers would be highly appreciated.
-> > 
-> > The fact that the series is so big makes me think it would be better to
-> > handle this in the DRM core. Is there any way we could do so ? Otherwise
-> > we'll chase this issue forever in new drivers, and will be plagued with
-> > cargo cult problems.
-> > 
-> 
-> Yes, what Thomas suggested is to add a set of drm_module_{pci,platform}_driver()
-> macros in include/drm/drm_drv.h, that will just check whether the driver should
-> be registered or not and call the {pci,platform}_register_driver() functions.
-> 
-> That way the change in the drivers would just be something like the following:
-> 
-> -module_platform_driver(malidp_platform_driver);
-> +drm_module_platform_driver(malidp_platform_driver);
-> 
-> There are some drivers that still need a custom module init functions for various
-> reasons (e.g: register a set of devices/drivers, need to be a late init call, etc)
-> but at least for most drivers this should be handled transparently as long as they
-> use these drm_*_register_driver() macros.
+That was actually the first approach I proposed but was told that it wouldn't work
+for two reasons:
 
-Another option could be to return an error from drm_dev_alloc(). That
-may avoid changes in the drivers.
+1) Usually that's called in the driver's probe function and the goal was to make it
+   fail as early as possible if nomodeset is present, so that means it is desirable
+   for this to be in the module init function (and is how most drivers implement).
 
-> So just ignore this series and I'll post a v2 soon.
+2) Not all KMS drivers should fail if nomodeset is used. For example the simpledrm
+   driver still needs to be registered and probed since is what users would want
+   as a fallback / troubleshooting option if their native driver doesn't work.
+ 
+Solving (2) is easy since we could just add a new .driver_features flag to indicate
+that the driver should not fail if nomodeset is present. That way only the drivers
+that are the exception would need to be modified.
 
+But (1) is more tricky since this may be  DRM driver maintainers preference.
+
+Best regards,
 -- 
-Regards,
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
-Laurent Pinchart
