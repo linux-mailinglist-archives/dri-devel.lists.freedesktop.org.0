@@ -1,64 +1,155 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C3A947675B
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 02:15:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15DD647675E
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 02:17:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4536F10F9F4;
-	Thu, 16 Dec 2021 01:15:41 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B07EE10F9F4;
- Thu, 16 Dec 2021 01:15:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1639617340; x=1671153340;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=btxXdGUjAG0BBRt+C9w6d4jsurru/3AgZ36BbXsf768=;
- b=y8thrL+RvWqeasrwp69AJ1+NyDqOkMh1qVd3//Cl4An4wS7nCMsrVbXp
- HMA4ShDR+JKFrg7kl8UbB7ue+iVh6g06dTPDEZMILONMtoopoUK+EZ9M2
- zw+2GLknYgSTX4s0Rmdsj5Tg+c9pXuV1JQG9z46DR/P5y3YTdAjIxi3Ee k=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 15 Dec 2021 17:15:40 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Dec 2021 17:15:39 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28E3210E8DC;
+	Thu, 16 Dec 2021 01:17:01 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2995E10E5A4;
+ Thu, 16 Dec 2021 01:16:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1639617419; x=1671153419;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=j2k5bFGbQ+omY7zCHX56BSnF698rysXWIIMndXwIe/U=;
+ b=RnyQQHil4FWGGjPNuGOuWEEFW20BnY4CFc9mgRbxnNTSiIJK6+SLq10y
+ IvGBan9gWDJVhkf+JxKuKz/KesnBENkisPkylk3ebrU+LV/T+spl5JtWR
+ XfY6GjuJ+jlE+tp89z/YVnXuciX1vtD8/k+MOSu7mzDItbONS/gO8FAVD
+ j1mpMD3u+G5/ZMEDIywVPpQ0xCLH6OieDl0rUGad7FcDerdhnx+wJpuDM
+ vhCmu1LrkoVkTQPoxkSwCd8adtfLX9/87TJl7XmWCuKkXslLnb+4VDOpu
+ NtcralPOBe0yy8XM1i7Tkwhybefoj7DMo7165qyaWUDpkDxNj6llXZlgs w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10199"; a="325655386"
+X-IronPort-AV: E=Sophos;i="5.88,210,1635231600"; d="scan'208";a="325655386"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Dec 2021 17:16:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,210,1635231600"; d="scan'208";a="662173638"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by fmsmga001.fm.intel.com with ESMTP; 15 Dec 2021 17:16:53 -0800
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Wed, 15 Dec 2021 17:16:52 -0800
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Wed, 15 Dec 2021 17:16:52 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20 via Frontend Transport; Wed, 15 Dec 2021 17:16:52 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.44) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Wed, 15 Dec 2021 17:15:39 -0800
-Received: from [10.111.165.31] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Wed, 15 Dec
- 2021 17:15:36 -0800
-Message-ID: <ce4caf46-9433-3387-d50d-837c279d4827@quicinc.com>
-Date: Wed, 15 Dec 2021 17:15:34 -0800
-MIME-Version: 1.0
+ 15.1.2308.20; Wed, 15 Dec 2021 17:16:51 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Z+CC8xO3Ww/3C/eJbWeuE8u4HNItLzGyM+w2mAbgbIraSfuJnSGeXcQl9dDyJRVd2XWL9PYYWeBCzeTn5TPXmydSBs2WXOm5tIaBM9o3+tuUnG6OMO3s1k+FFhgaj1Z/9Yyq1YrLCWEzzclDLh1YFGPvg556n72HHBQYl2guQvobaE0vw82QaDYfOe0cSoZJvKz0WOfX4IYLD1+lRZFkSX0vfdrMqFaVP1lj3OZFzyglSV1UAFU/o36wCYQWFhP1YBhIH221XpB9hrWpY9p0l3ha9QdqJkuEUEVRYnhfKVWXK50vDzFbeIiVhx6lc1p/e4GYmwHn+7C5c58m+NX/Lw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bSIH9KnvaUGdjNs2eQTxzkEAmlgpCpbnywa9oqFShWo=;
+ b=GVUm4ucW7xaPh1ZHzY6eZn1mQfSBFwirrKjlwPnvX1RNTXs6ami1JInjAAm3Btt1gikHoZauJY/k8+siarswsq3nzchYFI3pIdzZvtKMFqZuya5+4/bf92t3QhS094MAOy50f6G0rAqfmNOnpTnJ4oWMF+q+N9Zk29AV7nr7CKbbta4Yu4gl40MBRHJpKOeBrUbjBU81eWWu7r0VSN4YgsYZs9W4QBaN0Rxmm6UD/R8GI76qvs3JvZtIihZXpYcaTQN5FSBLE3N7TATOLwTkkqRWmzx4+Q6mnR5t2UFopMOMDk4TNloxMD+O0C52NGqwABWmJiYg8h53FC0daqhvYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5488.namprd11.prod.outlook.com (2603:10b6:5:39d::5) by
+ DM5PR11MB1946.namprd11.prod.outlook.com (2603:10b6:3:10c::11) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4801.14; Thu, 16 Dec 2021 01:16:50 +0000
+Received: from DM4PR11MB5488.namprd11.prod.outlook.com
+ ([fe80::6891:cc9:565a:f331]) by DM4PR11MB5488.namprd11.prod.outlook.com
+ ([fe80::6891:cc9:565a:f331%4]) with mapi id 15.20.4801.014; Thu, 16 Dec 2021
+ 01:16:50 +0000
+Message-ID: <6a6090cd-753c-eb2f-c34c-e9aadf4aece3@intel.com>
+Date: Wed, 15 Dec 2021 17:16:47 -0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [Freedreno] [PATCH v1 8/8] drm/msm/dpu: move SSPP debugfs support
- from plane to SSPP code
+ Firefox/91.0 Thunderbird/91.4.0
+Subject: Re: [Intel-gfx] [PATCH 3/4] drm/i915/guc: Flag an error if an engine
+ reset fails
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
- <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
- <sean@poorly.run>, Abhinav Kumar <abhinavk@codeaurora.org>
-References: <20211201222633.2476780-1-dmitry.baryshkov@linaro.org>
- <20211201222633.2476780-9-dmitry.baryshkov@linaro.org>
- <fcebac6e-05ea-73ad-f592-fc1721d4ecfb@quicinc.com>
- <df5a6583-8c94-e43a-e62d-d2be3918cbea@quicinc.com>
- <0d6574c2-c811-22c6-39d3-379ac93afe0d@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <0d6574c2-c811-22c6-39d3-379ac93afe0d@linaro.org>
+To: <John.C.Harrison@Intel.com>, <Intel-GFX@Lists.FreeDesktop.Org>
+References: <20211211065859.2248188-1-John.C.Harrison@Intel.com>
+ <20211211065859.2248188-4-John.C.Harrison@Intel.com>
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+In-Reply-To: <20211211065859.2248188-4-John.C.Harrison@Intel.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BYAPR11CA0054.namprd11.prod.outlook.com
+ (2603:10b6:a03:80::31) To DM4PR11MB5488.namprd11.prod.outlook.com
+ (2603:10b6:5:39d::5)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c6f4c2b0-b58f-4b16-0b0a-08d9c031bce9
+X-MS-TrafficTypeDiagnostic: DM5PR11MB1946:EE_
+X-Microsoft-Antispam-PRVS: <DM5PR11MB19462353E557BFF64D5198B0F4779@DM5PR11MB1946.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:792;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: GdCLU7oalgzQfA8Z8aYVZfDfyc3dsjMNV+D0hAj8FRsoD6iGWq00zSMaAXHrQXu+UvgHTyp9yGQK1oMu2cLBKeU/RRdN/7ESqCT/SIknCTveOP7XJCGwaLCPlepA3asDm8D7vsBkRXyvf/yTv4+FJ+kDp2xYgrq8nlCWjJGt20INC6RYAm8nvM3S2UbQ9SKhtPRflYYtMGqLhfGSSqn8iYehVH++9JUrZaItKOVd0fIYI4di+4pMhN/bhkOrs5WHoKEoIpPag2OF+cFtgElpeWb/QzOq5KsJH4vbo8ET5bvna1D8IXIjEQRBxEqkVd5BNC6gQgYGGARSlm3GESbEoGinO3A/6ZazJGW0PWqpXtdr4Y/g1/HaD+GHUvFKBAP5L/laK0eIt/kYhmzx6nuXUWwgLwpf18RccefV5YkWNyZs5/6VOcpV0Ye2cK0SD2jU17EuExKHCsfgFajWTwBs8tJEVw+YJ263C+ZipLA7a5k9Ok2m6mVeQctH0rbq+nmEWp5PiQhVxMSbFrlQyh63YKn6WS3+jQDk79aJeNcumP1c4Yq+/j8YcLkDwXeOBQ9d1yY3SV/RMdtQ82sjt9mbqTNfdfPUkGxazlqKqDxq1ZUt5apb4Gxz6vj/k5G9uvMfYvqpGwNfyhTt9V3Zlf0eQNQtbGxZ7UXwsn56fJKACymXm35TeYztTfsBCwiEQU+jxdhIKG1Mz2WdATZaIvjVj7EnfE6z78/HKf4chunKbhKfSaUL9DbjrveUybluaJa/
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5488.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(8936002)(82960400001)(508600001)(2906002)(6506007)(36756003)(5660300002)(31686004)(8676002)(86362001)(6512007)(38100700002)(6666004)(31696002)(4326008)(83380400001)(6486002)(450100002)(2616005)(186003)(26005)(66556008)(66476007)(53546011)(66946007)(316002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bUJxeituaHd5Wng3N25oZ2s5RHFBRW1ybS96VW1sak1hS2thUkZ1ZjNOMlNU?=
+ =?utf-8?B?TTNjVy9LQzI1UEFsL2o2SG9QTjJSZ2YwZHJQQ2xjMXQvQ0FoOU42NXJrbjVI?=
+ =?utf-8?B?b0xKa0R1THlKREFiM3FIYWNHalB1bEFHSDBvZ2UyUzYrbnF1d3hUdDVkZmpX?=
+ =?utf-8?B?S3V6R3BsOEkyZ2ZkK3luaDQzVUJpV1dlcUwzRnRqQ3pUcXRqcU1zbWJKSEZP?=
+ =?utf-8?B?MmQyb2pQTUtHZjVIck96MjFEUkY2emJUdFQ0YjlRZ2dMbFovMll4M1lkQ3c0?=
+ =?utf-8?B?Y3VnOGtqaW5MZVFwNDJDZXo0ZE4rQ3JFRWtKWXZmbUdvNjN0WWJ4ZXc5VDIx?=
+ =?utf-8?B?NkVsLy9mSTdvZ05LbndaNnlHdmd3TVF3aXdNSkJOcUViREdKYjMrWG93U2w3?=
+ =?utf-8?B?WXBXKzlTK0VYSVBXeC9Sem9WSkN2c3hsUyszaVYrTWRTb2Z0NXA1TlNMeTZk?=
+ =?utf-8?B?b0lZWEU2TXJQV2t0Qi9VcFpYSDF1UTM5ZWM3dE1CSHZjRVFjbkVYN21jSTBq?=
+ =?utf-8?B?cFQwNlpGUTdLSXk3RXV6WHgrN0Uxd3k1UWFhc0p2MW12NFJuZEIzNlFPNDJK?=
+ =?utf-8?B?YXFQRm5zZFJOMU1sVXp4RXNoSFNSOTdYM3RoMkVudkJ6MVV6bWNacG9RT1Jl?=
+ =?utf-8?B?UytqZ3VQY2MvaXA0cWhCRkxRQ01PTkEyRTl1MXUrRnY3TGcwd25sRlg4a2l3?=
+ =?utf-8?B?WTQyT3hLMWEwa21adHo4WGtNcWhUSDJtb0xkQmFId2RYdTBVSXNaNXA1MmhE?=
+ =?utf-8?B?ME1CeVpNL0NzRWROcHFNanMybFc2UUhsdHZLZVc5L2UrU250Z24xYXB6M3hn?=
+ =?utf-8?B?MlJCVUlxYkgyNnhta0YybktJc2hEQ2xjamwzY1dyYy9iMjZPS0RQT3k4NFhW?=
+ =?utf-8?B?NVMzYlp6bWw1Z25aZ2JNREhWSDdNS1JJbG1xaXNteGJTcXZ4Q0lKMVRsV0Zv?=
+ =?utf-8?B?RHFmMXVpSzlPeHlTdFpIajlNSEJJWFo5TXlhNnhpVHJGMGg2QlQxTjhReVRC?=
+ =?utf-8?B?VkVtY2NiYkIrKy9lMklWMVRCU2hsSFpMWnpNWXV2bysweWhYVGxaekEvMlo3?=
+ =?utf-8?B?dWt2Vy82dnM4MFhORXRKWS9kVS85MlA3YjI5SnRIUkZyM0JhZGNJWmZsVVIx?=
+ =?utf-8?B?N25YcFU2Yis0MFpNL3c0c2hVdVpibHEvSnpFbGFET3A2L2lSUGxaaFRIZVlO?=
+ =?utf-8?B?SzdreTl0YWNvRHFYbDhKU2RrSEY3NThGNjJnbkxXQzZrWjVDajAwaHhodW9M?=
+ =?utf-8?B?YmhJY21lR0VhdlRTa2F0cnZPVmdWOHVDbGdnVlJVdWF2clE4NXJRNkxDLzYr?=
+ =?utf-8?B?NFV2dDFXSUkwTDRGbkg1S1Rzd05mSEFyU3R0QnpEMEY3cVJ5bWNEYVFISDNm?=
+ =?utf-8?B?VGJINmZBbWF6V09yZ3FWRDVoVG9JYzllRkNwc3h3MHdtY1NNUVZQQnZDRkZJ?=
+ =?utf-8?B?bkxOUk1kYzlieGU5MDVNOGE5TXVPMDRmM3F3MjdnK2EveHdrZ0VLTlB0OE92?=
+ =?utf-8?B?bHVzZzhlOGZVOUpQSlRtWHZoS0d0cCt0b1gxSE1zeXIxYkRodG1QNFFRYjU2?=
+ =?utf-8?B?TGhrK0tOdFdLZFBnUjV2SkpEVmZvQlJwSnpLS3FJbGNOWVcvaGp0WFYweXlU?=
+ =?utf-8?B?V1NjZyt2UG41blVjK0VhMkhFRXd5ZUQ0Y1IzajlmUjlPeUIwR1E4YkpOaXo5?=
+ =?utf-8?B?dXhhelBSa1hENjl2cXJCTVRocHZiQXFQQW9maEdjbzZldkUxMXFBa0docktV?=
+ =?utf-8?B?SkFqK3VveTdlUXdQVDloSXBpMnhKS1FXZXZTL2NCdkZwQzE5SG9HdzY4ZXJQ?=
+ =?utf-8?B?T3lFbmFoOTgrLzh0WXN1SmlBR1dPNTRWTVMyZjZKbUYzQ2dUNlorU1RVK2Iw?=
+ =?utf-8?B?eW9keU1pY3FYZGxXS2lORjRPZGQrM1hWc1MxV0FjSTgrdHQzbW0rTmFNa3B3?=
+ =?utf-8?B?OFQyWnNpZXdVajRGZlM5U2VLNG5IK0dOU2J0c2lJeU4xaFlObVRHQzE4ZERq?=
+ =?utf-8?B?OVlUOEhRQ01HVC9SdVA5Y09nNndoWHdoUUh1b3NxK1hybXpoZHMyVm5BQUg5?=
+ =?utf-8?B?YVVGRlhhczJjaDJqblphSTFOT1ZKbzZUSzNUQnNoTmFHUmZXUHd3emJqa2RT?=
+ =?utf-8?B?RFl1TkZZbzJ4SjhCVW5mNFJaME41ZlpQMlYzMmxsZ0ZjUHlJVGtZZWRVVE5W?=
+ =?utf-8?B?UHBqeWYvck1POXJtRy8zcE12ano2QUl5SmNNV3daalhvT0c3OU5PV05wczll?=
+ =?utf-8?B?ZFRQZ2ZpcERyTDZudjlFZjV4d0NnPT0=?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: c6f4c2b0-b58f-4b16-0b0a-08d9c031bce9
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5488.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2021 01:16:50.6689 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2tEB/qemUWgFwLeniLrXXbZGfAlyIW74ETaGJFUaeFpuK/uWINqPB3VuHnnS9jBy8u8njdurDGFK+OinRAuX4a2kmBbOADfzADwfrvCWtu4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR11MB1946
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,293 +162,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org, David
- Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 12/9/2021 4:19 PM, Dmitry Baryshkov wrote:
-> On 10/12/2021 01:27, Abhinav Kumar wrote:
->>
->>
->> On 12/9/2021 2:18 PM, Abhinav Kumar wrote:
->>>
->>>
->>> On 12/1/2021 2:26 PM, Dmitry Baryshkov wrote:
->>>> We are preparing to change DPU plane implementation. Move SSPP debugfs
->>>> code from dpu_plane.c to dpu_hw_sspp.c, where it belongs.
->>>>
->>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>> ---
->>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c | 67 +++++++++++++++++
->>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h |  4 +
->>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  1 +
->>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 82 
->>>> +++------------------
->>>>   4 files changed, 84 insertions(+), 70 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c 
->>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
->>>> index d77eb7da5daf..ae3cf2e4d7d9 100644
->>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
->>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
->>>> @@ -8,6 +8,8 @@
->>>>   #include "dpu_hw_sspp.h"
->>>>   #include "dpu_kms.h"
->>>> +#include <drm/drm_file.h>
->>>> +
->>>>   #define DPU_FETCH_CONFIG_RESET_VALUE   0x00000087
->>>>   /* DPU_SSPP_SRC */
->>>> @@ -686,6 +688,71 @@ static void _setup_layer_ops(struct dpu_hw_pipe 
->>>> *c,
->>>>           c->ops.setup_cdp = dpu_hw_sspp_setup_cdp;
->>>>   }
->>>> +#ifdef CONFIG_DEBUG_FS
->>>> +int _dpu_hw_sspp_init_debugfs(struct dpu_hw_pipe *hw_pipe, struct 
->>>> dpu_kms *kms, struct dentry *entry)
->>>> +{
->>>> +    const struct dpu_sspp_cfg *cfg = hw_pipe->cap;
->>>> +    const struct dpu_sspp_sub_blks *sblk = cfg->sblk;
->>>> +    struct dentry *debugfs_root;
->>>> +    char sspp_name[32];
->>>> +
->>>> +    snprintf(sspp_name, sizeof(sspp_name), "%d", hw_pipe->idx);
->>>> +
->>>> +    /* create overall sub-directory for the pipe */
->>>> +    debugfs_root =
->>>> +        debugfs_create_dir(sspp_name, entry);
->>>
->>>
->>> I would like to take a different approach to this. Let me know what 
->>> you think.
->>>
->>> Let the directory names still be the drm plane names as someone who 
->>> would first get the DRM state and then try to lookup the register 
->>> values of that plane would not know where to look now.
->>>
->>> Inside the /sys/kernel/debug/***/plane-X/ directory you can expose an 
->>> extra entry which tells the sspp_index.
->>>
->>> This will also establish the plane to SSPP mapping.
->>>
->>> Now when planes go virtual in the future, this will be helpful even more
->>> so that we can know the plane to SSPP mapping.
->>
->> OR i like rob's suggestion of implementing the atomic_print_state 
->> callback which will printout the drm plane to SSPP mapping along with 
->> this change so that when we look at DRM state, we also know the plane
->> to SSPP mapping and look in the right SSPP's dir.
-> 
-> I'd add atomic_print_state(), it seems simpler (and more future-proof).
-Now, that https://patchwork.freedesktop.org/patch/467031/ has been pushed,
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> 
->>>
->>>
->>>> +
->>>> +    /* don't error check these */
->>>> +    debugfs_create_xul("features", 0600,
->>>> +            debugfs_root, (unsigned long *)&hw_pipe->cap->features);
->>>> +
->>>> +    /* add register dump support */
->>>> +    dpu_debugfs_create_regset32("src_blk", 0400,
->>>> +            debugfs_root,
->>>> +            sblk->src_blk.base + cfg->base,
->>>> +            sblk->src_blk.len,
->>>> +            kms);
->>>> +
->>>> +    if (cfg->features & BIT(DPU_SSPP_SCALER_QSEED3) ||
->>>> +            cfg->features & BIT(DPU_SSPP_SCALER_QSEED3LITE) ||
->>>> +            cfg->features & BIT(DPU_SSPP_SCALER_QSEED2) ||
->>>> +            cfg->features & BIT(DPU_SSPP_SCALER_QSEED4))
->>>> +        dpu_debugfs_create_regset32("scaler_blk", 0400,
->>>> +                debugfs_root,
->>>> +                sblk->scaler_blk.base + cfg->base,
->>>> +                sblk->scaler_blk.len,
->>>> +                kms);
->>>> +
->>>> +    if (cfg->features & BIT(DPU_SSPP_CSC) ||
->>>> +            cfg->features & BIT(DPU_SSPP_CSC_10BIT))
->>>> +        dpu_debugfs_create_regset32("csc_blk", 0400,
->>>> +                debugfs_root,
->>>> +                sblk->csc_blk.base + cfg->base,
->>>> +                sblk->csc_blk.len,
->>>> +                kms);
->>>> +
->>>> +    debugfs_create_u32("xin_id",
->>>> +            0400,
->>>> +            debugfs_root,
->>>> +            (u32 *) &cfg->xin_id);
->>>> +    debugfs_create_u32("clk_ctrl",
->>>> +            0400,
->>>> +            debugfs_root,
->>>> +            (u32 *) &cfg->clk_ctrl);
->>>> +    debugfs_create_x32("creq_vblank",
->>>> +            0600,
->>>> +            debugfs_root,
->>>> +            (u32 *) &sblk->creq_vblank);
->>>> +    debugfs_create_x32("danger_vblank",
->>>> +            0600,
->>>> +            debugfs_root,
->>>> +            (u32 *) &sblk->danger_vblank);
->>>> +
->>>> +    return 0;
->>>> +}
->>>> +#endif
->>>> +
->>>> +
->>>>   static const struct dpu_sspp_cfg *_sspp_offset(enum dpu_sspp sspp,
->>>>           void __iomem *addr,
->>>>           struct dpu_mdss_cfg *catalog,
->>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h 
->>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
->>>> index e8939d7387cb..cef281687bab 100644
->>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
->>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
->>>> @@ -381,6 +381,7 @@ struct dpu_hw_pipe {
->>>>       struct dpu_hw_sspp_ops ops;
->>>>   };
->>>> +struct dpu_kms;
->>>>   /**
->>>>    * dpu_hw_sspp_init - initializes the sspp hw driver object.
->>>>    * Should be called once before accessing every pipe.
->>>> @@ -400,5 +401,8 @@ struct dpu_hw_pipe *dpu_hw_sspp_init(enum 
->>>> dpu_sspp idx,
->>>>    */
->>>>   void dpu_hw_sspp_destroy(struct dpu_hw_pipe *ctx);
->>>> +void dpu_debugfs_sspp_init(struct dpu_kms *dpu_kms, struct dentry 
->>>> *debugfs_root);
->>>> +int _dpu_hw_sspp_init_debugfs(struct dpu_hw_pipe *hw_pipe, struct 
->>>> dpu_kms *kms, struct dentry *entry);
->>>> +
->>>>   #endif /*_DPU_HW_SSPP_H */
->>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c 
->>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>>> index 7e7a619769a8..de9efe6dcf7c 100644
->>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>>> @@ -281,6 +281,7 @@ static int dpu_kms_debugfs_init(struct msm_kms 
->>>> *kms, struct drm_minor *minor)
->>>>       dpu_debugfs_danger_init(dpu_kms, entry);
->>>>       dpu_debugfs_vbif_init(dpu_kms, entry);
->>>>       dpu_debugfs_core_irq_init(dpu_kms, entry);
->>>> +    dpu_debugfs_sspp_init(dpu_kms, entry);
->>>>       for (i = 0; i < ARRAY_SIZE(priv->dp); i++) {
->>>>           if (priv->dp[i])
->>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c 
->>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->>>> index ef66af696a40..cc7a7eb84fdd 100644
->>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->>>> @@ -13,7 +13,6 @@
->>>>   #include <drm/drm_atomic.h>
->>>>   #include <drm/drm_atomic_uapi.h>
->>>>   #include <drm/drm_damage_helper.h>
->>>> -#include <drm/drm_file.h>
->>>>   #include <drm/drm_gem_atomic_helper.h>
->>>>   #include "msm_drv.h"
->>>> @@ -1356,78 +1355,22 @@ void dpu_plane_danger_signal_ctrl(struct 
->>>> drm_plane *plane, bool enable)
->>>>       pm_runtime_put_sync(&dpu_kms->pdev->dev);
->>>>   }
->>>> -static int _dpu_plane_init_debugfs(struct drm_plane *plane)
->>>> +/* SSPP live inside dpu_plane private data only. Enumerate them 
->>>> here. */
->>>> +void dpu_debugfs_sspp_init(struct dpu_kms *dpu_kms, struct dentry 
->>>> *debugfs_root)
->>>>   {
->>>> -    struct dpu_plane *pdpu = to_dpu_plane(plane);
->>>> -    struct dpu_kms *kms = _dpu_plane_get_kms(plane);
->>>> -    const struct dpu_sspp_cfg *cfg = pdpu->pipe_hw->cap;
->>>> -    const struct dpu_sspp_sub_blks *sblk = cfg->sblk;
->>>> -    struct dentry *debugfs_root;
->>>> -
->>>> -    /* create overall sub-directory for the pipe */
->>>> -    debugfs_root =
->>>> -        debugfs_create_dir(plane->name,
->>>> -                plane->dev->primary->debugfs_root);
->>>> -
->>>> -    /* don't error check these */
->>>> -    debugfs_create_xul("features", 0600,
->>>> -            debugfs_root, (unsigned long 
->>>> *)&pdpu->pipe_hw->cap->features);
->>>> -
->>>> -    /* add register dump support */
->>>> -    dpu_debugfs_create_regset32("src_blk", 0400,
->>>> -            debugfs_root,
->>>> -            sblk->src_blk.base + cfg->base,
->>>> -            sblk->src_blk.len,
->>>> -            kms);
->>>> -
->>>> -    if (cfg->features & BIT(DPU_SSPP_SCALER_QSEED3) ||
->>>> -            cfg->features & BIT(DPU_SSPP_SCALER_QSEED3LITE) ||
->>>> -            cfg->features & BIT(DPU_SSPP_SCALER_QSEED2) ||
->>>> -            cfg->features & BIT(DPU_SSPP_SCALER_QSEED4))
->>>> -        dpu_debugfs_create_regset32("scaler_blk", 0400,
->>>> -                debugfs_root,
->>>> -                sblk->scaler_blk.base + cfg->base,
->>>> -                sblk->scaler_blk.len,
->>>> -                kms);
->>>> -
->>>> -    if (cfg->features & BIT(DPU_SSPP_CSC) ||
->>>> -            cfg->features & BIT(DPU_SSPP_CSC_10BIT))
->>>> -        dpu_debugfs_create_regset32("csc_blk", 0400,
->>>> -                debugfs_root,
->>>> -                sblk->csc_blk.base + cfg->base,
->>>> -                sblk->csc_blk.len,
->>>> -                kms);
->>>> -
->>>> -    debugfs_create_u32("xin_id",
->>>> -            0400,
->>>> -            debugfs_root,
->>>> -            (u32 *) &cfg->xin_id);
->>>> -    debugfs_create_u32("clk_ctrl",
->>>> -            0400,
->>>> -            debugfs_root,
->>>> -            (u32 *) &cfg->clk_ctrl);
->>>> -    debugfs_create_x32("creq_vblank",
->>>> -            0600,
->>>> -            debugfs_root,
->>>> -            (u32 *) &sblk->creq_vblank);
->>>> -    debugfs_create_x32("danger_vblank",
->>>> -            0600,
->>>> -            debugfs_root,
->>>> -            (u32 *) &sblk->danger_vblank);
->>>> +    struct drm_plane *plane;
->>>> +    struct dentry *entry = debugfs_create_dir("sspp", debugfs_root);
->>>> -    return 0;
->>>> -}
->>>> -#else
->>>> -static int _dpu_plane_init_debugfs(struct drm_plane *plane)
->>>> -{
->>>> -    return 0;
->>>> -}
->>>> -#endif
->>>> +    if (IS_ERR(entry))
->>>> +        return;
->>>> -static int dpu_plane_late_register(struct drm_plane *plane)
->>>> -{
->>>> -    return _dpu_plane_init_debugfs(plane);
->>>> +    drm_for_each_plane(plane, dpu_kms->dev) {
->>>> +        struct dpu_plane *pdpu = to_dpu_plane(plane);
->>>> +
->>>> +        _dpu_hw_sspp_init_debugfs(pdpu->pipe_hw, dpu_kms, entry);
->>>> +    }
->>>>   }
->>>> +#endif
->>>>   static bool dpu_plane_format_mod_supported(struct drm_plane *plane,
->>>>           uint32_t format, uint64_t modifier)
->>>> @@ -1453,7 +1396,6 @@ static const struct drm_plane_funcs 
->>>> dpu_plane_funcs = {
->>>>           .reset = dpu_plane_reset,
->>>>           .atomic_duplicate_state = dpu_plane_duplicate_state,
->>>>           .atomic_destroy_state = dpu_plane_destroy_state,
->>>> -        .late_register = dpu_plane_late_register,
->>>>           .format_mod_supported = dpu_plane_format_mod_supported,
->>>>   };
->>>>
-> 
-> 
+On 12/10/2021 10:58 PM, John.C.Harrison@Intel.com wrote:
+> From: John Harrison <John.C.Harrison@Intel.com>
+>
+> If GuC encounters an error during engine reset, the i915 driver
+> promotes to full GT reset. This includes an info message about why the
+> reset is happening. However, that is not treated as a failure by any
+> of the CI systems because resets are an expected occurrance during
+> testing. This kind of failure is a major problem and should never
+> happen. So, complain more loudly and make sure CI notices.
+>
+> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 14 +++++++++++---
+>   1 file changed, 11 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index 97311119da6f..6015815f1da0 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -4018,11 +4018,12 @@ int intel_guc_engine_failure_process_msg(struct intel_guc *guc,
+>   					 const u32 *msg, u32 len)
+>   {
+>   	struct intel_engine_cs *engine;
+> +	struct intel_gt *gt = guc_to_gt(guc);
+>   	u8 guc_class, instance;
+>   	u32 reason;
+>   
+>   	if (unlikely(len != 3)) {
+> -		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u", len);
+> +		drm_err(&gt->i915->drm, "Invalid length %u", len);
+>   		return -EPROTO;
+>   	}
+>   
+> @@ -4032,12 +4033,19 @@ int intel_guc_engine_failure_process_msg(struct intel_guc *guc,
+>   
+>   	engine = guc_lookup_engine(guc, guc_class, instance);
+>   	if (unlikely(!engine)) {
+> -		drm_err(&guc_to_gt(guc)->i915->drm,
+> +		drm_err(&gt->i915->drm,
+>   			"Invalid engine %d:%d", guc_class, instance);
+>   		return -EPROTO;
+>   	}
+>   
+> -	intel_gt_handle_error(guc_to_gt(guc), engine->mask,
+> +	/*
+> +	 * This is an unexpected failure of a hardware feature. So, log a real
+> +	 * error message not just the informational that comes with the reset.
+> +	 */
+> +	drm_err(&gt->i915->drm, "GuC engine reset request failed on %d:%d (%s) because %d",
+
+In the error handling called below, the reason is logged as 0x%08x, so 
+IMO we should do the same here for consistency.
+With that:
+
+Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+
+Daniele
+
+> +		guc_class, instance, engine->name, reason);
+> +
+> +	intel_gt_handle_error(gt, engine->mask,
+>   			      I915_ERROR_CAPTURE,
+>   			      "GuC failed to reset %s (reason=0x%08x)\n",
+>   			      engine->name, reason);
+
