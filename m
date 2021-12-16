@@ -1,53 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9379947761C
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 16:39:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F30E447764C
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 16:47:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C15010E34C;
-	Thu, 16 Dec 2021 15:39:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC34610E652;
+	Thu, 16 Dec 2021 15:47:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
- [85.215.255.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D21C110E34C
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 15:39:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1639669158;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=MHu1HtjYmw4nq41J5OgWRHpWBkTI68HMrnU4IC1AtA0=;
- b=onlP5l5ytXGnJJ63PvK9x46J7sm6dURpQbUvN4SRBm6d2GS8X6JFsySWjJB4WO/9iE
- 9oj/e3gstuZp91ymTat8rucIGnW+X6yv+mnE1gQXEaPXGHBvppi4dmF6He0QL29e+/oU
- oBEGwGW4frb7pQK5CokP0bXmG2U0nQy0NhkZ3gUPDToLWwTeEisKnIYehdlAnwVtpgW8
- vbW6ppmu+VLEda7cQEKZ6HJ/wiCNZ3UBXj3jLolrFLmexeRfU5ecWvT/TVB3016KeGE7
- KaRFcVPW27/8IGReJE8n66tlff0Bq5ZW2Forifwbpm2qgDqa3z6QMiyaz2GG5hDywOUP
- 4UPg==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7gpw91N5y2S3iMMUrw=="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 47.35.3 DYNA|AUTH)
- with ESMTPSA id 404833xBGFdHF8Z
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
- with 256 ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Thu, 16 Dec 2021 16:39:17 +0100 (CET)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
-Subject: Re: [PATCH v11 0/8] MIPS: JZ4780 and CI20 HDMI
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <H5S74R.5BG9EDZORI63@crapouillou.net>
-Date: Thu, 16 Dec 2021 16:39:16 +0100
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <638E4C90-BF5A-4DE8-A8E3-BE81B454CF63@goldelico.com>
-References: <cover.1638470392.git.hns@goldelico.com>
- <H5S74R.5BG9EDZORI63@crapouillou.net>
-To: Paul Cercueil <paul@crapouillou.net>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-X-Mailer: Apple Mail (2.3445.104.21)
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14A6F10E652
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 15:47:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202112;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=m8Imnupy9DCgTMxOF7vL/jVXbid1w7fM/mxpS0AUg+s=; b=JzxgUh5fve8WsO+XfVTOzA1r7T
+ ggInYoWAeCNA68UhSJZaOMYUyspdF4m50HaAvqv8dwzuXrWCTN4KIAclk0hrtY1ZKjUQnlnI268Pc
+ LRt6dWotCWyQvmmOuy6uwdQQ2XzsStDkC0EhUqZEQXU0fiMvX78omXqNDoKsUS0zyJutYGvnQYICw
+ KCLxj9huFbPgicl1ZvWGd5USYYn1iVr8SyRoroaqrI+DUgb45I0IRu2WgL1ehYxK8ZOr5FeXU+XOY
+ rg0iEyDSDpW0WVTSnt5PBaikontnB4cZ2P+xqwZnZgfcAOZNYSon34iDwKgGj6cGGxEndIjepWdUZ
+ pD12uv4g==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:55318
+ helo=[192.168.10.61])
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1mxsz1-00026Q-H7; Thu, 16 Dec 2021 16:47:51 +0100
+Message-ID: <4059e488-38fe-2b79-191c-6e921f262c9f@tronnes.org>
+Date: Thu, 16 Dec 2021 16:47:49 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 11/60] drm/gud: Add support for the nomodeset kernel
+ parameter
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20211215010008.2545520-1-javierm@redhat.com>
+ <20211215010008.2545520-12-javierm@redhat.com>
+ <5b1d9578-1f74-a808-c4d4-6e8c38dd57fc@tronnes.org>
+ <041430de-c0a0-d0eb-81d5-eeee3204ce23@suse.de>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <041430de-c0a0-d0eb-81d5-eeee3204ce23@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,63 +61,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Paul Boddie <paul@boddie.org.uk>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS <devicetree@vger.kernel.org>,
- Kees Cook <keescook@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Robert Foss <robert.foss@linaro.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, "Eric W. Biederman" <ebiederm@xmission.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paul and Thomas,
-thanks for already applying some of the patches of this series!
 
-> Am 16.12.2021 um 16:24 schrieb Paul Cercueil <paul@crapouillou.net>:
->=20
-> Hi,
->=20
-> Patches 1 and 2 added to drm-misc-next.
->=20
-> I'll pick the rest when the regulator situation is sorted out.
->=20
 
-I had started working on the regulator and while testing and trying to =
-read the EDID
-something has damaged my monitor so that it does no longer report proper =
-EDID information
-(for the second time, so that I can't pledge for another warrany =
-repair). Maybe controlling
-+5V for this specific monitor must be done very carefully and in a =
-specific sequence...
+Den 16.12.2021 09.20, skrev Thomas Zimmermann:
+> Hi
+> 
+> Am 15.12.21 um 22:37 schrieb Noralf Trønnes:
+>>
+>>
+>> Den 15.12.2021 01.59, skrev Javier Martinez Canillas:
+>>> According to disable Documentation/admin-guide/kernel-parameters.txt,
+>>> this
+>>> parameter can be used to disable kernel modesetting.
+>>>
+>>> DRM drivers will not perform display-mode changes or accelerated
+>>> rendering
+>>> and only the systewm system framebuffer will be available if it was
+>>> set-up.
+>>>
+>>> But only a few DRM drivers currently check for nomodeset, make this
+>>> driver
+>>> to also support the command line parameter.
+>>>
+>>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+>>> ---
+>>>
+>>
+>> I don't understand why this is applicable to USB drivers, there's no way
+>> the firmware can setup a framebuffer and continue pushing pixels over
+>> USB when Linux has been given control over the USB bus?
+>>
+>> The same argument goes for the SPI drivers in drm/tiny/ as well.
+> 
+> The intended semantics of the option is to disable every display output
+> except for the buffer provided by the firmware.
+> 
 
-So I will need some more days for building a more robust test setup and =
-doing verification
-of the driver. Well I have other monitors, but this was the cheapest one =
-and available
-for such experiments :)
+If that's the case this patch is:
 
-Generally the idea is to replace the regulator with a ddc-en-gpios =
-property of the connector.
+Acked-by: Noralf Trønnes <noralf@tronnes.org>
 
-Unfortunately it does not work to control it by atomic enable/disable in =
-the connector driver
-(it is not called at all). So I have been working on an approach =
-following the concept how
-drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c does it.
-
-Sorry for the delay, but a V12 will come.
-
-BR and thanks,
-Nikolaus
-
+> With USB it still would still disable the driver. That's useful if only
+> for debugging. There are also systems with hard-wired USB displays where
+> one cannot just unplug the adapter.
+> 
+> Admittedly, USB graphics is a bit of an odd use case, but neither is it
+> too far fetched IMHO.
+> 
+> Best regards
+> Thomas
+> 
+>>
+>> Noralf.
+>>
+>>>   drivers/gpu/drm/gud/gud_drv.c | 3 +++
+>>>   1 file changed, 3 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/gud/gud_drv.c
+>>> b/drivers/gpu/drm/gud/gud_drv.c
+>>> index 3f9d4b9a1e3d..4d253d249512 100644
+>>> --- a/drivers/gpu/drm/gud/gud_drv.c
+>>> +++ b/drivers/gpu/drm/gud/gud_drv.c
+>>> @@ -446,6 +446,9 @@ static int gud_probe(struct usb_interface *intf,
+>>> const struct usb_device_id *id)
+>>>       u32 *formats;
+>>>       int ret, i;
+>>>   +    if (drm_firmware_drivers_only())
+>>> +        return -ENODEV;
+>>> +
+>>>       ret = usb_find_bulk_out_endpoint(intf->cur_altsetting, &bulk_out);
+>>>       if (ret)
+>>>           return ret;
+>>>
+> 
