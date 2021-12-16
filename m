@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8661E47735F
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 14:41:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26E84477367
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 14:44:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CEA410FD44;
-	Thu, 16 Dec 2021 13:41:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 929B610FEEE;
+	Thu, 16 Dec 2021 13:44:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1667410F582
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 13:41:42 +0000 (UTC)
+Received: from michel.telenet-ops.be (michel.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54E7110FEEE
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 13:44:07 +0000 (UTC)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:d13f:527c:5504:a743])
- by baptiste.telenet-ops.be with bizsmtp
- id X1hT2600P250X30011hTei; Thu, 16 Dec 2021 14:41:41 +0100
+ by michel.telenet-ops.be with bizsmtp
+ id X1js2600j250X30061jsU6; Thu, 16 Dec 2021 14:44:05 +0100
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1mxr0g-005QFf-Qb; Thu, 16 Dec 2021 14:41:26 +0100
+ id 1mxr32-005QIJ-3M; Thu, 16 Dec 2021 14:43:52 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1mxr0g-009y1j-87; Thu, 16 Dec 2021 14:41:26 +0100
+ id 1mxr31-009y7j-H5; Thu, 16 Dec 2021 14:43:51 +0100
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-To: Thomas Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Sagar Kadam <sagar.kadam@sifive.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
+To: Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh+dt@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Anup Patel <anup.patel@wdc.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
 Subject: [PATCH v3 0/3] Add Mali-G31 GPU support for RZ/G2L SoC
-Date: Thu, 16 Dec 2021 14:41:23 +0100
+Date: Thu, 16 Dec 2021 14:43:49 +0100
 Message-Id: <20211208104026.421-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1639661878.git.geert@linux-m68k.org>
-References: <cover.1639661878.git.geert@linux-m68k.org>
+In-Reply-To: <cover.1639662093.git.geert@linux-m68k.org>
+References: <cover.1639662093.git.geert@linux-m68k.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
