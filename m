@@ -1,58 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CA3E4779C3
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 17:53:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E35E4779DB
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 18:02:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FA8D10E1E3;
-	Thu, 16 Dec 2021 16:53:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D43110E260;
+	Thu, 16 Dec 2021 17:02:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C97A710E1E3
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 16:53:49 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 568F0B82521
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 16:53:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0E8AC36AEA
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 16:53:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1639673626;
- bh=9HY2Gr+HhTGXlOap7cbaob8w2cXKS9jFtehhh4izEG8=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=WRgOo96UY32jO7LJaVjCqsDPFKI9+wDI56L1Mgwf6Zky2BpMKtlbpxJHnu1oHxkqY
- ihoWx3qwypRP/jKX59AFSQI0n+O0ZYqwD9TvgqyoHE7KfvLhGvZc4n/i74G5bc9Ymk
- mcRfIc9jBk3zFEmOKt0c+fxoCHVlNalW5cqoHij0ZaDlGZ57v2Nno/HtgQFVHpoZpQ
- /AEm7jJUfpw5f9ot6nk3p+viPFBLG+gjGEY6MJpCFhif25HCWxyGJLV+qFktGriSFG
- KP5ZLveIYXCUrLLcnn99HtSPaGTBT7gxS8oDAlsVX8x4PLb5H+GG4adzkdQzBaDwwL
- 78mQOSHipMF9A==
-Received: by mail-ed1-f50.google.com with SMTP id o20so89622701eds.10
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 08:53:46 -0800 (PST)
-X-Gm-Message-State: AOAM533fSjXQsn0MIEJMU+3IUApmhgmcbucgy3XLtsZsp2RCBW+w5LtF
- 18zHS92aaMupPRCb74+Ae9jgWtFLHA7vUD7dEA==
-X-Google-Smtp-Source: ABdhPJxzD4lGwKbHzDmj/sZXRpKpudELV5UmRGTSzZLUVIZoScj+A0c3yEr8k9wRu+mnTBdtU4+OtRxzKcLNMh5ObfI=
-X-Received: by 2002:a50:ef02:: with SMTP id m2mr21289306eds.172.1639673624750; 
- Thu, 16 Dec 2021 08:53:44 -0800 (PST)
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 459DC10E31E
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 17:02:03 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id o29so19369117wms.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 09:02:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Axe4Q9VXvpGCP1w03oKYpmEgDNQia2jUa2INQifyMYg=;
+ b=JnUskR6BQSx107PSNjQbFwC/egoZKWvzdtEKNpoEOvAysW1fM+UaksTnVw1zAJv45Q
+ blVtyxzcM+gIQEv0XcennrIDlLGZ3x0h1D325REsRQCK2P+5UoLgMLuDHx7gxvnV2zt6
+ YECEfteZqW+PXKPurXESEjbHSSjeA9ZS7CxlDARUK8T9F1dfcLAnib/Uh3WBhu6tgU+K
+ na0ZZhrjI3TfsiFHOmm0HrWY9ZTMk+zncmkrr7Kc2TLs24yVUaMvEJa+X7cEkopuMbBN
+ 7f9tBr9qIELlIsKX7yR+QMwW8tIJ/mC1/cboxPH60la/L3MWL1WypHthAgDMe6I7GUIu
+ sEfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Axe4Q9VXvpGCP1w03oKYpmEgDNQia2jUa2INQifyMYg=;
+ b=sH4FYUT39h9UTpK3ZPmfi21QJjqr1uF+tYLwpxSiaccYy7Jadc9OblxuIJoP+luu6U
+ 2Rm0qufQcRCICMWtg+Fga7nQbqd61tTtirM7kwKmAI4aq513Nn6sqmUFbBsR08vzDQro
+ iURtkfIOGLsgkdfqcI1tQ7igzuuZruJU5eLdbUMhX7/8tRH7w4xJlWhQpVQorDzSh41a
+ nIGEODBTNnyiKXbFsZJE7Dfi/S8W4G5XWhYARfV/N8XPNdM6CXw8+XWkThGEUyeW7Y3n
+ Coz9yd6ZETLJTzwFLZequUNaUf+9WU8/gDpLO5Ab+oLB5zD51y8jSpPh9JfGnTtSccaE
+ 6I+A==
+X-Gm-Message-State: AOAM532D8KqNQL7s8/n41j1DTZDi8S6TfUkQUexUKWi9jppZtffmKtEv
+ s+E18hUvbSXu3zrNRcGi1lSghLG9MjWdgw==
+X-Google-Smtp-Source: ABdhPJyZR9qKxhXWhLSPZaa52rhCTCx7Oj3ZEeDXV7onBiivQ4yQXVK574JzTm6Dy+Uqi8ND6aP6nA==
+X-Received: by 2002:a05:600c:350a:: with SMTP id
+ h10mr5786912wmq.62.1639674121776; 
+ Thu, 16 Dec 2021 09:02:01 -0800 (PST)
+Received: from localhost.localdomain ([217.113.240.86])
+ by smtp.gmail.com with ESMTPSA id n10sm5452472wri.67.2021.12.16.09.02.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Dec 2021 09:02:01 -0800 (PST)
+From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To: rodrigosiqueiramelo@gmail.com
+Subject: [PATCH v2 1/2] drm/vkms: add function to get plane formats
+Date: Thu, 16 Dec 2021 18:01:39 +0100
+Message-Id: <20211216170140.15803-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20211022172413.195559-1-markyacoub@chromium.org>
- <20211026011318.GF2515@art_vandelay>
- <CAJUqKUopyQEyLh7w32UnHfUJv0nNUoE_PHAdkEj8JOnkhVqbbQ@mail.gmail.com>
- <CAAOTY_84K_xCQE-H8zxWfBhn4kQF_kPsmaqDuRr8w2E4rti3QA@mail.gmail.com>
- <CAJUqKUrCibOCjPca_YaLpF2_zsb-85CbKbrs9KyGqWwGrWOGyg@mail.gmail.com>
-In-Reply-To: <CAJUqKUrCibOCjPca_YaLpF2_zsb-85CbKbrs9KyGqWwGrWOGyg@mail.gmail.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Fri, 17 Dec 2021 00:53:32 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-b=F+moHec9sx_o5jv7XhfSd9A2crHsWGtzBdRSoiwHw@mail.gmail.com>
-Message-ID: <CAAOTY_-b=F+moHec9sx_o5jv7XhfSd9A2crHsWGtzBdRSoiwHw@mail.gmail.com>
-Subject: Re: [PATCH] mediatek: Set default value for Panel Orientation
- connector prop.
-To: Mark Yacoub <markyacoub@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,120 +67,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Sean Paul <seanpaul@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Sean Paul <sean@poorly.run>, Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Mark Yacoub <markyacoub@google.com>
+Cc: hamohammed.sa@gmail.com, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, melissa.srw@gmail.com,
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+ cphealy@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Mark:
+Move the logic to get the plane formats depending on the plane type to
+its own function.
+Refactor, no functional changes.
 
-Mark Yacoub <markyacoub@chromium.org> =E6=96=BC 2021=E5=B9=B412=E6=9C=8816=
-=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8A=E5=8D=881:25=E5=AF=AB=E9=81=93=EF=BC=
-=9A
->
-> On Wed, Dec 15, 2021 at 11:14 AM Chun-Kuang Hu <chunkuang.hu@kernel.org> =
-wrote:
-> >
-> > Hi, Mark:
-> >
-> > Mark Yacoub <markyacoub@chromium.org> =E6=96=BC 2021=E5=B9=B412=E6=9C=
-=8814=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=8811:13=E5=AF=AB=E9=81=93=
-=EF=BC=9A
-> > >
-> > > Hey CK, can we have this merged?
-> > > Thank you!
-> > >
-> > > On Mon, Oct 25, 2021 at 9:13 PM Sean Paul <sean@poorly.run> wrote:
-> > > >
-> > > > On Fri, Oct 22, 2021 at 01:24:03PM -0400, Mark Yacoub wrote:
-> > > > > From: Mark Yacoub <markyacoub@chromium.org>
-> > > > >
-> > > > > [Why]
-> > > > > Creating the prop uses UNKNOWN as the initial value, which is not=
- a
-> > > > > supported value if the props is to be supported.
-> > > > >
-> > > > > [How]
-> > > > > Set the panel orientation default value to NORMAL right after cre=
-ating
-> > > > > the prop.
-> > > >
-> > > > Reviewed-by: Sean Paul <seanpaul@chromium.org>
-> > > >
-> > > > >
-> > > > > Tested on Jacuzzi(MTK)
-> > > > > Fixes IGT@kms_properties@get_properties-sanity-{atomic,non-atomic=
-}
-> > > > >
-> > > > > Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
-> > > > > ---
-> > > > >  drivers/gpu/drm/mediatek/mtk_dsi.c | 2 ++
-> > > > >  1 file changed, 2 insertions(+)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm=
-/mediatek/mtk_dsi.c
-> > > > > index 0ad7157660afa..b7c2528a8f41c 100644
-> > > > > --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > > > > +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > > > > @@ -1039,6 +1039,8 @@ static int mtk_dsi_encoder_init(struct drm_=
-device *drm, struct mtk_dsi *dsi)
-> > > > >               DRM_ERROR("Unable to init panel orientation\n");
-> > > > >               goto err_cleanup_encoder;
-> > > > >       }
-> > > > > +     drm_connector_set_panel_orientation(dsi->connector,
-> > > > > +                                         DRM_MODE_PANEL_ORIENTAT=
-ION_NORMAL);
-> >
-> > In drm_connector_set_panel_orientation() [1], I find that the
-> > orientation could be set only once. Once you set it to normal, it
-> > could not be set to other orientation. Right?
-> >
-> Hello,
-> Yeah this looks true, and makes sense according to the documentation:
-> https://01.org/linuxgraphics/gfx-docs/drm/gpu/drm-kms.html#:~:text=3Done%=
-20standardized%20property%3A-,panel%20orientation%3A,-On%20some%20devices
->
-> Panel orientation has to do with the how the hardware is mounted, in
-> contrast with the Rotation property. All the HW we have right now has
-> a normal panel orientation so it makes sense to be set this way. Among
+Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+---
+ drivers/gpu/drm/vkms/vkms_plane.c | 37 ++++++++++++++++---------------
+ 1 file changed, 19 insertions(+), 18 deletions(-)
 
-Many evidence [1], [2], [3], show that Chromebook plan to have other
-orientation on mt8183, so I think you should consider this.
+diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+index 32409e15244b..76a06dd92ac1 100644
+--- a/drivers/gpu/drm/vkms/vkms_plane.c
++++ b/drivers/gpu/drm/vkms/vkms_plane.c
+@@ -83,6 +83,23 @@ static void vkms_plane_reset(struct drm_plane *plane)
+ 	__drm_gem_reset_shadow_plane(plane, &vkms_state->base);
+ }
+ 
++static void vkms_formats_for_plane_type(enum drm_plane_type type,
++					const u32 **formats, int *nformats)
++{
++	switch (type) {
++	case DRM_PLANE_TYPE_CURSOR:
++	case DRM_PLANE_TYPE_OVERLAY:
++		*formats = vkms_plane_formats;
++		*nformats = ARRAY_SIZE(vkms_plane_formats);
++		break;
++	case DRM_PLANE_TYPE_PRIMARY:
++	default:
++		*formats = vkms_formats;
++		*nformats = ARRAY_SIZE(vkms_formats);
++		break;
++	}
++}
++
+ static const struct drm_plane_funcs vkms_plane_funcs = {
+ 	.update_plane		= drm_atomic_helper_update_plane,
+ 	.disable_plane		= drm_atomic_helper_disable_plane,
+@@ -167,24 +184,8 @@ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+ 	const u32 *formats;
+ 	int nformats;
+ 
+-	switch (type) {
+-	case DRM_PLANE_TYPE_PRIMARY:
+-		formats = vkms_formats;
+-		nformats = ARRAY_SIZE(vkms_formats);
+-		funcs = &vkms_primary_helper_funcs;
+-		break;
+-	case DRM_PLANE_TYPE_CURSOR:
+-	case DRM_PLANE_TYPE_OVERLAY:
+-		formats = vkms_plane_formats;
+-		nformats = ARRAY_SIZE(vkms_plane_formats);
+-		funcs = &vkms_primary_helper_funcs;
+-		break;
+-	default:
+-		formats = vkms_formats;
+-		nformats = ARRAY_SIZE(vkms_formats);
+-		funcs = &vkms_primary_helper_funcs;
+-		break;
+-	}
++	funcs = &vkms_primary_helper_funcs;
++	vkms_formats_for_plane_type(type, &formats, &nformats);
+ 
+ 	plane = drmm_universal_plane_alloc(dev, struct vkms_plane, base, 1 << index,
+ 					   &vkms_plane_funcs,
+-- 
+2.25.1
 
-[1] https://patchwork.kernel.org/project/linux-mediatek/patch/2021040904531=
-4.3420733-2-hsinyi@chromium.org/
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
-/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c?h=3Dv5.16-rc5#n1474
-[3] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
-/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane-sku176.dts?h=3Dv5.16-rc5#n=
-22
-
-Regards,
-Chun-Kuang.
-
-
-
-> other drivers, panel orientation is always set right after the
-> property is initialized.
->
-> > [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/=
-tree/drivers/gpu/drm/drm_connector.c?h=3Dv5.16-rc5#n2302
-> >
-> > Regards,
-> > Chun-Kuang.
-> >
-> > > > >
-> > > > >       drm_connector_attach_encoder(dsi->connector, &dsi->encoder)=
-;
-> > > > >
-> > > > > --
-> > > > > 2.33.0.1079.g6e70778dc9-goog
-> > > > >
-> > > >
-> > > > --
-> > > > Sean Paul, Software Engineer, Google / Chromium OS
