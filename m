@@ -2,23 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1E15477482
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 15:28:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DCC6477489
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 15:28:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB7E41122C5;
-	Thu, 16 Dec 2021 14:28:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE0C71122CA;
+	Thu, 16 Dec 2021 14:28:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mblankhorst.nl (mblankhorst.nl
- [IPv6:2a02:2308:0:7ec:e79c:4e97:b6c4:f0ae])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E2AA10FF15;
+Received: from mblankhorst.nl (mblankhorst.nl [141.105.120.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4D2F10FF39;
  Thu, 16 Dec 2021 14:28:07 +0000 (UTC)
 From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 08/17] drm/i915: Call i915_gem_evict_vm in vm_fault_gtt to
- prevent new ENOSPC errors
-Date: Thu, 16 Dec 2021 15:27:40 +0100
-Message-Id: <20211216142749.1966107-9-maarten.lankhorst@linux.intel.com>
+Subject: [PATCH v3 09/17] drm/i915: Trylock the object when shrinking
+Date: Thu, 16 Dec 2021 15:27:41 +0100
+Message-Id: <20211216142749.1966107-10-maarten.lankhorst@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20211216142749.1966107-1-maarten.lankhorst@linux.intel.com>
 References: <20211216142749.1966107-1-maarten.lankhorst@linux.intel.com>
@@ -40,44 +38,37 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we cannot unbind kill the currently locked object directly
-because we're removing short term pinning, we may have to unbind the
-object from gtt manually, using a i915_gem_evict_vm() call.
+We're working on requiring the obj->resv lock during unbind, fix
+the shrinker to take the objectl ock.
 
 Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_mman.c | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_shrinker.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-index af81d6c3332a..00cd9642669a 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-@@ -358,8 +358,22 @@ static vm_fault_t vm_fault_gtt(struct vm_fault *vmf)
- 			vma = i915_gem_object_ggtt_pin_ww(obj, &ww, &view, 0, 0, flags);
- 		}
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+index eebff4735781..ad2123369e0d 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+@@ -405,12 +405,18 @@ i915_gem_shrinker_vmap(struct notifier_block *nb, unsigned long event, void *ptr
+ 	list_for_each_entry_safe(vma, next,
+ 				 &i915->ggtt.vm.bound_list, vm_link) {
+ 		unsigned long count = vma->node.size >> PAGE_SHIFT;
++		struct drm_i915_gem_object *obj = vma->obj;
  
--		/* The entire mappable GGTT is pinned? Unexpected! */
--		GEM_BUG_ON(vma == ERR_PTR(-ENOSPC));
-+		/*
-+		 * The entire mappable GGTT is pinned? Unexpected!
-+		 * Try to evict the object we locked too, as normally we skip it
-+		 * due to lack of short term pinning inside execbuf.
-+		 */
-+		if (vma == ERR_PTR(-ENOSPC)) {
-+			ret = mutex_lock_interruptible(&ggtt->vm.mutex);
-+			if (!ret) {
-+				ret = i915_gem_evict_vm(&ggtt->vm);
-+				mutex_unlock(&ggtt->vm.mutex);
-+			}
-+			if (ret)
-+				goto err_reset;
-+			vma = i915_gem_object_ggtt_pin_ww(obj, &ww, &view, 0, 0, flags);
-+		}
-+		GEM_WARN_ON(vma == ERR_PTR(-ENOSPC));
+ 		if (!vma->iomap || i915_vma_is_active(vma))
+ 			continue;
+ 
++		if (!i915_gem_object_trylock(obj))
++			continue;
++
+ 		if (__i915_vma_unbind(vma) == 0)
+ 			freed_pages += count;
++
++		i915_gem_object_unlock(obj);
  	}
- 	if (IS_ERR(vma)) {
- 		ret = PTR_ERR(vma);
+ 	mutex_unlock(&i915->ggtt.vm.mutex);
+ 
 -- 
 2.34.1
 
