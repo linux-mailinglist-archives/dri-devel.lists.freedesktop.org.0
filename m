@@ -1,51 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64E814767EB
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 03:28:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95C51476880
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 04:11:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B75EA10FD17;
-	Thu, 16 Dec 2021 02:28:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0587C10FD67;
+	Thu, 16 Dec 2021 03:11:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1568F10FD18;
- Thu, 16 Dec 2021 02:28:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1639621688; x=1671157688;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=+NjdKJ3b4NP8VTeVOFrEEKVv2LtypskicY+INiBnbSQ=;
- b=zBhz8D/avagoZ+RAoaXJte4QYEIPsJR/eV9+3V773FWHLoWeoqXZHx/g
- Cw8tvayxKloQqNiVmZ5oN+4e+Tr7OluxS54cyZ7nrjKWas+5kptT3Llkr
- pw06zd5KEruaW1xSElv0He8sryzs+5+/fZFFcjfIwA2ADlWuWltMQFT2X 4=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 15 Dec 2021 18:28:07 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Dec 2021 18:28:03 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Wed, 15 Dec 2021 18:28:02 -0800
-Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Wed, 15 Dec 2021 18:28:01 -0800
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/msm/dpu: add layer mixer register dump to dpu snapshot
-Date: Wed, 15 Dec 2021 18:27:38 -0800
-Message-ID: <1639621658-1500-1-git-send-email-quic_abhinavk@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+Received: from out30-43.freemail.mail.aliyun.com
+ (out30-43.freemail.mail.aliyun.com [115.124.30.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BB7B10FD68;
+ Thu, 16 Dec 2021 03:11:09 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R101e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04357; MF=yang.lee@linux.alibaba.com;
+ NM=1; PH=DS; RN=15; SR=0; TI=SMTPD_---0V-m4t3W_1639624265; 
+Received: from localhost(mailfrom:yang.lee@linux.alibaba.com
+ fp:SMTPD_---0V-m4t3W_1639624265) by smtp.aliyun-inc.com(127.0.0.1);
+ Thu, 16 Dec 2021 11:11:05 +0800
+From: Yang Li <yang.lee@linux.alibaba.com>
+To: robdclark@gmail.com
+Subject: [PATCH -next] drm/msm: remove variable set but not used
+Date: Thu, 16 Dec 2021 11:11:03 +0800
+Message-Id: <20211216031103.34146-1-yang.lee@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,38 +39,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- swboyd@chromium.org, khsieh@codeaurora.org, nganji@codeaurora.org,
- seanpaul@chromium.org, dmitry.baryshkov@linaro.org, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
+ linux-arm-msm@vger.kernel.org, llvm@lists.linux.dev, ndesaulniers@google.com,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, nathan@kernel.org,
+ Abaci Robot <abaci@linux.alibaba.com>, Yang Li <yang.lee@linux.alibaba.com>,
+ dmitry.baryshkov@linaro.org, sean@poorly.run
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the missing layer mixer register dump information to
-dpu snapshot to assist debugging.
+The code that uses variable mdss has been removed, So the declaration 
+and assignment of the variable can be removed.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Eliminate the following clang warning:
+drivers/gpu/drm/msm/msm_drv.c:513:19: warning: variable 'mdss' set but
+not used [-Wunused-but-set-variable]
+
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Fixes: 2027e5b3413d ("drm/msm: Initialize MDSS irq domain at probe time")
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/msm/msm_drv.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 281c9601..47fe11a 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -920,6 +920,11 @@ static void dpu_kms_mdp_snapshot(struct msm_disp_state *disp_state, struct msm_k
- 		msm_disp_snapshot_add_block(disp_state, cat->sspp[i].len,
- 				dpu_kms->mmio + cat->sspp[i].base, "sspp_%d", i);
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index ad35a5d94053..59e30192cdf6 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -510,7 +510,6 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
+ 	struct msm_drm_private *priv = dev_get_drvdata(dev);
+ 	struct drm_device *ddev;
+ 	struct msm_kms *kms;
+-	struct msm_mdss *mdss;
+ 	int ret, i;
  
-+	/* dump LM sub-blocks HW regs info */
-+	for (i = 0; i < cat->mixer_count; i++)
-+		msm_disp_snapshot_add_block(disp_state, cat->mixer[i].len,
-+				dpu_kms->mmio + cat->mixer[i].base, "lm_%d", i);
-+
- 	msm_disp_snapshot_add_block(disp_state, top->hw.length,
- 			dpu_kms->mmio + top->hw.blk_off, "top");
+ 	ddev = drm_dev_alloc(drv, dev);
+@@ -521,8 +520,6 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
+ 	ddev->dev_private = priv;
+ 	priv->dev = ddev;
+ 
+-	mdss = priv->mdss;
+-
+ 	priv->wq = alloc_ordered_workqueue("msm", 0);
+ 	priv->hangcheck_period = DRM_MSM_HANGCHECK_DEFAULT_PERIOD;
  
 -- 
-2.7.4
+2.20.1.7.g153144c
 
