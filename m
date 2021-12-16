@@ -2,62 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 619284775FD
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 16:31:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AD68477614
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Dec 2021 16:39:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B7A510E9B8;
-	Thu, 16 Dec 2021 15:31:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C44C910E2F8;
+	Thu, 16 Dec 2021 15:39:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11DD810E9B8
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 15:31:26 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id s1so10765243wrg.1
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 07:31:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=sts3JGyfN1WuKgg88vZXBQQlHHEJeYISoHb+lIrYjpI=;
- b=OI/lA3kVbaJDD/afsQSi+J36E2JqDxVXvOowE3TBOFNTrX1O3LczxrTihQ1jr6Ux6f
- ovaLEraU36ANee/qN+2S8S2u/FdMucEzq/hFYUrnE5bdNBZUd2/3iL9s9yR8moc3CZMU
- Ag5+NZCv2EM7gw8WWiN98BkkFWIS5jCXHKWRcq8FrmRoZ5HDS0i5wSh3wcN+ZOwrtWWO
- O7YH0NPO0KSE+LDkUNWT/cRYfL/tKOdqbASlL9LB5xUnPbcqkw5Qjxu+maa3lETPxwPK
- Nnz1cAva20b7kryGV92hhutdsvoEydLKblUacrE1FntjJzhyX0BXb0uozsSWZ4q3IKDQ
- psfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=sts3JGyfN1WuKgg88vZXBQQlHHEJeYISoHb+lIrYjpI=;
- b=JQantEGqIQNwbw56gLVuJp9X/OBy+z2e5L3EGmsNFq2VT62eCsZmKmnDc7WF0OUrRa
- KbvXdZTAD2I89lUMf5plDm6GJdjzxj29nKJVd+d+wrXgzMKkheVbCu3jecsRlhg6GJiJ
- jbsDSFOlP0CcwUt0zMeG5AT0eTNuZHse1wy4NVBere+kHsxtBz3oydK8HbcdT31NfwiH
- boX/J8JhSABg1k8MDpqQeBD13aciDlPyi8PiLnp4Enf2QUymrJW+zdi7322IUQLe4iuS
- nriIQ6EinHzhpdl1cj0rzVFwtR999Cx1SqZwelC0dNR24wsjvjSwcqdumVLH5p0whORA
- c3yQ==
-X-Gm-Message-State: AOAM531vR8f296nd2+HX0B/5+GfFVZ3kERJqbiFoVQwFSlbCTGVnw0vQ
- QoNPaNIJgtuJ2vL5z99NHcY=
-X-Google-Smtp-Source: ABdhPJx1GRSUJgkEQM02MsqnuDNU/r4aWmqUaySJJcyuR/EPQN8tAfIjZJbeWsV+oiDXQvB/S//viQ==
-X-Received: by 2002:a5d:6d05:: with SMTP id e5mr7296693wrq.460.1639668684641; 
- Thu, 16 Dec 2021 07:31:24 -0800 (PST)
-Received: from orome ([193.209.96.43])
- by smtp.gmail.com with ESMTPSA id d2sm1204462wrw.26.2021.12.16.07.31.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Dec 2021 07:31:23 -0800 (PST)
-Date: Thu, 16 Dec 2021 16:31:19 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v4 13/22] ASoC: tegra20: i2s: Filter out unsupported rates
-Message-ID: <Ybtbx8gQJaSsOjGM@orome>
-References: <20211204143725.31646-1-digetx@gmail.com>
- <20211204143725.31646-14-digetx@gmail.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89D3110E2F8;
+ Thu, 16 Dec 2021 15:39:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1639669152; x=1671205152;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=RBGb5Ov0mF6xYYPJWI/E++a2VbxgjzK9PAEfJ8Ltvwg=;
+ b=LpoRiYOkzkTzRMtFsBwqF+86OtCV6IdQPVHryO8QUiQJWAWTI8p41F9D
+ qEI3tKiPPhk0yfEVVpxrMcXFT/trecIjAQvA3ldZ+htqZZRnS/NK++4Ge
+ Xq0MOrzXUVvDVhJL1tGz+hLK7OdRfKvk5U1yTHspMrz6Ry1VpC3+nuQX5
+ +3cPiI5sQmTNG3/ki9y+nn51pCVVITAcQ9s4I8q7CJUXpueOq+iNKMTAd
+ xhEN+orykI/sP1hloFycGM3uxEXVPyRlR0fCsD3s534prvA1r+2I4Cs8Q
+ 8GbnmDOUKSdNO9XCA6JxfiU2aSk7wAvYU6V+kTd1tn4QPIxNKXrAmM2Dm Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10199"; a="238261402"
+X-IronPort-AV: E=Sophos;i="5.88,211,1635231600"; d="scan'208";a="238261402"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Dec 2021 07:39:12 -0800
+X-IronPort-AV: E=Sophos;i="5.88,211,1635231600"; d="scan'208";a="611507312"
+Received: from yshchyok-mobl1.ccr.corp.intel.com (HELO mwauld-desk1.intel.com)
+ ([10.252.21.121])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Dec 2021 07:39:11 -0800
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v4 0/3] DG2 accelerated migration/clearing support
+Date: Thu, 16 Dec 2021 15:38:44 +0000
+Message-Id: <20211216153847.185820-1-matthew.auld@intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="S1udWQXOrWShk0yg"
-Content-Disposition: inline
-In-Reply-To: <20211204143725.31646-14-digetx@gmail.com>
-User-Agent: Mutt/2.1.3 (987dde4c) (2021-09-10)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,58 +55,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
- Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
- Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Rob Herring <robh+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
- Agneli <poczt@protonmail.ch>, linux-tegra@vger.kernel.org,
- Jonathan Hunter <jonathanh@nvidia.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Enable accelerated moves and clearing on DG2. On such HW we have minimum page
+size restrictions when accessing LMEM from the GTT, where we now have to use 64K
+GTT pages or larger. With the ppGTT the page-table also has a slightly different
+layout from past generations when using the 64K GTT mode(which is still enabled
+on via some PDE bit), where it is now compacted down to 32 qword entries. Note
+that on discrete the paging structures must also be placed in LMEM, and we need
+to able to modify them via the GTT itself(see patch 3), which is one of the
+complications here.
 
---S1udWQXOrWShk0yg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+v2: Add missing cover letter
+v3:
+  - Add some r-b tags
+  - Drop the GTT_MAPPABLE approach. We can instead simply pass along the
+    required size/alignment using alloc_pt().
+v4:
+  - Drop already merged patches, and add some r-b tags
+  - Add some better docs to patch 3
 
-On Sat, Dec 04, 2021 at 05:37:16PM +0300, Dmitry Osipenko wrote:
-> Support new nvidia,fixed-parent-rate device-tree property which instructs
-> I2S that board wants parent clock rate to stay at a fixed rate. This allo=
-ws
-> to play audio over S/PDIF and I2S simultaneously. The root of the problem
-> is that audio components on Tegra share the same audio PLL, and thus, only
-> a subset of rates can be supported if we want to play audio simultaneousl=
-y.
-> Filter out audio rates that don't match parent clock rate if device-tree
-> has the nvidia,fixed-parent-rate property.
->=20
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  sound/soc/tegra/tegra20_i2s.c | 49 +++++++++++++++++++++++++++++++++++
->  1 file changed, 49 insertions(+)
+Matthew Auld (3):
+  drm/i915/gtt: allow overriding the pt alignment
+  drm/i915/gtt: add xehpsdv_ppgtt_insert_entry
+  drm/i915/migrate: add acceleration support for DG2
 
-Acked-by: Thierry Reding <treding@nvidia.com>
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c    |  50 +++++-
+ drivers/gpu/drm/i915/gt/intel_gtt.h     |  10 +-
+ drivers/gpu/drm/i915/gt/intel_migrate.c | 209 +++++++++++++++++++-----
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c   |  16 +-
+ 4 files changed, 239 insertions(+), 46 deletions(-)
 
---S1udWQXOrWShk0yg
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+2.31.1
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmG7W8cACgkQ3SOs138+
-s6HSMxAAwX26l+Dg3mv4WaTtS1H3RdqOzt4vyKt0XKp31P44er319zd2Zg254d+i
-TawtYdaIqqfVp0nnU21mXGkCdKeI3PYuKMAIkwxr/oqKEz0DXJ3x75+MqGDkX1Xb
-CI8kio5xGDi/8WDUmEaItKjlQtysVAS+cqxVpJ6sQ2dCuG03laCvX/P7y/41nYDE
-8cVJwGIUu4e7yQ2E9yi2kJqvOfFn/NyA4tyPjAYpFLRI0LiaHioczQNKGkhr3Ecm
-FA71vbV3hF/pJ2ygRzKbHKu/9PE08xKkOl6pWgFJSkJ8LGXZjGs5Kx4f0V97r/hK
-BrKqrPgG06GCrbI8q4UjGh18GKe4tt1Cu7cX6ak+t6s4tqvIVF45dHFPlHnltpFD
-E4x83Tp0qJdcsAOEI8HdnvcIeCKXH9Pz5f+ekHaAVrify7kb+He2L+7b8GzEYwPz
-zx5pG+3XisWQog3Ir9UJn4S9SxzLG66SQRVV0tChf6HRbBHp2GqnlmzlJk4nh69+
-pCdGvwBd+JGXiuW0EEkh4eGdhYvN7rC9B9gTIJXBGtvEW7qRApHzMtSs8+LQJtat
-apPcE2u1SQIL3QWH8SMNZjdkYOIM4CTkrLK2WotRkJajW5mmt7NZJMEfkSjGiOzL
-eNMAkyoaWEU/Ne3yVSXk5P1nIvrecBIJnQMYh/fpb8tyFzgPDVo=
-=8pKh
------END PGP SIGNATURE-----
-
---S1udWQXOrWShk0yg--
