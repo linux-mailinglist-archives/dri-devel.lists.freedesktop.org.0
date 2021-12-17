@@ -1,68 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A9B5478DF3
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 15:40:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4AD6478E4D
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 15:46:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DF6A112823;
-	Fri, 17 Dec 2021 14:39:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37BAE11279C;
+	Fri, 17 Dec 2021 14:46:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D797112820
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 14:39:55 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- d198-20020a1c1dcf000000b0034569cdd2a2so1674031wmd.5
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 06:39:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:from:to:references:message-id:date:user-agent:mime-version
- :in-reply-to:content-transfer-encoding:content-language;
- bh=HWygtIWBaax9xKMejUdqL907XvRbbIbFJ++8LtFRCPM=;
- b=j709/z9d0nSj4a0LhjxAyTEsN82bBOs0ZuTF0SBlP4ANVkoPs6vU80t/hCULEe2cY6
- e9ePIzlfTZ+pso6oQW4Bx3WLmELFM1ye7QLPCo8kWo/rO02s8Zah0A0VOzXbTP9HrANf
- J76KGHrHfzwzQE1OE/3mx6gNNJoPPlJLh9m+nRgMVcTUKK4m4pVc25BGxaVzBefwoTDg
- GaPrTAWH+hapqZRvVRazMowjmEYmaCNtUgQ7GRK17yhpyP3H0ir+WnjulWYOixtxjulm
- 2yDImCe+IiUPn1SOX3haboDK6x7G2bHkqCBdmXNSbEB8qQ1tXjOrPVuJVFh6lL31sC5C
- APfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:from:to:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=HWygtIWBaax9xKMejUdqL907XvRbbIbFJ++8LtFRCPM=;
- b=x6hvX5cUeepMmo1uoDFb9/yMQdun7gE2CC095ZPeRC8nVA/kK4dQoR4+PQ30Q8gnlh
- G+r328muPiXntQ3ZlGTOrne1nGkEtkm21XvLU5LjqDQqI/eUQbruyfCq8Dn1CBRexWOT
- jthAOLxwcVyCLzZY7jgIY1DUoejITJhyA8lcNbYNfAZzAJhztEcbSNS8molwpKltKPRM
- yXu6BsZSlB5fLJdJzFmez/9/a7Bj6ef8Ev1Ty5N0rS6tZA9kwZSgTq5CZV08H3cKwPdo
- tVn6iGa+ut8gskW4hIuVeGCm2neSmlGCJmdlE76//+tNSpH6mj6supGTHrsb9ZK/pnW6
- ZZ2A==
-X-Gm-Message-State: AOAM531AJ3A4cj3pY+jTvDMxqV6PGIiDT7Kbr+l368jtmv14wlfYFpay
- B8eysM8s6NcN1sso3p754iFdf0qLGIs=
-X-Google-Smtp-Source: ABdhPJyo5WDyT2lwprMsF8S6JSfvPGHlYUch6ROyXUW3mwaC72PuDgs8QSZqOEU1xTpafddGznuFMw==
-X-Received: by 2002:a05:600c:8a7:: with SMTP id
- l39mr10158138wmp.138.1639751994168; 
- Fri, 17 Dec 2021 06:39:54 -0800 (PST)
-Received: from ?IPv6:2a02:908:1252:fb60:5aaa:182f:8216:9a28?
- ([2a02:908:1252:fb60:5aaa:182f:8216:9a28])
- by smtp.gmail.com with ESMTPSA id l5sm8846192wrs.59.2021.12.17.06.39.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Dec 2021 06:39:53 -0800 (PST)
-Subject: Re: completely rework the dma_resv semantic
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-To: daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20211207123411.167006-1-christian.koenig@amd.com>
-Message-ID: <e8c7284f-e18e-0dcc-f0a2-3a1ad6222fd4@gmail.com>
-Date: Fri, 17 Dec 2021 15:39:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 701FE11277C;
+ Fri, 17 Dec 2021 14:46:19 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id DB1F51F392;
+ Fri, 17 Dec 2021 14:46:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1639752377; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=YxB0cqlhvJ91NGi/HsQ7Tt+MPtNzBkQB/o1qvCb8FhQ=;
+ b=mY+8j3UY7NsmFW9c9CrJ5MMWvrUkiZ5g5MIaDMkHsfjsoN0nR+LsjEQ6b41Ax2aP+XjgZL
+ o8L5SXFP6qGHZvEUF75cCObvvG0Y8YEDgTAP72DhSW0vFmoaRBX7MgQX5FuTAFu1KJ969b
+ AIjMp7YVftvGTH6f7KOlg9Eo8rclPTQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1639752377;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=YxB0cqlhvJ91NGi/HsQ7Tt+MPtNzBkQB/o1qvCb8FhQ=;
+ b=mkoxXt/BuOC4YLCyTF7Z5ZQ3OSGWVbCVMlPIl2W3/uNq6JhacKmdl9Qu1z25k9UYrJt6nY
+ 0s9veC6qQODue5AA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9980C13E1C;
+ Fri, 17 Dec 2021 14:46:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id CYoCJLmivGH9KwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 17 Dec 2021 14:46:17 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: javierm@redhat.com, daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com
+Subject: [RFC][PATCH 00/10] drm: Add DRM module helpers for existing PCI
+ drivers
+Date: Fri, 17 Dec 2021 15:46:05 +0100
+Message-Id: <20211217144615.32733-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-In-Reply-To: <20211207123411.167006-1-christian.koenig@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,28 +63,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: spice-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+This is an RFC patchset to complement the helper macros provided
+in [1]. The module helpers create module init and exit helpers that
+respect the kernel parameters that enable/disable DRM drivers.
 
-looks like this is going nowhere and you don't seem to have time to review.
+There's one more patch that prepares qxl by moving some code around.
+It's required to make use of the helpers from within qxl.
 
-What can we do?
+Javier, please see if you find anything useful here and cherry-pick
+into your patchset. The driver changes should complement the ones
+in your patchset. The module macros are similar to yours and should
+be easily mergable.
 
-Thanks,
-Christian.
+I tested the macros with ast.
 
-Am 07.12.21 um 13:33 schrieb Christian König:
-> Hi Daniel,
->
-> just a gentle ping that you wanted to take a look at this.
->
-> Not much changed compared to the last version, only a minor bugfix in
-> the dma_resv_get_singleton error handling.
->
-> Regards,
-> Christian.
->
->
+[1] https://patchwork.freedesktop.org/series/98162/
+
+Thomas Zimmermann (10):
+  drm: Provide PCI module-init macros
+  drm/ast: Replace module-init boiler-plate code with DRM helpers
+  drm/bochs: Replace module-init boiler-plate code with DRM helpers
+  drm/cirrus: Replace module-init boiler-plate code with DRM helpers
+  drm/hisilicon/hibmc: Replace module initialization with DRM helpers
+  drm/mgag200: Replace module-init boiler-plate code with DRM helpers
+  drm/qxl: Move ioctl array next to its only user
+  drm/qxl: Replace module-init boiler-plate code with DRM helpers
+  drm/vboxvideo: Replace module-init boiler-plate code with DRM helpers
+  drm/vmwgfx: Replace module-init boiler-plate code with DRM helpers
+
+ Documentation/gpu/drm-internals.rst           |  6 ++
+ drivers/gpu/drm/ast/ast_drv.c                 | 18 +---
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |  3 +-
+ drivers/gpu/drm/mgag200/mgag200_drv.c         | 20 +---
+ drivers/gpu/drm/qxl/qxl_drv.c                 | 31 +++---
+ drivers/gpu/drm/qxl/qxl_drv.h                 | 13 ++-
+ drivers/gpu/drm/qxl/qxl_ioctl.c               | 41 ++------
+ drivers/gpu/drm/tiny/bochs.c                  | 20 +---
+ drivers/gpu/drm/tiny/cirrus.c                 | 17 +---
+ drivers/gpu/drm/vboxvideo/vbox_drv.c          | 20 +---
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           | 24 +----
+ include/drm/drm_module.h                      | 95 +++++++++++++++++++
+ 12 files changed, 145 insertions(+), 163 deletions(-)
+ create mode 100644 include/drm/drm_module.h
+
+
+base-commit: 3f422828221d9ceefcddef0be33561b1646a1cbe
+--
+2.34.1
 
