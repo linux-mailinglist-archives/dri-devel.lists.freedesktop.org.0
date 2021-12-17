@@ -2,53 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FBCA478B31
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 13:15:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 169DA478B33
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 13:16:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38E9510EBEB;
-	Fri, 17 Dec 2021 12:15:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E52DA10F2F0;
+	Fri, 17 Dec 2021 12:15:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D6C310EBEB;
- Fri, 17 Dec 2021 12:15:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639743315; x=1671279315;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=WaZLnIsliWvdIOqFBG7CzikYKTfNgwGDsX9roA6gPyA=;
- b=bn261p8QEY+QurzUjlC042t4ZguFNDJtlQDm8G1pjdK6d48QbuQpEoeb
- NdBWCbTe0soon+ezwlEp7/WDaKntUVxOsyjFQw42UXAoavGPXs5yBkHxH
- nGfP4IbWziqBdO0lQNiTm2FxtVlMU6fmxVS2m00UGv2Hiv/6yYV0To7LR
- 2Ex0xDevcYTJeVsxPwdunQLH3E3Q+1mpD47mLYP5o+fVEd06ToKfWhzDm
- fiEbVtWLw40odNb+z7evlVD8SZGpaG/yJvfCX8TnoV2CyTKKS3E9m86pI
- jmtC3j8ctJkqJ+Eunv9kpscPoC01yxi2opfZcy8MpbCNlhcfVbsOuM6cC g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10200"; a="227029441"
-X-IronPort-AV: E=Sophos;i="5.88,213,1635231600"; d="scan'208";a="227029441"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Dec 2021 04:15:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,213,1635231600"; d="scan'208";a="506744738"
-Received: from lkp-server02.sh.intel.com (HELO 9f38c0981d9f) ([10.239.97.151])
- by orsmga007.jf.intel.com with ESMTP; 17 Dec 2021 04:15:12 -0800
-Received: from kbuild by 9f38c0981d9f with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1myC8l-0004iQ-G2; Fri, 17 Dec 2021 12:15:11 +0000
-Date: Fri, 17 Dec 2021 20:14:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH v2 6/7] drm/i915: Use vma resources for async
- unbinding
-Message-ID: <202112172015.HCePn2cg-lkp@intel.com>
-References: <20211217091929.105781-7-thomas.hellstrom@linux.intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A25A10F2EA;
+ Fri, 17 Dec 2021 12:15:57 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10200"; a="226600603"
+X-IronPort-AV: E=Sophos;i="5.88,213,1635231600"; d="scan'208";a="226600603"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Dec 2021 04:15:57 -0800
+X-IronPort-AV: E=Sophos;i="5.88,213,1635231600"; d="scan'208";a="605881475"
+Received: from cmccall-mobl2.ger.corp.intel.com (HELO [10.213.248.38])
+ ([10.213.248.38])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Dec 2021 04:15:55 -0800
+Message-ID: <597d4ad0-fdae-49a6-b471-3a83d4c25b98@linux.intel.com>
+Date: Fri, 17 Dec 2021 12:15:53 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211217091929.105781-7-thomas.hellstrom@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.1
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc: Log engine resets
+Content-Language: en-US
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org
+References: <20211214150704.984034-1-tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20211214150704.984034-1-tvrtko.ursulin@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,65 +48,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- llvm@lists.linux.dev, kbuild-all@lists.01.org, matthew.auld@intel.com
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi "Thomas,
 
-Thank you for the patch! Perhaps something to improve:
+On 14/12/2021 15:07, Tvrtko Ursulin wrote:
+> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> 
+> Log engine resets done by the GuC firmware in the similar way it is done
+> by the execlists backend.
+> 
+> This way we have notion of where the hangs are before the GuC gains
+> support for proper error capture.
 
-[auto build test WARNING on drm-tip/drm-tip]
-[also build test WARNING on next-20211216]
-[cannot apply to drm-exynos/exynos-drm-next drm/drm-next drm-intel/for-linux-next tegra-drm/drm/tegra/for-next airlied/drm-next v5.16-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Ping - any interest to log this info?
 
-url:    https://github.com/0day-ci/linux/commits/Thomas-Hellstr-m/drm-i915-Asynchronous-vma-unbinding/20211217-172108
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-config: i386-randconfig-r021-20211216 (https://download.01.org/0day-ci/archive/20211217/202112172015.HCePn2cg-lkp@intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 9043c3d65b11b442226015acfbf8167684586cfa)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/45f1249183a30dea38defee195b33c7f6753d9f9
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Thomas-Hellstr-m/drm-i915-Asynchronous-vma-unbinding/20211217-172108
-        git checkout 45f1249183a30dea38defee195b33c7f6753d9f9
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
+All there currently is a non-descriptive "[drm] GPU HANG: ecode 
+12:0:00000000".
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Also, will GuC be reporting the reason for the engine reset at any point?
 
-All warnings (new ones prefixed by >>):
+Regards,
 
->> drivers/gpu/drm/i915/i915_vma_resource.c:379:39: warning: format specifies type 'unsigned long' but the argument has type 'unsigned int' [-Wformat]
-           pr_err("vma resource size is %lu\n", sizeof(struct i915_vma_resource));
-                                        ~~~     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                        %u
-   include/linux/printk.h:493:33: note: expanded from macro 'pr_err'
-           printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-                                  ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:450:60: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                                                       ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:422:19: note: expanded from macro 'printk_index_wrap'
-                   _p_func(_fmt, ##__VA_ARGS__);                           \
-                           ~~~~    ^~~~~~~~~~~
-   1 warning generated.
+Tvrtko
 
-
-vim +379 drivers/gpu/drm/i915/i915_vma_resource.c
-
-   376	
-   377	int __init i915_vma_resource_module_init(void)
-   378	{
- > 379		pr_err("vma resource size is %lu\n", sizeof(struct i915_vma_resource));
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: John Harrison <John.C.Harrison@Intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 12 +++++++++++-
+>   1 file changed, 11 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index 97311119da6f..51512123dc1a 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -11,6 +11,7 @@
+>   #include "gt/intel_context.h"
+>   #include "gt/intel_engine_pm.h"
+>   #include "gt/intel_engine_heartbeat.h"
+> +#include "gt/intel_engine_user.h"
+>   #include "gt/intel_gpu_commands.h"
+>   #include "gt/intel_gt.h"
+>   #include "gt/intel_gt_clock_utils.h"
+> @@ -3934,9 +3935,18 @@ static void capture_error_state(struct intel_guc *guc,
+>   {
+>   	struct intel_gt *gt = guc_to_gt(guc);
+>   	struct drm_i915_private *i915 = gt->i915;
+> -	struct intel_engine_cs *engine = __context_to_physical_engine(ce);
+> +	struct intel_engine_cs *engine = ce->engine;
+>   	intel_wakeref_t wakeref;
+>   
+> +	if (intel_engine_is_virtual(engine)) {
+> +		drm_notice(&i915->drm, "%s class, engines 0x%x; GuC engine reset\n",
+> +			   intel_engine_class_repr(engine->class),
+> +			   engine->mask);
+> +		engine = guc_virtual_get_sibling(engine, 0);
+> +	} else {
+> +		drm_notice(&i915->drm, "%s GuC engine reset\n", engine->name);
+> +	}
+> +
+>   	intel_engine_set_hung_context(engine, ce);
+>   	with_intel_runtime_pm(&i915->runtime_pm, wakeref)
+>   		i915_capture_error_state(gt, engine->mask);
+> 
