@@ -1,47 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C70BC47809D
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 00:31:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E85AC478131
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 01:19:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BB7B10E2F3;
-	Thu, 16 Dec 2021 23:31:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC2F310E1BF;
+	Fri, 17 Dec 2021 00:19:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99D2D10E236;
- Thu, 16 Dec 2021 23:31:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639697507; x=1671233507;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=11Ipp6sFNy1BVv0QbiM0FxzBCBq633HlsoV/LSl4+bI=;
- b=dY+ydpRX6XfMkGjN88vzs+WfY0HRo2vdhV2v19Up7bbV+jYIdHOF+NJZ
- I+xOVL3K+LQzrHmbd5qNy2R8dMZI5QWO+1oN4R0JBfxR8m8WEL+3Y681z
- OZZgCCGn2zvYZJjgoy3q8yomVklMc1lvFnhZScbFm0jS5TKfFSO9MetH3
- 7Dwv3ZL4SIbq6bupObBGZhPBANudUeyVzBthIW6zbJ0cSk3ah7+d6tFWJ
- Uo9o4g+bf47R5S2gLH/v3WBlAc1MfBzyGSY4EU9SGY+8CuI3To0pCrkcK
- Wt6V70/Xmj/mnTXG9gxq4ybbBULraK416ejRukBgucRT60RTxPqd83r2Y w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10200"; a="303005977"
-X-IronPort-AV: E=Sophos;i="5.88,212,1635231600"; d="scan'208";a="303005977"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Dec 2021 15:30:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,212,1635231600"; d="scan'208";a="754308570"
-Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
- by fmsmga006.fm.intel.com with ESMTP; 16 Dec 2021 15:30:37 -0800
-From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/i915/guc: Request RP0 before loading firmware
-Date: Thu, 16 Dec 2021 15:30:22 -0800
-Message-Id: <20211216233022.21351-1-vinay.belgaumkar@intel.com>
-X-Mailer: git-send-email 2.34.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B827910E1BF
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 00:19:28 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 32E7CB82526;
+ Fri, 17 Dec 2021 00:19:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BB1FC36AE7;
+ Fri, 17 Dec 2021 00:19:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1639700363;
+ bh=Z9wCuqOH6HMPiT2aqxoeeoFm1KRW2uJYG9nKOfQCJ34=;
+ h=From:To:Cc:Subject:Date:From;
+ b=UEQ004DuWziOzBBYfA8kznBnHUZ0j8aeg6krEdrUxJIUxN8CATlrAjdVBtQyc0yfk
+ czwMlIsaWQeyZE5w6I/yvUsiGlAFOjStNy+jmLgqZ9cvFxbJ8D68xP1zOBTWBrqNpV
+ 4rWiQCPsQvz4GeFopeVk7t6sYZ6nwRv0SVvNBfx4dVKUKj20n6Ky0809ds5mTE1ec6
+ UjXkK8h1Mlu0702EMPzlLPWtNspMKmmG6Cxxd6G82xKxYvrixa3QHWM5/DD49VWvS3
+ 1OZcESuDLNcMfgfMAKuJhjheKB+i0M5P/0CSFQ1VetoPU/SfUsqKO5TrdGpKG21pOA
+ tRKyR6sn8Ku2A==
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org
+Subject: [GIT PULL] mediatek drm next for 5.17
+Date: Fri, 17 Dec 2021 08:19:30 +0800
+Message-Id: <1639700370-3541-1-git-send-email-chunkuang.hu@kernel.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,175 +48,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Cc: "jason-jh . lin" <jason-jh.lin@mediatek.com>,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Mark Yacoub <markyacoub@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-By default, GT (and GuC) run at RPn. Requesting for RP0
-before firmware load can speed up DMA and HuC auth as well.
-In addition to writing to 0xA008, we also need to enable
-swreq in 0xA024 so that Punit will pay heed to our request.
+Hi, Dave & Daniel:
 
-SLPC will restore the frequency back to RPn after initialization,
-but we need to manually do that for the non-SLPC path.
+This includes:
 
-We don't need a manual override in the SLPC disabled case, just
-use the intel_rps_set function to ensure consistent RPS state.
+1. Add support for MT8192
+2. CMDQ refinement.
+3. Miscellaneous clean up and reorder.
+4. Set the default value of rotation to DRM_MODE_ROTATE_0
 
-Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_rps.c   | 59 +++++++++++++++++++++++++++
- drivers/gpu/drm/i915/gt/intel_rps.h   |  2 +
- drivers/gpu/drm/i915/gt/uc/intel_uc.c |  9 ++++
- drivers/gpu/drm/i915/i915_reg.h       |  4 ++
- 4 files changed, 74 insertions(+)
+Regards,
+Chun-Kuang.
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
-index 07ff7ba7b2b7..d576b34c7d6f 100644
---- a/drivers/gpu/drm/i915/gt/intel_rps.c
-+++ b/drivers/gpu/drm/i915/gt/intel_rps.c
-@@ -2226,6 +2226,65 @@ u32 intel_rps_read_state_cap(struct intel_rps *rps)
- 		return intel_uncore_read(uncore, GEN6_RP_STATE_CAP);
- }
- 
-+static void intel_rps_set_manual(struct intel_rps *rps, bool enable)
-+{
-+	struct intel_uncore *uncore = rps_to_uncore(rps);
-+	u32 state = enable ? GEN9_RPSWCTL_ENABLE : GEN9_RPSWCTL_DISABLE;
-+
-+	/* Allow punit to process software requests */
-+	intel_uncore_write(uncore, GEN6_RP_CONTROL, state);
-+}
-+
-+void intel_rps_raise_unslice(struct intel_rps *rps)
-+{
-+	struct intel_uncore *uncore = rps_to_uncore(rps);
-+	u32 rp0_unslice_req;
-+
-+	mutex_lock(&rps->lock);
-+
-+	if (rps_uses_slpc(rps)) {
-+		/* RP limits have not been initialized yet for SLPC path */
-+		rp0_unslice_req = ((intel_rps_read_state_cap(rps) >> 0)
-+				   & 0xff) * GEN9_FREQ_SCALER;
-+
-+		intel_rps_set_manual(rps, true);
-+		intel_uncore_write(uncore, GEN6_RPNSWREQ,
-+				   ((rp0_unslice_req <<
-+				   GEN9_SW_REQ_UNSLICE_RATIO_SHIFT) |
-+				   GEN9_IGNORE_SLICE_RATIO));
-+		intel_rps_set_manual(rps, false);
-+	} else {
-+		intel_rps_set(rps, rps->rp0_freq);
-+	}
-+
-+	mutex_unlock(&rps->lock);
-+}
-+
-+void intel_rps_lower_unslice(struct intel_rps *rps)
-+{
-+	struct intel_uncore *uncore = rps_to_uncore(rps);
-+	u32 rpn_unslice_req;
-+
-+	mutex_lock(&rps->lock);
-+
-+	if (rps_uses_slpc(rps)) {
-+		/* RP limits have not been initialized yet for SLPC path */
-+		rpn_unslice_req = ((intel_rps_read_state_cap(rps) >> 16)
-+				   & 0xff) * GEN9_FREQ_SCALER;
-+
-+		intel_rps_set_manual(rps, true);
-+		intel_uncore_write(uncore, GEN6_RPNSWREQ,
-+				   ((rpn_unslice_req <<
-+				   GEN9_SW_REQ_UNSLICE_RATIO_SHIFT) |
-+				   GEN9_IGNORE_SLICE_RATIO));
-+		intel_rps_set_manual(rps, false);
-+	} else {
-+		intel_rps_set(rps, rps->min_freq);
-+	}
-+
-+	mutex_unlock(&rps->lock);
-+}
-+
- /* External interface for intel_ips.ko */
- 
- static struct drm_i915_private __rcu *ips_mchdev;
-diff --git a/drivers/gpu/drm/i915/gt/intel_rps.h b/drivers/gpu/drm/i915/gt/intel_rps.h
-index aee12f37d38a..c6d76a3d1331 100644
---- a/drivers/gpu/drm/i915/gt/intel_rps.h
-+++ b/drivers/gpu/drm/i915/gt/intel_rps.h
-@@ -45,6 +45,8 @@ u32 intel_rps_get_rpn_frequency(struct intel_rps *rps);
- u32 intel_rps_read_punit_req(struct intel_rps *rps);
- u32 intel_rps_read_punit_req_frequency(struct intel_rps *rps);
- u32 intel_rps_read_state_cap(struct intel_rps *rps);
-+void intel_rps_raise_unslice(struct intel_rps *rps);
-+void intel_rps_lower_unslice(struct intel_rps *rps);
- 
- void gen5_rps_irq_handler(struct intel_rps *rps);
- void gen6_rps_irq_handler(struct intel_rps *rps, u32 pm_iir);
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-index 2fef3b0bbe95..3693c4e7dad0 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-@@ -8,6 +8,7 @@
- #include "intel_guc.h"
- #include "intel_guc_ads.h"
- #include "intel_guc_submission.h"
-+#include "gt/intel_rps.h"
- #include "intel_uc.h"
- 
- #include "i915_drv.h"
-@@ -462,6 +463,8 @@ static int __uc_init_hw(struct intel_uc *uc)
- 	else
- 		attempts = 1;
- 
-+	intel_rps_raise_unslice(&uc_to_gt(uc)->rps);
-+
- 	while (attempts--) {
- 		/*
- 		 * Always reset the GuC just before (re)loading, so
-@@ -499,6 +502,9 @@ static int __uc_init_hw(struct intel_uc *uc)
- 		ret = intel_guc_slpc_enable(&guc->slpc);
- 		if (ret)
- 			goto err_submission;
-+	} else {
-+		/* Restore GT back to RPn for non-SLPC path */
-+		intel_rps_lower_unslice(&uc_to_gt(uc)->rps);
- 	}
- 
- 	drm_info(&i915->drm, "%s firmware %s version %u.%u %s:%s\n",
-@@ -529,6 +535,9 @@ static int __uc_init_hw(struct intel_uc *uc)
- err_log_capture:
- 	__uc_capture_load_err_log(uc);
- err_out:
-+	/* Return GT back to RPn */
-+	intel_rps_lower_unslice(&uc_to_gt(uc)->rps);
-+
- 	__uc_sanitize(uc);
- 
- 	if (!ret) {
-diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-index 1891e7fac39b..b2a86a26b843 100644
---- a/drivers/gpu/drm/i915/i915_reg.h
-+++ b/drivers/gpu/drm/i915/i915_reg.h
-@@ -9399,6 +9399,7 @@ enum {
- #define   GEN6_OFFSET(x)			((x) << 19)
- #define   GEN6_AGGRESSIVE_TURBO			(0 << 15)
- #define   GEN9_SW_REQ_UNSLICE_RATIO_SHIFT	23
-+#define   GEN9_IGNORE_SLICE_RATIO		(0 << 0)
- 
- #define GEN6_RC_VIDEO_FREQ			_MMIO(0xA00C)
- #define GEN6_RC_CONTROL				_MMIO(0xA090)
-@@ -9434,6 +9435,9 @@ enum {
- #define   GEN6_RP_UP_BUSY_CONT			(0x4 << 3)
- #define   GEN6_RP_DOWN_IDLE_AVG			(0x2 << 0)
- #define   GEN6_RP_DOWN_IDLE_CONT		(0x1 << 0)
-+#define   GEN6_RPSWCTL_SHIFT			9
-+#define   GEN9_RPSWCTL_ENABLE			(0x2 << GEN6_RPSWCTL_SHIFT)
-+#define   GEN9_RPSWCTL_DISABLE			(0x0 << GEN6_RPSWCTL_SHIFT)
- #define GEN6_RP_UP_THRESHOLD			_MMIO(0xA02C)
- #define GEN6_RP_DOWN_THRESHOLD			_MMIO(0xA030)
- #define GEN6_RP_CUR_UP_EI			_MMIO(0xA050)
--- 
-2.34.0
+The following changes since commit fa55b7dcdc43c1aa1ba12bca9d2dd4318c2a0dbf:
 
+  Linux 5.16-rc1 (2021-11-14 13:56:52 -0800)
+
+are available in the git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git tags/mediatek-drm-next-5.17
+
+for you to fetch changes up to d95b00f1a8c57f10a7c83bec5a245391c7666f36:
+
+  drm/mediatek: Set the default value of rotation to DRM_MODE_ROTATE_0 (2021-12-14 07:17:50 +0800)
+
+----------------------------------------------------------------
+Mediatek DRM Next for Linux 5.16
+
+1. Add support for MT8192
+2. CMDQ refinement.
+3. Miscellaneous clean up and reorder.
+4. Set the default value of rotation to DRM_MODE_ROTATE_0
+
+----------------------------------------------------------------
+Chun-Kuang Hu (4):
+      drm/mediatek: Use mailbox rx_callback instead of cmdq_task_cb
+      drm/mediatek: Remove the pointer of struct cmdq_client
+      drm/mediatek: Detect CMDQ execution timeout
+      drm/mediatek: Add cmdq_handle in mtk_crtc
+
+Mark Yacoub (1):
+      drm/mediatek: Set the default value of rotation to DRM_MODE_ROTATE_0
+
+Yongqiang Niu (5):
+      drm/mediatek: Add component OVL_2L2
+      drm/mediatek: Add component POSTMASK
+      drm/mediatek: Add component RDMA4
+      drm/mediatek: Add support for Mediatek SoC MT8192
+      drm/mediatek: Clear pending flag when cmdq packet is done
+
+jason-jh.lin (4):
+      drm/mediatek: Add mbox_free_channel in mtk_drm_crtc_destroy
+      drm/mediatek: Remove unused define in mtk_drm_ddp_comp.c
+      drm/mediatek: Rename the define of register offset
+      drm/mediatek: Adjust to the alphabetic order for mediatek-drm
+
+ drivers/gpu/drm/mediatek/mtk_disp_ccorr.c   |   6 +
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c     |  20 +++
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c    |   6 +
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c     | 175 +++++++++++++++++++---
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 217 ++++++++++++++++------------
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  23 +--
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c      | 142 +++++++++++-------
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c    |   3 +-
+ 8 files changed, 414 insertions(+), 178 deletions(-)
