@@ -1,74 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 222C2478CBA
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 14:51:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18D91478CBB
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 14:51:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0EEC112326;
-	Fri, 17 Dec 2021 13:51:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15B3211232A;
+	Fri, 17 Dec 2021 13:51:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
  [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9777011232A
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 13:51:23 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id CB8415C013B;
- Fri, 17 Dec 2021 08:51:22 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82A3111232A
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 13:51:25 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id D9A615C015A;
+ Fri, 17 Dec 2021 08:51:24 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Fri, 17 Dec 2021 08:51:22 -0500
+ by compute3.internal (MEProxy); Fri, 17 Dec 2021 08:51:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:content-type:mime-version
- :content-transfer-encoding; s=fm1; bh=sBGmg6OGxAeyMRv/6A1Uv63uY9
- 15zP05qZumq6y3+sE=; b=j9Q3kqom3gMjpDKX9fOWJVxeDe/uS1OsXdqxwC5wft
- uloUGyYwNQN/tfAUoyIydvafeX2wwPAGTbd71VAySIl8fQXoo2o3l1X3s7HSRW+M
- si7c5BlAP8brMT+neFd8ObT67y9T8v/g9dLPr0S9SM2jJQZ0aHlYoYci4bdYUP1I
- tZOiM53pFwi/HCFJGIoRCRUmcPhbctXrsQSSZSvy+1evQWQbg5Zyz/NSwWDB9q+M
- 7MWaUBvlUw/6L1rr6fqhiRT8yOEJ33ynV2TOhAM1o5ZGUcKsl/fbZff7CCi3GWU6
- soAjFyGeLC9rxQA8jMJwkndpe4jrk49Wvaeom0khOYPg==
+ from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm1; bh=Ub19/beu6g/nu
+ OZYDQVInDRY/8vv3wWB4gmsItdHjYw=; b=QDlaSgJcUdL39sH/3PjryYzfkOsoM
+ 5k6aFJ0vDufUzrNedYz6/4nusnWdZFOD/KXvrG5Y8ttBKO0IaAGBLlRAkY6JHEwt
+ Ftk/rH4rbYKGEGbfuIhAMrY969clbxKk6jyXDEt7w7p+gcjGBzKC8paMqqJwPCYm
+ N6KJe71ra4FBJxSHMGHJwcqebypMc6JVbmnPcYc/6JQPv1dvr+0HTYWuNQtPQSEO
+ vP2JU7ViVHn8S0zfm8zNWyHokYHo+e6giLqMYO2XFW5HmoY5GZ9/JZ7CS8G+HwPb
+ IUEc8bDCFHO/+E1cBEhNVe1RpILl2s4xZsyJIwzzMh+meVv/Xtp+2n8Ww==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=sBGmg6
- OGxAeyMRv/6A1Uv63uY915zP05qZumq6y3+sE=; b=P/5gw8ykoVNjw8B1EFQcDn
- IKHdBdLq/XNXUarH5FYobNtkf5f6ZDuxY5GxEL6fYYiHcQGSTUGLowxmx1K4MU/r
- EVBm53hyRPMZzhkwr490RNb3vubpL9TohPeuJOy7CCd7dQeQOKRzfTEMiZqlFFdm
- sX+6DzDGNT+ha0P4+BX64zRUiahzfcfi5IMgsehunsYW67Sahn3wmCucjlqLgVAH
- Znv7uDidRcTrWXK4CnR2cMQidZBBezW44FfdRwV1Mr+ENvz+gxOU/IJTm6JfWkCq
- mCRxMDF/I87yuUVipGWjwg/xv4urKnMBJtvQr1jOjdYzVzRMCsJRtv2fJqf1s33w
- ==
-X-ME-Sender: <xms:2ZW8YSaM8kwLQtD6l70wZ-Iftx1l1IY4B-22oN98sMB2fYcILGoShA>
- <xme:2ZW8YVbsLRxloWpgQtGhcZgZKtVT5YcEdaxBksF_p2f01iVdUvh4GHaFfy9XC4ZFy
- KjrgymX_abtKsjPNww>
-X-ME-Received: <xmr:2ZW8Yc88i6wdmBVlt5PyNcA6cgOqA1c3xoqKzgSjyXP04m8VSKLgneUkXGv-pyx6p8YfsheNYhUp5JrRnLSLl7EktcSrEADJviN_rUA>
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; bh=Ub19/beu6g/nuOZYDQVInDRY/8vv3wWB4gmsItdHjYw=; b=OQLFc/MW
+ YYU+cf0K5ur6ZzMu2h6vhKs6cQPYTZHLoHC69azCu4JLNFJlEryzUjvVSPvANpZM
+ TnXgZj0w6WGQ6O/uTj4dEKk3hI8niidoWHl1BgNwnnlKjCNI6issWyPxL9LpnAtx
+ VW43qN7hZv4prcksMaqSdk97auTGxyEWQOFvK7rUai5h5s1avQtWM3xfX94jbGAr
+ vULQ7+c+e5ck/RBnxhufN8+i64hdyoZQs/TFjZPQ6B5Pam+DJpDTW5K8CqcapXPu
+ xCjC/8l49+bsfLd1f7NpUG7I5DYjfh8EI6GYhB52qlKVtkznjQTdBV6UXI721f+Z
+ hKqgkPwujA+7sg==
+X-ME-Sender: <xms:3JW8YUTAIoRtpNsqboOjkgSwY1N3iC53aOoBE0RVYpc7Xsks94rI2w>
+ <xme:3JW8YRwRL_pVuxugrUQExhwVmP8OtmADyV7etuU9CIZS1k4UIut2CSZmQruL1GCwe
+ WVv3K38wKE625MHuwQ>
+X-ME-Received: <xmr:3JW8YR3JmdToFejTRKKUzr60c28s3XJbDGJgDK8Gcv8Sc5sEsGD5OZtVDR5-go1TmeEshe3HWuD0hrmP7lH7U0t7oiDRte8VOHFfWZg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrleeigdehkecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpeforgigihhmvgcu
- tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
- hrnhepteeikefgffekgeekledtheduteetjefgkeeuvefhhfetgedugfektdeugeffgfef
- necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgi
- himhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:2ZW8YUpKomU6I0gfaabIgC-eLRfm8XX9KOh7Lv4xs3SpjkbasHHheA>
- <xmx:2ZW8YdrhU_medpZdBxpijTBCc7a3v86QZFCDoAS2CjP0Uc_QmvZhPA>
- <xmx:2ZW8YSSif0epwDo6zPJdsGE5ESkkuq36yH4ZlhjkNoEFbNXR3oUemg>
- <xmx:2pW8YRf3TkulijsDKZ2-IXTqsUgmqcjbueLMB6W5s0OhtdfGf_xXfQ>
+ fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
+ vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:3JW8YYAbyoEls0t9RvhNHeHfb7vBadNN2-FzVoClgHHekgN5Ar4c9Q>
+ <xmx:3JW8Ydh5Bm5K9GCFAvDjOxEBG8MkXiCKjBxSwIblV4yS9Zga-RKaIg>
+ <xmx:3JW8YUqNQM6BdaGmUYWKyJPpzowYqWHauDXQJ9XsY2eS-L3a5fBEnA>
+ <xmx:3JW8YeUycWdxHTp-one04ObNLsYk8jx6pu5afJ4rG4XSmwvym3nBzA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 17 Dec 2021 08:51:20 -0500 (EST)
+ 17 Dec 2021 08:51:24 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <maxime@cerno.tech>,
  =?UTF-8?q?Jernej=20=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Subject: [PATCH v6 0/7] drm/sun4i: Add support for dual-link LVDS on the A20
-Date: Fri, 17 Dec 2021 14:51:12 +0100
-Message-Id: <20211217135119.316781-1-maxime@cerno.tech>
+Subject: [PATCH v6 1/7] of: Make of_graph_get_port_by_id take a const
+ device_node
+Date: Fri, 17 Dec 2021 14:51:13 +0100
+Message-Id: <20211217135119.316781-2-maxime@cerno.tech>
 X-Mailer: git-send-email 2.33.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20211217135119.316781-1-maxime@cerno.tech>
+References: <20211217135119.316781-1-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,61 +87,50 @@ Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,=0D
-=0D
-This is another attempt at supporting the LVDS dual-link output on the=0D
-Allwinner A20.=0D
-=0D
-Let me know what you think,=0D
-Maxime=0D
-=0D
-Changes from v5:=0D
-  - Rebased on current next=0D
-  - Enhanced the property binding description=0D
-=0D
-Changes from v4:=0D
-  - Rebased on 5.15=0D
-=0D
-Changes from v3:=0D
-  - Reintroduce the endpoint sanity check (and make of_graph_get_port_by_id=
-=0D
-    const in the process)=0D
-  - Make a few doc fixes=0D
-  - Fix device_node leakage=0D
-  - Changed allwinner,lvds-companion to more generic link-companion=0D
-  - Rebased on 5.11=0D
-=0D
-Changes from v2:=0D
-  - Added the DT binding description=0D
-  - Split the patch to enable the A20=0D
-  - Reworked a bit the error messages=0D
-=0D
-Changes from v1:=0D
-  - Reworked the DT bindings=0D
-  - Refactored a bit the panel registration in the tcon code.=0D
-=0D
-Maxime Ripard (7):=0D
-  of: Make of_graph_get_port_by_id take a const device_node=0D
-  drm/of: Change the prototype of drm_of_lvds_get_dual_link_pixel_order=0D
-  dt-bindings: display: sun4i: Add LVDS link companion property=0D
-  drm/sun4i: tcon: Refactor the LVDS and panel probing=0D
-  drm/sun4i: tcon: Support the LVDS Dual-Link=0D
-  drm/sun4i: tcon: Enable the A20 dual-link output=0D
-  [DO NOT MERGE] ARM: dts: sun7i: Enable LVDS Dual-Link on the=0D
-    Cubieboard=0D
-=0D
- .../display/allwinner,sun4i-a10-tcon.yaml     |   6 +=0D
- arch/arm/boot/dts/sun7i-a20-cubieboard2.dts   |  69 ++++++++=0D
- drivers/gpu/drm/bridge/ti-sn65dsi83.c         |   9 +-=0D
- drivers/gpu/drm/drm_of.c                      | 138 +++++++++++----=0D
- drivers/gpu/drm/rcar-du/rcar_lvds.c           |   8 +-=0D
- drivers/gpu/drm/sun4i/sun4i_tcon.c            | 164 ++++++++++--------=0D
- drivers/gpu/drm/sun4i/sun4i_tcon.h            |   4 +=0D
- drivers/of/property.c                         |   2 +-=0D
- include/drm/drm_of.h                          |  16 +-=0D
- include/linux/of_graph.h                      |   4 +-=0D
- 10 files changed, 300 insertions(+), 120 deletions(-)=0D
-=0D
--- =0D
-2.33.1=0D
-=0D
+of_graph_get_port_by_id doesn't modify the device_node pointer it takes
+as argument, so we can make it const.
+
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/of/property.c    | 2 +-
+ include/linux/of_graph.h | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/of/property.c b/drivers/of/property.c
+index 8e90071de6ed..8ad0ce5c87f3 100644
+--- a/drivers/of/property.c
++++ b/drivers/of/property.c
+@@ -603,7 +603,7 @@ EXPORT_SYMBOL(of_graph_parse_endpoint);
+  * Return: A 'port' node pointer with refcount incremented. The caller
+  * has to use of_node_put() on it when done.
+  */
+-struct device_node *of_graph_get_port_by_id(struct device_node *parent, u32 id)
++struct device_node *of_graph_get_port_by_id(const struct device_node *parent, u32 id)
+ {
+ 	struct device_node *node, *port;
+ 
+diff --git a/include/linux/of_graph.h b/include/linux/of_graph.h
+index 4d7756087b6b..87f3f4d0d0df 100644
+--- a/include/linux/of_graph.h
++++ b/include/linux/of_graph.h
+@@ -42,7 +42,7 @@ bool of_graph_is_present(const struct device_node *node);
+ int of_graph_parse_endpoint(const struct device_node *node,
+ 				struct of_endpoint *endpoint);
+ int of_graph_get_endpoint_count(const struct device_node *np);
+-struct device_node *of_graph_get_port_by_id(struct device_node *node, u32 id);
++struct device_node *of_graph_get_port_by_id(const struct device_node *node, u32 id);
+ struct device_node *of_graph_get_next_endpoint(const struct device_node *parent,
+ 					struct device_node *previous);
+ struct device_node *of_graph_get_endpoint_by_regs(
+@@ -74,7 +74,7 @@ static inline int of_graph_get_endpoint_count(const struct device_node *np)
+ }
+ 
+ static inline struct device_node *of_graph_get_port_by_id(
+-					struct device_node *node, u32 id)
++					const struct device_node *node, u32 id)
+ {
+ 	return NULL;
+ }
+-- 
+2.33.1
+
