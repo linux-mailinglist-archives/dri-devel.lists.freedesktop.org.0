@@ -1,38 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BA494786E0
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 10:16:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E89A4786E7
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 10:19:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46D1910FB2D;
-	Fri, 17 Dec 2021 09:16:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C60C710FA0F;
+	Fri, 17 Dec 2021 09:19:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7A59910FB2D
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 09:16:22 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BBD491435;
- Fri, 17 Dec 2021 01:16:21 -0800 (PST)
-Received: from [10.57.6.245] (unknown [10.57.6.245])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 760A93F774;
- Fri, 17 Dec 2021 01:16:20 -0800 (PST)
-Subject: Re: [PATCH] drm/panfrost: Avoid user size passed to kvmalloc()
-To: Dan Carpenter <dan.carpenter@oracle.com>
-References: <20211216161603.983711-1-steven.price@arm.com>
- <CAL_JsqKZBsJxy8h5EQf0wwfioWS-Kx9i=0cQ7p4FHckEXstGiw@mail.gmail.com>
- <4c564c0d-7702-9dfe-910f-969fe130aba8@arm.com> <20211217091046.GG1978@kadam>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <4e56a7a8-c48c-49dc-6535-730ad871d1e1@arm.com>
-Date: Fri, 17 Dec 2021 09:16:19 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B348110FA0F;
+ Fri, 17 Dec 2021 09:19:39 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10200"; a="300493325"
+X-IronPort-AV: E=Sophos;i="5.88,213,1635231600"; d="scan'208";a="300493325"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Dec 2021 01:19:39 -0800
+X-IronPort-AV: E=Sophos;i="5.88,213,1635231600"; d="scan'208";a="683321499"
+Received: from olindum-mobl1.ger.corp.intel.com (HELO
+ thellstr-mobl1.intel.com) ([10.249.254.180])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Dec 2021 01:19:37 -0800
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/7] drm/i915: Asynchronous vma unbinding
+Date: Fri, 17 Dec 2021 10:19:22 +0100
+Message-Id: <20211217091929.105781-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20211217091046.GG1978@kadam>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,33 +44,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/12/2021 09:10, Dan Carpenter wrote:
-> On Fri, Dec 17, 2021 at 08:55:50AM +0000, Steven Price wrote:
->> However this one is harder to fix without setting an arbitrary cap on
->> the number of BOs during a sumbit. I'm not sure how other drivers handle
->> this - the ones I've looked at so far all have the same issue. There's
->> obviously the list that Dan already sent, but e.g. msm has the same bug
->> in msm_gem_submit.c:submit_create() with an amusing bug where the check
->> for (sz > SIZE_MAX) will never hit, although the call is to kzalloc() so
->> large allocations are going to fail anyway.
-> 
-> sz is u64 and SIZE_MAX is ULONG_MAX so the (sz > SIZE_MAX) condition
-> does work to prevent an integer overflow on 32bit systems.  But it's not
-> beautiful.
+This patch series introduces infrastructure for asynchronous vma
+unbinding. The single enabled use-case is initially at buffer object
+migration where we otherwise sync when unbinding vmas before migration.
+This in theory allows us to pipeline any number of migrations, but in
+practice the number is restricted by a sync wait when filling the
+migration context ring. We might want to look at that moving forward if
+needed.
 
-sz is the result of struct_size() which returns a size_t, and SIZE_MAX
-in case of an overflow. However the check is *greater than* SIZE_MAX
-which will never occur even on 32 bit systems.
+The other main use-case is to be able to pipeline vma evictions, for
+example with softpinning where a new vma wants to reuse the vm range
+of an already active vma. We can't support this just yet because we
+need dma_resv locking around vma eviction for that, which is under
+implementation.
 
-However the chances of kzalloc() allocating SIZE_MAX are 0 so I don't
-see it's an exploitable bug.
+Patch 1 and 2 are mainly a fix and a subsequent rearrangement of code,
+Patch 3 is needed for consistent bind locking,
+Patch 4 introduces vma resource first for error capture purposes.
+Patch 5 changes the vm backend interface to take vma resources rather than vmas,
+Patch 6 introduces the async unbinding itself, and finally
+Patch 7 realizes we have duplicated functionality and removes the vma snapshots.
 
-Steve
+v2:
+-- Some kernel test robot reports addressed.
+-- kmem cache for vma resources, See patch 6
+-- Various fixes all over the place. See separate commit messages.
+
+Thomas Hellström (7):
+  drm/i915: Avoid using the i915_fence_array when collecting
+    dependencies
+  drm/i915: Break out the i915_deps utility
+  drm/i915: Require the vm mutex for i915_vma_bind()
+  drm/i915: Initial introduction of vma resources
+  drm/i915: Use the vma resource as argument for gtt binding / unbinding
+  drm/i915: Use vma resources for async unbinding
+  drm/i915: Use struct vma_resource instead of struct vma_snapshot
+
+ drivers/gpu/drm/i915/Makefile                 |   3 +-
+ drivers/gpu/drm/i915/display/intel_dpt.c      |  27 +-
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  67 ++-
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |  27 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  | 304 ++------------
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |  37 +-
+ drivers/gpu/drm/i915/gt/gen6_ppgtt.c          |  19 +-
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c          |  37 +-
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |   9 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          |  72 ++--
+ drivers/gpu/drm/i915/gt/intel_gtt.c           |   4 +
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |  18 +-
+ drivers/gpu/drm/i915/gt/intel_migrate.c       |  24 +-
+ drivers/gpu/drm/i915/gt/intel_migrate.h       |   9 +-
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c         |  22 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      |  13 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h      |   2 +-
+ drivers/gpu/drm/i915/i915_debugfs.c           |   3 +-
+ drivers/gpu/drm/i915/i915_deps.c              | 244 +++++++++++
+ drivers/gpu/drm/i915/i915_deps.h              |  46 +++
+ drivers/gpu/drm/i915/i915_drv.h               |   1 +
+ drivers/gpu/drm/i915/i915_gem.c               |   3 +
+ drivers/gpu/drm/i915/i915_gpu_error.c         |  87 ++--
+ drivers/gpu/drm/i915/i915_module.c            |   3 +
+ drivers/gpu/drm/i915/i915_request.c           |  34 +-
+ drivers/gpu/drm/i915/i915_request.h           |   8 +-
+ drivers/gpu/drm/i915/i915_vma.c               | 213 +++++++++-
+ drivers/gpu/drm/i915/i915_vma.h               |  33 +-
+ drivers/gpu/drm/i915/i915_vma_resource.c      | 388 ++++++++++++++++++
+ drivers/gpu/drm/i915/i915_vma_resource.h      | 232 +++++++++++
+ drivers/gpu/drm/i915/i915_vma_snapshot.c      | 134 ------
+ drivers/gpu/drm/i915/i915_vma_snapshot.h      | 112 -----
+ drivers/gpu/drm/i915/i915_vma_types.h         |   5 +
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c | 159 ++++---
+ drivers/gpu/drm/i915/selftests/mock_gtt.c     |  12 +-
+ 35 files changed, 1571 insertions(+), 840 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/i915_deps.c
+ create mode 100644 drivers/gpu/drm/i915/i915_deps.h
+ create mode 100644 drivers/gpu/drm/i915/i915_vma_resource.c
+ create mode 100644 drivers/gpu/drm/i915/i915_vma_resource.h
+ delete mode 100644 drivers/gpu/drm/i915/i915_vma_snapshot.c
+ delete mode 100644 drivers/gpu/drm/i915/i915_vma_snapshot.h
+
+-- 
+2.31.1
+
