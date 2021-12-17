@@ -1,95 +1,111 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EF7E47971F
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 23:28:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C382479772
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Dec 2021 00:16:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF8A810E780;
-	Fri, 17 Dec 2021 22:28:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30B8510E35D;
+	Fri, 17 Dec 2021 23:16:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam08on2061.outbound.protection.outlook.com [40.107.102.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3195D10E5EE;
- Fri, 17 Dec 2021 22:28:18 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Whd+wUyAmFZCW+GBZg4p5NRePIbUeJ0PukM9BpoQ7Sv9U4w8J/6riomqQmhK3W0M0RaQApRAZT8+PfwUgPEsT6F5JJEGdTA6wGIbxUkID5xXw/F6aBP/dGKevMUdf/dZqrSDFbbllmTvK6YOE24wc3HZqcXPulpz/MIr1oyUfhGddhfWcmuZtmLyNs6B1O+wVHNtDNwhZmlpq7Gf84Z++kSsUTNQy3SEouk5xMCZeyEJ4qsagX57NSRDNN6XAXsU7SFuAvrWYhRVxGmnNMb1ssEpvJkAwqC1MYPwKNnf/ZKNNnMzHqqE+AuXaBf5VhECOyVJtr5M9InDoYm9t+9oKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eXpYa3Qsx0FBgMqDi0pVO5hbwnlso8LCeZKlHmlIl+Q=;
- b=kfRqupIK6w20Wx4nkqPiPWJ5hNiKPLdsKf7eIFUpsUQv97UCzxvt39Sz/GN5b9dMUqiTgjh9Am3M5aRKmPFW7v+cZgxGh56jGJ8ICKzBceNxvWMz8Zo2xrmBNRi2+Z+WC5FalyclZLRZjthUKEcNucccbaXC31HuhOvk1FPE7EA4O3dqj3nkxR9CGINEBrK3b7iAXk1/ZSmljWO4xdys+0rSFeL3VL3zV9O5JguPFb8CvWXms4pOWyYgJKaOcpqfnyucg4SH6dNyy4jaIgedJWUnpOb/tR55OnKD9xMVBTjfL0pzMcet9JKu9XcCZx5wyJxFzzsdmk+M3b5rsUAfUA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eXpYa3Qsx0FBgMqDi0pVO5hbwnlso8LCeZKlHmlIl+Q=;
- b=Q/f7Xorc3hHHJcbDmxSFkVrepb94y/7/w4ESKlotCT/rvUNzu45otPau359Eavjft2hjQpLlprduz1ft1XtxyfSBWgvBiRc/kIIVgpd7DxEQRF5+3RIB05z5MiWd9MLI4pvhFxYXFdlKTye752+OhuG9o3i5agz/Eh8r8eRRUkI=
-Received: from BN9PR03CA0951.namprd03.prod.outlook.com (2603:10b6:408:108::26)
- by DM4PR12MB5310.namprd12.prod.outlook.com (2603:10b6:5:39e::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.14; Fri, 17 Dec
- 2021 22:28:16 +0000
-Received: from BN8NAM11FT055.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:108:cafe::e0) by BN9PR03CA0951.outlook.office365.com
- (2603:10b6:408:108::26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.14 via Frontend
- Transport; Fri, 17 Dec 2021 22:28:16 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com;
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- BN8NAM11FT055.mail.protection.outlook.com (10.13.177.62) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4801.14 via Frontend Transport; Fri, 17 Dec 2021 22:28:16 +0000
-Received: from agrodzovsky-All-Series.amd.com (10.180.168.240) by
- SATLEXMB03.amd.com (10.181.40.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.17; Fri, 17 Dec 2021 16:28:15 -0600
-From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
-Subject: [RFC 6/6] drm/amdgpu: Drop concurrent GPU reset protection for device
-Date: Fri, 17 Dec 2021 17:27:45 -0500
-Message-ID: <20211217222745.881637-7-andrey.grodzovsky@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211217222745.881637-1-andrey.grodzovsky@amd.com>
-References: <20211217222745.881637-1-andrey.grodzovsky@amd.com>
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFD1210E35D
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 23:16:21 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20211217231619euoutp01a8f5a5ad50379582456fe612c3fb3ae6~Bre6ho1xe2596725967euoutp01V
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 23:16:19 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20211217231619euoutp01a8f5a5ad50379582456fe612c3fb3ae6~Bre6ho1xe2596725967euoutp01V
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1639782979;
+ bh=xLETcSXIwjmb267JszLd2ApG6lEHsrq6hCepH3ImgqY=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=HDY8Gr4ZIgD7tAIk90j8Fyh0TMYjTNTmSOwE1uSVX2fWqzDQfGZZrwvi1t47qoXLR
+ sZag0/L+oxO6HR5kSyPOjAbvS5lLFdAADXvCidPGNl08m9kURsLbmfzw9u7cfrMRFK
+ 1i+L/6QvS9yyPQWU1dEP489xjy0KtAyvjxFy3t9U=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20211217231618eucas1p287394dd78c01def67d44ed0299c61f8a~Bre5ndNZ70264802648eucas1p2q;
+ Fri, 17 Dec 2021 23:16:18 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id CF.2B.10260.24A1DB16; Fri, 17
+ Dec 2021 23:16:18 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20211217231617eucas1p14b783ced9cd7132e939fa2e42279b3bf~Bre4YVtQ70404604046eucas1p1j;
+ Fri, 17 Dec 2021 23:16:17 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20211217231617eusmtrp17331e3d267daedabb1fe39ab5b6df2fa~Bre4XlmN72447124471eusmtrp1V;
+ Fri, 17 Dec 2021 23:16:17 +0000 (GMT)
+X-AuditID: cbfec7f5-bddff70000002814-36-61bd1a424faa
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 30.10.09522.14A1DB16; Fri, 17
+ Dec 2021 23:16:17 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20211217231616eusmtip1a780baa6204c154a6bbee168a53487bd~Bre3ydfZa2193321933eusmtip1K;
+ Fri, 17 Dec 2021 23:16:16 +0000 (GMT)
+Message-ID: <fc773566-760d-19ec-0879-3ee88c06b425@samsung.com>
+Date: Sat, 18 Dec 2021 00:16:16 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB03.amd.com
- (10.181.40.144)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cfd1b459-83e0-470a-8966-08d9c1ac850f
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5310:EE_
-X-Microsoft-Antispam-PRVS: <DM4PR12MB531012B0950F014EFD7DF00BEA789@DM4PR12MB5310.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uZRnGe4LK0bAnZOM0AVK4oUM4+EUG/lopp3tr4Rpdu3xREb6tQdHloEPR39LYdT5BCBnoKml1pR8U0Hx/LXNZD/QcfRwGZVF7eUjfs1sGBXp2Qxo+jz1mQNTOLJGjCA39/JmYpVeyRZV/YVf3nHQ7rD+YbOP3QA3A7VBA9ZFDnT8qNyhizVgql1xNQRwSHm/fwIL+R6FPUmk1N9hb2+KYkN4wpF1/qyehXRIeB65TsoaWBm4fFD9Gc8t9RbML/MKUKIeneIujvMXV6nfhAYeTcvc6HHstFROYQh7yf9YB1OBQPcKgs4g2p51XJfXMISyItLDRsNzmYHjGvCLxdsYhxPPBCavActAe2e1se1qLRg035GgoqBoaD6KosGE8srE+jpKGEGHHEnX7R6ob6WOK7WSF/bGJjYxkZzpdadUCtjUczS13O3qhgujvJQsbKKkSsmRggSG6cYGLNck+rK4vHYA7/7i6HmXY7WogHyWaQNJaO2k4uk/5n3Wt9Tq7kebS50yHBAoutEJnwMzgZmnqyUM8EM7rFqu1C1b16Iev4YmnY5kPtbFkGVLPouxnTi5HOl8n05zX1bCA0nv2Y1cLLdswTEzTVnB0BnS/Ix18QZINIVbbhSeeU8WArdjogDfdAjMdBt1oSv2LEjXHgu3+uv8m3n6RfFV2MCcevVHHcNv4mLlNoMpCY1L4z5tFRio8+UCAs55Ct+COxFBf55ud2fWWX1hCErQ54Y9GeFiQgKvaWwtgIq7iE2FpPUJjFRudBnMDxO8s9KT96X2lA8YlX7Td4LENxdL4TfvIRUkVOQ=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(36840700001)(46966006)(40470700001)(40460700001)(5660300002)(1076003)(44832011)(186003)(36860700001)(86362001)(336012)(16526019)(82310400004)(81166007)(47076005)(4326008)(6666004)(36756003)(316002)(356005)(110136005)(8936002)(7696005)(70586007)(83380400001)(2616005)(426003)(8676002)(508600001)(2906002)(70206006)(26005)(54906003)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2021 22:28:16.0090 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: cfd1b459-83e0-470a-8966-08d9c1ac850f
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT055.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5310
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
+ Gecko/20100101 Thunderbird/91.4.0
+Subject: Re: [PATCH v4 0/6] drm: exynos: dsi: Convert drm bridge
+Content-Language: en-US
+To: Jagan Teki <jagan@amarulasolutions.com>
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <CAMty3ZCSrqcnO1i5ADJhQx_Dt5GbT+-eyhauJhqg=wJXOTWK-A@mail.gmail.com>
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrNKsWRmVeSWpSXmKPExsWy7djPc7pOUnsTDT63aljcX/yZxeLK1/ds
+ FpPuT2Cx+LJpAptF58Ql7BbLJ+xjszjV2Mpicagv2uLTrIfMFit+bmV04PJY+/E+q8f7G63s
+ HrM7ZrJ6LN7zksnjzrU9bB73u48zeSyZdpXNo2/LKsYAjigum5TUnMyy1CJ9uwSujPcHX7AU
+ PFeqeDZrB1MD4zmZLkYODgkBE4lpT/i6GLk4hARWMErcPN/CAuF8YZRYfWApYxcjJ5DzmVHi
+ e5c+TMPKF6oQNcsZJd4v/sEG4XxklOjdd48JpIFXwE6iafUiZhCbRUBVounzU1aIuKDEyZlP
+ WEBsUYEkidaOP2D1wgIOEg0dn8FqmAXEJW49mQ8WFxHQlvg28zXYAmaBf0wSp7a8BitiEzCU
+ 6HrbxQZicwoESvyZvoURolleYvvbOcwgDRIC/ZwSL/auB5skIeAicWDSDBYIW1ji1fEt7BC2
+ jMTpyT0sEA3NjBIPz61lh3B6GCUuN81ghKiylrhz7hcbKACYBTQl1u/Shwg7Srw/dZoREi58
+ EjfeCkIcwScxadt0Zogwr0RHmxBEtZrErOPr4NYevHCJeQKj0iykcJmF5P9ZSN6ZhbB3ASPL
+ Kkbx1NLi3PTUYuO81HK94sTc4tK8dL3k/NxNjMD0dfrf8a87GFe8+qh3iJGJg/EQowQHs5II
+ r+Ly3YlCvCmJlVWpRfnxRaU5qcWHGKU5WJTEeZMzNyQKCaQnlqRmp6YWpBbBZJk4OKUamLau
+ NtN8qy/n2iIffEd4bva/SmfPPSrnJH/L5W4zvvFpQ6xs3K30LxE/Zry2jS2Udpq0ZmPzZR3X
+ 1d0y658b7b3NFR9z5Tzz/Nb15jNmxG6d8sREebOB/V+dM1N3BO9aHNmv7yzrsHrzI4Erp3Xv
+ By78xh2R/OfhU/6Fb1atZVyocEt+2bWphhOin+qyCC7YdvMdy2Wdg1ELnTYmhynzirnM+DD5
+ Z+HHD1dr9z04XejoFp2Ux8znvFBMZr22xplc25vbZB+78h5NDuJ1PGSYcNU2xedXcaJ2q4SH
+ dtCh+hUVc81szb/ofLef0n33Ho/SnKaXKy8d9pP5UbApvSw8cpPv6kvpSy5utPvmx/rmPrcS
+ S3FGoqEWc1FxIgAzuOYizgMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrPIsWRmVeSWpSXmKPExsVy+t/xu7qOUnsTDXrPilvcX/yZxeLK1/ds
+ FpPuT2Cx+LJpAptF58Ql7BbLJ+xjszjV2Mpicagv2uLTrIfMFit+bmV04PJY+/E+q8f7G63s
+ HrM7ZrJ6LN7zksnjzrU9bB73u48zeSyZdpXNo2/LKsYAjig9m6L80pJUhYz84hJbpWhDCyM9
+ Q0sLPSMTSz1DY/NYKyNTJX07m5TUnMyy1CJ9uwS9jPcHX7AUPFeqeDZrB1MD4zmZLkYODgkB
+ E4mVL1S7GLk4hASWMkq8eHiLvYuREyguI3FyWgMrhC0s8edaFxtE0XtGiUONc9hAErwCdhJN
+ qxcxg9gsAqoSTZ+fskLEBSVOznzCAmKLCiRJ7F63FaxeWMBBoqHjM1gNs4C4xK0n85lAbBEB
+ bYlvM1+DLWAWaGKWaDuxnBViWzezROunpWBVbAKGEl1vu8AmcQoESvyZvoURYpKZRNfWLihb
+ XmL72znMExiFZiE5ZBaShbOQtMxC0rKAkWUVo0hqaXFuem6xoV5xYm5xaV66XnJ+7iZGYMxu
+ O/Zz8w7Gea8+6h1iZOJgPMQowcGsJMKruHx3ohBvSmJlVWpRfnxRaU5q8SFGU2BoTGSWEk3O
+ ByaNvJJ4QzMDU0MTM0sDU0szYyVxXs+CjkQhgfTEktTs1NSC1CKYPiYOTqkGJsOl07yVZxmn
+ HHx7/euncIEra8z11YXiZLa+ZN4guajz2MT2zFD+unXL15zbO6Wqy9ZnldOejJ6Sdzyv15yV
+ kbKYJfdxwcUJm495uh42f3L/y529ex7PmHBMv+kxz/2rYncCC71FXGz8rdlPV2x+yShisKAi
+ Lv2UmuGdbyZ8Vomh4beXHf/fsfvE2T6vmIcfws+/+PHFo1F4p5rb/y/L1ix9uLzjfsx8HTbu
+ hepv2EPZyv9c3D8h+6Ra8dSfs02zJ59Tt1paf32VwfWv/S9F6qL1dr48OqcnW+/E+keWm57q
+ 3xNk5lyWZbqg9UDr5fPZy6vsT96bJ2l3/WbTxsQ6iSdHDh5m/c73yCCk/OfUSI2PSizFGYmG
+ WsxFxYkAFFp3ZWIDAAA=
+X-CMS-MailID: 20211217231617eucas1p14b783ced9cd7132e939fa2e42279b3bf
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20211215101548eucas1p2a7f4a64ae55364181eec3db3ad5d6ef7
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20211215101548eucas1p2a7f4a64ae55364181eec3db3ad5d6ef7
+References: <CGME20211215101548eucas1p2a7f4a64ae55364181eec3db3ad5d6ef7@eucas1p2.samsung.com>
+ <20211215101534.45003-1-jagan@amarulasolutions.com>
+ <39f646d7-9d49-045a-2cf5-3cdc12486cb3@samsung.com>
+ <CAMty3ZBmZo3wqzj2Si4Ydm1RtzGs7f89aCktgVvD==appfSCPQ@mail.gmail.com>
+ <fe49e59a-1df7-fcdc-8258-581509bb8fe2@samsung.com>
+ <CAMty3ZCSrqcnO1i5ADJhQx_Dt5GbT+-eyhauJhqg=wJXOTWK-A@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,178 +118,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Monk.Liu@amd.com, horace.chen@amd.com, christian.koenig@amd.com
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ linux-amarula@amarulasolutions.com, dri-devel@lists.freedesktop.org,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since now all GPU resets are serialzied there is no need for this.
+Hi Jagan,
 
-This patch also reverts 'drm/amdgpu: race issue when jobs on 2 ring timeout'
+On 15.12.2021 15:56, Jagan Teki wrote:
+> On Wed, Dec 15, 2021 at 7:49 PM Marek Szyprowski
+> <m.szyprowski@samsung.com> wrote:
+>> On 15.12.2021 13:57, Jagan Teki wrote:
+>>> On Wed, Dec 15, 2021 at 5:31 PM Marek Szyprowski
+>>> <m.szyprowski@samsung.com> wrote:
+>>>> On 15.12.2021 11:15, Jagan Teki wrote:
+>>>>> Updated series about drm bridge conversion of exynos dsi.
+>>>>> Previous version can be accessible, here [1].
+>>>>>
+>>>>> Patch 1: connector reset
+>>>>>
+>>>>> Patch 2: panel_bridge API
+>>>>>
+>>>>> Patch 3: Bridge conversion
+>>>>>
+>>>>> Patch 4: Atomic functions
+>>>>>
+>>>>> Patch 5: atomic_set
+>>>>>
+>>>>> Patch 6: DSI init in enable
+>>>> There is a little progress! :)
+>>>>
+>>>> Devices with a simple display pipeline (only a DSI panel, like
+>>>> Trats/Trats2) works till the last patch. Then, after applying ("[PATCH
+>>>> v4 6/6] drm: exynos: dsi: Move DSI init in bridge enable"), I get no
+>>>> display at all.
+>>>>
+>>>> A TM2e board with in-bridge (Exynos MIC) stops displaying anything after
+>>>> applying patch "[PATCH v4 2/6] drm: exynos: dsi: Use drm panel_bridge API".
+>>>>
+>>>> In case of the Arndale board with tc358764 bridge, no much progress. The
+>>>> display is broken just after applying the "[PATCH v2] drm: bridge:
+>>>> tc358764: Use drm panel_bridge API" patch on top of linux-next.
+>>>>
+>>>> In all cases the I had "drm: of: Lookup if child node has panel or
+>>>> bridge" patch applied.
+>>> Just skip the 6/6 for now.
+>>>
+>>> Apply
+>>> - https://protect2.fireeye.com/v1/url?k=a24f3f76-fdd40659-a24eb439-0cc47a31cdf8-97ea12b4c5258d11&q=1&e=37a169bf-7ca5-4362-aad7-486018c7a708&u=https%3A%2F%2Fpatchwork.amarulasolutions.com%2Fpatch%2F1825%2F
+>>> - https://protect2.fireeye.com/v1/url?k=a226360f-fdbd0f20-a227bd40-0cc47a31cdf8-ebd66aebee1058d7&q=1&e=37a169bf-7ca5-4362-aad7-486018c7a708&u=https%3A%2F%2Fpatchwork.amarulasolutions.com%2Fpatch%2F1823%2F
+>>>
+>>> Then apply 1/6 to 5/6.  and update the status?
+>> Okay, my fault, I didn't check that case on Arndale.
+>>
+>> I've checked and indeed, Trats/Trats2 and Arndale works after the above
+>> 2 patches AND patches 1-5.
+>>
+>> The only problem is now on TM2e, which uses Exynos MIC as in-bridge for
+>> Exynos DSI:
+>>
+>> [    4.068866] [drm] Exynos DRM: using 13800000.decon device for DMA
+>> mapping operations
+>> [    4.069183] exynos-drm exynos-drm: bound 13800000.decon (ops
+>> decon_component_ops)
+>> [    4.128983] exynos-drm exynos-drm: bound 13880000.decon (ops
+>> decon_component_ops)
+>> [    4.129261] exynos-drm exynos-drm: bound 13930000.mic (ops
+>> exynos_mic_component_ops)
+>> [    4.133508] exynos-dsi 13900000.dsi: [drm:exynos_dsi_host_attach]
+>> *ERROR* failed to find the bridge: -19
+>> [    4.136392] exynos-drm exynos-drm: bound 13900000.dsi (ops
+>> exynos_dsi_component_ops)
+>> [    4.145499] rc_core: Couldn't load IR keymap rc-cec
+>> [    4.145666] Registered IR keymap rc-empty
+>> [    4.148402] rc rc0: sii8620 as /devices/virtual/rc/rc0
+>> [    4.156051] input: sii8620 as /devices/virtual/rc/rc0/input1
+>> [    4.160647] exynos-drm exynos-drm: bound 13970000.hdmi (ops
+>> hdmi_component_ops)
+>> [    4.169923] exynos-drm exynos-drm: [drm] Cannot find any crtc or sizes
+>> [    4.173958] exynos-drm exynos-drm: [drm] Cannot find any crtc or sizes
+>> [    4.182304] [drm] Initialized exynos 1.1.0 20180330 for exynos-drm on
+>> minor 0
+>>
+>> The display pipeline for TM2e is:
+>>
+>> Exynos5433 Decon -> Exynos MIC -> Exynos DSI -> s6e3ha2 DSI panel
+> If Trats/Trats2 is working then it has to work. I don't see any
+> difference in output pipeline. Can you please share the full log, I
+> cannot see host_attach print saying "Attached.."
 
-Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 89 ++--------------------
- 1 file changed, 7 insertions(+), 82 deletions(-)
+Well, there is a failure message about the panel:
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index d2701e4d0622..311e0b9e1e4f 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -4763,11 +4763,10 @@ int amdgpu_do_asic_reset(struct list_head *device_list_handle,
- 	return r;
- }
- 
--static bool amdgpu_device_lock_adev(struct amdgpu_device *adev,
-+static void amdgpu_device_lock_adev(struct amdgpu_device *adev,
- 				struct amdgpu_hive_info *hive)
- {
--	if (atomic_cmpxchg(&adev->in_gpu_reset, 0, 1) != 0)
--		return false;
-+	atomic_set(&adev->in_gpu_reset, 1);
- 
- 	if (hive) {
- 		down_write_nest_lock(&adev->reset_sem, &hive->hive_lock);
-@@ -4786,8 +4785,6 @@ static bool amdgpu_device_lock_adev(struct amdgpu_device *adev,
- 		adev->mp1_state = PP_MP1_STATE_NONE;
- 		break;
- 	}
--
--	return true;
- }
- 
- static void amdgpu_device_unlock_adev(struct amdgpu_device *adev)
-@@ -4798,46 +4795,6 @@ static void amdgpu_device_unlock_adev(struct amdgpu_device *adev)
- 	up_write(&adev->reset_sem);
- }
- 
--/*
-- * to lockup a list of amdgpu devices in a hive safely, if not a hive
-- * with multiple nodes, it will be similar as amdgpu_device_lock_adev.
-- *
-- * unlock won't require roll back.
-- */
--static int amdgpu_device_lock_hive_adev(struct amdgpu_device *adev, struct amdgpu_hive_info *hive)
--{
--	struct amdgpu_device *tmp_adev = NULL;
--
--	if (adev->gmc.xgmi.num_physical_nodes > 1) {
--		if (!hive) {
--			dev_err(adev->dev, "Hive is NULL while device has multiple xgmi nodes");
--			return -ENODEV;
--		}
--		list_for_each_entry(tmp_adev, &hive->device_list, gmc.xgmi.head) {
--			if (!amdgpu_device_lock_adev(tmp_adev, hive))
--				goto roll_back;
--		}
--	} else if (!amdgpu_device_lock_adev(adev, hive))
--		return -EAGAIN;
--
--	return 0;
--roll_back:
--	if (!list_is_first(&tmp_adev->gmc.xgmi.head, &hive->device_list)) {
--		/*
--		 * if the lockup iteration break in the middle of a hive,
--		 * it may means there may has a race issue,
--		 * or a hive device locked up independently.
--		 * we may be in trouble and may not, so will try to roll back
--		 * the lock and give out a warnning.
--		 */
--		dev_warn(tmp_adev->dev, "Hive lock iteration broke in the middle. Rolling back to unlock");
--		list_for_each_entry_continue_reverse(tmp_adev, &hive->device_list, gmc.xgmi.head) {
--			amdgpu_device_unlock_adev(tmp_adev);
--		}
--	}
--	return -EAGAIN;
--}
--
- static void amdgpu_device_resume_display_audio(struct amdgpu_device *adev)
- {
- 	struct pci_dev *p = NULL;
-@@ -5023,22 +4980,6 @@ int amdgpu_device_gpu_recover_imp(struct amdgpu_device *adev,
- 	reset_context.hive = hive;
- 	clear_bit(AMDGPU_NEED_FULL_RESET, &reset_context.flags);
- 
--	/*
--	 * lock the device before we try to operate the linked list
--	 * if didn't get the device lock, don't touch the linked list since
--	 * others may iterating it.
--	 */
--	r = amdgpu_device_lock_hive_adev(adev, hive);
--	if (r) {
--		dev_info(adev->dev, "Bailing on TDR for s_job:%llx, as another already in progress",
--					job ? job->base.id : -1);
--
--		/* even we skipped this reset, still need to set the job to guilty */
--		if (job && job->vm)
--			drm_sched_increase_karma(&job->base);
--		goto skip_recovery;
--	}
--
- 	/*
- 	 * Build list of devices to reset.
- 	 * In case we are in XGMI hive mode, resort the device list
-@@ -5058,6 +4999,9 @@ int amdgpu_device_gpu_recover_imp(struct amdgpu_device *adev,
- 
- 	/* block all schedulers and reset given job's ring */
- 	list_for_each_entry(tmp_adev, device_list_handle, reset_list) {
-+
-+		amdgpu_device_lock_adev(tmp_adev, hive);
-+
- 		/*
- 		 * Try to put the audio codec into suspend state
- 		 * before gpu reset started.
-@@ -5208,13 +5152,12 @@ int amdgpu_device_gpu_recover_imp(struct amdgpu_device *adev,
- 		amdgpu_device_unlock_adev(tmp_adev);
- 	}
- 
--skip_recovery:
- 	if (hive) {
- 		mutex_unlock(&hive->hive_lock);
- 		amdgpu_put_xgmi_hive(hive);
- 	}
- 
--	if (r && r != -EAGAIN)
-+	if (r)
- 		dev_info(adev->dev, "GPU reset end with ret = %d\n", r);
- 	return r;
- }
-@@ -5437,20 +5380,6 @@ int amdgpu_device_baco_exit(struct drm_device *dev)
- 	return 0;
- }
- 
--static void amdgpu_cancel_all_tdr(struct amdgpu_device *adev)
--{
--	int i;
--
--	for (i = 0; i < AMDGPU_MAX_RINGS; ++i) {
--		struct amdgpu_ring *ring = adev->rings[i];
--
--		if (!ring || !ring->sched.thread)
--			continue;
--
--		cancel_delayed_work_sync(&ring->sched.work_tdr);
--	}
--}
--
- /**
-  * amdgpu_pci_error_detected - Called when a PCI error is detected.
-  * @pdev: PCI device struct
-@@ -5481,14 +5410,10 @@ pci_ers_result_t amdgpu_pci_error_detected(struct pci_dev *pdev, pci_channel_sta
- 	/* Fatal error, prepare for slot reset */
- 	case pci_channel_io_frozen:
- 		/*
--		 * Cancel and wait for all TDRs in progress if failing to
--		 * set  adev->in_gpu_reset in amdgpu_device_lock_adev
--		 *
- 		 * Locking adev->reset_sem will prevent any external access
- 		 * to GPU during PCI error recovery
- 		 */
--		while (!amdgpu_device_lock_adev(adev, NULL))
--			amdgpu_cancel_all_tdr(adev);
-+		amdgpu_device_lock_adev(adev, NULL);
- 
- 		/*
- 		 * Block any work scheduling as we do for regular GPU reset
+exynos-dsi 13900000.dsi: [drm:exynos_dsi_host_attach] *ERROR* failed to 
+find the bridge: -19
+
+however it looks that something might be broken in dts. The in-bridge 
+(Exynos MIC) is on port 0 and the panel is @0, what imho might cause the 
+issue.
+
+I've tried to change in in-bridge ('mic_to_dsi') port to 1 in 
+exynos5433.dtsi. Then the panel has been attached:
+
+exynos-dsi 13900000.dsi: [drm:exynos_dsi_host_attach] Attached s6e3hf2 
+device
+
+but the display is still not working, probably due to lack of proper 
+Exynos MIC handling. I will investigate it later and let You know.
+
+Best regards
 -- 
-2.25.1
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
