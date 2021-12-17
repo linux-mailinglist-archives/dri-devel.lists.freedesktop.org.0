@@ -1,57 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0A4C478CE4
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 14:56:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D87EC478DCB
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 15:29:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A915D11237C;
-	Fri, 17 Dec 2021 13:56:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A03DF112674;
+	Fri, 17 Dec 2021 14:29:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com
- [IPv6:2607:f8b0:4864:20::72e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0311112378;
- Fri, 17 Dec 2021 13:56:01 +0000 (UTC)
-Received: by mail-qk1-x72e.google.com with SMTP id t6so2153322qkg.1;
- Fri, 17 Dec 2021 05:56:01 -0800 (PST)
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DCB0112674
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 14:29:19 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id s1so4450617wrg.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 06:29:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eNUBcNoRkTQ4avlDkmVvaeE4yQJazFgqJFJ0/5Pgrfo=;
- b=T5kdMKmvxLMKba3uw05OLzIPNClRIGckzevrqrMftk94goptV0/UDwNodnp3hBdah/
- 9ONQhqT6o8LIBrfQa0+unP88atcVf7y51p5N6S/S7xpDqMRmVEiXLAB9+fo9hhrPSO9n
- lrGBMcGpA8QfOF8ILwxZDruND32/Kb7ceM1bCyf5FRgNwqFRUZNkRAubB62tBJqBknkm
- ufQcS57+CAMRX1xJTSCOzwcrbCgYIq+SVbops1e1skfwDwAAhE9zNqWBjJFAWHojIeiN
- ifzHv8AaP3zWNUe6IFLElZhabHb/4hHUEBS3MWLvYMEQd/5/nS51ZQqn7FD6w6Jdjg9k
- cIuw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=NhHnu+33iZDy4lsokuBhy7INduCsl/N/nUVcNzGvT6A=;
+ b=lhRVJzHYwjbGJ2Vg0lUZdAvi6c0//BLJiJnpLKIdeFh02PtZiRNtrgZOdDsgY0axg7
+ 7u0GOlg2xdOf+DDtmoxlV3vzGJGZmfqh2acisox5LlGzHjVumccSlHQxvZIGi7AIM6Fa
+ ZW0u+83pEOe/FyyU08a+w/IR1GJKc8opVamF6Ozm5HJuRYL/HwyGPsqllSKDdGGceyvw
+ F2lf+HC6XCKPVLCTXMWN17lh0ciU1f98KPq9lMwuJke8a0gYXCrGCPlPxI1jLPSiUcvB
+ /qGx5KbHeynEzTD3VRqunvX4qFgGjhqNdM6PcfVSM6yqbzAGLctCuhnQ2+1FhLf2JJHc
+ bPrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=eNUBcNoRkTQ4avlDkmVvaeE4yQJazFgqJFJ0/5Pgrfo=;
- b=3sd+SiccwWCxeRdN3zFe7ALY5am6M4QjVQUwcQXaCkOQpU01/4wc9n79mOus7ENEz/
- T67xA0Cf/Q563yBsMwgQl+fjqyOUfK7aH6GX6orypChR0Jw4WjTp+4/zOMK78ReTg3xX
- O96o7Z0EI4Isw9ai9J4aJM7ZXiFPAp/DUlk0/xRquapL4xNnEt1oHmYjHijGN4j35gQX
- 1GJIpvWNvfiTHULnugKq/Njhi1+3DL3xZsVTtrZKelS8BAAJUyFA4rGZ5iOVByNJIjde
- IO0gyP92yLFPCTvVXAZG11amzR4NyMZa2AcS2X78BAUZGcNTgeEphF8ZRPzovzqaueEW
- 4Hvw==
-X-Gm-Message-State: AOAM532LHHcC40XJyM5JSNUGwC0pSA0ujQuvVcfYsSZU8rOXJv9xX1Yi
- 9sz2rMy8evOjeoCnA9gtD7t/6tBAySQacdkuDA18szmwXHhbiw==
-X-Google-Smtp-Source: ABdhPJzcowsO6VM8H/0vv5tm6LkJMBGAK2mR0CO60ysdMXXt3vBux6jO6tf0gZFuXc3J48oj/xIq2b7qaHao5TTv6Bg=
-X-Received: by 2002:a05:620a:4244:: with SMTP id
- w4mr1650330qko.569.1639749360523; 
- Fri, 17 Dec 2021 05:56:00 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=NhHnu+33iZDy4lsokuBhy7INduCsl/N/nUVcNzGvT6A=;
+ b=bpup03iWsNeA1g9dd8OiK3TCNbIX01EeowgPSIwFTA9UhlY85zz/MFmKsJJdpN2UJ9
+ 7pRgKdnLyHc2r/DKyL4HMIFfJcAyfaX03d7KDmoyyocbVCIV3hZvb7+9Rflb2/PP3olu
+ GkOvdHFTRa14rsdOLSNgX3YqAihA9rkkkhmk64GSyKp+oWcaSxREr47bYLwal9v/QWBk
+ YTwD0xzQnWNwhXAnqDUBgaBMwUQESJDObdXw1JvZ7eZxkiEUIsxyVY7W/ld+Tfm1p++O
+ IDa3ykug5LGT8Mn5AnWQHFtUA5UkezdC+WKjJoL5fsYo8lpjsx/2usGYPujh1JqQa3l0
+ HZ1Q==
+X-Gm-Message-State: AOAM53396rVXgBcQd887BQVi0YiNAPdOZ6p6L3Vq1/w219losrbohBrk
+ l0XuKjuq9Iwa9LtfDVu3KuEwTuHcM6DAog==
+X-Google-Smtp-Source: ABdhPJyRjBm7Nxm7s8axcW811jRLzW/ww41yt6eAGl+UXe2lQN+sOM+15Ltbf+Qjv+MxtqrNicAmkg==
+X-Received: by 2002:a5d:47c3:: with SMTP id o3mr2721136wrc.348.1639751357890; 
+ Fri, 17 Dec 2021 06:29:17 -0800 (PST)
+Received: from localhost ([193.209.96.43])
+ by smtp.gmail.com with ESMTPSA id l16sm8421338wrx.117.2021.12.17.06.29.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Dec 2021 06:29:17 -0800 (PST)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Dave Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>
+Subject: [GIT PULL] drm/tegra: Changes for v5.17-rc1
+Date: Fri, 17 Dec 2021 15:29:12 +0100
+Message-Id: <20211217142912.558095-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20211216142749.1966107-1-maarten.lankhorst@linux.intel.com>
- <20211216142749.1966107-14-maarten.lankhorst@linux.intel.com>
-In-Reply-To: <20211216142749.1966107-14-maarten.lankhorst@linux.intel.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Fri, 17 Dec 2021 13:55:33 +0000
-Message-ID: <CAM0jSHMyN6YtBG-==7G-SYO5HJOE1MrxyfNtJLveGTndX9QuAQ@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH v3 13/17] drm/i915: Add object locking to
- i915_gem_evict_for_node and i915_gem_evict_something
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,498 +66,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 16 Dec 2021 at 14:28, Maarten Lankhorst
-<maarten.lankhorst@linux.intel.com> wrote:
->
-> Because we will start to require the obj->resv lock for unbinding,
-> ensure these shrinker functions also take the lock.
->
-> This requires some function signature changes, to ensure that the
-> ww context is passed around, but is mostly straightforward.
+Hi Dave, Daniel,
 
-Do we even need this? We aren't handling the shared dma-resv for these
-ones, right? Or more just to have a consistent-ish interface?
+The following changes since commit 136057256686de39cc3a07c2e39ef6bc43003ff6:
 
->
-> Previously this was split up into several patches, but reworking
-> should allow for easier bisection.
->
-> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/intel_ggtt.c          |  2 +-
->  drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |  2 +-
->  drivers/gpu/drm/i915/gvt/aperture_gm.c        |  2 +-
->  drivers/gpu/drm/i915/i915_drv.h               |  2 ++
->  drivers/gpu/drm/i915/i915_gem_evict.c         | 34 +++++++++++++++----
->  drivers/gpu/drm/i915/i915_gem_gtt.c           |  8 +++--
->  drivers/gpu/drm/i915/i915_gem_gtt.h           |  3 ++
->  drivers/gpu/drm/i915/i915_vgpu.c              |  2 +-
->  drivers/gpu/drm/i915/i915_vma.c               |  9 ++---
->  .../gpu/drm/i915/selftests/i915_gem_evict.c   | 17 +++++-----
->  drivers/gpu/drm/i915/selftests/i915_gem_gtt.c | 14 ++++----
->  11 files changed, 63 insertions(+), 32 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> index a287c9186ec9..ed43e9c80aaa 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> @@ -504,7 +504,7 @@ static int ggtt_reserve_guc_top(struct i915_ggtt *ggtt)
->         GEM_BUG_ON(ggtt->vm.total <= GUC_GGTT_TOP);
->         size = ggtt->vm.total - GUC_GGTT_TOP;
->
-> -       ret = i915_gem_gtt_reserve(&ggtt->vm, &ggtt->uc_fw, size,
-> +       ret = i915_gem_gtt_reserve(&ggtt->vm, NULL, &ggtt->uc_fw, size,
->                                    GUC_GGTT_TOP, I915_COLOR_UNEVICTABLE,
->                                    PIN_NOEVICT);
->         if (ret)
-> diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-> index e5ad4d5a91c0..a3597a6bb805 100644
-> --- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-> +++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-> @@ -1382,7 +1382,7 @@ static int evict_vma(void *data)
->         complete(&arg->completion);
->
->         mutex_lock(&vm->mutex);
-> -       err = i915_gem_evict_for_node(vm, &evict, 0);
-> +       err = i915_gem_evict_for_node(vm, NULL, &evict, 0);
->         mutex_unlock(&vm->mutex);
->
->         return err;
-> diff --git a/drivers/gpu/drm/i915/gvt/aperture_gm.c b/drivers/gpu/drm/i915/gvt/aperture_gm.c
-> index 0d6d59871308..c08098a167e9 100644
-> --- a/drivers/gpu/drm/i915/gvt/aperture_gm.c
-> +++ b/drivers/gpu/drm/i915/gvt/aperture_gm.c
-> @@ -63,7 +63,7 @@ static int alloc_gm(struct intel_vgpu *vgpu, bool high_gm)
->
->         mutex_lock(&gt->ggtt->vm.mutex);
->         mmio_hw_access_pre(gt);
-> -       ret = i915_gem_gtt_insert(&gt->ggtt->vm, node,
-> +       ret = i915_gem_gtt_insert(&gt->ggtt->vm, NULL, node,
->                                   size, I915_GTT_PAGE_SIZE,
->                                   I915_COLOR_UNEVICTABLE,
->                                   start, end, flags);
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index c180019c607f..2a98192a89c1 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -1718,11 +1718,13 @@ i915_gem_vm_lookup(struct drm_i915_file_private *file_priv, u32 id)
->
->  /* i915_gem_evict.c */
->  int __must_check i915_gem_evict_something(struct i915_address_space *vm,
-> +                                         struct i915_gem_ww_ctx *ww,
->                                           u64 min_size, u64 alignment,
->                                           unsigned long color,
->                                           u64 start, u64 end,
->                                           unsigned flags);
->  int __must_check i915_gem_evict_for_node(struct i915_address_space *vm,
-> +                                        struct i915_gem_ww_ctx *ww,
->                                          struct drm_mm_node *node,
->                                          unsigned int flags);
->  int i915_gem_evict_vm(struct i915_address_space *vm,
-> diff --git a/drivers/gpu/drm/i915/i915_gem_evict.c b/drivers/gpu/drm/i915/i915_gem_evict.c
-> index bfd66f539fc1..f502a617b35c 100644
-> --- a/drivers/gpu/drm/i915/i915_gem_evict.c
-> +++ b/drivers/gpu/drm/i915/i915_gem_evict.c
-> @@ -51,6 +51,7 @@ static int ggtt_flush(struct intel_gt *gt)
->
->  static bool
->  mark_free(struct drm_mm_scan *scan,
-> +         struct i915_gem_ww_ctx *ww,
->           struct i915_vma *vma,
->           unsigned int flags,
->           struct list_head *unwind)
-> @@ -58,6 +59,9 @@ mark_free(struct drm_mm_scan *scan,
->         if (i915_vma_is_pinned(vma))
->                 return false;
->
-> +       if (!i915_gem_object_trylock(vma->obj, ww))
-> +               return false;
-> +
->         list_add(&vma->evict_link, unwind);
->         return drm_mm_scan_add_block(scan, &vma->node);
->  }
-> @@ -98,6 +102,7 @@ static bool defer_evict(struct i915_vma *vma)
->   */
->  int
->  i915_gem_evict_something(struct i915_address_space *vm,
-> +                        struct i915_gem_ww_ctx *ww,
->                          u64 min_size, u64 alignment,
->                          unsigned long color,
->                          u64 start, u64 end,
-> @@ -170,7 +175,7 @@ i915_gem_evict_something(struct i915_address_space *vm,
->                         continue;
->                 }
->
-> -               if (mark_free(&scan, vma, flags, &eviction_list))
-> +               if (mark_free(&scan, ww, vma, flags, &eviction_list))
->                         goto found;
->         }
->
-> @@ -178,6 +183,7 @@ i915_gem_evict_something(struct i915_address_space *vm,
->         list_for_each_entry_safe(vma, next, &eviction_list, evict_link) {
->                 ret = drm_mm_scan_remove_block(&scan, &vma->node);
->                 BUG_ON(ret);
-> +               i915_gem_object_unlock(vma->obj);
->         }
->
->         /*
-> @@ -222,10 +228,12 @@ i915_gem_evict_something(struct i915_address_space *vm,
->          * of any of our objects, thus corrupting the list).
->          */
->         list_for_each_entry_safe(vma, next, &eviction_list, evict_link) {
-> -               if (drm_mm_scan_remove_block(&scan, &vma->node))
-> +               if (drm_mm_scan_remove_block(&scan, &vma->node)) {
->                         __i915_vma_pin(vma);
-> -               else
-> +               } else {
->                         list_del(&vma->evict_link);
-> +                       i915_gem_object_unlock(vma->obj);
-> +               }
->         }
->
->         /* Unbinding will emit any required flushes */
-> @@ -234,16 +242,22 @@ i915_gem_evict_something(struct i915_address_space *vm,
->                 __i915_vma_unpin(vma);
->                 if (ret == 0)
->                         ret = __i915_vma_unbind(vma);
-> +
-> +               i915_gem_object_unlock(vma->obj);
->         }
->
->         while (ret == 0 && (node = drm_mm_scan_color_evict(&scan))) {
->                 vma = container_of(node, struct i915_vma, node);
->
-> +
+  Linux 5.16-rc2 (2021-11-21 13:47:39 -0800)
 
-Spurious new line.
+are available in the Git repository at:
 
-Otherwise,
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+  https://gitlab.freedesktop.org/drm/tegra.git tags/drm/tegra/for-5.17-rc1
 
+for you to fetch changes up to d210919dbdc8a82c676cc3e3c370b1802be63124:
 
->                 /* If we find any non-objects (!vma), we cannot evict them */
-> -               if (vma->node.color != I915_COLOR_UNEVICTABLE)
-> +               if (vma->node.color != I915_COLOR_UNEVICTABLE &&
-> +                   i915_gem_object_trylock(vma->obj, ww)) {
->                         ret = __i915_vma_unbind(vma);
-> -               else
-> -                       ret = -ENOSPC; /* XXX search failed, try again? */
-> +                       i915_gem_object_unlock(vma->obj);
-> +               } else {
-> +                       ret = -ENOSPC;
-> +               }
->         }
->
->         return ret;
-> @@ -261,6 +275,7 @@ i915_gem_evict_something(struct i915_address_space *vm,
->   * memory in e.g. the shrinker.
->   */
->  int i915_gem_evict_for_node(struct i915_address_space *vm,
-> +                           struct i915_gem_ww_ctx *ww,
->                             struct drm_mm_node *target,
->                             unsigned int flags)
->  {
-> @@ -333,6 +348,11 @@ int i915_gem_evict_for_node(struct i915_address_space *vm,
->                         break;
->                 }
->
-> +               if (!i915_gem_object_trylock(vma->obj, ww)) {
-> +                       ret = -ENOSPC;
-> +                       break;
-> +               }
-> +
->                 /*
->                  * Never show fear in the face of dragons!
->                  *
-> @@ -350,6 +370,8 @@ int i915_gem_evict_for_node(struct i915_address_space *vm,
->                 __i915_vma_unpin(vma);
->                 if (ret == 0)
->                         ret = __i915_vma_unbind(vma);
-> +
-> +               i915_gem_object_unlock(vma->obj);
->         }
->
->         return ret;
-> diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.c b/drivers/gpu/drm/i915/i915_gem_gtt.c
-> index cd5f2348a187..c810da476c2b 100644
-> --- a/drivers/gpu/drm/i915/i915_gem_gtt.c
-> +++ b/drivers/gpu/drm/i915/i915_gem_gtt.c
-> @@ -93,6 +93,7 @@ void i915_gem_gtt_finish_pages(struct drm_i915_gem_object *obj,
->   * asked to wait for eviction and interrupted.
->   */
->  int i915_gem_gtt_reserve(struct i915_address_space *vm,
-> +                        struct i915_gem_ww_ctx *ww,
->                          struct drm_mm_node *node,
->                          u64 size, u64 offset, unsigned long color,
->                          unsigned int flags)
-> @@ -117,7 +118,7 @@ int i915_gem_gtt_reserve(struct i915_address_space *vm,
->         if (flags & PIN_NOEVICT)
->                 return -ENOSPC;
->
-> -       err = i915_gem_evict_for_node(vm, node, flags);
-> +       err = i915_gem_evict_for_node(vm, ww, node, flags);
->         if (err == 0)
->                 err = drm_mm_reserve_node(&vm->mm, node);
->
-> @@ -184,6 +185,7 @@ static u64 random_offset(u64 start, u64 end, u64 len, u64 align)
->   * asked to wait for eviction and interrupted.
->   */
->  int i915_gem_gtt_insert(struct i915_address_space *vm,
-> +                       struct i915_gem_ww_ctx *ww,
->                         struct drm_mm_node *node,
->                         u64 size, u64 alignment, unsigned long color,
->                         u64 start, u64 end, unsigned int flags)
-> @@ -269,7 +271,7 @@ int i915_gem_gtt_insert(struct i915_address_space *vm,
->          */
->         offset = random_offset(start, end,
->                                size, alignment ?: I915_GTT_MIN_ALIGNMENT);
-> -       err = i915_gem_gtt_reserve(vm, node, size, offset, color, flags);
-> +       err = i915_gem_gtt_reserve(vm, ww, node, size, offset, color, flags);
->         if (err != -ENOSPC)
->                 return err;
->
-> @@ -277,7 +279,7 @@ int i915_gem_gtt_insert(struct i915_address_space *vm,
->                 return -ENOSPC;
->
->         /* Randomly selected placement is pinned, do a search */
-> -       err = i915_gem_evict_something(vm, size, alignment, color,
-> +       err = i915_gem_evict_something(vm, ww, size, alignment, color,
->                                        start, end, flags);
->         if (err)
->                 return err;
-> diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.h b/drivers/gpu/drm/i915/i915_gem_gtt.h
-> index c9b0ee5e1d23..e4938aba3fe9 100644
-> --- a/drivers/gpu/drm/i915/i915_gem_gtt.h
-> +++ b/drivers/gpu/drm/i915/i915_gem_gtt.h
-> @@ -16,6 +16,7 @@
->
->  struct drm_i915_gem_object;
->  struct i915_address_space;
-> +struct i915_gem_ww_ctx;
->
->  int __must_check i915_gem_gtt_prepare_pages(struct drm_i915_gem_object *obj,
->                                             struct sg_table *pages);
-> @@ -23,11 +24,13 @@ void i915_gem_gtt_finish_pages(struct drm_i915_gem_object *obj,
->                                struct sg_table *pages);
->
->  int i915_gem_gtt_reserve(struct i915_address_space *vm,
-> +                        struct i915_gem_ww_ctx *ww,
->                          struct drm_mm_node *node,
->                          u64 size, u64 offset, unsigned long color,
->                          unsigned int flags);
->
->  int i915_gem_gtt_insert(struct i915_address_space *vm,
-> +                       struct i915_gem_ww_ctx *ww,
->                         struct drm_mm_node *node,
->                         u64 size, u64 alignment, unsigned long color,
->                         u64 start, u64 end, unsigned int flags);
-> diff --git a/drivers/gpu/drm/i915/i915_vgpu.c b/drivers/gpu/drm/i915/i915_vgpu.c
-> index 31a105bc1792..c97323973f9b 100644
-> --- a/drivers/gpu/drm/i915/i915_vgpu.c
-> +++ b/drivers/gpu/drm/i915/i915_vgpu.c
-> @@ -197,7 +197,7 @@ static int vgt_balloon_space(struct i915_ggtt *ggtt,
->         drm_info(&dev_priv->drm,
->                  "balloon space: range [ 0x%lx - 0x%lx ] %lu KiB.\n",
->                  start, end, size / 1024);
-> -       ret = i915_gem_gtt_reserve(&ggtt->vm, node,
-> +       ret = i915_gem_gtt_reserve(&ggtt->vm, NULL, node,
->                                    size, start, I915_COLOR_UNEVICTABLE,
->                                    0);
->         if (!ret)
-> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-> index d24e90eac948..83df1290df5e 100644
-> --- a/drivers/gpu/drm/i915/i915_vma.c
-> +++ b/drivers/gpu/drm/i915/i915_vma.c
-> @@ -650,7 +650,8 @@ bool i915_gem_valid_gtt_space(struct i915_vma *vma, unsigned long color)
->   * 0 on success, negative error code otherwise.
->   */
->  static int
-> -i915_vma_insert(struct i915_vma *vma, u64 size, u64 alignment, u64 flags)
-> +i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
-> +               u64 size, u64 alignment, u64 flags)
->  {
->         unsigned long color;
->         u64 start, end;
-> @@ -702,7 +703,7 @@ i915_vma_insert(struct i915_vma *vma, u64 size, u64 alignment, u64 flags)
->                     range_overflows(offset, size, end))
->                         return -EINVAL;
->
-> -               ret = i915_gem_gtt_reserve(vma->vm, &vma->node,
-> +               ret = i915_gem_gtt_reserve(vma->vm, ww, &vma->node,
->                                            size, offset, color,
->                                            flags);
->                 if (ret)
-> @@ -741,7 +742,7 @@ i915_vma_insert(struct i915_vma *vma, u64 size, u64 alignment, u64 flags)
->                                 size = round_up(size, I915_GTT_PAGE_SIZE_2M);
->                 }
->
-> -               ret = i915_gem_gtt_insert(vma->vm, &vma->node,
-> +               ret = i915_gem_gtt_insert(vma->vm, ww, &vma->node,
->                                           size, alignment, color,
->                                           start, end, flags);
->                 if (ret)
-> @@ -1382,7 +1383,7 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
->                 goto err_unlock;
->
->         if (!(bound & I915_VMA_BIND_MASK)) {
-> -               err = i915_vma_insert(vma, size, alignment, flags);
-> +               err = i915_vma_insert(vma, ww, size, alignment, flags);
->                 if (err)
->                         goto err_active;
->
-> diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_evict.c b/drivers/gpu/drm/i915/selftests/i915_gem_evict.c
-> index 7178811366af..c80e1483d603 100644
-> --- a/drivers/gpu/drm/i915/selftests/i915_gem_evict.c
-> +++ b/drivers/gpu/drm/i915/selftests/i915_gem_evict.c
-> @@ -117,7 +117,7 @@ static int igt_evict_something(void *arg)
->
->         /* Everything is pinned, nothing should happen */
->         mutex_lock(&ggtt->vm.mutex);
-> -       err = i915_gem_evict_something(&ggtt->vm,
-> +       err = i915_gem_evict_something(&ggtt->vm, NULL,
->                                        I915_GTT_PAGE_SIZE, 0, 0,
->                                        0, U64_MAX,
->                                        0);
-> @@ -132,11 +132,12 @@ static int igt_evict_something(void *arg)
->
->         /* Everything is unpinned, we should be able to evict something */
->         mutex_lock(&ggtt->vm.mutex);
-> -       err = i915_gem_evict_something(&ggtt->vm,
-> +       err = i915_gem_evict_something(&ggtt->vm, NULL,
->                                        I915_GTT_PAGE_SIZE, 0, 0,
->                                        0, U64_MAX,
->                                        0);
->         mutex_unlock(&ggtt->vm.mutex);
-> +
->         if (err) {
->                 pr_err("i915_gem_evict_something failed on a full GGTT with err=%d\n",
->                        err);
-> @@ -204,7 +205,7 @@ static int igt_evict_for_vma(void *arg)
->
->         /* Everything is pinned, nothing should happen */
->         mutex_lock(&ggtt->vm.mutex);
-> -       err = i915_gem_evict_for_node(&ggtt->vm, &target, 0);
-> +       err = i915_gem_evict_for_node(&ggtt->vm, NULL, &target, 0);
->         mutex_unlock(&ggtt->vm.mutex);
->         if (err != -ENOSPC) {
->                 pr_err("i915_gem_evict_for_node on a full GGTT returned err=%d\n",
-> @@ -216,7 +217,7 @@ static int igt_evict_for_vma(void *arg)
->
->         /* Everything is unpinned, we should be able to evict the node */
->         mutex_lock(&ggtt->vm.mutex);
-> -       err = i915_gem_evict_for_node(&ggtt->vm, &target, 0);
-> +       err = i915_gem_evict_for_node(&ggtt->vm, NULL, &target, 0);
->         mutex_unlock(&ggtt->vm.mutex);
->         if (err) {
->                 pr_err("i915_gem_evict_for_node returned err=%d\n",
-> @@ -297,7 +298,7 @@ static int igt_evict_for_cache_color(void *arg)
->
->         /* Remove just the second vma */
->         mutex_lock(&ggtt->vm.mutex);
-> -       err = i915_gem_evict_for_node(&ggtt->vm, &target, 0);
-> +       err = i915_gem_evict_for_node(&ggtt->vm, NULL, &target, 0);
->         mutex_unlock(&ggtt->vm.mutex);
->         if (err) {
->                 pr_err("[0]i915_gem_evict_for_node returned err=%d\n", err);
-> @@ -310,7 +311,7 @@ static int igt_evict_for_cache_color(void *arg)
->         target.color = I915_CACHE_L3_LLC;
->
->         mutex_lock(&ggtt->vm.mutex);
-> -       err = i915_gem_evict_for_node(&ggtt->vm, &target, 0);
-> +       err = i915_gem_evict_for_node(&ggtt->vm, NULL, &target, 0);
->         mutex_unlock(&ggtt->vm.mutex);
->         if (!err) {
->                 pr_err("[1]i915_gem_evict_for_node returned err=%d\n", err);
-> @@ -408,7 +409,7 @@ static int igt_evict_contexts(void *arg)
->         /* Reserve a block so that we know we have enough to fit a few rq */
->         memset(&hole, 0, sizeof(hole));
->         mutex_lock(&ggtt->vm.mutex);
-> -       err = i915_gem_gtt_insert(&ggtt->vm, &hole,
-> +       err = i915_gem_gtt_insert(&ggtt->vm, NULL, &hole,
->                                   PRETEND_GGTT_SIZE, 0, I915_COLOR_UNEVICTABLE,
->                                   0, ggtt->vm.total,
->                                   PIN_NOEVICT);
-> @@ -428,7 +429,7 @@ static int igt_evict_contexts(void *arg)
->                         goto out_locked;
->                 }
->
-> -               if (i915_gem_gtt_insert(&ggtt->vm, &r->node,
-> +               if (i915_gem_gtt_insert(&ggtt->vm, NULL, &r->node,
->                                         1ul << 20, 0, I915_COLOR_UNEVICTABLE,
->                                         0, ggtt->vm.total,
->                                         PIN_NOEVICT)) {
-> diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-> index 88b3a4d9e27e..169e2330b386 100644
-> --- a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-> +++ b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-> @@ -1378,7 +1378,7 @@ static int igt_gtt_reserve(void *arg)
->                 }
->
->                 mutex_lock(&ggtt->vm.mutex);
-> -               err = i915_gem_gtt_reserve(&ggtt->vm, &vma->node,
-> +               err = i915_gem_gtt_reserve(&ggtt->vm, NULL, &vma->node,
->                                            obj->base.size,
->                                            total,
->                                            obj->cache_level,
-> @@ -1430,7 +1430,7 @@ static int igt_gtt_reserve(void *arg)
->                 }
->
->                 mutex_lock(&ggtt->vm.mutex);
-> -               err = i915_gem_gtt_reserve(&ggtt->vm, &vma->node,
-> +               err = i915_gem_gtt_reserve(&ggtt->vm, NULL, &vma->node,
->                                            obj->base.size,
->                                            total,
->                                            obj->cache_level,
-> @@ -1477,7 +1477,7 @@ static int igt_gtt_reserve(void *arg)
->                                            I915_GTT_MIN_ALIGNMENT);
->
->                 mutex_lock(&ggtt->vm.mutex);
-> -               err = i915_gem_gtt_reserve(&ggtt->vm, &vma->node,
-> +               err = i915_gem_gtt_reserve(&ggtt->vm, NULL, &vma->node,
->                                            obj->base.size,
->                                            offset,
->                                            obj->cache_level,
-> @@ -1552,7 +1552,7 @@ static int igt_gtt_insert(void *arg)
->         /* Check a couple of obviously invalid requests */
->         for (ii = invalid_insert; ii->size; ii++) {
->                 mutex_lock(&ggtt->vm.mutex);
-> -               err = i915_gem_gtt_insert(&ggtt->vm, &tmp,
-> +               err = i915_gem_gtt_insert(&ggtt->vm, NULL, &tmp,
->                                           ii->size, ii->alignment,
->                                           I915_COLOR_UNEVICTABLE,
->                                           ii->start, ii->end,
-> @@ -1594,7 +1594,7 @@ static int igt_gtt_insert(void *arg)
->                 }
->
->                 mutex_lock(&ggtt->vm.mutex);
-> -               err = i915_gem_gtt_insert(&ggtt->vm, &vma->node,
-> +               err = i915_gem_gtt_insert(&ggtt->vm, NULL, &vma->node,
->                                           obj->base.size, 0, obj->cache_level,
->                                           0, ggtt->vm.total,
->                                           0);
-> @@ -1654,7 +1654,7 @@ static int igt_gtt_insert(void *arg)
->                 }
->
->                 mutex_lock(&ggtt->vm.mutex);
-> -               err = i915_gem_gtt_insert(&ggtt->vm, &vma->node,
-> +               err = i915_gem_gtt_insert(&ggtt->vm, NULL, &vma->node,
->                                           obj->base.size, 0, obj->cache_level,
->                                           0, ggtt->vm.total,
->                                           0);
-> @@ -1703,7 +1703,7 @@ static int igt_gtt_insert(void *arg)
->                 }
->
->                 mutex_lock(&ggtt->vm.mutex);
-> -               err = i915_gem_gtt_insert(&ggtt->vm, &vma->node,
-> +               err = i915_gem_gtt_insert(&ggtt->vm, NULL, &vma->node,
->                                           obj->base.size, 0, obj->cache_level,
->                                           0, ggtt->vm.total,
->                                           0);
-> --
-> 2.34.1
->
+  drm/tegra: Add back arm_iommu_detach_device() (2021-12-16 14:30:45 +0100)
+
+This is unusually big because it contains essentially two cycles' worth
+of work. I'm still not sure what happened for v5.16-rc1, but the PR was
+never merged.
+
+Fingers crossed that it will work better this time.
+
+As mentioned last time already, the userspace for the new NVDEC driver
+can be found here:
+
+  https://github.com/cyndis/vaapi-tegra-driver
+
+Thanks,
+Thierry
+
+----------------------------------------------------------------
+drm/tegra: Changes for v5.17-rc1
+
+This contains a fairly large rework that makes the buffer objects behave
+more according to what the DMA-BUF infrastructure expects. A buffer
+object cache is implemented on top of that to make certain operations
+such as page-flipping more efficient by avoiding needless map/unmap
+operations. This in turn is useful to implement asynchronous commits to
+support legacy cursor updates.
+
+Another fairly big addition is the NVDEC driver. This uses the updated
+UABI introduced in v5.15-rc1 to provide access to the video decode
+engines found on Tegra210 and later.
+
+This also includes some power management improvements that are useful on
+older devices in particular because they, together with a bunch of other
+changes across the kernel, allow the system to scale down frequency and
+voltages when mostly idle and prevent these devices from becoming
+excessively hot.
+
+The remainder of these changes is an assortment of cleanups and minor
+fixes.
+
+----------------------------------------------------------------
+Arnd Bergmann (3):
+      gpu: host1x: select CONFIG_DMA_SHARED_BUFFER
+      drm/tegra: Mark nvdec_writel() as inline
+      drm/tegra: Mark nvdec PM functions as __maybe_unused
+
+Dmitry Osipenko (19):
+      soc/tegra: Enable runtime PM during OPP state-syncing
+      soc/tegra: Add devm_tegra_core_dev_init_opp_table_common()
+      drm/tegra: dc: rgb: Move PCLK shifter programming to CRTC
+      drm/tegra: dc: rgb: Allow changing PLLD rate on Tegra30+
+      drm/tegra: hdmi: Unwind tegra_hdmi_init() errors
+      drm/tegra: hdmi: Register audio CODEC on Tegra20
+      gpu: host1x: Add initial runtime PM and OPP support
+      gpu: host1x: Add host1x_channel_stop()
+      drm/tegra: submit: Add missing pm_runtime_mark_last_busy()
+      drm/tegra: dc: Support OPP and SoC core voltage scaling
+      drm/tegra: hdmi: Add OPP support
+      drm/tegra: gr2d: Support generic power domain and runtime PM
+      drm/tegra: gr3d: Support generic power domain and runtime PM
+      drm/tegra: vic: Stop channel on suspend
+      drm/tegra: nvdec: Stop channel on suspend
+      drm/tegra: submit: Remove pm_runtime_enabled() checks
+      drm/tegra: Consolidate runtime PM management of older UAPI codepath
+      gpu: host1x: Add back arm_iommu_detach_device()
+      drm/tegra: Add back arm_iommu_detach_device()
+
+Mikko Perttunen (3):
+      drm/tegra: Add NVDEC driver
+      drm/tegra: Bump VIC/NVDEC clock rates to Fmax
+      drm/tegra: vic: Use autosuspend
+
+Randy Dunlap (1):
+      gpu: host1x: Drop excess kernel-doc entry @key
+
+Robin Murphy (2):
+      drm/tegra: vic: Fix DMA API misuse
+      gpu: host1x: Add missing DMA API include
+
+Thierry Reding (8):
+      Merge branch 'tegra-for-5.17-soc-opp' of git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux into drm/tegra/for-next
+      drm/tegra: Implement correct DMA-BUF semantics
+      drm/tegra: Implement buffer object cache
+      drm/tegra: Do not reference tegra_plane_funcs directly
+      drm/tegra: Propagate errors from drm_gem_plane_helper_prepare_fb()
+      drm/tegra: Support asynchronous commits for cursor
+      drm/tegra: gr2d: Explicitly control module reset
+      drm/tegra: vic: Handle tegra_drm_alloc() failure
+
+Wan Jiabing (1):
+      drm/tegra: Remove duplicate struct declaration
+
+ drivers/gpu/drm/tegra/Kconfig      |   3 +
+ drivers/gpu/drm/tegra/Makefile     |   3 +-
+ drivers/gpu/drm/tegra/dc.c         | 194 +++++++++++++--
+ drivers/gpu/drm/tegra/dc.h         |   3 +
+ drivers/gpu/drm/tegra/drm.c        |  30 ++-
+ drivers/gpu/drm/tegra/drm.h        |   1 +
+ drivers/gpu/drm/tegra/gem.c        | 171 +++++++++-----
+ drivers/gpu/drm/tegra/gr2d.c       | 151 +++++++++++-
+ drivers/gpu/drm/tegra/gr3d.c       | 353 +++++++++++++++++++++++-----
+ drivers/gpu/drm/tegra/hdmi.c       | 183 +++++++++++++--
+ drivers/gpu/drm/tegra/hub.h        |   1 -
+ drivers/gpu/drm/tegra/nvdec.c      | 466 +++++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/tegra/plane.c      |  65 ++----
+ drivers/gpu/drm/tegra/plane.h      |   2 +-
+ drivers/gpu/drm/tegra/rgb.c        |  53 ++++-
+ drivers/gpu/drm/tegra/submit.c     |  77 ++++--
+ drivers/gpu/drm/tegra/uapi.c       |  68 ++----
+ drivers/gpu/drm/tegra/uapi.h       |   5 +-
+ drivers/gpu/drm/tegra/vic.c        |  61 +++--
+ drivers/gpu/host1x/Kconfig         |   1 +
+ drivers/gpu/host1x/bus.c           |  80 ++++++-
+ drivers/gpu/host1x/channel.c       |   8 +
+ drivers/gpu/host1x/debug.c         |  15 ++
+ drivers/gpu/host1x/dev.c           | 185 ++++++++++++---
+ drivers/gpu/host1x/dev.h           |   5 +-
+ drivers/gpu/host1x/hw/channel_hw.c |  44 ++--
+ drivers/gpu/host1x/intr.c          |   3 -
+ drivers/gpu/host1x/job.c           | 160 +++++--------
+ drivers/gpu/host1x/job.h           |   6 +-
+ drivers/gpu/host1x/syncpt.c        |   5 +-
+ drivers/soc/tegra/common.c         |  25 ++
+ include/linux/host1x.h             |  76 ++++--
+ include/soc/tegra/common.h         |  15 ++
+ 33 files changed, 2020 insertions(+), 498 deletions(-)
+ create mode 100644 drivers/gpu/drm/tegra/nvdec.c
