@@ -1,66 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37E494781B2
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 01:39:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E12A04781A7
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 01:39:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4628010E2AB;
-	Fri, 17 Dec 2021 00:39:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 199F710E245;
+	Fri, 17 Dec 2021 00:38:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7785F10E297
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 00:38:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43EBC10E2F5
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 00:38:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639701514;
+ s=mimecast20190719; t=1639701515;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1lVDlvz5KshJ9xEp0fUDjyMKxN1Mip/awmP+ArPF4eY=;
- b=MVU0nqbzGFmbWSTS4IjTBWupT84rz0/jgyTRCJTMzi6PTdLAvEXZzyp6+A8Ehbo/5F3uCY
- ZQMbvv6VZpB6QZLNgA7VFXJ+a4yAKFHT1GcaQo738gx7mZ3dQnI8L66MP/sQ90FDVrJ9tw
- p17PCxnACzsl4Ho/DU/r38DssnXtUOk=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=LS45ptuKLtucyzrI9aH/fv6UqLJgOvCJlOd2PAEqfE8=;
+ b=SfqwF8GE49BXYLj7tN3oDZLb5U9JM5XR3JZj3YiFOLTGqikT9mEtTc7tC/4ceJddR7v34B
+ +gJcBWIgYJciOzxm1b8Kc2feeGUAhD1/vJdchogUFcfp0sMpWyPv3Hn7nJQS63WCI57sSx
+ DKhqNzrhm9PjZYVY4o5A2d2StZ2ChSE=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-58-CRKyHjlyOcmwiXv2XEbL9w-1; Thu, 16 Dec 2021 19:38:33 -0500
-X-MC-Unique: CRKyHjlyOcmwiXv2XEbL9w-1
-Received: by mail-wm1-f69.google.com with SMTP id
- k25-20020a05600c1c9900b00332f798ba1dso2075374wms.4
+ us-mta-290-TK5IwUQmPvCy61vxPvBRAw-1; Thu, 16 Dec 2021 19:38:34 -0500
+X-MC-Unique: TK5IwUQmPvCy61vxPvBRAw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ k11-20020adfc70b000000b001a2333d9406so148820wrg.3
  for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 16:38:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1lVDlvz5KshJ9xEp0fUDjyMKxN1Mip/awmP+ArPF4eY=;
- b=Um+R012yYWp1W+QXL+Y/GhGQrteS6aeTjhmLtXCJ1GLvap4q0UlH8wedPkdMCNUsfR
- TPgNqv9qltVB+YzSlvTO1YL/VYbZjCACDIiXNj4zypxnpvL4ql1/dVWZhS9bXl5uUe7y
- ucDrHciwvo8S8Xs5DOgGiQyp41fOlPeGmPQMCatofuJmV8h+1OvhxR+NcguEX/PRQdXx
- jemVCwZi00Mif8deQJ6UjTi8gYN/Ca8CE1A9MBmchuwSwpeWzmAyjW5KqmcfW3LZzFKL
- xY+F+yz0I8mfKnMcfN4sbQ7eqAonnJIe1kA7KeFqWFgzke6TR/IfwEdZdeK92WOD/pN9
- h7GA==
-X-Gm-Message-State: AOAM532a+34QI2to3Z3J34mOZq7hhkapLwkwEHP63ztPlngpj36UJrEz
- yV5BQbehRAqf8mWa/wowcLIx2crySUeBhaCGXU8O4gsC0+CQe8/ZnbxkF0ED0p4MpucYDShOYfM
- Sg1cyI1Hb98UXfJpnANBbXoo3l7SH
-X-Received: by 2002:adf:e3d1:: with SMTP id k17mr386739wrm.610.1639701511901; 
- Thu, 16 Dec 2021 16:38:31 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzO3TK+zySPyHhr762oSVAORB7oktel0HxoAPED3eWuduaxPT05zJHBzakbWjfgQEb8xwaVDg==
-X-Received: by 2002:adf:e3d1:: with SMTP id k17mr386729wrm.610.1639701511680; 
- Thu, 16 Dec 2021 16:38:31 -0800 (PST)
+ bh=LS45ptuKLtucyzrI9aH/fv6UqLJgOvCJlOd2PAEqfE8=;
+ b=alYmQEqWyVn2r4Q5D5lYgSPJWuUnJC9eSPanMQ0Mwn56W3Tf1jpDNXEj1O/kH1CcHt
+ Rs7hlPJAQ0U2yGeNCdKeHpeLM5ct8oGXTZfYaziV3l9Yb++pnA2jJZYPuFDDH6u9QLOp
+ Op7iSS8ipLQ0PMR7mh3oxdbtRP6dUL8QWfrddVoFATgKNzzHtUvBl/StFq4zSPv+ONW7
+ PeJl+BVZGu5NSiyB54JXO+BhTh2RFbVO1r2usb+6HSd/BZfFM6EGtlWeajl47vOJ/2tH
+ Wy+hwon4qZtzTFhotYbmORTv8oyyav8oXcgnU4G14LzqznZ11D2RwkTz1TWYbovQrl7i
+ RO6Q==
+X-Gm-Message-State: AOAM532ZUFVo2Mr4sVilSzkAWBWO5Uy9RJtDB2chEdx2dT1JbaaYhmbT
+ 77Huij/it4gS/25U1c62pkVG6sfinZ+GGj7DsBhMdJSB/jYCzs4RWt5EG8rtI86kVd+mbhErPjj
+ 0BwMQ3xgDXc5XR6vMK9IQ5flb5Nju
+X-Received: by 2002:adf:ed83:: with SMTP id c3mr369003wro.169.1639701512790;
+ Thu, 16 Dec 2021 16:38:32 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzgNRxmXpv8ar/HlM4TfNJSibrarj6nNRlhhEoWvFkpXvNFl1qNA/H5nvze7GA/dpw0kCtyVQ==
+X-Received: by 2002:adf:ed83:: with SMTP id c3mr368998wro.169.1639701512577;
+ Thu, 16 Dec 2021 16:38:32 -0800 (PST)
 Received: from minerva.home ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id bg12sm7368433wmb.5.2021.12.16.16.38.30
+ by smtp.gmail.com with ESMTPSA id bg12sm7368433wmb.5.2021.12.16.16.38.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Dec 2021 16:38:31 -0800 (PST)
+ Thu, 16 Dec 2021 16:38:32 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 35/37] drm/tegra: Add support for the nomodeset kernel
+Subject: [PATCH v2 36/37] drm/tilcdc: Add support for the nomodeset kernel
  parameter
-Date: Fri, 17 Dec 2021 01:37:50 +0100
-Message-Id: <20211217003752.3946210-36-javierm@redhat.com>
+Date: Fri, 17 Dec 2021 01:37:51 +0100
+Message-Id: <20211217003752.3946210-37-javierm@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211217003752.3946210-1-javierm@redhat.com>
 References: <20211217003752.3946210-1-javierm@redhat.com>
@@ -83,8 +83,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>
+Cc: Jyri Sarha <jyri.sarha@iki.fi>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Tomi Valkeinen <tomba@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -102,23 +103,23 @@ Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 
 (no changes since v1)
 
- drivers/gpu/drm/tegra/drm.c | 3 +++
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-index 8d37d6b00562..48e35d686473 100644
---- a/drivers/gpu/drm/tegra/drm.c
-+++ b/drivers/gpu/drm/tegra/drm.c
-@@ -1382,6 +1382,9 @@ static int __init host1x_drm_init(void)
- {
- 	int err;
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+index cc567c87057d..eee3c447fbac 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
++++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+@@ -604,6 +604,9 @@ static struct platform_driver tilcdc_platform_driver = {
  
+ static int __init tilcdc_drm_init(void)
+ {
 +	if (drm_firmware_drivers_only())
 +		return -ENODEV;
 +
- 	err = host1x_driver_register(&host1x_drm_driver);
- 	if (err < 0)
- 		return err;
+ 	DBG("init");
+ 	tilcdc_panel_init();
+ 	return platform_driver_register(&tilcdc_platform_driver);
 -- 
 2.33.1
 
