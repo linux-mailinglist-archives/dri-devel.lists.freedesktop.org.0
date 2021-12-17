@@ -2,52 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5C484784A2
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 06:46:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B8F54784C9
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 07:04:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FE0710E2FF;
-	Fri, 17 Dec 2021 05:46:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7DDC10E30F;
+	Fri, 17 Dec 2021 06:04:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B69B610E311
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 05:46:06 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id z9so3650844edb.5
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 21:46:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=kzK9nTcSN0oQPdWUovRg++U6GA8sCzQEl6XCB6N6fiQ=;
- b=ZEqtvpTkodXGb+EG11jrCjJRqPVcBGBuW3Xa9QOAdz4Q2GcoOJjQUDiQmWMn6mDO8I
- OMAaH8qOL+GGIK3yNq0EvMQ1uMorpjqG5+fKWVtREHnTO0aEYcbp6NMNGGfekJszxUVr
- HJ362/HyEA9/oRR5dAYE0ed7FWr4//WIL9YtC+SA2j6ZsDLboCjhbosRlVYMdnU/akbv
- ofEstrt7N4QKXKQd/qLersLQh9XoKu06sn1cpZRe7xx+swSmk7/xNEMF5v/uXMIOzAci
- gAmgquUY3xJidfU3zXgGFW3QVLzUOJSNZzz9NdKhivxlqaXQA56WDNvPqcFlr86pAKQ8
- 6j6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=kzK9nTcSN0oQPdWUovRg++U6GA8sCzQEl6XCB6N6fiQ=;
- b=BMHVTfROw7PegrQ4XArW9LpiqlSoTBySPVYfF6pD9mT7gWjGhOyKJ8p24snbjetP/L
- qJtAGFshUInaXkfU1fJN8CjVVgoXr7ONt4gpKr6CxcFtjGfiD2+znXDe7ZruoxCMeUd0
- 4RNuM0e9arUP46JIxhcab9purmAlBflIqyTNB+9SlW4n3dH017ZRXvYnjpxK2XtNc1cn
- VgRSL00TpvjuTFYk7oPWPKG9SQu0W20A0Ml0NWmBbfoLCGxS4bCaGhPW5aDtbXLrn2hC
- 9tRNqsl4UaBnRFajR7OiEbBBc3J3Rw3Tsu1YF7jNzW4cYjJKpo6fRmQjS/kmQoGFUkA0
- zt/Q==
-X-Gm-Message-State: AOAM532+eX+bIxrZ4PlgWaP9wIZDIwPeqvYvguJ0KikjydzN0uIWxKoE
- Rr5vGwwyQa/akTt1Nb+JOMpsvUgbzFZ1leQrfjo=
-X-Google-Smtp-Source: ABdhPJyHAgj2yM+urv06zWX78aoRt/hr9IJDa4NrYE6oKMDU9HW1EhlqUQOQZjr08ADthJVmbIZmfecg2SRg2XBDM10=
-X-Received: by 2002:a17:906:3ac9:: with SMTP id
- z9mr1260098ejd.750.1639719965192; 
- Thu, 16 Dec 2021 21:46:05 -0800 (PST)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0234C10E30F
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 06:04:17 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 1110161F9A;
+ Fri, 17 Dec 2021 06:04:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 861F2C36AE1;
+ Fri, 17 Dec 2021 06:04:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1639721054;
+ bh=kwoVfr91sfDbXUKT7OKdnlYuZVy9njagc98xzPanrDU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=YTqFvg/hfF0lUestaWcAB80XJkTL/iy6IDSt7jP6+ESZr8GI22Qxo/LvXAVjMA9wq
+ aUGU8kGBf/IzSMOTdwqvmn7Zv5xXM35fcywMFOxtbDPDLcLJjuV5k5+1cF9OLZ4XyU
+ Fw5WunmhHxTS9QOwc415W6U1sieJ6CgG4x8bFG/EjBo2FJSvAyUEdSYNcpB3rmPfzE
+ 24OvE8RF7pDyG0MXG2IDRoWLBYB1QNxwL+Z+R5rYRs4cV62FVd82Bcu6879lwHrzn/
+ Tln06klRkA2ylotphb2f4yW7FkDjX1poS4ObMcnA5TXaqXqIhXWWedor/7V3CH6geF
+ edUqAttGhYDnw==
+Date: Fri, 17 Dec 2021 11:34:10 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v4 00/22] Support HDMI audio on NVIDIA Tegra20
+Message-ID: <YbwoWhg6h8ChE5Xs@matsya>
+References: <20211204143725.31646-1-digetx@gmail.com>
+ <Ybo6tsnQM6OacoZs@sirena.org.uk>
+ <26af30a6-9606-72d0-9258-cf9627ddfe77@gmail.com>
+ <7179a409-d838-0e9e-4600-785e69c3e3a6@gmail.com>
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 17 Dec 2021 15:45:54 +1000
-Message-ID: <CAPM=9twMFXcWtEGnpOFx5KCZDcNKoteYXeLurMiwaAX9XqESuQ@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.16-rc6
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="H5lYUFRYsnZI2oAy"
+Content-Disposition: inline
+In-Reply-To: <7179a409-d838-0e9e-4600-785e69c3e3a6@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,138 +55,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
+ Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+ Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Mark Brown <broonie@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel@lists.freedesktop.org, Agneli <poczt@protonmail.ch>,
+ linux-tegra@vger.kernel.org, Jonathan Hunter <jonathanh@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
 
-Mostly amdgpu fixes this week scattered around the driver, otherwise
-one i915, one ast, one simpledrm. There is a revert in the fb-helper
-for places userspace was using a string that we tried to change.
+--H5lYUFRYsnZI2oAy
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Regards,
-Dave.
+On 16-12-21, 17:29, Dmitry Osipenko wrote:
+> 15.12.2021 22:19, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > 15.12.2021 21:57, Mark Brown =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >> On Sat, Dec 04, 2021 at 05:37:03PM +0300, Dmitry Osipenko wrote:
+> >>
+> >>> I based S/PDIF patches on Arnd's Bergmann patch from a separate serie=
+s [1]
+> >>> that removes obsolete slave_id. This eases merging of the patches by
+> >>> removing the merge conflict. This is a note for Mark Brown.
+> >> That's not in my tree so I'll need either a pull request with the seri=
+es
+> >> or a resend after the merge window.
+> > This patch is included as a part of this series, please see the patch #=
+6.
+> >=20
+> > I saw that Vinod Koul already merged it into his DMA tree [1] a day ago,
+> > but there is no stable branch there.
+> >=20
+> > [1]
+> > https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git/log=
+/?h=3Dnext
+> >=20
+>=20
+> Vinod, will you be a able to create immutable branch for us with the
+> "dmaengine: kill off dma_slave_config->slave_id" patches [1]?
+>=20
+> [1] https://lore.kernel.org/all/20211122222203.4103644-1-arnd@kernel.org/
 
-drm-fixes-2021-12-17-1:
-drm fixes for 5.16-rc6
+Here you go:
 
-i915:
-- Fix a bound check in the DMC fw load.
+The following changes since commit fa55b7dcdc43c1aa1ba12bca9d2dd4318c2a0dbf:
 
-ast:
-- NULL ptr deref fix
-
-simpledrm:
-- pixel clock units fix
-
-fb-helper:
-- userspace regression revert
-
-amdgpu:
-- Fix RLC register offset
-- GMC fix
-- Properly cache SMU FW version on Yellow Carp
-- Fix missing callback on DCN3.1
-- Reset DMCUB before HW init
-- Fix for GMC powergating on PCO
-- Fix a possible memory leak in GPU metrics table handling on RN
-The following changes since commit 2585cf9dfaaddf00b069673f27bb3f8530e2039c:
-
-  Linux 5.16-rc5 (2021-12-12 14:53:01 -0800)
+  Linux 5.16-rc1 (2021-11-14 13:56:52 -0800)
 
 are available in the Git repository at:
 
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-12-17-1
+  git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git tags/dm=
+aengine_topic_slave_id_removal_5.17
 
-for you to fetch changes up to a2fbfd517117157e99160ff1b39b171872dcba07:
+for you to fetch changes up to 3c219644075795a99271d345efdfa8b256e55161:
 
-  Merge tag 'amd-drm-fixes-5.16-2021-12-15' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes (2021-12-17
-15:01:01 +1000)
-
-----------------------------------------------------------------
-drm fixes for 5.16-rc6
-
-i915:
-- Fix a bound check in the DMC fw load.
-
-ast:
-- NULL ptr deref fix
-
-simpledrm:
-- pixel clock units fix
-
-fb-helper:
-- userspace regression revert
-
-amdgpu:
-- Fix RLC register offset
-- GMC fix
-- Properly cache SMU FW version on Yellow Carp
-- Fix missing callback on DCN3.1
-- Reset DMCUB before HW init
-- Fix for GMC powergating on PCO
-- Fix a possible memory leak in GPU metrics table handling on RN
+  dmaengine: remove slave_id config field (2021-12-17 11:23:56 +0530)
 
 ----------------------------------------------------------------
-Alejandro Concepcion-Rodriguez (1):
-      drm: simpledrm: fix wrong unit with pixel clock
+dmaengine_topic_slave_id_removal_5.17
 
-Dave Airlie (3):
-      Merge tag 'drm-intel-fixes-2021-12-15' of
-ssh://git.freedesktop.org/git/drm/drm-intel into drm-fixes
-      Merge tag 'drm-misc-fixes-2021-12-16-1' of
-ssh://git.freedesktop.org/git/drm/drm-misc into drm-fixes
-      Merge tag 'amd-drm-fixes-5.16-2021-12-15' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+Tag for dmaengine slave_id removal topic branch which should be merged
+into v5.17
 
-Evan Quan (1):
-      drm/amdgpu: correct the wrong cached state for GMC on PICASSO
+----------------------------------------------------------------
+Arnd Bergmann (11):
+      ASoC: tegra20-spdif: stop setting slave_id
+      dmaengine: tegra20-apb: stop checking config->slave_id
+      ASoC: dai_dma: remove slave_id field
+      spi: pic32: stop setting dma_config->slave_id
+      mmc: bcm2835: stop setting chan_config->slave_id
+      dmaengine: shdma: remove legacy slave_id parsing
+      dmaengine: pxa/mmp: stop referencing config->slave_id
+      dmaengine: sprd: stop referencing config->slave_id
+      dmaengine: qcom-adm: stop abusing slave_id config
+      dmaengine: xilinx_dpdma: stop using slave_id field
+      dmaengine: remove slave_id config field
 
-Harshit Mogalapalli (1):
-      drm/i915/display: Fix an unsigned subtraction which can never be negative.
+ drivers/dma/mmp_pdma.c             |  6 ------
+ drivers/dma/pxa_dma.c              |  7 -------
+ drivers/dma/qcom/qcom_adm.c        | 56 ++++++++++++++++++++++++++++++++++=
++++++++++++++++-------
+ drivers/dma/sh/shdma-base.c        |  8 --------
+ drivers/dma/sprd-dma.c             |  3 ---
+ drivers/dma/tegra20-apb-dma.c      |  6 ------
+ drivers/dma/xilinx/xilinx_dpdma.c  | 17 +++++++++++------
+ drivers/gpu/drm/xlnx/zynqmp_disp.c |  9 +++++++--
+ drivers/mmc/host/bcm2835.c         |  2 --
+ drivers/mtd/nand/raw/qcom_nandc.c  | 14 ++++++++++++--
+ drivers/spi/spi-pic32.c            |  2 --
+ drivers/tty/serial/msm_serial.c    | 15 +++++++++++++--
+ include/linux/dma/qcom_adm.h       | 12 ++++++++++++
+ include/linux/dma/xilinx_dpdma.h   | 11 +++++++++++
+ include/linux/dmaengine.h          |  4 ----
+ include/sound/dmaengine_pcm.h      |  2 --
+ sound/core/pcm_dmaengine.c         |  5 ++---
+ sound/soc/tegra/tegra20_spdif.c    |  1 -
+ 18 files changed, 117 insertions(+), 63 deletions(-)
+ create mode 100644 include/linux/dma/qcom_adm.h
+ create mode 100644 include/linux/dma/xilinx_dpdma.h
 
-Hawking Zhang (1):
-      drm/amdgpu: don't override default ECO_BITs setting
+Thanks
+--=20
+~Vinod
 
-Javier Martinez Canillas (1):
-      Revert "drm/fb-helper: improve DRM fbdev emulation device names"
+--H5lYUFRYsnZI2oAy
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Jiasheng Jiang (1):
-      drm/ast: potential dereference of null pointer
+-----BEGIN PGP SIGNATURE-----
 
-Lang Yu (1):
-      drm/amd/pm: fix a potential gpu_metrics_table memory leak
+iQIzBAEBCAAdFiEE+vs47OPLdNbVcHzyfBQHDyUjg0cFAmG8KFoACgkQfBQHDyUj
+g0cMEA/+LySLtN5xrYUyWQlJYPXEglgbzTuSsOz/GvVvGIvw2UqVR4njIWmVypWh
+aE7r7IgA4bM3ApFbwXEfNgeXmjRKuBiL7YyxaZ6JxLPyG9kis+yl7j3pwTMkLEW7
+W2vcO0jH+QSP2K/nPyQRdyCBfdP0ECtBefVwcpdpDcN7vPhcVKLHADJ9cN4cBTmW
+XRji1kutNFxbWPbL068ZBU2t9hl3WVVg3jqVUrEMOeo4RZUyFQDBB7mH4tE+Gj4u
+eJUh5ZA0Sn2+DiESYzHdpMvdciS6L2Fe7ujbZFyMQBwA52MtR50pyNlHFxrL7z/C
+BHdjuGKWBTP3Jah9AXEQcMpRKZ67NdbNYE4DXwyOscWFkv79Tc3vC7XxHiT4Jztc
+2IPIO+vJLORfAxEupml/ARZYwr+pNdA41v4c5aOp+3ZADRN2TLnZfIVkRdx6Zs6F
+t9Q2B7xKXIHuS5sLEArpGyHNroJ1f0sF7b4OL/vbKCd6fO/XZvumXpQNHj4N91ET
+LjtBtnfLeMRdAei1aqaQzAkLPigBa1E3cYjvdN4uyWDiU7c5NJ91i9U2jE8sR/Oj
+2oVUsPTHHQMOQcmoei16ajYF7UFClyGxV/w71L06uCEnFXqRF+Jvd0l2MAxgOMVP
+AIB/FPoyX4VkOMZNCbN+iRZ+VUwAaqz11fbGv+O1fbV6j397pvw=
+=EFS8
+-----END PGP SIGNATURE-----
 
-Le Ma (1):
-      drm/amdgpu: correct register access for RLC_JUMP_TABLE_RESTORE
-
-Mario Limonciello (1):
-      drm/amd/pm: fix reading SMU FW version from amdgpu_firmware_info on YC
-
-Nicholas Kazlauskas (2):
-      drm/amd/display: Set exit_optimized_pwr_state for DCN31
-      drm/amd/display: Reset DMCUB before HW init
-
- drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c             | 4 ++--
- drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c          | 1 -
- drivers/gpu/drm/amd/amdgpu/gfxhub_v2_0.c          | 1 -
- drivers/gpu/drm/amd/amdgpu/gfxhub_v2_1.c          | 1 -
- drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c             | 8 ++++++++
- drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c           | 9 ++++-----
- drivers/gpu/drm/amd/amdgpu/mmhub_v1_7.c           | 1 -
- drivers/gpu/drm/amd/amdgpu/mmhub_v2_0.c           | 1 -
- drivers/gpu/drm/amd/amdgpu/mmhub_v2_3.c           | 1 -
- drivers/gpu/drm/amd/amdgpu/mmhub_v9_4.c           | 2 --
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 5 +++++
- drivers/gpu/drm/amd/display/dc/dcn31/dcn31_init.c | 1 +
- drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c  | 7 ++++++-
- drivers/gpu/drm/amd/pm/swsmu/smu12/smu_v12_0.c    | 3 +++
- drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c    | 3 +++
- drivers/gpu/drm/ast/ast_mode.c                    | 5 ++++-
- drivers/gpu/drm/drm_fb_helper.c                   | 8 +++++++-
- drivers/gpu/drm/i915/display/intel_dmc.c          | 2 +-
- drivers/gpu/drm/tiny/simpledrm.c                  | 2 +-
- 19 files changed, 45 insertions(+), 20 deletions(-)
+--H5lYUFRYsnZI2oAy--
