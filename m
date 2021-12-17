@@ -2,53 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D42C747966E
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 22:43:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF57647970B
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 23:25:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6972410E648;
-	Fri, 17 Dec 2021 21:43:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B3E310E591;
+	Fri, 17 Dec 2021 22:25:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC80310E648
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 21:43:22 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2AF59623EC;
- Fri, 17 Dec 2021 21:43:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id EA51BC36AE9;
- Fri, 17 Dec 2021 21:43:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1639777402;
- bh=yA1pM0+YLlhaC9npjLocvp0F2eOn29xabtttXz+5HBA=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=Ccd6zpvCBGVWhOS7fkTksdve45ycSSYvlHgPb1j6HQOmhAGx1EcQOTfW18A8+xBOw
- SRZUCI/EAZUC9FlvTmZAtm2jxmBJSBmslxFP9XHxbqj7C/dgWMw/S5Lrt8EYCB4kD/
- D050bHZayXX3UCeTDBBocQAI4ZEdVzNot1R5LYu9+z9n4qNILnukuTQ5gJxOK20/bj
- 7xIRnMNAtP4R5rGHXvOnTnenwuwrLWi2oF/wH5ddmlBYQYi8BIW6NG27Vht6rTKmhM
- 3ArW1F5G3e+DzjFKc5eY/lP8Ix5FtSmUdmtPaHE6XtSZy7/7aqcdpKPYHJw2iRkDDE
- 5U8iBCHY+E1kg==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain
- [127.0.0.1])
- by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id CE9AF60A39;
- Fri, 17 Dec 2021 21:43:21 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 5.16-rc6
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9twMFXcWtEGnpOFx5KCZDcNKoteYXeLurMiwaAX9XqESuQ@mail.gmail.com>
-References: <CAPM=9twMFXcWtEGnpOFx5KCZDcNKoteYXeLurMiwaAX9XqESuQ@mail.gmail.com>
-X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-X-PR-Tracked-Message-Id: <CAPM=9twMFXcWtEGnpOFx5KCZDcNKoteYXeLurMiwaAX9XqESuQ@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2021-12-17-1
-X-PR-Tracked-Commit-Id: a2fbfd517117157e99160ff1b39b171872dcba07
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 4f549bf33e3824b3f4a719afaf0fd2e01a07acd6
-Message-Id: <163977740184.30898.9744934055215550283.pr-tracker-bot@kernel.org>
-Date: Fri, 17 Dec 2021 21:43:21 +0000
-To: Dave Airlie <airlied@gmail.com>
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com
+ [209.85.167.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F56110E591
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 22:25:12 +0000 (UTC)
+Received: by mail-oi1-f170.google.com with SMTP id bj13so5721320oib.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 14:25:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+ :message-id;
+ bh=U9aFf023EtS7bYXuPYeb5jcWZtC9rXcMEmjg022T/GI=;
+ b=3npSOp/bcAnJxu+O4oYHrklg0sdk1Fzale8oUDBpLYdlzidJMgGD5j+O3qC284BhQ0
+ LFWdPJA3TyPkbDVed1IY6oPKhAGYFslgV7R0nfZuQUaa43ghEr+ectIxawffY7j5ix4b
+ mOnOeDsDAAyb3EupmgTDdtdduvU3F93oponQ11oZxZM8NfION8Ijf3X1lDCNi5nb0+BH
+ hKoQtYKKj3+vvFSWE0iy5/36u0sEmwZ2ldGTPAykGaJVa7NH+/wIMR2zNzc66+7ceDHG
+ JUfdCPTFuGqONQEzfnVP85derrJtMxNtCKy17/Nko7v8TZm3oAsxLq9fjStpj6WsXi0s
+ 1mWQ==
+X-Gm-Message-State: AOAM530mCxIjpEKfFnJD3Hve9KUdZtCSRroJwlx4yJe6XmeAc+7f+1GC
+ fmVELSsC67hTY3LdWUWn8A==
+X-Google-Smtp-Source: ABdhPJwLzRcCLzNUvJFhPi5MNnKwuPTUbgZzGPSNDn7nPA1/EtvNX7X/MV8AtNV28hgMlRxOVmyVvA==
+X-Received: by 2002:a05:6808:124d:: with SMTP id
+ o13mr3929342oiv.91.1639779911700; 
+ Fri, 17 Dec 2021 14:25:11 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.gmail.com with ESMTPSA id e4sm1897343oiy.12.2021.12.17.14.25.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Dec 2021 14:25:10 -0800 (PST)
+Received: (nullmailer pid 3686969 invoked by uid 1000);
+ Fri, 17 Dec 2021 22:25:06 -0000
+From: Rob Herring <robh@kernel.org>
+To: Guillaume Ranquet <granquet@baylibre.com>
+In-Reply-To: <20211217150854.2081-3-granquet@baylibre.com>
+References: <20211217150854.2081-1-granquet@baylibre.com>
+ <20211217150854.2081-3-granquet@baylibre.com>
+Subject: Re: [PATCH v7 2/8] dt-bindings: mediatek, dp: Add Display Port binding
+Date: Fri, 17 Dec 2021 16:25:06 -0600
+Message-Id: <1639779906.584489.3686968.nullmailer@robh.at.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,22 +59,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao shi <jitao.shi@mediatek.com>,
+ devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Markus Schneider-Pargmann <msp@baylibre.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 17 Dec 2021 15:45:54 +1000:
+On Fri, 17 Dec 2021 16:08:48 +0100, Guillaume Ranquet wrote:
+> From: Markus Schneider-Pargmann <msp@baylibre.com>
+> 
+> This controller is present on several mediatek hardware. Currently
+> mt8195 and mt8395 have this controller without a functional difference,
+> so only one compatible field is added.
+> 
+> The controller can have two forms, as a normal display port and as an
+> embedded display port.
+> 
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../display/mediatek/mediatek,dp.yaml         | 87 +++++++++++++++++++
+>  1 file changed, 87 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+> 
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-12-17-1
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/4f549bf33e3824b3f4a719afaf0fd2e01a07acd6
+yamllint warnings/errors:
 
-Thank you!
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/display/mediatek/mediatek,dp.example.dts:20:18: fatal error: dt-bindings/power/mt8195-power.h: No such file or directory
+   20 |         #include <dt-bindings/power/mt8195-power.h>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [scripts/Makefile.lib:373: Documentation/devicetree/bindings/display/mediatek/mediatek,dp.example.dt.yaml] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:1413: dt_binding_check] Error 2
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/1570103
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
