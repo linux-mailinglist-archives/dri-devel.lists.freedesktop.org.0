@@ -2,69 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8420478CCD
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 14:51:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE12B478CCC
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 14:51:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36C7B10E66B;
-	Fri, 17 Dec 2021 13:51:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4D1410E325;
+	Fri, 17 Dec 2021 13:51:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
  [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84F56893EB
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 13:51:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95C9A10EE9B
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 13:51:38 +0000 (UTC)
 Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id D3C865C014E;
- Fri, 17 Dec 2021 08:51:35 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id CD7645C015B;
+ Fri, 17 Dec 2021 08:51:37 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Fri, 17 Dec 2021 08:51:35 -0500
+ by compute1.internal (MEProxy); Fri, 17 Dec 2021 08:51:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=M5JGNx9FeMwdw
- lOvMmXdMRjjfgLQMV3WSX6j7dpkXZ8=; b=a2v5ceb/6apx31i/nsZy/79JostkI
- fwdoE1hfjWasvTUBPODdOpuvuc4hg3KG0xX+8+34BYG2HQUqz9ZwuSZN2mtzHZ8k
- vTGKMMavHCkLVlR+g4s75QzkVHF2dd/9uxxWv+Y+m/BCY6rSF8ZF1Ajdu03OOmXP
- uq6vvdg/+duZf6vHuWKn3Z6MevIi/f+XTEgUmpifacREjyFH2LuZZUuIgxdibuy4
- OXDAPO3ufsNaRxH3mPnyLT2yyKdIS8EdburlsNpTCoSKnIOh3h0fBT2Fnd3m1cut
- a+DQZp60qEHIwBqehAUbP3pMk5trYnnP/pPmEe6lGxUEH3jfNpsS15h8g==
+ :mime-version:content-transfer-encoding; s=fm1; bh=Ztxo4N32XiR58
+ mScp1s8TZl41sIcckkAII1E43MP8WI=; b=VBx59HdI91cjCbnU0Y+eumZ3Wlm+T
+ w/Z4iw9JgwUo3GVNRgqpq+JiOs+uouu35rMf1joB9QdetMOnz8pwBT6X3XZ5fH1Z
+ zF87LYVSSQqZqFWNjrSuId/snO/6VBjhuH2YdRaTPla++pCsphP+f25At6gC7uSU
+ JtFy+GYa30FmqQffWaxuvZMK2zo8Z13beigyOcz5Zkuapvde6sPfhodQ9av67+xd
+ jgr6vM4P7VV4sAIZBDTnOu0r5amXf5+ODGeIrRDzfeY2X99WQ8B2PnDSjCCXpRXN
+ jOZ14t6d3FdAM2fDLnOek86oczdvNNgbV0JESU+Bcq8G3TOihMdTi0Odg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=M5JGNx9FeMwdwlOvMmXdMRjjfgLQMV3WSX6j7dpkXZ8=; b=C1M7Wd3L
- E9A8qM0giTVfJKvIuZk5EKIJYBkVZpwNFNjd9sFpUMuKX4MjHitstrAnmCV/oLVM
- jxEtFfR7mgEnBmCVrI2WjEiFZddZs9E3hsg/Jm5/ez+g+xAVLCzfiW/sbPsVY0M9
- 58J7du7izO9tCtLhZwWiwW+fUzN0zxlhDH1WJLxrhfLTSwQ5T7QwIHo5jZ8HvQq5
- qhAoIxMhuE8I4bOcj9lDbI6zgwljiOjnPFyPVj3ObA1NjSixyRar6qaEDCRW/I/C
- z24gMFIZXrlb4syVuf8CoKGQJ/IHHZt5Tbk6ZNWwwftdCti3RPnV1MKPS7u3akxj
- ty8hEWG6R60qqg==
-X-ME-Sender: <xms:55W8YegdsoFbqOQ_8_2AUSjpt2D-U10Rl9K3vxVQTdCanGCutR2p4w>
- <xme:55W8YfBHi0kuLVNHKea93knucqs0hIzNEDuJ-znRSFMxiTB0x1HIE_E00KQWFZ5Z1
- fUSEONZjdKBior_lI8>
-X-ME-Received: <xmr:55W8YWGZj9tBHoHenQcWl6N4CIFFXlQuCt_DU5V1TpKeS7SWM99xMw8EOaJ42KL9E2YaQ4DbgHlSS33ZwWlnqzEeRJbY9XOHwxvcbeY>
+ fm1; bh=Ztxo4N32XiR58mScp1s8TZl41sIcckkAII1E43MP8WI=; b=hAGZe/Lm
+ ltIrOEs9vY6R/phjr6CsdzrWD/zMPVk/b1LVu2tuT2EtkWMwVIkf0SbCmwDQyDx1
+ 8jigk5jDR70LJCwK0An2y/NQ26znMpQuCVP+JYJCjGXOBjqd01UlcLcTwPmQJJ2P
+ pWXCrCxDxw/E4Sf7EF/icGRwyyYQ6Iiljo8UzPpVdbi3AyflvG2sodjX0SMVs3SF
+ BgrcAi1vhHX5pCah8qBZdQPZLD+yJDi5n7dUsujpZZ5sFd82ToH2LL3uT6WawrD2
+ 6m4owKAkEAGdDdaIaXTdC6BWwBxU1jwdcrUrfSRbIH8LES3VUF400F7LpHVZhgsK
+ BAQyDQO/SRU+Nw==
+X-ME-Sender: <xms:6ZW8YUaf82Z8oG7HpJYQ0eigyS55rdkwrIw-sHEIvtCFXb1f3GKZ3g>
+ <xme:6ZW8YfbQUYetyGp_6Ut-KP82vBXg2QYfb1k6p8O680sj86-AT0jCdu-wqGccFVZSK
+ M_Uq5zMLTCM1Tq11dU>
+X-ME-Received: <xmr:6ZW8Ye9Uuw3-IfnlPRd5rp_vFRl4aojfxUrHmokNm5VX8-FtRtkr8zaXa6oiJo5eaNKgUzpEs1BErgXNxNqHKqlLn5LUXkzOuMW7kPM>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrleeigdehkecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ vdenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:55W8YXTgQEhyuxN-Muwh2mPjO3cLYpjmODIKZJsPz7b2XlK8uInoNA>
- <xmx:55W8YbyNe8xIB3Tz6WcqkSsevZFpdKvcdfEZ1JiPUDpwzXBtkIyM4A>
- <xmx:55W8YV7dKERQIUFqV8uw5Q0hkx5J6goMdrStiz9a0hHuKNBqYJcgYg>
- <xmx:55W8YSmcS_au0NSEpiND8sgv0Sr0mtEza1dqaXZRLg-2GAeXOM4nQA>
+X-ME-Proxy: <xmx:6ZW8YepPSfobFvuwjLvkJOXr-xoP_nG76U9ulgfbzZDUPISXXz_1uA>
+ <xmx:6ZW8YfoG_0JWfoA7L7PYxcA2MrOD3S8v8ep5mUIpU36K4hre7yv9ZA>
+ <xmx:6ZW8YcQwOWKemqYtj0Xurv3VYuuGt_T-fQzqcsJVmoj8-kfi6gw3dQ>
+ <xmx:6ZW8YTdXNUdvSoWTjFzDehwBNumpm40osD2P8msqKTA0u8dbnNhffA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 17 Dec 2021 08:51:35 -0500 (EST)
+ 17 Dec 2021 08:51:37 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <maxime@cerno.tech>,
  =?UTF-8?q?Jernej=20=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Subject: [PATCH v6 6/7] drm/sun4i: tcon: Enable the A20 dual-link output
-Date: Fri, 17 Dec 2021 14:51:18 +0100
-Message-Id: <20211217135119.316781-7-maxime@cerno.tech>
+Subject: [PATCH v6 7/7] [DO NOT MERGE] ARM: dts: sun7i: Enable LVDS Dual-Link
+ on the Cubieboard
+Date: Fri, 17 Dec 2021 14:51:19 +0100
+Message-Id: <20211217135119.316781-8-maxime@cerno.tech>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211217135119.316781-1-maxime@cerno.tech>
 References: <20211217135119.316781-1-maxime@cerno.tech>
@@ -86,27 +87,101 @@ Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The A20 second TCON (TCON1) can be used as a secondary output to drive a
-dual-link LVDS output. Let's add it to our capabilities.
+For the sake of the example, let's enable an LVDS Dual-Link display on a
+Cubieboard.
 
-Reviewed-by: Chen-Yu Tsai <wens@csie.org>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/sun4i/sun4i_tcon.c | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm/boot/dts/sun7i-a20-cubieboard2.dts | 69 +++++++++++++++++++++
+ 1 file changed, 69 insertions(+)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index 5e8f020d8c03..fef9457d898e 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -1519,6 +1519,7 @@ static const struct sun4i_tcon_quirks sun7i_a20_tcon0_quirks = {
+diff --git a/arch/arm/boot/dts/sun7i-a20-cubieboard2.dts b/arch/arm/boot/dts/sun7i-a20-cubieboard2.dts
+index e35e6990c4b2..b10d387385d9 100644
+--- a/arch/arm/boot/dts/sun7i-a20-cubieboard2.dts
++++ b/arch/arm/boot/dts/sun7i-a20-cubieboard2.dts
+@@ -85,6 +85,49 @@ led-1 {
+ 			gpios = <&pio 7 20 GPIO_ACTIVE_HIGH>;
+ 		};
+ 	};
++
++	panel: panel {
++		compatible = "panel-lvds";
++		width-mm = <153>;
++		height-mm = <90>;
++		data-mapping = "vesa-24";
++
++		panel-timing {
++			clock-frequency = <148500000>;
++			hfront-porch = <88>;
++			hactive = <1920>;
++			hback-porch = <148>;
++			hsync-len = <44>;
++
++			vfront-porch = <4>;
++			vactive = <1080>;
++			vback-porch = <36>;
++			vsync-len = <5>;
++		};
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@0 {
++				reg = <0>;
++				dual-lvds-even-pixels;
++
++				panel_input_0: endpoint {
++					remote-endpoint = <&tcon0_out_panel>;
++				};
++			};
++
++			port@1 {
++				reg = <1>;
++				dual-lvds-odd-pixels;
++
++				panel_input_1: endpoint {
++					remote-endpoint = <&tcon1_out_panel>;
++				};
++			};
++		};
++	};
  };
  
- static const struct sun4i_tcon_quirks sun7i_a20_quirks = {
-+	.supports_lvds		= true,
- 	.has_channel_0		= true,
- 	.has_channel_1		= true,
- 	.dclk_min_div		= 4,
+ &ahci {
+@@ -218,6 +261,32 @@ &reg_usb2_vbus {
+ 	status = "okay";
+ };
+ 
++&tcon0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&lcd_lvds0_pins>;
++	link-companion = <&tcon1>;
++	status = "okay";
++};
++
++&tcon0_out {
++	tcon0_out_panel: endpoint@0 {
++		remote-endpoint = <&panel_input_0>;
++	};
++};
++
++&tcon1 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&lcd_lvds1_pins>;
++	link-companion = <&tcon0>;
++	status = "okay";
++};
++
++&tcon1_out {
++	tcon1_out_panel: endpoint@0 {
++		remote-endpoint = <&panel_input_1>;
++	};
++};
++
+ &uart0 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&uart0_pb_pins>;
 -- 
 2.33.1
 
