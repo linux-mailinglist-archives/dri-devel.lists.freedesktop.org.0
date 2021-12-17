@@ -2,39 +2,146 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80E594786F7
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 10:20:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6691A47870E
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 10:28:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 870CF10FAAB;
-	Fri, 17 Dec 2021 09:20:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 408F510FC13;
+	Fri, 17 Dec 2021 09:28:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 899DC10FAA0;
- Fri, 17 Dec 2021 09:19:52 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10200"; a="300493350"
-X-IronPort-AV: E=Sophos;i="5.88,213,1635231600"; d="scan'208";a="300493350"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Dec 2021 01:19:52 -0800
-X-IronPort-AV: E=Sophos;i="5.88,213,1635231600"; d="scan'208";a="683321562"
-Received: from olindum-mobl1.ger.corp.intel.com (HELO
- thellstr-mobl1.intel.com) ([10.249.254.180])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Dec 2021 01:19:50 -0800
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 7/7] drm/i915: Use struct vma_resource instead of struct
- vma_snapshot
-Date: Fri, 17 Dec 2021 10:19:29 +0100
-Message-Id: <20211217091929.105781-8-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211217091929.105781-1-thomas.hellstrom@linux.intel.com>
-References: <20211217091929.105781-1-thomas.hellstrom@linux.intel.com>
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
+ [205.220.165.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B072A10FC12
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 09:28:53 +0000 (UTC)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BH89AJv009354; 
+ Fri, 17 Dec 2021 09:28:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=4ovKP5juOUip4qPZ07ZNPHU7J/Gf+byKn89eAoPT6xI=;
+ b=b0t09iDGOuzNDfUlbrKd+0FxCpNTebtvsMpREVP03B7JbdloE/EwBeXVIJoONKNWWJ6Y
+ EQBRTWNKtYdx+MROVfDUE77vbNvV5Wdl8xmv46twf6H1FwJ2YgDoRRG1STIdFwUV6aec
+ t1qv8ALkPTaA6U/wYy9VJ0jr8SWx+5OEb18o0f8WrcU3v9aZyUpY+hXBgaoa4gjozMje
+ 2e6Bf2chMgQ4iiqtyno8qqiuiTBvy9aJbqac6sQlmF5C7Yp+HJUsCOGiTfYh+/gQgIKn
+ hCTrYWxIwrBOp4s6vmClVp3J9ZxSudMtY6d68rFKjqXX+WoA31NfKIzda85O4uxNiKAu 5w== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3cyknp582w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 17 Dec 2021 09:28:43 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1BH9GcLV172318;
+ Fri, 17 Dec 2021 09:28:41 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12lp2177.outbound.protection.outlook.com [104.47.55.177])
+ by aserp3020.oracle.com with ESMTP id 3cxmrer189-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 17 Dec 2021 09:28:41 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Gsjg4i3y5cFzRw7Z4AgH/Go0jsSRLfCBHwyCcSs+sKEit8aTwiJCKq0kCWupFJSVQoMTuWCwb0+kbus4Tc5hio6kkxnYnpzv479rJ5TeVQtpws12D7gxWnPhks5RY4HyhVC6fAScOPx3J4VXoiQVt5OfC726aeZqryBNydsXFRRH30tfZ09wqNYuqX2sJsWFGg5tptIelTK7vD3PM5ALT1jdFPx3gGw7crrYJoy4UvAhu8+Yy2rpxNk4ZEMgxFysXOml9+/ZAPNm7KCtvkvifEQwPGRs7AIJKNJsk4Gz9F70YB4rwXTM507cDk8y33ePvOk0hsKoVN+xgxlT4f8M0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4ovKP5juOUip4qPZ07ZNPHU7J/Gf+byKn89eAoPT6xI=;
+ b=iU2uGEBjJgAXp0LsBawbPYwtO/r+bai0UexC3whG60clqwBb3HAoC26msR6DCOBZi6x+aE2NJvaFLefNK/tG/ZvUXNABpEngvh25l5FAVIC2TVIr8ER196o163SaG13D9sMtB9adyQaAx/SVFGlZ6mzX9YPK8wRk9HJAlCOUzZRiHkPY0NdVnbxsKbrqGj6mT8nX1+IycaU55nTAZCtMVY5coBhrw5g0f+AAVWigU7q+qNrUQ/XDRRTt7l35JrSREYJNXfLAa8x23QO1d+4mqQgSH04JqhUmEAjHPwpF+wZTHfZV4TgDodGnLv4sCp3Ska4QUYYpXm4LV9t9farDRg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4ovKP5juOUip4qPZ07ZNPHU7J/Gf+byKn89eAoPT6xI=;
+ b=lN+Yq+iiMf77pb4k4N57bTFPQe40LwkpoEx24mjkEJKhdt3sla6MSxhnstodTrPS74fKxOGW51TgpzMB1PUUzDZQrNXUp4Io1CofVsG9oWf4D2OhuTeT7G3V2LhFvFoUEbyHMskZgESyYfWrwq3Cxzeb8r+Lj2WK+mrHJ2378jE=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by MWHPR10MB1488.namprd10.prod.outlook.com
+ (2603:10b6:300:23::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.14; Fri, 17 Dec
+ 2021 09:28:39 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::7194:c377:36cc:d9f0]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::7194:c377:36cc:d9f0%6]) with mapi id 15.20.4801.017; Fri, 17 Dec 2021
+ 09:28:39 +0000
+Date: Fri, 17 Dec 2021 12:28:17 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH] drm/panfrost: Avoid user size passed to kvmalloc()
+Message-ID: <20211217092817.GH1978@kadam>
+References: <20211216161603.983711-1-steven.price@arm.com>
+ <CAL_JsqKZBsJxy8h5EQf0wwfioWS-Kx9i=0cQ7p4FHckEXstGiw@mail.gmail.com>
+ <4c564c0d-7702-9dfe-910f-969fe130aba8@arm.com>
+ <20211217091046.GG1978@kadam>
+ <4e56a7a8-c48c-49dc-6535-730ad871d1e1@arm.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4e56a7a8-c48c-49dc-6535-730ad871d1e1@arm.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JN2P275CA0032.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:2::20)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8d14dd3c-5cdc-4d07-a481-08d9c13f9ba0
+X-MS-TrafficTypeDiagnostic: MWHPR10MB1488:EE_
+X-Microsoft-Antispam-PRVS: <MWHPR10MB1488691E42561C1D299CB6948E789@MWHPR10MB1488.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3taJsdgOq3XmCiw4lvuSe7qWOUzUp7LdtkN+Cz7o4bdNy6QgMXBWb7ElqLlrmcj3K0aO4L/n/3GK/45XO5C6n1XZMzgLp3Acrbt6aTFhgCqGHWcc9R6ynsxkCG/Gs0YFx4rs2QTnq9JnDHsk9ZRTVzhz/RVcIKhrLF6R0gMOScPXrxJg2ZEzPflioUzaNUTiOhFdVyBLIPwCDzmSykWjyIypaMjXLn3Zqy5kZiRz2pkr6b+nSGNVxN5aHabW/hsH80MCh1mz7h0bEWAnnNsR8gN4oezPUuc4z9FTLGmo/7MCbo/Qsg0k8yZv+0t9lcDyHv3I4oEIChTxYc6bW38tVdz1ov2ICZzFYP1H3sXDRWkuaKpK+dtedE8gWc8RdVIA2rRudbhwbTO/gcwpG9gLPlPtVNBdgvUajhDudaNQ8KudIGjGEZpQS3HPspbPtTOp9ZV2fkUzBbu0y5Xf6sAFMQMIoSMVVfNU86RkP6fly6pT726ieWFtws8uvMdrJjflTo4tKUtlTjKmefewq4kXsbL1adL2by1rak9qsP6n7hhzg/7wglLiYAsP3f/T68vxKiyrqbhZQuFhDEDXXvVob+kWF5FBda1uAbf3eXYLnZgqcCuzs2s2R9cknnRqde/T1LRtiBvYRy7QLrYLjooUjfCREBffgawyA6fTce70OPwrBXnE9VqJlwl8yKJRDNS+4oAhPEmsD4nuLbUIbf5g5A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(7916004)(366004)(33716001)(316002)(54906003)(2906002)(44832011)(66476007)(8936002)(8676002)(508600001)(6666004)(6486002)(186003)(66946007)(26005)(66556008)(52116002)(6512007)(4326008)(86362001)(38350700002)(38100700002)(5660300002)(9686003)(6506007)(1076003)(53546011)(33656002)(6916009);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?w9/rCFRlPvZr8E8Sm3hCaVbifTQqaeG6TphyGAR1Cc3pTSFEFIFsyBrayifX?=
+ =?us-ascii?Q?T94Qb+aU+if0RDW7R7MatwGpU50Tyow2lILunIXRPUFDVyVfj53YhXILOmgD?=
+ =?us-ascii?Q?U3lRdruhNDD1Aa0UUzLkHXGJjxR227CP+94Fz6tp8sSHccYqPIDyW2JnsLwv?=
+ =?us-ascii?Q?qHG9LL4db8s5Rdp8Ur5rDzWR38nnd5pr7B9d3noX3LBRCwlV6H6qb92lHoZe?=
+ =?us-ascii?Q?R6JN5jG6UD3OIa6iY7ioD52V3FUOyrceqmUxgb4mxdgAFAgyu2ys3oWRtl7F?=
+ =?us-ascii?Q?msbbGEIr+sZ5ITcPFya9YkVidDZPS5U9reyHUbZAdemA3znLjEhCkU26NMh3?=
+ =?us-ascii?Q?Q7u4jEjrtGA1uN7WsNZmngoQdSMdAsuWOrF3lQgDH0LcW5abgIqfGUiNIj/+?=
+ =?us-ascii?Q?KbPOx/dLha/G6Vn3ZbuC7vLfWSaM/MzWVS/ninSDuI3GpsCZCmpQJy3KNSBo?=
+ =?us-ascii?Q?41o08/+1m038/0lcNFP3XpZlyXn2j3mI+iUeyj+Tmdx/Py19E8VcOGghfez5?=
+ =?us-ascii?Q?EXkNAq+k/OKndivgU7c07WJFSfpU1QEsEv2Get2eYXhp5a1Yf70+2AiRVA0C?=
+ =?us-ascii?Q?QB8RvqgvppV+vNInjXV57mHHIb6tv0dIF3HqC4FJ+ZpHrgQYqzsb2EbHuA5o?=
+ =?us-ascii?Q?Bk/drfDvqsuL4JD44qIefHIZuevBq3GrALCsllAb7Z9GvnVa4zNC2hOHi9gR?=
+ =?us-ascii?Q?wrAtkYHwXGI7VD1cC8xfOBMHcGvU11Ph9EFDZ6g8K6M/78DyOBFElj+lNJ7u?=
+ =?us-ascii?Q?z23pJSZy//ok14IKBZkRZ98bYKqbmJ6RtmlVSLBb5QvLRoE+p61VvNbqKUif?=
+ =?us-ascii?Q?zXUwXiQ9hJRaAhur3PUFisah/6hSBOhIlgs7Ky6wsTHtXkSIkKi5vyUhn9F1?=
+ =?us-ascii?Q?66l41/Gr67CL0FJqXVYY7FAWQTx+hztttPB4uAnd8H2mS7hQ50iobwBozSyu?=
+ =?us-ascii?Q?CU5UMbL7GBwxvFVtrxKBPV3kc4y8W18U2Km7iELvRr+pFuS9/ZGwmknzZDZ4?=
+ =?us-ascii?Q?QfCr8cyhbYJ3KoA3iOYwHdDSDT1yRvLUbB4eCmI+LcRd87beSNHcFVIfb+5d?=
+ =?us-ascii?Q?aFFIVHY2ISyvsWPDTY9ahngBnybdjDv7ROF+zSwp8z96sNVWG+27udGsdzC9?=
+ =?us-ascii?Q?hZByWhm7ZelYCgawJcr++OtoQ5ay+wWzwqzGgWDFAkKXtJD4mYWhaVTyblxK?=
+ =?us-ascii?Q?AQ+rOc6rz4ffnlfNmZxCHAsSQqloDOEO8XKa0THnLIJ25+pkExxF8QAzv/ua?=
+ =?us-ascii?Q?g1ZeyqIU9PypGiisCVlEAfznHIYPIR/P+2qTgHg4n6lmWVA+F6MQNHF8cTxz?=
+ =?us-ascii?Q?EcKrRG8777vmMnoilRMOjnOu5iHanQd66KgR7sHElCdhu6o/xNgFMnV/eGl6?=
+ =?us-ascii?Q?sutgFQ9UNmSFwezunViE4IjqOzbK+0oemOi4Zc1yq0TdutB2bmTV/UUj75QR?=
+ =?us-ascii?Q?l5BMOsj9Ck9ASOH8msjbUn0rA2kBwsnHy4yB1C9XxO5ptxBgLpAn7BzVGQxh?=
+ =?us-ascii?Q?haOyHgUQR0KZI8STPA42PZrNnBASAvjCvLKuA4uDqPrgnoQJv6ny6Wm+cYZD?=
+ =?us-ascii?Q?mpxkJ2xmP1eSQZiazRSce3rUosTiffBSdDDQHZXqvjPwbtbk3uUxF/hcC+uo?=
+ =?us-ascii?Q?SGeZW8QkzLFm7Oc7wCP8HHA51zoOGA9EPj/X7cHm6qNIoXQxorDtLDjzIz0L?=
+ =?us-ascii?Q?wRHJJ3ssLEXAlAmbLltov2WRtic=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8d14dd3c-5cdc-4d07-a481-08d9c13f9ba0
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2021 09:28:39.1880 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OTn7BxqopJEc5ZkiKndBk5K0y4ENee8qkX/t/ZZd0udz5NuDYpyWJ2W5CgrPpFtfWTfmG0QPu7nXKQrcwdfzkAZtsOoPDFSeEkN16ETnowE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1488
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10200
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ bulkscore=0 spamscore=0
+ mlxlogscore=999 suspectscore=0 adultscore=0 malwarescore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2112170053
+X-Proofpoint-ORIG-GUID: TqCtT2QomP1QsVerGC-uLQzHi0uw_6GZ
+X-Proofpoint-GUID: TqCtT2QomP1QsVerGC-uLQzHi0uw_6GZ
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,855 +154,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- matthew.auld@intel.com
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is always a struct vma_resource guaranteed to be alive when we
-access a corresponding struct vma_snapshot.
+On Fri, Dec 17, 2021 at 09:16:19AM +0000, Steven Price wrote:
+> On 17/12/2021 09:10, Dan Carpenter wrote:
+> > On Fri, Dec 17, 2021 at 08:55:50AM +0000, Steven Price wrote:
+> >> However this one is harder to fix without setting an arbitrary cap on
+> >> the number of BOs during a sumbit. I'm not sure how other drivers handle
+> >> this - the ones I've looked at so far all have the same issue. There's
+> >> obviously the list that Dan already sent, but e.g. msm has the same bug
+> >> in msm_gem_submit.c:submit_create() with an amusing bug where the check
+> >> for (sz > SIZE_MAX) will never hit, although the call is to kzalloc() so
+> >> large allocations are going to fail anyway.
+> > 
+> > sz is u64 and SIZE_MAX is ULONG_MAX so the (sz > SIZE_MAX) condition
+> > does work to prevent an integer overflow on 32bit systems.  But it's not
+> > beautiful.
+> 
+> sz is the result of struct_size() which returns a size_t, and SIZE_MAX
+> in case of an overflow.
 
-So ditch the latter and instead of allocating vma_snapshots, reference
-the already existning vma_resource.
+Correct.
 
-This requires a couple of extra members in struct vma_resource but that's
-a small price to pay for the simplification.
+> However the check is *greater than* SIZE_MAX
+> which will never occur even on 32 bit systems.
 
-v2:
-- Fix a missing include and declaration (kernel test robot <lkp@intel.com>)
+You've missed a part.  We add ((u64)nr_cmds * sizeof(submit->cmd[0]))
+to SIZE_MAX.  If nr_cmds is zero then, whatever, the kzmalloc() will
+fail.  No big deal.  But if it's non-zero then "sz" is larger than
+SIZE_MAX and we allocate a smaller buffer than expected leading to
+memory corruption.
 
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/i915/Makefile                 |   1 -
- .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  15 +--
- drivers/gpu/drm/i915/gt/intel_engine_cs.c     |   9 +-
- drivers/gpu/drm/i915/i915_gpu_error.c         |  87 ++++++------
- drivers/gpu/drm/i915/i915_request.c           |  12 +-
- drivers/gpu/drm/i915/i915_request.h           |   6 +-
- drivers/gpu/drm/i915/i915_vma.c               |  14 +-
- drivers/gpu/drm/i915/i915_vma_resource.c      |   3 +
- drivers/gpu/drm/i915/i915_vma_resource.h      |  28 +++-
- drivers/gpu/drm/i915/i915_vma_snapshot.c      | 125 ------------------
- drivers/gpu/drm/i915/i915_vma_snapshot.h      | 101 --------------
- 11 files changed, 88 insertions(+), 313 deletions(-)
- delete mode 100644 drivers/gpu/drm/i915/i915_vma_snapshot.c
- delete mode 100644 drivers/gpu/drm/i915/i915_vma_snapshot.h
+Btw, it turns out that I had a hand in writing that check so hooray for
+me.  :)  #HoorayForMe
 
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index 98433ad74194..aa86ac33effc 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -175,7 +175,6 @@ i915-y += \
- 	  i915_ttm_buddy_manager.o \
- 	  i915_vma.o \
- 	  i915_vma_resource.o \
--	  i915_vma_snapshot.o \
- 	  intel_wopcm.o
- 
- # general-purpose microcontroller (GuC) support
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-index b6faae1f9081..51649bbb8cc3 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-@@ -29,7 +29,6 @@
- #include "i915_gem_ioctls.h"
- #include "i915_trace.h"
- #include "i915_user_extensions.h"
--#include "i915_vma_snapshot.h"
- 
- struct eb_vma {
- 	struct i915_vma *vma;
-@@ -1952,7 +1951,6 @@ static void eb_capture_stage(struct i915_execbuffer *eb)
- {
- 	const unsigned int count = eb->buffer_count;
- 	unsigned int i = count, j;
--	struct i915_vma_snapshot *vsnap;
- 
- 	while (i--) {
- 		struct eb_vma *ev = &eb->vma[i];
-@@ -1962,11 +1960,6 @@ static void eb_capture_stage(struct i915_execbuffer *eb)
- 		if (!(flags & EXEC_OBJECT_CAPTURE))
- 			continue;
- 
--		vsnap = i915_vma_snapshot_alloc(GFP_KERNEL);
--		if (!vsnap)
--			continue;
--
--		i915_vma_snapshot_init(vsnap, vma, "user");
- 		for_each_batch_create_order(eb, j) {
- 			struct i915_capture_list *capture;
- 
-@@ -1975,10 +1968,9 @@ static void eb_capture_stage(struct i915_execbuffer *eb)
- 				continue;
- 
- 			capture->next = eb->capture_lists[j];
--			capture->vma_snapshot = i915_vma_snapshot_get(vsnap);
-+			capture->vma_res = i915_vma_resource_get(vma->resource);
- 			eb->capture_lists[j] = capture;
- 		}
--		i915_vma_snapshot_put(vsnap);
- 	}
- }
- 
-@@ -3281,9 +3273,8 @@ eb_requests_create(struct i915_execbuffer *eb, struct dma_fence *in_fence,
- 		 * _onstack interface.
- 		 */
- 		if (eb->batches[i]->vma)
--			i915_vma_snapshot_init_onstack(&eb->requests[i]->batch_snapshot,
--						       eb->batches[i]->vma,
--						       "batch");
-+			eb->requests[i]->batch_res =
-+				i915_vma_resource_get(eb->batches[i]->vma->resource);
- 		if (eb->batch_pool) {
- 			GEM_BUG_ON(intel_context_is_parallel(eb->context));
- 			intel_gt_buffer_pool_mark_active(eb->batch_pool,
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-index 74aa90587061..d1daa4cc2895 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-@@ -1708,18 +1708,15 @@ static void intel_engine_print_registers(struct intel_engine_cs *engine,
- 
- static void print_request_ring(struct drm_printer *m, struct i915_request *rq)
- {
--	struct i915_vma_snapshot *vsnap = &rq->batch_snapshot;
-+	struct i915_vma_resource *vma_res = rq->batch_res;
- 	void *ring;
- 	int size;
- 
--	if (!i915_vma_snapshot_present(vsnap))
--		vsnap = NULL;
--
- 	drm_printf(m,
- 		   "[head %04x, postfix %04x, tail %04x, batch 0x%08x_%08x]:\n",
- 		   rq->head, rq->postfix, rq->tail,
--		   vsnap ? upper_32_bits(vsnap->vma_resource->start) : ~0u,
--		   vsnap ? lower_32_bits(vsnap->vma_resource->start) : ~0u);
-+		   vma_res ? upper_32_bits(vma_res->start) : ~0u,
-+		   vma_res ? lower_32_bits(vma_res->start) : ~0u);
- 
- 	size = rq->tail - rq->head;
- 	if (rq->tail < rq->head)
-diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
-index e5bb6ecf1202..e07802eadfd0 100644
---- a/drivers/gpu/drm/i915/i915_gpu_error.c
-+++ b/drivers/gpu/drm/i915/i915_gpu_error.c
-@@ -48,7 +48,6 @@
- #include "i915_gpu_error.h"
- #include "i915_memcpy.h"
- #include "i915_scatterlist.h"
--#include "i915_vma_snapshot.h"
- 
- #define ALLOW_FAIL (__GFP_KSWAPD_RECLAIM | __GFP_RETRY_MAYFAIL | __GFP_NOWARN)
- #define ATOMIC_MAYFAIL (GFP_ATOMIC | __GFP_NOWARN)
-@@ -1013,8 +1012,10 @@ void __i915_gpu_coredump_free(struct kref *error_ref)
- 
- static struct i915_vma_coredump *
- i915_vma_coredump_create(const struct intel_gt *gt,
--			 const struct i915_vma_snapshot *vsnap,
--			 struct i915_vma_compress *compress)
-+			 const struct i915_vma_resource *vma_res,
-+			 struct i915_vma_compress *compress,
-+			 const char *name)
-+
- {
- 	struct i915_ggtt *ggtt = gt->ggtt;
- 	const u64 slot = ggtt->error_capture.start;
-@@ -1024,7 +1025,7 @@ i915_vma_coredump_create(const struct intel_gt *gt,
- 
- 	might_sleep();
- 
--	if (!vsnap || !vsnap->pages || !compress)
-+	if (!vma_res || !vma_res->bi.pages || !compress)
- 		return NULL;
- 
- 	dst = kmalloc(sizeof(*dst), ALLOW_FAIL);
-@@ -1037,12 +1038,12 @@ i915_vma_coredump_create(const struct intel_gt *gt,
- 	}
- 
- 	INIT_LIST_HEAD(&dst->page_list);
--	strcpy(dst->name, vsnap->name);
-+	strcpy(dst->name, name);
- 	dst->next = NULL;
- 
--	dst->gtt_offset = vsnap->vma_resource->start;
--	dst->gtt_size = vsnap->vma_resource->node_size;
--	dst->gtt_page_sizes = vsnap->vma_resource->page_sizes_gtt;
-+	dst->gtt_offset = vma_res->start;
-+	dst->gtt_size = vma_res->node_size;
-+	dst->gtt_page_sizes = vma_res->page_sizes_gtt;
- 	dst->unused = 0;
- 
- 	ret = -EINVAL;
-@@ -1050,7 +1051,7 @@ i915_vma_coredump_create(const struct intel_gt *gt,
- 		void __iomem *s;
- 		dma_addr_t dma;
- 
--		for_each_sgt_daddr(dma, iter, vsnap->pages) {
-+		for_each_sgt_daddr(dma, iter, vma_res->bi.pages) {
- 			mutex_lock(&ggtt->error_mutex);
- 			ggtt->vm.insert_page(&ggtt->vm, dma, slot,
- 					     I915_CACHE_NONE, 0);
-@@ -1068,11 +1069,11 @@ i915_vma_coredump_create(const struct intel_gt *gt,
- 			if (ret)
- 				break;
- 		}
--	} else if (vsnap->mr && vsnap->mr->type != INTEL_MEMORY_SYSTEM) {
--		struct intel_memory_region *mem = vsnap->mr;
-+	} else if (vma_res->bi.lmem) {
-+		struct intel_memory_region *mem = vma_res->mr;
- 		dma_addr_t dma;
- 
--		for_each_sgt_daddr(dma, iter, vsnap->pages) {
-+		for_each_sgt_daddr(dma, iter, vma_res->bi.pages) {
- 			void __iomem *s;
- 
- 			s = io_mapping_map_wc(&mem->iomap,
-@@ -1088,7 +1089,7 @@ i915_vma_coredump_create(const struct intel_gt *gt,
- 	} else {
- 		struct page *page;
- 
--		for_each_sgt_page(page, iter, vsnap->pages) {
-+		for_each_sgt_page(page, iter, vma_res->bi.pages) {
- 			void *s;
- 
- 			drm_clflush_pages(&page, 1);
-@@ -1324,33 +1325,32 @@ static bool record_context(struct i915_gem_context_coredump *e,
- 
- struct intel_engine_capture_vma {
- 	struct intel_engine_capture_vma *next;
--	struct i915_vma_snapshot *vsnap;
-+	struct i915_vma_resource *vma_res;
- 	char name[16];
- 	bool lockdep_cookie;
- };
- 
- static struct intel_engine_capture_vma *
- capture_vma_snapshot(struct intel_engine_capture_vma *next,
--		     struct i915_vma_snapshot *vsnap,
--		     gfp_t gfp)
-+		     struct i915_vma_resource *vma_res,
-+		     gfp_t gfp, const char *name)
- {
- 	struct intel_engine_capture_vma *c;
- 
--	if (!i915_vma_snapshot_present(vsnap))
-+	if (!vma_res)
- 		return next;
- 
- 	c = kmalloc(sizeof(*c), gfp);
- 	if (!c)
- 		return next;
- 
--	if (!i915_vma_snapshot_resource_pin(vsnap, &c->lockdep_cookie)) {
-+	if (!i915_vma_resource_hold(vma_res, &c->lockdep_cookie)) {
- 		kfree(c);
- 		return next;
- 	}
- 
--	strcpy(c->name, vsnap->name);
--	c->vsnap = vsnap;
--	i915_vma_snapshot_get(vsnap);
-+	strcpy(c->name, name);
-+	c->vma_res = i915_vma_resource_get(vma_res);
- 
- 	c->next = next;
- 	return c;
-@@ -1362,8 +1362,6 @@ capture_vma(struct intel_engine_capture_vma *next,
- 	    const char *name,
- 	    gfp_t gfp)
- {
--	struct i915_vma_snapshot *vsnap;
--
- 	if (!vma)
- 		return next;
- 
-@@ -1372,19 +1370,10 @@ capture_vma(struct intel_engine_capture_vma *next,
- 	 * to a struct i915_vma_snapshot at command submission time.
- 	 * Not here.
- 	 */
--	GEM_WARN_ON(!i915_vma_is_pinned(vma));
--	if (!i915_vma_is_pinned(vma))
--		return next;
--
--	vsnap = i915_vma_snapshot_alloc(gfp);
--	if (!vsnap)
-+	if (GEM_WARN_ON(!i915_vma_is_pinned(vma)))
- 		return next;
- 
--	i915_vma_snapshot_init(vsnap, vma, name);
--	next = capture_vma_snapshot(next, vsnap, gfp);
--
--	/* FIXME: Replace on async unbind. */
--	i915_vma_snapshot_put(vsnap);
-+	next = capture_vma_snapshot(next, vma->resource, gfp, name);
- 
- 	return next;
- }
-@@ -1397,7 +1386,8 @@ capture_user(struct intel_engine_capture_vma *capture,
- 	struct i915_capture_list *c;
- 
- 	for (c = rq->capture_list; c; c = c->next)
--		capture = capture_vma_snapshot(capture, c->vma_snapshot, gfp);
-+		capture = capture_vma_snapshot(capture, c->vma_res, gfp,
-+					       "user");
- 
- 	return capture;
- }
-@@ -1415,16 +1405,19 @@ static struct i915_vma_coredump *
- create_vma_coredump(const struct intel_gt *gt, struct i915_vma *vma,
- 		    const char *name, struct i915_vma_compress *compress)
- {
--	struct i915_vma_coredump *ret;
--	struct i915_vma_snapshot tmp;
-+	struct i915_vma_coredump *ret = NULL;
-+	struct i915_vma_resource *vma_res;
-+	bool lockdep_cookie;
- 
- 	if (!vma)
- 		return NULL;
- 
--	GEM_WARN_ON(!i915_vma_is_pinned(vma));
--	i915_vma_snapshot_init_onstack(&tmp, vma, name);
--	ret = i915_vma_coredump_create(gt, &tmp, compress);
--	i915_vma_snapshot_put_onstack(&tmp);
-+	vma_res = vma->resource;
-+
-+	if (i915_vma_resource_hold(vma_res, &lockdep_cookie)) {
-+		ret = i915_vma_coredump_create(gt, vma_res, compress, name);
-+		i915_vma_resource_unhold(vma_res, lockdep_cookie);
-+	}
- 
- 	return ret;
- }
-@@ -1471,7 +1464,7 @@ intel_engine_coredump_add_request(struct intel_engine_coredump *ee,
- 	 * as the simplest method to avoid being overwritten
- 	 * by userspace.
- 	 */
--	vma = capture_vma_snapshot(vma, &rq->batch_snapshot, gfp);
-+	vma = capture_vma_snapshot(vma, rq->batch_res, gfp, "batch");
- 	vma = capture_user(vma, rq, gfp);
- 	vma = capture_vma(vma, rq->ring->vma, "ring", gfp);
- 	vma = capture_vma(vma, rq->context->state, "HW context", gfp);
-@@ -1492,14 +1485,14 @@ intel_engine_coredump_add_vma(struct intel_engine_coredump *ee,
- 
- 	while (capture) {
- 		struct intel_engine_capture_vma *this = capture;
--		struct i915_vma_snapshot *vsnap = this->vsnap;
-+		struct i915_vma_resource *vma_res = this->vma_res;
- 
- 		add_vma(ee,
--			i915_vma_coredump_create(engine->gt,
--						 vsnap, compress));
-+			i915_vma_coredump_create(engine->gt, vma_res,
-+						 compress, this->name));
- 
--		i915_vma_snapshot_resource_unpin(vsnap, this->lockdep_cookie);
--		i915_vma_snapshot_put(vsnap);
-+		i915_vma_resource_unhold(vma_res, this->lockdep_cookie);
-+		i915_vma_resource_put(vma_res);
- 
- 		capture = this->next;
- 		kfree(this);
-diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-index 76cf5ac91e94..ba3a70b2cc57 100644
---- a/drivers/gpu/drm/i915/i915_request.c
-+++ b/drivers/gpu/drm/i915/i915_request.c
-@@ -116,8 +116,10 @@ static void i915_fence_release(struct dma_fence *fence)
- 		   rq->guc_prio != GUC_PRIO_FINI);
- 
- 	i915_request_free_capture_list(fetch_and_zero(&rq->capture_list));
--	if (i915_vma_snapshot_present(&rq->batch_snapshot))
--		i915_vma_snapshot_put_onstack(&rq->batch_snapshot);
-+	if (rq->batch_res) {
-+		i915_vma_resource_put(rq->batch_res);
-+		rq->batch_res = NULL;
-+	}
- 
- 	/*
- 	 * The request is put onto a RCU freelist (i.e. the address
-@@ -308,7 +310,7 @@ void i915_request_free_capture_list(struct i915_capture_list *capture)
- 	while (capture) {
- 		struct i915_capture_list *next = capture->next;
- 
--		i915_vma_snapshot_put(capture->vma_snapshot);
-+		i915_vma_resource_put(capture->vma_res);
- 		kfree(capture);
- 		capture = next;
- 	}
-@@ -854,7 +856,7 @@ static void __i915_request_ctor(void *arg)
- 	i915_sw_fence_init(&rq->semaphore, semaphore_notify);
- 
- 	clear_capture_list(rq);
--	rq->batch_snapshot.present = false;
-+	rq->batch_res = NULL;
- 
- 	init_llist_head(&rq->execute_cb);
- }
-@@ -960,7 +962,7 @@ __i915_request_create(struct intel_context *ce, gfp_t gfp)
- 	__rq_init_watchdog(rq);
- 	assert_capture_list_is_null(rq);
- 	GEM_BUG_ON(!llist_empty(&rq->execute_cb));
--	GEM_BUG_ON(i915_vma_snapshot_present(&rq->batch_snapshot));
-+	GEM_BUG_ON(rq->batch_res);
- 
- 	/*
- 	 * Reserve space in the ring buffer for all the commands required to
-diff --git a/drivers/gpu/drm/i915/i915_request.h b/drivers/gpu/drm/i915/i915_request.h
-index 170ee78c2858..28b1f9db5487 100644
---- a/drivers/gpu/drm/i915/i915_request.h
-+++ b/drivers/gpu/drm/i915/i915_request.h
-@@ -40,7 +40,7 @@
- #include "i915_scheduler.h"
- #include "i915_selftest.h"
- #include "i915_sw_fence.h"
--#include "i915_vma_snapshot.h"
-+#include "i915_vma_resource.h"
- 
- #include <uapi/drm/i915_drm.h>
- 
-@@ -52,7 +52,7 @@ struct i915_request;
- 
- #if IS_ENABLED(CONFIG_DRM_I915_CAPTURE_ERROR)
- struct i915_capture_list {
--	struct i915_vma_snapshot *vma_snapshot;
-+	struct i915_vma_resource *vma_res;
- 	struct i915_capture_list *next;
- };
- 
-@@ -300,7 +300,7 @@ struct i915_request {
- 	/** Batch buffer pointer for selftest internal use. */
- 	I915_SELFTEST_DECLARE(struct i915_vma *batch);
- 
--	struct i915_vma_snapshot batch_snapshot;
-+	struct i915_vma_resource *batch_res;
- 
- #if IS_ENABLED(CONFIG_DRM_I915_CAPTURE_ERROR)
- 	/**
-diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-index 3c4389aac53a..f417939d91a8 100644
---- a/drivers/gpu/drm/i915/i915_vma.c
-+++ b/drivers/gpu/drm/i915/i915_vma.c
-@@ -289,7 +289,6 @@ struct i915_vma_work {
- 	struct i915_vma_resource *vma_res;
- 	struct drm_i915_gem_object *pinned;
- 	struct i915_sw_dma_fence_cb cb;
--	struct i915_refct_sgt *rsgt;
- 	enum i915_cache_level cache_level;
- 	unsigned int flags;
- };
-@@ -317,8 +316,6 @@ static void __vma_release(struct dma_fence_work *work)
- 	i915_vm_put(vw->vm);
- 	if (vw->vma_res)
- 		i915_vma_resource_put(vw->vma_res);
--	if (vw->rsgt)
--		i915_refct_sgt_put(vw->rsgt);
- }
- 
- static const struct dma_fence_work_ops bind_ops = {
-@@ -393,8 +390,8 @@ i915_vma_resource_init_from_vma(struct i915_vma_resource *vma_res,
- 	struct drm_i915_gem_object *obj = vma->obj;
- 
- 	i915_vma_resource_init(vma_res, vma->vm, vma->pages, &vma->page_sizes,
--			       i915_gem_object_is_readonly(obj),
--			       i915_gem_object_is_lmem(obj),
-+			       obj->mm.rsgt, i915_gem_object_is_readonly(obj),
-+			       i915_gem_object_is_lmem(obj), obj->mm.region,
- 			       vma->ops, vma->private, vma->node.start,
- 			       vma->node.size, vma->size);
- }
-@@ -485,8 +482,6 @@ int i915_vma_bind(struct i915_vma *vma,
- 		work->vma_res = i915_vma_resource_get(vma->resource);
- 		work->cache_level = cache_level;
- 		work->flags = bind_flags;
--		if (vma->obj->mm.rsgt)
--			work->rsgt = i915_refct_sgt_get(vma->obj->mm.rsgt);
- 
- 		/*
- 		 * Note we only want to chain up to the migration fence on
-@@ -1425,7 +1420,7 @@ struct dma_fence *__i915_vma_evict(struct i915_vma *vma, bool async)
- 	GEM_BUG_ON(i915_vma_has_userfault(vma));
- 
- 	/* Object backend must be async capable. */
--	GEM_WARN_ON(async && !vma->obj->mm.rsgt);
-+	GEM_WARN_ON(async && !vma->resource->bi.pages_rsgt);
- 
- 	trace_i915_vma_unbind(vma);
- 	unbind_fence = i915_vma_resource_unbind(vma->resource);
-@@ -1434,9 +1429,6 @@ struct dma_fence *__i915_vma_evict(struct i915_vma *vma, bool async)
- 	atomic_and(~(I915_VMA_BIND_MASK | I915_VMA_ERROR | I915_VMA_GGTT_WRITE),
- 		   &vma->flags);
- 
--	/* Object backend must be async capable. */
--	GEM_WARN_ON(async && !vma->obj->mm.rsgt);
--
- 	i915_vma_detach(vma);
- 
- 	if (!async && unbind_fence) {
-diff --git a/drivers/gpu/drm/i915/i915_vma_resource.c b/drivers/gpu/drm/i915/i915_vma_resource.c
-index 39ef68a531e3..763b246a00c7 100644
---- a/drivers/gpu/drm/i915/i915_vma_resource.c
-+++ b/drivers/gpu/drm/i915/i915_vma_resource.c
-@@ -8,6 +8,7 @@
- 
- #include "i915_sw_fence.h"
- #include "i915_vma_resource.h"
-+#include "intel_memory_region.h"
- 
- #include "gt/intel_gtt.h"
- 
-@@ -103,6 +104,8 @@ static void __i915_vma_resource_unhold(struct i915_vma_resource *vma_res)
- 		return;
- 
- 	dma_fence_signal(&vma_res->unbind_fence);
-+	if (vma_res->bi.pages_rsgt)
-+		i915_refct_sgt_put(vma_res->bi.pages_rsgt);
- }
- 
- /**
-diff --git a/drivers/gpu/drm/i915/i915_vma_resource.h b/drivers/gpu/drm/i915/i915_vma_resource.h
-index 26914558bf6f..e45e7fb65f96 100644
---- a/drivers/gpu/drm/i915/i915_vma_resource.h
-+++ b/drivers/gpu/drm/i915/i915_vma_resource.h
-@@ -10,8 +10,11 @@
- #include <linux/refcount.h>
- 
- #include "i915_gem.h"
-+#include "i915_scatterlist.h"
- #include "i915_sw_fence.h"
- 
-+struct intel_memory_region;
-+
- struct i915_page_sizes {
- 	/**
- 	 * The sg mask of the pages sg_table. i.e the mask of
-@@ -46,6 +49,7 @@ struct i915_page_sizes {
-  * @__subtree_last: Interval tree private member.
-  * @vm: non-refcounted pointer to the vm. This is for internal use only and
-  * this member is cleared after vm_resource unbind.
-+ * @mr: The memory region of the object pointed to by the vma.
-  * @ops: Pointer to the backend i915_vma_ops.
-  * @private: Bind backend private info.
-  * @start: Offset into the address space of bind range start.
-@@ -54,8 +58,10 @@ struct i915_page_sizes {
-  * @page_sizes_gtt: Resulting page sizes from the bind operation.
-  * @bound_flags: Flags indicating binding status.
-  * @allocated: Backend private data. TODO: Should move into @private.
-- * @immediate_unbind: Unbind can be done immediately and don't need to be
-- * deferred to a work item awaiting unsignaled fences.
-+ * @immediate_unbind: Unbind can be done immediately and doesn't need to be
-+ * deferred to a work item awaiting unsignaled fences. This is a hack.
-+ * (dma_fence_work uses a fence flag for this, but this seems slightly
-+ * cleaner).
-  *
-  * The lifetime of a struct i915_vma_resource is from a binding request to
-  * the actual possible asynchronous unbind has completed.
-@@ -79,16 +85,22 @@ struct i915_vma_resource {
- 	 * and flags
- 	 * @pages: The pages sg-table.
- 	 * @page_sizes: Page sizes of the pages.
-+	 * @pages_rsgt: Refcounted sg-table when delayed object destruction
-+	 * is supported. May be NULL.
- 	 * @readonly: Whether the vma should be bound read-only.
- 	 * @lmem: Whether the vma points to lmem.
- 	 */
- 	struct i915_vma_bindinfo {
- 		struct sg_table *pages;
- 		struct i915_page_sizes page_sizes;
-+		struct i915_refct_sgt *pages_rsgt;
- 		bool readonly:1;
- 		bool lmem:1;
- 	} bi;
- 
-+#if IS_ENABLED(CONFIG_DRM_I915_CAPTURE_ERROR)
-+	struct intel_memory_region *mr;
-+#endif
- 	const struct i915_vma_ops *ops;
- 	void *private;
- 	unsigned long start;
-@@ -143,8 +155,11 @@ static inline void i915_vma_resource_put(struct i915_vma_resource *vma_res)
-  * @vm: Pointer to the vm.
-  * @pages: The pages sg-table.
-  * @page_sizes: Page sizes of the pages.
-+ * @pages_rsgt: Pointer to a struct i915_refct_sgt of an object with
-+ * delayed destruction.
-  * @readonly: Whether the vma should be bound read-only.
-  * @lmem: Whether the vma points to lmem.
-+ * @mr: The memory region of the object the vma points to.
-  * @ops: The backend ops.
-  * @private: Bind backend private info.
-  * @start: Offset into the address space of bind range start.
-@@ -160,8 +175,10 @@ static inline void i915_vma_resource_init(struct i915_vma_resource *vma_res,
- 					  struct i915_address_space *vm,
- 					  struct sg_table *pages,
- 					  const struct i915_page_sizes *page_sizes,
-+					  struct i915_refct_sgt *pages_rsgt,
- 					  bool readonly,
- 					  bool lmem,
-+					  struct intel_memory_region *mr,
- 					  const struct i915_vma_ops *ops,
- 					  void *private,
- 					  unsigned long start,
-@@ -172,8 +189,13 @@ static inline void i915_vma_resource_init(struct i915_vma_resource *vma_res,
- 	vma_res->vm = vm;
- 	vma_res->bi.pages = pages;
- 	vma_res->bi.page_sizes = *page_sizes;
-+	if (pages_rsgt)
-+		vma_res->bi.pages_rsgt = i915_refct_sgt_get(pages_rsgt);
- 	vma_res->bi.readonly = readonly;
- 	vma_res->bi.lmem = lmem;
-+#if IS_ENABLED(CONFIG_DRM_I915_CAPTURE_ERROR)
-+	vma_res->mr = mr;
-+#endif
- 	vma_res->ops = ops;
- 	vma_res->private = private;
- 	vma_res->start = start;
-@@ -184,6 +206,8 @@ static inline void i915_vma_resource_init(struct i915_vma_resource *vma_res,
- static inline void i915_vma_resource_fini(struct i915_vma_resource *vma_res)
- {
- 	GEM_BUG_ON(refcount_read(&vma_res->hold_count) != 1);
-+	if (vma_res->bi.pages_rsgt)
-+		i915_refct_sgt_put(vma_res->bi.pages_rsgt);
- 	i915_sw_fence_fini(&vma_res->chain);
- }
- 
-diff --git a/drivers/gpu/drm/i915/i915_vma_snapshot.c b/drivers/gpu/drm/i915/i915_vma_snapshot.c
-deleted file mode 100644
-index 69f62c1ca967..000000000000
---- a/drivers/gpu/drm/i915/i915_vma_snapshot.c
-+++ /dev/null
-@@ -1,125 +0,0 @@
--// SPDX-License-Identifier: MIT
--/*
-- * Copyright © 2021 Intel Corporation
-- */
--
--#include "i915_vma_resource.h"
--#include "i915_vma_snapshot.h"
--#include "i915_vma_types.h"
--#include "i915_vma.h"
--
--/**
-- * i915_vma_snapshot_init - Initialize a struct i915_vma_snapshot from
-- * a struct i915_vma.
-- * @vsnap: The i915_vma_snapshot to init.
-- * @vma: A struct i915_vma used to initialize @vsnap.
-- * @name: Name associated with the snapshot. The character pointer needs to
-- * stay alive over the lifitime of the shapsot
-- */
--void i915_vma_snapshot_init(struct i915_vma_snapshot *vsnap,
--			    struct i915_vma *vma,
--			    const char *name)
--{
--	if (!i915_vma_is_pinned(vma))
--		assert_object_held(vma->obj);
--
--	vsnap->name = name;
--	vsnap->obj_size = vma->obj->base.size;
--	vsnap->pages = vma->pages;
--	vsnap->pages_rsgt = NULL;
--	vsnap->mr = NULL;
--	if (vma->obj->mm.rsgt)
--		vsnap->pages_rsgt = i915_refct_sgt_get(vma->obj->mm.rsgt);
--	vsnap->mr = vma->obj->mm.region;
--	kref_init(&vsnap->kref);
--	vsnap->vma_resource = i915_vma_get_current_resource(vma);
--	vsnap->onstack = false;
--	vsnap->present = true;
--}
--
--/**
-- * i915_vma_snapshot_init_onstack - Initialize a struct i915_vma_snapshot from
-- * a struct i915_vma, but avoid kfreeing it on last put.
-- * @vsnap: The i915_vma_snapshot to init.
-- * @vma: A struct i915_vma used to initialize @vsnap.
-- * @name: Name associated with the snapshot. The character pointer needs to
-- * stay alive over the lifitime of the shapsot
-- */
--void i915_vma_snapshot_init_onstack(struct i915_vma_snapshot *vsnap,
--				    struct i915_vma *vma,
--				    const char *name)
--{
--	i915_vma_snapshot_init(vsnap, vma, name);
--	vsnap->onstack = true;
--}
--
--static void vma_snapshot_release(struct kref *ref)
--{
--	struct i915_vma_snapshot *vsnap =
--		container_of(ref, typeof(*vsnap), kref);
--
--	vsnap->present = false;
--	i915_vma_resource_put(vsnap->vma_resource);
--	if (vsnap->pages_rsgt)
--		i915_refct_sgt_put(vsnap->pages_rsgt);
--	if (!vsnap->onstack)
--		kfree(vsnap);
--}
--
--/**
-- * i915_vma_snapshot_put - Put an i915_vma_snapshot pointer reference
-- * @vsnap: The pointer reference
-- */
--void i915_vma_snapshot_put(struct i915_vma_snapshot *vsnap)
--{
--	kref_put(&vsnap->kref, vma_snapshot_release);
--}
--
--/**
-- * i915_vma_snapshot_put_onstack - Put an onstcak i915_vma_snapshot pointer
-- * reference and varify that the structure is released
-- * @vsnap: The pointer reference
-- *
-- * This function is intended to be paired with a i915_vma_init_onstack()
-- * and should be called before exiting the scope that declared or
-- * freeing the structure that embedded @vsnap to verify that all references
-- * have been released.
-- */
--void i915_vma_snapshot_put_onstack(struct i915_vma_snapshot *vsnap)
--{
--	if (!kref_put(&vsnap->kref, vma_snapshot_release))
--		GEM_BUG_ON(1);
--}
--
--/**
-- * i915_vma_snapshot_resource_pin - Temporarily block the memory the
-- * vma snapshot is pointing to from being released.
-- * @vsnap: The vma snapshot.
-- * @lockdep_cookie: Pointer to bool needed for lockdep support. This needs
-- * to be passed to the paired i915_vma_snapshot_resource_unpin.
-- *
-- * This function will temporarily try to hold up a fence or similar structure
-- * and will therefore enter a fence signaling critical section.
-- *
-- * Return: true if we succeeded in blocking the memory from being released,
-- * false otherwise.
-- */
--bool i915_vma_snapshot_resource_pin(struct i915_vma_snapshot *vsnap,
--				    bool *lockdep_cookie)
--{
--	return i915_vma_resource_hold(vsnap->vma_resource, lockdep_cookie);
--}
--
--/**
-- * i915_vma_snapshot_resource_unpin - Unblock vma snapshot memory from
-- * being released.
-- * @vsnap: The vma snapshot.
-- * @lockdep_cookie: Cookie returned from matching i915_vma_resource_pin().
-- *
-- * Might leave a fence signalling critical section and signal a fence.
-- */
--void i915_vma_snapshot_resource_unpin(struct i915_vma_snapshot *vsnap,
--				      bool lockdep_cookie)
--{
--	i915_vma_resource_unhold(vsnap->vma_resource, lockdep_cookie);
--}
-diff --git a/drivers/gpu/drm/i915/i915_vma_snapshot.h b/drivers/gpu/drm/i915/i915_vma_snapshot.h
-deleted file mode 100644
-index 1b08ce9f8576..000000000000
---- a/drivers/gpu/drm/i915/i915_vma_snapshot.h
-+++ /dev/null
-@@ -1,101 +0,0 @@
--/* SPDX-License-Identifier: MIT */
--/*
-- * Copyright © 2021 Intel Corporation
-- */
--#ifndef _I915_VMA_SNAPSHOT_H_
--#define _I915_VMA_SNAPSHOT_H_
--
--#include <linux/kref.h>
--#include <linux/slab.h>
--#include <linux/types.h>
--
--struct i915_active;
--struct i915_refct_sgt;
--struct i915_vma;
--struct intel_memory_region;
--struct sg_table;
--
--/**
-- * DOC: Simple utilities for snapshotting GPU vma metadata, later used for
-- * error capture. Vi use a separate header for this to avoid issues due to
-- * recursive header includes.
-- */
--
--/**
-- * struct i915_vma_snapshot - Snapshot of vma metadata.
-- * @obj_size: The size of the underlying object in bytes.
-- * @pages: The struct sg_table pointing to the pages bound.
-- * @pages_rsgt: The refcounted sg_table holding the reference for @pages if any.
-- * @mr: The memory region pointed for the pages bound.
-- * @kref: Reference for this structure.
-- * @vma_resource: Pointer to the vma resource representing the vma binding.
-- * @onstack: Whether the structure shouldn't be freed on final put.
-- * @present: Whether the structure is present and initialized.
-- */
--struct i915_vma_snapshot {
--	const char *name;
--	size_t obj_size;
--	struct sg_table *pages;
--	struct i915_refct_sgt *pages_rsgt;
--	struct intel_memory_region *mr;
--	struct kref kref;
--	struct i915_vma_resource *vma_resource;
--	bool onstack:1;
--	bool present:1;
--};
--
--void i915_vma_snapshot_init(struct i915_vma_snapshot *vsnap,
--			    struct i915_vma *vma,
--			    const char *name);
--
--void i915_vma_snapshot_init_onstack(struct i915_vma_snapshot *vsnap,
--				    struct i915_vma *vma,
--				    const char *name);
--
--void i915_vma_snapshot_put(struct i915_vma_snapshot *vsnap);
--
--void i915_vma_snapshot_put_onstack(struct i915_vma_snapshot *vsnap);
--
--bool i915_vma_snapshot_resource_pin(struct i915_vma_snapshot *vsnap,
--				    bool *lockdep_cookie);
--
--void i915_vma_snapshot_resource_unpin(struct i915_vma_snapshot *vsnap,
--				      bool lockdep_cookie);
--
--/**
-- * i915_vma_snapshot_alloc - Allocate a struct i915_vma_snapshot
-- * @gfp: Allocation mode.
-- *
-- * Return: A pointer to a struct i915_vma_snapshot if successful.
-- * NULL otherwise.
-- */
--static inline struct i915_vma_snapshot *i915_vma_snapshot_alloc(gfp_t gfp)
--{
--	return kmalloc(sizeof(struct i915_vma_snapshot), gfp);
--}
--
--/**
-- * i915_vma_snapshot_get - Take a reference on a struct i915_vma_snapshot
-- *
-- * Return: A pointer to a struct i915_vma_snapshot.
-- */
--static inline struct i915_vma_snapshot *
--i915_vma_snapshot_get(struct i915_vma_snapshot *vsnap)
--{
--	kref_get(&vsnap->kref);
--	return vsnap;
--}
--
--/**
-- * i915_vma_snapshot_present - Whether a struct i915_vma_snapshot is
-- * present and initialized.
-- *
-- * Return: true if present and initialized; false otherwise.
-- */
--static inline bool
--i915_vma_snapshot_present(const struct i915_vma_snapshot *vsnap)
--{
--	return vsnap && vsnap->present;
--}
--
--#endif
--- 
-2.31.1
+regards,
+dan carpenter
 
