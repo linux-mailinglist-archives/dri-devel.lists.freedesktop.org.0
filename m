@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5B6C478F23
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 16:09:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A9F9478F24
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 16:09:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 274FE112AE9;
-	Fri, 17 Dec 2021 15:09:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 039D0112AEB;
+	Fri, 17 Dec 2021 15:09:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91889112AE4
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 15:09:22 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id v11so4598900wrw.10
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 07:09:22 -0800 (PST)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E38B2112AE1
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 15:09:23 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ d198-20020a1c1dcf000000b0034569cdd2a2so1732295wmd.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 07:09:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cA5Bx+I+AGs2RfGY4hpgrqrPI8r6zTFIuO5ZwQf2Zak=;
- b=toL2v1mg/OkMSznV2NPL+e6xhb1dTHXYjRr/KURTTyUhKGpWlGy4psR4aVyUZ6TR4/
- HNXEur/I9Xev153quDM4MQq8RtmSmF8YDw7pGBPz/OjEsiyoOI+BHoZBgx/YCZBB25xE
- 01BSlpSB4+3ndaRsjlYMZz7FYUY9lfZDftPLJSK11BLauq6ZsMs3VBh8xFRYz5zc+s8K
- nrAQkfRWSVfJYGqpZTV11mU7RsfB0+AzYlCdVWZyT9JTQtHv1cl5D/OO2PCVa36winm6
- lFsxMXVmhYA4+x8xuZKijkbmNX/LZA14U5SkWYVkYyT/HiC5vPaJX/bXZt/v6w0qRbEJ
- MRbA==
+ bh=DPDBPrmR0Iq3ngKw0EvBqQA5UwN0K6nnYMPRbJ4cDDg=;
+ b=FOkvVzT7MP38uCoMZRtbzC+fq/IKsWdk75L159t0dliUyL3WYrlgDAmQNaIqpoDzsH
+ d17ZCw0DMRveXpHeodFXr8tUO1e3WPcmD7TXoBBfjwKTvJstO4p6JQ4LPx5yqdyPXRHm
+ HWXBLFHUDYM3KxdJDS08bT4e7SPF5YENvtGXH+k9MLl1h2jWcW4POIbOeBkNzRpcBj3c
+ J4jMDXFR8B5wyfVbYQwpRCQBYAth9notr/R1lTCwPrX06acBE2BvBbMhNQKFa1ajr6PB
+ 2xKiEQQRRbtSe2/RZYCCdZxQsOTp+YwpltAFXK1Pu59m0cE2N4Gi1h/jlf4TGUjBfGPe
+ j/MA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cA5Bx+I+AGs2RfGY4hpgrqrPI8r6zTFIuO5ZwQf2Zak=;
- b=pgyNeqxheYTNejXABldV+xdNQXEmUpDDpT3xvxR9BQ3srjKOnIirXMTllnc2blWuNk
- +xwbk2O9fm+CnHMM+Aqiu5UB1qvAuNoZps4w9dNUoR4xGoPG5xynfl0aps9+LkwQBpyI
- KmU/RQSq7KoPbdzuz0YImHsDGSo/fdzpEPuVj+hVSjGUbBilKbmnxt6DvpLvPpkAr7Rb
- t/xjA7opZ1045dra1Vo9EWdKBPMs3woSmxMJDXO8E7SaLUEMia1uKxYBKN6gzcI7gJKf
- unx0ZW2ltN1jSFm5mZw85CzYOOt67FBMm69I49K37LgS02YLAdDRQXdFiyPo/UuW8cFl
- 9yow==
-X-Gm-Message-State: AOAM5337ZoU5PM2g1hUQAaHASAlAd3n/yJ9Dfbv+5U/qLsxns6GRRHWS
- jZnBdgV1kC15bht8hAwBBGNXSw==
-X-Google-Smtp-Source: ABdhPJw2QIwL+JN1BE/ytNuThS3hvqjbyhJk1gG3get4Uk4bFSMW9drCtD5/xxhsEnmjYhGJnW27og==
-X-Received: by 2002:a05:6000:1d1:: with SMTP id
- t17mr2832923wrx.569.1639753761014; 
- Fri, 17 Dec 2021 07:09:21 -0800 (PST)
+ bh=DPDBPrmR0Iq3ngKw0EvBqQA5UwN0K6nnYMPRbJ4cDDg=;
+ b=VtKm+kmV6BphRnkcMshExM8hgkh3Q3JwjrTE4K1uUs4NPY9UXUAJYb3lkGSC7kh7qZ
+ BE9N7ka9b/DNsiVV3wmgMWDcucqvlWUUcSFlx6LP4StK9VrpwYReYzx3oFLIOvgjvIBZ
+ UZIstWQOX3mcWTvX/M0IfpC/fTRfLGiK+pMrYF6QmH4meMGSipJ+ZYW2hwH9v/Sx1rVw
+ NCKwpw0N9dActx4whdzyaFwYGSi7rhTd6W7o9HzB2GCgHS2QpjK7LFb3aqDVzv3lTMMM
+ omvXFOglMmIO7/gaMxRwv96B3SfDxnuVfxvf0HkRkSHsUDseEItsm+lQkytBzyLXlc5B
+ 5q/A==
+X-Gm-Message-State: AOAM530f4qqZPnCM4KXmcuUcBVYe8dkfggcKwyb272aPEhYnVgMlR1hj
+ XAY1T6k09aipaUOuY9EabV/Ouw==
+X-Google-Smtp-Source: ABdhPJzGMGEwBXNNhRzKMlhnqBQP7gR7MUq3dXUplzBbeunSSf+Ba021nix7E4f6eW/W7Ac3y0hW2Q==
+X-Received: by 2002:a05:600c:1d97:: with SMTP id
+ p23mr3027434wms.144.1639753762445; 
+ Fri, 17 Dec 2021 07:09:22 -0800 (PST)
 Received: from localhost.localdomain
  (2a02-8440-6441-43a4-3074-96af-9642-0003.rev.sfr.net.
  [2a02:8440:6441:43a4:3074:96af:9642:3])
- by smtp.gmail.com with ESMTPSA id g18sm12655132wmq.4.2021.12.17.07.09.19
+ by smtp.gmail.com with ESMTPSA id g18sm12655132wmq.4.2021.12.17.07.09.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Dec 2021 07:09:20 -0800 (PST)
+ Fri, 17 Dec 2021 07:09:22 -0800 (PST)
 From: Guillaume Ranquet <granquet@baylibre.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, CK Hu <ck.hu@mediatek.com>,
- Jitao shi <jitao.shi@mediatek.com>
-Subject: [PATCH v7 2/8] dt-bindings: mediatek,dp: Add Display Port binding
-Date: Fri, 17 Dec 2021 16:08:48 +0100
-Message-Id: <20211217150854.2081-3-granquet@baylibre.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v7 3/8] drm/edid: Add cea_sad helpers for freq/length
+Date: Fri, 17 Dec 2021 16:08:49 +0100
+Message-Id: <20211217150854.2081-4-granquet@baylibre.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211217150854.2081-1-granquet@baylibre.com>
 References: <20211217150854.2081-1-granquet@baylibre.com>
@@ -75,122 +75,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Markus Schneider-Pargmann <msp@baylibre.com>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Markus Schneider-Pargmann <msp@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Markus Schneider-Pargmann <msp@baylibre.com>
 
-This controller is present on several mediatek hardware. Currently
-mt8195 and mt8395 have this controller without a functional difference,
-so only one compatible field is added.
+This patch adds two helper functions that extract the frequency and word
+length from a struct cea_sad.
 
-The controller can have two forms, as a normal display port and as an
-embedded display port.
+For these helper functions new defines are added that help translate the
+'freq' and 'byte2' fields into real numbers.
 
 Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
 Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
 ---
- .../display/mediatek/mediatek,dp.yaml         | 87 +++++++++++++++++++
- 1 file changed, 87 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+ drivers/gpu/drm/drm_edid.c | 74 ++++++++++++++++++++++++++++++++++++++
+ include/drm/drm_edid.h     | 18 ++++++++--
+ 2 files changed, 90 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
-new file mode 100644
-index 0000000000000..068b11d766e21
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
-@@ -0,0 +1,87 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/mediatek/mediatek,dp.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 12893e7be89bb..500279a82167a 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -4747,6 +4747,80 @@ int drm_edid_to_speaker_allocation(struct edid *edid, u8 **sadb)
+ }
+ EXPORT_SYMBOL(drm_edid_to_speaker_allocation);
+ 
++/**
++ * drm_cea_sad_get_sample_rate - Extract the sample rate from cea_sad
++ * @sad: Pointer to the cea_sad struct
++ *
++ * Extracts the cea_sad frequency field and returns the sample rate in Hz.
++ *
++ * Return: Sample rate in Hz or a negative errno if parsing failed.
++ */
++int drm_cea_sad_get_sample_rate(const struct cea_sad *sad)
++{
++	switch (sad->freq) {
++	case DRM_CEA_SAD_FREQ_32KHZ:
++		return 32000;
++	case DRM_CEA_SAD_FREQ_44KHZ:
++		return 44100;
++	case DRM_CEA_SAD_FREQ_48KHZ:
++		return 48000;
++	case DRM_CEA_SAD_FREQ_88KHZ:
++		return 88200;
++	case DRM_CEA_SAD_FREQ_96KHZ:
++		return 96000;
++	case DRM_CEA_SAD_FREQ_176KHZ:
++		return 176400;
++	case DRM_CEA_SAD_FREQ_192KHZ:
++		return 192000;
++	default:
++		return -EINVAL;
++	}
++}
++EXPORT_SYMBOL(drm_cea_sad_get_sample_rate);
 +
-+title: Mediatek Display Port Controller
++static bool drm_cea_sad_is_uncompressed(const struct cea_sad *sad)
++{
++	switch (sad->format) {
++	case HDMI_AUDIO_CODING_TYPE_STREAM:
++	case HDMI_AUDIO_CODING_TYPE_PCM:
++		return true;
++	default:
++		return false;
++	}
++}
 +
-+maintainers:
-+  - CK Hu <ck.hu@mediatek.com>
-+  - Jitao shi <jitao.shi@mediatek.com>
++/**
++ * drm_cea_sad_get_uncompressed_word_length - Extract word length
++ * @sad: Pointer to the cea_sad struct
++ *
++ * Extracts the cea_sad byte2 field and returns the word length for an
++ * uncompressed stream.
++ *
++ * Note: This function may only be called for uncompressed audio.
++ *
++ * Return: Word length in bits or a negative errno if parsing failed.
++ */
++int drm_cea_sad_get_uncompressed_word_length(const struct cea_sad *sad)
++{
++	if (!drm_cea_sad_is_uncompressed(sad)) {
++		DRM_WARN("Unable to get the uncompressed word length for a compressed format: %u\n",
++			 sad->format);
++		return -EINVAL;
++	}
 +
-+description: |
-+  Device tree bindings for the Mediatek (embedded) Display Port controller
-+  present on some Mediatek SoCs.
++	switch (sad->byte2) {
++	case DRM_CEA_SAD_UNCOMPRESSED_WORD_16BIT:
++		return 16;
++	case DRM_CEA_SAD_UNCOMPRESSED_WORD_20BIT:
++		return 20;
++	case DRM_CEA_SAD_UNCOMPRESSED_WORD_24BIT:
++		return 24;
++	default:
++		return -EINVAL;
++	}
++}
++EXPORT_SYMBOL(drm_cea_sad_get_uncompressed_word_length);
 +
-+properties:
-+  compatible:
-+    enum:
-+      - mediatek,mt8195-dp-tx
+ /**
+  * drm_av_sync_delay - compute the HDMI/DP sink audio-video sync delay
+  * @connector: connector associated with the HDMI/DP sink
+diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+index 18f6c700f6d02..a30452b313979 100644
+--- a/include/drm/drm_edid.h
++++ b/include/drm/drm_edid.h
+@@ -361,12 +361,24 @@ struct edid {
+ 
+ /* Short Audio Descriptor */
+ struct cea_sad {
+-	u8 format;
++	u8 format; /* See HDMI_AUDIO_CODING_TYPE_* */
+ 	u8 channels; /* max number of channels - 1 */
+-	u8 freq;
++	u8 freq; /* See CEA_SAD_FREQ_* */
+ 	u8 byte2; /* meaning depends on format */
+ };
+ 
++#define DRM_CEA_SAD_FREQ_32KHZ  BIT(0)
++#define DRM_CEA_SAD_FREQ_44KHZ  BIT(1)
++#define DRM_CEA_SAD_FREQ_48KHZ  BIT(2)
++#define DRM_CEA_SAD_FREQ_88KHZ  BIT(3)
++#define DRM_CEA_SAD_FREQ_96KHZ  BIT(4)
++#define DRM_CEA_SAD_FREQ_176KHZ BIT(5)
++#define DRM_CEA_SAD_FREQ_192KHZ BIT(6)
 +
-+  reg:
-+    maxItems: 1
++#define DRM_CEA_SAD_UNCOMPRESSED_WORD_16BIT BIT(0)
++#define DRM_CEA_SAD_UNCOMPRESSED_WORD_20BIT BIT(1)
++#define DRM_CEA_SAD_UNCOMPRESSED_WORD_24BIT BIT(2)
 +
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: faxi clock
-+
-+  clock-names:
-+    items:
-+      - const: faxi
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Input endpoint of the controller, usually dp_intf
-+
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Output endpoint of the controller
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - ports
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/power/mt8195-power.h>
-+    edp_tx: edp_tx@1c500000 {
-+        compatible = "mediatek,mt8195-dp-tx";
-+        reg = <0 0x1c500000 0 0x8000>;
-+        interrupts = <GIC_SPI 676 IRQ_TYPE_LEVEL_HIGH 0>;
-+        power-domains = <&spm MT8195_POWER_DOMAIN_EPD_TX>;
-+        pinctrl-names = "default";
-+        pinctrl-0 = <&edp_pin>;
-+
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            port@0 {
-+                reg = <0>;
-+                edp_in: endpoint {
-+                    remote-endpoint = <&dp_intf0_out>;
-+                };
-+            };
-+            port@1 {
-+                reg = <1>;
-+                edp_out: endpoint {
-+                	remote-endpoint = <&panel_in>;
-+                };
-+            };
-+        };
-+    };
+ struct drm_encoder;
+ struct drm_connector;
+ struct drm_connector_state;
+@@ -374,6 +386,8 @@ struct drm_display_mode;
+ 
+ int drm_edid_to_sad(struct edid *edid, struct cea_sad **sads);
+ int drm_edid_to_speaker_allocation(struct edid *edid, u8 **sadb);
++int drm_cea_sad_get_sample_rate(const struct cea_sad *sad);
++int drm_cea_sad_get_uncompressed_word_length(const struct cea_sad *sad);
+ int drm_av_sync_delay(struct drm_connector *connector,
+ 		      const struct drm_display_mode *mode);
+ 
 -- 
 2.32.0
 
