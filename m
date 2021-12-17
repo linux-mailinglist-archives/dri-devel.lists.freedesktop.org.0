@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E9CA478E5A
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 15:47:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74ED1478E54
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 15:46:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10B03112849;
-	Fri, 17 Dec 2021 14:46:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74BEA89176;
+	Fri, 17 Dec 2021 14:46:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F06111277C;
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C3F111277D;
  Fri, 17 Dec 2021 14:46:20 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id BCDBA1F389;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id F27B92111A;
  Fri, 17 Dec 2021 14:46:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1639752378; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mwLFvs1ocIlsPCaDzUdeMV2EEdP3Utgp0cb19HIBa/M=;
- b=xkKtKtXTM9J4L9gp7lnYF6puomXqYFzy1+QdqHxWgQNIlSQnbup1OxO74rcATyIOn0e0ob
- OMuT1CgIwQTVXPs78PemOQHMLQ3IXG3boxQ4bEGZzCWNJBHJ/O8iwh/VyN+al1yAP4cS1+
- RyAVH+yOpcocp/uEhl9RnlRxWmhPI50=
+ bh=zoDj/q8Rw1f4a3IN2oMjHxIFtzI0titilFSpV1QyTzU=;
+ b=tKRgIWrxWFSSGpufG1TyKLUlZ0ncTOZeoBqqmlxIyac+S7EKTou2FD4iBXX0FX/psHBTy9
+ 891GJP1GfMtJKLFvDTtHdUb4uh4YTZfMUHaKSQcDSsixg62VgX2NJLMiIosxi2LHCsjcHS
+ RmJAdDUC5+aQmSb6Y5wZex4oCf35s5E=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1639752378;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mwLFvs1ocIlsPCaDzUdeMV2EEdP3Utgp0cb19HIBa/M=;
- b=l3EnLGO+vDB8cKbPVo6Lw8QXSYqbCZJCLNC8uSfWQ1la4NAhMlGdan9LLh0DbYlzrs8mY3
- 5l15dvO7q1H+pSCw==
+ bh=zoDj/q8Rw1f4a3IN2oMjHxIFtzI0titilFSpV1QyTzU=;
+ b=AkxUWPD9cUd3SDDIQv7D71C2AKzVBEYqpTojk+bunGXQ9goY9LUN98m6Ms4pppm9C1yyi3
+ AKk6iVJJlICBuuBw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8923913E1C;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BF4E413E4E;
  Fri, 17 Dec 2021 14:46:18 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id MIVhILqivGH9KwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id 0CDNLbqivGH9KwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Fri, 17 Dec 2021 14:46:18 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com, daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com
-Subject: [PATCH 04/10] drm/cirrus: Replace module-init boiler-plate code with
+Subject: [PATCH 05/10] drm/hisilicon/hibmc: Replace module initialization with
  DRM helpers
-Date: Fri, 17 Dec 2021 15:46:09 +0100
-Message-Id: <20211217144615.32733-5-tzimmermann@suse.de>
+Date: Fri, 17 Dec 2021 15:46:10 +0100
+Message-Id: <20211217144615.32733-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20211217144615.32733-1-tzimmermann@suse.de>
 References: <20211217144615.32733-1-tzimmermann@suse.de>
@@ -74,49 +74,35 @@ Cc: spice-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove custom cirrus_init() and cirrus_exit() functions and initialize
-the module with DRM module helpers.
+Replace module_pci_driver() with drm_module_pci_driver(). The DRM macro
+respects drm_firmware_drivers_only() and fails if the flag has been set.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/tiny/cirrus.c | 17 ++---------------
- 1 file changed, 2 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/tiny/cirrus.c b/drivers/gpu/drm/tiny/cirrus.c
-index c95d9ff7d600..ecf2475d0f16 100644
---- a/drivers/gpu/drm/tiny/cirrus.c
-+++ b/drivers/gpu/drm/tiny/cirrus.c
-@@ -39,6 +39,7 @@
- #include <drm/drm_ioctl.h>
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+index 610fc8e135f9..fe4269c5aa0a 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+@@ -20,6 +20,7 @@
+ #include <drm/drm_gem_framebuffer_helper.h>
+ #include <drm/drm_gem_vram_helper.h>
  #include <drm/drm_managed.h>
- #include <drm/drm_modeset_helper_vtables.h>
 +#include <drm/drm_module.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_simple_kms_helper.h>
+ #include <drm/drm_vblank.h>
  
-@@ -633,21 +634,7 @@ static struct pci_driver cirrus_pci_driver = {
- 	.remove = cirrus_pci_remove,
+ #include "hibmc_drm_drv.h"
+@@ -379,7 +380,7 @@ static struct pci_driver hibmc_pci_driver = {
+ 	.driver.pm =    &hibmc_pm_ops,
  };
  
--static int __init cirrus_init(void)
--{
--	if (drm_firmware_drivers_only())
--		return -EINVAL;
--
--	return pci_register_driver(&cirrus_pci_driver);
--}
--
--static void __exit cirrus_exit(void)
--{
--	pci_unregister_driver(&cirrus_pci_driver);
--}
--
--module_init(cirrus_init);
--module_exit(cirrus_exit);
-+drm_module_pci_driver(cirrus_pci_driver)
+-module_pci_driver(hibmc_pci_driver);
++drm_module_pci_driver(hibmc_pci_driver);
  
- MODULE_DEVICE_TABLE(pci, pciidlist);
- MODULE_LICENSE("GPL");
+ MODULE_DEVICE_TABLE(pci, hibmc_pci_table);
+ MODULE_AUTHOR("RongrongZou <zourongrong@huawei.com>");
 -- 
 2.34.1
 
