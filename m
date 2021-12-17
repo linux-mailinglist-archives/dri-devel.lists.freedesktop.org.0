@@ -1,50 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62E32478C55
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 14:30:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 222C2478CBA
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 14:51:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5EE910FB4F;
-	Fri, 17 Dec 2021 13:30:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0EEC112326;
+	Fri, 17 Dec 2021 13:51:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 995D310FB5E
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 13:30:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:Content-Type:Message-ID:References:
- In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=vDy/h/0IhDpG31/AHmcO9oajllR8KeNpEmxogpr82bE=; b=zP3lDawS9GQKm7r2TbZtiC/xvn
- QuC2H7RI0Nn9Tzfqeaa6b4Sfz5r333CB0bPLcqj4yowfp2IbEabWUezuybyeiHXzTgmc5KfA714ET
- bA9zH0VExtR8i+e1PWACv/lyqsVTGhVXalfOFPghNeBS2bgwiE+G7Q4iQfV8c5UWuFDJdpRI9xLIZ
- M3KTvgcjiaqbc5QrFEnBZfWD85DgqAD79SF3CGcoOhomNUkDKwcVswyAKKzszaQg1pFU8ucAyz+WJ
- 0K6v2r4JV4JHSa6+D/KuqsYK7En0l3+THQgMRpxP963wuHkOLP2p7ldZEqkshywZQportfoz5z2N+
- TsL6O9Vg==;
-Received: from webng-gw.kapsi.fi ([91.232.154.200] helo=roundcube.kapsi.fi)
- by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <jyri.sarha@iki.fi>)
- id 1myDJE-00011F-Ux; Fri, 17 Dec 2021 15:30:04 +0200
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+ [66.111.4.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9777011232A
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 13:51:23 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id CB8415C013B;
+ Fri, 17 Dec 2021 08:51:22 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Fri, 17 Dec 2021 08:51:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm1; bh=sBGmg6OGxAeyMRv/6A1Uv63uY9
+ 15zP05qZumq6y3+sE=; b=j9Q3kqom3gMjpDKX9fOWJVxeDe/uS1OsXdqxwC5wft
+ uloUGyYwNQN/tfAUoyIydvafeX2wwPAGTbd71VAySIl8fQXoo2o3l1X3s7HSRW+M
+ si7c5BlAP8brMT+neFd8ObT67y9T8v/g9dLPr0S9SM2jJQZ0aHlYoYci4bdYUP1I
+ tZOiM53pFwi/HCFJGIoRCRUmcPhbctXrsQSSZSvy+1evQWQbg5Zyz/NSwWDB9q+M
+ 7MWaUBvlUw/6L1rr6fqhiRT8yOEJ33ynV2TOhAM1o5ZGUcKsl/fbZff7CCi3GWU6
+ soAjFyGeLC9rxQA8jMJwkndpe4jrk49Wvaeom0khOYPg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=sBGmg6
+ OGxAeyMRv/6A1Uv63uY915zP05qZumq6y3+sE=; b=P/5gw8ykoVNjw8B1EFQcDn
+ IKHdBdLq/XNXUarH5FYobNtkf5f6ZDuxY5GxEL6fYYiHcQGSTUGLowxmx1K4MU/r
+ EVBm53hyRPMZzhkwr490RNb3vubpL9TohPeuJOy7CCd7dQeQOKRzfTEMiZqlFFdm
+ sX+6DzDGNT+ha0P4+BX64zRUiahzfcfi5IMgsehunsYW67Sahn3wmCucjlqLgVAH
+ Znv7uDidRcTrWXK4CnR2cMQidZBBezW44FfdRwV1Mr+ENvz+gxOU/IJTm6JfWkCq
+ mCRxMDF/I87yuUVipGWjwg/xv4urKnMBJtvQr1jOjdYzVzRMCsJRtv2fJqf1s33w
+ ==
+X-ME-Sender: <xms:2ZW8YSaM8kwLQtD6l70wZ-Iftx1l1IY4B-22oN98sMB2fYcILGoShA>
+ <xme:2ZW8YVbsLRxloWpgQtGhcZgZKtVT5YcEdaxBksF_p2f01iVdUvh4GHaFfy9XC4ZFy
+ KjrgymX_abtKsjPNww>
+X-ME-Received: <xmr:2ZW8Yc88i6wdmBVlt5PyNcA6cgOqA1c3xoqKzgSjyXP04m8VSKLgneUkXGv-pyx6p8YfsheNYhUp5JrRnLSLl7EktcSrEADJviN_rUA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrleeigdehkecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpeforgigihhmvgcu
+ tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
+ hrnhepteeikefgffekgeekledtheduteetjefgkeeuvefhhfetgedugfektdeugeffgfef
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgi
+ himhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:2ZW8YUpKomU6I0gfaabIgC-eLRfm8XX9KOh7Lv4xs3SpjkbasHHheA>
+ <xmx:2ZW8YdrhU_medpZdBxpijTBCc7a3v86QZFCDoAS2CjP0Uc_QmvZhPA>
+ <xmx:2ZW8YSSif0epwDo6zPJdsGE5ESkkuq36yH4ZlhjkNoEFbNXR3oUemg>
+ <xmx:2pW8YRf3TkulijsDKZ2-IXTqsUgmqcjbueLMB6W5s0OhtdfGf_xXfQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 17 Dec 2021 08:51:20 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <maxime@cerno.tech>,
+ =?UTF-8?q?Jernej=20=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Subject: [PATCH v6 0/7] drm/sun4i: Add support for dual-link LVDS on the A20
+Date: Fri, 17 Dec 2021 14:51:12 +0100
+Message-Id: <20211217135119.316781-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.33.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Date: Fri, 17 Dec 2021 15:30:02 +0200
-From: Jyri Sarha <jyri.sarha@iki.fi>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v2 36/37] drm/tilcdc: Add support for the nomodeset kernel
- parameter
-In-Reply-To: <20211217003752.3946210-37-javierm@redhat.com>
-References: <20211217003752.3946210-1-javierm@redhat.com>
- <20211217003752.3946210-37-javierm@redhat.com>
-Message-ID: <0e12f51baaf76b9863b4ab11fdb86af6@iki.fi>
-X-Sender: jyri.sarha@iki.fi
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 91.232.154.200
-X-SA-Exim-Mail-From: jyri.sarha@iki.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,48 +81,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomba@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-12-17 2:37, Javier Martinez Canillas wrote:
-> According to disable Documentation/admin-guide/kernel-parameters.txt, 
-> this
-> parameter can be used to disable kernel modesetting.
-> 
-> DRM drivers will not perform display-mode changes or accelerated 
-> rendering
-> and only the system framebuffer will be available if it was set-up.
-> 
-> But only a few DRM drivers currently check for nomodeset, make this 
-> driver
-> to also support the command line parameter.
-> 
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-
-Acked-by: Jyri Sarha <jyri.sarha@iki.fi>
-
-> ---
-> 
-> (no changes since v1)
-> 
->  drivers/gpu/drm/tilcdc/tilcdc_drv.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> index cc567c87057d..eee3c447fbac 100644
-> --- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> +++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> @@ -604,6 +604,9 @@ static struct platform_driver 
-> tilcdc_platform_driver = {
-> 
->  static int __init tilcdc_drm_init(void)
->  {
-> +	if (drm_firmware_drivers_only())
-> +		return -ENODEV;
-> +
->  	DBG("init");
->  	tilcdc_panel_init();
->  	return platform_driver_register(&tilcdc_platform_driver);
+Hi,=0D
+=0D
+This is another attempt at supporting the LVDS dual-link output on the=0D
+Allwinner A20.=0D
+=0D
+Let me know what you think,=0D
+Maxime=0D
+=0D
+Changes from v5:=0D
+  - Rebased on current next=0D
+  - Enhanced the property binding description=0D
+=0D
+Changes from v4:=0D
+  - Rebased on 5.15=0D
+=0D
+Changes from v3:=0D
+  - Reintroduce the endpoint sanity check (and make of_graph_get_port_by_id=
+=0D
+    const in the process)=0D
+  - Make a few doc fixes=0D
+  - Fix device_node leakage=0D
+  - Changed allwinner,lvds-companion to more generic link-companion=0D
+  - Rebased on 5.11=0D
+=0D
+Changes from v2:=0D
+  - Added the DT binding description=0D
+  - Split the patch to enable the A20=0D
+  - Reworked a bit the error messages=0D
+=0D
+Changes from v1:=0D
+  - Reworked the DT bindings=0D
+  - Refactored a bit the panel registration in the tcon code.=0D
+=0D
+Maxime Ripard (7):=0D
+  of: Make of_graph_get_port_by_id take a const device_node=0D
+  drm/of: Change the prototype of drm_of_lvds_get_dual_link_pixel_order=0D
+  dt-bindings: display: sun4i: Add LVDS link companion property=0D
+  drm/sun4i: tcon: Refactor the LVDS and panel probing=0D
+  drm/sun4i: tcon: Support the LVDS Dual-Link=0D
+  drm/sun4i: tcon: Enable the A20 dual-link output=0D
+  [DO NOT MERGE] ARM: dts: sun7i: Enable LVDS Dual-Link on the=0D
+    Cubieboard=0D
+=0D
+ .../display/allwinner,sun4i-a10-tcon.yaml     |   6 +=0D
+ arch/arm/boot/dts/sun7i-a20-cubieboard2.dts   |  69 ++++++++=0D
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c         |   9 +-=0D
+ drivers/gpu/drm/drm_of.c                      | 138 +++++++++++----=0D
+ drivers/gpu/drm/rcar-du/rcar_lvds.c           |   8 +-=0D
+ drivers/gpu/drm/sun4i/sun4i_tcon.c            | 164 ++++++++++--------=0D
+ drivers/gpu/drm/sun4i/sun4i_tcon.h            |   4 +=0D
+ drivers/of/property.c                         |   2 +-=0D
+ include/drm/drm_of.h                          |  16 +-=0D
+ include/linux/of_graph.h                      |   4 +-=0D
+ 10 files changed, 300 insertions(+), 120 deletions(-)=0D
+=0D
+-- =0D
+2.33.1=0D
+=0D
