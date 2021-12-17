@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C74C6478922
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 11:44:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3183A47892D
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 11:47:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49F2210FFCD;
-	Fri, 17 Dec 2021 10:44:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BC5E112157;
+	Fri, 17 Dec 2021 10:47:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
- [IPv6:2607:f8b0:4864:20::734])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1259710FFCA;
- Fri, 17 Dec 2021 10:44:31 +0000 (UTC)
-Received: by mail-qk1-x734.google.com with SMTP id d2so1612760qki.12;
- Fri, 17 Dec 2021 02:44:31 -0800 (PST)
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com
+ [IPv6:2607:f8b0:4864:20::82d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C39F112156;
+ Fri, 17 Dec 2021 10:47:25 +0000 (UTC)
+Received: by mail-qt1-x82d.google.com with SMTP id m25so2075839qtq.13;
+ Fri, 17 Dec 2021 02:47:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hGXTp3LMVBIEry9rVrZHu1bEaAmmpjfRK8toRUzDPQ4=;
- b=WunsHCKEAqp2g5ANZgh3comiK2udE2f8Hljt+mS2MfWOVCYYExWXE6DatZpJDCuk83
- 59+qBhR/Ss6t01Sg3hqUPIgW5KU2KSGnqXIgMf4MrLpXlzwYt2DEiYdgn4FFxg3ptuBS
- 1LD3ENbxKuZE7IjrGk2TiJOioZNQGlsIOMYrnKq8pQzW7HLl4HbqABoA2W/PAQpCHkic
- LFNYLKbXHtbmrEQZEuY30hrAR96OhmCNXBbWL/otEWYGQmTg7hjPMPEIrTYYvIga+fm6
- fO14lOLly1VeIo7MJ3MyTgLgLwdlNit7i1Xli8kaELjbCvOqGTtflZq/flRQ0q2KJuaD
- VYdw==
+ :cc; bh=9IAPuzXLIy4MIjIxFaaTxkbGuQSonaB9tUGDxk27MHk=;
+ b=KGEGAVQeBvVbihwzNEM/GavPdtKfQfFg55v2xsgg5t6l1Di27QHemD9pCfoDUmtxL6
+ 3G1ndEODqmDLXmEt1a6tS4/13Rev2O/fXbOLJ9eMdT8yvjBaIRCY8DhRG110gA1ZGZiE
+ e6/jXYwfIvygcKNZCw1U9CWgjcjeo+T8QKWz/9cm4bwY8+peSffRxarglbph52N3LRjM
+ o5mG/47aq8TsZC+ce4+BzkHG/OglsADkMP8jwxAzz4KHPlBL3N9Dt8L2q12tEUkQAmIu
+ rXrGVfSE4OoI/p4zJX78df690FNtgnlgm8N/P+HqRbfo6WKNZbjmYM4/KRMCMPwFAhnY
+ R7bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=hGXTp3LMVBIEry9rVrZHu1bEaAmmpjfRK8toRUzDPQ4=;
- b=K4AE3amy0hVl3cJevbkJ4C5fYKa/sVy7Dc+XOXZfY+6itoFrE5/lIX2s7+TRL51l7n
- vmpg1306pTPAnbXgv+BDHUyhY0kRjXF21woUvmwmnbSG7Yfz0iKTw6sHUElolRQZqaFN
- rq+aEkUp3ZHtzlo38C6Zw8SqJQcc1QWIJVtSBWP9shEKCtfVIMRSRfpj8hN9ztyVnfCX
- ML3zR9O1vTIz4kuORQ2vVAeCoFYhajrSjKsuy264rH+NtqsJY6e55XLwZHkbhnGngaLO
- XW0Dn3dfoe5jnyVFjrvz9JBDViXdn6bxkFNEttKfQYlNartM/lDVwAmcgkrcUWbRlP4u
- 6/Wg==
-X-Gm-Message-State: AOAM530huIbRZfkGXxDfb3ogy8sSMBvtPz0l7EpgHnxbNE9HVh8Vt29+
- J0owHvlKFJsBIVfo5wMNQm0aPk7LZwBhB4nduzBYk+MnGEY=
-X-Google-Smtp-Source: ABdhPJyEU2+MEa1Hr6BbHDvdTjJL93WIq4rKPswxj3JuHX7rbwtl5ZQklaIS5Pc4bTKUodGkQL6fA0kzlMOmV19qlWw=
-X-Received: by 2002:a37:a353:: with SMTP id m80mr1223391qke.7.1639737870993;
- Fri, 17 Dec 2021 02:44:30 -0800 (PST)
+ bh=9IAPuzXLIy4MIjIxFaaTxkbGuQSonaB9tUGDxk27MHk=;
+ b=TvamJxCj+gSSdndYkETFv99wwHJ8WKbRFtAfBPN/+LmffotyvvCfYK+rvVz8qUVT+6
+ xY0NHk0j0CvTCW1Coc7Uq1mNOMeyy0N39DIZFGYIw+AUqrNY0979Ku3kD0EJFoOHPIAW
+ R7Ph4Fw0xuNENrObTJYzJJSvVH8BEXw20caLyKgA/l8LQPYm2A0U3nHNbzR6Op/DnZku
+ 5AqriTiBKT1A90LQ7on2MC5nznGYejm5ZSgYKI2sEVng4QBRRlb2JCfk8rr3mJJ0ujEf
+ efDdHMnjmhWZVQ7SlQA399mOHSGRv2AUCF8Sh7Y3E2Zmnv9XH/5qPk7TG5ADuwOuX04b
+ kmvA==
+X-Gm-Message-State: AOAM531iOumYhOYiTXYwiHHgnfW1PZPY/rc1j4VPOoULafq7XRFiq5z3
+ OkxvZ08A5oxxcG69zYeBDcLuTcCCRVQz4Uowy5L6oZcG7R4=
+X-Google-Smtp-Source: ABdhPJxcNXWKHHdDypSpsuitqEDnU4cOOiW4/UXdMVHt1/YIP2zuVZcWQPiYC43kKsdPv2QsDGhcG/oW8RJ7OHvNXtI=
+X-Received: by 2002:ac8:7d07:: with SMTP id g7mr1689987qtb.364.1639738044921; 
+ Fri, 17 Dec 2021 02:47:24 -0800 (PST)
 MIME-Version: 1.0
 References: <20211216142749.1966107-1-maarten.lankhorst@linux.intel.com>
- <20211216142749.1966107-5-maarten.lankhorst@linux.intel.com>
-In-Reply-To: <20211216142749.1966107-5-maarten.lankhorst@linux.intel.com>
+ <20211216142749.1966107-6-maarten.lankhorst@linux.intel.com>
+In-Reply-To: <20211216142749.1966107-6-maarten.lankhorst@linux.intel.com>
 From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Fri, 17 Dec 2021 10:44:04 +0000
-Message-ID: <CAM0jSHOhD5Rm2665woZU31640V3Gxd5ZRLL0-GEfuPuM4f1AYA@mail.gmail.com>
-Subject: Re: [PATCH v3 04/17] drm/i915: Take object lock in i915_ggtt_pin if
- ww is not set
+Date: Fri, 17 Dec 2021 10:46:58 +0000
+Message-ID: <CAM0jSHP-anQCsKumLK8vD+tOnAKGDNBK=aG8Fqo_2qfWxogQHQ@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH v3 05/17] drm/i915: Force ww lock for
+ i915_gem_object_ggtt_pin_ww, v2.
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,7 +71,13 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Thu, 16 Dec 2021 at 14:28, Maarten Lankhorst
 <maarten.lankhorst@linux.intel.com> wrote:
 >
-> i915_vma_wait_for_bind needs the vma lock held, fix the caller.
+> We will need the lock to unbind the vma, and wait for bind to complete.
+> Remove the special casing for the !ww path, and force ww locking for all.
+>
+> Changes since v1:
+> - Pass err to for_i915_gem_ww handling for -EDEADLK handling.
 >
 > Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+
+Deja-vu,
 Reviewed-by: Matthew Auld <matthew.auld@intel.com>
