@@ -1,75 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83DD5478C40
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 14:25:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62E32478C55
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 14:30:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2ADD10EAFD;
-	Fri, 17 Dec 2021 13:25:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5EE910FB4F;
+	Fri, 17 Dec 2021 13:30:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E23E10E665
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 13:25:10 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id E15A0580153;
- Fri, 17 Dec 2021 08:25:08 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Fri, 17 Dec 2021 08:25:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=dHIUDc6qA+Yft
- j/Hs32hLA0/3KHWaXUFK40JZlnJjB4=; b=hXaw9fUNBpJ3mLvPAIiJHWNbSG+vE
- 889rwIorNLfK9ZONObBZtLdvw85cI/AdJPKXW7o1OSsWSZ8zAbm2mJwIohSA94Io
- eqSPmcIWT28xAdCCRYW/2TX3jjkoj5RzUy49d2fkYLGdgYoLHfB5ZA6Y4tNnA2v8
- YG31j3C8cSJWivp9DCq8SZ6WsLfuP4TdXFB/LRcUa1vEAMcmAtbGqnY7om0wH/B0
- NZcFaEzpBSne9oskpmuaOkFUFAe3iTbtdhRdJZi1HY0c9bqhjh4Rr/6I7zPW4kjr
- pD2CmYBL5jmEZ4pCTr33hIodQYOOguhz6oJj11dCdjlnUxXvV102ji4eA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=dHIUDc6qA+Yftj/Hs32hLA0/3KHWaXUFK40JZlnJjB4=; b=AHmlqzKs
- 529kDrPLEJxg01/B2PGaeUsxUSWMEWxg1L37r8eMQIrokwpaudprD2zEwK4wzf+Z
- WE7FW8zdDI+x2g2Qxp0F56MXjlYdkXkGjyHGaAgtNs1yRqOD83aeNqYqrn5OgwLi
- B6ao6KrPpFqY/uMQ9GPbzODgA7WLBlB26GMHronK2NfupNuX+xwlGEUnM8CoyFuA
- 10LSCOmkqhHrpDlPhQiRfmRkzOUfVmLm7tUFf/Ik1+VU7QcG3Tjx0/PJk0Id7dTl
- bkeQClv9i8WpVnGKKOSSOFg9Ui5p3S4BiUDjnpNecHpZ3lBL+QoGau19eYcwFEl1
- MdRqflb0CAY7Kw==
-X-ME-Sender: <xms:tI-8YewrxfrrUg3CUzWCbhFsSldnnOmhMrWYPtCRYfcyI3L3VoB6wA>
- <xme:tI-8YaTX71jy_xuI4Q9QbGJns-dn7hBi5ksJolZ0ukKYChzc3nWSAk84IepU3EM0C
- W0Z_XmZYLOlkN9jC6o>
-X-ME-Received: <xmr:tI-8YQWBbFSL3zEb-IWOWJdwH8LC7PbEopg9La9fu2iRcLH7hrdI_e6hDFvGYkf4WMFTqywoLk3mt-6WU8GDDIic1d2oWkODyUkOumE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrleeigdehfecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenog
- evohgrshhtrghlqdfhgeduvddqtddvucdludehtddmnecujfgurhephffvufffkffojghf
- ggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhmvgcutfhiphgrrhguuceomhgrgi
- himhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvghrnhepveejieejtdevgfff
- gfejuefggfeutdelteekgeetueeftddutddtgfffhffgueffnecuffhomhgrihhnpeguvg
- hvihgtvghtrhgvvgdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhep
- mhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:tI-8YUjZnPljOJmzIGNb6Kbe6qjlOt_QxQPc3B3tGNl_KqIObmf2jQ>
- <xmx:tI-8YQD4oi09mHquti2tFUKF_5dHeDQLzm7xNJ02c2WUyhtza-YFqQ>
- <xmx:tI-8YVI0GvrRN8cBcLkmAtVkvqa9jz0vl8e61JA_843AdSqoPbEd3g>
- <xmx:tI-8YQvcOixOVVcMkknTO3t6UTf9auJBFvB1M_0VSRsrNIUmH5nXdg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 17 Dec 2021 08:25:08 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>
-Subject: [PATCH v2 2/2] dt-bindings: panel: Introduce a panel-lvds binding
-Date: Fri, 17 Dec 2021 14:25:02 +0100
-Message-Id: <20211217132502.95880-2-maxime@cerno.tech>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211217132502.95880-1-maxime@cerno.tech>
-References: <20211217132502.95880-1-maxime@cerno.tech>
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 995D310FB5E
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 13:30:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Content-Transfer-Encoding:Content-Type:Message-ID:References:
+ In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=vDy/h/0IhDpG31/AHmcO9oajllR8KeNpEmxogpr82bE=; b=zP3lDawS9GQKm7r2TbZtiC/xvn
+ QuC2H7RI0Nn9Tzfqeaa6b4Sfz5r333CB0bPLcqj4yowfp2IbEabWUezuybyeiHXzTgmc5KfA714ET
+ bA9zH0VExtR8i+e1PWACv/lyqsVTGhVXalfOFPghNeBS2bgwiE+G7Q4iQfV8c5UWuFDJdpRI9xLIZ
+ M3KTvgcjiaqbc5QrFEnBZfWD85DgqAD79SF3CGcoOhomNUkDKwcVswyAKKzszaQg1pFU8ucAyz+WJ
+ 0K6v2r4JV4JHSa6+D/KuqsYK7En0l3+THQgMRpxP963wuHkOLP2p7ldZEqkshywZQportfoz5z2N+
+ TsL6O9Vg==;
+Received: from webng-gw.kapsi.fi ([91.232.154.200] helo=roundcube.kapsi.fi)
+ by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.89) (envelope-from <jyri.sarha@iki.fi>)
+ id 1myDJE-00011F-Ux; Fri, 17 Dec 2021 15:30:04 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Fri, 17 Dec 2021 15:30:02 +0200
+From: Jyri Sarha <jyri.sarha@iki.fi>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH v2 36/37] drm/tilcdc: Add support for the nomodeset kernel
+ parameter
+In-Reply-To: <20211217003752.3946210-37-javierm@redhat.com>
+References: <20211217003752.3946210-1-javierm@redhat.com>
+ <20211217003752.3946210-37-javierm@redhat.com>
+Message-ID: <0e12f51baaf76b9863b4ab11fdb86af6@iki.fi>
+X-Sender: jyri.sarha@iki.fi
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 91.232.154.200
+X-SA-Exim-Mail-From: jyri.sarha@iki.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,91 +57,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Maxime Ripard <maxime@cerno.tech>,
+Cc: Tomi Valkeinen <tomba@kernel.org>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Following the previous patch, let's introduce a generic panel-lvds
-binding that documents the panels that don't have any particular
-constraint documented.
+On 2021-12-17 2:37, Javier Martinez Canillas wrote:
+> According to disable Documentation/admin-guide/kernel-parameters.txt, 
+> this
+> parameter can be used to disable kernel modesetting.
+> 
+> DRM drivers will not perform display-mode changes or accelerated 
+> rendering
+> and only the system framebuffer will be available if it was set-up.
+> 
+> But only a few DRM drivers currently check for nomodeset, make this 
+> driver
+> to also support the command line parameter.
+> 
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 
-Reviewed-by: Rob Herring <robh@kernel.org>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Acked-by: Jyri Sarha <jyri.sarha@iki.fi>
 
----
-
-Changes from v1:
-  - Added missing compatible
-  - Fixed lint
----
- .../bindings/display/panel/panel-lvds.yaml    | 57 +++++++++++++++++++
- 1 file changed, 57 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
-
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml b/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
-new file mode 100644
-index 000000000000..fcc50db6a812
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
-@@ -0,0 +1,57 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Generic LVDS Display Panel Device Tree Bindings
-+
-+maintainers:
-+  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-+  - Thierry Reding <thierry.reding@gmail.com>
-+
-+allOf:
-+  - $ref: panel-common.yaml#
-+  - $ref: /schemas/display/lvds.yaml/#
-+
-+select:
-+  properties:
-+    compatible:
-+      contains:
-+        const: panel-lvds
-+
-+  not:
-+    properties:
-+      compatible:
-+        contains:
-+          enum:
-+            - advantech,idk-1110wr
-+            - advantech,idk-2121wr
-+            - innolux,ee101ia-01d
-+            - mitsubishi,aa104xd12
-+            - mitsubishi,aa121td01
-+            - sgd,gktw70sdae4se
-+
-+  required:
-+    - compatible
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - auo,b101ew05
-+          - tbs,a711-panel
-+
-+      - const: panel-lvds
-+
-+unevaluatedProperties: false
-+
-+required:
-+  - compatible
-+  - data-mapping
-+  - width-mm
-+  - height-mm
-+  - panel-timing
-+  - port
-+
-+...
--- 
-2.33.1
-
+> ---
+> 
+> (no changes since v1)
+> 
+>  drivers/gpu/drm/tilcdc/tilcdc_drv.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+> b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+> index cc567c87057d..eee3c447fbac 100644
+> --- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+> +++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+> @@ -604,6 +604,9 @@ static struct platform_driver 
+> tilcdc_platform_driver = {
+> 
+>  static int __init tilcdc_drm_init(void)
+>  {
+> +	if (drm_firmware_drivers_only())
+> +		return -ENODEV;
+> +
+>  	DBG("init");
+>  	tilcdc_panel_init();
+>  	return platform_driver_register(&tilcdc_platform_driver);
