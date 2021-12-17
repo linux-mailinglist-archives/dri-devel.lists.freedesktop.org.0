@@ -1,63 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CFAA479270
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 18:07:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CE5A4792AF
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 18:19:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2950A10E348;
-	Fri, 17 Dec 2021 17:07:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12A1F10EAB1;
+	Fri, 17 Dec 2021 17:19:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B850710E348
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 17:07:21 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id r17so4964605wrc.3
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 09:07:21 -0800 (PST)
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F69410EA91
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 17:19:01 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id z8so4406641ljz.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 09:19:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=zoS7CsJ40sO7fBTmwqL9a7mTuTbz2YmZ0X8YJ+KC0Js=;
- b=oJ7bj0Dw7aVB1n0XibbrBHf+0ij3yhOKuXNzf708V84+FSQTtPpKwXWg/Wrun26i6L
- IDnFSKkAZjoKNG8mChS8++wUwFIgkPpBeECSMLVR5zaQWw0ic0w4QpSUi2CCs4exxnuz
- iUPBs1QEZtojh//CbecMoc4MQv2RuAhlOfKlupyIbekyEKeKTsv0Km0Ivz79YRdXxDGy
- Kps0UBje78UpF9h+BFM7Q8jxch+wr7smICAi4GdqexfQvG1omvnwxBUiUpq3xfN7WT1+
- zPTwx3Dayw+oZrwRgP733l5uRDhVFGVZCauZC/gJLykNa521wDNJKABiiP9gwpc+K9Dl
- wWrA==
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=aD+hC6FqlLZlRa2bYYfAt8xGKCazGEctgmQARu+DDU8=;
+ b=N+UO0OVMGnFIK0uWKGSzU0og53fRsylVVAjm+0aq9GOMGpnSHN/MN8kNXkzeAsUDVi
+ /r3VLwK2ENO7yz83w5dxYdI5t3Xrv9LkpIuK59aiYvbL0fnapPr85PwHaEBDabE/5kRK
+ GWeJrY7WmFCNzRw5gUmLBURUHiKJ9PBeOU2tm2n2GrnLu++HyRIPa3Ye1MwUdAwGGWbE
+ WkKXwxi1SujNH17xZAIHeVmtVq7GLDTEgKFP3rosA/WbXc4Kzf5WbVSgbgtx9AG3zGr4
+ qMiB+ODoVkA4ZSUPGZPuN5onKzOXsyqQP9UHjAAgMzmkNkZ4L+hZxC1xdF8qDU+/jHL/
+ Aong==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=zoS7CsJ40sO7fBTmwqL9a7mTuTbz2YmZ0X8YJ+KC0Js=;
- b=dBKMFRnGQbFT+NkxzlcnLwYZQg0kRy3ofJyZOc0MRZgV7+7eYExyXuAiWrSv6if7N0
- G8yH77xCiK3M5Zh6RoQa8Q7eugkj2RVxapRIBk0r06lP/Hfa+mPZlNIZSkikV0VC6LZa
- HWd1Y3VEFmoXMkST1OMCPvEGcsa/bkKOcZ3XJDZGm+96f7jkoNJCvoj6ucRMlLzvonRg
- gl0mQPXOel2HZFK7yOL53v17WkSqR9UIznpiZe1wjh0kJ1Ckt0Wt58W5j18KKIKIYHvV
- ioRiE1RlzqD3GePsCuqsm+hk7OPIoH0R2+u+y4YcrGLRYstzwhlVZoFcuWO34CEZAJWp
- vttg==
-X-Gm-Message-State: AOAM532k07qbKTXD2H8d8ncEVq7M4lbYZLAZddqRJoVt6dDrIORGhb+O
- mJFlxXbxOmfrW3uS1iGRxr0=
-X-Google-Smtp-Source: ABdhPJzuYn74HEE1+NOvXsw2tw8dxMq2Y9fn64ltymYHN3h8cFS/99urNMIMvX7pnbadu+o8qCta0Q==
-X-Received: by 2002:a05:6000:2ce:: with SMTP id
- o14mr1624139wry.70.1639760840241; 
- Fri, 17 Dec 2021 09:07:20 -0800 (PST)
-Received: from localhost ([193.209.96.43])
- by smtp.gmail.com with ESMTPSA id c8sm9122994wmq.34.2021.12.17.09.07.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Dec 2021 09:07:19 -0800 (PST)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Lee Jones <lee.jones@linaro.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH 2/2] dt-bindings: leds: lp855x: Convert to json-schema
-Date: Fri, 17 Dec 2021 18:07:15 +0100
-Message-Id: <20211217170715.2893923-2-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20211217170715.2893923-1-thierry.reding@gmail.com>
-References: <20211217170715.2893923-1-thierry.reding@gmail.com>
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=aD+hC6FqlLZlRa2bYYfAt8xGKCazGEctgmQARu+DDU8=;
+ b=GOUdTWn7SAywN+HaVi1qq4gEi476UxGxLKhBGoaTRQq9+Emk5Bh1PNbhy1sPq5rFlm
+ lHTsV/yXqBTefCF0weyNlObNr0lg6ZVhUIBroEJ75CeOOlJD7HaUCXCL5SDd5ZClZuT/
+ 6PdleDqryRWJDebWut88eHbDL/VXA+w6wdG6MTEM7PNmAROnUZea+aNsJQtDsqhfnxa5
+ hQ39wgLrbUr2a2sfUJvuxC+wbXreqtFaDpVXrNhvAXXYClVgc7nyevhgwfU/ghoODsZZ
+ zpSBAMZyTqT+vewFSvzmaFnrfTcGjlgQtAtOJDARBef2QPB37ZqAsxN0p2DqZwBZxQGh
+ 4pTw==
+X-Gm-Message-State: AOAM530xgHVqtnFcthlpUD1JYILHq6e9lKydqtS4tpATiUWX3p8LRNP1
+ yQFL5L7+/zwc6fnH+UMZdz7RsG6S+xM=
+X-Google-Smtp-Source: ABdhPJzBjfXZEGXsleWCP8vjNzkIbrIDY0hTHQDynU+0L28mioCf9nBMTGevXSjGLXhOGHJT4nr+6w==
+X-Received: by 2002:a05:651c:504:: with SMTP id
+ o4mr3649716ljp.242.1639761539376; 
+ Fri, 17 Dec 2021 09:18:59 -0800 (PST)
+Received: from [192.168.2.145] (94-29-63-156.dynamic.spd-mgts.ru.
+ [94.29.63.156])
+ by smtp.googlemail.com with ESMTPSA id p20sm1470067lfu.151.2021.12.17.09.18.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Dec 2021 09:18:58 -0800 (PST)
+Subject: Re: [PATCH v4 04/22] dt-bindings: host1x: Document optional HDMI
+ sound-dai-cells
+From: Dmitry Osipenko <digetx@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>, Mark Brown <broonie@kernel.org>
+References: <20211204143725.31646-1-digetx@gmail.com>
+ <20211204143725.31646-5-digetx@gmail.com> <YbtLJeIxXlVyQhd3@orome>
+ <Ybxwovlw2GARzqUO@sirena.org.uk>
+ <4edfbff2-ffd9-1c33-de0c-013a29dc286c@gmail.com> <Ybx8XdLGGiQsNMTq@orome>
+ <36972e00-0eb9-acb7-d537-3b9a4b53386d@gmail.com>
+Message-ID: <e0536860-3fea-e57b-8602-4936bfdcd4a6@gmail.com>
+Date: Fri, 17 Dec 2021 20:18:58 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <36972e00-0eb9-acb7-d537-3b9a4b53386d@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,260 +78,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Milo Kim <milo.kim@ti.com>, linux-leds@vger.kernel.org,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
+Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
+ Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+ Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
+ Rob Herring <robh+dt@kernel.org>, Agneli <poczt@protonmail.ch>,
+ linux-tegra@vger.kernel.org, Jonathan Hunter <jonathanh@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thierry Reding <treding@nvidia.com>
+17.12.2021 15:06, Dmitry Osipenko пишет:
+> 17.12.2021 15:02, Thierry Reding пишет:
+>> On Fri, Dec 17, 2021 at 02:55:48PM +0300, Dmitry Osipenko wrote:
+>>> 17.12.2021 14:12, Mark Brown пишет:
+>>>> On Thu, Dec 16, 2021 at 03:20:21PM +0100, Thierry Reding wrote:
+>>>>> On Sat, Dec 04, 2021 at 05:37:07PM +0300, Dmitry Osipenko wrote:
+>>>>>> Document new optional sound-dai-cells property of HDMI node. This node will
+>>>>>> be used as endpoint of HDMI sound DAI graph.
+>>>>
+>>>>> It's probably best for this to go through ASoC along with the other
+>>>>> audio-related bindings.
+>>>>
+>>>>> Alternatively, I've just sent out a patch that converts the host1x
+>>>>> bindings to json-schema, so I could work this into that as well.
+>>>>
+>>>> It doesn't apply to the ASoC tree for whatever reason so probably best
+>>>> to roll it in with those JSON updates.
+>>>>
+>>>
+>>> This hos1tx binding patch indeed will conflict with the Thierry's patch.
+>>>
+>>> Thierry, will you be able to take the binding patches into the Tegra
+>>> tree and resolve all those hos1tx binding conflicts there?
+>>
+>> Yes, I'll resolve all of those conflicts in the Tegra tree.
+> 
+> Thank you!
+> 
+> Mark, then you may apply patches 5-13 to ASoC on top of the Vinod's
+> branch, skipping patch #6. Thanks in advance!
+> 
 
-Convert the Texas Instruments LP855x backlight device tree bindings from
-the free-form text format to json-schema.
+I see that Thierry applied only the host1x patch, but not the other
+bindings.
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- .../bindings/leds/backlight/lp855x.txt        |  72 ---------
- .../bindings/leds/backlight/ti,lp8550.yaml    | 151 ++++++++++++++++++
- 2 files changed, 151 insertions(+), 72 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/leds/backlight/lp855x.txt
- create mode 100644 Documentation/devicetree/bindings/leds/backlight/ti,lp8550.yaml
-
-diff --git a/Documentation/devicetree/bindings/leds/backlight/lp855x.txt b/Documentation/devicetree/bindings/leds/backlight/lp855x.txt
-deleted file mode 100644
-index 88f56641fc28..000000000000
---- a/Documentation/devicetree/bindings/leds/backlight/lp855x.txt
-+++ /dev/null
-@@ -1,72 +0,0 @@
--lp855x bindings
--
--Required properties:
--  - compatible: "ti,lp8550", "ti,lp8551", "ti,lp8552", "ti,lp8553",
--                "ti,lp8555", "ti,lp8556", "ti,lp8557"
--  - reg: I2C slave address (u8)
--  - dev-ctrl: Value of DEVICE CONTROL register (u8). It depends on the device.
--
--Optional properties:
--  - bl-name: Backlight device name (string)
--  - init-brt: Initial value of backlight brightness (u8)
--  - pwm-period: PWM period value. Set only PWM input mode used (u32)
--  - rom-addr: Register address of ROM area to be updated (u8)
--  - rom-val: Register value to be updated (u8)
--  - power-supply: Regulator which controls the 3V rail
--  - enable-supply: Regulator which controls the EN/VDDIO input
--
--Example:
--
--	/* LP8555 */
--	backlight@2c {
--		compatible = "ti,lp8555";
--		reg = <0x2c>;
--
--		dev-ctrl = /bits/ 8 <0x00>;
--		pwm-period = <10000>;
--
--		/* 4V OV, 4 output LED0 string enabled */
--		rom_14h {
--			rom-addr = /bits/ 8 <0x14>;
--			rom-val = /bits/ 8 <0xcf>;
--		};
--
--		/* Heavy smoothing, 24ms ramp time step */
--		rom_15h {
--			rom-addr = /bits/ 8 <0x15>;
--			rom-val = /bits/ 8 <0xc7>;
--		};
--
--		/* 4 output LED1 string enabled */
--		rom_19h {
--			rom-addr = /bits/ 8 <0x19>;
--			rom-val = /bits/ 8 <0x0f>;
--		};
--	};
--
--	/* LP8556 */
--	backlight@2c {
--		compatible = "ti,lp8556";
--		reg = <0x2c>;
--
--		bl-name = "lcd-bl";
--		dev-ctrl = /bits/ 8 <0x85>;
--		init-brt = /bits/ 8 <0x10>;
--	};
--
--	/* LP8557 */
--	backlight@2c {
--		compatible = "ti,lp8557";
--		reg = <0x2c>;
--		enable-supply = <&backlight_vddio>;
--		power-supply = <&backlight_vdd>;
--
--		dev-ctrl = /bits/ 8 <0x41>;
--		init-brt = /bits/ 8 <0x0a>;
--
--		/* 4V OV, 4 output LED string enabled */
--		rom_14h {
--			rom-addr = /bits/ 8 <0x14>;
--			rom-val = /bits/ 8 <0xcf>;
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/leds/backlight/ti,lp8550.yaml b/Documentation/devicetree/bindings/leds/backlight/ti,lp8550.yaml
-new file mode 100644
-index 000000000000..412779a5462b
---- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/backlight/ti,lp8550.yaml
-@@ -0,0 +1,151 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/backlight/ti,lp8550.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Texas Instruments LP855x family devicetree bindings
-+
-+maintainers:
-+  - Milo Kim <milo.kim@ti.com>
-+  - Rob Herring <robh+dt@kernel.org>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - ti,lp8550
-+      - ti,lp8551
-+      - ti,lp8552
-+      - ti,lp8553
-+      - ti,lp8555
-+      - ti,lp8556
-+      - ti,lp8557
-+
-+  reg:
-+    maxItems: 1
-+
-+  dev-ctrl:
-+    $ref: /schemas/types.yaml#/definitions/uint8
-+    description: Value of DEVICE CONTROL register. It depends on the device.
-+
-+  bl-name:
-+    $ref: /schemas/types.yaml#/definitions/string
-+    description: Backlight device name
-+
-+  init-brt:
-+    $ref: /schemas/types.yaml#/definitions/uint8
-+    description: Initial value of backlight brightness
-+
-+  pwm-period:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: PWM period value. Set only PWM input mode used
-+
-+  pwm-names:
-+    maxItems: 1
-+
-+  pwms:
-+    maxItems: 1
-+
-+  power-supply:
-+    description: Regulator which controls the 3V rail
-+
-+  enable-supply:
-+    description: Regulator which controls the EN/VDDIO input
-+
-+patternProperties:
-+  '^rom_[0-9a-f]{2}h$':
-+    type: object
-+    properties:
-+      rom-addr:
-+        $ref: /schemas/types.yaml#/definitions/uint8
-+        description: Register address of ROM area to be updated
-+
-+      rom-val:
-+        $ref: /schemas/types.yaml#/definitions/uint8
-+        description: Register value to be updated
-+
-+    additionalProperties: false
-+
-+    required:
-+      - rom-addr
-+      - rom-val
-+
-+additionalProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - dev-ctrl
-+
-+examples:
-+  # LP8555
-+  - |
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+
-+      backlight@2c {
-+        compatible = "ti,lp8555";
-+        reg = <0x2c>;
-+
-+        dev-ctrl = /bits/ 8 <0x00>;
-+        pwm-period = <10000>;
-+
-+        /* 4V OV, 4 output LED0 string enabled */
-+        rom_14h {
-+          rom-addr = /bits/ 8 <0x14>;
-+          rom-val = /bits/ 8 <0xcf>;
-+        };
-+
-+        /* Heavy smoothing, 24ms ramp time step */
-+        rom_15h {
-+          rom-addr = /bits/ 8 <0x15>;
-+          rom-val = /bits/ 8 <0xc7>;
-+        };
-+
-+        /* 4 output LED1 string enabled */
-+        rom_19h {
-+          rom-addr = /bits/ 8 <0x19>;
-+          rom-val = /bits/ 8 <0x0f>;
-+        };
-+      };
-+    };
-+
-+  # LP8556
-+  - |
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+
-+      backlight@2c {
-+        compatible = "ti,lp8556";
-+        reg = <0x2c>;
-+
-+        bl-name = "lcd-bl";
-+        dev-ctrl = /bits/ 8 <0x85>;
-+        init-brt = /bits/ 8 <0x10>;
-+      };
-+    };
-+
-+  # LP8557
-+  - |
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+
-+      backlight@2c {
-+        compatible = "ti,lp8557";
-+        reg = <0x2c>;
-+        enable-supply = <&backlight_vddio>;
-+        power-supply = <&backlight_vdd>;
-+
-+        dev-ctrl = /bits/ 8 <0x41>;
-+        init-brt = /bits/ 8 <0x0a>;
-+
-+        /* 4V OV, 4 output LED string enabled */
-+        rom_14h {
-+          rom-addr = /bits/ 8 <0x14>;
-+          rom-val = /bits/ 8 <0xcf>;
-+        };
-+      };
-+    };
--- 
-2.34.1
-
+Mark, perhaps will be easier if I'll just make the v5 which you could
+apply easily without a need to apply only selective patches. I'll try to
+post it ASAP.
