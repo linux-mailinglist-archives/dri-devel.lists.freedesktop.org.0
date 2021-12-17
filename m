@@ -1,59 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D87EC478DCB
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 15:29:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2519478DD2
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 15:31:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A03DF112674;
-	Fri, 17 Dec 2021 14:29:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4184F10F4CF;
+	Fri, 17 Dec 2021 14:31:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DCB0112674
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 14:29:19 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id s1so4450617wrg.1
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 06:29:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NhHnu+33iZDy4lsokuBhy7INduCsl/N/nUVcNzGvT6A=;
- b=lhRVJzHYwjbGJ2Vg0lUZdAvi6c0//BLJiJnpLKIdeFh02PtZiRNtrgZOdDsgY0axg7
- 7u0GOlg2xdOf+DDtmoxlV3vzGJGZmfqh2acisox5LlGzHjVumccSlHQxvZIGi7AIM6Fa
- ZW0u+83pEOe/FyyU08a+w/IR1GJKc8opVamF6Ozm5HJuRYL/HwyGPsqllSKDdGGceyvw
- F2lf+HC6XCKPVLCTXMWN17lh0ciU1f98KPq9lMwuJke8a0gYXCrGCPlPxI1jLPSiUcvB
- /qGx5KbHeynEzTD3VRqunvX4qFgGjhqNdM6PcfVSM6yqbzAGLctCuhnQ2+1FhLf2JJHc
- bPrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NhHnu+33iZDy4lsokuBhy7INduCsl/N/nUVcNzGvT6A=;
- b=bpup03iWsNeA1g9dd8OiK3TCNbIX01EeowgPSIwFTA9UhlY85zz/MFmKsJJdpN2UJ9
- 7pRgKdnLyHc2r/DKyL4HMIFfJcAyfaX03d7KDmoyyocbVCIV3hZvb7+9Rflb2/PP3olu
- GkOvdHFTRa14rsdOLSNgX3YqAihA9rkkkhmk64GSyKp+oWcaSxREr47bYLwal9v/QWBk
- YTwD0xzQnWNwhXAnqDUBgaBMwUQESJDObdXw1JvZ7eZxkiEUIsxyVY7W/ld+Tfm1p++O
- IDa3ykug5LGT8Mn5AnWQHFtUA5UkezdC+WKjJoL5fsYo8lpjsx/2usGYPujh1JqQa3l0
- HZ1Q==
-X-Gm-Message-State: AOAM53396rVXgBcQd887BQVi0YiNAPdOZ6p6L3Vq1/w219losrbohBrk
- l0XuKjuq9Iwa9LtfDVu3KuEwTuHcM6DAog==
-X-Google-Smtp-Source: ABdhPJyRjBm7Nxm7s8axcW811jRLzW/ww41yt6eAGl+UXe2lQN+sOM+15Ltbf+Qjv+MxtqrNicAmkg==
-X-Received: by 2002:a5d:47c3:: with SMTP id o3mr2721136wrc.348.1639751357890; 
- Fri, 17 Dec 2021 06:29:17 -0800 (PST)
-Received: from localhost ([193.209.96.43])
- by smtp.gmail.com with ESMTPSA id l16sm8421338wrx.117.2021.12.17.06.29.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Dec 2021 06:29:17 -0800 (PST)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Dave Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>
-Subject: [GIT PULL] drm/tegra: Changes for v5.17-rc1
-Date: Fri, 17 Dec 2021 15:29:12 +0100
-Message-Id: <20211217142912.558095-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C77CF10F4CF
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 14:31:53 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 491CB1F389;
+ Fri, 17 Dec 2021 14:31:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1639751512; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=45lJW6QILgvVSzMr1foE0vB82no+Td5KuU3319yTv7M=;
+ b=1rQbtTxnhFzhV6wTBiixVndYmfPpBeOhf6Onvz1/l/fJ8C/OJ6rDrIZWd+dA5yI4BewJPe
+ W7Lb4nnNkZh+4i4pZyojnknFo7I5Zp1bjZUgXybwk4xfxnvKtmZWwD5avfhH7omprfRDyK
+ Dh331NwH6+fSbEdjnS3N6oBAq6NWCRg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1639751512;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=45lJW6QILgvVSzMr1foE0vB82no+Td5KuU3319yTv7M=;
+ b=QrNTPisCaxhp5Qf3QwnCJmtnYzby45xji+KaUKjs4OdUoFqzIfljr0q633681DcwbjgUnA
+ jO63mCwaOSsqO5Ag==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2FFEE13E1C;
+ Fri, 17 Dec 2021 14:31:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id pKCwClifvGGeJAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 17 Dec 2021 14:31:52 +0000
+Message-ID: <90a43cac-7029-d439-3735-86b4bf2607b7@suse.de>
+Date: Fri, 17 Dec 2021 15:31:51 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH v2 01/37] drm: Add drm_module_{pci,platform}_driver()
+ helper macros
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20211217003752.3946210-1-javierm@redhat.com>
+ <20211217003752.3946210-2-javierm@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20211217003752.3946210-2-javierm@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------TuP4NiKc1M9lQ1tXRHv24yZP"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,145 +72,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------TuP4NiKc1M9lQ1tXRHv24yZP
+Content-Type: multipart/mixed; boundary="------------aH9swzG0xgYiMw598HFrIVFd";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Message-ID: <90a43cac-7029-d439-3735-86b4bf2607b7@suse.de>
+Subject: Re: [PATCH v2 01/37] drm: Add drm_module_{pci,platform}_driver()
+ helper macros
+References: <20211217003752.3946210-1-javierm@redhat.com>
+ <20211217003752.3946210-2-javierm@redhat.com>
+In-Reply-To: <20211217003752.3946210-2-javierm@redhat.com>
 
-The following changes since commit 136057256686de39cc3a07c2e39ef6bc43003ff6:
+--------------aH9swzG0xgYiMw598HFrIVFd
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-  Linux 5.16-rc2 (2021-11-21 13:47:39 -0800)
+SGkgSmF2aWVyLA0KDQpsb29rcyBnb29kIGFscmVhZHkuIFNvbWUgY29tbWVudHMgYXJlIGJl
+bG93Lg0KDQpBbSAxNy4xMi4yMSB1bSAwMTozNyBzY2hyaWViIEphdmllciBNYXJ0aW5leiBD
+YW5pbGxhczoNCj4gQWNjb3JkaW5nIHRvIGRpc2FibGUgRG9jdW1lbnRhdGlvbi9hZG1pbi1n
+dWlkZS9rZXJuZWwtcGFyYW1ldGVycy50eHQsIHRoZQ0KPiBub21vZGVzZXQgcGFyYW1ldGVy
+IGNhbiBiZSB1c2VkIHRvIGRpc2FibGUga2VybmVsIG1vZGVzZXR0aW5nLg0KPiANCj4gRFJN
+IGRyaXZlcnMgd2lsbCBub3QgcGVyZm9ybSBkaXNwbGF5LW1vZGUgY2hhbmdlcyBvciBhY2Nl
+bGVyYXRlZCByZW5kZXJpbmcNCj4gYW5kIG9ubHkgdGhlIHN5c3RlbSBmcmFtZWJ1ZmZlciB3
+aWxsIGJlIGF2YWlsYWJsZSBpZiBpdCB3YXMgc2V0LXVwLg0KPiANCj4gQnV0IG9ubHkgYSBm
+ZXcgRFJNIGRyaXZlcnMgY3VycmVudGx5IGNoZWNrIGZvciBub21vZGVzZXQsIHNvIGxldCdz
+IGFkZCB0d28NCj4gaGVscGVyIG1hY3JvcyB0aGF0IGNhbiBiZSB1c2VkIGJ5IERSTSBkcml2
+ZXJzIGZvciBQQ0kgYW5kIHBsYXRmb3JtIGRldmljZXMNCj4gdG8gaGF2ZSBtb2R1bGUgaW5p
+dCBmdW5jdGlvbnMgdGhhdCBjaGVja3MgaWYgdGhlIGRyaXZlcnMgY291bGQgYmUgbG9hZGVk
+Lg0KPiANCj4gU3VnZ2VzdGVkLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5A
+c3VzZS5kZT4NCj4gU2lnbmVkLW9mZi1ieTogSmF2aWVyIE1hcnRpbmV6IENhbmlsbGFzIDxq
+YXZpZXJtQHJlZGhhdC5jb20+DQo+IC0tLQ0KPiANCj4gKG5vIGNoYW5nZXMgc2luY2UgdjEp
+DQo+IA0KPiAgIGluY2x1ZGUvZHJtL2RybV9kcnYuaCB8IDUwICsrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysNCj4gICAxIGZpbGUgY2hhbmdlZCwgNTAgaW5z
+ZXJ0aW9ucygrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9kcnYuaCBi
+L2luY2x1ZGUvZHJtL2RybV9kcnYuaA0KDQpJIHdvcmtlZCBvbiBhIHNpbWlsYXIgcGF0Y2gg
+dG9kYXkgYW5kIGZvdW5kIHRoYXQgZHJtX2Rydi5oIGlzIGFjdHVhbGx5IA0Kbm90IGEgZ29v
+ZCBwbGFjZS4gSGFsZiBvZiBEUk0gaW5jbHVkZXMgdGhpcyBmaWxlIGFuZCBub3cgaXQgYWxs
+IGRlcGVuZHMgDQpvbiBsaW51eC9wY2kuaCBhbmQgbGludXgvcGxhdGZvcm0uaCAoYW5kIHBy
+b2JhYmx5IG90aGVyIGxhdGVyKS4NCg0KSSBwcm9wb3NlIHRvIHB1dCB0aGUgbW9kdWxlIGhl
+bHBlcnMgaW50byA8ZHJtL2RybV9tb2R1bGUuaD4gYW5kIGluY2x1ZGUgDQppdCB3aGVyZSBu
+ZWNlc3NhcnkuDQoNCj4gaW5kZXggZjYxNTlhY2I4ODU2Li40MDAxZDczNDI4YzUgMTAwNjQ0
+DQo+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9kcnYuaA0KPiArKysgYi9pbmNsdWRlL2RybS9k
+cm1fZHJ2LmgNCj4gQEAgLTI5LDYgKzI5LDggQEANCj4gICANCj4gICAjaW5jbHVkZSA8bGlu
+dXgvbGlzdC5oPg0KPiAgICNpbmNsdWRlIDxsaW51eC9pcnFyZXR1cm4uaD4NCj4gKyNpbmNs
+dWRlIDxsaW51eC9wY2kuaD4NCj4gKyNpbmNsdWRlIDxsaW51eC9wbGF0Zm9ybV9kZXZpY2Uu
+aD4NCj4gICANCj4gICAjaW5jbHVkZSA8ZHJtL2RybV9kZXZpY2UuaD4NCj4gICANCj4gQEAg
+LTYwNCw0ICs2MDYsNTIgQEAgaW50IGRybV9kZXZfc2V0X3VuaXF1ZShzdHJ1Y3QgZHJtX2Rl
+dmljZSAqZGV2LCBjb25zdCBjaGFyICpuYW1lKTsNCj4gICANCj4gICBleHRlcm4gYm9vbCBk
+cm1fZmlybXdhcmVfZHJpdmVyc19vbmx5KHZvaWQpOw0KPiAgIA0KPiArLyoqDQo+ICsgKiBk
+cm1fcGNpX3JlZ2lzdGVyX2RyaXZlcigpIC0gcmVnaXN0ZXIgYSBEUk0gZHJpdmVyIGZvciBQ
+Q0kgZGV2aWNlcw0KPiArICogQGRydjogUENJIGRyaXZlciBzdHJ1Y3R1cmUNCj4gKyAqDQo+
+ICsgKiBSZXR1cm5zIHplcm8gb24gc3VjY2VzcyBvciBhIG5lZ2F0aXZlIGVycm5vIGNvZGUg
+b24gZmFpbHVyZS4NCj4gKyAqLw0KPiArc3RhdGljIGlubGluZSBpbnQgZHJtX3BjaV9yZWdp
+c3Rlcl9kcml2ZXIoc3RydWN0IHBjaV9kcml2ZXIgKmRydikNCg0KVGhpcyBzaG91bGQgYmUg
+ZGVjbGFyZWQgYXMgX19pbml0LCBzbyBpdCBnb2VzIGludG8gYSBzZXBhcmF0ZSBzZWN0aW9u
+IG9mIA0KdGhlIG1vZHVsZS4gSUlSQyB0aGUgcGFnZSBpbiB0aGUgaW5pdCBzZWN0aW9uIGFy
+ZSByZWxlYXNlZCBhZnRlciB0aGUgDQptb2R1bGUgaGFzIGJlZW4gbG9hZGVkLg0KDQpJJ2Qg
+ZWl0aGVyIG5vdCBkb2N1bWVudCB0aGUgcmVnaXN0ZXIgZnVuY3Rpb25zLCBvciBleHBsaWNp
+dGx5IHNheSB0aGF0IA0KdGhlIG1vZHVsZSBtYWNyb3MgYXJlIHRoZSBwcmVmZXJyZWQgd2F5
+IG9mIHVzaW5nIHRoZW0uDQoNCj4gK3sNCj4gKwlpZiAoZHJtX2Zpcm13YXJlX2RyaXZlcnNf
+b25seSgpKQ0KPiArCQlyZXR1cm4gLUVOT0RFVjsNCj4gKw0KPiArCXJldHVybiBwY2lfcmVn
+aXN0ZXJfZHJpdmVyKGRydik7DQo+ICt9DQo+ICsNCj4gKy8qKg0KPiArICogZHJtX21vZHVs
+ZV9wY2lfZHJpdmVyKCkgLSBoZWxwZXIgbWFjcm8gZm9yIHJlZ2lzdGVyaW5nIGEgRFJNIFBD
+SSBkcml2ZXINCg0KRG9jcyBmb3IgdGhlIF9fcGNpX2RyaXZlciBhcmd1bWVudA0KDQo+ICsg
+Kg0KPiArICogSGVscGVyIG1hY3JvIGZvciBEUk0gUENJIGRyaXZlcnMgd2hpY2ggZG8gbm90
+IGRvIGFueXRoaW5nIHNwZWNpYWwgaW4gdGhlaXINCj4gKyAqIG1vZHVsZSBpbml0L2V4aXQg
+YW5kIGp1c3QgbmVlZCB0aGUgRFJNIHNwZWNpZmljIG1vZHVsZSBpbml0Lg0KPiArICovDQo+
+ICsjZGVmaW5lIGRybV9tb2R1bGVfcGNpX2RyaXZlcihfX3BjaV9kcml2ZXIpIFwNCj4gKwlt
+b2R1bGVfZHJpdmVyKF9fcGNpX2RyaXZlciwgZHJtX3BjaV9yZWdpc3Rlcl9kcml2ZXIsIFwN
+Cj4gKwkJICAgICAgcGNpX3VucmVnaXN0ZXJfZHJpdmVyKQ0KPiArDQo+ICsvKioNCj4gKyAq
+IGRybV9wbGF0Zm9ybV9kcml2ZXJfcmVnaXN0ZXIgLSByZWdpc3RlciBhIERSTSBkcml2ZXIg
+Zm9yIHBsYXRmb3JtIGRldmljZXMNCj4gKyAqIEBkcnY6IHBsYXRmb3JtIGRyaXZlciBzdHJ1
+Y3R1cmUNCj4gKyAqDQo+ICsgKiBSZXR1cm5zIHplcm8gb24gc3VjY2VzcyBvciBhIG5lZ2F0
+aXZlIGVycm5vIGNvZGUgb24gZmFpbHVyZS4NCj4gKyAqLw0KPiArc3RhdGljIGlubGluZSBp
+bnQgZHJtX3BsYXRmb3JtX2RyaXZlcl9yZWdpc3RlcihzdHJ1Y3QgcGxhdGZvcm1fZHJpdmVy
+ICpkcnYpDQoNCg0KPiArew0KPiArCWlmIChkcm1fZmlybXdhcmVfZHJpdmVyc19vbmx5KCkp
+DQo+ICsJCXJldHVybiAtRU5PREVWOw0KPiArDQo+ICsJcmV0dXJuIHBsYXRmb3JtX2RyaXZl
+cl9yZWdpc3RlcihkcnYpOw0KPiArfQ0KPiArDQo+ICsvKioNCj4gKyAqIGRybV9tb2R1bGVf
+cGxhdGZvcm1fZHJpdmVyKCkgLSBoZWxwZXIgbWFjcm8gZm9yIHJlZ2lzdGVyaW5nIGEgRFJN
+IHBsYXRmb3JtIGRyaXZlcg0KDQpEb2NzIGZvciB0aGUgX19wbGF0Zm9ybV9kcml2ZXIgYXJn
+dW1lbnQNCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiArICoNCj4gKyAqIEhlbHBlciBt
+YWNybyBmb3IgRFJNIHBsYXRmb3JtIGRyaXZlcnMgd2hpY2ggZG8gbm90IGRvIGFueXRoaW5n
+IHNwZWNpYWwgaW4gdGhlaXINCj4gKyAqIG1vZHVsZSBpbml0L2V4aXQgYW5kIGp1c3QgbmVl
+ZCB0aGUgRFJNIHNwZWNpZmljIG1vZHVsZSBpbml0Lg0KPiArICovDQo+ICsjZGVmaW5lIGRy
+bV9tb2R1bGVfcGxhdGZvcm1fZHJpdmVyKF9fcGxhdGZvcm1fZHJpdmVyKSBcDQo+ICsJbW9k
+dWxlX2RyaXZlcihfX3BsYXRmb3JtX2RyaXZlciwgZHJtX3BsYXRmb3JtX2RyaXZlcl9yZWdp
+c3RlciwgXA0KPiArCQkgICAgICBwbGF0Zm9ybV9kcml2ZXJfdW5yZWdpc3RlcikNCj4gKw0K
+PiAgICNlbmRpZg0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJp
+dmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpN
+YXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFH
+IE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-are available in the Git repository at:
+--------------aH9swzG0xgYiMw598HFrIVFd--
 
-  https://gitlab.freedesktop.org/drm/tegra.git tags/drm/tegra/for-5.17-rc1
+--------------TuP4NiKc1M9lQ1tXRHv24yZP
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-for you to fetch changes up to d210919dbdc8a82c676cc3e3c370b1802be63124:
+-----BEGIN PGP SIGNATURE-----
 
-  drm/tegra: Add back arm_iommu_detach_device() (2021-12-16 14:30:45 +0100)
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmG8n1cFAwAAAAAACgkQlh/E3EQov+Au
+0xAAynY3FgbhNNvCZXAJf7MY+FdQAlLNhYfhWwBn1NfVOU+JOaDG2nzESIsVWk1GTdCdtQZCjOmZ
+20KSh0KJXsCR8fC8GhiJimA71UUJrLueUWu3Vn4tHksNjmYIFLcdZWyXRcgHJg/3Tqxy9E4Q200M
+x0uYyCWtsPX1TVJxwzse3maHCYZ2B5BaAyvDL3YQtBSgwoq3RY7Zr2T8VJ55UDFQPBvwXObvrh+4
+CAlDDQOygiUxM+gpsWse0ojpSmz1BWcgE3y/VQDgspnsPANeOVZstmclLZS0oMJXRDdm0gK4AZd9
+mimJ+Q/0FkP6QPUFNblW0K441GzQvvDpBG65pTB8Yv1XR7Uo2QM2RMF7rlkoxrZVcu1K/NVSj9DT
+MMqcNC60H4mHgNOJkJs8pBD1TvZkHkY5txadtYE85UY2dMbfwwI+8HAgOimr+GY5tnIn0gfY4lqR
+z/X5gwH+FF5w0yi7ZFRNs0E5meI0Cfgk7QdfNKzvHYEc46Kx9tJUpbCoxFELQyNzlHeHDXHT/8YY
+cj12FAYfgg8Ejl1O+0a9cn1s2Y75N6lmHuzk0b0EZU6rwOhyYmGDnIDcCXf5+VN0JdWx92KWCP+/
+ivKEV7xbiHSNqVEYVEMpnca3QrerBDQXotfvq57UIxm7w4zD7WB8kIYnwcYD1WqNtdcBLFpxKyiX
+O50=
+=cZEP
+-----END PGP SIGNATURE-----
 
-This is unusually big because it contains essentially two cycles' worth
-of work. I'm still not sure what happened for v5.16-rc1, but the PR was
-never merged.
-
-Fingers crossed that it will work better this time.
-
-As mentioned last time already, the userspace for the new NVDEC driver
-can be found here:
-
-  https://github.com/cyndis/vaapi-tegra-driver
-
-Thanks,
-Thierry
-
-----------------------------------------------------------------
-drm/tegra: Changes for v5.17-rc1
-
-This contains a fairly large rework that makes the buffer objects behave
-more according to what the DMA-BUF infrastructure expects. A buffer
-object cache is implemented on top of that to make certain operations
-such as page-flipping more efficient by avoiding needless map/unmap
-operations. This in turn is useful to implement asynchronous commits to
-support legacy cursor updates.
-
-Another fairly big addition is the NVDEC driver. This uses the updated
-UABI introduced in v5.15-rc1 to provide access to the video decode
-engines found on Tegra210 and later.
-
-This also includes some power management improvements that are useful on
-older devices in particular because they, together with a bunch of other
-changes across the kernel, allow the system to scale down frequency and
-voltages when mostly idle and prevent these devices from becoming
-excessively hot.
-
-The remainder of these changes is an assortment of cleanups and minor
-fixes.
-
-----------------------------------------------------------------
-Arnd Bergmann (3):
-      gpu: host1x: select CONFIG_DMA_SHARED_BUFFER
-      drm/tegra: Mark nvdec_writel() as inline
-      drm/tegra: Mark nvdec PM functions as __maybe_unused
-
-Dmitry Osipenko (19):
-      soc/tegra: Enable runtime PM during OPP state-syncing
-      soc/tegra: Add devm_tegra_core_dev_init_opp_table_common()
-      drm/tegra: dc: rgb: Move PCLK shifter programming to CRTC
-      drm/tegra: dc: rgb: Allow changing PLLD rate on Tegra30+
-      drm/tegra: hdmi: Unwind tegra_hdmi_init() errors
-      drm/tegra: hdmi: Register audio CODEC on Tegra20
-      gpu: host1x: Add initial runtime PM and OPP support
-      gpu: host1x: Add host1x_channel_stop()
-      drm/tegra: submit: Add missing pm_runtime_mark_last_busy()
-      drm/tegra: dc: Support OPP and SoC core voltage scaling
-      drm/tegra: hdmi: Add OPP support
-      drm/tegra: gr2d: Support generic power domain and runtime PM
-      drm/tegra: gr3d: Support generic power domain and runtime PM
-      drm/tegra: vic: Stop channel on suspend
-      drm/tegra: nvdec: Stop channel on suspend
-      drm/tegra: submit: Remove pm_runtime_enabled() checks
-      drm/tegra: Consolidate runtime PM management of older UAPI codepath
-      gpu: host1x: Add back arm_iommu_detach_device()
-      drm/tegra: Add back arm_iommu_detach_device()
-
-Mikko Perttunen (3):
-      drm/tegra: Add NVDEC driver
-      drm/tegra: Bump VIC/NVDEC clock rates to Fmax
-      drm/tegra: vic: Use autosuspend
-
-Randy Dunlap (1):
-      gpu: host1x: Drop excess kernel-doc entry @key
-
-Robin Murphy (2):
-      drm/tegra: vic: Fix DMA API misuse
-      gpu: host1x: Add missing DMA API include
-
-Thierry Reding (8):
-      Merge branch 'tegra-for-5.17-soc-opp' of git://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux into drm/tegra/for-next
-      drm/tegra: Implement correct DMA-BUF semantics
-      drm/tegra: Implement buffer object cache
-      drm/tegra: Do not reference tegra_plane_funcs directly
-      drm/tegra: Propagate errors from drm_gem_plane_helper_prepare_fb()
-      drm/tegra: Support asynchronous commits for cursor
-      drm/tegra: gr2d: Explicitly control module reset
-      drm/tegra: vic: Handle tegra_drm_alloc() failure
-
-Wan Jiabing (1):
-      drm/tegra: Remove duplicate struct declaration
-
- drivers/gpu/drm/tegra/Kconfig      |   3 +
- drivers/gpu/drm/tegra/Makefile     |   3 +-
- drivers/gpu/drm/tegra/dc.c         | 194 +++++++++++++--
- drivers/gpu/drm/tegra/dc.h         |   3 +
- drivers/gpu/drm/tegra/drm.c        |  30 ++-
- drivers/gpu/drm/tegra/drm.h        |   1 +
- drivers/gpu/drm/tegra/gem.c        | 171 +++++++++-----
- drivers/gpu/drm/tegra/gr2d.c       | 151 +++++++++++-
- drivers/gpu/drm/tegra/gr3d.c       | 353 +++++++++++++++++++++++-----
- drivers/gpu/drm/tegra/hdmi.c       | 183 +++++++++++++--
- drivers/gpu/drm/tegra/hub.h        |   1 -
- drivers/gpu/drm/tegra/nvdec.c      | 466 +++++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/tegra/plane.c      |  65 ++----
- drivers/gpu/drm/tegra/plane.h      |   2 +-
- drivers/gpu/drm/tegra/rgb.c        |  53 ++++-
- drivers/gpu/drm/tegra/submit.c     |  77 ++++--
- drivers/gpu/drm/tegra/uapi.c       |  68 ++----
- drivers/gpu/drm/tegra/uapi.h       |   5 +-
- drivers/gpu/drm/tegra/vic.c        |  61 +++--
- drivers/gpu/host1x/Kconfig         |   1 +
- drivers/gpu/host1x/bus.c           |  80 ++++++-
- drivers/gpu/host1x/channel.c       |   8 +
- drivers/gpu/host1x/debug.c         |  15 ++
- drivers/gpu/host1x/dev.c           | 185 ++++++++++++---
- drivers/gpu/host1x/dev.h           |   5 +-
- drivers/gpu/host1x/hw/channel_hw.c |  44 ++--
- drivers/gpu/host1x/intr.c          |   3 -
- drivers/gpu/host1x/job.c           | 160 +++++--------
- drivers/gpu/host1x/job.h           |   6 +-
- drivers/gpu/host1x/syncpt.c        |   5 +-
- drivers/soc/tegra/common.c         |  25 ++
- include/linux/host1x.h             |  76 ++++--
- include/soc/tegra/common.h         |  15 ++
- 33 files changed, 2020 insertions(+), 498 deletions(-)
- create mode 100644 drivers/gpu/drm/tegra/nvdec.c
+--------------TuP4NiKc1M9lQ1tXRHv24yZP--
