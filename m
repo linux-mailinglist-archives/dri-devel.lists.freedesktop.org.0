@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1370A47818D
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 01:38:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A523A4781A2
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 01:39:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E67B310E246;
-	Fri, 17 Dec 2021 00:38:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C34010E299;
+	Fri, 17 Dec 2021 00:38:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26A9610E216
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 00:38:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77F3910E216
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 00:38:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639701507;
+ s=mimecast20190719; t=1639701508;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E88hmYo+ObZf3tGYS6T1KggzSFzJlGn4i9AC9N8Fn9Y=;
- b=Qf8bEdkB+OAZy6Ue/4bjt3WfZ/WZHWVxEwLwJcHJAdc2LVnOoZc2c/pRln39b0LKeDDebx
- zoeEhAsJBxEEUc7LUYnwBx5yezfxL25QBQdp3tA1i9QwLxXihbk8yEsnJpeBFkV7qwfVGU
- 3Bdbl0MXKDpcrvnG9FbtXITuFz0/qy4=
+ bh=1xJGxstYh658sLcbhjOZMkUVQl2qU4zGeFPPJuAgTKA=;
+ b=LJ4ZOj26mkYCFqCbjbzZDx/9a2VLnFGwzD8Acws7kodyiHKdyORN1q1uhKOJezJJy3tvEW
+ KAofRU4tgjSj+ycWBE2wdZWXDZ97EtYzLwMAQ+8KxP9Y7O9OgUH22/wXkFYojhn2EzLcoT
+ 9Lclow662mIOrkdxQN+sPMs1v73DKSI=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-390-1Vos0U6bO82xf-SMMbLacA-1; Thu, 16 Dec 2021 19:38:25 -0500
-X-MC-Unique: 1Vos0U6bO82xf-SMMbLacA-1
+ us-mta-132-N1lPxXcQNdmXMa6K3Glliw-1; Thu, 16 Dec 2021 19:38:27 -0500
+X-MC-Unique: N1lPxXcQNdmXMa6K3Glliw-1
 Received: by mail-wr1-f69.google.com with SMTP id
- w25-20020adf8bd9000000b001a255212b7cso52586wra.18
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 16:38:25 -0800 (PST)
+ h7-20020adfaa87000000b001885269a937so144008wrc.17
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Dec 2021 16:38:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=E88hmYo+ObZf3tGYS6T1KggzSFzJlGn4i9AC9N8Fn9Y=;
- b=qjWp8urb6+tiEC3N/4ryJC6/03lsqrCvfVd125QNsz8Yf8HhL91P2utAzRI4VYqFWA
- KRs75BlBrfQciuSQ2hqbfG/agq6W7p1YKV+/zWu4ffyLEVwNfk8cuyhY6H9gKGlArmM7
- cVwPcw69S43cuyrSi5GZGuIW9PwxrQHSY4rU1XoEaYMITpoj86W00b4gPgPV2R2uZyWO
- 9eLxKXktxSSuA+AY9Skw3cZbHPScqYwInpiibaJwArtdobom9mZKFa/Z5DNVcosGykfG
- KrVuezVqY3FSnaO/xpYZTw+mBq/rzROuRuvjjXbUthliVa9fysMT1XLgIZlzBr6EnQ4q
- zQHQ==
-X-Gm-Message-State: AOAM532KMAiv/1DWFbIvnmC79yl0hiQAQjX75IddIRav0WzJ0oR1Xc6S
- vDNvnZ1Xkh/YjSPtfxQjvaS4JZYO0olq/rNnTmzjFjpBvRaWwFmLMwqkIsHreN5S1o3EP0PRzmZ
- WB8u29exxgyv7aLyR2xVGb2lrW+l5
-X-Received: by 2002:adf:90e5:: with SMTP id i92mr344954wri.675.1639701504607; 
- Thu, 16 Dec 2021 16:38:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy1Ro2A75bOdMBtxiDF+OSPrt4upTH2ZoFakfTkrJa5WrM1j9hPOCbZctKCZYRtvUlKF/lE9w==
-X-Received: by 2002:adf:90e5:: with SMTP id i92mr344947wri.675.1639701504446; 
- Thu, 16 Dec 2021 16:38:24 -0800 (PST)
+ bh=1xJGxstYh658sLcbhjOZMkUVQl2qU4zGeFPPJuAgTKA=;
+ b=hvRoAjTc9z/QroF+D5qs4JyEPLntLJ0t7G+1UKyyyV8EGkndml0CoaY1yNOaJc7pxn
+ vEjaUMUJXXQspe1WzwXONAAoj2QMxIiLvYHllSUIZ9Jk5J7Gxv3QtLq1sC3dF64XsQj2
+ KMVbLi1gr3VjsTCRAP30/3oAT6aDoAZVO7wwnk3tBS0ntRW4ab8RIvXuc8+kUJWmebC3
+ 03s/9tfhaV7JKzLrnOmDTOtOsiQXY5jo8C4VmPRcQr8PYpA4sN75f4H2b+KZSFM1cpL0
+ RjzsneO74lVYF8sXqnBX/MZazTOYDJ4UzfjNvIvehIWBn6yvTmbnK5fpLS/sNWwoZ0it
+ XFPw==
+X-Gm-Message-State: AOAM5324kKBWkEIGsKLo0fweBJNrqUhs0KZfb1GbAcmLR9nUJubSuCZK
+ gIL7HkJs7xq4SPbIi9f5jA6mDJwRDHadNJTjfQQ8ZBwtp2JPeWLFmExGCI7+1UFspQQ9OBiAVi6
+ VP+v2FLXsz5eNoXILX1uB4y+AvgJ7
+X-Received: by 2002:a5d:4312:: with SMTP id h18mr381759wrq.626.1639701505826; 
+ Thu, 16 Dec 2021 16:38:25 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwEIOm8kdWiRiTiM2JW5349vi2plrCWlI3WzuseYR6JiCR9/kDlRsHPmiv0nYevzGRXYeknBA==
+X-Received: by 2002:a5d:4312:: with SMTP id h18mr381745wrq.626.1639701505593; 
+ Thu, 16 Dec 2021 16:38:25 -0800 (PST)
 Received: from minerva.home ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id bg12sm7368433wmb.5.2021.12.16.16.38.23
+ by smtp.gmail.com with ESMTPSA id bg12sm7368433wmb.5.2021.12.16.16.38.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Dec 2021 16:38:24 -0800 (PST)
+ Thu, 16 Dec 2021 16:38:25 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 27/37] drm/mcde: Add support for the nomodeset kernel
+Subject: [PATCH v2 28/37] drm/mediatek: Add support for the nomodeset kernel
  parameter
-Date: Fri, 17 Dec 2021 01:37:42 +0100
-Message-Id: <20211217003752.3946210-28-javierm@redhat.com>
+Date: Fri, 17 Dec 2021 01:37:43 +0100
+Message-Id: <20211217003752.3946210-29-javierm@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211217003752.3946210-1-javierm@redhat.com>
 References: <20211217003752.3946210-1-javierm@redhat.com>
@@ -83,7 +83,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -97,28 +98,27 @@ But only a few DRM drivers currently check for nomodeset, make this driver
 to also support the command line parameter.
 
 Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 ---
 
 (no changes since v1)
 
- drivers/gpu/drm/mcde/mcde_drv.c | 3 +++
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_drv.c
-index 5b5afc6aaf8e..0b2910e69b42 100644
---- a/drivers/gpu/drm/mcde/mcde_drv.c
-+++ b/drivers/gpu/drm/mcde/mcde_drv.c
-@@ -491,6 +491,9 @@ static int __init mcde_drm_register(void)
- {
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+index aec39724ebeb..e336358fee20 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+@@ -210,6 +210,9 @@ static int mtk_drm_kms_init(struct drm_device *drm)
+ 	struct device *dma_dev;
  	int ret;
  
 +	if (drm_firmware_drivers_only())
 +		return -ENODEV;
 +
- 	ret = platform_register_drivers(component_drivers,
- 					ARRAY_SIZE(component_drivers));
- 	if (ret)
+ 	if (!iommu_present(&platform_bus_type))
+ 		return -EPROBE_DEFER;
+ 
 -- 
 2.33.1
 
