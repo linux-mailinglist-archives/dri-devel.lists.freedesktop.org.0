@@ -1,54 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 234E94790CF
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 16:59:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71381479178
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 17:28:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E320F10E58F;
-	Fri, 17 Dec 2021 15:59:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E8DB10E35E;
+	Fri, 17 Dec 2021 16:28:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDBA210E58F
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 15:59:28 +0000 (UTC)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B670410E4B5;
+ Fri, 17 Dec 2021 16:28:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639756769; x=1671292769;
+ t=1639758510; x=1671294510;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=spt2TZS4capHt+wzFhSAQnCBn7Fh2qkwHcRnr0zaM0U=;
- b=L+K3MxFQsk7oWNUtByVItObAe+FVtfNL+ZMbHhUOhhmBzEicF7pOG1cP
- 8L0kIj5EA9fwLUovC29L2bHTur46E4/Fm9Vw0j8rR9Ad/Sv6qGEpP8RT1
- dQZyKb4gxWm8tOsxCT8ceUrfKbbM04poxVwmQHItVjziHXNgnZQSubEPw
- 5KfFZQYNf6TVchWVBYHeeH7k/oj6pPmUHZ7XRf5qQTUku+ZDbU+WE7BTg
- WC3BAHTenVrb5oEuS5NQEcN8RoLoxR+1BM4A+yxhDverM3jelpo7OoquB
- bhEIynpfYh9nHkKdHrHMvh/8aOp/pmmX4rs4Wjc0RR4HWZD+HDj2zpx32 Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10201"; a="240000444"
-X-IronPort-AV: E=Sophos;i="5.88,213,1635231600"; d="scan'208";a="240000444"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Dec 2021 07:59:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,213,1635231600"; d="scan'208";a="465158376"
-Received: from lkp-server02.sh.intel.com (HELO 9f38c0981d9f) ([10.239.97.151])
- by orsmga003.jf.intel.com with ESMTP; 17 Dec 2021 07:59:18 -0800
-Received: from kbuild by 9f38c0981d9f with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1myFdd-0004tT-Gh; Fri, 17 Dec 2021 15:59:17 +0000
-Date: Fri, 17 Dec 2021 23:58:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 10/37] drm/imx/dcss: Use drm_module_platform_driver()
- to register the driver
-Message-ID: <202112172338.SdP9K7tX-lkp@intel.com>
-References: <20211217003752.3946210-11-javierm@redhat.com>
+ bh=Fn+RGZ5bRot5NO4rRgzUV8MWFA7RcaRafe5kV2e17Zo=;
+ b=WdWnsTXUdnS/nVGfCdaeDDh25kwyeFsk/43qg9RS+XKvaTdtYewDJnGD
+ LSJmY4y/v0zKodjPlQGtVye8juKWfM75653tvyUfzjiIeJExXxn+DcICG
+ Ciu39zk796XHUGK+H4M3t0FCx43inF99QGcikcImCUjUZpSyaLa/0MfZ2
+ KrRpWwIUA5M0SoXStJXu4+Nr34r6q6NFT+8t2CEk86zpM3Do22/M2eXtV
+ 35xYivVe+GcRZfP5szsEy3N7754BDXinpXjctcx1zSmGE3nrNuEi/3Rpo
+ 4eC4zc7KFntVd2eovwbOykLVSB6/C5b1Pls11vrsUZ7Zfpppu3WNS28/W A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10201"; a="226641572"
+X-IronPort-AV: E=Sophos;i="5.88,213,1635231600"; d="scan'208";a="226641572"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Dec 2021 08:28:18 -0800
+X-IronPort-AV: E=Sophos;i="5.88,213,1635231600"; d="scan'208";a="662882571"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Dec 2021 08:28:14 -0800
+Date: Fri, 17 Dec 2021 08:22:54 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc: Log engine resets
+Message-ID: <20211217162254.GA22048@jons-linux-dev-box>
+References: <20211214150704.984034-1-tvrtko.ursulin@linux.intel.com>
+ <597d4ad0-fdae-49a6-b471-3a83d4c25b98@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211217003752.3946210-11-javierm@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <597d4ad0-fdae-49a6-b471-3a83d4c25b98@linux.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,59 +58,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, Javier Martinez Canillas <javierm@redhat.com>,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+Cc: Intel-gfx@lists.freedesktop.org, John Harrison <John.C.Harrison@Intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier,
+On Fri, Dec 17, 2021 at 12:15:53PM +0000, Tvrtko Ursulin wrote:
+> 
+> On 14/12/2021 15:07, Tvrtko Ursulin wrote:
+> > From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> > 
+> > Log engine resets done by the GuC firmware in the similar way it is done
+> > by the execlists backend.
+> > 
+> > This way we have notion of where the hangs are before the GuC gains
+> > support for proper error capture.
+> 
+> Ping - any interest to log this info?
+> 
+> All there currently is a non-descriptive "[drm] GPU HANG: ecode
+> 12:0:00000000".
+>
 
-I love your patch! Yet something to improve:
+Yea, this could be helpful. One suggestion below.
 
-[auto build test ERROR on next-20211215]
-[also build test ERROR on v5.16-rc5]
-[cannot apply to drm/drm-next shawnguo/for-next pinchartl-media/drm/du/next drm-exynos/exynos-drm-next v5.16-rc5 v5.16-rc4 v5.16-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+> Also, will GuC be reporting the reason for the engine reset at any point?
+>
 
-url:    https://github.com/0day-ci/linux/commits/Javier-Martinez-Canillas/drm-Make-drivers-to-honour-the-nomodeset-parameter/20211217-084031
-base:    93bf6eee76c0e716f6b32de690b1c52991547bb4
-config: arm64-randconfig-r034-20211216 (https://download.01.org/0day-ci/archive/20211217/202112172338.SdP9K7tX-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/c7b8e02dcec35660bbc9101ae0c1db11e5f7d1ab
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Javier-Martinez-Canillas/drm-Make-drivers-to-honour-the-nomodeset-parameter/20211217-084031
-        git checkout c7b8e02dcec35660bbc9101ae0c1db11e5f7d1ab
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/imx/dcss/
+We are working on the error state capture, presumably the registers will
+give a clue what caused the hang.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+As for the GuC providing a reason, that isn't defined in the interface
+but that is decent idea to provide a hint in G2H what the issue was. Let
+me run that by the i915 GuC developers / GuC firmware team and see what
+they think. 
 
-All error/warnings (new ones prefixed by >>):
+> Regards,
+> 
+> Tvrtko
+> 
+> > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> > Cc: Matthew Brost <matthew.brost@intel.com>
+> > Cc: John Harrison <John.C.Harrison@Intel.com>
+> > ---
+> >   drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 12 +++++++++++-
+> >   1 file changed, 11 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > index 97311119da6f..51512123dc1a 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > @@ -11,6 +11,7 @@
+> >   #include "gt/intel_context.h"
+> >   #include "gt/intel_engine_pm.h"
+> >   #include "gt/intel_engine_heartbeat.h"
+> > +#include "gt/intel_engine_user.h"
+> >   #include "gt/intel_gpu_commands.h"
+> >   #include "gt/intel_gt.h"
+> >   #include "gt/intel_gt_clock_utils.h"
+> > @@ -3934,9 +3935,18 @@ static void capture_error_state(struct intel_guc *guc,
+> >   {
+> >   	struct intel_gt *gt = guc_to_gt(guc);
+> >   	struct drm_i915_private *i915 = gt->i915;
+> > -	struct intel_engine_cs *engine = __context_to_physical_engine(ce);
+> > +	struct intel_engine_cs *engine = ce->engine;
+> >   	intel_wakeref_t wakeref;
+> > +	if (intel_engine_is_virtual(engine)) {
+> > +		drm_notice(&i915->drm, "%s class, engines 0x%x; GuC engine reset\n",
+> > +			   intel_engine_class_repr(engine->class),
+> > +			   engine->mask);
+> > +		engine = guc_virtual_get_sibling(engine, 0);
+> > +	} else {
+> > +		drm_notice(&i915->drm, "%s GuC engine reset\n", engine->name);
 
->> drivers/gpu/drm/imx/dcss/dcss-drv.c:134:1: warning: data definition has no type or storage class
-     134 | drm_module_platform_driver(dcss_platform_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/imx/dcss/dcss-drv.c:134:1: error: type defaults to 'int' in declaration of 'drm_module_platform_driver' [-Werror=implicit-int]
->> drivers/gpu/drm/imx/dcss/dcss-drv.c:134:1: warning: parameter names (without types) in function declaration
-   drivers/gpu/drm/imx/dcss/dcss-drv.c:124:31: warning: 'dcss_platform_driver' defined but not used [-Wunused-variable]
-     124 | static struct platform_driver dcss_platform_driver = {
-         |                               ^~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+Probably include the guc_id of the context too then?
 
+Matt
 
-vim +134 drivers/gpu/drm/imx/dcss/dcss-drv.c
-
-   133	
- > 134	drm_module_platform_driver(dcss_platform_driver);
-   135	
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> > +	}
+> > +
+> >   	intel_engine_set_hung_context(engine, ce);
+> >   	with_intel_runtime_pm(&i915->runtime_pm, wakeref)
+> >   		i915_capture_error_state(gt, engine->mask);
+> > 
