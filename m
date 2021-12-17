@@ -2,68 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF03B478A79
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 12:55:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF341478AAC
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 12:59:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10B1410F802;
-	Fri, 17 Dec 2021 11:55:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70EDD10E556;
+	Fri, 17 Dec 2021 11:58:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C09110F802
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 11:55:51 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id d38so4199590lfv.0
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 03:55:51 -0800 (PST)
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com
+ [IPv6:2607:f8b0:4864:20::832])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 290FC10E526;
+ Fri, 17 Dec 2021 11:58:55 +0000 (UTC)
+Received: by mail-qt1-x832.google.com with SMTP id m25so2230825qtq.13;
+ Fri, 17 Dec 2021 03:58:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=IVoSwh1vrOcOYMzSFZcBGiekwmrvmnu/yu9ynAy3UtA=;
- b=Gj4M7BgLMNPwhiJBvGzl/JDenwkO7HDujABojJBRvVGLCRYQeHHyruewEpwh6ybCyL
- Av1yUjLdjkR52TDV9592LyZLu1xchFpalL3pBfN/s4J6GTD8OOlofaYsxubHYKVU2D6O
- CbHHedms1cH2t6sC0TTo3ffEOH/fd2BqYI9jaqOIfwtwvVCamaraABKsvlzeRrJ4cZOF
- 7tXhjqCqOV+AEwTPnXm7hTyGdi7sLrHvX26MLPYSwDk05X49ikx2cs4YXE2R435mCgYf
- BeB9yakD/M3i6mbNh1aJSrhdCmtLCJpriqea6faSFaKjZhK9ZTwQb/aCz6oBwahpX3C/
- o4oQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=wT8ClecYdhCVdvDuMUr/1pzhtVDKCf9vH9eDundTQ/c=;
+ b=SjUYfrn7sNVzlvtAc/g4OFz+BkHSyl0aBs2H7HbMsB4q0bj8aP+uGjhv4LSXL+Dduh
+ 5/yX0vhinUzG8Jsmu+c5OG11nPDapfB7z99LOE6DBTjFTmo6fAEB+uNXBzewd3jmOCSv
+ 7YSdMqdL4afOEGf+ZxR/OjJk9zVhTf+S8aP+SYU9cQA5RUlglOHArey7hwSln2psOIKM
+ 4jC7XwhcEGhCOYpOjgHwZHBnp3hAMtZ4tPt0aftn6dkxxQwrl1FiuIGRG2cYXpo5+/LS
+ lN9ATzg/DkSOdPwkmJgz3nMe4l1GFyC2fvBYDyzlqHecemahZPUzzYv4prygX59Uq7cx
+ DrTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=IVoSwh1vrOcOYMzSFZcBGiekwmrvmnu/yu9ynAy3UtA=;
- b=pQJSKQY04/riEm30+vGsygTK+oBHpIP20aMV9rrMIuNZr0PATV4TnC1WCgyqGXrwrs
- 80J51SINzNBl7r37LFaCYxP6mZjPNVEa9S0Q8fdWQoC5SoLnjgqsjIs/mBizBLHBio2n
- mpz1Ao6qi1CGGfjI3homPacXmP9MQx/GH76FDBDsh8oBGfaZ4sqAp2kHLsR/LzV/m6uO
- QDL+6XLfFJZoM9HjA9H32JOD7n3yMjFw55NEzmvS8dz7Db68B3c+5LlHlvFhdhjpKsbM
- /g31cPwzCkKQ3+K2oMkSO9QFY6IYjbXaMDJMZgMIV677KF6MyvRhZ/LgZ7hL99snHtQl
- LFKg==
-X-Gm-Message-State: AOAM533u0/ZZrnhOfRWElk11/rG3qbLcKoOOb1xBFJaWYGSVqu6OPDdW
- DI5SnP8xfuMGBmGiLkf4GQg4nQ5GwrE=
-X-Google-Smtp-Source: ABdhPJzR7F4ntqza5TxeJHdnruw3Sr909Ky7UaeX6gfiS/xaUtY7aJ1DkExo+7MWJU3p6Tpo8cWycQ==
-X-Received: by 2002:a05:6512:308b:: with SMTP id
- z11mr2508194lfd.177.1639742150078; 
- Fri, 17 Dec 2021 03:55:50 -0800 (PST)
-Received: from [192.168.2.145] (94-29-63-156.dynamic.spd-mgts.ru.
- [94.29.63.156])
- by smtp.googlemail.com with ESMTPSA id f10sm1355834lfg.211.2021.12.17.03.55.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Dec 2021 03:55:49 -0800 (PST)
-Subject: Re: [PATCH v4 04/22] dt-bindings: host1x: Document optional HDMI
- sound-dai-cells
-To: Mark Brown <broonie@kernel.org>, Thierry Reding <thierry.reding@gmail.com>
-References: <20211204143725.31646-1-digetx@gmail.com>
- <20211204143725.31646-5-digetx@gmail.com> <YbtLJeIxXlVyQhd3@orome>
- <Ybxwovlw2GARzqUO@sirena.org.uk>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <4edfbff2-ffd9-1c33-de0c-013a29dc286c@gmail.com>
-Date: Fri, 17 Dec 2021 14:55:48 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wT8ClecYdhCVdvDuMUr/1pzhtVDKCf9vH9eDundTQ/c=;
+ b=115sPmbnmozrLS/DCh+ab0LX02r4bu/kVzLEf/h2j0DrWJK9o3zRCqdUb8/Za67+1O
+ AiY0p2DaMcP+4e6v+OijeHcOx6i1Kgi5Ahns/z2s6uxssReM8kmwcHDA1gcjEOciN3AR
+ 11Xb/3vtLbcTUT72wZIvxJmvnZ9PAg/a1rooYKfW6VrbYfPjq17P2iAQWb6BabHl0n4F
+ AJHfnqrzK+DQ4m9W5TsevWVddeuZOLlxFlt+uZpCmpmXorEBC9GUNVkiYpLtbJ2s/Ott
+ 7wL2vCWwYggROgAVhW05s39QVIxJ/4Hq0fQM3Y13nhbW53uEXI8tGQWXmVDQkRwKR1Cr
+ u4CQ==
+X-Gm-Message-State: AOAM530owfqvuen+CY6iV4NT2f0XJ73l3yc9pG8+bieNPEyfMKCb+TuA
+ KswRNxL6lOvVv0tB0J2CrpKNN0a5Kq2qqOaIg7ZpqRwp/yw=
+X-Google-Smtp-Source: ABdhPJxm+dI59V/GnTEd69bM/FbLoMtIjPaqHkRj98AkU9+w35rNd/RkhgwrN9LB9snvOX4NU1gALrk+JcmPfZIRuOs=
+X-Received: by 2002:a05:622a:1990:: with SMTP id
+ u16mr1862913qtc.355.1639742334189; 
+ Fri, 17 Dec 2021 03:58:54 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <Ybxwovlw2GARzqUO@sirena.org.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20211216142749.1966107-1-maarten.lankhorst@linux.intel.com>
+ <20211216142749.1966107-9-maarten.lankhorst@linux.intel.com>
+In-Reply-To: <20211216142749.1966107-9-maarten.lankhorst@linux.intel.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Fri, 17 Dec 2021 11:58:27 +0000
+Message-ID: <CAM0jSHOL-dxs7v314p=iKDkRLDfR3Q=6bFoejydxTMd7Tbw=vQ@mail.gmail.com>
+Subject: Re: [PATCH v3 08/17] drm/i915: Call i915_gem_evict_vm in vm_fault_gtt
+ to prevent new ENOSPC errors
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,32 +64,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
- Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
- Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
- dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
- Rob Herring <robh+dt@kernel.org>, Agneli <poczt@protonmail.ch>,
- linux-tegra@vger.kernel.org, Jonathan Hunter <jonathanh@nvidia.com>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-17.12.2021 14:12, Mark Brown пишет:
-> On Thu, Dec 16, 2021 at 03:20:21PM +0100, Thierry Reding wrote:
->> On Sat, Dec 04, 2021 at 05:37:07PM +0300, Dmitry Osipenko wrote:
->>> Document new optional sound-dai-cells property of HDMI node. This node will
->>> be used as endpoint of HDMI sound DAI graph.
-> 
->> It's probably best for this to go through ASoC along with the other
->> audio-related bindings.
-> 
->> Alternatively, I've just sent out a patch that converts the host1x
->> bindings to json-schema, so I could work this into that as well.
-> 
-> It doesn't apply to the ASoC tree for whatever reason so probably best
-> to roll it in with those JSON updates.
-> 
+On Thu, 16 Dec 2021 at 14:28, Maarten Lankhorst
+<maarten.lankhorst@linux.intel.com> wrote:
+>
+> Now that we cannot unbind kill the currently locked object directly
 
-This hos1tx binding patch indeed will conflict with the Thierry's patch.
+"unbind kill"
 
-Thierry, will you be able to take the binding patches into the Tegra
-tree and resolve all those hos1tx binding conflicts there?
+> because we're removing short term pinning, we may have to unbind the
+> object from gtt manually, using a i915_gem_evict_vm() call.
+>
+> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+
+Maybe mention that this only in preparation for some future patches,
+once the actual eviction is trylock and evict_for_vm can also handle
+shared dma-resv? At this point in the series we shouldn't expect to
+hit -ENOSPC, right?
+
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_mman.c | 18 ++++++++++++++++--
+>  1 file changed, 16 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> index af81d6c3332a..00cd9642669a 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> @@ -358,8 +358,22 @@ static vm_fault_t vm_fault_gtt(struct vm_fault *vmf)
+>                         vma = i915_gem_object_ggtt_pin_ww(obj, &ww, &view, 0, 0, flags);
+>                 }
+>
+> -               /* The entire mappable GGTT is pinned? Unexpected! */
+> -               GEM_BUG_ON(vma == ERR_PTR(-ENOSPC));
+> +               /*
+> +                * The entire mappable GGTT is pinned? Unexpected!
+> +                * Try to evict the object we locked too, as normally we skip it
+> +                * due to lack of short term pinning inside execbuf.
+> +                */
+> +               if (vma == ERR_PTR(-ENOSPC)) {
+> +                       ret = mutex_lock_interruptible(&ggtt->vm.mutex);
+> +                       if (!ret) {
+> +                               ret = i915_gem_evict_vm(&ggtt->vm);
+> +                               mutex_unlock(&ggtt->vm.mutex);
+> +                       }
+> +                       if (ret)
+> +                               goto err_reset;
+> +                       vma = i915_gem_object_ggtt_pin_ww(obj, &ww, &view, 0, 0, flags);
+> +               }
+> +               GEM_WARN_ON(vma == ERR_PTR(-ENOSPC));
+
+Looks like this is being triggered in CI, I assume because the trylock
+could easily fail, due to contention? Is this expected for now? Do we
+keep the WARN and track it as a known issue?
+
+>         }
+>         if (IS_ERR(vma)) {
+>                 ret = PTR_ERR(vma);
+> --
+> 2.34.1
+>
