@@ -1,59 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75A134789BB
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 12:23:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CCAB4789DF
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Dec 2021 12:25:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D763B10EEE1;
-	Fri, 17 Dec 2021 11:23:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4DA410FE16;
+	Fri, 17 Dec 2021 11:25:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08FC710EEE0
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 11:23:24 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 48ADC1F38A
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 11:23:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1639740203; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type;
- bh=t70eEzWHd6oXOFRe/kwYn0xQGsFwgsYcRy0o1devI4o=;
- b=fk/vKZ/Ze9Sh9DuiR1xUE5EtFkBFUS3hsM7eNqw/vPwFyGRntCf2fOlxntGVBJRsV/QaHs
- s30URNeXwxnhjTh6e7a71rpwFbvb470kpqiraA3BpLBGbADuBBmsHumQbnC2OGrX3yo7nG
- tVv1qeR1C7UUSI8BS2dWZ+fUwjwR07k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1639740203;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type;
- bh=t70eEzWHd6oXOFRe/kwYn0xQGsFwgsYcRy0o1devI4o=;
- b=RBhYGToh7GILm+7jTWOplJrnoVpqGiCfWpNaacnJ3vfUWtxIJOzfZTdCf44SMkj9p3rXUh
- GPydBoKviShu0oAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3310413DC1
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 11:23:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id VqTWCitzvGFJSAAAMHmgww
- (envelope-from <tzimmermann@suse.de>)
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 11:23:23 +0000
-Message-ID: <60747796-7c8f-2a60-3148-29abb6fe5b65@suse.de>
-Date: Fri, 17 Dec 2021 12:23:22 +0100
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com
+ [IPv6:2607:f8b0:4864:20::829])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1F4210FE15;
+ Fri, 17 Dec 2021 11:25:32 +0000 (UTC)
+Received: by mail-qt1-x829.google.com with SMTP id f20so2202984qtb.4;
+ Fri, 17 Dec 2021 03:25:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=D2+oC7kA/ziH+xhljaFmiOGxCf2s0lQTr3FhWXBo0pM=;
+ b=jMvcfg1ASwDmgFVxuXONgHKQDLCKfaKvZvBpeA+4APRJ9UPjlTtWPIXswg1fFU3gh5
+ COcgTwtv93N2iOueUsZ+oA7g5twqjBcn6r+BAcokV7KimjigaJMgsXbUlYSkGKWokqiA
+ cPxyQlRdLxFLswN7r6e0jWV0M3lbSYI868MZ7vLL1i2+xMkkpDcce2umsXGx8Wec7zx3
+ iSWe1KrlzG2+eIX67wKqDZwwH68KfpXMtUSxwTaS1y4dAIhAso8Vi8ZZ92ceL6i/P1O/
+ lvdjCLTBS3dhe1lf2EuaZ+B8YJaE6VLBxQvp+iDeQiTSJ1YAGSurT9cBO/UtB0bLtybg
+ VNlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=D2+oC7kA/ziH+xhljaFmiOGxCf2s0lQTr3FhWXBo0pM=;
+ b=HGTG15Vv4S+MgJcmG1c0doVRwuwTMDrRrHMmN4ZX/0kX3/eV9G1PAO7NvhIruD1SFP
+ l51qgDklj78U8embphG2Vi6/WgxYHKz7IHNKRySCB0oSq3qVLlaYxdBXMBQsChW/qiHj
+ 3WuvFn9/bk1oG8E9eRdaRjDS6uOWDoMRBCB3SqjfnOu8dYxNnT7WIpPwowRxy8KgBGgM
+ P8d9m03TxTLbg3Qu8vhCryr385LQcQiBc9vRXaRZ1zrkF3jjCozQa714/Btk+2nucaQY
+ z0acNxGEsRz0pNsmMYQXbkVsY4Q8X2kVXR/oqGSx7+SLDrpD6xB8BqAnXs1Ynf9gpFfe
+ v+Hg==
+X-Gm-Message-State: AOAM531Nspf8CutC/pfh4TUXsRwu0N1zYp+zpTOxFXqhQX/2TW1zHyxI
+ ErUKxkle40u08ux+5rOD4lqfDbb8r3Wy5/JPgASKU3Uhuic=
+X-Google-Smtp-Source: ABdhPJyQDvgzhoOQ0rshBtv7ZIKfE1/gvd8RS+iCuGKScYh4HHutGprxEXY4JKET8Vds4WdaLzBsxmC1ndlj1QkwxPc=
+X-Received: by 2002:ac8:5bd6:: with SMTP id b22mr1792041qtb.231.1639740332028; 
+ Fri, 17 Dec 2021 03:25:32 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: PSA: drm-misc-next-fixes is open
-To: dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------VMD0MIcVFLxwzA0qTCLyvUao"
+References: <20211216142749.1966107-1-maarten.lankhorst@linux.intel.com>
+ <20211216142749.1966107-8-maarten.lankhorst@linux.intel.com>
+In-Reply-To: <20211216142749.1966107-8-maarten.lankhorst@linux.intel.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Fri, 17 Dec 2021 11:25:05 +0000
+Message-ID: <CAM0jSHOHyOq3pOQ5zU1oQVAzFoh9g9uSBb6pkP7ZME_OTOv5Gg@mail.gmail.com>
+Subject: Re: [PATCH v3 07/17] drm/i915: Ensure i915_vma tests do not get
+ -ENOSPC with the locking changes.
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,62 +63,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------VMD0MIcVFLxwzA0qTCLyvUao
-Content-Type: multipart/mixed; boundary="------------2k0RdhzKBXy0p642di6Kb1Ld";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: dri-devel <dri-devel@lists.freedesktop.org>
-Message-ID: <60747796-7c8f-2a60-3148-29abb6fe5b65@suse.de>
-Subject: PSA: drm-misc-next-fixes is open
-
---------------2k0RdhzKBXy0p642di6Kb1Ld
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-
-SGksDQoNCkknbSBqdXN0IGxldHRpbmcgeW91IGtub3cgdGhhdCBkcm0tbWlzYy1uZXh0LWZp
-eGVzIGlzIG5vdyBvcGVuIGZvciBidWcgDQpmaXhlcy4gLXJjNiB3aWxsIHByZXN1bWFibHkg
-YmUgdGFnZ2VkIHRoaXMgd2Vla2VuZCwgd2hpY2ggbWVhbnMgdGhhdCANCmRybS1uZXh0IGlz
-IGluIGZlYXR1cmUgZnJlZXplIHVudGlsIHRoZSBuZXh0IC1yYzEgY29tZXMgb3V0Lg0KDQpU
-aGUgdHJhbnNpdGlvbiBmcm9tL3RvIGRybS1taXNjLWZpeGVzLW5leHQgb2Z0ZW4gcmVzdWx0
-cyBpbiBwYXRjaGVzIHRoYXQgDQphcmUgYXBwbGllZCB0byB0aGUgd3JvbmcgdHJlZSBhbmQg
-Z2V0IHN0dWNrIHRoZXJlIGZvciBhIGxvbmcgdGltZS4gU29tZSANCnJ1bGVzIG9mIHRodW1i
-Og0KDQogICogaWYgeW91ciBwYXRjaCBmaXhlcyBhIGJ1ZyBpbiBkcm0tbmV4dCwgcGxlYXNl
-IHB1dCBpdCBpbnRvIA0KZHJtLW1pc2MtbmV4dC1maXhlcywNCg0KICAqIGlmIHlvdXIgcGF0
-Y2ggZml4ZXMgYSBidWcgaW4gdXBzdHJlYW0sIHBsZWFzZSBwdXQgaXQgaW50byANCmRybS1t
-aXNjLWZpeGVzLA0KDQogICogYW55dGhpbmcgZWxzZSBzaG91bGQgZ28gaW50byBkcm0tbWlz
-Yy1uZXh0Lg0KDQpUaGUgZmxvdyBjaGFydCBpcyBhdCBbMV0uDQoNCkJlc3QgcmVnYXJkcw0K
-VGhvbWFzDQoNClsxXSANCmh0dHBzOi8vZHJtLnBhZ2VzLmZyZWVkZXNrdG9wLm9yZy9tYWlu
-dGFpbmVyLXRvb2xzL2NvbW1pdHRlci1kcm0tbWlzYy5odG1sI3doZXJlLWRvLWktYXBwbHkt
-bXktcGF0Y2gNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERl
-dmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxk
-c3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJu
-YmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
-
---------------2k0RdhzKBXy0p642di6Kb1Ld--
-
---------------VMD0MIcVFLxwzA0qTCLyvUao
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmG8cyoFAwAAAAAACgkQlh/E3EQov+Br
-xg//RSpxCPat++YyTmbPUGkffhIV4TWJrLfAMFr42EdmGNuv3qL7vQ0hFjgVN1fddDZw83E/NbJF
-87NdwX/IQ+6rQHmgk25k/isn+EmS1EoD8vJWSypUjBTDRVnZx4E2cEBErAx5IO5+Yl7tlxtb91h/
-i+rMZHdxuuBhq4XOUU2WT1czIOqO8pKKcGpsdbHabPZzYDXKUVQHWjLcBKphf01HIwBcmfgfEygV
-f2l/yjjg/KFTztHxyUES+JhlCWeXpEwy6MqdG9IuJ44fKG/HKkmn5bWamKmPqQmWz+N70I2ljDId
-WhUI2mZHK6Sft5HGQM5s9xKtkvDdjecuDE70AOd+hcchVZxfVmopM/FyUH8jC1o5jSBBxGfpIAQF
-K7t1ev0FKDktrbfF7CdaVKr8DtRecIy8sNh1ahwHiW+9lDKypeir8CPls1ZskPO979A/PLglbKVc
-u5hL5mkzAjPJoCtvSsfW2JqogiW3Z7D3hH826IHM6xB/DfZLwbVN4OlGPf2oWHeeHXmqEWYRtq0Q
-jVI2nKYS3Eehs0xUkibh9q87Mb9LpLX8FDLez0s7Mpfs4xkAOqKg1u3Is+7sKdV+YdJZWUSNjnQO
-KUCCefnST/djtPsKdNOCnNS2hQnFqgy7REGquFevmINfarkcLPfFpdQMlzLVaCmOjqwHCOR3r8tA
-7qc=
-=CoC8
------END PGP SIGNATURE-----
-
---------------VMD0MIcVFLxwzA0qTCLyvUao--
+On Thu, 16 Dec 2021 at 14:28, Maarten Lankhorst
+<maarten.lankhorst@linux.intel.com> wrote:
+>
+> Now that we require locking to evict, multiple vmas from the same object
+> might not be evicted. This is expected and required, because execbuf will
+> move to short-term pinning by using the lock only. This will cause these
+> tests to fail, because they create a ton of vma's for the same object.
+>
+> Unbind manually to prevent spurious -ENOSPC in those mock tests.
+>
+> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
