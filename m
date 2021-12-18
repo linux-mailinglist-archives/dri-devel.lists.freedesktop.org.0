@@ -2,36 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18EB847997E
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Dec 2021 08:46:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1450479A4E
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Dec 2021 11:28:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D141110ED10;
-	Sat, 18 Dec 2021 07:46:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0321011210F;
+	Sat, 18 Dec 2021 10:28:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B517010ED0E;
- Sat, 18 Dec 2021 07:46:15 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10201"; a="226756303"
-X-IronPort-AV: E=Sophos;i="5.88,215,1635231600"; d="scan'208";a="226756303"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Dec 2021 23:46:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,215,1635231600"; d="scan'208";a="663074663"
-Received: from allen-box.sh.intel.com ([10.239.159.118])
- by fmsmga001.fm.intel.com with ESMTP; 17 Dec 2021 23:46:11 -0800
-From: Lu Baolu <baolu.lu@linux.intel.com>
-To: Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>
-Subject: [PATCH 1/1] drm/nouveau/device: Get right pgsize_bitmap of
- iommu_domain
-Date: Sat, 18 Dec 2021 15:45:46 +0800
-Message-Id: <20211218074546.1772553-1-baolu.lu@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F2B611210C
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Dec 2021 10:28:47 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 4A5B4B80781
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Dec 2021 10:28:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1DCB2C36AE9
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Dec 2021 10:28:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1639823325;
+ bh=sYNNOUYdHLTdOJOyp7uR9ndr0x4XqkAN3QYQKVafGEc=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=JMyFjZ76c+9f/c1g1LfwGynGaoklaLHH21viuU7xWkJhklQ8i2+xGKhGZYZhDJgq7
+ fFjWrRdcxeAFyBb0s6p56Q4BFkbRlyiMKbqomVdco+V6N91PIwJyD5C2+UP9fjWOvv
+ zTyIeil26Zi9PJh8/57VBQrVjCHTCLx/4omaWvx61B5zGiJRNBBr98tl3mdDZqzbaE
+ idBMN+GX0pKI4/2XIt8KWA+cuyUJVYr43d7CFsl+4jbLF4Z5ynQhZJ5TwyIihr27Ze
+ iHeE7z3lj+RfVXLwdNPei6DuQl4AQXavksYDOmfpK+TqajKjdaNTtHuojXCdfISLmI
+ UddUiyaM/n19Q==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 0304D60F5B; Sat, 18 Dec 2021 10:28:45 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211425] [drm:atom_op_jump] *ERROR* atombios stuck in loop for
+ more than 20secs aborting
+Date: Sat, 18 Dec 2021 10:28:44 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: icedragon.aw@web.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cf_kernel_version
+Message-ID: <bug-211425-2300-IyVpCSIHIT@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211425-2300@https.bugzilla.kernel.org/>
+References: <bug-211425-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,35 +72,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, Joerg Roedel <joro@8bytes.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
- Robin Murphy <robin.murphy@arm.com>, Lu Baolu <baolu.lu@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The suported page sizes of an iommu_domain are saved in the pgsize_bitmap
-field. Retrieve the value from the right place.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D211425
 
-Fixes: 58fd9375c2c534 ("drm/nouveau/platform: probe IOMMU if present")
-Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
----
- drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Andreas (icedragon.aw@web.de) changed:
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c b/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c
-index d0d52c1d4aee..992cc285f2fe 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/device/tegra.c
-@@ -133,7 +133,7 @@ nvkm_device_tegra_probe_iommu(struct nvkm_device_tegra *tdev)
- 		 * or equal to the system's PAGE_SIZE, with a preference if
- 		 * both are equal.
- 		 */
--		pgsize_bitmap = tdev->iommu.domain->ops->pgsize_bitmap;
-+		pgsize_bitmap = tdev->iommu.domain->pgsize_bitmap;
- 		if (pgsize_bitmap & PAGE_SIZE) {
- 			tdev->iommu.pgshift = PAGE_SHIFT;
- 		} else {
--- 
-2.25.1
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+     Kernel Version|5.15.5                      |5.15.10
 
+--- Comment #24 from Andreas (icedragon.aw@web.de) ---
+In general the blocking bug still occurs until/with the current mainline ke=
+rnel
+version 5.15.10. With kernel 5.15.10 I could observe additionally some new
+warnings messages before the "BUG: workqueue ..." errors (like last message)
+starting:
+
+[drm] Fence fallback timer expired on ring gfx
+[drm] Fence fallback timer expired on ring gfx
+BUG: workqueue lockup - pool cpus=3D7 node=3D0 flags=3D0x0 nice=3D-20 stuck=
+ for 47s!
+Showing busy workqueues and worker pools:
+...
+
+BUT I found a new hardware-patch solution! In my case the monitor accepts o=
+nly
+over the DP-to-DP link connection 4K@60Hz. Over a HDMI-to-HDMI (same comput=
+er
+and monitor) I got only the 4K@30Hz (not a cable limitation, it is a monitor
+limit). But if I connect both cables at the same time, means DP-to-DP 4K@60=
+Hz,
+and in addition a HDMI-to-HDMI cable (but this screen connection disabled f=
+rom
+the desktop session control manager) - I could avoid the black screen
+completely (without any limitations and stable over reboots)!!!
+
+-> In this double cable configuration (HDMI disabled) the screen (DP
+connection) always recovers after some seconds (no hung up and no 2x20sec
+delay) - I was not able to trigger the error behaviour any more and I could
+also not observe any of the above error messages.
+
+-> But with this stable double cable configuration I observe some new warni=
+ng
+messages (more than one times):
+[drm] Unknown EDID CEA parser results
+...
+
+Maybe this helps a little bit for progress ... If someone like, I could make
+more tests ...
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
