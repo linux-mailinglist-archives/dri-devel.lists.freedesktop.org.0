@@ -2,110 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C382479772
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Dec 2021 00:16:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DA92479842
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Dec 2021 03:56:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30B8510E35D;
-	Fri, 17 Dec 2021 23:16:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1559B10E341;
+	Sat, 18 Dec 2021 02:56:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFD1210E35D
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 23:16:21 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20211217231619euoutp01a8f5a5ad50379582456fe612c3fb3ae6~Bre6ho1xe2596725967euoutp01V
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 23:16:19 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20211217231619euoutp01a8f5a5ad50379582456fe612c3fb3ae6~Bre6ho1xe2596725967euoutp01V
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1639782979;
- bh=xLETcSXIwjmb267JszLd2ApG6lEHsrq6hCepH3ImgqY=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=HDY8Gr4ZIgD7tAIk90j8Fyh0TMYjTNTmSOwE1uSVX2fWqzDQfGZZrwvi1t47qoXLR
- sZag0/L+oxO6HR5kSyPOjAbvS5lLFdAADXvCidPGNl08m9kURsLbmfzw9u7cfrMRFK
- 1i+L/6QvS9yyPQWU1dEP489xjy0KtAyvjxFy3t9U=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20211217231618eucas1p287394dd78c01def67d44ed0299c61f8a~Bre5ndNZ70264802648eucas1p2q;
- Fri, 17 Dec 2021 23:16:18 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id CF.2B.10260.24A1DB16; Fri, 17
- Dec 2021 23:16:18 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20211217231617eucas1p14b783ced9cd7132e939fa2e42279b3bf~Bre4YVtQ70404604046eucas1p1j;
- Fri, 17 Dec 2021 23:16:17 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20211217231617eusmtrp17331e3d267daedabb1fe39ab5b6df2fa~Bre4XlmN72447124471eusmtrp1V;
- Fri, 17 Dec 2021 23:16:17 +0000 (GMT)
-X-AuditID: cbfec7f5-bddff70000002814-36-61bd1a424faa
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 30.10.09522.14A1DB16; Fri, 17
- Dec 2021 23:16:17 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20211217231616eusmtip1a780baa6204c154a6bbee168a53487bd~Bre3ydfZa2193321933eusmtip1K;
- Fri, 17 Dec 2021 23:16:16 +0000 (GMT)
-Message-ID: <fc773566-760d-19ec-0879-3ee88c06b425@samsung.com>
-Date: Sat, 18 Dec 2021 00:16:16 +0100
+Received: from mx-lax3-3.ucr.edu (mx-lax3-3.ucr.edu [169.235.156.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B428010E341
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Dec 2021 02:56:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=ucr.edu; i=@ucr.edu; q=dns/txt; s=selector3;
+ t=1639796200; x=1671332200;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Vhh2Wojmk5xxnlKfiyWrawrHKzGyzr84ZKM1o8pV+po=;
+ b=NNGLZT+rBZ9d0KqaNnaO+XjQx08S53IZaM7SSQOuR6CUwfAiKWFdY6dT
+ XXDybCEAdprqeWfrFsk7mMmc35Fq9OpLVIj/3RpOsVARJLvnPTV3+SeDj
+ IRYtDm3FOkFizPFoz9hl1tmagjgWudem9uwem69KgWJ1B5QtgkhfAnGm0
+ ilcQJpPQZCQsW7w2jIKMhVWV+0rVKvyCGK4MB9Jb0TP1OKQJ9TylHczFh
+ 2itbQdxJJcZD1Of/N/O3nceUlgT3qWTkhj0wBJ5HVSfV0MlaZYl4kNhrV
+ tDcCc2lYXCOoalSBlt/s1ATIU3Vo5+WZA5zp7iNULZIWdcHrXonCwHfbY g==;
+IronPort-SDR: Vyn+0YvkRW7OOUZ5r7mXHgikbVlaNoIv4r9xmFUYsqSx5kik7+/h919PSCBMzz5+fGj47mDDwt
+ yiEpRL1wPcYvsTyCArGSjSPhpWTDnNbcoVNBw89btnIP/Wn6Op7Sl1I+yy1Bsxa7IZ7jvu6YGS
+ zCo7Ev40LBxLYmF3Apb/37GiFkLCB2swAJ5mmd+t0NBdoKSu3IFsr4oG8XwF/AlKQMxOdCtTbA
+ wD+/yXK8Nf1WKGJGewKzOvFR06/MrNb6bLBWyreTW6q45ONU06/IsL0ixod6g1ftdayvch2/r7
+ VZ3fUxaB4UQdXzsf12JPwjWu
+X-IronPort-AV: E=Sophos;i="5.88,215,1635231600"; d="scan'208";a="95150633"
+Received: from mail-qt1-f199.google.com ([209.85.160.199])
+ by smtp-lax3-3.ucr.edu with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 17 Dec 2021 18:56:39 -0800
+Received: by mail-qt1-f199.google.com with SMTP id
+ b7-20020ac85bc7000000b002b65aee118bso4206102qtb.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 18:56:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucr.edu; s=rmail;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=W/oW4xcGaHD/Q9q+L8wKlfwu0bwPMu3EEaXJ1rCZ7r8=;
+ b=Q1p+R3mC+VX9kDcyIZHntGkxKhbBd1chuPJ73wN16OAQ/DfnmvLJpQcHRIU2WoU7Zq
+ tMDLlXWxqTIUo1WvrzD36E0gfnySwXT6rY6UQs9nb+9GXnekte7W8LvZLG6zEtyWu/Al
+ FsP2C5hPSiTsbWEQBzH3/3CSPKY18FDzVtEgk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=W/oW4xcGaHD/Q9q+L8wKlfwu0bwPMu3EEaXJ1rCZ7r8=;
+ b=klKYvGERlSvKsUj2/jPaQq2xqAvzgi4O2qvPHihMUBVT7l57pBZdeUeIDD+4utT3/C
+ yJE7YjgapPBt4XO0eKac6ctp+P5vNf5arh5HyEupn962HORa1TLi/wm4B7/+Lu0FsiS9
+ KeT6qa6JMcIJnrWklYI/MdKqlxLBr/9Bboj7f4JTzmIwZdhTToyqn5A9LDWgDTjJ1WsQ
+ mTwpDyMU9OgUvkBq3OeHFUuxBvaUXUb2zAdon69rz2C//1RW7aMKOzrcD300o2GhGVym
+ k+5mOHj2Efw2SagLweIbPEQGY2/HVTbJQxseFjYQvNHw9XdN0yvz94RE1WXM3aLQNocM
+ 0bVA==
+X-Gm-Message-State: AOAM532xRw3QHS2qcIvJrUgg9iSouEAMOuJPhDDQvKCo14bSDgGNPi1w
+ aMXabhQ7A0k3RfNUU+For2HqUaBmUOx3YLNc6oMm7DsAD8c1AODKpxWX2P44y2y4+Wb24z8XqIR
+ S3tbMiKpUevuyXOpdMCK8ZTyWXE0nUQ==
+X-Received: by 2002:ad4:594e:: with SMTP id eo14mr5090068qvb.99.1639796198002; 
+ Fri, 17 Dec 2021 18:56:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzNSeR5+Y93fUCIc7POaHKnPLRzL0hlcG5CdAYxVV5YFjohfuBdG0RQ94oMtIxeknO4m2da8g==
+X-Received: by 2002:ad4:594e:: with SMTP id eo14mr5090057qvb.99.1639796197839; 
+ Fri, 17 Dec 2021 18:56:37 -0800 (PST)
+Received: from kq.cs.ucr.edu (kq.cs.ucr.edu. [169.235.27.223])
+ by smtp.googlemail.com with ESMTPSA id m1sm8455617qtk.34.2021.12.17.18.56.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Dec 2021 18:56:37 -0800 (PST)
+From: Yizhuo Zhai <yzhai003@ucr.edu>
+To: 
+Subject: [PATCH] drm/nouveau/core/object: Fix the uninitialized use of "type"
+Date: Fri, 17 Dec 2021 18:56:30 -0800
+Message-Id: <20211218025632.2514288-1-yzhai003@ucr.edu>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
- Gecko/20100101 Thunderbird/91.4.0
-Subject: Re: [PATCH v4 0/6] drm: exynos: dsi: Convert drm bridge
-Content-Language: en-US
-To: Jagan Teki <jagan@amarulasolutions.com>
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <CAMty3ZCSrqcnO1i5ADJhQx_Dt5GbT+-eyhauJhqg=wJXOTWK-A@mail.gmail.com>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrNKsWRmVeSWpSXmKPExsWy7djPc7pOUnsTDT63aljcX/yZxeLK1/ds
- FpPuT2Cx+LJpAptF58Ql7BbLJ+xjszjV2Mpicagv2uLTrIfMFit+bmV04PJY+/E+q8f7G63s
- HrM7ZrJ6LN7zksnjzrU9bB73u48zeSyZdpXNo2/LKsYAjigum5TUnMyy1CJ9uwSujPcHX7AU
- PFeqeDZrB1MD4zmZLkYODgkBE4lpT/i6GLk4hARWMErcPN/CAuF8YZRYfWApYxcjJ5DzmVHi
- e5c+TMPKF6oQNcsZJd4v/sEG4XxklOjdd48JpIFXwE6iafUiZhCbRUBVounzU1aIuKDEyZlP
- WEBsUYEkidaOP2D1wgIOEg0dn8FqmAXEJW49mQ8WFxHQlvg28zXYAmaBf0wSp7a8BitiEzCU
- 6HrbxQZicwoESvyZvoURolleYvvbOcwgDRIC/ZwSL/auB5skIeAicWDSDBYIW1ji1fEt7BC2
- jMTpyT0sEA3NjBIPz61lh3B6GCUuN81ghKiylrhz7hcbKACYBTQl1u/Shwg7Srw/dZoREi58
- EjfeCkIcwScxadt0Zogwr0RHmxBEtZrErOPr4NYevHCJeQKj0iykcJmF5P9ZSN6ZhbB3ASPL
- Kkbx1NLi3PTUYuO81HK94sTc4tK8dL3k/NxNjMD0dfrf8a87GFe8+qh3iJGJg/EQowQHs5II
- r+Ly3YlCvCmJlVWpRfnxRaU5qcWHGKU5WJTEeZMzNyQKCaQnlqRmp6YWpBbBZJk4OKUamLau
- NtN8qy/n2iIffEd4bva/SmfPPSrnJH/L5W4zvvFpQ6xs3K30LxE/Zry2jS2Udpq0ZmPzZR3X
- 1d0y658b7b3NFR9z5Tzz/Nb15jNmxG6d8sREebOB/V+dM1N3BO9aHNmv7yzrsHrzI4Erp3Xv
- By78xh2R/OfhU/6Fb1atZVyocEt+2bWphhOin+qyCC7YdvMdy2Wdg1ELnTYmhynzirnM+DD5
- Z+HHD1dr9z04XejoFp2Ux8znvFBMZr22xplc25vbZB+78h5NDuJ1PGSYcNU2xedXcaJ2q4SH
- dtCh+hUVc81szb/ofLef0n33Ho/SnKaXKy8d9pP5UbApvSw8cpPv6kvpSy5utPvmx/rmPrcS
- S3FGoqEWc1FxIgAzuOYizgMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrPIsWRmVeSWpSXmKPExsVy+t/xu7qOUnsTDXrPilvcX/yZxeLK1/ds
- FpPuT2Cx+LJpAptF58Ql7BbLJ+xjszjV2Mpicagv2uLTrIfMFit+bmV04PJY+/E+q8f7G63s
- HrM7ZrJ6LN7zksnjzrU9bB73u48zeSyZdpXNo2/LKsYAjig9m6L80pJUhYz84hJbpWhDCyM9
- Q0sLPSMTSz1DY/NYKyNTJX07m5TUnMyy1CJ9uwS9jPcHX7AUPFeqeDZrB1MD4zmZLkYODgkB
- E4mVL1S7GLk4hASWMkq8eHiLvYuREyguI3FyWgMrhC0s8edaFxtE0XtGiUONc9hAErwCdhJN
- qxcxg9gsAqoSTZ+fskLEBSVOznzCAmKLCiRJ7F63FaxeWMBBoqHjM1gNs4C4xK0n85lAbBEB
- bYlvM1+DLWAWaGKWaDuxnBViWzezROunpWBVbAKGEl1vu8AmcQoESvyZvoURYpKZRNfWLihb
- XmL72znMExiFZiE5ZBaShbOQtMxC0rKAkWUVo0hqaXFuem6xoV5xYm5xaV66XnJ+7iZGYMxu
- O/Zz8w7Gea8+6h1iZOJgPMQowcGsJMKruHx3ohBvSmJlVWpRfnxRaU5q8SFGU2BoTGSWEk3O
- ByaNvJJ4QzMDU0MTM0sDU0szYyVxXs+CjkQhgfTEktTs1NSC1CKYPiYOTqkGJsOl07yVZxmn
- HHx7/euncIEra8z11YXiZLa+ZN4guajz2MT2zFD+unXL15zbO6Wqy9ZnldOejJ6Sdzyv15yV
- kbKYJfdxwcUJm495uh42f3L/y529ex7PmHBMv+kxz/2rYncCC71FXGz8rdlPV2x+yShisKAi
- Lv2UmuGdbyZ8Vomh4beXHf/fsfvE2T6vmIcfws+/+PHFo1F4p5rb/y/L1ix9uLzjfsx8HTbu
- hepv2EPZyv9c3D8h+6Ra8dSfs02zJ59Tt1paf32VwfWv/S9F6qL1dr48OqcnW+/E+keWm57q
- 3xNk5lyWZbqg9UDr5fPZy6vsT96bJ2l3/WbTxsQ6iSdHDh5m/c73yCCk/OfUSI2PSizFGYmG
- WsxFxYkAFFp3ZWIDAAA=
-X-CMS-MailID: 20211217231617eucas1p14b783ced9cd7132e939fa2e42279b3bf
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20211215101548eucas1p2a7f4a64ae55364181eec3db3ad5d6ef7
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20211215101548eucas1p2a7f4a64ae55364181eec3db3ad5d6ef7
-References: <CGME20211215101548eucas1p2a7f4a64ae55364181eec3db3ad5d6ef7@eucas1p2.samsung.com>
- <20211215101534.45003-1-jagan@amarulasolutions.com>
- <39f646d7-9d49-045a-2cf5-3cdc12486cb3@samsung.com>
- <CAMty3ZBmZo3wqzj2Si4Ydm1RtzGs7f89aCktgVvD==appfSCPQ@mail.gmail.com>
- <fe49e59a-1df7-fcdc-8258-581509bb8fe2@samsung.com>
- <CAMty3ZCSrqcnO1i5ADJhQx_Dt5GbT+-eyhauJhqg=wJXOTWK-A@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,120 +86,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- linux-amarula@amarulasolutions.com, dri-devel@lists.freedesktop.org,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, Yizhuo Zhai <yzhai003@ucr.edu>,
+ Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jagan,
+In function nvkm_ioctl_map(), the variable "type" could be
+uninitialized if "nvkm_object_map()" returns error code, however,
+it does not check the return value and directly use the "type" in
+the if statement, which is potentially unsafe.
 
-On 15.12.2021 15:56, Jagan Teki wrote:
-> On Wed, Dec 15, 2021 at 7:49 PM Marek Szyprowski
-> <m.szyprowski@samsung.com> wrote:
->> On 15.12.2021 13:57, Jagan Teki wrote:
->>> On Wed, Dec 15, 2021 at 5:31 PM Marek Szyprowski
->>> <m.szyprowski@samsung.com> wrote:
->>>> On 15.12.2021 11:15, Jagan Teki wrote:
->>>>> Updated series about drm bridge conversion of exynos dsi.
->>>>> Previous version can be accessible, here [1].
->>>>>
->>>>> Patch 1: connector reset
->>>>>
->>>>> Patch 2: panel_bridge API
->>>>>
->>>>> Patch 3: Bridge conversion
->>>>>
->>>>> Patch 4: Atomic functions
->>>>>
->>>>> Patch 5: atomic_set
->>>>>
->>>>> Patch 6: DSI init in enable
->>>> There is a little progress! :)
->>>>
->>>> Devices with a simple display pipeline (only a DSI panel, like
->>>> Trats/Trats2) works till the last patch. Then, after applying ("[PATCH
->>>> v4 6/6] drm: exynos: dsi: Move DSI init in bridge enable"), I get no
->>>> display at all.
->>>>
->>>> A TM2e board with in-bridge (Exynos MIC) stops displaying anything after
->>>> applying patch "[PATCH v4 2/6] drm: exynos: dsi: Use drm panel_bridge API".
->>>>
->>>> In case of the Arndale board with tc358764 bridge, no much progress. The
->>>> display is broken just after applying the "[PATCH v2] drm: bridge:
->>>> tc358764: Use drm panel_bridge API" patch on top of linux-next.
->>>>
->>>> In all cases the I had "drm: of: Lookup if child node has panel or
->>>> bridge" patch applied.
->>> Just skip the 6/6 for now.
->>>
->>> Apply
->>> - https://protect2.fireeye.com/v1/url?k=a24f3f76-fdd40659-a24eb439-0cc47a31cdf8-97ea12b4c5258d11&q=1&e=37a169bf-7ca5-4362-aad7-486018c7a708&u=https%3A%2F%2Fpatchwork.amarulasolutions.com%2Fpatch%2F1825%2F
->>> - https://protect2.fireeye.com/v1/url?k=a226360f-fdbd0f20-a227bd40-0cc47a31cdf8-ebd66aebee1058d7&q=1&e=37a169bf-7ca5-4362-aad7-486018c7a708&u=https%3A%2F%2Fpatchwork.amarulasolutions.com%2Fpatch%2F1823%2F
->>>
->>> Then apply 1/6 to 5/6.  and update the status?
->> Okay, my fault, I didn't check that case on Arndale.
->>
->> I've checked and indeed, Trats/Trats2 and Arndale works after the above
->> 2 patches AND patches 1-5.
->>
->> The only problem is now on TM2e, which uses Exynos MIC as in-bridge for
->> Exynos DSI:
->>
->> [    4.068866] [drm] Exynos DRM: using 13800000.decon device for DMA
->> mapping operations
->> [    4.069183] exynos-drm exynos-drm: bound 13800000.decon (ops
->> decon_component_ops)
->> [    4.128983] exynos-drm exynos-drm: bound 13880000.decon (ops
->> decon_component_ops)
->> [    4.129261] exynos-drm exynos-drm: bound 13930000.mic (ops
->> exynos_mic_component_ops)
->> [    4.133508] exynos-dsi 13900000.dsi: [drm:exynos_dsi_host_attach]
->> *ERROR* failed to find the bridge: -19
->> [    4.136392] exynos-drm exynos-drm: bound 13900000.dsi (ops
->> exynos_dsi_component_ops)
->> [    4.145499] rc_core: Couldn't load IR keymap rc-cec
->> [    4.145666] Registered IR keymap rc-empty
->> [    4.148402] rc rc0: sii8620 as /devices/virtual/rc/rc0
->> [    4.156051] input: sii8620 as /devices/virtual/rc/rc0/input1
->> [    4.160647] exynos-drm exynos-drm: bound 13970000.hdmi (ops
->> hdmi_component_ops)
->> [    4.169923] exynos-drm exynos-drm: [drm] Cannot find any crtc or sizes
->> [    4.173958] exynos-drm exynos-drm: [drm] Cannot find any crtc or sizes
->> [    4.182304] [drm] Initialized exynos 1.1.0 20180330 for exynos-drm on
->> minor 0
->>
->> The display pipeline for TM2e is:
->>
->> Exynos5433 Decon -> Exynos MIC -> Exynos DSI -> s6e3ha2 DSI panel
-> If Trats/Trats2 is working then it has to work. I don't see any
-> difference in output pipeline. Can you please share the full log, I
-> cannot see host_attach print saying "Attached.."
+Cc: stable@vger.kernel.org
+Fixes: 01326050391c ("drm/nouveau/core/object: allow arguments to be passed to map function")
+Signed-off-by: Yizhuo Zhai <yzhai003@ucr.edu>
+---
+ drivers/gpu/drm/nouveau/nvkm/core/ioctl.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Well, there is a failure message about the panel:
-
-exynos-dsi 13900000.dsi: [drm:exynos_dsi_host_attach] *ERROR* failed to 
-find the bridge: -19
-
-however it looks that something might be broken in dts. The in-bridge 
-(Exynos MIC) is on port 0 and the panel is @0, what imho might cause the 
-issue.
-
-I've tried to change in in-bridge ('mic_to_dsi') port to 1 in 
-exynos5433.dtsi. Then the panel has been attached:
-
-exynos-dsi 13900000.dsi: [drm:exynos_dsi_host_attach] Attached s6e3hf2 
-device
-
-but the display is still not working, probably due to lack of proper 
-Exynos MIC handling. I will investigate it later and let You know.
-
-Best regards
+diff --git a/drivers/gpu/drm/nouveau/nvkm/core/ioctl.c b/drivers/gpu/drm/nouveau/nvkm/core/ioctl.c
+index 735cb6816f10..4264d9d79783 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/core/ioctl.c
++++ b/drivers/gpu/drm/nouveau/nvkm/core/ioctl.c
+@@ -266,6 +266,8 @@ nvkm_ioctl_map(struct nvkm_client *client,
+ 		ret = nvkm_object_map(object, data, size, &type,
+ 				      &args->v0.handle,
+ 				      &args->v0.length);
++		if (ret)
++			return ret;
+ 		if (type == NVKM_OBJECT_MAP_IO)
+ 			args->v0.type = NVIF_IOCTL_MAP_V0_IO;
+ 		else
 -- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+2.25.1
 
