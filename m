@@ -2,56 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21796479BBF
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Dec 2021 17:23:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0951479D7A
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Dec 2021 22:44:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7C29112CCE;
-	Sat, 18 Dec 2021 16:23:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DB0311A950;
+	Sat, 18 Dec 2021 21:44:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB81311357B
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Dec 2021 16:23:25 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id m12so8343180ljj.6
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Dec 2021 08:23:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=CT+taMHRza/UDXhL528VUpODcNvw/ubR6oyOC8X9Wdw=;
- b=Tv2DOX79UEnrnuO1h61dSfhprFrMdKLtswO+OTm7IXUY9NoSJTSi0dUhq799rWt2Rn
- HuuFjJhzNnl6u6wC72VmiEnOmLgqkC8GduhFHPLWCr+ZKsYOi2JgriM892VkS76AOkxw
- 8HzaW6jyu+IYAkEOFl8ko1bp699GbC51xsl0hTjHECg07nMs2sNgw9tWanSbyru1wRM2
- Xuxk0BvjAwQtRbO2ABqVmue11+Wk/saDy7Y2tsNrIqlExpXNqj3wuIhxmSejlVc/mXHN
- v0AZHySQIVH59HLbTDt0L6rc73vFb4LXJvzgSqxhyegXsAP3ACtD+rB/BpSi1kpECUvr
- axQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=CT+taMHRza/UDXhL528VUpODcNvw/ubR6oyOC8X9Wdw=;
- b=B0Pdr1I3qbM3glojk68wCZS/PzkISQNGC9Gx6xpfU7w+G1j8VG4nptXMePOx9MezM3
- xajZNF1Kuw4aohI03lFTYTxsJM20KN42o5hhXkPkEjSRjvbJKYWNeTYSSQFL00Pyj8rH
- agvX63tXWCbZ6CidyMELzya8VoNYUHSFmEwnRc2AgQPRFcb2kSyRPK9N2Yg94HV8aDmI
- wYtcvezU0vvz8WLvVpao/Zk2uYpnhaHjtCOM4HENSogpmKrTFH4D3VRoa8obv3GU8/F5
- dH64vpEiR5wLcn6Qd1fWLqaBHlSNB+K//CLO7cD8SH4SiMIwA3Y0L7ppassPo1RMI1pm
- 63kw==
-X-Gm-Message-State: AOAM532nxhJTn7bopxrybfJOfAQ1CxMIbSSraZhVQWvpOa8X+w53Z3Lz
- eeZGtXflVRdeHGMOchG2iV93Ov0paEOOT61paaM=
-X-Google-Smtp-Source: ABdhPJxJnfSrLNaqB6iW92bjbg8H0Jtao8C93yQc/c7+tg7Mc5frwZ1wHJsJrj4GnPjDYB2296jlkQ1KjD3FYhAavgM=
-X-Received: by 2002:a05:651c:323:: with SMTP id
- b3mr7271328ljp.316.1639844604258; 
- Sat, 18 Dec 2021 08:23:24 -0800 (PST)
+X-Greylist: delayed 400 seconds by postgrey-1.36 at gabe;
+ Sat, 18 Dec 2021 21:44:39 UTC
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+ by gabe.freedesktop.org (Postfix) with SMTP id D409811A950
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Dec 2021 21:44:39 +0000 (UTC)
+Received: (qmail 881331 invoked by uid 1000); 18 Dec 2021 16:37:57 -0500
+Date: Sat, 18 Dec 2021 16:37:57 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: How to fix screen resolution detection?
+Message-ID: <Yb5UtbfhmCHx+snO@rowland.harvard.edu>
+References: <Yby4ooKl43NRm+5y@rowland.harvard.edu>
 MIME-Version: 1.0
-References: <1639473108-18629-1-git-send-email-zou_wei@huawei.com>
-In-Reply-To: <1639473108-18629-1-git-send-email-zou_wei@huawei.com>
-From: Kevin Tang <kevin3.tang@gmail.com>
-Date: Sun, 19 Dec 2021 00:23:07 +0800
-Message-ID: <CAFPSGXZLWmahF+ptQC2TT84rB6E0v=V2c6ETkKAd4GKP3c756A@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/sprd: fix potential NULL dereference
-To: Zou Wei <zou_wei@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yby4ooKl43NRm+5y@rowland.harvard.edu>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,61 +37,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, zhang.lyra@gmail.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, maxime@cerno.tech, baolin.wang7@gmail.com,
- orsonzhai@gmail.com
+Cc: Kernel development list <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dear Wei,
-Thank you for your notice. I have received it. I will be fix it later.
+The screen resolution on my laptop is not reported accurately.  Here's 
+an extract from the output of xdpyinfo:
 
-Best wishes
+screen #0:
+  dimensions:    3200x1800 pixels (847x476 millimeters)
+  resolution:    96x96 dots per inch
 
-Zou Wei <zou_wei@huawei.com> =E4=BA=8E2021=E5=B9=B412=E6=9C=8814=E6=97=A5=
-=E5=91=A8=E4=BA=8C 17:11=E5=86=99=E9=81=93=EF=BC=9A
->
-> platform_get_resource() may fail and return NULL, so we should
-> better check it's return value to avoid a NULL pointer dereference
-> a bit later in the code.
->
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Zou Wei <zou_wei@huawei.com>
-> ---
->  drivers/gpu/drm/sprd/sprd_dpu.c | 2 ++
->  drivers/gpu/drm/sprd/sprd_dsi.c | 2 ++
->  2 files changed, 4 insertions(+)
->
-> diff --git a/drivers/gpu/drm/sprd/sprd_dpu.c b/drivers/gpu/drm/sprd/sprd_=
-dpu.c
-> index 06a3414..920cb7d 100644
-> --- a/drivers/gpu/drm/sprd/sprd_dpu.c
-> +++ b/drivers/gpu/drm/sprd/sprd_dpu.c
-> @@ -790,6 +790,8 @@ static int sprd_dpu_context_init(struct sprd_dpu *dpu=
-,
->         int ret;
->
->         res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> +       if (!res)
-> +               return -EINVAL;
->         ctx->base =3D devm_ioremap(dev, res->start, resource_size(res));
->         if (!ctx->base) {
->                 dev_err(dev, "failed to map dpu registers\n");
-> diff --git a/drivers/gpu/drm/sprd/sprd_dsi.c b/drivers/gpu/drm/sprd/sprd_=
-dsi.c
-> index 911b3cd..c90a950 100644
-> --- a/drivers/gpu/drm/sprd/sprd_dsi.c
-> +++ b/drivers/gpu/drm/sprd/sprd_dsi.c
-> @@ -907,6 +907,8 @@ static int sprd_dsi_context_init(struct sprd_dsi *dsi=
-,
->         struct resource *res;
->
->         res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> +       if (!res)
-> +               return -EINVAL;
->         ctx->base =3D devm_ioremap(dev, res->start, resource_size(res));
->         if (!ctx->base) {
->                 drm_err(dsi->drm, "failed to map dsi host registers\n");
-> --
-> 2.6.2
->
+The number of pixels is correct, but the size and resolution values 
+smack of a bogus default.  The actual width of the screen (determined 
+with a tape measure) is about 11.5 inches (291 mm), which yields a 
+resolution of 280 dots per inch (11 dots per mm), approximately.  
+Most definitely _not_ 96 dpi.
+
+Presumably X gets the size/resolution information from Wayland, which 
+gets it from the kernel, which gets it from the firmware.  So the kernel 
+driver is the logical place to start in figuring where things are going 
+wrong.  The laptop uses i915; here are the relevant lines from the 
+kernel log:
+
+[    0.000000] Linux version 5.14.9-200.fc34.x86_64 (mockbuild@bkernel02.iad2.fedoraproject.org) (gcc (GCC) 11.2.1 20210728 (Red Hat 11.2.1-1), GNU ld version 2.35.2-5.fc34) #1 SMP Thu Sep 30 11:55:35 UTC 2021
+
+[    0.463895] efifb: probing for efifb
+[    0.463913] efifb: framebuffer at 0xe0000000, using 22500k, total 22500k
+[    0.463916] efifb: mode is 3200x1800x32, linelength=12800, pages=1
+[    0.463919] efifb: scrolling: redraw
+[    0.463920] efifb: Truecolor: size=8:8:8:8, shift=24:16:8:0
+[    0.464028] Console: switching to colour frame buffer device 400x112
+[    0.474894] fb0: EFI VGA frame buffer device
+
+[    2.888858] fb0: switching to inteldrmfb from EFI VGA
+[    2.891260] Console: switching to colour dummy device 80x25
+[    2.891318] i915 0000:00:02.0: vgaarb: deactivate vga console
+[    2.902665] i915 0000:00:02.0: vgaarb: changed VGA decodes: olddecodes=io+mem,decodes=io+mem:owns=io+mem
+[    2.904833] i915 0000:00:02.0: [drm] Finished loading DMC firmware i915/skl_dmc_ver1_27.bin (v1.27)
+[    2.947359] [drm] Initialized i915 1.6.0 20201103 for 0000:00:02.0 on minor 0
+[    2.949468] ACPI: video: Video Device [GFX0] (multi-head: yes  rom: no  post: no)
+[    2.949803] input: Video Bus as /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/LNXVIDEO:00/input/input9
+[    2.964371] fbcon: i915 (fb0) is primary device
+[    2.979854] Console: switching to colour frame buffer device 400x112
+[    3.012355] i915 0000:00:02.0: [drm] fb0: i915 frame buffer device
+
+Now, I know nothing about the kernel's graphics subsystems.  How can I 
+find out what size/resolution information i915 is getting and passing to 
+Wayland?  If it's wrong, how can I fix it?
+
+Thanks,
+
+Alan Stern
