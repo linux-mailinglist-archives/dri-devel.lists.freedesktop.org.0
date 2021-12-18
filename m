@@ -1,51 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1B864798A6
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Dec 2021 05:46:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FB9C4798AC
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Dec 2021 05:49:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FCEE10EB6E;
-	Sat, 18 Dec 2021 04:46:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6576610EB84;
+	Sat, 18 Dec 2021 04:49:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E760610EB6E;
- Sat, 18 Dec 2021 04:46:18 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D5EC10EB84;
+ Sat, 18 Dec 2021 04:49:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1639802778; x=1671338778;
+ t=1639802943; x=1671338943;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:content-transfer-encoding:in-reply-to;
- bh=uomp2kTPePFBc++1qmdEPUkA2GkzFUtYCvnXTb7XBfU=;
- b=D0GASCWqHz1L5j4jRFfx9dexWVDMPdFhg7oc1DKjcytRBTKJsyZ5mB8c
- 5XGsmhy9TipmYN7pIJztP826Mn44USu0aRQ7KibgMpxWABj+CswXlXfvE
- YPKev1bCclILXHM81g86ODLOjFO7cID01shlC8i7eszp1wVyJOkbbrdZ4
- oJm7rIVLcqQUEp5uwQR7qYSn1kOJRhab27rOQ0EhJBwsro8dMgCRGGaT8
- avZ9uf73Ogtg4qoL2PsqGzFOwOKP37wek9pIMi7ADuGDXWg20GRidIO96
- HTbQfLAbcJrrUCzlB4ina72/vCbKcmLX7RQwSjV2S/svmx7uB3kodovyV w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10201"; a="219898688"
-X-IronPort-AV: E=Sophos;i="5.88,215,1635231600"; d="scan'208";a="219898688"
+ bh=NBRwUZq0zjSL75NHYnNLRlT+vbqMFFo8L60176PaY+w=;
+ b=EU0SqAU5aRLxoAReDJ1CbKlIZmqdTHiYIZolao8VvEVOZvvYPd5dfCzX
+ 75cqd2aLP+5npW8fFSH/26o1naeUqQSDyeqLOtgVYChB6oamGdcFsWsN0
+ /DJTmp8Gz34X+DPBV3HrTPJJR3JFOeT7RAbmM2mdbBBj/1C2qkZRWmhmf
+ bjbOKCMGN9aCBR7xvl8zhMa+qFO71cZP3H/OJRVB13UMtqkaHfeTI0UEB
+ glsAv9kbRZsrOieLntrIrYJ7d59NUASTuw8nVGdEboh/w4ALWkTRr24g5
+ Ii+F/3zHh42ofunz5k7s9yfYdRZyUIHbu8I5tFk7eksGfcs2AWSUTV1ce A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10201"; a="227175193"
+X-IronPort-AV: E=Sophos;i="5.88,215,1635231600"; d="scan'208";a="227175193"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Dec 2021 20:46:18 -0800
-X-IronPort-AV: E=Sophos;i="5.88,215,1635231600"; d="scan'208";a="520044101"
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Dec 2021 20:49:02 -0800
+X-IronPort-AV: E=Sophos;i="5.88,215,1635231600"; d="scan'208";a="520044616"
 Received: from mdroper-desk1.fm.intel.com (HELO
  mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Dec 2021 20:46:17 -0800
-Date: Fri, 17 Dec 2021 20:46:16 -0800
+ 17 Dec 2021 20:49:02 -0800
+Date: Fri, 17 Dec 2021 20:49:01 -0800
 From: Matt Roper <matthew.d.roper@intel.com>
 To: Andi Shyti <andi.shyti@linux.intel.com>
-Subject: Re: [PATCH v8 13/16] drm/i915/gt: Use to_gt() helper for GGTT accesses
-Message-ID: <Yb1nmDqP0N6hR/C4@mdroper-desk1.amr.corp.intel.com>
+Subject: Re: [PATCH v8 14/16] drm/i915/selftests: Use to_gt() helper for GGTT
+ accesses
+Message-ID: <Yb1oPQdCV99zAGKH@mdroper-desk1.amr.corp.intel.com>
 References: <20211214193346.21231-1-andi.shyti@linux.intel.com>
- <20211214193346.21231-14-andi.shyti@linux.intel.com>
+ <20211214193346.21231-15-andi.shyti@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211214193346.21231-14-andi.shyti@linux.intel.com>
+In-Reply-To: <20211214193346.21231-15-andi.shyti@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,7 +67,7 @@ Cc: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 14, 2021 at 09:33:43PM +0200, Andi Shyti wrote:
+On Tue, Dec 14, 2021 at 09:33:44PM +0200, Andi Shyti wrote:
 > From: Michał Winiarski <michal.winiarski@intel.com>
 > 
 > GGTT is currently available both through i915->ggtt and gt->ggtt, and we
@@ -81,129 +82,123 @@ On Tue, Dec 14, 2021 at 09:33:43PM +0200, Andi Shyti wrote:
 Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
 
 > ---
->  drivers/gpu/drm/i915/gt/intel_ggtt.c         | 14 +++++++-------
->  drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c |  6 +++---
->  drivers/gpu/drm/i915/gt/intel_region_lmem.c  |  4 ++--
->  drivers/gpu/drm/i915/gt/selftest_reset.c     |  2 +-
->  4 files changed, 13 insertions(+), 13 deletions(-)
+>  drivers/gpu/drm/i915/selftests/i915_gem.c        | 8 ++++----
+>  drivers/gpu/drm/i915/selftests/i915_gem_gtt.c    | 6 +++---
+>  drivers/gpu/drm/i915/selftests/i915_request.c    | 2 +-
+>  drivers/gpu/drm/i915/selftests/i915_vma.c        | 2 +-
+>  drivers/gpu/drm/i915/selftests/mock_gem_device.c | 2 +-
+>  5 files changed, 10 insertions(+), 10 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> index 971e737b37b2..ec3b998392ff 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> @@ -89,7 +89,7 @@ int i915_ggtt_init_hw(struct drm_i915_private *i915)
->  	 * beyond the end of the batch buffer, across the page boundary,
->  	 * and beyond the end of the GTT if we do not provide a guard.
->  	 */
-> -	ret = ggtt_init_hw(&i915->ggtt);
-> +	ret = ggtt_init_hw(to_gt(i915)->ggtt);
->  	if (ret)
->  		return ret;
+> diff --git a/drivers/gpu/drm/i915/selftests/i915_gem.c b/drivers/gpu/drm/i915/selftests/i915_gem.c
+> index b5576888cd78..1628b81d0a35 100644
+> --- a/drivers/gpu/drm/i915/selftests/i915_gem.c
+> +++ b/drivers/gpu/drm/i915/selftests/i915_gem.c
+> @@ -41,7 +41,7 @@ static int switch_to_context(struct i915_gem_context *ctx)
 >  
-> @@ -725,14 +725,14 @@ int i915_init_ggtt(struct drm_i915_private *i915)
->  {
->  	int ret;
->  
-> -	ret = init_ggtt(&i915->ggtt);
-> +	ret = init_ggtt(to_gt(i915)->ggtt);
->  	if (ret)
->  		return ret;
->  
->  	if (INTEL_PPGTT(i915) == INTEL_PPGTT_ALIASING) {
-> -		ret = init_aliasing_ppgtt(&i915->ggtt);
-> +		ret = init_aliasing_ppgtt(to_gt(i915)->ggtt);
->  		if (ret)
-> -			cleanup_init_ggtt(&i915->ggtt);
-> +			cleanup_init_ggtt(to_gt(i915)->ggtt);
->  	}
->  
->  	return 0;
-> @@ -775,7 +775,7 @@ static void ggtt_cleanup_hw(struct i915_ggtt *ggtt)
->   */
->  void i915_ggtt_driver_release(struct drm_i915_private *i915)
+>  static void trash_stolen(struct drm_i915_private *i915)
 >  {
 > -	struct i915_ggtt *ggtt = &i915->ggtt;
 > +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
+>  	const u64 slot = ggtt->error_capture.start;
+>  	const resource_size_t size = resource_size(&i915->dsm);
+>  	unsigned long page;
+> @@ -99,7 +99,7 @@ static void igt_pm_suspend(struct drm_i915_private *i915)
+>  	intel_wakeref_t wakeref;
 >  
->  	fini_aliasing_ppgtt(ggtt);
->  
-> @@ -790,7 +790,7 @@ void i915_ggtt_driver_release(struct drm_i915_private *i915)
->   */
->  void i915_ggtt_driver_late_release(struct drm_i915_private *i915)
->  {
-> -	struct i915_ggtt *ggtt = &i915->ggtt;
-> +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
->  
->  	GEM_WARN_ON(kref_read(&ggtt->vm.resv_ref) != 1);
->  	dma_resv_fini(&ggtt->vm._resv);
-> @@ -1232,7 +1232,7 @@ int i915_ggtt_probe_hw(struct drm_i915_private *i915)
->  {
->  	int ret;
->  
-> -	ret = ggtt_probe_hw(&i915->ggtt, to_gt(i915));
-> +	ret = ggtt_probe_hw(to_gt(i915)->ggtt, to_gt(i915));
->  	if (ret)
->  		return ret;
->  
-> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c b/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
-> index f8948de72036..beabf3bc9b75 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
-> @@ -728,8 +728,8 @@ static void detect_bit_6_swizzle(struct i915_ggtt *ggtt)
->  		swizzle_y = I915_BIT_6_SWIZZLE_NONE;
+>  	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
+> -		i915_ggtt_suspend(&i915->ggtt);
+> +		i915_ggtt_suspend(to_gt(i915)->ggtt);
+>  		i915_gem_suspend_late(i915);
 >  	}
->  
-> -	i915->ggtt.bit_6_swizzle_x = swizzle_x;
-> -	i915->ggtt.bit_6_swizzle_y = swizzle_y;
-> +	to_gt(i915)->ggtt->bit_6_swizzle_x = swizzle_x;
-> +	to_gt(i915)->ggtt->bit_6_swizzle_y = swizzle_y;
 >  }
+> @@ -109,7 +109,7 @@ static void igt_pm_hibernate(struct drm_i915_private *i915)
+>  	intel_wakeref_t wakeref;
 >  
->  /*
-> @@ -896,7 +896,7 @@ void intel_gt_init_swizzling(struct intel_gt *gt)
->  	struct intel_uncore *uncore = gt->uncore;
+>  	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
+> -		i915_ggtt_suspend(&i915->ggtt);
+> +		i915_ggtt_suspend(to_gt(i915)->ggtt);
 >  
->  	if (GRAPHICS_VER(i915) < 5 ||
-> -	    i915->ggtt.bit_6_swizzle_x == I915_BIT_6_SWIZZLE_NONE)
-> +	    to_gt(i915)->ggtt->bit_6_swizzle_x == I915_BIT_6_SWIZZLE_NONE)
->  		return;
->  
->  	intel_uncore_rmw(uncore, DISP_ARB_CTL, 0, DISP_TILE_SURFACE_SWIZZLING);
-> diff --git a/drivers/gpu/drm/i915/gt/intel_region_lmem.c b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-> index fde2dcb59809..21215a080088 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-> @@ -15,7 +15,7 @@
->  static int init_fake_lmem_bar(struct intel_memory_region *mem)
+>  		i915_gem_freeze(i915);
+>  		i915_gem_freeze_late(i915);
+> @@ -125,7 +125,7 @@ static void igt_pm_resume(struct drm_i915_private *i915)
+>  	 * that runtime-pm just works.
+>  	 */
+>  	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
+> -		i915_ggtt_resume(&i915->ggtt);
+> +		i915_ggtt_resume(to_gt(i915)->ggtt);
+>  		i915_gem_resume(i915);
+>  	}
+>  }
+> diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+> index 48123c3e1ff0..9afe7cf9d068 100644
+> --- a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+> +++ b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+> @@ -1122,7 +1122,7 @@ static int exercise_ggtt(struct drm_i915_private *i915,
+>  				     u64 hole_start, u64 hole_end,
+>  				     unsigned long end_time))
 >  {
->  	struct drm_i915_private *i915 = mem->i915;
 > -	struct i915_ggtt *ggtt = &i915->ggtt;
 > +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
->  	unsigned long n;
->  	int ret;
+>  	u64 hole_start, hole_end, last = 0;
+>  	struct drm_mm_node *node;
+>  	IGT_TIMEOUT(end_time);
+> @@ -1182,7 +1182,7 @@ static int igt_ggtt_page(void *arg)
+>  	const unsigned int count = PAGE_SIZE/sizeof(u32);
+>  	I915_RND_STATE(prng);
+>  	struct drm_i915_private *i915 = arg;
+> -	struct i915_ggtt *ggtt = &i915->ggtt;
+> +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
+>  	struct drm_i915_gem_object *obj;
+>  	intel_wakeref_t wakeref;
+>  	struct drm_mm_node tmp;
+> @@ -2110,7 +2110,7 @@ int i915_gem_gtt_live_selftests(struct drm_i915_private *i915)
+>  		SUBTEST(igt_cs_tlb),
+>  	};
 >  
-> @@ -131,7 +131,7 @@ intel_gt_setup_fake_lmem(struct intel_gt *gt)
->  	if (!i915->params.fake_lmem_start)
->  		return ERR_PTR(-ENODEV);
+> -	GEM_BUG_ON(offset_in_page(i915->ggtt.vm.total));
+> +	GEM_BUG_ON(offset_in_page(to_gt(i915)->ggtt->vm.total));
 >  
-> -	GEM_BUG_ON(i915_ggtt_has_aperture(&i915->ggtt));
-> +	GEM_BUG_ON(i915_ggtt_has_aperture(to_gt(i915)->ggtt));
+>  	return i915_subtests(tests, i915);
+>  }
+> diff --git a/drivers/gpu/drm/i915/selftests/i915_request.c b/drivers/gpu/drm/i915/selftests/i915_request.c
+> index 92a859b34190..7f66f6d299b2 100644
+> --- a/drivers/gpu/drm/i915/selftests/i915_request.c
+> +++ b/drivers/gpu/drm/i915/selftests/i915_request.c
+> @@ -843,7 +843,7 @@ static struct i915_vma *empty_batch(struct drm_i915_private *i915)
 >  
->  	/* Your mappable aperture belongs to me now! */
->  	mappable_end = pci_resource_len(pdev, 2);
-> diff --git a/drivers/gpu/drm/i915/gt/selftest_reset.c b/drivers/gpu/drm/i915/gt/selftest_reset.c
-> index 8a873f6bda7f..37c38bdd5f47 100644
-> --- a/drivers/gpu/drm/i915/gt/selftest_reset.c
-> +++ b/drivers/gpu/drm/i915/gt/selftest_reset.c
-> @@ -19,7 +19,7 @@ __igt_reset_stolen(struct intel_gt *gt,
->  		   intel_engine_mask_t mask,
->  		   const char *msg)
->  {
-> -	struct i915_ggtt *ggtt = &gt->i915->ggtt;
-> +	struct i915_ggtt *ggtt = gt->ggtt;
->  	const struct resource *dsm = &gt->i915->dsm;
->  	resource_size_t num_pages, page;
->  	struct intel_engine_cs *engine;
+>  	intel_gt_chipset_flush(to_gt(i915));
+>  
+> -	vma = i915_vma_instance(obj, &i915->ggtt.vm, NULL);
+> +	vma = i915_vma_instance(obj, &to_gt(i915)->ggtt->vm, NULL);
+>  	if (IS_ERR(vma)) {
+>  		err = PTR_ERR(vma);
+>  		goto err;
+> diff --git a/drivers/gpu/drm/i915/selftests/i915_vma.c b/drivers/gpu/drm/i915/selftests/i915_vma.c
+> index 1f10fe36619b..6ac15d3bc5bc 100644
+> --- a/drivers/gpu/drm/i915/selftests/i915_vma.c
+> +++ b/drivers/gpu/drm/i915/selftests/i915_vma.c
+> @@ -967,7 +967,7 @@ static int igt_vma_remapped_gtt(void *arg)
+>  	intel_wakeref_t wakeref;
+>  	int err = 0;
+>  
+> -	if (!i915_ggtt_has_aperture(&i915->ggtt))
+> +	if (!i915_ggtt_has_aperture(to_gt(i915)->ggtt))
+>  		return 0;
+>  
+>  	obj = i915_gem_object_create_internal(i915, 10 * 10 * PAGE_SIZE);
+> diff --git a/drivers/gpu/drm/i915/selftests/mock_gem_device.c b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
+> index 8aa7b1d33865..0b469ae0f474 100644
+> --- a/drivers/gpu/drm/i915/selftests/mock_gem_device.c
+> +++ b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
+> @@ -69,7 +69,7 @@ static void mock_device_release(struct drm_device *dev)
+>  	i915_gem_drain_workqueue(i915);
+>  	i915_gem_drain_freed_objects(i915);
+>  
+> -	mock_fini_ggtt(&i915->ggtt);
+> +	mock_fini_ggtt(to_gt(i915)->ggtt);
+>  	destroy_workqueue(i915->wq);
+>  
+>  	intel_region_ttm_device_fini(i915);
 > -- 
 > 2.34.1
 > 
