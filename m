@@ -2,44 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4159B479B93
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Dec 2021 16:23:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7262D479BBE
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Dec 2021 17:23:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CA1010FFE8;
-	Sat, 18 Dec 2021 15:23:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E3CF112CBB;
+	Sat, 18 Dec 2021 16:23:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27A3F10FFC3
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Dec 2021 15:23:22 +0000 (UTC)
-Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 694478303B;
- Sat, 18 Dec 2021 16:23:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1639840999;
- bh=1lobMaw9pLY/MD9G5+vs9jJ/NBITmXZ5Lzdma5cfNR4=;
- h=From:To:Cc:Subject:Date:From;
- b=CCKhUrPk2Ni3buIODokFfcSH7f+zShNHV9oYp5IdLS8iGDnQJh8lPRp+88WZU7qEm
- GaTil1SzsMehivxgke0JAhq0sG9pGyWP7ESP0qxMZXlMyblC9aZTDNeoGyak1h2Bfc
- 4eP5mFPkckbj7BWO9VCq0Y+SBt9bZj2cmAJVFdZxv7jwrEkLUa2OyBuQDPdO4iExeN
- l0MFUgHoMUo7cnOh9Gts62xkDr00V0zk44xxzdo/F5zDzC97L41N630XTztmPNCNT5
- C1P3fKsZ0y218wKYP72m91kc+TufrvcR/25244LykcZg0PWdhfsm4Lwrnqv+Wk00c8
- izAjSxNQOcBnA==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] dt-bindings: display: bridge: lvds-codec: Document TI
- DS90CF364A decoder
-Date: Sat, 18 Dec 2021 16:23:09 +0100
-Message-Id: <20211218152309.256183-1-marex@denx.de>
-X-Mailer: git-send-email 2.33.0
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3327112CBB
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Dec 2021 16:23:08 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id u22so8326259lju.7
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Dec 2021 08:23:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=gWn22fXOuEnn2iUrKfi6JSwo3KZCMItgt+VDCxqYlDk=;
+ b=pN3l/7YvdgFNcwD45Yo6TXFyHaOyeJJL3JkPfyo8yoyxjmjVZtLZ/xktMrXVZg8KDt
+ EkKRN0BWOiG6pH3wvxkIgiBJ1kSmpi+DioWWciADXk3cWcGtmSzDfyDSd4U0KiBhLEEm
+ 5pZMimjgsmDYuirWXaq50sVSElQBFlJfZ3NykrblylQRWklSiga6HAxLjy5T9YGEl0z4
+ ssUzgqNwx6kfaR+d3r/F6Quv6XUBVLLX8jzKq5CMbw6YKOTFb0kPe4X/mVcT4at+uO45
+ 05/Qru6ZgobaWNGKyW04dYgqp2Sg9z4ho64C9WQJWZQ3ZQmz4oo7wWnLclpOZ+Rj0KUK
+ +bYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=gWn22fXOuEnn2iUrKfi6JSwo3KZCMItgt+VDCxqYlDk=;
+ b=TXDzYADJVdg9PoKtVYyGQNoL8Ld8mxc52LaUFQZpmlOO+IVKII5VM1Vy8PxtcccHyN
+ sVxsc8yPnshAp6DvjDgTiAIDupVQIYQkHCyWyIscZRbCVV/l/xtp0Tt97kp38ArRr/Dx
+ MWNO+1GT77DNULP1PZ/IWam/EpjbB3WR7NNu7YaomvWR9DJTDZ+CX41T2H4kW/dS3WdF
+ PGDdlCCunCc6KZbxqPvN0XIpx6QlXUKGP+Rg9D8jOmn2+JtXnMqUtr2gkb9atRSTHl6a
+ wKnUYuSPG1mjsDg95HITQJdr0uawLd6486PC//iXfneo5iqN4rRwVmyCV6X/cCszXMDN
+ h0ag==
+X-Gm-Message-State: AOAM530NsbWFTAf83JUIvJ+z12KsofpJtcxbXSBtLugzlGHnZceuhWRz
+ 1sr+wxZtXXyzcsOga7BHWxj794euO3+CSqPKSf8=
+X-Google-Smtp-Source: ABdhPJyFW9Kv72POB0bPetSFC6QouzNIO3fGbjtAnjFYUOgKPEIuIsMfCdYLvXI50S9Em4ITBQQUIYWx/IvGmlwpjbs=
+X-Received: by 2002:a2e:864a:: with SMTP id i10mr7633896ljj.395.1639844586800; 
+ Sat, 18 Dec 2021 08:23:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
+References: <20211215113204.GA14552@kili>
+In-Reply-To: <20211215113204.GA14552@kili>
+From: Kevin Tang <kevin3.tang@gmail.com>
+Date: Sun, 19 Dec 2021 00:22:49 +0800
+Message-ID: <CAFPSGXYktJNsGpeiE_ZfeyUUMNB99sREmCF-kTXkCuEunornsw@mail.gmail.com>
+Subject: Re: [bug report] drm/sprd: add Unisoc's drm kms master
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,38 +63,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add compatible string for TI DS90CF364A, which is another LVDS to DPI
-decoder similar to DS90CF384A, except it is using smaller package and
-only provides 18bit DPI bus.
+Dear Dan,
+Thank you for your notice. I have received it. I will be fix it later.
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: devicetree@vger.kernel.org
-To: dri-devel@lists.freedesktop.org
----
- Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml | 1 +
- 1 file changed, 1 insertion(+)
+Best wishes
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-index 1faae3e323a4..99c13f879916 100644
---- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-@@ -39,6 +39,7 @@ properties:
-           - const: lvds-encoder # Generic LVDS encoder compatible fallback
-       - items:
-           - enum:
-+              - ti,ds90cf364a # For the DS90CF364A FPD-Link LVDS Receiver
-               - ti,ds90cf384a # For the DS90CF384A FPD-Link LVDS Receiver
-           - const: lvds-decoder # Generic LVDS decoders compatible fallback
-       - enum:
--- 
-2.33.0
-
+Dan Carpenter <dan.carpenter@oracle.com> =E4=BA=8E2021=E5=B9=B412=E6=9C=881=
+5=E6=97=A5=E5=91=A8=E4=B8=89 19:32=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Hello Kevin Tang,
+>
+> This is a semi-automatic email about new static checker warnings.
+>
+> The patch 43531edd53f0: "drm/sprd: add Unisoc's drm kms master" from
+> Dec 7, 2021, leads to the following Smatch complaint:
+>
+>     drivers/gpu/drm/sprd/sprd_drm.c:158 sprd_drm_shutdown()
+>     error: we previously assumed 'drm' could be null (see line 157)
+>
+> drivers/gpu/drm/sprd/sprd_drm.c
+>    153        static void sprd_drm_shutdown(struct platform_device *pdev)
+>    154        {
+>    155                struct drm_device *drm =3D platform_get_drvdata(pde=
+v);
+>    156
+>    157                if (!drm) {
+>                           ^^^^
+> "drm" is NULL
+>
+>    158                        drm_warn(drm, "drm device is not available,=
+ no shutdown\n");
+>                                        ^^^
+> This dereferences it.  drm is set in bind().
+>
+>    159                        return;
+>    160                }
+>    161
+>    162                drm_atomic_helper_shutdown(drm);
+>    163        }
+>
+> regards,
+> dan carpenter
