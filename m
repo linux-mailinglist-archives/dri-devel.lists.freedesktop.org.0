@@ -1,78 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27E47479845
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Dec 2021 03:58:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D826247988F
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Dec 2021 05:22:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2429810E342;
-	Sat, 18 Dec 2021 02:58:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAD1210E878;
+	Sat, 18 Dec 2021 04:22:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx-lax3-1.ucr.edu (mx-lax3-1.ucr.edu [169.235.156.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4EDD10E342
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Dec 2021 02:58:17 +0000 (UTC)
+Received: from mx2.ucr.edu (mx2.ucr.edu [138.23.62.3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D55D10E878
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Dec 2021 04:22:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=ucr.edu; i=@ucr.edu; q=dns/txt; s=selector3;
- t=1639796298; x=1671332298;
- h=mime-version:references:in-reply-to:from:date:message-id:
- subject:to:cc; bh=KziBpYYiI76v0rTQKZkMxGcmjJMQJL/2X+fDliRgTY8=;
- b=gGI7Da3X8yRuroq1MfLOkweZKKXBTuZ7BMsEfyG1oc+hpMgFG1z/32B8
- OvbLf2bQ0rsQ2z1VnFyv1zN37C87VSU4Xe70hSwTkm0zc/xM1xUDydEX7
- n8E46lVePDbCqX3ZuPJIiend6PCKscqB4mE+olMFMoONNzo8nhSZleILz
- CSpfnzUbeBdPxA1hCTWeMKBLT8tOyTgrGtbfRKlqTztgpe1DembEJWr7E
- eFfB0PAJv7LvOWWzi7jaGOL97lHrqFZwgcTA3esu27MmhpIOWXdoqQpFm
- Xt23n56bjLgkyz6bdT8FnhPLHotto573ixd2ofeD6KOo6Co4sOCAzwuaN Q==;
-IronPort-SDR: TiPbtrRG1voHTRWCf7EdeScP+FjudQpGGoCmhrKzLoh+THhWtrtCWk3KGKZSr2sIagcUH+JI3j
- b3vSpCY+BUg+Ov1p+6vu2g9Bw4YlJrtDBYXsP1pD378NKIQrH6pVDcJBGPg3pbWKimyD+ntGfd
- pxN55+4X4kLViQcnZE1vKMG0Lqw5yLAFwwtihSIlnLjfh+Gu5490AZFPuy/zcyLH6Fn3N4sjNs
- /8lG2JCNl+xT0c1b0oxR8XEZONT7/AT/6eq4KmRqGQivg/wPUewfoH0s394hgwgyv4yRPn2Cz+
- x2UGOzyu/wEzLCXsqV24VHgK
-X-IronPort-AV: E=Sophos;i="5.88,215,1635231600"; d="scan'208";a="91880344"
-Received: from mail-yb1-f199.google.com ([209.85.219.199])
- by smtp-lax3-1.ucr.edu with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 17 Dec 2021 18:58:17 -0800
-Received: by mail-yb1-f199.google.com with SMTP id
- w5-20020a25ac05000000b005c55592df4dso8559021ybi.12
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 18:58:16 -0800 (PST)
+ t=1639801365; x=1671337365;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=HiC3hCK63Qa8Qb4loFRgdeRVld94u+OjjR3csxq5Wus=;
+ b=oTm1kivZ5RO7AFZdTFar9PafoVWIMYPZD2hJocATwLG+tIDJZc4k+0Mo
+ IE01L4Xjik3/SCRzSeQRdBazPlDSAtAk3c/0jPhXdFrwBH6hOscwpPP8R
+ lO6iPO6UxjM+8xGQBI9Na72S40u5ByllSObxMQzWpyvnyuHDrZeohDjNZ
+ lx41DmznL1audlOazufOgiNldrEba2cQ506/6cBMrYIU2ptDvcL6fdO0d
+ kNRTDICIsBFVjtB5JkGC+Bwaoj/EXIy57ZeyRmKuQuCYqHRXHQfIZZRUz
+ d7NIjTM8FY1JpTSZqwAAemhlme8e/CrbDdPm32er8hHHfR5nISGiO/5JJ A==;
+IronPort-SDR: qGf1SaWR2Y5/nNg9si0/8I40YsNKOfnVKK6eFuluX44tYohOFiGa1tpNjXf+CXGXyO91K49ZD8
+ ZOZccinIOzkLWl1UCcWg5amPucOxQ1XD1OUDSGSLnp56OMcWC+Zxhv0jNwG5VM7qyQvNCY1n4x
+ w/CZtWG0VBmL1vio8KSxTWXhU4wUryqnJ1K8G1PfFWliLpSJDgbpSA8kgS+pqXSEqvouGoMSMa
+ JRvBRXYHmBo5Hvxx4fYp2SHietseUAcab1SszAsUjiFlP4+zPq9O50IMtfl7RIjyEYVJ7zW3VM
+ 8Eq+nxC5j8bVQc+JaqjVz0NA
+X-IronPort-AV: E=Sophos;i="5.88,215,1635231600"; d="scan'208";a="206501067"
+Received: from mail-qv1-f72.google.com ([209.85.219.72])
+ by smtp2.ucr.edu with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 17 Dec 2021 20:22:36 -0800
+Received: by mail-qv1-f72.google.com with SMTP id
+ a7-20020a056214062700b00410c76282c3so4446473qvx.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Dec 2021 20:22:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucr.edu; s=rmail;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8vmmsxncbFQ/2xzccVTZIkFvvP7ArQ13zGZOkstUsL4=;
- b=sTD11NtvmH1Wv1kqJu2D8MlUjyJcoEmt2d7+XfYXMulaWxXKuc6ajV7X/2OwVhFI22
- 5/uGolBmOKVtUn/vvXD3Et12z1EV98H3MUEL6OMaXJqq+IJaDfnYYa0vcB5dumi3YJGf
- y6SMwAQXEgrG9URbzO7R3PgY7j0vTkxDElUZM=
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uFquvFdIStXIJTsPn2k5rBU0qh7wG0l4oiCoU43pQg8=;
+ b=bXlm2lS0L1cyH2tSCF4kf3SQ17o+srdPcNuSX0IN5fdxXx90fPQz8j0OTE/DIoDyNG
+ NBLMGRGfhKW/vXeGz0RyOrwHJPODREbZxxtNpZqx1FHpckyz9EkMB+GVjII3tzO39jqR
+ 54F6vn74a8bEU6PVKdMbAqjnZHWPkSh7B94io=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8vmmsxncbFQ/2xzccVTZIkFvvP7ArQ13zGZOkstUsL4=;
- b=iiM/+S+iaBsXqjH1rkwjTKtTeJFll1tDaAmLi55yRBx3Po0rQry20UX2H0iKbVG4Aw
- iqwW1D/+lAaNzB7C6S18uWcIG6dFZtQTmRwrM8yUxubmpe7omjYd2Ag8n9qnmxYceMTy
- PC2cXOd8HaO2j8zMTXzFHN+4nUUHtXegUW/YareI/n7CyPo0EmaWHZ1GMomKFdiwJPVI
- QdNXfpYL9hOueHDB+3LMoe/eJpoCLJXwWAb9w8ynq/GiyyV8ZamJd0WULqcIzTjOQkCV
- sbt3STiv7w0jquCovjWcytoAccJuRpoIetFwxBCaM4jS+ZDSpPCs5fBzZfLNwJA5V6lG
- Zfgw==
-X-Gm-Message-State: AOAM531P/Z3iDr3AOMGuEAHzzv/bRKHttVijhZZ6IpNcbet3+6RNKHtz
- Kq2256IbjicVvvCcRANkHYsL2GGpiM95+VDJqy6Ev1GVB26+nxQW2Y9qcXr7gwlIkhjKd8R9XUw
- 2yFWVczxTECT7DRGkqqdndunyzLBpBWgTJnjW2ZqYR9Dq8g==
-X-Received: by 2002:a25:a2c1:: with SMTP id c1mr8726868ybn.473.1639796295342; 
- Fri, 17 Dec 2021 18:58:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxp6oA3pKkoWsKv1T0ej6zGhz3AR1ptfd0MFDEzORS1I7HWhSsr8wqxEJJfoR4dKLFSYf+Key6yqyGe/HuR3xk=
-X-Received: by 2002:a25:a2c1:: with SMTP id c1mr8726855ybn.473.1639796295099; 
- Fri, 17 Dec 2021 18:58:15 -0800 (PST)
-MIME-Version: 1.0
-References: <20211116070708.429432-1-yzhai003@ucr.edu>
- <6a79eef26121afa9190de5a021f4edef53fc9651.camel@redhat.com>
-In-Reply-To: <6a79eef26121afa9190de5a021f4edef53fc9651.camel@redhat.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uFquvFdIStXIJTsPn2k5rBU0qh7wG0l4oiCoU43pQg8=;
+ b=3zjn5vMetdCn/OupeHWt4HQfY7foWUKV2mt40MBZ5l5zkAx9TwMhrVpdyN9oI7BRuz
+ QWu2pXkvYWIH3508gOCX+3tkW1Vo/c2V7XtMOr/tN/SJW249O2uGl+5TTgbWCcK/cesn
+ IZT+7b1GKZhd2rgI58mSdnRMEqmJg7dG0tyvasC7kCCLcCP5E0ZDIVLgF4KhEqRm89Jl
+ DlakzcJDs5QZHKuvL2qkXIwyPs25bTZjpsjmVh5Jn+CIhyi7DyLMKXzYpy+21NF7hsiR
+ RjP1RH0jy1pYXPW0o0se2jvJS286mfutx6h7odQK2HXkxAUdSLnJB/4yNrSAPJTnlHBr
+ P7CA==
+X-Gm-Message-State: AOAM531L8berHCVM9OUw+LmTqUv/+Em8X/Syz2Cv7N8w+G9UVcNpKl7y
+ iUs03vWsJUZ2LlJVdF8fvcNB/rdMPT/rinwzjTlywrzw4LbzzzyXhXfKWJK1FPO8nSPdqZO4tG2
+ nd1PorVcsQsza7j42w45IklBlgg9yIg==
+X-Received: by 2002:a0c:edca:: with SMTP id i10mr5323761qvr.62.1639801351936; 
+ Fri, 17 Dec 2021 20:22:31 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyE3Tagh5RgslGVJv/eRvjbgxu42RfzRLSIimsqstN4aB/aqSAgEsFtcF+iB7KjMXViNfFsrg==
+X-Received: by 2002:a0c:edca:: with SMTP id i10mr5323738qvr.62.1639801351765; 
+ Fri, 17 Dec 2021 20:22:31 -0800 (PST)
+Received: from kq.cs.ucr.edu (kq.cs.ucr.edu. [169.235.27.223])
+ by smtp.googlemail.com with ESMTPSA id s20sm9081682qtc.75.2021.12.17.20.22.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Dec 2021 20:22:31 -0800 (PST)
 From: Yizhuo Zhai <yzhai003@ucr.edu>
-Date: Fri, 17 Dec 2021 18:58:04 -0800
-Message-ID: <CABvMjLQky6Xe80oJ9pPALjQ_SgMmp-Crp4z-Y08SiRo4TNTPSg@mail.gmail.com>
-Subject: Re: [PATCH] In function nvkm_ioctl_map(), the variable "type" could
- be uninitialized if "nvkm_object_map()" returns error code, however, it does
- not check the return value and directly use the "type" in the if statement,
- which is potentially unsafe.
-To: Lyude Paul <lyude@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+To: 
+Subject: [PATCH] drm/amd/display: Fix the uninitialized variable in
+ enable_stream_features()
+Date: Fri, 17 Dec 2021 20:22:23 -0800
+Message-Id: <20211218042226.2608212-1-yzhai003@ucr.edu>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,72 +87,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau <nouveau@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
+Cc: David Airlie <airlied@linux.ie>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, dri-devel@lists.freedesktop.org,
+ Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>,
+ Jun Lei <jun.lei@amd.com>, Anthony Koo <Anthony.Koo@amd.com>,
+ Jimmy Kizito <Jimmy.Kizito@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
+ amd-gfx@lists.freedesktop.org, Fangzhi Zuo <Jerry.Zuo@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, "Guo, Bing" <Bing.Guo@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Agustin Gutierrez <agustin.gutierrez@amd.com>,
+ Mark Morra <MarkAlbert.Morra@amd.com>, Robin Singh <robin.singh@amd.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Yizhuo Zhai <yzhai003@ucr.edu>, Alex Deucher <alexander.deucher@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lyude:
-I appreciate your feedback and I misplaced the commit message to the
-title, I have modified it and resend the patch.
-I made my linux development tree a mess, so I sent a brandly new one
-and cc you. Thanks again for your help: )
+In function enable_stream_features(), the variable "old_downspread.raw"
+could be uninitialized if core_link_read_dpcd() fails, however, it is
+used in the later if statement, and further, core_link_write_dpcd()
+may write random value, which is potentially unsafe.
 
+Fixes: 6016cd9dba0f ("drm/amd/display: add helper for enabling mst stream features")
+Cc: stable@vger.kernel.org
+Signed-off-by: Yizhuo Zhai <yzhai003@ucr.edu>
+---
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-On Tue, Nov 16, 2021 at 1:18 PM Lyude Paul <lyude@redhat.com> wrote:
->
-> This is a very long patch name, it should probably be shorter and the
-> details in the patch title moved into the actual commit description
-> instead. Also a couple of things aren't formatted correctly:
->
-> * Cc tag for stable is missing, see
->   https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
-> * Fixes tag isn't formatted properly
->
-> I generally recommend using `dim fixes` from
-> https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
-> in order to get the correct stable kernel CC tag and Fixes: tag (you can
-> drop any of the Ccs it gives you beyond the one to stable at vger dot
-> kernel dot org.
->
-> Also, if you could try to Cc: me on the next version - will help me
-> respond faster :).
->
-> On Mon, 2021-11-15 at 23:07 -0800, Yizhuo Zhai wrote:
-> > Fixes:01326050391ce("drm/nouveau/core/object: allow arguments to
-> > be passed to map function")
-> > Signed-off-by: Yizhuo Zhai <yzhai003@ucr.edu>
-> > ---
-> >  drivers/gpu/drm/nouveau/nvkm/core/ioctl.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/nouveau/nvkm/core/ioctl.c
-> > b/drivers/gpu/drm/nouveau/nvkm/core/ioctl.c
-> > index 735cb6816f10..4264d9d79783 100644
-> > --- a/drivers/gpu/drm/nouveau/nvkm/core/ioctl.c
-> > +++ b/drivers/gpu/drm/nouveau/nvkm/core/ioctl.c
-> > @@ -266,6 +266,8 @@ nvkm_ioctl_map(struct nvkm_client *client,
-> >                 ret = nvkm_object_map(object, data, size, &type,
-> >                                       &args->v0.handle,
-> >                                       &args->v0.length);
-> > +               if (ret)
-> > +                       return ret;
-> >                 if (type == NVKM_OBJECT_MAP_IO)
-> >                         args->v0.type = NVIF_IOCTL_MAP_V0_IO;
-> >                 else
->
-> --
-> Cheers,
->  Lyude Paul (she/her)
->  Software Engineer at Red Hat
->
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+index c8457babfdea..fd5a0e7eb029 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+@@ -1844,6 +1844,8 @@ static void enable_stream_features(struct pipe_ctx *pipe_ctx)
+ 		union down_spread_ctrl old_downspread;
+ 		union down_spread_ctrl new_downspread;
+ 
++		memset(&old_downspread, 0, sizeof(old_downspread));
++
+ 		core_link_read_dpcd(link, DP_DOWNSPREAD_CTRL,
+ 				&old_downspread.raw, sizeof(old_downspread));
+ 
+-- 
+2.25.1
 
-
---
-Kind Regards,
-
-Yizhuo Zhai
-
-Computer Science, Graduate Student
-University of California, Riverside
