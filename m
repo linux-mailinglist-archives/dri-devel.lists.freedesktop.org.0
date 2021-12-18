@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C460E479DD5
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Dec 2021 22:51:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64FA7479DD4
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Dec 2021 22:51:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E27A410FB62;
-	Sat, 18 Dec 2021 21:51:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15E1510EC36;
+	Sat, 18 Dec 2021 21:51:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
  [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C15311A98D
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Dec 2021 21:51:35 +0000 (UTC)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1BILIYdR016168;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD796113F73
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Dec 2021 21:51:34 +0000 (UTC)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1BIJBpmg009048;
  Sat, 18 Dec 2021 22:51:19 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=selector1;
- bh=nSPGt6I8VV7/YSD60i8l6RqPpL6L3XSfjxlu2Bgb9HU=;
- b=26aqrgVJgTxA/05sCb3QwUGEBuf7Ebn/h1VcHDH7/HR5RFrzBMaHcd1JAx1AfgFwuAia
- Zkqi4rVpNe8aFkMd8L/5IqSOxViynybqULtd4FcnDA34qYsnT9HQWI28eGxXzbxELayv
- MQRMOs+svl3SRPCUEUgwEP3IpO4MR4BJoWtcM201/L9wDUN81ToAY/bg+8+MGv766wbx
- 8ADcoHMeVCEhSr5cy5pV9er3Owgg11ulscWkEnWsSFMQ5G5dw574MBkBdMahrbWwPeH5
- 2dSe+LJTYoPm9o2Mg2f82l86aYhR161oa9Owgf0Tv7QWKZ9TjxehQ1yRp3Bvbq6G8L/E 6w== 
+ bh=Hsaf/Vk5S9zRrZgVqgpJZFMVuyj6RDrxxYbMaKuMPNQ=;
+ b=KyTEgAF7IwB46PBWnMN2MChNL12wR+2Byyf7X5WIMEwmxDhhH9Gx0swNIRONg5nFAyO0
+ 17UX3/p8phDGMDb9WBfDqMK48GsdgcUDiNFUj2E8mQdDzelJCsFWDeEGGGlUnaPDx1bk
+ dSQZaRJb9xXNTollzB1BiXKW1AHe2yV4WR5xMbigwkMCtgQCkIx54wieaS/uJX4LIrZB
+ lrx+1Z77RhLXTq6pWp8IeE5BV609g8IpzNgaSLZpKTHfEHiM+h6C3oTK8sqVFRhiDyi/
+ LEdLrJZHymkoUi4e5TcBofC2dQWwb3PClnlL9zsRPmGkQpP12yXWjIIXeHYdYNg1j4ox iQ== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3d15xmaqj2-1
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3d17v3te3c-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Sat, 18 Dec 2021 22:51:19 +0100
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 30B6D100034;
- Sat, 18 Dec 2021 22:51:16 +0100 (CET)
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 1025B100038;
+ Sat, 18 Dec 2021 22:51:17 +0100 (CET)
 Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 25173209F5E;
- Sat, 18 Dec 2021 22:51:16 +0100 (CET)
-Received: from localhost (10.75.127.47) by SFHDAG2NODE2.st.com (10.75.127.5)
- with Microsoft SMTP Server (TLS) id 15.0.1497.26; Sat, 18 Dec 2021 22:51:15
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 02E54209F5F;
+ Sat, 18 Dec 2021 22:51:17 +0100 (CET)
+Received: from localhost (10.75.127.51) by SFHDAG2NODE2.st.com (10.75.127.5)
+ with Microsoft SMTP Server (TLS) id 15.0.1497.26; Sat, 18 Dec 2021 22:51:16
  +0100
 From: Antonio Borneo <antonio.borneo@foss.st.com>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Andrzej
@@ -52,18 +52,17 @@ To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Andrzej
  Philipp Zabel <p.zabel@pengutronix.de>, <dri-devel@lists.freedesktop.org>,
  <linux-stm32@st-md-mailman.stormreply.com>,
  <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH 2/3] drm/bridge/synopsys: dsi: extend the prototype of
- mode_valid()
-Date: Sat, 18 Dec 2021 22:50:53 +0100
-Message-ID: <20211218215055.212421-2-antonio.borneo@foss.st.com>
+Subject: [PATCH 3/3] drm/stm: dsi: provide the implementation of mode_valid()
+Date: Sat, 18 Dec 2021 22:50:54 +0100
+Message-ID: <20211218215055.212421-3-antonio.borneo@foss.st.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20211218215055.212421-1-antonio.borneo@foss.st.com>
 References: <20211218215055.212421-1-antonio.borneo@foss.st.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [10.75.127.47]
-X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG2NODE2.st.com
+X-Originating-IP: [10.75.127.51]
+X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SFHDAG2NODE2.st.com
  (10.75.127.5)
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
@@ -84,10 +83,18 @@ Cc: Antonio Borneo <antonio.borneo@foss.st.com>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To evaluate the validity of a video mode, some additional internal
-value has to be passed to the platform implementation.
+The dsi has several constraints on the video modes it can support,
+mainly due to the frequencies that can be generated by the PLL
+integrated in the DSI device.
 
-Extend the prototype of mode_valid().
+Verify that the required HS clock can be generated by the PLL.
+
+The dsi clock from the dsi PLL and the ltdc pixel clock are
+asynchronous. The dsi needs to return in LP mode during HFP or HBP
+to re-synchronize at each video line.
+
+Verify that the duration of HFP and HBP allows the dsi to enter in
+LP mode.
 
 Signed-off-by: Antonio Borneo <antonio.borneo@foss.st.com>
 ---
@@ -110,41 +117,125 @@ To: linux-stm32@st-md-mailman.stormreply.com
 To: linux-arm-kernel@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org
 ---
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 5 ++++-
- include/drm/bridge/dw_mipi_dsi.h              | 4 +++-
- 2 files changed, 7 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/stm/dw_mipi_dsi-stm.c | 98 +++++++++++++++++++++++++++
+ 1 file changed, 98 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-index e44e18a0112a..3f6564762e24 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-@@ -998,7 +998,10 @@ dw_mipi_dsi_bridge_mode_valid(struct drm_bridge *bridge,
- 	enum drm_mode_status mode_status = MODE_OK;
- 
- 	if (pdata->mode_valid)
--		mode_status = pdata->mode_valid(pdata->priv_data, mode);
-+		mode_status = pdata->mode_valid(pdata->priv_data, mode,
-+						dsi->mode_flags,
-+						dw_mipi_dsi_get_lanes(dsi),
-+						dsi->format);
- 
- 	return mode_status;
+diff --git a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+index 480fdf256f01..89897d5f5c72 100644
+--- a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
++++ b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+@@ -322,6 +322,103 @@ dw_mipi_dsi_phy_get_timing(void *priv_data, unsigned int lane_mbps,
+ 	return 0;
  }
-diff --git a/include/drm/bridge/dw_mipi_dsi.h b/include/drm/bridge/dw_mipi_dsi.h
-index bda8aa7c2280..5286a53a1875 100644
---- a/include/drm/bridge/dw_mipi_dsi.h
-+++ b/include/drm/bridge/dw_mipi_dsi.h
-@@ -51,7 +51,9 @@ struct dw_mipi_dsi_plat_data {
- 	unsigned int max_data_lanes;
  
- 	enum drm_mode_status (*mode_valid)(void *priv_data,
--					   const struct drm_display_mode *mode);
-+					   const struct drm_display_mode *mode,
-+					   unsigned long mode_flags,
-+					   u32 lanes, u32 format);
++#define CLK_TOLERANCE_HZ 50
++
++static enum drm_mode_status
++dw_mipi_dsi_stm_mode_valid(void *priv_data,
++			   const struct drm_display_mode *mode,
++			   unsigned long mode_flags, u32 lanes, u32 format)
++{
++	struct dw_mipi_dsi_stm *dsi = priv_data;
++	unsigned int idf, ndiv, odf, pll_in_khz, pll_out_khz;
++	int ret, bpp;
++
++	bpp = mipi_dsi_pixel_format_to_bpp(format);
++	if (bpp < 0)
++		return MODE_BAD;
++
++	/* Compute requested pll out */
++	pll_out_khz = mode->clock * bpp / lanes;
++
++	if (pll_out_khz > dsi->lane_max_kbps)
++		return MODE_CLOCK_HIGH;
++
++	if (mode_flags & MIPI_DSI_MODE_VIDEO_BURST) {
++		/* Add 20% to pll out to be higher than pixel bw */
++		pll_out_khz = (pll_out_khz * 12) / 10;
++	} else {
++		if (pll_out_khz < dsi->lane_min_kbps)
++			return MODE_CLOCK_LOW;
++	}
++
++	/* Compute best pll parameters */
++	idf = 0;
++	ndiv = 0;
++	odf = 0;
++	pll_in_khz = clk_get_rate(dsi->pllref_clk) / 1000;
++	ret = dsi_pll_get_params(dsi, pll_in_khz, pll_out_khz, &idf, &ndiv, &odf);
++	if (ret) {
++		DRM_WARN("Warning dsi_pll_get_params(): bad params\n");
++		return MODE_ERROR;
++	}
++
++	if (!(mode_flags & MIPI_DSI_MODE_VIDEO_BURST)) {
++		unsigned int px_clock_hz, target_px_clock_hz, lane_mbps;
++		int dsi_short_packet_size_px, hfp, hsync, hbp, delay_to_lp;
++		struct dw_mipi_dsi_dphy_timing dphy_timing;
++
++		/* Get the adjusted pll out value */
++		pll_out_khz = dsi_pll_get_clkout_khz(pll_in_khz, idf, ndiv, odf);
++
++		px_clock_hz = DIV_ROUND_CLOSEST_ULL(1000ULL * pll_out_khz * lanes, bpp);
++		target_px_clock_hz = mode->clock * 1000;
++		/*
++		 * Filter modes according to the clock value, particularly useful for
++		 * hdmi modes that require precise pixel clocks.
++		 */
++		if (px_clock_hz < target_px_clock_hz - CLK_TOLERANCE_HZ ||
++		    px_clock_hz > target_px_clock_hz + CLK_TOLERANCE_HZ)
++			return MODE_CLOCK_RANGE;
++
++		/* sync packets are codes as DSI short packets (4 bytes) */
++		dsi_short_packet_size_px = DIV_ROUND_UP(4 * BITS_PER_BYTE, bpp);
++
++		hfp = mode->hsync_start - mode->hdisplay;
++		hsync = mode->hsync_end - mode->hsync_start;
++		hbp = mode->htotal - mode->hsync_end;
++
++		/* hsync must be longer than 4 bytes HSS packets */
++		if (hsync < dsi_short_packet_size_px)
++			return MODE_HSYNC_NARROW;
++
++		if (mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE) {
++			/* HBP must be longer than 4 bytes HSE packets */
++			if (hbp < dsi_short_packet_size_px)
++				return MODE_HSYNC_NARROW;
++			hbp -= dsi_short_packet_size_px;
++		} else {
++			/* With sync events HBP extends in the hsync */
++			hbp += hsync - dsi_short_packet_size_px;
++		}
++
++		lane_mbps = pll_out_khz / 1000;
++		ret = dw_mipi_dsi_phy_get_timing(priv_data, lane_mbps, &dphy_timing);
++		if (ret)
++			return MODE_ERROR;
++		/*
++		 * In non-burst mode DSI has to enter in LP during HFP
++		 * (horizontal front porch) or HBP (horizontal back porch) to
++		 * resync with LTDC pixel clock.
++		 */
++		delay_to_lp = DIV_ROUND_UP((dphy_timing.data_hs2lp + dphy_timing.data_lp2hs) *
++					   lanes * BITS_PER_BYTE, bpp);
++		if (hfp < delay_to_lp && hbp < delay_to_lp)
++			return MODE_HSYNC;
++	}
++
++	return MODE_OK;
++}
++
+ static const struct dw_mipi_dsi_phy_ops dw_mipi_dsi_stm_phy_ops = {
+ 	.init = dw_mipi_dsi_phy_init,
+ 	.power_on = dw_mipi_dsi_phy_power_on,
+@@ -332,6 +429,7 @@ static const struct dw_mipi_dsi_phy_ops dw_mipi_dsi_stm_phy_ops = {
  
- 	const struct dw_mipi_dsi_phy_ops *phy_ops;
- 	const struct dw_mipi_dsi_host_ops *host_ops;
+ static struct dw_mipi_dsi_plat_data dw_mipi_dsi_stm_plat_data = {
+ 	.max_data_lanes = 2,
++	.mode_valid = dw_mipi_dsi_stm_mode_valid,
+ 	.phy_ops = &dw_mipi_dsi_stm_phy_ops,
+ };
+ 
 -- 
 2.34.1
 
