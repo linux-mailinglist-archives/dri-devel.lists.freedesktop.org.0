@@ -1,58 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AFBF47A16A
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Dec 2021 17:41:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C773A47A18C
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Dec 2021 18:37:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDA6912BFAC;
-	Sun, 19 Dec 2021 16:41:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D30E3112804;
+	Sun, 19 Dec 2021 17:37:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10DC712BFA9
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Dec 2021 16:41:27 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id j6so8256179edw.12
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Dec 2021 08:41:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zjxQWD/r6t/DCN45F9Bg/v/DEmb6oJTw6IHZYeDe120=;
- b=f4wA/tu1JEP7AXCRq3JgPbgtpHfluF1OHSLByWLF4RrpfQA5ndVzsRn2hmiYASQ/Ga
- mqd4pscSjagIs1EgeVqieacKPwQwGOy0kPPeX/1jH2nzcbjfnGf9GPsIYC65d9qvttVG
- LOP3Ef8FEZ3VradIVEvGhYqHg50Bw8zxWfJFE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zjxQWD/r6t/DCN45F9Bg/v/DEmb6oJTw6IHZYeDe120=;
- b=H6uOYYUhyj1VRuSPWAFj5tSW2ZvqFSM+SKk1sFM7fr+s/oZdIt8vP7RGn/FZI+r+3p
- 32EzlgF18/DokAclEbBfr5DFCRhmxJBvzZSmZODHq221pfErE1Dj53tviVCRUVSgudio
- wWvP9GWgqqbAOfPBgm3raadAEw82Yj1J0ru/Bx7E4Sc72AT7rjdznehoN0zRbggR3V6n
- a1QN+8RYRbHuCqJi5RR+6DvxhPol1Ka4jhMO8RZkcqIHAq7s2d8HOJHn9IBX8oRuOj9C
- UjBaHuQRzzijs6vIb9PKjypQrX1DXA5dcN/ChDhT+4v3l5qRtUrwBCBgUkhSfZhyoV5v
- gv+w==
-X-Gm-Message-State: AOAM533zEt4AbciDBCqLOg8ww8dY4iJljpdzHD74IkUkdpdEUh0Q0oMq
- MnrzIoiCKt0wImdwcx/Ki6x1pVI54/iiAUEwNFtYRw==
-X-Google-Smtp-Source: ABdhPJwPHm2C76/SIpn1W85IG5kH5CUG9YO77XSZ+NX1Fcm8zLfJy1jL2b+L95I+vK0cA/vKGayOqbHHdOpEg8L69qA=
-X-Received: by 2002:a17:907:dab:: with SMTP id
- go43mr10560630ejc.537.1639932085635; 
- Sun, 19 Dec 2021 08:41:25 -0800 (PST)
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:e::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81450112804
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Dec 2021 17:37:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=45VJu1f6INdq/MgERimVJHzqo+e8PJ5KOh5ifY4yM1E=; b=K6YkmXvqekoNPOZxSEU6lLaixa
+ gFxw/p1M7ot+Ns70fO8L2AIh90SuO0O8nMypDwlNboTuOB5z3HTDXohM1hca2fI6a5eTTC570B8/A
+ WZUhQtffYM2Qu4OzfYwRBiWY52aUBUKUMb46sOkO0tRV9CQYRP2mZvQJxiOFtzj9iXG1G/dEb8B4z
+ Q0v8lQsn6f/cP0t0t/ZkfC92A/gFfkmGNvXKN4De4b0pTvwgNm2JRR61L5Ux05lvWJh9tBmQMbKn3
+ OMS+fkad9MLDxL10J310sb5ridDVIZ21yQdK3tNN2k0ZIK7g9e/7/EXLYE49cB9X/B8qFOea7kHb9
+ 7xJZM+Kw==;
+Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
+ by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1mz07l-00GWmS-S2; Sun, 19 Dec 2021 17:37:29 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm: drm/drm_file.h: fix a kernel-doc typo
+Date: Sun, 19 Dec 2021 09:37:28 -0800
+Message-Id: <20211219173728.9806-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20211119145325.1775046-1-jagan@amarulasolutions.com>
-In-Reply-To: <20211119145325.1775046-1-jagan@amarulasolutions.com>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Sun, 19 Dec 2021 22:11:14 +0530
-Message-ID: <CAMty3ZBGeHHWQ9C7mJn7i3i1HFEiqNmTUVe0_3O1uNwCHeFM5w@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/bridge: chipone-icn6211: Switch to atomic
- operations
-To: Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>, 
- Robert Foss <robert.foss@linaro.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,22 +46,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-amarula@amarulasolutions.com, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, Randy Dunlap <rdunlap@infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 19, 2021 at 8:23 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
->
-> Replace atomic version of the pre_enable/enable/post_disable
-> operations to continue the transition to the atomic API.
->
-> Also added default drm atomic operations for duplicate, destroy
-> and reset state API's in order to have smooth transition on
-> atomic API's.
->
-> Tested on Allwinner R16/R40 DSI.
->
-> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> ---
+Fix a build warning from 'make htmldocs' by correcting the lock name
+in the kernel-doc comment.
 
-Gentle ping!
+../include/drm/drm_file.h:369: warning: Function parameter or member 'master_lookup_lock' not described in 'drm_file'
+
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+---
+ include/drm/drm_file.h |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- linux-next-20211217.orig/include/drm/drm_file.h
++++ linux-next-20211217/include/drm/drm_file.h
+@@ -248,7 +248,7 @@ struct drm_file {
+ 	 */
+ 	struct drm_master *master;
+ 
+-	/** @master_lock: Serializes @master. */
++	/** @master_lookup_lock: Serializes @master. */
+ 	spinlock_t master_lookup_lock;
+ 
+ 	/** @pid: Process that opened this file. */
