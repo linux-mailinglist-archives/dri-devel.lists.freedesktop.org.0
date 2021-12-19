@@ -2,33 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8C5C47A252
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Dec 2021 22:26:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A909047A254
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Dec 2021 22:26:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3923211BAD0;
-	Sun, 19 Dec 2021 21:26:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEF7511BC41;
+	Sun, 19 Dec 2021 21:26:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7A6E11BAD0;
- Sun, 19 Dec 2021 21:25:58 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10203"; a="237596657"
-X-IronPort-AV: E=Sophos;i="5.88,219,1635231600"; d="scan'208";a="237596657"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2021 13:25:58 -0800
-X-IronPort-AV: E=Sophos;i="5.88,219,1635231600"; d="scan'208";a="467165744"
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF75B11BC23;
+ Sun, 19 Dec 2021 21:26:05 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10203"; a="220069206"
+X-IronPort-AV: E=Sophos;i="5.88,219,1635231600"; d="scan'208";a="220069206"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Dec 2021 13:26:05 -0800
+X-IronPort-AV: E=Sophos;i="5.88,219,1635231600"; d="scan'208";a="616176178"
 Received: from stuohenm-mobl.ger.corp.intel.com (HELO intel.com)
  ([10.252.36.4])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2021 13:25:54 -0800
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Dec 2021 13:26:01 -0800
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: Intel GFX <intel-gfx@lists.freedesktop.org>,
  DRI Devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v9 5/6] drm/i915/selftests: Use to_gt() helper for GGTT
- accesses
-Date: Sun, 19 Dec 2021 23:24:59 +0200
-Message-Id: <20211219212500.61432-6-andi.shyti@linux.intel.com>
+Subject: [PATCH v9 6/6] drm/i915: Remove unused i915->ggtt
+Date: Sun, 19 Dec 2021 23:25:00 +0200
+Message-Id: <20211219212500.61432-7-andi.shyti@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20211219212500.61432-1-andi.shyti@linux.intel.com>
 References: <20211219212500.61432-1-andi.shyti@linux.intel.com>
@@ -55,136 +54,244 @@ Cc: Sujaritha Sundaresan <sujaritha.sundaresan@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Michał Winiarski <michal.winiarski@intel.com>
+The reference to the GGTT from the private date is not used
+anymore. Remove it.
 
-GGTT is currently available both through i915->ggtt and gt->ggtt, and we
-eventually want to get rid of the i915->ggtt one.
-Use to_gt() for all i915->ggtt accesses to help with the future
-refactoring.
+The ggtt in the root gt will now be dynamically allocated and the
+deallocation handled by the drmm_* managed allocation.
 
-Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
-Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Suggested-by: Matt Roper <matthew.d.roper@intel.com>
 Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Michał Winiarski <michal.winiarski@intel.com>
 Reviewed-by: Sujaritha Sundaresan <sujaritha.sundaresan@intel.com>
 Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
 ---
- drivers/gpu/drm/i915/selftests/i915_gem.c        | 8 ++++----
- drivers/gpu/drm/i915/selftests/i915_gem_gtt.c    | 6 +++---
- drivers/gpu/drm/i915/selftests/i915_request.c    | 2 +-
- drivers/gpu/drm/i915/selftests/i915_vma.c        | 2 +-
- drivers/gpu/drm/i915/selftests/mock_gem_device.c | 2 +-
- 5 files changed, 10 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_gt.c            |  7 +++++--
+ drivers/gpu/drm/i915/gt/intel_gt.h            |  2 +-
+ drivers/gpu/drm/i915/i915_driver.c            |  4 +++-
+ drivers/gpu/drm/i915/i915_drv.h               |  2 --
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c | 20 ++++++++++---------
+ drivers/gpu/drm/i915/selftests/i915_vma.c     | 20 ++++++++++---------
+ .../gpu/drm/i915/selftests/mock_gem_device.c  |  9 +++++++--
+ drivers/gpu/drm/i915/selftests/mock_gtt.c     |  9 ++++-----
+ drivers/gpu/drm/i915/selftests/mock_gtt.h     |  3 ++-
+ 9 files changed, 44 insertions(+), 32 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/selftests/i915_gem.c b/drivers/gpu/drm/i915/selftests/i915_gem.c
-index b5576888cd78..1628b81d0a35 100644
---- a/drivers/gpu/drm/i915/selftests/i915_gem.c
-+++ b/drivers/gpu/drm/i915/selftests/i915_gem.c
-@@ -41,7 +41,7 @@ static int switch_to_context(struct i915_gem_context *ctx)
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+index f98f0fb21efb..298ff32c8d0c 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+@@ -3,6 +3,7 @@
+  * Copyright © 2019 Intel Corporation
+  */
  
- static void trash_stolen(struct drm_i915_private *i915)
++#include <drm/drm_managed.h>
+ #include <drm/intel-gtt.h>
+ 
+ #include "intel_gt_debugfs.h"
+@@ -85,9 +86,11 @@ int intel_gt_probe_lmem(struct intel_gt *gt)
+ 	return 0;
+ }
+ 
+-void intel_gt_init_hw_early(struct intel_gt *gt, struct i915_ggtt *ggtt)
++int intel_gt_assign_ggtt(struct intel_gt *gt)
  {
--	struct i915_ggtt *ggtt = &i915->ggtt;
-+	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
- 	const u64 slot = ggtt->error_capture.start;
- 	const resource_size_t size = resource_size(&i915->dsm);
- 	unsigned long page;
-@@ -99,7 +99,7 @@ static void igt_pm_suspend(struct drm_i915_private *i915)
- 	intel_wakeref_t wakeref;
- 
- 	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
--		i915_ggtt_suspend(&i915->ggtt);
-+		i915_ggtt_suspend(to_gt(i915)->ggtt);
- 		i915_gem_suspend_late(i915);
- 	}
+-	gt->ggtt = ggtt;
++	gt->ggtt = drmm_kzalloc(&gt->i915->drm, sizeof(*gt->ggtt), GFP_KERNEL);
++
++	return gt->ggtt ? 0 : -ENOMEM;
  }
-@@ -109,7 +109,7 @@ static void igt_pm_hibernate(struct drm_i915_private *i915)
- 	intel_wakeref_t wakeref;
  
- 	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
--		i915_ggtt_suspend(&i915->ggtt);
-+		i915_ggtt_suspend(to_gt(i915)->ggtt);
+ static const struct intel_mmio_range icl_l3bank_steering_table[] = {
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
+index 3ace129eb2af..94e1bac8c0cc 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt.h
+@@ -36,7 +36,7 @@ static inline struct intel_gt *huc_to_gt(struct intel_huc *huc)
  
- 		i915_gem_freeze(i915);
- 		i915_gem_freeze_late(i915);
-@@ -125,7 +125,7 @@ static void igt_pm_resume(struct drm_i915_private *i915)
- 	 * that runtime-pm just works.
- 	 */
- 	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
--		i915_ggtt_resume(&i915->ggtt);
-+		i915_ggtt_resume(to_gt(i915)->ggtt);
- 		i915_gem_resume(i915);
- 	}
- }
+ void intel_gt_init_early(struct intel_gt *gt, struct drm_i915_private *i915);
+ void __intel_gt_init_early(struct intel_gt *gt, struct drm_i915_private *i915);
+-void intel_gt_init_hw_early(struct intel_gt *gt, struct i915_ggtt *ggtt);
++int intel_gt_assign_ggtt(struct intel_gt *gt);
+ int intel_gt_probe_lmem(struct intel_gt *gt);
+ int intel_gt_init_mmio(struct intel_gt *gt);
+ int __must_check intel_gt_init_hw(struct intel_gt *gt);
+diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
+index 3c984553d86f..5f2343389b5e 100644
+--- a/drivers/gpu/drm/i915/i915_driver.c
++++ b/drivers/gpu/drm/i915/i915_driver.c
+@@ -571,7 +571,9 @@ static int i915_driver_hw_probe(struct drm_i915_private *dev_priv)
+ 
+ 	i915_perf_init(dev_priv);
+ 
+-	intel_gt_init_hw_early(to_gt(dev_priv), &dev_priv->ggtt);
++	ret = intel_gt_assign_ggtt(to_gt(dev_priv));
++	if (ret)
++		goto err_perf;
+ 
+ 	ret = i915_ggtt_probe_hw(dev_priv);
+ 	if (ret)
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index 524025790fe0..041b24927e74 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -825,8 +825,6 @@ struct drm_i915_private {
+ 	struct drm_atomic_state *modeset_restore_state;
+ 	struct drm_modeset_acquire_ctx reset_ctx;
+ 
+-	struct i915_ggtt ggtt; /* VM representing the global address space */
+-
+ 	struct i915_gem_mm mm;
+ 
+ 	/* Kernel Modesetting */
 diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-index 48123c3e1ff0..9afe7cf9d068 100644
+index 9afe7cf9d068..f62f7dac57f2 100644
 --- a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
 +++ b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-@@ -1122,7 +1122,7 @@ static int exercise_ggtt(struct drm_i915_private *i915,
- 				     u64 hole_start, u64 hole_end,
- 				     unsigned long end_time))
- {
--	struct i915_ggtt *ggtt = &i915->ggtt;
-+	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
- 	u64 hole_start, hole_end, last = 0;
- 	struct drm_mm_node *node;
- 	IGT_TIMEOUT(end_time);
-@@ -1182,7 +1182,7 @@ static int igt_ggtt_page(void *arg)
- 	const unsigned int count = PAGE_SIZE/sizeof(u32);
- 	I915_RND_STATE(prng);
- 	struct drm_i915_private *i915 = arg;
--	struct i915_ggtt *ggtt = &i915->ggtt;
-+	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
- 	struct drm_i915_gem_object *obj;
- 	intel_wakeref_t wakeref;
- 	struct drm_mm_node tmp;
-@@ -2110,7 +2110,7 @@ int i915_gem_gtt_live_selftests(struct drm_i915_private *i915)
- 		SUBTEST(igt_cs_tlb),
+@@ -1737,26 +1737,28 @@ int i915_gem_gtt_mock_selftests(void)
+ 		SUBTEST(igt_gtt_insert),
  	};
+ 	struct drm_i915_private *i915;
+-	struct i915_ggtt *ggtt;
++	struct intel_gt *gt;
+ 	int err;
  
--	GEM_BUG_ON(offset_in_page(i915->ggtt.vm.total));
-+	GEM_BUG_ON(offset_in_page(to_gt(i915)->ggtt->vm.total));
+ 	i915 = mock_gem_device();
+ 	if (!i915)
+ 		return -ENOMEM;
  
- 	return i915_subtests(tests, i915);
- }
-diff --git a/drivers/gpu/drm/i915/selftests/i915_request.c b/drivers/gpu/drm/i915/selftests/i915_request.c
-index 92a859b34190..7f66f6d299b2 100644
---- a/drivers/gpu/drm/i915/selftests/i915_request.c
-+++ b/drivers/gpu/drm/i915/selftests/i915_request.c
-@@ -843,7 +843,7 @@ static struct i915_vma *empty_batch(struct drm_i915_private *i915)
+-	ggtt = kmalloc(sizeof(*ggtt), GFP_KERNEL);
+-	if (!ggtt) {
+-		err = -ENOMEM;
++	/* allocate the ggtt */
++	err = intel_gt_assign_ggtt(to_gt(i915));
++	if (err)
+ 		goto out_put;
+-	}
+-	mock_init_ggtt(i915, ggtt);
  
- 	intel_gt_chipset_flush(to_gt(i915));
+-	err = i915_subtests(tests, ggtt);
++	gt = to_gt(i915);
++
++	mock_init_ggtt(gt);
++
++	err = i915_subtests(tests, gt->ggtt);
  
--	vma = i915_vma_instance(obj, &i915->ggtt.vm, NULL);
-+	vma = i915_vma_instance(obj, &to_gt(i915)->ggtt->vm, NULL);
- 	if (IS_ERR(vma)) {
- 		err = PTR_ERR(vma);
- 		goto err;
+ 	mock_device_flush(i915);
+ 	i915_gem_drain_freed_objects(i915);
+-	mock_fini_ggtt(ggtt);
+-	kfree(ggtt);
++	mock_fini_ggtt(gt->ggtt);
++
+ out_put:
+ 	mock_destroy_device(i915);
+ 	return err;
 diff --git a/drivers/gpu/drm/i915/selftests/i915_vma.c b/drivers/gpu/drm/i915/selftests/i915_vma.c
-index 1f10fe36619b..6ac15d3bc5bc 100644
+index 6ac15d3bc5bc..a87cba4eb92f 100644
 --- a/drivers/gpu/drm/i915/selftests/i915_vma.c
 +++ b/drivers/gpu/drm/i915/selftests/i915_vma.c
-@@ -967,7 +967,7 @@ static int igt_vma_remapped_gtt(void *arg)
- 	intel_wakeref_t wakeref;
- 	int err = 0;
+@@ -907,26 +907,28 @@ int i915_vma_mock_selftests(void)
+ 		SUBTEST(igt_vma_partial),
+ 	};
+ 	struct drm_i915_private *i915;
+-	struct i915_ggtt *ggtt;
++	struct intel_gt *gt;
+ 	int err;
  
--	if (!i915_ggtt_has_aperture(&i915->ggtt))
-+	if (!i915_ggtt_has_aperture(to_gt(i915)->ggtt))
- 		return 0;
+ 	i915 = mock_gem_device();
+ 	if (!i915)
+ 		return -ENOMEM;
  
- 	obj = i915_gem_object_create_internal(i915, 10 * 10 * PAGE_SIZE);
+-	ggtt = kmalloc(sizeof(*ggtt), GFP_KERNEL);
+-	if (!ggtt) {
+-		err = -ENOMEM;
++	/* allocate the ggtt */
++	err = intel_gt_assign_ggtt(to_gt(i915));
++	if (err)
+ 		goto out_put;
+-	}
+-	mock_init_ggtt(i915, ggtt);
+ 
+-	err = i915_subtests(tests, ggtt);
++	gt = to_gt(i915);
++
++	mock_init_ggtt(gt);
++
++	err = i915_subtests(tests, gt->ggtt);
+ 
+ 	mock_device_flush(i915);
+ 	i915_gem_drain_freed_objects(i915);
+-	mock_fini_ggtt(ggtt);
+-	kfree(ggtt);
++	mock_fini_ggtt(gt->ggtt);
++
+ out_put:
+ 	mock_destroy_device(i915);
+ 	return err;
 diff --git a/drivers/gpu/drm/i915/selftests/mock_gem_device.c b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-index 8aa7b1d33865..0b469ae0f474 100644
+index 0b469ae0f474..28a0f054009a 100644
 --- a/drivers/gpu/drm/i915/selftests/mock_gem_device.c
 +++ b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-@@ -69,7 +69,7 @@ static void mock_device_release(struct drm_device *dev)
- 	i915_gem_drain_workqueue(i915);
- 	i915_gem_drain_freed_objects(i915);
+@@ -194,8 +194,13 @@ struct drm_i915_private *mock_gem_device(void)
  
--	mock_fini_ggtt(&i915->ggtt);
-+	mock_fini_ggtt(to_gt(i915)->ggtt);
- 	destroy_workqueue(i915->wq);
+ 	mock_init_contexts(i915);
  
- 	intel_region_ttm_device_fini(i915);
+-	mock_init_ggtt(i915, &i915->ggtt);
+-	to_gt(i915)->vm = i915_vm_get(&i915->ggtt.vm);
++	/* allocate the ggtt */
++	ret = intel_gt_assign_ggtt(to_gt(i915));
++	if (ret)
++		goto err_unlock;
++
++	mock_init_ggtt(to_gt(i915));
++	to_gt(i915)->vm = i915_vm_get(&to_gt(i915)->ggtt->vm);
+ 
+ 	mkwrite_device_info(i915)->platform_engine_mask = BIT(0);
+ 	to_gt(i915)->info.engine_mask = BIT(0);
+diff --git a/drivers/gpu/drm/i915/selftests/mock_gtt.c b/drivers/gpu/drm/i915/selftests/mock_gtt.c
+index 13bb0c3c3f0d..a36f46d50e83 100644
+--- a/drivers/gpu/drm/i915/selftests/mock_gtt.c
++++ b/drivers/gpu/drm/i915/selftests/mock_gtt.c
+@@ -106,12 +106,12 @@ static void mock_unbind_ggtt(struct i915_address_space *vm,
+ {
+ }
+ 
+-void mock_init_ggtt(struct drm_i915_private *i915, struct i915_ggtt *ggtt)
++void mock_init_ggtt(struct intel_gt *gt)
+ {
+-	memset(ggtt, 0, sizeof(*ggtt));
++	struct i915_ggtt *ggtt = gt->ggtt;
+ 
+-	ggtt->vm.gt = to_gt(i915);
+-	ggtt->vm.i915 = i915;
++	ggtt->vm.gt = gt;
++	ggtt->vm.i915 = gt->i915;
+ 	ggtt->vm.is_ggtt = true;
+ 
+ 	ggtt->gmadr = (struct resource) DEFINE_RES_MEM(0, 2048 * PAGE_SIZE);
+@@ -132,7 +132,6 @@ void mock_init_ggtt(struct drm_i915_private *i915, struct i915_ggtt *ggtt)
+ 	ggtt->vm.vma_ops.clear_pages = clear_pages;
+ 
+ 	i915_address_space_init(&ggtt->vm, VM_CLASS_GGTT);
+-	to_gt(i915)->ggtt = ggtt;
+ }
+ 
+ void mock_fini_ggtt(struct i915_ggtt *ggtt)
+diff --git a/drivers/gpu/drm/i915/selftests/mock_gtt.h b/drivers/gpu/drm/i915/selftests/mock_gtt.h
+index e3f224f43beb..d6eb90bd7f3f 100644
+--- a/drivers/gpu/drm/i915/selftests/mock_gtt.h
++++ b/drivers/gpu/drm/i915/selftests/mock_gtt.h
+@@ -27,8 +27,9 @@
+ 
+ struct drm_i915_private;
+ struct i915_ggtt;
++struct intel_gt;
+ 
+-void mock_init_ggtt(struct drm_i915_private *i915, struct i915_ggtt *ggtt);
++void mock_init_ggtt(struct intel_gt *gt);
+ void mock_fini_ggtt(struct i915_ggtt *ggtt);
+ 
+ struct i915_ppgtt *mock_ppgtt(struct drm_i915_private *i915, const char *name);
 -- 
 2.34.1
 
