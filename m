@@ -1,34 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7305247A247
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Dec 2021 22:25:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5827647A248
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Dec 2021 22:25:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24BEE11AC0F;
-	Sun, 19 Dec 2021 21:25:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5096511AC20;
+	Sun, 19 Dec 2021 21:25:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D6CB11AC0C;
- Sun, 19 Dec 2021 21:25:23 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10203"; a="220734736"
-X-IronPort-AV: E=Sophos;i="5.88,219,1635231600"; d="scan'208";a="220734736"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2021 13:25:22 -0800
-X-IronPort-AV: E=Sophos;i="5.88,219,1635231600"; d="scan'208";a="520549204"
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20E0611AC20;
+ Sun, 19 Dec 2021 21:25:29 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10203"; a="227347161"
+X-IronPort-AV: E=Sophos;i="5.88,219,1635231600"; d="scan'208";a="227347161"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Dec 2021 13:25:28 -0800
+X-IronPort-AV: E=Sophos;i="5.88,219,1635231600"; d="scan'208";a="507452316"
 Received: from stuohenm-mobl.ger.corp.intel.com (HELO intel.com)
  ([10.252.36.4])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2021 13:25:18 -0800
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Dec 2021 13:25:25 -0800
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: Intel GFX <intel-gfx@lists.freedesktop.org>,
  DRI Devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v9 0/6] More preparation for multi gt patches
-Date: Sun, 19 Dec 2021 23:24:54 +0200
-Message-Id: <20211219212500.61432-1-andi.shyti@linux.intel.com>
+Subject: [PATCH v9 1/6] drm/i915/gt: Use to_gt() helper for GGTT accesses
+Date: Sun, 19 Dec 2021 23:24:55 +0200
+Message-Id: <20211219212500.61432-2-andi.shyti@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20211219212500.61432-1-andi.shyti@linux.intel.com>
+References: <20211219212500.61432-1-andi.shyti@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -52,127 +54,165 @@ Cc: Sujaritha Sundaresan <sujaritha.sundaresan@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Michał Winiarski <michal.winiarski@intel.com>
 
-thanks Matt for merging the first 10 patches from v8. This series
-contains only the last 6 patches from the previous that make use
-of the newly inserted to_gt() to reach the ggtt that at the end
-moves from the i915 structure to the gt.
+GGTT is currently available both through i915->ggtt and gt->ggtt, and we
+eventually want to get rid of the i915->ggtt one.
+Use to_gt() for all i915->ggtt accesses to help with the future
+refactoring.
 
-I have reshuffled a bit the order of the patche (refer to the
-changelog) so that from this series only patch 2 remains
-unreviewed.
+Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
+Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+Reviewed-by: Sujaritha Sundaresan <sujaritha.sundaresan@intel.com>
+Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_ggtt.c         | 14 +++++++-------
+ drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c |  6 +++---
+ drivers/gpu/drm/i915/gt/intel_region_lmem.c  |  4 ++--
+ drivers/gpu/drm/i915/gt/selftest_reset.c     |  2 +-
+ drivers/gpu/drm/i915/i915_driver.c           |  4 ++--
+ 5 files changed, 15 insertions(+), 15 deletions(-)
 
-Thanks Matt and Sujaritha for the reviews.
-
-Andi
-
-Changelog:
-==========
-Patchwork: https://patchwork.freedesktop.org/series/97020/
-
-v8 -> v9:
- - The patch is down to the last 6 patches.
- - Reshuffled a bit the order, it's more intuitive to apply the
-   changes starting from i915/gt/, i915/, i915/gem, i915/display,
-   i915/selftests
- - Addressed Matt's comments in v8.
- - Added Matt and Sujaritha's r-b tags
-
-v7 -> v8:
- - Removed patch 11 from v7 that was allocating statically the
-   ggtt in the gt structure instead of a dynamic allocation. As
-   Matt pointed out, we can have GT's sharing the same GGTT.
- - The whole i915->ggtt to gt->ggtt patch is split in 5 patches
-   instead of one single to make it easier to review.
- - The last patch removes i915->ggtt and allocates the gt->ggtt
-   with drmm_kzalloc in the early probe and mock device.
-
-v6 -> v7:
- - Patch 1: add a note about the double presence of
-   __intel_gt_init_early() and intel_gt_init_early().
- - Added all Matt's r-b's for patches 2-10.
- - Added a patch 12 that moves the i915->ggtt into gt->ggtt.
-
-v5 -> v6:
- - fixed the assignement of i915->gt->ggtt = ggtt in the mock gem
-   device that was making use of it before.
-
-v4 -> v5:
- - use to_gt() instead of to_root_gt() and use Michał work done
-   previously.
- - split the /i915->gt/to_gt()/ patch in smaller chunks in order
-   to make review easier. (Thanks Lucas)
-
-v3 -> v4:
- - the intel_gt_init_early() has been split as it was causing
-   some headaches for the order of the early initialization. The
-   split has been done keeping in mind the coming next patch in
-   the series that wil make this a static function.
-
-v2 -> v3:
- - sed -i ... took too much freedom and changed more than it was
-   supposed to.
- - fix a compile error which did not appear in my local build
-
-v1 -> v2:
- - patch 2: do not use anymore the reference i915->gt but use
-   to_root_gt(), coming from Matt Roper's patch.
- - fix some comments from Chris.
-
-Andi Shyti (4):
-  drm/i915/selftests: Use to_gt() helper
-  drm/i915/pxp: Use to_gt() helper
-  drm/i915: Rename i915->gt to i915->gt0
-  drm/i915: Move the GGTT from i915 private data to the GT
-
-Andi Shyti (1):
-  drm/i915: Remove unused i915->ggtt
-
-Michał Winiarski (5):
-  drm/i915/gt: Use to_gt() helper for GGTT accesses
-  drm/i915: Use to_gt() helper for GGTT accesses
-  drm/i915/gem: Use to_gt() helper for GGTT accesses
-  drm/i915/display: Use to_gt() helper for GGTT accesses
-  drm/i915/selftests: Use to_gt() helper for GGTT accesses
-
- drivers/gpu/drm/i915/display/intel_fbc.c      |  2 +-
- drivers/gpu/drm/i915/display/intel_fbdev.c    |  2 +-
- .../drm/i915/display/intel_plane_initial.c    |  2 +-
- drivers/gpu/drm/i915/gem/i915_gem_context.h   |  2 +-
- .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  2 +-
- drivers/gpu/drm/i915/gem/i915_gem_mman.c      | 19 +++++++-------
- drivers/gpu/drm/i915/gem/i915_gem_pm.c        |  2 +-
- drivers/gpu/drm/i915/gem/i915_gem_shrinker.c  |  6 ++---
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c    |  8 +++---
- drivers/gpu/drm/i915/gem/i915_gem_tiling.c    | 15 ++++++-----
- .../i915/gem/selftests/i915_gem_client_blt.c  |  2 +-
- .../drm/i915/gem/selftests/i915_gem_context.c |  2 +-
- .../drm/i915/gem/selftests/i915_gem_mman.c    | 19 +++++++-------
- .../drm/i915/gem/selftests/i915_gem_object.c  |  2 +-
- drivers/gpu/drm/i915/gt/intel_ggtt.c          | 14 +++++-----
- drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c  |  6 ++---
- drivers/gpu/drm/i915/gt/intel_gt.c            |  7 +++--
- drivers/gpu/drm/i915/gt/intel_gt.h            |  2 +-
- drivers/gpu/drm/i915/gt/intel_region_lmem.c   |  4 +--
- drivers/gpu/drm/i915/gt/selftest_reset.c      |  2 +-
- drivers/gpu/drm/i915/gvt/dmabuf.c             |  2 +-
- drivers/gpu/drm/i915/i915_debugfs.c           |  4 +--
- drivers/gpu/drm/i915/i915_driver.c            | 10 ++++---
- drivers/gpu/drm/i915/i915_drv.h               |  4 +--
- drivers/gpu/drm/i915/i915_gem.c               | 23 ++++++++--------
- drivers/gpu/drm/i915/i915_gem_gtt.c           |  6 ++---
- drivers/gpu/drm/i915/i915_getparam.c          |  2 +-
- drivers/gpu/drm/i915/i915_perf.c              |  4 +--
- drivers/gpu/drm/i915/selftests/i915_gem.c     |  8 +++---
- drivers/gpu/drm/i915/selftests/i915_gem_gtt.c | 26 ++++++++++---------
- drivers/gpu/drm/i915/selftests/i915_request.c |  2 +-
- drivers/gpu/drm/i915/selftests/i915_vma.c     | 22 +++++++++-------
- .../gpu/drm/i915/selftests/mock_gem_device.c  | 11 +++++---
- drivers/gpu/drm/i915/selftests/mock_gtt.c     |  9 +++----
- drivers/gpu/drm/i915/selftests/mock_gtt.h     |  3 ++-
- 35 files changed, 137 insertions(+), 119 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+index 971e737b37b2..ec3b998392ff 100644
+--- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
++++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+@@ -89,7 +89,7 @@ int i915_ggtt_init_hw(struct drm_i915_private *i915)
+ 	 * beyond the end of the batch buffer, across the page boundary,
+ 	 * and beyond the end of the GTT if we do not provide a guard.
+ 	 */
+-	ret = ggtt_init_hw(&i915->ggtt);
++	ret = ggtt_init_hw(to_gt(i915)->ggtt);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -725,14 +725,14 @@ int i915_init_ggtt(struct drm_i915_private *i915)
+ {
+ 	int ret;
+ 
+-	ret = init_ggtt(&i915->ggtt);
++	ret = init_ggtt(to_gt(i915)->ggtt);
+ 	if (ret)
+ 		return ret;
+ 
+ 	if (INTEL_PPGTT(i915) == INTEL_PPGTT_ALIASING) {
+-		ret = init_aliasing_ppgtt(&i915->ggtt);
++		ret = init_aliasing_ppgtt(to_gt(i915)->ggtt);
+ 		if (ret)
+-			cleanup_init_ggtt(&i915->ggtt);
++			cleanup_init_ggtt(to_gt(i915)->ggtt);
+ 	}
+ 
+ 	return 0;
+@@ -775,7 +775,7 @@ static void ggtt_cleanup_hw(struct i915_ggtt *ggtt)
+  */
+ void i915_ggtt_driver_release(struct drm_i915_private *i915)
+ {
+-	struct i915_ggtt *ggtt = &i915->ggtt;
++	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
+ 
+ 	fini_aliasing_ppgtt(ggtt);
+ 
+@@ -790,7 +790,7 @@ void i915_ggtt_driver_release(struct drm_i915_private *i915)
+  */
+ void i915_ggtt_driver_late_release(struct drm_i915_private *i915)
+ {
+-	struct i915_ggtt *ggtt = &i915->ggtt;
++	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
+ 
+ 	GEM_WARN_ON(kref_read(&ggtt->vm.resv_ref) != 1);
+ 	dma_resv_fini(&ggtt->vm._resv);
+@@ -1232,7 +1232,7 @@ int i915_ggtt_probe_hw(struct drm_i915_private *i915)
+ {
+ 	int ret;
+ 
+-	ret = ggtt_probe_hw(&i915->ggtt, to_gt(i915));
++	ret = ggtt_probe_hw(to_gt(i915)->ggtt, to_gt(i915));
+ 	if (ret)
+ 		return ret;
+ 
+diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c b/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
+index f8948de72036..beabf3bc9b75 100644
+--- a/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
++++ b/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
+@@ -728,8 +728,8 @@ static void detect_bit_6_swizzle(struct i915_ggtt *ggtt)
+ 		swizzle_y = I915_BIT_6_SWIZZLE_NONE;
+ 	}
+ 
+-	i915->ggtt.bit_6_swizzle_x = swizzle_x;
+-	i915->ggtt.bit_6_swizzle_y = swizzle_y;
++	to_gt(i915)->ggtt->bit_6_swizzle_x = swizzle_x;
++	to_gt(i915)->ggtt->bit_6_swizzle_y = swizzle_y;
+ }
+ 
+ /*
+@@ -896,7 +896,7 @@ void intel_gt_init_swizzling(struct intel_gt *gt)
+ 	struct intel_uncore *uncore = gt->uncore;
+ 
+ 	if (GRAPHICS_VER(i915) < 5 ||
+-	    i915->ggtt.bit_6_swizzle_x == I915_BIT_6_SWIZZLE_NONE)
++	    to_gt(i915)->ggtt->bit_6_swizzle_x == I915_BIT_6_SWIZZLE_NONE)
+ 		return;
+ 
+ 	intel_uncore_rmw(uncore, DISP_ARB_CTL, 0, DISP_TILE_SURFACE_SWIZZLING);
+diff --git a/drivers/gpu/drm/i915/gt/intel_region_lmem.c b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
+index fde2dcb59809..21215a080088 100644
+--- a/drivers/gpu/drm/i915/gt/intel_region_lmem.c
++++ b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
+@@ -15,7 +15,7 @@
+ static int init_fake_lmem_bar(struct intel_memory_region *mem)
+ {
+ 	struct drm_i915_private *i915 = mem->i915;
+-	struct i915_ggtt *ggtt = &i915->ggtt;
++	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
+ 	unsigned long n;
+ 	int ret;
+ 
+@@ -131,7 +131,7 @@ intel_gt_setup_fake_lmem(struct intel_gt *gt)
+ 	if (!i915->params.fake_lmem_start)
+ 		return ERR_PTR(-ENODEV);
+ 
+-	GEM_BUG_ON(i915_ggtt_has_aperture(&i915->ggtt));
++	GEM_BUG_ON(i915_ggtt_has_aperture(to_gt(i915)->ggtt));
+ 
+ 	/* Your mappable aperture belongs to me now! */
+ 	mappable_end = pci_resource_len(pdev, 2);
+diff --git a/drivers/gpu/drm/i915/gt/selftest_reset.c b/drivers/gpu/drm/i915/gt/selftest_reset.c
+index 8a873f6bda7f..37c38bdd5f47 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_reset.c
++++ b/drivers/gpu/drm/i915/gt/selftest_reset.c
+@@ -19,7 +19,7 @@ __igt_reset_stolen(struct intel_gt *gt,
+ 		   intel_engine_mask_t mask,
+ 		   const char *msg)
+ {
+-	struct i915_ggtt *ggtt = &gt->i915->ggtt;
++	struct i915_ggtt *ggtt = gt->ggtt;
+ 	const struct resource *dsm = &gt->i915->dsm;
+ 	resource_size_t num_pages, page;
+ 	struct intel_engine_cs *engine;
+diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
+index 95174938b160..60f8cbf24de7 100644
+--- a/drivers/gpu/drm/i915/i915_driver.c
++++ b/drivers/gpu/drm/i915/i915_driver.c
+@@ -571,6 +571,8 @@ static int i915_driver_hw_probe(struct drm_i915_private *dev_priv)
+ 
+ 	i915_perf_init(dev_priv);
+ 
++	intel_gt_init_hw_early(to_gt(dev_priv), &dev_priv->ggtt);
++
+ 	ret = i915_ggtt_probe_hw(dev_priv);
+ 	if (ret)
+ 		goto err_perf;
+@@ -587,8 +589,6 @@ static int i915_driver_hw_probe(struct drm_i915_private *dev_priv)
+ 	if (ret)
+ 		goto err_ggtt;
+ 
+-	intel_gt_init_hw_early(to_gt(dev_priv), &dev_priv->ggtt);
+-
+ 	ret = intel_gt_probe_lmem(to_gt(dev_priv));
+ 	if (ret)
+ 		goto err_mem_regions;
 -- 
 2.34.1
 
