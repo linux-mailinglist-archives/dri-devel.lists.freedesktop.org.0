@@ -1,65 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D809847A124
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Dec 2021 16:33:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34CBC47A13E
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Dec 2021 17:02:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA1A712B92E;
-	Sun, 19 Dec 2021 15:33:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC8A610EE12;
+	Sun, 19 Dec 2021 16:02:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0BC912B92C
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Dec 2021 15:33:41 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 8B0CAB80D09
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Dec 2021 15:33:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5318EC36AEA
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Dec 2021 15:33:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1639928019;
- bh=6P8Ad/EIeHxnJHwXEggb5mXJN7fcdp3AnG7xOmny4xY=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=B99ynYOk4QIiWbv7ER/EpzLGErb53q5KGxNb2ldZIqVCFdPHWPc6g3iVcZsMKGr1h
- t4b9lb0LxdhI8lEVaL5s6xOLNkbdo/awIwI8S7z7owDddUjk75xcYvu9+jCpgXZT1t
- IKIEH6/eyayOp5PGYALkMmBnYmrUlNY5/d6uqNDmYM9VKSsWfjwTAkd8ErpzKbe7SA
- tacdSpJUGX4IbcA7r7oONcmg5gmnrJlY1bQnh+aaDcqbWJF7f62OX/UaZMdhSODbGs
- QTiOColmCjptIdn8ofGGgwd9lxwGb99IiwTlPBq2j4CNl8ClhjJkT53j/L2+A4DFVV
- XIYOufDEdazuw==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 380E460F91; Sun, 19 Dec 2021 15:33:39 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 215223] AMDGPU Driver with Radeon RX 6700 sometimes can not
- find display
-Date: Sun, 19 Dec 2021 15:33:38 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: reznov90210@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cf_kernel_version
-Message-ID: <bug-215223-2300-BolMWBbJ2U@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-215223-2300@https.bugzilla.kernel.org/>
-References: <bug-215223-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
+ [IPv6:2a00:1450:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98A7210E573
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Dec 2021 16:02:08 +0000 (UTC)
+Received: by mail-lj1-x235.google.com with SMTP id b19so11873125ljr.12
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Dec 2021 08:02:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=lOJVwY5jpStaCZAdlI9r7F578YcqW449P/YXre+J0tQ=;
+ b=pjA90ue/y2GqwI2z14nTc67a4m47280O/yxsM3rbaOR0jXnST/2OFTz7rnBTTlDTiD
+ yrSS6Y7Bxy5Uf9WLx+PToztObgQKrfnS007NXaKbF1DUQCVehT4AnS1J7HTmnU7awlAL
+ DXhtAkhd+90jcpkSK2sqOdfRMlJLZpli8dT1Wfmv7t9H3OW0hfWcIR8ZJ9CJdh9XdZuw
+ 7icknWh9L06pnfWketuwEXCRVG8syJqoUQNyQPMz4ty1kgX9w/NGWOI7mKzhhWsPBcOX
+ 4N/kDK7AWqIhtjAnv2ccV2MxIBxJs7xIUxRl6HdKTaaidslm/H9merf2IgHYxbdeB7zI
+ 1UQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=lOJVwY5jpStaCZAdlI9r7F578YcqW449P/YXre+J0tQ=;
+ b=xCIVcroBAcnIh/r/W8TJpzFditOmtaBf5s1EVlnHJp42d5THSSEYonFTIZlQr9JULx
+ dPpoKfW+52DRReAn9rCiC0njYAUp4ulvwpLgMmHg52VYQiv71HI2q2iUE2VpOKFwi015
+ Rk5mNqnpnTy/rZYpx57wfMn/DDZPx6Yx6Kq2BKgOqqhOizPQAEAUZLEpjbxtD5W8LVjR
+ fuFh3wxWcA2NTBWPpfUTv/uEcq5+mSZZEp75KKbm7TM/knCC4SX5uFC+pZLhdNlJLTuX
+ 49Raljw4iNX66IVFnLcDA9YE3SiBY3aHlikJBs9Q5zaLAUvWuHXpPmn7lmNZ4P4O7PKK
+ i1SA==
+X-Gm-Message-State: AOAM530w/hR2StBP3DTvQA5RPRqEvK5m65zEfjiwwW/5oz54ps5Lo+Gb
+ YlVsgI3Hb21twkWcL+NvZQE=
+X-Google-Smtp-Source: ABdhPJx1ZWsrVE8ULcM6usPQM1yX8t+9VcsmDxvcl3oZQN3xvGSoTr7yvW/BSd8mrcEdFyMmhUUbjw==
+X-Received: by 2002:a2e:b177:: with SMTP id a23mr11100264ljm.2.1639929726863; 
+ Sun, 19 Dec 2021 08:02:06 -0800 (PST)
+Received: from [192.168.2.145] (46-138-43-24.dynamic.spd-mgts.ru.
+ [46.138.43.24])
+ by smtp.googlemail.com with ESMTPSA id 76sm2196162ljj.69.2021.12.19.08.02.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 19 Dec 2021 08:02:06 -0800 (PST)
+Subject: Re: [PATCH v1 0/5] Improvements for TC358768 DSI bridge driver
+From: Dmitry Osipenko <digetx@gmail.com>
+To: Robert Foss <robert.foss@linaro.org>
+References: <20211002233447.1105-1-digetx@gmail.com>
+ <CAG3jFysa8G_fuGDfSLze-ovft3=gc5PXLaPtwTkC2_e0itQYNw@mail.gmail.com>
+ <c09bd552-767e-e783-3f9f-114b8cedb475@gmail.com>
+Message-ID: <a999b141-4b14-cdd0-f6fa-3d861c0f381f@gmail.com>
+Date: Sun, 19 Dec 2021 19:02:05 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <c09bd552-767e-e783-3f9f-114b8cedb475@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,19 +74,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Andreas Westman Dorcsak <hedmoo@yahoo.com>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Maxim Schwalm <maxim.schwalm@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ linux-tegra@vger.kernel.org,
+ =?UTF-8?Q?P=c3=a9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D215223
+19.10.2021 23:37, Dmitry Osipenko пишет:
+> 19.10.2021 12:47, Robert Foss пишет:
+>> Applied to drm-misc-next
+>>
+>> On Sun, 3 Oct 2021 at 01:35, Dmitry Osipenko <digetx@gmail.com> wrote:
+>>>
+>>> This series adds couple improvements to the TC358768 DSI bridge driver,
+>>> enabling Panasonic VVX10F004B00 DSI panel support. This panel is used by
+>>> ASUS Transformer TF700T tablet, which is ready for upstream kernel and
+>>> display panel support is the biggest missing part.
+>>>
+>>> Dmitry Osipenko (5):
+>>>   drm/bridge: tc358768: Enable reference clock
+>>>   drm/bridge: tc358768: Support pulse mode
+>>>   drm/bridge: tc358768: Calculate video start delay
+>>>   drm/bridge: tc358768: Disable non-continuous clock mode
+>>>   drm/bridge: tc358768: Correct BTACNTRL1 programming
+>>>
+>>>  drivers/gpu/drm/bridge/tc358768.c | 94 +++++++++++++++++++++++--------
+>>>  1 file changed, 71 insertions(+), 23 deletions(-)
+>>>
+>>> --
+>>> 2.32.0
+>>>
+> 
+> Robert, thank you for taking care of these patches! Now nothing is
+> holding us from upstreaming the device-tree of the Transformer tablet.
+> 
 
-reznov90210@gmail.com changed:
+Hello Robert,
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-     Kernel Version|5.15.6                      |5.15.10
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+These patches spent 2 months in drm-misc-next, will they graduate into
+v5.17 or something special needs to be done for that?
