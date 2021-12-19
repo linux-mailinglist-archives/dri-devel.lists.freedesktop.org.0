@@ -2,47 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5465A47A509
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Dec 2021 07:34:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DEDA47A65D
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Dec 2021 09:58:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8839F113F78;
-	Mon, 20 Dec 2021 06:34:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C993411329D;
+	Mon, 20 Dec 2021 08:57:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5125A113E5D
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Dec 2021 06:34:24 +0000 (UTC)
-Received: from localhost.localdomain (unknown [124.16.138.126])
- by APP-01 (Coremail) with SMTP id qwCowAAnvqbrI8BhGjpcBA--.19122S2;
- Mon, 20 Dec 2021 14:34:19 +0800 (CST)
-From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-To: s.hauer@pengutronix.de, kernel@pengutronix.de, shawnguo@kernel.org,
- festevam@gmail.com, linux-imx@nxp.com
-Subject: [PATCH] video: fbdev: Check for null res pointer
-Date: Mon, 20 Dec 2021 14:34:18 +0800
-Message-Id: <20211220063418.793624-1-jiasheng@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
+ [209.85.166.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 567F711B8A5
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Dec 2021 15:57:08 +0000 (UTC)
+Received: by mail-io1-f69.google.com with SMTP id
+ m127-20020a6b3f85000000b005f045ba51f9so5569195ioa.4
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Dec 2021 07:57:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+ :from:to;
+ bh=J1Z0E8FYOyeGYmMCih47JGz9INwvVqcSBEE3r+oJjRA=;
+ b=OAjkHSYX7gra0zNrZn/3eESBXzwAW/IlDbLC+C/p+6jjE8/LELH9ftm7GxBAgu0Bg9
+ Qk7HIS3oDoGWNoWUUaRXa8SOwzsCzR6CEuksrvy/3wqtqcWSmsShxrROBj70d3QoIacZ
+ bSedig+m92xGVS45948ZxfKGggJD2UgWJlfybqkY0bS5wCcVH39tVLwiXh58wsUy+gOl
+ jp4txiMMRCpUkH3el8XZNuC7keErdMkwYFA/i6tOxtcQGyKGT5doitgdrQeU/OFbMBoP
+ +/xDN2HOebEUS5AVwSY0RXU/nCosn4WR6QzHjhe772suQaxCaSbeqnfElO57ovCXj95K
+ T5oQ==
+X-Gm-Message-State: AOAM531NqE/WoAFk7lC23rsJSVRfa1PnO/8NlX8wgzZIZuxvmDbydzyn
+ rdx4gwZwJ/IpyeC1TyzoH4wkJ1uyNO65mJYl+dlgpGCy4tPb
+X-Google-Smtp-Source: ABdhPJzibjb8GU6GjM7AflOG1x8TLswRn7G6hxR5g2tBuxN6SrcEX/7NjUMQhAmD4CNcXRBnPUoAQBEM5E0iq4KRPSEZAzxtSFzJ
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowAAnvqbrI8BhGjpcBA--.19122S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrKrW7AF1kAF18WFW5tw18Krg_yoW3Wwc_Ca
- 1DurWrWr9IkF1vkF4ktr43ZryYvFsruF93urn2qasakry7Zr1rZrWUZr1fuayUur1UAFWD
- Aryq9r4Sv34fCjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUb38FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
- Gr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
- n2kIc2xKxwCY02Avz4vE14v_GF1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr
- 0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY
- 17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcV
- C0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI
- 42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWI
- evJa73UjIFyTuYvjfUYeHqDUUUU
-X-Originating-IP: [124.16.138.126]
-X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
+X-Received: by 2002:a6b:2cc1:: with SMTP id s184mr6122309ios.63.1639929427727; 
+ Sun, 19 Dec 2021 07:57:07 -0800 (PST)
+Date: Sun, 19 Dec 2021 07:57:07 -0800
+In-Reply-To: <000000000000685c4605d0e47dad@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000ff1c4105d381d24f@google.com>
+Subject: Re: [syzbot] KASAN: use-after-free Read in
+ drm_gem_object_release_handle
+From: syzbot <syzbot+c8ae65286134dd1b800d@syzkaller.appspotmail.com>
+To: airlied@linux.ie, christian.koenig@amd.com, daniel.vetter@ffwll.ch, 
+ daniel.vetter@intel.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig-owner@lists.linaro.org, linaro-mm-sig@lists.linaro.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
+Content-Type: text/plain; charset="UTF-8"
+X-Mailman-Approved-At: Mon, 20 Dec 2021 08:57:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,34 +61,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The return value of platform_get_resource() needs to be checked.
-To avoid use of error pointer in case of the failure of alloc.
+syzbot has bisected this issue to:
 
-Fixes: f7018c213502 ("video: move fbdev to drivers/video/fbdev")
-Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
----
- drivers/video/fbdev/imxfb.c | 2 ++
- 1 file changed, 2 insertions(+)
+commit 45d9c8dde4cd8589f9180309ec60f0da2ce486e4
+Author: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Thu Aug 12 13:14:12 2021 +0000
 
-diff --git a/drivers/video/fbdev/imxfb.c b/drivers/video/fbdev/imxfb.c
-index ad598257ab38..68288756ffff 100644
---- a/drivers/video/fbdev/imxfb.c
-+++ b/drivers/video/fbdev/imxfb.c
-@@ -1083,6 +1083,8 @@ static int imxfb_remove(struct platform_device *pdev)
- 	struct resource *res;
- 
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	if (!res)
-+		return -EINVAL;
- 
- 	imxfb_disable_controller(fbi);
- 
--- 
-2.25.1
+    drm/vgem: use shmem helpers
 
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=147953cbb00000
+start commit:   3f667b5d4053 Merge tag 'tty-5.16-rc6' of git://git.kernel...
+git tree:       upstream
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=167953cbb00000
+console output: https://syzkaller.appspot.com/x/log.txt?x=127953cbb00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=fa556098924b78f0
+dashboard link: https://syzkaller.appspot.com/bug?extid=c8ae65286134dd1b800d
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16fd41ebb00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1483c7d5b00000
+
+Reported-by: syzbot+c8ae65286134dd1b800d@syzkaller.appspotmail.com
+Fixes: 45d9c8dde4cd ("drm/vgem: use shmem helpers")
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
