@@ -1,56 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5688B47A7EE
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Dec 2021 11:49:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 854B947A7EF
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Dec 2021 11:49:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 375E310F73E;
-	Mon, 20 Dec 2021 10:49:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A06A010F72E;
+	Mon, 20 Dec 2021 10:49:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26DFA10F73E
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Dec 2021 10:49:04 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- o19-20020a1c7513000000b0033a93202467so6356587wmc.2
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Dec 2021 02:49:04 -0800 (PST)
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 319F810F73C
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Dec 2021 10:49:06 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id c4so19145715wrd.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Dec 2021 02:49:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=k5D/hkos8PJ/G13IZnPAlfxo+Wk+tXMrwI3gVHpH+gg=;
- b=F2GytIGzLIh8p+IAbOm0y3M13EHSYTOq9RESBoLLVez1k6cZwig9b/qEGIKjbvZeoV
- F0/M9V7KAoIt2FCt+f3VbItrJNznx8NSzXcJMfHmf8E3TzLp5hdQSW5sgJiZheu5WNjT
- krxh5Jtn0cSkBpFJcO47rdcg3DfWc79TMgu8QXZZWZw0zJWbnRKlLzFSyygwTZAmUil/
- 0BjAYoGpVAqRoQjUgn5IOz6M6xZuBega+s8tYwb7fI9HTrGQhndyeRCogVM2Qyurzb9m
- UljqCfaoYl2Z4A2b4gxRmNLvaKpOX3KVcAzHIJd9Bat/3CEEb890EeaYKeZEeKEl+WGQ
- bMEw==
+ bh=nrFL+333nutm+Hk0ekrxwdiYsKgWdK607ZfAuwXbC20=;
+ b=T7I3MoFImxEfb2R1yvjGm629QFBhXTIbLj5TKWBHvBHRVeOkJ9cX2VoDfgSOpAGfg4
+ r5f+XusVW6sFrPPmKl6OtDKgMDWUot3HhheJJZUeAQWrDHVtFCy1LJTE0ydKsaGwy3xA
+ AKMOgmn15LQ35KSamW+j84sa+QRXMHe3EC1T3fa3WdmbellxHdRx/JMjINwxz0Kbmi18
+ wn6aPlGnVOT05Eu14zlmC8IBNwLU5vaVWZ+6D72dyI+QiG64Q+nQNd/VvO0yieKKH5l1
+ FjObcdanpreB9OnfuijM8Z9P2jaBk5DTpwXnQixaFPpX+7MvzNz0qkcSZZ4Tv/bR80C0
+ dbCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=k5D/hkos8PJ/G13IZnPAlfxo+Wk+tXMrwI3gVHpH+gg=;
- b=WVu0EL6rek4suqgolO+50LmwzzV34C6RmcIfg2wRr1og7Knual0cs1ZfLITe9e5j5Z
- y6+iWx8AEGYweqHa01P7Plq918ySnn1jF7mJNwbj6YBlACYMXu1EsvZsTh0OvwmK6y9W
- dPRDCXh14uwkjwLaxyWLJICHFcYtzWMwZlob578FrWpdN3oxh04sHO9wfStrtQzrDvWr
- +o/4oUFHnO2lKEzBo80JhinTnTMNAWDVRO/ioEON+HnPOLOwwUGTf5uuBBZcs12suS8K
- F4+aatFTOTTjXBaLnSO2UEuhhJmrSi+XCDA97iN9hzbuM9V3fBp5MqWrlUODRTyrbHqy
- 8E0A==
-X-Gm-Message-State: AOAM5313uZbXxFz93YtPQVbVFkZd+EppY9LnlTMEBUnsmXCGZJc/R8sf
- +5vw4cDGG5LnCB548WX0N+I=
-X-Google-Smtp-Source: ABdhPJzDEuE2Ez64pbYVPw4/jB9o9WdThgXDn6WgFeqVxYKIG2+TY6pF8LqaUE6tslwtt6Zcs/IyVQ==
-X-Received: by 2002:a1c:a905:: with SMTP id s5mr20915040wme.85.1639997342660; 
- Mon, 20 Dec 2021 02:49:02 -0800 (PST)
+ bh=nrFL+333nutm+Hk0ekrxwdiYsKgWdK607ZfAuwXbC20=;
+ b=35xYGzSbfwYbRW0K688ZhOEQpjNboRFX0HUfWr3ELp6UopPXQsc9WEd+YatXAFiEtp
+ MdNYbx37s4i3cgp9oI67+qQEfhg3dScT/+YBs141bM2FcWUozpX3wtPLrT0yXtYV9x0/
+ E5bEt3Q/YhT4bsEFLwRxRFefzEUOtA6nGnMUPh0wbTIPoBN8AHD4mJGe2pNPgos+ohEF
+ 3HSdfSLRKE/9sJ2XBXRKs0V468cmAc4LSzKyBc/V7fqQS+yzydfrrPS5fAirheocpmF/
+ wem3XgfPFXuIkFj8hM7IsJgn8l/sWIY/zn3SRQncMEzbfSolB7IYCA7Xj9ZKNv1rIxrC
+ yuJA==
+X-Gm-Message-State: AOAM53150IzW0pazXpraZkQjU8zfFcU7UBI5K5toyWNOr6icSZGATika
+ vCFYDsY9ALq7/6t7wBs3AS0=
+X-Google-Smtp-Source: ABdhPJwm5fpVKZp2T9VwXhSqDzKTLAGT0rtcfVRzy+CgaArOgHBbpKMHLhpwsY/JKyEc/VoqaV9fnQ==
+X-Received: by 2002:a5d:6c67:: with SMTP id r7mr277449wrz.350.1639997344760;
+ Mon, 20 Dec 2021 02:49:04 -0800 (PST)
 Received: from localhost ([193.209.96.43])
- by smtp.gmail.com with ESMTPSA id l26sm7815473wme.36.2021.12.20.02.49.01
+ by smtp.gmail.com with ESMTPSA id 138sm18125767wma.17.2021.12.20.02.49.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Dec 2021 02:49:01 -0800 (PST)
+ Mon, 20 Dec 2021 02:49:04 -0800 (PST)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH 1/2] drm/tegra: dpaux: Populate AUX bus
-Date: Mon, 20 Dec 2021 11:48:54 +0100
-Message-Id: <20211220104855.428290-2-thierry.reding@gmail.com>
+Subject: [PATCH 2/2] ARM: tegra: Move panels to AUX bus
+Date: Mon, 20 Dec 2021 11:48:55 +0100
+Message-Id: <20211220104855.428290-3-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20211220104855.428290-1-thierry.reding@gmail.com>
 References: <20211220104855.428290-1-thierry.reding@gmail.com>
@@ -78,54 +77,102 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thierry Reding <treding@nvidia.com>
 
-The DPAUX hardware block exposes an DP AUX interface that provides
-access to an AUX bus and the devices on that bus. Use the DP AUX bus
-infrastructure that was recently introduced to probe devices on this
-bus from DT.
+Move the eDP panel on Venice 2 and Nyan boards into the corresponding
+AUX bus device tree node. This allows us to avoid a nasty circular
+dependency that would otherwise be created between the DPAUX and panel
+nodes via the DDC/I2C phandle.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/gpu/drm/tegra/Kconfig | 1 +
- drivers/gpu/drm/tegra/dpaux.c | 7 +++++++
- 2 files changed, 8 insertions(+)
+ arch/arm/boot/dts/tegra124-nyan-big.dts   | 15 +++++++++------
+ arch/arm/boot/dts/tegra124-nyan-blaze.dts | 15 +++++++++------
+ arch/arm/boot/dts/tegra124-venice2.dts    | 14 +++++++-------
+ 3 files changed, 25 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/Kconfig b/drivers/gpu/drm/tegra/Kconfig
-index 8cf5aeb9db6c..201f5175ecfe 100644
---- a/drivers/gpu/drm/tegra/Kconfig
-+++ b/drivers/gpu/drm/tegra/Kconfig
-@@ -5,6 +5,7 @@ config DRM_TEGRA
- 	depends on COMMON_CLK
- 	depends on DRM
- 	depends on OF
-+	select DRM_DP_AUX_BUS
- 	select DRM_KMS_HELPER
- 	select DRM_MIPI_DSI
- 	select DRM_PANEL
-diff --git a/drivers/gpu/drm/tegra/dpaux.c b/drivers/gpu/drm/tegra/dpaux.c
-index 1f96e416fa08..9da1edcdc835 100644
---- a/drivers/gpu/drm/tegra/dpaux.c
-+++ b/drivers/gpu/drm/tegra/dpaux.c
-@@ -18,6 +18,7 @@
- #include <linux/reset.h>
- #include <linux/workqueue.h>
+diff --git a/arch/arm/boot/dts/tegra124-nyan-big.dts b/arch/arm/boot/dts/tegra124-nyan-big.dts
+index 1d2aac2cb6d0..fdc1d64dfff9 100644
+--- a/arch/arm/boot/dts/tegra124-nyan-big.dts
++++ b/arch/arm/boot/dts/tegra124-nyan-big.dts
+@@ -13,12 +13,15 @@ / {
+ 		     "google,nyan-big-rev1", "google,nyan-big-rev0",
+ 		     "google,nyan-big", "google,nyan", "nvidia,tegra124";
  
-+#include <drm/drm_dp_aux_bus.h>
- #include <drm/drm_dp_helper.h>
- #include <drm/drm_panel.h>
+-	panel: panel {
+-		compatible = "auo,b133xtn01";
+-
+-		power-supply = <&vdd_3v3_panel>;
+-		backlight = <&backlight>;
+-		ddc-i2c-bus = <&dpaux>;
++	host1x@50000000 {
++		dpaux@545c0000 {
++			aux-bus {
++				panel: panel {
++					compatible = "auo,b133xtn01";
++					backlight = <&backlight>;
++				};
++			};
++		};
+ 	};
  
-@@ -570,6 +571,12 @@ static int tegra_dpaux_probe(struct platform_device *pdev)
- 	list_add_tail(&dpaux->list, &dpaux_list);
- 	mutex_unlock(&dpaux_lock);
+ 	mmc@700b0400 { /* SD Card on this bus */
+diff --git a/arch/arm/boot/dts/tegra124-nyan-blaze.dts b/arch/arm/boot/dts/tegra124-nyan-blaze.dts
+index 677babde6460..abdf4456826f 100644
+--- a/arch/arm/boot/dts/tegra124-nyan-blaze.dts
++++ b/arch/arm/boot/dts/tegra124-nyan-blaze.dts
+@@ -15,12 +15,15 @@ / {
+ 		     "google,nyan-blaze-rev0", "google,nyan-blaze",
+ 		     "google,nyan", "nvidia,tegra124";
  
-+	err = devm_of_dp_aux_populate_ep_devices(&dpaux->aux);
-+	if (err < 0) {
-+		dev_err(dpaux->dev, "failed to populate AUX bus: %d\n", err);
-+		return err;
-+	}
+-	panel: panel {
+-		compatible = "samsung,ltn140at29-301";
+-
+-		power-supply = <&vdd_3v3_panel>;
+-		backlight = <&backlight>;
+-		ddc-i2c-bus = <&dpaux>;
++	host1x@50000000 {
++		dpaux@545c0000 {
++			aux-bus {
++				panel: panel {
++					compatible = "samsung,ltn140at29-301";
++					backlight = <&backlight>;
++				};
++			};
++		};
+ 	};
+ 
+ 	sound {
+diff --git a/arch/arm/boot/dts/tegra124-venice2.dts b/arch/arm/boot/dts/tegra124-venice2.dts
+index 232c90604df9..6a9592ceb5f2 100644
+--- a/arch/arm/boot/dts/tegra124-venice2.dts
++++ b/arch/arm/boot/dts/tegra124-venice2.dts
+@@ -48,6 +48,13 @@ sor@54540000 {
+ 		dpaux@545c0000 {
+ 			vdd-supply = <&vdd_3v3_panel>;
+ 			status = "okay";
 +
- 	return 0;
- }
++			aux-bus {
++				panel: panel {
++					compatible = "lg,lp129qe";
++					backlight = <&backlight>;
++				};
++			};
+ 		};
+ 	};
  
+@@ -1080,13 +1087,6 @@ power {
+ 		};
+ 	};
+ 
+-	panel: panel {
+-		compatible = "lg,lp129qe";
+-		power-supply = <&vdd_3v3_panel>;
+-		backlight = <&backlight>;
+-		ddc-i2c-bus = <&dpaux>;
+-	};
+-
+ 	vdd_mux: regulator-mux {
+ 		compatible = "regulator-fixed";
+ 		regulator-name = "+VDD_MUX";
 -- 
 2.34.1
 
