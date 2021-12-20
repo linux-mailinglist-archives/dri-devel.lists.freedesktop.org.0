@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99E1147A862
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Dec 2021 12:07:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB14F47A857
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Dec 2021 12:07:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6299110FDD3;
-	Mon, 20 Dec 2021 11:07:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8520110FA7B;
+	Mon, 20 Dec 2021 11:07:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7BD110EA33
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Dec 2021 11:06:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51CCD10EE4B
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Dec 2021 11:07:06 +0000 (UTC)
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <sha@pengutronix.de>)
- id 1mzGVE-0004x5-Fl; Mon, 20 Dec 2021 12:06:48 +0100
+ id 1mzGVE-0004x6-DR; Mon, 20 Dec 2021 12:06:48 +0100
 Received: from sha by dude02.hi.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <sha@pengutronix.de>)
- id 1mzGVA-00EmED-Jh; Mon, 20 Dec 2021 12:06:44 +0100
+ id 1mzGVA-00EmEG-KL; Mon, 20 Dec 2021 12:06:44 +0100
 From: Sascha Hauer <s.hauer@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 06/22] dt-bindings: display: rockchip: dw-hdmi: Add compatible
- for rk3568 HDMI
-Date: Mon, 20 Dec 2021 12:06:14 +0100
-Message-Id: <20211220110630.3521121-7-s.hauer@pengutronix.de>
+Subject: [PATCH 07/22] dt-bindings: display: rockchip: dw-hdmi: Make unwedge
+ pinctrl optional
+Date: Mon, 20 Dec 2021 12:06:15 +0100
+Message-Id: <20211220110630.3521121-8-s.hauer@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211220110630.3521121-1-s.hauer@pengutronix.de>
 References: <20211220110630.3521121-1-s.hauer@pengutronix.de>
@@ -58,32 +58,26 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+None of the upstream device tree files has a "unwedge" pinctrl
+specified. Make it optional.
 
-Define a new compatible for rk3568 HDMI.
-This version of HDMI hardware block needs two new clocks hclk_vio and hclk
-to provide phy reference clocks.
-
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
-Link: https://lore.kernel.org/r/20210707120323.401785-2-benjamin.gaignard@collabora.com
 Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 ---
  .../devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml   | 1 +
  1 file changed, 1 insertion(+)
 
 diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-index da3b889ad8fcd..45cae4f57a1c1 100644
+index 45cae4f57a1c1..6e09dd2ee05ac 100644
 --- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
 +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-@@ -23,6 +23,7 @@ properties:
-       - rockchip,rk3288-dw-hdmi
-       - rockchip,rk3328-dw-hdmi
-       - rockchip,rk3399-dw-hdmi
-+      - rockchip,rk3568-dw-hdmi
- 
-   reg-io-width:
-     const: 4
+@@ -73,6 +73,7 @@ properties:
+       The unwedge pinctrl entry shall drive the DDC SDA line low. This is
+       intended to work around a hardware errata that can cause the DDC I2C
+       bus to be wedged.
++    minItems: 1
+     items:
+       - const: default
+       - const: unwedge
 -- 
 2.30.2
 
