@@ -2,36 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E98E247A85B
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Dec 2021 12:07:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EF4347A85E
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Dec 2021 12:07:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F03E710FA7C;
-	Mon, 20 Dec 2021 11:07:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23BFB10FB9C;
+	Mon, 20 Dec 2021 11:07:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 509D810EA33
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Dec 2021 11:07:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F6F510FA51
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Dec 2021 11:07:01 +0000 (UTC)
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <sha@pengutronix.de>)
- id 1mzGVE-0004xI-DS; Mon, 20 Dec 2021 12:06:48 +0100
+ id 1mzGVH-0004xJ-BS; Mon, 20 Dec 2021 12:06:51 +0100
 Received: from sha by dude02.hi.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <sha@pengutronix.de>)
- id 1mzGVA-00EmEq-Rw; Mon, 20 Dec 2021 12:06:44 +0100
+ id 1mzGVA-00EmEt-SW; Mon, 20 Dec 2021 12:06:44 +0100
 From: Sascha Hauer <s.hauer@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 19/22] clk: rk3568: Add CLK_SET_RATE_PARENT to the HDMI
- reference clock
-Date: Mon, 20 Dec 2021 12:06:27 +0100
-Message-Id: <20211220110630.3521121-20-s.hauer@pengutronix.de>
+Subject: [PATCH 20/22] drm/encoder: Add of_graph port to struct drm_encoder
+Date: Mon, 20 Dec 2021 12:06:28 +0100
+Message-Id: <20211220110630.3521121-21-s.hauer@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211220110630.3521121-1-s.hauer@pengutronix.de>
 References: <20211220110630.3521121-1-s.hauer@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
 X-SA-Exim-Mail-From: sha@pengutronix.de
@@ -59,49 +57,28 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On the rk3568 we have this (simplified) situation:
-
- .--------.     .-----.    .---------.
--| hpll   |--.--| /n  |----|dclk_vop0|-
- `--------´  |  `-----´    `---------´
-             |  .-----.    .---------.
-             `--| /m  |----|dclk_vop1|-
-             |  `-----´    `---------´
-             |             .---------.
-             `-------------|hdmi_ref |-
-                           `---------´
-
-For the HDMI to work the HDMI reference clock needs to be the same as the
-pixel clock which means the dividers have be set to one. The last patch removed
-the CLK_SET_RATE_PARENT flag from the pixel clocks which means the hpll is not
-changed on pixel clock changes. In order to allow the HDMI controller to
-set a suitable PLL rate we now add the CLK_SET_RATE_PARENT flag to the
-HDMI reference clock. With this the flow becomes:
-
-1) HDMI controller driver sets the rate to its pixel clock which means
-   hpll is set to the pixel clock
-2) VOP2 driver sets dclk_vop[012] to the pixel clock. As this can't change
-   the hpll clock anymore this means only the divider is adjusted to the
-   desired value of dividing by one.
+Add a device node to drm_encoder which corresponds with the port node
+in the DT description of the encoder. This allows drivers to find the
+of_graph link between a crtc and an encoder.
 
 Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 ---
- drivers/clk/rockchip/clk-rk3568.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/drm/drm_encoder.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/clk/rockchip/clk-rk3568.c b/drivers/clk/rockchip/clk-rk3568.c
-index 604a367bc498a..1fe78a58010ea 100644
---- a/drivers/clk/rockchip/clk-rk3568.c
-+++ b/drivers/clk/rockchip/clk-rk3568.c
-@@ -1562,7 +1562,7 @@ static struct rockchip_clk_branch rk3568_clk_pmu_branches[] __initdata = {
- 			RK3568_PMU_CLKGATE_CON(2), 14, GFLAGS),
- 	GATE(XIN_OSC0_EDPPHY_G, "xin_osc0_edpphy_g", "xin24m", 0,
- 			RK3568_PMU_CLKGATE_CON(2), 15, GFLAGS),
--	MUX(CLK_HDMI_REF, "clk_hdmi_ref", clk_hdmi_ref_p, 0,
-+	MUX(CLK_HDMI_REF, "clk_hdmi_ref", clk_hdmi_ref_p, CLK_SET_RATE_PARENT,
- 			RK3568_PMU_CLKSEL_CON(8), 7, 1, MFLAGS),
- };
+diff --git a/include/drm/drm_encoder.h b/include/drm/drm_encoder.h
+index 6e91a0280f31b..3acd054b1eb3e 100644
+--- a/include/drm/drm_encoder.h
++++ b/include/drm/drm_encoder.h
+@@ -99,6 +99,8 @@ struct drm_encoder {
+ 	struct drm_device *dev;
+ 	struct list_head head;
  
++	struct device_node *port;
++
+ 	struct drm_mode_object base;
+ 	char *name;
+ 	/**
 -- 
 2.30.2
 
