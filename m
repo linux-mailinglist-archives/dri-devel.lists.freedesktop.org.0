@@ -1,58 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B70BA47B0F6
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Dec 2021 17:14:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40C3E47B1A7
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Dec 2021 17:53:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BB1D10F7E3;
-	Mon, 20 Dec 2021 16:13:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA96B10FF6B;
+	Mon, 20 Dec 2021 16:53:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CC8510F7DE
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Dec 2021 16:13:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640016835;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ZN5JEzjz2Tw+pkfbr6lx1bQ/6DLtomfwH5EeUBzdWoI=;
- b=JU6zFMUuze9q+6N7Oo7yTAP+bMcXGBLs5e5eD4W628bAkc1gFT616cqZSlc/gqXgO6IU0R
- jMxzqnputXLEsxxWEniJlz7JbjXvsIgJF6FgEZ92Vls7mcwfSh1GOjivdQCr3gH1ESu2cb
- TYv4A6ThAtJEsbKfWQrustOvyzU38tY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-564-Sj6IdsCFN8y9kb3II7MCDQ-1; Mon, 20 Dec 2021 11:13:52 -0500
-X-MC-Unique: Sj6IdsCFN8y9kb3II7MCDQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94C0A101796D;
- Mon, 20 Dec 2021 16:13:50 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.192.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2413BE2C9;
- Mon, 20 Dec 2021 16:13:48 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
-Subject: [PATCH] drm/i915/vlv_dsi: Add DMI quirk for wrong panel modeline in
- BIOS on Asus TF103C
-Date: Mon, 20 Dec 2021 17:13:43 +0100
-Message-Id: <20211220161343.21975-1-hdegoede@redhat.com>
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EB6210FF58
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Dec 2021 16:53:17 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id d9so1864312wrb.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Dec 2021 08:53:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=p9Tx2wH4HEpVybdHYcjlhyrX2v7ZfIvmca5PPAdXN6k=;
+ b=fVQb2iOMp+8XdAiBh3r7/dK9kp/+EyrvqmRClEZfDbVqB1PzXufL4v8IiRsF7HLpoa
+ QLHjSmC4jwYBjekVzIfT47xjwmABDFEr6RRI32lF/f3xa0RBFoXeTK9lAIbfd0SvZIOg
+ DFWeNf1n9jX2+Z4rAPCkuwTUhyDDAOQ1AWLLIesGzavACAbtKZOhjOi61EoF31P5zJ/4
+ WTk+KRcyYo03rcn4y+nGMJN7FFKPE6biCgCWC2+e3Rgll9+DBMqQhi7fHPQWFFfzoUYc
+ xqJ4k4Ls9vbAbILV0NZI1x1TmEWN4Os/2cvIVhloyPulUbql7QwH+tp3BjZ62/KXWNuS
+ d09g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=p9Tx2wH4HEpVybdHYcjlhyrX2v7ZfIvmca5PPAdXN6k=;
+ b=DiLBzcyouxqxEb4XksWhLcllPWGR5SVydfO2ccLcq4pmT8hMyDRr06BDNpuwqJt89J
+ FsD0m8rY3rnrSXBhB6pxI0ypNVpi/nkMpxtAuLqMuq8DuMv98JH/f56wviQeRD9i03Ap
+ OMJwlOLoqloNeZYARkj9PDPYoOmNd/YIqCz+oA87JZRnD/bwXCHIiFh4uRZRNuptzVlG
+ dQyANUd1BCll5S6QY/d9X0Dm+gX7n8e+6h373Mc9zVQZOG2JgfmFTNS72j6zt0dFmI2Z
+ 5xnyk4VMuHstwmyNbibxDDXRW8iJxUCVN36eRjuWTgBDxCK33jYajDgk60wRbRRKBLmg
+ rpXg==
+X-Gm-Message-State: AOAM530bqMoctq3VlKZc+j1tR6hYbndfTGIN7hrCKa5zIiC0tYkraY+X
+ iWEOnMCe5VfQDxwS9XZhCitrxqJtoUI=
+X-Google-Smtp-Source: ABdhPJx79HzNYw/1/E19mQIiwB8X0jLmD92oBdZER7LrTtQNdGGa5D09PBIWyP79Cz4iHMPyrQd8fA==
+X-Received: by 2002:adf:9cc2:: with SMTP id h2mr13387161wre.464.1640019196095; 
+ Mon, 20 Dec 2021 08:53:16 -0800 (PST)
+Received: from archbook.localnet ([217.151.114.10])
+ by smtp.gmail.com with ESMTPSA id p1sm155802wrr.75.2021.12.20.08.53.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Dec 2021 08:53:15 -0800 (PST)
+From: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+To: dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH 22/22] drm: rockchip: Add VOP2 driver
+Date: Mon, 20 Dec 2021 17:53:14 +0100
+Message-ID: <2517243.oazWQlOnO6@archbook>
+In-Reply-To: <5637649.G3HFo5JPcS@archbook>
+References: <20211220110630.3521121-1-s.hauer@pengutronix.de>
+ <20211220110630.3521121-23-s.hauer@pengutronix.de>
+ <5637649.G3HFo5JPcS@archbook>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,94 +69,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+ linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Vtotal is wrong in the BIOS supplied modeline for the DSI panel on
-the Asus TF103C leading to the last line of the display being shown
-as the first line.
+On Montag, 20. Dezember 2021 15:16:55 CET Nicolas Frattaroli wrote:
+> On Montag, 20. Dezember 2021 12:06:30 CET Sascha Hauer wrote:
+> > From: Andy Yan <andy.yan@rock-chips.com>
+> > 
+> > The VOP2 unit is found on Rockchip SoCs beginning with rk3566/rk3568.
+> > It replaces the VOP unit found in the older Rockchip SoCs.
+> > 
+> > This driver has been derived from the downstream Rockchip Kernel and
+> > heavily modified:
+> > 
+> > - All nonstandard DRM properties have been removed
+> > - dropped struct vop2_plane_state and pass around less data between
+> >   functions
+> > - Dropped all DRM_FORMAT_* not known on upstream
+> > - rework register access to get rid of excessively used macros
+> > - Drop all waiting for framesyncs
+> > 
+> > The driver is tested with HDMI and MIPI-DSI display on a RK3568-EVB
+> > board. Overlay support is tested with the modetest utility. AFBC support
+> > on the cluster windows is tested with weston-simple-dmabuf-egl on
+> > weston using the (yet to be upstreamed) panfrost driver support.
+> > 
+> > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> > ---
+> 
+> Hi Sascha,
+> 
+> sadly I'm getting
+> 
+> [    1.668856] rockchip-drm display-subsystem: [drm] *ERROR* failed to get vop2 register byname
+> [    1.669621] rockchip-drm display-subsystem: failed to bind fe040000.vop (ops vop2_component_ops): -22
+> [    1.670584] rockchip-drm display-subsystem: master bind failed: -22
+> [    1.671164] dwhdmi-rockchip: probe of fe0a0000.hdmi failed with error -22
+> 
+> on a Quartz64 Model A.
+> 
+> 
+> > +	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "regs");
+> > +	if (!res) {
+> > +		drm_err(vop2->drm, "failed to get vop2 register byname\n");
+> > +		return -EINVAL;
+> > +	}
+> 
+> This seems to be the code that triggers it.
+> 
+> Any ideas as to what could be causing this?
+> 
+> Regards,
+> Nicolas Frattaroli
+> 
 
-The factory installed Android has a hardcoded modeline in its kernel,
-causing it to not suffer from this BIOS bug;
+A small follow-up:
 
-and the Android boot-splash which uses the EFI FB which does have this bug
-has the last line all black causing the bug to not be visible.
+We're trying to get IORESOURCE_MEM by the name "regs", but nothing
+has a reg-names property in the device tree changes you sent in.
 
-This commit introduces a generic DMI based mechanism for doing modeline
-fixups, in case we need similar fixups on other models in the future.
+How did you test this on your system?
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/gpu/drm/i915/display/vlv_dsi.c | 33 ++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+Also, adding the reg-names = "regs"; to the vop node doesn't make
+it probe, it just fails with
 
-diff --git a/drivers/gpu/drm/i915/display/vlv_dsi.c b/drivers/gpu/drm/i915/display/vlv_dsi.c
-index fc0dd0c4079e..98d64b6e132e 100644
---- a/drivers/gpu/drm/i915/display/vlv_dsi.c
-+++ b/drivers/gpu/drm/i915/display/vlv_dsi.c
-@@ -23,6 +23,7 @@
-  * Author: Jani Nikula <jani.nikula@intel.com>
-  */
- 
-+#include <linux/dmi.h>
- #include <linux/slab.h>
- 
- #include <drm/drm_atomic_helper.h>
-@@ -1828,6 +1829,30 @@ static void vlv_dphy_param_init(struct intel_dsi *intel_dsi)
- 	intel_dsi_log_params(intel_dsi);
- }
- 
-+typedef void (*vlv_dsi_mode_fixup_func)(struct drm_display_mode *fixed_mode);
-+
-+/*
-+ * Vtotal is wrong on the Asus TF103C leading to the last line of the display
-+ * being shown as the first line. The factory installed Android has a hardcoded
-+ * modeline, causing it to not suffer from this BIOS bug.
-+ */
-+static void vlv_dsi_asus_tf103c_mode_fixup(struct drm_display_mode *fixed_mode)
-+{
-+	fixed_mode->vtotal = 816;
-+	fixed_mode->crtc_vtotal = 816;
-+}
-+
-+static const struct dmi_system_id dmi_mode_fixup_table[] = {
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "TF103C"),
-+		},
-+		.driver_data = (void *)vlv_dsi_asus_tf103c_mode_fixup,
-+	},
-+	{ }
-+};
-+
- void vlv_dsi_init(struct drm_i915_private *dev_priv)
- {
- 	struct drm_device *dev = &dev_priv->drm;
-@@ -1837,6 +1862,8 @@ void vlv_dsi_init(struct drm_i915_private *dev_priv)
- 	struct intel_connector *intel_connector;
- 	struct drm_connector *connector;
- 	struct drm_display_mode *current_mode, *fixed_mode;
-+	const struct dmi_system_id *dmi_id;
-+	vlv_dsi_mode_fixup_func mode_fixup;
- 	enum port port;
- 	enum pipe pipe;
- 
-@@ -1965,6 +1992,12 @@ void vlv_dsi_init(struct drm_i915_private *dev_priv)
- 		goto err_cleanup_connector;
- 	}
- 
-+	dmi_id = dmi_first_match(dmi_mode_fixup_table);
-+	if (dmi_id) {
-+		mode_fixup = (vlv_dsi_mode_fixup_func)dmi_id->driver_data;
-+		mode_fixup(fixed_mode);
-+	}
-+
- 	intel_panel_init(&intel_connector->panel, fixed_mode, NULL);
- 	intel_backlight_setup(intel_connector, INVALID_PIPE);
- 
--- 
-2.33.1
+[    1.668560] rockchip-vop2 fe040000.vop: can't request region for resource [mem 0xfe040000-0xfe044fff]
+
+then.
+
+We're also trying to get gamma_lut the same way, but your cover letter states
+
+> drop unnecessary gamma_lut registers from vop2
+
+which makes me wonder: is this the correct series of patches you sent in?
+
+Regards,
+Nicolas Frattaroli
+
 
