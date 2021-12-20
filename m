@@ -2,56 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B97347B1E0
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Dec 2021 18:10:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7C2F47B1E7
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Dec 2021 18:11:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DAAF112320;
-	Mon, 20 Dec 2021 17:10:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01575112334;
+	Mon, 20 Dec 2021 17:11:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com
- [IPv6:2607:f8b0:4864:20::b33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8862112320
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Dec 2021 17:10:29 +0000 (UTC)
-Received: by mail-yb1-xb33.google.com with SMTP id y68so30917087ybe.1
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Dec 2021 09:10:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=z5TtUkHNUfSsL6Hv1/iMYQYUcs6/zThRgbIsxMTzAeY=;
- b=AYMbNNQp1HO4KUCmi6JvoIwDozOquSxaq7AweS43tfflT10+6Qtp0FN6lU1J2WE+nv
- 7c+MYY5cgKEZS64RUbPXewu6hb4UOPwKneYoSL8lIUSw1n16FhmfyJ74qkKsg0kan9S0
- Itgqik0YsJ5VwNOvKkTQL04bsTr4wgV0DXhgw3nhN+v2rLOJtJiWgK5HA7KtsMHYosvO
- 4uDWbzgA8qUIV1nA/NYeeZpxhxQmOS5vcR/bpv5Sp5y+dOZ3vZuDTBZYb1CpWioedOB6
- pJQXBWsqpcnWIS8XTyreIzRo926OiwoXXHgSGC6GPNffH/w+iR7m04GYaXDfzp29xoNh
- FlbQ==
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF123112334
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Dec 2021 17:11:35 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id s1so16080464wra.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Dec 2021 09:11:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=orQKzw/rIFyU2i9qhJC15lEG6dnafgAQONkmIMH+/0g=;
+ b=VKDQD1GNQ3pyjeVnNux3ttr/G2JeM+ZQwGii5FIGGzSV7twBVAETJ57OLYIy2hq4S2
+ uhvXSqDD02I4NO22Ug4v9qVuOilgiVd0LaIFaiB3XY4+upOFM2tX4LOjwVp/ymQCwUm2
+ /yyd0rcR/MAQHzDuQrH75kNq5MBG9EK8UVwzk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=z5TtUkHNUfSsL6Hv1/iMYQYUcs6/zThRgbIsxMTzAeY=;
- b=CO62s22F20yZBmqtHPSSN5rf8mRz+AaW0VmOuV6BeQCS/1020/nUpjViMMfOp7DSSS
- J3BEGfyyGkvwGaHVdfLXmO4EQJR10iJ9dNXVtNJfdweKEb+kM+AgAEdwkp5294ohSkP5
- 7qFqu5jrXUMRxTlOaIxKd82tbKJF4yfF1BuHpypVy+FR7orWlxMJzCq5OJh2U6LDvdIr
- qveACknCRo0WAtO0B3C+w72rz+JSGicBsLEJnk39xFkOBKIleQc8ZNwTikM/FO3SR18q
- mtlzJs8FHEUHYi+qFumsiBxFLLS0ZYDNQ5syNdhDWErFCEpwc2zcXxpUD8wyVd7ph4j9
- NxTQ==
-X-Gm-Message-State: AOAM533NEfCqkBqN4O4YiaTcNih8216Ua5+Ah4eko8/N73R8TAUhLNiJ
- CfkD2+CdXulApBzGDJsqGYuWGYBVCqVs9yecQlP/wp0A
-X-Google-Smtp-Source: ABdhPJxpgvquokTu7tmTAwjs/SYr5+0sj4VrALBT7mEpv38OzVrWiv3Yml8/4bHiDqaVqaAyDlTkpsy986gItJJw0d0=
-X-Received: by 2002:a25:3fc3:: with SMTP id
- m186mr24287539yba.562.1640020228766; 
- Mon, 20 Dec 2021 09:10:28 -0800 (PST)
+ h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
+ :references:mime-version:content-disposition:in-reply-to;
+ bh=orQKzw/rIFyU2i9qhJC15lEG6dnafgAQONkmIMH+/0g=;
+ b=k/M5WHfrGkQjHyr10rDAR0MRh5V/jlZaZQuYUPL3VDm+rmWEkapp5kyjLa/SdS0R8D
+ aKyvI3HO0g1c3s82Pk72hEKx7QxV/rgKTvyVS7Fg7WWPbwx+nqoGI6j5g5uMYXLprgVM
+ muKjH3AvbQ9hcqnBeFsdJF2pLjhrzjsIoSCkZF0LZxy7XohblU4p7k+ZUZFTMqIsV+HO
+ Ei2iSYuPRlBIEdKisDjVYDHK1Co7PTkxK7uB8Hol4zVPPZfeQsGle9TQihvAJ0aWBQ6T
+ gLenAdwJo610ASz+cU9NRy93Ud0sylJCSdjpSNFr8RXQG/66R97elC+ACx5vzhr5G3hi
+ 1Vbw==
+X-Gm-Message-State: AOAM533e3NSvi7rhWAcOLtLFRPwN+9nKu4aYhuV709cc96mYjmQ9E6DT
+ HxpzvmxCDt583nCl0e16JxSN5Q==
+X-Google-Smtp-Source: ABdhPJzWvClYYKmbqkQeNOh1Eh5QiBVjHn3DsSK2NbR0Vcu5w9gSZkyxdlgFDJZTWLzL/VergC1rjw==
+X-Received: by 2002:adf:e0c8:: with SMTP id m8mr14299950wri.113.1640020294365; 
+ Mon, 20 Dec 2021 09:11:34 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id m17sm446927wmq.31.2021.12.20.09.11.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Dec 2021 09:11:33 -0800 (PST)
+Date: Mon, 20 Dec 2021 18:11:31 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Claudio Suarez <cssk@net-c.es>, dri-devel@lists.freedesktop.org,
+ 0day robot <lkp@intel.com>, LKML <linux-kernel@vger.kernel.org>,
+ lkp@lists.01.org, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>
+Subject: Re: [PATCH v2] drm: fix error found in some cases after the patch
+ d1af5cd86997
+Message-ID: <YcC5Qxnj8PvqnS6f@phenom.ffwll.local>
+Mail-Followup-To: Claudio Suarez <cssk@net-c.es>,
+ dri-devel@lists.freedesktop.org, 0day robot <lkp@intel.com>,
+ LKML <linux-kernel@vger.kernel.org>, lkp@lists.01.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>
+References: <YaC7zXW119tlzfVh@gineta.localdomain>
+ <20211128142015.GB5295@xsang-OptiPlex-9020>
+ <YaUpsaP7hng6zpFh@gineta.localdomain>
+ <YaXi803g7iv9MxWR@phenom.ffwll.local>
+ <YaiVfZWNyMkG8uED@gineta.localdomain>
+ <YaiXEARd8z2C463h@gineta.localdomain>
+ <YcBKbn/9oqD2taCk@phenom.ffwll.local>
 MIME-Version: 1.0
-References: <20211217003752.3946210-1-javierm@redhat.com>
- <20211217003752.3946210-25-javierm@redhat.com>
-In-Reply-To: <20211217003752.3946210-25-javierm@redhat.com>
-From: Deepak Rawat <drawat.floss@gmail.com>
-Date: Mon, 20 Dec 2021 09:10:18 -0800
-Message-ID: <CAHFnvW3owW38B31SdYWcjCf2jLqUmGnCZ4m_iS1rPW2M9HUrMg@mail.gmail.com>
-Subject: Re: [PATCH v2 24/37] drm/hyperv: Add support for the nomodeset kernel
- parameter
-To: Javier Martinez Canillas <javierm@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YcBKbn/9oqD2taCk@phenom.ffwll.local>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,47 +83,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 16, 2021 at 4:38 PM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
->
-> According to disable Documentation/admin-guide/kernel-parameters.txt, this
-> parameter can be used to disable kernel modesetting.
->
-> DRM drivers will not perform display-mode changes or accelerated rendering
-> and only the system framebuffer will be available if it was set-up.
->
-> But only a few DRM drivers currently check for nomodeset, make this driver
-> to also support the command line parameter.
->
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> ---
+On Mon, Dec 20, 2021 at 10:18:38AM +0100, Daniel Vetter wrote:
+> On Thu, Dec 02, 2021 at 10:51:12AM +0100, Claudio Suarez wrote:
+> > The patch d1af5cd86997 ("drm: get rid of DRM_DEBUG_* log
+> > calls in drm core, files drm_a*.c") fails when the drm_device
+> > cannot be found in the parameter plane_state->crtc.
+> > Fix it using plane_state->plane.
+> > 
+> > Reported-by: kernel test robot <oliver.sang@intel.com>
+> > Fixes: d1af5cd86997 ("drm: get rid of DRM_DEBUG_* log calls in drm core, files drm_a*.c")
 
-Acked-by: Deepak Rawat <drawat.floss@gmail.com>
+My scrip complained about the fixes line, so I fixed it. I guess you've
+used the sha1 from your tree, not from upstream? Please always use
+upstream sha1 when referencing commits.
 
->
-> (no changes since v1)
->
->  drivers/gpu/drm/hyperv/hyperv_drm_drv.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> index 00e53de4812b..4a8941fa0815 100644
-> --- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> @@ -305,6 +305,9 @@ static int __init hyperv_init(void)
->  {
->         int ret;
->
-> +       if (drm_firmware_drivers_only())
-> +               return -ENODEV;
-> +
->         ret = pci_register_driver(&hyperv_pci_driver);
->         if (ret != 0)
->                 return ret;
-> --
-> 2.33.1
->
+Anyway patches are now pushed.
+
+Cheers, Daniel
+
+> > Signed-off-by: Claudio Suarez <cssk@net-c.es>
+> 
+> Sorry I missed these two patches, but both applied now, thanks.
+> -Daniel
+> 
+> > ---
+> >  drivers/gpu/drm/drm_atomic_helper.c | 12 ++++++------
+> >  1 file changed, 6 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> > index aef2fbd676e5..a7a05e1e26bb 100644
+> > --- a/drivers/gpu/drm/drm_atomic_helper.c
+> > +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> > @@ -828,8 +828,8 @@ int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
+> >  	}
+> >  
+> >  	if (!crtc_state->enable && !can_update_disabled) {
+> > -		drm_dbg_kms(plane_state->crtc->dev,
+> > -			       "Cannot update plane of a disabled CRTC.\n");
+> > +		drm_dbg_kms(plane_state->plane->dev,
+> > +			    "Cannot update plane of a disabled CRTC.\n");
+> >  		return -EINVAL;
+> >  	}
+> >  
+> > @@ -839,8 +839,8 @@ int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
+> >  	hscale = drm_rect_calc_hscale(src, dst, min_scale, max_scale);
+> >  	vscale = drm_rect_calc_vscale(src, dst, min_scale, max_scale);
+> >  	if (hscale < 0 || vscale < 0) {
+> > -		drm_dbg_kms(plane_state->crtc->dev,
+> > -			       "Invalid scaling of plane\n");
+> > +		drm_dbg_kms(plane_state->plane->dev,
+> > +			    "Invalid scaling of plane\n");
+> >  		drm_rect_debug_print("src: ", &plane_state->src, true);
+> >  		drm_rect_debug_print("dst: ", &plane_state->dst, false);
+> >  		return -ERANGE;
+> > @@ -864,8 +864,8 @@ int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
+> >  		return 0;
+> >  
+> >  	if (!can_position && !drm_rect_equals(dst, &clip)) {
+> > -		drm_dbg_kms(plane_state->crtc->dev,
+> > -			       "Plane must cover entire CRTC\n");
+> > +		drm_dbg_kms(plane_state->plane->dev,
+> > +			    "Plane must cover entire CRTC\n");
+> >  		drm_rect_debug_print("dst: ", dst, false);
+> >  		drm_rect_debug_print("clip: ", &clip, false);
+> >  		return -EINVAL;
+> > -- 
+> > 2.33.0
+> > 
+> > 
+> > 
+> 
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
