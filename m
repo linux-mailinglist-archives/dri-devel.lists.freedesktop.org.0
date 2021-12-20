@@ -2,57 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC4C247AAC1
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Dec 2021 14:58:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22C3047AB0F
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Dec 2021 15:11:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4738712ABED;
-	Mon, 20 Dec 2021 13:58:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E086412ADBF;
+	Mon, 20 Dec 2021 14:11:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2044B12ABEC
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Dec 2021 13:58:15 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id k21so3757745lfu.0
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Dec 2021 05:58:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=7ouFKNSuzmfC87LG9ZgCCjaB7bkrun24Ddt4sKJwaOQ=;
- b=i91OZUJfYkDWb9tQaYcFMcS75YkF5+FLepE9M2Ic0FEMHLkYnFJ6bzuQX+z8lj8L//
- JspWJDdnuGwr2mYY3sGNWn5A9zfv9JHRzoFRyuf/dotR36dZDcnNxkQNer1CTVYctynp
- H3k6uChHtZyDVTGNxk+zj1blZ2Zx+8CXA85dncsJdXvt/wU82hFNCyjYy1PBTAoftAhC
- 0cBmYHDokRk16IBOVj7z6Q9FJPp/g7Pz+gF/mz+bKejpfXnyXXZKOPh/2u/F+1vdnlFG
- T8zbeTptbujhZIbuBGoGwPkuxhnLeKEJEfF9qxLzEgjqvvpIVI+I11un9+mkmADpD7d8
- 2YKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=7ouFKNSuzmfC87LG9ZgCCjaB7bkrun24Ddt4sKJwaOQ=;
- b=yZdmsYQp4zabVdY/bab78vj0bPLAtWeRZ9L0dQP4KxmqTUJTzR35e/YV6yPeXH3bsn
- +wi5GLjFKUAKYZoLu1l6Y0yKEj/DuQMQgzGAQtsOGerKZiFVrFz90pi+OilE2yWiEpzT
- jOzMPakAfranV8jXkfM4hwi6pi1dNH3QagPaKtQuIrxjgNBZNP5pDVR5Q0ETI9XVsezs
- t7BeaQ/pigho+XErRA5vb4vf5uuZJUFouhDPZ2DcZKr0pBzzCUpKyTC2B6kkdMfbePSc
- Sz9ZYXzzlpqbAl0nnSjH8BWqr3x0JuEfHL7K/60ybbysp3CBCG1UUY2JZEhGzaou4rnB
- aanA==
-X-Gm-Message-State: AOAM531RMnu7NcPYC7BRmzXbb+Ui6b2xYg5Esv4RVvcDvnqIvhHf7sBI
- tjEoekajx4EdyLu9OH/QKKmAfSOBljId2SGcBhQ=
-X-Google-Smtp-Source: ABdhPJzUXUjQ9dqcfgV5JqQePq6bsxcmf+xRGfNCXBq1PFsubiUDoc5B5wrjr3Q9Pp0QP2lWZf1ixDEFbOs45sHkE6U=
-X-Received: by 2002:a05:6512:3d92:: with SMTP id
- k18mr8434126lfv.111.1640008693358; 
- Mon, 20 Dec 2021 05:58:13 -0800 (PST)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 021FC12ADBF
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Dec 2021 14:11:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1640009460; x=1671545460;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=5lfjwnzMCeNU5IlDDY2uRKlfRFO78fDP0a/50Y6zblE=;
+ b=L+aRRfG6kYgV4+8zzXn7J+MPi/dyT20mHUF1Tt3s8TDsz7ayNfesfSeP
+ DyfulH+0Kfe9rirpl/XX/CgJ8z9qlXmYYrm09PJnsr77ki5HWPwCr/qQM
+ cZkIvGOt4h+xxJtM2yCrI7QgkMyoEwf/jF2R6ZkdvwsRkOeGgBabxdl/0
+ r9kkwTp1zgo/DL7+3AkMByisirvhBLn63QacQD0xMqiZfXozQuXcTZRXC
+ PyFGJ2dLtg+yUW8lfTbgr4oL8k0sJTmPtVFr6xm1ujCthIXDUwB3krqnY
+ Xg2ZJ7ODJ/jU0K/fACUwFbKy1CAPy4WuqbbwFmIdZnz8RnD/mfToAzQk0 g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10203"; a="300942845"
+X-IronPort-AV: E=Sophos;i="5.88,220,1635231600"; d="scan'208";a="300942845"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Dec 2021 06:07:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,220,1635231600"; d="scan'208";a="757299796"
+Received: from lkp-server02.sh.intel.com (HELO 9f38c0981d9f) ([10.239.97.151])
+ by fmsmga005.fm.intel.com with ESMTP; 20 Dec 2021 06:07:08 -0800
+Received: from kbuild by 9f38c0981d9f with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1mzJJj-0007pg-OR; Mon, 20 Dec 2021 14:07:07 +0000
+Date: Mon, 20 Dec 2021 22:06:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Xianting Tian <xianting.tian@linux.alibaba.com>, kraxel@redhat.com,
+ sumit.semwal@linaro.org, christian.koenig@amd.com
+Subject: Re: [PATCH] udmabuf: put dmabuf in case of get fd failed
+Message-ID: <202112202101.tVpymGaH-lkp@intel.com>
+References: <20211220054333.3041893-1-xianting.tian@linux.alibaba.com>
 MIME-Version: 1.0
-References: <20211207142717.30296-1-kevin3.tang@gmail.com>
-In-Reply-To: <20211207142717.30296-1-kevin3.tang@gmail.com>
-From: Kevin Tang <kevin3.tang@gmail.com>
-Date: Mon, 20 Dec 2021 21:55:06 +0800
-Message-ID: <CAFPSGXaC1rMF+KLttBJvKzN=UxtFtRR1gO3L4cqdgPJu_jtQ_A@mail.gmail.com>
-Subject: Re: [PATCH v8 0/6] Add Unisoc's drm kms module
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, sean@poorly.run, 
- airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org, mark.rutland@arm.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211220054333.3041893-1-xianting.tian@linux.alibaba.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,183 +60,206 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Kevin Tang <kevin3.tang@gmail.com>,
- zhang.lyra@gmail.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, orsonzhai@gmail.com, pony1.wu@gmail.com
+Cc: kbuild-all@lists.01.org, Xianting Tian <xianting.tian@linux.alibaba.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dear Maarten,
-I see it from the cgit.freedesktop.org, our sprd drivers seems has
-been merged into drm-misc.
+Hi Xianting,
 
-Now, what shall we do next?
+Thank you for the patch! Yet something to improve:
 
-BR,
-Best wishes
+[auto build test ERROR on linus/master]
+[also build test ERROR on v5.16-rc6 next-20211217]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Kevin Tang <kevin3.tang@gmail.com> =E4=BA=8E2021=E5=B9=B412=E6=9C=887=E6=97=
-=A5=E5=91=A8=E4=BA=8C 22:27=E5=86=99=E9=81=93=EF=BC=9A
+url:    https://github.com/0day-ci/linux/commits/Xianting-Tian/udmabuf-put-dmabuf-in-case-of-get-fd-failed/20211220-134433
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git a7904a538933c525096ca2ccde1e60d0ee62c08e
+config: arc-randconfig-r043-20211220 (https://download.01.org/0day-ci/archive/20211220/202112202101.tVpymGaH-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/322781a4da9de4a3057afd933108d23ca7f5282e
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Xianting-Tian/udmabuf-put-dmabuf-in-case-of-get-fd-failed/20211220-134433
+        git checkout 322781a4da9de4a3057afd933108d23ca7f5282e
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arc SHELL=/bin/bash drivers/dma-buf/
 
->
-> ChangeList:
-> RFC v1:
-> 1. only upstream modeset and atomic at first commit.
-> 2. remove some unused code;
-> 3. use alpha and blend_mode properties;
-> 3. add yaml support;
-> 4. remove auto-adaptive panel driver;
-> 5. bugfix
->
-> RFC v2:
-> 1. add sprd crtc and plane module for KMS, preparing for multi crtc&encod=
-er
-> 2. remove gem drivers, use generic CMA handlers
-> 3. remove redundant "module_init", all the sub modules loading by KMS
->
-> RFC v3:
-> 1. multi crtc&encoder design have problem, so rollback to v1
->
-> RFC v4:
-> 1. update to gcc-linaro-7.5.0
-> 2. update to Linux 5.6-rc3
-> 3. remove pm_runtime support
-> 4. add COMPILE_TEST, remove unused kconfig
-> 5. "drm_dev_put" on drm_unbind
-> 6. fix some naming convention issue
-> 7. remove semaphore lock for crtc flip
-> 8. remove static variables
->
-> RFC v5:
-> 1. optimize encoder and connector code implementation
-> 2. use "platform_get_irq" and "platform_get_resource"
-> 3. drop useless function return type, drop unless debug log
-> 4. custom properties should be separate, so drop it
-> 5. use DRM_XXX replase pr_xxx
-> 6. drop dsi&dphy hal callback ops
-> 7. drop unless callback ops checking
-> 8. add comments for sprd dpu structure
->
-> RFC v6:
-> 1. Access registers via readl/writel
-> 2. Checking for unsupported KMS properties (format, rotation, blend_mode,=
- etc) on plane_check ops
-> 3. Remove always true checks for dpu core ops
->
-> RFC v7:
-> 1. Fix DTC unit name warnings
-> 2. Fix the problem of maintainers
-> 3. Call drmm_mode_config_init to mode config init
-> 4. Embed drm_device in sprd_drm and use devm_drm_dev_alloc
-> 5. Replace DRM_XXX with drm_xxx on KMS module, but not suitable for other=
- subsystems
-> 6. Remove plane_update stuff, dpu handles all the HW update in crtc->atom=
-ic_flush
-> 7. Dsi&Dphy Code structure adjustment, all move to "sprd/"
->
-> v0:
-> 1. Remove dpu_core_ops stuff layer for sprd drtc driver, but dpu_layer ne=
-ed to keeping.
->    Because all the HW update in crtc->atomic_flush, we need temporary sto=
-rage all layers for
->    the dpu pageflip of atomic_flush.
-> 2. Add ports subnode with port@X.
->
-> v1:
-> 1. Remove dphy and dsi graph binding, merge the dphy driver into the dsi.
-> 2. Add commit messages for Unisoc's virtual nodes.
->
-> v2:
-> 1. Use drm_xxx to replace all DRM_XXX.
-> 2. Use kzalloc to replace devm_kzalloc for sprd_dsi/sprd_dpu structure in=
-it.
-> 3. Remove dpu_core_ops midlayer.
->
-> v3:
-> 1. Remove dpu_layer midlayer and commit layers by aotmic_update
->
-> v4:
-> 1. Move the devm_drm_dev_alloc to master_ops->bind function.
-> 2. The managed drmm_mode_config_init() it is no longer necessary for driv=
-ers to explicitly call drm_mode_config_cleanup, so delete it.
-> 3. Use drmm_helpers to allocate crtc ,planes and encoder.
-> 4. Move allocate crtc ,planes, encoder to bind funtion.
-> 5. Move rotation enum definitions to crtc layer reg bitfields.
->
-> v5:
-> 1. Remove subdir-ccflgas-y for Makefile.
-> 2. Keep the selects sorted by alphabet for Kconfig.
-> 3. Fix the checkpatch warnings.
-> 4. Use mode_set_nofb instead of mode_valid callback.
-> 5. Follow the OF-Graph bindings, use of_graph_get_port_by_id instead of o=
-f_parse_phandle.
-> 6. Use zpos to represent the layer position.
-> 7. Rebase to last drm misc branch.
-> 8. Remove panel_in port for dsi node.
-> 9. Drop the dsi ip file prefix.
-> 10. Add Signed-off-by for dsi&dphy patch.
-> 11. Use the mode_flags of mipi_dsi_device to setup crtc DPI and EDPI mode=
-.
->
-> v6:
-> 1. Disable and clear interrupts before register dpu IRQ
-> 2. Init dpi config used by crtc_state->adjusted_mode on mode_set_nofb
-> 3. Remove enable_irq and disable_irq function call.
-> 4. Remove drm_format_info function call.
-> 5. Redesign the way to access the dsi register.
-> 6. Reduce the dsi_context member variables.
->
-> v7:
-> 1. Fix codeing style issue by checkpatch.
-> 2. Drop the pll registers structure define.
-> 3. Use bridge API instead of drm panel API.
-> 4. Register mipi_dsi_host on probe phase;
-> 5. Remove iommu error interrupt handling function.
-> 6. Remove some unused function.
->
-> v8:
-> 1. Fix missing signed-off-by.
-> 2. Move component_add to dsi_host.attach callback.
->
-> Kevin Tang (6):
->   dt-bindings: display: add Unisoc's drm master bindings
->   drm/sprd: add Unisoc's drm kms master
->   dt-bindings: display: add Unisoc's dpu bindings
->   drm/sprd: add Unisoc's drm display controller driver
->   dt-bindings: display: add Unisoc's mipi dsi controller bindings
->   drm/sprd: add Unisoc's drm mipi dsi&dphy driver
->
->  .../display/sprd/sprd,display-subsystem.yaml  |   64 +
->  .../display/sprd/sprd,sharkl3-dpu.yaml        |   77 ++
->  .../display/sprd/sprd,sharkl3-dsi-host.yaml   |   88 ++
->  drivers/gpu/drm/Kconfig                       |    2 +
->  drivers/gpu/drm/Makefile                      |    1 +
->  drivers/gpu/drm/sprd/Kconfig                  |   13 +
->  drivers/gpu/drm/sprd/Makefile                 |    8 +
->  drivers/gpu/drm/sprd/megacores_pll.c          |  305 +++++
->  drivers/gpu/drm/sprd/sprd_dpu.c               |  880 ++++++++++++++
->  drivers/gpu/drm/sprd/sprd_dpu.h               |  109 ++
->  drivers/gpu/drm/sprd/sprd_drm.c               |  205 ++++
->  drivers/gpu/drm/sprd/sprd_drm.h               |   19 +
->  drivers/gpu/drm/sprd/sprd_dsi.c               | 1073 +++++++++++++++++
->  drivers/gpu/drm/sprd/sprd_dsi.h               |  126 ++
->  14 files changed, 2970 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/sprd/sprd,d=
-isplay-subsystem.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/sprd/sprd,s=
-harkl3-dpu.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/sprd/sprd,s=
-harkl3-dsi-host.yaml
->  create mode 100644 drivers/gpu/drm/sprd/Kconfig
->  create mode 100644 drivers/gpu/drm/sprd/Makefile
->  create mode 100644 drivers/gpu/drm/sprd/megacores_pll.c
->  create mode 100644 drivers/gpu/drm/sprd/sprd_dpu.c
->  create mode 100644 drivers/gpu/drm/sprd/sprd_dpu.h
->  create mode 100644 drivers/gpu/drm/sprd/sprd_drm.c
->  create mode 100644 drivers/gpu/drm/sprd/sprd_drm.h
->  create mode 100644 drivers/gpu/drm/sprd/sprd_dsi.c
->  create mode 100644 drivers/gpu/drm/sprd/sprd_dsi.h
->
-> --
-> 2.29.0
->
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All error/warnings (new ones prefixed by >>):
+
+   drivers/dma-buf/udmabuf.c: In function 'udmabuf_create':
+>> drivers/dma-buf/udmabuf.c:292:13: error: invalid storage class for function 'udmabuf_ioctl_create'
+     292 | static long udmabuf_ioctl_create(struct file *filp, unsigned long arg)
+         |             ^~~~~~~~~~~~~~~~~~~~
+>> drivers/dma-buf/udmabuf.c:292:1: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+     292 | static long udmabuf_ioctl_create(struct file *filp, unsigned long arg)
+         | ^~~~~~
+>> drivers/dma-buf/udmabuf.c:311:13: error: invalid storage class for function 'udmabuf_ioctl_create_list'
+     311 | static long udmabuf_ioctl_create_list(struct file *filp, unsigned long arg)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/dma-buf/udmabuf.c:332:13: error: invalid storage class for function 'udmabuf_ioctl'
+     332 | static long udmabuf_ioctl(struct file *filp, unsigned int ioctl,
+         |             ^~~~~~~~~~~~~
+>> drivers/dma-buf/udmabuf.c:353:27: error: initializer element is not constant
+     353 |         .unlocked_ioctl = udmabuf_ioctl,
+         |                           ^~~~~~~~~~~~~
+   drivers/dma-buf/udmabuf.c:353:27: note: (near initialization for 'udmabuf_fops.unlocked_ioctl')
+>> drivers/dma-buf/udmabuf.c:365:19: error: invalid storage class for function 'udmabuf_dev_init'
+     365 | static int __init udmabuf_dev_init(void)
+         |                   ^~~~~~~~~~~~~~~~
+>> drivers/dma-buf/udmabuf.c:370:20: error: invalid storage class for function 'udmabuf_dev_exit'
+     370 | static void __exit udmabuf_dev_exit(void)
+         |                    ^~~~~~~~~~~~~~~~
+   In file included from include/linux/cred.h:12,
+                    from drivers/dma-buf/udmabuf.c:2:
+   drivers/dma-buf/udmabuf.c:375:13: error: initializer element is not constant
+     375 | module_init(udmabuf_dev_init)
+         |             ^~~~~~~~~~~~~~~~
+   include/linux/init.h:250:55: note: in definition of macro '____define_initcall'
+     250 |                 __attribute__((__section__(__sec))) = fn;
+         |                                                       ^~
+   include/linux/init.h:260:9: note: in expansion of macro '__unique_initcall'
+     260 |         __unique_initcall(fn, id, __sec, __initcall_id(fn))
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/init.h:262:35: note: in expansion of macro '___define_initcall'
+     262 | #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
+         |                                   ^~~~~~~~~~~~~~~~~~
+   include/linux/init.h:291:41: note: in expansion of macro '__define_initcall'
+     291 | #define device_initcall(fn)             __define_initcall(fn, 6)
+         |                                         ^~~~~~~~~~~~~~~~~
+   include/linux/init.h:296:24: note: in expansion of macro 'device_initcall'
+     296 | #define __initcall(fn) device_initcall(fn)
+         |                        ^~~~~~~~~~~~~~~
+   include/linux/module.h:88:25: note: in expansion of macro '__initcall'
+      88 | #define module_init(x)  __initcall(x);
+         |                         ^~~~~~~~~~
+   drivers/dma-buf/udmabuf.c:375:1: note: in expansion of macro 'module_init'
+     375 | module_init(udmabuf_dev_init)
+         | ^~~~~~~~~~~
+   drivers/dma-buf/udmabuf.c:376:13: error: initializer element is not constant
+     376 | module_exit(udmabuf_dev_exit)
+         |             ^~~~~~~~~~~~~~~~
+   include/linux/init.h:299:57: note: in definition of macro '__exitcall'
+     299 |         static exitcall_t __exitcall_##fn __exit_call = fn
+         |                                                         ^~
+   drivers/dma-buf/udmabuf.c:376:1: note: in expansion of macro 'module_exit'
+     376 | module_exit(udmabuf_dev_exit)
+         | ^~~~~~~~~~~
+>> include/linux/init.h:299:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+     299 |         static exitcall_t __exitcall_##fn __exit_call = fn
+         |         ^~~~~~
+   include/linux/module.h:100:25: note: in expansion of macro '__exitcall'
+     100 | #define module_exit(x)  __exitcall(x);
+         |                         ^~~~~~~~~~
+   drivers/dma-buf/udmabuf.c:376:1: note: in expansion of macro 'module_exit'
+     376 | module_exit(udmabuf_dev_exit)
+         | ^~~~~~~~~~~
+>> drivers/dma-buf/udmabuf.c:379:1: error: expected declaration or statement at end of input
+     379 | MODULE_LICENSE("GPL v2");
+         | ^~~~~~~~~~~~~~
+
+
+vim +/udmabuf_ioctl_create +292 drivers/dma-buf/udmabuf.c
+
+fbb0de795078190 Gerd Hoffmann          2018-08-27  291  
+fbb0de795078190 Gerd Hoffmann          2018-08-27 @292  static long udmabuf_ioctl_create(struct file *filp, unsigned long arg)
+fbb0de795078190 Gerd Hoffmann          2018-08-27  293  {
+fbb0de795078190 Gerd Hoffmann          2018-08-27  294  	struct udmabuf_create create;
+fbb0de795078190 Gerd Hoffmann          2018-08-27  295  	struct udmabuf_create_list head;
+fbb0de795078190 Gerd Hoffmann          2018-08-27  296  	struct udmabuf_create_item list;
+fbb0de795078190 Gerd Hoffmann          2018-08-27  297  
+fbb0de795078190 Gerd Hoffmann          2018-08-27  298  	if (copy_from_user(&create, (void __user *)arg,
+33f35429fc49c09 Gerd Hoffmann          2018-09-11  299  			   sizeof(create)))
+fbb0de795078190 Gerd Hoffmann          2018-08-27  300  		return -EFAULT;
+fbb0de795078190 Gerd Hoffmann          2018-08-27  301  
+fbb0de795078190 Gerd Hoffmann          2018-08-27  302  	head.flags  = create.flags;
+fbb0de795078190 Gerd Hoffmann          2018-08-27  303  	head.count  = 1;
+fbb0de795078190 Gerd Hoffmann          2018-08-27  304  	list.memfd  = create.memfd;
+fbb0de795078190 Gerd Hoffmann          2018-08-27  305  	list.offset = create.offset;
+fbb0de795078190 Gerd Hoffmann          2018-08-27  306  	list.size   = create.size;
+fbb0de795078190 Gerd Hoffmann          2018-08-27  307  
+c1bbed668997268 Gurchetan Singh        2019-12-02  308  	return udmabuf_create(filp->private_data, &head, &list);
+fbb0de795078190 Gerd Hoffmann          2018-08-27  309  }
+fbb0de795078190 Gerd Hoffmann          2018-08-27  310  
+fbb0de795078190 Gerd Hoffmann          2018-08-27 @311  static long udmabuf_ioctl_create_list(struct file *filp, unsigned long arg)
+fbb0de795078190 Gerd Hoffmann          2018-08-27  312  {
+fbb0de795078190 Gerd Hoffmann          2018-08-27  313  	struct udmabuf_create_list head;
+fbb0de795078190 Gerd Hoffmann          2018-08-27  314  	struct udmabuf_create_item *list;
+fbb0de795078190 Gerd Hoffmann          2018-08-27  315  	int ret = -EINVAL;
+fbb0de795078190 Gerd Hoffmann          2018-08-27  316  	u32 lsize;
+fbb0de795078190 Gerd Hoffmann          2018-08-27  317  
+fbb0de795078190 Gerd Hoffmann          2018-08-27  318  	if (copy_from_user(&head, (void __user *)arg, sizeof(head)))
+fbb0de795078190 Gerd Hoffmann          2018-08-27  319  		return -EFAULT;
+dc4716d75154b36 Gerd Hoffmann          2018-09-11  320  	if (head.count > list_limit)
+fbb0de795078190 Gerd Hoffmann          2018-08-27  321  		return -EINVAL;
+fbb0de795078190 Gerd Hoffmann          2018-08-27  322  	lsize = sizeof(struct udmabuf_create_item) * head.count;
+fbb0de795078190 Gerd Hoffmann          2018-08-27  323  	list = memdup_user((void __user *)(arg + sizeof(head)), lsize);
+fbb0de795078190 Gerd Hoffmann          2018-08-27  324  	if (IS_ERR(list))
+fbb0de795078190 Gerd Hoffmann          2018-08-27  325  		return PTR_ERR(list);
+fbb0de795078190 Gerd Hoffmann          2018-08-27  326  
+c1bbed668997268 Gurchetan Singh        2019-12-02  327  	ret = udmabuf_create(filp->private_data, &head, list);
+fbb0de795078190 Gerd Hoffmann          2018-08-27  328  	kfree(list);
+fbb0de795078190 Gerd Hoffmann          2018-08-27  329  	return ret;
+fbb0de795078190 Gerd Hoffmann          2018-08-27  330  }
+fbb0de795078190 Gerd Hoffmann          2018-08-27  331  
+fbb0de795078190 Gerd Hoffmann          2018-08-27 @332  static long udmabuf_ioctl(struct file *filp, unsigned int ioctl,
+fbb0de795078190 Gerd Hoffmann          2018-08-27  333  			  unsigned long arg)
+fbb0de795078190 Gerd Hoffmann          2018-08-27  334  {
+fbb0de795078190 Gerd Hoffmann          2018-08-27  335  	long ret;
+fbb0de795078190 Gerd Hoffmann          2018-08-27  336  
+fbb0de795078190 Gerd Hoffmann          2018-08-27  337  	switch (ioctl) {
+fbb0de795078190 Gerd Hoffmann          2018-08-27  338  	case UDMABUF_CREATE:
+fbb0de795078190 Gerd Hoffmann          2018-08-27  339  		ret = udmabuf_ioctl_create(filp, arg);
+fbb0de795078190 Gerd Hoffmann          2018-08-27  340  		break;
+fbb0de795078190 Gerd Hoffmann          2018-08-27  341  	case UDMABUF_CREATE_LIST:
+fbb0de795078190 Gerd Hoffmann          2018-08-27  342  		ret = udmabuf_ioctl_create_list(filp, arg);
+fbb0de795078190 Gerd Hoffmann          2018-08-27  343  		break;
+fbb0de795078190 Gerd Hoffmann          2018-08-27  344  	default:
+52499d9cdd88784 Gerd Hoffmann          2018-09-11  345  		ret = -ENOTTY;
+fbb0de795078190 Gerd Hoffmann          2018-08-27  346  		break;
+fbb0de795078190 Gerd Hoffmann          2018-08-27  347  	}
+fbb0de795078190 Gerd Hoffmann          2018-08-27  348  	return ret;
+fbb0de795078190 Gerd Hoffmann          2018-08-27  349  }
+fbb0de795078190 Gerd Hoffmann          2018-08-27  350  
+fbb0de795078190 Gerd Hoffmann          2018-08-27  351  static const struct file_operations udmabuf_fops = {
+fbb0de795078190 Gerd Hoffmann          2018-08-27  352  	.owner		= THIS_MODULE,
+fbb0de795078190 Gerd Hoffmann          2018-08-27 @353  	.unlocked_ioctl = udmabuf_ioctl,
+d4a197f4047e01d Kristian H. Kristensen 2020-09-03  354  #ifdef CONFIG_COMPAT
+d4a197f4047e01d Kristian H. Kristensen 2020-09-03  355  	.compat_ioctl   = udmabuf_ioctl,
+d4a197f4047e01d Kristian H. Kristensen 2020-09-03  356  #endif
+fbb0de795078190 Gerd Hoffmann          2018-08-27  357  };
+fbb0de795078190 Gerd Hoffmann          2018-08-27  358  
+fbb0de795078190 Gerd Hoffmann          2018-08-27  359  static struct miscdevice udmabuf_misc = {
+fbb0de795078190 Gerd Hoffmann          2018-08-27  360  	.minor          = MISC_DYNAMIC_MINOR,
+fbb0de795078190 Gerd Hoffmann          2018-08-27  361  	.name           = "udmabuf",
+fbb0de795078190 Gerd Hoffmann          2018-08-27  362  	.fops           = &udmabuf_fops,
+fbb0de795078190 Gerd Hoffmann          2018-08-27  363  };
+fbb0de795078190 Gerd Hoffmann          2018-08-27  364  
+fbb0de795078190 Gerd Hoffmann          2018-08-27 @365  static int __init udmabuf_dev_init(void)
+fbb0de795078190 Gerd Hoffmann          2018-08-27  366  {
+fbb0de795078190 Gerd Hoffmann          2018-08-27  367  	return misc_register(&udmabuf_misc);
+fbb0de795078190 Gerd Hoffmann          2018-08-27  368  }
+fbb0de795078190 Gerd Hoffmann          2018-08-27  369  
+fbb0de795078190 Gerd Hoffmann          2018-08-27 @370  static void __exit udmabuf_dev_exit(void)
+fbb0de795078190 Gerd Hoffmann          2018-08-27  371  {
+fbb0de795078190 Gerd Hoffmann          2018-08-27  372  	misc_deregister(&udmabuf_misc);
+fbb0de795078190 Gerd Hoffmann          2018-08-27  373  }
+fbb0de795078190 Gerd Hoffmann          2018-08-27  374  
+fbb0de795078190 Gerd Hoffmann          2018-08-27  375  module_init(udmabuf_dev_init)
+fbb0de795078190 Gerd Hoffmann          2018-08-27  376  module_exit(udmabuf_dev_exit)
+fbb0de795078190 Gerd Hoffmann          2018-08-27  377  
+fbb0de795078190 Gerd Hoffmann          2018-08-27  378  MODULE_AUTHOR("Gerd Hoffmann <kraxel@redhat.com>");
+fbb0de795078190 Gerd Hoffmann          2018-08-27 @379  MODULE_LICENSE("GPL v2");
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
