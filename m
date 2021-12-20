@@ -1,68 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC81747A700
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Dec 2021 10:29:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D34C47A711
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Dec 2021 10:31:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20F90113B2B;
-	Mon, 20 Dec 2021 09:29:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F30B48938B;
+	Mon, 20 Dec 2021 09:31:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14A64113B2B
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Dec 2021 09:29:05 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- p36-20020a05600c1da400b003457428ec78so7929815wms.3
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Dec 2021 01:29:05 -0800 (PST)
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D057C113DCC
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Dec 2021 09:31:31 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id q16so18735314wrg.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Dec 2021 01:31:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=veKz7pqKEvJOHj+yQvYH7QBzpYMR6TzDT1gVkqQw5NA=;
- b=jEsak5Za+6G/8XRJVrCHBVFSHzhGyBhDZFpfgsGWTUypw4VhhcR/6EV08xsM/dxBo1
- 3xyfvva5iWSc4i8ZrxC1R5nF5IDCxt9uxEoM6HqYF2R1QSAV/b5fBOnazQj1we3IMuBv
- cnUX6JXgs5OteD1Z4coTieNjkN2tWKvVkeoTg=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=Htm2M/1UPb5WYk7y28mkq1tTi0RGZ2Jp48YbGwwH0kA=;
+ b=ZF/MduX4/4cT+oBmR4T+v8wQ+QDwsxOJuqK9/wRsJS6zcgT2AKpV/tkvOsOZ5L5v6m
+ 6lR2L48gW5VYExLPAmgVcEuReMeF3qKNn0fEl4cDu9N7mwYe03+7XG7yhhRMXGiShQAG
+ VuATgjbbmIZ4i7mM+4AGwwVET8Ejjexw+StR8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=veKz7pqKEvJOHj+yQvYH7QBzpYMR6TzDT1gVkqQw5NA=;
- b=XZjufiXvOldUpElmmae234gu+147H9wr6mo0Ggt+0euIfmfMZDCDG6zFMwvTPVUeMY
- NsKIAzSi9DMBGuSfdqn8w2Jf98PFSQQ94ax5N9K/Nnovm/XAk1GbXghkTqmpyq50GGfD
- 65JodVqF/y/v3aBAJuoNegmkutFxfEZm4B2Y3T+2i2km/4l9ZAvEUDqLcfvXEfIhWL+v
- ZL/AZawQXITdbrj0Uxfq3AN2hltFnZEGXoC2zskhrk8MpPORu5YHZcxRYNOdBkK4tp2D
- SH77hQjUTfOtvN+gCn/sGGb4o3USd8kx1bKvjXsUbNLb61W4UBpijQdChfx2znED2bsZ
- kktg==
-X-Gm-Message-State: AOAM5306ZmEeLLJIMKv8wKQDAQXXRpMxDKgCyB8t7Hh5v5nfoECFPpIy
- MpbeFztREpv1G10ui4gPmzuelQ==
-X-Google-Smtp-Source: ABdhPJyn23ZKsEn429DuwLi/QqE3pv7uq8XnE92UxEVnTd/5sj2Zm1sUTyKDW0GFlFpn+yQqHlc33Q==
-X-Received: by 2002:a05:600c:231a:: with SMTP id
- 26mr4966938wmo.16.1639992543593; 
- Mon, 20 Dec 2021 01:29:03 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=Htm2M/1UPb5WYk7y28mkq1tTi0RGZ2Jp48YbGwwH0kA=;
+ b=k1LbEkX4AbuwYD79evJbZu/OTGyzHDCaeWu4DrQD0cbur0wttNlTi1nctQMaeAm0uU
+ iCrAZnCNh63EbBU9tDXg6mpeQOe5rD/DwHS5GU90yOkNmnTtwGskzgn8bG6AtytXOLHO
+ 1lT+D6uFapEH6iGjp8/FgW4i1vP/JthFt5RgsvkiNGx5x4bVCOOB0t8T9sRqBt20psGY
+ WcH6tgAD8t3kpH/9nsYZAe+tQr7mVH7EnSZX5dTRinWCALawukWwEz9AXagE1ohkyVgQ
+ MUn63iLAcf4IE8J27DAI8b9pDrWzmQ5hKh4sElgkz8bjqnMHTgXyCBs5o6x57oaOpI60
+ lrDQ==
+X-Gm-Message-State: AOAM530FheBVoYwmJqab/4pEM+fsY3iLsMm7KGKz200/cP/NteaU64Ey
+ bzUBBQ7qyHbfiX4Rogx0Ryldew==
+X-Google-Smtp-Source: ABdhPJzIKEWyHUlLuEcrr0JV7s9D8oMvc34Me/oLD7Mq3UMFLkvWeDwegpHqyN1hAZyC9N8Yil8rXg==
+X-Received: by 2002:a05:6000:148:: with SMTP id
+ r8mr11746823wrx.333.1639992690397; 
+ Mon, 20 Dec 2021 01:31:30 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id p22sm2806378wms.2.2021.12.20.01.29.02
+ by smtp.gmail.com with ESMTPSA id r17sm15109035wmq.11.2021.12.20.01.31.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Dec 2021 01:29:03 -0800 (PST)
-Date: Mon, 20 Dec 2021 10:29:00 +0100
+ Mon, 20 Dec 2021 01:31:29 -0800 (PST)
+Date: Mon, 20 Dec 2021 10:31:27 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH] drm/ttm: Don't inherit GEM object VMAs in child process
-Message-ID: <YcBM3PMz7J90F3LQ@phenom.ffwll.local>
-References: <20211208205344.3034-1-rajneesh.bhardwaj@amd.com>
- <94b992c2-04c2-7305-0a51-d130fc645f3f@gmail.com>
- <58d61e47-3796-3147-db6c-ea7912d16902@amd.com>
- <de272de9-3f4a-db40-699a-41394cb699dc@amd.com>
- <cb5668d4-a13d-3b0b-442a-bfe1b3a7239a@amd.com>
- <000edeaf-8a89-ea4d-5b9a-2bd7758f675c@amd.com>
- <f00f2f16-f0b3-cb54-f88e-d53353bfdb79@amd.com>
- <f4527002-ec6d-5279-3b79-1aacb6cc55cc@amd.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [RFC PATCH v4 0/2] RDMA/rxe: Add dma-buf support
+Message-ID: <YcBNbypJT3UJ0RG6@phenom.ffwll.local>
+Mail-Followup-To: Jason Gunthorpe <jgg@ziepe.ca>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Shunsuke Mie <mie@igel.co.jp>, Zhu Yanjun <zyjzyj2000@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Doug Ledford <dledford@redhat.com>,
+ Jianxin Xiong <jianxin.xiong@intel.com>,
+ Leon Romanovsky <leon@kernel.org>, Maor Gottlieb <maorg@nvidia.com>,
+ Sean Hefty <sean.hefty@intel.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-media@vger.kernel.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>,
+ Damian Hobson-Garcia <dhobsong@igel.co.jp>,
+ Takanari Hayama <taki@igel.co.jp>, Tomohito Esaki <etom@igel.co.jp>
+References: <20211122110817.33319-1-mie@igel.co.jp>
+ <CANXvt5oB8_2sDGccSiTMqeLYGi3Vuo-6NnHJ9PGgZZMv=fnUVw@mail.gmail.com>
+ <20211207171447.GA6467@ziepe.ca>
+ <CANXvt5rCayOcengPr7Z_aFmJaXwWj9VcWZbaHnuHj6=2CkPndA@mail.gmail.com>
+ <20211210124204.GG6467@ziepe.ca>
+ <880e25ad-4fe9-eacd-a971-993eaea37fc4@amd.com>
+ <20211210132656.GH6467@ziepe.ca>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <f4527002-ec6d-5279-3b79-1aacb6cc55cc@amd.com>
+In-Reply-To: <20211210132656.GH6467@ziepe.ca>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,160 +89,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Felix Kuehling <felix.kuehling@amd.com>, "Bhardwaj,
- Rajneesh" <rajneesh.bhardwaj@amd.com>, dri-devel@lists.freedesktop.org,
- David Yat Sin <david.yatsin@amd.com>, amd-gfx@lists.freedesktop.org,
- daniel.vetter@ffwll.ch, alexander.deucher@amd.com, airlied@redhat.com
+Cc: Damian Hobson-Garcia <dhobsong@igel.co.jp>,
+ Takanari Hayama <taki@igel.co.jp>, Leon Romanovsky <leon@kernel.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Tomohito Esaki <etom@igel.co.jp>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Doug Ledford <dledford@redhat.com>, Zhu Yanjun <zyjzyj2000@gmail.com>,
+ Shunsuke Mie <mie@igel.co.jp>, Alex Deucher <alexander.deucher@amd.com>,
+ Sean Hefty <sean.hefty@intel.com>, Maor Gottlieb <maorg@nvidia.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Jianxin Xiong <jianxin.xiong@intel.com>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 10, 2021 at 07:58:50AM +0100, Christian König wrote:
-> Am 09.12.21 um 19:28 schrieb Felix Kuehling:
-> > Am 2021-12-09 um 10:30 a.m. schrieb Christian König:
-> > > That still won't work.
-> > > 
-> > > But I think we could do this change for the amdgpu mmap callback only.
-> > If graphics user mode has problems with it, we could even make this
-> > specific to KFD BOs in the amdgpu_gem_object_mmap callback.
-> 
-> I think it's fine for the whole amdgpu stack, my concern is more about
-> radeon, nouveau and the ARM stacks which are using this as well.
-> 
-> That blew up so nicely the last time we tried to change it and I know of at
-> least one case where radeon was/is used with BOs in a child process.
-
-I'm way late and burried again, but I think it'd be good to be consistent
-here across drivers. Or at least across drm drivers. And we've had the vma
-open/close refcounting to make fork work since forever.
-
-I think if we do this we should really only do this for mmap() where this
-applies, but reading through the thread here I'm honestly confused why
-this is a problem. If CRIU can't handle forked mmaps it needs to be
-thought that, not hacked around. Or at least I'm not understanding why
-this shouldn't work ...
--Daniel
-
-> 
-> Regards,
-> Christian.
-> 
-> > 
-> > Regards,
-> >    Felix
-> > 
-> > 
-> > > Regards,
-> > > Christian.
-> > > 
-> > > Am 09.12.21 um 16:29 schrieb Bhardwaj, Rajneesh:
-> > > > Sounds good. I will send a v2 with only ttm_bo_mmap_obj change. Thank
-> > > > you!
+On Fri, Dec 10, 2021 at 09:26:56AM -0400, Jason Gunthorpe wrote:
+> On Fri, Dec 10, 2021 at 01:47:37PM +0100, Christian KÃ¶nig wrote:
+> > Am 10.12.21 um 13:42 schrieb Jason Gunthorpe:
+> > > On Fri, Dec 10, 2021 at 08:29:24PM +0900, Shunsuke Mie wrote:
+> > > > Hi Jason,
+> > > > Thank you for replying.
 > > > > 
-> > > > On 12/9/2021 10:27 AM, Christian König wrote:
-> > > > > Hi Rajneesh,
-> > > > > 
-> > > > > yes, separating this from the drm_gem_mmap_obj() change is certainly
-> > > > > a good idea.
-> > > > > 
-> > > > > > The child cannot access the BOs mapped by the parent anyway with
-> > > > > > access restrictions applied
-> > > > > exactly that is not correct. That behavior is actively used by some
-> > > > > userspace stacks as far as I know.
-> > > > > 
-> > > > > Regards,
-> > > > > Christian.
-> > > > > 
-> > > > > Am 09.12.21 um 16:23 schrieb Bhardwaj, Rajneesh:
-> > > > > > Thanks Christian. Would it make it less intrusive if I just use the
-> > > > > > flag for ttm bo mmap and remove the drm_gem_mmap_obj change from
-> > > > > > this patch? For our use case, just the ttm_bo_mmap_obj change
-> > > > > > should suffice and we don't want to put any more work arounds in
-> > > > > > the user space (thunk, in our case).
+> > > > 2021å¹´12æœˆ8æ—¥(æ°´) 2:14 Jason Gunthorpe <jgg@ziepe.ca>:
+> > > > > On Fri, Dec 03, 2021 at 12:51:44PM +0900, Shunsuke Mie wrote:
+> > > > > > Hi maintainers,
 > > > > > > 
-> > > > > > The child cannot access the BOs mapped by the parent anyway with
-> > > > > > access restrictions applied so I wonder why even inherit the vma?
-> > > > > > 
-> > > > > > On 12/9/2021 2:54 AM, Christian König wrote:
-> > > > > > > Am 08.12.21 um 21:53 schrieb Rajneesh Bhardwaj:
-> > > > > > > > When an application having open file access to a node forks, its
-> > > > > > > > shared
-> > > > > > > > mappings also get reflected in the address space of child process
-> > > > > > > > even
-> > > > > > > > though it cannot access them with the object permissions applied.
-> > > > > > > > With the
-> > > > > > > > existing permission checks on the gem objects, it might be
-> > > > > > > > reasonable to
-> > > > > > > > also create the VMAs with VM_DONTCOPY flag so a user space
-> > > > > > > > application
-> > > > > > > > doesn't need to explicitly call the madvise(addr, len,
-> > > > > > > > MADV_DONTFORK)
-> > > > > > > > system call to prevent the pages in the mapped range to appear in
-> > > > > > > > the
-> > > > > > > > address space of the child process. It also prevents the memory
-> > > > > > > > leaks
-> > > > > > > > due to additional reference counts on the mapped BOs in the child
-> > > > > > > > process that prevented freeing the memory in the parent for which
-> > > > > > > > we had
-> > > > > > > > worked around earlier in the user space inside the thunk library.
-> > > > > > > > 
-> > > > > > > > Additionally, we faced this issue when using CRIU to checkpoint
-> > > > > > > > restore
-> > > > > > > > an application that had such inherited mappings in the child which
-> > > > > > > > confuse CRIU when it mmaps on restore. Having this flag set for the
-> > > > > > > > render node VMAs helps. VMAs mapped via KFD already take care of
-> > > > > > > > this so
-> > > > > > > > this is needed only for the render nodes.
-> > > > > > > Unfortunately that is most likely a NAK. We already tried
-> > > > > > > something similar.
-> > > > > > > 
-> > > > > > > While it is illegal by the OpenGL specification and doesn't work
-> > > > > > > for most userspace stacks, we do have some implementations which
-> > > > > > > call fork() with a GL context open and expect it to work.
-> > > > > > > 
-> > > > > > > Regards,
-> > > > > > > Christian.
-> > > > > > > 
-> > > > > > > > Cc: Felix Kuehling <Felix.Kuehling@amd.com>
-> > > > > > > > 
-> > > > > > > > Signed-off-by: David Yat Sin <david.yatsin@amd.com>
-> > > > > > > > Signed-off-by: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
-> > > > > > > > ---
-> > > > > > > >    drivers/gpu/drm/drm_gem.c       | 3 ++-
-> > > > > > > >    drivers/gpu/drm/ttm/ttm_bo_vm.c | 2 +-
-> > > > > > > >    2 files changed, 3 insertions(+), 2 deletions(-)
-> > > > > > > > 
-> > > > > > > > diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> > > > > > > > index 09c820045859..d9c4149f36dd 100644
-> > > > > > > > --- a/drivers/gpu/drm/drm_gem.c
-> > > > > > > > +++ b/drivers/gpu/drm/drm_gem.c
-> > > > > > > > @@ -1058,7 +1058,8 @@ int drm_gem_mmap_obj(struct drm_gem_object
-> > > > > > > > *obj, unsigned long obj_size,
-> > > > > > > >                goto err_drm_gem_object_put;
-> > > > > > > >            }
-> > > > > > > >    -        vma->vm_flags |= VM_IO | VM_PFNMAP | VM_DONTEXPAND |
-> > > > > > > > VM_DONTDUMP;
-> > > > > > > > +        vma->vm_flags |= VM_IO | VM_PFNMAP | VM_DONTEXPAND
-> > > > > > > > +                | VM_DONTDUMP | VM_DONTCOPY;
-> > > > > > > >            vma->vm_page_prot =
-> > > > > > > > pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
-> > > > > > > >            vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
-> > > > > > > >        }
-> > > > > > > > diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> > > > > > > > b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> > > > > > > > index 33680c94127c..420a4898fdd2 100644
-> > > > > > > > --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> > > > > > > > +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> > > > > > > > @@ -566,7 +566,7 @@ int ttm_bo_mmap_obj(struct vm_area_struct
-> > > > > > > > *vma, struct ttm_buffer_object *bo)
-> > > > > > > >          vma->vm_private_data = bo;
-> > > > > > > >    -    vma->vm_flags |= VM_PFNMAP;
-> > > > > > > > +    vma->vm_flags |= VM_PFNMAP | VM_DONTCOPY;
-> > > > > > > >        vma->vm_flags |= VM_IO | VM_DONTEXPAND | VM_DONTDUMP;
-> > > > > > > >        return 0;
-> > > > > > > >    }
+> > > > > > Could you please review this patch series?
+> > > > > Why is it RFC?
+> > > > > 
+> > > > > I'm confused why this is useful?
+> > > > > 
+> > > > > This can't do copy from MMIO memory, so it shouldn't be compatible
+> > > > > with things like Gaudi - does something prevent this?
+> > > > I think if an export of the dma-buf supports vmap, CPU is able to access the
+> > > > mmio memory.
+> > > > 
+> > > > Is it wrong? If this is wrong, there is no advantages this changes..
+> > > I don't know what the dmabuf folks did, but yes, it is wrong.
+> > > 
+> > > IOMEM must be touched using only special accessors, some platforms
+> > > crash if you don't do this. Even x86 will crash if you touch it with
+> > > something like an XMM optimized memcpy.
+> > > 
+> > > Christian? If the vmap succeeds what rules must the caller use to
+> > > access the memory?
+> > 
+> > See dma-buf-map.h and especially struct dma_buf_map.
+> > 
+> > MMIO memory is perfectly supported here and actually the most common case.
 > 
+> Okay that looks sane, but this rxe RFC seems to ignore this
+> completely. It stuffs the vaddr directly into a umem which goes to all
+> manner of places in the driver.
+> 
+> ??
 
+dma_buf_map is fairly new and we haven't rolled it out consistently yet.
+In the past 10 years we simply yolo'd this :-)
+
+Just an explanation, not an excuse for new code to not use dma_buf_map
+consistently now that we fixed this mistake.
+-Daniel
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
