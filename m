@@ -2,39 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 687AE47BF11
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 12:41:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C87847BF0C
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 12:40:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C23510FFAB;
-	Tue, 21 Dec 2021 11:40:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E7CD10FF6E;
+	Tue, 21 Dec 2021 11:39:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
- [185.176.79.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 567EC10FFA9
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Dec 2021 11:40:58 +0000 (UTC)
-Received: from fraeml714-chm.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JJDx02Q80z67Mdm;
- Tue, 21 Dec 2021 19:38:28 +0800 (CST)
-Received: from roberto-ThinkStation-P620.huawei.com (10.204.63.22) by
- fraeml714-chm.china.huawei.com (10.206.15.33) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 21 Dec 2021 12:40:54 +0100
-From: Roberto Sassu <roberto.sassu@huawei.com>
-To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@linux.ie>, <daniel@ffwll.ch>
-Subject: [PATCH] drm: Fix gem obj imbalance due to calling
- drm_gem_object_put() twice
-Date: Tue, 21 Dec 2021 12:38:37 +0100
-Message-ID: <20211221113837.1607448-1-roberto.sassu@huawei.com>
-X-Mailer: git-send-email 2.32.0
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0180010FF76
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Dec 2021 11:39:55 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1DE7C881;
+ Tue, 21 Dec 2021 12:39:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1640086794;
+ bh=+zx35ApipIwzpR2JUnKwmUzBhBtFhQVEcaXKQzBURZE=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=qpbqBbV7mLRQ/LTYmZele+Jiaf5hSp3Mjt98byY3LnEv0TrgoJfVoe4yiWvmhYTut
+ ADnJaF5u8mSofPrJltGtoh9cxgvJnHT5CBO5oAAXf75f66TDvGMHBA15r8uFX2uQiN
+ iLxxCKcscRsF/K+f5hUMHVyAnwiPOhnai3Kb+3cY=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.204.63.22]
-X-ClientProxiedBy: lhreml752-chm.china.huawei.com (10.201.108.202) To
- fraeml714-chm.china.huawei.com (10.206.15.33)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <210c1e7c333b42702ac0c3ba0da639e82327d035.camel@foss.st.com>
+References: <20211218182804.208906-1-antonio.borneo@foss.st.com>
+ <164001209406.2512616.469307346369770543@Monstersaurus>
+ <210c1e7c333b42702ac0c3ba0da639e82327d035.camel@foss.st.com>
+Subject: Re: [PATCH] drm: adv7511: override i2c address of cec before
+ accessing it
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To: Andrzej Hajda <a.hajda@samsung.com>,
+ Antonio Borneo <antonio.borneo@foss.st.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
+ dri-devel@lists.freedesktop.org
+Date: Tue, 21 Dec 2021 11:39:51 +0000
+Message-ID: <164008679146.2512616.5965783147922289011@Monstersaurus>
+User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,72 +56,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org,
- syzbot+c8ae65286134dd1b800d@syzkaller.appspotmail.com,
- Roberto Sassu <roberto.sassu@huawei.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After commit 9786b65bc61ac ("drm/ttm: fix mmap refcounting"),
-drm_gem_mmap_obj() takes a reference of the passed drm_gem_object at the
-beginning of the function to safely dereference the mmap offset pointer,
-and releases it at the end, if an error occurred. However, the cma and
-shmem helpers are also releasing that reference in case of an error,
-which causes the imbalance of the reference counter and the panic
-reported by syzbot.
+Quoting Antonio Borneo (2021-12-20 15:53:12)
+> On Mon, 2021-12-20 at 14:54 +0000, Kieran Bingham wrote:
+> > Hi Antonio,
+> >=20
+> > Quoting Antonio Borneo (2021-12-18 18:28:04)
+> > > Commit 680532c50bca ("drm: adv7511: Add support for
+> > > i2c_new_secondary_device") allows a device tree node to override
+> > > the default addresses of the secondary i2c devices. This is useful
+> > > for solving address conflicts on the i2c bus.
+> > >=20
+> > > In adv7511_init_cec_regmap() the new i2c address of cec device is
+> > > read from device tree and immediately accessed, well before it is
+> > > written in the proper register to override the default address.
+> > > This can cause an i2c error during probe and a consequent probe
+> > > failure.
+> >=20
+> > Ouch, it does seem that way. I guess no one has used the CEC for
+> > quite
+> > some time, as it must have been like this for a while?
+>=20
+> Using the default i2c address for cec works without problem; apparently
+> everyone is happy with such default. The issue appears only when you
+> have to override the default cec address.
+> The commit 680532c50bca landed in v4.18.
 
-Don't release the reference in drm_gem_mmap_obj() if the mmap method was
-called and it returned an error, and uniformly apply the same behavior of
-the cma and shmem helpers to the ttm helper (release the reference in the
-helper, not in the caller, when an error occurs).
+Ok, phew - so the 'normal' case still worked. That makes sense.
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
-Reported-by: syzbot+c8ae65286134dd1b800d@syzkaller.appspotmail.com
-Fixes: 9786b65bc61ac ("drm/ttm: fix mmap refcounting")
----
- drivers/gpu/drm/drm_gem.c            | 3 ++-
- drivers/gpu/drm/drm_gem_ttm_helper.c | 4 +---
- 2 files changed, 3 insertions(+), 4 deletions(-)
+Sorry for getting it wrong, and I hope it didn't take too long to find
+and fix. I'm sure we'll see it percolate down the stable trees once
+integrated.
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 4dcdec6487bb..7264a1a7a8d2 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -1049,8 +1049,9 @@ int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long obj_size,
- 
- 	if (obj->funcs->mmap) {
- 		ret = obj->funcs->mmap(obj, vma);
-+		/* All helpers call drm_gem_object_put() */
- 		if (ret)
--			goto err_drm_gem_object_put;
-+			return ret;
- 		WARN_ON(!(vma->vm_flags & VM_DONTEXPAND));
- 	} else {
- 		if (!vma->vm_ops) {
-diff --git a/drivers/gpu/drm/drm_gem_ttm_helper.c b/drivers/gpu/drm/drm_gem_ttm_helper.c
-index ecf3d2a54a98..c44bfdbb722d 100644
---- a/drivers/gpu/drm/drm_gem_ttm_helper.c
-+++ b/drivers/gpu/drm/drm_gem_ttm_helper.c
-@@ -101,8 +101,6 @@ int drm_gem_ttm_mmap(struct drm_gem_object *gem,
- 	int ret;
- 
- 	ret = ttm_bo_mmap_obj(vma, bo);
--	if (ret < 0)
--		return ret;
- 
- 	/*
- 	 * ttm has its own object refcounting, so drop gem reference
-@@ -110,7 +108,7 @@ int drm_gem_ttm_mmap(struct drm_gem_object *gem,
- 	 */
- 	drm_gem_object_put(gem);
- 
--	return 0;
-+	return ret;
- }
- EXPORT_SYMBOL(drm_gem_ttm_mmap);
- 
--- 
-2.32.0
+--
+Kieran
 
+> > > Once the new i2c address is read from the device tree, override
+> > > the default address before any attempt to access the cec.
+> >=20
+> > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>=20
+> Thanks!
+> Antonio
+>=20
+> > > Tested with adv7533 and stm32mp157f.
+> > >=20
+> > > Signed-off-by: Antonio Borneo <antonio.borneo@foss.st.com>
+> > > Fixes: 680532c50bca ("drm: adv7511: Add support for
+> > > i2c_new_secondary_device")
+> > > ---
+> > > To: Andrzej Hajda <a.hajda@samsung.com>
+> > > To: Neil Armstrong <narmstrong@baylibre.com>
+> > > To: Robert Foss <robert.foss@linaro.org>
+> > > To: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> > > To: Jonas Karlman <jonas@kwiboo.se>
+> > > To: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > > To: David Airlie <airlied@linux.ie>
+> > > To: Daniel Vetter <daniel@ffwll.ch>
+> > > To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > > To: dri-devel@lists.freedesktop.org
+> > > Cc: linux-kernel@vger.kernel.org
+> > > Cc: linux-stm32@st-md-mailman.stormreply.com
+> > > ---
+> > > =C2=A0drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 7 ++++---
+> > > =C2=A01 file changed, 4 insertions(+), 3 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> > > b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> > > index 76555ae64e9c..629e05286fd9 100644
+> > > --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> > > +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> > > @@ -1048,6 +1048,10 @@ static int adv7511_init_cec_regmap(struct
+> > > adv7511 *adv)
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
+> > > ADV7511_CEC_I2C_ADDR_DEFAULT);
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (IS_ERR(adv->i2c_cec))
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 return PTR_ERR(adv->i2c_cec);
+> > > +
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 regmap_write(adv->regmap, ADV75=
+11_REG_CEC_I2C_ADDR,
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 adv->i2c_cec->addr << 1);
+> > > +
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 i2c_set_clientdata(adv->i2=
+c_cec, adv);
+> > > =C2=A0
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 adv->regmap_cec =3D devm_r=
+egmap_init_i2c(adv->i2c_cec,
+> > > @@ -1252,9 +1256,6 @@ static int adv7511_probe(struct i2c_client
+> > > *i2c, const struct i2c_device_id *id)
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret)
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 goto err_i2c_unregister_packet;
+> > > =C2=A0
+> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 regmap_write(adv7511->regmap, A=
+DV7511_REG_CEC_I2C_ADDR,
+> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 adv7511->i2c_cec->addr << =
+1);
+> > > -
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 INIT_WORK(&adv7511->hpd_wo=
+rk, adv7511_hpd_work);
+> > > =C2=A0
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (i2c->irq) {
+> > >=20
+> > > base-commit: fc74881c28d314b10efac016ef49df4ff40b8b97
+> > > --=20
+> > > 2.34.1
+> > >=20
+>
