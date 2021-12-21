@@ -1,53 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A15F747C69D
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 19:31:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 659B847C6A9
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 19:33:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91BB011B50F;
-	Tue, 21 Dec 2021 18:31:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01BC411A1D4;
+	Tue, 21 Dec 2021 18:33:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
- [209.85.160.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 120A111B50F
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Dec 2021 18:31:11 +0000 (UTC)
-Received: by mail-qt1-f181.google.com with SMTP id 8so13716101qtx.5
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Dec 2021 10:31:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Msqbr64lilA79sJrWaKHhlNoWI4Y9ukNts0JMzmKRhI=;
- b=baLWK1NBB3w5/ezW/nt2HKKXxbKT8bPHjJ/E3YRbz+HlARguPZSCVZ9CZjcjDy6plF
- ssHf1ANFbajRhvoAzzbv2Yo4a7q/3XMdUGcBaf3vv3G2p6vr1L2hcZ2YDNBCmBb0oSVb
- Ov72PfJ8uYgQB5ZKOyBGBI1FYuOuSXFcGjVYtdOebg+LkN/7/kgN1+EI9iqe/mlllgqL
- lHoIScRXaqduavqOlVfYxALDkm0HjgzCgGzIbiUy6Hjux4i64+lbewTnaryLwR38z4xM
- u3mCTgmgfuBYsPAf63uiO6dO1wDGcSJrhFhmUArUNueIADAEOFeCLJjJAUnVW9K++bNQ
- S6IQ==
-X-Gm-Message-State: AOAM533gfh4JrMlffLL96CcTRuye6SnC6TNknMzv2v8obWBz0cZCQZkN
- Qk6JORSkxyqPr2o0dljmOA==
-X-Google-Smtp-Source: ABdhPJyf75x3C6dapnwSf9z2R3Z2Osx2xL1TcJO6IOd4QXYzPawNCtrFL7EjqDnAc7dKxtwj+1s2Ww==
-X-Received: by 2002:a05:622a:190f:: with SMTP id
- w15mr3404818qtc.124.1640111471085; 
- Tue, 21 Dec 2021 10:31:11 -0800 (PST)
-Received: from robh.at.kernel.org ([24.55.105.145])
- by smtp.gmail.com with ESMTPSA id v9sm13845840qkf.90.2021.12.21.10.31.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Dec 2021 10:31:10 -0800 (PST)
-Received: (nullmailer pid 1534684 invoked by uid 1000);
- Tue, 21 Dec 2021 18:31:09 -0000
-Date: Tue, 21 Dec 2021 14:31:09 -0400
-From: Rob Herring <robh@kernel.org>
-To: Thierry Reding <thierry.reding@gmail.com>
-Subject: Re: [PATCH v4] dt-bindings: display: tegra: Convert to json-schema
-Message-ID: <YcIdbfoeBIZl8xlW@robh.at.kernel.org>
-References: <20211217164320.2330784-1-thierry.reding@gmail.com>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDEC711A18C;
+ Tue, 21 Dec 2021 18:32:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1640111578; x=1671647578;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=ZsgLJndpLvwXmWTrpAtIHRV7ZxELnn8+rKqh9Mjotck=;
+ b=tjIjwY112esO45WbSS9eYHwxlzhuiJipzNTTzAqt7bLWVWCB7ZfHqQiO
+ 2GTL0uXc7iGgCRzgkJmuUyolMpdXlvAlsUNpwgvjKCcDEhRUHRJr240+q
+ AwuzCLdbRuTxhG62IKVquBCf7ZeRg8gQ9hhWPdQxiDucG3wyH4hvwbwBx s=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 21 Dec 2021 10:32:58 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Dec 2021 10:32:56 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Tue, 21 Dec 2021 10:32:55 -0800
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Tue, 21 Dec 2021 10:32:54 -0800
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
+ <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
+ <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
+ <bjorn.andersson@linaro.org>
+Subject: [PATCH v8 1/2] drm/msm/dp: dp_link_parse_sink_count() return
+ immediately if aux read failed
+Date: Tue, 21 Dec 2021 10:32:47 -0800
+Message-ID: <1640111567-30157-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211217164320.2330784-1-thierry.reding@gmail.com>
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,88 +62,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ quic_khsieh@quicinc.com, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 17 Dec 2021 17:43:20 +0100, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> Convert the Tegra host1x controller bindings from the free-form text
-> format to json-schema.
-> 
-> This also adds the missing display-hub DT bindings that were not
-> previously documented.
-> 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
-> Changes in v4:
-> - add interconnect, interconnect-names, operating-points-v2 and
->   power-domains property to match latest DT updates
-> - drop stale reference to DPAUX pad controller bindings
-> - include dsi-controller.yaml and drop $nodename, #address-cells,
->   #size-cells and patternProperties from DSI bindings
-> - integrate #sound-dai-cells addition from published patch
-> - drop some generic, useless comments
-> 
-> Changes in v3:
-> - split into separate YAML files for simplicity
-> - add display-hub DT bindings
-> 
-> Changes in v2:
-> - use additionalProperties instead of unevaluatedProperties where
->   sufficient
-> - drop redundant $ref and add missing maxItems properties
-> - drop documentation for standard properties
-> - remove status properties from example
-> - drop spurious comments
-> 
->  .../display/tegra/nvidia,tegra114-mipi.txt    |  41 --
->  .../display/tegra/nvidia,tegra114-mipi.yaml   |  74 ++
->  .../display/tegra/nvidia,tegra124-dpaux.yaml  | 149 ++++
->  .../display/tegra/nvidia,tegra124-sor.yaml    | 206 ++++++
->  .../display/tegra/nvidia,tegra124-vic.yaml    |  71 ++
->  .../display/tegra/nvidia,tegra186-dc.yaml     |  85 +++
->  .../tegra/nvidia,tegra186-display.yaml        | 310 ++++++++
->  .../tegra/nvidia,tegra186-dsi-padctl.yaml     |  46 ++
->  .../display/tegra/nvidia,tegra20-dc.yaml      | 181 +++++
->  .../display/tegra/nvidia,tegra20-dsi.yaml     | 159 +++++
->  .../display/tegra/nvidia,tegra20-epp.yaml     |  70 ++
->  .../display/tegra/nvidia,tegra20-gr2d.yaml    |  73 ++
->  .../display/tegra/nvidia,tegra20-gr3d.yaml    | 214 ++++++
->  .../display/tegra/nvidia,tegra20-hdmi.yaml    | 126 ++++
->  .../display/tegra/nvidia,tegra20-host1x.txt   | 675 ------------------
->  .../display/tegra/nvidia,tegra20-host1x.yaml  | 347 +++++++++
->  .../display/tegra/nvidia,tegra20-isp.yaml     |  67 ++
->  .../display/tegra/nvidia,tegra20-mpe.yaml     |  73 ++
->  .../display/tegra/nvidia,tegra20-tvo.yaml     |  58 ++
->  .../display/tegra/nvidia,tegra20-vi.yaml      | 163 +++++
->  .../display/tegra/nvidia,tegra210-csi.yaml    |  52 ++
->  .../pinctrl/nvidia,tegra124-dpaux-padctl.txt  |  59 --
->  22 files changed, 2524 insertions(+), 775 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-mipi.txt
->  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-mipi.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-dpaux.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-sor.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-vic.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-dc.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-display.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-dsi-padctl.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dc.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dsi.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-epp.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr2d.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr3d.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-hdmi.yaml
->  delete mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
->  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-isp.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-mpe.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-tvo.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra210-csi.yaml
->  delete mode 100644 Documentation/devicetree/bindings/pinctrl/nvidia,tegra124-dpaux-padctl.txt
-> 
+Add checking aux read/write status at both dp_link_parse_sink_count()
+and dp_link_parse_sink_status_filed() to avoid long timeout delay if
+dp aux read/write failed at timeout due to cable unplugged. Also make
+sure dp controller had been initialized before start dpcd read and write.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Changes in V4:
+-- split this patch as stand alone patch
+
+Changes in v5:
+-- rebase on msm-next branch
+
+Changes in v6:
+-- add more details commit text
+
+Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Tested-by: Stephen Boyd <swboyd@chromium.org>
+---
+ drivers/gpu/drm/msm/dp/dp_display.c | 12 +++++++++---
+ drivers/gpu/drm/msm/dp/dp_link.c    | 19 ++++++++++++++-----
+ 2 files changed, 23 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 3d61459..0766752 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -692,9 +692,15 @@ static int dp_irq_hpd_handle(struct dp_display_private *dp, u32 data)
+ 		return 0;
+ 	}
+ 
+-	ret = dp_display_usbpd_attention_cb(&dp->pdev->dev);
+-	if (ret == -ECONNRESET) { /* cable unplugged */
+-		dp->core_initialized = false;
++	/*
++	 * dp core (ahb/aux clks) must be initialized before
++	 * irq_hpd be handled
++	 */
++	if (dp->core_initialized) {
++		ret = dp_display_usbpd_attention_cb(&dp->pdev->dev);
++		if (ret == -ECONNRESET) { /* cable unplugged */
++			dp->core_initialized = false;
++		}
+ 	}
+ 	DRM_DEBUG_DP("hpd_state=%d\n", state);
+ 
+diff --git a/drivers/gpu/drm/msm/dp/dp_link.c b/drivers/gpu/drm/msm/dp/dp_link.c
+index a5bdfc5..d4d31e5 100644
+--- a/drivers/gpu/drm/msm/dp/dp_link.c
++++ b/drivers/gpu/drm/msm/dp/dp_link.c
+@@ -737,18 +737,25 @@ static int dp_link_parse_sink_count(struct dp_link *dp_link)
+ 	return 0;
+ }
+ 
+-static void dp_link_parse_sink_status_field(struct dp_link_private *link)
++static int dp_link_parse_sink_status_field(struct dp_link_private *link)
+ {
+ 	int len = 0;
+ 
+ 	link->prev_sink_count = link->dp_link.sink_count;
+-	dp_link_parse_sink_count(&link->dp_link);
++	len = dp_link_parse_sink_count(&link->dp_link);
++	if (len < 0) {
++		DRM_ERROR("DP parse sink count failed\n");
++		return len;
++	}
+ 
+ 	len = drm_dp_dpcd_read_link_status(link->aux,
+ 		link->link_status);
+-	if (len < DP_LINK_STATUS_SIZE)
++	if (len < DP_LINK_STATUS_SIZE) {
+ 		DRM_ERROR("DP link status read failed\n");
+-	dp_link_parse_request(link);
++		return len;
++	}
++
++	return dp_link_parse_request(link);
+ }
+ 
+ /**
+@@ -1023,7 +1030,9 @@ int dp_link_process_request(struct dp_link *dp_link)
+ 
+ 	dp_link_reset_data(link);
+ 
+-	dp_link_parse_sink_status_field(link);
++	ret = dp_link_parse_sink_status_field(link);
++	if (ret)
++		return ret;
+ 
+ 	if (link->request.test_requested == DP_TEST_LINK_EDID_READ) {
+ 		dp_link->sink_request |= DP_TEST_LINK_EDID_READ;
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
