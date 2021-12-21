@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B330647BDF8
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 11:13:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F48547BDFA
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 11:13:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 116A810F1C8;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8638C10F8D3;
 	Tue, 21 Dec 2021 10:13:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F91910F1C8;
- Tue, 21 Dec 2021 10:13:30 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id s1so25898721wrg.1;
- Tue, 21 Dec 2021 02:13:29 -0800 (PST)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6558910F1C8;
+ Tue, 21 Dec 2021 10:13:31 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id t18so25761448wrg.11;
+ Tue, 21 Dec 2021 02:13:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nTc5PZ4Wpig4VXigMSaZ0XPsk2m3HQFKiyeVvNbBNNc=;
- b=dJHKjSoEEyVDkgtyh+/qOBv2HluDHaGeirviwPCijFFsSYfAhtrw4ytbGMh5V6eqpV
- ccUrgpQQwnhNyl1FVEETH07cmfqFR5oq+3eEN2QgH5ZLA1ZiERd7bJ7/PVCc8jNSpfsz
- 7ha/4NGab+1PYTf58rRiQBsLI5ucgutc66cqc2iOt9k8aDjcEfTPHkyFdwaHaYf3KSrA
- /yC0imuNG3jMSHoSAlU1pibAoiLgS+huZgX3msw/pKYg0tT5990jrKTgMR3/n3M6pbVN
- vXuLxJpKgVbm/852wjXVhog0tfoBKaeV6vKPIDdgX20pvenMvW1lh0T7u7FYQd9DyXKO
- OPkw==
+ bh=BFpZdmylFWaxjp/eKztb6USl6FN9U+6JIs/PIPKjnRc=;
+ b=pr/JtJb6WF0mQRD4vOqRacTgAvypWKEfk5V8syiJ9sIDUxNN7jQrq1XKXDsBABqB3H
+ DXLpsoP5dGydBjl/uyIiN40HdW11PvdjEe2DTpV9AvR7iiiSmPkvo6q5qo0QuYpmSn1b
+ RkHn18uFSr0cv2V73JCTMQ5RsP2+Tpl8Opl/ZvaVRVPiKlvJqEZ9keLBs9oPJV9BQthg
+ 5qijCUVRCAZbuQzKWRfM8525TyNqDiqukLQhd6Ayr+oj3VAi8UBbl8moRwUl2PIwK05Q
+ /liEv1cmO+FYYCWkD9PB9pEF1nKTnN65qxU23KALNBNKH9eFoDluBspEw9LtzjTGXd6w
+ vXrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nTc5PZ4Wpig4VXigMSaZ0XPsk2m3HQFKiyeVvNbBNNc=;
- b=G0F/o6ypnrUDX/jWYylpXkMT8prwQk8BIIf9avH++nVwibttu/dZVMKpN7ErKOPlD3
- GbOwlMjnisNkZIJGcfZQVMidy9TGNhFTbOyPxWjWAKTWldJFuEFuS4/QNMhp3/vU63WZ
- 62c8CO0Q/SUff8g8zUFIS31iIa2hbPZ6RSHc2iCjImYvwAmLTRAmQuc7oEdptHYo/rW3
- sbNB43SfMkyIY5YExcMeBGWHOCN80jEDOoXspgXYNGVjBg7f+J+LIsv7ef5+Pctizzr0
- cGK9SKJ+YybDZsf7E8aOjnRqjTmOpkWp2F6O64ImU6mWY4UeeWcfO9c96A0TE6nAVz23
- Brzg==
-X-Gm-Message-State: AOAM531bmFx5RkAQn8TCo9AeldTOTawgdsCmknpfdI1EBsdoJpAsstc8
- pjQ6du2bG3chF9coBbgerUs=
-X-Google-Smtp-Source: ABdhPJwWwRH/sAEV2HigzIshd3439K7j8BsMJXS05VWy3mSDd+pPK3adu3sTGg0uNpYiwEPOmgUKZw==
-X-Received: by 2002:a5d:64a7:: with SMTP id m7mr1949098wrp.687.1640081608579; 
- Tue, 21 Dec 2021 02:13:28 -0800 (PST)
+ bh=BFpZdmylFWaxjp/eKztb6USl6FN9U+6JIs/PIPKjnRc=;
+ b=UtSxpjXuw9mG4fohvZpfTiuJ+yxXVJK+Pemr5zeN/VQVVKJCsXI69k5FxFLaPxIn96
+ kEK0YGyY+S2KOhZBkissIoAQ1PLBixziiu1+ryvOF8gv811LFJVGGJZyWEEcMN552SVS
+ tovM+UMtzp0aK6YPCOp1hBi3piXUYreQJniv1QKOjFN/1OjMHGGt51NaSPnKu0vN7AAp
+ ZoCquQlBBErtqTJshHf61wNe7w3dHVryUNLOkEj9v9K0qkDRoHPtJ7vCZRgkGLJRWS84
+ mxjk/PZ1ubyS6tsqyjIYNelg5ZNGFOopkyM7lKfwctRReQLOxBmSG3YHY4PA7Ue9WhAf
+ PV0w==
+X-Gm-Message-State: AOAM532rTnDB7C39ty6oKLykBWWK0u99K/bIcnKBeiACxU2mQgq0WD/Z
+ RYjssFzUB04u1Eg+j5tia5E=
+X-Google-Smtp-Source: ABdhPJzAPRTEhTqDe67YQMa1+RCtyyuXKyFuoRwZlIZMVBSj/As0a4YnwYmSvRWTIecaf4LuQzMRTA==
+X-Received: by 2002:adf:d1e9:: with SMTP id g9mr2088396wrd.238.1640081609809; 
+ Tue, 21 Dec 2021 02:13:29 -0800 (PST)
 Received: from localhost.localdomain ([217.113.240.86])
- by smtp.gmail.com with ESMTPSA id m21sm18012267wrb.2.2021.12.21.02.13.27
+ by smtp.gmail.com with ESMTPSA id m21sm18012267wrb.2.2021.12.21.02.13.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Dec 2021 02:13:28 -0800 (PST)
+ Tue, 21 Dec 2021 02:13:29 -0800 (PST)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To: robdclark@gmail.com
-Subject: [PATCH 1/3] drm/plane: Mention format_mod_supported in IN_FORMATS docs
-Date: Tue, 21 Dec 2021 11:13:17 +0100
-Message-Id: <20211221101319.7980-2-jose.exposito89@gmail.com>
+Subject: [PATCH 2/3] drm/msm/mdp4: Add format_mod_supported function
+Date: Tue, 21 Dec 2021 11:13:18 +0100
+Message-Id: <20211221101319.7980-3-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211221101319.7980-1-jose.exposito89@gmail.com>
 References: <20211221101319.7980-1-jose.exposito89@gmail.com>
@@ -78,42 +78,41 @@ Cc: freedreno@lists.freedesktop.org, jernej.skrabec@gmail.com, airlied@linux.ie,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adding format modifiers without implementing the function
-"drm_plane_funcs.format_mod_supported" exposes an invalid IN_FORMATS
-blob with modifiers but no formats to user-space.
-
-This breaks the latest Weston [1]. For testing purposes, I extracted the
-affected code to a standalone program [2].
-
-Make clear in the IN_FORMATS documentation that implementing
-"format_mod_supported" is mandatory.
-
-[1] https://gitlab.freedesktop.org/wayland/weston/-/blob/9.0/libweston/backend-drm/kms.c#L431
-[2] https://github.com/JoseExposito/drm-sandbox/blob/main/in_formats.c
+Implement the missing "drm_plane_funcs.format_mod_supported" function
+to avoid exposing an invalid IN_FORMATS blob with modifiers but no
+formats.
 
 Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- drivers/gpu/drm/drm_plane.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-index 82afb854141b..347571f8909a 100644
---- a/drivers/gpu/drm/drm_plane.c
-+++ b/drivers/gpu/drm/drm_plane.c
-@@ -126,8 +126,11 @@
-  * IN_FORMATS:
-  *     Blob property which contains the set of buffer format and modifier
-  *     pairs supported by this plane. The blob is a struct
-- *     drm_format_modifier_blob. Without this property the plane doesn't
-- *     support buffers with modifiers. Userspace cannot change this property.
-+ *     drm_format_modifier_blob and the drm_plane_funcs.format_mod_supported
-+ *     function must be implemented by the driver to determine if the given
-+ *     format/modifier combination is valid for the plane. Without this property
-+ *     the plane doesn't support buffers with modifiers. Userspace cannot change
-+ *     this property.
-  *
-  *     Note that userspace can check the &DRM_CAP_ADDFB2_MODIFIERS driver
-  *     capability for general modifier support. If this flag is set then every
+diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c
+index 49bdabea8ed5..8809f1633786 100644
+--- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c
++++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c
+@@ -80,6 +80,13 @@ static int mdp4_plane_set_property(struct drm_plane *plane,
+ 	return -EINVAL;
+ }
+ 
++static bool mdp4_plane_format_mod_supported(struct drm_plane *plane, u32 format,
++		u64 modifier)
++{
++	return (modifier == DRM_FORMAT_MOD_SAMSUNG_64_32_TILE) ||
++	       (modifier == DRM_FORMAT_MOD_LINEAR);
++}
++
+ static const struct drm_plane_funcs mdp4_plane_funcs = {
+ 		.update_plane = drm_atomic_helper_update_plane,
+ 		.disable_plane = drm_atomic_helper_disable_plane,
+@@ -88,6 +95,7 @@ static const struct drm_plane_funcs mdp4_plane_funcs = {
+ 		.reset = drm_atomic_helper_plane_reset,
+ 		.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
+ 		.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
++		.format_mod_supported = mdp4_plane_format_mod_supported,
+ };
+ 
+ static void mdp4_plane_cleanup_fb(struct drm_plane *plane,
 -- 
 2.25.1
 
