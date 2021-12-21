@@ -1,53 +1,127 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1C5847C382
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 17:08:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99C1C47C38B
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 17:10:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DC821138AB;
-	Tue, 21 Dec 2021 16:08:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF66B11ACE1;
+	Tue, 21 Dec 2021 16:10:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 629771138AB;
- Tue, 21 Dec 2021 16:08:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1640102881; x=1671638881;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=Eb77f0f+WUx55OONSOq12VMu9yi5Muh63pKJQGfDI0M=;
- b=ZqBDXEeKBHyzj6JiO+fmdrdPDvaZKV0r7GDwhq4zaH+O3vT1631snvaY
- J59t7Qc2vOgVvXNq+ph1pp7LDC5zESYA1QdXCo8bVX/spOQjkjmttKlCl
- qCq13N+wnXydtDLjnosiY671JjeHR6W0yfxqWyh0x4QXDO/8JPhGk/ety
- gUvAVXpSdbrpbvr3UcDh77bl4LRuykWaAvhvrFTIcyEKVQuJUN8T+2J+3
- 81q9NYoARH/XJPM75tgmQDV2iGwLXj274QFyOi/o5lz19gxh+AtXmv99z
- mMum/QjM7eoxSWU+7i0ktES6WFEgayMbphZydd5od6dRS3drb5oBZ7Z2U w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10205"; a="221096316"
-X-IronPort-AV: E=Sophos;i="5.88,223,1635231600"; d="scan'208";a="221096316"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Dec 2021 08:07:07 -0800
-X-IronPort-AV: E=Sophos;i="5.88,223,1635231600"; d="scan'208";a="755852039"
-Received: from arajji-mobl.ger.corp.intel.com (HELO [10.249.254.222])
- ([10.249.254.222])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Dec 2021 08:07:05 -0800
-Message-ID: <6a8a85c1c60ccd865fbd5afe169649cbc6574449.camel@linux.intel.com>
-Subject: Re: [PATCH v3 6/7] drm/i915: Use vma resources for async unbinding
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-Date: Tue, 21 Dec 2021 17:07:03 +0100
-In-Reply-To: <a617dbed-be44-4617-1bab-e3cc298450b6@intel.com>
-References: <20211217145228.10987-1-thomas.hellstrom@linux.intel.com>
- <20211217145228.10987-7-thomas.hellstrom@linux.intel.com>
- <a617dbed-be44-4617-1bab-e3cc298450b6@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-2.fc34) 
-MIME-Version: 1.0
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2048.outbound.protection.outlook.com [40.107.223.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAB9611ACDD;
+ Tue, 21 Dec 2021 16:10:37 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VigiBZXZPEfg1HJjNQydwm4d/UdqCIJaAepEovCXaD08/uB83rek4AjYCjzjyqkDcCwO9FOl65uuLsjda+r0BJoi78J5LSk2nqcpNIY2GZkFYBTUJhZ+EINM6OpCqaXsfq6C2USlQV/r4SWq+Nc/D4yTBCbr2mPMyratGr1a906Ht3zoFBwWDCgLH6VXATCn4cfcApIwcvRinY+/1HCQBWiKzg1Y/wLFFdOu6nfmA5Octyey2VZ7o/RuCHFoFxBSBEIaNmerLDrn2QnEjIpunbXjCp9ThWhm4Xj3Qs8HUrSNawx7SNSvU6vQwmuU91W2r65XffWnGelFQQaRgNbBUw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3odoirF7LYdas3LB31ZESykvgPDyeod1H30EoADRg88=;
+ b=YtWswpM7QTjsCEDD1N77URlNnlEc97JTEtuL5Hrjzz4eaTwws8w2uXtdx1DuQKVjkqqw7QhXiGElqKOU9ty0Skt1Hg/VsxQXrp+SD6ul6rklMKoVhMnZ7Z6tvBgjKIo3H5E9x+EEy19AlP/g7+DdDFVbSVJXI4R15OacIN9cTO2QNtg6HM5z2dsqswN4cELZ85eLiBvmD1wdJWZVQoFmOatVck/NmJzeBTe6co+6XPC4C8Zhv/ndgOazKi4yP98EN8TcP7B1MQSUJVhA+CaOoMBpSlKrRazc+6ZW+ap1eQZuu9SikkW2T5xBszTXKFTbSGDts3IKoezP94N4VHiKUg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3odoirF7LYdas3LB31ZESykvgPDyeod1H30EoADRg88=;
+ b=OYq8nA29lw5Xbi5h4VCXS7s5m8d0H1oiEcSztbX7u54yCFECHJZeV/Q416Ij2N9Y/DLCarvWNBl+z0omSsUQ0m5wH+GDzPAsxbSHD8777dR/Xn0cRPbPgsGsIHpX0C//fWWjUjjHpCQAF4Bke8OEtsWb530EOIgf4HG5p3Fg0RU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB1947.namprd12.prod.outlook.com (2603:10b6:3:111::23)
+ by DM6PR12MB3004.namprd12.prod.outlook.com (2603:10b6:5:11b::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.17; Tue, 21 Dec
+ 2021 16:10:33 +0000
+Received: from DM5PR12MB1947.namprd12.prod.outlook.com
+ ([fe80::5573:3d0a:9cfd:f13c]) by DM5PR12MB1947.namprd12.prod.outlook.com
+ ([fe80::5573:3d0a:9cfd:f13c%7]) with mapi id 15.20.4801.022; Tue, 21 Dec 2021
+ 16:10:33 +0000
+Subject: Re: [RFC 4/6] drm/amdgpu: Serialize non TDR gpu recovery with TDRs
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20211217222745.881637-1-andrey.grodzovsky@amd.com>
+ <20211217222745.881637-5-andrey.grodzovsky@amd.com>
+ <c143e561-d149-6680-0b89-2cda78ea1d51@gmail.com>
+ <bfecd7e4-6848-e2ee-4e80-f394403af08d@amd.com>
+ <1ba3fd87-c36d-3949-a466-17eda53a1d94@amd.com>
+From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Message-ID: <c24f2a42-bee0-ff77-ff84-08ec7e61e6d3@amd.com>
+Date: Tue, 21 Dec 2021 11:10:31 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+In-Reply-To: <1ba3fd87-c36d-3949-a466-17eda53a1d94@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-ClientProxiedBy: YT2PR01CA0004.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:38::9) To DM5PR12MB1947.namprd12.prod.outlook.com
+ (2603:10b6:3:111::23)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1986aa45-8bbd-4069-e168-08d9c49c6a7a
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3004:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR12MB300405E8F82AA2F74E7BA394EA7C9@DM6PR12MB3004.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: OXZnSxaVFmNWzc8UVGy3PO/KNdr8dd1Ixzm93fsRFM5ScSA7ZQgKCsKe8spUNAvc2Q45kWO9eJ6VMmZaeE8vONGEUn5qEZ97iU9jPZq43UolBfLIGRIF5F5+WghK2ny/UqduVRXncIV/uIkNV9qouN4IDTvQLbKXmW/vkFLXTqi5KbIJXLDyzXPjZWHV2xEoRGwcxeyRLNMgzLIDNlI+9p+dAmVWSmdb5K69EHz1r/4q3JH64sggAP9hA8e+8nbCjoZodWghKM40DeQQFrapvJO1XTANKYdKbxh0wQdaTXOwPFy0basYk61qLNT51xjMs0odTb8s22v/qTbJXZN41ew3WVE2meTy37fFrhJYsSxor5zzNjkBXPsKJ90qx4lUD3DXoFRqJQJZk7FU2D3lpfEIjnup/oB4x/c02h8csNPwivahrtMbfC53+nUokPBUtHYlnNahL3qnO8SAK/dv7Y/LhikvQWf8vPROP8GRkFdoSL5v/dLFm56fsA8SEbDbRYuwQEaGaJqB+2Ftix93UCUb0NhRpmbhxYAXo7i10dBPQaUP4+yLLS9NP39bFWxFvPS7udGIFy+3Jl5dPlJY7wGOa/qEEjMEXdy+wSUweK5VLaQ8OFc4K9Ii57v9l5gxvRBx0E6VmsWtwC6g1a/ViAzy9sWFS1u1pkbQO4IXtYuZyOW0BBFOGcVjzF0IWVdhFSWo1yeoYTLTvW8WhNYsO5M1G2QqJTTCnzc7UzU6kPU=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB1947.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(186003)(4326008)(66574015)(38100700002)(66556008)(53546011)(66476007)(6486002)(6506007)(8676002)(110136005)(6512007)(316002)(66946007)(8936002)(36756003)(4001150100001)(83380400001)(2906002)(31686004)(5660300002)(86362001)(508600001)(44832011)(2616005)(31696002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UmhURk9aaFBVNldWejFUY1hYNEFrRzZGanZWV0pOMFpMcVhoRFovOGZxbXZp?=
+ =?utf-8?B?MTBOY3dCY08rZTlkSjVKSUUrU25vbVhid1dYV0Nvd0FWc0VZMUpKbnZhYzc5?=
+ =?utf-8?B?QTZQdEo5VUllYXlBK3QvbTRCT3J2K1dodDExWU9OOXFRY1VocTZoTG1ubjJi?=
+ =?utf-8?B?WlNPSFBKSHlkQ0NiTjBhaHgwVTI4THFianpjbW94WG5JLzlZbjZKaWVvVWIw?=
+ =?utf-8?B?ZmhDbjcxU1JvdFM1WEI3WTlhcFN6SmxWMFdIU0ROWmg5OGNkZDRxMU9jdlFa?=
+ =?utf-8?B?SDg4dFNSUFgwNU9XaDM1cUEwQVNzdFptb2Y5Y01jUWxRcnNlWDZVZmMxeU5t?=
+ =?utf-8?B?cm9ZWTVsRi9yczQvRjZyNnVvVG1CWnpVMzZHYjJuR2ViM21pQzk3VHc5UVVG?=
+ =?utf-8?B?UEl1ZVdkVWJXVzRXMFdLS0lNZlE2MjV2ejA1S3hQZzlNaCs1NWlzOWxzWWti?=
+ =?utf-8?B?NW84cWI2OXRramdJNnozcHlpMXVFMXpMMFFYODRCR1hOaG4yeGw2c2crOS9F?=
+ =?utf-8?B?VWNxOVZJMDhSSHpOTm55eVJVOE1ZQ0tIbFBNcm9nU3dOYkdSMmJhcUx0eGhl?=
+ =?utf-8?B?MytxWTJLUzZER082THBwRS9zTzVWcUR0ZGo4MU96Ymk2bW51YytyeGlyOWNJ?=
+ =?utf-8?B?bng5aUtIeitySkdCbGNENHpzdzRDN1RRZE1mK3NHRVBUdVcrb0s3WWdGTnZS?=
+ =?utf-8?B?RGJwTHJvM25NaE5OSmNkQ2JhcCtrTUhDTzVrRFRvNklqUS9EbmZzbTVpOWVr?=
+ =?utf-8?B?VjlCOEZNY0JkcVF6dzNJOTlwRkIwUjdVdWpSaGhOd0s1NXJKS2pVam41UXps?=
+ =?utf-8?B?cno4OHFKZDBOc2NEY3BrWDZxQVdxM01mWFVYTThuTVlwZFYwMlp2Y3FuUVY2?=
+ =?utf-8?B?VWV5NkJGMTF3V0FnVUF2dkR1b2tmWXdVSG83MHd3M1BtQ3hKdVFIUktaRkZn?=
+ =?utf-8?B?MHFEbmVGKzhlQVhEcGRodGp2M3JBTitkTm1ZbXZqa2tZbnNOS1QvbGhxcHlI?=
+ =?utf-8?B?TTlpenpJM2xNbUhEeUxReGJXcy83aDNiWkd4SlpmY2VVRHF2ZGJXa0g5TGhP?=
+ =?utf-8?B?SVZTVVpxMG9JUkx0eXRLOHZXeUQ0MWZScFNET3dDSEZKa3NjV0RBeFZNVDQ2?=
+ =?utf-8?B?eCs1aUNsWkpMdHg1eXJxd1FucW9GaUFkbnZaTUR1cXVRT2F4T2NlRG9seUFZ?=
+ =?utf-8?B?R2VJK1IyNHlJeHNhRnRLdzVxSDR3YTJwaFdwcS91dHpuS0hPUjQ5WjlEWHRj?=
+ =?utf-8?B?QVZENVFzU0t4TVFjdzBQV3ROTW9CV012dkNLWWZ4L1FhbWRuRWdtc242YUJk?=
+ =?utf-8?B?Q0VXY0xEaGZKVDJYbzlNdEFRbzI0RjI5SzRiWWdMVERhdFhTc1M3RmQzWW1h?=
+ =?utf-8?B?WEQyeU9oWkNYZW15WnN1MVhYS0lZRDg5M2tZY3JmeEJxT1ZzNmVVKzZTSy9u?=
+ =?utf-8?B?U3dPVXdGTG00bnVyV29WbG02S0pWVENMNG04TlM4QkgrdmVKN3RxWnFhUmtB?=
+ =?utf-8?B?VmVGTzY0VU5MNkc5cTBKQlZWZC9KVGNHdGQrOWlWeXNsQ0hleTVoZlFFc3hq?=
+ =?utf-8?B?NWY5WFJjRFFVYmM3eVAvU3YxYTZKVlJzazBlVDJIRXB5SnBwaXZyQzFraGp6?=
+ =?utf-8?B?UkJLTGkrc0JhQmdhU09BaHZtdTFtRnV1TlB6YUZVOHdhd09icFFXZWdNSzB3?=
+ =?utf-8?B?akRjUzVKL1BVYUw3SGdFS096dHhHSXVjN2FVMmRSUjBadDdDWG0zSjhINzhV?=
+ =?utf-8?B?STVFTDJNVm0vb29qWFJ2bG9pdEhTS01oSkN1aGVzSGlLQXF2bGRiYzFqa1p4?=
+ =?utf-8?B?eUdjMGhCWXZoRDlhZTlWMkkwZVR4QWlack84ek9relpGb0pPV3d0VEN6WG5M?=
+ =?utf-8?B?dy91WEh0ZU1tVWVjQS9mdFdiL1c1d2dLdmtKcmpweG1WSy9mT28wQVAycHhM?=
+ =?utf-8?B?ajI4UVpPMlhkYTdERUdYSENWam1iSUx3WnBzNnNLYnFrOWNqd01HMkdBdCtr?=
+ =?utf-8?B?eGZIeTJqSFpOTngzMXppVStOa3VJVnptbjU0TDlMK1lZV3N4UUliRG5VUmgx?=
+ =?utf-8?B?YXBMdVRQQjZHZy9pamZJSVJwVHFjM21UTUU5MjM0QlVkSHk2dmxScjNGL0th?=
+ =?utf-8?B?S2oxSHpMMTdKcjZId2JUOFZaWllQeExmWDQrOHQ5Mk5tZmJJVGxLd3JVQ1dZ?=
+ =?utf-8?B?d2MveEZveU0zMTBtdmNkZmt1ZnltNEp1eE53aFdSbG5CbVhRcHBaOWFnUDNL?=
+ =?utf-8?Q?5AAEINQou02k2CWwrS/O9xYG0w6faUEeiDQnS9Paj0=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1986aa45-8bbd-4069-e168-08d9c49c6a7a
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1947.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Dec 2021 16:10:33.2047 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2jVmabRrOV0W0n+0vjvP7wZQ8f2Wlm9iWNIqFifeAQEGNA3MwXC4YdoWdsUE9nwvn+E6tX8JOmFzN9lnZ+7JaQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3004
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,147 +134,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: horace.chen@amd.com, Monk.Liu@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2021-12-21 at 14:02 +0000, Matthew Auld wrote:
-> On 17/12/2021 14:52, Thomas Hellström wrote:
-> > Implement async (non-blocking) unbinding by not syncing the vma
-> > before
-> > calling unbind on the vma_resource.
-> > Add the resulting unbind fence to the object's dma_resv from where
-> > it is
-> > picked up by the ttm migration code.
-> > Ideally these unbind fences should be coalesced with the migration
-> > blit
-> > fence to avoid stalling the migration blit waiting for unbind, as
-> > they
-> > can certainly go on in parallel, but since we don't yet have a
-> > reasonable data structure to use to coalesce fences and attach the
-> > resulting fence to a timeline, we defer that for now.
-> > 
-> > Note that with async unbinding, even while the unbind waits for the
-> > preceding bind to complete before unbinding, the vma itself might
-> > have been
-> > destroyed in the process, clearing the vma pages. Therefore we can
-> > only allow async unbinding if we have a refcounted sg-list and keep
-> > a
-> > refcount on that for the vma resource pages to stay intact until
-> > binding occurs. If this condition is not met, a request for an
-> > async
-> > unbind is diverted to a sync unbind.
-> > 
-> > v2:
-> > - Use a separate kmem_cache for vma resources for now to isolate
-> > their
-> >    memory allocation and aid debugging.
-> > - Move the check for vm closed to the actual unbinding thread.
-> > Regardless
-> >    of whether the vm is closed, we need the unbind fence to
-> > properly wait
-> >    for capture.
-> > - Clear vma_res::vm on unbind and update its documentation.
-> > 
-> > Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> 
-> <snip>
-> 
-> > @@ -416,6 +420,7 @@ int i915_vma_bind(struct i915_vma *vma,
-> >   {
-> >         u32 bind_flags;
-> >         u32 vma_flags;
-> > +       int ret;
-> >   
-> >         lockdep_assert_held(&vma->vm->mutex);
-> >         GEM_BUG_ON(!drm_mm_node_allocated(&vma->node));
-> > @@ -424,12 +429,12 @@ int i915_vma_bind(struct i915_vma *vma,
-> >         if (GEM_DEBUG_WARN_ON(range_overflows(vma->node.start,
-> >                                               vma->node.size,
-> >                                               vma->vm->total))) {
-> > -               kfree(vma_res);
-> > +               i915_vma_resource_free(vma_res);
-> >                 return -ENODEV;
-> >         }
-> >   
-> >         if (GEM_DEBUG_WARN_ON(!flags)) {
-> > -               kfree(vma_res);
-> > +               i915_vma_resource_free(vma_res);
-> >                 return -EINVAL;
-> >         }
-> >   
-> > @@ -441,12 +446,30 @@ int i915_vma_bind(struct i915_vma *vma,
-> >   
-> >         bind_flags &= ~vma_flags;
-> >         if (bind_flags == 0) {
-> > -               kfree(vma_res);
-> > +               i915_vma_resource_free(vma_res);
-> >                 return 0;
-> >         }
-> >   
-> >         GEM_BUG_ON(!vma->pages);
-> >   
-> > +       /* Wait for or await async unbinds touching our range */
-> > +       if (work && bind_flags & vma->vm->bind_async_flags)
-> > +               ret = i915_vma_resource_bind_dep_await(vma->vm,
-> > +                                                      &work-
-> > >base.chain,
-> > +                                                      vma-
-> > >node.start,
-> > +                                                      vma-
-> > >node.size,
-> > +                                                      true,
-> > +                                                      GFP_NOWAIT |
-> > +                                                     
-> > __GFP_RETRY_MAYFAIL |
-> > +                                                     
-> > __GFP_NOWARN);
-> > +       else
-> > +               ret = i915_vma_resource_bind_dep_sync(vma->vm, vma-
-> > >node.start,
-> > +                                                     vma-
-> > >node.size, true);
-> 
-> Is there nothing scary here with coloring? Say with cache coloring,
-> to 
-> ensure we unbind the neighbouring nodes(if they are conflicting)
-> before 
-> doing the bind, or is async unbinding only ever going to be used for
-> the 
-> ppGTT?
-> 
-> And then I guess there might also be memory coloring where we likely 
-> need to ensure that all the unbinds within the overlapping PT(s) have
-> been completed before doing the bind, since the bind will also
-> increment 
-> the usage count of the PT, potentially preventing it from being 
-> destroyed, which will skip nuking the PDE state, AFAIK. Previously
-> the 
-> drm_mm node(s) would still be present, which would trigger the
-> eviction. 
-> Although it might be that we just end up aligning everything to 2M,
-> and 
-> so drop the memory coloring anyway, so maybe no need to worry about
-> this 
-> yet...
 
-Hmm. This indeed sounds that there were some important considerations
-left out. I was under the impression that only previously scheduled
-unbinds touching the same range would have need to have finished.
-
-Currently there's only ppGTT async unbinding, but I figure moving
-forward we don't want to restrict it.
-
-I wonder whether instead of keeping an interval tree of pending unbinds
-we should keep just a single fence per VM of the last pending unbind,
-and move to the RB tree as a separate optimization step if needed. That
-would AFAICT keep the current semantics of all unbinds that were
-scheduled before the current bind are completed before the bind. Do you
-think that would be sufficient?
-
-Thanks,
-Thomas
+On 2021-12-21 2:59 a.m., Christian König wrote:
+> Am 20.12.21 um 23:17 schrieb Andrey Grodzovsky:
+>>
+>> On 2021-12-20 2:20 a.m., Christian König wrote:
+>>> Am 17.12.21 um 23:27 schrieb Andrey Grodzovsky:
+>>>> Use reset domain wq also for non TDR gpu recovery trigers
+>>>> such as sysfs and RAS. We must serialize all possible
+>>>> GPU recoveries to gurantee no concurrency there.
+>>>> For TDR call the original recovery function directly since
+>>>> it's already executed from within the wq. For others just
+>>>> use a wrapper to qeueue work and wait on it to finish.
+>>>>
+>>>> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+>>>> ---
+>>>>   drivers/gpu/drm/amd/amdgpu/amdgpu.h        |  2 ++
+>>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 33 
+>>>> +++++++++++++++++++++-
+>>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c    |  2 +-
+>>>>   3 files changed, 35 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h 
+>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+>>>> index b5ff76aae7e0..8e96b9a14452 100644
+>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+>>>> @@ -1296,6 +1296,8 @@ bool amdgpu_device_has_job_running(struct 
+>>>> amdgpu_device *adev);
+>>>>   bool amdgpu_device_should_recover_gpu(struct amdgpu_device *adev);
+>>>>   int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
+>>>>                     struct amdgpu_job* job);
+>>>> +int amdgpu_device_gpu_recover_imp(struct amdgpu_device *adev,
+>>>> +                  struct amdgpu_job *job);
+>>>>   void amdgpu_device_pci_config_reset(struct amdgpu_device *adev);
+>>>>   int amdgpu_device_pci_reset(struct amdgpu_device *adev);
+>>>>   bool amdgpu_device_need_post(struct amdgpu_device *adev);
+>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c 
+>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>>>> index b595e6d699b5..55cd67b9ede2 100644
+>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>>>> @@ -4979,7 +4979,7 @@ static void amdgpu_device_recheck_guilty_jobs(
+>>>>    * Returns 0 for success or an error on failure.
+>>>>    */
+>>>>   -int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
+>>>> +int amdgpu_device_gpu_recover_imp(struct amdgpu_device *adev,
+>>>>                     struct amdgpu_job *job)
+>>>>   {
+>>>>       struct list_head device_list, *device_list_handle = NULL;
+>>>> @@ -5236,6 +5236,37 @@ int amdgpu_device_gpu_recover(struct 
+>>>> amdgpu_device *adev,
+>>>>       return r;
+>>>>   }
+>>>>   +struct recover_work_struct {
+>>>
+>>> Please add an amdgpu_ prefix to the name.
+>>>
+>>>> +    struct work_struct base;
+>>>> +    struct amdgpu_device *adev;
+>>>> +    struct amdgpu_job *job;
+>>>> +    int ret;
+>>>> +};
+>>>> +
+>>>> +static void amdgpu_device_queue_gpu_recover_work(struct 
+>>>> work_struct *work)
+>>>> +{
+>>>> +    struct recover_work_struct *recover_work = container_of(work, 
+>>>> struct recover_work_struct, base);
+>>>> +
+>>>> +    recover_work->ret = 
+>>>> amdgpu_device_gpu_recover_imp(recover_work->adev, recover_work->job);
+>>>> +}
+>>>> +/*
+>>>> + * Serialize gpu recover into reset domain single threaded wq
+>>>> + */
+>>>> +int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
+>>>> +                    struct amdgpu_job *job)
+>>>> +{
+>>>> +    struct recover_work_struct work = {.adev = adev, .job = job};
+>>>> +
+>>>> +    INIT_WORK(&work.base, amdgpu_device_queue_gpu_recover_work);
+>>>> +
+>>>> +    if (!queue_work(adev->reset_domain.wq, &work.base))
+>>>> +        return -EAGAIN;
+>>>> +
+>>>> +    flush_work(&work.base);
+>>>> +
+>>>> +    return work.ret;
+>>>> +}
+>>>
+>>> Maybe that should be part of the scheduler code? Not really sure, 
+>>> just an idea.
+>>
+>>
+>> Seems to me that since the reset domain is almost always above a 
+>> single scheduler granularity then it wouldn't feet very well there.
+>
+> Yeah, but what if we introduce an drm_sched_recover_queue and 
+> drm_sched_recover_work object?
+>
+> It's probably ok to go forward with that for now, but this handling 
+> makes quite some sense to have independent of which driver is using 
+> it. So as soon as we see a second similar implementation we should 
+> move it into common code.
+>
+> Regards,
+> Christian.
 
 
+Agree, the only point i would stress is that we need an entity separate 
+from from drm_gpu_scheduler, something like
+drm_gpu_reset_domain which  should point to or be pointed by a set of 
+schedulers that should go through
+reset together.
+
+Andrey
 
 
-
+>>
+>> Andrey
+>>
+>>
+>>>
+>>> Apart from that looks good to me,
+>>> Christian.
+>>>
+>>>> +
+>>>>   /**
+>>>>    * amdgpu_device_get_pcie_info - fence pcie info about the PCIE slot
+>>>>    *
+>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c 
+>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+>>>> index bfc47bea23db..38c9fd7b7ad4 100644
+>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+>>>> @@ -63,7 +63,7 @@ static enum drm_gpu_sched_stat 
+>>>> amdgpu_job_timedout(struct drm_sched_job *s_job)
+>>>>             ti.process_name, ti.tgid, ti.task_name, ti.pid);
+>>>>         if (amdgpu_device_should_recover_gpu(ring->adev)) {
+>>>> -        amdgpu_device_gpu_recover(ring->adev, job);
+>>>> +        amdgpu_device_gpu_recover_imp(ring->adev, job);
+>>>>       } else {
+>>>>           drm_sched_suspend_timeout(&ring->sched);
+>>>>           if (amdgpu_sriov_vf(adev))
+>>>
+>
