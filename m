@@ -2,27 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB32747C608
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 19:13:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F86E47C61C
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 19:15:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82FC510E8D4;
-	Tue, 21 Dec 2021 18:13:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5F6110F08D;
+	Tue, 21 Dec 2021 18:15:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CCCA10E8D4
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Dec 2021 18:13:01 +0000 (UTC)
-Date: Tue, 21 Dec 2021 18:12:50 +0000
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH] dt-bindings: display: Add SPI peripheral schema to SPI
- based displays
-To: Rob Herring <robh@kernel.org>
-Message-Id: <E99H4R.USZAFSZ7ENW71@crapouillou.net>
-In-Reply-To: <20211221125209.1195932-1-robh@kernel.org>
-References: <20211221125209.1195932-1-robh@kernel.org>
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1AFF10F08D
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Dec 2021 18:15:15 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id 207so22727928ljf.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Dec 2021 10:15:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=rGlhGYi7c9JFZAs90lb+S8aDlBU/W750jjxARuJX2+M=;
+ b=JUt+MrsyFxQklIoUIT4pV5yzp+XK3eXrKwgHYOSzSuVh2z6eRilPd/TOs+710UFBIH
+ ArQaGW3hA8gmXDMLSfeZceTijix+xnOk3CZbSaNP3lMEch4yqP6u0iUwkEvX3YtK0+io
+ 5t7YuqjsI2YEVkSKgCADJ6G/leKK+qstYUmtL95nAY0eYwOu6NOWMBrRBEUFNKkkJd3K
+ PiCxfdbqxcauBcEnAGwpwKoTDKnazhLroJLRufJFL4EHdUyksSngPQMe0WfABrhCGgX2
+ AOahhbRdJa8OKcTzWnmrml4Htny/mR9IZO9IhBi2t6PoLM8uixux9bPc3fFh6rSi5aKh
+ K+Cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=rGlhGYi7c9JFZAs90lb+S8aDlBU/W750jjxARuJX2+M=;
+ b=mf6GxBZZTgtq0L0smboEQKwyFii34H9VW1symXNHxK70cPEMsLXpqqdetLrFpko8ZE
+ XR7V96+GMucB9+U83+JMrUvC3jQsR1sFlulbkROjf1j1wDF/9xw+n3S4vIbguoswJXys
+ +glWhEtFQTDlhFBoi7EqGXjx9OI0hgO61aO6v/aEDwalghHafaPLjfILdWwFLBt4LRIC
+ 9nCHWk/x+MbG8pxiKX0qLFkJ8vXHVezWNafcQcavoB58H6no3XKuI2GaYGMlTXL/aZzF
+ RiTEUJAV2Awo6MW6BKX5HDyBo+l8NKmJU7AawDPnT1Zc/KDLNOQatPkKOcNr0+LNTwKs
+ RsOA==
+X-Gm-Message-State: AOAM533NwiGZNmbDOFzEDTrlaS9boCnpJEzh6Maj/ayQqyz35YedsxCb
+ ysiuqt5CRXfeejEdC0SRacE=
+X-Google-Smtp-Source: ABdhPJynGnhbhNwiivGaod1p0Su4ja3s2R0c4x90ptRc7pL2XdvSrcCA4gOoBZT/M4xHVrzuaPKaFg==
+X-Received: by 2002:a2e:b0ca:: with SMTP id g10mr3291206ljl.491.1640110513110; 
+ Tue, 21 Dec 2021 10:15:13 -0800 (PST)
+Received: from [192.168.2.145] (46-138-43-24.dynamic.spd-mgts.ru.
+ [46.138.43.24])
+ by smtp.googlemail.com with ESMTPSA id m15sm317882lfg.291.2021.12.21.10.15.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Dec 2021 10:15:12 -0800 (PST)
+Subject: Re: [PATCH v1 0/5] Improvements for TC358768 DSI bridge driver
+To: Robert Foss <robert.foss@linaro.org>
+References: <20211002233447.1105-1-digetx@gmail.com>
+ <CAG3jFysa8G_fuGDfSLze-ovft3=gc5PXLaPtwTkC2_e0itQYNw@mail.gmail.com>
+ <c09bd552-767e-e783-3f9f-114b8cedb475@gmail.com>
+ <a999b141-4b14-cdd0-f6fa-3d861c0f381f@gmail.com>
+ <CAG3jFytG110MN=AjnY3mz4pHtLYaTTXVWr9z_1=qpCo8hJoM2g@mail.gmail.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <1aeaf8f2-a65e-5142-65ae-e3ca7f42fc55@gmail.com>
+Date: Tue, 21 Dec 2021 21:15:11 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAG3jFytG110MN=AjnY3mz4pHtLYaTTXVWr9z_1=qpCo8hJoM2g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -35,74 +76,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- "H. Nikolaus Schaller" <hns@goldelico.com>, linux-kernel@vger.kernel.org,
- Andrzej Hajda <a.hajda@samsung.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Marek Belisko <marek@goldelico.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jonathan Bakker <xc-racer2@live.ca>
+Cc: Andreas Westman Dorcsak <hedmoo@yahoo.com>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Maxim Schwalm <maxim.schwalm@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-tegra@vger.kernel.org,
+ =?UTF-8?Q?P=c3=a9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob,
+21.12.2021 21:10, Robert Foss пишет:
+> Hey Dmitry,
+> 
+> On Sun, 19 Dec 2021 at 17:02, Dmitry Osipenko <digetx@gmail.com> wrote:
+>>
+>> 19.10.2021 23:37, Dmitry Osipenko пишет:
+>>> 19.10.2021 12:47, Robert Foss пишет:
+>>>> Applied to drm-misc-next
+>>>>
+>>>> On Sun, 3 Oct 2021 at 01:35, Dmitry Osipenko <digetx@gmail.com> wrote:
+>>>>>
+>>>>> This series adds couple improvements to the TC358768 DSI bridge driver,
+>>>>> enabling Panasonic VVX10F004B00 DSI panel support. This panel is used by
+>>>>> ASUS Transformer TF700T tablet, which is ready for upstream kernel and
+>>>>> display panel support is the biggest missing part.
+>>>>>
+>>>>> Dmitry Osipenko (5):
+>>>>>   drm/bridge: tc358768: Enable reference clock
+>>>>>   drm/bridge: tc358768: Support pulse mode
+>>>>>   drm/bridge: tc358768: Calculate video start delay
+>>>>>   drm/bridge: tc358768: Disable non-continuous clock mode
+>>>>>   drm/bridge: tc358768: Correct BTACNTRL1 programming
+>>>>>
+>>>>>  drivers/gpu/drm/bridge/tc358768.c | 94 +++++++++++++++++++++++--------
+>>>>>  1 file changed, 71 insertions(+), 23 deletions(-)
+>>>>>
+>>>>> --
+>>>>> 2.32.0
+>>>>>
+>>>
+>>> Robert, thank you for taking care of these patches! Now nothing is
+>>> holding us from upstreaming the device-tree of the Transformer tablet.
+>>>
+>>
+>> Hello Robert,
+>>
+>> These patches spent 2 months in drm-misc-next, will they graduate into
+>> v5.17 or something special needs to be done for that?
+> 
+> They series has landed in linux-next, and will be in v5.17 if nothing
+> catastrophic happens.
 
-Le mar., d=E9c. 21 2021 at 08:52:09 -0400, Rob Herring <robh@kernel.org>=20
-a =E9crit :
-> With 'unevaluatedProperties' support enabled, several SPI based=20
-> display
-> binding examples have warnings:
->=20
-> Documentation/devicetree/bindings/display/panel/samsung,ld9040.example.dt=
-.yaml:=20
-> lcd@0: Unevaluated properties are not allowed ('#address-cells',=20
-> '#size-cells', 'spi-max-frequency', 'spi-cpol', 'spi-cpha' were=20
-> unexpected)
-> Documentation/devicetree/bindings/display/panel/kingdisplay,kd035g6-54nt.=
-example.dt.yaml:=20
-> panel@0: Unevaluated properties are not allowed ('spi-max-frequency',=20
-> 'spi-3wire' were unexpected)
-> Documentation/devicetree/bindings/display/panel/ilitek,ili9322.example.dt=
-.yaml:=20
-> display@0: Unevaluated properties are not allowed ('reg' was=20
-> unexpected)
-> Documentation/devicetree/bindings/display/panel/samsung,s6e63m0.example.d=
-t.yaml:=20
-> display@0: Unevaluated properties are not allowed=20
-> ('spi-max-frequency' was unexpected)
-> Documentation/devicetree/bindings/display/panel/abt,y030xx067a.example.dt=
-.yaml:=20
-> panel@0: Unevaluated properties are not allowed ('spi-max-frequency'=20
-> was unexpected)
-> Documentation/devicetree/bindings/display/panel/sony,acx565akm.example.dt=
-.yaml:=20
-> panel@2: Unevaluated properties are not allowed ('spi-max-frequency',=20
-> 'reg' were unexpected)
-> Documentation/devicetree/bindings/display/panel/tpo,td.example.dt.yaml:=20
-> panel@0: Unevaluated properties are not allowed ('spi-max-frequency',=20
-> 'spi-cpol', 'spi-cpha' were unexpected)
-> Documentation/devicetree/bindings/display/panel/lgphilips,lb035q02.exampl=
-e.dt.yaml:=20
-> panel@0: Unevaluated properties are not allowed ('reg',=20
-> 'spi-max-frequency', 'spi-cpol', 'spi-cpha' were unexpected)
-> Documentation/devicetree/bindings/display/panel/innolux,ej030na.example.d=
-t.yaml:=20
-> panel@0: Unevaluated properties are not allowed ('spi-max-frequency'=20
-> was unexpected)
-> Documentation/devicetree/bindings/display/panel/sitronix,st7789v.example.=
-dt.yaml:=20
-> panel@0: Unevaluated properties are not allowed ('spi-max-frequency',=20
-> 'spi-cpol', 'spi-cpha' were unexpected)
->=20
-> Fix all of these by adding a reference to spi-peripheral-props.yaml.
-> With this, the description that the binding must follow
-> spi-controller.yaml is both a bit out of date and redundant, so remove
-> it.
->=20
-> Signed-off-by: Rob Herring <robh@kernel.org>
-
-Acked-by: Paul Cercueil <paul@crapouillou.net>
-
-Cheers,
--Paul
-
-
+Very good to know, thank you!
