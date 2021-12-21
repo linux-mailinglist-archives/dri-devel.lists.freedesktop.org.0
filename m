@@ -1,60 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C38647C1B9
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 15:42:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C86D847C35A
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 16:47:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 846FC113962;
-	Tue, 21 Dec 2021 14:42:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23F1210F4E1;
+	Tue, 21 Dec 2021 15:47:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com
- [IPv6:2607:f8b0:4864:20::832])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F14A6113962;
- Tue, 21 Dec 2021 14:42:41 +0000 (UTC)
-Received: by mail-qt1-x832.google.com with SMTP id v22so12979105qtx.8;
- Tue, 21 Dec 2021 06:42:41 -0800 (PST)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BE9510F41C
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Dec 2021 15:47:34 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id k21so12137052lfu.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Dec 2021 07:47:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=D31zelEVktxk1zVBP/e569ZOieN3IU0DvIddUF6p1ZM=;
- b=eiwe50TFlZDlaDlCkbz6L0i7iHgSm249T64gND2w03zqTyS2mJCA70hsfEf/pH+W0u
- OD9kBLd1flhOakQJrfkZHHhVur8gnqkAPZGL/CKfLQFi6proAqbGYcaRp37eb4s0K+Qg
- qW8ALuwdGcJ5fdocA9zAJG65LBi5mlEYo9AFgwyDxsciX78ksoV0C2dg1gdjJ7uEUpoY
- fBGew3DkTgoaMcBQzfKFKlSZ9uLESHVKbmR2rsQ1PgYu/GGuKCUutYo3/f3PUPYLh1ud
- plaOJ4TuyEOx3FvxzD96C3388WT+yT3EW2fh+O4eqmCmlIwqGXvGCnShOSmWHPY7AdZS
- TS1g==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=P/AjqKnlbhjD52zhKuwLST7SIhcLpZikm45Z0zGIr8g=;
+ b=oz1TU+1UCx2PBCN4OQBrtioUPbG6hLhpDKNcLgx9IEUzhslAyNQT+3S/srKEeF/0L1
+ mnDjOYEhP/7M1h0rnzPr5H1K6gZPtML7CnDtqjnJBfPyj8AvdpMcIJTFcQrqvOKFrvsE
+ IpNCoO23yd+z7bpbjZH71rSKMDI/KiwYpoojjEDHKADkEjbH+80NXYFVhJyogR9YjLhZ
+ XdDv1GggRi/wCWqiMd1WOiEeKTgMK3qYnku7fzegx6DuXiy8I9bQ87Tnp0AboAc4gLl3
+ zERM1MYIwOjuaXXt32oMFIkx9YAsfQBiAyIL2VDZQLZh8tyH6QD9bf9Rw8YWTTNy3iy9
+ hSJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=D31zelEVktxk1zVBP/e569ZOieN3IU0DvIddUF6p1ZM=;
- b=fut0Vc1pXzAI5n+N7thiNBGp4aMEEcQ2ipp+jBIU49ly4v46UO7UGLSI+vFzzsMgFn
- eHNg8BkhTOumg/A6DPmY9mH25Y8I2PFJC9Suoj6QDJkMuZJ6Fh7WNoY/NcUoPmk6k0Qm
- yQPnMFVE6feX8RFUOhAhtjDTKARuCHYmVJr8XIvEVBtODquINdcZcGewGmsUtgcEPLNw
- vaWu8MTP0zSM2hwd73wBN0G0ryY3MGiRG7c+mFlyCdFcieGCLKhj5fS8eOOJKe84GVdG
- Q0N+NUhe0/cHbP5yCOT7YIAB+hDxC2oIyntmKwVkSnPPI35W5TvEBqxiYTWXMebTpief
- R4kw==
-X-Gm-Message-State: AOAM531JTSKReWqxJ/jzZC6FH30D8DmuJ5M58UGhwDClRwi7+IR0A7XM
- i/uwBkFcyaWQV71PNZV2b4w=
-X-Google-Smtp-Source: ABdhPJyAwIC+hNgSxPfn11Ky2iXQXAmqJxFVzzNjAb5C2gvg6ijvzxuCuNZ8rvQFcyt6gcSDkXyfSA==
-X-Received: by 2002:a05:622a:28b:: with SMTP id
- z11mr2443070qtw.242.1640097761140; 
- Tue, 21 Dec 2021 06:42:41 -0800 (PST)
-Received: from localhost.localdomain ([193.203.214.57])
- by smtp.gmail.com with ESMTPSA id v4sm14130108qkp.118.2021.12.21.06.42.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Dec 2021 06:42:40 -0800 (PST)
-From: cgel.zte@gmail.com
-X-Google-Original-From: deng.changcheng@zte.com.cn
-To: robdclark@gmail.com
-Subject: [PATCH] drm/msm: replace DEFINE_SIMPLE_ATTRIBUTE with
- DEFINE_DEBUGFS_ATTRIBUTE
-Date: Tue, 21 Dec 2021 14:42:34 +0000
-Message-Id: <20211221144234.480618-1-deng.changcheng@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+ bh=P/AjqKnlbhjD52zhKuwLST7SIhcLpZikm45Z0zGIr8g=;
+ b=XeOIJMJEyRT2ISCZs6uYsGrUcXeS4rzwg4WxVQ+8qz5EHFalqAz59htm1P1BhXfdVX
+ cvYYp+FiOaiNI6/l147pKF9haA9B7R9WIRIoqZjXmOHouszha6Pj+1hcyf+7+1VVO5E/
+ iU3VlJKFuNLwlakVpLE+uOkHXGKl+zhA3ZGhDUWOqs7LqAydR9ca5JC+k0Q1EYnTyVi9
+ 7rVjjheIbCjpivMotEX/zazn0+OVcOGg8DVC3NXFdBSRFIkZasDUEDdoCIF8d+6fslA2
+ qJObWrseg6TFIjinCSdq1j1cNCXJ4fJQ3bgbsq22ZZks6hSJCOKk5/iZN3CjEhvHCtxJ
+ U6HA==
+X-Gm-Message-State: AOAM531T1st5Cv4acAlM2dNXKTbF4bbVx8ZBnO3w66R6VPPxyvqP1VW7
+ AZrPFSy021FBnQtrHIwImk8=
+X-Google-Smtp-Source: ABdhPJwpUWaPqAbiSqRSSP3dYUaQSUPtyJxaTeDK0cFwBA/ikKMVtsdvGE+98TsRLV0XpDdW/0aYog==
+X-Received: by 2002:a19:6e42:: with SMTP id q2mr3478719lfk.60.1640101652838;
+ Tue, 21 Dec 2021 07:47:32 -0800 (PST)
+Received: from [192.168.2.145] (46-138-43-24.dynamic.spd-mgts.ru.
+ [46.138.43.24])
+ by smtp.googlemail.com with ESMTPSA id c20sm2767716ljf.37.2021.12.21.07.47.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Dec 2021 07:47:32 -0800 (PST)
+Subject: Re: [PATCH 0/2] drm/tegra: Fix panel support on Venice 2 and Nyan
+To: Thierry Reding <thierry.reding@gmail.com>
+References: <20211220104855.428290-1-thierry.reding@gmail.com>
+ <dd7a2f23-00d6-9160-1e09-1d4ea5b1f5e1@gmail.com> <YcCg/xktJ2uShFRf@orome>
+ <e27bd5e0-51d2-875b-aa41-f198230880ac@gmail.com> <YcGzO0A/iWzhFjvE@orome>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <c2d2e5a1-7f44-a190-2ab1-84125fbe9f65@gmail.com>
+Date: Tue, 21 Dec 2021 18:47:31 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <YcGzO0A/iWzhFjvE@orome>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,46 +74,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, Zeal Robot <zealci@zte.com.cn>,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Changcheng Deng <deng.changcheng@zte.com.cn>,
- sean@poorly.run
+Cc: Thomas Graichen <thomas.graichen@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ Jon Hunter <jonathanh@nvidia.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-tegra@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Changcheng Deng <deng.changcheng@zte.com.cn>
+21.12.2021 13:58, Thierry Reding пишет:
+..
+>>>> The panel->ddc isn't used by the new panel-edp driver unless panel is
+>>>> compatible with "edp-panel". Hence the generic_edp_panel_probe() should
+>>>> either fail or crash for a such "edp-panel" since panel->ddc isn't fully
+>>>> instantiated, AFAICS.
+>>>
+>>> I've tested this and it works fine on Venice 2. Since that was the
+>>> reference design for Nyan, I suspect that Nyan's will also work.
+>>>
+>>> It'd be great if Thomas or anyone else with access to a Nyan could
+>>> test this to verify that.
+>>
+>> There is no panel-edp driver in the v5.15. The EOL of v5.15 is Oct,
+>> 2023, hence we need to either use:
+> 
+> All the (at least relevant) functionality that is in panel-edp was in
+> panel-simple before it was moved to panel-edp. I've backported this set
+> of patches to v5.15 and it works just fine there.
 
-Fix the following coccicheck warning:
-./drivers/gpu/drm/msm/msm_debugfs.c: 132: 0-23: WARNING: shrink_fops
-should be defined with DEFINE_DEBUGFS_ATTRIBUTE
-
-Use DEFINE_DEBUGFS_ATTRIBUTE rather than DEFINE_SIMPLE_ATTRIBUTE for
-debugfs files.
-
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Changcheng Deng <deng.changcheng@zte.com.cn>
----
- drivers/gpu/drm/msm/msm_debugfs.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/msm_debugfs.c b/drivers/gpu/drm/msm/msm_debugfs.c
-index 956b1efc3721..91fb0c83b600 100644
---- a/drivers/gpu/drm/msm/msm_debugfs.c
-+++ b/drivers/gpu/drm/msm/msm_debugfs.c
-@@ -129,9 +129,9 @@ shrink_set(void *data, u64 val)
- 	return 0;
- }
- 
--DEFINE_SIMPLE_ATTRIBUTE(shrink_fops,
--			shrink_get, shrink_set,
--			"0x%08llx\n");
-+DEFINE_DEBUGFS_ATTRIBUTE(shrink_fops,
-+			 shrink_get, shrink_set,
-+			 "0x%08llx\n");
- 
- 
- static int msm_gem_show(struct seq_file *m, void *arg)
--- 
-2.25.1
-
+Will we be able to add patch to bypass the panel's DT ddc-i2c-bus on
+Nyan to keep the older DTBs working?
