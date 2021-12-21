@@ -2,49 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11CE747C7F7
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 21:01:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF07147C83A
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 21:29:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E2E01121CD;
-	Tue, 21 Dec 2021 20:01:19 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 874E8112146;
- Tue, 21 Dec 2021 20:01:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50CAB112CE5;
+	Tue, 21 Dec 2021 20:29:29 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6D5A112993;
+ Tue, 21 Dec 2021 20:29:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1640116875; x=1671652875;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=NFcXM/ELeEJuNTgN+KKE62gM2vIjow9iw7ode9EcCWU=;
- b=FgsysVsJMo3FPeNpJFR/EbP+pTW4aPv0cEOh9+uUGDK4bHl2Ryu2Jw7b
- 5fNU018Z3uqAJCXqyhZq1UUCsZWpFJEur5tMBrLBUpCdeDUydeMpOErgQ
- TRqBVh27hntCH+nMjvaPRdsEmI4Zk5KrBlXA+FrXw6AWvtn0nQQJU3qPG
- 8bEWqLk7qmwrg884uGz9TMVJ6svBbgnuw2XnSB8nVsSK5a9MEK1Bnnzbe
- vv4frRvQgIxBV76tS8WPYJGDbhaxrdeBkJPQTy2xy23baYgU1vi0yAVGL
- U+fI32ccuOn3bnPn7UMz0/NZkeLossJ6JbEZhZnFTI51vcLYM9dDi0dmc g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10205"; a="221157968"
-X-IronPort-AV: E=Sophos;i="5.88,224,1635231600"; d="scan'208";a="221157968"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Dec 2021 12:01:15 -0800
-X-IronPort-AV: E=Sophos;i="5.88,224,1635231600"; d="scan'208";a="616887473"
-Received: from arajji-mobl.ger.corp.intel.com (HELO thellstr-mobl1.intel.com)
- ([10.249.254.222])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Dec 2021 12:01:13 -0800
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 4/4] drm/i915: Require the vm mutex for i915_vma_bind()
-Date: Tue, 21 Dec 2021 21:00:50 +0100
-Message-Id: <20211221200050.436316-5-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211221200050.436316-1-thomas.hellstrom@linux.intel.com>
-References: <20211221200050.436316-1-thomas.hellstrom@linux.intel.com>
+ t=1640118567; x=1671654567;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=XCCGziIQ++WY6elBCGpBCKNv+fmkD46UEwfyq1dszhQ=;
+ b=Aos8U2ScZxTEN9utf7b2C+H8gh67nma9zfOS2h6/tF7D4N5y5d6ckluM
+ 4c1hSagXx4WS3VDpQ9PpoGPOG2zuGEutlOEl/JANo4cmlhC4tCVaOYQxu
+ o7UiMoHx7v3XYatv6yU/dVZ10hEYGGViZxh1dVJDqER63Qcllttm4uq2w
+ IlP6zMrpW0bOhIBqJ2+2WPbwHsdCrHDWDggwDp6c2UQ2SLTwAVkErUkFR
+ OSCd8N/WqHNoKw41uo1fDUTlFByl6QWGDP5dphX4dJOnvR9ZzyUPNq+nx
+ VT1KzALCzlMr6Elcysujs4v6mvkzCu0rZO5cnsYow+sA798j6VuYtxjZb Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10205"; a="227782074"
+X-IronPort-AV: E=Sophos;i="5.88,224,1635231600"; d="scan'208";a="227782074"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Dec 2021 12:29:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,224,1635231600"; d="scan'208";a="607182365"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
+ by FMSMGA003.fm.intel.com with ESMTP; 21 Dec 2021 12:29:02 -0800
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Subject: [PATCH 0/3] Update to GuC version 69.0.3
+Date: Tue, 21 Dec 2021 12:28:59 -0800
+Message-Id: <20211221202902.1395588-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,114 +55,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- matthew.auld@intel.com
+Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Protect updates of struct i915_vma flags and async binding / unbinding
-with the vm::mutex. This means that i915_vma_bind() needs to assert
-vm::mutex held. In order to make that possible drop the caching of
-kmap_atomic() maps around i915_vma_bind().
+From: John Harrison <John.C.Harrison@Intel.com>
 
-An alternative would be to use kmap_local() but since we block cpu
-unplugging during sleeps inside kmap_local() sections this may have
-unwanted side-effects. Particularly since we might wait for gpu while
-holding the vm mutex.
+Update to the latest GuC version. This includes a suite of interface
+changes and new features with corresponding i915 side changes.
 
-This change may theoretically increase execbuf cpu-usage on snb, but
-at least on non-highmem systems that increase should be very small.
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
----
- .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 50 ++++++++++++++++++-
- drivers/gpu/drm/i915/i915_vma.c               |  1 +
- 2 files changed, 50 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-index ec7c4a29a720..b8330f0bf652 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-@@ -1109,6 +1109,47 @@ static inline struct i915_ggtt *cache_to_ggtt(struct reloc_cache *cache)
- 	return &i915->ggtt;
- }
- 
-+static void reloc_cache_unmap(struct reloc_cache *cache)
-+{
-+	void *vaddr;
-+
-+	if (!cache->vaddr)
-+		return;
-+
-+	vaddr = unmask_page(cache->vaddr);
-+	if (cache->vaddr & KMAP)
-+		kunmap_atomic(vaddr);
-+	else
-+		io_mapping_unmap_atomic((void __iomem *)vaddr);
-+}
-+
-+static void reloc_cache_remap(struct reloc_cache *cache,
-+			      struct drm_i915_gem_object *obj)
-+{
-+	void *vaddr;
-+
-+	if (!cache->vaddr)
-+		return;
-+
-+	if (cache->vaddr & KMAP) {
-+		struct page *page = i915_gem_object_get_page(obj, cache->page);
-+
-+		vaddr = kmap_atomic(page);
-+		cache->vaddr = unmask_flags(cache->vaddr) |
-+			(unsigned long)vaddr;
-+	} else {
-+		struct i915_ggtt *ggtt = cache_to_ggtt(cache);
-+		unsigned long offset;
-+
-+		offset = cache->node.start;
-+		if (!drm_mm_node_allocated(&cache->node))
-+			offset += cache->page << PAGE_SHIFT;
-+
-+		cache->vaddr = (unsigned long)
-+			io_mapping_map_atomic_wc(&ggtt->iomap, offset);
-+	}
-+}
-+
- static void reloc_cache_reset(struct reloc_cache *cache, struct i915_execbuffer *eb)
- {
- 	void *vaddr;
-@@ -1373,10 +1414,17 @@ eb_relocate_entry(struct i915_execbuffer *eb,
- 		 * batchbuffers.
- 		 */
- 		if (reloc->write_domain == I915_GEM_DOMAIN_INSTRUCTION &&
--		    GRAPHICS_VER(eb->i915) == 6) {
-+		    GRAPHICS_VER(eb->i915) == 6 &&
-+		    !i915_vma_is_bound(target->vma, I915_VMA_GLOBAL_BIND)) {
-+			struct i915_vma *vma = target->vma;
-+
-+			reloc_cache_unmap(&eb->reloc_cache);
-+			mutex_lock(&vma->vm->mutex);
- 			err = i915_vma_bind(target->vma,
- 					    target->vma->obj->cache_level,
- 					    PIN_GLOBAL, NULL);
-+			mutex_unlock(&vma->vm->mutex);
-+			reloc_cache_remap(&eb->reloc_cache, ev->vma->obj);
- 			if (err)
- 				return err;
- 		}
-diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-index de24e4b3b19b..be208a8f1ed0 100644
---- a/drivers/gpu/drm/i915/i915_vma.c
-+++ b/drivers/gpu/drm/i915/i915_vma.c
-@@ -393,6 +393,7 @@ int i915_vma_bind(struct i915_vma *vma,
- 	u32 bind_flags;
- 	u32 vma_flags;
- 
-+	lockdep_assert_held(&vma->vm->mutex);
- 	GEM_BUG_ON(!drm_mm_node_allocated(&vma->node));
- 	GEM_BUG_ON(vma->size > vma->node.size);
- 
+
+John Harrison (3):
+  drm/i915/guc: Temporarily bump the GuC load timeout
+  drm/i915/guc: Update to GuC version 69.0.3
+  drm/i915/guc: Improve GuC loading status check/error reports
+
+ Documentation/gpu/i915.rst                    |   1 +
+ .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |  80 +++++-----
+ .../gpu/drm/i915/gt/uc/abi/guc_errors_abi.h   |  23 +++
+ drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h |  82 ++++++++++
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        | 126 +++++++++++++---
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   4 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  45 +++++-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     | 141 ++++++++++--------
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c     |  30 ++--
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |  37 ++++-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.c    |  31 ++--
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.h    |   3 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h    |   4 -
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  18 +++
+ drivers/gpu/drm/i915/gt/uc/intel_huc.c        |   1 +
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  31 ++--
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      |  30 ++--
+ 17 files changed, 493 insertions(+), 194 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
+
 -- 
-2.31.1
+2.25.1
 
