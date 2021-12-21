@@ -2,32 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A503C47C50B
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 18:31:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B120A47C535
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 18:45:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A96011B340;
-	Tue, 21 Dec 2021 17:31:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA57110F182;
+	Tue, 21 Dec 2021 17:45:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7773711B33A
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Dec 2021 17:31:07 +0000 (UTC)
-Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88]
- helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <heiko@sntech.de>)
- id 1mziyd-0007s8-DU; Tue, 21 Dec 2021 18:31:03 +0100
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: dri-devel@lists.freedesktop.org, Sascha Hauer <s.hauer@pengutronix.de>
-Subject: Re: [PATCH 20/22] drm/encoder: Add of_graph port to struct drm_encoder
-Date: Tue, 21 Dec 2021 18:31:02 +0100
-Message-ID: <5748237.0N3Lptk4b8@diego>
-In-Reply-To: <20211220110630.3521121-21-s.hauer@pengutronix.de>
-References: <20211220110630.3521121-1-s.hauer@pengutronix.de>
- <20211220110630.3521121-21-s.hauer@pengutronix.de>
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
+ [IPv6:2607:f8b0:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29E4810F182
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Dec 2021 17:45:04 +0000 (UTC)
+Received: by mail-pg1-x529.google.com with SMTP id f125so13026347pgc.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Dec 2021 09:45:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=bqezZ2/HwBTxC4hfR4A8RkBTbm8B6r0iUtltdIvH/WQ=;
+ b=HenZ6CO3BtGV8EorbDJoyPVSzJlzhn+iHRjk9YtqqLPHN4ePZ8QVDtBgVHRXVZQ8oH
+ E0dt/72cZS+O3UEUQBk2+LWW1fLeiLTBlj3aHDXDZnQMyY3SpumoJXl7roNtT5mZeWm2
+ H+au6mRnSFz1PqeI+TqCvDxtLEiCjbzfJk+Uhoxfpxpz9CSDnUcsu266k5Rq8WtQsMew
+ +xvnHyPcHFvyQqL/oE2+nCnXYiWJ9HbUGarG1if1rcp9B8eg2qRKADUee/ZHcDCOd3vr
+ RO0poJfpfCVUNlk10B36QA2QtiSLwP32N6TVb0q9IanTbUMnIfPIedRbFT1BNEGa5P9t
+ q7zQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=bqezZ2/HwBTxC4hfR4A8RkBTbm8B6r0iUtltdIvH/WQ=;
+ b=G4Gunx5WMiHvUnXNUskHujZgOmeguJqC5+YmpGBjplRAG79gztCMN+hlxTI8hSJboD
+ CHi65uN7FWBvr64Gy/tIzU9ORbAaEtXBB3M9W26X+TtReqbl2JBjJ0zuCBph9YYMEm3l
+ hvogOo+bSXskcKk9jBWnGXOC+270roavmL6dpoijZY901OfRFRlTsoCTBWwDonbKwrUL
+ Os0T6OTyzJ2XmHCl+A0R8cXmqjFBodrK98tLe82vYGB27IoOtPy5xCzjpKjkmzg2TMM8
+ ZPFJqDXR5ONBbnkhmuzSnwuAPwKH6gfJYjfOgtY5ReQ4jtbkrh2w7+C/QXu/Cbdqos07
+ EaxQ==
+X-Gm-Message-State: AOAM532WY9tx+Fe3u3KnP37Afuuj9J5EH1yySdglN1sBEyz/LxCo9S9F
+ vtAcOBa7iRcGdW/s4c/qmFpDDaa5Xx1+UaGrpIU/9A==
+X-Google-Smtp-Source: ABdhPJzVBmLN8aJGGq6rMMoKPHuN2mmCNcgqKIN9eaam0PO9xsjRP0XHPg/gLoicZBE7H9V0/GKtOOkWeTkanEX+IXw=
+X-Received: by 2002:a62:d044:0:b0:4ba:6f3b:ab08 with SMTP id
+ p65-20020a62d044000000b004ba6f3bab08mr4416682pfg.29.1640108703755; Tue, 21
+ Dec 2021 09:45:03 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <20211213133626.2498056-1-alexander.stein@ew.tq-group.com>
+In-Reply-To: <20211213133626.2498056-1-alexander.stein@ew.tq-group.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Tue, 21 Dec 2021 18:44:52 +0100
+Message-ID: <CAG3jFyt8K4mwHrECqOZ3h91YjX=k2MRPsvHHxYT40rR8tyFO_g@mail.gmail.com>
+Subject: Re: [PATCH v5 0/4] ti-sn65dsi83 patches
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,48 +62,12 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Montag, 20. Dezember 2021, 12:06:28 CET schrieb Sascha Hauer:
-> Add a device node to drm_encoder which corresponds with the port node
-> in the DT description of the encoder. This allows drivers to find the
-> of_graph link between a crtc and an encoder.
-> 
-> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> ---
->  include/drm/drm_encoder.h | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/include/drm/drm_encoder.h b/include/drm/drm_encoder.h
-> index 6e91a0280f31b..3acd054b1eb3e 100644
-> --- a/include/drm/drm_encoder.h
-> +++ b/include/drm/drm_encoder.h
-> @@ -99,6 +99,8 @@ struct drm_encoder {
->  	struct drm_device *dev;
->  	struct list_head head;
->  
-> +	struct device_node *port;
-> +
->  	struct drm_mode_object base;
->  	char *name;
->  	/**
-> 
-
-Is this the port that gets used in patch 3/22?
-It looks like it.
-
-So this would break bisectability. Can we order patches
-sequentially so that git bisect keeps working.
-
-Thanks
-Heiko
-
-
-
+Applied to drm-misc-next
