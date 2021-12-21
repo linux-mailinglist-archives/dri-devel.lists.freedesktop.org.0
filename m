@@ -1,42 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9843247BCE1
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 10:30:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EBFD47BDEC
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 11:11:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD29F10F459;
-	Tue, 21 Dec 2021 09:30:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83F1B10F883;
+	Tue, 21 Dec 2021 10:11:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41CA710F453;
- Tue, 21 Dec 2021 09:30:06 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id E32C3B81217;
- Tue, 21 Dec 2021 09:30:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27FBBC36AE2;
- Tue, 21 Dec 2021 09:30:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1640079001;
- bh=t9uG/PUzJfJCt5vq7qOvzQiuQHsRYBb+5hBgWJjQF8c=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MMrMbGrsqXDDJawxnYTgl5OlqV29ks8dDbYtGt+9DN7vpqfD5awhcaVrfIphjkLhR
- eCRBU9SysvivSe0EOauQNT2dECjbHZrp5OFoLLZrHfj5oxihlfsbp1jTAEj+M4zMa2
- qN4tkQlXtDx9JJihAZOgHkEn4Qjac7ihVzHqkY94=
-Date: Tue, 21 Dec 2021 10:29:59 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [PATCH v4 01/34] component: Introduce struct aggregate_device
-Message-ID: <YcGel9PtOgqWH6l3@kroah.com>
-References: <20211202222732.2453851-1-swboyd@chromium.org>
- <20211202222732.2453851-2-swboyd@chromium.org>
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
+ [IPv6:2a01:488:42:1000:50ed:8234::])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DEC410F883;
+ Tue, 21 Dec 2021 10:11:19 +0000 (UTC)
+Received: from ip4d173d4a.dynamic.kabel-deutschland.de ([77.23.61.74]
+ helo=[192.168.66.200]); authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ id 1mzc73-0007Io-E0; Tue, 21 Dec 2021 11:11:17 +0100
+Message-ID: <c0e77c90-ad42-29ed-7bc6-68f45dbbcfc2@leemhuis.info>
+Date: Tue, 21 Dec 2021 11:11:15 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211202222732.2453851-2-swboyd@chromium.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [Nouveau] [PATCH] drm/nouveau: wait for the exclusive fence after
+ the shared ones v2
+Content-Language: de-DE
+To: Ben Skeggs <skeggsb@gmail.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+References: <20211209102335.18321-1-christian.koenig@amd.com>
+ <b6acb31c-ec63-4242-32da-a35e950e5a67@sfritsch.de>
+ <8aee128c-0699-5057-2655-4f7d91ac235b@gmail.com>
+ <CACAvsv7D7=Mud1YQ+GACFAqdvBGNp3rjY-eudkXy3uaefY6q+Q@mail.gmail.com>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+In-Reply-To: <CACAvsv7D7=Mud1YQ+GACFAqdvBGNp3rjY-eudkXy3uaefY6q+Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1640081480;
+ 0ea6afe8; 
+X-HE-SMSGID: 1mzc73-0007Io-E0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,107 +51,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Saravana Kannan <saravanak@google.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Russell King <rmk+kernel@arm.linux.org.uk>, freedreno@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, ML nouveau <nouveau@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>, dmoulding@me.com,
+ Ben Skeggs <bskeggs@redhat.com>, Stefan Fritsch <sf@sfritsch.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 02, 2021 at 02:26:59PM -0800, Stephen Boyd wrote:
-> Replace 'struct master' with 'struct aggregate_device' and then rename
-> 'master' to 'adev' everywhere in the code. While we're here, put a
-> struct device inside the aggregate device so that we can register it
-> with a bus_type in the next patch.
-> 
-> The diff is large but that's because this is mostly a rename, where
-> sometimes 'master' is replaced with 'adev' and other times it is
-> replaced with 'parent' to indicate that the struct device that was being
-> used is actually the parent of the aggregate device and driver.
-> 
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Russell King <rmk+kernel@arm.linux.org.uk>
-> Cc: Saravana Kannan <saravanak@google.com>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> ---
->  drivers/base/component.c | 16 +++++++++++++++-
->  1 file changed, 15 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/base/component.c b/drivers/base/component.c
-> index 2d25a6416587..d25048d04b70 100644
-> --- a/drivers/base/component.c
-> +++ b/drivers/base/component.c
-> @@ -9,6 +9,7 @@
->   */
->  #include <linux/component.h>
->  #include <linux/device.h>
-> +#include <linux/idr.h>
->  #include <linux/list.h>
->  #include <linux/mutex.h>
->  #include <linux/slab.h>
-> @@ -63,7 +64,10 @@ struct master {
->  
->  	const struct component_master_ops *ops;
->  	struct device *parent;
-> +	struct device dev;
+Hi, this is your Linux kernel regression tracker speaking.
 
-Who initializes this new structure?
+CCing Dave and Daniel.
 
->  	struct component_match *match;
-> +
-> +	int id;
->  };
->  
->  struct component {
-> @@ -79,6 +83,7 @@ struct component {
->  static DEFINE_MUTEX(component_mutex);
->  static LIST_HEAD(component_list);
->  static LIST_HEAD(masters);
-> +static DEFINE_IDA(aggregate_ida);
->  
->  #ifdef CONFIG_DEBUG_FS
->  
-> @@ -440,6 +445,7 @@ static void free_master(struct master *master)
->  		}
->  	}
->  
-> +	ida_free(&aggregate_ida, master->id);
->  	kfree(master);
->  }
->  
-> @@ -460,7 +466,7 @@ int component_master_add_with_match(struct device *parent,
->  	struct component_match *match)
->  {
->  	struct master *master;
-> -	int ret;
-> +	int ret, id;
->  
->  	/* Reallocate the match array for its true size */
->  	ret = component_match_realloc(match, match->num);
-> @@ -471,9 +477,17 @@ int component_master_add_with_match(struct device *parent,
->  	if (!master)
->  		return -ENOMEM;
->  
-> +	id = ida_alloc(&aggregate_ida, GFP_KERNEL);
-> +	if (id < 0) {
-> +		kfree(master);
-> +		return id;
-> +	}
-> +
-> +	master->id = id;
->  	master->parent = parent;
->  	master->ops = ops;
->  	master->match = match;
-> +	dev_set_name(&master->dev, "aggregate%d", id);
+On 15.12.21 23:32, Ben Skeggs wrote:
+> On Tue, 14 Dec 2021 at 19:19, Christian König
+> <ckoenig.leichtzumerken@gmail.com> wrote:
+>>
+>> Am 11.12.21 um 10:59 schrieb Stefan Fritsch:
+>>> On 09.12.21 11:23, Christian König wrote:
+>>>> Always waiting for the exclusive fence resulted on some performance
+>>>> regressions. So try to wait for the shared fences first, then the
+>>>> exclusive fence should always be signaled already.
+>>>>
+>>>> v2: fix incorrectly placed "(", add some comment why we do this.
+>>>>
+>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>>
+>>> Tested-by: Stefan Fritsch <sf@sfritsch.de>
+>>
+>> Thanks.
+>>
+>>>
+>>> Please also add a cc for linux-stable, so that this is fixed in 5.15.x
+>>
+>> Sure, but I still need some acked-by or rb from one of the Nouveau guys.
+>> So gentle ping on that.
+> Acked-by: Ben Skeggs <bskeggs@redhat.com>
 
-You set the name yet the device is not "real"?
+What's the status of this patch? I checked a few git trees, but either
+it's not there or it missed it.
 
-I don't understand this patch at all, sorry.
+Reminder, it's a regression already introduced in v5.15, hence all users
+of the current stable kernel are affected by it, so it would be nice to
+get the fix on its way now that Ben acked it and Dan tested it.
 
-greg k-h
+Ciao, Thorsten
+
+P.S.: As a Linux kernel regression tracker I'm getting a lot of reports
+on my table. I can only look briefly into most of them. Unfortunately
+therefore I sometimes will get things wrong or miss something important.
+I hope that's not the case here; if you think it is, don't hesitate to
+tell me about it in a public reply. That's in everyone's interest, as
+what I wrote above might be misleading to everyone reading this; any
+suggestion I gave thus might sent someone reading this down the wrong
+rabbit hole, which none of us wants.
+
+BTW, I have no personal interest in this issue, which is tracked using
+regzbot, my Linux kernel regression tracking bot
+(https://linux-regtracking.leemhuis.info/regzbot/). I'm only posting
+this mail to get things rolling again and hence don't need to be CC on
+all further activities wrt to this regression.
+
+#regzbot poke
+
+>>>> ---
+>>>>   drivers/gpu/drm/nouveau/nouveau_fence.c | 28 +++++++++++++------------
+>>>>   1 file changed, 15 insertions(+), 13 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c
+>>>> b/drivers/gpu/drm/nouveau/nouveau_fence.c
+>>>> index 05d0b3eb3690..0ae416aa76dc 100644
+>>>> --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
+>>>> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+>>>> @@ -353,15 +353,22 @@ nouveau_fence_sync(struct nouveau_bo *nvbo,
+>>>> struct nouveau_channel *chan, bool e
+>>>>             if (ret)
+>>>>               return ret;
+>>>> -    }
+>>>>   -    fobj = dma_resv_shared_list(resv);
+>>>> -    fence = dma_resv_excl_fence(resv);
+>>>> +        fobj = NULL;
+>>>> +    } else {
+>>>> +        fobj = dma_resv_shared_list(resv);
+>>>> +    }
+>>>>   -    if (fence) {
+>>>> +    /* Waiting for the exclusive fence first causes performance
+>>>> regressions
+>>>> +     * under some circumstances. So manually wait for the shared
+>>>> ones first.
+>>>> +     */
+>>>> +    for (i = 0; i < (fobj ? fobj->shared_count : 0) && !ret; ++i) {
+>>>>           struct nouveau_channel *prev = NULL;
+>>>>           bool must_wait = true;
+>>>>   +        fence = rcu_dereference_protected(fobj->shared[i],
+>>>> +                        dma_resv_held(resv));
+>>>> +
+>>>>           f = nouveau_local_fence(fence, chan->drm);
+>>>>           if (f) {
+>>>>               rcu_read_lock();
+>>>> @@ -373,20 +380,13 @@ nouveau_fence_sync(struct nouveau_bo *nvbo,
+>>>> struct nouveau_channel *chan, bool e
+>>>>             if (must_wait)
+>>>>               ret = dma_fence_wait(fence, intr);
+>>>> -
+>>>> -        return ret;
+>>>>       }
+>>>>   -    if (!exclusive || !fobj)
+>>>> -        return ret;
+>>>> -
+>>>> -    for (i = 0; i < fobj->shared_count && !ret; ++i) {
+>>>> +    fence = dma_resv_excl_fence(resv);
+>>>> +    if (fence) {
+>>>>           struct nouveau_channel *prev = NULL;
+>>>>           bool must_wait = true;
+>>>>   -        fence = rcu_dereference_protected(fobj->shared[i],
+>>>> -                        dma_resv_held(resv));
+>>>> -
+>>>>           f = nouveau_local_fence(fence, chan->drm);
+>>>>           if (f) {
+>>>>               rcu_read_lock();
+>>>> @@ -398,6 +398,8 @@ nouveau_fence_sync(struct nouveau_bo *nvbo,
+>>>> struct nouveau_channel *chan, bool e
+>>>>             if (must_wait)
+>>>>               ret = dma_fence_wait(fence, intr);
+>>>> +
+>>>> +        return ret;
+>>>>       }
+>>>>         return ret;
+>>
+
