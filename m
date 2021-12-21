@@ -1,126 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0A3F47C36B
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 17:03:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1C5847C382
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 17:08:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40D1D113CA1;
-	Tue, 21 Dec 2021 16:03:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DC821138AB;
+	Tue, 21 Dec 2021 16:08:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2084.outbound.protection.outlook.com [40.107.244.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 740DC113C93;
- Tue, 21 Dec 2021 16:03:23 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gNtSIML48f86mbT5TKi0LjkcfsmGyuQvmYcs7ubuBf5h1DRGSq++7RxZLC1fmcWIyrhw3DM3zDXens2pMm+uZKv75eqg9SRJZ3wscU5LTH04buLjMAFLIMMKxdCTpJZowqDEP87xd0jyuuNDP7YJ3UGF3eQ61xB/4dQeyZodN8gyXwSGLllqa1UI7Tqhc1O9zo3Q2VaIowTUzuBFsbWW6kMcLTIAV5hW1NJuIhB4ftX5xGmUAX2+y0A/38u0hzfvEbtKk/otKdvwKJZmc43AOBR2v2dUyS7ZO3Mu3XihUYRg+MUHQ6kAKSsE76peRKSnqIxBzJvqVJMf9LAqQXtskQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dEPWkghyRqJz6gOM+Z4lIEmMAP7TouFvwxvPMZDwzJ8=;
- b=LqxeG1K1NS1WpM+15jX8EG8Y5oEDgUV4j85R/GKyT8JpRvlp38vqb2IWZbUnqb6t98ynmEroeHM0hBFotvVTWOZjUmI/hFJLzrmWOxgZG056WtsFfMU6yPs+HYNYJ10FZieTxVnFrlT8KLQfygXhkjU/qDQ7FIAU/qU0IgSPkr5/q9SEOngQ+zwTUR8xUWBuiglrRXFbjwnxW61Ss5oiJLRLKNMq+rHoG8sX0dGTHr0fbmoUyIu55Bsp+Vf6Ukxxn5Kwf3druBNRUx4413Q10Yo+31gMyzc77W8m1QQ44rsmhssvH9pagl4v9JEh/TYA4RPBoj/w/U678OT/Q9Spng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dEPWkghyRqJz6gOM+Z4lIEmMAP7TouFvwxvPMZDwzJ8=;
- b=CLSgHglTg+W0y8dZagLx8wR+1PDB1kwyLaoN8zWHX8+C15xWSHvWP0GkX2rw877x6YaPXf2+D3NUpA3OE4W704mHDb7fUDw6my+xR3XLKDwJcXXPMldm0/EVk6mbJMPhRlG3E2zyhOeUSHmftUfBWki/lodA91ysoHbXJ030lcM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM5PR12MB1947.namprd12.prod.outlook.com (2603:10b6:3:111::23)
- by DM6PR12MB4561.namprd12.prod.outlook.com (2603:10b6:5:2ac::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.14; Tue, 21 Dec
- 2021 16:03:21 +0000
-Received: from DM5PR12MB1947.namprd12.prod.outlook.com
- ([fe80::5573:3d0a:9cfd:f13c]) by DM5PR12MB1947.namprd12.prod.outlook.com
- ([fe80::5573:3d0a:9cfd:f13c%7]) with mapi id 15.20.4801.022; Tue, 21 Dec 2021
- 16:03:21 +0000
-Subject: Re: [RFC 3/6] drm/amdgpu: Fix crash on modprobe
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-References: <20211217222745.881637-1-andrey.grodzovsky@amd.com>
- <20211217222745.881637-4-andrey.grodzovsky@amd.com>
- <bdbb195f-a9a7-2129-deaa-93e4e49cc8a2@gmail.com>
- <72fe2521-ef31-63d8-6bcf-67af5a74330e@amd.com>
- <48f45e4d-7219-5031-44bf-d1aec3a4bb61@gmail.com>
-From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Message-ID: <dce7b2d7-ac9c-047c-365b-38added395b8@amd.com>
-Date: Tue, 21 Dec 2021 11:03:18 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-In-Reply-To: <48f45e4d-7219-5031-44bf-d1aec3a4bb61@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: YT3PR01CA0137.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:83::11) To DM5PR12MB1947.namprd12.prod.outlook.com
- (2603:10b6:3:111::23)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 629771138AB;
+ Tue, 21 Dec 2021 16:08:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1640102881; x=1671638881;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=Eb77f0f+WUx55OONSOq12VMu9yi5Muh63pKJQGfDI0M=;
+ b=ZqBDXEeKBHyzj6JiO+fmdrdPDvaZKV0r7GDwhq4zaH+O3vT1631snvaY
+ J59t7Qc2vOgVvXNq+ph1pp7LDC5zESYA1QdXCo8bVX/spOQjkjmttKlCl
+ qCq13N+wnXydtDLjnosiY671JjeHR6W0yfxqWyh0x4QXDO/8JPhGk/ety
+ gUvAVXpSdbrpbvr3UcDh77bl4LRuykWaAvhvrFTIcyEKVQuJUN8T+2J+3
+ 81q9NYoARH/XJPM75tgmQDV2iGwLXj274QFyOi/o5lz19gxh+AtXmv99z
+ mMum/QjM7eoxSWU+7i0ktES6WFEgayMbphZydd5od6dRS3drb5oBZ7Z2U w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10205"; a="221096316"
+X-IronPort-AV: E=Sophos;i="5.88,223,1635231600"; d="scan'208";a="221096316"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Dec 2021 08:07:07 -0800
+X-IronPort-AV: E=Sophos;i="5.88,223,1635231600"; d="scan'208";a="755852039"
+Received: from arajji-mobl.ger.corp.intel.com (HELO [10.249.254.222])
+ ([10.249.254.222])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Dec 2021 08:07:05 -0800
+Message-ID: <6a8a85c1c60ccd865fbd5afe169649cbc6574449.camel@linux.intel.com>
+Subject: Re: [PATCH v3 6/7] drm/i915: Use vma resources for async unbinding
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Date: Tue, 21 Dec 2021 17:07:03 +0100
+In-Reply-To: <a617dbed-be44-4617-1bab-e3cc298450b6@intel.com>
+References: <20211217145228.10987-1-thomas.hellstrom@linux.intel.com>
+ <20211217145228.10987-7-thomas.hellstrom@linux.intel.com>
+ <a617dbed-be44-4617-1bab-e3cc298450b6@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-2.fc34) 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ddbc8f0b-6d03-4942-45d2-08d9c49b68cd
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4561:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR12MB45617D46FF8EA9C3C25A261AEA7C9@DM6PR12MB4561.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VXk4T/8llDYBdZbLOFHAVpgtq6fmAdmiVPcHuJ3jnRS01yZT641fd7JDhkCJoTi2F5C/csPLPLYKNMgRh0AFtzkKq18QvdYCJ+HYcrXGdpQP19sPjqDhVqIX3gMrb+zhP4EtWyTsquUBgsashfA7k9OEV//1BypjI0a+x2SUVFzA6GdYU2Qc0BhdC42HGbqug7YjX9n3NBTAgN86DwKsxq7WL/WMVcn4YWM3+vWWNIoqP2yDgFg1PVP05v5xaHTFIE/+jPcFJqjLkxIuJvUgdN5zN4A3VwGLRz77NBvAcFyldtEo4MOcESJLwNQu2eiJ8xKxtYHL4SpL3GrxKkotPJU9ABLcoiHYfzcpcLvrcCdEUKyG48aSW4hi7rBgPNfTCzbIBLVFkYyioukKUnnWHlXHe184I+Fqj/ngb0m1OVyfbWUvVFp+bD33totr3HKZ8JjRfsNsqAmZ/cfhtvF5PzXGqsESw6Ic7ARcE/WyhuJASBmhmJOulcyvX/a+EpFz/2y0wkaVylJH34fMWNj57vT+SoPH8ffbI3C0x0bLeg7Ur24Ol8MQi7o5xdhDP8ncEY5dW/JTK54YgNNo6q5alFf3g1HL2NyM2edfgqDgq63G92chvWX/oH4y+7fYatJoODutQLuSOzqJYnsTs9xO4ZPfGp5bZMAloNkfufUJkdPOw8iz+vVv74UkTwvSQT1L8oHie59hUdMZR6AJvQhYq2ij3SID0g0kirYk+x2A2Qo7pDRn+m2aUNKNPt3nQx0jtTjmX8BvjTZkcerlcle6Qpz7xX5ivlok0Dhi6H4CyZRsJChjkG4bSvr2K+5rxYej
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR12MB1947.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(6666004)(2906002)(31696002)(508600001)(4326008)(31686004)(44832011)(186003)(6506007)(38100700002)(36756003)(4001150100001)(6512007)(966005)(8936002)(316002)(66946007)(53546011)(6486002)(86362001)(2616005)(66556008)(66476007)(5660300002)(83380400001)(66574015)(8676002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WjFhQ01qMHB6cENVakxhVjZ4elA2Z1RoVXowU2xJR1FCNEl0NnBibTFoY2ZI?=
- =?utf-8?B?N3FzLzFZMGR5bDlTSmZScnRVVHVHdWlyUm1pSldyU3BlRDFqQi9IMlR0Umtt?=
- =?utf-8?B?MWtBT2lwY2oyd24vNEtyQW5XVHJramtPbmY2R1FqVmEwTzh0VkYvNmp3MWZp?=
- =?utf-8?B?dkJvNlRHZVlrNjdqOFJTY29JQXZuWmE0VmNjVytFL29BV2cvdllqSnZIb1RF?=
- =?utf-8?B?ODZUcDhTZzhDMWl1blMycmxPVGxkTjdJZVQ4Q0RBYkh5WkVCM3c5d01DRlkw?=
- =?utf-8?B?Vkp0WEwvTWhvaDZVcnlmMWJuODFFZUNPUUg1bE93MmY1bGlPMm42RVoya1JO?=
- =?utf-8?B?OHFKQkFtTWpWU09nQzZwYzlsa3BHc3l4ZWdHYUhYK1BONjA5YmNlajN6ZWZS?=
- =?utf-8?B?Njh2WlRtdXhoTjBXcWQ4NnBaK2hweDAzN3AyNmV5UXA0bmZSMk42ZDFEbXVn?=
- =?utf-8?B?VkpIL1pwU3lCMTNCbnNDbUJSRnpwYVBMcTdHYkU0b3ZlNVFOV1hoMmgwWkhx?=
- =?utf-8?B?M0NOK0dZUW4zUHBYOU1aanZwZXBwWkhmamRHOGdNeXhoWm9IMFFnSWl3enA3?=
- =?utf-8?B?dE1YWkxhaFdEMU0yT3hHWFpjM1IvSGQrMW00TWRpMXpGZ09FTncyQmFDakgx?=
- =?utf-8?B?ZmhSODlRblZyRlJaNGVKemFaTlJLaEtDdXhxSFY3azdYUmJOeVg5SXp6bWFG?=
- =?utf-8?B?TG1XTjEraVdmbW4rZzU0NGZUejhuZm1MeEF3Z0dQNndLSzMrU0hXTmorQjlt?=
- =?utf-8?B?c016UGVVazU0ZkxMTDI3aUpIT0J2YzFFQUVVRVZ2NDBSSTFpTXA0VVc5RTdm?=
- =?utf-8?B?UXgyMmxnbWx0Uk42bTlXOTBTU2ZxNnArVHByQWlBaWhRQnRXZVRrSmV3Mlhx?=
- =?utf-8?B?OE9NWXJMbW1KQ3MyQ3BVSWJiTXBIZ2NvRGFmb2k1UzBwMzVqeXdDM0MwckQ2?=
- =?utf-8?B?NUJlZ1RVUk9Ta28vNTJiTm5kVG02WnBraVRoa0QrbFR3c2RLMjdjNnNacHlr?=
- =?utf-8?B?UnhRdmF0RFVadFhnZEF6NnMxT2NWQ0JTWmRMdS9ZVWUwWTlPeGdRY3BuOHFw?=
- =?utf-8?B?cGJYY1NWRXo3S3BzakdDeGpLRVFUVWY0MFRVR2I0cTVFa3BnZUxUNmdicTdK?=
- =?utf-8?B?dmU5UkJZR2RSbUJ0QUVyMkwwWVZ0ZE1XZDdpbStyWS9RY3FJdTlvOUtlSmNK?=
- =?utf-8?B?YlZPYWR2TG85NjF2bUhDeXF0UzQwZkNaMXBNMmZwcms0cjlmeW9BT0RsOUZ2?=
- =?utf-8?B?QmtVNWFZYzlBWk9aWXAxc3pkYUEvaGMxZVVvcUFrNWNBeU5RSDUwQVNudjQ2?=
- =?utf-8?B?bWxiRTNQYVErNkVBT00zRTE2RWYvbFJuNldESjQzbHF6VElmOFg4eEF4cVhx?=
- =?utf-8?B?a084Y0QwaWcvNTFISVU1SWpOUjZxTFMzMkI3dXFxN2kwbmE0TDkxT2g4aWNK?=
- =?utf-8?B?ZTRvckNEc2M0a1dncHFqS21EWTFGNG1XSldwa1YvRmVaMVZnRkpkakY0RmZv?=
- =?utf-8?B?Z1BNQkJwcjF1QXduRE15bloyTk1WYXBVMThIbFJIOHgrRThtQnJWTEFwNlZO?=
- =?utf-8?B?a0FyT1dkd2V0S3IwUHlXYVczdFRNbDB2d2ZhdjVNK2l3NU92RlRLTzBkendP?=
- =?utf-8?B?bGdRRU85UnVtaDgyWTlkSHU5cEltSTJ0NE1lb0NLUDJQdmVqWUY2bVhjR2NB?=
- =?utf-8?B?WVBNWGlNWmRBMHVmUGMvdk1UNCtoVUNtMnAzUzh6aDN3dmYva2RDejV2WmZ1?=
- =?utf-8?B?OXppQUpBUzluVDlVVXRDQWRMTWxFQmV0b083ZEVVR2J3dENaWS9DU2tSTzdN?=
- =?utf-8?B?OWd6aGluRE1DU2ViZ0ljVm5EVXYzaDhiRE8zWjFxYkdQR2VWSEx1Y0swT0ky?=
- =?utf-8?B?bHlaZHJQcVRzdnA1YUdTNHZmQmJyVTdGWG1LVkhOT1lmOUlSYmVrT3VKWG4y?=
- =?utf-8?B?Ty9ad1Z3Ny9ld3phQ0NvdTE0ZGhEclg3V0VTNWl4eGFWS2ViRldqRmVick9u?=
- =?utf-8?B?NTJRbXVtNUtyYS9DTkdndU9YeTR5Ky9pWUwyUUhQam41MmkzOExPTGZTSlQ3?=
- =?utf-8?B?RjhIMC9tQ3FMOGlmeFF1c0F6WDV4cGZERU11QmRQUngxNmZBditqOVJIRW5Q?=
- =?utf-8?B?L1I3Wms1b0tIY0FZQlYrVUxSem9SUVVlekkvYkNkZHQ4aG5YZjRhTlA0U1JS?=
- =?utf-8?B?Zzk1RXNCdDQ5aVBRQ2JTa1E4NDhYelEycEh1czl1VGc4djg1L2hZbmx1TnM4?=
- =?utf-8?Q?2gGUADyXHNt+pU/OkOD0vrBEoh+CJ/MT3PCoi6+NTo=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ddbc8f0b-6d03-4942-45d2-08d9c49b68cd
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1947.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Dec 2021 16:03:21.0643 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rcNaMaMDUzdBrv2RdJddiRoY/bf65fVE+WtZFO3SbuMLAM8ZCBPIueYZkXCwFU+eZ0rtGZFDGAyoqRe6mizp+A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4561
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,85 +60,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: horace.chen@amd.com, christian.koenig@amd.com, Monk.Liu@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 2021-12-21 at 14:02 +0000, Matthew Auld wrote:
+> On 17/12/2021 14:52, Thomas Hellström wrote:
+> > Implement async (non-blocking) unbinding by not syncing the vma
+> > before
+> > calling unbind on the vma_resource.
+> > Add the resulting unbind fence to the object's dma_resv from where
+> > it is
+> > picked up by the ttm migration code.
+> > Ideally these unbind fences should be coalesced with the migration
+> > blit
+> > fence to avoid stalling the migration blit waiting for unbind, as
+> > they
+> > can certainly go on in parallel, but since we don't yet have a
+> > reasonable data structure to use to coalesce fences and attach the
+> > resulting fence to a timeline, we defer that for now.
+> > 
+> > Note that with async unbinding, even while the unbind waits for the
+> > preceding bind to complete before unbinding, the vma itself might
+> > have been
+> > destroyed in the process, clearing the vma pages. Therefore we can
+> > only allow async unbinding if we have a refcounted sg-list and keep
+> > a
+> > refcount on that for the vma resource pages to stay intact until
+> > binding occurs. If this condition is not met, a request for an
+> > async
+> > unbind is diverted to a sync unbind.
+> > 
+> > v2:
+> > - Use a separate kmem_cache for vma resources for now to isolate
+> > their
+> >    memory allocation and aid debugging.
+> > - Move the check for vm closed to the actual unbinding thread.
+> > Regardless
+> >    of whether the vm is closed, we need the unbind fence to
+> > properly wait
+> >    for capture.
+> > - Clear vma_res::vm on unbind and update its documentation.
+> > 
+> > Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> 
+> <snip>
+> 
+> > @@ -416,6 +420,7 @@ int i915_vma_bind(struct i915_vma *vma,
+> >   {
+> >         u32 bind_flags;
+> >         u32 vma_flags;
+> > +       int ret;
+> >   
+> >         lockdep_assert_held(&vma->vm->mutex);
+> >         GEM_BUG_ON(!drm_mm_node_allocated(&vma->node));
+> > @@ -424,12 +429,12 @@ int i915_vma_bind(struct i915_vma *vma,
+> >         if (GEM_DEBUG_WARN_ON(range_overflows(vma->node.start,
+> >                                               vma->node.size,
+> >                                               vma->vm->total))) {
+> > -               kfree(vma_res);
+> > +               i915_vma_resource_free(vma_res);
+> >                 return -ENODEV;
+> >         }
+> >   
+> >         if (GEM_DEBUG_WARN_ON(!flags)) {
+> > -               kfree(vma_res);
+> > +               i915_vma_resource_free(vma_res);
+> >                 return -EINVAL;
+> >         }
+> >   
+> > @@ -441,12 +446,30 @@ int i915_vma_bind(struct i915_vma *vma,
+> >   
+> >         bind_flags &= ~vma_flags;
+> >         if (bind_flags == 0) {
+> > -               kfree(vma_res);
+> > +               i915_vma_resource_free(vma_res);
+> >                 return 0;
+> >         }
+> >   
+> >         GEM_BUG_ON(!vma->pages);
+> >   
+> > +       /* Wait for or await async unbinds touching our range */
+> > +       if (work && bind_flags & vma->vm->bind_async_flags)
+> > +               ret = i915_vma_resource_bind_dep_await(vma->vm,
+> > +                                                      &work-
+> > >base.chain,
+> > +                                                      vma-
+> > >node.start,
+> > +                                                      vma-
+> > >node.size,
+> > +                                                      true,
+> > +                                                      GFP_NOWAIT |
+> > +                                                     
+> > __GFP_RETRY_MAYFAIL |
+> > +                                                     
+> > __GFP_NOWARN);
+> > +       else
+> > +               ret = i915_vma_resource_bind_dep_sync(vma->vm, vma-
+> > >node.start,
+> > +                                                     vma-
+> > >node.size, true);
+> 
+> Is there nothing scary here with coloring? Say with cache coloring,
+> to 
+> ensure we unbind the neighbouring nodes(if they are conflicting)
+> before 
+> doing the bind, or is async unbinding only ever going to be used for
+> the 
+> ppGTT?
+> 
+> And then I guess there might also be memory coloring where we likely 
+> need to ensure that all the unbinds within the overlapping PT(s) have
+> been completed before doing the bind, since the bind will also
+> increment 
+> the usage count of the PT, potentially preventing it from being 
+> destroyed, which will skip nuking the PDE state, AFAIK. Previously
+> the 
+> drm_mm node(s) would still be present, which would trigger the
+> eviction. 
+> Although it might be that we just end up aligning everything to 2M,
+> and 
+> so drop the memory coloring anyway, so maybe no need to worry about
+> this 
+> yet...
 
-On 2021-12-21 2:02 a.m., Christian König wrote:
->
->
-> Am 20.12.21 um 20:22 schrieb Andrey Grodzovsky:
->>
->> On 2021-12-20 2:17 a.m., Christian König wrote:
->>> Am 17.12.21 um 23:27 schrieb Andrey Grodzovsky:
->>>> Restrict jobs resubmission to suspend case
->>>> only since schedulers not initialised yet on
->>>> probe.
->>>>
->>>> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
->>>> ---
->>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 2 +-
->>>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c 
->>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
->>>> index 5527c68c51de..8ebd954e06c6 100644
->>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
->>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
->>>> @@ -582,7 +582,7 @@ void amdgpu_fence_driver_hw_init(struct 
->>>> amdgpu_device *adev)
->>>>           if (!ring || !ring->fence_drv.initialized)
->>>>               continue;
->>>>   -        if (!ring->no_scheduler) {
->>>> +        if (adev->in_suspend && !ring->no_scheduler) {
->>>
->>> Uff, why is that suddenly necessary? Because of the changed order?
->>>
->>> Christian.
->>
->>
->> Yes.
->
-> Mhm, that's quite bad design then.
+Hmm. This indeed sounds that there were some important considerations
+left out. I was under the impression that only previously scheduled
+unbinds touching the same range would have need to have finished.
+
+Currently there's only ppGTT async unbinding, but I figure moving
+forward we don't want to restrict it.
+
+I wonder whether instead of keeping an interval tree of pending unbinds
+we should keep just a single fence per VM of the last pending unbind,
+and move to the RB tree as a separate optimization step if needed. That
+would AFAICT keep the current semantics of all unbinds that were
+scheduled before the current bind are completed before the bind. Do you
+think that would be sufficient?
+
+Thanks,
+Thomas
 
 
-If you look at the original patch for this 
-https://www.spinics.net/lists/amd-gfx/msg67560.html you will
-see that that restarting scheduler here is only relevant for 
-suspend/resume case because there was
-a race to fix. There is no point in this code on driver init because 
-nothing was submitted to scheduler yet
-and so it seems to me ok to add condition that this code run only 
-in_suspend case.
 
 
->
-> How about we keep the order as is and allow specifying the reset work 
-> queue with drm_sched_start() ?
 
-
-As i mentioned above, the fact we even have drm_sched_start there is 
-just part of a solution to resolve a race
-during suspend/resume. It is not for device initialization and indeed, 
-other client drivers of gpu shcheduler never call
-drm_sched_start on device init. We must guarantee that reset work queue 
-already initialized before any job submission to scheduler
-and because of that IMHO the right place for this is drm_sched_init.
-
-Andrey
-
-
->
-> Christian.
->
->>
->> Andrey
->>
->>
->>>
->>>> drm_sched_resubmit_jobs(&ring->sched);
->>>>               drm_sched_start(&ring->sched, true);
->>>>           }
->>>
->
