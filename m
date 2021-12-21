@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A006E47B744
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 02:59:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B9E547B747
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 02:59:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC95310E3C6;
-	Tue, 21 Dec 2021 01:59:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9776B10E847;
+	Tue, 21 Dec 2021 01:59:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D72F10E3C6;
- Tue, 21 Dec 2021 01:59:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78EF410E5D6;
+ Tue, 21 Dec 2021 01:59:46 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 906D86136A;
- Tue, 21 Dec 2021 01:59:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58FC6C36AEB;
- Tue, 21 Dec 2021 01:59:36 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 56B146136D;
+ Tue, 21 Dec 2021 01:59:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4EEFC36AE5;
+ Tue, 21 Dec 2021 01:59:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1640051978;
- bh=lJMZ7yt2KlQZWAJLNT90cDxLGGtXv8IkwGq7Q0WsFa8=;
+ s=k20201202; t=1640051985;
+ bh=8qT5BMOuAsTv/r9SeohIMVlSese6gNNr83W2puXu/Tw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dlKwi7TCsiMybSkDMPp9EPiX7BJRanM8HIm+9wQE7YJaG2LXs6ZcuXhLjxbIXQJZ7
- GDGWfpP0D2RmTJPA3hUwkiNx8qTZ6IIS6QNrHEcRxQRAD8GNfv73+F+MptwuHy3rzk
- UthWD1FF0gifBbxnEUKN+VgvuK2HTovriBOCBnzAKxN8kDM6IEt5TtmAcudn6FnDIF
- RGGt2YN4jPCVeQEoqCnb9xsexH/yjcR8eoZ22MG5RpK7JoGUsJyybS/rRIMXUDMhjc
- IoSi6EUqPtYMhQEzStvVkRE8AHT8i/zTOBFF6fxcj5nTFRyzUMMsb+oJsat8dylQk4
- 3cHlfEGiQ5Zsg==
+ b=uo0SIqJKbzY++0wuWjx4bYcm0V20eZASraEZI4R2yyAbICuGz91XunUdKfDQ78V+J
+ A5UTkvrZB2KBBAUE5TjGxd9lPU0hpl6kvUfi73sW8Zl3aQPZ6Us1A8b30KcojeI25R
+ NDqUpinBFGlg2rB4Q/0VVh6L2iOaIb0mSJt7o7MVsnXKYs6tQKUWg6GdSJmkXhOvVB
+ UXL/CjuVDJhpeC2jpNqllTdqO8gfJFkjxXcR5BFK8s7p158WLaWhCAhjSO0POCToBe
+ Q4OolZi+dxGHmWWLEPBc9oPgZkOaDTsSS0TJkj1gtOuAoMzRENYb/H4LvEpoLSVyw8
+ EYbC8Qt3yzLNg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 13/19] drm/amd/display: Reset DMCUB before HW init
-Date: Mon, 20 Dec 2021 20:59:08 -0500
-Message-Id: <20211221015914.116767-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 14/19] drm/amdgpu: correct the wrong cached state
+ for GMC on PICASSO
+Date: Mon, 20 Dec 2021 20:59:09 -0500
+Message-Id: <20211221015914.116767-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20211221015914.116767-1-sashal@kernel.org>
 References: <20211221015914.116767-1-sashal@kernel.org>
@@ -54,55 +55,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, stylon.wang@amd.com, sunpeng.li@amd.com,
- qingqing.zhuo@amd.com, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com,
- Roman.Li@amd.com, amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
- airlied@linux.ie, Daniel Wheeler <daniel.wheeler@amd.com>,
- aurabindo.pillai@amd.com, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, nikola.cornij@amd.com,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Pavle Kotarac <Pavle.Kotarac@amd.com>
+Cc: alex.sierra@amd.com, airlied@linux.ie, lijo.lazar@amd.com,
+ dri-devel@lists.freedesktop.org, Mario Limonciello <mario.limonciello@amd.com>,
+ darren.powell@amd.com, jinhuieric.huang@amd.com, Likun.Gao@amd.com,
+ Sasha Levin <sashal@kernel.org>, Guchun Chen <guchun.chen@amd.com>,
+ Oak.Zeng@amd.com, amd-gfx@lists.freedesktop.org, Dennis.Li@amd.com,
+ kevin1.wang@amd.com, Evan Quan <evan.quan@amd.com>, john.clements@amd.com,
+ Xinhui.Pan@amd.com, rajneesh.bhardwaj@amd.com,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
+ Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+From: Evan Quan <evan.quan@amd.com>
 
-[ Upstream commit 791255ca9fbe38042cfd55df5deb116dc11fef18 ]
+[ Upstream commit 17c65d6fca844ee72a651944d8ce721e9040bf70 ]
 
-[Why]
-If the firmware wasn't reset by PSP or HW and is currently running
-then the firmware will hang or perform underfined behavior when we
-modify its firmware state underneath it.
+Pair the operations did in GMC ->hw_init and ->hw_fini. That
+can help to maintain correct cached state for GMC and avoid
+unintention gate operation dropping due to wrong cached state.
 
-[How]
-Reset DMCUB before setting up cache windows and performing HW init.
+BugLink: https://gitlab.freedesktop.org/drm/amd/-/issues/1828
 
-Reviewed-by: Aurabindo Jayamohanan Pillai <Aurabindo.Pillai@amd.com>
-Acked-by: Pavle Kotarac <Pavle.Kotarac@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Signed-off-by: Evan Quan <evan.quan@amd.com>
+Acked-by: Guchun Chen <guchun.chen@amd.com>
+Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c            | 8 ++++++++
+ drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c          | 8 ++++----
+ drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c | 7 ++++++-
+ 3 files changed, 18 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index a5b6f36fe1d72..060d31db0c347 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -794,6 +794,11 @@ static int dm_dmub_hw_init(struct amdgpu_device *adev)
+diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
+index 3a864041968f6..68501f7a3ad5a 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
+@@ -1685,6 +1685,14 @@ static int gmc_v9_0_hw_fini(void *handle)
  		return 0;
  	}
  
-+	/* Reset DMCUB if it was previously running - before we overwrite its memory. */
-+	status = dmub_srv_hw_reset(dmub_srv);
-+	if (status != DMUB_STATUS_OK)
-+		DRM_WARN("Error resetting DMUB HW: %d\n", status);
++	/*
++	 * Pair the operations did in gmc_v9_0_hw_init and thus maintain
++	 * a correct cached state for GMC. Otherwise, the "gate" again
++	 * operation on S3 resuming will fail due to wrong cached state.
++	 */
++	if (adev->mmhub.funcs->update_power_gating)
++		adev->mmhub.funcs->update_power_gating(adev, false);
 +
- 	hdr = (const struct dmcub_firmware_header_v1_0 *)dmub_fw->data;
+ 	amdgpu_irq_put(adev, &adev->gmc.ecc_irq, 0);
+ 	amdgpu_irq_put(adev, &adev->gmc.vm_fault, 0);
  
- 	fw_inst_const = dmub_fw->data +
+diff --git a/drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c b/drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c
+index f84701c562bf2..12669c95d03be 100644
+--- a/drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/mmhub_v1_0.c
+@@ -303,10 +303,10 @@ static void mmhub_v1_0_update_power_gating(struct amdgpu_device *adev,
+ 	if (amdgpu_sriov_vf(adev))
+ 		return;
+ 
+-	if (enable && adev->pg_flags & AMD_PG_SUPPORT_MMHUB) {
+-		amdgpu_dpm_set_powergating_by_smu(adev, AMD_IP_BLOCK_TYPE_GMC, true);
+-
+-	}
++	if (adev->pg_flags & AMD_PG_SUPPORT_MMHUB)
++		amdgpu_dpm_set_powergating_by_smu(adev,
++						  AMD_IP_BLOCK_TYPE_GMC,
++						  enable);
+ }
+ 
+ static int mmhub_v1_0_gart_enable(struct amdgpu_device *adev)
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c b/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
+index eab9768029c11..dc0dbd2fd49db 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
++++ b/drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c
+@@ -1317,7 +1317,12 @@ static int pp_set_powergating_by_smu(void *handle,
+ 		pp_dpm_powergate_vce(handle, gate);
+ 		break;
+ 	case AMD_IP_BLOCK_TYPE_GMC:
+-		pp_dpm_powergate_mmhub(handle);
++		/*
++		 * For now, this is only used on PICASSO.
++		 * And only "gate" operation is supported.
++		 */
++		if (gate)
++			pp_dpm_powergate_mmhub(handle);
+ 		break;
+ 	case AMD_IP_BLOCK_TYPE_GFX:
+ 		ret = pp_dpm_powergate_gfx(handle, gate);
 -- 
 2.34.1
 
