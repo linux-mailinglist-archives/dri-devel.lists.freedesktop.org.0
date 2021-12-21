@@ -1,51 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DEB647C488
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 18:01:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50DB847C4B3
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 18:08:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4FD110E15D;
-	Tue, 21 Dec 2021 17:01:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6683910E5F9;
+	Tue, 21 Dec 2021 17:08:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F103510E15D;
- Tue, 21 Dec 2021 17:01:53 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C8C710E3F1;
+ Tue, 21 Dec 2021 17:08:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1640106114; x=1671642114;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=SgONoiQY91QPJWTYhOEpCwWS0UGtJYbMk4Y6eyW+KwE=;
- b=kabW18kHZysmIWePYdQ47V6SAA5zHHucS2KWvAQaCw/SONM9Unr6pe3f
- 4ksuoytzFFG68tZfO2Objf+tmOJG/q9gSj9jv6cqz8obdmGJGVRKd400a
- 9pczp9Mwg2hr9qA3XFBRc65zh+rfkwThpvDA9zXUS9DK8BIi9e0J2AZjM
- g3sJz5H4sO9xoaw3yXsGS1ARh9NhNMG+Qkdv+2F3eSVlvviHWomtd0YMK
- 9BhcG7w8KgL10sizLmbTAepRPNZLOtczsmRm2j62w/u/jPwBFAGe58RHB
- NUqIgd2yT//ObVeiO2f4K8C0MPGGjIy09eggtV8ll43pi75NzfnhIHWLw g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10205"; a="227728993"
-X-IronPort-AV: E=Sophos;i="5.88,224,1635231600"; d="scan'208";a="227728993"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Dec 2021 09:01:53 -0800
-X-IronPort-AV: E=Sophos;i="5.88,224,1635231600"; d="scan'208";a="755875835"
-Received: from mdroper-desk1.fm.intel.com (HELO
- mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Dec 2021 09:01:52 -0800
-Date: Tue, 21 Dec 2021 09:01:51 -0800
-From: Matt Roper <matthew.d.roper@intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Subject: Re: [PATCH v9 2/6] drm/i915: Use to_gt() helper for GGTT accesses
-Message-ID: <YcIIf4wmvNdM09ZS@mdroper-desk1.amr.corp.intel.com>
-References: <20211219212500.61432-1-andi.shyti@linux.intel.com>
- <20211219212500.61432-3-andi.shyti@linux.intel.com>
+ t=1640106530; x=1671642530;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=10TuxW6n7o7YHItoJdiarsHeX2JsU/gkz+REv1fhzrI=;
+ b=RgbGeSMJQvt9CQ1+jvW871HZdS0fAkWG8Df0e6s8gxJLOLz6lOexPpPF
+ oePWaol7CAcEzPuFjvVbDXpN052Obs33mQnrTeAmsZ6Ybhra/J9/FdzeD
+ f/ZmzWaG+Snr/YyWMYAcpSKiqsSWa2Tmy0RbS6AIm6J1gv9GanBmJ2lTC
+ GTjVrK5+Ye55iR1xrMw50YgYFtfT9fqRUsIaS9RkgECinv9gWMMSIQo9V
+ XOFuiG0Dee2AaCPf36t9Gi4VglY9TLzRIzryUvKnYY8tSSVeHDPrVmV9D
+ I5fSiakqre7xPFqMdundjpGw7hg1gUOO34Wd8zTXaP+KnqsyhvbHYMtpg g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10205"; a="237973791"
+X-IronPort-AV: E=Sophos;i="5.88,224,1635231600"; d="scan'208";a="237973791"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Dec 2021 09:08:49 -0800
+X-IronPort-AV: E=Sophos;i="5.88,224,1635231600"; d="scan'208";a="607122356"
+Received: from pjordan-mobl.ger.corp.intel.com (HELO [10.252.23.37])
+ ([10.252.23.37])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Dec 2021 09:08:48 -0800
+Message-ID: <f0e5ec69-018f-9c23-f669-92b0e9546552@intel.com>
+Date: Tue, 21 Dec 2021 17:08:45 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v3 6/7] drm/i915: Use vma resources for async unbinding
+Content-Language: en-GB
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20211217145228.10987-1-thomas.hellstrom@linux.intel.com>
+ <20211217145228.10987-7-thomas.hellstrom@linux.intel.com>
+ <a617dbed-be44-4617-1bab-e3cc298450b6@intel.com>
+ <6a8a85c1c60ccd865fbd5afe169649cbc6574449.camel@linux.intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <6a8a85c1c60ccd865fbd5afe169649cbc6574449.camel@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211219212500.61432-3-andi.shyti@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,283 +63,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sujaritha Sundaresan <sujaritha.sundaresan@intel.com>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- DRI Devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>, Andi Shyti <andi@etezian.org>,
- =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Dec 19, 2021 at 11:24:56PM +0200, Andi Shyti wrote:
-> From: Michał Winiarski <michal.winiarski@intel.com>
+On 21/12/2021 16:07, Thomas Hellström wrote:
+> On Tue, 2021-12-21 at 14:02 +0000, Matthew Auld wrote:
+>> On 17/12/2021 14:52, Thomas Hellström wrote:
+>>> Implement async (non-blocking) unbinding by not syncing the vma
+>>> before
+>>> calling unbind on the vma_resource.
+>>> Add the resulting unbind fence to the object's dma_resv from where
+>>> it is
+>>> picked up by the ttm migration code.
+>>> Ideally these unbind fences should be coalesced with the migration
+>>> blit
+>>> fence to avoid stalling the migration blit waiting for unbind, as
+>>> they
+>>> can certainly go on in parallel, but since we don't yet have a
+>>> reasonable data structure to use to coalesce fences and attach the
+>>> resulting fence to a timeline, we defer that for now.
+>>>
+>>> Note that with async unbinding, even while the unbind waits for the
+>>> preceding bind to complete before unbinding, the vma itself might
+>>> have been
+>>> destroyed in the process, clearing the vma pages. Therefore we can
+>>> only allow async unbinding if we have a refcounted sg-list and keep
+>>> a
+>>> refcount on that for the vma resource pages to stay intact until
+>>> binding occurs. If this condition is not met, a request for an
+>>> async
+>>> unbind is diverted to a sync unbind.
+>>>
+>>> v2:
+>>> - Use a separate kmem_cache for vma resources for now to isolate
+>>> their
+>>>     memory allocation and aid debugging.
+>>> - Move the check for vm closed to the actual unbinding thread.
+>>> Regardless
+>>>     of whether the vm is closed, we need the unbind fence to
+>>> properly wait
+>>>     for capture.
+>>> - Clear vma_res::vm on unbind and update its documentation.
+>>>
+>>> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>>
+>> <snip>
+>>
+>>> @@ -416,6 +420,7 @@ int i915_vma_bind(struct i915_vma *vma,
+>>>    {
+>>>          u32 bind_flags;
+>>>          u32 vma_flags;
+>>> +       int ret;
+>>>    
+>>>          lockdep_assert_held(&vma->vm->mutex);
+>>>          GEM_BUG_ON(!drm_mm_node_allocated(&vma->node));
+>>> @@ -424,12 +429,12 @@ int i915_vma_bind(struct i915_vma *vma,
+>>>          if (GEM_DEBUG_WARN_ON(range_overflows(vma->node.start,
+>>>                                                vma->node.size,
+>>>                                                vma->vm->total))) {
+>>> -               kfree(vma_res);
+>>> +               i915_vma_resource_free(vma_res);
+>>>                  return -ENODEV;
+>>>          }
+>>>    
+>>>          if (GEM_DEBUG_WARN_ON(!flags)) {
+>>> -               kfree(vma_res);
+>>> +               i915_vma_resource_free(vma_res);
+>>>                  return -EINVAL;
+>>>          }
+>>>    
+>>> @@ -441,12 +446,30 @@ int i915_vma_bind(struct i915_vma *vma,
+>>>    
+>>>          bind_flags &= ~vma_flags;
+>>>          if (bind_flags == 0) {
+>>> -               kfree(vma_res);
+>>> +               i915_vma_resource_free(vma_res);
+>>>                  return 0;
+>>>          }
+>>>    
+>>>          GEM_BUG_ON(!vma->pages);
+>>>    
+>>> +       /* Wait for or await async unbinds touching our range */
+>>> +       if (work && bind_flags & vma->vm->bind_async_flags)
+>>> +               ret = i915_vma_resource_bind_dep_await(vma->vm,
+>>> +                                                      &work-
+>>>> base.chain,
+>>> +                                                      vma-
+>>>> node.start,
+>>> +                                                      vma-
+>>>> node.size,
+>>> +                                                      true,
+>>> +                                                      GFP_NOWAIT |
+>>> +
+>>> __GFP_RETRY_MAYFAIL |
+>>> +
+>>> __GFP_NOWARN);
+>>> +       else
+>>> +               ret = i915_vma_resource_bind_dep_sync(vma->vm, vma-
+>>>> node.start,
+>>> +                                                     vma-
+>>>> node.size, true);
+>>
+>> Is there nothing scary here with coloring? Say with cache coloring,
+>> to
+>> ensure we unbind the neighbouring nodes(if they are conflicting)
+>> before
+>> doing the bind, or is async unbinding only ever going to be used for
+>> the
+>> ppGTT?
+>>
+>> And then I guess there might also be memory coloring where we likely
+>> need to ensure that all the unbinds within the overlapping PT(s) have
+>> been completed before doing the bind, since the bind will also
+>> increment
+>> the usage count of the PT, potentially preventing it from being
+>> destroyed, which will skip nuking the PDE state, AFAIK. Previously
+>> the
+>> drm_mm node(s) would still be present, which would trigger the
+>> eviction.
+>> Although it might be that we just end up aligning everything to 2M,
+>> and
+>> so drop the memory coloring anyway, so maybe no need to worry about
+>> this
+>> yet...
 > 
-> GGTT is currently available both through i915->ggtt and gt->ggtt, and we
-> eventually want to get rid of the i915->ggtt one.
-> Use to_gt() for all i915->ggtt accesses to help with the future
-> refactoring.
+> Hmm. This indeed sounds that there were some important considerations
+> left out. I was under the impression that only previously scheduled
+> unbinds touching the same range would have need to have finished.
 > 
-> Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
-> Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> ---
->  drivers/gpu/drm/i915/gvt/dmabuf.c    |  2 +-
->  drivers/gpu/drm/i915/i915_debugfs.c  |  4 ++--
->  drivers/gpu/drm/i915/i915_driver.c   |  4 ++--
->  drivers/gpu/drm/i915/i915_drv.h      |  2 +-
->  drivers/gpu/drm/i915/i915_gem.c      | 23 ++++++++++++-----------
->  drivers/gpu/drm/i915/i915_gem_gtt.c  |  6 +++---
->  drivers/gpu/drm/i915/i915_getparam.c |  2 +-
->  drivers/gpu/drm/i915/i915_perf.c     |  4 ++--
->  8 files changed, 24 insertions(+), 23 deletions(-)
+> Currently there's only ppGTT async unbinding, but I figure moving
+> forward we don't want to restrict it.
 > 
-> diff --git a/drivers/gpu/drm/i915/gvt/dmabuf.c b/drivers/gpu/drm/i915/gvt/dmabuf.c
-> index 8e65cd8258b9..94c3eb1586b0 100644
-> --- a/drivers/gpu/drm/i915/gvt/dmabuf.c
-> +++ b/drivers/gpu/drm/i915/gvt/dmabuf.c
-> @@ -84,7 +84,7 @@ static int vgpu_gem_get_pages(
->  		kfree(st);
->  		return ret;
->  	}
-> -	gtt_entries = (gen8_pte_t __iomem *)dev_priv->ggtt.gsm +
-> +	gtt_entries = (gen8_pte_t __iomem *)to_gt(dev_priv)->ggtt->gsm +
->  		(fb_info->start >> PAGE_SHIFT);
->  	for_each_sg(st->sgl, sg, page_num, i) {
->  		dma_addr_t dma_addr =
-> diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
-> index e0e052cdf8b8..6966fe08df92 100644
-> --- a/drivers/gpu/drm/i915/i915_debugfs.c
-> +++ b/drivers/gpu/drm/i915/i915_debugfs.c
-> @@ -390,9 +390,9 @@ static int i915_swizzle_info(struct seq_file *m, void *data)
->  	intel_wakeref_t wakeref;
->  
->  	seq_printf(m, "bit6 swizzle for X-tiling = %s\n",
-> -		   swizzle_string(dev_priv->ggtt.bit_6_swizzle_x));
-> +		   swizzle_string(to_gt(dev_priv)->ggtt->bit_6_swizzle_x));
->  	seq_printf(m, "bit6 swizzle for Y-tiling = %s\n",
-> -		   swizzle_string(dev_priv->ggtt.bit_6_swizzle_y));
-> +		   swizzle_string(to_gt(dev_priv)->ggtt->bit_6_swizzle_y));
->  
->  	if (dev_priv->quirks & QUIRK_PIN_SWIZZLED_PAGES)
->  		seq_puts(m, "L-shaped memory detected\n");
-> diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-> index 60f8cbf24de7..3c984553d86f 100644
-> --- a/drivers/gpu/drm/i915/i915_driver.c
-> +++ b/drivers/gpu/drm/i915/i915_driver.c
-> @@ -1146,7 +1146,7 @@ static int i915_drm_suspend(struct drm_device *dev)
->  
->  	/* Must be called before GGTT is suspended. */
->  	intel_dpt_suspend(dev_priv);
-> -	i915_ggtt_suspend(&dev_priv->ggtt);
-> +	i915_ggtt_suspend(to_gt(dev_priv)->ggtt);
->  
->  	i915_save_display(dev_priv);
->  
-> @@ -1270,7 +1270,7 @@ static int i915_drm_resume(struct drm_device *dev)
->  	if (ret)
->  		drm_err(&dev_priv->drm, "failed to re-enable GGTT\n");
->  
-> -	i915_ggtt_resume(&dev_priv->ggtt);
-> +	i915_ggtt_resume(to_gt(dev_priv)->ggtt);
->  	/* Must be called after GGTT is resumed. */
->  	intel_dpt_resume(dev_priv);
->  
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index 471be2716abe..524025790fe0 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -1749,7 +1749,7 @@ static inline bool i915_gem_object_needs_bit17_swizzle(struct drm_i915_gem_objec
->  {
->  	struct drm_i915_private *i915 = to_i915(obj->base.dev);
->  
-> -	return i915->ggtt.bit_6_swizzle_x == I915_BIT_6_SWIZZLE_9_10_17 &&
-> +	return to_gt(i915)->ggtt->bit_6_swizzle_x == I915_BIT_6_SWIZZLE_9_10_17 &&
->  		i915_gem_object_is_tiled(obj);
->  }
->  
-> diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
-> index 8ba2119092f2..45e3b4c540a1 100644
-> --- a/drivers/gpu/drm/i915/i915_gem.c
-> +++ b/drivers/gpu/drm/i915/i915_gem.c
-> @@ -88,7 +88,8 @@ int
->  i915_gem_get_aperture_ioctl(struct drm_device *dev, void *data,
->  			    struct drm_file *file)
->  {
-> -	struct i915_ggtt *ggtt = &to_i915(dev)->ggtt;
-> +	struct drm_i915_private *i915 = to_i915(dev);
-> +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
->  	struct drm_i915_gem_get_aperture *args = data;
->  	struct i915_vma *vma;
->  	u64 pinned;
-> @@ -289,7 +290,7 @@ static struct i915_vma *i915_gem_gtt_prepare(struct drm_i915_gem_object *obj,
->  					     bool write)
->  {
->  	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-> -	struct i915_ggtt *ggtt = &i915->ggtt;
-> +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
->  	struct i915_vma *vma;
->  	struct i915_gem_ww_ctx ww;
->  	int ret;
-> @@ -350,7 +351,7 @@ static void i915_gem_gtt_cleanup(struct drm_i915_gem_object *obj,
->  				 struct i915_vma *vma)
->  {
->  	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-> -	struct i915_ggtt *ggtt = &i915->ggtt;
-> +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
->  
->  	i915_gem_object_unpin_pages(obj);
->  	if (drm_mm_node_allocated(node)) {
-> @@ -366,7 +367,7 @@ i915_gem_gtt_pread(struct drm_i915_gem_object *obj,
->  		   const struct drm_i915_gem_pread *args)
->  {
->  	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-> -	struct i915_ggtt *ggtt = &i915->ggtt;
-> +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
->  	intel_wakeref_t wakeref;
->  	struct drm_mm_node node;
->  	void __user *user_data;
-> @@ -522,7 +523,7 @@ i915_gem_gtt_pwrite_fast(struct drm_i915_gem_object *obj,
->  			 const struct drm_i915_gem_pwrite *args)
->  {
->  	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-> -	struct i915_ggtt *ggtt = &i915->ggtt;
-> +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
->  	struct intel_runtime_pm *rpm = &i915->runtime_pm;
->  	intel_wakeref_t wakeref;
->  	struct drm_mm_node node;
-> @@ -823,7 +824,7 @@ void i915_gem_runtime_suspend(struct drm_i915_private *i915)
->  	 */
->  
->  	list_for_each_entry_safe(obj, on,
-> -				 &i915->ggtt.userfault_list, userfault_link)
-> +				 &to_gt(i915)->ggtt->userfault_list, userfault_link)
->  		__i915_gem_object_release_mmap_gtt(obj);
->  
->  	/*
-> @@ -831,8 +832,8 @@ void i915_gem_runtime_suspend(struct drm_i915_private *i915)
->  	 * in use by hardware (i.e. they are pinned), we should not be powering
->  	 * down! All other fences will be reacquired by the user upon waking.
->  	 */
-> -	for (i = 0; i < i915->ggtt.num_fences; i++) {
-> -		struct i915_fence_reg *reg = &i915->ggtt.fence_regs[i];
-> +	for (i = 0; i < to_gt(i915)->ggtt->num_fences; i++) {
-> +		struct i915_fence_reg *reg = &to_gt(i915)->ggtt->fence_regs[i];
->  
->  		/*
->  		 * Ideally we want to assert that the fence register is not
-> @@ -873,7 +874,7 @@ i915_gem_object_ggtt_pin_ww(struct drm_i915_gem_object *obj,
->  			    u64 size, u64 alignment, u64 flags)
->  {
->  	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-> -	struct i915_ggtt *ggtt = &i915->ggtt;
-> +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
->  	struct i915_vma *vma;
->  	int ret;
->  
-> @@ -1101,7 +1102,7 @@ int i915_gem_init(struct drm_i915_private *dev_priv)
->  
->  		/* Minimal basic recovery for KMS */
->  		ret = i915_ggtt_enable_hw(dev_priv);
-> -		i915_ggtt_resume(&dev_priv->ggtt);
-> +		i915_ggtt_resume(to_gt(dev_priv)->ggtt);
->  		intel_init_clock_gating(dev_priv);
->  	}
->  
-> @@ -1124,7 +1125,7 @@ void i915_gem_driver_unregister(struct drm_i915_private *i915)
->  
->  void i915_gem_driver_remove(struct drm_i915_private *dev_priv)
->  {
-> -	intel_wakeref_auto_fini(&dev_priv->ggtt.userfault_wakeref);
-> +	intel_wakeref_auto_fini(&to_gt(dev_priv)->ggtt->userfault_wakeref);
->  
->  	i915_gem_suspend_late(dev_priv);
->  	intel_gt_driver_remove(to_gt(dev_priv));
-> diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.c b/drivers/gpu/drm/i915/i915_gem_gtt.c
-> index cd5f2348a187..2f2ba7a2955d 100644
-> --- a/drivers/gpu/drm/i915/i915_gem_gtt.c
-> +++ b/drivers/gpu/drm/i915/i915_gem_gtt.c
-> @@ -56,7 +56,7 @@ void i915_gem_gtt_finish_pages(struct drm_i915_gem_object *obj,
->  			       struct sg_table *pages)
->  {
->  	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-> -	struct i915_ggtt *ggtt = &i915->ggtt;
-> +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
->  
->  	/* XXX This does not prevent more requests being submitted! */
->  	if (unlikely(ggtt->do_idle_maps))
-> @@ -103,7 +103,7 @@ int i915_gem_gtt_reserve(struct i915_address_space *vm,
->  	GEM_BUG_ON(!IS_ALIGNED(size, I915_GTT_PAGE_SIZE));
->  	GEM_BUG_ON(!IS_ALIGNED(offset, I915_GTT_MIN_ALIGNMENT));
->  	GEM_BUG_ON(range_overflows(offset, size, vm->total));
-> -	GEM_BUG_ON(vm == &vm->i915->ggtt.alias->vm);
-> +	GEM_BUG_ON(vm == &to_gt(vm->i915)->ggtt->alias->vm);
->  	GEM_BUG_ON(drm_mm_node_allocated(node));
->  
->  	node->size = size;
-> @@ -201,7 +201,7 @@ int i915_gem_gtt_insert(struct i915_address_space *vm,
->  	GEM_BUG_ON(start >= end);
->  	GEM_BUG_ON(start > 0  && !IS_ALIGNED(start, I915_GTT_PAGE_SIZE));
->  	GEM_BUG_ON(end < U64_MAX && !IS_ALIGNED(end, I915_GTT_PAGE_SIZE));
-> -	GEM_BUG_ON(vm == &vm->i915->ggtt.alias->vm);
-> +	GEM_BUG_ON(vm == &to_gt(vm->i915)->ggtt->alias->vm);
->  	GEM_BUG_ON(drm_mm_node_allocated(node));
->  
->  	if (unlikely(range_overflows(start, size, end)))
-> diff --git a/drivers/gpu/drm/i915/i915_getparam.c b/drivers/gpu/drm/i915/i915_getparam.c
-> index 7f80ad247bc8..5b8a2157d797 100644
-> --- a/drivers/gpu/drm/i915/i915_getparam.c
-> +++ b/drivers/gpu/drm/i915/i915_getparam.c
-> @@ -31,7 +31,7 @@ int i915_getparam_ioctl(struct drm_device *dev, void *data,
->  		value = pdev->revision;
->  		break;
->  	case I915_PARAM_NUM_FENCES_AVAIL:
-> -		value = i915->ggtt.num_fences;
-> +		value = to_gt(i915)->ggtt->num_fences;
->  		break;
->  	case I915_PARAM_HAS_OVERLAY:
->  		value = !!i915->overlay;
-> diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
-> index 170bba913c30..128315aec517 100644
-> --- a/drivers/gpu/drm/i915/i915_perf.c
-> +++ b/drivers/gpu/drm/i915/i915_perf.c
-> @@ -1630,7 +1630,7 @@ static int alloc_noa_wait(struct i915_perf_stream *stream)
->  	struct drm_i915_gem_object *bo;
->  	struct i915_vma *vma;
->  	const u64 delay_ticks = 0xffffffffffffffff -
-> -		intel_gt_ns_to_clock_interval(stream->perf->i915->ggtt.vm.gt,
-> +		intel_gt_ns_to_clock_interval(to_gt(stream->perf->i915)->ggtt->vm.gt,
+> I wonder whether instead of keeping an interval tree of pending unbinds
+> we should keep just a single fence per VM of the last pending unbind,
+> and move to the RB tree as a separate optimization step if needed. That
+> would AFAICT keep the current semantics of all unbinds that were
+> scheduled before the current bind are completed before the bind. Do you
+> think that would be sufficient?
 
-I'm not too familiar with the perf code, but this looks a bit roundabout
-since we're ultimately trying to get to a GT...do we even need to go
-through the ggtt structure here or can we just pass
-"to_gt(stream->perf->i915)" as the first parameter?
+Single fence should work I think. Or alternatively keep the interval 
+tree and then add a 4K chunk at the beginning and end of the search 
+range, if the vm needs cache coloring. It's likely that memory coloring 
+will just get deleted, but if not, that would mean doing 
+round_up/round_down by 2M on the search range.
 
->  					      atomic64_read(&stream->perf->noa_programming_delay));
->  	const u32 base = stream->engine->mmio_base;
->  #define CS_GPR(x) GEN8_RING_CS_GPR(base, x)
-> @@ -3542,7 +3542,7 @@ i915_perf_open_ioctl_locked(struct i915_perf *perf,
->  
->  static u64 oa_exponent_to_ns(struct i915_perf *perf, int exponent)
->  {
-> -	return intel_gt_clock_interval_to_ns(perf->i915->ggtt.vm.gt,
-> +	return intel_gt_clock_interval_to_ns(to_gt(perf->i915)->ggtt->vm.gt,
-
-Ditto; this looks like "to_gt(perf->i915)" might be all we need?
-
-
-Matt
-
->  					     2ULL << exponent);
->  }
->  
-> -- 
-> 2.34.1
 > 
-
--- 
-Matt Roper
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
-Intel Corporation
-(916) 356-2795
+> Thanks,
+> Thomas
+> 
+> 
+> 
+> 
+> 
