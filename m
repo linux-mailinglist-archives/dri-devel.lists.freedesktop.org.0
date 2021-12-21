@@ -1,68 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D11447C40F
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 17:45:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD96447C41A
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 17:47:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F5D211B0B3;
-	Tue, 21 Dec 2021 16:45:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A00AC10F2E8;
+	Tue, 21 Dec 2021 16:47:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB52D11B0B5
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Dec 2021 16:45:33 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id k37so30718288lfv.3
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Dec 2021 08:45:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6BcxuSoP4KKIbKcDwoVqc9P1xJ4zWJFdyW7tJdDGuqM=;
- b=U35HBS5uUor1AtMLIHNRQOgZoU28Ks462TgyqbscU/EDyO4KNZLAmVlLrsxtLLkQrT
- akcaozUWLxCi1NlR0QVBfscek8EsIyPOUI3Jx3C6VTDDB7mnrxWXDcBA7gS4a9lm4Na5
- k+3Tb8cEZq/INP9tDlgerGTjw80jH3hThBV0BbhfqhNbYryp4vdShtUrfDwXct9zQ9+z
- rgYEdstQNBICzOt4KLf/4nmaFTGkMpkOZo/Sur5+QD5zrr3JdhS7/Z0P/1LeHdc1qsQM
- QUBz5RH2Z3MOxhp6vKBNQHKZqefyvo/VO1vskNLr1h7lnjvKqPaowsSbaDNs3vCy53gM
- daHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6BcxuSoP4KKIbKcDwoVqc9P1xJ4zWJFdyW7tJdDGuqM=;
- b=zyPEuihTqux6EoTK+jMNclRPVZV5TN+4ScjK15E0g1+Ftzyw12Y5lt/OGuxgYcoHKn
- G++h8RRLhv5nK64eoBlAYtj4tpTkLRyEdQwZ2c7mS3akwutqJ1GuZUjNBgi3iPdZ1V1u
- GIO1QuZFMmQnL1n8nbvszHiDIkoOnaTAFv8Gu+RXfZUCeSUuaztZr8Q0lvqEogIKOVhH
- sQEHxt5zN8cbUzabKAYNNZAYBHz4dGRwXFC9rbf2fYQPoRglPCN0GeMATTgHgaULo28b
- Lwzn0Xap0QHmej8q5fRnOHrD/GYXSt/tdIojDWf0SjjW++Hfh3YWi3KoBJOLgs+MDpjm
- uucA==
-X-Gm-Message-State: AOAM530xQ3jHNkBWDQznzohXwAlD3ZsCMHFPVT74NrxyMTA8jUJ1Hz/e
- 2UyiPPD0H8gWcRXt/bLs8ws=
-X-Google-Smtp-Source: ABdhPJxY//gm8ktKuhUgK3t9T0aUAQHZ6jPz+4q3MwYgjnL3RJW6PG3rDFKkA34L7WB55U4khI73mw==
-X-Received: by 2002:ac2:418c:: with SMTP id z12mr3833570lfh.90.1640105131915; 
- Tue, 21 Dec 2021 08:45:31 -0800 (PST)
-Received: from [192.168.2.145] (46-138-43-24.dynamic.spd-mgts.ru.
- [46.138.43.24])
- by smtp.googlemail.com with ESMTPSA id h24sm2677380ljg.106.2021.12.21.08.45.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Dec 2021 08:45:31 -0800 (PST)
-Subject: Re: [PATCH 0/2] drm/tegra: Fix panel support on Venice 2 and Nyan
-To: Thierry Reding <thierry.reding@gmail.com>
-References: <20211220104855.428290-1-thierry.reding@gmail.com>
- <dd7a2f23-00d6-9160-1e09-1d4ea5b1f5e1@gmail.com> <YcCg/xktJ2uShFRf@orome>
- <e27bd5e0-51d2-875b-aa41-f198230880ac@gmail.com> <YcGzO0A/iWzhFjvE@orome>
- <c2d2e5a1-7f44-a190-2ab1-84125fbe9f65@gmail.com> <YcH+Fw9sCzCIzFIx@orome>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <1bac3b32-ad9b-4d10-c7fb-6aafd353cdd4@gmail.com>
-Date: Tue, 21 Dec 2021 19:45:31 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15CFE10EE64;
+ Tue, 21 Dec 2021 16:47:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1640105274; x=1671641274;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=8EjpFkxFbJyAllDuMYfSQf1Z2oXWhaQE+O4Ln3rn49g=;
+ b=cKGcNuU3r5nvi/U1bjVRJoeGHQy/xTT0myCVOuCDFiCR66K0xlNtxk8n
+ OtPco7+MSe23f5xrVwAqioxecmxA7rD69aiTUcT/t3dk0T7aMNCTPiXD5
+ SDex6vQWQeKeZxuHWmGB7SnmV5tcgx11VNhsXzYbrKYB3EEPmrUZ5XdxJ
+ /nAK3C2WK6RZ7GDIytK8bd1lbyVsLpiXm9lS+Wc/v1K+CxMQ3bPeNM54k
+ tJKjcjLH4Tu0P6dNs2T1cvya9ALSoZXFJMIJfZLqaub0jfonCdGm+GQ4v
+ kmBBATa1MbFjilT4d2LmZaOqwEksC+PWKzohMqwEB+ib/fvUNZCeTJvZc w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10205"; a="240238050"
+X-IronPort-AV: E=Sophos;i="5.88,224,1635231600"; d="scan'208";a="240238050"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Dec 2021 08:47:52 -0800
+X-IronPort-AV: E=Sophos;i="5.88,224,1635231600"; d="scan'208";a="548155376"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Dec 2021 08:47:51 -0800
+Date: Tue, 21 Dec 2021 08:47:50 -0800
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+Subject: Re: [PATCH v9 1/6] drm/i915/gt: Use to_gt() helper for GGTT accesses
+Message-ID: <YcIEwK4jzyyCdsAi@mdroper-desk1.amr.corp.intel.com>
+References: <20211219212500.61432-1-andi.shyti@linux.intel.com>
+ <20211219212500.61432-2-andi.shyti@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <YcH+Fw9sCzCIzFIx@orome>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211219212500.61432-2-andi.shyti@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,52 +58,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Graichen <thomas.graichen@gmail.com>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Jon Hunter <jonathanh@nvidia.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-tegra@vger.kernel.org
+Cc: Sujaritha Sundaresan <sujaritha.sundaresan@intel.com>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ DRI Devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>, Andi Shyti <andi@etezian.org>,
+ =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-21.12.2021 19:17, Thierry Reding пишет:
-> On Tue, Dec 21, 2021 at 06:47:31PM +0300, Dmitry Osipenko wrote:
->> 21.12.2021 13:58, Thierry Reding пишет:
->> ..
->>>>>> The panel->ddc isn't used by the new panel-edp driver unless panel is
->>>>>> compatible with "edp-panel". Hence the generic_edp_panel_probe() should
->>>>>> either fail or crash for a such "edp-panel" since panel->ddc isn't fully
->>>>>> instantiated, AFAICS.
->>>>>
->>>>> I've tested this and it works fine on Venice 2. Since that was the
->>>>> reference design for Nyan, I suspect that Nyan's will also work.
->>>>>
->>>>> It'd be great if Thomas or anyone else with access to a Nyan could
->>>>> test this to verify that.
->>>>
->>>> There is no panel-edp driver in the v5.15. The EOL of v5.15 is Oct,
->>>> 2023, hence we need to either use:
->>>
->>> All the (at least relevant) functionality that is in panel-edp was in
->>> panel-simple before it was moved to panel-edp. I've backported this set
->>> of patches to v5.15 and it works just fine there.
->>
->> Will we be able to add patch to bypass the panel's DT ddc-i2c-bus on
->> Nyan to keep the older DTBs working?
+On Sun, Dec 19, 2021 at 11:24:55PM +0200, Andi Shyti wrote:
+> From: Michał Winiarski <michal.winiarski@intel.com>
 > 
-> I don't see why we would want to do that. It's quite clear that the DTB
-> is buggy in this case and we have a more accurate way to describe what's
-> really there in hardware. In addition that more accurate representation
-> also gets rid of a bug. Obviously because the bug is caused by the
-> previous representation that was not accurate.
+> GGTT is currently available both through i915->ggtt and gt->ggtt, and we
+> eventually want to get rid of the i915->ggtt one.
+> Use to_gt() for all i915->ggtt accesses to help with the future
+> refactoring.
 > 
-> Given that we can easily replace the DTBs on these devices there's no
-> reason to make this any more complicated than it has to be.
+> Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
+> Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> Reviewed-by: Sujaritha Sundaresan <sujaritha.sundaresan@intel.com>
+> Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_ggtt.c         | 14 +++++++-------
+>  drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c |  6 +++---
+>  drivers/gpu/drm/i915/gt/intel_region_lmem.c  |  4 ++--
+>  drivers/gpu/drm/i915/gt/selftest_reset.c     |  2 +-
+>  drivers/gpu/drm/i915/i915_driver.c           |  4 ++--
+>  5 files changed, 15 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> index 971e737b37b2..ec3b998392ff 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> @@ -89,7 +89,7 @@ int i915_ggtt_init_hw(struct drm_i915_private *i915)
+>  	 * beyond the end of the batch buffer, across the page boundary,
+>  	 * and beyond the end of the GTT if we do not provide a guard.
+>  	 */
+> -	ret = ggtt_init_hw(&i915->ggtt);
+> +	ret = ggtt_init_hw(to_gt(i915)->ggtt);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -725,14 +725,14 @@ int i915_init_ggtt(struct drm_i915_private *i915)
+>  {
+>  	int ret;
+>  
+> -	ret = init_ggtt(&i915->ggtt);
+> +	ret = init_ggtt(to_gt(i915)->ggtt);
+>  	if (ret)
+>  		return ret;
+>  
+>  	if (INTEL_PPGTT(i915) == INTEL_PPGTT_ALIASING) {
+> -		ret = init_aliasing_ppgtt(&i915->ggtt);
+> +		ret = init_aliasing_ppgtt(to_gt(i915)->ggtt);
+>  		if (ret)
+> -			cleanup_init_ggtt(&i915->ggtt);
+> +			cleanup_init_ggtt(to_gt(i915)->ggtt);
+>  	}
+>  
+>  	return 0;
+> @@ -775,7 +775,7 @@ static void ggtt_cleanup_hw(struct i915_ggtt *ggtt)
+>   */
+>  void i915_ggtt_driver_release(struct drm_i915_private *i915)
+>  {
+> -	struct i915_ggtt *ggtt = &i915->ggtt;
+> +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
+>  
+>  	fini_aliasing_ppgtt(ggtt);
+>  
+> @@ -790,7 +790,7 @@ void i915_ggtt_driver_release(struct drm_i915_private *i915)
+>   */
+>  void i915_ggtt_driver_late_release(struct drm_i915_private *i915)
+>  {
+> -	struct i915_ggtt *ggtt = &i915->ggtt;
+> +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
+>  
+>  	GEM_WARN_ON(kref_read(&ggtt->vm.resv_ref) != 1);
+>  	dma_resv_fini(&ggtt->vm._resv);
+> @@ -1232,7 +1232,7 @@ int i915_ggtt_probe_hw(struct drm_i915_private *i915)
+>  {
+>  	int ret;
+>  
+> -	ret = ggtt_probe_hw(&i915->ggtt, to_gt(i915));
+> +	ret = ggtt_probe_hw(to_gt(i915)->ggtt, to_gt(i915));
+>  	if (ret)
+>  		return ret;
+>  
+> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c b/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
+> index f8948de72036..beabf3bc9b75 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
+> @@ -728,8 +728,8 @@ static void detect_bit_6_swizzle(struct i915_ggtt *ggtt)
+>  		swizzle_y = I915_BIT_6_SWIZZLE_NONE;
+>  	}
+>  
+> -	i915->ggtt.bit_6_swizzle_x = swizzle_x;
+> -	i915->ggtt.bit_6_swizzle_y = swizzle_y;
+> +	to_gt(i915)->ggtt->bit_6_swizzle_x = swizzle_x;
+> +	to_gt(i915)->ggtt->bit_6_swizzle_y = swizzle_y;
+>  }
+>  
+>  /*
+> @@ -896,7 +896,7 @@ void intel_gt_init_swizzling(struct intel_gt *gt)
+>  	struct intel_uncore *uncore = gt->uncore;
+>  
+>  	if (GRAPHICS_VER(i915) < 5 ||
+> -	    i915->ggtt.bit_6_swizzle_x == I915_BIT_6_SWIZZLE_NONE)
+> +	    to_gt(i915)->ggtt->bit_6_swizzle_x == I915_BIT_6_SWIZZLE_NONE)
+>  		return;
+>  
+>  	intel_uncore_rmw(uncore, DISP_ARB_CTL, 0, DISP_TILE_SURFACE_SWIZZLING);
+> diff --git a/drivers/gpu/drm/i915/gt/intel_region_lmem.c b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
+> index fde2dcb59809..21215a080088 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_region_lmem.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
+> @@ -15,7 +15,7 @@
+>  static int init_fake_lmem_bar(struct intel_memory_region *mem)
+>  {
+>  	struct drm_i915_private *i915 = mem->i915;
+> -	struct i915_ggtt *ggtt = &i915->ggtt;
+> +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
+>  	unsigned long n;
+>  	int ret;
+>  
+> @@ -131,7 +131,7 @@ intel_gt_setup_fake_lmem(struct intel_gt *gt)
+>  	if (!i915->params.fake_lmem_start)
+>  		return ERR_PTR(-ENODEV);
+>  
+> -	GEM_BUG_ON(i915_ggtt_has_aperture(&i915->ggtt));
+> +	GEM_BUG_ON(i915_ggtt_has_aperture(to_gt(i915)->ggtt));
+>  
+>  	/* Your mappable aperture belongs to me now! */
+>  	mappable_end = pci_resource_len(pdev, 2);
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_reset.c b/drivers/gpu/drm/i915/gt/selftest_reset.c
+> index 8a873f6bda7f..37c38bdd5f47 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_reset.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_reset.c
+> @@ -19,7 +19,7 @@ __igt_reset_stolen(struct intel_gt *gt,
+>  		   intel_engine_mask_t mask,
+>  		   const char *msg)
+>  {
+> -	struct i915_ggtt *ggtt = &gt->i915->ggtt;
+> +	struct i915_ggtt *ggtt = gt->ggtt;
+>  	const struct resource *dsm = &gt->i915->dsm;
+>  	resource_size_t num_pages, page;
+>  	struct intel_engine_cs *engine;
+> diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
+> index 95174938b160..60f8cbf24de7 100644
+> --- a/drivers/gpu/drm/i915/i915_driver.c
+> +++ b/drivers/gpu/drm/i915/i915_driver.c
+> @@ -571,6 +571,8 @@ static int i915_driver_hw_probe(struct drm_i915_private *dev_priv)
+>  
+>  	i915_perf_init(dev_priv);
+>  
+> +	intel_gt_init_hw_early(to_gt(dev_priv), &dev_priv->ggtt);
+> +
 
-Don't you care about normal people at all? Do you assume that everyone
-must to be a kernel developer to be able to use Tegra devices? :/
+Now that this function call has moved to this patch, you'll probably
+want to mention/explain it in the commit message since it's different
+from the rest of the changes in this patch.
 
-It's not a problem for you to figure out why display is broken, for
-other people it's a problem. Usually nobody will update DTB without a
-well known reason, instead device will be dusted on a shelf. In the end
-you won't have any users at all.
+
+Matt
+
+
+>  	ret = i915_ggtt_probe_hw(dev_priv);
+>  	if (ret)
+>  		goto err_perf;
+> @@ -587,8 +589,6 @@ static int i915_driver_hw_probe(struct drm_i915_private *dev_priv)
+>  	if (ret)
+>  		goto err_ggtt;
+>  
+> -	intel_gt_init_hw_early(to_gt(dev_priv), &dev_priv->ggtt);
+> -
+>  	ret = intel_gt_probe_lmem(to_gt(dev_priv));
+>  	if (ret)
+>  		goto err_mem_regions;
+> -- 
+> 2.34.1
+> 
+
+-- 
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
+(916) 356-2795
