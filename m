@@ -1,63 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E78447BC97
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 10:10:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B5A447BCD9
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 10:28:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E839810F0EE;
-	Tue, 21 Dec 2021 09:09:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C9A510F41A;
+	Tue, 21 Dec 2021 09:28:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68F4410E2CC
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Dec 2021 00:42:49 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id g132so5143030wmg.2
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Dec 2021 16:42:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Puo2oNvsoRrnpQH+n5NLnmsOFgzm1Lgnbw19SNKWiaE=;
- b=Yba/NrOEC10S1hJBj0eFz30kKNmKLgaqv31/VG2P2JWZnd8YevofZq00lN4ZZYpVxm
- 424ZLUH3eISz79/DXuMlNABq2nJjRWi0U3qlqC0Ll0pdrG249cCdq1fldf+sfZLYJfp3
- SfvRJQ81dRqJWIgcol2ywuZPcNG/V9KSsxq/WzXgqiuvsreUmO/bqMDWn5dk++kSE2P8
- bhRTTaZlcSwDGERXwXT3Pu4x3FAUkCtiZMpRMLdZVbbgvH2n/Ig86m7v5im/IK6u90Dj
- HMMdvnjekcWiWtdcwBM/YA8aYQYu2jElTpI6eBO6nrBiXQBcGel+xWf40iMX5Y1Nw9zy
- lxDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Puo2oNvsoRrnpQH+n5NLnmsOFgzm1Lgnbw19SNKWiaE=;
- b=QG7LjSHJ1ortadvsRsuRSRfmWOQ7Teino5XUEx2/Bk+yYi62n1V35wWtexOtlaxghw
- N8owehVopQGJA5LGCAoTkbxMaWv+guUapTRcV6mlZ3RNZTSJW2vZ5qgaPDRqTNwGqHTs
- bC4OXneKZXGFvp47rOq65Suv2VfhUAa4t1ZcHFu1xA2BsO+DJ8zuArHW5XtyiW+GtVrj
- HuVmgHAjRUmFFT5cCqKPd105tkwGAilJ8zHVF2e53GCVLBSJ0QJOasR+wJtLX41H67DO
- +N7Oe9H9IRBCVHH6onKaZYBX4kc8USFIKCY0EpLcH6cJtih2cEEtZz4rVpeqwflgg2JH
- sq1A==
-X-Gm-Message-State: AOAM53304+iuSXlz0ngFeR8bEXLvTxf7RQSyxGR3ZRwYRMOpePxAwN1K
- L+Bzcw926U+FfZP4fNmZBB4ix+7qGydbhFVbVGid/g==
-X-Google-Smtp-Source: ABdhPJzjBBPLhk7+kN3XdBeElOx6r0VuLj7K389GxHsxIkT+d5ia1DNpdzu60cAWnGs3oVVdDE0kHw==
-X-Received: by 2002:a05:600c:2f01:: with SMTP id
- r1mr409570wmn.153.1640047367820; 
- Mon, 20 Dec 2021 16:42:47 -0800 (PST)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
- [80.193.200.194])
- by smtp.gmail.com with ESMTPSA id h2sm16176319wrz.23.2021.12.20.16.42.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Dec 2021 16:42:47 -0800 (PST)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org
-Subject: [PATCH] video: fbdev: mb862xx: remove redundant assignment to pointer
- ptr
-Date: Tue, 21 Dec 2021 00:42:46 +0000
-Message-Id: <20211221004246.213203-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.33.1
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24B1C10F41A;
+ Tue, 21 Dec 2021 09:28:14 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4FC9161335;
+ Tue, 21 Dec 2021 09:28:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 379BDC36AE2;
+ Tue, 21 Dec 2021 09:28:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1640078892;
+ bh=RZo6lge6X6obq2oOehXsW2SVPZlbm6/HXQ0bWrHOATs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=y7eaQL/+s66cWXwvBPdxqQZO1SayEAHzCJAg5oo0c4fkrE1LQpIN6MOlNbeREp/hb
+ a1qEEPazkXVmaMrn705X0V+/+01SmwN0Neidr1OtuqGMdlTM8GpvKNfvPyFB++tuLC
+ SzS9yHDaBPe3Go8IrzPzbCf9RJ9fQ9ZCvtAKUmwI=
+Date: Tue, 21 Dec 2021 10:28:10 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH v4 01/34] component: Introduce struct aggregate_device
+Message-ID: <YcGeKpy/oecKlKZg@kroah.com>
+References: <20211202222732.2453851-1-swboyd@chromium.org>
+ <20211202222732.2453851-2-swboyd@chromium.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 21 Dec 2021 09:09:51 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211202222732.2453851-2-swboyd@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,32 +50,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Saravana Kannan <saravanak@google.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Russell King <rmk+kernel@arm.linux.org.uk>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pointer ptr is being assigned a value that is never read. The
-pointer is being re-assigned later in a loop. The assignment is
-redundant and can be removed.
+On Thu, Dec 02, 2021 at 02:26:59PM -0800, Stephen Boyd wrote:
+> Replace 'struct master' with 'struct aggregate_device' and then rename
+> 'master' to 'adev' everywhere in the code. While we're here, put a
+> struct device inside the aggregate device so that we can register it
+> with a bus_type in the next patch.
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/video/fbdev/mb862xx/mb862xxfb_accel.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Do not do a "while we are here" type change please.  Do the
+rename/replace first, and then make the other change.
 
-diff --git a/drivers/video/fbdev/mb862xx/mb862xxfb_accel.c b/drivers/video/fbdev/mb862xx/mb862xxfb_accel.c
-index d40b806461ca..61aed7fc0b8d 100644
---- a/drivers/video/fbdev/mb862xx/mb862xxfb_accel.c
-+++ b/drivers/video/fbdev/mb862xx/mb862xxfb_accel.c
-@@ -132,7 +132,7 @@ static void mb86290fb_imageblit8(u32 *cmd, u16 step, u16 dx, u16 dy,
- 	cmd[2] = (height << 16) | width;
- 
- 	i = 0;
--	line = ptr = image->data;
-+	line = image->data;
- 	bytes = image->width;
- 
- 	while (i < height) {
--- 
-2.32.0
+> The diff is large but that's because this is mostly a rename, where
+> sometimes 'master' is replaced with 'adev' and other times it is
+> replaced with 'parent' to indicate that the struct device that was being
+> used is actually the parent of the aggregate device and driver.
 
+The diff is 15 lines, how is that "large"?
+
+thanks,
+
+greg k-h
