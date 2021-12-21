@@ -1,69 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5F0447C5A9
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 19:02:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5A6647C5EA
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 19:10:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDFB81120FF;
-	Tue, 21 Dec 2021 18:02:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD7BF10F75E;
+	Tue, 21 Dec 2021 18:10:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E34A810E710
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Dec 2021 18:02:01 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id e5so28539261wrc.5
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Dec 2021 10:02:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=bVlnofN+ktrt8Y6/bCYRLFzFPt0kEacJybGkkvbNXBI=;
- b=nuq30v3M+1Hu5AxARuulmNIlx/5zEV0AqXlj6gdDz1+L9TccZHkoVp9Ba0SIiyMWI3
- GmLgjc3/lrZYsetCIeSfUkhrOrUFUfBlmskwM5QC4seDWZA1fEqj67Ikv0eW9s7Y7ULB
- MBYUcyXbh2CTLW4Yeu8RXHCSk+Htxe4A7VoMKdnYV/hhb8WhvgiUg6512GOBJLrOldmG
- OBRPqWvf+lwXI7a/xQw2D4pUSyA1n/V61xV7gQL87kZFnwrB7oduy0gA6DXim8zS+hX6
- Nzpp1xo2PtRt1Dkq5wqDk0GUuSiPb8cfyRXfi2u+VtfLI5QskmXINpLl0zjDeC3GWA/3
- glmQ==
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
+ [IPv6:2607:f8b0:4864:20::102c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EE9F10F772
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Dec 2021 18:10:21 +0000 (UTC)
+Received: by mail-pj1-x102c.google.com with SMTP id
+ a11-20020a17090a854b00b001b11aae38d6so31217pjw.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Dec 2021 10:10:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=4FuABV3XoqwgxmPM2DVzmvHufVQQiVq0PwOIhRuBkJE=;
+ b=TCQ4oKSx2h35z3HXnqfYySrjNvdMuc/a9FIZIXm18lo9JdL3cV3xZb5ypxinwh0Y1R
+ M9b9pFFM78FvWj1v05ipFHfOvZNIlV9o6WWOsHUg9vDhuigbYTkXirFMHS0bxYoBtuPO
+ XRBeTOeKmXx4E4gDxUGkfuabR8qoJ7DZ90dLsb31Xi1RTncgx6YI2v6co0yjZkgFkT1G
+ RTSy2JBvPo4zm83lw/ez4HvGOHCeB17hDq8N3ZOKe74bfBhgxzIiuoL/9lTm1AHJpSMH
+ pHkYtC34d+qM0DDXrmO5dStKWVO1tKpVy605tBCgn0Xuq/QIe6Goa4Pbbqr1Uqzz6l29
+ waug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=bVlnofN+ktrt8Y6/bCYRLFzFPt0kEacJybGkkvbNXBI=;
- b=iRuMkdafPmnCTGvr6d6IIZGC5n7OWK9d01gCbaMwpVtxVZBFZTMjny0GqLyfFmLUvq
- EWpLyuCeAMMYmkZQs/RVU4YRhBjEyw7stSBZWSMf2hRK+FX9O6Pd1kiK2lnUdgunxtVL
- PcMLC5A+WY878M+52CYeOwQSCcsQcpJvSVEWhz5iTKjEbPLPdYV1KrRwZkv1d8rPjzOC
- CwiPFm0q264dRy9IEFV5v4V0IvVxGewiYw4v8cAhG8KmWuH+AjpsgJWmwDsCexD3DLti
- ga4kq1ESSBNv8oAieejpUz3JSZX54qwkfAPRcoanvOtLs+DXEq2b86XL3rRIM5VAtm3N
- nBeQ==
-X-Gm-Message-State: AOAM532pczPA0OuOgp4vvuMWGMAQk90fY5W9yPL+MGDl0dMLNQXMNGoI
- r9KCRJJqzlc2dJ+z2NBMrWc=
-X-Google-Smtp-Source: ABdhPJybX/rMHGXH7xPwlC+GhJNYmX0GbjgO4bYsrwuibgtExeLPGd6Gwu0K9HIUV6zDwJPjJf8wkw==
-X-Received: by 2002:a5d:51c4:: with SMTP id n4mr3709242wrv.284.1640109720362; 
- Tue, 21 Dec 2021 10:02:00 -0800 (PST)
-Received: from orome ([193.209.96.43])
- by smtp.gmail.com with ESMTPSA id p11sm8288592wru.99.2021.12.21.10.01.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Dec 2021 10:01:59 -0800 (PST)
-Date: Tue, 21 Dec 2021 19:01:56 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH 0/2] drm/tegra: Fix panel support on Venice 2 and Nyan
-Message-ID: <YcIWlOoER16wUyQ/@orome>
-References: <20211220104855.428290-1-thierry.reding@gmail.com>
- <dd7a2f23-00d6-9160-1e09-1d4ea5b1f5e1@gmail.com>
- <YcCg/xktJ2uShFRf@orome>
- <e27bd5e0-51d2-875b-aa41-f198230880ac@gmail.com>
- <YcGzO0A/iWzhFjvE@orome>
- <c2d2e5a1-7f44-a190-2ab1-84125fbe9f65@gmail.com>
- <YcH+Fw9sCzCIzFIx@orome>
- <1bac3b32-ad9b-4d10-c7fb-6aafd353cdd4@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=4FuABV3XoqwgxmPM2DVzmvHufVQQiVq0PwOIhRuBkJE=;
+ b=UxHtgluNrtCaAg8ByXnPwmCGt56U14SmuvbU7u0FDjVtc4p0GJbMdxQlfsLSeie3oO
+ UI+UGDylA9Hlk6+/LNvjnDjTPlpiTy7O2iCHjtohW8YuhAwi21i8gf8PoDbcIJZC1dsD
+ pwBg9L3eZe1+O6h7NbtdcQsp4XxX8YFRqMMFNRuYsGZbSwsddLMZv4KphECA1B7RyeGa
+ dwIRk1C6gKRYeh7eiUE/kT3AmRYNiDcG4cpB1lvrAQASRiVY5jGRyAbzZP6JvHhJUi3c
+ yRSm9N9UTJ99U6cTHpXmEF5cc4R/rssJTyahWtQ93XgQEQwtZc0hNzRSoSqzCNVv+/Sn
+ NXEQ==
+X-Gm-Message-State: AOAM532t5x/H5aH4wCj0Xd1Mx+xKqG1i4awk+1PCts0ne4+V/ihior8l
+ hO+0JOowE8ikMEfvZnPSeQCqOyD1HX1z2Q058gElxA==
+X-Google-Smtp-Source: ABdhPJyS4DlfdDaRd80TupBPC+uE1c6GlFCyekTNS0D5lSfHTXGWJT77wKdvjjaQkWF/w74WHVm6w0Nq/T5hEN505FQ=
+X-Received: by 2002:a17:90b:3e8c:: with SMTP id
+ rj12mr5331171pjb.152.1640110220761; 
+ Tue, 21 Dec 2021 10:10:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="fc/qAt5g5kU6Y6vn"
-Content-Disposition: inline
-In-Reply-To: <1bac3b32-ad9b-4d10-c7fb-6aafd353cdd4@gmail.com>
-User-Agent: Mutt/2.1.4 (93ef06ae) (2021-12-11)
+References: <20211002233447.1105-1-digetx@gmail.com>
+ <CAG3jFysa8G_fuGDfSLze-ovft3=gc5PXLaPtwTkC2_e0itQYNw@mail.gmail.com>
+ <c09bd552-767e-e783-3f9f-114b8cedb475@gmail.com>
+ <a999b141-4b14-cdd0-f6fa-3d861c0f381f@gmail.com>
+In-Reply-To: <a999b141-4b14-cdd0-f6fa-3d861c0f381f@gmail.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Tue, 21 Dec 2021 19:10:09 +0100
+Message-ID: <CAG3jFytG110MN=AjnY3mz4pHtLYaTTXVWr9z_1=qpCo8hJoM2g@mail.gmail.com>
+Subject: Re: [PATCH v1 0/5] Improvements for TC358768 DSI bridge driver
+To: Dmitry Osipenko <digetx@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,99 +68,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Graichen <thomas.graichen@gmail.com>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Jon Hunter <jonathanh@nvidia.com>,
+Cc: Andreas Westman Dorcsak <hedmoo@yahoo.com>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Maxim Schwalm <maxim.schwalm@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-tegra@vger.kernel.org
+ linux-tegra@vger.kernel.org,
+ =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hey Dmitry,
 
---fc/qAt5g5kU6Y6vn
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Dec 21, 2021 at 07:45:31PM +0300, Dmitry Osipenko wrote:
-> 21.12.2021 19:17, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > On Tue, Dec 21, 2021 at 06:47:31PM +0300, Dmitry Osipenko wrote:
-> >> 21.12.2021 13:58, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> >> ..
-> >>>>>> The panel->ddc isn't used by the new panel-edp driver unless panel=
- is
-> >>>>>> compatible with "edp-panel". Hence the generic_edp_panel_probe() s=
-hould
-> >>>>>> either fail or crash for a such "edp-panel" since panel->ddc isn't=
- fully
-> >>>>>> instantiated, AFAICS.
-> >>>>>
-> >>>>> I've tested this and it works fine on Venice 2. Since that was the
-> >>>>> reference design for Nyan, I suspect that Nyan's will also work.
-> >>>>>
-> >>>>> It'd be great if Thomas or anyone else with access to a Nyan could
-> >>>>> test this to verify that.
-> >>>>
-> >>>> There is no panel-edp driver in the v5.15. The EOL of v5.15 is Oct,
-> >>>> 2023, hence we need to either use:
-> >>>
-> >>> All the (at least relevant) functionality that is in panel-edp was in
-> >>> panel-simple before it was moved to panel-edp. I've backported this s=
-et
-> >>> of patches to v5.15 and it works just fine there.
+On Sun, 19 Dec 2021 at 17:02, Dmitry Osipenko <digetx@gmail.com> wrote:
+>
+> 19.10.2021 23:37, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > 19.10.2021 12:47, Robert Foss =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >> Applied to drm-misc-next
 > >>
-> >> Will we be able to add patch to bypass the panel's DT ddc-i2c-bus on
-> >> Nyan to keep the older DTBs working?
-> >=20
-> > I don't see why we would want to do that. It's quite clear that the DTB
-> > is buggy in this case and we have a more accurate way to describe what's
-> > really there in hardware. In addition that more accurate representation
-> > also gets rid of a bug. Obviously because the bug is caused by the
-> > previous representation that was not accurate.
-> >=20
-> > Given that we can easily replace the DTBs on these devices there's no
-> > reason to make this any more complicated than it has to be.
->=20
-> Don't you care about normal people at all? Do you assume that everyone
-> must to be a kernel developer to be able to use Tegra devices? :/
+> >> On Sun, 3 Oct 2021 at 01:35, Dmitry Osipenko <digetx@gmail.com> wrote:
+> >>>
+> >>> This series adds couple improvements to the TC358768 DSI bridge drive=
+r,
+> >>> enabling Panasonic VVX10F004B00 DSI panel support. This panel is used=
+ by
+> >>> ASUS Transformer TF700T tablet, which is ready for upstream kernel an=
+d
+> >>> display panel support is the biggest missing part.
+> >>>
+> >>> Dmitry Osipenko (5):
+> >>>   drm/bridge: tc358768: Enable reference clock
+> >>>   drm/bridge: tc358768: Support pulse mode
+> >>>   drm/bridge: tc358768: Calculate video start delay
+> >>>   drm/bridge: tc358768: Disable non-continuous clock mode
+> >>>   drm/bridge: tc358768: Correct BTACNTRL1 programming
+> >>>
+> >>>  drivers/gpu/drm/bridge/tc358768.c | 94 +++++++++++++++++++++++------=
+--
+> >>>  1 file changed, 71 insertions(+), 23 deletions(-)
+> >>>
+> >>> --
+> >>> 2.32.0
+> >>>
+> >
+> > Robert, thank you for taking care of these patches! Now nothing is
+> > holding us from upstreaming the device-tree of the Transformer tablet.
+> >
+>
+> Hello Robert,
+>
+> These patches spent 2 months in drm-misc-next, will they graduate into
+> v5.17 or something special needs to be done for that?
 
-If you know how to install a custom kernel you also know how to replace
-the DTB on these devices.
+They series has landed in linux-next, and will be in v5.17 if nothing
+catastrophic happens.
 
-For everyone else, once these patches are merged upstream and
-distributions start shipping the new version, they will get this
-automatically by updating their kernel package since most distributions
-actually ship the DTB files as part of that.
 
-> It's not a problem for you to figure out why display is broken, for
-> other people it's a problem. Usually nobody will update DTB without a
-> well known reason, instead device will be dusted on a shelf. In the end
-> you won't have any users at all.
-
-Most "normal" people aren't even going to notice that their DTB is going
-to be updated. They would actually have to do extra work *not* to update
-it.
-
-Thierry
-
---fc/qAt5g5kU6Y6vn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmHCFpIACgkQ3SOs138+
-s6GgZA//ffqqBvpvEsIUY4gSyuqDgw5+kWQPt52At4gfiIAkSriiqzGiF2AEcx+F
-XxUzk7uwAlvUcVfgfUrxFjDNwwsqqYbVT9o0MdM9L43k3KzKJ1nst1NG1+vIf53y
-2ULOntqqU1TEu82QNS7NNo8UnSKYxS1NPhfSiBrNW3x6OVD/Pxe+gJxMKHXoOKAt
-bjiPHkp4IvWypxo8y5hosoKoLcwiop+y2TUrVV+or482r2upSGyWCYA95fb9pVSZ
-R2lTis+4SjhF3sUuvdLJXmZ83HPFysJERAjv4/LUor1K2FYX5wYiQ6QKd8JzRCKe
-OqKJ3dz8nZgTNN6qjz+61Y+wJpwebypkX34m2/+/fffcRAXrCxAYTBAWGfU+1Kh0
-K6xaHmNYNYQ/q8NK+FVzoqlLyk47Mwp5W0rq44ulQLGwDsqzhrtdpRGlndrHM3bm
-yQ3VmTQSUV0CAslWYSVeGyQ4gu2pHEIl7bsQh+I3VJrgG6PcbvVWR2d8uFIzK1mR
-YE5oVuvF/bFQr7sZMdNKKK+VIjAfzlraw2MnWf+4queO38g1JWwhMFh/l2Hr3VUa
-YwL2LRfdN5XeJrkrolUyQ9jOKyBZSHl+3CVmhOVuYlDUl8v83MrF09UGgYzVOPsN
-JQWx2SjRGzWLU2H7O5WoPio+VrBfd3mEzh60e5XXImaW4EiZrVU=
-=Rlx8
------END PGP SIGNATURE-----
-
---fc/qAt5g5kU6Y6vn--
+Rob.
