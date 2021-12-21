@@ -1,60 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E538147C3B5
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 17:22:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D11447C40F
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 17:45:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA40F11ADE4;
-	Tue, 21 Dec 2021 16:22:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F5D211B0B3;
+	Tue, 21 Dec 2021 16:45:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay06.th.seeweb.it (relay06.th.seeweb.it [5.144.164.167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B71911ADE7
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Dec 2021 16:22:26 +0000 (UTC)
-Received: from SoMainline.org (94-209-165-62.cable.dynamic.v4.ziggo.nl
- [94.209.165.62])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id A98263F659;
- Tue, 21 Dec 2021 17:22:22 +0100 (CET)
-Date: Tue, 21 Dec 2021 17:22:21 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Stephen Boyd <sboyd@kernel.org>
-Subject: Re: [PATCH v3 0/2] Use "ref" clocks from firmware for DSI PLL VCO
- parent
-Message-ID: <20211221162221.jkbpi3oehcrpnz2s@SoMainline.org>
-Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>,
- Stephen Boyd <sboyd@kernel.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Andy Gross <agross@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Douglas Anderson <dianders@chromium.org>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Jonathan Marek <jonathan@marek.ca>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Martin Botka <martin.botka@somainline.org>,
- Matthias Kaehlcke <mka@chromium.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Rob Clark <robdclark@chromium.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
-References: <20210911131922.387964-1-marijn.suijten@somainline.org>
- <163165584152.763609.4056232270079096475@swboyd.mtv.corp.google.com>
- <20210918144038.6q352hzqopx7vvdu@SoMainline.org>
- <20211214194656.mayiy4xhcshjluwf@SoMainline.org>
- <69e44191-201f-8714-8a83-1a65a7026b54@linaro.org>
- <20211216004346.77383C36AE1@smtp.kernel.org>
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB52D11B0B5
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Dec 2021 16:45:33 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id k37so30718288lfv.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Dec 2021 08:45:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=6BcxuSoP4KKIbKcDwoVqc9P1xJ4zWJFdyW7tJdDGuqM=;
+ b=U35HBS5uUor1AtMLIHNRQOgZoU28Ks462TgyqbscU/EDyO4KNZLAmVlLrsxtLLkQrT
+ akcaozUWLxCi1NlR0QVBfscek8EsIyPOUI3Jx3C6VTDDB7mnrxWXDcBA7gS4a9lm4Na5
+ k+3Tb8cEZq/INP9tDlgerGTjw80jH3hThBV0BbhfqhNbYryp4vdShtUrfDwXct9zQ9+z
+ rgYEdstQNBICzOt4KLf/4nmaFTGkMpkOZo/Sur5+QD5zrr3JdhS7/Z0P/1LeHdc1qsQM
+ QUBz5RH2Z3MOxhp6vKBNQHKZqefyvo/VO1vskNLr1h7lnjvKqPaowsSbaDNs3vCy53gM
+ daHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6BcxuSoP4KKIbKcDwoVqc9P1xJ4zWJFdyW7tJdDGuqM=;
+ b=zyPEuihTqux6EoTK+jMNclRPVZV5TN+4ScjK15E0g1+Ftzyw12Y5lt/OGuxgYcoHKn
+ G++h8RRLhv5nK64eoBlAYtj4tpTkLRyEdQwZ2c7mS3akwutqJ1GuZUjNBgi3iPdZ1V1u
+ GIO1QuZFMmQnL1n8nbvszHiDIkoOnaTAFv8Gu+RXfZUCeSUuaztZr8Q0lvqEogIKOVhH
+ sQEHxt5zN8cbUzabKAYNNZAYBHz4dGRwXFC9rbf2fYQPoRglPCN0GeMATTgHgaULo28b
+ Lwzn0Xap0QHmej8q5fRnOHrD/GYXSt/tdIojDWf0SjjW++Hfh3YWi3KoBJOLgs+MDpjm
+ uucA==
+X-Gm-Message-State: AOAM530xQ3jHNkBWDQznzohXwAlD3ZsCMHFPVT74NrxyMTA8jUJ1Hz/e
+ 2UyiPPD0H8gWcRXt/bLs8ws=
+X-Google-Smtp-Source: ABdhPJxY//gm8ktKuhUgK3t9T0aUAQHZ6jPz+4q3MwYgjnL3RJW6PG3rDFKkA34L7WB55U4khI73mw==
+X-Received: by 2002:ac2:418c:: with SMTP id z12mr3833570lfh.90.1640105131915; 
+ Tue, 21 Dec 2021 08:45:31 -0800 (PST)
+Received: from [192.168.2.145] (46-138-43-24.dynamic.spd-mgts.ru.
+ [46.138.43.24])
+ by smtp.googlemail.com with ESMTPSA id h24sm2677380ljg.106.2021.12.21.08.45.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Dec 2021 08:45:31 -0800 (PST)
+Subject: Re: [PATCH 0/2] drm/tegra: Fix panel support on Venice 2 and Nyan
+To: Thierry Reding <thierry.reding@gmail.com>
+References: <20211220104855.428290-1-thierry.reding@gmail.com>
+ <dd7a2f23-00d6-9160-1e09-1d4ea5b1f5e1@gmail.com> <YcCg/xktJ2uShFRf@orome>
+ <e27bd5e0-51d2-875b-aa41-f198230880ac@gmail.com> <YcGzO0A/iWzhFjvE@orome>
+ <c2d2e5a1-7f44-a190-2ab1-84125fbe9f65@gmail.com> <YcH+Fw9sCzCIzFIx@orome>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <1bac3b32-ad9b-4d10-c7fb-6aafd353cdd4@gmail.com>
+Date: Tue, 21 Dec 2021 19:45:31 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211216004346.77383C36AE1@smtp.kernel.org>
+In-Reply-To: <YcH+Fw9sCzCIzFIx@orome>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,67 +75,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Michael Turquette <mturquette@baylibre.com>,
- Konrad Dybcio <konrad.dybcio@somainline.org>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- phone-devel@vger.kernel.org, linux-clk@vger.kernel.org,
- Rob Clark <robdclark@chromium.org>, Jonathan Marek <jonathan@marek.ca>,
- Andy Gross <agross@kernel.org>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Matthias Kaehlcke <mka@chromium.org>, linux-kernel@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: Thomas Graichen <thomas.graichen@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ Jon Hunter <jonathanh@nvidia.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-tegra@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-12-15 16:43:45, Stephen Boyd wrote:
-> Quoting Dmitry Baryshkov (2021-12-15 12:02:37)
-> > On 14/12/2021 22:46, Marijn Suijten wrote:
-> > > Hi all,
-> > > 
-> > > On 2021-09-18 16:40:38, Marijn Suijten wrote:
-> > >> On 2021-09-14 14:44:01, Stephen Boyd wrote:
-> > >>> Quoting Marijn Suijten (2021-09-11 06:19:19)
-> > >>>> All DSI PHY/PLL drivers were referencing their VCO parent clock by a
-> > >>>> global name, most of which don't exist or have been renamed.  These
-> > >>>> clock drivers seem to function fine without that except the 14nm driver
-> > >>>> for sdm6xx [1].
-> > >>>>
-> > >>>> At the same time all DTs provide a "ref" clock as per the requirements
-> > >>>> of dsi-phy-common.yaml, but the clock is never used.  This patchset puts
-> > >>>> that clock to use without relying on a global clock name, so that all
-> > >>>> dependencies are explicitly defined in DT (the firmware) in the end.
-> > >>>
-> > >>> I can take this through clk tree if it helps avoid conflicts. There are
-> > >>> some other patches to sdm660.c in the clk tree already.
-> > >>
-> > >> Might be useful to maintain proper ordering of these dependent patches
-> > >> but it's up to Dmitry and Rob to decide, whom I'm sending this mail
-> > >> directly to so that they can chime in.
-> > > 
-> > > Dependent patch [3] landed in 5.15 and [2] made it into 5.16 rc's - is
-> > > it time to pick this series up and if so through what tree?
-> > 
-> > I'd also second the idea of merging these two patches into 5.17.
-> > Most probably it'd be easier to merge both of them through the clk tree. 
-> > Or we can take the first patch into drm-msm (but then we'd have a 
-> > dependency between msm-next and clk-qcom-next).
-> > 
-> > Bjorn, Stephen?
-> > 
+21.12.2021 19:17, Thierry Reding пишет:
+> On Tue, Dec 21, 2021 at 06:47:31PM +0300, Dmitry Osipenko wrote:
+>> 21.12.2021 13:58, Thierry Reding пишет:
+>> ..
+>>>>>> The panel->ddc isn't used by the new panel-edp driver unless panel is
+>>>>>> compatible with "edp-panel". Hence the generic_edp_panel_probe() should
+>>>>>> either fail or crash for a such "edp-panel" since panel->ddc isn't fully
+>>>>>> instantiated, AFAICS.
+>>>>>
+>>>>> I've tested this and it works fine on Venice 2. Since that was the
+>>>>> reference design for Nyan, I suspect that Nyan's will also work.
+>>>>>
+>>>>> It'd be great if Thomas or anyone else with access to a Nyan could
+>>>>> test this to verify that.
+>>>>
+>>>> There is no panel-edp driver in the v5.15. The EOL of v5.15 is Oct,
+>>>> 2023, hence we need to either use:
+>>>
+>>> All the (at least relevant) functionality that is in panel-edp was in
+>>> panel-simple before it was moved to panel-edp. I've backported this set
+>>> of patches to v5.15 and it works just fine there.
+>>
+>> Will we be able to add patch to bypass the panel's DT ddc-i2c-bus on
+>> Nyan to keep the older DTBs working?
 > 
-> Sounds fine to take through clk tree.
+> I don't see why we would want to do that. It's quite clear that the DTB
+> is buggy in this case and we have a more accurate way to describe what's
+> really there in hardware. In addition that more accurate representation
+> also gets rid of a bug. Obviously because the bug is caused by the
+> previous representation that was not accurate.
+> 
+> Given that we can easily replace the DTBs on these devices there's no
+> reason to make this any more complicated than it has to be.
 
-Thanks Stephen, would be great to take this in through the clk tree for
-5.17.  I don't have anything to add that could possibly warrant a v3,
-only msm8996 remains with the "xo" clock but that needs more work in
-other drivers and is best dealt with separately.  Please take v2,
-assuming there are enough acks/reviews :)
+Don't you care about normal people at all? Do you assume that everyone
+must to be a kernel developer to be able to use Tegra devices? :/
 
-- Marijn
+It's not a problem for you to figure out why display is broken, for
+other people it's a problem. Usually nobody will update DTB without a
+well known reason, instead device will be dusted on a shelf. In the end
+you won't have any users at all.
