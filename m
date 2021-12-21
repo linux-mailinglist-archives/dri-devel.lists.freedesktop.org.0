@@ -1,55 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B0B047B673
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 01:29:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A95947B693
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Dec 2021 01:52:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6295C10E38A;
-	Tue, 21 Dec 2021 00:28:54 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com
- [IPv6:2607:f8b0:4864:20::f36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BFC110E41B
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Dec 2021 00:28:53 +0000 (UTC)
-Received: by mail-qv1-xf36.google.com with SMTP id kc16so10965077qvb.3
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Dec 2021 16:28:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HyMTClXKcOmtIsZExXjZqaWJL6q3mx1fJZYSYSwBgL0=;
- b=ZeNjH18h1W0khX97cOeS74ickSGmTFUNJoGkIfAtYtOCji5wS0uGZRkb5pgVwhazkC
- WJvBLdM3rMZSjQ92bmgdShE9LJagkNF2epAKOU3AxDgs0eokcmgfX5gsn2gqHP5L61NB
- F3GjvO9C0IYi6+c/28XKp1kOo5paipS6iVD1jMMhqyJIp4NlXJlyU0v4rOCHga/bbW7/
- fVSYoKmHQdM1EfKSwx31H5CgBE+gmab9mPaEMC6InBrS5/gHtB+JdLzW/UXsSdRnx+fQ
- dasyEgndUlz/xiCOfgWBC8TH1cGp4AEQsiQTphc2SBg8JX0LJiJxbwOO4R8VHICEMuwf
- H6Pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HyMTClXKcOmtIsZExXjZqaWJL6q3mx1fJZYSYSwBgL0=;
- b=2npr5YmZJqQ9qBHh0pYhdns21aAKTtEqE99sR/BR+WvfFgyrCInPuGOUaFYtHA1y5K
- TKYhaaC9StvA2nYa9uLsT7HCGly6V/TKymjXCSgr6QrOhPoCcQAFZtljFg58qcExOW13
- a/rlYGSD2yMo7vurVI//cu26cSdAXFZW7OrkcMS5OVGZBqUm1nRNIK3TBae1Tyrnb39o
- eDuKp+CQNTFSU7T9f9H8AACxSjsb/EdaghIbkalMgTcPBW2Dwn9JReOKH+5Oa2CdWQRZ
- Qf4ywD/6J8sWfYe8RYCdtPww105To8Ucp3jQXFjPj+EExi7SLHHdDP8a7zkGH8manAx5
- Sa2A==
-X-Gm-Message-State: AOAM530itqDEDLS6e+2tbm7iicjNlTgAdSCh1RWRfr8aPYCTCyLgvrzg
- lf/Q8/RiDOnqdv7F4dTYpXq83KLdOMTd7s+tPyUSHQ==
-X-Google-Smtp-Source: ABdhPJwd9DGlMNrAW6gI7tM4340jxQj9pjQVaDEX2Q4hWtzzx8HXNZ7pxFXsx6Wo1HozXJdq0KKkggPoNqN1xeVn2lo=
-X-Received: by 2002:a05:6214:260b:: with SMTP id
- gu11mr610476qvb.55.1640046532043; 
- Mon, 20 Dec 2021 16:28:52 -0800 (PST)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C73A10E1AD;
+	Tue, 21 Dec 2021 00:52:23 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B077C10E1AD;
+ Tue, 21 Dec 2021 00:52:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1640047942; x=1671583942;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=XCCGziIQ++WY6elBCGpBCKNv+fmkD46UEwfyq1dszhQ=;
+ b=BNM4OUvQZ6TzbzYOlX27VDuI1mh6+/BXUV9iyHlPeZruGtFIRr5eGWrf
+ JEWblPOXOCWYbI/nZb2qo9pnfeudXauwMiRRCJCBH9AdvsN0QZHOYzjiS
+ 9ZJhN6HvY2o5/ZFodEgiK/2s8om8n3uca8I61Js21gkJ0wAJE/0G6FzlW
+ gpkPF3C/SF+wYdX2ep6X8ODSXZt16XQbLkBqjrOaT/5Q+xleqgXlN3T37
+ f2DnxlRgbxp449aV/1tQG2FkrqnKuGsq5YapWIyBEBI7MztgIaLK/6WXq
+ epPYC/lrXtpVqzMdnv8j2UA+RZN8hN4qve17iqPIueXGoKWpbMJ4GMj5i g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10204"; a="264483623"
+X-IronPort-AV: E=Sophos;i="5.88,221,1635231600"; d="scan'208";a="264483623"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Dec 2021 16:52:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,221,1635231600"; d="scan'208";a="547739314"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
+ by orsmga001.jf.intel.com with ESMTP; 20 Dec 2021 16:52:21 -0800
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Subject: [PATCH 0/3] Update to GuC version 69.0.3
+Date: Mon, 20 Dec 2021 16:52:18 -0800
+Message-Id: <20211221005221.1090824-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20211217002643.2305526-1-bjorn.andersson@linaro.org>
-In-Reply-To: <20211217002643.2305526-1-bjorn.andersson@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 21 Dec 2021 03:28:41 +0300
-Message-ID: <CAA8EJprTe2sN_vTBXMsxbM6rzuDsUXTe9FjQUAjRcOgqWPxRQg@mail.gmail.com>
-Subject: Re: [PATCH v6] drm/msm/dp: Add sc8180x DP controllers
-To: Bjorn Andersson <bjorn.andersson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,29 +55,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Sean Paul <sean@poorly.run>
+Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 17 Dec 2021 at 03:25, Bjorn Andersson
-<bjorn.andersson@linaro.org> wrote:
->
-> The sc8180x has 2 DP and 1 eDP controllers, add support for these to the
-> DP driver.
->
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+From: John Harrison <John.C.Harrison@Intel.com>
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Update to the latest GuC version. This includes a suite of interface
+changes and new features with corresponding i915 side changes.
 
-> ---
->
-> Changes since v5:
-> - Dropped DPU hw catalog change from the patch
-> - Rebased the patch
->
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+
+
+
+John Harrison (3):
+  drm/i915/guc: Temporarily bump the GuC load timeout
+  drm/i915/guc: Update to GuC version 69.0.3
+  drm/i915/guc: Improve GuC loading status check/error reports
+
+ Documentation/gpu/i915.rst                    |   1 +
+ .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |  80 +++++-----
+ .../gpu/drm/i915/gt/uc/abi/guc_errors_abi.h   |  23 +++
+ drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h |  82 ++++++++++
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        | 126 +++++++++++++---
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   4 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  45 +++++-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     | 141 ++++++++++--------
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c     |  30 ++--
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |  37 ++++-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.c    |  31 ++--
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.h    |   3 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h    |   4 -
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  18 +++
+ drivers/gpu/drm/i915/gt/uc/intel_huc.c        |   1 +
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  31 ++--
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      |  30 ++--
+ 17 files changed, 493 insertions(+), 194 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
+
 -- 
-With best wishes
-Dmitry
+2.25.1
+
