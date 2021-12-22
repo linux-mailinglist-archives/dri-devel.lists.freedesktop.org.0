@@ -1,63 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC46E47D596
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 18:07:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D1ED47D600
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 18:49:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A62E210E124;
-	Wed, 22 Dec 2021 17:07:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A53D310E12B;
+	Wed, 22 Dec 2021 17:49:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DEFC10E124
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 17:07:06 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- g191-20020a1c9dc8000000b0032fbf912885so1861795wme.4
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 09:07:06 -0800 (PST)
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF44210E12B
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 17:44:00 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id u13so6940077lff.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 09:44:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=xf0dcGkvmURFRRNeHLTQphIAlqufMTucRtU3DVITyFY=;
- b=RCVUlNvIf2TY1hZQ2BN3r7OcxX0mQkrpHTo1Xj5KCDbfFss8/WsANNVOQaJoQt36XX
- vt5FB0/ZaNCw0oT9EzetO/35FMtQcEf0iHBiFnhdNM1a/yOT3znsrOk2ovuXhCP9MsLj
- kqNzaai7C3ovmFxJ8plk9KfgerLUXa0NB9urt6Qzjov8ecyJgbRdZ8Qa35Kj4LP5ErEr
- H/oQSA2M3Bd6sQ8wNvIQsBVj0KDgg+AeSbRm8eIwUBNC+YukWgez412JYmnKlMb6vVNh
- FlZJiXK+277nT2aHd8oMaqgamCw1rxwpTJiumj+k3xOI7VhCxKJZRn+rLQp7ysvI4zBm
- gkMg==
+ h=message-id:date:mime-version:user-agent:to:cc:from:subject
+ :content-transfer-encoding;
+ bh=hI44alCBMb6sS97Llt50LudbiqSbCyeG3dGh0ijfen0=;
+ b=Fi8N9py/rC0Xo3UM2gSETcw5MQw6N68kl4EAZfQGH/FQt8I9jZb+ruX4yejltNZNIu
+ L9UEhN501ZgKMtGXaKprl1V618hnjq8JVjejpQLtTvjPCaRBtVr64ZR4VfvStECGuPeP
+ cGdz9SZWQ15eRgItKRmqVx/lFD19UlUrV9mxrloWGoZCinyP9Qy78uei39ROlTsXYpHh
+ AKghDpZBDA7NzsDg7ro88VMLSoQ7goBLMLdrzlNM2OsA0XnGYeTwW6T4DZTfQi2U4bzH
+ gTQtIJuros5yUBDBN/bOFkrP5Bg1KgFCKPbnyvZs3LanDq2IF7gEK/MGirWBlg/J7nCn
+ EhPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=xf0dcGkvmURFRRNeHLTQphIAlqufMTucRtU3DVITyFY=;
- b=qoLJaxju1I9tpstXZdW2x7qeVqezD1zaTRIVDDU5D8bdEVICCrnc4oneFNdEIgYm4l
- rcKC3mTef1B46UYUz4VGdqQ8KVAJ+f0HZ0/JG6M8N5cAT0w31u6mrtApmeC2BPCujrab
- lLCUHaMhv/92YrQB6mb6LbtIIBc7nTbgxLvfXcqJIG32TSaHIx/IVM72B95UdVDv6kpg
- 3pjS6jU2DXfJUQvqw6uWzjTRnWBuU7NDn66/FoGbXyZ9pMHM10VJwWPJVI80M7c8T73n
- 21j7Q9qeH4NT4ev5Wg1S4bjwWcGgW4hFuwvqVeglERkgjXIGNiVVtmI/viFzjotoJwg4
- cfiA==
-X-Gm-Message-State: AOAM531XKqj3RdJVfSct32lGOOCHMC5Rqi1QIBiNaFvPQRXe/Y4htgSF
- gzsUSp9zHzXqAsgnImG0tSG73W+JjRg=
-X-Google-Smtp-Source: ABdhPJxHHsH7bFTy6QqNlKLW9op/sk+p9MsGhCZ8BoEj0/Y1+Hg7+OLndTV/9ExKMNaqsZgnSML3ww==
-X-Received: by 2002:a1c:5404:: with SMTP id i4mr1534466wmb.107.1640192825110; 
- Wed, 22 Dec 2021 09:07:05 -0800 (PST)
-Received: from archbook.localnet ([217.151.114.10])
- by smtp.gmail.com with ESMTPSA id y13sm2796186wrd.89.2021.12.22.09.07.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Dec 2021 09:07:04 -0800 (PST)
-From: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
-To: dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 22/22] drm: rockchip: Add VOP2 driver
-Date: Wed, 22 Dec 2021 18:07:02 +0100
-Message-ID: <26571551.24qHfsk75X@archbook>
-In-Reply-To: <1761858.GBYTvM79DV@archbook>
-References: <20211220110630.3521121-1-s.hauer@pengutronix.de>
- <20211220110630.3521121-23-s.hauer@pengutronix.de>
- <1761858.GBYTvM79DV@archbook>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:to:cc
+ :from:subject:content-transfer-encoding;
+ bh=hI44alCBMb6sS97Llt50LudbiqSbCyeG3dGh0ijfen0=;
+ b=KC7qx8KfBM2Dhm2PAMHgg6RaSPicsN9I5wvKxtaJAhfA488m5Z5vDdXeFOWERQkhWl
+ D1i4sNlg9JtGeEMzi+xCJmfrxeevdmFadQKOdMwhhF3AgyHYjLA67P7XkE4/gjRogyAi
+ u+ohuetitBVmaSdf1JJuzAdcJ2ZyiHV6q8JS34Vzi/R/3CWi/zZZSm0t76BCwkPWU4Qb
+ 3nYCdC2rEyfp6iB+aUxNUW2Kl0ShprruRTxgb224Sh3yOYQ3MKniWnPNr8VcC0gUG3Cy
+ lgywELb/pCpHeuAfNE2zVzyOibT1fuFm6GxPKICA3tpXz9URiIz4sj2QZrFg14QHtGCc
+ BlFQ==
+X-Gm-Message-State: AOAM531vKFjs5mr+INiv1Uu4sJaySu7E5SK6847ZcU+ZZe2TPmIPB4z+
+ 3z53reGSe3xEh4UUy/XIBtY=
+X-Google-Smtp-Source: ABdhPJyW9dM5lw3f7wmG+eynErvsrPNTPxLwa6U/fMu42qB6SmF1ruMSOp0ZA0ffOjUVhQSTAfn5fA==
+X-Received: by 2002:ac2:4e11:: with SMTP id e17mr3143634lfr.126.1640195039174; 
+ Wed, 22 Dec 2021 09:43:59 -0800 (PST)
+Received: from [192.168.26.149]
+ (ip-194-187-74-233.konfederacka.maverick.com.pl. [194.187.74.233])
+ by smtp.googlemail.com with ESMTPSA id d5sm273568lfv.83.2021.12.22.09.43.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Dec 2021 09:43:58 -0800 (PST)
+Message-ID: <35c7df78-6e8a-b996-3df8-2c405bfcff81@gmail.com>
+Date: Wed, 22 Dec 2021 18:43:57 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:96.0) Gecko/20100101
+ Thunderbird/96.0
+To: Marek Vasut <marex@denx.de>, David Airlie <airlied@linux.ie>
+From: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Subject: make dt_binding_check broken by drm & lvds-codec
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Wed, 22 Dec 2021 17:49:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,75 +69,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Sandy Huang <hjc@rock-chips.com>,
- Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
- linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Dienstag, 21. Dezember 2021 14:44:39 CET Nicolas Frattaroli wrote:
-> On Montag, 20. Dezember 2021 12:06:30 CET Sascha Hauer wrote:
-> > From: Andy Yan <andy.yan@rock-chips.com>
-> >
-> > The VOP2 unit is found on Rockchip SoCs beginning with rk3566/rk3568.
-> > It replaces the VOP unit found in the older Rockchip SoCs.
-> >
-> > This driver has been derived from the downstream Rockchip Kernel and
-> > heavily modified:
-> >
-> > - All nonstandard DRM properties have been removed
-> > - dropped struct vop2_plane_state and pass around less data between
-> >   functions
-> > - Dropped all DRM_FORMAT_* not known on upstream
-> > - rework register access to get rid of excessively used macros
-> > - Drop all waiting for framesyncs
-> >
-> > The driver is tested with HDMI and MIPI-DSI display on a RK3568-EVB
-> > board. Overlay support is tested with the modetest utility. AFBC support
-> > on the cluster windows is tested with weston-simple-dmabuf-egl on
-> > weston using the (yet to be upstreamed) panfrost driver support.
-> >
-> > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> > ---
->
-> Hi Sascha,
->
-> quick partial review of the code in-line.
->
-> For reference, I debugged locking issues with the kernel lock
-> debug config options and assert_spin_locked in the reg write
-> functions, as well as some manual deduction.
->
+Hi,
 
-As a small follow-up, I've completely mapped out the calls to
-vop2_writel, vop2_readl, vop2_vp_write and vop2_win_write and
-coloured in whether they were called with the lock held or not.
+I just noticed that "make dt_binding_check" doesn't work in linux-next:
 
-The conclusion is startling: Most of the code absolutely does
-not care about the reg_lock.
+   SCHEMA  Documentation/devicetree/bindings/processed-schema-examples.json
+Traceback (most recent call last):
+   File "/home/rmilecki/.local/bin/dt-mk-schema", line 38, in <module>
+     schemas = dtschema.process_schemas(args.schemas, core_schema=(not args.useronly))
+   File "/home/rmilecki/.local/lib/python3.6/site-packages/dtschema/lib.py", line 587, in process_schemas
+     sch = process_schema(os.path.abspath(filename))
+   File "/home/rmilecki/.local/lib/python3.6/site-packages/dtschema/lib.py", line 561, in process_schema
+     schema = load_schema(filename)
+   File "/home/rmilecki/.local/lib/python3.6/site-packages/dtschema/lib.py", line 126, in load_schema
+     return do_load(os.path.join(schema_basedir, schema))
+   File "/home/rmilecki/.local/lib/python3.6/site-packages/dtschema/lib.py", line 112, in do_load
+     return yaml.load(tmp)
+   File "/usr/lib/python3.6/site-packages/ruamel/yaml/main.py", line 343, in load
+     return constructor.get_single_data()
+   File "/usr/lib/python3.6/site-packages/ruamel/yaml/constructor.py", line 113, in get_single_data
+     return self.construct_document(node)
+   File "/usr/lib/python3.6/site-packages/ruamel/yaml/constructor.py", line 123, in construct_document
+     for _dummy in generator:
+   File "/usr/lib/python3.6/site-packages/ruamel/yaml/constructor.py", line 723, in construct_yaml_map
+     value = self.construct_mapping(node)
+   File "/usr/lib/python3.6/site-packages/ruamel/yaml/constructor.py", line 440, in construct_mapping
+     return BaseConstructor.construct_mapping(self, node, deep=deep)
+   File "/usr/lib/python3.6/site-packages/ruamel/yaml/constructor.py", line 257, in construct_mapping
+     if self.check_mapping_key(node, key_node, mapping, key, value):
+   File "/usr/lib/python3.6/site-packages/ruamel/yaml/constructor.py", line 295, in check_mapping_key
+     raise DuplicateKeyError(*args)
+ruamel.yaml.constructor.DuplicateKeyError: while constructing a mapping
+   in "<unicode string>", line 4, column 1
+found duplicate key "if" with value "{}" (original value: "{}")
+   in "<unicode string>", line 113, column 1
 
-Here's the graph as an SVG: https://overviewer.org/~pillow/up/6800427ef3/vop2_callgraph_modified.svg
+It's caused by two commits:
+ba3e86789eaf ("dt-bindings: display: bridge: lvds-codec: Document LVDS data mapping select")
+d7df3948eb49 ("dt-bindings: display: bridge: lvds-codec: Document pixel data sampling edge select")
 
-vop2_isr here needs to be paid special attention, as it also
-acquires a different spinlock, and we want to avoid deadlocks.
+Both commits add "if" and "then" at YAML "root" level.
 
-Perhaps we should precisely define which lock must be held for
-what registers, such that the vop2_isr can write its interrupt
-related registers without acquiring the "big" reg_lock.
-
-I'm also not entirely sure whether I should assume vop2_readl
-needs to be called with the lock held. This needs some
-investigating both in terms of whether the hardware presents
-a writel as an atomic write of a long, and whether the code
-assumes the state between readl calls is ever a consistent view.
-
-Regards,
-Nicolas Frattaroli
-
-
-
+Can you take a look at that, please?
