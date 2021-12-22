@@ -1,56 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2A8847CFDB
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 11:21:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC28147D03F
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 11:47:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86CBD10E144;
-	Wed, 22 Dec 2021 10:21:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC5E210E1F0;
+	Wed, 22 Dec 2021 10:47:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFB6710E144
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 10:21:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640168502;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=J3yvO4cXgbZxOlydhSiK2v9Tckc8inZjlFWlSIoyww0=;
- b=dO89bPlANqMfBQVxGfC60nJJz4tJDjCSeAp7gKopGDlB9FwWkBRDnTrO1BD6Ia8uQHrin8
- GnFvF0foR0DMcUrmbsWK/0UcL22AQoOhevLo6EitGg1yZCtfqm/UhCu2lzRU89wwKLTEoJ
- AVs4bfH5Ulh0W8C6kL5kogzNfDHQLyw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-86-3KUcni5SOvazGs4afVTvLw-1; Wed, 22 Dec 2021 05:21:39 -0500
-X-MC-Unique: 3KUcni5SOvazGs4afVTvLw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0364A100C612;
- Wed, 22 Dec 2021 10:21:38 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.193.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F7C94E2CD;
- Wed, 22 Dec 2021 10:21:37 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 968651800616; Wed, 22 Dec 2021 11:21:35 +0100 (CET)
-Date: Wed, 22 Dec 2021 11:21:35 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v3 03/10] drm/bochs: Replace module-init boiler-plate
- code with DRM helpers
-Message-ID: <20211222102135.fhtfkinp2u6yjwx3@sirius.home.kraxel.org>
-References: <20211222082831.196562-1-javierm@redhat.com>
- <20211222082831.196562-4-javierm@redhat.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC22110E1F0
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 10:47:40 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1mzz9n-0007EB-75; Wed, 22 Dec 2021 11:47:39 +0100
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1mzz9k-0006mi-OM; Wed, 22 Dec 2021 11:47:36 +0100
+Date: Wed, 22 Dec 2021 11:47:36 +0100
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 08/22] dt-bindings: display: rockchip: dw-hdmi: use "ref"
+ as clock name
+Message-ID: <20211222104736.GZ6003@pengutronix.de>
+References: <20211220110630.3521121-1-s.hauer@pengutronix.de>
+ <20211220110630.3521121-9-s.hauer@pengutronix.de>
+ <YcHlO/m/tGEEMnX9@robh.at.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211222082831.196562-4-javierm@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <YcHlO/m/tGEEMnX9@robh.at.kernel.org>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 11:46:19 up 11 days, 19:31, 44 users,  load average: 1.31, 1.17, 1.11
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,21 +58,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 22, 2021 at 09:28:24AM +0100, Javier Martinez Canillas wrote:
-> -static int __init bochs_init(void)
-> -{
-> -	if (drm_firmware_drivers_only() && bochs_modeset == -1)
-> -		return -EINVAL;
+On Tue, Dec 21, 2021 at 10:31:23AM -0400, Rob Herring wrote:
+> On Mon, Dec 20, 2021 at 12:06:16PM +0100, Sascha Hauer wrote:
+> > "vpll" is a misnomer. A clock input to a device should be named after
+> > the usage in the device, not after the clock that drives it. On the
+> > rk3568 the same clock is driven by the HPLL.
+> > To fix that, this patch renames the vpll clock to ref clock.
+> 
+> The problem with this series is it breaks an old kernel with new dt. You 
+> can partially mitigate that with stable kernel backport, but IMO keeping 
+> the old name is not a burden to maintain.
 
-Also cleanup bochs_modeset?  I guess its not used any more after this
-patch ...
+As suggested I only removed vpll from the binding document, but not from
+the code. The code still handles the old binding as well.
 
-take care,
-  Gerd
+Sascha
 
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
