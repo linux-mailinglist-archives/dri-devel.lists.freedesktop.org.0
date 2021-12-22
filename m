@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 217E447D8F3
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 22:51:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CFB447D8F8
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 22:52:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0621710E2F6;
-	Wed, 22 Dec 2021 21:51:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD1D410E305;
+	Wed, 22 Dec 2021 21:52:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2E2F10E2F6
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 21:51:23 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id bm14so13775308edb.5
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 13:51:23 -0800 (PST)
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B3FE10E305
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 21:52:37 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id x15so13883805edv.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 13:52:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=tvMuyvqKENJPxfYNvPBdLBk/Q0Wu/qzhmc/BjawCPSo=;
- b=CPeuFuALlPY2M7TTTvs430ZAgWX3z4eHsR15vVCComngcPfMN/3b1I9hB3sP72T1of
- FgPUZ0qOV8PVMFUFczgp7jCLSsuNRFMuRVeInQh0X+Flyi84Qe3jWG6CUlOsw2yNDA63
- VFAZ7oJ9+m8l/c51UW7wiAGZ6Kb0zO+HE1PgI=
+ bh=c7jtBamXWY7Ec9ROV3OjQL0fvP/qcLqLqrMSbN3AvqY=;
+ b=ecRC2EllFpOPXFx3eUOJpN9EMHM+yrA3y4nYhQ3Q6cDMpUV9ZUtLIpsPG3IylvPhXx
+ 7NEFPhUsS32xRVSG+1lBEqWdpWTzcPcuxqFCGFNlPm/Mm6NTnAcTH6ywcnaRQtIDiPyG
+ z62vXQMBt4BBad622pJR62wXhSNKyBMmpO+Ew=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=tvMuyvqKENJPxfYNvPBdLBk/Q0Wu/qzhmc/BjawCPSo=;
- b=HAQYMaKwpGx4crG+QJDyAq+HukUaAOzVM23zc4irrpe5blLmEopvpZBf1iUQu3/drQ
- KBy/zSdz8GyjajrwD4Lq//Bow3RTfHVHdp/AlHpgaC1tHFJ/YVHJ80HjetKDJz5Dh+Wu
- fNRMrMEeRlCQg1Wpj0mH3HO39zM54R6BpLyWpZLbaZd7TZVQyBKUy3HlUknIqW6XnClA
- 5Eqwzla0yXK+2Nc2/aesbn5qqLeMiTjbO/WXVUZe7meTAqanjizO+A4yNFvMLChloPTw
- uGybMTnyFDDeWan5MRAMFBWcC2LVMvMjiWnUsWywu5AUKp5hj5uKQVWyFnUmeifDk9X3
- +lfA==
-X-Gm-Message-State: AOAM533gaOM+md+clmTsjyKUM9SafxJJLpiB7mhb2Fdzt1gyuyRYw4Zt
- UJVEiwb5yYduAV1sr6UP0jytKQ==
-X-Google-Smtp-Source: ABdhPJwVGe0nyH+ZbABYq6LPipkNqDcq5EgwVrsId62oST/trYTfKTAhQzsjzEcYTc9rYFgRDXORgQ==
-X-Received: by 2002:a17:906:249a:: with SMTP id
- e26mr3866884ejb.492.1640209882226; 
- Wed, 22 Dec 2021 13:51:22 -0800 (PST)
+ bh=c7jtBamXWY7Ec9ROV3OjQL0fvP/qcLqLqrMSbN3AvqY=;
+ b=1gC30ulcnQly2OIN+xht/s4hWhEGq2oqo8qQwS9rDJp+t62xgxrQVDYmHaoyEqYrh3
+ dgcinjyqixAZ5WP11KyQs9kIQUOHRQ6Rl9a8l2A+EnbzTSsuk6ApnnjkNwQ/PP7ex0sX
+ 82+bi5Jqp0v9y8FiIECNi0swEFgiKChfrM8CpC+bdzD3p9yk525lQ/+n0C7mGCGOnA6x
+ Fyw5vro9nIqDTHSCIS2qBqh80y0NpaqtRWAH4gyqZVkvwNgXrB5ljSPlBZpzBZL8OIaf
+ 47pT4voZ9+f2ch+kERgU5YjCDw1iygvoQyz6F/1BImb17FOPfNCovccFopNUPcFSnGou
+ Reqg==
+X-Gm-Message-State: AOAM533BrbNouT324hsZc25yuKR6Yj+BNWfYeHWOlyhcDazHkSYwlmtS
+ sEj1WHJ9PSDBru+b7S+exM0EfA==
+X-Google-Smtp-Source: ABdhPJya0W2q658d/hOLrgWA6I3WAs9SdToJcK6EKM3kejv0OPyZOAA4uQllKuDPAmH5Y2h6ddZrKQ==
+X-Received: by 2002:a17:907:2d28:: with SMTP id
+ gs40mr3760932ejc.765.1640209955690; 
+ Wed, 22 Dec 2021 13:52:35 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id hr36sm1123687ejc.28.2021.12.22.13.51.21
+ by smtp.gmail.com with ESMTPSA id ne31sm1112670ejc.48.2021.12.22.13.52.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Dec 2021 13:51:21 -0800 (PST)
-Date: Wed, 22 Dec 2021 22:51:20 +0100
+ Wed, 22 Dec 2021 13:52:35 -0800 (PST)
+Date: Wed, 22 Dec 2021 22:52:33 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 15/24] drm: support more than one write fence in
- drm_gem_plane_helper_prepare_fb
-Message-ID: <YcOd2DpbI0QTPhPh@phenom.ffwll.local>
+Subject: Re: [PATCH 16/24] drm/nouveau: support more than one write fence in
+ fenv50_wndw_prepare_fb
+Message-ID: <YcOeIfLwB6srBtQu@phenom.ffwll.local>
 References: <20211207123411.167006-1-christian.koenig@amd.com>
- <20211207123411.167006-16-christian.koenig@amd.com>
+ <20211207123411.167006-17-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211207123411.167006-16-christian.koenig@amd.com>
+In-Reply-To: <20211207123411.167006-17-christian.koenig@amd.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,59 +75,52 @@ Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 07, 2021 at 01:34:02PM +0100, Christian König wrote:
+On Tue, Dec 07, 2021 at 01:34:03PM +0100, Christian König wrote:
 > Use dma_resv_get_singleton() here to eventually get more than one write
 > fence as single fence.
 > 
 > Signed-off-by: Christian König <christian.koenig@amd.com>
-
-Patch title should be drm/atomic-helper: prefix, not just drm:
-
-With that nit:
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
 > ---
->  drivers/gpu/drm/drm_gem_atomic_helper.c | 18 +++++++-----------
->  1 file changed, 7 insertions(+), 11 deletions(-)
+>  drivers/gpu/drm/nouveau/dispnv50/wndw.c | 14 +++++---------
+>  1 file changed, 5 insertions(+), 9 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_gem_atomic_helper.c b/drivers/gpu/drm/drm_gem_atomic_helper.c
-> index c3189afe10cb..9338ddb7edff 100644
-> --- a/drivers/gpu/drm/drm_gem_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
-> @@ -143,25 +143,21 @@
->   */
->  int drm_gem_plane_helper_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
->  {
+> diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.c b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+> index 133c8736426a..b55a8a723581 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+> @@ -536,8 +536,6 @@ nv50_wndw_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
+>  	struct nouveau_bo *nvbo;
+>  	struct nv50_head_atom *asyh;
+>  	struct nv50_wndw_ctxdma *ctxdma;
 > -	struct dma_resv_iter cursor;
->  	struct drm_gem_object *obj;
->  	struct dma_fence *fence;
-> +	int ret;
+> -	struct dma_fence *fence;
+>  	int ret;
 >  
->  	if (!state->fb)
->  		return 0;
+>  	NV_ATOMIC(drm, "%s prepare: %p\n", plane->name, fb);
+> @@ -560,13 +558,11 @@ nv50_wndw_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
+>  			asyw->image.handle[0] = ctxdma->object.handle;
+>  	}
 >  
->  	obj = drm_gem_fb_get_obj(state->fb, 0);
-> -	dma_resv_iter_begin(&cursor, obj->resv, false);
+> -	dma_resv_iter_begin(&cursor, nvbo->bo.base.resv, false);
 > -	dma_resv_for_each_fence_unlocked(&cursor, fence) {
-> -		/* TODO: Currently there should be only one write fence, so this
-> -		 * here works fine. But drm_atomic_set_fence_for_plane() should
-> -		 * be changed to be able to handle more fences in general for
-> -		 * multiple BOs per fb anyway. */
-> -		dma_fence_get(fence);
+> -		/* TODO: We only use the first writer here */
+> -		asyw->state.fence = dma_fence_get(fence);
 > -		break;
 > -	}
 > -	dma_resv_iter_end(&cursor);
-> +	ret = dma_resv_get_singleton(obj->resv, false, &fence);
+> +	ret = dma_resv_get_singleton(nvbo->bo.base.resv, false,
+> +				     &asyw->state.fence);
+
+Needs nouveau-ack, but otherwise lgtm.
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
 > +	if (ret)
 > +		return ret;
+> +
+>  	asyw->image.offset[0] = nvbo->offset;
 >  
-> +	/* TODO: drm_atomic_set_fence_for_plane() should be changed to be able
-> +	 * to handle more fences in general for multiple BOs per fb.
-> +	 */
->  	drm_atomic_set_fence_for_plane(state, fence);
->  	return 0;
->  }
+>  	if (wndw->func->prepare) {
 > -- 
 > 2.25.1
 > 
