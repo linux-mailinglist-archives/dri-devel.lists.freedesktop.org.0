@@ -1,46 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E07C47D305
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 14:29:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D935747D30D
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 14:32:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21D2010EA3C;
-	Wed, 22 Dec 2021 13:29:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A46610E2EA;
+	Wed, 22 Dec 2021 13:32:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B537F10EA3C;
- Wed, 22 Dec 2021 13:29:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1640179768; x=1671715768;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=F+K0F9JKAJ6N/49z7Bherm2NsvgOcnRWUrL+xw/KfUA=;
- b=QHrS+dBX3uYr8I/7WL+HrznAaqoLnoNMV5xYO9gNqAKpYV39ail7+I3E
- 60aXTqsca4tGba2P+3Ev91h2CzufrFdqSVBMP6VSB6LtjnjqC33mVof4T
- C/Hg7Wqdx4odeR8r7u3LdELJ2rqIkOeXvhXqWXCp47Bu1rKx98B26vdbv
- 5RUykK2LBPt+0GHQcyhRhmjs27WNLfNgkuZXrEWB7lrs58Gvr1pB6TVyD
- MlUxFmdrBU4CrKdBxy2Cav1jVIQcRm1mGpmv9mluHHXUDLgdI+rYGkUAD
- wrQ1l7crqwD0fkLI7bJmqeDihAprSDY0i9WNrpyvfTsoJQ2Tz80dbfqOQ w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10205"; a="240421228"
-X-IronPort-AV: E=Sophos;i="5.88,226,1635231600"; d="scan'208";a="240421228"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2021 05:29:27 -0800
-X-IronPort-AV: E=Sophos;i="5.88,226,1635231600"; d="scan'208";a="613824041"
-Received: from aravind2-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.9.217])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2021 05:29:22 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-fixes
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Wed, 22 Dec 2021 15:29:19 +0200
-Message-ID: <87wnjwydhs.fsf@intel.com>
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 080EF10E2EA
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 13:32:14 +0000 (UTC)
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id B6E358069C;
+ Wed, 22 Dec 2021 14:32:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1640179932;
+ bh=U45xIhAt+uMxTTYJO8QE+C4Z6wCu7CV95FdqXv7Qv/g=;
+ h=From:To:Cc:Subject:Date:From;
+ b=cZf+ko2o2j5OPNGAze9auqVegPatbT+VsfNqchud+3PhjKHy3F2nI6kL1/P++27qS
+ PY61fVWb8v+RGh4WfAi11nH3GI1Hh3q2qNotievEpL4KD3j9c23WgnP/AZyznUBbmj
+ 7HlmLNyxIlXqkLow0OH6eKy2Cpt6/n4ARCRK5kfeSbBvP2Cmqri+usRS3G4yQvIO4J
+ Ok73JHmMOGTj5Jt6mCjqMGwxkV5n5W4GOqEisqUbNXvcc0It86qhkSy70sxziCdc8y
+ SL9iAiauoyakTptYUD3dLaIJ5/1kMchziYjFe80+X+GhiDbEJB7105QP4ede/WNWcU
+ EbLly0dsnZnKA==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] dt-bindings: display: simple: Add Multi-Inno Technology
+ MI0700S4T-6 panel
+Date: Wed, 22 Dec 2021 14:32:00 +0100
+Message-Id: <20211222133200.6586-1-marex@denx.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,47 +51,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add Multi-Inno Technology MI0700S4T-6 7" 800x480 DPI panel
+compatible string.
 
-Ho ho ho!
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org
+To: dri-devel@lists.freedesktop.org
+---
+ .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+ 1 file changed, 2 insertions(+)
 
-I don't know if you've been naughty or nice when you get guc submission
-locking fixes for christmas, but that's what we have here.
-
-
-BR,
-Jani.
-
-The following changes since commit a7904a538933c525096ca2ccde1e60d0ee62c08e:
-
-  Linux 5.16-rc6 (2021-12-19 14:14:33 -0800)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2021-12-22
-
-for you to fetch changes up to 7807bf28fe02a76bf112916c6b9194f282f5e43c:
-
-  drm/i915/guc: Only assign guc_id.id when stealing guc_id (2021-12-20 13:59:35 +0200)
-
-----------------------------------------------------------------
-drm/i915 fixes for v5.16-rc7:
-- Fix fallout from guc submission locking rework
-
-----------------------------------------------------------------
-Matthew Brost (2):
-      drm/i915/guc: Use correct context lock when callig clr_context_registered
-      drm/i915/guc: Only assign guc_id.id when stealing guc_id
-
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index 62f5f050c1bc..9cf5588a09d8 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -222,6 +222,8 @@ properties:
+       - logictechno,lttd800480070-l6wh-rt
+         # Mitsubishi "AA070MC01 7.0" WVGA TFT LCD panel
+       - mitsubishi,aa070mc01-ca1
++        # Multi-Inno Technology Co.,Ltd MI0700S4T-6 7" 800x480 TFT Resistive Touch Module
++      - multi-inno,mi0700s4t-6
+         # Multi-Inno Technology Co.,Ltd MI1010AIT-1CP 10.1" 1280x800 LVDS IPS Cap Touch Mod.
+       - multi-inno,mi1010ait-1cp
+         # NEC LCD Technologies, Ltd. 12.1" WXGA (1280x800) LVDS TFT LCD panel
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.34.1
+
