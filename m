@@ -1,124 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C6E047CAAD
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 02:19:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38ACB47CB76
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 04:02:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F81A10E13E;
-	Wed, 22 Dec 2021 01:19:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4879E10E20B;
+	Wed, 22 Dec 2021 03:02:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from APC01-PSA-obe.outbound.protection.outlook.com
- (mail-psaapc01on2133.outbound.protection.outlook.com [40.107.255.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03D9910E13E
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 01:19:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iknDC5omN0M+lOzHib/TjOVUJUO2zxOj4izpP3oCzMs6hdpTTBTHyP361he9aBLNKg54xekaUPl7jh8iX9yls5ydRRNX3Z4JjlVz7pnu562LCXw/LtU1M86XBNz5yrUxeltQmc5F/4pGd5PE+k5NHjuxeDKBQsePVjlNolUh/VyNDp7sCDJ8cWA+VnnoX+0VZ8+dqOrBblF6lVQEwsOuMHQDhv+c5l2703BiX1f9Kz2GNScWxRWqZinvyS0Fd030LYANxdVTsysl3QNZ6yJ4gAIHBnE3jqaSZ2JThKo/P1bThN7Omg5hVLtaGEK5QlDFmlsDiSXY8ztRDZ0NzwFhYQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+4XBQVJAjL68dTfsytJvnomAzQtFSfmvubaNjgkfmMA=;
- b=ZM5swvIosLRL9J/c6l9zGVHWYg5B2CwXgrAjh9m/4D5HRKhmTMmQGVuDVIw02EY2/c3d2e8YoLdPyDlLQP0Lgz+wyNdtsTcKonaABB5r1saCiSLCWw4X1vQoGWfDpBbAaHwwITzKmAAZW4TnHJyqjIOJBGFpwW1FPSHVW3b7H54bGJGSwhFM4DJIeNRt8wfEgCO7Ko3EJSDjeHVyMIoPyOQnC7/LbmW0ScTHfOwU6agQIbVLBZxNOX50Y/m9uMZsI2x+SO3MC9WPVP6Cm06pgx7geoua4QW8f2fqL+/96HyH8HQM3hjhfmsfymZRdS4K2+ixQTJkk6C4ZaniyKH2rw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+4XBQVJAjL68dTfsytJvnomAzQtFSfmvubaNjgkfmMA=;
- b=btxD5w7beceeVRTO4M3TdQNDfGbQDnhtCq/uqI4RVK5jd+AXZynayhuB7jQzXk74TEB4zh6FGIGSVOXMvcm/OcU4zTKJhXdrz9TUnVGRNd0A/egiJ/T+iBlQ4x4tuS12gDrlvAvgRYHd4ILEH4OQIgUV8ro4YBrKzQQqT9S+eI6p28SbpKOO5DdvAFfruWImCzkA6naWSDdQ/5fBP5lJN8fKcbTSm26cjp2hvGSAWhweKdwQrdzyq5rcQSeZad6COnyEGr4EijhnuJKtCAnTpnhP7nSJgCWRuAPmT8zzj1LlDxJjvsSNuE/TROtGOFn8MhCjHjsi2VcDZEs21Fod7Q==
-Received: from HK2PR06MB3300.apcprd06.prod.outlook.com (2603:1096:202:34::18)
- by HK0PR06MB2322.apcprd06.prod.outlook.com (2603:1096:203:41::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.17; Wed, 22 Dec
- 2021 01:19:32 +0000
-Received: from HK2PR06MB3300.apcprd06.prod.outlook.com
- ([fe80::6913:5fd5:84b0:1d4]) by HK2PR06MB3300.apcprd06.prod.outlook.com
- ([fe80::6913:5fd5:84b0:1d4%7]) with mapi id 15.20.4801.023; Wed, 22 Dec 2021
- 01:19:32 +0000
-From: Kuo-Hsiang Chou <kuohsiang_chou@aspeedtech.com>
-To: Dave Airlie <airlied@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: RE: [PATCH] drm/ast: Support 1600x900 with 108MHz PCLK
-Thread-Topic: [PATCH] drm/ast: Support 1600x900 with 108MHz PCLK
-Thread-Index: AQHWrpA6yNnPEioaU0WRvjwcdGRPAqm0fokAgouPhQCAADVDoA==
-Date: Wed, 22 Dec 2021 01:19:32 +0000
-Message-ID: <HK2PR06MB33009293FAA7E83C2679F44F8C7D9@HK2PR06MB3300.apcprd06.prod.outlook.com>
-References: <20201030074212.22401-1-kuohsiang_chou@aspeedtech.com>
- <b24ec0fd-9010-ef6c-ea86-c4455f86a977@suse.de>
- <CAPM=9tymNcdq+midqxNJL3Tfhb_yKrE2sa65hZ1zWSnmhWnGVA@mail.gmail.com>
-In-Reply-To: <CAPM=9tymNcdq+midqxNJL3Tfhb_yKrE2sa65hZ1zWSnmhWnGVA@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b0aa0504-0e4c-4b45-5d4e-08d9c4e91c03
-x-ms-traffictypediagnostic: HK0PR06MB2322:EE_
-x-microsoft-antispam-prvs: <HK0PR06MB232215D5CF01E3AFE8A2EF578C7D9@HK0PR06MB2322.apcprd06.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:486;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: pqfKU3R90Z/SL2js4ETPP3u1j4r1fyoLzWu2SdcQyTK7X8hd+JZeSH4sXYa6dHvq3OBDgyTLsFfHdrfB4JC0iLbBVhDJakZsCjLzCFwDjBrjZxd2kHv4y5ADGiXzbnU4TsjoKOuZFsaiQnBTGqMbuMPfuLc/vEQG11eXxQQV40wBn8V9Bqm5xavfLtvkcHFkb83byuWnwCvSlv96wQXchdRPnHNAwYAgxw9oBBHYqV9IYCh/GKnN7VtbHOmyOkil01DvtLMWgo4TuqDva3iNDU2RTRTg2iq7AkUJTvkUW72oaOEy55lJkfLdput4nxu6d9iXc4sYXJjASq/U16/oyKDJJwcmOiqph0ylMtzPzK9rlWazjIwjAFP+DTY8I7qVNyGDlviAp0bS1m6+fCrz2ubdbkNoII3xRtbuzYD1pbbHK3Mapr73C9B+cxME+8mvM0eGLLOM23EOXgJ6QlhMFMSpYDDIKiieMN7pndLzSaPE5Ma93GrGroTixw+TQyk9bK83Gat0TZLIp+B4Pdo+avrLAQcuE9mNdeGjw9E4N0NMuVcICmuUqoGsC1xSfzIZH3mAYhNxc3TDcT7ePXJWLcoU7k9h3gecM7ETJYrRrpjx8m9WBlTIiiiKFpVusAdiU+Jv4JA/ITWjIPzKS/oBcwQ8d4ItrlK/UC9Npfto0H8nWZp8LOnn5HQTWBxL9O8FvE0iyFe/x8PgezIkQkquAg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HK2PR06MB3300.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(39840400004)(376002)(346002)(136003)(396003)(366004)(316002)(508600001)(38100700002)(86362001)(9686003)(7696005)(52536014)(83380400001)(4326008)(186003)(38070700005)(26005)(33656002)(66446008)(53546011)(2906002)(71200400001)(5660300002)(64756008)(122000001)(55016003)(110136005)(76116006)(54906003)(6506007)(66476007)(66946007)(66556008)(8936002)(8676002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VnBVOFdaRU15NWJIanRremRhM2ZnM0JnTlZoTHB5NzVHYld3M2tRYXFDTVAy?=
- =?utf-8?B?RGp3MTMrUGRsc2ZEVVVRK0JjYXRObWIwazNOZitlWDgzc2pKNG0xcVlWVUJZ?=
- =?utf-8?B?bUtBRE5ENUR6cS9RMmJjME1LTG5qZ1JKSXNWSFJEWVBFTG94SDhyYy9jZGtJ?=
- =?utf-8?B?dzMrMlFSK0dHTXdJVk1yQi9yYlROOGdKT0dqTjJCR3lSaDRhV3BWeEpNNGN5?=
- =?utf-8?B?ZGdxUmtuZklBSWxHWExwMFJnbmkwbkE0SWQwTDBXNm9OR2RjYmNNSGVYbVJP?=
- =?utf-8?B?ZDBYeUNzNG9aZ2l2MmJGSm4yZWFuWUlaVGtFdTJTRGNreVlRcnphSzMzdGc1?=
- =?utf-8?B?cjVpNFdxZGg5dGFQSWlabmJ3OTBON3RvSDBkbVZUbjV2TkJrRy84OFNVL2dR?=
- =?utf-8?B?d3gwZnIwQWVYNzlxZVd6enlUSlYvdW9TN0dLWXdzenNwWGRtQnNlUDljME9R?=
- =?utf-8?B?M3ZvcmhtWlRSSUVIVkdvaGh1a1dZemthMUpQTCtydGN4VThlNjRiS01UaWk5?=
- =?utf-8?B?ZlV2emdzKytmTXM3V3gvZFdyOHVXQmdFd3VzNWFwU0J0TEYwM0l4NnMwRERo?=
- =?utf-8?B?QnlGWURVcTZmY3d3YjY4eFB6S21kSEVhczNaQ2p3TFZEUnJseEUvZFFZRTFw?=
- =?utf-8?B?NmY4OU1lNnIrTVowaWpuR1hXbm1jL0x3S1U1UVA5b0EwSzFWbTIrVmhwa3Ba?=
- =?utf-8?B?RUVtYlVjcVJhbDhQdnJGc3VKbWNBVXhsV0xMTFY1TlRjQkVSVE5NRlFmcUFO?=
- =?utf-8?B?WmtadXAxVGZkdDltQmNKSFNqdmY2V3puV3l3NlV1VUZaQmpscllCb1d6VkMx?=
- =?utf-8?B?VUxuNEtCbkZnc1hBWlFWTzhqYy93ZnMwS1hESXdySFJObExHNG9GRnRkSDdK?=
- =?utf-8?B?MHZWUFlnRVdiaXJFRTYyN04rd3AxZWp2bmFNZmdDOGRIVTIrdUx4VmpsNS93?=
- =?utf-8?B?Y1ZkdmJHNDk0MlZUMlViSnhQa1JPTXN2QVZCallSSTVMRWJSRHBwTlF3eHJP?=
- =?utf-8?B?aDlFQ2pZclFDdDY2Z0lWeThKdzg3SnRRR1FDL0VYajR1S01sdE1YdzRmWnlj?=
- =?utf-8?B?dGRLSzhFUWc5TUkwNnJSdWRaZndYOFJ5cmt4Y2ZGekVueldUMFRveHZWYkZW?=
- =?utf-8?B?QmxiZDBzNzJTVnZPTDhxS0JOZmpPZENQTjdKT043VVRmcTkzTXVSU25rL3Yr?=
- =?utf-8?B?b0lCUW9TbzR0K0FuUHN2b0MzT0NrVFIzclpnVXJVcFU1aVBVVmFzSUVFcjJj?=
- =?utf-8?B?UVkwNFpvNGMwcHVDNzY0MWxxSjREemlIM0t5VEpRcFlnbkpJeTk3OUQ3Q0RX?=
- =?utf-8?B?MDhWYVhWTzFoN0NsLzVyMkxpYTkrQUFBK3BFRWpUazl4dXdlKzhzdEhocjBk?=
- =?utf-8?B?TU14YUZtNGVJNlkzclF3Z0VFQ1FBdTFSdC9XbWtKNzBnTWMyd2crZVpkYWFN?=
- =?utf-8?B?ZFhha1BOZmQrUmlqbDk0bTllU0tiZTZCdHFnd0F5cTMwTkxuS0VRRGpmbDNN?=
- =?utf-8?B?SnI4dW9BM2VySWx0RDlXVm45SWV4VHQvWnQyNEVpMWJnczZFaW5adlNhR1Vw?=
- =?utf-8?B?N3JBTXhWM3l4MWNleGMrbHBQa2x5ZmlBdVE4aDUzYU9yQlhDUGNSUkpjeVQv?=
- =?utf-8?B?YVpJbHc4d2lhS08rQ3NXdWJ5L2M5U2xlcExzZ2NSTkNxelZhaHU3TW9PeTQr?=
- =?utf-8?B?VjRWNEYyQXRxb1VRcVRLQWJwa1VSOEd1QkdoV1hBdm1EeDBhVDAxb0VjVUI1?=
- =?utf-8?B?VDNCOTRzY3h1V1c1bXNuYW1xRFBXT2lPTmlxVEhYL2lEYmdraWNlSzFSOE1a?=
- =?utf-8?B?UEVSVnVTSkRDejZTSU9wa1FTZTJqM0xremVGQ2RvNEd2eS9maisvdnllaWlZ?=
- =?utf-8?B?SnRGVUIzY1ZhWk8wcklHZE5uNmR0YzFoZHpVcGcvZXFhbXpPOGRMV2RmSGRi?=
- =?utf-8?B?blgrUWpKaWNnUG1WK2RlKzZyZmFaNS93aU8zZnM3VWtWbGJMTEczZWVpbWVV?=
- =?utf-8?B?amN0aVRQUVV1ZW5qbEFwMXQwVkJ2QU9FNjJvWkM4cTVjdEtHYTQyM1lxd1hv?=
- =?utf-8?B?eGt0bmJ4WVUrUTN3eElLT01INjFyUTExU1hyU1IxS1pSdVkwRU0yeHhDaGtV?=
- =?utf-8?B?ZFE0RTJ3QnZFcnd0NmNaQXVyUDZyWngrTjg1cENIVnlOM2NzSUlzNlRFeEFU?=
- =?utf-8?B?Z1JPRHpRdjMxWlFJc3FFNlBoUG5CeHl4aDJhT2I0MURqdTFOeTkxeXE1MDVt?=
- =?utf-8?B?N2RncjBKaGhJV0ZXWlFWL0JWMzBnPT0=?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E36110E20B
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 03:02:00 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id a37so1386452ljq.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Dec 2021 19:02:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=wm8Yrjopy492NzBpwSLQqPTvQKvPN3l++wypA+HZ4RM=;
+ b=bHDnYR/sWzK8MlejMHmG8ZP3MQw94YJocF0LJxZDftfxzek6egth5iHoPAfvzP1jn6
+ 5kFjdSmOp/5zVsngRvIbOsM3wKNVDLZK6vOQ93D0beEwusrIb0uMx8rXfWx/Z9GXpgL6
+ Uhfu9nmYOz3GE8+PKrRpLuFhjTy4w3uMbyrA2DILtI1N4G6DP80OFeBQuS7PaoiVVpJ8
+ IfyTudE+hinFjZOjTLwV91Y9cm2bw4kl32BJpIzuBoW9llB3S5NOlxFCeaPkRW8NGR3r
+ g6vOpgS4Z/Q0CsxW3Lu6ucoa6FM8AtuDa/CS6nN7dCz0qhNV3ZsRNx/IDNjAQMsXpaDF
+ Ou6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wm8Yrjopy492NzBpwSLQqPTvQKvPN3l++wypA+HZ4RM=;
+ b=0naNrVhB2hRTvlbhfB8drp/OxOnpgbLMia4nYztm8afrbc14Bcd4BLc5y4RKsZmbB+
+ QxA0uM+2rYKLtX4EatOZuK/CrSZaLMbYTFvWoG8f45KK9cbrWZpx/x2nmLefZAPMUFdM
+ Jb3H9nm6ytPCB6lDKmqYQuKyg4020ETJi54LaXBpWXK0JMDFPRE6SRM9wQ8VtDyWKygm
+ kvJlkBFS0M/wV2bTuXUpEO/M44MUuXcrsaQepO1q0qnOFeQ+1wTqmNz/N9WKZBK8r0nI
+ uMlkyG+3bRSBw2szVAmd7omsKXLxOxwHgA19lXo0gZ8KydHgR6sI0UVVDLBuAJ9xyNXh
+ b2ow==
+X-Gm-Message-State: AOAM533c/0jTsOZiN5RB/aRZK+u5YSZL/6KcgGFUjAMYw5Gd9pfh6oYk
+ uTWkob9UQW8etTKwzMWWcqw=
+X-Google-Smtp-Source: ABdhPJxCT//IyPAiErDmM1GSo+PvEhwRPRkyQCnsGkSIqFHRx2PINwIgMXpkXffBhnscqmnudZfvQw==
+X-Received: by 2002:a2e:3304:: with SMTP id d4mr820939ljc.377.1640142118858;
+ Tue, 21 Dec 2021 19:01:58 -0800 (PST)
+Received: from [192.168.2.145] (46-138-43-24.dynamic.spd-mgts.ru.
+ [46.138.43.24])
+ by smtp.googlemail.com with ESMTPSA id g22sm71912lfr.237.2021.12.21.19.01.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Dec 2021 19:01:58 -0800 (PST)
+Subject: Re: [PATCH 0/2] drm/tegra: Fix panel support on Venice 2 and Nyan
+To: Thierry Reding <thierry.reding@gmail.com>
+References: <20211220104855.428290-1-thierry.reding@gmail.com>
+ <dd7a2f23-00d6-9160-1e09-1d4ea5b1f5e1@gmail.com> <YcCg/xktJ2uShFRf@orome>
+ <e27bd5e0-51d2-875b-aa41-f198230880ac@gmail.com> <YcGzO0A/iWzhFjvE@orome>
+ <c2d2e5a1-7f44-a190-2ab1-84125fbe9f65@gmail.com> <YcH+Fw9sCzCIzFIx@orome>
+ <1bac3b32-ad9b-4d10-c7fb-6aafd353cdd4@gmail.com> <YcIWlOoER16wUyQ/@orome>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <f8c50f22-ddeb-1805-bfcd-410aa46f869a@gmail.com>
+Date: Wed, 22 Dec 2021 06:01:26 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HK2PR06MB3300.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b0aa0504-0e4c-4b45-5d4e-08d9c4e91c03
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Dec 2021 01:19:32.5261 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: AEa50GmrnolLxulJsMhNbqNkoCAi113gRNgy0D6tOz8bCKSf3/eOK1yw0+IpNuP5HItx0A6HtaIxoDzhJ45ePeu4LYcd2zmwwXXQmIa3d4s=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR06MB2322
+In-Reply-To: <YcIWlOoER16wUyQ/@orome>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,34 +76,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Egbert Eich <eich@suse.com>, dri-devel <dri-devel@lists.freedesktop.org>,
- Tommy Huang <tommy_huang@aspeedtech.com>,
- Jenmin Yuan <jenmin_yuan@aspeedtech.com>, Dave Airlie <airlied@redhat.com>,
- Arc Sung <arc_sung@aspeedtech.com>
+Cc: Thomas Graichen <thomas.graichen@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ Jon Hunter <jonathanh@nvidia.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-tegra@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkNCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IERhdmUgQWlybGllIFttYWls
-dG86YWlybGllZEBnbWFpbC5jb21dIA0KU2VudDogV2VkbmVzZGF5LCBEZWNlbWJlciAyMiwgMjAy
-MSA1OjU2IEFNDQpUbzogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQoN
-ClN1YmplY3Q6IFJlOiBbUEFUQ0hdIGRybS9hc3Q6IFN1cHBvcnQgMTYwMHg5MDAgd2l0aCAxMDhN
-SHogUENMSw0KDQpPbiBNb24sIDIgTm92IDIwMjAgYXQgMTc6NTcsIFRob21hcyBaaW1tZXJtYW5u
-IDx0emltbWVybWFubkBzdXNlLmRlPiB3cm90ZToNCj4NCj4gSGkNCj4NCj4gQW0gMzAuMTAuMjAg
-dW0gMDg6NDIgc2NocmllYiBLdW9Ic2lhbmcgQ2hvdToNCj4gPiBbTmV3XSBDcmVhdGUgdGhlIHNl
-dHRpbmcgZm9yIDE2MDB4OTAwIEA2MEh6IHJlZnJlc2ggcmF0ZQ0KPiA+ICAgICAgIGJ5IDEwOE1I
-eiBwaXhlbC1jbG9jay4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEt1b0hzaWFuZyBDaG91IDxr
-dW9oc2lhbmdfY2hvdUBhc3BlZWR0ZWNoLmNvbT4NCj4NCj4gQWNrZWQtYnk6IFRob21hcyBaaW1t
-ZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPg0KPiBJJ2xsIGFkZCB5b3VyIHBhdGNoIHRv
-IGRybS1taXNjLW5leHQuDQo+DQo+IEFzIFNhbSBtZW50aW9uZWQsIHlvdSBzaG91bGQgdXNlIHNj
-cmlwdHMvZ2V0X21haW50YWluZXJzLnBsIHRvIA0KPiByZXRyaWV2ZSB0aGUgcmVsZXZhbnQgcGVv
-cGxlLiBUaGVzZSBpbmNsdWRlIHRob3NlIGluIE1BSU5UQUlORVJTLCBidXQgDQo+IGFsc28gZGV2
-ZWxvcGVycyB0aGF0IGhhdmUgcHJldmlvdXNseSB3b3JrZWQgb24gdGhlIGNvZGUuDQoNCldlIGFy
-ZSBzZWVpbmcgYSBwb3NzaWJsZSByZXBvcnQgb2YgYSByZWdyZXNzaW9uIG9uIGFuIGFzdDI2MDAg
-c2VydmVyIHdpdGggdGhpcyBwYXRjaC4NCg0KSSBoYXZlbid0IGFzY2VydGFpbmVkIHRoYXQgcmV2
-ZXJ0aW5nIGl0IGZpeGVzIGl0IGZvciB0aGUgY3VzdG9tZXIgeWV0LCBidXQgdGhpcyBpcyBhIGhl
-YWRzIHVwIGluIGNhc2UgYW55b25lIGVsc2UgaGFzIHNlZW4gaXNzdWVzLg0KDQpIaSBEYXZlLA0K
-DQpZZXMsIHlvdSdyZSByaWdodCwgVGhlIHBhdGNoIG5lZWRzIHRvIGJlIHJlbW92ZWQuIFRoZSBw
-YXRjaCBvY2N1cnMgaW5jb3JyZWN0IHRpbWluZyBvbiBDUlQgYW5kIEFTVERQIHdoZW4gMTYwMHg5
-MDAgYXJlIHNlbGVjdGVkLg0KU28sIGRvIEkgbmVlZCB0byBjb21taXQgYSBuZXcgcGF0Y2ggdG8g
-cmVtb3ZlL3JldmVydCBpdCBmcm9tIGRybS9hc3Q/IA0KDQpSZWdhcmRzLA0KCUt1by1Ic2lhbmcg
-Q2hvdQ0KDQpEYXZlLg0K
+21.12.2021 21:01, Thierry Reding пишет:
+> On Tue, Dec 21, 2021 at 07:45:31PM +0300, Dmitry Osipenko wrote:
+>> 21.12.2021 19:17, Thierry Reding пишет:
+>>> On Tue, Dec 21, 2021 at 06:47:31PM +0300, Dmitry Osipenko wrote:
+>>>> 21.12.2021 13:58, Thierry Reding пишет:
+>>>> ..
+>>>>>>>> The panel->ddc isn't used by the new panel-edp driver unless panel is
+>>>>>>>> compatible with "edp-panel". Hence the generic_edp_panel_probe() should
+>>>>>>>> either fail or crash for a such "edp-panel" since panel->ddc isn't fully
+>>>>>>>> instantiated, AFAICS.
+>>>>>>>
+>>>>>>> I've tested this and it works fine on Venice 2. Since that was the
+>>>>>>> reference design for Nyan, I suspect that Nyan's will also work.
+>>>>>>>
+>>>>>>> It'd be great if Thomas or anyone else with access to a Nyan could
+>>>>>>> test this to verify that.
+>>>>>>
+>>>>>> There is no panel-edp driver in the v5.15. The EOL of v5.15 is Oct,
+>>>>>> 2023, hence we need to either use:
+>>>>>
+>>>>> All the (at least relevant) functionality that is in panel-edp was in
+>>>>> panel-simple before it was moved to panel-edp. I've backported this set
+>>>>> of patches to v5.15 and it works just fine there.
+>>>>
+>>>> Will we be able to add patch to bypass the panel's DT ddc-i2c-bus on
+>>>> Nyan to keep the older DTBs working?
+>>>
+>>> I don't see why we would want to do that. It's quite clear that the DTB
+>>> is buggy in this case and we have a more accurate way to describe what's
+>>> really there in hardware. In addition that more accurate representation
+>>> also gets rid of a bug. Obviously because the bug is caused by the
+>>> previous representation that was not accurate.
+>>>
+>>> Given that we can easily replace the DTBs on these devices there's no
+>>> reason to make this any more complicated than it has to be.
+>>
+>> Don't you care about normal people at all? Do you assume that everyone
+>> must to be a kernel developer to be able to use Tegra devices? :/
+> 
+> If you know how to install a custom kernel you also know how to replace
+> the DTB on these devices.
+> 
+> For everyone else, once these patches are merged upstream and
+> distributions start shipping the new version, they will get this
+> automatically by updating their kernel package since most distributions
+> actually ship the DTB files as part of that.
+> 
+>> It's not a problem for you to figure out why display is broken, for
+>> other people it's a problem. Usually nobody will update DTB without a
+>> well known reason, instead device will be dusted on a shelf. In the end
+>> you won't have any users at all.
+> 
+> Most "normal" people aren't even going to notice that their DTB is going
+> to be updated. They would actually have to do extra work *not* to update
+> it.
+
+My past experience tells that your assumption is incorrect. There are
+quite a lot of people who will update kernel, but not DTB.
+
+ARM devices have endless variations of bootloaders and individual quirks
+required for a successful installation of a kernel. Kernel update by
+distro usually isn't a thing on ARM.
