@@ -2,57 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD3DC47D516
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 17:25:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC46E47D596
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 18:07:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07CA110E216;
-	Wed, 22 Dec 2021 16:25:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A62E210E124;
+	Wed, 22 Dec 2021 17:07:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42ED510E216;
- Wed, 22 Dec 2021 16:25:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1640190319; x=1671726319;
- h=message-id:date:mime-version:subject:from:to:references:
- cc:in-reply-to:content-transfer-encoding;
- bh=w04gZYOw/p0MMOohsQT4hgj1PSb8fwyWNI7FhQVNNgU=;
- b=FtkHbQXsjlkE6ZBarn/jbkndIK3anXKaWXkwZDg4zi9hc3qjRrzIud3O
- VDXqdKJmol0fa7XIUoiOUrxYZprRau/6nBj/Qwp3+rJZMycShQfXlxCp1
- 5BntxZdby6AN9HD1D7r9WEBAkC+8lGHD3SUR439BVRX/ElAXIFf7O7+Um
- avER/yyC0TwKMzqvDBV0EkPiBhwr79pXXCRIzEPOtv2RP+YJt4HmwMxB+
- qhgkoI/wWpB2Pv/ufaqIJp9M86ypcD+BgNfS/KPfqb1c2pceudKSameL1
- pVK10/wK0C3tOhe86Z9qaG2DRYGkv9IyIT5UzD78NOWyPeJ1n3edVuWYF g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10206"; a="240459556"
-X-IronPort-AV: E=Sophos;i="5.88,227,1635231600"; d="scan'208";a="240459556"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2021 08:25:17 -0800
-X-IronPort-AV: E=Sophos;i="5.88,227,1635231600"; d="scan'208";a="468222445"
-Received: from rajvende-mobl1.ger.corp.intel.com (HELO [10.213.198.55])
- ([10.213.198.55])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2021 08:25:16 -0800
-Message-ID: <d614aa61-91ed-5e99-64fa-baa147c6d493@linux.intel.com>
-Date: Wed, 22 Dec 2021 16:25:13 +0000
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DEFC10E124
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 17:07:06 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ g191-20020a1c9dc8000000b0032fbf912885so1861795wme.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 09:07:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=xf0dcGkvmURFRRNeHLTQphIAlqufMTucRtU3DVITyFY=;
+ b=RCVUlNvIf2TY1hZQ2BN3r7OcxX0mQkrpHTo1Xj5KCDbfFss8/WsANNVOQaJoQt36XX
+ vt5FB0/ZaNCw0oT9EzetO/35FMtQcEf0iHBiFnhdNM1a/yOT3znsrOk2ovuXhCP9MsLj
+ kqNzaai7C3ovmFxJ8plk9KfgerLUXa0NB9urt6Qzjov8ecyJgbRdZ8Qa35Kj4LP5ErEr
+ H/oQSA2M3Bd6sQ8wNvIQsBVj0KDgg+AeSbRm8eIwUBNC+YukWgez412JYmnKlMb6vVNh
+ FlZJiXK+277nT2aHd8oMaqgamCw1rxwpTJiumj+k3xOI7VhCxKJZRn+rLQp7ysvI4zBm
+ gkMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=xf0dcGkvmURFRRNeHLTQphIAlqufMTucRtU3DVITyFY=;
+ b=qoLJaxju1I9tpstXZdW2x7qeVqezD1zaTRIVDDU5D8bdEVICCrnc4oneFNdEIgYm4l
+ rcKC3mTef1B46UYUz4VGdqQ8KVAJ+f0HZ0/JG6M8N5cAT0w31u6mrtApmeC2BPCujrab
+ lLCUHaMhv/92YrQB6mb6LbtIIBc7nTbgxLvfXcqJIG32TSaHIx/IVM72B95UdVDv6kpg
+ 3pjS6jU2DXfJUQvqw6uWzjTRnWBuU7NDn66/FoGbXyZ9pMHM10VJwWPJVI80M7c8T73n
+ 21j7Q9qeH4NT4ev5Wg1S4bjwWcGgW4hFuwvqVeglERkgjXIGNiVVtmI/viFzjotoJwg4
+ cfiA==
+X-Gm-Message-State: AOAM531XKqj3RdJVfSct32lGOOCHMC5Rqi1QIBiNaFvPQRXe/Y4htgSF
+ gzsUSp9zHzXqAsgnImG0tSG73W+JjRg=
+X-Google-Smtp-Source: ABdhPJxHHsH7bFTy6QqNlKLW9op/sk+p9MsGhCZ8BoEj0/Y1+Hg7+OLndTV/9ExKMNaqsZgnSML3ww==
+X-Received: by 2002:a1c:5404:: with SMTP id i4mr1534466wmb.107.1640192825110; 
+ Wed, 22 Dec 2021 09:07:05 -0800 (PST)
+Received: from archbook.localnet ([217.151.114.10])
+ by smtp.gmail.com with ESMTPSA id y13sm2796186wrd.89.2021.12.22.09.07.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Dec 2021 09:07:04 -0800 (PST)
+From: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+To: dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH 22/22] drm: rockchip: Add VOP2 driver
+Date: Wed, 22 Dec 2021 18:07:02 +0100
+Message-ID: <26571551.24qHfsk75X@archbook>
+In-Reply-To: <1761858.GBYTvM79DV@archbook>
+References: <20211220110630.3521121-1-s.hauer@pengutronix.de>
+ <20211220110630.3521121-23-s.hauer@pengutronix.de>
+ <1761858.GBYTvM79DV@archbook>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.1
-Subject: Re: [Intel-gfx] [PATCH 4/7] drm/i915/guc: Don't hog IRQs when
- destroying contexts
-Content-Language: en-US
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-References: <20211214170500.28569-1-matthew.brost@intel.com>
- <20211214170500.28569-5-matthew.brost@intel.com>
- <7cc85926-75e8-0368-1684-62ae5f341807@linux.intel.com>
- <35bc4a2a-9a50-9651-5c17-65f788817f64@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <35bc4a2a-9a50-9651-5c17-65f788817f64@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,197 +70,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Harrison <John.C.Harrison@Intel.com>
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+ linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Dienstag, 21. Dezember 2021 14:44:39 CET Nicolas Frattaroli wrote:
+> On Montag, 20. Dezember 2021 12:06:30 CET Sascha Hauer wrote:
+> > From: Andy Yan <andy.yan@rock-chips.com>
+> >
+> > The VOP2 unit is found on Rockchip SoCs beginning with rk3566/rk3568.
+> > It replaces the VOP unit found in the older Rockchip SoCs.
+> >
+> > This driver has been derived from the downstream Rockchip Kernel and
+> > heavily modified:
+> >
+> > - All nonstandard DRM properties have been removed
+> > - dropped struct vop2_plane_state and pass around less data between
+> >   functions
+> > - Dropped all DRM_FORMAT_* not known on upstream
+> > - rework register access to get rid of excessively used macros
+> > - Drop all waiting for framesyncs
+> >
+> > The driver is tested with HDMI and MIPI-DSI display on a RK3568-EVB
+> > board. Overlay support is tested with the modetest utility. AFBC support
+> > on the cluster windows is tested with weston-simple-dmabuf-egl on
+> > weston using the (yet to be upstreamed) panfrost driver support.
+> >
+> > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> > ---
+>
+> Hi Sascha,
+>
+> quick partial review of the code in-line.
+>
+> For reference, I debugged locking issues with the kernel lock
+> debug config options and assert_spin_locked in the reg write
+> functions, as well as some manual deduction.
+>
 
-Ping?
+As a small follow-up, I've completely mapped out the calls to
+vop2_writel, vop2_readl, vop2_vp_write and vop2_win_write and
+coloured in whether they were called with the lock held or not.
 
-Main two points being:
+The conclusion is startling: Most of the code absolutely does
+not care about the reg_lock.
 
-1) Commit message seems in contradiction with the change in 
-guc_flush_destroyed_contexts. And the lock drop to immediately 
-re-acquire it looks questionable to start with.
+Here's the graph as an SVG: https://overviewer.org/~pillow/up/6800427ef3/vop2_callgraph_modified.svg
 
-2) And in deregister_destroyed_contexts and in 1) I was therefore asking 
-if you can unlink all at once and process with reduced hammering on the 
-lock.
+vop2_isr here needs to be paid special attention, as it also
+acquires a different spinlock, and we want to avoid deadlocks.
+
+Perhaps we should precisely define which lock must be held for
+what registers, such that the vop2_isr can write its interrupt
+related registers without acquiring the "big" reg_lock.
+
+I'm also not entirely sure whether I should assume vop2_readl
+needs to be called with the lock held. This needs some
+investigating both in terms of whether the hardware presents
+a writel as an atomic write of a long, and whether the code
+assumes the state between readl calls is ever a consistent view.
 
 Regards,
+Nicolas Frattaroli
 
-Tvrtko
 
-On 17/12/2021 11:14, Tvrtko Ursulin wrote:
-> 
-> On 17/12/2021 11:06, Tvrtko Ursulin wrote:
->> On 14/12/2021 17:04, Matthew Brost wrote:
->>> From: John Harrison <John.C.Harrison@Intel.com>
->>>
->>> While attempting to debug a CT deadlock issue in various CI failures
->>> (most easily reproduced with gem_ctx_create/basic-files), I was seeing
->>> CPU deadlock errors being reported. This were because the context
->>> destroy loop was blocking waiting on H2G space from inside an IRQ
->>> spinlock. There no was deadlock as such, it's just that the H2G queue
->>> was full of context destroy commands and GuC was taking a long time to
->>> process them. However, the kernel was seeing the large amount of time
->>> spent inside the IRQ lock as a dead CPU. Various Bad Things(tm) would
->>> then happen (heartbeat failures, CT deadlock errors, outstanding H2G
->>> WARNs, etc.).
->>>
->>> Re-working the loop to only acquire the spinlock around the list
->>> management (which is all it is meant to protect) rather than the
->>> entire destroy operation seems to fix all the above issues.
->>>
->>> v2:
->>>   (John Harrison)
->>>    - Fix typo in comment message
->>>
->>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
->>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->>> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
->>> ---
->>>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 45 ++++++++++++-------
->>>   1 file changed, 28 insertions(+), 17 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c 
->>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>> index 36c2965db49b..96fcf869e3ff 100644
->>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>> @@ -2644,7 +2644,6 @@ static inline void guc_lrc_desc_unpin(struct 
->>> intel_context *ce)
->>>       unsigned long flags;
->>>       bool disabled;
->>> -    lockdep_assert_held(&guc->submission_state.lock);
->>>       GEM_BUG_ON(!intel_gt_pm_is_awake(gt));
->>>       GEM_BUG_ON(!lrc_desc_registered(guc, ce->guc_id.id));
->>>       GEM_BUG_ON(ce != __get_context(guc, ce->guc_id.id));
->>> @@ -2660,7 +2659,7 @@ static inline void guc_lrc_desc_unpin(struct 
->>> intel_context *ce)
->>>       }
->>>       spin_unlock_irqrestore(&ce->guc_state.lock, flags);
->>>       if (unlikely(disabled)) {
->>> -        __release_guc_id(guc, ce);
->>> +        release_guc_id(guc, ce);
->>>           __guc_context_destroy(ce);
->>>           return;
->>>       }
->>> @@ -2694,36 +2693,48 @@ static void __guc_context_destroy(struct 
->>> intel_context *ce)
->>>   static void guc_flush_destroyed_contexts(struct intel_guc *guc)
->>>   {
->>> -    struct intel_context *ce, *cn;
->>> +    struct intel_context *ce;
->>>       unsigned long flags;
->>>       GEM_BUG_ON(!submission_disabled(guc) &&
->>>              guc_submission_initialized(guc));
->>> -    spin_lock_irqsave(&guc->submission_state.lock, flags);
->>> -    list_for_each_entry_safe(ce, cn,
->>> -                 &guc->submission_state.destroyed_contexts,
->>> -                 destroyed_link) {
->>> -        list_del_init(&ce->destroyed_link);
->>> -        __release_guc_id(guc, ce);
->>> +    while (!list_empty(&guc->submission_state.destroyed_contexts)) {
->>
->> Are lockless false negatives a concern here - I mean this thread not 
->> seeing something just got added to the list?
->>
->>> +        spin_lock_irqsave(&guc->submission_state.lock, flags);
->>> +        ce = 
->>> list_first_entry_or_null(&guc->submission_state.destroyed_contexts,
->>> +                          struct intel_context,
->>> +                          destroyed_link);
->>> +        if (ce)
->>> +            list_del_init(&ce->destroyed_link);
->>> +        spin_unlock_irqrestore(&guc->submission_state.lock, flags);
->>> +
->>> +        if (!ce)
->>> +            break;
->>> +
->>> +        release_guc_id(guc, ce);
->>
->> This looks suboptimal and in conflict with this part of the commit 
->> message:
->>
->> """
->>   Re-working the loop to only acquire the spinlock around the list
->>   management (which is all it is meant to protect) rather than the
->>   entire destroy operation seems to fix all the above issues.
->> """
->>
->> Because you end up doing:
->>
->> ... loop ...
->>    spin_lock_irqsave(&guc->submission_state.lock, flags);
->>    list_del_init(&ce->destroyed_link);
->>    spin_unlock_irqrestore(&guc->submission_state.lock, flags);
->>
->>    release_guc_id, which calls:
->>      spin_lock_irqsave(&guc->submission_state.lock, flags);
->>      __release_guc_id(guc, ce);
->>      spin_unlock_irqrestore(&guc->submission_state.lock, flags);
->>
->> So a) the lock seems to be protecting more than just list management, 
->> or release_guc_if is wrong, and b) the loop ends up with highly 
->> questionable hammering on the lock.
->>
->> Is there any point to this part of the patch? Or the only business end 
->> of the patch is below:
->>
->>>           __guc_context_destroy(ce);
->>>       }
->>> -    spin_unlock_irqrestore(&guc->submission_state.lock, flags);
->>>   }
->>>   static void deregister_destroyed_contexts(struct intel_guc *guc)
->>>   {
->>> -    struct intel_context *ce, *cn;
->>> +    struct intel_context *ce;
->>>       unsigned long flags;
->>> -    spin_lock_irqsave(&guc->submission_state.lock, flags);
->>> -    list_for_each_entry_safe(ce, cn,
->>> -                 &guc->submission_state.destroyed_contexts,
->>> -                 destroyed_link) {
->>> -        list_del_init(&ce->destroyed_link);
->>> +    while (!list_empty(&guc->submission_state.destroyed_contexts)) {
->>> +        spin_lock_irqsave(&guc->submission_state.lock, flags);
->>> +        ce = 
->>> list_first_entry_or_null(&guc->submission_state.destroyed_contexts,
->>> +                          struct intel_context,
->>> +                          destroyed_link);
->>> +        if (ce)
->>> +            list_del_init(&ce->destroyed_link);
->>> +        spin_unlock_irqrestore(&guc->submission_state.lock, flags);
->>> +
->>> +        if (!ce)
->>> +            break;
->>> +
->>>           guc_lrc_desc_unpin(ce);
->>
->> Here?
->>
->> Not wanting/needing to nest ce->guc_state.lock under 
->> guc->submission_state.lock, and call the CPU cycle expensive 
->> deregister_context?
->>
->> 1)
->> Could you unlink en masse, under the assumption destroyed contexts are 
->> not reachable from anywhere else at this point, so under a single lock 
->> hold?
->>
->> 2)
->> But then you also end up with guc_lrc_desc_unpin calling 
->> __release_guc_id, which when called by release_guc_id does take 
->> guc->submission_state.lock and here it does not. Is it then clear 
->> which operations inside __release_guc_id need the lock? Bitmap or IDA?
-> 
-> Ah no, with 2nd point I missed you changed guc_lrc_desc_unpin to call 
-> release_guc_id.
-> 
-> Question on the merit of change in guc_flush_destroyed_contexts remains, 
-> and also whether at both places you could do group unlink (one lock 
-> hold), put on a private list, and then unpin/deregister.
-> 
-> Regards,
-> 
-> Tvrtko
+
