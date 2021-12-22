@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6181047CD2F
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 07:57:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AB8647CD82
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 08:27:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B76D10E6D8;
-	Wed, 22 Dec 2021 06:57:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D73DC10E984;
+	Wed, 22 Dec 2021 07:26:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25C1110E405;
- Wed, 22 Dec 2021 06:57:08 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id y13so4610094edd.13;
- Tue, 21 Dec 2021 22:57:08 -0800 (PST)
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
+ [IPv6:2607:f8b0:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFC2A10E984
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 07:26:56 +0000 (UTC)
+Received: by mail-pf1-x42e.google.com with SMTP id v13so1595052pfi.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Dec 2021 23:26:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9CeDy0cY/8LVebjCd2we3QhNWuf9arYWuiSUf5Pgs4M=;
- b=FdUVRNrVSbSuJ7MChDz1b5Xs+JISpPF2e4HUJeFtrVGjFTbg4d6HUkqzm9StWpFlIG
- W48U2Wg0B9X0gKtTaIBZGELQ7CXwgCvf4Do4++NO/YFwzNuE1n0bIrT9jHepCePcTwPK
- Oi8tdstp22V9vpOklILVJwXIrug9B5X8MxGbzL0WWNkmL3QYirgHHMXBt6M0vfkGipED
- 11xIY1eC24gkxu5PnRVFqPnikl4m2rSv7vTgV3b8pZy3re6QFK+AIA7SiXUW5TtDl7wW
- H0SD9zVKtsFsuYrkhFQF76xb1zl+9jClWtnT6OsiEa4mLaNzdOj9NNMXCWXxqNeUtZw7
- FTjQ==
+ h=from:to:cc:subject:date:message-id;
+ bh=YfoMqAE8tP1PVqVojIPRAkfs6QhYxWvNRbwDdCnoJaE=;
+ b=bk1AcE8D6fHgrh2xY/U8jJNak+zHpXEpWoas09GyMYrFfw+XUnlPhnbUcrkOs5HDo/
+ VA8YI8vRoBvlXeWl2euYPl/9BfANeHecDBIdstogljKz1jCApdQ8M929xjckdI1BvJ81
+ ShI1dxmrflyrOyEStgmLNOOPgHZF1gyrtDavPyX7vUH0Y4NChIoHc+yPvcja+BQa8zm5
+ 16nStKO65JWu0TQ0OElai0FymdxcfFQ9T8ciNd8ppAjBr57gWy6Bt0PFg5NKEyH/ev3K
+ uSP0BGVyhjlhbpFlO/4MdnFHHPh24tQO+0TYvY+yYneOSxn+yGexLShE5wl5E0Ib1h6l
+ Zn0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9CeDy0cY/8LVebjCd2we3QhNWuf9arYWuiSUf5Pgs4M=;
- b=vriDJ1wNMLLREn9H1mve994IPUBi+AC46ykVOyF6YhtvGMKFxf5+8viFH1a+sSIoC5
- FMvpODEzLJwSmwsyphyiEBlqt1XBQsWsIQr3KL8e7p5TPXYKrpZgi/C2pQtCYgo5Uphc
- U2XHpzTXDejb3yQBryeVIlqsJ5/x39eAst54v/hNP5YaItFLLyWXpFRO0uRGSkoeivgW
- d3UkR4pAbHB/v8lW6l8emvRItmyJKZ6M4G1fT/0OwCIFBqwPcUyTDa83Kmq/o5UqJFSu
- u4KIixCi6OK+gRzh/b52gKBhnMu2B9+BXF0KTUM/HwIZ9JGE5VndcO1XPAcwEP9qp7I3
- rtUg==
-X-Gm-Message-State: AOAM53020oaLA8rmBRL8vvJhYPhDch5atpn7K/E7ultc1u1Is17vEvfj
- 5cSUu8n2H1lm6FUw46MzSqqJ5PS++BL7r+K+Oyc=
-X-Google-Smtp-Source: ABdhPJzoCcBIV1hcRi8QZ/n41b9BeW2xWL1HgkCr0XN36iAmdtt2bD7yok8pPS5sz1qquLs2rPvVugBf6IaB7COh144=
-X-Received: by 2002:a17:906:1643:: with SMTP id
- n3mr1317723ejd.733.1640156226632; 
- Tue, 21 Dec 2021 22:57:06 -0800 (PST)
-MIME-Version: 1.0
-References: <20211222001728.2514705-1-l.stach@pengutronix.de>
-In-Reply-To: <20211222001728.2514705-1-l.stach@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Wed, 22 Dec 2021 07:56:55 +0100
-Message-ID: <CAH9NwWffjXG0M14R=5PEmf9hnpH15xpk2BmtNdE7qp3Q_R87_w@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: consider completed fence seqno in hang check
-To: Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=YfoMqAE8tP1PVqVojIPRAkfs6QhYxWvNRbwDdCnoJaE=;
+ b=4cPeePAIHShsRKGXdiYwLhdujY6R9i5dJ2jWX5ksJmkSS16Ce3CCzk+J7/14+uccUn
+ nR6248UApU5/3OSrjHC21obO22qEwGXCJh0D1kjsaMjlY35GR6/485o4brZ7Zb32jeVe
+ 3gn7HNB6y1KJdMJk6uHtIS7Fr6Ib25UYRMItOLpGHQad9Ne+Yb6g+wk7gs1TOXmD/tZk
+ KolTyfQ4zA3i1GL/yEWWV6G9Nfxa2n+bfefO6DcUg61vT379Rq3d00bMKZrWzQlr/b+A
+ hWnEtGda84mRN1oG3392v7776r+3Plp+HS0VISQpbLiz+TJ3FcXJTg7HFhjZ6iUvGZ4d
+ dVjg==
+X-Gm-Message-State: AOAM532ftAZrKTMgz9o7/z3apEjJmV5nEcip9+s2OrdCQTRNgtuByLGP
+ j7LVDZviUQmCb9Cg2ZFPclo=
+X-Google-Smtp-Source: ABdhPJzgxQitXRab/a18M4bP9QRCqfcG0/B+iALRX+rSqC0szzStk4z7s29LgNoaWILlDlz6pngOeQ==
+X-Received: by 2002:a62:c103:0:b0:4ba:75b8:cf69 with SMTP id
+ i3-20020a62c103000000b004ba75b8cf69mr2026651pfg.64.1640158016496; 
+ Tue, 21 Dec 2021 23:26:56 -0800 (PST)
+Received: from localhost.localdomain ([159.226.95.43])
+ by smtp.googlemail.com with ESMTPSA id q19sm1463187pfk.83.2021.12.21.23.26.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Dec 2021 23:26:56 -0800 (PST)
+From: Miaoqian Lin <linmq006@gmail.com>
+To: 
+Subject: [PATCH] drm/virtio: Fix NULL vs IS_ERR checking in
+ virtio_gpu_object_shmem_init
+Date: Wed, 22 Dec 2021 07:26:49 +0000
+Message-Id: <20211222072649.18169-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,33 +63,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Joerg Albert <joerg.albert@iav.de>,
- The etnaviv authors <etnaviv@lists.freedesktop.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: linmq006@gmail.com, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Mi., 22. Dez. 2021 um 01:17 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
->
-> Some GPU heavy test programs manage to trigger the hangcheck quite often.
-> If there are no other GPU users in the system and the test program
-> exhibits a very regular structure in the commandstreams that are being
-> submitted, we can end up with two distinct submits managing to trigger
-> the hangcheck with the FE in a very similar address range. This leads
-> the hangcheck to believe that the GPU is stuck, while in reality the GPU
-> is already busy working on a different job. To avoid those spurious
-> GPU resets, also remember and consider the last completed fence seqno
-> in the hang check.
->
-> Reported-by: Joerg Albert <joerg.albert@iav.de>
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+Since drm_prime_pages_to_sg() function return error pointers.
+The drm_gem_shmem_get_sg_table() function returns error pointers too.
+Using IS_ERR() to check the return value to fix this.
 
-Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+Fixes: f651c8b05542("drm/virtio: factor out the sg_table from virtio_gpu_object")
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+ drivers/gpu/drm/virtio/virtgpu_object.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+index f648b0e24447..8bb80289672c 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_object.c
++++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+@@ -168,9 +168,9 @@ static int virtio_gpu_object_shmem_init(struct virtio_gpu_device *vgdev,
+ 	 * since virtio_gpu doesn't support dma-buf import from other devices.
+ 	 */
+ 	shmem->pages = drm_gem_shmem_get_sg_table(&bo->base.base);
+-	if (!shmem->pages) {
++	if (IS_ERR(shmem->pages)) {
+ 		drm_gem_shmem_unpin(&bo->base.base);
+-		return -EINVAL;
++		return PTR_ERR(shmem->pages);
+ 	}
+ 
+ 	if (use_dma_api) {
 -- 
-greets
---
-Christian Gmeiner, MSc
+2.17.1
 
-https://christian-gmeiner.info/privacypolicy
