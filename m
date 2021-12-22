@@ -1,68 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4918747CE45
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 09:29:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC53347CE48
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 09:29:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EADE61126E3;
-	Wed, 22 Dec 2021 08:28:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14ED51126ED;
+	Wed, 22 Dec 2021 08:29:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA9E710F4D9
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 08:28:51 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 777B11126E5
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 08:29:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640161730;
+ s=mimecast20190719; t=1640161746;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3N2KnVsfLEPnGk4GM83SnUnjHj7nisH0v3Qa0ml2DP8=;
- b=OZxvDLZ9JbowHoXzfmbAS0wwr1+gCbpvWuGqHo97/yJhkYwoMUWQvTZMqcicnTRVTBDRr6
- Z9bGXFvYqlQilRp2506LKb1EE5qhLKi951ZZiZKw1ypHYp34qXJusuXtugGrTpPhXrTbCD
- 1+bVeXt8KRPqTQl09JXmQjsTYjraVsw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=YX/sIrrqWUDik1PzndjmJVQyO+z161qCpfbNGHekPD4=;
+ b=fk2GzClkdrq2Lc0KMQbPTdK9zoA3TYLAJYxQeoE6TH7Ctd74pabVA5c4WbH+SWg3ypuH1w
+ /HMLmtMSZGKninP9Ym40fHhvVSEKKS4GULSIBzFvO0uBmun3y8RXEhnXWUOF8H55S+z3aO
+ vJ6ryua9wzzR0vtLxsbxhgd4A7CbEdw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-622-nxJoBZhfOOiAAzrCv2L35Q-1; Wed, 22 Dec 2021 03:28:49 -0500
-X-MC-Unique: nxJoBZhfOOiAAzrCv2L35Q-1
-Received: by mail-wr1-f70.google.com with SMTP id
- h12-20020adfa4cc000000b001a22dceda69so520640wrb.16
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 00:28:49 -0800 (PST)
+ us-mta-621-9vE-08swMES09Qh0XECtKw-1; Wed, 22 Dec 2021 03:28:50 -0500
+X-MC-Unique: 9vE-08swMES09Qh0XECtKw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ c5-20020a1c3505000000b00345c92c27c6so403001wma.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 00:28:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3N2KnVsfLEPnGk4GM83SnUnjHj7nisH0v3Qa0ml2DP8=;
- b=qM/DWyCbQaKXaqV8rcUW1GyYriea+Ls8Nj02Q+7TE33Q+TJ23Qsg7lISWJWqZqEhMY
- Qqcz83yJi7i/qWsA5NbBnu51PEngYj8ZX9TOewySimB0EOtafd8elxBQC8xtPF+kekP1
- IRGa0r9sivuCA9VuTQcAFn2m0Q2M/fZiCQrSqdPFukUzGGnuXCALMUUXaQxw4bMbsgq9
- mknHtZxOI/NXXXIAoYjsFYpRA4aAqEEvEFFW8soh7fSHPvJ1QmR/TZz0oQuVoo1GkKDB
- q50UhRH5xi7N7weiNp8CkRw+Uc5q1Uue1X0vigRbqb096LVLUIJKVO3c16HrzVOqi+3Z
- 1BHg==
-X-Gm-Message-State: AOAM532gArwCc1CEdpQ7aJXp2plUKKG8ZPQrP0bhgRYpXSnSt9hi14OW
- uZ+VdS/QbtANWcLYw8utapMZ4imEJnUCcO6vUTroAJBK/zldh8h6PxOf38G+GtFZPVSjLRieJU0
- v1ontwQPhlEYpH7fSaRBFiTs11v0l
-X-Received: by 2002:a05:600c:2119:: with SMTP id
- u25mr97754wml.93.1640161728594; 
- Wed, 22 Dec 2021 00:28:48 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyclg3C9m1lfpdHzwWRKr1jtDWrqzNKG6YD/sARAOTo22q6Tb8b2/EF4W39n16Lc2X5xTgEsA==
-X-Received: by 2002:a05:600c:2119:: with SMTP id
- u25mr97738wml.93.1640161728427; 
- Wed, 22 Dec 2021 00:28:48 -0800 (PST)
+ bh=YX/sIrrqWUDik1PzndjmJVQyO+z161qCpfbNGHekPD4=;
+ b=S39XSl68S53e3r/3f/cBqSp4b/6AWkJ32b+hroddFv34S4YkGcGVjqLLRpU+/5JafJ
+ 6C8HeyY/krVqRPsWFRmaNG3fYts6bnec8A/khp7zqm/2pdbVk1wUvJr7ImyWFdjRIBwa
+ kz+szSn7kvM/0Gz9kBrmOm90ivqgCVmRiofX4AraUcbYIm1Y+NlOn5h3vDjSio5e2NlD
+ 6laVpmPme9/bUiYG4lmIT4cOyDn4k1NRABvOJidQNHimdnfcd17jJJhIKvmk2mMmc4D7
+ 24tGOfKfPyKQrglwkpNxqlEnXwt6c/ZV2FpN+tSSLyCtvkD1RKD501ZKvhbgBSnkLpJk
+ qf4g==
+X-Gm-Message-State: AOAM531QjUx8GqvT6d6DD63oiYnU7iISv3JuTB3uW0tMbM4oZ8Q4d5ft
+ 6HQVsCTrYVia5fEKqu2nNy6pOBdWCwgxxznwY4mCKmWCmNbG8YgtCtYZ1QXAVLJLawbaCEOEGcs
+ XofuudNWtreDU7wGGGND5DVanM7PN
+X-Received: by 2002:a5d:5310:: with SMTP id e16mr1288218wrv.91.1640161729535; 
+ Wed, 22 Dec 2021 00:28:49 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyqScG9KfeV/wbitdFv1RY0/fBhHnWA+ZQcrjuEC7jBkboX0U40jvqhJQ1jShPeLro0YydqwQ==
+X-Received: by 2002:a5d:5310:: with SMTP id e16mr1288212wrv.91.1640161729359; 
+ Wed, 22 Dec 2021 00:28:49 -0800 (PST)
 Received: from minerva.home ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id m17sm1247080wrz.91.2021.12.22.00.28.47
+ by smtp.gmail.com with ESMTPSA id m17sm1247080wrz.91.2021.12.22.00.28.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Dec 2021 00:28:48 -0800 (PST)
+ Wed, 22 Dec 2021 00:28:49 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 07/10] drm/imx/dcss: Replace module initialization with DRM
+Subject: [PATCH v3 08/10] drm/komeda: Replace module initialization with DRM
  helpers
-Date: Wed, 22 Dec 2021 09:28:28 +0100
-Message-Id: <20211222082831.196562-8-javierm@redhat.com>
+Date: Wed, 22 Dec 2021 09:28:29 +0100
+Message-Id: <20211222082831.196562-9-javierm@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211222082831.196562-1-javierm@redhat.com>
 References: <20211222082831.196562-1-javierm@redhat.com>
@@ -85,13 +83,10 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>,
- David Airlie <airlied@linux.ie>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
+Cc: David Airlie <airlied@linux.ie>, Liviu Dudau <liviu.dudau@arm.com>,
  Javier Martinez Canillas <javierm@redhat.com>,
- NXP Linux Team <linux-imx@nxp.com>,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- linux-arm-kernel@lists.infradead.org
+ "James \(Qian\) Wang" <james.qian.wang@arm.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -100,35 +95,34 @@ DRM macro respects drm_firmware_drivers_only() and fails if the flag has
 been set.
 
 Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
 ---
 
 (no changes since v1)
 
- drivers/gpu/drm/imx/dcss/dcss-drv.c | 3 ++-
+ drivers/gpu/drm/arm/display/komeda/komeda_drv.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/imx/dcss/dcss-drv.c b/drivers/gpu/drm/imx/dcss/dcss-drv.c
-index 8dc2f85c514b..24147ee7080e 100644
---- a/drivers/gpu/drm/imx/dcss/dcss-drv.c
-+++ b/drivers/gpu/drm/imx/dcss/dcss-drv.c
-@@ -6,6 +6,7 @@
- #include <linux/module.h>
- #include <linux/kernel.h>
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
+index e7933930a657..51e51ff299b7 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
+@@ -9,6 +9,7 @@
  #include <linux/platform_device.h>
+ #include <linux/component.h>
+ #include <linux/pm_runtime.h>
 +#include <drm/drm_module.h>
  #include <drm/drm_of.h>
- 
- #include "dcss-dev.h"
-@@ -131,7 +132,7 @@ static struct platform_driver dcss_platform_driver = {
+ #include "komeda_dev.h"
+ #include "komeda_kms.h"
+@@ -198,7 +199,7 @@ static struct platform_driver komeda_platform_driver = {
  	},
  };
  
--module_platform_driver(dcss_platform_driver);
-+drm_module_platform_driver(dcss_platform_driver);
+-module_platform_driver(komeda_platform_driver);
++drm_module_platform_driver(komeda_platform_driver);
  
- MODULE_AUTHOR("Laurentiu Palcu <laurentiu.palcu@nxp.com>");
- MODULE_DESCRIPTION("DCSS driver for i.MX8MQ");
+ MODULE_AUTHOR("James.Qian.Wang <james.qian.wang@arm.com>");
+ MODULE_DESCRIPTION("Komeda KMS driver");
 -- 
 2.33.1
 
