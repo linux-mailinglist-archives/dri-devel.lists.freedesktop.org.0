@@ -1,56 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B291647CE59
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 09:34:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DC0E47CEC1
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 10:06:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45B531125BC;
-	Wed, 22 Dec 2021 08:34:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3684810FBFE;
+	Wed, 22 Dec 2021 09:05:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
- [IPv6:2607:f8b0:4864:20::1036])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E92D11125BC
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 08:33:58 +0000 (UTC)
-Received: by mail-pj1-x1036.google.com with SMTP id iy13so1643821pjb.5
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 00:33:58 -0800 (PST)
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF7F910FF49;
+ Wed, 22 Dec 2021 09:05:57 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id r17so3502224wrc.3;
+ Wed, 22 Dec 2021 01:05:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id;
- bh=uFcfCCmLqz8Ms/S5ZFwbRJf6FXCon9mx/P6+leniJPQ=;
- b=B/nkD+RxzYrTMpj8qHYjiPlo4H+XGTRQ2FJOCbXw5tBLjZf3eIPKBeZUbEp3wqrXTf
- qA4O6ILyyipfaMzln1Ql1RyjNzMnDY0Q9NZMWjl2zBYK/gc4Uw7oTYZ9f50LTZcyJZbx
- fKL6LsmOTpsuuB4P83hgzOyupp8G6k83XMs2XGQ2eQXO+DfKs8rL4UcchCoFIhy/uWx0
- ltKMut+O+kStkILq+1dQtYVGrfHKqXANNoXaQt0meh9cbw1UxtnrxY3fpNULqIjbRF0H
- TZbU4IgdlykCUCqXNPIDUIw7LCk/4mzZAemU6RxsDRd3f4JlWVecsVRn7agQZOtO21ZL
- MGtA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yFNkjOhkbVUPCPag3+lAuNDHEf6o3ru8j250NbFjPto=;
+ b=PWovdBphqrEK39M+gpDvGqxAdVPJl6QRH08LDrE+POux+PO7tP7Nq3+hmvFGa/a53/
+ XL4qcWwkKXpqepZ9OJ6dRIlDgLiBr3KiSIaAltvzLJG+QFcoIeTRF+DE3+Lq8xaCSkcO
+ DCmqg/yNfXwUSWbixP4Nz4sPf/o+ES/VSQZ8Jq8iUBnnixA7IEI2eepCOHFPVWsyTEre
+ VrauRXaUmPCXzMC+Pnr0GHA4Aj7LOhjmvVG1i0T5IXo8SZiYdj/FkZZ7dJSrSMSN3tbx
+ c+6weXHSCO2prqtwazZPDjQ4pA2nwe5rCz5NLTI4oGG5wPHKr2CBamLoX96GgGiPaFHp
+ cY1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=uFcfCCmLqz8Ms/S5ZFwbRJf6FXCon9mx/P6+leniJPQ=;
- b=HZ9l3AiEis7cKKkWHSsePQhac82MoeCeuETnKvQ4dNwCtz8z4dfdWVfAjaCROhuCdE
- xRuJCq0fMObj1doeDy+HNZPyJpFsqMHJgLb6na7zZRfvf85IvL8OYg6pHnCOdziRl8jm
- meppQU978qHwUxqscwk8gGLYfoy/nHjkm/G8GmFAQNeNRyyFymIDkV0ax1hA8preW4s0
- WSkGz1WCwPO/7yg9eL8HX3asFLk0aHhbCuKcH4KCpscipETef/hZ0yJytsp3BqvN2XVD
- Pog0FObxCQxeVsfZ49yFvRtaGM7LZhqBwnw0/29wCnFamZ4RH+jEbqozNeSub5Wo8ewB
- RGzA==
-X-Gm-Message-State: AOAM532Z01vJVEBZzQtKBIDv8JSP37zAgga7Irz8DFuAHDEtIKKW9RIw
- SX2/CmB0rO6NnsckLwfeVug=
-X-Google-Smtp-Source: ABdhPJz4Gg5MNWXZ2x4Pdz7qJw2MGvY6mrzL2Qo8Pu1nl2B4Y+FUIpjLupqql4K7XOj4av6NIV3TLg==
-X-Received: by 2002:a17:90a:f405:: with SMTP id
- ch5mr189965pjb.32.1640162038482; 
- Wed, 22 Dec 2021 00:33:58 -0800 (PST)
-Received: from localhost.localdomain ([159.226.95.43])
- by smtp.googlemail.com with ESMTPSA id w76sm1518693pff.21.2021.12.22.00.33.54
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yFNkjOhkbVUPCPag3+lAuNDHEf6o3ru8j250NbFjPto=;
+ b=6OY7TDEd1dPkif2JwtEySM941cuQrf3zQILdISqN8gsltqNS9POjx8Pg8AhjBNwXi8
+ l9RZ8tRDNz7uHcdrn0Fsb3SY+ONzWkHTa7i1hBC22ylTu5B/ETc5gCWV6GNTcikx4qpX
+ a8870t7XeE0w0sF+JXoEue6n7iwXQr/+B9g7dBtatvUXZ74wCjrnxxmGlOpJkJj5gMUA
+ Y3ylUQG9ZnrHQGF7lq0iCX28SWyBm7KhUx4OH+pQqZsOB++nyDpRGvSgblsJ45oTPGbd
+ jvHfy+Eu+OHGstrHjfTqg6XtVNfHMjRqs9KqAATbj4fD298UKekuvMRDw2+sdlfdnVNR
+ M8kg==
+X-Gm-Message-State: AOAM531XfVGPlo6QJNICQF0TP5vjaBGZwBoZ06Nq9EE4hW0jFflDml4p
+ SCtswp89pRDRneO4xlllbxM=
+X-Google-Smtp-Source: ABdhPJy7flmzMTQMI+3SUiNfM2NPwtetHwfXTX+i112NC6r7WXwuYpXcaDAx0EErcXx/XtP7nmcycA==
+X-Received: by 2002:a5d:64ed:: with SMTP id g13mr1384847wri.197.1640163956459; 
+ Wed, 22 Dec 2021 01:05:56 -0800 (PST)
+Received: from localhost.localdomain ([217.113.240.86])
+ by smtp.gmail.com with ESMTPSA id a22sm1139775wme.19.2021.12.22.01.05.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Dec 2021 00:33:58 -0800 (PST)
-From: Miaoqian Lin <linmq006@gmail.com>
-To: 
-Subject: [PATCH] drm/bridge: anx7625: Fix null vs IS_ERR() checking in
- anx7625_register_i2c_dummy_clients
-Date: Wed, 22 Dec 2021 08:33:48 +0000
-Message-Id: <20211222083350.18514-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ Wed, 22 Dec 2021 01:05:56 -0800 (PST)
+From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To: contact@emersion.fr
+Subject: [PATCH v2 0/6] Add missing format_mod_supported functions
+Date: Wed, 22 Dec 2021 10:05:46 +0100
+Message-Id: <20211222090552.25972-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,104 +66,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linmq006@gmail.com, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Pi-Hsun Shih <pihsun@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Nicolas Boichat <drinkcat@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Tzung-Bi Shih <tzungbi@google.com>,
- Sam Ravnborg <sam@ravnborg.org>, Xin Ji <xji@analogixsemi.com>
+Cc: airlied@linux.ie, alexandre.torgue@foss.st.com,
+ benjamin.gaignard@linaro.org, linux-stm32@st-md-mailman.stormreply.com,
+ marex@denx.de, linux-imx@nxp.com, intel-gfx@lists.freedesktop.org,
+ tzimmermann@suse.de, s.hauer@pengutronix.de, rodrigo.vivi@intel.com,
+ kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, yannick.fertre@foss.st.com,
+ linux-kernel@vger.kernel.org, philippe.cornu@foss.st.com,
+ mcoquelin.stm32@gmail.com, dmitry.baryshkov@linaro.org,
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+ shawnguo@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since i2c_new_client_device() function return error pointers.
-The i2c_new_dummy_device() function does not return NULL, It returns error
-pointers too. Using IS_ERR() to check the return value to fix this.
+Hi all,
 
-Fixes: 8bdfc5dae4e3("drm/bridge: anx7625: Add anx7625 MIPI DSI/DPI to DP")
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
- drivers/gpu/drm/bridge/analogix/anx7625.c | 32 ++++++++++++++++-------
- 1 file changed, 23 insertions(+), 9 deletions(-)
+This patchset supersedes [1]. Now the title is a bit misleading, but
+I left it this way to (hopefully) facilitate the maintainers' work.
 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 1a871f6b6822..eb72aa6aedd6 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -1637,40 +1637,54 @@ static const struct drm_bridge_funcs anx7625_bridge_funcs = {
- static int anx7625_register_i2c_dummy_clients(struct anx7625_data *ctx,
- 					      struct i2c_client *client)
- {
-+	int err = 0;
-+
- 	ctx->i2c.tx_p0_client = i2c_new_dummy_device(client->adapter,
- 						     TX_P0_ADDR >> 1);
--	if (!ctx->i2c.tx_p0_client)
--		return -ENOMEM;
-+	if (IS_ERR(ctx->i2c.tx_p0_client))
-+		return PTR_ERR(ctx->i2c.tx_p0_client);
- 
- 	ctx->i2c.tx_p1_client = i2c_new_dummy_device(client->adapter,
- 						     TX_P1_ADDR >> 1);
--	if (!ctx->i2c.tx_p1_client)
-+	if (IS_ERR(ctx->i2c.tx_p1_client)) {
-+		err = PTR_ERR(ctx->i2c.tx_p1_client);
- 		goto free_tx_p0;
-+	}
- 
- 	ctx->i2c.tx_p2_client = i2c_new_dummy_device(client->adapter,
- 						     TX_P2_ADDR >> 1);
--	if (!ctx->i2c.tx_p2_client)
-+	if (IS_ERR(ctx->i2c.tx_p2_client)) {
-+		err = PTR_ERR(ctx->i2c.tx_p2_client);
- 		goto free_tx_p1;
-+	}
- 
- 	ctx->i2c.rx_p0_client = i2c_new_dummy_device(client->adapter,
- 						     RX_P0_ADDR >> 1);
--	if (!ctx->i2c.rx_p0_client)
-+	if (IS_ERR(ctx->i2c.rx_p0_client)) {
-+		err = PTR_ERR(ctx->i2c.rx_p0_client);
- 		goto free_tx_p2;
-+	}
- 
- 	ctx->i2c.rx_p1_client = i2c_new_dummy_device(client->adapter,
- 						     RX_P1_ADDR >> 1);
--	if (!ctx->i2c.rx_p1_client)
-+	if (IS_ERR(ctx->i2c.rx_p1_client)) {
-+		err = PTR_ERR(ctx->i2c.rx_p1_client);
- 		goto free_rx_p0;
-+	}
- 
- 	ctx->i2c.rx_p2_client = i2c_new_dummy_device(client->adapter,
- 						     RX_P2_ADDR >> 1);
--	if (!ctx->i2c.rx_p2_client)
-+	if (IS_ERR(ctx->i2c.rx_p2_client)) {
-+		err = PTR_ERR(ctx->i2c.rx_p2_client);
- 		goto free_rx_p1;
-+	}
- 
- 	ctx->i2c.tcpc_client = i2c_new_dummy_device(client->adapter,
- 						    TCPC_INTERFACE_ADDR >> 1);
--	if (!ctx->i2c.tcpc_client)
-+	if (IS_ERR(ctx->i2c.tcpc_client)) {
-+		err = PTR_ERR(ctx->i2c.tcpc_client);
- 		goto free_rx_p2;
-+	}
- 
- 	return 0;
- 
-@@ -1687,7 +1701,7 @@ static int anx7625_register_i2c_dummy_clients(struct anx7625_data *ctx,
- free_tx_p0:
- 	i2c_unregister_device(ctx->i2c.tx_p0_client);
- 
--	return -ENOMEM;
-+	return err;
- }
- 
- static void anx7625_unregister_i2c_dummy_clients(struct anx7625_data *ctx)
+A little context: Originally, I sent a patch adding modifiers to the
+VKMS driver and Simon Ser kindly reviewed it and pointed out that
+"format_mod_supported" was missing [2].
+I asked if the docs were incorrect or if it was a bug in
+"create_in_format_blob".
+
+In the first version of this series, Simon Ser and Dmitry Baryshkov
+agreed [1] that the code should behave as documented and
+"create_in_format_blob" should be changed.
+
+This second version implements the required changes and drops the
+"format_mod_supported" in the drivers that can use the default
+implementation.
+
+Jose
+
+[1] https://lore.kernel.org/dri-devel/CAA8EJpqJ-tWmb5Ba6XSK59toCtLb3nRRmVH8da4Ud_rrRYytmw@mail.gmail.com/T/
+[2] https://lore.kernel.org/dri-devel/20211216170532.GA16349@elementary/T/
+
+José Expósito (6):
+  drm/plane: Make format_mod_supported truly optional
+  drm/plane: Fix typo in format_mod_supported documentation
+  drm/simple-kms: Drop format_mod_supported function
+  drm/i915/display: Drop format_mod_supported function
+  drm: mxsfb: Drop format_mod_supported function
+  drm/stm: ltdc: Drop format_mod_supported function
+
+ drivers/gpu/drm/drm_plane.c                 |  8 ++------
+ drivers/gpu/drm/drm_simple_kms_helper.c     |  8 --------
+ drivers/gpu/drm/i915/display/intel_cursor.c |  8 --------
+ drivers/gpu/drm/mxsfb/mxsfb_kms.c           |  8 --------
+ drivers/gpu/drm/stm/ltdc.c                  | 11 -----------
+ include/drm/drm_plane.h                     |  2 +-
+ 6 files changed, 3 insertions(+), 42 deletions(-)
+
 -- 
-2.17.1
+2.25.1
 
