@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A66A647CEC8
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 10:06:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBAA047CEC7
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 10:06:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 519C510F917;
-	Wed, 22 Dec 2021 09:06:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADD3010F8FA;
+	Wed, 22 Dec 2021 09:06:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAC9611276F;
- Wed, 22 Dec 2021 09:06:00 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id a9so3454422wrr.8;
- Wed, 22 Dec 2021 01:06:00 -0800 (PST)
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 745D51128BD;
+ Wed, 22 Dec 2021 09:06:02 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id
+ bg2-20020a05600c3c8200b0034565c2be15so3421747wmb.0; 
+ Wed, 22 Dec 2021 01:06:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qqsydkxhhK8OhNALZ+VHv5FZny2skJQWB82QtY63Q9s=;
- b=iD43qYAfHKgHEkC7nFjFdmgKXSLsUqD1tOX38fFtuZq3qwU1j0wOHmZyk7cmiVanwf
- giLn4KfQ9FO/4viWuK2riNg5PiCPdD4ewWsqhFlEkiTV3nTPKAyrcHFu7M1bsoRhNrHb
- DdjPxoxSwSl/T6YDCv1lW4ghDMwcvgq1aFQVMWAxSSg+mmGR6ivWF3EEl+DT2KkwejeC
- q4iVCkw85/sEWSRS0UaCHotTDsBlulj+yeCrxqRIlEoCSP9aawdEQovt91JUKIKS4xmj
- fwAYgHhTLBy0VF70R1A+BOhUwvuYUvC2NVVlPdorxD2IOIdOmjlLF/8qIHczAgPfW/R/
- huXQ==
+ bh=udzgSr2XOO8m43wZrlgxQCrOrIrYf8SlPUnoZjFzTYk=;
+ b=E3MxQbgD6jp8QTL0eeprZVCT29X4TsAZ9rSxABqoJKJws7UxtL3y3Rb2aRJp575Ctn
+ hesvkKOolE8pblgflzdy9N9arwD4TLsVdHjcz4j1NzcMqlx9cge1sYvwMWt+PDGrEnZv
+ Y5i0OTQsxOJNGvY9tnt72sq1D1nlChs/Dlk7DLlupN28xGHToNFRR3dsa0SwxLOuKQbY
+ 5utUtrQy+t8z0vA8wy2xlzgyZq7k4kWhzakGbvKVtthnxoUy3g+/ce/GXp3eUfCWGNTv
+ 3YHSQ7vjPxoH+APQRxDnNB3K64KnRQzbtCWTUulgJeyw5GEOzsGQN3ujO/QZQbujfoWg
+ PFhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qqsydkxhhK8OhNALZ+VHv5FZny2skJQWB82QtY63Q9s=;
- b=CtYZlK6iKz3zTpZ628wljVUG3objanhn0GRgMjGbyPR2v60ZoRDKjgQ32oqMAUh7ql
- 47hpZT0oj9CGbdEtC99/wyXTrbLKVVrJN5bqAbm7NnOvmK9d6KQzG5xc/C4L0qBT13GM
- vBY4GOhN8yvX7Q+w5fkVn/Qwteej39jaqnqmjJHarcwF+4iiHV2jW+t4SLV1KFNbYI6V
- 9fb3OntygPtwG+5TAJgrDtxQtaNjj7DD2VQSqiRv31eVCS4IVYdgAEKqnTtQmg66xHfA
- i+pVtN9lyKWKPPMDYl407+OT6UYClII0fmWJ17TgrM91Wj2eLmzs1wVd3seBCAevHdmw
- YgKQ==
-X-Gm-Message-State: AOAM533Nk0BxYHG82HLlSZUJMh38BIO78MP4XffT+3sOBiC3dP34hxEN
- P3lOrc4rMi/NTO2I0od1180=
-X-Google-Smtp-Source: ABdhPJyT0Au4GEtGNae85W38GmiNwbKwrmg900dN5iNRMKkALJW8orth+l2K+OpmtdJEWYLlqaDVRg==
-X-Received: by 2002:a05:6000:1ac9:: with SMTP id
- i9mr1363329wry.531.1640163959472; 
- Wed, 22 Dec 2021 01:05:59 -0800 (PST)
+ bh=udzgSr2XOO8m43wZrlgxQCrOrIrYf8SlPUnoZjFzTYk=;
+ b=tAwpO8bPqxM6RNVQCueNwYto5rJ9gX70q2yK7B8eDsAQ9HTb8x0GWPyGvX132DDO4J
+ IY+a3srXAcg0JbfuBB/D9Rzlb/7oJjfCKx9oQOl4haQ1r7znJKnWMe+WbYQkQBijs/cP
+ OURDSlXKVKdzpvmCrjq9U0k6RR0lJIe1p7p9UCug37w+yGTJCdGN9FHyWYCk+azwaAui
+ ef7uRJHigQY58BvrMsMSR+Lx8VWlV2OJfI0GnZ7AuyIvbQeJ+v5vEDVIiQ3P9Vps05Yf
+ GS3O/I263i5CG7nuSfZ9GqNg2uXgbDJFoitzX2Bv7ZkX2YvIjs2kIiv5m6vJrNbHBrSj
+ u8Gw==
+X-Gm-Message-State: AOAM532dYxRxqR6Akyz24IM/30k3Ld8xxtVC19H/QWOvazbJtQAwE+3D
+ MREHMBdET+N3FtkaP8CnUNY=
+X-Google-Smtp-Source: ABdhPJyucSE6tLj1nZatpMDhi96s0rRJ4voGBbwV+cnaaT+IgfOg7RVHe2BjZm9f/hkIq7HlprLhNQ==
+X-Received: by 2002:a1c:440a:: with SMTP id r10mr226427wma.4.1640163961031;
+ Wed, 22 Dec 2021 01:06:01 -0800 (PST)
 Received: from localhost.localdomain ([217.113.240.86])
- by smtp.gmail.com with ESMTPSA id a22sm1139775wme.19.2021.12.22.01.05.58
+ by smtp.gmail.com with ESMTPSA id a22sm1139775wme.19.2021.12.22.01.05.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Dec 2021 01:05:59 -0800 (PST)
+ Wed, 22 Dec 2021 01:06:00 -0800 (PST)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To: contact@emersion.fr
-Subject: [PATCH v2 2/6] drm/plane: Fix typo in format_mod_supported
- documentation
-Date: Wed, 22 Dec 2021 10:05:48 +0100
-Message-Id: <20211222090552.25972-3-jose.exposito89@gmail.com>
+Subject: [PATCH v2 3/6] drm/simple-kms: Drop format_mod_supported function
+Date: Wed, 22 Dec 2021 10:05:49 +0100
+Message-Id: <20211222090552.25972-4-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211222090552.25972-1-jose.exposito89@gmail.com>
 References: <20211222090552.25972-1-jose.exposito89@gmail.com>
@@ -83,26 +82,40 @@ Cc: airlied@linux.ie, alexandre.torgue@foss.st.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix minor typo: "valdiate" -> "validate".
+The "drm_plane_funcs.format_mod_supported" can be removed in favor of
+the default implementation.
 
 Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- include/drm/drm_plane.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/drm_simple_kms_helper.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
-index 0c1102dc4d88..06759badf99f 100644
---- a/include/drm/drm_plane.h
-+++ b/include/drm/drm_plane.h
-@@ -516,7 +516,7 @@ struct drm_plane_funcs {
- 	 * This optional hook is used for the DRM to determine if the given
- 	 * format/modifier combination is valid for the plane. This allows the
- 	 * DRM to generate the correct format bitmask (which formats apply to
--	 * which modifier), and to valdiate modifiers at atomic_check time.
-+	 * which modifier), and to validate modifiers at atomic_check time.
- 	 *
- 	 * If not present, then any modifier in the plane's modifier
- 	 * list is allowed with any of the plane's formats.
+diff --git a/drivers/gpu/drm/drm_simple_kms_helper.c b/drivers/gpu/drm/drm_simple_kms_helper.c
+index 72989ed1baba..2c6aa67c6956 100644
+--- a/drivers/gpu/drm/drm_simple_kms_helper.c
++++ b/drivers/gpu/drm/drm_simple_kms_helper.c
+@@ -284,13 +284,6 @@ static void drm_simple_kms_plane_cleanup_fb(struct drm_plane *plane,
+ 	pipe->funcs->cleanup_fb(pipe, state);
+ }
+ 
+-static bool drm_simple_kms_format_mod_supported(struct drm_plane *plane,
+-						uint32_t format,
+-						uint64_t modifier)
+-{
+-	return modifier == DRM_FORMAT_MOD_LINEAR;
+-}
+-
+ static const struct drm_plane_helper_funcs drm_simple_kms_plane_helper_funcs = {
+ 	.prepare_fb = drm_simple_kms_plane_prepare_fb,
+ 	.cleanup_fb = drm_simple_kms_plane_cleanup_fb,
+@@ -339,7 +332,6 @@ static const struct drm_plane_funcs drm_simple_kms_plane_funcs = {
+ 	.reset			= drm_simple_kms_plane_reset,
+ 	.atomic_duplicate_state	= drm_simple_kms_plane_duplicate_state,
+ 	.atomic_destroy_state	= drm_simple_kms_plane_destroy_state,
+-	.format_mod_supported   = drm_simple_kms_format_mod_supported,
+ };
+ 
+ /**
 -- 
 2.25.1
 
