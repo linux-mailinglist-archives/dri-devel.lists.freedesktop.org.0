@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC53347CE48
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 09:29:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 123BD47CE4A
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 09:29:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14ED51126ED;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 820AD1126E8;
 	Wed, 22 Dec 2021 08:29:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 777B11126E5
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 08:29:07 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6FAB1126C6
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 08:28:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640161746;
+ s=mimecast20190719; t=1640161732;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YX/sIrrqWUDik1PzndjmJVQyO+z161qCpfbNGHekPD4=;
- b=fk2GzClkdrq2Lc0KMQbPTdK9zoA3TYLAJYxQeoE6TH7Ctd74pabVA5c4WbH+SWg3ypuH1w
- /HMLmtMSZGKninP9Ym40fHhvVSEKKS4GULSIBzFvO0uBmun3y8RXEhnXWUOF8H55S+z3aO
- vJ6ryua9wzzR0vtLxsbxhgd4A7CbEdw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ivba8PnccKK3fE+1KqwcyTESXW/go6yH+CoRlAVXUHY=;
+ b=L3xt50skQEbGF/9mykl5zTASg5KZz6528ZLKY8ZbekepqgWDLzpJ8+Dj4ClOoKBK5CvUZh
+ SmxiR/Y7157r2mHf1hVB3BEkjslcyT9GgXEheePlvaQUsAUlbIHS2V3gEs6r9qRskcvFly
+ KWv4pZx6oLP/G77++HF/tOFODSqFt9o=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-621-9vE-08swMES09Qh0XECtKw-1; Wed, 22 Dec 2021 03:28:50 -0500
-X-MC-Unique: 9vE-08swMES09Qh0XECtKw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- c5-20020a1c3505000000b00345c92c27c6so403001wma.2
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 00:28:50 -0800 (PST)
+ us-mta-652-Tb1LejpeOOewypd-y78GqA-1; Wed, 22 Dec 2021 03:28:51 -0500
+X-MC-Unique: Tb1LejpeOOewypd-y78GqA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ d6-20020adfa346000000b001a262748c6fso519846wrb.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 00:28:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YX/sIrrqWUDik1PzndjmJVQyO+z161qCpfbNGHekPD4=;
- b=S39XSl68S53e3r/3f/cBqSp4b/6AWkJ32b+hroddFv34S4YkGcGVjqLLRpU+/5JafJ
- 6C8HeyY/krVqRPsWFRmaNG3fYts6bnec8A/khp7zqm/2pdbVk1wUvJr7ImyWFdjRIBwa
- kz+szSn7kvM/0Gz9kBrmOm90ivqgCVmRiofX4AraUcbYIm1Y+NlOn5h3vDjSio5e2NlD
- 6laVpmPme9/bUiYG4lmIT4cOyDn4k1NRABvOJidQNHimdnfcd17jJJhIKvmk2mMmc4D7
- 24tGOfKfPyKQrglwkpNxqlEnXwt6c/ZV2FpN+tSSLyCtvkD1RKD501ZKvhbgBSnkLpJk
- qf4g==
-X-Gm-Message-State: AOAM531QjUx8GqvT6d6DD63oiYnU7iISv3JuTB3uW0tMbM4oZ8Q4d5ft
- 6HQVsCTrYVia5fEKqu2nNy6pOBdWCwgxxznwY4mCKmWCmNbG8YgtCtYZ1QXAVLJLawbaCEOEGcs
- XofuudNWtreDU7wGGGND5DVanM7PN
-X-Received: by 2002:a5d:5310:: with SMTP id e16mr1288218wrv.91.1640161729535; 
- Wed, 22 Dec 2021 00:28:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyqScG9KfeV/wbitdFv1RY0/fBhHnWA+ZQcrjuEC7jBkboX0U40jvqhJQ1jShPeLro0YydqwQ==
-X-Received: by 2002:a5d:5310:: with SMTP id e16mr1288212wrv.91.1640161729359; 
- Wed, 22 Dec 2021 00:28:49 -0800 (PST)
+ bh=ivba8PnccKK3fE+1KqwcyTESXW/go6yH+CoRlAVXUHY=;
+ b=Fu6PfbrTvR5HqkvWq2R2EqYI6gsvIxOiCmYswU9k2idVJFgEc4qqq3ZhG7CUKeQhMJ
+ vYbWlL+ianjU6s/mwCglrJXDXclOZEMV5C41D294kmEx//CFK/Tm0WAu0eoqlVhsqG3s
+ L/9unaS0OS00kBE+sCsv2JA+6cV65e+dj4q3Uneu3598r+OLJ0gX4QAW3f2R/tpjJmBn
+ Z4/uEpRJre6s5hzK+B8nMmAj8XmWwZQr5Pkgwrogf9s2rnYogweTbjtQ9VpkoxNSJY+L
+ oPkvg7NA8FRQ//h6gK0svjv+YblfoKQl4EEDb3VHeNFO47X58l9Vueghx/f2/ye9H0Vd
+ Yuhw==
+X-Gm-Message-State: AOAM531MevYGOtVCjDFwtc2vyIIzsrvTO5WJ2xpt54nc82ZogSWPkPE8
+ cyrTcUow85MbE8VMEHGKE08jUMaKscvQMH2dlPlH1UQ/5j1jN5Q1045Sd59mp9sNok02mSNkgQ0
+ p0rjumJlLqVM+wxL4PUTqyLvUxMhN
+X-Received: by 2002:a7b:c745:: with SMTP id w5mr88269wmk.167.1640161730387;
+ Wed, 22 Dec 2021 00:28:50 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzUvQSHyffY2CYOqgAXb+4llmThUCCs6y8dzFLhVLwFXI0SYQnZ0rbY2rp8lrrmaIFZWyHdFQ==
+X-Received: by 2002:a7b:c745:: with SMTP id w5mr88259wmk.167.1640161730228;
+ Wed, 22 Dec 2021 00:28:50 -0800 (PST)
 Received: from minerva.home ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id m17sm1247080wrz.91.2021.12.22.00.28.48
+ by smtp.gmail.com with ESMTPSA id m17sm1247080wrz.91.2021.12.22.00.28.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Dec 2021 00:28:49 -0800 (PST)
+ Wed, 22 Dec 2021 00:28:50 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 08/10] drm/komeda: Replace module initialization with DRM
- helpers
-Date: Wed, 22 Dec 2021 09:28:29 +0100
-Message-Id: <20211222082831.196562-9-javierm@redhat.com>
+Subject: [PATCH v3 09/10] drm/arm/hdlcd: Replace module initialization with
+ DRM helpers
+Date: Wed, 22 Dec 2021 09:28:30 +0100
+Message-Id: <20211222082831.196562-10-javierm@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211222082831.196562-1-javierm@redhat.com>
 References: <20211222082831.196562-1-javierm@redhat.com>
@@ -84,9 +84,7 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>, Liviu Dudau <liviu.dudau@arm.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- "James \(Qian\) Wang" <james.qian.wang@arm.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>
+ Javier Martinez Canillas <javierm@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -99,30 +97,30 @@ Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 
 (no changes since v1)
 
- drivers/gpu/drm/arm/display/komeda/komeda_drv.c | 3 ++-
+ drivers/gpu/drm/arm/hdlcd_drv.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
-index e7933930a657..51e51ff299b7 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
-@@ -9,6 +9,7 @@
- #include <linux/platform_device.h>
- #include <linux/component.h>
- #include <linux/pm_runtime.h>
+diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
+index 479c2422a2e0..e89ae0ec60eb 100644
+--- a/drivers/gpu/drm/arm/hdlcd_drv.c
++++ b/drivers/gpu/drm/arm/hdlcd_drv.c
+@@ -30,6 +30,7 @@
+ #include <drm/drm_gem_cma_helper.h>
+ #include <drm/drm_gem_framebuffer_helper.h>
+ #include <drm/drm_modeset_helper.h>
 +#include <drm/drm_module.h>
  #include <drm/drm_of.h>
- #include "komeda_dev.h"
- #include "komeda_kms.h"
-@@ -198,7 +199,7 @@ static struct platform_driver komeda_platform_driver = {
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_vblank.h>
+@@ -434,7 +435,7 @@ static struct platform_driver hdlcd_platform_driver = {
  	},
  };
  
--module_platform_driver(komeda_platform_driver);
-+drm_module_platform_driver(komeda_platform_driver);
+-module_platform_driver(hdlcd_platform_driver);
++drm_module_platform_driver(hdlcd_platform_driver);
  
- MODULE_AUTHOR("James.Qian.Wang <james.qian.wang@arm.com>");
- MODULE_DESCRIPTION("Komeda KMS driver");
+ MODULE_AUTHOR("Liviu Dudau");
+ MODULE_DESCRIPTION("ARM HDLCD DRM driver");
 -- 
 2.33.1
 
