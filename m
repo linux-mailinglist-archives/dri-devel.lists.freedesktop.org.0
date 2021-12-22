@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65DED47D91D
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 23:06:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FAB347D924
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 23:06:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAABC10E35C;
-	Wed, 22 Dec 2021 22:05:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF72E10E376;
+	Wed, 22 Dec 2021 22:06:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2071.outbound.protection.outlook.com [40.107.94.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74F2E10E348;
- Wed, 22 Dec 2021 22:05:56 +0000 (UTC)
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam08on2069.outbound.protection.outlook.com [40.107.102.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 143CB10E34F;
+ Wed, 22 Dec 2021 22:05:59 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=O0ZofkNCqw3ztKi+CaURjbpJZ7FhcLHHpsC9MECm4pREv/9g/3r7K4ZOMBsYM9e0vwq0/33f0ZGcCY/qzQC7DQqpa5CyYLXrwmAHkIK8g3gGQEj3XDNjC90Jl1BrDpdgCCVNJf/Szx/3TQi/QicGJ5Oqnyno2o5EkwLecUewVm7NPcQDOK3+JRPTPGMG45RNW9ntpzeI3MT1n579FCDLxWqRjkfI6Hdx+9sjzEn0owbzdnuY7lAZxVcxZOorO2M4uxSPc51JjLG/8Xvs1mI2841n2FIsXjfX0QkqNWyjaIP608XjzUjaBqG/Jo2vYJ6eGk3FSfVFm7IQ/wwiEGa4lQ==
+ b=TOKBC0+3Lz10Q0e0kOaQTtlLuKTOAUVPBrYw6slnRMiKsH1sMKuDL7r1jRVRA+M9+NMJl9dSunRkfaAmH8uvd/HfbpLaadJYrP6RFF6q1G6pUunXx3errJAGXCmGA/svACgRkd8iS8La28f2pmElvKEdaw7mbvO9kBtc5Ii+6kk/zE7tqP9nLY3yZHsHglpGeUNvijWSKB8LaAVMusWbKRDgvTnkyh7RBarKGhygAYNvcZfc657TRNoCI5pK7DvVI5yfbDooFdo9NLHlMEBiQr602VGjpc6EAP9vuYC5B6yjNtL49oaYeiS0/Aqqz47yz7AQOjIIv7mGSXrNBTz0kA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0jDyLVNTFQabu8nZ8kZWGIAPZD4i5irSpsyZpfcEzBU=;
- b=kwqk5xzAvFKc9sGj3A61asygoamnn0EOxzwQYs/d7NmZyQiKg6/+dWMVXhc+GxKZmQ5ebYranL9/BIaVHN8zdhfkVk54vBihY8DqybYXVBMOmvypf0BuDkKArA7WyCESjc0mUdXIXhSyoY7pdDZDFOK1v4vurCIWT3Lo8wesVJTNSX+ax1SnrFJveXQ4nTuivnnnjYt8KEQr6s3LsFdzPtU4OkSEuZqjCJS4NzNlw1E/9Ba0bWvcMQkPx/rdf0HSknXdhm1BgnRzImZeIkW1R9pcu9lqdU/NoHLhHQW+iEXHTVwtrFDX9wum9h2cLYZzqwNdtdyikk5e0ApbQfrmrg==
+ bh=Lk+/v5Ru5WVHNwhF49eB/zlLQWIh929hS53FBd/x8jo=;
+ b=XREJkiPlIjFnoP7zA+WWqyCS+EEQHwKOAkNfvxmSShuu4a3WNeXipqWtf781XarbYXLMfLy3sayfnLGsN99TzkxG1CxfcMdhar2MhkWUVosf0WmV/yy0CSG8CeNElSiUsWzeGpU0/YKyQlrdWZnPSw1peQNryRbtDE4UNCCU0J9d5gf6V36PiFqwtX3Bap2g/MCYoYK13mNsFh52qXT7ejWqObWM7nBWxq9rjhbKW+1IUZRAxS7fA+ovt3EhyNDeAY6P2ajm3SVGgMDxA1mQiLbrvIQKZpVN2iOS50Lykl49xKM5YKZr8mxCLcRFjhuotDlcgr2x0flblS/pl4pr/A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0jDyLVNTFQabu8nZ8kZWGIAPZD4i5irSpsyZpfcEzBU=;
- b=L33qKJjUkaViXsIO2oPXGiKV2q5wsj9FNQniSrO2FCv5MvVsssID/NSPyieF55DTlRbYOxvGkp5HGrT266GFyv09640lhw+8tvqCBBhrx4ALHVmjZer3iTO5FdiFI9W1YPn51ZTrhDEfcwQ0xgw67jNMtOpMvxP59Ej4zho0ip0=
-Received: from CO2PR04CA0198.namprd04.prod.outlook.com (2603:10b6:104:5::28)
- by BN6PR1201MB0100.namprd12.prod.outlook.com (2603:10b6:405:59::9) with
+ bh=Lk+/v5Ru5WVHNwhF49eB/zlLQWIh929hS53FBd/x8jo=;
+ b=UIejDADHTDQ3ueckHqECXsw17b6XZcIYi8/mWGUU+swDyAq0nl39P9yzeuCixKoCJKElQ/Uf2Qa1W7ZbHHL8ZRpaoTBLTh+6tfCXLd/oRNFQlq8aKBegNHAS7B5Fv9P2wMtNNBzOOBTCJwoVIPzyvTWgeRpixIHuC6wk6/wx++4=
+Received: from CO2PR04CA0202.namprd04.prod.outlook.com (2603:10b6:104:5::32)
+ by CY4PR12MB1480.namprd12.prod.outlook.com (2603:10b6:910:f::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.19; Wed, 22 Dec
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.17; Wed, 22 Dec
  2021 22:05:55 +0000
 Received: from CO1NAM11FT030.eop-nam11.prod.protection.outlook.com
- (2603:10b6:104:5:cafe::5f) by CO2PR04CA0198.outlook.office365.com
- (2603:10b6:104:5::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.17 via Frontend
- Transport; Wed, 22 Dec 2021 22:05:54 +0000
+ (2603:10b6:104:5:cafe::16) by CO2PR04CA0202.outlook.office365.com
+ (2603:10b6:104:5::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.17 via Frontend
+ Transport; Wed, 22 Dec 2021 22:05:55 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -47,49 +47,49 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB03.amd.com (165.204.84.17) by
  CO1NAM11FT030.mail.protection.outlook.com (10.13.174.125) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4823.18 via Frontend Transport; Wed, 22 Dec 2021 22:05:54 +0000
+ 15.20.4823.18 via Frontend Transport; Wed, 22 Dec 2021 22:05:55 +0000
 Received: from agrodzovsky-All-Series.amd.com (10.180.168.240) by
  SATLEXMB03.amd.com (10.181.40.144) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.17; Wed, 22 Dec 2021 16:05:52 -0600
+ 15.1.2375.17; Wed, 22 Dec 2021 16:05:54 -0600
 From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
-Subject: [RFC v2 1/8] drm/amdgpu: Introduce reset domain
-Date: Wed, 22 Dec 2021 17:04:59 -0500
-Message-ID: <20211222220506.789133-2-andrey.grodzovsky@amd.com>
+Subject: [RFC v2 2/8] drm/amdgpu: Move scheduler init to after XGMI is ready
+Date: Wed, 22 Dec 2021 17:05:00 -0500
+Message-ID: <20211222220506.789133-3-andrey.grodzovsky@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211222220506.789133-1-andrey.grodzovsky@amd.com>
 References: <20211222220506.789133-1-andrey.grodzovsky@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [10.180.168.240]
 X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB03.amd.com
  (10.181.40.144)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4ada8295-f72a-482b-9cb6-08d9c5973990
-X-MS-TrafficTypeDiagnostic: BN6PR1201MB0100:EE_
-X-Microsoft-Antispam-PRVS: <BN6PR1201MB0100CE2E1CE68A830365FB7FEA7D9@BN6PR1201MB0100.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
+X-MS-Office365-Filtering-Correlation-Id: b4c354bd-30aa-4560-1def-08d9c5973a16
+X-MS-TrafficTypeDiagnostic: CY4PR12MB1480:EE_
+X-Microsoft-Antispam-PRVS: <CY4PR12MB1480122C60CCEE6AC3254586EA7D9@CY4PR12MB1480.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:510;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: annruevZrtsiZuclMMPikiK4xml3RdLIMcMiqBc6YAn6enhkBAolROQ8mtXAhNaAMAWdy4W2k6NJPhP79okDdJcwnc9PHRAYRjNFFKgBy2BAB5Be3vXS480YvE3BvDZdIXR4/fVe3kFB5mC49vmvihNE0wim7DN+QNomnrsfXDsrlvNO3d5zmdGZ0oSRzighAzwjuP4/jKmzdOAH9p4QNkhqkFCK6RADk9VkLehjDHEj/7Spxp2OLMZSoeA+juQKdDKaRIZpLFcyKaLNy95BAJYGbrSmeVlpmcte+bMxTQm+S6NKPcwFN3ckoDGUyOPDWxlnYa2VHLzFMlBiKglu+yA/bDBs8E2zbuIIfBKzRn5HdIO/goY22peN1OfmBUOx7Vp1T0CfHh3jhEMQxNTNrXLADeYEG4SOI1PmSX/iUbTgbhex+F3zdR1x9nDvJfLTPRfQ+6G556d3sp4yh0JMZVxMNE4a1aAGyhMnhMC1J6m5mdrQGU0RztLIe9LgbfW0pVHr45rqEXiiHEE2wX+REB88AXx1mOWyiNFyRtemJxaWOonKg5n9QGFVAByO86Xn7UrmYsfufg7fe6Txy6xUI7+Ifva8tr+S8zodMCAi9UVFUcUHRgzJjCOdInLCrkNnR1G6/R77hsiDG5BEPDYF9hdjggYdlRRlMTV04GmfjzDZ7qS5FMjvPjNx532XU7X+9uP+OSj6JE1jIEgXjbixSdZCWIcDuwpnzJDQlP1UPEQ6doZ/YN76QH3p9UHKUP36S9oyLtBUJTg6QEqRiSnKReusPoPA2Oo53ZbGqVrrvjE=
+X-Microsoft-Antispam-Message-Info: nst00jqddR+LwDzG0uVMp6uLxK/iK5CgdbDxyXKBFRCR1GyUvYaaOho5MhQIP/BcuEuWl7uhiS8juxpISxMHrsdRufIam41nQGMSUroA109cqI9yeoBVYx8EtSldoojbsheeAcUH6QHtO52X++m/3rDcv4tp2DnLYV3URjmIZ9xGaNwR8bTSJQekdGzP2RXS9LdctYNkzO6aCaG7z33SqFoiYNFq1qchqBbdINfKpuYfanEorEqwRdFYjm9555gB4WzE5siKv1o5xW/6z5vhiYxFmvX2sGvzQcXQjUuXrsGPF5xujLn/HNedDBk6NnHhEIyQisAs8Yw1wgc0DeH4X2UAYJHndZg2Oar6H1vz6tufG2uwi6rHzuELF3N6Az78F6iKFBz+ZenYBj10Em+8b/9YiuWRrpfcTwh2ScV5ayHFoXW4ai3o3zmPMeT5cV1UlnJhKtUIiyWYdVyaNtymNPrCDwMlUAfGQMYgUBxkJCg6LnWCi4P4HL/mj7Ajg8nUHNZ/I/gSwMKF4/qwZI85JlojFaX35+04+jrLrNN9pT8jn8C69H9mWp7+i+C5LIcl6/rKusCAtmodkrvbLxIH4aqpsTSxXZ/6ck1/tprfDdGwfKyojO/XENkOzv9BXHMWbeVDO5kBMp1pKAttmh74zIzD1s3Z2JL/Q0scjKWYlh30JxJfHGCDzjlFL89Ory0yxozjWb21dkPu8Jkje5jrYUgeEirkBYWmNQwtD8fgF463NJaT1o/SQTgLuaRK/l4OBlBmocTe9Qy7i8tmrgMGWRPbcl7FCWovGYuRQLOybLg=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(40470700002)(46966006)(36840700001)(70586007)(44832011)(86362001)(70206006)(1076003)(8676002)(8936002)(40460700001)(4326008)(82310400004)(110136005)(356005)(36860700001)(508600001)(26005)(186003)(16526019)(54906003)(2906002)(7696005)(83380400001)(47076005)(426003)(2616005)(36756003)(66574015)(5660300002)(316002)(81166007)(336012)(36900700001);
+ SFS:(4636009)(36840700001)(40470700002)(46966006)(6666004)(70586007)(36860700001)(2616005)(81166007)(70206006)(44832011)(26005)(336012)(47076005)(1076003)(426003)(4326008)(54906003)(16526019)(83380400001)(5660300002)(36756003)(316002)(7696005)(8676002)(40460700001)(110136005)(356005)(82310400004)(186003)(2906002)(86362001)(8936002)(508600001)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2021 22:05:54.4585 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4ada8295-f72a-482b-9cb6-08d9c5973990
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2021 22:05:55.3335 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b4c354bd-30aa-4560-1def-08d9c5973a16
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB03.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT030.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR1201MB0100
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1480
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,127 +102,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, horace.chen@amd.com,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- christian.koenig@amd.com, Monk.Liu@amd.com
+Cc: Monk.Liu@amd.com, horace.chen@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Defined a reset_domain struct such that
-all the entities that go through reset
-together will be serialized one against
-another. Do it for both single device and
-XGMI hive cases.
+Before we initialize schedulers we must know which reset
+domain are we in - for single device there iis a single
+domain per device and so single wq per device. For XGMI
+the reset domain spans the entire XGMI hive and so the
+reset wq is per hive.
 
 Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Suggested-by: Christian König <ckoenig.leichtzumerken@gmail.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu.h        |  7 +++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 20 +++++++++++++++++++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c   |  9 +++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.h   |  2 ++
- 4 files changed, 37 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 45 ++++++++++++++++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c  | 34 ++--------------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h   |  2 +
+ 3 files changed, 51 insertions(+), 30 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-index 9f017663ac50..b5ff76aae7e0 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-@@ -812,6 +812,11 @@ struct amd_powerplay {
- 
- #define AMDGPU_RESET_MAGIC_NUM 64
- #define AMDGPU_MAX_DF_PERFMONS 4
-+
-+struct amdgpu_reset_domain {
-+	struct workqueue_struct *wq;
-+};
-+
- struct amdgpu_device {
- 	struct device			*dev;
- 	struct pci_dev			*pdev;
-@@ -1096,6 +1101,8 @@ struct amdgpu_device {
- 
- 	struct amdgpu_reset_control     *reset_cntl;
- 	uint32_t                        ip_versions[HW_ID_MAX][HWIP_MAX_INSTANCE];
-+
-+	struct amdgpu_reset_domain	reset_domain;
- };
- 
- static inline struct amdgpu_device *drm_to_adev(struct drm_device *ddev)
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 90d22a376632..0f3e6c078f88 100644
+index 0f3e6c078f88..7c063fd37389 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -2391,9 +2391,27 @@ static int amdgpu_device_ip_init(struct amdgpu_device *adev)
- 	if (r)
- 		goto init_failed;
+@@ -2284,6 +2284,47 @@ static int amdgpu_device_fw_loading(struct amdgpu_device *adev)
+ 	return r;
+ }
  
--	if (adev->gmc.xgmi.num_physical_nodes > 1)
-+	if (adev->gmc.xgmi.num_physical_nodes > 1) {
-+		struct amdgpu_hive_info *hive;
++static int amdgpu_device_init_schedulers(struct amdgpu_device *adev)
++{
++	long timeout;
++	int r, i;
 +
- 		amdgpu_xgmi_add_device(adev);
- 
-+		hive = amdgpu_get_xgmi_hive(adev);
-+		if (!hive || !hive->reset_domain.wq) {
-+			DRM_ERROR("Failed to obtain reset domain info for XGMI hive:%llx", hive->hive_id);
-+			r = -EINVAL;
-+			goto init_failed;
++	for (i = 0; i < AMDGPU_MAX_RINGS; ++i) {
++		struct amdgpu_ring *ring = adev->rings[i];
++
++		/* No need to setup the GPU scheduler for rings that don't need it */
++		if (!ring || ring->no_scheduler)
++			continue;
++
++		switch (ring->funcs->type) {
++		case AMDGPU_RING_TYPE_GFX:
++			timeout = adev->gfx_timeout;
++			break;
++		case AMDGPU_RING_TYPE_COMPUTE:
++			timeout = adev->compute_timeout;
++			break;
++		case AMDGPU_RING_TYPE_SDMA:
++			timeout = adev->sdma_timeout;
++			break;
++		default:
++			timeout = adev->video_timeout;
++			break;
 +		}
 +
-+		adev->reset_domain.wq = hive->reset_domain.wq;
-+	} else {
-+		adev->reset_domain.wq = alloc_ordered_workqueue("amdgpu-reset-dev", 0);
-+		if (!adev->reset_domain.wq) {
-+			r = -ENOMEM;
-+			goto init_failed;
++		r = drm_sched_init(&ring->sched, &amdgpu_sched_ops,
++				   ring->num_hw_submission, amdgpu_job_hang_limit,
++				   timeout, adev->reset_domain.wq, ring->sched_score, ring->name);
++		if (r) {
++			DRM_ERROR("Failed to create scheduler on ring %s.\n",
++				  ring->name);
++			return r;
 +		}
 +	}
++
++	return 0;
++}
++
++
+ /**
+  * amdgpu_device_ip_init - run init for hardware IPs
+  *
+@@ -2412,6 +2453,10 @@ static int amdgpu_device_ip_init(struct amdgpu_device *adev)
+ 		}
+ 	}
+ 
++	r = amdgpu_device_init_schedulers(adev);
++	if (r)
++		goto init_failed;
 +
  	/* Don't init kfd if whole hive need to be reset during init */
  	if (!adev->gmc.xgmi.pending_reset)
  		amdgpu_amdkfd_device_init(adev);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-index 567df2db23ac..a858e3457c5c 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-@@ -392,6 +392,14 @@ struct amdgpu_hive_info *amdgpu_get_xgmi_hive(struct amdgpu_device *adev)
- 		goto pro_end;
- 	}
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+index 3b7e86ea7167..5527c68c51de 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+@@ -456,8 +456,6 @@ int amdgpu_fence_driver_init_ring(struct amdgpu_ring *ring,
+ 				  atomic_t *sched_score)
+ {
+ 	struct amdgpu_device *adev = ring->adev;
+-	long timeout;
+-	int r;
  
-+	hive->reset_domain.wq = alloc_ordered_workqueue("amdgpu-reset-hive", 0);
-+	if (!hive->reset_domain.wq) {
-+		dev_err(adev->dev, "XGMI: failed allocating wq for reset domain!\n");
-+		kfree(hive);
-+		hive = NULL;
-+		goto pro_end;
-+	}
-+
- 	hive->hive_id = adev->gmc.xgmi.hive_id;
- 	INIT_LIST_HEAD(&hive->device_list);
- 	INIT_LIST_HEAD(&hive->node);
-@@ -401,6 +409,7 @@ struct amdgpu_hive_info *amdgpu_get_xgmi_hive(struct amdgpu_device *adev)
- 	task_barrier_init(&hive->tb);
- 	hive->pstate = AMDGPU_XGMI_PSTATE_UNKNOWN;
- 	hive->hi_req_gpu = NULL;
-+
- 	/*
- 	 * hive pstate on boot is high in vega20 so we have to go to low
- 	 * pstate on after boot.
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.h
-index d2189bf7d428..6121aaa292cb 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.h
-@@ -42,6 +42,8 @@ struct amdgpu_hive_info {
- 		AMDGPU_XGMI_PSTATE_MAX_VEGA20,
- 		AMDGPU_XGMI_PSTATE_UNKNOWN
- 	} pstate;
-+
-+	struct amdgpu_reset_domain reset_domain;
+ 	if (!adev)
+ 		return -EINVAL;
+@@ -477,36 +475,12 @@ int amdgpu_fence_driver_init_ring(struct amdgpu_ring *ring,
+ 	spin_lock_init(&ring->fence_drv.lock);
+ 	ring->fence_drv.fences = kcalloc(num_hw_submission * 2, sizeof(void *),
+ 					 GFP_KERNEL);
+-	if (!ring->fence_drv.fences)
+-		return -ENOMEM;
+ 
+-	/* No need to setup the GPU scheduler for rings that don't need it */
+-	if (ring->no_scheduler)
+-		return 0;
++	ring->num_hw_submission = num_hw_submission;
++	ring->sched_score = sched_score;
+ 
+-	switch (ring->funcs->type) {
+-	case AMDGPU_RING_TYPE_GFX:
+-		timeout = adev->gfx_timeout;
+-		break;
+-	case AMDGPU_RING_TYPE_COMPUTE:
+-		timeout = adev->compute_timeout;
+-		break;
+-	case AMDGPU_RING_TYPE_SDMA:
+-		timeout = adev->sdma_timeout;
+-		break;
+-	default:
+-		timeout = adev->video_timeout;
+-		break;
+-	}
+-
+-	r = drm_sched_init(&ring->sched, &amdgpu_sched_ops,
+-			   num_hw_submission, amdgpu_job_hang_limit,
+-			   timeout, NULL, sched_score, ring->name);
+-	if (r) {
+-		DRM_ERROR("Failed to create scheduler on ring %s.\n",
+-			  ring->name);
+-		return r;
+-	}
++	if (!ring->fence_drv.fences)
++		return -ENOMEM;
+ 
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
+index 4d380e79752c..a4b8279e3011 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
+@@ -253,6 +253,8 @@ struct amdgpu_ring {
+ 	bool			has_compute_vm_bug;
+ 	bool			no_scheduler;
+ 	int			hw_prio;
++	unsigned 		num_hw_submission;
++	atomic_t		*sched_score;
  };
  
- struct amdgpu_pcs_ras_field {
+ #define amdgpu_ring_parse_cs(r, p, ib) ((r)->funcs->parse_cs((p), (ib)))
 -- 
 2.25.1
 
