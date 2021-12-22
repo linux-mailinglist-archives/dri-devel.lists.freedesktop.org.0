@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53B8147ED22
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Dec 2021 09:28:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1BAE47ED25
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Dec 2021 09:28:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 709EC10E40B;
-	Fri, 24 Dec 2021 08:28:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA30E10E413;
+	Fri, 24 Dec 2021 08:28:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
  [210.160.252.171])
- by gabe.freedesktop.org (Postfix) with ESMTP id D194C10E1ED
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 19:07:07 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.88,227,1635174000"; d="scan'208";a="104382696"
+ by gabe.freedesktop.org (Postfix) with ESMTP id D19D110E1ED
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 19:07:10 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.88,227,1635174000"; d="scan'208";a="104382703"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
- by relmlie5.idc.renesas.com with ESMTP; 23 Dec 2021 04:02:05 +0900
+ by relmlie5.idc.renesas.com with ESMTP; 23 Dec 2021 04:02:09 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
- by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2008040DF45D;
- Thu, 23 Dec 2021 04:02:02 +0900 (JST)
+ by relmlir6.idc.renesas.com (Postfix) with ESMTP id 4193740DF258;
+ Thu, 23 Dec 2021 04:02:06 +0900 (JST)
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Inki Dae <inki.dae@samsung.com>, Joonyoung Shim <jy0922.shim@samsung.com>,
  Seung-Woo Kim <sw0312.kim@samsung.com>,
@@ -27,14 +27,14 @@ To: Inki Dae <inki.dae@samsung.com>, Joonyoung Shim <jy0922.shim@samsung.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-samsung-soc@vger.kernel.org
-Subject: [PATCH 4/5] drm/exynos/fimc: Use platform_get_irq() to get the
+Subject: [PATCH 5/5] drm/exynos: gsc: Use platform_get_irq() to get the
  interrupt
-Date: Wed, 22 Dec 2021 19:01:33 +0000
-Message-Id: <20211222190134.24866-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date: Wed, 22 Dec 2021 19:01:34 +0000
+Message-Id: <20211222190134.24866-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20211222190134.24866-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20211222190134.24866-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailman-Approved-At: Fri, 24 Dec 2021 08:28:14 +0000
+X-Mailman-Approved-At: Fri, 24 Dec 2021 08:28:15 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,22 +64,22 @@ code use platform_get_irq().
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- drivers/gpu/drm/exynos/exynos_drm_fimc.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/exynos/exynos_drm_gsc.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimc.c b/drivers/gpu/drm/exynos/exynos_drm_fimc.c
-index ecfd82d0afb7..dd806743e4de 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_fimc.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_fimc.c
-@@ -1267,7 +1267,6 @@ static int fimc_probe(struct platform_device *pdev)
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_gsc.c b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
+index 166a80262896..964dceb28c1e 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_gsc.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
+@@ -1220,7 +1220,6 @@ static int gsc_probe(struct platform_device *pdev)
+ 	struct gsc_driverdata *driver_data;
  	struct exynos_drm_ipp_formats *formats;
- 	struct device *dev = &pdev->dev;
- 	struct fimc_context *ctx;
+ 	struct gsc_context *ctx;
 -	struct resource *res;
- 	int ret;
- 	int i, j, num_limits, num_formats;
+ 	int num_formats, ret, i, j;
  
-@@ -1330,14 +1329,12 @@ static int fimc_probe(struct platform_device *pdev)
+ 	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+@@ -1275,13 +1274,10 @@ static int gsc_probe(struct platform_device *pdev)
  		return PTR_ERR(ctx->regs);
  
  	/* resource irq */
@@ -88,17 +88,14 @@ index ecfd82d0afb7..dd806743e4de 100644
 -		dev_err(dev, "failed to request irq resource.\n");
 -		return -ENOENT;
 -	}
-+	ret = platform_get_irq(pdev, 0);
-+	if (ret < 0)
-+		return ret;
++	ctx->irq = platform_get_irq(pdev, 0);
++	if (ctx->irq < 0)
++		return ctx->irq;
  
--	ret = devm_request_irq(dev, res->start, fimc_irq_handler,
--		0, dev_name(dev), ctx);
-+	ret = devm_request_irq(dev, ret, fimc_irq_handler,
-+			       0, dev_name(dev), ctx);
+-	ctx->irq = res->start;
+ 	ret = devm_request_irq(dev, ctx->irq, gsc_irq_handler, 0,
+ 			       dev_name(dev), ctx);
  	if (ret < 0) {
- 		dev_err(dev, "failed to request irq.\n");
- 		return ret;
 -- 
 2.17.1
 
