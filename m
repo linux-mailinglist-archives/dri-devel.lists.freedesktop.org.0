@@ -1,58 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C88947D513
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 17:21:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD3DC47D516
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 17:25:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D67010E172;
-	Wed, 22 Dec 2021 16:21:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07CA110E216;
+	Wed, 22 Dec 2021 16:25:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E628010E153;
- Wed, 22 Dec 2021 16:21:43 +0000 (UTC)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42ED510E216;
+ Wed, 22 Dec 2021 16:25:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1640190103; x=1671726103;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=lUDKe0WtB+NdKeIZ6iUvfZDu/wkM1tA3TTyOVM5fJdI=;
- b=F/4Blrd/G7EEoFl+sACkb//ybi5X8n8Ixd2d/Hm6il0wPqsljM/40021
- AqXUE+NLJcf8zAnlyYg3Owh6lcvy36dVXATsj159Y0geGw0dvRI+lX7fE
- 1eG/B9qIg9N76vtbl5p+YRYhlHdn3FrDBhOGRqLaGCutto/84Bl6EwfKm
- LACbOElZsaI9swEp94Lyntpg7VGBct5PBLOj5vrFOmSogitTFUV1uzeeC
- G7BqEqrycDhPDpS4EDPifHU6PzBJ/Vr4BmubfUotAdPrdq+rpMe/gu9YD
- d0sSm5yr5papMubC+PYdcmFcMJd3+PEcuJCFn2etioYRkiCpVftnk+lLr g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10206"; a="264852758"
-X-IronPort-AV: E=Sophos;i="5.88,227,1635231600"; d="scan'208";a="264852758"
+ t=1640190319; x=1671726319;
+ h=message-id:date:mime-version:subject:from:to:references:
+ cc:in-reply-to:content-transfer-encoding;
+ bh=w04gZYOw/p0MMOohsQT4hgj1PSb8fwyWNI7FhQVNNgU=;
+ b=FtkHbQXsjlkE6ZBarn/jbkndIK3anXKaWXkwZDg4zi9hc3qjRrzIud3O
+ VDXqdKJmol0fa7XIUoiOUrxYZprRau/6nBj/Qwp3+rJZMycShQfXlxCp1
+ 5BntxZdby6AN9HD1D7r9WEBAkC+8lGHD3SUR439BVRX/ElAXIFf7O7+Um
+ avER/yyC0TwKMzqvDBV0EkPiBhwr79pXXCRIzEPOtv2RP+YJt4HmwMxB+
+ qhgkoI/wWpB2Pv/ufaqIJp9M86ypcD+BgNfS/KPfqb1c2pceudKSameL1
+ pVK10/wK0C3tOhe86Z9qaG2DRYGkv9IyIT5UzD78NOWyPeJ1n3edVuWYF g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10206"; a="240459556"
+X-IronPort-AV: E=Sophos;i="5.88,227,1635231600"; d="scan'208";a="240459556"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2021 08:21:42 -0800
-X-IronPort-AV: E=Sophos;i="5.88,227,1635231600"; d="scan'208";a="468221510"
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Dec 2021 08:25:17 -0800
+X-IronPort-AV: E=Sophos;i="5.88,227,1635231600"; d="scan'208";a="468222445"
 Received: from rajvende-mobl1.ger.corp.intel.com (HELO [10.213.198.55])
  ([10.213.198.55])
  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2021 08:21:41 -0800
-Message-ID: <5921ac11-1286-1062-f702-f33bc55e4a0e@linux.intel.com>
-Date: Wed, 22 Dec 2021 16:21:37 +0000
+ 22 Dec 2021 08:25:16 -0800
+Message-ID: <d614aa61-91ed-5e99-64fa-baa147c6d493@linux.intel.com>
+Date: Wed, 22 Dec 2021 16:25:13 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.1
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc: Log engine resets
+Subject: Re: [Intel-gfx] [PATCH 4/7] drm/i915/guc: Don't hog IRQs when
+ destroying contexts
 Content-Language: en-US
-To: John Harrison <john.c.harrison@intel.com>,
- Matthew Brost <matthew.brost@intel.com>
-References: <20211214150704.984034-1-tvrtko.ursulin@linux.intel.com>
- <597d4ad0-fdae-49a6-b471-3a83d4c25b98@linux.intel.com>
- <20211217162254.GA22048@jons-linux-dev-box>
- <3d32df02-c02e-9c35-5165-79af1cb10100@linux.intel.com>
- <1c3b1b53-0e9e-a89c-1a77-90cbc229c637@intel.com>
- <01320c8c-a9c9-8c21-7601-75860bf11838@linux.intel.com>
- <1d78552e-8a7c-84c5-a9e6-7c7476a5e2e5@intel.com>
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+References: <20211214170500.28569-1-matthew.brost@intel.com>
+ <20211214170500.28569-5-matthew.brost@intel.com>
+ <7cc85926-75e8-0368-1684-62ae5f341807@linux.intel.com>
+ <35bc4a2a-9a50-9651-5c17-65f788817f64@linux.intel.com>
 Organization: Intel Corporation UK Plc
-In-Reply-To: <1d78552e-8a7c-84c5-a9e6-7c7476a5e2e5@intel.com>
+In-Reply-To: <35bc4a2a-9a50-9651-5c17-65f788817f64@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,203 +65,197 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: John Harrison <John.C.Harrison@Intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 21/12/2021 22:14, John Harrison wrote:
-> On 12/21/2021 05:37, Tvrtko Ursulin wrote:
->> On 20/12/2021 18:34, John Harrison wrote:
->>> On 12/20/2021 07:00, Tvrtko Ursulin wrote:
->>>> On 17/12/2021 16:22, Matthew Brost wrote:
->>>>> On Fri, Dec 17, 2021 at 12:15:53PM +0000, Tvrtko Ursulin wrote:
->>>>>>
->>>>>> On 14/12/2021 15:07, Tvrtko Ursulin wrote:
->>>>>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>>>>>
->>>>>>> Log engine resets done by the GuC firmware in the similar way it 
->>>>>>> is done
->>>>>>> by the execlists backend.
->>>>>>>
->>>>>>> This way we have notion of where the hangs are before the GuC gains
->>>>>>> support for proper error capture.
->>>>>>
->>>>>> Ping - any interest to log this info?
->>>>>>
->>>>>> All there currently is a non-descriptive "[drm] GPU HANG: ecode
->>>>>> 12:0:00000000".
->>>>>>
->>>>>
->>>>> Yea, this could be helpful. One suggestion below.
->>>>>
->>>>>> Also, will GuC be reporting the reason for the engine reset at any 
->>>>>> point?
->>>>>>
->>>>>
->>>>> We are working on the error state capture, presumably the registers 
->>>>> will
->>>>> give a clue what caused the hang.
->>>>>
->>>>> As for the GuC providing a reason, that isn't defined in the interface
->>>>> but that is decent idea to provide a hint in G2H what the issue 
->>>>> was. Let
->>>>> me run that by the i915 GuC developers / GuC firmware team and see 
->>>>> what
->>>>> they think.
->>>>>
->>> The GuC does not do any hang analysis. So as far as GuC is concerned, 
->>> the reason is pretty much always going to be pre-emption timeout. 
->>> There are a few ways the pre-emption itself could be triggered but 
->>> basically, if GuC resets an active context then it is because it did 
->>> not pre-empt quickly enough when requested.
->>>
->>>
->>>>>> Regards,
->>>>>>
->>>>>> Tvrtko
->>>>>>
->>>>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>>>>> Cc: Matthew Brost <matthew.brost@intel.com>
->>>>>>> Cc: John Harrison <John.C.Harrison@Intel.com>
->>>>>>> ---
->>>>>>>    drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 12 
->>>>>>> +++++++++++-
->>>>>>>    1 file changed, 11 insertions(+), 1 deletion(-)
->>>>>>>
->>>>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c 
->>>>>>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>>>>>> index 97311119da6f..51512123dc1a 100644
->>>>>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>>>>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>>>>>> @@ -11,6 +11,7 @@
->>>>>>>    #include "gt/intel_context.h"
->>>>>>>    #include "gt/intel_engine_pm.h"
->>>>>>>    #include "gt/intel_engine_heartbeat.h"
->>>>>>> +#include "gt/intel_engine_user.h"
->>>>>>>    #include "gt/intel_gpu_commands.h"
->>>>>>>    #include "gt/intel_gt.h"
->>>>>>>    #include "gt/intel_gt_clock_utils.h"
->>>>>>> @@ -3934,9 +3935,18 @@ static void capture_error_state(struct 
->>>>>>> intel_guc *guc,
->>>>>>>    {
->>>>>>>        struct intel_gt *gt = guc_to_gt(guc);
->>>>>>>        struct drm_i915_private *i915 = gt->i915;
->>>>>>> -    struct intel_engine_cs *engine = 
->>>>>>> __context_to_physical_engine(ce);
->>>>>>> +    struct intel_engine_cs *engine = ce->engine;
->>>>>>>        intel_wakeref_t wakeref;
->>>>>>> +    if (intel_engine_is_virtual(engine)) {
->>>>>>> +        drm_notice(&i915->drm, "%s class, engines 0x%x; GuC 
->>>>>>> engine reset\n",
->>>>>>> + intel_engine_class_repr(engine->class),
->>>>>>> +               engine->mask);
->>>>>>> +        engine = guc_virtual_get_sibling(engine, 0);
->>>>>>> +    } else {
->>>>>>> +        drm_notice(&i915->drm, "%s GuC engine reset\n", 
->>>>>>> engine->name);
->>>>>
->>>>> Probably include the guc_id of the context too then?
->>>>
->>>> Is the guc id stable and useful on its own - who would be the user?
->>> The GuC id is the only thing that matters when trying to correlate 
->>> KMD activity with a GuC log. So while it might not be of any use or 
->>> interest to an end user, it is extremely important and useful to a 
->>> kernel developer attempting to debug an issue. And that includes bug 
->>> reports from end users that are hard to repro given that the standard 
->>> error capture will include the GuC log.
->>
->> On the topic of GuC log - is there a tool in IGT (or will be) which 
->> will parse the bit saved in the error capture or how is that supposed 
->> to be used?
-> Nope.
-> 
-> However, Alan is currently working on supporting the GuC error capture 
-> mechanism. Prior to sending the reset notification to the KMD, the GuC 
-> will save a whole bunch of register state to a memory buffer and send a 
-> notification to the KMD that this is available. When we then get the 
-> actual reset notification, we need to match the two together and include 
-> a parsed, human readable version of the GuC's capture state buffer in 
-> the sysfs error log output.
-> 
-> The GuC log should not be involved in this process. And note that any 
-> register dumps in the GuC log are limited in scope and only enabled at 
-> higher verbosity levels. Whereas, the official state capture is based on 
-> a register list provided by the KMD and is available irrespective of 
-> debug CONFIG settings, verbosity levels, etc.
+Ping?
 
-Hm why should GuC log not be involved now? I thought earlier you said:
+Main two points being:
 
-"""
-And that includes bug reports from end users that are hard to repro 
-given that the standard error capture will include the GuC log.
-"""
+1) Commit message seems in contradiction with the change in 
+guc_flush_destroyed_contexts. And the lock drop to immediately 
+re-acquire it looks questionable to start with.
 
-Hence I thought there would be a tool in IGT which would parse the part 
-saved inside the error capture.
-
->>> Also, note that GuC really resets contexts rather than engines. What 
->>> it reports back to i915 on a reset is simply the GuC id of the 
->>> context. It is up to i915 to work back from that to determine engine 
->>> instances/classes if required. And in the case of a virtual context, 
->>> it is impossible to extract the actual instance number. So your above 
->>> print about resetting all instances within the virtual engine mask is 
->>> incorrect/misleading. The reset would have been applied to one and 
->>> only one of those engines. If you really need to know exactly which 
->>> engine was poked, you need to look inside the GuC log.
->>
->> I think I understood that part. :) It wasn't my intent to imply in the 
->> message multiple engines have been reset, but in the case of veng, log 
->> the class and mask and the fact there was an engine reset (singular). 
->> Clearer message can probably be written.
->>
->>> However, the follow up point is to ask why you need to report the 
->>> exact class/instance? The end user doesn't care about which specific 
->>> engine got reset. They only care that their context was reset. Even a 
->>> KMD developer doesn't really care unless the concern is about a 
->>> hardware bug rather than a software bug.
->>
->> I was simply aligning both backends to log as similar information as 
->> possible. Information is there, just not logged.
->>
->> Concerning the wider topic, my thinking is end user is mainly 
->> interested to know there are any engine resets happening (to tie with 
->> the experience of UI/video glitching or whatever). Going for deeper 
->> analysis than that is probably beyond the scope of the kernel log and 
->> indeed error capture territory.
-> I would still say that the important information is which context was 
-> killed not which engine. Sure, knowing the engine is better than nothing 
-> but if we can report something more useful then why not?
-
-Make it so. :)
-
->>> My view is that the current message is indeed woefully uninformative. 
->>> However, it is more important to be reporting context identification 
->>> than engine instances. So sure, add the engine instance description 
->>> but also add something specific to the ce as well. Ideally (for me) 
->>> the GuC id and maybe something else that uniquely identifies the 
->>> context in KMD land for when not using GuC?
->>
->> Not sure we need to go that far at this level, but even if we do it 
->> could be a follow up to add new data to both backends. Not sure yet I 
->> care enough to drive this. My patch was simply a reaction to noticing 
->> there is zero information currently logged while debugging some DG2 
->> hangs.
-> In terms of just reporting that a reset occurred, we already have the 
-> 'GPU HANG: ecode 12:1:fbffffff, in testfw_app [8177]' message. The ecode 
-> is a somewhat bizarre value but it does act as a 'something went wrong, 
-> your system is not happy' type message. Going beyond that, I think 
-> context identification is the next most useful thing to add.
-> 
-> But if you aren't even getting the 'GPU HANG' message then it sounds 
-> like something is broken with what we already have. So we should fix 
-> that as a first priority. If that message isn't appearing then it means 
-> there was no error capture so adding extra info to the capture won't help!
-
-The issue I have is that "GPU HANG ecode" messages are always "all 
-zeros". It thought that was because GuC error capture was not there, but 
-maybe its something else.
+2) And in deregister_destroyed_contexts and in 1) I was therefore asking 
+if you can unlink all at once and process with reduced hammering on the 
+lock.
 
 Regards,
 
 Tvrtko
+
+On 17/12/2021 11:14, Tvrtko Ursulin wrote:
+> 
+> On 17/12/2021 11:06, Tvrtko Ursulin wrote:
+>> On 14/12/2021 17:04, Matthew Brost wrote:
+>>> From: John Harrison <John.C.Harrison@Intel.com>
+>>>
+>>> While attempting to debug a CT deadlock issue in various CI failures
+>>> (most easily reproduced with gem_ctx_create/basic-files), I was seeing
+>>> CPU deadlock errors being reported. This were because the context
+>>> destroy loop was blocking waiting on H2G space from inside an IRQ
+>>> spinlock. There no was deadlock as such, it's just that the H2G queue
+>>> was full of context destroy commands and GuC was taking a long time to
+>>> process them. However, the kernel was seeing the large amount of time
+>>> spent inside the IRQ lock as a dead CPU. Various Bad Things(tm) would
+>>> then happen (heartbeat failures, CT deadlock errors, outstanding H2G
+>>> WARNs, etc.).
+>>>
+>>> Re-working the loop to only acquire the spinlock around the list
+>>> management (which is all it is meant to protect) rather than the
+>>> entire destroy operation seems to fix all the above issues.
+>>>
+>>> v2:
+>>>   (John Harrison)
+>>>    - Fix typo in comment message
+>>>
+>>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>>> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+>>> ---
+>>>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 45 ++++++++++++-------
+>>>   1 file changed, 28 insertions(+), 17 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c 
+>>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> index 36c2965db49b..96fcf869e3ff 100644
+>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> @@ -2644,7 +2644,6 @@ static inline void guc_lrc_desc_unpin(struct 
+>>> intel_context *ce)
+>>>       unsigned long flags;
+>>>       bool disabled;
+>>> -    lockdep_assert_held(&guc->submission_state.lock);
+>>>       GEM_BUG_ON(!intel_gt_pm_is_awake(gt));
+>>>       GEM_BUG_ON(!lrc_desc_registered(guc, ce->guc_id.id));
+>>>       GEM_BUG_ON(ce != __get_context(guc, ce->guc_id.id));
+>>> @@ -2660,7 +2659,7 @@ static inline void guc_lrc_desc_unpin(struct 
+>>> intel_context *ce)
+>>>       }
+>>>       spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+>>>       if (unlikely(disabled)) {
+>>> -        __release_guc_id(guc, ce);
+>>> +        release_guc_id(guc, ce);
+>>>           __guc_context_destroy(ce);
+>>>           return;
+>>>       }
+>>> @@ -2694,36 +2693,48 @@ static void __guc_context_destroy(struct 
+>>> intel_context *ce)
+>>>   static void guc_flush_destroyed_contexts(struct intel_guc *guc)
+>>>   {
+>>> -    struct intel_context *ce, *cn;
+>>> +    struct intel_context *ce;
+>>>       unsigned long flags;
+>>>       GEM_BUG_ON(!submission_disabled(guc) &&
+>>>              guc_submission_initialized(guc));
+>>> -    spin_lock_irqsave(&guc->submission_state.lock, flags);
+>>> -    list_for_each_entry_safe(ce, cn,
+>>> -                 &guc->submission_state.destroyed_contexts,
+>>> -                 destroyed_link) {
+>>> -        list_del_init(&ce->destroyed_link);
+>>> -        __release_guc_id(guc, ce);
+>>> +    while (!list_empty(&guc->submission_state.destroyed_contexts)) {
+>>
+>> Are lockless false negatives a concern here - I mean this thread not 
+>> seeing something just got added to the list?
+>>
+>>> +        spin_lock_irqsave(&guc->submission_state.lock, flags);
+>>> +        ce = 
+>>> list_first_entry_or_null(&guc->submission_state.destroyed_contexts,
+>>> +                          struct intel_context,
+>>> +                          destroyed_link);
+>>> +        if (ce)
+>>> +            list_del_init(&ce->destroyed_link);
+>>> +        spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+>>> +
+>>> +        if (!ce)
+>>> +            break;
+>>> +
+>>> +        release_guc_id(guc, ce);
+>>
+>> This looks suboptimal and in conflict with this part of the commit 
+>> message:
+>>
+>> """
+>>   Re-working the loop to only acquire the spinlock around the list
+>>   management (which is all it is meant to protect) rather than the
+>>   entire destroy operation seems to fix all the above issues.
+>> """
+>>
+>> Because you end up doing:
+>>
+>> ... loop ...
+>>    spin_lock_irqsave(&guc->submission_state.lock, flags);
+>>    list_del_init(&ce->destroyed_link);
+>>    spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+>>
+>>    release_guc_id, which calls:
+>>      spin_lock_irqsave(&guc->submission_state.lock, flags);
+>>      __release_guc_id(guc, ce);
+>>      spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+>>
+>> So a) the lock seems to be protecting more than just list management, 
+>> or release_guc_if is wrong, and b) the loop ends up with highly 
+>> questionable hammering on the lock.
+>>
+>> Is there any point to this part of the patch? Or the only business end 
+>> of the patch is below:
+>>
+>>>           __guc_context_destroy(ce);
+>>>       }
+>>> -    spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+>>>   }
+>>>   static void deregister_destroyed_contexts(struct intel_guc *guc)
+>>>   {
+>>> -    struct intel_context *ce, *cn;
+>>> +    struct intel_context *ce;
+>>>       unsigned long flags;
+>>> -    spin_lock_irqsave(&guc->submission_state.lock, flags);
+>>> -    list_for_each_entry_safe(ce, cn,
+>>> -                 &guc->submission_state.destroyed_contexts,
+>>> -                 destroyed_link) {
+>>> -        list_del_init(&ce->destroyed_link);
+>>> +    while (!list_empty(&guc->submission_state.destroyed_contexts)) {
+>>> +        spin_lock_irqsave(&guc->submission_state.lock, flags);
+>>> +        ce = 
+>>> list_first_entry_or_null(&guc->submission_state.destroyed_contexts,
+>>> +                          struct intel_context,
+>>> +                          destroyed_link);
+>>> +        if (ce)
+>>> +            list_del_init(&ce->destroyed_link);
+>>> +        spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+>>> +
+>>> +        if (!ce)
+>>> +            break;
+>>> +
+>>>           guc_lrc_desc_unpin(ce);
+>>
+>> Here?
+>>
+>> Not wanting/needing to nest ce->guc_state.lock under 
+>> guc->submission_state.lock, and call the CPU cycle expensive 
+>> deregister_context?
+>>
+>> 1)
+>> Could you unlink en masse, under the assumption destroyed contexts are 
+>> not reachable from anywhere else at this point, so under a single lock 
+>> hold?
+>>
+>> 2)
+>> But then you also end up with guc_lrc_desc_unpin calling 
+>> __release_guc_id, which when called by release_guc_id does take 
+>> guc->submission_state.lock and here it does not. Is it then clear 
+>> which operations inside __release_guc_id need the lock? Bitmap or IDA?
+> 
+> Ah no, with 2nd point I missed you changed guc_lrc_desc_unpin to call 
+> release_guc_id.
+> 
+> Question on the merit of change in guc_flush_destroyed_contexts remains, 
+> and also whether at both places you could do group unlink (one lock 
+> hold), put on a private list, and then unpin/deregister.
+> 
+> Regards,
+> 
+> Tvrtko
