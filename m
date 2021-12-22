@@ -1,52 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68D0C47D15A
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 12:54:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9158347D193
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 13:19:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 066D710EA45;
-	Wed, 22 Dec 2021 11:54:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40CBF10EBB1;
+	Wed, 22 Dec 2021 12:19:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay06.th.seeweb.it (relay06.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32FB510EA37
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 11:54:45 +0000 (UTC)
-Received: from SoMainline.org (94-209-165-62.cable.dynamic.v4.ziggo.nl
- [94.209.165.62])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id F279D3EEEF;
- Wed, 22 Dec 2021 12:54:42 +0100 (CET)
-Date: Wed, 22 Dec 2021 12:54:41 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-Subject: Re: [PATCH v2 2/2] drm/msm/dpu: Fix timeout issues on command mode
- panels
-Message-ID: <20211222115441.7c5e55svs6inabrl@SoMainline.org>
-Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, robdclark@gmail.com,
- sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch,
- abhinavk@codeaurora.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, konrad.dybcio@somainline.org,
- martin.botka@somainline.org, ~postmarketos/upstreaming@lists.sr.ht,
- phone-devel@vger.kernel.org, paul.bouchara@somainline.org
-References: <20210911163919.47173-1-angelogioacchino.delregno@somainline.org>
- <20210911163919.47173-2-angelogioacchino.delregno@somainline.org>
- <b325fc8d-e06b-36de-b40a-b5ffbcebb1c5@linaro.org>
- <94bedea3-0e5f-5ae8-79d1-ceb17ccdea23@somainline.org>
- <20211211213528.uroqfdksvokspbxf@SoMainline.org>
- <CAA8EJprT5gcWOsS5jJk8egUpxutBpUdW2Pnh-8FFXhgOd3hr=A@mail.gmail.com>
- <20211211215718.pe675o5wvculxavc@SoMainline.org>
- <33d44631-f0d7-83cc-569d-d6d6f82d6808@somainline.org>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8661710EBB1
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 12:19:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1640175541;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cL61vxvdQEO5k/ykdSCycESvP1inlvyehpY4sAwws0I=;
+ b=i6DpV8flWtYMgw7ozmOsI8ftLam6XUTE9lhwG2BpbSG++0OioROfyZGzXtYYRUlHSq6pq1
+ sbN16bRlJfFb8s38L5d6Ii1d7zTlTzedpecM7yaPcJ+IpU4+xSuMuGGT28alXVa/svzJNX
+ 8VfvT+WJFSOZb/5/xAybzViKufh3uG4=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-613-U7AsQgz5PK2gPQs_HdOzLA-1; Wed, 22 Dec 2021 07:19:00 -0500
+X-MC-Unique: U7AsQgz5PK2gPQs_HdOzLA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ r2-20020a05600c35c200b00345c3b82b22so1055734wmq.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 04:18:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=cL61vxvdQEO5k/ykdSCycESvP1inlvyehpY4sAwws0I=;
+ b=ATabkAfdw8MundxmrTKToJBz0/pLI4BJ3o634pfY1VMB3IGtl92H2lNEEDEboNKPeN
+ Y5AsCNo43hSriWB5uC3MmmaAJETMQUmvYwzfCvlkx1GME0q4oY75yPcVs9pjG03HjQNv
+ r+7wlIKm2WVboFHZZ4V/6rWhp24St117VQBXiOo1xwNbe+6pP93wXZW+KZllPBn79hLw
+ LLFcjcemNqZO4bMzvZP8JOhv1cnaXAxmyzmvP111ekV3AX0ceP+2fiW5qzRVygowBgDX
+ Y0fu7jSy03KhuVQ8Ch4lEC1exJ5Tiqca3CrSQFQhBgCGSgPwDSC/nPaU+N4izUpUh3Og
+ RhSg==
+X-Gm-Message-State: AOAM533H/v9J/ztiKhdKEf13xd9zewT0lmh2rQQBJObVZlGBA/YvQ8N6
+ zWNvf/urx2C385jQl2wA/cPF3KOgBUkIhQs2j3FrYlHJRA3ptcNgq38sZxuKLVpE7DhoTIMY7jm
+ rTdnCslNJafRAdBvg4T2LZp7qCrvV
+X-Received: by 2002:a05:600c:511c:: with SMTP id
+ o28mr821313wms.96.1640175538758; 
+ Wed, 22 Dec 2021 04:18:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy5r7kubxgz+bs8OZwuv5BmfKHiTBiEJEfqXxBgDH8xXoRJQUdklHrzHmZpeba3ojR02aUVTw==
+X-Received: by 2002:a05:600c:511c:: with SMTP id
+ o28mr821303wms.96.1640175538587; 
+ Wed, 22 Dec 2021 04:18:58 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id h27sm5365676wmc.43.2021.12.22.04.18.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Dec 2021 04:18:58 -0800 (PST)
+Message-ID: <7b07b437-2bc1-0194-233b-cc6d6c70cfd5@redhat.com>
+Date: Wed, 22 Dec 2021 13:18:57 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <33d44631-f0d7-83cc-569d-d6d6f82d6808@somainline.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v3 03/10] drm/bochs: Replace module-init boiler-plate code
+ with DRM helpers
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20211222082831.196562-1-javierm@redhat.com>
+ <20211222082831.196562-4-javierm@redhat.com>
+ <20211222102135.fhtfkinp2u6yjwx3@sirius.home.kraxel.org>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20211222102135.fhtfkinp2u6yjwx3@sirius.home.kraxel.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,54 +89,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, konrad.dybcio@somainline.org,
- linux-kernel@vger.kernel.org, abhinavk@codeaurora.org,
- paul.bouchara@somainline.org, martin.botka@somainline.org,
- dri-devel@lists.freedesktop.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, phone-devel@vger.kernel.org,
- sean@poorly.run, ~postmarketos/upstreaming@lists.sr.ht
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-12-22 12:28:52, AngeloGioacchino Del Regno wrote:
-> Il 11/12/21 22:57, Marijn Suijten ha scritto:
-> > On 2021-12-12 00:49:09, Dmitry Baryshkov wrote:
-> >> On Sun, 12 Dec 2021 at 00:35, Marijn Suijten
-> >> <marijn.suijten@somainline.org> wrote:
-> >>> [..]
-> >>> On this note, does it perhaps make more sense to call the "internal"
-> >>> _dpu_encoder_phys_cmd_wait_for_idle function directly, instead of going
-> >>> through the "public" dpu_encoder_phys_cmd_wait_for_tx_complete which
-> >>> seems solely intended to handle the wait_for_tx_complete callback?
-> >>
-> >> Either one would work. The main difference is the error message. Do
-> >> you want to see it here if the wait times out or not?
-> > 
-> > I prefer calling _dpu_encoder_phys_cmd_wait_for_idle directly and
-> > optionally adding our own error message.  IIRC DRM_ERROR prints source
-> > information such as the function this originated from, and that makes it
-> > impossible to distinguish between the wait_for_tx_complete callback or
-> > the invocation through dpu_encoder_phys_cmd_wait_for_commit_done anyway.
-> > 
-> > - Marijn
-> > 
+Hello Gerd,
+
+On 12/22/21 11:21, Gerd Hoffmann wrote:
+> On Wed, Dec 22, 2021 at 09:28:24AM +0100, Javier Martinez Canillas wrote:
+>> -static int __init bochs_init(void)
+>> -{
+>> -	if (drm_firmware_drivers_only() && bochs_modeset == -1)
+>> -		return -EINVAL;
 > 
-> I wouldn't be happy to find myself in a situation in which I get strange
-> display slowness without any print to help me; for this reason, I find
-> having the print in place useful for debugging of both perf and fault.
+> Also cleanup bochs_modeset?  I guess its not used any more after this
+> patch ...
+>
 
-Same thought here, though dpu_encoder_phys_cmd_wait_for_tx_complete
-exists for the sole reason of printing a nice debug message, which I
-wouldn't want to be misused by dpu_encoder_phys_cmd_wait_for_commit_done
-punting its errors on wait_for_tx_complete - if that happens the first
-thing I'd do during debugging is assign individual messages to both,
-otherwise it is impossible to know which two functions is the cause: we
-might as well "duplicate" the error message right now and prevent such
-confusion from occurring in the first place?
+That's still used. It is passed as an argument to the macro:
 
-- Marijn
+drm_module_pci_driver_if_modeset(bochs_pci_driver, bochs_modeset);
 
-> 
-> Cheers,
-> - Angelo
+Best regards,
+-- 
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
