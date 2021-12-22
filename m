@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 123BD47CE4A
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 09:29:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0EED47CE47
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 09:29:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 820AD1126E8;
-	Wed, 22 Dec 2021 08:29:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16E3E1126C6;
+	Wed, 22 Dec 2021 08:28:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6FAB1126C6
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 08:28:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6312E1126D6
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 08:28:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640161732;
+ s=mimecast20190719; t=1640161734;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ivba8PnccKK3fE+1KqwcyTESXW/go6yH+CoRlAVXUHY=;
- b=L3xt50skQEbGF/9mykl5zTASg5KZz6528ZLKY8ZbekepqgWDLzpJ8+Dj4ClOoKBK5CvUZh
- SmxiR/Y7157r2mHf1hVB3BEkjslcyT9GgXEheePlvaQUsAUlbIHS2V3gEs6r9qRskcvFly
- KWv4pZx6oLP/G77++HF/tOFODSqFt9o=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=AAodSLL93garPqCDkdNkBwu9Tnajc5yTcM/GAEzqdI4=;
+ b=JHbwdyuVq1+jZSOfuOUyS2WxaAlWxYEJQASNg4cx/PXn/TxmohdOLBQx6M8yF+6lMqqlU7
+ I2E7rJwjFFh7VCqfsD0UVW3FVnqhlbvwG2iZnjr2YsKBAo2DG3350p1rNB5E4sBOElDVcf
+ Oc84WL5Lna/kgGlUXLDYUliNRLgKpfQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-652-Tb1LejpeOOewypd-y78GqA-1; Wed, 22 Dec 2021 03:28:51 -0500
-X-MC-Unique: Tb1LejpeOOewypd-y78GqA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- d6-20020adfa346000000b001a262748c6fso519846wrb.12
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 00:28:51 -0800 (PST)
+ us-mta-48-rIZzXaTGMH6Zrgwaj1mJhw-1; Wed, 22 Dec 2021 03:28:52 -0500
+X-MC-Unique: rIZzXaTGMH6Zrgwaj1mJhw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ h7-20020adfaa87000000b001885269a937so523819wrc.17
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 00:28:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ivba8PnccKK3fE+1KqwcyTESXW/go6yH+CoRlAVXUHY=;
- b=Fu6PfbrTvR5HqkvWq2R2EqYI6gsvIxOiCmYswU9k2idVJFgEc4qqq3ZhG7CUKeQhMJ
- vYbWlL+ianjU6s/mwCglrJXDXclOZEMV5C41D294kmEx//CFK/Tm0WAu0eoqlVhsqG3s
- L/9unaS0OS00kBE+sCsv2JA+6cV65e+dj4q3Uneu3598r+OLJ0gX4QAW3f2R/tpjJmBn
- Z4/uEpRJre6s5hzK+B8nMmAj8XmWwZQr5Pkgwrogf9s2rnYogweTbjtQ9VpkoxNSJY+L
- oPkvg7NA8FRQ//h6gK0svjv+YblfoKQl4EEDb3VHeNFO47X58l9Vueghx/f2/ye9H0Vd
- Yuhw==
-X-Gm-Message-State: AOAM531MevYGOtVCjDFwtc2vyIIzsrvTO5WJ2xpt54nc82ZogSWPkPE8
- cyrTcUow85MbE8VMEHGKE08jUMaKscvQMH2dlPlH1UQ/5j1jN5Q1045Sd59mp9sNok02mSNkgQ0
- p0rjumJlLqVM+wxL4PUTqyLvUxMhN
-X-Received: by 2002:a7b:c745:: with SMTP id w5mr88269wmk.167.1640161730387;
- Wed, 22 Dec 2021 00:28:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzUvQSHyffY2CYOqgAXb+4llmThUCCs6y8dzFLhVLwFXI0SYQnZ0rbY2rp8lrrmaIFZWyHdFQ==
-X-Received: by 2002:a7b:c745:: with SMTP id w5mr88259wmk.167.1640161730228;
- Wed, 22 Dec 2021 00:28:50 -0800 (PST)
+ bh=AAodSLL93garPqCDkdNkBwu9Tnajc5yTcM/GAEzqdI4=;
+ b=QWrN35oT/5/y6ifzgcfOsFwL0rczvqIZT+VLOdJc/MxhSylNKw3axEZAepdNXnqU3C
+ kz7sGDA1s0R7tyfh4cnZdMyyM7aBjUoCInmsBzsmIufOvf0Kg39e91HOD7fDBfheBF+m
+ BjkJONwaCxZHzWPhgI9jMY1lAI6FgkhQc84+w/Tno5s+trqd3eCjVxSgHWOQBMO7PHeu
+ xWgHeV+XM/yBUDeq67TrvFfef6WoWpSdefMx1ZgokK2m9PGDc3BAcauYS4RIWYl/SfUW
+ tIbBQJo2NXaMyqZuC+UHbg13aK6dVfwOrt1B3AXG5f3R0YqeN7zCw2IZt572JmjTDEhg
+ l2Fg==
+X-Gm-Message-State: AOAM5304/SxjRv4Er6hSdxxMHGYoVgf5KtbjKc5MDX9lSuP/4npnW5f/
+ E0vpP+TCDfr+Vo/3uwH9QBp5KN5v1tv9kfYDAyohA41UzlQrO41RjXQDieV4o48LmeYWowD8yws
+ Rsispas4C2Np7nG4hX0tT3C7sLT2v
+X-Received: by 2002:adf:a115:: with SMTP id o21mr1312263wro.412.1640161731254; 
+ Wed, 22 Dec 2021 00:28:51 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzjm51fMB5qRQAh6yQM8XD4XEpPtgOnxQIVI3FSY5oNhvoDTlTKefemEzBKkx4IHWPKt0Rr4w==
+X-Received: by 2002:adf:a115:: with SMTP id o21mr1312255wro.412.1640161731089; 
+ Wed, 22 Dec 2021 00:28:51 -0800 (PST)
 Received: from minerva.home ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id m17sm1247080wrz.91.2021.12.22.00.28.49
+ by smtp.gmail.com with ESMTPSA id m17sm1247080wrz.91.2021.12.22.00.28.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 22 Dec 2021 00:28:50 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 09/10] drm/arm/hdlcd: Replace module initialization with
- DRM helpers
-Date: Wed, 22 Dec 2021 09:28:30 +0100
-Message-Id: <20211222082831.196562-10-javierm@redhat.com>
+Subject: [PATCH v3 10/10] drm/malidp: Replace module initialization with DRM
+ helpers
+Date: Wed, 22 Dec 2021 09:28:31 +0100
+Message-Id: <20211222082831.196562-11-javierm@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211222082831.196562-1-javierm@redhat.com>
 References: <20211222082831.196562-1-javierm@redhat.com>
@@ -69,8 +69,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,14 +97,14 @@ Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 
 (no changes since v1)
 
- drivers/gpu/drm/arm/hdlcd_drv.c | 3 ++-
+ drivers/gpu/drm/arm/malidp_drv.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
-index 479c2422a2e0..e89ae0ec60eb 100644
---- a/drivers/gpu/drm/arm/hdlcd_drv.c
-+++ b/drivers/gpu/drm/arm/hdlcd_drv.c
-@@ -30,6 +30,7 @@
+diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
+index 78d15b04b105..d5aef21426cf 100644
+--- a/drivers/gpu/drm/arm/malidp_drv.c
++++ b/drivers/gpu/drm/arm/malidp_drv.c
+@@ -25,6 +25,7 @@
  #include <drm/drm_gem_cma_helper.h>
  #include <drm/drm_gem_framebuffer_helper.h>
  #include <drm/drm_modeset_helper.h>
@@ -112,15 +112,15 @@ index 479c2422a2e0..e89ae0ec60eb 100644
  #include <drm/drm_of.h>
  #include <drm/drm_probe_helper.h>
  #include <drm/drm_vblank.h>
-@@ -434,7 +435,7 @@ static struct platform_driver hdlcd_platform_driver = {
+@@ -1008,7 +1009,7 @@ static struct platform_driver malidp_platform_driver = {
  	},
  };
  
--module_platform_driver(hdlcd_platform_driver);
-+drm_module_platform_driver(hdlcd_platform_driver);
+-module_platform_driver(malidp_platform_driver);
++drm_module_platform_driver(malidp_platform_driver);
  
- MODULE_AUTHOR("Liviu Dudau");
- MODULE_DESCRIPTION("ARM HDLCD DRM driver");
+ MODULE_AUTHOR("Liviu Dudau <Liviu.Dudau@arm.com>");
+ MODULE_DESCRIPTION("ARM Mali DP DRM driver");
 -- 
 2.33.1
 
