@@ -1,65 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52F4647D0BC
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 12:17:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EA9047D0C7
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 12:18:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E88F410E294;
-	Wed, 22 Dec 2021 11:17:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 722B410E85F;
+	Wed, 22 Dec 2021 11:17:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8790010E294
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 11:17:28 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id
- n10-20020a7bc5ca000000b00345c520d38eso828235wmk.1
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 03:17:28 -0800 (PST)
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C447F10E85F
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 11:17:56 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id j18so4218065wrd.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 03:17:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=wVK031yMnXY3SmMKEknhUmLtfDhQrZN1O0BSgsFgdUk=;
- b=rK1UzhFPqw84pe94lIW2HWw+rmVKq6EaIbpFAnw6ZCqPxBiWCu/PtB1bxwkuq2dWZ4
- fHPU794foZOkkrVd9yjiLRfuUyXa3YGMY+cR1g6nGy96kBD6J7Fb52EGrD2jZkhhpPx8
- f2KAvrIFTclWCw9THT8pehbI7TM1KdumjtbVu8CIWvj9QrDjWygV++ukZutqFVxjrIkc
- 4Qwf7fYRTUrXEz52D3gzhUpkSGUlsAG56JVqpnbC7aXAPLkGsoqsjIEowb+MgcSGlWm6
- PM1HHvGNRY7G45ffMhKHSSGT/kJtESH7+PtS0znc9jObNqyTgcQUIn0ISPPh9fZSZ0O1
- EpuA==
+ bh=Q7HippQlas3qDOGNhPQSLv1qwUHwbA/DJgC1NDChOnw=;
+ b=vzGFBuqKFULvj/9Vt4j7lk13/7xw5IjDQ7PZx9aME4tOwVzVX2E5/uTbcWKAYNDST8
+ uo/DLkFnqLOXP6vIxq9DNP56NICKdr8RJZI1agmfTu6d0utV67zAG3+7hQAL0TYRx5HH
+ b9rh/cVTJXbqWW1f+bl/r9PAc8ARpDtumKv1suaesob04lgEZFg32Lgemy9QNwcBvUbR
+ L+PUK2ZjlkDXLIUcSUuiI+3i/0OZTWB02QRcq+QY+NW03/W6TJ1rGLrtebVG+mUkIVxv
+ 7IUaJ+B2hJIltuhKx2+oiOPz6QdXGgNsVTWqW0ILPI4Lti9fOdcEY80ZBncoL3cMHE1J
+ OZNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=wVK031yMnXY3SmMKEknhUmLtfDhQrZN1O0BSgsFgdUk=;
- b=wf8js1iujIX+7+vDhZ0A2hSVl869DNmZv4NyT1y1hbBblpGr32+iXZhGAGb6tQLMWw
- y06+vWxrVXPjV+VCk93+mLgMBdqCEslsp0B4Har7ZkYufbfCK2BqQCwY4F8ZNtC0Xfpk
- ioJMhXv3YVKXpIDd4/dkoCXlgUryckyLmuTsG4lAP45MLEPUVfulaM/ag7JzM/rJuXdu
- 874PYkAjU2/d9yextj7YT7iCSu+fbL4ihvgwZZA8FQR8G8OJtScTtHtOGJH5u9hB+X46
- ZTsMrTCw0xbFrHJzXg4hnfD5dzorPUZcW0mu2M/kymzARaaEwCRZ5bafZsvvB/E6FDFN
- 8oMw==
-X-Gm-Message-State: AOAM530QipfdQNlj5NRTKu6hyze0uTIe1oEgFRGAvtGg2tsjrS0vjjug
- kUehW66DT797yU0inFPVBYVwPA==
-X-Google-Smtp-Source: ABdhPJzjekleXXqF7vsLzXFMY/qG6/Yx+/aY4TkyoCVvBNYne4YUJFzJkT1Fvc7V/leGnHklMSABjQ==
-X-Received: by 2002:a7b:c017:: with SMTP id c23mr588998wmb.137.1640171847097; 
- Wed, 22 Dec 2021 03:17:27 -0800 (PST)
+ bh=Q7HippQlas3qDOGNhPQSLv1qwUHwbA/DJgC1NDChOnw=;
+ b=mWr/qxg2rkNXXmAjsV6QuZZcgZQXn533MNfm3L/Cxzcmwm4obcM6g44vrSdtth1syL
+ a9tJG79ww/DJkm6CTFzhlaXMdpPJHLrofa8i7CuuSGU8lRRvDbU26TuOZxRY9CF0U+qK
+ y0ETxvRNA7BQdUItPWYIhKLBmqUmqRCvTtdNELLOBDiIJoIOXDLO2M1NEchnyKnpYeQS
+ E+XUZ4+9FqT02CNLysz8JggLcKnR1a4eGNm2MoO71CPjSuLD4LonlCHNE66tNOWxKtym
+ q9IXKFynoXHy5tZtUgPtgZe+xVC38lfYyKZeAD88ScfXhtp/7gB/pI/oTTa0RQ0rn5yk
+ fnBw==
+X-Gm-Message-State: AOAM530EyNyewi5+OA3CtAA5bX27Ij6Vm9z95RRMm9Iqb/Wecz1NVvRQ
+ n/D5JuTCq9YGtLZxihK4rgVrPA==
+X-Google-Smtp-Source: ABdhPJxDiz09y/oHQhq0LvU7qN+3clsuh9GlfdjRUwswgcYZ+3rK2G7Y2z9kq/CqU8sP0QX92Sc3Rg==
+X-Received: by 2002:a5d:4d06:: with SMTP id z6mr1765868wrt.117.1640171875381; 
+ Wed, 22 Dec 2021 03:17:55 -0800 (PST)
 Received: from google.com ([2.31.167.18])
- by smtp.gmail.com with ESMTPSA id c9sm1420121wml.12.2021.12.22.03.17.26
+ by smtp.gmail.com with ESMTPSA id b10sm1634803wrg.19.2021.12.22.03.17.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Dec 2021 03:17:26 -0800 (PST)
-Date: Wed, 22 Dec 2021 11:17:24 +0000
+ Wed, 22 Dec 2021 03:17:54 -0800 (PST)
+Date: Wed, 22 Dec 2021 11:17:52 +0000
 From: Lee Jones <lee.jones@linaro.org>
 To: Marijn Suijten <marijn.suijten@somainline.org>
-Subject: Re: [PATCH v3 5/9] backlight: qcom-wled: Override default length
- with qcom,enabled-strings
-Message-ID: <YcMJROV8Kn6foQUU@google.com>
+Subject: Re: [PATCH v3 6/9] backlight: qcom-wled: Remove unnecessary 4th
+ default string in WLED3
+Message-ID: <YcMJYD3fM4R1MPZo@google.com>
 References: <20211115203459.1634079-1-marijn.suijten@somainline.org>
- <20211115203459.1634079-6-marijn.suijten@somainline.org>
+ <20211115203459.1634079-7-marijn.suijten@somainline.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211115203459.1634079-6-marijn.suijten@somainline.org>
+In-Reply-To: <20211115203459.1634079-7-marijn.suijten@somainline.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,23 +88,20 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Mon, 15 Nov 2021, Marijn Suijten wrote:
 
-> The length of qcom,enabled-strings as property array is enough to
-> determine the number of strings to be enabled, without needing to set
-> qcom,num-strings to override the default number of strings when less
-> than the default (which is also the maximum) is provided in DT.
+> The previous commit improves num_strings parsing to not go over the
+> maximum of 3 strings for WLED3 anymore.  Likewise this default index for
+> a hypothetical 4th string is invalid and could access registers that are
+> not mapped to the desired purpose.
+> Removing this value gets rid of undesired confusion and avoids the
+> possibility of accessing registers at this offset even if the 4th array
+> element is used by accident.
 > 
-> This also introduces an extra warning when qcom,num-strings is set,
-> denoting that it is not necessary to set both anymore.  It is usually
-> more concise to set just qcom,num-length when a zero-based, contiguous
-> range of strings is needed (the majority of the cases), or to only set
-> qcom,enabled-strings when a specific set of indices is desired.
-> 
-> Fixes: 775d2ffb4af6 ("backlight: qcom-wled: Restructure the driver for WLED3")
 > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 > Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 > ---
->  drivers/video/backlight/qcom-wled.c | 12 +++++++++---
->  1 file changed, 9 insertions(+), 3 deletions(-)
+>  drivers/video/backlight/qcom-wled.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
 Applied, thanks.
 
