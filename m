@@ -1,66 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A20347D0DD
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 12:19:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E05A347D0FC
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 12:29:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEE9810E86F;
-	Wed, 22 Dec 2021 11:19:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7A3410E249;
+	Wed, 22 Dec 2021 11:28:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7D7410E86D
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 11:19:03 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id
- d198-20020a1c1dcf000000b0034569cdd2a2so1264490wmd.5
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 03:19:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=/reVXFbwGvPtptFEcS4POHmCemx6nGpkPPsCHK0zcq8=;
- b=J5WWWvc3IuUjHTnsVCR24J6M6u9Kij+YAFcbqiLiwRsCR3JK6zKt1kUoLW7hfutiFp
- bjHdydoVbizMsaxlerROgGyk8ySUOE98cWEOSRSGIQ7hT9qDrOBxhoOQI2h1nVu2eRSu
- CjVizaNQZbKf0QXl8/XJACmJHDimmGHIn1jocmclYhrGj4VES2uGhaeN+iFM6+uPj/Rx
- jYeZBScOaSi6em7f6XS+pVQVklNbmfl09oP3zsayg3tUX4Y8SoKu9ghCyQxJrVi49/VR
- hZ+y+JxQoeGMBDf6hiXzkW+HUr4TOeD1gLJJllkFmWAz72D/owIg1JCV6qYoGF0PWyml
- cHSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=/reVXFbwGvPtptFEcS4POHmCemx6nGpkPPsCHK0zcq8=;
- b=yGzLj0im41ZJDZebNgXaSPRDCkKU/DKv1dkGcclA+D17Fy2a1NMwIQ5nOdp577cGs+
- 0HcotVectzewL2AJqQ52eukHu08EmDL87+Lca3HBpnKPOrJ6d3uRwRiyiE/nolzf40hF
- e/At7Oysm+UylCVzYr5AablNYpiZnCwQU01EXBGLXCwn7Bp9ymITCMr5SEO7Chy2IOWV
- nzX9MXvEn9xuPyU2Qhri+rU0YBQul8mhzgBKXp4FJ9ScSDP2DCCHm9YfhF2V9CNZbkpR
- wS1lmHn6cvBc60huPaxwcC8DikG9aRLckOcW+h8pSEzpRgyro6od9Z7jVCyJogyib2of
- zl7Q==
-X-Gm-Message-State: AOAM531kMXu7l1m9bHyDdKJ0N41zdJGnUAE8iPDOg6/ulzc58k7HGfkL
- tRqzelXRF31bPaMdlb0vrdc2nw==
-X-Google-Smtp-Source: ABdhPJwZmMqp90ob6RIH01SOsHCsXi+jUYNxlqmIKZvvGMW6B9dTSDKKs8jRlE62lkhrubrAM9iLjg==
-X-Received: by 2002:a05:600c:6009:: with SMTP id
- az9mr626439wmb.32.1640171942136; 
- Wed, 22 Dec 2021 03:19:02 -0800 (PST)
-Received: from google.com ([2.31.167.18])
- by smtp.gmail.com with ESMTPSA id i8sm809626wry.108.2021.12.22.03.19.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Dec 2021 03:19:01 -0800 (PST)
-Date: Wed, 22 Dec 2021 11:18:59 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Marijn Suijten <marijn.suijten@somainline.org>
-Subject: Re: [PATCH v3 9/9] backlight: qcom-wled: Respect enabled-strings in
- set_brightness
-Message-ID: <YcMJoyVF4n8yDPUY@google.com>
-References: <20211115203459.1634079-1-marijn.suijten@somainline.org>
- <20211115203459.1634079-10-marijn.suijten@somainline.org>
+Received: from relay02.th.seeweb.it (relay02.th.seeweb.it [5.144.164.163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B7AC10E249
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 11:28:57 +0000 (UTC)
+Received: from IcarusMOD.eternityproject.eu (unknown [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 2492120220;
+ Wed, 22 Dec 2021 12:28:53 +0100 (CET)
+Subject: Re: [PATCH v2 2/2] drm/msm/dpu: Fix timeout issues on command mode
+ panels
+To: Marijn Suijten <marijn.suijten@somainline.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, robdclark@gmail.com,
+ sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch, abhinavk@codeaurora.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ konrad.dybcio@somainline.org, martin.botka@somainline.org,
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ paul.bouchara@somainline.org
+References: <20210911163919.47173-1-angelogioacchino.delregno@somainline.org>
+ <20210911163919.47173-2-angelogioacchino.delregno@somainline.org>
+ <b325fc8d-e06b-36de-b40a-b5ffbcebb1c5@linaro.org>
+ <94bedea3-0e5f-5ae8-79d1-ceb17ccdea23@somainline.org>
+ <20211211213528.uroqfdksvokspbxf@SoMainline.org>
+ <CAA8EJprT5gcWOsS5jJk8egUpxutBpUdW2Pnh-8FFXhgOd3hr=A@mail.gmail.com>
+ <20211211215718.pe675o5wvculxavc@SoMainline.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Message-ID: <33d44631-f0d7-83cc-569d-d6d6f82d6808@somainline.org>
+Date: Wed, 22 Dec 2021 12:28:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211115203459.1634079-10-marijn.suijten@somainline.org>
+In-Reply-To: <20211211215718.pe675o5wvculxavc@SoMainline.org>
+Content-Type: text/plain; charset=iso-8859-15; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,60 +57,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Kiran Gunda <kgunda@codeaurora.org>, Pavel Dubrova <pashadubrova@gmail.com>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Jingoo Han <jingoohan1@gmail.com>, linux-arm-msm@vger.kernel.org,
- Bryan Wu <cooloney@gmail.com>, Konrad Dybcio <konrad.dybcio@somainline.org>,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Andy Gross <agross@kernel.org>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht, linux-fbdev@vger.kernel.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- phone-devel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 15 Nov 2021, Marijn Suijten wrote:
-
-> The hardware is capable of controlling any non-contiguous sequence of
-> LEDs specified in the DT using qcom,enabled-strings as u32
-> array, and this also follows from the DT-bindings documentation.  The
-> numbers specified in this array represent indices of the LED strings
-> that are to be enabled and disabled.
+Il 11/12/21 22:57, Marijn Suijten ha scritto:
+> On 2021-12-12 00:49:09, Dmitry Baryshkov wrote:
+>> On Sun, 12 Dec 2021 at 00:35, Marijn Suijten
+>> <marijn.suijten@somainline.org> wrote:
+>>> [..]
+>>> On this note, does it perhaps make more sense to call the "internal"
+>>> _dpu_encoder_phys_cmd_wait_for_idle function directly, instead of going
+>>> through the "public" dpu_encoder_phys_cmd_wait_for_tx_complete which
+>>> seems solely intended to handle the wait_for_tx_complete callback?
+>>
+>> Either one would work. The main difference is the error message. Do
+>> you want to see it here if the wait times out or not?
 > 
-> Its value is appropriately used to setup and enable string modules, but
-> completely disregarded in the set_brightness paths which only iterate
-> over the number of strings linearly.
-> Take an example where only string 2 is enabled with
-> qcom,enabled_strings=<2>: this string is appropriately enabled but
-> subsequent brightness changes would have only touched the zero'th
-> brightness register because num_strings is 1 here.  This is simply
-> addressed by looking up the string for this index in the enabled_strings
-> array just like the other codepaths that iterate over num_strings.
+> I prefer calling _dpu_encoder_phys_cmd_wait_for_idle directly and
+> optionally adding our own error message.  IIRC DRM_ERROR prints source
+> information such as the function this originated from, and that makes it
+> impossible to distinguish between the wait_for_tx_complete callback or
+> the invocation through dpu_encoder_phys_cmd_wait_for_commit_done anyway.
 > 
-> Likewise enabled_strings is now also used in the autodetection path for
-> consistent behaviour: when a list of strings is specified in DT only
-> those strings will be probed for autodetection, analogous to how the
-> number of strings that need to be probed is already bound by
-> qcom,num-strings.  After all autodetection uses the set_brightness
-> helpers to set an initial value, which could otherwise end up changing
-> brightness on a different set of strings.
+> - Marijn
 > 
-> Fixes: 775d2ffb4af6 ("backlight: qcom-wled: Restructure the driver for WLED3")
-> Fixes: 03b2b5e86986 ("backlight: qcom-wled: Add support for WLED4 peripheral")
-> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-> ---
->  drivers/video/backlight/qcom-wled.c | 22 ++++++++++++----------
->  1 file changed, 12 insertions(+), 10 deletions(-)
 
-Applied, thanks.
+I wouldn't be happy to find myself in a situation in which I get strange
+display slowness without any print to help me; for this reason, I find
+having the print in place useful for debugging of both perf and fault.
 
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Cheers,
+- Angelo
