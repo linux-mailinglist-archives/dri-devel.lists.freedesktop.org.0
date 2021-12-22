@@ -2,67 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24B0D47CA1D
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 01:11:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78C2A47CA23
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 01:13:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53EE710E1AF;
-	Wed, 22 Dec 2021 00:11:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCB1210E15C;
+	Wed, 22 Dec 2021 00:13:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com
- [IPv6:2607:f8b0:4864:20::749])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B13D310E172
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 00:11:37 +0000 (UTC)
-Received: by mail-qk1-x749.google.com with SMTP id
- a10-20020a05620a066a00b0046742e40049so484680qkh.14
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Dec 2021 16:11:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=YYb+8tLZ47QzRVX8j4athTjjpGdUhJh58y4J69hbL0Y=;
- b=TM9tBt+zGKZxNfTdWhBaBCEIjk8AYxQEhDF68xQ3fyxhJ7s/QixPumAStVUXRUIx6I
- HG0saNv/V5pSDkeCImQqNAHjaSHgKsjzkIeQ9XmEAKhIG6kjySluWUhvNqrVITWvYgLG
- ayqZz6Q3VVm5BKdngrbKJ8ac2bxIQI40R7iJ3+iHXq84QEEVGYJmATN8H380523HdYzA
- NxI6U4eFie4urepMv5sDYK8D68NpNqGROch5ZO64oBSak7kbvyGPZ9Y0DQ7YpDabmGgH
- l/8L8e7K96Am5YAFNeihy9qAnV5xpLfp4LIUMkzeHHSB7OfnZ+YJlgDW4Gpit8MgUIDH
- 0UFA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04E0B10E15C
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 00:13:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1640132026;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=l0Qq4bqfzfE3trvRIEDVDXat+HDTqmCMW/URnd0so/Y=;
+ b=LLPLdzsIvaNiQFzi5CHQDjh56PxDqn5nB4P4xopGZhExOInJ2Uk+iAeupNPmNOzdXvzWTz
+ JyvQS7Y1vZ9qYFYBKuUqpXqlnOOuFlXc33DGMvuFYL0fjvon35fwPKAxGCVNVHkPEnqeat
+ iDfMcTFnUm6l8Wqn1jblKWUEhk3/qmc=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-433-t6-nHhGCNJCd1bS3jx0U4Q-1; Tue, 21 Dec 2021 19:13:45 -0500
+X-MC-Unique: t6-nHhGCNJCd1bS3jx0U4Q-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ h7-20020a05640250c700b003f800db4193so366693edb.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Dec 2021 16:13:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc;
- bh=YYb+8tLZ47QzRVX8j4athTjjpGdUhJh58y4J69hbL0Y=;
- b=ScDeL1Y7lcYzzNJHQk67bTahmsn1SI05Uj3hHRHdZs1EHBNccbW9ZOOdpLYuKxvKCs
- NTK0roMMcVRH0NSteXtmJ97qXiRXVW4WryIyVaU7Kr8HeBr749hKx60cq0KfR90EJwgU
- A1S9GPBP9r1+Oyn//3p4sr5Dd62swBu+a6TmHmK8GmnN8va5LsAoxo2jaJyTF2uoez4T
- PdFd2ufAGhAbOUe1vTBU3+U5A0NJnoY60zui2bIUHd7Inwpei0p4RkHGDBw14FU8SOx3
- 7KbTFH9SLObCgqytibnXIbWAKu3G2eymUVGnFMTTsMpjc9sQZ+rq34B0i+W+g9TSY907
- vM9A==
-X-Gm-Message-State: AOAM533H0Bcz+0q280Cl+fhKYvbxvygOKNPAN2kXVYcBY3K/+v1M+LKQ
- kmzwtmZpXG1lEee3SA6DrpmXrm5yVERU
-X-Google-Smtp-Source: ABdhPJxQwLEuYw7TjPR7onP8Y2kPEBKoK0AWyW10YKyCPQO4WG8nydIrFxyGVJpkk1pyNsa/7iLdM7fhropu
-X-Received: from rajat2.mtv.corp.google.com
- ([2620:15c:202:201:8d27:feea:1b0b:3782])
- (user=rajatja job=sendgmr) by 2002:a05:622a:11ce:: with SMTP id
- n14mr539152qtk.432.1640131896647; Tue, 21 Dec 2021 16:11:36 -0800 (PST)
-Date: Tue, 21 Dec 2021 16:11:27 -0800
-In-Reply-To: <20211222001127.3337471-1-rajatja@google.com>
-Message-Id: <20211222001127.3337471-3-rajatja@google.com>
-Mime-Version: 1.0
-References: <20211222001127.3337471-1-rajatja@google.com>
-X-Mailer: git-send-email 2.34.1.307.g9b7440fafd-goog
-Subject: [PATCH v4 3/3] drm/privacy_screen_x86: Add entry for ChromeOS
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=l0Qq4bqfzfE3trvRIEDVDXat+HDTqmCMW/URnd0so/Y=;
+ b=m7hGR5am8qdqdirEpL6UHtXyyMNfDxKUJECiDOvk9300iebPWBJaYT3U+0fhi/CXJ9
+ oCC/E6V6mS96McC40NPpDV/oDLXuuQzGhWvyn1maG0gxpTrVQ4LWHUig4fOpJugFVHlQ
+ cscYOxq/PJqCbnZjmtqeqfWX38WvlevD1bS3zaPxQL6eFxtyHPfNQ8QqUBEwcCZII8L1
+ T4RFmCveBLfhGbr4GYXrd5f6DuaCc3OqXqSWTZS/998nhvKc4qBzD+lwmCMAkfZl+Wyv
+ rWdUGrD58M+2UIsNCXXu5M3GY2Cpcf+mfD8b/68TV81GtkOWDZmL8GeHLjM4i6a6nX9L
+ /saA==
+X-Gm-Message-State: AOAM532hgBbXTG3AkxKKBz2KxTuPcRZyY3mhSIGTPK2vRPLTRYPWz/nA
+ QCj6TnkCBj2uKWZ7xpHKLwjI5sJbN/NrsR0lxEY6bHPxmuvFHy4S25wAe9WIqTugYSGREYJpPLw
+ GHaMVk/r1fsESewDN11wFFP7mpGvj
+X-Received: by 2002:a17:907:948c:: with SMTP id
+ dm12mr503040ejc.551.1640132024360; 
+ Tue, 21 Dec 2021 16:13:44 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwWIsX82dWa3sKDnmIan+Qjx5tWjk2AfiuQebVmEZ3//spVNOkyiANcePpTAxbV0EdzLofNog==
+X-Received: by 2002:a17:907:948c:: with SMTP id
+ dm12mr503023ejc.551.1640132024176; 
+ Tue, 21 Dec 2021 16:13:44 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1?
+ (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
+ by smtp.gmail.com with ESMTPSA id r24sm97529edv.18.2021.12.21.16.13.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Dec 2021 16:13:43 -0800 (PST)
+Message-ID: <4611aa52-d0ff-9de6-3fa8-d997175533f6@redhat.com>
+Date: Wed, 22 Dec 2021 01:13:42 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v4 3/3] drm/privacy_screen_x86: Add entry for ChromeOS
  privacy-screen
-From: Rajat Jain <rajatja@google.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Hans de Goede <hdegoede@redhat.com>, 
+To: Rajat Jain <rajatja@google.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Benson Leung <bleung@chromium.org>, 
- Henrique de Moraes Holschuh <hmh@hmh.eng.br>, Mark Gross <markgross@kernel.org>,
- linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, ibm-acpi-devel@lists.sourceforge.net, 
- platform-driver-x86@vger.kernel.org, gwendal@google.com, seanpaul@google.com, 
- marcheu@google.com, dtor@google.com
-Content-Type: text/plain; charset="UTF-8"
+ Benson Leung <bleung@chromium.org>,
+ Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+ Mark Gross <markgross@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, ibm-acpi-devel@lists.sourceforge.net,
+ platform-driver-x86@vger.kernel.org, gwendal@google.com,
+ seanpaul@google.com, marcheu@google.com, dtor@google.com
+References: <20211222001127.3337471-1-rajatja@google.com>
+ <20211222001127.3337471-3-rajatja@google.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20211222001127.3337471-3-rajatja@google.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,66 +99,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rajat Jain <rajatja@google.com>, rajatxjain@gmail.com
+Cc: rajatxjain@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a static entry in the x86 table, to detect and wait for
-privacy-screen on some ChromeOS platforms.
+Hi,
 
-Please note that this means that if CONFIG_CHROMEOS_PRIVACY_SCREEN is
-enabled, and if "GOOG0010" device is found in ACPI, then the i915 probe
-shall return EPROBE_DEFER until a platform driver actually registers the
-privacy-screen: https://hansdegoede.livejournal.com/25948.html
+On 12/22/21 01:11, Rajat Jain wrote:
+> Add a static entry in the x86 table, to detect and wait for
+> privacy-screen on some ChromeOS platforms.
+> 
+> Please note that this means that if CONFIG_CHROMEOS_PRIVACY_SCREEN is
+> enabled, and if "GOOG0010" device is found in ACPI, then the i915 probe
+> shall return EPROBE_DEFER until a platform driver actually registers the
+> privacy-screen: https://hansdegoede.livejournal.com/25948.html
+> 
+> Signed-off-by: Rajat Jain <rajatja@google.com>
 
-Signed-off-by: Rajat Jain <rajatja@google.com>
----
-v4: * Simplify the detect_chromeos_privacy_screen() function
-    * Don't change the existing print statement
-v3: * Remove the pr_info() from detect_chromeos_privacy_screen(), instead
-      enhance the one already present in drm_privacy_screen_lookup_init()
-v2: * Use #if instead of #elif
-    * Reorder the patches in the series.
-    * Rebased on drm-tip
+Thanks, patch looks good to me:
 
- drivers/gpu/drm/drm_privacy_screen_x86.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
-diff --git a/drivers/gpu/drm/drm_privacy_screen_x86.c b/drivers/gpu/drm/drm_privacy_screen_x86.c
-index a2cafb294ca6..88802cd7a1ee 100644
---- a/drivers/gpu/drm/drm_privacy_screen_x86.c
-+++ b/drivers/gpu/drm/drm_privacy_screen_x86.c
-@@ -47,6 +47,13 @@ static bool __init detect_thinkpad_privacy_screen(void)
- }
- #endif
- 
-+#if IS_ENABLED(CONFIG_CHROMEOS_PRIVACY_SCREEN)
-+static bool __init detect_chromeos_privacy_screen(void)
-+{
-+	return acpi_dev_present("GOOG0010", NULL, -1);
-+}
-+#endif
-+
- static const struct arch_init_data arch_init_data[] __initconst = {
- #if IS_ENABLED(CONFIG_THINKPAD_ACPI)
- 	{
-@@ -58,6 +65,16 @@ static const struct arch_init_data arch_init_data[] __initconst = {
- 		.detect = detect_thinkpad_privacy_screen,
- 	},
- #endif
-+#if IS_ENABLED(CONFIG_CHROMEOS_PRIVACY_SCREEN)
-+	{
-+		.lookup = {
-+			.dev_id = NULL,
-+			.con_id = NULL,
-+			.provider = "privacy_screen-GOOG0010:00",
-+		},
-+		.detect = detect_chromeos_privacy_screen,
-+	},
-+#endif
- };
- 
- void __init drm_privacy_screen_lookup_init(void)
--- 
-2.34.1.307.g9b7440fafd-goog
+Regards,
+
+Hans
+
+
+> ---
+> v4: * Simplify the detect_chromeos_privacy_screen() function
+>     * Don't change the existing print statement
+> v3: * Remove the pr_info() from detect_chromeos_privacy_screen(), instead
+>       enhance the one already present in drm_privacy_screen_lookup_init()
+> v2: * Use #if instead of #elif
+>     * Reorder the patches in the series.
+>     * Rebased on drm-tip
+> 
+>  drivers/gpu/drm/drm_privacy_screen_x86.c | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_privacy_screen_x86.c b/drivers/gpu/drm/drm_privacy_screen_x86.c
+> index a2cafb294ca6..88802cd7a1ee 100644
+> --- a/drivers/gpu/drm/drm_privacy_screen_x86.c
+> +++ b/drivers/gpu/drm/drm_privacy_screen_x86.c
+> @@ -47,6 +47,13 @@ static bool __init detect_thinkpad_privacy_screen(void)
+>  }
+>  #endif
+>  
+> +#if IS_ENABLED(CONFIG_CHROMEOS_PRIVACY_SCREEN)
+> +static bool __init detect_chromeos_privacy_screen(void)
+> +{
+> +	return acpi_dev_present("GOOG0010", NULL, -1);
+> +}
+> +#endif
+> +
+>  static const struct arch_init_data arch_init_data[] __initconst = {
+>  #if IS_ENABLED(CONFIG_THINKPAD_ACPI)
+>  	{
+> @@ -58,6 +65,16 @@ static const struct arch_init_data arch_init_data[] __initconst = {
+>  		.detect = detect_thinkpad_privacy_screen,
+>  	},
+>  #endif
+> +#if IS_ENABLED(CONFIG_CHROMEOS_PRIVACY_SCREEN)
+> +	{
+> +		.lookup = {
+> +			.dev_id = NULL,
+> +			.con_id = NULL,
+> +			.provider = "privacy_screen-GOOG0010:00",
+> +		},
+> +		.detect = detect_chromeos_privacy_screen,
+> +	},
+> +#endif
+>  };
+>  
+>  void __init drm_privacy_screen_lookup_init(void)
+> 
 
