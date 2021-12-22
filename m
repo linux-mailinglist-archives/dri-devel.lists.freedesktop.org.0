@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D95247D640
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 19:07:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C57447D6EF
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 19:36:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78F4A10E149;
-	Wed, 22 Dec 2021 18:07:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22CE610E25C;
+	Wed, 22 Dec 2021 18:36:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
- [209.85.222.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18E1B10E149;
- Wed, 22 Dec 2021 18:07:45 +0000 (UTC)
-Received: by mail-qk1-f174.google.com with SMTP id de30so3165904qkb.0;
- Wed, 22 Dec 2021 10:07:45 -0800 (PST)
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com
+ [209.85.222.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC21710E25C
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 18:36:33 +0000 (UTC)
+Received: by mail-qk1-f182.google.com with SMTP id 131so3216940qkk.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 10:36:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=PZT+442yryoIyAnTgfkKE3INejgOanJ0gZBKWAWh5S0=;
- b=qogANROEU8BXBJwBnZzCidYcVMHzKXTMzHdiEruRrPQhcmJBVmbFyQ2WBeGLAEkFLP
- mQEey/ZoQ5IcbzcpiN6sxK0Gd3vVUu30NHuSQk2wrZfEC9E9qoLjNN07UEAEpyJloFA4
- 5ClvsCOJ0JPtqhNJZyTmOEHrcBpYEuKq510XGZeSP8HUnczS+d9/PO4k+Wy0NFElx9C3
- 16uP7nwkAB7FnbkX1SsnfILTnr5LR3N7b7FkYhSaUZd9FvNiNy8rFhKnw1vI5UGqzghj
- Ojt1yg99nkAMm2PSHCPSRaAyMyiu29nRP0gilrwAdc00YkVDAu6UhkhaWja5sJeAgV9x
- X+dg==
-X-Gm-Message-State: AOAM531bQPUDvgB8dzcdggca78qs/3CKEiOFVFc9ZNX26T3epUpagB6X
- wAY/QjiU5TiGy2PwkQimwQ==
-X-Google-Smtp-Source: ABdhPJyJC96os9VsgB6XT66xXHqKpdFgHISt8Maa/ibE4MzoOiNuO46peBDi0wJyk+XRb+grY1slKA==
-X-Received: by 2002:a05:620a:f0e:: with SMTP id
- v14mr2825574qkl.365.1640196464048; 
- Wed, 22 Dec 2021 10:07:44 -0800 (PST)
+ bh=wDzO3Ad6lSocQgHWVJpmiNVxeeGd17gp3zvJdJeX/e4=;
+ b=eDaza5lkau8kGZJI9vF+1vL78Gt6AguFvk9mbGz2GU8Pyg0Xi5MpCH82irAcccbjAD
+ lAn3LBsjk+Clmox0nprVJ9cU54Pog2QCGbxL/5cpjhxO2sbBy2ieZMxT6SFn7qGNWz0K
+ izsxjzUC6XGBV8NLWmGnSIPtDAW6Nfp7TMk0bZc8rMmEVZiQUgKs9ZO6dOBiqg5ckLHL
+ hPsarwdpF6AoM3x730Dl0SiSWyhZa0IB5k/eUxYsjHzE5V2HXcFkBzjoHFZ+sAXwkbSf
+ 1QOENWIDolR6yQcNHIM89ic0KgSWcYsGGsYEV516W/YPEwlHQAWQa/XmhP6mHhHmYc22
+ jCCA==
+X-Gm-Message-State: AOAM5325EZIWixulvG0bJsBcNfvsmDM+TZQdV3mkpUnikhV+/MKs/nwM
+ SRVPl0nQoV6xhvHbEz1uwg==
+X-Google-Smtp-Source: ABdhPJyxpmkjjBfT4ceoTMEnWifcuMUn6R8s3AWzbnMnABxL7BM8/d1xSlbRPS7YeMdTafAGlXwpJA==
+X-Received: by 2002:a37:315:: with SMTP id 21mr2935974qkd.52.1640198193055;
+ Wed, 22 Dec 2021 10:36:33 -0800 (PST)
 Received: from robh.at.kernel.org ([24.55.105.145])
- by smtp.gmail.com with ESMTPSA id de13sm2455085qkb.81.2021.12.22.10.07.42
+ by smtp.gmail.com with ESMTPSA id d5sm2363866qte.27.2021.12.22.10.36.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Dec 2021 10:07:43 -0800 (PST)
-Received: (nullmailer pid 2429602 invoked by uid 1000);
- Wed, 22 Dec 2021 18:07:41 -0000
-Date: Wed, 22 Dec 2021 14:07:41 -0400
+ Wed, 22 Dec 2021 10:36:32 -0800 (PST)
+Received: (nullmailer pid 2477388 invoked by uid 1000);
+ Wed, 22 Dec 2021 18:36:31 -0000
+Date: Wed, 22 Dec 2021 14:36:31 -0400
 From: Rob Herring <robh@kernel.org>
-To: David Heidelberg <david@ixit.cz>
-Subject: Re: [PATCH] dt-bindings: msm: disp: remove bus from dpu bindings
-Message-ID: <YcNpbeN2Hjs+ipWv@robh.at.kernel.org>
-References: <20211220184220.86328-1-david@ixit.cz>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: display: novatek,nt36672a: Fix unevaluated
+ properties warning
+Message-ID: <YcNwL7lgncq7balH@robh.at.kernel.org>
+References: <20211221125125.1194554-1-robh@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211220184220.86328-1-david@ixit.cz>
+In-Reply-To: <20211221125125.1194554-1-robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,30 +60,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Krishna Manikandan <mkrishn@codeaurora.org>,
- devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>, freedreno@lists.freedesktop.org,
- ~okias/devicetree@lists.sr.ht
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 20 Dec 2021 19:42:20 +0100, David Heidelberg wrote:
-> Driver and dts has been already adjusted and bus moved out of dpu, let's
-> update also dt-bindings.
+On Tue, 21 Dec 2021 08:51:26 -0400, Rob Herring wrote:
+> With 'unevaluatedProperties' support enabled, the novatek,nt36672a
+> binding has a new warning:
 > 
-> Fixes warnings as:
-> arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dt.yaml: mdss
-> @ae00000: clock-names: ['iface', 'core'] is too short
->         From schema: Documentation/devicetree/bindings/display/msm/dpu-sdm845.yaml
+> Documentation/devicetree/bindings/display/panel/novatek,nt36672a.example.dt.yaml: panel@0: Unevaluated properties are not allowed ('vddi0-supply', '#address-cells', '#size-cells' were unexpected)
 > 
-> Ref: https://lore.kernel.org/all/20210803101657.1072358-1-dmitry.baryshkov@linaro.org/
+> Based on dts files, 'vddi0-supply' does appear to be the correct name.
+> Drop '#address-cells' and '#size-cells' which aren't needed.
 > 
-> Signed-off-by: David Heidelberg <david@ixit.cz>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
->  .../devicetree/bindings/display/msm/dpu-sdm845.yaml          | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
+>  .../devicetree/bindings/display/panel/novatek,nt36672a.yaml   | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 > 
 
 Applied, thanks!
