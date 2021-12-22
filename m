@@ -1,45 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E9EE47D95B
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 23:41:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBAE747DB7E
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Dec 2021 00:34:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DCA810E12A;
-	Wed, 22 Dec 2021 22:40:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78B3810E11F;
+	Wed, 22 Dec 2021 23:34:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FEF210E120;
- Wed, 22 Dec 2021 22:40:53 +0000 (UTC)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DF7810E119;
+ Wed, 22 Dec 2021 23:34:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1640212853; x=1671748853;
+ t=1640216068; x=1671752068;
  h=from:to:cc:subject:date:message-id:mime-version:
  content-transfer-encoding;
- bh=5OP6k5DxOb45QaOIMZu5ywfYgjOIJ4QtPn4/S384yHA=;
- b=VgxWwQf7UU3er5M+3clV57H0//sYPh+HHfjy+RzYaI9soonXHszd8IOA
- 8jRioL7SOS13PKjlBLSqt5PYvpiFgcxLzC7TfTO61tUTSa8+opit7wZXJ
- SUBWKpO7ij3I6RzuNq2DmhY/ewl1b7BUQbszmSizNTn9dFu5rEkhiYzBo
- qY89y22F6b9gArmhNCg6kj3qq+H9NEhzO7dgbEvZ5CbqeqmRjnnUhDXrp
- svXUo7sWNiyP7EGO5YJFiZ69duzCsGKojz5liHOnD//kMW5/7DwnsqGtZ
- LeIm2VJmEjKaWL/oXSDbPZP608B3nOoO5REtn/yYjqBou1rVD0k/C91Xw Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10206"; a="264924310"
-X-IronPort-AV: E=Sophos;i="5.88,227,1635231600"; d="scan'208";a="264924310"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2021 14:40:53 -0800
-X-IronPort-AV: E=Sophos;i="5.88,227,1635231600"; d="scan'208";a="550024403"
+ bh=cXJENaIlfOcA6CiVQBL0eK2WDfL4vdWxuNgXOb5rCZM=;
+ b=RrlwCSixYe1UKxAT0M+58RNaUJ+zrwYPh6D3A9n1CuCVZxGS0hnct80m
+ bAUxedfdMuDXDrAEO8M0R6LE2APfBGcju74z3YZnzC9CPZcsLBfct7iWQ
+ lenTTwXTVjMhqNZFMMPLqj38EoFXkdqDwvV6vODvXuRGEapeTHQ3CjTZY
+ bjiY4fQqquqGw1VTWGzK0/lBOetgkR1WwN+2FNleI4b9bJ95X47vA+doN
+ DM7/+gEN5JTodosN61tTCDvOYjoUyhMr0jex+RHmAapPiMTBKDwvoHU+H
+ gA2QFmKxS0I1bvd8yd0GclI0amcyLfxpSS2bE7zws7ej9pSzT6c16MGXP w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10206"; a="327031451"
+X-IronPort-AV: E=Sophos;i="5.88,227,1635231600"; d="scan'208";a="327031451"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Dec 2021 15:34:27 -0800
+X-IronPort-AV: E=Sophos;i="5.88,227,1635231600"; d="scan'208";a="521867622"
 Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2021 14:40:52 -0800
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Dec 2021 15:34:27 -0800
 From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/i915/execlists: Weak parallel submission support for
- execlists
-Date: Wed, 22 Dec 2021 14:35:32 -0800
-Message-Id: <20211222223532.28698-1-matthew.brost@intel.com>
+Subject: [PATCH] drm/i915/guc: Use lockless list for destroyed contexts
+Date: Wed, 22 Dec 2021 15:29:07 -0800
+Message-Id: <20211222232907.12735-1-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -55,174 +54,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: john.c.harrison@intel.com
+Cc: daniele.ceraolospurio@intel.com, john.c.harrison@intel.com,
+ tvrtko.ursulin@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A weak implementation of parallel submission (multi-bb execbuf IOCTL) for
-execlists. Doing as little as possible to support this interface for
-execlists - basically just passing submit fences between each request
-generated and virtual engines are not allowed. This is on par with what
-is there for the existing (hopefully soon deprecated) bonding interface.
+Use a lockless list structure for destroyed contexts to avoid hammering
+on global submission spin lock.
 
-We perma-pin these execlists contexts to align with GuC implementation.
-
-v2:
- (John Harrison)
-  - Drop siblings array as num_siblings must be 1
-v3:
- (John Harrison)
-  - Drop single submission
-v4:
- (John Harrison)
-  - Actually drop single submission
-  - Use IS_ERR check on return value from intel_context_create
-  - Set last request to NULL on unpin
-
+Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_context.c   | 11 ++++--
- drivers/gpu/drm/i915/gt/intel_context.c       |  4 +-
- .../drm/i915/gt/intel_execlists_submission.c  | 38 +++++++++++++++++++
- drivers/gpu/drm/i915/gt/intel_lrc.c           |  4 ++
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  2 -
- 5 files changed, 51 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_context.c       |  2 -
+ drivers/gpu/drm/i915/gt/intel_context_types.h |  3 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  3 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 44 +++++--------------
+ 4 files changed, 16 insertions(+), 36 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index cad3f0b2be9e..b0d2d81fc3b3 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -570,10 +570,6 @@ set_proto_ctx_engines_parallel_submit(struct i915_user_extension __user *base,
- 	struct intel_engine_cs **siblings = NULL;
- 	intel_engine_mask_t prev_mask;
- 
--	/* FIXME: This is NIY for execlists */
--	if (!(intel_uc_uses_guc_submission(&to_gt(i915)->uc)))
--		return -ENODEV;
--
- 	if (get_user(slot, &ext->engine_index))
- 		return -EFAULT;
- 
-@@ -583,6 +579,13 @@ set_proto_ctx_engines_parallel_submit(struct i915_user_extension __user *base,
- 	if (get_user(num_siblings, &ext->num_siblings))
- 		return -EFAULT;
- 
-+	if (!intel_uc_uses_guc_submission(&to_gt(i915)->uc) &&
-+	    num_siblings != 1) {
-+		drm_dbg(&i915->drm, "Only 1 sibling (%d) supported in non-GuC mode\n",
-+			num_siblings);
-+		return -EINVAL;
-+	}
-+
- 	if (slot >= set->num_engines) {
- 		drm_dbg(&i915->drm, "Invalid placement value, %d >= %d\n",
- 			slot, set->num_engines);
 diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-index ba083d800a08..5d0ec7c49b6a 100644
+index 5d0ec7c49b6a..4aacb4b0418d 100644
 --- a/drivers/gpu/drm/i915/gt/intel_context.c
 +++ b/drivers/gpu/drm/i915/gt/intel_context.c
-@@ -79,7 +79,8 @@ static int intel_context_active_acquire(struct intel_context *ce)
+@@ -403,8 +403,6 @@ intel_context_init(struct intel_context *ce, struct intel_engine_cs *engine)
+ 	ce->guc_id.id = GUC_INVALID_LRC_ID;
+ 	INIT_LIST_HEAD(&ce->guc_id.link);
  
- 	__i915_active_acquire(&ce->active);
+-	INIT_LIST_HEAD(&ce->destroyed_link);
+-
+ 	INIT_LIST_HEAD(&ce->parallel.child_list);
  
--	if (intel_context_is_barrier(ce) || intel_engine_uses_guc(ce->engine))
-+	if (intel_context_is_barrier(ce) || intel_engine_uses_guc(ce->engine) ||
-+	    intel_context_is_parallel(ce))
- 		return 0;
+ 	/*
+diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
+index 30cd81ad8911..4532d43ec9c0 100644
+--- a/drivers/gpu/drm/i915/gt/intel_context_types.h
++++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+@@ -9,6 +9,7 @@
+ #include <linux/average.h>
+ #include <linux/kref.h>
+ #include <linux/list.h>
++#include <linux/llist.h>
+ #include <linux/mutex.h>
+ #include <linux/types.h>
  
- 	/* Preallocate tracking nodes */
-@@ -563,7 +564,6 @@ void intel_context_bind_parent_child(struct intel_context *parent,
- 	 * Callers responsibility to validate that this function is used
- 	 * correctly but we use GEM_BUG_ON here ensure that they do.
+@@ -224,7 +225,7 @@ struct intel_context {
+ 	 * list when context is pending to be destroyed (deregistered with the
+ 	 * GuC), protected by guc->submission_state.lock
  	 */
--	GEM_BUG_ON(!intel_engine_uses_guc(parent->engine));
- 	GEM_BUG_ON(intel_context_is_pinned(parent));
- 	GEM_BUG_ON(intel_context_is_child(parent));
- 	GEM_BUG_ON(intel_context_is_pinned(child));
-diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-index a69df5e9e77a..be56d0b41892 100644
---- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-+++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-@@ -2599,6 +2599,43 @@ static void execlists_context_cancel_request(struct intel_context *ce,
- 				      current->comm);
- }
+-	struct list_head destroyed_link;
++	struct llist_node destroyed_link;
  
-+static struct intel_context *
-+execlists_create_parallel(struct intel_engine_cs **engines,
-+			  unsigned int num_siblings,
-+			  unsigned int width)
-+{
-+	struct intel_context *parent = NULL, *ce, *err;
-+	int i;
-+
-+	GEM_BUG_ON(num_siblings != 1);
-+
-+	for (i = 0; i < width; ++i) {
-+		ce = intel_context_create(engines[i]);
-+		if (IS_ERR(ce)) {
-+			err = ce;
-+			goto unwind;
-+		}
-+
-+		if (i == 0)
-+			parent = ce;
-+		else
-+			intel_context_bind_parent_child(parent, ce);
-+	}
-+
-+	parent->parallel.fence_context = dma_fence_context_alloc(1);
-+
-+	intel_context_set_nopreempt(parent);
-+	for_each_child(parent, ce)
-+		intel_context_set_nopreempt(ce);
-+
-+	return parent;
-+
-+unwind:
-+	if (parent)
-+		intel_context_put(parent);
-+	return err;
-+}
-+
- static const struct intel_context_ops execlists_context_ops = {
- 	.flags = COPS_HAS_INFLIGHT,
+ 	/** @parallel: sub-structure for parallel submission members */
+ 	struct {
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+index f9240d4baa69..705085058411 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+@@ -8,6 +8,7 @@
  
-@@ -2617,6 +2654,7 @@ static const struct intel_context_ops execlists_context_ops = {
- 	.reset = lrc_reset,
- 	.destroy = lrc_destroy,
+ #include <linux/xarray.h>
+ #include <linux/delay.h>
++#include <linux/llist.h>
  
-+	.create_parallel = execlists_create_parallel,
- 	.create_virtual = execlists_create_virtual,
- };
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-index b3489599e4de..84456ffeb4cd 100644
---- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-+++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-@@ -1065,6 +1065,10 @@ lrc_pin(struct intel_context *ce,
- 
- void lrc_unpin(struct intel_context *ce)
- {
-+	if (unlikely(ce->parallel.last_rq)) {
-+		i915_request_put(ce->parallel.last_rq);
-+		ce->parallel.last_rq = NULL;
-+	}
- 	check_redzone((void *)ce->lrc_reg_state - LRC_STATE_OFFSET,
- 		      ce->engine);
- }
+ #include "intel_uncore.h"
+ #include "intel_guc_fw.h"
+@@ -112,7 +113,7 @@ struct intel_guc {
+ 		 * @destroyed_contexts: list of contexts waiting to be destroyed
+ 		 * (deregistered with the GuC)
+ 		 */
+-		struct list_head destroyed_contexts;
++		struct llist_head destroyed_contexts;
+ 		/**
+ 		 * @destroyed_worker: worker to deregister contexts, need as we
+ 		 * need to take a GT PM reference and can't from destroy
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index e7517206af82..0a03a30e4c6d 100644
+index 0a03a30e4c6d..6f7643edc139 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -3248,8 +3248,6 @@ static void guc_parent_context_unpin(struct intel_context *ce)
- 	GEM_BUG_ON(!intel_context_is_parent(ce));
- 	GEM_BUG_ON(!intel_engine_is_virtual(ce->engine));
+@@ -1771,7 +1771,7 @@ int intel_guc_submission_init(struct intel_guc *guc)
+ 	spin_lock_init(&guc->submission_state.lock);
+ 	INIT_LIST_HEAD(&guc->submission_state.guc_id_list);
+ 	ida_init(&guc->submission_state.guc_ids);
+-	INIT_LIST_HEAD(&guc->submission_state.destroyed_contexts);
++	init_llist_head(&guc->submission_state.destroyed_contexts);
+ 	INIT_WORK(&guc->submission_state.destroyed_worker,
+ 		  destroyed_worker_func);
  
--	if (ce->parallel.last_rq)
--		i915_request_put(ce->parallel.last_rq);
- 	unpin_guc_id(guc, ce);
- 	lrc_unpin(ce);
+@@ -2696,26 +2696,18 @@ static void __guc_context_destroy(struct intel_context *ce)
+ 	}
  }
+ 
++#define take_destroyed_contexts(guc) \
++	llist_del_all(&guc->submission_state.destroyed_contexts)
++
+ static void guc_flush_destroyed_contexts(struct intel_guc *guc)
+ {
+-	struct intel_context *ce;
+-	unsigned long flags;
++	struct intel_context *ce, *cn;
+ 
+ 	GEM_BUG_ON(!submission_disabled(guc) &&
+ 		   guc_submission_initialized(guc));
+ 
+-	while (!list_empty(&guc->submission_state.destroyed_contexts)) {
+-		spin_lock_irqsave(&guc->submission_state.lock, flags);
+-		ce = list_first_entry_or_null(&guc->submission_state.destroyed_contexts,
+-					      struct intel_context,
+-					      destroyed_link);
+-		if (ce)
+-			list_del_init(&ce->destroyed_link);
+-		spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+-
+-		if (!ce)
+-			break;
+-
++	llist_for_each_entry_safe(ce, cn, take_destroyed_contexts(guc),
++				 destroyed_link) {
+ 		release_guc_id(guc, ce);
+ 		__guc_context_destroy(ce);
+ 	}
+@@ -2723,23 +2715,11 @@ static void guc_flush_destroyed_contexts(struct intel_guc *guc)
+ 
+ static void deregister_destroyed_contexts(struct intel_guc *guc)
+ {
+-	struct intel_context *ce;
+-	unsigned long flags;
+-
+-	while (!list_empty(&guc->submission_state.destroyed_contexts)) {
+-		spin_lock_irqsave(&guc->submission_state.lock, flags);
+-		ce = list_first_entry_or_null(&guc->submission_state.destroyed_contexts,
+-					      struct intel_context,
+-					      destroyed_link);
+-		if (ce)
+-			list_del_init(&ce->destroyed_link);
+-		spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+-
+-		if (!ce)
+-			break;
++	struct intel_context *ce, *cn;
+ 
++	llist_for_each_entry_safe(ce, cn, take_destroyed_contexts(guc),
++				 destroyed_link)
+ 		guc_lrc_desc_unpin(ce);
+-	}
+ }
+ 
+ static void destroyed_worker_func(struct work_struct *w)
+@@ -2771,8 +2751,8 @@ static void guc_context_destroy(struct kref *kref)
+ 	if (likely(!destroy)) {
+ 		if (!list_empty(&ce->guc_id.link))
+ 			list_del_init(&ce->guc_id.link);
+-		list_add_tail(&ce->destroyed_link,
+-			      &guc->submission_state.destroyed_contexts);
++		llist_add(&ce->destroyed_link,
++			  &guc->submission_state.destroyed_contexts);
+ 	} else {
+ 		__release_guc_id(guc, ce);
+ 	}
 -- 
 2.34.1
 
