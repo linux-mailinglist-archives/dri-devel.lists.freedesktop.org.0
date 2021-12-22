@@ -1,64 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2E7047D0A6
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 12:15:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A604F47D0AB
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 12:16:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C908910E7B8;
-	Wed, 22 Dec 2021 11:15:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E0D210E85C;
+	Wed, 22 Dec 2021 11:16:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8373410E7B8
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 11:15:52 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id e5so4179227wrc.5
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 03:15:52 -0800 (PST)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B016D10E85C
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 11:16:24 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id t26so4176620wrb.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 03:16:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=Wm7ceiBo2JszsCIJkrhp1xhqeVltfP3wlNwXPrRjP24=;
- b=JuDGpd4Hf730Hy1xkZzdm7Jm917/6CwrXFdCWLv4thxaPaEAifEYweXoJTV2dVFxiq
- 5xNyIY8uwWCzHqo0fIzTfrz0TCDGF/U3IMQMKFidXd7Wya1wS/CDmt9LGkmKh9VOdxwg
- mJABWKYoU0c636DwooyIxlIV1WtLmeZtbP7evZqI20Ft33qK8PHZFj/UWPobzGv+fL6j
- eJ1MR6XCqEs61xqgDGX08pWrOy9fzmd3qJ/tz8fZ5a86CY4EoTFamlTp0O7xsPvU2RVv
- M5W+bMyn1VJxWuoY5gA8vqSqAuUF/dmwjl+6S7X8vOkqg6XTljUe/M6I4lBeR79ZS6G0
- mt8A==
+ bh=XPWgMgD0XzqoivywAckaojk88eeT9YD0wWezKrZwghA=;
+ b=TSQvltnJVjN3Yxq5i38Kl4Zl+tIZLyfhNSEv8RP6YUqRZeNA+cHVSjDndysUjDRfNp
+ 9pAxUCsoF4c4bKarlN0yohlCyEkXltFo0uTGZxKKnBMkys0KDKqKJUCK6sfApzEY760Q
+ DxigGxoUD2smGsMvnNnitkRtD7vIBrGHLvEEhCkuwmQcG8/S50V0jWiC13Q8+drZ6UGi
+ ZOnLihm7FMgr7wIL/QE4t0vWJlNZFkN6IagPIfkODJ67ckYHngyQmVRleLEBj/zqVS8m
+ uHgpx3J2J/U6g5OgwHEfuZ2FziBzKqcQ9jks70Dz3h8BmSJJQRBvcjKrIJQmSpaeD33R
+ 16yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=Wm7ceiBo2JszsCIJkrhp1xhqeVltfP3wlNwXPrRjP24=;
- b=Alw1Y0yb/XqMtHnv9XRqYnWHqNHOqu6uVyxK9GAruhhZDLClNMGOkY2xNt8aMZ6JGj
- DGKrm4y+4zeM3Tikonbs1nCJKASJj7m+6CK1+HSZI6TRTbJgumQkA22NHAOtOT+FSsNU
- i6uwJjp4dOuEXl12XI3VFkvc5yKAruQevncDM5doB3tRaPRXNpiNMJl2rFyPC/Rl5Dql
- eXUOeVoNBxP9HTarhvfgDqTuB6aspqKds0UYwXIhJrvBSHk7ZstOHDvBpo5Zt/geFCMn
- y/cnSMWwx6JDJec8B+shchhHPgXLo1ggo0eI/n18VZAwL8D/MwfxWDm1AjakzHcqCIR1
- kXBg==
-X-Gm-Message-State: AOAM531uuO2CI3xkVjTFeuW+OVR4uh012wTPU2AYzhbjdOAd+ppkvpUq
- qd35lLKUPjtFP/6lI6vS0Nf7Kg==
-X-Google-Smtp-Source: ABdhPJyaGzs1v4cpza6jVqOa8pif0o1C0RknC0vja0TI23nk6gWPNt71MTTcv4gmRcsLQ98s4nzF8A==
-X-Received: by 2002:adf:9d8c:: with SMTP id p12mr1755010wre.622.1640171751048; 
- Wed, 22 Dec 2021 03:15:51 -0800 (PST)
+ bh=XPWgMgD0XzqoivywAckaojk88eeT9YD0wWezKrZwghA=;
+ b=3NHVdGqEEPcciBtt4/OcBBmIqvcR+bw3qTwDT7sRNFwegxyiC649ZVuUzqvWpqs8fU
+ tlJijDCSsYG0lAYVZYlX10TYwEcqbA+9hIbd1L7eeYfdijj3UA4SZTguOnmffHvf31JF
+ 7XMcTN2r4ZSnlJ40ZxRK72AAG+E0UeeO3CxdUuvB4513glCjTQLUOY3SMgC+J97PHga3
+ 7V8LVGybIEKefRfbz6gFUqbsxW1FCUIaan4viAr+ZZKY70wIJ9K7jUY8YxTXJqBNIQX6
+ 2TzceaR/HiS7nOVdXkz3BGVkaC838rALMbpDWOYhfh5uBv/KR0TxpRhThaDWlfjYzd1V
+ AuUw==
+X-Gm-Message-State: AOAM531lOuIvxu67ucw/qMo/huSwbq+tWqe4tOCNsbbAvvhvRjm0MGJG
+ XsADq1vy1ZSsKWqDiQa72ssIGg==
+X-Google-Smtp-Source: ABdhPJzkB3s0YBKaAq8SlAKtUF6TM0YviOwwlicJEmYHnBrD6uxPU06eJZhrr/MgKRKs9FFzJP99HA==
+X-Received: by 2002:a5d:564f:: with SMTP id j15mr1733297wrw.366.1640171783261; 
+ Wed, 22 Dec 2021 03:16:23 -0800 (PST)
 Received: from google.com ([2.31.167.18])
- by smtp.gmail.com with ESMTPSA id 14sm1801429wry.23.2021.12.22.03.15.49
+ by smtp.gmail.com with ESMTPSA id j3sm1612934wrt.14.2021.12.22.03.16.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Dec 2021 03:15:50 -0800 (PST)
-Date: Wed, 22 Dec 2021 11:15:48 +0000
+ Wed, 22 Dec 2021 03:16:22 -0800 (PST)
+Date: Wed, 22 Dec 2021 11:16:20 +0000
 From: Lee Jones <lee.jones@linaro.org>
 To: Marijn Suijten <marijn.suijten@somainline.org>
-Subject: Re: [PATCH v3 2/9] backlight: qcom-wled: Pass number of elements to
- read to read_u32_array
-Message-ID: <YcMI5Oq3jOIFQvKc@google.com>
+Subject: Re: [PATCH v3 3/9] backlight: qcom-wled: Use cpu_to_le16 macro to
+ perform conversion
+Message-ID: <YcMJBDcoZc1g7R2M@google.com>
 References: <20211115203459.1634079-1-marijn.suijten@somainline.org>
- <20211115203459.1634079-3-marijn.suijten@somainline.org>
+ <20211115203459.1634079-4-marijn.suijten@somainline.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211115203459.1634079-3-marijn.suijten@somainline.org>
+In-Reply-To: <20211115203459.1634079-4-marijn.suijten@somainline.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,23 +88,14 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Mon, 15 Nov 2021, Marijn Suijten wrote:
 
-> of_property_read_u32_array takes the number of elements to read as last
-> argument. This does not always need to be 4 (sizeof(u32)) but should
-> instead be the size of the array in DT as read just above with
-> of_property_count_elems_of_size.
+> The kernel already provides appropriate primitives to perform endianness
+> conversion which should be used in favour of manual bit-wrangling.
 > 
-> To not make such an error go unnoticed again the driver now bails
-> accordingly when of_property_read_u32_array returns an error.
-> Surprisingly the indentation of newlined arguments is lining up again
-> after prepending `rc = `.
-> 
-> Fixes: 775d2ffb4af6 ("backlight: qcom-wled: Restructure the driver for WLED3")
 > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 > Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 > ---
->  drivers/video/backlight/qcom-wled.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
+>  drivers/video/backlight/qcom-wled.c | 23 +++++++++++------------
+>  1 file changed, 11 insertions(+), 12 deletions(-)
 
 Applied, thanks.
 
