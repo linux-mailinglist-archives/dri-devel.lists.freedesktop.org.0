@@ -1,62 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1A5547CCAE
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 06:28:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 703FD47CCD3
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 07:09:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF31A10E99C;
-	Wed, 22 Dec 2021 05:27:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AD1710F0C6;
+	Wed, 22 Dec 2021 06:09:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B16FA10E99C
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 05:27:56 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id
- n15-20020a17090a160f00b001a75089daa3so4665842pja.1
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Dec 2021 21:27:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=FZMLZON20bWtrq2sz7nwh4szNbVAnGuVe7s0LuBQMY8=;
- b=UyG/PNgRZFP+f0K7oJsfFcc5cx0QD0KkSprzgxJyzSsQOTIZTmUQPik+BRVLqiNfg9
- grOsl5/Fgc/ZUmhEJOGz1tSmF37OAFbLNCtua+JEYOdqC8D0er7AEYQY9/PXLYP2KkIz
- TMIRtpqnpRgwOQz4CoIhPgQ4c11ZZYVdt6eULiAx9a7GTUAKUHztSoEcV+CYC0QoBGLg
- ofVYhLyh4IEZNMllZimyaR5pdINQss0X+kBAlwN1faa09IPAdKdL2VZPviYaxBeNY8XO
- a25i+zxIg+k4sVZARLV6HlSp7sD7JbIfLwOTe0WxfRJIo06O34fwvYxdRApGg5oLK2Jw
- PNtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=FZMLZON20bWtrq2sz7nwh4szNbVAnGuVe7s0LuBQMY8=;
- b=4SaqrTI457963Du+vAxio4/+FaOlGL1i/E+oOtXtDiXiAS0XgKCuS0vG+IOxDdAowS
- Cw/SEe2pZGGkA7AbMyXyVMi8Ge7mLX5DYcmqdDSWZfhnWGPF3DAMqzGJNLxIKod+bOfj
- UfKJ1ld3GRJsBoUDnWVGP4vuCbKBVqnOyQkAL//p4rhF1UfyeRU60pRzUsCIkLphuFws
- bDKLpOnlitQkzUP7nwknbe1R7+yQs71a9FmvqgUUUzUIVeBlouyYQTfaLs5xWFxrXlir
- /HfGarabPrzYL/YBN4dVVG7VxZmURg0pEA76n+YwflBv7YpLWkqM/Rl3etKXqxKI8P6d
- MTvQ==
-X-Gm-Message-State: AOAM532ZCGWVwqX8Ki+R8w9o6PSj2pnhhDW92wBe9tw3jxH7w3OA1VF+
- MecjE1DQwsDDOehh0xCXQnkRdGUtMsURz1sW
-X-Google-Smtp-Source: ABdhPJy7FkeNfEP/7vNs+Ieyaz441/RBOQCDZsCiph+YCqhU9zps42TIopAfRgQSxH+FSStJjWPiug==
-X-Received: by 2002:a17:902:ea03:b0:148:ea19:557 with SMTP id
- s3-20020a170902ea0300b00148ea190557mr1355994plg.129.1640150875860; 
- Tue, 21 Dec 2021 21:27:55 -0800 (PST)
-Received: from aqua.hq.igel.co.jp (napt.igel.co.jp. [219.106.231.132])
- by smtp.gmail.com with ESMTPSA id v63sm737465pgv.71.2021.12.21.21.27.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Dec 2021 21:27:55 -0800 (PST)
-From: Tomohito Esaki <etom@igel.co.jp>
-To: dri-devel@lists.freedesktop.org
-Subject: [RFC PATH 3/3] drm: replace allow_fb_modifiers with
- fb_modifiers_not_supported
-Date: Wed, 22 Dec 2021 14:27:27 +0900
-Message-Id: <20211222052727.19725-4-etom@igel.co.jp>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211222052727.19725-1-etom@igel.co.jp>
-References: <20211222052727.19725-1-etom@igel.co.jp>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2469A10F0C6;
+ Wed, 22 Dec 2021 06:09:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1640153343; x=1671689343;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=ckaMJ+H0/TF9SKL+CkhWzBkJvEUKaEsg9J96VhyiPio=;
+ b=JKzFzzQcadx5fZAzuIL6w1+uqhxGc2gHNJFIWMWUCPmMMx9n1bUL6QQn
+ fTtUzjv647Xrrsmpv014iVFp7uEvgo2wcw7aniHOzy/3R97AwxmpyMuBm
+ 9peyiNGQ7d0Ksh/vqWgZjFmCZhLe17+X11aK10UsHHurokX4ILDWfo+62
+ FEpylndQPSkpascus1WBx0vdRP3TmkQab3H7tpCtIN91YCFqfEShDpHZZ
+ DU+MsNK6Re/P5qF15Ho+cE6mchL4/KnNWvB0Jq7H8zVuNeRRWk1moTp+9
+ 0PqLsYofhsX5tZ5ouTgAdwp1QsSJCfvroElwQvE0aTOjqEh2pZfkG8Z3f A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10205"; a="240359189"
+X-IronPort-AV: E=Sophos;i="5.88,225,1635231600"; d="scan'208";a="240359189"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Dec 2021 22:09:02 -0800
+X-IronPort-AV: E=Sophos;i="5.88,225,1635231600"; d="scan'208";a="521548248"
+Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Dec 2021 22:09:00 -0800
+From: ira.weiny@intel.com
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+Subject: [PATCH V2] drm/i915: Replace kmap() with kmap_local_page()
+Date: Tue, 21 Dec 2021 22:08:57 -0800
+Message-Id: <20211222060857.21791-1-ira.weiny@intel.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211210232404.4098157-2-ira.weiny@intel.com>
+References: <20211210232404.4098157-2-ira.weiny@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,140 +57,207 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- =?UTF-8?q?Michel=20D=C3=A4nzer?= <mdaenzer@redhat.com>,
- Lee Jones <lee.jones@linaro.org>, Tomohito Esaki <etom@igel.co.jp>,
- Rob Clark <robdclark@chromium.org>, Evan Quan <evan.quan@amd.com>,
- amd-gfx@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
- Petr Mladek <pmladek@suse.com>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Takanari Hayama <taki@igel.co.jp>, Sean Paul <seanpaul@chromium.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Mark Yacoub <markyacoub@chromium.org>, Qingqing Zhuo <qingqing.zhuo@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- Damian Hobson-Garcia <dhobsong@igel.co.jp>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Ira Weiny <ira.weiny@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since almost drivers support fb modifiers, allow_fb_modifiers is
-replaced with fb_modifiers_not_supported and removed.
+From: Ira Weiny <ira.weiny@intel.com>
 
-Signed-off-by: Tomohito Esaki <etom@igel.co.jp>
+kmap() is being deprecated and these usages are all local to the thread
+so there is no reason kmap_local_page() can't be used.
+
+Replace kmap() calls with kmap_local_page().
+
+Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+
 ---
- drivers/gpu/drm/drm_framebuffer.c                |  6 +++---
- drivers/gpu/drm/drm_ioctl.c                      |  2 +-
- drivers/gpu/drm/drm_plane.c                      |  9 ---------
- drivers/gpu/drm/selftests/test-drm_framebuffer.c |  1 -
- include/drm/drm_mode_config.h                    | 16 ----------------
- 5 files changed, 4 insertions(+), 30 deletions(-)
+NOTE: I'm sending as a follow on to the V1 patch.  Please let me know if you
+prefer the entire series instead.
 
-diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
-index 07f5abc875e9..4562a8b86579 100644
---- a/drivers/gpu/drm/drm_framebuffer.c
-+++ b/drivers/gpu/drm/drm_framebuffer.c
-@@ -309,7 +309,7 @@ drm_internal_framebuffer_create(struct drm_device *dev,
+Changes for V2:
+	From Christoph Helwig
+	Prefer the use of memcpy_*_page() where appropriate.
+---
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c          | 6 ++----
+ drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c | 8 ++++----
+ drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c       | 4 ++--
+ drivers/gpu/drm/i915/gt/shmem_utils.c              | 7 ++-----
+ drivers/gpu/drm/i915/i915_gem.c                    | 8 ++++----
+ drivers/gpu/drm/i915/i915_gpu_error.c              | 4 ++--
+ 6 files changed, 16 insertions(+), 21 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+index d77da59fae04..842e089aaaa5 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+@@ -589,7 +589,7 @@ i915_gem_object_create_shmem_from_data(struct drm_i915_private *dev_priv,
+ 	do {
+ 		unsigned int len = min_t(typeof(size), size, PAGE_SIZE);
+ 		struct page *page;
+-		void *pgdata, *vaddr;
++		void *pgdata;
+ 
+ 		err = pagecache_write_begin(file, file->f_mapping,
+ 					    offset, len, 0,
+@@ -597,9 +597,7 @@ i915_gem_object_create_shmem_from_data(struct drm_i915_private *dev_priv,
+ 		if (err < 0)
+ 			goto fail;
+ 
+-		vaddr = kmap(page);
+-		memcpy(vaddr, data, len);
+-		kunmap(page);
++		memcpy_to_page(page, 0, data, len);
+ 
+ 		err = pagecache_write_end(file, file->f_mapping,
+ 					  offset, len, len,
+diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+index 6d30cdfa80f3..e59e1725e29d 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
++++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+@@ -144,7 +144,7 @@ static int check_partial_mapping(struct drm_i915_gem_object *obj,
+ 	intel_gt_flush_ggtt_writes(&to_i915(obj->base.dev)->gt);
+ 
+ 	p = i915_gem_object_get_page(obj, offset >> PAGE_SHIFT);
+-	cpu = kmap(p) + offset_in_page(offset);
++	cpu = kmap_local_page(p) + offset_in_page(offset);
+ 	drm_clflush_virt_range(cpu, sizeof(*cpu));
+ 	if (*cpu != (u32)page) {
+ 		pr_err("Partial view for %lu [%u] (offset=%llu, size=%u [%llu, row size %u], fence=%d, tiling=%d, stride=%d) misalignment, expected write to page (%llu + %u [0x%llx]) of 0x%x, found 0x%x\n",
+@@ -162,7 +162,7 @@ static int check_partial_mapping(struct drm_i915_gem_object *obj,
  	}
+ 	*cpu = 0;
+ 	drm_clflush_virt_range(cpu, sizeof(*cpu));
+-	kunmap(p);
++	kunmap_local(cpu);
  
- 	if (r->flags & DRM_MODE_FB_MODIFIERS &&
--	    !dev->mode_config.allow_fb_modifiers) {
-+	    dev->mode_config.fb_modifiers_not_supported) {
- 		DRM_DEBUG_KMS("driver does not support fb modifiers\n");
- 		return ERR_PTR(-EINVAL);
- 	}
-@@ -594,7 +594,7 @@ int drm_mode_getfb2_ioctl(struct drm_device *dev,
- 	r->pixel_format = fb->format->format;
+ out:
+ 	__i915_vma_put(vma);
+@@ -237,7 +237,7 @@ static int check_partial_mappings(struct drm_i915_gem_object *obj,
+ 		intel_gt_flush_ggtt_writes(&to_i915(obj->base.dev)->gt);
  
- 	r->flags = 0;
--	if (dev->mode_config.allow_fb_modifiers)
-+	if (!dev->mode_config.fb_modifiers_not_supported)
- 		r->flags |= DRM_MODE_FB_MODIFIERS;
- 
- 	for (i = 0; i < ARRAY_SIZE(r->handles); i++) {
-@@ -607,7 +607,7 @@ int drm_mode_getfb2_ioctl(struct drm_device *dev,
- 	for (i = 0; i < fb->format->num_planes; i++) {
- 		r->pitches[i] = fb->pitches[i];
- 		r->offsets[i] = fb->offsets[i];
--		if (dev->mode_config.allow_fb_modifiers)
-+		if (!dev->mode_config.fb_modifiers_not_supported)
- 			r->modifier[i] = fb->modifier;
- 	}
- 
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index 8b8744dcf691..51fcf1298023 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -297,7 +297,7 @@ static int drm_getcap(struct drm_device *dev, void *data, struct drm_file *file_
- 			req->value = 64;
- 		break;
- 	case DRM_CAP_ADDFB2_MODIFIERS:
--		req->value = dev->mode_config.allow_fb_modifiers;
-+		req->value = !dev->mode_config.fb_modifiers_not_supported;
- 		break;
- 	case DRM_CAP_CRTC_IN_VBLANK_EVENT:
- 		req->value = 1;
-diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-index 75308ee240c0..5b546d80d248 100644
---- a/drivers/gpu/drm/drm_plane.c
-+++ b/drivers/gpu/drm/drm_plane.c
-@@ -302,15 +302,6 @@ static int __drm_universal_plane_init(struct drm_device *dev,
+ 		p = i915_gem_object_get_page(obj, offset >> PAGE_SHIFT);
+-		cpu = kmap(p) + offset_in_page(offset);
++		cpu = kmap_local_page(p) + offset_in_page(offset);
+ 		drm_clflush_virt_range(cpu, sizeof(*cpu));
+ 		if (*cpu != (u32)page) {
+ 			pr_err("Partial view for %lu [%u] (offset=%llu, size=%u [%llu, row size %u], fence=%d, tiling=%d, stride=%d) misalignment, expected write to page (%llu + %u [0x%llx]) of 0x%x, found 0x%x\n",
+@@ -255,7 +255,7 @@ static int check_partial_mappings(struct drm_i915_gem_object *obj,
  		}
+ 		*cpu = 0;
+ 		drm_clflush_virt_range(cpu, sizeof(*cpu));
+-		kunmap(p);
++		kunmap_local(cpu);
+ 		if (err)
+ 			return err;
+ 
+diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c b/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
+index f8948de72036..743a414f86f3 100644
+--- a/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
++++ b/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
+@@ -743,7 +743,7 @@ static void swizzle_page(struct page *page)
+ 	char *vaddr;
+ 	int i;
+ 
+-	vaddr = kmap(page);
++	vaddr = kmap_local_page(page);
+ 
+ 	for (i = 0; i < PAGE_SIZE; i += 128) {
+ 		memcpy(temp, &vaddr[i], 64);
+@@ -751,7 +751,7 @@ static void swizzle_page(struct page *page)
+ 		memcpy(&vaddr[i + 64], temp, 64);
  	}
  
--	/* autoset the cap and check for consistency across all planes */
--	if (format_modifier_count) {
--		drm_WARN_ON(dev, !config->allow_fb_modifiers &&
--			    !list_empty(&config->plane_list));
--		config->allow_fb_modifiers = true;
--	} else {
--		drm_WARN_ON(dev, config->allow_fb_modifiers);
--	}
--
- 	plane->modifier_count = format_modifier_count;
- 	plane->modifiers = kmalloc_array(format_modifier_count,
- 					 sizeof(format_modifiers[0]),
-diff --git a/drivers/gpu/drm/selftests/test-drm_framebuffer.c b/drivers/gpu/drm/selftests/test-drm_framebuffer.c
-index 61b44d3a6a61..f6d66285c5fc 100644
---- a/drivers/gpu/drm/selftests/test-drm_framebuffer.c
-+++ b/drivers/gpu/drm/selftests/test-drm_framebuffer.c
-@@ -323,7 +323,6 @@ static struct drm_device mock_drm_device = {
- 		.max_width = MAX_WIDTH,
- 		.min_height = MIN_HEIGHT,
- 		.max_height = MAX_HEIGHT,
--		.allow_fb_modifiers = true,
- 		.funcs = &mock_config_funcs,
- 	},
- };
-diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-index c56f298c55bd..6fd13d6510f1 100644
---- a/include/drm/drm_mode_config.h
-+++ b/include/drm/drm_mode_config.h
-@@ -904,22 +904,6 @@ struct drm_mode_config {
- 	 */
- 	bool async_page_flip;
+-	kunmap(page);
++	kunmap_local(vaddr);
+ }
  
--	/**
--	 * @allow_fb_modifiers:
--	 *
--	 * Whether the driver supports fb modifiers in the ADDFB2.1 ioctl call.
--	 * Note that drivers should not set this directly, it is automatically
--	 * set in drm_universal_plane_init().
--	 *
--	 * IMPORTANT:
--	 *
--	 * If this is set the driver must fill out the full implicit modifier
--	 * information in their &drm_mode_config_funcs.fb_create hook for legacy
--	 * userspace which does not set modifiers. Otherwise the GETFB2 ioctl is
--	 * broken for modifier aware userspace.
--	 */
--	bool allow_fb_modifiers;
--
- 	/**
- 	 * @fb_modifiers_not_supported:
- 	 *
+ /**
+diff --git a/drivers/gpu/drm/i915/gt/shmem_utils.c b/drivers/gpu/drm/i915/gt/shmem_utils.c
+index 0683b27a3890..d47f262d2f07 100644
+--- a/drivers/gpu/drm/i915/gt/shmem_utils.c
++++ b/drivers/gpu/drm/i915/gt/shmem_utils.c
+@@ -97,22 +97,19 @@ static int __shmem_rw(struct file *file, loff_t off,
+ 		unsigned int this =
+ 			min_t(size_t, PAGE_SIZE - offset_in_page(off), len);
+ 		struct page *page;
+-		void *vaddr;
+ 
+ 		page = shmem_read_mapping_page_gfp(file->f_mapping, pfn,
+ 						   GFP_KERNEL);
+ 		if (IS_ERR(page))
+ 			return PTR_ERR(page);
+ 
+-		vaddr = kmap(page);
+ 		if (write) {
+-			memcpy(vaddr + offset_in_page(off), ptr, this);
++			memcpy_to_page(page, offset_in_page(off), ptr, this);
+ 			set_page_dirty(page);
+ 		} else {
+-			memcpy(ptr, vaddr + offset_in_page(off), this);
++			memcpy_from_page(ptr, page, offset_in_page(off), this);
+ 		}
+ 		mark_page_accessed(page);
+-		kunmap(page);
+ 		put_page(page);
+ 
+ 		len -= this;
+diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
+index 981e383d1a5d..af5adb187ca4 100644
+--- a/drivers/gpu/drm/i915/i915_gem.c
++++ b/drivers/gpu/drm/i915/i915_gem.c
+@@ -196,14 +196,14 @@ shmem_pread(struct page *page, int offset, int len, char __user *user_data,
+ 	char *vaddr;
+ 	int ret;
+ 
+-	vaddr = kmap(page);
++	vaddr = kmap_local_page(page);
+ 
+ 	if (needs_clflush)
+ 		drm_clflush_virt_range(vaddr + offset, len);
+ 
+ 	ret = __copy_to_user(user_data, vaddr + offset, len);
+ 
+-	kunmap(page);
++	kunmap_local(vaddr);
+ 
+ 	return ret ? -EFAULT : 0;
+ }
+@@ -618,7 +618,7 @@ shmem_pwrite(struct page *page, int offset, int len, char __user *user_data,
+ 	char *vaddr;
+ 	int ret;
+ 
+-	vaddr = kmap(page);
++	vaddr = kmap_local_page(page);
+ 
+ 	if (needs_clflush_before)
+ 		drm_clflush_virt_range(vaddr + offset, len);
+@@ -627,7 +627,7 @@ shmem_pwrite(struct page *page, int offset, int len, char __user *user_data,
+ 	if (!ret && needs_clflush_after)
+ 		drm_clflush_virt_range(vaddr + offset, len);
+ 
+-	kunmap(page);
++	kunmap_local(vaddr);
+ 
+ 	return ret ? -EFAULT : 0;
+ }
+diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
+index 2a2d7643b551..c526d7892081 100644
+--- a/drivers/gpu/drm/i915/i915_gpu_error.c
++++ b/drivers/gpu/drm/i915/i915_gpu_error.c
+@@ -1094,9 +1094,9 @@ i915_vma_coredump_create(const struct intel_gt *gt,
+ 
+ 			drm_clflush_pages(&page, 1);
+ 
+-			s = kmap(page);
++			s = kmap_local_page(page);
+ 			ret = compress_page(compress, s, dst, false);
+-			kunmap(page);
++			kunmap_local(s);
+ 
+ 			drm_clflush_pages(&page, 1);
+ 
 -- 
-2.17.1
+2.31.1
 
