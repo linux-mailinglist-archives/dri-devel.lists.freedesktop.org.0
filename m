@@ -1,62 +1,93 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DBD547D90B
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 23:00:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A16AA47D919
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Dec 2021 23:05:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2976410E31D;
-	Wed, 22 Dec 2021 22:00:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC2BB10E348;
+	Wed, 22 Dec 2021 22:05:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74DDA10E31D
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 22:00:25 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id m21so15118264edc.0
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Dec 2021 14:00:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=m8mX4/UdUbjdrXOKj5oiii6jZCrjjYboxkooYivOSes=;
- b=C6YL49aVL0Oj1jNWfDIZXvrmssZ60+vrU7PxuCyOZdoIfC9LSeHPc5/Tk04IkDjMhl
- q8etLWrL7xw1S3EHDcM8owQh8bmvcD+sr+uQYPfm1t1HV3mig/Q7Ee+OTDQpkCzJ9KIS
- 7+RIxzQqb1bjUmL8zhu2dXzy3Tloxta3gSj0I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=m8mX4/UdUbjdrXOKj5oiii6jZCrjjYboxkooYivOSes=;
- b=uqCUvMcrCnfB7FlTOf1mJ7OYqxARah39arkmKFlGx63gstQFZv/DcwByyJqOzRLHNs
- GaOpqq9azxISuow6nz2gWe7L3ytG11+nIhYIdQgt4fkLptg2ltfjlsUnif0GsQyFjMel
- NiMv3Y1JJyBGtA3byhvdC+9K+uUzI16C5MBg5ABsUSNa7wOhQpHGMmzKRokyw+RGRK30
- au1wcTzglVCmdM3EVRstlFUvsVQzxGda9ObCvc6gD6Ada5zAQ3ZVq/4oO6aV6Wq4hMKl
- jjwf45W5xlelBuOFZEUQJiKcENXmU8DLNu0szyy4/A1oCrerMVJzAAOzxoHwxo/AmKR8
- 1fUA==
-X-Gm-Message-State: AOAM531BFmvftMWftTn6J7ybVbz/bmL6vKBDqbQ7gEwPxDCLGUNqpDY2
- vkSpcH80xDWm/OzMPrE7E0DxAg==
-X-Google-Smtp-Source: ABdhPJxHQVpLGW7NlsLZAnbq1c3soRN4OLiqGnh2JsLWSBMBf+b+T2OITKHWwuF1MFnpHqjkDUCC6g==
-X-Received: by 2002:a17:907:7e99:: with SMTP id
- qb25mr3962494ejc.534.1640210423947; 
- Wed, 22 Dec 2021 14:00:23 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id hc40sm1104821ejc.72.2021.12.22.14.00.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Dec 2021 14:00:23 -0800 (PST)
-Date: Wed, 22 Dec 2021 23:00:21 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 18/24] dma-buf: add enum dma_resv_usage v3
-Message-ID: <YcOf9XAOsRJruwAt@phenom.ffwll.local>
-References: <20211207123411.167006-1-christian.koenig@amd.com>
- <20211207123411.167006-19-christian.koenig@amd.com>
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2046.outbound.protection.outlook.com [40.107.94.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E83F110E348;
+ Wed, 22 Dec 2021 22:05:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=e8uXVv9G9+osAhdC+3elyGcYGK8BnssPNSdfm9X7/2iallTid/Qga04lNel/o8+UB8x/fU6UNy3BqTG6gVcAA2OAXetqoTYyD8sfHw27us922X1fEBtXDwtlKTf1kRQ1ysNq6DkEqhCWmKzPb5EndhaEDZOClBEofRlydoMShC2ESldid5rjg075s5/EnUQKCr2B3dQ2qZ4D+axCCtqDEM6GX6pxbmh16jAWEtN8Yg53kyhJt8k9cqg4wy/YxrebiBpo7aI3UvcvjW0bKTgoh06kkPrgxr1KGjhN5wpk5dhafXhTzfCYbpYruHosWOhjeupBA+hAePncJkqnSTFmCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KDwMrjoAzM8SgeMxHMGi4mVIOZkR3SEP6sFa2CakMlo=;
+ b=Ljg9rDt4e+jDgd7OCAyMuQmFuf7YxjBtT9JhKM1GWyLd8HJSyxlDFWHevfLttDDEUPQoZ7xcEJsIift7442CFVWgBaBK1tIjFATfmH5n3WpUd4iTUpoNzoQ4K5CohAaTkB1N42V13I8cvkQKJMKdCPCFoQatc6g6LLzcmNFrFh1eQeQ/Y5yPg3JXcoA8g+IJ2E1p00TttZ+CliHv1Yd9HH9vok9faIfv3sP50gMi1KraoqKCj9UBKK0alpynmivHWEEowqBelKSDf5HzvvxSnGNz8ndZ20U0FwZdq1CrCDfw35gy64JYHI6JeIHjRKXnBW1YSt7NkxhJ54+I06l0Vg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KDwMrjoAzM8SgeMxHMGi4mVIOZkR3SEP6sFa2CakMlo=;
+ b=41ThyAucbd+BJtdifVfVHrF4IbLkOul6gToBdGeE2SCq4Hr7SHh/TJs6DVGygg3qti6m3NUQ7EQWc2ld2EFuQcfq9cZtRQJbumCD3im5v+wIT4GaUTpoN7aWQFgcJcxyP1LgJxVpqVHoTcXtDciQwwsoNY8+zplmzfa+b0BKo5U=
+Received: from MW4PR04CA0076.namprd04.prod.outlook.com (2603:10b6:303:6b::21)
+ by DM6PR12MB5517.namprd12.prod.outlook.com (2603:10b6:5:1be::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.19; Wed, 22 Dec
+ 2021 22:05:53 +0000
+Received: from CO1NAM11FT026.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:6b:cafe::cc) by MW4PR04CA0076.outlook.office365.com
+ (2603:10b6:303:6b::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.18 via Frontend
+ Transport; Wed, 22 Dec 2021 22:05:53 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com;
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ CO1NAM11FT026.mail.protection.outlook.com (10.13.175.67) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4823.18 via Frontend Transport; Wed, 22 Dec 2021 22:05:53 +0000
+Received: from agrodzovsky-All-Series.amd.com (10.180.168.240) by
+ SATLEXMB03.amd.com (10.181.40.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.17; Wed, 22 Dec 2021 16:05:51 -0600
+From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
+Subject: [RFC v2 0/8] Define and use reset domain for GPU recovery in amdgpu
+Date: Wed, 22 Dec 2021 17:04:58 -0500
+Message-ID: <20211222220506.789133-1-andrey.grodzovsky@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211207123411.167006-19-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB03.amd.com
+ (10.181.40.144)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 95dd72e5-04e1-4c22-21b1-08d9c59738ba
+X-MS-TrafficTypeDiagnostic: DM6PR12MB5517:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR12MB5517DC5C072D9882DD211AB9EA7D9@DM6PR12MB5517.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 22Wtuy9YXKI+ahi5+RqF7MudOsB/2Iy516MZ3qtNZh4ju2DX8DZi+07SbIADj4OfoNbysTC1nBERrU5l+Wr8mE+HchZG0+IBOy6J+vl1woiZ7LOe5qOSGUTfZhREkt2AQvlhn0Xmp0zkERwgqk2k5cTaw/Zh6bKWmYcWGELCJi5eMCuZplWCeZOJ9aVvut/utLZRRLz4Ima1QIytuMa5V2gwGCO3muFZkh6ASMIZ8DclUEDOEk3lKJP3nytAS9tejOYjTW59t1rHa8xKIbW7N7Ky4JEThP+ZkHEF5mefXHlQ1zYsnYrGqVTb6/NgdIi9omJ0PYe5f4faH9mFgJrJxF8u3IW+BXaLPXQAc3xONfOAUxCVQ534dkEgibr7Jpa+vNTHhVup2vwlFCAz8T2GZM9tQOVoWLM3mNjQpBtskNCE1Lmg8GLiIkJcF7TdL/GzAThLxEnNISiDTQ/cB5WldKMT0Pz6NwX3/mxDALryOWsbwgs9QIHqNefrnA7BsF9JDjRmDeAynMTWT4smSUCY8ShpysYTnRoRzdt/uPaTPIqnMb6VTAHzVV6VNXHymu8RqMvrIlZa22QWPi+cBetCP3Hdp5L8vDet8RpFP2tdjzceCIX/DSlILvo/5EnB6dYIW7Ykon//7iw9Kb9fdJ5Hw0sD0zji7NaH+Wgn5WftpmFk0MkzFUqdOhDekQTuBf2thXDT2jOLeUFepMOTfR9ZxMCGIDbF4tnpaeMIgtv1f1fFHBgbDDNduVWImcSxTcZyfjGSh1VXnGUOMkLoqs+bpGZx8DPBR+8PZUBg1Xvaf2brjm2oBM+gpqh9lzU0ZzNnox8EbqPMpyGPCoruOONDTOoPir6SblZTAM/dU0ZDYJV0VAVlLqGNHvw6pn7TlkH+
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(36840700001)(40470700002)(46966006)(1076003)(5660300002)(44832011)(81166007)(508600001)(2616005)(4326008)(356005)(8936002)(8676002)(36756003)(26005)(83380400001)(7696005)(16526019)(426003)(336012)(186003)(70586007)(70206006)(54906003)(47076005)(316002)(36860700001)(86362001)(966005)(82310400004)(110136005)(2906002)(40460700001)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2021 22:05:53.0529 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 95dd72e5-04e1-4c22-21b1-08d9c59738ba
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT026.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB5517
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,190 +100,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
+Cc: Monk.Liu@amd.com, horace.chen@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 07, 2021 at 01:34:05PM +0100, Christian König wrote:
-> This change adds the dma_resv_usage enum and allows us to specify why a
-> dma_resv object is queried for its containing fences.
-> 
-> Additional to that a dma_resv_usage_rw() helper function is added to aid
-> retrieving the fences for a read or write userspace submission.
-> 
-> This is then deployed to the different query functions of the dma_resv
-> object and all of their users. When the write paratermer was previously
-> true we now use DMA_RESV_USAGE_WRITE and DMA_RESV_USAGE_READ otherwise.
-> 
-> v2: add KERNEL/OTHER in separate patch
-> v3: some kerneldoc suggestions by Daniel
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
+This patchset is based on earlier work by Boris[1] that allowed to have an
+ordered workqueue at the driver level that will be used by the different
+schedulers to queue their timeout work. On top of that I also serialized
+any GPU reset we trigger from within amdgpu code to also go through the same
+ordered wq and in this way simplify somewhat our GPU reset code so we don't need
+to protect from concurrency by multiple GPU reset triggeres such as TDR on one
+hand and sysfs trigger or RAS trigger on the other hand.
 
-Just commenting on the kerneldoc here.
+As advised by Christian and Daniel I defined a reset_domain struct such that
+all the entities that go through reset together will be serialized one against
+another. 
 
-> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-> index 40ac9d486f8f..d96d8ca9af56 100644
-> --- a/include/linux/dma-resv.h
-> +++ b/include/linux/dma-resv.h
-> @@ -49,6 +49,49 @@ extern struct ww_class reservation_ww_class;
->  
->  struct dma_resv_list;
->  
-> +/**
-> + * enum dma_resv_usage - how the fences from a dma_resv obj are used
-> + *
-> + * This enum describes the different use cases for a dma_resv object and
-> + * controls which fences are returned when queried.
+TDR triggered by multiple entities within the same domain due to the same reason will not
+be triggered as the first such reset will cancel all the pending resets. This is
+relevant only to TDR timers and not to triggered resets coming from RAS or SYSFS,
+those will still happen after the in flight resets finishes.
 
-We need to link here to both dma_buf.resv and from there to here.
+v2:
+Add handling on SRIOV configuration, the reset notify coming from host 
+and driver already trigger a work queue to handle the reset so drop this
+intermidiate wq and send directly to timeout wq. (Shaoyun)
 
-Also we had a fair amount of text in the old dma_resv fields which should
-probably be included here.
+[1] https://patchwork.kernel.org/project/dri-devel/patch/20210629073510.2764391-3-boris.brezillon@collabora.com/
 
-> + */
-> +enum dma_resv_usage {
-> +	/**
-> +	 * @DMA_RESV_USAGE_WRITE: Implicit write synchronization.
-> +	 *
-> +	 * This should only be used for userspace command submissions which add
-> +	 * an implicit write dependency.
-> +	 */
-> +	DMA_RESV_USAGE_WRITE,
-> +
-> +	/**
-> +	 * @DMA_RESV_USAGE_READ: Implicit read synchronization.
-> +	 *
-> +	 * This should only be used for userspace command submissions which add
-> +	 * an implicit read dependency.
+P.S Going through drm-misc-next and not amd-staging-drm-next as Boris work hasn't landed yet there.
 
-I think the above would benefit from at least a link each to &dma_buf.resv
-for further discusion.
+Andrey Grodzovsky (8):
+  drm/amdgpu: Introduce reset domain
+  drm/amdgpu: Move scheduler init to after XGMI is ready
+  drm/amdgpu: Fix crash on modprobe
+  drm/amdgpu: Serialize non TDR gpu recovery with TDRs
+  drm/amd/virt: For SRIOV send GPU reset directly to TDR queue.
+  drm/amdgpu: Drop hive->in_reset
+  drm/amdgpu: Drop concurrent GPU reset protection for device
+  drm/amd/virt: Drop concurrent GPU reset protection for SRIOV
 
-Plus the READ flag needs a huge warning that in general it does _not_
-guarantee that neither there's no writes possible, nor that the writes can
-be assumed mistakes and dropped (on buffer moves e.g.).
-
-Drivers can only make further assumptions for driver-internal dma_resv
-objects (e.g. on vm/pagetables) or when the fences are all fences of the
-same driver (e.g. the special sync rules amd has that takes the fence
-owner into account).
-
-We have this documented in the dma_buf.resv rules, but since it came up
-again in a discussion with Thomas H. somewhere, it's better to hammer this
-in a few more time. Specically in generally ignoring READ fences for
-buffer moves (well the copy job, memory freeing still has to wait for all
-of them) is a correctness bug.
-
-Maybe include a big warning that really the difference between READ and
-WRITE should only matter for implicit sync, and _not_ for anything else
-the kernel does.
-
-I'm assuming the actual replacement is all mechanical, so I skipped that
-one for now, that's for next year :-)
--Daniel
-
-> +	 */
-> +	DMA_RESV_USAGE_READ,
-> +};
-> +
-> +/**
-> + * dma_resv_usage_rw - helper for implicit sync
-> + * @write: true if we create a new implicit sync write
-> + *
-> + * This returns the implicit synchronization usage for write or read accesses,
-> + * see enum dma_resv_usage.
-> + */
-> +static inline enum dma_resv_usage dma_resv_usage_rw(bool write)
-> +{
-> +	/* This looks confusing at first sight, but is indeed correct.
-> +	 *
-> +	 * The rational is that new write operations needs to wait for the
-> +	 * existing read and write operations to finish.
-> +	 * But a new read operation only needs to wait for the existing write
-> +	 * operations to finish.
-> +	 */
-> +	return write ? DMA_RESV_USAGE_READ : DMA_RESV_USAGE_WRITE;
-> +}
-> +
->  /**
->   * struct dma_resv - a reservation object manages fences for a buffer
->   *
-> @@ -147,8 +190,8 @@ struct dma_resv_iter {
->  	/** @obj: The dma_resv object we iterate over */
->  	struct dma_resv *obj;
->  
-> -	/** @all_fences: If all fences should be returned */
-> -	bool all_fences;
-> +	/** @usage: Controls which fences are returned */
-> +	enum dma_resv_usage usage;
->  
->  	/** @fence: the currently handled fence */
->  	struct dma_fence *fence;
-> @@ -178,14 +221,14 @@ struct dma_fence *dma_resv_iter_next(struct dma_resv_iter *cursor);
->   * dma_resv_iter_begin - initialize a dma_resv_iter object
->   * @cursor: The dma_resv_iter object to initialize
->   * @obj: The dma_resv object which we want to iterate over
-> - * @all_fences: If all fences should be returned or just the exclusive one
-> + * @usage: controls which fences to include, see enum dma_resv_usage.
->   */
->  static inline void dma_resv_iter_begin(struct dma_resv_iter *cursor,
->  				       struct dma_resv *obj,
-> -				       bool all_fences)
-> +				       enum dma_resv_usage usage)
->  {
->  	cursor->obj = obj;
-> -	cursor->all_fences = all_fences;
-> +	cursor->usage = usage;
->  	cursor->fence = NULL;
->  }
->  
-> @@ -242,7 +285,7 @@ static inline bool dma_resv_iter_is_restarted(struct dma_resv_iter *cursor)
->   * dma_resv_for_each_fence - fence iterator
->   * @cursor: a struct dma_resv_iter pointer
->   * @obj: a dma_resv object pointer
-> - * @all_fences: true if all fences should be returned
-> + * @usage: controls which fences to return
->   * @fence: the current fence
->   *
->   * Iterate over the fences in a struct dma_resv object while holding the
-> @@ -251,8 +294,8 @@ static inline bool dma_resv_iter_is_restarted(struct dma_resv_iter *cursor)
->   * valid as long as the lock is held and so no extra reference to the fence is
->   * taken.
->   */
-> -#define dma_resv_for_each_fence(cursor, obj, all_fences, fence)	\
-> -	for (dma_resv_iter_begin(cursor, obj, all_fences),	\
-> +#define dma_resv_for_each_fence(cursor, obj, usage, fence)	\
-> +	for (dma_resv_iter_begin(cursor, obj, usage),	\
->  	     fence = dma_resv_iter_first(cursor); fence;	\
->  	     fence = dma_resv_iter_next(cursor))
->  
-> @@ -419,14 +462,14 @@ void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence);
->  void dma_resv_replace_fences(struct dma_resv *obj, uint64_t context,
->  			     struct dma_fence *fence);
->  void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence);
-> -int dma_resv_get_fences(struct dma_resv *obj, bool write,
-> +int dma_resv_get_fences(struct dma_resv *obj, enum dma_resv_usage usage,
->  			unsigned int *num_fences, struct dma_fence ***fences);
-> -int dma_resv_get_singleton(struct dma_resv *obj, bool write,
-> +int dma_resv_get_singleton(struct dma_resv *obj, enum dma_resv_usage usage,
->  			   struct dma_fence **fence);
->  int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src);
-> -long dma_resv_wait_timeout(struct dma_resv *obj, bool wait_all, bool intr,
-> -			   unsigned long timeout);
-> -bool dma_resv_test_signaled(struct dma_resv *obj, bool test_all);
-> +long dma_resv_wait_timeout(struct dma_resv *obj, enum dma_resv_usage usage,
-> +			   bool intr, unsigned long timeout);
-> +bool dma_resv_test_signaled(struct dma_resv *obj, enum dma_resv_usage usage);
->  void dma_resv_describe(struct dma_resv *obj, struct seq_file *seq);
->  
->  #endif /* _LINUX_RESERVATION_H */
-> -- 
-> 2.25.1
-> 
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h        |   9 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 206 +++++++++++----------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c  |  36 +---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c    |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h   |   2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c   |  10 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.h   |   3 +-
+ drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c      |  18 +-
+ drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c      |  18 +-
+ drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c      |   7 +-
+ 10 files changed, 147 insertions(+), 164 deletions(-)
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.25.1
+
