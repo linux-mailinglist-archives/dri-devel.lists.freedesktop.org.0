@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14CA747DC33
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Dec 2021 01:38:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0EC847DC22
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Dec 2021 01:37:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6045710E1B5;
-	Thu, 23 Dec 2021 00:38:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFBD210E162;
+	Thu, 23 Dec 2021 00:37:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2076.outbound.protection.outlook.com [40.107.236.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7346210E155;
- Thu, 23 Dec 2021 00:37:36 +0000 (UTC)
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam08on2070.outbound.protection.outlook.com [40.107.101.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C37F710E156;
+ Thu, 23 Dec 2021 00:37:34 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ekG98jSAH+LK7isV9umaskSUIbhgZ66WCT3QxG2KGrcC/o5HxSVfCFjdU7anWK8bbtWZ60j+9BIh60VGNQZ4wgW7PYCEVLmVe7ya3KegZQ4ZGGr3B38Irk14tVYviAqAaCccoC0cXUkwy79Po7p8V1ekgKd1W8zq9jBBqBswMFxYugFEy6npNDqoXra0FntPlFB5Q3zlc23u07CK6Zx7JszPC/EQJh3zBAfvsRdsnHMDL6s1Hdtn2Reh9FtsSzD2LItxo2DKp55Bkr2JxjTcFd6VyHfHbUWFrD5AQKLzwIi2CuYSqK3RdStJb5SvwJwTMiMjjyfuKv5Thon1dWSWsA==
+ b=aG9LenKNVe+Z1D9lp1P1MESU5l0W6AlJMnz6X42ojthzY0ivD5yOVYNxa2tqnI1HPfEYHd1iZ95OuMfgDZ/x6kSmD+HccLg5qFb6Y5J5vPDLoq6dcLL/zZ2kFhZ3Kq7tvnihBqoyvXpXScY/NjMuXloJB5/R/tVvji9ljzET4ofb+tiWohVqUXymQdcRhA7DnR8pQ8I/6Wy+TPoK6ZplxpTJbbil6CGIqcTeFH6af6Ll3u4mgpnroeqq0+KBCBkrbauexuLFomABLwxrrLjebY+ENnVZVQhT331NrOdLpZ3Jl1dOkPFzYi8iLLdEJyVR+GGCUBfCbAdPKlDVHnl2Sw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5by1d/bG6cSmgpXLGkQQF5pT3qXN9NVk5NIZpq85yRY=;
- b=CXPE1GamOTWNfOuMcDWeA/W0KjpQmOCEr1ayikhiUml0X0dajRGKBFnaKQG729ss9RA08RmYO2zKYaGqQSymERAhtGRb2eSoYcrw0PfeV022uodImmoXie3I0PnroPiqS4O7IfuRLbph56iaymDU5ydUIoGXqgWbuHaOUGOtq8x+cbZ2I5Ie0EqUCT9rXu0m77lELE+8azwfEXT7WzlMvB7ap73oHnkAgW9t/Jn2ymwJf33PaV8p2xWrXP4+t5zkZAVKrE1g1tJBtn1ergmFf0qbf3glGuKAd88Jk8fCzHkGN6ugIzLmavxP0GHGqUxxXWX7QnPuJwWHW8ZhZ3UBmg==
+ bh=tL8qfmaZedB1GitLEyTY70GMcfsPAJNU6DzFsPZbGG8=;
+ b=VIOFB364nfTLr+SiR5/QvaN5ax2WfWO1H2Bc3j7yxqXDTrLCT1iQvY1LWfVxv0q0HNcw8NdNsmdRxJei1eoW4XHNHxR92C4GC8qcMKdq2rJ9CfZC0Pf+rsJPIBJ9ih6ewaYrwyvz0VWITXYga6HScz9d0zBSW30uoIPLXIJGjeVru+kwwRtECcoOlj2queYn9OD9hU1MqjfXD01jkn6qWeKiwiIas/QaR+hAc1oITT8tWGyyt2Qwq/FVqfM2SD3iiPlkM/L/LAJwSI6wNyc9aa3wIhpy+Cn01TsAWboX4ZqAcay2okb4duTCMzOa2XEutgvFx+w8Wnd10NyhDjJhqQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5by1d/bG6cSmgpXLGkQQF5pT3qXN9NVk5NIZpq85yRY=;
- b=Cch0llGNxJu8EZtYgNb+kahUQIwTCBLpw3k9SiISwB2f06CNuTuCvxv8tdqCbxvqDuyvhht7Tas2LWTDt+VsF0zDhDmf8bOC5OzvbhQsEucdWnbAuBBt9R8WoXt66F+jWbbg5yk9hEIHORsgtiBChY1YjK//bC++0EfCvR3RLEM=
-Received: from BN0PR04CA0038.namprd04.prod.outlook.com (2603:10b6:408:e8::13)
- by MN2PR12MB3422.namprd12.prod.outlook.com (2603:10b6:208:ce::27)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.17; Thu, 23 Dec
- 2021 00:37:31 +0000
+ bh=tL8qfmaZedB1GitLEyTY70GMcfsPAJNU6DzFsPZbGG8=;
+ b=Lrl0hTkXw7hCOEDWNfoVgSw5Hp2wpgtq4rl+F/Ot60b3E1fal3khlpEMgCcdXtLya9GCgM0tlfNGcsVgQagmsrkHNdlcm6/M/QS1vbk+TIutx2mOIT+Z1nfayRBP5pTq2kimVDosyPdlOf7WIdiKFZG8Ls2jALiLPvKVN/K2P3M=
+Received: from BN0PR04CA0033.namprd04.prod.outlook.com (2603:10b6:408:e8::8)
+ by CY4PR1201MB0085.namprd12.prod.outlook.com (2603:10b6:910:1c::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.18; Thu, 23 Dec
+ 2021 00:37:32 +0000
 Received: from BN8NAM11FT011.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:e8:cafe::df) by BN0PR04CA0038.outlook.office365.com
- (2603:10b6:408:e8::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.14 via Frontend
- Transport; Thu, 23 Dec 2021 00:37:31 +0000
+ (2603:10b6:408:e8:cafe::9f) by BN0PR04CA0033.outlook.office365.com
+ (2603:10b6:408:e8::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.19 via Frontend
+ Transport; Thu, 23 Dec 2021 00:37:32 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -47,16 +47,16 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB03.amd.com (165.204.84.17) by
  BN8NAM11FT011.mail.protection.outlook.com (10.13.176.140) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4823.18 via Frontend Transport; Thu, 23 Dec 2021 00:37:31 +0000
+ 15.20.4823.18 via Frontend Transport; Thu, 23 Dec 2021 00:37:32 +0000
 Received: from rajneesh-desk.amd.com (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Wed, 22 Dec
- 2021 18:37:29 -0600
+ 2021 18:37:30 -0600
 From: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
 To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [Patch v4 09/24] drm/amdkfd: CRIU add queues support
-Date: Wed, 22 Dec 2021 19:36:56 -0500
-Message-ID: <20211223003711.13064-10-rajneesh.bhardwaj@amd.com>
+Subject: [Patch v4 10/24] drm/amdkfd: CRIU restore queue ids
+Date: Wed, 22 Dec 2021 19:36:57 -0500
+Message-ID: <20211223003711.13064-11-rajneesh.bhardwaj@amd.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20211223003711.13064-1-rajneesh.bhardwaj@amd.com>
 References: <20211223003711.13064-1-rajneesh.bhardwaj@amd.com>
@@ -67,28 +67,28 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB03.amd.com
  (10.181.40.144)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 739e8076-7b0e-47bc-f143-08d9c5ac6785
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3422:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3422405E782898786786FA14FE7E9@MN2PR12MB3422.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
+X-MS-Office365-Filtering-Correlation-Id: 05ed03aa-f4ed-4aff-e845-08d9c5ac6820
+X-MS-TrafficTypeDiagnostic: CY4PR1201MB0085:EE_
+X-Microsoft-Antispam-PRVS: <CY4PR1201MB0085668FC05D03A1FDF474B0FE7E9@CY4PR1201MB0085.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:422;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Wp5BByPPlkxBzs3BSW0Qf5mWIbs1pDB76fUdw6n0Mmdihn3caKRb6pg51lMSbM3kovu2pfy/1Td8G+n/OTFw940WMiQMu1ZoAJIorQ5d1NrS8BBOst6knVnkYTe8P89QzidtDHcrGtc26Mhibz4kDEIjBoKYtvZxCWlvMH/n+Wa+F+6V1EceM6jY+p6+so4iyCOXQd8ATVQumxk9bYOEo/SSG4ZdUlx6CfxUsjiRGoMzvTOS/lqHJghqZa+o1KbDsNkV7FOQQZ+POf/o0VG54tc9zRNMmgNkYBJQvu/sVvvt1Gss0/uBWCuCTDNsA2+aMo6jEWMxL78QqTlbYTi+wQrcZbjj93EfcmfnWeO76m2ilz7Q0BjvRPYgLUW+s65vKq3Ir+jtBrkEH3/vsg+v90KXo0Js1JVsRIfIr4vs/F+fs5X1Gj0YCtyZvQ0ivRFhfcjDqa1z+IXLS8V3oTNdOgQ0iSzE2csGkbkZLQDEYM+nyuzTbHPNUwoJ7A6e/cJR20nI/EzdRRIwI9KK5wNa2iPc2Xm0VNnZxlA7wlQ96Qa6PH8hz8x6pw/mHC+219wH3LRcI1r10M7g7oLBl3lIfF6aBy8GP/iKD0ENlzLEKsDg27YUsTAD1ZV7BsImwRTntI58wVcSfjUxxMQJffrN9nd9DCgLDnxUqHyGqaBGvYowrcpyXHt4KqJ1KR3Bp0mkd5UkC2/g2uw4p0hqbfCbbce/1zstbNR9JGnc86RlmZQffKypVkIKfm9dHpkqkgLbkpyVEznz5ydDU9SWo1lnPp8uJp6Mmrf0DqUyNWtZWpk=
+X-Microsoft-Antispam-Message-Info: Wa/BxEbeSWNDDxEKix9rC1bjKRilC5uEFum2NgWjb3QJwG2lgm/THqXGhSGnx5vSRoDkdrEsWgaci1psc1QdXuH6iayWBf+i6KJ1Img8upWZEAhwuCA0w2ubl/oGQ2XCe4G/Ofxa/OmWBtWhfXmnTCpC2PtIiYW6aiy2f2z/oOoOSxCQyJ/Al7E505V0P50sM8uca1q/FD12L8hqGtSmusKzDYj54p4wiHR2QmF6yf6Lo7ilxbYt75ezGgfsx1ic3Iqcn4EK0j0BsX2javmTBenTr3t0mObEA/Fbh8s5CQnEmokJp0VcTG9pvKvXMXruERCAw4m0GTogQRe7LKk5RtntySQ/Ht+POVYporeK29eUt2U4M0YqFtASKern9DnxQ2HG8+n+D+/KaZsTidvGWm9/ZIwI02Bj7m+jwtyOQ/r8AinODe4/IWa4fokKOfk9XjWpKbOmpRJ3+pAvipyJMgRCq7oIBAQ6cuPm2dotRlE+Rg2IaKhwNtHLAPSfrdD/1kj3fdCuGaMXhnsBRR8h6B7n6PEiVvWK7pGKl5WEL6ChO7l6iOuJFc/QPF3hBJl5vFaP+KtUL6fEAS/72XX1sEe6AUwY5Jqog80QLhWJasaPQSZ9NZg6HIZ4qeoiwWfZPiC0kkefReRgvS/MNNMUSU5HvEGuj5Gz/6IqU8cXODMN+5OUqxoa8KNk5rAkbrKpItjTFMtop858ppwBXy9xUnvnN5mqVwie6MVr4F3m0Pil1BDdLG3GDQwRMXcApMdBP987J6wa+FZveq50EDNpbAERBLxjA+MVrAHPEsBozBQ=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(40470700002)(36860700001)(4326008)(47076005)(356005)(5660300002)(82310400004)(40460700001)(1076003)(30864003)(36756003)(81166007)(83380400001)(2616005)(7696005)(2906002)(6666004)(70586007)(26005)(186003)(336012)(16526019)(316002)(70206006)(508600001)(110136005)(54906003)(426003)(86362001)(8676002)(8936002)(44832011)(36900700001);
+ SFS:(4636009)(40470700002)(46966006)(36840700001)(186003)(26005)(16526019)(1076003)(36756003)(4326008)(336012)(2906002)(6666004)(508600001)(426003)(2616005)(86362001)(70206006)(70586007)(7696005)(8676002)(8936002)(110136005)(83380400001)(44832011)(47076005)(5660300002)(82310400004)(356005)(316002)(36860700001)(54906003)(81166007)(40460700001)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2021 00:37:31.1045 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 739e8076-7b0e-47bc-f143-08d9c5ac6785
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2021 00:37:32.1357 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 05ed03aa-f4ed-4aff-e845-08d9c5ac6820
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB03.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT011.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3422
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB0085
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,6 +102,7 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: daniel.vetter@ffwll.ch, felix.kuehling@amd.com,
+ Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>,
  David Yat Sin <david.yatsin@amd.com>, alexander.deucher@amd.com,
  airlied@redhat.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -109,484 +110,164 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: David Yat Sin <david.yatsin@amd.com>
 
-Add support to existing CRIU ioctl's to save number of queues and queue
-properties for each queue during checkpoint and re-create queues on
-restore.
+When re-creating queues during CRIU restore, restore the queue with the
+same queue id value used during CRIU dump.
 
+Signed-off-by: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
 Signed-off-by: David Yat Sin <david.yatsin@amd.com>
+
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_chardev.c      | 110 ++++++++-
- drivers/gpu/drm/amd/amdkfd/kfd_priv.h         |  43 +++-
- .../amd/amdkfd/kfd_process_queue_manager.c    | 212 ++++++++++++++++++
- 3 files changed, 357 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c      |  2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_dbgdev.c       |  2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_priv.h         |  2 +
+ .../amd/amdkfd/kfd_process_queue_manager.c    | 37 +++++++++++++++----
+ 4 files changed, 34 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-index db2bb302a8d4..9665c8657929 100644
+index 9665c8657929..3fb155f756fd 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-@@ -2006,19 +2006,36 @@ static int criu_checkpoint_bos(struct kfd_process *p,
- 	return ret;
- }
+@@ -312,7 +312,7 @@ static int kfd_ioctl_create_queue(struct file *filep, struct kfd_process *p,
+ 			p->pasid,
+ 			dev->id);
  
--static void criu_get_process_object_info(struct kfd_process *p,
--					 uint32_t *num_bos,
--					 uint64_t *objs_priv_size)
-+static int criu_get_process_object_info(struct kfd_process *p,
-+					uint32_t *num_bos,
-+					uint32_t *num_objects,
-+					uint64_t *objs_priv_size)
- {
-+	int ret;
- 	uint64_t priv_size;
-+	uint32_t num_queues, num_events, num_svm_ranges;
-+	uint64_t queues_priv_data_size;
+-	err = pqm_create_queue(&p->pqm, dev, filep, &q_properties, &queue_id,
++	err = pqm_create_queue(&p->pqm, dev, filep, &q_properties, &queue_id, NULL,
+ 			&doorbell_offset_in_process);
+ 	if (err != 0)
+ 		goto err_create_queue;
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_dbgdev.c b/drivers/gpu/drm/amd/amdkfd/kfd_dbgdev.c
+index 1e30717b5253..0c50e67e2b51 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_dbgdev.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_dbgdev.c
+@@ -185,7 +185,7 @@ static int dbgdev_register_diq(struct kfd_dbgdev *dbgdev)
+ 	properties.type = KFD_QUEUE_TYPE_DIQ;
  
- 	*num_bos = get_process_num_bos(p);
+ 	status = pqm_create_queue(dbgdev->pqm, dbgdev->dev, NULL,
+-				&properties, &qid, NULL);
++				&properties, &qid, NULL, NULL);
  
-+	ret = kfd_process_get_queue_info(p, &num_queues, &queues_priv_data_size);
-+	if (ret)
-+		return ret;
-+
-+	num_events = 0;     /* TODO: Implement Events */
-+	num_svm_ranges = 0; /* TODO: Implement SVM-Ranges */
-+
-+	*num_objects = num_queues + num_events + num_svm_ranges;
-+
- 	if (objs_priv_size) {
- 		priv_size = sizeof(struct kfd_criu_process_priv_data);
- 		priv_size += *num_bos * sizeof(struct kfd_criu_bo_priv_data);
-+		priv_size += queues_priv_data_size;
-+		/* TODO: Add Events priv size */
-+		/* TODO: Add SVM ranges priv size */
- 		*objs_priv_size = priv_size;
- 	}
-+	return 0;
- }
- 
- static int criu_checkpoint(struct file *filep,
-@@ -2026,7 +2043,7 @@ static int criu_checkpoint(struct file *filep,
- 			   struct kfd_ioctl_criu_args *args)
- {
- 	int ret;
--	uint32_t num_bos;
-+	uint32_t num_bos, num_objects;
- 	uint64_t priv_size, priv_offset = 0;
- 
- 	if (!args->bos || !args->priv_data)
-@@ -2048,9 +2065,12 @@ static int criu_checkpoint(struct file *filep,
- 		goto exit_unlock;
- 	}
- 
--	criu_get_process_object_info(p, &num_bos, &priv_size);
-+	ret = criu_get_process_object_info(p, &num_bos, &num_objects, &priv_size);
-+	if (ret)
-+		goto exit_unlock;
- 
- 	if (num_bos != args->num_bos ||
-+	    num_objects != args->num_objects ||
- 	    priv_size != args->priv_data_size) {
- 
- 		ret = -EINVAL;
-@@ -2067,6 +2087,17 @@ static int criu_checkpoint(struct file *filep,
- 	if (ret)
- 		goto exit_unlock;
- 
-+	if (num_objects) {
-+		ret = kfd_criu_checkpoint_queues(p, (uint8_t __user *)args->priv_data,
-+						 &priv_offset);
-+		if (ret)
-+			goto exit_unlock;
-+
-+		/* TODO: Dump Events */
-+
-+		/* TODO: Dump SVM-Ranges */
-+	}
-+
- exit_unlock:
- 	mutex_unlock(&p->mutex);
- 	if (ret)
-@@ -2340,6 +2371,62 @@ static int criu_restore_bos(struct kfd_process *p,
- 	return ret;
- }
- 
-+static int criu_restore_objects(struct file *filep,
-+				struct kfd_process *p,
-+				struct kfd_ioctl_criu_args *args,
-+				uint64_t *priv_offset,
-+				uint64_t max_priv_data_size)
-+{
-+	int ret = 0;
-+	uint32_t i;
-+
-+	BUILD_BUG_ON(offsetof(struct kfd_criu_queue_priv_data, object_type));
-+	BUILD_BUG_ON(offsetof(struct kfd_criu_event_priv_data, object_type));
-+	BUILD_BUG_ON(offsetof(struct kfd_criu_svm_range_priv_data, object_type));
-+
-+	for (i = 0; i < args->num_objects; i++) {
-+		uint32_t object_type;
-+
-+		if (*priv_offset + sizeof(object_type) > max_priv_data_size) {
-+			pr_err("Invalid private data size\n");
-+			return -EINVAL;
-+		}
-+
-+		ret = get_user(object_type, (uint32_t __user *)(args->priv_data + *priv_offset));
-+		if (ret) {
-+			pr_err("Failed to copy private information from user\n");
-+			goto exit;
-+		}
-+
-+		switch (object_type) {
-+		case KFD_CRIU_OBJECT_TYPE_QUEUE:
-+			ret = kfd_criu_restore_queue(p, (uint8_t __user *)args->priv_data,
-+						     priv_offset, max_priv_data_size);
-+			if (ret)
-+				goto exit;
-+			break;
-+		case KFD_CRIU_OBJECT_TYPE_EVENT:
-+			/* TODO: Implement Events */
-+			*priv_offset += sizeof(struct kfd_criu_event_priv_data);
-+			if (ret)
-+				goto exit;
-+			break;
-+		case KFD_CRIU_OBJECT_TYPE_SVM_RANGE:
-+			/* TODO: Implement SVM range */
-+			*priv_offset += sizeof(struct kfd_criu_svm_range_priv_data);
-+			if (ret)
-+				goto exit;
-+			break;
-+		default:
-+			pr_err("Invalid object type:%u at index:%d\n", object_type, i);
-+			ret = -EINVAL;
-+			goto exit;
-+		}
-+	}
-+exit:
-+	return ret;
-+}
-+
- static int criu_restore(struct file *filep,
- 			struct kfd_process *p,
- 			struct kfd_ioctl_criu_args *args)
-@@ -2371,6 +2458,10 @@ static int criu_restore(struct file *filep,
- 	if (ret)
- 		goto exit_unlock;
- 
-+	ret = criu_restore_objects(filep, p, args, &priv_offset, args->priv_data_size);
-+	if (ret)
-+		goto exit_unlock;
-+
- 	if (priv_offset != args->priv_data_size) {
- 		pr_err("Invalid private data size\n");
- 		ret = -EINVAL;
-@@ -2468,9 +2559,14 @@ static int criu_process_info(struct file *filep,
- 	args->pid = task_pid_nr_ns(p->lead_thread,
- 					task_active_pid_ns(p->lead_thread));
- 
--	criu_get_process_object_info(p, &args->num_bos, &args->priv_data_size);
-+	ret = criu_get_process_object_info(p, &args->num_bos, &args->num_objects,
-+					   &args->priv_data_size);
-+	if (ret)
-+		goto err_unlock;
-+
-+	dev_dbg(kfd_device, "Num of bos:%u objects:%u priv_data_size:%lld\n",
-+				args->num_bos, args->num_objects, args->priv_data_size);
- 
--	dev_dbg(kfd_device, "Num of bos:%u\n", args->num_bos);
- err_unlock:
- 	if (ret) {
- 		kfd_process_restore_queues(p);
+ 	if (status) {
+ 		pr_err("Failed to create DIQ\n");
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
-index f3a9f3de34e4..7c2679a23aa3 100644
+index 7c2679a23aa3..8272bd5c4600 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
-@@ -1057,6 +1057,16 @@ struct kfd_criu_bo_priv_data {
- 	uint32_t idr_handle;
- };
- 
-+/*
-+ * The first 4 bytes of kfd_criu_queue_priv_data, kfd_criu_event_priv_data,
-+ * kfd_criu_svm_range_priv_data is the object type
-+ */
-+enum kfd_criu_object_type {
-+	KFD_CRIU_OBJECT_TYPE_QUEUE,
-+	KFD_CRIU_OBJECT_TYPE_EVENT,
-+	KFD_CRIU_OBJECT_TYPE_SVM_RANGE,
-+};
+@@ -461,6 +461,7 @@ enum KFD_QUEUE_PRIORITY {
+  * it's user mode or kernel mode queue.
+  *
+  */
 +
- struct kfd_criu_svm_range_priv_data {
- 	uint32_t object_type;
- 	uint64_t reserved;
-@@ -1064,7 +1074,26 @@ struct kfd_criu_svm_range_priv_data {
- 
- struct kfd_criu_queue_priv_data {
- 	uint32_t object_type;
--	uint64_t reserved;
-+	uint64_t q_address;
-+	uint64_t q_size;
-+	uint64_t read_ptr_addr;
-+	uint64_t write_ptr_addr;
-+	uint64_t doorbell_off;
-+	uint64_t eop_ring_buffer_address;
-+	uint64_t ctx_save_restore_area_address;
-+	uint32_t gpu_id;
-+	uint32_t type;
-+	uint32_t format;
-+	uint32_t q_id;
-+	uint32_t priority;
-+	uint32_t q_percent;
-+	uint32_t doorbell_id;
-+	uint32_t is_gws;
-+	uint32_t sdma_id;
-+	uint32_t eop_ring_buffer_size;
-+	uint32_t ctx_save_restore_area_size;
-+	uint32_t ctl_stack_size;
-+	uint32_t mqd_size;
- };
- 
- struct kfd_criu_event_priv_data {
-@@ -1072,6 +1101,18 @@ struct kfd_criu_event_priv_data {
- 	uint64_t reserved;
- };
- 
-+int kfd_process_get_queue_info(struct kfd_process *p,
-+			       uint32_t *num_queues,
-+			       uint64_t *priv_data_sizes);
-+
-+int kfd_criu_checkpoint_queues(struct kfd_process *p,
-+			 uint8_t __user *user_priv_data,
-+			 uint64_t *priv_data_offset);
-+
-+int kfd_criu_restore_queue(struct kfd_process *p,
-+			   uint8_t __user *user_priv_data,
-+			   uint64_t *priv_data_offset,
-+			   uint64_t max_priv_data_size);
- /* CRIU - End */
- 
- /* Queue Context Management */
+ struct queue_properties {
+ 	enum kfd_queue_type type;
+ 	enum kfd_queue_format format;
+@@ -1156,6 +1157,7 @@ int pqm_create_queue(struct process_queue_manager *pqm,
+ 			    struct file *f,
+ 			    struct queue_properties *properties,
+ 			    unsigned int *qid,
++			    const struct kfd_criu_queue_priv_data *q_data,
+ 			    uint32_t *p_doorbell_offset_in_process);
+ int pqm_destroy_queue(struct process_queue_manager *pqm, unsigned int qid);
+ int pqm_update_queue_properties(struct process_queue_manager *pqm, unsigned int qid,
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
-index 4f8464658daf..480ad794df4e 100644
+index 480ad794df4e..275aeebc58fa 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
-@@ -498,6 +498,218 @@ int pqm_get_wave_state(struct process_queue_manager *pqm,
- 						       save_area_used_size);
+@@ -42,6 +42,20 @@ static inline struct process_queue_node *get_queue_by_qid(
+ 	return NULL;
  }
  
-+int kfd_process_get_queue_info(struct kfd_process *p,
-+			       uint32_t *num_queues,
-+			       uint64_t *priv_data_sizes)
++static int assign_queue_slot_by_qid(struct process_queue_manager *pqm,
++				    unsigned int qid)
 +{
-+	struct queue *q;
-+	int i;
-+
-+	*num_queues = 0;
-+
-+	/* Run over all PDDs of the process */
-+	for (i = 0; i < p->n_pdds; i++) {
-+		struct kfd_process_device *pdd = p->pdds[i];
-+
-+		list_for_each_entry(q, &pdd->qpd.queues_list, list) {
-+			if (q->properties.type == KFD_QUEUE_TYPE_COMPUTE ||
-+				q->properties.type == KFD_QUEUE_TYPE_SDMA ||
-+				q->properties.type == KFD_QUEUE_TYPE_SDMA_XGMI) {
-+
-+				*num_queues = *num_queues + 1;
-+			} else {
-+				pr_err("Unsupported queue type (%d)\n", q->properties.type);
-+				return -EOPNOTSUPP;
-+			}
-+		}
-+	}
-+	*priv_data_sizes = *num_queues * sizeof(struct kfd_criu_queue_priv_data);
-+
-+	return 0;
-+}
-+
-+static void criu_dump_queue(struct kfd_process_device *pdd,
-+			   struct queue *q,
-+			   struct kfd_criu_queue_priv_data *q_data)
-+{
-+	q_data->gpu_id = pdd->dev->id;
-+	q_data->type = q->properties.type;
-+	q_data->format = q->properties.format;
-+	q_data->q_id =  q->properties.queue_id;
-+	q_data->q_address = q->properties.queue_address;
-+	q_data->q_size = q->properties.queue_size;
-+	q_data->priority = q->properties.priority;
-+	q_data->q_percent = q->properties.queue_percent;
-+	q_data->read_ptr_addr = (uint64_t)q->properties.read_ptr;
-+	q_data->write_ptr_addr = (uint64_t)q->properties.write_ptr;
-+	q_data->doorbell_id = q->doorbell_id;
-+
-+	q_data->sdma_id = q->sdma_id;
-+
-+	q_data->eop_ring_buffer_address =
-+		q->properties.eop_ring_buffer_address;
-+
-+	q_data->eop_ring_buffer_size = q->properties.eop_ring_buffer_size;
-+
-+	q_data->ctx_save_restore_area_address =
-+		q->properties.ctx_save_restore_area_address;
-+
-+	q_data->ctx_save_restore_area_size =
-+		q->properties.ctx_save_restore_area_size;
-+
-+	pr_debug("Dumping Queue: gpu_id:%x queue_id:%u\n", q_data->gpu_id, q_data->q_id);
-+}
-+
-+static int criu_dump_queues_device(struct kfd_process_device *pdd,
-+				   uint8_t __user *user_priv,
-+				   unsigned int *q_index,
-+				   uint64_t *queues_priv_data_offset)
-+{
-+	struct kfd_criu_queue_priv_data *q_data;
-+	struct queue *q;
-+	int ret = 0;
-+
-+	q_data = kzalloc(sizeof(*q_data), GFP_KERNEL);
-+	if (!q_data)
-+		return -ENOMEM;
-+
-+	list_for_each_entry(q, &pdd->qpd.queues_list, list) {
-+		if (q->properties.type != KFD_QUEUE_TYPE_COMPUTE &&
-+			q->properties.type != KFD_QUEUE_TYPE_SDMA &&
-+			q->properties.type != KFD_QUEUE_TYPE_SDMA_XGMI) {
-+
-+			pr_err("Unsupported queue type (%d)\n", q->properties.type);
-+			return -EOPNOTSUPP;
-+		}
-+
-+		criu_dump_queue(pdd, q, q_data);
-+
-+		ret = copy_to_user(user_priv + *queues_priv_data_offset, q_data, sizeof(*q_data));
-+		if (ret) {
-+			ret = -EFAULT;
-+			break;
-+		}
-+		*queues_priv_data_offset += sizeof(*q_data);
-+		*q_index = *q_index + 1;
-+	}
-+
-+	kfree(q_data);
-+
-+	return ret;
-+}
-+
-+int kfd_criu_checkpoint_queues(struct kfd_process *p,
-+			 uint8_t __user *user_priv_data,
-+			 uint64_t *priv_data_offset)
-+{
-+	int ret = 0, pdd_index, q_index = 0;
-+
-+	for (pdd_index = 0; pdd_index < p->n_pdds; pdd_index++) {
-+		struct kfd_process_device *pdd = p->pdds[pdd_index];
-+
-+		/*
-+		 * criu_dump_queues_device will copy data to user and update q_index and
-+		 * queues_priv_data_offset
-+		 */
-+		ret = criu_dump_queues_device(pdd, user_priv_data, &q_index, priv_data_offset);
-+		if (ret)
-+			break;
-+	}
-+
-+	return ret;
-+}
-+
-+static int set_queue_properties_from_criu(struct queue_properties *qp,
-+					  struct kfd_criu_queue_priv_data *q_data)
-+{
-+	qp->is_interop = false;
-+	qp->is_gws = q_data->is_gws;
-+	qp->queue_percent = q_data->q_percent;
-+	qp->priority = q_data->priority;
-+	qp->queue_address = q_data->q_address;
-+	qp->queue_size = q_data->q_size;
-+	qp->read_ptr = (uint32_t *) q_data->read_ptr_addr;
-+	qp->write_ptr = (uint32_t *) q_data->write_ptr_addr;
-+	qp->eop_ring_buffer_address = q_data->eop_ring_buffer_address;
-+	qp->eop_ring_buffer_size = q_data->eop_ring_buffer_size;
-+	qp->ctx_save_restore_area_address = q_data->ctx_save_restore_area_address;
-+	qp->ctx_save_restore_area_size = q_data->ctx_save_restore_area_size;
-+	qp->ctl_stack_size = q_data->ctl_stack_size;
-+	qp->type = q_data->type;
-+	qp->format = q_data->format;
-+
-+	return 0;
-+}
-+
-+
-+int kfd_criu_restore_queue(struct kfd_process *p,
-+			   uint8_t __user *user_priv_ptr,
-+			   uint64_t *priv_data_offset,
-+			   uint64_t max_priv_data_size)
-+{
-+	struct kfd_criu_queue_priv_data *q_data;
-+	struct kfd_process_device *pdd;
-+	struct kfd_dev *dev;
-+	struct queue_properties qp;
-+	unsigned int queue_id;
-+
-+	int ret = 0;
-+
-+	if (*priv_data_offset + sizeof(*q_data) > max_priv_data_size)
++	if (qid >= KFD_MAX_NUM_OF_QUEUES_PER_PROCESS)
 +		return -EINVAL;
 +
-+	q_data = kmalloc(sizeof(*q_data), GFP_KERNEL);
-+	if (!q_data)
-+		return -ENOMEM;
-+
-+	ret = copy_from_user(q_data, user_priv_ptr + *priv_data_offset, sizeof(*q_data));
-+	if (ret) {
-+		ret = -EFAULT;
-+		goto exit;
++	if (__test_and_set_bit(qid, pqm->queue_slot_bitmap)) {
++		pr_err("Cannot create new queue because requested qid(%u) is in use\n", qid);
++		return -ENOSPC;
 +	}
 +
-+	*priv_data_offset += sizeof(*q_data);
-+
-+	dev = kfd_device_by_id(q_data->gpu_id);
-+	if (!dev) {
-+		pr_err("Could not get kfd_dev from gpu_id = 0x%x\n",
-+		q_data->gpu_id);
-+
-+		ret = -EINVAL;
-+		goto exit;
-+	}
-+
-+	pdd = kfd_get_process_device_data(dev, p);
-+	if (!pdd) {
-+		pr_err("Failed to get pdd\n");
-+		ret = -EFAULT;
-+		return ret;
-+	}
-+
-+	memset(&qp, 0, sizeof(qp));
-+	ret = set_queue_properties_from_criu(&qp, q_data);
-+	if (ret)
-+		goto exit;
-+
-+	print_queue_properties(&qp);
-+
-+	ret = pqm_create_queue(&p->pqm, pdd->dev, NULL, &qp, &queue_id, NULL);
-+	if (ret) {
-+		pr_err("Failed to create new queue err:%d\n", ret);
-+		ret = -EINVAL;
-+	}
-+
-+exit:
-+	if (ret)
-+		pr_err("Failed to create queue (%d)\n", ret);
-+	else
-+		pr_debug("Queue id %d was restored successfully\n", queue_id);
-+
-+	kfree(q_data);
-+
-+	return ret;
++	return 0;
 +}
 +
- #if defined(CONFIG_DEBUG_FS)
+ static int find_available_queue_slot(struct process_queue_manager *pqm,
+ 					unsigned int *qid)
+ {
+@@ -194,6 +208,7 @@ int pqm_create_queue(struct process_queue_manager *pqm,
+ 			    struct file *f,
+ 			    struct queue_properties *properties,
+ 			    unsigned int *qid,
++			    const struct kfd_criu_queue_priv_data *q_data,
+ 			    uint32_t *p_doorbell_offset_in_process)
+ {
+ 	int retval;
+@@ -225,7 +240,12 @@ int pqm_create_queue(struct process_queue_manager *pqm,
+ 	if (pdd->qpd.queue_count >= max_queues)
+ 		return -ENOSPC;
  
- int pqm_debugfs_mqds(struct seq_file *m, void *data)
+-	retval = find_available_queue_slot(pqm, qid);
++	if (q_data) {
++		retval = assign_queue_slot_by_qid(pqm, q_data->q_id);
++		*qid = q_data->q_id;
++	} else
++		retval = find_available_queue_slot(pqm, qid);
++
+ 	if (retval != 0)
+ 		return retval;
+ 
+@@ -528,7 +548,7 @@ int kfd_process_get_queue_info(struct kfd_process *p,
+ 	return 0;
+ }
+ 
+-static void criu_dump_queue(struct kfd_process_device *pdd,
++static void criu_checkpoint_queue(struct kfd_process_device *pdd,
+ 			   struct queue *q,
+ 			   struct kfd_criu_queue_priv_data *q_data)
+ {
+@@ -560,7 +580,7 @@ static void criu_dump_queue(struct kfd_process_device *pdd,
+ 	pr_debug("Dumping Queue: gpu_id:%x queue_id:%u\n", q_data->gpu_id, q_data->q_id);
+ }
+ 
+-static int criu_dump_queues_device(struct kfd_process_device *pdd,
++static int criu_checkpoint_queues_device(struct kfd_process_device *pdd,
+ 				   uint8_t __user *user_priv,
+ 				   unsigned int *q_index,
+ 				   uint64_t *queues_priv_data_offset)
+@@ -582,7 +602,8 @@ static int criu_dump_queues_device(struct kfd_process_device *pdd,
+ 			return -EOPNOTSUPP;
+ 		}
+ 
+-		criu_dump_queue(pdd, q, q_data);
++		criu_checkpoint_queue(pdd, q, q_data);
++		q_data->object_type = KFD_CRIU_OBJECT_TYPE_QUEUE;
+ 
+ 		ret = copy_to_user(user_priv + *queues_priv_data_offset, q_data, sizeof(*q_data));
+ 		if (ret) {
+@@ -608,10 +629,12 @@ int kfd_criu_checkpoint_queues(struct kfd_process *p,
+ 		struct kfd_process_device *pdd = p->pdds[pdd_index];
+ 
+ 		/*
+-		 * criu_dump_queues_device will copy data to user and update q_index and
++		 * criu_checkpoint_queues_device will copy data to user and update q_index and
+ 		 * queues_priv_data_offset
+ 		 */
+-		ret = criu_dump_queues_device(pdd, user_priv_data, &q_index, priv_data_offset);
++		ret = criu_checkpoint_queues_device(pdd, user_priv_data, &q_index,
++					      priv_data_offset);
++
+ 		if (ret)
+ 			break;
+ 	}
+@@ -693,7 +716,7 @@ int kfd_criu_restore_queue(struct kfd_process *p,
+ 
+ 	print_queue_properties(&qp);
+ 
+-	ret = pqm_create_queue(&p->pqm, pdd->dev, NULL, &qp, &queue_id, NULL);
++	ret = pqm_create_queue(&p->pqm, pdd->dev, NULL, &qp, &queue_id, q_data, NULL);
+ 	if (ret) {
+ 		pr_err("Failed to create new queue err:%d\n", ret);
+ 		ret = -EINVAL;
 -- 
 2.17.1
 
