@@ -2,56 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A0C347E0D4
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Dec 2021 10:23:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4842B47E10A
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Dec 2021 10:59:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F190110E2BC;
-	Thu, 23 Dec 2021 09:23:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E26010E1B0;
+	Thu, 23 Dec 2021 09:59:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9869710E2BE;
- Thu, 23 Dec 2021 09:23:46 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 0A6F81F389;
- Thu, 23 Dec 2021 09:23:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1640251425; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=rRda4wC7PtKx+OxfU4Jyov9t9b3pClJhNncskJ65VH4=;
- b=CziLYkpMm3rRNbNzKxcMYGxtGsZWkK3pAhF072SiKgj9XL+WZnv6FVbIjaASFrYz/AP6vy
- /HpNpuLb+nkK5MbEh0cz+YlSLbhZzzLhle6by0+iQ8OWXp87DxbW3kDlzXfeasGzI1mI9C
- fmXzO5CmY3x3cYc5KjCUHrX7QQ2Ecyk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1640251425;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=rRda4wC7PtKx+OxfU4Jyov9t9b3pClJhNncskJ65VH4=;
- b=BidGwZ2O8LzGLgDdrkGcgY8g7EwZ7DQuq/thedSoAHDgFEWgjmyNH/+1H0SnCWEK7uPtvx
- K/b9S3tPvD9ShaAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AC9B413E5F;
- Thu, 23 Dec 2021 09:23:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 9RD7KCBAxGFfegAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 23 Dec 2021 09:23:44 +0000
-Date: Thu, 23 Dec 2021 10:23:43 +0100
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-next-fixes
-Message-ID: <YcRAH8lYbsoSCeY9@linux-uq9g.fritz.box>
+Received: from luna.linkmauve.fr (82-65-109-163.subs.proxad.net
+ [82.65.109.163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7B3410E21B
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Dec 2021 09:59:28 +0000 (UTC)
+Received: by luna.linkmauve.fr (Postfix, from userid 1000)
+ id 5EAC1F40C3A; Thu, 23 Dec 2021 10:59:23 +0100 (CET)
+Date: Thu, 23 Dec 2021 10:59:23 +0100
+From: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Subject: Re: Empty IN_FORMATS in sun4i-drm
+Message-ID: <20211223095923.pes7tag5uqsoidy5@luna>
+Jabber-ID: linkmauve@linkmauve.fr
+References: <20211214120248.y2zdzr5zsqowixjx@luna> <2084377.irdbgypaU6@kista>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="yfmkjxo3tbi7ale7"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <2084377.irdbgypaU6@kista>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,75 +39,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
+Cc: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>, Chen-Yu Tsai <wens@csie.org>,
+ dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
 
-here's the PR for drm-misc-next-fixes for what will become Linux 5.17.
-There are several fixes for vmwgfx's recent conversion to GEM and a fix
-for bridge DT bindinds. Besides the fixes, a backmerge updated
-drm-misc-next-fixes to the state of drm-next before the feature freeze.
+--yfmkjxo3tbi7ale7
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Best regards
-Thomas
+On Tue, Dec 14, 2021 at 06:58:56PM +0100, Jernej =C5=A0krabec wrote:
+> Dne torek, 14. december 2021 ob 13:02:48 CET je Emmanuel Gil Peyrot=20
+> napisal(a):
+> > Hi,
+> >=20
+> > After updating Weston from 9f8561e9 to 07326040 (latest master), it
+> > fails to run on my PinePhone saying =E2=80=9Cformat 0x34325258 not supp=
+orted by
+> > output DSI-1=E2=80=9D and then exiting.
+> >=20
+> > This format is XR24, which would be extremely surprising not to be
+> > present, and drm_info[1] says it is present.  Looking into Weston=E2=80=
+=99s
+> > code, I found that drm_plane_populate_formats()=E2=80=99s docstring say=
+s it uses
+> > =E2=80=9Ceither the IN_FORMATS blob property (if available), or the pla=
+ne's
+> > format list if not.=E2=80=9D  Looking back at drm_info, I saw said IN_F=
+ORMATS
+> > blob being empty of formats (while the format list is fully populated):
+> > "IN_FORMATS" (immutable): blob =3D 32
+> > =E2=94=94=E2=94=80=E2=94=80=E2=94=80DRM_FORMAT_MOD_LINEAR (0x0)
+>=20
+> Does this solve your issue? http://ix.io/3Ipo
 
-drm-misc-next-fixes-2021-12-23:
-Short summary of fixes pull:
+Hi, yes it does, thanks!
 
- * bridge/lvds: Fix DT bindings
- * vmwgfx: Fix several issues with the recent conversion to GEM
-The following changes since commit 1c405ca11bf563de1725e5ecfb4a74ee289d2ee9:
+Tested-by: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
 
-  Merge tag 'mediatek-drm-next-5.17' of https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux into drm-next (2021-12-17 16:16:16 +1000)
+>=20
+> Best regards,
+> Jernej
+>=20
+> >=20
+> > This makes me think the kernel should populate IN_FORMATS with at least
+> > the same formats as the format list when supported, or stop advertising
+> > this property altogether.
+> >=20
+> > Other compositors (such as phoc) still run file, probably because they
+> > use the format list exclusively, without consideration for modifiers.
+> >=20
+> > Besides fixing this driver, would it make sense to also make Weston
+> > ignore an empty IN_FORMATS and fall back to the format list?
+> >=20
+> > Thanks,
+> >=20
+> > [1] https://github.com/ascent12/drm_info
+> >=20
+> > --=20
+> > Emmanuel Gil Peyrot
+> >=20
+>=20
 
-are available in the Git repository at:
+--=20
+Emmanuel Gil Peyrot
 
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-2021-12-23
+--yfmkjxo3tbi7ale7
+Content-Type: application/pgp-signature; name="signature.asc"
 
-for you to fetch changes up to 5da8b49de472c1da8658466d4f63ef8d9251a819:
+-----BEGIN PGP SIGNATURE-----
 
-  dt-bindings: display: bridge: lvds-codec: Fix duplicate key (2021-12-22 14:02:04 -0400)
+iQEzBAABCAAdFiEEjrVT1SzTln43kCLJOWgfYkb2LpAFAmHESHgACgkQOWgfYkb2
+LpB1Ewf9Eq+JANuVeDFXKjLR5Oq7/G2O6QV4cFE2224q0FtvLl8c4cZ61eXM8hyv
+9I+Whu/X3jNYWjoCHy6XdPPpzjg8jE49k4gF+8kLEwDSmM/jucRSoRV4bNW8a1xt
+TmbPCBTDFKEl1d3l8NydsY0mRrjwRv4DKg1tlvfNlIuC5zhf+53TgG/27iBZQGHu
+LGLFPqeG73nmx6PS+jbolbUNzCDIW6Bkm5zqfjFRExJMF2AdYlQZtsk+1LU/soqi
+32qKikupZGrH86Uh5rbr3SVDSs3ew21fhuoHjFJ4vX82OBKbe/9q3/WEDU2aFriv
+GcxYFcQ38CVsX2R4wiIOivEXGa397g==
+=0mAo
+-----END PGP SIGNATURE-----
 
-----------------------------------------------------------------
-Short summary of fixes pull:
-
- * bridge/lvds: Fix DT bindings
- * vmwgfx: Fix several issues with the recent conversion to GEM
-
-----------------------------------------------------------------
-Thierry Reding (1):
-      dt-bindings: display: bridge: lvds-codec: Fix duplicate key
-
-Thomas Zimmermann (1):
-      Merge drm/drm-next into drm-misc-next-fixes
-
-Zack Rusin (4):
-      drm/vmwgfx: Fix a size_t/long int format specifier mismatch
-      drm/vmwgfx: Remove explicit transparent hugepages support
-      drm/vmwgfx: Remove unused compile options
-      drm/vmwgfx: Fix possible usage of an uninitialized variable
-
- .../bindings/display/bridge/lvds-codec.yaml        |  43 ++---
- drivers/gpu/drm/vmwgfx/Makefile                    |   1 -
- drivers/gpu/drm/vmwgfx/vmwgfx_bo.c                 |   8 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c                |   8 -
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h                |   8 -
- drivers/gpu/drm/vmwgfx/vmwgfx_gem.c                |   2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_mob.c                |  12 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c               |   4 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_thp.c                | 184 ---------------------
- 9 files changed, 33 insertions(+), 237 deletions(-)
- delete mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
-
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 Nürnberg, Germany
-(HRB 36809, AG Nürnberg)
-Geschäftsführer: Felix Imendörffer
+--yfmkjxo3tbi7ale7--
