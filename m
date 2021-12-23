@@ -1,37 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5C7747E119
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Dec 2021 11:07:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A32B47E11E
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Dec 2021 11:10:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1896210E2B6;
-	Thu, 23 Dec 2021 10:07:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FB8310E21B;
+	Thu, 23 Dec 2021 10:10:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B23910E2B6;
- Thu, 23 Dec 2021 10:07:27 +0000 (UTC)
-Date: Thu, 23 Dec 2021 10:07:23 +0000
+Received: from mail-4022.proton.ch (mail-4022.proton.ch [185.70.40.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0099610E21B
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Dec 2021 10:10:24 +0000 (UTC)
+Date: Thu, 23 Dec 2021 10:10:22 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1640254044;
- bh=zRwWsMDd5Kf2yQpedEA3Ka2dLpgNvYvwuOL0uYq4mxY=;
+ s=protonmail; t=1640254223;
+ bh=JZk2QkwvQMw2dr3xN0Nul1fIObR/x6Mzssnku9CKGxI=;
  h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
  References:From:To:Cc;
- b=gbYSD1oJfitEUpR//HJf9DzbjJxOgkD3iapphcrU/uZGqgKkUcCc1vIpK0dTcDkfx
- mpfR6x7lHdm88Xz4Wey/NerEFw2ZdhTaDSUqgg0kl9OEUeuhK5+60lH31lkXoHTW9n
- KiOuxYNdz3JEsXmRMBVcXtis824NHyURJ9U9vvBWd5Fr+qaLBhjLOE8h+6eAY4iXmC
- u2ssCeZrgyAv28ZuTVfoHOKWfKgWhfmLfcoVCQZigJGmeXViQPjFHaJbx6spoa6Tmq
- VQWWd3nbsAXijeEZUFhyrAlufaWuX8s2mWaIoOarcpLda7X20a3t5mQuP5BToi1Mtp
- NZi94UIxVtVnQ==
+ b=jogA9ITM2pLDQetcpufIntC4yTHzrr4+DWIpmT87TPMpju4Ot4RMQ+WoPBM247Tpu
+ O8vwV/m9VY6TxbagfU0VqDfUoySRpsVQo8xeuk9rtka7kmhULzDeBU2qj80qLAr/Pl
+ tyDxdNlMTeN0/VI1nIPmPi2rBZGD7vDOaQvRjOwGNN+LymeR2yX0gOrADjxqBRv/DK
+ ozo9R/9VLfI7qonEXrrdE+T/byG6eNDz/7xkaNdebwMR90q+uJRbnzVrYS6X2DgczQ
+ EA5Qt9X6ExeKkKVzmhOOM5KaR6wD89AGhOi8m7lMoK37T0naYw47i++tgbFwpoVybB
+ Jjs8alSOHkPVQ==
 To: =?utf-8?Q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v2 2/6] drm/plane: Fix typo in format_mod_supported
- documentation
-Message-ID: <Mvx6OvWCWFlETEiAbcFfstJZLT3KuMwwbWOdID03IpRLb8IFXUyPXd89dKGZvd3UTYSrteRLv9gAFNJYc56X7-OFvC31c981WeUFDZDTAi4=@emersion.fr>
-In-Reply-To: <20211222090552.25972-3-jose.exposito89@gmail.com>
+Subject: =?utf-8?Q?Re:_[PATCH_v2_1/6]_drm/plane:_Make_format=5Fmod=5Fsupported_truly=C2=A0optional?=
+Message-ID: <8OwW5vWFemsZ6SHYICEo6Ic972ApufOImdVLLprAxvjF3AxrjQghwFAZsQ1WJNqrv2fCTyB16g4JALC8omFmZ8-vcmTV289KfBEIkKMS5xc=@emersion.fr>
+In-Reply-To: <20211222090552.25972-2-jose.exposito89@gmail.com>
 References: <20211222090552.25972-1-jose.exposito89@gmail.com>
- <20211222090552.25972-3-jose.exposito89@gmail.com>
+ <20211222090552.25972-2-jose.exposito89@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -64,4 +63,13 @@ Cc: airlied@linux.ie, alexandre.torgue@foss.st.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wednesday, December 22nd, 2021 at 10:05, Jos=C3=A9 Exp=C3=B3sito <jose.e=
+xposito89@gmail.com> wrote:
+
+> Make "create_in_format_blob" behave as documented.
+
+LGTM, nice!
+
 Reviewed-by: Simon Ser <contact@emersion.fr>
+
+CC Ville just in case
