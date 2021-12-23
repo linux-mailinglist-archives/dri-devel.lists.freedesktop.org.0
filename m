@@ -1,32 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4842B47E10A
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Dec 2021 10:59:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E4A947E113
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Dec 2021 11:02:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E26010E1B0;
-	Thu, 23 Dec 2021 09:59:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D869610E24D;
+	Thu, 23 Dec 2021 10:02:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from luna.linkmauve.fr (82-65-109-163.subs.proxad.net
- [82.65.109.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7B3410E21B
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Dec 2021 09:59:28 +0000 (UTC)
-Received: by luna.linkmauve.fr (Postfix, from userid 1000)
- id 5EAC1F40C3A; Thu, 23 Dec 2021 10:59:23 +0100 (CET)
-Date: Thu, 23 Dec 2021 10:59:23 +0100
-From: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Subject: Re: Empty IN_FORMATS in sun4i-drm
-Message-ID: <20211223095923.pes7tag5uqsoidy5@luna>
-Jabber-ID: linkmauve@linkmauve.fr
-References: <20211214120248.y2zdzr5zsqowixjx@luna> <2084377.irdbgypaU6@kista>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9207F10E1AB;
+ Thu, 23 Dec 2021 10:02:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1640253720; x=1671789720;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to:content-transfer-encoding;
+ bh=443OBScV5AgmXy4TwQiSwXVF2rdgQuyXiFdthAxVKl0=;
+ b=AGxWegjC/XoacY6pd823Ooy/hhXbw9C9HIYh7yBLPyhnm+IEqMmOnG/A
+ kDfdW5RvFNYW2S11ajGi7VpgET4XbImrwjLvfEDeHxpS+uMLFa7byUiPs
+ /tXDroLZWzTTlVAP0Kw/sIWbMCpeR0EsZp2Ao17VG0hjjQkTPs8wznvK8
+ nH4mElB44ThJgqYv736Z8/FoRVOMIRYbbXap0Qa+kS2xTE8/mwDpfgOxx
+ x+//tF5y/mdNbHIXbxURUyjrOkElNeFBu8h9CZaM7CC5W0hk4XoM35zyb
+ wNxh4tF+YSKNVUFSN89yb2hTcJYpZcy8MT/eBPaSY3FJlUBkbXeQ3vfQH w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10206"; a="239551077"
+X-IronPort-AV: E=Sophos;i="5.88,229,1635231600"; d="scan'208";a="239551077"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Dec 2021 02:01:46 -0800
+X-IronPort-AV: E=Sophos;i="5.88,229,1635231600"; d="scan'208";a="570870966"
+Received: from bylee-mobl1.amr.corp.intel.com (HELO [10.213.175.220])
+ ([10.213.175.220])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Dec 2021 02:01:46 -0800
+Message-ID: <10c729bc-d792-65f7-c136-b3de702717f9@linux.intel.com>
+Date: Thu, 23 Dec 2021 10:01:42 +0000
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="yfmkjxo3tbi7ale7"
-Content-Disposition: inline
-In-Reply-To: <2084377.irdbgypaU6@kista>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.1
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc: Use lockless list for destroyed
+ contexts
+Content-Language: en-US
+To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+References: <20211222232907.12735-1-matthew.brost@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20211222232907.12735-1-matthew.brost@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,86 +62,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>, Chen-Yu Tsai <wens@csie.org>,
- dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---yfmkjxo3tbi7ale7
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 22/12/2021 23:29, Matthew Brost wrote:
+> Use a lockless list structure for destroyed contexts to avoid hammering
+> on global submission spin lock.
 
-On Tue, Dec 14, 2021 at 06:58:56PM +0100, Jernej =C5=A0krabec wrote:
-> Dne torek, 14. december 2021 ob 13:02:48 CET je Emmanuel Gil Peyrot=20
-> napisal(a):
-> > Hi,
-> >=20
-> > After updating Weston from 9f8561e9 to 07326040 (latest master), it
-> > fails to run on my PinePhone saying =E2=80=9Cformat 0x34325258 not supp=
-orted by
-> > output DSI-1=E2=80=9D and then exiting.
-> >=20
-> > This format is XR24, which would be extremely surprising not to be
-> > present, and drm_info[1] says it is present.  Looking into Weston=E2=80=
-=99s
-> > code, I found that drm_plane_populate_formats()=E2=80=99s docstring say=
-s it uses
-> > =E2=80=9Ceither the IN_FORMATS blob property (if available), or the pla=
-ne's
-> > format list if not.=E2=80=9D  Looking back at drm_info, I saw said IN_F=
-ORMATS
-> > blob being empty of formats (while the format list is fully populated):
-> > "IN_FORMATS" (immutable): blob =3D 32
-> > =E2=94=94=E2=94=80=E2=94=80=E2=94=80DRM_FORMAT_MOD_LINEAR (0x0)
->=20
-> Does this solve your issue? http://ix.io/3Ipo
+Thanks for looking into it quickly!
 
-Hi, yes it does, thanks!
+On the topic of "lockless" yes I agree the llist in principle is not a 
+concern. That part looks fine to me. On the actual "integration" (how it 
+slots in) with the GuC code I leave one comment below.
 
-Tested-by: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
+> Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/intel_context.c       |  2 -
+>   drivers/gpu/drm/i915/gt/intel_context_types.h |  3 +-
+>   drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  3 +-
+>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 44 +++++--------------
+>   4 files changed, 16 insertions(+), 36 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
+> index 5d0ec7c49b6a..4aacb4b0418d 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_context.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_context.c
+> @@ -403,8 +403,6 @@ intel_context_init(struct intel_context *ce, struct intel_engine_cs *engine)
+>   	ce->guc_id.id = GUC_INVALID_LRC_ID;
+>   	INIT_LIST_HEAD(&ce->guc_id.link);
+>   
+> -	INIT_LIST_HEAD(&ce->destroyed_link);
+> -
+>   	INIT_LIST_HEAD(&ce->parallel.child_list);
+>   
+>   	/*
+> diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> index 30cd81ad8911..4532d43ec9c0 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> @@ -9,6 +9,7 @@
+>   #include <linux/average.h>
+>   #include <linux/kref.h>
+>   #include <linux/list.h>
+> +#include <linux/llist.h>
+>   #include <linux/mutex.h>
+>   #include <linux/types.h>
+>   
+> @@ -224,7 +225,7 @@ struct intel_context {
+>   	 * list when context is pending to be destroyed (deregistered with the
+>   	 * GuC), protected by guc->submission_state.lock
+>   	 */
+> -	struct list_head destroyed_link;
+> +	struct llist_node destroyed_link;
+>   
+>   	/** @parallel: sub-structure for parallel submission members */
+>   	struct {
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> index f9240d4baa69..705085058411 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> @@ -8,6 +8,7 @@
+>   
+>   #include <linux/xarray.h>
+>   #include <linux/delay.h>
+> +#include <linux/llist.h>
+>   
+>   #include "intel_uncore.h"
+>   #include "intel_guc_fw.h"
+> @@ -112,7 +113,7 @@ struct intel_guc {
+>   		 * @destroyed_contexts: list of contexts waiting to be destroyed
+>   		 * (deregistered with the GuC)
+>   		 */
+> -		struct list_head destroyed_contexts;
+> +		struct llist_head destroyed_contexts;
+>   		/**
+>   		 * @destroyed_worker: worker to deregister contexts, need as we
+>   		 * need to take a GT PM reference and can't from destroy
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index 0a03a30e4c6d..6f7643edc139 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -1771,7 +1771,7 @@ int intel_guc_submission_init(struct intel_guc *guc)
+>   	spin_lock_init(&guc->submission_state.lock);
+>   	INIT_LIST_HEAD(&guc->submission_state.guc_id_list);
+>   	ida_init(&guc->submission_state.guc_ids);
+> -	INIT_LIST_HEAD(&guc->submission_state.destroyed_contexts);
+> +	init_llist_head(&guc->submission_state.destroyed_contexts);
+>   	INIT_WORK(&guc->submission_state.destroyed_worker,
+>   		  destroyed_worker_func);
+>   
+> @@ -2696,26 +2696,18 @@ static void __guc_context_destroy(struct intel_context *ce)
+>   	}
+>   }
+>   
+> +#define take_destroyed_contexts(guc) \
+> +	llist_del_all(&guc->submission_state.destroyed_contexts)
+> +
+>   static void guc_flush_destroyed_contexts(struct intel_guc *guc)
+>   {
+> -	struct intel_context *ce;
+> -	unsigned long flags;
+> +	struct intel_context *ce, *cn;
+>   
+>   	GEM_BUG_ON(!submission_disabled(guc) &&
+>   		   guc_submission_initialized(guc));
+>   
+> -	while (!list_empty(&guc->submission_state.destroyed_contexts)) {
+> -		spin_lock_irqsave(&guc->submission_state.lock, flags);
+> -		ce = list_first_entry_or_null(&guc->submission_state.destroyed_contexts,
+> -					      struct intel_context,
+> -					      destroyed_link);
+> -		if (ce)
+> -			list_del_init(&ce->destroyed_link);
+> -		spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+> -
+> -		if (!ce)
+> -			break;
+> -
+> +	llist_for_each_entry_safe(ce, cn, take_destroyed_contexts(guc),
+> +				 destroyed_link) {
+>   		release_guc_id(guc, ce);
+>   		__guc_context_destroy(ce);
+>   	}
+> @@ -2723,23 +2715,11 @@ static void guc_flush_destroyed_contexts(struct intel_guc *guc)
+>   
+>   static void deregister_destroyed_contexts(struct intel_guc *guc)
+>   {
+> -	struct intel_context *ce;
+> -	unsigned long flags;
+> -
+> -	while (!list_empty(&guc->submission_state.destroyed_contexts)) {
+> -		spin_lock_irqsave(&guc->submission_state.lock, flags);
+> -		ce = list_first_entry_or_null(&guc->submission_state.destroyed_contexts,
+> -					      struct intel_context,
+> -					      destroyed_link);
+> -		if (ce)
+> -			list_del_init(&ce->destroyed_link);
+> -		spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+> -
+> -		if (!ce)
+> -			break;
+> +	struct intel_context *ce, *cn;
+>   
+> +	llist_for_each_entry_safe(ce, cn, take_destroyed_contexts(guc),
+> +				 destroyed_link)
+>   		guc_lrc_desc_unpin(ce);
+> -	}
+>   }
+>   
+>   static void destroyed_worker_func(struct work_struct *w)
+> @@ -2771,8 +2751,8 @@ static void guc_context_destroy(struct kref *kref)
+>   	if (likely(!destroy)) {
+>   		if (!list_empty(&ce->guc_id.link))
+>   			list_del_init(&ce->guc_id.link);
+> -		list_add_tail(&ce->destroyed_link,
+> -			      &guc->submission_state.destroyed_contexts);
+> +		llist_add(&ce->destroyed_link,
+> +			  &guc->submission_state.destroyed_contexts);
 
->=20
-> Best regards,
-> Jernej
->=20
-> >=20
-> > This makes me think the kernel should populate IN_FORMATS with at least
-> > the same formats as the format list when supported, or stop advertising
-> > this property altogether.
-> >=20
-> > Other compositors (such as phoc) still run file, probably because they
-> > use the format list exclusively, without consideration for modifiers.
-> >=20
-> > Besides fixing this driver, would it make sense to also make Weston
-> > ignore an empty IN_FORMATS and fall back to the format list?
-> >=20
-> > Thanks,
-> >=20
-> > [1] https://github.com/ascent12/drm_info
-> >=20
-> > --=20
-> > Emmanuel Gil Peyrot
-> >=20
->=20
+So here presumably submission lock is still needed for unlinking the 
+from guc_id list.
 
---=20
-Emmanuel Gil Peyrot
+Mechanical flows of the patch looks good to me, but I leave to you and 
+John to decide on llist vs keeping the existing doubly linked list. I 
+mean agreeing what fits better with the existing locking and data 
+structure design.
 
---yfmkjxo3tbi7ale7
-Content-Type: application/pgp-signature; name="signature.asc"
+Regards,
 
------BEGIN PGP SIGNATURE-----
+Tvrtko
 
-iQEzBAABCAAdFiEEjrVT1SzTln43kCLJOWgfYkb2LpAFAmHESHgACgkQOWgfYkb2
-LpB1Ewf9Eq+JANuVeDFXKjLR5Oq7/G2O6QV4cFE2224q0FtvLl8c4cZ61eXM8hyv
-9I+Whu/X3jNYWjoCHy6XdPPpzjg8jE49k4gF+8kLEwDSmM/jucRSoRV4bNW8a1xt
-TmbPCBTDFKEl1d3l8NydsY0mRrjwRv4DKg1tlvfNlIuC5zhf+53TgG/27iBZQGHu
-LGLFPqeG73nmx6PS+jbolbUNzCDIW6Bkm5zqfjFRExJMF2AdYlQZtsk+1LU/soqi
-32qKikupZGrH86Uh5rbr3SVDSs3ew21fhuoHjFJ4vX82OBKbe/9q3/WEDU2aFriv
-GcxYFcQ38CVsX2R4wiIOivEXGa397g==
-=0mAo
------END PGP SIGNATURE-----
-
---yfmkjxo3tbi7ale7--
+>   	} else {
+>   		__release_guc_id(guc, ce);
+>   	}
+> 
