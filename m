@@ -1,47 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBAE747DB7E
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Dec 2021 00:34:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 606F147DC14
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Dec 2021 01:37:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78B3810E11F;
-	Wed, 22 Dec 2021 23:34:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 126D310E127;
+	Thu, 23 Dec 2021 00:37:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DF7810E119;
- Wed, 22 Dec 2021 23:34:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1640216068; x=1671752068;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=cXJENaIlfOcA6CiVQBL0eK2WDfL4vdWxuNgXOb5rCZM=;
- b=RrlwCSixYe1UKxAT0M+58RNaUJ+zrwYPh6D3A9n1CuCVZxGS0hnct80m
- bAUxedfdMuDXDrAEO8M0R6LE2APfBGcju74z3YZnzC9CPZcsLBfct7iWQ
- lenTTwXTVjMhqNZFMMPLqj38EoFXkdqDwvV6vODvXuRGEapeTHQ3CjTZY
- bjiY4fQqquqGw1VTWGzK0/lBOetgkR1WwN+2FNleI4b9bJ95X47vA+doN
- DM7/+gEN5JTodosN61tTCDvOYjoUyhMr0jex+RHmAapPiMTBKDwvoHU+H
- gA2QFmKxS0I1bvd8yd0GclI0amcyLfxpSS2bE7zws7ej9pSzT6c16MGXP w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10206"; a="327031451"
-X-IronPort-AV: E=Sophos;i="5.88,227,1635231600"; d="scan'208";a="327031451"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2021 15:34:27 -0800
-X-IronPort-AV: E=Sophos;i="5.88,227,1635231600"; d="scan'208";a="521867622"
-Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2021 15:34:27 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: <intel-gfx@lists.freedesktop.org>,
-	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/i915/guc: Use lockless list for destroyed contexts
-Date: Wed, 22 Dec 2021 15:29:07 -0800
-Message-Id: <20211222232907.12735-1-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.34.1
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2050.outbound.protection.outlook.com [40.107.244.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 453A510E125;
+ Thu, 23 Dec 2021 00:37:26 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KJ/Ijojn3MINV2cgH9nkMlUJU6t0+Lh+b7b/fq8v0bzLj87HZ8rDJ9OxHDZZVB+n5qo9quccKM4SopxUpci1y2THbg9KcGedPzL6Vb4IJINvtuhu7vrGXh5dur6HR3XAkd2+K5CCFNlclb6freZSiZzWgQ3FbPogJSugShpexQ5/sn6JKjUGi3BjbEqtKsjHoaAD53iY6CBX0nLSXFVx1un7Ob/nRSuk1idu6KabIt09wgGpKutvqpBIq8qHNmWIj+YU52Kt4JnOhhycJWJxCiuzX3AXRB0yi5M7++v+DOiOjz+q+/1/eHj6Z5wpzIsEa8wu/grhc3wCgFxXHvvMgQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6McupS8kxodcg04lsoGipCUfh+ApS16Wf8EW5EskkSg=;
+ b=Y0+VdBXWtQ1zp4JukF2IpPnoTfjHA+0SejnR1xQCxBdBiPSOF6BkJydy0MMse90PskhYfiDR5t1KkkVJYzQCU1TETN+uwrmjzBjFVuXBeI0Z7bo5WUUJDDORnOptBYu9AAo9wyQz5J5MtVOq1uIjwNTAyQzR+P9iuT80nW6F/BRYKcwgyvgbsLE3OwsSYQ6/PLLS/v223CQke9j5jmFL5ZfS5uLdQNtlYlAsyPo50hsyNKxl0uS3785aIFQWHptatz07p38jVdQsbF6AlzEl6bYjWq7uorUaUpybmnk0zr67edxQmhXtuRWQl9hCyd8uqMVWcbxctKxvppzHePFv6Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6McupS8kxodcg04lsoGipCUfh+ApS16Wf8EW5EskkSg=;
+ b=saOwuVzUfbqf6AZ5BBbk1eMcSsnssoqoJkTNb16o2j1R9+hoo5t+C7bG7dQPUATsmfKBuzIxcW/TOSZ3Me5apfRv9up30Z93uAElJ2tKTB3X/Hcjpepv1EoHDRaSyOqc4KaQPEqwN7Cad2OmKhZn96fzBhufjTxIF/I4hrf9dVM=
+Received: from BN0PR04CA0042.namprd04.prod.outlook.com (2603:10b6:408:e8::17)
+ by DM6PR12MB4281.namprd12.prod.outlook.com (2603:10b6:5:21e::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.19; Thu, 23 Dec
+ 2021 00:37:24 +0000
+Received: from BN8NAM11FT037.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:e8:cafe::f2) by BN0PR04CA0042.outlook.office365.com
+ (2603:10b6:408:e8::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.17 via Frontend
+ Transport; Thu, 23 Dec 2021 00:37:24 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com;
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ BN8NAM11FT037.mail.protection.outlook.com (10.13.177.182) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4823.18 via Frontend Transport; Thu, 23 Dec 2021 00:37:24 +0000
+Received: from rajneesh-desk.amd.com (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Wed, 22 Dec
+ 2021 18:37:23 -0600
+From: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+Subject: [Patch v4 00/24] CHECKPOINT RESTORE WITH ROCm
+Date: Wed, 22 Dec 2021 19:36:47 -0500
+Message-ID: <20211223003711.13064-1-rajneesh.bhardwaj@amd.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB03.amd.com
+ (10.181.40.144)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e833fd23-7245-4d6a-37d6-08d9c5ac6377
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4281:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR12MB428123E7C86EC15B8FBFBBD1FE7E9@DM6PR12MB4281.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: VbfxSDHXMVETay38UA/kM0oM0Bj0XJJAioeTBHWRO+YUnpdZ+iI6CeUwxMk/ZUreyo/M6ae2TM42UHnxDDt+Khcrv+8RoWfH2hHF8EeSq+1jdTKwjmXBGYYJcB83fQcgJVGIM+fQlbNaXumFXmcIwk3ReqIOOVOWdKR52KmaJfVcV+ETJ4H+OE/X3Fhj7MdQ/cpiBzL1OOZuDCE+0hRaDkuElk4/SAxD21tJNxyoqTrBwBwEu+oGfgfcwDK4dka4vz5JpBzOcz4xibGbV7RU3VxbZX0i3oCNdJEnv+QvJahHkHHq+z3+HojD+QTU9J53rN8xwmiaSYr4/kctiGDIJ+12cqv26oLCt1Uu8Lu77EpOLeOXXSAtoBSg9JtONREDy6HHV50uibKOx1bjJi8LZN+HGH0SYdrjfEHL77NbKhON6HSE3wnbOeVRkhQWY6M58DmpZBlHs3e8PDbT0BB020H6xxxwh6yugwIwW9Zy8xNGs7f0yQ5aKkF775/mD3ylPEMOC6FLvPthReHZbHEDYHzOTMLitwDe5G6n/S/v3XNzMFP7JfbKbCfq0qU7PeF60kW9ndEt6b/mIDpWHCN1go5PLGZFcEHTR/broo19tek8tXdX6R1K/hHYCITsDqVK6MQZNNAMnvz48bIU9FJml7zbpdfBqdf5HI/aVXtMMIjv/D6fXiuF5fJoQTSPQtiUcuT0d3cskdEq/3TPf1sUmbHY///ogoV0dyrPTWlhniUW/cxQPONWPh7MMr19S3GtcZg7LLtGyWpcOAvSI2rF2PhQqt7vjq6fZ4c6hkOJV9895yKxfIgcV2HK76ET0gHG5EMI/XBCxj3JFa+6DMjEXu6mjonjjZT83fWT5+6fGSYSVtKacYJ8VmzBMz+3LVbo
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(40470700002)(46966006)(36840700001)(47076005)(8676002)(6666004)(7696005)(316002)(356005)(81166007)(508600001)(4326008)(2906002)(110136005)(5660300002)(36756003)(54906003)(336012)(44832011)(1076003)(16526019)(83380400001)(40460700001)(966005)(186003)(26005)(2616005)(70586007)(82310400004)(426003)(86362001)(8936002)(70206006)(36860700001)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2021 00:37:24.2971 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e833fd23-7245-4d6a-37d6-08d9c5ac6377
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT037.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4281
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,162 +99,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniele.ceraolospurio@intel.com, john.c.harrison@intel.com,
- tvrtko.ursulin@intel.com
+Cc: daniel.vetter@ffwll.ch, felix.kuehling@amd.com,
+ Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>, alexander.deucher@amd.com,
+ airlied@redhat.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use a lockless list structure for destroyed contexts to avoid hammering
-on global submission spin lock.
+CRIU is a user space tool which is very popular for container live
+migration in datacentres. It can checkpoint a running application, save
+its complete state, memory contents and all system resources to images
+on disk which can be migrated to another m achine and restored later.
+More information on CRIU can be found at https://criu.org/Main_Page
 
-Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_context.c       |  2 -
- drivers/gpu/drm/i915/gt/intel_context_types.h |  3 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  3 +-
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 44 +++++--------------
- 4 files changed, 16 insertions(+), 36 deletions(-)
+CRIU currently does not support Checkpoint / Restore with applications
+that have devices files open so it cannot perform checkpoint and restore
+on GPU devices which are very complex and have their own VRAM managed
+privately. CRIU, however can support external devices by using a plugin
+architecture. We feel that we are getting close to finalizing our IOCTL
+APIs which were again changed since V3 for an improved modular design.
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-index 5d0ec7c49b6a..4aacb4b0418d 100644
---- a/drivers/gpu/drm/i915/gt/intel_context.c
-+++ b/drivers/gpu/drm/i915/gt/intel_context.c
-@@ -403,8 +403,6 @@ intel_context_init(struct intel_context *ce, struct intel_engine_cs *engine)
- 	ce->guc_id.id = GUC_INVALID_LRC_ID;
- 	INIT_LIST_HEAD(&ce->guc_id.link);
- 
--	INIT_LIST_HEAD(&ce->destroyed_link);
--
- 	INIT_LIST_HEAD(&ce->parallel.child_list);
- 
- 	/*
-diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
-index 30cd81ad8911..4532d43ec9c0 100644
---- a/drivers/gpu/drm/i915/gt/intel_context_types.h
-+++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
-@@ -9,6 +9,7 @@
- #include <linux/average.h>
- #include <linux/kref.h>
- #include <linux/list.h>
-+#include <linux/llist.h>
- #include <linux/mutex.h>
- #include <linux/types.h>
- 
-@@ -224,7 +225,7 @@ struct intel_context {
- 	 * list when context is pending to be destroyed (deregistered with the
- 	 * GuC), protected by guc->submission_state.lock
- 	 */
--	struct list_head destroyed_link;
-+	struct llist_node destroyed_link;
- 
- 	/** @parallel: sub-structure for parallel submission members */
- 	struct {
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-index f9240d4baa69..705085058411 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-@@ -8,6 +8,7 @@
- 
- #include <linux/xarray.h>
- #include <linux/delay.h>
-+#include <linux/llist.h>
- 
- #include "intel_uncore.h"
- #include "intel_guc_fw.h"
-@@ -112,7 +113,7 @@ struct intel_guc {
- 		 * @destroyed_contexts: list of contexts waiting to be destroyed
- 		 * (deregistered with the GuC)
- 		 */
--		struct list_head destroyed_contexts;
-+		struct llist_head destroyed_contexts;
- 		/**
- 		 * @destroyed_worker: worker to deregister contexts, need as we
- 		 * need to take a GT PM reference and can't from destroy
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 0a03a30e4c6d..6f7643edc139 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -1771,7 +1771,7 @@ int intel_guc_submission_init(struct intel_guc *guc)
- 	spin_lock_init(&guc->submission_state.lock);
- 	INIT_LIST_HEAD(&guc->submission_state.guc_id_list);
- 	ida_init(&guc->submission_state.guc_ids);
--	INIT_LIST_HEAD(&guc->submission_state.destroyed_contexts);
-+	init_llist_head(&guc->submission_state.destroyed_contexts);
- 	INIT_WORK(&guc->submission_state.destroyed_worker,
- 		  destroyed_worker_func);
- 
-@@ -2696,26 +2696,18 @@ static void __guc_context_destroy(struct intel_context *ce)
- 	}
- }
- 
-+#define take_destroyed_contexts(guc) \
-+	llist_del_all(&guc->submission_state.destroyed_contexts)
-+
- static void guc_flush_destroyed_contexts(struct intel_guc *guc)
- {
--	struct intel_context *ce;
--	unsigned long flags;
-+	struct intel_context *ce, *cn;
- 
- 	GEM_BUG_ON(!submission_disabled(guc) &&
- 		   guc_submission_initialized(guc));
- 
--	while (!list_empty(&guc->submission_state.destroyed_contexts)) {
--		spin_lock_irqsave(&guc->submission_state.lock, flags);
--		ce = list_first_entry_or_null(&guc->submission_state.destroyed_contexts,
--					      struct intel_context,
--					      destroyed_link);
--		if (ce)
--			list_del_init(&ce->destroyed_link);
--		spin_unlock_irqrestore(&guc->submission_state.lock, flags);
--
--		if (!ce)
--			break;
--
-+	llist_for_each_entry_safe(ce, cn, take_destroyed_contexts(guc),
-+				 destroyed_link) {
- 		release_guc_id(guc, ce);
- 		__guc_context_destroy(ce);
- 	}
-@@ -2723,23 +2715,11 @@ static void guc_flush_destroyed_contexts(struct intel_guc *guc)
- 
- static void deregister_destroyed_contexts(struct intel_guc *guc)
- {
--	struct intel_context *ce;
--	unsigned long flags;
--
--	while (!list_empty(&guc->submission_state.destroyed_contexts)) {
--		spin_lock_irqsave(&guc->submission_state.lock, flags);
--		ce = list_first_entry_or_null(&guc->submission_state.destroyed_contexts,
--					      struct intel_context,
--					      destroyed_link);
--		if (ce)
--			list_del_init(&ce->destroyed_link);
--		spin_unlock_irqrestore(&guc->submission_state.lock, flags);
--
--		if (!ce)
--			break;
-+	struct intel_context *ce, *cn;
- 
-+	llist_for_each_entry_safe(ce, cn, take_destroyed_contexts(guc),
-+				 destroyed_link)
- 		guc_lrc_desc_unpin(ce);
--	}
- }
- 
- static void destroyed_worker_func(struct work_struct *w)
-@@ -2771,8 +2751,8 @@ static void guc_context_destroy(struct kref *kref)
- 	if (likely(!destroy)) {
- 		if (!list_empty(&ce->guc_id.link))
- 			list_del_init(&ce->guc_id.link);
--		list_add_tail(&ce->destroyed_link,
--			      &guc->submission_state.destroyed_contexts);
-+		llist_add(&ce->destroyed_link,
-+			  &guc->submission_state.destroyed_contexts);
- 	} else {
- 		__release_guc_id(guc, ce);
- 	}
+Our changes to CRIU user space  are can be obtained from here:
+https://github.com/RadeonOpenCompute/criu/tree/amdgpu_rfc-211222
+
+We have tested the following scenarios:
+ - Checkpoint / Restore of a Pytorch (BERT) workload
+ - kfdtests with queues and events
+ - Gfx9 and Gfx10 based multi GPU test systems 
+ - On baremetal and inside a docker container
+ - Restoring on a different system
+
+V1: Initial
+V2: Addressed review comments
+V3: Rebased on latest amd-staging-drm-next (5.15 based)
+v4: New API design and basic support for SVM, however there is an
+outstanding issue with SVM restore which is currently under debug and
+hopefully that won't impact the ioctl APIs as SVMs are treated as
+private data hidden from user space like queues and events with the new
+approch.
+
+
+David Yat Sin (9):
+  drm/amdkfd: CRIU Implement KFD unpause operation
+  drm/amdkfd: CRIU add queues support
+  drm/amdkfd: CRIU restore queue ids
+  drm/amdkfd: CRIU restore sdma id for queues
+  drm/amdkfd: CRIU restore queue doorbell id
+  drm/amdkfd: CRIU checkpoint and restore queue mqds
+  drm/amdkfd: CRIU checkpoint and restore queue control stack
+  drm/amdkfd: CRIU checkpoint and restore events
+  drm/amdkfd: CRIU implement gpu_id remapping
+
+Rajneesh Bhardwaj (15):
+  x86/configs: CRIU update debug rock defconfig
+  x86/configs: Add rock-rel_defconfig for amd-feature-criu branch
+  drm/amdkfd: CRIU Introduce Checkpoint-Restore APIs
+  drm/amdkfd: CRIU Implement KFD process_info ioctl
+  drm/amdkfd: CRIU Implement KFD checkpoint ioctl
+  drm/amdkfd: CRIU Implement KFD restore ioctl
+  drm/amdkfd: CRIU Implement KFD resume ioctl
+  drm/amdkfd: CRIU export BOs as prime dmabuf objects
+  drm/amdkfd: CRIU checkpoint and restore xnack mode
+  drm/amdkfd: CRIU allow external mm for svm ranges
+  drm/amdkfd: use user_gpu_id for svm ranges
+  drm/amdkfd: CRIU Discover svm ranges
+  drm/amdkfd: CRIU Save Shared Virtual Memory ranges
+  drm/amdkfd: CRIU prepare for svm resume
+  drm/amdkfd: CRIU resume shared virtual memory ranges
+
+ arch/x86/configs/rock-dbg_defconfig           |   53 +-
+ arch/x86/configs/rock-rel_defconfig           | 4927 +++++++++++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    |    6 +-
+ .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  |   51 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |   20 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h       |    2 +
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c      | 1453 ++++-
+ drivers/gpu/drm/amd/amdkfd/kfd_dbgdev.c       |    2 +-
+ .../drm/amd/amdkfd/kfd_device_queue_manager.c |  185 +-
+ .../drm/amd/amdkfd/kfd_device_queue_manager.h |   18 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_events.c       |  313 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.h  |   14 +
+ .../gpu/drm/amd/amdkfd/kfd_mqd_manager_cik.c  |   72 +
+ .../gpu/drm/amd/amdkfd/kfd_mqd_manager_v10.c  |   74 +
+ .../gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c   |   89 +
+ .../gpu/drm/amd/amdkfd/kfd_mqd_manager_vi.c   |   81 +
+ drivers/gpu/drm/amd/amdkfd/kfd_priv.h         |  166 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_process.c      |   86 +-
+ .../amd/amdkfd/kfd_process_queue_manager.c    |  377 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_svm.c          |  326 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_svm.h          |   39 +
+ include/uapi/linux/kfd_ioctl.h                |   79 +-
+ 22 files changed, 8099 insertions(+), 334 deletions(-)
+ create mode 100644 arch/x86/configs/rock-rel_defconfig
+
 -- 
-2.34.1
+2.17.1
 
