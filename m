@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F24BD47E42F
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Dec 2021 14:42:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6036747E45F
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Dec 2021 15:11:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD7B010E2AB;
-	Thu, 23 Dec 2021 13:42:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D0C410E150;
+	Thu, 23 Dec 2021 14:11:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 381AA10E2AB
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Dec 2021 13:42:36 +0000 (UTC)
-Date: Thu, 23 Dec 2021 13:42:32 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1640266953;
- bh=KcpuETzMNMdxDT2q0V4AwCRe4eDh3KXENxpCUjqyk4Q=;
- h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
- References:From:To:Cc;
- b=P1Q1DQglL3/H+NbZPwD5FQ5BU9Uxk6pxEJUlWRgkAN0OLEHRoQXT9P6vmQVgI4Shq
- qswBkVMsLvmRRHD/3SjdYOuBD/GGsV6atIzIAPtvsIcihzg+XQOhNKJ4S5zw4d90GD
- yw00fU5YY0aXBm/7z9QW1y6keFUYtpbhm6KU5cycwBKvr1TY5EinTkhSnF0bxps/kb
- vJWQQ7wnICVOxl/imolN69xOrpDSgPFAomrww24G1XS9mkDEk/KWt9aiTZ7c6IFz9B
- aSiRxt4r6e7O5KrjN0k2a+YJ9Dp9EVAP0/Mu3FzFpyLIEkg43paDmTiPHdA5LXgzCF
- ZLdjYyzNmAUHg==
-To: =?utf-8?Q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: =?utf-8?Q?Re:_[PATCH_v2_1/6]_drm/plane:_Make_format=5Fmod=5Fsupported_truly=C2=A0optional?=
-Message-ID: <PIq2EEI7giz2rOuv2cfySbdxwht8AaCye140X5C7NejjXT6kD67E3E28uvg4Ebhob12EJUBtAxGPFNOgZwSWLYEfMtdhRNt3mR8bBGBJmU4=@emersion.fr>
-In-Reply-To: <YcRkB7uWyt4EbcZm@intel.com>
-References: <20211222090552.25972-1-jose.exposito89@gmail.com>
- <20211222090552.25972-2-jose.exposito89@gmail.com>
- <YcRkB7uWyt4EbcZm@intel.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D553610E150
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Dec 2021 14:11:23 +0000 (UTC)
+Received: from maud (unknown [IPv6:2601:18d:8700:1ffa:ccf1:c9dd:4b35:443])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: alyssa)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 41B6C1F45433;
+ Thu, 23 Dec 2021 14:11:18 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1640268682;
+ bh=fA9ijO6mQLbKFKtRMoV7fmI6cRGJDSW1bwdpMIsmXMo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HX82UEIpoZPdeWdcTJi8hBDjEKZ9zTo38Db7yxJC+c1C3Oxef2HfU4tD+YYaL/Kw/
+ /NWOU4viCPIX6tBP2yBxREObSowxdjQD4juNokoexYFk3+59TQBcZbCKGyHIlSZZt7
+ 4mqwilA8P/v58frkRhtzJ7KiSjVGcL9XcXFoVfhfYJmUb1S+j9APCBmbVxIvpqi22w
+ 8hcpojeV6b1zXn4el7cL+cwLzmxOQa/UCgmFce070sU31OVvh1eBabt8NZKi5qRdPH
+ oTcULepm6ZXJC29OxIhbVL2d3dNfnD3UYCfXzvz5VjEI8U2kK0yqP/QjCco3mid5GV
+ du9epEdoMpqog==
+Date: Thu, 23 Dec 2021 09:11:12 -0500
+From: Alyssa Rosenzweig <alyssa@collabora.com>
+To: asheplyakov@basealt.ru
+Subject: Re: [PATCH 2/2] drm/panfrost: adjusted job affinity for dual core
+ group GPUs
+Message-ID: <YcSDgIwrmHZ/BC2n@maud>
+References: <20211223110616.2589851-1-asheplyakov@basealt.ru>
+ <20211223110616.2589851-3-asheplyakov@basealt.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211223110616.2589851-3-asheplyakov@basealt.ru>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,36 +51,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: marex@denx.de, mcoquelin.stm32@gmail.com, kernel@pengutronix.de,
- s.hauer@pengutronix.de, tzimmermann@suse.de, airlied@linux.ie,
- intel-gfx@lists.freedesktop.org, alexandre.torgue@foss.st.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- yannick.fertre@foss.st.com, linux-imx@nxp.com, benjamin.gaignard@linaro.org,
- rodrigo.vivi@intel.com, dmitry.baryshkov@linaro.org,
- =?utf-8?Q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
- shawnguo@kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, philippe.cornu@foss.st.com
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ "Vadim V . Vlasov" <vadim.vlasov@elpitech.ru>, dri-devel@lists.freedesktop.org,
+ Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thursday, December 23rd, 2021 at 12:56, Ville Syrj=C3=A4l=C3=A4 <ville.s=
-yrjala@linux.intel.com> wrote:
+> The kernel driver itself can't guess which jobs need a such a strict
+> affinity, so setting proper requirements is the responsibility of
+> the userspace (Mesa). However the userspace is not smart enough [yet].
+> Therefore this patch applies the above affinity rule to all jobs on
+> dual core group GPUs.
 
-> > -=09/* If we can't determine support, just bail */
-> > -=09if (!plane->funcs->format_mod_supported)
-> > -=09=09goto done;
-> > -
-> >  =09mod =3D modifiers_ptr(blob_data);
-> >  =09for (i =3D 0; i < plane->modifier_count; i++) {
-> >  =09=09for (j =3D 0; j < plane->format_count; j++) {
-> > -=09=09=09if (plane->funcs->format_mod_supported(plane,
-> > +=09=09=09if (!plane->funcs->format_mod_supported ||
-> > +=09=09=09    plane->funcs->format_mod_supported(plane,
-> >  =09=09=09=09=09=09=09       plane->format_types[j],
-> >  =09=09=09=09=09=09=09       plane->modifiers[i])) {
->
-> So instead of skipping the whole loop you just skip doing anything
-> inside the loop? Can't see how that achieves anything at all.
+What does Mesa need to do for this to work "properly"? What are the
+limitations of the approach implemented here? If we need to extend it
+down the line with a UABI change, what would that look like?
 
-No, the check is skipped when the function isn't populated by the driver.
+Thanks,
+
+Alyssa
