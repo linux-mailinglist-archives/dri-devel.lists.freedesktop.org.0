@@ -1,133 +1,96 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4225547E773
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Dec 2021 19:07:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7407147E7A5
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Dec 2021 19:30:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E507D10E3A3;
-	Thu, 23 Dec 2021 18:07:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5542310E3D1;
+	Thu, 23 Dec 2021 18:30:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam07on2071.outbound.protection.outlook.com [40.107.95.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0F5010E3A3;
- Thu, 23 Dec 2021 18:07:52 +0000 (UTC)
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam08on2082.outbound.protection.outlook.com [40.107.100.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E2CA10E3CD;
+ Thu, 23 Dec 2021 18:30:04 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=i1iD5GCysmopP3gP5/5rW4l3D9kCIuPA3fZXuQm6EG4px4th3ZYhUPBaNdwLLCYoNg+aiwV7EQufZeo30pUDXr2jVch+T7lG7fXAeGDL7KqeXWEIXKJhW7OPrLy5NC7zs/+aKNSoRACyNaYpGqwsf6zXLyBMTFjiONwE8MhHSLDRArzSwwHbJgi8eCp1doNtvJOcWkSfy3u+tcSxJqf8VM8zl7IaUV3b+1q9CHR6K0ji3Leh4kq+su7E78T2u+8wNiR2IysB6a7RL0Tylw7E6r6VaUQ7HnI+RNsoU5UxAbBJ1RP2P8ffg2OdJq0yiAviaBHQ60uuhREEjz1BxeZ1ag==
+ b=F6cyg21A6w1dZNJwFOdV3/fQ3+9pTcqmIxWI8CSDAGwEsNGFka/FloR9y5Q83Smfb0gGvsklOr8iOTVbRCinMaL8pbJaJUYdqwlRhndMrC3uUmJCbCAa/ZorMD5iV14ag05JURdjyltiSVrFwNatTYJ8n1fIo62XpWnaV/1yY9Qcs2gUssKu+l/iqxg8vg9DpA0IZK36mN5dSBN++rnlaLDI9YZtXohcr77XaRIw70Ccvmbw7/JrSUlOOfN9QHSJzbmV7xfxT0grSzLP8FUnrtSY51JMixxC0imzLw8Q+4i2/wQTdZINXbRXDE7SsnfWrxrpYNcKu/EpjAB24iX8Hg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HgRneGNZ3kW7mxMBfG9DelNCGYqE3IoYeCrKGXEXIY0=;
- b=k9yR62XQ4UZvlVXEvZtzssGuCPLQ4WFtbMDKAgBrjNhLEW3rHrCkI7/ujk3wP8MiA0Fa2WlUyJDH77sZPQI1Cht3BNt94FKvnV3Ou1HyQ/1RPJZypF3+Z+O+b6TVe/DwKKcohGp/GxNWjbPEIm8dfbo9m3S5RsOKzMJGdM/wnr81AW1/+LW3+B+coMwCRd03phEJcZq9+I4PGseQxCLQ3R+3zvZEcEVk+Ak5YiwBgAgVGU1xydzclwTuFqH4S5+hzi/pETcX6akZuqQ5IU0PmUQ/QiRyoRz1/FgeAT3gm3yCwqm7La4eYtTp1Q9xW2W2gv4ElanylFuYktZNgAPJwg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
+ bh=Mq2jRNRBrpwYU8ec+80aMIQEmOil0YelJUm2JCFwr98=;
+ b=C4A01qjqDQ4uLn4SDvnz2E3ZnzV6iFX1NRHmBOknBknQSk1+4Gv1dPpm9E0S94QnV6xwPVu6WmpX3e3VNCQBJ4QyHMERcIWqiqzshaXtgxWBaOBARatFx/DBGk7ogjprqaJ42pc15uyBK2+6rDDiPvRy84p048S6FTOs12pBqo8vz5DUhUo7pk0KS43ehfjx4gnwIs/86ZJbauyQhDuXddiqd5X8iwXOIW5phgpanSBaYJjd2u6HsLwvmi0Eed/Bx0PlvIL15rwP2oPkVMMmtpBLc/02ef2DPgRPC7cjKuqjaAE6U6HHqZLj1WXYjB8QyFXJfzVqGwViHHWLkpeMag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HgRneGNZ3kW7mxMBfG9DelNCGYqE3IoYeCrKGXEXIY0=;
- b=CXteczjiJjTFp3xBMzV0PZ3HxFtLkwTO4IoZwDKp0K54+mZLFaaR3L2Q96hPKE7l1yuYRQO7NuMq+JmnKYFxRcIu6ciqg4+dNF0sBlpOYf8GuGRorqMSl0mFgOGPITWn28ZjdKjDVETaOjtx2+y+OhtRPjey5p9uCalJqH69XtE=
-Received: from CH0PR12MB5372.namprd12.prod.outlook.com (2603:10b6:610:d7::10)
- by CH0PR12MB5250.namprd12.prod.outlook.com (2603:10b6:610:d1::16)
+ bh=Mq2jRNRBrpwYU8ec+80aMIQEmOil0YelJUm2JCFwr98=;
+ b=tKpZPnZDFt0/6P+jZhWK4tKvXfxHNCPYaQPSDmYr6NKlFIbWbHk351GSKS1Jn4Za91A3mwfjkom3nXCO5btvxSIkjWtfO3jOX9TjfEmvoHzsrfdUK5UDSN7jQXVeSLlDLE2Fb3kOKp+csDa41ltNu8CYxImuBaGffvfcroXRLj4=
+Received: from MW4PR04CA0162.namprd04.prod.outlook.com (2603:10b6:303:85::17)
+ by BN6PR12MB1873.namprd12.prod.outlook.com (2603:10b6:404:102::22)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.19; Thu, 23 Dec
- 2021 18:07:51 +0000
-Received: from CH0PR12MB5372.namprd12.prod.outlook.com
- ([fe80::31b4:ebc:1707:f563]) by CH0PR12MB5372.namprd12.prod.outlook.com
- ([fe80::31b4:ebc:1707:f563%9]) with mapi id 15.20.4823.019; Thu, 23 Dec 2021
- 18:07:51 +0000
-From: "Liu, Shaoyun" <Shaoyun.Liu@amd.com>
-To: "Grodzovsky, Andrey" <Andrey.Grodzovsky@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
-Subject: RE: [RFC v2 8/8] drm/amd/virt: Drop concurrent GPU reset protection
- for SRIOV
-Thread-Topic: [RFC v2 8/8] drm/amd/virt: Drop concurrent GPU reset protection
- for SRIOV
-Thread-Index: AQHX94FOLP/rEZePZ0yv2ikB8y1voaxAQMXQ
-Date: Thu, 23 Dec 2021 18:07:51 +0000
-Message-ID: <CH0PR12MB537265C4F088C1137B85631FF47E9@CH0PR12MB5372.namprd12.prod.outlook.com>
-References: <20211222220506.789133-1-andrey.grodzovsky@amd.com>
- <20211222221400.790842-1-andrey.grodzovsky@amd.com>
- <20211222221400.790842-4-andrey.grodzovsky@amd.com>
-In-Reply-To: <20211222221400.790842-4-andrey.grodzovsky@amd.com>
-Accept-Language: en-CA, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Enabled=true;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SetDate=2021-12-23T16:12:32Z; 
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Method=Standard;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Name=AMD Official Use
- Only-AIP 2.0;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ActionId=3a98f16a-bbac-454d-ba49-46787e1cd8e6;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ContentBits=1
-msip_label_88914ebd-7e6c-4e12-a031-a9906be2db14_enabled: true
-msip_label_88914ebd-7e6c-4e12-a031-a9906be2db14_setdate: 2021-12-23T18:07:49Z
-msip_label_88914ebd-7e6c-4e12-a031-a9906be2db14_method: Standard
-msip_label_88914ebd-7e6c-4e12-a031-a9906be2db14_name: AMD Official Use
- Only-AIP 2.0
-msip_label_88914ebd-7e6c-4e12-a031-a9906be2db14_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
-msip_label_88914ebd-7e6c-4e12-a031-a9906be2db14_actionid: 9789078e-ae2d-489d-8d5e-44d485f8498a
-msip_label_88914ebd-7e6c-4e12-a031-a9906be2db14_contentbits: 0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 507dc9aa-d238-4fc4-81a0-08d9c63f2269
-x-ms-traffictypediagnostic: CH0PR12MB5250:EE_
-x-microsoft-antispam-prvs: <CH0PR12MB52500DE6C87C3ABDB203A32BF47E9@CH0PR12MB5250.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: OTDMNpbMK2Pkd8/Ew6+T3ebmtwv01eXlO0oGVxlg51+F7vM9v51OHBWSBE7VJQl+X8R/E9UUy84aZDxmYUlsGpF0IusuYHK2iMWwq/Gx5NetWsq1aTgKTsFltJDPYFYFxODih2GeTifocljMZpnEBoq7+s/FMDVSPrWLzsap+9HUfLSnRO4C2TYb9TSbz1Sd6xPOPCSC2qzYbZVnIB+j2a1hINcvUhOBO4HiH1ciLx6XYjqIp+m85P0YNksr0DPRFeibnUenraPOKaHgrWQSlzL1MDsBNiV7a2DlcXqi1Nr/wHOEglyng/eq593vJwCNLt/BM0aM4iydJBmRiNGcKWJu0yG3COt2K2Q+QaDhfD/ieFxqm0/5TNSOHL8knMVdSczEClGvZyQZiQjwnoNb+f95pKWnuaGjOXb4lPB/PUIgLSKtb44zly6kkS9ctqHIzlBsue+UDk6JQpsf8CPkebJXVJypn4SChaS5FiPs5O0z4BdrQzoh2brS4l+WIK7H6q8wzumwDyzLvUswz/AJADKSDUbp4n4m0UgaRs3xCWVSxfnLZQWd/cXRkgpTGUOjEMVKmsn/UZEjm3FNM7Ont+lwnOZhZeKXTZENUHhisEibVCqQt/yyA5jE0YJXUnKxC3drH2n8T2b9P7MwxWYlMOk0tz0ndZBaJUOt7Rj68LAwKiJ0aJC9k43fHbct5gMkz6rCjVbEvvzHC25ukGc5tQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH0PR12MB5372.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(86362001)(52536014)(66946007)(71200400001)(55016003)(33656002)(26005)(8936002)(66556008)(9686003)(76116006)(66446008)(8676002)(64756008)(66476007)(4326008)(38100700002)(122000001)(186003)(7696005)(316002)(5660300002)(38070700005)(508600001)(110136005)(2906002)(53546011)(6506007)(83380400001)(54906003);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?dgs3s2qmRvdt9Y4f7c7zxmHkP7Qh3SDmut20mGVi7/7yyWV0Y0G2pJVXxvkj?=
- =?us-ascii?Q?2kYEaKgBd7uur/mHUkA6e8LxBxrQi1m/B49S+RgerAmD35FyhZmshV6po1ki?=
- =?us-ascii?Q?nxZ92KRQ5o7C3Wq2B1VQtLHBO1KPiTSAmoZqLkakIzWzVkkq84alJ47C9a7q?=
- =?us-ascii?Q?2f7pspebilJXIxXr1FwH+fCBW0FN0501xwkdqEtNO9XN9Jo7HpdCWCD3MVG/?=
- =?us-ascii?Q?WS5HWaj7Yxw7GTJt6PvQCSieYYjSDLNv2owzeK678h3IriVoDTnJ7QoFQYzf?=
- =?us-ascii?Q?Cx2xqL6Oq/OXEbZsPDxl6af3quXiq0fOrinYV7ec56lB2y/NrnC3GLay222V?=
- =?us-ascii?Q?47B6NfBhoO8FnE8ICB4JVtZZHW7c11VTZf7CgkaxTPXi+Kgaj0j4hLX/QlpP?=
- =?us-ascii?Q?WZncN/bMKVmUuHgPaZmlBJ1/TLQHqSZi1a1wkZLvL1z3uFVm1v63j+SHpvOZ?=
- =?us-ascii?Q?NEQdlK8idODxLzd05Ap7+WfZsz8fT76EM1b0Aw1gXMMoFW7M0Mu93sT1jNom?=
- =?us-ascii?Q?dkxEfGuHmkvse/nz9f+tulNU1ThVRikfQNtVQK7tL8XtSPmV3hIixKBR0TAe?=
- =?us-ascii?Q?MyCGkligRAFGrLtuoxNXTpcIrgh9hFcZFMNL+VkqIf3sXW2bIKNMLko6SWuv?=
- =?us-ascii?Q?EQmUoU9ISUj7cbu+R7tPOIjBdlXEGtWVVvOiaK3c8pZPcOKTnVL+YQUs7iVb?=
- =?us-ascii?Q?UkdVefCka81YUzQMSeI/hpVhV3UsZAjufANjBarmmodAbsSsZqHWDV8rRtSu?=
- =?us-ascii?Q?5H3+F9QHdVar4q+yGf4tQ7mhqxoUISM+uJ6WKwjFl8SSwuyOxhHFFzlEI2jM?=
- =?us-ascii?Q?mnzUEMmpqG9sdGwPia12kHXdSray36LAEEH1lQRsJTY37zauDLGlvqTaI2Bg?=
- =?us-ascii?Q?BrebIc7IdFyj15rE2Vro1ckGdwtieOHwiT+zliLMp8l+qddtYub7/M0Fxo4d?=
- =?us-ascii?Q?kk3RNy1VwLLOkmTMxuTWmLwxQd9f0Zgzgimq9j610BYFrlMeDDaNSYuoJCOf?=
- =?us-ascii?Q?ZYuv/il5BKDkgKZhHlBpWPKn0ZqXAbD8stKBJvcheypZSz/CwgiKFsiLUj9U?=
- =?us-ascii?Q?pLbY11p/enFEEE3nlrSeoA+lyK0zxle0cXCBPoHE4oEYTEhHA3YSZV7a1e1C?=
- =?us-ascii?Q?dymOt+fGdLjcYIHjyJCeSAPPFEqQ7pDhbh6lDpLwkdVuOR2sTuRvEoK2e3YV?=
- =?us-ascii?Q?yKSeeQ+jhLApBMNZIe8b/rqS/2rm+QTRXTMk6WbfiK/uS33MXaqvtcaD3+Ro?=
- =?us-ascii?Q?uPUeqh4NiDzL+35v2F3bas+jPP+TvnOEOi1Q9y/urGs8sm2lPWDoL3Ug3YJ2?=
- =?us-ascii?Q?hmmGxqU3sTUy3ZGLsKIWRhDdheAvXGE0JJbPYpdpASR1mJmusJKuddfC9+hf?=
- =?us-ascii?Q?SvovQCvcCwOBrEwE7PgrQ9xdHseOGl82o0Nad9DDkIw/Uk/TnCSXIvsqfM8F?=
- =?us-ascii?Q?P/M08+G1l+nclpDdsjMmKiZpc+Bce/9R7AfYdLs5oQm3buqxElqlpr7punmy?=
- =?us-ascii?Q?vAqx/pifL8sbZqFe4sDuNd+d/owJdVB9KTVHEA/1Jmzqan+Gb7gUolbWDaXa?=
- =?us-ascii?Q?A/Kuxy0W1vGqwaCfLFWzTMsqvgXVYma3Yr3ZnW1lBX8m/7plDuZF9Fg+EU7e?=
- =?us-ascii?Q?E6G5S4zjmxrgUEHE1NmVatM=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.17; Thu, 23 Dec
+ 2021 18:30:00 +0000
+Received: from CO1NAM11FT012.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:85:cafe::58) by MW4PR04CA0162.outlook.office365.com
+ (2603:10b6:303:85::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.17 via Frontend
+ Transport; Thu, 23 Dec 2021 18:30:00 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com;
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ CO1NAM11FT012.mail.protection.outlook.com (10.13.175.192) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4823.18 via Frontend Transport; Thu, 23 Dec 2021 18:30:00 +0000
+Received: from agrodzovsky-All-Series.amd.com (10.180.168.240) by
+ SATLEXMB03.amd.com (10.181.40.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.17; Thu, 23 Dec 2021 12:29:58 -0600
+From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
+Subject: [RFC v3 5/8] drm/amd/virt: For SRIOV send GPU reset directly to TDR
+ queue.
+Date: Thu, 23 Dec 2021 13:29:41 -0500
+Message-ID: <20211223182941.888367-1-andrey.grodzovsky@amd.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211222221400.790842-1-andrey.grodzovsky@amd.com>
+References: <20211222221400.790842-1-andrey.grodzovsky@amd.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB03.amd.com
+ (10.181.40.144)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1a9ab07d-b525-4f47-7388-08d9c6423a97
+X-MS-TrafficTypeDiagnostic: BN6PR12MB1873:EE_
+X-Microsoft-Antispam-PRVS: <BN6PR12MB18737B6CBFF5CF9EE8B5BD98EA7E9@BN6PR12MB1873.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:949;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ZhIOf2Ah0LSFn/MZcLkVeUrVaH/cCgj215TZc1CdMXkBTPdYlPrOLY2IUn+QPWzCt57kaBKQjcjE0EdInekw72DD+neeSBr3CRZazzZzvwtEYBjomjnhBim3cHilSvRToNZdKXT++iRpVi+kGgDEIKUQCIeaJoqUfTVqufq+IKB1vGZ3mlNNoVsAJM37zdoK0GCz8MdWht21hrh6Y4OGUqENPDYgfAKbbjXJRclwkQrSM32jBoZ5zxpm7NM728Lq1pqU5otTSrZg46VlugjMdX5F8uJiSW9tjCzEUKXzAoDr6uXjHcc2eS9Dq0dukhFM4mc0AoO3ET5SyPloNgQBctypdIQfZxUQXrnjUpRv5ngOOmNdy4C3XLtTovzgiyx3HCmkTf/SkHygSgzVNwj5o8lF6/TsCzBVggAEASNbHmWOKXwDRJxR0gu1XfO3C7KdpXlawSyuvS1JGEx/WU37L7Lk6C2pYF0RHMLLvdvRorX3/bF09Dxn2+sP2/XvS629UTCRwbTSAwRpP8IygynP+WNWebx+G6et04H2JY0umXEPGWPnDkYGGS/vrqbS0skNB94b5HMslgsSug0UOg57GLOwoUB3hhemahCgY86P9nYwLiYEiGbekjIlX3LadNt1jqAAyJi7aCCd3X8rln9lZHXBcm183/h04SBf4V/x4waahMeGivBJmZrQmpoW+fKBF8oez9KkY5Ti8svfKMIgx/0T7adXZOShY+1UIcOxjjPFzXM9H2L9/VJ87U2WGDntqOk7L5pW2CSldGdE4YzprQ9tOJQpowA3KfuVhPk2hg0=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(40470700002)(46966006)(36840700001)(7696005)(110136005)(47076005)(70206006)(2616005)(70586007)(86362001)(54906003)(16526019)(36860700001)(186003)(336012)(8676002)(426003)(44832011)(81166007)(316002)(356005)(26005)(2906002)(82310400004)(6666004)(83380400001)(1076003)(8936002)(36756003)(508600001)(40460700001)(4326008)(5660300002)(36900700001);
+ DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR12MB5372.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 507dc9aa-d238-4fc4-81a0-08d9c63f2269
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Dec 2021 18:07:51.0313 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: TZ4D6bw1sThFGEtmlcrcnU2dBvRbnge57HDQ2SY4WiG5J+nC1TsvtQZiqXMhxc2J2ZGGHG9Pmcxtdq+8BJ4B7A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5250
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2021 18:30:00.1062 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a9ab07d-b525-4f47-7388-08d9c6423a97
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT012.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1873
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,110 +103,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Chen, Horace" <Horace.Chen@amd.com>, "Koenig,
- Christian" <Christian.Koenig@amd.com>, "Liu, Monk" <Monk.Liu@amd.com>
+Cc: horace.chen@amd.com, christian.koenig@amd.com, Monk.Liu@amd.com, Liu
+ Shaoyun <Shaoyun.Liu@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[AMD Official Use Only]
+No need to to trigger another work queue inside the work queue.
 
-I have  a discussion with  Andrey  about this offline.   It seems dangerous=
-  to remove the in_gpu_reset and  reset_semm directly inside the  flr_work.=
-  In the case when the reset is triggered from host side , gpu need to be l=
-ocked while host perform reset after flr_work reply the host with  READY_TO=
-_RESET.=20
-The original comments seems need to be updated.=20
+v3:
 
-Regards
-Shaoyun.liu
-=20
+Problem:
+Extra reset caused by host side FLR notification
+following guest side triggered reset.
+Fix: Preven qeuing flr_work from mailbox irq if guest
+already executing a reset.
 
------Original Message-----
-From: amd-gfx <amd-gfx-bounces@lists.freedesktop.org> On Behalf Of Andrey G=
-rodzovsky
-Sent: Wednesday, December 22, 2021 5:14 PM
-To: dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org
-Cc: Liu, Monk <Monk.Liu@amd.com>; Grodzovsky, Andrey <Andrey.Grodzovsky@amd=
-.com>; Chen, Horace <Horace.Chen@amd.com>; Koenig, Christian <Christian.Koe=
-nig@amd.com>; daniel@ffwll.ch
-Subject: [RFC v2 8/8] drm/amd/virt: Drop concurrent GPU reset protection fo=
-r SRIOV
-
-Since now flr work is serialized against  GPU resets there is no need for t=
-his.
-
+Suggested-by: Liu Shaoyun <Shaoyun.Liu@amd.com>
 Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c | 11 -----------  drivers/gpu/drm/am=
-d/amdgpu/mxgpu_nv.c | 11 -----------
- 2 files changed, 22 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c | 9 ++++++---
+ drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c | 9 ++++++---
+ drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c | 9 ++++++---
+ 3 files changed, 18 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c b/drivers/gpu/drm/amd/am=
-dgpu/mxgpu_ai.c
-index 487cd654b69e..7d59a66e3988 100644
+diff --git a/drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c b/drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c
+index 23b066bcffb2..bdeb8e933bb4 100644
 --- a/drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c
 +++ b/drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c
-@@ -248,15 +248,7 @@ static void xgpu_ai_mailbox_flr_work(struct work_struc=
-t *work)
- 	struct amdgpu_device *adev =3D container_of(virt, struct amdgpu_device, v=
-irt);
- 	int timeout =3D AI_MAILBOX_POLL_FLR_TIMEDOUT;
-=20
--	/* block amdgpu_gpu_recover till msg FLR COMPLETE received,
--	 * otherwise the mailbox msg will be ruined/reseted by
--	 * the VF FLR.
--	 */
--	if (!down_write_trylock(&adev->reset_sem))
--		return;
--
- 	amdgpu_virt_fini_data_exchange(adev);
--	atomic_set(&adev->in_gpu_reset, 1);
-=20
- 	xgpu_ai_mailbox_trans_msg(adev, IDH_READY_TO_RESET, 0, 0, 0);
-=20
-@@ -269,9 +261,6 @@ static void xgpu_ai_mailbox_flr_work(struct work_struct=
- *work)
- 	} while (timeout > 1);
-=20
- flr_done:
--	atomic_set(&adev->in_gpu_reset, 0);
--	up_write(&adev->reset_sem);
--
- 	/* Trigger recovery for world switch failure if no TDR */
- 	if (amdgpu_device_should_recover_gpu(adev)
- 		&& (!amdgpu_device_has_job_running(adev) || diff --git a/drivers/gpu/drm=
-/amd/amdgpu/mxgpu_nv.c b/drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c
-index e3869067a31d..f82c066c8e8d 100644
---- a/drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c
-@@ -277,15 +277,7 @@ static void xgpu_nv_mailbox_flr_work(struct work_struc=
-t *work)
- 	struct amdgpu_device *adev =3D container_of(virt, struct amdgpu_device, v=
-irt);
- 	int timeout =3D NV_MAILBOX_POLL_FLR_TIMEDOUT;
-=20
--	/* block amdgpu_gpu_recover till msg FLR COMPLETE received,
--	 * otherwise the mailbox msg will be ruined/reseted by
--	 * the VF FLR.
--	 */
--	if (!down_write_trylock(&adev->reset_sem))
--		return;
--
- 	amdgpu_virt_fini_data_exchange(adev);
--	atomic_set(&adev->in_gpu_reset, 1);
-=20
- 	xgpu_nv_mailbox_trans_msg(adev, IDH_READY_TO_RESET, 0, 0, 0);
-=20
-@@ -298,9 +290,6 @@ static void xgpu_nv_mailbox_flr_work(struct work_struct=
- *work)
- 	} while (timeout > 1);
-=20
- flr_done:
--	atomic_set(&adev->in_gpu_reset, 0);
--	up_write(&adev->reset_sem);
--
- 	/* Trigger recovery for world switch failure if no TDR */
+@@ -276,7 +276,7 @@ static void xgpu_ai_mailbox_flr_work(struct work_struct *work)
  	if (amdgpu_device_should_recover_gpu(adev)
  		&& (!amdgpu_device_has_job_running(adev) ||
---
+ 		adev->sdma_timeout == MAX_SCHEDULE_TIMEOUT))
+-		amdgpu_device_gpu_recover(adev, NULL);
++		amdgpu_device_gpu_recover_imp(adev, NULL);
+ }
+ 
+ static int xgpu_ai_set_mailbox_rcv_irq(struct amdgpu_device *adev,
+@@ -301,8 +301,11 @@ static int xgpu_ai_mailbox_rcv_irq(struct amdgpu_device *adev,
+ 
+ 	switch (event) {
+ 		case IDH_FLR_NOTIFICATION:
+-		if (amdgpu_sriov_runtime(adev))
+-			schedule_work(&adev->virt.flr_work);
++		if (amdgpu_sriov_runtime(adev) && !amdgpu_in_reset(adev))
++			WARN_ONCE(!queue_work(adev->reset_domain.wq,
++					      &adev->virt.flr_work),
++				  "Failed to queue work! at %s",
++				  __FUNCTION__ );
+ 		break;
+ 		case IDH_QUERY_ALIVE:
+ 			xgpu_ai_mailbox_send_ack(adev);
+diff --git a/drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c b/drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c
+index a35e6d87e537..dd8dc0f6028c 100644
+--- a/drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c
++++ b/drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c
+@@ -308,7 +308,7 @@ static void xgpu_nv_mailbox_flr_work(struct work_struct *work)
+ 		adev->gfx_timeout == MAX_SCHEDULE_TIMEOUT ||
+ 		adev->compute_timeout == MAX_SCHEDULE_TIMEOUT ||
+ 		adev->video_timeout == MAX_SCHEDULE_TIMEOUT))
+-		amdgpu_device_gpu_recover(adev, NULL);
++		amdgpu_device_gpu_recover_imp(adev, NULL);
+ }
+ 
+ static int xgpu_nv_set_mailbox_rcv_irq(struct amdgpu_device *adev,
+@@ -336,8 +336,11 @@ static int xgpu_nv_mailbox_rcv_irq(struct amdgpu_device *adev,
+ 
+ 	switch (event) {
+ 	case IDH_FLR_NOTIFICATION:
+-		if (amdgpu_sriov_runtime(adev))
+-			schedule_work(&adev->virt.flr_work);
++		if (amdgpu_sriov_runtime(adev) && !amdgpu_in_reset(adev))
++			WARN_ONCE(!queue_work(adev->reset_domain.wq,
++					      &adev->virt.flr_work),
++				  "Failed to queue work! at %s",
++				  __FUNCTION__ );
+ 		break;
+ 		/* READY_TO_ACCESS_GPU is fetched by kernel polling, IRQ can ignore
+ 		 * it byfar since that polling thread will handle it,
+diff --git a/drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c b/drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c
+index aef9d059ae52..c2afb72f97ac 100644
+--- a/drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c
++++ b/drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c
+@@ -521,7 +521,7 @@ static void xgpu_vi_mailbox_flr_work(struct work_struct *work)
+ 
+ 	/* Trigger recovery due to world switch failure */
+ 	if (amdgpu_device_should_recover_gpu(adev))
+-		amdgpu_device_gpu_recover(adev, NULL);
++		amdgpu_device_gpu_recover_imp(adev, NULL);
+ }
+ 
+ static int xgpu_vi_set_mailbox_rcv_irq(struct amdgpu_device *adev,
+@@ -550,8 +550,11 @@ static int xgpu_vi_mailbox_rcv_irq(struct amdgpu_device *adev,
+ 		r = xgpu_vi_mailbox_rcv_msg(adev, IDH_FLR_NOTIFICATION);
+ 
+ 		/* only handle FLR_NOTIFY now */
+-		if (!r)
+-			schedule_work(&adev->virt.flr_work);
++		if (!r && !amdgpu_in_reset(adev))
++			WARN_ONCE(!queue_work(adev->reset_domain.wq,
++					      &adev->virt.flr_work),
++				  "Failed to queue work! at %s",
++				  __FUNCTION__ );
+ 	}
+ 
+ 	return 0;
+-- 
 2.25.1
+
