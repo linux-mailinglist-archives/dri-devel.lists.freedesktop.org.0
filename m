@@ -1,53 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A135047E941
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Dec 2021 23:15:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F32C647E9AE
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Dec 2021 00:46:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E52E10E315;
-	Thu, 23 Dec 2021 22:15:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3194810E136;
+	Thu, 23 Dec 2021 23:46:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A78A10E315
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Dec 2021 22:15:04 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id m21so27726715edc.0
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Dec 2021 14:15:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=oiC/rweM7PDyBEylmxgJ15XBNpKsLom+FHSsECX/FB4=;
- b=phlIUx2yCg+uIRsMEf5ybGdFUQflg6SUAa1RN24K+tMEkanM6bg08r10hzYQPS9SoH
- A6cZUmbsLKTpPlkNqUUQCTvJTV/98WgqZ9eAeObbyNbRhayX7su0tPvG6/U2a3EQpLyo
- w+7ZRAB6pPkgeUv2hB7iMnj5S7jeINOLHG7G+ea6pd3JsQuhF/2L5tdt4hzMlumkRzlq
- bHhN8LcQzVLMKyClcSw3HNHWqpepbZN+H6IuNk5ylHm6g8R43yHtGopf4MOc988SjGA1
- sR91ScetKS8WlzbKtUKzN2L3lB2DA7GyMCEqYrjMgP5jSfAiZ3ajgyQ46c4uHQAQPa/E
- dK9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=oiC/rweM7PDyBEylmxgJ15XBNpKsLom+FHSsECX/FB4=;
- b=whnxqmS6eYZn/MpsYBHuHnuUfU9VZGgYBJ0IAi3IEp5T1ZnE1dWMfFNWaBMP3eYrXq
- nP2/TKE/llcxnCGkUZG6f5rNmtA2Bx5rVoFuLvI8exoAEDgyie5vzma6U5sPmBGnR64j
- f+2XYig4kNZbiLnG+d/zAtsYowAugczwwR9JU4lnuJc5WMsynfEE9RyjsPH+gsV1lNfF
- 1AxDPNAu5YjYdxDCwpXrYqnCY85mWffLIxRGy3ORyTau6nHQFWQ7xIaCjYa1ONaD3dkz
- 0kQT9NKB/Tpll83kQCPkJU1kQCdwyaqTe/iTOQLXoYo1PgIfoitBd3Jg/brPsDXbV6rV
- 9Fbg==
-X-Gm-Message-State: AOAM532KopHTqODc4q+3WK8nyr7tuAUMP9utG5bK/tb8Z8qLOpuL9OaE
- qwjtMOeChDAn4OAYo/X9OJ68JNx/4EarCDKkK5k=
-X-Google-Smtp-Source: ABdhPJwvp4yqlmJJZZrkoV+Qi9rU47x16CUkFs0EbEddT8pEHWfk7HDv9u1tqB4MFkSA3CUzhWIuPNylLYGDIiYXPKA=
-X-Received: by 2002:a17:906:6805:: with SMTP id
- k5mr3342104ejr.750.1640297702721; 
- Thu, 23 Dec 2021 14:15:02 -0800 (PST)
-MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 24 Dec 2021 08:14:51 +1000
-Message-ID: <CAPM=9ty=B0ZvuwiQExR2-RoCZo18DZYrKMzTfK8-00psKncw9w@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.16-rc7
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EADDA10E136
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Dec 2021 23:46:12 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 2C3B1B8212A;
+ Thu, 23 Dec 2021 23:46:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D5754C36AE5;
+ Thu, 23 Dec 2021 23:46:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1640303169;
+ bh=mBt988pV4kWE/KH2zKVeh/zXjm3TAeqjnonncY9U4qA=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=EX1FlIiF3tWqZ6eChU35r/WN5cLAwedmI2iQLZsiTp7GWk+CVaprP0g9zeLpP7hti
+ Ry1/Pf3ROptuAYndD5B0YIegzdy+xo3jiPdts/aqB93lWXJaIuDoTp0pAx41UYYqoG
+ QR3GJ61KyxYaZsXKbJWZuHnCP5S3+6BwsSw/6e3qpA50Say1Zg/S7I6MU1MlBR9G59
+ dNQRuiHEKvKK6XyVtUw8h3b+4bEhY4eEuwai5LGLFflHC6Nt2hmHG2//BTEkT9OYPf
+ VYh4YSOoD9NFHEmxw+HMydS+uZYiISnnAgDlhw59Q8fDUZ7a8a8XVhsC2CPV8qGXRR
+ RTV7mU0wgC1vA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
+ AE28AEAC06C; Thu, 23 Dec 2021 23:46:09 +0000 (UTC)
+Subject: Re: [git pull] drm fixes for 5.16-rc7
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9ty=B0ZvuwiQExR2-RoCZo18DZYrKMzTfK8-00psKncw9w@mail.gmail.com>
+References: <CAPM=9ty=B0ZvuwiQExR2-RoCZo18DZYrKMzTfK8-00psKncw9w@mail.gmail.com>
+X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
+ <dri-devel.lists.freedesktop.org>
+X-PR-Tracked-Message-Id: <CAPM=9ty=B0ZvuwiQExR2-RoCZo18DZYrKMzTfK8-00psKncw9w@mail.gmail.com>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-fixes-2021-12-24
+X-PR-Tracked-Commit-Id: dbfba788c7ef839849e013264fef551e4d119d0b
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 95b40115a97bda99485267ca2b3b7566f965b5b4
+Message-Id: <164030316965.13743.3716169270809623738.pr-tracker-bot@kernel.org>
+Date: Thu, 23 Dec 2021 23:46:09 +0000
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,65 +61,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus.
+The pull request you sent on Fri, 24 Dec 2021 08:14:51 +1000:
 
-Happy Xmas, pull request. Nothing major, one mediatek and a couple of
-i915 locking fixes. There might be a few stragglers over next week or
-so but I don't expect much before next release.
+> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-12-24
 
-Dave.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/95b40115a97bda99485267ca2b3b7566f965b5b4
 
-drm-fixes-2021-12-24:
-drm fixes for 5.16-rc7
+Thank you!
 
-mediatek:
-- NULL pointer check
-
-i915:
-- guc submission locking fixes
-The following changes since commit a7904a538933c525096ca2ccde1e60d0ee62c08e:
-
-  Linux 5.16-rc6 (2021-12-19 14:14:33 -0800)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-12-24
-
-for you to fetch changes up to dbfba788c7ef839849e013264fef551e4d119d0b:
-
-  Merge tag 'drm-intel-fixes-2021-12-22' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2021-12-23
-11:21:44 +1000)
-
-----------------------------------------------------------------
-drm fixes for 5.16-rc7
-
-mediatek:
-- NULL pointer check
-
-i915:
-- guc submission locking fixes
-
-----------------------------------------------------------------
-AngeloGioacchino Del Regno (1):
-      drm/mediatek: hdmi: Perform NULL pointer check for mtk_hdmi_conf
-
-Dave Airlie (2):
-      Merge tag 'mediatek-drm-fixes-5.16' of
-https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux
-into drm-fixes
-      Merge tag 'drm-intel-fixes-2021-12-22' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
-
-Matthew Brost (2):
-      drm/i915/guc: Use correct context lock when callig clr_context_registered
-      drm/i915/guc: Only assign guc_id.id when stealing guc_id
-
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c |  6 +++---
- drivers/gpu/drm/mediatek/mtk_hdmi.c               | 12 +++++++-----
- 2 files changed, 10 insertions(+), 8 deletions(-)
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
