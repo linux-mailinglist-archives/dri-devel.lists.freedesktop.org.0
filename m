@@ -1,52 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AE0647E3E9
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Dec 2021 14:03:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F24BD47E42F
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Dec 2021 14:42:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B58CC10E347;
-	Thu, 23 Dec 2021 13:03:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD7B010E2AB;
+	Thu, 23 Dec 2021 13:42:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84E4610E390
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Dec 2021 13:03:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1640264583; x=1671800583;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=ZQKf2i6C2d/kE2MS8pBzxK1U+UM3+Zes7utRPr08Lsc=;
- b=VBCuhaZ3UcqJSixZ2Q53j00PBzzJ7Lfa6th3j05XlrN6w4K+2ZJX/jZH
- Zpqe+nvjLHOF1sINrXuDI46FnObPnDzPq58hcwAkrIt04oTMsgZQvw9pf
- 48eyEpFVk6x3mPvcXaYQX8usubgxmcv0yWIjmC5fk4kOY5AKKw204dUPL
- JnO3R4xdeRUaiw4BMngjyGyLOo92p4mJZPFKLULPvnqfzrX5dHlXqwx6+
- PI/O6T49r+ZnO3aTU075PnAZm1ir0ylUnRYRQDrYQhyhXE4D3dTB4xKTH
- jOtEc2SzGtjE+o+dchc8DCye+oB9UEzgCxMeQvUVFJzQYRHNZE4ScrY7C A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10206"; a="241043947"
-X-IronPort-AV: E=Sophos;i="5.88,229,1635231600"; d="scan'208";a="241043947"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Dec 2021 05:03:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,229,1635231600"; d="scan'208";a="508852941"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.147])
- by orsmga007.jf.intel.com with SMTP; 23 Dec 2021 05:02:59 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 23 Dec 2021 15:02:59 +0200
-Date: Thu, 23 Dec 2021 15:02:59 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Lee Shawn C <shawn.c.lee@intel.com>
-Subject: Re: [PATCH] drm/edid: Refine HDMI VSDB detect
-Message-ID: <YcRzg2ZcbyjSm1q/@intel.com>
-References: <20211212153331.15457-1-shawn.c.lee@intel.com>
+Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 381AA10E2AB
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Dec 2021 13:42:36 +0000 (UTC)
+Date: Thu, 23 Dec 2021 13:42:32 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1640266953;
+ bh=KcpuETzMNMdxDT2q0V4AwCRe4eDh3KXENxpCUjqyk4Q=;
+ h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
+ References:From:To:Cc;
+ b=P1Q1DQglL3/H+NbZPwD5FQ5BU9Uxk6pxEJUlWRgkAN0OLEHRoQXT9P6vmQVgI4Shq
+ qswBkVMsLvmRRHD/3SjdYOuBD/GGsV6atIzIAPtvsIcihzg+XQOhNKJ4S5zw4d90GD
+ yw00fU5YY0aXBm/7z9QW1y6keFUYtpbhm6KU5cycwBKvr1TY5EinTkhSnF0bxps/kb
+ vJWQQ7wnICVOxl/imolN69xOrpDSgPFAomrww24G1XS9mkDEk/KWt9aiTZ7c6IFz9B
+ aSiRxt4r6e7O5KrjN0k2a+YJ9Dp9EVAP0/Mu3FzFpyLIEkg43paDmTiPHdA5LXgzCF
+ ZLdjYyzNmAUHg==
+To: =?utf-8?Q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: =?utf-8?Q?Re:_[PATCH_v2_1/6]_drm/plane:_Make_format=5Fmod=5Fsupported_truly=C2=A0optional?=
+Message-ID: <PIq2EEI7giz2rOuv2cfySbdxwht8AaCye140X5C7NejjXT6kD67E3E28uvg4Ebhob12EJUBtAxGPFNOgZwSWLYEfMtdhRNt3mR8bBGBJmU4=@emersion.fr>
+In-Reply-To: <YcRkB7uWyt4EbcZm@intel.com>
+References: <20211222090552.25972-1-jose.exposito89@gmail.com>
+ <20211222090552.25972-2-jose.exposito89@gmail.com>
+ <YcRkB7uWyt4EbcZm@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211212153331.15457-1-shawn.c.lee@intel.com>
-X-Patchwork-Hint: comment
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,58 +52,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>, Hans Verkuil <hans.verkuil@cisco.com>,
- dri-devel@lists.freedesktop.org
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: marex@denx.de, mcoquelin.stm32@gmail.com, kernel@pengutronix.de,
+ s.hauer@pengutronix.de, tzimmermann@suse.de, airlied@linux.ie,
+ intel-gfx@lists.freedesktop.org, alexandre.torgue@foss.st.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ yannick.fertre@foss.st.com, linux-imx@nxp.com, benjamin.gaignard@linaro.org,
+ rodrigo.vivi@intel.com, dmitry.baryshkov@linaro.org,
+ =?utf-8?Q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+ shawnguo@kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, philippe.cornu@foss.st.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Dec 12, 2021 at 11:33:31PM +0800, Lee Shawn C wrote:
-> According to CEA-861-F chapter 7.5.4. It says "The VSDB shall contain the
-> 3 bytes of the IEEE OUI as well as any additional payload bytes needed."
-> Now DRM driver check HDMI OUI but VSDB payload size at least five bytes.
-> That may caused some HDMI monitors' audio feature can't be enabled.
-> Because of they only have three bytes payload (OUI only) in VSDB.
-> 
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Cc: Adam Jackson <ajax@redhat.com>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Signed-off-by: Lee Shawn C <shawn.c.lee@intel.com>
-> ---
->  drivers/gpu/drm/drm_edid.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index 12893e7be89b..5aa4a6bf4a13 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -4205,7 +4205,7 @@ static bool cea_db_is_hdmi_vsdb(const u8 *db)
->  	if (cea_db_tag(db) != VENDOR_BLOCK)
->  		return false;
->  
-> -	if (cea_db_payload_len(db) < 5)
-> +	if (cea_db_payload_len(db) < 3)
->  		return false;
+On Thursday, December 23rd, 2021 at 12:56, Ville Syrj=C3=A4l=C3=A4 <ville.s=
+yrjala@linux.intel.com> wrote:
 
-I was a a bit worried that we are now assuming that we can parse some
-stuff without further length checks, but looks like that's just the 
-"source physical address" stuff which we do not parse in drm_edid.c,
-and the other fields we do parse are actually optional and so already
-have the require length checks. So this seems fine.
+> > -=09/* If we can't determine support, just bail */
+> > -=09if (!plane->funcs->format_mod_supported)
+> > -=09=09goto done;
+> > -
+> >  =09mod =3D modifiers_ptr(blob_data);
+> >  =09for (i =3D 0; i < plane->modifier_count; i++) {
+> >  =09=09for (j =3D 0; j < plane->format_count; j++) {
+> > -=09=09=09if (plane->funcs->format_mod_supported(plane,
+> > +=09=09=09if (!plane->funcs->format_mod_supported ||
+> > +=09=09=09    plane->funcs->format_mod_supported(plane,
+> >  =09=09=09=09=09=09=09       plane->format_types[j],
+> >  =09=09=09=09=09=09=09       plane->modifiers[i])) {
+>
+> So instead of skipping the whole loop you just skip doing anything
+> inside the loop? Can't see how that achieves anything at all.
 
-Closes: https://gitlab.freedesktop.org/drm/misc/-/issues/28
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-
-Note that there is a second edid parser in cec_get_edid_spa_location()
-that does parse the source physical address. You may want to double
-check that it doesn't make any bad assumptions about the length 
-of the vsdb either. I think we should probably get rid of that
-second parser and just have drm_edid.c extract the source physical
-address and pass that on directly to the cec code instead. But I
-guess the cec code still couldn't remove the second parser
-since some media drivers need it :( Though it could then perhaps
-be moved into the media code instead of having it as a massive
-inline function in the cec headers.
-
--- 
-Ville Syrjälä
-Intel
+No, the check is skipped when the function isn't populated by the driver.
