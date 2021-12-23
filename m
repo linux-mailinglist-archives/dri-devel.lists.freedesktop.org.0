@@ -1,51 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECBD947DC71
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Dec 2021 01:59:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E962147DC69
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Dec 2021 01:54:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD5A310E234;
-	Thu, 23 Dec 2021 00:59:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0016010E227;
+	Thu, 23 Dec 2021 00:54:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CAB410E234;
- Thu, 23 Dec 2021 00:59:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1640221146; x=1671757146;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=QTbzxl3D3SvcjqctEiuzmCL1HVEP0x3mYlrzqlBjsRU=;
- b=GHxCa+BZmgGmmixmlL/tqeGdXdURhivhjTwGqVJIbdPqPZDSqv3TIZNt
- VYw0jtJQET3WMB5QI9WKhizAvU9kgwxrOAhbubHj58SJn5tVjlTNy/pW6
- 0Z8xjcChSwsO6HCCSSRFrxT+wqnWlD3bDMyEcBJxQ+B31EUHv5gJ6wFLF
- 2oFcg1JW4t6+lH/5UmvnsL3H5LFIHj++qlQfa5HwWMA2xJuHR7C5Vb4yV
- nqaY9YpmjE0/D6iZwTHiNzSzOMtOv8ObQyMYQyDe37zotAv2vibRYKism
- oUoSBGrvqwUUZnoky2EgRdJcZ9Foh1sPTgJ7kxwbwkpiTXZtNNn7OZ+9C w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10206"; a="240536528"
-X-IronPort-AV: E=Sophos;i="5.88,228,1635231600"; d="scan'208";a="240536528"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2021 16:59:05 -0800
-X-IronPort-AV: E=Sophos;i="5.88,228,1635231600"; d="scan'208";a="685199930"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2021 16:59:05 -0800
-Date: Wed, 22 Dec 2021 16:53:47 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: John Harrison <john.c.harrison@intel.com>
-Subject: Re: [PATCH] drm/i915/guc: Use lockless list for destroyed contexts
-Message-ID: <20211223005347.GA29449@jons-linux-dev-box>
-References: <20211222232907.12735-1-matthew.brost@intel.com>
- <81b87979-5f03-3841-b580-ad596e641805@intel.com>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B58F10E227;
+ Thu, 23 Dec 2021 00:54:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1640220855; x=1671756855;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=mSJfiDw2a042qddh0iko1eQlWa6Wdkt+UNgKNmgNSeE=;
+ b=qxSk+NHjFVT8fH1JGDnRwUMExceIORp25a+u7fjopH5e72vloJILBJsB
+ h9DvJWmHfa84ZRGOZIk6oF6Z//kHIMjF6lrJHcxuTshiDS/8k+ogJI5tT
+ BBuGmYJocwq8vcvzL2KHAvWHVWb7oue1w6KanfKigLRaUCUkxs0fYkOqP I=;
+Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 22 Dec 2021 16:54:14 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Dec 2021 16:54:13 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Wed, 22 Dec 2021 16:54:13 -0800
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Wed, 22 Dec 2021 16:54:12 -0800
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
+ <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
+ <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
+ <bjorn.andersson@linaro.org>
+Subject: [PATCH v9 2/2] drm/msm/dp: do not initialize phy until plugin
+ interrupt received
+Date: Wed, 22 Dec 2021 16:54:05 -0800
+Message-ID: <1640220845-25266-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <81b87979-5f03-3841-b580-ad596e641805@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,171 +62,438 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, daniele.ceraolospurio@intel.com,
- dri-devel@lists.freedesktop.org, tvrtko.ursulin@intel.com
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ quic_khsieh@quicinc.com, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 22, 2021 at 04:48:36PM -0800, John Harrison wrote:
-> On 12/22/2021 15:29, Matthew Brost wrote:
-> > Use a lockless list structure for destroyed contexts to avoid hammering
-> > on global submission spin lock.
-> I thought the guidance was that lockless anything without an explanation
-> longer than War And Peace comes with an automatic termination penalty?
-> 
+Current DP drivers have regulators, clocks, irq and phy are grouped
+together within a function and executed not in a symmetric manner.
+This increase difficulty of code maintenance and limited code scalability.
+This patch divides the driver life cycle of operation into four states,
+resume (including booting up), dongle plugin, dongle unplugged and suspend.
+Regulators, core clocks and irq are grouped together and enabled at resume
+(or booting up) so that the DP controller is armed and ready to receive HPD
+plugin interrupts. HPD plugin interrupt is generated when a dongle plugs
+into DUT (device under test). Once HPD plugin interrupt is received, DP
+controller will initialize phy so that dpcd read/write will function and
+following link training can be proceeded successfully. DP phy will be
+disabled after main link is teared down at end of unplugged HPD interrupt
+handle triggered by dongle unplugged out of DUT. Finally regulators, code
+clocks and irq are disabled at corresponding suspension.
 
-I was thinking that was for custom lockless algorithms not using core
-uAPIs. If this is really concern I could protect the llist_del_all by a
-lock but the doc explicitly says how I'm using this uAPI is safe without
-a lock. 
+Changes in V2:
+-- removed unnecessary dp_ctrl NULL check
+-- removed unnecessary phy init_count and power_count DRM_DEBUG_DP logs
+-- remove flip parameter out of dp_ctrl_irq_enable()
+-- add fixes tag
 
-> Also, I thought the simple suggestion was to just move the entire list
-> sideways under the existing lock and then loop through the local list safely
-> without requiring locks because it is now local only.
-> 
+Changes in V3:
+-- call dp_display_host_phy_init() instead of dp_ctrl_phy_init() at
+        dp_display_host_init() for eDP
 
-That's basically what this uAPI does in a few simple calls rather than
-our own algorithm to move to a new list.
+Changes in V4:
+-- rewording commit text to match this commit changes
 
-Matt
+Changes in V5:
+-- rebase on top of msm-next branch
 
-> John.
-> 
-> 
-> > 
-> > Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> >   drivers/gpu/drm/i915/gt/intel_context.c       |  2 -
-> >   drivers/gpu/drm/i915/gt/intel_context_types.h |  3 +-
-> >   drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  3 +-
-> >   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 44 +++++--------------
-> >   4 files changed, 16 insertions(+), 36 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-> > index 5d0ec7c49b6a..4aacb4b0418d 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_context.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_context.c
-> > @@ -403,8 +403,6 @@ intel_context_init(struct intel_context *ce, struct intel_engine_cs *engine)
-> >   	ce->guc_id.id = GUC_INVALID_LRC_ID;
-> >   	INIT_LIST_HEAD(&ce->guc_id.link);
-> > -	INIT_LIST_HEAD(&ce->destroyed_link);
-> > -
-> >   	INIT_LIST_HEAD(&ce->parallel.child_list);
-> >   	/*
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
-> > index 30cd81ad8911..4532d43ec9c0 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
-> > +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
-> > @@ -9,6 +9,7 @@
-> >   #include <linux/average.h>
-> >   #include <linux/kref.h>
-> >   #include <linux/list.h>
-> > +#include <linux/llist.h>
-> >   #include <linux/mutex.h>
-> >   #include <linux/types.h>
-> > @@ -224,7 +225,7 @@ struct intel_context {
-> >   	 * list when context is pending to be destroyed (deregistered with the
-> >   	 * GuC), protected by guc->submission_state.lock
-> >   	 */
-> > -	struct list_head destroyed_link;
-> > +	struct llist_node destroyed_link;
-> >   	/** @parallel: sub-structure for parallel submission members */
-> >   	struct {
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> > index f9240d4baa69..705085058411 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> > @@ -8,6 +8,7 @@
-> >   #include <linux/xarray.h>
-> >   #include <linux/delay.h>
-> > +#include <linux/llist.h>
-> >   #include "intel_uncore.h"
-> >   #include "intel_guc_fw.h"
-> > @@ -112,7 +113,7 @@ struct intel_guc {
-> >   		 * @destroyed_contexts: list of contexts waiting to be destroyed
-> >   		 * (deregistered with the GuC)
-> >   		 */
-> > -		struct list_head destroyed_contexts;
-> > +		struct llist_head destroyed_contexts;
-> >   		/**
-> >   		 * @destroyed_worker: worker to deregister contexts, need as we
-> >   		 * need to take a GT PM reference and can't from destroy
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > index 0a03a30e4c6d..6f7643edc139 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > @@ -1771,7 +1771,7 @@ int intel_guc_submission_init(struct intel_guc *guc)
-> >   	spin_lock_init(&guc->submission_state.lock);
-> >   	INIT_LIST_HEAD(&guc->submission_state.guc_id_list);
-> >   	ida_init(&guc->submission_state.guc_ids);
-> > -	INIT_LIST_HEAD(&guc->submission_state.destroyed_contexts);
-> > +	init_llist_head(&guc->submission_state.destroyed_contexts);
-> >   	INIT_WORK(&guc->submission_state.destroyed_worker,
-> >   		  destroyed_worker_func);
-> > @@ -2696,26 +2696,18 @@ static void __guc_context_destroy(struct intel_context *ce)
-> >   	}
-> >   }
-> > +#define take_destroyed_contexts(guc) \
-> > +	llist_del_all(&guc->submission_state.destroyed_contexts)
-> > +
-> >   static void guc_flush_destroyed_contexts(struct intel_guc *guc)
-> >   {
-> > -	struct intel_context *ce;
-> > -	unsigned long flags;
-> > +	struct intel_context *ce, *cn;
-> >   	GEM_BUG_ON(!submission_disabled(guc) &&
-> >   		   guc_submission_initialized(guc));
-> > -	while (!list_empty(&guc->submission_state.destroyed_contexts)) {
-> > -		spin_lock_irqsave(&guc->submission_state.lock, flags);
-> > -		ce = list_first_entry_or_null(&guc->submission_state.destroyed_contexts,
-> > -					      struct intel_context,
-> > -					      destroyed_link);
-> > -		if (ce)
-> > -			list_del_init(&ce->destroyed_link);
-> > -		spin_unlock_irqrestore(&guc->submission_state.lock, flags);
-> > -
-> > -		if (!ce)
-> > -			break;
-> > -
-> > +	llist_for_each_entry_safe(ce, cn, take_destroyed_contexts(guc),
-> > +				 destroyed_link) {
-> >   		release_guc_id(guc, ce);
-> >   		__guc_context_destroy(ce);
-> >   	}
-> > @@ -2723,23 +2715,11 @@ static void guc_flush_destroyed_contexts(struct intel_guc *guc)
-> >   static void deregister_destroyed_contexts(struct intel_guc *guc)
-> >   {
-> > -	struct intel_context *ce;
-> > -	unsigned long flags;
-> > -
-> > -	while (!list_empty(&guc->submission_state.destroyed_contexts)) {
-> > -		spin_lock_irqsave(&guc->submission_state.lock, flags);
-> > -		ce = list_first_entry_or_null(&guc->submission_state.destroyed_contexts,
-> > -					      struct intel_context,
-> > -					      destroyed_link);
-> > -		if (ce)
-> > -			list_del_init(&ce->destroyed_link);
-> > -		spin_unlock_irqrestore(&guc->submission_state.lock, flags);
-> > -
-> > -		if (!ce)
-> > -			break;
-> > +	struct intel_context *ce, *cn;
-> > +	llist_for_each_entry_safe(ce, cn, take_destroyed_contexts(guc),
-> > +				 destroyed_link)
-> >   		guc_lrc_desc_unpin(ce);
-> > -	}
-> >   }
-> >   static void destroyed_worker_func(struct work_struct *w)
-> > @@ -2771,8 +2751,8 @@ static void guc_context_destroy(struct kref *kref)
-> >   	if (likely(!destroy)) {
-> >   		if (!list_empty(&ce->guc_id.link))
-> >   			list_del_init(&ce->guc_id.link);
-> > -		list_add_tail(&ce->destroyed_link,
-> > -			      &guc->submission_state.destroyed_contexts);
-> > +		llist_add(&ce->destroyed_link,
-> > +			  &guc->submission_state.destroyed_contexts);
-> >   	} else {
-> >   		__release_guc_id(guc, ce);
-> >   	}
-> 
+Changes in V6:
+-- delete flip variable
+
+Changes in V7:
+-- dp_ctrl_irq_enable/disabe() merged into dp_ctrl_reset_irq_ctrl()
+
+Changes in V8:
+-- add more detail comment regrading dp phy at dp_display_host_init()
+
+Changes in V9:
+-- remove set phy_initialized to false when -ECONNRESET detected
+
+Fixes: 8ede2ecc3e5e ("drm/msm/dp: Add DP compliance tests on Snapdragon Chipsets")
+Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+---
+ drivers/gpu/drm/msm/dp/dp_ctrl.c    | 80 +++++++++++++--------------------
+ drivers/gpu/drm/msm/dp/dp_ctrl.h    |  8 ++--
+ drivers/gpu/drm/msm/dp/dp_display.c | 89 ++++++++++++++++++++++++-------------
+ 3 files changed, 94 insertions(+), 83 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+index c724cb0..9c80b49 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+@@ -1365,60 +1365,44 @@ static int dp_ctrl_enable_stream_clocks(struct dp_ctrl_private *ctrl)
+ 	return ret;
+ }
+ 
+-int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip, bool reset)
++void dp_ctrl_reset_irq_ctrl(struct dp_ctrl *dp_ctrl, bool enable)
++{
++	struct dp_ctrl_private *ctrl;
++
++	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
++
++	dp_catalog_ctrl_reset(ctrl->catalog);
++
++	if (enable)
++		dp_catalog_ctrl_enable_irq(ctrl->catalog, enable);
++}
++
++void dp_ctrl_phy_init(struct dp_ctrl *dp_ctrl)
+ {
+ 	struct dp_ctrl_private *ctrl;
+ 	struct dp_io *dp_io;
+ 	struct phy *phy;
+ 
+-	if (!dp_ctrl) {
+-		DRM_ERROR("Invalid input data\n");
+-		return -EINVAL;
+-	}
+-
+ 	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
+ 	dp_io = &ctrl->parser->io;
+ 	phy = dp_io->phy;
+ 
+-	ctrl->dp_ctrl.orientation = flip;
+-
+-	if (reset)
+-		dp_catalog_ctrl_reset(ctrl->catalog);
+-
+-	DRM_DEBUG_DP("flip=%d\n", flip);
+ 	dp_catalog_ctrl_phy_reset(ctrl->catalog);
+ 	phy_init(phy);
+-	dp_catalog_ctrl_enable_irq(ctrl->catalog, true);
+-
+-	return 0;
+ }
+ 
+-/**
+- * dp_ctrl_host_deinit() - Uninitialize DP controller
+- * @dp_ctrl: Display Port Driver data
+- *
+- * Perform required steps to uninitialize DP controller
+- * and its resources.
+- */
+-void dp_ctrl_host_deinit(struct dp_ctrl *dp_ctrl)
++void dp_ctrl_phy_exit(struct dp_ctrl *dp_ctrl)
+ {
+ 	struct dp_ctrl_private *ctrl;
+ 	struct dp_io *dp_io;
+ 	struct phy *phy;
+ 
+-	if (!dp_ctrl) {
+-		DRM_ERROR("Invalid input data\n");
+-		return;
+-	}
+-
+ 	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
+ 	dp_io = &ctrl->parser->io;
+ 	phy = dp_io->phy;
+ 
+-	dp_catalog_ctrl_enable_irq(ctrl->catalog, false);
++	dp_catalog_ctrl_phy_reset(ctrl->catalog);
+ 	phy_exit(phy);
+-
+-	DRM_DEBUG_DP("Host deinitialized successfully\n");
+ }
+ 
+ static bool dp_ctrl_use_fixed_nvid(struct dp_ctrl_private *ctrl)
+@@ -1488,7 +1472,10 @@ static int dp_ctrl_deinitialize_mainlink(struct dp_ctrl_private *ctrl)
+ 	}
+ 
+ 	phy_power_off(phy);
++
++	/* aux channel down, reinit phy */
+ 	phy_exit(phy);
++	phy_init(phy);
+ 
+ 	return 0;
+ }
+@@ -1893,8 +1880,14 @@ int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl)
+ 		return ret;
+ 	}
+ 
++	DRM_DEBUG_DP("Before, phy=%x init_count=%d power_on=%d\n",
++		(u32)(uintptr_t)phy, phy->init_count, phy->power_count);
++
+ 	phy_power_off(phy);
+ 
++	DRM_DEBUG_DP("After, phy=%x init_count=%d power_on=%d\n",
++		(u32)(uintptr_t)phy, phy->init_count, phy->power_count);
++
+ 	/* aux channel down, reinit phy */
+ 	phy_exit(phy);
+ 	phy_init(phy);
+@@ -1903,23 +1896,6 @@ int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl)
+ 	return ret;
+ }
+ 
+-void dp_ctrl_off_phy(struct dp_ctrl *dp_ctrl)
+-{
+-	struct dp_ctrl_private *ctrl;
+-	struct dp_io *dp_io;
+-	struct phy *phy;
+-
+-	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
+-	dp_io = &ctrl->parser->io;
+-	phy = dp_io->phy;
+-
+-	dp_catalog_ctrl_reset(ctrl->catalog);
+-
+-	phy_exit(phy);
+-
+-	DRM_DEBUG_DP("DP off phy done\n");
+-}
+-
+ int dp_ctrl_off(struct dp_ctrl *dp_ctrl)
+ {
+ 	struct dp_ctrl_private *ctrl;
+@@ -1947,10 +1923,14 @@ int dp_ctrl_off(struct dp_ctrl *dp_ctrl)
+ 		DRM_ERROR("Failed to disable link clocks. ret=%d\n", ret);
+ 	}
+ 
++	DRM_DEBUG_DP("Before, phy=%x init_count=%d power_on=%d\n",
++		(u32)(uintptr_t)phy, phy->init_count, phy->power_count);
++
+ 	phy_power_off(phy);
+-	phy_exit(phy);
+ 
+-	DRM_DEBUG_DP("DP off done\n");
++	DRM_DEBUG_DP("After, phy=%x init_count=%d power_on=%d\n",
++		(u32)(uintptr_t)phy, phy->init_count, phy->power_count);
++
+ 	return ret;
+ }
+ 
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
+index 2363a2d..2433edb 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
+@@ -19,12 +19,9 @@ struct dp_ctrl {
+ 	u32 pixel_rate;
+ };
+ 
+-int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip, bool reset);
+-void dp_ctrl_host_deinit(struct dp_ctrl *dp_ctrl);
+ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl);
+ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl);
+ int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl);
+-void dp_ctrl_off_phy(struct dp_ctrl *dp_ctrl);
+ int dp_ctrl_off(struct dp_ctrl *dp_ctrl);
+ void dp_ctrl_push_idle(struct dp_ctrl *dp_ctrl);
+ void dp_ctrl_isr(struct dp_ctrl *dp_ctrl);
+@@ -34,4 +31,9 @@ struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
+ 			struct dp_power *power, struct dp_catalog *catalog,
+ 			struct dp_parser *parser);
+ 
++void dp_ctrl_reset_irq_ctrl(struct dp_ctrl *dp_ctrl, bool enable);
++void dp_ctrl_phy_init(struct dp_ctrl *dp_ctrl);
++void dp_ctrl_phy_exit(struct dp_ctrl *dp_ctrl);
++void dp_ctrl_irq_phy_exit(struct dp_ctrl *dp_ctrl);
++
+ #endif /* _DP_CTRL_H_ */
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 0766752..c7f0423 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -83,6 +83,7 @@ struct dp_display_private {
+ 
+ 	/* state variables */
+ 	bool core_initialized;
++	bool phy_initialized;
+ 	bool hpd_irq_on;
+ 	bool audio_supported;
+ 
+@@ -371,21 +372,46 @@ static int dp_display_process_hpd_high(struct dp_display_private *dp)
+ 	return rc;
+ }
+ 
+-static void dp_display_host_init(struct dp_display_private *dp, int reset)
++static void dp_display_host_phy_init(struct dp_display_private *dp)
+ {
+-	bool flip = false;
++	DRM_DEBUG_DP("core_init=%d phy_init=%d\n",
++			dp->core_initialized, dp->phy_initialized);
+ 
++	if (!dp->phy_initialized) {
++		dp_ctrl_phy_init(dp->ctrl);
++		dp->phy_initialized = true;
++	}
++}
++
++static void dp_display_host_phy_exit(struct dp_display_private *dp)
++{
++	DRM_DEBUG_DP("core_init=%d phy_init=%d\n",
++			dp->core_initialized, dp->phy_initialized);
++
++	if (dp->phy_initialized) {
++		dp_ctrl_phy_exit(dp->ctrl);
++		dp->phy_initialized = false;
++	}
++}
++
++static void dp_display_host_init(struct dp_display_private *dp)
++{
+ 	DRM_DEBUG_DP("core_initialized=%d\n", dp->core_initialized);
+ 	if (dp->core_initialized) {
+ 		DRM_DEBUG_DP("DP core already initialized\n");
+ 		return;
+ 	}
+ 
+-	if (dp->usbpd->orientation == ORIENTATION_CC2)
+-		flip = true;
++	dp_power_init(dp->power, false);
++	dp_ctrl_reset_irq_ctrl(dp->ctrl, true);
++
++	/*
++	 * eDP is the embedded primary display and has its own phy
++	 * initialize phy immediately
++	 */
++	if (dp->dp_display.connector_type == DRM_MODE_CONNECTOR_eDP)
++		dp_display_host_phy_init(dp);
+ 
+-	dp_power_init(dp->power, flip);
+-	dp_ctrl_host_init(dp->ctrl, flip, reset);
+ 	dp_aux_init(dp->aux);
+ 	dp->core_initialized = true;
+ }
+@@ -397,7 +423,7 @@ static void dp_display_host_deinit(struct dp_display_private *dp)
+ 		return;
+ 	}
+ 
+-	dp_ctrl_host_deinit(dp->ctrl);
++	dp_ctrl_reset_irq_ctrl(dp->ctrl, false);
+ 	dp_aux_deinit(dp->aux);
+ 	dp_power_deinit(dp->power);
+ 
+@@ -408,7 +434,7 @@ static int dp_display_usbpd_configure_cb(struct device *dev)
+ {
+ 	struct dp_display_private *dp = dev_get_dp_display_private(dev);
+ 
+-	dp_display_host_init(dp, false);
++	dp_display_host_phy_init(dp);
+ 
+ 	return dp_display_process_hpd_high(dp);
+ }
+@@ -530,11 +556,6 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
+ 	ret = dp_display_usbpd_configure_cb(&dp->pdev->dev);
+ 	if (ret) {	/* link train failed */
+ 		dp->hpd_state = ST_DISCONNECTED;
+-
+-		if (ret == -ECONNRESET) { /* cable unplugged */
+-			dp->core_initialized = false;
+-		}
+-
+ 	} else {
+ 		/* start sentinel checking in case of missing uevent */
+ 		dp_add_event(dp, EV_CONNECT_PENDING_TIMEOUT, 0, tout);
+@@ -604,8 +625,7 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
+ 	if (state == ST_DISCONNECTED) {
+ 		/* triggered by irq_hdp with sink_count = 0 */
+ 		if (dp->link->sink_count == 0) {
+-			dp_ctrl_off_phy(dp->ctrl);
+-			dp->core_initialized = false;
++			dp_display_host_phy_exit(dp);
+ 		}
+ 		mutex_unlock(&dp->event_mutex);
+ 		return 0;
+@@ -696,12 +716,9 @@ static int dp_irq_hpd_handle(struct dp_display_private *dp, u32 data)
+ 	 * dp core (ahb/aux clks) must be initialized before
+ 	 * irq_hpd be handled
+ 	 */
+-	if (dp->core_initialized) {
++	if (dp->core_initialized)
+ 		ret = dp_display_usbpd_attention_cb(&dp->pdev->dev);
+-		if (ret == -ECONNRESET) { /* cable unplugged */
+-			dp->core_initialized = false;
+-		}
+-	}
++
+ 	DRM_DEBUG_DP("hpd_state=%d\n", state);
+ 
+ 	mutex_unlock(&dp->event_mutex);
+@@ -892,12 +909,19 @@ static int dp_display_disable(struct dp_display_private *dp, u32 data)
+ 
+ 	dp_display->audio_enabled = false;
+ 
+-	/* triggered by irq_hpd with sink_count = 0 */
+ 	if (dp->link->sink_count == 0) {
++		/*
++		 * irq_hpd with sink_count = 0
++		 * hdmi unplugged out of dongle
++		 */
+ 		dp_ctrl_off_link_stream(dp->ctrl);
+ 	} else {
++		/*
++		 * unplugged interrupt
++		 * dongle unplugged out of DUT
++		 */
+ 		dp_ctrl_off(dp->ctrl);
+-		dp->core_initialized = false;
++		dp_display_host_phy_exit(dp);
+ 	}
+ 
+ 	dp_display->power_on = false;
+@@ -1027,7 +1051,7 @@ void msm_dp_snapshot(struct msm_disp_state *disp_state, struct msm_dp *dp)
+ static void dp_display_config_hpd(struct dp_display_private *dp)
+ {
+ 
+-	dp_display_host_init(dp, true);
++	dp_display_host_init(dp);
+ 	dp_catalog_ctrl_hpd_config(dp->catalog);
+ 
+ 	/* Enable interrupt first time
+@@ -1306,20 +1330,23 @@ static int dp_pm_resume(struct device *dev)
+ 	dp->hpd_state = ST_DISCONNECTED;
+ 
+ 	/* turn on dp ctrl/phy */
+-	dp_display_host_init(dp, true);
++	dp_display_host_init(dp);
+ 
+ 	dp_catalog_ctrl_hpd_config(dp->catalog);
+ 
+-	/*
+-	 * set sink to normal operation mode -- D0
+-	 * before dpcd read
+-	 */
+-	dp_link_psm_config(dp->link, &dp->panel->link_info, false);
+ 
+ 	if (dp_catalog_link_is_connected(dp->catalog)) {
++		/*
++		 * set sink to normal operation mode -- D0
++		 * before dpcd read
++		 */
++		dp_display_host_phy_init(dp);
++		dp_link_psm_config(dp->link, &dp->panel->link_info, false);
+ 		sink_count = drm_dp_read_sink_count(dp->aux);
+ 		if (sink_count < 0)
+ 			sink_count = 0;
++
++		dp_display_host_phy_exit(dp);
+ 	}
+ 
+ 	dp->link->sink_count = sink_count;
+@@ -1366,6 +1393,8 @@ static int dp_pm_suspend(struct device *dev)
+ 		dp_display_host_deinit(dp);
+ 	}
+ 
++	dp_display_host_phy_exit(dp);
++
+ 	dp->hpd_state = ST_SUSPENDED;
+ 
+ 	/* host_init will be called at pm_resume */
+@@ -1523,7 +1552,7 @@ int msm_dp_display_enable(struct msm_dp *dp, struct drm_encoder *encoder)
+ 	state =  dp_display->hpd_state;
+ 
+ 	if (state == ST_DISPLAY_OFF)
+-		dp_display_host_init(dp_display, true);
++		dp_display_host_phy_init(dp_display);
+ 
+ 	dp_display_enable(dp_display, 0);
+ 
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
