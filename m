@@ -2,144 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E8BF47E12B
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Dec 2021 11:14:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A20D247E15A
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Dec 2021 11:23:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1291010E2DA;
-	Thu, 23 Dec 2021 10:14:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FDC410E29D;
+	Thu, 23 Dec 2021 10:23:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2055.outbound.protection.outlook.com [40.107.244.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95C8010E1AB;
- Thu, 23 Dec 2021 10:14:26 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=earLdTLTdo6Sd5IrYpD0XJZd6QCuaKiiyTQVsNynyp22SNmP1xJfQntCkEn1ZEpw0KSxIMwHaNJa+Evm0RLt3VzVMOYssZZLKm7fUZl8lODBcV1XbzBYzV7lAIai7t3PvD4KqFCLh9BteFcXN4tyJRA9leF0FkjSqWBO9Zb43SCN4iDaVLsx5sglcwtXQ36h70+WAMtxZXxg5WpXR0SwlRGEB5uvzsmyB2VUCsrRK/K7ZO/60pR7vY9qud7MdArr8BCmsZf4zyjPzTKrHuqOIz1q1GrZpm5nAe4bmCD8e7bmZUoEHfSm5x5RNHe/oygxx2tinuIZb6vGqtSoz9upuQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lQn5kj2qnRnJ6w+QtYe5NboWq0CJPzynykVjOpMNYz0=;
- b=lJ/sh4HSFC1EZvSICZOheaDN4WFwrsJqxZSpQ230SdaDZdyC/KKWbl23wtlcFu5Kha4aqssqzbss4aEuC4gsXpntTL0O5NwC+5EVKoXe6xNTLwAkTz/GCLBpKcHxu+L9eCnusI5rodoL+WTlppq6EZUIqgDkMo+LKOctk5pxlZl/J+bjbmXJDvWF8TwFY2MQ8wDPN4pn6Za1Vl767p1igCLxtxvI3cdscBp9yt6j6DzmPdPCmP7Fau8RFI//tZ4N9L+xmjF9TSJzogdAgrsS+6LfSElyZqdmkM2KWdFwjIIAZL99Rfh4GGxmoc/0FBsE1F4LRDhle9Z8dtVbL+AeaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lQn5kj2qnRnJ6w+QtYe5NboWq0CJPzynykVjOpMNYz0=;
- b=kniS0pwLfVgvmVenwamLeWBjSsY+YDS3Dg0GQrLdn8O6AuU01bCucaDltDboJdtYs5bfug1vs2vTpQjqtcZI2b2E07BlZQbNzTh1b9eSFrKgqSNOPD1K1RmHQqUfJGDJRbeggTpE9FdWK8l+Av8L7VBkW8HlhpMteQkOAUkZJfA=
-Received: from BL1PR12MB5269.namprd12.prod.outlook.com (2603:10b6:208:30b::20)
- by BL0PR12MB5538.namprd12.prod.outlook.com (2603:10b6:208:1c9::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.17; Thu, 23 Dec
- 2021 10:14:23 +0000
-Received: from BL1PR12MB5269.namprd12.prod.outlook.com
- ([fe80::a8bc:68c:4884:a295]) by BL1PR12MB5269.namprd12.prod.outlook.com
- ([fe80::a8bc:68c:4884:a295%8]) with mapi id 15.20.4823.019; Thu, 23 Dec 2021
- 10:14:23 +0000
-From: "Liu, Monk" <Monk.Liu@amd.com>
-To: "Koenig, Christian" <Christian.Koenig@amd.com>, "Grodzovsky, Andrey"
- <Andrey.Grodzovsky@amd.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>, "Chen, Horace" <Horace.Chen@amd.com>, "Chen, 
- JingWen" <JingWen.Chen2@amd.com>, "Deng, Emily" <Emily.Deng@amd.com>
-Subject: RE: [RFC v2 8/8] drm/amd/virt: Drop concurrent GPU reset protection
- for SRIOV
-Thread-Topic: [RFC v2 8/8] drm/amd/virt: Drop concurrent GPU reset protection
- for SRIOV
-Thread-Index: AQHX94FGE4c1XsbZP0iJRWnNhmV4jaw/wv+AgAAZmFA=
-Date: Thu, 23 Dec 2021 10:14:23 +0000
-Message-ID: <BL1PR12MB5269AE1B82F1D07433B95B59847E9@BL1PR12MB5269.namprd12.prod.outlook.com>
-References: <20211222220506.789133-1-andrey.grodzovsky@amd.com>
- <20211222221400.790842-1-andrey.grodzovsky@amd.com>
- <20211222221400.790842-4-andrey.grodzovsky@amd.com>
- <9125ac3a-e578-6b34-1533-7622ec0274f1@amd.com>
-In-Reply-To: <9125ac3a-e578-6b34-1533-7622ec0274f1@amd.com>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-Mentions: Horace.Chen@amd.com,JingWen.Chen2@amd.com,Emily.Deng@amd.com
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Enabled=true;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SetDate=2021-12-23T10:13:59Z; 
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Method=Standard;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Name=AMD Official Use
- Only-AIP 2.0;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ActionId=f7dafa8d-8379-49fe-a66f-b373c63741f5;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ContentBits=1
-msip_label_88914ebd-7e6c-4e12-a031-a9906be2db14_enabled: true
-msip_label_88914ebd-7e6c-4e12-a031-a9906be2db14_setdate: 2021-12-23T10:14:21Z
-msip_label_88914ebd-7e6c-4e12-a031-a9906be2db14_method: Standard
-msip_label_88914ebd-7e6c-4e12-a031-a9906be2db14_name: AMD Official Use
- Only-AIP 2.0
-msip_label_88914ebd-7e6c-4e12-a031-a9906be2db14_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
-msip_label_88914ebd-7e6c-4e12-a031-a9906be2db14_actionid: ff1da25a-0e40-460f-862e-565669284c31
-msip_label_88914ebd-7e6c-4e12-a031-a9906be2db14_contentbits: 0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 461d9d3e-e5c4-4b5e-fb6f-08d9c5fcfe16
-x-ms-traffictypediagnostic: BL0PR12MB5538:EE_
-x-microsoft-antispam-prvs: <BL0PR12MB553888E805E70705F88D272C847E9@BL0PR12MB5538.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: VP4ncKjKSvd5vZgjrCO3dl4Gx80LHofAiNaQU72Q64Ts5cY8plTzQUmxZx/BC4cjYdyT7P8vU7Q6K0D0WD7Or/QvuXpW6oA9vNOtFOP1lBPdedLXWKpzpNLkLRBUfNzURI/6WZ5xOXPMpClUFw2JKGWZDq5jPbPfiJqLMMCkSyLSdEsUZU/qdXg84z1acHGfyx6KIJxGzjGMbQD33ROG4X6hxxykUhfI2kWT6n3ZXR0EMyEICA/znPyjt0pQPiI4DVmnxyWdlOJsqF2QJ4/0G/1ZYM2Vof95+5ExpPqDocmtKc6lv2mYfIiYaLbASkYMyRyPJDgRGk6qfvdzXqvUEEzINyoloW0OQ6Du+6FlsK6T1aNeGDd/U0KZU97bhN0i+wM1+GNg34IzwvNCiMWe7+eDWfBWG20Bk7FDZHP1vvn3xGgsoa+t138Qzv1mjWXldxNtBJ3L2AVnbZFaUmFOyQ2abXVKGC+JzW9YB3W2bZZgM8cQCnhEA1kjy1UQXIBKFrhwAS089V5omu+zIstqIxessoB5U+4cYSPhu7TBjeeam1qS3HgMjQpNuIUT3YmsGoBHqNDZoj1ghx3i5cmk7KH0/jU70GUiJNXJp/C96d4cdq0itR4AFyrcdPWSaZRMLuxGsPY0xG0uQGh4wrn2IfaPnkuuzXZqHFe30ek+EKdiFGzt/yATC4mxCyGclxPg3BdQY5C5eHkS+HG/8OwOUtxMiWIjJtrXfA/Q1ei+V7k=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL1PR12MB5269.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(53546011)(186003)(6506007)(64756008)(2906002)(26005)(38070700005)(66946007)(9686003)(921005)(76116006)(5660300002)(508600001)(66574015)(66446008)(66476007)(83380400001)(66556008)(38100700002)(122000001)(33656002)(55016003)(316002)(7696005)(4326008)(71200400001)(8676002)(110136005)(6636002)(8936002)(52536014)(86362001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RUV1ZkZldVBJT0tiTmI4SExSanFTdk0rTWxOWVNxWEpJQWxDSkdSbkJZMG9Z?=
- =?utf-8?B?YUxxdmdaT1lSWGxwU01DSk9TUzA1b2o0YjJWUTMyTWhVTFd2cW96SzdLUVhI?=
- =?utf-8?B?aCtOTXFxTVhndmJDd0pXV3ZvZXVZaU91b2R5NVd6aHRKaXc5NzBZeU15OGp1?=
- =?utf-8?B?TzZLOVg5K2JkalRpUmNRUUdBQXV6eENyejBER2NaWktuUjhpZ2xrL0xEc2lC?=
- =?utf-8?B?akptb1NMUWxkU2NuczJxOTZ5cjRsUnB4VGUxeGhrRUIyanVMZFFid21Od0ZR?=
- =?utf-8?B?eXJ0cnY0d2htWUhaZDVUYXJ4eFEvK0J1MGNiazVyNjVrU2RURHpCSXVESWx2?=
- =?utf-8?B?Q04rUnFQamFCc2xzSkpkbVBTNDlZV3hmTGxYRHJVTkxlK2h3U2VKVDJWR1pj?=
- =?utf-8?B?MWxrYlNqRGF5Q3cvRUl4SVBHRCtVaE5LRVF1N0VaelhNVWtvVGpNWVMwNGRF?=
- =?utf-8?B?eDl4S3BwZTEvU3pTRzJicDFtQk5ONjAraEQxUVBjS2d1MmxLTEUzQ29SOFY0?=
- =?utf-8?B?eWlPblM4RStzV0NDZnk2RExHT0xDUE8xa1ZQZXJGTWhMWHdSK3RvQk0zcTRJ?=
- =?utf-8?B?MVFtd0RIVHRCUTRMdEdWSlhaVzNzL0VOTkJLNUwrWFlURVZROVRyaGhHbTNZ?=
- =?utf-8?B?c1ZqM2t1WXBlaEE4anhUK2NTYkpVcExpaWc3OUp4aWxHZ09KS3RIWHYzbkZJ?=
- =?utf-8?B?T1h6d05BOUczZXZPWVJoTy8xS3FKbTltNEduOXRid2VxOWVCRWEwWE5GK3NG?=
- =?utf-8?B?RW5NaDZZRHpmMTA5Y2xrSlJGY2tsbjRFWTlHcmRLS1QvK3dnbjB2YkR1aEpR?=
- =?utf-8?B?cGI5eE1xQWY0ek9vVlZIMnU2RVFoL1AxdUlwaUtkcnREM0tPNE5zemptb2w3?=
- =?utf-8?B?WXVoS3dXeW5Vb2FEVTloekFlbjU5ZFdXQkFlZkNWRENaVDRuYSs1ZmJQR1RI?=
- =?utf-8?B?dXdhSFhiSnFYNHBTWTZlbkVidjJuaHZMTnBmc1V2aXF0VU5NNGRyczJoMEZL?=
- =?utf-8?B?SXk0TG8zZ1FIekhld0VyQ1p6eFNjUEdxRkJkVmMzcXh3Q1QvUGdtMjdKWGVV?=
- =?utf-8?B?TEIyMXdBUFJ2NHdrSi9wc2F4Yk1mRTlnWGtHNndpTFdtOGxMbTkxZjFOa2lx?=
- =?utf-8?B?RmlrRlZ2Z3JhbnoyWU1RTVZ5S2ZKMnFDTkN4TDdFVlFlZDVINFJ6WFp5SjZm?=
- =?utf-8?B?MmN4UUVQVk9zL2xJOEIzUDU4WmdCbGxBUk5TMU94dEkvb3RwakhLWmg0ZHE3?=
- =?utf-8?B?UjNYU3NINjdVdklpeEVDOXVQYUZZUjVKbStscWZkdnZYaDhlOUNzZUx4Rm04?=
- =?utf-8?B?Vld6RHIxNHQ5Y2hzVVhpcGFLMDBOd0M1VE84NUtKNEVFWll0dVZCOEVpNmRH?=
- =?utf-8?B?ZGJjWUoxTDkzR2VVOXkwVlFCRWcvM0RmQ0FPV3RPZWtDd1cwL2RPOUNHWWZu?=
- =?utf-8?B?NGJySW00cm1RMnJnOHh0SXJtc3NweGNFSEVuaTdWK0d3aTVFTE50QTV1RG5u?=
- =?utf-8?B?N2xpV2dEc1VCd2RwVEs2TzEzRHNxQTdCUWNpUVNKQUF3SGxndzVGZ21vT05M?=
- =?utf-8?B?UitBVjRtdFN2aDNyUWRjcjlncEwybVJ4bkZIUXVHTFlSNnhzM1lCVERHUXdl?=
- =?utf-8?B?K21wQnZlVXA0cVBwN3VIZThneXUxQ0Ywbk9ITURpbUlsOUtuMG5jNUhMckI2?=
- =?utf-8?B?R2p0NmNJb0hqUUt1WnR3OVM4R0xyRGc1eU5ZM0pUTGM2azY2Y0RmaUowK3Ry?=
- =?utf-8?B?VzFsU0ZTZC9xYkFMaWg0Z0ZwRlEvdVFKVEtjbzZWUGlmMk1vYmFCUFhIQTdP?=
- =?utf-8?B?N1FQRUxtL3NnNXhjMi9MOWxoa1VVVncySjBTejdtT3Z0dFNmbjVDcS83YStY?=
- =?utf-8?B?OUlZdDZEeXhyWmEraHNEcTh2bjk0T2NvSFFVbTFoRVlBKzZjaDZQK1R4SUU1?=
- =?utf-8?B?enRoVERYQUdrckhEaHU0TlFLUW85UnNlS1owZGxiNXlVQkFEeERua25ValZX?=
- =?utf-8?B?RUJ0OWkzVlRXOWhFSk5IWWpTaTJEbkxsK2tMQ0FXZmFTM09ISjg4OXBhSDM5?=
- =?utf-8?B?dFJMNkpiZGxqSEExVWNSQzhIZGpmelNnRDRBQkxVVkczU2wvYVRDdmUyMlc1?=
- =?utf-8?Q?a/tk=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C81810E29D;
+ Thu, 23 Dec 2021 10:23:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1640254986; x=1671790986;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=vxZV9khprg1WURCLeMHZ4JgAs8wPQh/vYyzCApeft7Y=;
+ b=G/FyZDwKjIM64rXjg8+qytxZjCofeng00PtFEexz01j9FAvJvrn7rPmF
+ FkuNfFtc711yHuEbHHHRP54k48LxwMZcYpKYB7EozmI4tTTPvVSUQUJDe
+ WJWgalMkA7AHDItSEuFXJSpvyUsH4dnOhXUyQtpQ3i4ukQp9iM6VX3NQT
+ NimF9BVEA/G6Ll3zXlxe4CGPu/fPnQ5JR8N8We8QIhl3dKktz54865pel
+ DQyBRj2rgZH7rMnFWRGtt4tp2mPJD65iHXS6hueK6oD6vgJnFn0a45ddp
+ WEgDXS+9LPehsN4GPhNTTVT50hIpCJ9SM7r3ZwVVs9DvYuvo84E2eGiZL w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10206"; a="265010742"
+X-IronPort-AV: E=Sophos;i="5.88,229,1635231600"; d="scan'208";a="265010742"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Dec 2021 02:23:05 -0800
+X-IronPort-AV: E=Sophos;i="5.88,229,1635231600"; d="scan'208";a="570875375"
+Received: from bylee-mobl1.amr.corp.intel.com (HELO [10.213.175.220])
+ ([10.213.175.220])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Dec 2021 02:23:04 -0800
+Message-ID: <f860344e-2ef4-99f2-c498-9cbe9ea3b1c0@linux.intel.com>
+Date: Thu, 23 Dec 2021 10:23:01 +0000
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5269.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 461d9d3e-e5c4-4b5e-fb6f-08d9c5fcfe16
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Dec 2021 10:14:23.4048 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: l2oJ+tKsqg5xl9ks/TnFPHctGbRPeCJHeULlD5avow0hXwIrDj3Kxn9MUKB38sfH
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB5538
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.1
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc: Log engine resets
+Content-Language: en-US
+To: John Harrison <john.c.harrison@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>
+References: <20211214150704.984034-1-tvrtko.ursulin@linux.intel.com>
+ <597d4ad0-fdae-49a6-b471-3a83d4c25b98@linux.intel.com>
+ <20211217162254.GA22048@jons-linux-dev-box>
+ <3d32df02-c02e-9c35-5165-79af1cb10100@linux.intel.com>
+ <1c3b1b53-0e9e-a89c-1a77-90cbc229c637@intel.com>
+ <01320c8c-a9c9-8c21-7601-75860bf11838@linux.intel.com>
+ <1d78552e-8a7c-84c5-a9e6-7c7476a5e2e5@intel.com>
+ <5921ac11-1286-1062-f702-f33bc55e4a0e@linux.intel.com>
+ <a00f0ff4-83ef-e267-1f0a-06e6953083f9@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <a00f0ff4-83ef-e267-1f0a-06e6953083f9@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,72 +69,264 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-W0FNRCBPZmZpY2lhbCBVc2UgT25seV0NCg0KQENoZW4sIEhvcmFjZSBAQ2hlbiwgSmluZ1dlbiBA
-RGVuZywgRW1pbHkNCg0KUGxlYXNlIHRha2UgYSByZXZpZXcgb24gQW5kcmV5J3MgcGF0Y2ggDQoN
-ClRoYW5rcyANCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0NCk1vbmsgTGl1IHwgQ2xvdWQgR1BVICYgVmlydHVhbGl6YXRp
-b24gU29sdXRpb24gfCBBTUQNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCndlIGFyZSBoaXJpbmcgc29mdHdhcmUgbWFu
-YWdlciBmb3IgQ1ZTIGNvcmUgdGVhbQ0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KDQotLS0tLU9yaWdpbmFsIE1lc3Nh
-Z2UtLS0tLQ0KRnJvbTogS29lbmlnLCBDaHJpc3RpYW4gPENocmlzdGlhbi5Lb2VuaWdAYW1kLmNv
-bT4gDQpTZW50OiBUaHVyc2RheSwgRGVjZW1iZXIgMjMsIDIwMjEgNDo0MiBQTQ0KVG86IEdyb2R6
-b3Zza3ksIEFuZHJleSA8QW5kcmV5Lkdyb2R6b3Zza3lAYW1kLmNvbT47IGRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmc7IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQpDYzogZGFu
-aWVsQGZmd2xsLmNoOyBMaXUsIE1vbmsgPE1vbmsuTGl1QGFtZC5jb20+OyBDaGVuLCBIb3JhY2Ug
-PEhvcmFjZS5DaGVuQGFtZC5jb20+DQpTdWJqZWN0OiBSZTogW1JGQyB2MiA4LzhdIGRybS9hbWQv
-dmlydDogRHJvcCBjb25jdXJyZW50IEdQVSByZXNldCBwcm90ZWN0aW9uIGZvciBTUklPVg0KDQpB
-bSAyMi4xMi4yMSB1bSAyMzoxNCBzY2hyaWViIEFuZHJleSBHcm9kem92c2t5Og0KPiBTaW5jZSBu
-b3cgZmxyIHdvcmsgaXMgc2VyaWFsaXplZCBhZ2FpbnN0ICBHUFUgcmVzZXRzIHRoZXJlIGlzIG5v
-IG5lZWQgDQo+IGZvciB0aGlzLg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBBbmRyZXkgR3JvZHpvdnNr
-eSA8YW5kcmV5Lmdyb2R6b3Zza3lAYW1kLmNvbT4NCg0KQWNrZWQtYnk6IENocmlzdGlhbiBLw7Zu
-aWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4NCg0KPiAtLS0NCj4gICBkcml2ZXJzL2dwdS9k
-cm0vYW1kL2FtZGdwdS9teGdwdV9haS5jIHwgMTEgLS0tLS0tLS0tLS0NCj4gICBkcml2ZXJzL2dw
-dS9kcm0vYW1kL2FtZGdwdS9teGdwdV9udi5jIHwgMTEgLS0tLS0tLS0tLS0NCj4gICAyIGZpbGVz
-IGNoYW5nZWQsIDIyIGRlbGV0aW9ucygtKQ0KPg0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL2FtZC9hbWRncHUvbXhncHVfYWkuYyANCj4gYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdw
-dS9teGdwdV9haS5jDQo+IGluZGV4IDQ4N2NkNjU0YjY5ZS4uN2Q1OWE2NmUzOTg4IDEwMDY0NA0K
-PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9teGdwdV9haS5jDQo+ICsrKyBiL2Ry
-aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L214Z3B1X2FpLmMNCj4gQEAgLTI0OCwxNSArMjQ4LDcg
-QEAgc3RhdGljIHZvaWQgeGdwdV9haV9tYWlsYm94X2Zscl93b3JrKHN0cnVjdCB3b3JrX3N0cnVj
-dCAqd29yaykNCj4gICAJc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYgPSBjb250YWluZXJfb2Yo
-dmlydCwgc3RydWN0IGFtZGdwdV9kZXZpY2UsIHZpcnQpOw0KPiAgIAlpbnQgdGltZW91dCA9IEFJ
-X01BSUxCT1hfUE9MTF9GTFJfVElNRURPVVQ7DQo+ICAgDQo+IC0JLyogYmxvY2sgYW1kZ3B1X2dw
-dV9yZWNvdmVyIHRpbGwgbXNnIEZMUiBDT01QTEVURSByZWNlaXZlZCwNCj4gLQkgKiBvdGhlcndp
-c2UgdGhlIG1haWxib3ggbXNnIHdpbGwgYmUgcnVpbmVkL3Jlc2V0ZWQgYnkNCj4gLQkgKiB0aGUg
-VkYgRkxSLg0KPiAtCSAqLw0KPiAtCWlmICghZG93bl93cml0ZV90cnlsb2NrKCZhZGV2LT5yZXNl
-dF9zZW0pKQ0KPiAtCQlyZXR1cm47DQo+IC0NCj4gICAJYW1kZ3B1X3ZpcnRfZmluaV9kYXRhX2V4
-Y2hhbmdlKGFkZXYpOw0KPiAtCWF0b21pY19zZXQoJmFkZXYtPmluX2dwdV9yZXNldCwgMSk7DQo+
-ICAgDQo+ICAgCXhncHVfYWlfbWFpbGJveF90cmFuc19tc2coYWRldiwgSURIX1JFQURZX1RPX1JF
-U0VULCAwLCAwLCAwKTsNCj4gICANCj4gQEAgLTI2OSw5ICsyNjEsNiBAQCBzdGF0aWMgdm9pZCB4
-Z3B1X2FpX21haWxib3hfZmxyX3dvcmsoc3RydWN0IHdvcmtfc3RydWN0ICp3b3JrKQ0KPiAgIAl9
-IHdoaWxlICh0aW1lb3V0ID4gMSk7DQo+ICAgDQo+ICAgZmxyX2RvbmU6DQo+IC0JYXRvbWljX3Nl
-dCgmYWRldi0+aW5fZ3B1X3Jlc2V0LCAwKTsNCj4gLQl1cF93cml0ZSgmYWRldi0+cmVzZXRfc2Vt
-KTsNCj4gLQ0KPiAgIAkvKiBUcmlnZ2VyIHJlY292ZXJ5IGZvciB3b3JsZCBzd2l0Y2ggZmFpbHVy
-ZSBpZiBubyBURFIgKi8NCj4gICAJaWYgKGFtZGdwdV9kZXZpY2Vfc2hvdWxkX3JlY292ZXJfZ3B1
-KGFkZXYpDQo+ICAgCQkmJiAoIWFtZGdwdV9kZXZpY2VfaGFzX2pvYl9ydW5uaW5nKGFkZXYpIHx8
-IGRpZmYgLS1naXQgDQo+IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvbXhncHVfbnYuYyAN
-Cj4gYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9teGdwdV9udi5jDQo+IGluZGV4IGUzODY5
-MDY3YTMxZC4uZjgyYzA2NmM4ZThkIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1k
-L2FtZGdwdS9teGdwdV9udi5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L214
-Z3B1X252LmMNCj4gQEAgLTI3NywxNSArMjc3LDcgQEAgc3RhdGljIHZvaWQgeGdwdV9udl9tYWls
-Ym94X2Zscl93b3JrKHN0cnVjdCB3b3JrX3N0cnVjdCAqd29yaykNCj4gICAJc3RydWN0IGFtZGdw
-dV9kZXZpY2UgKmFkZXYgPSBjb250YWluZXJfb2YodmlydCwgc3RydWN0IGFtZGdwdV9kZXZpY2Us
-IHZpcnQpOw0KPiAgIAlpbnQgdGltZW91dCA9IE5WX01BSUxCT1hfUE9MTF9GTFJfVElNRURPVVQ7
-DQo+ICAgDQo+IC0JLyogYmxvY2sgYW1kZ3B1X2dwdV9yZWNvdmVyIHRpbGwgbXNnIEZMUiBDT01Q
-TEVURSByZWNlaXZlZCwNCj4gLQkgKiBvdGhlcndpc2UgdGhlIG1haWxib3ggbXNnIHdpbGwgYmUg
-cnVpbmVkL3Jlc2V0ZWQgYnkNCj4gLQkgKiB0aGUgVkYgRkxSLg0KPiAtCSAqLw0KPiAtCWlmICgh
-ZG93bl93cml0ZV90cnlsb2NrKCZhZGV2LT5yZXNldF9zZW0pKQ0KPiAtCQlyZXR1cm47DQo+IC0N
-Cj4gICAJYW1kZ3B1X3ZpcnRfZmluaV9kYXRhX2V4Y2hhbmdlKGFkZXYpOw0KPiAtCWF0b21pY19z
-ZXQoJmFkZXYtPmluX2dwdV9yZXNldCwgMSk7DQo+ICAgDQo+ICAgCXhncHVfbnZfbWFpbGJveF90
-cmFuc19tc2coYWRldiwgSURIX1JFQURZX1RPX1JFU0VULCAwLCAwLCAwKTsNCj4gICANCj4gQEAg
-LTI5OCw5ICsyOTAsNiBAQCBzdGF0aWMgdm9pZCB4Z3B1X252X21haWxib3hfZmxyX3dvcmsoc3Ry
-dWN0IHdvcmtfc3RydWN0ICp3b3JrKQ0KPiAgIAl9IHdoaWxlICh0aW1lb3V0ID4gMSk7DQo+ICAg
-DQo+ICAgZmxyX2RvbmU6DQo+IC0JYXRvbWljX3NldCgmYWRldi0+aW5fZ3B1X3Jlc2V0LCAwKTsN
-Cj4gLQl1cF93cml0ZSgmYWRldi0+cmVzZXRfc2VtKTsNCj4gLQ0KPiAgIAkvKiBUcmlnZ2VyIHJl
-Y292ZXJ5IGZvciB3b3JsZCBzd2l0Y2ggZmFpbHVyZSBpZiBubyBURFIgKi8NCj4gICAJaWYgKGFt
-ZGdwdV9kZXZpY2Vfc2hvdWxkX3JlY292ZXJfZ3B1KGFkZXYpDQo+ICAgCQkmJiAoIWFtZGdwdV9k
-ZXZpY2VfaGFzX2pvYl9ydW5uaW5nKGFkZXYpIHx8DQo=
+
+On 22/12/2021 21:58, John Harrison wrote:
+> On 12/22/2021 08:21, Tvrtko Ursulin wrote:
+>> On 21/12/2021 22:14, John Harrison wrote:
+>>> On 12/21/2021 05:37, Tvrtko Ursulin wrote:
+>>>> On 20/12/2021 18:34, John Harrison wrote:
+>>>>> On 12/20/2021 07:00, Tvrtko Ursulin wrote:
+>>>>>> On 17/12/2021 16:22, Matthew Brost wrote:
+>>>>>>> On Fri, Dec 17, 2021 at 12:15:53PM +0000, Tvrtko Ursulin wrote:
+>>>>>>>>
+>>>>>>>> On 14/12/2021 15:07, Tvrtko Ursulin wrote:
+>>>>>>>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>>>>>>>
+>>>>>>>>> Log engine resets done by the GuC firmware in the similar way 
+>>>>>>>>> it is done
+>>>>>>>>> by the execlists backend.
+>>>>>>>>>
+>>>>>>>>> This way we have notion of where the hangs are before the GuC 
+>>>>>>>>> gains
+>>>>>>>>> support for proper error capture.
+>>>>>>>>
+>>>>>>>> Ping - any interest to log this info?
+>>>>>>>>
+>>>>>>>> All there currently is a non-descriptive "[drm] GPU HANG: ecode
+>>>>>>>> 12:0:00000000".
+>>>>>>>>
+>>>>>>>
+>>>>>>> Yea, this could be helpful. One suggestion below.
+>>>>>>>
+>>>>>>>> Also, will GuC be reporting the reason for the engine reset at 
+>>>>>>>> any point?
+>>>>>>>>
+>>>>>>>
+>>>>>>> We are working on the error state capture, presumably the 
+>>>>>>> registers will
+>>>>>>> give a clue what caused the hang.
+>>>>>>>
+>>>>>>> As for the GuC providing a reason, that isn't defined in the 
+>>>>>>> interface
+>>>>>>> but that is decent idea to provide a hint in G2H what the issue 
+>>>>>>> was. Let
+>>>>>>> me run that by the i915 GuC developers / GuC firmware team and 
+>>>>>>> see what
+>>>>>>> they think.
+>>>>>>>
+>>>>> The GuC does not do any hang analysis. So as far as GuC is 
+>>>>> concerned, the reason is pretty much always going to be pre-emption 
+>>>>> timeout. There are a few ways the pre-emption itself could be 
+>>>>> triggered but basically, if GuC resets an active context then it is 
+>>>>> because it did not pre-empt quickly enough when requested.
+>>>>>
+>>>>>
+>>>>>>>> Regards,
+>>>>>>>>
+>>>>>>>> Tvrtko
+>>>>>>>>
+>>>>>>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>>>>>>> Cc: Matthew Brost <matthew.brost@intel.com>
+>>>>>>>>> Cc: John Harrison <John.C.Harrison@Intel.com>
+>>>>>>>>> ---
+>>>>>>>>>    drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 12 
+>>>>>>>>> +++++++++++-
+>>>>>>>>>    1 file changed, 11 insertions(+), 1 deletion(-)
+>>>>>>>>>
+>>>>>>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c 
+>>>>>>>>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>>>>>>>> index 97311119da6f..51512123dc1a 100644
+>>>>>>>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>>>>>>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>>>>>>>> @@ -11,6 +11,7 @@
+>>>>>>>>>    #include "gt/intel_context.h"
+>>>>>>>>>    #include "gt/intel_engine_pm.h"
+>>>>>>>>>    #include "gt/intel_engine_heartbeat.h"
+>>>>>>>>> +#include "gt/intel_engine_user.h"
+>>>>>>>>>    #include "gt/intel_gpu_commands.h"
+>>>>>>>>>    #include "gt/intel_gt.h"
+>>>>>>>>>    #include "gt/intel_gt_clock_utils.h"
+>>>>>>>>> @@ -3934,9 +3935,18 @@ static void capture_error_state(struct 
+>>>>>>>>> intel_guc *guc,
+>>>>>>>>>    {
+>>>>>>>>>        struct intel_gt *gt = guc_to_gt(guc);
+>>>>>>>>>        struct drm_i915_private *i915 = gt->i915;
+>>>>>>>>> -    struct intel_engine_cs *engine = 
+>>>>>>>>> __context_to_physical_engine(ce);
+>>>>>>>>> +    struct intel_engine_cs *engine = ce->engine;
+>>>>>>>>>        intel_wakeref_t wakeref;
+>>>>>>>>> +    if (intel_engine_is_virtual(engine)) {
+>>>>>>>>> +        drm_notice(&i915->drm, "%s class, engines 0x%x; GuC 
+>>>>>>>>> engine reset\n",
+>>>>>>>>> + intel_engine_class_repr(engine->class),
+>>>>>>>>> +               engine->mask);
+>>>>>>>>> +        engine = guc_virtual_get_sibling(engine, 0);
+>>>>>>>>> +    } else {
+>>>>>>>>> +        drm_notice(&i915->drm, "%s GuC engine reset\n", 
+>>>>>>>>> engine->name);
+>>>>>>>
+>>>>>>> Probably include the guc_id of the context too then?
+>>>>>>
+>>>>>> Is the guc id stable and useful on its own - who would be the user?
+>>>>> The GuC id is the only thing that matters when trying to correlate 
+>>>>> KMD activity with a GuC log. So while it might not be of any use or 
+>>>>> interest to an end user, it is extremely important and useful to a 
+>>>>> kernel developer attempting to debug an issue. And that includes 
+>>>>> bug reports from end users that are hard to repro given that the 
+>>>>> standard error capture will include the GuC log.
+>>>>
+>>>> On the topic of GuC log - is there a tool in IGT (or will be) which 
+>>>> will parse the bit saved in the error capture or how is that 
+>>>> supposed to be used?
+>>> Nope.
+>>>
+>>> However, Alan is currently working on supporting the GuC error 
+>>> capture mechanism. Prior to sending the reset notification to the 
+>>> KMD, the GuC will save a whole bunch of register state to a memory 
+>>> buffer and send a notification to the KMD that this is available. 
+>>> When we then get the actual reset notification, we need to match the 
+>>> two together and include a parsed, human readable version of the 
+>>> GuC's capture state buffer in the sysfs error log output.
+>>>
+>>> The GuC log should not be involved in this process. And note that any 
+>>> register dumps in the GuC log are limited in scope and only enabled 
+>>> at higher verbosity levels. Whereas, the official state capture is 
+>>> based on a register list provided by the KMD and is available 
+>>> irrespective of debug CONFIG settings, verbosity levels, etc.
+>>
+>> Hm why should GuC log not be involved now? I thought earlier you said:
+>>
+>> """
+>> And that includes bug reports from end users that are hard to repro 
+>> given that the standard error capture will include the GuC log.
+>> """
+>>
+>> Hence I thought there would be a tool in IGT which would parse the 
+>> part saved inside the error capture.
+> Different things.
+> 
+> The GuC log is not involved in capturing hardware register state and 
+> reporting that as part of the sysfs error capture that user's can read 
+> out. The GuC needs to do the state capture for us if it is doing the 
+> reset, but it is provided via a dedicated state capture API. There 
+> should be no requirement to set GuC log sizes/verbosity levels or to 
+> decode and parse the GuC log just to get the engine register state at 
+> the time of the hang.
+> 
+> On the other hand, the GuC log is useful for debugging certain issues 
+> and it is included automatically in the sysfs error capture along with 
+> all the other hardware and software state that we save.
+> 
+> There is intended to be a publicly released tool to decode the GuC log 
+> into a human readable format. So end users will be able to see what 
+> engine scheduling decisions were taken prior to the hang, for example. 
+> Unfortunately, that is not yet ready for release for a number of 
+> reasons. I don't know whether that would be released as part of the IGT 
+> suite or in some other manner.
+
+Okay, it would be handy if it was part of IGT, maybe even 
+intel_error_decode being able to use it to show everything interesting 
+to kernel developers in one go. Or at least the log parsing tool being 
+able to consume raw error capture.
+
+>>>>> Also, note that GuC really resets contexts rather than engines. 
+>>>>> What it reports back to i915 on a reset is simply the GuC id of the 
+>>>>> context. It is up to i915 to work back from that to determine 
+>>>>> engine instances/classes if required. And in the case of a virtual 
+>>>>> context, it is impossible to extract the actual instance number. So 
+>>>>> your above print about resetting all instances within the virtual 
+>>>>> engine mask is incorrect/misleading. The reset would have been 
+>>>>> applied to one and only one of those engines. If you really need to 
+>>>>> know exactly which engine was poked, you need to look inside the 
+>>>>> GuC log.
+>>>>
+>>>> I think I understood that part. :) It wasn't my intent to imply in 
+>>>> the message multiple engines have been reset, but in the case of 
+>>>> veng, log the class and mask and the fact there was an engine reset 
+>>>> (singular). Clearer message can probably be written.
+>>>>
+>>>>> However, the follow up point is to ask why you need to report the 
+>>>>> exact class/instance? The end user doesn't care about which 
+>>>>> specific engine got reset. They only care that their context was 
+>>>>> reset. Even a KMD developer doesn't really care unless the concern 
+>>>>> is about a hardware bug rather than a software bug.
+>>>>
+>>>> I was simply aligning both backends to log as similar information as 
+>>>> possible. Information is there, just not logged.
+>>>>
+>>>> Concerning the wider topic, my thinking is end user is mainly 
+>>>> interested to know there are any engine resets happening (to tie 
+>>>> with the experience of UI/video glitching or whatever). Going for 
+>>>> deeper analysis than that is probably beyond the scope of the kernel 
+>>>> log and indeed error capture territory.
+>>> I would still say that the important information is which context was 
+>>> killed not which engine. Sure, knowing the engine is better than 
+>>> nothing but if we can report something more useful then why not?
+>>
+>> Make it so. :)
+>>
+>>>>> My view is that the current message is indeed woefully 
+>>>>> uninformative. However, it is more important to be reporting 
+>>>>> context identification than engine instances. So sure, add the 
+>>>>> engine instance description but also add something specific to the 
+>>>>> ce as well. Ideally (for me) the GuC id and maybe something else 
+>>>>> that uniquely identifies the context in KMD land for when not using 
+>>>>> GuC?
+>>>>
+>>>> Not sure we need to go that far at this level, but even if we do it 
+>>>> could be a follow up to add new data to both backends. Not sure yet 
+>>>> I care enough to drive this. My patch was simply a reaction to 
+>>>> noticing there is zero information currently logged while debugging 
+>>>> some DG2 hangs.
+>>> In terms of just reporting that a reset occurred, we already have the 
+>>> 'GPU HANG: ecode 12:1:fbffffff, in testfw_app [8177]' message. The 
+>>> ecode is a somewhat bizarre value but it does act as a 'something 
+>>> went wrong, your system is not happy' type message. Going beyond 
+>>> that, I think context identification is the next most useful thing to 
+>>> add.
+>>>
+>>> But if you aren't even getting the 'GPU HANG' message then it sounds 
+>>> like something is broken with what we already have. So we should fix 
+>>> that as a first priority. If that message isn't appearing then it 
+>>> means there was no error capture so adding extra info to the capture 
+>>> won't help!
+>>
+>> The issue I have is that "GPU HANG ecode" messages are always "all 
+>> zeros". It thought that was because GuC error capture was not there, 
+>> but maybe its something else.
+> Hmm. All zeros including the platform and engine class part or just the 
+> instdone part?
+
+Class and instdone - all we were seeing was "[drm] GPU HANG: ecode
+12:0:00000000".
+
+Even on the CI run for this patch I see in the logs:
+
+<5>[  157.243472] i915 0000:00:02.0: [drm] rcs0 GuC engine reset
+<6>[  157.254568] i915 0000:00:02.0: [drm] GPU HANG: ecode 12:0:00000000
+
+So there seem circumstances when the GPU HANG line somehow misses to 
+figure out the engine class.
+
+> The instdone value is engine register state and will have been cleared 
+> before i915 can read it if the reset was handled by GuC. That comes 
+> under the heading of state we need the new error capture API for. 
+> However, the context should be correctly identified as should the 
+> platform/engine class.
+> 
+> Currently, the recommended w/a is to set i915.reset=1 when debugging a 
+> hang issue. That will disable GuC based resets and fall back to old 
+> school i915 based (but full GT not engine) resets. And that means that 
+> i915 will be able to read the engine state prior to the reset happening 
+> and thus produce a valid error capture / GPU HANG message.
+
+Ah.. that's the piece of the puzzle I was missing. Perhaps it should 
+even be the default until error capture works.
+
+Regards,
+
+Tvrtko
