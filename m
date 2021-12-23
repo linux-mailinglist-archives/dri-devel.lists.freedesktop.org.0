@@ -1,54 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B815647DC65
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Dec 2021 01:54:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECBD947DC71
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Dec 2021 01:59:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5196110E21C;
-	Thu, 23 Dec 2021 00:53:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD5A310E234;
+	Thu, 23 Dec 2021 00:59:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B57010E21C;
- Thu, 23 Dec 2021 00:53:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1640220836; x=1671756836;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=ZsgLJndpLvwXmWTrpAtIHRV7ZxELnn8+rKqh9Mjotck=;
- b=LmxV4VhyN03+n6d4J5IUxqi4b1mMyfuezZOaAx+GbubEQ97qFB32Da+t
- TWoQ0D9sKfM3Od1z1Nvc/HNkeK6rClGjF3HwWstfWOHmz1U3ErbCsFcy+
- sTNrQPKKQvL4bFYpTcrdLiPU//v+/ugD+Ok79XTcXxArYYYIa7Of+7VFA M=;
-Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
- by alexa-out.qualcomm.com with ESMTP; 22 Dec 2021 16:53:55 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2021 16:53:55 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Wed, 22 Dec 2021 16:53:54 -0800
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Wed, 22 Dec 2021 16:53:53 -0800
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
- <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
- <bjorn.andersson@linaro.org>
-Subject: [PATCH v9 1/2] drm/msm/dp: dp_link_parse_sink_count() return
- immediately if aux read failed
-Date: Wed, 22 Dec 2021 16:53:45 -0800
-Message-ID: <1640220825-25223-1-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CAB410E234;
+ Thu, 23 Dec 2021 00:59:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1640221146; x=1671757146;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=QTbzxl3D3SvcjqctEiuzmCL1HVEP0x3mYlrzqlBjsRU=;
+ b=GHxCa+BZmgGmmixmlL/tqeGdXdURhivhjTwGqVJIbdPqPZDSqv3TIZNt
+ VYw0jtJQET3WMB5QI9WKhizAvU9kgwxrOAhbubHj58SJn5tVjlTNy/pW6
+ 0Z8xjcChSwsO6HCCSSRFrxT+wqnWlD3bDMyEcBJxQ+B31EUHv5gJ6wFLF
+ 2oFcg1JW4t6+lH/5UmvnsL3H5LFIHj++qlQfa5HwWMA2xJuHR7C5Vb4yV
+ nqaY9YpmjE0/D6iZwTHiNzSzOMtOv8ObQyMYQyDe37zotAv2vibRYKism
+ oUoSBGrvqwUUZnoky2EgRdJcZ9Foh1sPTgJ7kxwbwkpiTXZtNNn7OZ+9C w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10206"; a="240536528"
+X-IronPort-AV: E=Sophos;i="5.88,228,1635231600"; d="scan'208";a="240536528"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Dec 2021 16:59:05 -0800
+X-IronPort-AV: E=Sophos;i="5.88,228,1635231600"; d="scan'208";a="685199930"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Dec 2021 16:59:05 -0800
+Date: Wed, 22 Dec 2021 16:53:47 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: John Harrison <john.c.harrison@intel.com>
+Subject: Re: [PATCH] drm/i915/guc: Use lockless list for destroyed contexts
+Message-ID: <20211223005347.GA29449@jons-linux-dev-box>
+References: <20211222232907.12735-1-matthew.brost@intel.com>
+ <81b87979-5f03-3841-b580-ad596e641805@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <81b87979-5f03-3841-b580-ad596e641805@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,104 +58,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- quic_khsieh@quicinc.com, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, daniele.ceraolospurio@intel.com,
+ dri-devel@lists.freedesktop.org, tvrtko.ursulin@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add checking aux read/write status at both dp_link_parse_sink_count()
-and dp_link_parse_sink_status_filed() to avoid long timeout delay if
-dp aux read/write failed at timeout due to cable unplugged. Also make
-sure dp controller had been initialized before start dpcd read and write.
+On Wed, Dec 22, 2021 at 04:48:36PM -0800, John Harrison wrote:
+> On 12/22/2021 15:29, Matthew Brost wrote:
+> > Use a lockless list structure for destroyed contexts to avoid hammering
+> > on global submission spin lock.
+> I thought the guidance was that lockless anything without an explanation
+> longer than War And Peace comes with an automatic termination penalty?
+> 
 
-Changes in V4:
--- split this patch as stand alone patch
+I was thinking that was for custom lockless algorithms not using core
+uAPIs. If this is really concern I could protect the llist_del_all by a
+lock but the doc explicitly says how I'm using this uAPI is safe without
+a lock. 
 
-Changes in v5:
--- rebase on msm-next branch
+> Also, I thought the simple suggestion was to just move the entire list
+> sideways under the existing lock and then loop through the local list safely
+> without requiring locks because it is now local only.
+> 
 
-Changes in v6:
--- add more details commit text
+That's basically what this uAPI does in a few simple calls rather than
+our own algorithm to move to a new list.
 
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-Tested-by: Stephen Boyd <swboyd@chromium.org>
----
- drivers/gpu/drm/msm/dp/dp_display.c | 12 +++++++++---
- drivers/gpu/drm/msm/dp/dp_link.c    | 19 ++++++++++++++-----
- 2 files changed, 23 insertions(+), 8 deletions(-)
+Matt
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 3d61459..0766752 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -692,9 +692,15 @@ static int dp_irq_hpd_handle(struct dp_display_private *dp, u32 data)
- 		return 0;
- 	}
- 
--	ret = dp_display_usbpd_attention_cb(&dp->pdev->dev);
--	if (ret == -ECONNRESET) { /* cable unplugged */
--		dp->core_initialized = false;
-+	/*
-+	 * dp core (ahb/aux clks) must be initialized before
-+	 * irq_hpd be handled
-+	 */
-+	if (dp->core_initialized) {
-+		ret = dp_display_usbpd_attention_cb(&dp->pdev->dev);
-+		if (ret == -ECONNRESET) { /* cable unplugged */
-+			dp->core_initialized = false;
-+		}
- 	}
- 	DRM_DEBUG_DP("hpd_state=%d\n", state);
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_link.c b/drivers/gpu/drm/msm/dp/dp_link.c
-index a5bdfc5..d4d31e5 100644
---- a/drivers/gpu/drm/msm/dp/dp_link.c
-+++ b/drivers/gpu/drm/msm/dp/dp_link.c
-@@ -737,18 +737,25 @@ static int dp_link_parse_sink_count(struct dp_link *dp_link)
- 	return 0;
- }
- 
--static void dp_link_parse_sink_status_field(struct dp_link_private *link)
-+static int dp_link_parse_sink_status_field(struct dp_link_private *link)
- {
- 	int len = 0;
- 
- 	link->prev_sink_count = link->dp_link.sink_count;
--	dp_link_parse_sink_count(&link->dp_link);
-+	len = dp_link_parse_sink_count(&link->dp_link);
-+	if (len < 0) {
-+		DRM_ERROR("DP parse sink count failed\n");
-+		return len;
-+	}
- 
- 	len = drm_dp_dpcd_read_link_status(link->aux,
- 		link->link_status);
--	if (len < DP_LINK_STATUS_SIZE)
-+	if (len < DP_LINK_STATUS_SIZE) {
- 		DRM_ERROR("DP link status read failed\n");
--	dp_link_parse_request(link);
-+		return len;
-+	}
-+
-+	return dp_link_parse_request(link);
- }
- 
- /**
-@@ -1023,7 +1030,9 @@ int dp_link_process_request(struct dp_link *dp_link)
- 
- 	dp_link_reset_data(link);
- 
--	dp_link_parse_sink_status_field(link);
-+	ret = dp_link_parse_sink_status_field(link);
-+	if (ret)
-+		return ret;
- 
- 	if (link->request.test_requested == DP_TEST_LINK_EDID_READ) {
- 		dp_link->sink_request |= DP_TEST_LINK_EDID_READ;
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
+> John.
+> 
+> 
+> > 
+> > Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >   drivers/gpu/drm/i915/gt/intel_context.c       |  2 -
+> >   drivers/gpu/drm/i915/gt/intel_context_types.h |  3 +-
+> >   drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  3 +-
+> >   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 44 +++++--------------
+> >   4 files changed, 16 insertions(+), 36 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
+> > index 5d0ec7c49b6a..4aacb4b0418d 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_context.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_context.c
+> > @@ -403,8 +403,6 @@ intel_context_init(struct intel_context *ce, struct intel_engine_cs *engine)
+> >   	ce->guc_id.id = GUC_INVALID_LRC_ID;
+> >   	INIT_LIST_HEAD(&ce->guc_id.link);
+> > -	INIT_LIST_HEAD(&ce->destroyed_link);
+> > -
+> >   	INIT_LIST_HEAD(&ce->parallel.child_list);
+> >   	/*
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> > index 30cd81ad8911..4532d43ec9c0 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
+> > +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> > @@ -9,6 +9,7 @@
+> >   #include <linux/average.h>
+> >   #include <linux/kref.h>
+> >   #include <linux/list.h>
+> > +#include <linux/llist.h>
+> >   #include <linux/mutex.h>
+> >   #include <linux/types.h>
+> > @@ -224,7 +225,7 @@ struct intel_context {
+> >   	 * list when context is pending to be destroyed (deregistered with the
+> >   	 * GuC), protected by guc->submission_state.lock
+> >   	 */
+> > -	struct list_head destroyed_link;
+> > +	struct llist_node destroyed_link;
+> >   	/** @parallel: sub-structure for parallel submission members */
+> >   	struct {
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > index f9240d4baa69..705085058411 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > @@ -8,6 +8,7 @@
+> >   #include <linux/xarray.h>
+> >   #include <linux/delay.h>
+> > +#include <linux/llist.h>
+> >   #include "intel_uncore.h"
+> >   #include "intel_guc_fw.h"
+> > @@ -112,7 +113,7 @@ struct intel_guc {
+> >   		 * @destroyed_contexts: list of contexts waiting to be destroyed
+> >   		 * (deregistered with the GuC)
+> >   		 */
+> > -		struct list_head destroyed_contexts;
+> > +		struct llist_head destroyed_contexts;
+> >   		/**
+> >   		 * @destroyed_worker: worker to deregister contexts, need as we
+> >   		 * need to take a GT PM reference and can't from destroy
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > index 0a03a30e4c6d..6f7643edc139 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > @@ -1771,7 +1771,7 @@ int intel_guc_submission_init(struct intel_guc *guc)
+> >   	spin_lock_init(&guc->submission_state.lock);
+> >   	INIT_LIST_HEAD(&guc->submission_state.guc_id_list);
+> >   	ida_init(&guc->submission_state.guc_ids);
+> > -	INIT_LIST_HEAD(&guc->submission_state.destroyed_contexts);
+> > +	init_llist_head(&guc->submission_state.destroyed_contexts);
+> >   	INIT_WORK(&guc->submission_state.destroyed_worker,
+> >   		  destroyed_worker_func);
+> > @@ -2696,26 +2696,18 @@ static void __guc_context_destroy(struct intel_context *ce)
+> >   	}
+> >   }
+> > +#define take_destroyed_contexts(guc) \
+> > +	llist_del_all(&guc->submission_state.destroyed_contexts)
+> > +
+> >   static void guc_flush_destroyed_contexts(struct intel_guc *guc)
+> >   {
+> > -	struct intel_context *ce;
+> > -	unsigned long flags;
+> > +	struct intel_context *ce, *cn;
+> >   	GEM_BUG_ON(!submission_disabled(guc) &&
+> >   		   guc_submission_initialized(guc));
+> > -	while (!list_empty(&guc->submission_state.destroyed_contexts)) {
+> > -		spin_lock_irqsave(&guc->submission_state.lock, flags);
+> > -		ce = list_first_entry_or_null(&guc->submission_state.destroyed_contexts,
+> > -					      struct intel_context,
+> > -					      destroyed_link);
+> > -		if (ce)
+> > -			list_del_init(&ce->destroyed_link);
+> > -		spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+> > -
+> > -		if (!ce)
+> > -			break;
+> > -
+> > +	llist_for_each_entry_safe(ce, cn, take_destroyed_contexts(guc),
+> > +				 destroyed_link) {
+> >   		release_guc_id(guc, ce);
+> >   		__guc_context_destroy(ce);
+> >   	}
+> > @@ -2723,23 +2715,11 @@ static void guc_flush_destroyed_contexts(struct intel_guc *guc)
+> >   static void deregister_destroyed_contexts(struct intel_guc *guc)
+> >   {
+> > -	struct intel_context *ce;
+> > -	unsigned long flags;
+> > -
+> > -	while (!list_empty(&guc->submission_state.destroyed_contexts)) {
+> > -		spin_lock_irqsave(&guc->submission_state.lock, flags);
+> > -		ce = list_first_entry_or_null(&guc->submission_state.destroyed_contexts,
+> > -					      struct intel_context,
+> > -					      destroyed_link);
+> > -		if (ce)
+> > -			list_del_init(&ce->destroyed_link);
+> > -		spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+> > -
+> > -		if (!ce)
+> > -			break;
+> > +	struct intel_context *ce, *cn;
+> > +	llist_for_each_entry_safe(ce, cn, take_destroyed_contexts(guc),
+> > +				 destroyed_link)
+> >   		guc_lrc_desc_unpin(ce);
+> > -	}
+> >   }
+> >   static void destroyed_worker_func(struct work_struct *w)
+> > @@ -2771,8 +2751,8 @@ static void guc_context_destroy(struct kref *kref)
+> >   	if (likely(!destroy)) {
+> >   		if (!list_empty(&ce->guc_id.link))
+> >   			list_del_init(&ce->guc_id.link);
+> > -		list_add_tail(&ce->destroyed_link,
+> > -			      &guc->submission_state.destroyed_contexts);
+> > +		llist_add(&ce->destroyed_link,
+> > +			  &guc->submission_state.destroyed_contexts);
+> >   	} else {
+> >   		__release_guc_id(guc, ce);
+> >   	}
+> 
