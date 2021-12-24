@@ -2,36 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ACA347EEE4
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Dec 2021 13:57:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FCFC47EF65
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Dec 2021 15:12:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F51110E42C;
-	Fri, 24 Dec 2021 12:57:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B54F10E464;
+	Fri, 24 Dec 2021 14:12:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id CFD3E10E42C
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Dec 2021 12:57:04 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E93E51FB;
- Fri, 24 Dec 2021 04:57:03 -0800 (PST)
-Received: from [192.168.1.107] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BCA9E3F718;
- Fri, 24 Dec 2021 04:57:02 -0800 (PST)
-Message-ID: <3e52c550-5227-091d-5fd8-35eeb3411848@arm.com>
-Date: Fri, 24 Dec 2021 12:56:57 +0000
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
+ [IPv6:2607:f8b0:4864:20::102a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52B1B10E464
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Dec 2021 14:12:31 +0000 (UTC)
+Received: by mail-pj1-x102a.google.com with SMTP id mj19so7756312pjb.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Dec 2021 06:12:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VtPf/Iw3oKW7SjqgJKtt+Q5d6Jb37vINBRVmuoZAHlw=;
+ b=ENc6ky9e/mt/VRWpBsDP/fT+YyPj602j72RD0InZqfV4ILpG9XdJYMiYd+/SP4Rutz
+ jjIEw7ZD8vEHFsdIW+Rl5y5TCsAMPxqDcJr+tghirPYRPDL8xErWN+sT30KOVtTUi7ak
+ MDhyEXx3fCZhPt/SSCbYL5zmXaYN7Ol8WHHfvBpqdft8Jzi/d4O/UsEMQOFrtHinvP+j
+ n1/wV4KoiF+JMLM8VPvmqfqK9LN0nHWUkaI/X+RUC4E35aB6HdDzV2oraogH7JPOtaz2
+ aOElZjNaxQYRfxkkWv4iNlKHv3LdXKUrEHpPfj09oc4uYhYUqiiV1K2PJcGy1y9VOvKx
+ IUMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VtPf/Iw3oKW7SjqgJKtt+Q5d6Jb37vINBRVmuoZAHlw=;
+ b=gnO5nT+UrDEr+1voNYLhxrQW62E/7ME5+ncCm/8AyarIjyZQV+qDVhicGVT78FFSj3
+ 1AkymoCZDMHZMxN4yzEQOEcje8+KyVyzBevioG6s2VbuVsQtXFv77xhBUEnnsBRcDwsa
+ n6pkFA8FJJUKkyBQ48mVW2a4URmAi27NKTHmMT8o6AgSBRZFwCkljF3UJnE0z0UZqzQN
+ JB3VEooh93qomOPq9WKaZDHqMWl+XLvuZpanCOEN9co8ZHdSX97LP1mhTkRVX1NlRFuG
+ rC0uiwdn9NKI5sqSrf8HNOsrnTVIC3PutEvIQSHugx/DYtqR5WfQ+sLTff40ieev7sbD
+ WctQ==
+X-Gm-Message-State: AOAM532JsVvqwTjHIm+T8TqWwzZpgjDOVv6wf8YeoTIuST9hrDBqbyNd
+ Ul+U0x2d5gGRoymBsj6xtqU=
+X-Google-Smtp-Source: ABdhPJwuHNQ5wIihLXmE4RhuD5G0B9yFVj7TU/csvtFs8majuv8qgopdCGHaYHkmq75cFt+ukir3Ww==
+X-Received: by 2002:a17:903:2302:b0:148:e4c7:5573 with SMTP id
+ d2-20020a170903230200b00148e4c75573mr6824405plh.109.1640355150821; 
+ Fri, 24 Dec 2021 06:12:30 -0800 (PST)
+Received: from nj08008nbu.spreadtrum.com
+ ([240e:47a:800:94db:99e3:c3c:2dfc:8554])
+ by smtp.gmail.com with ESMTPSA id h7sm9919140pfv.35.2021.12.24.06.12.24
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 24 Dec 2021 06:12:30 -0800 (PST)
+From: Kevin Tang <kevin3.tang@gmail.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, sean@poorly.run,
+ airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org, mark.rutland@arm.com
+Subject: [PATCH v1 0/2] sprd drm cover letter
+Date: Fri, 24 Dec 2021 22:12:11 +0800
+Message-Id: <20211224141213.27612-1-kevin3.tang@gmail.com>
+X-Mailer: git-send-email 2.29.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH 1/2] drm/panfrost: mmu: improved memory attributes
-Content-Language: en-GB
-To: asheplyakov@basealt.ru, dri-devel@lists.freedesktop.org
-References: <20211223110616.2589851-1-asheplyakov@basealt.ru>
- <20211223110616.2589851-2-asheplyakov@basealt.ru>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <20211223110616.2589851-2-asheplyakov@basealt.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,128 +68,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Vadim V . Vlasov" <vadim.vlasov@elpitech.ru>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, Steven Price <steven.price@arm.com>
+Cc: devicetree@vger.kernel.org, kevin3.tang@gmail.com, zhang.lyra@gmail.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ lukas.bulwahn@gmail.com, orsonzhai@gmail.com, zou_wei@huawei.com,
+ pony1.wu@gmail.com, dan.carpenter@oracle.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-12-23 11:06, asheplyakov@basealt.ru wrote:
-> From: Alexey Sheplyakov <asheplyakov@basealt.ru>
-> 
-> T62x/T60x GPUs are known to not work with panfrost as of now.
-> One of the reasons is wrong/incomplete memory attributes which
-> the panfrost driver sets in the page tables:
-> 
-> - MEMATTR_IMP_DEF should be 0x48ULL, not 0x88ULL.
->    0x88ULL is MEMATTR_OUTER_IMP_DEF
+v1:
+  remove the selected DRM_KMS_CMA_HELPER in kconfig
+  drm-sprd-fix-potential-NULL-dereference
 
-I guess the macro could be renamed if anyone's particularly bothered, 
-but using the outer-cacheable attribute is deliberate because it is 
-necessary for I/O-coherent GPUs to work properly (and should be 
-irrelevant for non-coherent integrations). I'm away from my Juno board 
-for the next couple of weeks but I'm fairly confident that this change 
-as-is will break cache snooping.
+Kevin Tang (2):
+  drm/sprd: remove the selected DRM_KMS_CMA_HELPER in kconfig
+  drm/sprd: fix potential NULL dereference
 
-> - MEMATTR_FORCE_CACHE_ALL and MEMATTR_OUTER_WA are missing.
+ drivers/gpu/drm/sprd/Kconfig    | 1 -
+ drivers/gpu/drm/sprd/sprd_dpu.c | 3 +++
+ drivers/gpu/drm/sprd/sprd_drm.c | 8 ++------
+ drivers/gpu/drm/sprd/sprd_dsi.c | 3 +++
+ 4 files changed, 8 insertions(+), 7 deletions(-)
 
-They're "missing" because they're not used, and there's currently no 
-mechanism by which they *could* be used. Also note that the indices in 
-MEMATTR have to line up with the euqivalent LPAE indices for the closest 
-match to what the IOMMU API's IOMMU_{CACHE,MMIO} flags represent, so 
-moving those around is yet more subtle breakage.
+-- 
+2.29.0
 
-> T72x and newer GPUs work just fine with such incomplete/wrong memory
-> attributes. However T62x are quite picky and quickly lock up.
-> 
-> To avoid the problem set the same memory attributes (in LPAE page
-> tables) as mali_kbase.
-> 
-> The patch has been tested (for regressions) with T860 GPU (rk3399 SoC).
-> At the first glance (using GNOME desktop, running glmark) it does
-> not cause any changes for this GPU.
-> 
-> Note: this patch is necessary, but *not* enough to get panfrost
-> working with T62x
-
-I'd note that panfrost has been working OK - to the extent that Mesa 
-supports its older ISA - on the T624 (single core group) in Arm's Juno 
-SoC for over a year now since commit 268af50f38b1.
-
-If you have to force outer non-cacheable to avoid getting translation 
-faults and other errors that look like the GPU is inexplicably seeing 
-the wrong data, I'd check whether you have the same thing where your 
-integration is actually I/O-coherent and you're missing the 
-"dma-coherent" property in your DT.
-
-Thanks,
-Robin.
-
-> Signed-off-by: Alexey Sheplyakov <asheplyakov@basealt.ru>
-> Signed-off-by: Vadim V. Vlasov <vadim.vlasov@elpitech.ru>
-> 
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-> Cc: Steven Price <steven.price@arm.com>
-> Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-> Cc: Vadim V. Vlasov <vadim.vlasov@elpitech.ru>
-> ---
->   drivers/gpu/drm/panfrost/panfrost_mmu.c |  3 ---
->   drivers/iommu/io-pgtable-arm.c          | 16 ++++++++++++----
->   2 files changed, 12 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> index 39562f2d11a4..2f4f8a17bc82 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> @@ -133,9 +133,6 @@ static void panfrost_mmu_enable(struct panfrost_device *pfdev, struct panfrost_m
->   	mmu_write(pfdev, AS_TRANSTAB_LO(as_nr), lower_32_bits(transtab));
->   	mmu_write(pfdev, AS_TRANSTAB_HI(as_nr), upper_32_bits(transtab));
->   
-> -	/* Need to revisit mem attrs.
-> -	 * NC is the default, Mali driver is inner WT.
-> -	 */
->   	mmu_write(pfdev, AS_MEMATTR_LO(as_nr), lower_32_bits(memattr));
->   	mmu_write(pfdev, AS_MEMATTR_HI(as_nr), upper_32_bits(memattr));
->   
-> diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
-> index dd9e47189d0d..15b39c337e20 100644
-> --- a/drivers/iommu/io-pgtable-arm.c
-> +++ b/drivers/iommu/io-pgtable-arm.c
-> @@ -122,13 +122,17 @@
->   #define ARM_LPAE_MAIR_ATTR_IDX_CACHE	1
->   #define ARM_LPAE_MAIR_ATTR_IDX_DEV	2
->   #define ARM_LPAE_MAIR_ATTR_IDX_INC_OCACHE	3
-> +#define ARM_LPAE_MAIR_ATTR_IDX_OUTER_WA 4
->   
->   #define ARM_MALI_LPAE_TTBR_ADRMODE_TABLE (3u << 0)
->   #define ARM_MALI_LPAE_TTBR_READ_INNER	BIT(2)
->   #define ARM_MALI_LPAE_TTBR_SHARE_OUTER	BIT(4)
->   
-> -#define ARM_MALI_LPAE_MEMATTR_IMP_DEF	0x88ULL
-> -#define ARM_MALI_LPAE_MEMATTR_WRITE_ALLOC 0x8DULL
-> +#define ARM_MALI_LPAE_MEMATTR_IMP_DEF	0x48ULL
-> +#define ARM_MALI_LPAE_MEMATTR_FORCE_CACHE_ALL 0x4FULL
-> +#define ARM_MALI_LPAE_MEMATTR_WRITE_ALLOC 0x4DULL
-> +#define ARM_MALI_LPAE_MEMATTR_OUTER_IMP_DEF 0x88ULL
-> +#define ARM_MALI_LPAE_MEMATTR_OUTER_WA 0x8DULL
->   
->   #define APPLE_DART_PTE_PROT_NO_WRITE (1<<7)
->   #define APPLE_DART_PTE_PROT_NO_READ (1<<8)
-> @@ -1080,10 +1084,14 @@ arm_mali_lpae_alloc_pgtable(struct io_pgtable_cfg *cfg, void *cookie)
->   	cfg->arm_mali_lpae_cfg.memattr =
->   		(ARM_MALI_LPAE_MEMATTR_IMP_DEF
->   		 << ARM_LPAE_MAIR_ATTR_SHIFT(ARM_LPAE_MAIR_ATTR_IDX_NC)) |
-> +		(ARM_MALI_LPAE_MEMATTR_FORCE_CACHE_ALL
-> +		 << ARM_LPAE_MAIR_ATTR_SHIFT(ARM_LPAE_MAIR_ATTR_IDX_CACHE)) |
->   		(ARM_MALI_LPAE_MEMATTR_WRITE_ALLOC
->   		 << ARM_LPAE_MAIR_ATTR_SHIFT(ARM_LPAE_MAIR_ATTR_IDX_CACHE)) |
-> -		(ARM_MALI_LPAE_MEMATTR_IMP_DEF
-> -		 << ARM_LPAE_MAIR_ATTR_SHIFT(ARM_LPAE_MAIR_ATTR_IDX_DEV));
-> +		(ARM_MALI_LPAE_MEMATTR_OUTER_IMP_DEF
-> +		 << ARM_LPAE_MAIR_ATTR_SHIFT(ARM_LPAE_MAIR_ATTR_IDX_DEV)) |
-> +		(ARM_MALI_LPAE_MEMATTR_OUTER_WA
-> +		 << ARM_LPAE_MAIR_ATTR_SHIFT(ARM_LPAE_MAIR_ATTR_IDX_OUTER_WA));
->   
->   	data->pgd = __arm_lpae_alloc_pages(ARM_LPAE_PGD_SIZE(data), GFP_KERNEL,
->   					   cfg);
