@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CECA47F697
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Dec 2021 12:25:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AE4147F695
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Dec 2021 12:25:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DFFF10E95B;
-	Sun, 26 Dec 2021 11:25:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AD3510E955;
+	Sun, 26 Dec 2021 11:25:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7B4010E953;
- Sun, 26 Dec 2021 11:25:22 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id v11so26499463wrw.10;
- Sun, 26 Dec 2021 03:25:22 -0800 (PST)
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61C4210E954;
+ Sun, 26 Dec 2021 11:25:24 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id a9so26462465wrr.8;
+ Sun, 26 Dec 2021 03:25:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3uC+zpueN0jaqztWM7eUqBfpEMbmsR8tb66iIJAnvGU=;
- b=RwDE0YPkDLqtqo7Dvnlm/ydiYanOQlnAMem2isy3ndgorcODT7JcvNFIyr443LTwSg
- WliRTsg8U5K6xpvrcgejsyGKhya4NPPV1Uea3wAuINZpe69Qi4Co3GCY8+RCvB5zICJN
- 79sCOX7fKsf0zNbAvzhCEj30xYFAmhu4mxWkaRe0EvJkW/pW8fygcR8ybIZ/WTrgKhBW
- WcMktKG4ZIskNlW/H43GfZIK16XeZawEhw7iKEf6idJrc9oK20T4+HFBD3es+GpMVzr9
- czP8Xc5f78UoC+IsRP3PfKQz9Rc6Zl71pPJ9HwZfuNpEHKkQuf3Bn8gfrACtKdQA8/At
- oNXQ==
+ bh=3w0cyRxbnflG1Lzaa+D9LFgBBXj2WLi8B2+0IaB0cco=;
+ b=PwXLZV+6O9zswzpPoQeLANPNLyAa5j9TTefYDsBvxzJHw7hsiT7vgEJO67viIuaBiK
+ joS9USvBHQU7W3SIlSlVlgL1mYDZ9GdAj6OOVHGzOLhwrXOtxouH24D1FvTOcNPBx1hu
+ cgYJFZ0JNDK45DRlTqL7+hohi4LKCBmpHJMZ7FYsBeaLfb3+QvZpNbnybehWxIYzAW9A
+ zIdhrscxtU7zpauASJezylBL9be5Gt7PrhZ4YGNwtTDe/dk3r/8eHOBjzyS88i2wv2vz
+ I6dy2YgPWM+zzpAj2FRI6ftDhWK37okU082jWiQr1P8b2ZnvThZubK2qMqrpGqHTwjcb
+ AcZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3uC+zpueN0jaqztWM7eUqBfpEMbmsR8tb66iIJAnvGU=;
- b=Lx1iPFsobjOJGaIatNfrO4a8bmx8wQaawc2hY7bh2PonVN98q0mzY6gxz9wFL1vI3Y
- rSEMGl3qi3od8bQ8CYzD6VkcUv4F2FXIBwEekaJQsSVEaunx4r0MAHBRJuXwRbDKavhN
- zvRn7FcpUN5RKZ4GtEgHe3QZopn/NhTLaEAklyo9O5oX4IvDhlM2EuBkKUDUTFRQI0eu
- jVDygJak0V0qNvmgl/Qsfx/Bm+ihfv1nR/HUZ5xyPa6ITAbqU0iI+Zjj1MbnKUK9EOY5
- PRR2IEXuyvgIOcp1okFvYk4l/VyXYi/2jpyRGAVhdacKlR73iccQoBK8qk7vT/nRhr5U
- /wuQ==
-X-Gm-Message-State: AOAM531+E1hXlhTRmPjX+Wd7F4ciQDaB7oFTDr8Zf+xrz8qm0Ffkk4+g
- KFojVVFJEY/PptXoJVMYC1Q=
-X-Google-Smtp-Source: ABdhPJwPiaAlI5ue8SBY/hNuXdX5I1LiZxPv2bA/DypMkY+1VW51yINEbKM/DxTgrTs1AI5TJvkxhw==
-X-Received: by 2002:adf:9004:: with SMTP id h4mr9898117wrh.593.1640517921215; 
- Sun, 26 Dec 2021 03:25:21 -0800 (PST)
+ bh=3w0cyRxbnflG1Lzaa+D9LFgBBXj2WLi8B2+0IaB0cco=;
+ b=e5sxsSBV8f/zG2WRSOqjURPEVHCodY3HiF7fP/xCSg9gospQ6J4K+JnUkAn80I0JBe
+ mphW1ZSODNA652cDdxCRGP3QHVyprIGOsLixdtG4WmU+fhO5dFODeKDj1hA+pSbPcfh1
+ g3H2TvEdVCeNBySGuTgjXjbESpLsHKu0bQgqfnqj6LuztreUHWqKBlTqZ/MRdlhGK8y2
+ Slv3L/D9mLt4z0F1lRK7yb8ylO3C6jIZ5fEUeROn7RR8n3My852yM8NDhTvTjgaT+uoR
+ peC5xbw/f4/mbSNydF9hBYDpm7lj2qDaNCVqbAHSU00G5+XG8pAu6LKLAwkhIZb2rJdX
+ jtgg==
+X-Gm-Message-State: AOAM532D7Z+mebfpcGw671qZc7HMEfj5iBZDkLk1gqbOGlTsVrxJn2UW
+ JfNhY0Bsfyx+zpfXdF7ZcUg=
+X-Google-Smtp-Source: ABdhPJyMMwBvN0I/TVcPJvi99lJUbcE0uky0CFSE//bOHq3fI8piG76lCpdID1rhkzRsL/yanK1mSw==
+X-Received: by 2002:a5d:638b:: with SMTP id p11mr9352371wru.241.1640517922894; 
+ Sun, 26 Dec 2021 03:25:22 -0800 (PST)
 Received: from localhost.localdomain ([217.113.240.86])
- by smtp.gmail.com with ESMTPSA id g12sm13654743wrd.71.2021.12.26.03.25.19
+ by smtp.gmail.com with ESMTPSA id g12sm13654743wrd.71.2021.12.26.03.25.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Dec 2021 03:25:20 -0800 (PST)
+ Sun, 26 Dec 2021 03:25:22 -0800 (PST)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To: contact@emersion.fr
-Subject: [PATCH v3 5/6] drm: mxsfb: Drop format_mod_supported function
-Date: Sun, 26 Dec 2021 12:25:02 +0100
-Message-Id: <20211226112503.31771-6-jose.exposito89@gmail.com>
+Subject: [PATCH v3 6/6] drm/stm: ltdc: Drop format_mod_supported function
+Date: Sun, 26 Dec 2021 12:25:03 +0100
+Message-Id: <20211226112503.31771-7-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211226112503.31771-1-jose.exposito89@gmail.com>
 References: <20211226112503.31771-1-jose.exposito89@gmail.com>
@@ -86,35 +86,38 @@ the default implementation.
 
 Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- drivers/gpu/drm/mxsfb/mxsfb_kms.c | 8 --------
- 1 file changed, 8 deletions(-)
+ drivers/gpu/drm/stm/ltdc.c | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-index 0655582ae8ed..df32e1c3cc5d 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-@@ -554,13 +554,6 @@ static void mxsfb_plane_overlay_atomic_update(struct drm_plane *plane,
- 	writel(ctrl, mxsfb->base + LCDC_AS_CTRL);
+diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+index dbdee954692a..ef909e50f0e4 100644
+--- a/drivers/gpu/drm/stm/ltdc.c
++++ b/drivers/gpu/drm/stm/ltdc.c
+@@ -925,16 +925,6 @@ static void ltdc_plane_atomic_print_state(struct drm_printer *p,
+ 	fpsi->counter = 0;
  }
  
--static bool mxsfb_format_mod_supported(struct drm_plane *plane,
--				       uint32_t format,
--				       uint64_t modifier)
+-static bool ltdc_plane_format_mod_supported(struct drm_plane *plane,
+-					    u32 format,
+-					    u64 modifier)
 -{
--	return modifier == DRM_FORMAT_MOD_LINEAR;
+-	if (modifier == DRM_FORMAT_MOD_LINEAR)
+-		return true;
+-
+-	return false;
 -}
 -
- static const struct drm_plane_helper_funcs mxsfb_plane_primary_helper_funcs = {
- 	.atomic_check = mxsfb_plane_atomic_check,
- 	.atomic_update = mxsfb_plane_primary_atomic_update,
-@@ -572,7 +565,6 @@ static const struct drm_plane_helper_funcs mxsfb_plane_overlay_helper_funcs = {
+ static const struct drm_plane_funcs ltdc_plane_funcs = {
+ 	.update_plane = drm_atomic_helper_update_plane,
+ 	.disable_plane = drm_atomic_helper_disable_plane,
+@@ -943,7 +933,6 @@ static const struct drm_plane_funcs ltdc_plane_funcs = {
+ 	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
+ 	.atomic_print_state = ltdc_plane_atomic_print_state,
+-	.format_mod_supported = ltdc_plane_format_mod_supported,
  };
  
- static const struct drm_plane_funcs mxsfb_plane_funcs = {
--	.format_mod_supported	= mxsfb_format_mod_supported,
- 	.update_plane		= drm_atomic_helper_update_plane,
- 	.disable_plane		= drm_atomic_helper_disable_plane,
- 	.destroy		= drm_plane_cleanup,
+ static const struct drm_plane_helper_funcs ltdc_plane_helper_funcs = {
 -- 
 2.25.1
 
