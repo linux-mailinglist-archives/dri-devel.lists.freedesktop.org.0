@@ -2,60 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AE4147F695
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Dec 2021 12:25:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D4F447F707
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Dec 2021 14:42:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AD3510E955;
-	Sun, 26 Dec 2021 11:25:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E79610E741;
+	Sun, 26 Dec 2021 13:42:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61C4210E954;
- Sun, 26 Dec 2021 11:25:24 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id a9so26462465wrr.8;
- Sun, 26 Dec 2021 03:25:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=3w0cyRxbnflG1Lzaa+D9LFgBBXj2WLi8B2+0IaB0cco=;
- b=PwXLZV+6O9zswzpPoQeLANPNLyAa5j9TTefYDsBvxzJHw7hsiT7vgEJO67viIuaBiK
- joS9USvBHQU7W3SIlSlVlgL1mYDZ9GdAj6OOVHGzOLhwrXOtxouH24D1FvTOcNPBx1hu
- cgYJFZ0JNDK45DRlTqL7+hohi4LKCBmpHJMZ7FYsBeaLfb3+QvZpNbnybehWxIYzAW9A
- zIdhrscxtU7zpauASJezylBL9be5Gt7PrhZ4YGNwtTDe/dk3r/8eHOBjzyS88i2wv2vz
- I6dy2YgPWM+zzpAj2FRI6ftDhWK37okU082jWiQr1P8b2ZnvThZubK2qMqrpGqHTwjcb
- AcZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=3w0cyRxbnflG1Lzaa+D9LFgBBXj2WLi8B2+0IaB0cco=;
- b=e5sxsSBV8f/zG2WRSOqjURPEVHCodY3HiF7fP/xCSg9gospQ6J4K+JnUkAn80I0JBe
- mphW1ZSODNA652cDdxCRGP3QHVyprIGOsLixdtG4WmU+fhO5dFODeKDj1hA+pSbPcfh1
- g3H2TvEdVCeNBySGuTgjXjbESpLsHKu0bQgqfnqj6LuztreUHWqKBlTqZ/MRdlhGK8y2
- Slv3L/D9mLt4z0F1lRK7yb8ylO3C6jIZ5fEUeROn7RR8n3My852yM8NDhTvTjgaT+uoR
- peC5xbw/f4/mbSNydF9hBYDpm7lj2qDaNCVqbAHSU00G5+XG8pAu6LKLAwkhIZb2rJdX
- jtgg==
-X-Gm-Message-State: AOAM532D7Z+mebfpcGw671qZc7HMEfj5iBZDkLk1gqbOGlTsVrxJn2UW
- JfNhY0Bsfyx+zpfXdF7ZcUg=
-X-Google-Smtp-Source: ABdhPJyMMwBvN0I/TVcPJvi99lJUbcE0uky0CFSE//bOHq3fI8piG76lCpdID1rhkzRsL/yanK1mSw==
-X-Received: by 2002:a5d:638b:: with SMTP id p11mr9352371wru.241.1640517922894; 
- Sun, 26 Dec 2021 03:25:22 -0800 (PST)
-Received: from localhost.localdomain ([217.113.240.86])
- by smtp.gmail.com with ESMTPSA id g12sm13654743wrd.71.2021.12.26.03.25.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Dec 2021 03:25:22 -0800 (PST)
-From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-To: contact@emersion.fr
-Subject: [PATCH v3 6/6] drm/stm: ltdc: Drop format_mod_supported function
-Date: Sun, 26 Dec 2021 12:25:03 +0100
-Message-Id: <20211226112503.31771-7-jose.exposito89@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211226112503.31771-1-jose.exposito89@gmail.com>
-References: <20211226112503.31771-1-jose.exposito89@gmail.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6958610E741
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Dec 2021 13:42:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1640526168; x=1672062168;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=BXSyAfPPKL+BNYyTWCrcjcEA6M7erOc92NWo0C5C1GI=;
+ b=aKG2SaAL05S0G7PjZOT+aY7IVz/D46OsynSnrwDnHD3M05yOrYOKSr+m
+ C9cc+Sa3jgyyUkrLX9CQGx9Qgvjs4du6p1kgzl2sVt8Gbj+/o3j8EZ8cL
+ R7bFy5gCxYDETK3uJ4OgJKoSvnCYLxiUwNmxUfmI4VSlUr5riPcbuk8Dy
+ dmw0315gA2+mhbnrhrniETECydA2Aq8+GfMe4qS2SnyzIuW55g7JM5gY6
+ SudYworHjrqlplkHImGTgOhkxZxaznVKU5hnvI69WwAuSgwmjsmoR73C5
+ esavhjAs1xIjVbMLbtFXWgavGO+28mkwH89AzCx2slKnAbXHicLZSD6u/ g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10208"; a="227945615"
+X-IronPort-AV: E=Sophos;i="5.88,237,1635231600"; d="scan'208";a="227945615"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Dec 2021 05:42:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,237,1635231600"; d="scan'208";a="467636285"
+Received: from lkp-server01.sh.intel.com (HELO e357b3ef1427) ([10.239.97.150])
+ by orsmga003.jf.intel.com with ESMTP; 26 Dec 2021 05:42:44 -0800
+Received: from kbuild by e357b3ef1427 with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1n1TnQ-0005Q1-4l; Sun, 26 Dec 2021 13:42:44 +0000
+Date: Sun, 26 Dec 2021 21:42:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
+ melissa.srw@gmail.com
+Subject: Re: [PATCH v2 1/1] drm/vkms: add zpos plane property
+Message-ID: <202112262151.0Z5oNd2u-lkp@intel.com>
+References: <20211226111219.27616-2-jose.exposito89@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211226111219.27616-2-jose.exposito89@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,56 +61,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, alexandre.torgue@foss.st.com,
- benjamin.gaignard@linaro.org, linux-stm32@st-md-mailman.stormreply.com,
- marex@denx.de, linux-imx@nxp.com, intel-gfx@lists.freedesktop.org,
- s.hauer@pengutronix.de, rodrigo.vivi@intel.com, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, yannick.fertre@foss.st.com, linux-kernel@vger.kernel.org,
- philippe.cornu@foss.st.com, mcoquelin.stm32@gmail.com,
- dmitry.baryshkov@linaro.org,
- =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
- shawnguo@kernel.org
+Cc: hamohammed.sa@gmail.com, kbuild-all@lists.01.org,
+ rodrigosiqueiramelo@gmail.com, airlied@linux.ie, llvm@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, mwen@igalia.com,
+ =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The "drm_plane_funcs.format_mod_supported" can be removed in favor of
-the default implementation.
+Hi "Jos�,
 
-Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on drm/drm-next]
+[also build test ERROR on v5.16-rc6 next-20211224]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Jos-Exp-sito/drm-vkms-zpos/20211226-191434
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: hexagon-randconfig-r041-20211226 (https://download.01.org/0day-ci/archive/20211226/202112262151.0Z5oNd2u-lkp@intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 0c553cc1af2e4c14100df6cf4a6fc91987e778e6)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/48c96494b71972f4bf1769682e94e59724dba874
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Jos-Exp-sito/drm-vkms-zpos/20211226-191434
+        git checkout 48c96494b71972f4bf1769682e94e59724dba874
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/gpu/drm/vkms/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/vkms/vkms_plane.c:170:15: error: use of undeclared identifier 'NUM_OVERLAY_PLANES'
+                                                        1, NUM_OVERLAY_PLANES);
+                                                           ^
+   1 error generated.
+
+
+vim +/NUM_OVERLAY_PLANES +170 drivers/gpu/drm/vkms/vkms_plane.c
+
+   162	
+   163	static int vkms_plane_create_zpos_property(struct vkms_plane *plane)
+   164	{
+   165		int ret;
+   166		unsigned int zpos = drm_plane_index(&plane->base);
+   167	
+   168		if (plane->base.type == DRM_PLANE_TYPE_OVERLAY) {
+   169			ret = drm_plane_create_zpos_property(&plane->base, zpos,
+ > 170							     1, NUM_OVERLAY_PLANES);
+   171		} else {
+   172			ret = drm_plane_create_zpos_immutable_property(&plane->base,
+   173								       zpos);
+   174		}
+   175	
+   176		return ret;
+   177	}
+   178	
+
 ---
- drivers/gpu/drm/stm/ltdc.c | 11 -----------
- 1 file changed, 11 deletions(-)
-
-diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-index dbdee954692a..ef909e50f0e4 100644
---- a/drivers/gpu/drm/stm/ltdc.c
-+++ b/drivers/gpu/drm/stm/ltdc.c
-@@ -925,16 +925,6 @@ static void ltdc_plane_atomic_print_state(struct drm_printer *p,
- 	fpsi->counter = 0;
- }
- 
--static bool ltdc_plane_format_mod_supported(struct drm_plane *plane,
--					    u32 format,
--					    u64 modifier)
--{
--	if (modifier == DRM_FORMAT_MOD_LINEAR)
--		return true;
--
--	return false;
--}
--
- static const struct drm_plane_funcs ltdc_plane_funcs = {
- 	.update_plane = drm_atomic_helper_update_plane,
- 	.disable_plane = drm_atomic_helper_disable_plane,
-@@ -943,7 +933,6 @@ static const struct drm_plane_funcs ltdc_plane_funcs = {
- 	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
- 	.atomic_print_state = ltdc_plane_atomic_print_state,
--	.format_mod_supported = ltdc_plane_format_mod_supported,
- };
- 
- static const struct drm_plane_helper_funcs ltdc_plane_helper_funcs = {
--- 
-2.25.1
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
