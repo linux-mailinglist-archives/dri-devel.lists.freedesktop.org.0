@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D4F447F707
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Dec 2021 14:42:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3395F47F70F
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Dec 2021 15:03:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E79610E741;
-	Sun, 26 Dec 2021 13:42:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BD0E89C82;
+	Sun, 26 Dec 2021 14:03:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6958610E741
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Dec 2021 13:42:48 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95D9E89C82
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Dec 2021 14:03:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1640526168; x=1672062168;
+ t=1640527429; x=1672063429;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:content-transfer-encoding:in-reply-to;
- bh=BXSyAfPPKL+BNYyTWCrcjcEA6M7erOc92NWo0C5C1GI=;
- b=aKG2SaAL05S0G7PjZOT+aY7IVz/D46OsynSnrwDnHD3M05yOrYOKSr+m
- C9cc+Sa3jgyyUkrLX9CQGx9Qgvjs4du6p1kgzl2sVt8Gbj+/o3j8EZ8cL
- R7bFy5gCxYDETK3uJ4OgJKoSvnCYLxiUwNmxUfmI4VSlUr5riPcbuk8Dy
- dmw0315gA2+mhbnrhrniETECydA2Aq8+GfMe4qS2SnyzIuW55g7JM5gY6
- SudYworHjrqlplkHImGTgOhkxZxaznVKU5hnvI69WwAuSgwmjsmoR73C5
- esavhjAs1xIjVbMLbtFXWgavGO+28mkwH89AzCx2slKnAbXHicLZSD6u/ g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10208"; a="227945615"
-X-IronPort-AV: E=Sophos;i="5.88,237,1635231600"; d="scan'208";a="227945615"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Dec 2021 05:42:47 -0800
+ bh=JyQw84yzbD12QRN6tQ+pCU23brqQBHbn04H85KS1W0c=;
+ b=iG5lPDjYNKMtPOSdwj0YjtNGuVkp7Me4RsZxWeGA2C+WmdjmRqQp5Gd/
+ pP+g2U48qePWfR2eKYhiG2Rw1bNhwQescRYOCC83gBE00uNGhXMp+Wzg0
+ rKygi8nzbpqZ4WYnghErpze3Am3zCvfsrISJ/KbfRtLqncwADy/icVmiU
+ Ew0+bnz/ulmPQfY0EvLuSvW/Evcd81GkeTuqvKasS/13e322nTx/r1jv5
+ KsCACJhB5x+pofcrf/79nfaBnAK1fDz+oT8ejdJjRJYJIZU85XBAnKtcS
+ Df/jlkvYUD+azLSs1NRYQkkVwSz6mA/rgephJ+C2ary0mP2P0bf4NiJ2i g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10208"; a="238647360"
+X-IronPort-AV: E=Sophos;i="5.88,237,1635231600"; d="scan'208";a="238647360"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Dec 2021 06:03:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,237,1635231600"; d="scan'208";a="467636285"
+X-IronPort-AV: E=Sophos;i="5.88,237,1635231600"; d="scan'208";a="618175259"
 Received: from lkp-server01.sh.intel.com (HELO e357b3ef1427) ([10.239.97.150])
- by orsmga003.jf.intel.com with ESMTP; 26 Dec 2021 05:42:44 -0800
+ by orsmga004.jf.intel.com with ESMTP; 26 Dec 2021 06:03:45 -0800
 Received: from kbuild by e357b3ef1427 with local (Exim 4.92)
  (envelope-from <lkp@intel.com>)
- id 1n1TnQ-0005Q1-4l; Sun, 26 Dec 2021 13:42:44 +0000
-Date: Sun, 26 Dec 2021 21:42:22 +0800
+ id 1n1U7l-0005Qp-56; Sun, 26 Dec 2021 14:03:45 +0000
+Date: Sun, 26 Dec 2021 22:02:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
  melissa.srw@gmail.com
 Subject: Re: [PATCH v2 1/1] drm/vkms: add zpos plane property
-Message-ID: <202112262151.0Z5oNd2u-lkp@intel.com>
+Message-ID: <202112262122.WMEshF8D-lkp@intel.com>
 References: <20211226111219.27616-2-jose.exposito89@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
@@ -62,8 +62,8 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: hamohammed.sa@gmail.com, kbuild-all@lists.01.org,
- rodrigosiqueiramelo@gmail.com, airlied@linux.ie, llvm@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, mwen@igalia.com,
+ rodrigosiqueiramelo@gmail.com, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, mwen@igalia.com,
  =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
@@ -80,8 +80,8 @@ https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/0day-ci/linux/commits/Jos-Exp-sito/drm-vkms-zpos/20211226-191434
 base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: hexagon-randconfig-r041-20211226 (https://download.01.org/0day-ci/archive/20211226/202112262151.0Z5oNd2u-lkp@intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 0c553cc1af2e4c14100df6cf4a6fc91987e778e6)
+config: arc-randconfig-r043-20211226 (https://download.01.org/0day-ci/archive/20211226/202112262122.WMEshF8D-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 11.2.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
@@ -91,17 +91,18 @@ reproduce (this is a W=1 build):
         git checkout 48c96494b71972f4bf1769682e94e59724dba874
         # save the config file to linux build tree
         mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/gpu/drm/vkms/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arc SHELL=/bin/bash drivers/gpu/drm/vkms/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/vkms/vkms_plane.c:170:15: error: use of undeclared identifier 'NUM_OVERLAY_PLANES'
-                                                        1, NUM_OVERLAY_PLANES);
-                                                           ^
-   1 error generated.
+   drivers/gpu/drm/vkms/vkms_plane.c: In function 'vkms_plane_create_zpos_property':
+>> drivers/gpu/drm/vkms/vkms_plane.c:170:57: error: 'NUM_OVERLAY_PLANES' undeclared (first use in this function)
+     170 |                                                      1, NUM_OVERLAY_PLANES);
+         |                                                         ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/vkms/vkms_plane.c:170:57: note: each undeclared identifier is reported only once for each function it appears in
 
 
 vim +/NUM_OVERLAY_PLANES +170 drivers/gpu/drm/vkms/vkms_plane.c
