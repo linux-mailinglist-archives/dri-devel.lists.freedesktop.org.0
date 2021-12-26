@@ -1,59 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FF2447F66C
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Dec 2021 11:41:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2916F47F680
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Dec 2021 12:12:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B74EA10E6F1;
-	Sun, 26 Dec 2021 10:41:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF7C610E773;
+	Sun, 26 Dec 2021 11:12:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00CEC10E6F1
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Dec 2021 10:41:13 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id r17so26374998wrc.3
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Dec 2021 02:41:13 -0800 (PST)
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A177110E773
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Dec 2021 11:12:51 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id a9so26414611wrr.8
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Dec 2021 03:12:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=urda7dukOjrduEUTaGt81lKPi62bFg/eZfAHEnqnCIg=;
- b=IVgjJdfFI9JqBDqtDgFrsG6mMMuXOo5LT4CXf8uYQJMP+1UJEIkW+KtT7i23EW/Q1Q
- wksPThVgIYPfVRKc3etd1TntgDQ/HqR+LfkMVuDnuU79OIRUCEiWw22TT91cvY86HVFv
- 0D19oVPZZfNxQWWWow5EOYqb1NnRhhUGCufvlyO9iNrmQ4jvsEZDUsu3A6yeT0n2CjZX
- mE0cAQsKXVljzX0/+zKj9n06NR2JIGQQ+ESM3dFfFQeFi1Ue/9JgpFhFtUXTF4xjUiXd
- vQsuXEK/dXWZd94Yd8uI0k8ridXIgutOqUGjCFCL7KczAnsXe1gsUo+bwYNc7cz7HzUN
- 1CVw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=w27CKQZ8fZfwfzK3N8SKjXWwePWrkxb0ejgWzbzGC9g=;
+ b=BHAxm//76OpzciHvg1EntaNOSuB691GvrQvOpTXIJyiidFNRGn3IueByZHXuMhzp8P
+ MYYUwMbnmTUCzQItyblE+XluKbYpqJYMjWU46EP1tQv9sLhpaSlPvD+XYt5wageuROs4
+ C2kYQqLYZIo/qC/twpnXrhXyrLs7V+l8q/xPHW5PM3YnmUV/69UqbBOB9ePfr8k8CejK
+ EdrFdap+NPdgnAHjkWardIVHw3UxadFHCmTpoB7pwRXiiyGBpRI+3XJWSkHEoAoz4nZ2
+ /ts8sj8R3ElC9wwEVpjCbQn+hedtlHZ8UeJlzROI/Oo9rbI0kKq3QEmtDsiLcj31NdzX
+ LuyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=urda7dukOjrduEUTaGt81lKPi62bFg/eZfAHEnqnCIg=;
- b=XJTRBkQh4CxSXGIdd9lNlNiroQgXdhN4Lfw24z0xVM2JcUReR5tQG/kxLLtXDRgRju
- MNWXC2yCw8fnFo9cqBtdnDYsC8MfpTq/9II4Aot2axUZW3NX6x3v7lVesynpuVEDwmjR
- zVTb7NdU6kjbewGLrNP5hQEI8uWmhNDQxtnSUE4ZrfbaqySGFovmwvUSL8qE79EmTxcg
- QIKhuPfv9klCjNRyoTASlwovlmWY9sCpn8SPquiajPuBj8Uz32ReUuCXEYgA/e5HUrme
- Tpu/X5yF502Y91LYYLi7NiQEQiByFNbaqLO2/vM3OlJIC8w/8ujFVnx+v2S4KkRoAgo0
- V5JA==
-X-Gm-Message-State: AOAM533tWJqrhh9gPdLmtNnd2B4D2k7/3nAjMyZ314GkkpdmEERjpFvY
- HpUJQmLoOGrwr6Bx7wfmqqdi0hIC/LGmgA==
-X-Google-Smtp-Source: ABdhPJxMy8Ln4GlG/YF/pknetTJtI5gnctb6Y9F66+nXLcd6KQuxdSnO6R2xu8qF87P9acttOBLUeA==
-X-Received: by 2002:a05:6000:1845:: with SMTP id
- c5mr9396461wri.499.1640515272517; 
- Sun, 26 Dec 2021 02:41:12 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=w27CKQZ8fZfwfzK3N8SKjXWwePWrkxb0ejgWzbzGC9g=;
+ b=ZTsm/TIylRBOqdXsw8nrjmOrg0nieyVW/shon7sI+JYXWXOzpmbgEMuURtXMxw1yeM
+ LInvvqFxT7HozqAtsO7zY4/ZSbpTa5VyP7eTbgW7E3Az35RSZjUumovKkcZpDIxg82PT
+ DOSrUb+4URemRdidIAMp605rKqTZJLhKMR3gY/jvuoaQ4KEJ1HM0o/pctMmVmnVq0axE
+ NNTfo6rD0CR8k/9xpyN8Fg9hmhx7G9Wjr2rN59Y6WmuUeQnKj+uRAuMVcUQYUdGoTiot
+ +oLEPB0sY48QMoG2EWi2VVWciUb881Zq457kyyXDE+U6J+4RbAVPXl5rvZRobVmH2fpz
+ ApTQ==
+X-Gm-Message-State: AOAM5302UEisXaL8NJCl3sqx9ZR3XaFxmtP7LmfQRjm/MqfIoB7VIWEQ
+ w/Tw5apD5xAzZX6gwU6cIdI=
+X-Google-Smtp-Source: ABdhPJy0pdQxFcCPxQLjqqSDI2TTp5sPgVsZOv1dWNImuKZqSvfxW7Ske/KAju6W43T0+poWiKMLIQ==
+X-Received: by 2002:a5d:47aa:: with SMTP id 10mr9460610wrb.455.1640517170166; 
+ Sun, 26 Dec 2021 03:12:50 -0800 (PST)
 Received: from localhost.localdomain ([217.113.240.86])
- by smtp.gmail.com with ESMTPSA id g9sm12592729wmq.22.2021.12.26.02.41.11
+ by smtp.gmail.com with ESMTPSA id q14sm12156970wro.58.2021.12.26.03.12.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Dec 2021 02:41:12 -0800 (PST)
+ Sun, 26 Dec 2021 03:12:49 -0800 (PST)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To: melissa.srw@gmail.com
-Subject: [PATCH v2 3/3] drm/vkms: drop "Multiple overlay planes" TODO
-Date: Sun, 26 Dec 2021 11:40:59 +0100
-Message-Id: <20211226104059.11265-3-jose.exposito89@gmail.com>
+Subject: [PATCH v2 0/1] drm/vkms: zpos
+Date: Sun, 26 Dec 2021 12:12:18 +0100
+Message-Id: <20211226111219.27616-1-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211226104059.11265-1-jose.exposito89@gmail.com>
-References: <20211226104059.11265-1-jose.exposito89@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -75,26 +72,45 @@ Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove the task from the TODO list.
+Hi all,
 
-Signed-off-by: José Expósito <jose.exposito89@gmail.com>
----
- Documentation/gpu/vkms.rst | 2 --
- 1 file changed, 2 deletions(-)
+This patch adds support for the zpos plane prop in the VKMS driver.
 
-diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-index 941f0e7e5eef..9c873c3912cc 100644
---- a/Documentation/gpu/vkms.rst
-+++ b/Documentation/gpu/vkms.rst
-@@ -124,8 +124,6 @@ Add Plane Features
- 
- There's lots of plane features we could add support for:
- 
--- Multiple overlay planes. [Good to get started]
--
- - Clearing primary plane: clear primary plane before plane composition (at the
-   start) for correctness of pixel blend ops. It also guarantees alpha channel
-   is cleared in the target buffer for stable crc. [Good to get started]
+It should be applied after the "drm/vkms: add support for multiple
+overlay planes" series [1] because this new patch takes advantage of
+the new constant "NUM_OVERLAY_PLANES" to set the maximum overlay
+plane zpos.
+
+Notice that, as explained in the commit message, there is one test
+failling (plane-immutable-zpos) because of the timeout capturing CRC.
+
+This is a known bug [2] that needs to be fixed in a different series.
+It happens when the primary plane is disabled. The vkms_composer.c
+vkms_composer_worker() function is not able to find the
+"primary_composer" variable and the test fails.
+
+As a quick fix, commenting the line:
+
+  if (act_plane->base.base.plane->type == DRM_PLANE_TYPE_PRIMARY)
+
+Fixes the issue. However, more work is required to properly clear the
+background and blend the first active plane. I'll look into it,
+feedback from someone that already investigated the issue is welcome :)
+
+Thanks in advance,
+José Expósito
+
+[1] https://lore.kernel.org/dri-devel/20211226104059.11265-1-jose.exposito89@gmail.com/T/
+[2] https://www.kernel.org/doc/html/latest/gpu/vkms.html#igt-better-support
+
+José Expósito (1):
+  drm/vkms: add zpos plane property
+
+ drivers/gpu/drm/vkms/vkms_crtc.c  |  3 +--
+ drivers/gpu/drm/vkms/vkms_drv.c   |  1 +
+ drivers/gpu/drm/vkms/vkms_plane.c | 23 +++++++++++++++++++++++
+ 3 files changed, 25 insertions(+), 2 deletions(-)
+
 -- 
 2.25.1
 
