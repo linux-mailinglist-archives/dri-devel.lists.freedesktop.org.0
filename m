@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BA9247F693
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Dec 2021 12:25:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C6DD47F696
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Dec 2021 12:25:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1094410E951;
-	Sun, 26 Dec 2021 11:25:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACB5710E954;
+	Sun, 26 Dec 2021 11:25:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9686510E952;
- Sun, 26 Dec 2021 11:25:19 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id j18so26537903wrd.2;
- Sun, 26 Dec 2021 03:25:19 -0800 (PST)
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A6AD10E952;
+ Sun, 26 Dec 2021 11:25:21 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id
+ g7-20020a7bc4c7000000b00345c4bb365aso6755542wmk.4; 
+ Sun, 26 Dec 2021 03:25:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=udzgSr2XOO8m43wZrlgxQCrOrIrYf8SlPUnoZjFzTYk=;
- b=aCJzevHTBUPOKcQPw7hm+UB6JT/t1Fj3BW8O/jb392wnD0zkTkz+ZRTgelV2Yqg4MX
- W56GKzMk7Dzv9jaWuj28ZGU0lVkjYx9uNQh/0FadJ8JoyS4D8EWW4CIAYW1tl0U9P7Lu
- lOPPBpLonGHs296MrSx6PHecvp6ye/GIP5RQ4mgs54meCrWhzDzzmfoqLTwl5T4r5ib9
- Pu/3qMSp+gxIEeM+eE+BXjRwq2tGWwY7trJ/lA3Gq2QHZqATUNoI4JMtTWT95wDJflmL
- miGdPBFBHeeWcNJEd7MBupYAO07XGQ5e+OUbtSazNCYnC5IefApuP8gZt5MQQnVdZSo+
- V4aw==
+ bh=2sH9LpoHKM1nYuCNdjrxssHqCL8Z5G+nLzADIXmtmn8=;
+ b=mAetoydiC9DFErqK91+G/B0kP4LJaIEX6wTtFjgxIx2puQBkWT35g7OEs0I6Wxm4eT
+ DIS4O5D0u43xloptLbFpnamIbkbZp4QW1A5pN+Ad2pADFD6SEdOMQyLza03nFZ8lW8/3
+ Eesto4lZJ3IicDl5rRiAAttyieCY8P8S5nM1MM/+1js3SzqevyK2awp22JsgoAOcP7eZ
+ OptHCawHlqbW35aAG3+Wq4go/qCvwqqXt16SSXCJoYAnFMvUPqjB4E0JWPAhZRvtpJr8
+ /sV2Bn9XrAl+tgezM0TeuEPuu3A4TNULvoMGSlh58yjiIkGU3uZ6N06sfsiT5q/eDeSa
+ /v2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=udzgSr2XOO8m43wZrlgxQCrOrIrYf8SlPUnoZjFzTYk=;
- b=YqMN3hxjGl2FEE4SJGY4wQBliT5XTCu+htwIUW+fEZRljjopNNtdKPhvCN3AcmwrmQ
- 2A4IyVOK65I8jBPAh65jqBCTntgBJ8Fjo5LwqpAJgf6l+mkHYm5wWZNvigjr5EuAECkM
- 8QsPAzQth+r2or/NDHBZoE76E4kGU7uVp8Y83Hm4k02/LB7iP8mn87UXDckgU7kzki6Y
- ZxnDWRhlxKjEsMo37CjFoDz61+DwuaD1sqmV6iDbEquVbzXB62W/BUnmZb9O5JhOWTAu
- lDfL8A03xvDaECZBDrGd25XiUc/psxq4GLGEpsGziPk3QTyiTEHgrR/5Rgdi03lGnJmI
- vAYA==
-X-Gm-Message-State: AOAM530JwtOwy7NubWTCtIbNzaMLWwCcFy4JtBmveGIjAsxtclLJ+phC
- YcclAJYyFP2ZVJU3Fkt5yJA=
-X-Google-Smtp-Source: ABdhPJxUGkExUZ7jGhhIux0K+s4/ECaFhn9zxSixHZY9ABIuQhk4H3r2v0oZ1KM30IAWTvYNQ1yqjg==
-X-Received: by 2002:a05:6000:1845:: with SMTP id
- c5mr9492151wri.499.1640517918125; 
- Sun, 26 Dec 2021 03:25:18 -0800 (PST)
+ bh=2sH9LpoHKM1nYuCNdjrxssHqCL8Z5G+nLzADIXmtmn8=;
+ b=eyxmBHkJF5DeJmIE1WmfU5k1Ce5rEUO9hOFJCU4nHe2BPu9q+wAumkOeb//HbI1zNA
+ iwzJCcSc7Ce9qflx5F3nKW7eO0NSm+HWncqQ+K9tv6V0ottuJWI9106P4Gfqk8ZbyAr9
+ NHiphYd6z/bQSPC3T2qa0FJBBwsI4K49bAviFpodu5PBWXAdWM2Sv31KPtm3D5AHG6Md
+ urJ7ExUrwwHuSdHL0wQjT4LIl/66kXsH6/eGuxkX5IYjbzWpnqNGLo4rcoKawBizX8Ui
+ Qpwu9qO3dplGqMGOTA4tYXzC/n0MPpNmcGKYsLgCWHmssXeHwYFuGlIn5pO9epZyG7g9
+ cpvw==
+X-Gm-Message-State: AOAM532y2MkXVsaUJRkXkaAGZ6sYMo67Rq7TqauGT+wraa+EbO7JcWIR
+ B0SEdqW1D46hPq4PnfhdD0k=
+X-Google-Smtp-Source: ABdhPJz4lUyJV89AeASjgwh8PQuZGePew9x5IF62xdHwLSvNvHxbwPsKoabWCJpDvO3twBCqWu015Q==
+X-Received: by 2002:a05:600c:3787:: with SMTP id
+ o7mr10046954wmr.110.1640517919698; 
+ Sun, 26 Dec 2021 03:25:19 -0800 (PST)
 Received: from localhost.localdomain ([217.113.240.86])
- by smtp.gmail.com with ESMTPSA id g12sm13654743wrd.71.2021.12.26.03.25.16
+ by smtp.gmail.com with ESMTPSA id g12sm13654743wrd.71.2021.12.26.03.25.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Dec 2021 03:25:17 -0800 (PST)
+ Sun, 26 Dec 2021 03:25:19 -0800 (PST)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To: contact@emersion.fr
-Subject: [PATCH v3 3/6] drm/simple-kms: Drop format_mod_supported function
-Date: Sun, 26 Dec 2021 12:25:00 +0100
-Message-Id: <20211226112503.31771-4-jose.exposito89@gmail.com>
+Subject: [PATCH v3 4/6] drm/i915/display: Drop format_mod_supported function
+Date: Sun, 26 Dec 2021 12:25:01 +0100
+Message-Id: <20211226112503.31771-5-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211226112503.31771-1-jose.exposito89@gmail.com>
 References: <20211226112503.31771-1-jose.exposito89@gmail.com>
@@ -87,35 +88,35 @@ the default implementation.
 
 Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- drivers/gpu/drm/drm_simple_kms_helper.c | 8 --------
+ drivers/gpu/drm/i915/display/intel_cursor.c | 8 --------
  1 file changed, 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_simple_kms_helper.c b/drivers/gpu/drm/drm_simple_kms_helper.c
-index 72989ed1baba..2c6aa67c6956 100644
---- a/drivers/gpu/drm/drm_simple_kms_helper.c
-+++ b/drivers/gpu/drm/drm_simple_kms_helper.c
-@@ -284,13 +284,6 @@ static void drm_simple_kms_plane_cleanup_fb(struct drm_plane *plane,
- 	pipe->funcs->cleanup_fb(pipe, state);
+diff --git a/drivers/gpu/drm/i915/display/intel_cursor.c b/drivers/gpu/drm/i915/display/intel_cursor.c
+index 11842f212613..6a5e022f5e21 100644
+--- a/drivers/gpu/drm/i915/display/intel_cursor.c
++++ b/drivers/gpu/drm/i915/display/intel_cursor.c
+@@ -602,13 +602,6 @@ static bool i9xx_cursor_get_hw_state(struct intel_plane *plane,
+ 	return ret;
  }
  
--static bool drm_simple_kms_format_mod_supported(struct drm_plane *plane,
--						uint32_t format,
--						uint64_t modifier)
+-static bool intel_cursor_format_mod_supported(struct drm_plane *_plane,
+-					      u32 format, u64 modifier)
 -{
--	return modifier == DRM_FORMAT_MOD_LINEAR;
+-	return modifier == DRM_FORMAT_MOD_LINEAR &&
+-		format == DRM_FORMAT_ARGB8888;
 -}
 -
- static const struct drm_plane_helper_funcs drm_simple_kms_plane_helper_funcs = {
- 	.prepare_fb = drm_simple_kms_plane_prepare_fb,
- 	.cleanup_fb = drm_simple_kms_plane_cleanup_fb,
-@@ -339,7 +332,6 @@ static const struct drm_plane_funcs drm_simple_kms_plane_funcs = {
- 	.reset			= drm_simple_kms_plane_reset,
- 	.atomic_duplicate_state	= drm_simple_kms_plane_duplicate_state,
- 	.atomic_destroy_state	= drm_simple_kms_plane_destroy_state,
--	.format_mod_supported   = drm_simple_kms_format_mod_supported,
+ static int
+ intel_legacy_cursor_update(struct drm_plane *_plane,
+ 			   struct drm_crtc *_crtc,
+@@ -745,7 +738,6 @@ static const struct drm_plane_funcs intel_cursor_plane_funcs = {
+ 	.destroy = intel_plane_destroy,
+ 	.atomic_duplicate_state = intel_plane_duplicate_state,
+ 	.atomic_destroy_state = intel_plane_destroy_state,
+-	.format_mod_supported = intel_cursor_format_mod_supported,
  };
  
- /**
+ struct intel_plane *
 -- 
 2.25.1
 
