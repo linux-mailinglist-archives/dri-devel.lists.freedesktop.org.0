@@ -1,56 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6246B47F4B7
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Dec 2021 00:34:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D91A47F66B
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Dec 2021 11:41:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0A1F10E17C;
-	Sat, 25 Dec 2021 23:34:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B3CF10E6F0;
+	Sun, 26 Dec 2021 10:41:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com
- [IPv6:2607:f8b0:4864:20::72b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B41C610E17B
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Dec 2021 23:34:20 +0000 (UTC)
-Received: by mail-qk1-x72b.google.com with SMTP id l11so11187727qke.11
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Dec 2021 15:34:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hKmiJe9CRNgJf7UKsyNMbeFwV2C9Zr81lTDn8hmzix0=;
- b=Q28iL1AYg7u1wgTeD88BO76yK/PvAg1JIx36hv5AeDOftSk4C7vX5+x+5QS1SwieAI
- NvS341MRKNZGbrh0IiT7H9JPT2EWO6agyxWdOHoON+E0SEu+mL7GEHl0FIq3DLgEKnhI
- vl56SmnmhpxPn94uYVCXUDMyb7OkwkrqlHR49xnoinLoUcMXi7PRR3xzBOFMYkBiQfFD
- ak7lQWyG5eC9GjS5kxSS8RxZGL6qb8pN/VpspvQXtb8JS6KQd5OQsVQfNl0joVzjHnK3
- F2JsDFNDUoQXUtnJ05RoRnRHrgLZmbqdD7lLn1xC5M3EBxPHrDfuC5A+hMMLKFqFfiPd
- JdEA==
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2D8D10E6F0
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Dec 2021 10:41:09 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id o30so5343687wms.4
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Dec 2021 02:41:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iBIfrfnr3GLdb1qUMNUHlNu3PuJL3644gLoGb9X9DGQ=;
+ b=Ock4A3uoGStWAqVLbKFpQ0G5feZlxJ5tGxucKxVG85VNVRD+NoFnpyyXQBFQW+up/y
+ 5YjQonEU+szM63am1pR3OVzffe4Rg6DVnQiPggbfPYjGlrBM2+eSjcipDUU/T7pQaWjN
+ oO2p/LoWWIzLj5yfgg9KJHPFLA/nndVKJ+aavpNDpqHA0ULByzl6Uno2+mJVfxaWiAq1
+ KIJ099J6+r6cPfyD+XEKBUK2d6MOGgn53wjVdBcf/o4eVqn46ANPDGZWYiLzQ493NYfw
+ w9z1TFZ2JYl3ZGVggUM0oXgnyPp/gH1Qy+p+JPe77f/3CzMZ5IpYRGWzS2VDL/bk16/e
+ ClbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hKmiJe9CRNgJf7UKsyNMbeFwV2C9Zr81lTDn8hmzix0=;
- b=3VJSjrRGkbc6XsC6p34l15g7aAGyysFPRkpuh04Bgf3QaH8PcDFrtnZooikxinf/4w
- ACBMtmCUpkINGOh+sIxobaNwKnC1nfk+GiSVVn5R+CYCnnnDzoP8k0LOFr9pl8yWmc1o
- 0XyegDN4R22eTH7cPxh9nmbKM7OtKJJ7RETIiQqhGsY808YVBwdlN5yx9GJbNA9ebfLl
- KXn55yjJUib3+MhbkW6ZLodVLy0hu+3fN3E0+Sv6G/OqOx6wQsRPM/pa4qAQvVTLsgRv
- E92RHOwb7m24Q5KTjMq8SBuGY9qiGLml9ClrtToaC3EF/mdfY+bJNG/atkU9CjNcDpPT
- as4g==
-X-Gm-Message-State: AOAM533YM0y680WCM8yxJ19ICOXq/lT3W9vReiXqmRAF92n4pdnf1vr9
- 8N2TLDnccPu9BdXCHx4Yed9r7ZRf1Nre1CLyPwfz3Q==
-X-Google-Smtp-Source: ABdhPJycrFxGBnGfEcnR2q0JIRn89NOokVvBiwqZGL7sWhIfpdXaSUXQlfcv2oQSwG3HlxQE75zgkhzz7s2ETGg2eMQ=
-X-Received: by 2002:a05:620a:797:: with SMTP id
- 23mr8425912qka.30.1640475259623; 
- Sat, 25 Dec 2021 15:34:19 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iBIfrfnr3GLdb1qUMNUHlNu3PuJL3644gLoGb9X9DGQ=;
+ b=3NFg88Zv0Xrdhu1CcbRyEUErI54ZMQU36tmIzn+gHjbzBR+K1FxIaR/6HM7Yh5Gp+0
+ HYYz6jKm7UNejzFo4Hdblx/3bHfyP7LH8dqnvycqKxIIkhmnw0HGJNQYadJtYgl0FNZn
+ vdxgToFMqMFiLesu1RBXDDZseMEDRaDS01OTuLp8Bm7C5xgqLdROplZDmdsAOwZ1w1BC
+ xIofDmQEejCOwyo7xyWeBqYQIee79z/iVeowP+OzuZ0vDVl/RuU1uoD946uNCqIZeEP/
+ D0UBQihGAAxsudVJpLIDLmLKlpbizcPTrO55LHh5U6cmmpeLhdQNOBSJOCOJlTQ/80qo
+ ae6g==
+X-Gm-Message-State: AOAM530V97BvFip4cWdeB4sx+GE2Yl5eihmCw1aovczQT4aT+lcEFEZ2
+ N8uLoqZHqI8gH3bk2V/2aIU=
+X-Google-Smtp-Source: ABdhPJzt8QgSrDwaC8ul4L8AhTDytNAzH1P6MVQB50CiqghEZHGW//SXTCTmmRT1vZJ4sWLB0EiNQA==
+X-Received: by 2002:a7b:c40e:: with SMTP id k14mr9862595wmi.128.1640515267984; 
+ Sun, 26 Dec 2021 02:41:07 -0800 (PST)
+Received: from localhost.localdomain ([217.113.240.86])
+ by smtp.gmail.com with ESMTPSA id g9sm12592729wmq.22.2021.12.26.02.41.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 26 Dec 2021 02:41:07 -0800 (PST)
+From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To: melissa.srw@gmail.com
+Subject: [PATCH v2 1/3] drm/vkms: refactor overlay plane creation
+Date: Sun, 26 Dec 2021 11:40:57 +0100
+Message-Id: <20211226104059.11265-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20211225205352.76827-1-david@ixit.cz>
-In-Reply-To: <20211225205352.76827-1-david@ixit.cz>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 26 Dec 2021 02:34:08 +0300
-Message-ID: <CAA8EJpoVuNDS2uD2g8W_40XVO2jS=6GtRQFxAnyPpd_QuHim8g@mail.gmail.com>
-Subject: Re: [PATCH] Discussion: dt-bindings: display: msm:
- dsi-controller-main: fix the binding
-To: David Heidelberg <david@ixit.cz>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,141 +66,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krishna Manikandan <mkrishn@codeaurora.org>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- ~okias/devicetree@lists.sr.ht
+Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, mwen@igalia.com,
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Move the logic to create an overlay plane to its own function.
+Refactor, no functional changes.
 
-On Sat, 25 Dec 2021 at 23:54, David Heidelberg <david@ixit.cz> wrote:
->
-> This binding is not much validating the old DSI v2.
->
-> Currently we don't differentiate old v2 from new versions,
-> so we need to figure out how to validate them.
->
-> I propose specific compatible depending on mdss version, but I would be
-> glad, if someone with deeper knowledge proposed the names.
->
-> I'm willing to implement it then and back from autodetection.
+Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+---
+ drivers/gpu/drm/vkms/vkms_output.c | 26 +++++++++++++++++++-------
+ 1 file changed, 19 insertions(+), 7 deletions(-)
 
-I'd suggest to use hardware-specific compatible for apq8064 (and maybe
-other v2 hosts if somebody adds support). For example
-"qcom,apq8064-dsi-ctrl" or "qcom,dsi-ctrl-apq8064" (no strong
-preference here).
-For 6G hosts it will probably make sense to use IP versions instead
-("qcom-dsi-ctrl-6g-v2.4.1").
-
->
-> David
-> ---
->  .../display/msm/dsi-controller-main.yaml      | 53 ++++++++++++-------
->  1 file changed, 35 insertions(+), 18 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-> index 35426fde8610..6688ddcd7526 100644
-> --- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-> @@ -27,22 +27,34 @@ properties:
->      maxItems: 1
->
->    clocks:
-> -    items:
-> -      - description: Display byte clock
-> -      - description: Display byte interface clock
-> -      - description: Display pixel clock
-> -      - description: Display escape clock
-> -      - description: Display AHB clock
-> -      - description: Display AXI clock
-> +    oneOf:
-> +      - minItems: 7 # APQ8064
-> +        maxItems: 7
-> +      - items:
-> +          - description: Display byte clock
-> +          - description: Display byte interface clock
-> +          - description: Display pixel clock
-> +          - description: Display escape clock
-> +          - description: Display AHB clock
-> +          - description: Display AXI clock
->
->    clock-names:
-> -    items:
-> -      - const: byte
-> -      - const: byte_intf
-> -      - const: pixel
-> -      - const: core
-> -      - const: iface
-> -      - const: bus
-> +    oneOf:
-> +      - items: # DSI v2 (APQ8064)
-> +          - const: iface # from dsi_v2_bus_clk_names
-> +          - const: bus
-> +          - const: core_mmss
-> +          - const: src # from dsi_clk_init_v2
-> +          - const: byte # from dsi_clk_init
-> +          - const: pixel
-> +          - const: core
-> +      - items:
-> +          - const: byte
-> +          - const: byte_intf
-> +          - const: pixel
-> +          - const: core
-> +          - const: iface
-> +          - const: bus
->
->    phys:
->      maxItems: 1
-> @@ -66,15 +78,17 @@ properties:
->
->    assigned-clocks:
->      minItems: 2
-> -    maxItems: 2
-> +    maxItems: 4
->      description: |
->        Parents of "byte" and "pixel" for the given platform.
-> +      For older v2, "byte", "esc", "src" and "pixel".
->
->    assigned-clock-parents:
->      minItems: 2
-> -    maxItems: 2
-> +    maxItems: 4
->      description: |
->        The Byte clock and Pixel clock PLL outputs provided by a DSI PHY block.
-> +      For older v2, Byte, Escape, Source and Pixel clock PLL outputs.
->
->    power-domains:
->      maxItems: 1
-> @@ -124,6 +138,9 @@ properties:
->        - port@0
->        - port@1
->
-> +patternProperties:
-> +  '^(avdd|vdd|vdda)-supply$': true # FIXME only APQ8064 supplies
-> +
->  required:
->    - compatible
->    - reg
-> @@ -135,8 +152,8 @@ required:
->    - phy-names
->    - assigned-clocks
->    - assigned-clock-parents
-> -  - power-domains
-> -  - operating-points-v2
-> +  # - power-domains # v2 doesn't seems to need it?
-> +  # - operating-points-v2 # v2 doesn't have opp implemented yet
->    - ports
->
->  additionalProperties: false
-> --
-> 2.34.1
->
-
-
+diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+index 04406bd3ff02..2e805b2d36ae 100644
+--- a/drivers/gpu/drm/vkms/vkms_output.c
++++ b/drivers/gpu/drm/vkms/vkms_output.c
+@@ -32,6 +32,21 @@ static const struct drm_connector_helper_funcs vkms_conn_helper_funcs = {
+ 	.get_modes    = vkms_conn_get_modes,
+ };
+ 
++static int vkms_add_overlay_plane(struct vkms_device *vkmsdev, int index,
++				  struct drm_crtc *crtc)
++{
++	struct vkms_plane *overlay;
++
++	overlay = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_OVERLAY, index);
++	if (IS_ERR(overlay))
++		return PTR_ERR(overlay);
++
++	if (!overlay->base.possible_crtcs)
++		overlay->base.possible_crtcs = drm_crtc_mask(crtc);
++
++	return 0;
++}
++
+ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+ {
+ 	struct vkms_output *output = &vkmsdev->output;
+@@ -39,7 +54,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+ 	struct drm_connector *connector = &output->connector;
+ 	struct drm_encoder *encoder = &output->encoder;
+ 	struct drm_crtc *crtc = &output->crtc;
+-	struct vkms_plane *primary, *cursor = NULL, *overlay = NULL;
++	struct vkms_plane *primary, *cursor = NULL;
+ 	int ret;
+ 	int writeback;
+ 
+@@ -48,12 +63,9 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+ 		return PTR_ERR(primary);
+ 
+ 	if (vkmsdev->config->overlay) {
+-		overlay = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_OVERLAY, index);
+-		if (IS_ERR(overlay))
+-			return PTR_ERR(overlay);
+-
+-		if (!overlay->base.possible_crtcs)
+-			overlay->base.possible_crtcs = drm_crtc_mask(crtc);
++		ret = vkms_add_overlay_plane(vkmsdev, index, crtc);
++		if (ret)
++			return ret;
+ 	}
+ 
+ 	if (vkmsdev->config->cursor) {
 -- 
-With best wishes
-Dmitry
+2.25.1
+
