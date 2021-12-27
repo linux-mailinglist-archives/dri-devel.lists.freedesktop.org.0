@@ -2,120 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11D0A481E38
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Dec 2021 17:37:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB8C9481E85
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Dec 2021 18:17:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 732EA10E206;
-	Thu, 30 Dec 2021 16:37:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A1A810E2C6;
+	Thu, 30 Dec 2021 17:17:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam08on2085.outbound.protection.outlook.com [40.107.101.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B11F010E1EA;
- Thu, 30 Dec 2021 16:37:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FZi211NdGVfDSeFdxYmoDdDo3cuSXPrLq7HV51LuUozgZSDyXMGpOowmTKn+VNWhquBHjK0a6xGRTTii34OBhjYjeE3ucOXkpygimJQKGlDY04d5bWH+5gI64MmbcDEPpBxgMKZP/GBXIBje6X44vq4Q4MgdElA40l08sdUgGO5mDwuErjbSuF2zdP7JY5KqJUNy4eG5dXhRlTeip0JoLkA2FnX9Joh5u093WQEojuwjc2fA3JCSsczSHI6CdtJKV0GUDzYSxy5BfViUqDCanng/nrE2/1EADZU7TOM1djxquYoNiDAEJuejJKZn0WLPDLtd06o/lOeX+9gXMjNy6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IvnWevvQXj/V1uNywXipoIavjHxHshWe+XKnsWNE2Pc=;
- b=CJbOASkj+iWEowe3aZzUvI5RZe1+Z9xCsIcYG9VAwGsHMrzlz2tF+dY4BCVkZPicC/DxPLHtQT36t6Rkd2GX84fzRpvl0xC9uHT/UxqeV0sju6PJFCpLmC+mF4xP3E9lTWRBUm63MctIU1qgM+Id8ED53q2fVCFsva/0RZJz6+XF9kLL0Q979ldm8NcQHaKZ0TiqLitBgW7xiSKzxsrppi2iTXIIf5Xl/NkRCft72+Kl1Y0CDEi0lmBK4NhMxxF3H0Kch0o6oN4Tt13iNk4KO2qa6khCRg98Dwdy611wkGseJ1mMDH3lkxvq5QaAQNgeykHrrY0sWhj8KCXEoWsGsg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IvnWevvQXj/V1uNywXipoIavjHxHshWe+XKnsWNE2Pc=;
- b=W8xGflXQKEKB2OIy5Cx7AfJf+kwBMMkasLUnEYVHQZKxy9VI9KfDJlxjXwRCwX2YwGNz4+Vn8iJPeWXOithCEERNjzXqyYuIVyuoeZcL8V6mCmchK7ZlMLEPfSDv62gDz7NvJc71sWk1icFc9kjaOByx7WyGAaPyj/pYTn0N82Y=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM5PR1201MB0187.namprd12.prod.outlook.com (2603:10b6:4:5b::9)
- by DM6PR12MB4910.namprd12.prod.outlook.com (2603:10b6:5:1bb::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4844.14; Thu, 30 Dec
- 2021 16:37:04 +0000
-Received: from DM5PR1201MB0187.namprd12.prod.outlook.com
- ([fe80::17b:556a:9bb2:60e7]) by DM5PR1201MB0187.namprd12.prod.outlook.com
- ([fe80::17b:556a:9bb2:60e7%12]) with mapi id 15.20.4823.024; Thu, 30 Dec 2021
- 16:37:04 +0000
-Subject: Re: [PATCH] gpu/drm/radeon:Fix null pointer risk
-To: Wen Zhiwei <wenzhiwei@kylinos.cn>, alexander.deucher@amd.com,
- Xinhui.Pan@amd.com, airlied@linux.ie, daniel@ffwll.ch
-References: <20211228073126.48906-1-wenzhiwei@kylinos.cn>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <ec202938-5972-d74e-a17c-256420350eb8@amd.com>
-Date: Thu, 30 Dec 2021 17:36:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-In-Reply-To: <20211228073126.48906-1-wenzhiwei@kylinos.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-ClientProxiedBy: AM6P192CA0046.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:209:82::23) To DM5PR1201MB0187.namprd12.prod.outlook.com
- (2603:10b6:4:5b::9)
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FA2610E13E
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Dec 2021 06:36:30 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ j140-20020a1c2392000000b003399ae48f58so10450829wmj.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Dec 2021 22:36:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=aVsAoP2T3tzUodu4VGKyNEW0sphmTDDncHzes2frrOs=;
+ b=bQQ8nvrhuvCETjMeJ9h0Eb9hkbJIrbr4SKihusqXFjU+d5gf0mXDgdRUp+z7hJfvQb
+ JjxSVDl8TXXdkcyei7e9eeEp6Dztxbw6yS2hMjGq2t1ICy3jp5FK3pozZB49Y1Dj/gyD
+ 4kK9mVxp06A19aXks8CQ4v9NgZBMA0pYoWRPuu5z62JbZQz7+37zEzdA6WRxblez0GvE
+ fTTkwV99WTStkviHBP2J6Af8V8mTbbXWgg1WVdK6mpv1fmmV1ao0zImxMmExWnaUGnYO
+ /Hly8+mtu6fqnqt0ElKuwfknZ2WQ80kP6dhOAetBMLRAqA5nkKYWteI+mo0xYyJBNFDp
+ ltwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=aVsAoP2T3tzUodu4VGKyNEW0sphmTDDncHzes2frrOs=;
+ b=SwfuL9ImHLG4SjYDsGCDZ7xudO/WBVWsWdE05Qt4ZRsNTnJYIYRRu1wCH0nNUkGUd3
+ gR8p7A9T9LKFQdws0WYnsNTxD0nYUU1U6hRL6qpAnjcCnAyN+uyyNaQyUQESqiQGPm77
+ nAZKpKOzjWqOT4Mu4Usf1cd564Sb1XVaXTUxtrfTXBBI98av2DWtaCxBB/ZhdUWCDI8/
+ kGKwbkFkaG3JHStIFmDIPxW52Wmr6bXZQsK7vdxD8ftlLuN40T2azdyr3OOodiKoVYgl
+ pY1+UL8bgpcyrGEC8xoS6W2/GCQ4saUwCtm11WHMrWt+cBp0JsCcEOKTj9xsv7hjQo0b
+ RhYg==
+X-Gm-Message-State: AOAM530Jat16yKVFQo42Pr8tw9r0Qp7oJzc2/Dlai4VvtrXYOBqEiwho
+ uGS0d/xBoZpVgkmrfI67afM=
+X-Google-Smtp-Source: ABdhPJysdnMAvIRMu3NQjqh3TRsP70+m9zCz27aJbE26CBqDoMBfIJyJ9lkILTCCw6d9dhVfu1YpMg==
+X-Received: by 2002:a1c:494:: with SMTP id 142mr12441200wme.191.1640586988638; 
+ Sun, 26 Dec 2021 22:36:28 -0800 (PST)
+Received: from ownia.. ([103.105.48.220])
+ by smtp.gmail.com with ESMTPSA id g8sm14153982wmh.17.2021.12.26.22.36.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 26 Dec 2021 22:36:28 -0800 (PST)
+From: Weizhao Ouyang <o451686892@gmail.com>
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@redhat.com>,
+ Brian Starkey <Brian.Starkey@arm.com>,
+ John Stultz <john.stultz@linaro.org>, christian.koenig@amd.com
+Subject: [PATCH] dma-buf: heaps: Fix mutex lock area and generalize struct
+ dma_heap_attachment
+Date: Mon, 27 Dec 2021 14:36:19 +0800
+Message-Id: <20211227063619.215692-1-o451686892@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 196ce3e4-441c-41ba-4586-08d9cbb29cc6
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4910:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR12MB49100BB09A38CCEDBD05392483459@DM6PR12MB4910.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ++fGgctMMF3FMLayQ+KmXkucWf7DU7sOaDbtABypIaidUFlyupGFdm39okkGKjZNNUjyt+F6j1bDofNRmefH2ly9zrscxPEZp0fbnOE5g0tibobVLgKdoXDOBqXN/pTg1zQ8n64j/wBO5dz0PEHVkTsgIK9SEY96jgdfvvbzkm1OhPCvAGEX6n9W650WG3Ldx9r1x74mp79Dq7prJQtizFIOTkOdPjzG7C+fAs2nsvNGOpEfQV2NfWoZ9GDdU0gpKGHWZcT+t09sDOLBXzkAaRwfn9AKCH7x8Vhy6IvpxONycSRyT3SsBiADedWebTDaV4M2IIsWFvWKow0TvAARG7HCITF3lCgJsBkA8bkLe/4WWN0W79YGvZeZgLM1R9cvSj6n7c8D/yHg/XQTkydvQII2wvPhyIDTUQhvkXv6MOjnND56x5w7vHynrz/iTGS8axwePkIFEkbWXJ4T4dQ8IqjI6ZtC7FOIZMHjlhptid0t0hC06EXHWCobZPgla7+vQKA96UZg0wToM5FQuB7iQqTMyl2f4no16zumru3nlUBnb2+3o+n2UzjwihQ6wXWD8hNJ1fqgd/3PW9sArce0DsBINhvi+Lx9tBpoFmWsJCuECiChBEMLniXDj19fWigmWU4KN4N0giX5BYuxgzXPf6uSvfLPUqioeVlKXWjcEj5xsgDePIXrYqh49I9jPauzc1Fn70BGcCryevA4Cx3CdKQyVJEuUm8tmpFNPmzIazZW2ZQXiHcVWix3i8OY0dP/
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR1201MB0187.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(4326008)(66946007)(31686004)(6666004)(6486002)(36756003)(31696002)(86362001)(8936002)(2616005)(6512007)(66476007)(66556008)(186003)(8676002)(508600001)(4744005)(5660300002)(38100700002)(6506007)(2906002)(83380400001)(316002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cmNKT2ZYSlRBTUhMU0tTK2lPc1hBTEtySUM1R1BjbnZuSUhWTmpUTFRvNUxp?=
- =?utf-8?B?NzhRR1dEWmdGN3ZuQnlwMDc2U2pvOW9XRFZsTWd0Wi9IUytwL0lSVnFJanEz?=
- =?utf-8?B?ZFdWYTB5RlQ4SkE2TE1CR280NjZ4eDBGSXprUWZTSWxlMlZTZnk2dFRjZEZ5?=
- =?utf-8?B?b3hRVEhRZ3FVUGlPeG5IWVFKczhlOFJPTWhuSUVzKzhaUS9yaFlJaUxjd2dr?=
- =?utf-8?B?TFJkQkYzb0oxNGE1SlRDTmVKUUxqUmp6YzlobWF5bGdxS0k0VWtkZHA4TXNX?=
- =?utf-8?B?cW9mWXc5WXdheXN6b0wwa2JLMXM0aWg4c0dySTdub1pwWXFrM3F1R0lUOE8w?=
- =?utf-8?B?dGFnQjJkaVpxc2h4NjZ1RjdxYmk2MVZOTFp2QW91b3plTkhaNnFHSXFoeHZz?=
- =?utf-8?B?blkwcWRzWXdSem9TWWdzdHhOdVFnL0tBVjRpcUdzMHZqblZvVDRUQWRNSXdI?=
- =?utf-8?B?MHpBRGdOcmdIZURJd2lMYlZDa3pJRlZZNm1tbmRQSEFiWXJHMDJOUE1FUXZo?=
- =?utf-8?B?SFAwMTU4WWxoVks4Z2hsS3ZQKzV2d1N4THk5bzhqMWFzcnd0dWlPcVFZaGp4?=
- =?utf-8?B?N3R3NmVqNWU1ZHFrdW1hSmQxUUZpanpSYTRIbTlvNGVpK3dHSkJ5TStSd0dK?=
- =?utf-8?B?L3dmbTU0NEh0NVlCWVE1MnVpUmE5N1E1ZlNVM0RVeUJYWHJNSVdiSzJxUHBx?=
- =?utf-8?B?NEtnMkFJRWtUaURGaVhQQzFIVGdkMFBJS3Y0MnpVMDRBcGJKeTA5UXRJbW1r?=
- =?utf-8?B?RlhnT3djTGJ4bkdUV2pNNFNwaHB2d2VZaEswV0tZMjB1SnhHd2lYbFRiajdK?=
- =?utf-8?B?cnljTnJ4TVprOTJwZ2FGMjl6TERzdHlqdThnRWNmdllSd1IzUEVWQWlGTGQr?=
- =?utf-8?B?K2lMN2c5RnlsbHY0dHJ5WDI1TGRFQWNRbXl0Wis5VmMzTzhRd0dOdGtPY2JH?=
- =?utf-8?B?QUpsRHltK0pVckpPVTBtc1dsQ3g1UFZjSm5GUW5JRWpyRTBxOUxjaFJTMWR2?=
- =?utf-8?B?aktFTnoxL0w1cTlqSFh1aW9LWmhtc2Y2b3ZBUkJSanFsblZKeVFMdzlTRXEv?=
- =?utf-8?B?blVKZk56QTJFWnMzczR2M0trOTRtdjNlTGdCVHhuZFAwYzhoZWlCM3haZkZt?=
- =?utf-8?B?L2NxOFQ0ZFR6OWZCSEE4dnBTWHNQam5mUDAzSXhna2ZRU3lhUGJub2Jscm5k?=
- =?utf-8?B?ZjUyY2Nja09sdGZsckNwMTdtRTdvWEExU3VqWVdxR3R2cGFoMStWME51b21o?=
- =?utf-8?B?WEVJU3ZEcU5MZjFZM2lZcy9vSTdKSmc5dDJCRWl1RXh4ODRuemJQUXlmbzEw?=
- =?utf-8?B?RDBvQnJ5TUh0K2FTZ3pBblE0RXA4UUlVRDhBWlVSRGt5b3dSc0I4Mkc3Y2Uz?=
- =?utf-8?B?bHlDcWtadTV6SWZFeDh6Um5qMDlPclEvMC9vQ3YxSmpMVG5HZi9ubSt1Ynl3?=
- =?utf-8?B?QUJEcisxMXE1bFJlMEJ3RUJGZC8rTGhpanFEaUxwdWJwYWFZUmhhSVlKbEdl?=
- =?utf-8?B?Wm9Wa3ZhOHhFdEtpcjJjNkE3L2VvNmJTb3hzaWhoSCtpOVJsUjQ1ZlFjRlpN?=
- =?utf-8?B?RElMUWMzZXpYRW1ZamYrTEdQSFNVUW1sU0Z1MW1TaVpMODVwSHZmTTNPdVZH?=
- =?utf-8?B?ZWExOXFKTUdlR1BnMGtZWE9hVENUY3dVUFQ1ZVFNNzNjbVlKSllqeWo3UzZo?=
- =?utf-8?B?bDN0WkNmNHJJVmJDUEZWbUZMdmJpWWI5bEFJRUd4SXNCUEJtcnViZC8rOGZD?=
- =?utf-8?B?ckxMQzRsT1FUM1dFRGJybG5tZ0w3UWhPSE5uQ2FZZjQzNWhsN1k5QUExdE1U?=
- =?utf-8?B?RUJZK1NHaTc3Q0g2Q0NabTdyVWV5VFkrS0lGS0tIY3BBb2EwSzRFcjZsQmNO?=
- =?utf-8?B?V2orY3c4Vi9nYlV6U3E0OXErWU4rdTRhY3hWdGdCTkRDM2U4Rlg4TVVHVy94?=
- =?utf-8?B?NVgzWDVValJCaERUY0JhTDI4Q043SmlSNndKTDdRQ0pnaE9VN2ZPRzY5SElT?=
- =?utf-8?B?bEFJU0Y1MHhpTW5CK1dtQzZra2w2a0EzM1NNN3ZXV3F2bE5FUDgyeExyRmNV?=
- =?utf-8?B?WEJQaVlQaXlOeGlNMEt1NUhJa01GUXF0VnlQSndWZGVmNVFUL2pUMlRIT0hr?=
- =?utf-8?B?NGE2N3BPekNoZVlaR2dhRFFaYlZhYzV1bFlDUXBOb2JRYjBvT08vbjA1ZnlV?=
- =?utf-8?Q?Y17RwTBXn30kEos0nVCtPLE=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 196ce3e4-441c-41ba-4586-08d9cbb29cc6
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR1201MB0187.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Dec 2021 16:37:04.7304 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KsGJbqNwum6ItC5qbPybW7UycTZ4rsbWdj2WFjIkNt63awL+IO5OjUodyvoK2mF/
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4910
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 30 Dec 2021 17:17:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,39 +72,188 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org, Weizhao Ouyang <o451686892@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 28.12.21 um 08:31 schrieb Wen Zhiwei:
-> If the null pointer is not judged in advance,
-> there is a risk that the pointer will cross
-> the boundary
+Fix cma_heap_buffer mutex lock area to protect vmap_cnt and vaddr. And
+move struct dma_heap_attachment to dma-heap.h so that vendor dma heaps
+can use it, the same behaviour as struct dma_buf_attachment.
 
-As far as I can see that case is impossible, why do you want to add a 
-check for it?
+Fixes: a5d2d29e24be ("dma-buf: heaps: Move heap-helper logic into the cma_heap implementation")
+Signed-off-by: Weizhao Ouyang <o451686892@gmail.com>
+---
+ drivers/dma-buf/heaps/cma_heap.c    | 25 ++++++++++---------------
+ drivers/dma-buf/heaps/system_heap.c | 12 ++----------
+ include/linux/dma-heap.h            | 15 +++++++++++++++
+ 3 files changed, 27 insertions(+), 25 deletions(-)
 
-Regards,
-Christian.
-
->
-> Signed-off-by: Wen Zhiwei <wenzhiwei@kylinos.cn>
-> ---
->   drivers/gpu/drm/radeon/radeon_vm.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/radeon/radeon_vm.c b/drivers/gpu/drm/radeon/radeon_vm.c
-> index bb53016f3138..d3d342041adf 100644
-> --- a/drivers/gpu/drm/radeon/radeon_vm.c
-> +++ b/drivers/gpu/drm/radeon/radeon_vm.c
-> @@ -951,7 +951,7 @@ int radeon_vm_bo_update(struct radeon_device *rdev,
->   
->   		if (mem->mem_type == TTM_PL_TT) {
->   			bo_va->flags |= RADEON_VM_PAGE_SYSTEM;
-> -			if (!(bo_va->bo->flags & (RADEON_GEM_GTT_WC | RADEON_GEM_GTT_UC)))
-> +			if (bo_va->bo && !(bo_va->bo->flags & (RADEON_GEM_GTT_WC | RADEON_GEM_GTT_UC)))
->   				bo_va->flags |= RADEON_VM_PAGE_SNOOPED;
->   
->   		} else {
+diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+index 0c05b79870f9..23dad5b6421e 100644
+--- a/drivers/dma-buf/heaps/cma_heap.c
++++ b/drivers/dma-buf/heaps/cma_heap.c
+@@ -40,13 +40,6 @@ struct cma_heap_buffer {
+ 	void *vaddr;
+ };
+ 
+-struct dma_heap_attachment {
+-	struct device *dev;
+-	struct sg_table table;
+-	struct list_head list;
+-	bool mapped;
+-};
+-
+ static int cma_heap_attach(struct dma_buf *dmabuf,
+ 			   struct dma_buf_attachment *attachment)
+ {
+@@ -58,7 +51,7 @@ static int cma_heap_attach(struct dma_buf *dmabuf,
+ 	if (!a)
+ 		return -ENOMEM;
+ 
+-	ret = sg_alloc_table_from_pages(&a->table, buffer->pages,
++	ret = sg_alloc_table_from_pages(a->table, buffer->pages,
+ 					buffer->pagecount, 0,
+ 					buffer->pagecount << PAGE_SHIFT,
+ 					GFP_KERNEL);
+@@ -90,7 +83,7 @@ static void cma_heap_detach(struct dma_buf *dmabuf,
+ 	list_del(&a->list);
+ 	mutex_unlock(&buffer->lock);
+ 
+-	sg_free_table(&a->table);
++	sg_free_table(a->table);
+ 	kfree(a);
+ }
+ 
+@@ -98,12 +91,12 @@ static struct sg_table *cma_heap_map_dma_buf(struct dma_buf_attachment *attachme
+ 					     enum dma_data_direction direction)
+ {
+ 	struct dma_heap_attachment *a = attachment->priv;
+-	struct sg_table *table = &a->table;
++	struct sg_table *table = a->table;
+ 	int ret;
+ 
+ 	ret = dma_map_sgtable(attachment->dev, table, direction, 0);
+ 	if (ret)
+-		return ERR_PTR(-ENOMEM);
++		return ERR_PTR(ret);
+ 	a->mapped = true;
+ 	return table;
+ }
+@@ -124,14 +117,15 @@ static int cma_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
+ 	struct cma_heap_buffer *buffer = dmabuf->priv;
+ 	struct dma_heap_attachment *a;
+ 
++	mutex_lock(&buffer->lock);
++
+ 	if (buffer->vmap_cnt)
+ 		invalidate_kernel_vmap_range(buffer->vaddr, buffer->len);
+ 
+-	mutex_lock(&buffer->lock);
+ 	list_for_each_entry(a, &buffer->attachments, list) {
+ 		if (!a->mapped)
+ 			continue;
+-		dma_sync_sgtable_for_cpu(a->dev, &a->table, direction);
++		dma_sync_sgtable_for_cpu(a->dev, a->table, direction);
+ 	}
+ 	mutex_unlock(&buffer->lock);
+ 
+@@ -144,14 +138,15 @@ static int cma_heap_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
+ 	struct cma_heap_buffer *buffer = dmabuf->priv;
+ 	struct dma_heap_attachment *a;
+ 
++	mutex_lock(&buffer->lock);
++
+ 	if (buffer->vmap_cnt)
+ 		flush_kernel_vmap_range(buffer->vaddr, buffer->len);
+ 
+-	mutex_lock(&buffer->lock);
+ 	list_for_each_entry(a, &buffer->attachments, list) {
+ 		if (!a->mapped)
+ 			continue;
+-		dma_sync_sgtable_for_device(a->dev, &a->table, direction);
++		dma_sync_sgtable_for_device(a->dev, a->table, direction);
+ 	}
+ 	mutex_unlock(&buffer->lock);
+ 
+diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+index ab7fd896d2c4..aac8fc660ea6 100644
+--- a/drivers/dma-buf/heaps/system_heap.c
++++ b/drivers/dma-buf/heaps/system_heap.c
+@@ -17,7 +17,6 @@
+ #include <linux/highmem.h>
+ #include <linux/mm.h>
+ #include <linux/module.h>
+-#include <linux/scatterlist.h>
+ #include <linux/slab.h>
+ #include <linux/vmalloc.h>
+ 
+@@ -33,13 +32,6 @@ struct system_heap_buffer {
+ 	void *vaddr;
+ };
+ 
+-struct dma_heap_attachment {
+-	struct device *dev;
+-	struct sg_table *table;
+-	struct list_head list;
+-	bool mapped;
+-};
+-
+ #define LOW_ORDER_GFP (GFP_HIGHUSER | __GFP_ZERO | __GFP_COMP)
+ #define MID_ORDER_GFP (LOW_ORDER_GFP | __GFP_NOWARN)
+ #define HIGH_ORDER_GFP  (((GFP_HIGHUSER | __GFP_ZERO | __GFP_NOWARN \
+@@ -68,7 +60,7 @@ static struct sg_table *dup_sg_table(struct sg_table *table)
+ 	ret = sg_alloc_table(new_table, table->orig_nents, GFP_KERNEL);
+ 	if (ret) {
+ 		kfree(new_table);
+-		return ERR_PTR(-ENOMEM);
++		return ERR_PTR(ret);
+ 	}
+ 
+ 	new_sg = new_table->sgl;
+@@ -94,7 +86,7 @@ static int system_heap_attach(struct dma_buf *dmabuf,
+ 	table = dup_sg_table(&buffer->sg_table);
+ 	if (IS_ERR(table)) {
+ 		kfree(a);
+-		return -ENOMEM;
++		return PTR_ERR(table);
+ 	}
+ 
+ 	a->table = table;
+diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
+index 0c05561cad6e..7d02aefe0e78 100644
+--- a/include/linux/dma-heap.h
++++ b/include/linux/dma-heap.h
+@@ -11,6 +11,7 @@
+ 
+ #include <linux/cdev.h>
+ #include <linux/types.h>
++#include <linux/scatterlist.h>
+ 
+ struct dma_heap;
+ 
+@@ -41,6 +42,20 @@ struct dma_heap_export_info {
+ 	void *priv;
+ };
+ 
++/**
++ * struct dma_heap_attachment - holds device-heap attachment data
++ * @dev:	device attached to the heap
++ * @table:	sgtables for tracking the associated pages
++ * @list:	list of dma_heap_attachment
++ * @mapped:	true if attachment is actually mapped on the device
++ */
++struct dma_heap_attachment {
++	struct device *dev;
++	struct sg_table *table;
++	struct list_head list;
++	bool mapped;
++};
++
+ /**
+  * dma_heap_get_drvdata() - get per-heap driver data
+  * @heap: DMA-Heap to retrieve private data for
+-- 
+2.32.0
 
