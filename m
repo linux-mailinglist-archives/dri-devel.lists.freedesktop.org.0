@@ -2,96 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D163B481E7F
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Dec 2021 18:17:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B43B481E7A
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Dec 2021 18:17:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3425610E212;
-	Thu, 30 Dec 2021 17:17:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B64710E236;
+	Thu, 30 Dec 2021 17:17:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1318 seconds by postgrey-1.36 at gabe;
- Mon, 27 Dec 2021 17:06:01 UTC
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B04F510E5C7;
- Mon, 27 Dec 2021 17:06:01 +0000 (UTC)
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BRGfnbh017509; 
- Mon, 27 Dec 2021 16:43:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=m3Op9QzYPMOkofkODaQRSokfesAlghmkehCWQBGqDME=;
- b=gpbBN6K2GBP6meNrYLkpZeDSrrLYRKsKXreCPadHTGlRBrKAGw4KgabMO8ZywbWoYnaI
- 8U5saRo8MO0fJNSwjlKNwZFTjNsquerHku185wkH67Hna+JahNrejIj37pyxTGmr0uuU
- cFxhR9k8Zn9tN8b4JNXTdTAxGAvA3ZGJ9/QVC3xNLkzQxKATIfymz4hf3umgXLe2dvq6
- 9RmlT/tJbTZcIGvm1t4pbxacwHiNAybfTgb48Wdxuf12HwxO780wtUCIzRs9GS6B+g8L
- Oa4TBciUq0p5xaTik4hCaufEITNCLhtvNaZRV0hsARNxtGKVLAc5cE3NRPuIdGf1FdmR fQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3d7h7u80yf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Dec 2021 16:43:54 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BRGh5bv019588;
- Mon, 27 Dec 2021 16:43:53 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3d7h7u80y1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Dec 2021 16:43:53 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BRGhXrJ028675;
- Mon, 27 Dec 2021 16:43:51 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma01fra.de.ibm.com with ESMTP id 3d5tx92sqs-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Dec 2021 16:43:51 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 1BRGhn1d44761362
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 27 Dec 2021 16:43:49 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 069ECA4054;
- Mon, 27 Dec 2021 16:43:49 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 656AEA405B;
- Mon, 27 Dec 2021 16:43:48 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 27 Dec 2021 16:43:48 +0000 (GMT)
-From: Niklas Schnelle <schnelle@linux.ibm.com>
-To: Arnd Bergmann <arnd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- John Garry <john.garry@huawei.com>, Nick Hu <nickhu@andestech.com>,
- Greentime Hu <green.hu@gmail.com>, Vincent Chen <deanbo422@gmail.com>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Guo Ren <guoren@kernel.org>, Dave Airlie <airlied@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [RFC 26/32] drm: handle HAS_IOPORT dependencies
-Date: Mon, 27 Dec 2021 17:43:11 +0100
-Message-Id: <20211227164317.4146918-27-schnelle@linux.ibm.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211227164317.4146918-1-schnelle@linux.ibm.com>
-References: <20211227164317.4146918-1-schnelle@linux.ibm.com>
+Received: from sonic312-21.consmr.mail.bf2.yahoo.com
+ (sonic312-21.consmr.mail.bf2.yahoo.com [74.6.128.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 359E010FC6B
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Dec 2021 21:25:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1640640310; bh=AZu+3oBhyQ6RQbpVZa5JMSwjQ4rExhRVBCKzphK+jHk=;
+ h=Date:From:To:Subject:References:From:Subject:Reply-To;
+ b=HUgQyv9zrJ/B/M1xiHACh/dmqaxwkkFNdlPvZChqQBH6iEMmajHJnqpMysl5+9qkQDFZlWTwZ1iwZZVBiMPWJfUJKRmeTdinKd+KukTF1745uaMRAXfByziHK+0OII8+9N8XjODKyiIg9RFxMZnUHKgjBhkTqYlXU3ugjbCUEvwK2JzMOBSd+a+9Y7Cl6pQ78GRJWN07/oyYZVJQ+aCz+TLRAMN6GklbkjfcmBlOD15l1TZfZuXBr5jeV4/O0hnPnuBHBYEO1sOorlsf2z1m4n2vjtyFd3b9EJ/EnlWGIHKm8U4XZznUbCe3HCSM8UdNtqvohsczHydJFUkIUtnJ+g==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1640640310; bh=n4YhZsrhoJFr002FFtUtoi6hP2WCyhvjDX2rU7NxeRP=;
+ h=X-Sonic-MF:Date:From:To:Subject:From:Subject;
+ b=YAThDwvCv8wfkz2r9NZn//opaf967jPdQgguB6p0eatXX6+DeFM/YHTP8D0oPopN3o5jzKiqGWpUpIgYrVWDtl2FElstS55or3I70W0mMww71WeHk3jWuZYWyYAFhtjr7xv3oU+QhTK/xyTvSFNTLU1cpZ7Txw1QWpnzXMQ2+f4Kh8D9jA9JJYwaHX1BUofgm4pxUv9vR8JZVi3DcvGT54QakX0v4gTbO3Oz3cBpRKJu+dhpcY4S/5pADiQv1igcWtzLJ6JkolH/Kc7eS9ja7nP7Z7kl76k6FSoQTD4x/rRRaP/FgAFKpSeT7EV4gUxsbGFYCHm7CDnGZ6tQt0Tnig==
+X-YMail-OSG: hDIJUr0VM1mTKx0oscu8q9MPh1ssRVDvmhSbtAOrP6LUfk4QowKYtBNTcORKkWC
+ Rw.UoU1VuT2nEJARrz_860ZP6kpOLb99cBZ4TB6G8hrEWxOIeO047I3LJqO3WtHZzDYq8JZo2MIU
+ 9bkDoqkLckJuFvTCmsdwSOPNRRLFJ3LyrjVfGICoesa2QDwylt4ilz6O48KRRJcS5iNn2zD1JQY8
+ szlWMuodwGLGTPJYiFU_FvFCzcFrXl3z9Ck2px0ytqgswFnuqK.1CW5rZK7jHMRRjizWLbb3btIU
+ d_Hu6.9ZA0qiy6ty7LVPpyFa4q_d_6Rs5I_nh6_zGqU1Cj0WukidMINYhBxDyWyvqtgkd6Hk_23B
+ A11.wB70I8Ln9l7p75E6P0Oo64PdCNJ5lcDCTdmoloFX2nk.PNLZ1_.DlD7YNBtkEDwg95MX4nXc
+ lKlH3DEE_Trx5yZwF0xn3rpj0CWQbu_Z1kfn8GS.LoJVlhL0hO9diyq0o6u7YPazyqC0Zyv6xRNS
+ nROHhb.JF07EZxhne5N..k5gIvrKQ7UBOWvbo82bYuLSmnMwAwI_KVp5yCbMBZVRxTIfPV8vV_Tj
+ xtWd6J3TU0f0phZ7QWgjGWeHtSWJnaCvF9hG8QJNnxwrs4mdHdMfhm_htqZKo3K1x7UrQqtAJFmZ
+ nREWCjpZI54vsO2.aeOKSpyPSThf1iwCptyP1EIDaI89eFlJoVeE8788fkfJXK6WAVtHA7.HUgxv
+ _0bxdDAnMkRkM_XftN3KQpeGB0_9i8uppLVHqDtaT1z4UW7Y8nsfbbeCDVW5Fpdqa.lKa3cU9iKI
+ cD8Z3h9zYHh736WNPmMi9vgGptVXUZRFf7w3FBect39Ww5Rl1DmZkpgr7RL5KzJE_uRJu3V4UJ9O
+ TuPlvIf59a5gug_QqXd8RZ5dI7Tr7g.4yHsEEjpEO4vhXMqm.BEtl6mX7JlwjhOh69LSr47_oMcZ
+ yg0KI35tRjLR66XR4UZR_TqWtjCf3cEFNjJJLNafpdZPbn4YEImaqV0C634vUv3_7i1j4UcF3Koo
+ lVPqvvenCsDxR9UKQz9SdZBaDVufoM8ayBZFNLyf12N7G9DRow7ELxGB96kyXLUJE8IMkYbBPiup
+ WKSgVfLxzlhZR8cqKxIR43NYhreLVjfkKbWRhIfKHVWi2D5qgv5KLSEOoaXGyvW.bbbFFDVhG20A
+ N9mRtp23yfi9gDoDV0Sc03pSzn9E6Nho5MPGPscZOvZaConUAc6kS0f0zj5Itw1jOdSMaV81dIis
+ nh_GUytqkqIFGOUDPu8rqJBZAP9.atA6Zjm2s2RZH.LxGF_mWzoFDZtSqYaIPRgpAoP2zYAZXXDx
+ sNjSGWToQrWR23iEzIYMPVVw8PggJw4ydAFGj9gggcVJjzRXnmmu0voz6mBLvp6IWg6BqfmH5VCI
+ cuOr8rPWFf.EJnkYh7xK3yHhhnLd_Bwyg.oovUoz_V39JOc9XM4eVYzSx2k8_Hr.DKHA5txcJrGm
+ YoRzIA3kxCv_OYVWQyLgVhl4RN7bTBjCZL9bpmc8drUqwEw2pgZZHWEn0TeC7oUJYQTnAaYdCFM7
+ L8N2BaABRTiHU2oK8fNAF37RtZukN2wXe8mPUsetflpeVFkOHsxveZA952a5uiF1FLmr5bVDVLZZ
+ 0rpcDIq9K3P921r9Xod.BCvI4O.2wH0529Oo7wLE1CO6IHkVWAcCWWhg0r2vOue4S9os5g5PJozG
+ 4bx17TUpQ2BYD2N4ThC64N1YuTHcpOmJQMx9nZd_xqjlPxx.P7ULiS5T9ACnkf75OLRdEZwx9NzV
+ xsFEfzCpW64p.CGuCIYErlw3GqlzG2ITfYe2Lwvjd6XBwFVxJMJi2LBsxMnEDzqosQO0tRA1z23D
+ AZNYOst9UNu._hKMSHhAAxKMZzuJyilW3O4VQh7Wit3KAK3uZSTfv9HaAcnVmxKMoKT7rOXXd3Be
+ voNfCahcmUlxvcVHrliUcB_eu3IKKp8VaBH1AV0TD0IRdDyMZtR5uyQ50BF5lC5lCyuRAUix3yUE
+ 4zYTUdfo.0QIdTWwv3W_P9utPiG1STW8VPjDTYHPEI7TzjXPelYDurJ3AznGjzwTTwHBgu3t2XjV
+ xptnJImEGDFheLFtexEQxRR602L3v268eDpFws9IAd_A_S0NRTLzFlNtG4OYL1yf_61oARidoBPR
+ 6M7q0YloOHjaxJ7R7YDG47jFR
+X-Sonic-MF: <chazste@yahoo.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic312.consmr.mail.bf2.yahoo.com with HTTP; Mon, 27 Dec 2021 21:25:10 +0000
+Date: Mon, 27 Dec 2021 21:24:42 +0000 (UTC)
+From: Charles Stevens <chazste@yahoo.com>
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Message-ID: <1447972770.1013185.1640640282374@mail.yahoo.com>
+Subject: Renesas rcar-du and DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: N2VXl7MRHeRQ5xh6qznq6AxiCgwDJpoV
-X-Proofpoint-ORIG-GUID: AkOqeJPoNSqCOFDVxmJ284P-MLPjAL2R
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-27_08,2021-12-24_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 malwarescore=0
- spamscore=0 impostorscore=0 mlxscore=0 phishscore=0 mlxlogscore=646
- clxscore=1011 priorityscore=1501 bulkscore=0 adultscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112270080
+Content-Type: multipart/alternative; 
+ boundary="----=_Part_1013184_1748114199.1640640282373"
+References: <1447972770.1013185.1640640282374.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.19498 YMailNorrin
 X-Mailman-Approved-At: Thu, 30 Dec 2021 17:17:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -105,68 +77,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-csky@vger.kernel.org,
- virtualization@lists.linux-foundation.org, dri-devel@lists.freedesktop.org,
- spice-devel@lists.freedesktop.org, linux-riscv@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
-not being declared. We thus need to add HAS_IOPORT as dependency for
-those drivers using them. There is also a direct and hard coded use in
-cirrus.c which according to the comment is only necessary during resume.
-Let's just skip this as for example s390 which doesn't have I/O port
-support also doesen't support suspend/resume.
+------=_Part_1013184_1748114199.1640640282373
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Co-developed-by: Arnd Bergmann <arnd@kernel.org>
-Signed-off-by: Arnd Bergmann <arnd@kernel.org>
-Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
----
- drivers/gpu/drm/qxl/Kconfig   | 1 +
- drivers/gpu/drm/tiny/Kconfig  | 1 +
- drivers/gpu/drm/tiny/cirrus.c | 2 ++
- 3 files changed, 4 insertions(+)
+Hi All,=C2=A0 =C2=A0 =C2=A0I am working on a platform based on the Renesas =
+RZ/G2 SoC family. This chip uses the rcar-du driver for the display. I woul=
+d like to submit a patch to address the fact that the driver does not check=
+/honor the flag=C2=A0DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE. My issue is that I=
+ would like to make as small a change to the driver as possible, but the pa=
+nel bus_flags don't seem to even make it to the crtc driver. The crtc drive=
+r seems to use adjusted_mode to set the HSYNC and VSYNC polarity and as I s=
+aid ignores the pixel clock polarity leaving it at the default of driving o=
+n the falling edge. In my investigations so far I have not figured out how =
+to chase the pointers from the CRTC to the bridge to the panel in order to =
+be able to look at bus_flags. My current approach also modifies the encoder=
+ initialization to cache the needed panel and then find the attached encode=
+r during CRTC initialization to find the bus flags. This seems like a lot o=
+f work and not something that would be accepted as a patch. The OMAP DSS se=
+ems to have problems accessing this flag as well. The TI driver goes so far=
+ as to document the current approach as a HACK and suggest a fairly large c=
+hange to the driver to address the problem. Am I missing something? Is ther=
+e an easy way to get from a drm_crtc to a drm_panel that is in the same pip=
+eline?=C2=A0
+=C2=A0 =C2=A0 Any pointers would be greatly appreciated!
+Thanks!
+-charles
+------=_Part_1013184_1748114199.1640640282373
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/qxl/Kconfig b/drivers/gpu/drm/qxl/Kconfig
-index ca3f51c2a8fe..d0e0d440c8d9 100644
---- a/drivers/gpu/drm/qxl/Kconfig
-+++ b/drivers/gpu/drm/qxl/Kconfig
-@@ -2,6 +2,7 @@
- config DRM_QXL
- 	tristate "QXL virtual GPU"
- 	depends on DRM && PCI && MMU
-+	depends on HAS_IOPORT
- 	select DRM_KMS_HELPER
- 	select DRM_TTM
- 	select DRM_TTM_HELPER
-diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
-index 1ceb93fbdc50..81749943af13 100644
---- a/drivers/gpu/drm/tiny/Kconfig
-+++ b/drivers/gpu/drm/tiny/Kconfig
-@@ -13,6 +13,7 @@ config DRM_ARCPGU
- config DRM_BOCHS
- 	tristate "DRM Support for bochs dispi vga interface (qemu stdvga)"
- 	depends on DRM && PCI && MMU
-+	depends on HAS_IOPORT
- 	select DRM_KMS_HELPER
- 	select DRM_VRAM_HELPER
- 	select DRM_TTM
-diff --git a/drivers/gpu/drm/tiny/cirrus.c b/drivers/gpu/drm/tiny/cirrus.c
-index 4611ec408506..c9b6e9779d18 100644
---- a/drivers/gpu/drm/tiny/cirrus.c
-+++ b/drivers/gpu/drm/tiny/cirrus.c
-@@ -306,8 +306,10 @@ static int cirrus_mode_set(struct cirrus_device *cirrus,
- 
- 	cirrus_set_start_address(cirrus, 0);
- 
-+#ifdef CONFIG_HAS_IOPORT
- 	/* Unblank (needed on S3 resume, vgabios doesn't do it then) */
- 	outb(0x20, 0x3c0);
-+#endif
- 
- 	drm_dev_exit(idx);
- 	return 0;
--- 
-2.32.0
-
+<html><head></head><body><div class=3D"yahoo-style-wrap" style=3D"font-fami=
+ly:Helvetica Neue, Helvetica, Arial, sans-serif;font-size:13px;"><div dir=
+=3D"ltr" data-setdir=3D"false">Hi All,</div><div dir=3D"ltr" data-setdir=3D=
+"false">&nbsp; &nbsp; &nbsp;I am working on a platform based on the Renesas=
+ RZ/G2 SoC family. This chip uses the rcar-du driver for the display. I wou=
+ld like to submit a patch to address the fact that the driver does not chec=
+k/honor the flag&nbsp;<a href=3D"https://elixir.bootlin.com/linux/latest/C/=
+ident/DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE" rel=3D"nofollow" target=3D"_blank=
+" style=3D"font-family: &quot;Ubuntu Mono&quot;, monospace; font-size: 0.9e=
+m; white-space: pre-wrap; background-color: initial; background-position: i=
+nitial; background-size: initial; background-repeat: initial; background-at=
+tachment: initial; background-origin: initial; background-clip: initial; co=
+lor: inherit; border-radius: 0.2em;"><b>DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE<=
+/b></a>. My issue is that I would like to make as small a change to the dri=
+ver as possible, but the panel bus_flags don't seem to even make it to the =
+crtc driver. The crtc driver seems to use adjusted_mode to set the HSYNC an=
+d VSYNC polarity and as I said ignores the pixel clock polarity leaving it =
+at the default of driving on the falling edge. In my investigations so far =
+I have not figured out how to chase the pointers from the CRTC to the bridg=
+e to the panel in order to be able to look at bus_flags. My current approac=
+h also modifies the encoder initialization to cache the needed panel and th=
+en find the attached encoder during CRTC initialization to find the bus fla=
+gs. This seems like a lot of work and not something that would be accepted =
+as a patch. The OMAP DSS seems to have problems accessing this flag as well=
+. The TI driver goes so far as to document the current approach as a HACK a=
+nd suggest a fairly large change to the driver to address the problem. Am I=
+ missing something? Is there an easy way to get from a drm_crtc to a drm_pa=
+nel that is in the same pipeline?&nbsp;</div><div dir=3D"ltr" data-setdir=
+=3D"false"><br></div><div dir=3D"ltr" data-setdir=3D"false">&nbsp; &nbsp; A=
+ny pointers would be greatly appreciated!</div><div dir=3D"ltr" data-setdir=
+=3D"false"><br></div><div dir=3D"ltr" data-setdir=3D"false">Thanks!</div><d=
+iv dir=3D"ltr" data-setdir=3D"false"><br></div><div dir=3D"ltr" data-setdir=
+=3D"false">-charles</div></div></body></html>
+------=_Part_1013184_1748114199.1640640282373--
