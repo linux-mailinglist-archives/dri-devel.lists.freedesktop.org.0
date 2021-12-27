@@ -1,30 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D38A47FB8F
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Dec 2021 10:46:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94FAA47FBA8
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Dec 2021 10:52:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84BAD10EDA7;
-	Mon, 27 Dec 2021 09:46:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7881310EB76;
+	Mon, 27 Dec 2021 09:52:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0488810EDA7
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Dec 2021 09:46:40 +0000 (UTC)
-X-UUID: dc751a024c3740ce9ade90befab2b52b-20211227
-X-UUID: dc751a024c3740ce9ade90befab2b52b-20211227
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw01.mediatek.com (envelope-from <guangming.cao@mediatek.com>)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AD1B10EB76
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Dec 2021 09:52:34 +0000 (UTC)
+X-UUID: 53ceb6ad87f34912abfaa703bb702963-20211227
+X-UUID: 53ceb6ad87f34912abfaa703bb702963-20211227
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ (envelope-from <guangming.cao@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1420548967; Mon, 27 Dec 2021 17:46:35 +0800
+ with ESMTP id 1006601904; Mon, 27 Dec 2021 17:52:29 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Mon, 27 Dec 2021 17:46:34 +0800
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Mon, 27 Dec 2021 17:52:27 +0800
 Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
  mtkcas11.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Mon, 27 Dec 2021 17:46:33 +0800
+ 15.0.1497.2 via Frontend Transport; Mon, 27 Dec 2021 17:52:27 +0800
 From: <guangming.cao@mediatek.com>
 To: Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard
  <benjamin.gaignard@linaro.org>, Liam Mark <lmark@codeaurora.org>, "Laura
@@ -38,9 +38,11 @@ To: Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard
  <linux-arm-kernel@lists.infradead.org>, "moderated list:ARM/Mediatek SoC
  support" <linux-mediatek@lists.infradead.org>
 Subject: [PATCH v2] dma-buf: dma-heap: Add a size check for allocation
-Date: Mon, 27 Dec 2021 17:47:16 +0800
-Message-ID: <20211227094716.5870-1-guangming.cao@mediatek.com>
+Date: Mon, 27 Dec 2021 17:51:02 +0800
+Message-ID: <20211227095102.6054-1-guangming.cao@mediatek.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20211217094104.24977-1-guangming.cao@mediatek.com>
+References: <20211217094104.24977-1-guangming.cao@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK: N
