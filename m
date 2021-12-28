@@ -1,62 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37CDD480CA3
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Dec 2021 19:49:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52525480CA8
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Dec 2021 19:51:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D364E10E3B2;
-	Tue, 28 Dec 2021 18:49:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0AC4112320;
+	Tue, 28 Dec 2021 18:51:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc29.google.com (mail-oo1-xc29.google.com
- [IPv6:2607:f8b0:4864:20::c29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3132910E3B2
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Dec 2021 18:49:43 +0000 (UTC)
-Received: by mail-oo1-xc29.google.com with SMTP id
- y13-20020a4a624d000000b002daae38b0b5so6205799oog.9
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Dec 2021 10:49:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=eXhwfFLm6xuRXH07dJ43yJ+pTlr8xJ8+NlyVlndnfCM=;
- b=tsMCTyQL8yJvHEdjhTZNmLbJ57UAa8DmU4t+AJIjvr371gGhUD4TpfUfYQ+wQ74Imv
- GaoTxx0a03liOrWDFTeLIJCz1QWWvFJ0G6VIj7rkBgnwyPISmapj8NcRCURqS5IQ7I/b
- h8pLQWqR15McqilHIGRd9jtVaklDqDJRvrIC5hueGCx4lw0QBN/tFoe4Hbp9z4QxCkb5
- C1seEJxP7fvY6+cfZh4ZxgXtihTJjJP5yHQfR3pcueda7gQu0CypJ/kHPJVXWCsbN7hB
- iOezJZgrSR1fEP5Y+xvs8FkNRG0xJcHg6n8H/elrrOeVVr+F83OilwPLezSr1XU7Kha4
- t8Bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=eXhwfFLm6xuRXH07dJ43yJ+pTlr8xJ8+NlyVlndnfCM=;
- b=RLI17KJG3UDyQetFDaKufUXRBgiofb6qThaaeSRKXXGVFHQmq7RSVriGtlVaoHrnuO
- XEiVFh0gwevqGKj5htzSLbTIKWcJem5R9VzixI5hAYrPCuOG+S9p7Q8LaTz2PEWwECpO
- gqKWEiV6tgGygSLag8tmi8H2fGD/taKcR+KNCQkpW9zVkFMxX6q5jQ0Vjgi8rwyvkkuG
- Fsr8nPleE7zmiiQL2Ac8Ixc5Jf9wc17GqPNsSgoFmIP7ROZelpe1qkyb3DI9X75coDdn
- JaD4z/Fjg1av8tk9X0wdRZ8e29gGMKR6aelN+jXNzkK7AZbSILfIPNpjuHV57pKhwnCj
- 38xg==
-X-Gm-Message-State: AOAM530wjGLfQKKLpR5IadkPtFAqSPeOhA6rbK2t0558kx9XUv/ivOcL
- izc/SJ22B2lozzgsgT7qNJGqVw==
-X-Google-Smtp-Source: ABdhPJxFcz2lm2/hfGgOO3cwto/v7M4ze2hWUHK5rd5mQN6CYOKVEj4fK2UGpbvGa7fyTR5s1kvLFA==
-X-Received: by 2002:a4a:a4c9:: with SMTP id c9mr14129371oom.21.1640717382428; 
- Tue, 28 Dec 2021 10:49:42 -0800 (PST)
-Received: from ripper (104-57-184-186.lightspeed.austtx.sbcglobal.net.
- [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id 90sm3133883otn.59.2021.12.28.10.49.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Dec 2021 10:49:42 -0800 (PST)
-Date: Tue, 28 Dec 2021 10:50:42 -0800
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Subject: Re: [PATCH] drm/msm/dp: populate connector of struct  dp_panel
-Message-ID: <Yctcgslq283lZXW/@ripper>
-References: <1640713908-7453-1-git-send-email-quic_khsieh@quicinc.com>
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7576189C88;
+ Tue, 28 Dec 2021 18:51:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1640717498; x=1672253498;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=5Joo2qg1o4pOEw6JsCdFnvpGchiUe4q9GhRjGQU+liw=;
+ b=UHqwtfYc0bMAq55Ht6SB7j1we47kklyk8r6i4BE6KgRnaoM9YE7gizmf
+ a8Wg98igebuPDzNYnEAWYm/Da+XZ9F3/1olD9cY2zy/0duS6qFaJc2ozw
+ ysFj28BjO71cadjFtXVZ+mBVwiiD/3s73tW//ASsDGcXTMFFlfgOcnvT+ I=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 28 Dec 2021 10:51:38 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Dec 2021 10:51:37 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Tue, 28 Dec 2021 10:51:37 -0800
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Tue, 28 Dec 2021 10:51:36 -0800
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
+ <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
+ <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
+ <bjorn.andersson@linaro.org>
+Subject: [PATCH] drm/msm/dp: add support of tps4 (training pattern 4) for HBR3
+Date: Tue, 28 Dec 2021 10:51:29 -0800
+Message-ID: <1640717489-7366-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1640713908-7453-1-git-send-email-quic_khsieh@quicinc.com>
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,61 +60,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, quic_abhinavk@quicinc.com, airlied@linux.ie,
- freedreno@lists.freedesktop.org, vkoul@kernel.org,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, agross@kernel.org,
- linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
- aravindh@codeaurora.org, sean@poorly.run, linux-kernel@vger.kernel.org
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ quic_khsieh@quicinc.com, Kuogee Hsieh <khsieh@codeaurora.org>,
+ aravindh@codeaurora.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue 28 Dec 09:51 PST 2021, Kuogee Hsieh wrote:
+From: Kuogee Hsieh <khsieh@codeaurora.org>
 
-> There is kernel crashed happen due to unable to handle kernel NULL
+Some DP sinkers prefer to use tps4 instead of tps3 during training #2.
+This patch will use tps4 to perform link training #2 if sinker's DPCD
+supports it.
 
-It would be wonderful, for my understanding today, as well as people in
-the coming months to be able to search for the callstack etc on the
-mailing list, if you could provide some details about the crash.
+Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+---
+ drivers/gpu/drm/msm/dp/dp_ctrl.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-E.g. a callstack or description of when it happens.
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+index 39558a2..c7b0657 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+@@ -1181,7 +1181,7 @@ static int dp_ctrl_link_train_2(struct dp_ctrl_private *ctrl,
+ 			int *training_step)
+ {
+ 	int tries = 0, ret = 0;
+-	char pattern;
++	char pattern, state_ctrl_bit;
+ 	int const maximum_retries = 5;
+ 	u8 link_status[DP_LINK_STATUS_SIZE];
+ 
+@@ -1189,12 +1189,20 @@ static int dp_ctrl_link_train_2(struct dp_ctrl_private *ctrl,
+ 
+ 	*training_step = DP_TRAINING_2;
+ 
+-	if (drm_dp_tps3_supported(ctrl->panel->dpcd))
++	if (drm_dp_tps4_supported(ctrl->panel->dpcd)) {
++		pattern = DP_TRAINING_PATTERN_4;
++		state_ctrl_bit = 4;
++	}
++	else if (drm_dp_tps3_supported(ctrl->panel->dpcd)) {
+ 		pattern = DP_TRAINING_PATTERN_3;
+-	else
++		state_ctrl_bit = 3;
++	}
++	else {
+ 		pattern = DP_TRAINING_PATTERN_2;
++		state_ctrl_bit = 2;
++	}
+ 
+-	ret = dp_catalog_ctrl_set_pattern(ctrl->catalog, pattern);
++	ret = dp_catalog_ctrl_set_pattern(ctrl->catalog, state_ctrl_bit);
+ 	if (ret)
+ 		return ret;
+ 
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
-> pointer dereference  of dp_panel->connector while running DP link
-> layer compliance test case 4.2.2.6 (EDIDCorruption Detection).
-> This patch will fixed the problem by populating connector of dp_panel.
-> 
-> Fixes: 7948fe12d47 ("drm/msm/dp: return correct edid checksum after corrupted edid checksum read")
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_panel.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
-> index 71db10c..6a938a2 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_panel.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
-> @@ -197,6 +197,8 @@ int dp_panel_read_sink_caps(struct dp_panel *dp_panel,
->  	kfree(dp_panel->edid);
->  	dp_panel->edid = NULL;
->  
-> +	dp_panel->connector = connector;
-
-So you have a dp_display_private object with a panel and a connector
-allocated, but before you manage to associate the two you get a HPD
-event and call this function, so you decide to stitch the two together
-just here in some piece of code unrelated to the initialization of your
-objects?
-
-It sounds like we're lacking synchronization between the initialization
-and the HPD interrupts and this would not be the correct solution.
-
-Regards,
-Bjorn
-
-> +
->  	dp_panel->edid = drm_get_edid(connector,
->  					      &panel->aux->ddc);
->  	if (!dp_panel->edid) {
-> -- 
-> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-> a Linux Foundation Collaborative Project
-> 
