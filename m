@@ -1,52 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94D4D480BF9
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Dec 2021 18:13:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECCED480C22
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Dec 2021 18:36:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B77EC10FB74;
-	Tue, 28 Dec 2021 17:13:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94F1E899B5;
+	Tue, 28 Dec 2021 17:36:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3260210FB73
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Dec 2021 17:13:22 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 05949B81689;
- Tue, 28 Dec 2021 17:13:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EC36C36AF0;
- Tue, 28 Dec 2021 17:13:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1640711595;
- bh=T3HUEllg1Pw7vYBFjSPgjWTc0i5UwlDCIB5VYMi9zQk=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=aC2AgnEYsVn8ajMr8WXjrdgvYdxaICxzBEIqsQvRNJDdSNTmgYKxxE13ldY57jvt6
- wtSnEDHwfFeP7WPa1v2BXHsL164j0gjjc1waprQ7FxnadoJwpFcS8YPlJ1fRUUEgNG
- 1n8B6ybs2qiYbmmANluzHzAR+HA2JhBdfnB5r0OInhaGxnhy9LnnhUQ0kSAmYqyjvt
- U8WA12Q8XWC6B4+2O+Uw+3c+bVIkQEInrB+E4lsE9bM/HIbStWglKd4TfiZn9oNjTC
- 71qzDaDkiqAQz8JEolGNowQ5U8m10M955+gDpfmp1KuoHVnN/ysNieqn8T0FB5YrhX
- IQJmZwEC33MlQ==
-Date: Tue, 28 Dec 2021 18:12:58 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Niklas Schnelle <schnelle@linux.ibm.com>, Hans Verkuil
- <hverkuil-cisco@xs4all.nl>, Ettore Chimenti <ek5.chimenti@gmail.com>
-Subject: Re: [RFC 01/32] Kconfig: introduce and depend on LEGACY_PCI
-Message-ID: <20211228181107.2d476028@coco.lan>
-In-Reply-To: <4b630b7b87bd983291f628c42a1394fc0d2d86bd.camel@linux.ibm.com>
-References: <20211227164317.4146918-1-schnelle@linux.ibm.com>
- <20211227164317.4146918-2-schnelle@linux.ibm.com>
- <YcrJAwsKIxxX18pW@kroah.com> <20211228101435.3a55b983@coco.lan>
- <b1475f6aecb752a858941f44a957b2183cd68405.camel@linux.ibm.com>
- <20211228135425.0a69168c@coco.lan>
- <4b630b7b87bd983291f628c42a1394fc0d2d86bd.camel@linux.ibm.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFF4E893D5;
+ Tue, 28 Dec 2021 17:36:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1640712996; x=1672248996;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=4OYDghXVhKB7oG2GEWMd9vQDKAFwA7xtNF7C6sQ+okg=;
+ b=UwwTknU+ztYX2eNtwfesey2dzAVqcayrRIhVTCw7CyO3Pe5Cuv7nm8Ra
+ 9gGE+fjX/n+NXk6HVCzuUtvoPFSUDxvrZ2VHwWGwJyzfztkjyICY8C9kW
+ nI1oh+cjSDXvXpv7dYgfkN4fn6gUHwNa6QZWo0zX6YAAb3AHp9FRU7KLG g=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 28 Dec 2021 09:36:35 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Dec 2021 09:36:34 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Tue, 28 Dec 2021 09:36:34 -0800
+Received: from [10.110.91.229] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Tue, 28 Dec
+ 2021 09:36:33 -0800
+Message-ID: <1a8dc2f2-b058-7243-f3dd-2defbca50e3d@quicinc.com>
+Date: Tue, 28 Dec 2021 09:36:32 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH] drm/msm/dp: Fix a potential double free in an error
+ handling path
+Content-Language: en-US
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, <robdclark@gmail.com>, 
+ <sean@poorly.run>, <quic_abhinavk@quicinc.com>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>, <bjorn.andersson@linaro.org>, <swboyd@chromium.org>
+References: <6fd20c8779d6b03a5b54509af25b478049482087.1640531508.git.christophe.jaillet@wanadoo.fr>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <6fd20c8779d6b03a5b54509af25b478049482087.1640531508.git.christophe.jaillet@wanadoo.fr>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,172 +67,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-pci@vger.kernel.org, alsa-devel@alsa-project.org,
- dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
- linux-ide@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
- Guo Ren <guoren@kernel.org>, linux-i2c@vger.kernel.org,
- linux-riscv@lists.infradead.org, Vincent Chen <deanbo422@gmail.com>,
- Jiri Slaby <jirislaby@kernel.org>, linux-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, Hannes Reinecke <hare@suse.com>,
- Michael Grzeschik <m.grzeschik@pengutronix.de>, linux-scsi@vger.kernel.org,
- Sumit Saxena <sumit.saxena@broadcom.com>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Sathya Prakash <sathya.prakash@broadcom.com>,
- Jesse Brandeburg <jesse.brandeburg@intel.com>, linux-csky@vger.kernel.org,
- Kashyap Desai <kashyap.desai@broadcom.com>,
- Nilesh Javali <njavali@marvell.com>, Bjorn Helgaas <helgaas@kernel.org>,
- linux-serial@vger.kernel.org, GR-QLogic-Storage-Upstream@marvell.com,
- Jakub Kicinski <kuba@kernel.org>, MPT-FusionLinux.pdl@broadcom.com,
- "James E.J.
- Bottomley" <jejb@linux.ibm.com>, Guenter Roeck <linux@roeck-us.net>,
- linux-media@vger.kernel.org, linux-input@vger.kernel.org,
- Albert Ou <aou@eecs.berkeley.edu>, linux-watchdog@vger.kernel.org,
- Jouni Malinen <j@w1.fi>,
- Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
- Kalle Valo <kvalo@kernel.org>, John Garry <john.garry@huawei.com>,
- linux-spi@vger.kernel.org, linux-gpio@vger.kernel.org,
- Ian Abbott <abbotti@mev.co.uk>, Mark Brown <broonie@kernel.org>,
- Greentime Hu <green.hu@gmail.com>, Paul Walmsley <paul.walmsley@sifive.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Wim Van Sebroeck <wim@linux-watchdog.org>,
- megaraidlinux.pdl@broadcom.com, Teddy Wang <teddy.wang@siliconmotion.com>,
- linux-hwmon@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
- Karsten Keil <isdn@linux-pingi.de>,
- Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Nick Hu <nickhu@andestech.com>, Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
- Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-wireless@vger.kernel.org,
- Takashi Iwai <tiwai@suse.com>, "David S. Miller" <davem@davemloft.net>,
- H Hartley Sweeten <hsweeten@visionengravers.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Forest Bond <forest@alittletooquiet.net>,
- netdev@vger.kernel.org, Tony Nguyen <anthony.l.nguyen@intel.com>,
- intel-wired-lan@lists.osuosl.org, Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: linux-arm-msm@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Em Tue, 28 Dec 2021 16:06:44 +0100
-Niklas Schnelle <schnelle@linux.ibm.com> escreveu:
 
-(on a side note: the c/c list of this patch is too long. I would try to
-avoid using a too long list, as otherwise this e-mail may end being rejected
-by mail servers)
-
-> On Tue, 2021-12-28 at 13:54 +0100, Mauro Carvalho Chehab wrote:
-> >  
-> ---8<---
-> >     
-> > > > > All you really care about is the "legacy" I/O spaces here, this isn't
-> > > > > tied to PCI specifically at all, right?
-> > > > > 
-> > > > > So why not just have a OLD_STYLE_IO config option or something like
-> > > > > that, to show that it's the i/o functions we care about here, not PCI at
-> > > > > all?
-> > > > > 
-> > > > > And maybe not call it "old" or "legacy" as time constantly goes forward,
-> > > > > just describe it as it is, "DIRECT_IO"?    
-> > > > 
-> > > > Agreed. HAVE_PCI_DIRECT_IO (or something similar) seems a more appropriate
-> > > > name for it.
-> > > > 
-> > > > Thanks,
-> > > > Mauro    
-> > > 
-> > > Hmm, I might be missing something here but that sounds a lot like the
-> > > HAS_IOPORT option added in patch 02.
-> > > 
-> > > We add both LEGACY_PCI and HAS_IOPORT to differentiate between two
-> > > cases. HAS_IOPORT is for PC-style devices that are not on a PCI card
-> > > while LEGACY_PCI is for PCI drivers that require port I/O.   
-> > 
-> > I didn't look at the other patches on this series, but why it is needed
-> > to deal with them on a separate way? Won't "PCI" and "HAS_IOPORT" be enough? 
-> > 
-> > I mean, are there any architecture where HAVE_PCI=y and HAS_IOPORT=y
-> > where LEGACY_PCI shall be "n"?  
-> 
-> In the current patch set LEGACY_PCI is not currently selected by
-> architectures, though of course it could be if we know that an
-> architecture requires it. We should probably also set it in any
-> defconfig that has devices depending on it so as not to break these.
-> 
-> Other than that it would be set during kernel configuration if one
-> wants/needs support for legacy PCI devices. For testing I ran with
-> HAVE_PCI=y, HAS_IOPORT=y and LEGACY_PCI=n on both my local Ryzen 3990X
-> based workstation and Raspberry Pi 4 (DT). I guess at the moment it
-> would make most sense for special configs such as those tailored for
-> vitualization guets but in the end that would be something for
-> distributions to decide.
-
-IMO, it makes sense to have a "default y" there, as on systems that
-support I/O space, disabling it will just randomly disable some drivers
-that could be required by some hardware. I won't doubt that some of 
-those could be ported from using inb/outb to use, instead, readb/writeb.
-
-> 
-> Arnd described the options here:
-> https://lore.kernel.org/lkml/CAK8P3a3HHeP+Gw_k2P7Qtig0OmErf0HN30G22+qHic_uZTh11Q@mail.gmail.com/
-
-Based on Arnd's description, LEGACY_PCI should depend on HAS_IOPORT.
-This is missing on patch 1. You should probably reorder your patch
-series to first create HAS_IOPORT and then add LEGACY_PCI with
-depends on, as otherwise it may cause randconfig build issues
-at robots and/or git bisect.
-
-I would also suggest to first introduce such change and then send
-a per-subsystem LEGACY_PCI patch, as it would be a lot easier for
-maintainers to review.
-
-> 
-> >   
-> > > This
-> > > includes pre-PCIe devices as well as PCIe devices which require
-> > > features like I/O spaces. The "legacy" naming is comes from the PCIe
-> > > spec which in section 2.1.1.2 says "PCI Express supports I/O Space for
-> > > compatibility with legacy devices which require their use. Future
-> > > revisions of this specification may deprecate the use of I/O Space."  
-> > 
-> > I would still avoid calling it LEGACY_PCI, as this sounds too generic.
-> > 
-> > I didn't read the PCI/PCIe specs, but I suspect that are a lot more
-> > features that were/will be deprecated on PCI specs as time goes by.
-> > 
-> > So, I would, instead, use something like PCI_LEGACY_IO_SPACE or 
-> > HAVE_PCI_LEGACY_IO_SPACE, in order to let it clear what "legacy"
-> > means.  
-> 
-> Hmm, I'd like to hear Bjorn's opinion on this. Personally I feel like
-> LEGACY_PCI is pretty clear since most devices are either pre-PCIe
-> devices or a compatibility feature allowing drivers for a pre-PCIe
-> device to work with a PCIe device.
-
-That's the main point: it is *not* disabling pre-PCIe devices or
-even legacy PCI drivers. It just disables a random set of drivers just
-because they use inb/outb instead of readb/writeb. It keeps several pure 
-PCI drivers selected, and disables some PCIe for no real reason.
-
-Just to give one example, this symbol:
-
-> diff --git a/drivers/media/cec/platform/Kconfig b/drivers/media/cec/platform/Kconfig
-> index b672d3142eb7..5e92ece5b104 100644
-> --- a/drivers/media/cec/platform/Kconfig
-> +++ b/drivers/media/cec/platform/Kconfig
-> @@ -100,7 +100,7 @@ config CEC_TEGRA
->  config CEC_SECO
->  	tristate "SECO Boards HDMI CEC driver"
->  	depends on (X86 || IA64) || COMPILE_TEST
-> -	depends on PCI && DMI
-> +	depends on LEGACY_PCI && DMI
->  	select CEC_CORE
->  	select CEC_NOTIFIER
->  	help
-
-Disables HDMI CEC support on some Intel motherboards.
-Any distro meant to run on generic hardware should keep it selected.
-
-I can see some value of a "PCI_LEGACY" option to disable all
-non-PCIe drivers, but this is not the case here.
-
-Thanks,
-Mauro
+On 12/26/2021 7:14 AM, Christophe JAILLET wrote:
+> 'dp_bridge' is devm_alloc'ed, so there is no need to free it explicitly or
+> there will be a double free().
+>
+> Fixes: 8a3b4c17f863 ("drm/msm/dp: employ bridge mechanism for display enable and disable")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Reviewed-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/dp/dp_drm.c | 1 -
+>   1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
+> index 188e77c59885..d4d360d19eba 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_drm.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
+> @@ -243,7 +243,6 @@ struct drm_bridge *msm_dp_bridge_init(struct msm_dp *dp_display, struct drm_devi
+>   	rc = drm_bridge_attach(encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+>   	if (rc) {
+>   		DRM_ERROR("failed to attach bridge, rc=%d\n", rc);
+> -		kfree(dp_bridge);
+>   		return ERR_PTR(rc);
+>   	}
+>   
