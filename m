@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 246B148160F
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Dec 2021 19:40:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14C54481618
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Dec 2021 19:44:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7125910E255;
-	Wed, 29 Dec 2021 18:40:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C281210E27D;
+	Wed, 29 Dec 2021 18:44:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com
- [IPv6:2607:f8b0:4864:20::f2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74FBD10E255
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Dec 2021 18:40:00 +0000 (UTC)
-Received: by mail-qv1-xf2b.google.com with SMTP id kd9so19930328qvb.11
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Dec 2021 10:40:00 -0800 (PST)
+Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com
+ [IPv6:2607:f8b0:4864:20::72c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F30F310E27D
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Dec 2021 18:44:23 +0000 (UTC)
+Received: by mail-qk1-x72c.google.com with SMTP id b85so20691576qkc.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Dec 2021 10:44:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YBrfMQBHSFL3SwPa7Nc8DH1A9jwH7Mgo9sxeYlvNd9Y=;
- b=BEv/5Y4SVKKX3QEEMCdR7CZ+MjTuAUdiJRaJg3TbEd2GDZ8pTaYPIBHtnuSPAAYQUK
- PjRBTTBzf3I0XyjNx+hZTAGpbrpf9JcUYPdLbDmblPljuYiARBKd+2/XCUXcWBk/nVz+
- 8dLbBNd6iZZiBLPKPrQS2LIIXbiqIEmrCCVHw=
+ bh=Shoj+Q3yMEhM9mNXjLtdxgk5LZJhKA/O7LXTWfiwLQM=;
+ b=jgyyqpkTqrJBnuET9DIU54lJy4W8PO4nKpAL8mj0vtTNJ7L2teQmhIXYbq7PXu/bIP
+ aF0tOBxel+clKcr1H23Y8mUqiVHiNuA3XeSKaES7ORtpX9JVc3Cz1vKhgW0vsIL0s3N1
+ DfXRXFbSgYCEUFCzF5IigkowIGyEPx9Ac7RdE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YBrfMQBHSFL3SwPa7Nc8DH1A9jwH7Mgo9sxeYlvNd9Y=;
- b=OP4FWzDio0zw58lx4RswIYXzxe7krdX+olxpKS8ZVwWBP/NRdwtxUCGexWINaLBZuj
- U/+uzSjsca3W1KJbsZX3iaVma7WBAFAo49xLZWumYyogRGV6AzjYWdd2nYi5ZZfBXeaX
- Ko7pn61DXIViCLWYH8+DIUPq2dVoPLV+nauzNzpc8Gy/JFAUSGXIHSXQJvaYsPkde9tn
- 18/QWysUcRIEXguFFisEUG6VmrwY8ANcV8ax6NifnXlYKlq7strGFrg73umH8/qlnlhu
- qNzLf1eXCQAxDle3ftYQkGiL02W/C4yxNABU2RhR2qnykRRFMMPCwk2+2zl1vne+2zME
- nmAA==
-X-Gm-Message-State: AOAM530Plg3KnA+AR6cZ7S9taERXgPmuLF0G2yadX+deIIV/8dScsOtZ
- rPFAPkjbSDEejFHgVg4pWllsRw==
-X-Google-Smtp-Source: ABdhPJwLJKiEU6WeYBu00grxag0IJalt5yCfThPEhv3NPi0FDfPo6yK8gzVJZDdRCvmSz4Ae7gLLcA==
-X-Received: by 2002:ad4:4752:: with SMTP id c18mr24170961qvx.96.1640803199453; 
- Wed, 29 Dec 2021 10:39:59 -0800 (PST)
+ bh=Shoj+Q3yMEhM9mNXjLtdxgk5LZJhKA/O7LXTWfiwLQM=;
+ b=eW+FYvYwjR7B/tKkK6nqa1T+KEsf+aD7fxU/vIjFdT8kSJ2pFNbCR2amAUmIjEgynm
+ 11DtLpLE3iEHcijQpd/h57ONB6NBNzhMS2jTjWlSURAYA8/GCGO3JTIDSXih+lRNNEim
+ 6uo+/CspGReoxaOE3/Ur0xrBo5wTp6djJvX2j79Z6wE7o6vu1jm+YKdRjmYPD2bsQkuH
+ LMBD/JgQDCe5HQJmCEWw7PZX9dVz4kBk6yUhIF0ISSwvf6653zFIgBnX5bNmYke+VRGD
+ ONMH+ZKjA55ZhY6PNfV2nax+aT6vdA+jkt2E6iqNpWmnPYQQW89HoAja+CHHD1cBMPWS
+ RV/A==
+X-Gm-Message-State: AOAM532doAF7VFslV/3Xiie3BfwPnL5G8EwwMlGR3ojNhabUtSU6WXsH
+ 11f55cGd0xT2MtHCkXFxe9AHjw==
+X-Google-Smtp-Source: ABdhPJwiO+gX4HKdmMuEU6gcsV2DoE2Pu4VLhKUqPMTz+1itpbMofq19YOFiXpnHdZkSZhR/1fu46w==
+X-Received: by 2002:a37:755:: with SMTP id 82mr19397299qkh.89.1640803463092;
+ Wed, 29 Dec 2021 10:44:23 -0800 (PST)
 Received: from markyacoub.nyc.corp.google.com
  ([2620:0:1003:314:2258:17ef:b383:8855])
- by smtp.gmail.com with ESMTPSA id u11sm19256334qtw.29.2021.12.29.10.39.58
+ by smtp.gmail.com with ESMTPSA id e7sm19130365qtx.72.2021.12.29.10.44.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Dec 2021 10:39:59 -0800 (PST)
+ Wed, 29 Dec 2021 10:44:22 -0800 (PST)
 From: Mark Yacoub <markyacoub@chromium.org>
 To: linux-mediatek@lists.infradead.org
 Subject: [PATCH v2] drm/mediatek: Set default value for Panel Orientation
  connector prop.
-Date: Wed, 29 Dec 2021 13:39:50 -0500
-Message-Id: <20211229183955.791957-1-markyacoub@chromium.org>
+Date: Wed, 29 Dec 2021 13:44:18 -0500
+Message-Id: <20211229184420.793234-1-markyacoub@chromium.org>
 X-Mailer: git-send-email 2.34.1.448.ga2b2bfdf31-goog
 In-Reply-To: <20211022172413.195559-1-markyacoub@chromium.org>
 References: <20211022172413.195559-1-markyacoub@chromium.org>
@@ -96,15 +96,15 @@ Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
  1 file changed, 7 insertions(+)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index 0ad7157660afa..7cf71705775f0 100644
+index 0ad7157660afa..9d33dd93118e0 100644
 --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
 @@ -1040,6 +1040,13 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
  		goto err_cleanup_encoder;
  	}
  
-+	// A drm_panel can have its own orientation. If there is no panel, set the
-+	// orientation to NORMAL.
++	/* A drm_panel can have its own orientation. If there is no panel, set the
++	 * orientation to NORMAL. */
 +	if (!dsi->panel) {
 +		drm_connector_set_panel_orientation(
 +			dsi->connector, DRM_MODE_PANEL_ORIENTATION_NORMAL);
