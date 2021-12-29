@@ -2,58 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14C54481618
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Dec 2021 19:44:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2DA0481632
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Dec 2021 20:18:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C281210E27D;
-	Wed, 29 Dec 2021 18:44:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9265B10E290;
+	Wed, 29 Dec 2021 19:18:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com
- [IPv6:2607:f8b0:4864:20::72c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F30F310E27D
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Dec 2021 18:44:23 +0000 (UTC)
-Received: by mail-qk1-x72c.google.com with SMTP id b85so20691576qkc.1
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Dec 2021 10:44:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Shoj+Q3yMEhM9mNXjLtdxgk5LZJhKA/O7LXTWfiwLQM=;
- b=jgyyqpkTqrJBnuET9DIU54lJy4W8PO4nKpAL8mj0vtTNJ7L2teQmhIXYbq7PXu/bIP
- aF0tOBxel+clKcr1H23Y8mUqiVHiNuA3XeSKaES7ORtpX9JVc3Cz1vKhgW0vsIL0s3N1
- DfXRXFbSgYCEUFCzF5IigkowIGyEPx9Ac7RdE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Shoj+Q3yMEhM9mNXjLtdxgk5LZJhKA/O7LXTWfiwLQM=;
- b=eW+FYvYwjR7B/tKkK6nqa1T+KEsf+aD7fxU/vIjFdT8kSJ2pFNbCR2amAUmIjEgynm
- 11DtLpLE3iEHcijQpd/h57ONB6NBNzhMS2jTjWlSURAYA8/GCGO3JTIDSXih+lRNNEim
- 6uo+/CspGReoxaOE3/Ur0xrBo5wTp6djJvX2j79Z6wE7o6vu1jm+YKdRjmYPD2bsQkuH
- LMBD/JgQDCe5HQJmCEWw7PZX9dVz4kBk6yUhIF0ISSwvf6653zFIgBnX5bNmYke+VRGD
- ONMH+ZKjA55ZhY6PNfV2nax+aT6vdA+jkt2E6iqNpWmnPYQQW89HoAja+CHHD1cBMPWS
- RV/A==
-X-Gm-Message-State: AOAM532doAF7VFslV/3Xiie3BfwPnL5G8EwwMlGR3ojNhabUtSU6WXsH
- 11f55cGd0xT2MtHCkXFxe9AHjw==
-X-Google-Smtp-Source: ABdhPJwiO+gX4HKdmMuEU6gcsV2DoE2Pu4VLhKUqPMTz+1itpbMofq19YOFiXpnHdZkSZhR/1fu46w==
-X-Received: by 2002:a37:755:: with SMTP id 82mr19397299qkh.89.1640803463092;
- Wed, 29 Dec 2021 10:44:23 -0800 (PST)
-Received: from markyacoub.nyc.corp.google.com
- ([2620:0:1003:314:2258:17ef:b383:8855])
- by smtp.gmail.com with ESMTPSA id e7sm19130365qtx.72.2021.12.29.10.44.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Dec 2021 10:44:22 -0800 (PST)
-From: Mark Yacoub <markyacoub@chromium.org>
-To: linux-mediatek@lists.infradead.org
-Subject: [PATCH v2] drm/mediatek: Set default value for Panel Orientation
- connector prop.
-Date: Wed, 29 Dec 2021 13:44:18 -0500
-Message-Id: <20211229184420.793234-1-markyacoub@chromium.org>
-X-Mailer: git-send-email 2.34.1.448.ga2b2bfdf31-goog
-In-Reply-To: <20211022172413.195559-1-markyacoub@chromium.org>
-References: <20211022172413.195559-1-markyacoub@chromium.org>
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62EF110E286;
+ Wed, 29 Dec 2021 19:18:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1640805512; x=1672341512;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=rckRyV7E3Zzp91LYpuq3D5h9Jof+Wh1ct66CwTrgwCc=;
+ b=y9pDyqzk0RZvR/BImqLy3DrVcaafNkZ9zdxJY20gfw9e51RRK/YtWtBH
+ 8LReEPl4xRGlXUY1ztPolPc7RRQlKIv6YOhlMbaXLjAKQS2Q8lpuNmQV6
+ IqfZGYWiNX9liE93lm9zyhzQkY0JRJJ6YtTgbv/TpGXPh47WXNlPL08Lq c=;
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+ by alexa-out.qualcomm.com with ESMTP; 29 Dec 2021 11:18:31 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Dec 2021 11:18:31 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Wed, 29 Dec 2021 11:17:10 -0800
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Wed, 29 Dec 2021 11:17:09 -0800
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
+ <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
+ <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
+ <bjorn.andersson@linaro.org>
+Subject: [PATCH v2] drm/msm/dp:  populate connector of struct  dp_panel
+Date: Wed, 29 Dec 2021 11:17:02 -0800
+Message-ID: <1640805422-21904-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,53 +60,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, David Airlie <airlied@linux.ie>,
- jason-jh.lin@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, tzungbi@google.com, seanpaul@chromium.org,
- Mark Yacoub <markyacoub@chromium.org>, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ quic_khsieh@quicinc.com, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Why]
-Creating the prop uses UNKNOWN as the initial value, which is not a
-supported value if the prop is to be supported.
+There is kernel crashed due to unable to handle kernel NULL
+pointer dereference of dp_panel->connector while running DP link
+layer compliance test case 4.2.2.6 (EDID Corruption Detection).
+This patch fixes this problem by populating connector of dp_panel.
 
-[How]
-Set the panel orientation default value to NORMAL right after creating
-the prop if no DSI panel exists.
-Panels have their own orientations, and panel orientation can't be
-overriden once initialized to a value.
+[drm:dp_panel_read_sink_caps] *ERROR* panel edid read failed
+Unable to handle kernel NULL pointer dereference at virtual address 00000000000006e1
+Mem abort info:
+  ESR = 0x96000006
+  EC = 0x25: DABT (current EL), IL = 32 bits
+  SET = 0, FnV = 0
+  EA = 0, S1PTW = 0
+Data abort info:
+  ISV = 0, ISS = 0x00000006
+  CM = 0, WnR = 0
+user pgtable: 4k pages, 39-bit VAs, pgdp=0000000115f25000
+[00000000000006e1] pgd=00000001174fe003, p4d=00000001174fe003, pud=00000001174fe003, pmd=0000000000000000
+Internal error: Oops: 96000006 [#1] PREEMPT SMP
+{...]
 
-v1:
-Set panel orientation only if DSI panel does not exist.
+Changes in V2:
+-- populate panel connector at msm_dp_modeset_init() instead of at dp_panel_read_sink_caps()
 
-Tested on Jacuzzi(MTK)
-Fixes IGT@kms_properties@get_properties-sanity-{atomic,non-atomic}
-
-Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
+Fixes: 7948fe12d47 ("drm/msm/dp: return correct edid checksum after corrupted edid checksum read")
+Signee-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 ---
- drivers/gpu/drm/mediatek/mtk_dsi.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/gpu/drm/msm/dp/dp_display.c | 25 +++++++++++++++----------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index 0ad7157660afa..9d33dd93118e0 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -1040,6 +1040,13 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
- 		goto err_cleanup_encoder;
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 3449d3f..c282bbf 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -1495,36 +1495,41 @@ void msm_dp_debugfs_init(struct msm_dp *dp_display, struct drm_minor *minor)
+ 	}
+ }
+ 
+-int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
++int msm_dp_modeset_init(struct msm_dp *dp, struct drm_device *dev,
+ 			struct drm_encoder *encoder)
+ {
+ 	struct msm_drm_private *priv;
++	struct dp_display_private *dp_display;
+ 	int ret;
+ 
+-	if (WARN_ON(!encoder) || WARN_ON(!dp_display) || WARN_ON(!dev))
++	if (WARN_ON(!encoder) || WARN_ON(!dp) || WARN_ON(!dev))
+ 		return -EINVAL;
+ 
+ 	priv = dev->dev_private;
+-	dp_display->drm_dev = dev;
++	dp->drm_dev = dev;
++
++	dp_display = container_of(dp, struct dp_display_private, dp_display);
+ 
+-	ret = dp_display_request_irq(dp_display);
++	ret = dp_display_request_irq(dp);
+ 	if (ret) {
+ 		DRM_ERROR("request_irq failed, ret=%d\n", ret);
+ 		return ret;
  	}
  
-+	/* A drm_panel can have its own orientation. If there is no panel, set the
-+	 * orientation to NORMAL. */
-+	if (!dsi->panel) {
-+		drm_connector_set_panel_orientation(
-+			dsi->connector, DRM_MODE_PANEL_ORIENTATION_NORMAL);
-+	}
-+
- 	drm_connector_attach_encoder(dsi->connector, &dsi->encoder);
+-	dp_display->encoder = encoder;
++	dp->encoder = encoder;
  
+-	dp_display->connector = dp_drm_connector_init(dp_display);
+-	if (IS_ERR(dp_display->connector)) {
+-		ret = PTR_ERR(dp_display->connector);
++	dp->connector = dp_drm_connector_init(dp);
++	if (IS_ERR(dp->connector)) {
++		ret = PTR_ERR(dp->connector);
+ 		DRM_DEV_ERROR(dev->dev,
+ 			"failed to create dp connector: %d\n", ret);
+-		dp_display->connector = NULL;
++		dp->connector = NULL;
+ 		return ret;
+ 	}
+ 
+-	priv->connectors[priv->num_connectors++] = dp_display->connector;
++	dp_display->panel->connector = dp->connector;
++
++	priv->connectors[priv->num_connectors++] = dp->connector;
  	return 0;
+ }
+ 
 -- 
-2.34.1.448.ga2b2bfdf31-goog
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
