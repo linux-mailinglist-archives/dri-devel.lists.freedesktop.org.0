@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D717481452
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Dec 2021 16:08:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5A5A481458
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Dec 2021 16:10:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6710A10E17F;
-	Wed, 29 Dec 2021 15:08:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31D6410E17E;
+	Wed, 29 Dec 2021 15:10:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BD5910E1B0
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Dec 2021 15:08:32 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BC3010E17D
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Dec 2021 15:10:34 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 76445614EB
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Dec 2021 15:08:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DCE30C36AE7
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Dec 2021 15:08:27 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id CAC2CB817F3
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Dec 2021 15:10:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8480BC36AE9
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Dec 2021 15:10:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1640790507;
- bh=80fh52jYdzlRqABWoFjTki5EvskwnwugTxM0ak0mR0Y=;
+ s=k20201202; t=1640790631;
+ bh=llZ2HgRsGO4lFRNvAFnOz3tHMwFRS2lXKEK0jfrEaQc=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=orjKMAhYj/PnHftW+c9PlsSiRiCHZgOpzE5WgNuW4mY0SDGfYdkP45Cpi2iK7cWbc
- AtC1fmF5aC4ItUZPtSC1+opO29aLhYR7U32FOlC1jtij0du4OihuSjTVBTYPrhMmks
- J/VdJovJYLy7g7OXTa6hdlsl9nVrE4JCWkdSUag3n7S7Xn65EHt+2/wj2g9XMGTUPF
- 5GaSnujhZEv3JXIMidn89L6xPbcvA6bKyCv03Gfz/MNogx+a5EGSeT3M0AA7yVGk+7
- eb1yZwz00ZGH12rw9sflymXMfnF3r1FDYXp74kVhMmiaQllOn/v4cTrzjn8w0vkHYA
- wPUAQRvK4Ri7w==
+ b=kdz7/v2h3qKfFxn0onIVW+hbh6C+XjLWHeO6BfN5W5/BUpWZUszAB13iqOom09mcd
+ 48ZYbre7xSrvkTSoEk6XelBgSCq0d/5CBjpslD+eQzwRRln6wCbL8BwnsWzbTo7P84
+ UP0MbFrDUL0KJZfnqxsp+FlAa2vgSVguAl4VtMCZFyf97YRqZ+LFpRPGh9ttucO5eg
+ uZbgib3mIBKkjjgFcvSCYlbygvJ3A/o9ezehcV4Yx7rT3A8NNi/w8V8oxgB6rLU8Fs
+ cpmD9v0ZDO8bmXpSd0hNLhqHGockge187qRd89I16HE7mYQUGDp4D/f8sjczjv4UAX
+ atMsHz3akhYAw==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id B6009C05FC8; Wed, 29 Dec 2021 15:08:27 +0000 (UTC)
+ from userid 48) id 6BA10C05FC8; Wed, 29 Dec 2021 15:10:31 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 215436] admgpu: suspend and resuming from suspend don't work
-Date: Wed, 29 Dec 2021 15:08:27 +0000
+Date: Wed, 29 Dec 2021 15:10:31 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -49,8 +50,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-215436-2300-MY4T9qzHD6@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-215436-2300-iXYwcAiofy@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-215436-2300@https.bugzilla.kernel.org/>
 References: <bug-215436-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -75,15 +76,17 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D215436
 
-Alex Deucher (alexdeucher@gmail.com) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |alexdeucher@gmail.com
-
---- Comment #1 from Alex Deucher (alexdeucher@gmail.com) ---
-See also:
-https://gitlab.freedesktop.org/drm/amd/-/issues/1821
+--- Comment #2 from Alex Deucher (alexdeucher@gmail.com) ---
+Could you please help add some prints and confirm that the commit doesn't
+change the code sequence in rn_update_clocks() especially for the following
+part in suspend and wake sequence:
+if (display_count =3D=3D 0 && !hpd_state) {
+rn_vbios_smu_set_dcn_low_power_state(clk_mgr, DCN_PWR_STATE_LOW_POWER);
+/* update power state */
+clk_mgr_base->clks.pwr_state =3D DCN_PWR_STATE_LOW_POWER;
+It would also be appreciated if you could print out the time that was spent=
+ in
+the function rn_update_clocks() with and w/o the commit.
 
 --=20
 You may reply to this email to add a comment.
