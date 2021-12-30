@@ -1,52 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D150B481E79
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Dec 2021 18:17:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB577481E8D
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Dec 2021 18:17:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C45B10E221;
-	Thu, 30 Dec 2021 17:17:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E12910E28F;
+	Thu, 30 Dec 2021 17:17:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8502010E4A4
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 14:04:09 +0000 (UTC)
-Received: by mail-io1-f69.google.com with SMTP id
- i12-20020a056602134c00b0060211f8b5b7so6599064iov.15
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 06:04:09 -0800 (PST)
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CC9610E2DF
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 15:52:04 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id e5so51197962wrc.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 07:52:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kfSEh+kMWcMB2oG20OjNOZJx52OyGLAU5iACdztgHAM=;
+ b=LSe1c8wx29G4o6EHIysvSVoWfm8jbpRdfXqi/Sn96bwLYHcxEIPZj+58H5hzp9nxxN
+ zel2M2/KB4eyjXt473MV8NzT/+bnQNccGzNvt+IR6EIUxDlgEamcQg9KFgUR+vclHNYG
+ cW8NC4dpSq3YrXfs+ZCCTBs1h9Gyzci6VIhMzoAtJfMawtLoJYA6qEx4OCQVbQUsTpEF
+ BPzqxwzjN8IVp2ZT/Pe826g61sr1VpRPs+a3oRuZc0BOXwTQkx/YZ9MZ3oFpYZMRKBHB
+ 5otKQqiTb35RreN0x2M1D2qwsK8Ik1t9fCBvKMyMd3MoF5kibR2ZnUxOJ7kIbMT+orCv
+ JN5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
- :from:to;
- bh=CLxA5XglfnNoz85p0aOYmSifVXQKJleW9SZsti4LBwI=;
- b=xZZk5Xwp4IIRf2B+zDP4AHGBmSMLzMK4qZs8aS0WgYDtN9dqX2tRXAeBFV5AbeC+qd
- rpD5gH9bpTTz/v8yr4AKHPSh4TpD6hdBaoyvj5yW7bb8UGoWfsFv+K4/aDkQN50gXEW/
- ghEWjesFpEcjaOgin7PHgehAFzoWEvWaK6Kt3T1QgzeZyRGbSqRWA3p4PbeqHgGutYDY
- dnuwnbZGApt5AWnL5lbASw6DBPHCU2M4IA3dANyDLwBWEwzifTSCRSWzdANK8pUoy6JE
- BEmKnNa698p2gpQX1Ucp5gjNKY6Esm4baPiQB9LjPaV7dZec7QnM9I9SyJmlas7U64dx
- fk9A==
-X-Gm-Message-State: AOAM53101YQskPSqNqkJvMxVGxvjEB1piJPlsvMZdmw3UBFU1D1Ekp+a
- HtcKWDvYD7Wm7UaogCz9pHbK3nI+h+c6zJKq/pk1oLbfQrau
-X-Google-Smtp-Source: ABdhPJx785tpqTHluOUoVroCRBPCP9AP06uygyiu8dMzkdRIbJk8+L32zGswOmo6KPDk/Bzwg41q3078PRkKkjGBHDoJUHfy5SA9
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kfSEh+kMWcMB2oG20OjNOZJx52OyGLAU5iACdztgHAM=;
+ b=acdO+5TZvjTzan+Dd5YjVml1eM8NS5UOjdF0UtQqFWUL8Nrg3lI06jbMG9QFPgS1a6
+ /W4jxxrmnf0Gz69kQp8eUgEf7hT5Zc4rMTmpUe2v4eFblgaMYObGeIORlfjtcMr7AIoX
+ ndQnH+zvwUJrnyU++ITsDI6tJ3aK4z83u+oh23GehRuqpD3hyrIvtrlU1ijHbzbKWLAN
+ ss0itn32DKXTaadrctUC2BEOtZFBsZzj7PwyhcXCLAYjdFOOFsLOUMoMuzwAZJM5Ht1T
+ Ze6j8I+tWl5uJzvkuZ3zXNu0mwSERr75DckyYicDWuzJLHaRRQxtcwdeuZRH54V5OmSg
+ ht2Q==
+X-Gm-Message-State: AOAM533FNXk3ZLzE94g9IXmkah5Aja5vp2EwPCTWFhbh03Ntbar+PBm/
+ MWX0rOz4kq61zMWSCUnRqIo=
+X-Google-Smtp-Source: ABdhPJyBVYh0Oove2VBiz9Jd/MdVtDP9KyAEL3OOxOiMXWn2lKi2LyJM0+xNP1ys/VrHP42WIlCNVA==
+X-Received: by 2002:a5d:4dca:: with SMTP id f10mr25977728wru.595.1640879523053; 
+ Thu, 30 Dec 2021 07:52:03 -0800 (PST)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
+ [80.193.200.194])
+ by smtp.gmail.com with ESMTPSA id l12sm29750798wmq.2.2021.12.30.07.52.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Dec 2021 07:52:02 -0800 (PST)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Sam Ravnborg <sam@ravnborg.org>, Zheyu Ma <zheyuma97@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+Subject: [PATCH] video: fbdev: asiliantfb: remove redundant assignment to
+ variable Ftarget
+Date: Thu, 30 Dec 2021 15:52:01 +0000
+Message-Id: <20211230155202.355336-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-X-Received: by 2002:a02:9108:: with SMTP id a8mr9685404jag.284.1640873048481; 
- Thu, 30 Dec 2021 06:04:08 -0800 (PST)
-Date: Thu, 30 Dec 2021 06:04:08 -0800
-In-Reply-To: <83bf58b6-ace2-2db8-4f8b-322e78a3e198@gmail.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000002d250205d45d87d6@google.com>
-Subject: Re: [syzbot] general protection fault in
- sg_alloc_append_table_from_pages
-From: syzbot <syzbot+2c56b725ec547fa9cb29@syzkaller.appspotmail.com>
-To: christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
- gurchetansingh@chromium.org, kraxel@redhat.com, 
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, paskripkin@gmail.com, sumit.semwal@linaro.org, 
- syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Thu, 30 Dec 2021 17:17:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,22 +70,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Variable Ftarget is being initialized with a value that is never read,
+it is being re-assigned a different value a little later on. The
+assignment is redundant and can be removed.
 
-syzbot has tested the proposed patch and the reproducer did not trigger any issue:
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/video/fbdev/asiliantfb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reported-and-tested-by: syzbot+2c56b725ec547fa9cb29@syzkaller.appspotmail.com
+diff --git a/drivers/video/fbdev/asiliantfb.c b/drivers/video/fbdev/asiliantfb.c
+index 84c56f525889..f8ef62542f7f 100644
+--- a/drivers/video/fbdev/asiliantfb.c
++++ b/drivers/video/fbdev/asiliantfb.c
+@@ -110,7 +110,7 @@ static const struct fb_ops asiliantfb_ops = {
+ static void asiliant_calc_dclk2(u32 *ppixclock, u8 *dclk2_m, u8 *dclk2_n, u8 *dclk2_div)
+ {
+ 	unsigned pixclock = *ppixclock;
+-	unsigned Ftarget = 1000000 * (1000000 / pixclock);
++	unsigned Ftarget;
+ 	unsigned n;
+ 	unsigned best_error = 0xffffffff;
+ 	unsigned best_m = 0xffffffff,
+-- 
+2.33.1
 
-Tested on:
-
-commit:         eec4df26 Merge tag 's390-5.16-6' of git://git.kernel.o..
-git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=1bce7595e2f1eaf8
-dashboard link: https://syzkaller.appspot.com/bug?extid=2c56b725ec547fa9cb29
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=14fe2f47b00000
-
-Note: testing is done by a robot and is best-effort only.
