@@ -2,61 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB577481E8D
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Dec 2021 18:17:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60C13481E87
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Dec 2021 18:17:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E12910E28F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D56F610E29C;
 	Thu, 30 Dec 2021 17:17:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CC9610E2DF
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 15:52:04 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id e5so51197962wrc.5
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 07:52:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kfSEh+kMWcMB2oG20OjNOZJx52OyGLAU5iACdztgHAM=;
- b=LSe1c8wx29G4o6EHIysvSVoWfm8jbpRdfXqi/Sn96bwLYHcxEIPZj+58H5hzp9nxxN
- zel2M2/KB4eyjXt473MV8NzT/+bnQNccGzNvt+IR6EIUxDlgEamcQg9KFgUR+vclHNYG
- cW8NC4dpSq3YrXfs+ZCCTBs1h9Gyzci6VIhMzoAtJfMawtLoJYA6qEx4OCQVbQUsTpEF
- BPzqxwzjN8IVp2ZT/Pe826g61sr1VpRPs+a3oRuZc0BOXwTQkx/YZ9MZ3oFpYZMRKBHB
- 5otKQqiTb35RreN0x2M1D2qwsK8Ik1t9fCBvKMyMd3MoF5kibR2ZnUxOJ7kIbMT+orCv
- JN5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kfSEh+kMWcMB2oG20OjNOZJx52OyGLAU5iACdztgHAM=;
- b=acdO+5TZvjTzan+Dd5YjVml1eM8NS5UOjdF0UtQqFWUL8Nrg3lI06jbMG9QFPgS1a6
- /W4jxxrmnf0Gz69kQp8eUgEf7hT5Zc4rMTmpUe2v4eFblgaMYObGeIORlfjtcMr7AIoX
- ndQnH+zvwUJrnyU++ITsDI6tJ3aK4z83u+oh23GehRuqpD3hyrIvtrlU1ijHbzbKWLAN
- ss0itn32DKXTaadrctUC2BEOtZFBsZzj7PwyhcXCLAYjdFOOFsLOUMoMuzwAZJM5Ht1T
- Ze6j8I+tWl5uJzvkuZ3zXNu0mwSERr75DckyYicDWuzJLHaRRQxtcwdeuZRH54V5OmSg
- ht2Q==
-X-Gm-Message-State: AOAM533FNXk3ZLzE94g9IXmkah5Aja5vp2EwPCTWFhbh03Ntbar+PBm/
- MWX0rOz4kq61zMWSCUnRqIo=
-X-Google-Smtp-Source: ABdhPJyBVYh0Oove2VBiz9Jd/MdVtDP9KyAEL3OOxOiMXWn2lKi2LyJM0+xNP1ys/VrHP42WIlCNVA==
-X-Received: by 2002:a5d:4dca:: with SMTP id f10mr25977728wru.595.1640879523053; 
- Thu, 30 Dec 2021 07:52:03 -0800 (PST)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
- [80.193.200.194])
- by smtp.gmail.com with ESMTPSA id l12sm29750798wmq.2.2021.12.30.07.52.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Dec 2021 07:52:02 -0800 (PST)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Sam Ravnborg <sam@ravnborg.org>, Zheyu Ma <zheyuma97@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Subject: [PATCH] video: fbdev: asiliantfb: remove redundant assignment to
- variable Ftarget
-Date: Thu, 30 Dec 2021 15:52:01 +0000
-Message-Id: <20211230155202.355336-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.33.1
+Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40C5010E563
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 16:00:02 +0000 (UTC)
+Received: from geek500.localnet (unknown [82.65.8.64])
+ by smtp3-g21.free.fr (Postfix) with ESMTPS id D90EA13F84C;
+ Thu, 30 Dec 2021 16:59:50 +0100 (CET)
+From: Christian Casteyde <casteyde.christian@free.fr>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Subject: Re: Regression report on laptop suspend
+Date: Thu, 30 Dec 2021 16:55:22 +0100
+Message-ID: <52933493.dBzk7ret6Y@geek500>
+User-Agent: KMail/4.14.10 (Linux/5.15.11; KDE/4.14.32; x86_64; ; )
+In-Reply-To: <CAJZ5v0hC1_8z=VmBOgSU360KPj6N7YfDQBevsvyMNkdffyta6Q@mail.gmail.com>
+References: <2141133765.114843316.1640622535018.JavaMail.root@zimbra40-e7.priv.proxad.net>
+ <256689953.114854578.1640622738334.JavaMail.root@zimbra40-e7.priv.proxad.net>
+ <CAJZ5v0hC1_8z=VmBOgSU360KPj6N7YfDQBevsvyMNkdffyta6Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 X-Mailman-Approved-At: Thu, 30 Dec 2021 17:17:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,32 +41,186 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Linux PM <linux-pm@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Variable Ftarget is being initialized with a value that is never read,
-it is being re-assigned a different value a little later on. The
-assignment is redundant and can be removed.
+Le lundi 27 d=E9cembre 2021 17:40:28 Rafael J. Wysocki a =E9crit :
+> CC Daniel, Thomas and dri-devel.
+>=20
+> On Mon, Dec 27, 2021 at 5:32 PM <casteyde.christian@free.fr> wrote:
+> > Hello
+> >=20
+> > I've noticed my laptop totally freeze when going to hibernation.
+> > The git bisect log is appended below.
+> > Please note however that even the previous good commit was "good" (=
+ie :
+> > laptop managed to suspend and resume), the system was unstable and =
+froze
+> > few minutes later.
+> So the breakage need not be related to the first bad commit.
+>=20
+> Have you tried to revert that commit?  If so, has it helped?
+Reverting the last bad commit on 5.16-rc7, the problem is still there.
+I'm still convinced from bisection that it is related to graphic.
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/video/fbdev/asiliantfb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> > Hardware specs: AMD Ryzen 5 4600H with Vega graphics + Nvidia 1650T=
+i
+> > (unused) Software: Slackware 14.2 / X.org.
+> >=20
+> > Seems to be related to drm stuff.
+> > I've issued bugzilla https://bugzilla.kernel.org/show_bug.cgi?id=3D=
+215427
+> >=20
+> > Thanks
+> >=20
+> > git bisect start
+> > # good: [8bb7eca972ad531c9b149c0a51ab43a417385813] Linux 5.15
+> > git bisect good 8bb7eca972ad531c9b149c0a51ab43a417385813
+> > # bad: [a7904a538933c525096ca2ccde1e60d0ee62c08e] Linux 5.16-rc6
+> > git bisect bad a7904a538933c525096ca2ccde1e60d0ee62c08e
+> > # bad: [43e1b12927276cde8052122a24ff796649f09d60] Merge tag 'for_li=
+nus' of
+> > git://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost git bisect =
+bad
+> > 43e1b12927276cde8052122a24ff796649f09d60
+> > # good: [fc02cb2b37fe2cbf1d3334b9f0f0eab9431766c4] Merge tag
+> > 'net-next-for-5.16' of
+> > git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next git b=
+isect
+> > good fc02cb2b37fe2cbf1d3334b9f0f0eab9431766c4
+> > # bad: [d9bd054177fbd2c4762546aec40fc3071bfe4cc0] Merge tag
+> > 'amd-drm-next-5.16-2021-10-29' of
+> > https://gitlab.freedesktop.org/agd5f/linux into drm-next git bisect=
+ bad
+> > d9bd054177fbd2c4762546aec40fc3071bfe4cc0
+> > # skip: [797d72ce8e0f8fa8a808cb189b5411046432cfd3] Merge tag
+> > 'drm-misc-next-2021-10-06' of git://anongit.freedesktop.org/drm/drm=
+-misc
+> > into drm-next git bisect skip 797d72ce8e0f8fa8a808cb189b5411046432c=
+fd3
+> > # skip: [bf72ca73aaa6629568cb9b0761be6efdd02a2591] drm/amd/display:=
+ [FW
+> > Promotion] Release 0.0.85 git bisect skip
+> > bf72ca73aaa6629568cb9b0761be6efdd02a2591
+> > # good: [bc41f059a080e487c235b539f1e5cdbf605aba9f] drm/i915/dp: fix=
+ DG1
+> > and RKL max source rates git bisect good
+> > bc41f059a080e487c235b539f1e5cdbf605aba9f
+> > # skip: [58144d283712c9e80e528e001af6ac5aeee71af2] drm/amdgpu: unif=
+y BO
+> > evicting method in amdgpu_ttm git bisect skip
+> > 58144d283712c9e80e528e001af6ac5aeee71af2
+> > # skip: [a5b51a9f8523a0b88ce7e8e8059f75a43c34c57f] drm/i915/gt: add=
 
-diff --git a/drivers/video/fbdev/asiliantfb.c b/drivers/video/fbdev/asiliantfb.c
-index 84c56f525889..f8ef62542f7f 100644
---- a/drivers/video/fbdev/asiliantfb.c
-+++ b/drivers/video/fbdev/asiliantfb.c
-@@ -110,7 +110,7 @@ static const struct fb_ops asiliantfb_ops = {
- static void asiliant_calc_dclk2(u32 *ppixclock, u8 *dclk2_m, u8 *dclk2_n, u8 *dclk2_div)
- {
- 	unsigned pixclock = *ppixclock;
--	unsigned Ftarget = 1000000 * (1000000 / pixclock);
-+	unsigned Ftarget;
- 	unsigned n;
- 	unsigned best_error = 0xffffffff;
- 	unsigned best_m = 0xffffffff,
--- 
-2.33.1
+> > asm/cacheflush.h for use of clflush() git bisect skip
+> > a5b51a9f8523a0b88ce7e8e8059f75a43c34c57f
+> > # skip: [40348baedfbc6500e7a090c7da1d55b6c94c334f] drm/amd/display:=
+ fix
+> > duplicated inclusion git bisect skip
+> > 40348baedfbc6500e7a090c7da1d55b6c94c334f
+> > # skip: [7547675b84bf452542463db29adb113cadb7dd6d] drm/virtio: impl=
+ement
+> > context init: track {ring_idx, emit_fence_info} in virtio_gpu_fence=
+ git
+> > bisect skip 7547675b84bf452542463db29adb113cadb7dd6d
+> > # good: [f01ee019586220c86f238263a4fbde6e72085e11] drm/amd/display:=
+ Add DP
+> > 2.0 SST DC Support git bisect good
+> > f01ee019586220c86f238263a4fbde6e72085e11
+> > # good: [f3ede209d44d71636890a78fa89c5b1c83340320] drm/i915/pci: re=
+name
+> > functions to have i915_pci prefix git bisect good
+> > f3ede209d44d71636890a78fa89c5b1c83340320
+> > # skip: [4fb530e5caf7cb666948db65f245b350ce520436] drm/virtio: impl=
+ement
+> > context init: support init ioctl git bisect skip
+> > 4fb530e5caf7cb666948db65f245b350ce520436
+> > # good: [c7c4dfb6fe704ae3cce1a8f438db75b1a0a9061f] drm/i915/display=
+: Some
+> > code improvements and code style fixes for DRRS git bisect good
+> > c7c4dfb6fe704ae3cce1a8f438db75b1a0a9061f
+> > # skip: [7a28bee067d524c1b8770aa72a82263eb9fc53f0] drm/amd/display:=
 
+> > Disable dpp root clock when not being used git bisect skip
+> > 7a28bee067d524c1b8770aa72a82263eb9fc53f0
+> > # good: [5b116c17e6babc6de2e26714bc66228c74038b71] drm/i915/guc: Dr=
+op pin
+> > count check trick between sched_disable and re-pin git bisect good
+> > 5b116c17e6babc6de2e26714bc66228c74038b71
+> > # skip: [9878844094703fbae1c3b301c9bb71253a30efe7] drm/amdgpu: driv=
+e all
+> > vega asics from the IP discovery table git bisect skip
+> > 9878844094703fbae1c3b301c9bb71253a30efe7
+> > # skip: [7194dc998dfffca096c30b3cd39625158608992d] drm/i915/tc: Fix=
+ TypeC
+> > port init/resume time sanitization git bisect skip
+> > 7194dc998dfffca096c30b3cd39625158608992d
+> > # skip: [5c3720be7d46581181782f5cf9585b532feed947] drm/amdgpu: get =
+VCN and
+> > SDMA instances from IP discovery table git bisect skip
+> > 5c3720be7d46581181782f5cf9585b532feed947
+> > # skip: [a53f2c035e9832d20775d2c66c71495f2dc27699] drm/panfrost: Ca=
+lculate
+> > lock region size correctly git bisect skip
+> > a53f2c035e9832d20775d2c66c71495f2dc27699
+> > # skip: [d04287d062a4198ec0bf0112db03618f65d7428a] drm/amdgpu: Duri=
+ng s0ix
+> > don't wait to signal GFXOFF git bisect skip
+> > d04287d062a4198ec0bf0112db03618f65d7428a
+> > # skip: [9ced12182d0d8401d821e9602e56e276459900fc] drm/i915: Catch =
+yet
+> > another unconditioal clflush git bisect skip
+> > 9ced12182d0d8401d821e9602e56e276459900fc
+> > # skip: [dac3c405b9aedee301d0634b4e275b81f0d74363] drm/amd/display:=
+ [FW
+> > Promotion] Release 0.0.87 git bisect skip
+> > dac3c405b9aedee301d0634b4e275b81f0d74363
+> > # skip: [9f620f1dde3e3e984837163d7930dc4b2abffe82] drm/i915: Call
+> > intel_ddi_init_dp_buf_reg() earlier git bisect skip
+> > 9f620f1dde3e3e984837163d7930dc4b2abffe82
+> > # skip: [178fbb6d552f294037291bf62d41b31d30186f31] drm/amd/display:=
+
+> > Implement DPIA training loop git bisect skip
+> > 178fbb6d552f294037291bf62d41b31d30186f31
+> > # good: [253a55918ce128f15a3be66db5e2072665143554] drm/amd/display:=
+ Fix
+> > issue with dynamic bpp change for DCN3x git bisect good
+> > 253a55918ce128f15a3be66db5e2072665143554
+> > # skip: [50638f7dbd0b3969b47d2772c4db02ed92b6c47b]
+> > drm/amdgpu/pm/amdgpu_smu: convert more IP version checking git bise=
+ct
+> > skip 50638f7dbd0b3969b47d2772c4db02ed92b6c47b
+> > # bad: [3605eacc8ae055d699f7fa3adb9123c4c36ecd82] drm/panfrost: Mak=
+e use
+> > of the helper function devm_platform_ioremap_resource() git bisect =
+bad
+> > 3605eacc8ae055d699f7fa3adb9123c4c36ecd82
+> > # bad: [47ddb72f789333a8ccb792b0fd6d6fe8a7906694] drm: zte: remove
+> > obsolete DRM Support for ZTE SoCs git bisect bad
+> > 47ddb72f789333a8ccb792b0fd6d6fe8a7906694
+> > # bad: [072e70d52372c44df90b44fb4cd949a709bb5bef] drm:
+> > panel-orientation-quirks: Add quirk for the Chuwi Hi10 Pro git bise=
+ct bad
+> > 072e70d52372c44df90b44fb4cd949a709bb5bef
+> > # bad: [82ade934dde45b9d9008954b297f7727233e37af] drm/arm: malidp: =
+Use
+> > fourcc_mod_is_vendor() helper git bisect bad
+> > 82ade934dde45b9d9008954b297f7727233e37af
+> > # bad: [8b4e02c70fca482c5b947d8ba92b45093b4390e7] drm/panel: Add DT=
+
+> > bindings for Samsung S6D27A1 display panel git bisect bad
+> > 8b4e02c70fca482c5b947d8ba92b45093b4390e7
+> > # bad: [804b6e5ee613b019b942ba6be52cccecd9d33655] drm/shmem-helpers=
+:
+> > Allocate wc pages on x86 git bisect bad
+> > 804b6e5ee613b019b942ba6be52cccecd9d33655
+> > # good: [8b93d1d7dbd578fd296e70008b29c0f62d09d7cb] drm/shmem-helper=
+:
+> > Switch to vmf_insert_pfn git bisect good
+> > 8b93d1d7dbd578fd296e70008b29c0f62d09d7cb
+> > # first bad commit: [804b6e5ee613b019b942ba6be52cccecd9d33655]
+> > drm/shmem-helpers: Allocate wc pages on x86
