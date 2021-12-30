@@ -2,62 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 621AC481C68
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Dec 2021 14:16:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98EC1481CAA
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Dec 2021 14:53:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0CD510E229;
-	Thu, 30 Dec 2021 13:16:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E97410E2D4;
+	Thu, 30 Dec 2021 13:53:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4621910E229
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 13:16:44 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id CEACEB81C34
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 13:16:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A1D42C36AEC
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 13:16:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1640870201;
- bh=z5iBEfOqK7J/jRaJLLbOIBTycsfclEOWRySkUDS+CGU=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=meV8zV0+u6MXCgx+OcUEJiFS8soovV8dHkvLhtdllOIFBnsrJwwwjhiMGXgSLgC8O
- LYNAFAJMFef9bkNCl5KlAWvqLGSCOrbjPsZ/l4hGd4vGmzet67jGqwGMk+n09zLXSw
- zHiFdd7sgG2CR6mgm3QV/lTgawPy0HzpuZbeBTmY9n67kXXgxmcVeijtfWMPuzWpso
- IF4J08q+LcWDR9hSIK7n/VcRugnBw1KK1EyuaMU5mif75wl1Leok6UtrKQ2zh21QUz
- V8o7BDC3AFHtXje0za+H+zO5lFtUNavfH9ahH6J655k9PJ4ufg683PXEOcFxiC1CZy
- Wt3goMeenghiQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 8AB22C05FCE; Thu, 30 Dec 2021 13:16:41 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 215436] admgpu: suspend and resuming from suspend don't work
-Date: Thu, 30 Dec 2021 13:16:41 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: spasswolf@web.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-215436-2300-ACvsFXGeDB@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-215436-2300@https.bugzilla.kernel.org/>
-References: <bug-215436-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
+ [IPv6:2607:f8b0:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADD2010E2D3;
+ Thu, 30 Dec 2021 13:53:30 +0000 (UTC)
+Received: by mail-oi1-x231.google.com with SMTP id s73so40016209oie.5;
+ Thu, 30 Dec 2021 05:53:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7WPoqGbRjf5qWZOIN3v134hjVS3pk8ybZf4CzUplN6Q=;
+ b=LXJfcNr0JScpcQ7w+OIc5igJ563VY10gJbYIlaL94Ps5YeBi3azneCQqfPCmn2+Ydo
+ 0eLVXb6bAkEvye9p4Q6zU5VPiLhcfC5KtSzs5whpllrxDqLwXv4pUwPM51N0wzJJ+lGT
+ bIpMpjaEFIJKBy0+F4ef698IvQyo5ElBoY+5GzJ/X/XEeOP1mF91+JDS/YEwIKSgsCJc
+ MztFaluknwIyQeyNgGYE83+ICk4oktW4UzuhPvHFWEt8NjN9vsLLaVIDgWK/HbFrLjj/
+ wAPhVtIZ9jcX6HiPmWLEp8Z5o2uwHCeWaV9EthH6oqDwcd6kvQjAgYd4f631Q5e2WlN0
+ PYpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7WPoqGbRjf5qWZOIN3v134hjVS3pk8ybZf4CzUplN6Q=;
+ b=AZRFK45LKwRVcEIF4kHtgdOxoqHgaXyG+FdOisHWmEo7G9nFinNdM+VXJpX2FfaDmM
+ bXBOZ1UHP8FIcIITNMano7cACyaIFFcO+h3SL1cWgpP0qxjAwZ3wMvvwsja9sk36a3hI
+ RQrDC3UYJGPWaxOKXI1T8dREIWGcPtpAIiRrgfjzX9ni2E6UwUxBOQ0l70GDrqURtA1W
+ oQ6n8pN/+IzN1wVKJHyjNeoYbPowL0wZmp9qkMfYLhXHyD2SCSfX6S1l2UnL4lld5qSY
+ EcBtaC9eXBlXdTJclYgUh97LWAIRJf1bwfAY7KS9dsW3QNsnD85b4aXo1YTblZN9tpOm
+ MQVA==
+X-Gm-Message-State: AOAM532bIRvmY9d0X5JW1lgGBzqJmBH4wOPchROVtjeag27nm0HoFt87
+ iLy6U67dE1YWQnOq/xf+kXsnI+CxXLPS8Uk2Fp8=
+X-Google-Smtp-Source: ABdhPJx5kcfGn4Sxltpl4lgW9TtTMa4Tv9Sa4Hfh7Knh4ij92jSR70kgNdYcdOstbysXf4dHFbfe6ycYEDMflLiQsp8=
+X-Received: by 2002:a05:6808:300b:: with SMTP id
+ ay11mr23542416oib.120.1640872409739; 
+ Thu, 30 Dec 2021 05:53:29 -0800 (PST)
 MIME-Version: 1.0
+References: <20211229155129.5789-1-alexander.deucher@amd.com>
+ <CAPM=9tyU-eP7Fc2ziWNURJrdxZJSkaNKbE0V6Xx6L9idswHv2A@mail.gmail.com>
+In-Reply-To: <CAPM=9tyU-eP7Fc2ziWNURJrdxZJSkaNKbE0V6Xx6L9idswHv2A@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 30 Dec 2021 08:53:18 -0500
+Message-ID: <CADnq5_OLKNqTv3OwnpVdc5-=wRFPC=jrGHu=nv6z1QmBfWgTeA@mail.gmail.com>
+Subject: Re: [pull] amdgpu drm-fixes-5.16
+To: Dave Airlie <airlied@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,19 +63,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Zhan Liu <zhan.liu@amd.com>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, "Wang,
+ Angus" <angus.wang@amd.com>, Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D215436
+On Thu, Dec 30, 2021 at 12:29 AM Dave Airlie <airlied@gmail.com> wrote:
+>
+> On Thu, 30 Dec 2021 at 01:51, Alex Deucher <alexander.deucher@amd.com> wrote:
+> >
+> > Hi Dave, Daniel,
+>
+> Just FYI on merging this into tip I got a conflict I'm not sure what
+> answer is right.
+>
+> fixes has:
+> ee2698cf79cc759a397c61086c758d4cc85938bf
+> Author: Angus Wang <angus.wang@amd.com>
+> Date:   Thu Dec 9 17:27:01 2021 -0500
+>
+>     drm/amd/display: Changed pipe split policy to allow for
+> multi-display pipe split
+>
+> next has:
+> 1edf5ae1fdaffb67c1b93e98df670cbe535d13cf
+> Author: Zhan Liu <Zhan.Liu@amd.com>
+> Date:   Mon Nov 8 19:31:00 2021 -0500
+>
+>     drm/amd/display: enable seamless boot for DCN301
+>
+> -.pipe_split_policy = MPC_SPLIT_AVOID_MULT_DISP,
+> fixes is +.pipe_split_policy = MPC_SPLIT_DYNAMIC,
+> next is +.pipe_split_policy = MPC_SPLIT_AVOID,
+>
+> I've chosen the -fixes answer for now, but it would be good to have
+> someone review it before Linus merges.
 
---- Comment #4 from spasswolf@web.de ---
-Unfortunately I optimized my .config to make bisections faster, but now I
-cannot reproduce the Hang with commit 2a50edbf10c8c56e930bfb53d8f9f00a33fd8=
-37e.
-So now I will start over with the bisection ...
+It should ultimately be MPC_SPLIT_DYNAMIC.  -next has an extra patch
+which changes it to an intermediate value before this patch changes it
+to MPC_SPLIT_DYNAMIC.
 
---=20
-You may reply to this email to add a comment.
+Alex
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+
+>
+> Dave.
