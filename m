@@ -2,39 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E397D48202B
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Dec 2021 21:05:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BFA14820E8
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Dec 2021 00:56:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92D1F10E3B7;
-	Thu, 30 Dec 2021 20:05:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 657AD10E17C;
+	Thu, 30 Dec 2021 23:56:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-4.mailo.com (ip-15.mailobj.net [213.182.54.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D60A10E3B7
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 20:05:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=net-c.es; s=mailo;
- t=1640894704; bh=77IIs4gH4boiaa0zpltZzhP8rnEG+LqB/nu0q1g0WCA=;
- h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
- MIME-Version:Content-Type:In-Reply-To;
- b=f8D7R+4ba413G6Hjaj/reXIIIqTMdYYH76/FPGzz4OZj6eu4Wa7A2OVWn+lmI7OC5
- NKjyEyMGQoXK/cNYIAw3aQF9zplhd+j1RTNHsWFlpT5X4bLd8l8VwwZmhAaqeD/Rst
- eVSEUbmz2UFxUR1Gngq1Kcm/bHdMMft3/DYAIT4s=
-Received: by b-1.in.mailobj.net [192.168.90.11] with ESMTP
- via ip-206.mailobj.net [213.182.55.206]
- Thu, 30 Dec 2021 21:05:04 +0100 (CET)
-X-EA-Auth: 1eG3aPgTRhCLSCFbjtgiKkasr8QBMLeyhGqYYj7+mUcNRf16O/jPRLBd4/4KQz98H447ia/xzikBJwQEsaIwI8HHoQOKVfCz
-Date: Thu, 30 Dec 2021 21:05:02 +0100
-From: Claudio Suarez <cssk@net-c.es>
-To: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] drm: get rid of DRM_DEBUG_* log calls in drm core, files
- drm_{b,c}*.c
-Message-ID: <Yc4Q7vqVDv/UcaVA@gineta.localdomain>
-References: <Yc2Pd/DhQ7EpD+hD@gineta.localdomain>
- <202112302236.ikd2ET5w-lkp@intel.com>
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C094610E17C
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 23:56:15 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ bg19-20020a05600c3c9300b0034565e837b6so8299114wmb.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 15:56:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=googlemail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=06S3zd2orIESj72FE3tHED43xQdHxTUMkfYYwe00wX0=;
+ b=UN21p9i/HQBP5bIxdvrBzde1OUPTWPyofyKLJHtskKd+VUJIo4+fasBiQ1BZ38DGu2
+ BS/OMU2bTo3CS0WrOgL+TfNYbfORze+G2kHzWVXQo1brPYoYmdoqoMr9juida9Pdr6lw
+ 2pYpTeV94yVc+jaaKNAgeSTYahZDSDK8IJfuSh8J2aiYFW3RwNabA0UgsSsA8BhLuoFn
+ 1Ofre4miz4RWoHxDkv9Wd3FKO7YKr18SHgt15sL4Ln4PJGuYO2UXTwzmey2tnGkeOJ2E
+ dc7bWiOthsHX1JbCeT2A6N7eDF3aWYYMU9I1WXUleIAqcDKph89Ib54Rno3dzG59AX3d
+ QfPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=06S3zd2orIESj72FE3tHED43xQdHxTUMkfYYwe00wX0=;
+ b=wN5R9rrVzg7XDKViDaF5s8j9cHeLnU55KA2/KcvAtfVjl8geMcH2ouqXqXIYgbEZ7n
+ 2XdiaL/ozGpziniJUdQYGuqXj1iuLamdF/GtuhCQmClH8HwEmorD9gnh1AXTRXioDP/d
+ 7Q5NaHDrFuMsRH3L+Wnn2W7fUHyWjtN+ckqF0ZvITwnuTkKfbUlQMd6Ytoe2DpOWmpVD
+ 99zHR/iV+wovUJaqWs11FyGii9R4w39lNshCT3yLofGztYCZ2DSoYXm1nJ2M7FGrDF2S
+ iWzGEOqbHV3pXe5EpwiboI+JaIanTMQpVaa4yG8oC3wBcqPILHodfcNlW2a1wEMPIi5u
+ nqqQ==
+X-Gm-Message-State: AOAM532jWalaXykbEHVEHPfBFT9u2+VgxUgHGUVvtVzsqPBCrv7ikDS+
+ sdFzoCJBMlR8MMbugAFv6FtJj+cM/AQ=
+X-Google-Smtp-Source: ABdhPJzgh/ofqaEUf89LPraq5gBtOMLdMCVoLABcXbmXGl/gXmAtu34+N2JtT7fliiicXAQ/+OwVlw==
+X-Received: by 2002:a05:600c:1c18:: with SMTP id
+ j24mr28248546wms.189.1640908574243; 
+ Thu, 30 Dec 2021 15:56:14 -0800 (PST)
+Received: from localhost.localdomain
+ (dynamic-2a01-0c23-c015-2400-f22f-74ff-fe21-0725.c23.pool.telefonica.de.
+ [2a01:c23:c015:2400:f22f:74ff:fe21:725])
+ by smtp.googlemail.com with ESMTPSA id f16sm35137581wmg.27.2021.12.30.15.56.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Dec 2021 15:56:13 -0800 (PST)
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+To: linux-amlogic@lists.infradead.org
+Subject: [PATCH 0/2] drm/meson: Error handling fix when AFBCD is used
+Date: Fri, 31 Dec 2021 00:55:13 +0100
+Message-Id: <20211230235515.1627522-1-martin.blumenstingl@googlemail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202112302236.ikd2ET5w-lkp@intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,502 +70,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, David Airlie <airlied@linux.ie>,
- llvm@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ narmstrong@baylibre.com, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Neil,
 
-Hi,
+this series consists of a small cleanup patch and a fix for the error
+handling in meson_drv_bind_master() when AFBCD is used.
+The patches are based on drm-misc to not conflict with your previous
+driver rework. Since the problem has not been observed in the wild I
+decided not to Cc linux-stable.
 
-Please, don't apply this patch. I have to review it,.
 
-BR
+Best regards,
+Martin
 
 
+Martin Blumenstingl (2):
+  drm/meson: osd_afbcd: Add an exit callback to struct meson_afbcd_ops
+  drm/meson: Fix error handling when afbcd.ops->init fails
 
-On Thu, Dec 30, 2021 at 10:31:45PM +0800, kernel test robot wrote:
-> Hi Claudio,
-> 
-> Thank you for the patch! Perhaps something to improve:
-> 
-> [auto build test WARNING on drm/drm-next]
-> [also build test WARNING on drm-intel/for-linux-next drm-tip/drm-tip v5.16-rc7 next-20211224]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch]
-> 
-> url:    https://github.com/0day-ci/linux/commits/Claudio-Suarez/drm-get-rid-of-DRM_DEBUG_-log-calls-in-drm-core-files-drm_-b-c-c/20211230-185446
-> base:   git://anongit.freedesktop.org/drm/drm drm-next
-> config: hexagon-randconfig-r041-20211230 (https://download.01.org/0day-ci/archive/20211230/202112302236.ikd2ET5w-lkp@intel.com/config)
-> compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project cd284b7ac0615afc6e0f1a30da2777e361de27a3)
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/0day-ci/linux/commit/9cfa12f89e858cd6d2eb5eb17c6db7ab689343e3
->         git remote add linux-review https://github.com/0day-ci/linux
->         git fetch --no-tags linux-review Claudio-Suarez/drm-get-rid-of-DRM_DEBUG_-log-calls-in-drm-core-files-drm_-b-c-c/20211230-185446
->         git checkout 9cfa12f89e858cd6d2eb5eb17c6db7ab689343e3
->         # save the config file to linux build tree
->         mkdir build_dir
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/gpu/drm/
-> 
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    drivers/gpu/drm/drm_bufs.c:174:14: error: incompatible pointer types passing 'struct drm_device *' to parameter of type 'const struct device *' [-Werror,-Wincompatible-pointer-types]
->            drm_dev_dbg(dev, "offset = 0x%08llx, size = 0x%08lx, type = %d\n",
->                        ^~~
->    include/drm/drm_print.h:337:39: note: passing argument to parameter 'dev' here
->    void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
->                                          ^
-> >> drivers/gpu/drm/drm_bufs.c:174:19: warning: incompatible pointer to integer conversion passing 'char[46]' to parameter of type 'enum drm_debug_category' [-Wint-conversion]
->            drm_dev_dbg(dev, "offset = 0x%08llx, size = 0x%08lx, type = %d\n",
->                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    include/drm/drm_print.h:337:68: note: passing argument to parameter 'category' here
->    void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
->                                                                       ^
-> >> drivers/gpu/drm/drm_bufs.c:175:7: warning: incompatible integer to pointer conversion passing 'unsigned long long' to parameter of type 'const char *' [-Wint-conversion]
->                        (unsigned long long)map->offset, map->size, map->type);
->                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    include/drm/drm_print.h:338:16: note: passing argument to parameter 'format' here
->                     const char *format, ...);
->                                 ^
->    drivers/gpu/drm/drm_bufs.c:208:17: error: incompatible pointer types passing 'struct drm_device *' to parameter of type 'const struct device *' [-Werror,-Wincompatible-pointer-types]
->                                    drm_dev_dbg(dev,
->                                                ^~~
->    include/drm/drm_print.h:337:39: note: passing argument to parameter 'dev' here
->    void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
->                                          ^
->    drivers/gpu/drm/drm_bufs.c:209:10: warning: incompatible pointer to integer conversion passing 'char[62]' to parameter of type 'enum drm_debug_category' [-Wint-conversion]
->                                                "Matching maps of type %d with mismatched sizes, (%ld vs %ld)\n",
->                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    include/drm/drm_print.h:337:68: note: passing argument to parameter 'category' here
->    void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
->                                                                       ^
-> >> drivers/gpu/drm/drm_bufs.c:210:10: warning: incompatible integer to pointer conversion passing 'enum drm_map_type' to parameter of type 'const char *' [-Wint-conversion]
->                                                map->type, map->size, list->map->size);
->                                                ^~~~~~~~~
->    include/drm/drm_print.h:338:16: note: passing argument to parameter 'format' here
->                     const char *format, ...);
->                                 ^
->    drivers/gpu/drm/drm_bufs.c:241:17: error: incompatible pointer types passing 'struct drm_device *' to parameter of type 'const struct device *' [-Werror,-Wincompatible-pointer-types]
->                                    drm_dev_dbg(dev,
->                                                ^~~
->    include/drm/drm_print.h:337:39: note: passing argument to parameter 'dev' here
->    void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
->                                          ^
->    drivers/gpu/drm/drm_bufs.c:242:10: warning: incompatible pointer to integer conversion passing 'char[62]' to parameter of type 'enum drm_debug_category' [-Wint-conversion]
->                                                "Matching maps of type %d with mismatched sizes, (%ld vs %ld)\n",
->                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    include/drm/drm_print.h:337:68: note: passing argument to parameter 'category' here
->    void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
->                                                                       ^
->    drivers/gpu/drm/drm_bufs.c:243:10: warning: incompatible integer to pointer conversion passing 'enum drm_map_type' to parameter of type 'const char *' [-Wint-conversion]
->                                                map->type, map->size, list->map->size);
->                                                ^~~~~~~~~
->    include/drm/drm_print.h:338:16: note: passing argument to parameter 'format' here
->                     const char *format, ...);
->                                 ^
->    drivers/gpu/drm/drm_bufs.c:252:15: error: incompatible pointer types passing 'struct drm_device *' to parameter of type 'const struct device *' [-Werror,-Wincompatible-pointer-types]
->                    drm_dev_dbg(dev, "%lu %d %p\n",
->                                ^~~
->    include/drm/drm_print.h:337:39: note: passing argument to parameter 'dev' here
->    void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
->                                          ^
->    drivers/gpu/drm/drm_bufs.c:252:20: warning: incompatible pointer to integer conversion passing 'char[11]' to parameter of type 'enum drm_debug_category' [-Wint-conversion]
->                    drm_dev_dbg(dev, "%lu %d %p\n",
->                                     ^~~~~~~~~~~~~
->    include/drm/drm_print.h:337:68: note: passing argument to parameter 'category' here
->    void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
->                                                                       ^
-> >> drivers/gpu/drm/drm_bufs.c:253:6: warning: incompatible integer to pointer conversion passing 'unsigned long' to parameter of type 'const char *' [-Wint-conversion]
->                              map->size, order_base_2(map->size), map->handle);
->                              ^~~~~~~~~
->    include/drm/drm_print.h:338:16: note: passing argument to parameter 'format' here
->                     const char *format, ...);
->                                 ^
->    drivers/gpu/drm/drm_bufs.c:310:15: error: incompatible pointer types passing 'struct drm_device *' to parameter of type 'const struct device *' [-Werror,-Wincompatible-pointer-types]
->                    drm_dev_dbg(dev, "AGP offset = 0x%08llx, size = 0x%08lx\n",
->                                ^~~
->    include/drm/drm_print.h:337:39: note: passing argument to parameter 'dev' here
->    void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
->                                          ^
->    drivers/gpu/drm/drm_bufs.c:310:20: warning: incompatible pointer to integer conversion passing 'char[39]' to parameter of type 'enum drm_debug_category' [-Wint-conversion]
->                    drm_dev_dbg(dev, "AGP offset = 0x%08llx, size = 0x%08lx\n",
->                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    include/drm/drm_print.h:337:68: note: passing argument to parameter 'category' here
->    void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
->                                                                       ^
->    drivers/gpu/drm/drm_bufs.c:311:6: warning: incompatible integer to pointer conversion passing 'unsigned long long' to parameter of type 'const char *' [-Wint-conversion]
->                              (unsigned long long)map->offset, map->size);
->                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    include/drm/drm_print.h:338:16: note: passing argument to parameter 'format' here
->                     const char *format, ...);
->                                 ^
->    drivers/gpu/drm/drm_bufs.c:914:14: error: incompatible pointer types passing 'struct drm_device *' to parameter of type 'const struct device *' [-Werror,-Wincompatible-pointer-types]
->            drm_dev_dbg(dev, "count=%d, size=%d (%d), order=%d\n",
->                        ^~~
->    include/drm/drm_print.h:337:39: note: passing argument to parameter 'dev' here
->    void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
->                                          ^
->    drivers/gpu/drm/drm_bufs.c:914:19: warning: incompatible pointer to integer conversion passing 'char[34]' to parameter of type 'enum drm_debug_category' [-Wint-conversion]
->            drm_dev_dbg(dev, "count=%d, size=%d (%d), order=%d\n",
->                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    include/drm/drm_print.h:337:68: note: passing argument to parameter 'category' here
->    void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
->                                                                       ^
-> >> drivers/gpu/drm/drm_bufs.c:915:7: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'const char *' [-Wint-conversion]
->                        request->count, request->size, size, order);
->                        ^~~~~~~~~~~~~~
->    include/drm/drm_print.h:338:16: note: passing argument to parameter 'format' here
->                     const char *format, ...);
->                                 ^
->    drivers/gpu/drm/drm_bufs.c:977:14: error: incompatible pointer types passing 'struct drm_device *' to parameter of type 'const struct device *' [-Werror,-Wincompatible-pointer-types]
->            drm_dev_dbg(dev, "pagelist: %d entries\n",
->                        ^~~
->    include/drm/drm_print.h:337:39: note: passing argument to parameter 'dev' here
->    void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
->                                          ^
->    drivers/gpu/drm/drm_bufs.c:977:19: warning: incompatible pointer to integer conversion passing 'char[22]' to parameter of type 'enum drm_debug_category' [-Wint-conversion]
->            drm_dev_dbg(dev, "pagelist: %d entries\n",
->                             ^~~~~~~~~~~~~~~~~~~~~~~~
->    include/drm/drm_print.h:337:68: note: passing argument to parameter 'category' here
->    void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
->                                                                       ^
->    drivers/gpu/drm/drm_bufs.c:978:7: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'const char *' [-Wint-conversion]
->                        dma->page_count + (count << page_order));
->                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    include/drm/drm_print.h:338:16: note: passing argument to parameter 'format' here
->                     const char *format, ...);
->                                 ^
->    drivers/gpu/drm/drm_bufs.c:1017:16: error: incompatible pointer types passing 'struct drm_device *' to parameter of type 'const struct device *' [-Werror,-Wincompatible-pointer-types]
->                            drm_dev_dbg(dev, "page %d @ 0x%08lx\n",
->                                        ^~~
->    include/drm/drm_print.h:337:39: note: passing argument to parameter 'dev' here
->    void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
->                                          ^
->    drivers/gpu/drm/drm_bufs.c:1017:21: warning: incompatible pointer to integer conversion passing 'char[19]' to parameter of type 'enum drm_debug_category' [-Wint-conversion]
->                            drm_dev_dbg(dev, "page %d @ 0x%08lx\n",
->                                             ^~~~~~~~~~~~~~~~~~~~~
->    include/drm/drm_print.h:337:68: note: passing argument to parameter 'category' here
->    void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
->                                                                       ^
->    drivers/gpu/drm/drm_bufs.c:1018:9: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'const char *' [-Wint-conversion]
->                                        dma->page_count + page_count,
->                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    include/drm/drm_print.h:338:16: note: passing argument to parameter 'format' here
->                     const char *format, ...);
->                                 ^
->    drivers/gpu/drm/drm_bufs.c:1053:16: error: incompatible pointer types passing 'struct drm_device *' to parameter of type 'const struct device *' [-Werror,-Wincompatible-pointer-types]
->                            drm_dev_dbg(dev, "buffer %d @ %p\n",
->                                        ^~~
->    include/drm/drm_print.h:337:39: note: passing argument to parameter 'dev' here
->    void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
->                                          ^
->    drivers/gpu/drm/drm_bufs.c:1053:21: warning: incompatible pointer to integer conversion passing 'char[16]' to parameter of type 'enum drm_debug_category' [-Wint-conversion]
->                            drm_dev_dbg(dev, "buffer %d @ %p\n",
->                                             ^~~~~~~~~~~~~~~~~~
->    include/drm/drm_print.h:337:68: note: passing argument to parameter 'category' here
->    void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
->                                                                       ^
->    drivers/gpu/drm/drm_bufs.c:1054:9: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'const char *' [-Wint-conversion]
->                                        entry->buf_count, buf->address);
->                                        ^~~~~~~~~~~~~~~~
->    include/drm/drm_print.h:338:16: note: passing argument to parameter 'format' here
->                     const char *format, ...);
->                                 ^
->    drivers/gpu/drm/drm_bufs.c:1142:14: error: incompatible pointer types passing 'struct drm_device *' to parameter of type 'const struct device *' [-Werror,-Wincompatible-pointer-types]
->            drm_dev_dbg(dev, "count:      %d\n", count);
->                        ^~~
->    include/drm/drm_print.h:337:39: note: passing argument to parameter 'dev' here
->    void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
->                                          ^
->    drivers/gpu/drm/drm_bufs.c:1142:19: warning: incompatible pointer to integer conversion passing 'char[16]' to parameter of type 'enum drm_debug_category' [-Wint-conversion]
->            drm_dev_dbg(dev, "count:      %d\n", count);
->                             ^~~~~~~~~~~~~~~~~~
->    include/drm/drm_print.h:337:68: note: passing argument to parameter 'category' here
->    void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
->                                                                       ^
->    drivers/gpu/drm/drm_bufs.c:1142:39: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'const char *' [-Wint-conversion]
->            drm_dev_dbg(dev, "count:      %d\n", count);
->                                                 ^~~~~
->    include/drm/drm_print.h:338:16: note: passing argument to parameter 'format' here
->                     const char *format, ...);
->                                 ^
->    drivers/gpu/drm/drm_bufs.c:1143:14: error: incompatible pointer types passing 'struct drm_device *' to parameter of type 'const struct device *' [-Werror,-Wincompatible-pointer-types]
->            drm_dev_dbg(dev, "order:      %d\n", order);
->                        ^~~
->    include/drm/drm_print.h:337:39: note: passing argument to parameter 'dev' here
->    void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
->                                          ^
->    drivers/gpu/drm/drm_bufs.c:1143:19: warning: incompatible pointer to integer conversion passing 'char[16]' to parameter of type 'enum drm_debug_category' [-Wint-conversion]
->            drm_dev_dbg(dev, "order:      %d\n", order);
->                             ^~~~~~~~~~~~~~~~~~
->    include/drm/drm_print.h:337:68: note: passing argument to parameter 'category' here
->    void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
->                                                                       ^
->    drivers/gpu/drm/drm_bufs.c:1143:39: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'const char *' [-Wint-conversion]
->            drm_dev_dbg(dev, "order:      %d\n", order);
->                                                 ^~~~~
->    include/drm/drm_print.h:338:16: note: passing argument to parameter 'format' here
->                     const char *format, ...);
->                                 ^
->    drivers/gpu/drm/drm_bufs.c:1144:14: error: incompatible pointer types passing 'struct drm_device *' to parameter of type 'const struct device *' [-Werror,-Wincompatible-pointer-types]
->            drm_dev_dbg(dev, "size:       %d\n", size);
->                        ^~~
->    include/drm/drm_print.h:337:39: note: passing argument to parameter 'dev' here
->    void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
-> 
-> 
-> vim +174 drivers/gpu/drm/drm_bufs.c
-> 
->    138	
->    139	/*
->    140	 * Core function to create a range of memory available for mapping by a
->    141	 * non-root process.
->    142	 *
->    143	 * Adjusts the memory offset to its absolute value according to the mapping
->    144	 * type.  Adds the map to the map list drm_device::maplist. Adds MTRR's where
->    145	 * applicable and if supported by the kernel.
->    146	 */
->    147	static int drm_addmap_core(struct drm_device *dev, resource_size_t offset,
->    148				   unsigned int size, enum drm_map_type type,
->    149				   enum drm_map_flags flags,
->    150				   struct drm_map_list **maplist)
->    151	{
->    152		struct drm_local_map *map;
->    153		struct drm_map_list *list;
->    154		unsigned long user_token;
->    155		int ret;
->    156	
->    157		map = kmalloc(sizeof(*map), GFP_KERNEL);
->    158		if (!map)
->    159			return -ENOMEM;
->    160	
->    161		map->offset = offset;
->    162		map->size = size;
->    163		map->flags = flags;
->    164		map->type = type;
->    165	
->    166		/* Only allow shared memory to be removable since we only keep enough
->    167		 * book keeping information about shared memory to allow for removal
->    168		 * when processes fork.
->    169		 */
->    170		if ((map->flags & _DRM_REMOVABLE) && map->type != _DRM_SHM) {
->    171			kfree(map);
->    172			return -EINVAL;
->    173		}
->  > 174		drm_dev_dbg(dev, "offset = 0x%08llx, size = 0x%08lx, type = %d\n",
->  > 175			    (unsigned long long)map->offset, map->size, map->type);
->    176	
->    177		/* page-align _DRM_SHM maps. They are allocated here so there is no security
->    178		 * hole created by that and it works around various broken drivers that use
->    179		 * a non-aligned quantity to map the SAREA. --BenH
->    180		 */
->    181		if (map->type == _DRM_SHM)
->    182			map->size = PAGE_ALIGN(map->size);
->    183	
->    184		if ((map->offset & (~(resource_size_t)PAGE_MASK)) || (map->size & (~PAGE_MASK))) {
->    185			kfree(map);
->    186			return -EINVAL;
->    187		}
->    188		map->mtrr = -1;
->    189		map->handle = NULL;
->    190	
->    191		switch (map->type) {
->    192		case _DRM_REGISTERS:
->    193		case _DRM_FRAME_BUFFER:
->    194	#if !defined(__sparc__) && !defined(__alpha__) && !defined(__ia64__) && !defined(__powerpc64__) && !defined(__x86_64__) && !defined(__arm__)
->    195			if (map->offset + (map->size-1) < map->offset ||
->    196			    map->offset < virt_to_phys(high_memory)) {
->    197				kfree(map);
->    198				return -EINVAL;
->    199			}
->    200	#endif
->    201			/* Some drivers preinitialize some maps, without the X Server
->    202			 * needing to be aware of it.  Therefore, we just return success
->    203			 * when the server tries to create a duplicate map.
->    204			 */
->    205			list = drm_find_matching_map(dev, map);
->    206			if (list != NULL) {
->    207				if (list->map->size != map->size) {
->    208					drm_dev_dbg(dev,
->    209						    "Matching maps of type %d with mismatched sizes, (%ld vs %ld)\n",
->  > 210						    map->type, map->size, list->map->size);
->    211					list->map->size = map->size;
->    212				}
->    213	
->    214				kfree(map);
->    215				*maplist = list;
->    216				return 0;
->    217			}
->    218	
->    219			if (map->type == _DRM_FRAME_BUFFER ||
->    220			    (map->flags & _DRM_WRITE_COMBINING)) {
->    221				map->mtrr =
->    222					arch_phys_wc_add(map->offset, map->size);
->    223			}
->    224			if (map->type == _DRM_REGISTERS) {
->    225				if (map->flags & _DRM_WRITE_COMBINING)
->    226					map->handle = ioremap_wc(map->offset,
->    227								 map->size);
->    228				else
->    229					map->handle = ioremap(map->offset, map->size);
->    230				if (!map->handle) {
->    231					kfree(map);
->    232					return -ENOMEM;
->    233				}
->    234			}
->    235	
->    236			break;
->    237		case _DRM_SHM:
->    238			list = drm_find_matching_map(dev, map);
->    239			if (list != NULL) {
->    240				if (list->map->size != map->size) {
->    241					drm_dev_dbg(dev,
->    242						    "Matching maps of type %d with mismatched sizes, (%ld vs %ld)\n",
->    243						    map->type, map->size, list->map->size);
->    244					list->map->size = map->size;
->    245				}
->    246	
->    247				kfree(map);
->    248				*maplist = list;
->    249				return 0;
->    250			}
->    251			map->handle = vmalloc_user(map->size);
->    252			drm_dev_dbg(dev, "%lu %d %p\n",
->  > 253				  map->size, order_base_2(map->size), map->handle);
->    254			if (!map->handle) {
->    255				kfree(map);
->    256				return -ENOMEM;
->    257			}
->    258			map->offset = (unsigned long)map->handle;
->    259			if (map->flags & _DRM_CONTAINS_LOCK) {
->    260				/* Prevent a 2nd X Server from creating a 2nd lock */
->    261				if (dev->master->lock.hw_lock != NULL) {
->    262					vfree(map->handle);
->    263					kfree(map);
->    264					return -EBUSY;
->    265				}
->    266				dev->sigdata.lock = dev->master->lock.hw_lock = map->handle;	/* Pointer to lock */
->    267			}
->    268			break;
->    269		case _DRM_AGP: {
->    270			struct drm_agp_mem *entry;
->    271			int valid = 0;
->    272	
->    273			if (!dev->agp) {
->    274				kfree(map);
->    275				return -EINVAL;
->    276			}
->    277	#ifdef __alpha__
->    278			map->offset += dev->hose->mem_space->start;
->    279	#endif
->    280			/* In some cases (i810 driver), user space may have already
->    281			 * added the AGP base itself, because dev->agp->base previously
->    282			 * only got set during AGP enable.  So, only add the base
->    283			 * address if the map's offset isn't already within the
->    284			 * aperture.
->    285			 */
->    286			if (map->offset < dev->agp->base ||
->    287			    map->offset > dev->agp->base +
->    288			    dev->agp->agp_info.aper_size * 1024 * 1024 - 1) {
->    289				map->offset += dev->agp->base;
->    290			}
->    291			map->mtrr = dev->agp->agp_mtrr;	/* for getmap */
->    292	
->    293			/* This assumes the DRM is in total control of AGP space.
->    294			 * It's not always the case as AGP can be in the control
->    295			 * of user space (i.e. i810 driver). So this loop will get
->    296			 * skipped and we double check that dev->agp->memory is
->    297			 * actually set as well as being invalid before EPERM'ing
->    298			 */
->    299			list_for_each_entry(entry, &dev->agp->memory, head) {
->    300				if ((map->offset >= entry->bound) &&
->    301				    (map->offset + map->size <= entry->bound + entry->pages * PAGE_SIZE)) {
->    302					valid = 1;
->    303					break;
->    304				}
->    305			}
->    306			if (!list_empty(&dev->agp->memory) && !valid) {
->    307				kfree(map);
->    308				return -EPERM;
->    309			}
->    310			drm_dev_dbg(dev, "AGP offset = 0x%08llx, size = 0x%08lx\n",
->    311				  (unsigned long long)map->offset, map->size);
->    312	
->    313			break;
->    314		}
->    315		case _DRM_SCATTER_GATHER:
->    316			if (!dev->sg) {
->    317				kfree(map);
->    318				return -EINVAL;
->    319			}
->    320			map->offset += (unsigned long)dev->sg->virtual;
->    321			break;
->    322		case _DRM_CONSISTENT:
->    323			/* dma_addr_t is 64bit on i386 with CONFIG_HIGHMEM64G,
->    324			 * As we're limiting the address to 2^32-1 (or less),
->    325			 * casting it down to 32 bits is no problem, but we
->    326			 * need to point to a 64bit variable first.
->    327			 */
->    328			map->handle = dma_alloc_coherent(dev->dev,
->    329							 map->size,
->    330							 &map->offset,
->    331							 GFP_KERNEL);
->    332			if (!map->handle) {
->    333				kfree(map);
->    334				return -ENOMEM;
->    335			}
->    336			break;
->    337		default:
->    338			kfree(map);
->    339			return -EINVAL;
->    340		}
->    341	
->    342		list = kzalloc(sizeof(*list), GFP_KERNEL);
->    343		if (!list) {
->    344			if (map->type == _DRM_REGISTERS)
->    345				iounmap(map->handle);
->    346			kfree(map);
->    347			return -EINVAL;
->    348		}
->    349		list->map = map;
->    350	
->    351		mutex_lock(&dev->struct_mutex);
->    352		list_add(&list->head, &dev->maplist);
->    353	
->    354		/* Assign a 32-bit handle */
->    355		/* We do it here so that dev->struct_mutex protects the increment */
->    356		user_token = (map->type == _DRM_SHM) ? (unsigned long)map->handle :
->    357			map->offset;
->    358		ret = drm_map_handle(dev, &list->hash, user_token, 0,
->    359				     (map->type == _DRM_SHM));
->    360		if (ret) {
->    361			if (map->type == _DRM_REGISTERS)
->    362				iounmap(map->handle);
->    363			kfree(map);
->    364			kfree(list);
->    365			mutex_unlock(&dev->struct_mutex);
->    366			return ret;
->    367		}
->    368	
->    369		list->user_token = list->hash.key << PAGE_SHIFT;
->    370		mutex_unlock(&dev->struct_mutex);
->    371	
->    372		if (!(map->flags & _DRM_DRIVER))
->    373			list->master = dev->master;
->    374		*maplist = list;
->    375		return 0;
->    376	}
->    377	
-> 
-> ---
-> 0-DAY CI Kernel Test Service, Intel Corporation
-> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ drivers/gpu/drm/meson/meson_drv.c       | 25 +++++++--------
+ drivers/gpu/drm/meson/meson_osd_afbcd.c | 41 ++++++++++++++++---------
+ drivers/gpu/drm/meson/meson_osd_afbcd.h |  1 +
+ 3 files changed, 41 insertions(+), 26 deletions(-)
 
+-- 
+2.34.1
 
