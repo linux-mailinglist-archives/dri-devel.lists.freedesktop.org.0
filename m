@@ -2,60 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3A134820E9
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Dec 2021 00:56:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A40074820EA
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Dec 2021 00:56:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A09A10EBC6;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6738610EBC3;
 	Thu, 30 Dec 2021 23:56:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7082210EBC3
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 23:56:16 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id
- g7-20020a7bc4c7000000b00345c4bb365aso14053056wmk.4
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 15:56:16 -0800 (PST)
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B55410EBC3
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 23:56:17 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id o30so13986549wms.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 15:56:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=googlemail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rFvL7pdJQp8AYfej671RZFZags7RQdaCXA8Avf0aczk=;
- b=WoQxQyHHNEuujtmRefYts9/eJvYCQLHQHjB5GUm+LIPKgtBu8tbq0hb9pwu6JW2x2p
- aBo/klSOksfErwIeTjmWA3cs0bKZyZBbIVVLm5QXOsvtDkmK03X1NK3HN1rdyugLFQNM
- stdiUoZ3oZMkJzzxu6NDLmY21Da5OTeKgqU+K+uDpGXVyCkU8nc31kdKMYv0rCSjnjSp
- 9Lo2k7gPJh1REyQGsi6Cf6/jAMqqFCYhDW5jVfMGw6+TqI0iiqRVhn7LDtgBQgMynEMQ
- 55AQFf724ym8bQLeuJBM05h3db/C7F0G5352ZMEFNc/14JrNjuL/wbNoEEh6sUfIVFyK
- 1Uzw==
+ bh=HquMs86R/2fSeMwrKiFYntNswT/jyW+k3LeVZxsjHFc=;
+ b=aimcO/TVd9nLXP7KRWG9TSbEhFtB8BJ5Ypa/LerWNZpYC2h0L6iZj56Qz+jlNG/BSg
+ sM2L9k0hfACJB+f7Ajp5KiZ1YrA5/8Vmq0Kc5vaw8oGvx9aLt2yogvggS3NTJG49fFG6
+ jmAJdNj6c2tAIwVzkLMd3J/HbVaaXrywKXtbBgYY6xxuptnuO8Bn+ydOZALpWnwADh7m
+ ch5pyVOD5DK4H3c2OpUu0WNBzzb8I5KyjOnu1nLuN/1daBe4GCq3bF2vvZ6p3JUQGPv4
+ uglLVhg+sEbUcUJ+BAEA1RpeqORqdNISz3VL764tRkg7+WpbzedShoj/K++apOlwPiJ5
+ EQ6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rFvL7pdJQp8AYfej671RZFZags7RQdaCXA8Avf0aczk=;
- b=7V0ZA4zmR8ndVLThG4NBT9OgVqYfztnibG3RK8ZylP79GW59ietVq+fFuYGOu8kBTN
- oUni/Row3qVgrWjsmUD1jkMK8qNJHBR14oCEYrKIbfVLsUmySNSIGZs2ScsB/Ymdi8ix
- 3bHIvXKmdD/mmqw7jna4nDSM+6tlFb8PO6VgWNhjqb0egGxaOTIgjD0RDyW6lTIOIs+8
- UvagngQJgRVAQZRTWtejQPOeOj8YTiVGdJ0whKEZc3MuP8xD9uCvZ43RUCIh53KB/zZr
- zYuRHOxGSA7Gq8ibC1ihGmZJlK9XdcUYIflUS9OhBjyZDw5nJhgeNfY6Yg+wpk6PiEGP
- toyA==
-X-Gm-Message-State: AOAM531QAiVhE/PZ6Ni8Pc+oWXS5H+KVlAQD3g/RygLkUVwX7OmMSfl0
- 57HR34qZB0PRPry/Z/nSIeo=
-X-Google-Smtp-Source: ABdhPJxI/IQ7vUSEInzQPgR4Ojrd7saifRClJXyk6CmGxJ/+kfFq1nRZcPYQTz7DzXSB3+0RMGs1QQ==
-X-Received: by 2002:a05:600c:1e12:: with SMTP id
- ay18mr27786824wmb.14.1640908574997; 
- Thu, 30 Dec 2021 15:56:14 -0800 (PST)
+ bh=HquMs86R/2fSeMwrKiFYntNswT/jyW+k3LeVZxsjHFc=;
+ b=u0N5fV2ek8npxMLbVSufzq8FJj8PWPIApQOgwqNRQdaaZMJqmyvePwHACXWypLBu2Z
+ 0lLE34kud8/xRZ91lBZZsBBTdxrwY2dPyvCy1gUrok10cB7xq9DOVoxkfZljVMK4rAUP
+ 1wzbfwfRnBqOwsr3LVNpp1XaJygn1LI6iAGFHj0wzVBaUpO/BGR+6cacJ4xbG3yHkz2r
+ XVbJZPEa/OpM27lDNV8i4WRxqHrv9KTAzxyoF7O5f88yCf2M/0TR4T3aWEpsVhecxrPX
+ Bal5eD7PG3pl+JWP/kGmRFatotLq8+I/Os0RP84K/af/WZn239cSytAF4W4k87SzoLh0
+ /bNg==
+X-Gm-Message-State: AOAM532QJINWEGwCZA6jiQKQY1LB3I4WMh9tKEdlQwVr1EUEgHhpEive
+ XLiAodxiHczGne2Bls6oZfE=
+X-Google-Smtp-Source: ABdhPJxsbq3CsAbIef75T6kasQUgh1BPtxbFzJI3LjtCD4VpZZEwaW683xGiB2wbopwaPfTSrv4Kcg==
+X-Received: by 2002:a05:600c:4ed1:: with SMTP id
+ g17mr19264564wmq.112.1640908575690; 
+ Thu, 30 Dec 2021 15:56:15 -0800 (PST)
 Received: from localhost.localdomain
  (dynamic-2a01-0c23-c015-2400-f22f-74ff-fe21-0725.c23.pool.telefonica.de.
  [2a01:c23:c015:2400:f22f:74ff:fe21:725])
- by smtp.googlemail.com with ESMTPSA id f16sm35137581wmg.27.2021.12.30.15.56.14
+ by smtp.googlemail.com with ESMTPSA id f16sm35137581wmg.27.2021.12.30.15.56.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Dec 2021 15:56:14 -0800 (PST)
+ Thu, 30 Dec 2021 15:56:15 -0800 (PST)
 From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 To: linux-amlogic@lists.infradead.org
-Subject: [PATCH 1/2] drm/meson: osd_afbcd: Add an exit callback to struct
- meson_afbcd_ops
-Date: Fri, 31 Dec 2021 00:55:14 +0100
-Message-Id: <20211230235515.1627522-2-martin.blumenstingl@googlemail.com>
+Subject: [PATCH 2/2] drm/meson: Fix error handling when afbcd.ops->init fails
+Date: Fri, 31 Dec 2021 00:55:15 +0100
+Message-Id: <20211230235515.1627522-3-martin.blumenstingl@googlemail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20211230235515.1627522-1-martin.blumenstingl@googlemail.com>
 References: <20211230235515.1627522-1-martin.blumenstingl@googlemail.com>
@@ -79,133 +77,81 @@ Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use this to simplify the driver shutdown. It will also come handy when
-fixing the error handling in meson_drv_bind_master().
+When afbcd.ops->init fails we need to free the struct drm_device. Also
+all errors which come after afbcd.ops->init was successful need to exit
+the AFBCD, just like meson_drv_unbind() does.
 
+Fixes: d1b5e41e13a7e9 ("drm/meson: Add AFBCD module driver")
 Signed-off-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 ---
- drivers/gpu/drm/meson/meson_drv.c       |  6 ++--
- drivers/gpu/drm/meson/meson_osd_afbcd.c | 41 ++++++++++++++++---------
- drivers/gpu/drm/meson/meson_osd_afbcd.h |  1 +
- 3 files changed, 30 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/meson/meson_drv.c | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
-index 80f1d439841a..b919271a6e50 100644
+index b919271a6e50..26aeaf0ab86e 100644
 --- a/drivers/gpu/drm/meson/meson_drv.c
 +++ b/drivers/gpu/drm/meson/meson_drv.c
-@@ -385,10 +385,8 @@ static void meson_drv_unbind(struct device *dev)
- 	free_irq(priv->vsync_irq, drm);
- 	drm_dev_put(drm);
+@@ -302,42 +302,42 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
+ 	if (priv->afbcd.ops) {
+ 		ret = priv->afbcd.ops->init(priv);
+ 		if (ret)
+-			return ret;
++			goto free_drm;
+ 	}
  
--	if (priv->afbcd.ops) {
--		priv->afbcd.ops->reset(priv);
--		meson_rdma_free(priv);
--	}
+ 	/* Encoder Initialization */
+ 
+ 	ret = meson_encoder_cvbs_init(priv);
+ 	if (ret)
+-		goto free_drm;
++		goto exit_afbcd;
+ 
+ 	if (has_components) {
+ 		ret = component_bind_all(drm->dev, drm);
+ 		if (ret) {
+ 			dev_err(drm->dev, "Couldn't bind all components\n");
+-			goto free_drm;
++			goto exit_afbcd;
+ 		}
+ 	}
+ 
+ 	ret = meson_encoder_hdmi_init(priv);
+ 	if (ret)
+-		goto free_drm;
++		goto exit_afbcd;
+ 
+ 	ret = meson_plane_create(priv);
+ 	if (ret)
+-		goto free_drm;
++		goto exit_afbcd;
+ 
+ 	ret = meson_overlay_create(priv);
+ 	if (ret)
+-		goto free_drm;
++		goto exit_afbcd;
+ 
+ 	ret = meson_crtc_create(priv);
+ 	if (ret)
+-		goto free_drm;
++		goto exit_afbcd;
+ 
+ 	ret = request_irq(priv->vsync_irq, meson_irq, 0, drm->driver->name, drm);
+ 	if (ret)
+-		goto free_drm;
++		goto exit_afbcd;
+ 
+ 	drm_mode_config_reset(drm);
+ 
+@@ -355,6 +355,9 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
+ 
+ uninstall_irq:
+ 	free_irq(priv->vsync_irq, drm);
++exit_afbcd:
 +	if (priv->afbcd.ops)
 +		priv->afbcd.ops->exit(priv);
- }
+ free_drm:
+ 	drm_dev_put(drm);
  
- static const struct component_master_ops meson_drv_master_ops = {
-diff --git a/drivers/gpu/drm/meson/meson_osd_afbcd.c b/drivers/gpu/drm/meson/meson_osd_afbcd.c
-index ffc6b584dbf8..0cdbe899402f 100644
---- a/drivers/gpu/drm/meson/meson_osd_afbcd.c
-+++ b/drivers/gpu/drm/meson/meson_osd_afbcd.c
-@@ -79,11 +79,6 @@ static bool meson_gxm_afbcd_supported_fmt(u64 modifier, uint32_t format)
- 	return meson_gxm_afbcd_pixel_fmt(modifier, format) >= 0;
- }
- 
--static int meson_gxm_afbcd_init(struct meson_drm *priv)
--{
--	return 0;
--}
--
- static int meson_gxm_afbcd_reset(struct meson_drm *priv)
- {
- 	writel_relaxed(VIU_SW_RESET_OSD1_AFBCD,
-@@ -93,6 +88,16 @@ static int meson_gxm_afbcd_reset(struct meson_drm *priv)
- 	return 0;
- }
- 
-+static int meson_gxm_afbcd_init(struct meson_drm *priv)
-+{
-+	return 0;
-+}
-+
-+static void meson_gxm_afbcd_exit(struct meson_drm *priv)
-+{
-+	meson_gxm_afbcd_reset(priv);
-+}
-+
- static int meson_gxm_afbcd_enable(struct meson_drm *priv)
- {
- 	writel_relaxed(FIELD_PREP(OSD1_AFBCD_ID_FIFO_THRD, 0x40) |
-@@ -172,6 +177,7 @@ static int meson_gxm_afbcd_setup(struct meson_drm *priv)
- 
- struct meson_afbcd_ops meson_afbcd_gxm_ops = {
- 	.init = meson_gxm_afbcd_init,
-+	.exit = meson_gxm_afbcd_exit,
- 	.reset = meson_gxm_afbcd_reset,
- 	.enable = meson_gxm_afbcd_enable,
- 	.disable = meson_gxm_afbcd_disable,
-@@ -269,6 +275,18 @@ static bool meson_g12a_afbcd_supported_fmt(u64 modifier, uint32_t format)
- 	return meson_g12a_afbcd_pixel_fmt(modifier, format) >= 0;
- }
- 
-+static int meson_g12a_afbcd_reset(struct meson_drm *priv)
-+{
-+	meson_rdma_reset(priv);
-+
-+	meson_rdma_writel_sync(priv, VIU_SW_RESET_G12A_AFBC_ARB |
-+			       VIU_SW_RESET_G12A_OSD1_AFBCD,
-+			       VIU_SW_RESET);
-+	meson_rdma_writel_sync(priv, 0, VIU_SW_RESET);
-+
-+	return 0;
-+}
-+
- static int meson_g12a_afbcd_init(struct meson_drm *priv)
- {
- 	int ret;
-@@ -286,16 +304,10 @@ static int meson_g12a_afbcd_init(struct meson_drm *priv)
- 	return 0;
- }
- 
--static int meson_g12a_afbcd_reset(struct meson_drm *priv)
-+static void meson_g12a_afbcd_exit(struct meson_drm *priv)
- {
--	meson_rdma_reset(priv);
--
--	meson_rdma_writel_sync(priv, VIU_SW_RESET_G12A_AFBC_ARB |
--			       VIU_SW_RESET_G12A_OSD1_AFBCD,
--			       VIU_SW_RESET);
--	meson_rdma_writel_sync(priv, 0, VIU_SW_RESET);
--
--	return 0;
-+	meson_g12a_afbcd_reset(priv);
-+	meson_rdma_free(priv);
- }
- 
- static int meson_g12a_afbcd_enable(struct meson_drm *priv)
-@@ -380,6 +392,7 @@ static int meson_g12a_afbcd_setup(struct meson_drm *priv)
- 
- struct meson_afbcd_ops meson_afbcd_g12a_ops = {
- 	.init = meson_g12a_afbcd_init,
-+	.exit = meson_g12a_afbcd_exit,
- 	.reset = meson_g12a_afbcd_reset,
- 	.enable = meson_g12a_afbcd_enable,
- 	.disable = meson_g12a_afbcd_disable,
-diff --git a/drivers/gpu/drm/meson/meson_osd_afbcd.h b/drivers/gpu/drm/meson/meson_osd_afbcd.h
-index 5e5523304f42..e77ddeb6416f 100644
---- a/drivers/gpu/drm/meson/meson_osd_afbcd.h
-+++ b/drivers/gpu/drm/meson/meson_osd_afbcd.h
-@@ -14,6 +14,7 @@
- 
- struct meson_afbcd_ops {
- 	int (*init)(struct meson_drm *priv);
-+	void (*exit)(struct meson_drm *priv);
- 	int (*reset)(struct meson_drm *priv);
- 	int (*enable)(struct meson_drm *priv);
- 	int (*disable)(struct meson_drm *priv);
 -- 
 2.34.1
 
