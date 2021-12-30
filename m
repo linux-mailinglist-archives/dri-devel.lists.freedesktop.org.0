@@ -2,54 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 842E2481CE8
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Dec 2021 15:14:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6AA5481D04
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Dec 2021 15:26:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C368A10E79C;
-	Thu, 30 Dec 2021 14:14:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEECE10E4B5;
+	Thu, 30 Dec 2021 14:26:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com
- [IPv6:2607:f8b0:4864:20::72f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E25EE10E79D
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 14:14:45 +0000 (UTC)
-Received: by mail-qk1-x72f.google.com with SMTP id m2so21109959qkd.8
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 06:14:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QIiHEJXmhVq0VBafG1mogzpPwrmMW4FruUD/NmecsX4=;
- b=v2hIyW3mD6FmJ8nkeft+cv6KuVC1JDxtGiR2QFqmE90D7SaoYnF5CB/FKe3h9JwOyq
- /I6mAjM/ssDxFxSSX7wxbUTseuVA4Zuj4iwEoAV7cdbqCjzZJfa+MvYLfMn2myxyq+cZ
- Cp3qJdFlJth6krKQcCtQLgt17jme53BYOgvsoN5KAyfbvcafNi4bj5ejB3w2TFeyZPMH
- Lgiw4wQZ7QipW3UrHtkF1Sq7x/beho5bu9SjSXqX+s1aAhPJ0ELi3+zd5n7TPHeVHe+N
- 4AE4Qlbew+zsjT60mRIGyW2N1jNoGoP8csJbdLLCzlfLR3tEC7SS3GVGbKNYHkZKHHMN
- H03w==
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4191410E4B5
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 14:26:54 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id g26so54746884lfv.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 06:26:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+tf4nBFZgti+nl0o1bJRk3qvXgnYx/HTJhgteUE1QXw=;
+ b=gH9FQ3nysBpaf6G5Z0BPfhrqQtpn+qTmTd9UB7DUm+POlRm9S/SWcJhtT6sWg8x5VG
+ 5wF/wNm7rAkcswm9tYQ+CR7jZhIoTCyvDYLB7k3A7y1VmhocDh4hpQHOMgOns1Zs2jEp
+ a8xCGzZH9LvUYy31L0ngkPTIni39sm99s1tDL2lPqEJYEMz/R72swz7s82+NAfYC3Y2n
+ ZwN8MwlCkUqzY6M3n5PPQRrVfnVFwAL180ELTGvhAOdIpyXLvNDrhQN8zc6co8nNtpIC
+ 3HzPMQFQk6TgJ+rS48DAfXKP2meFfw6HhUdjPeaS2dPj9EChx7KhfBUwex5IrnrVLfyx
+ UFsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QIiHEJXmhVq0VBafG1mogzpPwrmMW4FruUD/NmecsX4=;
- b=SGUmxrqgh3C4a8jeRtSUPEsJJKHxi/KaNwjX+ls8xq9EHDhCGgahWc8gCX6+pa57j0
- mZqLnH5+y1oAUfo++bP4rHymYax51lrTTO9z68xvTcVl3yEC3Jn9ou3FDZX39RXvOzl3
- UqR6RNzkA2vIq3Nvto6d6aBUcjEwAXEKUT+L/dhTVZeS0Dh+1gpxZEhBoDo7tOFkJN21
- 7Fq6HHVg4asLYMdA613gZroxEJVaxEVkN/F8s6mjTGGd1R8c0ZGwjhbFGLCrt9odRbtn
- Uly9yjmgG4iNtgcBgAURzKgu/zLnGL6p9Mw3SrOrjoKDUEeBCwS4LW/F3wPRa6KaXhVn
- 31JQ==
-X-Gm-Message-State: AOAM530RL7BCQl9ZnYNivqpJH5Wlu4UCWqY4qcXZ6zjPM1nuOBkQJeHp
- KdJC5ouI9NU2gIWolQoA/ZLkLz3Bm6gt0H1iZf/dWQ==
-X-Google-Smtp-Source: ABdhPJwiPhF1WQpKvdE8hOeE3MBy5zy9jvFyDBDOF14ZRUSR7yDBFMcY79AZCN5Dj2E2nbfMQHBa9NJGEFhbiHTXthI=
-X-Received: by 2002:a37:b8b:: with SMTP id 133mr19734621qkl.59.1640873684877; 
- Thu, 30 Dec 2021 06:14:44 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+tf4nBFZgti+nl0o1bJRk3qvXgnYx/HTJhgteUE1QXw=;
+ b=lK9C0WXUywNEuLNnvNquTF4eOpnxf2N7Fw02oMg/77hVOcLFnZY8iCKoxONrtJvYqz
+ SvooNGRIRFRxWvyGZmAW7M5hpaEQxktGTSP/6O+cAkNzAnZivGTjdraPfxpPvcIIaCIv
+ KAKaRpi7tvZOixrfY3GT/onXsx5/jdSp4kROv4yvhRkBXNNPDMilZqF5Sq4wkMIwIsQv
+ /WXsz+olSxdbL0AE+4XEsTAWy2D9lLx4NRAjVmL03FFu9gy+D9tAyOzNv1YM1KJ/9fwN
+ xi/77SylNm4jHeRD3+j0yg8XN5SN0q18J2likqI40kHzAC1DnyM4okDHUdDLSqgS3ogL
+ WI5w==
+X-Gm-Message-State: AOAM533Habs1vVJn5pCYXToJTvAGHmDbufHrbvkhvBcQB7hJrb0JbN3/
+ ZzvLfO0lhg+wvcW3bLTxqyk=
+X-Google-Smtp-Source: ABdhPJxxcwPDUWvaddgiXQGl/eGIsXz0jw20BcLQgPCKVg4rWRtMVdGV8LZ3Vvbkd2/qzkOSH5LouA==
+X-Received: by 2002:ac2:52a3:: with SMTP id r3mr28192890lfm.580.1640874412548; 
+ Thu, 30 Dec 2021 06:26:52 -0800 (PST)
+Received: from localhost.localdomain ([94.103.235.97])
+ by smtp.gmail.com with ESMTPSA id v27sm2510259lfo.97.2021.12.30.06.26.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Dec 2021 06:26:52 -0800 (PST)
+From: Pavel Skripkin <paskripkin@gmail.com>
+To: kraxel@redhat.com, sumit.semwal@linaro.org, christian.koenig@amd.com,
+ daniel.vetter@ffwll.ch
+Subject: [PATCH] udmabuf: validate ubuf->pagecount
+Date: Thu, 30 Dec 2021 17:26:49 +0300
+Message-Id: <20211230142649.23022-1-paskripkin@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <1640856276-14697-1-git-send-email-quic_rajeevny@quicinc.com>
- <1640856276-14697-2-git-send-email-quic_rajeevny@quicinc.com>
-In-Reply-To: <1640856276-14697-2-git-send-email-quic_rajeevny@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 30 Dec 2021 17:14:34 +0300
-Message-ID: <CAA8EJppoe8ebU-yNKF6fbuDK4nf=09eNzVvaq_wQ+qKdjWEf4w@mail.gmail.com>
-Subject: Re: [v1 1/2] dt-bindings: msm/dsi: Add 10nm dsi phy tuning properties
-To: Rajeev Nandan <quic_rajeevny@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,65 +66,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, freedreno@lists.freedesktop.org,
- jonathan@marek.ca, devicetree@vger.kernel.org, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, quic_abhinavk@quicinc.com, robh+dt@kernel.org,
- quic_mkrishn@quicinc.com, swboyd@chromium.org, sean@poorly.run
+Cc: Pavel Skripkin <paskripkin@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ syzbot+2c56b725ec547fa9cb29@syzkaller.appspotmail.com,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 30 Dec 2021 at 12:25, Rajeev Nandan <quic_rajeevny@quicinc.com> wrote:
->
-> Add 10nm dsi phy tuning properties for phy drive strength and
-> phy drive level adjustemnt.
->
-> Signed-off-by: Rajeev Nandan <quic_rajeevny@quicinc.com>
-> ---
->  .../devicetree/bindings/display/msm/dsi-phy-10nm.yaml | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
-> index 4399715..9406982 100644
-> --- a/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
-> @@ -35,6 +35,18 @@ properties:
->        Connected to DSI0_MIPI_DSI_PLL_VDDA0P9 pin for sc7180 target and
->        connected to VDDA_MIPI_DSI_0_PLL_0P9 pin for sdm845 target
->
-> +  phy-drive-strength-cfg:
-> +    type: array
-> +    description:
-> +      Register values of DSIPHY_RESCODE_OFFSET_TOP and DSIPHY_RESCODE_OFFSET_BOT
-> +      for all five lanes to adjust the phy drive strength.
-> +
-> +  phy-drive-level-cfg:
-> +    type: array
-> +    description:
-> +      Register values of DSIPHY_RESCODE_OFFSET_TOP for all five lanes to adjust
-> +      phy drive level/amplitude.
-> +
->  required:
->    - compatible
->    - reg
-> @@ -64,5 +76,12 @@ examples:
->           clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
->                    <&rpmhcc RPMH_CXO_CLK>;
->           clock-names = "iface", "ref";
-> +
-> +         phy-drive-strength-cfg = [00 00
-> +                                   00 00
-> +                                   00 00
-> +                                   00 00
-> +                                   00 00];
-> +         phy-drive-level-cfg = [59 59 59 59 59];
+Syzbot has reported GPF in sg_alloc_append_table_from_pages(). The
+problem was in ubuf->pages == ZERO_PTR.
 
-And second notice. This interface seems to be too register-centric.
-You provide register values without any actual way to interpret them.
-I'd prefer to have something closer to pinctrl. Specify strength and
-level in some logical way and then in the driver interpret that into
-register values.
+ubuf->pagecount is calculated from arguments passed from user-space. If
+user creates udmabuf with list.size == 0 then ubuf->pagecount will be
+also equal to zero; it causes kmalloc_array() to return ZERO_PTR.
 
+Fix it by validating ubuf->pagecount before passing it to
+kmalloc_array().
+
+Fixes: fbb0de795078 ("Add udmabuf misc device")
+Reported-and-tested-by: syzbot+2c56b725ec547fa9cb29@syzkaller.appspotmail.com
+Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+---
+
+Happy New Year and Merry Christmas! :)
+
+
+With regards,
+Pavel Skripkin
+
+---
+ drivers/dma-buf/udmabuf.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index c57a609db75b..e7330684d3b8 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -190,6 +190,10 @@ static long udmabuf_create(struct miscdevice *device,
+ 		if (ubuf->pagecount > pglimit)
+ 			goto err;
+ 	}
++
++	if (!ubuf->pagecount)
++		goto err;
++
+ 	ubuf->pages = kmalloc_array(ubuf->pagecount, sizeof(*ubuf->pages),
+ 				    GFP_KERNEL);
+ 	if (!ubuf->pages) {
 -- 
-With best wishes
-Dmitry
+2.34.1
+
