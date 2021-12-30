@@ -1,56 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECCA04819CB
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Dec 2021 06:29:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85E81481A21
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Dec 2021 08:09:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84E8310E2E6;
-	Thu, 30 Dec 2021 05:29:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D4A710E13C;
+	Thu, 30 Dec 2021 07:09:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD24910E2E6;
- Thu, 30 Dec 2021 05:29:26 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id j6so93777526edw.12;
- Wed, 29 Dec 2021 21:29:26 -0800 (PST)
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
+ [IPv6:2607:f8b0:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF8AA10E13C;
+ Thu, 30 Dec 2021 07:09:50 +0000 (UTC)
+Received: by mail-pl1-x635.google.com with SMTP id w24so17631196ply.12;
+ Wed, 29 Dec 2021 23:09:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ib/SmxqRmVNYAldt9eWiYKvPaoPQbeRg9bEVu+KXSA0=;
- b=Ns9paFrw3h3pSkuCtGZy/gAjkh2j0/ESJWs11EL7mAsFB69r3QnxFVGvCYpyHemIdj
- t1P6F6v8BEXtgIUFZKWoYH3VOUcsEzhD6VcFZxW7TP3UjdVRQ6qMwVilAzyVbKId8nz8
- UysKw5Y8+xIw7CDgP7kKefINezR/yhscl9PU2xq6kV/ITQ63G2ouhokaPJmGv1in8rNA
- 7n2GZdejfCmwKvJD8DujLc7+eyVVOrDauI7EOSuwEvqgLytLIRXjaipLG0cb6nas2t4D
- rfrKAL/qFwuBUCLI6l0X8jSeoXaJs99gf01aEcDGgv27Jf2IXEHk45i4N7UsMeCGTgBb
- pLpQ==
+ h=from:to:cc:subject:date:message-id;
+ bh=ZDP2T3kEdA2Z/HSfJU3quwQVcpsj6OKL669wXFyJOLM=;
+ b=ewFBGrrBkM1b1Tm+9/Tfx0/jdnhhjHUmqN2gPCUfoaIQiudnZP/aHzudqr0wsCP8aQ
+ rormtM95j8BEp56u+2L+GF4D3FjPjcn1CSbQzU9UcbEXBZ/Po2MLBtH8STz9EiTk6vmn
+ ozXz9s1afuD1u/5C9jV+0eiG5+aqTim261vL0eh2HAdfDULaO5th6A6024sSxM6o97Aa
+ LJbiRLmRMETO6TQMR7imF/w7tgASINZQOXVtJ2VMQHjHafd+HpGPLT93RdWgc04k1udX
+ sL53h+kRamfZtJ9pSSKuzzzCa2P96TKD/393I4LXYaULqtE6RGMpE44hI8TGAmxNkuS+
+ Kh4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ib/SmxqRmVNYAldt9eWiYKvPaoPQbeRg9bEVu+KXSA0=;
- b=qxp/gZGbplBzOAZ0xJc/lSUHquClfYIvGgcU0Jo0WxYapFAffxwGO6mhzT8WsbQNXj
- Kc0S2RNrVfl9A/fiwPTWej7x+wZS9EOunM4pkxTyYGpGhxfAU8AaLZs1OMUMzKavkU1C
- DtzmcFHzHOSF2P6hgGnqVN4aGDc8ktsYSQuaQ7v3GJZRTA7VBknfEwFpXDt2HSiqsgpv
- uihBv5AUpVByr3LGZLyQ6p2zAmhKFCe7y1Yu1tMBXlARtHumsZPHj7vrKO2aenmp8Wvi
- wSyYKKe+yCnyOpdDOfeyRmKEi5yAArAaQvaCJipb2YmY+8mKi7g8k5Bd5KUhO2DiQH6/
- 9SIQ==
-X-Gm-Message-State: AOAM53336KboMPTIXNzZLuk8VWi0bY2324OrzZdv6VhyGa82aR56IPkd
- FhagxqARGhIIZc6JUG03wKmbg3zGRro9mRUXOaY=
-X-Google-Smtp-Source: ABdhPJyrFPj3p9/JfNrAXa9CtGY+i/hqHQT+l2HjK20FQe8tL6oGlI6cFA/kmYLK/I/cQzxkFGE/cePZ/FCZKuTREAw=
-X-Received: by 2002:a17:906:5ada:: with SMTP id
- x26mr23883933ejs.720.1640842165370; 
- Wed, 29 Dec 2021 21:29:25 -0800 (PST)
-MIME-Version: 1.0
-References: <20211229155129.5789-1-alexander.deucher@amd.com>
-In-Reply-To: <20211229155129.5789-1-alexander.deucher@amd.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Thu, 30 Dec 2021 15:29:13 +1000
-Message-ID: <CAPM=9tyU-eP7Fc2ziWNURJrdxZJSkaNKbE0V6Xx6L9idswHv2A@mail.gmail.com>
-Subject: Re: [pull] amdgpu drm-fixes-5.16
-To: Alex Deucher <alexander.deucher@amd.com>, zhan.liu@amd.com,
- angus.wang@amd.com
-Content-Type: text/plain; charset="UTF-8"
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=ZDP2T3kEdA2Z/HSfJU3quwQVcpsj6OKL669wXFyJOLM=;
+ b=J9uiLoxwld9Fxmor0WZEOgadKa3SlGwTuBa0G7Ngni/O5MeMLsc6DO5CdY+5XkGIxD
+ d5epgWa35TpFvFPMnvrPByXNoOsW6Hoi1Ysry49f3oEKtPfB8yU5UsMYf29hcqOBNlP+
+ mrIH+I4Y3mqnlh8QUkcFlv0SooAl/pvjviR38IQfuJ0QWuk8iqFJO0mJs31tXf78YWg3
+ /LFFcMPo3uV20IstRoK1+Br52tmcQAtdJRraAih+2c1T0G+q4AFVJfEBUUnJZ0uztHbQ
+ efjEzHlWvF1fEXYhhsOc9ejmIoDBEZ/tmRXGa/OHEQtGh4VIMCqoWoqiVg6IS5DtJnKB
+ c9vg==
+X-Gm-Message-State: AOAM531asI9NMg2uj0qW/i0BTg0tt7D2z3zqC/AlAtuFsS/JIOLm41YU
+ jWTITzA1iNLwbBokxkgsTa4=
+X-Google-Smtp-Source: ABdhPJx3W4rYV1Sq+P6R0r+0aSLlg1TI58NlfVsAeHyTkdba/dBdZqLjrK02fPkqUSdPeo9VzcuRNA==
+X-Received: by 2002:a17:902:c94f:b0:148:d23a:c88e with SMTP id
+ i15-20020a170902c94f00b00148d23ac88emr31023765pla.26.1640848190523; 
+ Wed, 29 Dec 2021 23:09:50 -0800 (PST)
+Received: from localhost.localdomain ([159.226.95.43])
+ by smtp.googlemail.com with ESMTPSA id x2sm21640486pgo.2.2021.12.29.23.09.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Dec 2021 23:09:50 -0800 (PST)
+From: Miaoqian Lin <linmq006@gmail.com>
+To: 
+Subject: [PATCH] drm/msm/dsi: Fix missing put_device() call in dsi_get_phy
+Date: Thu, 30 Dec 2021 07:09:40 +0000
+Message-Id: <20211230070943.18116-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,39 +62,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>
+Cc: freedreno@lists.freedesktop.org, linmq006@gmail.com,
+ David Airlie <airlied@linux.ie>, Hai Li <hali@codeaurora.org>,
+ linux-kernel@vger.kernel.org, Abhinav Kumar <abhinavk@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 30 Dec 2021 at 01:51, Alex Deucher <alexander.deucher@amd.com> wrote:
->
-> Hi Dave, Daniel,
+If of_find_device_by_node() succeeds, dsi_get_phy() doesn't
+a corresponding put_device(). Thus add put_device() to fix the exception
+handling.
 
-Just FYI on merging this into tip I got a conflict I'm not sure what
-answer is right.
+Fixes: ec31abf ("drm/msm/dsi: Separate PHY to another platform device")
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+ drivers/gpu/drm/msm/dsi/dsi.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-fixes has:
-ee2698cf79cc759a397c61086c758d4cc85938bf
-Author: Angus Wang <angus.wang@amd.com>
-Date:   Thu Dec 9 17:27:01 2021 -0500
+diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
+index 75ae3008b68f..35be526e907a 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi.c
++++ b/drivers/gpu/drm/msm/dsi/dsi.c
+@@ -40,7 +40,12 @@ static int dsi_get_phy(struct msm_dsi *msm_dsi)
+ 
+ 	of_node_put(phy_node);
+ 
+-	if (!phy_pdev || !msm_dsi->phy) {
++	if (!phy_pdev) {
++		DRM_DEV_ERROR(&pdev->dev, "%s: phy driver is not ready\n", __func__);
++		return -EPROBE_DEFER;
++	}
++	if (!msm_dsi->phy) {
++		put_device(&phy_pdev->dev);
+ 		DRM_DEV_ERROR(&pdev->dev, "%s: phy driver is not ready\n", __func__);
+ 		return -EPROBE_DEFER;
+ 	}
+-- 
+2.17.1
 
-    drm/amd/display: Changed pipe split policy to allow for
-multi-display pipe split
-
-next has:
-1edf5ae1fdaffb67c1b93e98df670cbe535d13cf
-Author: Zhan Liu <Zhan.Liu@amd.com>
-Date:   Mon Nov 8 19:31:00 2021 -0500
-
-    drm/amd/display: enable seamless boot for DCN301
-
--.pipe_split_policy = MPC_SPLIT_AVOID_MULT_DISP,
-fixes is +.pipe_split_policy = MPC_SPLIT_DYNAMIC,
-next is +.pipe_split_policy = MPC_SPLIT_AVOID,
-
-I've chosen the -fixes answer for now, but it would be good to have
-someone review it before Linus merges.
-
-Dave.
