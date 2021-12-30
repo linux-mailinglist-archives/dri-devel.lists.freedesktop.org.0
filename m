@@ -1,41 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6989A481E80
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Dec 2021 18:17:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 489B7481E8C
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Dec 2021 18:17:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3D7410E234;
-	Thu, 30 Dec 2021 17:17:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D28C10E2CA;
+	Thu, 30 Dec 2021 17:17:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F80689BD2
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 06:56:25 +0000 (UTC)
-X-UUID: 31f773133e554b5c8a08136659f39100-20211230
-X-UUID: 31f773133e554b5c8a08136659f39100-20211230
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <miles.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1895940659; Thu, 30 Dec 2021 14:56:20 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Thu, 30 Dec 2021 14:56:18 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Thu, 30 Dec 2021 14:56:18 +0800
-From: <miles.chen@mediatek.com>
-To: <matthias.bgg@gmail.com>
-Subject: Re: [PATCH] drm/mediatek: Fix unused-but-set variable warning
-Date: Thu, 30 Dec 2021 14:56:16 +0800
-Message-ID: <20211230065616.32308-1-miles.chen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <fcaccc97-e920-08eb-ec3f-4c4b11ea8925@gmail.com>
-References: <fcaccc97-e920-08eb-ec3f-4c4b11ea8925@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F44810E338;
+ Thu, 30 Dec 2021 09:25:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1640856321; x=1672392321;
+ h=from:to:cc:subject:date:message-id;
+ bh=BpEobsZ/b/K/3YVxXHJaiZChYj2QRS7Lv13kRYuC46o=;
+ b=LHC9J6/Wr+ndAwbDI8+2Z8UKYDt/RyW4Evog94+yMT/K/Vcdw9j5RMxl
+ BWSyKNlLN9Vr2YCxIvQlO4oCjiq3Alw6b5vm+chbkWg44hTScC+dA206R
+ 6z8hgg9eqHu3moJm/53qnL/k1SnDLBWvrRyOOfAK/sqIi5H5A2V27S+Wo k=;
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+ by alexa-out.qualcomm.com with ESMTP; 30 Dec 2021 01:25:21 -0800
+X-QCInternal: smtphost
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+ by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 30 Dec 2021 01:25:19 -0800
+X-QCInternal: smtphost
+Received: from rajeevny-linux.qualcomm.com ([10.204.66.121])
+ by ironmsg01-blr.qualcomm.com with ESMTP; 30 Dec 2021 14:54:56 +0530
+Received: by rajeevny-linux.qualcomm.com (Postfix, from userid 2363605)
+ id B7F3B21A28; Thu, 30 Dec 2021 14:54:54 +0530 (IST)
+From: Rajeev Nandan <quic_rajeevny@quicinc.com>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: [v1 0/2] drm/msm/dsi: Add 10nm dsi phy tuning configuration support
+Date: Thu, 30 Dec 2021 14:54:34 +0530
+Message-Id: <1640856276-14697-1-git-send-email-quic_rajeevny@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 X-Mailman-Approved-At: Thu, 30 Dec 2021 17:17:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,29 +51,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, miles.chen@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: quic_kalyant@quicinc.com, jonathan@marek.ca, airlied@linux.ie,
+ Rajeev Nandan <quic_rajeevny@quicinc.com>, linux-kernel@vger.kernel.org,
+ quic_abhinavk@quicinc.com, robh+dt@kernel.org, quic_mkrishn@quicinc.com,
+ dmitry.baryshkov@linaro.org, swboyd@chromium.org, sean@poorly.run
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->You are right, in both cases the bit is set, but the funciton does not do what 
->it is supposed to do.
->Will just clear all bits of the mask.
->
->Without your patch, we will just write the val to the register and don't care 
->what the register value was before that.
->
->We should somehow mention that in the commit message, as it's not only about a 
->not used variable, it actually has an influence on the value we write(-back) to 
->the register.
+This series is to add DSI PHY tuning support in Qualcomm Snapdragon
+SoCs with 10nm DSI PHY e.g. SC7180
 
-thanks for the comment. I understand that it's not only about a not used
-variable. I talked to our hdmi experts and they think mtk_cec_mask() should
-write tmp instead of write val to the register.
+In most cases the default values of DSI PHY tuning registers
+should be sufficient as they are fully optimized. However, in
+some cases (for example, where extreme board parasitics cause
+the eye shape to degrade), the override bits can be used to
+improve the signal quality.
 
-I will mention this in the commit message and submit next patch.
+As per the MSM DSI PHY (10nm) tuning guideline, the drive strength
+can be adjusted using DSIPHY_RESCODE_OFFSET_TOP & DSIPHY_RESCODE_OFFSET_BOT
+registers, and the drive level can be adjusted using DSIPHY_CMN_VREG_CTRL
+register.
 
-Happy new year!
+Add DSI PHY tuning support for 10nm PHY. This can be extended to other
+DSI PHY versions if needed. Number of registers to configure the PHY
+tuning per lane can be different for different versions of the DSI PHY.
+I tried to make it generic so that it can be extended to other versions.
 
-Miles
+Rajeev Nandan (2):
+  dt-bindings: msm/dsi: Add 10nm dsi phy tuning properties
+  drm/msm/dsi: Add 10nm dsi phy tuning configuration support
+
+ .../bindings/display/msm/dsi-phy-10nm.yaml         | 19 ++++++++
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c              | 55 ++++++++++++++++++++++
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h              | 23 +++++++++
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c         | 31 +++++++++---
+ 4 files changed, 122 insertions(+), 6 deletions(-)
+
+-- 
+2.7.4
+
