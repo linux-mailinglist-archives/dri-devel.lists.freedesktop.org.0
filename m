@@ -2,55 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98EC1481CAA
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Dec 2021 14:53:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DDFB481CA8
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Dec 2021 14:53:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E97410E2D4;
-	Thu, 30 Dec 2021 13:53:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3147110E2D2;
+	Thu, 30 Dec 2021 13:53:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
- [IPv6:2607:f8b0:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADD2010E2D3;
- Thu, 30 Dec 2021 13:53:30 +0000 (UTC)
-Received: by mail-oi1-x231.google.com with SMTP id s73so40016209oie.5;
- Thu, 30 Dec 2021 05:53:30 -0800 (PST)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0708C10E2D2
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 13:53:25 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id h2so44056969lfv.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 05:53:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7WPoqGbRjf5qWZOIN3v134hjVS3pk8ybZf4CzUplN6Q=;
- b=LXJfcNr0JScpcQ7w+OIc5igJ563VY10gJbYIlaL94Ps5YeBi3azneCQqfPCmn2+Ydo
- 0eLVXb6bAkEvye9p4Q6zU5VPiLhcfC5KtSzs5whpllrxDqLwXv4pUwPM51N0wzJJ+lGT
- bIpMpjaEFIJKBy0+F4ef698IvQyo5ElBoY+5GzJ/X/XEeOP1mF91+JDS/YEwIKSgsCJc
- MztFaluknwIyQeyNgGYE83+ICk4oktW4UzuhPvHFWEt8NjN9vsLLaVIDgWK/HbFrLjj/
- wAPhVtIZ9jcX6HiPmWLEp8Z5o2uwHCeWaV9EthH6oqDwcd6kvQjAgYd4f631Q5e2WlN0
- PYpA==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to;
+ bh=OTSybf/FehI6pYOln3P9eF9NWxZwb34ljQ3EhfbORfY=;
+ b=dVlRNmU91czZpmVfSBFodQPJyUm7fPAk9/SKokWAHQBr/mqCFDsQ/8CPrIqIuY+yzs
+ 7EM082dH5CFiVciaNy2eab6C38Y3gmViomkTIC9i0N8OFtYir1oXkGgFZ/IbPKevSrH4
+ RJO7gzqdZb70khUL3IwucXOj0gL9oh7FIJX6IyUzckvlg+lO8+pCNmlXDy+iRlgatyAx
+ eNn8GsaFho2S6zdHS8xGcPEwU8GOCzIRhPkNUzZTQqv+YA2NjZGWKBgaCffDnGjfZuHF
+ dJMpcAk4t3KSTukWvptRb7BTiuC3PX80VlU0nXKUCtXRWk/j1iXjOrvprGjPzUf1+cCr
+ /5/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7WPoqGbRjf5qWZOIN3v134hjVS3pk8ybZf4CzUplN6Q=;
- b=AZRFK45LKwRVcEIF4kHtgdOxoqHgaXyG+FdOisHWmEo7G9nFinNdM+VXJpX2FfaDmM
- bXBOZ1UHP8FIcIITNMano7cACyaIFFcO+h3SL1cWgpP0qxjAwZ3wMvvwsja9sk36a3hI
- RQrDC3UYJGPWaxOKXI1T8dREIWGcPtpAIiRrgfjzX9ni2E6UwUxBOQ0l70GDrqURtA1W
- oQ6n8pN/+IzN1wVKJHyjNeoYbPowL0wZmp9qkMfYLhXHyD2SCSfX6S1l2UnL4lld5qSY
- EcBtaC9eXBlXdTJclYgUh97LWAIRJf1bwfAY7KS9dsW3QNsnD85b4aXo1YTblZN9tpOm
- MQVA==
-X-Gm-Message-State: AOAM532bIRvmY9d0X5JW1lgGBzqJmBH4wOPchROVtjeag27nm0HoFt87
- iLy6U67dE1YWQnOq/xf+kXsnI+CxXLPS8Uk2Fp8=
-X-Google-Smtp-Source: ABdhPJx5kcfGn4Sxltpl4lgW9TtTMa4Tv9Sa4Hfh7Knh4ij92jSR70kgNdYcdOstbysXf4dHFbfe6ycYEDMflLiQsp8=
-X-Received: by 2002:a05:6808:300b:: with SMTP id
- ay11mr23542416oib.120.1640872409739; 
- Thu, 30 Dec 2021 05:53:29 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to;
+ bh=OTSybf/FehI6pYOln3P9eF9NWxZwb34ljQ3EhfbORfY=;
+ b=OQSF6bYU7HT+HApnfG+4EL/i7MunOE9+IJI4FPL0kfgbfvHptV9z5qfb4s7nRmQJSR
+ dGMLSRYBBJbIEPQnjHeyHDf8NNCx0Clvj36BQjj5zrAtTH5RNe98BxJozytQpZ3ql2bV
+ DKFuva87D9YNqMhlp/lg8xnOc/Ac6xvER/xky4b/N5u8PiNextLCBgPHQri0o1kTpNqy
+ 24QymNQfc7XpVVI9Rm813dsa4ArUgbKdI+yiLbVrSD4oGSaaA28O5JUGjactGQulPDid
+ hR7I/R37VYOABgk+Xk/cHcs6RU+Fkdm5Vr0QgQebuGvokeruscBGrfmhfTgbugU1UdP9
+ xTtg==
+X-Gm-Message-State: AOAM531LUYalWe9Yv+WIk+CAfyBk+jkgpe3mn/CEsMELNXCtehrULcVE
+ gHbXdiXeQAFm13vdtWP7zuI=
+X-Google-Smtp-Source: ABdhPJzhYhe9+iV9lTrCPZXRK8GG575ZUASfEQaxOXdr+TjG+93c5iKi1GDwVUnRQE2jwCHvlE4ydw==
+X-Received: by 2002:a05:6512:2216:: with SMTP id
+ h22mr26787332lfu.155.1640872404331; 
+ Thu, 30 Dec 2021 05:53:24 -0800 (PST)
+Received: from [192.168.1.11] ([94.103.235.97])
+ by smtp.gmail.com with ESMTPSA id by6sm1346843ljb.78.2021.12.30.05.53.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Dec 2021 05:53:23 -0800 (PST)
+Content-Type: multipart/mixed; boundary="------------dCX0IlaUbMjKeidKwYkueUP0"
+Message-ID: <83bf58b6-ace2-2db8-4f8b-322e78a3e198@gmail.com>
+Date: Thu, 30 Dec 2021 16:53:21 +0300
 MIME-Version: 1.0
-References: <20211229155129.5789-1-alexander.deucher@amd.com>
- <CAPM=9tyU-eP7Fc2ziWNURJrdxZJSkaNKbE0V6Xx6L9idswHv2A@mail.gmail.com>
-In-Reply-To: <CAPM=9tyU-eP7Fc2ziWNURJrdxZJSkaNKbE0V6Xx6L9idswHv2A@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 30 Dec 2021 08:53:18 -0500
-Message-ID: <CADnq5_OLKNqTv3OwnpVdc5-=wRFPC=jrGHu=nv6z1QmBfWgTeA@mail.gmail.com>
-Subject: Re: [pull] amdgpu drm-fixes-5.16
-To: Dave Airlie <airlied@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [syzbot] general protection fault in
+ sg_alloc_append_table_from_pages
+Content-Language: en-US
+To: syzbot <syzbot+2c56b725ec547fa9cb29@syzkaller.appspotmail.com>,
+ christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+ gurchetansingh@chromium.org, kraxel@redhat.com,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, sumit.semwal@linaro.org,
+ syzkaller-bugs@googlegroups.com
+References: <000000000000b0a1a605ce3ec5ad@google.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <000000000000b0a1a605ce3ec5ad@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,50 +76,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Zhan Liu <zhan.liu@amd.com>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, "Wang,
- Angus" <angus.wang@amd.com>, Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 30, 2021 at 12:29 AM Dave Airlie <airlied@gmail.com> wrote:
->
-> On Thu, 30 Dec 2021 at 01:51, Alex Deucher <alexander.deucher@amd.com> wrote:
-> >
-> > Hi Dave, Daniel,
->
-> Just FYI on merging this into tip I got a conflict I'm not sure what
-> answer is right.
->
-> fixes has:
-> ee2698cf79cc759a397c61086c758d4cc85938bf
-> Author: Angus Wang <angus.wang@amd.com>
-> Date:   Thu Dec 9 17:27:01 2021 -0500
->
->     drm/amd/display: Changed pipe split policy to allow for
-> multi-display pipe split
->
-> next has:
-> 1edf5ae1fdaffb67c1b93e98df670cbe535d13cf
-> Author: Zhan Liu <Zhan.Liu@amd.com>
-> Date:   Mon Nov 8 19:31:00 2021 -0500
->
->     drm/amd/display: enable seamless boot for DCN301
->
-> -.pipe_split_policy = MPC_SPLIT_AVOID_MULT_DISP,
-> fixes is +.pipe_split_policy = MPC_SPLIT_DYNAMIC,
-> next is +.pipe_split_policy = MPC_SPLIT_AVOID,
->
-> I've chosen the -fixes answer for now, but it would be good to have
-> someone review it before Linus merges.
+This is a multi-part message in MIME format.
+--------------dCX0IlaUbMjKeidKwYkueUP0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-It should ultimately be MPC_SPLIT_DYNAMIC.  -next has an extra patch
-which changes it to an intermediate value before this patch changes it
-to MPC_SPLIT_DYNAMIC.
+On 10/13/21 19:51, syzbot wrote:
+> Hello,
+> 
+> syzbot found the following issue on:
+> 
+> HEAD commit:    717478d89fe2 Merge tag 'riscv-for-linus-5.15-rc5' of git:/..
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=12489abf300000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=32e6048063923b7b
+> dashboard link: https://syzkaller.appspot.com/bug?extid=2c56b725ec547fa9cb29
+> compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=167b9e4f300000
+> 
+> The issue was bisected to:
+> 
+> commit 284562e1f34874e267d4f499362c3816f8f6bc3f
+> Author: Gurchetan Singh <gurchetansingh@chromium.org>
+> Date:   Tue Dec 3 01:36:27 2019 +0000
+> 
+>      udmabuf: implement begin_cpu_access/end_cpu_access hooks
+> 
+> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12d68447300000
+> final oops:     https://syzkaller.appspot.com/x/report.txt?x=11d68447300000
+> console output: https://syzkaller.appspot.com/x/log.txt?x=16d68447300000
+> 
 
-Alex
+zero ubuf->pagecount will cause kmalloc_array() to return ZERO_PTR, that 
+is unsafe to deref
+
+#syz test
+git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 
 
->
-> Dave.
+
+With regards,
+Pavel Skripkin
+--------------dCX0IlaUbMjKeidKwYkueUP0
+Content-Type: text/plain; charset=UTF-8; name="ph"
+Content-Disposition: attachment; filename="ph"
+Content-Transfer-Encoding: base64
+
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi91ZG1hYnVmLmMgYi9kcml2ZXJzL2RtYS1i
+dWYvdWRtYWJ1Zi5jCmluZGV4IGM1N2E2MDlkYjc1Yi4uZTczMzA2ODRkM2I4IDEwMDY0NAot
+LS0gYS9kcml2ZXJzL2RtYS1idWYvdWRtYWJ1Zi5jCisrKyBiL2RyaXZlcnMvZG1hLWJ1Zi91
+ZG1hYnVmLmMKQEAgLTE5MCw2ICsxOTAsMTAgQEAgc3RhdGljIGxvbmcgdWRtYWJ1Zl9jcmVh
+dGUoc3RydWN0IG1pc2NkZXZpY2UgKmRldmljZSwKIAkJaWYgKHVidWYtPnBhZ2Vjb3VudCA+
+IHBnbGltaXQpCiAJCQlnb3RvIGVycjsKIAl9CisKKwlpZiAoIXVidWYtPnBhZ2Vjb3VudCkK
+KwkJZ290byBlcnI7CisKIAl1YnVmLT5wYWdlcyA9IGttYWxsb2NfYXJyYXkodWJ1Zi0+cGFn
+ZWNvdW50LCBzaXplb2YoKnVidWYtPnBhZ2VzKSwKIAkJCQkgICAgR0ZQX0tFUk5FTCk7CiAJ
+aWYgKCF1YnVmLT5wYWdlcykgewo=
+
+--------------dCX0IlaUbMjKeidKwYkueUP0--
