@@ -2,68 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DDFB481CA8
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Dec 2021 14:53:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42E55481CB5
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Dec 2021 15:01:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3147110E2D2;
-	Thu, 30 Dec 2021 13:53:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C61A810E4A3;
+	Thu, 30 Dec 2021 14:01:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0708C10E2D2
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 13:53:25 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id h2so44056969lfv.9
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 05:53:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to;
- bh=OTSybf/FehI6pYOln3P9eF9NWxZwb34ljQ3EhfbORfY=;
- b=dVlRNmU91czZpmVfSBFodQPJyUm7fPAk9/SKokWAHQBr/mqCFDsQ/8CPrIqIuY+yzs
- 7EM082dH5CFiVciaNy2eab6C38Y3gmViomkTIC9i0N8OFtYir1oXkGgFZ/IbPKevSrH4
- RJO7gzqdZb70khUL3IwucXOj0gL9oh7FIJX6IyUzckvlg+lO8+pCNmlXDy+iRlgatyAx
- eNn8GsaFho2S6zdHS8xGcPEwU8GOCzIRhPkNUzZTQqv+YA2NjZGWKBgaCffDnGjfZuHF
- dJMpcAk4t3KSTukWvptRb7BTiuC3PX80VlU0nXKUCtXRWk/j1iXjOrvprGjPzUf1+cCr
- /5/w==
+Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com
+ [IPv6:2607:f8b0:4864:20::f2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27D5B10E4A2
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 14:01:02 +0000 (UTC)
+Received: by mail-qv1-xf2c.google.com with SMTP id kj16so22145395qvb.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 06:01:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DARIRUyKixjDrkgi6thwAX0I/tkeXzUp7pYBAMvHcik=;
+ b=o+4Ko9dlc80surFGX5vVwGzb5c0ETDQSkrNniT1RhUajJtbke5ejdnEQdrpYRC2aih
+ VWkRLiWRv9geVnd/zJTopRXySrnbVMRrlTYvdgaZH7t93PLF9Rbx8xtjaTfjXv594UbL
+ b7zNCmyRS0OzMiCVTL/0r03bd4toCRyvgXvdOerFJretUUJkg9UeZ7ET5Wn4xVrrtdOI
+ pLYqPJEgU8XsxsfOB+Mra2infcJhM/cQY8/pJKqp6FbSq7IMjsVA8SkY6/zkDzJATRKo
+ 9OdzEvSbw9TO/yiYrJ9PI8ogruGMkPYuCnmejWNy299fPZQSylEnBcAg0jQWZo3jeI92
+ xIEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to;
- bh=OTSybf/FehI6pYOln3P9eF9NWxZwb34ljQ3EhfbORfY=;
- b=OQSF6bYU7HT+HApnfG+4EL/i7MunOE9+IJI4FPL0kfgbfvHptV9z5qfb4s7nRmQJSR
- dGMLSRYBBJbIEPQnjHeyHDf8NNCx0Clvj36BQjj5zrAtTH5RNe98BxJozytQpZ3ql2bV
- DKFuva87D9YNqMhlp/lg8xnOc/Ac6xvER/xky4b/N5u8PiNextLCBgPHQri0o1kTpNqy
- 24QymNQfc7XpVVI9Rm813dsa4ArUgbKdI+yiLbVrSD4oGSaaA28O5JUGjactGQulPDid
- hR7I/R37VYOABgk+Xk/cHcs6RU+Fkdm5Vr0QgQebuGvokeruscBGrfmhfTgbugU1UdP9
- xTtg==
-X-Gm-Message-State: AOAM531LUYalWe9Yv+WIk+CAfyBk+jkgpe3mn/CEsMELNXCtehrULcVE
- gHbXdiXeQAFm13vdtWP7zuI=
-X-Google-Smtp-Source: ABdhPJzhYhe9+iV9lTrCPZXRK8GG575ZUASfEQaxOXdr+TjG+93c5iKi1GDwVUnRQE2jwCHvlE4ydw==
-X-Received: by 2002:a05:6512:2216:: with SMTP id
- h22mr26787332lfu.155.1640872404331; 
- Thu, 30 Dec 2021 05:53:24 -0800 (PST)
-Received: from [192.168.1.11] ([94.103.235.97])
- by smtp.gmail.com with ESMTPSA id by6sm1346843ljb.78.2021.12.30.05.53.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Dec 2021 05:53:23 -0800 (PST)
-Content-Type: multipart/mixed; boundary="------------dCX0IlaUbMjKeidKwYkueUP0"
-Message-ID: <83bf58b6-ace2-2db8-4f8b-322e78a3e198@gmail.com>
-Date: Thu, 30 Dec 2021 16:53:21 +0300
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DARIRUyKixjDrkgi6thwAX0I/tkeXzUp7pYBAMvHcik=;
+ b=QOh2+BDpMMAyhMyec6RLkKPexY/Qlk3UP97UJ+JHXP9QdaKxpIT7GiHjrkV67M4lD6
+ VA1Z476qkN+8t0TFLBch/+W0ld6pvZIugqWdmw20g6OwccNRRArjcw8J/I3N6sj1NeHn
+ R1tQ65wDiegzhhl4mSZSM7X8tOWFii6xlmMzDf2Zo7jcHylhEch1uxv9SepbeJU61Yfw
+ mFzpWieP9xUJceZSOz/vX7WmggzPeXBxUUqdYkckg+n/T3p52m8rCRPQm6EBVgmGU6RJ
+ iobysHu1Pt9RzH28HhckuX4tbnY81olbqi3k3Ufo5h2WLVUsjM3BR2k1vv0riFMYzj5U
+ 1cIQ==
+X-Gm-Message-State: AOAM530OWgwhDRyTi3KoMfusd4zAvYVcv2CtD3jNwQdazBXZUf7Q0L2R
+ Gq7KyYuOzGjlONopUGNYft55AGnnnz+r9MMsZgo1nQ==
+X-Google-Smtp-Source: ABdhPJzI5hJNYB9BiClkHNkpWJpsy0r+CCHtNuPM3lBUlcbQsrm/hksxpm6NB1KIf4ASty1FzjWa3Th+WWHhWw7Y8XA=
+X-Received: by 2002:a05:6214:260b:: with SMTP id
+ gu11mr27691426qvb.55.1640872860787; 
+ Thu, 30 Dec 2021 06:01:00 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [syzbot] general protection fault in
- sg_alloc_append_table_from_pages
-Content-Language: en-US
-To: syzbot <syzbot+2c56b725ec547fa9cb29@syzkaller.appspotmail.com>,
- christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
- gurchetansingh@chromium.org, kraxel@redhat.com,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, sumit.semwal@linaro.org,
- syzkaller-bugs@googlegroups.com
-References: <000000000000b0a1a605ce3ec5ad@google.com>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <000000000000b0a1a605ce3ec5ad@google.com>
+References: <1640856276-14697-1-git-send-email-quic_rajeevny@quicinc.com>
+ <1640856276-14697-2-git-send-email-quic_rajeevny@quicinc.com>
+In-Reply-To: <1640856276-14697-2-git-send-email-quic_rajeevny@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 30 Dec 2021 17:00:49 +0300
+Message-ID: <CAA8EJpptEvS6Y+MEX=VxmUSf1=GAp_oV5PWCCGUzMYP13_QsRg@mail.gmail.com>
+Subject: Re: [v1 1/2] dt-bindings: msm/dsi: Add 10nm dsi phy tuning properties
+To: Rajeev Nandan <quic_rajeevny@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,63 +63,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: quic_kalyant@quicinc.com, freedreno@lists.freedesktop.org,
+ jonathan@marek.ca, devicetree@vger.kernel.org, airlied@linux.ie,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, quic_abhinavk@quicinc.com, robh+dt@kernel.org,
+ quic_mkrishn@quicinc.com, swboyd@chromium.org, sean@poorly.run
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------dCX0IlaUbMjKeidKwYkueUP0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 10/13/21 19:51, syzbot wrote:
-> Hello,
-> 
-> syzbot found the following issue on:
-> 
-> HEAD commit:    717478d89fe2 Merge tag 'riscv-for-linus-5.15-rc5' of git:/..
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=12489abf300000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=32e6048063923b7b
-> dashboard link: https://syzkaller.appspot.com/bug?extid=2c56b725ec547fa9cb29
-> compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=167b9e4f300000
-> 
-> The issue was bisected to:
-> 
-> commit 284562e1f34874e267d4f499362c3816f8f6bc3f
-> Author: Gurchetan Singh <gurchetansingh@chromium.org>
-> Date:   Tue Dec 3 01:36:27 2019 +0000
-> 
->      udmabuf: implement begin_cpu_access/end_cpu_access hooks
-> 
-> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12d68447300000
-> final oops:     https://syzkaller.appspot.com/x/report.txt?x=11d68447300000
-> console output: https://syzkaller.appspot.com/x/log.txt?x=16d68447300000
-> 
-
-zero ubuf->pagecount will cause kmalloc_array() to return ZERO_PTR, that 
-is unsafe to deref
-
-#syz test
-git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+On Thu, 30 Dec 2021 at 12:25, Rajeev Nandan <quic_rajeevny@quicinc.com> wrote:
+>
+> Add 10nm dsi phy tuning properties for phy drive strength and
+> phy drive level adjustemnt.
+>
+> Signed-off-by: Rajeev Nandan <quic_rajeevny@quicinc.com>
+> ---
+>  .../devicetree/bindings/display/msm/dsi-phy-10nm.yaml | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
+> index 4399715..9406982 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
+> @@ -35,6 +35,18 @@ properties:
+>        Connected to DSI0_MIPI_DSI_PLL_VDDA0P9 pin for sc7180 target and
+>        connected to VDDA_MIPI_DSI_0_PLL_0P9 pin for sdm845 target
+>
+> +  phy-drive-strength-cfg:
+> +    type: array
+> +    description:
+> +      Register values of DSIPHY_RESCODE_OFFSET_TOP and DSIPHY_RESCODE_OFFSET_BOT
+> +      for all five lanes to adjust the phy drive strength.
+> +
+> +  phy-drive-level-cfg:
+> +    type: array
+> +    description:
+> +      Register values of DSIPHY_RESCODE_OFFSET_TOP for all five lanes to adjust
+> +      phy drive level/amplitude.
 
 
+Description is incorrect, it's not the RESCODE_OFFSET_TOP register.
 
-With regards,
-Pavel Skripkin
---------------dCX0IlaUbMjKeidKwYkueUP0
-Content-Type: text/plain; charset=UTF-8; name="ph"
-Content-Disposition: attachment; filename="ph"
-Content-Transfer-Encoding: base64
+> +
+>  required:
+>    - compatible
+>    - reg
+> @@ -64,5 +76,12 @@ examples:
+>           clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
+>                    <&rpmhcc RPMH_CXO_CLK>;
+>           clock-names = "iface", "ref";
+> +
+> +         phy-drive-strength-cfg = [00 00
+> +                                   00 00
+> +                                   00 00
+> +                                   00 00
+> +                                   00 00];
+> +         phy-drive-level-cfg = [59 59 59 59 59];
 
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi91ZG1hYnVmLmMgYi9kcml2ZXJzL2RtYS1i
-dWYvdWRtYWJ1Zi5jCmluZGV4IGM1N2E2MDlkYjc1Yi4uZTczMzA2ODRkM2I4IDEwMDY0NAot
-LS0gYS9kcml2ZXJzL2RtYS1idWYvdWRtYWJ1Zi5jCisrKyBiL2RyaXZlcnMvZG1hLWJ1Zi91
-ZG1hYnVmLmMKQEAgLTE5MCw2ICsxOTAsMTAgQEAgc3RhdGljIGxvbmcgdWRtYWJ1Zl9jcmVh
-dGUoc3RydWN0IG1pc2NkZXZpY2UgKmRldmljZSwKIAkJaWYgKHVidWYtPnBhZ2Vjb3VudCA+
-IHBnbGltaXQpCiAJCQlnb3RvIGVycjsKIAl9CisKKwlpZiAoIXVidWYtPnBhZ2Vjb3VudCkK
-KwkJZ290byBlcnI7CisKIAl1YnVmLT5wYWdlcyA9IGttYWxsb2NfYXJyYXkodWJ1Zi0+cGFn
-ZWNvdW50LCBzaXplb2YoKnVidWYtPnBhZ2VzKSwKIAkJCQkgICAgR0ZQX0tFUk5FTCk7CiAJ
-aWYgKCF1YnVmLT5wYWdlcykgewo=
+You are writing this value into the PHY_CMN_VREG_CTRL register. So
+specifying 5 values here does not make sense.
 
---------------dCX0IlaUbMjKeidKwYkueUP0--
+>       };
+>  ...
+> --
+> 2.7.4
+>
+
+
+-- 
+With best wishes
+Dmitry
