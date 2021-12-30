@@ -1,53 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8473A48199A
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Dec 2021 06:24:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECCA04819CB
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Dec 2021 06:29:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2920E10E2D0;
-	Thu, 30 Dec 2021 05:24:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84E8310E2E6;
+	Thu, 30 Dec 2021 05:29:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5F0E10E2CF;
- Thu, 30 Dec 2021 05:24:30 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id j6so93739487edw.12;
- Wed, 29 Dec 2021 21:24:30 -0800 (PST)
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD24910E2E6;
+ Thu, 30 Dec 2021 05:29:26 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id j6so93777526edw.12;
+ Wed, 29 Dec 2021 21:29:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TRgYzTqIcjTzXeZXK/ria11F24MgAieM4h1sn0O8Io0=;
- b=lb4GP57XHc7hki/NAm4dE+RTGb58GBFRjy+aEZZUjxqsQmxwXc02Gc6+beCDhp8nP+
- /mcQha6QGXNWPuLoE5q58p5BZFlvkp+yzO7YC/+37tuYYY20Wdo/Xp+URC/tuEkNg+pw
- NDtpfLvsAyQ9jun933Is1hSABWcxPmJ4No3SyyZ+iy6AxC83VPu30G8p4QfGef3jBrub
- y6SS3J31optPCF2DRBS0MW8LkJ7+WrPf750UCGXJgZ24WpA/j159XDlC+aYgJ+GB2MVh
- NTPexwicui+j4aFFodSjtX/vfGX8NdR1IIl/jZu1UxMjWMRYIzyWx+nONg/GESkNfLAt
- S6UQ==
+ :cc; bh=Ib/SmxqRmVNYAldt9eWiYKvPaoPQbeRg9bEVu+KXSA0=;
+ b=Ns9paFrw3h3pSkuCtGZy/gAjkh2j0/ESJWs11EL7mAsFB69r3QnxFVGvCYpyHemIdj
+ t1P6F6v8BEXtgIUFZKWoYH3VOUcsEzhD6VcFZxW7TP3UjdVRQ6qMwVilAzyVbKId8nz8
+ UysKw5Y8+xIw7CDgP7kKefINezR/yhscl9PU2xq6kV/ITQ63G2ouhokaPJmGv1in8rNA
+ 7n2GZdejfCmwKvJD8DujLc7+eyVVOrDauI7EOSuwEvqgLytLIRXjaipLG0cb6nas2t4D
+ rfrKAL/qFwuBUCLI6l0X8jSeoXaJs99gf01aEcDGgv27Jf2IXEHk45i4N7UsMeCGTgBb
+ pLpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=TRgYzTqIcjTzXeZXK/ria11F24MgAieM4h1sn0O8Io0=;
- b=xjFLpJDVErZGeXiVr6MORG6pREhuP4R0qp0TGLYOJPmjF/5tn8Hfs2HLgC4Brx+UVl
- qxPLhsA0MS0SuqeLKGFx5TcDIgFkQFldjbHOtYDUbzxWdkQzsh3GnhmYWifIekJsz2qI
- UAfTr210EkWaJofoGyEVEG2mCqKiV7Hnnk6LKbIX0/L2dqFPlj9kaobXhOESBRUl29X7
- cJbqjhvLgVufNZAVCEzHIuosmb9snxXLPacsHZK1IEsYpBvyLsCibv8MReIevlOnEkjt
- 46I9wvrC2AHYT67f19soSuxnv8SyxTYrzr8Anvg1TcZ2u9OXatwBnTPIgQzWdjM5Vs8I
- Yxbw==
-X-Gm-Message-State: AOAM533IhsyUU56p/scZyuf3Gg9v5nYPXSgTrut272ObmFDvusJS+hZ1
- l4ldX4kyw3pvtMmT5v26Jvv3q2Gro1Y1pBVS8IVAlgdTwwc=
-X-Google-Smtp-Source: ABdhPJxDlUUVrmLqP6hYEYkotwYmo+0dDQ8TixLURPce6QSywYMpBI7kGKd8Wamwzg5PdILRPPWCe1oRruvxOH2oVYU=
-X-Received: by 2002:aa7:d55a:: with SMTP id u26mr28629562edr.265.1640841869279; 
- Wed, 29 Dec 2021 21:24:29 -0800 (PST)
+ bh=Ib/SmxqRmVNYAldt9eWiYKvPaoPQbeRg9bEVu+KXSA0=;
+ b=qxp/gZGbplBzOAZ0xJc/lSUHquClfYIvGgcU0Jo0WxYapFAffxwGO6mhzT8WsbQNXj
+ Kc0S2RNrVfl9A/fiwPTWej7x+wZS9EOunM4pkxTyYGpGhxfAU8AaLZs1OMUMzKavkU1C
+ DtzmcFHzHOSF2P6hgGnqVN4aGDc8ktsYSQuaQ7v3GJZRTA7VBknfEwFpXDt2HSiqsgpv
+ uihBv5AUpVByr3LGZLyQ6p2zAmhKFCe7y1Yu1tMBXlARtHumsZPHj7vrKO2aenmp8Wvi
+ wSyYKKe+yCnyOpdDOfeyRmKEi5yAArAaQvaCJipb2YmY+8mKi7g8k5Bd5KUhO2DiQH6/
+ 9SIQ==
+X-Gm-Message-State: AOAM53336KboMPTIXNzZLuk8VWi0bY2324OrzZdv6VhyGa82aR56IPkd
+ FhagxqARGhIIZc6JUG03wKmbg3zGRro9mRUXOaY=
+X-Google-Smtp-Source: ABdhPJyrFPj3p9/JfNrAXa9CtGY+i/hqHQT+l2HjK20FQe8tL6oGlI6cFA/kmYLK/I/cQzxkFGE/cePZ/FCZKuTREAw=
+X-Received: by 2002:a17:906:5ada:: with SMTP id
+ x26mr23883933ejs.720.1640842165370; 
+ Wed, 29 Dec 2021 21:29:25 -0800 (PST)
 MIME-Version: 1.0
-References: <20211229164631.5722-1-alexander.deucher@amd.com>
-In-Reply-To: <20211229164631.5722-1-alexander.deucher@amd.com>
+References: <20211229155129.5789-1-alexander.deucher@amd.com>
+In-Reply-To: <20211229155129.5789-1-alexander.deucher@amd.com>
 From: Dave Airlie <airlied@gmail.com>
-Date: Thu, 30 Dec 2021 15:24:18 +1000
-Message-ID: <CAPM=9tz-o5KiowmzbtrNB31PU4YEEde3vBqta9LbeVXtWR0j7A@mail.gmail.com>
-Subject: Re: [pull] amdgpu, amdkfd drm-next-5.17
-To: Alex Deucher <alexander.deucher@amd.com>
+Date: Thu, 30 Dec 2021 15:29:13 +1000
+Message-ID: <CAPM=9tyU-eP7Fc2ziWNURJrdxZJSkaNKbE0V6Xx6L9idswHv2A@mail.gmail.com>
+Subject: Re: [pull] amdgpu drm-fixes-5.16
+To: Alex Deucher <alexander.deucher@amd.com>, zhan.liu@amd.com,
+ angus.wang@amd.com
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,13 +69,33 @@ Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey,
+On Thu, 30 Dec 2021 at 01:51, Alex Deucher <alexander.deucher@amd.com> wrote:
+>
+> Hi Dave, Daniel,
 
-dim: 3be2709660dc ("drm/amdgpu: Call amdgpu_device_unmap_mmio() if
-device is unplugged to prevent crash in GPU initialization failure"):
-committer Signed-off-by missing.
+Just FYI on merging this into tip I got a conflict I'm not sure what
+answer is right.
 
-is missing your sob as you committed it. Please fix it up.
+fixes has:
+ee2698cf79cc759a397c61086c758d4cc85938bf
+Author: Angus Wang <angus.wang@amd.com>
+Date:   Thu Dec 9 17:27:01 2021 -0500
 
-Thanks,
+    drm/amd/display: Changed pipe split policy to allow for
+multi-display pipe split
+
+next has:
+1edf5ae1fdaffb67c1b93e98df670cbe535d13cf
+Author: Zhan Liu <Zhan.Liu@amd.com>
+Date:   Mon Nov 8 19:31:00 2021 -0500
+
+    drm/amd/display: enable seamless boot for DCN301
+
+-.pipe_split_policy = MPC_SPLIT_AVOID_MULT_DISP,
+fixes is +.pipe_split_policy = MPC_SPLIT_DYNAMIC,
+next is +.pipe_split_policy = MPC_SPLIT_AVOID,
+
+I've chosen the -fixes answer for now, but it would be good to have
+someone review it before Linus merges.
+
 Dave.
