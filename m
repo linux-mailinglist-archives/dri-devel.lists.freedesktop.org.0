@@ -1,61 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6D2148220B
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Dec 2021 05:51:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D48DA4822E3
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Dec 2021 10:07:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0A1F10E262;
-	Fri, 31 Dec 2021 04:51:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C91910E31E;
+	Fri, 31 Dec 2021 09:07:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6ACA210E28C
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Dec 2021 04:51:19 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id gj24so22728337pjb.0
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Dec 2021 20:51:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=t4K1Jw5wGBkWKkVXYcz32kDo5d4sUj56eGy5SLLt1cU=;
- b=UlgUmRHqZMnAhLW/TH5JlD6JclpjQbfp5oKLMfR4hCzYb/0kWyC6H27vFDveB2+hwV
- rLalRtjrLyd28B7caTA4tTzryIl355YR6y9BTzuYeCXj3IJSQ3WuPxmiQN1M3ImYUGQ2
- XUcjB5H1k9G3NpHtu6HGjWtTppz0Gd/zYVB3E0rRtf8LkAh/xm3t09G32AjwN7lh2nCT
- 7SjkMpxw+386vQ1W+8y60v6k3g0o5R+GlM1zcL5HtFCrXi5pYO7qFPiguXdqSiDBVeo8
- hwFW99TpxBocPFlB0HfzzkPqDfljwOGHruQZLsfucqXEplT6Oqrje6zcGk9AsCLy3WOm
- xpjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=t4K1Jw5wGBkWKkVXYcz32kDo5d4sUj56eGy5SLLt1cU=;
- b=2gwtXi1BHmwWZn7nSf/82IATe8U7PlPWfnYhcQ6cVsILToxnwTD5itxdDKJirJ0/2P
- F7glQ1QCM6niHkcFFsmDufvi1vCafFZqJ7Ab0SGMxA/7Q14fAwspmlEDUnYC94QHfeYc
- njF91fhTGy4yAf85vmc74K/k0srNCNhCWnBVD4CcGzcG+0VB1MjCEKwBEZI6K0MOw7eo
- 1tc1yL/8h0J3PDmXkVu3TUXnrCWfyDp0009i9K/HB1KHYhovslvCN+mgGpfIq6e4WqzU
- FmWtK7KYP1pCelP0bQRarrIPTFTuJMW06KDhwB2YzfGoAfmO+WtGykmG2q4TP05Dm6m2
- 9UAg==
-X-Gm-Message-State: AOAM532yvV4cQHvvWU3THnCaUdZoluXCutejphuKjkIHFWvaf5yGmuOS
- JIe+rMK6iwWKAIBvnBbwVlBjpA==
-X-Google-Smtp-Source: ABdhPJxC3ej4ur32ZypJQelHyscgi+bht4m6PoLVSNBC+HTam6DIp3C2QXzucsFUfOmRgbPSc7ZOBA==
-X-Received: by 2002:a17:903:2303:b0:149:50d1:19d0 with SMTP id
- d3-20020a170903230300b0014950d119d0mr33940979plh.86.1640926278988; 
- Thu, 30 Dec 2021 20:51:18 -0800 (PST)
-Received: from yc.huaqin.com ([101.78.151.213])
- by smtp.gmail.com with ESMTPSA id b6sm23819236pjk.29.2021.12.30.20.51.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Dec 2021 20:51:18 -0800 (PST)
-From: yangcong <yangcong5@huaqin.corp-partner.google.com>
-To: thierry.reding@gmail.com, sam@ravnborg.org, airlied@linux.ie,
- daniel@ffwll.ch, dianders@google.com
-Subject: [PATCH] drm/panel: Update Boe-tv110c9m initial code
-Date: Fri, 31 Dec 2021 12:50:56 +0800
-Message-Id: <20211231045056.118640-1-yangcong5@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3603E10E31E
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Dec 2021 09:07:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1640941659; x=1672477659;
+ h=from:to:subject:in-reply-to:references:date:message-id:
+ mime-version; bh=rTfex9Aa77NNvM7/OlGXB6Mt4o9HbnqFvSf9POgC7n8=;
+ b=fXB6y1Hvwr78uuXrt6AuU5KhOZCyrRX5j+9g2zg8dPLv8ll7HOvJTXEd
+ FwPu23+dhTorENw350cS48Tbg0UQ51PPSINYJME2FC46PZg+fci+YBUk6
+ BsDdH/ItTDJXQGv572lxGHcoTBoWM8xHcgXLUKx0jTFoTGxdLlc/s3oe7
+ 1y2iM4tm4BJ+VWmSEH1PxBs4mT2nV7oim0eQl1KXW54T+ByONJWIydF9B
+ /HGJzCYY2HHQRKf1W9FO9LBtAkydyXZVvDmqwg6Do3U7gnPKvFATgqr9T
+ SrKEOqVoIUtslI2fAQzwFVi8C0lmLm7nNy7UcATwG3j9DgpFYT29MN9RW g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10213"; a="228615446"
+X-IronPort-AV: E=Sophos;i="5.88,251,1635231600"; d="scan'208";a="228615446"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Dec 2021 01:07:38 -0800
+X-IronPort-AV: E=Sophos;i="5.88,251,1635231600"; d="scan'208";a="470903545"
+Received: from arudakov-mobl.ccr.corp.intel.com (HELO localhost)
+ ([10.252.25.42])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Dec 2021 01:07:35 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Claudio Suarez <cssk@net-c.es>, dri-devel@lists.freedesktop.org, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
+ Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm: get rid of DRM_DEBUG_* log calls in drm core,
+ files drm_{b,c}*.c
+In-Reply-To: <Yc2Pd/DhQ7EpD+hD@gineta.localdomain>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <Yc2Pd/DhQ7EpD+hD@gineta.localdomain>
+Date: Fri, 31 Dec 2021 11:07:32 +0200
+Message-ID: <878rw1jg6j.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,58 +59,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- yangcong <yangcong5@huaqin.corp-partner.google.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Optimize two problems
+On Thu, 30 Dec 2021, Claudio Suarez <cssk@net-c.es> wrote:
+> DRM_DEBUG_* and DRM_* log calls are deprecated.
+> Change them to drm_dbg_* / drm_{err,info,...} calls in drm core
+> files.
+>
+> To avoid making a very big patch, this change is split in
+> smaller patches. This one includes drm_{b,c}*.c
 
-a)Turn off low voltage detection register.During the esd test,
-the low-voltage detection ic may be triggered to enter the slpin state,
-so a black screen occurs on the panel.
-b)Optimize CMD2 page1 gamma.
+Personally, I'd split it further to smaller patches.
 
-Signed-off-by: yangcong <yangcong5@huaqin.corp-partner.google.com>
----
- drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> Signed-off-by: Claudio Suarez <cssk@net-c.es>
+> ---
+>  drivers/gpu/drm/drm_blend.c          |   6 +-
+>  drivers/gpu/drm/drm_bridge.c         |   6 +-
+>  drivers/gpu/drm/drm_bufs.c           | 116 +++++++++++++--------------
+>  drivers/gpu/drm/drm_client_modeset.c | 109 +++++++++++++------------
+>  drivers/gpu/drm/drm_color_mgmt.c     |   6 +-
+>  drivers/gpu/drm/drm_connector.c      |  37 +++++----
+>  drivers/gpu/drm/drm_context.c        |  18 ++---
+>  drivers/gpu/drm/drm_crtc.c           |  40 ++++-----
+>  drivers/gpu/drm/drm_crtc_helper.c    |  61 +++++++-------
+>  9 files changed, 211 insertions(+), 188 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
+> index ec37cbfabb50..4a988815f998 100644
+> --- a/drivers/gpu/drm/drm_blend.c
+> +++ b/drivers/gpu/drm/drm_blend.c
+> @@ -450,7 +450,7 @@ static int drm_atomic_helper_crtc_normalize_zpos(struct drm_crtc *crtc,
+>  	int i, n = 0;
+>  	int ret = 0;
+>  
+> -	DRM_DEBUG_ATOMIC("[CRTC:%d:%s] calculating normalized zpos values\n",
+> +	drm_dbg_atomic(dev, "[CRTC:%d:%s] calculating normalized zpos values\n",
+>  			 crtc->base.id, crtc->name);
 
-diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-index 5fcbde789ddb..1be150ac758f 100644
---- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-+++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-@@ -86,7 +86,7 @@ static const struct panel_init_cmd boe_tv110c9m_init_cmd[] = {
- 	_INIT_DCS_CMD(0x0F, 0x73),
- 	_INIT_DCS_CMD(0x95, 0xE6),
- 	_INIT_DCS_CMD(0x96, 0xF0),
--	_INIT_DCS_CMD(0x30, 0x11),
-+	_INIT_DCS_CMD(0x30, 0x00),
- 	_INIT_DCS_CMD(0x6D, 0x66),
- 	_INIT_DCS_CMD(0x75, 0xA2),
- 	_INIT_DCS_CMD(0x77, 0x3B),
-@@ -112,17 +112,17 @@ static const struct panel_init_cmd boe_tv110c9m_init_cmd[] = {
- 	_INIT_DCS_CMD(0xB1, 0x00, 0xD2, 0x01, 0x0B, 0x01, 0x34, 0x01, 0x76, 0x01, 0xA3, 0x01, 0xEF, 0x02, 0x27, 0x02, 0x29),
- 	_INIT_DCS_CMD(0xB2, 0x02, 0x5F, 0x02, 0x9E, 0x02, 0xC9, 0x03, 0x00, 0x03, 0x26, 0x03, 0x53, 0x03, 0x63, 0x03, 0x73),
- 
--	_INIT_DCS_CMD(0xB3, 0x03, 0x86, 0x03, 0x9A, 0x03, 0xA7, 0x03, 0xCF, 0x03, 0xDE, 0x03, 0xE0),
-+	_INIT_DCS_CMD(0xB3, 0x03, 0x86, 0x03, 0x9A, 0x03, 0xAF, 0x03, 0xDF, 0x03, 0xF5, 0x03, 0xE0),
- 	_INIT_DCS_CMD(0xB4, 0x00, 0x00, 0x00, 0x1B, 0x00, 0x45, 0x00, 0x65, 0x00, 0x81, 0x00, 0x99, 0x00, 0xAE, 0x00, 0xC1),
- 	_INIT_DCS_CMD(0xB5, 0x00, 0xD2, 0x01, 0x0B, 0x01, 0x34, 0x01, 0x76, 0x01, 0xA3, 0x01, 0xEF, 0x02, 0x27, 0x02, 0x29),
- 	_INIT_DCS_CMD(0xB6, 0x02, 0x5F, 0x02, 0x9E, 0x02, 0xC9, 0x03, 0x00, 0x03, 0x26, 0x03, 0x53, 0x03, 0x63, 0x03, 0x73),
--	_INIT_DCS_CMD(0xB7, 0x03, 0x86, 0x03, 0x9A, 0x03, 0xA7, 0x03, 0xCF, 0x03, 0xDE, 0x03, 0xE0),
-+	_INIT_DCS_CMD(0xB7, 0x03, 0x86, 0x03, 0x9A, 0x03, 0xAF, 0x03, 0xDF, 0x03, 0xF5, 0x03, 0xE0),
- 
- 	_INIT_DCS_CMD(0xB8, 0x00, 0x00, 0x00, 0x1B, 0x00, 0x45, 0x00, 0x65, 0x00, 0x81, 0x00, 0x99, 0x00, 0xAE, 0x00, 0xC1),
- 	_INIT_DCS_CMD(0xB9, 0x00, 0xD2, 0x01, 0x0B, 0x01, 0x34, 0x01, 0x76, 0x01, 0xA3, 0x01, 0xEF, 0x02, 0x27, 0x02, 0x29),
- 	_INIT_DCS_CMD(0xBA, 0x02, 0x5F, 0x02, 0x9E, 0x02, 0xC9, 0x03, 0x00, 0x03, 0x26, 0x03, 0x53, 0x03, 0x63, 0x03, 0x73),
- 
--	_INIT_DCS_CMD(0xBB, 0x03, 0x86, 0x03, 0x9A, 0x03, 0xA7, 0x03, 0xCF, 0x03, 0xDE, 0x03, 0xE0),
-+	_INIT_DCS_CMD(0xBB, 0x03, 0x86, 0x03, 0x9A, 0x03, 0xAF, 0x03, 0xDF, 0x03, 0xF5, 0x03, 0xE0),
- 	_INIT_DCS_CMD(0xFF, 0x24),
- 	_INIT_DCS_CMD(0xFB, 0x01),
- 
+Throughout the patch, please fix the indentation on the following
+lines. The lines should be aligned at the next column after the opening
+brace "(" in the function call, like they used to be.
+
+>  
+>  	states = kmalloc_array(total_planes, sizeof(*states), GFP_KERNEL);
+> @@ -469,7 +469,7 @@ static int drm_atomic_helper_crtc_normalize_zpos(struct drm_crtc *crtc,
+>  			goto done;
+>  		}
+>  		states[n++] = plane_state;
+> -		DRM_DEBUG_ATOMIC("[PLANE:%d:%s] processing zpos value %d\n",
+> +		drm_dbg_atomic(dev, "[PLANE:%d:%s] processing zpos value %d\n",
+>  				 plane->base.id, plane->name,
+>  				 plane_state->zpos);
+>  	}
+> @@ -480,7 +480,7 @@ static int drm_atomic_helper_crtc_normalize_zpos(struct drm_crtc *crtc,
+>  		plane = states[i]->plane;
+>  
+>  		states[i]->normalized_zpos = i;
+> -		DRM_DEBUG_ATOMIC("[PLANE:%d:%s] normalized zpos value %d\n",
+> +		drm_dbg_atomic(dev, "[PLANE:%d:%s] normalized zpos value %d\n",
+>  				 plane->base.id, plane->name, i);
+>  	}
+>  	crtc_state->zpos_changed = true;
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index c96847fc0ebc..b108377b4b40 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -288,10 +288,12 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
+>  	list_del(&bridge->chain_node);
+>  
+>  #ifdef CONFIG_OF
+> -	DRM_ERROR("failed to attach bridge %pOF to encoder %s: %d\n",
+> +	drm_err(encoder->dev,
+> +		  "failed to attach bridge %pOF to encoder %s: %d\n",
+>  		  bridge->of_node, encoder->name, ret);
+>  #else
+> -	DRM_ERROR("failed to attach bridge to encoder %s: %d\n",
+> +	drm_err(encoder->dev,
+> +		  "failed to attach bridge to encoder %s: %d\n",
+>  		  encoder->name, ret);
+>  #endif
+>  
+> diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
+> index fcca21e8efac..dd8e100e120c 100644
+> --- a/drivers/gpu/drm/drm_bufs.c
+> +++ b/drivers/gpu/drm/drm_bufs.c
+> @@ -171,8 +171,8 @@ static int drm_addmap_core(struct drm_device *dev, resource_size_t offset,
+>  		kfree(map);
+>  		return -EINVAL;
+>  	}
+> -	DRM_DEBUG("offset = 0x%08llx, size = 0x%08lx, type = %d\n",
+> -		  (unsigned long long)map->offset, map->size, map->type);
+> +	drm_dev_dbg(dev, "offset = 0x%08llx, size = 0x%08lx, type = %d\n",
+> +		    (unsigned long long)map->offset, map->size, map->type);
+
+Please avoid drm_dev_dbg() when struct drm_device is available,
+throughout the patch. DRM_DEBUG() -> drm_dbg_core() in drm_*.[ch].
+
+Clearly dev is struct drm_device here, and in a lot of places, so you're
+passing an incompatible pointer to drm_dev_dbg(), which is for when you
+only have struct device available.
+
+
+BR,
+Jani.
+
+
 -- 
-2.25.1
-
+Jani Nikula, Intel Open Source Graphics Center
