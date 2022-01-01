@@ -1,39 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B14C8482590
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Dec 2021 19:55:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1523482640
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Jan 2022 02:42:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52780898C2;
-	Fri, 31 Dec 2021 18:55:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93FA589BD4;
+	Sat,  1 Jan 2022 01:42:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BA29898C2
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Dec 2021 18:55:15 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 597A05B0;
- Fri, 31 Dec 2021 19:55:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1640976912;
- bh=KKu45Gk1n9nZDucUIE87JSE5dJKBeCwQd5FO/lEmJlw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=k0Y5+MFanVJxg8aeOMFKkyQi6KzC7/JJHn6gXrL4EG/cEFQ8SRjn9OCJ7087Cltmi
- FkRTNWaLB6g0GW8n72P10yC8IltCuqC+zIi5fyHL7R2u3xe5l/8/AWYGtrC3BvElIw
- sMFxzIh7qwsB4Apo+OcvZ51uzAI8c5UYbK/wG7Lc=
-Date: Fri, 31 Dec 2021 20:55:09 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH] drm: mxsfb: Shutdown the display on remove
-Message-ID: <Yc9SDZM8k69SrwOf@pendragon.ideasonboard.com>
-References: <20211231160056.302276-1-marex@denx.de>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4865289BC0
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Jan 2022 01:42:21 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 63D7661827
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Jan 2022 01:42:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A115EC36AE9
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Jan 2022 01:42:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1641001339;
+ bh=FZtVo/fRcoyyp3psyNZ5qex8lBb71B6NDvgqDYp5F5Q=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=G4V/OUB4+FmNBO4BPkXcS1mslsg+DlEYiRbKF8Jwe94Fe01GVv6LoM2AUQYILFhJX
+ HtZhl/Sfz7eehZdATEKl1RcLH5p0AUkN7FYNPOE8bfXYmmQw1SdAAkTuis5F/BYKsI
+ xWv0jxDhbmebp1PCJsl3huesIFlUcUqJQPStedYFvtx4Q/k4brUcsXE0adzly1FBKf
+ VAnIu4pTwBeLWlRxYaISSh1hFIRBYoDx0X/lRXfF+wVYLw/sepWY/5Z3sgOwQ4Vwk7
+ zvwRzIvrDvCPZe2ypUBDYNj9q9yISuc4AJIBjdgYLgq0rgCMV2ToEvZgHwH8pPUVd2
+ pMx298BZREQLg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 832CFC05FCB; Sat,  1 Jan 2022 01:42:19 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 215436] admgpu: suspend and resuming from suspend don't work
+Date: Sat, 01 Jan 2022 01:42:19 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: superm1@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-215436-2300-u8XoHTrK33@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-215436-2300@https.bugzilla.kernel.org/>
+References: <bug-215436-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211231160056.302276-1-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,50 +71,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215436
 
-Thank you for the patch.
+Mario Limonciello (superm1@gmail.com) changed:
 
-On Fri, Dec 31, 2021 at 05:00:56PM +0100, Marek Vasut wrote:
-> When the device is unbound from the driver, the display may be active.
-> Make sure it gets shut down.
-> 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Stefan Agner <stefan@agner.ch>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/mxsfb/mxsfb_drv.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> index 86d78634a9799..6d7a3aeff50b0 100644
-> --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> @@ -374,6 +374,7 @@ static int mxsfb_remove(struct platform_device *pdev)
->  	struct drm_device *drm = platform_get_drvdata(pdev);
->  
->  	drm_dev_unregister(drm);
-> +	drm_atomic_helper_shutdown(drm);
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |superm1@gmail.com
 
-That looks reasonable. While at it, should you also implement the
-.shutdown driver operation ?
+--- Comment #10 from Mario Limonciello (superm1@gmail.com) ---
+current_status !=3D 0 causes rn_update_clocks to behave differently, basica=
+lly
+rn_vbios_smu_set_dcn_low_power_state can never get called.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+I wonder if we want to just not apply this WA as part of the suspend/resume
+paths, but only during the runtime paths?
 
->  	mxsfb_unload(drm);
->  	drm_dev_put(drm);
->  
+--=20
+You may reply to this email to add a comment.
 
--- 
-Regards,
-
-Laurent Pinchart
+You are receiving this mail because:
+You are watching the assignee of the bug.=
