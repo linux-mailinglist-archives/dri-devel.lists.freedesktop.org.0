@@ -2,62 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A59B2482FE6
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jan 2022 11:29:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3A4C482FE9
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jan 2022 11:30:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A86789FCC;
-	Mon,  3 Jan 2022 10:29:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9ED4A10E12B;
+	Mon,  3 Jan 2022 10:30:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E89D589FCC
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 10:29:51 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id A8F46B80E81
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 10:29:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 53EDAC36AF1
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 10:29:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1641205789;
- bh=s5z/oBAGE95wEFfl64WLgrPolQLj90vZu8mL0zPkjiQ=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=L+Bfw7LaFkCSpwooXxO8ERaLPKj11W94UVaK8STJ3s1aoddIIRWeacwfX/t1/WfZv
- 7aDb+kmQbxukLAS7uJQGZF2vIcC0fgt5fpkjEm0dxnrTs+SH8gfU6UNtqRvxtprMhm
- PyhU5K5j0DUScSxItjn3ZvUKWK1WlnHj/MObunGvxt4vQbZvRzBtgaokN2Z3oXqn0B
- QGA3ztgnt3yNY+boQ4N0kwjyEqBrElfUcK8RYUS/4MMkSBz4HhNCrWyuOCmUGbO5VR
- 7FWY+6UOA6elinFoB2Ujxfpo6mE4UThfTRUtwismj5GG7GBxOuAr0zOns0TDotHEt2
- Kfx8BJlykAZWw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 39AECC05FF4; Mon,  3 Jan 2022 10:29:49 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 215436] admgpu: suspend and resuming from suspend don't work
-Date: Mon, 03 Jan 2022 10:29:48 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: spasswolf@web.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-215436-2300-NZL96Cox51@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-215436-2300@https.bugzilla.kernel.org/>
-References: <bug-215436-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
+ [IPv6:2607:f8b0:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F10010E12B
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 10:30:47 +0000 (UTC)
+Received: by mail-pg1-x52f.google.com with SMTP id s1so28290916pga.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Jan 2022 02:30:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=bqezZ2/HwBTxC4hfR4A8RkBTbm8B6r0iUtltdIvH/WQ=;
+ b=K5BEbt9OjKO+nuqxpvzbIOlXKc6txbVTj2xfbbvgeXff1lHQfcdfbFdinIBNEq0EyO
+ Y1aCWLAj4I6N5aIbVrp02f36dabPmFWQ8BiKUWjxqHdsE1oXmAmDB33rNVwT2RaiAGS2
+ nDMYYHPmDL4PfdBErgwWs8EHct2Z3Z+uDPY9KZ/+H+TJncxI2Pexcrtxgj/DbqOXEIVt
+ PCegKTkSznNwgTdolMRZLUIKw/hxyb2wMSN8XWJT8egb0H8fLooQPDX5yVhfIahzMBJa
+ 23cSUeyaczkJ+xdjSYMP8Rzg70cKqDcxOZKBvM2STQF2+CH+UcTBs3UsOswcrji9OpBm
+ hKHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=bqezZ2/HwBTxC4hfR4A8RkBTbm8B6r0iUtltdIvH/WQ=;
+ b=B8eqUlmVGhJDkiYspxZ+WpwxH6eJfw5Jv2FbuB92MCwSid1+y27zs8M9gbdkKI4Rbi
+ Jz0ptkco/0akborDprdHgGOvi3qwI//jQnlLmxN6bXiLC6urwFoeFuDyp4iDloSQSrIV
+ gHg9iI7K+PazDcJy8if5lKN1pssK9gzXdSnuBp3sW87WMxet4fkwcAcs/0wG11nqa7NZ
+ ARHImXYH6DzAPghRiswcw2vZUR6wOnzAGuYOGfNKnEK6bppxzptSI7BuDlwLPzK+tMxI
+ P3w6qE/0TKk2l7ha3oloXR5ukvo47AI+JimEYM7KACXMehtoBRqEpzQdCtNeRF2s7lLW
+ 19pg==
+X-Gm-Message-State: AOAM530dzuQBHmd5Kvhl5PPmMMWMet817f6glXLGnnNb7AdUM9ywJI6c
+ 1ZA4eTPwvgkxOXb05a8KA9TFmkX+LBJ/3thidHJNnw==
+X-Google-Smtp-Source: ABdhPJzjmfkMpGxFmUpkFi1mKbOuAv2LnaShqmU2K2ivWzs/UE9RKuPtNoD834Rh8/Elsaluwf7Y0D03nF5Me2CLMTg=
+X-Received: by 2002:a63:6d3:: with SMTP id 202mr38562627pgg.324.1641205846920; 
+ Mon, 03 Jan 2022 02:30:46 -0800 (PST)
 MIME-Version: 1.0
+References: <4bc21aed4b60d3d5ac4b28d8b07a6fdd8da6a536.1640768126.git.christophe.jaillet@wanadoo.fr>
+ <YcyIidlnW4Sh6CGm@pendragon.ideasonboard.com>
+In-Reply-To: <YcyIidlnW4Sh6CGm@pendragon.ideasonboard.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Mon, 3 Jan 2022 11:30:35 +0100
+Message-ID: <CAG3jFys8i+D32BSmsLnSG2ArP+wwf-q7DtxoateX8Ln-5V5RtA@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/bridge: sn65dsi83: Fix an error handling path in
+ sn65dsi83_probe()
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,35 +63,12 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: marex@denx.de, dri-devel@lists.freedesktop.org, jonas@kwiboo.se,
+ airlied@linux.ie, narmstrong@baylibre.com, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, jernej.skrabec@gmail.com,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ frieder.schrempf@kontron.de, andrzej.hajda@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D215436
-
---- Comment #14 from spasswolf@web.de ---
-Created attachment 300212
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D300212&action=3Dedit
-dmesg with linux-5.16-rc8 while ignoring adev->in_s0ix
-
-Simply ignoring the value of adev->in_s0ix and calling reset anyway does not
-work either:
-Jan  3 11:23:51 lisa kernel: [   32.649142] amdgpu 0000:08:00.0: amdgpu:
-amdgpu_device_suspend(...) =3D 0
-Jan  3 11:23:51 lisa kernel: [   32.649146] amdgpu 0000:08:00.0: amdgpu:
-adev->in_s0ix =3D 1
-Jan  3 11:23:51 lisa kernel: [   32.649149] amdgpu 0000:08:00.0: amdgpu: MO=
-DE2
-reset
-Jan  3 11:23:51 lisa kernel: [   37.404614] amdgpu 0000:08:00.0: amdgpu: Mo=
-de2
-reset failed!
-Jan  3 11:23:51 lisa kernel: [   37.404616] PM: pci_pm_suspend():
-amdgpu_pmops_suspend+0x0/0x60 [amdgpu] returns -62
-Jan  3 11:23:51 lisa kernel: [   37.404733] PM: dpm_run_callback():
-pci_pm_suspend+0x0/0x150 returns -62
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Applied to drm-misc-next
