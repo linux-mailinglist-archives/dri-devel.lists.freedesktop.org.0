@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E72BB48365A
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jan 2022 18:41:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2908C48365B
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jan 2022 18:41:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1326389ED6;
-	Mon,  3 Jan 2022 17:41:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F80E89F6B;
+	Mon,  3 Jan 2022 17:41:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
- [IPv6:2607:f8b0:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D81C289ED6
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 17:41:14 +0000 (UTC)
-Received: by mail-oi1-x235.google.com with SMTP id j124so56009143oih.12
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Jan 2022 09:41:14 -0800 (PST)
+Received: from mail-oo1-xc2e.google.com (mail-oo1-xc2e.google.com
+ [IPv6:2607:f8b0:4864:20::c2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCFD389ED6
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 17:41:15 +0000 (UTC)
+Received: by mail-oo1-xc2e.google.com with SMTP id
+ v30-20020a4a315e000000b002c52d555875so10915473oog.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Jan 2022 09:41:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VZ4pKJgHsszMmcqxTz1e+5J5GZb7zq4y2dI8h4ugrSY=;
- b=YqgRNy3e/LDUOv8XRjOC5UCx/aMjg8XEFlch8mDRHtVonQ0ZV8/jgNeUhfCGanH6Yo
- PolYxAhADfVX5zn+L85oXP59jRHEH3OWIw0ra72++3eNKCE5loKqmsGcSJskgE/gEkdB
- y0xq40RazAiQZkwllA3+Z2UsswfVL7W+LDSVEkuaoPhhBvZM0dVi+3AgZCwQBD9V6Jb8
- obDSQuc9G2neTlnpkfLf40Zh0/pg59s5SDjvWMmBA8rlr+bgJvBbX8z/m72Gw91BMxIQ
- qONRiHNhAEwXx6f1qtoPyRR4/kVh5pohN4of1ICA4zT+wmu75SrDOVSmPB1kG+ANKahv
- uGpg==
+ bh=F97Z9MZZpfYYxOf9tOkgxm3NqcNPkDJulog1JYW2wkA=;
+ b=dOtxezKa29TR5UHXkO0ngMZqU94ibNi/K3SMr2BwvdmXMEcuDpozQZ0ff+rGyk8QHf
+ c90HT7xjFDAzAh3bKvKZnZMZ8oN58RRqt5TOUdrsWPz1fIc5dgXRGw4OVCuBBABOIjtp
+ qw6zn4WvaDh6Fd/pS8T9N1WA1IEv7QYVs954yLO7DNFPVClvx/aea97kafU9UpIHD4RA
+ HpugxMhyOKayXf1vlEoHxeFzp8TFzmVKIiMJG0N2yVAfCtOjei+yTXgqksP4AbqDoM87
+ j1WXrlzE4QbnH2IgdhwM8RRR9r/FeI9+PFTojQZ056Pxz8K0d6Nv/TgdJokiolKS+ZMz
+ wh+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VZ4pKJgHsszMmcqxTz1e+5J5GZb7zq4y2dI8h4ugrSY=;
- b=Z7l4mf7g7h2YluGTSH+zUKwzP8lrBvt45w6uU3BOedyHkFkWznwnQxVTj7ZDeWZStR
- rpFxxQgTJdBunRyfLLPBx0AqR7QjfKtFMyu04oagCADAU/cfcCH1x6iqfqipbV6hPPJ0
- FwpCH1q7j89vleFAVNOfqwGSzc+NZxilWinU27gIUImQGoNbULYkqadAj/JP/GaEYL4f
- FjDyPNmoUYxE0dobMfnp0ekM/Kxt9y5AC8LXvnHwjQa4Te5xV4vVDY/HSHr4XBJ1VBEG
- sqmE8s412yWJLPsnBPmvL8EmXTwK2vJCQHdkVa1hYD9oPYCP2QuJguGLD0XrMrClZ6T9
- u0og==
-X-Gm-Message-State: AOAM530z+0ZjVsQ7eWhRRW1GtmkePEAkrN1pQclpbnmB8v+faL4dRwTF
- rHG7ovoB4Us7ftBGYAMg6O8+97pzkC4=
-X-Google-Smtp-Source: ABdhPJzeYvLlwXl15IEw/VEUtGL2Fa1RxgEybGYDznRop7dqPJrIOeGezTOjoXD8KXTfOj0biVEzOQ==
-X-Received: by 2002:a54:4710:: with SMTP id k16mr34933036oik.32.1641231673843; 
- Mon, 03 Jan 2022 09:41:13 -0800 (PST)
+ bh=F97Z9MZZpfYYxOf9tOkgxm3NqcNPkDJulog1JYW2wkA=;
+ b=p/XUvO9n1recs3IWYpL/Eyygl1D/yg+UwknUW2hjK6zcimyrmgSrVrkaEsY/K5NrGq
+ gzUBXcyjL7Vux2LciwRIE5cB14L9R2gbQv57r66fx/e7/8i8IUgt7i4Sj65s4d+lAry1
+ Bt1xnYAaBb/cHBu1aOUfNqYHU/Jvu+wsA098Y/rZ84JN400nnwVjuNKlDtj45bYhKn26
+ ZHCuMQnu/pmm5g4iurtvyb2ihf1kEF43nR8lk3Z3mp61W8LOIsONkdNbjigtAAnZgJyd
+ XYHneSjkfyOHpnVTD+AT8NpkUhgpZmi13OniF3olt8azj6ZFD9mAuVQgLgBKzlvoadjt
+ kAxA==
+X-Gm-Message-State: AOAM532mgJJpTK6Igh+kMTlvyK0ZzwlvYL7ViCsU5rGF3Uo6G1JG3A8Q
+ IZIFVIUd4XKI3rjbAiSlo7dwIsTfBBU=
+X-Google-Smtp-Source: ABdhPJwhLZm58BF48DzWth3dk9AzV0nqspsGlOg2xF4GseTe775h725SnrX2OOATigfI2ja3r0QI6A==
+X-Received: by 2002:a4a:ab05:: with SMTP id i5mr29072440oon.61.1641231674801; 
+ Mon, 03 Jan 2022 09:41:14 -0800 (PST)
 Received: from wintermute.localdomain (cpe-76-183-134-35.tx.res.rr.com.
  [76.183.134.35])
- by smtp.gmail.com with ESMTPSA id s6sm9368864ois.3.2022.01.03.09.41.12
+ by smtp.gmail.com with ESMTPSA id s6sm9368864ois.3.2022.01.03.09.41.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Jan 2022 09:41:13 -0800 (PST)
+ Mon, 03 Jan 2022 09:41:14 -0800 (PST)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/5] media: uapi: add MEDIA_BUS_FMT_RGB565_1X24_CPADHI
-Date: Mon,  3 Jan 2022 11:41:03 -0600
-Message-Id: <20220103174106.907-3-macroalpha82@gmail.com>
+Subject: [PATCH 3/5] dt-bindings: display: simple: add Geekworm MZP280 Panel
+Date: Mon,  3 Jan 2022 11:41:04 -0600
+Message-Id: <20220103174106.907-4-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220103174106.907-1-macroalpha82@gmail.com>
 References: <20220103174106.907-1-macroalpha82@gmail.com>
@@ -77,34 +78,36 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Add the MEDIA_BUS_FMT_RGB565_1X24_CPADHI format used by the Geekworm
-MZP280 panel for the Raspberry Pi.
+The Geekworm MZP280 panel is a 480x640 (portrait) panel with a
+capacitive touch interface and a 40 pin header meant to interface
+directly with the Raspberry Pi. The screen is 2.8 inches diagonally,
+and there appear to be at least 4 distinct versions all with the same
+panel timings.
+
+Timings were derived from drivers posted on the github located here:
+https://github.com/tianyoujian/MZDPI/tree/master/vga
+
+Additional details about this panel family can be found here:
+https://wiki.geekworm.com/2.8_inch_Touch_Screen_for_Pi_zero
 
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 ---
- include/uapi/linux/media-bus-format.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
-index 0dfc11ee243a..a7b7654985ee 100644
---- a/include/uapi/linux/media-bus-format.h
-+++ b/include/uapi/linux/media-bus-format.h
-@@ -34,13 +34,14 @@
- 
- #define MEDIA_BUS_FMT_FIXED			0x0001
- 
--/* RGB - next is	0x101e */
-+/* RGB - next is	0x101f */
- #define MEDIA_BUS_FMT_RGB444_1X12		0x1016
- #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE	0x1001
- #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE	0x1002
- #define MEDIA_BUS_FMT_RGB555_2X8_PADHI_BE	0x1003
- #define MEDIA_BUS_FMT_RGB555_2X8_PADHI_LE	0x1004
- #define MEDIA_BUS_FMT_RGB565_1X16		0x1017
-+#define MEDIA_BUS_FMT_RGB565_1X24_CPADHI	0x101e
- #define MEDIA_BUS_FMT_BGR565_2X8_BE		0x1005
- #define MEDIA_BUS_FMT_BGR565_2X8_LE		0x1006
- #define MEDIA_BUS_FMT_RGB565_2X8_BE		0x1007
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index f3c9395d23b6..659db7206c96 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -148,6 +148,8 @@ properties:
+       - frida,frd350h54004
+         # FriendlyELEC HD702E 800x1280 LCD panel
+       - friendlyarm,hd702e
++        # Geekworm MZP280 2.8" 480x640 LCD panel with capacitive touch
++      - geekworm,mzp280
+         # GiantPlus GPG48273QS5 4.3" (480x272) WQVGA TFT LCD panel
+       - giantplus,gpg48273qs5
+         # GiantPlus GPM940B0 3.0" QVGA TFT LCD panel
 -- 
 2.25.1
 
