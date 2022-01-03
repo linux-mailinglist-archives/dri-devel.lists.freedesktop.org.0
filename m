@@ -1,70 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 824DA4830FD
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jan 2022 13:24:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7958483103
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jan 2022 13:30:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C98B710E15D;
-	Mon,  3 Jan 2022 12:24:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 778D510E26B;
+	Mon,  3 Jan 2022 12:29:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9614610E15D
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 12:24:37 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- g7-20020a7bc4c7000000b00345c4bb365aso18301868wmk.4
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Jan 2022 04:24:37 -0800 (PST)
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
+ [IPv6:2607:f8b0:4864:20::734])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3058510E26B
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 12:29:57 +0000 (UTC)
+Received: by mail-qk1-x734.google.com with SMTP id b85so31095912qkc.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Jan 2022 04:29:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=fPyh02WKyhlLdOzBJxhe/AtlHRa+RMJ3Fx1lN0POwGI=;
- b=jCfJIyv5VYDTqzr3GLGtL0BeIbN25t8cts/aGkGFVXFxxI2nkmwNrN/YKYniFKokGl
- T5jYBTHsPz0Op5SQG5n0AGMbkeZvGVaOr1gSJmcGyZPT5Tc+v4esBs/B9v5mETH0Lmp1
- /Jdn2+vuSMYiKSA3X2wo3gutG+lJY8VDXgbd6yBGdq/ruNpYs4r4j4Idkc5xGdeRmZc9
- xgdm0gUern3AH9tIRT3l6J2jHAyhYI3ZRO9EZLoNDbjmvpUljljZiMTiw5R/CTKaQrpq
- TSaOT+2bZsVFrpFF60N6L7LuUq5qb5cz9192VGVuVKp2/5ybm96q9vEx4O/WcdZaatej
- 9HAg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0CxFujlh28c7CKjIEL2Qf4pbTqTcdELNP8dgbFoyKTU=;
+ b=j460XRO1VwFhPFWeLwJY7zhQ/84UA+ZeDyqmxco+c1eEkIPyWsC5vAIMeA0ipt3dIY
+ 3Wi14OxZeDb3wR0iDQJQ3WFzVFOiLl4uEFncZraSR0IrDQiIAcEm6Hw4MoUPqw4QbmFu
+ DtOPyewYxk1+DOn+4ge9IZA/4mqPIEo3aRAVHaA8dwx5pC8oaBRxs0ZP40knCLCxJkOt
+ GW58T7TmKEuxMpGKfV808rlCEi7tZ9bnZFQZoYLHoiwVNcsjc+XRmk4NnnFRnKRVFIyj
+ NSS5KJX1FL7Buwz8RgVOSbg/49Gew6f3Jj38hnxLK01ejyJDwUpU7wpgnNdKmQFtwkef
+ LnYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=fPyh02WKyhlLdOzBJxhe/AtlHRa+RMJ3Fx1lN0POwGI=;
- b=nfInyK3YqIuolnyZm+gFCUB5EX3YjCAXefeMRMV2+EvdDhoXtNzTod72Vg7Hkc776h
- UwbA4SxoYsDPf/ED5wFYyLqM5B4fJysv7bKTRNH8gDNhGG85MO22zj4VVek5H+5UDeBU
- YJV3sUKDOv87g6I4TPOKZLcOW63UzT9XY59M7XfxVSMFRl0DMkFqAmboSimS12d5n0v6
- Wg8svvrf8Fg/W8vdA6627iLIRKAtOgyXG58fHecb+m7kah6x8H7AnfhpwwNiVXIfGLYQ
- vzWUYRQgitm0ZW07CcWxzi1zk4CF5kGxSQ3wlDepE7QDwA4Vrd+GqvwSJrt52CDnje2H
- ACDA==
-X-Gm-Message-State: AOAM5310pBt8z/qPQRhothe7b2SrIvsM00JUHgG9K/Hbs0panzztzD9Y
- VNvl2tBpaTigfeUw4QD8vkE=
-X-Google-Smtp-Source: ABdhPJxFptxVTR9FMOpISbuLIGa/Nbhx38Xp92VKcc2aenJW0S8G6mDTOJ0duIdmv0C747lM25+H0A==
-X-Received: by 2002:a05:600c:4e08:: with SMTP id
- b8mr38529644wmq.31.1641212676161; 
- Mon, 03 Jan 2022 04:24:36 -0800 (PST)
-Received: from ?IPv6:2a02:908:1252:fb60:4bf5:8542:f955:f736?
- ([2a02:908:1252:fb60:4bf5:8542:f955:f736])
- by smtp.gmail.com with ESMTPSA id p11sm39567159wru.99.2022.01.03.04.24.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Jan 2022 04:24:35 -0800 (PST)
-Subject: Re: [PATCH 11/24] drm/amdgpu: use dma_resv_for_each_fence for CS
- workaround
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20211207123411.167006-1-christian.koenig@amd.com>
- <20211207123411.167006-12-christian.koenig@amd.com>
- <YcOapBWDYQj5hKRn@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <10dd0d62-b80a-f7ef-4964-e0e13fe12400@gmail.com>
-Date: Mon, 3 Jan 2022 13:24:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0CxFujlh28c7CKjIEL2Qf4pbTqTcdELNP8dgbFoyKTU=;
+ b=ugPTCUZt05Oxc/hIIPFYPRKdtOSjoTzmgdJ5xMkR31q8L8/W+FGkmBq7ADkMHQOltj
+ pCQ4cNuIACkpJ1pG2t0AZrgMS/Oh0gbL6zpYl09UE3ZXQcFPTGrfDwy1H9bMf4mTf55u
+ q8i4+nafM2eJUj96eCeKvx/ahdA1w01GpcY2/AhyhJrquf9nuMag1HOcLj2JA5qyyD/N
+ z/mcX7vnDpTdrJydzTA2UsmbMQeUPK9EdANGa0fMFtR7bReHU6vaCgTCeEe/a9qBh0yh
+ 7E/GHvaonqEXz13SrHY9fMmym5bFjkk9nuCGGD1pMDJfZpQ0WAf7/wsIKw5hL66xrEyi
+ iskQ==
+X-Gm-Message-State: AOAM53006u4bpz07uKbS0nn437KiSQKAQ8eNOHl/lustlXRHyhPuyRbC
+ z3VTpuTES7Fg+rqiDXHoMLs=
+X-Google-Smtp-Source: ABdhPJy7vWNk3riOslCCsbwkq+9jk+3z6dwC4hyhzK357zja5ALtcsg/dPTn0jZ0VSex3g10qsJz2g==
+X-Received: by 2002:a05:620a:298a:: with SMTP id
+ r10mr31687939qkp.381.1641212996276; 
+ Mon, 03 Jan 2022 04:29:56 -0800 (PST)
+Received: from localhost.localdomain ([2804:14c:485:504a:9fae:13de:8196:cc8c])
+ by smtp.gmail.com with ESMTPSA id
+ h3sm28364424qko.78.2022.01.03.04.29.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Jan 2022 04:29:55 -0800 (PST)
+From: Fabio Estevam <festevam@gmail.com>
+To: linux@armlinux.org.uk
+Subject: [PATCH v2 1/2] drm/i2c/tda998x: Switch to atomic operations
+Date: Mon,  3 Jan 2022 09:29:40 -0300
+Message-Id: <20220103122941.371578-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <YcOapBWDYQj5hKRn@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,69 +67,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
+Cc: marex@denx.de, dri-devel@lists.freedesktop.org,
+ laurent.pinchart@ideasonboard.com, tomm.merciai@gmail.com,
+ pbrobinson@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Use the atomic version of the enable/disable operations to continue the
+transition to the atomic API, started with the introduction of
+.atomic_get_input_bus_fmts(). This will be needed to access the mode
+from the atomic state.
 
+Based on Laurent's commit a6ea7d268a63("drm: bridge: ti-sn65dsi83:
+Switch to atomic operations").
 
-Am 22.12.21 um 22:37 schrieb Daniel Vetter:
-> On Tue, Dec 07, 2021 at 01:33:58PM +0100, Christian König wrote:
->> Get the write fence using dma_resv_for_each_fence instead of accessing
->> it manually.
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 9 ++++++---
->>   1 file changed, 6 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->> index 53e407ea4c89..7facd614e50a 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
->> @@ -1268,6 +1268,8 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
->>   	amdgpu_bo_list_for_each_entry(e, p->bo_list) {
->>   		struct dma_resv *resv = e->tv.bo->base.resv;
->>   		struct dma_fence_chain *chain = e->chain;
->> +		struct dma_resv_iter cursor;
->> +		struct dma_fence *fence;
->>   
->>   		if (!chain)
->>   			continue;
->> @@ -1277,9 +1279,10 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
->>   		 * submission in a dma_fence_chain and add it as exclusive
->>   		 * fence.
->>   		 */
->> -		dma_fence_chain_init(chain, dma_resv_excl_fence(resv),
->> -				     dma_fence_get(p->fence), 1);
->> -
->> +		dma_resv_for_each_fence(&cursor, resv, false, fence) {
->> +			break;
->> +		}
->> +		dma_fence_chain_init(chain, fence, dma_fence_get(p->fence), 1);
-> Uh this needs a TODO. I'm assuming you'll fix this up later on when
-> there's more than write fence, but in case of bisect or whatever this is a
-> bit too clever. Like you just replace one "dig around in dma-resv
-> implementation details" with one that's not even a documented interface
-> :-)
+Tested on a imx6sx-udoo-neo board.
 
-Ah, yes. There is a rather big TODO just above this, but I should 
-probably make that even more stronger.
+Suggested-by: Marek Vasut <marex@denx.de>
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+Changes since v1:
 
->
-> With an adequately loud comment added interim:
->
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+- Move .atomic_duplicate_state,.atomic_destroy_state .atomic_reset from
+patch 2/2 to 1/2. (Laurent)
 
-Thanks,
-Christian.
+ drivers/gpu/drm/i2c/tda998x_drv.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
->
->>   		rcu_assign_pointer(resv->fence_excl, &chain->base);
->>   		e->chain = NULL;
->>   	}
->> -- 
->> 2.25.1
->>
+diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/tda998x_drv.c
+index b7ec6c374fbd..45d52b8a4026 100644
+--- a/drivers/gpu/drm/i2c/tda998x_drv.c
++++ b/drivers/gpu/drm/i2c/tda998x_drv.c
+@@ -1395,7 +1395,8 @@ static enum drm_mode_status tda998x_bridge_mode_valid(struct drm_bridge *bridge,
+ 	return MODE_OK;
+ }
+ 
+-static void tda998x_bridge_enable(struct drm_bridge *bridge)
++static void tda998x_bridge_atomic_enable(struct drm_bridge *bridge,
++					  struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct tda998x_priv *priv = bridge_to_tda998x_priv(bridge);
+ 
+@@ -1413,7 +1414,8 @@ static void tda998x_bridge_enable(struct drm_bridge *bridge)
+ 	}
+ }
+ 
+-static void tda998x_bridge_disable(struct drm_bridge *bridge)
++static void tda998x_bridge_atomic_disable(struct drm_bridge *bridge,
++					   struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct tda998x_priv *priv = bridge_to_tda998x_priv(bridge);
+ 
+@@ -1680,9 +1682,12 @@ static const struct drm_bridge_funcs tda998x_bridge_funcs = {
+ 	.attach = tda998x_bridge_attach,
+ 	.detach = tda998x_bridge_detach,
+ 	.mode_valid = tda998x_bridge_mode_valid,
+-	.disable = tda998x_bridge_disable,
++	.atomic_disable = tda998x_bridge_atomic_disable,
+ 	.mode_set = tda998x_bridge_mode_set,
+-	.enable = tda998x_bridge_enable,
++	.atomic_enable = tda998x_bridge_atomic_enable,
++	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
++	.atomic_reset = drm_atomic_helper_bridge_reset,
+ };
+ 
+ /* I2C driver functions */
+-- 
+2.25.1
 
