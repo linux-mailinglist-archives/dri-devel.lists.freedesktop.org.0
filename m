@@ -1,58 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7958483103
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jan 2022 13:30:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A8A2483104
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jan 2022 13:30:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 778D510E26B;
-	Mon,  3 Jan 2022 12:29:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB2EA10E25A;
+	Mon,  3 Jan 2022 12:30:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
- [IPv6:2607:f8b0:4864:20::734])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3058510E26B
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 12:29:57 +0000 (UTC)
-Received: by mail-qk1-x734.google.com with SMTP id b85so31095912qkc.1
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Jan 2022 04:29:57 -0800 (PST)
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com
+ [IPv6:2607:f8b0:4864:20::736])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D35C010E26E
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 12:29:59 +0000 (UTC)
+Received: by mail-qk1-x736.google.com with SMTP id w27so24970250qkj.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Jan 2022 04:29:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0CxFujlh28c7CKjIEL2Qf4pbTqTcdELNP8dgbFoyKTU=;
- b=j460XRO1VwFhPFWeLwJY7zhQ/84UA+ZeDyqmxco+c1eEkIPyWsC5vAIMeA0ipt3dIY
- 3Wi14OxZeDb3wR0iDQJQ3WFzVFOiLl4uEFncZraSR0IrDQiIAcEm6Hw4MoUPqw4QbmFu
- DtOPyewYxk1+DOn+4ge9IZA/4mqPIEo3aRAVHaA8dwx5pC8oaBRxs0ZP40knCLCxJkOt
- GW58T7TmKEuxMpGKfV808rlCEi7tZ9bnZFQZoYLHoiwVNcsjc+XRmk4NnnFRnKRVFIyj
- NSS5KJX1FL7Buwz8RgVOSbg/49Gew6f3Jj38hnxLK01ejyJDwUpU7wpgnNdKmQFtwkef
- LnYw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=s4Y0TL/KovMUJRfnkVjTV4iJmVFv/tcSjBhNJ8lA3Pc=;
+ b=hj97S6rr4TjD+9VMmgLYkaPb/vSbfj61Nc++Gb9ZrOiR1/TdIc3PCvfc/WBV9YDFTW
+ t2FwppWgecmAN0l4CiXMIWzdSpAtKsZLrDU3jrz+u88ehT2075qlq/KRAQHpfucR5T6S
+ IyykJmSzV/wGoKGHe+A1bFhyY+CiMUd8+pPdboSKnCBqROjMjITx9brDuRIFiB1dA0hf
+ +zj0mAxpHGKrB74UpH6j6+PZtEa8Hzxy/1jWjuc+ySalWsRZqKOwWRdXmFLBsJZQDYCM
+ k3KR1j1wATjp0K4XEiEoeMDw/qam65atqWbo8pc8ZsoETxC6xdp16O0ytmTBJbinHnqp
+ iGRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0CxFujlh28c7CKjIEL2Qf4pbTqTcdELNP8dgbFoyKTU=;
- b=ugPTCUZt05Oxc/hIIPFYPRKdtOSjoTzmgdJ5xMkR31q8L8/W+FGkmBq7ADkMHQOltj
- pCQ4cNuIACkpJ1pG2t0AZrgMS/Oh0gbL6zpYl09UE3ZXQcFPTGrfDwy1H9bMf4mTf55u
- q8i4+nafM2eJUj96eCeKvx/ahdA1w01GpcY2/AhyhJrquf9nuMag1HOcLj2JA5qyyD/N
- z/mcX7vnDpTdrJydzTA2UsmbMQeUPK9EdANGa0fMFtR7bReHU6vaCgTCeEe/a9qBh0yh
- 7E/GHvaonqEXz13SrHY9fMmym5bFjkk9nuCGGD1pMDJfZpQ0WAf7/wsIKw5hL66xrEyi
- iskQ==
-X-Gm-Message-State: AOAM53006u4bpz07uKbS0nn437KiSQKAQ8eNOHl/lustlXRHyhPuyRbC
- z3VTpuTES7Fg+rqiDXHoMLs=
-X-Google-Smtp-Source: ABdhPJy7vWNk3riOslCCsbwkq+9jk+3z6dwC4hyhzK357zja5ALtcsg/dPTn0jZ0VSex3g10qsJz2g==
-X-Received: by 2002:a05:620a:298a:: with SMTP id
- r10mr31687939qkp.381.1641212996276; 
- Mon, 03 Jan 2022 04:29:56 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=s4Y0TL/KovMUJRfnkVjTV4iJmVFv/tcSjBhNJ8lA3Pc=;
+ b=402OqTe5bzsn8MqDpUwWW7IIeS9eTxnkYNOIu2W26Bc1RQPPj1zZawDZL1IgtjkwgL
+ aWeBUvN9FpCQ1p4OhoW+PhmH9KVg54RN77y1SZTpteQZARV0dH0vNx+BhwvEWh/Tvqx8
+ XvVNzk6jNnz8uRd1TCcEG2jv4ey8K5YH+QbA4+Bk9zJSksuKZH9leSOLYJJixCDzYr46
+ 1FzVw4wAd+IQIpWUp5+YEvEpg01e69Ul7sOIpZmnqUVp77PDpj2K7lj6kjLsz+YaQxDu
+ tO3ppLVBHnOq8mElHJTg6R/W/IHAeDE1RTzfEmy1DgdKE1LvRVjULILacahs6LsEoGS3
+ MSKg==
+X-Gm-Message-State: AOAM532hT/gMRVLHe34JzY+Ygou0cS+LpGRxRcTHqSqlVv257x9hvObD
+ 8xVFnKEQDgOOytKecvMdNLc=
+X-Google-Smtp-Source: ABdhPJwXBYe9L4d4QhQC3kCMAPLi6aGHEL4UzYCFt8jnuYgUsNzFEqTL+x8+vNPluhgPlR6umzebRg==
+X-Received: by 2002:a05:620a:2586:: with SMTP id
+ x6mr30392022qko.15.1641212998983; 
+ Mon, 03 Jan 2022 04:29:58 -0800 (PST)
 Received: from localhost.localdomain ([2804:14c:485:504a:9fae:13de:8196:cc8c])
  by smtp.gmail.com with ESMTPSA id
- h3sm28364424qko.78.2022.01.03.04.29.53
+ h3sm28364424qko.78.2022.01.03.04.29.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Jan 2022 04:29:55 -0800 (PST)
+ Mon, 03 Jan 2022 04:29:58 -0800 (PST)
 From: Fabio Estevam <festevam@gmail.com>
 To: linux@armlinux.org.uk
-Subject: [PATCH v2 1/2] drm/i2c/tda998x: Switch to atomic operations
-Date: Mon,  3 Jan 2022 09:29:40 -0300
-Message-Id: <20220103122941.371578-1-festevam@gmail.com>
+Subject: [PATCH v2 2/2] drm/i2c/tda998x: Implement atomic_get_input_bus_fmts
+Date: Mon,  3 Jan 2022 09:29:41 -0300
+Message-Id: <20220103122941.371578-2-festevam@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220103122941.371578-1-festevam@gmail.com>
+References: <20220103122941.371578-1-festevam@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,13 +75,11 @@ Cc: marex@denx.de, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the atomic version of the enable/disable operations to continue the
-transition to the atomic API, started with the introduction of
-.atomic_get_input_bus_fmts(). This will be needed to access the mode
-from the atomic state.
+Implement the .atomic_get_input_bus_fmts callback to let the bridge
+indicate the pixel format it requires on the parallel bus to the LCDIF.
 
-Based on Laurent's commit a6ea7d268a63("drm: bridge: ti-sn65dsi83:
-Switch to atomic operations").
+Based on Marek's commit db8b7ca5b232 ("drm/bridge: ti-sn65dsi83: Replace
+connector format patching with atomic_get_input_bus_fmts").
 
 Tested on a imx6sx-udoo-neo board.
 
@@ -92,45 +92,50 @@ Changes since v1:
 - Move .atomic_duplicate_state,.atomic_destroy_state .atomic_reset from
 patch 2/2 to 1/2. (Laurent)
 
- drivers/gpu/drm/i2c/tda998x_drv.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/i2c/tda998x_drv.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
 diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/tda998x_drv.c
-index b7ec6c374fbd..45d52b8a4026 100644
+index 45d52b8a4026..d987481e97c1 100644
 --- a/drivers/gpu/drm/i2c/tda998x_drv.c
 +++ b/drivers/gpu/drm/i2c/tda998x_drv.c
-@@ -1395,7 +1395,8 @@ static enum drm_mode_status tda998x_bridge_mode_valid(struct drm_bridge *bridge,
- 	return MODE_OK;
+@@ -1678,6 +1678,31 @@ static void tda998x_bridge_mode_set(struct drm_bridge *bridge,
+ 	mutex_unlock(&priv->audio_mutex);
  }
  
--static void tda998x_bridge_enable(struct drm_bridge *bridge)
-+static void tda998x_bridge_atomic_enable(struct drm_bridge *bridge,
-+					  struct drm_bridge_state *old_bridge_state)
- {
- 	struct tda998x_priv *priv = bridge_to_tda998x_priv(bridge);
- 
-@@ -1413,7 +1414,8 @@ static void tda998x_bridge_enable(struct drm_bridge *bridge)
- 	}
- }
- 
--static void tda998x_bridge_disable(struct drm_bridge *bridge)
-+static void tda998x_bridge_atomic_disable(struct drm_bridge *bridge,
-+					   struct drm_bridge_state *old_bridge_state)
- {
- 	struct tda998x_priv *priv = bridge_to_tda998x_priv(bridge);
- 
-@@ -1680,9 +1682,12 @@ static const struct drm_bridge_funcs tda998x_bridge_funcs = {
++#define MAX_INPUT_SEL_FORMATS  1
++
++static u32 *
++tda998x_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
++				   struct drm_bridge_state *bridge_state,
++				   struct drm_crtc_state *crtc_state,
++				   struct drm_connector_state *conn_state,
++				   u32 output_fmt,
++				   unsigned int *num_input_fmts)
++{
++	u32 *input_fmts;
++
++	*num_input_fmts = 0;
++
++	input_fmts = kcalloc(MAX_INPUT_SEL_FORMATS, sizeof(*input_fmts),
++			     GFP_KERNEL);
++	if (!input_fmts)
++		return NULL;
++
++	input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
++	*num_input_fmts = 1;
++
++	return input_fmts;
++}
++
+ static const struct drm_bridge_funcs tda998x_bridge_funcs = {
  	.attach = tda998x_bridge_attach,
  	.detach = tda998x_bridge_detach,
- 	.mode_valid = tda998x_bridge_mode_valid,
--	.disable = tda998x_bridge_disable,
-+	.atomic_disable = tda998x_bridge_atomic_disable,
- 	.mode_set = tda998x_bridge_mode_set,
--	.enable = tda998x_bridge_enable,
-+	.atomic_enable = tda998x_bridge_atomic_enable,
-+	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-+	.atomic_reset = drm_atomic_helper_bridge_reset,
+@@ -1688,6 +1713,7 @@ static const struct drm_bridge_funcs tda998x_bridge_funcs = {
+ 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+ 	.atomic_reset = drm_atomic_helper_bridge_reset,
++	.atomic_get_input_bus_fmts = tda998x_atomic_get_input_bus_fmts,
  };
  
  /* I2C driver functions */
