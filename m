@@ -2,58 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43E52483659
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jan 2022 18:41:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E72BB48365A
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jan 2022 18:41:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD75089ECD;
-	Mon,  3 Jan 2022 17:41:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1326389ED6;
+	Mon,  3 Jan 2022 17:41:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com
- [IPv6:2607:f8b0:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBE4389EB8
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 17:41:13 +0000 (UTC)
-Received: by mail-ot1-x336.google.com with SMTP id
- n17-20020a9d64d1000000b00579cf677301so3572196otl.8
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Jan 2022 09:41:13 -0800 (PST)
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
+ [IPv6:2607:f8b0:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D81C289ED6
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 17:41:14 +0000 (UTC)
+Received: by mail-oi1-x235.google.com with SMTP id j124so56009143oih.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Jan 2022 09:41:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/Pzkzaoed+K47iHzaJqEhqLiGfQj1VjXXbz9ZoyhQM0=;
- b=N6L2Ul7QUEenkPjRRgv/l6IEDTgLVat5tiL3JhKcO8EN6eyPC7yPPDb7ClKjbX8fL1
- TlGaFOd4Rb2+njXayCuojgatKJz1pwthpsDRtO/keYimWZUqLGmeRgC3v3IxurUrRnDY
- PUQ2VKcvLz35Kq/8CRoBJidQHfPE8xHLXMD/uJ5b30RaOSwPSWwDqG6uACd7rgcJQTHI
- NrE/Gg2Lz89JIkWScXtLslDMrKKyoiwDIeHhzO2lIFsv068fMowOl6yx6zvnTH52ES4e
- SlqOUlPRZQEoqGptgSUcrE75VwooWfQ1I6T9RMgFEC9FQfLOZJvutqj2m4n3gMx3drTY
- lULA==
+ bh=VZ4pKJgHsszMmcqxTz1e+5J5GZb7zq4y2dI8h4ugrSY=;
+ b=YqgRNy3e/LDUOv8XRjOC5UCx/aMjg8XEFlch8mDRHtVonQ0ZV8/jgNeUhfCGanH6Yo
+ PolYxAhADfVX5zn+L85oXP59jRHEH3OWIw0ra72++3eNKCE5loKqmsGcSJskgE/gEkdB
+ y0xq40RazAiQZkwllA3+Z2UsswfVL7W+LDSVEkuaoPhhBvZM0dVi+3AgZCwQBD9V6Jb8
+ obDSQuc9G2neTlnpkfLf40Zh0/pg59s5SDjvWMmBA8rlr+bgJvBbX8z/m72Gw91BMxIQ
+ qONRiHNhAEwXx6f1qtoPyRR4/kVh5pohN4of1ICA4zT+wmu75SrDOVSmPB1kG+ANKahv
+ uGpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/Pzkzaoed+K47iHzaJqEhqLiGfQj1VjXXbz9ZoyhQM0=;
- b=xvPNviOyMxtuyGTx6xOiTBtYVPSZJjNtO4ji1rPxJpTeoJHv8JwR/8LT4lkDKHinVC
- ndtyDhYkyd6wVfgtSvnVpPTE4f4iGeFx/a5wmlFvTAyKj0PAyKzbzx+qu1KD/A5ykS29
- 850/28l++3V6fy7ZEba9Ro4d20UILGv7L9Qdxcfo2tUCy+ouJd03JSKqEAIOAmUxzzw+
- hIVX90cmHMUDi2dn9TroInySIgm6SWThU8Jvw9oVKKINEGOXPMnECMZk0xZaI7T1cuyl
- Fi51jsmtyLM2RKX1YQ8YSUKEuUaNYk9Yf21E5td5OKixSEUF+Pj/nzUsXMCd6fPVbRH3
- A1XA==
-X-Gm-Message-State: AOAM531AkBlN9xOTdghnfdUvJTLsbj7hJRQgExLS1NpVPJ4RLskdpyFc
- /YdqsBs50gvYdC8JqLAJxKJ/irysHp0=
-X-Google-Smtp-Source: ABdhPJzzHFYQdiomeKRM6SW3QFSrviE/xKfuh0Ybmx4FgCL4JPezJHvj5LjmALlzjT8DjqAchO4GMg==
-X-Received: by 2002:a05:6830:1d45:: with SMTP id
- p5mr33263761oth.350.1641231672859; 
- Mon, 03 Jan 2022 09:41:12 -0800 (PST)
+ bh=VZ4pKJgHsszMmcqxTz1e+5J5GZb7zq4y2dI8h4ugrSY=;
+ b=Z7l4mf7g7h2YluGTSH+zUKwzP8lrBvt45w6uU3BOedyHkFkWznwnQxVTj7ZDeWZStR
+ rpFxxQgTJdBunRyfLLPBx0AqR7QjfKtFMyu04oagCADAU/cfcCH1x6iqfqipbV6hPPJ0
+ FwpCH1q7j89vleFAVNOfqwGSzc+NZxilWinU27gIUImQGoNbULYkqadAj/JP/GaEYL4f
+ FjDyPNmoUYxE0dobMfnp0ekM/Kxt9y5AC8LXvnHwjQa4Te5xV4vVDY/HSHr4XBJ1VBEG
+ sqmE8s412yWJLPsnBPmvL8EmXTwK2vJCQHdkVa1hYD9oPYCP2QuJguGLD0XrMrClZ6T9
+ u0og==
+X-Gm-Message-State: AOAM530z+0ZjVsQ7eWhRRW1GtmkePEAkrN1pQclpbnmB8v+faL4dRwTF
+ rHG7ovoB4Us7ftBGYAMg6O8+97pzkC4=
+X-Google-Smtp-Source: ABdhPJzeYvLlwXl15IEw/VEUtGL2Fa1RxgEybGYDznRop7dqPJrIOeGezTOjoXD8KXTfOj0biVEzOQ==
+X-Received: by 2002:a54:4710:: with SMTP id k16mr34933036oik.32.1641231673843; 
+ Mon, 03 Jan 2022 09:41:13 -0800 (PST)
 Received: from wintermute.localdomain (cpe-76-183-134-35.tx.res.rr.com.
  [76.183.134.35])
- by smtp.gmail.com with ESMTPSA id s6sm9368864ois.3.2022.01.03.09.41.11
+ by smtp.gmail.com with ESMTPSA id s6sm9368864ois.3.2022.01.03.09.41.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Jan 2022 09:41:12 -0800 (PST)
+ Mon, 03 Jan 2022 09:41:13 -0800 (PST)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/5] media: uapi: Document format
- MEDIA_BUS_FMT_RGB565_1X24_CPADHI
-Date: Mon,  3 Jan 2022 11:41:02 -0600
-Message-Id: <20220103174106.907-2-macroalpha82@gmail.com>
+Subject: [PATCH 2/5] media: uapi: add MEDIA_BUS_FMT_RGB565_1X24_CPADHI
+Date: Mon,  3 Jan 2022 11:41:03 -0600
+Message-Id: <20220103174106.907-3-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220103174106.907-1-macroalpha82@gmail.com>
 References: <20220103174106.907-1-macroalpha82@gmail.com>
@@ -80,62 +77,34 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Add support for MEDIA_BUS_FMT_RGB565_1X24_CPADHI. This format is used
-by the Geekworm MZP280 panel which interfaces with the Raspberry Pi.
+Add the MEDIA_BUS_FMT_RGB565_1X24_CPADHI format used by the Geekworm
+MZP280 panel for the Raspberry Pi.
 
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 ---
- .../media/v4l/subdev-formats.rst              | 37 +++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ include/uapi/linux/media-bus-format.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-index bd68588b2683..f3dcfa763ebc 100644
---- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-+++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-@@ -624,6 +624,43 @@ The following tables list existing packed RGB formats.
-       - b\ :sub:`2`
-       - b\ :sub:`1`
-       - b\ :sub:`0`
-+    * .. _MEDIA_BUS_FMT_RGB565_1X24_CPADHI:
-+
-+      - MEDIA_BUS_FMT_RGB565_1X24_CPADHI
-+      - 0x101e
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      -
-+      - 0
-+      - 0
-+      - 0
-+      - r\ :sub:`4`
-+      - r\ :sub:`3`
-+      - r\ :sub:`2`
-+      - r\ :sub:`1`
-+      - r\ :sub:`0`
-+      - 0
-+      - 0
-+      - g\ :sub:`5`
-+      - g\ :sub:`4`
-+      - g\ :sub:`3`
-+      - g\ :sub:`2`
-+      - g\ :sub:`1`
-+      - g\ :sub:`0`
-+      - 0
-+      - 0
-+      - 0
-+      - b\ :sub:`4`
-+      - b\ :sub:`3`
-+      - b\ :sub:`2`
-+      - b\ :sub:`1`
-+      - b\ :sub:`0`
-     * .. _MEDIA-BUS-FMT-BGR565-2X8-BE:
+diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
+index 0dfc11ee243a..a7b7654985ee 100644
+--- a/include/uapi/linux/media-bus-format.h
++++ b/include/uapi/linux/media-bus-format.h
+@@ -34,13 +34,14 @@
  
-       - MEDIA_BUS_FMT_BGR565_2X8_BE
+ #define MEDIA_BUS_FMT_FIXED			0x0001
+ 
+-/* RGB - next is	0x101e */
++/* RGB - next is	0x101f */
+ #define MEDIA_BUS_FMT_RGB444_1X12		0x1016
+ #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE	0x1001
+ #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE	0x1002
+ #define MEDIA_BUS_FMT_RGB555_2X8_PADHI_BE	0x1003
+ #define MEDIA_BUS_FMT_RGB555_2X8_PADHI_LE	0x1004
+ #define MEDIA_BUS_FMT_RGB565_1X16		0x1017
++#define MEDIA_BUS_FMT_RGB565_1X24_CPADHI	0x101e
+ #define MEDIA_BUS_FMT_BGR565_2X8_BE		0x1005
+ #define MEDIA_BUS_FMT_BGR565_2X8_LE		0x1006
+ #define MEDIA_BUS_FMT_RGB565_2X8_BE		0x1007
 -- 
 2.25.1
 
