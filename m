@@ -1,44 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71263482D82
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jan 2022 03:03:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E85D482DA1
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jan 2022 04:35:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45E0489826;
-	Mon,  3 Jan 2022 02:03:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF8CC89097;
+	Mon,  3 Jan 2022 03:34:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85FB489836
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 02:03:19 +0000 (UTC)
-X-UUID: 8a18a347ef804b4fba58392ec7e164de-20220103
-X-UUID: 8a18a347ef804b4fba58392ec7e164de-20220103
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1158384062; Mon, 03 Jan 2022 10:03:17 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Mon, 3 Jan 2022 10:03:16 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 3 Jan 2022 10:03:16 +0800
-Message-ID: <73b6ac2405e72ba1479d84c226d0ede3ecc8dd72.camel@mediatek.com>
-Subject: Re: [PATCH v10 15/22] drm/mediatek: add display merge async reset
- control
-From: CK Hu <ck.hu@mediatek.com>
-To: Nancy.Lin <nancy.lin@mediatek.com>
-Date: Mon, 3 Jan 2022 10:03:16 +0800
-In-Reply-To: <20211208024426.15595-16-nancy.lin@mediatek.com>
-References: <20211208024426.15595-1-nancy.lin@mediatek.com>
- <20211208024426.15595-16-nancy.lin@mediatek.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E38D589097
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 03:34:54 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 91978B80989
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 03:34:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1C54DC36AE9
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 03:34:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1641180892;
+ bh=n/MpjeFGUbCRXQ2YIZ6Jl4KSGIUdZ2JOJ2l5MRSWK2Y=;
+ h=From:To:Subject:Date:From;
+ b=s2/QRQNN/IX/H+60RD8HmNvb8kZ1yaXk/4XxDoFf3CH3mipqav0FBcSg7wrzxHhnd
+ C2YdhkRsTMgD5fLq4GFFe2f3fxRcQT0iIMgk3mJNifrLR73mse3e81G2ly6n1HUK/w
+ Hn9qmIYhlieru16+XnkIMLumHss5ZB3Mtux/ZRHEm1v2/08JfTcT+oxURLwfN3hqFL
+ lclSzIXf+VzoMH3rZW4iqkOAvorYbM6IGXWdaKjUYl3M/n+dy5GP8dBOLjfZq8UBwb
+ NCuAoPWyRBcyS34XOgxwYYhk46Y0x8V3o34hYLUHcEDxuVLfsBQm1V4WkZ7tU/CgU6
+ gWs+f3hXAkGVA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 03085C05FD1; Mon,  3 Jan 2022 03:34:52 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 215445] New: UBSAN: invalid-load in amdgpu_dm.c:5882:84 - load
+ of value 32 is not a valid value for type '_Bool'
+Date: Mon, 03 Jan 2022 03:34:51 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: bogdan.pylypenko107@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-215445-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,55 +72,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, srv_heupstream@mediatek.com,
- devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Yongqiang Niu <yongqiang.niu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Nancy:
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215445
 
-On Wed, 2021-12-08 at 10:44 +0800, Nancy.Lin wrote:
-> Add merge async reset control in mtk_merge_stop. Async hw doesn't do
-> self
-> reset on each sof signal(start of frame), so need to reset the async
-> to
-> clear the hw status for the next merge start.
+            Bug ID: 215445
+           Summary: UBSAN: invalid-load in amdgpu_dm.c:5882:84 - load of
+                    value 32 is not a valid value for type '_Bool'
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.15.12
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: bogdan.pylypenko107@gmail.com
+        Regression: No
 
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
+Created attachment 300208
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D300208&action=3Dedit
+Full message from dmesg
 
-> 
-> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_disp_merge.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_merge.c
-> b/drivers/gpu/drm/mediatek/mtk_disp_merge.c
-> index 9dca145cfb71..177473fa8160 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_merge.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_merge.c
-> @@ -8,6 +8,7 @@
->  #include <linux/of_device.h>
->  #include <linux/of_irq.h>
->  #include <linux/platform_device.h>
-> +#include <linux/reset.h>
->  #include <linux/soc/mediatek/mtk-cmdq.h>
->  
->  #include "mtk_drm_ddp_comp.h"
-> @@ -79,6 +80,9 @@ void mtk_merge_stop(struct device *dev)
->  	struct mtk_disp_merge *priv = dev_get_drvdata(dev);
->  
->  	mtk_merge_stop_cmdq(dev, NULL);
-> +
-> +	if (priv->async_clk)
-> +		device_reset_optional(dev);
->  }
->  
->  void mtk_merge_start_cmdq(struct device *dev, struct cmdq_pkt
-> *cmdq_pkt)
+I have an error in dmesg:
 
+[    7.729183] UBSAN: invalid-load in
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:5882:84
+[    7.729185] load of value 32 is not a valid value for type '_Bool'
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
