@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7CE7482FDB
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jan 2022 11:21:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A59B2482FE6
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jan 2022 11:29:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97A8D8946E;
-	Mon,  3 Jan 2022 10:20:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A86789FCC;
+	Mon,  3 Jan 2022 10:29:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7F028929D
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 10:20:54 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E89D589FCC
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 10:29:51 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5133460FD3
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 10:20:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B7FB7C36AF1
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 10:20:53 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id A8F46B80E81
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 10:29:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 53EDAC36AF1
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 10:29:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1641205253;
- bh=YAm0fnAC/Zh8UIlp2wXzRJtqeD8qpsF8+/k+EtVpEvk=;
+ s=k20201202; t=1641205789;
+ bh=s5z/oBAGE95wEFfl64WLgrPolQLj90vZu8mL0zPkjiQ=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=LyNIu/llfLhhW5Kh7PJvPN5PiDvZnopo4OggPP1G9P0bNbRYg6xMENpewhD3S/xGc
- w91JKC1ueefjgvshtfr9NRoGrqrpXcZ97Gf0tv9+48VkTY6gR1mPWMEQDbB4RdrV2f
- QWkE9Eb9a52aO4nvA37+8PkZcBm0Sa7NOYn5MwIgq9RP4OAfxSFDUs9gMhdk3Fx0sc
- 1ZIXMWziN7O88ZPHl3j5mZGf9oNrxBEZ0PeD5KuCPcPb+/iUp8oK3Vo4AG4/HF4SL1
- 4GYDWvfFGglx5okPmXl6/EHozvgaD286YGdhuOpFQHqbvM39FP+M5qMqe79LS9SDhC
- 3xNrNHdpFPQrQ==
+ b=L+Bfw7LaFkCSpwooXxO8ERaLPKj11W94UVaK8STJ3s1aoddIIRWeacwfX/t1/WfZv
+ 7aDb+kmQbxukLAS7uJQGZF2vIcC0fgt5fpkjEm0dxnrTs+SH8gfU6UNtqRvxtprMhm
+ PyhU5K5j0DUScSxItjn3ZvUKWK1WlnHj/MObunGvxt4vQbZvRzBtgaokN2Z3oXqn0B
+ QGA3ztgnt3yNY+boQ4N0kwjyEqBrElfUcK8RYUS/4MMkSBz4HhNCrWyuOCmUGbO5VR
+ 7FWY+6UOA6elinFoB2Ujxfpo6mE4UThfTRUtwismj5GG7GBxOuAr0zOns0TDotHEt2
+ Kfx8BJlykAZWw==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 9BAF2C05FF4; Mon,  3 Jan 2022 10:20:53 +0000 (UTC)
+ from userid 48) id 39AECC05FF4; Mon,  3 Jan 2022 10:29:49 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 215436] admgpu: suspend and resuming from suspend don't work
-Date: Mon, 03 Jan 2022 10:20:53 +0000
+Date: Mon, 03 Jan 2022 10:29:48 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -49,8 +49,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-215436-2300-zE2BtsKuxf@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-215436-2300-NZL96Cox51@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-215436-2300@https.bugzilla.kernel.org/>
 References: <bug-215436-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -75,37 +75,27 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D215436
 
---- Comment #13 from spasswolf@web.de ---
-I added a some dev_info calls:
+--- Comment #14 from spasswolf@web.de ---
+Created attachment 300212
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D300212&action=3Dedit
+dmesg with linux-5.16-rc8 while ignoring adev->in_s0ix
 
-static int amdgpu_pmops_suspend(struct device *dev)
-{
-        struct drm_device *drm_dev =3D dev_get_drvdata(dev);
-        struct amdgpu_device *adev =3D drm_to_adev(drm_dev);
-        int r;
-
-        if (amdgpu_acpi_is_s0ix_active(adev))
-                adev->in_s0ix =3D true;
-        adev->in_s3 =3D true;
-        r =3D amdgpu_device_suspend(drm_dev, true);
-        dev_info(adev->dev, "amdgpu_device_suspend(...) =3D %d\n", r);
-        adev->in_s3 =3D false;
-        if (r)
-                return r;
-        dev_info(adev->dev, "adev->in_s0ix =3D %d\n", adev->in_s0ix);
-        if (!adev->in_s0ix)
-                r =3D amdgpu_asic_reset(adev);
-        return r;
-}
-
-which gives
-
-Jan  3 11:13:40 lisa kernel: [   38.792335] amdgpu 0000:08:00.0: amdgpu:
+Simply ignoring the value of adev->in_s0ix and calling reset anyway does not
+work either:
+Jan  3 11:23:51 lisa kernel: [   32.649142] amdgpu 0000:08:00.0: amdgpu:
 amdgpu_device_suspend(...) =3D 0
-Jan  3 11:13:40 lisa kernel: [   38.792341] amdgpu 0000:08:00.0: amdgpu:
+Jan  3 11:23:51 lisa kernel: [   32.649146] amdgpu 0000:08:00.0: amdgpu:
 adev->in_s0ix =3D 1
-
-So the gpu is not actually reset ...
+Jan  3 11:23:51 lisa kernel: [   32.649149] amdgpu 0000:08:00.0: amdgpu: MO=
+DE2
+reset
+Jan  3 11:23:51 lisa kernel: [   37.404614] amdgpu 0000:08:00.0: amdgpu: Mo=
+de2
+reset failed!
+Jan  3 11:23:51 lisa kernel: [   37.404616] PM: pci_pm_suspend():
+amdgpu_pmops_suspend+0x0/0x60 [amdgpu] returns -62
+Jan  3 11:23:51 lisa kernel: [   37.404733] PM: dpm_run_callback():
+pci_pm_suspend+0x0/0x150 returns -62
 
 --=20
 You may reply to this email to add a comment.
