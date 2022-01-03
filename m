@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B4364830A4
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jan 2022 12:40:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C2184830A5
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jan 2022 12:41:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E563E10E220;
-	Mon,  3 Jan 2022 11:40:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0975510E153;
+	Mon,  3 Jan 2022 11:41:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2985A10E1AB
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 11:40:27 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id j11so72620214lfg.3
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Jan 2022 03:40:27 -0800 (PST)
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2765A10E153
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 11:41:01 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id u22so55324751lju.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Jan 2022 03:41:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=IGmNIbMETidA9jEKbZvXfxjf8MW+mHJVjeZi8fuShdI=;
- b=hrb512erEa4D7tlaiuMtukoNvkWeh86658uLqKCojDNnuRiOS4ZddV2tEi6NQPvGG5
- gyOuTactYTmD61ZD+e9fMGYtjiZKfgoB5c3E3gWdBrDvpXuS0eAUw7BQEP8eFqi+D1QU
- qeMKce7IQ47jY+zBAjzSZxECLdlar006CtoTEV7lc3O/26Cr5rdtd0PWHCJiWcfnCkE6
- G8fZX7PYlkByTeAU7WrBFR98gLMVUuWy1deGJUW23QKdtmRbbElyy4Tuts4hx/xfYnlA
- fFujjR9jkAGPHjcojO0ml1XmVCgCS9e0AzmE0N65orv1ell8YbxZNMwvL0lA6eZYpgw2
- eRiw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=jTHdhMQo8m7fjezvqLSe06rhw7qY2pds6pDxwCkD9fY=;
+ b=b/wYQ7RifZ0R/sGHpjKvuJhQ5Na27nhgMFvGUGNCllToR3R+5IUy0NRFW8oIcLKTLJ
+ CI4NXhbdrfFTyx0cbt+DaXZbhWZUNm/ZSPdDXbJ6pjBr58gOVSbeucmuKeRubgw19Ozd
+ UZlU4dAjL4Mig2rRjJ80LRGwPQ5zYw+AvLv4K3cGdg7+9OnMTBOqLR7rp0thw0uhenOW
+ 1hPjGgCGdnXnOO/sWgcTR0CPFX0TY9lem6/Im8N32vf3yKagLMi6LdFgcjzzmWfGCNuW
+ PJtrm2MZ1sLtm+Qf8nlFoP9cin2U9Q3IGIXj8nj5iEPHile+ZVV4xONtxWRs4w5VXL42
+ eSTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=IGmNIbMETidA9jEKbZvXfxjf8MW+mHJVjeZi8fuShdI=;
- b=l09DOagxZOAUrpdENeXv8qbXVIj37B4GkvXT1J0g67oFNTcuYMveNsXcj46pLeBZeL
- SBYq37lQmvsbNptKV4CNtGd+Nawrql1Ln9PIOrzt8d7sZHjaeSnTgM2IaQN5Hzad+ORx
- +uyC+hn4L4qTy8VI8RyetXJ9Un7KCl5kvPD+g6XloQA7TJEqti4fWPNCiJcyZNdVLk6B
- CmfXgZC4pMhEOYRLtN/QmwtbAw75Aojxwlbl3A2FqewyU+v9xLSauroWzX7xxIRbieyD
- erTI86bYebBGopdB3Cjl3hi5yeoh4IzX5JogeaMyAn/8ff+99EYQR9/TnKmqSxrnl6Bh
- 6WbQ==
-X-Gm-Message-State: AOAM531qojlA0EoypFX8ljVUqWbvZe5Cn9FQZAN6yyVkME92GrOtyrGE
- e9l+pY81c33aln2z2oYzoIKtsQ==
-X-Google-Smtp-Source: ABdhPJwCA1/jJd6HxVPvsFSS5uu0QOqp0ZQ8xMsWk7nF397pE1k/NdCsjUn9VPpDikundSIT5FeEiQ==
-X-Received: by 2002:a05:6512:2398:: with SMTP id
- c24mr39666836lfv.194.1641210025330; 
- Mon, 03 Jan 2022 03:40:25 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=jTHdhMQo8m7fjezvqLSe06rhw7qY2pds6pDxwCkD9fY=;
+ b=qwKmk96gldLo94v2frY0k9Rjtwj98SEksNRPiChpEYRhe19VgaTSfebi64mYRp5RYr
+ XOnqrrnZd1RlpyAvbdETZDqYU8+o486NmkuM31H4rPA8uGOWTk76E9VzMN87kmZYO5Ux
+ 4wgoyHlKIL8kWZqtbKz6thpNRj+dibLupUDqDGGWOQ7srUSFx1TJSMH3iyWW5USrSMxr
+ eO0suiDfEmXhVOXQE9MuWI9jOT+ldZPciTOo2PO7TE1nPzIXhHepedGxFUL0+jelmyCU
+ /H6y7MgS399ncwKLM1VIZJzXORDZN8zIG8F6NF6xZEI+tHAXCzE3fPLp0U5OC+qvatn6
+ HTSQ==
+X-Gm-Message-State: AOAM532JO8JAdBltkCO3iAbv9Rk4MeDcm2WV1ZJXJEMigQ0dkdGfBrZh
+ 0nLALJkRTFL8zYG+mWsQUxv4bA==
+X-Google-Smtp-Source: ABdhPJxxLymfT8c4XjzPfgnc46NYRCyS02+RDobu4IHMa+/9BR+IgYt4S0nqey5S+ZvfBUbvZtQ+Og==
+X-Received: by 2002:a2e:b0d3:: with SMTP id g19mr36910925ljl.227.1641210059496; 
+ Mon, 03 Jan 2022 03:40:59 -0800 (PST)
 Received: from localhost.localdomain
  (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
- by smtp.gmail.com with ESMTPSA id a23sm1910941ljk.8.2022.01.03.03.40.23
+ by smtp.gmail.com with ESMTPSA id a23sm1910941ljk.8.2022.01.03.03.40.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Jan 2022 03:40:24 -0800 (PST)
+ Mon, 03 Jan 2022 03:40:58 -0800 (PST)
 From: Linus Walleij <linus.walleij@linaro.org>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/3] drm/panel: Rename Sony ACX424 to Novatek NT35560
-Date: Mon,  3 Jan 2022 12:38:20 +0100
-Message-Id: <20220103113822.654592-1-linus.walleij@linaro.org>
+Subject: [PATCH 2/3] drm/panel: nt35560: Support more panel IDs
+Date: Mon,  3 Jan 2022 12:38:21 +0100
+Message-Id: <20220103113822.654592-2-linus.walleij@linaro.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20220103113822.654592-1-linus.walleij@linaro.org>
+References: <20220103113822.654592-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,622 +72,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A code drop from Sony Mobile reveals that the ACX424 panels are
-built around the Novatek NT35560 panel controllers so just bite
-the bullet and rename the driver and all basic symbols so that
-we can modify this driver to cover any other panels also using
-the Novatek NT35560 display controller.
+These IDs were found in the wild in a Sony Xperia vendor tree.
 
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- MAINTAINERS                                   |  13 +-
- drivers/gpu/drm/panel/Kconfig                 |  23 +-
- drivers/gpu/drm/panel/Makefile                |   2 +-
- ...ny-acx424akp.c => panel-novatek-nt35560.c} | 215 +++++++++---------
- 4 files changed, 129 insertions(+), 124 deletions(-)
- rename drivers/gpu/drm/panel/{panel-sony-acx424akp.c => panel-novatek-nt35560.c} (57%)
+ drivers/gpu/drm/panel/panel-novatek-nt35560.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7a2345ce8521..631e68ae923a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6054,6 +6054,13 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
- F:	drivers/gpu/drm/panel/panel-novatek-nt35510.c
- 
-+DRM DRIVER FOR NOVATEK NT35560 PANELS
-+M:	Linus Walleij <linus.walleij@linaro.org>
-+S:	Maintained
-+T:	git git://anongit.freedesktop.org/drm/drm-misc
-+F:	Documentation/devicetree/bindings/display/panel/sony,acx424akp.yaml
-+F:	drivers/gpu/drm/panel/panel-novatek-nt35560.c
-+
- DRM DRIVER FOR NOVATEK NT36672A PANELS
- M:	Sumit Semwal <sumit.semwal@linaro.org>
- S:	Maintained
-@@ -6171,12 +6178,6 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
- F:	drivers/gpu/drm/tiny/st7735r.c
- 
--DRM DRIVER FOR SONY ACX424AKP PANELS
--M:	Linus Walleij <linus.walleij@linaro.org>
--S:	Maintained
--T:	git git://anongit.freedesktop.org/drm/drm-misc
--F:	drivers/gpu/drm/panel/panel-sony-acx424akp.c
--
- DRM DRIVER FOR ST-ERICSSON MCDE
- M:	Linus Walleij <linus.walleij@linaro.org>
- S:	Maintained
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index cfc8d644cedf..f6b54fd41d85 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -272,6 +272,18 @@ config DRM_PANEL_NOVATEK_NT35510
- 	  around the Novatek NT35510 display controller, such as some
- 	  Hydis panels.
- 
-+config DRM_PANEL_NOVATEK_NT35560
-+	tristate "Novatek NT35560 DSI command mode panel"
-+	depends on OF
-+	depends on DRM_MIPI_DSI
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	select VIDEOMODE_HELPERS
-+	help
-+	  Say Y here if you want to enable the Novatek NT35560 display
-+	  controller. This panel supports DSI in both command and video
-+	  mode. This supports several panels such as Sony ACX424AKM and
-+	  ACX424AKP.
-+
- config DRM_PANEL_NOVATEK_NT36672A
- 	tristate "Novatek NT36672A DSI panel"
- 	depends on OF
-@@ -561,17 +573,6 @@ config DRM_PANEL_SITRONIX_ST7789V
- 	  Say Y here if you want to enable support for the Sitronix
- 	  ST7789V controller for 240x320 LCD panels
- 
--config DRM_PANEL_SONY_ACX424AKP
--	tristate "Sony ACX424AKP DSI command mode panel"
--	depends on OF
--	depends on DRM_MIPI_DSI
--	depends on BACKLIGHT_CLASS_DEVICE
--	select VIDEOMODE_HELPERS
--	help
--	  Say Y here if you want to enable the Sony ACX424 display
--	  panel. This panel supports DSI in both command and video
--	  mode.
--
- config DRM_PANEL_SONY_ACX565AKM
- 	tristate "Sony ACX565AKM panel"
- 	depends on GPIOLIB && OF && SPI
-diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-index bca4cc1f2715..540e303a90c5 100644
---- a/drivers/gpu/drm/panel/Makefile
-+++ b/drivers/gpu/drm/panel/Makefile
-@@ -25,6 +25,7 @@ obj-$(CONFIG_DRM_PANEL_LG_LB035Q02) += panel-lg-lb035q02.o
- obj-$(CONFIG_DRM_PANEL_LG_LG4573) += panel-lg-lg4573.o
- obj-$(CONFIG_DRM_PANEL_NEC_NL8048HL11) += panel-nec-nl8048hl11.o
- obj-$(CONFIG_DRM_PANEL_NOVATEK_NT35510) += panel-novatek-nt35510.o
-+obj-$(CONFIG_DRM_PANEL_NOVATEK_NT35560) += panel-novatek-nt35560.o
- obj-$(CONFIG_DRM_PANEL_NOVATEK_NT36672A) += panel-novatek-nt36672a.o
- obj-$(CONFIG_DRM_PANEL_NOVATEK_NT39016) += panel-novatek-nt39016.o
- obj-$(CONFIG_DRM_PANEL_MANTIX_MLAF057WE51) += panel-mantix-mlaf057we51.o
-@@ -57,7 +58,6 @@ obj-$(CONFIG_DRM_PANEL_SHARP_LS060T1SX01) += panel-sharp-ls060t1sx01.o
- obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7701) += panel-sitronix-st7701.o
- obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7703) += panel-sitronix-st7703.o
- obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7789V) += panel-sitronix-st7789v.o
--obj-$(CONFIG_DRM_PANEL_SONY_ACX424AKP) += panel-sony-acx424akp.o
- obj-$(CONFIG_DRM_PANEL_SONY_ACX565AKM) += panel-sony-acx565akm.o
- obj-$(CONFIG_DRM_PANEL_TDO_TL070WSH30) += panel-tdo-tl070wsh30.o
- obj-$(CONFIG_DRM_PANEL_TPO_TD028TTEC1) += panel-tpo-td028ttec1.o
-diff --git a/drivers/gpu/drm/panel/panel-sony-acx424akp.c b/drivers/gpu/drm/panel/panel-novatek-nt35560.c
-similarity index 57%
-rename from drivers/gpu/drm/panel/panel-sony-acx424akp.c
-rename to drivers/gpu/drm/panel/panel-novatek-nt35560.c
-index 9536d56a94a5..620876225384 100644
---- a/drivers/gpu/drm/panel/panel-sony-acx424akp.c
+diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35560.c b/drivers/gpu/drm/panel/panel-novatek-nt35560.c
+index 620876225384..41dc278faf80 100644
+--- a/drivers/gpu/drm/panel/panel-novatek-nt35560.c
 +++ b/drivers/gpu/drm/panel/panel-novatek-nt35560.c
-@@ -1,9 +1,12 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * MIPI-DSI Sony ACX424AKP panel driver. This is a 480x864
-- * AMOLED panel with a command-only DSI interface.
-+ * MIPI-DSI Novatek NT35560-based panel controller.
-  *
-- * Copyright (C) Linaro Ltd. 2019
-+ * Supported panels include:
-+ * Sony ACX424AKM - a 480x854 AMOLED DSI panel
-+ * Sony ACX424AKP - a 480x864 AMOLED DSI panel
-+ *
-+ * Copyright (C) Linaro Ltd. 2019-2021
-  * Author: Linus Walleij
-  * Based on code and know-how from Marcus Lorentzon
-  * Copyright (C) ST-Ericsson SA 2010
-@@ -21,10 +24,10 @@
- #include <drm/drm_modes.h>
- #include <drm/drm_panel.h>
- 
--#define ACX424_DCS_READ_ID1		0xDA
--#define ACX424_DCS_READ_ID2		0xDB
--#define ACX424_DCS_READ_ID3		0xDC
--#define ACX424_DCS_SET_MDDI		0xAE
-+#define NT35560_DCS_READ_ID1		0xDA
-+#define NT35560_DCS_READ_ID2		0xDB
-+#define NT35560_DCS_READ_ID3		0xDC
-+#define NT35560_DCS_SET_MDDI		0xAE
- 
+@@ -32,13 +32,14 @@
  /*
   * Sony seems to use vendor ID 0x81
-@@ -37,7 +40,7 @@
   */
- #define DISPLAY_SONY_ACX424AKP_ID3	0x8000
+-#define DISPLAY_SONY_ACX424AKP_ID1	0x811b
++#define DISPLAY_SONY_ACX424AKP_ID1	0x8103
+ #define DISPLAY_SONY_ACX424AKP_ID2	0x811a
++#define DISPLAY_SONY_ACX424AKP_ID3	0x811b
+ /*
+  * The third ID looks like a bug, vendor IDs begin at 0x80
+  * and panel 00 ... seems like default values.
+  */
+-#define DISPLAY_SONY_ACX424AKP_ID3	0x8000
++#define DISPLAY_SONY_ACX424AKP_ID4	0x8000
  
--struct acx424akp {
-+struct nt35560 {
+ struct nt35560 {
  	struct drm_panel panel;
- 	struct device *dev;
- 	struct regulator *supply;
-@@ -82,18 +85,18 @@ static const struct drm_display_mode sony_acx424akp_cmd_mode = {
- 	.height_mm = 84,
- };
- 
--static inline struct acx424akp *panel_to_acx424akp(struct drm_panel *panel)
-+static inline struct nt35560 *panel_to_nt35560(struct drm_panel *panel)
- {
--	return container_of(panel, struct acx424akp, panel);
-+	return container_of(panel, struct nt35560, panel);
- }
- 
- #define FOSC			20 /* 20Mhz */
- #define SCALE_FACTOR_NS_DIV_MHZ	1000
- 
--static int acx424akp_set_brightness(struct backlight_device *bl)
-+static int nt35560_set_brightness(struct backlight_device *bl)
- {
--	struct acx424akp *acx = bl_get_data(bl);
--	struct mipi_dsi_device *dsi = to_mipi_dsi_device(acx->dev);
-+	struct nt35560 *nt = bl_get_data(bl);
-+	struct mipi_dsi_device *dsi = to_mipi_dsi_device(nt->dev);
- 	int period_ns = 1023;
- 	int duty_ns = bl->props.brightness;
- 	u8 pwm_ratio;
-@@ -107,7 +110,7 @@ static int acx424akp_set_brightness(struct backlight_device *bl)
- 		ret = mipi_dsi_dcs_write(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY,
- 					 &par, 1);
- 		if (ret) {
--			dev_err(acx->dev, "failed to disable display backlight (%d)\n", ret);
-+			dev_err(nt->dev, "failed to disable display backlight (%d)\n", ret);
- 			return ret;
- 		}
- 		return 0;
-@@ -120,11 +123,11 @@ static int acx424akp_set_brightness(struct backlight_device *bl)
- 		      SCALE_FACTOR_NS_DIV_MHZ);
- 
- 	/* Set up PWM dutycycle ONE byte (differs from the standard) */
--	dev_dbg(acx->dev, "calculated duty cycle %02x\n", pwm_ratio);
-+	dev_dbg(nt->dev, "calculated duty cycle %02x\n", pwm_ratio);
- 	ret = mipi_dsi_dcs_write(dsi, MIPI_DCS_SET_DISPLAY_BRIGHTNESS,
- 				 &pwm_ratio, 1);
- 	if (ret < 0) {
--		dev_err(acx->dev, "failed to set display PWM ratio (%d)\n", ret);
-+		dev_err(nt->dev, "failed to set display PWM ratio (%d)\n", ret);
- 		return ret;
- 	}
- 
-@@ -140,30 +143,30 @@ static int acx424akp_set_brightness(struct backlight_device *bl)
- 	par = 0xaa;
- 	ret = mipi_dsi_dcs_write(dsi, 0xf3, &par, 1);
- 	if (ret < 0) {
--		dev_err(acx->dev, "failed to unlock CMD 2 (%d)\n", ret);
-+		dev_err(nt->dev, "failed to unlock CMD 2 (%d)\n", ret);
- 		return ret;
- 	}
- 	par = 0x01;
- 	ret = mipi_dsi_dcs_write(dsi, 0x00, &par, 1);
- 	if (ret < 0) {
--		dev_err(acx->dev, "failed to enter page 1 (%d)\n", ret);
-+		dev_err(nt->dev, "failed to enter page 1 (%d)\n", ret);
- 		return ret;
- 	}
- 	par = 0x01;
- 	ret = mipi_dsi_dcs_write(dsi, 0x7d, &par, 1);
- 	if (ret < 0) {
--		dev_err(acx->dev, "failed to disable MTP reload (%d)\n", ret);
-+		dev_err(nt->dev, "failed to disable MTP reload (%d)\n", ret);
- 		return ret;
- 	}
- 	ret = mipi_dsi_dcs_write(dsi, 0x22, &pwm_div, 1);
- 	if (ret < 0) {
--		dev_err(acx->dev, "failed to set PWM divisor (%d)\n", ret);
-+		dev_err(nt->dev, "failed to set PWM divisor (%d)\n", ret);
- 		return ret;
- 	}
- 	par = 0xaa;
- 	ret = mipi_dsi_dcs_write(dsi, 0x7f, &par, 1);
- 	if (ret < 0) {
--		dev_err(acx->dev, "failed to lock CMD 2 (%d)\n", ret);
-+		dev_err(nt->dev, "failed to lock CMD 2 (%d)\n", ret);
- 		return ret;
- 	}
- 
-@@ -172,48 +175,48 @@ static int acx424akp_set_brightness(struct backlight_device *bl)
- 	ret = mipi_dsi_dcs_write(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY,
- 				 &par, 1);
- 	if (ret < 0) {
--		dev_err(acx->dev, "failed to enable display backlight (%d)\n", ret);
-+		dev_err(nt->dev, "failed to enable display backlight (%d)\n", ret);
- 		return ret;
- 	}
- 
- 	return 0;
- }
- 
--static const struct backlight_ops acx424akp_bl_ops = {
--	.update_status = acx424akp_set_brightness,
-+static const struct backlight_ops nt35560_bl_ops = {
-+	.update_status = nt35560_set_brightness,
- };
- 
--static const struct backlight_properties acx424akp_bl_props = {
-+static const struct backlight_properties nt35560_bl_props = {
- 	.type = BACKLIGHT_RAW,
- 	.brightness = 512,
- 	.max_brightness = 1023,
- };
- 
--static int acx424akp_read_id(struct acx424akp *acx)
-+static int nt35560_read_id(struct nt35560 *nt)
- {
--	struct mipi_dsi_device *dsi = to_mipi_dsi_device(acx->dev);
-+	struct mipi_dsi_device *dsi = to_mipi_dsi_device(nt->dev);
- 	u8 vendor, version, panel;
- 	u16 val;
- 	int ret;
- 
--	ret = mipi_dsi_dcs_read(dsi, ACX424_DCS_READ_ID1, &vendor, 1);
-+	ret = mipi_dsi_dcs_read(dsi, NT35560_DCS_READ_ID1, &vendor, 1);
- 	if (ret < 0) {
--		dev_err(acx->dev, "could not vendor ID byte\n");
-+		dev_err(nt->dev, "could not vendor ID byte\n");
- 		return ret;
- 	}
--	ret = mipi_dsi_dcs_read(dsi, ACX424_DCS_READ_ID2, &version, 1);
-+	ret = mipi_dsi_dcs_read(dsi, NT35560_DCS_READ_ID2, &version, 1);
- 	if (ret < 0) {
--		dev_err(acx->dev, "could not read device version byte\n");
-+		dev_err(nt->dev, "could not read device version byte\n");
- 		return ret;
- 	}
--	ret = mipi_dsi_dcs_read(dsi, ACX424_DCS_READ_ID3, &panel, 1);
-+	ret = mipi_dsi_dcs_read(dsi, NT35560_DCS_READ_ID3, &panel, 1);
- 	if (ret < 0) {
--		dev_err(acx->dev, "could not read panel ID byte\n");
-+		dev_err(nt->dev, "could not read panel ID byte\n");
- 		return ret;
- 	}
- 
- 	if (vendor == 0x00) {
--		dev_err(acx->dev, "device vendor ID is zero\n");
-+		dev_err(nt->dev, "device vendor ID is zero\n");
- 		return -ENODEV;
- 	}
- 
-@@ -222,11 +225,11 @@ static int acx424akp_read_id(struct acx424akp *acx)
+@@ -225,6 +226,7 @@ static int nt35560_read_id(struct nt35560 *nt)
  	case DISPLAY_SONY_ACX424AKP_ID1:
  	case DISPLAY_SONY_ACX424AKP_ID2:
  	case DISPLAY_SONY_ACX424AKP_ID3:
--		dev_info(acx->dev, "MTP vendor: %02x, version: %02x, panel: %02x\n",
-+		dev_info(nt->dev, "MTP vendor: %02x, version: %02x, panel: %02x\n",
++	case DISPLAY_SONY_ACX424AKP_ID4:
+ 		dev_info(nt->dev, "MTP vendor: %02x, version: %02x, panel: %02x\n",
  			 vendor, version, panel);
  		break;
- 	default:
--		dev_info(acx->dev, "unknown vendor: %02x, version: %02x, panel: %02x\n",
-+		dev_info(nt->dev, "unknown vendor: %02x, version: %02x, panel: %02x\n",
- 			 vendor, version, panel);
- 		break;
- 	}
-@@ -234,49 +237,49 @@ static int acx424akp_read_id(struct acx424akp *acx)
- 	return 0;
- }
- 
--static int acx424akp_power_on(struct acx424akp *acx)
-+static int nt35560_power_on(struct nt35560 *nt)
- {
- 	int ret;
- 
--	ret = regulator_enable(acx->supply);
-+	ret = regulator_enable(nt->supply);
- 	if (ret) {
--		dev_err(acx->dev, "failed to enable supply (%d)\n", ret);
-+		dev_err(nt->dev, "failed to enable supply (%d)\n", ret);
- 		return ret;
- 	}
- 
- 	/* Assert RESET */
--	gpiod_set_value_cansleep(acx->reset_gpio, 1);
-+	gpiod_set_value_cansleep(nt->reset_gpio, 1);
- 	udelay(20);
- 	/* De-assert RESET */
--	gpiod_set_value_cansleep(acx->reset_gpio, 0);
-+	gpiod_set_value_cansleep(nt->reset_gpio, 0);
- 	usleep_range(11000, 20000);
- 
- 	return 0;
- }
- 
--static void acx424akp_power_off(struct acx424akp *acx)
-+static void nt35560_power_off(struct nt35560 *nt)
- {
- 	/* Assert RESET */
--	gpiod_set_value_cansleep(acx->reset_gpio, 1);
-+	gpiod_set_value_cansleep(nt->reset_gpio, 1);
- 	usleep_range(11000, 20000);
- 
--	regulator_disable(acx->supply);
-+	regulator_disable(nt->supply);
- }
- 
--static int acx424akp_prepare(struct drm_panel *panel)
-+static int nt35560_prepare(struct drm_panel *panel)
- {
--	struct acx424akp *acx = panel_to_acx424akp(panel);
--	struct mipi_dsi_device *dsi = to_mipi_dsi_device(acx->dev);
-+	struct nt35560 *nt = panel_to_nt35560(panel);
-+	struct mipi_dsi_device *dsi = to_mipi_dsi_device(nt->dev);
- 	const u8 mddi = 3;
- 	int ret;
- 
--	ret = acx424akp_power_on(acx);
-+	ret = nt35560_power_on(nt);
- 	if (ret)
- 		return ret;
- 
--	ret = acx424akp_read_id(acx);
-+	ret = nt35560_read_id(nt);
- 	if (ret) {
--		dev_err(acx->dev, "failed to read panel ID (%d)\n", ret);
-+		dev_err(nt->dev, "failed to read panel ID (%d)\n", ret);
- 		goto err_power_off;
- 	}
- 
-@@ -284,7 +287,7 @@ static int acx424akp_prepare(struct drm_panel *panel)
- 	ret = mipi_dsi_dcs_set_tear_on(dsi,
- 				       MIPI_DSI_DCS_TEAR_MODE_VBLANK);
- 	if (ret) {
--		dev_err(acx->dev, "failed to enable vblank TE (%d)\n", ret);
-+		dev_err(nt->dev, "failed to enable vblank TE (%d)\n", ret);
- 		goto err_power_off;
- 	}
- 
-@@ -298,31 +301,31 @@ static int acx424akp_prepare(struct drm_panel *panel)
- 	 * this command. Due to the lack of documentation we cannot know for
- 	 * sure.
- 	 */
--	ret = mipi_dsi_dcs_write(dsi, ACX424_DCS_SET_MDDI,
-+	ret = mipi_dsi_dcs_write(dsi, NT35560_DCS_SET_MDDI,
- 				 &mddi, sizeof(mddi));
- 	if (ret < 0) {
--		dev_err(acx->dev, "failed to set MDDI (%d)\n", ret);
-+		dev_err(nt->dev, "failed to set MDDI (%d)\n", ret);
- 		goto err_power_off;
- 	}
- 
- 	/* Exit sleep mode */
- 	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
- 	if (ret) {
--		dev_err(acx->dev, "failed to exit sleep mode (%d)\n", ret);
-+		dev_err(nt->dev, "failed to exit sleep mode (%d)\n", ret);
- 		goto err_power_off;
- 	}
- 	msleep(140);
- 
- 	ret = mipi_dsi_dcs_set_display_on(dsi);
- 	if (ret) {
--		dev_err(acx->dev, "failed to turn display on (%d)\n", ret);
-+		dev_err(nt->dev, "failed to turn display on (%d)\n", ret);
- 		goto err_power_off;
- 	}
--	if (acx->video_mode) {
-+	if (nt->video_mode) {
- 		/* In video mode turn peripheral on */
- 		ret = mipi_dsi_turn_on_peripheral(dsi);
- 		if (ret) {
--			dev_err(acx->dev, "failed to turn on peripheral\n");
-+			dev_err(nt->dev, "failed to turn on peripheral\n");
- 			goto err_power_off;
- 		}
- 	}
-@@ -330,43 +333,43 @@ static int acx424akp_prepare(struct drm_panel *panel)
- 	return 0;
- 
- err_power_off:
--	acx424akp_power_off(acx);
-+	nt35560_power_off(nt);
- 	return ret;
- }
- 
--static int acx424akp_unprepare(struct drm_panel *panel)
-+static int nt35560_unprepare(struct drm_panel *panel)
- {
--	struct acx424akp *acx = panel_to_acx424akp(panel);
--	struct mipi_dsi_device *dsi = to_mipi_dsi_device(acx->dev);
-+	struct nt35560 *nt = panel_to_nt35560(panel);
-+	struct mipi_dsi_device *dsi = to_mipi_dsi_device(nt->dev);
- 	int ret;
- 
- 	ret = mipi_dsi_dcs_set_display_off(dsi);
- 	if (ret) {
--		dev_err(acx->dev, "failed to turn display off (%d)\n", ret);
-+		dev_err(nt->dev, "failed to turn display off (%d)\n", ret);
- 		return ret;
- 	}
- 
- 	/* Enter sleep mode */
- 	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
- 	if (ret) {
--		dev_err(acx->dev, "failed to enter sleep mode (%d)\n", ret);
-+		dev_err(nt->dev, "failed to enter sleep mode (%d)\n", ret);
- 		return ret;
- 	}
- 	msleep(85);
- 
--	acx424akp_power_off(acx);
-+	nt35560_power_off(nt);
- 
- 	return 0;
- }
- 
- 
--static int acx424akp_get_modes(struct drm_panel *panel,
--			       struct drm_connector *connector)
-+static int nt35560_get_modes(struct drm_panel *panel,
-+			     struct drm_connector *connector)
- {
--	struct acx424akp *acx = panel_to_acx424akp(panel);
-+	struct nt35560 *nt = panel_to_nt35560(panel);
- 	struct drm_display_mode *mode;
- 
--	if (acx->video_mode)
-+	if (nt->video_mode)
- 		mode = drm_mode_duplicate(connector->dev,
- 					  &sony_acx424akp_vid_mode);
- 	else
-@@ -387,26 +390,26 @@ static int acx424akp_get_modes(struct drm_panel *panel,
- 	return 1; /* Number of modes */
- }
- 
--static const struct drm_panel_funcs acx424akp_drm_funcs = {
--	.unprepare = acx424akp_unprepare,
--	.prepare = acx424akp_prepare,
--	.get_modes = acx424akp_get_modes,
-+static const struct drm_panel_funcs nt35560_drm_funcs = {
-+	.unprepare = nt35560_unprepare,
-+	.prepare = nt35560_prepare,
-+	.get_modes = nt35560_get_modes,
- };
- 
--static int acx424akp_probe(struct mipi_dsi_device *dsi)
-+static int nt35560_probe(struct mipi_dsi_device *dsi)
- {
- 	struct device *dev = &dsi->dev;
--	struct acx424akp *acx;
-+	struct nt35560 *nt;
- 	int ret;
- 
--	acx = devm_kzalloc(dev, sizeof(struct acx424akp), GFP_KERNEL);
--	if (!acx)
-+	nt = devm_kzalloc(dev, sizeof(struct nt35560), GFP_KERNEL);
-+	if (!nt)
- 		return -ENOMEM;
--	acx->video_mode = of_property_read_bool(dev->of_node,
-+	nt->video_mode = of_property_read_bool(dev->of_node,
- 						"enforce-video-mode");
- 
--	mipi_dsi_set_drvdata(dsi, acx);
--	acx->dev = dev;
-+	mipi_dsi_set_drvdata(dsi, nt);
-+	nt->dev = dev;
- 
- 	dsi->lanes = 2;
- 	dsi->format = MIPI_DSI_FMT_RGB888;
-@@ -419,7 +422,7 @@ static int acx424akp_probe(struct mipi_dsi_device *dsi)
- 	dsi->lp_rate = 19200000;
- 	dsi->hs_rate = 420160000;
- 
--	if (acx->video_mode)
-+	if (nt->video_mode)
- 		/* Burst mode using event for sync */
- 		dsi->mode_flags =
- 			MIPI_DSI_MODE_VIDEO |
-@@ -428,63 +431,63 @@ static int acx424akp_probe(struct mipi_dsi_device *dsi)
- 		dsi->mode_flags =
- 			MIPI_DSI_CLOCK_NON_CONTINUOUS;
- 
--	acx->supply = devm_regulator_get(dev, "vddi");
--	if (IS_ERR(acx->supply))
--		return PTR_ERR(acx->supply);
-+	nt->supply = devm_regulator_get(dev, "vddi");
-+	if (IS_ERR(nt->supply))
-+		return PTR_ERR(nt->supply);
- 
- 	/* This asserts RESET by default */
--	acx->reset_gpio = devm_gpiod_get_optional(dev, "reset",
--						  GPIOD_OUT_HIGH);
--	if (IS_ERR(acx->reset_gpio))
--		return dev_err_probe(dev, PTR_ERR(acx->reset_gpio),
-+	nt->reset_gpio = devm_gpiod_get_optional(dev, "reset",
-+						 GPIOD_OUT_HIGH);
-+	if (IS_ERR(nt->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(nt->reset_gpio),
- 				     "failed to request GPIO\n");
- 
--	drm_panel_init(&acx->panel, dev, &acx424akp_drm_funcs,
-+	drm_panel_init(&nt->panel, dev, &nt35560_drm_funcs,
- 		       DRM_MODE_CONNECTOR_DSI);
- 
--	acx->panel.backlight = devm_backlight_device_register(dev, "acx424akp", dev, acx,
--					&acx424akp_bl_ops, &acx424akp_bl_props);
--	if (IS_ERR(acx->panel.backlight))
--		return dev_err_probe(dev, PTR_ERR(acx->panel.backlight),
-+	nt->panel.backlight = devm_backlight_device_register(dev, "nt35560", dev, nt,
-+					&nt35560_bl_ops, &nt35560_bl_props);
-+	if (IS_ERR(nt->panel.backlight))
-+		return dev_err_probe(dev, PTR_ERR(nt->panel.backlight),
- 				     "failed to register backlight device\n");
- 
--	drm_panel_add(&acx->panel);
-+	drm_panel_add(&nt->panel);
- 
- 	ret = mipi_dsi_attach(dsi);
- 	if (ret < 0) {
--		drm_panel_remove(&acx->panel);
-+		drm_panel_remove(&nt->panel);
- 		return ret;
- 	}
- 
- 	return 0;
- }
- 
--static int acx424akp_remove(struct mipi_dsi_device *dsi)
-+static int nt35560_remove(struct mipi_dsi_device *dsi)
- {
--	struct acx424akp *acx = mipi_dsi_get_drvdata(dsi);
-+	struct nt35560 *nt = mipi_dsi_get_drvdata(dsi);
- 
- 	mipi_dsi_detach(dsi);
--	drm_panel_remove(&acx->panel);
-+	drm_panel_remove(&nt->panel);
- 
- 	return 0;
- }
- 
--static const struct of_device_id acx424akp_of_match[] = {
-+static const struct of_device_id nt35560_of_match[] = {
- 	{ .compatible = "sony,acx424akp" },
- 	{ /* sentinel */ }
- };
--MODULE_DEVICE_TABLE(of, acx424akp_of_match);
-+MODULE_DEVICE_TABLE(of, nt35560_of_match);
- 
--static struct mipi_dsi_driver acx424akp_driver = {
--	.probe = acx424akp_probe,
--	.remove = acx424akp_remove,
-+static struct mipi_dsi_driver nt35560_driver = {
-+	.probe = nt35560_probe,
-+	.remove = nt35560_remove,
- 	.driver = {
--		.name = "panel-sony-acx424akp",
--		.of_match_table = acx424akp_of_match,
-+		.name = "panel-novatek-nt35560",
-+		.of_match_table = nt35560_of_match,
- 	},
- };
--module_mipi_dsi_driver(acx424akp_driver);
-+module_mipi_dsi_driver(nt35560_driver);
- 
- MODULE_AUTHOR("Linus Wallei <linus.walleij@linaro.org>");
--MODULE_DESCRIPTION("MIPI-DSI Sony acx424akp Panel Driver");
-+MODULE_DESCRIPTION("MIPI-DSI Novatek NT35560 Panel Driver");
- MODULE_LICENSE("GPL v2");
 -- 
 2.31.1
 
