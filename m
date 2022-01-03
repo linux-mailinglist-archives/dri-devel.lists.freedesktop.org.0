@@ -1,56 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D47BC483118
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jan 2022 13:39:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8650D4833C7
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jan 2022 15:53:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C9D010E125;
-	Mon,  3 Jan 2022 12:39:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07D3F896E5;
+	Mon,  3 Jan 2022 14:53:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FBC210E125
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 12:39:35 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id F0E3DB80DB8
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 12:39:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E8DFC36AF3
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 12:39:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1641213572;
- bh=HA5+7zlAQulQBX2cVKSU6TdiKadRflwBDFVjRsvDYVs=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Y0ULpnBT0g0UDp17/4EORGndRjm7el0EeYgKUeSEw83DwfhCNt1nMc1+vddEL5Ou7
- bPzt+l5Ubr4AcXtgbzR2BlVthJjHVIbjjiKVBipgSb/0/FHfUCBDf82E7v8kyjDZBE
- ZcAgfMZU7Rl9uu+KJt47Ia2y7TwZlhVvinjZFcNyEOGEzbHhuRs5I/GYS0bkHd2qGD
- QYC9v0gfS4sRqkaSPTb3u7JMcgYCecaocxSiV/Zz8/8hWZvtbp3CHPfXljS2yppNS9
- 36MXQ0CNl6QApNUwd2jlQ/nf0pUHXluqKjC4asuvc/RdqAEofQgt5AEGU7t8AJdD6A
- D4KMOLZIpkoyw==
-Received: by mail-ed1-f49.google.com with SMTP id u25so14112264edf.1
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Jan 2022 04:39:32 -0800 (PST)
-X-Gm-Message-State: AOAM531U+LxBSxv99/isbiclYJhNXZmJZjM96NDF4nhhDEmWnemHHRha
- sRUMvri8aY+1DXHh5n8zxNbG1mTaNQWSI/Gofw==
-X-Google-Smtp-Source: ABdhPJwwZ/3BPywQvW5Rrs1+664TaJh3FdH4vjHV6vG9LTySPj2+KPJh8eExMszOptrw3vU1ySFcU2qa6PxV5c3PjyU=
-X-Received: by 2002:a17:907:629a:: with SMTP id
- nd26mr37424097ejc.680.1641213570556; 
- Mon, 03 Jan 2022 04:39:30 -0800 (PST)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 910EF896E5
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 14:53:31 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id A3B351F40247
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1641221610;
+ bh=KNDgYj/v6+jaTkZ8Rn4Wl6JYx+VXECbwIobGfbzAPq8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=oYEbArqBCFhqJwxH/ARfOTlXCfQ/p/uPDxqb6P3BYqewjJ40fkJYP/r68hPGmOAgV
+ uSvfUHbxtbOX/BuZEzmaG1NrGHBYegOIeSc8s+PX3uR5/WpgsSpHiUzqlKsbG28brq
+ r1vksfgTzBjyi+fCWVqE9jG3t9eGdFFBlgRPe6Yxj6eC0OBaJKtKU6Cd/+0Vi1BdLN
+ uriwGnMz0DouJR/IC6dEWahIcyR2nVJfkD1MMsfcEfldYV79fagU4LgGr77Zjt5uge
+ d8oRnRrSt40SXXZCpSzLn4Gm0TNvAMX+kl9TPZ4MKrqFMkBxWli5fXYbcZPxiFn3tG
+ 1Ih7yY10X91iA==
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: chunkuang.hu@kernel.org
+Subject: [PATCH 1/3] phy: mediatek: phy-mtk-mipi-dsi: Switch to regmap for
+ mmio access
+Date: Mon,  3 Jan 2022 15:53:22 +0100
+Message-Id: <20220103145324.48008-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-References: <20211022172413.195559-1-markyacoub@chromium.org>
- <20211229184420.793234-1-markyacoub@chromium.org>
-In-Reply-To: <20211229184420.793234-1-markyacoub@chromium.org>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Mon, 3 Jan 2022 20:39:15 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_9E71AfKy_poZMA7s++TvzM4=VH0H1o8ZBmDphcz9iXDw@mail.gmail.com>
-Message-ID: <CAAOTY_9E71AfKy_poZMA7s++TvzM4=VH0H1o8ZBmDphcz9iXDw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/mediatek: Set default value for Panel Orientation
- connector prop.
-To: Mark Yacoub <markyacoub@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,72 +46,391 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
- Jason-JH Lin <jason-jh.lin@mediatek.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>, tzungbi@google.com,
- Sean Paul <seanpaul@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: linux-phy@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, kishon@ti.com, matthias.bgg@gmail.com,
+ vkoul@kernel.org, linux-mediatek@lists.infradead.org,
+ chunfeng.yun@mediatek.com, linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Mark:
+Switch to using the generic regmap API instead of calls to readl/writel
+for MMIO register access, removing custom crafted update/set/clear_bits
+functions and also allowing us to reduce code size.
 
-Mark Yacoub <markyacoub@chromium.org> =E6=96=BC 2021=E5=B9=B412=E6=9C=8830=
-=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8A=E5=8D=882:44=E5=AF=AB=E9=81=93=EF=BC=
-=9A
->
-> [Why]
-> Creating the prop uses UNKNOWN as the initial value, which is not a
-> supported value if the prop is to be supported.
->
-> [How]
-> Set the panel orientation default value to NORMAL right after creating
-> the prop if no DSI panel exists.
-> Panels have their own orientations, and panel orientation can't be
-> overriden once initialized to a value.
->
-> v1:
-> Set panel orientation only if DSI panel does not exist.
->
-> Tested on Jacuzzi(MTK)
-> Fixes IGT@kms_properties@get_properties-sanity-{atomic,non-atomic}
->
-> Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
-> ---
->  drivers/gpu/drm/mediatek/mtk_dsi.c | 7 +++++++
->  1 file changed, 7 insertions(+)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediate=
-k/mtk_dsi.c
-> index 0ad7157660afa..9d33dd93118e0 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -1040,6 +1040,13 @@ static int mtk_dsi_encoder_init(struct drm_device =
-*drm, struct mtk_dsi *dsi)
->                 goto err_cleanup_encoder;
->         }
->
-> +       /* A drm_panel can have its own orientation. If there is no panel=
-, set the
-> +        * orientation to NORMAL. */
-> +       if (!dsi->panel) {
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+---
+ .../phy/mediatek/phy-mtk-mipi-dsi-mt8173.c    | 45 ++++++-------
+ .../phy/mediatek/phy-mtk-mipi-dsi-mt8183.c    | 63 ++++++++++---------
+ drivers/phy/mediatek/phy-mtk-mipi-dsi.c       | 43 +++++--------
+ drivers/phy/mediatek/phy-mtk-mipi-dsi.h       |  6 +-
+ 4 files changed, 72 insertions(+), 85 deletions(-)
 
-Please send patch based on latest kernel version. In latest kernel
-version, struct mtk_dsi{} has no member 'panel'.
+diff --git a/drivers/phy/mediatek/phy-mtk-mipi-dsi-mt8173.c b/drivers/phy/mediatek/phy-mtk-mipi-dsi-mt8173.c
+index 7a847954594f..95a0d9a3cca7 100644
+--- a/drivers/phy/mediatek/phy-mtk-mipi-dsi-mt8173.c
++++ b/drivers/phy/mediatek/phy-mtk-mipi-dsi-mt8173.c
+@@ -4,6 +4,7 @@
+  * Author: jitao.shi <jitao.shi@mediatek.com>
+  */
+ 
++#include <linux/regmap.h>
+ #include "phy-mtk-mipi-dsi.h"
+ 
+ #define MIPITX_DSI_CON		0x00
+@@ -145,7 +146,7 @@ static int mtk_mipi_tx_pll_prepare(struct clk_hw *hw)
+ 		return -EINVAL;
+ 	}
+ 
+-	mtk_mipi_tx_update_bits(mipi_tx, MIPITX_DSI_BG_CON,
++	regmap_update_bits(mipi_tx->regmap, MIPITX_DSI_BG_CON,
+ 				RG_DSI_VOUT_MSK |
+ 				RG_DSI_BG_CKEN | RG_DSI_BG_CORE_EN,
+ 				(4 << 20) | (4 << 17) | (4 << 14) |
+@@ -154,22 +155,22 @@ static int mtk_mipi_tx_pll_prepare(struct clk_hw *hw)
+ 
+ 	usleep_range(30, 100);
+ 
+-	mtk_mipi_tx_update_bits(mipi_tx, MIPITX_DSI_TOP_CON,
++	regmap_update_bits(mipi_tx->regmap, MIPITX_DSI_TOP_CON,
+ 				RG_DSI_LNT_IMP_CAL_CODE | RG_DSI_LNT_HS_BIAS_EN,
+ 				(8 << 4) | RG_DSI_LNT_HS_BIAS_EN);
+ 
+-	mtk_mipi_tx_set_bits(mipi_tx, MIPITX_DSI_CON,
++	regmap_set_bits(mipi_tx->regmap, MIPITX_DSI_CON,
+ 			     RG_DSI_CKG_LDOOUT_EN | RG_DSI_LDOCORE_EN);
+ 
+-	mtk_mipi_tx_update_bits(mipi_tx, MIPITX_DSI_PLL_PWR,
++	regmap_update_bits(mipi_tx->regmap, MIPITX_DSI_PLL_PWR,
+ 				RG_DSI_MPPLL_SDM_PWR_ON |
+ 				RG_DSI_MPPLL_SDM_ISO_EN,
+ 				RG_DSI_MPPLL_SDM_PWR_ON);
+ 
+-	mtk_mipi_tx_clear_bits(mipi_tx, MIPITX_DSI_PLL_CON0,
++	regmap_clear_bits(mipi_tx->regmap, MIPITX_DSI_PLL_CON0,
+ 			       RG_DSI_MPPLL_PLL_EN);
+ 
+-	mtk_mipi_tx_update_bits(mipi_tx, MIPITX_DSI_PLL_CON0,
++	regmap_update_bits(mipi_tx->regmap, MIPITX_DSI_PLL_CON0,
+ 				RG_DSI_MPPLL_TXDIV0 | RG_DSI_MPPLL_TXDIV1 |
+ 				RG_DSI_MPPLL_PREDIV,
+ 				(txdiv0 << 3) | (txdiv1 << 5));
+@@ -184,19 +185,19 @@ static int mtk_mipi_tx_pll_prepare(struct clk_hw *hw)
+ 	 */
+ 	pcw = div_u64(((u64)mipi_tx->data_rate * 2 * txdiv) << 24,
+ 		      26000000);
+-	writel(pcw, mipi_tx->regs + MIPITX_DSI_PLL_CON2);
++	regmap_write(mipi_tx->regmap, MIPITX_DSI_PLL_CON2, pcw);
+ 
+-	mtk_mipi_tx_set_bits(mipi_tx, MIPITX_DSI_PLL_CON1,
++	regmap_set_bits(mipi_tx->regmap, MIPITX_DSI_PLL_CON1,
+ 			     RG_DSI_MPPLL_SDM_FRA_EN);
+ 
+-	mtk_mipi_tx_set_bits(mipi_tx, MIPITX_DSI_PLL_CON0, RG_DSI_MPPLL_PLL_EN);
++	regmap_set_bits(mipi_tx->regmap, MIPITX_DSI_PLL_CON0, RG_DSI_MPPLL_PLL_EN);
+ 
+ 	usleep_range(20, 100);
+ 
+-	mtk_mipi_tx_clear_bits(mipi_tx, MIPITX_DSI_PLL_CON1,
++	regmap_clear_bits(mipi_tx->regmap, MIPITX_DSI_PLL_CON1,
+ 			       RG_DSI_MPPLL_SDM_SSC_EN);
+ 
+-	mtk_mipi_tx_update_bits(mipi_tx, MIPITX_DSI_PLL_TOP,
++	regmap_update_bits(mipi_tx->regmap, MIPITX_DSI_PLL_TOP,
+ 				RG_DSI_MPPLL_PRESERVE,
+ 				mipi_tx->driver_data->mppll_preserve);
+ 
+@@ -209,27 +210,27 @@ static void mtk_mipi_tx_pll_unprepare(struct clk_hw *hw)
+ 
+ 	dev_dbg(mipi_tx->dev, "unprepare\n");
+ 
+-	mtk_mipi_tx_clear_bits(mipi_tx, MIPITX_DSI_PLL_CON0,
++	regmap_clear_bits(mipi_tx->regmap, MIPITX_DSI_PLL_CON0,
+ 			       RG_DSI_MPPLL_PLL_EN);
+ 
+-	mtk_mipi_tx_update_bits(mipi_tx, MIPITX_DSI_PLL_TOP,
++	regmap_update_bits(mipi_tx->regmap, MIPITX_DSI_PLL_TOP,
+ 				RG_DSI_MPPLL_PRESERVE, 0);
+ 
+-	mtk_mipi_tx_update_bits(mipi_tx, MIPITX_DSI_PLL_PWR,
++	regmap_update_bits(mipi_tx->regmap, MIPITX_DSI_PLL_PWR,
+ 				RG_DSI_MPPLL_SDM_ISO_EN |
+ 				RG_DSI_MPPLL_SDM_PWR_ON,
+ 				RG_DSI_MPPLL_SDM_ISO_EN);
+ 
+-	mtk_mipi_tx_clear_bits(mipi_tx, MIPITX_DSI_TOP_CON,
++	regmap_clear_bits(mipi_tx->regmap, MIPITX_DSI_TOP_CON,
+ 			       RG_DSI_LNT_HS_BIAS_EN);
+ 
+-	mtk_mipi_tx_clear_bits(mipi_tx, MIPITX_DSI_CON,
++	regmap_clear_bits(mipi_tx->regmap, MIPITX_DSI_CON,
+ 			       RG_DSI_CKG_LDOOUT_EN | RG_DSI_LDOCORE_EN);
+ 
+-	mtk_mipi_tx_clear_bits(mipi_tx, MIPITX_DSI_BG_CON,
++	regmap_clear_bits(mipi_tx->regmap, MIPITX_DSI_BG_CON,
+ 			       RG_DSI_BG_CKEN | RG_DSI_BG_CORE_EN);
+ 
+-	mtk_mipi_tx_clear_bits(mipi_tx, MIPITX_DSI_PLL_CON0,
++	regmap_clear_bits(mipi_tx->regmap, MIPITX_DSI_PLL_CON0,
+ 			       RG_DSI_MPPLL_DIV_MSK);
+ }
+ 
+@@ -254,9 +255,9 @@ static void mtk_mipi_tx_power_on_signal(struct phy *phy)
+ 
+ 	for (reg = MIPITX_DSI_CLOCK_LANE;
+ 	     reg <= MIPITX_DSI_DATA_LANE3; reg += 4)
+-		mtk_mipi_tx_set_bits(mipi_tx, reg, RG_DSI_LNTx_LDOOUT_EN);
++		regmap_set_bits(mipi_tx->regmap, reg, RG_DSI_LNTx_LDOOUT_EN);
+ 
+-	mtk_mipi_tx_clear_bits(mipi_tx, MIPITX_DSI_TOP_CON,
++	regmap_clear_bits(mipi_tx->regmap, MIPITX_DSI_TOP_CON,
+ 			       RG_DSI_PAD_TIE_LOW_EN);
+ }
+ 
+@@ -265,12 +266,12 @@ static void mtk_mipi_tx_power_off_signal(struct phy *phy)
+ 	struct mtk_mipi_tx *mipi_tx = phy_get_drvdata(phy);
+ 	u32 reg;
+ 
+-	mtk_mipi_tx_set_bits(mipi_tx, MIPITX_DSI_TOP_CON,
++	regmap_set_bits(mipi_tx->regmap, MIPITX_DSI_TOP_CON,
+ 			     RG_DSI_PAD_TIE_LOW_EN);
+ 
+ 	for (reg = MIPITX_DSI_CLOCK_LANE;
+ 	     reg <= MIPITX_DSI_DATA_LANE3; reg += 4)
+-		mtk_mipi_tx_clear_bits(mipi_tx, reg, RG_DSI_LNTx_LDOOUT_EN);
++		regmap_clear_bits(mipi_tx->regmap, reg, RG_DSI_LNTx_LDOOUT_EN);
+ }
+ 
+ const struct mtk_mipitx_data mt2701_mipitx_data = {
+diff --git a/drivers/phy/mediatek/phy-mtk-mipi-dsi-mt8183.c b/drivers/phy/mediatek/phy-mtk-mipi-dsi-mt8183.c
+index 99108426d57c..01b59527669e 100644
+--- a/drivers/phy/mediatek/phy-mtk-mipi-dsi-mt8183.c
++++ b/drivers/phy/mediatek/phy-mtk-mipi-dsi-mt8183.c
+@@ -4,6 +4,7 @@
+  * Author: jitao.shi <jitao.shi@mediatek.com>
+  */
+ 
++#include <linux/regmap.h>
+ #include "phy-mtk-mipi-dsi.h"
+ 
+ #define MIPITX_LANE_CON		0x000c
+@@ -70,17 +71,17 @@ static int mtk_mipi_tx_pll_enable(struct clk_hw *hw)
+ 		return -EINVAL;
+ 	}
+ 
+-	mtk_mipi_tx_clear_bits(mipi_tx, MIPITX_PLL_CON4, RG_DSI_PLL_IBIAS);
++	regmap_clear_bits(mipi_tx->regmap, MIPITX_PLL_CON4, RG_DSI_PLL_IBIAS);
+ 
+-	mtk_mipi_tx_set_bits(mipi_tx, MIPITX_PLL_PWR, AD_DSI_PLL_SDM_PWR_ON);
+-	mtk_mipi_tx_clear_bits(mipi_tx, MIPITX_PLL_CON1, RG_DSI_PLL_EN);
++	regmap_set_bits(mipi_tx->regmap, MIPITX_PLL_PWR, AD_DSI_PLL_SDM_PWR_ON);
++	regmap_clear_bits(mipi_tx->regmap, MIPITX_PLL_CON1, RG_DSI_PLL_EN);
+ 	udelay(1);
+-	mtk_mipi_tx_clear_bits(mipi_tx, MIPITX_PLL_PWR, AD_DSI_PLL_SDM_ISO_EN);
++	regmap_clear_bits(mipi_tx->regmap, MIPITX_PLL_PWR, AD_DSI_PLL_SDM_ISO_EN);
+ 	pcw = div_u64(((u64)mipi_tx->data_rate * txdiv) << 24, 26000000);
+-	writel(pcw, mipi_tx->regs + MIPITX_PLL_CON0);
+-	mtk_mipi_tx_update_bits(mipi_tx, MIPITX_PLL_CON1, RG_DSI_PLL_POSDIV,
++	regmap_write(mipi_tx->regmap, MIPITX_PLL_CON0, pcw);
++	regmap_update_bits(mipi_tx->regmap, MIPITX_PLL_CON1, RG_DSI_PLL_POSDIV,
+ 				txdiv0 << 8);
+-	mtk_mipi_tx_set_bits(mipi_tx, MIPITX_PLL_CON1, RG_DSI_PLL_EN);
++	regmap_set_bits(mipi_tx->regmap, MIPITX_PLL_CON1, RG_DSI_PLL_EN);
+ 
+ 	return 0;
+ }
+@@ -89,10 +90,10 @@ static void mtk_mipi_tx_pll_disable(struct clk_hw *hw)
+ {
+ 	struct mtk_mipi_tx *mipi_tx = mtk_mipi_tx_from_clk_hw(hw);
+ 
+-	mtk_mipi_tx_clear_bits(mipi_tx, MIPITX_PLL_CON1, RG_DSI_PLL_EN);
++	regmap_clear_bits(mipi_tx->regmap, MIPITX_PLL_CON1, RG_DSI_PLL_EN);
+ 
+-	mtk_mipi_tx_set_bits(mipi_tx, MIPITX_PLL_PWR, AD_DSI_PLL_SDM_ISO_EN);
+-	mtk_mipi_tx_clear_bits(mipi_tx, MIPITX_PLL_PWR, AD_DSI_PLL_SDM_PWR_ON);
++	regmap_set_bits(mipi_tx->regmap, MIPITX_PLL_PWR, AD_DSI_PLL_SDM_ISO_EN);
++	regmap_clear_bits(mipi_tx->regmap, MIPITX_PLL_PWR, AD_DSI_PLL_SDM_PWR_ON);
+ }
+ 
+ static long mtk_mipi_tx_pll_round_rate(struct clk_hw *hw, unsigned long rate,
+@@ -121,7 +122,7 @@ static void mtk_mipi_tx_config_calibration_data(struct mtk_mipi_tx *mipi_tx)
+ 			mipi_tx->rt_code[i] |= 0x10 << 5;
+ 
+ 		for (j = 0; j < 10; j++)
+-			mtk_mipi_tx_update_bits(mipi_tx,
++			regmap_update_bits(mipi_tx->regmap,
+ 				MIPITX_D2P_RTCODE * (i + 1) + j * 4,
+ 				1, mipi_tx->rt_code[i] >> j & 1);
+ 	}
+@@ -132,26 +133,26 @@ static void mtk_mipi_tx_power_on_signal(struct phy *phy)
+ 	struct mtk_mipi_tx *mipi_tx = phy_get_drvdata(phy);
+ 
+ 	/* BG_LPF_EN / BG_CORE_EN */
+-	writel(RG_DSI_PAD_TIEL_SEL | RG_DSI_BG_CORE_EN,
+-	       mipi_tx->regs + MIPITX_LANE_CON);
++	regmap_write(mipi_tx->regmap, MIPITX_LANE_CON,
++		    (RG_DSI_PAD_TIEL_SEL | RG_DSI_BG_CORE_EN));
+ 	usleep_range(30, 100);
+-	writel(RG_DSI_BG_CORE_EN | RG_DSI_BG_LPF_EN,
+-	       mipi_tx->regs + MIPITX_LANE_CON);
++	regmap_write(mipi_tx->regmap, MIPITX_LANE_CON,
++		    (RG_DSI_BG_LPF_EN | RG_DSI_BG_CORE_EN));
+ 
+ 	/* Switch OFF each Lane */
+-	mtk_mipi_tx_clear_bits(mipi_tx, MIPITX_D0_SW_CTL_EN, DSI_SW_CTL_EN);
+-	mtk_mipi_tx_clear_bits(mipi_tx, MIPITX_D1_SW_CTL_EN, DSI_SW_CTL_EN);
+-	mtk_mipi_tx_clear_bits(mipi_tx, MIPITX_D2_SW_CTL_EN, DSI_SW_CTL_EN);
+-	mtk_mipi_tx_clear_bits(mipi_tx, MIPITX_D3_SW_CTL_EN, DSI_SW_CTL_EN);
+-	mtk_mipi_tx_clear_bits(mipi_tx, MIPITX_CK_SW_CTL_EN, DSI_SW_CTL_EN);
++	regmap_clear_bits(mipi_tx->regmap, MIPITX_D0_SW_CTL_EN, DSI_SW_CTL_EN);
++	regmap_clear_bits(mipi_tx->regmap, MIPITX_D1_SW_CTL_EN, DSI_SW_CTL_EN);
++	regmap_clear_bits(mipi_tx->regmap, MIPITX_D2_SW_CTL_EN, DSI_SW_CTL_EN);
++	regmap_clear_bits(mipi_tx->regmap, MIPITX_D3_SW_CTL_EN, DSI_SW_CTL_EN);
++	regmap_clear_bits(mipi_tx->regmap, MIPITX_CK_SW_CTL_EN, DSI_SW_CTL_EN);
+ 
+-	mtk_mipi_tx_update_bits(mipi_tx, MIPITX_VOLTAGE_SEL,
++	regmap_update_bits(mipi_tx->regmap, MIPITX_VOLTAGE_SEL,
+ 				RG_DSI_HSTX_LDO_REF_SEL,
+ 				(mipi_tx->mipitx_drive - 3000) / 200 << 6);
+ 
+ 	mtk_mipi_tx_config_calibration_data(mipi_tx);
+ 
+-	mtk_mipi_tx_set_bits(mipi_tx, MIPITX_CK_CKMODE_EN, DSI_CK_CKMODE_EN);
++	regmap_set_bits(mipi_tx->regmap, MIPITX_CK_CKMODE_EN, DSI_CK_CKMODE_EN);
+ }
+ 
+ static void mtk_mipi_tx_power_off_signal(struct phy *phy)
+@@ -159,15 +160,15 @@ static void mtk_mipi_tx_power_off_signal(struct phy *phy)
+ 	struct mtk_mipi_tx *mipi_tx = phy_get_drvdata(phy);
+ 
+ 	/* Switch ON each Lane */
+-	mtk_mipi_tx_set_bits(mipi_tx, MIPITX_D0_SW_CTL_EN, DSI_SW_CTL_EN);
+-	mtk_mipi_tx_set_bits(mipi_tx, MIPITX_D1_SW_CTL_EN, DSI_SW_CTL_EN);
+-	mtk_mipi_tx_set_bits(mipi_tx, MIPITX_D2_SW_CTL_EN, DSI_SW_CTL_EN);
+-	mtk_mipi_tx_set_bits(mipi_tx, MIPITX_D3_SW_CTL_EN, DSI_SW_CTL_EN);
+-	mtk_mipi_tx_set_bits(mipi_tx, MIPITX_CK_SW_CTL_EN, DSI_SW_CTL_EN);
+-
+-	writel(RG_DSI_PAD_TIEL_SEL | RG_DSI_BG_CORE_EN,
+-	       mipi_tx->regs + MIPITX_LANE_CON);
+-	writel(RG_DSI_PAD_TIEL_SEL, mipi_tx->regs + MIPITX_LANE_CON);
++	regmap_set_bits(mipi_tx->regmap, MIPITX_D0_SW_CTL_EN, DSI_SW_CTL_EN);
++	regmap_set_bits(mipi_tx->regmap, MIPITX_D1_SW_CTL_EN, DSI_SW_CTL_EN);
++	regmap_set_bits(mipi_tx->regmap, MIPITX_D2_SW_CTL_EN, DSI_SW_CTL_EN);
++	regmap_set_bits(mipi_tx->regmap, MIPITX_D3_SW_CTL_EN, DSI_SW_CTL_EN);
++	regmap_set_bits(mipi_tx->regmap, MIPITX_CK_SW_CTL_EN, DSI_SW_CTL_EN);
++
++	regmap_write(mipi_tx->regmap, MIPITX_LANE_CON,
++		    (RG_DSI_PAD_TIEL_SEL | RG_DSI_BG_CORE_EN));
++	regmap_write(mipi_tx->regmap, MIPITX_LANE_CON, RG_DSI_PAD_TIEL_SEL);
+ }
+ 
+ const struct mtk_mipitx_data mt8183_mipitx_data = {
+diff --git a/drivers/phy/mediatek/phy-mtk-mipi-dsi.c b/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
+index 28ad9403c441..51b1b1d4ad38 100644
+--- a/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
++++ b/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
+@@ -3,6 +3,7 @@
+  * Copyright (c) 2015 MediaTek Inc.
+  */
+ 
++#include <linux/regmap.h>
+ #include "phy-mtk-mipi-dsi.h"
+ 
+ inline struct mtk_mipi_tx *mtk_mipi_tx_from_clk_hw(struct clk_hw *hw)
+@@ -10,30 +11,6 @@ inline struct mtk_mipi_tx *mtk_mipi_tx_from_clk_hw(struct clk_hw *hw)
+ 	return container_of(hw, struct mtk_mipi_tx, pll_hw);
+ }
+ 
+-void mtk_mipi_tx_clear_bits(struct mtk_mipi_tx *mipi_tx, u32 offset,
+-			    u32 bits)
+-{
+-	u32 temp = readl(mipi_tx->regs + offset);
+-
+-	writel(temp & ~bits, mipi_tx->regs + offset);
+-}
+-
+-void mtk_mipi_tx_set_bits(struct mtk_mipi_tx *mipi_tx, u32 offset,
+-			  u32 bits)
+-{
+-	u32 temp = readl(mipi_tx->regs + offset);
+-
+-	writel(temp | bits, mipi_tx->regs + offset);
+-}
+-
+-void mtk_mipi_tx_update_bits(struct mtk_mipi_tx *mipi_tx, u32 offset,
+-			     u32 mask, u32 data)
+-{
+-	u32 temp = readl(mipi_tx->regs + offset);
+-
+-	writel((temp & ~mask) | (data & mask), mipi_tx->regs + offset);
+-}
+-
+ int mtk_mipi_tx_pll_set_rate(struct clk_hw *hw, unsigned long rate,
+ 			     unsigned long parent_rate)
+ {
+@@ -126,6 +103,13 @@ static void mtk_mipi_tx_get_calibration_datal(struct mtk_mipi_tx *mipi_tx)
+ 	kfree(buf);
+ }
+ 
++static const struct regmap_config mtk_mipi_tx_regmap_config = {
++	.reg_bits = 32,
++	.reg_stride = 4,
++	.val_bits = 32,
++	.disable_locking = true,
++};
++
+ static int mtk_mipi_tx_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+@@ -139,6 +123,7 @@ static int mtk_mipi_tx_probe(struct platform_device *pdev)
+ 	};
+ 	struct phy *phy;
+ 	struct phy_provider *phy_provider;
++	void __iomem *regs;
+ 	int ret;
+ 
+ 	mipi_tx = devm_kzalloc(dev, sizeof(*mipi_tx), GFP_KERNEL);
+@@ -147,9 +132,13 @@ static int mtk_mipi_tx_probe(struct platform_device *pdev)
+ 
+ 	mipi_tx->driver_data = of_device_get_match_data(dev);
+ 
+-	mipi_tx->regs = devm_platform_ioremap_resource(pdev, 0);
+-	if (IS_ERR(mipi_tx->regs))
+-		return PTR_ERR(mipi_tx->regs);
++	regs = devm_platform_ioremap_resource(pdev, 0);
++	if (IS_ERR(regs))
++		return PTR_ERR(regs);
++
++	mipi_tx->regmap = devm_regmap_init_mmio(dev, regs, &mtk_mipi_tx_regmap_config);
++	if (IS_ERR(mipi_tx->regmap))
++		return PTR_ERR(mipi_tx->regmap);
+ 
+ 	ref_clk = devm_clk_get(dev, NULL);
+ 	if (IS_ERR(ref_clk)) {
+diff --git a/drivers/phy/mediatek/phy-mtk-mipi-dsi.h b/drivers/phy/mediatek/phy-mtk-mipi-dsi.h
+index c76f07c3fdeb..8d32e9027a15 100644
+--- a/drivers/phy/mediatek/phy-mtk-mipi-dsi.h
++++ b/drivers/phy/mediatek/phy-mtk-mipi-dsi.h
+@@ -27,7 +27,7 @@ struct mtk_mipitx_data {
+ 
+ struct mtk_mipi_tx {
+ 	struct device *dev;
+-	void __iomem *regs;
++	struct regmap *regmap;
+ 	u32 data_rate;
+ 	u32 mipitx_drive;
+ 	u32 rt_code[5];
+@@ -37,10 +37,6 @@ struct mtk_mipi_tx {
+ };
+ 
+ struct mtk_mipi_tx *mtk_mipi_tx_from_clk_hw(struct clk_hw *hw);
+-void mtk_mipi_tx_clear_bits(struct mtk_mipi_tx *mipi_tx, u32 offset, u32 bits);
+-void mtk_mipi_tx_set_bits(struct mtk_mipi_tx *mipi_tx, u32 offset, u32 bits);
+-void mtk_mipi_tx_update_bits(struct mtk_mipi_tx *mipi_tx, u32 offset, u32 mask,
+-			     u32 data);
+ int mtk_mipi_tx_pll_set_rate(struct clk_hw *hw, unsigned long rate,
+ 			     unsigned long parent_rate);
+ unsigned long mtk_mipi_tx_pll_recalc_rate(struct clk_hw *hw,
+-- 
+2.33.1
 
-Regards,
-Chun-Kuang.
-
-> +               drm_connector_set_panel_orientation(
-> +                       dsi->connector, DRM_MODE_PANEL_ORIENTATION_NORMAL=
-);
-> +       }
-> +
->         drm_connector_attach_encoder(dsi->connector, &dsi->encoder);
->
->         return 0;
-> --
-> 2.34.1.448.ga2b2bfdf31-goog
->
