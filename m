@@ -1,62 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A8A2483104
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jan 2022 13:30:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65C7B48310E
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jan 2022 13:35:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB2EA10E25A;
-	Mon,  3 Jan 2022 12:30:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE16010E142;
+	Mon,  3 Jan 2022 12:35:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com
- [IPv6:2607:f8b0:4864:20::736])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D35C010E26E
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 12:29:59 +0000 (UTC)
-Received: by mail-qk1-x736.google.com with SMTP id w27so24970250qkj.7
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Jan 2022 04:29:59 -0800 (PST)
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2558510E142
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jan 2022 12:35:27 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id n30so23288950eda.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Jan 2022 04:35:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=s4Y0TL/KovMUJRfnkVjTV4iJmVFv/tcSjBhNJ8lA3Pc=;
- b=hj97S6rr4TjD+9VMmgLYkaPb/vSbfj61Nc++Gb9ZrOiR1/TdIc3PCvfc/WBV9YDFTW
- t2FwppWgecmAN0l4CiXMIWzdSpAtKsZLrDU3jrz+u88ehT2075qlq/KRAQHpfucR5T6S
- IyykJmSzV/wGoKGHe+A1bFhyY+CiMUd8+pPdboSKnCBqROjMjITx9brDuRIFiB1dA0hf
- +zj0mAxpHGKrB74UpH6j6+PZtEa8Hzxy/1jWjuc+ySalWsRZqKOwWRdXmFLBsJZQDYCM
- k3KR1j1wATjp0K4XEiEoeMDw/qam65atqWbo8pc8ZsoETxC6xdp16O0ytmTBJbinHnqp
- iGRw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ISY5WAXEp+/TVA+ybyZWGaVToSsoO0hMMwrc+3F53/g=;
+ b=S9flIX1dHUIPZEwh4d7oHhTQIiArk/Bj97eYK5iwPqn87AeGRaZ/xx1/i6E6MNKglR
+ MHtHT2shgCnYEsTTzCr3k/i2J+vFi5Cd8BtohMXsK4EsN0UK1pug9xcImpHptjwG/g9Y
+ FT0Kpr5l1PMDK2zTqHodK5BFO9our7C3iEUn7SWsL2of8WadKGzYXf2AoNfItlSL9oX+
+ Ed4iqJX4+AG9qO8GDSXN7jygEUSo4sXC+RBcjy8zgYuNt9uVrEEQdzxPK1TzR8mJ/aE2
+ r80rgzUTwpDhZDfSJXJ8X+5ulv7grg9BrFSUH+j4A1Oo+BSd2mV/LPgdYYiMEUSl6PoU
+ R1bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=s4Y0TL/KovMUJRfnkVjTV4iJmVFv/tcSjBhNJ8lA3Pc=;
- b=402OqTe5bzsn8MqDpUwWW7IIeS9eTxnkYNOIu2W26Bc1RQPPj1zZawDZL1IgtjkwgL
- aWeBUvN9FpCQ1p4OhoW+PhmH9KVg54RN77y1SZTpteQZARV0dH0vNx+BhwvEWh/Tvqx8
- XvVNzk6jNnz8uRd1TCcEG2jv4ey8K5YH+QbA4+Bk9zJSksuKZH9leSOLYJJixCDzYr46
- 1FzVw4wAd+IQIpWUp5+YEvEpg01e69Ul7sOIpZmnqUVp77PDpj2K7lj6kjLsz+YaQxDu
- tO3ppLVBHnOq8mElHJTg6R/W/IHAeDE1RTzfEmy1DgdKE1LvRVjULILacahs6LsEoGS3
- MSKg==
-X-Gm-Message-State: AOAM532hT/gMRVLHe34JzY+Ygou0cS+LpGRxRcTHqSqlVv257x9hvObD
- 8xVFnKEQDgOOytKecvMdNLc=
-X-Google-Smtp-Source: ABdhPJwXBYe9L4d4QhQC3kCMAPLi6aGHEL4UzYCFt8jnuYgUsNzFEqTL+x8+vNPluhgPlR6umzebRg==
-X-Received: by 2002:a05:620a:2586:: with SMTP id
- x6mr30392022qko.15.1641212998983; 
- Mon, 03 Jan 2022 04:29:58 -0800 (PST)
-Received: from localhost.localdomain ([2804:14c:485:504a:9fae:13de:8196:cc8c])
- by smtp.gmail.com with ESMTPSA id
- h3sm28364424qko.78.2022.01.03.04.29.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Jan 2022 04:29:58 -0800 (PST)
-From: Fabio Estevam <festevam@gmail.com>
-To: linux@armlinux.org.uk
-Subject: [PATCH v2 2/2] drm/i2c/tda998x: Implement atomic_get_input_bus_fmts
-Date: Mon,  3 Jan 2022 09:29:41 -0300
-Message-Id: <20220103122941.371578-2-festevam@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220103122941.371578-1-festevam@gmail.com>
-References: <20220103122941.371578-1-festevam@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ISY5WAXEp+/TVA+ybyZWGaVToSsoO0hMMwrc+3F53/g=;
+ b=iku3tXcANFoXjoHewYG/kyb+nqsHs3fEwHswudqjrAwciUu0+I1xOQLzJMGgCkuQd+
+ P9TRpzonaMcuUWnUFOIPpB0Dt5jhRi/I8Ufv14HiMnllYSLiPGxSwDR6kp4iMYUtJ4ll
+ Q4tY4CNZO+xv35xosxAAiy9pX1t55+L6owEY2gYXSyguY4I11LeswL1EHAxlIxDY6lCY
+ KhA1y7wztUk0rjfjh6JmzOXdR4KM+pnmNmd7+IxAKxxR2zDhe7TjkkYZT/xLzQ1FSHlI
+ qHJGiS92K6+82T8iFL1LfxcNWRPou91wdWtrXJxygXvuIu/SIdEyu763ZLJPtBwwRaoW
+ xy4Q==
+X-Gm-Message-State: AOAM532dWS7/T3lqBkzhHkl+iktP88g4IyQf5ra5zsyC8wgOFGxXOm8e
+ 1iYLdPVsjDDpP2YcAcIyEXUlcpVOwJzNuTa937CmfbIZdtA=
+X-Google-Smtp-Source: ABdhPJyaF/cpprJCTw+uvA6kQN+LH6hRA+cIiTLOfGmYczA/+F6qnc5eQ48RBMbMdrkUW33dU9tkRxSdVWLpR20EStc=
+X-Received: by 2002:a50:d65e:: with SMTP id c30mr43399181edj.77.1641213325625; 
+ Mon, 03 Jan 2022 04:35:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211231013930.139754-1-festevam@gmail.com>
+ <YdLifIoB8eClztlG@pendragon.ideasonboard.com>
+In-Reply-To: <YdLifIoB8eClztlG@pendragon.ideasonboard.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Mon, 3 Jan 2022 09:35:14 -0300
+Message-ID: <CAOMZO5DVzvPXs2-0Vzsunh=OZ0qhyMhSKyPTKQ+mGXfF8G8Rtw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/i2c/tda998x: Switch to atomic operations
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,76 +62,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marex@denx.de, dri-devel@lists.freedesktop.org,
- laurent.pinchart@ideasonboard.com, tomm.merciai@gmail.com,
- pbrobinson@gmail.com
+Cc: Marek Vasut <marex@denx.de>, Tommaso Merciai <tomm.merciai@gmail.com>,
+ Russell King - ARM Linux <linux@armlinux.org.uk>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Peter Robinson <pbrobinson@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement the .atomic_get_input_bus_fmts callback to let the bridge
-indicate the pixel format it requires on the parallel bus to the LCDIF.
+Hi Laurent,
 
-Based on Marek's commit db8b7ca5b232 ("drm/bridge: ti-sn65dsi83: Replace
-connector format patching with atomic_get_input_bus_fmts").
+On Mon, Jan 3, 2022 at 8:48 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 
-Tested on a imx6sx-udoo-neo board.
+> With the comment from 2/2 taken into account,
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Suggested-by: Marek Vasut <marex@denx.de>
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
-Changes since v1:
+Thanks for the review. I addressed your feedback and sent v2.
 
-- Move .atomic_duplicate_state,.atomic_destroy_state .atomic_reset from
-patch 2/2 to 1/2. (Laurent)
+I noticed a problem when removing/inserting the HDMI cable.
 
- drivers/gpu/drm/i2c/tda998x_drv.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+If I boot the board with the HDMI cable connected, then after
+removal/insertion of the HDMI cable, the following
+kernel warning is observed:
 
-diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/tda998x_drv.c
-index 45d52b8a4026..d987481e97c1 100644
---- a/drivers/gpu/drm/i2c/tda998x_drv.c
-+++ b/drivers/gpu/drm/i2c/tda998x_drv.c
-@@ -1678,6 +1678,31 @@ static void tda998x_bridge_mode_set(struct drm_bridge *bridge,
- 	mutex_unlock(&priv->audio_mutex);
- }
- 
-+#define MAX_INPUT_SEL_FORMATS  1
-+
-+static u32 *
-+tda998x_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-+				   struct drm_bridge_state *bridge_state,
-+				   struct drm_crtc_state *crtc_state,
-+				   struct drm_connector_state *conn_state,
-+				   u32 output_fmt,
-+				   unsigned int *num_input_fmts)
-+{
-+	u32 *input_fmts;
-+
-+	*num_input_fmts = 0;
-+
-+	input_fmts = kcalloc(MAX_INPUT_SEL_FORMATS, sizeof(*input_fmts),
-+			     GFP_KERNEL);
-+	if (!input_fmts)
-+		return NULL;
-+
-+	input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
-+	*num_input_fmts = 1;
-+
-+	return input_fmts;
-+}
-+
- static const struct drm_bridge_funcs tda998x_bridge_funcs = {
- 	.attach = tda998x_bridge_attach,
- 	.detach = tda998x_bridge_detach,
-@@ -1688,6 +1713,7 @@ static const struct drm_bridge_funcs tda998x_bridge_funcs = {
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
- 	.atomic_reset = drm_atomic_helper_bridge_reset,
-+	.atomic_get_input_bus_fmts = tda998x_atomic_get_input_bus_fmts,
- };
- 
- /* I2C driver functions */
--- 
-2.25.1
+# [   23.201080] ------------[ cut here ]------------
+[   23.207275] WARNING: CPU: 0 PID: 56 at
+drivers/gpu/drm/drm_atomic_helper.c:1514
+drm_atomic_helper_wait_for_vblanks.part.0+0x27c/0x294
+[   23.221469] [CRTC:35:crtc-0] vblank wait timed out
+[   23.226448] Modules linked in:
+[   23.230255] CPU: 0 PID: 56 Comm: kworker/0:3 Not tainted
+5.15.12-00003-g27f29fb60028 #94
+[   23.238508] Hardware name: Freescale i.MX6 SoloX (Device Tree)
+[   23.244457] Workqueue: events output_poll_execute
+[   23.249377] [<c01118f8>] (unwind_backtrace) from [<c010bde0>]
+(show_stack+0x10/0x14)
+[   23.257316] [<c010bde0>] (show_stack) from [<c0e8d38c>]
+(dump_stack_lvl+0x58/0x70)
+[   23.265059] [<c0e8d38c>] (dump_stack_lvl) from [<c0125e2c>]
+(__warn+0xd8/0x114)
+[   23.272533] [<c0125e2c>] (__warn) from [<c0e87f94>]
+(warn_slowpath_fmt+0x90/0xc4)
+[   23.280166] [<c0e87f94>] (warn_slowpath_fmt) from [<c0707c98>]
+(drm_atomic_helper_wait_for_vblanks.part.0+0x27c/0x294)
+[   23.291054] [<c0707c98>]
+(drm_atomic_helper_wait_for_vblanks.part.0) from [<c07092cc>]
+(drm_atomic_helper_commit_tail_rpm+0x5c/0x6c)
+[   23.303150] [<c07092cc>] (drm_atomic_helper_commit_tail_rpm) from
+[<c0709e44>] (commit_tail+0x9c/0x190)
+[   23.312717] [<c0709e44>] (commit_tail) from [<c070a098>]
+(drm_atomic_helper_commit+0x158/0x18c)
+[   23.321588] [<c070a098>] (drm_atomic_helper_commit) from
+[<c073f4e4>] (drm_client_modeset_commit_atomic+0x238/0x284)
+[   23.332314] [<c073f4e4>] (drm_client_modeset_commit_atomic) from
+[<c073f600>] (drm_client_modeset_commit_locked+0x60/0x1cc)
+[   23.343615] [<c073f600>] (drm_client_modeset_commit_locked) from
+[<c073f790>] (drm_client_modeset_commit+0x24/0x40)
+[   23.354218] [<c073f790>] (drm_client_modeset_commit) from
+[<c071050c>] (__drm_fb_helper_restore_fbdev_mode_unlocked+0x9c/0xc8)
+[   23.365803] [<c071050c>]
+(__drm_fb_helper_restore_fbdev_mode_unlocked) from [<c07105a0>]
+(drm_fb_helper_set_par+0x38/0x68)
+[   23.377015] [<c07105a0>] (drm_fb_helper_set_par) from [<c0710674>]
+(drm_fb_helper_hotplug_event.part.0+0xa4/0xc0)
+[   23.387443] [<c0710674>] (drm_fb_helper_hotplug_event.part.0) from
+[<c073ea80>] (drm_client_dev_hotplug+0x6c/0xb4)
+[   23.397959] [<c073ea80>] (drm_client_dev_hotplug) from [<c06fc5e0>]
+(output_poll_execute+0x200/0x21c)
+[   23.407346] [<c06fc5e0>] (output_poll_execute) from [<c0147f54>]
+(process_one_work+0x298/0x7cc)
+[   23.416224] [<c0147f54>] (process_one_work) from [<c01484b8>]
+(worker_thread+0x30/0x50c)
+[   23.424479] [<c01484b8>] (worker_thread) from [<c015138c>]
+(kthread+0x154/0x17c)
+[   23.432039] [<c015138c>] (kthread) from [<c010011c>]
+(ret_from_fork+0x14/0x38)
+[   23.439413] Exception stack(0xc42a1fb0 to 0xc42a1ff8)
+[   23.444588] 1fa0:                                     00000000
+00000000 00000000 00000000
+[   23.452888] 1fc0: 00000000 00000000 00000000 00000000 00000000
+00000000 00000000 00000000
+[   23.461182] 1fe0: 00000000 00000000 00000000 00000000 00000013 00000000
+[   23.468734] irq event stamp: 43775
+[   23.472305] hardirqs last  enabled at (43783): [<c0197408>]
+__up_console_sem+0x50/0x60
+[   23.480785] hardirqs last disabled at (43792): [<c01973f4>]
+__up_console_sem+0x3c/0x60
+[   23.489224] softirqs last  enabled at (43774): [<c010150c>]
+__do_softirq+0x2ec/0x5a4
+[   23.497163] softirqs last disabled at (43747): [<c012efdc>]
+irq_exit+0x18c/0x210
+[   23.505106] ---[ end trace 86572327287ca501 ]---
 
+I haven't managed to fix this yet, but if you have any suggestions,
+please let me know.
+
+Thanks,
+
+Fabio Estevam
