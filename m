@@ -1,41 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0872483EED
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jan 2022 10:13:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94EBC483F33
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jan 2022 10:31:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C3CE10E4FA;
-	Tue,  4 Jan 2022 09:13:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1705210E549;
+	Tue,  4 Jan 2022 09:31:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B20110E4FA
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jan 2022 09:13:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DA6B10E549
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jan 2022 09:31:11 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 879501F42D87
+ (Authenticated sender: kholk11) with ESMTPSA id E825C1F42D84
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1641287627;
- bh=XZd2lykqJomHU+Ox/8ttKPosF+qxXhAWLOOqEgbtIdo=;
+ s=mail; t=1641288670;
+ bh=9/T8aEfuY7T8xMS1IhnS76wUW+9atSI7kjJyu/iRtDU=;
  h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=iQ8lVGvPPym5/5IZSktbxmSKApdFKXLV8L8JhFK1cp/LQSXq7Lmr3S678qN+ET2gh
- YCAKi7zdhELODH1TlKDTZtSDwSBhVp8nn28VTzd+oAI7KVI/2oqZgxBXSzhWEye0oB
- wWmEW9VsBH97h6caTCJ705TyY1jqDyYywebgbpN8jUfCYWbaZcuHNqwagIvwWO7IdC
- W+hlBtG2dxDoYOpNneQsZZJfMXsiS3qeZYstDQgtZdz28SKGXQNHm+FSsDTta9dC+i
- FMPJ5qz47jH2g6bT9zWr8tpoojCfprjAqSf+zLJAYUI6dw+TjwS/HSs30vfZEzBIVi
- nXVE02V4PKQ/Q==
-Subject: Re: [PATCH] drm/mediatek: mtk_dsi: Avoid EPROBE_DEFER loop with
- external bridge
-To: dri-devel@lists.freedesktop.org
-References: <20211210113617.196204-1-angelogioacchino.delregno@collabora.com>
+ b=dFXEJQPWjXn1LKtamRetcBoBxRdVPu8oc4kUftd9Jg8pxfB1z5Nlxqgo0iB57ZeMn
+ uSB2UZEVCQCVlX1C5Ck3Q5lXMr+l9gt15TPjuli6afS/0Zik95yU670XU4vxwASCiF
+ LJ7A9681XBMjtLi47dhYvVE/VNDZCOvWT83HBJAczqYntBcGrOfSYmFVXz0fTgUPag
+ sXprSVYS6AzsPbL7K/owK40/PXH5Yn3Oxxed1pJDh60jhacnYjNrKVnq5TVJ2i5+FO
+ AZA4ePF4eovMo7dq30wXdzWDrHmhWHONLUl6fN7ihMqmTE6agiMgSLvykrIvQymVui
+ roAHPRuB4e5lg==
+Subject: Re: [PATCH v3, 02/13] media: mtk-vcodec: Using firmware type to
+ separate different firmware architecture
+To: Yunfei Dong <yunfei.dong@mediatek.com>,
+ Alexandre Courbot <acourbot@chromium.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tzung-Bi Shih
+ <tzungbi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Tomasz Figa <tfiga@google.com>
+References: <20220104080138.7472-1-yunfei.dong@mediatek.com>
+ <20220104080138.7472-3-yunfei.dong@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Message-ID: <a2c54a49-b052-ab41-d2af-1869c63878e3@collabora.com>
-Date: Tue, 4 Jan 2022 10:13:44 +0100
+Message-ID: <94e51db2-c44a-b2fe-36af-d58c9e5ca29c@collabora.com>
+Date: Tue, 4 Jan 2022 10:31:05 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211210113617.196204-1-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220104080138.7472-3-yunfei.dong@mediatek.com>
 Content-Type: text/plain; charset=iso-8859-15; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -51,34 +59,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- kernel@collabora.com, linux-arm-kernel@lists.infradead.org
+Cc: Irui Wang <irui.wang@mediatek.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ srv_heupstream@mediatek.com, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Fritz Koenig <frkoenig@chromium.org>,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ Steve Cho <stevecho@chromium.org>, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 10/12/21 12:36, AngeloGioacchino Del Regno ha scritto:
-> DRM bridge drivers are now attaching their DSI device at probe time,
-> which requires us to register our DSI host in order to let the bridge
-> to probe: this recently started producing an endless -EPROBE_DEFER
-> loop on some machines that are using external bridges, like the
-> parade-ps8640, found on the ACER Chromebook R13.
+Il 04/01/22 09:01, Yunfei Dong ha scritto:
+> MT8173 platform use vpu firmware, mt8183/mt8192 will use scp
+> firmware instead, using chip name is not reasonable to separate
+> different firmware architecture. Using firmware type is much better.
 > 
-> Now that the DSI hosts/devices probe sequence is documented, we can
-> do adjustments to the mtk_dsi driver as to both fix now and make sure
-> to avoid this situation in the future: for this, following what is
-> documented in drm_bridge.c, move the mtk_dsi component_add() to the
-> mtk_dsi_ops.attach callback and delete it in the detach callback;
-> keeping in mind that we are registering a drm_bridge for our DSI,
-> which is only used/attached if the DSI Host is bound, it wouldn't
-> make sense to keep adding our bridge at probe time (as it would
-> be useless to have it if mtk_dsi_ops.attach() fails!), so also move
-> that one to the dsi host attach function (and remove it in detach).
-> 
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> Reviewed-by: Tzung-Bi Shih<tzungbi@google.com>
 
-Due to the latest changes in drm bridge, we need this patch to land as soon as
-possible, otherwise breakages will be seen on all MediaTek powered devices using
-DSI to eDP/DP bridges...
+Hello Yunfei,
 
-...hence, friendly ping for a review :)
+I agree with this change, it looks better as it separates behaviors in
+a more generic way.
+
+Anyway, it looks like you're removing all users of `enum mtk_chip` but, in
+this case, you forgot to also remove the declaration of this enumeration
+from mtk_vcodec_drv.h! :)
+
+Can you please send a v4 with the requested removal?
+
+so, for v4...
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+
