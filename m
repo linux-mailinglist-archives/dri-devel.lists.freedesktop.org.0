@@ -2,44 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 616A6484813
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jan 2022 19:49:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A56EE484815
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jan 2022 19:49:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EED210E221;
-	Tue,  4 Jan 2022 18:49:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8169710E225;
+	Tue,  4 Jan 2022 18:49:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7241010E223;
- Tue,  4 Jan 2022 18:49:04 +0000 (UTC)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BADEA10E225;
+ Tue,  4 Jan 2022 18:49:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1641322144; x=1672858144;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=efvwYRMHCu4OaXjQSA6T5XofhpY8DrjndzzhR6spYOk=;
- b=DyVVmwUfUQrbEXvh9uOFxBasB1t/YZyE9wln/TsKPnZdxnrwiXbwC9JF
- jeb/KLvtcbfHq2MejsreND5TKglEBy5+UGcwirR40ltpmwAuz5KqWWWvi
- Ieu6dSCgv1og4qdq6WNuw1FbEUSp7a9YMxzwrF0p8YuUBBjOVKbf4GL6P
- OgnLxkQ73VnAyU5/sreoBfqaE2fWLDwzEUW3ef1Qk+Zhve3T5OoIMsr5M
- V5DjJb4yIbkjYNKjWEQGueUG7eZgPuPQvRIh09wO4QraNWN3m33Fvl+Cn
- +GEGMhJZcCONWou/ZI3iysYj446RwmBPBz3Dflrs08sUNvvoXJVmP8MVI A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="242235774"
-X-IronPort-AV: E=Sophos;i="5.88,261,1635231600"; d="scan'208";a="242235774"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jan 2022 10:49:03 -0800
-X-IronPort-AV: E=Sophos;i="5.88,261,1635231600"; d="scan'208";a="472166397"
+ t=1641322149; x=1672858149;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=FJ0Oe5d0fcKbZzQyjft0luvMtS/fFn6PocjeuNV2Je4=;
+ b=c2qQ4SgPfmxX4yGmvcXK476nuF2WqF1ORpSA76R8USsLq1I7oAJlTAtg
+ X4n6odhlfCwyHI0EJlGg6Gswsz8UldiHLUWct7gdLrgkMEuJZ4LrwrQoT
+ e9GYqK6veMoJlx6cbsloih/R4j6JC9qK8AMaHGPNzGE8Qp+hM448LSUTI
+ Sa/gZfS/737M8/BVWaOeXtgOs+61j8e1L/L1rSBH1rV5ZfsJiURHxAUlt
+ MUr0wenEKg7yQT69214+1ePy5K0CcxXZOixQX9o4FypfUDb56XaO915hY
+ ThPlDzbRy6HEYcgKqCEJcu2CKJejcyOsOsRfRY/kKMOGwMmpm025q2l5h Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="242076314"
+X-IronPort-AV: E=Sophos;i="5.88,261,1635231600"; d="scan'208";a="242076314"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jan 2022 10:49:09 -0800
+X-IronPort-AV: E=Sophos;i="5.88,261,1635231600"; d="scan'208";a="688674273"
 Received: from gtobin-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.11.253])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jan 2022 10:49:02 -0800
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jan 2022 10:49:07 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/dp: note that DPCD 0x2002-0x2003 match 0x200-0x201
-Date: Tue,  4 Jan 2022 20:48:56 +0200
-Message-Id: <20220104184857.784563-1-jani.nikula@intel.com>
+Subject: [PATCH 2/2] drm/mst: use DP_GET_SINK_COUNT() for sink count in ESI
+Date: Tue,  4 Jan 2022 20:48:57 +0200
+Message-Id: <20220104184857.784563-2-jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220104184857.784563-1-jani.nikula@intel.com>
+References: <20220104184857.784563-1-jani.nikula@intel.com>
 MIME-Version: 1.0
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
@@ -59,33 +61,27 @@ Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DP_SINK_COUNT_ESI and DP_DEVICE_SERVICE_IRQ_VECTOR_ESI0 have the same
-contents as DP_SINK_COUNT and DP_DEVICE_SERVICE_IRQ_VECTOR,
-respectively.
+Take bit 7 into account when reading sink count from
+DP_DEVICE_SERVICE_IRQ_VECTOR_ESI0.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- include/drm/drm_dp_helper.h | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/drm_dp_mst_topology.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-index 30359e434c3f..98d020835b49 100644
---- a/include/drm/drm_dp_helper.h
-+++ b/include/drm/drm_dp_helper.h
-@@ -1038,11 +1038,8 @@ struct drm_panel;
- #define DP_SIDEBAND_MSG_UP_REQ_BASE	    0x1600   /* 1.2 MST */
+diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+index f3d79eda94bb..ab4372e9fe43 100644
+--- a/drivers/gpu/drm/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+@@ -4196,7 +4196,7 @@ int drm_dp_mst_hpd_irq(struct drm_dp_mst_topology_mgr *mgr, u8 *esi, bool *handl
+ 	int ret = 0;
+ 	int sc;
+ 	*handled = false;
+-	sc = esi[0] & 0x3f;
++	sc = DP_GET_SINK_COUNT(esi[0]);
  
- /* DPRX Event Status Indicator */
--#define DP_SINK_COUNT_ESI		    0x2002   /* 1.2 */
--/* 0-5 sink count */
--# define DP_SINK_COUNT_CP_READY             (1 << 6)
--
--#define DP_DEVICE_SERVICE_IRQ_VECTOR_ESI0   0x2003   /* 1.2 */
-+#define DP_SINK_COUNT_ESI                   0x2002   /* same as 0x200 */
-+#define DP_DEVICE_SERVICE_IRQ_VECTOR_ESI0   0x2003   /* same as 0x201 */
- 
- #define DP_DEVICE_SERVICE_IRQ_VECTOR_ESI1   0x2004   /* 1.2 */
- # define DP_RX_GTC_MSTR_REQ_STATUS_CHANGE    (1 << 0)
+ 	if (sc != mgr->sink_count) {
+ 		mgr->sink_count = sc;
 -- 
 2.30.2
 
