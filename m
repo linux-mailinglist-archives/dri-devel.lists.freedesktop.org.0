@@ -1,56 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1FE64843BE
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jan 2022 15:51:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D030484405
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jan 2022 16:00:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0471F10E381;
-	Tue,  4 Jan 2022 14:51:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46F5310E4FE;
+	Tue,  4 Jan 2022 14:59:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
- [IPv6:2607:f8b0:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 093ED10E381
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jan 2022 14:51:50 +0000 (UTC)
-Received: by mail-pl1-x631.google.com with SMTP id p14so27265313plf.3
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Jan 2022 06:51:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IBOXIVJ/9ODRpWZ2t8YyvwewRSLcB73KHVDeto9Ufug=;
- b=KZJ4ya+ftRXuPa8G4YHTOBQ3griEfMcCR1C3oLa/22nrJthnlj/7JXl3kLymIfmE+Z
- 8qXQD62z1VuPVf1sWJWl8zA7Cwl0jvEI0ouyM3m40IVAZyPpkvrf57JHPouEBZrDqsgs
- Flqt937S+Wo5YQaLzYlc18KL+HC2xiAc3oFVf4KWIReD8xEAm0PdfOvTXsDh1QajT4Lo
- WOjY6UI7aYFiAgES04j23tFHWH6QRnPszMnsXgs4hhvOZFIzAKDD2wENDtcyA+ExyBSN
- TvAjudH+SYU9oPFQ4AkKIxdjvgpbJF8TqS7XnVVfgOumqP3MsWDCE6xqWYB+WnqKye32
- T8kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IBOXIVJ/9ODRpWZ2t8YyvwewRSLcB73KHVDeto9Ufug=;
- b=d2O+T1vyhQpVSDZnFuY4QpWfeo74u7PY1OD0etOt5Gmf37zynORXqI3ID9rNzlzy69
- oWpsKNQtL0dcCJf1PpfDNyqQ7TrWMZdxFQXGPQm/fDQTo9tTzbmGgOEGUTxw2NJ7YKT0
- o72Me3sz55bWd8VuNOpK717Rdm0vREiAvupR4fySYkUCdjF4IV4wxma95LVlb84rH/BJ
- YvNuS6NbvMkl9Vr3Pujp7Xull9En2CWtOUpbEAactPdLud259niCCRcq5/mvXv2mipuv
- 1INGnBZgLLTg5004lzhgm1cBFCuIhXUiPpm3kaq4B+WBlL5ZvoCWl2iJc3xEqTviDzLT
- V6YA==
-X-Gm-Message-State: AOAM533+s+iXoyj7LUwZCs5JobwTe8LNiMLvJlP3pZOYeY5qJ5mYKleN
- Zjmt+q/IP+pCDtbqkx5z2GhaKFKMeEWZJuq0jjY95g==
-X-Google-Smtp-Source: ABdhPJz+zYhSn8IUBdNrZg8WUxNS8+LtGVq0PzMyiztWuIZnBFINgnSywxDOxIECCUvUP8a7Sa/6f5NhlXBuX8Pmvnk=
-X-Received: by 2002:a17:902:b189:b0:149:6c45:24c with SMTP id
- s9-20020a170902b18900b001496c45024cmr42976481plr.21.1641307909619; Tue, 04
- Jan 2022 06:51:49 -0800 (PST)
-MIME-Version: 1.0
-References: <20211109024237.3354741-1-xji@analogixsemi.com>
- <20211109024237.3354741-2-xji@analogixsemi.com>
-In-Reply-To: <20211109024237.3354741-2-xji@analogixsemi.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Tue, 4 Jan 2022 15:51:38 +0100
-Message-ID: <CAG3jFyu-JtZRHod7fv_J7y5CrBo+2BMdOCLMnP2qEfP-kKLUPQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/bridge: anx7625: add audio codec .get_eld support
-To: Xin Ji <xji@analogixsemi.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED87C10E4B5
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jan 2022 14:59:57 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id D93ABB8160D
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jan 2022 14:59:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8D6DEC36AF2
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jan 2022 14:59:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1641308393;
+ bh=CxPxiA3avQklZYKx1cZBBhSsCQuomZsfnOeLybxAsGo=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=rVYQKS3jlhfMFpT7nOlbo7F3sYYD6BStd3KSxzY/5lBxSi6q8AIibbyVTm5Ii2he5
+ Lo9zT48jw31efB6u/Gkn5jI6MnwyMq9SRwewiV23PwVuj/EyKQ1ClcWLWkhF3J4tUm
+ iv4rHl+sj0nF3enPP1HrCwXBP1BC44kuD88TCBjpF1+wf4He2F0cgafLeAYpL9AS4C
+ qq6B7NonIQBfWhJV+chifMsXSMvd93SJFvbKEr32W2aCSEna8MBGo0QpwRChkfpvL6
+ kWzytHJgN0Ufz/cRjHOqh5HF7y30tF5l1HzcBhyEhCDb5mCt9iESDih6WXgfL6bW8g
+ GEXhhNI64ythg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 7CD3EC05FCC; Tue,  4 Jan 2022 14:59:53 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 215436] admgpu: suspend and resuming from suspend don't work
+Date: Tue, 04 Jan 2022 14:59:52 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: spasswolf@web.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-215436-2300-GlPVDOE3UE@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-215436-2300@https.bugzilla.kernel.org/>
+References: <bug-215436-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,59 +71,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: drinkcat@google.com, pihsun@chromium.org, jonas@kwiboo.se, airlied@linux.ie,
- bliang@analogixsemi.com, dri-devel@lists.freedesktop.org,
- narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
- jernej.skrabec@gmail.com, a.hajda@samsung.com,
- laurent.pinchart@ideasonboard.com, hsinyi@chromium.org, tzungbi@google.com,
- sam@ravnborg.org, qwen@analogixsemi.com, dan.carpenter@oracle.com,
- maxime@cerno.tech
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 9 Nov 2021 at 03:43, Xin Ji <xji@analogixsemi.com> wrote:
->
-> Provide .get_eld interface in hdmi_codec_ops for hdmi-codec driver.
->
-> Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> ---
->  drivers/gpu/drm/bridge/analogix/anx7625.c | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
->
-> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> index 6d93026c2999..67a87d21b0ba 100644
-> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> @@ -1821,9 +1821,27 @@ static int anx7625_audio_hook_plugged_cb(struct device *dev, void *data,
->         return 0;
->  }
->
-> +static int anx7625_audio_get_eld(struct device *dev, void *data,
-> +                                u8 *buf, size_t len)
-> +{
-> +       struct anx7625_data *ctx = dev_get_drvdata(dev);
-> +
-> +       if (!ctx->connector) {
-> +               DRM_DEV_DEBUG_DRIVER(dev, "connector not initial\n");
-> +               return -EINVAL;
-> +       }
-> +
-> +       DRM_DEV_DEBUG_DRIVER(dev, "audio copy eld\n");
-> +       memcpy(buf, ctx->connector->eld,
-> +              min(sizeof(ctx->connector->eld), len));
-> +
-> +       return 0;
-> +}
-> +
->  static const struct hdmi_codec_ops anx7625_codec_ops = {
->         .hw_params      = anx7625_audio_hw_params,
->         .audio_shutdown = anx7625_audio_shutdown,
-> +       .get_eld        = anx7625_audio_get_eld,
->         .get_dai_id     = anx7625_hdmi_i2s_get_dai_id,
->         .hook_plugged_cb = anx7625_audio_hook_plugged_cb,
->  };
-> --
-> 2.25.1
->
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215436
 
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
+--- Comment #24 from spasswolf@web.de ---
+That's it! The extra call to clk_mgr_optimize_pwr_state now leads to
+rn_update_clock being called with adev->in_s0ix =3D 1:
+
+
+[   31.142514] wlp4s0: deauthenticating from 54:67:51:3d:a2:e0 by local cho=
+ice
+(Reason: 3=3DDEAUTH_LEAVING)
+[   31.176805] amdgpu 0000:08:00.0: amdgpu: Calling optimize_bandwidth from
+dc_commit_state_no_check
+[   31.176815] amdgpu 0000:08:00.0: amdgpu: Calling update_clocks from
+dcn20_optimize_bandwidth
+[   31.176818] amdgpu 0000:08:00.0: amdgpu: adev->in_s0ix =3D 0
+[   35.056209] PM: suspend entry (s2idle)
+[   36.535688] Filesystems sync: 1.479 seconds
+[   36.536404] Freezing user space processes ... (elapsed 0.024 seconds) do=
+ne.
+[   36.561024] OOM killer disabled.
+[   36.561025] Freezing remaining freezable tasks ... (elapsed 0.001 second=
+s)
+done.
+[   36.562212] printk: Suspending console(s) (use no_console_suspend to deb=
+ug)
+[   36.566381] amdgpu 0000:08:00.0: amdgpu: amdgpu_pmops_suspend: adev->in_=
+s0ix
+=3D 1
+[   36.566557] amdgpu 0000:08:00.0: amdgpu: calling update_clocks from
+dcn21_optimize_pwr_state
+[   36.566567] amdgpu 0000:08:00.0: amdgpu: adev->in_s0ix =3D 1
+[   36.566569] amdgpu 0000:08:00.0: amdgpu: calling
+rn_vbios_smu_set_dcn_low_power
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
