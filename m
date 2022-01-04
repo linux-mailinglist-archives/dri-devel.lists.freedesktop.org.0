@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF101484341
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jan 2022 15:23:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F6CA48435A
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jan 2022 15:29:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C52E610E528;
-	Tue,  4 Jan 2022 14:23:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BC3310E561;
+	Tue,  4 Jan 2022 14:29:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
- [IPv6:2607:f8b0:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF56C10E528
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jan 2022 14:23:04 +0000 (UTC)
-Received: by mail-pf1-x433.google.com with SMTP id m1so32359334pfk.8
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Jan 2022 06:23:04 -0800 (PST)
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
+ [IPv6:2607:f8b0:4864:20::1036])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D40E10E561
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jan 2022 14:29:11 +0000 (UTC)
+Received: by mail-pj1-x1036.google.com with SMTP id
+ lr15-20020a17090b4b8f00b001b19671cbebso3315109pjb.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Jan 2022 06:29:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=16BCa8vmo/R1Nhv2OFH0NIv+n8wUvm3BXfP8bb/BoGM=;
- b=fuLzQV6Uwi3akPblo17SMWMdezrTUj9KlzsDiUIeTS7D3SmEnJK6MWe84mC3mMP5Zb
- gphbkezPqvortF+B/NNBNu27I0198v9ztUqAMBgyFnivZ49/CNV7D3h2qpB/Y7YiU/3q
- DIcjepf6RnVabqblVazivn+qX5dLqQLzfLlutCPJ+AlIDV+CXoWuxiqqw0sDJX3QS/MP
- CX0O+2v8uDQasIRhmnQTOsPaBPF0pBed0fcpmNJEuhBvfWitm8AxdynVjkG1ntjJhJ1L
- JWM1Liae6/l/oyP9wRANfPNnRqYtQxSNDSb7xI0onOmC2ZuF4C26wBToKuC4/cLhjeuh
- zM3w==
+ :cc; bh=WvukAqqIMpExigFVa+1wXXFL04/zNpt+dsk6xQ5zeLE=;
+ b=pCa1FV0Tz/uvA2Z6W33ptJzic6KvrDtq39+8MrnZVLQcrULnLLYl6TcLNKMiDwArK1
+ f8UtS25nf5Kv4T4DC7d1jpPVjOOPH/4YD7Yb6v+TO5gQFCkgh84W6F5Xo1JHC5ugdDuc
+ opNdN0JdNj69t4kl6o0lf1kL7mIwwYrLTOC3N3cBir/wuTGNo+vgnV1xVWQBqkDxVyGh
+ 14Gjj+zYWfz0w5aew3zRPUKwM1erIqNbuXabdArWawnhcrOgkZsi6OQUYjwNf9qN6p2R
+ kJpzG3wFw45qyUwK7cycRiRTDAb7s6FkdibziD/+A/s6qFLYQ0JW1hfcxKKD34blRQxW
+ KqkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=16BCa8vmo/R1Nhv2OFH0NIv+n8wUvm3BXfP8bb/BoGM=;
- b=Z66x0TdQdwwo/xEgHCyRZGfH/3i65IqpHFFBB43r+EdG1oYdLd1KlzZ02A6gsLHdtJ
- k/SkWMQAJN2iCQ/BzRyuvfqTt3J8h9xFk0zuq62aE7cPlHrk1cJgkQlrslhupkhnbeJt
- myAoBZc7hVxrhArWuH9eWRhJchOmXtvEfiU9mJQ4wDlipIy17Bfi3qln5rbgxCO6ji+b
- PaCQo3BVTSWT86DHpqPDnc91EwEQvGgkBVTs+/9p/R3KzSwtrF2/H34ZqT6q3Wsq481B
- gZMXq05k9LI/R474y1MMyrdi8bA91MwynegXQ2b1acnFz4kHhpUiwjEvjKGFWDT1ZWlp
- 5ShA==
-X-Gm-Message-State: AOAM5308XWpnowiW2EwDrgyT2fPdjGeqnHe7WiQDytf3NodbVWVvRwII
- x92S+daddMjeM3jfVc1F2ex6ZFrL08rj/GCw1fhyk+CCWosSIw==
-X-Google-Smtp-Source: ABdhPJxlbp0iiJUgRFs9x7jwIl0nsOxY7EM34iksnLwZtzwXXTwlxtRr5FwqsCLWkaK2jl4TOjkY8ZkQBHO0eIh9ex4=
-X-Received: by 2002:a62:d044:0:b0:4ba:6f3b:ab08 with SMTP id
- p65-20020a62d044000000b004ba6f3bab08mr51280950pfg.29.1641306184521; Tue, 04
- Jan 2022 06:23:04 -0800 (PST)
+ bh=WvukAqqIMpExigFVa+1wXXFL04/zNpt+dsk6xQ5zeLE=;
+ b=v6+QNFtS0cR3UlvYfTh4unOM0xZvuRdkmlLqZZPFXAE9d+sjuWA7iV9/pwmZU641/e
+ NJJh4XrhuBeS1cYnY9Etr6sW65vAiLbLSM42KjN/dXj6KaSF36KTkCR/UoCDXbc4IEHQ
+ 6Tcu4Urfluqws+zN7iWGW3ZY8yojYrdf62J64EJN63mUYaqkCm0P57Msf7iPpeGmHvB+
+ yEtwMj7ir49GsQNZGmkbA4u3BpPtZzWDP2SSu1oaSF6YGAL64cuoAjJoZGP3xbWI9qVQ
+ H86Dxjs8894Nqb7BVjeGwGFmT8tGxiJVfS869qR1/ATJXOIdUyvrOULkHXjqOOnQHein
+ e1qQ==
+X-Gm-Message-State: AOAM533fU8HFsQkKhmUTYRJDbNRlGr1NZT44P8wWX5/QWknZSGIQa+xx
+ Zh7P9KMcegmGCO3LhO4hxpV1OPpu1YY6qyKl4rf6wA==
+X-Google-Smtp-Source: ABdhPJz/LplF3gfbp7D6wtf71ae2gJxJJVBqMdnj1fk+ayjLSUbdaDRYvvB+Xm+DybrPHlsSDc0XjkRgtuT1wLyB7hQ=
+X-Received: by 2002:a17:903:110c:b0:149:8018:e9d4 with SMTP id
+ n12-20020a170903110c00b001498018e9d4mr36711837plh.117.1641306550920; Tue, 04
+ Jan 2022 06:29:10 -0800 (PST)
 MIME-Version: 1.0
-References: <20211102130428.444795-1-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20211102130428.444795-1-angelogioacchino.delregno@collabora.com>
+References: <20211222083350.18514-1-linmq006@gmail.com>
+In-Reply-To: <20211222083350.18514-1-linmq006@gmail.com>
 From: Robert Foss <robert.foss@linaro.org>
-Date: Tue, 4 Jan 2022 15:22:53 +0100
-Message-ID: <CAG3jFys2Js0urfL9q3nk_KDweLcX+cOZeURCk8=gyps9h6TPcA@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: parade-ps8640: Link device to ensure
- suspend/resume order
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Date: Tue, 4 Jan 2022 15:29:00 +0100
+Message-ID: <CAG3jFysrEDzYVbpwDVK2OJYMsEKRqpcBexK__m08A6vevm=ubw@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: anx7625: Fix null vs IS_ERR() checking in
+ anx7625_register_i2c_dummy_clients
+To: Miaoqian Lin <linmq006@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,90 +64,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jonas@kwiboo.se, airlied@linux.ie, dri-devel@lists.freedesktop.org,
- narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
- jernej.skrabec@gmail.com, a.hajda@samsung.com,
- laurent.pinchart@ideasonboard.com, kernel@collabora.com
+Cc: Nicolas Boichat <drinkcat@chromium.org>, Pi-Hsun Shih <pihsun@chromium.org>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Tzung-Bi Shih <tzungbi@google.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Xin Ji <xji@analogixsemi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey AngeloGioacchino,
+Hey Miaoqian,
 
-On Tue, 2 Nov 2021 at 14:08, AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
+Thanks for submitting this fix.
+
+On Wed, 22 Dec 2021 at 09:33, Miaoqian Lin <linmq006@gmail.com> wrote:
 >
-> Entering suspend while the display attached to this bridge is still on
-> makes the resume sequence to resume the bridge first, display last:
-> when this happens, we get a timeout while resuming the bridge, as its
-> MCU will get stuck due to the display being unpowered.
+> Since i2c_new_client_device() function return error pointers.
+> The i2c_new_dummy_device() function does not return NULL, It returns error
+> pointers too. Using IS_ERR() to check the return value to fix this.
 >
-> On the other hand, on mt8173-elm, closing the lid makes the display to
-> get powered off first, bridge last, so at resume time the sequence is
-> swapped (compared to the first example) and everything just works
-> as expected.
->
-> Add a stateless device link to the DRM device that this bridge belongs
-> to, ensuring a correct resume sequence and solving the unability to
-> correctly resume bridge operation in the first mentioned example.
->
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Fixes: 8bdfc5dae4e3("drm/bridge: anx7625: Add anx7625 MIPI DSI/DPI to DP")
+> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
 > ---
->  drivers/gpu/drm/bridge/parade-ps8640.c | 22 ++++++++++++++++++++--
->  1 file changed, 20 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/bridge/analogix/anx7625.c | 32 ++++++++++++++++-------
+>  1 file changed, 23 insertions(+), 9 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-> index 45100edd745b..191cc196c9d1 100644
-> --- a/drivers/gpu/drm/bridge/parade-ps8640.c
-> +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-> @@ -100,6 +100,7 @@ struct ps8640 {
->         struct regulator_bulk_data supplies[2];
->         struct gpio_desc *gpio_reset;
->         struct gpio_desc *gpio_powerdown;
-> +       struct device_link *link;
->         bool powered;
->  };
->
-> @@ -460,10 +461,23 @@ static int ps8640_bridge_attach(struct drm_bridge *bridge,
->                 goto err_aux_register;
->         }
->
-> +       ps_bridge->link = device_link_add(bridge->dev->dev, dev, DL_FLAG_STATELESS);
-> +       if (!ps_bridge->link) {
-> +               dev_err(dev, "failed to create device link");
-> +               ret = -EINVAL;
-> +               goto err_devlink;
-> +       }
-> +
->         /* Attach the panel-bridge to the dsi bridge */
-> -       return drm_bridge_attach(bridge->encoder, ps_bridge->panel_bridge,
-> +       ret = drm_bridge_attach(bridge->encoder, ps_bridge->panel_bridge,
->                                  &ps_bridge->bridge, flags);
-> +       if (ret)
-> +               goto err_bridge_attach;
->
-> +err_bridge_attach:
-> +       device_link_del(ps_bridge->link);
-> +err_devlink:
-> +       drm_dp_aux_unregister(&ps_bridge->aux);
->  err_aux_register:
->         mipi_dsi_detach(dsi);
->  err_dsi_attach:
-> @@ -473,7 +487,11 @@ static int ps8640_bridge_attach(struct drm_bridge *bridge,
->
->  static void ps8640_bridge_detach(struct drm_bridge *bridge)
+> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> index 1a871f6b6822..eb72aa6aedd6 100644
+> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> @@ -1637,40 +1637,54 @@ static const struct drm_bridge_funcs anx7625_bridge_funcs = {
+>  static int anx7625_register_i2c_dummy_clients(struct anx7625_data *ctx,
+>                                               struct i2c_client *client)
 >  {
-> -       drm_dp_aux_unregister(&bridge_to_ps8640(bridge)->aux);
-> +       struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+> +       int err = 0;
 > +
-> +       drm_dp_aux_unregister(&ps_bridge->aux);
-> +       if (ps_bridge->link)
-> +               device_link_del(ps_bridge->link);
+>         ctx->i2c.tx_p0_client = i2c_new_dummy_device(client->adapter,
+>                                                      TX_P0_ADDR >> 1);
+> -       if (!ctx->i2c.tx_p0_client)
+> -               return -ENOMEM;
+> +       if (IS_ERR(ctx->i2c.tx_p0_client))
+> +               return PTR_ERR(ctx->i2c.tx_p0_client);
+>
+>         ctx->i2c.tx_p1_client = i2c_new_dummy_device(client->adapter,
+>                                                      TX_P1_ADDR >> 1);
+> -       if (!ctx->i2c.tx_p1_client)
+> +       if (IS_ERR(ctx->i2c.tx_p1_client)) {
+> +               err = PTR_ERR(ctx->i2c.tx_p1_client);
+>                 goto free_tx_p0;
+> +       }
+>
+>         ctx->i2c.tx_p2_client = i2c_new_dummy_device(client->adapter,
+>                                                      TX_P2_ADDR >> 1);
+> -       if (!ctx->i2c.tx_p2_client)
+> +       if (IS_ERR(ctx->i2c.tx_p2_client)) {
+> +               err = PTR_ERR(ctx->i2c.tx_p2_client);
+>                 goto free_tx_p1;
+> +       }
+>
+>         ctx->i2c.rx_p0_client = i2c_new_dummy_device(client->adapter,
+>                                                      RX_P0_ADDR >> 1);
+> -       if (!ctx->i2c.rx_p0_client)
+> +       if (IS_ERR(ctx->i2c.rx_p0_client)) {
+> +               err = PTR_ERR(ctx->i2c.rx_p0_client);
+>                 goto free_tx_p2;
+> +       }
+>
+>         ctx->i2c.rx_p1_client = i2c_new_dummy_device(client->adapter,
+>                                                      RX_P1_ADDR >> 1);
+> -       if (!ctx->i2c.rx_p1_client)
+> +       if (IS_ERR(ctx->i2c.rx_p1_client)) {
+> +               err = PTR_ERR(ctx->i2c.rx_p1_client);
+>                 goto free_rx_p0;
+> +       }
+>
+>         ctx->i2c.rx_p2_client = i2c_new_dummy_device(client->adapter,
+>                                                      RX_P2_ADDR >> 1);
+> -       if (!ctx->i2c.rx_p2_client)
+> +       if (IS_ERR(ctx->i2c.rx_p2_client)) {
+> +               err = PTR_ERR(ctx->i2c.rx_p2_client);
+>                 goto free_rx_p1;
+> +       }
+>
+>         ctx->i2c.tcpc_client = i2c_new_dummy_device(client->adapter,
+>                                                     TCPC_INTERFACE_ADDR >> 1);
+> -       if (!ctx->i2c.tcpc_client)
+> +       if (IS_ERR(ctx->i2c.tcpc_client)) {
+> +               err = PTR_ERR(ctx->i2c.tcpc_client);
+>                 goto free_rx_p2;
+> +       }
+>
+>         return 0;
+>
+> @@ -1687,7 +1701,7 @@ static int anx7625_register_i2c_dummy_clients(struct anx7625_data *ctx,
+>  free_tx_p0:
+>         i2c_unregister_device(ctx->i2c.tx_p0_client);
+>
+> -       return -ENOMEM;
+> +       return err;
 >  }
 >
->  static struct edid *ps8640_bridge_get_edid(struct drm_bridge *bridge,
+>  static void anx7625_unregister_i2c_dummy_clients(struct anx7625_data *ctx)
 > --
-> 2.33.1
+> 2.17.1
 >
 
-This patch does not apply on drm-misc-next, could you rebase it on the
-current branch?
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
