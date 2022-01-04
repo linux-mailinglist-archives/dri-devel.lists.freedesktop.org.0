@@ -1,41 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D030484405
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jan 2022 16:00:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 174E848441D
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jan 2022 16:03:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46F5310E4FE;
-	Tue,  4 Jan 2022 14:59:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8366210E444;
+	Tue,  4 Jan 2022 15:03:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED87C10E4B5
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jan 2022 14:59:57 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4E8210E444
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jan 2022 15:03:47 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id D93ABB8160D
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jan 2022 14:59:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8D6DEC36AF2
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jan 2022 14:59:53 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 6EDDBB816B8
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jan 2022 15:03:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 432F0C36AEF
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jan 2022 15:03:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1641308393;
- bh=CxPxiA3avQklZYKx1cZBBhSsCQuomZsfnOeLybxAsGo=;
+ s=k20201202; t=1641308625;
+ bh=wW1BJ7osRvGGeh4ylvXEis7mqt0vqBl1emMg4PswUnQ=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=rVYQKS3jlhfMFpT7nOlbo7F3sYYD6BStd3KSxzY/5lBxSi6q8AIibbyVTm5Ii2he5
- Lo9zT48jw31efB6u/Gkn5jI6MnwyMq9SRwewiV23PwVuj/EyKQ1ClcWLWkhF3J4tUm
- iv4rHl+sj0nF3enPP1HrCwXBP1BC44kuD88TCBjpF1+wf4He2F0cgafLeAYpL9AS4C
- qq6B7NonIQBfWhJV+chifMsXSMvd93SJFvbKEr32W2aCSEna8MBGo0QpwRChkfpvL6
- kWzytHJgN0Ufz/cRjHOqh5HF7y30tF5l1HzcBhyEhCDb5mCt9iESDih6WXgfL6bW8g
- GEXhhNI64ythg==
+ b=OL/dT78EvlHoG8X1Me8FKZsZAoVWtfiF5sqpNtE2GYQS2nsjL30Ltx4gtDDDVuOQy
+ wk/XAtWjYh1CEerBujZKR+wLaRvVKBR1Fl0+8hgfF7QFnXt3A/ixYjXh7IWQaFDcI4
+ yh7WCc8JOlWFU9hU8Ep8yY4dL1Q3lAIfRBVjdlJ8Mz33Bpf0AQDDfbsM462JQwJ1pU
+ 8G0gYL8P6jBYaVhKq6jJE51v8sAi2zj5TpCpFDMrHhIpc7z+5kBNpuzP3+1RXePLeT
+ AeePWusEd5wgKh8YSqHwrJRI1XuYNsO78EFAjFiUUqdoBLSBsmnkupxVL/XQuCaSKa
+ PquJ4q9K/AykQ==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 7CD3EC05FCC; Tue,  4 Jan 2022 14:59:53 +0000 (UTC)
+ from userid 48) id 2B204C05FCA; Tue,  4 Jan 2022 15:03:45 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 215436] admgpu: suspend and resuming from suspend don't work
-Date: Tue, 04 Jan 2022 14:59:52 +0000
+Date: Tue, 04 Jan 2022 15:03:44 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -44,14 +43,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: spasswolf@web.de
+X-Bugzilla-Who: mario.limonciello@amd.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-215436-2300-GlPVDOE3UE@https.bugzilla.kernel.org/>
+Message-ID: <bug-215436-2300-hNvPjiUSkK@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-215436-2300@https.bugzilla.kernel.org/>
 References: <bug-215436-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -76,37 +75,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D215436
 
---- Comment #24 from spasswolf@web.de ---
-That's it! The extra call to clk_mgr_optimize_pwr_state now leads to
-rn_update_clock being called with adev->in_s0ix =3D 1:
-
-
-[   31.142514] wlp4s0: deauthenticating from 54:67:51:3d:a2:e0 by local cho=
-ice
-(Reason: 3=3DDEAUTH_LEAVING)
-[   31.176805] amdgpu 0000:08:00.0: amdgpu: Calling optimize_bandwidth from
-dc_commit_state_no_check
-[   31.176815] amdgpu 0000:08:00.0: amdgpu: Calling update_clocks from
-dcn20_optimize_bandwidth
-[   31.176818] amdgpu 0000:08:00.0: amdgpu: adev->in_s0ix =3D 0
-[   35.056209] PM: suspend entry (s2idle)
-[   36.535688] Filesystems sync: 1.479 seconds
-[   36.536404] Freezing user space processes ... (elapsed 0.024 seconds) do=
-ne.
-[   36.561024] OOM killer disabled.
-[   36.561025] Freezing remaining freezable tasks ... (elapsed 0.001 second=
-s)
-done.
-[   36.562212] printk: Suspending console(s) (use no_console_suspend to deb=
-ug)
-[   36.566381] amdgpu 0000:08:00.0: amdgpu: amdgpu_pmops_suspend: adev->in_=
-s0ix
-=3D 1
-[   36.566557] amdgpu 0000:08:00.0: amdgpu: calling update_clocks from
-dcn21_optimize_pwr_state
-[   36.566567] amdgpu 0000:08:00.0: amdgpu: adev->in_s0ix =3D 1
-[   36.566569] amdgpu 0000:08:00.0: amdgpu: calling
-rn_vbios_smu_set_dcn_low_power
+--- Comment #25 from mario.limonciello@amd.com ---
+Can you check the state of the other variables though with that extra call?=
+=20
+That was in my debugging patch but not inyours.
+Is the HPD active?
 
 --=20
 You may reply to this email to add a comment.
