@@ -1,56 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D1E4484AB2
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jan 2022 23:26:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3A6C484AB5
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jan 2022 23:27:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84F7810E632;
-	Tue,  4 Jan 2022 22:26:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8ACFB10E64C;
+	Tue,  4 Jan 2022 22:27:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com
- [209.85.167.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28B2B10E4DE;
- Tue,  4 Jan 2022 22:26:07 +0000 (UTC)
-Received: by mail-oi1-f177.google.com with SMTP id s73so61608682oie.5;
- Tue, 04 Jan 2022 14:26:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=JnOadLKUCLxTeQKKTc3saQOhwTodIVbhHkqdpkUyL30=;
- b=nwnBBuXaiiMGt9U5auscaNEAgp2g6A6/1IVb5KTXRfBNLQ2tY/neG6qfBTx6pADkl5
- Noyn2nlmuz4gSLYq1PNlGaU0rt4ZMUIhO93MmewDgFXQStVhfBo91W2R2L1n8NH4tryy
- dQSnk98RuVknwllLbfjZE3hPG9MqxXXVhx3pIcPw1qMSf5ngu8em/19pydvXCj3zGxJc
- gfaXyhQ6sIHifmSRPI6nJnpFCXCrJgdvjOlHDfESCphhrZ0vyk05ImhfYmqLKV0xcO9k
- /CttrZn8tzdsNfw/vViMzneZAI9uKYQxeEroQU0NEy+HYCnBDxalH9ZQEKJit8pEsP9c
- +oTw==
-X-Gm-Message-State: AOAM5319tHlMcu4aNXVJ52tMqBsg5i+M017JmQGwj7IzjQRg54RBmGKv
- BuSSbpWDmxBBAJUv30owVA==
-X-Google-Smtp-Source: ABdhPJxfmZnICaR0AFOGdWsnbelA0aJZsRc1Kgnndk6DcVeWC0CYljTp86RqQf43B5yP69zwu5wQGg==
-X-Received: by 2002:a05:6808:10d1:: with SMTP id
- s17mr395747ois.26.1641335166437; 
- Tue, 04 Jan 2022 14:26:06 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id c139sm7472227oob.31.2022.01.04.14.26.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jan 2022 14:26:05 -0800 (PST)
-Received: (nullmailer pid 1557364 invoked by uid 1000);
- Tue, 04 Jan 2022 22:26:04 -0000
-Date: Tue, 4 Jan 2022 16:26:04 -0600
-From: Rob Herring <robh@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH] Discussion: dt-bindings: display: msm:
- dsi-controller-main: fix the binding
-Message-ID: <YdTJfMXYXjavr8cZ@robh.at.kernel.org>
-References: <20211225205352.76827-1-david@ixit.cz>
- <CAA8EJpoVuNDS2uD2g8W_40XVO2jS=6GtRQFxAnyPpd_QuHim8g@mail.gmail.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E92910E636;
+ Tue,  4 Jan 2022 22:27:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1641335260; x=1672871260;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=RCYRlu96X7lO4I+0q0Z0WN/LreTvOaSCGpANNnEXJs8=;
+ b=RIDJYSvHGRH0iR2bIxQAzL6dH0uLsiiifU7xeYD+9kT1U6NiOJsnwoHP
+ 3ziWdS1iyMkNaI4G4r5jLy+WOz0UWNDH2YCjfgANXIAXETC8x6IzsZZC4
+ V8C2uI2RPHLhiAv7n/79Eu4ooTN1KrtSqemwHf97tMbUGlm1Chmc0UoM5
+ V2GIAnEi4PaiJC7YwjfcuX5WxKSxXkv/yLcj4SyxAfU5Gy0VMAnwv/P/g
+ O1ijHrCXf1MRJfHNJYPnR2DWWnewuUHywzm2Ekbr561qK7mT9xVGOnbqq
+ ddsaPIEcuvl2EDh2uaJm8ug5Mv7znQ6Ukb1SyzMSvQV784x2pmZvh6KPw g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="241127629"
+X-IronPort-AV: E=Sophos;i="5.88,262,1635231600"; d="scan'208";a="241127629"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jan 2022 14:27:40 -0800
+X-IronPort-AV: E=Sophos;i="5.88,262,1635231600"; d="scan'208";a="526224690"
+Received: from tnaharix-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.251.215.231])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jan 2022 14:27:36 -0800
+Date: Wed, 5 Jan 2022 00:27:32 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+Subject: Re: [PATCH v9 2/6] drm/i915: Use to_gt() helper for GGTT accesses
+Message-ID: <YdTJ1MHJck8zzGBx@intel.intel>
+References: <20211219212500.61432-1-andi.shyti@linux.intel.com>
+ <20211219212500.61432-3-andi.shyti@linux.intel.com>
+ <YcIIf4wmvNdM09ZS@mdroper-desk1.amr.corp.intel.com>
+ <YcIvFYDuY2uM5hCr@intel.intel>
+ <YdNn1uOzEwwnm91N@mdroper-desk1.amr.corp.intel.com>
+ <20220104175231.GA12985@orsosgc001.ra.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAA8EJpoVuNDS2uD2g8W_40XVO2jS=6GtRQFxAnyPpd_QuHim8g@mail.gmail.com>
+In-Reply-To: <20220104175231.GA12985@orsosgc001.ra.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,43 +61,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krishna Manikandan <mkrishn@codeaurora.org>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, David Heidelberg <david@ixit.cz>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- ~okias/devicetree@lists.sr.ht
+Cc: Sujaritha Sundaresan <sujaritha.sundaresan@intel.com>,
+ Andi Shyti <andi@etezian.org>, Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ DRI Devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Dec 26, 2021 at 02:34:08AM +0300, Dmitry Baryshkov wrote:
-> Hi,
+Hi guys,
+
+> > > > >  	struct drm_i915_gem_object *bo;
+> > > > >  	struct i915_vma *vma;
+> > > > >  	const u64 delay_ticks = 0xffffffffffffffff -
+> > > > > -		intel_gt_ns_to_clock_interval(stream->perf->i915->ggtt.vm.gt,
+> > > > > +		intel_gt_ns_to_clock_interval(to_gt(stream->perf->i915)->ggtt->vm.gt,
+> > > >
+> > > > I'm not too familiar with the perf code, but this looks a bit roundabout
+> > > > since we're ultimately trying to get to a GT...do we even need to go
+> > > > through the ggtt structure here or can we just pass
+> > > > "to_gt(stream->perf->i915)" as the first parameter?
+> > > >
+> > > > >  					      atomic64_read(&stream->perf->noa_programming_delay));
+> > > > >  	const u32 base = stream->engine->mmio_base;
+> > > > >  #define CS_GPR(x) GEN8_RING_CS_GPR(base, x)
+> > > > > @@ -3542,7 +3542,7 @@ i915_perf_open_ioctl_locked(struct i915_perf *perf,
+> > > > >
+> > > > >  static u64 oa_exponent_to_ns(struct i915_perf *perf, int exponent)
+> > > > >  {
+> > > > > -	return intel_gt_clock_interval_to_ns(perf->i915->ggtt.vm.gt,
+> > > > > +	return intel_gt_clock_interval_to_ns(to_gt(perf->i915)->ggtt->vm.gt,
+> > > >
+> > > > Ditto; this looks like "to_gt(perf->i915)" might be all we need?
+> > > 
+> > > I think this function is looking for the GT coming from the VM,
+> > > otherwise originally it could have taken it from &i915->gt. In my
+> > > first version I proposed a wrapper around this but it was
+> > > rejected by Lucas.
+> > > 
+> > > Besides, as we discussed earlier when I was proposed the static
+> > > allocation, the ggtt might not always be linked to the same gt,
+> > > so that I assumed that sometimes:
+> > > 
+> > >    to_gt(perf->i915)->ggtt->vm.gt != to_gt(perf->i915)
+> > > 
+> > > if two GTs are sharing the same ggtt, what would the ggtt->vm.gt
+> > > link be?
+> > 
+> > From the git history, it doesn't look like this really needs to care
+> > about the GGTT at all; I think it was just unintentionally written in a
+> > roundabout manner when intel_gt was first being introduced in the code.
+> > The reference here first showed up in commit f170523a7b8e ("drm/i915/gt:
+> > Consolidate the CS timestamp clocks").
+> > 
+> > Actually the most correct thing to do is probably to use
+> > 'stream->engine->gt' to ensure we grab the GT actually associated with
+> > the stream's engine.
+> > 
 > 
-> On Sat, 25 Dec 2021 at 23:54, David Heidelberg <david@ixit.cz> wrote:
-> >
-> > This binding is not much validating the old DSI v2.
-> >
-> > Currently we don't differentiate old v2 from new versions,
-> > so we need to figure out how to validate them.
-> >
-> > I propose specific compatible depending on mdss version, but I would be
-> > glad, if someone with deeper knowledge proposed the names.
-> >
-> > I'm willing to implement it then and back from autodetection.
+> stream is not yet created at this point, so I would do this:
 > 
-> I'd suggest to use hardware-specific compatible for apq8064 (and maybe
-> other v2 hosts if somebody adds support). For example
-> "qcom,apq8064-dsi-ctrl" or "qcom,dsi-ctrl-apq8064" (no strong
-> preference here).
+> pass intel_gt to the helper instead of perf:
+> static u64 oa_exponent_to_ns(struct intel_gt *gt, int exponent)
+> {
+> 	return intel_gt_clock_interval_to_ns(gt, 2ULL << exponent);
+> }
+> 
+> caller would then be:
+> oa_period = oa_exponent_to_ns(props->engine->gt, value);
 
-The former.
+thanks for the suggestions, but this is out of the scope of this
+patch... I did propose a wrapper but it was rejected because it
+was, indeed, out of scope.
 
-> For 6G hosts it will probably make sense to use IP versions instead
-> ("qcom-dsi-ctrl-6g-v2.4.1").
+I'm going to use to_gt(perf->i915) as Matt suggested originally,
+patch is ready.
 
-Humm, we went down the path of version numbers for QCom blocks, but the 
-result was not much reuse of same version on more than 2-3 parts if 
-that. So stick with SoCs for naming unless there's a strong case that 
-version numbers to SoC parts is 1 to many.
-
-Rob
+Thanks,
+Andi
