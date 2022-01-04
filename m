@@ -1,66 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C252484F43
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jan 2022 09:25:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0FE5484F45
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jan 2022 09:25:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4936310E74D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFDAE10E74F;
 	Wed,  5 Jan 2022 08:24:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5C4B10E12C
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jan 2022 01:31:38 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id t26so72914882wrb.4
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Jan 2022 17:31:38 -0800 (PST)
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FF1310E20D
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jan 2022 07:36:15 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id r17so74288031wrc.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Jan 2022 23:36:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=8RP2kK8mapgiU76wbNQ3ZzyNp6SxXEgsjV0c/YCw1uI=;
- b=BzsjoeWUpRtaow9lliq1z5o0NSx/KUJZhMrWzA7WV9G0k/wHDbGy7mJfgMHJ0dEreS
- owAD6keYzzRBaUxrc8JkT0DhY1llK+YHOpHADfYot1Rjjsi4WP+SXIFeoNdqcIIB4t0o
- UhIa2KDl4D1F6qhkzFVHr/Yge9UGZavDH7Ya9xrQeqGArYZyMfDF+uxevZk4l0Ou9xhb
- v9oobErj6QIRTJJ6jt2gCEvUjccfle3ocxD/hQ709un/aHn62iL5vZfAsEvWOnfgTXfu
- M/bROZCwh8uFNHzASafE+Vqw4A6XEI/K0mAKt95mkws2seCVlxMUrTMqAMWfZT/5mJCJ
- nNjg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5QgurAW0lNK9DtZ5aiYOIjTcb84ucRlepZxkJq+T308=;
+ b=GatvyyE/kBqheoYQ/d13MygNqovRYyBIG1SdlHBTM1JWbwgDE3yn5BdZmHzV8HNnvD
+ rmimV5S7wUikeOcwGIyS15JbLAw7OU1rycZIfjDo20/Z+pwuC3BigTkotG+zY4Z3RYi2
+ e3Na7QyiJiekB7fK2RCVkTJKTz/P8RzAoNvkGvsJH8h2hE7U8ECkMOXtgytKJdpoqgOF
+ IUTKXMadctzVM8Lvz9v06fMMeae/oeEe4C8ta1Fai/ggwnhkSQ1ORvJy7e4G5uk+p81v
+ nPgtzhQqJCGHo8e/zXUhVqDmmFor3xL5Wzpl6GyWhqpLJmRwhIxS2YHwtQMLBUXGuPg5
+ ITsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=8RP2kK8mapgiU76wbNQ3ZzyNp6SxXEgsjV0c/YCw1uI=;
- b=6/oIGKYOylRn0wZnl99J9EWPNpas05VO4HnORsWfmoAgmrjXbZ7R31CObhS6WuhH62
- bILRU99G9TDSNRqo+Mm2fZZ+bNWGD3BrPnNyKIbz4Bi4tGKq1Uxqm/hw8j1UjBsK0X3+
- aBwVdeFlFk9QtLj7Fp7SWmo/D7fv7L3HoUYth1EzQEPIPjBaTdP9o8K+9O4W9ddscQ/b
- iFkDWO3GZi64u0mTyAItapewm4f5N6IGlNW+b3eEkhllU3Wr5/+0OZRSXnvz26z9yx6B
- PnFFHOdCtoCDstuE9cXXle/kYfFTPIZHhyavoRa7Ipx9koxhbOjJs7Ov+C+IHLD7RKeq
- h2pw==
-X-Gm-Message-State: AOAM530NtR1UKl+ERrFiqoJS6JX2QBai05Ui07woYm4v/riGOnNY0LrE
- Vh8YIBX6dFeVHml3ElvJObc=
-X-Google-Smtp-Source: ABdhPJxTdhXdLdajpyQarHz4T17XD/qWUXBHu90i572ts9V4z3pQq0i4Iw6rDc4/I+4sQ/D9J7oNnw==
-X-Received: by 2002:a5d:5310:: with SMTP id e16mr39755747wrv.91.1641259897334; 
- Mon, 03 Jan 2022 17:31:37 -0800 (PST)
-Received: from [192.168.254.53] ([103.105.48.220])
- by smtp.gmail.com with ESMTPSA id u14sm35694797wrf.39.2022.01.03.17.31.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Jan 2022 17:31:36 -0800 (PST)
-Message-ID: <59c748b5-245a-c2d0-0b9f-d412687c72ab@gmail.com>
-Date: Tue, 4 Jan 2022 09:31:31 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.1
-Subject: Re: [PATCH RESEND] dma-buf: heaps: Fix mutex lock area and generalize
- struct dma_heap_attachment
-Content-Language: en-US
-To: John Stultz <john.stultz@linaro.org>
-References: <20211229070713.218548-1-o451686892@gmail.com>
- <CALAqxLXtUcign2gETHg=z24qYOFSALRjWNnJqqY6rk=gsfVwaw@mail.gmail.com>
+ bh=5QgurAW0lNK9DtZ5aiYOIjTcb84ucRlepZxkJq+T308=;
+ b=i2gKfuIgrE3JnxvM+YbXPQoqsKiEGPieXfuqTK6x/1eNhCdIk0ehgpRaduqzPb92VR
+ qTaE5sA/rAHlVPe5ChdSm6ILt7x6Tmh/Eg0PLEqzoXauTuwpF4Kr4C+nuYQqtbPO6mtT
+ MM1bTkJ/9gkdn8i9jfeAjDwZVxn/8uPFlLEhjyjPqUyMCr/45XoRDRIlU58r01A7r78m
+ zLTZW4f85zYUiOFnKc1wbzvCPMdLKSFPUmwn4qO99exET6yLX65TlzoIavTuSCQL3vnh
+ kORf5ddTpjNZ362y4fDw7qksffo3BsyBKFfVN54s9uGjvBMcRrpdWzuTr33pIAYgz+ZE
+ r07g==
+X-Gm-Message-State: AOAM5316VJl/eILYjBoWPDwS9aVC7fmFD0FCiEVeOW7r6+yp+g1SIPu0
+ NOFRY7zUDdBlwoVIUHRgsDY=
+X-Google-Smtp-Source: ABdhPJwWuBVqvqiAa6SL5fPaQqllfHGw/SdK0Uc5+CN6wLMv/wwUKJbrSULom+MJXNBTgh1mRkzIPw==
+X-Received: by 2002:a05:6000:2aa:: with SMTP id
+ l10mr42207978wry.518.1641281773701; 
+ Mon, 03 Jan 2022 23:36:13 -0800 (PST)
+Received: from ownia.. ([103.105.48.220])
+ by smtp.gmail.com with ESMTPSA id l12sm43064477wmq.2.2022.01.03.23.36.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Jan 2022 23:36:13 -0800 (PST)
 From: Weizhao Ouyang <o451686892@gmail.com>
-In-Reply-To: <CALAqxLXtUcign2gETHg=z24qYOFSALRjWNnJqqY6rk=gsfVwaw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@kernel.org>,
+ Brian Starkey <Brian.Starkey@arm.com>,
+ John Stultz <john.stultz@linaro.org>, christian.koenig@amd.com
+Subject: [PATCH] dma-buf: cma_heap: Fix mutex locking section
+Date: Tue,  4 Jan 2022 15:35:45 +0800
+Message-Id: <20220104073545.124244-1-o451686892@gmail.com>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Wed, 05 Jan 2022 08:24:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,41 +71,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Liam Mark <lmark@codeaurora.org>, linaro-mm-sig@lists.linaro.org,
- Laura Abbott <labbott@kernel.org>, christian.koenig@amd.com,
+Cc: linaro-mm-sig@lists.linaro.org, Weizhao Ouyang <o451686892@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks for reply.
+Fix cma_heap_buffer mutex locking critical section to protect vmap_cnt
+and vaddr.
 
-On 2022/1/4 02:45, John Stultz wrote:
-> On Tue, Dec 28, 2021 at 11:09 PM Weizhao Ouyang <o451686892@gmail.com> wrote:
->> Fix cma_heap_buffer mutex lock area to protect vmap_cnt and vaddr. And
->> move struct dma_heap_attachment to dma-heap.h so that vendor dma heaps
->> can use it, the same behaviour as struct dma_buf_attachment.
->>
-> Hey!
->   Thanks for submitting this patch! Apologies for the slow reply (was
-> out for the holidays).
->
-> This patch is combining two changes in one patch, so they need to be
-> split up. The locking change looks sane, but moving the
-> dma_heap_attachment may need some extra justification as changing
-> upstream code just to support out of tree code isn't usually done (if
-> there was some benefit to the in-tree code, that would be fine
-> though).
->
-> I'd also be eager to try to get the vendor heap to be merged, assuming
-> we can also merge an upstream user for it.
-Yeap moving the dma_heap_attachment need more sufficient reason, and
-it should add a private area to adapt vendor heap change if we move it
-to in-tree code. So just drop the idea now :)
+Fixes: a5d2d29e24be ("dma-buf: heaps: Move heap-helper logic into the cma_heap implementation")
+Signed-off-by: Weizhao Ouyang <o451686892@gmail.com>
+---
+ drivers/dma-buf/heaps/cma_heap.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-I will send a new patch to clarify the locking change later.
-
-Thanks,
-Weizhao
+diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+index 0c05b79870f9..83f02bd51dda 100644
+--- a/drivers/dma-buf/heaps/cma_heap.c
++++ b/drivers/dma-buf/heaps/cma_heap.c
+@@ -124,10 +124,11 @@ static int cma_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
+ 	struct cma_heap_buffer *buffer = dmabuf->priv;
+ 	struct dma_heap_attachment *a;
+ 
++	mutex_lock(&buffer->lock);
++
+ 	if (buffer->vmap_cnt)
+ 		invalidate_kernel_vmap_range(buffer->vaddr, buffer->len);
+ 
+-	mutex_lock(&buffer->lock);
+ 	list_for_each_entry(a, &buffer->attachments, list) {
+ 		if (!a->mapped)
+ 			continue;
+@@ -144,10 +145,11 @@ static int cma_heap_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
+ 	struct cma_heap_buffer *buffer = dmabuf->priv;
+ 	struct dma_heap_attachment *a;
+ 
++	mutex_lock(&buffer->lock);
++
+ 	if (buffer->vmap_cnt)
+ 		flush_kernel_vmap_range(buffer->vaddr, buffer->len);
+ 
+-	mutex_lock(&buffer->lock);
+ 	list_for_each_entry(a, &buffer->attachments, list) {
+ 		if (!a->mapped)
+ 			continue;
+-- 
+2.32.0
 
