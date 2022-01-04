@@ -1,69 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3E4B483FE5
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jan 2022 11:28:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8903E48400A
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jan 2022 11:43:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E3E110E269;
-	Tue,  4 Jan 2022 10:28:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C290910E5D9;
+	Tue,  4 Jan 2022 10:43:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5049C10E269
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jan 2022 10:28:04 +0000 (UTC)
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 2049Zt1J025001;
- Tue, 4 Jan 2022 11:27:59 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=subject : to :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=2i2fKhlisA3qBUyDd5sOBqAnU1gmhJAF6uiAYaj2g8M=;
- b=Gdodiha7M5up/5mzwTu+KkPWrnLNyvz7L+Lu2MVQQykqsnz4J1d5Wqsjpq0LwfwO8dd5
- BYDoqWira0jSTLuBK6MAURsBM4oU67VBkhd//n3V+o018MMFYwJeEGT8Jta3+bkmhhv2
- +p7Rf4pLeMmywdnrZ74Eq8AXO/eKzQHeARvkxxZXukRKY2PTFTnQa4OPJB0klNwgVIzT
- lrRrfrf3JUJ/i7V/lHbAsw9mIQmX+S3zyMnth/Dp1a6rEsHHCiDTR9L8BsKip1wOwanZ
- sjksqT3+PmYnTdKIFnT63v/7eIKmdSBBYZiEP4LUAW45MeLHJrFekp5xbnUgRxA09JEj Kw== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3dcbt0j5fr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 Jan 2022 11:27:59 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id E66AC10002A;
- Tue,  4 Jan 2022 11:27:58 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id BB762234C21;
- Tue,  4 Jan 2022 11:27:57 +0100 (CET)
-Received: from lmecxl0993.lme.st.com (10.75.127.44) by SFHDAG2NODE2.st.com
- (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.26; Tue, 4 Jan
- 2022 11:27:56 +0100
-Subject: Re: [PATCH 5/5] drm/stm: ltdc: add support of ycbcr pixel formats
-To: Yannick Fertre <yannick.fertre@foss.st.com>, Raphael Gallais-Pou
- <raphael.gallais-pou@foss.st.com>, David Airlie <airlied@linux.ie>, Daniel
- Vetter <daniel@ffwll.ch>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- <dri-devel@lists.freedesktop.org>,
- <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-References: <20211215214843.20703-1-yannick.fertre@foss.st.com>
-From: Philippe CORNU <philippe.cornu@foss.st.com>
-Message-ID: <5f198ef8-5db1-072f-9e8a-a80e0a6e9113@foss.st.com>
-Date: Tue, 4 Jan 2022 11:27:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A962C10E578
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jan 2022 10:43:46 +0000 (UTC)
+Received: by mail-pl1-x631.google.com with SMTP id p14so26823475plf.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Jan 2022 02:43:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KV3FR+u8voPfKvUHu8OPNcwabevk3hL+FYCEeJsfP24=;
+ b=knvcSLOHYu3D4eMyIPx2jGUSLJawr2WFA+16HoIa8z3rZ9bFPVASBKF+BwRvqj1HjQ
+ tUHyJCj84u+hUQK2N20Au6GNxscPKBH3HLdDgdX9eurQXSMzCug/xYtpussSvCkDs5Z+
+ wrEN9Yzfpl+8JAjcBu5QRTC+4EDgXU6NdZ9zFGQ990pb0yuHrpejqQiXmOyYNipqrodW
+ wq8OipjxV+5HIk3gq7HsbH6MjErblxbxOU/fEMiM63XfPMVobD1FXBtzfPNws7+kc1It
+ XldvdVLBts0nc15CgC8vZVjs2JlpcCx5YT9/xiG6NH2QmDqFuZHdE+50V017hUxUEYLB
+ xQtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KV3FR+u8voPfKvUHu8OPNcwabevk3hL+FYCEeJsfP24=;
+ b=S4eOqWK7rMtg6KCZaFTsnhwy/4WwWSfN4TF4wHNFXTKneqHf15E+r6fRkm2IJ2H543
+ gG1Q/Ys2JBDRSk+zF09ImwrmP3OvCXTa6iwzFaZ5AipNXKo8N2G+q6qGcqk+Amuh7Fu/
+ VfRtXjQf2hQzTe7UI5PbkxAxd7T5L1oNjykGlPKnlcsgJW67iG7zRD2paxjjpXUh6nm3
+ tk5pt4Cmzy2e/ItYj9ZjeJ2drGgHkEWz2jeAfArka0/m/wGuVDS/q+vHh+4HUONhd7pu
+ ytL0xtpf7qx9+r3Szy8QCsfFF6WKPrJCnAtdsUI3SDJCXmvMVLqonc468XE1CRyFDKcb
+ Q6Uw==
+X-Gm-Message-State: AOAM530vng9U3gyBVXnUuQFF87WoxNVpPlJqkJ3E9VickpxLaBZFPrXG
+ ILvnJ4qFsKrhcwOREgO/1AABrWz9HoQ=
+X-Google-Smtp-Source: ABdhPJxPx6qaFfHg0PvrZShXRveCF4ts9UF4tF2JpCyXR3ZcY7bOvjCYsdZ8vNYHp2+Hage6hrV2kQ==
+X-Received: by 2002:a17:902:d682:b0:148:c928:1fa1 with SMTP id
+ v2-20020a170902d68200b00148c9281fa1mr50188631ply.155.1641293026354; 
+ Tue, 04 Jan 2022 02:43:46 -0800 (PST)
+Received: from localhost.localdomain ([193.203.214.57])
+ by smtp.gmail.com with ESMTPSA id om3sm40795562pjb.49.2022.01.04.02.43.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Jan 2022 02:43:46 -0800 (PST)
+From: cgel.zte@gmail.com
+X-Google-Original-From: chi.minghao@zte.com.cn
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drivers/video: remove redundant res variable
+Date: Tue,  4 Jan 2022 10:43:36 +0000
+Message-Id: <20220104104336.601146-1-chi.minghao@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20211215214843.20703-1-yannick.fertre@foss.st.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.75.127.44]
-X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG2NODE2.st.com
- (10.75.127.5)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-04_05,2022-01-04_01,2021-12-02_01
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,29 +67,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: CGEL ZTE <cgel.zte@gmail.com>, linux-fbdev@vger.kernel.org,
+ Zeal Robot <zealci@zte.com.cn>, Minghao Chi <chi.minghao@zte.com.cn>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Minghao Chi <chi.minghao@zte.com.cn>
 
+Return value from aty_ld_8() directly instead
+of taking this in another redundant variable.
 
-On 12/15/21 10:48 PM, Yannick Fertre wrote:
-> This patch adds the following YCbCr input pixel formats on the latest
-> LTDC hardware version:
-> 
-> 1 plane  (co-planar)  : YUYV, YVYU, UYVY, VYUY
-> 2 planes (semi-planar): NV12, NV21
-> 3 planes (full-planar): YU12=I420=DRM YUV420, YV12=DRM YVU420
-> 
-> Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
-> ---
->   drivers/gpu/drm/stm/ltdc.c | 251 +++++++++++++++++++++++++++++++++++--
->   drivers/gpu/drm/stm/ltdc.h |   1 +
->   2 files changed, 245 insertions(+), 7 deletions(-)
-> 
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
+Signed-off-by: CGEL ZTE <cgel.zte@gmail.com>
+---
+ drivers/video/fbdev/aty/mach64_ct.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Hi Yannick,
-many thanks for your patch.
-Nice hw features!
-Acked-by: Philippe Cornu <philippe.cornu@foss.st.com>
-Reviewed-by: Philippe Cornu <philippe.cornu@foss.st.com>
-Philippe :-)
+diff --git a/drivers/video/fbdev/aty/mach64_ct.c b/drivers/video/fbdev/aty/mach64_ct.c
+index 011b07e44e0d..e967536af166 100644
+--- a/drivers/video/fbdev/aty/mach64_ct.c
++++ b/drivers/video/fbdev/aty/mach64_ct.c
+@@ -22,13 +22,11 @@ static u32 aty_pll_to_var_ct(const struct fb_info *info, const union aty_pll *pl
+ 
+ u8 aty_ld_pll_ct(int offset, const struct atyfb_par *par)
+ {
+-	u8 res;
+ 
+ 	/* write addr byte */
+ 	aty_st_8(CLOCK_CNTL_ADDR, (offset << 2) & PLL_ADDR, par);
+ 	/* read the register value */
+-	res = aty_ld_8(CLOCK_CNTL_DATA, par);
+-	return res;
++	return aty_ld_8(CLOCK_CNTL_DATA, par);
+ }
+ 
+ static void aty_st_pll_ct(int offset, u8 val, const struct atyfb_par *par)
+-- 
+2.25.1
+
