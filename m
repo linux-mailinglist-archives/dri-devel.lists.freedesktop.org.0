@@ -2,59 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8903E48400A
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jan 2022 11:43:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB393484015
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jan 2022 11:47:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C290910E5D9;
-	Tue,  4 Jan 2022 10:43:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5CEA10E13A;
+	Tue,  4 Jan 2022 10:47:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
- [IPv6:2607:f8b0:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A962C10E578
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jan 2022 10:43:46 +0000 (UTC)
-Received: by mail-pl1-x631.google.com with SMTP id p14so26823475plf.3
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Jan 2022 02:43:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KV3FR+u8voPfKvUHu8OPNcwabevk3hL+FYCEeJsfP24=;
- b=knvcSLOHYu3D4eMyIPx2jGUSLJawr2WFA+16HoIa8z3rZ9bFPVASBKF+BwRvqj1HjQ
- tUHyJCj84u+hUQK2N20Au6GNxscPKBH3HLdDgdX9eurQXSMzCug/xYtpussSvCkDs5Z+
- wrEN9Yzfpl+8JAjcBu5QRTC+4EDgXU6NdZ9zFGQ990pb0yuHrpejqQiXmOyYNipqrodW
- wq8OipjxV+5HIk3gq7HsbH6MjErblxbxOU/fEMiM63XfPMVobD1FXBtzfPNws7+kc1It
- XldvdVLBts0nc15CgC8vZVjs2JlpcCx5YT9/xiG6NH2QmDqFuZHdE+50V017hUxUEYLB
- xQtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KV3FR+u8voPfKvUHu8OPNcwabevk3hL+FYCEeJsfP24=;
- b=S4eOqWK7rMtg6KCZaFTsnhwy/4WwWSfN4TF4wHNFXTKneqHf15E+r6fRkm2IJ2H543
- gG1Q/Ys2JBDRSk+zF09ImwrmP3OvCXTa6iwzFaZ5AipNXKo8N2G+q6qGcqk+Amuh7Fu/
- VfRtXjQf2hQzTe7UI5PbkxAxd7T5L1oNjykGlPKnlcsgJW67iG7zRD2paxjjpXUh6nm3
- tk5pt4Cmzy2e/ItYj9ZjeJ2drGgHkEWz2jeAfArka0/m/wGuVDS/q+vHh+4HUONhd7pu
- ytL0xtpf7qx9+r3Szy8QCsfFF6WKPrJCnAtdsUI3SDJCXmvMVLqonc468XE1CRyFDKcb
- Q6Uw==
-X-Gm-Message-State: AOAM530vng9U3gyBVXnUuQFF87WoxNVpPlJqkJ3E9VickpxLaBZFPrXG
- ILvnJ4qFsKrhcwOREgO/1AABrWz9HoQ=
-X-Google-Smtp-Source: ABdhPJxPx6qaFfHg0PvrZShXRveCF4ts9UF4tF2JpCyXR3ZcY7bOvjCYsdZ8vNYHp2+Hage6hrV2kQ==
-X-Received: by 2002:a17:902:d682:b0:148:c928:1fa1 with SMTP id
- v2-20020a170902d68200b00148c9281fa1mr50188631ply.155.1641293026354; 
- Tue, 04 Jan 2022 02:43:46 -0800 (PST)
-Received: from localhost.localdomain ([193.203.214.57])
- by smtp.gmail.com with ESMTPSA id om3sm40795562pjb.49.2022.01.04.02.43.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jan 2022 02:43:46 -0800 (PST)
-From: cgel.zte@gmail.com
-X-Google-Original-From: chi.minghao@zte.com.cn
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drivers/video: remove redundant res variable
-Date: Tue,  4 Jan 2022 10:43:36 +0000
-Message-Id: <20220104104336.601146-1-chi.minghao@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B57F10E13A
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jan 2022 10:47:14 +0000 (UTC)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 2049qTPv017114;
+ Tue, 4 Jan 2022 11:47:06 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=+0dKcIbRZYgIqNsKgrQSZxJk3Ze4ZWIPAtapms3XYxM=;
+ b=lNVmeWRzAB+acr2CHEJ7kZ1xCZSZJMu54kJ/en6Y+pVfIdEuCz0EO3s4TCTNyHgVuZ/m
+ yU3Cj/l/qVFrPCcnHThunGsNLH4sTj8bmrKhpbvfbQ4iT6Uz7VJeFp8r8/zCFU0Gsbbz
+ rzfGV+KR5aW9ssfj1+sa4zIss0AQ5vDYA+pZuIOfxbuslDzcPjcPT9ydaiUqAPsWvygL
+ BRuii6Upb38M8c+oW4iF3jchQh7boA1ZLNcWsjMaaUCZpVNQCdFtMbQIq8w28+SE6b5q
+ CNsCWScPzbmi8TDVauWV4+z8Fnh0V3uBMYrHWhrzVLj2wWh7zxVJGNFYPSzR+uGrZkDb Hg== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3dccdnt0n1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Jan 2022 11:47:06 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 2E3E810002A;
+ Tue,  4 Jan 2022 11:47:05 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 16989235F20;
+ Tue,  4 Jan 2022 11:47:05 +0100 (CET)
+Received: from lmecxl0993.lme.st.com (10.75.127.46) by SFHDAG2NODE2.st.com
+ (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.26; Tue, 4 Jan
+ 2022 11:47:03 +0100
+Subject: Re: [PATCH 1/3] drm/stm: dsi: move lane capability detection in
+ probe()
+To: Antonio Borneo <antonio.borneo@foss.st.com>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Andrzej Hajda
+ <a.hajda@samsung.com>, Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Yannick Fertre
+ <yannick.fertre@foss.st.com>, Benjamin Gaignard
+ <benjamin.gaignard@linaro.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Philipp Zabel
+ <p.zabel@pengutronix.de>, <dri-devel@lists.freedesktop.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ <linux-arm-kernel@lists.infradead.org>
+References: <20211218215055.212421-1-antonio.borneo@foss.st.com>
+From: Philippe CORNU <philippe.cornu@foss.st.com>
+Message-ID: <20c77dc1-7e7e-ec0e-f545-593d1cfeb3b3@foss.st.com>
+Date: Tue, 4 Jan 2022 11:47:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211218215055.212421-1-antonio.borneo@foss.st.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.46]
+X-ClientProxiedBy: SFHDAG1NODE3.st.com (10.75.127.3) To SFHDAG2NODE2.st.com
+ (10.75.127.5)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-04_04,2022-01-01_01,2021-12-02_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,43 +83,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: CGEL ZTE <cgel.zte@gmail.com>, linux-fbdev@vger.kernel.org,
- Zeal Robot <zealci@zte.com.cn>, Minghao Chi <chi.minghao@zte.com.cn>,
- dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Minghao Chi <chi.minghao@zte.com.cn>
 
-Return value from aty_ld_8() directly instead
-of taking this in another redundant variable.
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
-Signed-off-by: CGEL ZTE <cgel.zte@gmail.com>
----
- drivers/video/fbdev/aty/mach64_ct.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+On 12/18/21 10:50 PM, Antonio Borneo wrote:
+> There is no need to re-compute the dsi lane capability because it
+> only depends on dsi hw version.
+> Since dsi hw version is detected at probe(), move there also the
+> assignment of dsi lane capability.
+> 
+> Signed-off-by: Antonio Borneo <antonio.borneo@foss.st.com>
+> ---
+> To: David Airlie <airlied@linux.ie>
+> To: Daniel Vetter <daniel@ffwll.ch>
+> To: Andrzej Hajda <a.hajda@samsung.com>
+> To: Neil Armstrong <narmstrong@baylibre.com>
+> To: Robert Foss <robert.foss@linaro.org>
+> To: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> To: Jonas Karlman <jonas@kwiboo.se>
+> To: Jernej Skrabec <jernej.skrabec@gmail.com>
+> To: Yannick Fertre <yannick.fertre@foss.st.com>
+> To: Philippe Cornu <philippe.cornu@foss.st.com>
+> To: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+> To: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+> To: Alexandre Torgue <alexandre.torgue@foss.st.com>
+> To: Philipp Zabel <p.zabel@pengutronix.de>
+> To: dri-devel@lists.freedesktop.org
+> To: linux-stm32@st-md-mailman.stormreply.com
+> To: linux-arm-kernel@lists.infradead.org
+> Cc: linux-kernel@vger.kernel.org
+> ---
+>   drivers/gpu/drm/stm/dw_mipi_dsi-stm.c | 16 ++++++++--------
+>   1 file changed, 8 insertions(+), 8 deletions(-)
+> 
 
-diff --git a/drivers/video/fbdev/aty/mach64_ct.c b/drivers/video/fbdev/aty/mach64_ct.c
-index 011b07e44e0d..e967536af166 100644
---- a/drivers/video/fbdev/aty/mach64_ct.c
-+++ b/drivers/video/fbdev/aty/mach64_ct.c
-@@ -22,13 +22,11 @@ static u32 aty_pll_to_var_ct(const struct fb_info *info, const union aty_pll *pl
- 
- u8 aty_ld_pll_ct(int offset, const struct atyfb_par *par)
- {
--	u8 res;
- 
- 	/* write addr byte */
- 	aty_st_8(CLOCK_CNTL_ADDR, (offset << 2) & PLL_ADDR, par);
- 	/* read the register value */
--	res = aty_ld_8(CLOCK_CNTL_DATA, par);
--	return res;
-+	return aty_ld_8(CLOCK_CNTL_DATA, par);
- }
- 
- static void aty_st_pll_ct(int offset, u8 val, const struct atyfb_par *par)
--- 
-2.25.1
-
+Hi Antonio,
+many thanks for your patch.
+Acked-by: Philippe Cornu <philippe.cornu@foss.st.com>
+Reviewed-by: Philippe Cornu <philippe.cornu@foss.st.com>
+Philippe :-)
