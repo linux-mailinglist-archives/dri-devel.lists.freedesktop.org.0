@@ -1,51 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C35C484298
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jan 2022 14:37:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C14D4842A5
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jan 2022 14:39:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C0F210E1CE;
-	Tue,  4 Jan 2022 13:37:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 924CF10E358;
+	Tue,  4 Jan 2022 13:39:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
- [IPv6:2607:f8b0:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADB7110E1CE
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jan 2022 13:37:13 +0000 (UTC)
-Received: by mail-pg1-x534.google.com with SMTP id g2so32707958pgo.9
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Jan 2022 05:37:13 -0800 (PST)
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
+ [IPv6:2607:f8b0:4864:20::102d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20F5110E358
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jan 2022 13:39:17 +0000 (UTC)
+Received: by mail-pj1-x102d.google.com with SMTP id
+ y16-20020a17090a6c9000b001b13ffaa625so40924463pjj.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Jan 2022 05:39:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=D736xcW6mnSzdCeNa4cuzz73/79ln4mEm4aUwrA4o7g=;
- b=H9KIaxj+4rUigwIZEcx9omWefyC8Cr+m2kkulm/BfX3ayl6owe1bEUUKGCG/8IrWKi
- X+Y+gJk4PgNmY3f6SVp24N5TW2QGt2kflhnSH/J5dWBxw8RTOqd0lzsCagYumzAdJ4p0
- gN9y9y/5GOr9FOY4navQhMx0B4Vt2cauY5MuCHy2KiGFoi+dIGH6xX5NvMaIRIs3TT1h
- iRW1TZMRHSm4ZpzLoB+8P61blWZBpR3awOWhqbLJLiLon+bHkmp5aQ8SIRK1OWEb1CWI
- GqUAtQCebmlmF2kV4OC+1CA+KxvBjEgoxp49ehpLx8lxCtnM04MyZXXCSnmPJtZKrPwy
- NBxw==
+ :cc; bh=bqezZ2/HwBTxC4hfR4A8RkBTbm8B6r0iUtltdIvH/WQ=;
+ b=Spb99MNnUWNfoRD9S/I/T0lbsxERyN+nho8GZl3ZDXDzDRSIav+MmsreSY+xrIIM7K
+ 2B4RuVB1FPNovuY9h2yfFHl2C1im8TKcm7i15p+Zx/NtbfKaOM0wOw/hE9gqcS7nsVK8
+ TmKnX/vLnS+OD9+/MbrZqTeIY1thlSPoL7q1+HEsGpU/8XdZEGoD/CT86cGm8uIAMrTW
+ Xdip8YielnZC4A98vEAe/1LQD7heu4XXSsoMAHfrb87LKmM4Bfv+N11hbxq7Ba2N6J5Y
+ 4aTScot3pVKiF+5zNoWmJfxZ878hawf+aZ1irt9vMSnpn/pCWpeJUfg3z5WEHF967cNI
+ tJ2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=D736xcW6mnSzdCeNa4cuzz73/79ln4mEm4aUwrA4o7g=;
- b=lz6m6QMDsVfs1R4qt9J2hOwbeBVUQKrWZIYjj6gMrqsLtIY4vr4kRBGoKRFE9/O/v+
- mkoUecfKC/lHuxpkhyPKOYdiolUViwG8IJ0z/Alf3VgRq2+157s+s1f4h3NFarDJcU88
- Ne3QBnGwNPXEAa36vQbeilgf8hg5Ln4Wlvyv5PljaWyTJ1QEtKiq1OrnuZaZ5wVOt7nu
- Q50NND3A2rAu+do8YCDkwNg/suhnF8iCp275r1cWwYjMQt+v8TCdGyCHvSVGoSKPay81
- hM/0wK9w7p3T+/eBoAnF39/utL6+yb2aMsnqKJghsxFUl1QlNIY34hUpmlpUwfEDhFo3
- oXaQ==
-X-Gm-Message-State: AOAM531+wNixmD0HkckeRYmRzIroqRvjwNr4iYe6ESPlUP9nTBFJSkAB
- fj3dZ/Bg5//JEGiW6KezORCUt7BbkZtM1CeLZ0/LJA==
-X-Google-Smtp-Source: ABdhPJws1bqBeVSXlUmBPeCwIC2GMIkSO+RxkrQ9CkAgsC669S9+4XmAOnJ4iVvmArIN/4+CNqraGyHUpsTWRPnDUY4=
-X-Received: by 2002:a63:854a:: with SMTP id u71mr43809083pgd.201.1641303433298; 
- Tue, 04 Jan 2022 05:37:13 -0800 (PST)
+ bh=bqezZ2/HwBTxC4hfR4A8RkBTbm8B6r0iUtltdIvH/WQ=;
+ b=OA2ZVZFbu7GbnRy5+7OuahhKdQ5lRMuH6Rvgc6Iex4VQ3etMleaZl1n0Oe27xNZo94
+ FiTSwlu30z5+cW86bsEktbPzQkocWWowlCeVFgbi5ilFlLtxIPJN1jCh62Ef3A6Dn34w
+ ehUY07QcNYlFQ+ph7iJWXbikNGUPYIkPwdgGvLPkPl0LbTnbhKYriREWbuP4d2qEKEej
+ 2rQkY0vg5ihZyuW58BA4LnQHRNTI7ra4G0YtgrwlIRJzlL1l3QE78z1SDVJCYfbJYTvj
+ 6mTZaXKpS1A1A7EaFaw2wDDQJEQGiVbQXpGobz5W4KQSteZ7AjP5Qp3myxbI9eQ6CD6R
+ xjpg==
+X-Gm-Message-State: AOAM532g7HhYapT0X5TXsodsw3AfYOu3Ax9NU9CnBWl060D0uCX2ijUU
+ lFIjUfz2UZAovu8T9Kleq9VjwE7FC2YKeqSInKnoog==
+X-Google-Smtp-Source: ABdhPJxBX2L2LUeGUOYQ7W28MienpyMZUn6kUm2DXZieJErY/vwm5O6dOGpdWxhVKsztFBo7qkfsa6vuxb9xYUvUACY=
+X-Received: by 2002:a17:90b:4c89:: with SMTP id
+ my9mr58418361pjb.152.1641303556701; 
+ Tue, 04 Jan 2022 05:39:16 -0800 (PST)
 MIME-Version: 1.0
 References: <20211119015804.3824027-1-xji@analogixsemi.com>
-In-Reply-To: <20211119015804.3824027-1-xji@analogixsemi.com>
+ <CAG3jFytg88mWgA24ce4CbPKDA7HDdXOjC=AVxYrhv1c0Z5GTPA@mail.gmail.com>
+In-Reply-To: <CAG3jFytg88mWgA24ce4CbPKDA7HDdXOjC=AVxYrhv1c0Z5GTPA@mail.gmail.com>
 From: Robert Foss <robert.foss@linaro.org>
-Date: Tue, 4 Jan 2022 14:37:02 +0100
-Message-ID: <CAG3jFytg88mWgA24ce4CbPKDA7HDdXOjC=AVxYrhv1c0Z5GTPA@mail.gmail.com>
+Date: Tue, 4 Jan 2022 14:39:05 +0100
+Message-ID: <CAG3jFyuqgRP-xcH4DS-TQ_5+-kRnErkqh67cn2-J_hiOaFC9wQ@mail.gmail.com>
 Subject: Re: [PATCH v2] drm/bridge: anx7625: Check GPIO description to avoid
  crash
 To: Xin Ji <xji@analogixsemi.com>
@@ -71,42 +74,4 @@ Cc: drinkcat@google.com, pihsun@chromium.org, jonas@kwiboo.se, airlied@linux.ie,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 19 Nov 2021 at 02:58, Xin Ji <xji@analogixsemi.com> wrote:
->
-> As GPIO probe function "devm_gpiod_get_optional()" may return error
-> code, driver should identify GPIO desc as NULL to avoid crash.
->
-> Acked-by: Tzung-Bi Shih <tzungbi@google.com>
-> Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> ---
->  drivers/gpu/drm/bridge/analogix/anx7625.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
->
-> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> index 001fb39d9919..652ae814246d 100644
-> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> @@ -1098,9 +1098,18 @@ static void anx7625_init_gpio(struct anx7625_data *platform)
->         /* Gpio for chip power enable */
->         platform->pdata.gpio_p_on =
->                 devm_gpiod_get_optional(dev, "enable", GPIOD_OUT_LOW);
-> +       if (IS_ERR_OR_NULL(platform->pdata.gpio_p_on)) {
-> +               DRM_DEV_DEBUG_DRIVER(dev, "no enable gpio found\n");
-> +               platform->pdata.gpio_p_on = NULL;
-> +       }
-> +
->         /* Gpio for chip reset */
->         platform->pdata.gpio_reset =
->                 devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
-> +       if (IS_ERR_OR_NULL(platform->pdata.gpio_reset)) {
-> +               DRM_DEV_DEBUG_DRIVER(dev, "no reset gpio found\n");
-> +               platform->pdata.gpio_reset = NULL;
-> +       }
->
->         if (platform->pdata.gpio_p_on && platform->pdata.gpio_reset) {
->                 platform->pdata.low_power_mode = 1;
-> --
-> 2.25.1
->
-
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
+Applied to drm-misc-next
