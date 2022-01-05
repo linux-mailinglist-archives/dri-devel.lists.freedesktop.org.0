@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2455648565F
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jan 2022 17:03:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF313485666
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jan 2022 17:03:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96C6110FF3A;
-	Wed,  5 Jan 2022 16:03:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8F0E10FF51;
+	Wed,  5 Jan 2022 16:03:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE31910FF38;
- Wed,  5 Jan 2022 16:03:13 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECF3E10FF4B;
+ Wed,  5 Jan 2022 16:03:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1641398593; x=1672934593;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=H0kLtzlQcY/sA9D8+wqrK2MMMAFTQW9ilefGgM2pmQo=;
- b=V5V5yAJd5/XvPFVIakUe5dwcobueBW4fyD39eke10D0F/9hF5eZ2BGBP
- lf/kXDHWUCWHdQ6gZZNJ+02RrmJiuf23pUpXBzBaZArWc8Dl7/XkHm8xV
- gFBqRSPbCBPCXSRg5EUJzFVjkZSsS2BGyxdk29g18xGrjHtsXrGsAHRSl
- o0q1j9fI9XaqtWifolHjd5+QI0m3XuHR4ww5wtGPwDYC4EX895rNfxLdb
- 4ZoZLJQMLilzC/Vc/mBWODKOYvgen5B3ifWAIEv0ChOU2jekGV2Zap0Fb
- P3mSfmAJT+QU2ooHZPQrxmaGvOeh22KZ4jjQQJAFJolWlAHXzIsMiPUvU A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="242677791"
-X-IronPort-AV: E=Sophos;i="5.88,264,1635231600"; d="scan'208";a="242677791"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2022 08:03:13 -0800
-X-IronPort-AV: E=Sophos;i="5.88,264,1635231600"; d="scan'208";a="621093230"
-Received: from unknown (HELO [10.252.26.67]) ([10.252.26.67])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2022 08:03:12 -0800
-Message-ID: <0bdf49e1-f446-c3de-4308-a774bc3e82d5@intel.com>
-Date: Wed, 5 Jan 2022 16:03:09 +0000
+ t=1641398628; x=1672934628;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=2ohL8om2Ku1tRSDFkto1TEuKqTzpXA48915Bna77Zsk=;
+ b=ighBMSG+hXiSdZCm1T4jngWKIpNY+H6+U7bDtu0lCY72legJEmmdI1O3
+ jPRS6m78QbcCwMLgV5FkdomIxePayGsPLAEyV57s76crKdNxM3qkM8W1q
+ BujVnNp/oCSuo1grQp4Z8q0oFEfl5Tta+6I3z1RKvGmdppYB04WtoRAj0
+ FfM9AcZMLAa3mq6rUSRhTy8r+/f09HJIrJ3iXySGwTI9MC9+sC3rscr6m
+ YyDikQMdpznbQqaalsGX7umSau99T5jma/tmurhB5t0LUA8M9Vpt0eLXI
+ g+Qtm+/A1dpi5Bfeed3VCQuh4JyTCizOMBZZnn01vE1MkiE4Gyn04NKRx Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="241290461"
+X-IronPort-AV: E=Sophos;i="5.88,264,1635231600"; d="scan'208";a="241290461"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jan 2022 08:03:47 -0800
+X-IronPort-AV: E=Sophos;i="5.88,264,1635231600"; d="scan'208";a="488615421"
+Received: from fhoeg-mobl1.ger.corp.intel.com (HELO [10.249.254.213])
+ ([10.249.254.213])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jan 2022 08:03:45 -0800
+Message-ID: <16587098a6539cea5403712a806b4bf9b4964440.camel@linux.intel.com>
+Subject: Re: [PATCH v5 4/6] drm/i915: Use vma resources for async unbinding
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Date: Wed, 05 Jan 2022 17:03:42 +0100
+In-Reply-To: <f022f46f-555f-ec83-49a9-df771e46127c@intel.com>
+References: <20220104125132.35179-1-thomas.hellstrom@linux.intel.com>
+ <20220104125132.35179-5-thomas.hellstrom@linux.intel.com>
+ <f022f46f-555f-ec83-49a9-df771e46127c@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-2.fc34) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 1/4] drm/i915: don't call free_mmap_offset when purging
-Content-Language: en-GB
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org
-References: <20220105145835.142950-1-matthew.auld@intel.com>
- <43a8417d35c42bdb6aa0a11f72d7330eb14bdebe.camel@linux.intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <43a8417d35c42bdb6aa0a11f72d7330eb14bdebe.camel@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,104 +60,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/01/2022 15:46, Thomas Hellström wrote:
-> On Wed, 2022-01-05 at 14:58 +0000, Matthew Auld wrote:
->> The TTM backend is in theory the only user here(also purge should
->> only
->> be called once we have dropped the pages), where it is setup at
->> object
->> creation and is only removed once the object is destroyed. Also
->> resetting the node here might be iffy since the ttm fault handler
->> uses the stored fake offset to determine the page offset within the
->> pages
->> array.
->>
->> This also blows up in the dontneed-before-mmap test, since the
->> expectation is that the vma_node will live on, until the object is
->> destroyed:
->>
->> <2> [749.062902] kernel BUG at
->> drivers/gpu/drm/i915/gem/i915_gem_ttm.c:943!
->> <4> [749.062923] invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
->> <4> [749.062928] CPU: 0 PID: 1643 Comm: gem_madvise Tainted: G     U
->> W         5.16.0-rc8-CI-CI_DRM_11046+ #1
->> <4> [749.062933] Hardware name: Gigabyte Technology Co., Ltd. GB-Z390
->> Garuda/GB-Z390 Garuda-CF, BIOS IG1c 11/19/2019
->> <4> [749.062937] RIP: 0010:i915_ttm_mmap_offset.cold.35+0x5b/0x5d
->> [i915]
->> <4> [749.063044] Code: 00 48 c7 c2 a0 23 4e a0 48 c7 c7 26 df 4a a0
->> e8 95 1d d0 e0 bf 01 00 00 00 e8 8b ec cf e0 31 f6 bf 09 00 00 00 e8
->> 5f 30 c0 e0 <0f> 0b 48 c7 c1 24 4b 56 a0 ba 5b 03 00 00 48 c7 c6 c0
->> 23 4e a0 48
->> <4> [749.063052] RSP: 0018:ffffc90002ab7d38 EFLAGS: 00010246
->> <4> [749.063056] RAX: 0000000000000240 RBX: ffff88811f2e61c0 RCX:
->> 0000000000000006
->> <4> [749.063060] RDX: 0000000000000000 RSI: 0000000000000000 RDI:
->> 0000000000000009
->> <4> [749.063063] RBP: ffffc90002ab7e58 R08: 0000000000000001 R09:
->> 0000000000000001
->> <4> [749.063067] R10: 000000000123d0f8 R11: ffffc90002ab7b20 R12:
->> ffff888112a1a000
->> <4> [749.063071] R13: 0000000000000004 R14: ffff88811f2e61c0 R15:
->> ffff888112a1a000
->> <4> [749.063074] FS:  00007f6e5fcad500(0000)
->> GS:ffff8884ad600000(0000) knlGS:0000000000000000
->> <4> [749.063078] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->> <4> [749.063081] CR2: 00007efd264e39f0 CR3: 0000000115fd6005 CR4:
->> 00000000003706f0
->> <4> [749.063085] Call Trace:
->> <4> [749.063087]  <TASK>
->> <4> [749.063089]  __assign_mmap_offset+0x41/0x300 [i915]
->> <4> [749.063171]  __assign_mmap_offset_handle+0x159/0x270 [i915]
->> <4> [749.063248]  ? i915_gem_dumb_mmap_offset+0x70/0x70 [i915]
->> <4> [749.063325]  drm_ioctl_kernel+0xae/0x140
->> <4> [749.063330]  drm_ioctl+0x201/0x3d0
->> <4> [749.063333]  ? i915_gem_dumb_mmap_offset+0x70/0x70 [i915]
->> <4> [749.063409]  ? do_user_addr_fault+0x200/0x670
->> <4> [749.063415]  __x64_sys_ioctl+0x6d/0xa0
->> <4> [749.063419]  do_syscall_64+0x3a/0xb0
->> <4> [749.063423]  entry_SYSCALL_64_after_hwframe+0x44/0xae
->> <4> [749.063428] RIP: 0033:0x7f6e5f100317
->>
->> Testcase: igt@gem_madvise@dontneed-before-mmap
->> Fixes: cf3e3e86d779 ("drm/i915: Use ttm mmap handling for ttm bo's.")
->> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
->> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->> ---
->>   drivers/gpu/drm/i915/gem/i915_gem_pages.c | 1 -
->>   1 file changed, 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
->> b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
->> index 89b70f5cde7a..9f429ed6e78a 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
->> @@ -161,7 +161,6 @@ int i915_gem_object_pin_pages_unlocked(struct
->> drm_i915_gem_object *obj)
->>   /* Immediately discard the backing storage */
->>   int i915_gem_object_truncate(struct drm_i915_gem_object *obj)
->>   {
->> -       drm_gem_free_mmap_offset(&obj->base);
+On Wed, 2022-01-05 at 15:52 +0000, Matthew Auld wrote:
+> On 04/01/2022 12:51, Thomas Hellström wrote:
+> > Implement async (non-blocking) unbinding by not syncing the vma
+> > before
+> > calling unbind on the vma_resource.
+> > Add the resulting unbind fence to the object's dma_resv from where
+> > it is
+> > picked up by the ttm migration code.
+> > Ideally these unbind fences should be coalesced with the migration
+> > blit
+> > fence to avoid stalling the migration blit waiting for unbind, as
+> > they
+> > can certainly go on in parallel, but since we don't yet have a
+> > reasonable data structure to use to coalesce fences and attach the
+> > resulting fence to a timeline, we defer that for now.
+> > 
+> > Note that with async unbinding, even while the unbind waits for the
+> > preceding bind to complete before unbinding, the vma itself might
+> > have been
+> > destroyed in the process, clearing the vma pages. Therefore we can
+> > only allow async unbinding if we have a refcounted sg-list and keep
+> > a
+> > refcount on that for the vma resource pages to stay intact until
+> > binding occurs. If this condition is not met, a request for an
+> > async
+> > unbind is diverted to a sync unbind.
+> > 
+> > v2:
+> > - Use a separate kmem_cache for vma resources for now to isolate
+> > their
+> >    memory allocation and aid debugging.
+> > - Move the check for vm closed to the actual unbinding thread.
+> > Regardless
+> >    of whether the vm is closed, we need the unbind fence to
+> > properly wait
+> >    for capture.
+> > - Clear vma_res::vm on unbind and update its documentation.
+> > v4:
+> > - Take cache coloring into account when searching for vma resources
+> >    pending unbind. (Matthew Auld)
+> > v5:
+> > - Fix timeout and error check in
+> > i915_vma_resource_bind_dep_await().
+> > - Avoid taking a reference on the object for async binding if
+> >    async unbind capable.
+> > - Fix braces around a single-line if statement.
+> > 
+> > Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 > 
-> What happens if a non-ttm shmem system object gets truncated from the
-> shrinker and then tries to use the above mmap offset?
+> <snip>
+> 
+> > @@ -434,12 +439,30 @@ int i915_vma_bind(struct i915_vma *vma,
+> >   
+> >         bind_flags &= ~vma_flags;
+> >         if (bind_flags == 0) {
+> > -               kfree(vma_res);
+> > +               i915_vma_resource_free(vma_res);
+> >                 return 0;
+> >         }
+> >   
+> >         GEM_BUG_ON(!atomic_read(&vma->pages_count));
+> >   
+> > +       /* Wait for or await async unbinds touching our range */
+> > +       if (work && bind_flags & vma->vm->bind_async_flags)
+> > +               ret = i915_vma_resource_bind_dep_await(vma->vm,
+> > +                                                      &work-
+> > >base.chain,
+> > +                                                      vma-
+> > >node.start,
+> > +                                                      vma-
+> > >node.size,
+> > +                                                      true,
+> > +                                                      GFP_NOWAIT |
+> > +                                                     
+> > __GFP_RETRY_MAYFAIL |
+> > +                                                     
+> > __GFP_NOWARN);
+> > +       else
+> > +               ret = i915_vma_resource_bind_dep_sync(vma->vm, vma-
+> > >node.start,
+> > +                                                     vma-
+> > >node.size, true);
+> > +       if (ret) {
+> > +               i915_vma_resource_free(vma_res);
+> > +               return ret;
+> > +       }
+> > +
+> >         if (vma->resource || !vma_res) {
+> >                 /* Rebinding with an additional I915_VMA_*_BIND */
+> >                 GEM_WARN_ON(!vma_flags);
+> > @@ -452,9 +475,11 @@ int i915_vma_bind(struct i915_vma *vma,
+> >         if (work && bind_flags & vma->vm->bind_async_flags) {
+> >                 struct dma_fence *prev;
+> >   
+> > -               work->vma = vma;
+> > +               work->vma_res = i915_vma_resource_get(vma-
+> > >resource);
+> >                 work->cache_level = cache_level;
+> >                 work->flags = bind_flags;
+> > +               if (vma->obj->mm.rsgt)
+> > +                       work->rsgt = i915_refct_sgt_get(vma->obj-
+> > >mm.rsgt);
+> 
+> Hmmm, at a glance I would have expected this to use the vma->pages. I
+> think with the GGTT the vma will often create its own sg layout which
+> != 
+> obj->mm.sgt. IIUC the async unbind will still call vma_unbind_pages 
+> which might nuke the vma sgt? Or is something else going on here?
+> 
 
-AFAIK nothing on integrated is really using this. The mmap_offset ioctl 
-stuff is managing multiple vma nodes itself, per object(one for each 
-cache type/mapping or something), and so doesn't use this. And the shmem 
-mmap ioctl doesn't use the any fake offset stuff, AFAIK.
+Yes, the binding code is only using vma_res->pages, which should have
+been copied from vma->pages, and keeps a reference to the rsgt just in
+case we do an async unbind.
 
-> 
-> /Thomas
-> 
-> 
-> 
->>          if (obj->ops->truncate)
->>                  return obj->ops->truncate(obj);
->>   
-> 
-> 
+However good point we should refuse async unbind for now if vma_res-
+>pages != &rsgt->table, because the former might otherwise be nuked
+before the async unbind actually happens. Will fix that for next
+version.
+
+/Thomas
+
+
+
+
