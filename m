@@ -2,69 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C118B48574D
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jan 2022 18:33:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9E53485750
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jan 2022 18:34:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B74DF112257;
-	Wed,  5 Jan 2022 17:33:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C080110F7D9;
+	Wed,  5 Jan 2022 17:34:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
- [IPv6:2607:f8b0:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0207E10F7D9
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jan 2022 17:33:19 +0000 (UTC)
-Received: by mail-pg1-x52c.google.com with SMTP id i8so27586120pgt.13
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Jan 2022 09:33:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Nmndt0VkOAtLY1ci31WXQCy4a4STYE251ahE/JdWZjQ=;
- b=eGxZrueRzdgW6cCKEy5n7l9h9+Trx6i1sxweYwIV+uq3y7jPGFmZO3nxIQTLbWZVZR
- NVt1H/t6VulG15QjjsQa1aqGYU2ihZMcCEuPKygXC22IOj7s8C+wFjdzyYPaExyW16ol
- NY+4RPtFN5b3SHVtUAEuSa2IZvZ4cs6FbOqTs=
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
+ [IPv6:2607:f8b0:4864:20::1036])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDFCF11229F
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jan 2022 17:34:09 +0000 (UTC)
+Received: by mail-pj1-x1036.google.com with SMTP id
+ b1-20020a17090a990100b001b14bd47532so6935870pjp.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Jan 2022 09:34:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qzLkrKvzf4U9brrtJ/3zSRGG7qJqvKjcyzgpbg4OR7o=;
+ b=bNxkLOSbNiE/cewnhs6irchlQbeHzqbhgGQrmOP9jDjSYoROJbonp3xgs8SAzJ1xpv
+ PYeoKPrPjBoI3DGf3Krn5qcpuwy4t1CLIVFoPNMIxIUu0Ff4coPjxaDDbfRh0pwrjFte
+ 1Dyef/Z9uXNrBJWyP9xRupQ6+cPbfPOuLzLJrOkzxW3ayIsbhIYMRE1TLqTcESSdMWQZ
+ R9WjbmUaIQr5WP9u1grncJhgiPf8S4D5wK1W01ZJtVtI9G9r9tNTbA/NsPqQ3g/wngsU
+ QV5j5MciS99bhoO+Uz/S0wTjh1fTcI6nxh0ztsanPxJSCBiokkzACPbakcELefpTpdrc
+ vCpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Nmndt0VkOAtLY1ci31WXQCy4a4STYE251ahE/JdWZjQ=;
- b=Uma4cR9Njrk5bjB3vvvoM5oK05V4g73KwnpBQLvM8gvFuWjvWnOadEPgdGwlUpwHQ9
- dAFS+lQVv6q1q7+HJHV3Iz2CnIlnGm5GAaESkWMDaP1iWPTIKPkaWe69u/KRsTl/frjT
- sPbwOwSfsni0XqUePlPlk4WWXRqpgxi8g/RCakaOMcUdkQDzfxdQ1FUI5aE2rGXmqqYd
- oZhX5MWuYuisg3+h3QgFwSvKU8sEMCP3C4dkigEX0KMhKW5H46VtNylytgqLvHi902Ul
- kGgUNA6URG48yz4JVF7tb7MVZcx0QHHDXuGoGk6baaDgqnDcUGgkm/c1Hadrlbdv7Lpm
- +gyA==
-X-Gm-Message-State: AOAM533ajrPHAizBJxQodK7uaTvSYGXnM/ekDgOzAacBUTlOBZ0jL6Ud
- Zh1t2F8ANOPWEvzyq/iflwIowg==
-X-Google-Smtp-Source: ABdhPJwvWsluov2M3xQQOKdxaYmcA3f5D7ugC6+xoOxa4jnEW4fDKXegJU9tgmb/4zVjisJ12Eip3A==
-X-Received: by 2002:a63:8148:: with SMTP id t69mr49651559pgd.318.1641403999583; 
- Wed, 05 Jan 2022 09:33:19 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id f125sm35804175pfa.28.2022.01.05.09.33.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jan 2022 09:33:19 -0800 (PST)
-From: Kees Cook <keescook@chromium.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: [PATCH v2] drm/dp: Fix off-by-one in register cache size
-Date: Wed,  5 Jan 2022 09:33:10 -0800
-Message-Id: <20220105173310.2420598-1-keescook@chromium.org>
-X-Mailer: git-send-email 2.30.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qzLkrKvzf4U9brrtJ/3zSRGG7qJqvKjcyzgpbg4OR7o=;
+ b=ByuFd/HsOAAauN3m9qHIYKhh6GSyplhsURRKEPAOXd2DlccbL347IroxoGnlauGSos
+ gl+T5OIb4iiX/tjEep1kbgB9NswPXRfuyreTBrSzLVs6CbW2pfFTkbx5VWe2GwTH/mS4
+ +pweK+HFxFz/KGUcveF21+uxt+oeJ8A/ijHjzM+eaIb/ArMZlc3XtBjuJ9Ze6uMRJ1Xz
+ BZJDhowX8VnT9KsivplxdSal9Hg6cyCC1onAaYtOAyFcgkL5zDrb8ZUerliCJB1751Z1
+ zLIjmircLktTFiIFEZmFSD0nH7TSBXu720fqhObANzspfuI6vyzUdtyBH+A6hR3K4G71
+ 1l8w==
+X-Gm-Message-State: AOAM533/jJUnEyzxOQpkDqlQjdpxcx3lw168QP10A8YMqLLIT92DRRs/
+ kRa4QTIRacAejw5sXoyVQnRiim4pqSMjafCg8YbungR64XZQWA==
+X-Google-Smtp-Source: ABdhPJxT9Zl9HHHjb3sOf7PjsVVoVZqqork5XhastH019KbAUFjsGdqiHG6cQ4Q0avYjek53MPn/pTeCYyCbAlABoj8=
+X-Received: by 2002:a17:903:110c:b0:149:8018:e9d4 with SMTP id
+ n12-20020a170903110c00b001498018e9d4mr41928668plh.117.1641404049262; Wed, 05
+ Jan 2022 09:34:09 -0800 (PST)
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2221; h=from:subject;
- bh=FKzoP1+Ajq0adEYhRP1CewNZxc4TZAiLM0jC2P8yyAU=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBh1dZWy/nQqWmat0jak1V87p/MQZdy6f8jwBwkG+sK
- M0Gs7VmJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYdXWVgAKCRCJcvTf3G3AJsg9EA
- CWwI79Dlno4hKxtgvfxb3hGWq5EXAlfZTvAB90dWpess3EFCDDOE5cMKYQKou0opRccmgGwFu0fsPU
- xTl46z/W9IbbXs5vyTBOJCydBaNUjj/lwR9P7bgXfa0gBoI6WnmZ7gohQ49+LZNEZ4wNJXWFlYzAQ/
- s21o7BKnGXrawgnBMpfwz5cUx+rH6xDhJVUZlyJkv4XaRM5iRpLRUB0ViymOvZWZ0iKybHiQcIY8uT
- QquwLVd/s6X0FmjUuDCbyUbPbgoejl2eVJ6Ugl8cYkm7DwwnJCvG59i6zh+ScjR67ys0ROtApqK7qq
- NV+g9WC2LY1I+/pAgkTDQqqMD8DUQoKB1hi4qM9o4f9B7bAQW6u98q7bSh55IysN3PSacybx5c+S5g
- xd920HE37gmARNaJPxZrLm+gVsU3vWtzP4j1FGDZ/hhXb7L+MR5b6iQJl9z/n1Sw9eZRDtz7SdkVOT
- nmbCgSFtZFyAVGqR3rv9u7KggNppfVXjT+sFCu9UwvwF+uqMWyCHJq0uHEgurEzSFCt25qnartDo2x
- qxdPe7pjfWgdLa3pGKC4q9FtscpvfXBS/zuuAABJ5sj2Hxhcq8D7Ql0JnuyFTzJexzA8q9iX3gDjBC
- 2HgLW/d4RUMU9gJcxXqGMY9iXVgEro5Ko3q6xKzx+RkyOZ0SOZ1shTquvgNw==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp;
- fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+References: <20220105090802.73564-1-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220105090802.73564-1-angelogioacchino.delregno@collabora.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Wed, 5 Jan 2022 18:33:58 +0100
+Message-ID: <CAG3jFytpm95P_VVkyrzRVPsFv2yP6QSJOaLM2en6afmR6WwteQ@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/bridge: parade-ps8640: Link device to ensure
+ suspend/resume order
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,60 +64,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- "Gustavo A . R . Silva" <gustavoars@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Jani Nikula <jani.nikula@intel.com>, Uma Shankar <uma.shankar@intel.com>,
- linux-hardening@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- stable@vger.kernel.org, Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
- Kees Cook <keescook@chromium.org>
+Cc: jonas@kwiboo.se, airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
+ jernej.skrabec@gmail.com, a.hajda@samsung.com,
+ laurent.pinchart@ideasonboard.com, kernel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pcon_dsc_dpcd array holds 13 registers (0x92 through 0x9E). Fix the
-math to calculate the max size. Found from a -Warray-bounds build:
+On Wed, 5 Jan 2022 at 10:08, AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>
+> Entering suspend while the display attached to this bridge is still on
+> makes the resume sequence to resume the bridge first, display last:
+> when this happens, we get a timeout while resuming the bridge, as its
+> MCU will get stuck due to the display being unpowered.
+>
+> On the other hand, on mt8173-elm, closing the lid makes the display to
+> get powered off first, bridge last, so at resume time the sequence is
+> swapped (compared to the first example) and everything just works
+> as expected.
+>
+> Add a stateless device link to the DRM device that this bridge belongs
+> to, ensuring a correct resume sequence and solving the unability to
+> correctly resume bridge operation in the first mentioned example.
+>
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> ---
+>  drivers/gpu/drm/bridge/parade-ps8640.c | 27 ++++++++++++++++++++++++--
+>  1 file changed, 25 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
+> index 818704bf5e86..450bc9bdf295 100644
+> --- a/drivers/gpu/drm/bridge/parade-ps8640.c
+> +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+> @@ -102,6 +102,7 @@ struct ps8640 {
+>         struct regulator_bulk_data supplies[2];
+>         struct gpio_desc *gpio_reset;
+>         struct gpio_desc *gpio_powerdown;
+> +       struct device_link *link;
+>         bool pre_enabled;
+>  };
+>
+> @@ -456,14 +457,36 @@ static int ps8640_bridge_attach(struct drm_bridge *bridge,
+>                 return ret;
+>         }
+>
+> +       ps_bridge->link = device_link_add(bridge->dev->dev, dev, DL_FLAG_STATELESS);
+> +       if (!ps_bridge->link) {
+> +               dev_err(dev, "failed to create device link");
+> +               ret = -EINVAL;
+> +               goto err_devlink;
+> +       }
+> +
+>         /* Attach the panel-bridge to the dsi bridge */
+> -       return drm_bridge_attach(bridge->encoder, ps_bridge->panel_bridge,
+> +       ret = drm_bridge_attach(bridge->encoder, ps_bridge->panel_bridge,
+>                                  &ps_bridge->bridge, flags);
 
-drivers/gpu/drm/drm_dp_helper.c: In function 'drm_dp_pcon_dsc_bpp_incr':
-drivers/gpu/drm/drm_dp_helper.c:3130:28: error: array subscript 12 is outside array bounds of 'const u8[12]' {aka 'const unsigned char[12]'} [-Werror=array-bounds]
- 3130 |         buf = pcon_dsc_dpcd[DP_PCON_DSC_BPP_INCR - DP_PCON_DSC_ENCODER];
-      |               ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/drm_dp_helper.c:3126:39: note: while referencing 'pcon_dsc_dpcd'
- 3126 | int drm_dp_pcon_dsc_bpp_incr(const u8 pcon_dsc_dpcd[DP_PCON_DSC_ENCODER_CAP_SIZE])
-      |                              ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Bad alignment according to checkpatch --strict
 
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Fixes: e2e16da398d9 ("drm/dp_helper: Add support for Configuring DSC for HDMI2.1 Pcon")
-Cc: stable@vger.kernel.org
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-Link: https://lore.kernel.org/lkml/20211214001849.GA62559@embeddedor/
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
-v1: https://lore.kernel.org/lkml/20211203084333.3105038-1-keescook@chromium.org/
-v2:
- - add reviewed-by
- - add cc:stable
----
- include/drm/drm_dp_helper.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> +       if (ret)
+> +               goto err_bridge_attach;
+> +
+> +       return 0;
+> +
+> +err_bridge_attach:
+> +       device_link_del(ps_bridge->link);
+> +err_devlink:
+> +       drm_dp_aux_unregister(&ps_bridge->aux);
+> +
+> +       return ret;
+>  }
+>
+>  static void ps8640_bridge_detach(struct drm_bridge *bridge)
+>  {
+> -       drm_dp_aux_unregister(&bridge_to_ps8640(bridge)->aux);
+> +       struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
+> +
+> +       drm_dp_aux_unregister(&ps_bridge->aux);
+> +       if (ps_bridge->link)
+> +               device_link_del(ps_bridge->link);
+>  }
+>
+>  static struct edid *ps8640_bridge_get_edid(struct drm_bridge *bridge,
+> --
+> 2.33.1
+>
 
-diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-index 30359e434c3f..472dac376284 100644
---- a/include/drm/drm_dp_helper.h
-+++ b/include/drm/drm_dp_helper.h
-@@ -456,7 +456,7 @@ struct drm_panel;
- #define DP_FEC_CAPABILITY_1			0x091   /* 2.0 */
- 
- /* DP-HDMI2.1 PCON DSC ENCODER SUPPORT */
--#define DP_PCON_DSC_ENCODER_CAP_SIZE        0xC	/* 0x9E - 0x92 */
-+#define DP_PCON_DSC_ENCODER_CAP_SIZE        0xD	/* 0x92 through 0x9E */
- #define DP_PCON_DSC_ENCODER                 0x092
- # define DP_PCON_DSC_ENCODER_SUPPORTED      (1 << 0)
- # define DP_PCON_DSC_PPS_ENC_OVERRIDE       (1 << 1)
--- 
-2.30.2
+Fixed alignment issue, applied to drm-misc-next and added r-b tag.
 
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
