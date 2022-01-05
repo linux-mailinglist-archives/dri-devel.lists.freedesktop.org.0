@@ -2,55 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC0FA485160
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jan 2022 11:48:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB4AA485196
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jan 2022 12:04:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FF1410E623;
-	Wed,  5 Jan 2022 10:48:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65AC710E239;
+	Wed,  5 Jan 2022 11:04:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com
- [IPv6:2607:f8b0:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EB4710E623
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jan 2022 10:48:33 +0000 (UTC)
-Received: by mail-pg1-x531.google.com with SMTP id r5so35181450pgi.6
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Jan 2022 02:48:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id;
- bh=nBmNBAQ4hWVtra8c2jSUbNZPXDwdJxy3lN7QmYn/eTU=;
- b=FrtT2pI+Irbd3Aj5ERh5/QdY2C+8WwZYcvyoiDoOBHzPkv5svtVS9sDDfWwsvvNclT
- q08BZAfQ7cv8v89JJHnEY+LZijGtgJ9287Oqrt1pI4DC46DgPM3M4ZxwkDZwrBpkE+8q
- Qqo+CRHXSwiLUAAUsTqalYkrecvWqX83vUgKlXDaFMbPDuEVNrRtFA/TBcCNtY/y48Ff
- vf2aiXH+truLbK6Ny003rLCWMbAal1vU/HK3eUlpZRyuGbraQDqGYLXJf8faOlkJ4IuI
- ga/+PAGCXBjg//NJlNF2sRIf8aS8fjS2qlbadbgR8DFyWfs0i9FKhyhWD+N/6lm+oGN4
- Zfog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=nBmNBAQ4hWVtra8c2jSUbNZPXDwdJxy3lN7QmYn/eTU=;
- b=aklplvkPpWqkMx6fSUz7ngV29soIIXxp8CnXt9T96lM0YA8fcTfqZB8Ow4mRA7oPWl
- PkCYkMW1w0w4zq4t8+zB7T4kaov/IbExJxOO6756Cd3f+Rf/0ua2vYG2sKwb+EoTqMcx
- QZhGSiv9TqPZjlLVzEjLtncSaHTNVOUDdzfxrImmUMf12l1U1tVh7EWDO7LA++DH5X0v
- wYW+VmwdfoCOvdPoqfRnliimwjWuyY4OByEySpM8U2Tu3DTuyF/vgCNNaqvDowyXZ1oy
- 6jtz9pLujx3OvXM+reR/Vq+QGAyMn4bxWKuW99sq9pJl6HceEGamCTynxL3jALlXChdN
- G64w==
-X-Gm-Message-State: AOAM531FvGvhyRKsBD4GA36B8jhJK+m7e0Z/zpFrVRVbfraCW8t9+8U+
- zgGtdbPs0VSJrWnFtZ6xj5g=
-X-Google-Smtp-Source: ABdhPJyRYj9zO9mX7/fkJBF4fCaILWvFlHOwDxKg4WhdQkF5WcUHW0h4c7JZWHsQOCyNDd96N6HP2Q==
-X-Received: by 2002:a05:6a00:198a:b0:4bb:4621:f074 with SMTP id
- d10-20020a056a00198a00b004bb4621f074mr54759563pfl.69.1641379713067; 
- Wed, 05 Jan 2022 02:48:33 -0800 (PST)
-Received: from localhost.localdomain ([159.226.95.43])
- by smtp.googlemail.com with ESMTPSA id 27sm34878181pgx.81.2022.01.05.02.48.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jan 2022 02:48:32 -0800 (PST)
-From: Miaoqian Lin <linmq006@gmail.com>
-To: 
-Subject: [PATCH] drm/bridge: nwl-dsi: Fix PM disable depth imbalance in
- nwl_dsi_probe
-Date: Wed,  5 Jan 2022 10:48:26 +0000
-Message-Id: <20220105104826.1418-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C53A210E239
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jan 2022 11:04:51 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ore@pengutronix.de>)
+ id 1n545t-0008W1-8N; Wed, 05 Jan 2022 12:04:37 +0100
+Received: from ore by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <ore@pengutronix.de>)
+ id 1n545q-0004qQ-DW; Wed, 05 Jan 2022 12:04:34 +0100
+Date: Wed, 5 Jan 2022 12:04:34 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Shawn Guo <shawnguo@kernel.org>
+Subject: Re: [PATCH v1 4/4] ARM: dts: imx6dl: plym2m, prtvt7, victgo:  make
+ use of new resistive-adc-touch driver
+Message-ID: <20220105110434.GG303@pengutronix.de>
+References: <20211122124310.2796505-1-o.rempel@pengutronix.de>
+ <20211122124310.2796505-4-o.rempel@pengutronix.de>
+ <20211206010627.GK4216@dragon>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211206010627.GK4216@dragon>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 11:58:52 up 25 days, 19:44, 81 users,  load average: 1.02, 1.06, 1.07
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,39 +58,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linmq006@gmail.com, Jernej Skrabec <jernej.skrabec@gmail.com>,
- dri-devel@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Sam Ravnborg <sam@ravnborg.org>,
- =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Robert Chiras <robert.chiras@nxp.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Robin van der Gracht <robin@protonic.nl>, David Airlie <airlied@linux.ie>,
+ Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jonathan Cameron <jic23@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ NXP Linux Team <linux-imx@nxp.com>, David Jander <david@protonic.nl>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pm_runtime_enable will increase power disable depth.
-Thus a pairing decrement is needed on the error handling
-path to keep it balanced according to context.
+Hi Shawn,
 
-Fixes: 44cfc62 ("drm/bridge: Add NWL MIPI DSI host controller support")
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
- drivers/gpu/drm/bridge/nwl-dsi.c | 1 +
- 1 file changed, 1 insertion(+)
+sorry for the delay, I just came back to work.
 
-diff --git a/drivers/gpu/drm/bridge/nwl-dsi.c b/drivers/gpu/drm/bridge/nwl-dsi.c
-index a7389a0facfb..fc3ad9fab867 100644
---- a/drivers/gpu/drm/bridge/nwl-dsi.c
-+++ b/drivers/gpu/drm/bridge/nwl-dsi.c
-@@ -1206,6 +1206,7 @@ static int nwl_dsi_probe(struct platform_device *pdev)
- 
- 	ret = nwl_dsi_select_input(dsi);
- 	if (ret < 0) {
-+		pm_runtime_disable(dev);
- 		mipi_dsi_host_unregister(&dsi->dsi_host);
- 		return ret;
- 	}
+On Mon, Dec 06, 2021 at 09:06:28AM +0800, Shawn Guo wrote:
+> On Mon, Nov 22, 2021 at 01:43:10PM +0100, Oleksij Rempel wrote:
+> > The tsc2046 is an ADC used as touchscreen controller. To share as mach
+> > code as possible, we should use it as actual ADC + virtual tochscreen
+> > controller.
+> > With this patch we make use of the new kernel IIO and HID infrastructure.
+> > 
+> > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> 
+> One space is enough in subject "victgo:  make".
+
+done.
+
+> > ---
+> >  arch/arm/boot/dts/imx6dl-plym2m.dts | 55 ++++++++++++++++++++---------
+> >  arch/arm/boot/dts/imx6dl-prtvt7.dts | 53 ++++++++++++++++++++-------
+> >  arch/arm/boot/dts/imx6dl-victgo.dts | 55 +++++++++++++++++++++--------
+> >  3 files changed, 120 insertions(+), 43 deletions(-)
+> > 
+> > diff --git a/arch/arm/boot/dts/imx6dl-plym2m.dts b/arch/arm/boot/dts/imx6dl-plym2m.dts
+> > index 60fe5f14666e..e2afedae85cb 100644
+> > --- a/arch/arm/boot/dts/imx6dl-plym2m.dts
+> > +++ b/arch/arm/boot/dts/imx6dl-plym2m.dts
+> > @@ -101,6 +101,17 @@ reg_12v0: regulator-12v0 {
+> >  		regulator-min-microvolt = <12000000>;
+> >  		regulator-max-microvolt = <12000000>;
+> >  	};
+> > +
+> > +	touchscreen {
+> > +		compatible = "resistive-adc-touch";
+> > +		io-channels = <&adc 1>, <&adc 3>, <&adc 4>, <&adc 5>;
+> > +		io-channel-names = "y", "z1", "z2", "x";
+> > +		touchscreen-min-pressure = <64687>;
+> > +		touchscreen-inverted-x;
+> > +		touchscreen-inverted-y;
+> > +		touchscreen-x-plate-ohms = <300>;
+> > +		touchscreen-y-plate-ohms = <800>;
+> > +	};
+> >  };
+> >  
+> >  &can1 {
+> > @@ -129,26 +140,38 @@ &ecspi2 {
+> >  	pinctrl-0 = <&pinctrl_ecspi2>;
+> >  	status = "okay";
+> >  
+> > -	touchscreen@0 {
+> > -		compatible = "ti,tsc2046";
+> > +	adc: adc@0 {
+> 
+> Isn't label name "adc" too generic?
+
+I do not have strong opinion about this. Currently we have no
+restrictions for the node names:
+Documentation/devicetree/bindings/iio/adc/ti,tsc2046.yaml
+Documentation/devicetree/bindings/iio/adc/adc.yaml
+
+I can name it touchscreen-adc@0 or something like this. What are your
+preferences?
+
+Regards,
+Oleksij
 -- 
-2.17.1
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
