@@ -1,50 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5BA1484F83
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jan 2022 09:45:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF89A484FC7
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jan 2022 10:08:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5FB610E82E;
-	Wed,  5 Jan 2022 08:45:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D58A310E589;
+	Wed,  5 Jan 2022 09:08:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E95310E82E;
- Wed,  5 Jan 2022 08:45:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1641372321; x=1672908321;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=riHgiHH3txI3gRT2luKsKqbMrT9muPYRCFRqvqUVq0s=;
- b=iMA7yEhTSm/GkdCpQPaPev6+iHmhu5DmpYNhy1VEhw3CgJA6iYuKZnA8
- VG2Pfzi520ZZjqHdeVzeqsp/ta/rCJrremOgsX3RFeuyW4NXGFMfbg3DJ
- Qes95UHqYQXijRMPiQqZuOM6JkGrW0/M5K19z+tM4VgLvfK9U6h5KYAKc
- FtEM6Igzley5muOpokSzmuLm6CMi+EN6orOb10ayl0Yesyr6WygfWhEpA
- SgaRNd3bgHCT6j1OOHyJscrKWM/NBTWPHA0TAcG2Vb59ygbN+JkWNficp
- L7mrcX3ewYIvdfibMwN0i0zY1kR52/1RAOKd2F9d2URmwMdYerhWq+rXi Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="305750606"
-X-IronPort-AV: E=Sophos;i="5.88,262,1635231600"; d="scan'208";a="305750606"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2022 00:45:20 -0800
-X-IronPort-AV: E=Sophos;i="5.88,262,1635231600"; d="scan'208";a="472408073"
-Received: from menright-mobl1.amr.corp.intel.com (HELO localhost)
- ([10.252.25.244])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2022 00:45:17 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Yang Li <yang.lee@linux.alibaba.com>, airlied@linux.ie
-Subject: Re: [PATCH -next] drm/i915/fbc: replace DEFINE_SIMPLE_ATTRIBUTE
- with DEFINE_DEBUGFS_ATTRIBUTE
-In-Reply-To: <20220105003929.16971-1-yang.lee@linux.alibaba.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220105003929.16971-1-yang.lee@linux.alibaba.com>
-Date: Wed, 05 Jan 2022 10:45:14 +0200
-Message-ID: <87bl0qtvtx.fsf@intel.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E820510E583
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jan 2022 09:08:12 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id AB3D01F4415F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1641373691;
+ bh=I67Uv6Cy2hK+LHIl0VkG9gAWCveyN5g+6PhqqgBQlF4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=deJgGk+aYuWwoE6VD6TD2Y4B1BZNeA1Sxlue3OKercwINlKi16/pp35GMOyxuzgHP
+ M30UWtMgtP1qeMA0y0+Ve710BAPVb0pSvHjIwXoc5mX0be2ywYQB05A8AthH8lKPC8
+ SxZclAuUG9FcLh3pVLetygItZazefrR0cWi8yQA8d6x7OCk+nzcDd8j0SPEniyCXRx
+ uHEZwqKmpSlh7d4d+NXe0J283xlUe/EnV4PvTFEV11YL+yDHCag5RPZNVYf3QkNaCP
+ 9AypXaHX3gGG/FCFNK6Gwy8gMqAslv2tELYyTx8DB141fleWTYs4Kj4WyKhWZ3Poya
+ Kjo30kcmFEgzA==
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: a.hajda@samsung.com
+Subject: [PATCH v2] drm/bridge: parade-ps8640: Link device to ensure
+ suspend/resume order
+Date: Wed,  5 Jan 2022 10:08:02 +0100
+Message-Id: <20220105090802.73564-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,44 +45,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com, intel-gfx@lists.freedesktop.org,
- Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Yang Li <yang.lee@linux.alibaba.com>,
- rodrigo.vivi@intel.com
+Cc: jonas@kwiboo.se, airlied@linux.ie, robert.foss@linaro.org,
+ dri-devel@lists.freedesktop.org, narmstrong@baylibre.com,
+ linux-kernel@vger.kernel.org, jernej.skrabec@gmail.com,
+ Laurent.pinchart@ideasonboard.com, kernel@collabora.com,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 05 Jan 2022, Yang Li <yang.lee@linux.alibaba.com> wrote:
-> Fix the following coccicheck warning:
-> ./drivers/gpu/drm/i915/display/intel_fbc.c:1757:0-23: WARNING:
-> intel_fbc_debugfs_false_color_fops should be defined with
-> DEFINE_DEBUGFS_ATTRIBUTE
->
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_fbc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_fbc.c b/drivers/gpu/drm/i915/display/intel_fbc.c
-> index 160fd2bdafe5..a43f5b74d6ac 100644
-> --- a/drivers/gpu/drm/i915/display/intel_fbc.c
-> +++ b/drivers/gpu/drm/i915/display/intel_fbc.c
-> @@ -1754,7 +1754,7 @@ static int intel_fbc_debugfs_false_color_set(void *data, u64 val)
->  	return 0;
->  }
->  
-> -DEFINE_SIMPLE_ATTRIBUTE(intel_fbc_debugfs_false_color_fops,
-> +DEFINE_DEBUGFS_ATTRIBUTE(intel_fbc_debugfs_false_color_fops,
->  			intel_fbc_debugfs_false_color_get,
->  			intel_fbc_debugfs_false_color_set,
->  			"%llu\n");
+Entering suspend while the display attached to this bridge is still on
+makes the resume sequence to resume the bridge first, display last:
+when this happens, we get a timeout while resuming the bridge, as its
+MCU will get stuck due to the display being unpowered.
 
-Please fix the indentation on the continuation lines.
+On the other hand, on mt8173-elm, closing the lid makes the display to
+get powered off first, bridge last, so at resume time the sequence is
+swapped (compared to the first example) and everything just works
+as expected.
 
-BR,
-Jani.
+Add a stateless device link to the DRM device that this bridge belongs
+to, ensuring a correct resume sequence and solving the unability to
+correctly resume bridge operation in the first mentioned example.
 
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+---
+ drivers/gpu/drm/bridge/parade-ps8640.c | 27 ++++++++++++++++++++++++--
+ 1 file changed, 25 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
+index 818704bf5e86..450bc9bdf295 100644
+--- a/drivers/gpu/drm/bridge/parade-ps8640.c
++++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+@@ -102,6 +102,7 @@ struct ps8640 {
+ 	struct regulator_bulk_data supplies[2];
+ 	struct gpio_desc *gpio_reset;
+ 	struct gpio_desc *gpio_powerdown;
++	struct device_link *link;
+ 	bool pre_enabled;
+ };
+ 
+@@ -456,14 +457,36 @@ static int ps8640_bridge_attach(struct drm_bridge *bridge,
+ 		return ret;
+ 	}
+ 
++	ps_bridge->link = device_link_add(bridge->dev->dev, dev, DL_FLAG_STATELESS);
++	if (!ps_bridge->link) {
++		dev_err(dev, "failed to create device link");
++		ret = -EINVAL;
++		goto err_devlink;
++	}
++
+ 	/* Attach the panel-bridge to the dsi bridge */
+-	return drm_bridge_attach(bridge->encoder, ps_bridge->panel_bridge,
++	ret = drm_bridge_attach(bridge->encoder, ps_bridge->panel_bridge,
+ 				 &ps_bridge->bridge, flags);
++	if (ret)
++		goto err_bridge_attach;
++
++	return 0;
++
++err_bridge_attach:
++	device_link_del(ps_bridge->link);
++err_devlink:
++	drm_dp_aux_unregister(&ps_bridge->aux);
++
++	return ret;
+ }
+ 
+ static void ps8640_bridge_detach(struct drm_bridge *bridge)
+ {
+-	drm_dp_aux_unregister(&bridge_to_ps8640(bridge)->aux);
++	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
++
++	drm_dp_aux_unregister(&ps_bridge->aux);
++	if (ps_bridge->link)
++		device_link_del(ps_bridge->link);
+ }
+ 
+ static struct edid *ps8640_bridge_get_edid(struct drm_bridge *bridge,
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.33.1
+
