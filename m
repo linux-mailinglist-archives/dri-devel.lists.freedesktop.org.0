@@ -1,52 +1,138 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D90F4856A6
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jan 2022 17:29:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A75744856A2
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jan 2022 17:28:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E877C10FBF0;
-	Wed,  5 Jan 2022 16:29:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4373110FBC2;
+	Wed,  5 Jan 2022 16:28:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1F0810FBF0;
- Wed,  5 Jan 2022 16:29:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1641400188; x=1672936188;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=gSIixaDkjmwiVnBGxqxRGWIVmIUwkKbxm1lHcGerhuA=;
- b=k3c7DqPBvkLwLHtQBaqRUwrlezX7HHQlG2vFBJtK0kVPVNh/4OZpUcFx
- A7iMCA6P+hHbmvIQ+TDlgU2WpSsB9q0qJQdoJtWets0IfRa+aVQjwlCup
- 8q5YAeDfBRR63iUtZXRQ1l6Dc+j5rqc3hkKdl6EEeGbTlrM7Ozd755Cjq
- W5atsU1ax9PTfGLD7xWrgf+BQ4NLcdykv2/faM5K6f+AkYRvocXUvUoN6
- efcgwp1rA2AWLA0PpTcd0FoOc97M4LQv8g7Er9upSHcra6MXELkieUq5q
- TQYdXZ1utOJDif3/mq4mNb7NySuQxqYKtEUgeXc2sbU4D+rrVe1IYgqOa Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="328823295"
-X-IronPort-AV: E=Sophos;i="5.88,264,1635231600"; d="scan'208";a="328823295"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2022 08:29:48 -0800
-X-IronPort-AV: E=Sophos;i="5.88,264,1635231600"; d="scan'208";a="472550740"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2022 08:29:48 -0800
-Date: Wed, 5 Jan 2022 08:24:04 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Lock timeline mutex directly in
- error path of eb_pin_timeline
-Message-ID: <20220105162402.GA33126@jons-linux-dev-box>
-References: <20220104233056.11245-1-matthew.brost@intel.com>
- <3ae7e493-4b77-9e87-ca6f-34f85cab4ecb@linux.intel.com>
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2053.outbound.protection.outlook.com [40.107.243.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90E6F10FBC2;
+ Wed,  5 Jan 2022 16:28:03 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ENEyHPbaxKkB1215MSCO0WFqVrxEoZfuzqqan7GlBfzWROu9dzLdTkC13NdFXnBIJbDiyDAzfDV7VpU5IE951DEp9XOiRhzFnoJ1zadRxcjYlSVHlbfsXdmgELQJ06bJ7z7pH357+QYzskSQs4SGLhcePzEvUCiVEDabsyR3ddpoveoP4WmDYw+DIXr12FNGz2JimuM2hDZIhHuyQQANgTSXGV/+xzWS4VBtLWNcpHs3X5FNP6MUX39RWBF262I0c49Sp2o93IRgukTLJekBJMv2iUZzy6yUq8gHFo/FbEX2hcohw4r/38XY8Lu/OjGR7vSnEBVkRgGKvteUxvcDug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rdzzVySe8NdoTiHo6meHBPxUMid9qdEkrNnDU9vu1yQ=;
+ b=PSQk3XiZ3IuqIRoXsPyR9aDNEJQpwafhRvR53Q7Fbg1YapdKY6STDUvQC1OzQcwuMySw45BgwwIP/I7M+0Db9zKRv69Jh+has3gF9pGJTiiu1LMBEcfvi4QAJOWobk7A+jrcCLM54DPE0hi9K6z41aV6+fGhsXEZ8xCbN3xDSyWY7l1H/qxYNn6ZG9ScJcib4p1VeWEvsL0P9Vc8Ym/1jO/ebS2oG8HWWa0ZjQnhZJA6hZpNr1EkCeuQBQ4xOlYQ9/f1/kHqERZdrGY1d2fH7/1zvItz9Mg4XcnhbJk7XjjXLSozgqQ7Vr+rqVahoYhhzTZU8XK97/PutF1EYqnmFQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rdzzVySe8NdoTiHo6meHBPxUMid9qdEkrNnDU9vu1yQ=;
+ b=fOmsEHXDWIQpFlCLGeUX79T+GF47OkHWRpJQw/UqV7dBEpZrQfeUFm8sOeER9ONZ+YNmeCewQO6fQceRa9bO9IwwPPoEm786nH25Pru9np2sfhhLhHLWY+qn5EqmN19qkH8OGqt+E8BMQHkG2byMX5ZeUiMEAKNMEpBGn6IqEYI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
+ by BN9PR12MB5098.namprd12.prod.outlook.com (2603:10b6:408:137::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4867.7; Wed, 5 Jan
+ 2022 16:28:01 +0000
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::971:531c:e4f4:8a9a]) by BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::971:531c:e4f4:8a9a%7]) with mapi id 15.20.4844.016; Wed, 5 Jan 2022
+ 16:28:01 +0000
+Subject: Re: [PATCH] drm/ttm: Don't inherit GEM object VMAs in child process
+From: Felix Kuehling <felix.kuehling@amd.com>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ "Bhardwaj, Rajneesh" <rajneesh.bhardwaj@amd.com>,
+ Adrian Reber <adrian@lisas.de>
+References: <20211208205344.3034-1-rajneesh.bhardwaj@amd.com>
+ <94b992c2-04c2-7305-0a51-d130fc645f3f@gmail.com>
+ <58d61e47-3796-3147-db6c-ea7912d16902@amd.com>
+ <de272de9-3f4a-db40-699a-41394cb699dc@amd.com>
+ <cb5668d4-a13d-3b0b-442a-bfe1b3a7239a@amd.com>
+ <000edeaf-8a89-ea4d-5b9a-2bd7758f675c@amd.com>
+ <f00f2f16-f0b3-cb54-f88e-d53353bfdb79@amd.com>
+ <f4527002-ec6d-5279-3b79-1aacb6cc55cc@amd.com>
+ <YcBM3PMz7J90F3LQ@phenom.ffwll.local>
+ <9d1030c2-2269-cfdd-bbb0-9c3d5995841a@amd.com>
+ <YcOQN/l7W66W/X0f@phenom.ffwll.local>
+ <a5c769fd-7eac-2628-a36d-fedddfb7d398@amd.com>
+ <279c7ffc-99e5-f052-5de1-9b957c455d85@amd.com>
+ <1ab2558b-1af0-3319-dce6-b805320a49d0@gmail.com>
+ <60760210-3b3d-952c-2637-4d70fab1a857@amd.com>
+Message-ID: <185b8195-e100-ad90-49a3-061a50069c7f@amd.com>
+Date: Wed, 5 Jan 2022 11:27:59 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+In-Reply-To: <60760210-3b3d-952c-2637-4d70fab1a857@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-ClientProxiedBy: YT1PR01CA0122.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2c::31) To BN9PR12MB5115.namprd12.prod.outlook.com
+ (2603:10b6:408:118::14)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3ae7e493-4b77-9e87-ca6f-34f85cab4ecb@linux.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 113a4e56-6fa3-4265-6921-08d9d068577b
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5098:EE_
+X-Microsoft-Antispam-PRVS: <BN9PR12MB5098C44A812E263BBFA91983924B9@BN9PR12MB5098.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: HhulgxVej2z1SPrs6QByrv75ZBFbpcZ5AgMyRL/s+8goEvLwPGI03VYOp5vSzKUeEWAlW73WPsr3qjhtCicEHauRiC8YkgTjPrkaXjFx+//ydxMp/ntTzHfsuM03G3bfpbd3QwAxbEs8AZfrqf/dY3xksMTXcCQpr6TQ+QszcshyqYC6VWSJj+2/OTukwo9mfPeOtgVSP6AxYfeJAlSsqIN292Fvbjx2uzNjbx6SL2M85MGwFiKkYR2ejErHek518rQzA+aFmjdS+AyFrzYS6pwtN8XLfzt3y1pTNglphtgtVI5fVO8l3HkBPTrmwjgI22rluQqSS7ebk6pW4Moa8G6zGWzFwl0AM7UMB6oIjWVRFgyQhk89mPmx0aVBWBe8IiTpo26LLPHaHE869bTubD4yeyGNKoz0SQdp0p0IbPBLg83iDKg7UFGExSeM5lTf/9nm2z7kjvmf6A3kIT6KQVcElq8RIyk+bropiMJZ+nY55He1iZBYVb+fZnqo0BE4yXaaFhNpzWIUlkOah5+7zoJatqA2COx78iI1ez9zInze/qgLODbpaS1ocG1nwnlgyRqJpNUpU1KRC/FTVQNxRc1MapQoJxUCcnFKNFEZVQ6e6gbzJ38aMyiNfRJC6L6Z9FqaxZgE5abGtvaLgFdvi/YzAbhWM4lDTgGKKOrb6MzLTpQhaZYoJhK7WJ5FZoQ9Efko7LSzoQDJCksukepHMEnQG4PQxp9oIM4u9Fti4HwoeBvH9c36/JX5iJ/pZOn/
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(36756003)(31686004)(6506007)(31696002)(186003)(26005)(508600001)(8936002)(8676002)(86362001)(2906002)(110136005)(5660300002)(4326008)(83380400001)(66556008)(66476007)(66946007)(44832011)(2616005)(6512007)(6486002)(4744005)(38100700002)(316002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TmlOQ2VVb2RXRjJwUFA5ZnpTbVJvV2k0QXRFVGJ0NExkQnphWkFYTTE4R3FO?=
+ =?utf-8?B?bERDY1ZsWTBJTWliY2ljUUwvTDJwOHF5L1dXVW1sSkRKaXlnMGlEUFJHREpE?=
+ =?utf-8?B?NGgvcHZOc295RFQvOENaR3RXQ2hFYjlsdjh3YnFkUk5wV09oMFhLL25jWEJq?=
+ =?utf-8?B?a00zRzlUN3RCenFwQ00xbTdBUmorcll1MXB4b0RoTVViVFd3OU9WMG1HMlBa?=
+ =?utf-8?B?YmVIcXJkcjdia2lEQjBsVjJWaTZRMG1aR3A0YXFGYWFQOTgyOHIzU2t5S0VI?=
+ =?utf-8?B?SWtFOGNJcEZDTUVsSjVSY1owL2dkblY0TCsrYTFPODhHU29FWjRpY2VaN3Iy?=
+ =?utf-8?B?bkFLazhFbFduakpOeW92RTRHeGR5V2hBVlhxQUxmRnpTY1o5MzRuSll4RjVy?=
+ =?utf-8?B?VlY1QzB2b3g2WUQ0YVRwNHhyNFVMbDNjT0VqSzR3aW95aU1ObHhJNWpkTHlM?=
+ =?utf-8?B?OCtnWjdQVmhnTGpMcHBNeFJiQ2NLVTNjN1lqNlFNMGhhMGxLcVY5c3VUbW4v?=
+ =?utf-8?B?OWZ4cVJjK29tU0d0RHNFNFAzQi9PUlBPcWJORWZWR1JSQmxCdVM1ZUVFbnY1?=
+ =?utf-8?B?cUdpbW1rOCtiRkdXeWlrZVEzNDI0b1c3eUhsSlUrc1FVZCtWUWtqeXdPRENH?=
+ =?utf-8?B?dGNlcGhkZHBLSlk0SG5xYzc4VTlsaEM3WXJ0bFE4OHljYUZFS3RVZERBUkZz?=
+ =?utf-8?B?Z1RPdXRSTExyeE5naHVMOFkzQ1ZoMm1wcURXd2JYcGF0ZzA2UzhlY3JXQW53?=
+ =?utf-8?B?WmRPQWxMWXNNS3E1TXJhTkFKcXJkeEhLQTE0cDY1UWtUaVlzbHdDSzFWa21W?=
+ =?utf-8?B?ajBVOW4yK0xiYnRMK3NCRFhXTUdsMmN1VmV4Wlg0aVlVMHBhWnY4Q0RnZStH?=
+ =?utf-8?B?di9RZU9iQS9IYVFMYmhkY0s3bnpQeDRXb280cWN3YmNhNkYyQ0JId2t0ZGdE?=
+ =?utf-8?B?cUZRSlBnVFVyeVhuMkx5Qjk1TENQOGRCdmVoTmhqM1JUUkg0WUZ1Mk93S0h3?=
+ =?utf-8?B?ZDFwQ0EwYk52bGx4VHVJeDV1NHFLTGNhNTdCWmN5dFM0eFZncHJTNjFBc1hq?=
+ =?utf-8?B?M3lqbGR2MXRhR21YaUkyajRJdWYrcUJmdkNPZ0picHZ6UytZeUd6SDh4Vkd6?=
+ =?utf-8?B?am8wdHI3NkkxaldWdFBheGNRdkR6dld1am5BMWpLbCtxMHpsZnZQK3gvZHBX?=
+ =?utf-8?B?UG1tYzVxMnB1UHUzaWp2ZTVTWWN0eW5SVXFVOGRWN1E5bFRPNzRtRWdScWVR?=
+ =?utf-8?B?Vi9yV0ZFRVJrMnN3RGRuNUU3dW8zTDRWY2ZHMSt2SVk3bFY2R0xGdCtiRzlR?=
+ =?utf-8?B?OW5YVFZnckdKOHg3TTJuYjNRUWszRERrd09ubitXV1QyQkhvejc4Q0M1MFdF?=
+ =?utf-8?B?d3ByN2xSRWV3NWpvY0lndENwZEMwOWNRbDhxTy9jUlNXNmlwU0Z4MEsvVnB4?=
+ =?utf-8?B?R2dyK2c4UDBkdHRaVndIZUlEWFZEb09ZME1FblZKSlEzeGUrZ1d0QXJDaHhw?=
+ =?utf-8?B?WCtBZUNiY2ZZc3lkZmZVckVFK1d0OE1HWGUyNkZPbjAwSTNEQjZoTWtPU0JO?=
+ =?utf-8?B?bFhaQVhnMUVrODZUWGVsZ05VSnVHbkRMZGZoU1BhaDJPeGZyNWhSU0g1b29Z?=
+ =?utf-8?B?a0hEVVZBVzYvclFFUDIzZ25rWTB2eEJjd3ZYeFI5TjljV3ZrUHdHL3NpSCtw?=
+ =?utf-8?B?endZRW1RWjljZzJyUFhSb0Rqc1JIYWpaR3RHeENWbTFHa21KUEc4SGxyemdh?=
+ =?utf-8?B?SWZZY015QTBDNjkvZ1o1R1VPdlZZRmFNeDBMSmJDOGFsNFFuclo4R3VVRFox?=
+ =?utf-8?B?ZjZ2b0tQOXVaSjgycE14WHNyOUhJb2s3dXZIcTQ0RFQ1Z1Y4aExyWFgxRERq?=
+ =?utf-8?B?bDNlclJrZUVENnVJRk9jMFJ1WWNBNHhBQXczRm1mZWw1c0hIOUlZM3RtSGJz?=
+ =?utf-8?B?dll0dUFyU2VnTWt4alB4enNhM3FWMWlGMVlERDhyZkhHUVZQOGpHNnlQTXh6?=
+ =?utf-8?B?MkhoOGFJTlM1YlJWSUtZcjBBWW5YZFc2Z0VZV0hhWnJrYlkwK3N0UUpiUlY4?=
+ =?utf-8?B?VTN2bzRLK2hlUy9YTVBUdnp2R2gzbUpHenE1RnduSDM1OWRlVG5jOXowZUhy?=
+ =?utf-8?B?VlBXNHN5dHFDK3BqVzlraXdRc0d1cVovQ2pZSGtib2szREdrRTdkbWRXOUlv?=
+ =?utf-8?Q?4lau9IWKWyTymzdobK/fgGI=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 113a4e56-6fa3-4265-6921-08d9d068577b
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2022 16:28:01.4704 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: X3E+4ScHp+kjyQPspSTj64m06EVJ6rGNsd3VaHCwbjJ6ZB4ZDDIbqR/kPTpfh+7enIQpkUBr+5sIlkZIZQcx0Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5098
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,83 +145,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
+ David Yat Sin <david.yatsin@amd.com>, amd-gfx@lists.freedesktop.org,
+ alexander.deucher@amd.com, airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 05, 2022 at 09:35:44AM +0000, Tvrtko Ursulin wrote:
-> 
-> On 04/01/2022 23:30, Matthew Brost wrote:
-> > Don't use the interruptable version of the timeline mutex lock in the
-> 
-> interruptible
-> 
-> > error path of eb_pin_timeline as the cleanup must always happen.
-> > 
-> > v2:
-> >   (John Harrison)
-> >    - Don't check for interrupt during mutex lock
-> > 
-> > Fixes: 544460c33821 ("drm/i915: Multi-BB execbuf")
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> >   drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 4 ++--
-> >   1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> > index e9541244027a..e96e133cbb1f 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> > @@ -2516,9 +2516,9 @@ static int eb_pin_timeline(struct i915_execbuffer *eb, struct intel_context *ce,
-> >   				      timeout) < 0) {
-> >   			i915_request_put(rq);
-> > -			tl = intel_context_timeline_lock(ce);
-> > +			mutex_lock(&ce->timeline->mutex);
-> 
-> On the other hand it is more user friendly to handle signals (which maybe
-> does not matter in this case, not sure any longer how long hold time it can
-> have) but there is also a question of consistency within the very function
-> you are changing.
-> 
-> Apart from consistency, what about the parent-child magic
-> intel_context_timeline_lock does and you wouldn't have here?
-> 
-> And what about the very existence of intel_context_timeline_lock as a
-> component boundary separation API, if it is used inconsistently throughout
-> i915_gem_execbuffer.c?
+Am 2022-01-05 um 11:16 a.m. schrieb Felix Kuehling:
+>> I was already wondering which mmaps through the KFD node we have left
+>> which cause problems here.
+> We still use the KFD FD for mapping doorbells and HDP flushing. These
+> are both SG BOs, so they cannot be CPU-mapped through render nodes. The
+> KFD FD is also used for mapping signal pages and CWSR trap handlers on
+> old APUs.
+>
+> Those VMAs aren't causing the problem. They still map successfully on
+> restore.
+>
+>
+Small correction: KFD already sets the VM_DONTCOPY flag for all KFD FD
+mappings.
 
-intel_context_timeline_lock does 2 things:
+The patch under discussion here does the same for DRM FD mappings (at
+least for KFD BOs).
 
-1. Handles lockdep nesting of timeline locks for parent-child contexts
-ensuring locks are acquired from parent to last child, then released
-last child to parent
-2. Allows the mutex lock to be interrupted
+Regards,
+  Felix
 
-This helper should be used in setup steps where a user can signal abort
-(context pinning time + request creation time), by 'should be' I mean
-this was how it was done before I extended the execbuf IOCTL for
-multiple BBs. Slightly confusing but this is what was in place so I
-stuck with it.
-
-This code here is an error path that only hold at most 1 timeline lock
-(no nesting required) and is a path that must be executed as it is a
-cleanup step (not allowed to be interrupted by user, intel_context_exit
-must be called or we have dangling engine PM refs).
-
-Make sense? I probably should update the comment message to explain this
-a bit better as it did take me a bit to understand how this locking
-worked.
-
-Matt
-
-> 
-> Regards,
-> 
-> Tvrtko
-> 
-> >   			intel_context_exit(ce);
-> > -			intel_context_timeline_unlock(tl);
-> > +			mutex_unlock(&ce->timeline->mutex);
-> >   			if (nonblock)
-> >   				return -EWOULDBLOCK;
-> > 
