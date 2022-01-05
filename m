@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB29B485C16
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 00:10:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F643485C20
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 00:10:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3559F10E362;
-	Wed,  5 Jan 2022 23:10:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 840D910E3C6;
+	Wed,  5 Jan 2022 23:10:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF70510E1FC
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jan 2022 23:10:36 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id x6so1219943lfa.5
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Jan 2022 15:10:36 -0800 (PST)
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56E3310E1F6
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jan 2022 23:10:37 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id r22so1209789ljk.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Jan 2022 15:10:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=2uWRi1Tnw19DQjCxNI71vGa0f/fnv4e8mcQMQAjEwh0=;
- b=pBkxwEEIb7kjBcYtaBtNrvxzgx8gTZANcdZiH48pWJLG1nEjEpXwJb4UQzk7HooewW
- AuKabkDRCjLZsnav+g+U703MjrYyol3FKpxey/EboUpzAVfG24iEgQzV+z4CHXDzigRx
- fHB5STWyo/u3MTCjmcpZ5iwVGsEwWQFvWB1JUmUCh1uLvUSPNXwQHprS3Oz4LNDpDSlO
- xwxGiiZONoWCQ1iG3O2TXI2wHiSPfLqkj1QdC6Hu4GQ1TyctcaaybxfzjoagELIDIEhy
- lHmplvN8IQCncmKDeCm/j9FSOoFTclGhk8EQNHVVpugLbysDmdjim07o+AoR2srdiRDO
- Z2jg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=aZJITrHaLDqpoh1LNoc2hiD4lg0tjTAyUfAgifRM0rA=;
+ b=aWlYI8u5TkFDy9J3NQZpPP1kEduIY16PN4bV+28QLWeW/s80oujo6boD1wFVVrgxaJ
+ RcnObfrAj1bKygsHLrtLBC/j6LAtEK6FKgZ9Rm0FqGu6cS/B92r/gY+hM/nHJ+XDk9Ab
+ Vc1QIqgx9t8xrAl8HKUlGaKW8AXLVjqte0C+x3kGufiUzxsHm/Q982tyO9G+dd45KWdu
+ kDJznTWLZnukUkmpaTPQZeXbr4p54IPaDpCyh+2X2SjF7MVZEMODU4JKuVcgBuYe5N8I
+ FFNVFlnA+GP3w/zKEE+Th0uLUAHv8hVUmgZg5mQ0coHCMSfJ9egILAq4Lc5CjmnfQDXj
+ WQ4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=2uWRi1Tnw19DQjCxNI71vGa0f/fnv4e8mcQMQAjEwh0=;
- b=aJPolGakqHBEVRmr8/0EgJRvOmGnxKLSK9Y5SbPo1mpv0e1mqTWPWZKjrAcIC7OFDI
- g3UGhnsGfAL0x2atEBySYFFOozoWhjpACHd3zMEOUYhzS08GkGQ/0tQt+iHuQZjA3idW
- XSX1lziPAOEPDk0+yq7JCAUiM/dO94JEGz3jKN2MVLAv57yO9bxwt2vEDWeZXuygF4fG
- d928te0VA+RSGtxfTTWOqBO1t0ch4B7iBVDNp1J8EUs14/rAWvd6Gg3JOeQVTgsT6CJ7
- rNCriNfkj6vewqEfs/6qw9Ff3DSb4vtsM+6FOOq8+PqyP6UcRR+PejMRVnxGyaWvyAj6
- DweA==
-X-Gm-Message-State: AOAM5306SN0ltjaTPt+CfMDVXXJTu5PEly/BKHH19c/+QmZvMi0EckQy
- 0eu1aVjPzm197ZWcU1ngzisASg==
-X-Google-Smtp-Source: ABdhPJzUAouje0ZYdH8MMRI5RVJTtFdrsuKPKFELQlJz/gxYPZFAnVM27oQmGIgXasThy4AgVtx6Rg==
-X-Received: by 2002:a05:6512:31d0:: with SMTP id
- j16mr43103115lfe.448.1641424234974; 
- Wed, 05 Jan 2022 15:10:34 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=aZJITrHaLDqpoh1LNoc2hiD4lg0tjTAyUfAgifRM0rA=;
+ b=u30xdHjpqBgyzdCNTebxsB1k8pxsR+VLEJCrjAiVG4XExRwfwponEzBN2mWssy3G3D
+ PjgsKCcvDBuc5AFQJdntsL9R7x70Mx1Tmv1/teLr/NAgUr16ETY+fgVI6CZTfCTdhSnt
+ xpwP9IXK7QAYpaez9Dtke/kxhF/wc4IoF09y3/5LsqC5TkxFApWKe1JO79a5zcIdiNeY
+ MCY5dLUPjPf5o67kj/Sjo9+avD71/Qmkt8HQgFbBpfnp54vqJvRL6OOE7oDdl8DjmCUB
+ 3TwHKmXoeZ6cQJ0c7/+Q08GEiPu8K8iw9Z5AK5qnisV3gIy5KslaraYNL7V6XR5bNy8q
+ yWNA==
+X-Gm-Message-State: AOAM530qkM8BjJBBAgorHnH2brh5aniTKXDJDqKxhohlhTznLZZ4w4cf
+ 1KJyt2fiZeJZpn/by6KP1AdsLQ==
+X-Google-Smtp-Source: ABdhPJzQ4kzJ088Zo6a/PFh9lMAchUeaTYe2GTieSHAbMdDXUgGyneYXdop+ugmVuAwoDp2567qo6w==
+X-Received: by 2002:a2e:2e18:: with SMTP id u24mr19424312lju.492.1641424235679; 
+ Wed, 05 Jan 2022 15:10:35 -0800 (PST)
 Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id a13sm27187lff.104.2022.01.05.15.10.34
+ by smtp.gmail.com with ESMTPSA id a13sm27187lff.104.2022.01.05.15.10.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jan 2022 15:10:34 -0800 (PST)
+ Wed, 05 Jan 2022 15:10:35 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Bjorn Andersson <bjorn.andersson@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <abhinavk@codeaurora.org>
-Subject: [PATCH v4 0/5] drm/msm/dpu: simplify RM code
-Date: Thu,  6 Jan 2022 02:10:26 +0300
-Message-Id: <20220105231031.436020-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v4 1/5] drm/msm/dpu: drop unused lm_max_width from RM
+Date: Thu,  6 Jan 2022 02:10:27 +0300
+Message-Id: <20220105231031.436020-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220105231031.436020-1-dmitry.baryshkov@linaro.org>
+References: <20220105231031.436020-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,59 +75,61 @@ Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-INTF blocks are not really handled by resource manager, they are
-assigned at dpu_encoder_setup_display using dpu_encoder_get_intf().
-Then this allocation is passed to RM and then returned to then
-dpu_encoder. So allocate them outside of RM and use them directly.
+No code uses lm_max_width from resource manager, so drop it. Instead of
+calculating the lm_max_width, code can use max_mixer_width field from
+the hw catalog.
 
-While we are at it, drop the lm_max_width from the RM and simplify VBIF
-handling (move creation/destruction to the RM too). Once this and SSPP
-handling patches are merged, the RM would handle lifetime of all
-dpu_hw_* objects.
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 12 ------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h |  4 ----
+ 2 files changed, 16 deletions(-)
 
-Changes since v3:
- - Add missing DSPP blocks teardown
- - Remove dpu_hw_blk from dpu_hw_intf
- - move dpu_hw_vbif creation/destruction to the RM
-
-Changes since v2:
- - Dropped DSPP, PP and MERGE_3D patches for now.
-
-Changes since v1:
- - Split into separate patch series to ease review.
-
-The following changes since commit 6ed95285382d6f90a3c3a11d5806a5eb7db715c3:
-
-  drm/msm/a5xx: Fix missing CP_PROTECT for SMMU on A540 (2021-12-17 15:09:46 -0800)
-
-are available in the Git repository at:
-
-  https://git.linaro.org/people/dmitry.baryshkov/kernel.git dpu-rm-clean-4
-
-for you to fetch changes up to 95f32a88ae0dd366700e2ebf98d793b41c53aeeb:
-
-  drm/msm/dpu: move VBIF blocks handling to dpu_rm (2021-12-27 03:41:20 +0300)
-
-----------------------------------------------------------------
-Dmitry Baryshkov (5):
-      drm/msm/dpu: drop unused lm_max_width from RM
-      drm/msm/dpu: add DSPP blocks teardown
-      drm/msm/dpu: get INTF blocks directly rather than through RM
-      drm/msm/dpu: stop embedding dpu_hw_blk into dpu_hw_intf
-      drm/msm/dpu: move VBIF blocks handling to dpu_rm
-
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  36 +------
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h        |  16 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |   5 -
- .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c   |   8 --
- .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |   8 --
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h        |  11 --
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h        |   1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |  28 +----
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h            |   2 -
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c             | 116 ++++++---------------
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h             |  31 ++++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c           |  26 ++---
- 12 files changed, 70 insertions(+), 218 deletions(-)
-
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+index f9c83d6e427a..b5b1ea1e4de6 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+@@ -114,18 +114,6 @@ int dpu_rm_init(struct dpu_rm *rm,
+ 			goto fail;
+ 		}
+ 		rm->mixer_blks[lm->id - LM_0] = &hw->base;
+-
+-		if (!rm->lm_max_width) {
+-			rm->lm_max_width = lm->sblk->maxwidth;
+-		} else if (rm->lm_max_width != lm->sblk->maxwidth) {
+-			/*
+-			 * Don't expect to have hw where lm max widths differ.
+-			 * If found, take the min.
+-			 */
+-			DPU_ERROR("unsupported: lm maxwidth differs\n");
+-			if (rm->lm_max_width > lm->sblk->maxwidth)
+-				rm->lm_max_width = lm->sblk->maxwidth;
+-		}
+ 	}
+ 
+ 	for (i = 0; i < cat->merge_3d_count; i++) {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+index 1f12c8d5b8aa..0f27759211b5 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+@@ -20,8 +20,6 @@ struct dpu_global_state;
+  * @ctl_blks: array of ctl hardware resources
+  * @intf_blks: array of intf hardware resources
+  * @dspp_blks: array of dspp hardware resources
+- * @lm_max_width: cached layer mixer maximum width
+- * @rm_lock: resource manager mutex
+  */
+ struct dpu_rm {
+ 	struct dpu_hw_blk *pingpong_blks[PINGPONG_MAX - PINGPONG_0];
+@@ -30,8 +28,6 @@ struct dpu_rm {
+ 	struct dpu_hw_blk *intf_blks[INTF_MAX - INTF_0];
+ 	struct dpu_hw_blk *dspp_blks[DSPP_MAX - DSPP_0];
+ 	struct dpu_hw_blk *merge_3d_blks[MERGE_3D_MAX - MERGE_3D_0];
+-
+-	uint32_t lm_max_width;
+ };
+ 
+ /**
+-- 
+2.34.1
 
