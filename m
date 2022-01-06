@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB22C486C7D
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 22:47:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1AAB486C81
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 22:47:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E73CF10EFEE;
-	Thu,  6 Jan 2022 21:46:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAB3210EFEB;
+	Thu,  6 Jan 2022 21:46:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6870110EF55
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 21:46:35 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id
- 59-20020a17090a09c100b001b34a13745eso2710742pjo.5
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jan 2022 13:46:35 -0800 (PST)
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
+ [IPv6:2607:f8b0:4864:20::1032])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A275710EE9D
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 21:46:36 +0000 (UTC)
+Received: by mail-pj1-x1032.google.com with SMTP id
+ c14-20020a17090a674e00b001b31e16749cso8543297pjm.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Jan 2022 13:46:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XGqq0UfufzgH1LXDtnLjAQyDmHk5g+0Lk09sKMzlfmI=;
- b=AOWN7v58HvJOqlZ6lHNZHE2A28mPb4zKe2Mj9bTZpwUh+HozXtTE3jJKFaw47lD3eY
- 5NtO2Oi1pTx6/Avl2BGK7Xwjzdc8hSPXzduFzhd2fF7rpBHqfzUQDhHs4/BcY7K7tS7F
- 0U4tA0tg9yLN38FNIeknPel3KIr+eOw+2+HBw=
+ bh=7Yh3mBEg2nfQJzEtBIxus+8u5VcBe7iEDAWACHn4tN4=;
+ b=bQgFVNcdsjnA7zW9FFXSITmcWjYkWGAB8wIRURyJ5ti0xuNPsSAy9ghoYEb1syKKJs
+ CGLf/Q/oMrQcJwXU3CDgbPhlA20klKs2lFHi/PEmoc8VHgh96v1EkUV6JppBc9bUOpOY
+ flarDI+B9t/W/Ty3wNZQQPlH80IiRnLiaJXmQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XGqq0UfufzgH1LXDtnLjAQyDmHk5g+0Lk09sKMzlfmI=;
- b=4hh3/vNZfFljOT/tQb0hRYf30vdhNfHYcrMN9RNPOM3LRG5Mxv2A+k6hKriIeYLgV7
- JM6VUUIMCO5gS8QYv2FQgpp4rY63jUlAYo6jyRrLhdIQGGMNsYXwtx1w76iktH7EFtwQ
- oYkXVpNb1RcRR/AOxZpuAk9aU5CtJ0zHISQel658uKn+fCODaD2/l5onQrrldwbvvR/a
- gdgRLvuMP2bob7dnd9T5CD1AROwAqPeL4D3GHA/InDTHVufQdZyJYnkwEuLmMA/tY4Tv
- fOqQQLfLaiYLy9O+lD1hwZfZDA1oQTf3AuwX4YH534mym42t5ipIcxxRbGRQPdCGveQz
- 543w==
-X-Gm-Message-State: AOAM531cYIqxudXgNO1uHUlwz8EDHcXy+F/9pHyOPKRSAA1dtS3k9m+0
- 2o9vnvP7r5WIIo1wsGqt/TFhhg==
-X-Google-Smtp-Source: ABdhPJxsrSp0V86crFp4pzNtzJwdoL0M0g2Krz5WE6X1drEmfa7npHt6A/QP0naMp9HjGxQ1EzBxtQ==
-X-Received: by 2002:a17:902:ce85:b0:148:d590:5734 with SMTP id
- f5-20020a170902ce8500b00148d5905734mr60400961plg.1.1641505594793; 
- Thu, 06 Jan 2022 13:46:34 -0800 (PST)
+ bh=7Yh3mBEg2nfQJzEtBIxus+8u5VcBe7iEDAWACHn4tN4=;
+ b=MiczabWV45OV2N7C5Lf1Fwt0h1j3DXAw9linE9lydQLhPdDlv/3E6D6yOrVKF29EEI
+ 1SPoTIoGBm1AqwgAWV/zlZCbFs3EDhZtXtloIm82KuNa42ELzRPw+f7Eib8B18qhMHwZ
+ 0WAQo3hsD7zGHRjxIkQGcknNy0+EjXdqS8tidgaafalYbBDhbHJkYM2h2//89t4Ool1y
+ XMZNS3JHT0GBYWuTXdHirIG/O1JRl+jZAh+6uFCnC/A3I9hcxSnhAewarbFwO980ka/I
+ +cZBvqCi1fu+L+D02EzJZAc2X36h1vPA2y0c0u3uhcBsA1hj0is4ShRUjCYFZd1WSY/M
+ p0SA==
+X-Gm-Message-State: AOAM533U7HPdrQXxsOfm8S+iJehu2e88S7j+OltTIb3wGQ+XdG5rC8rk
+ PLHZBMZkHpLqadz/pqG8NgRqNA==
+X-Google-Smtp-Source: ABdhPJx3yLhPBYfq8wjRHSBRsuhDLs2BYE0BBSiTReIZmuvnjn2UxO8YtDDtwxw4qwXOdHpY78HYvw==
+X-Received: by 2002:a17:903:188:b0:149:512a:e69c with SMTP id
+ z8-20020a170903018800b00149512ae69cmr60164734plg.40.1641505596109; 
+ Thu, 06 Jan 2022 13:46:36 -0800 (PST)
 Received: from smtp.gmail.com ([2620:15c:202:201:1ebe:a8fd:f9b0:7e85])
- by smtp.gmail.com with ESMTPSA id 10sm3539960pfm.56.2022.01.06.13.46.33
+ by smtp.gmail.com with ESMTPSA id 10sm3539960pfm.56.2022.01.06.13.46.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jan 2022 13:46:34 -0800 (PST)
+ Thu, 06 Jan 2022 13:46:35 -0800 (PST)
 From: Stephen Boyd <swboyd@chromium.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Douglas Anderson <dianders@chromium.org>
-Subject: [PATCH v5 27/32] power: supply: ab8500: Migrate to aggregate driver
-Date: Thu,  6 Jan 2022 13:45:50 -0800
-Message-Id: <20220106214556.2461363-28-swboyd@chromium.org>
+Subject: [PATCH v5 28/32] fbdev: omap2: Migrate to aggregate driver
+Date: Thu,  6 Jan 2022 13:45:51 -0800
+Message-Id: <20220106214556.2461363-29-swboyd@chromium.org>
 X-Mailer: git-send-email 2.34.1.448.ga2b2bfdf31-goog
 In-Reply-To: <20220106214556.2461363-1-swboyd@chromium.org>
 References: <20220106214556.2461363-1-swboyd@chromium.org>
@@ -67,11 +67,12 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Saravana Kannan <saravanak@google.com>, linux-pm@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
+Cc: linux-fbdev@vger.kernel.org, Saravana Kannan <saravanak@google.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sebastian Reichel <sre@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Russell King <rmk+kernel@arm.linux.org.uk>, freedreno@lists.freedesktop.org
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Russell King <rmk+kernel@arm.linux.org.uk>, linux-omap@vger.kernel.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -79,9 +80,8 @@ Use an aggregate driver instead of component ops so that we can get
 proper driver probe ordering of the aggregate device with respect to all
 the component devices that make up the aggregate device.
 
-Acked-by: Sebastian Reichel <sre@kernel.org>
-Tested-by: Linus Walleij <linus.walleij@linaro.org>
-Cc: <linux-pm@vger.kernel.org>
+Cc: <linux-omap@vger.kernel.org>
+Cc: <linux-fbdev@vger.kernel.org>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc: "Rafael J. Wysocki" <rafael@kernel.org>
 Cc: Rob Clark <robdclark@gmail.com>
@@ -89,72 +89,70 @@ Cc: Russell King <rmk+kernel@arm.linux.org.uk>
 Cc: Saravana Kannan <saravanak@google.com>
 Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 ---
- drivers/power/supply/ab8500_charger.c | 22 +++++++++++++---------
- 1 file changed, 13 insertions(+), 9 deletions(-)
+ drivers/video/fbdev/omap2/omapfb/dss/dss.c | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/power/supply/ab8500_charger.c b/drivers/power/supply/ab8500_charger.c
-index 15eadaf46f14..52d4105e28f2 100644
---- a/drivers/power/supply/ab8500_charger.c
-+++ b/drivers/power/supply/ab8500_charger.c
-@@ -3312,8 +3312,9 @@ static const struct power_supply_desc ab8500_usb_chg_desc = {
- 	.get_property	= ab8500_charger_usb_get_property,
- };
- 
--static int ab8500_charger_bind(struct device *dev)
-+static int ab8500_charger_bind(struct aggregate_device *adev)
- {
-+	struct device *dev = adev->parent;
- 	struct ab8500_charger *di = dev_get_drvdata(dev);
- 	int ch_stat;
- 	int ret;
-@@ -3354,8 +3355,9 @@ static int ab8500_charger_bind(struct device *dev)
- 	return 0;
+diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dss.c b/drivers/video/fbdev/omap2/omapfb/dss/dss.c
+index a6b1c1598040..f12663c39ceb 100644
+--- a/drivers/video/fbdev/omap2/omapfb/dss/dss.c
++++ b/drivers/video/fbdev/omap2/omapfb/dss/dss.c
+@@ -1067,8 +1067,9 @@ static int dss_video_pll_probe(struct platform_device *pdev)
  }
  
--static void ab8500_charger_unbind(struct device *dev)
-+static void ab8500_charger_unbind(struct aggregate_device *adev)
+ /* DSS HW IP initialisation */
+-static int dss_bind(struct device *dev)
++static int dss_bind(struct aggregate_device *adev)
  {
 +	struct device *dev = adev->parent;
- 	struct ab8500_charger *di = dev_get_drvdata(dev);
- 	int ret;
- 
-@@ -3380,9 +3382,13 @@ static void ab8500_charger_unbind(struct device *dev)
- 	component_unbind_all(dev, di);
+ 	struct platform_device *pdev = to_platform_device(dev);
+ 	struct resource *dss_mem;
+ 	u32 rev;
+@@ -1167,8 +1168,9 @@ static int dss_bind(struct device *dev)
+ 	return r;
  }
  
--static const struct component_master_ops ab8500_charger_comp_ops = {
--	.bind = ab8500_charger_bind,
--	.unbind = ab8500_charger_unbind,
-+static struct aggregate_driver ab8500_charger_aggregate_driver = {
-+	.probe = ab8500_charger_bind,
-+	.remove = ab8500_charger_unbind,
+-static void dss_unbind(struct device *dev)
++static void dss_unbind(struct aggregate_device *adev)
+ {
++	struct device *dev = adev->parent;
+ 	struct platform_device *pdev = to_platform_device(dev);
+ 
+ 	dss_initialized = false;
+@@ -1188,9 +1190,13 @@ static void dss_unbind(struct device *dev)
+ 	dss_put_clocks();
+ }
+ 
+-static const struct component_master_ops dss_component_ops = {
+-	.bind = dss_bind,
+-	.unbind = dss_unbind,
++static struct aggregate_driver dss_aggregate_driver = {
++	.probe = dss_bind,
++	.remove = dss_unbind,
 +	.driver = {
-+		.name = "ab8500_charger_agg",
++		.name = "dss_fbdev",
 +		.owner = THIS_MODULE,
 +	},
  };
  
- static struct platform_driver *const ab8500_charger_component_drivers[] = {
-@@ -3663,9 +3669,7 @@ static int ab8500_charger_probe(struct platform_device *pdev)
- 	}
+ static int dss_component_compare(struct device *dev, void *data)
+@@ -1225,7 +1231,7 @@ static int dss_probe(struct platform_device *pdev)
+ 	/* add all the child devices as components */
+ 	device_for_each_child(&pdev->dev, &match, dss_add_child_component);
  
+-	r = component_master_add_with_match(&pdev->dev, &dss_component_ops, match);
++	r = component_aggregate_register(&pdev->dev, &dss_aggregate_driver, match);
+ 	if (r)
+ 		return r;
  
--	ret = component_master_add_with_match(&pdev->dev,
--					      &ab8500_charger_comp_ops,
--					      match);
-+	ret = component_aggregate_register(&pdev->dev, &ab8500_charger_aggregate_driver, match);
- 	if (ret) {
- 		dev_err(dev, "failed to add component master\n");
- 		goto free_notifier;
-@@ -3688,7 +3692,7 @@ static int ab8500_charger_remove(struct platform_device *pdev)
+@@ -1234,7 +1240,7 @@ static int dss_probe(struct platform_device *pdev)
+ 
+ static int dss_remove(struct platform_device *pdev)
  {
- 	struct ab8500_charger *di = platform_get_drvdata(pdev);
+-	component_master_del(&pdev->dev, &dss_component_ops);
++	component_aggregate_unregister(&pdev->dev, &dss_aggregate_driver);
+ 	return 0;
+ }
  
--	component_master_del(&pdev->dev, &ab8500_charger_comp_ops);
-+	component_aggregate_unregister(&pdev->dev, &ab8500_charger_aggregate_driver);
- 
- 	usb_unregister_notifier(di->usb_phy, &di->nb);
- 	usb_put_phy(di->usb_phy);
 -- 
 https://chromeos.dev
 
