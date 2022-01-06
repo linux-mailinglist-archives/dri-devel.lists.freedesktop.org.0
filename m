@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BB3B486C55
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 22:46:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A81BE486C57
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 22:46:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C855210EF0B;
-	Thu,  6 Jan 2022 21:46:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCC2810EED1;
+	Thu,  6 Jan 2022 21:46:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
- [IPv6:2607:f8b0:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09A0010EEC9
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 21:46:16 +0000 (UTC)
-Received: by mail-pf1-x435.google.com with SMTP id 205so3642048pfu.0
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jan 2022 13:46:16 -0800 (PST)
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
+ [IPv6:2607:f8b0:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5112B10EED9
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 21:46:18 +0000 (UTC)
+Received: by mail-pl1-x62c.google.com with SMTP id q14so3416374plx.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Jan 2022 13:46:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FPtGNMfzlxXubKgayi75A1lRD5p2YHP9GYCHjNIhA04=;
- b=F/n1S4F8s3kPZEe2GW35Eidb0SesLDzR2YqgAQAZIHrdsevP1q9bknfHQTxF6SqGJm
- Nfl9MQ9rGKoXrK+IFOpOOh3SAwv6F1KaWuQD7pffTOrkiJO/cXpEdVGWkZZkJ3dX53Xr
- AdWLpJwFpppBOInDDUOP4omGqDFxmR1REDYFY=
+ bh=aOJT4e2/QJLKFjWixGXmSkqLgf4Tc1N8aTB3xOsamvQ=;
+ b=ILyUjL86PabuV9iHfi1owzAuxjRlH7hKmctefUf5iFSmxQ8yCo6Qxg6zuq8+cH5t8y
+ 8J0ddJ4qudUuoIlluaf9tgrxEAF9hlHaJrFhw3EfweYx2L4UlcukINHY/jfEMiup7Ohq
+ 9Op19HAyziojbD0kXGY/lhxAXsVKWhFs600dQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FPtGNMfzlxXubKgayi75A1lRD5p2YHP9GYCHjNIhA04=;
- b=e4Xk5ya+O2RYuaVf5X4qL1z9ztGj7PTVMpT25gsCThEQNqqczYp/NY106Ajl82mNWQ
- Pel+iDR34JAKYoxVFw2SXoXw+zWzAWj6XknFd/FhPB0f0ufRjSXpfVUQ8zAHsUNrNYhX
- pi6fF7BJEqK31QQsuCOZIEM2e+M4GjaiJ21Ct3RjtfO8eA3hKHD68qMgbleMFuCh9Epv
- 4nnWCYLJRdOGn+w37D2owwZLIzbMpxwvul0ZL2lvyRBHkUMR5VJ1UOp2SEXhOHL+3GFG
- 185V7KgWxkU76j9vz0lzOyqPHKrC339N+te5S3vg70vaOvRz1RLCVtcpfjKiYlqMs1YM
- K+Cg==
-X-Gm-Message-State: AOAM533Fkv7pigejRn66zYtJ4XnVDZUZVBdrq6xEab7een07JYZqrOu4
- +GhjCXY045C2ugxjKimDWw3UZA==
-X-Google-Smtp-Source: ABdhPJzDyXbJ5oiJeJM1+1uFcXWrB43YEPXT+ZHV9hULBBomq9G68oQkCiEkLjlw9Juc82HcneKgAw==
-X-Received: by 2002:a62:1642:0:b0:4bb:b3b6:c037 with SMTP id
- 63-20020a621642000000b004bbb3b6c037mr56659975pfw.50.1641505576581; 
- Thu, 06 Jan 2022 13:46:16 -0800 (PST)
+ bh=aOJT4e2/QJLKFjWixGXmSkqLgf4Tc1N8aTB3xOsamvQ=;
+ b=0dU0muEDkGBcxWRzJh6ApU9hMntyQBkU+qS5BhGeNav7XCD1Cv8Yrv3zip+etGQGLO
+ MSJE3y1rNFtK17Xr0ZinWrnRi0JrVf/9C2h/oTL2TXfl7gcDGzmmYTUzHaQLzWukMZyC
+ OYZSh3BvSoKTumJMcgHz3HRKgNENJ04SPCM9ggjhnhNJ3URRxGcpOA9LwRvi7XZTwypp
+ Ir4yF+cn8qbn/uEVMYgREPH7HYjDu5uZlNsEz9crOzLLhpLg28WWM61wuR8VjOTKZ0go
+ bpwJm0JxwZpbYEMR+t8YKtUWa7axrLvjmXFnnAmRMndbKiFyarL2a1UkmI3GnS3iQ+E4
+ JjPw==
+X-Gm-Message-State: AOAM532VbQmbVK7KGT5SDE/vdP/ZXBVSby4uSJTsJU1QYYt+zLoH1D5q
+ nNpm8p7jl8o1IH+8pT/Fth3reA==
+X-Google-Smtp-Source: ABdhPJwN2qnfcJ9KhRSA5B219O9Th4wHo5ZTmhjZ5kL2M3+vwlyvS8V9GWpKXf0xhxdnHdYNhmKZuA==
+X-Received: by 2002:a17:90a:ccb:: with SMTP id
+ 11mr7745818pjt.135.1641505577797; 
+ Thu, 06 Jan 2022 13:46:17 -0800 (PST)
 Received: from smtp.gmail.com ([2620:15c:202:201:1ebe:a8fd:f9b0:7e85])
- by smtp.gmail.com with ESMTPSA id 10sm3539960pfm.56.2022.01.06.13.46.15
+ by smtp.gmail.com with ESMTPSA id 10sm3539960pfm.56.2022.01.06.13.46.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jan 2022 13:46:16 -0800 (PST)
+ Thu, 06 Jan 2022 13:46:17 -0800 (PST)
 From: Stephen Boyd <swboyd@chromium.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Douglas Anderson <dianders@chromium.org>
-Subject: [PATCH v5 13/32] drm/exynos: Migrate to aggregate driver
-Date: Thu,  6 Jan 2022 13:45:36 -0800
-Message-Id: <20220106214556.2461363-14-swboyd@chromium.org>
+Subject: [PATCH v5 14/32] drm/imx: Migrate to aggregate driver
+Date: Thu,  6 Jan 2022 13:45:37 -0800
+Message-Id: <20220106214556.2461363-15-swboyd@chromium.org>
 X-Mailer: git-send-email 2.34.1.448.ga2b2bfdf31-goog
 In-Reply-To: <20220106214556.2461363-1-swboyd@chromium.org>
 References: <20220106214556.2461363-1-swboyd@chromium.org>
@@ -66,11 +66,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Joonyoung Shim <jy0922.shim@samsung.com>,
- Saravana Kannan <saravanak@google.com>,
+Cc: Saravana Kannan <saravanak@google.com>,
  "Rafael J. Wysocki" <rafael@kernel.org>, linux-arm-msm@vger.kernel.org,
- Seung-Woo Kim <sw0312.kim@samsung.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Kyungmin Park <kyungmin.park@samsung.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Daniel Vetter <daniel.vetter@ffwll.ch>,
  Russell King <rmk+kernel@arm.linux.org.uk>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -80,10 +78,7 @@ Use an aggregate driver instead of component ops so that we can get
 proper driver probe ordering of the aggregate device with respect to all
 the component devices that make up the aggregate device.
 
-Cc: Inki Dae <inki.dae@samsung.com>
-Cc: Joonyoung Shim <jy0922.shim@samsung.com>
-Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
-Cc: Kyungmin Park <kyungmin.park@samsung.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc: "Rafael J. Wysocki" <rafael@kernel.org>
 Cc: Rob Clark <robdclark@gmail.com>
@@ -91,65 +86,64 @@ Cc: Russell King <rmk+kernel@arm.linux.org.uk>
 Cc: Saravana Kannan <saravanak@google.com>
 Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 ---
- drivers/gpu/drm/exynos/exynos_drm_drv.c | 21 +++++++++++++--------
- 1 file changed, 13 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/imx/imx-drm-core.c | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.c b/drivers/gpu/drm/exynos/exynos_drm_drv.c
-index d8f1cf4d6b69..dcb52ec2bd35 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_drv.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_drv.c
-@@ -253,8 +253,9 @@ static struct component_match *exynos_drm_match_add(struct device *dev)
- 	return match ?: ERR_PTR(-ENODEV);
+diff --git a/drivers/gpu/drm/imx/imx-drm-core.c b/drivers/gpu/drm/imx/imx-drm-core.c
+index cb685fe2039b..9e28bb16364c 100644
+--- a/drivers/gpu/drm/imx/imx-drm-core.c
++++ b/drivers/gpu/drm/imx/imx-drm-core.c
+@@ -196,8 +196,9 @@ static int compare_of(struct device *dev, void *data)
+ 	return dev->of_node == np;
  }
  
--static int exynos_drm_bind(struct device *dev)
-+static int exynos_drm_bind(struct aggregate_device *adev)
+-static int imx_drm_bind(struct device *dev)
++static int imx_drm_bind(struct aggregate_device *adev)
  {
 +	struct device *dev = adev->parent;
- 	struct exynos_drm_private *private;
- 	struct drm_encoder *encoder;
  	struct drm_device *drm;
-@@ -330,8 +331,9 @@ static int exynos_drm_bind(struct device *dev)
+ 	int ret;
+ 
+@@ -264,8 +265,9 @@ static int imx_drm_bind(struct device *dev)
  	return ret;
  }
  
--static void exynos_drm_unbind(struct device *dev)
-+static void exynos_drm_unbind(struct aggregate_device *adev)
+-static void imx_drm_unbind(struct device *dev)
++static void imx_drm_unbind(struct aggregate_device *adev)
  {
 +	struct device *dev = adev->parent;
  	struct drm_device *drm = dev_get_drvdata(dev);
  
  	drm_dev_unregister(drm);
-@@ -350,9 +352,13 @@ static void exynos_drm_unbind(struct device *dev)
- 	drm_dev_put(drm);
+@@ -279,14 +281,18 @@ static void imx_drm_unbind(struct device *dev)
+ 	dev_set_drvdata(dev, NULL);
  }
  
--static const struct component_master_ops exynos_drm_ops = {
--	.bind		= exynos_drm_bind,
--	.unbind		= exynos_drm_unbind,
-+static struct aggregate_driver exynos_drm_aggregate_driver = {
-+	.probe		= exynos_drm_bind,
-+	.remove		= exynos_drm_unbind,
-+	.driver		= {
-+		.name	= "exynos_drm",
-+		.owner	= THIS_MODULE,
+-static const struct component_master_ops imx_drm_ops = {
+-	.bind = imx_drm_bind,
+-	.unbind = imx_drm_unbind,
++static struct aggregate_driver imx_drm_aggregate_driver = {
++	.probe = imx_drm_bind,
++	.remove = imx_drm_unbind,
++	.driver = {
++		.name = "imx_drm",
++		.owner = THIS_MODULE,
 +	},
  };
  
- static int exynos_drm_platform_probe(struct platform_device *pdev)
-@@ -365,13 +371,12 @@ static int exynos_drm_platform_probe(struct platform_device *pdev)
- 	if (IS_ERR(match))
- 		return PTR_ERR(match);
- 
--	return component_master_add_with_match(&pdev->dev, &exynos_drm_ops,
--					       match);
-+	return component_aggregate_register(&pdev->dev, &exynos_drm_aggregate_driver, match);
- }
- 
- static int exynos_drm_platform_remove(struct platform_device *pdev)
+ static int imx_drm_platform_probe(struct platform_device *pdev)
  {
--	component_master_del(&pdev->dev, &exynos_drm_ops);
-+	component_aggregate_unregister(&pdev->dev, &exynos_drm_aggregate_driver);
+-	int ret = drm_of_component_probe(&pdev->dev, compare_of, &imx_drm_ops);
++	int ret = drm_of_aggregate_probe(&pdev->dev, compare_of, &imx_drm_aggregate_driver);
+ 
+ 	if (!ret)
+ 		ret = dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
+@@ -296,7 +302,7 @@ static int imx_drm_platform_probe(struct platform_device *pdev)
+ 
+ static int imx_drm_platform_remove(struct platform_device *pdev)
+ {
+-	component_master_del(&pdev->dev, &imx_drm_ops);
++	component_aggregate_unregister(&pdev->dev, &imx_drm_aggregate_driver);
  	return 0;
  }
  
