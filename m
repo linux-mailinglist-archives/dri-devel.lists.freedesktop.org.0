@@ -1,44 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3930648620E
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 10:24:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EA28486218
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 10:28:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DB7910EEF1;
-	Thu,  6 Jan 2022 09:24:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BD4910E6B0;
+	Thu,  6 Jan 2022 09:28:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BC9010EEF1
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 09:24:13 +0000 (UTC)
-X-UUID: 945a0748c908428b9978267c7bd64838-20220106
-X-UUID: 945a0748c908428b9978267c7bd64838-20220106
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw02.mediatek.com (envelope-from <chunfeng.yun@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 467672720; Thu, 06 Jan 2022 17:24:09 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 6 Jan 2022 17:24:07 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 6 Jan 2022 17:24:07 +0800
-Message-ID: <3a1bffc6f677ef9790749a366424fe5effda90f7.camel@mediatek.com>
-Subject: Re: [PATCH 2/4] phy: mediatek: phy-mtk-hdmi: Reorder to remove
- forward declarations
-From: Chunfeng Yun <chunfeng.yun@mediatek.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- <chunkuang.hu@kernel.org>
-Date: Thu, 6 Jan 2022 17:24:07 +0800
-In-Reply-To: <20220103153055.50473-2-angelogioacchino.delregno@collabora.com>
-References: <20220103153055.50473-1-angelogioacchino.delregno@collabora.com>
- <20220103153055.50473-2-angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E390F10E6B0
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 09:28:39 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 56FE12113A;
+ Thu,  6 Jan 2022 09:28:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1641461318; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0MpX4yMyDeZs/NVgBMJHdJP+mUfr/vDic6nYvSu/5AA=;
+ b=h42UkRjr7FV6muRVxZJ+5XyOCRuKTi+lJmlRcU0j4mn5+/2HPHIar/7Ot7TkNi6auC25KW
+ +3DhOt7GO+bELpuz7i1jXsd2Vcq45QTLWNOc5wl6o/WgroTWk289XoX0Sq2wxwDYlfqvyJ
+ rK5qxiMgXKl1y40MwurtJdL8rGdef4U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1641461318;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0MpX4yMyDeZs/NVgBMJHdJP+mUfr/vDic6nYvSu/5AA=;
+ b=uEXlYtlK3Ot7mtR/v7z/qt4KCZVr8XUSEZDaiUnqUAxMZVRH4mwPKd/k8degLlFg2r/Qke
+ WRLEEKA125qTwTBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2B19613BFF;
+ Thu,  6 Jan 2022 09:28:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id DcbDCEa21mG2aAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 06 Jan 2022 09:28:38 +0000
+Message-ID: <6d61449c-50dc-e832-3cdc-ade6edfb6307@suse.de>
+Date: Thu, 6 Jan 2022 10:28:37 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [PATCH] drm/ast: Enable the supporting of wide screen on AST2600
+Content-Language: en-US
+To: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20211229082749.5415-1-kuohsiang_chou@aspeedtech.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20211229082749.5415-1-kuohsiang_chou@aspeedtech.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------uEBuZiefC1d4a10K7Nm6q56D"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,59 +70,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- kishon@ti.com, linux-phy@lists.infradead.org, vkoul@kernel.org,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org
+Cc: airlied@linux.ie, airlied@redhat.com, arc_sung@aspeedtech.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2022-01-03 at 16:30 +0100, AngeloGioacchino Del Regno wrote:
-> Forward declarations for mtk_hdmi_power_{on,off} aren't necessary:
-> move mtk_hdmi_phy_dev_ops down to remove forward declarations.
-> 
-> Signed-off-by: AngeloGioacchino Del Regno <
-> angelogioacchino.delregno@collabora.com>
-> ---
->  drivers/phy/mediatek/phy-mtk-hdmi.c | 15 ++++++---------
->  1 file changed, 6 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/phy/mediatek/phy-mtk-hdmi.c
-> b/drivers/phy/mediatek/phy-mtk-hdmi.c
-> index 707e90691e6e..b4193cb4e4e3 100644
-> --- a/drivers/phy/mediatek/phy-mtk-hdmi.c
-> +++ b/drivers/phy/mediatek/phy-mtk-hdmi.c
-> @@ -6,15 +6,6 @@
->  
->  #include "phy-mtk-hdmi.h"
->  
-> -static int mtk_hdmi_phy_power_on(struct phy *phy);
-> -static int mtk_hdmi_phy_power_off(struct phy *phy);
-> -
-> -static const struct phy_ops mtk_hdmi_phy_dev_ops = {
-> -	.power_on = mtk_hdmi_phy_power_on,
-> -	.power_off = mtk_hdmi_phy_power_off,
-> -	.owner = THIS_MODULE,
-> -};
-> -
->  inline struct mtk_hdmi_phy *to_mtk_hdmi_phy(struct clk_hw *hw)
->  {
->  	return container_of(hw, struct mtk_hdmi_phy, pll_hw);
-> @@ -43,6 +34,12 @@ static int mtk_hdmi_phy_power_off(struct phy *phy)
->  	return 0;
->  }
->  
-> +static const struct phy_ops mtk_hdmi_phy_dev_ops = {
-> +	.power_on = mtk_hdmi_phy_power_on,
-> +	.power_off = mtk_hdmi_phy_power_off,
-> +	.owner = THIS_MODULE,
-> +};
-> +
->  static const struct phy_ops *
->  mtk_hdmi_phy_dev_get_ops(const struct mtk_hdmi_phy *hdmi_phy)
->  {
-Reviewed-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------uEBuZiefC1d4a10K7Nm6q56D
+Content-Type: multipart/mixed; boundary="------------PtgtRcG6SDB5eWg7OPJHh1MF";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: airlied@linux.ie, airlied@redhat.com, arc_sung@aspeedtech.com
+Message-ID: <6d61449c-50dc-e832-3cdc-ade6edfb6307@suse.de>
+Subject: Re: [PATCH] drm/ast: Enable the supporting of wide screen on AST2600
+References: <20211229082749.5415-1-kuohsiang_chou@aspeedtech.com>
+In-Reply-To: <20211229082749.5415-1-kuohsiang_chou@aspeedtech.com>
 
-Thanks a lot
+--------------PtgtRcG6SDB5eWg7OPJHh1MF
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
+SGkNCg0KQW0gMjkuMTIuMjEgdW0gMDk6Mjcgc2NocmllYiBLdW9Ic2lhbmcgQ2hvdToNCj4g
+RW5hYmxlIHRoZSBzdXBwb3J0aW5nIG9mIHdpZGUgc3NjcmVlbiBvbiBBU1QyNjAwLCBzbyB0
+aGF0IHRoZSByZXNvbHV0aW9uDQo+IG9mIDE2OjkgYW5kIDE2OjEwIGFyZSBhYmxlIHRvIGJl
+IHNlbGVjdGVkIG9uIERpc3BsYXkgU2V0dGluZ3MuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBL
+dW9Ic2lhbmcgQ2hvdSA8a3VvaHNpYW5nX2Nob3VAYXNwZWVkdGVjaC5jb20+DQoNCkFkZGVk
+IHRvIGRybS1taXNjLW5leHQuIFRoYW5rcyBmb3IgdGhlIHBhdGNoLg0KDQpCZXN0IHJlZ2Fy
+ZHMNClRob21hcw0KDQo+IC0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21haW4u
+YyB8IDIgKysNCj4gICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspDQo+IA0KPiBk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbWFpbi5jIGIvZHJpdmVycy9n
+cHUvZHJtL2FzdC9hc3RfbWFpbi5jDQo+IGluZGV4IDlmMjVmYTJjOC4uMTExM2VlMWNiIDEw
+MDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tYWluLmMNCj4gKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbWFpbi5jDQo+IEBAIC0yMDksNiArMjA5LDggQEAg
+c3RhdGljIGludCBhc3RfZGV0ZWN0X2NoaXAoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgYm9v
+bCAqbmVlZF9wb3N0KQ0KPiAgIAkJCWlmIChhc3QtPmNoaXAgPT0gQVNUMjUwMCAmJg0KPiAg
+IAkJCSAgICBzY3VfcmV2ID09IDB4MTAwKSAgICAgICAgICAgLyogYXN0MjUxMCAqLw0KPiAg
+IAkJCQlhc3QtPnN1cHBvcnRfd2lkZV9zY3JlZW4gPSB0cnVlOw0KPiArCQkJaWYgKGFzdC0+
+Y2hpcCA9PSBBU1QyNjAwKQkJLyogYXN0MjYwMCAqLw0KPiArCQkJCWFzdC0+c3VwcG9ydF93
+aWRlX3NjcmVlbiA9IHRydWU7DQo+ICAgCQl9DQo+ICAgCQlicmVhazsNCj4gICAJfQ0KPiAt
+LQ0KPiAyLjI3LjANCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERy
+aXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0K
+TWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBB
+RyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
+--------------PtgtRcG6SDB5eWg7OPJHh1MF--
+
+--------------uEBuZiefC1d4a10K7Nm6q56D
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHWtkUFAwAAAAAACgkQlh/E3EQov+C6
+iA/7BaRYi4Uiappu9xJ0l5oHH9O4K8RFQE/58GJ4QGSO4khELwnjZA6dfzCw5xwAcO9rZSrjnKgR
+II7u5iTx+hYN/rUzYb7etEd11lmkq2OCsTnv9MrSizsGsx6YhfVCBYY71aZOFjz0OOSiALHlfZh8
+tmgqdjA2v6WYB/ZfGZ42+O3h179Jv2zj2pkOaQABm9NH4b+30uOkE3hbPekx6KMCs/gCZp7X6z3w
+egcT5ibM7NkTMOeuVNL1XweTu6uS+AlIw6JBI+ZpeERH+9uB0ar2heJrxGZF4QJKmpUdyxiF8MCX
+xVJwG1Uy/1xiGo41xu+I9Add1nLe/0Sxr9imq4eJ1y3jlW6gvQ0A5tLVvhplLI+VUoF92CVaOtbN
+bLfvR4rqVZPaCNNy0nw/HGc/8WPKtLWmolSHPD32LEyQphNGfoqCU1Nu5uSU+CrfosaX5b7z7j7Z
+/c4BkK9OHptx8S88jQRlR+/8y1sVxK4YcrOc3Ch4yIv0Jt5nuJJ1V+QwilKebF2J983wIEnqNxkX
+6E+aejWAcu4vg/rmdrFZdIY0eIwOjC9ZyP7OkkJ4cIXVIr53PhDCL7rFxMw1KuNOu8AGYW3080An
+Ze7eSfiYkjuDuY03KKF6j/TS/luQBMmQPAgdZTNE96jD7b+hG/wPfntSmsBfqAZjKr4cZl9ivXOc
+hms=
+=z1DL
+-----END PGP SIGNATURE-----
+
+--------------uEBuZiefC1d4a10K7Nm6q56D--
