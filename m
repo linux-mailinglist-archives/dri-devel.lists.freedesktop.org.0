@@ -1,63 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ACB8486DB3
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 00:25:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31E2E486E00
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 00:44:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 567CB10E29D;
-	Thu,  6 Jan 2022 23:25:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 313D810E1A1;
+	Thu,  6 Jan 2022 23:44:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com
- [IPv6:2607:f8b0:4864:20::c32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B1E310E29D
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 23:25:01 +0000 (UTC)
-Received: by mail-oo1-xc32.google.com with SMTP id
- w15-20020a4a9d0f000000b002c5cfa80e84so1054050ooj.5
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jan 2022 15:25:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=YT91JSmjzJ2hfMRgmVGOHVorjfPKR1pnZsxBO5R/GuI=;
- b=D/2AfUta7+flczHy8ibrXSRE5JZwr1mvaDAm0fn6GyepCsgG/s0a25xiiu8Bs1JPsW
- EV4tRZIEE8yPe/4ReG4UssI53IzIFhO4hBIpP3vqlVkRFrGA1q9NMhl3GedN8/IdYJiH
- O01JgwzEhicYXwzzPCsaY8WyvhE0Gta03dtVTlZpyoIe66Cwwbku0vvfxlf43li7OY4G
- PRhovW1OJLNVoNy6ngs6xb5Yf6BjeeF2nYrbpbKW8OUsv0pjzqItxGItlHP1vj//7SLN
- l4YtUMm4YTsggUax4nX8OZaWRA3zZN8HSEbQxfB7AmMAEde3HTegsxkdpCokgVtbX35L
- OceQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=YT91JSmjzJ2hfMRgmVGOHVorjfPKR1pnZsxBO5R/GuI=;
- b=lR3o+g/DM8Xp907598EuWkWCgPBsEZoDuesrjLrIgGqW5V+PBjYhPofQN9LGL3tLFI
- 9wMjrfYx10pSIrdJKm2w1lAS3RmJcG1SXPoe4l0MuzczS+fhlljZAfBuw6EaDPi5kW/1
- JBSx8RIE0XAueNvRDv81MhK4O2KBob/rdf4bcPevCcpR3lv7Ssg37jeVzzRHbzPDUcWd
- Ovq1qh2XplFEvAOTYRKUZ3XtTtdYuNQK5u0t2D8MVaQs6M0f190TNehuBW9DdHNcPxUE
- JSdlTQnuDJVzGnTgdr82qZ1k840mKc64ILJi7r8JFGlD6mDOL9AoocmxiNspapCATYmb
- msbQ==
-X-Gm-Message-State: AOAM530hAO0iguVhHhgw2ShZPaA8QVVB7XEF8oe3JWj9jkAkVHcWfBEv
- spMXWiYzdRzE7byzDIX+djlpPw==
-X-Google-Smtp-Source: ABdhPJx4FLN2qFyGyHmApIrjJ+Hi7f0aIkSdtjulk3KuErND+7d/W8dEBalySybtcEntfx775c97rw==
-X-Received: by 2002:a4a:8746:: with SMTP id a6mr37663438ooi.93.1641511500390; 
- Thu, 06 Jan 2022 15:25:00 -0800 (PST)
-Received: from ripper (104-57-184-186.lightspeed.austtx.sbcglobal.net.
- [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id v5sm636158oic.11.2022.01.06.15.24.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jan 2022 15:25:00 -0800 (PST)
-Date: Thu, 6 Jan 2022 15:25:49 -0800
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH 1/2] drm/msm/gpu: Wait for idle before suspending
-Message-ID: <Ydd6fSI/fYDGveja@ripper>
-References: <20220106181449.696988-1-robdclark@gmail.com>
- <20220106181449.696988-2-robdclark@gmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B30F10E1A1
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 23:44:09 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 8747A61E50
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 23:44:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id F0B22C36AF2
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 23:44:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1641512648;
+ bh=gmjmUS5XFX+Nv5eyWYcEYvYgQeQZ7sJByM+pheR2pjs=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=Ubk2DuZSzaeQdavIUDZodkKPv0Co+wJiN8uRZJtisE600gFOIki54DgXcMhuTyTbx
+ hdtKOjQ3JOspMTHf7vfG5qP7MjEje5pBG7c8c09ZgXeXWuz6jJZscezKRGrZ1lKsIN
+ jPRHl/T+s5CN0fNwRCltS0Vw0fGqar2zad+Z1DcODRBeGRVeKg7K/GqwTwDGaKZUYz
+ bKoMMq0MTC8ZtJWKjEI0aDqJdxHQtIY8wM1ayVP19skEGtE5drsknfZ/SqvhYzQu7R
+ qJQedNM8Fgql8Syw5EaKTDTTFvuUZWUMf8sgcZDPpzLmJdW2fBD1x6I4Fr2RekogeI
+ eSt0O5UTMNl8g==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id DDE97C05FEF; Thu,  6 Jan 2022 23:44:07 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 206475] amdgpu under load drop signal to monitor until hard reset
+Date: Thu, 06 Jan 2022 23:44:07 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: rendsvig@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: ANSWERED
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-206475-2300-yP7rOv87M1@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-206475-2300@https.bugzilla.kernel.org/>
+References: <bug-206475-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220106181449.696988-2-robdclark@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,97 +71,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
- Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Vladimir Lypak <vladimir.lypak@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, Sean Paul <sean@poorly.run>,
- open list <linux-kernel@vger.kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu 06 Jan 10:14 PST 2022, Rob Clark wrote:
+https://bugzilla.kernel.org/show_bug.cgi?id=3D206475
 
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> System suspend uses pm_runtime_force_suspend(), which cheekily bypasses
-> the runpm reference counts.  This doesn't actually work so well when the
-> GPU is active.  So add a reasonable delay waiting for the GPU to become
-> idle.
-> 
-> Alternatively we could just return -EBUSY in this case, but that has the
-> disadvantage of causing system suspend to fail.
-> 
+--- Comment #22 from rendsvig@gmail.com (rendsvig@gmail.com) ---
+I resolved my issue by disabling p-state 7 when gaming, with cf. this comme=
+nt
+https://www.reddit.com/r/linux_gaming/comments/gbqe0e/comment/fp8r35a
 
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+--=20
+You may reply to this email to add a comment.
 
-Regards,
-Bjorn
-
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->  drivers/gpu/drm/msm/adreno/adreno_device.c | 9 +++++++++
->  drivers/gpu/drm/msm/msm_gpu.c              | 3 +++
->  drivers/gpu/drm/msm/msm_gpu.h              | 3 +++
->  3 files changed, 15 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> index 93005839b5da..b677ca3fd75e 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> @@ -611,6 +611,15 @@ static int adreno_resume(struct device *dev)
->  static int adreno_suspend(struct device *dev)
->  {
->  	struct msm_gpu *gpu = dev_to_gpu(dev);
-> +	int ret = 0;
-> +
-> +	ret = wait_event_timeout(gpu->retire_event,
-> +				 !msm_gpu_active(gpu),
-> +				 msecs_to_jiffies(1000));
-> +	if (ret == 0) {
-> +		dev_err(dev, "Timeout waiting for GPU to suspend\n");
-> +		return -EBUSY;
-> +	}
->  
->  	return gpu->funcs->pm_suspend(gpu);
->  }
-> diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-> index 0f78c2615272..2c1049c0ea14 100644
-> --- a/drivers/gpu/drm/msm/msm_gpu.c
-> +++ b/drivers/gpu/drm/msm/msm_gpu.c
-> @@ -703,6 +703,8 @@ static void retire_submits(struct msm_gpu *gpu)
->  			}
->  		}
->  	}
-> +
-> +	wake_up_all(&gpu->retire_event);
->  }
->  
->  static void retire_worker(struct kthread_work *work)
-> @@ -848,6 +850,7 @@ int msm_gpu_init(struct drm_device *drm, struct platform_device *pdev,
->  	INIT_LIST_HEAD(&gpu->active_list);
->  	mutex_init(&gpu->active_lock);
->  	mutex_init(&gpu->lock);
-> +	init_waitqueue_head(&gpu->retire_event);
->  	kthread_init_work(&gpu->retire_work, retire_worker);
->  	kthread_init_work(&gpu->recover_work, recover_worker);
->  	kthread_init_work(&gpu->fault_work, fault_worker);
-> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-> index 445c6bfd4b6b..92aa1e9196c6 100644
-> --- a/drivers/gpu/drm/msm/msm_gpu.h
-> +++ b/drivers/gpu/drm/msm/msm_gpu.h
-> @@ -230,6 +230,9 @@ struct msm_gpu {
->  	/* work for handling GPU recovery: */
->  	struct kthread_work recover_work;
->  
-> +	/** retire_event: notified when submits are retired: */
-> +	wait_queue_head_t retire_event;
-> +
->  	/* work for handling active-list retiring: */
->  	struct kthread_work retire_work;
->  
-> -- 
-> 2.33.1
-> 
+You are receiving this mail because:
+You are watching the assignee of the bug.=
