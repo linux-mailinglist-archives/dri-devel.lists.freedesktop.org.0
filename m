@@ -2,90 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C7794861E1
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 10:13:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C1714861E2
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 10:13:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AADC9113EA5;
-	Thu,  6 Jan 2022 09:13:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D02DF113E9B;
+	Thu,  6 Jan 2022 09:13:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44020113EA0;
- Thu,  6 Jan 2022 09:13:47 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id t26so3494188wrb.4;
- Thu, 06 Jan 2022 01:13:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=4oXJnxeLV7lgKbughWEAyuR6Dn6ti9k+foaQiDxupps=;
- b=QQl/bsOJUqPVGTbSrgBFsdrRbzOAdBc1bTxMCXJE4o6dsH8Nr2jvpUMTqgyhcHqMaa
- QZDpU8spTeoMVQg/pT7kltl2/wtMTmqwxmj9orso/OeJQ1c0U2330ktA5hO7tFtDkT5v
- bkFAmhEe+DKSxjmJxc0fPXTpKNOUg5hBhZdEvudoQsQR5dynctHXr7J80d9Fe41Bx012
- jtjdr43lhXhhDMMbKIFjKIkEnCJvCZmiRSZaS+EvDTG/HizQ9jXmN8KuFCymSDMl4Qnk
- P6V9xrEPPBYC7qC695tf/pdWhE9PqINvjaIDmL/ypak9MT1zNvi6SC8aczKAGIVMVgC4
- 95JQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=4oXJnxeLV7lgKbughWEAyuR6Dn6ti9k+foaQiDxupps=;
- b=MOD2i6idG7AHoz/27sIb1SPoPL8mKng5PspbsUqwhHs2m1mLQ0wWt5TT4IjumKMUUH
- QkhfaTv8O8VHsS/x6Z/c6zgSDYsoykqDfQeb9LVu4RKuRkyf1cMEZ8jcU7J5AzYLEX9D
- wpOIgBloPTEHf0EwSEVDPHKFvyED1DbJlXZtxf3gCncLq7mSBUguwB19Pup0vaxVUl18
- 2kYMe3P3CpU7WDOPWlhzmku+43HSrrn0LvxbXM1SwaLit26XrEul7TfGsGrV+CYzhnGL
- iFhqDLAXcKTBKR/39PR5bZtoipebIkBKGdFuBxRJiF4xtsxXH8Ue2X03aihbxOScFKtI
- AnYQ==
-X-Gm-Message-State: AOAM530JSteDDJaGGWV4ZR4dV8ncyE2h2Fe69hXX7RsllOVNrpDDoa/k
- t+0kCBR+I5BQybB7f7Poc6o=
-X-Google-Smtp-Source: ABdhPJw3Bomyv+Al7xaVXnyj5fRaneIGPazD0iBOr8KejRI/KXGGcdsBEBofPwwZt+CxK7jjpn8hwA==
-X-Received: by 2002:a05:6000:2c8:: with SMTP id
- o8mr49860681wry.84.1641460425619; 
- Thu, 06 Jan 2022 01:13:45 -0800 (PST)
-Received: from [192.168.178.21] (p57b0bff8.dip0.t-ipconnect.de.
- [87.176.191.248])
- by smtp.gmail.com with ESMTPSA id h2sm1751962wmq.20.2022.01.06.01.13.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Jan 2022 01:13:45 -0800 (PST)
-Subject: Re: [RFC v2 8/8] drm/amd/virt: Drop concurrent GPU reset protection
- for SRIOV
-To: JingWen Chen <jingwech@amd.com>,
- Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- "Liu, Monk" <Monk.Liu@amd.com>, "Chen, JingWen" <JingWen.Chen2@amd.com>,
- "Deng, Emily" <Emily.Deng@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "Chen, Horace" <Horace.Chen@amd.com>
-References: <20211222220506.789133-1-andrey.grodzovsky@amd.com>
- <20211222221400.790842-4-andrey.grodzovsky@amd.com>
- <9125ac3a-e578-6b34-1533-7622ec0274f1@amd.com>
- <BL1PR12MB5269AE1B82F1D07433B95B59847E9@BL1PR12MB5269.namprd12.prod.outlook.com>
- <PH0PR12MB5417F12B403B8181D5CD03988F7F9@PH0PR12MB5417.namprd12.prod.outlook.com>
- <cc8e296d-360d-9a2f-85cd-f47d55581e99@amd.com>
- <f5ba0a69-1cae-7d8b-bfe7-4e4400e9c32a@amd.com>
- <2dee6f65-9ca9-a332-7206-f24021fb4c44@gmail.com>
- <b5a31f18-262d-951e-2530-bdb0738e5033@amd.com>
- <20363a4e-b282-232d-34d0-14867bad4931@amd.com>
- <BL1PR12MB5269922395096810CC79E66D844A9@BL1PR12MB5269.namprd12.prod.outlook.com>
- <23bebf13-c622-7c61-af88-0e0970b90389@amd.com>
- <a74c1198-6027-6a0f-55a8-24227c868704@amd.com>
- <c41f0294-fd64-cf16-8c22-994a7a2ed157@amd.com>
- <821c0b66-8c9c-9dff-a328-bfbc2233d4ef@gmail.com>
- <eecdf721-bdd1-0bc1-70c0-29bc8b844d68@amd.com>
- <b23a5387-7bb1-ef1a-82f5-a012cc530203@amd.com>
- <1f876e45-964e-3796-b7b7-24a7ac40fa90@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <44875486-6b74-d3a1-d84c-88066e519440@gmail.com>
-Date: Thu, 6 Jan 2022 10:13:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D9E1113E9B
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 09:13:46 +0000 (UTC)
+X-UUID: 62544c99526148f1927aa3ecadaeb912-20220106
+X-UUID: 62544c99526148f1927aa3ecadaeb912-20220106
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw01.mediatek.com (envelope-from <chunfeng.yun@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1000888201; Thu, 06 Jan 2022 17:13:44 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Thu, 6 Jan 2022 17:13:44 +0800
+Received: from mhfsdcap04 (10.17.3.154) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 6 Jan 2022 17:13:43 +0800
+Message-ID: <4d7195c3ac9bc63a5f980548f0c880484403346d.camel@mediatek.com>
+Subject: Re: [PATCH 3/3] phy: mediatek: phy-mtk-mipi-dsi: Simplify with
+ dev_err_probe()
+From: Chunfeng Yun <chunfeng.yun@mediatek.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ <chunkuang.hu@kernel.org>
+Date: Thu, 6 Jan 2022 17:13:43 +0800
+In-Reply-To: <20220103145324.48008-3-angelogioacchino.delregno@collabora.com>
+References: <20220103145324.48008-1-angelogioacchino.delregno@collabora.com>
+ <20220103145324.48008-3-angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-In-Reply-To: <1f876e45-964e-3796-b7b7-24a7ac40fa90@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,288 +52,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kishon@ti.com, linux-phy@lists.infradead.org, vkoul@kernel.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 06.01.22 um 06:18 schrieb JingWen Chen:
-> On 2022/1/6 下午12:59, JingWen Chen wrote:
->> On 2022/1/6 上午2:24, Andrey Grodzovsky wrote:
->>> On 2022-01-05 2:59 a.m., Christian König wrote:
->>>> Am 05.01.22 um 08:34 schrieb JingWen Chen:
->>>>> On 2022/1/5 上午12:56, Andrey Grodzovsky wrote:
->>>>>> On 2022-01-04 6:36 a.m., Christian König wrote:
->>>>>>> Am 04.01.22 um 11:49 schrieb Liu, Monk:
->>>>>>>> [AMD Official Use Only]
->>>>>>>>
->>>>>>>>>> See the FLR request from the hypervisor is just another source of signaling the need for a reset, similar to each job timeout on each queue. Otherwise you have a race condition between the hypervisor and the scheduler.
->>>>>>>> No it's not, FLR from hypervisor is just to notify guest the hw VF FLR is about to start or was already executed, but host will do FLR anyway without waiting for guest too long
->>>>>>>>
->>>>>>> Then we have a major design issue in the SRIOV protocol and really need to question this.
->>>>>>>
->>>>>>> How do you want to prevent a race between the hypervisor resetting the hardware and the client trying the same because of a timeout?
->>>>>>>
->>>>>>> As far as I can see the procedure should be:
->>>>>>> 1. We detect that a reset is necessary, either because of a fault a timeout or signal from hypervisor.
->>>>>>> 2. For each of those potential reset sources a work item is send to the single workqueue.
->>>>>>> 3. One of those work items execute first and prepares the reset.
->>>>>>> 4. We either do the reset our self or notify the hypervisor that we are ready for the reset.
->>>>>>> 5. Cleanup after the reset, eventually resubmit jobs etc..
->>>>>>> 6. Cancel work items which might have been scheduled from other reset sources.
->>>>>>>
->>>>>>> It does make sense that the hypervisor resets the hardware without waiting for the clients for too long, but if we don't follow this general steps we will always have a race between the different components.
->>>>>> Monk, just to add to this - if indeed as you say that 'FLR from hypervisor is just to notify guest the hw VF FLR is about to start or was already executed, but host will do FLR anyway without waiting for guest too long'
->>>>>> and there is no strict waiting from the hypervisor for IDH_READY_TO_RESET to be recived from guest before starting the reset then setting in_gpu_reset and locking reset_sem from guest side is not really full proof
->>>>>> protection from MMIO accesses by the guest - it only truly helps if hypervisor waits for that message before initiation of HW reset.
->>>>>>
->>>>> Hi Andrey, this cannot be done. If somehow guest kernel hangs and never has the chance to send the response back, then other VFs will have to wait it reset. All the vfs will hang in this case. Or sometimes the mailbox has some delay and other VFs will also wait. The user of other VFs will be affected in this case.
->>>> Yeah, agree completely with JingWen. The hypervisor is the one in charge here, not the guest.
->>>>
->>>> What the hypervisor should do (and it already seems to be designed that way) is to send the guest a message that a reset is about to happen and give it some time to response appropriately.
->>>>
->>>> The guest on the other hand then tells the hypervisor that all processing has stopped and it is ready to restart. If that doesn't happen in time the hypervisor should eliminate the guest probably trigger even more severe consequences, e.g. restart the whole VM etc...
->>>>
->>>> Christian.
->>> So what's the end conclusion here regarding dropping this particular patch ? Seems to me we still need to drop it to prevent driver's MMIO access
->>> to the GPU during reset from various places in the code.
->>>
->>> Andrey
->>>
->> Hi Andrey & Christian,
->>
->> I have ported your patch(drop the reset_sem and in_gpu_reset in flr work) and run some tests. If a engine hang during an OCL benchmark(using kfd), we can see the logs below:
->>
->> [  397.190727] amdgpu 0000:00:07.0: amdgpu: wait for kiq fence error: 0.
->> [  397.301496] amdgpu 0000:00:07.0: amdgpu: wait for kiq fence error: 0.
->> [  397.406601] amdgpu 0000:00:07.0: amdgpu: wait for kiq fence error: 0.
->> [  397.532343] amdgpu 0000:00:07.0: amdgpu: wait for kiq fence error: 0.
->> [  397.642251] amdgpu 0000:00:07.0: amdgpu: wait for kiq fence error: 0.
->> [  397.746634] amdgpu 0000:00:07.0: amdgpu: wait for kiq fence error: 0.
->> [  397.850761] amdgpu 0000:00:07.0: amdgpu: wait for kiq fence error: 0.
->> [  397.960544] amdgpu 0000:00:07.0: amdgpu: wait for kiq fence error: 0.
->> [  398.065218] amdgpu 0000:00:07.0: amdgpu: wait for kiq fence error: 0.
->> [  398.182173] amdgpu 0000:00:07.0: amdgpu: wait for kiq fence error: 0.
->> [  398.288264] amdgpu 0000:00:07.0: amdgpu: wait for kiq fence error: 0.
->> [  398.394712] amdgpu 0000:00:07.0: amdgpu: wait for kiq fence error: 0.
->> [  428.400582] [drm] clean up the vf2pf work item
->> [  428.500528] amdgpu 0000:00:07.0: amdgpu: [gfxhub] page fault (src_id:0 ring:153 vmid:8 pasid:32771, for process xgemmStandalone pid 3557 thread xgemmStandalone pid 3557)
->> [  428.527576] amdgpu 0000:00:07.0: amdgpu:   in page starting at address 0x00007fc991c04000 from client 0x1b (UTCL2)
->> [  437.531392] amdgpu: qcm fence wait loop timeout expired
->> [  437.535738] amdgpu: The cp might be in an unrecoverable state due to an unsuccessful queues preemption
->> [  437.537191] amdgpu 0000:00:07.0: amdgpu: GPU reset begin!
->> [  438.087443] [drm] RE-INIT-early: nv_common succeeded
->>
->> As kfd relies on these to check if GPU is in reset, dropping it will hit some page fault and fence error very easily.
-> To be clear, we can also hit the page fault with the reset_sem and in_gpu_reset, just not as easily as dropping them.
+On Mon, 2022-01-03 at 15:53 +0100, AngeloGioacchino Del Regno wrote:
+> Use the dev_err_probe() helper to simplify error handling during
+> probe.
+> 
+> Signed-off-by: AngeloGioacchino Del Regno <
+> angelogioacchino.delregno@collabora.com>
+> ---
+>  drivers/phy/mediatek/phy-mtk-mipi-dsi.c | 29 +++++++++------------
+> ----
+>  1 file changed, 10 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
+> b/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
+> index 6f7425b0bf5b..4b77508f5241 100644
+> --- a/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
+> +++ b/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
+> @@ -148,11 +148,9 @@ static int mtk_mipi_tx_probe(struct
+> platform_device *pdev)
+>  		return PTR_ERR(mipi_tx->regmap);
+>  
+>  	ref_clk = devm_clk_get(dev, NULL);
+> -	if (IS_ERR(ref_clk)) {
+> -		ret = PTR_ERR(ref_clk);
+> -		dev_err(dev, "Failed to get reference clock: %d\n",
+> ret);
+> -		return ret;
+> -	}
+> +	if (IS_ERR(ref_clk))
+> +		return dev_err_probe(dev, PTR_ERR(ref_clk),
+> +				     "Failed to get reference
+> clock\n");
+>  
+>  	ret = of_property_read_u32(dev->of_node, "drive-strength-
+> microamp",
+>  				   &mipi_tx->mipitx_drive);
+> @@ -172,27 +170,20 @@ static int mtk_mipi_tx_probe(struct
+> platform_device *pdev)
+>  
+>  	ret = of_property_read_string(dev->of_node, "clock-output-
+> names",
+>  				      &clk_init.name);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to read clock-output-names: %d\n",
+> ret);
+> -		return ret;
+> -	}
+> +	if (ret < 0)
+> +		return dev_err_probe(dev, ret, "Failed to read clock-
+> output-names\n");
+Seems no need change it here. (no EPROBE_DEFER error)
 
-Yeah, I was just about to complain that this isn't good engineering but 
-just makes things less likely.
-
-Question is what would be the approach to avoid those kind of problems 
-from the start?
-
-Regards,
-Christian.
-
->>>>>> Andrey
->>>>>>
->>>>>>
->>>>>>> Regards,
->>>>>>> Christian.
->>>>>>>
->>>>>>> Am 04.01.22 um 11:49 schrieb Liu, Monk:
->>>>>>>> [AMD Official Use Only]
->>>>>>>>
->>>>>>>>>> See the FLR request from the hypervisor is just another source of signaling the need for a reset, similar to each job timeout on each queue. Otherwise you have a race condition between the hypervisor and the scheduler.
->>>>>>>> No it's not, FLR from hypervisor is just to notify guest the hw VF FLR is about to start or was already executed, but host will do FLR anyway without waiting for guest too long
->>>>>>>>
->>>>>>>>>> In other words I strongly think that the current SRIOV reset implementation is severely broken and what Andrey is doing is actually fixing it.
->>>>>>>> It makes the code to crash ... how could it be a fix ?
->>>>>>>>
->>>>>>>> I'm afraid the patch is NAK from me,  but it is welcome if the cleanup do not ruin the logic, Andry or jingwen can try it if needed.
->>>>>>>>
->>>>>>>> Thanks
->>>>>>>> -------------------------------------------------------------------
->>>>>>>> Monk Liu | Cloud GPU & Virtualization Solution | AMD
->>>>>>>> -------------------------------------------------------------------
->>>>>>>> we are hiring software manager for CVS core team
->>>>>>>> -------------------------------------------------------------------
->>>>>>>>
->>>>>>>> -----Original Message-----
->>>>>>>> From: Koenig, Christian <Christian.Koenig@amd.com>
->>>>>>>> Sent: Tuesday, January 4, 2022 6:19 PM
->>>>>>>> To: Chen, JingWen <JingWen.Chen2@amd.com>; Christian König <ckoenig.leichtzumerken@gmail.com>; Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com>; Deng, Emily <Emily.Deng@amd.com>; Liu, Monk <Monk.Liu@amd.com>; dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org; Chen, Horace <Horace.Chen@amd.com>; Chen, JingWen <JingWen.Chen2@amd.com>
->>>>>>>> Cc: daniel@ffwll.ch
->>>>>>>> Subject: Re: [RFC v2 8/8] drm/amd/virt: Drop concurrent GPU reset protection for SRIOV
->>>>>>>>
->>>>>>>> Hi Jingwen,
->>>>>>>>
->>>>>>>> well what I mean is that we need to adjust the implementation in amdgpu to actually match the requirements.
->>>>>>>>
->>>>>>>> Could be that the reset sequence is questionable in general, but I doubt so at least for now.
->>>>>>>>
->>>>>>>> See the FLR request from the hypervisor is just another source of signaling the need for a reset, similar to each job timeout on each queue. Otherwise you have a race condition between the hypervisor and the scheduler.
->>>>>>>>
->>>>>>>> Properly setting in_gpu_reset is indeed mandatory, but should happen at a central place and not in the SRIOV specific code.
->>>>>>>>
->>>>>>>> In other words I strongly think that the current SRIOV reset implementation is severely broken and what Andrey is doing is actually fixing it.
->>>>>>>>
->>>>>>>> Regards,
->>>>>>>> Christian.
->>>>>>>>
->>>>>>>> Am 04.01.22 um 10:07 schrieb JingWen Chen:
->>>>>>>>> Hi Christian,
->>>>>>>>> I'm not sure what do you mean by "we need to change SRIOV not the driver".
->>>>>>>>>
->>>>>>>>> Do you mean we should change the reset sequence in SRIOV? This will be a huge change for our SRIOV solution.
->>>>>>>>>
->>>>>>>>>     From my point of view, we can directly use amdgpu_device_lock_adev
->>>>>>>>> and amdgpu_device_unlock_adev in flr_work instead of try_lock since no one will conflict with this thread with reset_domain introduced.
->>>>>>>>> But we do need the reset_sem and adev->in_gpu_reset to keep device untouched via user space.
->>>>>>>>>
->>>>>>>>> Best Regards,
->>>>>>>>> Jingwen Chen
->>>>>>>>>
->>>>>>>>> On 2022/1/3 下午6:17, Christian König wrote:
->>>>>>>>>> Please don't. This patch is vital to the cleanup of the reset procedure.
->>>>>>>>>>
->>>>>>>>>> If SRIOV doesn't work with that we need to change SRIOV and not the driver.
->>>>>>>>>>
->>>>>>>>>> Christian.
->>>>>>>>>>
->>>>>>>>>> Am 30.12.21 um 19:45 schrieb Andrey Grodzovsky:
->>>>>>>>>>> Sure, I guess i can drop this patch then.
->>>>>>>>>>>
->>>>>>>>>>> Andrey
->>>>>>>>>>>
->>>>>>>>>>> On 2021-12-24 4:57 a.m., JingWen Chen wrote:
->>>>>>>>>>>> I do agree with shaoyun, if the host find the gpu engine hangs first, and do the flr, guest side thread may not know this and still try to access HW(e.g. kfd is using a lot of amdgpu_in_reset and reset_sem to identify the reset status). And this may lead to very bad result.
->>>>>>>>>>>>
->>>>>>>>>>>> On 2021/12/24 下午4:58, Deng, Emily wrote:
->>>>>>>>>>>>> These patches look good to me. JingWen will pull these patches and do some basic TDR test on sriov environment, and give feedback.
->>>>>>>>>>>>>
->>>>>>>>>>>>> Best wishes
->>>>>>>>>>>>> Emily Deng
->>>>>>>>>>>>>
->>>>>>>>>>>>>
->>>>>>>>>>>>>
->>>>>>>>>>>>>> -----Original Message-----
->>>>>>>>>>>>>> From: Liu, Monk <Monk.Liu@amd.com>
->>>>>>>>>>>>>> Sent: Thursday, December 23, 2021 6:14 PM
->>>>>>>>>>>>>> To: Koenig, Christian <Christian.Koenig@amd.com>; Grodzovsky,
->>>>>>>>>>>>>> Andrey <Andrey.Grodzovsky@amd.com>;
->>>>>>>>>>>>>> dri-devel@lists.freedesktop.org; amd- gfx@lists.freedesktop.org;
->>>>>>>>>>>>>> Chen, Horace <Horace.Chen@amd.com>; Chen, JingWen
->>>>>>>>>>>>>> <JingWen.Chen2@amd.com>; Deng, Emily <Emily.Deng@amd.com>
->>>>>>>>>>>>>> Cc: daniel@ffwll.ch
->>>>>>>>>>>>>> Subject: RE: [RFC v2 8/8] drm/amd/virt: Drop concurrent GPU reset
->>>>>>>>>>>>>> protection for SRIOV
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> [AMD Official Use Only]
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> @Chen, Horace @Chen, JingWen @Deng, Emily
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> Please take a review on Andrey's patch
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> Thanks
->>>>>>>>>>>>>> -----------------------------------------------------------------
->>>>>>>>>>>>>> -- Monk Liu | Cloud GPU & Virtualization Solution | AMD
->>>>>>>>>>>>>> -----------------------------------------------------------------
->>>>>>>>>>>>>> -- we are hiring software manager for CVS core team
->>>>>>>>>>>>>> -----------------------------------------------------------------
->>>>>>>>>>>>>> -- 
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> -----Original Message-----
->>>>>>>>>>>>>> From: Koenig, Christian <Christian.Koenig@amd.com>
->>>>>>>>>>>>>> Sent: Thursday, December 23, 2021 4:42 PM
->>>>>>>>>>>>>> To: Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com>; dri-
->>>>>>>>>>>>>> devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org
->>>>>>>>>>>>>> Cc: daniel@ffwll.ch; Liu, Monk <Monk.Liu@amd.com>; Chen, Horace
->>>>>>>>>>>>>> <Horace.Chen@amd.com>
->>>>>>>>>>>>>> Subject: Re: [RFC v2 8/8] drm/amd/virt: Drop concurrent GPU reset
->>>>>>>>>>>>>> protection for SRIOV
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> Am 22.12.21 um 23:14 schrieb Andrey Grodzovsky:
->>>>>>>>>>>>>>> Since now flr work is serialized against  GPU resets there is no
->>>>>>>>>>>>>>> need for this.
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
->>>>>>>>>>>>>> Acked-by: Christian König <christian.koenig@amd.com>
->>>>>>>>>>>>>>
->>>>>>>>>>>>>>> ---
->>>>>>>>>>>>>>>        drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c | 11 -----------
->>>>>>>>>>>>>>>        drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c | 11 -----------
->>>>>>>>>>>>>>>        2 files changed, 22 deletions(-)
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c
->>>>>>>>>>>>>>> b/drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c
->>>>>>>>>>>>>>> index 487cd654b69e..7d59a66e3988 100644
->>>>>>>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c
->>>>>>>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c
->>>>>>>>>>>>>>> @@ -248,15 +248,7 @@ static void xgpu_ai_mailbox_flr_work(struct
->>>>>>>>>>>>>> work_struct *work)
->>>>>>>>>>>>>>>            struct amdgpu_device *adev = container_of(virt, struct
->>>>>>>>>>>>>> amdgpu_device, virt);
->>>>>>>>>>>>>>>            int timeout = AI_MAILBOX_POLL_FLR_TIMEDOUT;
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> -    /* block amdgpu_gpu_recover till msg FLR COMPLETE received,
->>>>>>>>>>>>>>> -     * otherwise the mailbox msg will be ruined/reseted by
->>>>>>>>>>>>>>> -     * the VF FLR.
->>>>>>>>>>>>>>> -     */
->>>>>>>>>>>>>>> -    if (!down_write_trylock(&adev->reset_sem))
->>>>>>>>>>>>>>> -        return;
->>>>>>>>>>>>>>> -
->>>>>>>>>>>>>>> amdgpu_virt_fini_data_exchange(adev);
->>>>>>>>>>>>>>> -    atomic_set(&adev->in_gpu_reset, 1);
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>            xgpu_ai_mailbox_trans_msg(adev, IDH_READY_TO_RESET, 0,
->>>>>>>>>>>>>>> 0, 0);
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> @@ -269,9 +261,6 @@ static void xgpu_ai_mailbox_flr_work(struct
->>>>>>>>>>>>>> work_struct *work)
->>>>>>>>>>>>>>>            } while (timeout > 1);
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>        flr_done:
->>>>>>>>>>>>>>> -    atomic_set(&adev->in_gpu_reset, 0);
->>>>>>>>>>>>>>> -    up_write(&adev->reset_sem);
->>>>>>>>>>>>>>> -
->>>>>>>>>>>>>>>            /* Trigger recovery for world switch failure if no TDR
->>>>>>>>>>>>>>> */
->>>>>>>>>>>>>>>            if (amdgpu_device_should_recover_gpu(adev)
->>>>>>>>>>>>>>>                && (!amdgpu_device_has_job_running(adev) || diff
->>>>>>>>>>>>>>> --git a/drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c
->>>>>>>>>>>>>>> b/drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c
->>>>>>>>>>>>>>> index e3869067a31d..f82c066c8e8d 100644
->>>>>>>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c
->>>>>>>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c
->>>>>>>>>>>>>>> @@ -277,15 +277,7 @@ static void xgpu_nv_mailbox_flr_work(struct
->>>>>>>>>>>>>> work_struct *work)
->>>>>>>>>>>>>>>            struct amdgpu_device *adev = container_of(virt, struct
->>>>>>>>>>>>>> amdgpu_device, virt);
->>>>>>>>>>>>>>>            int timeout = NV_MAILBOX_POLL_FLR_TIMEDOUT;
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> -    /* block amdgpu_gpu_recover till msg FLR COMPLETE received,
->>>>>>>>>>>>>>> -     * otherwise the mailbox msg will be ruined/reseted by
->>>>>>>>>>>>>>> -     * the VF FLR.
->>>>>>>>>>>>>>> -     */
->>>>>>>>>>>>>>> -    if (!down_write_trylock(&adev->reset_sem))
->>>>>>>>>>>>>>> -        return;
->>>>>>>>>>>>>>> -
->>>>>>>>>>>>>>> amdgpu_virt_fini_data_exchange(adev);
->>>>>>>>>>>>>>> -    atomic_set(&adev->in_gpu_reset, 1);
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>            xgpu_nv_mailbox_trans_msg(adev, IDH_READY_TO_RESET, 0,
->>>>>>>>>>>>>>> 0, 0);
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> @@ -298,9 +290,6 @@ static void xgpu_nv_mailbox_flr_work(struct
->>>>>>>>>>>>>> work_struct *work)
->>>>>>>>>>>>>>>            } while (timeout > 1);
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>        flr_done:
->>>>>>>>>>>>>>> -    atomic_set(&adev->in_gpu_reset, 0);
->>>>>>>>>>>>>>> -    up_write(&adev->reset_sem);
->>>>>>>>>>>>>>> -
->>>>>>>>>>>>>>>            /* Trigger recovery for world switch failure if no TDR
->>>>>>>>>>>>>>> */
->>>>>>>>>>>>>>>            if (amdgpu_device_should_recover_gpu(adev)
->>>>>>>>>>>>>>>                && (!amdgpu_device_has_job_running(adev) ||
+Thanks
+>  
+>  	clk_init.ops = mipi_tx->driver_data->mipi_tx_clk_ops;
+>  
+>  	mipi_tx->pll_hw.init = &clk_init;
+>  	mipi_tx->pll = devm_clk_register(dev, &mipi_tx->pll_hw);
+> -	if (IS_ERR(mipi_tx->pll)) {
+> -		ret = PTR_ERR(mipi_tx->pll);
+> -		dev_err(dev, "Failed to register PLL: %d\n", ret);
+> -		return ret;
+> -	}
+> +	if (IS_ERR(mipi_tx->pll))
+> +		return dev_err_probe(dev, PTR_ERR(mipi_tx->pll),
+> "Cannot register PLL\n");
+>  
+>  	phy = devm_phy_create(dev, NULL, &mtk_mipi_tx_ops);
+> -	if (IS_ERR(phy)) {
+> -		ret = PTR_ERR(phy);
+> -		dev_err(dev, "Failed to create MIPI D-PHY: %d\n", ret);
+> -		return ret;
+> -	}
+> +	if (IS_ERR(phy))
+> +		return dev_err_probe(dev, PTR_ERR(phy), "Failed to
+> create MIPI D-PHY\n");
+> +
+>  	phy_set_drvdata(phy, mipi_tx);
+>  
+>  	phy_provider = devm_of_phy_provider_register(dev,
+> of_phy_simple_xlate);
 
