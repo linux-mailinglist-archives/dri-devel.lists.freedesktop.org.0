@@ -2,52 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E50A486C79
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 22:47:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36673486C7B
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 22:47:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDAB010EE47;
-	Thu,  6 Jan 2022 21:46:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65B2D10EE86;
+	Thu,  6 Jan 2022 21:46:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
- [IPv6:2607:f8b0:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5024910EFA7
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 21:46:32 +0000 (UTC)
-Received: by mail-pf1-x42c.google.com with SMTP id v11so3610484pfu.2
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jan 2022 13:46:32 -0800 (PST)
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
+ [IPv6:2607:f8b0:4864:20::102f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A732D10EFBD
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 21:46:33 +0000 (UTC)
+Received: by mail-pj1-x102f.google.com with SMTP id
+ r16-20020a17090a0ad000b001b276aa3aabso10085732pje.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Jan 2022 13:46:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Cp/sB0csPJfGnASpc4rymZ0PPQPzUhdhwUtGaGHpcvc=;
- b=hh951AuDm1lnuTY6Tg2bk0JqAZI+SXik/wKYCanK/9z21XaxR8dcVOq5HuTUHvXX+4
- BA5DB+cYLOeFa4Yj/qhEHktwsW51FrcAvaCxu93fkpHy98KKRByaAlCqq3LMH6f2Yesv
- syDwoIVXJ+hcSDIJ+jirliEw4GXQyzkO5KEuA=
+ bh=SY5czEkZfSXZIjPhPgnaI25Y4JCRgE9mkB7SIRIjEMg=;
+ b=VxInkVCtolIWlq4R8QhvD/B10sn9O/njUd1llzYE5tSI1+64q39+wd0nI6koEltTwm
+ IDPskNz5cPBuRF9OnIJ7STgOnfbM3jQ6hinmHIcfdplmICrQIXXrYOPRsup2vEApwWZK
+ 9YE1KK8MCejGRFHSfn+968gZuTnXgOIy60/Pk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Cp/sB0csPJfGnASpc4rymZ0PPQPzUhdhwUtGaGHpcvc=;
- b=XYsWiQt6NuQ1yiijKn1/6+S01ROLpIK/d6251yhJ2dISlIb0cUOF7G3I9HDQliZF8u
- kxhigfUjbn1ecQcFOa2DjAaJFcnh3LjOk9ZgypOMT2OSH6l7WRR5qgNyQtQnOqTHzFWM
- 8cYZ/vi3Ru3pNkMElkAtMGRsB/jHmpyT57IY3BiduBLOM+4YWB5gDjf+q7+xPWhkOGE7
- +CwRwP/c+qgbCD/EqawKma97M1Jr6/O//j/QwTiL6Ss9W0o74/ML6lWBfYoFdyjhb9R3
- H63F0dhFaonPamxmXiuq82MzuumwZEzbk7NFqStOgAhGoWWzC3RW0GUOZ3Svn+CNQFtJ
- 0suw==
-X-Gm-Message-State: AOAM532ffXx30nZNDYu6Qn/7cNLLr54IYuGlKrMahkdG7bVKf2BuVRr7
- +Lxnpuj5k43SMeke9Z9YyW2vEw==
-X-Google-Smtp-Source: ABdhPJy9dQQssWkM2CNx3zabLk5PMLLArRIIl85gPr/Wn1u8evvprhCEN6jMJEhMiz/HIX7vMXU6aQ==
-X-Received: by 2002:a63:a744:: with SMTP id w4mr31926122pgo.142.1641505591920; 
- Thu, 06 Jan 2022 13:46:31 -0800 (PST)
+ bh=SY5czEkZfSXZIjPhPgnaI25Y4JCRgE9mkB7SIRIjEMg=;
+ b=NSIQ4KYFj9+PtQCJG9g1fVWLVndOPhzE4+wQnBvdWBYr6TekTAFpYf9p4ChRAa2efQ
+ /EPv1FMF6FGmxoLQl3muPt7p2n3Jaa0PInA5rjN2OP8JyyY2hUXrwX7hdfZKII2QodEl
+ Q7i3feIIiq6aVex5vaiYVNx9UpGrKxQ5RoK0bMBX7poUVhzJgMo7UJWBgh1TTfsYa8zO
+ C1AsqYydhnj3xpM8JEAlauSxBAQFbk01CBxhIq9RwhsbbLuwEgbXFeZDPC1rQ9HIqMPl
+ bdeDxp9ieH6i9Pvcj8Y4oDb12oCqzNEPMnwQe1N7e016mEQ9W7Bai6rzPqKRFZNBobCa
+ cNrw==
+X-Gm-Message-State: AOAM533d7VVHt8ydryxsLWPRQiIAwX/MRVKj9ckEYA8ZEhEkFoZeoQV8
+ CROw3BADtlsrUagBB7oFqkxPhA==
+X-Google-Smtp-Source: ABdhPJwbg2UnIYpSvTBjjmfX8M65IZWtqUxOoJ5gDXa1KlR3zVKOJxoCt6FBFaaECG9hMQCbkgFNcw==
+X-Received: by 2002:a17:902:6bc9:b0:149:fdf1:f031 with SMTP id
+ m9-20020a1709026bc900b00149fdf1f031mr2699589plt.58.1641505593321; 
+ Thu, 06 Jan 2022 13:46:33 -0800 (PST)
 Received: from smtp.gmail.com ([2620:15c:202:201:1ebe:a8fd:f9b0:7e85])
- by smtp.gmail.com with ESMTPSA id 10sm3539960pfm.56.2022.01.06.13.46.30
+ by smtp.gmail.com with ESMTPSA id 10sm3539960pfm.56.2022.01.06.13.46.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jan 2022 13:46:31 -0800 (PST)
+ Thu, 06 Jan 2022 13:46:33 -0800 (PST)
 From: Stephen Boyd <swboyd@chromium.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Douglas Anderson <dianders@chromium.org>
-Subject: [PATCH v5 25/32] iommu/mtk: Migrate to aggregate driver
-Date: Thu,  6 Jan 2022 13:45:48 -0800
-Message-Id: <20220106214556.2461363-26-swboyd@chromium.org>
+Subject: [PATCH v5 26/32] mei: Migrate to aggregate driver
+Date: Thu,  6 Jan 2022 13:45:49 -0800
+Message-Id: <20220106214556.2461363-27-swboyd@chromium.org>
 X-Mailer: git-send-email 2.34.1.448.ga2b2bfdf31-goog
 In-Reply-To: <20220106214556.2461363-1-swboyd@chromium.org>
 References: <20220106214556.2461363-1-swboyd@chromium.org>
@@ -65,12 +67,15 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Saravana Kannan <saravanak@google.com>, Will Deacon <will@kernel.org>,
+Cc: Saravana Kannan <saravanak@google.com>, Arnd Bergmann <arnd@arndb.de>,
  "Rafael J. Wysocki" <rafael@kernel.org>, linux-arm-msm@vger.kernel.org,
- Joerg Roedel <joro@8bytes.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Russell King <rmk+kernel@arm.linux.org.uk>, freedreno@lists.freedesktop.org,
- Yong Wu <yong.wu@mediatek.com>
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Russell King <rmk+kernel@arm.linux.org.uk>,
+ Tomas Winkler <tomas.winkler@intel.com>, Alexander Usyskin <sanniu@gmail.com>,
+ freedreno@lists.freedesktop.org, Vitaly Lubart <vitaly.lubart@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -78,122 +83,148 @@ Use an aggregate driver instead of component ops so that we can get
 proper driver probe ordering of the aggregate device with respect to all
 the component devices that make up the aggregate device.
 
-Cc: Yong Wu <yong.wu@mediatek.com>
-Cc: Joerg Roedel <joro@8bytes.org>
-Cc: Will Deacon <will@kernel.org>
+Cc: Tomas Winkler <tomas.winkler@intel.com>
+Cc: Vitaly Lubart <vitaly.lubart@intel.com>
+Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc: "Rafael J. Wysocki" <rafael@kernel.org>
 Cc: Rob Clark <robdclark@gmail.com>
 Cc: Russell King <rmk+kernel@arm.linux.org.uk>
 Cc: Saravana Kannan <saravanak@google.com>
+Cc: Alexander Usyskin <sanniu@gmail.com>
 Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 ---
- drivers/iommu/mtk_iommu.c    | 14 +++++++++-----
- drivers/iommu/mtk_iommu.h    |  6 ++++--
- drivers/iommu/mtk_iommu_v1.c | 14 +++++++++-----
- 3 files changed, 22 insertions(+), 12 deletions(-)
+ drivers/misc/mei/hdcp/mei_hdcp.c | 22 +++++++++++++---------
+ drivers/misc/mei/pxp/mei_pxp.c   | 22 +++++++++++++---------
+ 2 files changed, 26 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-index 25b834104790..8e722898cbe2 100644
---- a/drivers/iommu/mtk_iommu.c
-+++ b/drivers/iommu/mtk_iommu.c
-@@ -752,9 +752,13 @@ static int mtk_iommu_hw_init(const struct mtk_iommu_data *data)
+diff --git a/drivers/misc/mei/hdcp/mei_hdcp.c b/drivers/misc/mei/hdcp/mei_hdcp.c
+index ec2a4fce8581..ae903a09fb06 100644
+--- a/drivers/misc/mei/hdcp/mei_hdcp.c
++++ b/drivers/misc/mei/hdcp/mei_hdcp.c
+@@ -732,8 +732,9 @@ static const struct i915_hdcp_component_ops mei_hdcp_ops = {
+ 	.close_hdcp_session = mei_hdcp_close_session,
+ };
+ 
+-static int mei_component_master_bind(struct device *dev)
++static int mei_hdcp_aggregate_bind(struct aggregate_device *adev)
+ {
++	struct device *dev = adev->parent;
+ 	struct mei_cl_device *cldev = to_mei_cl_device(dev);
+ 	struct i915_hdcp_comp_master *comp_master =
+ 						mei_cldev_get_drvdata(cldev);
+@@ -749,8 +750,9 @@ static int mei_component_master_bind(struct device *dev)
  	return 0;
  }
  
--static const struct component_master_ops mtk_iommu_com_ops = {
--	.bind		= mtk_iommu_bind,
--	.unbind		= mtk_iommu_unbind,
-+static struct aggregate_driver mtk_iommu_aggregate_driver = {
-+	.probe		= mtk_iommu_bind,
-+	.remove		= mtk_iommu_unbind,
-+	.driver		= {
-+		.name	= "mtk_iommu_agg",
-+		.owner	= THIS_MODULE,
+-static void mei_component_master_unbind(struct device *dev)
++static void mei_hdcp_aggregate_unbind(struct aggregate_device *adev)
+ {
++	struct device *dev = adev->parent;
+ 	struct mei_cl_device *cldev = to_mei_cl_device(dev);
+ 	struct i915_hdcp_comp_master *comp_master =
+ 						mei_cldev_get_drvdata(cldev);
+@@ -759,9 +761,13 @@ static void mei_component_master_unbind(struct device *dev)
+ 	component_unbind_all(dev, comp_master);
+ }
+ 
+-static const struct component_master_ops mei_component_master_ops = {
+-	.bind = mei_component_master_bind,
+-	.unbind = mei_component_master_unbind,
++static struct aggregate_driver mei_aggregate_driver = {
++	.probe = mei_hdcp_aggregate_bind,
++	.remove = mei_hdcp_aggregate_unbind,
++	.driver = {
++		.name = "mei_hdcp_agg",
++		.owner = THIS_MODULE,
 +	},
  };
  
- static int mtk_iommu_probe(struct platform_device *pdev)
-@@ -895,7 +899,7 @@ static int mtk_iommu_probe(struct platform_device *pdev)
- 			goto out_list_del;
+ /**
+@@ -826,9 +832,7 @@ static int mei_hdcp_probe(struct mei_cl_device *cldev,
  	}
  
--	ret = component_master_add_with_match(dev, &mtk_iommu_com_ops, match);
-+	ret = component_aggregate_register(dev, &mtk_iommu_aggregate_driver, match);
- 	if (ret)
- 		goto out_bus_set_null;
- 	return ret;
-@@ -928,7 +932,7 @@ static int mtk_iommu_remove(struct platform_device *pdev)
- 	device_link_remove(data->smicomm_dev, &pdev->dev);
- 	pm_runtime_disable(&pdev->dev);
- 	devm_free_irq(&pdev->dev, data->irq, data);
--	component_master_del(&pdev->dev, &mtk_iommu_com_ops);
-+	component_aggregate_unregister(&pdev->dev, &mtk_iommu_aggregate_driver);
+ 	mei_cldev_set_drvdata(cldev, comp_master);
+-	ret = component_master_add_with_match(&cldev->dev,
+-					      &mei_component_master_ops,
+-					      master_match);
++	ret = component_aggregate_register(&cldev->dev, &mei_aggregate_driver, master_match);
+ 	if (ret < 0) {
+ 		dev_err(&cldev->dev, "Master comp add failed %d\n", ret);
+ 		goto err_exit;
+@@ -850,7 +854,7 @@ static void mei_hdcp_remove(struct mei_cl_device *cldev)
+ 						mei_cldev_get_drvdata(cldev);
+ 	int ret;
+ 
+-	component_master_del(&cldev->dev, &mei_component_master_ops);
++	component_aggregate_unregister(&cldev->dev, &mei_aggregate_driver);
+ 	kfree(comp_master);
+ 	mei_cldev_set_drvdata(cldev, NULL);
+ 
+diff --git a/drivers/misc/mei/pxp/mei_pxp.c b/drivers/misc/mei/pxp/mei_pxp.c
+index f7380d387bab..7b7bd7c0e8b1 100644
+--- a/drivers/misc/mei/pxp/mei_pxp.c
++++ b/drivers/misc/mei/pxp/mei_pxp.c
+@@ -83,8 +83,9 @@ static const struct i915_pxp_component_ops mei_pxp_ops = {
+ 	.recv = mei_pxp_receive_message,
+ };
+ 
+-static int mei_component_master_bind(struct device *dev)
++static int mei_pxp_aggregate_bind(struct aggregate_device *adev)
+ {
++	struct device *dev = adev->parent;
+ 	struct mei_cl_device *cldev = to_mei_cl_device(dev);
+ 	struct i915_pxp_component *comp_master = mei_cldev_get_drvdata(cldev);
+ 	int ret;
+@@ -98,17 +99,22 @@ static int mei_component_master_bind(struct device *dev)
  	return 0;
  }
  
-diff --git a/drivers/iommu/mtk_iommu.h b/drivers/iommu/mtk_iommu.h
-index f81fa8862ed0..064fd4f4eade 100644
---- a/drivers/iommu/mtk_iommu.h
-+++ b/drivers/iommu/mtk_iommu.h
-@@ -94,15 +94,17 @@ static inline void release_of(struct device *dev, void *data)
- 	of_node_put(data);
- }
- 
--static inline int mtk_iommu_bind(struct device *dev)
-+static inline int mtk_iommu_bind(struct aggregate_device *adev)
+-static void mei_component_master_unbind(struct device *dev)
++static void mei_pxp_aggregate_unbind(struct aggregate_device *adev)
  {
 +	struct device *dev = adev->parent;
- 	struct mtk_iommu_data *data = dev_get_drvdata(dev);
+ 	struct mei_cl_device *cldev = to_mei_cl_device(dev);
+ 	struct i915_pxp_component *comp_master = mei_cldev_get_drvdata(cldev);
  
- 	return component_bind_all(dev, &data->larb_imu);
+ 	component_unbind_all(dev, comp_master);
  }
  
--static inline void mtk_iommu_unbind(struct device *dev)
-+static inline void mtk_iommu_unbind(struct aggregate_device *adev)
- {
-+	struct device *dev = adev->parent;
- 	struct mtk_iommu_data *data = dev_get_drvdata(dev);
- 
- 	component_unbind_all(dev, &data->larb_imu);
-diff --git a/drivers/iommu/mtk_iommu_v1.c b/drivers/iommu/mtk_iommu_v1.c
-index be22fcf988ce..5fb29058a165 100644
---- a/drivers/iommu/mtk_iommu_v1.c
-+++ b/drivers/iommu/mtk_iommu_v1.c
-@@ -534,9 +534,13 @@ static const struct of_device_id mtk_iommu_of_ids[] = {
- 	{}
+-static const struct component_master_ops mei_component_master_ops = {
+-	.bind = mei_component_master_bind,
+-	.unbind = mei_component_master_unbind,
++static struct aggregate_driver mei_aggregate_driver = {
++	.probe = mei_pxp_aggregate_bind,
++	.remove = mei_pxp_aggregate_unbind,
++	.driver = {
++		.name = "mei_pxp_agg",
++		.owner = THIS_MODULE,
++	}
  };
  
--static const struct component_master_ops mtk_iommu_com_ops = {
--	.bind		= mtk_iommu_bind,
--	.unbind		= mtk_iommu_unbind,
-+static struct aggregate_driver mtk_iommu_aggregate_driver = {
-+	.probe		= mtk_iommu_bind,
-+	.remove		= mtk_iommu_unbind,
-+	.driver		= {
-+		.name	= "mtk_iommu_agg",
-+		.owner	= THIS_MODULE,
-+	},
- };
- 
- static int mtk_iommu_probe(struct platform_device *pdev)
-@@ -624,7 +628,7 @@ static int mtk_iommu_probe(struct platform_device *pdev)
- 			goto out_dev_unreg;
+ /**
+@@ -173,9 +179,7 @@ static int mei_pxp_probe(struct mei_cl_device *cldev,
  	}
  
--	ret = component_master_add_with_match(dev, &mtk_iommu_com_ops, match);
-+	ret = component_aggregate_register(dev, &mtk_iommu_aggregate_driver, match);
- 	if (ret)
- 		goto out_bus_set_null;
- 	return ret;
-@@ -650,7 +654,7 @@ static int mtk_iommu_remove(struct platform_device *pdev)
+ 	mei_cldev_set_drvdata(cldev, comp_master);
+-	ret = component_master_add_with_match(&cldev->dev,
+-					      &mei_component_master_ops,
+-					      master_match);
++	ret = component_aggregate_register(&cldev->dev, &mei_aggregate_driver, master_match);
+ 	if (ret < 0) {
+ 		dev_err(&cldev->dev, "Master comp add failed %d\n", ret);
+ 		goto err_exit;
+@@ -196,7 +200,7 @@ static void mei_pxp_remove(struct mei_cl_device *cldev)
+ 	struct i915_pxp_component *comp_master = mei_cldev_get_drvdata(cldev);
+ 	int ret;
  
- 	clk_disable_unprepare(data->bclk);
- 	devm_free_irq(&pdev->dev, data->irq, data);
--	component_master_del(&pdev->dev, &mtk_iommu_com_ops);
-+	component_aggregate_unregister(&pdev->dev, &mtk_iommu_aggregate_driver);
- 	return 0;
- }
+-	component_master_del(&cldev->dev, &mei_component_master_ops);
++	component_aggregate_unregister(&cldev->dev, &mei_aggregate_driver);
+ 	kfree(comp_master);
+ 	mei_cldev_set_drvdata(cldev, NULL);
  
 -- 
 https://chromeos.dev
