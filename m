@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30AE5485F0A
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 03:55:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B13FE485F10
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 04:03:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 192F410E31C;
-	Thu,  6 Jan 2022 02:55:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B76310E3D2;
+	Thu,  6 Jan 2022 03:03:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
- by gabe.freedesktop.org (Postfix) with ESMTP id A3D2110E31C
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 02:55:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4AA7F10E3D2
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 03:03:35 +0000 (UTC)
 Received: from localhost.localdomain (unknown [124.16.138.126])
- by APP-05 (Coremail) with SMTP id zQCowADnyRYsWtZhk4+wBQ--.49235S2;
- Thu, 06 Jan 2022 10:55:40 +0800 (CST)
+ by APP-05 (Coremail) with SMTP id zQCowAD32RYAXNZhvqmwBQ--.52576S2;
+ Thu, 06 Jan 2022 11:03:28 +0800 (CST)
 From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-To: emma@anholt.net, airlied@linux.ie, daniel@ffwll.ch, p.zabel@pengutronix.de
-Subject: [PATCH] drm/v3d/v3d_drv: Check for error num after setting mask
-Date: Thu,  6 Jan 2022 10:55:39 +0800
-Message-Id: <20220106025539.2597562-1-jiasheng@iscas.ac.cn>
+To: robh@kernel.org, tomeu.vizoso@collabora.com, steven.price@arm.com,
+ alyssa.rosenzweig@collabora.com, airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH] drm/panfrost: Check for error num after setting mask
+Date: Thu,  6 Jan 2022 11:03:26 +0800
+Message-Id: <20220106030326.2620942-1-jiasheng@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowADnyRYsWtZhk4+wBQ--.49235S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrtr45Cw13Aw1rGFyDCrW5Awb_yoWDKFgEkr
- 18ur1kWrWDArZ0va17u345ZF90qrZ8uayfuF1Ig3WSqry7Z3W3Xw17Zw1DJr1UZF93KFy5
- W3s2g34SyF9rWjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUb4kFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+X-CM-TRANSID: zQCowAD32RYAXNZhvqmwBQ--.52576S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrtr45Cw13Aw1rGFyDCrW5Awb_yoWkArcEgr
+ 17Zr98XrsFyr1DKw40vay3CFyFvryUAr48Z34Ig3s2k34UCwnrWwnFvFs8ur18uayakryD
+ K3Wvqr15tw1fJjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUb48FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
  6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
- Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
- 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
- 7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
- 1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_
- Gr1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxV
- WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI
- 7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
- 4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWUJVW8
- JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUF3kuDU
- UUU
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+ Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
+ 0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6r48
+ MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr
+ 0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0E
+ wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JV
+ WxJwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
+ IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUb2g4DUUUU
+ U==
 X-Originating-IP: [124.16.138.126]
 X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,29 +65,29 @@ dma_set_mask_and_coherent() may return error num.
 Therefore, it should be better to check it and return the error if
 fails.
 
-Fixes: 334dd38a3878 ("drm/v3d: Set dma_mask as well as coherent_dma_mask")
+Fixes: d9b631f0a0c4 ("drm/panfrost: Set DMA masks earlier")
 Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
 ---
- drivers/gpu/drm/v3d/v3d_drv.c | 5 ++++-
+ drivers/gpu/drm/panfrost/panfrost_gpu.c | 5 ++++-
  1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-index 99e22beea90b..bedd52195723 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.c
-+++ b/drivers/gpu/drm/v3d/v3d_drv.c
-@@ -232,8 +232,11 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
- 		return ret;
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+index 2aae636f1cf5..107ad2d764ec 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+@@ -359,8 +359,11 @@ int panfrost_gpu_init(struct panfrost_device *pfdev)
  
- 	mmu_debug = V3D_READ(V3D_MMU_DEBUG_INFO);
--	dma_set_mask_and_coherent(dev,
-+	ret = dma_set_mask_and_coherent(dev,
- 		DMA_BIT_MASK(30 + V3D_GET_FIELD(mmu_debug, V3D_MMU_PA_WIDTH)));
-+	if (ret)
-+		return ret;
+ 	panfrost_gpu_init_features(pfdev);
+ 
+-	dma_set_mask_and_coherent(pfdev->dev,
++	err = dma_set_mask_and_coherent(pfdev->dev,
+ 		DMA_BIT_MASK(FIELD_GET(0xff00, pfdev->features.mmu_features)));
++	if (err)
++		return err;
 +
- 	v3d->va_width = 30 + V3D_GET_FIELD(mmu_debug, V3D_MMU_VA_WIDTH);
+ 	dma_set_max_seg_size(pfdev->dev, UINT_MAX);
  
- 	ident1 = V3D_READ(V3D_HUB_IDENT1);
+ 	irq = platform_get_irq_byname(to_platform_device(pfdev->dev), "gpu");
 -- 
 2.25.1
 
