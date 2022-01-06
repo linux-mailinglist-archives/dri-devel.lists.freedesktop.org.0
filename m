@@ -2,59 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22923485D92
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 01:50:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8DCF485DCB
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 02:02:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A4AE10E5C9;
-	Thu,  6 Jan 2022 00:50:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E8D910E5B5;
+	Thu,  6 Jan 2022 01:02:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A89C10E5C8;
- Thu,  6 Jan 2022 00:50:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1641430201; x=1672966201;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=3mDDWkL02Un8LANUcOp+p+y4tof1LZKh/RxWNRCnb18=;
- b=EZ7vHSvLihffwts88tmnQqhebOuptgBd8YOSjDzrw+OTzdKtVVRkl2lb
- glcZRYFOEecgy3mGWGbtMwXTx1Y/68IzUC7clQuKTyn3TgC89bQT8shKs
- n7MExIH/PL54eFEFlxpd1Ukpy/vGOS92xima3KVd6r3MrBh4AunN5B+hm I=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 05 Jan 2022 16:50:00 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2022 16:49:59 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Wed, 5 Jan 2022 16:49:59 -0800
-Received: from [10.111.171.132] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Wed, 5 Jan 2022
- 16:49:57 -0800
-Message-ID: <a395313b-5bc8-b980-3b06-c380c0476a87@quicinc.com>
-Date: Wed, 5 Jan 2022 16:45:54 -0800
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com
+ [IPv6:2607:f8b0:4864:20::d29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B989B10E5B5
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 01:02:29 +0000 (UTC)
+Received: by mail-io1-xd29.google.com with SMTP id y70so1257044iof.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Jan 2022 17:02:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MIFRxmXWiEBCiGr15456Pgg06Y+aeSi4XJyFkvrjKcY=;
+ b=YWi65CpZCs2GGkYUWUA+9oQ5itYVgpmPFXUHQhi8B3TMg6XhFy5U+fGdUq21oWo/dB
+ TDI/nlySgRjRy/gbqtKKNYZXShZrx8VtLBM6nKht/ZaExjQIxD4ZpGOJs6D3s8DWreQq
+ SAF/8uVSAr7OkGtIJlg90seeMXjq6K1dJhN9k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MIFRxmXWiEBCiGr15456Pgg06Y+aeSi4XJyFkvrjKcY=;
+ b=Uu0MnNtA040Y5JziyqNjW4Y0v1Y3Qer6uMS6wCKtHvdNxKkNMzm7ta5GP79s9WnepD
+ lYF+SnSn7nRcy13pZCqB8TqcXKnFxs7M4nuuNiqJ6AQq2RAJq/efM7I/D7Ht2VMlyPKn
+ tT60dRbaVTswwmHnTwRmFKxu1gLI1LakuLj+qU1hIcPNRhUi/LOzeQwg2rxSN5BNLjAv
+ cTEsDiNT5gh96HX7Lu8zUEPt2pscBDN4jX7A0sS0nQDzY0QJmOJw6zSzgUHf4Ri/VkCX
+ B7w/QkUA65JqDWY74RyzNje7Ie4dyS3Qe15tydl4GeuA9NT2pjmNkSfjoHF+qQXfXmdL
+ a9+g==
+X-Gm-Message-State: AOAM530jXb4G5PAMgvvXS1PyuxADkS+MidGKCI2V0iJaZDdudwUVebWl
+ qI/6M0XMkKUebsCy6J7DVZqc9Zx3elgsiw==
+X-Google-Smtp-Source: ABdhPJywfkxpBXs60Yu+2PjXXBFLVsBubveQy9avaOzKkmh7ebet0Ohz3eqqH8IRcRjzj1Z3+JlgpQ==
+X-Received: by 2002:a05:6602:2dd0:: with SMTP id
+ l16mr27518249iow.198.1641430948636; 
+ Wed, 05 Jan 2022 17:02:28 -0800 (PST)
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com.
+ [209.85.166.41])
+ by smtp.gmail.com with ESMTPSA id m12sm309994ilu.8.2022.01.05.17.02.28
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 Jan 2022 17:02:28 -0800 (PST)
+Received: by mail-io1-f41.google.com with SMTP id i14so1203216ioj.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Jan 2022 17:02:28 -0800 (PST)
+X-Received: by 2002:a02:294b:: with SMTP id p72mr21568959jap.263.1641430947664; 
+ Wed, 05 Jan 2022 17:02:27 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [Freedreno] [PATCH] drm/msm/dpu: remove extra wrappers around
- dpu_core_irq
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
- <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
- <sean@poorly.run>, Abhinav Kumar <abhinavk@codeaurora.org>
-References: <20211126021809.1105535-1-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20211126021809.1105535-1-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+References: <20211220104855.428290-1-thierry.reding@gmail.com>
+ <20211220104855.428290-3-thierry.reding@gmail.com>
+In-Reply-To: <20211220104855.428290-3-thierry.reding@gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 5 Jan 2022 17:02:16 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=WV2dsmRL0bVXz9jTgyy1zQpDjzrM=XDO=2rxsks=70rA@mail.gmail.com>
+Message-ID: <CAD=FV=WV2dsmRL0bVXz9jTgyy1zQpDjzrM=XDO=2rxsks=70rA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] ARM: tegra: Move panels to AUX bus
+To: Thierry Reding <thierry.reding@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,148 +71,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- freedreno@lists.freedesktop.org
+Cc: Thomas Graichen <thomas.graichen@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Jon Hunter <jonathanh@nvidia.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
+ Dmitry Osipenko <digetx@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-
-On 11/25/2021 6:18 PM, Dmitry Baryshkov wrote:
-> Remove extra dpu_irq_* wrappers from dpu_kms.c, merge them directly into
-> dpu_core_irq_* functions.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+On Mon, Dec 20, 2021 at 2:49 AM Thierry Reding <thierry.reding@gmail.com> wrote:
+>
+> From: Thierry Reding <treding@nvidia.com>
+>
+> Move the eDP panel on Venice 2 and Nyan boards into the corresponding
+> AUX bus device tree node. This allows us to avoid a nasty circular
+> dependency that would otherwise be created between the DPAUX and panel
+> nodes via the DDC/I2C phandle.
+>
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
 > ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h  | 12 ++++-----
->   .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c |  9 ++++---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       | 27 +++----------------
->   3 files changed, 15 insertions(+), 33 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h
-> index 90ae6c9ccc95..7023ccb79814 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h
-> @@ -10,24 +10,24 @@
->   
->   /**
->    * dpu_core_irq_preinstall - perform pre-installation of core IRQ handler
-> - * @dpu_kms:		DPU handle
-> + * @kms:		MSM KMS handle
->    * @return:		none
->    */
-> -void dpu_core_irq_preinstall(struct dpu_kms *dpu_kms);
-> +void dpu_core_irq_preinstall(struct msm_kms *kms);
->   
->   /**
->    * dpu_core_irq_uninstall - uninstall core IRQ handler
-> - * @dpu_kms:		DPU handle
-> + * @kms:		MSM KMS handle
->    * @return:		none
->    */
-> -void dpu_core_irq_uninstall(struct dpu_kms *dpu_kms);
-> +void dpu_core_irq_uninstall(struct msm_kms *kms);
->   
->   /**
->    * dpu_core_irq - core IRQ handler
-> - * @dpu_kms:		DPU handle
-> + * @kms:		MSM KMS handle
->    * @return:		interrupt handling status
->    */
-> -irqreturn_t dpu_core_irq(struct dpu_kms *dpu_kms);
-> +irqreturn_t dpu_core_irq(struct msm_kms *kms);
->   
->   /**
->    * dpu_core_irq_read - IRQ helper function for reading IRQ status
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> index fc1b6c47c93d..d76edf55693a 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> @@ -144,8 +144,9 @@ static void dpu_core_irq_callback_handler(struct dpu_kms *dpu_kms, int irq_idx)
->   			cb->func(cb->arg, irq_idx);
->   }
->   
-> -irqreturn_t dpu_core_irq(struct dpu_kms *dpu_kms)
-> +irqreturn_t dpu_core_irq(struct msm_kms *kms)
->   {
-> +	struct dpu_kms *dpu_kms = to_dpu_kms(kms);
->   	struct dpu_hw_intr *intr = dpu_kms->hw_intr;
->   	int reg_idx;
->   	int irq_idx;
-> @@ -551,8 +552,9 @@ void dpu_debugfs_core_irq_init(struct dpu_kms *dpu_kms,
->   }
->   #endif
->   
-> -void dpu_core_irq_preinstall(struct dpu_kms *dpu_kms)
-> +void dpu_core_irq_preinstall(struct msm_kms *kms)
->   {
-> +	struct dpu_kms *dpu_kms = to_dpu_kms(kms);
->   	int i;
->   
->   	pm_runtime_get_sync(&dpu_kms->pdev->dev);
-> @@ -571,8 +573,9 @@ void dpu_core_irq_preinstall(struct dpu_kms *dpu_kms)
->   	}
->   }
->   
-> -void dpu_core_irq_uninstall(struct dpu_kms *dpu_kms)
-> +void dpu_core_irq_uninstall(struct msm_kms *kms)
->   {
-> +	struct dpu_kms *dpu_kms = to_dpu_kms(kms);
->   	int i;
->   
->   	if (!dpu_kms->hw_intr)
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index a15b26428280..704474c4d655 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -784,20 +784,6 @@ static void dpu_kms_destroy(struct msm_kms *kms)
->   	msm_kms_destroy(&dpu_kms->base);
->   }
->   
-> -static irqreturn_t dpu_irq(struct msm_kms *kms)
-> -{
-> -	struct dpu_kms *dpu_kms = to_dpu_kms(kms);
+>  arch/arm/boot/dts/tegra124-nyan-big.dts   | 15 +++++++++------
+>  arch/arm/boot/dts/tegra124-nyan-blaze.dts | 15 +++++++++------
+>  arch/arm/boot/dts/tegra124-venice2.dts    | 14 +++++++-------
+>  3 files changed, 25 insertions(+), 19 deletions(-)
+>
+> diff --git a/arch/arm/boot/dts/tegra124-nyan-big.dts b/arch/arm/boot/dts/tegra124-nyan-big.dts
+> index 1d2aac2cb6d0..fdc1d64dfff9 100644
+> --- a/arch/arm/boot/dts/tegra124-nyan-big.dts
+> +++ b/arch/arm/boot/dts/tegra124-nyan-big.dts
+> @@ -13,12 +13,15 @@ / {
+>                      "google,nyan-big-rev1", "google,nyan-big-rev0",
+>                      "google,nyan-big", "google,nyan", "nvidia,tegra124";
+>
+> -       panel: panel {
+> -               compatible = "auo,b133xtn01";
 > -
-> -	return dpu_core_irq(dpu_kms);
-> -}
-> -
-> -static void dpu_irq_preinstall(struct msm_kms *kms)
-> -{
-> -	struct dpu_kms *dpu_kms = to_dpu_kms(kms);
-> -
-> -	dpu_core_irq_preinstall(dpu_kms);
-> -}
-> -
->   static int dpu_irq_postinstall(struct msm_kms *kms)
->   {
->   	struct msm_drm_private *priv;
-> @@ -817,13 +803,6 @@ static int dpu_irq_postinstall(struct msm_kms *kms)
->   	return 0;
->   }
->   
-> -static void dpu_irq_uninstall(struct msm_kms *kms)
-> -{
-> -	struct dpu_kms *dpu_kms = to_dpu_kms(kms);
-> -
-> -	dpu_core_irq_uninstall(dpu_kms);
-> -}
-> -
->   static void dpu_kms_mdp_snapshot(struct msm_disp_state *disp_state, struct msm_kms *kms)
->   {
->   	int i;
-> @@ -871,10 +850,10 @@ static void dpu_kms_mdp_snapshot(struct msm_disp_state *disp_state, struct msm_k
->   
->   static const struct msm_kms_funcs kms_funcs = {
->   	.hw_init         = dpu_kms_hw_init,
-> -	.irq_preinstall  = dpu_irq_preinstall,
-> +	.irq_preinstall  = dpu_core_irq_preinstall,
->   	.irq_postinstall = dpu_irq_postinstall,
-> -	.irq_uninstall   = dpu_irq_uninstall,
-> -	.irq             = dpu_irq,
-> +	.irq_uninstall   = dpu_core_irq_uninstall,
-> +	.irq             = dpu_core_irq,
->   	.enable_commit   = dpu_kms_enable_commit,
->   	.disable_commit  = dpu_kms_disable_commit,
->   	.vsync_time      = dpu_kms_vsync_time,
+> -               power-supply = <&vdd_3v3_panel>;
+
+You remove the "power-supply" line here but don't add it below. Isn't
+that a problem? power-supply for the panel is listed as "required" in
+the panel dt bindings so I presume this will increase validation
+warnings?
+
+
+> -               backlight = <&backlight>;
+> -               ddc-i2c-bus = <&dpaux>;
+> +       host1x@50000000 {
+> +               dpaux@545c0000 {
+
+Optional nit: on other SoC dts files I've always had the policy to try
+to avoid replicating hierarchies like this (host1x@50000000 =>
+dpaux@545c0000). Instead I'd express this as:
+
+&dpaux {
+  aux-bux {
+    panel: panel {
+      ...
+    };
+  };
+};
+
+
+> +                       aux-bus {
+> +                               panel: panel {
+> +                                       compatible = "auo,b133xtn01";
+> +                                       backlight = <&backlight>;
+
+nit: In theory the "backlight" could go in tegra124-nyan.dtsi, right?
+Then you just need to override the compatible...
+
+
+-Doug
