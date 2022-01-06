@@ -1,54 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC9B3486428
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 13:13:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D82448642D
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 13:16:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF35210E49D;
-	Thu,  6 Jan 2022 12:13:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5927810E6A7;
+	Thu,  6 Jan 2022 12:16:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE1FC10E49D;
- Thu,  6 Jan 2022 12:13:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1641471221; x=1673007221;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Vj3fv3q5ags9sOnzRGnsvrg/V9fvvcNCaf9+aUh2DrA=;
- b=UvtAfklKPm53lYpPZjWmiK/8gXHt6pkFPKNXaf8FYQWJ8dPUWA/H2YBX
- wm8wuQUca6NlG1awFJl5WSZ/dp819VIxOoMY1In1KubPWEjH3bAXLRJbj
- a1/NesiluQ7xjGbySoaEZK2KvVA2wWMePGm3P4N1cSbT1wYjsGHhLTO4B
- sb4GIq7hG7ui9Yklq1Bmcwv4Hia2vJ48HPuMyrmDt8erFrXS4tw3OnXxv
- L2u1iAQ6hd3GLg51YJOslkEyKukVCz4VS5lSE8EV06n86GwE0zl9GOOJn
- kKDpf4GJl7U1cUXCjqRhQFecdogAdf0V8vjG/cn0wLCukfpVLeoeuhxlH g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="242600424"
-X-IronPort-AV: E=Sophos;i="5.88,266,1635231600"; d="scan'208";a="242600424"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jan 2022 04:13:40 -0800
-X-IronPort-AV: E=Sophos;i="5.88,266,1635231600"; d="scan'208";a="761147185"
-Received: from lsgoh-mobl1.gar.corp.intel.com (HELO [10.249.65.184])
- ([10.249.65.184])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jan 2022 04:13:37 -0800
-Message-ID: <367d85bb-aa50-d7c5-e219-e5773b7a295d@intel.com>
-Date: Thu, 6 Jan 2022 12:13:32 +0000
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
+ [IPv6:2607:f8b0:4864:20::1030])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B83510E6A7
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 12:16:10 +0000 (UTC)
+Received: by mail-pj1-x1030.google.com with SMTP id
+ l10-20020a17090a384a00b001b22190e075so8237055pjf.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Jan 2022 04:16:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=ezhOL9IQmLkdhn7bT2hYUZscONiXzj3Zulc4AqaqV74=;
+ b=VWuYcofoSfJWAV4N8jaIG1D93UCOzzLF4pnjMZckQdHuwfgaz+x204qWdN4QF4YoRD
+ jjXdv6nQCa0cdQvhgmsH706TQG5JQqC2UipfolVHtapLb6VJ6mjx3mvAMAvJ9Ooi5nB6
+ CRsCNuUmRVJtehrSnmYuebPoAmJSgHGuYmCNi47cAYBd27WmmUPIrHfBja4EQVUVAYvE
+ xHEMWdoc093Hihp5ksbATTC/pSlSafiFyvDCnDXh1YrfV/2OCzLMdP60JaQ0C2aNaVkj
+ tim9w33+IK49XDuWb+ftGMo9xZMAsOF+xNjlHqYS+VRwvF0me3YYKY1Vt79vdnY/4VeR
+ RXUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=ezhOL9IQmLkdhn7bT2hYUZscONiXzj3Zulc4AqaqV74=;
+ b=u3W1OYKY7UnA5x9HrqUCHrB3VE7uEyWGUvqnI+OwsCm1sGqsNE6XRBFuUgCndif9rw
+ f7QqVqD2lxuUUfI1Pmuz6gB7uaXGs8vRe/qHw5gksweHFCkm0TwInhZrvYVSSd3dzmsa
+ D3RTgNqMp8FJsMShKS29MfBdCSpH1LfJYaCRGZnuJx8PCQ5iE/hSOifsjQj2XV01BZFM
+ FgwAltZ/7yIURtWmK9b/Hi8sPi0ADnOZK0gkEtqwM1ZQGYrIBJZc73rlMsL7XSm+tldp
+ PXZCOB5Q5s17J62/9iT/FXE4pYyeRVxheAYSjh4rNvWOLm6UgrB1Sfu+srDyZKve19UC
+ LNaA==
+X-Gm-Message-State: AOAM5320IZq1g44t5DmI/Hf4TcHCtG2eDOHdIrguno4hhay4TfTb82nH
+ GSp2qwI40kfegZJ3DDT10Lg=
+X-Google-Smtp-Source: ABdhPJzV2qd7Kyc2ZIOHuzuuD3AFWMO67x7jgDMNj2Z9+hCizMBZuXOekzZfGXgf9RDEl+VUGs7ztA==
+X-Received: by 2002:a17:90b:4f4a:: with SMTP id
+ pj10mr9731709pjb.112.1641471369839; 
+ Thu, 06 Jan 2022 04:16:09 -0800 (PST)
+Received: from 8345e2a12d0c ([159.226.95.43])
+ by smtp.gmail.com with ESMTPSA id b5sm2401828pfm.155.2022.01.06.04.16.07
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 06 Jan 2022 04:16:09 -0800 (PST)
+Date: Thu, 6 Jan 2022 12:16:05 +0000
+From: Miaoqian Lin <linmq006@gmail.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Subject: Re: [PATCH] phy: mediatek: Fix missing check in mtk_mipi_tx_probe
+Message-ID: <20220106121524.GA25165@8345e2a12d0c>
+References: <20211224082103.7658-1-linmq006@gmail.com>
+ <CAAOTY_-7-BrnkPk_5V5y20F6fX3X8Vm0tcYAA=1DNCnxjvNF8A@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v5 4/6] drm/i915: Use vma resources for async unbinding
-Content-Language: en-GB
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20220104125132.35179-1-thomas.hellstrom@linux.intel.com>
- <20220104125132.35179-5-thomas.hellstrom@linux.intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20220104125132.35179-5-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAOTY_-7-BrnkPk_5V5y20F6fX3X8Vm0tcYAA=1DNCnxjvNF8A@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,72 +71,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-phy@lists.infradead.org, linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Kishon Vijay Abraham I <kishon@ti.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Vinod Koul <vkoul@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/01/2022 12:51, Thomas Hellström wrote:
-> Implement async (non-blocking) unbinding by not syncing the vma before
-> calling unbind on the vma_resource.
-> Add the resulting unbind fence to the object's dma_resv from where it is
-> picked up by the ttm migration code.
-> Ideally these unbind fences should be coalesced with the migration blit
-> fence to avoid stalling the migration blit waiting for unbind, as they
-> can certainly go on in parallel, but since we don't yet have a
-> reasonable data structure to use to coalesce fences and attach the
-> resulting fence to a timeline, we defer that for now.
+Hi, Chun-Kuang:
+
+On Fri, Dec 31, 2021 at 12:31:33AM +0800, Chun-Kuang Hu wrote:
+> > diff --git a/drivers/phy/mediatek/phy-mtk-mipi-dsi.c b/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
+> > index 28ad9403c441..67b005d5b9e3 100644
+> > --- a/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
+> > +++ b/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
+> > @@ -146,6 +146,8 @@ static int mtk_mipi_tx_probe(struct platform_device *pdev)
+> >                 return -ENOMEM;
+> >
+> >         mipi_tx->driver_data = of_device_get_match_data(dev);
+> > +       if (!mipi_tx->driver_data)
 > 
-> Note that with async unbinding, even while the unbind waits for the
-> preceding bind to complete before unbinding, the vma itself might have been
-> destroyed in the process, clearing the vma pages. Therefore we can
-> only allow async unbinding if we have a refcounted sg-list and keep a
-> refcount on that for the vma resource pages to stay intact until
-> binding occurs. If this condition is not met, a request for an async
-> unbind is diverted to a sync unbind.
-> 
-> v2:
-> - Use a separate kmem_cache for vma resources for now to isolate their
->    memory allocation and aid debugging.
-> - Move the check for vm closed to the actual unbinding thread. Regardless
->    of whether the vm is closed, we need the unbind fence to properly wait
->    for capture.
-> - Clear vma_res::vm on unbind and update its documentation.
-> v4:
-> - Take cache coloring into account when searching for vma resources
->    pending unbind. (Matthew Auld)
-> v5:
-> - Fix timeout and error check in i915_vma_resource_bind_dep_await().
-> - Avoid taking a reference on the object for async binding if
->    async unbind capable.
-> - Fix braces around a single-line if statement.
-> 
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> ---
+> I'm confused. mtk_mipi_tx_probe() is called because this device node's
+> compatible match one in mtk_mipi_tx_match[]. So I think the return
+> value of of_device_get_match_data(dev) would not be NULL. If this is
+> true, this checking is redundant.
+>
+I think your are right, this checking is redundant. Thanks for your
+reply.
 
-<snip>
-
-> +
-> +static void
-> +i915_vma_resource_color_adjust_range(struct i915_address_space *vm,
-> +				     unsigned long *start,
-> +				     unsigned long *end)
-
-Make these u64, below also? Just in case this is 32b?
-
-> +{
-> +	if (i915_vm_has_cache_coloring(vm)) {
-> +		if (start)
-> +			start -= I915_GTT_PAGE_SIZE;
-> +		end += I915_GTT_PAGE_SIZE;
-
-*start *end :)
-
-> +	}
-
-else {
-     WARN_ON_ONCE(vm->color_adjust);
-}
-
-?
-
-> +}
-
+Regards,
+Miaoqian.
