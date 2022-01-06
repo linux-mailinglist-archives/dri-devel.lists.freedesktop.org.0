@@ -2,44 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A384A4863A0
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 12:20:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CB684863A3
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 12:20:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5089210E6CD;
-	Thu,  6 Jan 2022 11:20:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0576C10E6FC;
+	Thu,  6 Jan 2022 11:20:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 400C110E6CD;
- Thu,  6 Jan 2022 11:20:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06F4A10E75F;
+ Thu,  6 Jan 2022 11:20:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1641468043; x=1673004043;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=9UUfIakJFEIFcVy2zf3eVamvfxFBZePzHHEtcL/2UqE=;
- b=g2orHznku4X1zofi9B1Bk8V0RheEzhHFytmQC1jsZFX+BbB6MuqWzOiM
- 9vnUtivZYdjOg7kwOYQbobU9nqjNL5YXM+21iH8SK6xTHvbmITOumD7Ag
- 54rE9CSNwjPsar1XzXmMmXD3WLWeKrqj1taPqM0gEf4bMcF8od/z/6N+p
- mLX+pr30GOnjFiP4/hxzubWjzw2EnjKrtI5EoKkZM9ZyKTz6ZzDCX26Oi
- zHje/4xb6qdUQonVbSVAhrX18EH0dPcgo6Cq3Xx4XV5QhTXFmrFpHXigJ
- 4zMGG0Go0BLHfwl6YqbHE5uYQFKi2idHQzul3elkbfzjrKwi64KKhqDp6 Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="305992102"
-X-IronPort-AV: E=Sophos;i="5.88,266,1635231600"; d="scan'208";a="305992102"
+ t=1641468045; x=1673004045;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=tYmFGUZUQmsuiiMhTM3+0FrldAQob4FPAHSWtOh9p14=;
+ b=ROR7yKWUjQsCGDqvg0UUQRY110xxS3whtXxXI41w0eafynr56Jqii9RZ
+ WyAaUEZKFqYPSRhRbtZUr3tgUxZcx3WTarQoq+ehuKIhkULM1jhoKifkn
+ RbqMKq3YDp5NBjKtkCr9yC0kat0N3Ni88GQZQvxQsxjrCbcPA6xiZfxg3
+ FZQ2Rz0vXZd0WkXxolK1df2v+5ni00GymqjxowVTTTbTc2L35Fdlxq9NY
+ 0GALsjPKh89oYPUZSreoibAwt/i5poZpYWn4NP80BrEBb2M4AeqH6D0px
+ dTnWD5dvquEb+al8kgIYSfKqs3jMM+XUnF74PSA519i9mK8pDIrsuD2YY Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="305992104"
+X-IronPort-AV: E=Sophos;i="5.88,266,1635231600"; d="scan'208";a="305992104"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jan 2022 03:20:42 -0800
-X-IronPort-AV: E=Sophos;i="5.88,266,1635231600"; d="scan'208";a="556892130"
+ 06 Jan 2022 03:20:44 -0800
+X-IronPort-AV: E=Sophos;i="5.88,266,1635231600"; d="scan'208";a="556892141"
 Received: from lsgoh-mobl1.gar.corp.intel.com (HELO mwauld-desk1.intel.com)
  ([10.249.65.184])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jan 2022 03:20:39 -0800
+ 06 Jan 2022 03:20:42 -0800
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 1/4] drm/i915: don't call free_mmap_offset when purging
-Date: Thu,  6 Jan 2022 11:20:23 +0000
-Message-Id: <20220106112026.247459-1-matthew.auld@intel.com>
+Subject: [PATCH v2 2/4] drm/i915/ttm: only fault WILLNEED objects
+Date: Thu,  6 Jan 2022 11:20:24 +0000
+Message-Id: <20220106112026.247459-2-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20220106112026.247459-1-matthew.auld@intel.com>
+References: <20220106112026.247459-1-matthew.auld@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -60,67 +62,33 @@ Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The TTM backend is in theory the only user here(also purge should only
-be called once we have dropped the pages), where it is setup at object
-creation and is only removed once the object is destroyed. Also
-resetting the node here might be iffy since the ttm fault handler
-uses the stored fake offset to determine the page offset within the pages
-array.
+Don't attempt to fault and re-populate purged objects. By some fluke
+this passes the dontneed-after-mmap IGT, but for the wrong reasons.
 
-This also blows up in the dontneed-before-mmap test, since the
-expectation is that the vma_node will live on, until the object is
-destroyed:
-
-<2> [749.062902] kernel BUG at drivers/gpu/drm/i915/gem/i915_gem_ttm.c:943!
-<4> [749.062923] invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
-<4> [749.062928] CPU: 0 PID: 1643 Comm: gem_madvise Tainted: G     U  W         5.16.0-rc8-CI-CI_DRM_11046+ #1
-<4> [749.062933] Hardware name: Gigabyte Technology Co., Ltd. GB-Z390 Garuda/GB-Z390 Garuda-CF, BIOS IG1c 11/19/2019
-<4> [749.062937] RIP: 0010:i915_ttm_mmap_offset.cold.35+0x5b/0x5d [i915]
-<4> [749.063044] Code: 00 48 c7 c2 a0 23 4e a0 48 c7 c7 26 df 4a a0 e8 95 1d d0 e0 bf 01 00 00 00 e8 8b ec cf e0 31 f6 bf 09 00 00 00 e8 5f 30 c0 e0 <0f> 0b 48 c7 c1 24 4b 56 a0 ba 5b 03 00 00 48 c7 c6 c0 23 4e a0 48
-<4> [749.063052] RSP: 0018:ffffc90002ab7d38 EFLAGS: 00010246
-<4> [749.063056] RAX: 0000000000000240 RBX: ffff88811f2e61c0 RCX: 0000000000000006
-<4> [749.063060] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000009
-<4> [749.063063] RBP: ffffc90002ab7e58 R08: 0000000000000001 R09: 0000000000000001
-<4> [749.063067] R10: 000000000123d0f8 R11: ffffc90002ab7b20 R12: ffff888112a1a000
-<4> [749.063071] R13: 0000000000000004 R14: ffff88811f2e61c0 R15: ffff888112a1a000
-<4> [749.063074] FS:  00007f6e5fcad500(0000) GS:ffff8884ad600000(0000) knlGS:0000000000000000
-<4> [749.063078] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-<4> [749.063081] CR2: 00007efd264e39f0 CR3: 0000000115fd6005 CR4: 00000000003706f0
-<4> [749.063085] Call Trace:
-<4> [749.063087]  <TASK>
-<4> [749.063089]  __assign_mmap_offset+0x41/0x300 [i915]
-<4> [749.063171]  __assign_mmap_offset_handle+0x159/0x270 [i915]
-<4> [749.063248]  ? i915_gem_dumb_mmap_offset+0x70/0x70 [i915]
-<4> [749.063325]  drm_ioctl_kernel+0xae/0x140
-<4> [749.063330]  drm_ioctl+0x201/0x3d0
-<4> [749.063333]  ? i915_gem_dumb_mmap_offset+0x70/0x70 [i915]
-<4> [749.063409]  ? do_user_addr_fault+0x200/0x670
-<4> [749.063415]  __x64_sys_ioctl+0x6d/0xa0
-<4> [749.063419]  do_syscall_64+0x3a/0xb0
-<4> [749.063423]  entry_SYSCALL_64_after_hwframe+0x44/0xae
-<4> [749.063428] RIP: 0033:0x7f6e5f100317
-
-Testcase: igt/gem_madvise/dontneed-before-mmap
 Fixes: cf3e3e86d779 ("drm/i915: Use ttm mmap handling for ttm bo's.")
 Signed-off-by: Matthew Auld <matthew.auld@intel.com>
 Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_pages.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-index 89b70f5cde7a..9f429ed6e78a 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-@@ -161,7 +161,6 @@ int i915_gem_object_pin_pages_unlocked(struct drm_i915_gem_object *obj)
- /* Immediately discard the backing storage */
- int i915_gem_object_truncate(struct drm_i915_gem_object *obj)
- {
--	drm_gem_free_mmap_offset(&obj->base);
- 	if (obj->ops->truncate)
- 		return obj->ops->truncate(obj);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+index 923cc7ad8d70..8d61d4538a64 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -883,6 +883,11 @@ static vm_fault_t vm_fault_ttm(struct vm_fault *vmf)
+ 	if (ret)
+ 		return ret;
  
++	if (obj->mm.madv != I915_MADV_WILLNEED) {
++		dma_resv_unlock(bo->base.resv);
++		return VM_FAULT_SIGBUS;
++	}
++
+ 	if (drm_dev_enter(dev, &idx)) {
+ 		ret = ttm_bo_vm_fault_reserved(vmf, vmf->vma->vm_page_prot,
+ 					       TTM_BO_VM_NUM_PREFAULT);
 -- 
 2.31.1
 
