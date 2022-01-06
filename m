@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C22F0485E6D
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 03:07:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 201C5485E77
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 03:11:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1826910E575;
-	Thu,  6 Jan 2022 02:07:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B20210E54C;
+	Thu,  6 Jan 2022 02:11:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
- [IPv6:2607:f8b0:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70AFA10E56E
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 02:07:12 +0000 (UTC)
-Received: by mail-oi1-x235.google.com with SMTP id i9so1721624oih.4
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Jan 2022 18:07:12 -0800 (PST)
+Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com
+ [IPv6:2607:f8b0:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09D6410E567
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 02:11:37 +0000 (UTC)
+Received: by mail-oi1-x234.google.com with SMTP id w7so1816314oiw.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Jan 2022 18:11:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=N8EyGGSmrvvI6zU1aQmKy8o54cZnNfEr69UiGzAV5Xg=;
- b=NxFVhNfzmEq5RCDmuy44ry2eINp5RIBA/UI9lnUXVtNeRh1g4inZSBQgJsaOiHkpuZ
- M8H0h59pBbxHadQ2QoWie5KzIFcXOp4pq8Fe+9w4RMK8jtEGvk+ZQ+f64XTDbv5wcr+Q
- op3ubfY18FPsSkmWAWki/KrbF3BFhxuvFOAu0=
+ bh=q2VQMTLj5iMfGBhNI/dlyoIBVmaRNduV4g9FSAc5d0Q=;
+ b=HAVqmktk9jdmgZuflgaqkWXgkT6HjjILGQc4nyrtPjXqB/28cq964Ts7Dx4YSVx+nZ
+ lvMilO6WZjQUOE7DcdMRpEeflvrwsEdmHMJw3y1+54jjelilqM1XnGYhpkyKEdLGD4is
+ 5wV0VP6y2BEak1xFEQq6CQf3jXLQX5hdP559w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=N8EyGGSmrvvI6zU1aQmKy8o54cZnNfEr69UiGzAV5Xg=;
- b=wE1/UGAoWMhJ7Dt0g19aRD0yT590FZUyGUFSd5Na6DkKfduMigRX8uF7HD4tQN7aNs
- hv813oH1rVV5TfsZMEdLa3qV6JOCbcV10mfKzk7Di5aW1lEKhUdy6XnA3j0bgjAy5rOx
- Uje0TgCdUEWWEuXhFhl7ZO/5kClfm9C8XnPnZWrnai5peszv3+FChcFnsQA/69xOHaEg
- Of5ghSngWMF3PuBmp2oBMGIWjVs3H+3b4Foc3IQstyYMRqJC104D9IU5yUo9FkIFO/fu
- 09yR7hK8GPZDjVS+BDWXm4muIO3IhtzQHca8fujtB6rK7AjS0JhIrYWnh6fJYBNDdYFH
- Hxvw==
-X-Gm-Message-State: AOAM531TVDbA8IT/VQZRC9WUglHcd1kuFy/imRu6agDIACGHQyVC5G1t
- flF+OSv3uU9sWOiMUp656+0WH4bdgwCeFmSAax9wTA==
-X-Google-Smtp-Source: ABdhPJwMibIsFOJg1O7S6ixK9lYcwLkrgBiGvGU8C/v/R7joI0S4Kl3kddaxfXVhULAlQHivvDuZi7OlcYqOesAmHjQ=
-X-Received: by 2002:aca:a953:: with SMTP id s80mr4711191oie.164.1641434831728; 
- Wed, 05 Jan 2022 18:07:11 -0800 (PST)
+ bh=q2VQMTLj5iMfGBhNI/dlyoIBVmaRNduV4g9FSAc5d0Q=;
+ b=HIqXHqlJrvCQHUoqEQCGarFXYWaqlqlmHnka1qJNaGkZ3oeXqMtvsZkP9KiCViX57N
+ 1dwHrKEowC1QiWYAbY/O3ZJbhwpjpmIF/eJKdcYWkERwMWlHYD2grWRHuXmYRTJNR/o0
+ /d/gAAPGgUgeGH3qymvWpsiuvH0FPT4ZNo8YH5xdg5vrZPJ0kee537XPZ69zpICrIgOm
+ QuZJJ6KjRYbRBshAFsAQCPhv9EFDsUTbqBUn1ZNS1qTOwfGCxRLj7tqVFZ6Uw418TiC9
+ on/xquDYIZAni+4Uj9c326vFEcgjLRJ2sJWo8xvCIDVjJ7K2jb4P9WCUEt3orDeynFve
+ vTLA==
+X-Gm-Message-State: AOAM530M2//u3+sVrw5M+nH8+cJz3oJTNWd/r/ou3TlVWVDgfsr52M2P
+ GU9t4LwNIOzyew6KuHKaoGLmRJ8gPs7CuZHNlCPDXA==
+X-Google-Smtp-Source: ABdhPJwpP4rARq+ZNtjjgLJ5aaz4xxbiA6N8LCGM1f9VveTOLHPxVsLehRjSQTj+a9Afka6xm71L9rlxNmHRbUONRxc=
+X-Received: by 2002:a54:4710:: with SMTP id k16mr4656667oik.32.1641435096318; 
+ Wed, 05 Jan 2022 18:11:36 -0800 (PST)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 5 Jan 2022 18:07:11 -0800
+ HTTPREST; Wed, 5 Jan 2022 18:11:35 -0800
 MIME-Version: 1.0
-In-Reply-To: <1640856276-14697-2-git-send-email-quic_rajeevny@quicinc.com>
-References: <1640856276-14697-1-git-send-email-quic_rajeevny@quicinc.com>
- <1640856276-14697-2-git-send-email-quic_rajeevny@quicinc.com>
+In-Reply-To: <YcGeKpy/oecKlKZg@kroah.com>
+References: <20211202222732.2453851-1-swboyd@chromium.org>
+ <20211202222732.2453851-2-swboyd@chromium.org>
+ <YcGeKpy/oecKlKZg@kroah.com>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.9.1
-Date: Wed, 5 Jan 2022 18:07:11 -0800
-Message-ID: <CAE-0n52xCvmFe4O9LfoHe7zSaWGH2dF2GGhROr60tb-DV=V8Sg@mail.gmail.com>
-Subject: Re: [v1 1/2] dt-bindings: msm/dsi: Add 10nm dsi phy tuning properties
-To: Rajeev Nandan <quic_rajeevny@quicinc.com>, devicetree@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org
+Date: Wed, 5 Jan 2022 18:11:35 -0800
+Message-ID: <CAE-0n52E-9T0X8COP0EhnjCK8iieSD0Vy_0f9-v8JX7ZshZ_0A@mail.gmail.com>
+Subject: Re: [PATCH v4 01/34] component: Introduce struct aggregate_device
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,57 +64,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, jonathan@marek.ca, airlied@linux.ie,
- linux-kernel@vger.kernel.org, quic_abhinavk@quicinc.com, robh+dt@kernel.org,
- quic_mkrishn@quicinc.com, dmitry.baryshkov@linaro.org, sean@poorly.run
+Cc: Saravana Kannan <saravanak@google.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Russell King <rmk+kernel@arm.linux.org.uk>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Rajeev Nandan (2021-12-30 01:24:35)
-> Add 10nm dsi phy tuning properties for phy drive strength and
-> phy drive level adjustemnt.
-
-s/adjustemnt/adjustment/
-
-Please add the details about parasitics and eye shape tuning to this
-commit text.
-
+Quoting Greg Kroah-Hartman (2021-12-21 01:28:10)
+> On Thu, Dec 02, 2021 at 02:26:59PM -0800, Stephen Boyd wrote:
+> > Replace 'struct master' with 'struct aggregate_device' and then rename
+> > 'master' to 'adev' everywhere in the code. While we're here, put a
+> > struct device inside the aggregate device so that we can register it
+> > with a bus_type in the next patch.
 >
-> Signed-off-by: Rajeev Nandan <quic_rajeevny@quicinc.com>
-> ---
->  .../devicetree/bindings/display/msm/dsi-phy-10nm.yaml | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
+> Do not do a "while we are here" type change please.  Do the
+> rename/replace first, and then make the other change.
 >
-> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
-> index 4399715..9406982 100644
-> --- a/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
-> @@ -35,6 +35,18 @@ properties:
->        Connected to DSI0_MIPI_DSI_PLL_VDDA0P9 pin for sc7180 target and
->        connected to VDDA_MIPI_DSI_0_PLL_0P9 pin for sdm845 target
+> > The diff is large but that's because this is mostly a rename, where
+> > sometimes 'master' is replaced with 'adev' and other times it is
+> > replaced with 'parent' to indicate that the struct device that was being
+> > used is actually the parent of the aggregate device and driver.
 >
-> +  phy-drive-strength-cfg:
-> +    type: array
-> +    description:
-> +      Register values of DSIPHY_RESCODE_OFFSET_TOP and DSIPHY_RESCODE_OFFSET_BOT
-> +      for all five lanes to adjust the phy drive strength.
-> +
-> +  phy-drive-level-cfg:
-> +    type: array
-> +    description:
-> +      Register values of DSIPHY_RESCODE_OFFSET_TOP for all five lanes to adjust
-> +      phy drive level/amplitude.
+> The diff is 15 lines, how is that "large"?
+>
 
-It would be better to put human understandable values into DT here. This
-looks like a black box to anyone outside of qcom, so they won't know how
-to tune or set these register values.
-
-At least for phy-drive-level-cfg it sounds like it could be some sort of
-property that is a u32 array of 5 elements for each lane indicating some
-sort of amplitude, i.e.
-
-	phy-max-amplitudes = <0 1 2 3 4>;
-	phy-min-amplitudes = <0 1 2 3 4>;
-
-where each index corresponds to a particular lane. Then the driver can
-parse the amplitude and convert it into some sort of register value.
+Looks like I forgot to remove this chunk of commit text while splitting
+the change earlier. Will fix it up now.
