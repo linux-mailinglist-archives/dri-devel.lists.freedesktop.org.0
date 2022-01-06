@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C68D7485CE4
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 01:07:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5E85485CE5
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 01:07:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6269C10E534;
-	Thu,  6 Jan 2022 00:07:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76F2410E53B;
+	Thu,  6 Jan 2022 00:07:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7663110E53A
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 00:07:23 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CC9510E537
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 00:07:25 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id ECDD5619C2;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 550E7619BA;
+ Thu,  6 Jan 2022 00:07:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8AA8C36AEB;
  Thu,  6 Jan 2022 00:07:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9B32C36AED;
- Thu,  6 Jan 2022 00:07:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1641427641;
- bh=FzOZFXfRW7iKLHtKUv+FE2m7xC0KfPGeO0MaK0M98W4=;
+ s=k20201202; t=1641427643;
+ bh=QvBYfgQFxgIJLEsygEejf0q/8P2zDm4EbtVDmjAMLW4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=o0qhmJ3j/G2mtIHKxxqDDBK1w8cAKjIiIDTOyQxWV9nWlovR9m7yu+gurMc+WaHLx
- Gr00tvZAi7o51MYsw0ADN20Em4bZxOutyOV0QG+B+mKt3DLmn1yAnTQpD8DF0NChbU
- KGY+fDB8UbgkxgAasbJj05PMqIDilNVE29GmnyRz1AlXgI6YxbcYifjba7dimxKo8j
- IpuEM2z4nEHSQvFts9jJt0jpbPPZyFsFejCnCoYXG8BTm/nZtoo7jnTgM4GB4/HvDf
- HODbQ8iOYMBq8St2dhxt/PR8TSLdP5TSFyozomgJrQ22prL7gFYb71IAHmqnX/JTmS
- e1WFrCEPqvLOQ==
+ b=LlUfS4cfTK2DaHGYqFx6o8so6vN+0fRCV5y4uLSZ8ipPoWXwIHfT6g2Uq/Aa7JI3N
+ ckeVQHF3Kp/alUYxddkIvdl3CctNqrOS3RN0Z6AnelJGaDOnG1Tgg4LaHUzjL3FTfK
+ 3uED0M4WulPkCegDsEvFSN/whg8m/dj2srcZSXXCBsLBLWOBoUw+Uicd/ukQa71EJQ
+ cCQZVtZ8KTXGS2rLFxETKWGB+gxq/Kkh7ASJclhl/a1xBrFhjIxej11+b9eTKD+0R+
+ u35LpEaNXaKyGezkwnw1SQAeymPHeoIIxNdC55Tdr8S4IDonSupOp+Xx6kIbZygQ0z
+ yZK17rcvPi4+w==
 From: Bjorn Helgaas <helgaas@kernel.org>
 To: David Airlie <airlied@linux.ie>,
 	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v8 05/10] vgaarb: Move non-legacy VGA detection to ADD_DEVICE
- path
-Date: Wed,  5 Jan 2022 18:06:53 -0600
-Message-Id: <20220106000658.243509-6-helgaas@kernel.org>
+Subject: [PATCH v8 06/10] vgaarb: Move disabled VGA device detection to
+ ADD_DEVICE path
+Date: Wed,  5 Jan 2022 18:06:54 -0600
+Message-Id: <20220106000658.243509-7-helgaas@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220106000658.243509-1-helgaas@kernel.org>
 References: <20220106000658.243509-1-helgaas@kernel.org>
@@ -65,116 +64,83 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 From: Bjorn Helgaas <bhelgaas@google.com>
 
 a37c0f48950b ("vgaarb: Select a default VGA device even if there's no
-legacy VGA") extended the vga_arb_device_init() subsys_initcall so it could
-select a non-legacy VGA device as the default.
+legacy VGA") extended the vga_arb_device_init() subsys_initcall so that if
+there are no other eligible devices, it could select a disabled VGA device
+as the default.
 
-That failed to consider that PCI devices may be enumerated after
-vga_arb_device_init(), e.g., hot-added devices or non-ACPI systems that do
-PCI enumeration in pcibios_init().  Devices found then could never be
-selected as the default.
-
-One system where this is a problem is the MIPS-based Loongson where an
-ASpeed AST2500 VGA device is behind a bridge that doesn't implement the VGA
-Enable bit, so legacy resources are not routed to the VGA device. [1]
-
-Fix this by moving the non-legacy VGA device selection from
-vga_arb_select_default_device() to vga_arbiter_add_pci_device(), which is
-called after every PCI device is enumerated, either by the
-vga_arb_device_init() subsys_initcall or as an ADD_DEVICE notifier.
-
-[1] https://lore.kernel.org/r/20210514080025.1828197-6-chenhuacai@loongson.cn
+Move this detection from vga_arb_select_default_device() to
+vga_arbiter_add_pci_device() so every device, even those hot-added or
+enumerated after vga_arb_device_init() is eligible for selection as the
+default VGA device.
 
 Link: https://lore.kernel.org/r/20211015061512.2941859-5-chenhuacai@loongson.cn
-Link: https://lore.kernel.org/r/20211015061512.2941859-7-chenhuacai@loongson.cn
 Based-on-patch-by: Huacai Chen <chenhuacai@kernel.org>
 Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
 Cc: Daniel Axtens <dja@axtens.net>
 Cc: Zhou Wang <wangzhou1@hisilicon.com>
 ---
- drivers/gpu/vga/vgaarb.c | 54 ++++++++++++++++++++++++----------------
- 1 file changed, 32 insertions(+), 22 deletions(-)
+ drivers/gpu/vga/vgaarb.c | 27 +++++++++------------------
+ 1 file changed, 9 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/gpu/vga/vgaarb.c b/drivers/gpu/vga/vgaarb.c
-index aefa4f406f7d..123b81628061 100644
+index 123b81628061..ad548917e602 100644
 --- a/drivers/gpu/vga/vgaarb.c
 +++ b/drivers/gpu/vga/vgaarb.c
-@@ -624,6 +624,7 @@ static bool vga_is_boot_device(struct vga_device *vgadev)
- {
- 	struct vga_device *boot_vga = vgadev_find(vga_default_device());
- 	struct pci_dev *pdev = vgadev->pdev;
-+	u16 cmd, boot_cmd;
+@@ -656,7 +656,8 @@ static bool vga_is_boot_device(struct vga_device *vgadev)
+ 	 * We use the first one we find, so if we've already found one,
+ 	 * vgadev is no better.
+ 	 */
+-	if (boot_vga)
++	if (boot_vga &&
++	    (boot_vga->owns & VGA_RSRC_LEGACY_MASK) == VGA_RSRC_LEGACY_MASK)
+ 		return false;
  
- 	/*
- 	 * We select the default VGA device in this order:
-@@ -661,6 +662,37 @@ static bool vga_is_boot_device(struct vga_device *vgadev)
  	if ((vgadev->owns & VGA_RSRC_LEGACY_MASK) == VGA_RSRC_LEGACY_MASK)
+@@ -693,6 +694,13 @@ static bool vga_is_boot_device(struct vga_device *vgadev)
  		return true;
+ 	}
  
 +	/*
-+	 * If we haven't found a legacy VGA device, accept a non-legacy
-+	 * device.  It may have either IO or MEM enabled, and bridges may
-+	 * not have PCI_BRIDGE_CTL_VGA enabled, so it may not be able to
-+	 * use legacy VGA resources.  Prefer an integrated GPU over others.
++	 * vgadev has neither IO nor MEM enabled.  If we haven't found any
++	 * other VGA devices, it is the best candidate so far.
 +	 */
-+	pci_read_config_word(pdev, PCI_COMMAND, &cmd);
-+	if (cmd & (PCI_COMMAND_IO | PCI_COMMAND_MEMORY)) {
-+
-+		/*
-+		 * An integrated GPU overrides a previous non-legacy
-+		 * device.  We expect only a single integrated GPU, but if
-+		 * there are more, we use the *last* because that was the
-+		 * previous behavior.
-+		 */
-+		if (vga_arb_integrated_gpu(&pdev->dev))
-+			return true;
-+
-+		/*
-+		 * We prefer the first non-legacy discrete device we find.
-+		 * If we already found one, vgadev is no better.
-+		 */
-+		if (boot_vga) {
-+			pci_read_config_word(boot_vga->pdev, PCI_COMMAND,
-+					     &boot_cmd);
-+			if (boot_cmd & (PCI_COMMAND_IO | PCI_COMMAND_MEMORY))
-+				return false;
-+		}
++	if (!boot_vga)
 +		return true;
-+	}
 +
  	return false;
  }
  
-@@ -1529,30 +1561,8 @@ static struct miscdevice vga_arb_device = {
+@@ -1559,21 +1567,6 @@ static struct miscdevice vga_arb_device = {
+ 	MISC_DYNAMIC_MINOR, "vga_arbiter", &vga_arb_device_fops
+ };
  
- static void __init vga_arb_select_default_device(void)
- {
--	struct pci_dev *pdev, *found = NULL;
- 	struct vga_device *vgadev;
- 
--	if (!vga_default_device()) {
--		list_for_each_entry_reverse(vgadev, &vga_list, list) {
--			struct device *dev = &vgadev->pdev->dev;
--			u16 cmd;
+-static void __init vga_arb_select_default_device(void)
+-{
+-	struct vga_device *vgadev;
 -
--			pdev = vgadev->pdev;
--			pci_read_config_word(pdev, PCI_COMMAND, &cmd);
--			if (cmd & (PCI_COMMAND_IO | PCI_COMMAND_MEMORY)) {
--				found = pdev;
--				if (vga_arb_integrated_gpu(dev))
--					break;
--			}
+-	if (!vga_default_device()) {
+-		vgadev = list_first_entry_or_null(&vga_list,
+-						  struct vga_device, list);
+-		if (vgadev) {
+-			struct device *dev = &vgadev->pdev->dev;
+-			vgaarb_info(dev, "setting as boot device (VGA legacy resources not available)\n");
+-			vga_set_default_device(vgadev->pdev);
 -		}
 -	}
+-}
 -
--	if (found) {
--		vgaarb_info(&found->dev, "setting as boot device (VGA legacy resources not available)\n");
--		vga_set_default_device(found);
--		return;
--	}
+ static int __init vga_arb_device_init(void)
+ {
+ 	int rc;
+@@ -1603,8 +1596,6 @@ static int __init vga_arb_device_init(void)
+ 			vgaarb_info(dev, "no bridge control possible\n");
+ 	}
+ 
+-	vga_arb_select_default_device();
 -
- 	if (!vga_default_device()) {
- 		vgadev = list_first_entry_or_null(&vga_list,
- 						  struct vga_device, list);
+ 	pr_info("loaded\n");
+ 	return rc;
+ }
 -- 
 2.25.1
 
