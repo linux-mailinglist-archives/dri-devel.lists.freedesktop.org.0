@@ -1,68 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 046B84869A5
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 19:20:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B1FF486832
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 18:13:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC28910E7B9;
-	Thu,  6 Jan 2022 18:20:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0364010E7CB;
+	Thu,  6 Jan 2022 17:13:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B2D110E66A
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 16:26:36 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id k15so11331429edk.13
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jan 2022 08:26:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=M3WBgNvuzR0WIM72X4IIZhdl+Kt7G0oeF/Hg+m6AnQQ=;
- b=fgiBBLNYIvYGIfdhyPt4wlDj5rXuxLmRzyNOioyVzzAUKj4l3Caq6fqK9F2EsIHX4I
- X4HlCLY/Z0X8Imh4hK8c/IUQPlTTteF7PV185QA3p/gtCMS8jBTLoWndm5NQzRo/HhKl
- Nfzm/wEL6Ug8PUl+nFhKfaKS3Cpa6qigrWMjJAfV+Xa4uF1t37FKDYU6hygy3FTxu6EW
- WFKpGeFU44cT3zVqQYXSpvR9MVqTYHAxqj0OSdHqrtgmm7ILScJav6crXJFK1Vdfcy2z
- L4MlteqfpRl/3cODA32ciAsahNPrTnXuUftywFoc6esuJKy8l5MlM+G4Gzn7okOim+Wz
- xnYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=M3WBgNvuzR0WIM72X4IIZhdl+Kt7G0oeF/Hg+m6AnQQ=;
- b=lEuT0O1pstzgEUPF/tlXe7EviBqBqtK6iQZLA5DzZZo4Z5egeBBGNjDhzRrV9ZcWQC
- jYfELjvvIqz9QAful3ccEIcYIWfbM3uqfm94+nxpz6BHmbGlBvq7M3nWIFodkizo/FYv
- 2bE0YKdkfsDe8G74uetLKDv1YMLU9vdnTCj0Z8B20aRcOeEBtcFQHogJn8unbkvZnPK+
- M32fbwppRdle2shKv8N81nL5U9NMKJXKX2jQLvD6SK5VzXkGLhRJ+PcQH2Zzuo4O3jY0
- ELv0h5qCCz1Rg+fq6WU+IurFMXeJBdj9G+fws3k46hzWO41ZEVfsA7myt0Ieigt/nkVC
- K/OA==
-X-Gm-Message-State: AOAM531jE6diuCryC1i8amdJMvqm5cKGNQDJ5ncjIhcDhqyI5ZlJuRBj
- vUdrloKC2LnP1GmlObDXwXk=
-X-Google-Smtp-Source: ABdhPJzkLPEDxZ+Q9y6t19YtLkNWFcwnXI5cBQncyffs1BgDiayMRg1pyYzUb7voCgh6Ar0CWePj4w==
-X-Received: by 2002:a17:907:97cd:: with SMTP id
- js13mr46470367ejc.497.1641486388365; 
- Thu, 06 Jan 2022 08:26:28 -0800 (PST)
-Received: from [192.168.1.10] ([46.249.74.23])
- by smtp.googlemail.com with ESMTPSA id p8sm889653edq.46.2022.01.06.08.26.26
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 06 Jan 2022 08:26:27 -0800 (PST)
-Subject: Re: [PATCH] drm: omapdrm: Fix implicit dma_buf fencing
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- sumit.semwal@linaro.org, christian.koenig@amd.com
-References: <1641397018-29872-1-git-send-email-ivo.g.dimitrov.75@gmail.com>
- <0ba4b947-57e0-8a80-68d6-a481d5145ab4@ideasonboard.com>
-From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-Message-ID: <e55b3d0f-2217-c949-f166-63ca738b44f6@gmail.com>
-Date: Thu, 6 Jan 2022 18:26:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Firefox/60.0 Thunderbird/60.6.1
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B2EA10E5DE;
+ Thu,  6 Jan 2022 17:13:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1641489229; x=1673025229;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=SWAmITqjsYu6xDYGpHA7fp1gPjfRndTao20EuIkpURA=;
+ b=b4DcgF09pxOiQ47i15i1++G8DSC6zWEJiIB0bPsKOc/LOfOsZyTxEzr6
+ I5yDk4AQOc3IQ4oi4xNHDBQVUXeswmszmj2uML7xA4p7/lCI3vPDZC75c
+ 5HNWF4KzoSebFxACo6KncniTU2Lhk7MiJJO8Nf+QO05zetBghJyZkT6JR c=;
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+ by alexa-out.qualcomm.com with ESMTP; 06 Jan 2022 09:13:48 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jan 2022 09:13:48 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Thu, 6 Jan 2022 09:13:47 -0800
+Received: from [10.110.24.66] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Thu, 6 Jan 2022
+ 09:13:46 -0800
+Message-ID: <63bae3ec-2bbf-f4f7-b54a-73a921f8f438@quicinc.com>
+Date: Thu, 6 Jan 2022 09:13:45 -0800
 MIME-Version: 1.0
-In-Reply-To: <0ba4b947-57e0-8a80-68d6-a481d5145ab4@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Thu, 06 Jan 2022 18:20:20 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v2] drm/msm/dp: populate connector of struct dp_panel
+Content-Language: en-US
+To: Stephen Boyd <swboyd@chromium.org>, <agross@kernel.org>,
+ <airlied@linux.ie>, <bjorn.andersson@linaro.org>, <daniel@ffwll.ch>,
+ <dmitry.baryshkov@linaro.org>, <robdclark@gmail.com>, <sean@poorly.run>,
+ <vkoul@kernel.org>
+References: <1640805422-21904-1-git-send-email-quic_khsieh@quicinc.com>
+ <CAE-0n50Bi2v3D1B8Ee1ckdUWLhpyNrCEVqikbuS8wMfT0+2VnA@mail.gmail.com>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <CAE-0n50Bi2v3D1B8Ee1ckdUWLhpyNrCEVqikbuS8wMfT0+2VnA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,54 +67,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: philipp@uvos.xyz, airlied@linux.ie, merlijn@wizzup.org,
- openpvrsgx-devgroup@letux.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org,
- linux-media@vger.kernel.org
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On 6.01.22 г. 15:43 ч., Tomi Valkeinen wrote:
-> Hi,
-> 
-> On 05/01/2022 17:36, Ivaylo Dimitrov wrote:
->> Currently omapdrm driver does not initialize dma_buf_export_info resv
->> member, which leads to a new dma_resv being allocated and attached to
->> the exported dma_buf. This leads to the issue that fences created on
->> dma_buf objects imported by other drivers are ignored by omapdrm, as only
->> fences in gem object resv are waited on. This leads to various issues 
->> like
->> displaying incomplete frames.
+On 1/5/2022 1:34 PM, Stephen Boyd wrote:
+> Quoting Kuogee Hsieh (2021-12-29 11:17:02)
+>> There is kernel crashed due to unable to handle kernel NULL
+>> pointer dereference of dp_panel->connector while running DP link
+>> layer compliance test case 4.2.2.6 (EDID Corruption Detection).
+> Can you explain how we get into that situation? Like
+>
+> "We never assign struct dp_panel::connector, instead the connector is
+> stored in struct msm_dp::connector. When we run compliance testing test
+> case 4.2.2.6 dp_panel_handle_sink_request() won't have a valid edid set
+> in struct dp_panel::edid so we'll try to use the connectors
+> real_edid_checksum and hit a NULL pointer deref error because the
+> connector pointer is never assigned."
+>
+>> This patch fixes this problem by populating connector of dp_panel.
 >>
->> Fix that by initializing dma_buf resv to the resv of the gem object being
->> exported.
+>> [drm:dp_panel_read_sink_caps] *ERROR* panel edid read failed
+>> Unable to handle kernel NULL pointer dereference at virtual address 00000000000006e1
+>> Mem abort info:
+>>    ESR = 0x96000006
+>>    EC = 0x25: DABT (current EL), IL = 32 bits
+>>    SET = 0, FnV = 0
+>>    EA = 0, S1PTW = 0
+>> Data abort info:
+>>    ISV = 0, ISS = 0x00000006
+>>    CM = 0, WnR = 0
+>> user pgtable: 4k pages, 39-bit VAs, pgdp=0000000115f25000
+>> [00000000000006e1] pgd=00000001174fe003, p4d=00000001174fe003, pud=00000001174fe003, pmd=0000000000000000
+>> Internal error: Oops: 96000006 [#1] PREEMPT SMP
+> This sort of stuff isn't really useful because it takes quite a few
+> lines to say "We hit a NULL pointer deref" which was already stated. I'd
+> rather have a clear description of what goes wrong and how setting the
+> pointer in msm_dp_modeset_init() fixes it.
+>
+>> {...]
 >>
->> Signed-off-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+>> Changes in V2:
+>> -- populate panel connector at msm_dp_modeset_init() instead of at dp_panel_read_sink_caps()
+>>
+>> Fixes: 7948fe12d47 ("drm/msm/dp: return correct edid checksum after corrupted edid checksum read")
+>> Signee-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 >> ---
->>   drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c | 1 +
->>   1 file changed, 1 insertion(+)
+>>   drivers/gpu/drm/msm/dp/dp_display.c | 25 +++++++++++++++----------
+>>   1 file changed, 15 insertions(+), 10 deletions(-)
 >>
->> diff --git a/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c 
->> b/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c
->> index f1f93cabb61e..a111e5c91925 100644
->> --- a/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c
->> +++ b/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c
->> @@ -88,6 +88,7 @@ struct dma_buf *omap_gem_prime_export(struct 
->> drm_gem_object *obj, int flags)
->>       exp_info.size = omap_gem_mmap_size(obj);
->>       exp_info.flags = flags;
->>       exp_info.priv = obj;
->> +    exp_info.resv = obj->resv;
->>       return drm_gem_dmabuf_export(obj->dev, &exp_info);
->>   }
-> 
-> Thanks! Pushed to drm-misc-next.
-> 
-
-Thanks,
-
-I think lts kernels shall get that fix too, but I have no idea how :) .
-
-Ivo.
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+>> index 3449d3f..c282bbf 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>> @@ -1495,36 +1495,41 @@ void msm_dp_debugfs_init(struct msm_dp *dp_display, struct drm_minor *minor)
+>>          }
+>>   }
+>>
+>> -int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
+>> +int msm_dp_modeset_init(struct msm_dp *dp, struct drm_device *dev,
+>>                          struct drm_encoder *encoder)
+>>   {
+>>          struct msm_drm_private *priv;
+>> +       struct dp_display_private *dp_display;
+>>          int ret;
+>>
+>> -       if (WARN_ON(!encoder) || WARN_ON(!dp_display) || WARN_ON(!dev))
+>> +       if (WARN_ON(!encoder) || WARN_ON(!dp) || WARN_ON(!dev))
+>>                  return -EINVAL;
+>>
+>>          priv = dev->dev_private;
+>> -       dp_display->drm_dev = dev;
+>> +       dp->drm_dev = dev;
+>> +
+>> +       dp_display = container_of(dp, struct dp_display_private, dp_display);
+>>
+>> -       ret = dp_display_request_irq(dp_display);
+>> +       ret = dp_display_request_irq(dp);
+>>          if (ret) {
+>>                  DRM_ERROR("request_irq failed, ret=%d\n", ret);
+>>                  return ret;
+>>          }
+>>
+>> -       dp_display->encoder = encoder;
+>> +       dp->encoder = encoder;
+>>
+>> -       dp_display->connector = dp_drm_connector_init(dp_display);
+>> -       if (IS_ERR(dp_display->connector)) {
+>> -               ret = PTR_ERR(dp_display->connector);
+>> +       dp->connector = dp_drm_connector_init(dp);
+>> +       if (IS_ERR(dp->connector)) {
+>> +               ret = PTR_ERR(dp->connector);
+>>                  DRM_DEV_ERROR(dev->dev,
+>>                          "failed to create dp connector: %d\n", ret);
+>> -               dp_display->connector = NULL;
+>> +               dp->connector = NULL;
+>>                  return ret;
+>>          }
+>>
+>> -       priv->connectors[priv->num_connectors++] = dp_display->connector;
+>> +       dp_display->panel->connector = dp->connector;
+> This is the one line that matters I think? Can we reach the connector
+> for the dp device without going through the panel in
+> dp_panel_handle_sink_request()? That would reduce the number of struct
+> elements if possible.
+I tried, but very difficulty. It will take more text section space.
+>
+>> +
+>> +       priv->connectors[priv->num_connectors++] = dp->connector;
+> Can we not rename all the local variables in this patch and do it later
+> or never? Reading this patch takes a long time because we have to make
+> sure nothing has actually changed with the rename of 'dp_display' to
+> 'dp'.
+>
+>>          return 0;
+>>   }
+>>
+>> --
+>> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+>> a Linux Foundation Collaborative Project
+>>
