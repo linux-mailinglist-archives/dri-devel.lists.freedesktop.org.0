@@ -2,63 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0966F486260
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 10:50:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75E9C486280
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 10:56:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1E2710E891;
-	Thu,  6 Jan 2022 09:50:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BD7D10E9E1;
+	Thu,  6 Jan 2022 09:56:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EDD110E88C;
- Thu,  6 Jan 2022 09:50:29 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id ECB9321117;
- Thu,  6 Jan 2022 09:50:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1641462627; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XeRGaJ4BzBGirefhs04qAle9dYc4DeHvng0QSkt1zLQ=;
- b=zzHsfAUeUIrQjd+iWTpbkiAdAbZVw1XE+Muhl8m+P3OPvNVMFZEhj7TtThakmQHGW8b60y
- FQq/OH6b4JF4T06QDQcn0yUhjyEygyWlThGQIRZXRk+HHk/QqS355uAUqkjqUby1E+K0hU
- mopB7EkRcRmAs1KPecxo87yVUxHJH5I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1641462627;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XeRGaJ4BzBGirefhs04qAle9dYc4DeHvng0QSkt1zLQ=;
- b=RFOnbQ8imbge8VLWkUbtMMhWaF9FvX6HbyK7YOn20Rv8NEaaSx04RRb754e3Os/NNrqv5h
- e63uO/jAcSTiCKAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D4D3D13A07;
- Thu,  6 Jan 2022 09:50:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id cQjpMmO71mEscQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 06 Jan 2022 09:50:27 +0000
-Message-ID: <4c02eca8-e680-213a-7d2e-0bc19243db53@suse.de>
-Date: Thu, 6 Jan 2022 10:50:27 +0100
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F68A10E9E2;
+ Thu,  6 Jan 2022 09:56:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1641462987; x=1672998987;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=P1gix/DAfDhKjaNSCgWqNzXdlOl/b/dN71yoovFuz0o=;
+ b=MBhBg3DkwHG77BPyOUTgA+TQ831vEcW0hNJzvWmzWubJHA1fc+8fYFRf
+ 7KeoGtfsrcrunGL64PCx68ht9guQFsCVdtPDMv0wJyQgXxivyDHelnHyK
+ MZ6F4evzRH8kxVDzYB+qJ8i7DJp2aSKlp8yA4b89TbGlRqcPOLTGYIZtB
+ UW82OaSJ7emEh2yU3GlcwpIkrzwHENEiq5lGxGk9ek+7eH7Ym21ayU/0w
+ QJ9XqHSPmk+g7uCwzYbSoHk7w2RrzO8LtUOCd8yVL9LHT3RXGeboBr/l3
+ ct4Qpncc0pS/O7k3WbGcjaHhfGkKiJp3W1aZpkCtyvGghcW9pIasYo4Mr g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="229957266"
+X-IronPort-AV: E=Sophos;i="5.88,266,1635231600"; d="scan'208";a="229957266"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jan 2022 01:56:06 -0800
+X-IronPort-AV: E=Sophos;i="5.88,266,1635231600"; d="scan'208";a="472832907"
+Received: from leitchrx-mobl.ger.corp.intel.com (HELO [10.213.202.197])
+ ([10.213.202.197])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jan 2022 01:56:05 -0800
+Message-ID: <40920051-1aef-1e14-ec7e-03d158e02c22@linux.intel.com>
+Date: Thu, 6 Jan 2022 09:56:03 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH 1/2] fbdev: fbmem: add a helper to determine if an
- aperture is used by a fw fb
+ Thunderbird/91.3.1
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Lock timeline mutex directly in
+ error path of eb_pin_timeline
 Content-Language: en-US
-To: Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20211227182506.2110551-1-alexander.deucher@amd.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20211227182506.2110551-1-alexander.deucher@amd.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------iUe1NvH0MF9XdRLqORUT6Ylp"
+To: Matthew Brost <matthew.brost@intel.com>
+References: <20220104233056.11245-1-matthew.brost@intel.com>
+ <3ae7e493-4b77-9e87-ca6f-34f85cab4ecb@linux.intel.com>
+ <20220105162402.GA33126@jons-linux-dev-box>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220105162402.GA33126@jons-linux-dev-box>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,112 +63,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------iUe1NvH0MF9XdRLqORUT6Ylp
-Content-Type: multipart/mixed; boundary="------------GBJckDTN70HY37BwEasGb6Wx";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Message-ID: <4c02eca8-e680-213a-7d2e-0bc19243db53@suse.de>
-Subject: Re: [PATCH 1/2] fbdev: fbmem: add a helper to determine if an
- aperture is used by a fw fb
-References: <20211227182506.2110551-1-alexander.deucher@amd.com>
-In-Reply-To: <20211227182506.2110551-1-alexander.deucher@amd.com>
 
---------------GBJckDTN70HY37BwEasGb6Wx
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On 05/01/2022 16:24, Matthew Brost wrote:
+> On Wed, Jan 05, 2022 at 09:35:44AM +0000, Tvrtko Ursulin wrote:
+>>
+>> On 04/01/2022 23:30, Matthew Brost wrote:
+>>> Don't use the interruptable version of the timeline mutex lock in the
+>>
+>> interruptible
+>>
+>>> error path of eb_pin_timeline as the cleanup must always happen.
+>>>
+>>> v2:
+>>>    (John Harrison)
+>>>     - Don't check for interrupt during mutex lock
+>>>
+>>> Fixes: 544460c33821 ("drm/i915: Multi-BB execbuf")
+>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>>> ---
+>>>    drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 4 ++--
+>>>    1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>>> index e9541244027a..e96e133cbb1f 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>>> @@ -2516,9 +2516,9 @@ static int eb_pin_timeline(struct i915_execbuffer *eb, struct intel_context *ce,
+>>>    				      timeout) < 0) {
+>>>    			i915_request_put(rq);
+>>> -			tl = intel_context_timeline_lock(ce);
+>>> +			mutex_lock(&ce->timeline->mutex);
+>>
+>> On the other hand it is more user friendly to handle signals (which maybe
+>> does not matter in this case, not sure any longer how long hold time it can
+>> have) but there is also a question of consistency within the very function
+>> you are changing.
+>>
+>> Apart from consistency, what about the parent-child magic
+>> intel_context_timeline_lock does and you wouldn't have here?
+>>
+>> And what about the very existence of intel_context_timeline_lock as a
+>> component boundary separation API, if it is used inconsistently throughout
+>> i915_gem_execbuffer.c?
+> 
+> intel_context_timeline_lock does 2 things:
+> 
+> 1. Handles lockdep nesting of timeline locks for parent-child contexts
+> ensuring locks are acquired from parent to last child, then released
+> last child to parent
+> 2. Allows the mutex lock to be interrupted
+> 
+> This helper should be used in setup steps where a user can signal abort
+> (context pinning time + request creation time), by 'should be' I mean
+> this was how it was done before I extended the execbuf IOCTL for
+> multiple BBs. Slightly confusing but this is what was in place so I
+> stuck with it.
+> 
+> This code here is an error path that only hold at most 1 timeline lock
+> (no nesting required) and is a path that must be executed as it is a
+> cleanup step (not allowed to be interrupted by user, intel_context_exit
+> must be called or we have dangling engine PM refs).
+> 
+> Make sense? I probably should update the comment message to explain this
+> a bit better as it did take me a bit to understand how this locking
+> worked.
 
-SGkNCg0KQW0gMjcuMTIuMjEgdW0gMTk6MjUgc2NocmllYiBBbGV4IERldWNoZXI6DQo+IEFk
-ZCBhIGZ1bmN0aW9uIGZvciBkcml2ZXJzIHRvIGNoZWNrIGlmIHRoZSBhIGZpcm13YXJlIGlu
-aXRpYWxpemVkDQo+IGZiIGlzIGNvcnJlc3BvbmRzIHRvIHRoZWlyIGFwZXJ0dXJlLiAgVGhp
-cyBhbGxvd3MgZHJpdmVycyB0byBjaGVjayBpZiB0aGUNCj4gZGV2aWNlIGNvcnJlc3BvbmRz
-IHRvIHdoYXQgdGhlIGZpcm13YXJlIHNldCB1cCBhcyB0aGUgZGlzcGxheSBkZXZpY2UuDQoN
-CklmIHNpbXBsZWRybSBpcyBpbiB1c2UsIGl0IHdpbGwgcmVnaXN0ZXIgdmlhIERSTSBhcGVy
-dHVyZSBoZWxwZXJzLiBZb3UgDQpwcm9iYWJseSBuZWVkIGEgc2ltaWxhciBmdW5jdGlvbiBp
-biBkcm1fYXBlcnR1cmUuYyB0byBoYW5kbGUgdGhpcy4NCg0KQmVzdCByZWdhcmRzDQpUaG9t
-YXMNCg0KPiANCj4gQnVnOiBodHRwczovL2J1Z3ppbGxhLmtlcm5lbC5vcmcvc2hvd19idWcu
-Y2dpP2lkPTIxNTIwMw0KPiBCdWc6IGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9k
-cm0vYW1kLy0vaXNzdWVzLzE4NDANCj4gU2lnbmVkLW9mZi1ieTogQWxleCBEZXVjaGVyIDxh
-bGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPg0KPiAtLS0NCj4gICBkcml2ZXJzL3ZpZGVvL2Zi
-ZGV2L2NvcmUvZmJtZW0uYyB8IDQ3ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-DQo+ICAgaW5jbHVkZS9saW51eC9mYi5oICAgICAgICAgICAgICAgfCAgMSArDQo+ICAgMiBm
-aWxlcyBjaGFuZ2VkLCA0OCBpbnNlcnRpb25zKCspDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJp
-dmVycy92aWRlby9mYmRldi9jb3JlL2ZibWVtLmMgYi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2Nv
-cmUvZmJtZW0uYw0KPiBpbmRleCA4MjYxNzVhZDg4YTIuLjBmYTdlZGU5NGZhNiAxMDA2NDQN
-Cj4gLS0tIGEvZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2ZibWVtLmMNCj4gKysrIGIvZHJp
-dmVycy92aWRlby9mYmRldi9jb3JlL2ZibWVtLmMNCj4gQEAgLTE3NjIsNiArMTc2Miw1MyBA
-QCBpbnQgcmVtb3ZlX2NvbmZsaWN0aW5nX2ZyYW1lYnVmZmVycyhzdHJ1Y3QgYXBlcnR1cmVz
-X3N0cnVjdCAqYSwNCj4gICB9DQo+ICAgRVhQT1JUX1NZTUJPTChyZW1vdmVfY29uZmxpY3Rp
-bmdfZnJhbWVidWZmZXJzKTsNCj4gICANCj4gKy8qKg0KPiArICogaXNfZmlybXdhcmVfZnJh
-bWVidWZmZXIgLSBkZXRlY3QgaWYgZmlybXdhcmUtY29uZmlndXJlZCBmcmFtZWJ1ZmZlciBt
-YXRjaGVzDQo+ICsgKiBAYTogbWVtb3J5IHJhbmdlLCB1c2VycyBvZiB3aGljaCBhcmUgdG8g
-YmUgY2hlY2tlZA0KPiArICoNCj4gKyAqIFRoaXMgZnVuY3Rpb24gY2hlY2tzIGZyYW1lYnVm
-ZmVyIGRldmljZXMgKGluaXRpYWxpemVkIGJ5IGZpcm13YXJlL2Jvb3Rsb2FkZXIpDQo+ICsg
-KiB3aGljaCB1c2UgbWVtb3J5IHJhbmdlIGRlc2NyaWJlZCBieSBAYS4gSWYgQGEgbWF0Y2hl
-c20gdGhlIGZ1bmN0aW9uIHJldHVybnMNCj4gKyAqIHRydWUsIG90aGVyd2lzZSBmYWxzZS4N
-Cj4gKyAqLw0KPiArYm9vbCBpc19maXJtd2FyZV9mcmFtZWJ1ZmZlcihzdHJ1Y3QgYXBlcnR1
-cmVzX3N0cnVjdCAqYSkNCj4gK3sNCj4gKwlib29sIGRvX2ZyZWUgPSBmYWxzZTsNCj4gKwli
-b29sIGZvdW5kID0gZmFsc2U7DQo+ICsJaW50IGk7DQo+ICsNCj4gKwlpZiAoIWEpIHsNCj4g
-KwkJYSA9IGFsbG9jX2FwZXJ0dXJlcygxKTsNCj4gKwkJaWYgKCFhKQ0KPiArCQkJcmV0dXJu
-IGZhbHNlOw0KPiArDQo+ICsJCWEtPnJhbmdlc1swXS5iYXNlID0gMDsNCj4gKwkJYS0+cmFu
-Z2VzWzBdLnNpemUgPSB+MDsNCj4gKwkJZG9fZnJlZSA9IHRydWU7DQo+ICsJfQ0KPiArDQo+
-ICsJbXV0ZXhfbG9jaygmcmVnaXN0cmF0aW9uX2xvY2spOw0KPiArCS8qIGNoZWNrIGFsbCBm
-aXJtd2FyZSBmYnMgYW5kIGtpY2sgb2ZmIGlmIHRoZSBiYXNlIGFkZHIgb3ZlcmxhcHMgKi8N
-Cj4gKwlmb3JfZWFjaF9yZWdpc3RlcmVkX2ZiKGkpIHsNCj4gKwkJc3RydWN0IGFwZXJ0dXJl
-c19zdHJ1Y3QgKmdlbl9hcGVyOw0KPiArDQo+ICsJCWlmICghKHJlZ2lzdGVyZWRfZmJbaV0t
-PmZsYWdzICYgRkJJTkZPX01JU0NfRklSTVdBUkUpKQ0KPiArCQkJY29udGludWU7DQo+ICsN
-Cj4gKwkJZ2VuX2FwZXIgPSByZWdpc3RlcmVkX2ZiW2ldLT5hcGVydHVyZXM7DQo+ICsJCWlm
-IChmYl9kb19hcGVydHVyZXNfb3ZlcmxhcChnZW5fYXBlciwgYSkpIHsNCj4gKwkJCWZvdW5k
-ID0gdHJ1ZTsNCj4gKwkJCWJyZWFrOw0KPiArCQl9DQo+ICsJfQ0KPiArCW11dGV4X3VubG9j
-aygmcmVnaXN0cmF0aW9uX2xvY2spOw0KPiArDQo+ICsJaWYgKGRvX2ZyZWUpDQo+ICsJCWtm
-cmVlKGEpOw0KPiArDQo+ICsJcmV0dXJuIGZvdW5kOw0KPiArfQ0KPiArRVhQT1JUX1NZTUJP
-TChpc19maXJtd2FyZV9mcmFtZWJ1ZmZlcik7DQo+ICsNCj4gICAvKioNCj4gICAgKiByZW1v
-dmVfY29uZmxpY3RpbmdfcGNpX2ZyYW1lYnVmZmVycyAtIHJlbW92ZSBmaXJtd2FyZS1jb25m
-aWd1cmVkIGZyYW1lYnVmZmVycyBmb3IgUENJIGRldmljZXMNCj4gICAgKiBAcGRldjogUENJ
-IGRldmljZQ0KPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9mYi5oIGIvaW5jbHVkZS9s
-aW51eC9mYi5oDQo+IGluZGV4IDZmM2RiOTlhYjk5MC4uM2RhOTU4NDJiMjA3IDEwMDY0NA0K
-PiAtLS0gYS9pbmNsdWRlL2xpbnV4L2ZiLmgNCj4gKysrIGIvaW5jbHVkZS9saW51eC9mYi5o
-DQo+IEBAIC02MTAsNiArNjEwLDcgQEAgZXh0ZXJuIGludCByZW1vdmVfY29uZmxpY3Rpbmdf
-cGNpX2ZyYW1lYnVmZmVycyhzdHJ1Y3QgcGNpX2RldiAqcGRldiwNCj4gICAJCQkJCSAgICAg
-ICBjb25zdCBjaGFyICpuYW1lKTsNCj4gICBleHRlcm4gaW50IHJlbW92ZV9jb25mbGljdGlu
-Z19mcmFtZWJ1ZmZlcnMoc3RydWN0IGFwZXJ0dXJlc19zdHJ1Y3QgKmEsDQo+ICAgCQkJCQkg
-ICBjb25zdCBjaGFyICpuYW1lLCBib29sIHByaW1hcnkpOw0KPiArZXh0ZXJuIGJvb2wgaXNf
-ZmlybXdhcmVfZnJhbWVidWZmZXIoc3RydWN0IGFwZXJ0dXJlc19zdHJ1Y3QgKmEpOw0KPiAg
-IGV4dGVybiBpbnQgZmJfcHJlcGFyZV9sb2dvKHN0cnVjdCBmYl9pbmZvICpmYl9pbmZvLCBp
-bnQgcm90YXRlKTsNCj4gICBleHRlcm4gaW50IGZiX3Nob3dfbG9nbyhzdHJ1Y3QgZmJfaW5m
-byAqZmJfaW5mbywgaW50IHJvdGF0ZSk7DQo+ICAgZXh0ZXJuIGNoYXIqIGZiX2dldF9idWZm
-ZXJfb2Zmc2V0KHN0cnVjdCBmYl9pbmZvICppbmZvLCBzdHJ1Y3QgZmJfcGl4bWFwICpidWYs
-IHUzMiBzaXplKTsNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVy
-IERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhm
-ZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7D
-vHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+The part which does not make sense is this:
 
---------------GBJckDTN70HY37BwEasGb6Wx--
+eb_pin_timeline()
+{
+...
+	tl = intel_context_timeline_lock(ce);
+	if (IS_ERR(tl))
+		return PTR_ERR(tl);
 
---------------iUe1NvH0MF9XdRLqORUT6Ylp
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+... do some throttling, and if it fail:
+			mutex_lock(&ce->timeline->mutex);
 
------BEGIN PGP SIGNATURE-----
+Therefore argument that at most one timeline lock is held and the extra 
+stuff is not needed does not hold for me. Why would the throttling 
+failed path be different than the initial step in this respect?
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHWu2MFAwAAAAAACgkQlh/E3EQov+B1
-xhAAxCRY08R7gCBOPIZfugXxsGV1BO9JqHbsc/kZsUyFn+PIUa26HhtLhh+RtDD1fkrdkCR1ELC8
-EnBFfxsH3wdO1lQ66T5XhUruoyWHHaXT7vfZTcgYajNgd7rrSU+MIOyO3Ni4ZeZzSSu2YPxOguL3
-d0z6GaDU9dJLJhNIaowgdxTdql6MwaFLITrY2qP/DWfJfwftBEmV7yam4O5uxQSTjalTPH5LOzzW
-mC30FFFZogK2hhynINiEp2ITC5ZzhCSiuu0HcE+AociEJi+hlu+PmLBPZwg2weM6ZJY0aa1SBBg0
-gG4aeRDk/pihg7nndPLKe+XvQiDSzz6No6Lcfs+nAYBX9NhErZ/6+IHUx01k3cXknmaUcFlUYehe
-clAOZlX0d/qGrl3cYe84bFW/BfTRJmLRDqkW8ddFmCeNPMYzloB9rT/xWN+RhY1Nuqfw49x0EF8E
-NXpetxzfR6+cGLDFuP1CLvrY1NbLSFfzX0Dp1kqO8jmkIHP1ql1bZjfLmEIHxXoTfHnryA3tUbse
-816S7As+Dk/DQlkT41ntjtiGltVWs3gMhvqbTN9RtoHQW+DqfZmscduyv7By+pMIFDfSzH4VQ0Fb
-F3ZiuwbA30OV4UQI4/D9YUxOZ68WJvnBxeAtTL3OcceRYhBXopDYUE5bldzkcbYAm1yfXwOY9f67
-x8k=
-=RlYS
------END PGP SIGNATURE-----
+Using two ways to lock the same mutex withing 10 lines of code is confusing.
 
---------------iUe1NvH0MF9XdRLqORUT6Ylp--
+In my mind we have this question of API usage consistency, and also the 
+unanswered questions of whether reacting to signals during taking this 
+mutex matters (what are the pessimistic lock hold times and what 
+influences them?).
+
+Note that first lock handles signals, throttling also handles signals, 
+so why wouldn't the cleanup path? Just because then you don't have to 
+bother with error unwind is to only reason I can see.
+
+So I suggest you just do proper error unwind and be done with it.
+
+  if (rq) {
+	ret = i915_request_wait()
+	i915_request_put(rq)
+	if (ret)
+		goto err;
+  }
+
+  return 0;
+
+  err:
+
+  tl = intel_context_timeline_lock()
+  intel_context_exit()
+  intel_context_timeline_unlock()
+
+  return nonblock ? ... : ...;
+
+Regards,
+
+Tvrtko
+
+> 
+> Matt
+> 
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>>    			intel_context_exit(ce);
+>>> -			intel_context_timeline_unlock(tl);
+>>> +			mutex_unlock(&ce->timeline->mutex);
+>>>    			if (nonblock)
+>>>    				return -EWOULDBLOCK;
+>>>
