@@ -2,53 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DA9E486791
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 17:24:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 279D3486789
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 17:21:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98B6C10E60C;
-	Thu,  6 Jan 2022 16:24:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 089B910E5DC;
+	Thu,  6 Jan 2022 16:21:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E24910E60C;
- Thu,  6 Jan 2022 16:24:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1641486283; x=1673022283;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=xGA/q4sv5cs1KhqG7LfeSdB+d6WzOgjYiYHKcteHMUk=;
- b=ZOtrbEsPLCDSoJ/9Nr6cjWGI689VW08T6JokPxpFEb4bFoa/fP49+UM1
- 4NuuAwhTcRmsAy/uGq6ywZC03Sto88uJ41g+XywYoVDeMBLgE37n3lUPQ
- PYPJIiLHZV8+SgH5llwsnIqnrsNRZUFbGqaOM5hBOVYAsSqX0uKkWS7op
- 7vwkO8nsPK7A4Ifoo1aDXuwvKoWU3vqUNuQWBxH+deHK0nAga1dG02OYI
- KFjGvX/H9jfFdoOdk6KvCjLU6WSiM0d1C1XS61yxNwAZu6oBsT4K4zIbJ
- alQuBVILA9DwEBPqeyFq1m/FXoLVcmAKoE9QHRoi5cdyVFmEr7ZbVprkE w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="241503053"
-X-IronPort-AV: E=Sophos;i="5.88,267,1635231600"; d="scan'208";a="241503053"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jan 2022 08:24:42 -0800
-X-IronPort-AV: E=Sophos;i="5.88,267,1635231600"; d="scan'208";a="488984025"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jan 2022 08:24:42 -0800
-Date: Thu, 6 Jan 2022 08:18:48 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Lock timeline mutex directly in
- error path of eb_pin_timeline
-Message-ID: <20220106161847.GA7452@jons-linux-dev-box>
-References: <20220104233056.11245-1-matthew.brost@intel.com>
- <3ae7e493-4b77-9e87-ca6f-34f85cab4ecb@linux.intel.com>
- <20220105162402.GA33126@jons-linux-dev-box>
- <40920051-1aef-1e14-ec7e-03d158e02c22@linux.intel.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C6B610E5DC
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 16:21:02 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 1AA28B82202;
+ Thu,  6 Jan 2022 16:21:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FC0DC36AEB;
+ Thu,  6 Jan 2022 16:20:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1641486059;
+ bh=+eu0kFS5XuECOf38/1qOb3kYT6FMacBFZqWduz0+JaA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=QQxVbOuDAyqEEdJWiTrDtvzwG7bjz4d5kmj08f9Rd/17nSlrIgtMEO/xCK2KHFS5U
+ wd4RlZ9rXyZQX3UwecojYbZGSF62eIlOWNoEfcInxlYwbGeP0e+Fcpy9RUxZQl5o/y
+ zu66aTxlMYgtTw1w6O4xGA8LMSHtuOtH2IM3IvkwSrJNiL5faP5NoUm6yRyGA53d1a
+ UTvsA/AomGGHkcctJ49LmPd9vEc9TWH05OpnfHNT8lQ2Ct8o2+bp+AUp2uTJ+xSskS
+ 2U2SwNCaG/hW5PwvlDRvE6EmtTBZyyzObR0KzL9bogebqWYtlppfVdAECplJimvHyU
+ n12jBhUb3VcPw==
+Date: Thu, 6 Jan 2022 10:20:58 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Huacai Chen <chenhuacai@gmail.com>
+Subject: Re: [PATCH v8 04/10] vgaarb: Move framebuffer detection to
+ ADD_DEVICE path
+Message-ID: <20220106162058.GA284940@bhelgaas>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <40920051-1aef-1e14-ec7e-03d158e02c22@linux.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAhV-H4BTAKdRwv+Wq7QRfMQRajQYzz3CqjvoGTrKujn47F3Yg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,160 +53,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Bruno =?iso-8859-1?Q?Pr=E9mont?= <bonbons@linux-vserver.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Xuefeng Li <lixuefeng@loongson.cn>,
+ Huacai Chen <chenhuacai@loongson.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 06, 2022 at 09:56:03AM +0000, Tvrtko Ursulin wrote:
-> 
-> On 05/01/2022 16:24, Matthew Brost wrote:
-> > On Wed, Jan 05, 2022 at 09:35:44AM +0000, Tvrtko Ursulin wrote:
-> > > 
-> > > On 04/01/2022 23:30, Matthew Brost wrote:
-> > > > Don't use the interruptable version of the timeline mutex lock in the
-> > > 
-> > > interruptible
-> > > 
-> > > > error path of eb_pin_timeline as the cleanup must always happen.
-> > > > 
-> > > > v2:
-> > > >    (John Harrison)
-> > > >     - Don't check for interrupt during mutex lock
-> > > > 
-> > > > Fixes: 544460c33821 ("drm/i915: Multi-BB execbuf")
-> > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > > > ---
-> > > >    drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 4 ++--
-> > > >    1 file changed, 2 insertions(+), 2 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> > > > index e9541244027a..e96e133cbb1f 100644
-> > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> > > > @@ -2516,9 +2516,9 @@ static int eb_pin_timeline(struct i915_execbuffer *eb, struct intel_context *ce,
-> > > >    				      timeout) < 0) {
-> > > >    			i915_request_put(rq);
-> > > > -			tl = intel_context_timeline_lock(ce);
-> > > > +			mutex_lock(&ce->timeline->mutex);
-> > > 
-> > > On the other hand it is more user friendly to handle signals (which maybe
-> > > does not matter in this case, not sure any longer how long hold time it can
-> > > have) but there is also a question of consistency within the very function
-> > > you are changing.
-> > > 
-> > > Apart from consistency, what about the parent-child magic
-> > > intel_context_timeline_lock does and you wouldn't have here?
-> > > 
-> > > And what about the very existence of intel_context_timeline_lock as a
-> > > component boundary separation API, if it is used inconsistently throughout
-> > > i915_gem_execbuffer.c?
-> > 
-> > intel_context_timeline_lock does 2 things:
-> > 
-> > 1. Handles lockdep nesting of timeline locks for parent-child contexts
-> > ensuring locks are acquired from parent to last child, then released
-> > last child to parent
-> > 2. Allows the mutex lock to be interrupted
-> > 
-> > This helper should be used in setup steps where a user can signal abort
-> > (context pinning time + request creation time), by 'should be' I mean
-> > this was how it was done before I extended the execbuf IOCTL for
-> > multiple BBs. Slightly confusing but this is what was in place so I
-> > stuck with it.
-> > 
-> > This code here is an error path that only hold at most 1 timeline lock
-> > (no nesting required) and is a path that must be executed as it is a
-> > cleanup step (not allowed to be interrupted by user, intel_context_exit
-> > must be called or we have dangling engine PM refs).
-> > 
-> > Make sense? I probably should update the comment message to explain this
-> > a bit better as it did take me a bit to understand how this locking
-> > worked.
-> 
-> The part which does not make sense is this:
-> 
+On Thu, Jan 06, 2022 at 02:44:42PM +0800, Huacai Chen wrote:
+> On Thu, Jan 6, 2022 at 8:07 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
+> > Previously we selected a device that owns the boot framebuffer as the
+> > default device in vga_arb_select_default_device().  This was only done in
+> > the vga_arb_device_init() subsys_initcall, so devices enumerated later,
+> > e.g., by pcibios_init(), were not eligible.
+> >
+> > Fix this by moving the framebuffer device selection from
+> > vga_arb_select_default_device() to vga_arbiter_add_pci_device(), which is
+> > called after every PCI device is enumerated, either by the
+> > vga_arb_device_init() subsys_initcall or as an ADD_DEVICE notifier.
+> >
+> > Note that if vga_arb_select_default_device() found a device owning the boot
+> > framebuffer, it unconditionally set it to be the default VGA device, and no
+> > subsequent device could replace it.
+> >
+> > Link: https://lore.kernel.org/r/20211015061512.2941859-7-chenhuacai@loongson.cn
+> > Based-on-patch-by: Huacai Chen <chenhuacai@loongson.cn>
+> > Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+> > Cc: Bruno Prémont <bonbons@linux-vserver.org>
+> > ---
+> >  drivers/gpu/vga/vgaarb.c | 37 +++++++++++++++++--------------------
+> >  1 file changed, 17 insertions(+), 20 deletions(-)
+> >
+> > diff --git a/drivers/gpu/vga/vgaarb.c b/drivers/gpu/vga/vgaarb.c
+> > index b0ae0f177c6f..aefa4f406f7d 100644
+> > --- a/drivers/gpu/vga/vgaarb.c
+> > +++ b/drivers/gpu/vga/vgaarb.c
+> > @@ -72,6 +72,7 @@ struct vga_device {
+> >         unsigned int io_norm_cnt;       /* normal IO count */
+> >         unsigned int mem_norm_cnt;      /* normal MEM count */
+> >         bool bridge_has_one_vga;
+> > +       bool is_framebuffer;    /* BAR covers firmware framebuffer */
+> >         unsigned int (*set_decode)(struct pci_dev *pdev, bool decode);
+> >  };
+> >
+> > @@ -565,10 +566,9 @@ void vga_put(struct pci_dev *pdev, unsigned int rsrc)
+> >  }
+> >  EXPORT_SYMBOL(vga_put);
+> >
+> > -static void __init vga_select_framebuffer_device(struct pci_dev *pdev)
+> > +static bool vga_is_framebuffer_device(struct pci_dev *pdev)
+> >  {
+> >  #if defined(CONFIG_X86) || defined(CONFIG_IA64)
+> > -       struct device *dev = &pdev->dev;
+> >         u64 base = screen_info.lfb_base;
+> >         u64 size = screen_info.lfb_size;
+> >         u64 limit;
+> > @@ -583,15 +583,6 @@ static void __init vga_select_framebuffer_device(struct pci_dev *pdev)
+> >
+> >         limit = base + size;
+> >
+> > -       /*
+> > -        * Override vga_arbiter_add_pci_device()'s I/O based detection
+> > -        * as it may take the wrong device (e.g. on Apple system under
+> > -        * EFI).
+> > -        *
+> > -        * Select the device owning the boot framebuffer if there is
+> > -        * one.
+> > -        */
+> > -
+> >         /* Does firmware framebuffer belong to us? */
+> >         for (i = 0; i < DEVICE_COUNT_RESOURCE; i++) {
+> >                 flags = pci_resource_flags(pdev, i);
+> > @@ -608,13 +599,10 @@ static void __init vga_select_framebuffer_device(struct pci_dev *pdev)
+> >                 if (base < start || limit >= end)
+> >                         continue;
+> >
+> > -               if (!vga_default_device())
+> > -                       vgaarb_info(dev, "setting as boot device\n");
+> > -               else if (pdev != vga_default_device())
+> > -                       vgaarb_info(dev, "overriding boot device\n");
+> > -               vga_set_default_device(pdev);
+> > +               return true;
+> >         }
+> >  #endif
+> > +       return false;
+> >  }
+> >
+> >  static bool vga_arb_integrated_gpu(struct device *dev)
+> > @@ -635,6 +623,7 @@ static bool vga_arb_integrated_gpu(struct device *dev)
+> >  static bool vga_is_boot_device(struct vga_device *vgadev)
+> >  {
+> >         struct vga_device *boot_vga = vgadev_find(vga_default_device());
+> > +       struct pci_dev *pdev = vgadev->pdev;
+> >
+> >         /*
+> >          * We select the default VGA device in this order:
+> > @@ -645,6 +634,18 @@ static bool vga_is_boot_device(struct vga_device *vgadev)
+> >          *   Other device (see vga_arb_select_default_device())
+> >          */
+> >
+> > +       /*
+> > +        * We always prefer a firmware framebuffer, so if we've already
+> > +        * found one, there's no need to consider vgadev.
+> > +        */
+> > +       if (boot_vga && boot_vga->is_framebuffer)
+> > +               return false;
+> > +
+> > +       if (vga_is_framebuffer_device(pdev)) {
+> > +               vgadev->is_framebuffer = true;
+> > +               return true;
+> > +       }
+> Maybe it is better to rename vga_is_framebuffer_device() to
+> vga_is_firmware_device() and rename is_framebuffer to
+> is_fw_framebuffer?
 
-I'll try to explain this again...
+That's a great point, thanks!
 
-> eb_pin_timeline()
-> {
-> ...
-> 	tl = intel_context_timeline_lock(ce);
-> 	if (IS_ERR(tl))
-> 		return PTR_ERR(tl);
+The "framebuffer" term is way too generic.  *All* VGA devices have a
+framebuffer, so it adds no information.  This is really about finding
+the device that was used by firmware.
 
-This part is allowed to be aborted by the user.
+I renamed:
 
-> 
-> ... do some throttling, and if it fail:
-> 			mutex_lock(&ce->timeline->mutex);
+  vga_is_framebuffer_device() -> vga_is_firmware_default()
+  vga_device.is_framebuffer   -> vga_device.is_firmware_default
 
-This part is not.
+I updated my local branch and pushed it to:
+https://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git/log/?h=pci/vga
+with head 0f4caffa1297 ("vgaarb: Replace full MIT license text with
+SPDX identifier").
 
-> 
-> Therefore argument that at most one timeline lock is held and the extra
-> stuff is not needed does not hold for me. Why would the throttling failed
-> path be different than the initial step in this respect?
-> 
-> Using two ways to lock the same mutex withing 10 lines of code is confusing.
-> 
-> In my mind we have this question of API usage consistency, and also the
-> unanswered questions of whether reacting to signals during taking this mutex
-> matters (what are the pessimistic lock hold times and what influences
-> them?).
-> 
-> Note that first lock handles signals, throttling also handles signals, so
-> why wouldn't the cleanup path? Just because then you don't have to bother
-> with error unwind is to only reason I can see.
-> 
-> So I suggest you just do proper error unwind and be done with it.
-> 
->  if (rq) {
-> 	ret = i915_request_wait()
-> 	i915_request_put(rq)
-> 	if (ret)
-> 		goto err;
->  }
-> 
->  return 0;
-> 
->  err:
-> 
->  tl = intel_context_timeline_lock()
+I don't maintain drivers/gpu/vga/vgaarb.c, so this branch is just for
+reference.  It'll ultimately be up to the DRM folks to handle this.
 
-We've already successfully called intel_context_enter,
-intel_context_timeline_lock can be aborted by the user and return NULL.
-If NULL lockdep blows up in intel_context_exit and we can NULL ptr dref
-in intel_context_timeline_unlock. If we bail on tl returning NULL, now
-we don't call intel_context_exit and be have dangling PM ref and GPU
-will never power down.
+I'll wait for any other comments or testing reports before reposting.
 
-Again all of the same code was in place before any of updated to the
-execbuf IOCTL for multi-BB, just fixing a mistake I made when doing this
-update. 
-
-Matt
-
->  intel_context_exit()
->  intel_context_timeline_unlock()
-> 
->  return nonblock ? ... : ...;
-> 
-> Regards,
-> 
-> Tvrtko
-> 
-> > 
-> > Matt
-> > 
-> > > 
-> > > Regards,
-> > > 
-> > > Tvrtko
-> > > 
-> > > >    			intel_context_exit(ce);
-> > > > -			intel_context_timeline_unlock(tl);
-> > > > +			mutex_unlock(&ce->timeline->mutex);
-> > > >    			if (nonblock)
-> > > >    				return -EWOULDBLOCK;
-> > > > 
+> >         /*
+> >          * A legacy VGA device has MEM and IO enabled and any bridges
+> >          * leading to it have PCI_BRIDGE_CTL_VGA enabled so the legacy
+> > @@ -1531,10 +1532,6 @@ static void __init vga_arb_select_default_device(void)
+> >         struct pci_dev *pdev, *found = NULL;
+> >         struct vga_device *vgadev;
+> >
+> > -       list_for_each_entry(vgadev, &vga_list, list) {
+> > -               vga_select_framebuffer_device(vgadev->pdev);
+> > -       }
+> > -
+> >         if (!vga_default_device()) {
+> >                 list_for_each_entry_reverse(vgadev, &vga_list, list) {
+> >                         struct device *dev = &vgadev->pdev->dev;
+> > --
+> > 2.25.1
+> >
