@@ -1,48 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3722485ED3
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 03:32:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD910485EDE
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 03:39:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36AC010E59F;
-	Thu,  6 Jan 2022 02:32:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73BF510E5A4;
+	Thu,  6 Jan 2022 02:39:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2EA2E10E585
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 02:32:44 +0000 (UTC)
-Received: from localhost.localdomain (unknown [124.16.138.126])
- by APP-05 (Coremail) with SMTP id zQCowAAnLn7DVNZhOUqwBQ--.54754S2;
- Thu, 06 Jan 2022 10:32:35 +0800 (CST)
-From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-To: arnd@arndb.de, gregkh@linuxfoundation.org, sumit.semwal@linaro.org,
- christian.koenig@amd.com
-Subject: [PATCH] misc: fastrpc: Check for error num after setting mask
-Date: Thu,  6 Jan 2022 10:32:34 +0800
-Message-Id: <20220106023234.2550800-1-jiasheng@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FC1310E5A4
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 02:39:08 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id C6791B81F03
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 02:39:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7D36BC36AF2
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 02:39:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1641436745;
+ bh=4xb2fICb2SxJjm2d2xT4MMyHzW1W9mD81S3FeVGoySU=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=RseqTAw4G0GJBrku07YjSs7F3iCVXYNCgBaVPt+QuIIIYeave9r29ecDUd8M/kLII
+ nx1Y1B/Oed8k7EQwx1NmXFxT1dMwTnSZxkwjarpsLZMON5U5JiU2SDG8GqHkLVQfZe
+ mK10in0aczH4TmqdnCjBxcV9oE8f4CxW6raT+TTZPzalsGD1/N2pLbVkVWcOT5e7/h
+ NrgXv4YJUrOWRpIvrubytH54SA8KC4I93d6e+NSeJzSHlsuBAoiD1MRRG/IFF5V8Si
+ RI9fm9hpJiTm45aVonLAU040Df1tT6BtnMdELh+vOBucLpJ7hyc5Dv8ODV982BVCca
+ XA7NGQdhUfKCA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 6154CC05FF3; Thu,  6 Jan 2022 02:39:05 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 215001] Regression in 5.15, Firmware-initialized graphics
+ console selects FB_VGA16, screen corruption
+Date: Thu, 06 Jan 2022 02:39:05 +0000
+X-Bugzilla-Reason: CC
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(Other)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: bugs-a21@moonlit-rail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-other@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-215001-2300-5nVeJrWJcc@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-215001-2300@https.bugzilla.kernel.org/>
+References: <bug-215001-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowAAnLn7DVNZhOUqwBQ--.54754S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrtr45Cw13Aw1rGFyDCrW5Awb_yoWDZrb_Cw
- nY9rW8Xry5G3yxCw17Jw1SvrWrtF4rGrn0vFyxKa93tr97Wrs8JrsFqws5Ar4DuFnIyF97
- Gryvgryfta4rWjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUb4kFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
- Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
- 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
- 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
- 1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_
- Gr1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxV
- WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI
- 7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
- 1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWUJVW8
- JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUO_MaUU
- UUU
-X-Originating-IP: [124.16.138.126]
-X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,41 +72,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Because of the possible failure of the dma_supported(), the
-dma_set_mask_and_coherent() may return error num.
-Therefore, it should be better to check it and return the error if
-fails.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215001
 
-Fixes: f6f9279f2bf0 ("misc: fastrpc: Add Qualcomm fastrpc basic driver model")
-Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
----
- drivers/misc/fastrpc.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+--- Comment #3 from Kris Karas (bugs-a21@moonlit-rail.com) ---
+Added Javier Martinez to the CC list, as he's the patch author.
 
-diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-index beda610e6b30..dd1c4a75bb1d 100644
---- a/drivers/misc/fastrpc.c
-+++ b/drivers/misc/fastrpc.c
-@@ -1644,7 +1644,12 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
- 	kref_init(&data->refcount);
- 
- 	dev_set_drvdata(&rpdev->dev, data);
--	dma_set_mask_and_coherent(rdev, DMA_BIT_MASK(32));
-+	err = dma_set_mask_and_coherent(rdev, DMA_BIT_MASK(32));
-+	if (err) {
-+		kfree(data);
-+		return err;
-+	}
-+
- 	INIT_LIST_HEAD(&data->users);
- 	spin_lock_init(&data->lock);
- 	idr_init(&data->ctx_idr);
--- 
-2.25.1
+I just bisected this bug.  "First bad commit" is
+d391c58271072d0b0fad93c82018d495b2633448
 
+Author: Javier Martinez Canillas <javierm@redhat.com>
+Date:   Fri Jun 25 15:09:46 2021 +0200
+
+    drivers/firmware: move x86 Generic System Framebuffers support
+
+    The x86 architecture has generic support to register a system framebuff=
+er
+    platform device. It either registers a "simple-framebuffer" if the conf=
+ig
+    option CONFIG_X86_SYSFB is enabled, or a legacy VGA/VBE/EFI FB device.
+
+    But the code is generic enough to be reused by other architectures and =
+can
+    be moved out of the arch/x86 directory.
+
+    This will allow to also support the simple{fb,drm} drivers on non-x86 E=
+FI
+    platforms, such as aarch64 where these drivers are only supported with =
+DT.
+
+    Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+    Acked-by: Borislav Petkov <bp@suse.de>
+    Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+    Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+    Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+    Link:
+https://patchwork.freedesktop.org/patch/msgid/20210625130947.1803678-2-javi=
+erm@redhat.com
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are on the CC list for the bug.=
