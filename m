@@ -1,43 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB76E48697D
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 19:14:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36DD948698B
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 19:15:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CE4210E750;
-	Thu,  6 Jan 2022 18:14:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9329310E7D0;
+	Thu,  6 Jan 2022 18:15:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 449F010E750
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 18:14:14 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id E4BAFB822E4;
- Thu,  6 Jan 2022 18:14:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A780C36AEB;
- Thu,  6 Jan 2022 18:14:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1641492850;
- bh=pk9c3vFsS24A9H9YRNmuoLU04tTgveyiSfxz/RguLrg=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=tWL9ah320xPJ7ZLvQrLFkjIeV1LTlPrJ2qSY/t0fKFbU+5MxnpWBBUesVfIjO0xOO
- l+Yvi8TANgRjNK2vReZYRlLqehfzP4qE2oNJarfvWixIS0OfQkuKWpI6rrQEfWGn25
- oroVHI/IQA8JEpMkHqxWMkHxAKg+IVXn/Zqji7RoVtpWyymeRt5WcM4qay0A7EFOWe
- jnI4JpbaAmAttF9a/Yhl/wWUUgx6A1s8zF9Wpc8ft5Y9hFSMLv91rRujQQ/od6scnA
- LsHiF+8iYMGoQ6RcvIn/+ZU8WqHN0Y3LnsXMJdYHRbXi/+K/WGfnGi+pM9zExj10bs
- +smYL/+iBYHZg==
-Date: Thu, 6 Jan 2022 12:14:09 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: John Garry <john.garry@huawei.com>
-Subject: Re: [RFC 01/32] Kconfig: introduce and depend on LEGACY_PCI
-Message-ID: <20220106181409.GA297735@bhelgaas>
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
+ [IPv6:2607:f8b0:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B99510E7D5;
+ Thu,  6 Jan 2022 18:15:05 +0000 (UTC)
+Received: by mail-pg1-x533.google.com with SMTP id f8so3286749pgf.8;
+ Thu, 06 Jan 2022 10:15:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZPOLEXfdQzQQdTmG9MNU+kg5OfcKlLIQc8Wvo+ywGFg=;
+ b=dVcl5oZbRlN9CXKs1WzqWZjjyIYlqPwIv+8Zd+7ZjQI1W4gX5Di+KBMAbW8NZQmGSr
+ FcWDIFkpSCXS7SiUQns/ZBTJpBDL3RV54+4chi0JqwuCrhjkxJO7Mnj+4PYTGZjnUeMI
+ 7yqr1J+jKmdvnhzptaLLBB0UtrnrxcljEnzeWhdLuZOj3vrpMP7jUgst12+MTml7bX6f
+ p9IdkPDqDQI5VuWjvHXsanYE7tTaeT33NXEcpNfMn6h7zaqmdKXCzrJJWuEeM2LUftTC
+ gkPD1lUl05d89MYW9rQFeDHbNn9fmhrlbHMOIEagXzbsuealBPdSZF5G/mX48uUFLjlt
+ mVGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZPOLEXfdQzQQdTmG9MNU+kg5OfcKlLIQc8Wvo+ywGFg=;
+ b=1CuhKJHQaq+tmJwsMFyToHF3cFBoYOqiLUEZKxpFkb+bIXOtaiFHoNDH8yv/El3RYn
+ 8qHRW9nVd9w7iHWMjAY/BGafPrnOAlbGFw6eZZvkEIdWmjT7ODoo+n9HrUtSR7T5SHhv
+ eecqzmvFm5/qN5xzaYssEbKxkiFWBGCBzj5sMAyFBc+jX257Lw9czrx1v1+2QffnXXRM
+ CAWg0s2sZ45kpftjaJuVx+eZNNyawqy4crSRM8LrYAhL5oU8cfGYHWTQCHptsm4LKK9Y
+ wZiP/ApFaSWOt/aTgE2qE3gpsR9j9FmXC4yUjnI08gIp1zIsTBBwt6+SqdLOiCE1XJWo
+ UEuw==
+X-Gm-Message-State: AOAM532uoIrDEFrRJlkzPYkZIawejjWTUp+VwZ+KaA/oouakM5ONQLTq
+ Mo17svfV8N/9UXRs2frbtqalyNqIbj4=
+X-Google-Smtp-Source: ABdhPJwGGsFV6PbXXGJkrzuiRrJR4ChU60O5/We5mhbGApzUnSXKi9JYqmb2ZJvzGlaYBbeJdU9EbQ==
+X-Received: by 2002:a05:6a00:d6f:b0:4bc:df41:d0d4 with SMTP id
+ n47-20020a056a000d6f00b004bcdf41d0d4mr8880838pfv.74.1641492904144; 
+ Thu, 06 Jan 2022 10:15:04 -0800 (PST)
+Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
+ by smtp.gmail.com with ESMTPSA id g7sm3118015pfu.2.2022.01.06.10.15.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Jan 2022 10:15:03 -0800 (PST)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/2] drm/msm/gpu: System suspend fixes
+Date: Thu,  6 Jan 2022 10:14:45 -0800
+Message-Id: <20220106181449.696988-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <74bf4fde-3972-1c36-ca04-58089da0d82b@huawei.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,74 +66,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-pci@vger.kernel.org,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- Ettore Chimenti <ek5.chimenti@gmail.com>, linux-ide@vger.kernel.org,
- Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
- linux-i2c@vger.kernel.org, linux-riscv@lists.infradead.org,
- Vincent Chen <deanbo422@gmail.com>, Jiri Slaby <jirislaby@kernel.org>,
- linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- Hannes Reinecke <hare@suse.com>,
- Michael Grzeschik <m.grzeschik@pengutronix.de>, linux-scsi@vger.kernel.org,
- Sumit Saxena <sumit.saxena@broadcom.com>, Bartosz Golaszewski <brgl@bgdev.pl>,
- Sathya Prakash <sathya.prakash@broadcom.com>,
- Jesse Brandeburg <jesse.brandeburg@intel.com>, linux-csky@vger.kernel.org,
- Kashyap Desai <kashyap.desai@broadcom.com>,
- Nilesh Javali <njavali@marvell.com>, intel-wired-lan@lists.osuosl.org,
- linux-serial@vger.kernel.org, GR-QLogic-Storage-Upstream@marvell.com,
- Jakub Kicinski <kuba@kernel.org>, MPT-FusionLinux.pdl@broadcom.com,
- "James E.J. Bottomley" <jejb@linux.ibm.com>,
- Guenter Roeck <linux@roeck-us.net>, linux-media@vger.kernel.org,
- Jaroslav Kysela <perex@perex.cz>, Jean Delvare <jdelvare@suse.com>,
- linux-watchdog@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- Niklas Schnelle <schnelle@linux.ibm.com>, Jouni Malinen <j@w1.fi>,
- Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
- Kalle Valo <kvalo@kernel.org>, linux-input@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-gpio@vger.kernel.org,
- Ian Abbott <abbotti@mev.co.uk>, Mark Brown <broonie@kernel.org>,
- Greentime Hu <green.hu@gmail.com>, Paul Walmsley <paul.walmsley@sifive.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, megaraidlinux.pdl@broadcom.com,
- Teddy Wang <teddy.wang@siliconmotion.com>, linux-hwmon@vger.kernel.org,
- Arnd Bergmann <arnd@kernel.org>, Karsten Keil <isdn@linux-pingi.de>,
- Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Nick Hu <nickhu@andestech.com>, Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
- Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- linux-wireless@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
- "David S. Miller" <davem@davemloft.net>,
- H Hartley Sweeten <hsweeten@visionengravers.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Forest Bond <forest@alittletooquiet.net>,
- netdev@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Tony Nguyen <anthony.l.nguyen@intel.com>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Cc: Rob Clark <robdclark@chromium.org>, Jonathan Marek <jonathan@marek.ca>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Iskren Chernev <iskren.chernev@gmail.com>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, freedreno@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 06, 2022 at 05:41:00PM +0000, John Garry wrote:
-> On 05/01/2022 19:47, Bjorn Helgaas wrote:
+From: Rob Clark <robdclark@chromium.org>
 
-> > IMO inb() should
-> > be present but do something innocuous like return ~0, as it would if
-> > I/O port space is supported but there's no device at that address.
-> > 
-> > [1]https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/scsi/megaraid.c?id=v5.15#n4210
-> > 
-> 
-> That driver would prob not be used on systems which does not support PIO,
-> and so could have a HAS_IOPORT dependency. But it is not strictly necessary.
+Because system suspend uses pm_runtime_force_suspend() we can't rely
+runpm refcnt's to protect us if the GPU is active, etc.  Fortunately
+*usually* the GPU is idle when system suspend is triggered.  But that
+isn't quite good enough.
 
-I don't want the path of "this driver isn't needed because the device
-is unlikely to be used on this arch."
+The first patch attempts to block for a modest amount of time until GPU
+is idle (and failing that, returns -EBUSY).  We could have taken a
+slightly easier approach and just returned -EBUSY if GPU is not idle,
+but that would cause system suspend to fail.  And no one likes pulling
+a hot laptop out of their backpack.
 
-Maybe it's not _always_ possible, but if the device can be plugged
-into the platform, I think we should be able to build the driver for
-it.
+The second patch avoids getting devfreq callbacks after suspend, since
+pm_runtime_force_suspend() breaks the pm_runtime_get_if_in_use() tricks
+used to deal with devfreq callbacks while suspended.
 
-If the device requires I/O port space and the platform doesn't support
-it, the PCI core or the driver should detect that and give a useful
-diagnostic.
+Rob Clark (2):
+  drm/msm/gpu: Wait for idle before suspending
+  drm/msm/gpu: Cancel idle/boost work on suspend
 
-Bjorn
+ drivers/gpu/drm/msm/adreno/adreno_device.c |  9 +++++++++
+ drivers/gpu/drm/msm/msm_gpu.c              |  3 +++
+ drivers/gpu/drm/msm/msm_gpu.h              |  3 +++
+ drivers/gpu/drm/msm/msm_gpu_devfreq.c      | 21 +++++++++++++++++++--
+ 4 files changed, 34 insertions(+), 2 deletions(-)
+
+-- 
+2.33.1
+
