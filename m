@@ -1,57 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05788485E81
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 03:18:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3722485ED3
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 03:32:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0414A10E57B;
-	Thu,  6 Jan 2022 02:17:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36AC010E59F;
+	Thu,  6 Jan 2022 02:32:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
- [IPv6:2607:f8b0:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80E6F10E57B
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 02:17:54 +0000 (UTC)
-Received: by mail-oi1-x232.google.com with SMTP id r131so1772546oig.1
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Jan 2022 18:17:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=3AqXmqq/fvbOxqwSsHR7wVrpv5IIhXUtH49b4LPOTWI=;
- b=iS7/hV/IXv3fGbOyIo3DxFq5LwX+yNVjDMVRBSweVFwpCyyZTPKA24PenSTX69xA/i
- OuDCHNlFBOa4gVHOPRVu34iAgxyQp+F7IAqYNajp4XaNH8p+ohYFmq9bM3aYpSXZKQDU
- oaJROehE/SR2d9RGiS+dRzOOJ2oOSF4snbOh0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=3AqXmqq/fvbOxqwSsHR7wVrpv5IIhXUtH49b4LPOTWI=;
- b=tKnBIcZGNPWmXO+S2kerx1Jn344+15VPbao3un63aLu4dV71AyulauDhy7+W8qOcfD
- BwIEA33pZidXV4JJ36a/cetFJofv2Fp+HWhu+QYeYsntwfozgAz1k/lVnOx77IX5hCLI
- ZVX1hzJSQj9mKMXNHGwgsBDFtihdOh18Rx9z6nT7lMoJLg/MUVucOMLUNB/OCD1tGbU5
- wQDx2wW6FsBLn+/BW8SU6/KEJ/xmwB4S4qqaaFL8dc7IZFT+6qz9NNL75Bw7nFZ/HMDr
- KqKCxyN3VErkxuKYCpSK78m+dxduQdEIPufYY/5MEWPsPeqllj2sefN3msWqgJRNgzPZ
- +q7g==
-X-Gm-Message-State: AOAM531e3qQkWy6mRliBMmmGJUj6pssqD7zU0aIE9ej/BrMMvEkVCgJi
- BcUrcvbXLQGzANEyeTddjiPSgbE0en/OrAobUbST+g==
-X-Google-Smtp-Source: ABdhPJxVckkTPHg9kSdLRZHjaIGQnCN/oUiOy+mbGbuwVgV7+6FQORY/VTnh4Y+bCHsmoHzUw0n87Qpp99riuTZQHtQ=
-X-Received: by 2002:aca:4382:: with SMTP id q124mr4659737oia.64.1641435473794; 
- Wed, 05 Jan 2022 18:17:53 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 5 Jan 2022 18:17:53 -0800
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2EA2E10E585
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 02:32:44 +0000 (UTC)
+Received: from localhost.localdomain (unknown [124.16.138.126])
+ by APP-05 (Coremail) with SMTP id zQCowAAnLn7DVNZhOUqwBQ--.54754S2;
+ Thu, 06 Jan 2022 10:32:35 +0800 (CST)
+From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+To: arnd@arndb.de, gregkh@linuxfoundation.org, sumit.semwal@linaro.org,
+ christian.koenig@amd.com
+Subject: [PATCH] misc: fastrpc: Check for error num after setting mask
+Date: Thu,  6 Jan 2022 10:32:34 +0800
+Message-Id: <20220106023234.2550800-1-jiasheng@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <YcGel9PtOgqWH6l3@kroah.com>
-References: <20211202222732.2453851-1-swboyd@chromium.org>
- <20211202222732.2453851-2-swboyd@chromium.org>
- <YcGel9PtOgqWH6l3@kroah.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date: Wed, 5 Jan 2022 18:17:53 -0800
-Message-ID: <CAE-0n53WuAZZQzEsidz-N9Nat=qAJ10Mn4O4syurW11rTuEEMw@mail.gmail.com>
-Subject: Re: [PATCH v4 01/34] component: Introduce struct aggregate_device
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowAAnLn7DVNZhOUqwBQ--.54754S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrtr45Cw13Aw1rGFyDCrW5Awb_yoWDZrb_Cw
+ nY9rW8Xry5G3yxCw17Jw1SvrWrtF4rGrn0vFyxKa93tr97Wrs8JrsFqws5Ar4DuFnIyF97
+ Gryvgryfta4rWjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUb4kFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+ Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+ 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+ 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+ 1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_
+ Gr1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxV
+ WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI
+ 7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
+ 1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWUJVW8
+ JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUO_MaUU
+ UUU
+X-Originating-IP: [124.16.138.126]
+X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,37 +55,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Saravana Kannan <saravanak@google.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, linux-arm-msm@vger.kernel.org,
+Cc: linaro-mm-sig@lists.linaro.org, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Russell King <rmk+kernel@arm.linux.org.uk>, freedreno@lists.freedesktop.org
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Greg Kroah-Hartman (2021-12-21 01:29:59)
-> > @@ -471,9 +477,17 @@ int component_master_add_with_match(struct device *parent,
-> >       if (!master)
-> >               return -ENOMEM;
-> >
-> > +     id = ida_alloc(&aggregate_ida, GFP_KERNEL);
-> > +     if (id < 0) {
-> > +             kfree(master);
-> > +             return id;
-> > +     }
-> > +
-> > +     master->id = id;
-> >       master->parent = parent;
-> >       master->ops = ops;
-> >       master->match = match;
-> > +     dev_set_name(&master->dev, "aggregate%d", id);
->
-> You set the name yet the device is not "real"?
->
-> I don't understand this patch at all, sorry.
+Because of the possible failure of the dma_supported(), the
+dma_set_mask_and_coherent() may return error num.
+Therefore, it should be better to check it and return the error if
+fails.
 
-The device is registered in the third patch. I'll squash this patch with
-that one and move the rename patch to be the first patch in the series.
-Then it should be clear why a struct device is introduced along with the
-bus type it's associated with.
+Fixes: f6f9279f2bf0 ("misc: fastrpc: Add Qualcomm fastrpc basic driver model")
+Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+---
+ drivers/misc/fastrpc.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+index beda610e6b30..dd1c4a75bb1d 100644
+--- a/drivers/misc/fastrpc.c
++++ b/drivers/misc/fastrpc.c
+@@ -1644,7 +1644,12 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+ 	kref_init(&data->refcount);
+ 
+ 	dev_set_drvdata(&rpdev->dev, data);
+-	dma_set_mask_and_coherent(rdev, DMA_BIT_MASK(32));
++	err = dma_set_mask_and_coherent(rdev, DMA_BIT_MASK(32));
++	if (err) {
++		kfree(data);
++		return err;
++	}
++
+ 	INIT_LIST_HEAD(&data->users);
+ 	spin_lock_init(&data->lock);
+ 	idr_init(&data->ctx_idr);
+-- 
+2.25.1
+
