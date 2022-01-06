@@ -1,64 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66CF748693F
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 18:58:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07506486967
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 19:10:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5359A10EAE6;
-	Thu,  6 Jan 2022 17:58:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1546810E841;
+	Thu,  6 Jan 2022 18:10:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41EF310EAE6
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 17:58:28 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id DE230B8205B
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 17:58:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9607DC36AF3
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 17:58:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1641491905;
- bh=BMF+34LmtAlbPlsnkw42lGVUP9SDqXdGCLlWLkS7iMQ=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=Il7RQHBCq4XgyLpsvpIhptHDvYqJAwuP7TtoTdsHG02LiyxFdy8YixTSNTvQ+bfr3
- OwbV8HQIZW+VaXRkavHD9di2ufvVJ3TMW0kfCDIgebZNYYRTMyj3dYe653FqEQ2ycn
- lImZWCYvsPjxLVWYmYfmODNEVTHO/Cu9WH6yE5dYYGylAvz4F/IiXgxaEXe4zEzqDS
- lpD372Aa6bj2o96LehbJ5uTsv88qTIoCjr5Cdd+RubgMxJgiBX0NzV7f/fKa+O/BfK
- 6nGmZjCttKahLIX5ac3LIcLEpsz0+Nvb1gqn6juXkcT10qF0dM+mZ3XmvCvblyM409
- G0aiHgngZA1og==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 7E06DC05FF4; Thu,  6 Jan 2022 17:58:25 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206475] amdgpu under load drop signal to monitor until hard reset
-Date: Thu, 06 Jan 2022 17:58:24 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: rendsvig@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: ANSWERED
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-206475-2300-ikWJyXtC8P@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-206475-2300@https.bugzilla.kernel.org/>
-References: <bug-206475-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E46C10E7F3
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 18:10:25 +0000 (UTC)
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
+ helo=dude02.pengutronix.de.)
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1n5XDS-0008CY-3S; Thu, 06 Jan 2022 19:10:22 +0100
+From: Lucas Stach <l.stach@pengutronix.de>
+To: etnaviv@lists.freedesktop.org
+Subject: [PATCH] drm/etnaviv: relax submit size limits
+Date: Thu,  6 Jan 2022 19:10:21 +0100
+Message-Id: <20220106181021.3760251-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,36 +43,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D206475
+While all userspace tried to limit commandstreams to 64K in size,
+a bug in the Mesa driver lead to command streams of up to 128K
+being submitted. Allow those to avoid breaking existing userspace.
 
-rendsvig@gmail.com (rendsvig@gmail.com) changed:
+Fixes: 6dfa2fab8ddd ("drm/etnaviv: limit submit sizes")
+Cc: stable@vger.kernel.org
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |rendsvig@gmail.com
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+index 43da5800bfa3..0dc07c3d72a2 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+@@ -469,8 +469,8 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 		return -EINVAL;
+ 	}
+ 
+-	if (args->stream_size > SZ_64K || args->nr_relocs > SZ_64K ||
+-	    args->nr_bos > SZ_64K || args->nr_pmrs > 128) {
++	if (args->stream_size > SZ_128K || args->nr_relocs > SZ_128K ||
++	    args->nr_bos > SZ_128K || args->nr_pmrs > 128) {
+ 		DRM_ERROR("submit arguments out of size limits\n");
+ 		return -EINVAL;
+ 	}
+-- 
+2.30.2
 
---- Comment #21 from rendsvig@gmail.com (rendsvig@gmail.com) ---
-I have recently started facing this issues with two new games I've started
-playing, though I've had zero issues with gaming until now.
-
-I'm on kernel 5.15.8, and have tried with the Pop!_OS 21.10 default Mesa
-drivers 21.2.2 and more recent 21.3.3, drivers, too.
-
-Logging with lm-sensors every 2 seconds while playing, I see little develop=
-ment
-in temperature before the crash, but a growing power consumption, getting c=
-lose
- to the cap of 183W (five measurements before crash were 183, then 177, 180,
-182,   and 181).
-
-Marco, can you explain how to tell if it's the same hardware issue you face=
-d?
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
