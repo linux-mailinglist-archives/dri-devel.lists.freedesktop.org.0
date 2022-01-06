@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1AAB486C81
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 22:47:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEDC4486C87
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 22:47:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAB3210EFEB;
-	Thu,  6 Jan 2022 21:46:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5003910F00B;
+	Thu,  6 Jan 2022 21:46:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
- [IPv6:2607:f8b0:4864:20::1032])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A275710EE9D
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 21:46:36 +0000 (UTC)
-Received: by mail-pj1-x1032.google.com with SMTP id
- c14-20020a17090a674e00b001b31e16749cso8543297pjm.4
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jan 2022 13:46:36 -0800 (PST)
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
+ [IPv6:2607:f8b0:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D478D10EFC3
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 21:46:37 +0000 (UTC)
+Received: by mail-pf1-x429.google.com with SMTP id u20so3559867pfi.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Jan 2022 13:46:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7Yh3mBEg2nfQJzEtBIxus+8u5VcBe7iEDAWACHn4tN4=;
- b=bQgFVNcdsjnA7zW9FFXSITmcWjYkWGAB8wIRURyJ5ti0xuNPsSAy9ghoYEb1syKKJs
- CGLf/Q/oMrQcJwXU3CDgbPhlA20klKs2lFHi/PEmoc8VHgh96v1EkUV6JppBc9bUOpOY
- flarDI+B9t/W/Ty3wNZQQPlH80IiRnLiaJXmQ=
+ bh=8jRHJbzxJCo8C1IXTJW3KiTq5EwC3cp5SncHLYDZJzc=;
+ b=eReuh+xB+HXBzjAmlsPahN/YBwZeiwW4QIPx8qKKvBXEEvys1EVlO9m8YzP72gI66e
+ qReW+p/tESbPl3PSl0eoZtMZ/mshzo2n9jtYYWK++biQkqwv4ERl7RWDuKoAP8oc6i0Z
+ MVoMd+DUtrBY0hMbbo04/s41zThIM8mqEE5DY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7Yh3mBEg2nfQJzEtBIxus+8u5VcBe7iEDAWACHn4tN4=;
- b=MiczabWV45OV2N7C5Lf1Fwt0h1j3DXAw9linE9lydQLhPdDlv/3E6D6yOrVKF29EEI
- 1SPoTIoGBm1AqwgAWV/zlZCbFs3EDhZtXtloIm82KuNa42ELzRPw+f7Eib8B18qhMHwZ
- 0WAQo3hsD7zGHRjxIkQGcknNy0+EjXdqS8tidgaafalYbBDhbHJkYM2h2//89t4Ool1y
- XMZNS3JHT0GBYWuTXdHirIG/O1JRl+jZAh+6uFCnC/A3I9hcxSnhAewarbFwO980ka/I
- +cZBvqCi1fu+L+D02EzJZAc2X36h1vPA2y0c0u3uhcBsA1hj0is4ShRUjCYFZd1WSY/M
- p0SA==
-X-Gm-Message-State: AOAM533U7HPdrQXxsOfm8S+iJehu2e88S7j+OltTIb3wGQ+XdG5rC8rk
- PLHZBMZkHpLqadz/pqG8NgRqNA==
-X-Google-Smtp-Source: ABdhPJx3yLhPBYfq8wjRHSBRsuhDLs2BYE0BBSiTReIZmuvnjn2UxO8YtDDtwxw4qwXOdHpY78HYvw==
-X-Received: by 2002:a17:903:188:b0:149:512a:e69c with SMTP id
- z8-20020a170903018800b00149512ae69cmr60164734plg.40.1641505596109; 
- Thu, 06 Jan 2022 13:46:36 -0800 (PST)
+ bh=8jRHJbzxJCo8C1IXTJW3KiTq5EwC3cp5SncHLYDZJzc=;
+ b=LTuPro1rS4xq1F8CzGNuNNCWP0XQdfVSmdPC+HWkqaZx/YeoIwKnJ1h/ZWfZrv2DVp
+ 5pm/krdTEtQus/FF1dEOuVTwpsd07Xyt9vQCvnjrgaXN2GkgvKoToW81vpuaHLi0TSqm
+ qoqkbrr6MHqnkRQi+LsJmBoA8CBT89d/so2hKWUsedVVsPWylryyqfALMYJwrmkw5tk4
+ K53XzbeZpqpkVIG12mFuB6VkjpDAqYx/R2ZBYWuEo9LWj8J8/O94Hrc2hQ6AIMALO8M6
+ zE7wEprl/KVPrThmo9OyQXqfwoS3Iof2tXl5gT+8HBbw5vHof4fWAcl5WBIPU4/aipnj
+ vnzw==
+X-Gm-Message-State: AOAM531eXdIjhw3GKdzzNx9zgiYnYxAkkmxSgvLSl+pJXdW7/ag07BXB
+ dS27k/WKx8YHXjc0mgQl0NXlOw==
+X-Google-Smtp-Source: ABdhPJyHgT9qD3j5gx7eQngPsdPOyrFwzeyPSjZx8XO7m+E9g4eFWNl9gzOtJxE3QKVNLxFYLIS0aw==
+X-Received: by 2002:a05:6a00:1403:b0:4bc:80a3:19eb with SMTP id
+ l3-20020a056a00140300b004bc80a319ebmr26380646pfu.1.1641505597456; 
+ Thu, 06 Jan 2022 13:46:37 -0800 (PST)
 Received: from smtp.gmail.com ([2620:15c:202:201:1ebe:a8fd:f9b0:7e85])
- by smtp.gmail.com with ESMTPSA id 10sm3539960pfm.56.2022.01.06.13.46.34
+ by smtp.gmail.com with ESMTPSA id 10sm3539960pfm.56.2022.01.06.13.46.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jan 2022 13:46:35 -0800 (PST)
+ Thu, 06 Jan 2022 13:46:37 -0800 (PST)
 From: Stephen Boyd <swboyd@chromium.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Douglas Anderson <dianders@chromium.org>
-Subject: [PATCH v5 28/32] fbdev: omap2: Migrate to aggregate driver
-Date: Thu,  6 Jan 2022 13:45:51 -0800
-Message-Id: <20220106214556.2461363-29-swboyd@chromium.org>
+Subject: [PATCH v5 29/32] sound: hdac: Migrate to aggregate driver
+Date: Thu,  6 Jan 2022 13:45:52 -0800
+Message-Id: <20220106214556.2461363-30-swboyd@chromium.org>
 X-Mailer: git-send-email 2.34.1.448.ga2b2bfdf31-goog
 In-Reply-To: <20220106214556.2461363-1-swboyd@chromium.org>
 References: <20220106214556.2461363-1-swboyd@chromium.org>
@@ -67,11 +66,12 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Saravana Kannan <saravanak@google.com>,
+Cc: Saravana Kannan <saravanak@google.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
  "Rafael J. Wysocki" <rafael@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Russell King <rmk+kernel@arm.linux.org.uk>, linux-omap@vger.kernel.org,
+ Takashi Iwai <tiwai@suse.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Russell King <rmk+kernel@arm.linux.org.uk>, Jaroslav Kysela <perex@perex.cz>,
  freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
@@ -80,8 +80,9 @@ Use an aggregate driver instead of component ops so that we can get
 proper driver probe ordering of the aggregate device with respect to all
 the component devices that make up the aggregate device.
 
-Cc: <linux-omap@vger.kernel.org>
-Cc: <linux-fbdev@vger.kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.com>
+Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc: "Rafael J. Wysocki" <rafael@kernel.org>
 Cc: Rob Clark <robdclark@gmail.com>
@@ -89,70 +90,71 @@ Cc: Russell King <rmk+kernel@arm.linux.org.uk>
 Cc: Saravana Kannan <saravanak@google.com>
 Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 ---
- drivers/video/fbdev/omap2/omapfb/dss/dss.c | 20 +++++++++++++-------
- 1 file changed, 13 insertions(+), 7 deletions(-)
+ sound/hda/hdac_component.c | 21 +++++++++++++--------
+ 1 file changed, 13 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dss.c b/drivers/video/fbdev/omap2/omapfb/dss/dss.c
-index a6b1c1598040..f12663c39ceb 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/dss.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/dss.c
-@@ -1067,8 +1067,9 @@ static int dss_video_pll_probe(struct platform_device *pdev)
+diff --git a/sound/hda/hdac_component.c b/sound/hda/hdac_component.c
+index bb37e7e0bd79..9e4dab97f485 100644
+--- a/sound/hda/hdac_component.c
++++ b/sound/hda/hdac_component.c
+@@ -181,8 +181,9 @@ int snd_hdac_acomp_get_eld(struct hdac_device *codec, hda_nid_t nid, int dev_id,
  }
+ EXPORT_SYMBOL_GPL(snd_hdac_acomp_get_eld);
  
- /* DSS HW IP initialisation */
--static int dss_bind(struct device *dev)
-+static int dss_bind(struct aggregate_device *adev)
+-static int hdac_component_master_bind(struct device *dev)
++static int hdac_component_master_bind(struct aggregate_device *adev)
  {
 +	struct device *dev = adev->parent;
- 	struct platform_device *pdev = to_platform_device(dev);
- 	struct resource *dss_mem;
- 	u32 rev;
-@@ -1167,8 +1168,9 @@ static int dss_bind(struct device *dev)
- 	return r;
+ 	struct drm_audio_component *acomp = hdac_get_acomp(dev);
+ 	int ret;
+ 
+@@ -222,8 +223,9 @@ static int hdac_component_master_bind(struct device *dev)
+ 	return ret;
  }
  
--static void dss_unbind(struct device *dev)
-+static void dss_unbind(struct aggregate_device *adev)
+-static void hdac_component_master_unbind(struct device *dev)
++static void hdac_component_master_unbind(struct aggregate_device *adev)
  {
 +	struct device *dev = adev->parent;
- 	struct platform_device *pdev = to_platform_device(dev);
+ 	struct drm_audio_component *acomp = hdac_get_acomp(dev);
  
- 	dss_initialized = false;
-@@ -1188,9 +1190,13 @@ static void dss_unbind(struct device *dev)
- 	dss_put_clocks();
+ 	if (acomp->audio_ops && acomp->audio_ops->master_unbind)
+@@ -233,9 +235,13 @@ static void hdac_component_master_unbind(struct device *dev)
+ 	WARN_ON(acomp->ops || acomp->dev);
  }
  
--static const struct component_master_ops dss_component_ops = {
--	.bind = dss_bind,
--	.unbind = dss_unbind,
-+static struct aggregate_driver dss_aggregate_driver = {
-+	.probe = dss_bind,
-+	.remove = dss_unbind,
+-static const struct component_master_ops hdac_component_master_ops = {
+-	.bind = hdac_component_master_bind,
+-	.unbind = hdac_component_master_unbind,
++static struct aggregate_driver hdac_aggregate_driver = {
++	.probe = hdac_component_master_bind,
++	.remove = hdac_component_master_unbind,
 +	.driver = {
-+		.name = "dss_fbdev",
++		.name = "hdac_agg",
 +		.owner = THIS_MODULE,
 +	},
  };
  
- static int dss_component_compare(struct device *dev, void *data)
-@@ -1225,7 +1231,7 @@ static int dss_probe(struct platform_device *pdev)
- 	/* add all the child devices as components */
- 	device_for_each_child(&pdev->dev, &match, dss_add_child_component);
+ /**
+@@ -303,8 +309,7 @@ int snd_hdac_acomp_init(struct hdac_bus *bus,
+ 	devres_add(dev, acomp);
  
--	r = component_master_add_with_match(&pdev->dev, &dss_component_ops, match);
-+	r = component_aggregate_register(&pdev->dev, &dss_aggregate_driver, match);
- 	if (r)
- 		return r;
+ 	component_match_add_typed(dev, &match, match_master, bus);
+-	ret = component_master_add_with_match(dev, &hdac_component_master_ops,
+-					      match);
++	ret = component_aggregate_register(dev, &hdac_aggregate_driver, match);
+ 	if (ret < 0)
+ 		goto out_err;
  
-@@ -1234,7 +1240,7 @@ static int dss_probe(struct platform_device *pdev)
+@@ -344,7 +349,7 @@ int snd_hdac_acomp_exit(struct hdac_bus *bus)
+ 	bus->display_power_active = 0;
+ 	bus->display_power_status = 0;
  
- static int dss_remove(struct platform_device *pdev)
- {
--	component_master_del(&pdev->dev, &dss_component_ops);
-+	component_aggregate_unregister(&pdev->dev, &dss_aggregate_driver);
- 	return 0;
- }
+-	component_master_del(dev, &hdac_component_master_ops);
++	component_aggregate_unregister(dev, &hdac_aggregate_driver);
  
+ 	bus->audio_component = NULL;
+ 	devres_destroy(dev, hdac_acomp_release, NULL, NULL);
 -- 
 https://chromeos.dev
 
