@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 279D3486789
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 17:21:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBA184867AF
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 17:30:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 089B910E5DC;
-	Thu,  6 Jan 2022 16:21:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14EBC10F5C7;
+	Thu,  6 Jan 2022 16:30:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C6B610E5DC
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 16:21:02 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A368710F0B8
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 16:30:38 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 1AA28B82202;
- Thu,  6 Jan 2022 16:21:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FC0DC36AEB;
- Thu,  6 Jan 2022 16:20:59 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id ED06561D14;
+ Thu,  6 Jan 2022 16:30:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DBB8C36AEB;
+ Thu,  6 Jan 2022 16:30:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1641486059;
- bh=+eu0kFS5XuECOf38/1qOb3kYT6FMacBFZqWduz0+JaA=;
+ s=k20201202; t=1641486637;
+ bh=VwzxlywbuRFhErv9Kwojn/ALeD7Ym5OuRWIkT52COFc=;
  h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=QQxVbOuDAyqEEdJWiTrDtvzwG7bjz4d5kmj08f9Rd/17nSlrIgtMEO/xCK2KHFS5U
- wd4RlZ9rXyZQX3UwecojYbZGSF62eIlOWNoEfcInxlYwbGeP0e+Fcpy9RUxZQl5o/y
- zu66aTxlMYgtTw1w6O4xGA8LMSHtuOtH2IM3IvkwSrJNiL5faP5NoUm6yRyGA53d1a
- UTvsA/AomGGHkcctJ49LmPd9vEc9TWH05OpnfHNT8lQ2Ct8o2+bp+AUp2uTJ+xSskS
- 2U2SwNCaG/hW5PwvlDRvE6EmtTBZyyzObR0KzL9bogebqWYtlppfVdAECplJimvHyU
- n12jBhUb3VcPw==
-Date: Thu, 6 Jan 2022 10:20:58 -0600
+ b=s1Ds1PuDWp54mthBB3Df0U9FaSLR9yMCFT3ojsHwiDSV0W1Z/Wkh9LdnU9fHAB/3K
+ OsCXSgobyd0UcosuOCuxzxpkNWf/ZOm21I30sn/nTY1v1M6xxZyUvj5u5HIC2NgiWD
+ ueKUj0Q7P9WyUgQOFFCeWaaaB2UANG2GyZhgeZ/iRMNucL77k96CqbIq0DBmGWrX9I
+ cRow3owjVT+86SwnhZ9Pjjd9oVdNNNcBV/1o4gBEy2SqBT42x5NqGS/Pc2fx5QI78i
+ 8FE11YudQrYNDflkIK9FuJWiVsyGIRhRLPam5I27dQANSUVTEb99fJJmB+OIn7gxZa
+ Zi/PMpXjwWw+Q==
+Date: Thu, 6 Jan 2022 10:30:35 -0600
 From: Bjorn Helgaas <helgaas@kernel.org>
-To: Huacai Chen <chenhuacai@gmail.com>
-Subject: Re: [PATCH v8 04/10] vgaarb: Move framebuffer detection to
- ADD_DEVICE path
-Message-ID: <20220106162058.GA284940@bhelgaas>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v8 00/10] vgaarb: Rework default VGA device selection
+Message-ID: <20220106163035.GA292309@bhelgaas>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAAhV-H4BTAKdRwv+Wq7QRfMQRajQYzz3CqjvoGTrKujn47F3Yg@mail.gmail.com>
+In-Reply-To: <20220106000658.243509-1-helgaas@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,156 +53,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Bruno =?iso-8859-1?Q?Pr=E9mont?= <bonbons@linux-vserver.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Xuefeng Li <lixuefeng@loongson.cn>,
- Huacai Chen <chenhuacai@loongson.cn>
+Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Helgaas <bhelgaas@google.com>,
+ Xuefeng Li <lixuefeng@loongson.cn>, Huacai Chen <chenhuacai@loongson.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 06, 2022 at 02:44:42PM +0800, Huacai Chen wrote:
-> On Thu, Jan 6, 2022 at 8:07 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
-> > Previously we selected a device that owns the boot framebuffer as the
-> > default device in vga_arb_select_default_device().  This was only done in
-> > the vga_arb_device_init() subsys_initcall, so devices enumerated later,
-> > e.g., by pcibios_init(), were not eligible.
-> >
-> > Fix this by moving the framebuffer device selection from
-> > vga_arb_select_default_device() to vga_arbiter_add_pci_device(), which is
-> > called after every PCI device is enumerated, either by the
-> > vga_arb_device_init() subsys_initcall or as an ADD_DEVICE notifier.
-> >
-> > Note that if vga_arb_select_default_device() found a device owning the boot
-> > framebuffer, it unconditionally set it to be the default VGA device, and no
-> > subsequent device could replace it.
-> >
-> > Link: https://lore.kernel.org/r/20211015061512.2941859-7-chenhuacai@loongson.cn
-> > Based-on-patch-by: Huacai Chen <chenhuacai@loongson.cn>
-> > Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
-> > Cc: Bruno Prémont <bonbons@linux-vserver.org>
-> > ---
-> >  drivers/gpu/vga/vgaarb.c | 37 +++++++++++++++++--------------------
-> >  1 file changed, 17 insertions(+), 20 deletions(-)
-> >
-> > diff --git a/drivers/gpu/vga/vgaarb.c b/drivers/gpu/vga/vgaarb.c
-> > index b0ae0f177c6f..aefa4f406f7d 100644
-> > --- a/drivers/gpu/vga/vgaarb.c
-> > +++ b/drivers/gpu/vga/vgaarb.c
-> > @@ -72,6 +72,7 @@ struct vga_device {
-> >         unsigned int io_norm_cnt;       /* normal IO count */
-> >         unsigned int mem_norm_cnt;      /* normal MEM count */
-> >         bool bridge_has_one_vga;
-> > +       bool is_framebuffer;    /* BAR covers firmware framebuffer */
-> >         unsigned int (*set_decode)(struct pci_dev *pdev, bool decode);
-> >  };
-> >
-> > @@ -565,10 +566,9 @@ void vga_put(struct pci_dev *pdev, unsigned int rsrc)
-> >  }
-> >  EXPORT_SYMBOL(vga_put);
-> >
-> > -static void __init vga_select_framebuffer_device(struct pci_dev *pdev)
-> > +static bool vga_is_framebuffer_device(struct pci_dev *pdev)
-> >  {
-> >  #if defined(CONFIG_X86) || defined(CONFIG_IA64)
-> > -       struct device *dev = &pdev->dev;
-> >         u64 base = screen_info.lfb_base;
-> >         u64 size = screen_info.lfb_size;
-> >         u64 limit;
-> > @@ -583,15 +583,6 @@ static void __init vga_select_framebuffer_device(struct pci_dev *pdev)
-> >
-> >         limit = base + size;
-> >
-> > -       /*
-> > -        * Override vga_arbiter_add_pci_device()'s I/O based detection
-> > -        * as it may take the wrong device (e.g. on Apple system under
-> > -        * EFI).
-> > -        *
-> > -        * Select the device owning the boot framebuffer if there is
-> > -        * one.
-> > -        */
-> > -
-> >         /* Does firmware framebuffer belong to us? */
-> >         for (i = 0; i < DEVICE_COUNT_RESOURCE; i++) {
-> >                 flags = pci_resource_flags(pdev, i);
-> > @@ -608,13 +599,10 @@ static void __init vga_select_framebuffer_device(struct pci_dev *pdev)
-> >                 if (base < start || limit >= end)
-> >                         continue;
-> >
-> > -               if (!vga_default_device())
-> > -                       vgaarb_info(dev, "setting as boot device\n");
-> > -               else if (pdev != vga_default_device())
-> > -                       vgaarb_info(dev, "overriding boot device\n");
-> > -               vga_set_default_device(pdev);
-> > +               return true;
-> >         }
-> >  #endif
-> > +       return false;
-> >  }
-> >
-> >  static bool vga_arb_integrated_gpu(struct device *dev)
-> > @@ -635,6 +623,7 @@ static bool vga_arb_integrated_gpu(struct device *dev)
-> >  static bool vga_is_boot_device(struct vga_device *vgadev)
-> >  {
-> >         struct vga_device *boot_vga = vgadev_find(vga_default_device());
-> > +       struct pci_dev *pdev = vgadev->pdev;
-> >
-> >         /*
-> >          * We select the default VGA device in this order:
-> > @@ -645,6 +634,18 @@ static bool vga_is_boot_device(struct vga_device *vgadev)
-> >          *   Other device (see vga_arb_select_default_device())
-> >          */
-> >
-> > +       /*
-> > +        * We always prefer a firmware framebuffer, so if we've already
-> > +        * found one, there's no need to consider vgadev.
-> > +        */
-> > +       if (boot_vga && boot_vga->is_framebuffer)
-> > +               return false;
-> > +
-> > +       if (vga_is_framebuffer_device(pdev)) {
-> > +               vgadev->is_framebuffer = true;
-> > +               return true;
-> > +       }
-> Maybe it is better to rename vga_is_framebuffer_device() to
-> vga_is_firmware_device() and rename is_framebuffer to
-> is_fw_framebuffer?
+[+to Maarten, Maxime, Thomas: sorry, I forgot to use
+get_maintainer.pl so I missed you the first time.  Beginning of thread:
+https://lore.kernel.org/all/20220106000658.243509-1-helgaas@kernel.org/#t
+Git branch with this v8 + a couple trivial renames, based on v5.16-rc1:
+https://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git/log/?h=0f4caffa1297]
 
-That's a great point, thanks!
-
-The "framebuffer" term is way too generic.  *All* VGA devices have a
-framebuffer, so it adds no information.  This is really about finding
-the device that was used by firmware.
-
-I renamed:
-
-  vga_is_framebuffer_device() -> vga_is_firmware_default()
-  vga_device.is_framebuffer   -> vga_device.is_firmware_default
-
-I updated my local branch and pushed it to:
-https://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git/log/?h=pci/vga
-with head 0f4caffa1297 ("vgaarb: Replace full MIT license text with
-SPDX identifier").
-
-I don't maintain drivers/gpu/vga/vgaarb.c, so this branch is just for
-reference.  It'll ultimately be up to the DRM folks to handle this.
-
-I'll wait for any other comments or testing reports before reposting.
-
-> >         /*
-> >          * A legacy VGA device has MEM and IO enabled and any bridges
-> >          * leading to it have PCI_BRIDGE_CTL_VGA enabled so the legacy
-> > @@ -1531,10 +1532,6 @@ static void __init vga_arb_select_default_device(void)
-> >         struct pci_dev *pdev, *found = NULL;
-> >         struct vga_device *vgadev;
-> >
-> > -       list_for_each_entry(vgadev, &vga_list, list) {
-> > -               vga_select_framebuffer_device(vgadev->pdev);
-> > -       }
-> > -
-> >         if (!vga_default_device()) {
-> >                 list_for_each_entry_reverse(vgadev, &vga_list, list) {
-> >                         struct device *dev = &vgadev->pdev->dev;
-> > --
-> > 2.25.1
-> >
+On Wed, Jan 05, 2022 at 06:06:48PM -0600, Bjorn Helgaas wrote:
+> From: Bjorn Helgaas <bhelgaas@google.com>
+> 
+> Current default VGA device selection fails in some cases because part of it
+> is done in the vga_arb_device_init() subsys_initcall, and some arches
+> enumerate PCI devices in pcibios_init(), which runs *after* that.
+> 
+> For example:
+> 
+>   - On BMC system, the AST2500 bridge [1a03:1150] does not implement
+>     PCI_BRIDGE_CTL_VGA.  This is perfectly legal but means the legacy VGA
+>     resources won't reach downstream devices unless they're included in the
+>     usual bridge windows.
+> 
+>   - vga_arb_select_default_device() will set a device below such a bridge
+>     as the default VGA device as long as it has PCI_COMMAND_IO and
+>     PCI_COMMAND_MEMORY enabled.
+> 
+>   - vga_arbiter_add_pci_device() is called for every VGA device, either at
+>     boot-time or at hot-add time, and it will also set the device as the
+>     default VGA device, but ONLY if all bridges leading to it implement
+>     PCI_BRIDGE_CTL_VGA.
+> 
+>   - This difference between vga_arb_select_default_device() and
+>     vga_arbiter_add_pci_device() means that a device below an AST2500 or
+>     similar bridge can only be set as the default if it is enumerated
+>     before vga_arb_device_init().
+> 
+>   - On ACPI-based systems, PCI devices are enumerated by acpi_init(), which
+>     runs before vga_arb_device_init().
+> 
+>   - On non-ACPI systems, like on MIPS system, they are enumerated by
+>     pcibios_init(), which typically runs *after* vga_arb_device_init().
+> 
+> This series consolidates all the default VGA device selection in
+> vga_arbiter_add_pci_device(), which is always called after enumerating a
+> PCI device.
+> 
+> Almost all the work here is Huacai's.  I restructured it a little bit and
+> added a few trivial patches on top.
+> 
+> I'd like to move vgaarb.c to drivers/pci eventually, but there's another
+> initcall ordering snag that needs to be resolved first, so this leaves 
+> it where it is.
+> 
+> Bjorn
+> 
+> Version history:
+> V0 original implementation as final quirk to set default device.
+> https://lore.kernel.org/r/20210514080025.1828197-6-chenhuacai@loongson.cn
+> 
+> V1 rework vgaarb to do all default device selection in
+> vga_arbiter_add_pci_device().
+> https://lore.kernel.org/r/20210705100503.1120643-1-chenhuacai@loongson.cn
+> 
+> V2 move arbiter to PCI subsystem, fix nits.
+> https://lore.kernel.org/r/20210722212920.347118-1-helgaas@kernel.org
+> 
+> V3 rewrite the commit log of the last patch (which is also summarized
+> by Bjorn).
+> https://lore.kernel.org/r/20210820100832.663931-1-chenhuacai@loongson.cn
+> 
+> V4 split the last patch to two steps.
+> https://lore.kernel.org/r/20210827083129.2781420-1-chenhuacai@loongson.cn
+> 
+> V5 split Patch-9 again and sort the patches.
+> https://lore.kernel.org/r/20210911093056.1555274-1-chenhuacai@loongson.cn
+> 
+> V6 split Patch-5 again and sort the patches again.
+> https://lore.kernel.org/r/20210916082941.3421838-1-chenhuacai@loongson.cn
+> 
+> V7 stop moving vgaarb to drivers/pci because of ordering issues with
+> misc_init().
+> https://lore.kernel.org/r/20211015061512.2941859-1-chenhuacai@loongson.cn
+> https://lore.kernel.org/r/CAAhV-H7FhAjM-Ha42Z1dLrE4PvC9frfyeU27KHWcyWKkMftEsA@mail.gmail.com
+> 
+> 
+> Bjorn Helgaas (8):
+>   vgaarb: Factor out vga_select_framebuffer_device()
+>   vgaarb: Factor out default VGA device selection
+>   vgaarb: Move framebuffer detection to ADD_DEVICE path
+>   vgaarb: Move non-legacy VGA detection to ADD_DEVICE path
+>   vgaarb: Move disabled VGA device detection to ADD_DEVICE path
+>   vgaarb: Remove empty vga_arb_device_card_gone()
+>   vgaarb: Use unsigned format string to print lock counts
+>   vgaarb: Replace full MIT license text with SPDX identifier
+> 
+> Huacai Chen (2):
+>   vgaarb: Move vga_arb_integrated_gpu() earlier in file
+>   vgaarb: Log bridge control messages when adding devices
+> 
+>  drivers/gpu/vga/vgaarb.c | 311 +++++++++++++++++++--------------------
+>  1 file changed, 154 insertions(+), 157 deletions(-)
+> 
+> -- 
+> 2.25.1
+> 
+> 
