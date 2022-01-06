@@ -1,50 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C9754863A7
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 12:20:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7243E486400
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 12:57:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACFFD10E829;
-	Thu,  6 Jan 2022 11:20:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50FEC10E311;
+	Thu,  6 Jan 2022 11:57:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B23AB10E822;
- Thu,  6 Jan 2022 11:20:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1641468050; x=1673004050;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=SCnzuQi3dotUBtBqeb54lLg+lQjxadOrtik/jgsOtJU=;
- b=luV9HjRsL2EjAGOrofYtLqHltVNWrYkzgy405UfETpZpW5EI2i8gBB3j
- teEweGlr5Cg63tl8wDp/ABltRn6zCw7x9bonBCDo7SPgESA7493WOwrvx
- Ud/xgL0s4WElYBq8nHcig3GaqvR44OwC88wwfizkgaDWlD0ztu7rfYBCi
- yZ9/eWEmIaQ92MyVP7ASJx7+2qzAH1dIBA+W8b/Hz/PCT+gBXBwkzv0k/
- Q4MmpQqEsbfaUS0MIbaAi2awYrY84YoycthJS1lWZLNum6H0ZoPvbhoMG
- MuLrD8Ke6MN2PGQomCKvB59EWcE1CWlw7AdyrhWDFIIHtwdRad2sgaQWb w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="305992111"
-X-IronPort-AV: E=Sophos;i="5.88,266,1635231600"; d="scan'208";a="305992111"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jan 2022 03:20:50 -0800
-X-IronPort-AV: E=Sophos;i="5.88,266,1635231600"; d="scan'208";a="556892152"
-Received: from lsgoh-mobl1.gar.corp.intel.com (HELO mwauld-desk1.intel.com)
- ([10.249.65.184])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jan 2022 03:20:48 -0800
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 4/4] drm/i915/ttm: ensure we unmap when purging
-Date: Thu,  6 Jan 2022 11:20:26 +0000
-Message-Id: <20220106112026.247459-4-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220106112026.247459-1-matthew.auld@intel.com>
-References: <20220106112026.247459-1-matthew.auld@intel.com>
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0524710E311
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 11:57:41 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id k18so4232637wrg.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Jan 2022 03:57:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ENdPYturLMBQCNNgwpLTjTkeuQD5zIfYK76z8GCeMs8=;
+ b=QrEzROtO9x8lTVKieSna3jaRQXjuPgDwBLWEhKfh4L8ttXdrTTd7Q9cVxuDtLKtsxB
+ Yka7a4cY80IRmxdfxR0pxZbmksiXwn98KVcTgf5RwRolMDrjaVE83Td/1Z3dR3mLx3++
+ ccY8ns9EGt8IELLfZifP8ZsLDiXfL0eE9W+Wkb+hjWnVDGZzKO0ZW1vSVK567duYJoso
+ cp4DEv3T6GECbzCSzeS4kDVaNbXy+ssOJlda3kFnDwJhOHDmtPhp1fH5jpgtarC6dT8/
+ dgknFdtAipFPvLA3gELHhv6WTGiJew+UCLKOTy6dQMIZPHBUJ+b+g0OmeGzH7HHJ1Zjj
+ EnaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ENdPYturLMBQCNNgwpLTjTkeuQD5zIfYK76z8GCeMs8=;
+ b=vd75tEMzYK1+IA5odn8a7M45i4unbmPE10NRYucjBhpKxccdlvdaDFBXeBnXmM/223
+ xuCU8X0w353ZNo1gOAOuUVxSR+ncHZ6s2ossJ3wo70JNdSkkGgjo49zALtmBMEYMeXbC
+ 5InguxTINu4mTBQbFK2WROOOXHe5EgZ8gq++dtLKJ/pdQklkEhNYlCS4eQeAgtc1Y91R
+ P/Z1gk1jHJQn0dBhCfE1cRXBozJtEu6eG47P8dMtHguqahcZmL9G1gC7SnOpsLC+4pgE
+ DyANZRpJa+WalmtDu9dDwJf5q3DIapguCKhosgEywLC4l7SR20rKb6xzSjTNQMELbCZ2
+ VEmw==
+X-Gm-Message-State: AOAM531p1jc/J0wgj66iFOWeEHnw87GEoYLWrcv9ezgjq57V3N8nwXqz
+ fWKmjgWiPEaLKFsv5xlpGkQvVYzTTb28vaYHmQkQkA==
+X-Google-Smtp-Source: ABdhPJxZiF9wtSKnHcMfpyfw/zQHz3JTYsQ07e9gVX4ncIx5ryzekJ7/fQULWO53DEaQnfYTWkiDwsODW7Y10guZBSg=
+X-Received: by 2002:a05:6000:156b:: with SMTP id
+ 11mr51162670wrz.261.1641470260494; 
+ Thu, 06 Jan 2022 03:57:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220105120442.14418-1-linmq006@gmail.com>
+In-Reply-To: <20220105120442.14418-1-linmq006@gmail.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 6 Jan 2022 11:57:23 +0000
+Message-ID: <CAPY8ntAdknutH=OmV1dWPbez1ZqLgaOj-BoQQkZAu0WbhbE6nQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/v3d: Fix PM disable depth imbalance in
+ v3d_platform_drm_probe
+To: Miaoqian Lin <linmq006@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,60 +64,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, Eric Anholt <eric@anholt.net>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, Emma Anholt <emma@anholt.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Purging can happen during swapping out, or directly invoked with the
-madvise ioctl. In such cases this doesn't involve a ttm move, which
-skips umapping the object.
+Thanks for the patch.
 
-v2(Thomas):
-- add ttm_truncate helper, and just call into i915_ttm_move_notify() to
-  handle the unmapping step
+On Wed, 5 Jan 2022 at 12:04, Miaoqian Lin <linmq006@gmail.com> wrote:
+>
+> The pm_runtime_enable will increase power disable depth.
+> If the probe fails, we should use pm_runtime_disable() to balance
+> pm_runtime_enable().
+>
+> Fixes: 57692c9 ("drm/v3d: Introduce a new DRM driver for Broadcom V3D V3.x+")
+> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+> ---
+>  drivers/gpu/drm/v3d/v3d_drv.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
+> index bd46396a1ae0..4f293aa733b8 100644
+> --- a/drivers/gpu/drm/v3d/v3d_drv.c
+> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
+> @@ -300,6 +300,8 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
+>         v3d_gem_destroy(drm);
+>  dma_free:
+>         dma_free_wc(dev, 4096, v3d->mmu_scratch, v3d->mmu_scratch_paddr);
+> +pm_disable:
+> +       pm_runtime_disable(dev);
 
-Fixes: cf3e3e86d779 ("drm/i915: Use ttm mmap handling for ttm bo's.")
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+The dma_alloc_wc is done before the pm_runtime_enable, so the cleanup
+should be in the opposite order.
+Functionally it makes minimal difference in this case as
+pm_runtime_enable can't fail, but could cause confusion/errors should
+any other initialisation step be added between the two.
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index 1530d9f0bc81..de3fe79b665a 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -556,6 +556,20 @@ i915_ttm_resource_get_st(struct drm_i915_gem_object *obj,
- 	return intel_region_ttm_resource_to_rsgt(obj->mm.region, res);
- }
- 
-+static int i915_ttm_truncate(struct drm_i915_gem_object *obj)
-+{
-+	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
-+	int err;
-+
-+	WARN_ON_ONCE(obj->mm.madv == I915_MADV_WILLNEED);
-+
-+	err = i915_ttm_move_notify(bo);
-+	if (err)
-+		return err;
-+
-+	return i915_ttm_purge(obj);
-+}
-+
- static void i915_ttm_swap_notify(struct ttm_buffer_object *bo)
- {
- 	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
-@@ -962,7 +976,7 @@ static const struct drm_i915_gem_object_ops i915_gem_ttm_obj_ops = {
- 
- 	.get_pages = i915_ttm_get_pages,
- 	.put_pages = i915_ttm_put_pages,
--	.truncate = i915_ttm_purge,
-+	.truncate = i915_ttm_truncate,
- 	.shrinker_release_pages = i915_ttm_shrinker_release_pages,
- 
- 	.adjust_lru = i915_ttm_adjust_lru,
--- 
-2.31.1
+The pm_disable label is also unused so not necessary, however if
+reversing the order then renaming dma_free to pm_disable would be
+sensible.
 
+  Dave
+
+>         return ret;
+>  }
+
+>
+> --
+> 2.17.1
+>
