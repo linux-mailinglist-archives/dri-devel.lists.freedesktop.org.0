@@ -2,54 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ACA9485CFD
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 01:14:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57FAF485D59
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 01:43:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B8A910E58D;
-	Thu,  6 Jan 2022 00:14:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF79A10E570;
+	Thu,  6 Jan 2022 00:43:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com
- [IPv6:2607:f8b0:4864:20::d2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9ABE810E58D
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 00:14:18 +0000 (UTC)
-Received: by mail-io1-xd2f.google.com with SMTP id y70so1152557iof.2
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Jan 2022 16:14:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eeQl+BjiH7+9wbd64O7+kbmLU8ftNF3eSrLy24wAkHM=;
- b=XTpBcug0jMUyVVygTkuhrYPh7taAiCKOQ2ajtLCa6zFeMKNNgZNqtoWpNvDjnpq4l+
- Tco9Ef2SuRSmXJTpkRY3x4pABxhPj1fR2Dj9mMSrXJ7LPlmngN5Xy7WRPm3kJE6/eJpT
- g5Kg8qyu5YxUI6+E36FXKlSKGhhxr/926Rwu1aH70EyRhHjd6ju5dIEXWd1K7P1wW16l
- iAQsJRj+16S1YUQ7FBQeQZEfLgp7gHoaawYIW/hXukRIjUIFN3Hg6Tt0dsOW34F/BIfS
- 3l9i4+7shoX6KWYnLvs2oghzEqX9i1f/H3dOGMEl2WTtjvl6+xsbw0T9IUp7ULdLM5Xs
- M4iQ==
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
+ [IPv6:2a00:1450:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32B0010E571
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 00:43:04 +0000 (UTC)
+Received: by mail-lj1-x22b.google.com with SMTP id h21so1547991ljh.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Jan 2022 16:43:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XUkEK75e2F3w5u/llnR8n2HAgvHZx74pWDuCDC8nOSM=;
+ b=DK4Xf6mITXkcOevJ4wZ51waw2rIr7t8adiZGB11WgPNMb43rmftVNODC0ZnNHtnFJa
+ E03mOGa5vxMhterhVQcMMG3tyvp/wBKjJTFPG16d28no6B8QhOv5+/5FNy+u6qQGeZZY
+ TvE60iWfQXN4nYECUxJdfFs2/O6sb7wC1ibBCSCMuuL2ofyJ2ysQWsLP/uBxk1S5A+fp
+ ZSnzzTA/iYdGMTXaBzqNm9epOh7zcxcTSXIPBkMeZeeR37xsSx/t7bFLFQdCnGO93o7D
+ ZnZ9UB3g93B0qeaYxulmTwBE7x5b7pdZfplGVSBPjhYrhDfiNjjv7rj8wAE4v4C+Wikn
+ qR5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=eeQl+BjiH7+9wbd64O7+kbmLU8ftNF3eSrLy24wAkHM=;
- b=fQDKpujKbgE7AXOFgQjbheY+QG/q8RmB9obZCWtO08vXj6IyCMojh0MbBVloEf7t9A
- OuhFfmLLkS1puJTSN8ezAZHYUww7PihLqpc+BHHD4NygefNlx4lRPVTkNjvNk2usAlAw
- KAkBemQfNIrIRQBb1Y+zBMI2GVdUTe+Ah34CGFY1LQZqnZOJjCrFQeEAMEVcuwz9lneJ
- KaIbfETiUt/fEZOGxH8PNZez46K0i/hzsc8Y2U0UG1cbu3ahw2BzSuw7buktHkBIq+Yb
- efHUBv+kdjyRPc0ggAc5fmdD6fahI5L8qYf6KNtnQu1+2mCrlWeI5yvIjlJLxjPznL0p
- +QeQ==
-X-Gm-Message-State: AOAM532uZuProdrrGUrqK4Asl3SuMSEk17DZES5aLAj+DvleSvppfDgW
- 64vbjNVwsB4dJ25V25w2cGu94QuUr1iz+IVnhm4Vmg==
-X-Google-Smtp-Source: ABdhPJwgz5mAVWnIZYrCCi+2ofFB5tcua3t/hb3QCI9cdP9/EDCDtQWzZH0gswykWxT3NZ+I1odtjfToa8dWD7+IijE=
-X-Received: by 2002:a05:6602:2d84:: with SMTP id
- k4mr27083247iow.168.1641428057726; 
- Wed, 05 Jan 2022 16:14:17 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XUkEK75e2F3w5u/llnR8n2HAgvHZx74pWDuCDC8nOSM=;
+ b=xN2rMIt6BXF3sUDJRbEGpZUismGctVxL+ucr4Bp68SPFBjvQcT4GGigSYC9CgyUOzg
+ yqyD4iz7WeTCCzVomeNq8f7xhgqSsh3pETFxgoFUuw9XxuHMDSyLtEQBD/Okx3gU3LeL
+ nfPIEHmp0OfpxR1Kx3YC5YSHmMXoiFn+KfZ7cz+aKp1yTHywmBGbNbGTeeia/S03K6Dd
+ fnHjUY/FWmlazKnF8b1U7rNArCz2mJiibu+fLORGq4G/lGlxPaPiBWLvWxCi2L0Mrnhi
+ VzT18gEWSkea3rSbu/whypL19Y/DEWDboRU1SGc9gKtoAA3zsEjqrZEbi+tGfVNzuK2j
+ Ra/Q==
+X-Gm-Message-State: AOAM530KfpXVE4wOpQ9Upcua7jGvp6YJfsSH/uGXIldBKg5BLactEovJ
+ RlyAnWOIbI4E+WTb7CVLzJ2Khg==
+X-Google-Smtp-Source: ABdhPJxOTBEliR4cyqqJRtekI49AUXMGi66dhMUQeLqjnoFKWAFQEfnR2O1wFXMHOxlZU5biDnaFlw==
+X-Received: by 2002:a05:651c:1a0d:: with SMTP id
+ by13mr38658971ljb.107.1641429782465; 
+ Wed, 05 Jan 2022 16:43:02 -0800 (PST)
+Received: from eriador.lan ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id i5sm39131lfr.264.2022.01.05.16.43.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Jan 2022 16:43:02 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <abhinavk@quicinc.com>
+Subject: [PATCH 0/4] drm/msm: rework MDSS drivers
+Date: Thu,  6 Jan 2022 03:42:53 +0300
+Message-Id: <20220106004257.451572-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20211231045056.118640-1-yangcong5@huaqin.corp-partner.google.com>
-In-Reply-To: <20211231045056.118640-1-yangcong5@huaqin.corp-partner.google.com>
-From: Doug Anderson <dianders@google.com>
-Date: Wed, 5 Jan 2022 16:14:06 -0800
-Message-ID: <CAD=FV=XK5=mm8O7QbSuCfrvM1cfkVQ81_jR=1kMExNQw7ZbqLg@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel: Update Boe-tv110c9m initial code
-To: yangcong <yangcong5@huaqin.corp-partner.google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,39 +68,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+These patches coninue work started by AngeloGioacchino Del Regno in the
+previous cycle by further decoupling and dissecting MDSS and MDP drivers
+probe/binding paths.
 
-On Thu, Dec 30, 2021 at 8:51 PM yangcong
-<yangcong5@huaqin.corp-partner.google.com> wrote:
->
-> Optimize two problems
->
-> a)Turn off low voltage detection register.During the esd test,
-> the low-voltage detection ic may be triggered to enter the slpin state,
-> so a black screen occurs on the panel.
-> b)Optimize CMD2 page1 gamma.
->
-> Signed-off-by: yangcong <yangcong5@huaqin.corp-partner.google.com>
-> ---
->  drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+This removes code duplication between MDP5 and DPU1 MDSS drivers, by
+merging them and moving to the top level.
 
-While continuing to grumble about not liking this big binary command
-stream, I'll still apply it since we've accepted the previous ones. At
-some point I'm going to get fed up with it, though, and say that this
-needs to be converted to something understandable instead of a big
-pile of binary data.
+This patchset depends on the patch
+https://patchwork.freedesktop.org/patch/464362/?series=97310&rev=2 to be
+applied (just 1/2, no need for 2/2).
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+----------------------------------------------------------------
+Dmitry Baryshkov (4):
+      drm/msm: unify MDSS drivers
+      drm/msm: remove extra indirection for msm_mdss
+      drm/msm: split the main platform driver
+      drm/msm: stop using device's match data pointer
 
-...and pushed to drm-misc-misc...
+ drivers/gpu/drm/msm/Makefile              |   3 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c   |  10 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c  | 260 ------------------
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c  |  68 ++++-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c  |  11 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_mdss.c | 252 -----------------
+ drivers/gpu/drm/msm/msm_drv.c             | 260 ++++--------------
+ drivers/gpu/drm/msm/msm_drv.h             |  16 ++
+ drivers/gpu/drm/msm/msm_kms.h             |  18 --
+ drivers/gpu/drm/msm/msm_mdss.c            | 438 ++++++++++++++++++++++++++++++
+ 10 files changed, 578 insertions(+), 758 deletions(-)
+ delete mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
+ delete mode 100644 drivers/gpu/drm/msm/disp/mdp5/mdp5_mdss.c
+ create mode 100644 drivers/gpu/drm/msm/msm_mdss.c
 
-506d9d7414cf drm/panel: Update Boe-tv110c9m initial code
+
