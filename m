@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D93D48627A
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 10:56:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2AC7486284
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 10:57:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E47810E9D6;
-	Thu,  6 Jan 2022 09:56:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E761210EA08;
+	Thu,  6 Jan 2022 09:57:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org
  [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 807D410E9D6;
- Thu,  6 Jan 2022 09:56:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42EB510E9FF;
+ Thu,  6 Jan 2022 09:57:19 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 3F714B82005;
- Thu,  6 Jan 2022 09:56:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44ABBC36AE5;
- Thu,  6 Jan 2022 09:56:13 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 0E9DBB81FEB;
+ Thu,  6 Jan 2022 09:57:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 444E6C36AEB;
+ Thu,  6 Jan 2022 09:57:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1641462974;
- bh=g2OTglO7kNt/1C9rH1eMGfeioryhDpMhIlFqJBCB/nU=;
+ s=korg; t=1641463036;
+ bh=XHcihxlg55irUljDtcOsfIt5U7f67CRr+vIMHJeiFXE=;
  h=From:To:Cc:Subject:Date:From;
- b=UtlwpY27Hi40UW/6ZzEqlLUTopJNXx7nPPJwPu9uvIPwIxDEsdfltgYDzEjZeA4qj
- XzunqvFVzviK1PdrHgh+6QoMSwQt7ICq8LuAU4fBY2Df+9UYioSE3a4Knlxjd38WqK
- eXfwRs1E1ohUeE3dl5jyDw1C8dE2+oXY0MxiD1gc=
+ b=BGsrLo5/J8jfvBjvOmPv1Xb6uZc7IWrJSkkjO3HxD+zq/3DxibGbNylHVJ48il4yi
+ 0x6/mnqAbYv3kD+QYRZzUrqFZP0NuIX48W4YU8ZdG6EDPR8YNygB2re+VW+tVG9SZH
+ svXnI5OqAkI5E3zSEyQA9VWR/T/Q4Jg1rvbonkvk=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/amdgpu: use default_groups in kobj_type
-Date: Thu,  6 Jan 2022 10:56:10 +0100
-Message-Id: <20220106095610.3275631-1-gregkh@linuxfoundation.org>
+Subject: [PATCH] drm/amdkfd: use default_groups in kobj_type
+Date: Thu,  6 Jan 2022 10:57:13 +0100
+Message-Id: <20220106095713.3276112-1-gregkh@linuxfoundation.org>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1984; h=from:subject;
- bh=g2OTglO7kNt/1C9rH1eMGfeioryhDpMhIlFqJBCB/nU=;
- b=owGbwMvMwCRo6H6F97bub03G02pJDInX9uyyrZZY3yDCcVOo9ml7unfUk6gPXxdHa+naSk8RXy1Z
- /X5VRywLgyATg6yYIsuXbTxH91ccUvQytD0NM4eVCWQIAxenAEyk5yLDgsmGTv967jFYL/sda3Fv1X
- lRqdKGLoYFWxPWliQ6dKaH+Z1Z97no9s+tm+fJAgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1664; h=from:subject;
+ bh=XHcihxlg55irUljDtcOsfIt5U7f67CRr+vIMHJeiFXE=;
+ b=owGbwMvMwCRo6H6F97bub03G02pJDInX9vxUTf3ySzPPzGfz/Pw9nwr9SltW+wi1rM94YpeQyBXR
+ PkuhI5aFQZCJQVZMkeXLNp6j+ysOKXoZ2p6GmcPKBDKEgYtTACYy14ZhnoHLu0Va6z+mfZzVt2TTkj
+ lle75KNDIs6CqwlzolOevO1NXc5j+3iEgnJHBKAgA=
 X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
  fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 Content-Transfer-Encoding: 8bit
@@ -55,65 +55,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Kim <jonathan.kim@amd.com>, Kevin Wang <kevin1.wang@amd.com>,
- David Airlie <airlied@linux.ie>,
+Cc: David Airlie <airlied@linux.ie>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Felix Kuehling <Felix.Kuehling@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Tao Zhou <tao.zhou1@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- shaoyunl <shaoyun.liu@amd.com>, John Clements <john.clements@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 There are currently 2 ways to create a set of sysfs files for a
 kobj_type, through the default_attrs field, and the default_groups
-field.  Move the amdgpu sysfs code to use default_groups field which has
+field.  Move the amdkfd sysfs code to use default_groups field which has
 been the preferred way since aa30f47cf666 ("kobject: Add support for
 default attribute groups to kobj_type") so that we can soon get rid of
 the obsolete default_attrs field.
 
+Cc: Felix Kuehling <Felix.Kuehling@amd.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: "Christian König" <christian.koenig@amd.com>
 Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
 Cc: David Airlie <airlied@linux.ie>
 Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Hawking Zhang <Hawking.Zhang@amd.com>
-Cc: John Clements <john.clements@amd.com>
-Cc: Felix Kuehling <Felix.Kuehling@amd.com>
-Cc: Jonathan Kim <jonathan.kim@amd.com>
-Cc: Kevin Wang <kevin1.wang@amd.com>
-Cc: shaoyunl <shaoyun.liu@amd.com>
-Cc: Tao Zhou <tao.zhou1@amd.com>
 Cc: amd-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c | 3 ++-
+ drivers/gpu/drm/amd/amdkfd/kfd_process.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-index 567df2db23ac..94dcb004988d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-@@ -208,6 +208,7 @@ static struct attribute *amdgpu_xgmi_hive_attrs[] = {
- 	&amdgpu_xgmi_hive_id,
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+index b993011cfa64..1f4a07f984eb 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+@@ -462,6 +462,7 @@ static struct attribute *procfs_queue_attrs[] = {
+ 	&attr_queue_gpuid,
  	NULL
  };
-+ATTRIBUTE_GROUPS(amdgpu_xgmi_hive);
++ATTRIBUTE_GROUPS(procfs_queue);
  
- static ssize_t amdgpu_xgmi_show_attrs(struct kobject *kobj,
- 	struct attribute *attr, char *buf)
-@@ -237,7 +238,7 @@ static const struct sysfs_ops amdgpu_xgmi_hive_ops = {
- struct kobj_type amdgpu_xgmi_hive_type = {
- 	.release = amdgpu_xgmi_hive_release,
- 	.sysfs_ops = &amdgpu_xgmi_hive_ops,
--	.default_attrs = amdgpu_xgmi_hive_attrs,
-+	.default_groups = amdgpu_xgmi_hive_groups,
+ static const struct sysfs_ops procfs_queue_ops = {
+ 	.show = kfd_procfs_queue_show,
+@@ -469,7 +470,7 @@ static const struct sysfs_ops procfs_queue_ops = {
+ 
+ static struct kobj_type procfs_queue_type = {
+ 	.sysfs_ops = &procfs_queue_ops,
+-	.default_attrs = procfs_queue_attrs,
++	.default_groups = procfs_queue_groups,
  };
  
- static ssize_t amdgpu_xgmi_show_device_id(struct device *dev,
+ static const struct sysfs_ops procfs_stats_ops = {
 -- 
 2.34.1
 
