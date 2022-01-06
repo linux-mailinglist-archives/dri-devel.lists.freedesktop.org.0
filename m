@@ -2,51 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A646248615E
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 09:24:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E14CE4860DE
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 08:07:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 389B61135E2;
-	Thu,  6 Jan 2022 08:23:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D69D112BA0;
+	Thu,  6 Jan 2022 07:07:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 944 seconds by postgrey-1.36 at gabe;
- Wed, 05 Jan 2022 17:58:19 UTC
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
- [185.176.79.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A62A10E433
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jan 2022 17:58:19 +0000 (UTC)
-Received: from fraeml707-chm.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JTcDP1FRwz67w73;
- Thu,  6 Jan 2022 01:39:17 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml707-chm.china.huawei.com (10.206.15.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Wed, 5 Jan 2022 18:42:31 +0100
-Received: from [10.47.27.56] (10.47.27.56) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Wed, 5 Jan
- 2022 17:42:28 +0000
-From: John Garry <john.garry@huawei.com>
-Subject: Re: [RFC 01/32] Kconfig: introduce and depend on LEGACY_PCI
-To: Niklas Schnelle <schnelle@linux.ibm.com>, Bjorn Helgaas
- <helgaas@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, "Arnd
- Bergmann" <arnd@arndb.de>
-References: <20211229160317.GA1681139@bhelgaas>
- <e0877e91d7d50299ea5a3ffcee2cf1016458ce10.camel@linux.ibm.com>
-Message-ID: <3f39d8a2-2e57-a671-2926-eb4f2bf20c76@huawei.com>
-Date: Wed, 5 Jan 2022 17:42:16 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
+ [IPv6:2a00:1450:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0784112B9F
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 07:06:59 +0000 (UTC)
+Received: by mail-lj1-x235.google.com with SMTP id i11so2631112ljm.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Jan 2022 23:06:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SeZITS2hbPgnRPSasq0/v8/l0kJaM5t3PVHYhFxDOLU=;
+ b=kZi73krNgb+uFyic1z9Zmf5+OVrkW75BfSF0YR8TeWelZlInutyrqhzQo3E9TGGDGQ
+ nXi/hq2nc8tUWl/oPDflCCXoKMr+WUhcr8NxY3SdN82fBbasCnxmQ0BAMpBR1HcaUTkC
+ CI20BRGmrGTZBYWcsIFy/oLBy0ien9GEpzVMcDWCVjH6ACyDYpzlAOme7k8rOex0SIGa
+ fYzruSr/nWxQmnfQ9Rknedl1TWEtG98H50+b5oEsRpLMC27S3b101Elgjx7m9XIaN1Ag
+ EmMUZiVxY4rLVndw2wNFjfv9FmDN8H1JNL1xFWRFdF6kGNG+F/HlF9tOcg1FnSgsfYUj
+ gYnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SeZITS2hbPgnRPSasq0/v8/l0kJaM5t3PVHYhFxDOLU=;
+ b=aBfxNwbn20EwHPof6WY4ZPxqlc8a/EUztUuQ7lhy0Tm/+22vwUM8KOCxJA1B3xt3W8
+ f6iUkISSybyJYxcCkaR2RrJ8h5rr4Z8Rpe9fUx4E92R9r4dOMHGHhhcK02RD5WeKK7ep
+ Nfkrbb4aYGvDvRjIHLn2rUs3vA/dnmTfPeTkkFeTIwHAqUBg4sR7s6msS1uhMxR+/xOk
+ MA9MicwHtJFfBCvQPnBAsbw5aa++yF7i2sAo9sPXjYsqRBXvBoYMHyiV3FKj7PYHXmrv
+ hjgQlNWYjB9SkV+9x51lRO9N1oXXWtaoUK65LYywIYQA7wjUSjerviM6tOkRQvvGOOd1
+ 6UrA==
+X-Gm-Message-State: AOAM532d1O6/bGI0O8ccq7/pixw4tNkY8zYakoyREF+PI03anshPQ3DN
+ Khb/lsar9uRZ71fO2NNuEHJuug==
+X-Google-Smtp-Source: ABdhPJwlxzfS87+2bRBS2ruQE5ZSDCpELJcogn4BR3LwqrrkwsLWFE5cge8Nd9bz+4Bsd0Pz9OOxFg==
+X-Received: by 2002:a2e:a816:: with SMTP id l22mr9917936ljq.119.1641452817974; 
+ Wed, 05 Jan 2022 23:06:57 -0800 (PST)
+Received: from eriador.lan ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id k24sm99814lji.27.2022.01.05.23.06.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Jan 2022 23:06:57 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH v2] drm/msm: reduce usage of round_pixclk callback
+Date: Thu,  6 Jan 2022 10:06:56 +0300
+Message-Id: <20220106070656.482882-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-In-Reply-To: <e0877e91d7d50299ea5a3ffcee2cf1016458ce10.camel@linux.ibm.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.47.27.56]
-X-ClientProxiedBy: lhreml736-chm.china.huawei.com (10.201.108.87) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Thu, 06 Jan 2022 08:23:58 +0000
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,99 +67,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-pci@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Ettore Chimenti <ek5.chimenti@gmail.com>,
- linux-ide@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
- Guo Ren <guoren@kernel.org>, linux-i2c@vger.kernel.org,
- linux-riscv@lists.infradead.org, Vincent Chen <deanbo422@gmail.com>,
- Jiri Slaby <jirislaby@kernel.org>, linux-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, Hannes Reinecke <hare@suse.com>,
- Michael Grzeschik <m.grzeschik@pengutronix.de>, linux-scsi@vger.kernel.org,
- Sumit Saxena <sumit.saxena@broadcom.com>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Sathya Prakash <sathya.prakash@broadcom.com>,
- Jesse Brandeburg <jesse.brandeburg@intel.com>, linux-csky@vger.kernel.org,
- Kashyap Desai <kashyap.desai@broadcom.com>,
- Nilesh Javali <njavali@marvell.com>, intel-wired-lan@lists.osuosl.org,
- linux-serial@vger.kernel.org, GR-QLogic-Storage-Upstream@marvell.com, Jakub
- Kicinski <kuba@kernel.org>, MPT-FusionLinux.pdl@broadcom.com,
- "James E.J. Bottomley" <jejb@linux.ibm.com>,
- Guenter Roeck <linux@roeck-us.net>, linux-media@vger.kernel.org,
- Jaroslav Kysela <perex@perex.cz>, Albert Ou <aou@eecs.berkeley.edu>,
- linux-watchdog@vger.kernel.org, Jouni Malinen <j@w1.fi>,
- Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
- Kalle Valo <kvalo@kernel.org>, linux-input@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-gpio@vger.kernel.org, Ian
- Abbott <abbotti@mev.co.uk>, Mark Brown <broonie@kernel.org>,
- Greentime Hu <green.hu@gmail.com>, Paul Walmsley <paul.walmsley@sifive.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Wim Van
- Sebroeck <wim@linux-watchdog.org>, megaraidlinux.pdl@broadcom.com, Teddy
- Wang <teddy.wang@siliconmotion.com>, linux-hwmon@vger.kernel.org,
- Arnd Bergmann <arnd@kernel.org>, Karsten Keil <isdn@linux-pingi.de>,
- Sreekanth Reddy <sreekanth.reddy@broadcom.com>, "Martin
- K. Petersen" <martin.petersen@oracle.com>, Nick Hu <nickhu@andestech.com>,
- Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
- Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-wireless@vger.kernel.org,
- Takashi Iwai <tiwai@suse.com>, "David S. Miller" <davem@davemloft.net>,
- H Hartley Sweeten <hsweeten@visionengravers.com>, Palmer
- Dabbelt <palmer@dabbelt.com>, Forest Bond <forest@alittletooquiet.net>,
- netdev@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Tony Nguyen <anthony.l.nguyen@intel.com>, Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/12/2021 16:55, Niklas Schnelle wrote:
-> On Wed, 2021-12-29 at 10:03 -0600, Bjorn Helgaas wrote:
->> On Wed, Dec 29, 2021 at 01:12:07PM +0100, Mauro Carvalho Chehab wrote:
->>> Em Wed, 29 Dec 2021 12:45:38 +0100
->>> Niklas Schnelle<schnelle@linux.ibm.com>  escreveu:
->>>> ...
->>>> I do think we agree that once done correctly there is value in
->>>> such an option independent of HAS_IOPORT only gating inb() etc uses.
->> I'm not sure I'm convinced about this.  For s390, you could do this
->> patch series, where you don't define inb() at all, and you add new
->> dependencies to prevent compile errors.  Or you could define inb() to
->> return ~0, which is what happens on other platforms when the device is
->> not present.
->>
->>> Personally, I don't see much value on a Kconfig var for legacy PCI I/O
->>> space. From maintenance PoV, bots won't be triggered if someone use
->>> HAS_IOPORT instead of the PCI specific one - or vice-versa. So, we
->>> could end having a mix of both at the wrong places, in long term.
->>>
->>> Also, assuming that PCIe hardware will some day abandon support for
->>> "legacy" PCI I/O space, I guess some runtime logic would be needed,
->>> in order to work with both kinds of PCIe controllers. So, having a
->>> Kconfig option won't help much, IMO.
->>>
->>> So, my personal preference would be to have just one Kconfig var, but
->>> I'm ok if the PCI maintainers decide otherwise.
->> I don't really like the "LEGACY_PCI" Kconfig option.  "Legacy" just
->> means something old and out of favor; it doesn't say*what*  that
->> something is.
->>
->> I think you're specifically interested in I/O port space usage, and it
->> seems that you want all PCI drivers that*only*  use I/O port space to
->> depend on LEGACY_PCI?  Drivers that can use either I/O or memory
->> space or both would not depend on LEGACY_PCI?  This seems a little
->> murky and error-prone.
-> I'd like to hear Arnd's opinion on this but you're the PCI maintainer
-> so of course your buy-in would be quite important for such an option.
-> 
+The round_pixclk() callback returns different rate only on MDP4 in HDMI
+(DTV) case. Stop using this callback in other cases to simplify
+mode_valid callbacks.
 
-Hi Niklas,
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Changes since v1:
+ - Rebased on top of HDMI changes
+ - Dropped eDP part, driver got removed
 
-I can't see the value in the LEGACY_PCI config - however I don't really 
-understand Arnd's original intention.
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c  |  7 -------
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c |  7 -------
+ drivers/gpu/drm/msm/dsi/dsi_manager.c    | 22 ----------------------
+ drivers/gpu/drm/msm/hdmi/hdmi_bridge.c   | 11 +++++++----
+ 4 files changed, 7 insertions(+), 40 deletions(-)
 
-It was written that it would allow us to control "whether we have any 
-pre-PCIe devices or those PCIe drivers that need PIO accessors other 
-than ioport_map()/pci_iomap()".
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index 47fe11a84a77..ebbee5f103e1 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -774,12 +774,6 @@ static int _dpu_kms_drm_obj_init(struct dpu_kms *dpu_kms)
+ 	return ret;
+ }
+ 
+-static long dpu_kms_round_pixclk(struct msm_kms *kms, unsigned long rate,
+-		struct drm_encoder *encoder)
+-{
+-	return rate;
+-}
+-
+ static void _dpu_kms_hw_destroy(struct dpu_kms *dpu_kms)
+ {
+ 	int i;
+@@ -948,7 +942,6 @@ static const struct msm_kms_funcs kms_funcs = {
+ 	.disable_vblank  = dpu_kms_disable_vblank,
+ 	.check_modified_format = dpu_format_check_modified_format,
+ 	.get_format      = dpu_get_msm_format,
+-	.round_pixclk    = dpu_kms_round_pixclk,
+ 	.destroy         = dpu_kms_destroy,
+ 	.snapshot        = dpu_kms_mdp_snapshot,
+ #ifdef CONFIG_DEBUG_FS
+diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+index 12a5f81e402b..20859fd7af4a 100644
+--- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
++++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+@@ -190,12 +190,6 @@ static void mdp5_complete_commit(struct msm_kms *kms, unsigned crtc_mask)
+ 		mdp5_smp_complete_commit(mdp5_kms->smp, &global_state->smp);
+ }
+ 
+-static long mdp5_round_pixclk(struct msm_kms *kms, unsigned long rate,
+-		struct drm_encoder *encoder)
+-{
+-	return rate;
+-}
+-
+ static int mdp5_set_split_display(struct msm_kms *kms,
+ 		struct drm_encoder *encoder,
+ 		struct drm_encoder *slave_encoder,
+@@ -278,7 +272,6 @@ static const struct mdp_kms_funcs kms_funcs = {
+ 		.wait_flush      = mdp5_wait_flush,
+ 		.complete_commit = mdp5_complete_commit,
+ 		.get_format      = mdp_get_format,
+-		.round_pixclk    = mdp5_round_pixclk,
+ 		.set_split_display = mdp5_set_split_display,
+ 		.destroy         = mdp5_kms_destroy,
+ #ifdef CONFIG_DEBUG_FS
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+index f19bae475c96..1dbbfca163d9 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+@@ -305,27 +305,6 @@ static int dsi_mgr_connector_get_modes(struct drm_connector *connector)
+ 	return num;
+ }
+ 
+-static enum drm_mode_status dsi_mgr_connector_mode_valid(struct drm_connector *connector,
+-				struct drm_display_mode *mode)
+-{
+-	int id = dsi_mgr_connector_get_id(connector);
+-	struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
+-	struct drm_encoder *encoder = msm_dsi_get_encoder(msm_dsi);
+-	struct msm_drm_private *priv = connector->dev->dev_private;
+-	struct msm_kms *kms = priv->kms;
+-	long actual, requested;
+-
+-	DBG("");
+-	requested = 1000 * mode->clock;
+-	actual = kms->funcs->round_pixclk(kms, requested, encoder);
+-
+-	DBG("requested=%ld, actual=%ld", requested, actual);
+-	if (actual != requested)
+-		return MODE_CLOCK_RANGE;
+-
+-	return MODE_OK;
+-}
+-
+ static struct drm_encoder *
+ dsi_mgr_connector_best_encoder(struct drm_connector *connector)
+ {
+@@ -586,7 +565,6 @@ static const struct drm_connector_funcs dsi_mgr_connector_funcs = {
+ 
+ static const struct drm_connector_helper_funcs dsi_mgr_conn_helper_funcs = {
+ 	.get_modes = dsi_mgr_connector_get_modes,
+-	.mode_valid = dsi_mgr_connector_mode_valid,
+ 	.best_encoder = dsi_mgr_connector_best_encoder,
+ };
+ 
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+index 68fba4bf7212..10ebe2089cb6 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
++++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+@@ -282,15 +282,18 @@ static enum drm_mode_status msm_hdmi_bridge_mode_valid(struct drm_bridge *bridge
+ 	long actual, requested;
+ 
+ 	requested = 1000 * mode->clock;
+-	actual = kms->funcs->round_pixclk(kms,
+-			requested, hdmi_bridge->hdmi->encoder);
+ 
+ 	/* for mdp5/apq8074, we manage our own pixel clk (as opposed to
+ 	 * mdp4/dtv stuff where pixel clk is assigned to mdp/encoder
+ 	 * instead):
+ 	 */
+-	if (config->pwr_clk_cnt > 0)
+-		actual = clk_round_rate(hdmi->pwr_clks[0], actual);
++	if (kms->funcs->round_pixclk)
++		actual = kms->funcs->round_pixclk(kms,
++			requested, hdmi_bridge->hdmi->encoder);
++	else if (config->pwr_clk_cnt > 0)
++		actual = clk_round_rate(hdmi->pwr_clks[0], requested);
++	else
++		actual = requested;
+ 
+ 	DBG("requested=%ld, actual=%ld", requested, actual);
+ 
+-- 
+2.34.1
 
-However I just don't see why CONFIG_PCI=y and CONFIG_HAS_IOPORT=y aren't 
-always the gating factor here. Arnd?
-
-Thanks,
-John
