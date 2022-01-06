@@ -1,50 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADF83486801
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 17:56:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ED534869A4
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 19:20:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F7E710FD1F;
-	Thu,  6 Jan 2022 16:56:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3522C10E783;
+	Thu,  6 Jan 2022 18:20:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C217510FC15;
- Thu,  6 Jan 2022 16:56:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1641488160; x=1673024160;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=Zv05nudHe4lliwAOLEW9jjaBVRvKIIo8cQeQOYHCo/Y=;
- b=Jsx/t7UYiQdyR1E+ZDAfQjnriF1ufYO99hKWQmzkEL+a3PXRvkCfndBh
- /A2pCKajTqKlgE8/6Z+g5k3ZnXgRkBojngcVcs5KnkI8oaHcznLXJHgUV
- zhAX/RXI5zrgImZ3SN0xxfHpn1LAXJT/F4wkOtmzvaVq5/lbx8wkLNVJP
- 9d0ipXhPI8VApFD+oP+tT5hVrxPOE+4hGwnkPJAIOQaXPr6Tca3bVYFAl
- DlB0wtme240pLeO9cF4zx7glTk4P5tKrQKuNXvn77oUc8H8tMrHpDZu6L
- jvdSlZ1LqopOSwz0MntvR9HUbUtpYX7qZgCuAX5ElocHpKtLYBA2h+a3J w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="266981066"
-X-IronPort-AV: E=Sophos;i="5.88,267,1635231600"; d="scan'208";a="266981066"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jan 2022 08:56:00 -0800
-X-IronPort-AV: E=Sophos;i="5.88,267,1635231600"; d="scan'208";a="470998038"
-Received: from leitchrx-mobl.ger.corp.intel.com (HELO tursulin-mobl2.home)
- ([10.213.202.197])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jan 2022 08:55:58 -0800
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org
-Subject: [PATCH 7/7] drm/i915: Expose client engine utilisation via fdinfo
-Date: Thu,  6 Jan 2022 16:55:36 +0000
-Message-Id: <20220106165536.57208-8-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220106165536.57208-1-tvrtko.ursulin@linux.intel.com>
-References: <20220106165536.57208-1-tvrtko.ursulin@linux.intel.com>
+X-Greylist: delayed 1627 seconds by postgrey-1.36 at gabe;
+ Thu, 06 Jan 2022 13:18:55 UTC
+Received: from wizzup.org (mail.wizzup.org [95.217.97.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67BBC10F067
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 13:18:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=wizzup.org; 
+ s=mail;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:
+ Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=nxhH/ukA9KWfY1p+zkFD+7VrSnCLJzCz3XNlG4Obn3w=; b=IvmV79CkASz7lYETsk4Z/zNT3g
+ +/xWGuiHSS9+cmLLkodm18hu5EMb3afWn5eZGkdOC0AliZQdFBTyv+S8r8VjJ7zJ2U2zH3keizYpF
+ FuxjokRZWtSRq7MzAJndfpwSfedgi9ojTfiitiwNySC8BWlkChl+wvstWdYaJtVy9SDW0bW8t6zPx
+ mr4mBP7L7548WHnXdrsnIXcUMwcjuYc3D4BGcjPCG1HWOPCDMJ1iAx0lONQBnDMfQwKwvOIY1Eu/j
+ p3PEriurY3/8Ep3pG7LlHvEYCR8DXA/29WmcKjUAZzXxBMkdGXHRRESqmADXnFHvyCOzsiP44vjFz
+ W86gE3/w==;
+Received: from [45.83.235.159] (helo=[0.0.0.0])
+ by wizzup.org with esmtpsa  (TLS1.3) tls TLS_AES_128_GCM_SHA256
+ (Exim 4.94.2) (envelope-from <merlijn@wizzup.org>)
+ id 1n5SF2-00046Q-S3; Thu, 06 Jan 2022 12:51:40 +0000
+Subject: Re: [Openpvrsgx-devgroup] [PATCH] drm: omapdrm: Fix implicit dma_buf
+ fencing
+To: Tony Lindgren <tony@atomide.com>,
+ OpenPVRSGX Linux Driver Group <openpvrsgx-devgroup@letux.org>,
+ Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+References: <1641397018-29872-1-git-send-email-ivo.g.dimitrov.75@gmail.com>
+ <Yda6VhRLHw06yVst@atomide.com>
+From: Merlijn Wajer <merlijn@wizzup.org>
+Message-ID: <7edd09bf-7f2c-3ffd-b3ee-c0daaf0d6e37@wizzup.org>
+Date: Thu, 6 Jan 2022 13:51:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <Yda6VhRLHw06yVst@atomide.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Thu, 06 Jan 2022 18:20:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,218 +61,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>, dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Chris Healy <cphealy@gmail.com>, David M Nieto <David.Nieto@amd.com>
+Cc: philipp@uvos.xyz, tomba@kernel.org, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ christian.koenig@amd.com, linux-omap@vger.kernel.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Hi,
 
-Similar to AMD commit
-874442541133 ("drm/amdgpu: Add show_fdinfo() interface"), using the
-infrastructure added in previous patches, we add basic client info
-and GPU engine utilisation for i915.
+On 06/01/2022 10:45, Tony Lindgren wrote:
+> * Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com> [220105 15:38]:
+>> Fix that by initializing dma_buf resv to the resv of the gem object being
+>> exported.
+> 
+> Nice find! This also fixes my wlroots test case with termite running on
+> sway where termite would only partially update when switching between
+> desktops, so:
+> 
+> Tested-by: Tony Lindgren <tony@atomide.com>
 
-Example of the output:
+You can also add my:
 
-  pos:    0
-  flags:  0100002
-  mnt_id: 21
-  drm-driver: i915
-  drm-pdev:   0000:00:02.0
-  drm-client-id:      7
-  drm-engine-render:  9288864723 ns
-  drm-engine-copy:    2035071108 ns
-  drm-engine-video:   0 ns
-  drm-engine-video-enhance:   0 ns
+Tested-by: Merlijn Wajer <merlijn@wizzup.org>
 
-v2:
- * Update for removal of name and pid.
-
-v3:
- * Use drm_driver.name.
-
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: David M Nieto <David.Nieto@amd.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Chris Healy <cphealy@gmail.com>
-Acked-by: Christian König <christian.koenig@amd.com>
----
- Documentation/gpu/drm-usage-stats.rst  |  6 +++
- Documentation/gpu/i915.rst             | 27 ++++++++++
- drivers/gpu/drm/i915/i915_driver.c     |  3 ++
- drivers/gpu/drm/i915/i915_drm_client.c | 73 ++++++++++++++++++++++++++
- drivers/gpu/drm/i915/i915_drm_client.h |  4 ++
- 5 files changed, 113 insertions(+)
-
-diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-index c669026be244..6952f8389d07 100644
---- a/Documentation/gpu/drm-usage-stats.rst
-+++ b/Documentation/gpu/drm-usage-stats.rst
-@@ -95,3 +95,9 @@ object belong to this client, in the respective memory region.
- 
- Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
- indicating kibi- or mebi-bytes.
-+
-+===============================
-+Driver specific implementations
-+===============================
-+
-+:ref:`i915-usage-stats`
-diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
-index b7d801993bfa..29f412a0c3dc 100644
---- a/Documentation/gpu/i915.rst
-+++ b/Documentation/gpu/i915.rst
-@@ -708,3 +708,30 @@ The style guide for ``i915_reg.h``.
- 
- .. kernel-doc:: drivers/gpu/drm/i915/i915_reg.h
-    :doc: The i915 register macro definition style guide
-+
-+.. _i915-usage-stats:
-+
-+i915 DRM client usage stats implementation
-+==========================================
-+
-+The drm/i915 driver implements the DRM client usage stats specification as
-+documented in :ref:`drm-client-usage-stats`.
-+
-+Example of the output showing the implemented key value pairs and entirety of
-+the currenly possible format options:
-+
-+::
-+
-+      pos:    0
-+      flags:  0100002
-+      mnt_id: 21
-+      drm-driver: i915
-+      drm-pdev:   0000:00:02.0
-+      drm-client-id:      7
-+      drm-engine-render:  9288864723 ns
-+      drm-engine-copy:    2035071108 ns
-+      drm-engine-video:   0 ns
-+      drm-engine-video-enhance:   0 ns
-+
-+Possible `drm-engine-` key names are: `render`, `copy`, `video` and
-+`video-enhance`.
-diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-index c9b18dadf828..bb8e621046d7 100644
---- a/drivers/gpu/drm/i915/i915_driver.c
-+++ b/drivers/gpu/drm/i915/i915_driver.c
-@@ -1755,6 +1755,9 @@ static const struct file_operations i915_driver_fops = {
- 	.read = drm_read,
- 	.compat_ioctl = i915_ioc32_compat_ioctl,
- 	.llseek = noop_llseek,
-+#ifdef CONFIG_PROC_FS
-+	.show_fdinfo = i915_drm_client_fdinfo,
-+#endif
- };
- 
- static int
-diff --git a/drivers/gpu/drm/i915/i915_drm_client.c b/drivers/gpu/drm/i915/i915_drm_client.c
-index 91a8559bebf7..06dbd20ce763 100644
---- a/drivers/gpu/drm/i915/i915_drm_client.c
-+++ b/drivers/gpu/drm/i915/i915_drm_client.c
-@@ -7,6 +7,11 @@
- #include <linux/slab.h>
- #include <linux/types.h>
- 
-+#include <uapi/drm/i915_drm.h>
-+
-+#include <drm/drm_print.h>
-+
-+#include "gem/i915_gem_context.h"
- #include "i915_drm_client.h"
- #include "i915_gem.h"
- #include "i915_utils.h"
-@@ -68,3 +73,71 @@ void i915_drm_clients_fini(struct i915_drm_clients *clients)
- 	GEM_BUG_ON(!xa_empty(&clients->xarray));
- 	xa_destroy(&clients->xarray);
- }
-+
-+#ifdef CONFIG_PROC_FS
-+static const char * const uabi_class_names[] = {
-+	[I915_ENGINE_CLASS_RENDER] = "render",
-+	[I915_ENGINE_CLASS_COPY] = "copy",
-+	[I915_ENGINE_CLASS_VIDEO] = "video",
-+	[I915_ENGINE_CLASS_VIDEO_ENHANCE] = "video-enhance",
-+};
-+
-+static u64 busy_add(struct i915_gem_context *ctx, unsigned int class)
-+{
-+	struct i915_gem_engines_iter it;
-+	struct intel_context *ce;
-+	u64 total = 0;
-+
-+	for_each_gem_engine(ce, rcu_dereference(ctx->engines), it) {
-+		if (ce->engine->uabi_class != class)
-+			continue;
-+
-+		total += intel_context_get_total_runtime_ns(ce);
-+	}
-+
-+	return total;
-+}
-+
-+static void
-+show_client_class(struct seq_file *m,
-+		  struct i915_drm_client *client,
-+		  unsigned int class)
-+{
-+	const struct list_head *list = &client->ctx_list;
-+	u64 total = atomic64_read(&client->past_runtime[class]);
-+	struct i915_gem_context *ctx;
-+
-+	rcu_read_lock();
-+	list_for_each_entry_rcu(ctx, list, client_link)
-+		total += busy_add(ctx, class);
-+	rcu_read_unlock();
-+
-+	return seq_printf(m, "drm-engine-%s:\t%llu ns\n",
-+			  uabi_class_names[class], total);
-+}
-+
-+void i915_drm_client_fdinfo(struct seq_file *m, struct file *f)
-+{
-+	struct drm_file *file = f->private_data;
-+	struct drm_i915_file_private *file_priv = file->driver_priv;
-+	struct drm_i915_private *i915 = file_priv->dev_priv;
-+	struct i915_drm_client *client = file_priv->client;
-+	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
-+	unsigned int i;
-+
-+	/*
-+	 * ******************************************************************
-+	 * For text output format description please see drm-usage-stats.rst!
-+	 * ******************************************************************
-+	 */
-+
-+	seq_printf(m, "drm-driver:\t%s\n", i915->drm.driver->name);
-+	seq_printf(m, "drm-pdev:\t%04x:%02x:%02x.%d\n",
-+		   pci_domain_nr(pdev->bus), pdev->bus->number,
-+		   PCI_SLOT(pdev->devfn), PCI_FUNC(pdev->devfn));
-+	seq_printf(m, "drm-client-id:\t%u\n", client->id);
-+
-+	for (i = 0; i < ARRAY_SIZE(uabi_class_names); i++)
-+		show_client_class(m, client, i);
-+}
-+#endif
-diff --git a/drivers/gpu/drm/i915/i915_drm_client.h b/drivers/gpu/drm/i915/i915_drm_client.h
-index 7416e18aa33c..d96d6a06302e 100644
---- a/drivers/gpu/drm/i915/i915_drm_client.h
-+++ b/drivers/gpu/drm/i915/i915_drm_client.h
-@@ -57,6 +57,10 @@ static inline void i915_drm_client_put(struct i915_drm_client *client)
- 
- struct i915_drm_client *i915_drm_client_add(struct i915_drm_clients *clients);
- 
-+#ifdef CONFIG_PROC_FS
-+void i915_drm_client_fdinfo(struct seq_file *m, struct file *f);
-+#endif
-+
- void i915_drm_clients_fini(struct i915_drm_clients *clients);
- 
- #endif /* !__I915_DRM_CLIENT_H__ */
--- 
-2.32.0
-
+Cheers,
+Merlijn
