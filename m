@@ -1,62 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8DCF485DCB
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 02:02:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ECD2485DCD
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 02:03:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E8D910E5B5;
-	Thu,  6 Jan 2022 01:02:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 930A810E5BB;
+	Thu,  6 Jan 2022 01:03:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com
- [IPv6:2607:f8b0:4864:20::d29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B989B10E5B5
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 01:02:29 +0000 (UTC)
-Received: by mail-io1-xd29.google.com with SMTP id y70so1257044iof.2
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Jan 2022 17:02:29 -0800 (PST)
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com
+ [IPv6:2607:f8b0:4864:20::d36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE35710E5BB
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 01:03:06 +0000 (UTC)
+Received: by mail-io1-xd36.google.com with SMTP id y11so1239382iod.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Jan 2022 17:03:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MIFRxmXWiEBCiGr15456Pgg06Y+aeSi4XJyFkvrjKcY=;
- b=YWi65CpZCs2GGkYUWUA+9oQ5itYVgpmPFXUHQhi8B3TMg6XhFy5U+fGdUq21oWo/dB
- TDI/nlySgRjRy/gbqtKKNYZXShZrx8VtLBM6nKht/ZaExjQIxD4ZpGOJs6D3s8DWreQq
- SAF/8uVSAr7OkGtIJlg90seeMXjq6K1dJhN9k=
+ :cc; bh=LnAubQ94PDCRwQNOSUL7oWBc6st8xuAGeyidhQSqpxM=;
+ b=L+KKy1dIZAwAdNTOVd0qKOKt+iqom+ZV4roHbjm+6kadMtLGIIVBSiOOCpx34AcihH
+ 0O6o2MNxPd0Y4mb8rb6+/dBn+2ajW6we7n+Nvt1v8DST7b+3zYtGiNC4A1jVWzbSaLHP
+ YeeKuKQBkCpeABG0hXzBrLpv1VFCNMOe5GVBI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=MIFRxmXWiEBCiGr15456Pgg06Y+aeSi4XJyFkvrjKcY=;
- b=Uu0MnNtA040Y5JziyqNjW4Y0v1Y3Qer6uMS6wCKtHvdNxKkNMzm7ta5GP79s9WnepD
- lYF+SnSn7nRcy13pZCqB8TqcXKnFxs7M4nuuNiqJ6AQq2RAJq/efM7I/D7Ht2VMlyPKn
- tT60dRbaVTswwmHnTwRmFKxu1gLI1LakuLj+qU1hIcPNRhUi/LOzeQwg2rxSN5BNLjAv
- cTEsDiNT5gh96HX7Lu8zUEPt2pscBDN4jX7A0sS0nQDzY0QJmOJw6zSzgUHf4Ri/VkCX
- B7w/QkUA65JqDWY74RyzNje7Ie4dyS3Qe15tydl4GeuA9NT2pjmNkSfjoHF+qQXfXmdL
- a9+g==
-X-Gm-Message-State: AOAM530jXb4G5PAMgvvXS1PyuxADkS+MidGKCI2V0iJaZDdudwUVebWl
- qI/6M0XMkKUebsCy6J7DVZqc9Zx3elgsiw==
-X-Google-Smtp-Source: ABdhPJywfkxpBXs60Yu+2PjXXBFLVsBubveQy9avaOzKkmh7ebet0Ohz3eqqH8IRcRjzj1Z3+JlgpQ==
-X-Received: by 2002:a05:6602:2dd0:: with SMTP id
- l16mr27518249iow.198.1641430948636; 
- Wed, 05 Jan 2022 17:02:28 -0800 (PST)
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com.
- [209.85.166.41])
- by smtp.gmail.com with ESMTPSA id m12sm309994ilu.8.2022.01.05.17.02.28
+ bh=LnAubQ94PDCRwQNOSUL7oWBc6st8xuAGeyidhQSqpxM=;
+ b=MBFXADHeUcPKUMu9Jy7ZHYDyOI4od36jR4p4lQS8ZW+hhB702VrFC9544w/NfOn7wt
+ lxePLuJBCP0rsWfWyVcS64X9PKxl+IVwsoYBrb+qceKkyl12a6ps1ZgRRk7fwFI4ufc6
+ 1Yi2Kls0b9WekEDFGNZ8wjsyxkZho4hB261k/hSAzntpw6LpeYb1gBaZPke3IGy3Weva
+ vzX8OL2FH3ATcakrLCsBkD524u6sKnrdWE5K9FrtVd8fp74QvLJkHrjw4ABE6rP07DDX
+ fwf+e0ojn8P8s2psT201mkTSb7xj1YR/23qpon7nNaVdiAzip893X7RltOtiJAR+ac3K
+ 4Y5Q==
+X-Gm-Message-State: AOAM533FH/Ieal3VrK2JE04/ChxaOwHFRj3f11orzmeAUFlmErtDEHWq
+ 5GmQjzT7Z5PobPHMWMlvA/7pM6+KTG9T4g==
+X-Google-Smtp-Source: ABdhPJx0zqdwEZ7Rev1w4I9tkAlzNgttQkiTK9jh8CTBc7wlxQsc2n1CMz6lrftlPAMllkPVohoCyQ==
+X-Received: by 2002:a05:6638:a8d:: with SMTP id
+ 13mr18245225jas.68.1641430985978; 
+ Wed, 05 Jan 2022 17:03:05 -0800 (PST)
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com.
+ [209.85.166.47])
+ by smtp.gmail.com with ESMTPSA id u14sm260692ilv.66.2022.01.05.17.03.05
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 Jan 2022 17:02:28 -0800 (PST)
-Received: by mail-io1-f41.google.com with SMTP id i14so1203216ioj.12
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Jan 2022 17:02:28 -0800 (PST)
-X-Received: by 2002:a02:294b:: with SMTP id p72mr21568959jap.263.1641430947664; 
- Wed, 05 Jan 2022 17:02:27 -0800 (PST)
+ Wed, 05 Jan 2022 17:03:05 -0800 (PST)
+Received: by mail-io1-f47.google.com with SMTP id 19so1248990ioz.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Jan 2022 17:03:05 -0800 (PST)
+X-Received: by 2002:a05:6602:2c83:: with SMTP id
+ i3mr25918868iow.128.1641430985233; 
+ Wed, 05 Jan 2022 17:03:05 -0800 (PST)
 MIME-Version: 1.0
 References: <20211220104855.428290-1-thierry.reding@gmail.com>
- <20211220104855.428290-3-thierry.reding@gmail.com>
-In-Reply-To: <20211220104855.428290-3-thierry.reding@gmail.com>
+ <20211220104855.428290-2-thierry.reding@gmail.com>
+In-Reply-To: <20211220104855.428290-2-thierry.reding@gmail.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 5 Jan 2022 17:02:16 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=WV2dsmRL0bVXz9jTgyy1zQpDjzrM=XDO=2rxsks=70rA@mail.gmail.com>
-Message-ID: <CAD=FV=WV2dsmRL0bVXz9jTgyy1zQpDjzrM=XDO=2rxsks=70rA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] ARM: tegra: Move panels to AUX bus
+Date: Wed, 5 Jan 2022 17:02:53 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=VeN=rODkhO3gYNZ5rFW1iabirHopR0Ra5UFAKLNn1zYA@mail.gmail.com>
+Message-ID: <CAD=FV=VeN=rODkhO3gYNZ5rFW1iabirHopR0Ra5UFAKLNn1zYA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/tegra: dpaux: Populate AUX bus
 To: Thierry Reding <thierry.reding@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,62 +86,72 @@ On Mon, Dec 20, 2021 at 2:49 AM Thierry Reding <thierry.reding@gmail.com> wrote:
 >
 > From: Thierry Reding <treding@nvidia.com>
 >
-> Move the eDP panel on Venice 2 and Nyan boards into the corresponding
-> AUX bus device tree node. This allows us to avoid a nasty circular
-> dependency that would otherwise be created between the DPAUX and panel
-> nodes via the DDC/I2C phandle.
+> The DPAUX hardware block exposes an DP AUX interface that provides
+> access to an AUX bus and the devices on that bus. Use the DP AUX bus
+> infrastructure that was recently introduced to probe devices on this
+> bus from DT.
 >
 > Signed-off-by: Thierry Reding <treding@nvidia.com>
 > ---
->  arch/arm/boot/dts/tegra124-nyan-big.dts   | 15 +++++++++------
->  arch/arm/boot/dts/tegra124-nyan-blaze.dts | 15 +++++++++------
->  arch/arm/boot/dts/tegra124-venice2.dts    | 14 +++++++-------
->  3 files changed, 25 insertions(+), 19 deletions(-)
+>  drivers/gpu/drm/tegra/Kconfig | 1 +
+>  drivers/gpu/drm/tegra/dpaux.c | 7 +++++++
+>  2 files changed, 8 insertions(+)
 >
-> diff --git a/arch/arm/boot/dts/tegra124-nyan-big.dts b/arch/arm/boot/dts/tegra124-nyan-big.dts
-> index 1d2aac2cb6d0..fdc1d64dfff9 100644
-> --- a/arch/arm/boot/dts/tegra124-nyan-big.dts
-> +++ b/arch/arm/boot/dts/tegra124-nyan-big.dts
-> @@ -13,12 +13,15 @@ / {
->                      "google,nyan-big-rev1", "google,nyan-big-rev0",
->                      "google,nyan-big", "google,nyan", "nvidia,tegra124";
+> diff --git a/drivers/gpu/drm/tegra/Kconfig b/drivers/gpu/drm/tegra/Kconfig
+> index 8cf5aeb9db6c..201f5175ecfe 100644
+> --- a/drivers/gpu/drm/tegra/Kconfig
+> +++ b/drivers/gpu/drm/tegra/Kconfig
+> @@ -5,6 +5,7 @@ config DRM_TEGRA
+>         depends on COMMON_CLK
+>         depends on DRM
+>         depends on OF
+> +       select DRM_DP_AUX_BUS
+>         select DRM_KMS_HELPER
+>         select DRM_MIPI_DSI
+>         select DRM_PANEL
+> diff --git a/drivers/gpu/drm/tegra/dpaux.c b/drivers/gpu/drm/tegra/dpaux.c
+> index 1f96e416fa08..9da1edcdc835 100644
+> --- a/drivers/gpu/drm/tegra/dpaux.c
+> +++ b/drivers/gpu/drm/tegra/dpaux.c
+> @@ -18,6 +18,7 @@
+>  #include <linux/reset.h>
+>  #include <linux/workqueue.h>
 >
-> -       panel: panel {
-> -               compatible = "auo,b133xtn01";
-> -
-> -               power-supply = <&vdd_3v3_panel>;
+> +#include <drm/drm_dp_aux_bus.h>
+>  #include <drm/drm_dp_helper.h>
+>  #include <drm/drm_panel.h>
+>
+> @@ -570,6 +571,12 @@ static int tegra_dpaux_probe(struct platform_device *pdev)
+>         list_add_tail(&dpaux->list, &dpaux_list);
+>         mutex_unlock(&dpaux_lock);
+>
+> +       err = devm_of_dp_aux_populate_ep_devices(&dpaux->aux);
+> +       if (err < 0) {
+> +               dev_err(dpaux->dev, "failed to populate AUX bus: %d\n", err);
+> +               return err;
 
-You remove the "power-supply" line here but don't add it below. Isn't
-that a problem? power-supply for the panel is listed as "required" in
-the panel dt bindings so I presume this will increase validation
-warnings?
+nit:
 
+if (err < 0)
+  return dev_err_probe(dpaux->dev, err, "failed to populate AUX bus\n");
 
-> -               backlight = <&backlight>;
-> -               ddc-i2c-bus = <&dpaux>;
-> +       host1x@50000000 {
-> +               dpaux@545c0000 {
+That's more concise and gives the pretty formatting for the error code
+(not that devm_of_dp_aux_populate_ep_devices() currently returns
+anything other than 0).
 
-Optional nit: on other SoC dts files I've always had the policy to try
-to avoid replicating hierarchies like this (host1x@50000000 =>
-dpaux@545c0000). Instead I'd express this as:
+> +       }
 
-&dpaux {
-  aux-bux {
-    panel: panel {
-      ...
-    };
-  };
-};
+I think you need to use of_dp_aux_populate_ep_devices() and then
+depopulate in your remove, right? Otherwise the ordering won't be
+right. Either that or fully transition your probe to devm (and get rid
+of your remove) by adding some devm_add_action_or_reset() helpers...
 
-
-> +                       aux-bus {
-> +                               panel: panel {
-> +                                       compatible = "auo,b133xtn01";
-> +                                       backlight = <&backlight>;
-
-nit: In theory the "backlight" could go in tegra124-nyan.dtsi, right?
-Then you just need to override the compatible...
+Hrm, I guess looking closer it's also a little concerning that if
+devm_of_dp_aux_populate_ep_devices() returns an error then you'll
+totally skip all the things that tegra_dpaux_remove() is supposed to
+handle. I guess that's a pre-existing bug (earlier error cases in the
+probe don't, for instance, undo the pm_runtime state) but this makes
+it worse.
 
 
 -Doug
