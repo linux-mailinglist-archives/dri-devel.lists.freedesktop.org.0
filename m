@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACE83486B63
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 21:46:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29F01486B5E
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 21:45:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B3A110E5DE;
-	Thu,  6 Jan 2022 20:46:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B30F10E283;
+	Thu,  6 Jan 2022 20:45:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DA0D10E5DE;
- Thu,  6 Jan 2022 20:46:47 +0000 (UTC)
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D66610E3F1;
+ Thu,  6 Jan 2022 20:45:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1641502007; x=1673038007;
+ t=1641501904; x=1673037904;
  h=from:to:cc:subject:date:message-id:mime-version;
  bh=OVjfgTPsU90JleNOuXTplCawmPMZLSFg76Is1FvE+d4=;
- b=qwtKUPgDN3kxSH+KzlK6g0rPBHKOb7bVneEurqSV7FmE6yiBK6YuGbXt
- UfMALIvhuQirkUBPt0MwRgeaQg9AFig7Ey15Mr/8Ziw6g2EHbnsV+Fbg8
- YphCZTVW+FLOVg5LpzN3eQPotUssDXbC7no01nP6DssHnTwDbiKb8+eI5 s=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 06 Jan 2022 12:46:47 -0800
+ b=EpjQWKtUBLQN2lEHIWd/0cSLu2r0pzEdNO1IRi6jiAZWmr4lLuRJ1GUX
+ V2ciTpS4OjiFusgG/5t0PaeXjd1vuzxQ7s9DIBiL39q+1BEtyFSyiBK5P
+ A8DXNUVdFGaL3z5r74s8f+dj6Q76tLEwn3mM0+l/7xK7edrzQYzOyBaXK Y=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 06 Jan 2022 12:45:03 -0800
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jan 2022 12:46:45 -0800
+ by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jan 2022 12:45:03 -0800
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Thu, 6 Jan 2022 12:46:45 -0800
+ 15.2.922.19; Thu, 6 Jan 2022 12:45:02 -0800
 Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Thu, 6 Jan 2022 12:44:32 -0800
+ 15.2.922.19; Thu, 6 Jan 2022 12:45:02 -0800
 From: Kuogee Hsieh <quic_khsieh@quicinc.com>
 To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
  <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
  <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
  <bjorn.andersson@linaro.org>
 Subject: [PATCH v4] drm/msm/dp:  populate connector of struct  dp_panel
-Date: Thu, 6 Jan 2022 12:44:22 -0800
-Message-ID: <1641501862-17499-1-git-send-email-quic_khsieh@quicinc.com>
+Date: Thu, 6 Jan 2022 12:44:54 -0800
+Message-ID: <1641501894-17563-1-git-send-email-quic_khsieh@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
