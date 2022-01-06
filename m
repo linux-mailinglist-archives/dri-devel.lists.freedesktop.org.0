@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F8B7486993
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 19:15:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95769486A3D
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 20:00:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A67810E7F3;
-	Thu,  6 Jan 2022 18:15:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 851C610E6F0;
+	Thu,  6 Jan 2022 19:00:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
- [IPv6:2607:f8b0:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3951410E7F7;
- Thu,  6 Jan 2022 18:15:11 +0000 (UTC)
-Received: by mail-pf1-x432.google.com with SMTP id m1so3179165pfk.8;
- Thu, 06 Jan 2022 10:15:11 -0800 (PST)
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C921310E60A
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 19:00:35 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id o3so6631559wrh.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Jan 2022 11:00:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=NpENl1wlwqcfbBT73rctGeiDbGEPDlZ8miqyZA+HW/A=;
- b=F09yhVw/miHkBPbi4ZUlYr4v+8jysbgt9gi1ewGjNnREmk2R3F7tVzYoSF1tvXfNWH
- unH8PPBeS0TlZp1ZTjWad/PIvqEPdCPWEcvhtXCGPZOzzqwfVq6OXC+LJa1xWijbJPqz
- rwunzxgZsmSP7FEWW9+2s4ldMauj+40newsjGyEzwiHXWbbFYVBBcTBlyI4d5W88lA6D
- O/cIXoglEpASRbpBcm4M6576cHGNv7JcqSXq/WwRYI8n1nEXxwXa/2cFUxB0AHSDKHkj
- 8OQIf89HIKCwH+u34JrNSIRCUv+m+DNeFxN2/N4xh6yOSUMzPK1uCcV3EnM+uD35I59y
- b+pQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=GApfuZwSa5gLOrIFUv10Q+jwtcI8XokWaaN8Migozt0=;
+ b=dMDoD0wS6wkdT73t6n4lqSz7LXjMF7Q7BT7h93ZCspVO/J4lDUWaVkxIcFoC6OgoAi
+ LigYS4Jq37nDgH+w6B2NbBsSIW/LRqSOgz3qzzuUNNFblYlo+kRARb4jMBBU6VsLoH7M
+ Xrx0oX0t/8P4UoP8nvMb4Zk9NY0cTouVYAGe3BmCcHf2ybJ3mEjE7jYsIQSmsCGlz4b2
+ 8/RMbC9xojPbfPWnXb8ILLkhXAJcFy6Z2WmlrJRIlADOrDfEbjZvYaR/DKU+x3DdU6xO
+ vmMPZiNxd82uy+v/u5C3BINmzXCV4HBEwmv5mIDEmzIajBbjxdo+2xXDkD84XKvr6f0T
+ pBRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=NpENl1wlwqcfbBT73rctGeiDbGEPDlZ8miqyZA+HW/A=;
- b=jUsTp547c0UC4xJ1R5QYfxnalYHi0iFWmOVQ9w7mVCYAbCwhvLZsY8ACv5pk+tH3e5
- oWVNjgA1Yp6OX7b5n0ffRlqsCZVW7NwdEJZbS/scRBalRjC6Ho3Y/QzCbr727nkdQkqu
- sGrqVhogM4Lk1ikqQAgaHwYFvQR7aLXKJSAXr1+UmxqziuH3W+RAZT73TsQvt4uxBtbf
- /7Xf4DP5o/qhUpM8r1P/oI+CrVvmiL6a3FhRWU7m4IcmTLJxPqVTODuqWboG10Ixzvq+
- r5t/GNfyHUWEYRp0vjIBc/BSlaX2iAwE4U7EyQ35Z1kA7DomX2qlGZ8t8pwGf9aXQYQT
- tdMQ==
-X-Gm-Message-State: AOAM531WCmbEX6qxF0pDxhkUMsJnnX8lvLeTgYd7xScdK5XCjBnm10PV
- 80+M+yV2DmSvxPCaWGf8DCMy7a5Crtg=
-X-Google-Smtp-Source: ABdhPJwv7sVVNoZY8rfrc22AsxIsf7vwBPn1hePxXkzE5xqw9FRXjuAwrmj4inJU3E0t7U24/NgRsA==
-X-Received: by 2002:a65:4c81:: with SMTP id m1mr54128291pgt.427.1641492910079; 
- Thu, 06 Jan 2022 10:15:10 -0800 (PST)
-Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
- by smtp.gmail.com with ESMTPSA id c11sm3359333pfv.85.2022.01.06.10.15.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jan 2022 10:15:09 -0800 (PST)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/msm/gpu: Cancel idle/boost work on suspend
-Date: Thu,  6 Jan 2022 10:14:47 -0800
-Message-Id: <20220106181449.696988-3-robdclark@gmail.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20220106181449.696988-1-robdclark@gmail.com>
-References: <20220106181449.696988-1-robdclark@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ :references;
+ bh=GApfuZwSa5gLOrIFUv10Q+jwtcI8XokWaaN8Migozt0=;
+ b=wVQ2cRfRLndk4x2QAWcERDi5wrXRvrjPbpPFbffZ+JCU5Or92zlBCoGYnEYA4/2nof
+ YK+ytgx1LSELAuCEl9XD9C+zrjflH7jRkx/7A0jys4e/TSKP9CZ35IY5d6auU4c5HNpn
+ LwfW1wNie1Dz72IgOm9EgYE4ASz3bzbqqLXEbJniJYbcTj/f7qUuYvg9JP7UmocJANnS
+ Jr0z4/4Ec3TpoHYTbpCHlJoaXZxo3rDCrOFMcxT+1bTLFVxaPiudGOT2z72y/5e9W4xD
+ f3ISelCn3XfDJGxKNQ1l3kh3od2K20njfW+GLU378NpdoybEGKqnAi/9CpDYmUVLrdRk
+ ZeOQ==
+X-Gm-Message-State: AOAM5333OuF/RUxC8JWUCDqaSL/S7pB0mlamm1/H6s3XSRh+0OL4yyfV
+ MMY7z6LPDWnMK3ePHLUdx5Q=
+X-Google-Smtp-Source: ABdhPJzRBPgEFjde8rkHAuo7tRsgCjXw/CujtSuspjwJoOEksMbs2rdDHQQmiMDdOjSh4GHnkx1B0Q==
+X-Received: by 2002:a5d:4a8e:: with SMTP id o14mr50283333wrq.441.1641495634341; 
+ Thu, 06 Jan 2022 11:00:34 -0800 (PST)
+Received: from localhost.localdomain (37.212.broadband9.iol.cz.
+ [90.176.212.37])
+ by smtp.gmail.com with ESMTPSA id n41sm6835638wms.32.2022.01.06.11.00.33
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 06 Jan 2022 11:00:33 -0800 (PST)
+From: Jiri Vanek <jirivanek1@gmail.com>
+To: Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>
+Subject: [PATCH v2] drm/bridge/tc358775: Fix for dual-link LVDS
+Date: Thu,  6 Jan 2022 20:00:27 +0100
+Message-Id: <20220106190027.1498-1-jirivanek1@gmail.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20211110220050.2854-1-jirivanek1@gmail.com>
+References: <20211110220050.2854-1-jirivanek1@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,71 +67,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- freedreno@lists.freedesktop.org
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Jiri Vanek <jirivanek1@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Vinay Simha B N <simhavcs@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+Fixed wrong register shift for single/dual link LVDS output.
 
-With system suspend using pm_runtime_force_suspend() we can't rely on
-the pm_runtime_get_if_in_use() trick to deal with devfreq callbacks
-after (or racing with) suspend.  So flush any pending idle or boost
-work in the suspend path.
+Tested-by: Jiri Vanek <jirivanek1@gmail.com>
+Signed-off-by: Jiri Vanek <jirivanek1@gmail.com>
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/msm_gpu_devfreq.c | 21 +++++++++++++++++++--
- 1 file changed, 19 insertions(+), 2 deletions(-)
+v1:
+* Initial version
 
-diff --git a/drivers/gpu/drm/msm/msm_gpu_devfreq.c b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-index 62405e980925..9bf319be11f6 100644
---- a/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-+++ b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-@@ -133,6 +133,18 @@ void msm_devfreq_init(struct msm_gpu *gpu)
- 			      CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+v2:
+* Tested-by tag added
+
+---
+ drivers/gpu/drm/bridge/tc358775.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
+index 2272adcc5b4a..1d6ec1baeff2 100644
+--- a/drivers/gpu/drm/bridge/tc358775.c
++++ b/drivers/gpu/drm/bridge/tc358775.c
+@@ -241,7 +241,7 @@ static inline u32 TC358775_LVCFG_PCLKDIV(uint32_t val)
  }
  
-+static void cancel_idle_work(struct msm_gpu_devfreq *df)
-+{
-+	hrtimer_cancel(&df->idle_work.timer);
-+	kthread_cancel_work_sync(&df->idle_work.work);
-+}
-+
-+static void cancel_boost_work(struct msm_gpu_devfreq *df)
-+{
-+	hrtimer_cancel(&df->boost_work.timer);
-+	kthread_cancel_work_sync(&df->boost_work.work);
-+}
-+
- void msm_devfreq_cleanup(struct msm_gpu *gpu)
+ #define TC358775_LVCFG_LVDLINK__MASK                         0x00000002
+-#define TC358775_LVCFG_LVDLINK__SHIFT                        0
++#define TC358775_LVCFG_LVDLINK__SHIFT                        1
+ static inline u32 TC358775_LVCFG_LVDLINK(uint32_t val)
  {
- 	struct msm_gpu_devfreq *df = &gpu->devfreq;
-@@ -152,7 +164,12 @@ void msm_devfreq_resume(struct msm_gpu *gpu)
- 
- void msm_devfreq_suspend(struct msm_gpu *gpu)
- {
--	devfreq_suspend_device(gpu->devfreq.devfreq);
-+	struct msm_gpu_devfreq *df = &gpu->devfreq;
-+
-+	devfreq_suspend_device(df->devfreq);
-+
-+	cancel_idle_work(df);
-+	cancel_boost_work(df);
- }
- 
- static void msm_devfreq_boost_work(struct kthread_work *work)
-@@ -196,7 +213,7 @@ void msm_devfreq_active(struct msm_gpu *gpu)
- 	/*
- 	 * Cancel any pending transition to idle frequency:
- 	 */
--	hrtimer_cancel(&df->idle_work.timer);
-+	cancel_idle_work(df);
- 
- 	idle_time = ktime_to_ms(ktime_sub(ktime_get(), df->idle_time));
- 
+ 	return ((val) << TC358775_LVCFG_LVDLINK__SHIFT) &
 -- 
-2.33.1
+2.30.2
 
