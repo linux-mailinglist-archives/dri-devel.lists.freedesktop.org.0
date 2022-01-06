@@ -1,59 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C22F8486490
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 13:47:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 727F848656D
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 14:43:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED62310E984;
-	Thu,  6 Jan 2022 12:47:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9D0710FCBF;
+	Thu,  6 Jan 2022 13:43:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
- [IPv6:2607:f8b0:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FFF610E97F
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 12:47:04 +0000 (UTC)
-Received: by mail-pl1-x62a.google.com with SMTP id w7so2380552plp.13
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jan 2022 04:47:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=KC71YFeX/q04GJdG17HRfq7w1PJzIDF05zCtW/8mUOM=;
- b=bMDvI1kcrkJ3iJg0CGOv2rdlnLJnTBwb4NtL6IQwgw5bGEe9T++vt2HuqCJwFP4Cvs
- jphp29b2+sg1wef2muOM2Zu8t0np4Sez61/xnBIYygcs60/7rQZe/BciDtqNYvgxh+M4
- ENZRiEgWPAx11hfXmIb2GomZzD2zivpf1d5/rgeu/4fhyjRUAJtwhcFlYL72iJFArxy+
- YrwX1GhJLgMJrJxxgGU9qDHz3brDt666/o8XUseGlZMhc01BQ4WCWxZUSGp2uN4BC8jO
- /3/u5fU0lnZuvyruxHbxIX39mYRX5RE8HSRbzQTFU2aWTWDOUeqU7h22Lw0KdoLHXEUm
- eg+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=KC71YFeX/q04GJdG17HRfq7w1PJzIDF05zCtW/8mUOM=;
- b=YdwYP9ra8U6DV1s39uHv6ws4GOU0pzMZPRby9+lEUItfW3SO4IbroChNyAJQE7VAdY
- cXg625Tr0Rsll7ntJnAJdn0pNioIjGXI1QW1jH/bUQBUUDJxax5tt/WhpVSKM48dZ9Mb
- ri8VbognpvsbuuB2YXZ66TSoasJCePPKJI8qw3gZFIxe2dbz4APdvm+xBsUfb3ygk2sv
- kJOWEIJHKt2HkFNx9pk8ISvqu2ZadNSnfZPiIt/u75YyRDvkk9AdXpsYuaiUPszDqWYx
- bA0zIktynuaO9XaVIuKn2VzWsa2A1dcrtT7XCT+bhGWP2WWx/LUc7PCEZh71Jx0hChxc
- FkGw==
-X-Gm-Message-State: AOAM532vdQc4JMlbCzVFuqKRN+K6gnGU3lezwK8W6/Ylgd4/LCeagdRe
- n8sK8ay7aJwmh0ChRGT1nyc=
-X-Google-Smtp-Source: ABdhPJzwNEzZRoPa0ZqQQ22MGbHsrSeP/vhR18csyuIzZMnAb9nSDti1FixA+AbzoStGlKdJUYigoQ==
-X-Received: by 2002:a17:903:120a:b0:149:8b16:ee19 with SMTP id
- l10-20020a170903120a00b001498b16ee19mr43022958plh.11.1641473224231; 
- Thu, 06 Jan 2022 04:47:04 -0800 (PST)
-Received: from localhost.localdomain ([159.226.95.43])
- by smtp.googlemail.com with ESMTPSA id a17sm2214409pjh.11.2022.01.06.04.47.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jan 2022 04:47:04 -0800 (PST)
-From: Miaoqian Lin <linmq006@gmail.com>
-To: dave.stevenson@raspberrypi.com
-Subject: [PATCH v2] drm/v3d: Fix PM disable depth imbalance in
- v3d_platform_drm_probe
-Date: Thu,  6 Jan 2022 12:46:57 +0000
-Message-Id: <20220106124657.32737-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CAPY8ntAdknutH=OmV1dWPbez1ZqLgaOj-BoQQkZAu0WbhbE6nQ@mail.gmail.com>
-References: <CAPY8ntAdknutH=OmV1dWPbez1ZqLgaOj-BoQQkZAu0WbhbE6nQ@mail.gmail.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E16910FCBF
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 13:43:10 +0000 (UTC)
+Received: from [192.168.1.111] (91-156-85-209.elisa-laajakaista.fi
+ [91.156.85.209])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8F61A11FE;
+ Thu,  6 Jan 2022 14:43:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1641476588;
+ bh=MsV4ID3pm8SwQUHMPkDeAsywg1tEqg7BBjSrRVk1xSc=;
+ h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
+ b=vwpLM9Qf2S/3/+fjBGOte1S+a6HvkWHyqFT4C1oQIPBLUOQdjH0AI91/HS2YXZGt/
+ GPiG8VvEyVgOazuGHIus4roqVwqrHVwMs3tiPMDa+BLJeGwlTeNSQ32AMrMPkYyEGp
+ 1Zjt78leG5xQqRkiH75wUzU0uCsQE8GC04K+HDyg=
+To: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>, sumit.semwal@linaro.org,
+ christian.koenig@amd.com
+References: <1641397018-29872-1-git-send-email-ivo.g.dimitrov.75@gmail.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH] drm: omapdrm: Fix implicit dma_buf fencing
+Message-ID: <0ba4b947-57e0-8a80-68d6-a481d5145ab4@ideasonboard.com>
+Date: Thu, 6 Jan 2022 15:43:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: <1641397018-29872-1-git-send-email-ivo.g.dimitrov.75@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,48 +50,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linmq006@gmail.com, emma@anholt.net, airlied@linux.ie,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, eric@anholt.net
+Cc: philipp@uvos.xyz, airlied@linux.ie, merlijn@wizzup.org,
+ openpvrsgx-devgroup@letux.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pm_runtime_enable will increase power disable depth.
-If the probe fails, we should use pm_runtime_disable() to balance
-pm_runtime_enable().
+Hi,
 
-Fixes: 57692c9 ("drm/v3d: Introduce a new DRM driver for Broadcom V3D V3.x+")
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
-Changes in v2
-- put pm_runtime_disable before dma_free_wc
-- rename dma_free to pm_disable
----
- drivers/gpu/drm/v3d/v3d_drv.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+On 05/01/2022 17:36, Ivaylo Dimitrov wrote:
+> Currently omapdrm driver does not initialize dma_buf_export_info resv
+> member, which leads to a new dma_resv being allocated and attached to
+> the exported dma_buf. This leads to the issue that fences created on
+> dma_buf objects imported by other drivers are ignored by omapdrm, as only
+> fences in gem object resv are waited on. This leads to various issues like
+> displaying incomplete frames.
+> 
+> Fix that by initializing dma_buf resv to the resv of the gem object being
+> exported.
+> 
+> Signed-off-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+> ---
+>   drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c b/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c
+> index f1f93cabb61e..a111e5c91925 100644
+> --- a/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c
+> +++ b/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c
+> @@ -88,6 +88,7 @@ struct dma_buf *omap_gem_prime_export(struct drm_gem_object *obj, int flags)
+>   	exp_info.size = omap_gem_mmap_size(obj);
+>   	exp_info.flags = flags;
+>   	exp_info.priv = obj;
+> +	exp_info.resv = obj->resv;
+>   
+>   	return drm_gem_dmabuf_export(obj->dev, &exp_info);
+>   }
 
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-index bd46396a1ae0..7d500dd5314e 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.c
-+++ b/drivers/gpu/drm/v3d/v3d_drv.c
-@@ -282,7 +282,7 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
- 
- 	ret = v3d_gem_init(drm);
- 	if (ret)
--		goto dma_free;
-+		goto pm_disable;
- 
- 	ret = v3d_irq_init(v3d);
- 	if (ret)
-@@ -298,7 +298,8 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
- 	v3d_irq_disable(v3d);
- gem_destroy:
- 	v3d_gem_destroy(drm);
--dma_free:
-+pm_disable:
-+	pm_runtime_disable(dev);
- 	dma_free_wc(dev, 4096, v3d->mmu_scratch, v3d->mmu_scratch_paddr);
- 	return ret;
- }
--- 
-2.17.1
+Thanks! Pushed to drm-misc-next.
 
+  Tomi
