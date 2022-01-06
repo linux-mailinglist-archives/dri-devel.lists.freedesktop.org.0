@@ -1,59 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0CAE486C91
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 22:47:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 249DD486D09
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jan 2022 23:06:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26F4410EF13;
-	Thu,  6 Jan 2022 21:46:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF27210E40C;
+	Thu,  6 Jan 2022 22:05:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
- [IPv6:2607:f8b0:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B89210EEB9
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 21:46:41 +0000 (UTC)
-Received: by mail-pl1-x62d.google.com with SMTP id j16so3392820pll.10
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jan 2022 13:46:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=lQPPjlrmfYNaZQJU5WpmjNJguM+Opu+iDFV373nUgEI=;
- b=HVIbZEzklAxMRu/3hS6qEUS2w9VQenVuylClk6HfQuPTHCrIy2ZAoQtPjHHAd7eW8L
- zwdlM1trt+idnLVgzDIOSxnYWCEtdLGphSOKjsCKItvcLCvsvXuVlQg5cxyQmwHQFS3h
- BWA/9Fi5cwr0LPWvXN+ZcRTGRl0XYr6C5fyZU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=lQPPjlrmfYNaZQJU5WpmjNJguM+Opu+iDFV373nUgEI=;
- b=nLOXfihMmFDut5dT/Di7t+kSifCe4IThKH76rhmaUN8iYaqKZNJ833ZvM4AQcpLBrj
- 7iag/tujchDJGdYOp6yO5HMpvQngskjBKR39kFZdXG1J7JiliXq6M2+fMyrDrG4Oj5y5
- NKBdC8K9lifySTphYP4k/xpNjYwEWVuNyokT0LEHx/SSkvSYChBXIiO7v6Gz5v/ot9hd
- 6yriZh18srV3e7YN8pBh1fM+LAfPa85QCPAuX3Kc7pZc+VXsFuLeKmhi85Jq4BZkKLNa
- Ec+3z44GQFtgsX/iDxeGyorl+aqybwoWrGnCxGqjgISwZMJ76F8+4016T6KIlXOJ+UOR
- eAhA==
-X-Gm-Message-State: AOAM530kbdXwPTyuo/k0+DK0DP3c6RMMO2VyIcQLgSISC1fhj+GDA3kX
- 9Txs2cma0lj+htb0sYQn1dDjUQ==
-X-Google-Smtp-Source: ABdhPJwWmmPVHvl582CArkqu+fGcEyz7mUGSem/oBOmpp4NV9QAX0PVmwc3fJoxhrAXvok7FSS9khg==
-X-Received: by 2002:a17:902:e5cf:b0:149:f5d0:5f0b with SMTP id
- u15-20020a170902e5cf00b00149f5d05f0bmr3715465plf.100.1641505601085; 
- Thu, 06 Jan 2022 13:46:41 -0800 (PST)
-Received: from smtp.gmail.com ([2620:15c:202:201:1ebe:a8fd:f9b0:7e85])
- by smtp.gmail.com with ESMTPSA id 10sm3539960pfm.56.2022.01.06.13.46.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jan 2022 13:46:40 -0800 (PST)
-From: Stephen Boyd <swboyd@chromium.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Douglas Anderson <dianders@chromium.org>
-Subject: [PATCH v5 32/32] component: Remove component_master_ops and friends
-Date: Thu,  6 Jan 2022 13:45:55 -0800
-Message-Id: <20220106214556.2461363-33-swboyd@chromium.org>
-X-Mailer: git-send-email 2.34.1.448.ga2b2bfdf31-goog
-In-Reply-To: <20220106214556.2461363-1-swboyd@chromium.org>
-References: <20220106214556.2461363-1-swboyd@chromium.org>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1E8910E3C0
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 22:05:58 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id C3517B8244D
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 22:05:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 90350C36AEF
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jan 2022 22:05:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1641506756;
+ bh=mSI+6QASWpwR0OPnEakAf0S0aTiI3/4dru0ZatPLTTs=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=ABuokNO3Td6YikhYj6/vLTuLHNLc1h8FLq/xQpInU9t5nXEXbAFcJLD9+SFH4H2xD
+ WWCd6LcgG8AuDqm6Yi2rkiFqgZnicuW9DeWD7hADiYsk1PKmTGoASaOD4Pj5eicfVT
+ uIgYjkw707aH0G4pRo5CpM4/R3vCaRhNDUp5iVRPHwvnzXCN3j4B8njB5gi9evfYVK
+ qM234Es6KUmfzLr/EgzOhXsU9ngyo5AoOo1mAtva4K78uXxzbz0vGdGM8D79U8tofK
+ /j05ROFxfDeP4NguzNLjoMMijgWA9KxwrQfZ073em45H+OWrPgxxGQC6Ph42bxIBxi
+ j2fUorrr/KTVg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 77621C05FF4; Thu,  6 Jan 2022 22:05:56 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 215445] AMDGPU -- UBSAN: invalid-load in amdgpu_dm.c:5882:84 -
+ load of value 32 is not a valid value for type '_Bool'
+Date: Thu, 06 Jan 2022 22:05:56 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: satadru@umich.edu
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-215445-2300-TY79Ni9XTi@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-215445-2300@https.bugzilla.kernel.org/>
+References: <bug-215445-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,380 +72,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Saravana Kannan <saravanak@google.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Russell King <rmk+kernel@arm.linux.org.uk>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The struct is unused now so drop it along with the functions that use
-it.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215445
 
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Rob Clark <robdclark@gmail.com>
-Cc: Russell King <rmk+kernel@arm.linux.org.uk>
-Cc: Saravana Kannan <saravanak@google.com>
-Signed-off-by: Stephen Boyd <swboyd@chromium.org>
----
- drivers/base/component.c  | 148 +++++---------------------------------
- drivers/gpu/drm/drm_drv.c |   2 +-
- include/linux/component.h |  45 ------------
- 3 files changed, 17 insertions(+), 178 deletions(-)
+Satadru Pramanik (satadru@umich.edu) changed:
 
-diff --git a/drivers/base/component.c b/drivers/base/component.c
-index e9e58b56cda4..cd50137753b4 100644
---- a/drivers/base/component.c
-+++ b/drivers/base/component.c
-@@ -133,18 +133,12 @@ static void component_debugfs_del(struct aggregate_device *m)
- 
- #endif
- 
--struct aggregate_bus_find_data {
--	const struct component_master_ops *ops;
--	struct device *parent;
--};
--
- static int aggregate_bus_find_match(struct device *dev, const void *_data)
- {
- 	struct aggregate_device *adev = to_aggregate_device(dev);
--	const struct aggregate_bus_find_data *data = _data;
-+	const struct device *parent = _data;
- 
--	if (adev->parent == data->parent &&
--	    (!data->ops || adev->ops == data->ops))
-+	if (adev->parent == parent)
- 		return 1;
- 
- 	return 0;
-@@ -405,30 +399,15 @@ static int aggregate_device_match(struct device *dev, struct device_driver *drv)
- 	return ret;
- }
- 
--/* TODO: Remove once all aggregate drivers use component_aggregate_register() */
--static int component_probe_bind(struct aggregate_device *adev)
--{
--	return adev->ops->bind(adev->parent);
--}
--
--static void component_remove_unbind(struct aggregate_device *adev)
--{
--	adev->ops->unbind(adev->parent);
--}
--
- static int aggregate_driver_probe(struct device *dev)
- {
- 	const struct aggregate_driver *adrv = to_aggregate_driver(dev->driver);
- 	struct aggregate_device *adev = to_aggregate_device(dev);
--	bool modern = adrv->probe != component_probe_bind;
- 	int ret;
- 
--	/* Only do runtime PM when drivers migrate */
--	if (modern) {
--		pm_runtime_get_noresume(dev);
--		pm_runtime_set_active(dev);
--		pm_runtime_enable(dev);
--	}
-+	pm_runtime_get_noresume(dev);
-+	pm_runtime_set_active(dev);
-+	pm_runtime_enable(dev);
- 
- 	mutex_lock(&component_mutex);
- 	if (devres_open_group(adev->parent, adev, GFP_KERNEL)) {
-@@ -441,7 +420,7 @@ static int aggregate_driver_probe(struct device *dev)
- 	devres_close_group(adev->parent, NULL);
- 	mutex_unlock(&component_mutex);
- 
--	if (ret && modern) {
-+	if (ret) {
- 		pm_runtime_disable(dev);
- 		pm_runtime_set_suspended(dev);
- 		pm_runtime_put_noidle(dev);
-@@ -454,15 +433,10 @@ static void aggregate_driver_remove(struct device *dev)
- {
- 	const struct aggregate_driver *adrv = to_aggregate_driver(dev->driver);
- 	struct aggregate_device *adev = to_aggregate_device(dev);
--	bool modern = adrv->remove != component_remove_unbind;
- 
--	/* Only do runtime PM when drivers migrate */
--	if (modern)
--		pm_runtime_get_sync(dev);
-+	pm_runtime_get_sync(dev);
- 	adrv->remove(to_aggregate_device(dev));
- 	devres_release_group(adev->parent, adev);
--	if (!modern)
--		return;
- 
- 	pm_runtime_put_noidle(dev);
- 
-@@ -488,16 +462,11 @@ static struct bus_type aggregate_bus_type = {
- };
- 
- /* Callers take ownership of return value, should call put_device() */
--static struct aggregate_device *__aggregate_find(struct device *parent,
--	const struct component_master_ops *ops)
-+static struct aggregate_device *__aggregate_find(struct device *parent)
- {
- 	struct device *dev;
--	struct aggregate_bus_find_data data = {
--		.ops = ops,
--		.parent = parent,
--	};
- 
--	dev = bus_find_device(&aggregate_bus_type, NULL, &data,
-+	dev = bus_find_device(&aggregate_bus_type, NULL, parent,
- 			      aggregate_bus_find_match);
- 
- 	return dev ? to_aggregate_device(dev) : NULL;
-@@ -515,7 +484,7 @@ static void aggregate_driver_unregister(struct aggregate_driver *adrv)
- }
- 
- static struct aggregate_device *aggregate_device_add(struct device *parent,
--	const struct component_master_ops *ops, struct aggregate_driver *adrv,
-+	struct aggregate_driver *adrv,
- 	struct component_match *match)
- {
- 	struct aggregate_device *adev;
-@@ -540,7 +509,6 @@ static struct aggregate_device *aggregate_device_add(struct device *parent,
- 	adev->parent = parent;
- 	adev->dev.bus = &aggregate_bus_type;
- 	adev->dev.release = aggregate_device_release;
--	adev->ops = ops;
- 	adev->match = match;
- 	adev->adrv = adrv;
- 	dev_set_name(&adev->dev, "aggregate%d", id);
-@@ -556,54 +524,6 @@ static struct aggregate_device *aggregate_device_add(struct device *parent,
- 	return adev;
- }
- 
--/**
-- * component_master_add_with_match - register an aggregate driver
-- * @parent: parent device of the aggregate driver
-- * @ops: callbacks for the aggregate driver
-- * @match: component match list for the aggregate driver
-- *
-- * Registers a new aggregate driver consisting of the components added to @match
-- * by calling one of the component_match_add() functions. Once all components in
-- * @match are available, it will be assembled by calling
-- * &component_master_ops.bind from @ops. Must be unregistered by calling
-- * component_master_del().
-- *
-- * Deprecated: Use component_aggregate_register() instead.
-- */
--int component_master_add_with_match(struct device *parent,
--	const struct component_master_ops *ops,
--	struct component_match *match)
--{
--	struct aggregate_driver *adrv;
--	struct aggregate_device *adev;
--	int ret = 0;
--
--	adrv = kzalloc(sizeof(*adrv), GFP_KERNEL);
--	if (!adrv)
--		return -ENOMEM;
--
--	adev = aggregate_device_add(parent, ops, adrv, match);
--	if (IS_ERR(adev)) {
--		ret = PTR_ERR(adev);
--		goto err;
--	}
--
--	adrv->probe = component_probe_bind;
--	adrv->remove = component_remove_unbind;
--	adrv->driver.owner = THIS_MODULE;
--	adrv->driver.name = dev_name(&adev->dev);
--
--	ret = aggregate_driver_register(adrv);
--	if (!ret)
--		return 0;
--
--	put_device(&adev->dev);
--err:
--	kfree(adrv);
--	return ret;
--}
--EXPORT_SYMBOL_GPL(component_master_add_with_match);
--
- /**
-  * component_aggregate_register - register an aggregate driver
-  * @parent: parent device of the aggregate driver
-@@ -620,7 +540,7 @@ int component_aggregate_register(struct device *parent,
- 	struct aggregate_device *adev;
- 	int ret;
- 
--	adev = aggregate_device_add(parent, NULL, adrv, match);
-+	adev = aggregate_device_add(parent, adrv, match);
- 	if (IS_ERR(adev))
- 		return PTR_ERR(adev);
- 
-@@ -632,42 +552,6 @@ int component_aggregate_register(struct device *parent,
- }
- EXPORT_SYMBOL_GPL(component_aggregate_register);
- 
--/**
-- * component_master_del - unregister an aggregate driver
-- * @parent: parent device of the aggregate driver
-- * @ops: callbacks for the aggregate driver
-- *
-- * Unregisters an aggregate driver registered with
-- * component_master_add_with_match(). If necessary the aggregate driver is first
-- * disassembled by calling &component_master_ops.unbind from @ops.
-- *
-- * Deprecated: Use component_aggregate_unregister() instead.
-- */
--void component_master_del(struct device *parent,
--	const struct component_master_ops *ops)
--{
--	struct aggregate_device *adev;
--	struct aggregate_driver *adrv;
--	struct device_driver *drv;
--
--	mutex_lock(&component_mutex);
--	adev = __aggregate_find(parent, ops);
--	mutex_unlock(&component_mutex);
--
--	if (adev) {
--		drv = adev->dev.driver;
--		if (drv) {
--			adrv = to_aggregate_driver(drv);
--			aggregate_driver_unregister(adrv);
--			kfree(adrv);
--		}
--
--		device_unregister(&adev->dev);
--	}
--	put_device(&adev->dev);
--}
--EXPORT_SYMBOL_GPL(component_master_del);
--
- /**
-  * component_aggregate_unregister - unregister an aggregate driver
-  * @parent: parent device of the aggregate driver
-@@ -683,7 +567,7 @@ void component_aggregate_unregister(struct device *parent,
- 	struct aggregate_device *adev;
- 
- 	mutex_lock(&component_mutex);
--	adev = __aggregate_find(parent, NULL);
-+	adev = __aggregate_find(parent);
- 	mutex_unlock(&component_mutex);
- 
- 	if (adev)
-@@ -719,7 +603,7 @@ static void component_unbind(struct component *component,
-  *
-  * Unbinds all components of the aggregate device by passing @data to their
-  * &component_ops.unbind functions. Should be called from
-- * &component_master_ops.unbind.
-+ * &aggregate_driver.remove.
-  */
- void component_unbind_all(struct device *parent, void *data)
- {
-@@ -729,7 +613,7 @@ void component_unbind_all(struct device *parent, void *data)
- 
- 	WARN_ON(!mutex_is_locked(&component_mutex));
- 
--	adev = __aggregate_find(parent, NULL);
-+	adev = __aggregate_find(parent);
- 	if (!adev)
- 		return;
- 
-@@ -807,7 +691,7 @@ static int component_bind(struct component *component, struct aggregate_device *
-  *
-  * Binds all components of the aggregate @dev by passing @data to their
-  * &component_ops.bind functions. Should be called from
-- * &component_master_ops.bind.
-+ * &aggregate_driver.probe.
-  */
- int component_bind_all(struct device *parent, void *data)
- {
-@@ -818,7 +702,7 @@ int component_bind_all(struct device *parent, void *data)
- 
- 	WARN_ON(!mutex_is_locked(&component_mutex));
- 
--	adev = __aggregate_find(parent, NULL);
-+	adev = __aggregate_find(parent);
- 	if (!adev)
- 		return -EINVAL;
- 
-diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index 7a5097467ba5..d188fa26bb1b 100644
---- a/drivers/gpu/drm/drm_drv.c
-+++ b/drivers/gpu/drm/drm_drv.c
-@@ -544,7 +544,7 @@ static void drm_fs_inode_free(struct inode *inode)
-  * following guidelines apply:
-  *
-  *  - The entire device initialization procedure should be run from the
-- *    &component_master_ops.master_bind callback, starting with
-+ *    &aggregate_driver.probe callback, starting with
-  *    devm_drm_dev_alloc(), then binding all components with
-  *    component_bind_all() and finishing with drm_dev_register().
-  *
-diff --git a/include/linux/component.h b/include/linux/component.h
-index d8dcbf9733da..07fe481d4e3b 100644
---- a/include/linux/component.h
-+++ b/include/linux/component.h
-@@ -63,47 +63,7 @@ void component_del(struct device *, const struct component_ops *);
- int component_bind_all(struct device *master, void *master_data);
- void component_unbind_all(struct device *master, void *master_data);
- 
--/**
-- * struct component_master_ops - callback for the aggregate driver
-- *
-- * Aggregate drivers are registered with component_master_add_with_match() and
-- * unregistered with component_master_del().
-- */
--struct component_master_ops {
--	/**
--	 * @bind:
--	 *
--	 * Called when all components or the aggregate driver, as specified in
--	 * the match list passed to component_master_add_with_match(), are
--	 * ready. Usually there are 3 steps to bind an aggregate driver:
--	 *
--	 * 1. Allocate a structure for the aggregate driver.
--	 *
--	 * 2. Bind all components to the aggregate driver by calling
--	 *    component_bind_all() with the aggregate driver structure as opaque
--	 *    pointer data.
--	 *
--	 * 3. Register the aggregate driver with the subsystem to publish its
--	 *    interfaces.
--	 *
--	 * Note that the lifetime of the aggregate driver does not align with
--	 * any of the underlying &struct device instances. Therefore devm cannot
--	 * be used and all resources acquired or allocated in this callback must
--	 * be explicitly released in the @unbind callback.
--	 */
--	int (*bind)(struct device *master);
--	/**
--	 * @unbind:
--	 *
--	 * Called when either the aggregate driver, using
--	 * component_master_del(), or one of its components, using
--	 * component_del(), is unregistered.
--	 */
--	void (*unbind)(struct device *master);
--};
--
- struct aggregate_device {
--	const struct component_master_ops *ops;
- 	struct device *parent;
- 	struct device dev;
- 	struct component_match *match;
-@@ -171,11 +131,6 @@ int component_aggregate_register(struct device *parent,
- void component_aggregate_unregister(struct device *parent,
- 	struct aggregate_driver *adrv);
- 
--void component_master_del(struct device *,
--	const struct component_master_ops *);
--
--int component_master_add_with_match(struct device *,
--	const struct component_master_ops *, struct component_match *);
- void component_match_add_release(struct device *master,
- 	struct component_match **matchptr,
- 	void (*release)(struct device *, void *),
--- 
-https://chromeos.dev
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |satadru@umich.edu
 
+--- Comment #4 from Satadru Pramanik (satadru@umich.edu) ---
+Also seeing this on an ubuntu 5.15.13 mainline kernel on ubuntu/22.04 with
+xorg.
+
+
+[   63.026997]
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+[   63.027004] fbcon: Taking over console
+[   63.027008] UBSAN: invalid-load in
+/home/kernel/COD/linux/drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdg=
+pu_dm.c:5882:84
+[   63.027013] load of value 4 is not a valid value for type '_Bool'
+[   63.027017] CPU: 0 PID: 508 Comm: plymouthd Tainted: P           OE=20=
+=20=20=20
+5.15.13-051513-generic #202201050731
+[   63.027020] Hardware name: MSI MS-7998/C236A WORKSTATION (MS-7998), BIOS
+2.A0 06/15/2018
+[   63.027021] Call Trace:
+[   63.027023]  <TASK>
+[   63.027025]  show_stack+0x52/0x58
+[   63.027030]  dump_stack_lvl+0x4a/0x5f
+[   63.027036]  dump_stack+0x10/0x12
+[   63.027039]  ubsan_epilogue+0x9/0x45
+[   63.027042]  __ubsan_handle_load_invalid_value.cold+0x44/0x49
+[   63.027046]  create_stream_for_sink.cold+0x5d/0xbb [amdgpu]
+[   63.027337]  create_validate_stream_for_sink+0x59/0x150 [amdgpu]
+[   63.027572]  dm_update_crtc_state+0x235/0x7b0 [amdgpu]
+[   63.027808]  amdgpu_dm_atomic_check+0x596/0xcd0 [amdgpu]
+[   63.028080]  ? __cond_resched+0x1a/0x50
+[   63.028085]  ? ww_mutex_lock+0x83/0x90
+[   63.028088]  ? dm_plane_format_mod_supported+0x1f/0x100 [amdgpu]
+[   63.028324]  ? drm_plane_check_pixel_format+0x45/0x90 [drm]
+[   63.028367]  ? drm_atomic_plane_check+0x12f/0x360 [drm]
+[   63.028396]  drm_atomic_check_only+0x250/0x4b0 [drm]
+[   63.028423]  drm_atomic_commit+0x18/0x50 [drm]
+[   63.028450]  drm_client_modeset_commit_atomic+0x1df/0x220 [drm]
+[   63.028476]  drm_client_modeset_commit_locked+0x5b/0x160 [drm]
+[   63.028501]  ? mutex_lock+0x13/0x40
+[   63.028504]  drm_client_modeset_commit+0x27/0x50 [drm]
+[   63.028531]  __drm_fb_helper_restore_fbdev_mode_unlocked+0xc2/0xf0
+[drm_kms_helper]
+[   63.028556]  drm_fb_helper_lastclose+0x17/0x20 [drm_kms_helper]
+[   63.028571]  amdgpu_driver_lastclose_kms+0xe/0x20 [amdgpu]
+[   63.028749]  drm_release+0xe0/0x110 [drm]
+[   63.028773]  __fput+0x9c/0x260
+[   63.028777]  ____fput+0xe/0x10
+[   63.028779]  task_work_run+0x6d/0xa0
+[   63.028783]  do_exit+0x21b/0x3c0
+[   63.028786]  do_group_exit+0x3b/0xb0
+[   63.028789]  __x64_sys_exit_group+0x18/0x20
+[   63.028791]  do_syscall_64+0x59/0xc0
+[   63.028794]  ? asm_exc_page_fault+0x8/0x30
+[   63.028798]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+[   63.028802] RIP: 0033:0x7f3126a99ed1
+[   63.028805] Code: Unable to access opcode bytes at RIP 0x7f3126a99ea7.
+[   63.028806] RSP: 002b:00007ffdc2f08a48 EFLAGS: 00000246 ORIG_RAX:
+00000000000000e7
+[   63.028809] RAX: ffffffffffffffda RBX: 00007f3126bc66d0 RCX:
+00007f3126a99ed1
+[   63.028811] RDX: 000000000000003c RSI: 00000000000000e7 RDI:
+0000000000000000
+[   63.028813] RBP: 0000000000000000 R08: ffffffffffffff80 R09:
+0000000000000001
+[   63.028815] R10: 000000000000001f R11: 0000000000000246 R12:
+00007f3126bc66d0
+[   63.028816] R13: 0000000000000000 R14: 00007f3126bc6ba8 R15:
+00007f3126bc6bc0
+[   63.028820]  </TASK>
+[   63.028822]
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
