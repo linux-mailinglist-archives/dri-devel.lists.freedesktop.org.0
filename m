@@ -2,45 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 521AA488402
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Jan 2022 15:41:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CFCE488401
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Jan 2022 15:41:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A30C010E867;
-	Sat,  8 Jan 2022 14:41:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D50CC10E78E;
+	Sat,  8 Jan 2022 14:41:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
- [185.176.79.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A35A711A4AA
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 17:16:43 +0000 (UTC)
-Received: from fraeml740-chm.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4JVqWg6H9Pz67ZhV;
- Sat,  8 Jan 2022 01:11:43 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml740-chm.china.huawei.com (10.206.15.221) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Fri, 7 Jan 2022 18:16:40 +0100
-Received: from [10.47.89.210] (10.47.89.210) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Fri, 7 Jan
- 2022 17:16:37 +0000
-Subject: Re: [RFC 01/32] Kconfig: introduce and depend on LEGACY_PCI
-To: Bjorn Helgaas <helgaas@kernel.org>
-References: <20220106181409.GA297735@bhelgaas>
-From: John Garry <john.garry@huawei.com>
-Message-ID: <b0e772ed-4c21-3d5a-d890-aba05c41904c@huawei.com>
-Date: Fri, 7 Jan 2022 17:16:23 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27FF410F43B
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 17:43:29 +0000 (UTC)
+Received: by mail-pl1-x631.google.com with SMTP id p14so5406360plf.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Jan 2022 09:43:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:date:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=g30nKtOg1oeqH8IqiezmzUi5A0C1r6MR6z8qoYYRJG0=;
+ b=noyvDUT/nbivAF0rT4dfV9xn454IPhiHu8WTlgdT6oRJhgftL0NuoSgAlbZV5RJIu9
+ nTN/iiRSBTxIP1KcsGuJek5zEuhhmvJdOkyteusKA3jjzOFtRc9NkCps2T0D/VkSHO+w
+ sx3YC9DckzmiUFjpY6leFfzIBYvLiM0e9EBP861h3wrCS5IGmu9OLi30S5+j9VfmCfkJ
+ 6jbgNM0yNeieKo9HV/lzjqJeZ6bwyhFYTcSF518jb7VMNpDWgoYxMNgIV9YC1e04MEjH
+ PIJVNX+5v84rv15o728J8YW2ck+rZEDWYPlQSpJTnbu9Euk41vqTxb88DmpTmOiX9WYu
+ oBhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=g30nKtOg1oeqH8IqiezmzUi5A0C1r6MR6z8qoYYRJG0=;
+ b=zvDMJsbVIsHE2Sk8cTvGylBQrieKfUTgJYaGMCw5LeJApc4/62k/Nuglhqa8YmK8cJ
+ ezpzjEEHtAjIs7V+5lw2FbPcr4yMWQjz15JPhiK5ndVoaa5AcXh+F32S7iuKn61SQJWk
+ iAIAyRgGwlLVZB2bVsQSvXzOapb7mYpUYXjvNkbmMo1uygDsrTZjbifx9/suM7877X6C
+ DiP7TOmh2VHVB6/7NMSgNnrGxKwfRB4Zx7oUngrod/nsnrd23Y0cq7oty4Z2uD6TzGRu
+ NB/DE31I1006qHZl6GdYrSSnupHmryxPp3XWBBp/TagsKES8pEYFwF0USgSaWwMEvNZz
+ DiJg==
+X-Gm-Message-State: AOAM530XlO4mEzmGONFbRQXPPu2Y9xvKWi0QcMIZBCm6GQDXL+xpDsvj
+ PLDZ9ajgR3GEz/ot7TQP21NUhcAf0X8=
+X-Google-Smtp-Source: ABdhPJwKY32mIfyYWhl9RZtln0aNIwFsoDt8YrT/vnaJUStlVNedJ3mNTbWr7JM9VrRLn5ydISU7aQ==
+X-Received: by 2002:a17:902:f54a:b0:14a:147b:6036 with SMTP id
+ h10-20020a170902f54a00b0014a147b6036mr907495plf.154.1641577408541; 
+ Fri, 07 Jan 2022 09:43:28 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:4a85:a3d:72a9:2009])
+ by smtp.gmail.com with ESMTPSA id z12sm6690164pfe.110.2022.01.07.09.43.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Jan 2022 09:43:27 -0800 (PST)
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+X-Google-Original-From: Dmitry Torokhov <dtor@google.com>
+Date: Fri, 7 Jan 2022 09:43:23 -0800
+To: Rajat Jain <rajatja@google.com>
+Subject: Re: [PATCH v4 2/3] platform/chrome: Add driver for ChromeOS
+ privacy-screen
+Message-ID: <Ydh7u1kuXSMzwmW0@google.com>
+References: <20211222001127.3337471-1-rajatja@google.com>
+ <20211222001127.3337471-2-rajatja@google.com>
 MIME-Version: 1.0
-In-Reply-To: <20220106181409.GA297735@bhelgaas>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.47.89.210]
-X-ClientProxiedBy: lhreml745-chm.china.huawei.com (10.201.108.195) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211222001127.3337471-2-rajatja@google.com>
 X-Mailman-Approved-At: Sat, 08 Jan 2022 14:41:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,77 +72,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-pci@vger.kernel.org, Wim Van
- Sebroeck <wim@linux-watchdog.org>, Ettore Chimenti <ek5.chimenti@gmail.com>,
- linux-ide@vger.kernel.org, Albert Ou <aou@eecs.berkeley.edu>,
- Guo Ren <guoren@kernel.org>, linux-i2c@vger.kernel.org,
- linux-riscv@lists.infradead.org, Vincent Chen <deanbo422@gmail.com>,
- Jiri Slaby <jirislaby@kernel.org>, linux-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, Hannes Reinecke <hare@suse.com>,
- Michael Grzeschik <m.grzeschik@pengutronix.de>, linux-scsi@vger.kernel.org,
- Sumit Saxena <sumit.saxena@broadcom.com>, Bartosz Golaszewski <brgl@bgdev.pl>,
- Sathya Prakash <sathya.prakash@broadcom.com>,
- Jesse Brandeburg <jesse.brandeburg@intel.com>, linux-csky@vger.kernel.org,
- Kashyap Desai <kashyap.desai@broadcom.com>,
- Nilesh Javali <njavali@marvell.com>, intel-wired-lan@lists.osuosl.org,
- linux-serial@vger.kernel.org, GR-QLogic-Storage-Upstream@marvell.com, Jakub
- Kicinski <kuba@kernel.org>, MPT-FusionLinux.pdl@broadcom.com,
- "James E.J. Bottomley" <jejb@linux.ibm.com>,
- Guenter Roeck <linux@roeck-us.net>, linux-media@vger.kernel.org,
- Jaroslav Kysela <perex@perex.cz>, Jean Delvare <jdelvare@suse.com>,
- linux-watchdog@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- Niklas Schnelle <schnelle@linux.ibm.com>, Jouni Malinen <j@w1.fi>,
- Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
- Kalle Valo <kvalo@kernel.org>, linux-input@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-gpio@vger.kernel.org,
- Ian Abbott <abbotti@mev.co.uk>, Mark Brown <broonie@kernel.org>,
- Greentime Hu <green.hu@gmail.com>, Paul
- Walmsley <paul.walmsley@sifive.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, megaraidlinux.pdl@broadcom.com,
- Teddy Wang <teddy.wang@siliconmotion.com>, linux-hwmon@vger.kernel.org,
- Arnd Bergmann <arnd@kernel.org>, Karsten Keil <isdn@linux-pingi.de>,
- Sreekanth Reddy <sreekanth.reddy@broadcom.com>, "Martin
- K. Petersen" <martin.petersen@oracle.com>, Nick Hu <nickhu@andestech.com>,
- Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
- Shivasharan S <shivasharan.srikanteshwara@broadcom.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, dri-devel@lists.freedesktop.org,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-wireless@vger.kernel.org,
- Takashi Iwai <tiwai@suse.com>, "David S. Miller" <davem@davemloft.net>, H
- Hartley Sweeten <hsweeten@visionengravers.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Forest Bond <forest@alittletooquiet.net>,
- netdev@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Tony Nguyen <anthony.l.nguyen@intel.com>, Damien Le
- Moal <damien.lemoal@opensource.wdc.com>
+Cc: gwendal@google.com, marcheu@google.com,
+ Thomas Zimmermann <tzimmermann@suse.de>, seanpaul@google.com,
+ ibm-acpi-devel@lists.sourceforge.net, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ Mark Gross <markgross@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ dri-devel@lists.freedesktop.org, Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+ rajatxjain@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/01/2022 18:14, Bjorn Helgaas wrote:
->> That driver would prob not be used on systems which does not support PIO,
->> and so could have a HAS_IOPORT dependency. But it is not strictly necessary.
-> I don't want the path of "this driver isn't needed because the device
-> is unlikely to be used on this arch."
+Hi Rajat,
 
-Sure, that was just a one off example. As I mentioned before, I think 
-that Arnd already did most of the ifdeffery work, but it was not 
-included in this series.
+On Tue, Dec 21, 2021 at 04:11:26PM -0800, Rajat Jain wrote:
+> +static int chromeos_privacy_screen_remove(struct acpi_device *adev)
+> +{
+> +	struct drm_privacy_screen *drm_privacy_screen =	acpi_driver_data(adev);
 
-> 
-> Maybe it's not_always_  possible, but if the device can be plugged
-> into the platform, I think we should be able to build the driver for
-> it.
-> 
-> If the device requires I/O port space and the platform doesn't support
-> it, the PCI core or the driver should detect that and give a useful
-> diagnostic.
-> 
+Please add an empty line here:
 
-I'm not sure what the driver can say apart from -ENODEV. Or IO port 
-management in resource.c could warn for requesting IO port region when 
-it's unsupported.
+WARNING: Missing a blank line after declarations
+#292: FILE: drivers/platform/chrome/chromeos_privacy_screen.c:129:
++       struct drm_privacy_screen *drm_privacy_screen = acpi_driver_data(adev);
++       drm_privacy_screen_unregister(drm_privacy_screen);
 
-Anyway, this same conversion was had with Linus before I got involved. 
-If you think it is worth discussing again then I suppose the authors 
-here need to gain consensus.
+> +	drm_privacy_screen_unregister(drm_privacy_screen);
+> +	return 0;
+> +}
+> +
+> +static const struct acpi_device_id chromeos_privacy_screen_device_ids[] = {
+> +	{"GOOG0010", 0}, /* Google's electronic privacy screen for eDP-1 */
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(acpi, chromeos_privacy_screen_device_ids);
+> +
+> +static struct acpi_driver chromeos_privacy_screen_driver = {
+> +	.name = "chromeos_privacy_screen_drvr",
 
-Thanks,
-John
+Could I buy 2 move vowels? ;)
+
+> +	.class = "ChromeOS",
+> +	.ids = chromeos_privacy_screen_device_ids,
+> +	.ops = {
+> +		.add = chromeos_privacy_screen_add,
+> +		.remove = chromeos_privacy_screen_remove,
+> +	},
+> +};
+> +
+> +module_acpi_driver(chromeos_privacy_screen_driver);
+> +MODULE_LICENSE("GPL v2");
+> +MODULE_DESCRIPTION("ChromeOS ACPI Privacy Screen driver");
+> +MODULE_AUTHOR("Rajat Jain <rajatja@google.com>");
+
+Otherwise
+
+Reviewed-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+
+Thanks.
+
+-- 
+Dmitry
