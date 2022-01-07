@@ -2,53 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D9E2487B7F
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 18:35:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48AF4487B94
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 18:42:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B694A10E1CF;
-	Fri,  7 Jan 2022 17:34:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6E8810F3CC;
+	Fri,  7 Jan 2022 17:42:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DF0B10E1CF
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 17:34:56 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2FE456171F;
- Fri,  7 Jan 2022 17:34:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9A766C36AE0;
- Fri,  7 Jan 2022 17:34:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1641576893;
- bh=Nd3OSgzKs9gH96Ti42NMD51GnPFBvOzQFzTs0RG+2l8=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=jPNy20y/2jwRkIVTxIccpj2JRMw9ePAL6WNzxL8n0AyWPTgzuvzUMXdOWmTGxqftn
- kDHw3Omf8ecD5sqzx7SGKPRnP0MphIiEnEJafyfAEQ7Lh+mHmS3PV7jU1PKhwEncBl
- nn1KB+rov1m/GkpHG00robcwn3g+a+G50Yy+7YW5Qj/I2Si38B33B2YRi8TQxM2fMN
- YLtcjT+og9CUAAdrs0cagC74/+2pv7T1zzxhbv0UdgRxoihGGyc1a2rM5Z5KcjOKz7
- R1cLXrN28sBlQkUjeZG5OW/El3xmUSMZ/6bVyqLaDJja3nvaslakeAlbtEp+ryTIeB
- jPfSeqf40oV8g==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- 88ECBF79404; Fri,  7 Jan 2022 17:34:53 +0000 (UTC)
-Subject: Re: [git pull] drm final fixes for 5.16
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9twnYJ8SrVzJEEH+Vksibomvk5CE+Nn6BXKYwLG_8r=GJQ@mail.gmail.com>
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
+ [IPv6:2a00:1450:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B883C10F3CC
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 17:42:16 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id b13so24858084edd.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Jan 2022 09:42:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qlTeTJ7EDTm7c9BXsTdwqcJ1U93LI0ovtC5oLv7HJ/8=;
+ b=EzDtmhckdMcxUG26G41m9/0kVjTMfBYbN416j3lPs9mAd5lJ4W+Nk53u+bcN8Nof4h
+ 6RuLaXCBf9fWX78BJbfmYuj5gh/YjzAfy3o7qlM/BlWCqaJs0c6/2nWx+SGMA2/6rME+
+ RkUGyAPUccxm6eDTAVNFU0couQa8OdlCouNYk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qlTeTJ7EDTm7c9BXsTdwqcJ1U93LI0ovtC5oLv7HJ/8=;
+ b=b8VARW0zicdcsPs1sWxKvw1j0/lOqIsSoikNzXmYI7VamJ5xWCOkbsMpxpHSuWDMPh
+ zEX22Y9ys4UU+lgZcCHnv+eqel0oLAWq7pUdhYRsFbLpeKe1Nz0jSMXcB/P6Y+/j1oYU
+ /J0zUKnLMHIzNq6D3VFMKCFh22jKeSWsNMiM+mSsOCHyn9EGDOHXhhQQ4FrxRBmFvJ2/
+ 2jrhiL+V+aargzn0a6n/pMt4FXS7+HCB3cGBoBHzloXfP916UIEdIOHIOPCzTLaxJRyo
+ wAtWqJB1Mzx7KPOR+lG0zvzAy82sU95LBEUty7eYp/6zCNopQn9jZlN//Lpo8xvoJFmq
+ Eh3Q==
+X-Gm-Message-State: AOAM530sWvnaKXXeE5Pj0NvPOpzOMF1sFHfKbIuEpr8qk12TBN6dRgv+
+ GjOJIAycFlZz9HW2C/Ce8RhW150E4x5edG9oUCg=
+X-Google-Smtp-Source: ABdhPJzbsL9TETev/JX95s032rK0Rw7r+ez6EYAyGPrFPqSBAX6m2gQVK+XgO00FJxd45xTrGI4EhA==
+X-Received: by 2002:a05:6402:1a57:: with SMTP id
+ bf23mr11072894edb.381.1641577335117; 
+ Fri, 07 Jan 2022 09:42:15 -0800 (PST)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com.
+ [209.85.221.49])
+ by smtp.gmail.com with ESMTPSA id nb20sm1582482ejc.25.2022.01.07.09.42.14
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Jan 2022 09:42:14 -0800 (PST)
+Received: by mail-wr1-f49.google.com with SMTP id e9so10940725wra.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Jan 2022 09:42:14 -0800 (PST)
+X-Received: by 2002:adf:f54e:: with SMTP id j14mr54539331wrp.442.1641577334232; 
+ Fri, 07 Jan 2022 09:42:14 -0800 (PST)
+MIME-Version: 1.0
 References: <CAPM=9twnYJ8SrVzJEEH+Vksibomvk5CE+Nn6BXKYwLG_8r=GJQ@mail.gmail.com>
-X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-X-PR-Tracked-Message-Id: <CAPM=9twnYJ8SrVzJEEH+Vksibomvk5CE+Nn6BXKYwLG_8r=GJQ@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2022-01-07
-X-PR-Tracked-Commit-Id: 936a93775b7c4f2293f651f64c4139c82e19a164
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 7a6043cc2e863ab45016622c30879e555523ee13
-Message-Id: <164157689355.23528.13761079687707576778.pr-tracker-bot@kernel.org>
-Date: Fri, 07 Jan 2022 17:34:53 +0000
-To: Dave Airlie <airlied@gmail.com>
+In-Reply-To: <CAPM=9twnYJ8SrVzJEEH+Vksibomvk5CE+Nn6BXKYwLG_8r=GJQ@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Fri, 7 Jan 2022 09:41:58 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wiyfiVoci-LHaY=e70zOpAoUqwoaFF4iD3xm847PkK1CQ@mail.gmail.com>
+Message-ID: <CAHk-=wiyfiVoci-LHaY=e70zOpAoUqwoaFF4iD3xm847PkK1CQ@mail.gmail.com>
+Subject: Re: [git pull] drm final fixes for 5.16
+To: Dave Airlie <airlied@gmail.com>, Alex Deucher <alexdeucher@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,22 +71,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 7 Jan 2022 13:23:45 +1000:
+On Thu, Jan 6, 2022 at 7:23 PM Dave Airlie <airlied@gmail.com> wrote:
+>
+> There is only the amdgpu runtime pm regression fix in here.
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-01-07
+Thanks, from a quick test it works for me - the backlight actually
+does eventually go away.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/7a6043cc2e863ab45016622c30879e555523ee13
+It does so only on the second time the monitors say "no signal, going
+to power save", but that has been true before too.
 
-Thank you!
+So I think there's still some confusion in this area, but it might be
+elsewhere - who knows what Wayland and friends do. At least it doesn't
+look like a regression to me any more.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Thanks,
+                Linus
