@@ -1,59 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01A4E48703A
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 03:16:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 349A248703B
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 03:16:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CF6510F0AE;
-	Fri,  7 Jan 2022 02:16:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0610010F0C8;
+	Fri,  7 Jan 2022 02:16:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com
- [IPv6:2607:f8b0:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6453C10F0AE
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 02:16:22 +0000 (UTC)
-Received: by mail-oi1-x234.google.com with SMTP id v6so6307333oib.13
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jan 2022 18:16:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=kKwZjkLvH6ZAyxG0ybHLi0g/OyU34wARZkVSPe8lOGY=;
- b=fjouixiydP9JfIEYO4dKSBB1qDJzNLODLO3f135n3yJtR03j2236LSj+1UPbe/Kb1q
- LQRX4MrsVNp5T8wuwow6pj1u5cShr8gJF6PgM0j66XuE9fyBQPWBhCWkoS7SHjdiV+Vr
- pcePNgHKNGX/5Y+o5qAiHk7TcmNiY+NaHuf+4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=kKwZjkLvH6ZAyxG0ybHLi0g/OyU34wARZkVSPe8lOGY=;
- b=N23BEzmhNW2FOuzKMlKeB8Kb8RLZLfPtufBYsdKLLIUN+w16HWQf85o7ucT6k43qXj
- iGxuMY8KWEeWV7e8vrfLtSctb4JiCFY6kfh3ycrKfZ0JWOtC0YQOJj8vREb9MjRivfo2
- /voBdkf8v3Oft1eEUmmnqZvUo6PMwJKiaHI4u/HnsnTUuDTd4Xr8pSRoFJ76ViLQlPc+
- bw2SA9omk3JBcVqtndwRmaBeg6uEVISIsKhrSWzaJ7JQNq1iUAl+QX1EgRFx6D0SiR0h
- GBk8w83eTit5e1ibAU/uTqoyInECWidRFAx6BbEjoA+7lLYbWDrW0ceYtMNHGz47BELH
- 3g/A==
-X-Gm-Message-State: AOAM533Bt4RMHJrSmmuxFyHK2jBNZz79As7KC1ZT363crWXS8Kaj1C0w
- gzeHejB85XTMgpByR2NM+vUR6vhlSEWu/qclmUDkaQ==
-X-Google-Smtp-Source: ABdhPJw8A1/PY/9sW6U9NcUoroIzSiIr77qSNDetdvPRYOFPKJhRkXW9Sirs8QrjrRjfHfN7YWmkU3aTwiVMic/LFWU=
-X-Received: by 2002:a54:4710:: with SMTP id k16mr8244349oik.32.1641521781718; 
- Thu, 06 Jan 2022 18:16:21 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 6 Jan 2022 18:16:21 -0800
-MIME-Version: 1.0
-In-Reply-To: <20220107020132.587811-1-dmitry.baryshkov@linaro.org>
-References: <20220107020132.587811-1-dmitry.baryshkov@linaro.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date: Thu, 6 Jan 2022 18:16:21 -0800
-Message-ID: <CAE-0n52Si84XZxURUZ6ONKOCsyCDGF=AXHrStOoMPC67xRiVfQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/7] Simplify and correct msm/dp bridge implementation
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, 
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E120E10F0C7
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 02:16:51 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 35EB861E87
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 02:16:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A17E6C36AE5
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 02:16:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1641521810;
+ bh=eGq+XXJPHqkMVPRhTHy/aCxmZfC4+q5pNvgaTRzDJMw=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=hK+QIqjClvBsKcMYLndCZ8w22wXBUkz9hr9JiEV0X5L1Rz4g5mhHk8LDvHni8n7xu
+ plhBtCcmjMGRBxRgEqJ3YSMcUOvpTCYVFQ6vmdyFWK0Jv3ji1saAZD9j5LJ5z4Fyqu
+ +XRFvaubxcBWFz+qodMrj2cRt/hlrTBK/3tJuDjL4WKArpLV2hjKuRRtP5yTqaCEHL
+ /bQX0hO/dIvfUxx0+Vhff9ktn8pgyCf6yJ35mNbNS8hsyflHbHdTBYZluxbaH2QPvR
+ 3On0bM7sVS2hyWqQMD/gKBNhlWwn+3IV0bLlQ8HUR/CfbL0FKyMWgR9wzUMHwWQYzx
+ y0WbIPo9eirGw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 8773BC05FDF; Fri,  7 Jan 2022 02:16:50 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 215001] Regression in 5.15, Firmware-initialized graphics
+ console selects FB_VGA16, screen corruption
+Date: Fri, 07 Jan 2022 02:16:50 +0000
+X-Bugzilla-Reason: CC
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(Other)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: javier@dowhile0.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-other@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-215001-2300-IH2XzuPbew@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-215001-2300@https.bugzilla.kernel.org/>
+References: <bug-215001-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,60 +71,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2022-01-06 18:01:25)
-> I noticed that commit 8a3b4c17f863 ("drm/msm/dp: employ bridge mechanism for display
-> enable and disable") conflicts with the panel-edp (panel bridge)
-> support. Both bridges will try to attach directly to the drm encoder
-> itself. I started writing lengthy letter describing what is broken and
-> how it should be fixed. Then at some point I stopped and quickly coded
-> this RFC (which is compile-tested only).
->
-> Comments and tests (on both DP and eDP setups) are more than welcome.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215001
 
-There are some DP patches dribbling in every day or so and it's really
-hard to follow along. I asked Kuogee to resend all outstanding patches
-as a single series but that hasn't happened. I'm not super interested in
-reviewing/testing out these patches until the outstanding patches for DP
-on the list are reviewed and landed. Have you looked at those patches?
-See [1] for an example.
+--- Comment #5 from Javier Martinez Canillas (javier@dowhile0.org) ---
+Created attachment 300235
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D300235&action=3Dedit
+[PATCH] video: vga16fb: Only probe for EGA and VGA 16 color graphic cards
 
->
-> The following changes since commit 6ed95285382d6f90a3c3a11d5806a5eb7db715c3:
->
->   drm/msm/a5xx: Fix missing CP_PROTECT for SMMU on A540 (2021-12-17 15:09:46 -0800)
->
-> are available in the Git repository at:
->
->   https://git.linaro.org/people/dmitry.baryshkov/kernel.git msm-dp-bridges
->
-> for you to fetch changes up to 7eff304d50ba520e9193a293a8e42bbd9d7aa0e1:
->
->   drm/msm/dp: stop carying about the connector type (2022-01-07 04:56:06 +0300)
->
-> ----------------------------------------------------------------
-> Dmitry Baryshkov (7):
->       drm/msm/dp: fix panel bridge attachment
->       drm/msm/dp: support attaching bridges to the DP encoder
->       drm/msm/dp: replace dp_connector with drm_bridge_connector
->       drm/msm/dp: remove extra wrappers and public functions
->       drm/msm/dp: remove unused stubs
->       drm/msm/dp: remove dp_display_en/disable prototypes and data argument
->       drm/msm/dp: stop carying about the connector type
->
->  drivers/gpu/drm/msm/Makefile        |   1 -
->  drivers/gpu/drm/msm/dp/dp_display.c | 263 ++++++++++++++++++++++++++----------
->  drivers/gpu/drm/msm/dp/dp_display.h |   5 +-
->  drivers/gpu/drm/msm/dp/dp_drm.c     | 250 ----------------------------------
->  drivers/gpu/drm/msm/dp/dp_parser.c  |  28 ++--
->  drivers/gpu/drm/msm/dp/dp_parser.h  |   4 +-
->  drivers/gpu/drm/msm/msm_drv.h       |  32 +----
->  7 files changed, 203 insertions(+), 380 deletions(-)
->  delete mode 100644 drivers/gpu/drm/msm/dp/dp_drm.c
->
+Can you try the attached (untested) patch?
 
-[1] https://lore.kernel.org/r/1640220845-25266-1-git-send-email-quic_khsieh@quicinc.com
+The commit you mention in Comment 3 didn't change any logic but just moved =
+the
+platform device registration that match the vesafb and efifb drivers.
+
+As far as I can tell, the problem is that the vga16fb driver doesn't check =
+if
+the video modes are one that's supported by it and just blindly attempts to
+probe the driver.
+
+This probably wasn't a problem before because the sysfb.o was in
+arch/x86/kernel but no is in drivers/firmware. But the issue in vga16fb was
+present before, just moving exposed it.
+
+I believe that the correct thing is to check if screen_info says that's a
+{E,V}GA 16 color mode and fail to probe the vga16fb driver otherwise.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are on the CC list for the bug.=
