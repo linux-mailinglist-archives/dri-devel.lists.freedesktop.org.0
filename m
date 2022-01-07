@@ -2,60 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F04E4487150
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 04:42:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95E5D48718D
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 04:58:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AEDB10FBEB;
-	Fri,  7 Jan 2022 03:42:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5021711220C;
+	Fri,  7 Jan 2022 03:58:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
- [IPv6:2607:f8b0:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81BBA10FBDD
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 03:42:49 +0000 (UTC)
-Received: by mail-ot1-x32f.google.com with SMTP id
- w19-20020a056830061300b0058f1dd48932so5275097oti.11
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jan 2022 19:42:49 -0800 (PST)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAE9611220C
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 03:58:01 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id p13so10930461lfh.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Jan 2022 19:58:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=NWwd6X+cONdHPrAA1ssFoRdo6O/Kd5Hv3y1+Epowixk=;
- b=A4vFqWQX/ciKAiD3rBShIXkWQ6We8v4r2Eq9/XAa+FPBuF3IeORe3y2KvbSOTCPnjw
- iAGFljIBOl02LecccSX5kLGEEvuzOT6EpaOm1G18YR1Vmq5Ln/HKIE4UjgNB3yshm7V0
- KZ9ATLayI5c35/38nQyFWM/g3/XMRBmWUHfPY=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xKNMJyJbEEL5q9peHIeW1VWZHuVFJtpU7pIceN/pwjU=;
+ b=Ct5qh0NnIjgjBBI8xvXdVNKrKFDmuJqDQ6lk+nREa2ajHPDsDrFmIqTCK/ih45n/+i
+ MxVvKQX4wxPd/KqFTbXeaMVUspFFe2zOFPIHwD8+X/hDyeWjkxKrw/miIwgpNC8CyAQY
+ dWpmeQvSJ9tTMcsSrDml7yTQw1BbaBypeNN3U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=NWwd6X+cONdHPrAA1ssFoRdo6O/Kd5Hv3y1+Epowixk=;
- b=Ffyt7751SSCZZZsIu/GxaD9x6CtRN3LKm7ynxZswnTgEKbX2y+ZN5zXrMXs6xuur/5
- 94nhns2CYwJmGwykLvaPlEvxyr7Dxzkkg3uDZGfPlRInx1kcG8Z/7n0VjRqi0pSIpxkU
- iDna+XJnBFbzH3MiiclpoVUNdutDMWDCRd4mnH9rKMyWo6qvq/sF+ArVZlglBZ95SRZy
- ATifNy1apzAZ9YXIu3QInWAbII7AIc+tbaXghmKE/W7Rzh2GQYvCkjVQwZRG7XYTUjuv
- I5Qa2sg5FtZhhyglJ652XKtkI+01ah4wSr8TvDY11CMA8HnBwq6WD6Ejh6HBdZBvQBLn
- Os9A==
-X-Gm-Message-State: AOAM5323KAMgjkoDI6H1kA/Sg0mOdejJSBp6+ADXavGsxD3fSdx4OILO
- 20Z3IiMfg6cnnt6lN0HvVwU583AXXO3+BVbFrH3ULA==
-X-Google-Smtp-Source: ABdhPJzf0n9XHktPj8J7s6+dZI2ZyKcsrJQi3oL20SOcD4s8ZaFysAcZ4/L+0HgoBgdkZi/UIdAlzTNykWoLYPJTt/k=
-X-Received: by 2002:a9d:1a6:: with SMTP id e35mr4225674ote.77.1641526968813;
- Thu, 06 Jan 2022 19:42:48 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 6 Jan 2022 19:42:48 -0800
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xKNMJyJbEEL5q9peHIeW1VWZHuVFJtpU7pIceN/pwjU=;
+ b=TlLAjlnOQSKvxZwUbGu7VSdDaLf+qnVh7HOtd6f/IbYm6nxZ7GPQ/Dhz8h6zlTXsKO
+ urgxtmJOQEvffejmTYnH7PMHSQX10wyRjELOYMCJRLur7VoEzw/h8pe/1ZcgpmjUWcVS
+ XXnJ7WHiUGKVqAMczQoqcdQz7hjzOQyup2lyV4H/ciwacWTsYiuxVFNV4yPHleBZL2lQ
+ KJRvEIYQtA/QbjzFC4riuB0ZRrsldFzk/GpqpL21DV7fyBZtji321aKTRkhKLUqBLQgw
+ 4QvzQS7QNqojn7NzKNd1MqNMUjNPZSe0EjGcHQSMk+okALFcgxn/+bA41CxDZVumUufe
+ NMgA==
+X-Gm-Message-State: AOAM532IGiCIF7Mi2Lt7ONSaMOBUcqoOyq8VqncM26f7mz0xdHEiAs9P
+ +ldbhhzQOdOIiZ2VIlqM3qUbMO9fJUZ02fB0+vIB7A==
+X-Google-Smtp-Source: ABdhPJwB2LOLwXDSwFYbn94VKmzms3kaczzZBBcQQ0Iamv202Lew+ehb6NgWIJQfYAZCzjaWayYDS1PcdtAvATpbHog=
+X-Received: by 2002:a2e:b8cd:: with SMTP id s13mr43356738ljp.201.1641527880239; 
+ Thu, 06 Jan 2022 19:58:00 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220107020132.587811-3-dmitry.baryshkov@linaro.org>
-References: <20220107020132.587811-1-dmitry.baryshkov@linaro.org>
- <20220107020132.587811-3-dmitry.baryshkov@linaro.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date: Thu, 6 Jan 2022 19:42:48 -0800
-Message-ID: <CAE-0n51XaV1+rh4CZKz7gMZBPkpq+wHcbNbgHFxoC1ikoDLkhQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 2/7] drm/msm/dp: support attaching bridges to the DP
- encoder
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, 
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20220103145324.48008-1-angelogioacchino.delregno@collabora.com>
+ <20220103145324.48008-2-angelogioacchino.delregno@collabora.com>
+ <509b82079256ffaa0d844ae5a79a436fced16f3f.camel@mediatek.com>
+In-Reply-To: <509b82079256ffaa0d844ae5a79a436fced16f3f.camel@mediatek.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Fri, 7 Jan 2022 11:57:49 +0800
+Message-ID: <CAGXv+5EmnGFDnZE01mFfC=WHReOLdbuqCpAmwJNMvm6N93wRew@mail.gmail.com>
+Subject: Re: [PATCH 2/3] phy: mediatek: phy-mtk-mipi-dsi: Reorder and stop
+ implicit header inclusion
+To: Chunfeng Yun <chunfeng.yun@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,49 +61,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: chunkuang.hu@kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, kishon@ti.com, linux-phy@lists.infradead.org,
+ vkoul@kernel.org, linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2022-01-06 18:01:27)
-> Currently DP driver will allocate panel bridge for eDP panels.
-> Simplify this code to just check if there is any next bridge in the
-> chain (be it a panel bridge or regular bridge). Rename panel_bridge
-> field to next_bridge accordingly.
+On Thu, Jan 6, 2022 at 4:48 PM Chunfeng Yun <chunfeng.yun@mediatek.com> wrote:
 >
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/msm/dp/dp_display.c |  2 +-
->  drivers/gpu/drm/msm/dp/dp_display.h |  2 +-
->  drivers/gpu/drm/msm/dp/dp_drm.c     |  4 ++--
->  drivers/gpu/drm/msm/dp/dp_parser.c  | 26 ++++++++------------------
->  drivers/gpu/drm/msm/dp/dp_parser.h  |  2 +-
->  5 files changed, 13 insertions(+), 23 deletions(-)
+> On Mon, 2022-01-03 at 15:53 +0100, AngeloGioacchino Del Regno wrote:
+> > All the headers for phy-mtk-mipi-{dsi,dsi-mt8173,dsi-mt8183}.c were
+> > included from phy-mtk-mipi-dsi.h, but this isn't optimal: in order to
+> > increase readability and sensibly reduce build times, the inclusions
+> > should be done per-file, also avoiding to include unused headers and
+> > should not be implicit.
+> >
+> > For this reason, move the inclusions to each file and remove unused
+> > ones.
+> >
+> > Signed-off-by: AngeloGioacchino Del Regno <
+> > angelogioacchino.delregno@collabora.com>
+> > ---
+> >  drivers/phy/mediatek/phy-mtk-mipi-dsi-mt8173.c |  4 ++++
+> >  drivers/phy/mediatek/phy-mtk-mipi-dsi-mt8183.c |  4 ++++
+> >  drivers/phy/mediatek/phy-mtk-mipi-dsi.c        |  7 +++++++
+> >  drivers/phy/mediatek/phy-mtk-mipi-dsi.h        | 10 ++--------
+> >  4 files changed, 17 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/drivers/phy/mediatek/phy-mtk-mipi-dsi-mt8173.c
+> > b/drivers/phy/mediatek/phy-mtk-mipi-dsi-mt8173.c
+> > index 95a0d9a3cca7..59f028da9d3e 100644
+> > --- a/drivers/phy/mediatek/phy-mtk-mipi-dsi-mt8173.c
+> > +++ b/drivers/phy/mediatek/phy-mtk-mipi-dsi-mt8173.c
+> > @@ -4,7 +4,11 @@
+> >   * Author: jitao.shi <jitao.shi@mediatek.com>
+> >   */
+> >
+> > +#include <linux/clk-provider.h>
+> > +#include <linux/delay.h>
+> > +#include <linux/module.h>
+> >  #include <linux/regmap.h>
+> > +#include <linux/phy/phy.h>
+> >  #include "phy-mtk-mipi-dsi.h"
+> >
+> >  #define MIPITX_DSI_CON               0x00
+> > diff --git a/drivers/phy/mediatek/phy-mtk-mipi-dsi-mt8183.c
+> > b/drivers/phy/mediatek/phy-mtk-mipi-dsi-mt8183.c
+> > index 01b59527669e..6c6b192485ba 100644
+> > --- a/drivers/phy/mediatek/phy-mtk-mipi-dsi-mt8183.c
+> > +++ b/drivers/phy/mediatek/phy-mtk-mipi-dsi-mt8183.c
+> > @@ -4,7 +4,11 @@
+> >   * Author: jitao.shi <jitao.shi@mediatek.com>
+> >   */
+> >
+> > +#include <linux/clk-provider.h>
+> > +#include <linux/delay.h>
+> > +#include <linux/module.h>
+> >  #include <linux/regmap.h>
+> > +#include <linux/phy/phy.h>
+> >  #include "phy-mtk-mipi-dsi.h"
+> >
+> >  #define MIPITX_LANE_CON              0x000c
+> > diff --git a/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
+> > b/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
+> > index 51b1b1d4ad38..6f7425b0bf5b 100644
+> > --- a/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
+> > +++ b/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
+> > @@ -3,7 +3,14 @@
+> >   * Copyright (c) 2015 MediaTek Inc.
+> >   */
+> >
+> > +#include <linux/clk.h>
+> > +#include <linux/clk-provider.h>
+> > +#include <linux/module.h>
+> > +#include <linux/nvmem-consumer.h>
+> > +#include <linux/of_device.h>
+> > +#include <linux/platform_device.h>
+> >  #include <linux/regmap.h>
+> > +#include <linux/phy/phy.h>
+> >  #include "phy-mtk-mipi-dsi.h"
+> >
+> >  inline struct mtk_mipi_tx *mtk_mipi_tx_from_clk_hw(struct clk_hw
+> > *hw)
+> > diff --git a/drivers/phy/mediatek/phy-mtk-mipi-dsi.h
+> > b/drivers/phy/mediatek/phy-mtk-mipi-dsi.h
+> > index 8d32e9027a15..4eb5fc91e083 100644
+> > --- a/drivers/phy/mediatek/phy-mtk-mipi-dsi.h
+> > +++ b/drivers/phy/mediatek/phy-mtk-mipi-dsi.h
+> > @@ -7,16 +7,10 @@
+> >  #ifndef _MTK_MIPI_TX_H
+> >  #define _MTK_MIPI_TX_H
+> >
+> > -#include <linux/clk.h>
+> >  #include <linux/clk-provider.h>
+> > -#include <linux/delay.h>
+> > -#include <linux/io.h>
+> > -#include <linux/module.h>
+> > -#include <linux/nvmem-consumer.h>
+> > -#include <linux/of_device.h>
+> > -#include <linux/platform_device.h>
+> > +#include <linux/types.h>
+> > +#include <linux/regmap.h>
+> >  #include <linux/phy/phy.h>
+> > -#include <linux/slab.h>
+> >
+> I don't think it's good idea to move the common headers into .c files
 
-I like this one, it certainly makes it easier to understand.
+Header files should be included directly by the file that uses facilities
+provided by said header file. Required ones should not be transitively
+included through other header files, as that introduces a subtle dependency.
 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
-> index a7acc23f742b..5de21f3d0812 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_parser.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
-> @@ -307,11 +299,9 @@ static int dp_parser_parse(struct dp_parser *parser, int connector_type)
->         if (rc)
->                 return rc;
->
-> -       if (connector_type == DRM_MODE_CONNECTOR_eDP) {
+Also, needlessly including header files in places that aren't using them
+increases build time. See the 2000+ patch series from Ingo Molnar [1]
+increasing build performance by cleaning up header files.
 
-It feels like this is on purpose, but I don't see any comment so I have
-no idea. I think qcom folks are concerned about changing how not eDP
-works. I'll have to test it out locally.
+ChenYu
 
-> -               rc = dp_parser_find_panel(parser);
-> -               if (rc)
-> -                       return rc;
-> -       }
-> +       rc = dp_parser_find_next_bridge(parser);
-> +       if (rc)
-> +               return rc;
->
->         /* Map the corresponding regulator information according to
->          * version. Currently, since we only have one supported platform,
+[1] https://lwn.net/ml/linux-kernel/YdIfz+LMewetSaEB@gmail.com/
+
+> >  struct mtk_mipitx_data {
+> >       const u32 mppll_preserve;
+> _______________________________________________
+> Linux-mediatek mailing list
+> Linux-mediatek@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-mediatek
