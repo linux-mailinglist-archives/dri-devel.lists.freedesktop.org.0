@@ -2,56 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66C36486E87
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 01:16:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4E36486EDF
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 01:31:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B01D10E6D7;
-	Fri,  7 Jan 2022 00:16:39 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
- [IPv6:2607:f8b0:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32F2E10E6D6
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 00:16:38 +0000 (UTC)
-Received: by mail-oi1-x22d.google.com with SMTP id s127so6090233oig.2
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jan 2022 16:16:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=AhAOsZ/7jHs5SUsagnpCXuv8mziNMy8lNAe5OxNHwRI=;
- b=jtu0UCzsfvv7r/9Ui35y3wcCDJ3CTyXCC8ChvPsXCS9J3W37m6SMoBTQbsj+ErtfE9
- pe0aHLL5ZWI9rFnxE5JXD20lz7HQ5hXDUeTh2khVn4BFwqA6b1gU7t/PkpRjvVqM6VpH
- u3uv0WnE20bi241CKaAwLaQZj5rAyiY2wkRUw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=AhAOsZ/7jHs5SUsagnpCXuv8mziNMy8lNAe5OxNHwRI=;
- b=7XTi7LP0y3T6zL9NsAtTeo0E3yXPvEG5bj8MJNnKypMfxLiezqDwb+ayBKYbvjZbX2
- bAaTI+Byqk+yk98tSLDPvwJ15YBZIE0Qh73ry6zLbe5AtbELo9YoQnbMGEf26iZbe2je
- FCv1FfvYYl7BYEplmyKucYKF7K7i7jfUAMI6a2GzIc5pez03CU1eYz1vDVGDcunu/LkZ
- vQpIK05L362NabtSKtHmHiZW6M55S2nZXglZaIGI9bHOAwP6utDTtUKrco6HlVTaXMS2
- mcjVFuTXeWqofrOgFPhUTXv/xpE6XHBVvo9YacpYOQgJfXIQ2eOb0NohEFBbT9GmlYe9
- tO8A==
-X-Gm-Message-State: AOAM531pFRkhfkm4KmhnaTWzXb+1AVpGXM6OYkBo5Hrt+k461mainsAJ
- zEDnJzVGsM48svhd4zF5TVw69SXGw/OUNEsBrokAQg==
-X-Google-Smtp-Source: ABdhPJzdnu0U3lCEWw7wwT5P+wBqtXsBtwXolcxsJQLEGILR/MbyPZuk7wEfhLzqqaqCXLmimPsFv6cKTyObVMLoGMs=
-X-Received: by 2002:a54:4710:: with SMTP id k16mr7970018oik.32.1641514597511; 
- Thu, 06 Jan 2022 16:16:37 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 6 Jan 2022 16:16:37 -0800
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34E0610E8D8;
+	Fri,  7 Jan 2022 00:31:46 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C89510E8D8;
+ Fri,  7 Jan 2022 00:31:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1641515505; x=1673051505;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=2ICm2V0/8/FUyE/YDMNlYnbVn19ewlzoaVf+eUJiAH0=;
+ b=UrBc5g05W8f4HgEMmM3Wpa3JRaZpLIIXVP7k3vPZS5IB0BD21gr5/63W
+ jtiYANIsTHMJXq0k7Dss7gdf0n7BHS08SpS39O9BgFjO+K5FdfposPEaj
+ eXS8F9ffXVqEC9/SpcJaxgAg0mrIQx7sLmIoyG+N0pNuSoyEyz9Klj9cV
+ 2mZLW7cNekeg/mPoW/bYm+yX3ztq8t4EPS0eON7VXGLX30frfa9Rt/ktM
+ A2wKdWjxGLh1TYgdu4BX7sMFFhXG4YArTiw+LrOxKdR2tikSFJUsi0hVy
+ wFfEre2IzVJlb5Q7I/Vc7DlMjqzB3/tyqzkS7e9L1DssAeGs9KYi0VywX g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="306137162"
+X-IronPort-AV: E=Sophos;i="5.88,268,1635231600"; d="scan'208";a="306137162"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jan 2022 16:31:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,268,1635231600"; d="scan'208";a="489119238"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
+ by orsmga002.jf.intel.com with ESMTP; 06 Jan 2022 16:31:43 -0800
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Subject: [PATCH] drm/i915/guc: Don't error on reset of banned context
+Date: Thu,  6 Jan 2022 16:31:43 -0800
+Message-Id: <20220107003143.326046-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <1641501894-17563-1-git-send-email-quic_khsieh@quicinc.com>
-References: <1641501894-17563-1-git-send-email-quic_khsieh@quicinc.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date: Thu, 6 Jan 2022 16:16:37 -0800
-Message-ID: <CAE-0n51WQMSeChCyMKCHOGSqhGKf4=TamDinndrF8iVFrmrZ7A@mail.gmail.com>
-Subject: Re: [PATCH v4] drm/msm/dp: populate connector of struct dp_panel
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
- bjorn.andersson@linaro.org, daniel@ffwll.ch, dmitry.baryshkov@linaro.org, 
- robdclark@gmail.com, sean@poorly.run, vkoul@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,38 +55,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org
+Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Kuogee Hsieh (2022-01-06 12:44:54)
-> DP CTS test case 4.2.2.6 has valid edid with bad checksum on purpose
-> and expect DP source return correct checksum. During drm edid read,
-> correct edid checksum is calculated and stored at
-> connector::real_edid_checksum.
->
-> The problem is struct dp_panel::connector never be assigned, instead the
-> connector is stored in struct msm_dp::connector. When we run compliance
-> testing test case 4.2.2.6 dp_panel_handle_sink_request() won't have a valid
-> edid set in struct dp_panel::edid so we'll try to use the connectors
-> real_edid_checksum and hit a NULL pointer dereference error because the
-> connector pointer is never assigned.
->
-> Changes in V2:
-> -- populate panel connector at msm_dp_modeset_init() instead of at dp_panel_read_sink_caps()
->
-> Changes in V3:
-> -- remove unhelpful kernel crash trace commit text
-> -- remove renaming dp_display parameter to dp
->
-> Changes in V4:
-> -- add more details to commit text
->
-> Fixes: 7948fe12d47 ("drm/msm/dp: return correct edid checksum after corrupted edid checksum read")
-> Signee-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
+From: John Harrison <John.C.Harrison@Intel.com>
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+There is a race (already documented in the code) whereby a context can
+be (re-)queued for submission at the same time as it is being banned
+due to a hang and reset. That leads to a hang/reset report from GuC
+for a context which i915 thinks is already banned.
+
+While the race is indented to be fixed in a future GuC update, there
+is no actual harm beyond the wasted execution time of that new hang
+detection period. The context has already been banned for bad
+behaviour so a fresh hang is hardly surprising and certainly isn't
+going to be losing any work that wouldn't already have been lost if
+there was no race.
+
+So don't treat this situation as an error. The error message is seen
+by the CI system as something fatal and causes test failures. Instead,
+just print an informational so the user at least knows a context reset
+occurred (given that the error capture is being skipped).
+
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+---
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+index 9989d121127d..e8a32a7e7daf 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+@@ -3978,6 +3978,10 @@ static void guc_handle_context_reset(struct intel_guc *guc,
+ 		   !context_blocked(ce))) {
+ 		capture_error_state(guc, ce);
+ 		guc_context_replay(ce);
++	} else if (intel_context_is_banned(ce)) {
++		drm_info(&guc_to_gt(guc)->i915->drm,
++			 "Reset notificaion for banned context 0x%04X on %s",
++			 ce->guc_id.id, ce->engine->name);
+ 	} else {
+ 		drm_err(&guc_to_gt(guc)->i915->drm,
+ 			"Invalid GuC engine reset notificaion for 0x%04X on %s: banned = %d, blocked = %d",
+-- 
+2.25.1
+
