@@ -2,69 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B7134871FF
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 06:10:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FDD0487203
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 06:13:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27FFB113066;
-	Fri,  7 Jan 2022 05:10:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72B191130E5;
+	Fri,  7 Jan 2022 05:13:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 971D7113065
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 05:10:54 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id j11so11538866lfg.3
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jan 2022 21:10:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=0yKFhRVY+tmgEn1pnh2jXYO28tsu8Fn3zCjKHC19tG8=;
- b=LM0sBgoiXVAKVgYQ7hvH4qn4ssRopfXMNhWLdwSG93358RsmXHTyImGboqD8IcX2yZ
- XsuwL+phqMqClkbLW8JgbRRSAcvDGKX4LDZClZlqdJAJ7QCctHNWOwEyu0FTWWADbnVS
- G9P2iuSHEuWX8dSL4vQSRNZySy6NMAWL+iqqMCzHCKGepTut/fVYAoUxwnpbJ7ZW2sCq
- SiiZDOqZJBl20lZ8ai9g5+aCnmbrNWadJHgusUtHVOOy8LgihZNZeKXfgPJWBnxEk+ts
- 44Pwrfq40iKeadDW7xd1GolnM9r0onIm6TpRyvuyIpK0FS7KDVUMb/FaOhDRBbQe7Lbl
- X2Gw==
+Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com
+ [IPv6:2607:f8b0:4864:20::72a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D85581130E5
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 05:13:38 +0000 (UTC)
+Received: by mail-qk1-x72a.google.com with SMTP id w27so4911567qkj.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Jan 2022 21:13:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Li/jQ4nlT3gPpvd1NyTQnIxzc9JA+p42BI5110gVryI=;
+ b=flgkUHgw4ONbU++HRN0/dcycqmYpQtCeuXbAZ978Y2HlS3hd45yMtsBSdhQcwc8dL6
+ 69sqSq1ogMCvac19pdxhTNzIZhDwegFYIGfnPiXMZ+4DLXSZt5wRv0OniLkLUBGnB2b7
+ XjTjbETLYgbS1L325wN3km5U6+gHDtMKydhcAFVwrcdJ4nebFD1W5I8i/d5AFzezksmg
+ R5eCgAJu720OURyKmnAEgKN/CP1b6r0GiTdOTLPcbvcRLtzaC3K+cs4NpK8hSU46Dvoq
+ NDsJc9q499uGQ91vEnxGq1JnCW+DAwNuRdUrrOyXZZk/TCHKbbGsUhaormBvLtjqEVd4
+ 9Ugw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=0yKFhRVY+tmgEn1pnh2jXYO28tsu8Fn3zCjKHC19tG8=;
- b=dmC3vt54j+fiQaeCJ8qZqmOGeGb/Ngh8WmH5lrgLpWSJX3lyHHUhO5Hq0tz7HTweya
- +UylyLcNeR1+Tqv6tAOFID3PpMUY36cHBj0BEppFIt9wtbGqH8xWqbP1gPS8Z6idK+ma
- eB75nBrP6jTx2QxGDqkkGXZ+FfCUA5Gz0419Pl4WMgz1g1ax7e8Gh+GjZg343AWdkhGG
- dZBONDlxCPEHLWetsTV2tYHB3DktWPUNTsiqRKrN9jMRQSqDPsDda/qGNtpSgvyHml9m
- 2UjutRSvV1X336E0K8fVau9lIubg2w7+OxrcAgLIKJQUIH1dGnmSN8x64/1ntq9Rpvp/
- gj7Q==
-X-Gm-Message-State: AOAM531els7SNTeyubMfIofyrbY8GyxTojY32TY81Fdb4F97W+VclNCC
- l1oF/ZoMo5LJexZzxoU6g5ljfQ==
-X-Google-Smtp-Source: ABdhPJyDg1mIC7X2483Y3Ph4N0x5XTKoCpdyLSZUkspnNO0POxxLCuN5JpcD+sVxqaZCVr+5JN7Y0w==
-X-Received: by 2002:ac2:4f02:: with SMTP id k2mr54882293lfr.421.1641532252898; 
- Thu, 06 Jan 2022 21:10:52 -0800 (PST)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id p20sm431865lfu.270.2022.01.06.21.10.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Jan 2022 21:10:52 -0800 (PST)
-Message-ID: <0c63a37b-4db9-678b-38a5-c6470bbd0565@linaro.org>
-Date: Fri, 7 Jan 2022 08:10:51 +0300
+ bh=Li/jQ4nlT3gPpvd1NyTQnIxzc9JA+p42BI5110gVryI=;
+ b=zpT110Yas/6ImY0NZ3UGvMsrXCgKnvZ0XbmgWbp66ZepCCzEyC8fMmqJwt/Hpb5kfK
+ J2aNQ64s3LuUY0/15S4kcZXUevrL40ts/4zdg/4Om8YVm9RZkMq734EaiRS1r5Np48x+
+ knU4yBZ/oARvhIy94I8SzZjTjlK6HUzEY1O5DE3NlcR5mbFFT8xFwdWqbXBgO++UWeDE
+ wGsdjDTc/pgKbxCLbY1lFjzn8ko9oBlAYcKW0H2ciG8cQhzbiNTnHfbVrX1ztWqwuUXq
+ zJJhItA/kPU+E4V/yLhiMCqiTpOH66onNOFDs4AMhifjp29X1zV4acThK6JqjMvC8eU+
+ vOdA==
+X-Gm-Message-State: AOAM530+4F6IgnTqBoTiumVrzsemSnAOxP3YaSN8p2LFdwNfbTAHnvBX
+ Doe9y4sdMoEAkDsmsK9Q0zs=
+X-Google-Smtp-Source: ABdhPJwKY6h//TE+tGAQiabm+i9yikHXhF4LBqqUoo9Q9fDk3rh6FQkdWelmqULqZGdTfgcbWDhPpw==
+X-Received: by 2002:a05:620a:40ca:: with SMTP id
+ g10mr41638232qko.425.1641532417910; 
+ Thu, 06 Jan 2022 21:13:37 -0800 (PST)
+Received: from master-x64.sparksnet (c-98-233-193-225.hsd1.dc.comcast.net.
+ [98.233.193.225])
+ by smtp.gmail.com with ESMTPSA id d15sm1651461qka.3.2022.01.06.21.13.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Jan 2022 21:13:37 -0800 (PST)
+From: Peter Geis <pgwipeout@gmail.com>
+To: 
+Subject: [PATCH 0/4] add pine64 touch panel support to rockpro64
+Date: Fri,  7 Jan 2022 00:13:31 -0500
+Message-Id: <20220107051335.3812535-1-pgwipeout@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [RFC PATCH 1/7] drm/msm/dp: fix panel bridge attachment
-Content-Language: en-GB
-To: Stephen Boyd <swboyd@chromium.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>
-References: <20220107020132.587811-1-dmitry.baryshkov@linaro.org>
- <20220107020132.587811-2-dmitry.baryshkov@linaro.org>
- <CAE-0n52vvqW7ba5zw_jrqpW=ky_Pas=binMe-nYbr=8OQZs_jQ@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <CAE-0n52vvqW7ba5zw_jrqpW=ky_Pas=binMe-nYbr=8OQZs_jQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,31 +67,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ Peter Geis <pgwipeout@gmail.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/01/2022 06:37, Stephen Boyd wrote:
-> Quoting Dmitry Baryshkov (2022-01-06 18:01:26)
->> In commit 8a3b4c17f863 ("drm/msm/dp: employ bridge mechanism for display
->> enable and disable") the DP driver received a drm_bridge instance, which
->> is always attached to the encoder as a root bridge. However it conflicts
->> with the panel_bridge support for eDP panels.
-> 
-> Can you elaborate here? How does it conflict? Could be as simple as "it
-> attaches before the panel bridge can attach to the root" or something
-> like that.
+This patch series adds support for the Pine64 touch panel to the
+rockpro64 single board computer.
+This panel attaches to the dsi port and includes an i2c touch screen.
 
-Actually it would be the other way around: panel bridge attaching before 
-the "dp" one. But yes, you got the idea. I'll extend the patch's 
-description.
+The first two patches involve making the reset pin to the Feiyang
+fy07024di26a30d panel optional. On the rockpro64 and quartz64-a this pin
+is tied to dvdd and automatically comes high when power is applied.
+The third patch adds the device tree nodes to rockpro64 to permit the
+panel to be used.
+The fourth patch is an example patch to enable this support, tagged do
+not merge as this is something for the end user to enable only when they
+have the panel attached.
 
->> Change panel_bridge
->> attachment to come after dp_bridge attachment.
->>
+Peter Geis (4):
+  dt-bindings: display: panel: feiyang,fy07024di26a30d: make reset gpio
+    optional
+  drm/panel: feiyang-fy07024di26a30d: make reset gpio optional
+  arm64: dts: rockchip: add pine64 touch panel display to rockpro64
+  arm64: dts: rockchip: enable the pine64 touch screen on rockpro64
 
+ .../panel/feiyang,fy07024di26a30d.yaml        |  1 -
+ .../boot/dts/rockchip/rk3399-rockpro64.dtsi   | 80 ++++++++++++++++++-
+ .../drm/panel/panel-feiyang-fy07024di26a30d.c | 11 ++-
+ 3 files changed, 83 insertions(+), 9 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.32.0
+
