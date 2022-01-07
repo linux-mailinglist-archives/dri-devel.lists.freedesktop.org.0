@@ -2,44 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DFB248749D
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 10:23:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AB46487524
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 11:03:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61D7C11B38F;
-	Fri,  7 Jan 2022 09:23:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AEB111B91C;
+	Fri,  7 Jan 2022 10:03:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A00611B397
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 09:23:35 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id DD0E51F40A55
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1641547414;
- bh=wj1ZDK4lkn/iSMxOoGczIJTSg6wOxjiARPaZ2r2OUWw=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=c7TocaBKZAHN+HhlzCoPRaklI+aiWQMse7sjTJ3DD/6JaFoxtqSb0Y2088RnnaH+1
- qGzWIPCWvRqUwaKIxDUIMGG/+RRw2vcdj5w2TAGVlWYjdb5UL5gQuhC4bsR76YevUE
- qcMPJQCdnQs/owVWkwDW/Ho5IzM/W26Vhr+gydewcZtoP6z/9EWyAiNnOc8mBRducK
- AiIqupciZFfnW+cJVeoB5ewBy+ibo1+k38gKmZWv51xuAylIQvj9KENrXjw4YISQ0z
- HoeVrMnHircsrRPFaXXEs3kjaClm73RQwu5zSPcefzAapyeG/yyldEDraJqoFz8cLR
- 0iqNsArtWAg9g==
-Subject: Re: [PATCH 3/3] phy: mediatek: phy-mtk-mipi-dsi: Simplify with
- dev_err_probe()
-To: Chunfeng Yun <chunfeng.yun@mediatek.com>, chunkuang.hu@kernel.org
-References: <20220103145324.48008-1-angelogioacchino.delregno@collabora.com>
- <20220103145324.48008-3-angelogioacchino.delregno@collabora.com>
- <4d7195c3ac9bc63a5f980548f0c880484403346d.camel@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Message-ID: <ba6c0163-fc5f-2a5f-560d-240e5fe2c3c4@collabora.com>
-Date: Fri, 7 Jan 2022 10:23:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+X-Greylist: delayed 303 seconds by postgrey-1.36 at gabe;
+ Fri, 07 Jan 2022 10:03:10 UTC
+Received: from nksmu.kylinos.cn (mailgw.kylinos.cn [123.150.8.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC75411B91B;
+ Fri,  7 Jan 2022 10:03:10 +0000 (UTC)
+X-UUID: 51f8efc21ea04903991e1abefbd59d34-20220107
+X-CPASD-INFO: b29efc9df7c3401f828f9506db65018e@q4JzhZOVZ5SSV6V_g3N8oFhjaJZqYVC
+ FppxWZV5hZIWVhH5xTWJsXVKBfG5QZWNdYVN_eGpQY19gZFB5i3-XblBgXoZgUZB3sXRzhZaRaQ==
+X-CPASD-FEATURE: 0.0
+X-CLOUD-ID: b29efc9df7c3401f828f9506db65018e
+X-CPASD-SUMMARY: SIP:-1, APTIP:-2.0, KEY:0.0, FROMBLOCK:1, EXT:0.0, OB:0.0,
+ URL:-5, T
+ VAL:187.0, ESV:0.0, ECOM:-5.0, ML:0.0, FD:1.0, CUTS:130.0, IP:-2.0, MAL:0.0,
+ ATTNUM:0
+ .0, PHF:-5.0, PHC:-5.0, SPF:4.0, EDMS:-3, IPLABEL:4480.0, FROMTO:0, AD:0,
+ FFOB:0.0, CF
+ OB:0.0, SPC:0.0, SIG:-5, AUF:12, DUF:29770, ACD:157, DCD:259, SL:0, AG:0,
+ CFC:0.168, CF SR:0.366,UAT:0,RAF:0,VERSION:2.3.4
+X-CPASD-ID: 51f8efc21ea04903991e1abefbd59d34-20220107
+X-CPASD-BLOCK: 1001
+X-CPASD-STAGE: 1, 1
+X-UUID: 51f8efc21ea04903991e1abefbd59d34-20220107
+X-User: lizhenneng@kylinos.cn
+Received: from localhost.localdomain [(116.128.244.169)] by nksmu.kylinos.cn
+ (envelope-from <lizhenneng@kylinos.cn>) (Generic MTA)
+ with ESMTP id 1687336020; Fri, 07 Jan 2022 18:11:04 +0800
+From: Zhenneng Li <lizhenneng@kylinos.cn>
+To: Alex Deucher <alexander.deucher@amd.com>
+Subject: [PATCH 0/2]
+Date: Fri,  7 Jan 2022 17:57:30 +0800
+Message-Id: <20220107095732.982194-1-lizhenneng@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <4d7195c3ac9bc63a5f980548f0c880484403346d.camel@mediatek.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,108 +55,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- kishon@ti.com, linux-phy@lists.infradead.org, vkoul@kernel.org,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org
+Cc: David Airlie <airlied@linux.ie>, Xinhui.Pan@amd.com,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Zhenneng Li <lizhenneng@kylinos.cn>,
+ Leo Li <sunpeng.li@amd.com>, dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 06/01/22 10:13, Chunfeng Yun ha scritto:
-> On Mon, 2022-01-03 at 15:53 +0100, AngeloGioacchino Del Regno wrote:
->> Use the dev_err_probe() helper to simplify error handling during
->> probe.
->>
->> Signed-off-by: AngeloGioacchino Del Regno <
->> angelogioacchino.delregno@collabora.com>
->> ---
->>   drivers/phy/mediatek/phy-mtk-mipi-dsi.c | 29 +++++++++------------
->> ----
->>   1 file changed, 10 insertions(+), 19 deletions(-)
->>
->> diff --git a/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
->> b/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
->> index 6f7425b0bf5b..4b77508f5241 100644
->> --- a/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
->> +++ b/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
->> @@ -148,11 +148,9 @@ static int mtk_mipi_tx_probe(struct
->> platform_device *pdev)
->>   		return PTR_ERR(mipi_tx->regmap);
->>   
->>   	ref_clk = devm_clk_get(dev, NULL);
->> -	if (IS_ERR(ref_clk)) {
->> -		ret = PTR_ERR(ref_clk);
->> -		dev_err(dev, "Failed to get reference clock: %d\n",
->> ret);
->> -		return ret;
->> -	}
->> +	if (IS_ERR(ref_clk))
->> +		return dev_err_probe(dev, PTR_ERR(ref_clk),
->> +				     "Failed to get reference
->> clock\n");
->>   
->>   	ret = of_property_read_u32(dev->of_node, "drive-strength-
->> microamp",
->>   				   &mipi_tx->mipitx_drive);
->> @@ -172,27 +170,20 @@ static int mtk_mipi_tx_probe(struct
->> platform_device *pdev)
->>   
->>   	ret = of_property_read_string(dev->of_node, "clock-output-
->> names",
->>   				      &clk_init.name);
->> -	if (ret < 0) {
->> -		dev_err(dev, "Failed to read clock-output-names: %d\n",
->> ret);
->> -		return ret;
->> -	}
->> +	if (ret < 0)
->> +		return dev_err_probe(dev, ret, "Failed to read clock-
->> output-names\n");
-> Seems no need change it here. (no EPROBE_DEFER error)
-> 
+For adapting radeon rx6600 xt on arm64 platform,
+there report some compile errors.
 
-Hello Chunfeng,
+Zhenneng Li (2):
+  drm/amdgpu: fix compile error for dcn on arm64
+  drm/amdgpu: enable dcn support on arm64
 
-pasting from kernel driver-api infrastructure guidelines:
+ drivers/gpu/drm/amd/display/Kconfig           |  2 +-
+ drivers/gpu/drm/amd/display/dc/calcs/Makefile |  6 +++++
+ .../gpu/drm/amd/display/dc/clk_mgr/Makefile   |  7 ++++++
+ drivers/gpu/drm/amd/display/dc/dcn10/Makefile |  4 +++
+ drivers/gpu/drm/amd/display/dc/dcn20/Makefile |  4 +++
+ .../gpu/drm/amd/display/dc/dcn201/Makefile    |  6 +++++
+ drivers/gpu/drm/amd/display/dc/dcn21/Makefile |  4 +++
+ drivers/gpu/drm/amd/display/dc/dcn30/Makefile |  6 +++++
+ .../gpu/drm/amd/display/dc/dcn302/Makefile    |  6 +++++
+ .../gpu/drm/amd/display/dc/dcn303/Makefile    |  6 +++++
+ drivers/gpu/drm/amd/display/dc/dcn31/Makefile |  6 +++++
+ drivers/gpu/drm/amd/display/dc/dml/Makefile   | 25 +++++++++++++++++++
+ drivers/gpu/drm/amd/display/dc/dsc/Makefile   |  7 ++++++
+ 13 files changed, 88 insertions(+), 1 deletion(-)
 
-[...]Note that it is deemed acceptable to use this function for error prints during 
-probe even if the err is known to never be -EPROBE_DEFER. The benefit compared to a 
-normal dev_err() is the standardized format of the error code and the fact that the 
-error code is returned.
+-- 
+2.25.1
 
-https://www.kernel.org/doc/html/latest/driver-api/infrastructure.html
 
-Regards,
-- Angelo
-
-> Thanks
->>   
->>   	clk_init.ops = mipi_tx->driver_data->mipi_tx_clk_ops;
->>   
->>   	mipi_tx->pll_hw.init = &clk_init;
->>   	mipi_tx->pll = devm_clk_register(dev, &mipi_tx->pll_hw);
->> -	if (IS_ERR(mipi_tx->pll)) {
->> -		ret = PTR_ERR(mipi_tx->pll);
->> -		dev_err(dev, "Failed to register PLL: %d\n", ret);
->> -		return ret;
->> -	}
->> +	if (IS_ERR(mipi_tx->pll))
->> +		return dev_err_probe(dev, PTR_ERR(mipi_tx->pll),
->> "Cannot register PLL\n");
->>   
->>   	phy = devm_phy_create(dev, NULL, &mtk_mipi_tx_ops);
->> -	if (IS_ERR(phy)) {
->> -		ret = PTR_ERR(phy);
->> -		dev_err(dev, "Failed to create MIPI D-PHY: %d\n", ret);
->> -		return ret;
->> -	}
->> +	if (IS_ERR(phy))
->> +		return dev_err_probe(dev, PTR_ERR(phy), "Failed to
->> create MIPI D-PHY\n");
->> +
->>   	phy_set_drvdata(phy, mipi_tx);
->>   
->>   	phy_provider = devm_of_phy_provider_register(dev,
->> of_phy_simple_xlate);
-> 
-
+No virus found
+		Checked by Hillstone Network AntiVirus
