@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 747ED486F04
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 01:43:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3177486F20
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 01:53:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1518F10EAE4;
-	Fri,  7 Jan 2022 00:42:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C20510EAE8;
+	Fri,  7 Jan 2022 00:53:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
- [IPv6:2607:f8b0:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE5DB10EAE5
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 00:42:56 +0000 (UTC)
-Received: by mail-ot1-x334.google.com with SMTP id
- a23-20020a9d4717000000b0056c15d6d0caso4922922otf.12
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jan 2022 16:42:56 -0800 (PST)
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
+ [IPv6:2607:f8b0:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DF7E10EAE8
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 00:53:29 +0000 (UTC)
+Received: by mail-ot1-x32d.google.com with SMTP id
+ r7-20020a05683001c700b005906f5b0969so5000387ota.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Jan 2022 16:53:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=atmy/2mmGjhretVeVMp74eCFRlSY7eexCas291LMZiw=;
- b=NEiXtpzIJuq+ddFpchl0oDBsQdYqF3ZwrJ1Z9bI2KF6RhAXtf6kT/kQNI47at2IwP/
- l1m12sBm7I0PKdUb5mYnnhmwyC/yCkoFP8A4OgzXriBvskbv8Uy2OiVBEPyWKA0koY7v
- SQaIXX0x9DVrDMiBFkxxPKgqP4rLOELY+yjos=
+ bh=HyIyD/FeTK4sbdzxIDEW/7ZUfCzvimbAsXNwxxbAmpw=;
+ b=FRUqR4QwchxI3llxfhdNdykMyi16FLkC3n7I1Ac516fAxo9xniQwI0Ms3jeeZ4WrD/
+ dC3IvIuty6qVmiMqt2ICkeG2C/VHno2euq/A5tX9cSdCoSBx7r7AR72gbPVB3g4707Rh
+ CzONEFsFX/tRLB1idnqT4QPEBEEtVLEuCmO2w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=atmy/2mmGjhretVeVMp74eCFRlSY7eexCas291LMZiw=;
- b=jLH5rF0kDaQ0iiinXy5mAO0V7o+4aZpZAEuqxoR+RduDCrNb4xILsSBm6Xy+94YPOP
- tc3yxs4k0AUXO6C8FbQSKo2uQynM6RGen13+Y8l+jQDeepljImCtUbgVvwpG2yLRhZU3
- 4hGSN/Bnj/DxO3zLk9fA5ESZg45qGTySeaA5S79dEjPTu+IbjnoGPjDPFTh3McO6syTY
- Jnn6FU+cBmzX+LMyCHjnc0lD5KmmWX69rVOgTedUVSKcLtvlAaOPqvk8ptahRNXzNOGb
- PLJ//bJYkOF0lNiBrQLXkvJEqQSZ0CcmQC3pbIhea9DRc6HSArivfcksOJf34IHOHfyh
- TQeg==
-X-Gm-Message-State: AOAM532zUBusY2J1jCOXoP8VNTZo+XMDP25Ffl0m9JlyNAZGIpl6tCwb
- ijDZoQZR1d+/eZzzgVKTZ8OOU0sgd03+sy44GFesaw==
-X-Google-Smtp-Source: ABdhPJwJhNLwPLZG+/uY/kFkbWi+NrpEY3Hn0S30RIpjujh1b5HQTqu0pBhZNq2rsXfzvl4xM6DSc5QrtZqfeMjP2ts=
-X-Received: by 2002:a9d:1a6:: with SMTP id e35mr3893260ote.77.1641516176125;
- Thu, 06 Jan 2022 16:42:56 -0800 (PST)
+ bh=HyIyD/FeTK4sbdzxIDEW/7ZUfCzvimbAsXNwxxbAmpw=;
+ b=2VBSKLcQoLcJ8pOhgkT9ufQJ69KgwOAy7w8O6R2KhEdFSLu7dxOty65MuUWK4SJAki
+ b/hbeu7P/xRKgzxf3DNilDT4nsIN9xRYw5EiVTNInF9g7aGydCS3CyVftKilEY6QAv/b
+ 5Fjav2I1M1EKcPqefgYye9/AgUVg5u+x2sP141/FL3+9tVgp/L2n42AeF07Xv6g6cg0Q
+ e+75KpVoNpaF/8S9UwWcTO6dndz3/Ckx19qiBlrIjkNqexuZjeQ/6ttVUJ7WR0uick/Q
+ PBkHKwrEnsfPVeLK39K3rWzl+r+fyral46dO5Sf91r3eTeLKg4kjVAQoYYDZk+rUTzVW
+ Cv6Q==
+X-Gm-Message-State: AOAM532cVJz8alc1E6fRHpNCt5hupgt4udYzVIwIsYOA+NR5TQt4oAPn
+ M/bNIQU4jiV2VXlPM4coz/aV1Ikz/jRJWxkmlF6wCQ==
+X-Google-Smtp-Source: ABdhPJwSKDzu+nMqGQvxjht/3U4F2wicx9+GJ22pBtNGUIRUIp5sFm092+riUAmgWDhW5NgpOHw37OdDP9M8PvRPzFU=
+X-Received: by 2002:a9d:7451:: with SMTP id p17mr753580otk.159.1641516808695; 
+ Thu, 06 Jan 2022 16:53:28 -0800 (PST)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 6 Jan 2022 16:42:55 -0800
+ HTTPREST; Thu, 6 Jan 2022 16:53:28 -0800
 MIME-Version: 1.0
-In-Reply-To: <20220106070656.482882-1-dmitry.baryshkov@linaro.org>
-References: <20220106070656.482882-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220105231031.436020-2-dmitry.baryshkov@linaro.org>
+References: <20220105231031.436020-1-dmitry.baryshkov@linaro.org>
+ <20220105231031.436020-2-dmitry.baryshkov@linaro.org>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.9.1
-Date: Thu, 6 Jan 2022 16:42:55 -0800
-Message-ID: <CAE-0n50d3WFYW1eRtpOF77j9vF89Dku4WyBj1xT9OP90x4wihA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/msm: reduce usage of round_pixclk callback
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+Date: Thu, 6 Jan 2022 16:53:28 -0800
+Message-ID: <CAE-0n50ZOAzmNsjv9o1FtXW1rYLaKmd_UZwO1dMKTamdL9nFOA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/5] drm/msm/dpu: drop unused lm_max_width from RM
+To: Abhinav Kumar <abhinavk@codeaurora.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
  Sean Paul <sean@poorly.run>
@@ -71,10 +72,10 @@ Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2022-01-05 23:06:56)
-> The round_pixclk() callback returns different rate only on MDP4 in HDMI
-> (DTV) case. Stop using this callback in other cases to simplify
-> mode_valid callbacks.
+Quoting Dmitry Baryshkov (2022-01-05 15:10:27)
+> No code uses lm_max_width from resource manager, so drop it. Instead of
+> calculating the lm_max_width, code can use max_mixer_width field from
+> the hw catalog.
 >
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
