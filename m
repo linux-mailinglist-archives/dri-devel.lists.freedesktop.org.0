@@ -1,65 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF38A4873C2
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 08:52:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5497548741A
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 09:27:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA71911A6C6;
-	Fri,  7 Jan 2022 07:52:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF7C211AC0A;
+	Fri,  7 Jan 2022 08:27:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C1A011A6C6
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 07:52:31 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 909B261F12
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 07:52:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 00EA8C36AF3
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 07:52:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1641541946;
- bh=QBw/zyYNUW2PXCOdhn41RV/t77j0ekhNbLKjv1Tavqs=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=H5rfYF85fW21VTSOqnUSQJb1QuHebLsa7ZGgFlPlI4j2ltvs771YuqrdESDR3jF9y
- MB2XIiH/JEsoH5icuLBhfpIYxxYb1vH1iqdmOaYWid2x1RHjfi6l+pnq+QKcetijXy
- 8BqcrTnhDja9HQo/Bp/+DJQy+7L4zgluQwwoP1HOgqbbSL0KSqKS6lCcTq2ORN2IGj
- k26O71pwQI8yoXAsNv72X5IILTQ7NR5IxjOIj+L/J4vsJYLC6PgE26mgQgiBHWGzpP
- P0EmIUs3gCa66srtt748VuLEHLD/h0GkSllZO08Fefck/kptdRQiZ98W7DecnxpbNT
- hJDmEW2YixXnw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id D89C9C05FF9; Fri,  7 Jan 2022 07:52:25 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 215001] Regression in 5.15, Firmware-initialized graphics
- console selects FB_VGA16, screen corruption
-Date: Fri, 07 Jan 2022 07:52:25 +0000
-X-Bugzilla-Reason: CC
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(Other)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: bugs-a21@moonlit-rail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-other@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-215001-2300-LmhReMYHDb@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-215001-2300@https.bugzilla.kernel.org/>
-References: <bug-215001-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B0B111AC04;
+ Fri,  7 Jan 2022 08:27:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1641544045; x=1673080045;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=ioSguM5OtIT9tSottT6wy5ejOE5aBxF+mt5gl3vRQKA=;
+ b=d1x5Y2w9/39mIeGsq5vZjX+SVqseIgMnMJcwRoKZUD8WdOePVb1iodgd
+ HSXNjEranYC0/2jpFLzwJJg2mtTykWC6XjhJSrtkldIoRobzmAs5ehK2y
+ mSHiRDi3MADn56nXeQalUO5sp5dyTJp5zaVcj3wxeElv6yUaIW4gAr4Mo
+ KOc39NcqyBkRtQxK3J1fcO36JgDCr8mWNzeSWcWJMi0ihCqGiCn2K5qzo
+ U66jLrUt0j+0GVeecjtJnFvgCtHf6ZinYocS5PaHRWUblrqP3RSBKPvnj
+ 4JxT5IOUzOmMPtAIaM5Qvyu45VDkPAQt7IIYN3xP8drAf8w+fNBVMOQ1D Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10219"; a="243030374"
+X-IronPort-AV: E=Sophos;i="5.88,269,1635231600"; d="scan'208";a="243030374"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jan 2022 00:27:24 -0800
+X-IronPort-AV: E=Sophos;i="5.88,269,1635231600"; d="scan'208";a="763782559"
+Received: from asparren-mobl2.ger.corp.intel.com (HELO [10.249.254.124])
+ ([10.249.254.124])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jan 2022 00:27:23 -0800
+Message-ID: <4348e218-cacb-3392-ad4c-529f5a2ef00f@linux.intel.com>
+Date: Fri, 7 Jan 2022 09:27:21 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v3 4/4] drm/i915/ttm: ensure we unmap when purging
+Content-Language: en-US
+To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20220106174910.280616-1-matthew.auld@intel.com>
+ <20220106174910.280616-4-matthew.auld@intel.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20220106174910.280616-4-matthew.auld@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,48 +60,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D215001
 
---- Comment #7 from Kris Karas (bugs-a21@moonlit-rail.com) ---
-Hi Javier - I tested the (updated) patch from comment 6 on three different
-systems, two servers with a character-graphic BIOS (expected to use VGA16),=
- and
-my development system with a graphical UEFI boot (expected to use EFIFB).  =
-I am
-happy to report that in all cases, the patch worked perfectly.
+On 1/6/22 18:49, Matthew Auld wrote:
+> Purging can happen during swapping out, or directly invoked with the
+> madvise ioctl. In such cases this doesn't involve a ttm move, which
+> skips umapping the object.
+>
+> v2(Thomas):
+> - add ttm_truncate helper, and just call into i915_ttm_move_notify() to
+>    handle the unmapping step
+>
+> Fixes: cf3e3e86d779 ("drm/i915: Use ttm mmap handling for ttm bo's.")
 
-Thanks for having whipped up this patch!
+Should this Fixes: tag be when we we introduce truncate for the TTM 
+backend. IIRC that was in a later commit?
 
-Feel free to submit upstream to Linus, and also to Greg for inclusion in
-5.15.y.
-Tested-By: Kris Karas <bugs-a21@moonlit-rail.com>
+Otherwise
+
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+
+/Thomas
 
 
-
-In reply to Thorsten in comment 4, I did indeed test against 5.15.13 and
-5.16-rc8 without success.  This makes me curious...
-
-... I filed this bug nearly 2 months ago with the "Regression =3D Y" metada=
-ta
-clearly set; but the various kernel regression trackers haven't picked up on
-that fact until just days ago.  Are automated regression trackers only look=
-ing
-at messages on LKML?  What's the best way to get a bugzilla report for a
-regression tracked so that it doesn't get forgotten or lost in the shuffle?=
-=20
-For example, bug 199533 was filed back in 2018, with a proper bisect even, =
-but
-hasn't garnered even so much as a single comment.  (Probably ought to be cl=
-osed
-as I no longer have the hardware to test a fix :-)
-
-Kris
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are on the CC list for the bug.=
