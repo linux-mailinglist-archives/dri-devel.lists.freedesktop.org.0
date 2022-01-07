@@ -1,58 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54BB8487017
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 03:01:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 489CF487018
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 03:01:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D36310EDBA;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2B7910EDCE;
 	Fri,  7 Jan 2022 02:01:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BEEB10EDBA
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 02:01:41 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id r4so10239699lfe.7
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jan 2022 18:01:41 -0800 (PST)
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 192A510EDB5
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 02:01:42 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id h7so10283266lfu.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Jan 2022 18:01:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=M8SfnRamYFGQOJ4PWO6EKe5+yLLAmHFD9wjpR/2Zexc=;
- b=AowHc8AE/XeQA4r/BEYswX3hjpxJFdtwVGGIyoIzVVsiaFUmboGVrfax5nWi6ww8yY
- w9WExs9JYuJdXJtohETe4rfrEWnZI/AL+w6UNNCVMxnZtHzQEZaGRJiLbQX7tKq1tqCq
- ssk2wPAnCqbRraniOL07B2u3a+o/j1AW5/RgVGS8vrcrwJUhNKQBTZEkg1Rx/WSesVUZ
- C5CsLLk8cdfqL548AJ6d9Op8ahDQYPU4BOQf3TPNJu2e65+UQZ7N2q74JGbZZyMy8KmE
- pFTQQmYCmWPmP61Tdwh/Qkhf8rn6fKNXN70Lm697D5iuhETA164I4VdR8WWVvMgg/lMa
- pC+A==
+ bh=OHbsyEqfteS19OgRRcOzHQJayCE7Kspad11GnKSJ9XY=;
+ b=XSClUiDypO5YErliO//FA6YKgZb1nKZcX4VYG3rMZJ39C3UsrGP+GpaRA6Z6h2qM+v
+ GIbLcKHSdf5qY+XBsm0rkxj44+wzTQbt0vwSKBH/5DPNzRVzKVIx3ePwCND5L+txbZCg
+ tSc+0sSjh2zNu8nDsdElL4GeIXixf9Ewlg8lXNB8riuFuRUR8cPIfWXKKNr5DmZs8Eud
+ cJBO8Ev3OU2uHU0690cM92iFddrIMJx9SrPFqAKKx6N/Q+xv3TkTlIaF2gXWgSCy+Bq8
+ YuR8JTWcVb5ZGRstoDj8m0YKFILxR8lVSBIybfVjWLWQozpK85LuFqMKhZYqM03OZh9K
+ 0Akg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=M8SfnRamYFGQOJ4PWO6EKe5+yLLAmHFD9wjpR/2Zexc=;
- b=mizHsDav//vByYgkxiJnAc6kZkUWZ+ZRqVcUWoGVlz/bCCY6sJOcgGdhVx6oG2GZtW
- hqd+BDFdIDuy/nZfsOAqusn3ox9rLv5GgedL65MG0MPRRicStNTz9hQVV3YpL/r9n9+I
- bYeweoyigZFJjJcjuE4b10YcHyD9AaRXlRWYR56PkT8/B6B6VylJrLRGC85ocFV+819p
- Pg4aYFycvQYtrBDMxmQBuf5iMd2Skz2UXUMxUWObXUpUYIaY1/quNI7N2eUDL87hJKe7
- Q8jL24SVbK2yLj3PuFWZPd/JbNYQuw8hErOXKD2j8G7s+/hsUtpAB488YOIRFGWfX1dQ
- Z5QQ==
-X-Gm-Message-State: AOAM533137tgADHQTqvfFkTkm/uUzbPQwyAJVEKYNq/SCFgPQWyaw5JL
- DjCOxiN+9zucOARDlgJZC47GTZCH3MAvMw==
-X-Google-Smtp-Source: ABdhPJx3V2EtzcEePJMmIb8a+f6fSN6pVliCC5d+q8YJ/egr4Ol06V0QGj+JcGqUXdCQfktH4QbrXw==
-X-Received: by 2002:ac2:5f55:: with SMTP id 21mr53262771lfz.283.1641520899811; 
- Thu, 06 Jan 2022 18:01:39 -0800 (PST)
+ bh=OHbsyEqfteS19OgRRcOzHQJayCE7Kspad11GnKSJ9XY=;
+ b=qGX9t9MRWUobyP/Fx+odYFwDlbcZYlONFeGonNnpxtoc92gbQ6SLhps+iqRelrgV6d
+ 84xiLSQaH7k5kUTXjBAf9RpGK8kV0R+Am2unuxXucztmU9teENcdhqSI4soOoX92PrQv
+ FTACuJdkWf6iwn8i4rar247EZpJ/C1Tg4thSAGUwUKDUXNWOTjIC4DlRBiMxxbyKFwKH
+ uIzmFOfjQe7B8HSTUkmfGCNOug6JPA/9JUXFeo4q5E2lSjA7EtsjIGq4l/ltT/Uck7E8
+ Y1uigiHAmS393/3Tn8Wr0dpJdaE/MQpoqUx6wXLTpBp4eR8d1EQlgY0Ts7vPCYmZBDlL
+ Jelw==
+X-Gm-Message-State: AOAM531iY4FBPujntHzZo9qq4fn+HbanajVenyA5edkIf9+8pgh/RyUe
+ smUAxBkgCw1m0l5bP6CZWCykayWh0ST2Ng==
+X-Google-Smtp-Source: ABdhPJxWuoABGW1szvhXbVPJleMmIshIUx7TC2kgz2wI6G4TwBcxecCnri+QDRzjYAmY8GBjTv7t6w==
+X-Received: by 2002:a05:6512:2149:: with SMTP id
+ s9mr53882517lfr.96.1641520900476; 
+ Thu, 06 Jan 2022 18:01:40 -0800 (PST)
 Received: from eriador.lan ([37.153.55.125])
  by smtp.gmail.com with ESMTPSA id w12sm382837lfe.256.2022.01.06.18.01.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jan 2022 18:01:39 -0800 (PST)
+ Thu, 06 Jan 2022 18:01:40 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Bjorn Andersson <bjorn.andersson@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Kuogee Hsieh <quic_khsieh@quicinc.com>
-Subject: [RFC PATCH 5/7] drm/msm/dp: remove unused stubs
-Date: Fri,  7 Jan 2022 05:01:30 +0300
-Message-Id: <20220107020132.587811-6-dmitry.baryshkov@linaro.org>
+Subject: [RFC PATCH 6/7] drm/msm/dp: remove dp_display_en/disable prototypes
+ and data argument
+Date: Fri,  7 Jan 2022 05:01:31 +0300
+Message-Id: <20220107020132.587811-7-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220107020132.587811-1-dmitry.baryshkov@linaro.org>
 References: <20220107020132.587811-1-dmitry.baryshkov@linaro.org>
@@ -76,105 +78,70 @@ Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Refactoring DP code transformed several functions into empty stubs.
-Remove them.
+Remove unused dp_display_en/disable prototypes. While we are at it,
+remove extra 'data' argument that is unused.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/dp/dp_display.c | 35 -----------------------------
- 1 file changed, 35 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_display.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 7b4f40cb9a58..e63d6056e39d 100644
+index e63d6056e39d..720e80ea99cb 100644
 --- a/drivers/gpu/drm/msm/dp/dp_display.c
 +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -841,11 +841,6 @@ static int dp_display_set_mode(struct msm_dp *dp_display,
+@@ -559,9 +559,6 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
  	return 0;
- }
- 
--static int dp_display_prepare(struct msm_dp *dp_display)
--{
--	return 0;
--}
--
- static int dp_display_enable(struct dp_display_private *dp, u32 data)
- {
- 	int rc = 0;
-@@ -915,11 +910,6 @@ static int dp_display_disable(struct dp_display_private *dp, u32 data)
- 	return 0;
- }
- 
--static int dp_display_unprepare(struct msm_dp *dp_display)
--{
--	return 0;
--}
--
- int dp_display_set_plugged_cb(struct msm_dp *dp_display,
- 		hdmi_codec_plugged_cb fn, struct device *codec_dev)
- {
-@@ -1400,21 +1390,9 @@ static int dp_pm_suspend(struct device *dev)
- 	return 0;
- }
- 
--static int dp_pm_prepare(struct device *dev)
--{
--	return 0;
--}
--
--static void dp_pm_complete(struct device *dev)
--{
--
--}
--
- static const struct dev_pm_ops dp_pm_ops = {
- 	.suspend = dp_pm_suspend,
- 	.resume =  dp_pm_resume,
--	.prepare = dp_pm_prepare,
--	.complete = dp_pm_complete,
  };
  
- static struct platform_driver dp_display_driver = {
-@@ -1565,13 +1543,6 @@ static void dp_bridge_enable(struct drm_bridge *drm_bridge)
- 		return;
- 	}
- 
--	rc = dp_display_prepare(dp);
--	if (rc) {
--		DRM_ERROR("DP display prepare failed, rc=%d\n", rc);
--		mutex_unlock(&dp_display->event_mutex);
--		return;
--	}
+-static int dp_display_enable(struct dp_display_private *dp, u32 data);
+-static int dp_display_disable(struct dp_display_private *dp, u32 data);
 -
- 	state =  dp_display->hpd_state;
+ static int dp_connect_pending_timeout(struct dp_display_private *dp, u32 data)
+ {
+ 	u32 state;
+@@ -841,7 +838,7 @@ static int dp_display_set_mode(struct msm_dp *dp_display,
+ 	return 0;
+ }
  
+-static int dp_display_enable(struct dp_display_private *dp, u32 data)
++static int dp_display_enable(struct dp_display_private *dp)
+ {
+ 	int rc = 0;
+ 	struct msm_dp *dp_display = &dp->dp_display;
+@@ -878,7 +875,7 @@ static int dp_display_post_enable(struct msm_dp *dp_display)
+ 	return 0;
+ }
+ 
+-static int dp_display_disable(struct dp_display_private *dp, u32 data)
++static int dp_display_disable(struct dp_display_private *dp)
+ {
+ 	struct msm_dp *dp_display = &dp->dp_display;
+ 
+@@ -1548,12 +1545,12 @@ static void dp_bridge_enable(struct drm_bridge *drm_bridge)
  	if (state == ST_DISPLAY_OFF)
-@@ -1583,7 +1554,6 @@ static void dp_bridge_enable(struct drm_bridge *drm_bridge)
+ 		dp_display_host_init(dp_display, true);
+ 
+-	dp_display_enable(dp_display, 0);
++	dp_display_enable(dp_display);
+ 
+ 	rc = dp_display_post_enable(dp);
  	if (rc) {
  		DRM_ERROR("DP display post enable failed, rc=%d\n", rc);
- 		dp_display_disable(dp_display, 0);
--		dp_display_unprepare(dp);
+-		dp_display_disable(dp_display, 0);
++		dp_display_disable(dp_display);
  	}
  
  	/* manual kick off plug event to train link */
-@@ -1611,7 +1581,6 @@ static void dp_bridge_post_disable(struct drm_bridge *drm_bridge)
- {
- 	struct msm_dp_bridge *dp_bridge = to_dp_display(drm_bridge);
- 	struct msm_dp *dp = dp_bridge->dp_display;
--	int rc = 0;
- 	u32 state;
- 	struct dp_display_private *dp_display;
+@@ -1591,7 +1588,7 @@ static void dp_bridge_post_disable(struct drm_bridge *drm_bridge)
+ 	/* stop sentinel checking */
+ 	dp_del_event(dp_display, EV_DISCONNECT_PENDING_TIMEOUT);
  
-@@ -1624,10 +1593,6 @@ static void dp_bridge_post_disable(struct drm_bridge *drm_bridge)
+-	dp_display_disable(dp_display, 0);
++	dp_display_disable(dp_display);
  
- 	dp_display_disable(dp_display, 0);
- 
--	rc = dp_display_unprepare(dp);
--	if (rc)
--		DRM_ERROR("DP display unprepare failed, rc=%d\n", rc);
--
  	state =  dp_display->hpd_state;
  	if (state == ST_DISCONNECT_PENDING) {
- 		/* completed disconnection */
 -- 
 2.34.1
 
