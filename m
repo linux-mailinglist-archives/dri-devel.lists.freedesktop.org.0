@@ -1,41 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 349A248703B
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 03:16:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9951E48704F
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 03:24:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0610010F0C8;
-	Fri,  7 Jan 2022 02:16:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D06BC10EC8E;
+	Fri,  7 Jan 2022 02:24:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E120E10F0C7
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 02:16:51 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F86410EC8E
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 02:24:40 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 35EB861E87
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 02:16:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A17E6C36AE5
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 02:16:50 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C82C361EBC
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 02:24:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3FDEAC36AF2
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 02:24:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1641521810;
- bh=eGq+XXJPHqkMVPRhTHy/aCxmZfC4+q5pNvgaTRzDJMw=;
+ s=k20201202; t=1641522279;
+ bh=cV+0DTAvwsM8LX8UFuHJ/ITbnjGkMO15GsLMJDI8EjM=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=hK+QIqjClvBsKcMYLndCZ8w22wXBUkz9hr9JiEV0X5L1Rz4g5mhHk8LDvHni8n7xu
- plhBtCcmjMGRBxRgEqJ3YSMcUOvpTCYVFQ6vmdyFWK0Jv3ji1saAZD9j5LJ5z4Fyqu
- +XRFvaubxcBWFz+qodMrj2cRt/hlrTBK/3tJuDjL4WKArpLV2hjKuRRtP5yTqaCEHL
- /bQX0hO/dIvfUxx0+Vhff9ktn8pgyCf6yJ35mNbNS8hsyflHbHdTBYZluxbaH2QPvR
- 3On0bM7sVS2hyWqQMD/gKBNhlWwn+3IV0bLlQ8HUR/CfbL0FKyMWgR9wzUMHwWQYzx
- y0WbIPo9eirGw==
+ b=l4aXKukQpWpa0mb/PGIPa2iTWlXXojGyHp9YJ47YWlU53cHpbTkAM2eeRToCQ1r11
+ iru5NuQriNyvHhk0px04b8lXyHfrkP7wYwwT1OTGMTJXNWdVYTyNCYSf2e94+uI//D
+ PAPFGkHtCkbh6eU1LJlzP9VG3VXtukbEvF5BaWrpLYyP8wnCw4fSjnAhQVWTaVQqf6
+ ZzX55N1VwNO4L9xVlN2nvYFDOTlW7sJr1isvAxE1xW//67XLOYuZxhZXb6Xw7iNqb3
+ 5Ol9c6eOWcAJR9iSsVEtBiDuCBURF2RpvAakqWsygt8bpsesOTITlxAsiy3Nl/9S0+
+ l6AsBfj2p550A==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 8773BC05FDF; Fri,  7 Jan 2022 02:16:50 +0000 (UTC)
+ from userid 48) id 1F8F4C05FDA; Fri,  7 Jan 2022 02:24:39 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 215001] Regression in 5.15, Firmware-initialized graphics
  console selects FB_VGA16, screen corruption
-Date: Fri, 07 Jan 2022 02:16:50 +0000
+Date: Fri, 07 Jan 2022 02:24:38 +0000
 X-Bugzilla-Reason: CC
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -50,8 +51,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-other@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-215001-2300-IH2XzuPbew@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
+Message-ID: <bug-215001-2300-yVB4Ny3h9f@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-215001-2300@https.bugzilla.kernel.org/>
 References: <bug-215001-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -76,28 +77,17 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D215001
 
---- Comment #5 from Javier Martinez Canillas (javier@dowhile0.org) ---
-Created attachment 300235
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D300235&action=3Dedit
+Javier Martinez Canillas (javier@dowhile0.org) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+ Attachment #300235|0                           |1
+        is obsolete|                            |
+
+--- Comment #6 from Javier Martinez Canillas (javier@dowhile0.org) ---
+Created attachment 300236
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D300236&action=3Dedit
 [PATCH] video: vga16fb: Only probe for EGA and VGA 16 color graphic cards
-
-Can you try the attached (untested) patch?
-
-The commit you mention in Comment 3 didn't change any logic but just moved =
-the
-platform device registration that match the vesafb and efifb drivers.
-
-As far as I can tell, the problem is that the vga16fb driver doesn't check =
-if
-the video modes are one that's supported by it and just blindly attempts to
-probe the driver.
-
-This probably wasn't a problem before because the sysfb.o was in
-arch/x86/kernel but no is in drivers/firmware. But the issue in vga16fb was
-present before, just moving exposed it.
-
-I believe that the correct thing is to check if screen_info says that's a
-{E,V}GA 16 color mode and fail to probe the vga16fb driver otherwise.
 
 --=20
 You may reply to this email to add a comment.
