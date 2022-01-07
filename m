@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C86A48728A
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 06:31:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 641D3487298
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 06:31:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1308D113267;
-	Fri,  7 Jan 2022 05:30:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E343111327C;
+	Fri,  7 Jan 2022 05:30:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com
- [IPv6:2607:f8b0:4864:20::d2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DEB111324D;
+Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com
+ [IPv6:2607:f8b0:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD906113250;
  Fri,  7 Jan 2022 05:30:11 +0000 (UTC)
-Received: by mail-io1-xd2f.google.com with SMTP id e128so5859460iof.1;
+Received: by mail-il1-x12b.google.com with SMTP id x15so3808841ilc.5;
  Thu, 06 Jan 2022 21:30:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qYyJ2gcl34AtG+ZwzeuT+zalv5tvCFacm4aJJ3L+PFU=;
- b=n5cDKpY/cS3ddfduU75FLd0mm/XG5Pm3C7omvy4wXv3FY5Ljt7Dn096WxhuV01V/uR
- agjlDHLToD0Cg8Tc+m/rD0aVxrP3mLxB2DCAHY6VKw3DlGhz6uOzIMJCFLkFg/Fk6fQa
- m9kieutSbD75E/lHgv7lCWlrz7p9i+Jqkz2sxDfcRXkdx83cO+prvc5LWdXNmJWfjeCK
- QnPA+yX6Y8dW0FOO1MGgT6XRj2b6FzA56X4/L1wM8wzyddIVlrUX8cICTROh6Xc5PHCS
- 2OhKsU+un9BbaB5LdDVwo5pAfJIOYGuGyHfic5lyoWk6pCAn/UGOkjfDYClncsTWpPd2
- VZtg==
+ bh=MXP101OBKmlnLofCkQPbu2Mn+KOJTGfJ6b+NIiHZLS4=;
+ b=D0dcLl/Cn+05vmbxEjZI4ubBfvPU4FZ8FgYhK/JyJWNyoH+7qZpiKJfVRL5ulKNTRy
+ jFDcUxZ91EN16Ibemv9vUXdY1ReZQaflP4hcZQHEHRJOjkVNQ5W9khjmIANSER/NtbMP
+ I4e1dlHmX0Z6WSZAvdoJ45Sber5oXYOi2xew3LlQ/9tbieVU8eWL59q2mMsc1wpwOtd1
+ khuF/ia6OakQnXTmlFRLOh0StIV+ANTNdh7eDyd44bVKYA02wrjMsxD16+I9JEcpjPHa
+ 2Kwykx0kyqSEmt2NAzQrL+9zCN6drsk+OR194QbU7V6JD8Hd2GYg0XtH/YYP+ALyhuej
+ BSgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qYyJ2gcl34AtG+ZwzeuT+zalv5tvCFacm4aJJ3L+PFU=;
- b=6mqX1yvQpxl0tOf0PjnTQVdye7D+Yz+PxpCBCsnHTV9YEIIJTBPY9BFmqWKFrVgElB
- dc2FVXtVHnUHa2wCPk1OO5zvScaLH9bcqRRqiG+jpEnI/NH3icJujyyH864rT8l2OPj6
- nEUhrbPTVZ1lN/T8OCGQWyRzQe/Xxu+cc90Y6Ih22E75vyS949Jr7ygjvNRNoldfPEWA
- 3j9XD2Z7s1SR9pANwiVa2INqF+1ios0vwoVV0pShLi1h7Zwaco7tfvtfIUz1330CNatL
- hj0LodrDq/5V3dZA0EhpWMOFfHKIa75+DxYLmf0omimsLSV631v68mcek3czTXz/9TKb
- 904Q==
-X-Gm-Message-State: AOAM530qBmRBfSl2ze5OUInWfMnaZn4l9cSUlpjolR6elxijYhgYgsf7
- fL/7/1vjgbexUXiJ7NfbU4E=
-X-Google-Smtp-Source: ABdhPJyZ2DQ/f+275CIjKbX91nJCLDE4hjHieIEqtncwcYdaOvFghGTgMmBnVGaYwBuweKjCTTGK8A==
-X-Received: by 2002:a5d:8543:: with SMTP id b3mr29143476ios.11.1641533409455; 
- Thu, 06 Jan 2022 21:30:09 -0800 (PST)
+ bh=MXP101OBKmlnLofCkQPbu2Mn+KOJTGfJ6b+NIiHZLS4=;
+ b=zJqOQxljlVinyCAxyEzzM8lBbSl2AEyz1CgJTVk7c8KSRQxCEgX6xikQ1MpjNZaGdX
+ VPT6Sq6GYakkAPZb8uW8K019ChBVSY8BwQNVLAuXcLVwkl9Tfg7a9yFZUioMeEeTOSkS
+ WrjnAyyOh2t2W0KIMChDBP8hIjLNyI0FXfd+mJE28DCyRIt+4tm26UvsUe9AsCvvbj5K
+ mWvUPzCmMsAuUxghd9he4Ys7giQXkqQ8gjoYe9lsJ/Zj0N56fN2O/0fRvsXfRW2gBiZb
+ bzlirMKnf03eeVc/+jT8rNcyBjWgwfR5gBLosm4UHW/4tjJIPgawTnWCyMUQqmGfjYKJ
+ swLA==
+X-Gm-Message-State: AOAM5334Xefsn1dMHQhdOfoqxXUSiXceH/JC1imcreHUu41wI6gXW1iW
+ zNuefn2dA1/tRd/Bn9lnpkg=
+X-Google-Smtp-Source: ABdhPJyJV+ie8tIgRKUsxFge8djV88zEG6NNzur6iycvq7O0pB1HrKdK6LcPy9o+zi6LoQYAKFNbXA==
+X-Received: by 2002:a92:c685:: with SMTP id o5mr29675045ilg.152.1641533410743; 
+ Thu, 06 Jan 2022 21:30:10 -0800 (PST)
 Received: from frodo.. (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
- by smtp.googlemail.com with ESMTPSA id c18sm1843446iod.18.2022.01.06.21.30.08
+ by smtp.googlemail.com with ESMTPSA id c18sm1843446iod.18.2022.01.06.21.30.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jan 2022 21:30:09 -0800 (PST)
+ Thu, 06 Jan 2022 21:30:10 -0800 (PST)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com, gregkh@linuxfoundation.org, linux@rasmusvillemoes.dk,
  rostedt@goodmis.org, mathieu.desnoyers@efficios.com,
@@ -52,9 +52,10 @@ To: jbaron@akamai.com, gregkh@linuxfoundation.org, linux@rasmusvillemoes.dk,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v11 16/19] drm_print: add struct _ddebug desc to drm_*dbg
-Date: Thu,  6 Jan 2022 22:29:39 -0700
-Message-Id: <20220107052942.1349447-17-jim.cromie@gmail.com>
+Subject: [PATCH v11 17/19] drm_print: add struct _ddebug *desc to
+ trace-drm-*() params
+Date: Thu,  6 Jan 2022 22:29:40 -0700
+Message-Id: <20220107052942.1349447-18-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220107052942.1349447-1-jim.cromie@gmail.com>
 References: <20220107052942.1349447-1-jim.cromie@gmail.com>
@@ -79,142 +80,129 @@ Cc: quic_saipraka@quicinc.com, arnd@arndb.de, jim.cromie@gmail.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A recent commit adding trace-events to drm noted:
+Replace trace-drm-*()s category param with struct _ddebug *desc; it
+has .classid field, which is the category.
 
-   trace_*() additions are strictly redundant with printks to syslog,
-   not properly placed to reduce overall work.
-
-That was because it didn't have the struct _ddebug *descriptor, whose
-.flags specify TRACE and PRINTK actions on a controlled callsite.  So
-it could only duplicate the stream (from the enabled callsites).
-
-To issue TRACE, PRINTK selectively:
-
-- add struct _ddebug * param to prototypes and functions:
-  ___drm_dbg(), __drm_dev_dbg()
-  add "struct _ddebug;" to name the ptr-type, to silence warning.
-
-- adjust the forwarding macros: drm_dbg, drm_dev_dbg
-  to provide a descriptor, or NULL.
-  basically this is dropping the _no_desc_,
-  ie using _dynamic_func_call_cls(), since the callee can now accept it.
-
-- add if (desc->flags ...) TRACE / PRINTK actions.
+This brings the events closer in line with those added for dyndbg; at
+least the 1st param, and possibly the struct device (tb-checked).
+There are still differences in the tail of the prototypes; vaf vs
+text + len, which probably breaks CLASS sharing.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- drivers/gpu/drm/drm_print.c | 25 ++++++++++++++++---------
- include/drm/drm_print.h     | 20 ++++++++++----------
- 2 files changed, 26 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/drm_print.c |  6 +++---
+ include/trace/events/drm.h  | 36 ++++++++++++++++++------------------
+ 2 files changed, 21 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
-index b911f949af5b..8c33302212fc 100644
+index 8c33302212fc..0a15a4ec5ead 100644
 --- a/drivers/gpu/drm/drm_print.c
 +++ b/drivers/gpu/drm/drm_print.c
-@@ -258,8 +258,8 @@ void drm_dev_printk(const struct device *dev, const char *level,
- }
- EXPORT_SYMBOL(drm_dev_printk);
+@@ -278,14 +278,14 @@ void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
+ 				   __builtin_return_address(0), &vaf);
  
--void __drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
--		   const char *format, ...)
-+void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
-+		   enum drm_debug_category category, const char *format, ...)
- {
- 	struct va_format vaf;
- 	va_list args;
-@@ -267,24 +267,31 @@ void __drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
- 	if (!__drm_debug_enabled(category))
- 		return;
- 
-+	/* we know we are printing for either syslog, tracefs, or both */
- 	va_start(args, format);
- 	vaf.fmt = format;
- 	vaf.va = &args;
- 
- 	if (dev) {
--		dev_printk(KERN_DEBUG, dev, "[" DRM_NAME ":%ps] %pV",
--			   __builtin_return_address(0), &vaf);
--		trace_drm_devdbg(dev, category, &vaf);
-+		if (desc->flags & _DPRINTK_FLAGS_PRINTK)
-+			dev_printk(KERN_DEBUG, dev, "[" DRM_NAME ":%ps] %pV",
-+				   __builtin_return_address(0), &vaf);
-+
-+		if (desc->flags & _DPRINTK_FLAGS_TRACE)
-+			trace_drm_devdbg(dev, category, &vaf);
+ 		if (desc->flags & _DPRINTK_FLAGS_TRACE)
+-			trace_drm_devdbg(dev, category, &vaf);
++			trace_drm_devdbg(dev, desc, &vaf);
  	} else {
--		printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
--		       __builtin_return_address(0), &vaf);
--		trace_drm_debug(category, &vaf);
-+		if (desc->flags & _DPRINTK_FLAGS_PRINTK)
-+			printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
-+			       __builtin_return_address(0), &vaf);
-+
-+		if (desc->flags & _DPRINTK_FLAGS_TRACE)
-+			trace_drm_debug(category, &vaf);
+ 		if (desc->flags & _DPRINTK_FLAGS_PRINTK)
+ 			printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
+ 			       __builtin_return_address(0), &vaf);
+ 
+ 		if (desc->flags & _DPRINTK_FLAGS_TRACE)
+-			trace_drm_debug(category, &vaf);
++			trace_drm_debug(desc, &vaf);
  	}
  	va_end(args);
  }
- EXPORT_SYMBOL(__drm_dev_dbg);
+@@ -306,7 +306,7 @@ void ___drm_dbg(struct _ddebug *desc, enum drm_debug_category category, const ch
+ 	printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
+ 	       __builtin_return_address(0), &vaf);
  
--void ___drm_dbg(enum drm_debug_category category, const char *format, ...)
-+void ___drm_dbg(struct _ddebug *desc, enum drm_debug_category category, const char *format, ...)
- {
- 	struct va_format vaf;
- 	va_list args;
-diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-index 0c704610c770..6d43b81a0ee4 100644
---- a/include/drm/drm_print.h
-+++ b/include/drm/drm_print.h
-@@ -360,9 +360,9 @@ static inline bool drm_debug_enabled(enum drm_debug_category category)
- __printf(3, 4)
- void drm_dev_printk(const struct device *dev, const char *level,
- 		    const char *format, ...);
--__printf(3, 4)
--void __drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
--		 const char *format, ...);
-+__printf(4, 5)
-+void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
-+		   enum drm_debug_category category, const char *format, ...);
+-	trace_drm_debug(category, &vaf);
++	trace_drm_debug(desc, &vaf);
  
- /**
-  * DRM_DEV_ERROR() - Error output.
-@@ -412,11 +412,11 @@ void __drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
+ 	va_end(args);
+ }
+diff --git a/include/trace/events/drm.h b/include/trace/events/drm.h
+index 944aedaf6aa6..bfe1fff923d8 100644
+--- a/include/trace/events/drm.h
++++ b/include/trace/events/drm.h
+@@ -9,25 +9,25 @@
  
- #if !defined(CONFIG_DRM_USE_DYNAMIC_DEBUG)
- #define drm_dev_dbg(dev, eCat, fmt, ...)				\
--	__drm_dev_dbg(dev, eCat, fmt, ##__VA_ARGS__)
-+	__drm_dev_dbg(NULL, dev, eCat, fmt, ##__VA_ARGS__)
- #else
- #define drm_dev_dbg(dev, eCat, fmt, ...)				\
--	_dynamic_func_call_no_desc_cls(fmt, eCat, __drm_dev_dbg,	\
--				       dev, eCat, fmt, ##__VA_ARGS__)
-+	_dynamic_func_call_cls(eCat, fmt, __drm_dev_dbg,		\
-+			       dev, eCat, fmt, ##__VA_ARGS__)
- #endif
+ /* drm_debug() was called, pass its args */
+ TRACE_EVENT(drm_debug,
+-	TP_PROTO(int drm_debug_category, struct va_format *vaf),
++	TP_PROTO(struct _ddebug *desc, struct va_format *vaf),
  
- /**
-@@ -519,8 +519,8 @@ void __drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
-  * Prefer drm_device based logging over device or prink based logging.
-  */
+-	TP_ARGS(drm_debug_category, vaf),
++	TP_ARGS(desc, vaf),
  
--__printf(2, 3)
--void ___drm_dbg(enum drm_debug_category category, const char *format, ...);
-+__printf(3, 4)
-+void ___drm_dbg(struct _ddebug *desc, enum drm_debug_category category, const char *format, ...);
- __printf(1, 2)
- void __drm_err(const char *format, ...);
+ 	TP_STRUCT__entry(
+-		__field(int, drm_debug_category)
++		__field(struct _ddebug *, desc)
+ 		__dynamic_array(char, msg, 256)
+ 	),
  
-@@ -528,8 +528,8 @@ void __drm_err(const char *format, ...);
- #define __drm_dbg(fmt, ...)		___drm_dbg(NULL, fmt, ##__VA_ARGS__)
- #else
- #define __drm_dbg(eCat, fmt, ...)					\
--	_dynamic_func_call_no_desc_cls(fmt, eCat, ___drm_dbg,		\
--				       eCat, fmt, ##__VA_ARGS__)
-+	_dynamic_func_call_cls(eCat, fmt, ___drm_dbg,			\
-+			       eCat, fmt, ##__VA_ARGS__)
- #endif
+ 	TP_fast_assign(
+ 		int len;
++		char *p = __get_str(msg);
  
- /* Macros to make printk easier */
+-		__entry->drm_debug_category = drm_debug_category;
+-		vsnprintf(__get_str(msg), 256, vaf->fmt, *vaf->va);
++		__entry->desc = desc;
++		len = vsnprintf(p, 256, vaf->fmt, *vaf->va);
+ 
+-		len = strlen(__get_str(msg));
+-		if ((len > 0) && (__get_str(msg)[len-1] == '\n'))
++		if ((len > 0) && (len < 256) && p[len-1] == '\n')
+ 			len -= 1;
+-		__get_str(msg)[len] = 0;
++		p[len] = 0;
+ 	),
+ 
+ 	TP_printk("%s", __get_str(msg))
+@@ -35,30 +35,30 @@ TRACE_EVENT(drm_debug,
+ 
+ /* drm_devdbg() was called, pass its args, preserving order */
+ TRACE_EVENT(drm_devdbg,
+-	TP_PROTO(const struct device *dev, int drm_debug_category, struct va_format *vaf),
++	TP_PROTO(const struct device *dev, struct _ddebug *desc, struct va_format *vaf),
+ 
+-	TP_ARGS(dev, drm_debug_category, vaf),
++	TP_ARGS(dev, desc, vaf),
+ 
+ 	TP_STRUCT__entry(
+-		__field(const struct device*, dev)
+-		__field(int, drm_debug_category)
++		__field(const struct device *, dev)
++		__field(struct _ddebug *, desc)
+ 		__dynamic_array(char, msg, 256)
+ 	),
+ 
+ 	TP_fast_assign(
+ 		int len;
++		char *p = __get_str(msg);
+ 
+-		__entry->drm_debug_category = drm_debug_category;
++		__entry->desc = desc;
+ 		__entry->dev = dev;
+-		vsnprintf(__get_str(msg), 256, vaf->fmt, *vaf->va);
++		len = vsnprintf(p, 256, vaf->fmt, *vaf->va);
+ 
+-		len = strlen(__get_str(msg));
+-		if ((len > 0) && (__get_str(msg)[len-1] == '\n'))
++		if ((len > 0) && (len < 256) && p[len-1] == '\n')
+ 			len -= 1;
+-		__get_str(msg)[len] = 0;
++		p[len] = 0;
+ 	),
+ 
+-	TP_printk("cat:%d, %s %s", __entry->drm_debug_category,
++	TP_printk("cat:%d, %s %s", __entry->desc->class_id,
+ 		  dev_name(__entry->dev), __get_str(msg))
+ );
+ 
 -- 
 2.33.1
 
