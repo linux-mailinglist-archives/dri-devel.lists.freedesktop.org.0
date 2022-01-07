@@ -2,55 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73E45487431
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 09:36:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31B5E487447
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 09:50:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 061D411AC95;
-	Fri,  7 Jan 2022 08:36:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B15811AE8E;
+	Fri,  7 Jan 2022 08:50:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D646011AC95
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 08:36:38 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id
- y16-20020a17090a6c9000b001b13ffaa625so11301880pjj.2
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Jan 2022 00:36:38 -0800 (PST)
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
+ [IPv6:2607:f8b0:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 837CC11AE8C;
+ Fri,  7 Jan 2022 08:50:33 +0000 (UTC)
+Received: by mail-pg1-x532.google.com with SMTP id 200so4943041pgg.3;
+ Fri, 07 Jan 2022 00:50:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id;
- bh=0usgNPuxO2Xbite7dIWl/eUqLBFFjy4eURRS5eQlexE=;
- b=db7Z0ELzm+ApbLFsM9kaoTKg5fw9dbZ6VA0Cr13+Zl2LzqmSGdSDtLVH3KTB09Ekyt
- vrM918SYbXswzfnRiP5IYevCGXXj8avAtt+q3iS7l5RkQENFvOasfI7JrKDDq+52i2lA
- 4/PRS5KtpQhEPAzQXVlK52YmyDsiLxO/efb28hj+KW2B2QSeeLPQRq5hqwtspAwXBa6n
- ffEvYvumpV4JDPyMZYpcmSjlXIvQ2WE4GBdQ8N/f1266lHwBiuFcbj1Jzg5Ls7Nb0ziz
- lBQER0SA3Y8NYj/gpmtbHgZwwWnsPtsTBEddeX0KqPgbMxdq4qQ2NjmriVUNhx66YbTr
- zDig==
+ bh=IQS4J/qtHwJGGOnAQs0o0rtK4NFNyvH92Ln82XpYq1E=;
+ b=BR9uftG+cCtV8P36GOU+YlObjfqGNjV8mIZYTwYw5+DCzL+BOwdPwVbM3W2Gruavzu
+ 32qKXVL3Pm05dggOZeyGMYvmCVPqcnm644blBcdbV+bKenZmugHuv991x8t0KfqfwIQV
+ 72D0fgW9hmUTsgWjbgKZS4YCyBQ6kgfjpKzcwJtq1bvHQx4X4zTIOnNbJAxtClRLGJZi
+ 1zSj3Oy67PRKgvBwhkJl8UPb6juw9oepXa+8aF6xLEm5RXNB/y3goROq2NB66Nv9KWMr
+ AfoSW1ItYV32P/T0irVa6Bw4SK9lVifs8P2m69RBE0IXafbaxoNuzUp8px1kY9ZYE5wB
+ Mxhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=0usgNPuxO2Xbite7dIWl/eUqLBFFjy4eURRS5eQlexE=;
- b=doLXrChOXqMPUru0KIYZVw+4K5Dib/qcaOrDPqE2pwCgLsjJwuOQ9Fu7OBu67zUHzf
- TBwVZvVUR29uuEgJaDvrFQoFJjPT3XCDqSTKwrIG20woixsuis9DrMtO863yLbkW2ORj
- IC3V4lKJIOQxzO6pF/lEDlStbKOJEfCNbOHlvZ3HJl8M6LbPgT6imOw74NbJ5zWrBHP8
- 27FpMEYBRgGO+dREv2kAmjOiB5qOpD677gtMkpb/kc7bF9/dMDZEARokMAaAYfpj5t/r
- YGk7GT49wVmq4enRm8MEpg1C81Ew7lN5zRjWX6jzyZpSww/q78mqQQTnjT4gSJQ/1MaG
- ssbA==
-X-Gm-Message-State: AOAM532vclgqHUZRSXuEzfH3obyjcK7F8Grw4H17oCNhRtvXtZh31EGW
- g7lkwIXHc5ZNPO3nI0OewkY=
-X-Google-Smtp-Source: ABdhPJwFX+BUrAd7opzOCSQBmNe+AAAzzMRjvfY3Q5YfyjPq15ioRx70dDlJsKdD6o6knFYNsznE3g==
-X-Received: by 2002:a17:90b:1986:: with SMTP id
- mv6mr14795706pjb.37.1641544598539; 
- Fri, 07 Jan 2022 00:36:38 -0800 (PST)
+ bh=IQS4J/qtHwJGGOnAQs0o0rtK4NFNyvH92Ln82XpYq1E=;
+ b=wf5CI8VPM6bHoHRtBEPOx0AQIf0XhosqVc3BNma0qxRRoDEkyq568gIbLY+TVsfPX+
+ VnwgyJV7LH9WxNO2iXDprMhyMj49G5cRuE4XMwCuQ3mo1+G0g0+c5xP+94D+QDUHE0ML
+ DTb1IzQGcF1XquRIkcej7IsaIPx7PsLmj1q3Vy15YxrlispkD6m4uC/3zPXC73r7JiWr
+ 9kFNZwSgWjv0mIkmzNrGPRFrHHJ/gXBiVCvRxVYuSAe/Gk22ZephOj8xGQlEMAxAhLjm
+ 2C8JbnHRxwvgRovDf0f5Ottg04g3e+XUY2XmpBuEaA/NrbvCixBRpEqfiCJ9FDl7KPr5
+ fOMw==
+X-Gm-Message-State: AOAM5314XTJzVeCNOlIDkrUaBI0qwlvbOcfbD5Ov2dsnRnvSj7EUSv7k
+ SSuJVsIIzrO1r86M4t99h0g=
+X-Google-Smtp-Source: ABdhPJzrezcJmoyT8I5bb9IzMr0GwT31Qhm2NI7Dx6C7H3w2cx5/PuMuN/+otYHv28cEYnq5kQUd5w==
+X-Received: by 2002:a63:8149:: with SMTP id t70mr55367147pgd.71.1641545433164; 
+ Fri, 07 Jan 2022 00:50:33 -0800 (PST)
 Received: from localhost.localdomain ([159.226.95.43])
- by smtp.googlemail.com with ESMTPSA id l1sm3909919pgn.35.2022.01.07.00.36.35
+ by smtp.googlemail.com with ESMTPSA id f20sm5167583pfe.166.2022.01.07.00.50.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 00:36:38 -0800 (PST)
+ Fri, 07 Jan 2022 00:50:32 -0800 (PST)
 From: Miaoqian Lin <linmq006@gmail.com>
 To: 
-Subject: [PATCH] drm/sun4i: dw-hdmi: Fix missing put_device() call in
- sun8i_hdmi_phy_get
-Date: Fri,  7 Jan 2022 08:36:32 +0000
-Message-Id: <20220107083633.20843-1-linmq006@gmail.com>
+Subject: [PATCH] drm/msm/hdmi: Fix missing put_device() call in
+ msm_hdmi_get_phy
+Date: Fri,  7 Jan 2022 08:50:22 +0000
+Message-Id: <20220107085026.23831-1-linmq006@gmail.com>
 X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,11 +62,13 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ondrej Jirman <megous@megous.com>, linmq006@gmail.com,
- Saravana Kannan <saravanak@google.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Cc: freedreno@lists.freedesktop.org, linmq006@gmail.com,
+ David Airlie <airlied@linux.ie>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Archit Taneja <architt@codeaurora.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>, linux-kernel@vger.kernel.org,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -76,27 +76,32 @@ The reference taken by 'of_find_device_by_node()' must be released when
 not needed anymore.
 Add the corresponding 'put_device()' in the error handling path.
 
-Fixes: 9bf3797796f5 ("drm/sun4i: dw-hdmi: Make HDMI PHY into a platform device")
+Fixes: e00012b256d4 ("drm/msm/hdmi: Make HDMI core get its PHY")
 Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
 ---
- drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/msm/hdmi/hdmi.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-index b64d93da651d..5e2b0175df36 100644
---- a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-@@ -658,8 +658,10 @@ int sun8i_hdmi_phy_get(struct sun8i_dw_hdmi *hdmi, struct device_node *node)
- 		return -EPROBE_DEFER;
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
+index 75b64e6ae035..a439794a32e8 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi.c
++++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
+@@ -95,10 +95,15 @@ static int msm_hdmi_get_phy(struct hdmi *hdmi)
  
- 	phy = platform_get_drvdata(pdev);
--	if (!phy)
-+	if (!phy) {
-+		put_device(&pdev->dev);
+ 	of_node_put(phy_node);
+ 
+-	if (!phy_pdev || !hdmi->phy) {
++	if (!phy_pdev) {
+ 		DRM_DEV_ERROR(&pdev->dev, "phy driver is not ready\n");
  		return -EPROBE_DEFER;
+ 	}
++	if (!hdmi->phy) {
++		DRM_DEV_ERROR(&pdev->dev, "phy driver is not ready\n");
++		put_device(&phy_pdev->dev);
++		return -EPROBE_DEFER;
 +	}
  
- 	hdmi->phy = phy;
+ 	hdmi->phy_dev = get_device(&phy_pdev->dev);
  
 -- 
 2.17.1
