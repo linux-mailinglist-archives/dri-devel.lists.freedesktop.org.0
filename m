@@ -1,47 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7194D487B6F
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 18:29:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D9E2487B7F
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 18:35:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F7BB10EBC6;
-	Fri,  7 Jan 2022 17:29:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B694A10E1CF;
+	Fri,  7 Jan 2022 17:34:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0542D10EB9F
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 17:29:32 +0000 (UTC)
-Date: Fri, 07 Jan 2022 17:29:29 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1641576570;
- bh=UiTlyBo9UuvfhzocANog0JAKgTNkVZpUBxSayY9p2tE=;
- h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
- References:From:To:Cc;
- b=GAauKnGMTyEXiFfCB/6NXgNZXkVYvCukP7KR+50OnPx0xmNzSXyo70fbab5XGx6ZX
- gxwDRNAQZl9tweSDOfxQYGN6bI04/u4vrJnFk82UsvYYqXRO/k8m/iDjdGLdg7NZik
- TIJIbiDbKhZNgLv+B9Q+TLr3wEhHERsQfW3M3o7MGD4PV+yxYYcFeVLObLQDXSwLUD
- Hi9TLYSZHMPMDEsiaQaJvLvn9TghvS2bW6mGvCT3eO8lYzkZm/0C9iCCZlG/V1TpXL
- kIRWEKbpaC/u4T1xHlFwYdVi2WAZ7xmbKAT2NXUCwZTVeHnr6vqpD4XPBwKrDrMQRW
- /rdLFvZ8Hiz2w==
-To: =?utf-8?Q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v3 2/6] drm/plane: Fix typo in format_mod_supported
- documentation
-Message-ID: <zTX9uSmiLpHhH2VG6QBEkyfzqLTLylulwnf54f-fsx7Qp-ePGWW9gJJm-whTbo35o0TKd_hzV_f5Ir977j0A_sMeXCXZ8nofLNV6Q9Rzwwc=@emersion.fr>
-In-Reply-To: <20220107172601.GA122757@elementary>
-References: <20211226112503.31771-1-jose.exposito89@gmail.com>
- <20211226112503.31771-3-jose.exposito89@gmail.com>
- <3DdB6YPUQr4O063yNreefZcIm6p5Z6HORoVVbk5RTMmjz8qvnxMse42hLvfDmA323KG-TWLc_JUFZEEEIkoINXQuAzjLVe2jRRM01tQgYOU=@emersion.fr>
- <20220107172601.GA122757@elementary>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DF0B10E1CF
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 17:34:56 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2FE456171F;
+ Fri,  7 Jan 2022 17:34:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9A766C36AE0;
+ Fri,  7 Jan 2022 17:34:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1641576893;
+ bh=Nd3OSgzKs9gH96Ti42NMD51GnPFBvOzQFzTs0RG+2l8=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=jPNy20y/2jwRkIVTxIccpj2JRMw9ePAL6WNzxL8n0AyWPTgzuvzUMXdOWmTGxqftn
+ kDHw3Omf8ecD5sqzx7SGKPRnP0MphIiEnEJafyfAEQ7Lh+mHmS3PV7jU1PKhwEncBl
+ nn1KB+rov1m/GkpHG00robcwn3g+a+G50Yy+7YW5Qj/I2Si38B33B2YRi8TQxM2fMN
+ YLtcjT+og9CUAAdrs0cagC74/+2pv7T1zzxhbv0UdgRxoihGGyc1a2rM5Z5KcjOKz7
+ R1cLXrN28sBlQkUjeZG5OW/El3xmUSMZ/6bVyqLaDJja3nvaslakeAlbtEp+ryTIeB
+ jPfSeqf40oV8g==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
+ 88ECBF79404; Fri,  7 Jan 2022 17:34:53 +0000 (UTC)
+Subject: Re: [git pull] drm final fixes for 5.16
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9twnYJ8SrVzJEEH+Vksibomvk5CE+Nn6BXKYwLG_8r=GJQ@mail.gmail.com>
+References: <CAPM=9twnYJ8SrVzJEEH+Vksibomvk5CE+Nn6BXKYwLG_8r=GJQ@mail.gmail.com>
+X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
+ <dri-devel.lists.freedesktop.org>
+X-PR-Tracked-Message-Id: <CAPM=9twnYJ8SrVzJEEH+Vksibomvk5CE+Nn6BXKYwLG_8r=GJQ@mail.gmail.com>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-fixes-2022-01-07
+X-PR-Tracked-Commit-Id: 936a93775b7c4f2293f651f64c4139c82e19a164
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 7a6043cc2e863ab45016622c30879e555523ee13
+Message-Id: <164157689355.23528.13761079687707576778.pr-tracker-bot@kernel.org>
+Date: Fri, 07 Jan 2022 17:34:53 +0000
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,24 +61,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: airlied@linux.ie, alexandre.torgue@foss.st.com,
- benjamin.gaignard@linaro.org, linux-stm32@st-md-mailman.stormreply.com,
- marex@denx.de, linux-imx@nxp.com, intel-gfx@lists.freedesktop.org,
- s.hauer@pengutronix.de, rodrigo.vivi@intel.com, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, yannick.fertre@foss.st.com, linux-kernel@vger.kernel.org,
- philippe.cornu@foss.st.com, mcoquelin.stm32@gmail.com,
- dmitry.baryshkov@linaro.org, shawnguo@kernel.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Friday, January 7th, 2022 at 18:26, Jos=C3=A9 Exp=C3=B3sito <jose.exposi=
-to89@gmail.com> wrote:
+The pull request you sent on Fri, 7 Jan 2022 13:23:45 +1000:
 
-> Is there something that needs to improve in the other 4 patches?
-> Or just waiting on maintainers input?
+> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-01-07
 
-Yeah, these patches look good to me. Feel free to add my R-b.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/7a6043cc2e863ab45016622c30879e555523ee13
 
-Maintainers for these drivers still need to review/ack/apply them.
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
