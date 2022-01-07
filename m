@@ -1,41 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 015CD487474
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 10:05:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DFB248749D
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jan 2022 10:23:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4AF3112540;
-	Fri,  7 Jan 2022 09:05:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61D7C11B38F;
+	Fri,  7 Jan 2022 09:23:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02D2B112540;
- Fri,  7 Jan 2022 09:05:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A00611B397
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jan 2022 09:23:35 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id BF4F91F45F92
+ (Authenticated sender: kholk11) with ESMTPSA id DD0E51F40A55
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1641546317;
- bh=rdXiAe9ghAS4SWFr5mc31jwEuvWu/wJvN9Ci8eVD2QU=;
+ s=mail; t=1641547414;
+ bh=wj1ZDK4lkn/iSMxOoGczIJTSg6wOxjiARPaZ2r2OUWw=;
  h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=Vacvfxe05tDpadRq7/p5lRr3rsC+hvEjbGBg8AdSRh6uJZFwUsCH7sQryL+tsxwwg
- S19T8S4pXeHyGH1M+vbZ7AHQkdMAIatUbJ0KAkNRJu2c9ztBwaK783YAkL2wCwTsxa
- 8EC4XQ+9njrIyh9sv6vz9hPUo9sKGpBxHHD5kqaJpasjqz9jkozwpCiSXsUtZAD624
- q+akR7tL2E0Nyu2ST7Wm9thG7vrDveDZWsQdbJfsRuXK22iqh2eBEzCR/idsk75SJG
- bwRm8FTuBrfE0NMK9ObC1d1awxs64nSaZka7mtLYeCOxFuosJGmBKNXXGwQb0OixUd
- BKbNGQ9kamE0w==
-Subject: Re: [PATCH 1/2] drm/msm/gpu: Wait for idle before suspending
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20220106181449.696988-1-robdclark@gmail.com>
- <20220106181449.696988-2-robdclark@gmail.com>
+ b=c7TocaBKZAHN+HhlzCoPRaklI+aiWQMse7sjTJ3DD/6JaFoxtqSb0Y2088RnnaH+1
+ qGzWIPCWvRqUwaKIxDUIMGG/+RRw2vcdj5w2TAGVlWYjdb5UL5gQuhC4bsR76YevUE
+ qcMPJQCdnQs/owVWkwDW/Ho5IzM/W26Vhr+gydewcZtoP6z/9EWyAiNnOc8mBRducK
+ AiIqupciZFfnW+cJVeoB5ewBy+ibo1+k38gKmZWv51xuAylIQvj9KENrXjw4YISQ0z
+ HoeVrMnHircsrRPFaXXEs3kjaClm73RQwu5zSPcefzAapyeG/yyldEDraJqoFz8cLR
+ 0iqNsArtWAg9g==
+Subject: Re: [PATCH 3/3] phy: mediatek: phy-mtk-mipi-dsi: Simplify with
+ dev_err_probe()
+To: Chunfeng Yun <chunfeng.yun@mediatek.com>, chunkuang.hu@kernel.org
+References: <20220103145324.48008-1-angelogioacchino.delregno@collabora.com>
+ <20220103145324.48008-3-angelogioacchino.delregno@collabora.com>
+ <4d7195c3ac9bc63a5f980548f0c880484403346d.camel@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Message-ID: <d67e7c42-769c-9e15-e69b-c560e3be402c@collabora.com>
-Date: Fri, 7 Jan 2022 10:05:14 +0100
+Message-ID: <ba6c0163-fc5f-2a5f-560d-240e5fe2c3c4@collabora.com>
+Date: Fri, 7 Jan 2022 10:23:32 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20220106181449.696988-2-robdclark@gmail.com>
-Content-Type: text/plain; charset=iso-8859-15; format=flowed
+In-Reply-To: <4d7195c3ac9bc63a5f980548f0c880484403346d.camel@mediatek.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -50,30 +52,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
- Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Vladimir Lypak <vladimir.lypak@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
- open list <linux-kernel@vger.kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kishon@ti.com, linux-phy@lists.infradead.org, vkoul@kernel.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 06/01/22 19:14, Rob Clark ha scritto:
-> From: Rob Clark <robdclark@chromium.org>
+Il 06/01/22 10:13, Chunfeng Yun ha scritto:
+> On Mon, 2022-01-03 at 15:53 +0100, AngeloGioacchino Del Regno wrote:
+>> Use the dev_err_probe() helper to simplify error handling during
+>> probe.
+>>
+>> Signed-off-by: AngeloGioacchino Del Regno <
+>> angelogioacchino.delregno@collabora.com>
+>> ---
+>>   drivers/phy/mediatek/phy-mtk-mipi-dsi.c | 29 +++++++++------------
+>> ----
+>>   1 file changed, 10 insertions(+), 19 deletions(-)
+>>
+>> diff --git a/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
+>> b/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
+>> index 6f7425b0bf5b..4b77508f5241 100644
+>> --- a/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
+>> +++ b/drivers/phy/mediatek/phy-mtk-mipi-dsi.c
+>> @@ -148,11 +148,9 @@ static int mtk_mipi_tx_probe(struct
+>> platform_device *pdev)
+>>   		return PTR_ERR(mipi_tx->regmap);
+>>   
+>>   	ref_clk = devm_clk_get(dev, NULL);
+>> -	if (IS_ERR(ref_clk)) {
+>> -		ret = PTR_ERR(ref_clk);
+>> -		dev_err(dev, "Failed to get reference clock: %d\n",
+>> ret);
+>> -		return ret;
+>> -	}
+>> +	if (IS_ERR(ref_clk))
+>> +		return dev_err_probe(dev, PTR_ERR(ref_clk),
+>> +				     "Failed to get reference
+>> clock\n");
+>>   
+>>   	ret = of_property_read_u32(dev->of_node, "drive-strength-
+>> microamp",
+>>   				   &mipi_tx->mipitx_drive);
+>> @@ -172,27 +170,20 @@ static int mtk_mipi_tx_probe(struct
+>> platform_device *pdev)
+>>   
+>>   	ret = of_property_read_string(dev->of_node, "clock-output-
+>> names",
+>>   				      &clk_init.name);
+>> -	if (ret < 0) {
+>> -		dev_err(dev, "Failed to read clock-output-names: %d\n",
+>> ret);
+>> -		return ret;
+>> -	}
+>> +	if (ret < 0)
+>> +		return dev_err_probe(dev, ret, "Failed to read clock-
+>> output-names\n");
+> Seems no need change it here. (no EPROBE_DEFER error)
 > 
-> System suspend uses pm_runtime_force_suspend(), which cheekily bypasses
-> the runpm reference counts.  This doesn't actually work so well when the
-> GPU is active.  So add a reasonable delay waiting for the GPU to become
-> idle.
-> 
-> Alternatively we could just return -EBUSY in this case, but that has the
-> disadvantage of causing system suspend to fail.
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Hello Chunfeng,
+
+pasting from kernel driver-api infrastructure guidelines:
+
+[...]Note that it is deemed acceptable to use this function for error prints during 
+probe even if the err is known to never be -EPROBE_DEFER. The benefit compared to a 
+normal dev_err() is the standardized format of the error code and the fact that the 
+error code is returned.
+
+https://www.kernel.org/doc/html/latest/driver-api/infrastructure.html
+
+Regards,
+- Angelo
+
+> Thanks
+>>   
+>>   	clk_init.ops = mipi_tx->driver_data->mipi_tx_clk_ops;
+>>   
+>>   	mipi_tx->pll_hw.init = &clk_init;
+>>   	mipi_tx->pll = devm_clk_register(dev, &mipi_tx->pll_hw);
+>> -	if (IS_ERR(mipi_tx->pll)) {
+>> -		ret = PTR_ERR(mipi_tx->pll);
+>> -		dev_err(dev, "Failed to register PLL: %d\n", ret);
+>> -		return ret;
+>> -	}
+>> +	if (IS_ERR(mipi_tx->pll))
+>> +		return dev_err_probe(dev, PTR_ERR(mipi_tx->pll),
+>> "Cannot register PLL\n");
+>>   
+>>   	phy = devm_phy_create(dev, NULL, &mtk_mipi_tx_ops);
+>> -	if (IS_ERR(phy)) {
+>> -		ret = PTR_ERR(phy);
+>> -		dev_err(dev, "Failed to create MIPI D-PHY: %d\n", ret);
+>> -		return ret;
+>> -	}
+>> +	if (IS_ERR(phy))
+>> +		return dev_err_probe(dev, PTR_ERR(phy), "Failed to
+>> create MIPI D-PHY\n");
+>> +
+>>   	phy_set_drvdata(phy, mipi_tx);
+>>   
+>>   	phy_provider = devm_of_phy_provider_register(dev,
+>> of_phy_simple_xlate);
+> 
 
