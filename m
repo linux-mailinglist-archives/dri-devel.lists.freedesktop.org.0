@@ -2,60 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEB5248850C
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Jan 2022 18:43:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA2B2488534
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Jan 2022 19:08:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D49A10E2C3;
-	Sat,  8 Jan 2022 17:43:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84C6A10F2A6;
+	Sat,  8 Jan 2022 18:08:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
- [IPv6:2607:f8b0:4864:20::1030])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E757D10E2A0;
- Sat,  8 Jan 2022 17:43:00 +0000 (UTC)
-Received: by mail-pj1-x1030.google.com with SMTP id
- l10-20020a17090a384a00b001b22190e075so16493871pjf.3; 
- Sat, 08 Jan 2022 09:43:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=5ICsCpVLEUVmCQJoR3FiShTO8fbKm/U8/ekB8Jz2QGI=;
- b=duIxRD681jGxbZtbxAjkijAXRws7Isk96YI5RuN3WdFwU9EujJxBKG23k1pSyf0pZ+
- /WS3RW3lU/vBXb/tvdlwr5E1Q7oOV+ASKijQzKHBXOlXKeYuMntlhI8Kip2ionkmF0Fm
- DrIi14tTcrOW4e4xnafjG+563wh0f+L28TF7OQnukQygOjqsz+rUZoFdNFqtjlQ3z4ks
- CodP9E7op8jf4izk5Hfb0WlffjmvbX6+ctUmBm+Q2y3fQ5xFB8bjNEypj/AcZQ4A8M9B
- bXTNnNHxgyCnDNHhHM0X/4IwgGD1mOFO3JBurQSblJrDAXg42KU13TGk/EFF0OsI1Tto
- prEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=5ICsCpVLEUVmCQJoR3FiShTO8fbKm/U8/ekB8Jz2QGI=;
- b=BhMPESdRFZtrR7+bUoxSuCbIPt35WAgu4TmFpTKChWYZ+4pz5Oer8Sl7HCT2LupOOI
- dQt4mFCCJQSd5Oh2F7i2+AnWU9NAiTa8tSapSe/Y6/CzWv3S8hn/1hZMP/mWE8q5UcXE
- NctW5thkoDX1xtmFxd8fIOx4lJ4ENibbExUfK1FcZjfjOeWoFWu446ZZ0JbtlyOXBJe0
- CqYXKMHyjE15Zq/Dzzpu/hpp9fkyxftfqDQrXfIeHcPLyTEPn0IHB+fChrEpfNEO+Flg
- dQfs7eqJ1zW5FRzEVfzdkHu8tWr5UxZNU/+I3j8TTJo775YYLr732BvJhhocxVEa22wS
- 5sbA==
-X-Gm-Message-State: AOAM533HNWSEColQJ6NpigHFl0ZzT5W4u5vK2Kw3NTV+Xn0HoasdqRQo
- Dbd2XgCQ1FXmbxgg9I/3kLQAAr3QlVE=
-X-Google-Smtp-Source: ABdhPJzekASgi4oEnbLVoWwPftexK59nXAM7GtBGPgWq3ZioqjNjB0ehb3p1uMfrNvHhTeEtAkhfcQ==
-X-Received: by 2002:a17:902:6948:b0:149:f187:e601 with SMTP id
- k8-20020a170902694800b00149f187e601mr12161547plt.81.1641663779948; 
- Sat, 08 Jan 2022 09:42:59 -0800 (PST)
-Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
- by smtp.gmail.com with ESMTPSA id
- z13sm2032943pgi.75.2022.01.08.09.42.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 08 Jan 2022 09:42:59 -0800 (PST)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/2] drm/msm/gpu: Cancel idle/boost work on suspend
-Date: Sat,  8 Jan 2022 09:42:47 -0800
-Message-Id: <20220108174249.811872-3-robdclark@gmail.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20220108174249.811872-1-robdclark@gmail.com>
-References: <20220108174249.811872-1-robdclark@gmail.com>
+Received: from ixit.cz (ixit.cz [94.230.151.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 389FE10F2A6;
+ Sat,  8 Jan 2022 18:07:59 +0000 (UTC)
+Received: from localhost.localdomain (ip-89-176-96-70.net.upcbroadband.cz
+ [89.176.96.70])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by ixit.cz (Postfix) with ESMTPSA id 78FCA2243C;
+ Sat,  8 Jan 2022 19:07:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+ t=1641665274;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=bQLa91L3QHw3kIWxZ1si8XusTJU6EeOzMwtD1FoNDhM=;
+ b=n/U+L8khXkfa1kI/jdDk3nqeIlG2K1XLnqnI7Z3EhcXTEx3vnJs3o2iUzAOb+onJq80oXZ
+ JoV25gPympDuGpIcrgEk5G/4ZjsCc6TkF44CspWUGxpXdg1RgVBEiZ6zbPkEShnyJI87SJ
+ 0wTKSIpED4wM1eqfd59HREKbOQpt670=
+From: David Heidelberg <david@ixit.cz>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>
+Subject: [PATCH v2] dt-bindings: display/msm: hdmi: split and convert to yaml
+Date: Sat,  8 Jan 2022 19:07:52 +0100
+Message-Id: <20220108180753.64912-1-david@ixit.cz>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,75 +53,477 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- freedreno@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ David Heidelberg <david@ixit.cz>, linux-phy@lists.infradead.org,
+ freedreno@lists.freedesktop.org, ~okias/devicetree@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+Convert Qualcomm HDMI binding into HDMI TX and PHY yaml bindings.
 
-With system suspend using pm_runtime_force_suspend() we can't rely on
-the pm_runtime_get_if_in_use() trick to deal with devfreq callbacks
-after (or racing with) suspend.  So flush any pending idle or boost
-work in the suspend path.
+Other changes:
+ - fixed reg-names numbering to match 0..3 instead 0,1,3,4
+ - phy part moved into phy/ directory
 
-v2: s/ret/remaining [sboyd], and switch to using active_submits count
-    to ensure we aren't racing with submit cleanup (and devfreq idle
-    work getting scheduled, etc)
-
-Signed-off-by: Rob Clark <robdclark@chromium.org>
+Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
- drivers/gpu/drm/msm/msm_gpu_devfreq.c | 21 +++++++++++++++++++--
- 1 file changed, 19 insertions(+), 2 deletions(-)
+v2:
+ - move phy into phy/
+ - added maxItems for gpios
+ - simplified pinctrl-names
+ - dropped some inconsistent quotes
+---
+ .../devicetree/bindings/display/msm/hdmi.txt  |  99 ---------
+ .../bindings/display/msm/qcom,hdmi.yaml       | 206 ++++++++++++++++++
+ .../bindings/phy/qcom,hdmi-phy.yaml           | 119 ++++++++++
+ 3 files changed, 325 insertions(+), 99 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/msm/hdmi.txt
+ create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,hdmi.yaml
+ create mode 100644 Documentation/devicetree/bindings/phy/qcom,hdmi-phy.yaml
 
-diff --git a/drivers/gpu/drm/msm/msm_gpu_devfreq.c b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-index 62405e980925..9bf319be11f6 100644
---- a/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-+++ b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-@@ -133,6 +133,18 @@ void msm_devfreq_init(struct msm_gpu *gpu)
- 			      CLOCK_MONOTONIC, HRTIMER_MODE_REL);
- }
- 
-+static void cancel_idle_work(struct msm_gpu_devfreq *df)
-+{
-+	hrtimer_cancel(&df->idle_work.timer);
-+	kthread_cancel_work_sync(&df->idle_work.work);
-+}
+diff --git a/Documentation/devicetree/bindings/display/msm/hdmi.txt b/Documentation/devicetree/bindings/display/msm/hdmi.txt
+deleted file mode 100644
+index 5f90a40da51b..000000000000
+--- a/Documentation/devicetree/bindings/display/msm/hdmi.txt
++++ /dev/null
+@@ -1,99 +0,0 @@
+-Qualcomm adreno/snapdragon hdmi output
+-
+-Required properties:
+-- compatible: one of the following
+-   * "qcom,hdmi-tx-8996"
+-   * "qcom,hdmi-tx-8994"
+-   * "qcom,hdmi-tx-8084"
+-   * "qcom,hdmi-tx-8974"
+-   * "qcom,hdmi-tx-8660"
+-   * "qcom,hdmi-tx-8960"
+-- reg: Physical base address and length of the controller's registers
+-- reg-names: "core_physical"
+-- interrupts: The interrupt signal from the hdmi block.
+-- power-domains: Should be <&mmcc MDSS_GDSC>.
+-- clocks: device clocks
+-  See ../clocks/clock-bindings.txt for details.
+-- core-vdda-supply: phandle to supply regulator
+-- hdmi-mux-supply: phandle to mux regulator
+-- phys: the phandle for the HDMI PHY device
+-- phy-names: the name of the corresponding PHY device
+-
+-Optional properties:
+-- hpd-gpios: hpd pin
+-- qcom,hdmi-tx-mux-en-gpios: hdmi mux enable pin
+-- qcom,hdmi-tx-mux-sel-gpios: hdmi mux select pin
+-- qcom,hdmi-tx-mux-lpm-gpios: hdmi mux lpm pin
+-- power-domains: reference to the power domain(s), if available.
+-- pinctrl-names: the pin control state names; should contain "default"
+-- pinctrl-0: the default pinctrl state (active)
+-- pinctrl-1: the "sleep" pinctrl state
+-
+-HDMI PHY:
+-Required properties:
+-- compatible: Could be the following
+-  * "qcom,hdmi-phy-8660"
+-  * "qcom,hdmi-phy-8960"
+-  * "qcom,hdmi-phy-8974"
+-  * "qcom,hdmi-phy-8084"
+-  * "qcom,hdmi-phy-8996"
+-- #phy-cells: Number of cells in a PHY specifier; Should be 0.
+-- reg: Physical base address and length of the registers of the PHY sub blocks.
+-- reg-names: The names of register regions. The following regions are required:
+-  * "hdmi_phy"
+-  * "hdmi_pll"
+-  For HDMI PHY on msm8996, these additional register regions are required:
+-    * "hdmi_tx_l0"
+-    * "hdmi_tx_l1"
+-    * "hdmi_tx_l3"
+-    * "hdmi_tx_l4"
+-- power-domains: Should be <&mmcc MDSS_GDSC>.
+-- clocks: device clocks
+-  See Documentation/devicetree/bindings/clock/clock-bindings.txt for details.
+-- core-vdda-supply: phandle to vdda regulator device node
+-
+-Example:
+-
+-/ {
+-	...
+-
+-	hdmi: hdmi@4a00000 {
+-		compatible = "qcom,hdmi-tx-8960";
+-		reg-names = "core_physical";
+-		reg = <0x04a00000 0x2f0>;
+-		interrupts = <GIC_SPI 79 0>;
+-		power-domains = <&mmcc MDSS_GDSC>;
+-		clock-names =
+-		    "core",
+-		    "master_iface",
+-		    "slave_iface";
+-		clocks =
+-		    <&mmcc HDMI_APP_CLK>,
+-		    <&mmcc HDMI_M_AHB_CLK>,
+-		    <&mmcc HDMI_S_AHB_CLK>;
+-		qcom,hdmi-tx-ddc-clk = <&msmgpio 70 GPIO_ACTIVE_HIGH>;
+-		qcom,hdmi-tx-ddc-data = <&msmgpio 71 GPIO_ACTIVE_HIGH>;
+-		qcom,hdmi-tx-hpd = <&msmgpio 72 GPIO_ACTIVE_HIGH>;
+-		core-vdda-supply = <&pm8921_hdmi_mvs>;
+-		hdmi-mux-supply = <&ext_3p3v>;
+-		pinctrl-names = "default", "sleep";
+-		pinctrl-0 = <&hpd_active  &ddc_active  &cec_active>;
+-		pinctrl-1 = <&hpd_suspend &ddc_suspend &cec_suspend>;
+-
+-		phys = <&hdmi_phy>;
+-		phy-names = "hdmi_phy";
+-	};
+-
+-	hdmi_phy: phy@4a00400 {
+-		compatible = "qcom,hdmi-phy-8960";
+-		reg-names = "hdmi_phy",
+-			    "hdmi_pll";
+-		reg = <0x4a00400 0x60>,
+-		      <0x4a00500 0x100>;
+-		#phy-cells = <0>;
+-		power-domains = <&mmcc MDSS_GDSC>;
+-		clock-names = "slave_iface";
+-		clocks = <&mmcc HDMI_S_AHB_CLK>;
+-		core-vdda-supply = <&pm8921_hdmi_mvs>;
+-	};
+-};
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,hdmi.yaml b/Documentation/devicetree/bindings/display/msm/qcom,hdmi.yaml
+new file mode 100644
+index 000000000000..33ebc879af93
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/msm/qcom,hdmi.yaml
+@@ -0,0 +1,206 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
 +
-+static void cancel_boost_work(struct msm_gpu_devfreq *df)
-+{
-+	hrtimer_cancel(&df->boost_work.timer);
-+	kthread_cancel_work_sync(&df->boost_work.work);
-+}
++$id: "http://devicetree.org/schemas/display/msm/qcom,hdmi.yaml#"
++$schema: "http://devicetree.org/meta-schemas/core.yaml#"
 +
- void msm_devfreq_cleanup(struct msm_gpu *gpu)
- {
- 	struct msm_gpu_devfreq *df = &gpu->devfreq;
-@@ -152,7 +164,12 @@ void msm_devfreq_resume(struct msm_gpu *gpu)
- 
- void msm_devfreq_suspend(struct msm_gpu *gpu)
- {
--	devfreq_suspend_device(gpu->devfreq.devfreq);
-+	struct msm_gpu_devfreq *df = &gpu->devfreq;
++title: Qualcomm Adreno/Snapdragon HDMI output
 +
-+	devfreq_suspend_device(df->devfreq);
++maintainers:
++  - Rob Clark <robdclark@gmail.com>
 +
-+	cancel_idle_work(df);
-+	cancel_boost_work(df);
- }
- 
- static void msm_devfreq_boost_work(struct kthread_work *work)
-@@ -196,7 +213,7 @@ void msm_devfreq_active(struct msm_gpu *gpu)
- 	/*
- 	 * Cancel any pending transition to idle frequency:
- 	 */
--	hrtimer_cancel(&df->idle_work.timer);
-+	cancel_idle_work(df);
- 
- 	idle_time = ktime_to_ms(ktime_sub(ktime_get(), df->idle_time));
- 
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: qcom,hdmi-tx-8996
++    then:
++      properties:
++        clocks:
++          minItems: 5
++          maxItems: 5
++
++        clock-names:
++          items:
++            - const: mdp_core
++            - const: iface
++            - const: core
++            - const: alt_iface
++            - const: extp
++    else:
++      properties:
++        clocks:
++          minItems: 1
++          maxItems: 5
++
++        clock-names:
++          minItems: 1
++          maxItems: 5
++
++
++properties:
++  compatible:
++    enum:
++      - qcom,hdmi-tx-8996
++      - qcom,hdmi-tx-8994
++      - qcom,hdmi-tx-8084
++      - qcom,hdmi-tx-8974
++      - qcom,hdmi-tx-8660
++      - qcom,hdmi-tx-8960
++
++  clocks: true
++
++  clock-names: true
++
++  reg:
++    minItems: 1
++    maxItems: 3
++    description: Physical base address and length of the controller's registers
++
++  reg-names:
++    minItems: 1
++    items:
++      - const: core_physical
++      - const: qfprom_physical
++      - const: hdcp_physical
++
++  interrupts:
++    maxItems: 1
++    description: The interrupt signal from the hdmi block.
++
++  power-domains:
++    description: should be <&mmcc MDSS_GDSC>
++
++  core-vdda-supply: true
++
++  core-vcc-supply: true
++
++  hdmi-mux-supply:
++    description: phandle to mux regulator
++
++  phys:
++    description: the phandle for the HDMI PHY device
++
++  phy-names:
++    description: the name of the corresponding PHY device
++
++  hpd-gpios:
++    maxItems: 1
++    description: hpd pin
++
++  qcom,hdmi-tx-ddc-clk-gpios:
++    maxItems: 1
++    description: HDMI DDC clock
++
++  qcom,hdmi-tx-ddc-data-gpios:
++    maxItems: 1
++    description: HDMI DDC data
++
++  qcom,hdmi-tx-mux-en-gpios:
++    maxItems: 1
++    description: HDMI mux enable pin
++
++  qcom,hdmi-tx-mux-sel-gpios:
++    maxItems: 1
++    description: HDMI mux select pin
++
++  qcom,hdmi-tx-mux-lpm-gpios:
++    maxItems: 1
++    description: HDMI mux lpm pin
++
++  pinctrl-0: true
++  pinctrl-1: true
++
++  pinctrl-names:
++    minItems: 1
++    items:
++      - const: default
++      - const: sleep
++
++  '#phy-cells':
++    const: 0
++
++  '#sound-dai-cells':
++    const: 1
++
++  ports:
++    type: object
++    $ref: /schemas/graph.yaml#/properties/ports
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description: |
++          Input endpoints of the controller.
++        properties:
++          endpoint:
++            $ref: /schemas/media/video-interfaces.yaml#
++            unevaluatedProperties: false
++            properties:
++              data-lanes:
++                maxItems: 4
++                minItems: 4
++                items:
++                  enum: [0, 1, 2, 3]
++
++      port@1:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description: |
++          Output endpoints of the controller.
++        properties:
++          endpoint:
++            $ref: /schemas/media/video-interfaces.yaml#
++            unevaluatedProperties: false
++            properties:
++              data-lanes:
++                maxItems: 4
++                minItems: 4
++                items:
++                  enum: [0, 1, 2, 3]
++
++    required:
++      - port@0
++
++required:
++  - compatible
++  - clocks
++  - clock-names
++  - reg
++  - reg-names
++  - interrupts
++  - phys
++  - phy-names
++
++additionalProperties: false
++
++examples:
++  - |
++    hdmi: hdmi@4a00000 {
++      compatible = "qcom,hdmi-tx-8960";
++      reg-names = "core_physical";
++      reg = <0x04a00000 0x2f0>;
++      interrupts = <0 79 0>;
++      power-domains = <&mmcc 1>;
++      clock-names =
++          "core",
++          "master_iface",
++          "slave_iface";
++      clocks =
++          <&clk 61>,
++          <&clk 72>,
++          <&clk 98>;
++      qcom,hdmi-tx-ddc-clk-gpios = <&msmgpio 70 0>;
++      qcom,hdmi-tx-ddc-data-gpios = <&msmgpio 71 0>;
++      hpd-gpios = <&msmgpio 72 0>;
++      core-vdda-supply = <&pm8921_hdmi_mvs>;
++      hdmi-mux-supply = <&ext_3p3v>;
++      pinctrl-names = "default", "sleep";
++      pinctrl-0 = <&hpd_active  &ddc_active  &cec_active>;
++      pinctrl-1 = <&hpd_suspend &ddc_suspend &cec_suspend>;
++
++      phys = <&hdmi_phy>;
++      phy-names = "hdmi_phy";
++    };
+diff --git a/Documentation/devicetree/bindings/phy/qcom,hdmi-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,hdmi-phy.yaml
+new file mode 100644
+index 000000000000..be08fc767435
+--- /dev/null
++++ b/Documentation/devicetree/bindings/phy/qcom,hdmi-phy.yaml
+@@ -0,0 +1,119 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++
++$id: "http://devicetree.org/schemas/display/msm/qcom,hdmi-phy.yaml#"
++$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++
++title: Qualcomm Adreno/Snapdragon HDMI phy
++
++maintainers:
++  - Rob Clark <robdclark@gmail.com>
++
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: qcom,hdmi-phy-8996
++    then:
++      properties:
++        reg:
++          minItems: 6
++          maxItems: 6
++
++        reg-names:
++          items:
++            - const: hdmi_pll
++            - const: hdmi_tx_l0
++            - const: hdmi_tx_l1
++            - const: hdmi_tx_l2
++            - const: hdmi_tx_l3
++            - const: hdmi_phy
++
++    else:
++      properties:
++        reg:
++          minItems: 2
++          maxItems: 2
++
++        reg-names:
++          items:
++            - const: hdmi_phy
++            - const: hdmi_pll
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: qcom,hdmi-phy-8960
++    then:
++      properties:
++        clock-names:
++          const: slave_iface
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: qcom,hdmi-phy-8996
++    then:
++      properties:
++        clock-names:
++          items:
++            - const: iface
++            - const: ref
++
++properties:
++  compatible:
++    contains:
++      enum:
++        - qcom,hdmi-phy-8084
++        - qcom,hdmi-phy-8660
++        - qcom,hdmi-phy-8960
++        - qcom,hdmi-phy-8974
++        - qcom,hdmi-phy-8994
++        - qcom,hdmi-phy-8996
++
++  reg: true
++
++  reg-names: true
++
++  clocks: true
++
++  clock-names: true
++
++  power-domains:
++    maxItems: 1
++
++  core-vdda-supply: true
++
++  vcca-supply: true
++
++  vddio-supply: true
++
++  '#phy-cells':
++    const: 0
++
++required:
++  - compatible
++  - clocks
++  - reg
++  - reg-names
++  - '#phy-cells'
++
++additionalProperties: false
++
++examples:
++  - |
++    hdmi_phy: phy@4a00400 {
++      compatible = "qcom,hdmi-phy-8960";
++      reg-names = "hdmi_phy",
++                  "hdmi_pll";
++      reg = <0x4a00400 0x60>,
++            <0x4a00500 0x100>;
++      #phy-cells = <0>;
++      power-domains = <&mmcc 1>;
++      clock-names = "slave_iface";
++      clocks = <&clk 21>;
++      core-vdda-supply = <&pm8921_hdmi_mvs>;
++    };
 -- 
-2.33.1
+2.34.1
 
