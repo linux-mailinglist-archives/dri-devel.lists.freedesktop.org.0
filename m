@@ -1,57 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9588488509
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Jan 2022 18:43:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEB5248850C
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Jan 2022 18:43:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F30E10E275;
-	Sat,  8 Jan 2022 17:43:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D49A10E2C3;
+	Sat,  8 Jan 2022 17:43:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDF1A10E227;
- Sat,  8 Jan 2022 17:42:58 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id ie13so8906822pjb.1;
- Sat, 08 Jan 2022 09:42:58 -0800 (PST)
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
+ [IPv6:2607:f8b0:4864:20::1030])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E757D10E2A0;
+ Sat,  8 Jan 2022 17:43:00 +0000 (UTC)
+Received: by mail-pj1-x1030.google.com with SMTP id
+ l10-20020a17090a384a00b001b22190e075so16493871pjf.3; 
+ Sat, 08 Jan 2022 09:43:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=veNRWhd9+NGqZRRMDLcIrsjMGAnTxrdP3S7rk+ZlgfU=;
- b=h+sGy/eTysAmDiqKOhe0GzUbOZkMkFUQdPzmwwbVGWGd7IqEJJ+DBFYw8M8ry23KTC
- ifE/0GgTUu9s7EzyzssiWvP4nkYXNqZK9NzYWlbgHrpgl/OPDkjCr+YcY73KbV3Ju6if
- +4eSMiCu6aOjsSk25W2xhuCAGAyKfyNQi3O6t20tFLmN0t+wFBwVR1LknFoxE4FsSxEr
- EWmYJz8o+2gTZpuJ1ZjPbckefManaHQuxl0d2KG+WbUkYvF01+XoSXd1dTAe1/o3skcY
- blYcHKpNJgwIwIW4I59VJ3TfZ0rcGEN+GTGlGVVCxlk/QIZnLLVHUYQKP6NTSTfj9Dse
- fk9A==
+ bh=5ICsCpVLEUVmCQJoR3FiShTO8fbKm/U8/ekB8Jz2QGI=;
+ b=duIxRD681jGxbZtbxAjkijAXRws7Isk96YI5RuN3WdFwU9EujJxBKG23k1pSyf0pZ+
+ /WS3RW3lU/vBXb/tvdlwr5E1Q7oOV+ASKijQzKHBXOlXKeYuMntlhI8Kip2ionkmF0Fm
+ DrIi14tTcrOW4e4xnafjG+563wh0f+L28TF7OQnukQygOjqsz+rUZoFdNFqtjlQ3z4ks
+ CodP9E7op8jf4izk5Hfb0WlffjmvbX6+ctUmBm+Q2y3fQ5xFB8bjNEypj/AcZQ4A8M9B
+ bXTNnNHxgyCnDNHhHM0X/4IwgGD1mOFO3JBurQSblJrDAXg42KU13TGk/EFF0OsI1Tto
+ prEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=veNRWhd9+NGqZRRMDLcIrsjMGAnTxrdP3S7rk+ZlgfU=;
- b=p3WLOZIBcwfAaa9x3asSv7bXOj+dgcJBLM5/6UDzVxbG77suhcAaOoRF5UOUmZHZAx
- 841j+YAQGagm4f2rJvd/1C0Fxq1+cB+Kgwc21HSfZiORJ5WEnqJSBEVqMYuyCDhc6mU6
- x3uEaI7wiGe8xohXGRM9TjqS5Gl2YISR1HtYl/+Bhd6rgEZT1knNfo67CTIhTNy2I2s4
- LALGAR17gl5vaqt9AcsvZx+lzs2/Q5G/5uOtjAR5s+3GtJI6nf+JqwiY4K4Nd1Pw6yRL
- FTqfc5+wkfItV1+tI0VzWHXNbxBGXCjld6lE1+z7V/ZvTAT/Fd8FAKLQMnjC2KR8Nw6Z
- N4Xg==
-X-Gm-Message-State: AOAM5315a6tqzhZRRMCj25BLmqYkx7JhLx9KyG6QnDGJwIxskL4oHwE/
- CulGk90P0s/YpgzOe58pEQmixKW56Xw=
-X-Google-Smtp-Source: ABdhPJzLG6YcdlMT6/5DHXdk+PAdEVn0gjWS5r+DP+b7NI/BVtWCJ+uV9mI/oAsyoJtmEeYVp4czKw==
-X-Received: by 2002:a17:90b:3b4d:: with SMTP id
- ot13mr21694800pjb.127.1641663777822; 
- Sat, 08 Jan 2022 09:42:57 -0800 (PST)
+ bh=5ICsCpVLEUVmCQJoR3FiShTO8fbKm/U8/ekB8Jz2QGI=;
+ b=BhMPESdRFZtrR7+bUoxSuCbIPt35WAgu4TmFpTKChWYZ+4pz5Oer8Sl7HCT2LupOOI
+ dQt4mFCCJQSd5Oh2F7i2+AnWU9NAiTa8tSapSe/Y6/CzWv3S8hn/1hZMP/mWE8q5UcXE
+ NctW5thkoDX1xtmFxd8fIOx4lJ4ENibbExUfK1FcZjfjOeWoFWu446ZZ0JbtlyOXBJe0
+ CqYXKMHyjE15Zq/Dzzpu/hpp9fkyxftfqDQrXfIeHcPLyTEPn0IHB+fChrEpfNEO+Flg
+ dQfs7eqJ1zW5FRzEVfzdkHu8tWr5UxZNU/+I3j8TTJo775YYLr732BvJhhocxVEa22wS
+ 5sbA==
+X-Gm-Message-State: AOAM533HNWSEColQJ6NpigHFl0ZzT5W4u5vK2Kw3NTV+Xn0HoasdqRQo
+ Dbd2XgCQ1FXmbxgg9I/3kLQAAr3QlVE=
+X-Google-Smtp-Source: ABdhPJzekASgi4oEnbLVoWwPftexK59nXAM7GtBGPgWq3ZioqjNjB0ehb3p1uMfrNvHhTeEtAkhfcQ==
+X-Received: by 2002:a17:902:6948:b0:149:f187:e601 with SMTP id
+ k8-20020a170902694800b00149f187e601mr12161547plt.81.1641663779948; 
+ Sat, 08 Jan 2022 09:42:59 -0800 (PST)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- y129sm2510964pfy.164.2022.01.08.09.42.56
+ z13sm2032943pgi.75.2022.01.08.09.42.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 08 Jan 2022 09:42:56 -0800 (PST)
+ Sat, 08 Jan 2022 09:42:59 -0800 (PST)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 1/2] drm/msm/gpu: Wait for idle before suspending
-Date: Sat,  8 Jan 2022 09:42:46 -0800
-Message-Id: <20220108174249.811872-2-robdclark@gmail.com>
+Subject: [PATCH v2 2/2] drm/msm/gpu: Cancel idle/boost work on suspend
+Date: Sat,  8 Jan 2022 09:42:47 -0800
+Message-Id: <20220108174249.811872-3-robdclark@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220108174249.811872-1-robdclark@gmail.com>
 References: <20220108174249.811872-1-robdclark@gmail.com>
@@ -69,102 +70,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Jonathan Marek <jonathan@marek.ca>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Vladimir Lypak <vladimir.lypak@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
- Jordan Crouse <jordan@cosmicpenguin.net>, freedreno@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-System suspend uses pm_runtime_force_suspend(), which cheekily bypasses
-the runpm reference counts.  This doesn't actually work so well when the
-GPU is active.  So add a reasonable delay waiting for the GPU to become
-idle.
+With system suspend using pm_runtime_force_suspend() we can't rely on
+the pm_runtime_get_if_in_use() trick to deal with devfreq callbacks
+after (or racing with) suspend.  So flush any pending idle or boost
+work in the suspend path.
 
-Alternatively we could just return -EBUSY in this case, but that has the
-disadvantage of causing system suspend to fail.
+v2: s/ret/remaining [sboyd], and switch to using active_submits count
+    to ensure we aren't racing with submit cleanup (and devfreq idle
+    work getting scheduled, etc)
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/msm/adreno/adreno_device.c | 18 ++++++++++++++++++
- drivers/gpu/drm/msm/msm_gpu.c              |  3 +++
- drivers/gpu/drm/msm/msm_gpu.h              |  3 +++
- 3 files changed, 24 insertions(+)
+ drivers/gpu/drm/msm/msm_gpu_devfreq.c | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-index 93005839b5da..a502ffafb739 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-@@ -608,9 +608,27 @@ static int adreno_resume(struct device *dev)
- 	return gpu->funcs->pm_resume(gpu);
+diff --git a/drivers/gpu/drm/msm/msm_gpu_devfreq.c b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
+index 62405e980925..9bf319be11f6 100644
+--- a/drivers/gpu/drm/msm/msm_gpu_devfreq.c
++++ b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
+@@ -133,6 +133,18 @@ void msm_devfreq_init(struct msm_gpu *gpu)
+ 			      CLOCK_MONOTONIC, HRTIMER_MODE_REL);
  }
  
-+static int active_submits(struct msm_gpu *gpu)
++static void cancel_idle_work(struct msm_gpu_devfreq *df)
 +{
-+	int active_submits;
-+	mutex_lock(&gpu->active_lock);
-+	active_submits = gpu->active_submits;
-+	mutex_unlock(&gpu->active_lock);
-+	return active_submits;
++	hrtimer_cancel(&df->idle_work.timer);
++	kthread_cancel_work_sync(&df->idle_work.work);
 +}
 +
- static int adreno_suspend(struct device *dev)
++static void cancel_boost_work(struct msm_gpu_devfreq *df)
++{
++	hrtimer_cancel(&df->boost_work.timer);
++	kthread_cancel_work_sync(&df->boost_work.work);
++}
++
+ void msm_devfreq_cleanup(struct msm_gpu *gpu)
  {
- 	struct msm_gpu *gpu = dev_to_gpu(dev);
-+	int remaining;
-+
-+	remaining = wait_event_timeout(gpu->retire_event,
-+				       active_submits(gpu) > 0,
-+				       msecs_to_jiffies(1000));
-+	if (remaining == 0) {
-+		dev_err(dev, "Timeout waiting for GPU to suspend\n");
-+		return -EBUSY;
-+	}
+ 	struct msm_gpu_devfreq *df = &gpu->devfreq;
+@@ -152,7 +164,12 @@ void msm_devfreq_resume(struct msm_gpu *gpu)
  
- 	return gpu->funcs->pm_suspend(gpu);
- }
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index 0f78c2615272..2c1049c0ea14 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -703,6 +703,8 @@ static void retire_submits(struct msm_gpu *gpu)
- 			}
- 		}
- 	}
+ void msm_devfreq_suspend(struct msm_gpu *gpu)
+ {
+-	devfreq_suspend_device(gpu->devfreq.devfreq);
++	struct msm_gpu_devfreq *df = &gpu->devfreq;
 +
-+	wake_up_all(&gpu->retire_event);
++	devfreq_suspend_device(df->devfreq);
++
++	cancel_idle_work(df);
++	cancel_boost_work(df);
  }
  
- static void retire_worker(struct kthread_work *work)
-@@ -848,6 +850,7 @@ int msm_gpu_init(struct drm_device *drm, struct platform_device *pdev,
- 	INIT_LIST_HEAD(&gpu->active_list);
- 	mutex_init(&gpu->active_lock);
- 	mutex_init(&gpu->lock);
-+	init_waitqueue_head(&gpu->retire_event);
- 	kthread_init_work(&gpu->retire_work, retire_worker);
- 	kthread_init_work(&gpu->recover_work, recover_worker);
- 	kthread_init_work(&gpu->fault_work, fault_worker);
-diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index 445c6bfd4b6b..92aa1e9196c6 100644
---- a/drivers/gpu/drm/msm/msm_gpu.h
-+++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -230,6 +230,9 @@ struct msm_gpu {
- 	/* work for handling GPU recovery: */
- 	struct kthread_work recover_work;
+ static void msm_devfreq_boost_work(struct kthread_work *work)
+@@ -196,7 +213,7 @@ void msm_devfreq_active(struct msm_gpu *gpu)
+ 	/*
+ 	 * Cancel any pending transition to idle frequency:
+ 	 */
+-	hrtimer_cancel(&df->idle_work.timer);
++	cancel_idle_work(df);
  
-+	/** retire_event: notified when submits are retired: */
-+	wait_queue_head_t retire_event;
-+
- 	/* work for handling active-list retiring: */
- 	struct kthread_work retire_work;
+ 	idle_time = ktime_to_ms(ktime_sub(ktime_get(), df->idle_time));
  
 -- 
 2.33.1
