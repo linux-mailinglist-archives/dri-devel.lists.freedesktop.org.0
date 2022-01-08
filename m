@@ -1,60 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93EB448853F
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Jan 2022 19:09:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67E3D488581
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Jan 2022 20:01:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC6CB10F2B7;
-	Sat,  8 Jan 2022 18:09:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB00910E796;
+	Sat,  8 Jan 2022 19:01:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53F5A10F2B2;
- Sat,  8 Jan 2022 18:09:30 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id
- lr15-20020a17090b4b8f00b001b19671cbebso10921629pjb.1; 
- Sat, 08 Jan 2022 10:09:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=NpENl1wlwqcfbBT73rctGeiDbGEPDlZ8miqyZA+HW/A=;
- b=Dadc/cXPO0Uubd/3MkatQs1U4WERUA3XCupDgrJmGVsJIwvpDXnqEeetn63+ka7T6Z
- QJYYtuWQ5Gyrir8ulQHyjWOX0EnHqHvClV0uivmDk7DPOB7iZRL6wlcZIglDpjtOJ1su
- +W99NY5LlfFCa7TGy62ZQFZTX88A0anOL/loyhDqYjjitMGy92fcAVjzSMnBVdlt7yDE
- 94MyLMx/eNiHmh8ipu6YCC6PkDl1WMt9c9uXODNhAR5deTV37UvygLEdopJp7mibuvN6
- knAv7q0CKzIOYCT7fetCaRQb7VFAyZT45H84lTcSs7ZqxIxoj3u2UdaLqu3DiBYylpPp
- iPmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=NpENl1wlwqcfbBT73rctGeiDbGEPDlZ8miqyZA+HW/A=;
- b=v8m1bCe6MSTkQVdmofVW3V0nJn5uYDOvN91V7qIcNniz5lZIyitJnWEU6nk4Qs5+0B
- sGXvK8eJq05/tRBO988F0OmO5CRWZdt7TzKrFfvbTgkmVEFUoR0eXvXcSP6bh2AA3x+H
- 9nC67C7Xw8/2OK+6wUYe+nLogfTPXVUYd4IQwRZ7taTQH6x1Uaq+LENCPTjmtiOC1/l6
- wEVNsdbQYglWE7xKKmlE3LGkEive83eREZhPgSgaUzaLpuiew2H1pC60VJL4AVvj3jy8
- eCXp/yIhOnSpfwlF66XD2d42psOPeGzZKngNEYVf31efqCfew6oxhL0OFFvESnJstadm
- RAlg==
-X-Gm-Message-State: AOAM532NKnqTmW0RBLp3hLEszOlTWrFv6ApNkvB5QZhAnCWZchPYJjFP
- SXfBchbX4NJ3H0TtYPf6Oou5EPJqfxs=
-X-Google-Smtp-Source: ABdhPJx4ZDShbND64UCj+uvq1tWaXe/Sn2QWDwmlo3FJc5MoNWsmz0nVsKR3UQiVl1O+Xbl8i6SO9g==
-X-Received: by 2002:a17:902:e749:b0:148:f083:3905 with SMTP id
- p9-20020a170902e74900b00148f0833905mr68561286plf.136.1641665369257; 
- Sat, 08 Jan 2022 10:09:29 -0800 (PST)
-Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
- by smtp.gmail.com with ESMTPSA id ng7sm2564668pjb.41.2022.01.08.10.09.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 08 Jan 2022 10:09:28 -0800 (PST)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 2/2] drm/msm/gpu: Cancel idle/boost work on suspend
-Date: Sat,  8 Jan 2022 10:09:11 -0800
-Message-Id: <20220108180913.814448-3-robdclark@gmail.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20220108180913.814448-1-robdclark@gmail.com>
-References: <20220108180913.814448-1-robdclark@gmail.com>
+Received: from ixit.cz (ixit.cz [94.230.151.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93EDE10E720;
+ Sat,  8 Jan 2022 19:01:10 +0000 (UTC)
+Received: from localhost.localdomain (ip-89-176-96-70.net.upcbroadband.cz
+ [89.176.96.70])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by ixit.cz (Postfix) with ESMTPSA id 5FDB62243C;
+ Sat,  8 Jan 2022 20:01:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+ t=1641668466;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9HUzwDRe1r2DVCA38//tQZ6zSZQCrHF55zHXRlJQUxA=;
+ b=ZvmE0iSrUjpnmfhvRwzAYuAyGcCXGSLVobv1S4Gmba9Y4lz9tvqiJHBtROgoCkEWtWqD0o
+ 291EkBcQbnPZGe5+AfQW7S0tQBRlXqm7HSik/EDTg7BxReqqX88ICuo9mukvgeG4hW+SAT
+ 9RlAtl/1d/Gih33Vx2TnWqkqamEhENM=
+From: David Heidelberg <david@ixit.cz>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krishna Manikandan <mkrishn@codeaurora.org>
+Subject: [WIP PATCH] dt-bindings: display: msm: dsi-controller-main:
+ distinguish DSI versions
+Date: Sat,  8 Jan 2022 20:00:58 +0100
+Message-Id: <20220108190059.72583-1-david@ixit.cz>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,71 +52,366 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- freedreno@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ David Heidelberg <david@ixit.cz>, freedreno@lists.freedesktop.org,
+ ~okias/devicetree@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+Update documentation compatible and checking to comprehend
+both V2 and 6G version bindings.
 
-With system suspend using pm_runtime_force_suspend() we can't rely on
-the pm_runtime_get_if_in_use() trick to deal with devfreq callbacks
-after (or racing with) suspend.  So flush any pending idle or boost
-work in the suspend path.
+Following this commit, there will be update for
+compatible string in chipsets dtsi.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
+Additional changes:
+ - switch to unevaluatedProperties
+
+Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
- drivers/gpu/drm/msm/msm_gpu_devfreq.c | 21 +++++++++++++++++++--
- 1 file changed, 19 insertions(+), 2 deletions(-)
+Rob, I know you mentioned using rather chipset names, but since
+meanwhile I coded this, I'll let you decide if should make sense to
+change it or keep it this way.
 
-diff --git a/drivers/gpu/drm/msm/msm_gpu_devfreq.c b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-index 62405e980925..9bf319be11f6 100644
---- a/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-+++ b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-@@ -133,6 +133,18 @@ void msm_devfreq_init(struct msm_gpu *gpu)
- 			      CLOCK_MONOTONIC, HRTIMER_MODE_REL);
- }
+ .../display/msm/dsi-controller-main.yaml      | 271 +++++++++++++++---
+ 1 file changed, 230 insertions(+), 41 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+index 35426fde8610..8eb41952c2a7 100644
+--- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+@@ -11,11 +11,227 @@ maintainers:
  
-+static void cancel_idle_work(struct msm_gpu_devfreq *df)
-+{
-+	hrtimer_cancel(&df->idle_work.timer);
-+	kthread_cancel_work_sync(&df->idle_work.work);
-+}
+ allOf:
+   - $ref: "../dsi-controller.yaml#"
++  # V2 and 6G definition:
++  - if:
++      properties:
++        compatible:
++          contains:
++            pattern: '^qcom,dsi-ctrl-v2-[a-z0-9]+$'
++    then:
++      properties:
++        clocks:
++          minItems: 7
++          maxItems: 7
 +
-+static void cancel_boost_work(struct msm_gpu_devfreq *df)
-+{
-+	hrtimer_cancel(&df->boost_work.timer);
-+	kthread_cancel_work_sync(&df->boost_work.work);
-+}
++        clock-names:
++          items:
++            - const: iface  # from dsi_v2_bus_clk_names
++            - const: bus
++            - const: core_mmss
++            - const: src  # from dsi_clk_init_v2
++            - const: byte  # from dsi_clk_init
++            - const: pixel
++            - const: core
 +
- void msm_devfreq_cleanup(struct msm_gpu *gpu)
- {
- 	struct msm_gpu_devfreq *df = &gpu->devfreq;
-@@ -152,7 +164,12 @@ void msm_devfreq_resume(struct msm_gpu *gpu)
- 
- void msm_devfreq_suspend(struct msm_gpu *gpu)
- {
--	devfreq_suspend_device(gpu->devfreq.devfreq);
-+	struct msm_gpu_devfreq *df = &gpu->devfreq;
++        assigned-clocks:
++          minItems: 4
++          maxItems: 4
++          description: >
++            Parents of "byte", "esc", "src" and "pixel" for the given platform.
 +
-+	devfreq_suspend_device(df->devfreq);
++        assigned-clock-parents:
++          minItems: 4
++          maxItems: 4
++          description: >
++            The Byte, Escape, Source and Pixel clock PLL outputs provided by a DSI PHY block.
 +
-+	cancel_idle_work(df);
-+	cancel_boost_work(df);
- }
++        syscon-sfpb:
++          description: A phandle to mmss_sfpb syscon node.
++          $ref: "/schemas/types.yaml#/definitions/phandle"
++
++        avdd-supply:
++          description: 3.0 V supply
++
++        vdda-supply:
++          description: 1.2 V supply
++
++        vddio-supply:
++          description: 1.8 V supply
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            pattern: '^qcom,dsi-ctrl-6g-v[0-9.]+$'
++    then:
++      properties:
++        clocks:
++          items:
++            - description: Display byte clock
++            - description: Display byte interface clock
++            - description: Display pixel clock
++            - description: Display escape clock
++            - description: Display AHB clock
++            - description: Display AXI clock
++
++        clock-names:
++          items:
++            - const: byte
++            - const: byte_intf
++            - const: pixel
++            - const: core
++            - const: iface
++            - const: bus
++
++        assigned-clocks:
++          minItems: 2
++          maxItems: 2
++          description: >
++            Parents of "byte" and "pixel" for the given platform.
++
++        assigned-clock-parents:
++          minItems: 2
++          maxItems: 2
++          description: >
++            The Byte and Pixel clock PLL outputs provided by a DSI PHY block.
++
++      required:
++        - power-domains
++        - operating-points-v2
++
++  # Specific 6G revisions:
++  - if:
++      properties:
++        compatible:
++          contains:
++            pattern: '^qcom,dsi-ctrl-6g-v1.[0-2].[0-9.]+$'
++    then:
++      properties:
++        vdd-supply:
++          description: 3.0 V supply
++
++        vdda-supply:
++          description: 1.2 V supply
++
++        vddio-supply:
++          description: 1.8 V supply
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: qcom,dsi-ctrl-6g-v1.3.0
++    then:
++      properties:
++        vcca-supply:
++          description: 1.0 V supply
++
++        vdd-supply:
++          description: 1.8 V supply
++
++        vdda-supply:
++          description: 1.25 V supply
++
++        vddio-supply:
++          description: 1.8 V supply
++
++      patternProperties:
++        '^(lib_reg|ibb_reg)-supply$': true
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: qcom,dsi-ctrl-6g-v1.3.1
++    then:
++      properties:
++        vdda-supply:
++          description: 1.2 V supply
++
++        vddio-supply:
++          description: 1.8 V supply
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: qcom,dsi-ctrl-6g-v1.4.1
++    then:
++      properties:
++        vcca-supply:
++          description: 0.925 V supply
++
++        vdda-supply:
++          description: 1.25 V supply
++
++        vddio-supply:
++          description: 1.8 V supply
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: qcom,dsi-ctrl-6g-v1.4.2
++    then:
++      properties:
++        vdda-supply:
++          description: 1.2 V supply
++
++        vddio-supply: true
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: qcom,dsi-ctrl-6g-v2.2.0
++    then:
++      properties:
++        vdd-supply: true
++
++        vdda-supply:
++          description: 1.2 V supply
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - qcom,dsi-ctrl-6g-v2.1.0
++              - qcom,dsi-ctrl-6g-v2.2.1
++              - qcom,dsi-ctrl-6g-v2.3.0
++              - qcom,dsi-ctrl-6g-v2.4.0
++              - qcom,dsi-ctrl-6g-v2.4.1
++              - qcom,dsi-ctrl-6g-v2.5.0
++    then:
++      properties:
++        vdda-supply:
++          description: 1.2 V supply
  
- static void msm_devfreq_boost_work(struct kthread_work *work)
-@@ -196,7 +213,7 @@ void msm_devfreq_active(struct msm_gpu *gpu)
- 	/*
- 	 * Cancel any pending transition to idle frequency:
- 	 */
--	hrtimer_cancel(&df->idle_work.timer);
-+	cancel_idle_work(df);
+ properties:
+   compatible:
+-    items:
++    oneOf:
++      - items:
++          - enum:
++              - qcom,dsi-ctrl-v2-apq8064
++              - qcom,dsi-ctrl-6g-v1.0.0
++              - qcom,dsi-ctrl-6g-v1.1.0
++              - qcom,dsi-ctrl-6g-v1.1.1
++              - qcom,dsi-ctrl-6g-v1.2.0
++              - qcom,dsi-ctrl-6g-v1.3.0
++              - qcom,dsi-ctrl-6g-v1.3.1
++              - qcom,dsi-ctrl-6g-v1.4.1
++              - qcom,dsi-ctrl-6g-v1.4.2
++              - qcom,dsi-ctrl-6g-v2.1.0
++              - qcom,dsi-ctrl-6g-v2.2.0
++              - qcom,dsi-ctrl-6g-v2.2.1
++              - qcom,dsi-ctrl-6g-v2.3.0
++              - qcom,dsi-ctrl-6g-v2.4.0
++              - qcom,dsi-ctrl-6g-v2.4.1
++              - qcom,dsi-ctrl-6g-v2.5.0
++          - const: qcom,mdss-dsi-ctrl
++
+       - const: qcom,mdss-dsi-ctrl
++        deprecated: true
  
- 	idle_time = ktime_to_ms(ktime_sub(ktime_get(), df->idle_time));
+   reg:
+     maxItems: 1
+@@ -26,23 +242,13 @@ properties:
+   interrupts:
+     maxItems: 1
  
+-  clocks:
+-    items:
+-      - description: Display byte clock
+-      - description: Display byte interface clock
+-      - description: Display pixel clock
+-      - description: Display escape clock
+-      - description: Display AHB clock
+-      - description: Display AXI clock
+-
+-  clock-names:
+-    items:
+-      - const: byte
+-      - const: byte_intf
+-      - const: pixel
+-      - const: core
+-      - const: iface
+-      - const: bus
++  clocks: true
++
++  clock-names: true
++
++  assigned-clocks: true
++
++  assigned-clock-parents: true
+ 
+   phys:
+     maxItems: 1
+@@ -54,28 +260,12 @@ properties:
+ 
+   "#size-cells": true
+ 
+-  syscon-sfpb:
+-    description: A phandle to mmss_sfpb syscon node (only for DSIv2).
+-    $ref: "/schemas/types.yaml#/definitions/phandle"
+-
+   qcom,dual-dsi-mode:
+     type: boolean
+-    description: |
++    description: >
+       Indicates if the DSI controller is driving a panel which needs
+       2 DSI links.
+ 
+-  assigned-clocks:
+-    minItems: 2
+-    maxItems: 2
+-    description: |
+-      Parents of "byte" and "pixel" for the given platform.
+-
+-  assigned-clock-parents:
+-    minItems: 2
+-    maxItems: 2
+-    description: |
+-      The Byte clock and Pixel clock PLL outputs provided by a DSI PHY block.
+-
+   power-domains:
+     maxItems: 1
+ 
+@@ -102,7 +292,7 @@ properties:
+                 maxItems: 4
+                 minItems: 4
+                 items:
+-                  enum: [ 0, 1, 2, 3 ]
++                  enum: [0, 1, 2, 3]
+ 
+       port@1:
+         $ref: "/schemas/graph.yaml#/$defs/port-base"
+@@ -118,7 +308,7 @@ properties:
+                 maxItems: 4
+                 minItems: 4
+                 items:
+-                  enum: [ 0, 1, 2, 3 ]
++                  enum: [0, 1, 2, 3]
+ 
+     required:
+       - port@0
+@@ -135,11 +325,9 @@ required:
+   - phy-names
+   - assigned-clocks
+   - assigned-clock-parents
+-  - power-domains
+-  - operating-points-v2
+   - ports
+ 
+-additionalProperties: false
++unevaluatedProperties: false
+ 
+ examples:
+   - |
+@@ -175,7 +363,8 @@ examples:
+            phys = <&dsi0_phy>;
+            phy-names = "dsi";
+ 
+-           assigned-clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK_SRC>, <&dispcc DISP_CC_MDSS_PCLK0_CLK_SRC>;
++           assigned-clocks = <&dispcc DISP_CC_MDSS_BYTE0_CLK_SRC>,
++                             <&dispcc DISP_CC_MDSS_PCLK0_CLK_SRC>;
+            assigned-clock-parents = <&dsi_phy 0>, <&dsi_phy 1>;
+ 
+            power-domains = <&rpmhpd SC7180_CX>;
 -- 
-2.33.1
+2.34.1
 
