@@ -1,55 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9776B4889F0
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Jan 2022 15:54:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6964B488A9C
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Jan 2022 17:37:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02D3488CBF;
-	Sun,  9 Jan 2022 14:54:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8BA910F1A5;
+	Sun,  9 Jan 2022 16:37:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A47110E281;
- Sun,  9 Jan 2022 14:54:32 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id u25so43374105edf.1;
- Sun, 09 Jan 2022 06:54:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=coLz9xd+0dZhkayM7ELgbsAyvJ6HGW23G1ay1k1gans=;
- b=dxIBTSTJ4L7k/5IjxfD5yHhWulbmoUf8KeEOv7EfMbz8RqvvHb+vBkEqSW/+Jy4b/0
- 0N52X8opTTILbLajvaFbCWpySV6AMqJx6V/+iqnY5Dq1CBrZCAtJLo2MQ28K6jEvPCrz
- /You0NG+tw0Agb632fbx/PXaCuJ78H9kK9derewxed2Q0g+NwMLJgE0Xsg+8QXRlo13Q
- DR2T6LqsLO9XY643VBoquTgH6f0SkT4DlAqP6mpzPjOstBaUrEW7mxJhW+0nrwy2BE+R
- BTudFKg+tvA5WmzZ48jdJuHTMK6TeobmuJ6uicVgyVP1YYTX1e1fMvnc/9HTMD6RQcqD
- Lpxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=coLz9xd+0dZhkayM7ELgbsAyvJ6HGW23G1ay1k1gans=;
- b=JBzxl2H1qP8QFX3Wjqb/MP7x1CHo+Qmum65tYZ/OsWyQpoyp3mfzBbG1gMQqUbd7ZF
- sx4JKwDMWL8VM3RbJS7a4Iz7BSDHe+SmvATQ7GabUqp1oK2eByecgEFdOAPLqJCdPYI4
- tn0zvTbm+vVJlY+r6h3zkqjSXXaMs/ppV4+HDBN7HdhuhBYNYDvo/Ve0QECjCmCuUPFe
- of5dflr63LVdDykSG4+2NIfoBx/67bC5k1J8x3JWC/dtKi5ksb7GEzivNYpnutg3a36C
- XWUgllPGZWxUQbQNfGFRZF3kyrgoJLm4LYV5auqZdhEHkSfSFNa+O4h3xA6DsYBJxmBB
- 05kQ==
-X-Gm-Message-State: AOAM533U+HAITCP/jHpe1zswN2zxcvxy4h6g0tiGMIycSCprLwH34PwB
- JND9g6LenJGAmiyK6FJmcRJU5+Rp+dPqloH6VzZ5Zelo1lg=
-X-Google-Smtp-Source: ABdhPJx0kfmYVwZVXZqnnGiGojZikcq0EwjhLvap3L+7Cyn7Xr6GSIEKIaO+fQ0mVNalU+6XjOSYyli0rw+wz2sNk6Q=
-X-Received: by 2002:a17:907:6ea2:: with SMTP id
- sh34mr57897451ejc.509.1641740071118; 
- Sun, 09 Jan 2022 06:54:31 -0800 (PST)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAC1710F1A5
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Jan 2022 16:37:11 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: alyssa) with ESMTPSA id 18ACB1F40359
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1641746230;
+ bh=Bpd8xUWxmA4RJkcYDjsNYwzlEV49TfkepVOznECnw28=;
+ h=From:To:Cc:Subject:Date:From;
+ b=IwHI5SxXa6IK50lOAd01j8xpiNxe9ME6gjZKJB7s+Gdoy5w01gG4TLecGFhBPh5BR
+ 5qGULy+bAlSoDWMPiV9/5eg+24Crk383DkbJpUn5e/90KFSZc/ywIeZSbFOppZEOm7
+ X7GdEapzd72VqfOVLPMM7JsTugxLnzZ7GdBtbsA7Bd2Gf3pJCRS617EzIfVQ5z3CSq
+ DirQdnwO6Xb+2Avs51HpdkemVEjgvuOgeECjeHcdA/Swiijy13ww4Kj5Th3GzVK/ww
+ QDZdqgv+GgbiFpPejtfUDvCeX1c+7R18LtzGdZoQ28yP7pvxfsw3JIJ5PxUnNFsbq6
+ 6YG8u/c/VT9fA==
+From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/panfrost: Update create_bo flags comment
+Date: Sun,  9 Jan 2022 11:37:04 -0500
+Message-Id: <20220109163704.2564-1-alyssa.rosenzweig@collabora.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20220106181021.3760251-1-l.stach@pengutronix.de>
-In-Reply-To: <20220106181021.3760251-1-l.stach@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Sun, 9 Jan 2022 15:54:19 +0100
-Message-ID: <CAH9NwWfW4Cuqm06w52PKKsSNYtL6Fg-9-PhdBVTNuu1HPtnFyw@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: relax submit size limits
-To: Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,27 +44,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: The etnaviv authors <etnaviv@lists.freedesktop.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Do., 6. Jan. 2022 um 19:10 Uhr schrieb Lucas Stach <l.stach@pengutronix.de>:
->
-> While all userspace tried to limit commandstreams to 64K in size,
-> a bug in the Mesa driver lead to command streams of up to 128K
-> being submitted. Allow those to avoid breaking existing userspace.
->
-> Fixes: 6dfa2fab8ddd ("drm/etnaviv: limit submit sizes")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+Update a comment stating create_bo took no flags, since it now takes a
+bit mask of optional flags NOEXEC and HEAP.
 
-Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+---
+ include/uapi/drm/panfrost_drm.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
+index 061e700dd06c..9e40277d8185 100644
+--- a/include/uapi/drm/panfrost_drm.h
++++ b/include/uapi/drm/panfrost_drm.h
+@@ -84,14 +84,14 @@ struct drm_panfrost_wait_bo {
+ 	__s64 timeout_ns;	/* absolute */
+ };
+ 
++/* Valid flags to pass to drm_panfrost_create_bo */
+ #define PANFROST_BO_NOEXEC	1
+ #define PANFROST_BO_HEAP	2
+ 
+ /**
+  * struct drm_panfrost_create_bo - ioctl argument for creating Panfrost BOs.
+  *
+- * There are currently no values for the flags argument, but it may be
+- * used in a future extension.
++ * The flags argument is a bit mask of PANFROST_BO_* flags.
+  */
+ struct drm_panfrost_create_bo {
+ 	__u32 size;
 -- 
-greets
---
-Christian Gmeiner, MSc
+2.34.1
 
-https://christian-gmeiner.info/privacypolicy
