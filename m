@@ -2,34 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E446488ACF
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Jan 2022 18:09:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09BF1488AD0
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Jan 2022 18:09:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 650E310E7F4;
-	Sun,  9 Jan 2022 17:09:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 127EB10E814;
+	Sun,  9 Jan 2022 17:09:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E25D610E7F4
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Jan 2022 17:09:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29BCF10E81F
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Jan 2022 17:09:30 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: alyssa) with ESMTPSA id 637D01F437F6
+ (Authenticated sender: alyssa) with ESMTPSA id E3EF61F437F7
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1641748166;
- bh=8W7vBIEgSnoCkPMKRIa5QuPFZzJdKKSxbNZQLAq5WS8=;
- h=From:To:Cc:Subject:Date:From;
- b=orqjbdhdJuzL5HMSFOiSCRnMmdn5Fxos4p/nbM0D204YVG9TkYv0wRScQsjK5Ru+p
- fK5BHNKQmmE805OlbwoDPUSTDF1wv0uoQOPeA8sWslJCiyuUhu6WSQhT8SRJ4pedI0
- QUZ6GeqbBGXfBlQmcLdYB/fHJGvuSlIYThxLhHMssyJdyXuRsN2mPv79ARcbb6ws8p
- 8dAI7jdWcmaeTiUmj1oajpzRM6hoR9hDyy+1+M+B+tNKRbnowfh4TwEJP0LlieW6gH
- pYsH3J2KTl143grl2tHwCVftv87mDKCpoGk7VR+4BWm7IqF/ZQlSrghhBw1QjRx40e
- x3vReOwgRkt9w==
+ s=mail; t=1641748169;
+ bh=MpGmKtcyhlZf/OTZ5oKzBoe9SR8RmrSMVWjwUKE4f4Y=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=FRwKajNMImVbOkoAnE7tSgphgqbztj+joOGiUWj4B++vGvfmGlCGiyP94GF4DkgR/
+ 2J23kQEISbX1kA+vVSqCvFlrpSsoxkNywsS+q6cbA2CVIPrnVUmCDy1Y2QZf0MAQkN
+ wXRJr9geEdxM5ps6GKA8FTivNlibZ9WyH/cqplw/EBt0waEMuMRY216m6ssOPs2ZIm
+ zQDX8ZdQVU3npxImwQq62dpyeevGYD8sTKci0Wc4UObWdQOghEpduWem5/HJJViDmO
+ eGg9RXwW9saEv0PgH0ZMOVuAr4ogyUEequgb0k3+iB9FC3mlyVnuCsrXbq/R7feuA7
+ tv4qHBEQVPWnQ==
 From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 0/2] drm/panfrost: Clean up our feature lists
-Date: Sun,  9 Jan 2022 12:09:17 -0500
-Message-Id: <20220109170920.2921-1-alyssa.rosenzweig@collabora.com>
+Subject: [PATCH 1/2] drm/panfrost: Remove features meant for userspace
+Date: Sun,  9 Jan 2022 12:09:18 -0500
+Message-Id: <20220109170920.2921-2-alyssa.rosenzweig@collabora.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220109170920.2921-1-alyssa.rosenzweig@collabora.com>
+References: <20220109170920.2921-1-alyssa.rosenzweig@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -50,18 +52,297 @@ Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We've cargo culted a large number of useless feature bits from kbase.
-We're about to add support for a number of new Mali GPUs into mainline.
-Let's cut down on the copy-paste required and clean up the feature lists
-first.
+Early versions of the legacy kernel driver included comprehensive
+feature lists for every GPU, even though most of the enumerated features
+only matter to userspace. For example, HW_FEATURE_INTERPIPE_REG_ALIASING
+was a feature bit indicating that a GPU had "interpipe register
+aliasing": arithmetic, load/store, and texture instruction all use
+common general-purpose registers. GPUs without this feature bit have
+dedicated load/store and texture "registers". Whether a GPU has this
+feature or not is irrelevant to the kernel; it only matters in the
+userspace compiler's register allocator. It's silly to enumerate it in
+kernel space, and the information is understandably unused. To
+underscore the point, this feature only makes sense in the context of
+the Midgard instruction set. Bifrost never had dedicated load/store or
+texture registers, so the feature bit was vacuously set for all Bifrost
+hardware, even though this conveys no useful information.
 
-Alyssa Rosenzweig (2):
-  drm/panfrost: Remove features meant for userspace
-  drm/panfrost: Merge some feature lists
+To clean up the feature list, delete feature bits which could not
+possibly matter to the kernel, leaving only those which do affect the
+register-level operation of the chip.
 
- drivers/gpu/drm/panfrost/panfrost_features.h | 212 +------------------
- 1 file changed, 7 insertions(+), 205 deletions(-)
+Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+---
+ drivers/gpu/drm/panfrost/panfrost_features.h | 172 -------------------
+ 1 file changed, 172 deletions(-)
 
+diff --git a/drivers/gpu/drm/panfrost/panfrost_features.h b/drivers/gpu/drm/panfrost/panfrost_features.h
+index 5056777c7744..f557fad5d5ff 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_features.h
++++ b/drivers/gpu/drm/panfrost/panfrost_features.h
+@@ -12,24 +12,6 @@ enum panfrost_hw_feature {
+ 	HW_FEATURE_JOBCHAIN_DISAMBIGUATION,
+ 	HW_FEATURE_PWRON_DURING_PWROFF_TRANS,
+ 	HW_FEATURE_XAFFINITY,
+-	HW_FEATURE_OUT_OF_ORDER_EXEC,
+-	HW_FEATURE_MRT,
+-	HW_FEATURE_BRNDOUT_CC,
+-	HW_FEATURE_INTERPIPE_REG_ALIASING,
+-	HW_FEATURE_LD_ST_TILEBUFFER,
+-	HW_FEATURE_MSAA_16X,
+-	HW_FEATURE_32_BIT_UNIFORM_ADDRESS,
+-	HW_FEATURE_ATTR_AUTO_TYPE_INFERRAL,
+-	HW_FEATURE_OPTIMIZED_COVERAGE_MASK,
+-	HW_FEATURE_T7XX_PAIRING_RULES,
+-	HW_FEATURE_LD_ST_LEA_TEX,
+-	HW_FEATURE_LINEAR_FILTER_FLOAT,
+-	HW_FEATURE_WORKGROUP_ROUND_MULTIPLE_OF_4,
+-	HW_FEATURE_IMAGES_IN_FRAGMENT_SHADERS,
+-	HW_FEATURE_TEST4_DATUM_MODE,
+-	HW_FEATURE_NEXT_INSTRUCTION_TYPE,
+-	HW_FEATURE_BRNDOUT_KILL,
+-	HW_FEATURE_WARPING,
+ 	HW_FEATURE_V4,
+ 	HW_FEATURE_FLUSH_REDUCTION,
+ 	HW_FEATURE_PROTECTED_MODE,
+@@ -42,27 +24,15 @@ enum panfrost_hw_feature {
+ };
+ 
+ #define hw_features_t600 (\
+-	BIT_ULL(HW_FEATURE_LD_ST_LEA_TEX) | \
+-	BIT_ULL(HW_FEATURE_LINEAR_FILTER_FLOAT) | \
+ 	BIT_ULL(HW_FEATURE_THREAD_GROUP_SPLIT) | \
+ 	BIT_ULL(HW_FEATURE_V4))
+ 
+ #define hw_features_t620 (\
+-	BIT_ULL(HW_FEATURE_LD_ST_LEA_TEX) | \
+-	BIT_ULL(HW_FEATURE_LINEAR_FILTER_FLOAT) | \
+-	BIT_ULL(HW_FEATURE_ATTR_AUTO_TYPE_INFERRAL) | \
+ 	BIT_ULL(HW_FEATURE_THREAD_GROUP_SPLIT) | \
+ 	BIT_ULL(HW_FEATURE_V4))
+ 
+ #define hw_features_t720 (\
+-	BIT_ULL(HW_FEATURE_32_BIT_UNIFORM_ADDRESS) | \
+-	BIT_ULL(HW_FEATURE_ATTR_AUTO_TYPE_INFERRAL) | \
+-	BIT_ULL(HW_FEATURE_INTERPIPE_REG_ALIASING) | \
+-	BIT_ULL(HW_FEATURE_OPTIMIZED_COVERAGE_MASK) | \
+-	BIT_ULL(HW_FEATURE_T7XX_PAIRING_RULES) | \
+ 	BIT_ULL(HW_FEATURE_THREAD_GROUP_SPLIT) | \
+-	BIT_ULL(HW_FEATURE_WORKGROUP_ROUND_MULTIPLE_OF_4) | \
+-	BIT_ULL(HW_FEATURE_WARPING) | \
+ 	BIT_ULL(HW_FEATURE_V4))
+ 
+ 
+@@ -70,17 +40,6 @@ enum panfrost_hw_feature {
+ 	BIT_ULL(HW_FEATURE_JOBCHAIN_DISAMBIGUATION) | \
+ 	BIT_ULL(HW_FEATURE_PWRON_DURING_PWROFF_TRANS) | \
+ 	BIT_ULL(HW_FEATURE_XAFFINITY) | \
+-	BIT_ULL(HW_FEATURE_32_BIT_UNIFORM_ADDRESS) | \
+-	BIT_ULL(HW_FEATURE_ATTR_AUTO_TYPE_INFERRAL) | \
+-	BIT_ULL(HW_FEATURE_BRNDOUT_CC) | \
+-	BIT_ULL(HW_FEATURE_LD_ST_LEA_TEX) | \
+-	BIT_ULL(HW_FEATURE_LD_ST_TILEBUFFER) | \
+-	BIT_ULL(HW_FEATURE_LINEAR_FILTER_FLOAT) | \
+-	BIT_ULL(HW_FEATURE_MRT) | \
+-	BIT_ULL(HW_FEATURE_MSAA_16X) | \
+-	BIT_ULL(HW_FEATURE_OUT_OF_ORDER_EXEC) | \
+-	BIT_ULL(HW_FEATURE_T7XX_PAIRING_RULES) | \
+-	BIT_ULL(HW_FEATURE_TEST4_DATUM_MODE) | \
+ 	BIT_ULL(HW_FEATURE_THREAD_GROUP_SPLIT))
+ 
+ // T860
+@@ -88,19 +47,6 @@ enum panfrost_hw_feature {
+ 	BIT_ULL(HW_FEATURE_JOBCHAIN_DISAMBIGUATION) | \
+ 	BIT_ULL(HW_FEATURE_PWRON_DURING_PWROFF_TRANS) | \
+ 	BIT_ULL(HW_FEATURE_XAFFINITY) | \
+-	BIT_ULL(HW_FEATURE_32_BIT_UNIFORM_ADDRESS) | \
+-	BIT_ULL(HW_FEATURE_ATTR_AUTO_TYPE_INFERRAL) | \
+-	BIT_ULL(HW_FEATURE_BRNDOUT_CC) | \
+-	BIT_ULL(HW_FEATURE_BRNDOUT_KILL) | \
+-	BIT_ULL(HW_FEATURE_LD_ST_LEA_TEX) | \
+-	BIT_ULL(HW_FEATURE_LD_ST_TILEBUFFER) | \
+-	BIT_ULL(HW_FEATURE_LINEAR_FILTER_FLOAT) | \
+-	BIT_ULL(HW_FEATURE_MRT) | \
+-	BIT_ULL(HW_FEATURE_MSAA_16X) | \
+-	BIT_ULL(HW_FEATURE_NEXT_INSTRUCTION_TYPE) | \
+-	BIT_ULL(HW_FEATURE_OUT_OF_ORDER_EXEC) | \
+-	BIT_ULL(HW_FEATURE_T7XX_PAIRING_RULES) | \
+-	BIT_ULL(HW_FEATURE_TEST4_DATUM_MODE) | \
+ 	BIT_ULL(HW_FEATURE_THREAD_GROUP_SPLIT))
+ 
+ #define hw_features_t880 hw_features_t860
+@@ -109,61 +55,18 @@ enum panfrost_hw_feature {
+ 	BIT_ULL(HW_FEATURE_JOBCHAIN_DISAMBIGUATION) | \
+ 	BIT_ULL(HW_FEATURE_PWRON_DURING_PWROFF_TRANS) | \
+ 	BIT_ULL(HW_FEATURE_XAFFINITY) | \
+-	BIT_ULL(HW_FEATURE_WARPING) | \
+-	BIT_ULL(HW_FEATURE_INTERPIPE_REG_ALIASING) | \
+-	BIT_ULL(HW_FEATURE_32_BIT_UNIFORM_ADDRESS) | \
+-	BIT_ULL(HW_FEATURE_ATTR_AUTO_TYPE_INFERRAL) | \
+-	BIT_ULL(HW_FEATURE_BRNDOUT_CC) | \
+-	BIT_ULL(HW_FEATURE_BRNDOUT_KILL) | \
+-	BIT_ULL(HW_FEATURE_LD_ST_LEA_TEX) | \
+-	BIT_ULL(HW_FEATURE_LD_ST_TILEBUFFER) | \
+-	BIT_ULL(HW_FEATURE_LINEAR_FILTER_FLOAT) | \
+-	BIT_ULL(HW_FEATURE_MRT) | \
+-	BIT_ULL(HW_FEATURE_NEXT_INSTRUCTION_TYPE) | \
+-	BIT_ULL(HW_FEATURE_OUT_OF_ORDER_EXEC) | \
+-	BIT_ULL(HW_FEATURE_T7XX_PAIRING_RULES) | \
+-	BIT_ULL(HW_FEATURE_TEST4_DATUM_MODE) | \
+ 	BIT_ULL(HW_FEATURE_THREAD_GROUP_SPLIT))
+ 
+ #define hw_features_t820 (\
+ 	BIT_ULL(HW_FEATURE_JOBCHAIN_DISAMBIGUATION) | \
+ 	BIT_ULL(HW_FEATURE_PWRON_DURING_PWROFF_TRANS) | \
+ 	BIT_ULL(HW_FEATURE_XAFFINITY) | \
+-	BIT_ULL(HW_FEATURE_WARPING) | \
+-	BIT_ULL(HW_FEATURE_INTERPIPE_REG_ALIASING) | \
+-	BIT_ULL(HW_FEATURE_32_BIT_UNIFORM_ADDRESS) | \
+-	BIT_ULL(HW_FEATURE_ATTR_AUTO_TYPE_INFERRAL) | \
+-	BIT_ULL(HW_FEATURE_BRNDOUT_CC) | \
+-	BIT_ULL(HW_FEATURE_BRNDOUT_KILL) | \
+-	BIT_ULL(HW_FEATURE_LD_ST_LEA_TEX) | \
+-	BIT_ULL(HW_FEATURE_LD_ST_TILEBUFFER) | \
+-	BIT_ULL(HW_FEATURE_LINEAR_FILTER_FLOAT) | \
+-	BIT_ULL(HW_FEATURE_MRT) | \
+-	BIT_ULL(HW_FEATURE_NEXT_INSTRUCTION_TYPE) | \
+-	BIT_ULL(HW_FEATURE_OUT_OF_ORDER_EXEC) | \
+-	BIT_ULL(HW_FEATURE_T7XX_PAIRING_RULES) | \
+-	BIT_ULL(HW_FEATURE_TEST4_DATUM_MODE) | \
+ 	BIT_ULL(HW_FEATURE_THREAD_GROUP_SPLIT))
+ 
+ #define hw_features_g71 (\
+ 	BIT_ULL(HW_FEATURE_JOBCHAIN_DISAMBIGUATION) | \
+ 	BIT_ULL(HW_FEATURE_PWRON_DURING_PWROFF_TRANS) | \
+ 	BIT_ULL(HW_FEATURE_XAFFINITY) | \
+-	BIT_ULL(HW_FEATURE_WARPING) | \
+-	BIT_ULL(HW_FEATURE_INTERPIPE_REG_ALIASING) | \
+-	BIT_ULL(HW_FEATURE_32_BIT_UNIFORM_ADDRESS) | \
+-	BIT_ULL(HW_FEATURE_ATTR_AUTO_TYPE_INFERRAL) | \
+-	BIT_ULL(HW_FEATURE_BRNDOUT_CC) | \
+-	BIT_ULL(HW_FEATURE_BRNDOUT_KILL) | \
+-	BIT_ULL(HW_FEATURE_LD_ST_LEA_TEX) | \
+-	BIT_ULL(HW_FEATURE_LD_ST_TILEBUFFER) | \
+-	BIT_ULL(HW_FEATURE_LINEAR_FILTER_FLOAT) | \
+-	BIT_ULL(HW_FEATURE_MRT) | \
+-	BIT_ULL(HW_FEATURE_MSAA_16X) | \
+-	BIT_ULL(HW_FEATURE_NEXT_INSTRUCTION_TYPE) | \
+-	BIT_ULL(HW_FEATURE_OUT_OF_ORDER_EXEC) | \
+-	BIT_ULL(HW_FEATURE_T7XX_PAIRING_RULES) | \
+-	BIT_ULL(HW_FEATURE_TEST4_DATUM_MODE) | \
+ 	BIT_ULL(HW_FEATURE_THREAD_GROUP_SPLIT) | \
+ 	BIT_ULL(HW_FEATURE_FLUSH_REDUCTION) | \
+ 	BIT_ULL(HW_FEATURE_PROTECTED_MODE) | \
+@@ -173,21 +76,6 @@ enum panfrost_hw_feature {
+ 	BIT_ULL(HW_FEATURE_JOBCHAIN_DISAMBIGUATION) | \
+ 	BIT_ULL(HW_FEATURE_PWRON_DURING_PWROFF_TRANS) | \
+ 	BIT_ULL(HW_FEATURE_XAFFINITY) | \
+-	BIT_ULL(HW_FEATURE_WARPING) | \
+-	BIT_ULL(HW_FEATURE_INTERPIPE_REG_ALIASING) | \
+-	BIT_ULL(HW_FEATURE_32_BIT_UNIFORM_ADDRESS) | \
+-	BIT_ULL(HW_FEATURE_ATTR_AUTO_TYPE_INFERRAL) | \
+-	BIT_ULL(HW_FEATURE_BRNDOUT_CC) | \
+-	BIT_ULL(HW_FEATURE_BRNDOUT_KILL) | \
+-	BIT_ULL(HW_FEATURE_LD_ST_LEA_TEX) | \
+-	BIT_ULL(HW_FEATURE_LD_ST_TILEBUFFER) | \
+-	BIT_ULL(HW_FEATURE_LINEAR_FILTER_FLOAT) | \
+-	BIT_ULL(HW_FEATURE_MRT) | \
+-	BIT_ULL(HW_FEATURE_MSAA_16X) | \
+-	BIT_ULL(HW_FEATURE_NEXT_INSTRUCTION_TYPE) | \
+-	BIT_ULL(HW_FEATURE_OUT_OF_ORDER_EXEC) | \
+-	BIT_ULL(HW_FEATURE_T7XX_PAIRING_RULES) | \
+-	BIT_ULL(HW_FEATURE_TEST4_DATUM_MODE) | \
+ 	BIT_ULL(HW_FEATURE_THREAD_GROUP_SPLIT) | \
+ 	BIT_ULL(HW_FEATURE_FLUSH_REDUCTION) | \
+ 	BIT_ULL(HW_FEATURE_PROTECTED_MODE) | \
+@@ -198,21 +86,6 @@ enum panfrost_hw_feature {
+ 	BIT_ULL(HW_FEATURE_JOBCHAIN_DISAMBIGUATION) | \
+ 	BIT_ULL(HW_FEATURE_PWRON_DURING_PWROFF_TRANS) | \
+ 	BIT_ULL(HW_FEATURE_XAFFINITY) | \
+-	BIT_ULL(HW_FEATURE_WARPING) | \
+-	BIT_ULL(HW_FEATURE_INTERPIPE_REG_ALIASING) | \
+-	BIT_ULL(HW_FEATURE_32_BIT_UNIFORM_ADDRESS) | \
+-	BIT_ULL(HW_FEATURE_ATTR_AUTO_TYPE_INFERRAL) | \
+-	BIT_ULL(HW_FEATURE_BRNDOUT_CC) | \
+-	BIT_ULL(HW_FEATURE_BRNDOUT_KILL) | \
+-	BIT_ULL(HW_FEATURE_LD_ST_LEA_TEX) | \
+-	BIT_ULL(HW_FEATURE_LD_ST_TILEBUFFER) | \
+-	BIT_ULL(HW_FEATURE_LINEAR_FILTER_FLOAT) | \
+-	BIT_ULL(HW_FEATURE_MRT) | \
+-	BIT_ULL(HW_FEATURE_MSAA_16X) | \
+-	BIT_ULL(HW_FEATURE_NEXT_INSTRUCTION_TYPE) | \
+-	BIT_ULL(HW_FEATURE_OUT_OF_ORDER_EXEC) | \
+-	BIT_ULL(HW_FEATURE_T7XX_PAIRING_RULES) | \
+-	BIT_ULL(HW_FEATURE_TEST4_DATUM_MODE) | \
+ 	BIT_ULL(HW_FEATURE_THREAD_GROUP_SPLIT) | \
+ 	BIT_ULL(HW_FEATURE_FLUSH_REDUCTION) | \
+ 	BIT_ULL(HW_FEATURE_PROTECTED_MODE) | \
+@@ -223,21 +96,6 @@ enum panfrost_hw_feature {
+ 	BIT_ULL(HW_FEATURE_JOBCHAIN_DISAMBIGUATION) | \
+ 	BIT_ULL(HW_FEATURE_PWRON_DURING_PWROFF_TRANS) | \
+ 	BIT_ULL(HW_FEATURE_XAFFINITY) | \
+-	BIT_ULL(HW_FEATURE_WARPING) | \
+-	BIT_ULL(HW_FEATURE_INTERPIPE_REG_ALIASING) | \
+-	BIT_ULL(HW_FEATURE_32_BIT_UNIFORM_ADDRESS) | \
+-	BIT_ULL(HW_FEATURE_ATTR_AUTO_TYPE_INFERRAL) | \
+-	BIT_ULL(HW_FEATURE_BRNDOUT_CC) | \
+-	BIT_ULL(HW_FEATURE_BRNDOUT_KILL) | \
+-	BIT_ULL(HW_FEATURE_LD_ST_LEA_TEX) | \
+-	BIT_ULL(HW_FEATURE_LD_ST_TILEBUFFER) | \
+-	BIT_ULL(HW_FEATURE_LINEAR_FILTER_FLOAT) | \
+-	BIT_ULL(HW_FEATURE_MRT) | \
+-	BIT_ULL(HW_FEATURE_MSAA_16X) | \
+-	BIT_ULL(HW_FEATURE_NEXT_INSTRUCTION_TYPE) | \
+-	BIT_ULL(HW_FEATURE_OUT_OF_ORDER_EXEC) | \
+-	BIT_ULL(HW_FEATURE_T7XX_PAIRING_RULES) | \
+-	BIT_ULL(HW_FEATURE_TEST4_DATUM_MODE) | \
+ 	BIT_ULL(HW_FEATURE_THREAD_GROUP_SPLIT) | \
+ 	BIT_ULL(HW_FEATURE_FLUSH_REDUCTION) | \
+ 	BIT_ULL(HW_FEATURE_PROTECTED_MODE) | \
+@@ -248,21 +106,6 @@ enum panfrost_hw_feature {
+ 	BIT_ULL(HW_FEATURE_JOBCHAIN_DISAMBIGUATION) | \
+ 	BIT_ULL(HW_FEATURE_PWRON_DURING_PWROFF_TRANS) | \
+ 	BIT_ULL(HW_FEATURE_XAFFINITY) | \
+-	BIT_ULL(HW_FEATURE_WARPING) | \
+-	BIT_ULL(HW_FEATURE_INTERPIPE_REG_ALIASING) | \
+-	BIT_ULL(HW_FEATURE_32_BIT_UNIFORM_ADDRESS) | \
+-	BIT_ULL(HW_FEATURE_ATTR_AUTO_TYPE_INFERRAL) | \
+-	BIT_ULL(HW_FEATURE_BRNDOUT_CC) | \
+-	BIT_ULL(HW_FEATURE_BRNDOUT_KILL) | \
+-	BIT_ULL(HW_FEATURE_LD_ST_LEA_TEX) | \
+-	BIT_ULL(HW_FEATURE_LD_ST_TILEBUFFER) | \
+-	BIT_ULL(HW_FEATURE_LINEAR_FILTER_FLOAT) | \
+-	BIT_ULL(HW_FEATURE_MRT) | \
+-	BIT_ULL(HW_FEATURE_MSAA_16X) | \
+-	BIT_ULL(HW_FEATURE_NEXT_INSTRUCTION_TYPE) | \
+-	BIT_ULL(HW_FEATURE_OUT_OF_ORDER_EXEC) | \
+-	BIT_ULL(HW_FEATURE_T7XX_PAIRING_RULES) | \
+-	BIT_ULL(HW_FEATURE_TEST4_DATUM_MODE) | \
+ 	BIT_ULL(HW_FEATURE_THREAD_GROUP_SPLIT) | \
+ 	BIT_ULL(HW_FEATURE_FLUSH_REDUCTION) | \
+ 	BIT_ULL(HW_FEATURE_PROTECTED_MODE) | \
+@@ -276,21 +119,6 @@ enum panfrost_hw_feature {
+ 	BIT_ULL(HW_FEATURE_JOBCHAIN_DISAMBIGUATION) | \
+ 	BIT_ULL(HW_FEATURE_PWRON_DURING_PWROFF_TRANS) | \
+ 	BIT_ULL(HW_FEATURE_XAFFINITY) | \
+-	BIT_ULL(HW_FEATURE_WARPING) | \
+-	BIT_ULL(HW_FEATURE_INTERPIPE_REG_ALIASING) | \
+-	BIT_ULL(HW_FEATURE_32_BIT_UNIFORM_ADDRESS) | \
+-	BIT_ULL(HW_FEATURE_ATTR_AUTO_TYPE_INFERRAL) | \
+-	BIT_ULL(HW_FEATURE_BRNDOUT_CC) | \
+-	BIT_ULL(HW_FEATURE_BRNDOUT_KILL) | \
+-	BIT_ULL(HW_FEATURE_LD_ST_LEA_TEX) | \
+-	BIT_ULL(HW_FEATURE_LD_ST_TILEBUFFER) | \
+-	BIT_ULL(HW_FEATURE_LINEAR_FILTER_FLOAT) | \
+-	BIT_ULL(HW_FEATURE_MRT) | \
+-	BIT_ULL(HW_FEATURE_MSAA_16X) | \
+-	BIT_ULL(HW_FEATURE_NEXT_INSTRUCTION_TYPE) | \
+-	BIT_ULL(HW_FEATURE_OUT_OF_ORDER_EXEC) | \
+-	BIT_ULL(HW_FEATURE_T7XX_PAIRING_RULES) | \
+-	BIT_ULL(HW_FEATURE_TEST4_DATUM_MODE) | \
+ 	BIT_ULL(HW_FEATURE_THREAD_GROUP_SPLIT) | \
+ 	BIT_ULL(HW_FEATURE_FLUSH_REDUCTION) | \
+ 	BIT_ULL(HW_FEATURE_PROTECTED_MODE) | \
 -- 
 2.34.1
 
