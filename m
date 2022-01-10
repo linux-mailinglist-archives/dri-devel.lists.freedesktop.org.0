@@ -1,60 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB02C489349
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 09:27:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE1C7489346
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 09:27:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6517B12A8E0;
-	Mon, 10 Jan 2022 08:27:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79C4112A8DB;
+	Mon, 10 Jan 2022 08:27:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82B9910FF44
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Jan 2022 22:37:22 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id k18so23334464wrg.11
- for <dri-devel@lists.freedesktop.org>; Sun, 09 Jan 2022 14:37:22 -0800 (PST)
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F9921126FC
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 00:44:31 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id o6so47163666edc.4
+ for <dri-devel@lists.freedesktop.org>; Sun, 09 Jan 2022 16:44:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gAsgOQMc3UKaM9UezU0vbWaZoPnffHLnW6ZeF8Qj0QI=;
- b=o+1lAT46noVYrgjZW9HZPc4qtWWikPTfj7o3lrQey5wipz6hDagam9IyTzyQlrIuDf
- C3BLmI4U+rXVZnmH8cuGyo/fZcLaPKWtzc+V5MI3Rcb/+LT6OaowZHljFj96uBXarKIL
- YKWJEHyyk2W4x6lk9ifx+CRWtoiV3oXqknRpjxKNjacAPANhA2XV+hQs9ZBWDnv8RStH
- 8So2Sw8zJc0AmNx2nSJlnsDrqon/AedkMcLG6IDjfbph6Qc1ra1+8QBwTNvjhva/NgTu
- agAjj/Vxc3iOMCgURtm8kAjfGbozceWZM5OdYGC9cPaltCp+J+wCuYMy9xPsq7QB6Agd
- djoQ==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=d6TeLkgYS1ew8fCJmvh49i3fDk/RLdVzngu08Uax2h4=;
+ b=Nuk6V4eDecFZtqH5KuYOv3stWfzk3z30dmeeKoUhD4geZRR7ItYdfH8H3xs1/YL1sC
+ f8+KBb7PpXLRi5UWA2pKKHLrev0/LsRTVlS6iX5h4OLCC/3lJeQnoqacQW+eV+DmERru
+ HpFqP3hP43vi9J//SvRwoQfrlcNBiFwO5DopN7siK+QaQT9MS98p9GPnn8NmkS2w56Hk
+ IomDRqUPJMGIqv/V62YZI1Z4hHFIdBpHw8KyJoSJHxxxWz2pspaLVUnGZQNSo9QH7FEh
+ 8C+KhgvOH2NG1UBc+KL8/Io1lirgJJ5Hk0618AYRNv8AyJy50DWmbPVaXTn551nOKVww
+ TlYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gAsgOQMc3UKaM9UezU0vbWaZoPnffHLnW6ZeF8Qj0QI=;
- b=xMDwbVqw+JkOL6qTQnSId78j1+h/536/h2GeMuf1hjc/OjF8x7/K/tXZoKENLbNEZn
- PrWdrbg5ThB70udih4pbKNhUCcy1o5U9Aq6uWlxUjVR4w2rpQ26BOxNgJmYz/pEYHYD7
- zSPAHlGkR7A1pgI61AqWwmjdyuflmIEBaoCUR/7uk4HpEj13ZqH8FO/vdEB1nXlzw8Xk
- fRVBgO4XULB0DqEQMghWzoHy9osr/uS8BKr17B0g++R4p6jPCxmORCLEqpD+6NXUC4RK
- +1IpS7vKH5pRABtUDc20aVmn5JGP7bxf/B0ntW2b1QPGyQWQN8l7ghfMJjmGHlA25bE6
- qUyw==
-X-Gm-Message-State: AOAM5303ImuYpVy92EmOe1mXI4EoKKWuS64Hgia+9GY7PbVbvqoX5sra
- xqI00geRQHUnhkuaxt8KRy8=
-X-Google-Smtp-Source: ABdhPJyH5i6RVFey13kTaLeghj8KZIguTmG4qmxVgzJ9wwoBuJgCycBO7xSTg+/0yiCjBMUkLWOyrg==
-X-Received: by 2002:a5d:4450:: with SMTP id x16mr61237707wrr.95.1641767841045; 
- Sun, 09 Jan 2022 14:37:21 -0800 (PST)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
- [80.193.200.194])
- by smtp.gmail.com with ESMTPSA id g6sm5266102wri.67.2022.01.09.14.37.20
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=d6TeLkgYS1ew8fCJmvh49i3fDk/RLdVzngu08Uax2h4=;
+ b=KZ/8tYZy4sD8LRtWKUdxJhIuImriqgf+045vUg/4+yCZN9Jujr+Grsaqr1pT1t6fKz
+ rAUnLkVhs+40Tu2DxC+Ke/CcIR+R9wJAZXbTLuvr+OeD08z2blXBdLy0bB0rLTZlyM/G
+ l/MOddXXGMqxIB/SumnDpt/wGoEMrLcFgmR+sotNQHHoB2PV5KtQQfeJu86K8Efg1nJB
+ YVglM/7r4DmtnJKEhkrWPDtQqKN+2zW4GUjupxUpcBgSYNwVox9ZH6l4JyoHwtY3m+4A
+ XNpQIlnMv6lnL5U9aNYAN7xbmpJfOQZoH/1O+pqZyDR3TwSHH/l3icx9yHQkavnQqyCL
+ +WYg==
+X-Gm-Message-State: AOAM531C7nAVrH7Cnchz0olaQ+C7mXpFLRumBGYzG566kdOmd2UFQuUl
+ ad+yqUQ3jBgEzPNOZWEuyLI=
+X-Google-Smtp-Source: ABdhPJw9LBaKSD+9yimBA0BUEf+Z1s0gMshG0cPBnRoiNX58JwKhEm6y52sQVaIofS1PA2lIQLoD/Q==
+X-Received: by 2002:a05:6402:5216:: with SMTP id
+ s22mr3321353edd.132.1641775469982; 
+ Sun, 09 Jan 2022 16:44:29 -0800 (PST)
+Received: from anparri (host-95-250-60-3.retail.telecomitalia.it.
+ [95.250.60.3])
+ by smtp.gmail.com with ESMTPSA id 18sm1821263ejo.8.2022.01.09.16.44.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 09 Jan 2022 14:37:20 -0800 (PST)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Paul Mackerras <paulus@samba.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH] fbdev: aty128fb: make some arrays static const
-Date: Sun,  9 Jan 2022 22:37:19 +0000
-Message-Id: <20220109223719.56043-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.33.1
+ Sun, 09 Jan 2022 16:44:29 -0800 (PST)
+Date: Mon, 10 Jan 2022 01:44:19 +0100
+From: Andrea Parri <parri.andrea@gmail.com>
+To: Yanming Liu <yanminglr@gmail.com>
+Subject: Re: [PATCH v2] hv: account for packet descriptor in maximum packet
+ size
+Message-ID: <20220110004419.GA435914@anparri>
+References: <20220109095516.3250392-1-yanminglr@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220109095516.3250392-1-yanminglr@gmail.com>
 X-Mailman-Approved-At: Mon, 10 Jan 2022 08:27:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,55 +71,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: linux-hyperv@vger.kernel.org, sthemmin@microsoft.com, lkmlabelt@gmail.com,
+ airlied@linux.ie, haiyangz@microsoft.com, decui@microsoft.com,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, drawat.floss@gmail.com,
+ Wei Liu <wei.liu@kernel.org>, kys@microsoft.com, mikelley@microsoft.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Don't populate some read-only arrays on the stack but instead
-make them static const. Also makes the object code a little smaller.
-Re-format one of the declarations. Add spaces between commas and make
-PostDivSet unsigned int to fixup checkpatch warnings.
+(Extending Cc: list,)
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/video/fbdev/aty/aty128fb.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+On Sun, Jan 09, 2022 at 05:55:16PM +0800, Yanming Liu wrote:
+> Commit adae1e931acd ("Drivers: hv: vmbus: Copy packets sent by Hyper-V
+> out of the ring buffer") introduced a notion of maximum packet size in
+> vmbus channel and used that size to initialize a buffer holding all
+> incoming packet along with their vmbus packet header. Currently, some
+> vmbus drivers set max_pkt_size to the size of their receive buffer
+> passed to vmbus_recvpacket, however vmbus_open expects this size to also
+> include vmbus packet header. This leads to corruption of the ring buffer
+> state when receiving a maximum sized packet.
+> 
+> Specifically, in hv_balloon I have observed of a dm_unballoon_request
+> message of 4096 bytes being truncated to 4080 bytes. When the driver
+> tries to read next packet it starts from a wrong read_index, receives
+> garbage and prints a lot of "Unhandled message: type: <garbage>" in
+> dmesg.
+> 
+> The same mismatch also happens in hv_fcopy, hv_kvp, hv_snapshot,
+> hv_util, hyperv_drm and hyperv_fb, though bad cases are not observed
+> yet.
+> 
+> Allocate the buffer with HV_HYP_PAGE_SIZE more bytes to make room for
+> the descriptor, assuming the vmbus packet header will never be larger
+> than HV_HYP_PAGE_SIZE. This is essentially free compared to just adding
+> 'sizeof(struct vmpacket_descriptor)' because these buffers are all more
+> than HV_HYP_PAGE_SIZE bytes so kmalloc rounds them up anyway.
+> 
+> Fixes: adae1e931acd ("Drivers: hv: vmbus: Copy packets sent by Hyper-V out of the ring buffer")
+> Suggested-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
+> Signed-off-by: Yanming Liu <yanminglr@gmail.com>
 
-diff --git a/drivers/video/fbdev/aty/aty128fb.c b/drivers/video/fbdev/aty/aty128fb.c
-index e6a48689c294..882e3cdb750d 100644
---- a/drivers/video/fbdev/aty/aty128fb.c
-+++ b/drivers/video/fbdev/aty/aty128fb.c
-@@ -952,7 +952,7 @@ static void aty128_timings(struct aty128fb_par *par)
- 	u32 x_mpll_ref_fb_div;
- 	u32 xclk_cntl;
- 	u32 Nx, M;
--	unsigned PostDivSet[] = { 0, 1, 2, 4, 8, 3, 6, 12 };
-+	static const unsigned int PostDivSet[] = { 0, 1, 2, 4, 8, 3, 6, 12 };
- #endif
- 
- 	if (!par->constants.ref_clk)
-@@ -1321,8 +1321,10 @@ static void aty128_set_pll(struct aty128_pll *pll,
- {
- 	u32 div3;
- 
--	unsigned char post_conv[] =	/* register values for post dividers */
--        { 2, 0, 1, 4, 2, 2, 6, 2, 3, 2, 2, 2, 7 };
-+	/* register values for post dividers */
-+	static const unsigned char post_conv[] = {
-+		2, 0, 1, 4, 2, 2, 6, 2, 3, 2, 2, 2, 7
-+	};
- 
- 	/* select PPLL_DIV_3 */
- 	aty_st_le32(CLOCK_CNTL_INDEX, aty_ld_le32(CLOCK_CNTL_INDEX) | (3 << 8));
-@@ -1360,7 +1362,7 @@ static int aty128_var_to_pll(u32 period_in_ps, struct aty128_pll *pll,
- 			     const struct aty128fb_par *par)
- {
- 	const struct aty128_constants c = par->constants;
--	unsigned char post_dividers[] = {1,2,4,8,3,6,12};
-+	static const unsigned char post_dividers[] = { 1, 2, 4, 8, 3, 6, 12 };
- 	u32 output_freq;
- 	u32 vclk;        /* in .01 MHz */
- 	int i = 0;
--- 
-2.32.0
+Thanks for sorting this out; the patch looks good to me:
 
+Reviewed-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
+
+In future submissions (if any), please include LKML as well as subsystem
+lists&maintainers; scripts/get_maintainer.pl can be useful to this end.
+
+  Andrea
+
+
+> ---
+> v2: Changed to modify max_pkt_size in individual drivers instead of in
+> vmbus code as suggested by Andrea Parri.
+> 
+>  drivers/gpu/drm/hyperv/hyperv_drm_proto.c |  2 ++
+>  drivers/hv/hv_balloon.c                   |  7 +++++++
+>  drivers/hv/hv_fcopy.c                     |  2 +-
+>  drivers/hv/hv_kvp.c                       |  2 +-
+>  drivers/hv/hv_snapshot.c                  |  2 +-
+>  drivers/hv/hv_util.c                      | 17 +++++++++++++++++
+>  drivers/video/fbdev/hyperv_fb.c           |  2 ++
+>  7 files changed, 31 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_proto.c b/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
+> index c0155c6271bf..bf1548054276 100644
+> --- a/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
+> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
+> @@ -478,6 +478,8 @@ int hyperv_connect_vsp(struct hv_device *hdev)
+>  	struct drm_device *dev = &hv->dev;
+>  	int ret;
+>  
+> +	hdev->channel->max_pkt_size = HV_HYP_PAGE_SIZE + VMBUS_MAX_PACKET_SIZE;
+> +
+>  	ret = vmbus_open(hdev->channel, VMBUS_RING_BUFSIZE, VMBUS_RING_BUFSIZE,
+>  			 NULL, 0, hyperv_receive, hdev);
+>  	if (ret) {
+> diff --git a/drivers/hv/hv_balloon.c b/drivers/hv/hv_balloon.c
+> index ca873a3b98db..ee2527c3d3b8 100644
+> --- a/drivers/hv/hv_balloon.c
+> +++ b/drivers/hv/hv_balloon.c
+> @@ -1660,6 +1660,13 @@ static int balloon_connect_vsp(struct hv_device *dev)
+>  	unsigned long t;
+>  	int ret;
+>  
+> +	/*
+> +	 * max_pkt_size should be large enough for one vmbus packet header plus
+> +	 * our receive buffer size. We assume vmbus packet header is smaller
+> +	 * than HV_HYP_PAGE_SIZE.
+> +	 */
+> +	dev->channel->max_pkt_size = HV_HYP_PAGE_SIZE * 2;
+> +
+>  	ret = vmbus_open(dev->channel, dm_ring_size, dm_ring_size, NULL, 0,
+>  			 balloon_onchannelcallback, dev);
+>  	if (ret)
+> diff --git a/drivers/hv/hv_fcopy.c b/drivers/hv/hv_fcopy.c
+> index 660036da7449..07a508ce65db 100644
+> --- a/drivers/hv/hv_fcopy.c
+> +++ b/drivers/hv/hv_fcopy.c
+> @@ -349,7 +349,7 @@ int hv_fcopy_init(struct hv_util_service *srv)
+>  {
+>  	recv_buffer = srv->recv_buffer;
+>  	fcopy_transaction.recv_channel = srv->channel;
+> -	fcopy_transaction.recv_channel->max_pkt_size = HV_HYP_PAGE_SIZE * 2;
+> +	fcopy_transaction.recv_channel->max_pkt_size = HV_HYP_PAGE_SIZE * 3;
+>  
+>  	/*
+>  	 * When this driver loads, the user level daemon that
+> diff --git a/drivers/hv/hv_kvp.c b/drivers/hv/hv_kvp.c
+> index c698592b83e4..b85d725ae5b1 100644
+> --- a/drivers/hv/hv_kvp.c
+> +++ b/drivers/hv/hv_kvp.c
+> @@ -757,7 +757,7 @@ hv_kvp_init(struct hv_util_service *srv)
+>  {
+>  	recv_buffer = srv->recv_buffer;
+>  	kvp_transaction.recv_channel = srv->channel;
+> -	kvp_transaction.recv_channel->max_pkt_size = HV_HYP_PAGE_SIZE * 4;
+> +	kvp_transaction.recv_channel->max_pkt_size = HV_HYP_PAGE_SIZE * 5;
+>  
+>  	/*
+>  	 * When this driver loads, the user level daemon that
+> diff --git a/drivers/hv/hv_snapshot.c b/drivers/hv/hv_snapshot.c
+> index 6018b9d1b1fb..dba6baacbf17 100644
+> --- a/drivers/hv/hv_snapshot.c
+> +++ b/drivers/hv/hv_snapshot.c
+> @@ -375,7 +375,7 @@ hv_vss_init(struct hv_util_service *srv)
+>  	}
+>  	recv_buffer = srv->recv_buffer;
+>  	vss_transaction.recv_channel = srv->channel;
+> -	vss_transaction.recv_channel->max_pkt_size = HV_HYP_PAGE_SIZE * 2;
+> +	vss_transaction.recv_channel->max_pkt_size = HV_HYP_PAGE_SIZE * 3;
+>  
+>  	/*
+>  	 * When this driver loads, the user level daemon that
+> diff --git a/drivers/hv/hv_util.c b/drivers/hv/hv_util.c
+> index 835e6039c186..a7b88c067c07 100644
+> --- a/drivers/hv/hv_util.c
+> +++ b/drivers/hv/hv_util.c
+> @@ -112,6 +112,8 @@ static int hv_shutdown_init(struct hv_util_service *srv)
+>  
+>  	hibernation_supported = hv_is_hibernation_supported();
+>  
+> +	channel->max_pkt_size = HV_HYP_PAGE_SIZE * 2;
+> +
+>  	return 0;
+>  }
+>  
+> @@ -133,9 +135,11 @@ static struct hv_util_service util_timesynch = {
+>  	.util_deinit = hv_timesync_deinit,
+>  };
+>  
+> +static int heartbeat_init(struct hv_util_service *src);
+>  static void heartbeat_onchannelcallback(void *context);
+>  static struct hv_util_service util_heartbeat = {
+>  	.util_cb = heartbeat_onchannelcallback,
+> +	.util_init = heartbeat_init,
+>  };
+>  
+>  static struct hv_util_service util_kvp = {
+> @@ -553,6 +557,15 @@ static void heartbeat_onchannelcallback(void *context)
+>  	}
+>  }
+>  
+> +static int heartbeat_init(struct hv_util_service *srv)
+> +{
+> +	struct vmbus_channel *channel = srv->channel;
+> +
+> +	channel->max_pkt_size = HV_HYP_PAGE_SIZE * 2;
+> +
+> +	return 0;
+> +}
+> +
+>  #define HV_UTIL_RING_SEND_SIZE VMBUS_RING_SIZE(3 * HV_HYP_PAGE_SIZE)
+>  #define HV_UTIL_RING_RECV_SIZE VMBUS_RING_SIZE(3 * HV_HYP_PAGE_SIZE)
+>  
+> @@ -734,6 +747,8 @@ static struct ptp_clock *hv_ptp_clock;
+>  
+>  static int hv_timesync_init(struct hv_util_service *srv)
+>  {
+> +	struct vmbus_channel *channel = srv->channel;
+> +
+>  	spin_lock_init(&host_ts.lock);
+>  
+>  	INIT_WORK(&adj_time_work, hv_set_host_time);
+> @@ -750,6 +765,8 @@ static int hv_timesync_init(struct hv_util_service *srv)
+>  		hv_ptp_clock = NULL;
+>  	}
+>  
+> +	channel->max_pkt_size = HV_HYP_PAGE_SIZE * 2;
+> +
+>  	return 0;
+>  }
+>  
+> diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
+> index 23999df52739..ae4240777f7d 100644
+> --- a/drivers/video/fbdev/hyperv_fb.c
+> +++ b/drivers/video/fbdev/hyperv_fb.c
+> @@ -636,6 +636,8 @@ static int synthvid_connect_vsp(struct hv_device *hdev)
+>  	struct hvfb_par *par = info->par;
+>  	int ret;
+>  
+> +	hdev->channel->max_pkt_size = HV_HYP_PAGE_SIZE + MAX_VMBUS_PKT_SIZE;
+> +
+>  	ret = vmbus_open(hdev->channel, RING_BUFSIZE, RING_BUFSIZE,
+>  			 NULL, 0, synthvid_receive, hdev);
+>  	if (ret) {
+> -- 
+> 2.34.1
+> 
