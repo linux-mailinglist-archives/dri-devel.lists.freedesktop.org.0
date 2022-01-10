@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C742D489B0E
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 15:06:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1AB4489B18
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 15:12:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C2D111328F;
-	Mon, 10 Jan 2022 14:06:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 079F6113A64;
+	Mon, 10 Jan 2022 14:12:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com
- [IPv6:2607:f8b0:4864:20::f32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C02F011328F
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 14:06:17 +0000 (UTC)
-Received: by mail-qv1-xf32.google.com with SMTP id kc16so14572385qvb.3
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 06:06:17 -0800 (PST)
+Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com
+ [IPv6:2607:f8b0:4864:20::72a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FC011139DB
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 14:12:29 +0000 (UTC)
+Received: by mail-qk1-x72a.google.com with SMTP id w27so14902240qkj.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 06:12:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=sjf5HXREYSAp8OzfvPdpCVvaNZb3bh0YsVohsQS8etE=;
- b=Ef1tKo1+J/Pet0Mz0h5QNoIi6PvtQ+1+fWb0HQUGQ4lEAMNbjcxRvAEU3DxMArWK9y
- fzau/FkT+YZtL0NHiYwukbV7vep7KYQtQ4BzdaCtfR4qn6ShDwpYmA8mea77jpxkrlBu
- bbSvxS851BIDcDBjpoecYmxSFv7n9EJdFi4oXDEI9dFknbedSu4LOF8MavDY5mI9i2CP
- MVk8+Thbh2tM7WVZfSAwuG3LvWekXxBwssJ9IOI6kA4fd/xxAtbKHR21uu907zNSoQdV
- SMeNnFppKyL4P/k3unU9iY9xzYsL0yH9od0CZztIF+oOKy38slsCiKUnvKfYYwH22n3a
- WoMQ==
+ :cc; bh=4DQvnQ3Cgyp1i2b8VzPQ4ffSeU79jX0QQNrlOvytV+k=;
+ b=OUoKQA5Bq99RZPfc/HvGf3IC0D0ABjqCwC4nhlM5NAzpqqcuigYGd2HXdBYHHsC9sG
+ iK9MHGCKPpDTicEzbuKas1BW+7NlK5CttyrOGXV2O9hE/9CmP780h/Qr8WZzGY6m29xf
+ xBQjrx7OzvS/2SMa3KpRiXvuJ+eZlhfnwAKEcFGlBG1kdSJ/M4S/oqatBIdq9C6ufCfp
+ OMhkMCm7mM5YPt2QFK0gXY6mfj9JU1atLPNdpibcHx75wcKvggfl2hj1u17ww/f7nXDG
+ 1ZfE/83az1RzrQI1DH4o5qquWTFw0CRNkEA2MjWyVMuliSpZ0Mtr3VyUjIiX7mrJhYUq
+ ZXOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=sjf5HXREYSAp8OzfvPdpCVvaNZb3bh0YsVohsQS8etE=;
- b=3ffAhg90o8kNPx4DNpfvKsuM51qgJ3V77UjQVrGiMPtsUIaS6oMw9YlaKUhiE0F2iL
- 2QI8KfOJxKya0dLpu662mcf887FIxeIPP3HcRNjmBCLa2TNTut95J9UCjbPyRrvXAsOF
- CgFfQNy7aXJs+eS7+4Z9MH/RcgQvupAQN2LvKZSRAd5bENiqENJpfXXtZPMbDuFc1mlH
- dtY0y3I0Bxy+WgAry0r8UnfaUCsTDfp8uk41S3rB3ZXIY/fbYW1q3BU7N5SauWAEQiN9
- 4SZkzutiDjwQSAk2beGrL83B1F/AZ0jEBbIo/PakikJLMUJxfu8IyMGFc75xA0jfiB3l
- CIKg==
-X-Gm-Message-State: AOAM531bWfynzGk+5uOTg56ZNa/eVoEte9tDX3FPb+EFIvSChLRXf+NG
- xBvD9YiT0gPhzU7RbTUQQUN8pBlqBmKa/GI0e0/UWg==
-X-Google-Smtp-Source: ABdhPJx8iuBfCaDUP7d8M8nzd/iM43KRhC+lgLYLRyHPh8qfwLit/VE9Y1WQXgB0+afvUXwpQfzD7BGkAXGOVEotGy0=
-X-Received: by 2002:a05:6214:248a:: with SMTP id
- gi10mr67627781qvb.115.1641823576863; 
- Mon, 10 Jan 2022 06:06:16 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=4DQvnQ3Cgyp1i2b8VzPQ4ffSeU79jX0QQNrlOvytV+k=;
+ b=Aw9acmRxwipsgj6AdWw38vpSG7gzKxbzbTZLXD822g3SIzW4oBZn4JbmaAsZQRy+Wc
+ LX3x1e+AOrfLz3kNLkYCsWYiG2GdfY4wycdKDyi3esOudmVf60jO+5yL0nTnxODycQU7
+ OTJceMOac0Hb2D3IVEtHiVuymyOhpfjn9+WUsbF2ZQGvyPXJ3rHFWECWvqsgwEha6LoY
+ pVpTymCRYJ7ii5XjUkKDy2UR96F04iOCY8MbK/td72hcG01dV3waQGwkbauD3jaEd+7Y
+ nM7qrxzZZK+gothsNJZHH75+NnQCawqdtwROWtTMnzB5DXIujHJZTKtvs+fBYjRIhw2D
+ Qk5w==
+X-Gm-Message-State: AOAM531vSxUk5DNl8TcMTSgsa2w9tUWM1gHzRsxF8W+zFeWOUFjr6Yxw
+ Db1W1q6vMSvfj3/osFD6GLU6oPjurpHW5+vUKtsmsw==
+X-Google-Smtp-Source: ABdhPJwc8URm7uyLRQ1JKPTzT8ft0eFiJWdpt88+kIZ845z3s0s9BABfuWZHZDyFD3Yj2xexfrVnVs0bMA5zP14V0ow=
+X-Received: by 2002:a05:620a:1e1:: with SMTP id
+ x1mr11386078qkn.363.1641823948169; 
+ Mon, 10 Jan 2022 06:12:28 -0800 (PST)
 MIME-Version: 1.0
 References: <1641819337-17037-1-git-send-email-quic_rajeevny@quicinc.com>
- <1641819337-17037-2-git-send-email-quic_rajeevny@quicinc.com>
-In-Reply-To: <1641819337-17037-2-git-send-email-quic_rajeevny@quicinc.com>
+ <1641819337-17037-3-git-send-email-quic_rajeevny@quicinc.com>
+In-Reply-To: <1641819337-17037-3-git-send-email-quic_rajeevny@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 10 Jan 2022 17:06:03 +0300
-Message-ID: <CAA8EJprrRZK+ocW9zDY_eyeo_m_xbu+KmfWf8QmTYscAh5SxLw@mail.gmail.com>
-Subject: Re: [v2 1/3] dt-bindings: msm/dsi: Add 10nm dsi phy tuning properties
+Date: Mon, 10 Jan 2022 17:12:17 +0300
+Message-ID: <CAA8EJpr_iEvv3oM-KteT7or3HyMk45Z8mzWyKwZ=rnASm-hNXA@mail.gmail.com>
+Subject: Re: [v2 2/3] drm/msm/dsi: Add dsi phy tuning configuration support
 To: Rajeev Nandan <quic_rajeevny@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,107 +71,91 @@ Cc: quic_kalyant@quicinc.com, freedreno@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 10 Jan 2022 at 15:56, Rajeev Nandan <quic_rajeevny@quicinc.com> wro=
-te:
+On Mon, 10 Jan 2022 at 15:56, Rajeev Nandan <quic_rajeevny@quicinc.com> wrote:
 >
-> In most cases, the default values of DSI PHY tuning registers should be
-> sufficient as they are fully optimized. However, in some cases where
-> extreme board parasitics cause the eye shape to degrade, the override
-> bits can be used to improve the signal quality.
->
-> The general guidelines for DSI PHY tuning include:
-> - High and moderate data rates may benefit from the drive strength and
->   drive level tuning.
-> - Drive strength tuning will affect the output impedance and may be used
->   for matching optimization.
-> - Drive level tuning will affect the output levels without affecting the
->   impedance.
->
-> The clock and data lanes have a calibration circuitry feature. The drive
-> strength tuning can be done by adjusting rescode offset for hstop/hsbot,
-> and the drive level tuning can be done by adjusting the LDO output level
-> for the HSTX drive.
+> Add support for MSM DSI PHY tuning configuration. Current design is
+> to support drive strength and drive level/amplitude tuning for
+> 10nm PHY version, but this can be extended to other PHY versions.
 >
 > Signed-off-by: Rajeev Nandan <quic_rajeevny@quicinc.com>
 > ---
 >
 > Changes in v2:
->  - More details in the commit text (Stephen Boyd)
->  - Use human understandable values (Stephen Boyd, Dmitry Baryshkov)
->  - Do not take values that are going to be unused (Dmitry Baryshkov)
+>  - New.
+>  - Split into generic code and 10nm-specific part (Dmitry Baryshkov)
 >
->  .../bindings/display/msm/dsi-phy-10nm.yaml         | 33 ++++++++++++++++=
-++++++
->  1 file changed, 33 insertions(+)
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy.c |  3 +++
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy.h | 16 ++++++++++++++++
+>  2 files changed, 19 insertions(+)
 >
-> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.y=
-aml b/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
-> index 4399715..d0eb8f6 100644
-> --- a/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
-> @@ -35,6 +35,35 @@ properties:
->        Connected to DSI0_MIPI_DSI_PLL_VDDA0P9 pin for sc7180 target and
->        connected to VDDA_MIPI_DSI_0_PLL_0P9 pin for sdm845 target
-
-Generic note:
-I think these properties should be prefixed with "qcom," prefix.
-
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> index 8c65ef6..ee3739d 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
+> @@ -739,6 +739,9 @@ static int dsi_phy_driver_probe(struct platform_device *pdev)
+>                 }
+>         }
 >
-> +  phy-rescode-offset-top:
-> +    $ref: /schemas/types.yaml#/definitions/uint8-array
-> +    minItems: 5
-> +    maxItems: 5
-> +    description:
-> +      Integer array of offset for pull-up legs rescode for all five lane=
-s.
-> +      To offset the drive strength from the calibrated value in an incre=
-asing
-> +      or decreasing manner, use 6 bit two=E2=80=99s complement values.
+> +       if (phy->cfg->ops.tuning_cfg_init)
+> +               phy->cfg->ops.tuning_cfg_init(phy);
 
-dtc should support negative values, google hints that <(-2)> should work.
+Please rename to parse_dt_properties() or something like that.
 
 > +
-> +  phy-rescode-offset-bot:
-> +    $ref: /schemas/types.yaml#/definitions/uint8-array
-> +    minItems: 5
-> +    maxItems: 5
-> +    description:
-> +      Integer array of offset for pull-down legs rescode for all five la=
-nes.
-> +      To offset the drive strength from the calibrated value in an incre=
-asing
-> +      or decreasing manner, use 6 bit two=E2=80=99s complement values.
+>         ret = dsi_phy_regulator_init(phy);
+>         if (ret)
+>                 goto fail;
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+> index b91303a..b559a2b 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
+> @@ -25,6 +25,7 @@ struct msm_dsi_phy_ops {
+>         void (*save_pll_state)(struct msm_dsi_phy *phy);
+>         int (*restore_pll_state)(struct msm_dsi_phy *phy);
+>         bool (*set_continuous_clock)(struct msm_dsi_phy *phy, bool enable);
+> +       void (*tuning_cfg_init)(struct msm_dsi_phy *phy);
+>  };
+>
+>  struct msm_dsi_phy_cfg {
+> @@ -81,6 +82,20 @@ struct msm_dsi_dphy_timing {
+>  #define DSI_PIXEL_PLL_CLK              1
+>  #define NUM_PROVIDED_CLKS              2
+>
+> +#define DSI_LANE_MAX                   5
 > +
-> +  phy-drive-ldo-level:
-> +    $ref: /schemas/types.yaml#/definitions/uint8
-> +    minimum: 0
-> +    maximum: 7
-> +    description:
-> +      The PHY LDO has an amplitude tuning feature to adjust the LDO outp=
-ut
-> +      for the HSTX drive. To offset the drive level from the default val=
-ue,
-> +      supported levels are with the following mapping:
-> +      0 =3D 375mV, 1 =3D 400mV, 2 =3D 425mV, 3 =3D 450mV, 4 =3D 475mV, 5=
- =3D 500mV,
-> +      6 =3D 500mV, 7 =3D 500mV
+> +/**
+> + * struct msm_dsi_phy_tuning_cfg - Holds PHY tuning config parameters.
+> + * @rescode_offset_top: Offset for pull-up legs rescode.
+> + * @rescode_offset_bot: Offset for pull-down legs rescode.
+> + * @vreg_ctrl: vreg ctrl to drive LDO level
+> + */
+> +struct msm_dsi_phy_tuning_cfg {
+> +       u8 rescode_offset_top[DSI_LANE_MAX];
+> +       u8 rescode_offset_bot[DSI_LANE_MAX];
+> +       u8 vreg_ctrl;
+> +};
 
-No encoding please. Specify the values in the dts and convert them
-into the register values in the driver.
+How generic is this? In other words, you are adding a struct with the
+generic name to the generic structure. I'd expect that it would be
+common to several PHY generations.
 
 > +
->  required:
->    - compatible
->    - reg
-> @@ -64,5 +93,9 @@ examples:
->           clocks =3D <&dispcc DISP_CC_MDSS_AHB_CLK>,
->                    <&rpmhcc RPMH_CXO_CLK>;
->           clock-names =3D "iface", "ref";
-> +
-> +         phy-resocde-offset-top =3D /bits/ 8 <0x0 0x0 0x0 0x0 0x0>;
-> +         phy-rescode-offset-bot =3D /bits/ 8 <0x0 0x0 0x0 0x0 0x0>;
-> +         phy-drive-ldo-level =3D /bits/ 8 <1>;
+>  struct msm_dsi_phy {
+>         struct platform_device *pdev;
+>         void __iomem *base;
+> @@ -98,6 +113,7 @@ struct msm_dsi_phy {
+>
+>         struct msm_dsi_dphy_timing timing;
+>         const struct msm_dsi_phy_cfg *cfg;
+> +       struct msm_dsi_phy_tuning_cfg tuning_cfg;
+>
+>         enum msm_dsi_phy_usecase usecase;
+>         bool regulator_ldo_mode;
+> --
+> 2.7.4
+>
 
---
+
+-- 
 With best wishes
 Dmitry
