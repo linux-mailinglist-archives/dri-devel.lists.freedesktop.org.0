@@ -2,130 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78F8548BEC1
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 08:00:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7254E48C055
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 09:52:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FEBC10EFBA;
-	Wed, 12 Jan 2022 07:00:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 205F1112E69;
+	Wed, 12 Jan 2022 08:51:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2069.outbound.protection.outlook.com [40.107.92.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 640AD10EFAF;
- Wed, 12 Jan 2022 07:00:26 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MuvX8mzymWi+y3EZBqOMLuicXukk8dSNUqCliHzlMPtXBjsa2h5Uaicy1KE7Nu4+4aa3d2WK5Hf6hqgtB5IK/zygXeDBYyCSxNnkJcXBd5Y4nFkTKr1G7pqClrQ6jBtXtTCBDJHng5ydNMo+vQiWgj0PG7OaC4Nds4WOCri1ahTczIgx70NRc0Vjx7oo77lqY3TeXMEN32cBg3ibrY7EhS4eNdLWfffzaoVU78OrOF5sdjVMbV6qzVeaYT4kR5LuKPoa4y0JZsmPHNg7FzArg2zW+xVg/uFZyQOm0xPY+ZrEIDB/UmjqVbNWDdNOQ8QLHIar4ESLGaMCpmCO3j4yPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Bpuzsekq3LzYnCrsbTMmDQ93BqmHEJenDWsFb8sQ8uk=;
- b=htbpsmcAr6chxfYtBihJ9Ap7Lt+lSiv/A4ultnVQbKBfvt3TYw/FpxSpuyO2o+bnkF7eKPU3fVQ1b54NeHi6Z4sRM+Y6mewAqr/L6t6j73FlOpwau8jx+5jON+udTrjy/Yx6DObF8D8/WPvZp1mA9b3e1VtXCe7L14H3mMw93Eei7QO2lYeNw7F+0kcjnlFVCSXsvQ94H4FofI9Y+V7hVBPkGpJq7Qeh7+RcprDnIWFZKt6V28GfDfQ+viLC6S4nwvaHkP7oJiun46AF732khMPTSTOoB+xDgBw04uLSZYMRakHNtS5KhsIG1RQGwo4/eKEWn6AzBcjoCGsUNCGv3A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Bpuzsekq3LzYnCrsbTMmDQ93BqmHEJenDWsFb8sQ8uk=;
- b=WynQ2BdTj7Lmr9g7+N1HJjgkkT2qPKDFfchcXqBEX/pAevUi2KDKgCNS81bpP8zbI/Qeh8wowMDIr8F2CDlSH79WDfE2CgGlU006KQXWcuHXrPVsEPFhLjooRqdM5+LfR1DGBlmqe6cdu2uDk+aMyDIsVg056jbUVfJZiwpWQhU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
- (2603:10b6:301:5a::14) by DM5PR12MB2535.namprd12.prod.outlook.com
- (2603:10b6:4:b5::26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4888.9; Wed, 12 Jan
- 2022 07:00:23 +0000
-Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
- ([fe80::b4d6:f148:3798:6246]) by MWHPR1201MB0192.namprd12.prod.outlook.com
- ([fe80::b4d6:f148:3798:6246%7]) with mapi id 15.20.4888.010; Wed, 12 Jan 2022
- 07:00:23 +0000
-Subject: =?UTF-8?B?UmU6IOWbnuWkjTogW1BBVENIXSBkcm0vdHRtOiBQdXQgQk8gaW4gaXRz?=
- =?UTF-8?Q?_memory_manager=27s_lru_list?=
-To: "Chen, Guchun" <Guchun.Chen@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
-References: <20211109111954.41968-1-xinhui.pan@amd.com>
- <da46c607-1a3c-7ea9-92ef-78a2b60d38c9@amd.com>
- <DM4PR12MB51653AB0F1A0B89A41782B1087929@DM4PR12MB5165.namprd12.prod.outlook.com>
- <76d78ff7-efe4-4796-ec18-a668757f2e04@amd.com>
- <DM4PR12MB51657C53FAA6C096884118AD87929@DM4PR12MB5165.namprd12.prod.outlook.com>
- <DM4PR12MB51658A8C75586BCC2B0BDA6487929@DM4PR12MB5165.namprd12.prod.outlook.com>
- <DM5PR12MB246972E69DADF83D83FD9C73F1519@DM5PR12MB2469.namprd12.prod.outlook.com>
- <04b252b5-b04c-a5a7-23ec-adc10024d317@gmail.com>
- <DM5PR12MB246955A077D5C6245EFE9052F1529@DM5PR12MB2469.namprd12.prod.outlook.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <8558bf41-3422-87d7-0937-e08a0abd9eec@amd.com>
-Date: Wed, 12 Jan 2022 08:00:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-In-Reply-To: <DM5PR12MB246955A077D5C6245EFE9052F1529@DM5PR12MB2469.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: AS9PR06CA0206.eurprd06.prod.outlook.com
- (2603:10a6:20b:45d::26) To MWHPR1201MB0192.namprd12.prod.outlook.com
- (2603:10b6:301:5a::14)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3c81de8f-74ca-4ca4-70cf-08d9d5993383
-X-MS-TrafficTypeDiagnostic: DM5PR12MB2535:EE_
-X-Microsoft-Antispam-PRVS: <DM5PR12MB25357FD3306DF2F407797FB983529@DM5PR12MB2535.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DmZZtZnFc/AB3zFeslxZZ5N7Dv+v1gc9o+kk+eFcEkbltS4rxFEEG+T/aJkhfMbxQW5voxsLH35mJg7u00GRG4x4NHv0gZ95pW1r6G8+G077KCdd4OL0Pr8WUyDx717R6UMrPkgMPSHnyneMWhoJQLM6vMCDy0pIxFyNshp3+CmJFTBEci9H4KBVQuW8WGYFf4kAM3Cp50QDfcF3Y/YkwRpcKpuyyFh2EpQd+s+ZBahAG/E8p+kkM0K/HfgeigcxwQnOyXklPz5sBhgLulwv+RYuI6gEY+8o+THoJ3/HKKt4rNhd0jPDE8zga20bIlXaSOZacwTfDxdT1lzGDcxMRaDMfdozWefdxeOmaRz7O0lZ3jPJfb+0hcPcHK0JpzTWqN85XZ0zosN5bR/Jw3kUDiqosHDqt72IB7+kqBOuMvEfDIqWncVIYaqvZOpBDIMUkmrUIxTnHOOU5ai0LciUk89Qbs18aXHKmOmQI8DIc7TzOw7/4ptK5dQ9RwH47WrspBgsxNe3U5/g5idxZB7wbTnwIEr2lz21YAaoMhhuyqQmNn5RMI+vRMXfMGRYGXDw8ytW0caOGsu47J7iieaAqkWMXnVapFvvXHW3unaRxqUgiBA3tYq2NA6tI2p5m1duiXCDSW+dj+KwZYCQBqHAHwvBDP0zdCusi+mMfgIHFKlEdV3KqNCTUOC83iU6YeA1kH30Ot5Bs8IEDR6XkLq2uVzedX0NqT2PeQin/oXiO5SqAvthfSiznJi9UO8QalNrhafykBMar1SZMeuhsUkyUOnvuSbPQ1DLCg+YFPS1E3PLsgPZZLHWKsZNpfoIv1JM
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR1201MB0192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(5660300002)(6512007)(83380400001)(31686004)(508600001)(38100700002)(53546011)(6506007)(966005)(66946007)(86362001)(224303003)(45080400002)(8936002)(6486002)(36756003)(66476007)(66556008)(2906002)(6666004)(316002)(186003)(31696002)(4326008)(66574015)(2616005)(26005)(110136005)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bERiKzBQb1pLSUxRQThJTGpqcW51dHJ2VHl2VE1GTjRSZ0pxOW84TmhMamVB?=
- =?utf-8?B?TkVSY3d1R1RZZzNnTjYvb0plWFZoOFhHcUNQbWVuakNPdmJYNkI4bXQ3ZSsz?=
- =?utf-8?B?RHl1Rm8vKys4MHUrOFBYVFV5ZHdvZWpIcUxJSENGazMwN1Z4N0dQVmRyRVQr?=
- =?utf-8?B?MENlN0YwWWsvaHVKR1hpNC8weTNSaE1lV3VOb0RFS3g0NVRLMTJPZXVQU2lw?=
- =?utf-8?B?d3dSNGdyN3k3MndQeDMrRGJVL0ZMVjcxZmN4Wk5XRmFlVFhLOVlrOFUvczBN?=
- =?utf-8?B?K1pFUTVoSDNiUkt5cFNONERjbWwvaFdOK05IdGt6ejl4dDhiaVhiVjVOUGs3?=
- =?utf-8?B?eWNyYlo1dk9YN1BaL05PS28yTkc2eWJqUFJRUWpVMzRJcEtYWUU4RzZRTGRp?=
- =?utf-8?B?djV5TGs4QkFRVEJtbG16Sm9ORkswOVhYdEtvWGdqUGFwWlZQVzZVenUwWWdk?=
- =?utf-8?B?U0hoU2FWaW5nZExhaG85K29KVFZ5WnUzdnR6UjZlenJEUE11a1lRZ1h4Zmdr?=
- =?utf-8?B?clAwaXZOdG1sWWpoVDRWVnVHZUpXZWQ5Ylg1UjJ4Mk9QRk1jMlJadU5oMUd2?=
- =?utf-8?B?REJGd0ZSVFp5eHNjb0tsQisyYmNSU09NMjlPKzRYM0I2a2p2bUY1ODU3akxG?=
- =?utf-8?B?Qnhrd0VDNTI4dDBOWVB0Q1Vic1RvM3g3d2E1ZWxZSHdjd0pzSEdUU3Bwcldl?=
- =?utf-8?B?TkhCbjlhNzBRU2syTE80UHBibmc5ZXp4Tmh0UDFsbXhpZmNCOW0xeTRIaE1P?=
- =?utf-8?B?S0x1UmcwbnNQOUN5WExKcTNpMGU4M1BLLy8rNUs5OXEwR2dSQyszVndPZFFG?=
- =?utf-8?B?TE52cjlUL214U2ZtVTU5WnphaWI3NFd6Y01rV1NZMW84b3NLR0JtN0g1dVJK?=
- =?utf-8?B?dWlRbXRyaXZ4c1U1ZjB6ZWFPTnVFKzIvdTd1NHdzcGx3ZnU4VjQxc0M3SFhH?=
- =?utf-8?B?Wnk5REVFRUhaWTFyRWNiTllEeFNjcDRRc0hZbm03UU5nd1RJSExEVWg0VEpN?=
- =?utf-8?B?dzJ4NWVRc3hDS1Q0WTFuNGlkbkVnY0ppUmo0UVFJUGdJWmJ1dWg0Q2JuU0xx?=
- =?utf-8?B?d2lTUnk1ZVEwc1M5OXpiSFVGaSt2dW5GOFFXOEtDVUxSaUNvUFhoNzVSbmFE?=
- =?utf-8?B?dzNjbDlhUnRacEJZOTJ4Zlg1bWw5WGhkMEdNMFV5MUdHSUg5cHVSOTdLWi8v?=
- =?utf-8?B?dUVZNFZlQkFHcm9rNmZLNEJFelpROUp0eTdkNFdITjVxQVYzOVhmWEdubmZa?=
- =?utf-8?B?UTF1WEJRVkt0R0F4aEcvRkF5bUUzNVArMG9vVnJxNjNsQVhGeXBZc3lmbSta?=
- =?utf-8?B?dHJ0UlhMZWc1MDFPY0krc25nVGp4ejY0NXhYbTUrTEhUejdON2pybXVtN0pM?=
- =?utf-8?B?YWRETkxNUnZYdkFPRmY1UzVJVEdJREFjZUtXZFNhcnRVMW0vaHk1UktpbjZP?=
- =?utf-8?B?K1lvRHExRlRsSG9nZ2FqaXhld0tSS2JzNkVuUEtaMWRPWGo0MmNabFl3blU3?=
- =?utf-8?B?RFlveFhDM2RQRnRhRXhJaTZkcGtaWE1Kbi9SL2JSeGVEL3FGU2VqR0JXWC9P?=
- =?utf-8?B?V2V1OHBOcEp0blh0VFJ2RHVEMzJZVW5tV3dIV0t5YUhTQmp5cFNKVktOelov?=
- =?utf-8?B?bmxadEVWKy8vRE50alM0VHVYbFVZajZicHZKV1NKclNhRklvOGQ0djdnSkZi?=
- =?utf-8?B?RE5Lb25pQmZlWWhNb3pCSWUySUtOUFZIeFNGUHNDZjZ1Uzgxdm16MDk2RUZp?=
- =?utf-8?B?WDBQWFRIV1lqNThITDcvdHErSUk4a2ROaGp5eE9mVXNNdFdwRVpGdmhEWGhN?=
- =?utf-8?B?Wm5qMGVaYmlJaml3N1ZkZzBFMHFjdHhTNVdKdkVJNEw3SU5VZlpOOWYvQUZ5?=
- =?utf-8?B?bVBXTWhhdFQ5emc0a2pIK2tSVjVyTDU1ZjE4UEJzMmlHSU5Xb0NIYlZtVytL?=
- =?utf-8?B?Tnh2UjdXeHZJNXRpYk9kdE9FNUIxWm04ek9GeDFYdUpoSmNMVW4vUXpTcjVH?=
- =?utf-8?B?QkgyU0Rtb0kydG52Rk1zNEZxcGovV1hzN2taZ3ZzUFUwVmxuK3VGL2YzQUY3?=
- =?utf-8?B?cnRNeFlwTk9UWDBCbGZsWlg3ZHZDbDJYS2tqaEVzWWVjQlMzR2wzdnpUMkdK?=
- =?utf-8?Q?sguk=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c81de8f-74ca-4ca4-70cf-08d9d5993383
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1201MB0192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2022 07:00:22.3569 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 33K1A+drGpTAyInIMPRZp60qmS3aVYsuiisAwWltxyprdRNv+jP3mfo+9YBZSjuK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2535
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75DD9112230
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 09:34:53 +0000 (UTC)
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20A8SpK3001224; 
+ Mon, 10 Jan 2022 09:34:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=LTgj9BMo0PeVOTmHS425bgS3Erf/sk7QZhpGDMjgyhM=;
+ b=ZeBWbN0MuX3/AcZ5RKWxlntTjtiYf7I8s1BDSqtpXcjWdKYreu00C0yIuS54bslUb+Qr
+ i8eYw95JaW/kRkoSt2zAHTinIjB+A7CPiMdtyB681hPeHcfgnzR85uHf321nrRQFc1lp
+ la9fqV0TOWpjT+vO0xEhhgF1o49lWVqwByJ8qBn2XaRUDR7r5LiwvirD3oVxz1l/G8aA
+ GGCXA11FLJGWT7f5iLejA1BYwhyVqSkuX7XlV9iM6xmQILJKk4eoCpwa9+QQDTpFWY9O
+ RafQfotY4ReY1g/9giu+qtTtTZzWY7egugKozzrEpyohVjle6LQRR+kd516WluIEvvXn Gw== 
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dfm1hp8jh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 10 Jan 2022 09:34:44 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20A9Rlj5003316;
+ Mon, 10 Jan 2022 09:34:41 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma06fra.de.ibm.com with ESMTP id 3df1vj2baj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 10 Jan 2022 09:34:41 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 20A9Ydft44106206
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 10 Jan 2022 09:34:39 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CCEA2A405B;
+ Mon, 10 Jan 2022 09:34:38 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F191AA4065;
+ Mon, 10 Jan 2022 09:34:34 +0000 (GMT)
+Received: from sig-9-145-16-13.uk.ibm.com (unknown [9.145.16.13])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 10 Jan 2022 09:34:34 +0000 (GMT)
+Message-ID: <822ad0da702f0953b7aae1febd2c4dfcc4707864.camel@linux.ibm.com>
+Subject: Re: [RFC 01/32] Kconfig: introduce and depend on LEGACY_PCI
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+To: John Garry <john.garry@huawei.com>, Bjorn Helgaas <helgaas@kernel.org>
+Date: Mon, 10 Jan 2022 10:34:34 +0100
+In-Reply-To: <74bf4fde-3972-1c36-ca04-58089da0d82b@huawei.com>
+References: <20220105194748.GA215560@bhelgaas>
+ <74bf4fde-3972-1c36-ca04-58089da0d82b@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: RBwht8yqbe4Zp6W3roxBtkr5zQL4IA2M
+X-Proofpoint-ORIG-GUID: RBwht8yqbe4Zp6W3roxBtkr5zQL4IA2M
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-10_04,2022-01-07_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0
+ impostorscore=0 malwarescore=0 mlxlogscore=999 lowpriorityscore=0
+ phishscore=0 adultscore=0 spamscore=0 clxscore=1015 mlxscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2201100067
+X-Mailman-Approved-At: Wed, 12 Jan 2022 08:51:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,168 +91,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org, linux-pci@vger.kernel.org,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Ettore Chimenti <ek5.chimenti@gmail.com>, linux-ide@vger.kernel.org,
+ Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
+ linux-i2c@vger.kernel.org, linux-riscv@lists.infradead.org,
+ Vincent Chen <deanbo422@gmail.com>, Jiri Slaby <jirislaby@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ Hannes Reinecke <hare@suse.com>,
+ Michael Grzeschik <m.grzeschik@pengutronix.de>, linux-scsi@vger.kernel.org,
+ Sumit Saxena <sumit.saxena@broadcom.com>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Sathya Prakash <sathya.prakash@broadcom.com>,
+ Jesse Brandeburg <jesse.brandeburg@intel.com>, linux-csky@vger.kernel.org,
+ Kashyap Desai <kashyap.desai@broadcom.com>,
+ Nilesh Javali <njavali@marvell.com>, intel-wired-lan@lists.osuosl.org,
+ linux-serial@vger.kernel.org, GR-QLogic-Storage-Upstream@marvell.com,
+ Jakub Kicinski <kuba@kernel.org>, MPT-FusionLinux.pdl@broadcom.com,
+ "James E.J.
+ Bottomley" <jejb@linux.ibm.com>, Guenter Roeck <linux@roeck-us.net>,
+ linux-media@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+ Jean Delvare <jdelvare@suse.com>, linux-watchdog@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, Jouni Malinen <j@w1.fi>,
+ Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
+ Kalle Valo <kvalo@kernel.org>, linux-input@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-gpio@vger.kernel.org,
+ Ian Abbott <abbotti@mev.co.uk>, Mark Brown <broonie@kernel.org>,
+ Greentime Hu <green.hu@gmail.com>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, megaraidlinux.pdl@broadcom.com,
+ Teddy Wang <teddy.wang@siliconmotion.com>, linux-hwmon@vger.kernel.org,
+ Arnd Bergmann <arnd@kernel.org>, Karsten Keil <isdn@linux-pingi.de>,
+ Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Nick Hu <nickhu@andestech.com>, Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+ Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-wireless@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ H Hartley Sweeten <hsweeten@visionengravers.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Forest Bond <forest@alittletooquiet.net>,
+ netdev@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Tony Nguyen <anthony.l.nguyen@intel.com>, Bartosz Golaszewski <brgl@bgdev.pl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Yeah, that should probably be the right one.
+On Thu, 2022-01-06 at 17:41 +0000, John Garry wrote:
+> On 05/01/2022 19:47, Bjorn Helgaas wrote:
+> > > > > >   ok if the PCI maintainers decide otherwise.
+> > > > > I don't really like the "LEGACY_PCI" Kconfig option.  "Legacy" just
+> > > > > means something old and out of favor; it doesn't say*what*  that
+> > > > > something is.
+> > > > > 
+> > > > > I think you're specifically interested in I/O port space usage, and it
+> > > > > seems that you want all PCI drivers that*only*  use I/O port space to
+> > > > > depend on LEGACY_PCI?  Drivers that can use either I/O or memory
+> > > > > space or both would not depend on LEGACY_PCI?  This seems a little
+> > > > > murky and error-prone.
+> > > > I'd like to hear Arnd's opinion on this but you're the PCI maintainer
+> > > > so of course your buy-in would be quite important for such an option.
+> > I'd like to hear Arnd's opinion, too.  If we do add LEGACY_PCI, I
+> > think we need a clear guide for when to use it, e.g., "a PCI driver
+> > that uses inb() must depend on LEGACY_PCI" or whatever it is.
+> > 
+> > I must be missing something because I don't see what we gain from
+> > this.  We have PCI drivers, e.g., megaraid [1], for devices that have
+> > either MEM or I/O BARs.  I think we want to build drivers like that on
+> > any arch that supports PCI.
+> > 
+> > If the arch doesn't support I/O port space, devices that only have I/O
+> > BARs won't work, of course, and hopefully the PCI core and driver can
+> > figure that out and gracefully fail the probe.
+> > 
+> > But that same driver should still work with devices that have MEM
+> > BARs.  If inb() isn't always present, I guess we could litter these
+> > drivers with #ifdefs, but that would be pretty ugly.
 
-Christian.
+I think this is the big question here. If we do go with a compile-time
+solution as requested by Linus we will either get a lot of #ifdeffery,
+coarse driver dependencies or as proposed by Alan Stern for the USB
+#ifdefs might end up turning inb() into a compile-time nop.
 
-Am 12.01.22 um 03:19 schrieb Chen, Guchun:
-> [Public]
->
-> Hi Christian,
->
-> My BAD, I checked that discussion history of this just now. So If I read it correctly, the double check at a different place to skip evict is: " drm/ttm: Double check mem_type of BO while eviction"? It is in 5.16 kernel.
->
-> Regards,
-> Guchun
->
-> -----Original Message-----
-> From: Christian König <ckoenig.leichtzumerken@gmail.com>
-> Sent: Tuesday, January 11, 2022 7:27 PM
-> To: Chen, Guchun <Guchun.Chen@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>; Koenig, Christian <Christian.Koenig@amd.com>; amd-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org
-> Subject: Re: 回复: [PATCH] drm/ttm: Put BO in its memory manager's lru list
->
-> IIRC we have completely dropped this patch in favor of a check at a different place.
->
-> Regards,
-> Christian.
->
-> Am 11.01.22 um 09:47 schrieb Chen, Guchun:
->> [Public]
->>
->> Hi Christian,
->>
->> Looks this patch still missed in 5.16 kernel. Is it intentional?
->> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit.
->> kernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Ftorvalds%2Flinux.git%2
->> Ftree%2Fdrivers%2Fgpu%2Fdrm%2Fttm%2Fttm_bo.c%3Fh%3Dv5.16&amp;data=04%7
->> C01%7CGuchun.Chen%40amd.com%7Cf3b7f4971dc8405b0c2908d9d4f55547%7C3dd89
->> 61fe4884e608e11a82d994e183d%7C0%7C0%7C637774972434004088%7CUnknown%7CT
->> WFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI
->> 6Mn0%3D%7C3000&amp;sdata=vbuBPHO40J2HGt7abzfzC0nC1DQa62qal5S6TXBRj4w%3
->> D&amp;reserved=0
->>
->> Regards,
->> Guchun
->>
->> -----Original Message-----
->> From: amd-gfx <amd-gfx-bounces@lists.freedesktop.org> On Behalf Of
->> Pan, Xinhui
->> Sent: Tuesday, November 9, 2021 9:16 PM
->> To: Koenig, Christian <Christian.Koenig@amd.com>;
->> amd-gfx@lists.freedesktop.org
->> Cc: dri-devel@lists.freedesktop.org
->> Subject: 回复: 回复: [PATCH] drm/ttm: Put BO in its memory manager's lru
->> list
->>
->> [AMD Official Use Only]
->>
->> [AMD Official Use Only]
->>
->> Actually this patch does not totally fix the mismatch of lru list with mem_type as mem_type is changed in ->move() and lru list is changed after that.
->>
->> During this small period, another eviction could still happed and evict this mismatched BO from sMam(say, its lru list is on vram domain) to sMem.
->> ________________________________________
->> 发件人: Pan, Xinhui <Xinhui.Pan@amd.com>
->> 发送时间: 2021年11月9日 21:05
->> 收件人: Koenig, Christian; amd-gfx@lists.freedesktop.org
->> 抄送: dri-devel@lists.freedesktop.org
->> 主题: 回复: 回复: [PATCH] drm/ttm: Put BO in its memory manager's lru list
->>
->> Yes, a stable tag is needed. vulkan guys say 5.14 hit this issue too.
->>
->> I think that amdgpu_bo_move() does support copy from sysMem to sysMem correctly.
->> maybe something below is needed.
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->> b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->> index c83ef42ca702..aa63ae7ddf1e 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->> @@ -485,7 +485,8 @@ static int amdgpu_bo_move(struct ttm_buffer_object *bo, bool evict,
->>           }
->>           if (old_mem->mem_type == TTM_PL_SYSTEM &&
->>               (new_mem->mem_type == TTM_PL_TT ||
->> -            new_mem->mem_type == AMDGPU_PL_PREEMPT)) {
->> +            new_mem->mem_type == AMDGPU_PL_PREEMPT ||
->> +            new_mem->mem_type == TTM_PL_SYSTEM)) {
->>                   ttm_bo_move_null(bo, new_mem);
->>                   goto out;
->>           }
->>
->> otherwise, amdgpu_move_blit() is called to do the system memory copy which use a wrong address.
->>    206         /* Map only what can't be accessed directly */
->>    207         if (!tmz && mem->start != AMDGPU_BO_INVALID_OFFSET) {
->>    208                 *addr = amdgpu_ttm_domain_start(adev, mem->mem_type) +
->>    209                         mm_cur->start;
->>    210                 return 0;
->>    211         }
->>
->> line 208, *addr is zero. So when amdgpu_copy_buffer submit job with such addr, page fault happens.
->>
->>
->> ________________________________________
->> 发件人: Koenig, Christian <Christian.Koenig@amd.com>
->> 发送时间: 2021年11月9日 20:35
->> 收件人: Pan, Xinhui; amd-gfx@lists.freedesktop.org
->> 抄送: dri-devel@lists.freedesktop.org
->> 主题: Re: 回复: [PATCH] drm/ttm: Put BO in its memory manager's lru list
->>
->> Mhm, I'm not sure what the rational behind that is.
->>
->> Not moving the BO would make things less efficient, but should never cause a crash.
->>
->> Maybe we should add a CC: stable tag and push it to -fixes instead?
->>
->> Christian.
->>
->> Am 09.11.21 um 13:28 schrieb Pan, Xinhui:
->>> [AMD Official Use Only]
->>>
->>> I hit vulkan cts test hang with navi23.
->>>
->>> dmesg says gmc page fault with address 0x0, 0x1000, 0x2000....
->>> And some debug log also says amdgu copy one BO from system Domain to system Domain which is really weird.
->>> ________________________________________
->>> 发件人: Koenig, Christian <Christian.Koenig@amd.com>
->>> 发送时间: 2021年11月9日 20:20
->>> 收件人: Pan, Xinhui; amd-gfx@lists.freedesktop.org
->>> 抄送: dri-devel@lists.freedesktop.org
->>> 主题: Re: [PATCH] drm/ttm: Put BO in its memory manager's lru list
->>>
->>> Am 09.11.21 um 12:19 schrieb xinhui pan:
->>>> After we move BO to a new memory region, we should put it to the new
->>>> memory manager's lru list regardless we unlock the resv or not.
->>>>
->>>> Signed-off-by: xinhui pan <xinhui.pan@amd.com>
->>> Interesting find, did you trigger that somehow or did you just
->>> stumbled over it by reading the code?
->>>
->>> Patch is Reviewed-by: Christian König <christian.koenig@amd.com>, I
->>> will pick that up for drm-misc-next.
->>>
->>> Thanks,
->>> Christian.
->>>
->>>> ---
->>>>      drivers/gpu/drm/ttm/ttm_bo.c | 2 ++
->>>>      1 file changed, 2 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c
->>>> b/drivers/gpu/drm/ttm/ttm_bo.c index f1367107925b..e307004f0b28
->>>> 100644
->>>> --- a/drivers/gpu/drm/ttm/ttm_bo.c
->>>> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
->>>> @@ -701,6 +701,8 @@ int ttm_mem_evict_first(struct ttm_device *bdev,
->>>>          ret = ttm_bo_evict(bo, ctx);
->>>>          if (locked)
->>>>                  ttm_bo_unreserve(bo);
->>>> +     else
->>>> +             ttm_bo_move_to_lru_tail_unlocked(bo);
->>>>
->>>>          ttm_bo_put(bo);
->>>>          return ret;
+The originally proposed change that returned ~0 from inb() and printed
+a warning clearly is the simpler change and sure we could also drop the
+warning. I'm honestly torn, I do agree with Linus that we shouldn't
+have run-time things that we know at compile-time will not work but I
+also dislike all the #ifdeffery a compile-time solution requires. Sadly
+C really doesn't give us any better tools here.
+
+Also I 100% agree with you Bjorn how likely it is to see a device on a
+platform really shouldn't matter. Without going into details, on s390
+we have already beneffited from PCI drivers working with 0 changes to
+support devices we previously didn't have on the platform or
+anticipated we would get in the future. Consequently drivers that could
+work in principle should be built.
+
+> >  
+> 
+> There were some ifdefs added to the 8250 drivers in Arnd's original 
+> patch [0], but it does not seem included here.
+> 
+> Niklas, what happened to the 8250 and the other driver changes?
+
+I missed it during the rebase, likely because the changed files compile
+depend on !S390 via config SERIAL_8250 and thus didn't cause any errors
+for my allyesconfig. That !S390 dependency is of course not really what
+we want if the driver can use MEM BARs.
+
 
