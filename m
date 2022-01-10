@@ -1,38 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36A8048A03C
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 20:35:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CE8348A05E
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 20:44:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F389F10E2E3;
-	Mon, 10 Jan 2022 19:35:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A17910E197;
+	Mon, 10 Jan 2022 19:44:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D434B10E2E3
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 19:35:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=ZFZ4QOFgcoyMCECZ3PkgL8BM+HFxPBx0EV0hU5cheCk=; b=kwTBNQ14Ajm4bb+p+yD8k57QkP
- ag8IoWMx+ZceNrBHQIAX1qjPtJFmAq9bB3a4JnH2JpRIvuJYBtpHdys8Jq/5cenklNvLq/gPB+1Sg
- 2qgeP1b1J6H2Tv69ZZ1Dchmb2ZJjZjBKqVxc/SH3eNnBFhJ4iqYqyoAG6HKgY9R7CIH30swf1tj0Z
- Gu8uqqBGWzCL6jiU7/viwFyhvJ/itxVSedkUZDGnUhNOWzn5QaeMXBfrtSKRCMeY14yLf8X1p6aFJ
- T2ZJbBdfedchNNamYhhW0wNJ5GgzCiU5esGaF1uPdBB8x01ZyuwW4BYXYZcWtRvjnGo36PQEJY1Up
- 7sxipnQg==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1n70RN-002fyD-DM; Mon, 10 Jan 2022 19:34:49 +0000
-Date: Mon, 10 Jan 2022 19:34:49 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: linux-kernel@vger.kernel.org
-Subject: Phyr Starter
-Message-ID: <YdyKWeU0HTv8m7wD@casper.infradead.org>
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
+ [209.85.210.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F65C10E197
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 19:44:26 +0000 (UTC)
+Received: by mail-ot1-f54.google.com with SMTP id
+ i5-20020a05683033e500b0057a369ac614so16138906otu.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 11:44:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=EZBK0oFNH2/W2DrO7l+FshtEaU1QbkTH5JA6mptoxOM=;
+ b=ZYzh3FXpMATQK2pAg91y1yioTMuXvFfng5VpoD1EF738VQs+W16aeIHlTk6laHXFQ2
+ yRKedIweUJwVIj5PNO6De4ZzZqEABETLxgywfMY0AgptmJVzcBHEvIt8AYaYtqbld7bM
+ eEab58MoC5aERYwxVhfK1Ngl0EpXicy3aVqsnCJ9lDdoWWFCSl64LmkIB4Bz9ibjRv7P
+ wzd8sQiq2IRcl4EPXzq2tCFnrrmP/COf96yGvJqE9XF1JQo9Ro6dgSX6CvIBWMh7NqyQ
+ e31QmB/UdUtGydOiwdPU2R59hTiFXgzpvZgiZyfFha+EiyX9940D/pkR4oo8sAJs4/3Y
+ +FRg==
+X-Gm-Message-State: AOAM530mKuV9UQEfRNerrcZ8j9dIDTPw5bm8JCiryIPtC6fEPqkHCI1U
+ YkZAaQfI7fUwwyNzfXSbnA==
+X-Google-Smtp-Source: ABdhPJyPWXNo9u1HoK1u2CGHhc5RKtLNjdegJxxJSZbcZE0nSiaSrAtzDQPyqq86BxZNsxnLhcpDcw==
+X-Received: by 2002:a9d:65cb:: with SMTP id z11mr1011382oth.241.1641843865304; 
+ Mon, 10 Jan 2022 11:44:25 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.gmail.com with ESMTPSA id 186sm1304268oig.28.2022.01.10.11.44.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Jan 2022 11:44:24 -0800 (PST)
+Received: (nullmailer pid 1374641 invoked by uid 1000);
+ Mon, 10 Jan 2022 19:44:23 -0000
+Date: Mon, 10 Jan 2022 13:44:23 -0600
+From: Rob Herring <robh@kernel.org>
+To: Luca Weiss <luca.weiss@fairphone.com>
+Subject: Re: [PATCH 1/4] dt-bindings: backlight: qcom-wled: Add PM6150L
+ compatible
+Message-ID: <YdyMl5Ma6yM0Cbga@robh.at.kernel.org>
+References: <20211229170358.2457006-1-luca.weiss@fairphone.com>
+ <20211229170358.2457006-2-luca.weiss@fairphone.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20211229170358.2457006-2-luca.weiss@fairphone.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,82 +63,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nvdimm@lists.linux.dev, linux-rdma@vger.kernel.org,
- John Hubbard <jhubbard@nvidia.com>, dri-devel@lists.freedesktop.org,
- Ming Lei <ming.lei@redhat.com>, linux-block@vger.kernel.org,
- linux-mm@kvack.org, Jason Gunthorpe <jgg@nvidia.com>, netdev@vger.kernel.org,
- Joao Martins <joao.m.martins@oracle.com>,
- Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>
+Cc: devicetree@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ Kiran Gunda <kgunda@codeaurora.org>, Jingoo Han <jingoohan1@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, Pavel Machek <pavel@ucw.cz>,
+ linux-arm-msm@vger.kernel.org, phone-devel@vger.kernel.org,
+ Lee Jones <lee.jones@linaro.org>, linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TLDR: I want to introduce a new data type:
+On Wed, 29 Dec 2021 18:03:55 +0100, Luca Weiss wrote:
+> Document the compatible for the wled block found in PM6150L.
+> 
+> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+> ---
+>  Documentation/devicetree/bindings/leds/backlight/qcom-wled.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-struct phyr {
-        phys_addr_t addr;
-        size_t len;
-};
-
-and use it to replace bio_vec as well as using it to replace the array
-of struct pages used by get_user_pages() and friends.
-
----
-
-There are two distinct problems I want to address: doing I/O to memory
-which does not have a struct page and efficiently doing I/O to large
-blobs of physically contiguous memory, regardless of whether it has a
-struct page.  There are some other improvements which I regard as minor.
-
-There are many types of memory that one might want to do I/O to that do
-not have a struct page, some examples:
- - Memory on a graphics card (or other PCI card, but gfx seems to be
-   the primary provider of DRAM on the PCI bus today)
- - DAX, or other pmem (there are some fake pages today, but this is
-   mostly a workaround for the IO problem today)
- - Guest memory being accessed from the hypervisor (KVM needs to
-   create structpages to make this happen.  Xen doesn't ...)
-All of these kinds of memories can be addressed by the CPU and so also
-by a bus master.  That is, there is a physical address that the CPU
-can use which will address this memory, and there is a way to convert
-that to a DMA address which can be programmed into another device.
-There's no intent here to support memory which can be accessed by a
-complex scheme like writing an address to a control register and then
-accessing the memory through a FIFO; this is for memory which can be
-accessed by DMA and CPU loads and stores.
-
-For get_user_pages() and friends, we currently fill an array of struct
-pages, each one representing PAGE_SIZE bytes.  For an application that
-is using 1GB hugepages, writing 2^18 entries is a significant overhead.
-It also makes drivers hard to write as they have to recoalesce the
-struct pages, even though the VM can tell it whether those 2^18 pages
-are contiguous.
-
-On the minor side, struct phyr can represent any mappable chunk of memory.
-A bio_vec is limited to 2^32 bytes, while on 64-bit machines a phyr
-can represent larger than 4GB.  A phyr is the same size as a bio_vec
-on 64 bit (16 bytes), and the same size for 32-bit with PAE (12 bytes).
-It is smaller for 32-bit machines without PAE (8 bytes instead of 12).
-
-Finally, it may be possible to stop using scatterlist to describe the
-input to the DMA-mapping operation.  We may be able to get struct
-scatterlist down to just dma_address and dma_length, with chaining
-handled through an enclosing struct.
-
-I would like to see phyr replace bio_vec everywhere it's currently used.
-I don't have time to do that work now because I'm busy with folios.
-If someone else wants to take that on, I shall cheer from the sidelines.
-What I do intend to do is:
-
- - Add an interface to gup.c to pin/unpin N phyrs
- - Add a sg_map_phyrs()
-   This will take an array of phyrs and allocate an sg for them
- - Whatever else I need to do to make one RDMA driver happy with
-   this scheme
-
-At that point, I intend to stop and let others more familiar with this
-area of the kernel continue the conversion of drivers.
-
-P.S. If you've had the Prodigy song running through your head the whole
-time you've been reading this email ... I'm sorry / You're welcome.
-If people insist, we can rename this to phys_range or something boring,
-but I quite like the spelling of phyr with the pronunciation of "fire".
+Acked-by: Rob Herring <robh@kernel.org>
