@@ -1,62 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DC2E489C43
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 16:35:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81C0B489C48
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 16:36:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6E8910E67F;
-	Mon, 10 Jan 2022 15:35:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F33910E9EF;
+	Mon, 10 Jan 2022 15:36:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0D4F10E67F
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 15:35:11 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id u21so32537252edd.5
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 07:35:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
+ [IPv6:2607:f8b0:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C5901121AA
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 15:36:20 +0000 (UTC)
+Received: by mail-ot1-x330.google.com with SMTP id
+ s21-20020a05683004d500b0058f585672efso15412078otd.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 07:36:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rdTgBG3kZyz0k3JIYUMXYFVRX/phoQToB19ld1SM7P4=;
- b=THet/eJXVlBTej2P8+hHk/6ga2sZ2Tma8tuzogiDp9T8Bd4UUiLyiJLowCh7omAK/6
- 4YDdRA/SrdVuzvRwVpldBbliTyfRL6QnyaUAyMxVDJI8xLoFVntcuVHRaRJkYxkbKqo4
- 8u1uI48Ax9YeO+AnTVRfdVnGtDM1fCMifOSwA=
+ :cc; bh=ATxtiYXvw3f0w5oe53WLDKO2TXCGgBhdfvvMrUcEva8=;
+ b=RVKy991vsKZPUqeSDvtT2c9YiyufQrUJFAro3GIl16zm2A1XBsIfj41jeCAJyNNvZX
+ fJWenSLCEqON+23Z9Fgua1U/hnSfW9NSgCEYmivvAwGhsdRW5Be2MM7+ME6WxDWUSnKz
+ w0/63zBwzHpVY4Vyh6NTnG4VEau6+75eZO6VE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=rdTgBG3kZyz0k3JIYUMXYFVRX/phoQToB19ld1SM7P4=;
- b=Ton/ATUC9ap7hLIfetLMV8l64CpEXtgUxX+5mVkYamsATVTQIubbYcNMkqpuliwLbK
- fPFDW9IRN70DIcapV1/kAwIz08l6rusEZ54OvCcC22c8GBkQzmRj/kk+WhzMzHfrKfvd
- e3fb6+VHifPZazrnaRg9nAR9Je2hHlrzPw1sf6OIKPV1fwM/K9sSaIIq2/kI8NExlqM7
- owwSLJOrNUFADyFyKvLU0tpFFTB+MwlJiYldZ+xwKCMUwZX5m1pYcMTiPZNV+vN/mJSa
- TxT7iZri1BaE71d68EhrT4+f6hQuVmHM3qNMuVb6Xj3A38624qvxmlHe6OMxAu5AN9tC
- MreQ==
-X-Gm-Message-State: AOAM5336nYKx8qWtd3G514AbtOxJu6x8p+26j7oHmOw4KPpEpS0S8WT5
- 7407x/oqGsm3rb8N7BVhJY88T9KbySpPOKF181d4OA==
-X-Google-Smtp-Source: ABdhPJxpbwMxn8i0mDhl7IEBRf6cevBVAwimipQimI46BYzk2xcAUheTDkQD6Eoj0AR9Pp/9jsMXGPlgzeUkrXdfrwc=
-X-Received: by 2002:a05:6402:5190:: with SMTP id
- q16mr184753edd.157.1641828910164; 
- Mon, 10 Jan 2022 07:35:10 -0800 (PST)
+ bh=ATxtiYXvw3f0w5oe53WLDKO2TXCGgBhdfvvMrUcEva8=;
+ b=kqARBNiEFJAwsbFC2NIBHoCMbUDwZOOij6KZGK7HQ0SexudiQOlzdm6SIaqTxKIxKv
+ b/9d5YyynzsMvas94VhRN3xQWDIiH8a+F8yNtdu8ffdIAjoVYPZ3WAmToyrZ6YhqHK7F
+ FxF6g+kbV/QSW3avfAwPYjBOjWaJWkB3JW6l8ARYrsFSQo4FLYlQ2cKCn46XvIYfvyxd
+ GBrD/bMxY+26WLNzXhzTNkJ4f7EajS545ZUOep2WU/SxyaJoaK2HhwvNH3lt00xBIBIi
+ bgccoiq9EIEZ8hjZPMz2yvIVqo//YRlZ8YCkbyFg4BWliJueAs26v3algQ8kIylCTECt
+ Mvmw==
+X-Gm-Message-State: AOAM533Yh8B2VRe1ynttv6hBzEfQKBA8nlzBUT37fBhx2VclU+7SBzqR
+ p28gbemEmTWzqbycyZjWPBJRR+T3kO2dsG/Cr08C3g==
+X-Google-Smtp-Source: ABdhPJw01Lr6GKe3wvkwZbJM4Hvg5bnDiT/nQ6OYafRt8sdo7mWRLMgoKS0pl4fnXWSVt3gc0IRwJu6VUhJw8/ztu9Y=
+X-Received: by 2002:a9d:685a:: with SMTP id c26mr217105oto.239.1641828979718; 
+ Mon, 10 Jan 2022 07:36:19 -0800 (PST)
 MIME-Version: 1.0
-References: <20211122070633.89219-1-jagan@amarulasolutions.com>
- <CGME20211122070651eucas1p1d505c9d2041501898d4f3b1f277e2599@eucas1p1.samsung.com>
- <20211122070633.89219-2-jagan@amarulasolutions.com>
- <5e173bc6-a320-42ec-79de-0ea4c3c2b480@samsung.com>
- <CAMty3ZArYY5ECD5AWZiNa8pYn16ziWi=S-39o3VuTXGA1eN1DQ@mail.gmail.com>
- <CAMty3ZA_UsvmTprozT+MgfZ4Q4LthSk340rV_0YwcmTy1Vyk4w@mail.gmail.com>
- <CAMty3ZBp7_JFvsBcQTpRMBYS7oWcT0TagUW2uQRGMuaakzF+cQ@mail.gmail.com>
- <1a195d36-3ac0-389e-442f-ebeb7f85ab40@samsung.com>
- <45de6555-7407-5f48-247b-4d093eb17fe2@samsung.com>
- <CAMty3ZCCT-ecR1LLecsixbt4Hd26zi_nqZ-1GJH7Wji91XT-tQ@mail.gmail.com>
- <CAG3jFyty+tdcm--gTHyXbmeQFx0btF0X-orD3HV0keC43FLfow@mail.gmail.com>
-In-Reply-To: <CAG3jFyty+tdcm--gTHyXbmeQFx0btF0X-orD3HV0keC43FLfow@mail.gmail.com>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Mon, 10 Jan 2022 21:04:59 +0530
-Message-ID: <CAMty3ZAti1MRDmks476R8+-moM9138oa=OBftH2R3QDrAOG+MA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm: exynos: dsi: Convert to bridge driver
-To: Robert Foss <robert.foss@linaro.org>
+References: <CAPM=9twnYJ8SrVzJEEH+Vksibomvk5CE+Nn6BXKYwLG_8r=GJQ@mail.gmail.com>
+ <CAHk-=wiyfiVoci-LHaY=e70zOpAoUqwoaFF4iD3xm847PkK1CQ@mail.gmail.com>
+In-Reply-To: <CAHk-=wiyfiVoci-LHaY=e70zOpAoUqwoaFF4iD3xm847PkK1CQ@mail.gmail.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Mon, 10 Jan 2022 16:36:08 +0100
+Message-ID: <CAKMK7uE_89hiD=C4z9i_XBPCqCAnL1SzXbzHqwOrCphFZKtUWg@mail.gmail.com>
+Subject: Re: [git pull] drm final fixes for 5.16
+To: Linus Torvalds <torvalds@linux-foundation.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,31 +60,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- linux-amarula@amarulasolutions.com, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Robert,
-
-On Mon, Jan 10, 2022 at 9:02 PM Robert Foss <robert.foss@linaro.org> wrote:
+On Fri, Jan 7, 2022 at 6:42 PM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> Hey Jagan,
+> On Thu, Jan 6, 2022 at 7:23 PM Dave Airlie <airlied@gmail.com> wrote:
+> >
+> > There is only the amdgpu runtime pm regression fix in here.
 >
-> This is a mistake on my end, I must have been looking at reviewing
-> this series and then accidentally included it with another batch of
-> patches. Thank you for catching this.
-
-Thanks for the response.
-
+> Thanks, from a quick test it works for me - the backlight actually
+> does eventually go away.
 >
-> I would suggest reverting these two patches[1][2]. Is that ok with you?
+> It does so only on the second time the monitors say "no signal, going
+> to power save", but that has been true before too.
+>
+> So I think there's still some confusion in this area, but it might be
+> elsewhere - who knows what Wayland and friends do. At least it doesn't
+> look like a regression to me any more.
 
-May be I will revert 1/2. but 2/2 is valid. Please let me know, if you
-have any concerns on reverting 1/2.
+Well it's not a true fix, just a "go back to exact old behaviour, but
+limited to relevant gpus for amdgpu only" so that i915 doesn't
+regress. I think there's some more debug to do here and
+Alex/Harry&team can look at leisure now :-)
 
-Thanks,
-Jagan.
+Cheers, Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
