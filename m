@@ -2,57 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6675648C053
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 09:52:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B46748C052
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 09:52:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CF79112E70;
-	Wed, 12 Jan 2022 08:51:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBE84112E4C;
+	Wed, 12 Jan 2022 08:51:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0DD810F2D7
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 19:12:59 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id z22so12572917edd.12
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 11:12:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=tP1DYjTazDNhmeXD8dNs23ff5eYfzUdaz2RizxuPk+g=;
- b=jmZ6ew2muTWHayV8vBZloY72n7uiUNgy5h0ju4ySco7V1KIFwY6w5rI88LjoO9gKYm
- kYPwiYhhDjYd4V3TUTEktX8SY/qLjoJfx6yXZ3zhZ9oW7OJeyls74b0REMgRMTlivIwf
- yPNxjcF9BcPUW18HnuffsyiTl8MyYE7xF8pygl91nOGNDQJMndhuqiApmDGUyK9NiWDg
- E6WFzI6vKyfvdj3w+KKlz5XnOk0mHWrViftN8oIVrtufFe5Km6zGETZ45mitDaebSTnw
- nIJPZYfeEK+wtXehcvp5yskvbMlF8VmMBCEUceMiHdt6E7gAYp5GCXcJEr7YKMiPy+ps
- Xr/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=tP1DYjTazDNhmeXD8dNs23ff5eYfzUdaz2RizxuPk+g=;
- b=jqWM8T7/vbiK0iQQH8ofGfc2rMfBPnA437N0yKPPD5w/XktHmM/4nrW3y/s7KYbt2c
- 88o3EcoZoEfwFkqX4e8TvFy6I8hHY81wj0TigJCQeMobcAeQgkebeQXbV1u9jYuO03a3
- FGptBodENGrbS78CreIS4+rAyaDuZQ4o+p7bxXOuCGcECi105nTZjB/lRT02VWcd1cQB
- 07zzZneTLQTqrkrZb1w+9AWI7AWJgEbky7AsbFt2x3ETYMBQ2e+ejI6cdA2t2+2/vER8
- JMpsq69FZQN4ts/qJV23f33BCkkgcZVOVt5Dc04GBQWQRtP9gV6qv4xdcQQE5fTRaEvl
- vWKw==
-X-Gm-Message-State: AOAM531LKvb+IvRLgLllbKclSK4qytuxRpqbnoFnLoavpFjM2Poy1MEM
- 2zxi2OAatI9f7nopzTSoE1ML5AuJoKeLzEov7M8=
-X-Google-Smtp-Source: ABdhPJxeyS/zQUQAjbwRj8OtDYsQaTcKmu9d212+t8YlQYcqRtYq2Q+lGd6EOtx6DxwZ3Axc/jd2CLW6nMMfiSX+Nj8=
-X-Received: by 2002:a05:6402:424c:: with SMTP id
- g12mr646441edb.4.1641841978110; 
- Mon, 10 Jan 2022 11:12:58 -0800 (PST)
+X-Greylist: delayed 468 seconds by postgrey-1.36 at gabe;
+ Mon, 10 Jan 2022 20:02:51 UTC
+Received: from mxout01.lancloud.ru (mxout01.lancloud.ru [45.84.86.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D62A510E258;
+ Mon, 10 Jan 2022 20:02:51 +0000 (UTC)
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru 40192209A558
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH 2/2] platform: make platform_get_irq_byname_optional() optional
+Date: Mon, 10 Jan 2022 22:54:49 +0300
+Message-ID: <20220110195449.12448-3-s.shtylyov@omp.ru>
+X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20220110195449.12448-1-s.shtylyov@omp.ru>
+References: <20220110195449.12448-1-s.shtylyov@omp.ru>
 MIME-Version: 1.0
-References: <20220107190208.95479-1-rajatja@google.com>
- <4ef79dee-b9d5-ee0c-56c5-0b3058b49ad5@redhat.com>
-In-Reply-To: <4ef79dee-b9d5-ee0c-56c5-0b3058b49ad5@redhat.com>
-From: Rajat Jain <rajatxjain@gmail.com>
-Date: Mon, 10 Jan 2022 11:12:46 -0800
-Message-ID: <CAA93t1rPSN482KnDj2tmEztu=yzrDO=1pWh7o7cG_Jr_gM=Nsw@mail.gmail.com>
-Subject: Re: [PATCH v5 1/3] drm/privacy_screen: Add drvdata in
- drm_privacy_screen
-To: Hans de Goede <hdegoede@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 X-Mailman-Approved-At: Wed, 12 Jan 2022 08:51:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,132 +47,339 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: rajatxjain@gmail.com
-Cc: Gwendal Grignou <gwendal@google.com>, marcheu@google.com,
- Thomas Zimmermann <tzimmermann@suse.de>, Sean Paul <seanpaul@google.com>,
- David Airlie <airlied@linux.ie>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Platform Driver <platform-driver-x86@vger.kernel.org>,
- Mark Gross <markgross@kernel.org>, ibm-acpi-devel@lists.sourceforge.net,
- Dmitry Torokhov <dtor@google.com>, dri-devel@lists.freedesktop.org,
- Benson Leung <bleung@google.com>, Rajat Jain <rajatja@google.com>,
- Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+Cc: Andrew Lunn <andrew@lunn.ch>,
+ =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+ David Airlie <airlied@linux.ie>, linux-pci@vger.kernel.org,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Aswath Govindraju <a-govindraju@ti.com>,
+ Thierry Reding <thierry.reding@gmail.com>, netdev@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Florian Fainelli <f.fainelli@gmail.com>, lima@lists.freedesktop.org,
+ Kamal Dasu <kdasu.kdev@gmail.com>, Jassi Brar <jassisinghbrar@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Jose Abreu <joabreu@synopsys.com>,
+ bcm-kernel-feedback-list@broadcom.com,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>, Jakub Kicinski <kuba@kernel.org>,
+ Vivien Didelot <vivien.didelot@gmail.com>, Wolfgang
+ Grandegger <wg@grandegger.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Pawel Laszczak <pawell@cadence.com>, linux-tegra@vger.kernel.org,
+ Mathias Nyman <mathias.nyman@intel.com>, linux-can@vger.kernel.org,
+ Roger Quadros <rogerq@kernel.org>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Marc Kleine-Budde <mkl@pengutronix.de>, Bjorn Helgaas <bhelgaas@google.com>,
+ Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-arm-kernel@lists.infradead.org, Jingoo Han <jingoohan1@gmail.com>,
+ Peter Chen <peter.chen@kernel.org>, linux-usb@vger.kernel.org,
+ Joakim Zhang <qiangqing.zhang@nxp.com>, linux-spi@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, Qiang Yu <yuq825@gmail.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+ linux-mediatek@lists.infradead.org, Vladimir Oltean <olteanv@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 10, 2022 at 3:24 AM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Hi All,
->
-> On 1/7/22 20:02, Rajat Jain wrote:
-> > Allow a privacy screen provider to stash its private data pointer in the
-> > drm_privacy_screen, and update the drm_privacy_screen_register() call to
-> > accept that. Also introduce a *_get_drvdata() so that it can retrieved
-> > back when needed.
-> >
-> > This also touches the IBM Thinkpad platform driver, the only user of
-> > privacy screen today, to pass NULL for now to the updated API.
-> >
-> > Signed-off-by: Rajat Jain <rajatja@google.com>
-> > Reviewed-by: Hans de Goede <hdegoede@redhat.com>
->
-> I've pushed this series to drm-misc-next now.
+Currently platform_get_irq_byname_optional() returns an error code even
+if IRQ resource simply has not been found. It prevents the callers from
+being error code agnostic in their error handling:
 
-Thank you so much. I see it.
+	ret = platform_get_irq_byname_optional(...);
+	if (ret < 0 && ret != -ENXIO)
+		return ret; // respect deferred probe
+	if (ret > 0)
+		...we get an IRQ...
 
-Thanks & Best Regards,
+All other *_optional() APIs seem to return 0 or NULL in case an optional
+resource is not available. Let's follow this good example, so that the
+callers would look like:
 
-Rajat
+	ret = platform_get_irq_byname_optional(...);
+	if (ret < 0)
+		return ret;
+	if (ret > 0)
+		...we get an IRQ...
 
+Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+---
+ drivers/base/platform.c                             | 13 ++++++++++---
+ drivers/gpu/drm/lima/lima_device.c                  |  2 +-
+ drivers/mailbox/tegra-hsp.c                         |  4 ++--
+ drivers/net/can/rcar/rcar_canfd.c                   |  4 ++--
+ drivers/net/dsa/b53/b53_srab.c                      |  2 +-
+ drivers/net/ethernet/freescale/fec_main.c           |  2 +-
+ drivers/net/ethernet/freescale/fec_ptp.c            |  2 +-
+ drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c   |  4 ++--
+ .../net/ethernet/stmicro/stmmac/stmmac_platform.c   |  4 ++--
+ drivers/pci/controller/dwc/pcie-designware-host.c   |  2 +-
+ drivers/spi/spi-bcm-qspi.c                          |  2 +-
+ drivers/spi/spi-rspi.c                              |  8 ++++----
+ drivers/usb/cdns3/cdns3-plat.c                      |  5 +----
+ drivers/usb/host/xhci-mtk.c                         |  2 +-
+ drivers/usb/mtu3/mtu3_core.c                        |  2 +-
+ 15 files changed, 31 insertions(+), 27 deletions(-)
 
->
-> Regards,
->
-> Hans
->
->
->
-> > ---
-> > v5: Same as v4
-> > v4: Added "Reviewed-by" from Hans
-> > v3: Initial version. Came up due to review comments on v2 of other patches.
-> > v2: No v2
-> > v1: No v1
-> >
-> >  drivers/gpu/drm/drm_privacy_screen.c    |  5 ++++-
-> >  drivers/platform/x86/thinkpad_acpi.c    |  2 +-
-> >  include/drm/drm_privacy_screen_driver.h | 13 ++++++++++++-
-> >  3 files changed, 17 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/drm_privacy_screen.c b/drivers/gpu/drm/drm_privacy_screen.c
-> > index beaf99e9120a..03b149cc455b 100644
-> > --- a/drivers/gpu/drm/drm_privacy_screen.c
-> > +++ b/drivers/gpu/drm/drm_privacy_screen.c
-> > @@ -387,7 +387,8 @@ static void drm_privacy_screen_device_release(struct device *dev)
-> >   * * An ERR_PTR(errno) on failure.
-> >   */
-> >  struct drm_privacy_screen *drm_privacy_screen_register(
-> > -     struct device *parent, const struct drm_privacy_screen_ops *ops)
-> > +     struct device *parent, const struct drm_privacy_screen_ops *ops,
-> > +     void *data)
-> >  {
-> >       struct drm_privacy_screen *priv;
-> >       int ret;
-> > @@ -404,6 +405,7 @@ struct drm_privacy_screen *drm_privacy_screen_register(
-> >       priv->dev.parent = parent;
-> >       priv->dev.release = drm_privacy_screen_device_release;
-> >       dev_set_name(&priv->dev, "privacy_screen-%s", dev_name(parent));
-> > +     priv->drvdata = data;
-> >       priv->ops = ops;
-> >
-> >       priv->ops->get_hw_state(priv);
-> > @@ -439,6 +441,7 @@ void drm_privacy_screen_unregister(struct drm_privacy_screen *priv)
-> >       mutex_unlock(&drm_privacy_screen_devs_lock);
-> >
-> >       mutex_lock(&priv->lock);
-> > +     priv->drvdata = NULL;
-> >       priv->ops = NULL;
-> >       mutex_unlock(&priv->lock);
-> >
-> > diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-> > index 341655d711ce..ccbfda2b0095 100644
-> > --- a/drivers/platform/x86/thinkpad_acpi.c
-> > +++ b/drivers/platform/x86/thinkpad_acpi.c
-> > @@ -9782,7 +9782,7 @@ static int tpacpi_lcdshadow_init(struct ibm_init_struct *iibm)
-> >               return 0;
-> >
-> >       lcdshadow_dev = drm_privacy_screen_register(&tpacpi_pdev->dev,
-> > -                                                 &lcdshadow_ops);
-> > +                                                 &lcdshadow_ops, NULL);
-> >       if (IS_ERR(lcdshadow_dev))
-> >               return PTR_ERR(lcdshadow_dev);
-> >
-> > diff --git a/include/drm/drm_privacy_screen_driver.h b/include/drm/drm_privacy_screen_driver.h
-> > index 24591b607675..4ef246d5706f 100644
-> > --- a/include/drm/drm_privacy_screen_driver.h
-> > +++ b/include/drm/drm_privacy_screen_driver.h
-> > @@ -73,10 +73,21 @@ struct drm_privacy_screen {
-> >        * for more info.
-> >        */
-> >       enum drm_privacy_screen_status hw_state;
-> > +     /**
-> > +      * @drvdata: Private data owned by the privacy screen provider
-> > +      */
-> > +     void *drvdata;
-> >  };
-> >
-> > +static inline
-> > +void *drm_privacy_screen_get_drvdata(struct drm_privacy_screen *priv)
-> > +{
-> > +     return priv->drvdata;
-> > +}
-> > +
-> >  struct drm_privacy_screen *drm_privacy_screen_register(
-> > -     struct device *parent, const struct drm_privacy_screen_ops *ops);
-> > +     struct device *parent, const struct drm_privacy_screen_ops *ops,
-> > +     void *data);
-> >  void drm_privacy_screen_unregister(struct drm_privacy_screen *priv);
-> >
-> >  void drm_privacy_screen_call_notifier_chain(struct drm_privacy_screen *priv);
-> >
->
+diff --git a/drivers/base/platform.c b/drivers/base/platform.c
+index 7c7b3638f02d..1d0ea635922b 100644
+--- a/drivers/base/platform.c
++++ b/drivers/base/platform.c
+@@ -495,14 +495,21 @@ EXPORT_SYMBOL_GPL(platform_get_irq_byname);
+  * @name: IRQ name
+  *
+  * Get an optional IRQ by name like platform_get_irq_byname(). Except that it
+- * does not print an error message if an IRQ can not be obtained.
++ * does not print an error message if an IRQ can not be obtained and returns
++ * 0 when IRQ resource has not been found.
+  *
+- * Return: non-zero IRQ number on success, negative error number on failure.
++ * Return: non-zero IRQ number on success, 0 if IRQ wasn't found, negative error
++ * number on failure.
+  */
+ int platform_get_irq_byname_optional(struct platform_device *dev,
+ 				     const char *name)
+ {
+-	return __platform_get_irq_byname(dev, name);
++	int ret;
++
++	ret = __platform_get_irq_byname(dev, name);
++	if (ret == -ENXIO)
++		return 0;
++	return ret;
+ }
+ EXPORT_SYMBOL_GPL(platform_get_irq_byname_optional);
+ 
+diff --git a/drivers/gpu/drm/lima/lima_device.c b/drivers/gpu/drm/lima/lima_device.c
+index 65fdca366e41..e3659aa687c2 100644
+--- a/drivers/gpu/drm/lima/lima_device.c
++++ b/drivers/gpu/drm/lima/lima_device.c
+@@ -223,7 +223,7 @@ static int lima_init_ip(struct lima_device *dev, int index)
+ 	if (irq_name) {
+ 		err = must ? platform_get_irq_byname(pdev, irq_name) :
+ 			     platform_get_irq_byname_optional(pdev, irq_name);
+-		if (err < 0)
++		if (err <= 0)
+ 			goto out;
+ 		ip->irq = err;
+ 	}
+diff --git a/drivers/mailbox/tegra-hsp.c b/drivers/mailbox/tegra-hsp.c
+index acd0675da681..17aa88e31445 100644
+--- a/drivers/mailbox/tegra-hsp.c
++++ b/drivers/mailbox/tegra-hsp.c
+@@ -667,7 +667,7 @@ static int tegra_hsp_probe(struct platform_device *pdev)
+ 	hsp->num_si = (value >> HSP_nSI_SHIFT) & HSP_nINT_MASK;
+ 
+ 	err = platform_get_irq_byname_optional(pdev, "doorbell");
+-	if (err >= 0)
++	if (err > 0)
+ 		hsp->doorbell_irq = err;
+ 
+ 	if (hsp->num_si > 0) {
+@@ -687,7 +687,7 @@ static int tegra_hsp_probe(struct platform_device *pdev)
+ 				return -ENOMEM;
+ 
+ 			err = platform_get_irq_byname_optional(pdev, name);
+-			if (err >= 0) {
++			if (err > 0) {
+ 				hsp->shared_irqs[i] = err;
+ 				count++;
+ 			}
+diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
+index ff9d0f5ae0dd..1d4794493c6a 100644
+--- a/drivers/net/can/rcar/rcar_canfd.c
++++ b/drivers/net/can/rcar/rcar_canfd.c
+@@ -1778,7 +1778,7 @@ static int rcar_canfd_probe(struct platform_device *pdev)
+ 
+ 	if (chip_id == RENESAS_RCAR_GEN3) {
+ 		ch_irq = platform_get_irq_byname_optional(pdev, "ch_int");
+-		if (ch_irq < 0) {
++		if (ch_irq <= 0) {
+ 			/* For backward compatibility get irq by index */
+ 			ch_irq = platform_get_irq(pdev, 0);
+ 			if (ch_irq < 0)
+@@ -1786,7 +1786,7 @@ static int rcar_canfd_probe(struct platform_device *pdev)
+ 		}
+ 
+ 		g_irq = platform_get_irq_byname_optional(pdev, "g_int");
+-		if (g_irq < 0) {
++		if (g_irq <= 0) {
+ 			/* For backward compatibility get irq by index */
+ 			g_irq = platform_get_irq(pdev, 1);
+ 			if (g_irq < 0)
+diff --git a/drivers/net/dsa/b53/b53_srab.c b/drivers/net/dsa/b53/b53_srab.c
+index 4591bb1c05d2..80b7c8f053ad 100644
+--- a/drivers/net/dsa/b53/b53_srab.c
++++ b/drivers/net/dsa/b53/b53_srab.c
+@@ -420,7 +420,7 @@ static int b53_srab_irq_enable(struct b53_device *dev, int port)
+ 	/* Interrupt is optional and was not specified, do not make
+ 	 * this fatal
+ 	 */
+-	if (p->irq == -ENXIO)
++	if (!p->irq)
+ 		return ret;
+ 
+ 	ret = request_threaded_irq(p->irq, b53_srab_port_isr,
+diff --git a/drivers/net/ethernet/freescale/fec_main.c b/drivers/net/ethernet/freescale/fec_main.c
+index bc418b910999..fba36d09a6e0 100644
+--- a/drivers/net/ethernet/freescale/fec_main.c
++++ b/drivers/net/ethernet/freescale/fec_main.c
+@@ -3933,7 +3933,7 @@ fec_probe(struct platform_device *pdev)
+ 	for (i = 0; i < irq_cnt; i++) {
+ 		snprintf(irq_name, sizeof(irq_name), "int%d", i);
+ 		irq = platform_get_irq_byname_optional(pdev, irq_name);
+-		if (irq < 0)
++		if (irq <= 0)
+ 			irq = platform_get_irq(pdev, i);
+ 		if (irq < 0) {
+ 			ret = irq;
+diff --git a/drivers/net/ethernet/freescale/fec_ptp.c b/drivers/net/ethernet/freescale/fec_ptp.c
+index 158676eda48d..251863c2d5a4 100644
+--- a/drivers/net/ethernet/freescale/fec_ptp.c
++++ b/drivers/net/ethernet/freescale/fec_ptp.c
+@@ -615,7 +615,7 @@ void fec_ptp_init(struct platform_device *pdev, int irq_idx)
+ 	INIT_DELAYED_WORK(&fep->time_keep, fec_time_keep);
+ 
+ 	irq = platform_get_irq_byname_optional(pdev, "pps");
+-	if (irq < 0)
++	if (irq <= 0)
+ 		irq = platform_get_irq_optional(pdev, irq_idx);
+ 	/* Failure to get an irq is not fatal,
+ 	 * only the PTP_CLOCK_PPS clock events should stop
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c
+index 2b38a499a404..5519b5b35365 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c
+@@ -342,7 +342,7 @@ static int stm32mp1_parse_data(struct stm32_dwmac *dwmac,
+ 	if (dwmac->irq_pwr_wakeup == -EPROBE_DEFER)
+ 		return -EPROBE_DEFER;
+ 
+-	if (!dwmac->clk_eth_ck && dwmac->irq_pwr_wakeup >= 0) {
++	if (!dwmac->clk_eth_ck && dwmac->irq_pwr_wakeup > 0) {
+ 		err = device_init_wakeup(&pdev->dev, true);
+ 		if (err) {
+ 			dev_err(&pdev->dev, "Failed to init wake up irq\n");
+@@ -426,7 +426,7 @@ static int stm32_dwmac_remove(struct platform_device *pdev)
+ 
+ 	stm32_dwmac_clk_disable(priv->plat->bsp_priv);
+ 
+-	if (dwmac->irq_pwr_wakeup >= 0) {
++	if (dwmac->irq_pwr_wakeup > 0) {
+ 		dev_pm_clear_wake_irq(&pdev->dev);
+ 		device_init_wakeup(&pdev->dev, false);
+ 	}
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
+index 232ac98943cd..dcfc04f7bfd4 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
+@@ -679,7 +679,7 @@ int stmmac_get_platform_resources(struct platform_device *pdev,
+ 	 */
+ 	stmmac_res->wol_irq =
+ 		platform_get_irq_byname_optional(pdev, "eth_wake_irq");
+-	if (stmmac_res->wol_irq < 0) {
++	if (stmmac_res->wol_irq <= 0) {
+ 		if (stmmac_res->wol_irq == -EPROBE_DEFER)
+ 			return -EPROBE_DEFER;
+ 		dev_info(&pdev->dev, "IRQ eth_wake_irq not found\n");
+@@ -688,7 +688,7 @@ int stmmac_get_platform_resources(struct platform_device *pdev,
+ 
+ 	stmmac_res->lpi_irq =
+ 		platform_get_irq_byname_optional(pdev, "eth_lpi");
+-	if (stmmac_res->lpi_irq < 0) {
++	if (stmmac_res->lpi_irq <= 0) {
+ 		if (stmmac_res->lpi_irq == -EPROBE_DEFER)
+ 			return -EPROBE_DEFER;
+ 		dev_info(&pdev->dev, "IRQ eth_lpi not found\n");
+diff --git a/drivers/pci/controller/dwc/pcie-designware-host.c b/drivers/pci/controller/dwc/pcie-designware-host.c
+index f4755f3a03be..00e1a33fd06d 100644
+--- a/drivers/pci/controller/dwc/pcie-designware-host.c
++++ b/drivers/pci/controller/dwc/pcie-designware-host.c
+@@ -364,7 +364,7 @@ int dw_pcie_host_init(struct pcie_port *pp)
+ 		} else if (pp->has_msi_ctrl) {
+ 			if (!pp->msi_irq) {
+ 				pp->msi_irq = platform_get_irq_byname_optional(pdev, "msi");
+-				if (pp->msi_irq < 0) {
++				if (pp->msi_irq <= 0) {
+ 					pp->msi_irq = platform_get_irq(pdev, 0);
+ 					if (pp->msi_irq < 0)
+ 						return pp->msi_irq;
+diff --git a/drivers/spi/spi-bcm-qspi.c b/drivers/spi/spi-bcm-qspi.c
+index f3de3305d0f5..40ca101e9875 100644
+--- a/drivers/spi/spi-bcm-qspi.c
++++ b/drivers/spi/spi-bcm-qspi.c
+@@ -1595,7 +1595,7 @@ int bcm_qspi_probe(struct platform_device *pdev,
+ 			irq = platform_get_irq(pdev, 0);
+ 		}
+ 
+-		if (irq  >= 0) {
++		if (irq > 0) {
+ 			ret = devm_request_irq(&pdev->dev, irq,
+ 					       qspi_irq_tab[val].irq_handler, 0,
+ 					       name,
+diff --git a/drivers/spi/spi-rspi.c b/drivers/spi/spi-rspi.c
+index 41761f0d892a..b736b57f5ff2 100644
+--- a/drivers/spi/spi-rspi.c
++++ b/drivers/spi/spi-rspi.c
+@@ -1330,16 +1330,16 @@ static int rspi_probe(struct platform_device *pdev)
+ 	ctlr->max_native_cs = rspi->ops->num_hw_ss;
+ 
+ 	ret = platform_get_irq_byname_optional(pdev, "rx");
+-	if (ret < 0) {
++	if (ret <= 0) {
+ 		ret = platform_get_irq_byname_optional(pdev, "mux");
+-		if (ret < 0)
++		if (ret <= 0)
+ 			ret = platform_get_irq(pdev, 0);
+-		if (ret >= 0)
++		if (ret > 0)
+ 			rspi->rx_irq = rspi->tx_irq = ret;
+ 	} else {
+ 		rspi->rx_irq = ret;
+ 		ret = platform_get_irq_byname(pdev, "tx");
+-		if (ret >= 0)
++		if (ret > 0)
+ 			rspi->tx_irq = ret;
+ 	}
+ 
+diff --git a/drivers/usb/cdns3/cdns3-plat.c b/drivers/usb/cdns3/cdns3-plat.c
+index 4d0f027e5bd3..7379b6026f9f 100644
+--- a/drivers/usb/cdns3/cdns3-plat.c
++++ b/drivers/usb/cdns3/cdns3-plat.c
+@@ -108,10 +108,7 @@ static int cdns3_plat_probe(struct platform_device *pdev)
+ 	cdns->wakeup_irq = platform_get_irq_byname_optional(pdev, "wakeup");
+ 	if (cdns->wakeup_irq == -EPROBE_DEFER)
+ 		return cdns->wakeup_irq;
+-	else if (cdns->wakeup_irq == 0)
+-		return -EINVAL;
+-
+-	if (cdns->wakeup_irq < 0) {
++	if (cdns->wakeup_irq <= 0) {
+ 		dev_dbg(dev, "couldn't get wakeup irq\n");
+ 		cdns->wakeup_irq = 0x0;
+ 	}
+diff --git a/drivers/usb/host/xhci-mtk.c b/drivers/usb/host/xhci-mtk.c
+index 58a0eae4f41b..e3071e7cb165 100644
+--- a/drivers/usb/host/xhci-mtk.c
++++ b/drivers/usb/host/xhci-mtk.c
+@@ -495,7 +495,7 @@ static int xhci_mtk_probe(struct platform_device *pdev)
+ 		return ret;
+ 
+ 	irq = platform_get_irq_byname_optional(pdev, "host");
+-	if (irq < 0) {
++	if (irq <= 0) {
+ 		if (irq == -EPROBE_DEFER)
+ 			return irq;
+ 
+diff --git a/drivers/usb/mtu3/mtu3_core.c b/drivers/usb/mtu3/mtu3_core.c
+index c4a2c37abf62..08173c05a1d6 100644
+--- a/drivers/usb/mtu3/mtu3_core.c
++++ b/drivers/usb/mtu3/mtu3_core.c
+@@ -925,7 +925,7 @@ int ssusb_gadget_init(struct ssusb_mtk *ssusb)
+ 		return -ENOMEM;
+ 
+ 	mtu->irq = platform_get_irq_byname_optional(pdev, "device");
+-	if (mtu->irq < 0) {
++	if (mtu->irq <= 0) {
+ 		if (mtu->irq == -EPROBE_DEFER)
+ 			return mtu->irq;
+ 
+-- 
+2.26.3
+
