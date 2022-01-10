@@ -1,55 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92EF9489B95
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 15:49:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 054C1489C3D
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 16:32:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBE8610E2AC;
-	Mon, 10 Jan 2022 14:49:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D6E311AC05;
+	Mon, 10 Jan 2022 15:32:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD79010E444;
- Mon, 10 Jan 2022 14:49:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1641826182; x=1673362182;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=SAQ+gmaJUOY/DT00vFcGZW1BCQZ0dbEJR996qBZjFig=;
- b=YmR4egoLchmharfBfa6ZJ230HRupD0pKi0tXBfGzbn0nwg8BNEaM3Etc
- ngu1ivGmHT8f7fhHiSsd2P5FTATDrSfBzpmLwfeB3RBG5pr/SLW35EC0b
- DBLb8id0jUf7bZr4kUmJaazNlgSKBRarcxoLac9W8qlxOmHqtSvFFu+mV
- VrhAgkNTgRgbeFBdq1Ers77jRdlybaGzEuR8lZkDKR5pOI8BWCWwKQ5Be
- R1EJ0ty6CWhqYmImqymmTKcuZDrUEuqkEC99Mlslvb7tX1BjQT8aWehNa
- TYsjIXekUXp2kBtCX5E3QzNeTqnVzU/yJiZbPKjd6jIfs2F0dENYTn9Qo w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10222"; a="242053136"
-X-IronPort-AV: E=Sophos;i="5.88,277,1635231600"; d="scan'208";a="242053136"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2022 06:49:13 -0800
-X-IronPort-AV: E=Sophos;i="5.88,277,1635231600"; d="scan'208";a="592369656"
-Received: from pheino-mobl.ger.corp.intel.com (HELO [10.249.254.41])
- ([10.249.254.41])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2022 06:49:11 -0800
-Message-ID: <f29711f3-e9c1-1a9e-a1ab-0b6ac80e0ddc@linux.intel.com>
-Date: Mon, 10 Jan 2022 15:49:07 +0100
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
+ [IPv6:2607:f8b0:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B60D11AC0B
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 15:32:46 +0000 (UTC)
+Received: by mail-pl1-x636.google.com with SMTP id l15so12342865pls.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 07:32:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pP7hplEMRnbDJJUioe5PJ8H4vP+A5YtNpurFomKnfYE=;
+ b=JfSCODO427KXOsqhlkv63/JEEUed64X4i8gKjSfcY2sqQQAZwtvlbF8s9VWtiUFkDx
+ h6R9Eifhz9a0InM5fLfn29i9w8xnr/LxumuBY2lpn5Q/UbHbtFnQ86SRQbO1FwHP2IO5
+ zEvC8AtkjtMwHFlBlIPIHnBBuioaICEhiUGqeLR7Cg+YRW5V8cN6A5EK9JfOJwvGL76L
+ V8TOFlBVs/NErPlB/xPKcm8pGvVd6q1vv0+dpcLJxvCW+3klO71u85DGzTokPVK8BtUq
+ sFHsJ5yTQUSC2KwyBtFOYJe/Bq6FhI6iaBhj8fG4uY20t3jVMwKxrrCq4tIg0T0gONAZ
+ VmsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pP7hplEMRnbDJJUioe5PJ8H4vP+A5YtNpurFomKnfYE=;
+ b=d+a8Giv/qtYcGOXj7nX9rCEhhAjgIQf9oLSHeThS45xoOGFoFYr98nL1J2RYsTIPpS
+ KlnglzXLk/ImAFXFtfff+twj72acuE9AUCFtE6q5P4kQih1kwjlwoqDHPAd2w99aDKUS
+ s7U/+HCIZFU9/Y8oEejYPkgGKRFoLdOBEeAkjmII7pdYDNYz2J0Ckm+xV1iU7ny1qoYK
+ r20ruCNxL5ZwwYZzwV3B7m/C+o2CayuOA3fH2Uji71a2rnapah3BccCQGIeCZumn9pDd
+ SPPgBx6RQ4Z0WOQrllUUOsi5rQAVMMn3XJwxSFfyfT1e2fxayuKvl/IwHrTvhA6+EujM
+ sh4A==
+X-Gm-Message-State: AOAM5338ieAzhZfEeHnU5ElpPYw3zwirbrtQzHWB1g57O4neTHbDXWrn
+ uACrARa1kePdC0aiXef0ofx2KFFQaI64Hi5rrtIY5Q==
+X-Google-Smtp-Source: ABdhPJyQoxPB2N1QpscWezJoL3qi5Boqp51jMZMvK8Wa66BG0LZzM1lvIjJLM/zCdXowT0e2ZMusE7hnyHBxGJ/Lu7E=
+X-Received: by 2002:a17:90a:5295:: with SMTP id
+ w21mr29173302pjh.179.1641828765926; 
+ Mon, 10 Jan 2022 07:32:45 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v6 4/6] drm/i915: Use vma resources for async unbinding
-Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20220107142343.56811-1-thomas.hellstrom@linux.intel.com>
- <20220107142343.56811-5-thomas.hellstrom@linux.intel.com>
- <1be714d0-2998-f23e-cfa4-79c2998ebb32@intel.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <1be714d0-2998-f23e-cfa4-79c2998ebb32@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20211122070633.89219-1-jagan@amarulasolutions.com>
+ <CGME20211122070651eucas1p1d505c9d2041501898d4f3b1f277e2599@eucas1p1.samsung.com>
+ <20211122070633.89219-2-jagan@amarulasolutions.com>
+ <5e173bc6-a320-42ec-79de-0ea4c3c2b480@samsung.com>
+ <CAMty3ZArYY5ECD5AWZiNa8pYn16ziWi=S-39o3VuTXGA1eN1DQ@mail.gmail.com>
+ <CAMty3ZA_UsvmTprozT+MgfZ4Q4LthSk340rV_0YwcmTy1Vyk4w@mail.gmail.com>
+ <CAMty3ZBp7_JFvsBcQTpRMBYS7oWcT0TagUW2uQRGMuaakzF+cQ@mail.gmail.com>
+ <1a195d36-3ac0-389e-442f-ebeb7f85ab40@samsung.com>
+ <45de6555-7407-5f48-247b-4d093eb17fe2@samsung.com>
+ <CAMty3ZCCT-ecR1LLecsixbt4Hd26zi_nqZ-1GJH7Wji91XT-tQ@mail.gmail.com>
+In-Reply-To: <CAMty3ZCCT-ecR1LLecsixbt4Hd26zi_nqZ-1GJH7Wji91XT-tQ@mail.gmail.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Mon, 10 Jan 2022 16:32:34 +0100
+Message-ID: <CAG3jFyty+tdcm--gTHyXbmeQFx0btF0X-orD3HV0keC43FLfow@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm: exynos: dsi: Convert to bridge driver
+To: Jagan Teki <jagan@amarulasolutions.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,1083 +71,190 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ linux-amarula@amarulasolutions.com, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hey Jagan,
 
-On 1/10/22 14:21, Matthew Auld wrote:
-> On 07/01/2022 14:23, Thomas Hellström wrote:
->> Implement async (non-blocking) unbinding by not syncing the vma before
->> calling unbind on the vma_resource.
->> Add the resulting unbind fence to the object's dma_resv from where it is
->> picked up by the ttm migration code.
->> Ideally these unbind fences should be coalesced with the migration blit
->> fence to avoid stalling the migration blit waiting for unbind, as they
->> can certainly go on in parallel, but since we don't yet have a
->> reasonable data structure to use to coalesce fences and attach the
->> resulting fence to a timeline, we defer that for now.
->>
->> Note that with async unbinding, even while the unbind waits for the
->> preceding bind to complete before unbinding, the vma itself might 
->> have been
->> destroyed in the process, clearing the vma pages. Therefore we can
->> only allow async unbinding if we have a refcounted sg-list and keep a
->> refcount on that for the vma resource pages to stay intact until
->> binding occurs. If this condition is not met, a request for an async
->> unbind is diverted to a sync unbind.
->>
->> v2:
->> - Use a separate kmem_cache for vma resources for now to isolate their
->>    memory allocation and aid debugging.
->> - Move the check for vm closed to the actual unbinding thread. 
->> Regardless
->>    of whether the vm is closed, we need the unbind fence to properly 
->> wait
->>    for capture.
->> - Clear vma_res::vm on unbind and update its documentation.
->> v4:
->> - Take cache coloring into account when searching for vma resources
->>    pending unbind. (Matthew Auld)
->> v5:
->> - Fix timeout and error check in i915_vma_resource_bind_dep_await().
->> - Avoid taking a reference on the object for async binding if
->>    async unbind capable.
->> - Fix braces around a single-line if statement.
->> v6:
->> - Fix up the cache coloring adjustment. (Kernel test robot 
->> <lkp@intel.com>)
->> - Don't allow async unbinding if the vma_res pages are not the same as
->>    the object pages.
->>
->> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->> ---
->>   drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c |  11 +-
->>   drivers/gpu/drm/i915/gt/intel_ggtt.c         |   2 +-
->>   drivers/gpu/drm/i915/gt/intel_gtt.c          |   4 +
->>   drivers/gpu/drm/i915/gt/intel_gtt.h          |   3 +
->>   drivers/gpu/drm/i915/i915_drv.h              |   1 +
->>   drivers/gpu/drm/i915/i915_gem.c              |  12 +-
->>   drivers/gpu/drm/i915/i915_module.c           |   3 +
->>   drivers/gpu/drm/i915/i915_vma.c              | 205 +++++++++--
->>   drivers/gpu/drm/i915/i915_vma.h              |   3 +-
->>   drivers/gpu/drm/i915/i915_vma_resource.c     | 354 +++++++++++++++++--
->>   drivers/gpu/drm/i915/i915_vma_resource.h     |  48 +++
->>   11 files changed, 579 insertions(+), 67 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c 
->> b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
->> index 8653855d808b..1de306c03aaf 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
->> @@ -142,7 +142,16 @@ int i915_ttm_move_notify(struct 
->> ttm_buffer_object *bo)
->>       struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
->>       int ret;
->>   -    ret = i915_gem_object_unbind(obj, I915_GEM_OBJECT_UNBIND_ACTIVE);
->> +    /*
->> +     * Note: The async unbinding here will actually transform the
->> +     * blocking wait for unbind into a wait before finally submitting
->> +     * evict / migration blit and thus stall the migration timeline
->> +     * which may not be good for overall throughput. We should make
->> +     * sure we await the unbind fences *after* the migration blit
->> +     * instead of *before* as we currently do.
->> +     */
->> +    ret = i915_gem_object_unbind(obj, I915_GEM_OBJECT_UNBIND_ACTIVE |
->> +                     I915_GEM_OBJECT_UNBIND_ASYNC);
->>       if (ret)
->>           return ret;
->>   diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c 
->> b/drivers/gpu/drm/i915/gt/intel_ggtt.c
->> index e49b6250c4b7..a1b2761bc16e 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
->> @@ -142,7 +142,7 @@ void i915_ggtt_suspend_vm(struct 
->> i915_address_space *vm)
->>               continue;
->>             if (!i915_vma_is_bound(vma, I915_VMA_GLOBAL_BIND)) {
->> -            __i915_vma_evict(vma);
->> +            __i915_vma_evict(vma, false);
->>               drm_mm_remove_node(&vma->node);
->>           }
->>       }
->> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c 
->> b/drivers/gpu/drm/i915/gt/intel_gtt.c
->> index a94be0306464..46be4197b93f 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_gtt.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
->> @@ -161,6 +161,9 @@ static void __i915_vm_release(struct work_struct 
->> *work)
->>       struct i915_address_space *vm =
->>           container_of(work, struct i915_address_space, release_work);
->>   +    /* Synchronize async unbinds. */
->> +    i915_vma_resource_bind_dep_sync_all(vm);
->> +
->>       vm->cleanup(vm);
->>       i915_address_space_fini(vm);
->>   @@ -189,6 +192,7 @@ void i915_address_space_init(struct 
->> i915_address_space *vm, int subclass)
->>       if (!kref_read(&vm->resv_ref))
->>           kref_init(&vm->resv_ref);
->>   +    vm->pending_unbind = RB_ROOT_CACHED;
->>       INIT_WORK(&vm->release_work, __i915_vm_release);
->>       atomic_set(&vm->open, 1);
->>   diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h 
->> b/drivers/gpu/drm/i915/gt/intel_gtt.h
->> index 676b839d1a34..8073438b67c8 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_gtt.h
->> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
->> @@ -265,6 +265,9 @@ struct i915_address_space {
->>       /* Flags used when creating page-table objects for this vm */
->>       unsigned long lmem_pt_obj_flags;
->>   +    /* Interval tree for pending unbind vma resources */
->> +    struct rb_root_cached pending_unbind;
->> +
->>       struct drm_i915_gem_object *
->>           (*alloc_pt_dma)(struct i915_address_space *vm, int sz);
->>       struct drm_i915_gem_object *
->> diff --git a/drivers/gpu/drm/i915/i915_drv.h 
->> b/drivers/gpu/drm/i915/i915_drv.h
->> index 2f9336302e6c..f7de0a509b82 100644
->> --- a/drivers/gpu/drm/i915/i915_drv.h
->> +++ b/drivers/gpu/drm/i915/i915_drv.h
->> @@ -1667,6 +1667,7 @@ int i915_gem_object_unbind(struct 
->> drm_i915_gem_object *obj,
->>   #define I915_GEM_OBJECT_UNBIND_BARRIER BIT(1)
->>   #define I915_GEM_OBJECT_UNBIND_TEST BIT(2)
->>   #define I915_GEM_OBJECT_UNBIND_VM_TRYLOCK BIT(3)
->> +#define I915_GEM_OBJECT_UNBIND_ASYNC BIT(4)
->>     void i915_gem_runtime_suspend(struct drm_i915_private *dev_priv);
->>   diff --git a/drivers/gpu/drm/i915/i915_gem.c 
->> b/drivers/gpu/drm/i915/i915_gem.c
->> index e3730096abd9..3d6c00f845a3 100644
->> --- a/drivers/gpu/drm/i915/i915_gem.c
->> +++ b/drivers/gpu/drm/i915/i915_gem.c
->> @@ -156,10 +156,16 @@ int i915_gem_object_unbind(struct 
->> drm_i915_gem_object *obj,
->>           spin_unlock(&obj->vma.lock);
->>             if (vma) {
->> +            bool vm_trylock = !!(flags & 
->> I915_GEM_OBJECT_UNBIND_VM_TRYLOCK);
->>               ret = -EBUSY;
->> -            if (flags & I915_GEM_OBJECT_UNBIND_ACTIVE ||
->> -                !i915_vma_is_active(vma)) {
->> -                if (flags & I915_GEM_OBJECT_UNBIND_VM_TRYLOCK) {
->> +            if (flags & I915_GEM_OBJECT_UNBIND_ASYNC) {
->> +                assert_object_held(vma->obj);
->> +                ret = i915_vma_unbind_async(vma, vm_trylock);
->> +            }
->> +
->> +            if (ret == -EBUSY && (flags & 
->> I915_GEM_OBJECT_UNBIND_ACTIVE ||
->> +                          !i915_vma_is_active(vma))) {
->> +                if (vm_trylock) {
->>                       if (mutex_trylock(&vma->vm->mutex)) {
->>                           ret = __i915_vma_unbind(vma);
->> mutex_unlock(&vma->vm->mutex);
->> diff --git a/drivers/gpu/drm/i915/i915_module.c 
->> b/drivers/gpu/drm/i915/i915_module.c
->> index f6bcd2f89257..a8f175960b34 100644
->> --- a/drivers/gpu/drm/i915/i915_module.c
->> +++ b/drivers/gpu/drm/i915/i915_module.c
->> @@ -17,6 +17,7 @@
->>   #include "i915_scheduler.h"
->>   #include "i915_selftest.h"
->>   #include "i915_vma.h"
->> +#include "i915_vma_resource.h"
->>     static int i915_check_nomodeset(void)
->>   {
->> @@ -64,6 +65,8 @@ static const struct {
->>         .exit = i915_scheduler_module_exit },
->>       { .init = i915_vma_module_init,
->>         .exit = i915_vma_module_exit },
->> +    { .init = i915_vma_resource_module_init,
->> +      .exit = i915_vma_resource_module_exit },
->>       { .init = i915_mock_selftests },
->>       { .init = i915_pmu_init,
->>         .exit = i915_pmu_exit },
->> diff --git a/drivers/gpu/drm/i915/i915_vma.c 
->> b/drivers/gpu/drm/i915/i915_vma.c
->> index 8fa3e0b2fe26..a2592605ba5c 100644
->> --- a/drivers/gpu/drm/i915/i915_vma.c
->> +++ b/drivers/gpu/drm/i915/i915_vma.c
->> @@ -285,9 +285,10 @@ struct i915_vma_work {
->>       struct dma_fence_work base;
->>       struct i915_address_space *vm;
->>       struct i915_vm_pt_stash stash;
->> -    struct i915_vma *vma;
->> +    struct i915_vma_resource *vma_res;
->>       struct drm_i915_gem_object *pinned;
->>       struct i915_sw_dma_fence_cb cb;
->> +    struct i915_refct_sgt *rsgt;
->>       enum i915_cache_level cache_level;
->>       unsigned int flags;
->>   };
->> @@ -295,10 +296,11 @@ struct i915_vma_work {
->>   static void __vma_bind(struct dma_fence_work *work)
->>   {
->>       struct i915_vma_work *vw = container_of(work, typeof(*vw), base);
->> -    struct i915_vma *vma = vw->vma;
->> +    struct i915_vma_resource *vma_res = vw->vma_res;
->> +
->> +    vma_res->ops->bind_vma(vma_res->vm, &vw->stash,
->> +                   vma_res, vw->cache_level, vw->flags);
->>   -    vma->ops->bind_vma(vw->vm, &vw->stash,
->> -               vma->resource, vw->cache_level, vw->flags);
->>   }
->>     static void __vma_release(struct dma_fence_work *work)
->> @@ -310,6 +312,10 @@ static void __vma_release(struct dma_fence_work 
->> *work)
->>         i915_vm_free_pt_stash(vw->vm, &vw->stash);
->>       i915_vm_put(vw->vm);
->> +    if (vw->vma_res)
->> +        i915_vma_resource_put(vw->vma_res);
->> +    if (vw->rsgt)
->> +        i915_refct_sgt_put(vw->rsgt);
->>   }
->>     static const struct dma_fence_work_ops bind_ops = {
->> @@ -379,13 +385,11 @@ i915_vma_resource_init_from_vma(struct 
->> i915_vma_resource *vma_res,
->>   {
->>       struct drm_i915_gem_object *obj = vma->obj;
->>   -    i915_vma_resource_init(vma_res, vma->pages, &vma->page_sizes,
->> +    i915_vma_resource_init(vma_res, vma->vm, vma->pages, 
->> &vma->page_sizes,
->>                      i915_gem_object_is_readonly(obj),
->>                      i915_gem_object_is_lmem(obj),
->> -                   vma->private,
->> -                   vma->node.start,
->> -                   vma->node.size,
->> -                   vma->size);
->> +                   vma->ops, vma->private, vma->node.start,
->> +                   vma->node.size, vma->size);
->>   }
->>     /**
->> @@ -409,6 +413,7 @@ int i915_vma_bind(struct i915_vma *vma,
->>   {
->>       u32 bind_flags;
->>       u32 vma_flags;
->> +    int ret;
->>         lockdep_assert_held(&vma->vm->mutex);
->>       GEM_BUG_ON(!drm_mm_node_allocated(&vma->node));
->> @@ -417,12 +422,12 @@ int i915_vma_bind(struct i915_vma *vma,
->>       if (GEM_DEBUG_WARN_ON(range_overflows(vma->node.start,
->>                             vma->node.size,
->>                             vma->vm->total))) {
->> -        kfree(vma_res);
->> +        i915_vma_resource_free(vma_res);
->>           return -ENODEV;
->>       }
->>         if (GEM_DEBUG_WARN_ON(!flags)) {
->> -        kfree(vma_res);
->> +        i915_vma_resource_free(vma_res);
->>           return -EINVAL;
->>       }
->>   @@ -434,12 +439,30 @@ int i915_vma_bind(struct i915_vma *vma,
->>         bind_flags &= ~vma_flags;
->>       if (bind_flags == 0) {
->> -        kfree(vma_res);
->> +        i915_vma_resource_free(vma_res);
->>           return 0;
->>       }
->>         GEM_BUG_ON(!atomic_read(&vma->pages_count));
->>   +    /* Wait for or await async unbinds touching our range */
->> +    if (work && bind_flags & vma->vm->bind_async_flags)
->> +        ret = i915_vma_resource_bind_dep_await(vma->vm,
->> +                               &work->base.chain,
->> +                               vma->node.start,
->> +                               vma->node.size,
->> +                               true,
->> +                               GFP_NOWAIT |
->> +                               __GFP_RETRY_MAYFAIL |
->> +                               __GFP_NOWARN);
->> +    else
->> +        ret = i915_vma_resource_bind_dep_sync(vma->vm, vma->node.start,
->> +                              vma->node.size, true);
->> +    if (ret) {
->> +        i915_vma_resource_free(vma_res);
->> +        return ret;
->> +    }
->> +
->>       if (vma->resource || !vma_res) {
->>           /* Rebinding with an additional I915_VMA_*_BIND */
->>           GEM_WARN_ON(!vma_flags);
->> @@ -452,9 +475,11 @@ int i915_vma_bind(struct i915_vma *vma,
->>       if (work && bind_flags & vma->vm->bind_async_flags) {
->>           struct dma_fence *prev;
->>   -        work->vma = vma;
->> +        work->vma_res = i915_vma_resource_get(vma->resource);
->>           work->cache_level = cache_level;
->>           work->flags = bind_flags;
->> +        if (vma->obj->mm.rsgt)
->> +            work->rsgt = i915_refct_sgt_get(vma->obj->mm.rsgt);
->>             /*
->>            * Note we only want to chain up to the migration fence on
->> @@ -475,14 +500,24 @@ int i915_vma_bind(struct i915_vma *vma,
->>             work->base.dma.error = 0; /* enable the queue_work() */
->>   -        work->pinned = i915_gem_object_get(vma->obj);
->> +        /*
->> +         * If we don't have the refcounted pages list, keep a reference
->> +         * on the object to avoid waiting for the async bind to
->> +         * complete in the object destruction path.
->> +         */
->> +        if (!work->rsgt)
->> +            work->pinned = i915_gem_object_get(vma->obj);
->>       } else {
->>           if (vma->obj) {
->>               int ret;
->>                 ret = i915_gem_object_wait_moving_fence(vma->obj, true);
->> -            if (ret)
->> +            if (ret) {
->> +                i915_vma_resource_free(vma->resource);
->> +                vma->resource = NULL;
->> +
->>                   return ret;
->> +            }
->>           }
->>           vma->ops->bind_vma(vma->vm, NULL, vma->resource, cache_level,
->>                      bind_flags);
->> @@ -1755,8 +1790,9 @@ int _i915_vma_move_to_active(struct i915_vma *vma,
->>       return 0;
->>   }
->>   -void __i915_vma_evict(struct i915_vma *vma)
->> +struct dma_fence *__i915_vma_evict(struct i915_vma *vma, bool async)
->>   {
->> +    struct i915_vma_resource *vma_res = vma->resource;
->>       struct dma_fence *unbind_fence;
->>         GEM_BUG_ON(i915_vma_is_pinned(vma));
->> @@ -1789,27 +1825,39 @@ void __i915_vma_evict(struct i915_vma *vma)
->>       GEM_BUG_ON(vma->fence);
->>       GEM_BUG_ON(i915_vma_has_userfault(vma));
->>   -    if (likely(atomic_read(&vma->vm->open))) {
->> -        trace_i915_vma_unbind(vma);
->> -        vma->ops->unbind_vma(vma->vm, vma->resource);
->> -    }
->> +    /* Object backend must be async capable. */
->> +    GEM_WARN_ON(async && !vma->obj->mm.rsgt);
->> +
->> +    /* If vm is not open, unbind is a nop. */
->> +    vma_res->needs_wakeref = i915_vma_is_bound(vma, 
->> I915_VMA_GLOBAL_BIND) &&
->> +        atomic_read(&vma->vm->open);
->> +    trace_i915_vma_unbind(vma);
->> +
->> +    unbind_fence = i915_vma_resource_unbind(vma_res);
->> +    vma->resource = NULL;
->> +
->>       atomic_and(~(I915_VMA_BIND_MASK | I915_VMA_ERROR | 
->> I915_VMA_GGTT_WRITE),
->>              &vma->flags);
->>   -    unbind_fence = i915_vma_resource_unbind(vma->resource);
->> -    i915_vma_resource_put(vma->resource);
->> -    vma->resource = NULL;
->> +    /* Object backend must be async capable. */
->> +    GEM_WARN_ON(async && !vma->obj->mm.rsgt);
->>         i915_vma_detach(vma);
->> -    vma_unbind_pages(vma);
->> +
->> +    if (!async && unbind_fence) {
->> +        dma_fence_wait(unbind_fence, false);
->> +        dma_fence_put(unbind_fence);
->> +        unbind_fence = NULL;
->> +    }
->>         /*
->> -     * This uninterruptible wait under the vm mutex is currently
->> -     * only ever blocking while the vma is being captured from.
->> -     * With async unbinding, this wait here will be removed.
->> +     * Binding itself may not have completed until the unbind fence 
->> signals,
->> +     * so don't drop the pages until that happens, unless the 
->> resource is
->> +     * async_capable.
->>        */
->> -    dma_fence_wait(unbind_fence, false);
->> -    dma_fence_put(unbind_fence);
->> +
->> +    vma_unbind_pages(vma);
->> +    return unbind_fence;
->>   }
->>     int __i915_vma_unbind(struct i915_vma *vma)
->> @@ -1836,12 +1884,47 @@ int __i915_vma_unbind(struct i915_vma *vma)
->>           return ret;
->>         GEM_BUG_ON(i915_vma_is_active(vma));
->> -    __i915_vma_evict(vma);
->> +    __i915_vma_evict(vma, false);
->>         drm_mm_remove_node(&vma->node); /* pairs with 
->> i915_vma_release() */
->>       return 0;
->>   }
->>   +static struct dma_fence *__i915_vma_unbind_async(struct i915_vma 
->> *vma)
->> +{
->> +    struct dma_fence *fence;
->> +
->> +    lockdep_assert_held(&vma->vm->mutex);
->> +
->> +    if (!drm_mm_node_allocated(&vma->node))
->> +        return NULL;
->> +
->> +    if (i915_vma_is_pinned(vma) ||
->> +        &vma->obj->mm.rsgt->table != vma->resource->bi.pages)
->> +        return ERR_PTR(-EAGAIN);
->> +
->> +    /*
->> +     * We probably need to replace this with awaiting the fences of the
->> +     * object's dma_resv when the vma active goes away. When doing that
->> +     * we need to be careful to not add the vma_resource unbind fence
->> +     * immediately to the object's dma_resv, because then unbinding
->> +     * the next vma from the object, in case there are many, will
->> +     * actually await the unbinding of the previous vmas, which is
->> +     * undesirable.
->> +     */
->> +    if (i915_sw_fence_await_active(&vma->resource->chain, &vma->active,
->> +                       I915_ACTIVE_AWAIT_EXCL |
->> +                       I915_ACTIVE_AWAIT_ACTIVE) < 0) {
->> +        return ERR_PTR(-EBUSY);
->> +    }
->> +
->> +    fence = __i915_vma_evict(vma, true);
->> +
->> +    drm_mm_remove_node(&vma->node); /* pairs with i915_vma_release() */
->> +
->> +    return fence;
->> +}
->> +
->>   int i915_vma_unbind(struct i915_vma *vma)
->>   {
->>       struct i915_address_space *vm = vma->vm;
->> @@ -1878,6 +1961,68 @@ int i915_vma_unbind(struct i915_vma *vma)
->>       return err;
->>   }
->>   +int i915_vma_unbind_async(struct i915_vma *vma, bool trylock_vm)
->> +{
->> +    struct drm_i915_gem_object *obj = vma->obj;
->> +    struct i915_address_space *vm = vma->vm;
->> +    intel_wakeref_t wakeref = 0;
->> +    struct dma_fence *fence;
->> +    int err;
->> +
->> +    /*
->> +     * We need the dma-resv lock since we add the
->> +     * unbind fence to the dma-resv object.
->> +     */
->> +    assert_object_held(obj);
->> +
->> +    if (!drm_mm_node_allocated(&vma->node))
->> +        return 0;
->> +
->> +    if (i915_vma_is_pinned(vma)) {
->> +        vma_print_allocator(vma, "is pinned");
->> +        return -EAGAIN;
->> +    }
->> +
->> +    if (!obj->mm.rsgt)
->> +        return -EBUSY;
->> +
->> +    err = dma_resv_reserve_shared(obj->base.resv, 1);
->> +    if (err)
->> +        return -EBUSY;
->> +
->> +    /*
->> +     * It would be great if we could grab this wakeref from the
->> +     * async unbind work if needed, but we can't because it uses
->> +     * kmalloc and it's in the dma-fence signalling critical path.
->> +     */
->> +    if (i915_vma_is_bound(vma, I915_VMA_GLOBAL_BIND))
->> +        wakeref = intel_runtime_pm_get(&vm->i915->runtime_pm);
->> +
->> +    if (trylock_vm && !mutex_trylock(&vm->mutex)) {
->> +        err = -EBUSY;
->> +        goto out_rpm;
->> +    } else if (!trylock_vm) {
->> +        err = mutex_lock_interruptible_nested(&vm->mutex, !wakeref);
->> +        if (err)
->> +            goto out_rpm;
->> +    }
->> +
->> +    fence = __i915_vma_unbind_async(vma);
->> +    mutex_unlock(&vm->mutex);
->> +    if (IS_ERR_OR_NULL(fence)) {
->> +        err = PTR_ERR_OR_ZERO(fence);
->> +        goto out_rpm;
->> +    }
->> +
->> +    dma_resv_add_shared_fence(obj->base.resv, fence);
->> +    dma_fence_put(fence);
->> +
->> +out_rpm:
->> +    if (wakeref)
->> +        intel_runtime_pm_put(&vm->i915->runtime_pm, wakeref);
->> +    return err;
->> +}
->> +
->>   struct i915_vma *i915_vma_make_unshrinkable(struct i915_vma *vma)
->>   {
->>       i915_gem_object_make_unshrinkable(vma->obj);
->> diff --git a/drivers/gpu/drm/i915/i915_vma.h 
->> b/drivers/gpu/drm/i915/i915_vma.h
->> index 1df57ec832bd..a560bae04e7e 100644
->> --- a/drivers/gpu/drm/i915/i915_vma.h
->> +++ b/drivers/gpu/drm/i915/i915_vma.h
->> @@ -213,9 +213,10 @@ bool i915_vma_misplaced(const struct i915_vma *vma,
->>               u64 size, u64 alignment, u64 flags);
->>   void __i915_vma_set_map_and_fenceable(struct i915_vma *vma);
->>   void i915_vma_revoke_mmap(struct i915_vma *vma);
->> -void __i915_vma_evict(struct i915_vma *vma);
->> +struct dma_fence *__i915_vma_evict(struct i915_vma *vma, bool async);
->>   int __i915_vma_unbind(struct i915_vma *vma);
->>   int __must_check i915_vma_unbind(struct i915_vma *vma);
->> +int __must_check i915_vma_unbind_async(struct i915_vma *vma, bool 
->> trylock_vm);
->>   void i915_vma_unlink_ctx(struct i915_vma *vma);
->>   void i915_vma_close(struct i915_vma *vma);
->>   void i915_vma_reopen(struct i915_vma *vma);
->> diff --git a/drivers/gpu/drm/i915/i915_vma_resource.c 
->> b/drivers/gpu/drm/i915/i915_vma_resource.c
->> index b50e67035d15..745f1b1d7885 100644
->> --- a/drivers/gpu/drm/i915/i915_vma_resource.c
->> +++ b/drivers/gpu/drm/i915/i915_vma_resource.c
->> @@ -2,39 +2,44 @@
->>   /*
->>    * Copyright © 2021 Intel Corporation
->>    */
->> +
->> +#include <linux/interval_tree_generic.h>
->>   #include <linux/slab.h>
->>   +#include "i915_sw_fence.h"
->>   #include "i915_vma_resource.h"
->> +#include "i915_drv.h"
->>   -/* Callbacks for the unbind dma-fence. */
->> -static const char *get_driver_name(struct dma_fence *fence)
->> -{
->> -    return "vma unbind fence";
->> -}
->> +#include "gt/intel_gtt.h"
->>   -static const char *get_timeline_name(struct dma_fence *fence)
->> -{
->> -    return "unbound";
->> -}
->> -
->> -static struct dma_fence_ops unbind_fence_ops = {
->> -    .get_driver_name = get_driver_name,
->> -    .get_timeline_name = get_timeline_name,
->> -};
->> +static struct kmem_cache *slab_vma_resources;
->>     /**
->> - * __i915_vma_resource_init - Initialize a vma resource.
->> - * @vma_res: The vma resource to initialize
->> + * DOC:
->> + * We use a per-vm interval tree to keep track of vma_resources
->> + * scheduled for unbind but not yet unbound. The tree is protected by
->> + * the vm mutex, and nodes are removed just after the unbind fence 
->> signals.
->> + * The removal takes the vm mutex from a kernel thread which we need to
->> + * keep in mind so that we don't grab the mutex and try to wait for all
->> + * pending unbinds to complete, because that will temporaryily block 
->> many
->> + * of the workqueue threads, and people will get angry.
->>    *
->> - * Initializes the private members of a vma resource.
->> + * We should consider using a single ordered fence per VM instead 
->> but that
->> + * requires ordering the unbinds and might introduce unnecessary 
->> waiting
->> + * for unrelated unbinds. Amount of code will probably be roughly 
->> the same
->> + * due to the simplicity of using the interval tree interface.
->> + *
->> + * Another drawback of this interval tree is that the complexity of 
->> insertion
->> + * and removal of fences increases as O(ln(pending_unbinds)) instead of
->> + * O(1) for a single fence without interval tree.
->>    */
->> -void __i915_vma_resource_init(struct i915_vma_resource *vma_res)
->> -{
->> -    spin_lock_init(&vma_res->lock);
->> -    dma_fence_init(&vma_res->unbind_fence, &unbind_fence_ops,
->> -               &vma_res->lock, 0, 0);
->> -    refcount_set(&vma_res->hold_count, 1);
->> -}
->> +#define VMA_RES_START(_node) ((_node)->start)
->> +#define VMA_RES_LAST(_node) ((_node)->start + (_node)->node_size - 1)
->> +INTERVAL_TREE_DEFINE(struct i915_vma_resource, rb,
->> +             unsigned long, __subtree_last,
->> +             VMA_RES_START, VMA_RES_LAST, static, vma_res_itree);
->> +
->> +/* Callbacks for the unbind dma-fence. */
->>     /**
->>    * i915_vma_resource_alloc - Allocate a vma resource
->> @@ -45,15 +50,73 @@ void __i915_vma_resource_init(struct 
->> i915_vma_resource *vma_res)
->>   struct i915_vma_resource *i915_vma_resource_alloc(void)
->>   {
->>       struct i915_vma_resource *vma_res =
->> -        kzalloc(sizeof(*vma_res), GFP_KERNEL);
->> +        kmem_cache_zalloc(slab_vma_resources, GFP_KERNEL);
->>         return vma_res ? vma_res : ERR_PTR(-ENOMEM);
->>   }
->>   +/**
->> + * i915_vma_resource_free - Free a vma resource
->> + * @vma_res: The vma resource to free.
->> + */
->> +void i915_vma_resource_free(struct i915_vma_resource *vma_res)
->> +{
->> +    kmem_cache_free(slab_vma_resources, vma_res);
->> +}
->> +
->> +static const char *get_driver_name(struct dma_fence *fence)
->> +{
->> +    return "vma unbind fence";
->> +}
->> +
->> +static const char *get_timeline_name(struct dma_fence *fence)
->> +{
->> +    return "unbound";
->> +}
->> +
->> +static void unbind_fence_free_rcu(struct rcu_head *head)
->> +{
->> +    struct i915_vma_resource *vma_res =
->> +        container_of(head, typeof(*vma_res), unbind_fence.rcu);
->> +
->> +    i915_vma_resource_free(vma_res);
->> +}
->> +
->> +static void unbind_fence_release(struct dma_fence *fence)
->> +{
->> +    struct i915_vma_resource *vma_res =
->> +        container_of(fence, typeof(*vma_res), unbind_fence);
->> +
->> +    i915_sw_fence_fini(&vma_res->chain);
->> +
->> +    call_rcu(&fence->rcu, unbind_fence_free_rcu);
->> +}
->> +
->> +static struct dma_fence_ops unbind_fence_ops = {
->> +    .get_driver_name = get_driver_name,
->> +    .get_timeline_name = get_timeline_name,
->> +    .release = unbind_fence_release,
->> +};
->> +
->>   static void __i915_vma_resource_unhold(struct i915_vma_resource 
->> *vma_res)
->>   {
->> -    if (refcount_dec_and_test(&vma_res->hold_count))
->> -        dma_fence_signal(&vma_res->unbind_fence);
->> +    struct i915_address_space *vm;
->> +
->> +    if (!refcount_dec_and_test(&vma_res->hold_count))
->> +        return;
->> +
->> +    dma_fence_signal(&vma_res->unbind_fence);
->> +
->> +    vm = vma_res->vm;
->> +    if (vma_res->wakeref)
->> +        intel_runtime_pm_put(&vm->i915->runtime_pm, vma_res->wakeref);
->> +
->> +    vma_res->vm = NULL;
->> +    if (!RB_EMPTY_NODE(&vma_res->rb)) {
->> +        mutex_lock(&vm->mutex);
->> +        vma_res_itree_remove(vma_res, &vm->pending_unbind);
->> +        mutex_unlock(&vm->mutex);
->> +    }
->>   }
->>     /**
->> @@ -102,6 +165,49 @@ bool i915_vma_resource_hold(struct 
->> i915_vma_resource *vma_res,
->>       return held;
->>   }
->>   +static void i915_vma_resource_unbind_work(struct work_struct *work)
->> +{
->> +    struct i915_vma_resource *vma_res =
->> +        container_of(work, typeof(*vma_res), work);
->> +    struct i915_address_space *vm = vma_res->vm;
->> +    bool lockdep_cookie;
->> +
->> +    lockdep_cookie = dma_fence_begin_signalling();
->> +    if (likely(atomic_read(&vm->open)))
->> +        vma_res->ops->unbind_vma(vm, vma_res);
->> +
->> +    dma_fence_end_signalling(lockdep_cookie);
->> +    __i915_vma_resource_unhold(vma_res);
->> +    i915_vma_resource_put(vma_res);
->> +}
->> +
->> +static int
->> +i915_vma_resource_fence_notify(struct i915_sw_fence *fence,
->> +                   enum i915_sw_fence_notify state)
->> +{
->> +    struct i915_vma_resource *vma_res =
->> +        container_of(fence, typeof(*vma_res), chain);
->> +    struct dma_fence *unbind_fence =
->> +        &vma_res->unbind_fence;
->> +
->> +    switch (state) {
->> +    case FENCE_COMPLETE:
->> +        dma_fence_get(unbind_fence);
->> +        if (vma_res->immediate_unbind) {
->> + i915_vma_resource_unbind_work(&vma_res->work);
->> +        } else {
->> +            INIT_WORK(&vma_res->work, i915_vma_resource_unbind_work);
->> +            queue_work(system_unbound_wq, &vma_res->work);
->> +        }
->> +        break;
->> +    case FENCE_FREE:
->> +        i915_vma_resource_put(vma_res);
->> +        break;
->> +    }
->> +
->> +    return NOTIFY_DONE;
->> +}
->> +
->>   /**
->>    * i915_vma_resource_unbind - Unbind a vma resource
->>    * @vma_res: The vma resource to unbind.
->> @@ -112,10 +218,196 @@ bool i915_vma_resource_hold(struct 
->> i915_vma_resource *vma_res,
->>    * Return: A refcounted pointer to a dma-fence that signals when 
->> unbinding is
->>    * complete.
->>    */
->> -struct dma_fence *
->> -i915_vma_resource_unbind(struct i915_vma_resource *vma_res)
->> +struct dma_fence *i915_vma_resource_unbind(struct i915_vma_resource 
->> *vma_res)
->>   {
->> -    __i915_vma_resource_unhold(vma_res);
->> -    dma_fence_get(&vma_res->unbind_fence);
->> +    struct i915_address_space *vm = vma_res->vm;
->> +
->> +    /* Reference for the sw fence */
->> +    i915_vma_resource_get(vma_res);
->> +
->> +    /* Caller must already have a wakeref in this case. */
->> +    if (vma_res->needs_wakeref)
->> +        vma_res->wakeref = 
->> intel_runtime_pm_get_if_in_use(&vm->i915->runtime_pm);
->> +
->> +    if (atomic_read(&vma_res->chain.pending) <= 1) {
->> +        RB_CLEAR_NODE(&vma_res->rb);
->> +        vma_res->immediate_unbind = 1;
->> +    } else {
->> +        vma_res_itree_insert(vma_res, &vma_res->vm->pending_unbind);
->> +    }
->> +
->> +    i915_sw_fence_commit(&vma_res->chain);
->> +
->>       return &vma_res->unbind_fence;
->>   }
->> +
->> +/**
->> + * __i915_vma_resource_init - Initialize a vma resource.
->> + * @vma_res: The vma resource to initialize
->> + *
->> + * Initializes the private members of a vma resource.
->> + */
->> +void __i915_vma_resource_init(struct i915_vma_resource *vma_res)
->> +{
->> +    spin_lock_init(&vma_res->lock);
->> +    dma_fence_init(&vma_res->unbind_fence, &unbind_fence_ops,
->> +               &vma_res->lock, 0, 0);
->> +    refcount_set(&vma_res->hold_count, 1);
->> +    i915_sw_fence_init(&vma_res->chain, 
->> i915_vma_resource_fence_notify);
->> +}
->> +
->> +static void
->> +i915_vma_resource_color_adjust_range(struct i915_address_space *vm,
->> +                     unsigned long *start,
->> +                     unsigned long *end)
->
-> u64
->
->> +{
->> +    if (i915_vm_has_cache_coloring(vm)) {
->> +        if (*start)
->> +            *start -= I915_GTT_PAGE_SIZE;
->> +        *end += I915_GTT_PAGE_SIZE;
->> +    }
->
-> else {
->     WARN_ON_ONCE(vm->cache_coloring);
-> }
->
-> ?
->
->> +}
->> +
->> +/**
->> + * i915_vma_resource_bind_dep_sync - Wait for / sync all unbinds 
->> touching a
->> + * certain vm range.
->> + * @vm: The vm to look at.
->> + * @offset: The range start.
->> + * @size: The range size.
->> + * @intr: Whether to wait interrubtible.
->> + *
->> + * The function needs to be called with the vm lock held.
->> + *
->> + * Return: Zero on success, -ERESTARTSYS if interrupted and @intr==true
->> + */
->> +int i915_vma_resource_bind_dep_sync(struct i915_address_space *vm,
->> +                    unsigned long offset,
->> +                    unsigned long size,
->
-> u64
->
->> +                    bool intr)
->> +{
->> +    struct i915_vma_resource *node;
->> +    unsigned long last = offset + size - 1;
->> +
->> +    lockdep_assert_held(&vm->mutex);
->> +    might_sleep();
->> +
->> +    i915_vma_resource_color_adjust_range(vm, &offset, &last);
->> +    node = vma_res_itree_iter_first(&vm->pending_unbind, offset, last);
->> +    while (node) {
->> +        int ret = dma_fence_wait(&node->unbind_fence, intr);
->> +
->> +        if (ret)
->> +            return ret;
->> +
->> +        node = vma_res_itree_iter_next(node, offset, last);
->> +    }
->> +
->> +    return 0;
->> +}
->> +
->> +/**
->> + * i915_vma_resource_bind_dep_sync_all - Wait for / sync all unbinds 
->> of a vm,
->> + * releasing the vm lock while waiting.
->> + * @vm: The vm to look at.
->> + *
->> + * The function may not be called with the vm lock held.
->> + * Typically this is called at vm destruction to finish any pending
->> + * unbind operations. The vm mutex is released while waiting to avoid
->> + * stalling kernel workqueues trying to grab the mutex.
->> + */
->> +void i915_vma_resource_bind_dep_sync_all(struct i915_address_space *vm)
->> +{
->> +    struct i915_vma_resource *node;
->> +    struct dma_fence *fence;
->> +
->> +    do {
->> +        fence = NULL;
->> +        mutex_lock(&vm->mutex);
->> +        node = vma_res_itree_iter_first(&vm->pending_unbind, 0,
->> +                        ULONG_MAX);
->
-> U64_MAX?
->
->> +        if (node)
->> +            fence = dma_fence_get_rcu(&node->unbind_fence);
->> +        mutex_unlock(&vm->mutex);
->> +
->> +        if (fence) {
->> +            /*
->> +             * The wait makes sure the node eventually removes
->> +             * itself from the tree.
->> +             */
->> +            dma_fence_wait(fence, false);
->> +            dma_fence_put(fence);
->> +        }
->> +    } while (node);
->> +}
->> +
->> +/**
->> + * i915_vma_resource_bind_dep_await - Have a struct i915_sw_fence 
->> await all
->> + * pending unbinds in a certain range of a vm.
->> + * @vm: The vm to look at.
->> + * @sw_fence: The struct i915_sw_fence that will be awaiting the 
->> unbinds.
->> + * @offset: The range start.
->> + * @size: The range size.
->> + * @intr: Whether to wait interrubtible.
->> + * @gfp: Allocation mode for memory allocations.
->> + *
->> + * The function makes @sw_fence await all pending unbinds in a certain
->> + * vm range before calling the complete notifier. To be able to await
->> + * each individual unbind, the function needs to allocate memory using
->> + * the @gpf allocation mode. If that fails, the function will instead
->> + * wait for the unbind fence to signal, using @intr to judge whether to
->> + * wait interruptible or not. Note that @gfp should ideally be 
->> selected so
->> + * as to avoid any expensive memory allocation stalls and rather 
->> fail and
->> + * synchronize itself. For now the vm mutex is required when calling 
->> this
->> + * function with means that @gfp can't call into direct reclaim. In 
->> reality
->> + * this means that during heavy memory pressure, we will sync in this
->> + * function.
->> + *
->> + * Return: Zero on success, -ERESTARTSYS if interrupted and @intr==true
->> + */
->> +int i915_vma_resource_bind_dep_await(struct i915_address_space *vm,
->> +                     struct i915_sw_fence *sw_fence,
->> +                     unsigned long offset,
->> +                     unsigned long size,
->
-> u64
->
->> +                     bool intr,
->> +                     gfp_t gfp)
->> +{
->> +    struct i915_vma_resource *node;
->> +    unsigned long last = offset + size - 1;
->> +
->> +    lockdep_assert_held(&vm->mutex);
->> +    might_alloc(gfp);
->> +    might_sleep();
->> +
->> +    i915_vma_resource_color_adjust_range(vm, &offset, &last);
->> +    node = vma_res_itree_iter_first(&vm->pending_unbind, offset, last);
->> +    while (node) {
->> +        int ret;
->> +
->> +        ret = i915_sw_fence_await_dma_fence(sw_fence,
->> +                            &node->unbind_fence,
->> +                            0, gfp);
->> +        if (ret < 0) {
->> +            ret = dma_fence_wait(&node->unbind_fence, intr);
->> +            if (ret)
->> +                return ret;
->> +        }
->> +
->> +        node = vma_res_itree_iter_next(node, offset, last);
->> +    }
->> +
->> +    return 0;
->> +}
->> +
->> +void i915_vma_resource_module_exit(void)
->> +{
->> +    kmem_cache_destroy(slab_vma_resources);
->> +}
->> +
->> +int __init i915_vma_resource_module_init(void)
->> +{
->> +    slab_vma_resources = KMEM_CACHE(i915_vma_resource, 
->> SLAB_HWCACHE_ALIGN);
->> +    if (!slab_vma_resources)
->> +        return -ENOMEM;
->> +
->> +    return 0;
->> +}
->> diff --git a/drivers/gpu/drm/i915/i915_vma_resource.h 
->> b/drivers/gpu/drm/i915/i915_vma_resource.h
->> index 9288a91f0038..58a81b438cc5 100644
->> --- a/drivers/gpu/drm/i915/i915_vma_resource.h
->> +++ b/drivers/gpu/drm/i915/i915_vma_resource.h
->> @@ -10,6 +10,8 @@
->>   #include <linux/refcount.h>
->>     #include "i915_gem.h"
->> +#include "i915_sw_fence.h"
->> +#include "intel_runtime_pm.h"
->>     struct i915_page_sizes {
->>       /**
->> @@ -38,6 +40,13 @@ struct i915_page_sizes {
->>    * @hold_count: Number of holders blocking the fence from finishing.
->>    * The vma itself is keeping a hold, which is released when unbind
->>    * is scheduled.
->> + * @work: Work struct for deferred unbind work.
->> + * @chain: Pointer to struct i915_sw_fence used to await dependencies.
->> + * @rb: Rb node for the vm's pending unbind interval tree.
->> + * @__subtree_last: Interval tree private member.
->> + * @vm: non-refcounted pointer to the vm. This is for internal use 
->> only and
->> + * this member is cleared after vm_resource unbind.
->> + * @ops: Pointer to the backend i915_vma_ops.
->>    * @private: Bind backend private info.
->>    * @start: Offset into the address space of bind range start.
->>    * @node_size: Size of the allocated range manager node.
->> @@ -45,6 +54,8 @@ struct i915_page_sizes {
->>    * @page_sizes_gtt: Resulting page sizes from the bind operation.
->>    * @bound_flags: Flags indicating binding status.
->>    * @allocated: Backend private data. TODO: Should move into @private.
->> + * @immediate_unbind: Unbind can be done immediately and don't need 
->> to be
->> + * deferred to a work item awaiting unsignaled fences.
->>    *
->>    * The lifetime of a struct i915_vma_resource is from a binding 
->> request to
->>    * the actual possible asynchronous unbind has completed.
->> @@ -54,6 +65,12 @@ struct i915_vma_resource {
->>       /* See above for description of the lock. */
->>       spinlock_t lock;
->>       refcount_t hold_count;
->> +    struct work_struct work;
->> +    struct i915_sw_fence chain;
->> +    struct rb_node rb;
->> +    unsigned long __subtree_last;
->> +    struct i915_address_space *vm;
->> +    intel_wakeref_t wakeref;
->>         /**
->>        * struct i915_vma_bindinfo - Information needed for async bind
->> @@ -73,13 +90,17 @@ struct i915_vma_resource {
->>           bool lmem:1;
->>       } bi;
->>   +    const struct i915_vma_ops *ops;
->>       void *private;
->>       u64 start;
->>       u64 node_size;
->>       u64 vma_size;
->>       u32 page_sizes_gtt;
->> +
->>       u32 bound_flags;
->>       bool allocated:1;
->> +    bool immediate_unbind:1;
->> +    bool needs_wakeref:1;
->>   };
->>     bool i915_vma_resource_hold(struct i915_vma_resource *vma_res,
->> @@ -90,6 +111,8 @@ void i915_vma_resource_unhold(struct 
->> i915_vma_resource *vma_res,
->>     struct i915_vma_resource *i915_vma_resource_alloc(void);
->>   +void i915_vma_resource_free(struct i915_vma_resource *vma_res);
->> +
->>   struct dma_fence *i915_vma_resource_unbind(struct i915_vma_resource 
->> *vma_res);
->>     void __i915_vma_resource_init(struct i915_vma_resource *vma_res);
->> @@ -119,10 +142,12 @@ static inline void i915_vma_resource_put(struct 
->> i915_vma_resource *vma_res)
->>   /**
->>    * i915_vma_resource_init - Initialize a vma resource.
->>    * @vma_res: The vma resource to initialize
->> + * @vm: Pointer to the vm.
->>    * @pages: The pages sg-table.
->>    * @page_sizes: Page sizes of the pages.
->>    * @readonly: Whether the vma should be bound read-only.
->>    * @lmem: Whether the vma points to lmem.
->> + * @ops: The backend ops.
->>    * @private: Bind backend private info.
->>    * @start: Offset into the address space of bind range start.
->>    * @node_size: Size of the allocated range manager node.
->> @@ -134,20 +159,24 @@ static inline void i915_vma_resource_put(struct 
->> i915_vma_resource *vma_res)
->>    * allocation is not allowed.
->>    */
->>   static inline void i915_vma_resource_init(struct i915_vma_resource 
->> *vma_res,
->> +                      struct i915_address_space *vm,
->>                         struct sg_table *pages,
->>                         const struct i915_page_sizes *page_sizes,
->>                         bool readonly,
->>                         bool lmem,
->> +                      const struct i915_vma_ops *ops,
->>                         void *private,
->>                         unsigned long start,
->>                         unsigned long node_size,
->>                         unsigned long size)
->
-> u64
->
-> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+This is a mistake on my end, I must have been looking at reviewing
+this series and then accidentally included it with another batch of
+patches. Thank you for catching this.
 
-Thanks for reviewing, Matt. I'll fix up those U64s. Some of them should 
-affect previous patch as well.
+I would suggest reverting these two patches[1][2]. Is that ok with you?
 
-/Thomas
+[1] https://cgit.freedesktop.org/drm/drm-misc/commit/?id=92e794fab87af0793403d5e4a547f0be94a0e656
+[2] https://cgit.freedesktop.org/drm/drm-misc/commit/?id=aee039e66035b66f0c587cc1b0dd32fb04c9a892
 
 
+On Mon, 10 Jan 2022 at 12:17, Jagan Teki <jagan@amarulasolutions.com> wrote:
+>
+> Hi Robert,
+>
+> On Mon, Nov 22, 2021 at 9:34 PM Marek Szyprowski
+> <m.szyprowski@samsung.com> wrote:
+> >
+> > On 22.11.2021 16:07, Marek Szyprowski wrote:
+> > > On 22.11.2021 15:55, Jagan Teki wrote:
+> > >> On Mon, Nov 22, 2021 at 7:59 PM Jagan Teki
+> > >> <jagan@amarulasolutions.com> wrote:
+> > >>> On Mon, Nov 22, 2021 at 7:51 PM Jagan Teki
+> > >>> <jagan@amarulasolutions.com> wrote:
+> > >>>> On Mon, Nov 22, 2021 at 7:45 PM Marek Szyprowski
+> > >>>> <m.szyprowski@samsung.com> wrote:
+> > >>>>> On 22.11.2021 08:06, Jagan Teki wrote:
+> > >>>>>> Some display panels would come up with a non-DSI output, those
+> > >>>>>> can have an option to connect the DSI host by means of interface
+> > >>>>>> bridge converter.
+> > >>>>>>
+> > >>>>>> This DSI to non-DSI interface bridge converter would requires
+> > >>>>>> DSI Host to handle drm bridge functionalities in order to DSI
+> > >>>>>> Host to Interface bridge.
+> > >>>>>>
+> > >>>>>> This patch convert the existing to a drm bridge driver with a
+> > >>>>>> built-in encoder support for compatibility with existing
+> > >>>>>> component drivers.
+> > >>>>>>
+> > >>>>>> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> > >>>>>> ---
+> > >>>>>> Note:
+> > >>>>>> Hi Marek Szyprowski,
+> > >>>>>>
+> > >>>>>> Please test this on Panel and Bridge hardware.
+> > >>>>> I don't have good news, t crashes:
+> > >>>>>
+> > >>>>> [drm] Exynos DRM: using 13800000.decon device for DMA mapping
+> > >>>>> operations
+> > >>>>> exynos-drm exynos-drm: bound 13800000.decon (ops decon_component_ops)
+> > >>>>> exynos-drm exynos-drm: bound 13880000.decon (ops decon_component_ops)
+> > >>>>> exynos-drm exynos-drm: bound 13930000.mic (ops
+> > >>>>> exynos_mic_component_ops)
+> > >>>>> [drm:drm_bridge_attach] *ERROR* failed to attach bridge
+> > >>>>> /soc@0/dsi@13900000 to encoder TMDS-67: -22
+> > >>>>> exynos-drm exynos-drm: failed to bind 13900000.dsi (ops
+> > >>>>> exynos_dsi_component_ops): -22
+> > >>>>> Internal error: synchronous external abort: 96000210 [#1] PREEMPT SMP
+> > >>>>> Modules linked in:
+> > >>>>> CPU: 2 PID: 74 Comm: kworker/u16:1 Not tainted 5.16.0-rc1+ #4141
+> > >>>>> Hardware name: Samsung TM2E board (DT)
+> > >>>>> Workqueue: events_unbound deferred_probe_work_func
+> > >>>>> pstate: 80000005 (Nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> > >>>>> pc : decon_atomic_disable+0x58/0xd4
+> > >>>>> lr : decon_atomic_disable+0x28/0xd4
+> > >>>>> sp : ffff80001390b940
+> > >>>>> x29: ffff80001390b940 x28: ffff80001259a000 x27: ffff000027f39e80
+> > >>>>> input: stmfts as
+> > >>>>> /devices/platform/soc@0/14ed0000.hsi2c/i2c-3/3-0049/input/input0
+> > >>>>> x26: 00000000ffffffea x25: ffff000025a40280 x24: 0000000000000001
+> > >>>>> x23: ffff800011b55f98 x22: ffff0000315dc000 x21: ffff00002695d100
+> > >>>>> x20: ffff000027e7a080 x19: ffff0000315e6000 x18: 0000000000000000
+> > >>>>> x17: 645f736f6e797865 x16: 2073706f28206973 x15: 0000000000028ee0
+> > >>>>> x14: 0000000000000028 x13: 0000000000000001 x12: 0000000000000040
+> > >>>>> x11: ffff000023c18920 x10: ffff000023c18922 x9 : ffff8000126352f0
+> > >>>>> x8 : ffff000023c00270 x7 : 0000000000000000 x6 : ffff000023c00268
+> > >>>>> x5 : ffff000027e7a3a0 x4 : 0000000000000001 x3 : ffff000027e7a080
+> > >>>>> x2 : 0000000000000024 x1 : ffff800013bc8024 x0 : ffff0000246117c0
+> > >>>>> Call trace:
+> > >>>>>    decon_atomic_disable+0x58/0xd4
+> > >>>>>    decon_unbind+0x1c/0x3c
+> > >>>>>    component_unbind+0x38/0x60
+> > >>>>>    component_bind_all+0x16c/0x25c
+> > >>>>>    exynos_drm_bind+0x104/0x1bc
+> > >>>>>    try_to_bring_up_master+0x164/0x1d0
+> > >>>>>    __component_add+0xa8/0x174
+> > >>>>>    component_add+0x14/0x20
+> > >>>>>    hdmi_probe+0x438/0x710
+> > >>>>>    platform_probe+0x68/0xe0
+> > >>>>>    really_probe.part.0+0x9c/0x31c
+> > >>>>>    __driver_probe_device+0x98/0x144
+> > >>>>>    driver_probe_device+0xc8/0x160
+> > >>>>>    __device_attach_driver+0xb8/0x120
+> > >>>>>    bus_for_each_drv+0x78/0xd0
+> > >>>>>    __device_attach+0xd8/0x180
+> > >>>>>    device_initial_probe+0x14/0x20
+> > >>>>>    bus_probe_device+0x9c/0xa4
+> > >>>>>    deferred_probe_work_func+0x88/0xc4
+> > >>>>>    process_one_work+0x288/0x6f0
+> > >>>>>    worker_thread+0x74/0x470
+> > >>>>>    kthread+0x188/0x194
+> > >>>>>    ret_from_fork+0x10/0x20
+> > >>>>> Code: 11002042 f9481c61 531e7442 8b020021 (88dffc21)
+> > >>>>> ---[ end trace d73aff585b108954 ]---
+> > >>>>> Kernel panic - not syncing: synchronous external abort: Fatal
+> > >>>>> exception
+> > >>>>> SMP: stopping secondary CPUs
+> > >>>>> Kernel Offset: disabled
+> > >>>>> CPU features: 0x2,300071c2,00000846
+> > >>>>> Memory Limit: none
+> > >>>>> ---[ end Kernel panic - not syncing: synchronous external abort:
+> > >>>>> Fatal
+> > >>>>> exception ]---
+> > >>>> Is this with Bridge or normal DSI panel?
+> > >>> Can you apply this patch and check?
+> > >>> https://protect2.fireeye.com/v1/url?k=aad62f08-f54d1627-aad7a447-0cc47a31cdf8-ea5858ddb7f0ecfe&q=1&e=2d730862-2c56-4988-a252-8febd02da578&u=https%3A%2F%2Fgithub.com%2Fopenedev%2Flinux%2Fcommit%2F412f226acd774356e8188c9e62b653672926ee0d
+> > >>>
+> > >> Any news on this? just asking in case if you missed it.
+> > >
+> > > It is somehow better. System doesn't crash, but the DRM is not bound:
+> > >
+> > > # cat /sys/kernel/debug/device_component/exynos-drm
+> > > master name                                            status
+> > > -------------------------------------------------------------
+> > > exynos-drm                                          not bound
+> > >
+> > > device name                                            status
+> > > -------------------------------------------------------------
+> > > 13800000.decon                                      not bound
+> > > 13880000.decon                                      not bound
+> > > 13930000.mic                                        not bound
+> > > (unknown)                                      not registered
+> > > (unknown)                                      not registered
+> > >
+> > Well, I also checked a much simpler case, the Samsung Trats board
+> > (arch/arm/boot/dts/exynos4210-trats.dts). It has only Exynos FIMD
+> > (CRTC), Exynos DSI (encoder) and s6e8aa0 panel. No bridges at all. With
+> > only the $subject patch applied I got the following errors:
+> >
+> > exynos4-fb 11c00000.fimd: Adding to iommu group 0
+> > OF: graph: no port node found in /soc/fimd@11c00000
+> > [drm] Exynos DRM: using 11c00000.fimd device for DMA mapping operations
+> > exynos-drm exynos-drm: bound 11c00000.fimd (ops fimd_component_ops)
+> > [drm:drm_bridge_attach] *ERROR* failed to attach bridge
+> > /soc/dsi@11c80000 to encoder TMDS-50: -22
+> > exynos-drm exynos-drm: failed to bind 11c80000.dsi (ops
+> > exynos_dsi_component_ops): -22
+> > exynos-drm exynos-drm: master bind failed: -22
+> > exynos-drm: probe of exynos-drm failed with error -22
+> > lima 13000000.gpu: gp - mali400 version major 1 minor 1
+> > lima 13000000.gpu: pp0 - mali400 version major 1 minor 1
+> > lima 13000000.gpu: pp1 - mali400 version major 1 minor 1
+> > lima 13000000.gpu: pp2 - mali400 version major 1 minor 1
+> > lima 13000000.gpu: pp3 - mali400 version major 1 minor 1
+> > lima 13000000.gpu: l2 cache 128K, 4-way, 64byte cache line, 64bit
+> > external bus
+> > lima 13000000.gpu: bus rate = 200000000
+> > lima 13000000.gpu: mod rate = 100000000
+> > lima 13000000.gpu: dev_pm_opp_set_regulators: no regulator (mali) found: -19
+> > [drm] Initialized lima 1.1.0 20191231 for 13000000.gpu on minor 0
+> >
+> >
+> > After applying "drm: exynos: dsi: Add component only once DSI device
+> > attached" the Exynos DRM is not even tried to bind:
+> >
+> > # dmesg | grep drm
+> > [    2.495898] [drm] Initialized lima 1.1.0 20191231 for 13000000.gpu on
+> > minor 0
+>
+> I can see this patch is merged in drm-misc [1], not sure why? because
+> we are in v4 of this series[2] and this patch certainly broke the
+> exynos DSI  Let me know what I need to do for next version to send-up?
+>
+> [1] https://cgit.freedesktop.org/drm/drm-misc/commit/?id=92e794fab87af0793403d5e4a547f0be94a0e656
+> [2] https://patchwork.kernel.org/project/dri-devel/cover/20211215101534.45003-1-jagan@amarulasolutions.com/
+>
+> Thanks,
+> Jagan.
