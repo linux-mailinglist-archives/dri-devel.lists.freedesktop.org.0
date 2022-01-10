@@ -2,53 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFC70489AF4
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 15:00:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C742D489B0E
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 15:06:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDE3210E7F6;
-	Mon, 10 Jan 2022 14:00:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C2D111328F;
+	Mon, 10 Jan 2022 14:06:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D315A10E7F6;
- Mon, 10 Jan 2022 13:59:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1641823199; x=1673359199;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=YcxLM/QEMgJWfzduPravRvI5ok4mCa1WvpA9h5tkE30=;
- b=U3bJGFCUydjt/VxHmiuha9RWw0BHuHzWA+KsRBuLbqGGSOJws3jB44+f
- R5giIoANmz2sUWbO0AU39ABaH2Q85RYgo1hKVsEP12LZkfOvJnn6Tmlae
- 4bRcoSnM9M+9cFHIt4GKYzgGx2gHsgeQH83VTOa6z05+bOIH0id9/Oj7W
- odoRXWYObukj45FH6dd830/54r5wE2kbBuomIVxRqSKl9aFRyb/6gGHzA
- DfhEzwu2if1imK/HMWQHF6HRrBH0GB/B0vORITHYTblz03+AkQQ8qJLm1
- tcaj4ul9E5vgdXmq7UMfZM+xyh+HS2nWN/BrtxiaaHMOv2otQpFaIM+TZ g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10222"; a="243023289"
-X-IronPort-AV: E=Sophos;i="5.88,277,1635231600"; d="scan'208";a="243023289"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2022 05:59:59 -0800
-X-IronPort-AV: E=Sophos;i="5.88,277,1635231600"; d="scan'208";a="472074561"
-Received: from ptquigle-mobl1.ger.corp.intel.com (HELO [10.213.218.74])
- ([10.213.218.74])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2022 05:59:58 -0800
-Message-ID: <3585abc4-f624-6046-1a49-d13d182ff04d@intel.com>
-Date: Mon, 10 Jan 2022 13:59:54 +0000
+Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com
+ [IPv6:2607:f8b0:4864:20::f32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C02F011328F
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 14:06:17 +0000 (UTC)
+Received: by mail-qv1-xf32.google.com with SMTP id kc16so14572385qvb.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 06:06:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=sjf5HXREYSAp8OzfvPdpCVvaNZb3bh0YsVohsQS8etE=;
+ b=Ef1tKo1+J/Pet0Mz0h5QNoIi6PvtQ+1+fWb0HQUGQ4lEAMNbjcxRvAEU3DxMArWK9y
+ fzau/FkT+YZtL0NHiYwukbV7vep7KYQtQ4BzdaCtfR4qn6ShDwpYmA8mea77jpxkrlBu
+ bbSvxS851BIDcDBjpoecYmxSFv7n9EJdFi4oXDEI9dFknbedSu4LOF8MavDY5mI9i2CP
+ MVk8+Thbh2tM7WVZfSAwuG3LvWekXxBwssJ9IOI6kA4fd/xxAtbKHR21uu907zNSoQdV
+ SMeNnFppKyL4P/k3unU9iY9xzYsL0yH9od0CZztIF+oOKy38slsCiKUnvKfYYwH22n3a
+ WoMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=sjf5HXREYSAp8OzfvPdpCVvaNZb3bh0YsVohsQS8etE=;
+ b=3ffAhg90o8kNPx4DNpfvKsuM51qgJ3V77UjQVrGiMPtsUIaS6oMw9YlaKUhiE0F2iL
+ 2QI8KfOJxKya0dLpu662mcf887FIxeIPP3HcRNjmBCLa2TNTut95J9UCjbPyRrvXAsOF
+ CgFfQNy7aXJs+eS7+4Z9MH/RcgQvupAQN2LvKZSRAd5bENiqENJpfXXtZPMbDuFc1mlH
+ dtY0y3I0Bxy+WgAry0r8UnfaUCsTDfp8uk41S3rB3ZXIY/fbYW1q3BU7N5SauWAEQiN9
+ 4SZkzutiDjwQSAk2beGrL83B1F/AZ0jEBbIo/PakikJLMUJxfu8IyMGFc75xA0jfiB3l
+ CIKg==
+X-Gm-Message-State: AOAM531bWfynzGk+5uOTg56ZNa/eVoEte9tDX3FPb+EFIvSChLRXf+NG
+ xBvD9YiT0gPhzU7RbTUQQUN8pBlqBmKa/GI0e0/UWg==
+X-Google-Smtp-Source: ABdhPJx8iuBfCaDUP7d8M8nzd/iM43KRhC+lgLYLRyHPh8qfwLit/VE9Y1WQXgB0+afvUXwpQfzD7BGkAXGOVEotGy0=
+X-Received: by 2002:a05:6214:248a:: with SMTP id
+ gi10mr67627781qvb.115.1641823576863; 
+ Mon, 10 Jan 2022 06:06:16 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v6 5/6] drm/i915: Asynchronous migration selftest
-Content-Language: en-GB
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20220107142343.56811-1-thomas.hellstrom@linux.intel.com>
- <20220107142343.56811-6-thomas.hellstrom@linux.intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20220107142343.56811-6-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <1641819337-17037-1-git-send-email-quic_rajeevny@quicinc.com>
+ <1641819337-17037-2-git-send-email-quic_rajeevny@quicinc.com>
+In-Reply-To: <1641819337-17037-2-git-send-email-quic_rajeevny@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 10 Jan 2022 17:06:03 +0300
+Message-ID: <CAA8EJprrRZK+ocW9zDY_eyeo_m_xbu+KmfWf8QmTYscAh5SxLw@mail.gmail.com>
+Subject: Re: [v2 1/3] dt-bindings: msm/dsi: Add 10nm dsi phy tuning properties
+To: Rajeev Nandan <quic_rajeevny@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,177 +65,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: quic_kalyant@quicinc.com, freedreno@lists.freedesktop.org,
+ jonathan@marek.ca, devicetree@vger.kernel.org, airlied@linux.ie,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, quic_abhinavk@quicinc.com, robh+dt@kernel.org,
+ quic_mkrishn@quicinc.com, swboyd@chromium.org, sean@poorly.run
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/01/2022 14:23, Thomas Hellström wrote:
-> Add a selftest to exercise asynchronous migration and -unbining.
-> Extend the gem_migrate selftest to perform the migrations while
-> depending on a spinner and a bound vma set up on the migrated
-> buffer object.
-> 
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+On Mon, 10 Jan 2022 at 15:56, Rajeev Nandan <quic_rajeevny@quicinc.com> wro=
+te:
+>
+> In most cases, the default values of DSI PHY tuning registers should be
+> sufficient as they are fully optimized. However, in some cases where
+> extreme board parasitics cause the eye shape to degrade, the override
+> bits can be used to improve the signal quality.
+>
+> The general guidelines for DSI PHY tuning include:
+> - High and moderate data rates may benefit from the drive strength and
+>   drive level tuning.
+> - Drive strength tuning will affect the output impedance and may be used
+>   for matching optimization.
+> - Drive level tuning will affect the output levels without affecting the
+>   impedance.
+>
+> The clock and data lanes have a calibration circuitry feature. The drive
+> strength tuning can be done by adjusting rescode offset for hstop/hsbot,
+> and the drive level tuning can be done by adjusting the LDO output level
+> for the HSTX drive.
+>
+> Signed-off-by: Rajeev Nandan <quic_rajeevny@quicinc.com>
 > ---
->   drivers/gpu/drm/i915/gem/i915_gem_object.c    |  12 ++
->   drivers/gpu/drm/i915/gem/i915_gem_object.h    |   3 +
->   .../drm/i915/gem/selftests/i915_gem_migrate.c | 192 ++++++++++++++++--
->   3 files changed, 192 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-> index d87b508b59b1..1a9e1f940a7d 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-> @@ -756,6 +756,18 @@ i915_gem_object_get_moving_fence(struct drm_i915_gem_object *obj)
->   	return dma_fence_get(i915_gem_to_ttm(obj)->moving);
->   }
->   
-> +void i915_gem_object_set_moving_fence(struct drm_i915_gem_object *obj,
-> +				      struct dma_fence *fence)
-> +{
-> +	struct dma_fence **moving = &i915_gem_to_ttm(obj)->moving;
-> +
-> +	if (*moving == fence)
-> +		return;
-> +
-> +	dma_fence_put(*moving);
-> +	*moving = dma_fence_get(fence);
-> +}
-> +
->   /**
->    * i915_gem_object_wait_moving_fence - Wait for the object's moving fence if any
->    * @obj: The object whose moving fence to wait for.
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> index f66d46882ea7..1d17ffff8236 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> @@ -524,6 +524,9 @@ i915_gem_object_finish_access(struct drm_i915_gem_object *obj)
->   struct dma_fence *
->   i915_gem_object_get_moving_fence(struct drm_i915_gem_object *obj);
->   
-> +void i915_gem_object_set_moving_fence(struct drm_i915_gem_object *obj,
-> +				      struct dma_fence *fence);
-> +
->   int i915_gem_object_wait_moving_fence(struct drm_i915_gem_object *obj,
->   				      bool intr);
->   
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
-> index ecb691c81d1e..d534141b2cf7 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
-> @@ -4,8 +4,13 @@
->    */
->   
->   #include "gt/intel_migrate.h"
-> +#include "gt/intel_gpu_commands.h"
->   #include "gem/i915_gem_ttm_move.h"
->   
-> +#include "i915_deps.h"
-> +
-> +#include "selftests/igt_spinner.h"
-> +
->   static int igt_fill_check_buffer(struct drm_i915_gem_object *obj,
->   				 bool fill)
->   {
-> @@ -101,7 +106,8 @@ static int igt_same_create_migrate(void *arg)
->   }
->   
->   static int lmem_pages_migrate_one(struct i915_gem_ww_ctx *ww,
-> -				  struct drm_i915_gem_object *obj)
-> +				  struct drm_i915_gem_object *obj,
-> +				  struct i915_vma *vma)
->   {
->   	int err;
->   
-> @@ -109,6 +115,24 @@ static int lmem_pages_migrate_one(struct i915_gem_ww_ctx *ww,
->   	if (err)
->   		return err;
->   
-> +	if (vma) {
-> +		err = i915_vma_pin_ww(vma, ww, obj->base.size, 0,
-> +				      0UL | PIN_OFFSET_FIXED |
-> +				      PIN_USER);
-> +		if (err) {
-> +			if (err != -EINTR && err != ERESTARTSYS &&
-> +			    err != -EDEADLK)
-> +				pr_err("Failed to pin vma.\n");
-> +			return err;
-> +		}
-> +
-> +		i915_vma_unpin(vma);
-> +	}
-> +
-> +	/*
-> +	 * Migration will implicitly unbind (asynchronously) any bound
-> +	 * vmas.
-> +	 */
->   	if (i915_gem_object_is_lmem(obj)) {
->   		err = i915_gem_object_migrate(obj, ww, INTEL_REGION_SMEM);
->   		if (err) {
-> @@ -149,11 +173,15 @@ static int lmem_pages_migrate_one(struct i915_gem_ww_ctx *ww,
->   	return err;
->   }
->   
-> -static int igt_lmem_pages_migrate(void *arg)
-> +static int __igt_lmem_pages_migrate(struct intel_gt *gt,
-> +				    struct i915_address_space *vm,
-> +				    struct i915_deps *deps,
-> +				    struct igt_spinner *spin,
-> +				    struct dma_fence *spin_fence)
->   {
-> -	struct intel_gt *gt = arg;
->   	struct drm_i915_private *i915 = gt->i915;
->   	struct drm_i915_gem_object *obj;
-> +	struct i915_vma *vma = NULL;
->   	struct i915_gem_ww_ctx ww;
->   	struct i915_request *rq;
->   	int err;
-> @@ -165,6 +193,14 @@ static int igt_lmem_pages_migrate(void *arg)
->   	if (IS_ERR(obj))
->   		return PTR_ERR(obj);
->   
-> +	if (vm) {
-> +		vma = i915_vma_instance(obj, vm, NULL);
-> +		if (IS_ERR(vma)) {
-> +			err = PTR_ERR(vma);
-> +			goto out_put;
-> +		}
-> +	}
-> +
->   	/* Initial GPU fill, sync, CPU initialization. */
->   	for_i915_gem_ww(&ww, err, true) {
->   		err = i915_gem_object_lock(obj, &ww);
-> @@ -175,25 +211,23 @@ static int igt_lmem_pages_migrate(void *arg)
->   		if (err)
->   			continue;
->   
-> -		err = intel_migrate_clear(&gt->migrate, &ww, NULL,
-> +		err = intel_migrate_clear(&gt->migrate, &ww, deps,
->   					  obj->mm.pages->sgl, obj->cache_level,
->   					  i915_gem_object_is_lmem(obj),
->   					  0xdeadbeaf, &rq);
->   		if (rq) {
->   			dma_resv_add_excl_fence(obj->base.resv, &rq->fence);
-> +			i915_gem_object_set_moving_fence(obj, &rq->fence);
->   			i915_request_put(rq);
->   		}
->   		if (err)
->   			continue;
->   
-> -		err = i915_gem_object_wait(obj, I915_WAIT_INTERRUPTIBLE,
-> -					   5 * HZ);
-> -		if (err)
-> -			continue;
-> -
-> -		err = igt_fill_check_buffer(obj, true);
-> -		if (err)
-> -			continue;
-> +		if (!vma) {
-> +			err = igt_fill_check_buffer(obj, true);
-> +			if (err)
-> +				continue;
+>
+> Changes in v2:
+>  - More details in the commit text (Stephen Boyd)
+>  - Use human understandable values (Stephen Boyd, Dmitry Baryshkov)
+>  - Do not take values that are going to be unused (Dmitry Baryshkov)
+>
+>  .../bindings/display/msm/dsi-phy-10nm.yaml         | 33 ++++++++++++++++=
+++++++
+>  1 file changed, 33 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.y=
+aml b/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
+> index 4399715..d0eb8f6 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
+> @@ -35,6 +35,35 @@ properties:
+>        Connected to DSI0_MIPI_DSI_PLL_VDDA0P9 pin for sc7180 target and
+>        connected to VDDA_MIPI_DSI_0_PLL_0P9 pin for sdm845 target
 
-Don't we need some kind of sync in here?
+Generic note:
+I think these properties should be prefixed with "qcom," prefix.
 
-Otherwise,
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+>
+> +  phy-rescode-offset-top:
+> +    $ref: /schemas/types.yaml#/definitions/uint8-array
+> +    minItems: 5
+> +    maxItems: 5
+> +    description:
+> +      Integer array of offset for pull-up legs rescode for all five lane=
+s.
+> +      To offset the drive strength from the calibrated value in an incre=
+asing
+> +      or decreasing manner, use 6 bit two=E2=80=99s complement values.
 
+dtc should support negative values, google hints that <(-2)> should work.
+
+> +
+> +  phy-rescode-offset-bot:
+> +    $ref: /schemas/types.yaml#/definitions/uint8-array
+> +    minItems: 5
+> +    maxItems: 5
+> +    description:
+> +      Integer array of offset for pull-down legs rescode for all five la=
+nes.
+> +      To offset the drive strength from the calibrated value in an incre=
+asing
+> +      or decreasing manner, use 6 bit two=E2=80=99s complement values.
+> +
+> +  phy-drive-ldo-level:
+> +    $ref: /schemas/types.yaml#/definitions/uint8
+> +    minimum: 0
+> +    maximum: 7
+> +    description:
+> +      The PHY LDO has an amplitude tuning feature to adjust the LDO outp=
+ut
+> +      for the HSTX drive. To offset the drive level from the default val=
+ue,
+> +      supported levels are with the following mapping:
+> +      0 =3D 375mV, 1 =3D 400mV, 2 =3D 425mV, 3 =3D 450mV, 4 =3D 475mV, 5=
+ =3D 500mV,
+> +      6 =3D 500mV, 7 =3D 500mV
+
+No encoding please. Specify the values in the dts and convert them
+into the register values in the driver.
+
+> +
+>  required:
+>    - compatible
+>    - reg
+> @@ -64,5 +93,9 @@ examples:
+>           clocks =3D <&dispcc DISP_CC_MDSS_AHB_CLK>,
+>                    <&rpmhcc RPMH_CXO_CLK>;
+>           clock-names =3D "iface", "ref";
+> +
+> +         phy-resocde-offset-top =3D /bits/ 8 <0x0 0x0 0x0 0x0 0x0>;
+> +         phy-rescode-offset-bot =3D /bits/ 8 <0x0 0x0 0x0 0x0 0x0>;
+> +         phy-drive-ldo-level =3D /bits/ 8 <1>;
+
+--
+With best wishes
+Dmitry
