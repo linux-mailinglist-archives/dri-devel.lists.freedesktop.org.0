@@ -1,58 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 588F948944D
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 09:52:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 429FE489584
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 10:46:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B365112AE83;
-	Mon, 10 Jan 2022 08:52:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D735212B55C;
+	Mon, 10 Jan 2022 09:46:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com
- [209.85.221.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5B6812AE83
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 08:52:45 +0000 (UTC)
-Received: by mail-vk1-f173.google.com with SMTP id bj47so2639521vkb.13
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 00:52:45 -0800 (PST)
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AB2E12B55E
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 09:46:01 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ q141-20020a1ca793000000b00347b48dfb53so4804674wme.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 01:46:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=subject:to:cc:references:from:organization:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Eacw/tyhjTY73nKE+OAvPP936rhHlBL8K/HAn04RZx8=;
+ b=5yHruTufsx2YyQ9ACpftxElp7YafCGeJeRbmvO6bkBA8J5ZL0UJO84gtytWcClAiOJ
+ manvwG83Kft7Saxv6ZZI7TZVBy9kn+5aG6w3GvoLmn6iGUdPaU9XL3tjz5NyXV8L8MjW
+ JBZisXE/LWM8eJoQ6/M6vkgu64lplvvNSYnjGNYqgfMUSr2CN12oRdiiGDHekIKqmZzD
+ Ijj1DFGghFh++6uE+jHR11vE+pwJtW8Bq1x5a19SN84vUjXA7gzqkeQW+mQ6cYgf9QN5
+ uqU1rcTiX8QlZPMaW6qKstcmAztEBYKKyGc17WM+tjrSxyh44qqEeOoGkEqEuATcmxnx
+ gSnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PRrhnzxIx33BHyJCSHFJIK780dP5z6iPEtjsS253KxU=;
- b=I6GQzw3tiykWRmziZL+Q3534Tslk9Wi4htG4BaQV+tzOia9byOWxhPHqvAStggKZee
- 142GxWuQnBaJQp22Y+GRjYLHhuhzqIUugBf2Rn+an1pqTf2fnv8BUSGuN1lJMMx34DX0
- WBhZrmNmI0LrrHzk9TVNrykI0L+jUF3jAqlVdm1PRS/gK20/NGADDSE/MlSKdSsxYQ68
- pt1y6XNIOciqItTe0u+QOwvxSxE4eigRM0IoQylDUytO2EJPULY5ZRtzc/W9AVq6tNL5
- 4kLJb1A8heKcyt/gwfodzHITRSpGPa6Yvu7c4a15DT/h4dxURipOoeRJH7PsQhqEdbIV
- Fd/A==
-X-Gm-Message-State: AOAM532TjvwQvzf1X+hGlx3r9G2SGNV7SakqnKjT+Uqe0Y//TBKN57C4
- SlYSD+n9HlOCmal1AojKz5S6BIORhPQDYw==
-X-Google-Smtp-Source: ABdhPJzhLRCdyc2mNgrcQjrjiGfk1Re137aAnRbK0x6IoR8yzuMc8UP981Pr+jKfQwxJEnxKg79FCw==
-X-Received: by 2002:a05:6122:d0f:: with SMTP id
- az15mr28485870vkb.28.1641804764707; 
- Mon, 10 Jan 2022 00:52:44 -0800 (PST)
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com.
- [209.85.222.52])
- by smtp.gmail.com with ESMTPSA id u8sm3849143vsi.18.2022.01.10.00.52.43
- for <dri-devel@lists.freedesktop.org>
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=Eacw/tyhjTY73nKE+OAvPP936rhHlBL8K/HAn04RZx8=;
+ b=N4gvR0xBjtgyxEN61k+MKSWxsekV0+54Mei0mbaTOsq6s9F1HmtH1YZke+spz0PxJW
+ RYl5NDF3w0IpPT1Q4axesL7dnV4tLKUpqAgPi/H2HT8d7aIpKOHyx0bHBCAWRXZIiBCQ
+ 5EQh1/WbWVYozaAg9KgwkDYGQ/nxroYDmADS0Kgtxl7sclV/cnexWVBA3J6U+lMlFblX
+ KkJdg8gxtwqCC7cd95StaG19O48lh5xA1jzHc0jLCgxl6XCEhYe3YyZ5BoyIXKsR3pYr
+ 5w9myChkW1jf1e/d4sBxk6sGccbg9YojVOzCrCfHCFgTbdmB/D6T7dU+VlDOO/sCcbQv
+ BTig==
+X-Gm-Message-State: AOAM531QtBtdmTtxv8eDJJjG6ctcJ7D+bBlMj43FDmGv5jo0URMa8ktl
+ rhR1+qS+biOHYl7VW4HkeOrRwQ==
+X-Google-Smtp-Source: ABdhPJzrUKFjgDnkaX/O5vXtjiHHwkmXO4NlmMNAvu986vJGYFnR96tPDGiPyVJv+4AGLYsqxlPPiQ==
+X-Received: by 2002:a05:600c:3ba7:: with SMTP id
+ n39mr21842082wms.88.1641807959521; 
+ Mon, 10 Jan 2022 01:45:59 -0800 (PST)
+Received: from ?IPv6:2001:861:44c0:66c0:94e5:2e36:6bcc:a9f1?
+ ([2001:861:44c0:66c0:94e5:2e36:6bcc:a9f1])
+ by smtp.gmail.com with ESMTPSA id g12sm6807309wrd.71.2022.01.10.01.45.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Jan 2022 00:52:44 -0800 (PST)
-Received: by mail-ua1-f52.google.com with SMTP id l15so10654761uai.11
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 00:52:43 -0800 (PST)
-X-Received: by 2002:a67:e905:: with SMTP id c5mr191335vso.68.1641804763769;
- Mon, 10 Jan 2022 00:52:43 -0800 (PST)
+ Mon, 10 Jan 2022 01:45:59 -0800 (PST)
+Subject: Re: [PATCH 3/6] drm/meson: venc: add ENCL encoder setup for MIPI-DSI
+ output
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+References: <20220107145515.613009-1-narmstrong@baylibre.com>
+ <20220107145515.613009-4-narmstrong@baylibre.com>
+ <CAFBinCA-df8Sedqh8Arh_BsMCHYv6-Kb3owrkFBd=W_EY2qxSA@mail.gmail.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Organization: Baylibre
+Message-ID: <6f62eeaa-1feb-274a-e1e8-377c582c428f@baylibre.com>
+Date: Mon, 10 Jan 2022 10:45:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20211224052309.1997096-1-nikita.yoush@cogentembedded.com>
- <20211224052309.1997096-3-nikita.yoush@cogentembedded.com>
-In-Reply-To: <20211224052309.1997096-3-nikita.yoush@cogentembedded.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 10 Jan 2022 09:52:32 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVHMzZipXaUE_SrkHtj6edZATefC908P1ngLrnOry8KCA@mail.gmail.com>
-Message-ID: <CAMuHMdVHMzZipXaUE_SrkHtj6edZATefC908P1ngLrnOry8KCA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] arm64: dts: renesas: r8a77961: Add lvds0 device node
-To: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAFBinCA-df8Sedqh8Arh_BsMCHYv6-Kb3owrkFBd=W_EY2qxSA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,35 +80,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Magnus Damm <magnus.damm@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 24, 2021 at 6:23 AM Nikita Yushchenko
-<nikita.yoush@cogentembedded.com> wrote:
-> Add the missing lvds0 node for the R-Car M3-W+ SoC.
->
-> Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+On 07/01/2022 23:33, Martin Blumenstingl wrote:
+>  Hi Neil,
+> 
+> On Fri, Jan 7, 2022 at 3:57 PM Neil Armstrong <narmstrong@baylibre.com> wrote:
+>>
+>> This adds supports for the ENCL encoder connected to a MIPI-DSI transceiver on the
+>> Amlogic AXG SoCs> Should this be "AXG and newer SoCs" or is this really AXG specific?
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.18.
+Yup should be, thanks for noting
+
+> 
+> [...]
+>> +#define GAMMA_VCOM_POL    7     /* RW */
+>> +#define GAMMA_RVS_OUT     6     /* RW */
+>> +#define ADR_RDY           5     /* Read Only */
+>> +#define WR_RDY            4     /* Read Only */
+>> +#define RD_RDY            3     /* Read Only */
+>> +#define GAMMA_TR          2     /* RW */
+>> +#define GAMMA_SET         1     /* RW */
+>> +#define GAMMA_EN          0     /* RW */
+>> +
+>> +#define H_RD              12
+>> +#define H_AUTO_INC        11
+>> +#define H_SEL_R           10
+>> +#define H_SEL_G           9
+>> +#define H_SEL_B           8
+> I think all values above can be wrapped in the BIT() macro, then you
+> don't need that below.
+
+yep
+
+> 
+>> +#define HADR_MSB          7            /* 7:0 */
+>> +#define HADR              0            /* 7:0 */
+> Here GENMASK(7, 0) can be used for HADR
+> 
+> Also I think prefixing all macros above with their register name
+> (L_GAMMA_CNTL_PORT_ or L_GAMMA_ADDR_PORT_) will make the code easier
+> to read.
+> 
+> [...]
+>> +       writel_relaxed(0x8000, priv->io_base + _REG(ENCL_VIDEO_MODE));
+> The public S905 datasheet calls 0x8000 ENCL_PX_LN_CNT_SHADOW_EN
+
+Thanks for searching !
+
+> 
+>> +       writel_relaxed(0x0418, priv->io_base + _REG(ENCL_VIDEO_MODE_ADV));
+> According to the public S905 datasheet this is:
+> - BIT(3): ENCL_VIDEO_MODE_ADV_VFIFO_EN
+> - BIT(4): ENCL_VIDEO_MODE_ADV_GAIN_HDTV
+> - BIT(10): ENCL_SEL_GAMMA_RGB_IN
+> 
+>> +       writel_relaxed(0x1000, priv->io_base + _REG(ENCL_VIDEO_FILT_CTRL));
+> I don't know the exact name but the 32-bit vendor kernel sources have
+> a comment [0] saying that 0x1000 is "bypass filter"
+> But maybe we can simply call it ENCL_VIDEO_FILT_CTRL_BYPASS_FILTER
+
+Yep
+
+> 
+> [...]
+>> +       writel_relaxed(3, priv->io_base + _REG(ENCL_VIDEO_RGBIN_CTRL));
+> The public S905 datasheet says:
+> - BIT(0): USE RGB data from VIU, furthermore a comment in the 3.10
+> kernel sources make this more clear: bit[0] 1:RGB, 0:YUV
+> - BIT(1): CFG_VIDEO_RGBIN_ZBLK
+> 
+>> +       /* default black pattern */
+>> +       writel_relaxed(0, priv->io_base + _REG(ENCL_TST_MDSEL));
+>> +       writel_relaxed(0, priv->io_base + _REG(ENCL_TST_Y));
+>> +       writel_relaxed(0, priv->io_base + _REG(ENCL_TST_CB));
+>> +       writel_relaxed(0, priv->io_base + _REG(ENCL_TST_CR));
+>> +       writel_relaxed(1, priv->io_base + _REG(ENCL_TST_EN));
+>> +       writel_bits_relaxed(BIT(3), 0, priv->io_base + _REG(ENCL_VIDEO_MODE_ADV));
+> same as above: ENCL_VIDEO_MODE_ADV_VFIFO_EN
+> 
+>> +
+>> +       writel_relaxed(1, priv->io_base + _REG(ENCL_VIDEO_EN));
+>> +
+>> +       writel_relaxed(0, priv->io_base + _REG(L_RGB_BASE_ADDR));
+>> +       writel_relaxed(0x400, priv->io_base + _REG(L_RGB_COEFF_ADDR));
+> note to self: L_RGB_COEFF_ADDR seems to contain some "magic" value,
+> there's no further info in the 3.10 kernel sources or datasheet
+> 
+>> +       writel_relaxed(0x400, priv->io_base + _REG(L_DITH_CNTL_ADDR));
+> According to the public S905 datasheet BIT(10) is DITH10_EN (10-bits
+> Dithering to 8 Bits Enable).
+> I am not sure if this would belong to the selected video mode/bit depth.
+> I'll let other reviewers decide if this is relevant or not because I don't know.
 
 
-Gr{oetje,eeting}s,
+it would probably for pre-GXL when the pipeline was 8bit, would probably need to add
+a comment if someone wants to us DPI/LVDS on pre-GXL.
 
-                        Geert
+> 
+> [...]
+>> +       writel_relaxed(0, priv->io_base + _REG(L_INV_CNT_ADDR));
+>> +       writel_relaxed(BIT(4) | BIT(5),
+>> +                      priv->io_base + _REG(L_TCON_MISC_SEL_ADDR));
+> the public S905 datasheet states:
+> - BIT(4): STV1_SEL (STV1 is frame Signal)
+> - BIT(5): STV2_SEL (STV2 is frame Signal)
+> This doesn't seem helpful to me though, but maybe you can still create
+> preprocessor macros for this (for consistency)?
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+yep
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> 
+> [...]
+>> +       switch (priv->venc.current_mode) {
+>> +       case MESON_VENC_MODE_MIPI_DSI:
+>> +               writel_relaxed(0x200,
+>> +                              priv->io_base + _REG(VENC_INTCTRL));
+> the public S905 datasheet documents this as:
+> - BIT(9): ENCP_LNRST_INT_EN (Progressive encoder filed change interrupt enable)
+> Please add a preprocessor macro to make it consistent with
+> VENC_INTCTRL_ENCI_LNRST_INT_EN which already exists and is used below.
+
+Yep
+
+Thanks for the review :-)
+
+Neil
+
+> 
+> 
+> Best regards,
+> Martin
+> 
+
