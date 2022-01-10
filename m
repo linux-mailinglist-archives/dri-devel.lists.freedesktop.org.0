@@ -1,45 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B5B5489E47
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 18:22:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A241489E48
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 18:23:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FFFD112134;
-	Mon, 10 Jan 2022 17:22:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2913C10FFF3;
+	Mon, 10 Jan 2022 17:22:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B07310FC67;
- Mon, 10 Jan 2022 17:22:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C96B11219C;
+ Mon, 10 Jan 2022 17:22:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1641835361; x=1673371361;
+ t=1641835363; x=1673371363;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=sju5SYpmkMjVHyKSVkpL/HH4M038VnaysTDU+vbxzUQ=;
- b=PdhAekJEmnQxep0iETwBZJGzIipn6Dt7FzolWA26DtP1bC44c6S7vwxB
- UWYbjIuq70AzgD/KmekHT441kT0XtVUWHvP2UUl1wxiC56ia1rNJht9mZ
- haA+HUrdfTo+l8ah8bXvdBhEP7Nwx85gArqpUzD70ZQLcaa/phjo69TPW
- +FmDYtptrik9VIL7MtsmXHR5OEsmt896LXj/v4uUSfNLUtaekgJzCcpqe
- GBWF+kH0BjdvBzCnyeteo2puGcyquvhmVFSUTR4/OeyKzDdq4vcJAgh9s
- R2abUJQwifS4rUbl0ZMeOa8FEQutqVX/GlzbT2r/qVZIHF0QJLGn1Kjb5 w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10222"; a="243471522"
-X-IronPort-AV: E=Sophos;i="5.88,277,1635231600"; d="scan'208";a="243471522"
+ bh=9WbIICaRV0KItRF9jlN/LlrkE3maXD1g82M8vPP/gW0=;
+ b=TtSOKfEjp+YZYD4Nz/lS1yZAVAUgZsFW+uI5yO8dh59zXWT6wg5dDgvU
+ isjcrH3ixnpOpGy49Y56OFKVcVruHA456IRYykavoEEZrTBpn84S6XDF0
+ wvqqab9od5zItbIqkL9dTbppYaMV2uGxoclb+f7wDTnuCqF+FMnlx9Qdo
+ gCR3yHolPlYVsNq+FYkc1CMY5kXzKLzVHuvAsPeZGtopvpc3+oJCyeO5G
+ w0WOiiDDqdh9Y2HLv4SXtKZn+mHzPIqLYKJTLMzetjU68hWmhW60BJqJs
+ Fi1tTpbaCAtU7Eeuqv4/W6O+wfinTiSbk/R5mXT4Zs0p71rjt048dDV3k g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10222"; a="243471533"
+X-IronPort-AV: E=Sophos;i="5.88,277,1635231600"; d="scan'208";a="243471533"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2022 09:22:41 -0800
-X-IronPort-AV: E=Sophos;i="5.88,277,1635231600"; d="scan'208";a="514744029"
+ 10 Jan 2022 09:22:42 -0800
+X-IronPort-AV: E=Sophos;i="5.88,277,1635231600"; d="scan'208";a="514744053"
 Received: from pheino-mobl.ger.corp.intel.com (HELO thellstr-mobl1.intel.com)
  ([10.249.254.41])
  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2022 09:22:38 -0800
+ 10 Jan 2022 09:22:41 -0800
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v7 5/6] drm/i915: Asynchronous migration selftest
-Date: Mon, 10 Jan 2022 18:22:18 +0100
-Message-Id: <20220110172219.107131-6-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v7 6/6] drm/i915: Use struct vma_resource instead of struct
+ vma_snapshot
+Date: Mon, 10 Jan 2022 18:22:19 +0100
+Message-Id: <20220110172219.107131-7-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220110172219.107131-1-thomas.hellstrom@linux.intel.com>
 References: <20220110172219.107131-1-thomas.hellstrom@linux.intel.com>
@@ -63,349 +64,862 @@ Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a selftest to exercise asynchronous migration and -unbining.
-Extend the gem_migrate selftest to perform the migrations while
-depending on a spinner and a bound vma set up on the migrated
-buffer object.
+There is always a struct vma_resource guaranteed to be alive when we
+access a corresponding struct vma_snapshot.
+
+So ditch the latter and instead of allocating vma_snapshots, reference
+the already existning vma_resource.
+
+This requires a couple of extra members in struct vma_resource but that's
+a small price to pay for the simplification.
+
+v2:
+- Fix a missing include and declaration (kernel test robot <lkp@intel.com>)
 
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_object.c    |  12 ++
- drivers/gpu/drm/i915/gem/i915_gem_object.h    |   3 +
- .../drm/i915/gem/selftests/i915_gem_migrate.c | 192 ++++++++++++++++--
- 3 files changed, 192 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/i915/Makefile                 |   1 -
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  15 +--
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |   9 +-
+ drivers/gpu/drm/i915/i915_gpu_error.c         |  87 ++++++------
+ drivers/gpu/drm/i915/i915_request.c           |  12 +-
+ drivers/gpu/drm/i915/i915_request.h           |   6 +-
+ drivers/gpu/drm/i915/i915_vma.c               |  16 +--
+ drivers/gpu/drm/i915/i915_vma_resource.c      |   4 +
+ drivers/gpu/drm/i915/i915_vma_resource.h      |  28 +++-
+ drivers/gpu/drm/i915/i915_vma_snapshot.c      | 125 ------------------
+ drivers/gpu/drm/i915/i915_vma_snapshot.h      | 101 --------------
+ 11 files changed, 90 insertions(+), 314 deletions(-)
+ delete mode 100644 drivers/gpu/drm/i915/i915_vma_snapshot.c
+ delete mode 100644 drivers/gpu/drm/i915/i915_vma_snapshot.h
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-index d87b508b59b1..1a9e1f940a7d 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-@@ -756,6 +756,18 @@ i915_gem_object_get_moving_fence(struct drm_i915_gem_object *obj)
- 	return dma_fence_get(i915_gem_to_ttm(obj)->moving);
- }
+diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+index 98433ad74194..aa86ac33effc 100644
+--- a/drivers/gpu/drm/i915/Makefile
++++ b/drivers/gpu/drm/i915/Makefile
+@@ -175,7 +175,6 @@ i915-y += \
+ 	  i915_ttm_buddy_manager.o \
+ 	  i915_vma.o \
+ 	  i915_vma_resource.o \
+-	  i915_vma_snapshot.o \
+ 	  intel_wopcm.o
  
-+void i915_gem_object_set_moving_fence(struct drm_i915_gem_object *obj,
-+				      struct dma_fence *fence)
-+{
-+	struct dma_fence **moving = &i915_gem_to_ttm(obj)->moving;
-+
-+	if (*moving == fence)
-+		return;
-+
-+	dma_fence_put(*moving);
-+	*moving = dma_fence_get(fence);
-+}
-+
- /**
-  * i915_gem_object_wait_moving_fence - Wait for the object's moving fence if any
-  * @obj: The object whose moving fence to wait for.
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-index bc448f895ae8..02c37fe4a535 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-@@ -523,6 +523,9 @@ i915_gem_object_finish_access(struct drm_i915_gem_object *obj)
- struct dma_fence *
- i915_gem_object_get_moving_fence(struct drm_i915_gem_object *obj);
+ # general-purpose microcontroller (GuC) support
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+index 3e359de0e460..cf283b5f6ffe 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -31,7 +31,6 @@
+ #include "i915_gem_ioctls.h"
+ #include "i915_trace.h"
+ #include "i915_user_extensions.h"
+-#include "i915_vma_snapshot.h"
  
-+void i915_gem_object_set_moving_fence(struct drm_i915_gem_object *obj,
-+				      struct dma_fence *fence);
-+
- int i915_gem_object_wait_moving_fence(struct drm_i915_gem_object *obj,
- 				      bool intr);
- 
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
-index ecb691c81d1e..d534141b2cf7 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
-@@ -4,8 +4,13 @@
-  */
- 
- #include "gt/intel_migrate.h"
-+#include "gt/intel_gpu_commands.h"
- #include "gem/i915_gem_ttm_move.h"
- 
-+#include "i915_deps.h"
-+
-+#include "selftests/igt_spinner.h"
-+
- static int igt_fill_check_buffer(struct drm_i915_gem_object *obj,
- 				 bool fill)
+ struct eb_vma {
+ 	struct i915_vma *vma;
+@@ -1954,7 +1953,6 @@ static void eb_capture_stage(struct i915_execbuffer *eb)
  {
-@@ -101,7 +106,8 @@ static int igt_same_create_migrate(void *arg)
- }
+ 	const unsigned int count = eb->buffer_count;
+ 	unsigned int i = count, j;
+-	struct i915_vma_snapshot *vsnap;
  
- static int lmem_pages_migrate_one(struct i915_gem_ww_ctx *ww,
--				  struct drm_i915_gem_object *obj)
-+				  struct drm_i915_gem_object *obj,
-+				  struct i915_vma *vma)
- {
- 	int err;
- 
-@@ -109,6 +115,24 @@ static int lmem_pages_migrate_one(struct i915_gem_ww_ctx *ww,
- 	if (err)
- 		return err;
- 
-+	if (vma) {
-+		err = i915_vma_pin_ww(vma, ww, obj->base.size, 0,
-+				      0UL | PIN_OFFSET_FIXED |
-+				      PIN_USER);
-+		if (err) {
-+			if (err != -EINTR && err != ERESTARTSYS &&
-+			    err != -EDEADLK)
-+				pr_err("Failed to pin vma.\n");
-+			return err;
-+		}
-+
-+		i915_vma_unpin(vma);
-+	}
-+
-+	/*
-+	 * Migration will implicitly unbind (asynchronously) any bound
-+	 * vmas.
-+	 */
- 	if (i915_gem_object_is_lmem(obj)) {
- 		err = i915_gem_object_migrate(obj, ww, INTEL_REGION_SMEM);
- 		if (err) {
-@@ -149,11 +173,15 @@ static int lmem_pages_migrate_one(struct i915_gem_ww_ctx *ww,
- 	return err;
- }
- 
--static int igt_lmem_pages_migrate(void *arg)
-+static int __igt_lmem_pages_migrate(struct intel_gt *gt,
-+				    struct i915_address_space *vm,
-+				    struct i915_deps *deps,
-+				    struct igt_spinner *spin,
-+				    struct dma_fence *spin_fence)
- {
--	struct intel_gt *gt = arg;
- 	struct drm_i915_private *i915 = gt->i915;
- 	struct drm_i915_gem_object *obj;
-+	struct i915_vma *vma = NULL;
- 	struct i915_gem_ww_ctx ww;
- 	struct i915_request *rq;
- 	int err;
-@@ -165,6 +193,14 @@ static int igt_lmem_pages_migrate(void *arg)
- 	if (IS_ERR(obj))
- 		return PTR_ERR(obj);
- 
-+	if (vm) {
-+		vma = i915_vma_instance(obj, vm, NULL);
-+		if (IS_ERR(vma)) {
-+			err = PTR_ERR(vma);
-+			goto out_put;
-+		}
-+	}
-+
- 	/* Initial GPU fill, sync, CPU initialization. */
- 	for_i915_gem_ww(&ww, err, true) {
- 		err = i915_gem_object_lock(obj, &ww);
-@@ -175,25 +211,23 @@ static int igt_lmem_pages_migrate(void *arg)
- 		if (err)
+ 	while (i--) {
+ 		struct eb_vma *ev = &eb->vma[i];
+@@ -1964,11 +1962,6 @@ static void eb_capture_stage(struct i915_execbuffer *eb)
+ 		if (!(flags & EXEC_OBJECT_CAPTURE))
  			continue;
  
--		err = intel_migrate_clear(&gt->migrate, &ww, NULL,
-+		err = intel_migrate_clear(&gt->migrate, &ww, deps,
- 					  obj->mm.pages->sgl, obj->cache_level,
- 					  i915_gem_object_is_lmem(obj),
- 					  0xdeadbeaf, &rq);
- 		if (rq) {
- 			dma_resv_add_excl_fence(obj->base.resv, &rq->fence);
-+			i915_gem_object_set_moving_fence(obj, &rq->fence);
- 			i915_request_put(rq);
- 		}
- 		if (err)
- 			continue;
- 
--		err = i915_gem_object_wait(obj, I915_WAIT_INTERRUPTIBLE,
--					   5 * HZ);
--		if (err)
+-		vsnap = i915_vma_snapshot_alloc(GFP_KERNEL);
+-		if (!vsnap)
 -			continue;
 -
--		err = igt_fill_check_buffer(obj, true);
--		if (err)
--			continue;
-+		if (!vma) {
-+			err = igt_fill_check_buffer(obj, true);
-+			if (err)
-+				continue;
-+		}
- 	}
- 	if (err)
- 		goto out_put;
-@@ -204,7 +238,7 @@ static int igt_lmem_pages_migrate(void *arg)
- 	 */
- 	for (i = 1; i <= 5; ++i) {
- 		for_i915_gem_ww(&ww, err, true)
--			err = lmem_pages_migrate_one(&ww, obj);
-+			err = lmem_pages_migrate_one(&ww, obj, vma);
- 		if (err)
- 			goto out_put;
- 	}
-@@ -213,12 +247,27 @@ static int igt_lmem_pages_migrate(void *arg)
- 	if (err)
- 		goto out_put;
+-		i915_vma_snapshot_init(vsnap, vma, "user");
+ 		for_each_batch_create_order(eb, j) {
+ 			struct i915_capture_list *capture;
  
-+	if (spin) {
-+		if (dma_fence_is_signaled(spin_fence)) {
-+			pr_err("Spinner was terminated by hangcheck.\n");
-+			err = -EBUSY;
-+			goto out_unlock;
-+		}
-+		igt_spinner_end(spin);
-+	}
-+
- 	/* Finally sync migration and check content. */
- 	err = i915_gem_object_wait_migration(obj, true);
- 	if (err)
- 		goto out_unlock;
+@@ -1977,10 +1970,9 @@ static void eb_capture_stage(struct i915_execbuffer *eb)
+ 				continue;
  
--	err = igt_fill_check_buffer(obj, false);
-+	if (vma) {
-+		err = i915_vma_wait_for_bind(vma);
-+		if (err)
-+			goto out_unlock;
-+	} else {
-+		err = igt_fill_check_buffer(obj, false);
-+	}
- 
- out_unlock:
- 	i915_gem_object_unlock(obj);
-@@ -231,6 +280,7 @@ static int igt_lmem_pages_migrate(void *arg)
- static int igt_lmem_pages_failsafe_migrate(void *arg)
- {
- 	int fail_gpu, fail_alloc, ret;
-+	struct intel_gt *gt = arg;
- 
- 	for (fail_gpu = 0; fail_gpu < 2; ++fail_gpu) {
- 		for (fail_alloc = 0; fail_alloc < 2; ++fail_alloc) {
-@@ -238,7 +288,118 @@ static int igt_lmem_pages_failsafe_migrate(void *arg)
- 				fail_gpu, fail_alloc);
- 			i915_ttm_migrate_set_failure_modes(fail_gpu,
- 							   fail_alloc);
--			ret = igt_lmem_pages_migrate(arg);
-+			ret = __igt_lmem_pages_migrate(gt, NULL, NULL, NULL, NULL);
-+			if (ret)
-+				goto out_err;
-+		}
-+	}
-+
-+out_err:
-+	i915_ttm_migrate_set_failure_modes(false, false);
-+	return ret;
-+}
-+
-+/*
-+ * This subtest tests that unbinding at migration is indeed performed
-+ * async. We launch a spinner and a number of migrations depending on
-+ * that spinner to have terminated. Before each migration we bind a
-+ * vma, which should then be async unbound by the migration operation.
-+ * If we are able to schedule migrations without blocking while the
-+ * spinner is still running, those unbinds are indeed async and non-
-+ * blocking.
-+ *
-+ * Note that each async bind operation is awaiting the previous migration
-+ * due to the moving fence resulting from the migration.
-+ */
-+static int igt_async_migrate(struct intel_gt *gt)
-+{
-+	struct intel_engine_cs *engine;
-+	enum intel_engine_id id;
-+	struct i915_ppgtt *ppgtt;
-+	struct igt_spinner spin;
-+	int err;
-+
-+	ppgtt = i915_ppgtt_create(gt, 0);
-+	if (IS_ERR(ppgtt))
-+		return PTR_ERR(ppgtt);
-+
-+	if (igt_spinner_init(&spin, gt)) {
-+		err = -ENOMEM;
-+		goto out_spin;
-+	}
-+
-+	for_each_engine(engine, gt, id) {
-+		struct ttm_operation_ctx ctx = {
-+			.interruptible = true
-+		};
-+		struct dma_fence *spin_fence;
-+		struct intel_context *ce;
-+		struct i915_request *rq;
-+		struct i915_deps deps;
-+
-+		ce = intel_context_create(engine);
-+		if (IS_ERR(ce)) {
-+			err = PTR_ERR(ce);
-+			goto out_ce;
-+		}
-+
-+		/*
-+		 * Use MI_NOOP, making the spinner non-preemptible. If there
-+		 * is a code path where we fail async operation due to the
-+		 * running spinner, we will block and fail to end the
-+		 * spinner resulting in a deadlock. But with a non-
-+		 * preemptible spinner, hangcheck will terminate the spinner
-+		 * for us, and we will later detect that and fail the test.
-+		 */
-+		rq = igt_spinner_create_request(&spin, ce, MI_NOOP);
-+		intel_context_put(ce);
-+		if (IS_ERR(rq)) {
-+			err = PTR_ERR(rq);
-+			goto out_ce;
-+		}
-+
-+		i915_deps_init(&deps, GFP_KERNEL);
-+		err = i915_deps_add_dependency(&deps, &rq->fence, &ctx);
-+		spin_fence = dma_fence_get(&rq->fence);
-+		i915_request_add(rq);
-+		if (err)
-+			goto out_ce;
-+
-+		err = __igt_lmem_pages_migrate(gt, &ppgtt->vm, &deps, &spin,
-+					       spin_fence);
-+		i915_deps_fini(&deps);
-+		dma_fence_put(spin_fence);
-+		if (err)
-+			goto out_ce;
-+	}
-+
-+out_ce:
-+	igt_spinner_fini(&spin);
-+out_spin:
-+	i915_vm_put(&ppgtt->vm);
-+
-+	return err;
-+}
-+
-+/*
-+ * Setting ASYNC_FAIL_ALLOC to 2 will simulate memory allocation failure while
-+ * arming the migration error check and block async migration. This
-+ * will cause us to deadlock and hangcheck will terminate the spinner
-+ * causing the test to fail.
-+ */
-+#define ASYNC_FAIL_ALLOC 1
-+static int igt_lmem_async_migrate(void *arg)
-+{
-+	int fail_gpu, fail_alloc, ret;
-+	struct intel_gt *gt = arg;
-+
-+	for (fail_gpu = 0; fail_gpu < 2; ++fail_gpu) {
-+		for (fail_alloc = 0; fail_alloc < ASYNC_FAIL_ALLOC; ++fail_alloc) {
-+			pr_info("Simulated failure modes: gpu: %d, alloc: %d\n",
-+				fail_gpu, fail_alloc);
-+			i915_ttm_migrate_set_failure_modes(fail_gpu,
-+							   fail_alloc);
-+			ret = igt_async_migrate(gt);
- 			if (ret)
- 				goto out_err;
+ 			capture->next = eb->capture_lists[j];
+-			capture->vma_snapshot = i915_vma_snapshot_get(vsnap);
++			capture->vma_res = i915_vma_resource_get(vma->resource);
+ 			eb->capture_lists[j] = capture;
  		}
-@@ -256,6 +417,7 @@ int i915_gem_migrate_live_selftests(struct drm_i915_private *i915)
- 		SUBTEST(igt_lmem_create_migrate),
- 		SUBTEST(igt_same_create_migrate),
- 		SUBTEST(igt_lmem_pages_failsafe_migrate),
-+		SUBTEST(igt_lmem_async_migrate),
- 	};
+-		i915_vma_snapshot_put(vsnap);
+ 	}
+ }
  
- 	if (!HAS_LMEM(i915))
+@@ -3283,9 +3275,8 @@ eb_requests_create(struct i915_execbuffer *eb, struct dma_fence *in_fence,
+ 		 * _onstack interface.
+ 		 */
+ 		if (eb->batches[i]->vma)
+-			i915_vma_snapshot_init_onstack(&eb->requests[i]->batch_snapshot,
+-						       eb->batches[i]->vma,
+-						       "batch");
++			eb->requests[i]->batch_res =
++				i915_vma_resource_get(eb->batches[i]->vma->resource);
+ 		if (eb->batch_pool) {
+ 			GEM_BUG_ON(intel_context_is_parallel(eb->context));
+ 			intel_gt_buffer_pool_mark_active(eb->batch_pool,
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+index 7b793a295475..baa346a49976 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+@@ -1708,18 +1708,15 @@ static void intel_engine_print_registers(struct intel_engine_cs *engine,
+ 
+ static void print_request_ring(struct drm_printer *m, struct i915_request *rq)
+ {
+-	struct i915_vma_snapshot *vsnap = &rq->batch_snapshot;
++	struct i915_vma_resource *vma_res = rq->batch_res;
+ 	void *ring;
+ 	int size;
+ 
+-	if (!i915_vma_snapshot_present(vsnap))
+-		vsnap = NULL;
+-
+ 	drm_printf(m,
+ 		   "[head %04x, postfix %04x, tail %04x, batch 0x%08x_%08x]:\n",
+ 		   rq->head, rq->postfix, rq->tail,
+-		   vsnap ? upper_32_bits(vsnap->vma_resource->start) : ~0u,
+-		   vsnap ? lower_32_bits(vsnap->vma_resource->start) : ~0u);
++		   vma_res ? upper_32_bits(vma_res->start) : ~0u,
++		   vma_res ? lower_32_bits(vma_res->start) : ~0u);
+ 
+ 	size = rq->tail - rq->head;
+ 	if (rq->tail < rq->head)
+diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
+index 1af54ff374f9..f8c4336cba89 100644
+--- a/drivers/gpu/drm/i915/i915_gpu_error.c
++++ b/drivers/gpu/drm/i915/i915_gpu_error.c
+@@ -48,7 +48,6 @@
+ #include "i915_gpu_error.h"
+ #include "i915_memcpy.h"
+ #include "i915_scatterlist.h"
+-#include "i915_vma_snapshot.h"
+ 
+ #define ALLOW_FAIL (__GFP_KSWAPD_RECLAIM | __GFP_RETRY_MAYFAIL | __GFP_NOWARN)
+ #define ATOMIC_MAYFAIL (GFP_ATOMIC | __GFP_NOWARN)
+@@ -1013,8 +1012,10 @@ void __i915_gpu_coredump_free(struct kref *error_ref)
+ 
+ static struct i915_vma_coredump *
+ i915_vma_coredump_create(const struct intel_gt *gt,
+-			 const struct i915_vma_snapshot *vsnap,
+-			 struct i915_vma_compress *compress)
++			 const struct i915_vma_resource *vma_res,
++			 struct i915_vma_compress *compress,
++			 const char *name)
++
+ {
+ 	struct i915_ggtt *ggtt = gt->ggtt;
+ 	const u64 slot = ggtt->error_capture.start;
+@@ -1024,7 +1025,7 @@ i915_vma_coredump_create(const struct intel_gt *gt,
+ 
+ 	might_sleep();
+ 
+-	if (!vsnap || !vsnap->pages || !compress)
++	if (!vma_res || !vma_res->bi.pages || !compress)
+ 		return NULL;
+ 
+ 	dst = kmalloc(sizeof(*dst), ALLOW_FAIL);
+@@ -1037,12 +1038,12 @@ i915_vma_coredump_create(const struct intel_gt *gt,
+ 	}
+ 
+ 	INIT_LIST_HEAD(&dst->page_list);
+-	strcpy(dst->name, vsnap->name);
++	strcpy(dst->name, name);
+ 	dst->next = NULL;
+ 
+-	dst->gtt_offset = vsnap->vma_resource->start;
+-	dst->gtt_size = vsnap->vma_resource->node_size;
+-	dst->gtt_page_sizes = vsnap->vma_resource->page_sizes_gtt;
++	dst->gtt_offset = vma_res->start;
++	dst->gtt_size = vma_res->node_size;
++	dst->gtt_page_sizes = vma_res->page_sizes_gtt;
+ 	dst->unused = 0;
+ 
+ 	ret = -EINVAL;
+@@ -1050,7 +1051,7 @@ i915_vma_coredump_create(const struct intel_gt *gt,
+ 		void __iomem *s;
+ 		dma_addr_t dma;
+ 
+-		for_each_sgt_daddr(dma, iter, vsnap->pages) {
++		for_each_sgt_daddr(dma, iter, vma_res->bi.pages) {
+ 			mutex_lock(&ggtt->error_mutex);
+ 			ggtt->vm.insert_page(&ggtt->vm, dma, slot,
+ 					     I915_CACHE_NONE, 0);
+@@ -1068,11 +1069,11 @@ i915_vma_coredump_create(const struct intel_gt *gt,
+ 			if (ret)
+ 				break;
+ 		}
+-	} else if (vsnap->mr && vsnap->mr->type != INTEL_MEMORY_SYSTEM) {
+-		struct intel_memory_region *mem = vsnap->mr;
++	} else if (vma_res->bi.lmem) {
++		struct intel_memory_region *mem = vma_res->mr;
+ 		dma_addr_t dma;
+ 
+-		for_each_sgt_daddr(dma, iter, vsnap->pages) {
++		for_each_sgt_daddr(dma, iter, vma_res->bi.pages) {
+ 			void __iomem *s;
+ 
+ 			s = io_mapping_map_wc(&mem->iomap,
+@@ -1088,7 +1089,7 @@ i915_vma_coredump_create(const struct intel_gt *gt,
+ 	} else {
+ 		struct page *page;
+ 
+-		for_each_sgt_page(page, iter, vsnap->pages) {
++		for_each_sgt_page(page, iter, vma_res->bi.pages) {
+ 			void *s;
+ 
+ 			drm_clflush_pages(&page, 1);
+@@ -1324,33 +1325,32 @@ static bool record_context(struct i915_gem_context_coredump *e,
+ 
+ struct intel_engine_capture_vma {
+ 	struct intel_engine_capture_vma *next;
+-	struct i915_vma_snapshot *vsnap;
++	struct i915_vma_resource *vma_res;
+ 	char name[16];
+ 	bool lockdep_cookie;
+ };
+ 
+ static struct intel_engine_capture_vma *
+ capture_vma_snapshot(struct intel_engine_capture_vma *next,
+-		     struct i915_vma_snapshot *vsnap,
+-		     gfp_t gfp)
++		     struct i915_vma_resource *vma_res,
++		     gfp_t gfp, const char *name)
+ {
+ 	struct intel_engine_capture_vma *c;
+ 
+-	if (!i915_vma_snapshot_present(vsnap))
++	if (!vma_res)
+ 		return next;
+ 
+ 	c = kmalloc(sizeof(*c), gfp);
+ 	if (!c)
+ 		return next;
+ 
+-	if (!i915_vma_snapshot_resource_pin(vsnap, &c->lockdep_cookie)) {
++	if (!i915_vma_resource_hold(vma_res, &c->lockdep_cookie)) {
+ 		kfree(c);
+ 		return next;
+ 	}
+ 
+-	strcpy(c->name, vsnap->name);
+-	c->vsnap = vsnap;
+-	i915_vma_snapshot_get(vsnap);
++	strcpy(c->name, name);
++	c->vma_res = i915_vma_resource_get(vma_res);
+ 
+ 	c->next = next;
+ 	return c;
+@@ -1362,8 +1362,6 @@ capture_vma(struct intel_engine_capture_vma *next,
+ 	    const char *name,
+ 	    gfp_t gfp)
+ {
+-	struct i915_vma_snapshot *vsnap;
+-
+ 	if (!vma)
+ 		return next;
+ 
+@@ -1372,19 +1370,10 @@ capture_vma(struct intel_engine_capture_vma *next,
+ 	 * to a struct i915_vma_snapshot at command submission time.
+ 	 * Not here.
+ 	 */
+-	GEM_WARN_ON(!i915_vma_is_pinned(vma));
+-	if (!i915_vma_is_pinned(vma))
+-		return next;
+-
+-	vsnap = i915_vma_snapshot_alloc(gfp);
+-	if (!vsnap)
++	if (GEM_WARN_ON(!i915_vma_is_pinned(vma)))
+ 		return next;
+ 
+-	i915_vma_snapshot_init(vsnap, vma, name);
+-	next = capture_vma_snapshot(next, vsnap, gfp);
+-
+-	/* FIXME: Replace on async unbind. */
+-	i915_vma_snapshot_put(vsnap);
++	next = capture_vma_snapshot(next, vma->resource, gfp, name);
+ 
+ 	return next;
+ }
+@@ -1397,7 +1386,8 @@ capture_user(struct intel_engine_capture_vma *capture,
+ 	struct i915_capture_list *c;
+ 
+ 	for (c = rq->capture_list; c; c = c->next)
+-		capture = capture_vma_snapshot(capture, c->vma_snapshot, gfp);
++		capture = capture_vma_snapshot(capture, c->vma_res, gfp,
++					       "user");
+ 
+ 	return capture;
+ }
+@@ -1415,16 +1405,19 @@ static struct i915_vma_coredump *
+ create_vma_coredump(const struct intel_gt *gt, struct i915_vma *vma,
+ 		    const char *name, struct i915_vma_compress *compress)
+ {
+-	struct i915_vma_coredump *ret;
+-	struct i915_vma_snapshot tmp;
++	struct i915_vma_coredump *ret = NULL;
++	struct i915_vma_resource *vma_res;
++	bool lockdep_cookie;
+ 
+ 	if (!vma)
+ 		return NULL;
+ 
+-	GEM_WARN_ON(!i915_vma_is_pinned(vma));
+-	i915_vma_snapshot_init_onstack(&tmp, vma, name);
+-	ret = i915_vma_coredump_create(gt, &tmp, compress);
+-	i915_vma_snapshot_put_onstack(&tmp);
++	vma_res = vma->resource;
++
++	if (i915_vma_resource_hold(vma_res, &lockdep_cookie)) {
++		ret = i915_vma_coredump_create(gt, vma_res, compress, name);
++		i915_vma_resource_unhold(vma_res, lockdep_cookie);
++	}
+ 
+ 	return ret;
+ }
+@@ -1471,7 +1464,7 @@ intel_engine_coredump_add_request(struct intel_engine_coredump *ee,
+ 	 * as the simplest method to avoid being overwritten
+ 	 * by userspace.
+ 	 */
+-	vma = capture_vma_snapshot(vma, &rq->batch_snapshot, gfp);
++	vma = capture_vma_snapshot(vma, rq->batch_res, gfp, "batch");
+ 	vma = capture_user(vma, rq, gfp);
+ 	vma = capture_vma(vma, rq->ring->vma, "ring", gfp);
+ 	vma = capture_vma(vma, rq->context->state, "HW context", gfp);
+@@ -1492,14 +1485,14 @@ intel_engine_coredump_add_vma(struct intel_engine_coredump *ee,
+ 
+ 	while (capture) {
+ 		struct intel_engine_capture_vma *this = capture;
+-		struct i915_vma_snapshot *vsnap = this->vsnap;
++		struct i915_vma_resource *vma_res = this->vma_res;
+ 
+ 		add_vma(ee,
+-			i915_vma_coredump_create(engine->gt,
+-						 vsnap, compress));
++			i915_vma_coredump_create(engine->gt, vma_res,
++						 compress, this->name));
+ 
+-		i915_vma_snapshot_resource_unpin(vsnap, this->lockdep_cookie);
+-		i915_vma_snapshot_put(vsnap);
++		i915_vma_resource_unhold(vma_res, this->lockdep_cookie);
++		i915_vma_resource_put(vma_res);
+ 
+ 		capture = this->next;
+ 		kfree(this);
+diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+index 76cf5ac91e94..ba3a70b2cc57 100644
+--- a/drivers/gpu/drm/i915/i915_request.c
++++ b/drivers/gpu/drm/i915/i915_request.c
+@@ -116,8 +116,10 @@ static void i915_fence_release(struct dma_fence *fence)
+ 		   rq->guc_prio != GUC_PRIO_FINI);
+ 
+ 	i915_request_free_capture_list(fetch_and_zero(&rq->capture_list));
+-	if (i915_vma_snapshot_present(&rq->batch_snapshot))
+-		i915_vma_snapshot_put_onstack(&rq->batch_snapshot);
++	if (rq->batch_res) {
++		i915_vma_resource_put(rq->batch_res);
++		rq->batch_res = NULL;
++	}
+ 
+ 	/*
+ 	 * The request is put onto a RCU freelist (i.e. the address
+@@ -308,7 +310,7 @@ void i915_request_free_capture_list(struct i915_capture_list *capture)
+ 	while (capture) {
+ 		struct i915_capture_list *next = capture->next;
+ 
+-		i915_vma_snapshot_put(capture->vma_snapshot);
++		i915_vma_resource_put(capture->vma_res);
+ 		kfree(capture);
+ 		capture = next;
+ 	}
+@@ -854,7 +856,7 @@ static void __i915_request_ctor(void *arg)
+ 	i915_sw_fence_init(&rq->semaphore, semaphore_notify);
+ 
+ 	clear_capture_list(rq);
+-	rq->batch_snapshot.present = false;
++	rq->batch_res = NULL;
+ 
+ 	init_llist_head(&rq->execute_cb);
+ }
+@@ -960,7 +962,7 @@ __i915_request_create(struct intel_context *ce, gfp_t gfp)
+ 	__rq_init_watchdog(rq);
+ 	assert_capture_list_is_null(rq);
+ 	GEM_BUG_ON(!llist_empty(&rq->execute_cb));
+-	GEM_BUG_ON(i915_vma_snapshot_present(&rq->batch_snapshot));
++	GEM_BUG_ON(rq->batch_res);
+ 
+ 	/*
+ 	 * Reserve space in the ring buffer for all the commands required to
+diff --git a/drivers/gpu/drm/i915/i915_request.h b/drivers/gpu/drm/i915/i915_request.h
+index 170ee78c2858..28b1f9db5487 100644
+--- a/drivers/gpu/drm/i915/i915_request.h
++++ b/drivers/gpu/drm/i915/i915_request.h
+@@ -40,7 +40,7 @@
+ #include "i915_scheduler.h"
+ #include "i915_selftest.h"
+ #include "i915_sw_fence.h"
+-#include "i915_vma_snapshot.h"
++#include "i915_vma_resource.h"
+ 
+ #include <uapi/drm/i915_drm.h>
+ 
+@@ -52,7 +52,7 @@ struct i915_request;
+ 
+ #if IS_ENABLED(CONFIG_DRM_I915_CAPTURE_ERROR)
+ struct i915_capture_list {
+-	struct i915_vma_snapshot *vma_snapshot;
++	struct i915_vma_resource *vma_res;
+ 	struct i915_capture_list *next;
+ };
+ 
+@@ -300,7 +300,7 @@ struct i915_request {
+ 	/** Batch buffer pointer for selftest internal use. */
+ 	I915_SELFTEST_DECLARE(struct i915_vma *batch);
+ 
+-	struct i915_vma_snapshot batch_snapshot;
++	struct i915_vma_resource *batch_res;
+ 
+ #if IS_ENABLED(CONFIG_DRM_I915_CAPTURE_ERROR)
+ 	/**
+diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+index 5881b0713b1a..1f15c3298112 100644
+--- a/drivers/gpu/drm/i915/i915_vma.c
++++ b/drivers/gpu/drm/i915/i915_vma.c
+@@ -289,7 +289,6 @@ struct i915_vma_work {
+ 	struct i915_vma_resource *vma_res;
+ 	struct drm_i915_gem_object *pinned;
+ 	struct i915_sw_dma_fence_cb cb;
+-	struct i915_refct_sgt *rsgt;
+ 	enum i915_cache_level cache_level;
+ 	unsigned int flags;
+ };
+@@ -315,8 +314,6 @@ static void __vma_release(struct dma_fence_work *work)
+ 	i915_vm_put(vw->vm);
+ 	if (vw->vma_res)
+ 		i915_vma_resource_put(vw->vma_res);
+-	if (vw->rsgt)
+-		i915_refct_sgt_put(vw->rsgt);
+ }
+ 
+ static const struct dma_fence_work_ops bind_ops = {
+@@ -387,8 +384,8 @@ i915_vma_resource_init_from_vma(struct i915_vma_resource *vma_res,
+ 	struct drm_i915_gem_object *obj = vma->obj;
+ 
+ 	i915_vma_resource_init(vma_res, vma->vm, vma->pages, &vma->page_sizes,
+-			       i915_gem_object_is_readonly(obj),
+-			       i915_gem_object_is_lmem(obj),
++			       obj->mm.rsgt, i915_gem_object_is_readonly(obj),
++			       i915_gem_object_is_lmem(obj), obj->mm.region,
+ 			       vma->ops, vma->private, vma->node.start,
+ 			       vma->node.size, vma->size);
+ }
+@@ -479,8 +476,6 @@ int i915_vma_bind(struct i915_vma *vma,
+ 		work->vma_res = i915_vma_resource_get(vma->resource);
+ 		work->cache_level = cache_level;
+ 		work->flags = bind_flags;
+-		if (vma->obj->mm.rsgt)
+-			work->rsgt = i915_refct_sgt_get(vma->obj->mm.rsgt);
+ 
+ 		/*
+ 		 * Note we only want to chain up to the migration fence on
+@@ -506,7 +501,7 @@ int i915_vma_bind(struct i915_vma *vma,
+ 		 * on the object to avoid waiting for the async bind to
+ 		 * complete in the object destruction path.
+ 		 */
+-		if (!work->rsgt)
++		if (!work->vma_res->bi.pages_rsgt)
+ 			work->pinned = i915_gem_object_get(vma->obj);
+ 	} else {
+ 		if (vma->obj) {
+@@ -1827,7 +1822,7 @@ struct dma_fence *__i915_vma_evict(struct i915_vma *vma, bool async)
+ 	GEM_BUG_ON(i915_vma_has_userfault(vma));
+ 
+ 	/* Object backend must be async capable. */
+-	GEM_WARN_ON(async && !vma->obj->mm.rsgt);
++	GEM_WARN_ON(async && !vma->resource->bi.pages_rsgt);
+ 
+ 	/* If vm is not open, unbind is a nop. */
+ 	vma_res->needs_wakeref = i915_vma_is_bound(vma, I915_VMA_GLOBAL_BIND) &&
+@@ -1840,9 +1835,6 @@ struct dma_fence *__i915_vma_evict(struct i915_vma *vma, bool async)
+ 	atomic_and(~(I915_VMA_BIND_MASK | I915_VMA_ERROR | I915_VMA_GGTT_WRITE),
+ 		   &vma->flags);
+ 
+-	/* Object backend must be async capable. */
+-	GEM_WARN_ON(async && !vma->obj->mm.rsgt);
+-
+ 	i915_vma_detach(vma);
+ 
+ 	if (!async && unbind_fence) {
+diff --git a/drivers/gpu/drm/i915/i915_vma_resource.c b/drivers/gpu/drm/i915/i915_vma_resource.c
+index 3e55a30b2da7..1f41c0c699eb 100644
+--- a/drivers/gpu/drm/i915/i915_vma_resource.c
++++ b/drivers/gpu/drm/i915/i915_vma_resource.c
+@@ -9,6 +9,7 @@
+ #include "i915_sw_fence.h"
+ #include "i915_vma_resource.h"
+ #include "i915_drv.h"
++#include "intel_memory_region.h"
+ 
+ #include "gt/intel_gtt.h"
+ 
+@@ -117,6 +118,9 @@ static void __i915_vma_resource_unhold(struct i915_vma_resource *vma_res)
+ 		vma_res_itree_remove(vma_res, &vm->pending_unbind);
+ 		mutex_unlock(&vm->mutex);
+ 	}
++
++	if (vma_res->bi.pages_rsgt)
++		i915_refct_sgt_put(vma_res->bi.pages_rsgt);
+ }
+ 
+ /**
+diff --git a/drivers/gpu/drm/i915/i915_vma_resource.h b/drivers/gpu/drm/i915/i915_vma_resource.h
+index cb3f4e1e8457..25913913baa6 100644
+--- a/drivers/gpu/drm/i915/i915_vma_resource.h
++++ b/drivers/gpu/drm/i915/i915_vma_resource.h
+@@ -10,9 +10,12 @@
+ #include <linux/refcount.h>
+ 
+ #include "i915_gem.h"
++#include "i915_scatterlist.h"
+ #include "i915_sw_fence.h"
+ #include "intel_runtime_pm.h"
+ 
++struct intel_memory_region;
++
+ struct i915_page_sizes {
+ 	/**
+ 	 * The sg mask of the pages sg_table. i.e the mask of
+@@ -46,6 +49,7 @@ struct i915_page_sizes {
+  * @__subtree_last: Interval tree private member.
+  * @vm: non-refcounted pointer to the vm. This is for internal use only and
+  * this member is cleared after vm_resource unbind.
++ * @mr: The memory region of the object pointed to by the vma.
+  * @ops: Pointer to the backend i915_vma_ops.
+  * @private: Bind backend private info.
+  * @start: Offset into the address space of bind range start.
+@@ -54,8 +58,10 @@ struct i915_page_sizes {
+  * @page_sizes_gtt: Resulting page sizes from the bind operation.
+  * @bound_flags: Flags indicating binding status.
+  * @allocated: Backend private data. TODO: Should move into @private.
+- * @immediate_unbind: Unbind can be done immediately and don't need to be
+- * deferred to a work item awaiting unsignaled fences.
++ * @immediate_unbind: Unbind can be done immediately and doesn't need to be
++ * deferred to a work item awaiting unsignaled fences. This is a hack.
++ * (dma_fence_work uses a fence flag for this, but this seems slightly
++ * cleaner).
+  *
+  * The lifetime of a struct i915_vma_resource is from a binding request to
+  * the actual possible asynchronous unbind has completed.
+@@ -80,16 +86,22 @@ struct i915_vma_resource {
+ 	 * and flags
+ 	 * @pages: The pages sg-table.
+ 	 * @page_sizes: Page sizes of the pages.
++	 * @pages_rsgt: Refcounted sg-table when delayed object destruction
++	 * is supported. May be NULL.
+ 	 * @readonly: Whether the vma should be bound read-only.
+ 	 * @lmem: Whether the vma points to lmem.
+ 	 */
+ 	struct i915_vma_bindinfo {
+ 		struct sg_table *pages;
+ 		struct i915_page_sizes page_sizes;
++		struct i915_refct_sgt *pages_rsgt;
+ 		bool readonly:1;
+ 		bool lmem:1;
+ 	} bi;
+ 
++#if IS_ENABLED(CONFIG_DRM_I915_CAPTURE_ERROR)
++	struct intel_memory_region *mr;
++#endif
+ 	const struct i915_vma_ops *ops;
+ 	void *private;
+ 	u64 start;
+@@ -145,8 +157,11 @@ static inline void i915_vma_resource_put(struct i915_vma_resource *vma_res)
+  * @vm: Pointer to the vm.
+  * @pages: The pages sg-table.
+  * @page_sizes: Page sizes of the pages.
++ * @pages_rsgt: Pointer to a struct i915_refct_sgt of an object with
++ * delayed destruction.
+  * @readonly: Whether the vma should be bound read-only.
+  * @lmem: Whether the vma points to lmem.
++ * @mr: The memory region of the object the vma points to.
+  * @ops: The backend ops.
+  * @private: Bind backend private info.
+  * @start: Offset into the address space of bind range start.
+@@ -162,8 +177,10 @@ static inline void i915_vma_resource_init(struct i915_vma_resource *vma_res,
+ 					  struct i915_address_space *vm,
+ 					  struct sg_table *pages,
+ 					  const struct i915_page_sizes *page_sizes,
++					  struct i915_refct_sgt *pages_rsgt,
+ 					  bool readonly,
+ 					  bool lmem,
++					  struct intel_memory_region *mr,
+ 					  const struct i915_vma_ops *ops,
+ 					  void *private,
+ 					  u64 start,
+@@ -174,8 +191,13 @@ static inline void i915_vma_resource_init(struct i915_vma_resource *vma_res,
+ 	vma_res->vm = vm;
+ 	vma_res->bi.pages = pages;
+ 	vma_res->bi.page_sizes = *page_sizes;
++	if (pages_rsgt)
++		vma_res->bi.pages_rsgt = i915_refct_sgt_get(pages_rsgt);
+ 	vma_res->bi.readonly = readonly;
+ 	vma_res->bi.lmem = lmem;
++#if IS_ENABLED(CONFIG_DRM_I915_CAPTURE_ERROR)
++	vma_res->mr = mr;
++#endif
+ 	vma_res->ops = ops;
+ 	vma_res->private = private;
+ 	vma_res->start = start;
+@@ -186,6 +208,8 @@ static inline void i915_vma_resource_init(struct i915_vma_resource *vma_res,
+ static inline void i915_vma_resource_fini(struct i915_vma_resource *vma_res)
+ {
+ 	GEM_BUG_ON(refcount_read(&vma_res->hold_count) != 1);
++	if (vma_res->bi.pages_rsgt)
++		i915_refct_sgt_put(vma_res->bi.pages_rsgt);
+ 	i915_sw_fence_fini(&vma_res->chain);
+ }
+ 
+diff --git a/drivers/gpu/drm/i915/i915_vma_snapshot.c b/drivers/gpu/drm/i915/i915_vma_snapshot.c
+deleted file mode 100644
+index 69f62c1ca967..000000000000
+--- a/drivers/gpu/drm/i915/i915_vma_snapshot.c
++++ /dev/null
+@@ -1,125 +0,0 @@
+-// SPDX-License-Identifier: MIT
+-/*
+- * Copyright © 2021 Intel Corporation
+- */
+-
+-#include "i915_vma_resource.h"
+-#include "i915_vma_snapshot.h"
+-#include "i915_vma_types.h"
+-#include "i915_vma.h"
+-
+-/**
+- * i915_vma_snapshot_init - Initialize a struct i915_vma_snapshot from
+- * a struct i915_vma.
+- * @vsnap: The i915_vma_snapshot to init.
+- * @vma: A struct i915_vma used to initialize @vsnap.
+- * @name: Name associated with the snapshot. The character pointer needs to
+- * stay alive over the lifitime of the shapsot
+- */
+-void i915_vma_snapshot_init(struct i915_vma_snapshot *vsnap,
+-			    struct i915_vma *vma,
+-			    const char *name)
+-{
+-	if (!i915_vma_is_pinned(vma))
+-		assert_object_held(vma->obj);
+-
+-	vsnap->name = name;
+-	vsnap->obj_size = vma->obj->base.size;
+-	vsnap->pages = vma->pages;
+-	vsnap->pages_rsgt = NULL;
+-	vsnap->mr = NULL;
+-	if (vma->obj->mm.rsgt)
+-		vsnap->pages_rsgt = i915_refct_sgt_get(vma->obj->mm.rsgt);
+-	vsnap->mr = vma->obj->mm.region;
+-	kref_init(&vsnap->kref);
+-	vsnap->vma_resource = i915_vma_get_current_resource(vma);
+-	vsnap->onstack = false;
+-	vsnap->present = true;
+-}
+-
+-/**
+- * i915_vma_snapshot_init_onstack - Initialize a struct i915_vma_snapshot from
+- * a struct i915_vma, but avoid kfreeing it on last put.
+- * @vsnap: The i915_vma_snapshot to init.
+- * @vma: A struct i915_vma used to initialize @vsnap.
+- * @name: Name associated with the snapshot. The character pointer needs to
+- * stay alive over the lifitime of the shapsot
+- */
+-void i915_vma_snapshot_init_onstack(struct i915_vma_snapshot *vsnap,
+-				    struct i915_vma *vma,
+-				    const char *name)
+-{
+-	i915_vma_snapshot_init(vsnap, vma, name);
+-	vsnap->onstack = true;
+-}
+-
+-static void vma_snapshot_release(struct kref *ref)
+-{
+-	struct i915_vma_snapshot *vsnap =
+-		container_of(ref, typeof(*vsnap), kref);
+-
+-	vsnap->present = false;
+-	i915_vma_resource_put(vsnap->vma_resource);
+-	if (vsnap->pages_rsgt)
+-		i915_refct_sgt_put(vsnap->pages_rsgt);
+-	if (!vsnap->onstack)
+-		kfree(vsnap);
+-}
+-
+-/**
+- * i915_vma_snapshot_put - Put an i915_vma_snapshot pointer reference
+- * @vsnap: The pointer reference
+- */
+-void i915_vma_snapshot_put(struct i915_vma_snapshot *vsnap)
+-{
+-	kref_put(&vsnap->kref, vma_snapshot_release);
+-}
+-
+-/**
+- * i915_vma_snapshot_put_onstack - Put an onstcak i915_vma_snapshot pointer
+- * reference and varify that the structure is released
+- * @vsnap: The pointer reference
+- *
+- * This function is intended to be paired with a i915_vma_init_onstack()
+- * and should be called before exiting the scope that declared or
+- * freeing the structure that embedded @vsnap to verify that all references
+- * have been released.
+- */
+-void i915_vma_snapshot_put_onstack(struct i915_vma_snapshot *vsnap)
+-{
+-	if (!kref_put(&vsnap->kref, vma_snapshot_release))
+-		GEM_BUG_ON(1);
+-}
+-
+-/**
+- * i915_vma_snapshot_resource_pin - Temporarily block the memory the
+- * vma snapshot is pointing to from being released.
+- * @vsnap: The vma snapshot.
+- * @lockdep_cookie: Pointer to bool needed for lockdep support. This needs
+- * to be passed to the paired i915_vma_snapshot_resource_unpin.
+- *
+- * This function will temporarily try to hold up a fence or similar structure
+- * and will therefore enter a fence signaling critical section.
+- *
+- * Return: true if we succeeded in blocking the memory from being released,
+- * false otherwise.
+- */
+-bool i915_vma_snapshot_resource_pin(struct i915_vma_snapshot *vsnap,
+-				    bool *lockdep_cookie)
+-{
+-	return i915_vma_resource_hold(vsnap->vma_resource, lockdep_cookie);
+-}
+-
+-/**
+- * i915_vma_snapshot_resource_unpin - Unblock vma snapshot memory from
+- * being released.
+- * @vsnap: The vma snapshot.
+- * @lockdep_cookie: Cookie returned from matching i915_vma_resource_pin().
+- *
+- * Might leave a fence signalling critical section and signal a fence.
+- */
+-void i915_vma_snapshot_resource_unpin(struct i915_vma_snapshot *vsnap,
+-				      bool lockdep_cookie)
+-{
+-	i915_vma_resource_unhold(vsnap->vma_resource, lockdep_cookie);
+-}
+diff --git a/drivers/gpu/drm/i915/i915_vma_snapshot.h b/drivers/gpu/drm/i915/i915_vma_snapshot.h
+deleted file mode 100644
+index 1b08ce9f8576..000000000000
+--- a/drivers/gpu/drm/i915/i915_vma_snapshot.h
++++ /dev/null
+@@ -1,101 +0,0 @@
+-/* SPDX-License-Identifier: MIT */
+-/*
+- * Copyright © 2021 Intel Corporation
+- */
+-#ifndef _I915_VMA_SNAPSHOT_H_
+-#define _I915_VMA_SNAPSHOT_H_
+-
+-#include <linux/kref.h>
+-#include <linux/slab.h>
+-#include <linux/types.h>
+-
+-struct i915_active;
+-struct i915_refct_sgt;
+-struct i915_vma;
+-struct intel_memory_region;
+-struct sg_table;
+-
+-/**
+- * DOC: Simple utilities for snapshotting GPU vma metadata, later used for
+- * error capture. Vi use a separate header for this to avoid issues due to
+- * recursive header includes.
+- */
+-
+-/**
+- * struct i915_vma_snapshot - Snapshot of vma metadata.
+- * @obj_size: The size of the underlying object in bytes.
+- * @pages: The struct sg_table pointing to the pages bound.
+- * @pages_rsgt: The refcounted sg_table holding the reference for @pages if any.
+- * @mr: The memory region pointed for the pages bound.
+- * @kref: Reference for this structure.
+- * @vma_resource: Pointer to the vma resource representing the vma binding.
+- * @onstack: Whether the structure shouldn't be freed on final put.
+- * @present: Whether the structure is present and initialized.
+- */
+-struct i915_vma_snapshot {
+-	const char *name;
+-	size_t obj_size;
+-	struct sg_table *pages;
+-	struct i915_refct_sgt *pages_rsgt;
+-	struct intel_memory_region *mr;
+-	struct kref kref;
+-	struct i915_vma_resource *vma_resource;
+-	bool onstack:1;
+-	bool present:1;
+-};
+-
+-void i915_vma_snapshot_init(struct i915_vma_snapshot *vsnap,
+-			    struct i915_vma *vma,
+-			    const char *name);
+-
+-void i915_vma_snapshot_init_onstack(struct i915_vma_snapshot *vsnap,
+-				    struct i915_vma *vma,
+-				    const char *name);
+-
+-void i915_vma_snapshot_put(struct i915_vma_snapshot *vsnap);
+-
+-void i915_vma_snapshot_put_onstack(struct i915_vma_snapshot *vsnap);
+-
+-bool i915_vma_snapshot_resource_pin(struct i915_vma_snapshot *vsnap,
+-				    bool *lockdep_cookie);
+-
+-void i915_vma_snapshot_resource_unpin(struct i915_vma_snapshot *vsnap,
+-				      bool lockdep_cookie);
+-
+-/**
+- * i915_vma_snapshot_alloc - Allocate a struct i915_vma_snapshot
+- * @gfp: Allocation mode.
+- *
+- * Return: A pointer to a struct i915_vma_snapshot if successful.
+- * NULL otherwise.
+- */
+-static inline struct i915_vma_snapshot *i915_vma_snapshot_alloc(gfp_t gfp)
+-{
+-	return kmalloc(sizeof(struct i915_vma_snapshot), gfp);
+-}
+-
+-/**
+- * i915_vma_snapshot_get - Take a reference on a struct i915_vma_snapshot
+- *
+- * Return: A pointer to a struct i915_vma_snapshot.
+- */
+-static inline struct i915_vma_snapshot *
+-i915_vma_snapshot_get(struct i915_vma_snapshot *vsnap)
+-{
+-	kref_get(&vsnap->kref);
+-	return vsnap;
+-}
+-
+-/**
+- * i915_vma_snapshot_present - Whether a struct i915_vma_snapshot is
+- * present and initialized.
+- *
+- * Return: true if present and initialized; false otherwise.
+- */
+-static inline bool
+-i915_vma_snapshot_present(const struct i915_vma_snapshot *vsnap)
+-{
+-	return vsnap && vsnap->present;
+-}
+-
+-#endif
 -- 
 2.31.1
 
