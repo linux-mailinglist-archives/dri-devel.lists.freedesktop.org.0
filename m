@@ -2,39 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D38D3489E6D
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 18:33:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A525489E91
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 18:43:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4107112C94;
-	Mon, 10 Jan 2022 17:33:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6FDE112E19;
+	Mon, 10 Jan 2022 17:42:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55CC1112C94
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 17:33:35 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87F44112D95
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 17:42:53 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: alyssa) with ESMTPSA id D1F011F41363
+ (Authenticated sender: alyssa) with ESMTPSA id 5A06E1F43EC1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1641836013;
- bh=2g3G8luaz7ZD7KDtSA8vvM2OkKCtTnXdaPyiMq/li4o=;
+ s=mail; t=1641836572;
+ bh=i3BsaG3+9txF0hL7sD+dOncjvycYUSgtrjkjrBXPt/s=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UUtwoWJQolaU0Y8Or88wO8xZP6aNj7MXNPv1KLki5CEg0FiL44bsKgx9JH3QvzYYg
- 0lMJE9zIaycVkZLoIhKxVd8rAlg/lPVlLARElU4XY1DleVdOkPp7iCNVgYC7W6cev2
- UWKC8NQeQ4OM8hjYQT4fdzJHiTtmoCE/YFwOjjp/qk5PGuoIIA40wnp2eIULDmSq2g
- NHUBV7v8JZCEgeaxIMCQxHYEkV3GF+V5O0WPCSEQX8ZLW1JLGlrk9TOhHG29TihYXt
- P+jpmKlYZPMSRtFRB6m786ephM1jURVLKKzjZDVzxy9hqF6r8wWD9PoDZIY9KaIjnX
- oDohSMgKlus5Q==
-Date: Mon, 10 Jan 2022 12:33:26 -0500
+ b=bt77E/Vk6J6qUmGkOV3EsgrRIru1UpllDQAb2NdpC/No5UlSYk/h203TOl2znG7rc
+ 8KPwjcKjM+SFtwGXYD/d6hNTQi2bVSpB0cdXATvmeZaO+EK2CekF7tScoP3whHOmhA
+ 5O7Cyq1vQI+511mtrLJn8muQBIu716aGh7daDogugb0ItaTMlDwmqYeyPD1g4veWaB
+ Kt/cUmkwqGP57NCbzrKwvfvCkcYhgGQNS3P5I4c7jJeDX2HM23+aNM83EbKMUAWyzT
+ hA2SR2AI9cOexlpEGHQrFD/LeJZKPBAG2NUKlSgQ11dRtvN5261g6/rdbWC9fZUBgD
+ qfGa3SSq63pQQ==
+Date: Mon, 10 Jan 2022 12:42:44 -0500
 From: Alyssa Rosenzweig <alyssa@collabora.com>
 To: Steven Price <steven.price@arm.com>
-Subject: Re: [RFC PATCH] drm/panfrost: Handle IDVS_GROUP_SIZE feature
-Message-ID: <Ydxt5hXewcx9st1m@maud>
-References: <20220109171254.3183-1-alyssa.rosenzweig@collabora.com>
- <4628eb5a-b644-47af-a865-73300460a92b@arm.com>
+Subject: Re: [PATCH 2/2] drm/panfrost: adjusted job affinity for dual core
+ group GPUs
+Message-ID: <YdxwFCfWYtLd1Qqb@maud>
+References: <20211223110616.2589851-1-asheplyakov@basealt.ru>
+ <20211223110616.2589851-3-asheplyakov@basealt.ru>
+ <YcSDgIwrmHZ/BC2n@maud>
+ <c94bafaa-3029-fea3-b623-1961b4b5e4cf@basealt.ru>
+ <fca08e3c-c239-efdd-6ae5-132d84637d1f@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4628eb5a-b644-47af-a865-73300460a92b@arm.com>
+In-Reply-To: <fca08e3c-c239-efdd-6ae5-132d84637d1f@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,50 +52,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ "Vadim V . Vlasov" <vadim.vlasov@elpitech.ru>, dri-devel@lists.freedesktop.org,
+ Alexey Sheplyakov <asheplyakov@basealt.ru>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > This feature adds an extra IDVS group size field to the JM_CONFIG
-> > register. In kbase, the value is configurable via the device tree; kbase
-> > uses 0xF as a default if no value is specified. Until we find a device
-> > demanding otherwise, let's always set the 0xF default on devices which
-> > support this feature mimicking kbase's behaviour.
+> Whether it's worth the effort depends on whether anyone really cares
+> about getting the full performance out of this particular GPU.
 > 
-> This is a performance thing - so I don't think it will break anything if
-> this is wrong, it just won't be optimal.
-
-Then interpret my remarks as hardcoding the default until we find a
-device where setting to something other than 0xF improves performance
-nontrivially. (Read: I am lazy and do not want to write dt-bindings for
-something nobody will ever use.)
-
-> > As JM_CONFIG is an undocumented register, it's not clear to me what
-> > happens if we fail to include this handling. Index-driven vertex shading
-> > already works on Bifrost boards with this feature without this handling.
-> > Perhaps this has performance implications? Patch untested for the
-> > moment, wanted to give Steven a chance to comment.
+> At this stage I think the main UABI change would be to add the opposite
+> flag to kbase, (e.g. "PANFROST_JD_DOESNT_NEED_COHERENCY_ON_GPU"[1]) to
+> opt-in to allowing the job to run across all cores.
 > 
-> As it's a performance thing you shouldn't see correctness issues with
-> not setting it. But 0xF seems to have been chosen as it gave the best
-> overall performance (although for individual test content this can
-> vary). AFAICT the performance impact isn't massive either.
-
-Good to know, will update the commit message accordingly.
-
-> Reviewed-by: Steven Price <steven.price@arm.com>
+> The second change would be to allow compute jobs to be run on the second
+> core group, so another flag: PANFROST_RUN_ON_SECOND_CORE_GROUP.
 > 
-> Since you've tagged this RFC I won't merge it now, but it looks correct
-> to me.
+> But clearly there's little point adding such flags until someone steps
+> up to do the Mesa work.
 
-Thanks for the review... I hope you like reviewing Panfrost patches
-because I have a Valhall bring-up series waiting o:)
+I worry about the maintainence burden (both Mesa and kernel) of adding
+UABI only used by a piece of hardware none of us own, and only useful
+"sometimes" for that hardware. Doubly so for the second core group
+support; currently Mesa doesn't advertise any compute support on
+anything older than Mali T760 ... to the best of my knowledge, nobody
+has missed that support either...
 
-When I get a chance to uprev the kernel on my G52 board I'll see if I
-can benchmark the impact of this change, so far this is only
-compile-tested. Even if there's no impact the patch should likely go in
-to stay consistent with kbase, but hopefully there's a win from this. At
-that point I'll send a v2 with your reviewed-by (and hopefully no
-changes other than the commit message) and we'll land that.
+To be clear I am in favour of merging the patches needed for GLES2 to
+work on all Malis, possibly at a performance cost on these dual-core
+systems. That's a far cry from the level of support the DDK gave these
+chips back in the day ... of course, the DDK doesn't support them at all
+anymore, so Panfrost wins there by default! ;)
