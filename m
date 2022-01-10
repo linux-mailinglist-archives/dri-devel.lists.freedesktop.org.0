@@ -1,59 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F404D489F54
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 19:37:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36A8048A03C
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 20:35:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4BD210E59D;
-	Mon, 10 Jan 2022 18:37:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F389F10E2E3;
+	Mon, 10 Jan 2022 19:35:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
- [IPv6:2607:f8b0:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7B5C10E42D;
- Mon, 10 Jan 2022 18:37:46 +0000 (UTC)
-Received: by mail-ot1-x32c.google.com with SMTP id
- g79-20020a9d12d5000000b0058f08f31338so16031041otg.2; 
- Mon, 10 Jan 2022 10:37:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=7RDlnoeMMtaCidCqn8V2aaFhuGEcHAhns4iW4e9qdnM=;
- b=VjFp/WLcs6GbIfJmypSr2K7VuO1ew6VCjVRgmHxGjIea/Cm3msMQzGm1VjEuN251zy
- faFdW6V3W2CNHCys3PjbHhczDEuuB8TeZCZWemA49uf4TAEk05szO2Cswf0nu/bZxsYA
- iKYF7hXT/N6tjdvrf6Jmu8Hp3zTmpWd1TdpjNyc+FBBGznkem8PTKpGS+DcaccOAN1IS
- AcXVq7Z0uMVC15Xm+eTgOTe0MaKag1D+wrRu4rnjpo00yqB+Mq2qVawOK13KA807RRH1
- +5DVHyLJ8K+QHMR6b7xJPuKIZRmpBzh6D/mRLwCoWpXNfsGDR5rjyYKW6tZ/X8pGY2Dm
- NFsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=7RDlnoeMMtaCidCqn8V2aaFhuGEcHAhns4iW4e9qdnM=;
- b=73wN6d2DpM29BTmCMDMzQ/tAZoHL7UCYMHFHZMR2lLAWEZj2snfkIzNPZbQ+qorQe4
- tp1PecF6w78Cl29T5nnzbsxjgtxLCDe/ShG2jZpVEPvBA25LhPqtPIcKBXpYu+SW0VXi
- 7kGaGlpt2N0VCbEel0yud2TCbNydgiiejYBtBg3CQBW8wNW0OdDV+dba+yExECMJ+gg+
- kEv2Iho3kTp2WeeeqAZy/AeHcUp14qW5JqYKy0NnYW1QDxuq3AqdjuwGTP0uBD+qbo5H
- KBlkUVuyjnPj9RIA9orew9NK7CKUkyVEqGVX2Zjor4puaeSZc3C3g63zJrHjOaJjdizy
- Ztkw==
-X-Gm-Message-State: AOAM530O2u4OscTfBSiVtAA+ybNr+LuUJHXTH4cKnSysXTJPY4VJxSQj
- 1QB9OWQhZTi8R1alW5xRTAmaxLDrvYWAcoC6Mac=
-X-Google-Smtp-Source: ABdhPJxg2UhJ+8PlYBDJNAgt4LXO7EPhRJbjnm22Ybn0KY7F3AAAM5Whi/nHt7mQ5Dz0kggNNlLjgFB1qLbBjrHVsHo=
-X-Received: by 2002:a9d:f09:: with SMTP id 9mr833994ott.299.1641839866004;
- Mon, 10 Jan 2022 10:37:46 -0800 (PST)
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D434B10E2E3
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 19:35:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=ZFZ4QOFgcoyMCECZ3PkgL8BM+HFxPBx0EV0hU5cheCk=; b=kwTBNQ14Ajm4bb+p+yD8k57QkP
+ ag8IoWMx+ZceNrBHQIAX1qjPtJFmAq9bB3a4JnH2JpRIvuJYBtpHdys8Jq/5cenklNvLq/gPB+1Sg
+ 2qgeP1b1J6H2Tv69ZZ1Dchmb2ZJjZjBKqVxc/SH3eNnBFhJ4iqYqyoAG6HKgY9R7CIH30swf1tj0Z
+ Gu8uqqBGWzCL6jiU7/viwFyhvJ/itxVSedkUZDGnUhNOWzn5QaeMXBfrtSKRCMeY14yLf8X1p6aFJ
+ T2ZJbBdfedchNNamYhhW0wNJ5GgzCiU5esGaF1uPdBB8x01ZyuwW4BYXYZcWtRvjnGo36PQEJY1Up
+ 7sxipnQg==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red
+ Hat Linux)) id 1n70RN-002fyD-DM; Mon, 10 Jan 2022 19:34:49 +0000
+Date: Mon, 10 Jan 2022 19:34:49 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: linux-kernel@vger.kernel.org
+Subject: Phyr Starter
+Message-ID: <YdyKWeU0HTv8m7wD@casper.infradead.org>
 MIME-Version: 1.0
-References: <20220109184245.124850-1-jose.exposito89@gmail.com>
- <139784cd-6cb7-18e0-bb09-b35113bd83ef@amd.com>
-In-Reply-To: <139784cd-6cb7-18e0-bb09-b35113bd83ef@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 10 Jan 2022 13:37:34 -0500
-Message-ID: <CADnq5_N1-kKfhZ9mttcRq7RON0DsEjs1cpvxo4M7jJN3M8Sx9w@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: invalid parameter check in
- dmub_hpd_callback
-To: Harry Wentland <harry.wentland@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,70 +45,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Anson Jacob <Anson.Jacob@amd.com>, Jude Shih <shenshih@amd.com>,
- Dave Airlie <airlied@linux.ie>, xinhui pan <Xinhui.Pan@amd.com>, "Siqueira,
- Rodrigo" <Rodrigo.Siqueira@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Christian Koenig <christian.koenig@amd.com>,
- "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>, "Kazlauskas,
- Nicholas" <nicholas.kazlauskas@amd.com>
+Cc: nvdimm@lists.linux.dev, linux-rdma@vger.kernel.org,
+ John Hubbard <jhubbard@nvidia.com>, dri-devel@lists.freedesktop.org,
+ Ming Lei <ming.lei@redhat.com>, linux-block@vger.kernel.org,
+ linux-mm@kvack.org, Jason Gunthorpe <jgg@nvidia.com>, netdev@vger.kernel.org,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+TLDR: I want to introduce a new data type:
 
-Alex
+struct phyr {
+        phys_addr_t addr;
+        size_t len;
+};
 
-On Mon, Jan 10, 2022 at 11:34 AM Harry Wentland <harry.wentland@amd.com> wr=
-ote:
->
-> On 2022-01-09 13:42, Jos=C3=A9 Exp=C3=B3sito wrote:
-> > The function performs a check on the "adev" input parameter, however, i=
-t
-> > is used before the check.
-> >
-> > Initialize the "dev" variable after the sanity check to avoid a possibl=
-e
-> > NULL pointer dereference.
-> >
-> > Fixes: e27c41d5b0681 ("drm/amd/display: Support for DMUB HPD interrupt =
-handling")
-> > Addresses-Coverity-ID: 1493909 ("Null pointer dereference")
-> > Signed-off-by: Jos=C3=A9 Exp=C3=B3sito <jose.exposito89@gmail.com>
->
-> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
->
-> Harry
->
-> > ---
-> >  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/driver=
-s/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > index e727f1dd2a9a..7fbded7a6d9c 100644
-> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > @@ -656,7 +656,7 @@ void dmub_hpd_callback(struct amdgpu_device *adev, =
-struct dmub_notification *not
-> >       struct drm_connector_list_iter iter;
-> >       struct dc_link *link;
-> >       uint8_t link_index =3D 0;
-> > -     struct drm_device *dev =3D adev->dm.ddev;
-> > +     struct drm_device *dev;
-> >
-> >       if (adev =3D=3D NULL)
-> >               return;
-> > @@ -673,6 +673,7 @@ void dmub_hpd_callback(struct amdgpu_device *adev, =
-struct dmub_notification *not
-> >
-> >       link_index =3D notify->link_index;
-> >       link =3D adev->dm.dc->links[link_index];
-> > +     dev =3D adev->dm.ddev;
-> >
-> >       drm_connector_list_iter_begin(dev, &iter);
-> >       drm_for_each_connector_iter(connector, &iter) {
->
+and use it to replace bio_vec as well as using it to replace the array
+of struct pages used by get_user_pages() and friends.
+
+---
+
+There are two distinct problems I want to address: doing I/O to memory
+which does not have a struct page and efficiently doing I/O to large
+blobs of physically contiguous memory, regardless of whether it has a
+struct page.  There are some other improvements which I regard as minor.
+
+There are many types of memory that one might want to do I/O to that do
+not have a struct page, some examples:
+ - Memory on a graphics card (or other PCI card, but gfx seems to be
+   the primary provider of DRAM on the PCI bus today)
+ - DAX, or other pmem (there are some fake pages today, but this is
+   mostly a workaround for the IO problem today)
+ - Guest memory being accessed from the hypervisor (KVM needs to
+   create structpages to make this happen.  Xen doesn't ...)
+All of these kinds of memories can be addressed by the CPU and so also
+by a bus master.  That is, there is a physical address that the CPU
+can use which will address this memory, and there is a way to convert
+that to a DMA address which can be programmed into another device.
+There's no intent here to support memory which can be accessed by a
+complex scheme like writing an address to a control register and then
+accessing the memory through a FIFO; this is for memory which can be
+accessed by DMA and CPU loads and stores.
+
+For get_user_pages() and friends, we currently fill an array of struct
+pages, each one representing PAGE_SIZE bytes.  For an application that
+is using 1GB hugepages, writing 2^18 entries is a significant overhead.
+It also makes drivers hard to write as they have to recoalesce the
+struct pages, even though the VM can tell it whether those 2^18 pages
+are contiguous.
+
+On the minor side, struct phyr can represent any mappable chunk of memory.
+A bio_vec is limited to 2^32 bytes, while on 64-bit machines a phyr
+can represent larger than 4GB.  A phyr is the same size as a bio_vec
+on 64 bit (16 bytes), and the same size for 32-bit with PAE (12 bytes).
+It is smaller for 32-bit machines without PAE (8 bytes instead of 12).
+
+Finally, it may be possible to stop using scatterlist to describe the
+input to the DMA-mapping operation.  We may be able to get struct
+scatterlist down to just dma_address and dma_length, with chaining
+handled through an enclosing struct.
+
+I would like to see phyr replace bio_vec everywhere it's currently used.
+I don't have time to do that work now because I'm busy with folios.
+If someone else wants to take that on, I shall cheer from the sidelines.
+What I do intend to do is:
+
+ - Add an interface to gup.c to pin/unpin N phyrs
+ - Add a sg_map_phyrs()
+   This will take an array of phyrs and allocate an sg for them
+ - Whatever else I need to do to make one RDMA driver happy with
+   this scheme
+
+At that point, I intend to stop and let others more familiar with this
+area of the kernel continue the conversion of drivers.
+
+P.S. If you've had the Prodigy song running through your head the whole
+time you've been reading this email ... I'm sorry / You're welcome.
+If people insist, we can rename this to phys_range or something boring,
+but I quite like the spelling of phyr with the pronunciation of "fire".
