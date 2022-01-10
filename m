@@ -2,36 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43C69489E0C
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 18:10:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A42F2489E3D
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 18:22:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79C6810E1D4;
-	Mon, 10 Jan 2022 17:10:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDD4710F2F2;
+	Mon, 10 Jan 2022 17:22:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0458510E1D4
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 17:10:20 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 80FB62B;
- Mon, 10 Jan 2022 09:10:20 -0800 (PST)
-Received: from [10.57.11.80] (unknown [10.57.11.80])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 60A9D3F5A1;
- Mon, 10 Jan 2022 09:10:19 -0800 (PST)
-Subject: Re: [RFC PATCH] drm/panfrost: Handle IDVS_GROUP_SIZE feature
-To: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- dri-devel@lists.freedesktop.org
-References: <20220109171254.3183-1-alyssa.rosenzweig@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <4628eb5a-b644-47af-a865-73300460a92b@arm.com>
-Date: Mon, 10 Jan 2022 17:10:17 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B053C10F070;
+ Mon, 10 Jan 2022 17:22:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1641835350; x=1673371350;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=zKMzKjBQHNYvC0hdtdMPBr7ItEqem8IjudGPWW6WOp8=;
+ b=CDLqbGMZSlYwHf0A/FtbGtPC2GeagSbNSiA2aD4ok4Z2bj3/+tQ0ULNT
+ MFa0wvPrElvS/7FeT+zPXsyLv0gYaHMJUOaZSzQkcu6X/7If8nbWit+yP
+ wEGZkbVfaRx/ca6Z745cSvCbFrF95Zy/Q0R8D7cRBZ8esfLScXs6syxEC
+ OG2h3tSwVWyen+sWFcI+CEZYppkTls/ol5M34v43lHA3+NgeD4VDgc0oc
+ h4zTAHUScLo47QGtRQSbGhTergNMtIzRjNK9Cz5RSQFWSlHdZnj4ec2Uw
+ VK/2f99AKc0qW1jGgL8JqM9htvgoOk2FixjAvBFxNoOPJqVOexyEmoTd2 g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10222"; a="243471486"
+X-IronPort-AV: E=Sophos;i="5.88,277,1635231600"; d="scan'208";a="243471486"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jan 2022 09:22:30 -0800
+X-IronPort-AV: E=Sophos;i="5.88,277,1635231600"; d="scan'208";a="514743920"
+Received: from pheino-mobl.ger.corp.intel.com (HELO thellstr-mobl1.intel.com)
+ ([10.249.254.41])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jan 2022 09:22:28 -0800
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v7 0/6] drm/i915: Asynchronous vma unbinding 
+Date: Mon, 10 Jan 2022 18:22:13 +0100
+Message-Id: <20220110172219.107131-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20220109171254.3183-1-alyssa.rosenzweig@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,110 +56,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- linux-kernel@vger.kernel.org
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/01/2022 17:12, Alyssa Rosenzweig wrote:
-> The IDVS group size feature was missing. It is used on some Bifrost and
-> Valhall GPUs, and is the last kernel-relevant Bifrost feature we're
-> missing.
-> 
-> This feature adds an extra IDVS group size field to the JM_CONFIG
-> register. In kbase, the value is configurable via the device tree; kbase
-> uses 0xF as a default if no value is specified. Until we find a device
-> demanding otherwise, let's always set the 0xF default on devices which
-> support this feature mimicking kbase's behaviour.
 
-This is a performance thing - so I don't think it will break anything if
-this is wrong, it just won't be optimal.
+This patch series introduces infrastructure for asynchronous vma
+unbinding. The single enabled use-case is initially at buffer object
+migration where we otherwise sync when unbinding vmas before migration.
+This in theory allows us to pipeline any number of migrations, but in
+practice the number is restricted by a sync wait when filling the
+migration context ring. We might want to look at that moving forward if
+needed.
 
-> As JM_CONFIG is an undocumented register, it's not clear to me what
-> happens if we fail to include this handling. Index-driven vertex shading
-> already works on Bifrost boards with this feature without this handling.
-> Perhaps this has performance implications? Patch untested for the
-> moment, wanted to give Steven a chance to comment.
+The other main use-case is to be able to pipeline vma evictions, for
+example with softpinning where a new vma wants to reuse the vm range
+of an already active vma. We can't support this just yet because we
+need dma_resv locking around vma eviction for that, which is under
+implementation.
 
-As it's a performance thing you shouldn't see correctness issues with
-not setting it. But 0xF seems to have been chosen as it gave the best
-overall performance (although for individual test content this can
-vary). AFAICT the performance impact isn't massive either.
+Patch 1 introduces vma resource first for error capture purposes
+Patch 2 changes the vm backend interface to take vma resources rather than vmas
+Patch 3 removes and unneeded page pinning
+Patch 4 introduces the async unbinding itself, and finally
+Patch 5 introduces a selftest
+Patch 6 realizes we have duplicated functionality and removes the vma snapshots
 
-> Applies on top of my feature clean up series which should go in first.
-> (That's pure cleaunp, this is a behaviour change RFC needing
-> discussion.)
-> 
-> Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+v2:
+-- Some kernel test robot reports addressed.
+-- kmem cache for vma resources, See patch 4
+-- Various fixes all over the place. See separate commit messages.
+v3:
+-- Re-add a missing i915_vma_resource_put()
+-- Remove a stray debug printout
+v4:
+-- Patch series split in two. This is the second part.
+-- Take cache coloring into account when searching for vma_resources
+   pending unbind. (Matthew Auld)
+v5:
+-- Add a selftest.
+-- Remove page pinning while sync binding.
+-- A couple of fixes in i915_vma_resource_bind_dep_await()
+v6:
+-- Some documentation updates
+-- Remove I915_VMA_ALLOC_BIT (Matthew Auld)
+-- Change some members of struct i915_vma_resource from unsigned long to u64
+   (Matthew Auld)
+-- Fix up the cache coloring adjustment. (Kernel test robot <lkp@intel.com>)
+-- Don't allow async unbinding if the vma_res pages are not the same as
+   the object pages. (Matthew Auld)
+v7:
+-- More s/unsigned long/u64/ changes (Matthew Auld)
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+Thomas Hellström (6):
+  drm/i915: Initial introduction of vma resources
+  drm/i915: Use the vma resource as argument for gtt binding / unbinding
+  drm/i915: Don't pin the object pages during pending vma binds
+  drm/i915: Use vma resources for async unbinding
+  drm/i915: Asynchronous migration selftest
+  drm/i915: Use struct vma_resource instead of struct vma_snapshot
 
-Since you've tagged this RFC I won't merge it now, but it looks correct
-to me.
+ drivers/gpu/drm/i915/Makefile                 |   2 +-
+ drivers/gpu/drm/i915/display/intel_dpt.c      |  27 +-
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  17 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |  12 +
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |   3 +
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |  27 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  |  11 +-
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |  37 +-
+ .../drm/i915/gem/selftests/i915_gem_migrate.c | 192 +++++++-
+ drivers/gpu/drm/i915/gt/gen6_ppgtt.c          |  19 +-
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c          |  37 +-
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |   9 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          |  72 +--
+ drivers/gpu/drm/i915/gt/intel_gtt.c           |   4 +
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |  19 +-
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c         |  22 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      |  13 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h      |   2 +-
+ drivers/gpu/drm/i915/i915_debugfs.c           |   3 +-
+ drivers/gpu/drm/i915/i915_drv.h               |   1 +
+ drivers/gpu/drm/i915/i915_gem.c               |  12 +-
+ drivers/gpu/drm/i915/i915_gpu_error.c         |  87 ++--
+ drivers/gpu/drm/i915/i915_module.c            |   3 +
+ drivers/gpu/drm/i915/i915_request.c           |  12 +-
+ drivers/gpu/drm/i915/i915_request.h           |   6 +-
+ drivers/gpu/drm/i915/i915_vma.c               | 241 +++++++++-
+ drivers/gpu/drm/i915/i915_vma.h               |  33 +-
+ drivers/gpu/drm/i915/i915_vma_resource.c      | 417 ++++++++++++++++++
+ drivers/gpu/drm/i915/i915_vma_resource.h      | 234 ++++++++++
+ drivers/gpu/drm/i915/i915_vma_snapshot.c      | 134 ------
+ drivers/gpu/drm/i915/i915_vma_snapshot.h      | 112 -----
+ drivers/gpu/drm/i915/i915_vma_types.h         |  19 +-
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c | 159 ++++---
+ drivers/gpu/drm/i915/selftests/mock_gtt.c     |  12 +-
+ 34 files changed, 1421 insertions(+), 589 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/i915_vma_resource.c
+ create mode 100644 drivers/gpu/drm/i915/i915_vma_resource.h
+ delete mode 100644 drivers/gpu/drm/i915/i915_vma_snapshot.c
+ delete mode 100644 drivers/gpu/drm/i915/i915_vma_snapshot.h
 
-Thanks,
-
-Steve
-
-> ---
->  drivers/gpu/drm/panfrost/panfrost_features.h | 3 +++
->  drivers/gpu/drm/panfrost/panfrost_gpu.c      | 3 +++
->  drivers/gpu/drm/panfrost/panfrost_regs.h     | 1 +
->  3 files changed, 7 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_features.h b/drivers/gpu/drm/panfrost/panfrost_features.h
-> index 34f2bae1ec8c..36fadcf9634e 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_features.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_features.h
-> @@ -20,6 +20,7 @@ enum panfrost_hw_feature {
->  	HW_FEATURE_AARCH64_MMU,
->  	HW_FEATURE_TLS_HASHING,
->  	HW_FEATURE_THREAD_GROUP_SPLIT,
-> +	HW_FEATURE_IDVS_GROUP_SIZE,
->  	HW_FEATURE_3BIT_EXT_RW_L2_MMU_CONFIG,
->  };
->  
-> @@ -74,6 +75,7 @@ enum panfrost_hw_feature {
->  	BIT_ULL(HW_FEATURE_FLUSH_REDUCTION) | \
->  	BIT_ULL(HW_FEATURE_PROTECTED_MODE) | \
->  	BIT_ULL(HW_FEATURE_PROTECTED_DEBUG_MODE) | \
-> +	BIT_ULL(HW_FEATURE_IDVS_GROUP_SIZE) | \
->  	BIT_ULL(HW_FEATURE_COHERENCY_REG))
->  
->  #define hw_features_g76 (\
-> @@ -87,6 +89,7 @@ enum panfrost_hw_feature {
->  	BIT_ULL(HW_FEATURE_COHERENCY_REG) | \
->  	BIT_ULL(HW_FEATURE_AARCH64_MMU) | \
->  	BIT_ULL(HW_FEATURE_TLS_HASHING) | \
-> +	BIT_ULL(HW_FEATURE_IDVS_GROUP_SIZE) | \
->  	BIT_ULL(HW_FEATURE_3BIT_EXT_RW_L2_MMU_CONFIG))
->  
->  #define hw_features_g31 (\
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-> index bbe628b306ee..50c8922694d7 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-> @@ -145,6 +145,9 @@ static void panfrost_gpu_init_quirks(struct panfrost_device *pfdev)
->  		quirks |= (COHERENCY_ACE_LITE | COHERENCY_ACE) <<
->  			   JM_FORCE_COHERENCY_FEATURES_SHIFT;
->  
-> +	if (panfrost_has_hw_feature(pfdev, HW_FEATURE_IDVS_GROUP_SIZE))
-> +		quirks |= JM_DEFAULT_IDVS_GROUP_SIZE << JM_IDVS_GROUP_SIZE_SHIFT;
-> +
->  	if (quirks)
->  		gpu_write(pfdev, GPU_JM_CONFIG, quirks);
->  
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
-> index 6c5a11ef1ee8..16e776cc82ea 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_regs.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
-> @@ -208,6 +208,7 @@
->  #define JM_MAX_JOB_THROTTLE_LIMIT	0x3F
->  #define JM_FORCE_COHERENCY_FEATURES_SHIFT 2
->  #define JM_IDVS_GROUP_SIZE_SHIFT	16
-> +#define JM_DEFAULT_IDVS_GROUP_SIZE	0xF
->  #define JM_MAX_IDVS_GROUP_SIZE		0x3F
->  
->  
-> 
+-- 
+2.31.1
 
