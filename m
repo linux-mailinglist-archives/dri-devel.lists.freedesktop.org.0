@@ -2,59 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51535489E4E
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 18:25:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62AE7489E5D
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 18:28:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CE0A10FF78;
-	Mon, 10 Jan 2022 17:25:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC6BC11299F;
+	Mon, 10 Jan 2022 17:28:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
- [IPv6:2607:f8b0:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F9D610FF78
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 17:25:46 +0000 (UTC)
-Received: by mail-pl1-x635.google.com with SMTP id w7so12883090plp.13
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 09:25:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ni86PHZD0FLhV231fzfITISDgi2okimLjkw7Y9X52b4=;
- b=GzlVq2OEaQm1j5ZmlUJCRj5Oy64wKTF75q5RMXza029QgIdatNaJFjfFqODiLZge/X
- WWtXjkTSGAZmpTE/jox+aQkQfqEcYacvwM0D18ZAPl407v0TGlhIj1+jT7leNQ7NQtBz
- 7WWFEiYjcL+dE4tAm4DwPL4of9qXJDyVH/VOI=
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com
+ [209.85.167.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B92B11299F;
+ Mon, 10 Jan 2022 17:28:49 +0000 (UTC)
+Received: by mail-oi1-f179.google.com with SMTP id w200so4339250oiw.3;
+ Mon, 10 Jan 2022 09:28:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ni86PHZD0FLhV231fzfITISDgi2okimLjkw7Y9X52b4=;
- b=XZFQy9NToZxD4mgNUjzeyVqJzORxL3n/gDECAwWDyUu6FyW69K0VRzuMHQr3+HOLlB
- fWKJ9gs//GEQflaUiz1McIhs3Y+Ca+YJM+OKduKIs4N5nn4si+D8AVGL3dttTdtA+9XB
- 3kbAgd+9J+QnTNoHetE0DR2TCB/QBmE0k/iAB7UhTjtofBTmXYRD9xWbz198NsVbzkuT
- I1X7mMHA165REe8BenFonxiWLR5s9uenK/hmqXgAU+HRPxmp8uVYo8H/AxN88+CRbTPn
- R07/G6y2V8Cnr0Ulgx0j3jvWHxrZy5O2bmJZ0Q1C6NcqGzneP0SjrFMqX3LS95L/nn0V
- iFjQ==
-X-Gm-Message-State: AOAM53211m5wUthtxrgQh5laKNpJB2uxBZ99aghu3BzHI9SoIbXPa7Bl
- k1GsbyS0YJKVSoZzf6pXEkBHTQ==
-X-Google-Smtp-Source: ABdhPJyykPo1Z51C3m2c9PYZsTQRln2IwR3eK7L61CoajkKHKbKcV7r4UFLEnguBracqdwfJ0E9oZA==
-X-Received: by 2002:a17:90b:34f:: with SMTP id
- fh15mr6504048pjb.122.1641835546154; 
- Mon, 10 Jan 2022 09:25:46 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:c00a:a0a9:98b9:3ff7:5eda:a7cc])
- by smtp.gmail.com with ESMTPSA id q2sm7884350pfu.66.2022.01.10.09.25.43
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=ZsxrSJKAlL12zoGr617hjEfztTw9El7OEQAesnFjPV8=;
+ b=NIRaBnAcy0KoletFoCXDA18XzrO9XWzVndyhMdcj2b7aBpr25okFhd1OPbIcOvpSYd
+ It5y7iZIwxALh+XCc2tx27PnOe96SHZ9WBUgEsHkNV02TgNDhgkP7d5pwc6FvvdO5r/A
+ VSvzO1mFNLfXoA22W/knsdmmkuGiTK5CFvDAnBnYecEtTKM+3R262cMxDqBIQpXft0oh
+ GFnUIOU0U+DGNXVSubrRT8vaQc175qslzYARHc4QIhGJqcYaDR8y3Mcuwm/YOSSfGbEZ
+ ACh2rGRX4Fs+bmkZlfF9bI6EAIN1ECOO1eUO65GtHBO0E7NgyHgT9+sCUguWnAEKER0J
+ YvvQ==
+X-Gm-Message-State: AOAM530ZZoyARxDOx7+JNvYC0SY9okhEv8FqBCqOBNJqaOew06GFJRZ5
+ /sjKTE4inR73CGX6MZbEpw==
+X-Google-Smtp-Source: ABdhPJzUnBjoClx0LWUB/b4sUdkJ3H7i9huwtIYYvV+Ne/HFhaTqEu0dY9davPLBP0VtCD2hQZWX/w==
+X-Received: by 2002:a05:6808:228e:: with SMTP id
+ bo14mr8728255oib.55.1641835729226; 
+ Mon, 10 Jan 2022 09:28:49 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.gmail.com with ESMTPSA id n19sm1573634otq.11.2022.01.10.09.28.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jan 2022 09:25:45 -0800 (PST)
-From: Jagan Teki <jagan@amarulasolutions.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>
-Subject: [PATCH v2] drm: bridge: nwl-dsi: Drop panel_bridge from nwl_dsi
-Date: Mon, 10 Jan 2022 22:55:33 +0530
-Message-Id: <20220110172533.66614-1-jagan@amarulasolutions.com>
-X-Mailer: git-send-email 2.25.1
+ Mon, 10 Jan 2022 09:28:48 -0800 (PST)
+Received: (nullmailer pid 1122976 invoked by uid 1000);
+ Mon, 10 Jan 2022 17:28:47 -0000
+Date: Mon, 10 Jan 2022 11:28:47 -0600
+From: Rob Herring <robh@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [v2 1/3] dt-bindings: msm/dsi: Add 10nm dsi phy tuning properties
+Message-ID: <Ydxsz+XSreBKFNcr@robh.at.kernel.org>
+References: <1641819337-17037-1-git-send-email-quic_rajeevny@quicinc.com>
+ <1641819337-17037-2-git-send-email-quic_rajeevny@quicinc.com>
+ <CAA8EJprrRZK+ocW9zDY_eyeo_m_xbu+KmfWf8QmTYscAh5SxLw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAA8EJprrRZK+ocW9zDY_eyeo_m_xbu+KmfWf8QmTYscAh5SxLw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,60 +65,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
- linux-amarula@amarulasolutions.com, Jagan Teki <jagan@amarulasolutions.com>,
- dri-devel@lists.freedesktop.org
+Cc: sean@poorly.run, devicetree@vger.kernel.org, quic_kalyant@quicinc.com,
+ jonathan@marek.ca, airlied@linux.ie, Rajeev Nandan <quic_rajeevny@quicinc.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ quic_abhinavk@quicinc.com, quic_mkrishn@quicinc.com,
+ linux-arm-msm@vger.kernel.org, swboyd@chromium.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-panel_bridge pointer never used anywhere except the one it
-looked up at nwl_dsi_bridge_attach.
+On Mon, Jan 10, 2022 at 05:06:03PM +0300, Dmitry Baryshkov wrote:
+> On Mon, 10 Jan 2022 at 15:56, Rajeev Nandan <quic_rajeevny@quicinc.com> wrote:
+> >
+> > In most cases, the default values of DSI PHY tuning registers should be
+> > sufficient as they are fully optimized. However, in some cases where
+> > extreme board parasitics cause the eye shape to degrade, the override
+> > bits can be used to improve the signal quality.
+> >
+> > The general guidelines for DSI PHY tuning include:
+> > - High and moderate data rates may benefit from the drive strength and
+> >   drive level tuning.
+> > - Drive strength tuning will affect the output impedance and may be used
+> >   for matching optimization.
+> > - Drive level tuning will affect the output levels without affecting the
+> >   impedance.
+> >
+> > The clock and data lanes have a calibration circuitry feature. The drive
+> > strength tuning can be done by adjusting rescode offset for hstop/hsbot,
+> > and the drive level tuning can be done by adjusting the LDO output level
+> > for the HSTX drive.
+> >
+> > Signed-off-by: Rajeev Nandan <quic_rajeevny@quicinc.com>
+> > ---
+> >
+> > Changes in v2:
+> >  - More details in the commit text (Stephen Boyd)
+> >  - Use human understandable values (Stephen Boyd, Dmitry Baryshkov)
+> >  - Do not take values that are going to be unused (Dmitry Baryshkov)
+> >
+> >  .../bindings/display/msm/dsi-phy-10nm.yaml         | 33 ++++++++++++++++++++++
+> >  1 file changed, 33 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
+> > index 4399715..d0eb8f6 100644
+> > --- a/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
+> > +++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
+> > @@ -35,6 +35,35 @@ properties:
+> >        Connected to DSI0_MIPI_DSI_PLL_VDDA0P9 pin for sc7180 target and
+> >        connected to VDDA_MIPI_DSI_0_PLL_0P9 pin for sdm845 target
+> 
+> Generic note:
+> I think these properties should be prefixed with "qcom," prefix.
+> 
+> >
+> > +  phy-rescode-offset-top:
+> > +    $ref: /schemas/types.yaml#/definitions/uint8-array
+> > +    minItems: 5
+> > +    maxItems: 5
+> > +    description:
+> > +      Integer array of offset for pull-up legs rescode for all five lanes.
+> > +      To offset the drive strength from the calibrated value in an increasing
+> > +      or decreasing manner, use 6 bit two’s complement values.
+> 
+> dtc should support negative values, google hints that <(-2)> should work.
 
-Drop it from the nwl_dsi structure.
+Yes, but the schema checks don't check negative values correctly yet. So 
+you can use 'int8-array', but just don't use negative values in the 
+examples. I'm working on changes that will fix this issue.
 
-Reviewed-by: Guido Günther <agx@sigxcpu.org>
-Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
----
-Changes for v2:
-- collect Guido r-b
+What does 6-bit mean? 0x3f is negative? Just sign extend the values and 
+specify the valid range instead:
 
-Note: This is patch is part of switching of devm_drm_of_get_bridge 
-serious however the child node support of devm_drm_of_get_bridge is
-still under-review. So send it separatly as it not related to that
-API switch.
-https://patchwork.kernel.org/project/dri-devel/patch/20211210174819.2250178-1-jagan@amarulasolutions.com/
+minimum: -32
+maximum: 31
 
- drivers/gpu/drm/bridge/nwl-dsi.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/nwl-dsi.c b/drivers/gpu/drm/bridge/nwl-dsi.c
-index fc3ad9fab867..9282e61dfbf0 100644
---- a/drivers/gpu/drm/bridge/nwl-dsi.c
-+++ b/drivers/gpu/drm/bridge/nwl-dsi.c
-@@ -65,7 +65,6 @@ struct nwl_dsi_transfer {
- struct nwl_dsi {
- 	struct drm_bridge bridge;
- 	struct mipi_dsi_host dsi_host;
--	struct drm_bridge *panel_bridge;
- 	struct device *dev;
- 	struct phy *phy;
- 	union phy_configure_opts phy_cfg;
-@@ -924,13 +923,11 @@ static int nwl_dsi_bridge_attach(struct drm_bridge *bridge,
- 		if (IS_ERR(panel_bridge))
- 			return PTR_ERR(panel_bridge);
- 	}
--	dsi->panel_bridge = panel_bridge;
- 
--	if (!dsi->panel_bridge)
-+	if (!panel_bridge)
- 		return -EPROBE_DEFER;
- 
--	return drm_bridge_attach(bridge->encoder, dsi->panel_bridge, bridge,
--				 flags);
-+	return drm_bridge_attach(bridge->encoder, panel_bridge, bridge, flags);
- }
- 
- static void nwl_dsi_bridge_detach(struct drm_bridge *bridge)
--- 
-2.25.1
-
+Rob
