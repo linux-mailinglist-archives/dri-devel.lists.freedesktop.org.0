@@ -2,59 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FCB14895BF
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 10:55:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B398A4895C5
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 10:56:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DA2E113B29;
-	Mon, 10 Jan 2022 09:55:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B83512B59F;
+	Mon, 10 Jan 2022 09:56:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com
- [209.85.222.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5412C11A41A
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 09:55:29 +0000 (UTC)
-Received: by mail-ua1-f46.google.com with SMTP id y4so22406457uad.1
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 01:55:29 -0800 (PST)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE7DB12B58B
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 09:56:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641808590;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ObCOlx7qc1MuxpL5+ry8PrWxS3J2SNPySVs4WNajgno=;
+ b=XoTCjaIPiKWFxAqq+erF3YVXnZSX9o1aEhes0hynkcVrr6jGaXCB7Fa9kCUehFN1dYV0ZN
+ Si5l2FT3GNu45Z2uf9HVvSAR7BQyXQFr8Wq4R+8bAiFAm2zakB+3BrO96qGKvvXPvoLFbn
+ O3Jcd7c6cvc9JrD9fdgx2+uAAMuJ39M=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-382-uQaafxRHOPqOMX_laFzhkQ-1; Mon, 10 Jan 2022 04:56:29 -0500
+X-MC-Unique: uQaafxRHOPqOMX_laFzhkQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ m15-20020a7bce0f000000b003473d477618so6107486wmc.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 01:56:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BP0jTeln64BsVxh0F56vcuTVCny3JMxOIhYQM1VFh20=;
- b=UkXPiAkrwq/JwOeFeQAU+7m1kP0FEL3uFeAAEu/TMhkUGC5eELa6ORhN9Rd/Ty7sjH
- vUbGKCJlhwqJrpEIm42zdTExJuFe27XqS7jQ7uuZfHp0XBqE5ZEH5kwt9u1Ee5iY1U0K
- TWj1gKN+MMJ/aTEPw3VBGBNH16A2HswWpjtItlY0pV5gs32GBxbSqSn/6sz3xx7RE2S8
- zwjH0vKjbY/ZdW4ZQPM2LkI1g7OOyCFEPdi1/UrXpMG4bgbJQ5Ut56MzLLgyUIf7/XLh
- chYO/FPTPwBaxzN6sP4L4UuqKwIqqP4aiWpFQqP/vLVJTZZi/CdOrbyO078TDvfjPydd
- g0oQ==
-X-Gm-Message-State: AOAM530IHFKjZUnmkTWRC1Rc885+hKpZOYM8p/VvX6NYrXxhFylulsV5
- BPjdABVnDfE5OoOaSa/RHINVHXQtd2e+UQ==
-X-Google-Smtp-Source: ABdhPJwbxRu4CPjLnpg7UsuUplFLR2p0l7cGtgdNPnORkai7XHt6NYuaMcU8SCI0qxOEUko76WnHVA==
-X-Received: by 2002:a05:6102:2221:: with SMTP id
- d1mr13148185vsb.27.1641808528395; 
- Mon, 10 Jan 2022 01:55:28 -0800 (PST)
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com.
- [209.85.221.172])
- by smtp.gmail.com with ESMTPSA id v141sm1182328vke.2.2022.01.10.01.55.27
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Jan 2022 01:55:27 -0800 (PST)
-Received: by mail-vk1-f172.google.com with SMTP id 78so7732675vkz.7
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 01:55:27 -0800 (PST)
-X-Received: by 2002:a1f:2344:: with SMTP id j65mr1408688vkj.7.1641808527113;
- Mon, 10 Jan 2022 01:55:27 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ObCOlx7qc1MuxpL5+ry8PrWxS3J2SNPySVs4WNajgno=;
+ b=U6VPbknwDiCevc/BJ3kamWbgcChLBBZ1lJBQ5L6VOAyWmeMSp2bqcA3J62UxY2RX+U
+ AZguX6UoflsI5P3lqXavAh4p/PDiPZv7zfjOmVQhWINswXWcMEkRU+C6glirJxyvcrsd
+ STVijqVj5mhZhdFiW9/TAdKpUvuCyCs/WJNUbK4sVZZu8+E8ATxrEeSdP0tfpErRc9IP
+ vlr981CqafvodiABOdBcwc3Nf8HMVjv2k2/uPHF+VEmCD7VqK2FLqFJkmTjtVkLl9Goa
+ fFC/JbwlSDuArMtw/HC//zaMB0+iRm2br99xPI6s7mvBXV/FwmFJyDzpupxbbpglpTd5
+ UhCw==
+X-Gm-Message-State: AOAM5331uFaIhYfaLMBA0y874BmnPwdPicVQksFsqzUnZ1J/+VUSwdT0
+ 51n9BrgifyFRMcbL5vMwD8PmTO4BCyZGAgv/P4k5wQ+n98ny0rhFuAjlHYops4fKvtq7lY/BCin
+ lsCjJdUgPISlO3SdamMth53lKRHDa
+X-Received: by 2002:a05:6000:1687:: with SMTP id
+ y7mr62811733wrd.636.1641808588374; 
+ Mon, 10 Jan 2022 01:56:28 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxGrDXSR/pexIPk1NzHcVn2qTkgOkF6tU7OxEDfgPSVggBPqdm80ZGadCbvMnDG9B5WHjpKYA==
+X-Received: by 2002:a05:6000:1687:: with SMTP id
+ y7mr62811720wrd.636.1641808588144; 
+ Mon, 10 Jan 2022 01:56:28 -0800 (PST)
+Received: from minerva.home ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id b13sm6315167wrf.64.2022.01.10.01.56.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Jan 2022 01:56:27 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] video: A couple of fixes for the vga16fb driver
+Date: Mon, 10 Jan 2022 10:56:23 +0100
+Message-Id: <20220110095625.278836-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-References: <20211224052309.1997096-1-nikita.yoush@cogentembedded.com>
- <20211224052309.1997096-3-nikita.yoush@cogentembedded.com>
- <CAMuHMdVHMzZipXaUE_SrkHtj6edZATefC908P1ngLrnOry8KCA@mail.gmail.com>
- <fbabf712-ea2a-5bd4-56d4-70cf4d7f72f6@cogentembedded.com>
-In-Reply-To: <fbabf712-ea2a-5bd4-56d4-70cf4d7f72f6@cogentembedded.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 10 Jan 2022 10:55:15 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW9hgzRJn7xL=PWC66UpJ4nB2krZY6VkL9dN7nT2fY_uw@mail.gmail.com>
-Message-ID: <CAMuHMdW9hgzRJn7xL=PWC66UpJ4nB2krZY6VkL9dN7nT2fY_uw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] arm64: dts: renesas: r8a77961: Add lvds0 device node
-To: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Content-Type: text/plain; charset="UTF-8"
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,37 +80,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Magnus Damm <magnus.damm@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ Kris Karas <bugs-a21@moonlit-rail.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Peter Robinson <pbrobinson@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Borislav Petkov <bp@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nikita,
+This patch series contains two fixes for the vga16fb driver. I looked at
+the driver due a regression reported [0], caused by commit d391c5827107
+("drivers/firmware: move x86 Generic System Framebuffers support").
 
-On Mon, Jan 10, 2022 at 10:51 AM Nikita Yushchenko
-<nikita.yoush@cogentembedded.com> wrote:
-> > i.e. will queue in renesas-devel for v5.18.
->
-> that is, for current + 2 ?
+The mentioned commit didn't change any logic but just moved the platform
+device registration that matches the vesafb and efifb drivers to happen
+later. And this caused the vga16fb driver to be probed even in machines
+that don't have an EGA or VGA video adapter.
 
-That is correct, as the merge window for v5.17 has already opened.
-The deadline for new features to be accepted for v5.17 in the soc
-tree was around v5.16-rc6.
+This is a v2 of the patch series that addresses issues pointed out by
+Geert Uytterhoeven.
 
-Gr{oetje,eeting}s,
+Patch #1 is fixing the wrong check to determine if either EGA or VGA is
+used and patch #2 adds a check to the driver to only be loaded for EGA
+and VGA 16 color graphic cards.
 
-                        Geert
+[0]: https://bugzilla.kernel.org/show_bug.cgi?id=215001
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Best regards,
+Javier
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Changes in v2:
+- Make the change only for x86 (Geert Uytterhoeven)
+- Only check the suppported video mode for x86 (Geert Uytterhoeven).
+
+Javier Martinez Canillas (2):
+  video: vga16fb: Fix logic that checks for the display standard
+  video: vga16fb: Only probe for EGA and VGA 16 color graphic cards
+
+ drivers/video/fbdev/vga16fb.c | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
+
+-- 
+2.33.1
+
