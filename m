@@ -1,53 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80578489DDA
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 17:49:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43C69489E0C
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 18:10:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79D5E10EDC2;
-	Mon, 10 Jan 2022 16:49:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79C6810E1D4;
+	Mon, 10 Jan 2022 17:10:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com
- [209.85.210.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F91210EDC2;
- Mon, 10 Jan 2022 16:49:05 +0000 (UTC)
-Received: by mail-ot1-f53.google.com with SMTP id
- c3-20020a9d6c83000000b00590b9c8819aso6140835otr.6; 
- Mon, 10 Jan 2022 08:49:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
- :message-id;
- bh=qDRfQflqgI0j3IFv1YfAD/jfGjPzZE2xk/OYXfhH8io=;
- b=pf0+2RwKuiTkVjyBi5o1pgrvlmagN9W96mXO2GOA01bo82jOSjawH4stsp3iluevqv
- G20JXj9WN40HzzuumUUKRFONd7lSbz3wOtgNK9AkTneg7AwzWXK4nWzQcSPOUE9S4CJL
- baY3auLkkm9MyobdpN+HiEXqUfe+p327UcfhGyFTFXZSYBvE9PYdHTc17n0bUwEnc77K
- 0NGgPAYxjGtIbkFWKLBN9TtLq7XfzytaSU77YUSaCeJY947kzKaq0ylc7mjupEqRJyOI
- cyDArfrFjK6q7RGQOtCRk2BZyse4BRIZJX+SKmihL622qApbAI4q4h8Ubcl0rD/p1jwc
- o2NA==
-X-Gm-Message-State: AOAM53349mTACvZrFKDc3GLM6P5k7J8iOaoA2dVCp/5HBiVN3EKl4YVa
- PYMSMQcfsX73omRwTNCvdQ==
-X-Google-Smtp-Source: ABdhPJyJeiZuCm18RR/zHJ1xaf3Vi0nrJE1jDK4z8CB/A8DygQapHCXq1kD5ADgN/3pUP5MHSBZHgQ==
-X-Received: by 2002:a05:6830:1bfc:: with SMTP id
- k28mr478325otb.39.1641833344450; 
- Mon, 10 Jan 2022 08:49:04 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id z30sm1533929otj.1.2022.01.10.08.49.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jan 2022 08:49:03 -0800 (PST)
-Received: (nullmailer pid 1067456 invoked by uid 1000);
- Mon, 10 Jan 2022 16:48:59 -0000
-From: Rob Herring <robh@kernel.org>
-To: Rajeev Nandan <quic_rajeevny@quicinc.com>
-In-Reply-To: <1641819337-17037-2-git-send-email-quic_rajeevny@quicinc.com>
-References: <1641819337-17037-1-git-send-email-quic_rajeevny@quicinc.com>
- <1641819337-17037-2-git-send-email-quic_rajeevny@quicinc.com>
-Subject: Re: [v2 1/3] dt-bindings: msm/dsi: Add 10nm dsi phy tuning properties
-Date: Mon, 10 Jan 2022 10:48:59 -0600
-Message-Id: <1641833339.702532.1067455.nullmailer@robh.at.kernel.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0458510E1D4
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 17:10:20 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 80FB62B;
+ Mon, 10 Jan 2022 09:10:20 -0800 (PST)
+Received: from [10.57.11.80] (unknown [10.57.11.80])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 60A9D3F5A1;
+ Mon, 10 Jan 2022 09:10:19 -0800 (PST)
+Subject: Re: [RFC PATCH] drm/panfrost: Handle IDVS_GROUP_SIZE feature
+To: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ dri-devel@lists.freedesktop.org
+References: <20220109171254.3183-1-alyssa.rosenzweig@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <4628eb5a-b644-47af-a865-73300460a92b@arm.com>
+Date: Mon, 10 Jan 2022 17:10:17 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: <20220109171254.3183-1-alyssa.rosenzweig@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,90 +44,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, devicetree@vger.kernel.org, jonathan@marek.ca,
- airlied@linux.ie, linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, sean@poorly.run,
- robh+dt@kernel.org, quic_mkrishn@quicinc.com, dmitry.baryshkov@linaro.org,
- swboyd@chromium.org, freedreno@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 10 Jan 2022 18:25:35 +0530, Rajeev Nandan wrote:
-> In most cases, the default values of DSI PHY tuning registers should be
-> sufficient as they are fully optimized. However, in some cases where
-> extreme board parasitics cause the eye shape to degrade, the override
-> bits can be used to improve the signal quality.
+On 09/01/2022 17:12, Alyssa Rosenzweig wrote:
+> The IDVS group size feature was missing. It is used on some Bifrost and
+> Valhall GPUs, and is the last kernel-relevant Bifrost feature we're
+> missing.
 > 
-> The general guidelines for DSI PHY tuning include:
-> - High and moderate data rates may benefit from the drive strength and
->   drive level tuning.
-> - Drive strength tuning will affect the output impedance and may be used
->   for matching optimization.
-> - Drive level tuning will affect the output levels without affecting the
->   impedance.
+> This feature adds an extra IDVS group size field to the JM_CONFIG
+> register. In kbase, the value is configurable via the device tree; kbase
+> uses 0xF as a default if no value is specified. Until we find a device
+> demanding otherwise, let's always set the 0xF default on devices which
+> support this feature mimicking kbase's behaviour.
+
+This is a performance thing - so I don't think it will break anything if
+this is wrong, it just won't be optimal.
+
+> As JM_CONFIG is an undocumented register, it's not clear to me what
+> happens if we fail to include this handling. Index-driven vertex shading
+> already works on Bifrost boards with this feature without this handling.
+> Perhaps this has performance implications? Patch untested for the
+> moment, wanted to give Steven a chance to comment.
+
+As it's a performance thing you shouldn't see correctness issues with
+not setting it. But 0xF seems to have been chosen as it gave the best
+overall performance (although for individual test content this can
+vary). AFAICT the performance impact isn't massive either.
+
+> Applies on top of my feature clean up series which should go in first.
+> (That's pure cleaunp, this is a behaviour change RFC needing
+> discussion.)
 > 
-> The clock and data lanes have a calibration circuitry feature. The drive
-> strength tuning can be done by adjusting rescode offset for hstop/hsbot,
-> and the drive level tuning can be done by adjusting the LDO output level
-> for the HSTX drive.
-> 
-> Signed-off-by: Rajeev Nandan <quic_rajeevny@quicinc.com>
+> Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+Since you've tagged this RFC I won't merge it now, but it looks correct
+to me.
+
+Thanks,
+
+Steve
+
 > ---
+>  drivers/gpu/drm/panfrost/panfrost_features.h | 3 +++
+>  drivers/gpu/drm/panfrost/panfrost_gpu.c      | 3 +++
+>  drivers/gpu/drm/panfrost/panfrost_regs.h     | 1 +
+>  3 files changed, 7 insertions(+)
 > 
-> Changes in v2:
->  - More details in the commit text (Stephen Boyd)
->  - Use human understandable values (Stephen Boyd, Dmitry Baryshkov)
->  - Do not take values that are going to be unused (Dmitry Baryshkov)
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_features.h b/drivers/gpu/drm/panfrost/panfrost_features.h
+> index 34f2bae1ec8c..36fadcf9634e 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_features.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_features.h
+> @@ -20,6 +20,7 @@ enum panfrost_hw_feature {
+>  	HW_FEATURE_AARCH64_MMU,
+>  	HW_FEATURE_TLS_HASHING,
+>  	HW_FEATURE_THREAD_GROUP_SPLIT,
+> +	HW_FEATURE_IDVS_GROUP_SIZE,
+>  	HW_FEATURE_3BIT_EXT_RW_L2_MMU_CONFIG,
+>  };
+>  
+> @@ -74,6 +75,7 @@ enum panfrost_hw_feature {
+>  	BIT_ULL(HW_FEATURE_FLUSH_REDUCTION) | \
+>  	BIT_ULL(HW_FEATURE_PROTECTED_MODE) | \
+>  	BIT_ULL(HW_FEATURE_PROTECTED_DEBUG_MODE) | \
+> +	BIT_ULL(HW_FEATURE_IDVS_GROUP_SIZE) | \
+>  	BIT_ULL(HW_FEATURE_COHERENCY_REG))
+>  
+>  #define hw_features_g76 (\
+> @@ -87,6 +89,7 @@ enum panfrost_hw_feature {
+>  	BIT_ULL(HW_FEATURE_COHERENCY_REG) | \
+>  	BIT_ULL(HW_FEATURE_AARCH64_MMU) | \
+>  	BIT_ULL(HW_FEATURE_TLS_HASHING) | \
+> +	BIT_ULL(HW_FEATURE_IDVS_GROUP_SIZE) | \
+>  	BIT_ULL(HW_FEATURE_3BIT_EXT_RW_L2_MMU_CONFIG))
+>  
+>  #define hw_features_g31 (\
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> index bbe628b306ee..50c8922694d7 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> @@ -145,6 +145,9 @@ static void panfrost_gpu_init_quirks(struct panfrost_device *pfdev)
+>  		quirks |= (COHERENCY_ACE_LITE | COHERENCY_ACE) <<
+>  			   JM_FORCE_COHERENCY_FEATURES_SHIFT;
+>  
+> +	if (panfrost_has_hw_feature(pfdev, HW_FEATURE_IDVS_GROUP_SIZE))
+> +		quirks |= JM_DEFAULT_IDVS_GROUP_SIZE << JM_IDVS_GROUP_SIZE_SHIFT;
+> +
+>  	if (quirks)
+>  		gpu_write(pfdev, GPU_JM_CONFIG, quirks);
+>  
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
+> index 6c5a11ef1ee8..16e776cc82ea 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_regs.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
+> @@ -208,6 +208,7 @@
+>  #define JM_MAX_JOB_THROTTLE_LIMIT	0x3F
+>  #define JM_FORCE_COHERENCY_FEATURES_SHIFT 2
+>  #define JM_IDVS_GROUP_SIZE_SHIFT	16
+> +#define JM_DEFAULT_IDVS_GROUP_SIZE	0xF
+>  #define JM_MAX_IDVS_GROUP_SIZE		0x3F
+>  
+>  
 > 
->  .../bindings/display/msm/dsi-phy-10nm.yaml         | 33 ++++++++++++++++++++++
->  1 file changed, 33 insertions(+)
-> 
-
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
-
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml:63:54: [error] syntax error: mapping values are not allowed here (syntax)
-
-dtschema/dtc warnings/errors:
-./Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml:  mapping values are not allowed in this context
-  in "<unicode string>", line 63, column 54
-make[1]: *** Deleting file 'Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.example.dts'
-Traceback (most recent call last):
-  File "/usr/local/bin/dt-extract-example", line 46, in <module>
-    binding = yaml.load(open(args.yamlfile, encoding='utf-8').read())
-  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/main.py", line 434, in load
-    return constructor.get_single_data()
-  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 119, in get_single_data
-    node = self.composer.get_single_node()
-  File "_ruamel_yaml.pyx", line 706, in _ruamel_yaml.CParser.get_single_node
-  File "_ruamel_yaml.pyx", line 724, in _ruamel_yaml.CParser._compose_document
-  File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
-  File "_ruamel_yaml.pyx", line 889, in _ruamel_yaml.CParser._compose_mapping_node
-  File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
-  File "_ruamel_yaml.pyx", line 889, in _ruamel_yaml.CParser._compose_mapping_node
-  File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
-  File "_ruamel_yaml.pyx", line 891, in _ruamel_yaml.CParser._compose_mapping_node
-  File "_ruamel_yaml.pyx", line 904, in _ruamel_yaml.CParser._parse_next_event
-ruamel.yaml.scanner.ScannerError: mapping values are not allowed in this context
-  in "<unicode string>", line 63, column 54
-make[1]: *** [Documentation/devicetree/bindings/Makefile:25: Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.example.dts] Error 1
-make[1]: *** Waiting for unfinished jobs....
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml: ignoring, error parsing file
-make: *** [Makefile:1413: dt_binding_check] Error 2
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/1577891
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
 
