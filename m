@@ -1,42 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C49B9489437
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 09:51:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 588F948944D
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jan 2022 09:52:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2B3912AE3D;
-	Mon, 10 Jan 2022 08:51:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B365112AE83;
+	Mon, 10 Jan 2022 08:52:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF8A812AE36
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 08:51:14 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id DA002A50;
- Mon, 10 Jan 2022 09:51:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1641804673;
- bh=rGzc5rUjmJsejms3ZrLe/Z/dM1/lyxsEdelYlzXgkHk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=d5zgFufXtugVGnjHyea6+l4u5wlRlVRICIpz1U/q0qpcUQ9mOxbo68YrwxVvSh+Di
- O37xM5XFMRE6m0/jx+a+ozPRN5N/enZqoI5kzgexkjgNchtFqy0n4adNMbtiqAGYYC
- vcvW9xIptnNrLiNJ1+/IvP7DGb3ykzXl7dVZRgpY=
-Date: Mon, 10 Jan 2022 10:51:04 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH 2/3] arm64: dts: renesas: r8a77961: Add lvds0 device node
-Message-ID: <YdvzeJ09N6Zqa+EJ@pendragon.ideasonboard.com>
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com
+ [209.85.221.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5B6812AE83
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 08:52:45 +0000 (UTC)
+Received: by mail-vk1-f173.google.com with SMTP id bj47so2639521vkb.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 00:52:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PRrhnzxIx33BHyJCSHFJIK780dP5z6iPEtjsS253KxU=;
+ b=I6GQzw3tiykWRmziZL+Q3534Tslk9Wi4htG4BaQV+tzOia9byOWxhPHqvAStggKZee
+ 142GxWuQnBaJQp22Y+GRjYLHhuhzqIUugBf2Rn+an1pqTf2fnv8BUSGuN1lJMMx34DX0
+ WBhZrmNmI0LrrHzk9TVNrykI0L+jUF3jAqlVdm1PRS/gK20/NGADDSE/MlSKdSsxYQ68
+ pt1y6XNIOciqItTe0u+QOwvxSxE4eigRM0IoQylDUytO2EJPULY5ZRtzc/W9AVq6tNL5
+ 4kLJb1A8heKcyt/gwfodzHITRSpGPa6Yvu7c4a15DT/h4dxURipOoeRJH7PsQhqEdbIV
+ Fd/A==
+X-Gm-Message-State: AOAM532TjvwQvzf1X+hGlx3r9G2SGNV7SakqnKjT+Uqe0Y//TBKN57C4
+ SlYSD+n9HlOCmal1AojKz5S6BIORhPQDYw==
+X-Google-Smtp-Source: ABdhPJzhLRCdyc2mNgrcQjrjiGfk1Re137aAnRbK0x6IoR8yzuMc8UP981Pr+jKfQwxJEnxKg79FCw==
+X-Received: by 2002:a05:6122:d0f:: with SMTP id
+ az15mr28485870vkb.28.1641804764707; 
+ Mon, 10 Jan 2022 00:52:44 -0800 (PST)
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com.
+ [209.85.222.52])
+ by smtp.gmail.com with ESMTPSA id u8sm3849143vsi.18.2022.01.10.00.52.43
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 Jan 2022 00:52:44 -0800 (PST)
+Received: by mail-ua1-f52.google.com with SMTP id l15so10654761uai.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 00:52:43 -0800 (PST)
+X-Received: by 2002:a67:e905:: with SMTP id c5mr191335vso.68.1641804763769;
+ Mon, 10 Jan 2022 00:52:43 -0800 (PST)
+MIME-Version: 1.0
 References: <20211224052309.1997096-1-nikita.yoush@cogentembedded.com>
  <20211224052309.1997096-3-nikita.yoush@cogentembedded.com>
- <YcyTV4fJqMHIeyYB@pendragon.ideasonboard.com>
- <CAMuHMdVqUcjRQHD898Ja4R0X3QpXvTODE8=pG7UjJ-NtHTFSDA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVqUcjRQHD898Ja4R0X3QpXvTODE8=pG7UjJ-NtHTFSDA@mail.gmail.com>
+In-Reply-To: <20211224052309.1997096-3-nikita.yoush@cogentembedded.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 10 Jan 2022 09:52:32 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVHMzZipXaUE_SrkHtj6edZATefC908P1ngLrnOry8KCA@mail.gmail.com>
+Message-ID: <CAMuHMdVHMzZipXaUE_SrkHtj6edZATefC908P1ngLrnOry8KCA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] arm64: dts: renesas: r8a77961: Add lvds0 device node
+To: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,80 +65,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
- David Airlie <airlied@linux.ie>, Magnus Damm <magnus.damm@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- DRI Development <dri-devel@lists.freedesktop.org>
+ Magnus Damm <magnus.damm@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Geert,
+On Fri, Dec 24, 2021 at 6:23 AM Nikita Yushchenko
+<nikita.yoush@cogentembedded.com> wrote:
+> Add the missing lvds0 node for the R-Car M3-W+ SoC.
+>
+> Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
 
-On Mon, Jan 10, 2022 at 09:43:58AM +0100, Geert Uytterhoeven wrote:
-> On Wed, Dec 29, 2021 at 5:56 PM Laurent Pinchart wrote:
-> > On Fri, Dec 24, 2021 at 08:23:08AM +0300, Nikita Yushchenko wrote:
-> > > Add the missing lvds0 node for the R-Car M3-W+ SoC.
-> > >
-> > > Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-> > > ---
-> > >  arch/arm64/boot/dts/renesas/r8a77961.dtsi | 27 +++++++++++++++++++++++
-> > >  1 file changed, 27 insertions(+)
-> > >
-> > > diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> > > index 86d59e7e1a87..a34d5b1d6431 100644
-> > > --- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> > > +++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> > > @@ -2718,6 +2718,33 @@ du_out_hdmi0: endpoint {
-> > >                               port@2 {
-> > >                                       reg = <2>;
-> > >                                       du_out_lvds0: endpoint {
-> > > +                                             remote-endpoint = <&lvds0_in>;
-> > > +                                     };
-> > > +                             };
-> > > +                     };
-> > > +             };
-> > > +
-> > > +             lvds0: lvds@feb90000 {
-> > > +                     compatible = "renesas,r8a77961-lvds";
-> > > +                     reg = <0 0xfeb90000 0 0x14>;
-> > > +                     clocks = <&cpg CPG_MOD 727>;
-> > > +                     power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-> > > +                     resets = <&cpg 727>;
-> > > +                     status = "disabled";
-> > > +
-> > > +                     ports {
-> > > +                             #address-cells = <1>;
-> > > +                             #size-cells = <0>;
-> > > +
-> > > +                             port@0 {
-> > > +                                     reg = <0>;
-> > > +                                     lvds0_in: endpoint {
-> > > +                                             remote-endpoint = <&du_out_lvds0>;
-> > > +                                     };
-> > > +                             };
-> > > +                             port@1 {
-> > > +                                     reg = <1>;
-> > > +                                     lvds0_out: endpoint {
-> > >                                       };
-> >
-> > Endpoints must have a remote-endpoint property. Let's drop the endpoint
-> > here and keep the port only, the endpoint can be declared in board
-> > files.
-> >
-> > If you're fine with this change I can make it when applying the patch.
-> 
-> Isn't this patch for me to apply to renesas-devel?
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.18.
 
-Even better indeed :-)
 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Gr{oetje,eeting}s,
 
--- 
-Regards,
+                        Geert
 
-Laurent Pinchart
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
