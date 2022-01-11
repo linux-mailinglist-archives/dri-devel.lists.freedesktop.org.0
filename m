@@ -2,38 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B46748C052
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 09:52:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2722748C051
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 09:52:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBE84112E4C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42E30112E4A;
 	Wed, 12 Jan 2022 08:51:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 468 seconds by postgrey-1.36 at gabe;
- Mon, 10 Jan 2022 20:02:51 UTC
-Received: from mxout01.lancloud.ru (mxout01.lancloud.ru [45.84.86.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D62A510E258;
- Mon, 10 Jan 2022 20:02:51 +0000 (UTC)
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru 40192209A558
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH 2/2] platform: make platform_get_irq_byname_optional() optional
-Date: Mon, 10 Jan 2022 22:54:49 +0300
-Message-ID: <20220110195449.12448-3-s.shtylyov@omp.ru>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20220110195449.12448-1-s.shtylyov@omp.ru>
-References: <20220110195449.12448-1-s.shtylyov@omp.ru>
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
+ [IPv6:2607:f8b0:4864:20::1034])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A97DC112BC3
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 03:41:08 +0000 (UTC)
+Received: by mail-pj1-x1034.google.com with SMTP id
+ i8-20020a17090a138800b001b3936fb375so2588187pja.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 19:41:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hwEPMvp3DjRSN3d2/dcUVuC6b+oG9XWyIp1x6JZBMCU=;
+ b=qJhKfppSoaHQ9x0M8JS4CHsfoRvskXcYBqGE4k4UL6E+OoAQKy2x7Otjnmm8kZQNw+
+ /UvnyzUkKPNrLviF+AolXpjg0PyWfhBMbFKnmU1EJ7chVluv25O9Kd6ejQQAzooFq6Xy
+ UghEqYyYCePb/o/FymIosocn9kD64P+dQxZFPbGKNYbPsP4zRgvOtjqPORktn40TrZD8
+ 5llCBJ/kJ1NFJW/8uLAUuVxPOJp6u03URdM/aJ/nNVy0SmMuOPQHrADGB8lVPAaRt4Gb
+ zgTiu2xVGWzlfPUHYXX8fS5UOxOnIJH6afERIGngrRzb0y6bMSOmf4P0sXg2cvY97raU
+ ZbKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hwEPMvp3DjRSN3d2/dcUVuC6b+oG9XWyIp1x6JZBMCU=;
+ b=hKbT6rJKeM/YUmk9UOhBo8Mg6Jr3PO2PDv/AmuwVb1Tox4kPNH+CX1m1JOfkkxIliT
+ t5a0zAyCtUk8JdQWhD053Dzy1dmzZoUStnHWiGS1HKoBxUdqC5SigxVuOweb0o1X/NFR
+ l6nXLR/Mhk6F5liBFDbb9xPA3Lh1fJLmVK7CyNuLROka4+K5kelfe8XCIml1ukMAU3mD
+ H9lh13erz3S7qHa2ctQsxkz8EGbU2GxhD+i+4/k5KHD5DmR7Qg8m05x6fxvS/S5Vc7rs
+ CmsgTHWNZfNEvz/bOVBEeTN4L8w9X5VkGJKMRcK6EbN+ApMt/hs5FpWSDAj5eWr1Lvr3
+ Xrrw==
+X-Gm-Message-State: AOAM533KbjYbnta3WpIy8ejP8rKFExo0QB2g+Vo1sZwsNRGEd/n0lQ0b
+ gfz8UuDJ5PBhQIpWQZIgunU=
+X-Google-Smtp-Source: ABdhPJxYXhrJc/EjC0Np8wZ+dKkfFxXVsLMmeCHIPTToDcc2z7QjHEg9hxy20KkyS4ABVthGKzR+tg==
+X-Received: by 2002:a17:902:6b03:b0:149:7cf7:a17f with SMTP id
+ o3-20020a1709026b0300b001497cf7a17fmr2664825plk.173.1641872468280; 
+ Mon, 10 Jan 2022 19:41:08 -0800 (PST)
+Received: from localhost.localdomain ([103.144.149.199])
+ by smtp.gmail.com with ESMTPSA id y14sm6871315pgo.87.2022.01.10.19.41.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Jan 2022 19:41:07 -0800 (PST)
+From: lzmlzm <lzmlzmhh@gmail.com>
+To: a.hajda@samsung.com,
+	narmstrong@baylibre.com,
+	robert.foss@linaro.org
+Subject: [PATCH] Remove extra device acquisition method of i2c client in
+ lt9611 driver
+Date: Tue, 11 Jan 2022 11:40:51 +0800
+Message-Id: <20220111034051.28913-1-lzmlzmhh@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
- LFEX1907.lancloud.ru (fd00:f066::207)
 X-Mailman-Approved-At: Wed, 12 Jan 2022 08:51:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,339 +71,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Lunn <andrew@lunn.ch>,
- =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
- David Airlie <airlied@linux.ie>, linux-pci@vger.kernel.org,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, Aswath Govindraju <a-govindraju@ti.com>,
- Thierry Reding <thierry.reding@gmail.com>, netdev@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- Florian Fainelli <f.fainelli@gmail.com>, lima@lists.freedesktop.org,
- Kamal Dasu <kdasu.kdev@gmail.com>, Jassi Brar <jassisinghbrar@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Jose Abreu <joabreu@synopsys.com>,
- bcm-kernel-feedback-list@broadcom.com,
- Chunfeng Yun <chunfeng.yun@mediatek.com>, Jakub Kicinski <kuba@kernel.org>,
- Vivien Didelot <vivien.didelot@gmail.com>, Wolfgang
- Grandegger <wg@grandegger.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- Pawel Laszczak <pawell@cadence.com>, linux-tegra@vger.kernel.org,
- Mathias Nyman <mathias.nyman@intel.com>, linux-can@vger.kernel.org,
- Roger Quadros <rogerq@kernel.org>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Marc Kleine-Budde <mkl@pengutronix.de>, Bjorn Helgaas <bhelgaas@google.com>,
- Giuseppe Cavallaro <peppe.cavallaro@st.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-arm-kernel@lists.infradead.org, Jingoo Han <jingoohan1@gmail.com>,
- Peter Chen <peter.chen@kernel.org>, linux-usb@vger.kernel.org,
- Joakim Zhang <qiangqing.zhang@nxp.com>, linux-spi@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, Qiang Yu <yuq825@gmail.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
- linux-mediatek@lists.infradead.org, Vladimir Oltean <olteanv@gmail.com>,
- "David S. Miller" <davem@davemloft.net>
+Cc: jernej.skrabec@gmail.com, jonas@kwiboo.se, airlied@linux.ie,
+ lzmlzm <lzmlzmhh@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently platform_get_irq_byname_optional() returns an error code even
-if IRQ resource simply has not been found. It prevents the callers from
-being error code agnostic in their error handling:
-
-	ret = platform_get_irq_byname_optional(...);
-	if (ret < 0 && ret != -ENXIO)
-		return ret; // respect deferred probe
-	if (ret > 0)
-		...we get an IRQ...
-
-All other *_optional() APIs seem to return 0 or NULL in case an optional
-resource is not available. Let's follow this good example, so that the
-callers would look like:
-
-	ret = platform_get_irq_byname_optional(...);
-	if (ret < 0)
-		return ret;
-	if (ret > 0)
-		...we get an IRQ...
-
-Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+Signed-off-by: lzmlzm <lzmlzmhh@gmail.com>
 ---
- drivers/base/platform.c                             | 13 ++++++++++---
- drivers/gpu/drm/lima/lima_device.c                  |  2 +-
- drivers/mailbox/tegra-hsp.c                         |  4 ++--
- drivers/net/can/rcar/rcar_canfd.c                   |  4 ++--
- drivers/net/dsa/b53/b53_srab.c                      |  2 +-
- drivers/net/ethernet/freescale/fec_main.c           |  2 +-
- drivers/net/ethernet/freescale/fec_ptp.c            |  2 +-
- drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c   |  4 ++--
- .../net/ethernet/stmicro/stmmac/stmmac_platform.c   |  4 ++--
- drivers/pci/controller/dwc/pcie-designware-host.c   |  2 +-
- drivers/spi/spi-bcm-qspi.c                          |  2 +-
- drivers/spi/spi-rspi.c                              |  8 ++++----
- drivers/usb/cdns3/cdns3-plat.c                      |  5 +----
- drivers/usb/host/xhci-mtk.c                         |  2 +-
- drivers/usb/mtu3/mtu3_core.c                        |  2 +-
- 15 files changed, 31 insertions(+), 27 deletions(-)
+ drivers/gpu/drm/bridge/lontium-lt9611.c    | 2 +-
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/base/platform.c b/drivers/base/platform.c
-index 7c7b3638f02d..1d0ea635922b 100644
---- a/drivers/base/platform.c
-+++ b/drivers/base/platform.c
-@@ -495,14 +495,21 @@ EXPORT_SYMBOL_GPL(platform_get_irq_byname);
-  * @name: IRQ name
-  *
-  * Get an optional IRQ by name like platform_get_irq_byname(). Except that it
-- * does not print an error message if an IRQ can not be obtained.
-+ * does not print an error message if an IRQ can not be obtained and returns
-+ * 0 when IRQ resource has not been found.
-  *
-- * Return: non-zero IRQ number on success, negative error number on failure.
-+ * Return: non-zero IRQ number on success, 0 if IRQ wasn't found, negative error
-+ * number on failure.
-  */
- int platform_get_irq_byname_optional(struct platform_device *dev,
- 				     const char *name)
- {
--	return __platform_get_irq_byname(dev, name);
-+	int ret;
-+
-+	ret = __platform_get_irq_byname(dev, name);
-+	if (ret == -ENXIO)
-+		return 0;
-+	return ret;
- }
- EXPORT_SYMBOL_GPL(platform_get_irq_byname_optional);
- 
-diff --git a/drivers/gpu/drm/lima/lima_device.c b/drivers/gpu/drm/lima/lima_device.c
-index 65fdca366e41..e3659aa687c2 100644
---- a/drivers/gpu/drm/lima/lima_device.c
-+++ b/drivers/gpu/drm/lima/lima_device.c
-@@ -223,7 +223,7 @@ static int lima_init_ip(struct lima_device *dev, int index)
- 	if (irq_name) {
- 		err = must ? platform_get_irq_byname(pdev, irq_name) :
- 			     platform_get_irq_byname_optional(pdev, irq_name);
--		if (err < 0)
-+		if (err <= 0)
- 			goto out;
- 		ip->irq = err;
- 	}
-diff --git a/drivers/mailbox/tegra-hsp.c b/drivers/mailbox/tegra-hsp.c
-index acd0675da681..17aa88e31445 100644
---- a/drivers/mailbox/tegra-hsp.c
-+++ b/drivers/mailbox/tegra-hsp.c
-@@ -667,7 +667,7 @@ static int tegra_hsp_probe(struct platform_device *pdev)
- 	hsp->num_si = (value >> HSP_nSI_SHIFT) & HSP_nINT_MASK;
- 
- 	err = platform_get_irq_byname_optional(pdev, "doorbell");
--	if (err >= 0)
-+	if (err > 0)
- 		hsp->doorbell_irq = err;
- 
- 	if (hsp->num_si > 0) {
-@@ -687,7 +687,7 @@ static int tegra_hsp_probe(struct platform_device *pdev)
- 				return -ENOMEM;
- 
- 			err = platform_get_irq_byname_optional(pdev, name);
--			if (err >= 0) {
-+			if (err > 0) {
- 				hsp->shared_irqs[i] = err;
- 				count++;
- 			}
-diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
-index ff9d0f5ae0dd..1d4794493c6a 100644
---- a/drivers/net/can/rcar/rcar_canfd.c
-+++ b/drivers/net/can/rcar/rcar_canfd.c
-@@ -1778,7 +1778,7 @@ static int rcar_canfd_probe(struct platform_device *pdev)
- 
- 	if (chip_id == RENESAS_RCAR_GEN3) {
- 		ch_irq = platform_get_irq_byname_optional(pdev, "ch_int");
--		if (ch_irq < 0) {
-+		if (ch_irq <= 0) {
- 			/* For backward compatibility get irq by index */
- 			ch_irq = platform_get_irq(pdev, 0);
- 			if (ch_irq < 0)
-@@ -1786,7 +1786,7 @@ static int rcar_canfd_probe(struct platform_device *pdev)
- 		}
- 
- 		g_irq = platform_get_irq_byname_optional(pdev, "g_int");
--		if (g_irq < 0) {
-+		if (g_irq <= 0) {
- 			/* For backward compatibility get irq by index */
- 			g_irq = platform_get_irq(pdev, 1);
- 			if (g_irq < 0)
-diff --git a/drivers/net/dsa/b53/b53_srab.c b/drivers/net/dsa/b53/b53_srab.c
-index 4591bb1c05d2..80b7c8f053ad 100644
---- a/drivers/net/dsa/b53/b53_srab.c
-+++ b/drivers/net/dsa/b53/b53_srab.c
-@@ -420,7 +420,7 @@ static int b53_srab_irq_enable(struct b53_device *dev, int port)
- 	/* Interrupt is optional and was not specified, do not make
- 	 * this fatal
- 	 */
--	if (p->irq == -ENXIO)
-+	if (!p->irq)
- 		return ret;
- 
- 	ret = request_threaded_irq(p->irq, b53_srab_port_isr,
-diff --git a/drivers/net/ethernet/freescale/fec_main.c b/drivers/net/ethernet/freescale/fec_main.c
-index bc418b910999..fba36d09a6e0 100644
---- a/drivers/net/ethernet/freescale/fec_main.c
-+++ b/drivers/net/ethernet/freescale/fec_main.c
-@@ -3933,7 +3933,7 @@ fec_probe(struct platform_device *pdev)
- 	for (i = 0; i < irq_cnt; i++) {
- 		snprintf(irq_name, sizeof(irq_name), "int%d", i);
- 		irq = platform_get_irq_byname_optional(pdev, irq_name);
--		if (irq < 0)
-+		if (irq <= 0)
- 			irq = platform_get_irq(pdev, i);
- 		if (irq < 0) {
- 			ret = irq;
-diff --git a/drivers/net/ethernet/freescale/fec_ptp.c b/drivers/net/ethernet/freescale/fec_ptp.c
-index 158676eda48d..251863c2d5a4 100644
---- a/drivers/net/ethernet/freescale/fec_ptp.c
-+++ b/drivers/net/ethernet/freescale/fec_ptp.c
-@@ -615,7 +615,7 @@ void fec_ptp_init(struct platform_device *pdev, int irq_idx)
- 	INIT_DELAYED_WORK(&fep->time_keep, fec_time_keep);
- 
- 	irq = platform_get_irq_byname_optional(pdev, "pps");
--	if (irq < 0)
-+	if (irq <= 0)
- 		irq = platform_get_irq_optional(pdev, irq_idx);
- 	/* Failure to get an irq is not fatal,
- 	 * only the PTP_CLOCK_PPS clock events should stop
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c
-index 2b38a499a404..5519b5b35365 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c
-@@ -342,7 +342,7 @@ static int stm32mp1_parse_data(struct stm32_dwmac *dwmac,
- 	if (dwmac->irq_pwr_wakeup == -EPROBE_DEFER)
- 		return -EPROBE_DEFER;
- 
--	if (!dwmac->clk_eth_ck && dwmac->irq_pwr_wakeup >= 0) {
-+	if (!dwmac->clk_eth_ck && dwmac->irq_pwr_wakeup > 0) {
- 		err = device_init_wakeup(&pdev->dev, true);
- 		if (err) {
- 			dev_err(&pdev->dev, "Failed to init wake up irq\n");
-@@ -426,7 +426,7 @@ static int stm32_dwmac_remove(struct platform_device *pdev)
- 
- 	stm32_dwmac_clk_disable(priv->plat->bsp_priv);
- 
--	if (dwmac->irq_pwr_wakeup >= 0) {
-+	if (dwmac->irq_pwr_wakeup > 0) {
- 		dev_pm_clear_wake_irq(&pdev->dev);
- 		device_init_wakeup(&pdev->dev, false);
- 	}
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
-index 232ac98943cd..dcfc04f7bfd4 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
-@@ -679,7 +679,7 @@ int stmmac_get_platform_resources(struct platform_device *pdev,
- 	 */
- 	stmmac_res->wol_irq =
- 		platform_get_irq_byname_optional(pdev, "eth_wake_irq");
--	if (stmmac_res->wol_irq < 0) {
-+	if (stmmac_res->wol_irq <= 0) {
- 		if (stmmac_res->wol_irq == -EPROBE_DEFER)
- 			return -EPROBE_DEFER;
- 		dev_info(&pdev->dev, "IRQ eth_wake_irq not found\n");
-@@ -688,7 +688,7 @@ int stmmac_get_platform_resources(struct platform_device *pdev,
- 
- 	stmmac_res->lpi_irq =
- 		platform_get_irq_byname_optional(pdev, "eth_lpi");
--	if (stmmac_res->lpi_irq < 0) {
-+	if (stmmac_res->lpi_irq <= 0) {
- 		if (stmmac_res->lpi_irq == -EPROBE_DEFER)
- 			return -EPROBE_DEFER;
- 		dev_info(&pdev->dev, "IRQ eth_lpi not found\n");
-diff --git a/drivers/pci/controller/dwc/pcie-designware-host.c b/drivers/pci/controller/dwc/pcie-designware-host.c
-index f4755f3a03be..00e1a33fd06d 100644
---- a/drivers/pci/controller/dwc/pcie-designware-host.c
-+++ b/drivers/pci/controller/dwc/pcie-designware-host.c
-@@ -364,7 +364,7 @@ int dw_pcie_host_init(struct pcie_port *pp)
- 		} else if (pp->has_msi_ctrl) {
- 			if (!pp->msi_irq) {
- 				pp->msi_irq = platform_get_irq_byname_optional(pdev, "msi");
--				if (pp->msi_irq < 0) {
-+				if (pp->msi_irq <= 0) {
- 					pp->msi_irq = platform_get_irq(pdev, 0);
- 					if (pp->msi_irq < 0)
- 						return pp->msi_irq;
-diff --git a/drivers/spi/spi-bcm-qspi.c b/drivers/spi/spi-bcm-qspi.c
-index f3de3305d0f5..40ca101e9875 100644
---- a/drivers/spi/spi-bcm-qspi.c
-+++ b/drivers/spi/spi-bcm-qspi.c
-@@ -1595,7 +1595,7 @@ int bcm_qspi_probe(struct platform_device *pdev,
- 			irq = platform_get_irq(pdev, 0);
- 		}
- 
--		if (irq  >= 0) {
-+		if (irq > 0) {
- 			ret = devm_request_irq(&pdev->dev, irq,
- 					       qspi_irq_tab[val].irq_handler, 0,
- 					       name,
-diff --git a/drivers/spi/spi-rspi.c b/drivers/spi/spi-rspi.c
-index 41761f0d892a..b736b57f5ff2 100644
---- a/drivers/spi/spi-rspi.c
-+++ b/drivers/spi/spi-rspi.c
-@@ -1330,16 +1330,16 @@ static int rspi_probe(struct platform_device *pdev)
- 	ctlr->max_native_cs = rspi->ops->num_hw_ss;
- 
- 	ret = platform_get_irq_byname_optional(pdev, "rx");
--	if (ret < 0) {
-+	if (ret <= 0) {
- 		ret = platform_get_irq_byname_optional(pdev, "mux");
--		if (ret < 0)
-+		if (ret <= 0)
- 			ret = platform_get_irq(pdev, 0);
--		if (ret >= 0)
-+		if (ret > 0)
- 			rspi->rx_irq = rspi->tx_irq = ret;
- 	} else {
- 		rspi->rx_irq = ret;
- 		ret = platform_get_irq_byname(pdev, "tx");
--		if (ret >= 0)
-+		if (ret > 0)
- 			rspi->tx_irq = ret;
- 	}
- 
-diff --git a/drivers/usb/cdns3/cdns3-plat.c b/drivers/usb/cdns3/cdns3-plat.c
-index 4d0f027e5bd3..7379b6026f9f 100644
---- a/drivers/usb/cdns3/cdns3-plat.c
-+++ b/drivers/usb/cdns3/cdns3-plat.c
-@@ -108,10 +108,7 @@ static int cdns3_plat_probe(struct platform_device *pdev)
- 	cdns->wakeup_irq = platform_get_irq_byname_optional(pdev, "wakeup");
- 	if (cdns->wakeup_irq == -EPROBE_DEFER)
- 		return cdns->wakeup_irq;
--	else if (cdns->wakeup_irq == 0)
--		return -EINVAL;
--
--	if (cdns->wakeup_irq < 0) {
-+	if (cdns->wakeup_irq <= 0) {
- 		dev_dbg(dev, "couldn't get wakeup irq\n");
- 		cdns->wakeup_irq = 0x0;
- 	}
-diff --git a/drivers/usb/host/xhci-mtk.c b/drivers/usb/host/xhci-mtk.c
-index 58a0eae4f41b..e3071e7cb165 100644
---- a/drivers/usb/host/xhci-mtk.c
-+++ b/drivers/usb/host/xhci-mtk.c
-@@ -495,7 +495,7 @@ static int xhci_mtk_probe(struct platform_device *pdev)
- 		return ret;
- 
- 	irq = platform_get_irq_byname_optional(pdev, "host");
--	if (irq < 0) {
-+	if (irq <= 0) {
- 		if (irq == -EPROBE_DEFER)
- 			return irq;
- 
-diff --git a/drivers/usb/mtu3/mtu3_core.c b/drivers/usb/mtu3/mtu3_core.c
-index c4a2c37abf62..08173c05a1d6 100644
---- a/drivers/usb/mtu3/mtu3_core.c
-+++ b/drivers/usb/mtu3/mtu3_core.c
-@@ -925,7 +925,7 @@ int ssusb_gadget_init(struct ssusb_mtk *ssusb)
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
+index dafb1b47c15f..e0feb4fd9780 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+@@ -1090,7 +1090,7 @@ static int lt9611_probe(struct i2c_client *client,
+ 	if (!lt9611)
  		return -ENOMEM;
  
- 	mtu->irq = platform_get_irq_byname_optional(pdev, "device");
--	if (mtu->irq < 0) {
-+	if (mtu->irq <= 0) {
- 		if (mtu->irq == -EPROBE_DEFER)
- 			return mtu->irq;
+-	lt9611->dev = &client->dev;
++	lt9611->dev = dev;
+ 	lt9611->client = client;
+ 	lt9611->sleep = false;
+ 
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+index 33f9716da0ee..e50e42312e82 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+@@ -860,7 +860,7 @@ static int lt9611uxc_probe(struct i2c_client *client,
+ 	if (!lt9611uxc)
+ 		return -ENOMEM;
+ 
+-	lt9611uxc->dev = &client->dev;
++	lt9611uxc->dev = dev;
+ 	lt9611uxc->client = client;
+ 	mutex_init(&lt9611uxc->ocm_lock);
  
 -- 
-2.26.3
+2.25.1
 
