@@ -2,58 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94C1248B930
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jan 2022 22:12:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67B4B48B965
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jan 2022 22:26:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED64210E38D;
-	Tue, 11 Jan 2022 21:12:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57B3110E24A;
+	Tue, 11 Jan 2022 21:25:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0105E10E45A
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 21:11:59 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id a5so565290wrh.5
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 13:11:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=2/9bRBuKz2DFJdR8uWugFKUUoxgtrd0TGMh5j7M2oHA=;
- b=GZ/TTMqplqsPO89lCvhQQA6UQuN/c18AygMUQd75PIAQn0vFpYmKW10t/NEGzo9CUP
- 3D+MT1XjNONe0NClkpV079yUvtYjLbRjQebGAXfvQQykL0Tx3fKyGDhk6Mn7Yid1QPLu
- 11jMNndgyWeC7R4ibehnnPlDUaA3TO7oRwq5c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=2/9bRBuKz2DFJdR8uWugFKUUoxgtrd0TGMh5j7M2oHA=;
- b=uQhfjwv7KnI/DKZIWfIZTx8UWxDFI2USqUyFzisLEy90Awkof/PXzdn7nlS6rS1Ajh
- L5ePpFhrXz/JZiQq3U39gU0EOzEgBBgn7qUEmQWaPkDd/VWSwhwiDkKtZcjV0rGEOvr0
- fEO6G3ehuDf68eacpTS7yogV1MvFMNTKT8ju/n3qfJotluo5/qt+MjfDP1kzGvRVgF86
- E1gr+9/fop94l5cdgxsZD2eRhiG52/fT715h8uAyCXfgqrHjkMpwjeOeqxu8/QdHvX0O
- k0AmM0z9eRJDGr0ZLrjp1AMQuUfr5KMm/ZbUfHbwwtKO3zNT9QCKx7H+DkgfhIRu85tH
- crng==
-X-Gm-Message-State: AOAM532/vraivGBkw/HeDdN8djNAAQXPwRkrb23Vq9fcS65oNh7d7zYE
- 9OhezexVXw2SLaFvsNjH+z5ldA==
-X-Google-Smtp-Source: ABdhPJzzV/FH0VXTa7ZCIN/IEQB8f4qax6iFyVI1es9RQTWH+dmWmNwQQvAAc7v3ffiQ7KM8BzQF9A==
-X-Received: by 2002:adf:f5ca:: with SMTP id k10mr5590643wrp.36.1641935518467; 
- Tue, 11 Jan 2022 13:11:58 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id x8sm6408634wru.102.2022.01.11.13.11.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Jan 2022 13:11:57 -0800 (PST)
-Date: Tue, 11 Jan 2022 22:11:56 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH] drm/doc: overview before functions for drm_writeback.c
-Message-ID: <Yd3ynHDre3MpDTLc@phenom.ffwll.local>
-References: <20220111202714.1128406-1-daniel.vetter@ffwll.ch>
- <Yd3qCiGixOwlHl0q@pendragon.ideasonboard.com>
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE84610E540
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 21:25:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=7YIdvCOYX163JNG4239+4esl2HeeXcNsGWrdL0xg2YA=; b=u1Qxt2awbRu7BIYKpqKoP6QqrJ
+ PAoK0pYJO0npqFgnmoat3cPH4r/kKiEj/005I94Nhesk0TWmuGwwtHKDdKblHmH52LCLZQdaxUMhg
+ nxbzZtO9+DkzQ4KBBEJzHDNDG5VicIQZquwaVeHSY7GnkkTF16Iv6JgNgwf+gtzXgjJy8iZUNQYhx
+ se88avHiAVIvEv/82vRLQKEVEVe3QWXF7+mt20TqrOdWZFxxKXzvTsG72adiSJpSTcNxEh/Ua3kJI
+ CqVLwQ2k7pZRiVBWybULM4rcp8s5j2cHarbzzPROawS1/fyPQSFQObt7qXiJFeyLBMlol8Gm/WwOs
+ kk7cp+ZA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red
+ Hat Linux)) id 1n7OeC-003ab4-K5; Tue, 11 Jan 2022 21:25:40 +0000
+Date: Tue, 11 Jan 2022 21:25:40 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: Phyr Starter
+Message-ID: <Yd311C45gpQ3LqaW@casper.infradead.org>
+References: <YdyKWeU0HTv8m7wD@casper.infradead.org>
+ <20220111004126.GJ2328285@nvidia.com>
+ <Yd0IeK5s/E0fuWqn@casper.infradead.org>
+ <20220111150142.GL2328285@nvidia.com>
+ <Yd3Nle3YN063ZFVY@casper.infradead.org>
+ <20220111202159.GO2328285@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Yd3qCiGixOwlHl0q@pendragon.ideasonboard.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+In-Reply-To: <20220111202159.GO2328285@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,68 +52,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Liviu Dudau <liviu.dudau@arm.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: nvdimm@lists.linux.dev, linux-rdma@vger.kernel.org,
+ John Hubbard <jhubbard@nvidia.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Ming Lei <ming.lei@redhat.com>,
+ linux-block@vger.kernel.org, linux-mm@kvack.org, netdev@vger.kernel.org,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 11, 2022 at 10:35:22PM +0200, Laurent Pinchart wrote:
-> Hi Dan,
+On Tue, Jan 11, 2022 at 04:21:59PM -0400, Jason Gunthorpe wrote:
+> On Tue, Jan 11, 2022 at 06:33:57PM +0000, Matthew Wilcox wrote:
 > 
-> Thank you for the patch.
-> 
-> On Tue, Jan 11, 2022 at 09:27:14PM +0100, Daniel Vetter wrote:
-> > Otherwise it's really hard to link to that, which I realized when I
-> > wanted to link to the property definitions for a question on irc.
+> > > Then we are we using get_user_phyr() at all if we are just storing it
+> > > in a sg?
 > > 
-> > Fix it.
+> > I did consider just implementing get_user_sg() (actually 4 years ago),
+> > but that cements the use of sg as both an input and output data structure
+> > for DMA mapping, which I am under the impression we're trying to get
+> > away from.
+> 
+> I know every time I talked about a get_user_sg() Christoph is against
+> it and we need to stop using scatter list...
+> 
+> > > Also 16 entries is way to small, it should be at least a whole PMD
+> > > worth so we don't have to relock the PMD level each iteration.
+> > > 
+> > > I would like to see a flow more like:
+> > > 
+> > >   cpu_phyr_list = get_user_phyr(uptr, 1G);
+> > >   dma_phyr_list = dma_map_phyr(device, cpu_phyr_list);
+> > >   [..]
+> > >   dma_unmap_phyr(device, dma_phyr_list);
+> > >   unpin_drity_free(cpu_phy_list);
+> > > 
+> > > Where dma_map_phyr() can build a temporary SGL for old iommu drivers
+> > > compatability. iommu drivers would want to implement natively, of
+> > > course.
+> > > 
+> > > ie no loops in drivers.
 > > 
-> > Fixes: e2d7fc20b3e2 ("drm/writeback: wire drm_writeback.h to kernel-doc")
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > Cc: Brian Starkey <brian.starkey@arm.com>
-> > Cc: Liviu Dudau <liviu.dudau@arm.com>
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Thanks for the quick rb, patch pushed.
--Daniel
-
-> 
-> > ---
-> >  Documentation/gpu/drm-kms.rst | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> > Let me just rewrite that for you ...
 > > 
-> > diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-> > index d14bf1c35d7e..6f9c064fd323 100644
-> > --- a/Documentation/gpu/drm-kms.rst
-> > +++ b/Documentation/gpu/drm-kms.rst
-> > @@ -423,12 +423,12 @@ Connector Functions Reference
-> >  Writeback Connectors
-> >  --------------------
-> >  
-> > -.. kernel-doc:: include/drm/drm_writeback.h
-> > -  :internal:
-> > -
-> >  .. kernel-doc:: drivers/gpu/drm/drm_writeback.c
-> >    :doc: overview
-> >  
-> > +.. kernel-doc:: include/drm/drm_writeback.h
-> > +  :internal:
-> > +
-> >  .. kernel-doc:: drivers/gpu/drm/drm_writeback.c
-> >    :export:
-> >  
+> > 	umem->phyrs = get_user_phyrs(addr, size, &umem->phyr_len);
+> > 	umem->sgt = dma_map_phyrs(device, umem->phyrs, umem->phyr_len,
+> > 			DMA_BIDIRECTIONAL, dma_attr);
+> > 	...
+> > 	dma_unmap_phyr(device, umem->phyrs, umem->phyr_len, umem->sgt->sgl,
+> > 			umem->sgt->nents, DMA_BIDIRECTIONAL, dma_attr);
+> > 	sg_free_table(umem->sgt);
+> > 	free_user_phyrs(umem->phyrs, umem->phyr_len);
 > 
-> -- 
-> Regards,
+> Why? As above we want to get rid of the sgl, so you are telling me to
+> adopt phyrs I need to increase the memory consumption by a hefty
+> amount to store the phyrs and still keep the sgt now? Why?
 > 
-> Laurent Pinchart
+> I don't need the sgt at all. I just need another list of physical
+> addresses for DMA. I see no issue with a phsr_list storing either CPU
+> Physical Address or DMA Physical Addresses, same data structure.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+There's a difference between a phys_addr_t and a dma_addr_t.  They
+can even be different sizes; some architectures use a 32-bit dma_addr_t
+and a 64-bit phys_addr_t or vice-versa.  phyr cannot store DMA addresses.
+
+> In the fairly important passthrough DMA case the CPU list and DMA list
+> are identical, so we don't even need to do anything.
+> 
+> In the typical iommu case my dma map's phyrs is only one entry.
+
+That becomes a very simple sg table then.
+
+> As an example coding - Use the first 8 bytes to encode this:
+> 
+>  51:0 - Physical address / 4k (ie pfn)
+>  56:52 - Order (simple, your order encoding can do better)
+>  61:57 - Unused
+>  63:62 - Mode, one of:
+>          00 = natural order pfn (8 bytes)
+>          01 = order aligned with length (12 bytes)
+>          10 = arbitary (12 bytes)
+> 
+> Then the optional 4 bytes are used as:
+> 
+> Mode 01 (Up to 2^48 bytes of memory on a 4k alignment)
+>   31:0 - # of order pages
+> 
+> Mode 10 (Up to 2^25 bytes of memory on a 1 byte alignment)
+>   11:0 - starting byte offset in the 4k
+>   31:12 - 20 bits, plus the 5 bit order from the first 8 bytes:
+>           length in bytes
+
+Honestly, this looks awful to operate on.  Mandatory 8-bytes per entry
+with an optional 4 byte extension?
+
+> > > The last case is, perhaps, a possible route to completely replace
+> > > scatterlist. Few places need true byte granularity for interior pages,
+> > > so we can invent some coding to say 'this is 8 byte aligned, and n
+> > > bytes long' that only fits < 4k or something. Exceptional cases can
+> > > then still work. I'm not sure what block needs here - is it just 512?
+> > 
+> > Replacing scatterlist is not my goal.  That seems like a lot more work
+> > for little gain.  
+> 
+> Well, I'm not comfortable with the idea above where RDMA would have to
+> take a memory penalty to use the new interface. To avoid that memory
+> penalty we need to get rid of scatterlist entirely.
+> 
+> If we do the 16 byte struct from the first email then a umem for MRs
+> will increase in memory consumption by 160% compared today's 24
+> bytes/page. I think the HPC workloads will veto this.
+
+Huh?  We do 16 bytes per physically contiguous range.  Then, if your HPC
+workloads use an IOMMU that can map a virtually contiguous range
+into a single sg entry, it uses 24 bytes for the entire mapping.
+It should shrink.
+
+> > I just want to delete page_link, offset and length from struct
+> > scatterlist.  Given the above sequence of calls, we're going to get
+> > sg lists that aren't chained.  They may have to be vmalloced, but
+> > they should be contiguous.
+> 
+> I don't understand that? Why would the SGL out of the iommu suddenly
+> not be chained?
+
+Because it's being given a single set of ranges to map, instead of
+being given 512 pages at a time.
+
+> >From what I've heard I'm also not keen on a physr list using vmalloc
+> either, that is said to be quite slow?
+
+It would only be slow for degenerate cases where the pinned memory
+is fragmented and not contiguous.
+
+> > > I would imagine a few steps to this process:
+> > >  1) 'phyr_list' datastructure, with chaining, pre-allocation, etc
+> > >  2) Wrapper around existing gup to get a phyr_list for user VA
+> > >  3) Compat 'dma_map_phyr()' that coverts a phyr_list to a sgl and back
+> > >     (However, with full performance for iommu passthrough)
+> > >  4) Patches changing RDMA/VFIO/DRM to this API
+> > >  5) Patches optimizing get_user_phyr()
+> > >  6) Patches implementing dma_map_phyr in the AMD or Intel IOMMU driver
+> > 
+> > I was thinking ...
+> > 
+> > 1. get_user_phyrs() & free_user_phyrs()
+> > 2. dma_map_phyrs() and dma_unmap_phyrs() wrappers that create a
+> >    scatterlist from phyrs and call dma_map_sg() / dma_unmap_sg() to work
+> >    with current IOMMU drivers
+> 
+> IMHO, the scatterlist has to go away. The interface should be physr
+> list in, physr list out.
+
+That's reproducing the bad decision of the scatterlist, only with
+a different encoding.  You end up with something like:
+
+struct neoscat {
+	dma_addr_t dma_addr;
+	phys_addr_t phys_addr;
+	size_t dma_len;
+	size_t phys_len;
+};
+
+and the dma_addr and dma_len are unused by all-but-the-first entry when
+you have a competent IOMMU.  We want a different data structure in and
+out, and we may as well keep using the scatterlist for the dma-map-out.
+
