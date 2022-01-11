@@ -2,73 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23CD548AAD0
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jan 2022 10:50:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECA2B48AAD1
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jan 2022 10:50:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5A6910E7D4;
-	Tue, 11 Jan 2022 09:50:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C97A3112518;
+	Tue, 11 Jan 2022 09:50:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
- [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D973A10F414
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 09:50:33 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.west.internal (Postfix) with ESMTP id 584682B001E9;
- Tue, 11 Jan 2022 04:50:30 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Tue, 11 Jan 2022 04:50:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-type:content-transfer-encoding; s=fm1; bh=
- 6hPH7VzTwcImEPSIhBucunkvcQbFeOcYEPgbNcRFwRg=; b=nXkYVUf+jpBjJ06d
- OY4641f9ffF2adsDoc0+F5oc5k3qXvJOPV7BDv4aYUJ6dBrGh3A3h9BR26q8MgYR
- 7uTuW+MX0HGQXb74AIO+XvoC6fh5kUAl/hipA8vAN8T48Qz/D8i/rL/Pp3hwg/3f
- lHdkkHzPB9f/5ZMxSQh0dac2+eE7PAD4RqtCd/wFhKC1Yqa3o6EYj646C8DadGxU
- nhQwdtXo6Z8S+BKexsyChTnCCN9MAKfx644KCxSDkF/FoDC7elQNf9mftQJpZESn
- WnxgPYNq9VMNLCBJj69GLmR66bgCV6o7ICXPZeN+4jikDTlIdnDRSYevIHgjO/cy
- CTP34Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=6hPH7VzTwcImEPSIhBucunkvcQbFeOcYEPgbNcRFw
- Rg=; b=f/yUv9Zmz8D+9R678mtInX8lV6+s4idR8iOlOSXB3XEOYOH+r3FBhzBp9
- Fcoy95l6LNXqqwTFxxODj6vt9VS1AoItVK/OBa/7pGas7BsvUnwjLwrt7OKobmYW
- QbrG+LY46Lhl/HvlE+NF7j2jmvdvguyq1yMgh8xMKMXIidIUCIfJA8Cphc3G3v9A
- N+CXsGQlgMaWqggX+57SwOYarNWttcWypaGKng0JrICkHYwJw1zZURhSWA06iyE3
- Gwgbbd1Z/ngFPJTe7Eu2Xd2eki5mHy6GGugpyyiNmvkWkpAcPXhLBnFDT2/H3i6d
- qaONk/eHzFVJ4TFjXKP5pW1IS3TcQ==
-X-ME-Sender: <xms:5FLdYeLItYXZgBSFOsAjqt6PjMmmCAvGpZrVhOJkBbiAVnF-qf9QBw>
- <xme:5FLdYWKwL7XfWoeCQn0OsPJSMqEl5Aiq43DlWy-0XgyqUlpKqg0g4oBi-aVYCm3Qt
- GKEZWpjPX0Vg2UHlGM>
-X-ME-Received: <xmr:5FLdYet9fosJ5mK9wyN9TH5PHpkooPWsFtbm4zSmwKnsBUQkpnr0BeZLYII684k_1dv9SVMFtG_KkqQVObWFtSyDl6wNTpXpqABmzis>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrudehfedgtdelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeejuefggeekfffgueevtddvudffhfejffejjedvvdduudethefhfefhfeeg
- ieekkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:5FLdYTYrhC0vsR-rm-AzLAjnvc4jDi8TepMWtxaZ-bj58KxA7XMENA>
- <xmx:5FLdYVauJAbpF7xq2sdGTteicBChaxBUrj77_QcJnfsI5ChjgXdv6Q>
- <xmx:5FLdYfAabl4cY5ZcldcomXNj0WLm1quD6asP6aUz93QaytZbvZITug>
- <xmx:5VLdYbDJgEnSm_-7UQQWf0qkK4wQC2EHHhRMGccm-sDJpf34GgsqZi3wllg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 11 Jan 2022 04:50:28 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Miaoqian Lin <linmq006@gmail.com>
-Subject: Re: (subset) [PATCH] drm/sun4i: dw-hdmi: Fix missing put_device()
- call in sun8i_hdmi_phy_get
-Date: Tue, 11 Jan 2022 10:50:26 +0100
-Message-Id: <164189462190.787936.7018811034548071748.b4-ty@cerno.tech>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220107083633.20843-1-linmq006@gmail.com>
-References: <20220107083633.20843-1-linmq006@gmail.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2707910F414
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 09:50:49 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 9633EB818C8
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 09:50:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6C863C36AF3
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 09:50:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1641894646;
+ bh=Jw8kryplC5VDV9Iuf8zV3dHKlhz3/hvwQAI11i3aayQ=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=gX/ICUav63XvQ7Uh5z7O4sPIh3JCSOu131r7MFIOX5p60qklq0P22YJX//chItTiz
+ hIjLvvCzwmXIl34Y09ouFS2dYAWwZR/f01zBCTY5W465JUCBEvKDWNmJRuM0Wet9Jq
+ juLJqokAQPtsaCBdLzIgrYAflqt2d9rCgfnuQVnGx25j+a7Yo3anIRtoPN7+L4eWB+
+ O6RMRTXeE0g5xzlOk9RULBvSUhOVLzdPpiG039Gju6lTS+KzhpYasjxjggjV7cjOot
+ opT1xywRxzx8rP63Kkm68ifhS4uLbyqWPob+voNAl1aJG4vB1/GAfWejo0qdvh/1k0
+ xvm8rjhBzy3gQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 59B4FC05FD8; Tue, 11 Jan 2022 09:50:46 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 215001] Regression in 5.15, Firmware-initialized graphics
+ console selects FB_VGA16, screen corruption
+Date: Tue, 11 Jan 2022 09:50:45 +0000
+X-Bugzilla-Reason: CC
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(Other)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: javier@dowhile0.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-other@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-215001-2300-GD1n9B1sLK@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-215001-2300@https.bugzilla.kernel.org/>
+References: <bug-215001-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,23 +72,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ondrej Jirman <megous@megous.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Saravana Kannan <saravanak@google.com>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
- dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 7 Jan 2022 08:36:32 +0000, Miaoqian Lin wrote:
-> The reference taken by 'of_find_device_by_node()' must be released when
-> not needed anymore.
-> Add the corresponding 'put_device()' in the error handling path.
-> 
-> 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215001
 
-Applied to drm/drm-misc (drm-misc-fixes).
+--- Comment #12 from Javier Martinez Canillas (javier@dowhile0.org) ---
+Hello Kris,
 
-Thanks!
-Maxime
+Could you please also test the patches in v2?=20
+
+https://lore.kernel.org/dri-devel/20220110095625.278836-1-javierm@redhat.co=
+m/
+
+There shouldn't be any changes with respect to v1, but just wanted to be sa=
+fe
+before pushing to drm-misc since I can't test them.
+
+Thanks a lot and best regards,
+Javier
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are on the CC list for the bug.=
