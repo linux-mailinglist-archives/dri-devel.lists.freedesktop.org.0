@@ -1,50 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9721348B5EE
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jan 2022 19:43:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D50FE48B5EF
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jan 2022 19:44:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CEAD10E24E;
-	Tue, 11 Jan 2022 18:43:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3F8F10E311;
+	Tue, 11 Jan 2022 18:43:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8462A10E27C;
- Tue, 11 Jan 2022 18:43:52 +0000 (UTC)
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A87810E30E;
+ Tue, 11 Jan 2022 18:43:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1641926632; x=1673462632;
+ t=1641926635; x=1673462635;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version;
- bh=pfoQ5BboI4iWma110GILo0a/QjTbyn8jZoAt2MIZDP8=;
- b=OGHzGySVGPTYY230Dfcp57fTCG70kXUPApx8BgXJE21TwRkyk3fBJskl
- 8Llm6Nwwnd2ca/eGcxAMgRIpVxn2SLp7LkJJN0VYigEEpdxUqaIzWZzs3
- zmaiGpGOeJDoOJw4X+mK6/qi3fh3vfPMOpaKOmdQVDW+SRX3UG6jEyyPD M=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 11 Jan 2022 10:43:52 -0800
+ bh=z+JIuWKxJODjguXs3yWrhfZnFZJClraM9Lc/R80g5pc=;
+ b=N7gyI6iDIs/4KFo93nKv+mY35VNzGQ4H9bf7hCZeV/iwfkwOPjo6trqZ
+ ERexyxJLctTLNqVdQCsuOGwWr4mltNQOv1UyGv2SMcdXmZLd0k5j8Coi+
+ 0SqUR70nHXzKvulRTMgz9a9zZEpkE4t323UedF8b2weaVKYK1tDQD0ytw w=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 11 Jan 2022 10:43:55 -0800
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jan 2022 10:43:51 -0800
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jan 2022 10:43:54 -0800
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Tue, 11 Jan 2022 10:43:51 -0800
+ 15.2.922.19; Tue, 11 Jan 2022 10:43:53 -0800
 Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Tue, 11 Jan 2022 10:43:50 -0800
+ 15.2.922.19; Tue, 11 Jan 2022 10:43:53 -0800
 From: Kuogee Hsieh <quic_khsieh@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
  <sean@poorly.run>, <swboyd@chromium.org>, <vkoul@kernel.org>,
  <daniel@ffwll.ch>, <airlied@linux.ie>, <agross@kernel.org>,
  <dmitry.baryshkov@linaro.org>, <bjorn.andersson@linaro.org>
-Subject: [PATCH v11 3/4] drm/msm/dp: add support of tps4 (training pattern 4)
- for HBR3
-Date: Tue, 11 Jan 2022 10:43:25 -0800
-Message-ID: <1641926606-1012-4-git-send-email-quic_khsieh@quicinc.com>
+Subject: [PATCH v11 4/4] drm/msm/dp: stop link training after link training 2
+ failed
+Date: Tue, 11 Jan 2022 10:43:26 -0800
+Message-ID: <1641926606-1012-5-git-send-email-quic_khsieh@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1641926606-1012-1-git-send-email-quic_khsieh@quicinc.com>
 References: <1641926606-1012-1-git-send-email-quic_khsieh@quicinc.com>
@@ -66,26 +65,18 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, quic_khsieh@quicinc.com,
- Kuogee Hsieh <khsieh@codeaurora.org>, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+ quic_abhinavk@quicinc.com, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ aravindh@codeaurora.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Kuogee Hsieh <khsieh@codeaurora.org>
-
-Some DP sinkers prefer to use tps4 instead of tps3 during training #2.
-This patch will use tps4 to perform link training #2 if sinker's DPCD
-supports it.
-
-Changes in V2:
--- replace  dp_catalog_ctrl_set_pattern() with  dp_catalog_ctrl_set_pattern_state_bit()
-
-Changes in V3:
--- change state_ctrl_bits type to u32 and pattern type to u8
-
-Changes in V4:
--- align } else if { and } else {
+Each DP link training contains link training 1 followed by link
+training 2.  There is maximum of 5 retries of DP link training
+before declared link training failed. It is required to stop link
+training at end of link training 2 if it is failed so that next
+link training 1 can start freshly. This patch fixes link compliance
+test  case 4.3.1.13 (Source Device Link Training EQ Fallback Test).
 
 Changes in v10:
 --  group into one series
@@ -93,110 +84,26 @@ Changes in v10:
 Changes in v11:
 -- drop drm/msm/dp: dp_link_parse_sink_count() return immediately if aux read
 
+Fixes: 2e0adc765d88 ("drm/msm/dp: do not end dp link training until video is ready")
 Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-
 Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 ---
- drivers/gpu/drm/msm/dp/dp_catalog.c | 12 ++++++------
- drivers/gpu/drm/msm/dp/dp_catalog.h |  2 +-
- drivers/gpu/drm/msm/dp/dp_ctrl.c    | 17 ++++++++++++-----
- 3 files changed, 19 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_ctrl.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-index 6ae9b29..64f0b26 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-@@ -456,19 +456,19 @@ void dp_catalog_ctrl_config_msa(struct dp_catalog *dp_catalog,
- 	dp_write_p0(catalog, MMSS_DP_DSC_DTO, 0x0);
- }
- 
--int dp_catalog_ctrl_set_pattern(struct dp_catalog *dp_catalog,
--					u32 pattern)
-+int dp_catalog_ctrl_set_pattern_state_bit(struct dp_catalog *dp_catalog,
-+					u32 state_bit)
- {
- 	int bit, ret;
- 	u32 data;
- 	struct dp_catalog_private *catalog = container_of(dp_catalog,
- 				struct dp_catalog_private, dp_catalog);
- 
--	bit = BIT(pattern - 1);
--	DRM_DEBUG_DP("hw: bit=%d train=%d\n", bit, pattern);
-+	bit = BIT(state_bit - 1);
-+	DRM_DEBUG_DP("hw: bit=%d train=%d\n", bit, state_bit);
- 	dp_catalog_ctrl_state_ctrl(dp_catalog, bit);
- 
--	bit = BIT(pattern - 1) << DP_MAINLINK_READY_LINK_TRAINING_SHIFT;
-+	bit = BIT(state_bit - 1) << DP_MAINLINK_READY_LINK_TRAINING_SHIFT;
- 
- 	/* Poll for mainlink ready status */
- 	ret = readx_poll_timeout(readl, catalog->io->dp_controller.link.base +
-@@ -476,7 +476,7 @@ int dp_catalog_ctrl_set_pattern(struct dp_catalog *dp_catalog,
- 					data, data & bit,
- 					POLLING_SLEEP_US, POLLING_TIMEOUT_US);
- 	if (ret < 0) {
--		DRM_ERROR("set pattern for link_train=%d failed\n", pattern);
-+		DRM_ERROR("set state_bit for link_train=%d failed\n", state_bit);
- 		return ret;
- 	}
- 	return 0;
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-index 6965afa..7dea101 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.h
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-@@ -94,7 +94,7 @@ void dp_catalog_ctrl_mainlink_ctrl(struct dp_catalog *dp_catalog, bool enable);
- void dp_catalog_ctrl_config_misc(struct dp_catalog *dp_catalog, u32 cc, u32 tb);
- void dp_catalog_ctrl_config_msa(struct dp_catalog *dp_catalog, u32 rate,
- 				u32 stream_rate_khz, bool fixed_nvid);
--int dp_catalog_ctrl_set_pattern(struct dp_catalog *dp_catalog, u32 pattern);
-+int dp_catalog_ctrl_set_pattern_state_bit(struct dp_catalog *dp_catalog, u32 pattern);
- void dp_catalog_ctrl_reset(struct dp_catalog *dp_catalog);
- bool dp_catalog_ctrl_mainlink_ready(struct dp_catalog *dp_catalog);
- void dp_catalog_ctrl_enable_irq(struct dp_catalog *dp_catalog, bool enable);
 diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index 9c80b49..f98df93 100644
+index f98df93..245e1b9 100644
 --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
 +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -1083,7 +1083,7 @@ static int dp_ctrl_link_train_1(struct dp_ctrl_private *ctrl,
- 
- 	*training_step = DP_TRAINING_1;
- 
--	ret = dp_catalog_ctrl_set_pattern(ctrl->catalog, DP_TRAINING_PATTERN_1);
-+	ret = dp_catalog_ctrl_set_pattern_state_bit(ctrl->catalog, 1);
- 	if (ret)
- 		return ret;
- 	dp_ctrl_train_pattern_set(ctrl, DP_TRAINING_PATTERN_1 |
-@@ -1181,7 +1181,8 @@ static int dp_ctrl_link_train_2(struct dp_ctrl_private *ctrl,
- 			int *training_step)
- {
- 	int tries = 0, ret = 0;
--	char pattern;
-+	u8 pattern;
-+	u32 state_ctrl_bit;
- 	int const maximum_retries = 5;
- 	u8 link_status[DP_LINK_STATUS_SIZE];
- 
-@@ -1189,12 +1190,18 @@ static int dp_ctrl_link_train_2(struct dp_ctrl_private *ctrl,
- 
- 	*training_step = DP_TRAINING_2;
- 
--	if (drm_dp_tps3_supported(ctrl->panel->dpcd))
-+	if (drm_dp_tps4_supported(ctrl->panel->dpcd)) {
-+		pattern = DP_TRAINING_PATTERN_4;
-+		state_ctrl_bit = 4;
-+	} else if (drm_dp_tps3_supported(ctrl->panel->dpcd)) {
- 		pattern = DP_TRAINING_PATTERN_3;
--	else
-+		state_ctrl_bit = 3;
-+	} else {
- 		pattern = DP_TRAINING_PATTERN_2;
-+		state_ctrl_bit = 2;
-+	}
- 
--	ret = dp_catalog_ctrl_set_pattern(ctrl->catalog, pattern);
-+	ret = dp_catalog_ctrl_set_pattern_state_bit(ctrl->catalog, state_ctrl_bit);
- 	if (ret)
- 		return ret;
+@@ -1755,6 +1755,9 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
+ 				/* end with failure */
+ 				break; /* lane == 1 already */
+ 			}
++
++			/* stop link training before start re training  */
++			dp_ctrl_clear_training_pattern(ctrl);
+ 		}
+ 	}
  
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
