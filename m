@@ -1,76 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 525B648A5E6
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jan 2022 03:53:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6232248A6CD
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jan 2022 05:33:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA5D610EEEE;
-	Tue, 11 Jan 2022 02:53:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C9D1113E5D;
+	Tue, 11 Jan 2022 04:33:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1625E10EEEE
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 02:53:14 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id o6so61568826edc.4
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 18:53:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RFZY2ueA8dih/Ph6oPag2dxgotRBXhtzjSAvUudHnIY=;
- b=P+MPAoIyBtw16udETh31u1xox98U7/zK5e4+H2Jkqdxs9duw1GWf2p3AnpbOpS/Tnh
- sF6JmmyzaL2YD7cj+PCmFJzKzbGSPfSk3L9DnCwSWQAP5TJB7inJcR0alc7Yl/w8XxON
- GZBxtAvK/V7/1ZnzI7GXFn0V8Lmp9TtPrspMg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RFZY2ueA8dih/Ph6oPag2dxgotRBXhtzjSAvUudHnIY=;
- b=rLlSx1RX/uQyh4lIdiMi1mFmqc0frYUsAgB+AWChhB6pWWK0zAWM29hOe5yLZ/txbh
- 4zAm1nWr2jVLKVGr36fuEN31xOUCFKWtUKhtn5y5oNoV4yfvZHg6tKUXmZBjmj6TOLo9
- Ees9e4LdrTIOsnB8mcf1sCMSLHLhEYH+UavliGFRDnd3aocofKKJDBuBYgrymJQI5tBf
- ipfHv5DMuIOXJwTiP8U2ps1jglEZawWZbdiAWmdDIUIAVHxrNBWFNURMIeNeY8ODq7Uw
- e64ozGtMqK/hySmG0qVeQUB+f6wn9Erbe3b/mM9m2XXumNwK3me7YDpDa9HimZZNk3oL
- e0kQ==
-X-Gm-Message-State: AOAM532cEf/TXl2rEJLd+s2PqDxbKT2eFoYIRTNzYPxraCtd3Za9nc/N
- Bx7+/XqkIPbewhOw4mBeCeM/Xg7c3WUTW5BnLb4=
-X-Google-Smtp-Source: ABdhPJzlKQ3FKt1AffzTBfaXEsoqnc9jsTFzs23hwwQlDZH9uOKcw9LZxYKGL219Uu2nAKuF+ZemQQ==
-X-Received: by 2002:a17:906:d54e:: with SMTP id
- cr14mr1945370ejc.527.1641869592505; 
- Mon, 10 Jan 2022 18:53:12 -0800 (PST)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com.
- [209.85.221.52])
- by smtp.gmail.com with ESMTPSA id u14sm4330968edv.92.2022.01.10.18.53.11
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Jan 2022 18:53:11 -0800 (PST)
-Received: by mail-wr1-f52.google.com with SMTP id l25so19480548wrb.13
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 18:53:11 -0800 (PST)
-X-Received: by 2002:adf:e3c9:: with SMTP id k9mr1899247wrm.193.1641869591441; 
- Mon, 10 Jan 2022 18:53:11 -0800 (PST)
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E34D7113E55
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 04:33:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=Weh6b9gFW7u95WZ3fLgbX0xHy9YQw+y8aATtGfb9KPk=; b=QbEVmLb7c71g917OtGsCpYozqz
+ NahoDOK/ASMcUKOsu8udIeCBf7rigwUpe17iM9vaZsxms0gwiYv74P/RUIZesqYIcv4/bgM7D92cE
+ OUo+2dK5IqhimAh4KvP9MBSgIpQmy9oD3lk+R6zzZDsIC5EvPaI/sR6nZNo3ENDOrWrH5uExLX/qQ
+ 9sRGHC2d2IuVaNdNwZKYoKblFN1JOIhANzNpXPKbEXQ5zRayxoS7X9I3HoxbjQfqdilVLIV4FjmVx
+ 65MinbN8fCC2biLDFMYV54SUO1f1oKjno5s+fAzi26w/3BM3QTvBzkmUp3v1iLy5hJW17b5I6UeXS
+ xV4oTKag==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red
+ Hat Linux)) id 1n78q8-002y1G-Cq; Tue, 11 Jan 2022 04:32:56 +0000
+Date: Tue, 11 Jan 2022 04:32:56 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: Phyr Starter
+Message-ID: <Yd0IeK5s/E0fuWqn@casper.infradead.org>
+References: <YdyKWeU0HTv8m7wD@casper.infradead.org>
+ <20220111004126.GJ2328285@nvidia.com>
 MIME-Version: 1.0
-References: <CAPM=9tz=_hRpQV1V3M-=KmVVEbr1K166qeb-ne64PHk9Sn-ozg@mail.gmail.com>
- <CAHk-=wg9hDde_L3bK9tAfdJ4N=TJJ+SjO3ZDONqH5=bVoy_Mzg@mail.gmail.com>
- <CAKMK7uEag=v-g6ygHPcT-uQJJx+5KOh2ZRzC2QtM-MCjjW67TA@mail.gmail.com>
- <CADnq5_P9n39RQ5+Nm8O=YKXXvXh1CEzwC2fOEzEJuS2zQLUWEw@mail.gmail.com>
- <CAHk-=wgDGcaRxUwRCR6p-rxDVO78Yj4YyM6ZsPRGiT2JOCoQ6A@mail.gmail.com>
- <CADnq5_OYO7kq+9DBnDvbSfpouFvdLB0LPSL6+f1ZPRBsV=qEqA@mail.gmail.com>
- <CAHk-=wiCCRG9Lwzr+Cur=K1V2GJ9ab_ket7EnG4RZhJ8jJM7xQ@mail.gmail.com>
- <CAHk-=wi8b-YKHeNfwyYHMcgR2vJh4xpSZ0qjkv8E8Y9V8Sv2Tg@mail.gmail.com>
- <CAHk-=whnWnB9yjVaqWNKjavSJxDOEbTAPwef=O7qjL8nKZgV6A@mail.gmail.com>
-In-Reply-To: <CAHk-=whnWnB9yjVaqWNKjavSJxDOEbTAPwef=O7qjL8nKZgV6A@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 10 Jan 2022 18:52:55 -0800
-X-Gmail-Original-Message-ID: <CAHk-=whSAYiO_TkKut6XckdQigFj39ft1Kcs2qJe5niHWPGdwg@mail.gmail.com>
-Message-ID: <CAHk-=whSAYiO_TkKut6XckdQigFj39ft1Kcs2qJe5niHWPGdwg@mail.gmail.com>
-Subject: Re: [git pull] drm for 5.17-rc1 (pre-merge window pull)
-To: Alex Deucher <alexdeucher@gmail.com>, Jun Lei <Jun.Lei@amd.com>, 
- Mustapha Ghaddar <mustapha.ghaddar@amd.com>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>, 
- meenakshikumar somasundaram <meenakshikumar.somasundaram@amd.com>, 
- Daniel Wheeler <daniel.wheeler@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220111004126.GJ2328285@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,24 +48,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "Koenig,
- Christian" <christian.koenig@amd.com>
+Cc: nvdimm@lists.linux.dev, linux-rdma@vger.kernel.org,
+ John Hubbard <jhubbard@nvidia.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Ming Lei <ming.lei@redhat.com>,
+ linux-block@vger.kernel.org, linux-mm@kvack.org, netdev@vger.kernel.org,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 10, 2022 at 6:44 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> I'll double-check to see if a revert fixes it at the top of my tree.
+On Mon, Jan 10, 2022 at 08:41:26PM -0400, Jason Gunthorpe wrote:
+> On Mon, Jan 10, 2022 at 07:34:49PM +0000, Matthew Wilcox wrote:
+> 
+> > Finally, it may be possible to stop using scatterlist to describe the
+> > input to the DMA-mapping operation.  We may be able to get struct
+> > scatterlist down to just dma_address and dma_length, with chaining
+> > handled through an enclosing struct.
+> 
+> Can you talk about this some more? IMHO one of the key properties of
+> the scatterlist is that it can hold huge amounts of pages without
+> having to do any kind of special allocation due to the chaining.
+> 
+> The same will be true of the phyr idea right?
 
-Yup. It reverts cleanly, and the end result builds and works fine, and
-doesn't show the horrendous flickering.
+My thinking is that we'd pass a relatively small array of phyr (maybe 16
+entries) to get_user_phyr().  If that turned out not to be big enough,
+then we have two options; one is to map those 16 ranges with sg and use
+the sg chaining functionality before throwing away the phyr and calling
+get_user_phyr() again.  The other is to stash those 16 ranges somewhere
+(eg a resizing array of some kind) and keep calling get_user_phyr()
+to get the next batch of 16; once we've got the entire range, call
+sg_map_phyr() passing all of the phyrs.
 
-I have done that revert, and will continue the merge window work.
-Somebody else gets to figure out what the actual bug is, but that
-commit was horribly broken on my machine (Sapphire Pulse RX 580 8GB,
-fwiw).
+> > I would like to see phyr replace bio_vec everywhere it's currently used.
+> > I don't have time to do that work now because I'm busy with folios.
+> > If someone else wants to take that on, I shall cheer from the sidelines.
+> > What I do intend to do is:
+> 
+> I wonder if we mixed things though..
+> 
+> IMHO there is a lot of optimization to be had by having a
+> datastructure that is expressly 'the physical pages underlying a
+> contiguous chunk of va'
+> 
+> If you limit to that scenario then we can be more optimal because
+> things like byte granular offsets and size in the interior pages don't
+> need to exist. Every interior chunk is always aligned to its order and
+> we only need to record the order.
+> 
+> An overall starting offset and total length allow computing the slice
+> of the first/last entry.
+> 
+> If the physical address is always aligned then we get 12 free bits
+> from the min 4k alignment and also only need to store order, not an
+> arbitary byte granular length.
+> 
+> The win is I think we can meaningfully cover most common cases using
+> only 8 bytes per physical chunk. The 12 bits can be used to encode the
+> common orders (4k, 2M, 1G, etc) and some smart mechanism to get
+> another 16 bits to cover 'everything'.
+> 
+> IMHO storage density here is quite important, we end up having to keep
+> this stuff around for a long time.
+> 
+> I say this here, because I've always though bio_vec/etc are more
+> general than we actually need, being byte granular at every chunk.
 
-                   Linus
+Oh, I can do you one better on the bit-packing scheme.  There's a
+representation of every power-of-two that is naturally aligned, using
+just one extra bit.  Let's say we have 3 bits of address space and
+4 bits to represent any power of two allocation within that address
+space:
+
+0000 index-0, order-0
+0010 index-1, order-0
+...
+1110 index-7, order-0
+0001 index-0, order-1
+0101 index-2, order-1
+1001 index-4, order-1
+1101 index-6, order-1
+0011 index-0, order-2
+1011 index-4, order-2
+0111 index-0, order-3
+
+1111 has no meaning and can be used to represent an invalid range, if
+that's useful.  The lowest clear bit decodes to the order, and
+(x & (x+1))/2 gets you the index.
+
+That leaves you with another 11 bits to represent something smart about
+partial pages.
+
+The question is whether this is the right kind of optimisation to be
+doing.  I hear you that we want a dense format, but it's questionable
+whether the kind of thing you're suggesting is actually denser than this
+scheme.  For example, if we have 1GB pages and userspace happens to have
+allocated pages (3, 4, 5, 6, 7, 8, 9, 10) then this can be represented
+as a single phyr.  A power-of-two scheme would have us use four entries
+(3, 4-7, 8-9, 10).
+
+Using a (dma_addr, size_t) tuple makes coalescing adjacent pages very
+cheap.  If I have to walk PTEs looking for pages which can be combined
+together, I end up with interesting behaviour where the length of the
+list shrinks and expands.  Using the example above, as I walk successive
+PUDs, the data struct looks like this:
+
+(3)
+(3, 4)
+(3, 4-5)
+(3, 4-5, 6)
+(3, 4-7)
+(3, 4-7, 8)
+(3, 4-7, 8-9)
+(3, 4-7, 8-9, 10)
+
+We could end up with a situation where we stop because the array is
+full, even though if we kept going, it'd shrink back down below the
+length of the array (in this example, an array of length 2 would stop
+when it saw page 6, even though page 7 shrinks it back down again).
+
+> What is needed is a full scatterlist replacement, including the IOMMU
+> part.
+> 
+> For the IOMMU I would expect the datastructure to be re-used, we start
+> with a list of physical pages and then 'dma map' gives us a list of
+> IOVA physical pages, in another allocation, but exactly the same
+> datastructure.
+> 
+> This 'dma map' could return a pointer to the first datastructure if
+> there is no iommu, allocate a single entry list if the whole thing can
+> be linearly mapped with the iommu, and other baroque cases (like pci
+> offset/etc) will need to allocate full array. ie good HW runs fast and
+> is memory efficient.
+> 
+> It would be nice to see a patch sketching showing what this
+> datastructure could look like.
+> 
+> VFIO would like this structure as well as it currently is a very
+> inefficient page at a time loop when it iommu maps things.
+
+I agree that you need these things.  I think I'll run into trouble
+if I try to do them for you ... so I'm going to stop after doing the
+top end (pinning pages and getting them into an sg list) and let
+people who know that area better than I do work on that.
