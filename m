@@ -1,62 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0B3848C04A
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 09:52:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72A7648C04B
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 09:52:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDDF6112E45;
-	Wed, 12 Jan 2022 08:51:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F568112E53;
+	Wed, 12 Jan 2022 08:51:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80C8310E283
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 21:32:18 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1641936746; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=vyBK0LSqO0I5EQ5e4hsKAdcFelt6JTL0Ja4sPoT+Tlw=;
- b=xjgxbTehJM4WgxAljoViR8t4wf8UUduonmgFozetS+Y34frAmTKiDd+ZIfLba61xcm46LFzX
- MfCdlQKJIUi521YxzFaObqs0Ew0ok2iMt5GL/X8FMvyFTm1Yp+U9tDSjgHjl0jk/h8iVNF2Q
- 8a1eEb2KXX8YwynpmzDjgsM7ZXU=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
- 61ddf7502b595aa321091263 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 11 Jan 2022 21:32:00
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 39C78C43619; Tue, 11 Jan 2022 21:32:00 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
+Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26A0D10E42A
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 22:09:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
+ Message-ID:From:References:Cc:To:content-disposition;
+ bh=Ea3/TfTxnBizgPzQyGep0ghYBk0hbGQaIDnneO+IVxM=; b=n28l4tU4hMcGmq66NzaaHE2bgM
+ DLtZM1k0CMmcynt95oE9h0HRhweiVxNXojoxFWf2yRWNJS9ZBjOqlWoQ2pd5h6x2Dja/MDMQxce4h
+ oC4wWWh7fyC2fM+VSsghTwbh9vsQKdiXBQ1gn4feOPPSodQaYZq+Qjf9nVlB6xdH7gUCyyIyA5SDB
+ kd+Jw0ZcrPVZTrek2/BUeREf/XC9z/tYBcWTs9Ss6gvRjyZX6HCf8rrhXu6Q3C/XPn/EfIrLxjRE3
+ AFLxscv0jUHFqxFFUr+MNIjLV+z4FrJWWTnywtnmhaO9c987fXwNpO2H8Afye56wVIxz2W0+ce2Ej
+ t7wlui9A==;
+Received: from guinness.priv.deltatee.com ([172.16.1.162])
+ by ale.deltatee.com with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
+ (envelope-from <logang@deltatee.com>)
+ id 1n7PKO-009nQW-1A; Tue, 11 Jan 2022 15:09:17 -0700
+To: Matthew Wilcox <willy@infradead.org>, Jason Gunthorpe <jgg@nvidia.com>
+References: <YdyKWeU0HTv8m7wD@casper.infradead.org>
+ <20220111004126.GJ2328285@nvidia.com> <Yd0IeK5s/E0fuWqn@casper.infradead.org>
+ <20220111150142.GL2328285@nvidia.com> <Yd3Nle3YN063ZFVY@casper.infradead.org>
+ <20220111202159.GO2328285@nvidia.com> <Yd311C45gpQ3LqaW@casper.infradead.org>
+From: Logan Gunthorpe <logang@deltatee.com>
+Message-ID: <ef01ce7d-f1d3-0bbb-38ba-2de4d3f7e31a@deltatee.com>
+Date: Tue, 11 Jan 2022 15:09:13 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: <Yd311C45gpQ3LqaW@casper.infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-CA
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 172.16.1.162
+X-SA-Exim-Rcpt-To: nvdimm@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org, linux-mm@kvack.org, netdev@vger.kernel.org,
+ linux-block@vger.kernel.org, ming.lei@redhat.com, jhubbard@nvidia.com,
+ joao.m.martins@oracle.com, hch@lst.de, linux-kernel@vger.kernel.org,
+ jgg@nvidia.com, willy@infradead.org
+X-SA-Exim-Mail-From: logang@deltatee.com
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on ale.deltatee.com
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from hyd-lnxbld559.qualcomm.com (unknown [202.46.22.19])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: akhilpo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id A0DA3C43619;
- Tue, 11 Jan 2022 21:31:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org A0DA3C43619
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=fail (p=none dis=none) header.from=quicinc.com
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=quicinc.com
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-To: freedreno <freedreno@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Rob Clark <robdclark@gmail.com>,
- OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS <devicetree@vger.kernel.org>
-Subject: [PATCH 4/4] drm/msm/adreno: Update the name of 7c3 gpu
-Date: Wed, 12 Jan 2022 03:01:30 +0530
-Message-Id: <20220112030115.4.Idbc978090270c7b838387acc74d8a06a186a3cf4@changeid>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <20220112030115.1.Ibac66e1e0e565313bc28f192e6c94cb508f205eb@changeid>
-References: <20220112030115.1.Ibac66e1e0e565313bc28f192e6c94cb508f205eb@changeid>
+X-Spam-Status: No, score=-6.9 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+ NICE_REPLY_A autolearn=ham autolearn_force=no version=3.4.6
+Subject: Re: Phyr Starter
+X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-Mailman-Approved-At: Wed, 12 Jan 2022 08:51:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,37 +68,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, Vladimir Lypak <vladimir.lypak@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: nvdimm@lists.linux.dev, linux-rdma@vger.kernel.org,
+ John Hubbard <jhubbard@nvidia.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Ming Lei <ming.lei@redhat.com>,
+ linux-block@vger.kernel.org, linux-mm@kvack.org, netdev@vger.kernel.org,
+ Joao Martins <joao.m.martins@oracle.com>, Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update the name in the gpulist for 7c3 gpu as per the latest
-recommendation.
 
-Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
----
 
- drivers/gpu/drm/msm/adreno/adreno_device.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 2022-01-11 2:25 p.m., Matthew Wilcox wrote:
+> That's reproducing the bad decision of the scatterlist, only with
+> a different encoding.  You end up with something like:
+> 
+> struct neoscat {
+> 	dma_addr_t dma_addr;
+> 	phys_addr_t phys_addr;
+> 	size_t dma_len;
+> 	size_t phys_len;
+> };
+> 
+> and the dma_addr and dma_len are unused by all-but-the-first entry when
+> you have a competent IOMMU.  We want a different data structure in and
+> out, and we may as well keep using the scatterlist for the dma-map-out.
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-index f35c631..2f1cc56 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-@@ -330,7 +330,7 @@ static const struct adreno_info gpulist[] = {
- 		.hwcg = a660_hwcg,
- 	}, {
- 		.rev = ADRENO_REV(6, 3, 5, ANY_ID),
--		.name = "Adreno 7c Gen 3",
-+		.name = "Adreno 7c+ Gen 3",
- 		.fw = {
- 			[ADRENO_FW_SQE] = "a660_sqe.fw",
- 			[ADRENO_FW_GMU] = "a660_gmu.bin",
--- 
-2.7.4
+With my P2PDMA patchset, even with a competent IOMMU, we need to support
+multiple dma_addr/dma_len pairs (plus the flag bit). This is required to
+program IOVAs and multiple bus addresses into a single DMA transactions.
 
+I think using the scatter list for the DMA-out side is not ideal seeing
+we don't need the page pointers or multiple length fields and we won't
+be able to change the sgl substantially given the massive amount of
+existing use cases that won't go away over night.
+
+My hope would be along these lines:
+
+struct phy_range {
+    phys_addr_t phyr_addr;
+    u32 phyr_len;
+    u32 phyr_flags;
+};
+
+struct dma_range {
+    dma_addr_t dmar_addr;
+    u32 dmar_len;
+    u32 dmar_flags;
+};
+
+A new GUP helper would somehow return a list of phy_range structs and
+the new dma_map function would take that list and return a list of
+dma_range structs. Each element in the list could represent a segment up
+to 4GB, so any range longer than that would need multiple items in the
+list. (Alternatively, perhaps the length could be a 64bit value and we
+steal some of the top bits for flags or some such). The flags would not
+only be needed by some of the use cases mentioned (FOLL_PIN or
+DMA_BUS_ADDRESS) but could also support chaining these lists like SGLs
+so continuous vmallocs would not be necessary for longer lists.
+
+If there's an [phy|dma]_range_list struct (or some such) which contains
+these range structs (per some details of Jason's suggestions) that'd be
+fine by me too and would just depend on implementation details.
+
+However, the main problem I see is a chicken and egg problem. The new
+dma_map function would need to be implemented by every dma_map provider
+or any driver trying to use it would need a messy fallback. Either that,
+or we need a wrapper that allocates an appropriately sized SGL to pass
+to any dma_map implementation that doesn't support the new structures.
+
+Logan
