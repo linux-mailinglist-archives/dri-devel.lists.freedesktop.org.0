@@ -1,43 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72A7648C04B
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 09:52:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7651948C049
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 09:52:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F568112E53;
-	Wed, 12 Jan 2022 08:51:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5454112E63;
+	Wed, 12 Jan 2022 08:51:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26A0D10E42A
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 22:09:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D79310E402
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 22:57:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
  Message-ID:From:References:Cc:To:content-disposition;
- bh=Ea3/TfTxnBizgPzQyGep0ghYBk0hbGQaIDnneO+IVxM=; b=n28l4tU4hMcGmq66NzaaHE2bgM
- DLtZM1k0CMmcynt95oE9h0HRhweiVxNXojoxFWf2yRWNJS9ZBjOqlWoQ2pd5h6x2Dja/MDMQxce4h
- oC4wWWh7fyC2fM+VSsghTwbh9vsQKdiXBQ1gn4feOPPSodQaYZq+Qjf9nVlB6xdH7gUCyyIyA5SDB
- kd+Jw0ZcrPVZTrek2/BUeREf/XC9z/tYBcWTs9Ss6gvRjyZX6HCf8rrhXu6Q3C/XPn/EfIrLxjRE3
- AFLxscv0jUHFqxFFUr+MNIjLV+z4FrJWWTnywtnmhaO9c987fXwNpO2H8Afye56wVIxz2W0+ce2Ej
- t7wlui9A==;
+ bh=OQRrkSTzK0n2WDJnypN3nkxt91IMNAOuhsahp7OKxa8=; b=KASG806faBlkocf5OxJutxFfjt
+ Q2Rq0vzUYgks/O2fPyDrMfuizAeXHbGXh5Izvf03QMvn2B3RwpB35Esksrmjrv85a9insfOiANy7X
+ iy8Zrk7/owfI5HBic+G+Ixs2m099TRUxO/3SD23ZvKDo3KEkg0yAyV/iPgywJQiU89CeHexxMsYuf
+ d7as7kWdOJ+D2EqYesK1ndcMFIVPRUxJctobC7V0jle+U2OnvCkDi3yQaOL+NpGorTTtjQQ0D1oHs
+ EBseJaH5yao5ZC2TwuQYdDHy/OhZERMlK084dXpQB3hAka/ZxR1E3eWZrT/W5gl29sRcnbHcji1/Q
+ gg3A1BUQ==;
 Received: from guinness.priv.deltatee.com ([172.16.1.162])
  by ale.deltatee.com with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
  (envelope-from <logang@deltatee.com>)
- id 1n7PKO-009nQW-1A; Tue, 11 Jan 2022 15:09:17 -0700
-To: Matthew Wilcox <willy@infradead.org>, Jason Gunthorpe <jgg@nvidia.com>
+ id 1n7Q4i-009nqq-GT; Tue, 11 Jan 2022 15:57:09 -0700
+To: Jason Gunthorpe <jgg@nvidia.com>, Matthew Wilcox <willy@infradead.org>
 References: <YdyKWeU0HTv8m7wD@casper.infradead.org>
  <20220111004126.GJ2328285@nvidia.com> <Yd0IeK5s/E0fuWqn@casper.infradead.org>
  <20220111150142.GL2328285@nvidia.com> <Yd3Nle3YN063ZFVY@casper.infradead.org>
  <20220111202159.GO2328285@nvidia.com> <Yd311C45gpQ3LqaW@casper.infradead.org>
+ <20220111225306.GR2328285@nvidia.com>
 From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <ef01ce7d-f1d3-0bbb-38ba-2de4d3f7e31a@deltatee.com>
-Date: Tue, 11 Jan 2022 15:09:13 -0700
+Message-ID: <9fe2ada2-f406-778a-a5cd-264842906a31@deltatee.com>
+Date: Tue, 11 Jan 2022 15:57:07 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <Yd311C45gpQ3LqaW@casper.infradead.org>
+In-Reply-To: <20220111225306.GR2328285@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-CA
 Content-Transfer-Encoding: 7bit
@@ -46,7 +47,7 @@ X-SA-Exim-Rcpt-To: nvdimm@lists.linux.dev, dri-devel@lists.freedesktop.org,
  linux-rdma@vger.kernel.org, linux-mm@kvack.org, netdev@vger.kernel.org,
  linux-block@vger.kernel.org, ming.lei@redhat.com, jhubbard@nvidia.com,
  joao.m.martins@oracle.com, hch@lst.de, linux-kernel@vger.kernel.org,
- jgg@nvidia.com, willy@infradead.org
+ willy@infradead.org, jgg@nvidia.com
 X-SA-Exim-Mail-From: logang@deltatee.com
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on ale.deltatee.com
 X-Spam-Level: 
@@ -78,62 +79,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 2022-01-11 2:25 p.m., Matthew Wilcox wrote:
-> That's reproducing the bad decision of the scatterlist, only with
-> a different encoding.  You end up with something like:
-> 
-> struct neoscat {
-> 	dma_addr_t dma_addr;
-> 	phys_addr_t phys_addr;
-> 	size_t dma_len;
-> 	size_t phys_len;
-> };
-> 
-> and the dma_addr and dma_len are unused by all-but-the-first entry when
-> you have a competent IOMMU.  We want a different data structure in and
-> out, and we may as well keep using the scatterlist for the dma-map-out.
+On 2022-01-11 3:53 p.m., Jason Gunthorpe wrote:
+> I just want to share the whole API that will have to exist to
+> reasonably support this flexible array of intervals data structure..
 
-With my P2PDMA patchset, even with a competent IOMMU, we need to support
-multiple dma_addr/dma_len pairs (plus the flag bit). This is required to
-program IOVAs and multiple bus addresses into a single DMA transactions.
-
-I think using the scatter list for the DMA-out side is not ideal seeing
-we don't need the page pointers or multiple length fields and we won't
-be able to change the sgl substantially given the massive amount of
-existing use cases that won't go away over night.
-
-My hope would be along these lines:
-
-struct phy_range {
-    phys_addr_t phyr_addr;
-    u32 phyr_len;
-    u32 phyr_flags;
-};
-
-struct dma_range {
-    dma_addr_t dmar_addr;
-    u32 dmar_len;
-    u32 dmar_flags;
-};
-
-A new GUP helper would somehow return a list of phy_range structs and
-the new dma_map function would take that list and return a list of
-dma_range structs. Each element in the list could represent a segment up
-to 4GB, so any range longer than that would need multiple items in the
-list. (Alternatively, perhaps the length could be a 64bit value and we
-steal some of the top bits for flags or some such). The flags would not
-only be needed by some of the use cases mentioned (FOLL_PIN or
-DMA_BUS_ADDRESS) but could also support chaining these lists like SGLs
-so continuous vmallocs would not be necessary for longer lists.
-
-If there's an [phy|dma]_range_list struct (or some such) which contains
-these range structs (per some details of Jason's suggestions) that'd be
-fine by me too and would just depend on implementation details.
-
-However, the main problem I see is a chicken and egg problem. The new
-dma_map function would need to be implemented by every dma_map provider
-or any driver trying to use it would need a messy fallback. Either that,
-or we need a wrapper that allocates an appropriately sized SGL to pass
-to any dma_map implementation that doesn't support the new structures.
+Is that really worth it? I feel like type safety justifies replicating a
+bit of iteration and allocation infrastructure. Then there's no silly
+mistakes of thinking one array is one thing when it is not.
 
 Logan
