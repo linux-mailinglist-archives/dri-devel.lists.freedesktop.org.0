@@ -2,49 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D6D448B61C
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jan 2022 19:51:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E9E348B63F
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jan 2022 19:58:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD11910E224;
-	Tue, 11 Jan 2022 18:51:35 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66BE210E1CD;
- Tue, 11 Jan 2022 18:51:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1641927093; x=1673463093;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=DxRGyG/Lxj0Vqy/vgv9C0AN2IiddMV+mvEIJhqDcuVM=;
- b=cGW3Ktun5Y6ZH304Lhg0klQO4FNB4IvE48ROSAlhLuFNbex+RSb1Wu89
- +tPFKL+3fgbeb6qhHhRIeJu5/MJzKI9qvROd1IhLFCVp3ya3FzG8GxhTN
- c8iejRNL1EHTppDkQh7ZDQMwJ7GRhJ0F0mjrVbmWnmEk+/wrKZxsfL6qo
- bJOeV8CuVmssIoSRhMaNa6z5GLLojOF0i6GKW4Q41CgHMc7oil2s17ajJ
- xl4wziMhDD9SRWL7OdBDF9q6YpaiYOnQ31lyeunNEUE9+2J8+OG1HIkTC
- IcJiW7sjMgwKyVlaHg1ECRcsjRWUYFj+w2bdi5kgf7dvOUC5HuxCc6Y2v A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10224"; a="304299534"
-X-IronPort-AV: E=Sophos;i="5.88,279,1635231600"; d="scan'208";a="304299534"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jan 2022 10:51:32 -0800
-X-IronPort-AV: E=Sophos;i="5.88,279,1635231600"; d="scan'208";a="490474708"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jan 2022 10:51:32 -0800
-Date: Tue, 11 Jan 2022 10:45:41 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: John.C.Harrison@Intel.com
-Subject: Re: [PATCH] drm/i915/guc: Don't error on reset of banned context
-Message-ID: <20220111184541.GA14954@jons-linux-dev-box>
-References: <20220107003143.326046-1-John.C.Harrison@Intel.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1710810E326;
+	Tue, 11 Jan 2022 18:58:44 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEA2810E323
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 18:58:42 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id z22so25944311edd.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 10:58:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=OseqO9uvatTwFS9vmE3SyFEp4j52HosRPK45i5UL9kA=;
+ b=ivr3i8jTj8D112gKPTLoZSOffkjoCeWEyRVkv/yKYsVZ4lkc8obbwxJzc8HtfU3Z4u
+ /cJ92la3VhQc/L4iR5ibKEVyQWh8oBaEfSZL1xTnY/rELUAmTARjeay3tEVZVgxqSDsr
+ 5zhG7kpmDMyuRhHSuOS8f0aQ6Vxv0hg/PCYIs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=OseqO9uvatTwFS9vmE3SyFEp4j52HosRPK45i5UL9kA=;
+ b=vyoU/9k8tKMlebPxL1mdhHx4tQJ6ETgTjKmv0yykTQeFleUGH9hPLD9sTI9YOFo5jF
+ fYg4CIMlYJe6E+tFNg5vQkMzdXySMjVbV4v5oWYRM/0jALItgzgkRj6FU7Qol9846AkO
+ SsIedd6ZGP2L1mHvaPCvuDhA8n5ni0gz1zgrOrazkn4yRa4U2Pfhq362rb6Z0kx81l5X
+ 0aVz/5ZYauQ80vydHzCwfWN+Y6hZP6f/sB73mV1nc3dg4shn7JITqa9N71sIgm8IsF+r
+ cQExEDpTc7DfzgtWzd6cEqDOA4HLKg59dRi6cRLQ3aLZdH19WyEzK0syMXzwggIpi5ok
+ jPig==
+X-Gm-Message-State: AOAM533dPLb3wgKg7ougD7PUfI67rxVSAwQoFu/Zzc+nWSj8uzVyUbI1
+ BFeuxPdOHVpfC8NFlRULfctUYYQuSjlsW1GScfYCSA==
+X-Google-Smtp-Source: ABdhPJzsJBR31op+ZQJBwUUBWjfuzKvYSnVDI1Fdz0WpVjzkQfFUVrFR0YdhirA/LRLBI57arAdRceDB8iPcuSsqBPA=
+X-Received: by 2002:a17:907:3e09:: with SMTP id
+ hp9mr4993000ejc.537.1641927521449; 
+ Tue, 11 Jan 2022 10:58:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220107003143.326046-1-John.C.Harrison@Intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20211122070633.89219-1-jagan@amarulasolutions.com>
+ <CGME20211122070651eucas1p1d505c9d2041501898d4f3b1f277e2599@eucas1p1.samsung.com>
+ <20211122070633.89219-2-jagan@amarulasolutions.com>
+ <5e173bc6-a320-42ec-79de-0ea4c3c2b480@samsung.com>
+ <CAMty3ZArYY5ECD5AWZiNa8pYn16ziWi=S-39o3VuTXGA1eN1DQ@mail.gmail.com>
+ <CAMty3ZA_UsvmTprozT+MgfZ4Q4LthSk340rV_0YwcmTy1Vyk4w@mail.gmail.com>
+ <CAMty3ZBp7_JFvsBcQTpRMBYS7oWcT0TagUW2uQRGMuaakzF+cQ@mail.gmail.com>
+ <1a195d36-3ac0-389e-442f-ebeb7f85ab40@samsung.com>
+ <45de6555-7407-5f48-247b-4d093eb17fe2@samsung.com>
+ <CAMty3ZCCT-ecR1LLecsixbt4Hd26zi_nqZ-1GJH7Wji91XT-tQ@mail.gmail.com>
+ <CAG3jFyty+tdcm--gTHyXbmeQFx0btF0X-orD3HV0keC43FLfow@mail.gmail.com>
+ <CAMty3ZAti1MRDmks476R8+-moM9138oa=OBftH2R3QDrAOG+MA@mail.gmail.com>
+ <CAG3jFyt1OKVup-sKNBUr=WF7w7cWNO-j=GKajYHd5rTYNKC+qQ@mail.gmail.com>
+In-Reply-To: <CAG3jFyt1OKVup-sKNBUr=WF7w7cWNO-j=GKajYHd5rTYNKC+qQ@mail.gmail.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Wed, 12 Jan 2022 00:28:30 +0530
+Message-ID: <CAMty3ZCK1MJz=MG-wLUVQNgNznLKQT91CF1+BW57KY7LNTOu9A@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm: exynos: dsi: Convert to bridge driver
+To: Robert Foss <robert.foss@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,77 +72,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel-GFX@Lists.FreeDesktop.Org, DRI-Devel@Lists.FreeDesktop.Org
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ linux-amarula@amarulasolutions.com, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 06, 2022 at 04:31:43PM -0800, John.C.Harrison@Intel.com wrote:
-> From: John Harrison <John.C.Harrison@Intel.com>
-> 
-> There is a race (already documented in the code) whereby a context can
-> be (re-)queued for submission at the same time as it is being banned
-> due to a hang and reset. That leads to a hang/reset report from GuC
-> for a context which i915 thinks is already banned.
-> 
-
-I think there are 2 issues here.
-
-1. Banning of context (e.g. user closes a non-persistent context)
-results in an context reset. In this case we will receive a G2H
-indicating a context reset and we want to convert the context reset to a
-nop.
-
-2. A GT reset races with a context reset result in the context getting
-banned before the G2H is processed. Again we want to convert the context
-reset to a nop. This race should be sealed when we can flush the G2H
-handler in the reset path. Flushing G2H handler depends on the error
-capture not allocating memory in non-sleeping contexts. Thomas H had a
-patch for this.
-
-In both cases we shouldn't print an error.
-
-> While the race is indented to be fixed in a future GuC update, there
-> is no actual harm beyond the wasted execution time of that new hang
-> detection period. The context has already been banned for bad
-> behaviour so a fresh hang is hardly surprising and certainly isn't
-> going to be losing any work that wouldn't already have been lost if
-> there was no race.
+On Mon, Jan 10, 2022 at 9:10 PM Robert Foss <robert.foss@linaro.org> wrote:
 >
+> On Mon, 10 Jan 2022 at 16:35, Jagan Teki <jagan@amarulasolutions.com> wrote:
+> >
+> > Hi Robert,
+> >
+> > On Mon, Jan 10, 2022 at 9:02 PM Robert Foss <robert.foss@linaro.org> wrote:
+> > >
+> > > Hey Jagan,
+> > >
+> > > This is a mistake on my end, I must have been looking at reviewing
+> > > this series and then accidentally included it with another batch of
+> > > patches. Thank you for catching this.
+> >
+> > Thanks for the response.
+> >
+> > >
+> > > I would suggest reverting these two patches[1][2]. Is that ok with you?
+> >
+> > May be I will revert 1/2. but 2/2 is valid. Please let me know, if you
+> > have any concerns on reverting 1/2.
+>
+> Please go ahead!
 
-See above, I think you are confusing the issues here. This won't be
-fixed by an updated GuC firmware.
+Sent.
 
-> So don't treat this situation as an error. The error message is seen
-> by the CI system as something fatal and causes test failures. Instead,
-> just print an informational so the user at least knows a context reset
-> occurred (given that the error capture is being skipped).
-> 
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index 9989d121127d..e8a32a7e7daf 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -3978,6 +3978,10 @@ static void guc_handle_context_reset(struct intel_guc *guc,
->  		   !context_blocked(ce))) {
->  		capture_error_state(guc, ce);
->  		guc_context_replay(ce);
-> +	} else if (intel_context_is_banned(ce)) {
-> +		drm_info(&guc_to_gt(guc)->i915->drm,
-> +			 "Reset notificaion for banned context 0x%04X on %s",
-> +			 ce->guc_id.id, ce->engine->name);
-
-The context being blocking isn't an error either. I think real fix is
-changing the below drm_err to drm_info and call it a day.
-
-Matt
-
->  	} else {
->  		drm_err(&guc_to_gt(guc)->i915->drm,
->  			"Invalid GuC engine reset notificaion for 0x%04X on %s: banned = %d, blocked = %d",
-> -- 
-> 2.25.1
-> 
+Thanks,
+Jagan.
