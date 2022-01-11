@@ -2,38 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B2948B8B5
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jan 2022 21:35:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF07048B8E2
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jan 2022 21:51:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 853F610F363;
-	Tue, 11 Jan 2022 20:35:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C771110EF44;
+	Tue, 11 Jan 2022 20:51:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E950F10F37B
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 20:35:33 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id DA80F340;
- Tue, 11 Jan 2022 21:35:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1641933332;
- bh=KycRdeSuDuA7xBVs6ft5r3car935tpoCIMLiHmPukWc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=CZvGn5sIaX3VE3fdvJ8qYY4+5jnmx06IT04H55hi8wlVBMIdJcSsAd6NOOgL/uYcP
- qGrmhxTPZXqriTOZF+52sFQ/KqV0/o6lSNON3JBOSES6otHinO7plUAW2DL5hi2Nle
- lZMd8mYcSqJC1gzW7pfa6PvEbjxTDx2DlBiPO2zU=
-Date: Tue, 11 Jan 2022 22:35:22 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] drm/doc: overview before functions for drm_writeback.c
-Message-ID: <Yd3qCiGixOwlHl0q@pendragon.ideasonboard.com>
-References: <20220111202714.1128406-1-daniel.vetter@ffwll.ch>
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19ADE10EF47
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 20:51:43 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id c71so1233908edf.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 12:51:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PJOwhp3ym4DBH3RV0e5Fa2srd2TuQC5f+y1GIJOJymg=;
+ b=Poqh7tlps0nmydJNHuTFFz+1v91n9FBjuZDF9S/cEn3/lSPJU4mRgLKzcVJ9y2szxK
+ w3QHdSzWPsF4aFUX1EWxGT3ZSvos+xqomNwyXjbgIrXwlEUEiTBA8POYMyy8nXDbHfJe
+ utQNYyrqtWyiR/ZNc+DKBtuKMA5VAvLH46Wag=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PJOwhp3ym4DBH3RV0e5Fa2srd2TuQC5f+y1GIJOJymg=;
+ b=R8OtdqLMF1JRqBPC1e0MWZqV1epvYuBHnxHz01BVt5K9LkIakDcxJxlE/1L6DyDokc
+ yTDMfxdkskYwoLYHisjthBMVHQ2MtoNnnCQscxLDV+UKjgn/G+qyZRJqxk0al+heSyZV
+ 2cRPUqmm19KI233rpmsYWZ6WBKn42IT/KXJTWtJR6xaT2Y+3u08OLznvb7J6zgnx0+6/
+ T3R8iwuonNlXt5tKLpcX8EJtNv8IM0PSVNmrZxna8C8xhz/JH3PuuBKOgmhkY7HYIO35
+ ZD+MpJEXGY21uVzvgx6zwsBiRzs0pNJFW89BiI5bkfZlBlIqnoG+tjfRPC10DqipZxXL
+ pZ6g==
+X-Gm-Message-State: AOAM530Btii2lA172brC7yiFfq2P0hXpfWUH15HKpwO5s/1RvSiGnWdr
+ uVdCkdWj2RzGOofMHGp8Md6V4ejd1bDDH45Fjoc=
+X-Google-Smtp-Source: ABdhPJyERyDU1eVCSTlhGYbGUjMU1wdrG9joEa11UFkx4OoopjE3+S28pY+7EX0T0m73vFqdyZBr3w==
+X-Received: by 2002:a17:906:4fd6:: with SMTP id
+ i22mr4991859ejw.484.1641934301476; 
+ Tue, 11 Jan 2022 12:51:41 -0800 (PST)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com.
+ [209.85.221.54])
+ by smtp.gmail.com with ESMTPSA id g9sm5376924edb.53.2022.01.11.12.51.35
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Jan 2022 12:51:38 -0800 (PST)
+Received: by mail-wr1-f54.google.com with SMTP id a5so480317wrh.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 12:51:35 -0800 (PST)
+X-Received: by 2002:a5d:6083:: with SMTP id w3mr1799927wrt.281.1641934295380; 
+ Tue, 11 Jan 2022 12:51:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220111202714.1128406-1-daniel.vetter@ffwll.ch>
+References: <CAPM=9tz=_hRpQV1V3M-=KmVVEbr1K166qeb-ne64PHk9Sn-ozg@mail.gmail.com>
+ <CAHk-=wg9hDde_L3bK9tAfdJ4N=TJJ+SjO3ZDONqH5=bVoy_Mzg@mail.gmail.com>
+ <CAKMK7uEag=v-g6ygHPcT-uQJJx+5KOh2ZRzC2QtM-MCjjW67TA@mail.gmail.com>
+ <CADnq5_P9n39RQ5+Nm8O=YKXXvXh1CEzwC2fOEzEJuS2zQLUWEw@mail.gmail.com>
+ <CAHk-=wgDGcaRxUwRCR6p-rxDVO78Yj4YyM6ZsPRGiT2JOCoQ6A@mail.gmail.com>
+ <CADnq5_OYO7kq+9DBnDvbSfpouFvdLB0LPSL6+f1ZPRBsV=qEqA@mail.gmail.com>
+ <CAHk-=wiCCRG9Lwzr+Cur=K1V2GJ9ab_ket7EnG4RZhJ8jJM7xQ@mail.gmail.com>
+ <CAHk-=wi8b-YKHeNfwyYHMcgR2vJh4xpSZ0qjkv8E8Y9V8Sv2Tg@mail.gmail.com>
+ <CAHk-=whnWnB9yjVaqWNKjavSJxDOEbTAPwef=O7qjL8nKZgV6A@mail.gmail.com>
+ <CAHk-=whSAYiO_TkKut6XckdQigFj39ft1Kcs2qJe5niHWPGdwg@mail.gmail.com>
+ <CADnq5_OZR9Ft=WVVbpM_WUpFZurni4yVxGPpa4nDkhupmod_ag@mail.gmail.com>
+ <6490ec74-7de2-c3a3-d852-31b8594110d8@amd.com>
+In-Reply-To: <6490ec74-7de2-c3a3-d852-31b8594110d8@amd.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Tue, 11 Jan 2022 12:51:19 -0800
+X-Gmail-Original-Message-ID: <CAHk-=whZW+Cy++vucKQd6Lrj7B1bhd1-pKkgV8xxPJr35Dh2UA@mail.gmail.com>
+Message-ID: <CAHk-=whZW+Cy++vucKQd6Lrj7B1bhd1-pKkgV8xxPJr35Dh2UA@mail.gmail.com>
+Subject: Re: [git pull] drm for 5.17-rc1 (pre-merge window pull)
+To: Harry Wentland <harry.wentland@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,58 +82,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Liviu Dudau <liviu.dudau@arm.com>, Sam Ravnborg <sam@ravnborg.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ meenakshikumar somasundaram <meenakshikumar.somasundaram@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Jun Lei <Jun.Lei@amd.com>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>, "Koenig,
+ Christian" <christian.koenig@amd.com>,
+ Mustapha Ghaddar <mustapha.ghaddar@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dan,
+On Tue, Jan 11, 2022 at 7:38 AM Harry Wentland <harry.wentland@amd.com> wrote:
+>
+> Attached is a v2 of the buggy patch that should get this right.
+> If you have a chance to try it out let us know
 
-Thank you for the patch.
+I can confirm that I do not see the horribly flickering behavior with
+this patch.
 
-On Tue, Jan 11, 2022 at 09:27:14PM +0100, Daniel Vetter wrote:
-> Otherwise it's really hard to link to that, which I realized when I
-> wanted to link to the property definitions for a question on irc.
-> 
-> Fix it.
-> 
-> Fixes: e2d7fc20b3e2 ("drm/writeback: wire drm_writeback.h to kernel-doc")
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Cc: Brian Starkey <brian.starkey@arm.com>
-> Cc: Liviu Dudau <liviu.dudau@arm.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+I didn't look at what the actual differences were from the one I
+reverted, but at least on my machine this version works.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  Documentation/gpu/drm-kms.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-> index d14bf1c35d7e..6f9c064fd323 100644
-> --- a/Documentation/gpu/drm-kms.rst
-> +++ b/Documentation/gpu/drm-kms.rst
-> @@ -423,12 +423,12 @@ Connector Functions Reference
->  Writeback Connectors
->  --------------------
->  
-> -.. kernel-doc:: include/drm/drm_writeback.h
-> -  :internal:
-> -
->  .. kernel-doc:: drivers/gpu/drm/drm_writeback.c
->    :doc: overview
->  
-> +.. kernel-doc:: include/drm/drm_writeback.h
-> +  :internal:
-> +
->  .. kernel-doc:: drivers/gpu/drm/drm_writeback.c
->    :export:
->  
-
--- 
-Regards,
-
-Laurent Pinchart
+                Linus
