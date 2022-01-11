@@ -1,46 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04AD548B904
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jan 2022 21:54:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94C1248B930
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jan 2022 22:12:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6095A10F411;
-	Tue, 11 Jan 2022 20:54:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED64210E38D;
+	Tue, 11 Jan 2022 21:12:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3A1710F409
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 20:54:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
- :Reply-To:Content-ID:Content-Description;
- bh=NaqWFVPD5yQIsLxFNwU6hznpj4Tbd38uPn6NrjndwIQ=; b=DxE8TozFpC4e4PdN9ZsDYZQEsD
- 9in9ykF5exZmMqNCTgn3/P9U3IDcpm4MKR4ZMMEnB1peH4kwrzmhSy4LmwxdMouHvPuFSaAx8mHS5
- C88HpMq5plOaYlsTNBTy6x8zSZLF8Yu1nqTNZC8fqVoIZNoAslj3aTyWGU0EqnbxwZaPapsWNkUQB
- eMJm32nZWGEqYg2apBhkf5doa+FFTZSbrKt8tgVoPO0Nr34l+/9eis4BCcDOEGd1Y4Nu6MDUFIRvy
- pVoao7bgWPOGkaJv2edDjgnFAyjOaKgBZy4scIIWFQvK0HDHFSaUufEkr4U+mJvl8wZE+LK4fU3pr
- dkT/yhuw==;
-Received: from [2601:1c0:6280:3f0::aa0b]
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1n7O9l-003ZcZ-HI; Tue, 11 Jan 2022 20:54:14 +0000
-Message-ID: <172e8971-f160-b04e-3250-b8743f31c820@infradead.org>
-Date: Tue, 11 Jan 2022 12:54:09 -0800
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0105E10E45A
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 21:11:59 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id a5so565290wrh.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 13:11:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=2/9bRBuKz2DFJdR8uWugFKUUoxgtrd0TGMh5j7M2oHA=;
+ b=GZ/TTMqplqsPO89lCvhQQA6UQuN/c18AygMUQd75PIAQn0vFpYmKW10t/NEGzo9CUP
+ 3D+MT1XjNONe0NClkpV079yUvtYjLbRjQebGAXfvQQykL0Tx3fKyGDhk6Mn7Yid1QPLu
+ 11jMNndgyWeC7R4ibehnnPlDUaA3TO7oRwq5c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=2/9bRBuKz2DFJdR8uWugFKUUoxgtrd0TGMh5j7M2oHA=;
+ b=uQhfjwv7KnI/DKZIWfIZTx8UWxDFI2USqUyFzisLEy90Awkof/PXzdn7nlS6rS1Ajh
+ L5ePpFhrXz/JZiQq3U39gU0EOzEgBBgn7qUEmQWaPkDd/VWSwhwiDkKtZcjV0rGEOvr0
+ fEO6G3ehuDf68eacpTS7yogV1MvFMNTKT8ju/n3qfJotluo5/qt+MjfDP1kzGvRVgF86
+ E1gr+9/fop94l5cdgxsZD2eRhiG52/fT715h8uAyCXfgqrHjkMpwjeOeqxu8/QdHvX0O
+ k0AmM0z9eRJDGr0ZLrjp1AMQuUfr5KMm/ZbUfHbwwtKO3zNT9QCKx7H+DkgfhIRu85tH
+ crng==
+X-Gm-Message-State: AOAM532/vraivGBkw/HeDdN8djNAAQXPwRkrb23Vq9fcS65oNh7d7zYE
+ 9OhezexVXw2SLaFvsNjH+z5ldA==
+X-Google-Smtp-Source: ABdhPJzzV/FH0VXTa7ZCIN/IEQB8f4qax6iFyVI1es9RQTWH+dmWmNwQQvAAc7v3ffiQ7KM8BzQF9A==
+X-Received: by 2002:adf:f5ca:: with SMTP id k10mr5590643wrp.36.1641935518467; 
+ Tue, 11 Jan 2022 13:11:58 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id x8sm6408634wru.102.2022.01.11.13.11.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Jan 2022 13:11:57 -0800 (PST)
+Date: Tue, 11 Jan 2022 22:11:56 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH] drm/doc: overview before functions for drm_writeback.c
+Message-ID: <Yd3ynHDre3MpDTLc@phenom.ffwll.local>
+References: <20220111202714.1128406-1-daniel.vetter@ffwll.ch>
+ <Yd3qCiGixOwlHl0q@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: Unable to unselect VGA_ARB (VGA Arbitration)
-Content-Language: en-US
-To: Paul Menzel <pmenzel@molgen.mpg.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-References: <b72ad376-7a42-1ff2-701d-7fb2f3333c64@molgen.mpg.de>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <b72ad376-7a42-1ff2-701d-7fb2f3333c64@molgen.mpg.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yd3qCiGixOwlHl0q@pendragon.ideasonboard.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,75 +66,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Liviu Dudau <liviu.dudau@arm.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paul,
+On Tue, Jan 11, 2022 at 10:35:22PM +0200, Laurent Pinchart wrote:
+> Hi Dan,
+> 
+> Thank you for the patch.
+> 
+> On Tue, Jan 11, 2022 at 09:27:14PM +0100, Daniel Vetter wrote:
+> > Otherwise it's really hard to link to that, which I realized when I
+> > wanted to link to the property definitions for a question on irc.
+> > 
+> > Fix it.
+> > 
+> > Fixes: e2d7fc20b3e2 ("drm/writeback: wire drm_writeback.h to kernel-doc")
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > Cc: Brian Starkey <brian.starkey@arm.com>
+> > Cc: Liviu Dudau <liviu.dudau@arm.com>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-On 1/11/22 12:28, Paul Menzel wrote:
-> Dear Linux folks,
-> 
-> 
-> I am using Linux 5.16, and I am unable to unset `VGA_ARB` in Kconfig (`make menuconfig`). I have an Asus F2A85-M PRO with an AMD A6-6400K APU (integrated Radeon graphics device), so no legacy stuff.
-> 
-> From `drivers/gpu/vga/Kconfig`:
-> 
-> ```
-> config VGA_ARB
->         bool "VGA Arbitration" if EXPERT
+Thanks for the quick rb, patch pushed.
+-Daniel
 
-You can modify VGA_ARB if you set ^^^^^^ "EXPERT".
-
->         default y
->         depends on (PCI && !S390)
->         help
->           […]
 > 
-> config VGA_ARB_MAX_GPUS
->         int "Maximum number of GPUs"
->         default 16
->         depends on VGA_ARB
->         help
->           […]
+> > ---
+> >  Documentation/gpu/drm-kms.rst | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+> > index d14bf1c35d7e..6f9c064fd323 100644
+> > --- a/Documentation/gpu/drm-kms.rst
+> > +++ b/Documentation/gpu/drm-kms.rst
+> > @@ -423,12 +423,12 @@ Connector Functions Reference
+> >  Writeback Connectors
+> >  --------------------
+> >  
+> > -.. kernel-doc:: include/drm/drm_writeback.h
+> > -  :internal:
+> > -
+> >  .. kernel-doc:: drivers/gpu/drm/drm_writeback.c
+> >    :doc: overview
+> >  
+> > +.. kernel-doc:: include/drm/drm_writeback.h
+> > +  :internal:
+> > +
+> >  .. kernel-doc:: drivers/gpu/drm/drm_writeback.c
+> >    :export:
+> >  
 > 
-> config VGA_SWITCHEROO
->         bool "Laptop Hybrid Graphics - GPU switching support"
->         depends on X86
->         depends on ACPI
->         depends on PCI
->         depends on (FRAMEBUFFER_CONSOLE=n || FB=y)
->         select VGA_ARB
->         help
->           […]
-> ```
+> -- 
+> Regards,
 > 
-> But in `make menuconfig` I am unable to unselect it.
-> 
->     -*- VGA Arbitration
-> 
-> and the help says:
-> 
->     Symbol: VGA_ARB [=y]
->     Type  : bool
->       Depends on: HAS_IOMEM [=y] && PCI [=y] && !S390
->       Visible if: HAS_IOMEM [=y] && PCI [=y] && !S390 && EXPERT [=n]
->       Location:
->         Main menu
->          -> Device Drivers
->            -> Graphics support
->     Selected by [n]:
->       - VGA_SWITCHEROO [=n] && HAS_IOMEM [=y] && X86 [=y] && ACPI [=y] && PCI [=y] && (!FRAMEBUFFER_CONSOLE [=y] || FB [=y]=y)
-> 
-> So, VGA_SWITCHEROO is not set, and, therefore, as `Selected by [n]:` suggests, I thought I’d be able to deselect it.
-> 
-> It’d be great if you could help me out.
-> 
-> 
-> Kind regards,
-> 
-> Paul
+> Laurent Pinchart
 
 -- 
-~Randy
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
