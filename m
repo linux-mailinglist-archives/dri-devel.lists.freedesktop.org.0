@@ -1,64 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 939CE48AB50
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jan 2022 11:25:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34DD048AB57
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jan 2022 11:26:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 939DE10E121;
-	Tue, 11 Jan 2022 10:25:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A83F410E7C3;
+	Tue, 11 Jan 2022 10:26:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83B7510E121
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 10:25:11 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 13CF3B81616
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 10:25:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D838BC36AE9
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 10:25:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1641896708;
- bh=n9OlwnKS9ALit/w4oh/oUZvKsFxFelgXzVjxPAUfjG0=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=Kv7LGli27h1o88gPeub1IVoqpNBWejpe3X9Pk1LWPAg9l9e8vdlfVM2ki0++Ea8Cw
- ZV4DAwqdaYZ6GyKT5STVrP5+6LIVdQuU5xh/rmMKWCoXxjdMMMnmRaDA8jjvCa+uYd
- Lqzo6f5kF9mGw5fIt/M1mBT6xc7l05xGVaugVzaCZGXurKIeG8CiK3GQsp4cWlrWCr
- CfiysIdLQ7DydgHArPFi5u6KCpz/zfNcBiVng28Lv2uelaFHfO8Y0VYE2AOB29EWuc
- 1GWkajAMD7n5DQ1qIuR7wtRxX/9JQf8eM6XSimslg2ZjFteaOqOCLqAKcypmS4j8Wz
- JUSmxfHoad0fA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id B691CC05FD9; Tue, 11 Jan 2022 10:25:08 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 215445] AMDGPU -- UBSAN: invalid-load in amdgpu_dm.c:5882:84 -
- load of value 32 is not a valid value for type '_Bool'
-Date: Tue, 11 Jan 2022 10:25:08 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: peci1@seznam.cz
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-215445-2300-TEr3LNSyjy@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-215445-2300@https.bugzilla.kernel.org/>
-References: <bug-215445-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90D1510E6B9;
+ Tue, 11 Jan 2022 10:26:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1641896770; x=1673432770;
+ h=message-id:date:mime-version:subject:from:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=ARxasz8w9czeiodYacB+PZSOdJ2LfMsLx3EBjShtHfA=;
+ b=kGstgODMGNsMo1xqqDeP1XK6yusEiGT+XuhxhTy7vNItOfxw/CpoKn5K
+ hpLZPyaAOXxl6y0sUdbYFyRPRBWpF1Wf0fjwsyB7x7z9JkBzx4QN719xa
+ LuOATVPf1r5lHN430rqSB1afbAjx3qsQC7JnGjcnF3Ug0B6MbzXboKvXs
+ Xe7E7RI426yvhZxpLIpbzacawPBKit9CwPVBCkvNK2oyIMvKZZqLA7hYi
+ 3zM/aNLaGBy6RIbnDSBUnp3meE+u6bTLmrb+6LawOjuP2zIcTrbor7JsN
+ X+Udkvh91sCYFtJash1i2dmHyEKPPc8aCMGXslp/LNT44S/Z234Ol7HqF w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10223"; a="243249531"
+X-IronPort-AV: E=Sophos;i="5.88,279,1635231600"; d="scan'208";a="243249531"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jan 2022 02:26:10 -0800
+X-IronPort-AV: E=Sophos;i="5.88,279,1635231600"; d="scan'208";a="558318453"
+Received: from noblecat-mobl.ger.corp.intel.com (HELO [10.213.217.217])
+ ([10.213.217.217])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jan 2022 02:26:07 -0800
+Message-ID: <c7d4c7b5-e100-7a26-6a92-06b2e2a4b276@linux.intel.com>
+Date: Tue, 11 Jan 2022 10:26:05 +0000
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.1
+Subject: Re: [PATCH] i915: make array flex_regs static const
+Content-Language: en-US
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Colin Ian King <colin.i.king@gmail.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20220109203152.51414-1-colin.i.king@gmail.com>
+ <5da796b5-a19e-e07b-7cb5-7a30726bd2ff@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <5da796b5-a19e-e07b-7cb5-7a30726bd2ff@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,17 +66,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D215445
 
---- Comment #5 from Martin Pecka (peci1@seznam.cz) ---
-This problem has disappeared for me in kernel 5.16.0. Can anybody else conf=
-irm?
+On 11/01/2022 09:13, Tvrtko Ursulin wrote:
+> On 09/01/2022 20:31, Colin Ian King wrote:
+>> Don't populate the read-only array flex_regs on the stack but
+>> instead it static const. Also makes the object code a little smaller.
+>>
+>> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+>> ---
+>>   drivers/gpu/drm/i915/i915_perf.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/i915_perf.c 
+>> b/drivers/gpu/drm/i915/i915_perf.c
+>> index e27f3b7cf094..df698960fdc0 100644
+>> --- a/drivers/gpu/drm/i915/i915_perf.c
+>> +++ b/drivers/gpu/drm/i915/i915_perf.c
+>> @@ -2114,7 +2114,7 @@ gen8_update_reg_state_unlocked(const struct 
+>> intel_context *ce,
+>>       u32 ctx_oactxctrl = stream->perf->ctx_oactxctrl_offset;
+>>       u32 ctx_flexeu0 = stream->perf->ctx_flexeu0_offset;
+>>       /* The MMIO offsets for Flex EU registers aren't contiguous */
+>> -    i915_reg_t flex_regs[] = {
+>> +    static const i915_reg_t flex_regs[] = {
+>>           EU_PERF_CNTL0,
+>>           EU_PERF_CNTL1,
+>>           EU_PERF_CNTL2,
+>>
+> 
+> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> 
+> And will merge shortly, thanks for the patch.
 
---=20
-You may reply to this email to add a comment.
+Actually I couldn't merge it because you have a Author and Signed-off-by 
+mismatch due your entry in .mailmap. Is this something you can update or 
+send the patch from an address which matches it?
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Regards,
+
+Tvrtko
