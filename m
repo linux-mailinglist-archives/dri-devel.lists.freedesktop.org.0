@@ -1,46 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6264B48B283
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jan 2022 17:45:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA32D48B4C8
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jan 2022 19:03:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7818310E60C;
-	Tue, 11 Jan 2022 16:45:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8B6010E1B2;
+	Tue, 11 Jan 2022 18:03:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FE5D10E260;
- Tue, 11 Jan 2022 16:45:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1641919528; x=1673455528;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=BjNI8kDNZBsu/RicuZJt0DwlQ5FdSW0NYqcSzX11JbI=;
- b=Xsd4CgwFofgpMZao1lpMjt/wXaKzPkc75HJ6G7VHd7R/rcVazEYAEPZ+
- B9e9Y22gvSOo+rxxqKRKvpJ/JFbX5QG9x7Yh6kNBefcO68XKx5Q0dLm3L
- zcN/PWaqyCcb5B6rYiSf39L8Z+OZDaPAvEuIHdP8IwqXVmvtCdayIG+73
- NfHsbjZeFzgVw9syVSL/xrkXCFZycKGQH5uk9z+OrnaPTz7CShLfezpET
- BShvZui4IB5xNkji6VIBiswcUdGovkUtORYRs7SmBqmBLeB216ziGPcpA
- wwAvjOC4Oyz4aI/im0zk0SIbBC6ipY7fRK8QSJUE2HYJOdte9Qh/cx8vf w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10223"; a="243733462"
-X-IronPort-AV: E=Sophos;i="5.88,279,1635231600"; d="scan'208";a="243733462"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jan 2022 08:45:27 -0800
-X-IronPort-AV: E=Sophos;i="5.88,279,1635231600"; d="scan'208";a="528807684"
-Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jan 2022 08:45:27 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: <intel-gfx@lists.freedesktop.org>,
-	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/i915: Lock timeline mutex directly in error path of
- eb_pin_timeline
-Date: Tue, 11 Jan 2022 08:39:29 -0800
-Message-Id: <20220111163929.14017-1-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.34.1
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EB9910E173;
+ Tue, 11 Jan 2022 18:03:22 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: bbeckett) with ESMTPSA id F08381F445D8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1641924195;
+ bh=JGn+3J3kMfaPfFbwy/txo2c2ywoDnBosK+U4R4T+hzg=;
+ h=From:To:Cc:Subject:Date:From;
+ b=c53K/ZwsWBAvC2LADwI2Er+IyruIOqqhOeim+UDHYkLQ19Q7g5pEsuXTIPPSj6LCz
+ 1QMdBrZwDmipZ6he2WGebdwPOwPqjinjEMpuyS7sJrVL2gz44Lg6dJpLubT8ivuT0e
+ zov14jtQkQv5Ru76IRX4TQpzy74gUa4I6C4T0ZY5w4a6OZ7xalP/oy+HCzU4UbccqK
+ gdpXFJlxO9XFgK4jhRx/DiDlDCCRUztUOLyTuAvdkJ/o2m3mfD0OK5g/pf0lEbEgRN
+ dIETtWr2JRrRLlGj/3PQ70mnVnCMbYpYAQWiEMzJz2c3WMtS3J8Y79wkY3bXvKsBd4
+ 7q5JpZWunLi5g==
+From: Robert Beckett <bob.beckett@collabora.com>
+To: Intel GFX <intel-gfx@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/4] dicsrete card 64K page support
+Date: Tue, 11 Jan 2022 18:02:34 +0000
+Message-Id: <20220111180238.1370631-1-bob.beckett@collabora.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -55,48 +45,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniele.ceraolospurio@intel.com, john.c.harrison@intel.com,
- tvrtko.ursulin@intel.com
+Cc: Robert Beckett <bob.beckett@collabora.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Stuart Summers <stuart.summers@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Don't use the interruptable version of the timeline mutex lock in the
-error path of eb_pin_timeline as the cleanup must always happen.
+This series continues support for 64K pages for discrete cards.
+It supersedes the 64K patches from https://patchwork.freedesktop.org/series/95686/#rev4
+Changes since that series:
 
-v2:
- (John Harrison)
-  - Don't check for interrupt during mutex lock
-v3:
- (Tvrtko)
-  - A comment explaining why lock helper isn't used
+- set min alignment for DG2 to 2MB in i915_address_space_init
+- replace coloring with simpler 2MB VA alignment for lmem buffers
+	- enforce alignment to 2MB for lmem objects on DG2 in i915_vma_insert
+	- expand vma reservation to round up to 2MB on DG2 in i915_vma_insert
+- add alignment test
 
-Fixes: 544460c33821 ("drm/i915: Multi-BB execbuf")
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-index 9e221ce427075..4a611d62e991a 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-@@ -2518,9 +2518,14 @@ static int eb_pin_timeline(struct i915_execbuffer *eb, struct intel_context *ce,
- 				      timeout) < 0) {
- 			i915_request_put(rq);
- 
--			tl = intel_context_timeline_lock(ce);
-+			/*
-+			 * Error path, cannot use intel_context_timeline_lock as
-+			 * that is user interruptable and this clean up step
-+			 * must be done.
-+			 */
-+			mutex_lock(&ce->timeline->mutex);
- 			intel_context_exit(ce);
--			intel_context_timeline_unlock(tl);
-+			mutex_unlock(&ce->timeline->mutex);
- 
- 			if (nonblock)
- 				return -EWOULDBLOCK;
+Matthew Auld (3):
+  drm/i915: enforce min GTT alignment for discrete cards
+  drm/i915: support 64K GTT pages for discrete cards
+  drm/i915/uapi: document behaviour for DG2 64K support
+
+Robert Beckett (1):
+  drm/i915: add gtt misalignment test
+
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |  60 +++++
+ .../i915/gem/selftests/i915_gem_client_blt.c  |  23 +-
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c          | 109 ++++++++-
+ drivers/gpu/drm/i915/gt/intel_gtt.c           |  14 ++
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |  12 +
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c         |   1 +
+ drivers/gpu/drm/i915/i915_vma.c               |  14 ++
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c | 226 +++++++++++++++---
+ include/uapi/drm/i915_drm.h                   |  44 +++-
+ 9 files changed, 454 insertions(+), 49 deletions(-)
+
 -- 
-2.34.1
+2.25.1
 
