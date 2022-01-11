@@ -2,62 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2722748C051
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 09:52:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C0B148C04F
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 09:52:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42E30112E4A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A6E1112E50;
 	Wed, 12 Jan 2022 08:51:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
- [IPv6:2607:f8b0:4864:20::1034])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A97DC112BC3
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 03:41:08 +0000 (UTC)
-Received: by mail-pj1-x1034.google.com with SMTP id
- i8-20020a17090a138800b001b3936fb375so2588187pja.1
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 19:41:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hwEPMvp3DjRSN3d2/dcUVuC6b+oG9XWyIp1x6JZBMCU=;
- b=qJhKfppSoaHQ9x0M8JS4CHsfoRvskXcYBqGE4k4UL6E+OoAQKy2x7Otjnmm8kZQNw+
- /UvnyzUkKPNrLviF+AolXpjg0PyWfhBMbFKnmU1EJ7chVluv25O9Kd6ejQQAzooFq6Xy
- UghEqYyYCePb/o/FymIosocn9kD64P+dQxZFPbGKNYbPsP4zRgvOtjqPORktn40TrZD8
- 5llCBJ/kJ1NFJW/8uLAUuVxPOJp6u03URdM/aJ/nNVy0SmMuOPQHrADGB8lVPAaRt4Gb
- zgTiu2xVGWzlfPUHYXX8fS5UOxOnIJH6afERIGngrRzb0y6bMSOmf4P0sXg2cvY97raU
- ZbKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hwEPMvp3DjRSN3d2/dcUVuC6b+oG9XWyIp1x6JZBMCU=;
- b=hKbT6rJKeM/YUmk9UOhBo8Mg6Jr3PO2PDv/AmuwVb1Tox4kPNH+CX1m1JOfkkxIliT
- t5a0zAyCtUk8JdQWhD053Dzy1dmzZoUStnHWiGS1HKoBxUdqC5SigxVuOweb0o1X/NFR
- l6nXLR/Mhk6F5liBFDbb9xPA3Lh1fJLmVK7CyNuLROka4+K5kelfe8XCIml1ukMAU3mD
- H9lh13erz3S7qHa2ctQsxkz8EGbU2GxhD+i+4/k5KHD5DmR7Qg8m05x6fxvS/S5Vc7rs
- CmsgTHWNZfNEvz/bOVBEeTN4L8w9X5VkGJKMRcK6EbN+ApMt/hs5FpWSDAj5eWr1Lvr3
- Xrrw==
-X-Gm-Message-State: AOAM533KbjYbnta3WpIy8ejP8rKFExo0QB2g+Vo1sZwsNRGEd/n0lQ0b
- gfz8UuDJ5PBhQIpWQZIgunU=
-X-Google-Smtp-Source: ABdhPJxYXhrJc/EjC0Np8wZ+dKkfFxXVsLMmeCHIPTToDcc2z7QjHEg9hxy20KkyS4ABVthGKzR+tg==
-X-Received: by 2002:a17:902:6b03:b0:149:7cf7:a17f with SMTP id
- o3-20020a1709026b0300b001497cf7a17fmr2664825plk.173.1641872468280; 
- Mon, 10 Jan 2022 19:41:08 -0800 (PST)
-Received: from localhost.localdomain ([103.144.149.199])
- by smtp.gmail.com with ESMTPSA id y14sm6871315pgo.87.2022.01.10.19.41.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jan 2022 19:41:07 -0800 (PST)
-From: lzmlzm <lzmlzmhh@gmail.com>
-To: a.hajda@samsung.com,
-	narmstrong@baylibre.com,
-	robert.foss@linaro.org
-Subject: [PATCH] Remove extra device acquisition method of i2c client in
- lt9611 driver
-Date: Tue, 11 Jan 2022 11:40:51 +0800
-Message-Id: <20220111034051.28913-1-lzmlzmhh@gmail.com>
-X-Mailer: git-send-email 2.25.1
+X-Greylist: delayed 2702 seconds by postgrey-1.36 at gabe;
+ Tue, 11 Jan 2022 18:16:50 UTC
+Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5157210E27C
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 18:16:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
+ Message-ID:From:References:Cc:To:content-disposition;
+ bh=oBrXEHfI6xABrUDZXcl3Ilv2Mnj53ZcLvhEcAszQLhw=; b=YeL6mnl38ypaS0PyULw3luqlUK
+ XeOI6Vhp947TOTlkyofoaX8wJ8Yg8h3TI1VDxJKcJ9GY5xcvig0mIQbG1QAzJj7OFJGoGht0Yb0/K
+ tCS0dg0IMDzl/EH2fKYSqUf/gOewi+o5KmBNzaa7MfqcqWht6q8GI3xD9GYemVOCBS6mmJTuSF8wp
+ PWzBOz3P0o1s2U3pEYwYMqlbrob3xzb0MD0zndcqZ4+3aWrBorD50RGouaf0fv20oDTgMxWvUpoMU
+ 2sXHLWkZGVSk79v0DlRL8om4AbtqKRlS5Om4EuhSURfLs+YKil2RSAe8S2cXFLA5uF5y1ZXO38jnC
+ TupA0NOA==;
+Received: from guinness.priv.deltatee.com ([172.16.1.162])
+ by ale.deltatee.com with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
+ (envelope-from <logang@deltatee.com>)
+ id 1n7Kzp-009ip7-HL; Tue, 11 Jan 2022 10:31:46 -0700
+To: John Hubbard <jhubbard@nvidia.com>, Matthew Wilcox <willy@infradead.org>, 
+ linux-kernel@vger.kernel.org
+References: <YdyKWeU0HTv8m7wD@casper.infradead.org>
+ <82989486-3780-f0aa-c13d-994e97d4ac89@nvidia.com>
+From: Logan Gunthorpe <logang@deltatee.com>
+Message-ID: <305b0b3b-e5d1-3dc2-a4a3-01c05dda6748@deltatee.com>
+Date: Tue, 11 Jan 2022 10:31:42 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <82989486-3780-f0aa-c13d-994e97d4ac89@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-CA
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 172.16.1.162
+X-SA-Exim-Rcpt-To: nvdimm@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org, linux-mm@kvack.org, netdev@vger.kernel.org,
+ linux-block@vger.kernel.org, ming.lei@redhat.com, joao.m.martins@oracle.com,
+ jgg@nvidia.com, hch@lst.de, linux-kernel@vger.kernel.org, willy@infradead.org,
+ jhubbard@nvidia.com
+X-SA-Exim-Mail-From: logang@deltatee.com
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on ale.deltatee.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-6.9 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+ NICE_REPLY_A autolearn=ham autolearn_force=no version=3.4.6
+Subject: Re: Phyr Starter
+X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 X-Mailman-Approved-At: Wed, 12 Jan 2022 08:51:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,44 +69,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jernej.skrabec@gmail.com, jonas@kwiboo.se, airlied@linux.ie,
- lzmlzm <lzmlzmhh@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Laurent.pinchart@ideasonboard.com
+Cc: nvdimm@lists.linux.dev, linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Ming Lei <ming.lei@redhat.com>,
+ linux-block@vger.kernel.org, linux-mm@kvack.org,
+ Jason Gunthorpe <jgg@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>,
+ Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Signed-off-by: lzmlzm <lzmlzmhh@gmail.com>
----
- drivers/gpu/drm/bridge/lontium-lt9611.c    | 2 +-
- drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
-index dafb1b47c15f..e0feb4fd9780 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9611.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
-@@ -1090,7 +1090,7 @@ static int lt9611_probe(struct i2c_client *client,
- 	if (!lt9611)
- 		return -ENOMEM;
- 
--	lt9611->dev = &client->dev;
-+	lt9611->dev = dev;
- 	lt9611->client = client;
- 	lt9611->sleep = false;
- 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-index 33f9716da0ee..e50e42312e82 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-@@ -860,7 +860,7 @@ static int lt9611uxc_probe(struct i2c_client *client,
- 	if (!lt9611uxc)
- 		return -ENOMEM;
- 
--	lt9611uxc->dev = &client->dev;
-+	lt9611uxc->dev = dev;
- 	lt9611uxc->client = client;
- 	mutex_init(&lt9611uxc->ocm_lock);
- 
--- 
-2.25.1
 
+On 2022-01-11 1:17 a.m., John Hubbard wrote:
+> On 1/10/22 11:34, Matthew Wilcox wrote:
+>> TLDR: I want to introduce a new data type:
+>>
+>> struct phyr {
+>>          phys_addr_t addr;
+>>          size_t len;
+>> };
+>>
+>> and use it to replace bio_vec as well as using it to replace the array
+>> of struct pages used by get_user_pages() and friends.
+>>
+>> ---
+> 
+> This would certainly solve quite a few problems at once. Very compelling.
+
+I agree.
+
+> Zooming in on the pinning aspect for a moment: last time I attempted to
+> convert O_DIRECT callers from gup to pup, I recall wanting very much to
+> record, in each bio_vec, whether these pages were acquired via FOLL_PIN,
+> or some non-FOLL_PIN method. Because at the end of the IO, it is not
+> easy to disentangle which pages require put_page() and which require
+> unpin_user_page*().
+> 
+> And changing the bio_vec for *that* purpose was not really acceptable.
+> 
+> But now that you're looking to change it in a big way (and with some
+> spare bits avaiable...oohh!), maybe I can go that direction after all.
+> 
+> Or, are you looking at a design in which any phyr is implicitly FOLL_PIN'd
+> if it exists at all?
+
+I'd also second being able to store a handful of flags in each phyr. My
+userspace P2PDMA patchset needs to add a flag to each sgl to indicate
+whether it was mapped as a bus address or not (which would be necessary
+for the DMA mapped side dma_map_phyr).
+
+Though, it's not immediately obvious where to put the flags without
+increasing the size of the structure :(
+
+Logan
