@@ -1,64 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7C3C48A9E4
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jan 2022 09:52:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC0E748AA1A
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jan 2022 10:05:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF3A0113DB2;
-	Tue, 11 Jan 2022 08:52:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7402F11A3B7;
+	Tue, 11 Jan 2022 09:05:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10430113DB2
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 08:52:27 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 98259212BC;
- Tue, 11 Jan 2022 08:52:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1641891145; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YdaLao7sQ3hp1ENT2rZBs8PXqqa7MrZLMaEIV3+L2Xg=;
- b=BDstn9Ow4SqDmeTH8JIYqALqmOJbrqtstIvb5BcMVNSs/2RXNdBHphZ5UeWEuf2PxEjxSw
- yI4C1kfimD9nSiitIzkvKBoDp+5XsIjRl/EUpIroQRCgUEp5aLROrIzS4JzgrXwtauPygS
- WjieWG9nI0JugOk27OovFfBdq30UPas=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1641891145;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YdaLao7sQ3hp1ENT2rZBs8PXqqa7MrZLMaEIV3+L2Xg=;
- b=sIkNVIWkxtPOYsf7ynPgvm0ueGFZomFUft1rVquFSLcjVkJfPM2dsJxScR2jJxc10OWY1b
- 03kmNKOxM1hlIbAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F066313AC9;
- Tue, 11 Jan 2022 08:52:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id tkCNOUhF3WGCIgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 11 Jan 2022 08:52:24 +0000
-Message-ID: <1a5bd538-063b-c2cf-bb3e-96a6fdb0da0f@suse.de>
-Date: Tue, 11 Jan 2022 09:52:24 +0100
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
+ [IPv6:2607:f8b0:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 407DB113F28
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 09:05:54 +0000 (UTC)
+Received: by mail-oi1-x22d.google.com with SMTP id r131so21880811oig.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 01:05:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JjYGG4Mqq7wY6CDKzIIHdAwcntS1fcaEqeO52o9kuCo=;
+ b=aj32NzB5DXtXPhsv65Yawh1K41rQQVKEISKPYIQz7P3mXLb0B34EfYh587Asp5+hwU
+ G+p5GOcSTno2KmORLfdSw7988hfVeE8U6Bp7xJn8Hjyqwo8juM+K1YycYf76R+L8otYO
+ wi4uULReXi5fhrFTlp6px6jAIXsQHy50uAH4c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JjYGG4Mqq7wY6CDKzIIHdAwcntS1fcaEqeO52o9kuCo=;
+ b=Psi/kao8UP02D9ojPbLZYYOG81+xFSytmW2MCJcSB1L3T/+BqvGCFWEPfCHcc2291t
+ jnV2tNuw+jHc5/4YFvKLJK9UJk1DhACBpA20l5bmoB7jgClq01zDp9XygR6IJUx0+guF
+ lHrB9gB1yTzBi4djNqlOZvRUeiVWVscHCDQH3dJJYWUQs1M+OGJfa4rpKBV3p0Rr6wF9
+ 9P8u4DtjFkH4fwkxuqMg/vRY1MU0Hg0HEC9k+pP9RUZFH67yK517y4GpQcGghwK+hIet
+ zcm3JtaILg7pYawkVqYKmo+AvUnt3+j+PXAOvj9QmaJBRxRDy2ty7dXunlPQxzqvE4K4
+ khog==
+X-Gm-Message-State: AOAM530HJkdQjSL1/769+KOOWx8otnRjbX25F8/5xqv5pMIDm6OY2ABl
+ oDGLVDXc06FVfHzoDmDXXkWqxMirP+d2dRj+oydEWQ==
+X-Google-Smtp-Source: ABdhPJxhDq3BvTLlSca+MsSLzCtT9n/Enjn62SMAefOQGarIUm6cKqdqaniOy/Xvm7lcKJaeiswM4kBpupKlPG9r368=
+X-Received: by 2002:aca:b103:: with SMTP id a3mr1089511oif.14.1641891952360;
+ Tue, 11 Jan 2022 01:05:52 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH v3 00/10] drm: Make drivers to honour the nomodeset
- parameter
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20211222082831.196562-1-javierm@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20211222082831.196562-1-javierm@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------S57LvTDmYkVbG2Rpo7NPhccF"
+References: <YdyKWeU0HTv8m7wD@casper.infradead.org>
+ <20220111004126.GJ2328285@nvidia.com>
+In-Reply-To: <20220111004126.GJ2328285@nvidia.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 11 Jan 2022 10:05:40 +0100
+Message-ID: <CAKMK7uFfpTKQEPpVQxNDi0NeO732PJMfiZ=N6u39bSCFY3d6VQ@mail.gmail.com>
+Subject: Re: Phyr Starter
+To: Jason Gunthorpe <jgg@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,150 +59,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Liviu Dudau <liviu.dudau@arm.com>, virtualization@lists.linux-foundation.org,
- Gerd Hoffmann <kraxel@redhat.com>, Mihail Atanassov <mihail.atanassov@arm.com>,
- Jonathan Corbet <corbet@lwn.net>, Xinliang Liu <xinliang.liu@linaro.org>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- "James \(Qian\) Wang" <james.qian.wang@arm.com>,
- NXP Linux Team <linux-imx@nxp.com>, Dave Airlie <airlied@redhat.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Chen Feng <puck.chen@hisilicon.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- linux-arm-kernel@lists.infradead.org, Tian Tao <tiantao6@hisilicon.com>,
- Shawn Guo <shawnguo@kernel.org>
+Cc: nvdimm@lists.linux.dev, linux-rdma@vger.kernel.org,
+ John Hubbard <jhubbard@nvidia.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Ming Lei <ming.lei@redhat.com>,
+ linux-block@vger.kernel.org, linux-mm@kvack.org,
+ Matthew Wilcox <willy@infradead.org>, netdev@vger.kernel.org,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------S57LvTDmYkVbG2Rpo7NPhccF
-Content-Type: multipart/mixed; boundary="------------iunzZnus0OOvar6uRVQ63mo9";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: Brian Starkey <brian.starkey@arm.com>, Chen Feng
- <puck.chen@hisilicon.com>, Daniel Vetter <daniel@ffwll.ch>,
- Dave Airlie <airlied@redhat.com>, David Airlie <airlied@linux.ie>,
- Fabio Estevam <festevam@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "James (Qian) Wang" <james.qian.wang@arm.com>,
- John Stultz <john.stultz@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Lucas Stach <l.stach@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Mihail Atanassov <mihail.atanassov@arm.com>,
- NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Philipp Zabel <p.zabel@pengutronix.de>, Sascha Hauer
- <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Tian Tao <tiantao6@hisilicon.com>, Xinliang Liu <xinliang.liu@linaro.org>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- virtualization@lists.linux-foundation.org
-Message-ID: <1a5bd538-063b-c2cf-bb3e-96a6fdb0da0f@suse.de>
-Subject: Re: [PATCH v3 00/10] drm: Make drivers to honour the nomodeset
- parameter
-References: <20211222082831.196562-1-javierm@redhat.com>
-In-Reply-To: <20211222082831.196562-1-javierm@redhat.com>
+Dropping some thoughts from the gpu driver perspective, feel free to
+tell me it's nonsense from the mm/block view :-)
 
---------------iunzZnus0OOvar6uRVQ63mo9
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Generally I think we really, really need something like this that's
+across all subsystems and consistent.
 
-SGkNCg0KcGF0Y2hlcyA2IHRvIDEwIGFyZQ0KDQpBY2tlZC1ieTogVGhvbWFzIFppbW1lcm1h
-bm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCkFt
-IDIyLjEyLjIxIHVtIDA5OjI4IHNjaHJpZWIgSmF2aWVyIE1hcnRpbmV6IENhbmlsbGFzOg0K
-PiBUaGUgbm9tb2Rlc2V0IGtlcm5lbCBjb21tYW5kIGxpbmUgcGFyYW1ldGVyIGlzIHVzZWQg
-dG8gcHJldmVudCB0aGUgS01TL0RSTQ0KPiBkcml2ZXJzIHRvIGJlIHJlZ2lzdGVyZWQvcHJv
-YmVkLiBCdXQgb25seSBhIGZldyBkcml2ZXJzIGltcGxlbWVudCBzdXBwb3J0DQo+IGZvciB0
-aGlzIGFuZCBtb3N0IERSTSBkcml2ZXJzIGp1c3QgaWdub3JlIGl0Lg0KPiANCj4gVGhpcyBw
-YXRjaCBzZXJpZXMgaXMgYSB2MyB0byBtYWtlIERSTSBkcml2ZXJzIHRvIGhvbm91ciBub21v
-ZGVzZXQuIEl0IGlzDQo+IHBvc3RlZCBhcyBzZXBhcmF0ZSBwYXRjaGVzIHRvIG1ha2UgZWFz
-aWVyIGZvciBkcml2ZXJzIG1haW50YWluZXJzIHRvIGFjaw0KPiBvciBwaWNrIHRoZW0gaW5k
-ZXBlbmRlbnRseSBhdCB0aGVpciBvd24gcGFjZS4NCj4gDQo+IFRoZSBkcm1fbW9kdWxlX3tw
-Y2kscGxhdGZvcm19X2RyaXZlcigpIGhlbHBlciBtYWNyb3MgYXJlIGFkZGVkLCB3aGljaCBh
-cmUNCj4ganVzdCB3cmFwcGVycyBhcm91bmQgbW9kdWxlX3twY2kscGxhdGZvcm19X2RyaXZl
-cigpIGJ1dCBhZGRpbmcgYSBjaGVjayBmb3INCj4gZHJtX2Zpcm13YXJlX2RyaXZlcnNfb25s
-eSgpIGFuZCByZXR1cm5pbmcgLUVOT0RFViBpZiB0aGF0IGlzIHRydWUuDQo+IA0KPiBQQ0kg
-YW5kIHBsYXRmb3JtIERSTSBkcml2ZXJzIGFyZSB0aGVuIG1vZGlmaWVkIGluIHRoZSBmb2xs
-b3dpbmcgcGF0Y2hlcyB0bw0KPiBtYWtlIHVzZSBvZiB0aG9zZSBtYWNyb3MuDQo+IA0KPiBP
-bmx5IEtNUyBkcml2ZXJzIHdpbGwgYmUgcG9ydGVkIHRvIHVzZSB0aGVzZSBuZXcgbWFjcm9z
-LCBhbmQgb25seSBmb3IgUENJDQo+IGFuZCBwbGF0Zm9ybSBEUk0gZHJpdmVycy4gQSBmb2xs
-b3ctdXAgc2VyaWVzIG1pZ2h0IGRvIHRoZSBzYW1lIGZvciBkcml2ZXJzDQo+IHRoYXQgYXJl
-IHJlbmRlcmluZy1vbmx5IGFuZCBmb3IgVVNCL1NQSS9JMkMgZGV2aWNlcywgYnV0IGl0IHdp
-bGwgbmVlZCBtb3JlDQo+IGRpc2N1c3Npb24gdG8gYWdyZWUgd2hldGhlciB0aGF0J3MgZGVz
-aXJhYmxlIG9yIG5vdC4NCj4gDQo+IE5vdCBhbGwgZHJpdmVycyB3ZXJlIHBvc3RlZCBpbiB2
-MyB0byBhdm9pZCBmbG9vZGluZyB0aGUgbGlzdCB3aXRoIHRvbyBtYW55DQo+IHBhdGNoZXMu
-IEknbSBvbmx5IGluY2x1ZGluZyB0aGUgcGF0Y2hlcyBhZGRpbmcgdGhlIG1hY3JvcyBhbmQg
-c29tZSBwYXRjaGVzDQo+IGFzIGFuIGV4YW1wbGUgb2YgdGhlaXIgdXNhZ2UuDQo+IA0KPiBJ
-J3ZlIGJ1aWx0IHRlc3RlZCB3aXRoICdtYWtlIGFsbG1vZGNvbmZpZyAmJiBtYWtlIE09ZHJp
-dmVycy9ncHUvZHJtJyBidXQgSQ0KPiBkb24ndCBoYXZlIGhhcmR3YXJlIHRvIHRlc3QgdGhl
-IGRyaXZlcnMsIHNvIHJldmlldy90ZXN0aW5nIGlzIGFwcHJlY2lhdGVkLg0KPiANCj4gQmVz
-dCByZWdhcmRzLA0KPiBKYXZpZXINCj4gDQo+IENoYW5nZXMgaW4gdjM6DQo+IC0gSW5jbHVk
-ZSBUaG9tYXMgWmltbWVybWFubidzIHBhdGNoZXMgaW4gdGhlIHNlcmllcyBhbmQgcmViYXNl
-IG9uIHRvcC4NCj4gLSBBZGQgY29sbGVjdGVkIEFja2VkLWJ5IHRhZ3MgZnJvbSB2Mi4NCj4g
-DQo+IENoYW5nZXMgaW4gdjI6DQo+IC0gQWRkIGRybV9tb2R1bGVfe3BjaSxwbGF0Zm9ybX1f
-ZHJpdmVyKCkgbWFjcm9zIGFuZCBwdXQgdGhlIGNoZWNrIHRoZXJlDQo+ICAgIChUaG9tYXMg
-WmltbWVybWFubikuDQo+IC0gVXNlIHRoZSBkcm1fbW9kdWxlXypfZHJpdmVyKCkgbWFjcm9z
-IGlmIHBvc3NpYmxlIChUaG9tYXMgWmltbWVybWFubikuDQo+IC0gTGVhdmUgdGhlIERSTSBk
-cml2ZXJzIHRoYXQgZG9uJ3Qgc2V0IHRoZSBEUklWRVJfTU9ERVNFVCBkcml2ZXIgZmVhdHVy
-ZQ0KPiAgICAoTHVjYXMgU3RhY2gpLg0KPiAtIExlYXZlIFVTQi9TUEkvSTJDIGRyaXZlcnMg
-YW5kIG9ubHkgaW5jbHVkZSBQQ0kgYW5kIHBsYXRmb3JtIG9uZXMNCj4gICAgKE5vcmFsZiBU
-csO4bm5lcykuDQo+IC0gQWRkIGNvbGxlY3RlZCBSZXZpZXdlZC1ieSB0YWdzDQo+IA0KPiBK
-YXZpZXIgTWFydGluZXogQ2FuaWxsYXMgKDUpOg0KPiAgICBkcm06IFByb3ZpZGUgcGxhdGZv
-cm0gbW9kdWxlLWluaXQgbWFjcm8NCj4gICAgZHJtL2lteC9kY3NzOiBSZXBsYWNlIG1vZHVs
-ZSBpbml0aWFsaXphdGlvbiB3aXRoIERSTSBoZWxwZXJzDQo+ICAgIGRybS9rb21lZGE6IFJl
-cGxhY2UgbW9kdWxlIGluaXRpYWxpemF0aW9uIHdpdGggRFJNIGhlbHBlcnMNCj4gICAgZHJt
-L2FybS9oZGxjZDogUmVwbGFjZSBtb2R1bGUgaW5pdGlhbGl6YXRpb24gd2l0aCBEUk0gaGVs
-cGVycw0KPiAgICBkcm0vbWFsaWRwOiBSZXBsYWNlIG1vZHVsZSBpbml0aWFsaXphdGlvbiB3
-aXRoIERSTSBoZWxwZXJzDQo+IA0KPiBUaG9tYXMgWmltbWVybWFubiAoNSk6DQo+ICAgIGRy
-bTogUHJvdmlkZSBQQ0kgbW9kdWxlLWluaXQgbWFjcm9zDQo+ICAgIGRybS9hc3Q6IFJlcGxh
-Y2UgbW9kdWxlLWluaXQgYm9pbGVyLXBsYXRlIGNvZGUgd2l0aCBEUk0gaGVscGVycw0KPiAg
-ICBkcm0vYm9jaHM6IFJlcGxhY2UgbW9kdWxlLWluaXQgYm9pbGVyLXBsYXRlIGNvZGUgd2l0
-aCBEUk0gaGVscGVycw0KPiAgICBkcm0vY2lycnVzOiBSZXBsYWNlIG1vZHVsZS1pbml0IGJv
-aWxlci1wbGF0ZSBjb2RlIHdpdGggRFJNIGhlbHBlcnMNCj4gICAgZHJtL2hpc2lsaWNvbi9o
-aWJtYzogUmVwbGFjZSBtb2R1bGUgaW5pdGlhbGl6YXRpb24gd2l0aCBEUk0gaGVscGVycw0K
-PiANCj4gICBEb2N1bWVudGF0aW9uL2dwdS9kcm0taW50ZXJuYWxzLnJzdCAgICAgICAgICAg
-fCAgIDYgKw0KPiAgIC4uLi9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfZHJ2
-LmMgICB8ICAgMyArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9hcm0vaGRsY2RfZHJ2LmMgICAg
-ICAgICAgICAgICB8ICAgMyArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX2Ry
-di5jICAgICAgICAgICAgICB8ICAgMyArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9hc3QvYXN0
-X2Rydi5jICAgICAgICAgICAgICAgICB8ICAxOCArLS0NCj4gICAuLi4vZ3B1L2RybS9oaXNp
-bGljb24vaGlibWMvaGlibWNfZHJtX2Rydi5jICAgfCAgIDMgKy0NCj4gICBkcml2ZXJzL2dw
-dS9kcm0vaW14L2Rjc3MvZGNzcy1kcnYuYyAgICAgICAgICAgfCAgIDMgKy0NCj4gICBkcml2
-ZXJzL2dwdS9kcm0vdGlueS9ib2Nocy5jICAgICAgICAgICAgICAgICAgfCAgMjAgKy0tDQo+
-ICAgZHJpdmVycy9ncHUvZHJtL3RpbnkvY2lycnVzLmMgICAgICAgICAgICAgICAgIHwgIDE3
-ICstLQ0KPiAgIGluY2x1ZGUvZHJtL2RybV9tb2R1bGUuaCAgICAgICAgICAgICAgICAgICAg
-ICB8IDEyNSArKysrKysrKysrKysrKysrKysNCj4gICAxMCBmaWxlcyBjaGFuZ2VkLCAxNDcg
-aW5zZXJ0aW9ucygrKSwgNTQgZGVsZXRpb25zKC0pDQo+ICAgY3JlYXRlIG1vZGUgMTAwNjQ0
-IGluY2x1ZGUvZHJtL2RybV9tb2R1bGUuaA0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFu
-bg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMg
-R2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkN
-CihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90
-ZXYNCg==
+On Tue, Jan 11, 2022 at 1:41 AM Jason Gunthorpe <jgg@nvidia.com> wrote:
+> On Mon, Jan 10, 2022 at 07:34:49PM +0000, Matthew Wilcox wrote:
+> > Finally, it may be possible to stop using scatterlist to describe the
+> > input to the DMA-mapping operation.  We may be able to get struct
+> > scatterlist down to just dma_address and dma_length, with chaining
+> > handled through an enclosing struct.
+>
+> Can you talk about this some more? IMHO one of the key properties of
+> the scatterlist is that it can hold huge amounts of pages without
+> having to do any kind of special allocation due to the chaining.
+>
+> The same will be true of the phyr idea right?
+>
+> > I would like to see phyr replace bio_vec everywhere it's currently used.
+> > I don't have time to do that work now because I'm busy with folios.
+> > If someone else wants to take that on, I shall cheer from the sidelines.
+> > What I do intend to do is:
+>
+> I wonder if we mixed things though..
+>
+> IMHO there is a lot of optimization to be had by having a
+> datastructure that is expressly 'the physical pages underlying a
+> contiguous chunk of va'
+>
+> If you limit to that scenario then we can be more optimal because
+> things like byte granular offsets and size in the interior pages don't
+> need to exist. Every interior chunk is always aligned to its order and
+> we only need to record the order.
 
---------------iunzZnus0OOvar6uRVQ63mo9--
+At least from the gfx side of things only allowing page sized chunks
+makes a lot of sense. sg chains kinda feel wrong because they allow
+byte chunks (but really that's just not allowed), so quite some
+mismatch.
 
---------------S57LvTDmYkVbG2Rpo7NPhccF
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+If we go with page size I think hardcoding a PHYS_PAGE_SIZE KB(4)
+would make sense, because thanks to x86 that's pretty much the lowest
+common denominator that all hw (I know of at least) supports. Not
+having to fiddle with "which page size do we have" in driver code
+would be neat. It makes writing portable gup code in drivers just
+needlessly silly.
 
------BEGIN PGP SIGNATURE-----
+> An overall starting offset and total length allow computing the slice
+> of the first/last entry.
+>
+> If the physical address is always aligned then we get 12 free bits
+> from the min 4k alignment and also only need to store order, not an
+> arbitary byte granular length.
+>
+> The win is I think we can meaningfully cover most common cases using
+> only 8 bytes per physical chunk. The 12 bits can be used to encode the
+> common orders (4k, 2M, 1G, etc) and some smart mechanism to get
+> another 16 bits to cover 'everything'.
+>
+> IMHO storage density here is quite important, we end up having to keep
+> this stuff around for a long time.
+>
+> I say this here, because I've always though bio_vec/etc are more
+> general than we actually need, being byte granular at every chunk.
+>
+> >  - Add an interface to gup.c to pin/unpin N phyrs
+> >  - Add a sg_map_phyrs()
+> >    This will take an array of phyrs and allocate an sg for them
+> >  - Whatever else I need to do to make one RDMA driver happy with
+> >    this scheme
+>
+> I spent alot of time already cleaning all the DMA code in RDMA - it is
+> now nicely uniform and ready to do this sort of change. I was
+> expecting to be a bio_vec, but this is fine too.
+>
+> What is needed is a full scatterlist replacement, including the IOMMU
+> part.
+>
+> For the IOMMU I would expect the datastructure to be re-used, we start
+> with a list of physical pages and then 'dma map' gives us a list of
+> IOVA physical pages, in another allocation, but exactly the same
+> datastructure.
+>
+> This 'dma map' could return a pointer to the first datastructure if
+> there is no iommu, allocate a single entry list if the whole thing can
+> be linearly mapped with the iommu, and other baroque cases (like pci
+> offset/etc) will need to allocate full array. ie good HW runs fast and
+> is memory efficient.
+>
+> It would be nice to see a patch sketching showing what this
+> datastructure could look like.
+>
+> VFIO would like this structure as well as it currently is a very
+> inefficient page at a time loop when it iommu maps things.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHdRUgFAwAAAAAACgkQlh/E3EQov+An
-yw/+PqLQFIu9LBnng6lhUGfNB5ZqConOgdctjJWhLNtpFI/AHcnly8Qnqqjoo2va2Z7LwDPhOTxZ
-avQYDTjyJGTTvMTuTq7PCx+mJdgHIv/xRFN46VX/bmHQBKPgUlz9zW99HZUrIJeliSE5AWmIto15
-tfP7yj/1/ABelQGCofNYJIqPqNkxLJ2GedY8SVY0hPQfpR+ZijWEgo65PxkhW82N3qyUJI74+00w
-q4UWcP3/jnTo7Ag9jXfjZZRutE5Pl69lcvKAgBZJx8ehXFU9Hpc9DpCoSXpIK/yoKrxECQ8x9e6H
-3DNR1ey/wHxRGCPNR+d/OI9ugH2ZtZuW3oXCx4WzEBp8oLSFHLIifreH1y/Fu181cghfnjn+FYHn
-PMYhCGZjpOefYEdVCN8FQzbzO4Cgidit5dQYLKkx/YExe8q+d36sA7GODaKCvyg/zEVqrnVf2WjQ
-wIxtelo4lyYZQdpX662RB+Fm5qpOBn9G7S4uIOwCBMw7RS3WDmCtFJ3zGe+qlwJzl2Rez1N8VuIU
-wbejrZO5lC6VPPOrozFyLHJL2hJJc4q5fODYLnmHpyF3gMNH0rEpR6//DY62y1wY+C2+2NU0P5Bt
-ghPKFt/AdTyKdfZXWrxxYeTP3CUUG2/D3hpG7LuVf1HbfrI6on4rL6kqv2fPu/6c0RmMU6HLuR2J
-I0I=
-=dCKg
------END PGP SIGNATURE-----
+I also think that it would be nice if we can have this as a consistent
+set of datastructures, both for dma_addr_t and phys_addr_t. Roughly my
+wishlist:
+- chained by default, because of the allocation headaches, so I'm with
+Jason here
+- comes compressed out of gup, I think we all agree on this, I don't
+really care how it's compressed as long as I don't get 512 entries for
+2M pages :-)
+- ideally the dma_ and the phys_ part are split since for dma-buf and
+some gpu driver internal use-case there's some where really only the
+dma addr is valid, and nothing else. But we can also continue the
+current hack of pretending the other side isn't there (atm we scramble
+those pointers to make sure dma-buf users don't cheat)
+- I think minimally an sg list form of dma-mapped stuff which does not
+have a struct page, iirc last time we discussed that we agreed that
+this really needs to be part of such a rework or it's not really
+improving things much
+- a few per-entry driver bits would be nice in both the phys/dma
+chains, if we can have them. gpus have funny gpu interconnects, this
+would allow us to put all the gpu addresses into dma_addr_t if we can
+have some bits indicating whether it's on the pci bus, gpu local
+memory or the gpu<->gpu interconnect.
 
---------------S57LvTDmYkVbG2Rpo7NPhccF--
+Cheers, Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
