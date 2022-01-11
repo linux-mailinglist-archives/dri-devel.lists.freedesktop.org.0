@@ -2,55 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3377148A5CF
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jan 2022 03:44:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 525B648A5E6
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jan 2022 03:53:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F82710F28B;
-	Tue, 11 Jan 2022 02:44:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA5D610EEEE;
+	Tue, 11 Jan 2022 02:53:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 385B710F28B
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 02:44:23 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id c71so49925267edf.6
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 18:44:23 -0800 (PST)
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1625E10EEEE
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 02:53:14 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id o6so61568826edc.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 18:53:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linux-foundation.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=e6DyqGEc7jzs2DrDJmcf97NoOyRv5WUpu09hjtDmwco=;
- b=hJDeHn78W2/WOsFsir7PnHTW5K5JqwfeQEbtREyhNP3YkXeJuuNPxsJMMuRVOKNERO
- 4IztEvTJ3tkQNP3fGimMcyk9S/2AQPl4EDMEx1um2swdGTRBh8PwZNj2XMMmdXxYBMHW
- UYc2haQhH/vma0IrvqX+M2q9fjcFBdSlgcbqQ=
+ :cc; bh=RFZY2ueA8dih/Ph6oPag2dxgotRBXhtzjSAvUudHnIY=;
+ b=P+MPAoIyBtw16udETh31u1xox98U7/zK5e4+H2Jkqdxs9duw1GWf2p3AnpbOpS/Tnh
+ sF6JmmyzaL2YD7cj+PCmFJzKzbGSPfSk3L9DnCwSWQAP5TJB7inJcR0alc7Yl/w8XxON
+ GZBxtAvK/V7/1ZnzI7GXFn0V8Lmp9TtPrspMg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=e6DyqGEc7jzs2DrDJmcf97NoOyRv5WUpu09hjtDmwco=;
- b=Wu5SwMjTk1YHhsgGlADozAgIW4rW9QZzwlQ8hKJbxnBCd5WSKBNWkT+caIVVhnv0N8
- rYV/hcnIoCwvl4ywfGnuaN1zs3qgEhSacNvm/nF+jC+cqhJtmu7jaVffToJo7zvu6Uwd
- ugho0wbRZDpZ/qs0xtmiYgQLMa4VORhMxt1Ygoy1Xe9JVlmI1ud2BE0N+Dt7lquXBUSV
- fjHzeYG26FK8iPg18lsp39I2egbYs2iqJOwxzfDy+HbIkeaykxcYaejvDqYH7BUyn8Mh
- cNh5mSzASMCB2b/fjWugGTL0Z198iMeoGYkWaqgC9NZSYFu7+vWr8rQl3EblEQAE35De
- sALA==
-X-Gm-Message-State: AOAM5300/RUDbMblqQIqV88Mo/zYzPONNMNS+qb2NRESNtaLCI6nSZvS
- JRl+4tjJAae8Z6ViCRCV4UswWG6/qcogvgN6KNg=
-X-Google-Smtp-Source: ABdhPJx3Yt0rQ8tCupFrrSz95bGlHMaK0kbUMplet/yOhc4Rc2gjCU5V2f7ZdkuD/kP3424LUbgj3Q==
-X-Received: by 2002:a17:906:6a20:: with SMTP id
- qw32mr1902376ejc.724.1641869061613; 
- Mon, 10 Jan 2022 18:44:21 -0800 (PST)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com.
- [209.85.128.41])
- by smtp.gmail.com with ESMTPSA id b26sm3031377ejb.201.2022.01.10.18.44.20
+ bh=RFZY2ueA8dih/Ph6oPag2dxgotRBXhtzjSAvUudHnIY=;
+ b=rLlSx1RX/uQyh4lIdiMi1mFmqc0frYUsAgB+AWChhB6pWWK0zAWM29hOe5yLZ/txbh
+ 4zAm1nWr2jVLKVGr36fuEN31xOUCFKWtUKhtn5y5oNoV4yfvZHg6tKUXmZBjmj6TOLo9
+ Ees9e4LdrTIOsnB8mcf1sCMSLHLhEYH+UavliGFRDnd3aocofKKJDBuBYgrymJQI5tBf
+ ipfHv5DMuIOXJwTiP8U2ps1jglEZawWZbdiAWmdDIUIAVHxrNBWFNURMIeNeY8ODq7Uw
+ e64ozGtMqK/hySmG0qVeQUB+f6wn9Erbe3b/mM9m2XXumNwK3me7YDpDa9HimZZNk3oL
+ e0kQ==
+X-Gm-Message-State: AOAM532cEf/TXl2rEJLd+s2PqDxbKT2eFoYIRTNzYPxraCtd3Za9nc/N
+ Bx7+/XqkIPbewhOw4mBeCeM/Xg7c3WUTW5BnLb4=
+X-Google-Smtp-Source: ABdhPJzlKQ3FKt1AffzTBfaXEsoqnc9jsTFzs23hwwQlDZH9uOKcw9LZxYKGL219Uu2nAKuF+ZemQQ==
+X-Received: by 2002:a17:906:d54e:: with SMTP id
+ cr14mr1945370ejc.527.1641869592505; 
+ Mon, 10 Jan 2022 18:53:12 -0800 (PST)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com.
+ [209.85.221.52])
+ by smtp.gmail.com with ESMTPSA id u14sm4330968edv.92.2022.01.10.18.53.11
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Jan 2022 18:44:21 -0800 (PST)
-Received: by mail-wm1-f41.google.com with SMTP id
- d18-20020a05600c251200b0034974323cfaso559842wma.4
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 18:44:20 -0800 (PST)
-X-Received: by 2002:a05:600c:4f13:: with SMTP id
- l19mr521503wmq.152.1641869060707; 
- Mon, 10 Jan 2022 18:44:20 -0800 (PST)
+ Mon, 10 Jan 2022 18:53:11 -0800 (PST)
+Received: by mail-wr1-f52.google.com with SMTP id l25so19480548wrb.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jan 2022 18:53:11 -0800 (PST)
+X-Received: by 2002:adf:e3c9:: with SMTP id k9mr1899247wrm.193.1641869591441; 
+ Mon, 10 Jan 2022 18:53:11 -0800 (PST)
 MIME-Version: 1.0
 References: <CAPM=9tz=_hRpQV1V3M-=KmVVEbr1K166qeb-ne64PHk9Sn-ozg@mail.gmail.com>
  <CAHk-=wg9hDde_L3bK9tAfdJ4N=TJJ+SjO3ZDONqH5=bVoy_Mzg@mail.gmail.com>
@@ -60,14 +58,19 @@ References: <CAPM=9tz=_hRpQV1V3M-=KmVVEbr1K166qeb-ne64PHk9Sn-ozg@mail.gmail.com>
  <CADnq5_OYO7kq+9DBnDvbSfpouFvdLB0LPSL6+f1ZPRBsV=qEqA@mail.gmail.com>
  <CAHk-=wiCCRG9Lwzr+Cur=K1V2GJ9ab_ket7EnG4RZhJ8jJM7xQ@mail.gmail.com>
  <CAHk-=wi8b-YKHeNfwyYHMcgR2vJh4xpSZ0qjkv8E8Y9V8Sv2Tg@mail.gmail.com>
-In-Reply-To: <CAHk-=wi8b-YKHeNfwyYHMcgR2vJh4xpSZ0qjkv8E8Y9V8Sv2Tg@mail.gmail.com>
+ <CAHk-=whnWnB9yjVaqWNKjavSJxDOEbTAPwef=O7qjL8nKZgV6A@mail.gmail.com>
+In-Reply-To: <CAHk-=whnWnB9yjVaqWNKjavSJxDOEbTAPwef=O7qjL8nKZgV6A@mail.gmail.com>
 From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 10 Jan 2022 18:44:04 -0800
-X-Gmail-Original-Message-ID: <CAHk-=whnWnB9yjVaqWNKjavSJxDOEbTAPwef=O7qjL8nKZgV6A@mail.gmail.com>
-Message-ID: <CAHk-=whnWnB9yjVaqWNKjavSJxDOEbTAPwef=O7qjL8nKZgV6A@mail.gmail.com>
+Date: Mon, 10 Jan 2022 18:52:55 -0800
+X-Gmail-Original-Message-ID: <CAHk-=whSAYiO_TkKut6XckdQigFj39ft1Kcs2qJe5niHWPGdwg@mail.gmail.com>
+Message-ID: <CAHk-=whSAYiO_TkKut6XckdQigFj39ft1Kcs2qJe5niHWPGdwg@mail.gmail.com>
 Subject: Re: [git pull] drm for 5.17-rc1 (pre-merge window pull)
-To: Alex Deucher <alexdeucher@gmail.com>
-Content-Type: multipart/mixed; boundary="00000000000021eae505d5456e24"
+To: Alex Deucher <alexdeucher@gmail.com>, Jun Lei <Jun.Lei@amd.com>, 
+ Mustapha Ghaddar <mustapha.ghaddar@amd.com>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>, 
+ meenakshikumar somasundaram <meenakshikumar.somasundaram@amd.com>, 
+ Daniel Wheeler <daniel.wheeler@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,71 +90,17 @@ Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000021eae505d5456e24
-Content-Type: text/plain; charset="UTF-8"
-
-On Mon, Jan 10, 2022 at 6:22 PM Linus Torvalds
+On Mon, Jan 10, 2022 at 6:44 PM Linus Torvalds
 <torvalds@linux-foundation.org> wrote:
 >
-> and I guess I'll do the few more bisections to pick out the exact one.
+> I'll double-check to see if a revert fixes it at the top of my tree.
 
-a896f870f8a5f23ec961d16baffd3fda1f8be57c is the first bad commit.
+Yup. It reverts cleanly, and the end result builds and works fine, and
+doesn't show the horrendous flickering.
 
-Attaching ther BISECT_LOG in case anybody cares.
+I have done that revert, and will continue the merge window work.
+Somebody else gets to figure out what the actual bug is, but that
+commit was horribly broken on my machine (Sapphire Pulse RX 580 8GB,
+fwiw).
 
-I'll double-check to see if a revert fixes it at the top of my tree.
-
-                Linus
-
---00000000000021eae505d5456e24
-Content-Type: application/octet-stream; name=BISECT_LOG
-Content-Disposition: attachment; filename=BISECT_LOG
-Content-Transfer-Encoding: base64
-Content-ID: <f_ky9i2ijq0>
-X-Attachment-Id: f_ky9i2ijq0
-
-Z2l0IGJpc2VjdCBzdGFydAojIGJhZDogWzhkMDc0OWI0ZjgzYmY0NzY4Y2VhZTQ1ZWU2YTc5ZTZl
-N2VkZGZjMmFdIE1lcmdlIHRhZyAnZHJtLW5leHQtMjAyMi0wMS0wNycgb2YgZ2l0Oi8vYW5vbmdp
-dC5mcmVlZGVza3RvcC5vcmcvZHJtL2RybQpnaXQgYmlzZWN0IGJhZCA4ZDA3NDliNGY4M2JmNDc2
-OGNlYWU0NWVlNmE3OWU2ZTdlZGRmYzJhCiMgZ29vZDogW2JmNGVlYmY4Y2ZhMmNkNTBlMjBiNzMy
-MWRmYjNlZmZkY2RjNmU5MDldIE1lcmdlIHRhZyAnbGludXgta3NlbGZ0ZXN0LWt1bml0LTUuMTct
-cmMxJyBvZiBnaXQ6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvc2h1
-YWgvbGludXgta3NlbGZ0ZXN0CmdpdCBiaXNlY3QgZ29vZCBiZjRlZWJmOGNmYTJjZDUwZTIwYjcz
-MjFkZmIzZWZmZGNkYzZlOTA5CiMgZ29vZDogWzE1YmI3OTkxMGZlNzM0YWQyMWM3NjVkMWNhZTc2
-MmU4NTU5NjljYWFdIE1lcmdlIHRhZyAnZHJtLW1pc2MtbmV4dC0yMDIxLTEyLTA5JyBvZiBnaXQ6
-Ly9hbm9uZ2l0LmZyZWVkZXNrdG9wLm9yZy9kcm0vZHJtLW1pc2MgaW50byBkcm0tbmV4dApnaXQg
-YmlzZWN0IGdvb2QgMTViYjc5OTEwZmU3MzRhZDIxYzc2NWQxY2FlNzYyZTg1NTk2OWNhYQojIGJh
-ZDogW2IwNjEwM2I1MzI1MzY0ZTBiOTk0NDAyNGRiNDFiNDAwYjkwMjhkZjldIE1lcmdlIHRhZyAn
-YW1kLWRybS1uZXh0LTUuMTctMjAyMS0xMi0xNicgb2YgaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0
-b3Aub3JnL2FnZDVmL2xpbnV4IGludG8gZHJtLW5leHQKZ2l0IGJpc2VjdCBiYWQgYjA2MTAzYjUz
-MjUzNjRlMGI5OTQ0MDI0ZGI0MWI0MDBiOTAyOGRmOQojIGdvb2Q6IFtlYWNlZjlmZDYxZGNmNWVh
-YzhiNzc1YmIxODE0MDQyZTc4YTVjNDJkXSBNZXJnZSB0YWcgJ2RybS1pbnRlbC1uZXh0LTIwMjEt
-MTItMTQnIG9mIHNzaDovL2dpdC5mcmVlZGVza3RvcC5vcmcvZ2l0L2RybS9kcm0taW50ZWwgaW50
-byBkcm0tbmV4dApnaXQgYmlzZWN0IGdvb2QgZWFjZWY5ZmQ2MWRjZjVlYWM4Yjc3NWJiMTgxNDA0
-MmU3OGE1YzQyZAojIGJhZDogWzJjYjY1NzdhMzAzNDI1MDkwZjNiNWY0YzQwMDk2ZDQ1YTkwNDg4
-NzVdIGRybS9hbWRncHU6IHJlYWQgYW5kIGF1dGhlbnRpY2F0ZSBpcCBkaXNjb3ZlcnkgYmluYXJ5
-CmdpdCBiaXNlY3QgYmFkIDJjYjY1NzdhMzAzNDI1MDkwZjNiNWY0YzQwMDk2ZDQ1YTkwNDg4NzUK
-IyBiYWQ6IFthYjUwY2I5ZGY4ODk2YjM5YWFlNjVjNTM3YTMwZGUyYzc5YzE5NzM1XSBkcm0vcmFk
-ZW9uL3JhZGVvbl9rbXM6IEZpeCBhIE5VTEwgcG9pbnRlciBkZXJlZmVyZW5jZSBpbiByYWRlb25f
-ZHJpdmVyX29wZW5fa21zKCkKZ2l0IGJpc2VjdCBiYWQgYWI1MGNiOWRmODg5NmIzOWFhZTY1YzUz
-N2EzMGRlMmM3OWMxOTczNQojIGJhZDogWzk2MDIwNDRkMWNjMTIyODBlMjBjODg4ODVmMmNkNjQw
-YWU4MGY2OWVdIGRybS9hbWQvZGlzcGxheTogRml4IGZvciB0aGUgbm8gQXVkaW8gYnVnIHdpdGgg
-VGlsZWQgRGlzcGxheXMKZ2l0IGJpc2VjdCBiYWQgOTYwMjA0NGQxY2MxMjI4MGUyMGM4ODg4NWYy
-Y2Q2NDBhZTgwZjY5ZQojIGdvb2Q6IFszODY3ZTM3MDRmMTM2YmVhZGY1ZTAwNGI2MTY5NmVmN2Y5
-OTBiZWU0XSBhbWRncHUvcG06IENyZWF0ZSBzaGFyZWQgYXJyYXkgb2YgcG93ZXIgcHJvZmlsZSBu
-YW1lIHN0cmluZ3MKZ2l0IGJpc2VjdCBnb29kIDM4NjdlMzcwNGYxMzZiZWFkZjVlMDA0YjYxNjk2
-ZWY3Zjk5MGJlZTQKIyBnb29kOiBbNTBiMWY0NGVjNTQ3NDZlNTMzMmY0YmM4N2M3MGMyMjMxOTJl
-ODIxZl0gZHJtL2FtZC9kaXNwbGF5OiBBZGQgRFAtSERNSSBGUkwgUENPTiBTU1QgU3VwcG9ydCBp
-biBETQpnaXQgYmlzZWN0IGdvb2QgNTBiMWY0NGVjNTQ3NDZlNTMzMmY0YmM4N2M3MGMyMjMxOTJl
-ODIxZgojIGdvb2Q6IFs2NDIxZjdjNzUwZTkyYzM1Y2ViMjM5Y2NiZDAzY2VlYWUyYzY1ZmY4XSBk
-cm0vYW1kL2Rpc3BsYXk6IEFsbG93IERTQyBvbiBzdXBwb3J0ZWQgTVNUIGJyYW5jaCBkZXZpY2Vz
-CmdpdCBiaXNlY3QgZ29vZCA2NDIxZjdjNzUwZTkyYzM1Y2ViMjM5Y2NiZDAzY2VlYWUyYzY1ZmY4
-CiMgZ29vZDogW2FiYTNjM2ZlZGU1NGU1NTU3Mzk1NGZhN2E3ZTI4ZWMzMDQ1NTdlNTBdIGRybS9h
-bWQvZGlzcGxheTogQ2xlYXIgRFBDRCBsYW5lIHNldHRpbmdzIGFmdGVyIHJlcGVhdGVyIHRyYWlu
-aW5nCmdpdCBiaXNlY3QgZ29vZCBhYmEzYzNmZWRlNTRlNTU1NzM5NTRmYTdhN2UyOGVjMzA0NTU3
-ZTUwCiMgYmFkOiBbYTg5NmY4NzBmOGE1ZjIzZWM5NjFkMTZiYWZmZDNmZGExZjhiZTU3Y10gZHJt
-L2FtZC9kaXNwbGF5OiBGaXggZm9yIG90ZyBzeW5jaHJvbml6YXRpb24gbG9naWMKZ2l0IGJpc2Vj
-dCBiYWQgYTg5NmY4NzBmOGE1ZjIzZWM5NjFkMTZiYWZmZDNmZGExZjhiZTU3YwojIGZpcnN0IGJh
-ZCBjb21taXQ6IFthODk2Zjg3MGY4YTVmMjNlYzk2MWQxNmJhZmZkM2ZkYTFmOGJlNTdjXSBkcm0v
-YW1kL2Rpc3BsYXk6IEZpeCBmb3Igb3RnIHN5bmNocm9uaXphdGlvbiBsb2dpYwo=
---00000000000021eae505d5456e24--
+                   Linus
