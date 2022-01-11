@@ -2,68 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0039C48B7AC
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jan 2022 20:55:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79AED48B7CD
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jan 2022 21:04:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEDE710EA8D;
-	Tue, 11 Jan 2022 19:55:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F3E110EE9C;
+	Tue, 11 Jan 2022 20:04:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com
- [IPv6:2607:f8b0:4864:20::72b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E32610EA8D
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 19:55:40 +0000 (UTC)
-Received: by mail-qk1-x72b.google.com with SMTP id b127so87110qkd.0
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 11:55:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :user-agent:mime-version:content-transfer-encoding;
- bh=4UkALJo42zyNVJNxiAZxEL17ovop2sEjH0povRmnj1A=;
- b=JlKqfCOeysMqlHnuqY++ZmDpdFM97icn5cmQu4EmLRpBUDXZOx+S08RK8aGzNsNcy5
- pnf3ELRLIWxhIi1zMOdGfgjLavGmc3wEmSCJQihL1Yi6clc1Zu5EpfN3Y/JnRyAbl+Ns
- sVoFNDKrWsd5gzlEr4lJn5eI5Yu5lwB3QEsB0VYD0/lRJtgyLY0pqeW8b1LeQK2t3YuR
- CFVPUSaNbHQTPp+f9w6RzFKsXnZFaaNqzTa2fJRh9qyC1HZeNACl5lvo4GzT88+pbXnq
- fi3Te4GcybtCQW+Fp7Uo9x5Xne9VLHIheYBq2qZkpmXtdr/T4pjOQK4enu5gipc7ZxLR
- fBPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=4UkALJo42zyNVJNxiAZxEL17ovop2sEjH0povRmnj1A=;
- b=pctjNui4QOPuwvcz3+im2qj0RDdataOqbp+5e7/4+hmD/cNLU9s4Y+S75Skmu9zjiv
- tmhNST/Y9vnBd4JfuKH2O8i1smulK8Jao1hrh913KMeE3BV40Yb+JRr0Z0k0+DamMQCc
- 9ZfhpduaV9Kz9rBxRuSB7XHepPJoYRZYIsQUNC8ptWcG1W/3i/Q5P8DKYiPuGHTGlJ7l
- KLkitzOkWC8hovQfqF/JAQUcQ3czLNZ7pe3oZthphnc5COKcZIzt34a3ivmNjjsdZXfH
- bMS1Zsh5vnPMJq1Rn3qqEVqnMMkE65DqAKl97fPhhGgwFiSDsOQ35W5mf19q1RJqSHky
- /awg==
-X-Gm-Message-State: AOAM5331lt4+vNXq1/wB4KjIXSznXMhdr3preuaHdRZAER4DX5KFSm0e
- szQC4MTsQYWsa6SJgYdx0JfZHg==
-X-Google-Smtp-Source: ABdhPJw8dTHlooGde6P0GPheEh0aByt4tzNuOPVs95bnwX/Ye4l3dIP0O99YINdvrXfK851DNqYdPw==
-X-Received: by 2002:a05:620a:2702:: with SMTP id
- b2mr4221539qkp.299.1641930939261; 
- Tue, 11 Jan 2022 11:55:39 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (mtl.collabora.ca. [66.171.169.34])
- by smtp.gmail.com with ESMTPSA id
- g5sm7610395qtb.97.2022.01.11.11.55.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Jan 2022 11:55:38 -0800 (PST)
-Message-ID: <91a41f3a17f94d25f84054daa1854603d113ecaf.camel@ndufresne.ca>
-Subject: Re: [PATCH v4, 00/15] media: mtk-vcodec: support for MT8192 decoder
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
- <acourbot@chromium.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tzung-Bi
- Shih <tzungbi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>,  Rob Herring <robh+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
-Date: Tue, 11 Jan 2022 14:55:35 -0500
-In-Reply-To: <20220110083442.32604-1-yunfei.dong@mediatek.com>
-References: <20220110083442.32604-1-yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.2 (3.42.2-1.fc35) 
-MIME-Version: 1.0
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam07on2066.outbound.protection.outlook.com [40.107.95.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A49310E29C;
+ Tue, 11 Jan 2022 20:04:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bOzrC7rgyWshAZ/j/lxK9FJl8xeRP3v0KlXH8ULCacW6ERi2ySjp2KfhkNwGPTUl7Tw+bHiY+rWEjHCUZNE1laNcsDJmFhVxaKN8jHqxmYutndDsbT1ef04mRQpu2N2MOWXv9y4f4adFuG76QN3Mxwr4HH4pzffG8tpG2dm+k60iFCOb7ERode7Cl12M0VQVsmZIeji9TEj3Wsq1aSUKbsaxGFp+qbkbzUSV8la7pIMosSTN3RG3ZKuS73ZIebV+Y84iY6RBIGmPU/tGj17gNYHA/Yi36i3EaoJqGbMuyHYax7YLWo04hM4j+LiCahRSuOfiuRz7FqbOWtg6R/Poeg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=d69ZR47isuqm3bSidvxyb7klILUUZcrKkh/ySSxAacc=;
+ b=UQmuNQfGvtDUp/ixzty5uYuM3XEtLTbMe/Vx9YURgSfw3oX60f34HdGHK8EtFArPIexhZcdgmfyHipKvYuajEVg67lG5QUU7beQ7FfFG4HlunLmOkyWYmG9nj7ZeMm2Q1Z6qewO8y1E7SBoOVx1fnpVGRa3r2u1feN44DSrxth1ORe7xHUQnVTkgYfmtSivZPt99F/f7MXoByRrgDnWLgzdpdysxQZLpwlbyGv/cFtHX4yGsgWlUZ2tcEjMcq3tDoGuFBdFq0qR7x6O7RXC+NlBdmbPyFlc8lFlMgrYXN64bzssuVO7gRT5IY6eb1vzo0g4sMSLTNrByalHbCaH8jQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=d69ZR47isuqm3bSidvxyb7klILUUZcrKkh/ySSxAacc=;
+ b=VfL91Tc93Ai1LrfYXcF37fVgrnmG6znY4073qGbTvO3a2O7a0xKprzVDZh3xAi1Sk4qX0oe56cw3JO5/mCI8IWIptISOzL+Qu5EYiGkDteqiIiE0JsOxTHbPiv9RXuY/kbZmtFHtP236jUQ+v0lmNXoLW3Rj2k/sgbmPkM3AhYE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB4342.namprd12.prod.outlook.com (2603:10b6:208:264::7)
+ by MN2PR12MB4391.namprd12.prod.outlook.com (2603:10b6:208:269::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4867.7; Tue, 11 Jan
+ 2022 20:04:25 +0000
+Received: from MN2PR12MB4342.namprd12.prod.outlook.com
+ ([fe80::c411:8d69:9007:aed6]) by MN2PR12MB4342.namprd12.prod.outlook.com
+ ([fe80::c411:8d69:9007:aed6%5]) with mapi id 15.20.4867.012; Tue, 11 Jan 2022
+ 20:04:25 +0000
+Message-ID: <08c59761-bfe8-aa15-ba85-ee4a77dccba8@amd.com>
+Date: Wed, 12 Jan 2022 01:42:41 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v7 1/6] drm: move the buddy allocator from i915 into
+ common drm
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+References: <20220109141951.134432-1-Arunpravin.PaneerSelvam@amd.com>
+ <7b7db015-3673-c5d3-baa1-e0282aaf864d@amd.com>
+From: Arunpravin <arunpravin.paneerselvam@amd.com>
+In-Reply-To: <7b7db015-3673-c5d3-baa1-e0282aaf864d@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BM1PR01CA0095.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00::11)
+ To MN2PR12MB4342.namprd12.prod.outlook.com
+ (2603:10b6:208:264::7)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8693ee43-4bfb-4036-c3fe-08d9d53d9091
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4391:EE_
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4391424033BC1B25A546779EE4519@MN2PR12MB4391.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: xtuTqCJg2Bm9ReQpURo+JqhwQxMgkQDTK0t0OPOlJjYOsa66pCNPXqcUjs6QErD2bnGpXNd4YJGx6O5q7SovoKFgdfK8kp+phP1fskcO0NAuUoup2uRwpLy3PrmVyENlVGAZU/wY+DW8yB/NKvBKb3YlmfGX4NqCuh9cugZe+eopcRQkwTMHRA55TR6r4tKHJSroXUuHfRmtvu+nJIKP2pZmcvIXWUJ/862oEcZSvvV5CpC794+Y62BIbIO80N86XRRE0In2KUMg0DPDkpEEc3LCGAVAFE+9Ij6Y5JU78FzxgKetyY4dSQ0tzUzcp4/ml9CZcx40M8WwYNcEovGn9P0lhJmwjNU9ZimyWBhdCBUuzrb2TirnKoV2REFJYPxTgpn1aljkQWpyEaWo4N14Ekl1Fbr2dU2oC4zTzCFjB+q5zoxE8NoiE/Lkb7BWsal3WwvYEHq9TBUjFKlYJLfKni4y6uC4w2LQxLfft5rzEGZ+4akTx+sokHgQgqyy2/OkIUl81JK8htHiDTYondRp0hcJK9WyKyfcAEBZ0xe3oflgwJavXnBnOFaMd7ygOVZ7BioRUhJss3GxshpZ50XkoFrqOWEGlsz2gKSoFlEsVN7uPoFiuD4xQjUbVW4AdsMx0uNJQakk10M8Noeaul11N2zJUsBNZqCUbOSbqEASVClrmYd5JFlGqw7Rmvrt/JoMX7sfuYR6ktQfP5hkSHijugB1SxFTGXOsLORgoKDmtX8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB4342.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(38100700002)(6666004)(66476007)(53546011)(66556008)(2906002)(66946007)(6486002)(6506007)(8936002)(316002)(186003)(31696002)(31686004)(4744005)(6512007)(508600001)(4326008)(2616005)(36756003)(86362001)(66574015)(8676002)(26005)(5660300002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V200VmFHWVdVTXA0enFIL2JyZWx0QTJyOUF5am9yY1dMT1F4MDd3NWNhc01t?=
+ =?utf-8?B?WlkvdVFtYWk5U1FjUmh2NnRwZDRacG1ObnhyS2luTzlNQlJHVWRzd3JFVzJI?=
+ =?utf-8?B?MHdlNXFyZGR2eGhiRFhzUlFud1oyUjRLRUROdktJUm0yYlJJRFJNN3kydDc4?=
+ =?utf-8?B?TE5pVk1nRFhnK3hzWHU1WTJlc0pyZGVydUlvSVdpWFoxMTdGWTN4NDA4NTl0?=
+ =?utf-8?B?Q0RmVm94YndvaFFhNEZHZWFvNzM0OWtQZUxES3V1LzVWNDY2OEtxMWN1aVhG?=
+ =?utf-8?B?Ymp3SmFYbUZMdEJJOU9RNldVVU4yYVc2WUMxN0EvTTlNN3BsK0RpWE5JcWhm?=
+ =?utf-8?B?bGgydmpiL1JudEN1M3JhbnBOS01GRmJPRkYyVnA1aEhGN0FablhMS1BsQ3lh?=
+ =?utf-8?B?b0FQVGhFdUY0SGppZTNCZXM5YUx5N2toR0E3L2F2RVdvdkVrK1NIMHpQL1lZ?=
+ =?utf-8?B?cXJPUFdSWTNlYTJrcWdEOW45S2dkTWQ1dThDR1g5M2RuaFIrdlFGZ2FJVnBw?=
+ =?utf-8?B?QWt2ZWk4TGJQM2hITlhDSmI3RnZXTzFIK2JVbVJxVkVmUmd2NEFKQ3drbHpG?=
+ =?utf-8?B?N2lvbGRHS0FWeHc4cmRxelg3SDA5MmpMNG4xaFFNSW1NaW5OdGNyR1o0cTBq?=
+ =?utf-8?B?TUpzdWZvdUIvbVdyUFlRbGVGcFRZN1BGOXBPL21CR2k4RWVnWUFpbXM0T2tQ?=
+ =?utf-8?B?TUk2VHlBNW9VejI0bU9qUHhkRGo4dzIzRnVUQ3BOWkNVRDJzSnVqTnZieHBN?=
+ =?utf-8?B?eTVqOWtvbndYVTJzbEpaREVQL280RHBJNlA5d004ZzJWKzlpODZIUnUrWk9Z?=
+ =?utf-8?B?VDdqUkVyUWczMDZwUGRuVFpmaHV3Y3gycVl5Q3NpOHBPN3hVVEtia0pjYzcz?=
+ =?utf-8?B?NkZINFhwdHJPY0FyNTFFVFhCamNwRUUzYWpqUS9FR1RQK0JpMVZLd1pDYk5D?=
+ =?utf-8?B?WThJY3dPbWtHcHVKcWp5Nm5MTHVNTEJvb2t6Y2RtSFFEYTdlRHhnUkF0N3dL?=
+ =?utf-8?B?UUhrdGlKWWZXblJpTzhha3MxTjRybEY3cUFEVXc0MDNjMVdJZWpuZFFZSER1?=
+ =?utf-8?B?bGVlKzk2R3NTVFdEVlRKNCs1TXplcnhmOGhlcC80aG5pMG9kS3BKMXd6WFJt?=
+ =?utf-8?B?Ymk5bm15Rmlwb3ZiNlhQV1lua0RjbnFMNjhSdE1ZQzloUUNvSzVlRlVnV0gw?=
+ =?utf-8?B?T2k2dnRGc1lXMEhCNzRzYkZlU0gwZUlEYm1EVTVuTzhJTWRxZFJDSnMxSndD?=
+ =?utf-8?B?c2o1MW8wamh4aHRHMzZEajNrQVNCclkrcDdnR2x2Mkt0M0JXUHpuNmdPT0dl?=
+ =?utf-8?B?Z2wvUzNVTXJUYTBQaWQ0Z3VaNytIZklMQ2RidjZDekNsN0tpMkdUWnZuQU1O?=
+ =?utf-8?B?YTZMWGh2UUQ3TCtPWVhPQTI5YnY0Rm5QaWdGT0drRXhzZmR0TGRzWkZOY1A5?=
+ =?utf-8?B?NGJGVzEvZENSdElkTTNKNXVQcXRwRFQ3RmFjanJMdU52ZzBLZWxkNjV5V20x?=
+ =?utf-8?B?NnN6bWdsdEFTcE5qT2NxUXRzNmtyTWUwZ3h2aHJjZkp0cms2TzYzeVdzUEtQ?=
+ =?utf-8?B?RGMzcnNUbFZPUWQ4R2pSVTRzV081ZmNMdEwvWDZiTUhzZ2tuditWT2RDSnZo?=
+ =?utf-8?B?RzQ0dXk4R3hURVNiWmNZOExnWlhBNS9ldGU2cWdLUjh6aWVJVU9IdjJsM2Uw?=
+ =?utf-8?B?V05ZbUZCUnZKZE1Rc0VkV2JISGQzd0VhQ1h6Uk9NazBXUWk4eUJ5QUZiaWhQ?=
+ =?utf-8?B?VjY4VUtXVzAyQndYUTNqc1A1MGpLcGltZTdPS1d2NnoxVE1hazB3Vmp1QmVU?=
+ =?utf-8?B?U09vaVRQMStvSis2Qkw4cHFGWEhUSUhZYThCYU9FQVJ3Ymd0OXk3WVZVVVIz?=
+ =?utf-8?B?cGRWY29KWnowL3dIL2Q2a2FGenpaVFlVN0IyMlE5Z0FYM3FvWDNlYllQQkQ4?=
+ =?utf-8?B?U2I5TGI4a0tycW41NE9QL0src2c1L1lqN1JNY0VCd2E5R3lVUjFXWGpXT0Yw?=
+ =?utf-8?B?STc2bEZnQUVKS09hTzA4OTh0SjVRcHhZSVN3N0JtSEcvNnRHOG1WRmdRV2tB?=
+ =?utf-8?B?dVpINmIwNmc2elladXk4ajJuRmdrOEtianoxUFdJeDlBOG10NVkxTVpxOWdh?=
+ =?utf-8?B?NWFMejh3aFpIU0xPUkc1WkppZUM2WjZBYmNMQTFvbUxlN1lFOTZDU2NNaUVi?=
+ =?utf-8?Q?7Z/jdPzhh1AlklzQ1rc3c2E=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8693ee43-4bfb-4036-c3fe-08d9d53d9091
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4342.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2022 20:04:25.0453 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: chPWcpd0lRr9hU2EOZK152wpOMNpiIZP5yj1O/uUqUNOTTWo46HrcOxtLQVy2CQDxUdS7H/z6z8vxe//g3z2Kg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4391
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,122 +131,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
- Dafna Hirschfeld <dafna.hirschfeld@collabora.com>, srv_heupstream@mediatek.com,
- devicetree@vger.kernel.org, Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Xiaoyong Lu <xiaoyong.lu@mediatek.com>, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: alexander.deucher@amd.com, tzimmermann@suse.de, matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Yunfei,
+yes, I will use Dual MIT/GPL
 
-Le lundi 10 janvier 2022 à 16:34 +0800, Yunfei Dong a écrit :
-> This series adds support for mt8192 h264/vp8/vp9 decoder drivers. Firstly, refactor
-> power/clock/interrupt interfaces for mt8192 is lat and core architecture.
-> 
-> Secondly, add new functions to get frame buffer size and resolution according
-> to decoder capability from scp side. Then add callback function to get/put
-> capture buffer in order to enable lat and core decoder in parallel. 
-> 
-> Then add to support MT21C compressed mode and fix v4l2-compliance fail.
+Regards,
+Arun
 
-Perhaps you wanted to append the referred v4l2-compliance output (fixed) ?
-
-As we started doing with other codec driver submission (just did last month for
-NXP), can you state which software this driver was tested with ? I have started
-receiving feedback from third party that MTK driver support is not reproducible,
-I would like to work with you to fix the situation.
-
-regards,
-Nicolas
-
+On 10/01/22 1:33 pm, Christian König wrote:
+> Am 09.01.22 um 15:19 schrieb Arunpravin:
+>> +// SPDX-License-Identifier: MIT
+> ....
+>> +MODULE_DESCRIPTION("DRM Buddy Allocator");
+>> +MODULE_LICENSE("GPL");
 > 
-> Next, extract H264 request api driver to let mt8183 and mt8192 use the same
-> code, and adds mt8192 frame based h264 driver for stateless decoder.
+> I'm not an expert on this, but maybe we should use "Dual MIT/GPL" here?
 > 
-> Lastly, add vp8 and vp9 stateless decoder drivers.
+> The code is certainly MIT licensed.
 > 
-> Patches 1 to refactor power/clock/interrupt interface.
-> Patches 2~4 get frame buffer size and resolution according to decoder capability.
-> Patches 5~6 enable lat and core decode in parallel.
-> Patch 7~10 add to support MT21C compressed mode and fix v4l2-compliance fail.
-> patch 11 record capture queue format type.
-> Patch 12~13 extract h264 driver and add mt8192 frame based driver for h264 decoder.
-> Patch 14~15 add vp8 and vp9 stateless decoder drivers.
-> ----
-> Dependents on "Support multi hardware decode using of_platform_populate"[1].
+> Regards,
+> Christian.
 > 
-> This patches are the second part used to add mt8192 h264 decoder. And the base part is [1].
-> 
-> [1]https://patchwork.linuxtv.org/project/linux-media/cover/20211215061552.8523-1-yunfei.dong@mediatek.com/
-> ---
-> changes compared with v3:
-> - remove enum mtk_chip for patch 2.
-> - add vp8 stateless decoder drivers for patch 14.
-> - add vp9 stateless decoder drivers for patch 15.
-> changes compared with v2:
-> - add new patch 11 to record capture queue format type.
-> - separate patch 4 according to tzung-bi's suggestion.
-> - re-write commit message for patch 5 according to tzung-bi's suggestion.
-> changes compared with v1:
-> - rewrite commit message for patch 12.
-> - rewrite cover-letter message.
-> ---
-> Yunfei Dong (15):
->   media: mtk-vcodec: Add vdec enable/disable hardware helpers
->   media: mtk-vcodec: Using firmware type to separate different firmware
->     architecture
->   media: mtk-vcodec: get capture queue buffer size from scp
->   media: mtk-vcodec: Read max resolution from dec_capability
->   media: mtk-vcodec: Call v4l2_m2m_set_dst_buffered() set capture buffer
->     buffered
->   media: mtk-vcodec: Refactor get and put capture buffer flow
->   media: mtk-vcodec: Refactor supported vdec formats and framesizes
->   media: mtk-vcodec: Add format to support MT21C
->   media: mtk-vcodec: disable vp8 4K capability
->   media: mtk-vcodec: Fix v4l2-compliance fail
->   media: mtk-vcodec: record capture queue format type
->   media: mtk-vcodec: Extract H264 common code
->   media: mtk-vcodec: Add h264 decoder driver for mt8192
->   media: mtk-vcodec: Add vp8 decoder driver for mt8192
->   media: mtk-vcodec: Add vp9 decoder driver for mt8192
-> 
->  drivers/media/platform/mtk-vcodec/Makefile    |    4 +
->  .../platform/mtk-vcodec/mtk_vcodec_dec.c      |   49 +-
->  .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |    5 -
->  .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   |  168 +-
->  .../platform/mtk-vcodec/mtk_vcodec_dec_pm.h   |    6 +-
->  .../mtk-vcodec/mtk_vcodec_dec_stateful.c      |   14 +-
->  .../mtk-vcodec/mtk_vcodec_dec_stateless.c     |  284 ++-
->  .../platform/mtk-vcodec/mtk_vcodec_drv.h      |   40 +-
->  .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |    5 -
->  .../media/platform/mtk-vcodec/mtk_vcodec_fw.c |    6 +
->  .../media/platform/mtk-vcodec/mtk_vcodec_fw.h |    1 +
->  .../mtk-vcodec/vdec/vdec_h264_req_common.c    |  311 +++
->  .../mtk-vcodec/vdec/vdec_h264_req_common.h    |  254 ++
->  .../mtk-vcodec/vdec/vdec_h264_req_if.c        |  416 +---
->  .../mtk-vcodec/vdec/vdec_h264_req_multi_if.c  |  605 +++++
->  .../mtk-vcodec/vdec/vdec_vp8_req_if.c         |  445 ++++
->  .../mtk-vcodec/vdec/vdec_vp9_req_lat_if.c     | 2066 +++++++++++++++++
->  .../media/platform/mtk-vcodec/vdec_drv_if.c   |   36 +-
->  .../media/platform/mtk-vcodec/vdec_drv_if.h   |    3 +
->  .../media/platform/mtk-vcodec/vdec_ipi_msg.h  |   37 +
->  .../platform/mtk-vcodec/vdec_msg_queue.c      |    2 +
->  .../media/platform/mtk-vcodec/vdec_vpu_if.c   |   54 +-
->  .../media/platform/mtk-vcodec/vdec_vpu_if.h   |   15 +
->  .../media/platform/mtk-vcodec/venc_vpu_if.c   |    2 +-
->  include/linux/remoteproc/mtk_scp.h            |    2 +
->  25 files changed, 4248 insertions(+), 582 deletions(-)
->  create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_common.c
->  create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_common.h
->  create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_multi_if.c
->  create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_vp8_req_if.c
->  create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_req_lat_if.c
-> 
-
