@@ -2,60 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C0B148C04F
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 09:52:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F0A848C054
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 09:52:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A6E1112E50;
-	Wed, 12 Jan 2022 08:51:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C7F6112E76;
+	Wed, 12 Jan 2022 08:51:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2702 seconds by postgrey-1.36 at gabe;
- Tue, 11 Jan 2022 18:16:50 UTC
-Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5157210E27C
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 18:16:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
- Message-ID:From:References:Cc:To:content-disposition;
- bh=oBrXEHfI6xABrUDZXcl3Ilv2Mnj53ZcLvhEcAszQLhw=; b=YeL6mnl38ypaS0PyULw3luqlUK
- XeOI6Vhp947TOTlkyofoaX8wJ8Yg8h3TI1VDxJKcJ9GY5xcvig0mIQbG1QAzJj7OFJGoGht0Yb0/K
- tCS0dg0IMDzl/EH2fKYSqUf/gOewi+o5KmBNzaa7MfqcqWht6q8GI3xD9GYemVOCBS6mmJTuSF8wp
- PWzBOz3P0o1s2U3pEYwYMqlbrob3xzb0MD0zndcqZ4+3aWrBorD50RGouaf0fv20oDTgMxWvUpoMU
- 2sXHLWkZGVSk79v0DlRL8om4AbtqKRlS5Om4EuhSURfLs+YKil2RSAe8S2cXFLA5uF5y1ZXO38jnC
- TupA0NOA==;
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
- by ale.deltatee.com with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
- (envelope-from <logang@deltatee.com>)
- id 1n7Kzp-009ip7-HL; Tue, 11 Jan 2022 10:31:46 -0700
-To: John Hubbard <jhubbard@nvidia.com>, Matthew Wilcox <willy@infradead.org>, 
- linux-kernel@vger.kernel.org
-References: <YdyKWeU0HTv8m7wD@casper.infradead.org>
- <82989486-3780-f0aa-c13d-994e97d4ac89@nvidia.com>
-From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <305b0b3b-e5d1-3dc2-a4a3-01c05dda6748@deltatee.com>
-Date: Tue, 11 Jan 2022 10:31:42 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD1AE10E665
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 20:21:55 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id i5so880357edf.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 12:21:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=lsrLOdE3LZY2+OOW6z5ATVeRUSDD068n/z8GXL3VAMY=;
+ b=hOB6EBx/RogGTVlYbJbukC63bc4pURffk/6oaFNeA07888mgKecxV0/cmC5k+F+fTK
+ m3XxXwWyrta3QhWyLujz33tgHn4q2A0NBcjXwY04sslp+qZ8VhcCyS+RDoG9ZAeu47BN
+ 07UZnwdfSjIS8zZMxkozRmWynrPBj5PpBt6KC4TDriGmNqjyT/pa3D5T8Jlx31J7Kxfv
+ lARr0hWC48bq7iQCbyRm5GTTUeAHDFOO1TWoSSRNp3QozCa4lh7+rEk6VLfLhRPDLvMX
+ nBg1LLOMTzVvd3/mD2dPQlteihaC847gDT79k4q9vD/NBUUNF13B6dSs3sUvtUi4QbkL
+ Syig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=lsrLOdE3LZY2+OOW6z5ATVeRUSDD068n/z8GXL3VAMY=;
+ b=mJos6sNNmYIsG5jwGySZSM7vbtrf8qfKyVv7csMvUai9im2CSZ0UG3j5MgcXvlJWd8
+ E415q4Gq5wZ9ue3amjovHDhK5jbMosblATgG5Ftumo7EYfW2fxKRi+MpurqWccD2KeCB
+ AkELaxQ+ykXN+MCL8UHeFzh24BEjbcuW5WjbI4zUe3gbWmxfW6LdzffaauRSeL8bi4zH
+ 1cS0nAXLsydNdYucTtsuAELPjKFei7tpYhV9EH3a0v4dfaE5wVF64d7AGdlHCW12xhfW
+ L93JxtWX2M0TLOm9GglBfg3xxc4BQzpdAlSpbodX7FuzhYhWBPJcAFMcmssuvViArgkf
+ XPkw==
+X-Gm-Message-State: AOAM532MIhyiUuk8UxMyF8alag0bexvcOi2wiettXeGl6rFtZsLp2fiC
+ bdgr2QBM5a8mCQwz4FSYVbY=
+X-Google-Smtp-Source: ABdhPJy/FS8hlH8e7ZTMMm8YMOuUzruUQisMr3rfsr4yDfEeldYoJZp/qITjYz7tzItdbm+gJ+YwdQ==
+X-Received: by 2002:a05:6402:2684:: with SMTP id
+ w4mr5802716edd.139.1641932514504; 
+ Tue, 11 Jan 2022 12:21:54 -0800 (PST)
+Received: from tom-desktop (net-93-71-218-227.cust.vodafonedsl.it.
+ [93.71.218.227])
+ by smtp.gmail.com with ESMTPSA id qp24sm3853270ejb.84.2022.01.11.12.21.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Jan 2022 12:21:53 -0800 (PST)
+Date: Tue, 11 Jan 2022 21:21:51 +0100
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: Fabio Estevam <festevam@gmail.com>
+Subject: Re: [PATCH 1/2] drm/i2c/tda998x: Switch to atomic operations
+Message-ID: <20220111202151.GB4503@tom-desktop>
+References: <20211231013930.139754-1-festevam@gmail.com>
+ <YdLifIoB8eClztlG@pendragon.ideasonboard.com>
+ <CAOMZO5DVzvPXs2-0Vzsunh=OZ0qhyMhSKyPTKQ+mGXfF8G8Rtw@mail.gmail.com>
+ <20220108191658.GC2633@tom-desktop>
+ <CAOMZO5Db9WuFTckQ=ngT32Q5EgOFf9_T+duuT1nzemWRTSwoQA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <82989486-3780-f0aa-c13d-994e97d4ac89@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-CA
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: nvdimm@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-rdma@vger.kernel.org, linux-mm@kvack.org, netdev@vger.kernel.org,
- linux-block@vger.kernel.org, ming.lei@redhat.com, joao.m.martins@oracle.com,
- jgg@nvidia.com, hch@lst.de, linux-kernel@vger.kernel.org, willy@infradead.org,
- jhubbard@nvidia.com
-X-SA-Exim-Mail-From: logang@deltatee.com
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on ale.deltatee.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=5.0 tests=ALL_TRUSTED,BAYES_00,
- NICE_REPLY_A autolearn=ham autolearn_force=no version=3.4.6
-Subject: Re: Phyr Starter
-X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOMZO5Db9WuFTckQ=ngT32Q5EgOFf9_T+duuT1nzemWRTSwoQA@mail.gmail.com>
 X-Mailman-Approved-At: Wed, 12 Jan 2022 08:51:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,55 +74,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nvdimm@lists.linux.dev, linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Ming Lei <ming.lei@redhat.com>,
- linux-block@vger.kernel.org, linux-mm@kvack.org,
- Jason Gunthorpe <jgg@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>,
- Christoph Hellwig <hch@lst.de>
+Cc: Marek Vasut <marex@denx.de>, Peter Robinson <pbrobinson@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Russell King - ARM Linux <linux@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 2022-01-11 1:17 a.m., John Hubbard wrote:
-> On 1/10/22 11:34, Matthew Wilcox wrote:
->> TLDR: I want to introduce a new data type:
->>
->> struct phyr {
->>          phys_addr_t addr;
->>          size_t len;
->> };
->>
->> and use it to replace bio_vec as well as using it to replace the array
->> of struct pages used by get_user_pages() and friends.
->>
->> ---
+On Sun, Jan 09, 2022 at 03:44:07PM -0300, Fabio Estevam wrote:
+> Hi Tommaso,
 > 
-> This would certainly solve quite a few problems at once. Very compelling.
-
-I agree.
-
-> Zooming in on the pinning aspect for a moment: last time I attempted to
-> convert O_DIRECT callers from gup to pup, I recall wanting very much to
-> record, in each bio_vec, whether these pages were acquired via FOLL_PIN,
-> or some non-FOLL_PIN method. Because at the end of the IO, it is not
-> easy to disentangle which pages require put_page() and which require
-> unpin_user_page*().
+> On Sat, Jan 8, 2022 at 4:17 PM Tommaso Merciai <tomm.merciai@gmail.com> wrote:
 > 
-> And changing the bio_vec for *that* purpose was not really acceptable.
+> > Hi Fabio,
+> > If you need some test let me know. Whitch filesystem are you using?
 > 
-> But now that you're looking to change it in a big way (and with some
-> spare bits avaiable...oohh!), maybe I can go that direction after all.
+> I am using a rootfs generated by Buildroot.
 > 
-> Or, are you looking at a design in which any phyr is implicitly FOLL_PIN'd
-> if it exists at all?
+> The issue I see seems to be hotplug-related.
+> 
+> cat /sys/class/drm/card1-HDMI-A-1/status
+> 
+> not always match with the real state of the HDMI cable.
+> 
+> > In the next days I will investigate on this issue.
+> > Let me know.
+> 
+> Thanks
 
-I'd also second being able to store a handful of flags in each phyr. My
-userspace P2PDMA patchset needs to add a flag to each sgl to indicate
-whether it was mapped as a bus address or not (which would be necessary
-for the DMA mapped side dma_map_phyr).
+Hi Fabio,
+Got it, I'll try to reproduce the issue on my side and let you know.
 
-Though, it's not immediately obvious where to put the flags without
-increasing the size of the structure :(
-
-Logan
+Thanks,
+Tommaso
