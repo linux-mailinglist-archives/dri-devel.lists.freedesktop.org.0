@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5E3C48AD3A
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jan 2022 13:01:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D130748AD38
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jan 2022 13:01:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C883710E75F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF4B910E829;
 	Tue, 11 Jan 2022 12:01:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84B6810E473
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAF8110E5E3
  for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 12:01:03 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 217E41F3BA;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 66B26212CC;
  Tue, 11 Jan 2022 12:01:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1641902462; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AhaMZsKiggxfoXgJGgW+8HI9G7JeFoN40oggtuF6bX0=;
- b=cpNnyjU3+XsNzaqL6GpwdjREvcqMgl6QC0Oo5BeMLbNloMco4uAQCqHuulgiLpWgv8Xgju
- aj91Vi8zyFoXNP+U5bKQ80Aj5Vju/2aHY6lzHKQKrraSULpWlr+renf+vvyih53EeV4BXy
- ySYHS5rzv7FjD1JHhXxKzbLyzqz9zF8=
+ bh=9PaZpsGem5khHSOhMY21SegALMWeN591rC1L6k+pje4=;
+ b=soS3U8G8UgOyfocCv7iOzjQvrCuvl1Vc2hhG6gHFqCArNYXWYAhg6a3NtIIeueKCs9CXPp
+ Mt9iGiarU+BcRTwOLxsH4qITQ9CUK92OgycTI/M0N4U6dUT0Je3LADvU7UC0ilLG8/hvGS
+ TEjsD6OUiE2oLKbJ0G1qx7lZIckKRoA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1641902462;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AhaMZsKiggxfoXgJGgW+8HI9G7JeFoN40oggtuF6bX0=;
- b=0nqj2XioEB2xRSRAwVr4g2uAVpzBkc7uxzygjcGDI5yPDblqSlbd4vZqSYC5vzEqIU7lD5
- 4Pu+pEa3hpT8G9Bg==
+ bh=9PaZpsGem5khHSOhMY21SegALMWeN591rC1L6k+pje4=;
+ b=V478nbmUf5Iul7ke12O5lz6X5mVN0hmSKTY3K/VXANdjhb9nBPRBsn525veWomCTCD52Gm
+ 4bLbPXo1VAYfgKDQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D2E4513DD4;
- Tue, 11 Jan 2022 12:01:01 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 25ECC14001;
+ Tue, 11 Jan 2022 12:01:02 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id ECqJMn1x3WEeFQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 11 Jan 2022 12:01:01 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id MNpRCH5x3WEeFQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 11 Jan 2022 12:01:02 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, airlied@linux.ie, daniel@ffwll.ch, sam@ravnborg.org,
  kuohsiang_chou@aspeedtech.com
-Subject: [PATCH 3/8] drm/ast: Remove AST_TX_ITE66121 constant
-Date: Tue, 11 Jan 2022 13:00:53 +0100
-Message-Id: <20220111120058.10510-4-tzimmermann@suse.de>
+Subject: [PATCH 4/8] drm/ast: Remove unused value dp501_maxclk
+Date: Tue, 11 Jan 2022 13:00:54 +0100
+Message-Id: <20220111120058.10510-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220111120058.10510-1-tzimmermann@suse.de>
 References: <20220111120058.10510-1-tzimmermann@suse.de>
@@ -74,27 +74,121 @@ Cc: jenmin_yuan@aspeedtech.com, Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ITE66121 is an HDMI transmitter chip. There's no code for
-detecting or programming the chip within ast. Remove the enum
-constant.
+Remove reading the link-rate. The value is maintained by the connector
+code but never used.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/ast/ast_drv.h | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/ast/ast_dp501.c | 58 ---------------------------------
+ drivers/gpu/drm/ast/ast_drv.h   |  1 -
+ drivers/gpu/drm/ast/ast_mode.c  |  7 ++--
+ 3 files changed, 3 insertions(+), 63 deletions(-)
 
+diff --git a/drivers/gpu/drm/ast/ast_dp501.c b/drivers/gpu/drm/ast/ast_dp501.c
+index cd93c44f2662..204c926a18ea 100644
+--- a/drivers/gpu/drm/ast/ast_dp501.c
++++ b/drivers/gpu/drm/ast/ast_dp501.c
+@@ -272,64 +272,6 @@ static bool ast_launch_m68k(struct drm_device *dev)
+ 	return true;
+ }
+ 
+-u8 ast_get_dp501_max_clk(struct drm_device *dev)
+-{
+-	struct ast_private *ast = to_ast_private(dev);
+-	u32 boot_address, offset, data;
+-	u8 linkcap[4], linkrate, linklanes, maxclk = 0xff;
+-	u32 *plinkcap;
+-
+-	if (ast->config_mode == ast_use_p2a) {
+-		boot_address = get_fw_base(ast);
+-
+-		/* validate FW version */
+-		offset = AST_DP501_GBL_VERSION;
+-		data = ast_mindwm(ast, boot_address + offset);
+-		if ((data & AST_DP501_FW_VERSION_MASK) != AST_DP501_FW_VERSION_1) /* version: 1x */
+-			return maxclk;
+-
+-		/* Read Link Capability */
+-		offset  = AST_DP501_LINKRATE;
+-		plinkcap = (u32 *)linkcap;
+-		*plinkcap  = ast_mindwm(ast, boot_address + offset);
+-		if (linkcap[2] == 0) {
+-			linkrate = linkcap[0];
+-			linklanes = linkcap[1];
+-			data = (linkrate == 0x0a) ? (90 * linklanes) : (54 * linklanes);
+-			if (data > 0xff)
+-				data = 0xff;
+-			maxclk = (u8)data;
+-		}
+-	} else {
+-		if (!ast->dp501_fw_buf)
+-			return AST_DP501_DEFAULT_DCLK;	/* 1024x768 as default */
+-
+-		/* dummy read */
+-		offset = 0x0000;
+-		data = readl(ast->dp501_fw_buf + offset);
+-
+-		/* validate FW version */
+-		offset = AST_DP501_GBL_VERSION;
+-		data = readl(ast->dp501_fw_buf + offset);
+-		if ((data & AST_DP501_FW_VERSION_MASK) != AST_DP501_FW_VERSION_1) /* version: 1x */
+-			return maxclk;
+-
+-		/* Read Link Capability */
+-		offset = AST_DP501_LINKRATE;
+-		plinkcap = (u32 *)linkcap;
+-		*plinkcap = readl(ast->dp501_fw_buf + offset);
+-		if (linkcap[2] == 0) {
+-			linkrate = linkcap[0];
+-			linklanes = linkcap[1];
+-			data = (linkrate == 0x0a) ? (90 * linklanes) : (54 * linklanes);
+-			if (data > 0xff)
+-				data = 0xff;
+-			maxclk = (u8)data;
+-		}
+-	}
+-	return maxclk;
+-}
+-
+ bool ast_dp501_read_edid(struct drm_device *dev, u8 *ediddata)
+ {
+ 	struct ast_private *ast = to_ast_private(dev);
 diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index 00bfa41ff7cb..6e77be1d06d3 100644
+index 6e77be1d06d3..479bb120dd05 100644
 --- a/drivers/gpu/drm/ast/ast_drv.h
 +++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -69,7 +69,6 @@ enum ast_chip {
- enum ast_tx_chip {
- 	AST_TX_NONE,
- 	AST_TX_SIL164,
--	AST_TX_ITE66121,
- 	AST_TX_DP501,
- };
+@@ -171,7 +171,6 @@ struct ast_private {
+ 	} config_mode;
  
+ 	enum ast_tx_chip tx_chip_type;
+-	u8 dp501_maxclk;
+ 	u8 *dp501_fw_addr;
+ 	const struct firmware *dp501_fw;	/* dp501 fw */
+ };
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index c555960a488a..0a8aa6e3aa38 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -1281,16 +1281,15 @@ static int ast_get_modes(struct drm_connector *connector)
+ 	int ret;
+ 
+ 	if (ast->tx_chip_type == AST_TX_DP501) {
+-		ast->dp501_maxclk = 0xff;
+ 		edid = kmalloc(128, GFP_KERNEL);
+ 		if (!edid)
+ 			return -ENOMEM;
+ 
+ 		flags = ast_dp501_read_edid(connector->dev, (u8 *)edid);
+-		if (flags)
+-			ast->dp501_maxclk = ast_get_dp501_max_clk(connector->dev);
+-		else
++		if (!flags) {
+ 			kfree(edid);
++			edid = NULL;
++		}
+ 	}
+ 	if (!flags && ast_connector->i2c)
+ 		edid = drm_get_edid(connector, &ast_connector->i2c->adapter);
 -- 
 2.34.1
 
