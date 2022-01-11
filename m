@@ -2,108 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FC4F48A7B8
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jan 2022 07:31:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F1748A930
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jan 2022 09:17:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC3B811B931;
-	Tue, 11 Jan 2022 06:31:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 411DF10FD39;
+	Tue, 11 Jan 2022 08:17:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam08on2107.outbound.protection.outlook.com [40.107.102.107])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7B09113D6C
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 06:31:26 +0000 (UTC)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2075.outbound.protection.outlook.com [40.107.223.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94F3710FD39
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 08:17:21 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=m3ojYFkiwyuHocqBrghAZDRTwiez/nCZmeR3BTS0IJHdapLqMTabljSDbbvuT8rYcFD2fMy3FCPUROlOr4o8TtmYZUoWnN4EmU8xPUU97F5mg/IBr+nFGw287joA3rD1vMihwH5hPXgjS9p0rCYWvaEmBSPqFo6rvoFFbS4rSpdx8WN8+K9ZR20ljy2VMRGcFg/pCvGG4/pWpjJKzTc2Ou6QhKZtYWAnRyfg3AoGDorwtBF2fYWZmAz181HljgLUdUbfpbJC8k+Rj5Wtz6xM1LOCsl5JLMuqi/0qy380ADngZwPWCb6CPPey3m5b8RJsNFnbkXFx1B5Po8LyyiBP3g==
+ b=RWlnJ/4Gn0EDXlYuw5mnbnOEeKf0KiHC6XmWAA7y2/OWimPHWJQd+BtL2rdtXJJ37Xh6gbW11Q3adFm8Lxl6aLjlOYBppxnyL0VvXKYGJdUXwStCvHjDwo0DEq8c3qcFro+7X67wFnkoZESwQ4/7VKZP89agSdAXB/GxcY29pAvOEd4ZwilyoKlLqiDyuJJ1xvB9lB9XW5CsQcquGXIrQ5GBSU5M4tKaM2HPy3LCzjIUZvb7jZEF9W0MvK5VM30KQphAGI/4ntU/yMhQis4qs7iVcRnyDSfk2ZSBDbc66uoQiQsfjQ9Ugar47HNuFHO2JfsjaD9O3J+DBm9N1+L+iQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UGGcieNHnNwifheg1tkeE19bKcA6z6kIBhe4UpIaQfo=;
- b=GJNjbkxkAI6URggMva7C27lyhtdRiZVUMwF5+6y8SVWSxNUj5TsJBhwWRCY6S+v+BIaTdVH9y9gbZ9d5ATw6bp6CHPvP5hjBw9GYNR5m674FV5UcH4Vy+Hrj1rFOYXvuKoJ5+5FThkaw0YCHVA5jetVK2oDRvMbs0GAVME/r+EMMbpX5kcjnOA6We6NK9EsxtLbcNTQc5m9fjdabh8b6HG8RQUhn/7LiUgNv2pKY5hoFvWfE1NDATxUL88QlrEPjEZ2xZXHu9Up+CuXspdXq2lG1qdpKEkbwmIryd1dY7ZPelDE3vjxVQtVUzgiZCAeo1iMD8kTQ00GrzvGr0YhLUg==
+ bh=/9fU9A0Nf66xZwOS+XOjwQYV5e2Qb1M31TEJ/WEqZ8M=;
+ b=Qv7j4ec8RQZ1cVy0kLXXyn2pryAF/DRZLtKOykLa3DEIRb9Vh6TlD5Xufn22AyMrjtSiiyTqMzvaw2UQG5PlDQRArA1rRzE8eUYik9tJuhg9z6hXJiINZmPYi5HUnfaCl3Y1SIaNtsSSerLwQ8RNDGEAB4iUy4F4aBy7wFhvULcXOu6hbYrxjcLOwFol0Adp1YyTJrGm3pPn99gws3rlU3bWCNqiMmwExcZ/KMDWMZ6YfUwBjzvrHcZIYZM/jnmt+XO3sYBAaDbKC+BaiIEb9Now2wvzErpQ3dLqp9TXj8BWqMEfrA4XT5OhLHE4Ek2itkzYw1v1W3HtCla4VoiGNA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=analogixsemi.com; dmarc=pass action=none
- header.from=analogixsemi.com; dkim=pass header.d=analogixsemi.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Analogixsemi.onmicrosoft.com; s=selector2-Analogixsemi-onmicrosoft-com;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UGGcieNHnNwifheg1tkeE19bKcA6z6kIBhe4UpIaQfo=;
- b=4b86yjsCO7esiJRsJIhtKSJBImKk2vxo7B/EXjkGJRaje1pz7vaEy178zbrcf+YUToj5L8rdoVE1UCJa6SL3pl/DUQKLrBunfW7FbHvd5XQYznM13EfHxp2A1IAOIgLibRVJMDNTdNZ+jZxDQSNiN6gq12g4EanDsgQuhOGsmO4=
+ bh=/9fU9A0Nf66xZwOS+XOjwQYV5e2Qb1M31TEJ/WEqZ8M=;
+ b=NKqbm0tm8d7L/4apjEVkTa+jrKDQ4B3QcqJzYi7lc1BGfHiIR5g8aXkRko/v0w9GNvi9Z5rmaYDjJNfskFDcXHoEXiZ+8HZPseismLFPZEo/JVTuf78rLsBKqVwfZzR1z11cQ9T4VdznwA6he9utnSnt8XoKiGJRDwYmlXGNFbnVWGI/zSk5bB6vLs6/FAsKJrFCyc7P03HmFre59ML4r5OL6OncyPY9QWdO1Y2KrrYmkxoEBb7x++1QLEfdNLZWmCrYCf9O2esHVXYuLs6xFFPsV3KYMMjtVZFENTe/Qh5ZVig7r9kAmN7zEv2S3wGyhb6ZnvsWf9wIGl+cv5OY8A==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=analogixsemi.com;
-Received: from BY5PR04MB6739.namprd04.prod.outlook.com (2603:10b6:a03:229::8)
- by SJ0PR04MB7518.namprd04.prod.outlook.com (2603:10b6:a03:323::16)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BY5PR12MB4130.namprd12.prod.outlook.com (2603:10b6:a03:20b::16)
+ by BY5PR12MB4305.namprd12.prod.outlook.com (2603:10b6:a03:213::17)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4867.7; Tue, 11 Jan
- 2022 06:31:24 +0000
-Received: from BY5PR04MB6739.namprd04.prod.outlook.com
- ([fe80::c25:c736:478a:b108]) by BY5PR04MB6739.namprd04.prod.outlook.com
- ([fe80::c25:c736:478a:b108%3]) with mapi id 15.20.4867.012; Tue, 11 Jan 2022
- 06:31:23 +0000
-Date: Tue, 11 Jan 2022 14:31:14 +0800
-From: Xin Ji <xji@analogixsemi.com>
-To: Robert Foss <robert.foss@linaro.org>,
- Nicolas Boichat <drinkcat@google.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>
-Subject: [PATCH v2 1/1] drm/bridge: anx7625: send DPCD command to downstream
-Message-ID: <e197f28ce96295beaca567a5d96a3306258acc7e.1641882111.git.xji@analogixsemi.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-ClientProxiedBy: HK2PR0401CA0023.apcprd04.prod.outlook.com
- (2603:1096:202:2::33) To BY5PR04MB6739.namprd04.prod.outlook.com
- (2603:10b6:a03:229::8)
+ 2022 08:17:19 +0000
+Received: from BY5PR12MB4130.namprd12.prod.outlook.com
+ ([fe80::8496:16fd:65c5:4af7]) by BY5PR12MB4130.namprd12.prod.outlook.com
+ ([fe80::8496:16fd:65c5:4af7%4]) with mapi id 15.20.4867.012; Tue, 11 Jan 2022
+ 08:17:19 +0000
+Message-ID: <82989486-3780-f0aa-c13d-994e97d4ac89@nvidia.com>
+Date: Tue, 11 Jan 2022 00:17:18 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: Phyr Starter
+Content-Language: en-US
+To: Matthew Wilcox <willy@infradead.org>, linux-kernel@vger.kernel.org
+References: <YdyKWeU0HTv8m7wD@casper.infradead.org>
+From: John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <YdyKWeU0HTv8m7wD@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR03CA0363.namprd03.prod.outlook.com
+ (2603:10b6:a03:3a1::8) To BY5PR12MB4130.namprd12.prod.outlook.com
+ (2603:10b6:a03:20b::16)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d6acdd6c-02e9-430e-82f7-08d9d4cbfc97
-X-MS-TrafficTypeDiagnostic: SJ0PR04MB7518:EE_
-X-Microsoft-Antispam-PRVS: <SJ0PR04MB75188AEEBE0AA54CEED45110C7519@SJ0PR04MB7518.namprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:644;
+X-MS-Office365-Filtering-Correlation-Id: 55c7d45c-8bfa-4041-58e5-08d9d4dac969
+X-MS-TrafficTypeDiagnostic: BY5PR12MB4305:EE_
+X-Microsoft-Antispam-PRVS: <BY5PR12MB43053DE6E2B38BA4D290956DA8519@BY5PR12MB4305.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LZ9Dmq7A0cKjMFBP3DzpwXLU+MYlPlNpCOZayL12JhRmbAqA7WchFW3C8n/LxItASmV0YjMv/FZrqZDAPwh4doN+Ctk2k4GfbCQORnfBZtJha7sA7YpfwenA5XBloCaET8SYEagX3n4KutUNRYVCiswL6KvfHJ9Lbcg/N93cmypuhI4rWUCU3EKyGTbo7o/LYJUXzjYoNoOHkM2ecf9OIVyI7U+P+MQoRS04zkHWWxCRaDeatL3VKSedY6+EN5Zv3r/37wgl+nIlg55S9V5lKoUnWG/51zdw2AcWbKUo8qIUyzS7VYQxR7RqhGXipS4P5hmNaaNCZLRVh8W6Vntq27GaUH3kFd0w0mcqN0AdyFdTBK1W9GPIrKdrK7rlDGCj0xX+lY8Moab8FtT37ERxP3Vxrym9WRwhR4SJaYPxlC7Ru0EgZjemJRhecCA4wY+iMT36Q0YBUjuw7bwdnDGCb2UE4veO4LX8Qasthwe3uMsmdm+I7gpVa1KOsTC+wBR0aXIq6AFQvAH6JGAicesIrdWDCIUqTB/u2fblyhRdiY21oywb5G1ObQPLgP404etVjhX1XwQ3PY1tkFHBUPaOH+ig71ILZfNkp1VmprFP8fuIWzfWMDFUKC2rI4RCV5SbomtJO7cOH8SkIjIcNHTsChr0o2IN8AEIzorNm55WpSoi34D3Xy9abhXOx75pkvUE4odR7yQBcx+dTYCsY5MOxQ==
+X-Microsoft-Antispam-Message-Info: 60CH+Hyoaml9QFV4YmihFyCKZxxTa4mYnOtQcVBDSO5XQ95vjQrWPkhBHb/iLQMd+CtPxScY3B+jO15MDety8r8VkECyROLve66OkhLfNYQkV6Jl82YVM6XOCCPDjbqzgtye7/UIftMhmDZ/eh/6Mz2+hZMWAj6TcgoZ7/s8MG9lL5dhiuHJph488Kqh87Q5dB39MybOuf82nUWgkZAcH3OSG6XpCquLDdsRZyHlRT3r92o/enkZ9m5D3M2APUoQ9RjN3YO+jUexPDmmPPQZa5NEn7fLmkcDI/tMLpSwJq2hEIQX8VNwvr9VPMZgogldMyexdVIBRs/P9x5qAvTFmuEMtbCXamXHF3yCnzyGOmctUnwro4LXxvyg0BrYVGTDFkTMXJz/AG8EXJOvFsddFU7bYemD5AlvbifbDBj+uaFSBJqOEt9Xrbz7WsQce34Byj5Q5V8C9rRhMKPnFzyorNH50Dk0VolSh1ptS+R8nO+P1deG9RrmrMkmn6n5BA5RkC4ZYnikmLac+T6EeUANOUL1iY+F3S2Kba1XnPXUhJlc2fIDSKsz5QmOMvrDk3TazVfO04aivvRowmqY4jeJqOxWWjyJi8hcHyEaJwCVeh0U1LOwzBe69Wl2V5Q6kQ39IMoj8cY8ncoClVYjaiN94W2mvXM5YyXo4XiH38EOvYizT+hyk3q5bB+MzxDD3CbEjwoNJ+4EmpbkC68p4kF5gTIzvpg0InLAibJwkoluKW3J2FYeCPS6AnRvyepGGXOq
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR04MB6739.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(66476007)(66946007)(8936002)(52116002)(5660300002)(6486002)(6666004)(66556008)(316002)(6506007)(26005)(2906002)(186003)(38100700002)(38350700002)(55236004)(36756003)(6512007)(54906003)(110136005)(7416002)(508600001)(4326008)(2616005)(83380400001)(86362001)(8676002);
- DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:BY5PR12MB4130.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(2616005)(83380400001)(66556008)(66476007)(66946007)(5660300002)(8936002)(26005)(316002)(508600001)(86362001)(8676002)(36756003)(7416002)(38100700002)(31686004)(7116003)(186003)(6512007)(54906003)(4326008)(6486002)(3480700007)(31696002)(2906002)(6506007)(53546011)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?DIt8z9W//6hp43+VRyGOYmg0pA19CPaaqBCsoj2r/DmNMfZ+pcI+qc0zAyvv?=
- =?us-ascii?Q?FVwusiLJPdSLjTskrHLPxHSC16sKORRasp4FNSCyDKj3h/ZlhrrefViBdut8?=
- =?us-ascii?Q?TE1zX2apSWt5RyNMEN3l2nnLH1G5nP8Jm+GTZPcckEy/k3JhOfi59m7i4Q0y?=
- =?us-ascii?Q?ZuTJB+yw0XkUA58K/iNtNSMknPTm1JXDDcjDrdaUCTELCfmLNculQS3LCtrM?=
- =?us-ascii?Q?1VSny2+mpV+I5bMxvo55KrGh82QaFObp4BLPuRI3jAaCTpXQDAepcfK3huOg?=
- =?us-ascii?Q?/o70KPfAxPqyJShLGSU5jI5JkFWs6H+N/uIuWW+v5Tsmsxl9nEfLmDa0nIzt?=
- =?us-ascii?Q?dW0/zNqk8xw7yE9VxMAX9dpwBf84yjeJp6TTlDoNMXF79tCqn0S8rsz1SyI0?=
- =?us-ascii?Q?86PrdVq/PfpoTZuS//PoF2EjumKE3Izug5CkD856Zd9QZRaB5zlIq+nMQJjv?=
- =?us-ascii?Q?EyA2x/vBDiagk8CqyAWZo0nssct8J4RMNC4l6LU+zR0zYGJzGgtZq4M1ONCl?=
- =?us-ascii?Q?WviM0COGXoRJCeLadJqUn+EXISpob2V8QFDqjqbdwD4TRMKfcfId2Cryi+7I?=
- =?us-ascii?Q?9bXyXvLzXxwGfU/SGxTSvZzvbZm7FdXku7SLlbJ3xztp/im5YHT7SqxML7sg?=
- =?us-ascii?Q?m2uExiFxA1xJssXbZ0fWvXYo2jPZd5HXHJ4hb6CcJnu8CEeVOMO+H8bsOMtX?=
- =?us-ascii?Q?Rt6hiMYKi9iuptNLKkffL9n72PXcqIn5ejDKtkyj0tWBux0olfVxbFWKyxNs?=
- =?us-ascii?Q?+NM2eWWN5PT5mpEyAILxyYTdGz2wOzkU3z9Z7HFRWbkL3L/PyE7qyTpfkxQZ?=
- =?us-ascii?Q?Khp5fQ45LNGbll1Qf6gS/EwnkZzZsfmoSVm5s4WyIiKk64BbVUG95DK8uApG?=
- =?us-ascii?Q?quHWYNNV8FTPcs/gCFlj/EqlFskzD7gvk14XX5WluxZXFUnT267l2OgQqs7s?=
- =?us-ascii?Q?dwxKxaX7gL4XdCOrCglE5ZuK2yKu+MERTg3nANh+QRk4Hhl+8Xs5YQrK7fY3?=
- =?us-ascii?Q?X9BfOtMOR+eIcWsZ/54GyFDnq4OswQxTfECa8TAJ9QQaBFU/KCRonGjFB6W+?=
- =?us-ascii?Q?4BLndfs/b2qqThiahc6boK+iUAjuM0HzHW6QeqZkeRH4UDIxWausXKA/mdFh?=
- =?us-ascii?Q?IiFRwisRmh13xZ2rtdED1JYRT9az/wKoaNTUO0y4uKhSD1wKJwUtTD+VirkX?=
- =?us-ascii?Q?/ymXXBeGRM38AiqPUJ36XCSn/n35MX5HS0oJaM64MosUCidLYL1djVI0x2tZ?=
- =?us-ascii?Q?WM673tNHDyTNa7CIU2UY4H1v5F3UTwFhya+2dTFnx6LJQeau4rUkiCneUXcR?=
- =?us-ascii?Q?WH2XUwGeOPW7Gck8IP+K3WMw7t5CEJzWmOj9U6HsbxpZXZ6OuSYtWMVitBGf?=
- =?us-ascii?Q?YeffEYoYYjPtQCtmPvUYEsfr8VS5ULXqRGJFSyzUN1gc0dGA1Q+GDZRJ5Fg6?=
- =?us-ascii?Q?Z1TXahrXgpgaf+YmmpqeJ+RTsSwZ+hhTyg0aIGxStG1azpyl/5q3SPx2FaPu?=
- =?us-ascii?Q?m2ak+1pcSsCe5ZogYZNTz9feTle0GivipRAZVduyio2fJsHXtQ264ZnROp9w?=
- =?us-ascii?Q?WIuKVHxPnobvaSqN553w5IfFaYS6i5+SKWXG6z+TEQ7WoBb4gzkeJbNHX+jP?=
- =?us-ascii?Q?p9LJ6mqk36hQA4TGi2qbNJw=3D?=
-X-OriginatorOrg: analogixsemi.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d6acdd6c-02e9-430e-82f7-08d9d4cbfc97
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB6739.namprd04.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R1pCdjd0QnIyNUlLekNtbkJGU0F4MXp0VFB0dFhLMk5tTjA0K050Mm1Fb214?=
+ =?utf-8?B?MEVvZFZ2Mk0vQUt0QW9jUFlQV2I3ZW5VSlFmeldxUW9ObklGd2c0NUJiblNQ?=
+ =?utf-8?B?ZHJ0VU4xLzJFNlVSS0llTlNtSWdycW03VEVwVDF1MmVkcUNBUzkrOTg1NldF?=
+ =?utf-8?B?S3NNanRFNGRlOWVYcHZJaXF4TlFoY0ZWK1pwa0JxakZlam5xckVKVXhQK1R1?=
+ =?utf-8?B?NlR5MllLaHdjSTQ5YmFvVm80MkpxQ1J2VlJRNEJKNEVwbWFWc1hNNDQxVlFp?=
+ =?utf-8?B?MUpnVVROTU12bXIwU3ZmclZHbnNOWlJHTTNOWStOdE5MWnpNYTRUb2Zmd0ho?=
+ =?utf-8?B?WEhhMWZRTmJleU9OMXMxTVFSUUtVREg4cDBWbzhqWk9TaVVDTmREWFMvZDFz?=
+ =?utf-8?B?SDRyRWFlVGRFMXBscDBMVW11N0RyTk51VnRXajVRUUQrZGw4RC9GUGUyTDVD?=
+ =?utf-8?B?V1pyckVrQncxR1BlbFN0WGEyN3FUM01YZERJaitYamZ0cmNKTlNWWTJLcHFu?=
+ =?utf-8?B?eWUvZmN4NU53d0Y4Q25ZQXZwb0loVEVRb1ZZNGdOKy9QWHVReW92RUhYUTdZ?=
+ =?utf-8?B?bFc2OHV4Q0M5a29SM0JzQkNzL3k3b0N4QlNkR1VLa0ZsY0dzR01BcjN3STJq?=
+ =?utf-8?B?djRsNU82RUg4cGJuVEw0VDgrUkc5cktLYXNvTmNzOXpRelpZSE5hYVZTUlNV?=
+ =?utf-8?B?SzhHZC9rK0dldVlab2NXdnFNNUM4Yi9uVlNLQVNLU0ozRWo0Ri91T09od1VF?=
+ =?utf-8?B?bWszemVmZjlIdlVSU0NDblRYYVdoK0hCekcydXRKS2E3WnFZd2drTkh5S2sr?=
+ =?utf-8?B?YVB0ajA1VnB5aE82YXM5QmV1V3owODExTWVoWUFILzVxUzErdnQzRjJSNUtY?=
+ =?utf-8?B?OGJjQTcxTkluai9NSCtOWVU4Y1JFT2hwZitOY0M3YnhoTTNVRndVSmpJVUE3?=
+ =?utf-8?B?RVkyNWRGK0VONG9vOUJ5eFNPR1ZlREUzUUFvYTBxQzdXQlNEVTMzQ2ZNaFp2?=
+ =?utf-8?B?LzVzVTlESnZlVk50N0o0Qm9PQWZ2UldpUm5BcEVLeHNRRkcycFA5dHZJRUZX?=
+ =?utf-8?B?UGNScU91SFVLVkliQmE4UysxeXV2cHovMGFPcnoyelFncTk0bGt2U2Z5WmhS?=
+ =?utf-8?B?YnN3dWdUQm1sdzhraEJZT0UxdTViRFBRMXBhR2ZyZEJyMUI2UWNnWVRHRDIr?=
+ =?utf-8?B?TW02MUVvT2g4Q0U5cEJWcmxlYThvTzdLSjVBdjhSZmJJZlpvNG90QWdNMkpq?=
+ =?utf-8?B?RE01NnhLais5ZVp6RXNYYXlGTVQyZEZqVVBoUEpicTg2WnlLbW9ySFN6a1Z4?=
+ =?utf-8?B?UWJoQ3VVYjUxSmlnZmpjV0JUL3AvbVBLRmppU0VrZmZQQ2k1K3hHV2tOR3Bt?=
+ =?utf-8?B?NUlXYi8wWGVxZlEyMS9abHZJdzY1T3RyeWcvdituQnRhVGxkazV3Q1dsVFFr?=
+ =?utf-8?B?MVRNU0UyaFpqbmFuZWRJWXh1NnBlRWJsL05lZjh6M1VmV3d3TXN5eVhXNFRH?=
+ =?utf-8?B?ZWdMa0k0UDBZQ1JXSGVlSDlwQ3BWR05kbHM1YjVPVWRUT1VNR2R2WDRzQnkr?=
+ =?utf-8?B?TDBJWjQ1UHlxRHdMdmN5TUZtZUtkeEVGZlZhZFpWTVJreis2S2ZLYWxQM1ZW?=
+ =?utf-8?B?c0sxNGdDWHpVdVdEazRZN3ZMbDE1Zm1TSTBqNXk4ME5veWkyNnBkYjJyNWpt?=
+ =?utf-8?B?VnA0dm5NR0ZsQnJ4SVZDUFJ1UHNTV3R5MG9sMXBpRWorVUlLU2ZHUEJyaWY0?=
+ =?utf-8?B?eEI5ekZSS0Q5YjZVcUFGblRLekVUQmd3Um1tVnVkR1RrSkVyZDlobzkzT2pC?=
+ =?utf-8?B?QVJieFBCc0t0TDVkeFNXNDJ6YkF3VWlGSVBwUUtTdTlOS0R0YllVTVA5YmFZ?=
+ =?utf-8?B?TWNGckF4aG56Vk5BdmxXelRlTGpGdmx1d3VXdzJtYTBONVR1MFlma0IwandK?=
+ =?utf-8?B?Z21EaXpmYTRmaW52dkFIVnU5Y212OHBZdVNkREJpWTNTTERLK2N3WkhtUVor?=
+ =?utf-8?B?bHpWaGI2WVpFRFdPWGdlRE9HUm1ZU3JDZVp1dzdiazlqWWRPVkF3Smg4dVlV?=
+ =?utf-8?B?NTlLUktxNmhTQXhPZFBRMGFOcitxZmo1bGpWalBCSEJvMEtTSjV5RHpSVDFY?=
+ =?utf-8?B?VENJZzBVejVodU5Fblk4ZGdHcmpodWVhNmVhOXpCMEdKUU9id0V4a20xT0lR?=
+ =?utf-8?Q?ruvCMzeGk6Qn28hHuV327Rc=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 55c7d45c-8bfa-4041-58e5-08d9d4dac969
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4130.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2022 06:31:23.5882 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2022 08:17:19.7969 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b099b0b4-f26c-4cf5-9a0f-d5be9acab205
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SrrRUz+RfRUL0yDNQ1yg5KojzUq6K5IuWnP0L9I+5tthzKebxa4jIXFM+CG3h/q7iRf18RhzzRs1XvZWLAQp2w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR04MB7518
+X-MS-Exchange-CrossTenant-UserPrincipalName: XDZFBaelhXR0sHmbFzkatZoIRfhVh+QzK35+mDTszAvZM+GIOV5SUIN3IVN3Q+yzEIfEAk1mktniUBKcBEN6OQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4305
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,126 +128,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Bernie Liang <bliang@analogixsemi.com>,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Vasily Khoruzhick <anarsoul@gmail.com>,
- Boris Brezillon <boris.brezillon@collabora.com>, Torsten Duwe <duwe@lst.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: nvdimm@lists.linux.dev, linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Ming Lei <ming.lei@redhat.com>,
+ linux-block@vger.kernel.org, linux-mm@kvack.org,
+ Jason Gunthorpe <jgg@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Send DPCD command to downstream before anx7625 power down,
-let downstream monitor enter into standby mode.
+On 1/10/22 11:34, Matthew Wilcox wrote:
+> TLDR: I want to introduce a new data type:
+> 
+> struct phyr {
+>          phys_addr_t addr;
+>          size_t len;
+> };
+> 
+> and use it to replace bio_vec as well as using it to replace the array
+> of struct pages used by get_user_pages() and friends.
+> 
+> ---
 
-Signed-off-by: Xin Ji <xji@analogixsemi.com>
----
- drivers/gpu/drm/bridge/analogix/anx7625.c | 40 ++++++++++++++++++++---
- 1 file changed, 35 insertions(+), 5 deletions(-)
+This would certainly solve quite a few problems at once. Very compelling.
 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 33383f83255d..fd2217ae455e 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -129,6 +129,23 @@ static int anx7625_reg_write(struct anx7625_data *ctx,
- 	return ret;
- }
- 
-+static int anx7625_reg_block_write(struct anx7625_data *ctx,
-+				   struct i2c_client *client,
-+				   u8 reg_addr, u8 len, u8 *buf)
-+{
-+	int ret;
-+	struct device *dev = &client->dev;
-+
-+	i2c_access_workaround(ctx, client);
-+
-+	ret = i2c_smbus_write_i2c_block_data(client, reg_addr, len, buf);
-+	if (ret < 0)
-+		DRM_DEV_ERROR(dev, "write i2c block failed id=%x\n:%x",
-+			      client->addr, reg_addr);
-+
-+	return ret;
-+}
-+
- static int anx7625_write_or(struct anx7625_data *ctx,
- 			    struct i2c_client *client,
- 			    u8 offset, u8 mask)
-@@ -214,8 +231,8 @@ static int wait_aux_op_finish(struct anx7625_data *ctx)
- 	return 0;
- }
- 
--static int anx7625_aux_dpcd_read(struct anx7625_data *ctx,
--				 u32 address, u8 len, u8 *buf)
-+static int anx7625_aux_dpcd_trans(struct anx7625_data *ctx, u8 op,
-+				  u32 address, u8 len, u8 *buf)
- {
- 	struct device *dev = &ctx->client->dev;
- 	int ret;
-@@ -231,8 +248,7 @@ static int anx7625_aux_dpcd_read(struct anx7625_data *ctx,
- 	addrm = (address >> 8) & 0xFF;
- 	addrh = (address >> 16) & 0xFF;
- 
--	cmd = DPCD_CMD(len, DPCD_READ);
--	cmd = ((len - 1) << 4) | 0x09;
-+	cmd = DPCD_CMD(len, op);
- 
- 	/* Set command and length */
- 	ret = anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-@@ -246,6 +262,9 @@ static int anx7625_aux_dpcd_read(struct anx7625_data *ctx,
- 	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
- 				 AP_AUX_ADDR_19_16, addrh);
- 
-+	if (op == DPCD_WRITE)
-+		ret |= anx7625_reg_block_write(ctx, ctx->i2c.rx_p0_client,
-+					       AP_AUX_BUFF_START, len, buf);
- 	/* Enable aux access */
- 	ret |= anx7625_write_or(ctx, ctx->i2c.rx_p0_client,
- 				AP_AUX_CTRL_STATUS, AP_AUX_CTRL_OP_EN);
-@@ -263,6 +282,11 @@ static int anx7625_aux_dpcd_read(struct anx7625_data *ctx,
- 		return ret;
- 	}
- 
-+	/* Write done */
-+	if (op == DPCD_WRITE)
-+		return 0;
-+
-+	/* Read done, read out dpcd data */
- 	ret = anx7625_reg_block_read(ctx, ctx->i2c.rx_p0_client,
- 				     AP_AUX_BUFF_START, len, buf);
- 	if (ret < 0) {
-@@ -845,7 +869,7 @@ static int anx7625_hdcp_enable(struct anx7625_data *ctx)
- 	}
- 
- 	/* Read downstream capability */
--	anx7625_aux_dpcd_read(ctx, 0x68028, 1, &bcap);
-+	anx7625_aux_dpcd_trans(ctx, DPCD_READ, 0x68028, 1, &bcap);
- 	if (!(bcap & 0x01)) {
- 		pr_warn("downstream not support HDCP 1.4, cap(%x).\n", bcap);
- 		return 0;
-@@ -918,6 +942,7 @@ static void anx7625_dp_stop(struct anx7625_data *ctx)
- {
- 	struct device *dev = &ctx->client->dev;
- 	int ret;
-+	u8 data;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "stop dp output\n");
- 
-@@ -929,6 +954,11 @@ static void anx7625_dp_stop(struct anx7625_data *ctx)
- 	ret |= anx7625_write_and(ctx, ctx->i2c.tx_p2_client, 0x08, 0x7f);
- 
- 	ret |= anx7625_video_mute_control(ctx, 1);
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "notify downstream enter into standby\n");
-+	/* Downstream monitor enter into standby mode */
-+	data = 2;
-+	ret |= anx7625_aux_dpcd_trans(ctx, DPCD_WRITE, 0x000600, 1, &data);
- 	if (ret < 0)
- 		DRM_DEV_ERROR(dev, "IO error : mute video fail\n");
- 
+Zooming in on the pinning aspect for a moment: last time I attempted to
+convert O_DIRECT callers from gup to pup, I recall wanting very much to
+record, in each bio_vec, whether these pages were acquired via FOLL_PIN,
+or some non-FOLL_PIN method. Because at the end of the IO, it is not
+easy to disentangle which pages require put_page() and which require
+unpin_user_page*().
+
+And changing the bio_vec for *that* purpose was not really acceptable.
+
+But now that you're looking to change it in a big way (and with some
+spare bits avaiable...oohh!), maybe I can go that direction after all.
+
+Or, are you looking at a design in which any phyr is implicitly FOLL_PIN'd
+if it exists at all?
+
+Or any other thoughts in this area are very welcome.
+
+> 
+> There are two distinct problems I want to address: doing I/O to memory
+> which does not have a struct page and efficiently doing I/O to large
+> blobs of physically contiguous memory, regardless of whether it has a
+> struct page.  There are some other improvements which I regard as minor.
+> 
+> There are many types of memory that one might want to do I/O to that do
+> not have a struct page, some examples:
+>   - Memory on a graphics card (or other PCI card, but gfx seems to be
+>     the primary provider of DRAM on the PCI bus today)
+>   - DAX, or other pmem (there are some fake pages today, but this is
+>     mostly a workaround for the IO problem today)
+>   - Guest memory being accessed from the hypervisor (KVM needs to
+>     create structpages to make this happen.  Xen doesn't ...)
+> All of these kinds of memories can be addressed by the CPU and so also
+> by a bus master.  That is, there is a physical address that the CPU
+> can use which will address this memory, and there is a way to convert
+> that to a DMA address which can be programmed into another device.
+> There's no intent here to support memory which can be accessed by a
+> complex scheme like writing an address to a control register and then
+> accessing the memory through a FIFO; this is for memory which can be
+> accessed by DMA and CPU loads and stores.
+> 
+> For get_user_pages() and friends, we currently fill an array of struct
+> pages, each one representing PAGE_SIZE bytes.  For an application that
+> is using 1GB hugepages, writing 2^18 entries is a significant overhead.
+> It also makes drivers hard to write as they have to recoalesce the
+> struct pages, even though the VM can tell it whether those 2^18 pages
+> are contiguous.
+> 
+> On the minor side, struct phyr can represent any mappable chunk of memory.
+> A bio_vec is limited to 2^32 bytes, while on 64-bit machines a phyr
+> can represent larger than 4GB.  A phyr is the same size as a bio_vec
+> on 64 bit (16 bytes), and the same size for 32-bit with PAE (12 bytes).
+> It is smaller for 32-bit machines without PAE (8 bytes instead of 12).
+> 
+> Finally, it may be possible to stop using scatterlist to describe the
+> input to the DMA-mapping operation.  We may be able to get struct
+> scatterlist down to just dma_address and dma_length, with chaining
+> handled through an enclosing struct.
+> 
+> I would like to see phyr replace bio_vec everywhere it's currently used.
+> I don't have time to do that work now because I'm busy with folios.
+> If someone else wants to take that on, I shall cheer from the sidelines.
+
+I'm starting to wonder if I should jump in here, in order to get this
+as a way to make the O_DIRECT conversion much cleaner. But let's see.
+
+> What I do intend to do is:
+> 
+>   - Add an interface to gup.c to pin/unpin N phyrs
+>   - Add a sg_map_phyrs()
+>     This will take an array of phyrs and allocate an sg for them
+>   - Whatever else I need to do to make one RDMA driver happy with
+>     this scheme
+> 
+> At that point, I intend to stop and let others more familiar with this
+> area of the kernel continue the conversion of drivers.
+> 
+> P.S. If you've had the Prodigy song running through your head the whole
+> time you've been reading this email ... I'm sorry / You're welcome.
+> If people insist, we can rename this to phys_range or something boring,
+> but I quite like the spelling of phyr with the pronunciation of "fire".
+
+A more conservative or traditional name might look like:
+
+     phys_vec (maintains some resemblance to what it's replacing)
+     phys_range
+     phys_addr_range
+
+phyr is rather cool, but it also is awfully too close to "phys" for
+reading comfort. And there is a lot to be said for self-descriptive names,
+which phyr is not.
+
+And of course, you're signing for another huge naming debate with Linus
+if you go with the "cool" name here. :)
+
+
+thanks,
 -- 
-2.25.1
-
+John Hubbard
+NVIDIA
