@@ -1,45 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C51AF48C0C0
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 10:09:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B571F48C0FA
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 10:27:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94EEB1132A6;
-	Wed, 12 Jan 2022 09:09:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52778113479;
+	Wed, 12 Jan 2022 09:27:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AA7E1132A4;
- Wed, 12 Jan 2022 09:09:26 +0000 (UTC)
-X-UUID: c3dd01af70294ed4829a1750c41c591b-20220112
-X-UUID: c3dd01af70294ed4829a1750c41c591b-20220112
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw02.mediatek.com (envelope-from <yong.wu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1440893993; Wed, 12 Jan 2022 17:09:22 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Wed, 12 Jan 2022 17:09:20 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 12 Jan 2022 17:09:19 +0800
-Message-ID: <ff81bc1fe1f1c2060fcf03ba14f1bef584c47599.camel@mediatek.com>
-Subject: Re: [PATCH v5 25/32] iommu/mtk: Migrate to aggregate driver
-From: Yong Wu <yong.wu@mediatek.com>
-To: Stephen Boyd <swboyd@chromium.org>
-Date: Wed, 12 Jan 2022 17:09:19 +0800
-In-Reply-To: <CAE-0n53Y3WRy4_QvUm9k9wjjWV7adMDQcK_+1ji4+W25SSeGwg@mail.gmail.com>
-References: <20220106214556.2461363-1-swboyd@chromium.org>
- <20220106214556.2461363-26-swboyd@chromium.org>
- <1a3b368eb891ca55c33265397cffab0b9f128737.camel@mediatek.com>
- <CAE-0n53Y3WRy4_QvUm9k9wjjWV7adMDQcK_+1ji4+W25SSeGwg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D68FC113479
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 09:27:44 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 5BAA11F3BB;
+ Wed, 12 Jan 2022 09:27:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1641979663; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZrLvZK9ZXeADyaYLMJ4o5Gdu1Benitk72NhFCo2ypUg=;
+ b=Xd/zV8Lj31oQTzkSkqrz21gInDXh4fBYoeP/X+emdWUo5axLGm02qnI7IYWKQlBtyetjIY
+ X2xda8FtUrXLmYPQm98uCO/kwxeekyJEjSdbG8IDi9CwvakJ2Oac2eBzjAoCNOaEJ54ROl
+ fgiqvy9vNUqDysTytVX3bV2qYRaayjI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1641979663;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZrLvZK9ZXeADyaYLMJ4o5Gdu1Benitk72NhFCo2ypUg=;
+ b=jwGM9GJGngbY+bBDGT5XP+2mxndOcI70RnL7foixo0nNY+WOB2cwPMWRvOjt75G2VwMtEZ
+ i5Hh+rLGlgrhWCAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 362AA13B3D;
+ Wed, 12 Jan 2022 09:27:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id qHZRDA+f3mFMSgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 12 Jan 2022 09:27:43 +0000
+Message-ID: <c60c33b0-6e2e-e2a2-842d-1c5882393387@suse.de>
+Date: Wed, 12 Jan 2022 10:27:42 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [PATCH] drm/mipi-dbi: Fix source-buffer address in
+ mipi_dbi_buf_copy
+Content-Language: en-US
+To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch
+References: <20220111132634.18302-1-tzimmermann@suse.de>
+ <ce029d3b-6f68-b08b-9866-1ef4284a29ac@tronnes.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <ce029d3b-6f68-b08b-9866-1ef4284a29ac@tronnes.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------JZhQdvmFbY0Dhjj5s0SOiX44"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,233 +73,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: youlin.pei@mediatek.com, Saravana Kannan <saravanak@google.com>, Will
- Deacon <will@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
- "Rafael J.
- Wysocki" <rafael@kernel.org>, Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>, iommu@lists.linux-foundation.org,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- Russell King <rmk+kernel@arm.linux.org.uk>, freedreno@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2022-01-11 at 16:27 -0800, Stephen Boyd wrote:
-> Quoting Yong Wu (2022-01-11 04:22:23)
-> > Hi Stephen,
-> > 
-> > Thanks for helping update here.
-> > 
-> > On Thu, 2022-01-06 at 13:45 -0800, Stephen Boyd wrote:
-> > > Use an aggregate driver instead of component ops so that we can
-> > > get
-> > > proper driver probe ordering of the aggregate device with respect
-> > > to
-> > > all
-> > > the component devices that make up the aggregate device.
-> > > 
-> > > Cc: Yong Wu <yong.wu@mediatek.com>
-> > > Cc: Joerg Roedel <joro@8bytes.org>
-> > > Cc: Will Deacon <will@kernel.org>
-> > > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > > Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> > > Cc: Rob Clark <robdclark@gmail.com>
-> > > Cc: Russell King <rmk+kernel@arm.linux.org.uk>
-> > > Cc: Saravana Kannan <saravanak@google.com>
-> > > Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> > 
-> > When I test this on mt8195 which have two IOMMU HWs(calling
-> > component_aggregate_regsiter twice), it will abort like this. Then
-> > what
-> > should we do if we have two instances?
-> > 
-> 
-> Thanks for testing it out. We can't register the struct driver more
-> than
-> once but this driver is calling the component_aggregate_register()
-> function from the driver probe and there are two devices bound to the
-> mtk-iommu driver so we try to register it more than once. Sigh!
-> 
-> I see a couple options. One is to do a deep copy of the driver
-> structure
-> and change the driver name. Then it's a one to one relationship
-> between
-> device and driver. That's not very great because it leaves around
-> junk
-> so it should probably be avoided.
-> 
-> Another option is to reference count the driver registration calls
-> when
-> component_aggregate_register() is called multiple times. Then we
-> would
-> only register the driver once and keep it pinned until the last
-> unregister call is made, but still remove devices that are created
-> for
-> the match table.
-> 
-> Can you try the attached patch? It is based on the next version of
-> this
-> patch series so the include part of the patch may not apply cleanly.
-> 
-> ---8<---
-> diff --git a/drivers/base/component.c b/drivers/base/component.c
-> index 64ad7478c67a..97f253a41bdf 100644
-> --- a/drivers/base/component.c
-> +++ b/drivers/base/component.c
-> @@ -492,15 +492,30 @@ static struct aggregate_device
-> *__aggregate_find(struct device *parent)
->  	return dev ? to_aggregate_device(dev) : NULL;
->  }
-> 
-> +static DEFINE_MUTEX(aggregate_mutex);
-> +
->  static int aggregate_driver_register(struct aggregate_driver *adrv)
->  {
-> -	adrv->driver.bus = &aggregate_bus_type;
-> -	return driver_register(&adrv->driver);
-> +	int ret = 0;
-> +
-> +	mutex_lock(&aggregate_mutex);
-> +	if (!refcount_inc_not_zero(&adrv->count)) {
-> +		adrv->driver.bus = &aggregate_bus_type;
-> +		ret = driver_register(&adrv->driver);
-> +		if (!ret)
-> +			refcount_inc(&adrv->count);
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------JZhQdvmFbY0Dhjj5s0SOiX44
+Content-Type: multipart/mixed; boundary="------------rAm0na8HJg9YpgkEwigsfNi5";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>
+Message-ID: <c60c33b0-6e2e-e2a2-842d-1c5882393387@suse.de>
+Subject: Re: [PATCH] drm/mipi-dbi: Fix source-buffer address in
+ mipi_dbi_buf_copy
+References: <20220111132634.18302-1-tzimmermann@suse.de>
+ <ce029d3b-6f68-b08b-9866-1ef4284a29ac@tronnes.org>
+In-Reply-To: <ce029d3b-6f68-b08b-9866-1ef4284a29ac@tronnes.org>
 
-This should be refcount_set(&adrv->count, 1)?
+--------------rAm0na8HJg9YpgkEwigsfNi5
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Otherwise, it will warning like this:
+SGkNCg0KQW0gMTEuMDEuMjIgdW0gMTQ6MzIgc2NocmllYiBOb3JhbGYgVHLDuG5uZXM6DQo+
+IA0KPiANCj4gRGVuIDExLjAxLjIwMjIgMTQuMjYsIHNrcmV2IFRob21hcyBaaW1tZXJtYW5u
+Og0KPj4gU2V0IHRoZSBzb3VyY2UtYnVmZmVyIGFkZHJlc3MgYWZ0ZXIgbWFwcGluZyB0aGUg
+YnVmZmVyIGludG8gdGhlDQo+PiBrZXJuZWwncyBhZGRyZXNzIHNwYWNlLiBNYWtlcyBNSVBJ
+IERCSSBoZWxwZXJzIHdvcmsgYWdhaW4uDQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTogVGhvbWFz
+IFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQo+PiBGaXhlczogYzQ3MTYwZDhl
+ZGNkICgiZHJtL21pcGktZGJpOiBSZW1vdmUgZGVwZW5kZW5jeSBvbiBHRU0gQ01BIGhlbHBl
+ciBsaWJyYXJ5IikNCj4+IFJlcG9ydGVkLWJ5OiBOb3JhbGYgVHLDuG5uZXMgPG5vcmFsZkB0
+cm9ubmVzLm9yZz4NCj4+IENjOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3Vz
+ZS5kZT4NCj4+IENjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPg0K
+Pj4gQ2M6IE1hYXJ0ZW4gTGFua2hvcnN0IDxtYWFydGVuLmxhbmtob3JzdEBsaW51eC5pbnRl
+bC5jb20+DQo+PiBDYzogTWF4aW1lIFJpcGFyZCA8bXJpcGFyZEBrZXJuZWwub3JnPg0KPj4g
+LS0tDQo+IA0KPiBSZXZpZXdlZC1ieTogTm9yYWxmIFRyw7hubmVzIDxub3JhbGZAdHJvbm5l
+cy5vcmc+DQoNCk1lcmdlZCBpbnRvIGRybS1taXNjLW5leHQuDQoNCkJlc3QgcmVnYXJkcw0K
+VGhvbWFzDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZl
+bG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0
+ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJl
+cmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
-[    2.654526] ------------[ cut here ]------------
-[    2.655558] refcount_t: addition on 0; use-after-free.
-[    2.656219] WARNING: CPU: 7 PID: 74 at ../v5.16-
-rc1/kernel/mediatek/lib/refcount.c:25
-refcount_warn_saturate+0x128/0x148
-...
-[    2.672227] Call trace:
-[    2.672539]  refcount_warn_saturate+0x128/0x148
-[    2.673118]  component_aggregate_register+0x388/0x390
-[    2.673763]  mtk_iommu_probe+0x638/0x690
+--------------rAm0na8HJg9YpgkEwigsfNi5--
 
-[    2.686467] ------------[ cut here ]------------
-[    2.687049] refcount_t: saturated; leaking memory.
-[    2.687666] WARNING: CPU: 5 PID: 74 at ../v5.16-
-rc1/kernel/mediatek/lib/refcount.c:19 refcount_warn_saturate+0xfc/0x148
+--------------JZhQdvmFbY0Dhjj5s0SOiX44
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-[    2.703805] Call trace:
-[    2.704117]  refcount_warn_saturate+0xfc/0x148
-[    2.704685]  component_aggregate_register+0x1fc/0x390
-[    2.705330]  mtk_iommu_probe+0x638/0x690
+-----BEGIN PGP SIGNATURE-----
 
-> +	}
-> +	mutex_unlock(&aggregate_mutex);
-> +
-> +	return ret;
->  }
-> 
->  static void aggregate_driver_unregister(struct aggregate_driver
-> *adrv)
->  {
-> -	driver_unregister(&adrv->driver);
-> +	if (refcount_dec_and_mutex_lock(&adrv->count,
-> &aggregate_mutex)) {
-> +		driver_unregister(&adrv->driver);
-> +		mutex_unlock(&aggregate_mutex);
-> +	}
->  }
-> 
->  static struct aggregate_device *aggregate_device_add(struct device
-> *parent,
-> diff --git a/include/linux/component.h b/include/linux/component.h
-> index 53d81203c095..b061341938aa 100644
-> --- a/include/linux/component.h
-> +++ b/include/linux/component.h
-> @@ -4,6 +4,7 @@
-> 
->  #include <linux/stddef.h>
->  #include <linux/device.h>
-> +#include <linux/refcount.h>
-> 
->  struct aggregate_device;
-> 
-> @@ -66,6 +67,7 @@ struct device *aggregate_device_parent(const struct
-> aggregate_device *adev);
-> 
->  /**
->   * struct aggregate_driver - Aggregate driver (made up of other
-> drivers)
-> + * @count: driver registration refcount
->   * @driver: device driver
->   */
->  struct aggregate_driver {
-> @@ -101,6 +103,7 @@ struct aggregate_driver {
->  	 */
->  	void (*shutdown)(struct aggregate_device *adev);
-> 
-> +	refcount_t		count;
->  	struct device_driver	driver;
->  };
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHenw4FAwAAAAAACgkQlh/E3EQov+Ds
+hQ//foAWSvNX/wL2dI9XiMrksB8g2ExoEYuGgnv53F2Ol30cpS65R4f2lEuJdT93VZBod3OqF5A9
+bFUwkCmEKL2OYjoB/vb2gLRLrb/w082rQ/OThUlqVQA0YS8+JNA1cNKqNCThUNDJgZz6FDPlLBO/
+pwbjrCx8ClzFNmjEgtnlH06ienFB6ZHAjC2R53DQxa5obqaQLMdLdBUO0t2CeEHJPbICjXdp5+90
+15WTlJH+d77JBB0+1gvGptn2BHTzV1XMKZzbsFCRh24t+6tsVw7pX9AoosMRNDTFkFm9OvYSOCrN
+aWls5RN55PurzkJk21iXZhdTbQ41MAj3p7adh2WPJEZkOcWnK0OiTtPVRKVjuxbT0yTS50olgETH
+O3lWlDdd9+RTZxIMHl3yLkpCuM1cP9laPWsn420TX2bv0HmPKTtXcotwHQkIDok6avcT3e3OvH/K
++ATQTnpKjr/P0cHSGhunegoO7NOf4k2R2SguFN61J5A2Tni64m9aL6h19JGQ3ack7I/5m30rpwYE
+KiKwa1OKdXxpXrkcs5o33uYUAIsVNtW/Q1pXKi43lOMRx3sNJvLeO+hlHtYkbYV8lTCuT1JoLBX6
+E3gRJSK+4mN2f0pLTRhnvWMGSQ+YOTCv2f26B8utUt69PS5Qj/sV8Go0hYp1jv/eJF4YbAatQ0iq
+Pg0=
+=096v
+-----END PGP SIGNATURE-----
 
-After this patch, the aggregate_driver flow looks ok. But our driver
-still aborts like this:
-
-[    2.721316] Unable to handle kernel NULL pointer dereference at
-virtual address 0000000000000000
-...
-[    2.731658] pc : mtk_smi_larb_config_port_gen2_general+0xa4/0x138
-[    2.732434] lr : mtk_smi_larb_resume+0x54/0x98
-...
-[    2.742457] Call trace:
-[    2.742768]  mtk_smi_larb_config_port_gen2_general+0xa4/0x138
-[    2.743496]  pm_generic_runtime_resume+0x2c/0x48
-[    2.744090]  __genpd_runtime_resume+0x30/0xa8
-[    2.744648]  genpd_runtime_resume+0x94/0x2c8
-[    2.745191]  __rpm_callback+0x44/0x150
-[    2.745669]  rpm_callback+0x6c/0x78
-[    2.746114]  rpm_resume+0x314/0x558
-[    2.746559]  __pm_runtime_resume+0x3c/0x88
-[    2.747080]  pm_runtime_get_suppliers+0x7c/0x110
-[    2.747668]  __driver_probe_device+0x4c/0xe8
-[    2.748212]  driver_probe_device+0x44/0x130
-[    2.748745]  __device_attach_driver+0x98/0xd0
-[    2.749300]  bus_for_each_drv+0x68/0xd0
-[    2.749787]  __device_attach+0xec/0x148
-[    2.750277]  device_attach+0x14/0x20
-[    2.750733]  bus_rescan_devices_helper+0x50/0x90
-[    2.751319]  bus_for_each_dev+0x7c/0xd8
-[    2.751806]  bus_rescan_devices+0x20/0x30
-[    2.752315]  __component_add+0x7c/0xa0
-[    2.752795]  component_add+0x14/0x20
-[    2.753253]  mtk_smi_larb_probe+0xe0/0x120
-
-This is because the device runtime_resume is called before the bind
-operation(In our case this detailed function is mtk_smi_larb_bind).
-The issue doesn't happen without this patchset. I'm not sure the right
-sequence. If we should fix in mediatek driver, the patch could be:
-
-
-diff --git a/drivers/memory/mtk-smi.c b/drivers/memory/mtk-smi.c
-index b883dcc0bbfa..288841555067 100644
---- a/drivers/memory/mtk-smi.c
-+++ b/drivers/memory/mtk-smi.c
-@@ -483,8 +483,9 @@ static int __maybe_unused
-mtk_smi_larb_resume(struct device *dev)
-        if (ret < 0)
-                return ret;
-
--       /* Configure the basic setting for this larb */
--       larb_gen->config_port(dev);
-+       /* Configure the basic setting for this larb after it binds
-with iommu */
-+       if (larb->mmu)
-+               larb_gen->config_port(dev);
-
-        return 0;
- }
-
-
-Another nitpick, the title should be: iommu/mediatek: xxxx
-
-
+--------------JZhQdvmFbY0Dhjj5s0SOiX44--
