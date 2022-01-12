@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A0CB48C1F9
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 11:09:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 398CB48C204
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 11:13:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0624B113908;
-	Wed, 12 Jan 2022 10:09:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 532481139A8;
+	Wed, 12 Jan 2022 10:13:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
- [IPv6:2607:f8b0:4864:20::102a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE97A113905
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 10:09:17 +0000 (UTC)
-Received: by mail-pj1-x102a.google.com with SMTP id
- i8-20020a17090a138800b001b3936fb375so10964553pja.1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 02:09:17 -0800 (PST)
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
+ [IPv6:2607:f8b0:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E59D1139A6
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 10:13:00 +0000 (UTC)
+Received: by mail-pl1-x630.google.com with SMTP id n11so1490509plf.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 02:13:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=weNjN/xzHEHSDO334pDbfVWSs4mNM/PupPi9g1KN1hE=;
- b=jiCM+hPrEi1OJLok7KC6lTf2sSpMxRXrphLjSEuFeYVPjqJR6MEuMKGdMkRiXmxFE6
- risuvb9XncZd6rbufWNOjgZ3MpyEJu+C6u9FPQUX+wEfo8z1h7LhxwcXJs5yrgY0ORmk
- hmzNpIXEP0HdMeZYxolP7W9PBLw7wpM34+VG2NIcPYSwqZjmfSnOvQ9NNSzcQztpxr8Y
- TH9FGhTefEQ9rosu/FYuujV2qfcfH5hG4j2/E61TeORyjtODPMGM6MdQRm2iScSUUJG6
- E+Kyj0qJiPi3wZ5l9rizfWxT12xfne7cj4FPqb5I8IiYsIcIDLdyEXrLwCWf7Sh4u1om
- kLcA==
+ :cc:content-transfer-encoding;
+ bh=gho4bZRXwzstDim7tvB8633o2cQh2tPe5cDHWYcQ7ZY=;
+ b=tf8IXD1UjMrvEWVwsyUwDTa0KTg3Loi3AKbnfKUQVLRn3N7He5a75LY3PcSbVDAg/s
+ 9kEbNcGW1QW4rgO8Z875V9B4KqDLGnMcGP3ihH62QmGSFpccTdgmfzHTT8P/65hjwqQJ
+ z+/svHY1BZU55eTUro7pWBQm2gPz7EdPEsakW+h7o9+jl9e2kIYNqJbmcU2Mx/3tlwOC
+ lJdmDfUkHErD0dG6bi+g5Ymbekny9K16ZiNRNjR8gDrshcZrEkekZu8BMYSyxtIZ4DL/
+ Zumqf8tasv+78nfyDufJLRWvjpnqN89RqlhV+UYhccZqgfOl+SpcSWfqzy6SMRVhTBhg
+ mfUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=weNjN/xzHEHSDO334pDbfVWSs4mNM/PupPi9g1KN1hE=;
- b=qe32iPOQfoIZAX3EYP0LzZDfl4AF0MA3MSSCPaZ+ycotFcPWATDly88u5RbS4Oj2es
- waXlegzL1YSazlgkHLEAclWL8Sb7id/yxundSOuvy69En6Jfq97bWeV6idtoLFqR7W/c
- LQ+F5RzpnvAaD+YOpn3J5QpAesYaAqfS+NwcXwYuoGSsVp159d3BxrtvED219b4l2UsQ
- 8zcVfhUiTAPCKmfviv0UNVJoYqx2/Db6ALgdZTgsn9VLWJ2fKzoOnBGkyFWvR7YWnbbn
- dpDJPJAAghdcjlOLlyWHyAIjepgCXfBA4ShrS7ipjPgbt3sIYdOSi/JHUsv5X2DlEnQ8
- UNhg==
-X-Gm-Message-State: AOAM530d1hWDgHVdnGC7UJvOyeMvbzgpoSIlAPjp/xQ8CdmDTexaaRgK
- w1KPWjY7G2862dURAONB0xsYUi/S+BZB7YPO+sY1XQ==
-X-Google-Smtp-Source: ABdhPJwcbK22Ix9fd+ET1Pl7Cn1AzTSRRfd6vqqM6VwNy0agpUuC3dmSCsO7/PAKrF1qM5/LOorWQz4QQmZrUnz07oI=
-X-Received: by 2002:a17:902:b189:b0:149:6c45:24c with SMTP id
- s9-20020a170902b18900b001496c45024cmr8488385plr.21.1641982157326; Wed, 12 Jan
- 2022 02:09:17 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=gho4bZRXwzstDim7tvB8633o2cQh2tPe5cDHWYcQ7ZY=;
+ b=DL101VaMYR36UGtVUanxp6Lc1z1PAF8mUrk41OWhNBrElPrDKatX0e7jFEiZRPoBA5
+ 2IVuFJ699757ZOz9hSXbBLCJnHZe7a/DPnZvbUcQNX5Sj75gr8bqgsYggZvpfs1yE4Iu
+ YJ5DrytRBbz0pw2K5yNrSaDlnaHUUk3/4avu8wCfLw5a++OiHZLdx3L0pXC/AGGopyCv
+ pxH/8Awm5koH1QhwuS0vG+2i7bNTwtdVdrtWYG3cPwWGUXHPNcsGjC2ORZJ+aYGH3nf7
+ 9h98mrKME1qKsy1YImdAoNNeEFlDuLCdwCDYmiiVvK2AuDQXQEqUJMEiKL6P3lLwRMmR
+ iCUA==
+X-Gm-Message-State: AOAM532ZtKoDqAi9fsnbXfRqRp50MZjBk67sx8hHPGKmLLGJ5atBLXOH
+ 6VI0bwNF7at9xX4zWVL7XInpWj9AsrDci+JB2PcyMg==
+X-Google-Smtp-Source: ABdhPJywdR6yR67P9i8hdZ5DwWebo31m9ALuZA+Wpx2s7mM+oP0ycWqGRqjMjqbqw/MFpjizscam6XKJZd+4opbwiU0=
+X-Received: by 2002:a05:6a00:1a0b:b0:4bb:171e:f3d0 with SMTP id
+ g11-20020a056a001a0b00b004bb171ef3d0mr8682175pfv.0.1641982379911; Wed, 12 Jan
+ 2022 02:12:59 -0800 (PST)
 MIME-Version: 1.0
-References: <20220109204105.51878-1-colin.i.king@gmail.com>
- <Ydtoib+OCyaPhrOH@pendragon.ideasonboard.com>
-In-Reply-To: <Ydtoib+OCyaPhrOH@pendragon.ideasonboard.com>
+References: <20220110172533.66614-1-jagan@amarulasolutions.com>
+In-Reply-To: <20220110172533.66614-1-jagan@amarulasolutions.com>
 From: Robert Foss <robert.foss@linaro.org>
-Date: Wed, 12 Jan 2022 11:09:06 +0100
-Message-ID: <CAG3jFyu3aB0QnQfa-fu6_Zy_=R=9dnVLmW3RBXLv3bD=gUzQEA@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: adv7533: make array clock_div_by_lanes static
- const
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Date: Wed, 12 Jan 2022 11:12:49 +0100
+Message-ID: <CAG3jFysyz3RTnsgiV8j5VxF59xqur=CiKoqpUDOn98dMcy4T9Q@mail.gmail.com>
+Subject: Re: [PATCH v2] drm: bridge: nwl-dsi: Drop panel_bridge from nwl_dsi
+To: Jagan Teki <jagan@amarulasolutions.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,56 +64,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Neil Armstrong <narmstrong@baylibre.com>, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Sam Ravnborg <sam@ravnborg.org>, Colin Ian King <colin.i.king@gmail.com>
+Cc: =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
+ linux-amarula@amarulasolutions.com, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 9 Jan 2022 at 23:58, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
+On Mon, 10 Jan 2022 at 18:25, Jagan Teki <jagan@amarulasolutions.com> wrote=
+:
 >
-> Hi Colin,
+> panel_bridge pointer never used anywhere except the one it
+> looked up at nwl_dsi_bridge_attach.
 >
-> Thank you for the patch.
+> Drop it from the nwl_dsi structure.
 >
-> On Sun, Jan 09, 2022 at 08:41:05PM +0000, Colin Ian King wrote:
-> > Don't populate the read-only array clock_div_by_lanes on the stack but
-> > instead it static const. Also makes the object code a little smaller.
-> >
-> > Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
-> > ---
-> >  drivers/gpu/drm/bridge/adv7511/adv7533.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-> > index eb7579dec40a..ef6270806d1d 100644
-> > --- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
-> > +++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-> > @@ -29,7 +29,7 @@ static void adv7511_dsi_config_timing_gen(struct adv7511 *adv)
-> >       struct mipi_dsi_device *dsi = adv->dsi;
-> >       struct drm_display_mode *mode = &adv->curr_mode;
-> >       unsigned int hsw, hfp, hbp, vsw, vfp, vbp;
-> > -     u8 clock_div_by_lanes[] = { 6, 4, 3 };  /* 2, 3, 4 lanes */
-> > +     static const u8 clock_div_by_lanes[] = { 6, 4, 3 };     /* 2, 3, 4 lanes */
+> Reviewed-by: Guido G=C3=BCnther <agx@sigxcpu.org>
+> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> ---
+> Changes for v2:
+> - collect Guido r-b
 >
-> It's not mandatory, but I have a tendency to declare static const
-> variable first before all mutable variables.
+> Note: This is patch is part of switching of devm_drm_of_get_bridge
+> serious however the child node support of devm_drm_of_get_bridge is
+> still under-review. So send it separatly as it not related to that
+> API switch.
+> https://patchwork.kernel.org/project/dri-devel/patch/20211210174819.22501=
+78-1-jagan@amarulasolutions.com/
 >
-> >
-> >       hsw = mode->hsync_end - mode->hsync_start;
-> >       hfp = mode->hsync_start - mode->hdisplay;
+>  drivers/gpu/drm/bridge/nwl-dsi.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
 >
-> I wonder if
+> diff --git a/drivers/gpu/drm/bridge/nwl-dsi.c b/drivers/gpu/drm/bridge/nw=
+l-dsi.c
+> index fc3ad9fab867..9282e61dfbf0 100644
+> --- a/drivers/gpu/drm/bridge/nwl-dsi.c
+> +++ b/drivers/gpu/drm/bridge/nwl-dsi.c
+> @@ -65,7 +65,6 @@ struct nwl_dsi_transfer {
+>  struct nwl_dsi {
+>         struct drm_bridge bridge;
+>         struct mipi_dsi_host dsi_host;
+> -       struct drm_bridge *panel_bridge;
+>         struct device *dev;
+>         struct phy *phy;
+>         union phy_configure_opts phy_cfg;
+> @@ -924,13 +923,11 @@ static int nwl_dsi_bridge_attach(struct drm_bridge =
+*bridge,
+>                 if (IS_ERR(panel_bridge))
+>                         return PTR_ERR(panel_bridge);
+>         }
+> -       dsi->panel_bridge =3D panel_bridge;
 >
->         /* set pixel clock divider mode */
->         regmap_write(adv->regmap_cec, 0x16, (12 / dsi->lanes) << 3);
+> -       if (!dsi->panel_bridge)
+> +       if (!panel_bridge)
+>                 return -EPROBE_DEFER;
 >
-> would be even better, or if it would be too much black magic. Either
-> way,
+> -       return drm_bridge_attach(bridge->encoder, dsi->panel_bridge, brid=
+ge,
+> -                                flags);
+> +       return drm_bridge_attach(bridge->encoder, panel_bridge, bridge, f=
+lags);
+>  }
 >
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>  static void nwl_dsi_bridge_detach(struct drm_bridge *bridge)
 
 Applied to drm-misc-next.
