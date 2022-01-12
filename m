@@ -1,52 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCE4C48CA8E
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 19:02:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5BEE48CAA4
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 19:08:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A921710E71E;
-	Wed, 12 Jan 2022 18:02:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF72B10E313;
+	Wed, 12 Jan 2022 18:08:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B40A10E313
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 18:02:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642010530; x=1673546530;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=peCOLHBM3+E7NaIzL8oRlL1xCDcIV08L04w1ldsTMcY=;
- b=Xfol8b7OV6fudnOe+MmLlZVHlPX0QNGhP/DFLmEL+MdVpvOT6BAdO3i8
- QC628OMjbSsCHuDnlFKgLAKl1+UYrihoKhRWL+Pa9b4F0HmHbvGg1h6ie
- gZ8U0r/n/vd/9it+92uvdSVvcRvthwUY2jTmwpWSBWAT5YnCtFbkqthz9
- Xyt2XCmgqCrN8B3hNILOxF1fO1HHyoZGZ92OpkxLmXY896upJqbcHTkws
- mg0V9rGJoKpJUnbAVFN0fuCX7pu4fLZcxNgT0sjop++jxIbanThbtk7HP
- nfVak7fobQXW4eWI3SnTtBroqtg+JUpe0X26fGTJrt1PNU21ikaFLcuMY A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10225"; a="241354110"
-X-IronPort-AV: E=Sophos;i="5.88,282,1635231600"; d="scan'208";a="241354110"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jan 2022 10:02:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,282,1635231600"; d="scan'208";a="613650646"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
- by FMSMGA003.fm.intel.com with ESMTP; 12 Jan 2022 10:02:06 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1n7hwk-0006CT-02; Wed, 12 Jan 2022 18:02:06 +0000
-Date: Thu, 13 Jan 2022 02:01:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: cgel.zte@gmail.com, linux-graphics-maintainer@vmware.com
-Subject: Re: [PATCH] drm/vmwgfx: remove redundant ret variable
-Message-ID: <202201130145.eexFh3na-lkp@intel.com>
-References: <20220112082422.667488-1-chi.minghao@zte.com.cn>
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2104210E313
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 18:08:50 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id s30so10999378lfo.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 10:08:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=fbQ4MfMPQ01c4yNnE9/3ElS8nA8KssfGISIkQPEdFsY=;
+ b=ObdGosYwJtK5OzDLqayzPD3/LnC1M9Fs8nnT4OJc+qYHHhCOprhDhARWt30UeY3xTW
+ s9MEwc0HRT46OenG6uONG9oyMWCbpTMr3Jewfnfcqt21XpnyYtRLdvEyJhXvINBaKone
+ 05r449M4Yf8EauPzkmqujmJaHpcRP1uJEI8rynH6Qinna3YwY474XFjZ8//bGL0lO+Jm
+ eM8B3qAFBtol8VqiYaPu+0SLy5qlei0R4Jc8z8gHvu95Xc23jt0wM5pJH0qPfYJ47gBp
+ gWd1zcPRo7jKhnHkcCvrisbigMP3nuRl2jOFGFVUvKuqEnZoBQVF0lj0MxhbH2ZeddfR
+ 1FQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=fbQ4MfMPQ01c4yNnE9/3ElS8nA8KssfGISIkQPEdFsY=;
+ b=6YEnrfo/QJmReZJrbQPqgTfLfPtqbFEiFmaai99JwotXvoAuFqqDlh/pEvpNQgYIWz
+ OiyGNereE3TaPppvAdiIxdvXfE+nTZDJ0p7cdpUvA/LVdSYoT3Mjp1LfyHVPYJpZRrve
+ 6hv2FJvgDtY0GGbMetYmct98CJ52i3ljXF0i6X262pBz14aaNhGa32ujDDDW7S8LoIAM
+ sZNmn2bD4MQPd9evK/BXVqWdZPjEShiWwCdxoo1GunoIFAOPcGAmMFLQ7Ftwz2rjO/4B
+ 15+ckHEYnD2qdsHX4KxVXJTvC1KgNSpKm2BOxKTd5caIIMomzDuELAwc4pHDQME1T+Z1
+ CCug==
+X-Gm-Message-State: AOAM532BDlVqNRwk0QuRuke4/ilmVR2gihugzPCkyCI5P8KnzOcFD/8T
+ pEMQf7VOntoDzlTP2Q9o0gk=
+X-Google-Smtp-Source: ABdhPJwWHoWpLtRiuzfDkCm8Un7F1KU6ZGRTRVKv7RiEHbBNH2URTuRSDL07MZF7+km6mW6qppQ6ag==
+X-Received: by 2002:a05:6512:3f16:: with SMTP id
+ y22mr621580lfa.61.1642010928255; 
+ Wed, 12 Jan 2022 10:08:48 -0800 (PST)
+Received: from [192.168.1.11] ([217.117.245.67])
+ by smtp.gmail.com with ESMTPSA id k29sm35460ljc.44.2022.01.12.10.08.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Jan 2022 10:08:47 -0800 (PST)
+Message-ID: <c5ae2a68-070f-884c-c82a-2d3f4b8e06b1@gmail.com>
+Date: Wed, 12 Jan 2022 21:08:46 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220112082422.667488-1-chi.minghao@zte.com.cn>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [PATCH] udmabuf: validate ubuf->pagecount
+Content-Language: en-US
+To: kraxel@redhat.com, sumit.semwal@linaro.org, christian.koenig@amd.com,
+ daniel.vetter@ffwll.ch
+References: <20211230142649.23022-1-paskripkin@gmail.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <20211230142649.23022-1-paskripkin@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,106 +73,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, airlied@linux.ie, CGEL ZTE <cgel.zte@gmail.com>,
- Zeal Robot <zealci@zte.com.cn>, linux-kernel@vger.kernel.org,
- Minghao Chi <chi.minghao@zte.com.cn>, dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org,
+ syzbot+2c56b725ec547fa9cb29@syzkaller.appspotmail.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 12/30/21 17:26, Pavel Skripkin wrote:
+> Syzbot has reported GPF in sg_alloc_append_table_from_pages(). The
+> problem was in ubuf->pages == ZERO_PTR.
+> 
+> ubuf->pagecount is calculated from arguments passed from user-space. If
+> user creates udmabuf with list.size == 0 then ubuf->pagecount will be
+> also equal to zero; it causes kmalloc_array() to return ZERO_PTR.
+> 
+> Fix it by validating ubuf->pagecount before passing it to
+> kmalloc_array().
+> 
+> Fixes: fbb0de795078 ("Add udmabuf misc device")
+> Reported-and-tested-by: syzbot+2c56b725ec547fa9cb29@syzkaller.appspotmail.com
+> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+> ---
+> 
 
-Thank you for the patch! Perhaps something to improve:
+Gentle ping :)
 
-[auto build test WARNING on drm/drm-next]
-[also build test WARNING on next-20220112]
-[cannot apply to v5.16]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+> 
+> ---
+>   drivers/dma-buf/udmabuf.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+> index c57a609db75b..e7330684d3b8 100644
+> --- a/drivers/dma-buf/udmabuf.c
+> +++ b/drivers/dma-buf/udmabuf.c
+> @@ -190,6 +190,10 @@ static long udmabuf_create(struct miscdevice *device,
+>   		if (ubuf->pagecount > pglimit)
+>   			goto err;
+>   	}
+> +
+> +	if (!ubuf->pagecount)
+> +		goto err;
+> +
+>   	ubuf->pages = kmalloc_array(ubuf->pagecount, sizeof(*ubuf->pages),
+>   				    GFP_KERNEL);
+>   	if (!ubuf->pages) {
 
-url:    https://github.com/0day-ci/linux/commits/cgel-zte-gmail-com/drm-vmwgfx-remove-redundant-ret-variable/20220112-162527
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20220113/202201130145.eexFh3na-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/0day-ci/linux/commit/3542ac844ea28aaa8528f5deb3ee52d1690f1f8a
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review cgel-zte-gmail-com/drm-vmwgfx-remove-redundant-ret-variable/20220112-162527
-        git checkout 3542ac844ea28aaa8528f5deb3ee52d1690f1f8a
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/vmwgfx/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   drivers/gpu/drm/vmwgfx/vmwgfx_bo.c: In function 'vmw_dumb_create':
->> drivers/gpu/drm/vmwgfx/vmwgfx_bo.c:794:1: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-     794 | void vmw_bo_swap_notify(struct ttm_buffer_object *bo)
-         | ^~~~
-   drivers/gpu/drm/vmwgfx/vmwgfx_bo.c:860:1: error: expected declaration or statement at end of input
-     860 | }
-         | ^
-   At top level:
-   drivers/gpu/drm/vmwgfx/vmwgfx_bo.c:853:6: warning: 'vmw_bo_is_vmw_bo' defined but not used [-Wunused-function]
-     853 | bool vmw_bo_is_vmw_bo(struct ttm_buffer_object *bo)
-         |      ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/vmwgfx/vmwgfx_bo.c:815:6: warning: 'vmw_bo_move_notify' defined but not used [-Wunused-function]
-     815 | void vmw_bo_move_notify(struct ttm_buffer_object *bo,
-         |      ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/vmwgfx/vmwgfx_bo.c:794:6: warning: 'vmw_bo_swap_notify' defined but not used [-Wunused-function]
-     794 | void vmw_bo_swap_notify(struct ttm_buffer_object *bo)
-         |      ^~~~~~~~~~~~~~~~~~
-
-
-vim +794 drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  761  
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  762  
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  763  /**
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  764   * vmw_dumb_create - Create a dumb kms buffer
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  765   *
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  766   * @file_priv: Pointer to a struct drm_file identifying the caller.
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  767   * @dev: Pointer to the drm device.
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  768   * @args: Pointer to a struct drm_mode_create_dumb structure
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  769   * Return: Zero on success, negative error code on failure.
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  770   *
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  771   * This is a driver callback for the core drm create_dumb functionality.
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  772   * Note that this is very similar to the vmw_bo_alloc ioctl, except
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  773   * that the arguments have a different format.
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  774   */
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  775  int vmw_dumb_create(struct drm_file *file_priv,
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  776  		    struct drm_device *dev,
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  777  		    struct drm_mode_create_dumb *args)
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  778  {
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  779  	struct vmw_private *dev_priv = vmw_priv(dev);
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  780  	struct vmw_buffer_object *vbo;
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  781  
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  782  	args->pitch = args->width * ((args->bpp + 7) / 8);
-8afa13a0583f94 Zack Rusin       2021-12-06  783  	args->size = ALIGN(args->pitch * args->height, PAGE_SIZE);
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  784  
-3542ac844ea28a Minghao Chi      2022-01-12  785  	return vmw_gem_object_create_with_handle(dev_priv, file_priv,
-8afa13a0583f94 Zack Rusin       2021-12-06  786  						args->size, &args->handle,
-8afa13a0583f94 Zack Rusin       2021-12-06  787  						&vbo);
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  788  
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  789  /**
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  790   * vmw_bo_swap_notify - swapout notify callback.
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  791   *
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  792   * @bo: The buffer object to be swapped out.
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  793   */
-e9431ea5076a91 Thomas Hellstrom 2018-06-19 @794  void vmw_bo_swap_notify(struct ttm_buffer_object *bo)
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  795  {
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  796  	/* Is @bo embedded in a struct vmw_buffer_object? */
-8afa13a0583f94 Zack Rusin       2021-12-06  797  	if (vmw_bo_is_vmw_bo(bo))
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  798  		return;
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  799  
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  800  	/* Kill any cached kernel maps before swapout */
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  801  	vmw_bo_unmap(vmw_buffer_object(bo));
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  802  }
-e9431ea5076a91 Thomas Hellstrom 2018-06-19  803  
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+With regards,
+Pavel Skripkin
