@@ -1,43 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0787448C044
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 09:52:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 852F248BED7
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 08:10:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D79AC112E43;
-	Wed, 12 Jan 2022 08:51:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 304F410EA45;
+	Wed, 12 Jan 2022 07:10:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hua.moonlit-rail.com (hua.moonlit-rail.com [45.79.167.250])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74C8E10E3D7
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 02:19:49 +0000 (UTC)
-Received: from
- 209-6-248-230.s2276.c3-0.wrx-ubr1.sbo-wrx.ma.cable.rcncustomer.com
- ([209.6.248.230] helo=boston.moonlit-rail.com)
- by hua.moonlit-rail.com with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
- (envelope-from <bugs-a21@moonlit-rail.com>) id 1n7TEp-0004N3-4o
- for dri-devel@lists.freedesktop.org; Tue, 11 Jan 2022 21:19:47 -0500
-Received: from springdale.mc.moonlit-rail.com ([192.168.71.36])
- by boston.moonlit-rail.com with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.95)
- (envelope-from <bugs-a21@moonlit-rail.com>) id 1n7TEn-0000gg-Hc;
- Tue, 11 Jan 2022 21:19:45 -0500
-Message-ID: <65a13d92-93fc-25d2-0009-b7e60f3392c4@moonlit-rail.com>
-Date: Tue, 11 Jan 2022 21:19:45 -0500
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2400D10EA45
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 07:09:59 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id i5so5990117edf.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 23:09:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=e4STGP8nx6rQ3ZHW8wIeGVs8uIWas7TIWKM1+FpYezU=;
+ b=ZmTrP16zO40yngw5STTmjokex1CAtMdhbY5IbDWg95ESmBDwfuvdEC5gZIC0XLHbQq
+ bfgwrEmfLj0d2IQI54C+C1JAlyj78bMJJummud0FLcJbPrE4Zl6LsbpBMwjyVE6xfuR3
+ K6g3L5I6zaIlVB2Ra+IYGW+ZsHGdG81aLKjPc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=e4STGP8nx6rQ3ZHW8wIeGVs8uIWas7TIWKM1+FpYezU=;
+ b=ZfcoDzrpiKs6QE2Q53PXAKD/RuZR1peT8PHASiZEn4qSKWMj68tLsRBUHxUxQYThan
+ WWF/c3f1ZBP0bnpl6gn8KTXTu9TjgI40ODwedsrMfOPfALAOhBx3sw4Q7gKTzOuvWM42
+ BoJhl5QxY1Vr/qyJRH+oKEx2sloOW7raNSpWHW6VkzyIEIDUy1YtRuDB+lutcchiMYRE
+ ZwR2ujvHiBJvMMIvcgS9cVuohwUrTCL3ZAeX/9sVa/8fKYycknf/1Raj/Uca6w0Tb4g4
+ CIeeY6bgnfXbyc6tLW57SykNk/hpbHLhZ9tFRmFhMXaCZiyCme0AGhnq3YThxLr0kYy9
+ llYg==
+X-Gm-Message-State: AOAM530hoNuAXv05LuRF5i2mmKd6bP/HYu7AmC2CTFY5sAZdoWE6UyCc
+ EA5m8cBcI5RhibqAl7vuNjHyM7itIQnwgvQsIt00Hw==
+X-Google-Smtp-Source: ABdhPJyn8pZbZiDsgDpS9epZmGHtoPwtrHVrQnpxg/IvMYAfsCnSw98pwWo/FbDisciefPKFkzl0TWCxn/Uv0enkwI4=
+X-Received: by 2002:a17:907:3d8e:: with SMTP id
+ he14mr6365432ejc.167.1641971397535; 
+ Tue, 11 Jan 2022 23:09:57 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH v2 0/2] video: A couple of fixes for the vga16fb driver
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>
-References: <20220110095625.278836-1-javierm@redhat.com>
-From: "Kris Karas (Bug reporting)" <bugs-a21@moonlit-rail.com>
-In-Reply-To: <20220110095625.278836-1-javierm@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Wed, 12 Jan 2022 08:51:42 +0000
+References: <20220104095954.10313-1-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220104095954.10313-1-angelogioacchino.delregno@collabora.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Wed, 12 Jan 2022 12:39:46 +0530
+Message-ID: <CAMty3ZAojTyw3H8VprH9aiyTyWjeL8oqPxNNr=J33_5FrcUj9Q@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/mediatek: mtk_dsi: Avoid EPROBE_DEFER loop with
+ external bridge
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,30 +61,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Peter Robinson <pbrobinson@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Borislav Petkov <bp@suse.de>
+Cc: chunkuang.hu@kernel.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ andrzej.hajda@intel.com, matthias.bgg@gmail.com, kernel@collabora.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier, Geert, et al,
+On Tue, Jan 4, 2022 at 3:30 PM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>
+> DRM bridge drivers are now attaching their DSI device at probe time,
+> which requires us to register our DSI host in order to let the bridge
+> to probe: this recently started producing an endless -EPROBE_DEFER
+> loop on some machines that are using external bridges, like the
+> parade-ps8640, found on the ACER Chromebook R13.
+>
+> Now that the DSI hosts/devices probe sequence is documented, we can
+> do adjustments to the mtk_dsi driver as to both fix now and make sure
+> to avoid this situation in the future: for this, following what is
+> documented in drm_bridge.c, move the mtk_dsi component_add() to the
+> mtk_dsi_ops.attach callback and delete it in the detach callback;
+> keeping in mind that we are registering a drm_bridge for our DSI,
+> which is only used/attached if the DSI Host is bound, it wouldn't
+> make sense to keep adding our bridge at probe time (as it would
+> be useless to have it if mtk_dsi_ops.attach() fails!), so also move
+> that one to the dsi host attach function (and remove it in detach).
+>
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> ---
 
-Javier Martinez Canillas wrote:
-> Changes in v2:
-> - Make the change only for x86 (Geert Uytterhoeven)
-> - Only check the suppported video mode for x86 (Geert Uytterhoeven).
+Eventually I've observed similar issue on other Component based DSI
+controllers, hence
 
-I just updated Bug 215001 to reflect that I have tested this new, V2 
-patch against 4 systems, one more than last time - 2 BIOS/VGAC and 2 
-UEFI - and it works perfectly on all four.
-
-Thanks, Javier, for the excellent work!
-I didn't test with non-X86, but the code appears to bypass the patch on 
-non-X86, so should work fine for Geert.
-
-Kris
-
-Tested-By: Kris Karas <bugs-a21@moonlit-rail.com>
-
+Reviewed-by: Jagan Teki <jagan@amarulasolutions.com>
