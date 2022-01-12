@@ -1,74 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30A0C48C376
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 12:47:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB19248C47D
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 14:12:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05DBC10E2F6;
-	Wed, 12 Jan 2022 11:47:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0798511218C;
+	Wed, 12 Jan 2022 13:12:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
- [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CF6410E2F6
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 11:47:00 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.west.internal (Postfix) with ESMTP id 9A6CB2B000BC;
- Wed, 12 Jan 2022 06:46:56 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Wed, 12 Jan 2022 06:46:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=HUjciRt5oJndHDa2833SlsReu2F
- Lf5JGDbYdWg1xoYs=; b=SZi998ghqmL2HXA2R5cA6kdLNdjDPgHYR9a/jMNWD/M
- STVYrgIBv9PRtm4F6daxWUFqq7njRWhRR1w7i/Lxl/yz0HSm/hMbv/snu9NwGmFU
- QRw94aOfYdZxlJna4jtr4L8v647c9uUxKpea/Nwj1Y2zRp4pMaGMwtNRa4C+puJD
- YPUyrqxbGsjoEPPuHynorRPNf9TX+FxQsT6Z9m8UZKrsXd4H5t3rTyaSSe2NoKPm
- ZMntaHnoffnytcFuF17PWrEn+3dqCGQ1d0JPKz+waGBGGyzfP/Tyn3mitbqkxTxo
- bRxacFYHw6/3CtXKOLvIVYUsxxHm7kUcjIEd5GDEN9w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=HUjciR
- t5oJndHDa2833SlsReu2FLf5JGDbYdWg1xoYs=; b=e8KGKIF93rUVNZc7T1LIw8
- dnhAHggVIVyYIvaghnzQOHPyS7LEiB0865QxwGenVqJj+rDUAZi/E/mTqNqVw88f
- u/ue7smcTQDal/ZoLbMcXfPQefBQWB/s0LvqIbgAFkNbFzaVC9l+9mnPtWX6zVmZ
- yYCRIWE2SglpMf6YJUZwHmxZxnglXRmCMy09gqVyPeTdQUpLDPS0EITFNzl8f+t3
- bMR5sE6gzbMom/00etMAzwFrp1JPIKUkpi4A/A6HuRigum8lY+zOKG8T+Di2X1Hw
- 1cgJSlL3ff/wkRImI3DsaBd8T2Z+W5Oct3VpB0JQsexKFWZpGXs3Db995HOOOuug
- ==
-X-ME-Sender: <xms:r7_eYWfWPldIQcrbBv4JI72JlpglwS-V0hp4t4G-RuoSRiwnDxDkFA>
- <xme:r7_eYQPwS9sDu6r7IYJVxhF_ojRpJvGVDFySU5_JoZtnhaJgo9gnQovbmlphcgapN
- BDSL1IAMuSW0ptw4xA>
-X-ME-Received: <xmr:r7_eYXg7HG2IEdFVPE-A20qAjMWihuijnIlzk4eUBazQ2ZwFQmRi59q0gh2M_zrq3lSZUGWgv4x1AlrcDtReGXgIN_dUmpM5ImTE140>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrtddugddtiecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
- udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:r7_eYT-O9vnOaLcoNm2Si1eFH1RLaTmkni9-2U4VK_JBUP5KimGsFg>
- <xmx:r7_eYSvvHvL15QKgqRlIlAC4aP9hntOkNkwwZBQkdUMOCKRbs87h8Q>
- <xmx:r7_eYaETlyi_9EAwH07vLaeKw55u35-zIqdoqyTvbykkCEKvOHuKhQ>
- <xmx:sL_eYSGQhz3HeeWNFuPBcxFaJ8zVu3aqyBJZC2SykptAa5M6SzFh_mvz_Pc>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 12 Jan 2022 06:46:55 -0500 (EST)
-Date: Wed, 12 Jan 2022 12:46:52 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Stephen Boyd <sboyd@kernel.org>
-Subject: Re: [PATCH v2 1/3] clk: Introduce a clock request API
-Message-ID: <20220112114652.hmfdcpqil5jg2vz6@houat>
-References: <20210914093515.260031-1-maxime@cerno.tech>
- <20210914093515.260031-2-maxime@cerno.tech>
- <20220112033716.63631C36AEA@smtp.kernel.org>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06BFD11219C;
+ Wed, 12 Jan 2022 13:12:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1641993171; x=1673529171;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=qCsob8UMWQvb0TVxnSwy/tHHpqKaW37R5V/tqLwOhwk=;
+ b=MNyT8PMIhCbMk6UW0UCLTWV03+KIjp75v6CiqAylNa2nfAhrE5967+GS
+ MVssvEjGk4wZXouItlufiQzngPxVg8M3dK5n0Bt749XsLTd4tVWJCNOle
+ 35bG7hDMUtEqzhwUA5eIfIfIm3nQ7atAm5gvXiTE5QeJbl7d4O/rGIuTc
+ rkffJaoaHsH5f/hf/kHNTSs7cKnItqqhklZ8m3AcRVlj8cyDdmkBBr/JX
+ fEsm37jPOlhcFKYXGWe/R+KVNXihiCh7U5X6kn4FpECh0NtVUvYE8GsdD
+ 28WgEF6jauVhiC8bTsV4fqiL885DgcFvS5hlOvLvfhNW2//C539lT6uo3 Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10224"; a="223709772"
+X-IronPort-AV: E=Sophos;i="5.88,282,1635231600"; d="scan'208";a="223709772"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jan 2022 05:12:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,282,1635231600"; d="scan'208";a="620184849"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.147])
+ by fmsmga002.fm.intel.com with SMTP; 12 Jan 2022 05:12:47 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 12 Jan 2022 15:12:47 +0200
+Date: Wed, 12 Jan 2022 15:12:47 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH 3/3] drm/atomic: Make private objs proper objects
+Message-ID: <Yd7Tz0sHZsx/+ROL@intel.com>
+References: <20170712155102.26276-1-ville.syrjala@linux.intel.com>
+ <20170712155102.26276-3-ville.syrjala@linux.intel.com>
+ <87tueoj4bw.fsf@intel.com> <YdxYNV9AhlvHxibp@intel.com>
+ <87y23m8ycl.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="egjpwy3yppd7su6i"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220112033716.63631C36AEA@smtp.kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87y23m8ycl.fsf@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,171 +62,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, Dom Cobley <dom@raspberrypi.com>,
- Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, Mike Turquette <mturquette@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, linux-clk@vger.kernel.org,
- Russell King <linux@armlinux.org.uk>, Jerome Brunet <jbrunet@baylibre.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ Dhinakaran Pandiyan <dhinakaran.pandiyan@intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Jan 11, 2022 at 10:34:34AM +0200, Jani Nikula wrote:
+> On Mon, 10 Jan 2022, Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
+> > On Fri, Dec 31, 2021 at 03:23:31PM +0200, Jani Nikula wrote:
+> >> On Wed, 12 Jul 2017, ville.syrjala@linux.intel.com wrote:
+> >> > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> >> >
+> >> > Make the atomic private object stuff less special by introducing proper
+> >> > base classes for the object and its state. Drivers can embed these in
+> >> > their own appropriate objects, after which these things will work
+> >> > exactly like the plane/crtc/connector states during atomic operations.
+> >> >
+> >> > v2: Reorder to not depend on drm_dynarray (Daniel)
+> >> >
+> >> > Cc: Dhinakaran Pandiyan <dhinakaran.pandiyan@intel.com>
+> >> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> >> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch> #v1
+> >> > Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> >> 
+> >> Stumbled upon an old commit
+> >> 
+> >> commit a4370c777406c2810e37fafd166ccddecdb2a60c
+> >> Author: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> >> Date:   Wed Jul 12 18:51:02 2017 +0300
+> >> 
+> >>     drm/atomic: Make private objs proper objects
+> >> 
+> >> which is this patch.
+> >> 
+> >> > @@ -3050,8 +3043,7 @@ struct drm_dp_mst_topology_state *drm_atomic_get_mst_topology_state(struct drm_a
+> >> >  	struct drm_device *dev = mgr->dev;
+> >> >  
+> >> >  	WARN_ON(!drm_modeset_is_locked(&dev->mode_config.connection_mutex));
+> >> > -	return drm_atomic_get_private_obj_state(state, mgr,
+> >> > -						&mst_state_funcs);
+> >> > +	return to_dp_mst_topology_state(drm_atomic_get_private_obj_state(state, &mgr->base));
+> >> >  }
+> >> >  EXPORT_SYMBOL(drm_atomic_get_mst_topology_state);
+> >> 
+> >> I don't think this combines well with...
+> >> 
+> >> > diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_helper.h
+> >> > index 177ab6f86855..d55abb75f29a 100644
+> >> > --- a/include/drm/drm_dp_mst_helper.h
+> >> > +++ b/include/drm/drm_dp_mst_helper.h
+> >> > @@ -404,12 +404,17 @@ struct drm_dp_payload {
+> >> >  	int vcpi;
+> >> >  };
+> >> >  
+> >> > +#define to_dp_mst_topology_state(x) container_of(x, struct drm_dp_mst_topology_state, base)
+> >> 
+> >> ...this in case of error pointers that
+> >> drm_atomic_get_private_obj_state() may return.
+> >
+> > offsetof(base)==0 so should work in practice.
+> 
+> Returning zeros is fine, but error pointers are another matter.
 
---egjpwy3yppd7su6i
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Why? This is just 'return ptr-0' so shouldn't matter what you
+have in that pointer AFAICS.
 
-Hi Stephen,
-
-Thanks for your answer
-
-On Tue, Jan 11, 2022 at 07:37:15PM -0800, Stephen Boyd wrote:
-> Sorry for being super delayed on response here. I'm buried in other
-> work. +Jerome for exclusive clk API.
->=20
-> Quoting Maxime Ripard (2021-09-14 02:35:13)
-> > It's not unusual to find clocks being shared across multiple devices
-> > that need to change the rate depending on what the device is doing at a
-> > given time.
-> >=20
-> > The SoC found on the RaspberryPi4 (BCM2711) is in such a situation
-> > between its two HDMI controllers that share a clock that needs to be
-> > raised depending on the output resolution of each controller.
-> >=20
-> > The current clk_set_rate API doesn't really allow to support that case
-> > since there's really no synchronisation between multiple users, it's
-> > essentially a fire-and-forget solution.
->=20
-> I'd also say a "last caller wins"
->=20
-> >=20
-> > clk_set_min_rate does allow for such a synchronisation, but has another
-> > drawback: it doesn't allow to reduce the clock rate once the work is
-> > over.
->=20
-> What does "work over" mean specifically? Does it mean one of the clk
-> consumers has decided to stop using the clk?
-
-That, or it doesn't need to enforce that minimum anymore. We have
-several cases like this on the RPi. For example, during a change of
-display mode a (shared) clock needs to be raised to a minimum, but
-another shared one needs to raise its minimum based on the resolution.
-
-In the former case, we only need the minimum to be enforced during the
-resolution change, so it's fairly quick, but the latter requires its
-minimum for as long as the display is on.
-
-> Why doesn't clk_set_rate_range() work? Or clk_set_rate_range() combined
-> with clk_set_rate_exclusive()?
-
-clk_set_rate_range could work (it's what we have right now in mainline
-after all), but it's suboptimal since the clock is never scaled down.
-
-It's especially showing in my first example where we need to raise the
-clock only for the duration of the resolution change. Using
-clk_set_min_rate works but we end up with that fairly high clock (at
-least 500MHz) for the rest of the system life even though we usually can
-get away with using a clock around 200MHz outside of that (short) window.
-
-This is fairly inefficient, and is mostly what I'm trying to address.
-
-> > In our previous example, this means that if we were to raise the
-> > resolution of one HDMI controller to the largest resolution and then
-> > changing for a smaller one, we would still have the clock running at the
-> > largest resolution rate resulting in a poor power-efficiency.
->=20
-> Does this example have two HDMI controllers where they share one clk and
-> want to use the most efficient frequency for both of the HDMI devices? I
-> think I'm following along but it's hard. It would be clearer if there
-> was some psuedo-code explaining how it is both non-workable with current
-> APIs and workable with the new APIs.
-
-The fact that we have two HDMI controllers that share one clock is why
-we use clk_set_min_rate in the first place, but you can have that
-behavior with clk_set_min_rate only with a single user.
-
-With pseudo-code, if you do something like
-
-clk =3D clk_get(NULL);
-clk_set_min_rate(600 * 1000 * 1000);
-clk_set_min_rate(1000);
-
-The clock will still remain at 600MHz, even though you would be totally
-fine with the clock running at 1kHz.
-
-If you really wanted to make the clock run at 1kHz, you'd need to have:
-
-clk =3D clk_get(NULL);
-clk_set_min_rate(600 * 1000 * 1000);
-clk_set_min_rate(1000);
-clk_set_rate(1000);
-
-And that works fine for a single user.
-
-If you have a clock shared by multiple drivers though, things get
-tricky. Indeed, you can't really find out what the minimum for that
-clock is, so figuring out the rate to pass to the clk_set_rate call
-would be difficult already. And it wouldn't be atomic anyway.
-
-It's made even more difficult since in clk_calc_new_rates the core
-checks that the rate is within the boundaries and will error out if it
-isn't, so even using clk_set_rate(0) wouldn't work.
-
-It could work if the clock driver makes sure in round/determine_rate
-that the rate passed in within the boundaries of the clock, but then you
-start working around the core and relying on the behavior of clock
-drivers, which is a fairly significant abstraction violation.
-
-> > In order to address both issues, let's create an API that allows user to
-> > create temporary requests to increase the rate to a minimum, before
-> > going back to the initial rate once the request is done.
-> >=20
-> > This introduces mainly two side-effects:
-> >=20
-> >   * There's an interaction between clk_set_rate and requests. This has
-> >     been addressed by having clk_set_rate increasing the rate if it's
-> >     greater than what the requests asked for, and in any case changing
-> >     the rate the clock will return to once all the requests are done.
-> >=20
-> >   * Similarly, clk_round_rate has been adjusted to take the requests
-> >     into account and return a rate that will be greater or equal to the
-> >     requested rates.
-> >=20
->=20
-> I believe clk_set_rate_range() is broken but it can be fixed. I'm
-> forgetting the details though. If the intended user of this new API
-> can't use that range API then it would be good to understand why it
-> can't be used. I imagine it would be something like
->=20
-> 	struct clk *clk_hdmi1, *clk_hdmi2;
->=20
-> 	clk_set_rate_range(&clk_hdmi1, HDMI1_MIN, HDMI1_MAX);
-> 	clk_set_rate_range(&clk_hdmi2, HDMI2_MIN, HDMI2_MAX);
-> 	clk_set_rate_range(&clk_hdmi2, 0, UINT_MAX);
->=20
-> and then the goal would be for HDMI1_MIN to be used, or at the least for
-> the last call to clk_set_rate_range() to drop the rate constraint and
-> re-evaluate the frequency of the clk again based on hdmi1's rate range.
-
-This is pretty much what this series was doing. I was being conservative
-and didn't really want to modify the behavior of existing functions, but
-that will work fine.
-
-Thanks!
-Maxime
-
---egjpwy3yppd7su6i
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYd6/rAAKCRDj7w1vZxhR
-xR9GAQDP0lh5cm05+cYde3a9KcPm6bTgvLdbWYfrwII7np7O7gD/RQycjeJyoZ25
-SvqeoDWllJmlR1yk/+VSlpi0hZxiJwI=
-=QGDi
------END PGP SIGNATURE-----
-
---egjpwy3yppd7su6i--
+-- 
+Ville Syrjälä
+Intel
