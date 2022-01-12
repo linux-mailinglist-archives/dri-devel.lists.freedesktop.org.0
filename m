@@ -1,66 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5BEE48CAA4
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 19:08:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 570DB48CB1A
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 19:37:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF72B10E313;
-	Wed, 12 Jan 2022 18:08:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A86BB10E3D7;
+	Wed, 12 Jan 2022 18:37:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2104210E313
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 18:08:50 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id s30so10999378lfo.7
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 10:08:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=fbQ4MfMPQ01c4yNnE9/3ElS8nA8KssfGISIkQPEdFsY=;
- b=ObdGosYwJtK5OzDLqayzPD3/LnC1M9Fs8nnT4OJc+qYHHhCOprhDhARWt30UeY3xTW
- s9MEwc0HRT46OenG6uONG9oyMWCbpTMr3Jewfnfcqt21XpnyYtRLdvEyJhXvINBaKone
- 05r449M4Yf8EauPzkmqujmJaHpcRP1uJEI8rynH6Qinna3YwY474XFjZ8//bGL0lO+Jm
- eM8B3qAFBtol8VqiYaPu+0SLy5qlei0R4Jc8z8gHvu95Xc23jt0wM5pJH0qPfYJ47gBp
- gWd1zcPRo7jKhnHkcCvrisbigMP3nuRl2jOFGFVUvKuqEnZoBQVF0lj0MxhbH2ZeddfR
- 1FQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=fbQ4MfMPQ01c4yNnE9/3ElS8nA8KssfGISIkQPEdFsY=;
- b=6YEnrfo/QJmReZJrbQPqgTfLfPtqbFEiFmaai99JwotXvoAuFqqDlh/pEvpNQgYIWz
- OiyGNereE3TaPppvAdiIxdvXfE+nTZDJ0p7cdpUvA/LVdSYoT3Mjp1LfyHVPYJpZRrve
- 6hv2FJvgDtY0GGbMetYmct98CJ52i3ljXF0i6X262pBz14aaNhGa32ujDDDW7S8LoIAM
- sZNmn2bD4MQPd9evK/BXVqWdZPjEShiWwCdxoo1GunoIFAOPcGAmMFLQ7Ftwz2rjO/4B
- 15+ckHEYnD2qdsHX4KxVXJTvC1KgNSpKm2BOxKTd5caIIMomzDuELAwc4pHDQME1T+Z1
- CCug==
-X-Gm-Message-State: AOAM532BDlVqNRwk0QuRuke4/ilmVR2gihugzPCkyCI5P8KnzOcFD/8T
- pEMQf7VOntoDzlTP2Q9o0gk=
-X-Google-Smtp-Source: ABdhPJwWHoWpLtRiuzfDkCm8Un7F1KU6ZGRTRVKv7RiEHbBNH2URTuRSDL07MZF7+km6mW6qppQ6ag==
-X-Received: by 2002:a05:6512:3f16:: with SMTP id
- y22mr621580lfa.61.1642010928255; 
- Wed, 12 Jan 2022 10:08:48 -0800 (PST)
-Received: from [192.168.1.11] ([217.117.245.67])
- by smtp.gmail.com with ESMTPSA id k29sm35460ljc.44.2022.01.12.10.08.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Jan 2022 10:08:47 -0800 (PST)
-Message-ID: <c5ae2a68-070f-884c-c82a-2d3f4b8e06b1@gmail.com>
-Date: Wed, 12 Jan 2022 21:08:46 +0300
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20AFB10E3D7
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 18:37:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=d3mYL7vvYYZr7sYSXSZoJvLItuKF2IiEftPWgxK3tvo=; b=X45E3lNuJrpAEwLmEUkOPrwziM
+ IBNiPalhlrj2QYU6klp+cJ2kP1PiK21hqA16D0chtvViP/3OYuYx7OOt2rxoNAcWW8HkjICxRW0V+
+ BMczhcYFcEu/1JqcTAGI/9YPs+fuyB19cZHXfJPbMyR5otyPtlA1yagZ7WnFNmdjxPvUoM/sX5QfV
+ OsOcixMCkLmUwHOQxOv0CeQt2B2gCqVq7RMW1lp8zLuKriV7Pj50w28yT0+V94iI6DjuJbzfkXCup
+ OAIAeUfqYXr/uV0ONNGpxSFVIK3CawYG64OUO8FP1w35qmdy9ie9862kwk5mEtW2uVL+m4/Hez/KI
+ AgvGhXgw==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red
+ Hat Linux)) id 1n7iUZ-004Jsp-5A; Wed, 12 Jan 2022 18:37:03 +0000
+Date: Wed, 12 Jan 2022 18:37:03 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: Phyr Starter
+Message-ID: <Yd8fz4bY/aMMk24h@casper.infradead.org>
+References: <YdyKWeU0HTv8m7wD@casper.infradead.org>
+ <20220111004126.GJ2328285@nvidia.com>
+ <Yd0IeK5s/E0fuWqn@casper.infradead.org>
+ <20220111150142.GL2328285@nvidia.com>
+ <Yd3Nle3YN063ZFVY@casper.infradead.org>
+ <20220111202159.GO2328285@nvidia.com>
+ <Yd311C45gpQ3LqaW@casper.infradead.org>
+ <20220111225306.GR2328285@nvidia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH] udmabuf: validate ubuf->pagecount
-Content-Language: en-US
-To: kraxel@redhat.com, sumit.semwal@linaro.org, christian.koenig@amd.com,
- daniel.vetter@ffwll.ch
-References: <20211230142649.23022-1-paskripkin@gmail.com>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <20211230142649.23022-1-paskripkin@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220111225306.GR2328285@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,52 +54,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org,
- syzbot+2c56b725ec547fa9cb29@syzkaller.appspotmail.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
+Cc: nvdimm@lists.linux.dev, linux-rdma@vger.kernel.org,
+ John Hubbard <jhubbard@nvidia.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Ming Lei <ming.lei@redhat.com>,
+ linux-block@vger.kernel.org, linux-mm@kvack.org, netdev@vger.kernel.org,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/30/21 17:26, Pavel Skripkin wrote:
-> Syzbot has reported GPF in sg_alloc_append_table_from_pages(). The
-> problem was in ubuf->pages == ZERO_PTR.
+On Tue, Jan 11, 2022 at 06:53:06PM -0400, Jason Gunthorpe wrote:
+> IOMMU is not common in those cases, it is slow.
 > 
-> ubuf->pagecount is calculated from arguments passed from user-space. If
-> user creates udmabuf with list.size == 0 then ubuf->pagecount will be
-> also equal to zero; it causes kmalloc_array() to return ZERO_PTR.
-> 
-> Fix it by validating ubuf->pagecount before passing it to
-> kmalloc_array().
-> 
-> Fixes: fbb0de795078 ("Add udmabuf misc device")
-> Reported-and-tested-by: syzbot+2c56b725ec547fa9cb29@syzkaller.appspotmail.com
-> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
-> ---
-> 
+> So you end up with 16 bytes per entry then another 24 bytes in the
+> entirely redundant scatter list. That is now 40 bytes/page for typical
+> HPC case, and I can't see that being OK.
 
-Gentle ping :)
+Ah, I didn't realise what case you wanted to optimise for.
 
-> 
-> ---
->   drivers/dma-buf/udmabuf.c | 4 ++++
->   1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-> index c57a609db75b..e7330684d3b8 100644
-> --- a/drivers/dma-buf/udmabuf.c
-> +++ b/drivers/dma-buf/udmabuf.c
-> @@ -190,6 +190,10 @@ static long udmabuf_create(struct miscdevice *device,
->   		if (ubuf->pagecount > pglimit)
->   			goto err;
->   	}
-> +
-> +	if (!ubuf->pagecount)
-> +		goto err;
-> +
->   	ubuf->pages = kmalloc_array(ubuf->pagecount, sizeof(*ubuf->pages),
->   				    GFP_KERNEL);
->   	if (!ubuf->pages) {
+So, how about this ...
 
-With regards,
-Pavel Skripkin
+Since you want to get to the same destination as I do (a
+16-byte-per-entry dma_addr+dma_len struct), but need to get there sooner
+than "make all sg users stop using it wrongly", let's introduce a
+(hopefully temporary) "struct dma_range".
+
+But let's go further than that (which only brings us to 32 bytes per
+range).  For the systems you care about which use an identity mapping,
+and have sizeof(dma_addr_t) == sizeof(phys_addr_t), we can simply
+point the dma_range pointer to the same memory as the phyr.  We just
+have to not free it too early.  That gets us down to 16 bytes per range,
+a saving of 33%.
+
