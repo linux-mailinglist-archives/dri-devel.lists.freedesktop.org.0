@@ -2,54 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C12648BCBD
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 02:54:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B6C648BCF7
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 03:13:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AEEC10E337;
-	Wed, 12 Jan 2022 01:54:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4584A10E3B0;
+	Wed, 12 Jan 2022 02:13:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com
- [209.85.167.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4659B10E337
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 01:54:49 +0000 (UTC)
-Received: by mail-oi1-f177.google.com with SMTP id s22so1511421oie.10
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 17:54:49 -0800 (PST)
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AC3710E3B0
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 02:13:34 +0000 (UTC)
+Received: by mail-pl1-x631.google.com with SMTP id x15so1894803plg.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 18:13:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=zRJAt/tHSPTVX2Oe9CjAVFlJyFBtZBGpgaIpMawcKN0=;
+ b=4RxLy0zrQDn0+WSP0CFdZXXeX5oeHQpZpkg+SsPqAUnR3rzhuzAVfVk2cE2cSi3GM/
+ 12nqowe2KjGvcMz2u6Ytddyo5/bIFMA9I68Qaux3+s0A/LhJ38Vbt3sAlpfm3/NWlL+x
+ 89IxuL+4rsGLoO8XMquXbuBotOSQHO+V9V17CdMQmcBtoG1PMjME2cZNGNMsyJJr7oKb
+ WXEtRhwnpjexfR2kB3Hvh0jhiJV2QW5B2p63jLNd+oEv1TZulc/y2IalsebnxkgfJOQn
+ ztnqLJFizV+Oy1Y0D2ZelUhQz/PSN5MtJ0wGML3rwd4NsORAqmmcQn1VHf2++83eEewo
+ 42mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=yFu4YXdx41UOd1vz7CJnROycNl0bjAuTCz/ym7j7eQw=;
- b=tdAj/wVuBiqhIsMebQ4IXMdIrXuO6AGKlM7pdFUXxUyXf7IF3gWO8czXmuPM7Y9efE
- dcBMZWWpRTA7hwHrPrOFZhkzO5X+djfGgG29nYpmlVRRa5yZVgULw+uqfqwFL2uLPPqR
- c1KHGoGM9w3+zox0UNyHCsnnBKPm9U2Wl6hpgd/x+v3pgOXdT3q6Q9pYbq7aHmu0RfU+
- +6JM91zGi7fX7dkYP9NctsT1KStuTkLWRvFgwEHS1FQCpWBfwKz88u7mIwV/c1Em4Hwd
- 1uTUIYAOhe3mZDivg+BqxVUheoIYI8ANXLpDaAoT31Ip2qir8dOb0zjeFB1iGCTZYPbn
- S2Sg==
-X-Gm-Message-State: AOAM530ThzUMc8mu37MqNZhgWa/1/bEfhQSXLjElrWAyEsryPeS2Qfe6
- 7KBqpL2Ih4mI7lNpJeklMA==
-X-Google-Smtp-Source: ABdhPJzgCSk7w9DxNqhAYhWxkv43pujoIQ16tiGZjVM1hq+XIuSE6wC2gLvT4TgIg5bCndUVD3gFQw==
-X-Received: by 2002:aca:c104:: with SMTP id r4mr3590467oif.93.1641952488564;
- Tue, 11 Jan 2022 17:54:48 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id bh36sm455059oib.19.2022.01.11.17.54.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Jan 2022 17:54:47 -0800 (PST)
-Received: (nullmailer pid 3905050 invoked by uid 1000);
- Wed, 12 Jan 2022 01:54:46 -0000
-Date: Tue, 11 Jan 2022 19:54:46 -0600
-From: Rob Herring <robh@kernel.org>
-To: Neil Armstrong <narmstrong@baylibre.com>
-Subject: Re: [PATCH 2/6] dt-bindings: display: meson-vpu: add third DPI
- output port
-Message-ID: <Yd405jhJtNSiOgzm@robh.at.kernel.org>
-References: <20220107145515.613009-1-narmstrong@baylibre.com>
- <20220107145515.613009-3-narmstrong@baylibre.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=zRJAt/tHSPTVX2Oe9CjAVFlJyFBtZBGpgaIpMawcKN0=;
+ b=KSXh2kHGGNb2WKHnOZ89a5xcvWg8430n5Uc149Vrq11kcJVPx+/3oyQhWiofKeFhhm
+ AHNzpldPLNtCOZNervs1h8aQ4vhM5H3pcYF5wJGZn9PUb554OmuApBoMcYe6mbQh2umn
+ sAPzDSPuIXzpc0igpM88c3K5J+/nuLgpUEs2IV4KjW6lYhIzPbPQ0dWfYFXLuISOMeGS
+ 6J39AgJD6aWAbsCm8QcuB5tF1ZWphfS8eH+tqH3vhmEJOwaJw1yOEZrL8DRipS1lVoJM
+ BAxNPCCpaYG2csCIo5eK2Lt1q2fQ+Yl2Dqn1Rp4MGPcridLmw9XtzYZaDnowcngMYO40
+ l2Og==
+X-Gm-Message-State: AOAM532nPeM5BdFBZkEzabC8Trg8+AbaStv+F3bQiPE9/sNke8JlNaf8
+ e+TphkGaNYomnQNLJeQDTkUGKw==
+X-Google-Smtp-Source: ABdhPJxT0QrQpLvM61rtdzCrVhjqlGt2/Jh6dcOGGMd3oLp7PfZbnPqkrZUsGV2wcWXHp7Nq/rNExg==
+X-Received: by 2002:a63:7258:: with SMTP id c24mr6615835pgn.11.1641953613804; 
+ Tue, 11 Jan 2022 18:13:33 -0800 (PST)
+Received: from [10.16.129.73] (napt.igel.co.jp. [219.106.231.132])
+ by smtp.gmail.com with ESMTPSA id u20sm7947925pfi.220.2022.01.11.18.13.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Jan 2022 18:13:33 -0800 (PST)
+Message-ID: <0cc8fd2b-b6c2-d2a8-7a4c-54214db3791d@igel.co.jp>
+Date: Wed, 12 Jan 2022 11:13:37 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220107145515.613009-3-narmstrong@baylibre.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [RFC PATCH 0/3] Add support modifiers for drivers whose planes
+ only support linear layout
+Content-Language: en-US
+To: Simon Ser <contact@emersion.fr>
+References: <20211222052727.19725-1-etom@igel.co.jp>
+ <OCRYf0WjHfvIDxKeXD9eR8KiweNqCTcuy5QUapIIYgtas4x2m_nNc6mDZGnhO-y1H_yYh0O8qzzgAWdExGyK-FjUExqXY1CDlCtSDevNmWg=@emersion.fr>
+From: Esaki Tomohito <etom@igel.co.jp>
+In-Reply-To: <OCRYf0WjHfvIDxKeXD9eR8KiweNqCTcuy5QUapIIYgtas4x2m_nNc6mDZGnhO-y1H_yYh0O8qzzgAWdExGyK-FjUExqXY1CDlCtSDevNmWg=@emersion.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,20 +74,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-amlogic@lists.infradead.org
+Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <mdaenzer@redhat.com>,
+ Lee Jones <lee.jones@linaro.org>, etom@igel.co.jp,
+ Rob Clark <robdclark@chromium.org>, Evan Quan <evan.quan@amd.com>,
+ amd-gfx@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
+ Petr Mladek <pmladek@suse.com>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Takanari Hayama <taki@igel.co.jp>,
+ Sean Paul <seanpaul@chromium.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Mark Yacoub <markyacoub@chromium.org>, Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Damian Hobson-Garcia <dhobsong@igel.co.jp>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 07 Jan 2022 15:55:11 +0100, Neil Armstrong wrote:
-> Add third port corresponding to the ENCL DPI encoder used to connect
-> to DSI or LVDS transceivers.
-> 
-> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-> ---
->  .../devicetree/bindings/display/amlogic,meson-vpu.yaml       | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
+Hi, Simon
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+On 2022/01/06 8:57, Simon Ser wrote:
+> Thanks for working on this! I've pushed a patch [1] to drm-misc-next which
+> touches the same function, can you rebase your patches on top of it?
+> 
+> [1]: https://patchwork.freedesktop.org/patch/467940/?series=98255&rev=3
+
+I understand. I will rebase the patches and send.
+
+Thanks
+Tomohito Esaki
