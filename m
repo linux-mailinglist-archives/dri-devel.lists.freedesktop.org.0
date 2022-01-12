@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CCA148BFC8
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 09:24:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A323948BFCB
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 09:25:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F14E81127CC;
-	Wed, 12 Jan 2022 08:24:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87731112680;
+	Wed, 12 Jan 2022 08:25:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com
- [IPv6:2607:f8b0:4864:20::729])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DF591127CC
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 08:24:30 +0000 (UTC)
-Received: by mail-qk1-x729.google.com with SMTP id w27so1685668qkj.7
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 00:24:30 -0800 (PST)
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com
+ [IPv6:2607:f8b0:4864:20::82d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8783112680
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 08:25:31 +0000 (UTC)
+Received: by mail-qt1-x82d.google.com with SMTP id c10so2224530qte.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 00:25:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=mDyDHXSTcP/fcz/Ik9my/MjZZmU+tdvjzX7IK6WOHyU=;
- b=MHRvZCNyGu0ty3Xw/vdKOR14gyy1jXuC34+QwC6mTBBrtbdx+e14gB3bx9RAl1JZag
- 83nL5r0nKOB2mgEvpAo4blkkCddcNy0GqbrUpLwlTv2VdnBYYe7Ltndok0AcV1aNwX3U
- nJY1iV9rHpYc2dz0n/OBMO1IoIyp0VpOhUaYxETsixC/YA9y+JV+YvbEedBwimGq77ha
- dn0ANOT1EFBKYp/tLD7isna8qE2vN3EVnWpKdNBJsfdmme1yqdgh9ivstWiJX3klpcJU
- qmRSjktGRrE2jqD13y0pw8lfPSIAuCDqtm8sOl7Z7TC2gfWu/HI6km9H/NglYzmVNz49
- 79BA==
+ bh=ZCLOQ7++2QfW2m0rsDei0rqRdeUSY6GZN2Og7N4emHA=;
+ b=e/9d3uN74jIVDOPjqrRRJ2tN67VjP3qJyvuMPgJUm/fdVftErmvOhNEHTin3X20KRO
+ QNpJmvEceXwzVypa0yqYvAqpb2Ms6l/dBf+J3EKFpNC+KEjVg6hIzQ5vx8VNG+4DBlnC
+ 80NGcpqm0Lt3MUJfAltzBdg238hC5yzTjU3jeRl/7G9hN4TBq/qIPy5ScLTkXv/Oztpz
+ iXcu8tiTdJcsu9uXogSYLGWzAdxD9h8GEsEZnwMq7QT7boaYHXhU68y/VBQZaNp9wR6Q
+ b7eoiPDH8B4ja51jgn0Z1nYTNDWCzAYgrvC346+O4DUY/ve0kmwafzlgaYznuTGHtaoc
+ AZaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=mDyDHXSTcP/fcz/Ik9my/MjZZmU+tdvjzX7IK6WOHyU=;
- b=Dv/+KXmKBkMZ62I7swPhvk7ZDAgHonpxErRkBPMKUvUivyQQlX1XB/S5yM9Jdp7elR
- 7Vc2jz6C7g7EkmRYTPsbko6U1FB/nM2x3AjA8nxRSEl5B+Hs6zVkwU6kthvM+EtSIYN6
- OmZMjoVVk29KUuXaXAVCl34VPoNB1yAW65gQ5ch/UCkLipfKrnRww8JbrwTO5adhypfT
- /L8XfX4IXK+rS4hyx958oGoPDYq7/3f9vjJBSGv5dSXSqHiBPW8uakygprfDmFl4Aq05
- FAM+ZBm6Rjy/GWHgpm+mkDop2ea6EVnkim5QKty9Xy7MACB0cxenGNiWoVtB4onRYGR9
- iV2A==
-X-Gm-Message-State: AOAM530ZNHcthLYGMgdDH1JfhBi0RiPbNipmdCyapAZp1qCxP9ynLsUt
- +l0gpbf24IyGm4KLXWdKdsQ=
-X-Google-Smtp-Source: ABdhPJzjJvX46JrQ96a1bwmjMBHsAyGa/toJgTZnywoNAX4sA5CUUyIkx12IMLkzklCoHTSq6PoOfQ==
-X-Received: by 2002:a05:620a:10ac:: with SMTP id
- h12mr5443748qkk.467.1641975869522; 
- Wed, 12 Jan 2022 00:24:29 -0800 (PST)
+ bh=ZCLOQ7++2QfW2m0rsDei0rqRdeUSY6GZN2Og7N4emHA=;
+ b=oCxjIPxPEsc+GUitgDjdiQx4xLLMiX8Fqh7EYTmuSokrywD8cRI4L4ujep7G8fynsd
+ lKgh3KKanHoj01vlcOD6S/NN9wFJmueGOty2q3OZgxm6VnVJ2QjjvxOAGVneS3i+C7zf
+ x4pJexBLSYWHO7u6sIlfYnbdTvfkJ5XpfTYT18YaLSRUgFZoQPWOAdz4zbM/06A4foVQ
+ PwfGwf16UpnZ2dDCf0JJa5+Et1trhA21dGcYr+zeR4sora6uoidHJC+bJmoDrW2jLIza
+ 6lwslyzvppZEsK2SbNA9vsdAaKcuNyzD6ajMBWTwqelckbzm3a1HZcO2Ox1uiLV+2ABn
+ Zc6A==
+X-Gm-Message-State: AOAM532tansfVXhUaL7OGQzH3TDbCimcZ5T7VP5im3TiooLmLFISqz/y
+ KRSdyKJO8dy5ozLw3hUNBeY=
+X-Google-Smtp-Source: ABdhPJw9jOsXa56W5lqO3RFBU1VEoiy8scsNFVqmufsWd3jsHB+kGetR7roaTSluD+Ll3FNGH4X1Ug==
+X-Received: by 2002:a05:622a:14cd:: with SMTP id
+ u13mr1768837qtx.532.1641975930836; 
+ Wed, 12 Jan 2022 00:25:30 -0800 (PST)
 Received: from localhost.localdomain ([193.203.214.57])
- by smtp.gmail.com with ESMTPSA id 8sm4902248qtz.86.2022.01.12.00.24.26
+ by smtp.gmail.com with ESMTPSA id l20sm5367458qkp.121.2022.01.12.00.25.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Jan 2022 00:24:29 -0800 (PST)
+ Wed, 12 Jan 2022 00:25:30 -0800 (PST)
 From: cgel.zte@gmail.com
 X-Google-Original-From: chi.minghao@zte.com.cn
-To: linux-graphics-maintainer@vmware.com
-Subject: [PATCH] drm/vmwgfx: remove redundant ret variable
-Date: Wed, 12 Jan 2022 08:24:22 +0000
-Message-Id: <20220112082422.667488-1-chi.minghao@zte.com.cn>
+To: patrik.r.jakobsson@gmail.com
+Subject: [PATCH] drm/gma500: remove redundant ret variable
+Date: Wed, 12 Jan 2022 08:25:24 +0000
+Message-Id: <20220112082524.667552-1-chi.minghao@zte.com.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -75,40 +75,68 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Minghao Chi <chi.minghao@zte.com.cn>
 
-Return value from vmw_gem_object_create_with_handle() directly instead
-of taking this in another redundant variable.
+Return value directly instead of taking this in another redundant
+variable.
 
 Reported-by: Zeal Robot <zealci@zte.com.cn>
 Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
 Signed-off-by: CGEL ZTE <cgel.zte@gmail.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_bo.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ drivers/gpu/drm/gma500/cdv_intel_dp.c | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-index 31aecc46624b..91b03f1dbbf0 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-@@ -778,18 +778,14 @@ int vmw_dumb_create(struct drm_file *file_priv,
+diff --git a/drivers/gpu/drm/gma500/cdv_intel_dp.c b/drivers/gpu/drm/gma500/cdv_intel_dp.c
+index ba6ad1466374..74e67679714e 100644
+--- a/drivers/gpu/drm/gma500/cdv_intel_dp.c
++++ b/drivers/gpu/drm/gma500/cdv_intel_dp.c
+@@ -82,7 +82,6 @@ i2c_algo_dp_aux_address(struct i2c_adapter *adapter, u16 address, bool reading)
  {
- 	struct vmw_private *dev_priv = vmw_priv(dev);
- 	struct vmw_buffer_object *vbo;
+ 	struct i2c_algo_dp_aux_data *algo_data = adapter->algo_data;
+ 	int mode = MODE_I2C_START;
 -	int ret;
  
- 	args->pitch = args->width * ((args->bpp + 7) / 8);
- 	args->size = ALIGN(args->pitch * args->height, PAGE_SIZE);
- 
--	ret = vmw_gem_object_create_with_handle(dev_priv, file_priv,
-+	return vmw_gem_object_create_with_handle(dev_priv, file_priv,
- 						args->size, &args->handle,
- 						&vbo);
- 
+ 	if (reading)
+ 		mode |= MODE_I2C_READ;
+@@ -90,8 +89,7 @@ i2c_algo_dp_aux_address(struct i2c_adapter *adapter, u16 address, bool reading)
+ 		mode |= MODE_I2C_WRITE;
+ 	algo_data->address = address;
+ 	algo_data->running = true;
+-	ret = i2c_algo_dp_aux_transaction(adapter, mode, 0, NULL);
 -	return ret;
--}
--
- /**
-  * vmw_bo_swap_notify - swapout notify callback.
-  *
++	return i2c_algo_dp_aux_transaction(adapter, mode, 0, NULL);
+ }
+ 
+ /*
+@@ -122,13 +120,11 @@ static int
+ i2c_algo_dp_aux_put_byte(struct i2c_adapter *adapter, u8 byte)
+ {
+ 	struct i2c_algo_dp_aux_data *algo_data = adapter->algo_data;
+-	int ret;
+ 
+ 	if (!algo_data->running)
+ 		return -EIO;
+ 
+-	ret = i2c_algo_dp_aux_transaction(adapter, MODE_I2C_WRITE, byte, NULL);
+-	return ret;
++	return i2c_algo_dp_aux_transaction(adapter, MODE_I2C_WRITE, byte, NULL);
+ }
+ 
+ /*
+@@ -139,13 +135,11 @@ static int
+ i2c_algo_dp_aux_get_byte(struct i2c_adapter *adapter, u8 *byte_ret)
+ {
+ 	struct i2c_algo_dp_aux_data *algo_data = adapter->algo_data;
+-	int ret;
+ 
+ 	if (!algo_data->running)
+ 		return -EIO;
+ 
+-	ret = i2c_algo_dp_aux_transaction(adapter, MODE_I2C_READ, 0, byte_ret);
+-	return ret;
++	return i2c_algo_dp_aux_transaction(adapter, MODE_I2C_READ, 0, byte_ret);
+ }
+ 
+ static int
 -- 
 2.25.1
 
