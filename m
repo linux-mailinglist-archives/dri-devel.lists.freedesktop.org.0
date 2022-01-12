@@ -2,30 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B116F48CA2E
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 18:46:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADFDF48CA31
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 18:46:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 315E510E3DC;
-	Wed, 12 Jan 2022 17:46:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 807C910E72E;
+	Wed, 12 Jan 2022 17:46:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
  [210.160.252.171])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8473210E73A
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 17:46:49 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.88,282,1635174000"; d="scan'208";a="106270372"
+ by gabe.freedesktop.org (Postfix) with ESMTP id ED7C110E72E
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 17:46:51 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.88,282,1635174000"; d="scan'208";a="106270377"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
- by relmlie5.idc.renesas.com with ESMTP; 13 Jan 2022 02:46:48 +0900
+ by relmlie5.idc.renesas.com with ESMTP; 13 Jan 2022 02:46:51 +0900
 Received: from localhost.localdomain (unknown [10.226.92.38])
- by relmlir5.idc.renesas.com (Postfix) with ESMTP id 7B16B4005E1F;
- Thu, 13 Jan 2022 02:46:46 +0900 (JST)
+ by relmlir5.idc.renesas.com (Postfix) with ESMTP id 4A2C04005E1F;
+ Thu, 13 Jan 2022 02:46:49 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: David Airlie <airlied@linux.ie>,
 	Daniel Vetter <daniel@ffwll.ch>
-Subject: [RFC 12/28] drm: rcar-du: Add max_width and max_height to struct
- rcar_du_device_info
-Date: Wed, 12 Jan 2022 17:45:56 +0000
-Message-Id: <20220112174612.10773-13-biju.das.jz@bp.renesas.com>
+Subject: [RFC 13/28] drm: rcar-du: Add RCAR_DU_FEATURE_PLANE feature bit
+Date: Wed, 12 Jan 2022 17:45:57 +0000
+Message-Id: <20220112174612.10773-14-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220112174612.10773-1-biju.das.jz@bp.renesas.com>
 References: <20220112174612.10773-1-biju.das.jz@bp.renesas.com>
@@ -52,238 +51,201 @@ Cc: Chris Paterson <Chris.Paterson2@renesas.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are some differences related to max frame size supported by different
-R-Car/RZ-G family of SoC's
-
-Max frame size supported by R-Car Gen1 & R-Car Gen2 is 4095x2047
-Max frame size supported by R-Car Gen3 is 8190x8190
-Max frame size supported by RZ/G2L is 1920x1080
-
-Add max_width and max_height to struct rcar_du_device_info to support later
-SoC without any code changes.
+DU plane registers are available on R-Car, but it is not present
+on RZ/G2L. Add RCAR_DU_FEATURE_PLANE feature bit to support
+later SoC.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- drivers/gpu/drm/rcar-du/rcar_du_drv.c | 36 +++++++++++++++++++++++++++
- drivers/gpu/drm/rcar-du/rcar_du_drv.h |  4 +++
- drivers/gpu/drm/rcar-du/rcar_du_kms.c | 17 +++++--------
- 3 files changed, 46 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c | 51 ++++++++++++++++++---------
+ drivers/gpu/drm/rcar-du/rcar_du_drv.h |  1 +
+ 2 files changed, 35 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-index 5ca7cd085794..7a492323afb3 100644
+index 7a492323afb3..2c1454731df4 100644
 --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
 +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-@@ -57,6 +57,8 @@ static const struct rcar_du_device_info rzg1_du_r8a7743_info = {
- 	},
- 	.num_lvds = 1,
- 	.num_rpf = 4,
-+	.max_width = 4095,
-+	.max_height = 2047,
- };
- 
- static const struct rcar_du_device_info rzg1_du_r8a7745_info = {
-@@ -80,6 +82,8 @@ static const struct rcar_du_device_info rzg1_du_r8a7745_info = {
- 		},
- 	},
- 	.num_rpf = 4,
-+	.max_width = 4095,
-+	.max_height = 2047,
- };
- 
- static const struct rcar_du_device_info rzg1_du_r8a77470_info = {
-@@ -108,6 +112,8 @@ static const struct rcar_du_device_info rzg1_du_r8a77470_info = {
- 		},
- 	},
- 	.num_rpf = 4,
-+	.max_width = 4095,
-+	.max_height = 2047,
- };
- 
- static const struct rcar_du_device_info rcar_du_r8a774a1_info = {
-@@ -138,6 +144,8 @@ static const struct rcar_du_device_info rcar_du_r8a774a1_info = {
- 	},
- 	.num_lvds = 1,
- 	.num_rpf = 5,
-+	.max_width = 8190,
-+	.max_height = 8190,
- 	.dpll_mask =  BIT(1),
- };
- 
-@@ -169,6 +177,8 @@ static const struct rcar_du_device_info rcar_du_r8a774b1_info = {
- 	},
- 	.num_lvds = 1,
- 	.num_rpf = 5,
-+	.max_width = 8190,
-+	.max_height = 8190,
- 	.dpll_mask =  BIT(1),
- };
- 
-@@ -197,6 +207,8 @@ static const struct rcar_du_device_info rcar_du_r8a774c0_info = {
- 	},
- 	.num_lvds = 2,
- 	.num_rpf = 4,
-+	.max_width = 8190,
-+	.max_height = 8190,
- 	.lvds_clk_mask =  BIT(1) | BIT(0),
- };
- 
-@@ -228,6 +240,8 @@ static const struct rcar_du_device_info rcar_du_r8a774e1_info = {
- 	},
- 	.num_lvds = 1,
- 	.num_rpf = 5,
-+	.max_width = 8190,
-+	.max_height = 8190,
- 	.dpll_mask =  BIT(1),
- };
- 
-@@ -250,6 +264,8 @@ static const struct rcar_du_device_info rcar_du_r8a7779_info = {
- 			.port = 1,
- 		},
- 	},
-+	.max_width = 4095,
-+	.max_height = 2047,
- };
- 
- static const struct rcar_du_device_info rcar_du_r8a7790_info = {
-@@ -281,6 +297,8 @@ static const struct rcar_du_device_info rcar_du_r8a7790_info = {
- 	},
- 	.num_lvds = 2,
- 	.num_rpf = 4,
-+	.max_width = 4095,
-+	.max_height = 2047,
- };
- 
- /* M2-W (r8a7791) and M2-N (r8a7793) are identical */
-@@ -307,6 +325,8 @@ static const struct rcar_du_device_info rcar_du_r8a7791_info = {
- 	},
- 	.num_lvds = 1,
- 	.num_rpf = 4,
-+	.max_width = 4095,
-+	.max_height = 2047,
- };
- 
- static const struct rcar_du_device_info rcar_du_r8a7792_info = {
-@@ -328,6 +348,8 @@ static const struct rcar_du_device_info rcar_du_r8a7792_info = {
- 		},
- 	},
- 	.num_rpf = 4,
-+	.max_width = 4095,
-+	.max_height = 2047,
- };
- 
- static const struct rcar_du_device_info rcar_du_r8a7794_info = {
-@@ -352,6 +374,8 @@ static const struct rcar_du_device_info rcar_du_r8a7794_info = {
- 		},
- 	},
- 	.num_rpf = 4,
-+	.max_width = 4095,
-+	.max_height = 2047,
- };
- 
- static const struct rcar_du_device_info rcar_du_r8a7795_info = {
-@@ -386,6 +410,8 @@ static const struct rcar_du_device_info rcar_du_r8a7795_info = {
- 	},
- 	.num_lvds = 1,
- 	.num_rpf = 5,
-+	.max_width = 8190,
-+	.max_height = 8190,
- 	.dpll_mask =  BIT(2) | BIT(1),
- };
- 
-@@ -417,6 +443,8 @@ static const struct rcar_du_device_info rcar_du_r8a7796_info = {
- 	},
- 	.num_lvds = 1,
- 	.num_rpf = 5,
-+	.max_width = 8190,
-+	.max_height = 8190,
- 	.dpll_mask =  BIT(1),
- };
- 
-@@ -448,6 +476,8 @@ static const struct rcar_du_device_info rcar_du_r8a77965_info = {
- 	},
- 	.num_lvds = 1,
- 	.num_rpf = 5,
-+	.max_width = 8190,
-+	.max_height = 8190,
- 	.dpll_mask =  BIT(1),
- };
- 
-@@ -475,6 +505,8 @@ static const struct rcar_du_device_info rcar_du_r8a77970_info = {
- 	},
- 	.num_lvds = 1,
- 	.num_rpf = 5,
-+	.max_width = 8190,
-+	.max_height = 8190,
- };
- 
- static const struct rcar_du_device_info rcar_du_r8a7799x_info = {
-@@ -503,6 +535,8 @@ static const struct rcar_du_device_info rcar_du_r8a7799x_info = {
- 	},
- 	.num_lvds = 2,
- 	.num_rpf = 5,
-+	.max_width = 8190,
-+	.max_height = 8190,
- 	.lvds_clk_mask =  BIT(1) | BIT(0),
- };
- 
-@@ -523,6 +557,8 @@ static const struct rcar_du_device_info rcar_du_r8a779a0_info = {
- 		},
- 	},
- 	.num_rpf = 5,
-+	.max_width = 8190,
-+	.max_height = 8190,
- 	.dsi_clk_mask =  BIT(1) | BIT(0),
- };
- 
+@@ -40,7 +40,8 @@ static const struct rcar_du_device_info rzg1_du_r8a7743_info = {
+ 	.features = RCAR_DU_FEATURE_CRTC_IRQ
+ 		  | RCAR_DU_FEATURE_CRTC_CLOCK
+ 		  | RCAR_DU_FEATURE_INTERLACED
+-		  | RCAR_DU_FEATURE_TVM_SYNC,
++		  | RCAR_DU_FEATURE_TVM_SYNC
++		  | RCAR_DU_FEATURE_PLANE,
+ 	.channels_mask = BIT(1) | BIT(0),
+ 	.routes = {
+ 		/*
+@@ -66,7 +67,8 @@ static const struct rcar_du_device_info rzg1_du_r8a7745_info = {
+ 	.features = RCAR_DU_FEATURE_CRTC_IRQ
+ 		  | RCAR_DU_FEATURE_CRTC_CLOCK
+ 		  | RCAR_DU_FEATURE_INTERLACED
+-		  | RCAR_DU_FEATURE_TVM_SYNC,
++		  | RCAR_DU_FEATURE_TVM_SYNC
++		  | RCAR_DU_FEATURE_PLANE,
+ 	.channels_mask = BIT(1) | BIT(0),
+ 	.routes = {
+ 		/*
+@@ -91,7 +93,8 @@ static const struct rcar_du_device_info rzg1_du_r8a77470_info = {
+ 	.features = RCAR_DU_FEATURE_CRTC_IRQ
+ 		  | RCAR_DU_FEATURE_CRTC_CLOCK
+ 		  | RCAR_DU_FEATURE_INTERLACED
+-		  | RCAR_DU_FEATURE_TVM_SYNC,
++		  | RCAR_DU_FEATURE_TVM_SYNC
++		  | RCAR_DU_FEATURE_PLANE,
+ 	.channels_mask = BIT(1) | BIT(0),
+ 	.routes = {
+ 		/*
+@@ -122,7 +125,8 @@ static const struct rcar_du_device_info rcar_du_r8a774a1_info = {
+ 		  | RCAR_DU_FEATURE_CRTC_CLOCK
+ 		  | RCAR_DU_FEATURE_VSP1_SOURCE
+ 		  | RCAR_DU_FEATURE_INTERLACED
+-		  | RCAR_DU_FEATURE_TVM_SYNC,
++		  | RCAR_DU_FEATURE_TVM_SYNC
++		  | RCAR_DU_FEATURE_PLANE,
+ 	.channels_mask = BIT(2) | BIT(1) | BIT(0),
+ 	.routes = {
+ 		/*
+@@ -155,7 +159,8 @@ static const struct rcar_du_device_info rcar_du_r8a774b1_info = {
+ 		  | RCAR_DU_FEATURE_CRTC_CLOCK
+ 		  | RCAR_DU_FEATURE_VSP1_SOURCE
+ 		  | RCAR_DU_FEATURE_INTERLACED
+-		  | RCAR_DU_FEATURE_TVM_SYNC,
++		  | RCAR_DU_FEATURE_TVM_SYNC
++		  | RCAR_DU_FEATURE_PLANE,
+ 	.channels_mask = BIT(3) | BIT(1) | BIT(0),
+ 	.routes = {
+ 		/*
+@@ -186,7 +191,8 @@ static const struct rcar_du_device_info rcar_du_r8a774c0_info = {
+ 	.gen = 3,
+ 	.features = RCAR_DU_FEATURE_CRTC_IRQ
+ 		  | RCAR_DU_FEATURE_CRTC_CLOCK
+-		  | RCAR_DU_FEATURE_VSP1_SOURCE,
++		  | RCAR_DU_FEATURE_VSP1_SOURCE
++		  | RCAR_DU_FEATURE_PLANE,
+ 	.channels_mask = BIT(1) | BIT(0),
+ 	.routes = {
+ 		/*
+@@ -218,7 +224,8 @@ static const struct rcar_du_device_info rcar_du_r8a774e1_info = {
+ 		  | RCAR_DU_FEATURE_CRTC_CLOCK
+ 		  | RCAR_DU_FEATURE_VSP1_SOURCE
+ 		  | RCAR_DU_FEATURE_INTERLACED
+-		  | RCAR_DU_FEATURE_TVM_SYNC,
++		  | RCAR_DU_FEATURE_TVM_SYNC
++		  | RCAR_DU_FEATURE_PLANE,
+ 	.channels_mask = BIT(3) | BIT(1) | BIT(0),
+ 	.routes = {
+ 		/*
+@@ -273,7 +280,8 @@ static const struct rcar_du_device_info rcar_du_r8a7790_info = {
+ 	.features = RCAR_DU_FEATURE_CRTC_IRQ
+ 		  | RCAR_DU_FEATURE_CRTC_CLOCK
+ 		  | RCAR_DU_FEATURE_INTERLACED
+-		  | RCAR_DU_FEATURE_TVM_SYNC,
++		  | RCAR_DU_FEATURE_TVM_SYNC
++		  | RCAR_DU_FEATURE_PLANE,
+ 	.quirks = RCAR_DU_QUIRK_ALIGN_128B,
+ 	.channels_mask = BIT(2) | BIT(1) | BIT(0),
+ 	.routes = {
+@@ -307,7 +315,8 @@ static const struct rcar_du_device_info rcar_du_r8a7791_info = {
+ 	.features = RCAR_DU_FEATURE_CRTC_IRQ
+ 		  | RCAR_DU_FEATURE_CRTC_CLOCK
+ 		  | RCAR_DU_FEATURE_INTERLACED
+-		  | RCAR_DU_FEATURE_TVM_SYNC,
++		  | RCAR_DU_FEATURE_TVM_SYNC
++		  | RCAR_DU_FEATURE_PLANE,
+ 	.channels_mask = BIT(1) | BIT(0),
+ 	.routes = {
+ 		/*
+@@ -334,7 +343,8 @@ static const struct rcar_du_device_info rcar_du_r8a7792_info = {
+ 	.features = RCAR_DU_FEATURE_CRTC_IRQ
+ 		  | RCAR_DU_FEATURE_CRTC_CLOCK
+ 		  | RCAR_DU_FEATURE_INTERLACED
+-		  | RCAR_DU_FEATURE_TVM_SYNC,
++		  | RCAR_DU_FEATURE_TVM_SYNC
++		  | RCAR_DU_FEATURE_PLANE,
+ 	.channels_mask = BIT(1) | BIT(0),
+ 	.routes = {
+ 		/* R8A7792 has two RGB outputs. */
+@@ -357,7 +367,8 @@ static const struct rcar_du_device_info rcar_du_r8a7794_info = {
+ 	.features = RCAR_DU_FEATURE_CRTC_IRQ
+ 		  | RCAR_DU_FEATURE_CRTC_CLOCK
+ 		  | RCAR_DU_FEATURE_INTERLACED
+-		  | RCAR_DU_FEATURE_TVM_SYNC,
++		  | RCAR_DU_FEATURE_TVM_SYNC
++		  | RCAR_DU_FEATURE_PLANE,
+ 	.channels_mask = BIT(1) | BIT(0),
+ 	.routes = {
+ 		/*
+@@ -384,7 +395,8 @@ static const struct rcar_du_device_info rcar_du_r8a7795_info = {
+ 		  | RCAR_DU_FEATURE_CRTC_CLOCK
+ 		  | RCAR_DU_FEATURE_VSP1_SOURCE
+ 		  | RCAR_DU_FEATURE_INTERLACED
+-		  | RCAR_DU_FEATURE_TVM_SYNC,
++		  | RCAR_DU_FEATURE_TVM_SYNC
++		  | RCAR_DU_FEATURE_PLANE,
+ 	.channels_mask = BIT(3) | BIT(2) | BIT(1) | BIT(0),
+ 	.routes = {
+ 		/*
+@@ -421,7 +433,8 @@ static const struct rcar_du_device_info rcar_du_r8a7796_info = {
+ 		  | RCAR_DU_FEATURE_CRTC_CLOCK
+ 		  | RCAR_DU_FEATURE_VSP1_SOURCE
+ 		  | RCAR_DU_FEATURE_INTERLACED
+-		  | RCAR_DU_FEATURE_TVM_SYNC,
++		  | RCAR_DU_FEATURE_TVM_SYNC
++		  | RCAR_DU_FEATURE_PLANE,
+ 	.channels_mask = BIT(2) | BIT(1) | BIT(0),
+ 	.routes = {
+ 		/*
+@@ -454,7 +467,8 @@ static const struct rcar_du_device_info rcar_du_r8a77965_info = {
+ 		  | RCAR_DU_FEATURE_CRTC_CLOCK
+ 		  | RCAR_DU_FEATURE_VSP1_SOURCE
+ 		  | RCAR_DU_FEATURE_INTERLACED
+-		  | RCAR_DU_FEATURE_TVM_SYNC,
++		  | RCAR_DU_FEATURE_TVM_SYNC
++		  | RCAR_DU_FEATURE_PLANE,
+ 	.channels_mask = BIT(3) | BIT(1) | BIT(0),
+ 	.routes = {
+ 		/*
+@@ -487,7 +501,8 @@ static const struct rcar_du_device_info rcar_du_r8a77970_info = {
+ 		  | RCAR_DU_FEATURE_CRTC_CLOCK
+ 		  | RCAR_DU_FEATURE_VSP1_SOURCE
+ 		  | RCAR_DU_FEATURE_INTERLACED
+-		  | RCAR_DU_FEATURE_TVM_SYNC,
++		  | RCAR_DU_FEATURE_TVM_SYNC
++		  | RCAR_DU_FEATURE_PLANE,
+ 	.channels_mask = BIT(0),
+ 	.routes = {
+ 		/*
+@@ -513,7 +528,8 @@ static const struct rcar_du_device_info rcar_du_r8a7799x_info = {
+ 	.gen = 3,
+ 	.features = RCAR_DU_FEATURE_CRTC_IRQ
+ 		  | RCAR_DU_FEATURE_CRTC_CLOCK
+-		  | RCAR_DU_FEATURE_VSP1_SOURCE,
++		  | RCAR_DU_FEATURE_VSP1_SOURCE
++		  | RCAR_DU_FEATURE_PLANE,
+ 	.channels_mask = BIT(1) | BIT(0),
+ 	.routes = {
+ 		/*
+@@ -543,7 +559,8 @@ static const struct rcar_du_device_info rcar_du_r8a7799x_info = {
+ static const struct rcar_du_device_info rcar_du_r8a779a0_info = {
+ 	.gen = 3,
+ 	.features = RCAR_DU_FEATURE_CRTC_IRQ
+-		  | RCAR_DU_FEATURE_VSP1_SOURCE,
++		  | RCAR_DU_FEATURE_VSP1_SOURCE
++		  | RCAR_DU_FEATURE_PLANE,
+ 	.channels_mask = BIT(1) | BIT(0),
+ 	.routes = {
+ 		/* R8A779A0 has two MIPI DSI outputs. */
 diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-index 9792a77590be..2f0ccc9e67d1 100644
+index 2f0ccc9e67d1..020814e80f50 100644
 --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
 +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-@@ -70,6 +70,8 @@ struct rcar_du_output_routing {
-  * @routes: array of CRTC to output routes, indexed by output (RCAR_DU_OUTPUT_*)
-  * @num_lvds: number of internal LVDS encoders
-  * @num_rpf: max number of rpf's in vsp
-+ * @max_width: max frame width
-+ * @max_height: max frame height
-  * @dpll_mask: bit mask of DU channels equipped with a DPLL
-  * @dsi_clk_mask: bitmask of channels that can use the DSI clock as dot clock
-  * @lvds_clk_mask: bitmask of channels that can use the LVDS clock as dot clock
-@@ -82,6 +84,8 @@ struct rcar_du_device_info {
- 	struct rcar_du_output_routing routes[RCAR_DU_OUTPUT_MAX];
- 	unsigned int num_lvds;
- 	unsigned int num_rpf;
-+	unsigned int max_width;
-+	unsigned int max_height;
- 	unsigned int dpll_mask;
- 	unsigned int dsi_clk_mask;
- 	unsigned int lvds_clk_mask;
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-index 190dbb7f15dd..5857705aac20 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-@@ -834,17 +834,12 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
- 	dev->mode_config.funcs = &rcar_du_mode_config_funcs;
- 	dev->mode_config.helper_private = &rcar_du_mode_config_helper;
+@@ -31,6 +31,7 @@ struct rcar_du_device;
+ #define RCAR_DU_FEATURE_VSP1_SOURCE	BIT(2)	/* Has inputs from VSP1 */
+ #define RCAR_DU_FEATURE_INTERLACED	BIT(3)	/* HW supports interlaced */
+ #define RCAR_DU_FEATURE_TVM_SYNC	BIT(4)	/* Has TV switch/sync modes */
++#define RCAR_DU_FEATURE_PLANE		BIT(5)	/* HW supports DU planes */
  
--	if (rcdu->info->gen < 3) {
--		dev->mode_config.max_width = 4095;
--		dev->mode_config.max_height = 2047;
--	} else {
--		/*
--		 * The Gen3 DU uses the VSP1 for memory access, and is limited
--		 * to frame sizes of 8190x8190.
--		 */
--		dev->mode_config.max_width = 8190;
--		dev->mode_config.max_height = 8190;
--	}
-+	/*
-+	 * The Gen3 DU uses the VSP1 for memory access, and is limited
-+	 * to frame sizes of 8190x8190.
-+	 */
-+	dev->mode_config.max_width = rcdu->info->max_width;
-+	dev->mode_config.max_height = rcdu->info->max_height;
- 
- 	rcdu->num_crtcs = hweight8(rcdu->info->channels_mask);
+ #define RCAR_DU_QUIRK_ALIGN_128B	BIT(0)	/* Align pitches to 128 bytes */
  
 -- 
 2.17.1
