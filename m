@@ -2,57 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC89348BBD3
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 01:27:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBD2D48BC3A
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 02:12:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 675B110E1D1;
-	Wed, 12 Jan 2022 00:27:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EF6D10E1A1;
+	Wed, 12 Jan 2022 01:12:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
- [IPv6:2607:f8b0:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90B9910E195
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 00:27:29 +0000 (UTC)
-Received: by mail-ot1-x334.google.com with SMTP id
- h20-20020a9d6f94000000b0059100e01744so747323otq.4
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 16:27:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=WqByNvxB5TcaW37Y3dlNFQ4WDapy73RgUbY3JV8R/nQ=;
- b=Pcoj/iXfbGJfWcIvlDjYxDGNtQ6l6QyPoulOtlEiTUr5+rwykzE32gle+eyWjLEf6V
- aDFqeAnq8m+llM+znbg/GvewwRMzWDJ9fZn1pun7dzKyqxWdaTlIDaXWKJWNQKSElAsL
- Rp0PxAx2y4y6/mfKf/CHzr6gVSbkSXFUA6qxA=
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
+ [IPv6:2607:f8b0:4864:20::b31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CF8910E1A1
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 01:12:23 +0000 (UTC)
+Received: by mail-yb1-xb31.google.com with SMTP id n68so2007209ybg.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jan 2022 17:12:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=xjTRFSqJYxYJ0HsDKiZ54zl6ugx3DS6HwynO3TCtbWQ=;
+ b=TVIjjtwN9h32YujM+MZEy4iUZ5h7ltDdZbZiPSD1vzeeFpazkfVIyITMKHz4pL194g
+ ZmX9bNwdqz74RtIQ6tduewnJo8IZH1wqIeU24iy+nzkA/ky1H05wcUm5Nb15LCky1y8O
+ zXYTzFtT/Z1Z7PIPWSCHiRUA9VtwffvzU7Y22P4+LXH1k7qfN2JA+cr6Q2HeD/i3NTEq
+ xs+iCTqMbv3YfOi4xjlUrBDZtDOuhp8scfG0C2XDKV8qfb1NePWklVHI+K96tHKY/9Gu
+ TWvIDMhK9rYbiqwfCOOSqdTVm5jnY/J4PotjEooSCHQN6VQcE9uDltv0X0nwFzUtyNt+
+ 3a5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=WqByNvxB5TcaW37Y3dlNFQ4WDapy73RgUbY3JV8R/nQ=;
- b=x8H5zb7rN81iQu+D1bHz0ALpkW64TCycLgUodR/J6+WhAeJ0zlATQRtQweZoHuYyJH
- J8ADTixUsBUmyR/R/JFgTkN1vEYAu9vKnr9RHJKQOiwunSFpcH8/qrdKle/39D1x2Zv4
- JQFwBq/JD31VyvnVXrE/aqGBOyJCOR6djEwas4LLXmrWk+RCM1kDdYSIlm8/zyLqunUk
- tHKAWDXYLEn49T4To5BewnrvylQwftiXFXBjSuXMnHnEUt3wxVNv89meqHaQXGGWE5mR
- hwPtZ0BiWlsVe1Iv4Ptko7ik5UBMx3V7TxzizGO51tESUDer+uVKADjJlArAAuCA8Ait
- 0odA==
-X-Gm-Message-State: AOAM533F0PPjRUFnIBQdKQkSHtfJzO8xI4bX+X5XdKah3DtF5yFvxdIA
- 1DKvOKB1pJmSXWnwwI5dZDtlxZ7wMqUOOZ5GBPaHjA==
-X-Google-Smtp-Source: ABdhPJxMczP+5jJCLefJZ3uSBIgyN09xnry//vRiu7iBKwt4wRbi9Gfl3WZkmpKPRfcVfBsVXDB2sCr3tXuwJ4WGhuA=
-X-Received: by 2002:a9d:2243:: with SMTP id o61mr5053528ota.126.1641947248080; 
- Tue, 11 Jan 2022 16:27:28 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 11 Jan 2022 16:27:27 -0800
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=xjTRFSqJYxYJ0HsDKiZ54zl6ugx3DS6HwynO3TCtbWQ=;
+ b=ovxvtSmWvRiV+hrZYwQ4i4YBOCGSpXo8tKAVBH5+Baz5UHCxnvid2q1Yu0mUvYVTCJ
+ Fv65fEs9OAxurGgtxXDm96toY7NbqSy8m+4H+plC3l8Z6TrHbspoSlBjMoAqBfQG5Msq
+ yLcgZOiJTdZyvBD/PoA8WoiJvx/YF9cSx+CfvlSjZkCkcR2mIqjqsR6rJ5s9PVf7euO5
+ 5YztThynumkNk0OnVIe0R+z/kxMRrPmWtdGDMGMJWlOIIwxYGWLN7lgEaqJk4Tr4rXbZ
+ pOCA793KglkbN+Odi/a1kF7/DaJHogmwY3eYURFWyQPvhxxy8Uf2T24O9IvnmMcFlAJh
+ 7q3g==
+X-Gm-Message-State: AOAM531b0Yjp/vkvw9mh3bVauB6GNoo86piO8Es/0nx9va8i2L8Vflov
+ COl23qsz3wBTbxlHdoOotxJqBcrFOabIjxS5utYg1A==
+X-Google-Smtp-Source: ABdhPJzZvRCw98B6Izrbwi0vXW5WEsiulf6Jw5949i1tVCJKs6+A1LXAxYLEsQ5qpXuRxCROgZN5vKK18jern8XWoKo=
+X-Received: by 2002:a25:c691:: with SMTP id k139mr9527616ybf.327.1641949942208; 
+ Tue, 11 Jan 2022 17:12:22 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1a3b368eb891ca55c33265397cffab0b9f128737.camel@mediatek.com>
-References: <20220106214556.2461363-1-swboyd@chromium.org>
- <20220106214556.2461363-26-swboyd@chromium.org>
- <1a3b368eb891ca55c33265397cffab0b9f128737.camel@mediatek.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date: Tue, 11 Jan 2022 16:27:27 -0800
-Message-ID: <CAE-0n53Y3WRy4_QvUm9k9wjjWV7adMDQcK_+1ji4+W25SSeGwg@mail.gmail.com>
-Subject: Re: [PATCH v5 25/32] iommu/mtk: Migrate to aggregate driver
-To: Yong Wu <yong.wu@mediatek.com>
+References: <20220104235148.21320-1-hridya@google.com>
+ <49b29081-42df-ffcd-8fea-bd819499ff1b@amd.com>
+ <CA+wgaPMWT0s0KNo_wM7jU+bH626OAVtn77f7_WX=E1wyU8aBzg@mail.gmail.com>
+ <3a29914d-0c7b-1f10-49cb-dbc1cc6e52b0@amd.com>
+ <CA+wgaPOmRTAuXiSRRmj-s=3d2W6ny=EMFtroOShYKrp0u+xF+g@mail.gmail.com>
+ <CA+wgaPO81R+NckRt0nzZazxs9fqSC_V_wyChU=kcMqJ01WxXNw@mail.gmail.com>
+ <5a6bd742-10ca-2e88-afaa-3744731c2c0c@amd.com>
+ <CA+wgaPPdCMPi1t+ObyO4+cqsk7Xx3E=K5BOPM37=QAviQDAfmw@mail.gmail.com>
+ <CAKMK7uGRUrP+0PcY-yxTweb_K_QacHJchgPoa0K9K_kwGO+K3g@mail.gmail.com>
+ <934ac18c-d53e-beeb-48c1-015a5936e713@amd.com> <Yd1nJqmHXULnccNF@kroah.com>
+ <3610ecd0-03c7-2cae-8f36-f8fd555757b0@amd.com>
+In-Reply-To: <3610ecd0-03c7-2cae-8f36-f8fd555757b0@amd.com>
+From: Hridya Valsaraju <hridya@google.com>
+Date: Tue, 11 Jan 2022 17:11:45 -0800
+Message-ID: <CA+wgaPP9DDSuOjJjK6F7XF_=UpP=Li+3-3Pa9Nr-c2qEUr=RBQ@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: Move sysfs work out of DMA-BUF export/release
+ path
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,127 +74,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Saravana Kannan <saravanak@google.com>, Will Deacon <will@kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Joerg Roedel <joro@8bytes.org>, Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, Russell King <rmk+kernel@arm.linux.org.uk>,
- freedreno@lists.freedesktop.org
+Cc: keescook@google.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ kaleshsingh@google.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, tjmercier@google.com,
+ linaro-mm-sig@lists.linaro.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ surenb@google.com, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Yong Wu (2022-01-11 04:22:23)
-> Hi Stephen,
+On Tue, Jan 11, 2022 at 3:43 AM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
 >
-> Thanks for helping update here.
 >
-> On Thu, 2022-01-06 at 13:45 -0800, Stephen Boyd wrote:
-> > Use an aggregate driver instead of component ops so that we can get
-> > proper driver probe ordering of the aggregate device with respect to
-> > all
-> > the component devices that make up the aggregate device.
+> Am 11.01.22 um 12:16 schrieb Greg Kroah-Hartman:
+> > On Tue, Jan 11, 2022 at 11:58:07AM +0100, Christian K=C3=B6nig wrote:
+> >>>> This is also not a problem due to the high number of DMA-BUF
+> >>>> exports during launch time, as even a single export can be delayed f=
+or
+> >>>> an unpredictable amount of time. We cannot eliminate DMA-BUF exports
+> >>>> completely during app-launches and we are unfortunately seeing repor=
+ts
+> >>>> of the exporting process occasionally sleeping long enough to cause
+> >>>> user-visible jankiness :(
+> >>>>
+> >>>> We also looked at whether any optimizations are possible from the
+> >>>> kernfs implementation side[1] but the semaphore is used quite extens=
+ively
+> >>>> and it looks like the best way forward would be to remove sysfs
+> >>>> creation/teardown from the DMA-BUF export/release path altogether. W=
+e
+> >>>> have some ideas on how we can reduce the code-complexity in the
+> >>>> current patch. If we manage to
+> >>>> simplify it considerably, would the approach of offloading sysfs
+> >>>> creation and teardown into a separate thread be acceptable Christian=
+?
+> >> At bare minimum I suggest to use a work_struct instead of re-inventing=
+ that
+> >> with kthread.
+> >>
+> >> And then only put the exporting of buffers into the background and not=
+ the
+> >> teardown.
+> >>
+> >>>> Thank you for the guidance!
+> >>> One worry I have here with doing this async that now userspace might
+> >>> have a dma-buf, but the sysfs entry does not yet exist, or the dma-bu=
+f
+> >>> is gone, but the sysfs entry still exists. That's a bit awkward wrt
+> >>> semantics.
+
+
+Thank you all for your thoughts and guidance. You are correct that we
+will be trading accuracy for performance here. One precedence we could
+find was in the case of RSS accounting where SPLIT_RSS_COUNTING caused
+the accounting to have less overhead but also made it less accurate.
+If you would prefer that it not be the default case, we can make it
+configurable by putting it behind a config instead.
+
+
+> >>>
+> >>> Also I'm pretty sure that if we can hit this, then other subsystems
+> >>> using kernfs have similar problems, so trying to fix this in kernfs
+> >>> with slightly more fine-grained locking sounds like a much more solid
+> >>> approach. The linked patch talks about how the big delays happen due
+> >>> to direct reclaim, and that might be limited to specific code paths
+> >>> that we need to look at? As-is this feels a bit much like papering
+> >>> over kernfs issues in hackish ways in sysfs users, instead of tacklin=
+g
+> >>> the problem at its root.
+> >> Which is exactly my feeling as well, yes.
+> > More and more people are using sysfs/kernfs now for things that it was
+> > never designed for (i.e. high-speed statistic gathering).  That's not
+> > the fault of kernfs, it's the fault of people thinking it can be used
+> > for stuff like that :)
+>
+> I'm starting to get the feeling that we should maybe have questioned
+> adding sysfs files for each exported DMA-buf a bit more. Anyway, to late
+> for that. We have to live with the consequences.
+>
+> > But delays like this is odd, tearing down sysfs attributes should
+> > normally _never_ be a fast-path that matters to system throughput.  So
+> > offloading it to a workqueue makes sense as the attributes here are for
+> > objects that are on the fast-path.
+>
+> That's what is puzzling me as well. As far as I understood Hridya
+> tearing down things is not the problem, because during teardown we
+> usually have a dying task where it's usually not much of a problem if
+> the corpse is around for another few milliseconds until everything is
+> cleaned up.
+
+
+We have seen instances where the last reference to the buffer is not
+dropped by the dying process but by Surfaceflinger[1].
+
+
+>
+> The issue happens during creation of the sysfs attribute and that's
+> extremely odd because if this waits for reclaim then drivers will
+> certainly wait for reclaim as well. See we need a few bytes for the
+> sysfs attribute, but drivers usually need a few megabytes for the
+> DMA-buf backing store before they can even export the DMA-buf.
+
+
+We have been working off of traces collected from the devices of end
+users to analyze the issue and currently don't have sufficient
+information to understand why exactly direct reclaim affects sysfs the
+way we are seeing it on the traces. We are actively trying to
+reproduce the issue consistently to perform more experiments to
+understand it. The DMA-BUF system heap on the Android Common Kernel
+keeps a pool of pre-allocated pages in reserve and we are guessing
+that it could possibly be the reason why we have not seen similar
+issues with direct reclaim earlier. We will update the thread once we
+have more information.
+
+We are also working on a leaner version of the patch that uses
+work_struct instead.
+
+Regards,
+Hridya
+
+[1] : https://source.android.com/devices/graphics/surfaceflinger-windowmana=
+ger
+
+
+>
+> So something doesn't add up in the rational for this problem.
+>
+> Regards,
+> Christian.
+>
 > >
-> > Cc: Yong Wu <yong.wu@mediatek.com>
-> > Cc: Joerg Roedel <joro@8bytes.org>
-> > Cc: Will Deacon <will@kernel.org>
-> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> > Cc: Rob Clark <robdclark@gmail.com>
-> > Cc: Russell King <rmk+kernel@arm.linux.org.uk>
-> > Cc: Saravana Kannan <saravanak@google.com>
-> > Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+> > thanks,
+> >
+> > greg k-h
 >
-> When I test this on mt8195 which have two IOMMU HWs(calling
-> component_aggregate_regsiter twice), it will abort like this. Then what
-> should we do if we have two instances?
->
-
-Thanks for testing it out. We can't register the struct driver more than
-once but this driver is calling the component_aggregate_register()
-function from the driver probe and there are two devices bound to the
-mtk-iommu driver so we try to register it more than once. Sigh!
-
-I see a couple options. One is to do a deep copy of the driver structure
-and change the driver name. Then it's a one to one relationship between
-device and driver. That's not very great because it leaves around junk
-so it should probably be avoided.
-
-Another option is to reference count the driver registration calls when
-component_aggregate_register() is called multiple times. Then we would
-only register the driver once and keep it pinned until the last
-unregister call is made, but still remove devices that are created for
-the match table.
-
-Can you try the attached patch? It is based on the next version of this
-patch series so the include part of the patch may not apply cleanly.
-
----8<---
-diff --git a/drivers/base/component.c b/drivers/base/component.c
-index 64ad7478c67a..97f253a41bdf 100644
---- a/drivers/base/component.c
-+++ b/drivers/base/component.c
-@@ -492,15 +492,30 @@ static struct aggregate_device
-*__aggregate_find(struct device *parent)
- 	return dev ? to_aggregate_device(dev) : NULL;
- }
-
-+static DEFINE_MUTEX(aggregate_mutex);
-+
- static int aggregate_driver_register(struct aggregate_driver *adrv)
- {
--	adrv->driver.bus = &aggregate_bus_type;
--	return driver_register(&adrv->driver);
-+	int ret = 0;
-+
-+	mutex_lock(&aggregate_mutex);
-+	if (!refcount_inc_not_zero(&adrv->count)) {
-+		adrv->driver.bus = &aggregate_bus_type;
-+		ret = driver_register(&adrv->driver);
-+		if (!ret)
-+			refcount_inc(&adrv->count);
-+	}
-+	mutex_unlock(&aggregate_mutex);
-+
-+	return ret;
- }
-
- static void aggregate_driver_unregister(struct aggregate_driver *adrv)
- {
--	driver_unregister(&adrv->driver);
-+	if (refcount_dec_and_mutex_lock(&adrv->count, &aggregate_mutex)) {
-+		driver_unregister(&adrv->driver);
-+		mutex_unlock(&aggregate_mutex);
-+	}
- }
-
- static struct aggregate_device *aggregate_device_add(struct device *parent,
-diff --git a/include/linux/component.h b/include/linux/component.h
-index 53d81203c095..b061341938aa 100644
---- a/include/linux/component.h
-+++ b/include/linux/component.h
-@@ -4,6 +4,7 @@
-
- #include <linux/stddef.h>
- #include <linux/device.h>
-+#include <linux/refcount.h>
-
- struct aggregate_device;
-
-@@ -66,6 +67,7 @@ struct device *aggregate_device_parent(const struct
-aggregate_device *adev);
-
- /**
-  * struct aggregate_driver - Aggregate driver (made up of other drivers)
-+ * @count: driver registration refcount
-  * @driver: device driver
-  */
- struct aggregate_driver {
-@@ -101,6 +103,7 @@ struct aggregate_driver {
- 	 */
- 	void (*shutdown)(struct aggregate_device *adev);
-
-+	refcount_t		count;
- 	struct device_driver	driver;
- };
