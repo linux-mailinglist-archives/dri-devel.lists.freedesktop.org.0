@@ -2,46 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 570DB48CB1A
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 19:37:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 991C748CB40
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 19:48:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A86BB10E3D7;
-	Wed, 12 Jan 2022 18:37:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF06E10E86D;
+	Wed, 12 Jan 2022 18:48:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20AFB10E3D7
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 18:37:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=d3mYL7vvYYZr7sYSXSZoJvLItuKF2IiEftPWgxK3tvo=; b=X45E3lNuJrpAEwLmEUkOPrwziM
- IBNiPalhlrj2QYU6klp+cJ2kP1PiK21hqA16D0chtvViP/3OYuYx7OOt2rxoNAcWW8HkjICxRW0V+
- BMczhcYFcEu/1JqcTAGI/9YPs+fuyB19cZHXfJPbMyR5otyPtlA1yagZ7WnFNmdjxPvUoM/sX5QfV
- OsOcixMCkLmUwHOQxOv0CeQt2B2gCqVq7RMW1lp8zLuKriV7Pj50w28yT0+V94iI6DjuJbzfkXCup
- OAIAeUfqYXr/uV0ONNGpxSFVIK3CawYG64OUO8FP1w35qmdy9ie9862kwk5mEtW2uVL+m4/Hez/KI
- AgvGhXgw==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1n7iUZ-004Jsp-5A; Wed, 12 Jan 2022 18:37:03 +0000
-Date: Wed, 12 Jan 2022 18:37:03 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: Phyr Starter
-Message-ID: <Yd8fz4bY/aMMk24h@casper.infradead.org>
-References: <YdyKWeU0HTv8m7wD@casper.infradead.org>
- <20220111004126.GJ2328285@nvidia.com>
- <Yd0IeK5s/E0fuWqn@casper.infradead.org>
- <20220111150142.GL2328285@nvidia.com>
- <Yd3Nle3YN063ZFVY@casper.infradead.org>
- <20220111202159.GO2328285@nvidia.com>
- <Yd311C45gpQ3LqaW@casper.infradead.org>
- <20220111225306.GR2328285@nvidia.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4301810E864;
+ Wed, 12 Jan 2022 18:48:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1642013305; x=1673549305;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Fhbk1wBeMFUAod5o2AraGdSoFEeFxhksOgiugS8Kqzg=;
+ b=fbEFbs+mYOU3EWW3IF6WP2qBbJt7I8IZ0gTJGunBNcKJnMswIEaGfKf2
+ 67tGr4pJBe/7Jnmx/mTtzrxBeLflg1L2wo+aaNtAph973A4ugCnjcEnyj
+ +9aflH0p/0j3osnUsZFxuNi3v3nb0wrtecK+lHBa5v/3+qBiGO3bK3yGM
+ AXLG+DgsCOHFc5Jpks7epvS1C26aKqmrxyR+sqIv1ToAUwRsfKEJ4c6W4
+ idN+OC9sekkTGn44P6j5dmujoSDpfqztbr1hseNsPnjuTfjfxgxi6iiWq
+ qp71P/nukaveby5SEbjd98NjLdo2kxaTzMJr0axy4RbXrH/KKs8rde5yS Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10225"; a="242638500"
+X-IronPort-AV: E=Sophos;i="5.88,282,1635231600"; d="scan'208";a="242638500"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jan 2022 10:43:56 -0800
+X-IronPort-AV: E=Sophos;i="5.88,282,1635231600"; d="scan'208";a="515611987"
+Received: from erozenmx-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.251.217.143])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jan 2022 10:43:51 -0800
+Date: Wed, 12 Jan 2022 20:43:48 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: "Stimson, Dale B" <dale.b.stimson@intel.com>
+Subject: Re: [PATCH 1/2] drm/i915: Prepare for multiple GTs
+Message-ID: <Yd8hZNZvMwIas0Mb@intel.intel>
+References: <20220111121552.35679-1-andi.shyti@linux.intel.com>
+ <20220111121552.35679-2-andi.shyti@linux.intel.com>
+ <20220111225053.GA60352@dbstims-dev.fm.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220111225306.GR2328285@nvidia.com>
+In-Reply-To: <20220111225053.GA60352@dbstims-dev.fm.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,35 +58,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nvdimm@lists.linux.dev, linux-rdma@vger.kernel.org,
- John Hubbard <jhubbard@nvidia.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Ming Lei <ming.lei@redhat.com>,
- linux-block@vger.kernel.org, linux-mm@kvack.org, netdev@vger.kernel.org,
- Joao Martins <joao.m.martins@oracle.com>,
- Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>
+Cc: Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ DRI Devel <dri-devel@lists.freedesktop.org>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi@etezian.org>,
+ Sujaritha Sundaresan <sujaritha.sundaresan@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 11, 2022 at 06:53:06PM -0400, Jason Gunthorpe wrote:
-> IOMMU is not common in those cases, it is slow.
+Hi Dale,
+
+thanks for looking into this patch,
+
+> > +	/*
+> > +	 * i915->gt[0] == &i915->gt0
+> > +	 */
+> > +#define I915_MAX_GT 4
+> > +	struct intel_gt *gt[I915_MAX_GT];
+> > +
 > 
-> So you end up with 16 bytes per entry then another 24 bytes in the
-> entirely redundant scatter list. That is now 40 bytes/page for typical
-> HPC case, and I can't see that being OK.
+> 
+> It would be nice if I915_MAX_GT was defined in a more basic header file so
+> that the definition of I915_MAX_GT would be available without the necessity of
+> including this heavier file i915_drv.h.  Maybe gt/intel_gt.h would be a good
+> place, as that is where macro for_each_gt (a user of I915_MAX_GT) is defined.
 
-Ah, I didn't realise what case you wanted to optimise for.
+I actually see I915_MAX_GT more suited for in drv.h as it is a
+description for i915 rather than the GT singularly.
 
-So, how about this ...
+We should see the GT as a standalone elemnt not aware of the
+overall properties of the entire GPU.
 
-Since you want to get to the same destination as I do (a
-16-byte-per-entry dma_addr+dma_len struct), but need to get there sooner
-than "make all sg users stop using it wrongly", let's introduce a
-(hopefully temporary) "struct dma_range".
+While for_each_gt() is more an utility from intel_gt.
 
-But let's go further than that (which only brings us to 32 bytes per
-range).  For the systems you care about which use an identity mapping,
-and have sizeof(dma_addr_t) == sizeof(phys_addr_t), we can simply
-point the dma_range pointer to the same memory as the phyr.  We just
-have to not free it too early.  That gets us down to 16 bytes per range,
-a saving of 33%.
+Personally, I do not even like this define: I think the number
+of the GTs should be read during startup and stored in
+drm_i915_private or similar, but this is another discussion.
 
+Thank you,
+Andi
