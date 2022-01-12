@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A323948BFCB
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 09:25:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4554148C036
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jan 2022 09:48:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87731112680;
-	Wed, 12 Jan 2022 08:25:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63385112D3F;
+	Wed, 12 Jan 2022 08:48:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com
- [IPv6:2607:f8b0:4864:20::82d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8783112680
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 08:25:31 +0000 (UTC)
-Received: by mail-qt1-x82d.google.com with SMTP id c10so2224530qte.2
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 00:25:31 -0800 (PST)
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8722D112D3C
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 08:48:35 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id r28so2858151wrc.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 00:48:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=ZCLOQ7++2QfW2m0rsDei0rqRdeUSY6GZN2Og7N4emHA=;
- b=e/9d3uN74jIVDOPjqrRRJ2tN67VjP3qJyvuMPgJUm/fdVftErmvOhNEHTin3X20KRO
- QNpJmvEceXwzVypa0yqYvAqpb2Ms6l/dBf+J3EKFpNC+KEjVg6hIzQ5vx8VNG+4DBlnC
- 80NGcpqm0Lt3MUJfAltzBdg238hC5yzTjU3jeRl/7G9hN4TBq/qIPy5ScLTkXv/Oztpz
- iXcu8tiTdJcsu9uXogSYLGWzAdxD9h8GEsEZnwMq7QT7boaYHXhU68y/VBQZaNp9wR6Q
- b7eoiPDH8B4ja51jgn0Z1nYTNDWCzAYgrvC346+O4DUY/ve0kmwafzlgaYznuTGHtaoc
- AZaA==
+ bh=RSPnyrRswexikOyiWIHNeiaTOVsRKfEItQusWN5Uic8=;
+ b=cDMMDbCjvMkpAxzjaDysSyRi3J0mJWxBU8rnfU5xn/dVUh+6WSPICfuVzEJcG9nlky
+ 38tpSLHGG8kubFVdh4SSaeFYgs+IyNi4feq+gZOzz+xvG+iLaQNG5RzzxsHRlZ1spDwJ
+ yz2JNiaHdGpeM8jjTlrVLWc49gsm3eB1AoiUME2T4e6POFKRwqFvWJ+t3YHglt9uOCr4
+ SEdWvqG7iF/9Ond5Ktxex9VCillYxvWcsxwg5IMVA98l+qCeJTM8mZXVoUobqaixIrbn
+ uYWbT6FZ1OiE4Ohekt5/VER0hQLXj7OZ0fHNeQIRfs3ySwxEZQmRv9akjCae4Vb+XWaF
+ stbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=ZCLOQ7++2QfW2m0rsDei0rqRdeUSY6GZN2Og7N4emHA=;
- b=oCxjIPxPEsc+GUitgDjdiQx4xLLMiX8Fqh7EYTmuSokrywD8cRI4L4ujep7G8fynsd
- lKgh3KKanHoj01vlcOD6S/NN9wFJmueGOty2q3OZgxm6VnVJ2QjjvxOAGVneS3i+C7zf
- x4pJexBLSYWHO7u6sIlfYnbdTvfkJ5XpfTYT18YaLSRUgFZoQPWOAdz4zbM/06A4foVQ
- PwfGwf16UpnZ2dDCf0JJa5+Et1trhA21dGcYr+zeR4sora6uoidHJC+bJmoDrW2jLIza
- 6lwslyzvppZEsK2SbNA9vsdAaKcuNyzD6ajMBWTwqelckbzm3a1HZcO2Ox1uiLV+2ABn
- Zc6A==
-X-Gm-Message-State: AOAM532tansfVXhUaL7OGQzH3TDbCimcZ5T7VP5im3TiooLmLFISqz/y
- KRSdyKJO8dy5ozLw3hUNBeY=
-X-Google-Smtp-Source: ABdhPJw9jOsXa56W5lqO3RFBU1VEoiy8scsNFVqmufsWd3jsHB+kGetR7roaTSluD+Ll3FNGH4X1Ug==
-X-Received: by 2002:a05:622a:14cd:: with SMTP id
- u13mr1768837qtx.532.1641975930836; 
- Wed, 12 Jan 2022 00:25:30 -0800 (PST)
-Received: from localhost.localdomain ([193.203.214.57])
- by smtp.gmail.com with ESMTPSA id l20sm5367458qkp.121.2022.01.12.00.25.28
+ bh=RSPnyrRswexikOyiWIHNeiaTOVsRKfEItQusWN5Uic8=;
+ b=Ag+Z28wb/YrW97Js1Pun066CKUhH2cHB+8UXIJInh++iXYxq3qlrNPNRZ/+J1mGojs
+ gUl5Vfcgl3RO5S7EkoCb0vz1VXPAHup8lAvEcex/AtmS0ZTkZ2GIWCohv3niAojpYBYr
+ S8LhmXTmmsGe7rZrsypAFURTTgf6u7xMUvhkaOmKZt3PTr9bvYgY51v0ECXnngelHQ5R
+ eCjamOlGEVZq5DrxfE7SSTC7s/TlvoXMjbZUqUkSzx96WtcAhl0o4baR1D/4lpX5XCiy
+ 6r+b3QvyHwEPaseHbaJKlHRxhcVHR2bhNv3PZ5U+5P8GZUWOK53/EOyUDxfyUzbhstLq
+ 884g==
+X-Gm-Message-State: AOAM5327sNIuFKNXV9EF2GsJaRp5I4riR6FqqBIzovot8LikfOLJgliT
+ leXhz0Jf+UUTQhnrofV9jGJVptsKHCjV2w==
+X-Google-Smtp-Source: ABdhPJxA/TepMw2dd111vuDL70ElA1lcEhts9RoXOBo6RLQFkDyLXMy0etqdaiTSWp8S9Kj4PmqCPg==
+X-Received: by 2002:a5d:5342:: with SMTP id t2mr6438232wrv.215.1641977314138; 
+ Wed, 12 Jan 2022 00:48:34 -0800 (PST)
+Received: from localhost ([193.209.96.43])
+ by smtp.gmail.com with ESMTPSA id p62sm3686207wmp.10.2022.01.12.00.48.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Jan 2022 00:25:30 -0800 (PST)
-From: cgel.zte@gmail.com
-X-Google-Original-From: chi.minghao@zte.com.cn
-To: patrik.r.jakobsson@gmail.com
-Subject: [PATCH] drm/gma500: remove redundant ret variable
-Date: Wed, 12 Jan 2022 08:25:24 +0000
-Message-Id: <20220112082524.667552-1-chi.minghao@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+ Wed, 12 Jan 2022 00:48:33 -0800 (PST)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>
+Subject: [PATCH 1/2] drm/tegra: Fix planar formats on Tegra186 and later
+Date: Wed, 12 Jan 2022 09:48:27 +0100
+Message-Id: <20220112084828.230780-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,76 +65,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, CGEL ZTE <cgel.zte@gmail.com>,
- Zeal Robot <zealci@zte.com.cn>, linux-kernel@vger.kernel.org,
- Minghao Chi <chi.minghao@zte.com.cn>, dri-devel@lists.freedesktop.org
+Cc: Maniraj D <md@nvidia.com>, linux-tegra@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Minghao Chi <chi.minghao@zte.com.cn>
+From: Thierry Reding <treding@nvidia.com>
 
-Return value directly instead of taking this in another redundant
-variable.
+Use the correct pitch when programming the DC_WIN_PLANAR_STORAGE_UV
+register's PITCH_U field to ensure the correct value is used in all
+cases. This isn't currently causing any problems because the pitch
+for both U and V planes is always the same.
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
-Signed-off-by: CGEL ZTE <cgel.zte@gmail.com>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/gpu/drm/gma500/cdv_intel_dp.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/tegra/hub.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/gma500/cdv_intel_dp.c b/drivers/gpu/drm/gma500/cdv_intel_dp.c
-index ba6ad1466374..74e67679714e 100644
---- a/drivers/gpu/drm/gma500/cdv_intel_dp.c
-+++ b/drivers/gpu/drm/gma500/cdv_intel_dp.c
-@@ -82,7 +82,6 @@ i2c_algo_dp_aux_address(struct i2c_adapter *adapter, u16 address, bool reading)
- {
- 	struct i2c_algo_dp_aux_data *algo_data = adapter->algo_data;
- 	int mode = MODE_I2C_START;
--	int ret;
+diff --git a/drivers/gpu/drm/tegra/hub.c b/drivers/gpu/drm/tegra/hub.c
+index b910155f80c4..fc9813e6b2c9 100644
+--- a/drivers/gpu/drm/tegra/hub.c
++++ b/drivers/gpu/drm/tegra/hub.c
+@@ -673,7 +673,7 @@ static void tegra_shared_plane_atomic_update(struct drm_plane *plane,
+ 		tegra_plane_writel(p, upper_32_bits(base), DC_WINBUF_START_ADDR_HI_V);
+ 		tegra_plane_writel(p, lower_32_bits(base), DC_WINBUF_START_ADDR_V);
  
- 	if (reading)
- 		mode |= MODE_I2C_READ;
-@@ -90,8 +89,7 @@ i2c_algo_dp_aux_address(struct i2c_adapter *adapter, u16 address, bool reading)
- 		mode |= MODE_I2C_WRITE;
- 	algo_data->address = address;
- 	algo_data->running = true;
--	ret = i2c_algo_dp_aux_transaction(adapter, mode, 0, NULL);
--	return ret;
-+	return i2c_algo_dp_aux_transaction(adapter, mode, 0, NULL);
- }
- 
- /*
-@@ -122,13 +120,11 @@ static int
- i2c_algo_dp_aux_put_byte(struct i2c_adapter *adapter, u8 byte)
- {
- 	struct i2c_algo_dp_aux_data *algo_data = adapter->algo_data;
--	int ret;
- 
- 	if (!algo_data->running)
- 		return -EIO;
- 
--	ret = i2c_algo_dp_aux_transaction(adapter, MODE_I2C_WRITE, byte, NULL);
--	return ret;
-+	return i2c_algo_dp_aux_transaction(adapter, MODE_I2C_WRITE, byte, NULL);
- }
- 
- /*
-@@ -139,13 +135,11 @@ static int
- i2c_algo_dp_aux_get_byte(struct i2c_adapter *adapter, u8 *byte_ret)
- {
- 	struct i2c_algo_dp_aux_data *algo_data = adapter->algo_data;
--	int ret;
- 
- 	if (!algo_data->running)
- 		return -EIO;
- 
--	ret = i2c_algo_dp_aux_transaction(adapter, MODE_I2C_READ, 0, byte_ret);
--	return ret;
-+	return i2c_algo_dp_aux_transaction(adapter, MODE_I2C_READ, 0, byte_ret);
- }
- 
- static int
+-		value = PITCH_U(fb->pitches[2]) | PITCH_V(fb->pitches[2]);
++		value = PITCH_U(fb->pitches[1]) | PITCH_V(fb->pitches[2]);
+ 		tegra_plane_writel(p, value, DC_WIN_PLANAR_STORAGE_UV);
+ 	} else {
+ 		tegra_plane_writel(p, 0, DC_WINBUF_START_ADDR_U);
 -- 
-2.25.1
+2.34.1
 
