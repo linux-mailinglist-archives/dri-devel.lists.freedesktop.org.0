@@ -1,58 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2206E48E44E
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 07:41:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B350A48E672
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 09:27:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7AFC10E170;
-	Fri, 14 Jan 2022 06:41:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4253110EA3D;
+	Fri, 14 Jan 2022 08:27:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x133.google.com (mail-il1-x133.google.com
- [IPv6:2607:f8b0:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01F0F10E170
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 06:41:11 +0000 (UTC)
-Received: by mail-il1-x133.google.com with SMTP id u5so3340834ilq.9
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 22:41:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NBbp5E1JmkcFNQqkFa6J2rIzcIhIU713VnGqiU+cJwU=;
- b=kcCBDlhpfZ51Gk+7ATdD2Wj6Si5ielRmWhElK8o8weZ/GtFLsJkx1JXGsBBLmBtj8l
- 8XGrDC7U6VfQLckPzqPAA80eMThA1YQFl1hVCEsIjg96yhBq8MS9x/whN97YfRlNc38y
- vNsA41hFMm9Jqu4b4e8PWF3T9DhSg9r3ovSZg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NBbp5E1JmkcFNQqkFa6J2rIzcIhIU713VnGqiU+cJwU=;
- b=pb4nXK2o/bf44tqno191Zhf1JILonVr7oVcvxnQ18hxgt3n8zKYzIDp34CfOaCG0pB
- IAJrFYq00a41ZoG5Zg1yaDqnQqyOHimAnLghmI+FKq+Hgzxx7TMtkY2/B3SfqTNgx5Fh
- 8R6EvUm+eLMeJGyeVM3lytPtqgECq+1C3rqS9gE1U6fQrgrawJqNNtBkPXLVKeV/tuB/
- QORmdsmDLvyhD8QIDDFE6kbQgYzEotCCJgP7FJ5l3MV/fa0yYKKfqS7N1reLblReTGdD
- 5MO8CJsMxP/2ANGizOoaMH8Zc0ALEfM/ONzOqVrBdZDq8TnM7ajxilFl+ikHYdOnRloM
- QEaA==
-X-Gm-Message-State: AOAM532Q2uAr0TYLkwHdjV2Quwh15vNGCIMiK21EAqKQmOnikZyFORG7
- /nsSzJp5UMr8V8LHFxkL0ASx9A==
-X-Google-Smtp-Source: ABdhPJy+XPW6NhU5hhsaMSGMqhh4ww3gLJxhJwOwVy9kTNEvfWnZGUUeMB3uX/26KDaNqR3lfHhGHg==
-X-Received: by 2002:a05:6e02:1c88:: with SMTP id
- w8mr4224902ill.95.1642142471225; 
- Thu, 13 Jan 2022 22:41:11 -0800 (PST)
-Received: from ddavenport4.bld.corp.google.com
- ([2620:15c:183:200:666f:a9f8:5c99:aa9e])
- by smtp.gmail.com with ESMTPSA id r10sm3667497ila.32.2022.01.13.22.41.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Jan 2022 22:41:10 -0800 (PST)
-From: Drew Davenport <ddavenport@chromium.org>
-To: ple@baylibre.com,
-	narmstrong@baylibre.com
-Subject: [PATCH] drm: bridge: it66121: Remove redundant check
-Date: Thu, 13 Jan 2022 23:40:12 -0700
-Message-Id: <20220114064012.1670612-1-ddavenport@chromium.org>
-X-Mailer: git-send-email 2.34.1.703.g22d0c6ccf7-goog
+Received: from air.basealt.ru (air.basealt.ru [194.107.17.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14FC110F14A
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 10:01:37 +0000 (UTC)
+Received: by air.basealt.ru (Postfix, from userid 490)
+ id 9A7375895B6; Thu, 13 Jan 2022 10:01:35 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on
+ sa.local.altlinux.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=ham autolearn_force=no version=3.4.1
+Received: from localhost (unknown [88.147.173.226])
+ by air.basealt.ru (Postfix) with ESMTPSA id 1EC8758942B;
+ Thu, 13 Jan 2022 10:01:33 +0000 (UTC)
+Date: Thu, 13 Jan 2022 14:01:32 +0400
+From: Alexey Sheplyakov <asheplyakov@basealt.ru>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH 2/2] drm/panfrost: adjusted job affinity for dual core
+ group GPUs
+Message-ID: <Yd/4fIpQqKSRdY/P@asheplyakov-rocket>
+References: <20211223110616.2589851-1-asheplyakov@basealt.ru>
+ <20211223110616.2589851-3-asheplyakov@basealt.ru>
+ <YcSDgIwrmHZ/BC2n@maud>
+ <c94bafaa-3029-fea3-b623-1961b4b5e4cf@basealt.ru>
+ <fca08e3c-c239-efdd-6ae5-132d84637d1f@arm.com>
+ <YdxwFCfWYtLd1Qqb@maud>
+ <37d797e3-5957-13a6-32b0-6772ace6c540@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <37d797e3-5957-13a6-32b0-6772ace6c540@arm.com>
+X-Mailman-Approved-At: Fri, 14 Jan 2022 08:27:12 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,35 +52,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jonas@kwiboo.se, airlied@linux.ie, robert.foss@linaro.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- jernej.skrabec@gmail.com, a.hajda@samsung.com,
- Laurent.pinchart@ideasonboard.com, Drew Davenport <ddavenport@chromium.org>
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ "Vadim V . Vlasov" <vadim.vlasov@elpitech.ru>, dri-devel@lists.freedesktop.org,
+ Alyssa Rosenzweig <alyssa@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ctx->next_bridge is checked for NULL twice in a row. The second
-conditional is redundant, so remove it.
+Hi, Steven!
 
-Signed-off-by: Drew Davenport <ddavenport@chromium.org>
----
- drivers/gpu/drm/bridge/ite-it66121.c | 3 ---
- 1 file changed, 3 deletions(-)
+Thanks for such a detailed explanation of T628 peculiarities.
 
-diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
-index 06b59b422c69..69288cf894b9 100644
---- a/drivers/gpu/drm/bridge/ite-it66121.c
-+++ b/drivers/gpu/drm/bridge/ite-it66121.c
-@@ -936,9 +936,6 @@ static int it66121_probe(struct i2c_client *client,
- 		return -EPROBE_DEFER;
- 	}
- 
--	if (!ctx->next_bridge)
--		return -EPROBE_DEFER;
--
- 	i2c_set_clientdata(client, ctx);
- 	mutex_init(&ctx->lock);
- 
--- 
-2.34.1.703.g22d0c6ccf7-goog
+On Wed, Jan 12, 2022 at 05:03:15PM +0000, Steven Price wrote:
+> On 10/01/2022 17:42, Alyssa Rosenzweig wrote:
+> >> Whether it's worth the effort depends on whether anyone really cares
+> >> about getting the full performance out of this particular GPU.
+> >>
+> >> At this stage I think the main UABI change would be to add the opposite
+> >> flag to kbase, (e.g. "PANFROST_JD_DOESNT_NEED_COHERENCY_ON_GPU"[1]) to
+> >> opt-in to allowing the job to run across all cores.
+> >>
+> >> The second change would be to allow compute jobs to be run on the second
+> >> core group, so another flag: PANFROST_RUN_ON_SECOND_CORE_GROUP.
+> >>
+> >> But clearly there's little point adding such flags until someone steps
+> >> up to do the Mesa work.
+> > 
+> > I worry about the maintainence burden (both Mesa and kernel) of adding
+> > UABI only used by a piece of hardware none of us own, and only useful
+> > "sometimes" for that hardware. Doubly so for the second core group
+> > support; currently Mesa doesn't advertise any compute support on
+> > anything older than Mali T760 ... to the best of my knowledge, nobody
+> > has missed that support either...
+> 
+> I agree there's no point adding the UABI support unless someone is
+> willing to step and be a maintainer for that hardware. And I suspect no
+> one cares enough about that hardware to do that.
+> 
+> > To be clear I am in favour of merging the patches needed for GLES2 to
+> > work on all Malis, possibly at a performance cost on these dual-core
+> > systems. That's a far cry from the level of support the DDK gave these
+> > chips back in the day ... of course, the DDK doesn't support them at all
+> > anymore, so Panfrost wins there by default! ;)
+> > 
+> 
+> Agreed - I'm happy to merge a kernel series similar to this. I think the
+> remaining problems are:
+> 
+> 1. Addressing Robin's concerns about the first patch. That looks like
+> it's probably just wrong.
 
+The first patch is wrong and I'll drop it.
+
+> 2. I think this patch is too complex for the basic support. There's some
+> parts like checking GROUPS_L2_COHERENT which also don't feature in kbase
+
+That part has been adapted from kbase_gpuprops_construct_coherent_groups, see
+https://github.com/hardkernel/linux/blob/2f0f4268209ddacc2cdea158104b87cedacbd0e3/drivers/gpu/arm/midgard/mali_kbase_gpuprops.c#L94
+
+> so I don't believe are correct.
+
+I'm not sure if it's correct or not, however
+- it does not change anything for GPUs with coherent L2 caches
+- it appears to correctly figure out core groups for several SoCs
+  with T628 GPU (BE-M1000, Exynos 5422).
+
+> 3. I don't think this blocks the change. But if we're not using the
+> second core group we could actually power it down. Indeed simply not
+> turning on the L2/shader cores should in theory work (jobs are not
+> scheduled to cores which are turned off even if they are included in the
+> affinity).
+
+Powering off unused GPU is would be nice, however
+
+1) the userspace might power on those cores again (via sysfs or something),
+   so I prefer to explicitly schedule jobs to the core group 0.
+
+2) on BE-M1000 GPU seems to lock up in a few seconds after powering off
+   some (GPU) cores. In fact I had to disable GPU devfreq to prevent GPU
+   lockups.
+
+Therefore I consider powering off unused cores as a later optimization. 
+(frankly speaking I'd better put the effort to *making use* of those cores
+instead of figuring out why they fail to power down properly).
+
+Best regards,
+   Alexey
