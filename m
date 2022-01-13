@@ -2,45 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DEB548D45C
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 10:33:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 730EA48D45F
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 10:37:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D371E10F2C1;
-	Thu, 13 Jan 2022 09:33:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0480610E253;
+	Thu, 13 Jan 2022 09:37:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DBD010F2C1;
- Thu, 13 Jan 2022 09:33:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642066392; x=1673602392;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=FIiIIYhzfU+BNjUU8EuUmgFCxrgJ7iTW6xva1YQmpk4=;
- b=BjImeD/EGR7kcRG4oucApwMI9ynzUVuySq2lyY8bOtY4rujbupKcCvuP
- iU37Aw7gWHkmGU8u/Jvspfwm9BjbruPv3+R9Y3ObovGladsqor+IjyTd0
- alvt0OfBfJDQHq6idDiroYElOcbpFlrf9c7KflV/sLcn99vUDqP8hR7F7
- 3dLiDe7o0fs8xlAm5WnWUSiRDvspOgEOa3Q0RG/Wgj5JV7tH3r3O7h693
- omyi/xjEQ0dmXiHqobchZRimFuYPhQ7cg2FvD/zNcEAujYmJ465Btza9d
- ioOhwQDxBEhogHOJL++NSZp5sT51ciokJ1EK0IdO9snpLue2jTPGee4/Z Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10225"; a="231314579"
-X-IronPort-AV: E=Sophos;i="5.88,284,1635231600"; d="scan'208";a="231314579"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2022 01:33:09 -0800
-X-IronPort-AV: E=Sophos;i="5.88,284,1635231600"; d="scan'208";a="691741893"
-Received: from guevarag-mobl.ger.corp.intel.com (HELO localhost)
- ([10.213.242.1])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2022 01:33:05 -0800
-Date: Thu, 13 Jan 2022 09:33:03 +0000
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-next-fixes
-Message-ID: <Yd/xzyCM87rfrwQT@tursulin-mobl2>
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A44D10E6DD
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 09:37:34 +0000 (UTC)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 20D8S200016899;
+ Thu, 13 Jan 2022 10:37:31 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=subject : to :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=Jr0kWY9uB9p4RjnCqgSrRBVIiTgElsIdkCEOg8QxsTA=;
+ b=MtKA6cVOr3qfrzr6C1hmoORVpQHAkWONsiJ3xuq331e7FKLP/ccg9L/B2gf26rx8ICYS
+ 0U83ZDNDblU6skCyt8lOzkH/iC5I4jo3vEP3IKqa4uP5Z/O8oEL/4p03CKLJTzC5RksO
+ mSwPTJHDsfsi0tOQ+FCchZeUZAbx1nnc5oax9Fadr93Xhv9Sn5VWTNmBZIdmQrTaxLOb
+ LGYRG+AN8KXSfFkuVE37Wv53zX0Xrahwp8nm4DoAyKgy3jBOWMpo6k3KXaIgclrQaxZn
+ najDeBfglhcv93hOfSmwt8gICZyN84RXWtaobVmt2VCB85Ohg7I59O60rWFF+i3vLGHD iA== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3djgkkretb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Jan 2022 10:37:30 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 7FF6E100034;
+ Thu, 13 Jan 2022 10:37:29 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5992020BA00;
+ Thu, 13 Jan 2022 10:37:29 +0100 (CET)
+Received: from lmecxl1137.lme.st.com (10.75.127.45) by SFHDAG2NODE2.st.com
+ (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.26; Thu, 13 Jan
+ 2022 10:37:28 +0100
+Subject: Re: [PATCH 1/5] drm/stm: ltdc: switch to regmap
+To: Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
+ <philippe.cornu@foss.st.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre
+ Torgue <alexandre.torgue@foss.st.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+References: <20211215214738.19946-1-yannick.fertre@foss.st.com>
+From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+Message-ID: <87cd3111-75bd-e66c-5ba8-af3ff76bedad@foss.st.com>
+Date: Thu, 13 Jan 2022 10:37:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <20211215214738.19946-1-yannick.fertre@foss.st.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [10.75.127.45]
+X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG2NODE2.st.com
+ (10.75.127.5)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-13_02,2022-01-11_01,2021-12-02_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,62 +76,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-Hi Dave and Daniel,
+On 12/15/21 10:47 PM, Yannick Fertre wrote:
+> Replace the legacy register access by regmap API.
+>
+> Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
+> ---
+>  drivers/gpu/drm/stm/ltdc.c | 138 ++++++++++++++++++-------------------
+>  drivers/gpu/drm/stm/ltdc.h |   1 +
+>  2 files changed, 68 insertions(+), 71 deletions(-)
 
-A few fixes for the merge window.
 
-One dealing with runtime PM handling on the PXP unbind path and a few
-regarding the newly added TTM backend support.
+Hello Yannick,
 
-Regards,
+Reviewed-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+Tested-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
 
-Tvrtko
+Thanks for the patch,
 
----
+Raphaël
 
-drm-intel-next-fixes-2022-01-13:
-- Hold runtime PM wakelock during PXP unbind (Juston Li)
-- Three fixes for the TTM backend fault handling (Matthew Auld)
-- Make sure to unmap when purging in the TTM backend (Matthew Auld)
-The following changes since commit c65fe9cbbfd61dbc12868f9ed4940c80fcb249e8:
-
-  drm/i915/fbc: Remember to update FBC state even when not reallocating CFB (2021-12-27 11:46:48 +0200)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-fixes-2022-01-13
-
-for you to fetch changes up to 6ef295e34297433c78ea02dfcf1c649a769050bb:
-
-  drm/i915/ttm: ensure we unmap when purging (2022-01-10 14:00:47 +0000)
-
-----------------------------------------------------------------
-- Hold runtime PM wakelock during PXP unbind (Juston Li)
-- Three fixes for the TTM backend fault handling (Matthew Auld)
-- Make sure to unmap when purging in the TTM backend (Matthew Auld)
-
-----------------------------------------------------------------
-Juston Li (1):
-      drm/i915/pxp: Hold RPM wakelock during PXP unbind
-
-Matthew Auld (4):
-      drm/i915: don't call free_mmap_offset when purging
-      drm/i915/ttm: only fault WILLNEED objects
-      drm/i915/ttm: add unmap_virtual callback
-      drm/i915/ttm: ensure we unmap when purging
-
- drivers/gpu/drm/i915/gem/i915_gem_mman.c           |  3 +++
- drivers/gpu/drm/i915/gem/i915_gem_object_types.h   |  1 +
- drivers/gpu/drm/i915/gem/i915_gem_pages.c          |  1 -
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c            | 27 +++++++++++++++++++++-
- drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c | 18 ++++-----------
- drivers/gpu/drm/i915/pxp/intel_pxp_tee.c           |  5 +++-
- 6 files changed, 38 insertions(+), 17 deletions(-)
