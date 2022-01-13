@@ -1,34 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27F3C48D017
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 02:22:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4921148D088
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 03:50:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7126A10E33A;
-	Thu, 13 Jan 2022 01:22:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 578DC10E22D;
+	Thu, 13 Jan 2022 02:50:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-56.freemail.mail.aliyun.com
- (out30-56.freemail.mail.aliyun.com [115.124.30.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EAE710E3DB
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 01:21:59 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R401e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04394; MF=yang.lee@linux.alibaba.com;
- NM=1; PH=DS; RN=10; SR=0; TI=SMTPD_---0V1hGH.A_1642036915; 
-Received: from localhost(mailfrom:yang.lee@linux.alibaba.com
- fp:SMTPD_---0V1hGH.A_1642036915) by smtp.aliyun-inc.com(127.0.0.1);
- Thu, 13 Jan 2022 09:21:56 +0800
-From: Yang Li <yang.lee@linux.alibaba.com>
-To: airlied@linux.ie
-Subject: [PATCH -next 2/2] drm/amdgpu: clean up some inconsistent indenting
-Date: Thu, 13 Jan 2022 09:21:50 +0800
-Message-Id: <20220113012150.87399-2-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
-In-Reply-To: <20220113012150.87399-1-yang.lee@linux.alibaba.com>
-References: <20220113012150.87399-1-yang.lee@linux.alibaba.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0B7E10E22D
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 02:50:29 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7397C618A2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 02:50:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D4F31C36AF2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 02:50:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1642042228;
+ bh=mjvFbU2lIbaML2oIe7bu/yd+CosgFgKhcd8px2moDko=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=ZyVJOtRXGyBpClYQ1C9N8q7njoH+D1vSQ149PXUuhS5aP3ps3aRHR5Clun5QJ1PkQ
+ TefSA/aX2R8D3kk7iL9FqwsM8ViacuJmQ3z2xFTTIvP7OAhdjcGh/6sjOrX3jiiK0p
+ jgz+4kFxdcef1w68AdOfqd8VCXJrewSfipi8CpkYUZiSIf/X3ygY9s0DI2xrLV2P1K
+ RzwOzTZgfVjeIro5KTn63CitoSdcP5yBZbToeLD6epTu+ypZhXdMonD+Slki3iQ8a/
+ o2s4nf1vOj7+siKdY9DT18ADLDmuyF+kon6jRIhKxFr+7Y5GLuns3T8FfhDIp6XTcM
+ cFvKq/4DueMCw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id BD402CC13B0; Thu, 13 Jan 2022 02:50:28 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 215445] AMDGPU -- UBSAN: invalid-load in amdgpu_dm.c:5882:84 -
+ load of value 32 is not a valid value for type '_Bool'
+Date: Thu, 13 Jan 2022 02:50:28 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: talktome7468@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-215445-2300-sBn2aFChV1@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-215445-2300@https.bugzilla.kernel.org/>
+References: <bug-215445-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,78 +72,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinhui.Pan@amd.com, Abaci Robot <abaci@linux.alibaba.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Yang Li <yang.lee@linux.alibaba.com>, amd-gfx@lists.freedesktop.org,
- alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Eliminate the follow smatch warnings:
-drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:3504 amdgpu_device_init()
-warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:1716
-amdgpu_ras_error_status_query() warn: if statement not indented
-drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2724 amdgpu_ras_set_context()
-warn: if statement not indented
-drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:1058 amdgpu_ras_error_inject()
-warn: inconsistent indenting
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215445
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c    | 10 ++++++----
- 2 files changed, 7 insertions(+), 5 deletions(-)
+--- Comment #8 from hock (talktome7468@gmail.com) ---
+The bug is due to the use of uninitialized variable, which UBSAN detected.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 33388041c354..64d6c0af4c76 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -3499,7 +3499,7 @@ int amdgpu_device_init(struct amdgpu_device *adev,
- 	mutex_init(&adev->notifier_lock);
- 	mutex_init(&adev->pm.stable_pstate_ctx_lock);
- 
--	 amdgpu_device_init_apu_flags(adev);
-+	amdgpu_device_init_apu_flags(adev);
- 
- 	r = amdgpu_device_check_arguments(adev);
- 	if (r)
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-index 7d9d99e581da..6d84749698c8 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-@@ -1055,8 +1055,10 @@ int amdgpu_ras_error_inject(struct amdgpu_device *adev,
- 		.address = info->address,
- 		.value = info->value,
- 	};
--    int ret = -EINVAL;
--    struct amdgpu_ras_block_object* block_obj = amdgpu_ras_get_ras_block(adev, info->head.block, info->head.sub_block_index);
-+	int ret = -EINVAL;
-+	struct amdgpu_ras_block_object *block_obj = amdgpu_ras_get_ras_block(adev,
-+							info->head.block,
-+							info->head.sub_block_index);
- 
- 	if (!obj)
- 		return -EINVAL;
-@@ -1714,7 +1716,7 @@ static void amdgpu_ras_error_status_query(struct amdgpu_device *adev,
- 	}
- 
- 	if (block_obj->hw_ops->query_ras_error_status)
--	block_obj->hw_ops->query_ras_error_status(adev);
-+		block_obj->hw_ops->query_ras_error_status(adev);
- 
- }
- 
-@@ -2722,7 +2724,7 @@ struct amdgpu_ras* amdgpu_ras_get_context(struct amdgpu_device *adev)
- int amdgpu_ras_set_context(struct amdgpu_device *adev, struct amdgpu_ras* ras_con)
- {
- 	if (!adev)
--	return -EINVAL;
-+		return -EINVAL;
- 
- 	adev->psp.ras_context.ras = ras_con;
- 	return 0;
--- 
-2.20.1.7.g153144c
+See the patch https://patchwork.freedesktop.org/patch/468484 for the fix.
 
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
