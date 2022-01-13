@@ -1,68 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 591BE48DC33
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 17:49:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB6B248DCC9
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 18:20:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A16AF10E26B;
-	Thu, 13 Jan 2022 16:49:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79B9810E122;
+	Thu, 13 Jan 2022 17:20:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 309 seconds by postgrey-1.36 at gabe;
- Thu, 13 Jan 2022 16:49:19 UTC
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 432EE10E26B
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 16:49:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1642092557;
- bh=+GT3R0iprMihU+thXl1YC3ClEpv0BXdo+4Olk8WRQdE=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=A84yqC6fjcJuAF2HdEF39ncvySdjcBzAqVVg9+ekOREtyQ6Mkl2iNblGSLPAZbYxo
- +ILRaZvJOb+4/hH+0Sg9FHSmncCndIQlUzu2RnQoFLpH7FyCbcoTdb6rcivKen9rDD
- u1fUIzO4Vw8eJIP9MxePwL/4AoXV+IBpPCq/03So=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.168.79]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1ML9yc-1mqvlG05D8-00IF42; Thu, 13
- Jan 2022 17:44:04 +0100
-Message-ID: <078e9d59-d6b5-797b-5701-6292fc588bef@gmx.de>
-Date: Thu, 13 Jan 2022 17:42:58 +0100
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2AFB10E122
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 17:20:32 +0000 (UTC)
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 20DCZAsk024268;
+ Thu, 13 Jan 2022 18:20:15 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=selector1;
+ bh=aXxo7+n1UdqA+CufFuU2xisAC4iUYIAOyjkRa57TNqs=;
+ b=6gKrEgO2jIIWOJuf6loGN9ovQSZuVG8XWpBdBVt01lQ5EGU5IzwapltboXUg+K2oFzRg
+ xdkM0rUWwb9545hVqjvIsieQ8I+5osKHW+ZafqhLF5/LCG/K2pg8K6nOsk76cz1lNh4F
+ o9b+emqBxV820hFyf0bJEBfJykuyoOIdY/io9/XadBvVpWOIkEBhxv3gDgXVgCo4hwVf
+ JJmSBerES7VU+m+xJZrzjCzRPX5OcQ2FC86iQCX5YzWTuZgF5m5F4sBv3qNBhe8gC7gm
+ Mkp5iSTnwe+Y668xM1kMEyTSEcMk3EmFoJwhdbPeAcuHF6G3IWrqR8OMX5bN018F2tuE BA== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3djfywtwjn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Jan 2022 18:20:15 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 4F3BA10002A;
+ Thu, 13 Jan 2022 18:20:13 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 336862194F9;
+ Thu, 13 Jan 2022 18:20:13 +0100 (CET)
+Received: from localhost (10.75.127.45) by SFHDAG2NODE2.st.com (10.75.127.5)
+ with Microsoft SMTP Server (TLS) id 15.0.1497.26; Thu, 13 Jan 2022 18:20:12
+ +0100
+From: Philippe Cornu <philippe.cornu@foss.st.com>
+To: Yannick Fertre <yannick.fertre@foss.st.com>, Raphael Gallais-Pou
+ <raphael.gallais-pou@foss.st.com>, Philippe Cornu
+ <philippe.cornu@foss.st.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre
+ Torgue <alexandre.torgue@foss.st.com>, Alain Volmat
+ <alain.volmat@foss.st.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, Liam Mark
+ <lmark@codeaurora.org>, Laura Abbott <labbott@redhat.com>, Brian Starkey
+ <Brian.Starkey@arm.com>, John Stultz <john.stultz@linaro.org>, Christian
+ Konig <christian.koenig@amd.com>, <soc@kernel.org>
+Subject: [PATCH 0/2] MAINTAINERS: update various stm & sti maintainer names
+Date: Thu, 13 Jan 2022 18:19:19 +0100
+Message-ID: <20220113171921.17466-1-philippe.cornu@foss.st.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v2 0/7] agp: Various minor fixes
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@linux.ie,
- daniel.vetter@ffwll.ch, arnd@arndb.de, gregkh@linuxfoundation.org,
- James.Bottomley@HansenPartnership.com
-References: <20211201114645.15384-1-tzimmermann@suse.de>
- <aba1a416-cfec-dadb-fff6-48b95346173d@suse.de>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <aba1a416-cfec-dadb-fff6-48b95346173d@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:XW0GanP14yP4WB70CLBZJK+JNRUnOz4GIsF5A+XX1QUATxOpwK0
- 21NOOiqaSFWKHqRgIZEddksnyG2cfBrkqO3oKqxQ1PXtunv71V09QxxabzPNH/yKco/sOlW
- wYVoyRNgIZAaPZIvsYnSN8U2MErKsALvchez1duUDT0ozftVPDr3aGwHpMKJsEtwFsIJOio
- CE6E1cAUn4lw+U0bF+1Xg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:XujB1KYAjuU=:4/yEeLPslREqhUJ5UXm583
- pLWYJ9s29hwQM2pUZoFhiWrX8mXz23IuY6OwBEA75RLak/Kaglro0o267dkBm0U/FQLDa9I1l
- UDUVEB2SvcAWfm2k49GPcrmY7szfQMkgkPWdopJ24PjEHTwksLsVN8X73c3C9YjIFCx7ZNDwH
- crdKJP9YismHrOb1Lk4VZe3Ym8VRs1DB+x9mG3QbT0ekiCm8nXxBjuDTVmwxN3DO4oF8HjRUC
- ugAUOzXT04GiyeuPZl0csdrs2vr6QonrwTTvDxGv0geCqkIbSqVZbWhhPyck/VFJURnihGMrK
- 6jl+m1W0uHQivhWbiWQQU8+gsZZhEdLz3PtuG94WwHrwnvqjEDtGK4b5+ugPcEJVeFP2Jkqnb
- Qqxyqq2v5fIHdMABgTroFuK6xKsRuzPJ1kbakWeEI2svAWRsQEjAegL43fr8KQHxY3iaETFT5
- redMowDHfH9BLuNB1vdaNoLczWDwfa+KHMV4+Q8YPw6Xr9ar75BsiHCL4yo72kp/xmVRvbaQ3
- YCsEYa6vol8VfeOjCinLWM8bzD7VE1p9ztmGFgj8gj7ufz6BIuqV2P/RIadMNyalxWnQifTN0
- 4dc2t9c/9x5omIf6wfo2LT7n0mZzXintDg4j/QQSiMORGxfyTrFUkJXRiInm/rTKQNp9sPF3U
- FFRV0/5xiGaFryPge4u5maPPLY1q7NYqtC5QBO9cdChUHxi1LyRmezuSNwQOTUwLCSuBHzSxt
- 0SgHYf6CBsnVc/srMf1NajVaeOxzTX8/RRiyu+/rtznnxySqFZTKtiInl3pS5n1lwPsgXfNX6
- to5m7jPWxXR3cr2odKvkSNwDUJedsI6J9LbRfkwnsyDtgjxZYdBeyZ54BXx9TZVvr54F8uIQz
- EupMZvFzsQfu7Rlh8nF+hVU8nWVP2+8fu2HuI3rRFDBoaDKJ/2rn13zFk4nKJkdPt+b30pxeg
- lbGx5FhFjYTz9rEYwkEsFj/PClA1JTtj5YaE3BRFILBMfVd2Wu5w/8RLbhXm1+Sl34+XvCSTi
- /HiJx5/vaYyGhdmx6CoazBIsf2H3IoeqW0d0ODiLVPQJOC2hAztLnOEjWUhsTjR5IqSoTd/ZE
- fv6ZzShQg3lwfM=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.75.127.45]
+X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG2NODE2.st.com
+ (10.75.127.5)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-13_08,2022-01-13_01,2021-12-02_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,51 +78,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/13/22 09:51, Thomas Zimmermann wrote:
-> ping!
->
-> This patchset got lost. Patches 4 and 5 still need a review.
+This short serie contains the maintainer status update sent recently by
+Benjamin Gaignard (see [1] for details) and add new maintainers for
+various stm & sti files.
 
-for patches 4 & 5:
-Acked-by: Helge Deller <deller@gmx.de>
+[1] https://lore.kernel.org/lkml/20210706163033.795805-1-benjamin.gaignard@collabora.com/
 
-Helge
 
->
-> Am 01.12.21 um 12:46 schrieb Thomas Zimmermann:
->> Fix a number of compiler warnings in the AGP drivers. No functional
->> changes.
->>
->> v2:
->> =C2=A0=C2=A0=C2=A0=C2=A0* ati-agp: free page in error branch (Helge)
->> =C2=A0=C2=A0=C2=A0=C2=A0* nvidia-agp: Mark temp as __maybe_unused (Helg=
-e)
->>
->> Thomas Zimmermann (7):
->> =C2=A0=C2=A0 agp: Remove trailing whitespaces
->> =C2=A0=C2=A0 agp: Include "compat_ioctl.h" where necessary
->> =C2=A0=C2=A0 agp: Documentation fixes
->> =C2=A0=C2=A0 agp/ati: Return error from ati_create_page_map()
->> =C2=A0=C2=A0 agp/nvidia: Declare value returned by readl() as unused
->> =C2=A0=C2=A0 agp/sworks: Remove unused variable 'current_size'
->> =C2=A0=C2=A0 agp/via: Remove unused variable 'current_size'
->>
->> =C2=A0 drivers/char/agp/ati-agp.c=C2=A0=C2=A0=C2=A0 | 8 ++++++--
->> =C2=A0 drivers/char/agp/backend.c=C2=A0=C2=A0=C2=A0 | 2 ++
->> =C2=A0 drivers/char/agp/frontend.c=C2=A0=C2=A0 | 4 +++-
->> =C2=A0 drivers/char/agp/nvidia-agp.c | 3 ++-
->> =C2=A0 drivers/char/agp/sworks-agp.c | 5 +----
->> =C2=A0 drivers/char/agp/via-agp.c=C2=A0=C2=A0=C2=A0 | 3 ---
->> =C2=A0 6 files changed, 14 insertions(+), 11 deletions(-)
->>
->>
->> base-commit: 6a8f90ec433e2f5de5fc16d7a4839771b7027cc0
->> --
->> 2.34.0
->>
->
+Benjamin Gaignard (1):
+  MAINTAINERS: Update Benjamin Gaignard maintainer status
+
+Philippe Cornu (1):
+  MAINTAINERS: update drm/stm drm/sti and cec/sti maintainers
+
+ MAINTAINERS | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+-- 
+2.17.1
 
