@@ -2,48 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 708D548D31B
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 08:48:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CED548D353
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 09:04:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1878511216A;
-	Thu, 13 Jan 2022 07:48:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54D3810E2AE;
+	Thu, 13 Jan 2022 08:04:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 483 seconds by postgrey-1.36 at gabe;
- Thu, 13 Jan 2022 07:47:57 UTC
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
- by gabe.freedesktop.org (Postfix) with ESMTP id C46FB11216A
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 07:47:57 +0000 (UTC)
-Received: from localhost.localdomain (unknown [124.16.141.244])
- by APP-01 (Coremail) with SMTP id qwCowADn7JxF199hYV5FBg--.59804S2;
- Thu, 13 Jan 2022 15:39:50 +0800 (CST)
-From: Xu Wang <vulab@iscas.ac.cn>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] fbdev: omap2: omapfb: Remove redundant 'flush_workqueue()'
- calls
-Date: Thu, 13 Jan 2022 07:39:28 +0000
-Message-Id: <20220113073928.9946-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from smtp.smtpout.orange.fr (smtp02.smtpout.orange.fr
+ [80.12.242.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D2E010E2AE
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 08:04:55 +0000 (UTC)
+Received: from [192.168.1.18] ([90.126.236.122]) by smtp.orange.fr with ESMTPA
+ id 7v68nVqnqniux7v68nzdc1; Thu, 13 Jan 2022 09:04:52 +0100
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
+X-ME-Date: Thu, 13 Jan 2022 09:04:52 +0100
+X-ME-IP: 90.126.236.122
+Message-ID: <2e676870-11f2-b5fa-faf1-d6633e801a5a@wanadoo.fr>
+Date: Thu, 13 Jan 2022 09:04:39 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.1
+Subject: Re: [PATCH v2 1/3] drm/bridge: anx7625: Convert to use devm_kzalloc
+Content-Language: en-US
+To: Hsin-Yi Wang <hsinyi@chromium.org>, Robert Foss <robert.foss@linaro.org>, 
+ Rob Herring <robh+dt@kernel.org>, Xin Ji <xji@analogixsemi.com>
+References: <20220113073158.2171673-1-hsinyi@chromium.org>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20220113073158.2171673-1-hsinyi@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowADn7JxF199hYV5FBg--.59804S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrKF17GF47AF1fGFyrCrWUXFb_yoWfXFg_W3
- s7uFZrXFZ8tr40k34rtan0kFs293srWF47WasrtrZ8K342qrySqrWDZr1IqFWUX3yUCF9r
- Zr1jgr48Xwn3CjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbFAYjsxI4VWDJwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
- 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
- 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0
- cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4
- A2jsIEc7CjxVAFwI0_Cr1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
- 64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8Jw
- Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l4I8I
- 3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxV
- WUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAF
- wI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcI
- k0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_
- Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8v_M3UUUUU==
-X-Originating-IP: [124.16.141.244]
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBggFA10Tf6X3nAAAs3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,33 +45,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org,
- inux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-'destroy_workqueue()' already drains the queue before destroying it, so
-there is no need to flush it explicitly.
+Le 13/01/2022 à 08:31, Hsin-Yi Wang a écrit :
+> Use devm_kzalloc instead of kzalloc and drop kfree(). Let the memory
+> handled by driver detach.
+> 
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> Reviewed-by: Xin Ji <xji@analogixsemi.com>
+> ---
+>   drivers/gpu/drm/bridge/analogix/anx7625.c | 9 +++------
+>   1 file changed, 3 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> index 0b858c78abe8b6..dbe708eb3bcf11 100644
+> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> @@ -2515,7 +2515,7 @@ static int anx7625_i2c_probe(struct i2c_client *client,
+>   		return -ENODEV;
+>   	}
+>   
+> -	platform = kzalloc(sizeof(*platform), GFP_KERNEL);
+> +	platform = devm_kzalloc(dev, sizeof(*platform), GFP_KERNEL);
+>   	if (!platform) {
+>   		DRM_DEV_ERROR(dev, "fail to allocate driver data\n");
+>   		return -ENOMEM;
+> @@ -2527,7 +2527,7 @@ static int anx7625_i2c_probe(struct i2c_client *client,
+>   	if (ret) {
+>   		if (ret != -EPROBE_DEFER)
+>   			DRM_DEV_ERROR(dev, "fail to parse DT : %d\n", ret);
+> -		goto free_platform;
+> +		return ret;
+>   	}
+>   
+>   	platform->client = client;
+> @@ -2552,7 +2552,7 @@ static int anx7625_i2c_probe(struct i2c_client *client,
+>   	if (!platform->hdcp_workqueue) {
+>   		dev_err(dev, "fail to create work queue\n");
+>   		ret = -ENOMEM;
+> -		goto free_platform;
+> +		return ret;
+>   	}
+>   
+>   	platform->pdata.intp_irq = client->irq;
+> @@ -2637,9 +2637,6 @@ static int anx7625_i2c_probe(struct i2c_client *client,
+>   	if (platform->hdcp_workqueue)
+>   		destroy_workqueue(platform->hdcp_workqueue);
+>   
+> -free_platform:
+> -	kfree(platform);
+> -
+>   	return ret;
+>   }
+>   
 
-Remove the redundant 'flush_workqueue()' calls.
+Hi,
 
-Signed-off-by: Xu Wang <vulab@iscas.ac.cn>
----
- drivers/video/fbdev/omap2/omapfb/omapfb-main.c | 1 -
- 1 file changed, 1 deletion(-)
+you also need to update anx7625_i2c_remove() accordingly, otherwise you 
+introduce a double free.
 
-diff --git a/drivers/video/fbdev/omap2/omapfb/omapfb-main.c b/drivers/video/fbdev/omap2/omapfb/omapfb-main.c
-index a3decc7fadde..afa688e754b9 100644
---- a/drivers/video/fbdev/omap2/omapfb/omapfb-main.c
-+++ b/drivers/video/fbdev/omap2/omapfb/omapfb-main.c
-@@ -1854,7 +1854,6 @@ static void omapfb_free_resources(struct omapfb2_device *fbdev)
- 	}
- 
- 	if (fbdev->auto_update_wq != NULL) {
--		flush_workqueue(fbdev->auto_update_wq);
- 		destroy_workqueue(fbdev->auto_update_wq);
- 		fbdev->auto_update_wq = NULL;
- 	}
--- 
-2.25.1
+CJ
+
 
