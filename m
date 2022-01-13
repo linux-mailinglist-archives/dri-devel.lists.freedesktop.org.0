@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C73E48DB55
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 17:08:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7D2848DB5F
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 17:08:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7C7F10E3E6;
-	Thu, 13 Jan 2022 16:08:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9294A10E40A;
+	Thu, 13 Jan 2022 16:08:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38E4510E3E6
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 16:08:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FED710E3E6
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 16:08:25 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 13F0D1F45F44
+ (Authenticated sender: kholk11) with ESMTPSA id 7271F1F45F46
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1642090102;
- bh=l3KQagUbPX/8dzNwAMFTYGee4gg0II9hxQ4x9DR7EoE=;
+ s=mail; t=1642090104;
+ bh=EJCJ/U8x9BufSZOZuD2xdqLDerBdLK0JlNJ0Lc3P0r8=;
  h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=GnjZckDdctWoJBFgGNo/PN5SHoTo9YfL+UIkB+P3xJUbETQYy9bLJuuFFrtsrprIH
- fOXmTIIIAjoHQasumgAlWqfHcHMylJ39u7mvEJB+86e+zL3arKTLBrnyEAWO7ihZcz
- fLTHjhdQWG0zJryg3CfiOy1D5ahLZs0mXHeaf8ker6GVECqk74GSijWtEnVn8Io2q7
- NF02Sbt8GLEonsFNCfYZpRungxh8CVeGKOpoKAnQPw7Do2rU2kSkf5ndHDHDs8c6tq
- qQsAdPwoZoAo8W8o3zWcSZpzqFsyZXr2y+bx3RCrnXpdIuMrcur48FkCILUMjvMlrO
- zelsp8mcAtrvQ==
-Subject: Re: [PATCH v11 06/22] soc: mediatek: add mtk-mmsys config API for
- mt8195 vdosys1
+ b=O63IZ60KePMUX4t7LXts5qjLWpTVTleknfXkdkm4GjReM/TIchvcn5woLrIzAbF8L
+ xrFCf4dZ+mgyl/xtHAuSzbCeLFZiYCEN+T7Vn3EodIVKrtbUpe5dX5nkHKlUvTv2J+
+ iHZ8kRTVIiZ0na2Oe/bkQQnFXZVfPBCJiU4lbiQulxD+RrkH3NBf+8afO31DymHURs
+ VpcZZA4O4sEPlgwIt+9rBXt89PxTNsGoNCjjJ64pqyQe3K2EnVSCW32mNieNZtpyCR
+ g5kHc/okwcvYCnuiuspbrJZMt4eLIlR0PwY0642uyIEYI++ss4Lt1D1K3bqWwy8X/R
+ jSkpoHN1jf2+Q==
+Subject: Re: [PATCH v11 05/22] soc: mediatek: add mtk-mmsys support for mt8195
+ vdosys1
 To: "Nancy.Lin" <nancy.lin@mediatek.com>, CK Hu <ck.hu@mediatek.com>
 References: <20220110084645.31191-1-nancy.lin@mediatek.com>
- <20220110084645.31191-7-nancy.lin@mediatek.com>
+ <20220110084645.31191-6-nancy.lin@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Message-ID: <0ce9149b-f2ee-ef59-12a1-ff7bc5cb4978@collabora.com>
-Date: Thu, 13 Jan 2022 17:08:19 +0100
+Message-ID: <1e3ff068-3335-8402-4eb6-ec4fbda44461@collabora.com>
+Date: Thu, 13 Jan 2022 17:08:21 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20220110084645.31191-7-nancy.lin@mediatek.com>
+In-Reply-To: <20220110084645.31191-6-nancy.lin@mediatek.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -62,9 +62,8 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 10/01/22 09:46, Nancy.Lin ha scritto:
-> Add mmsys config API. The config API is used for config mmsys reg.
-> Some mmsys regs need to be setting according to the HW engine binding
-> to the mmsys simultaneously.
+> Add mt8195 vdosys1 clock driver name and routing table to
+> the driver data of mtk-mmsys.
 > 
 > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
 
