@@ -1,53 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 780C648D453
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 10:21:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DEB548D45C
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 10:33:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 741F010E9E3;
-	Thu, 13 Jan 2022 09:21:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D371E10F2C1;
+	Thu, 13 Jan 2022 09:33:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55FDC10E9E3;
- Thu, 13 Jan 2022 09:21:21 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DBD010F2C1;
+ Thu, 13 Jan 2022 09:33:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642065681; x=1673601681;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=kJXpkD0TqGstWjsq8Z/m8Tr6Aqf885r5vhHL1qEhWr4=;
- b=KjkzXh5hmBv52PLnwlztZyHpCcmXgCVtjInEJtdJNv/yMpLNr3pCzmkx
- Yq5tlH26qyWg5LH3h1WgkaLjJNGFsJID7zDufqKP3uCN1uQM++DWGl0WF
- Ki6jMwgDKKTJxzP2aKn8CabVy5uW13ozKRUWJ3BPWLuh0tNqapNaj8LVO
- 8hedctvlEW1Y303JLw0NHa6BMidjJmzudm7xCAh2Cr4d5mq2FdPRfUdTO
- xW2+rxvDwVcjNuAJsNiACimO9zg+vClZ4eIAk6SKByWgpD0CLIsnsPMd5
- Ojh91lhK3OVUavt1THX7qG/82cIq53N702F7ypRcVRQD5Ng6s3/poONb2 A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10225"; a="304705306"
-X-IronPort-AV: E=Sophos;i="5.88,284,1635231600"; d="scan'208";a="304705306"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2022 01:21:20 -0800
-X-IronPort-AV: E=Sophos;i="5.88,284,1635231600"; d="scan'208";a="529590256"
-Received: from joneil3-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.0.221])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2022 01:21:17 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Colin Ian King <colin.i.king@gmail.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH][RESEND] i915: make array flex_regs static const
-In-Reply-To: <20220112223435.949071-1-colin.i.king@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220112223435.949071-1-colin.i.king@gmail.com>
-Date: Thu, 13 Jan 2022 11:21:15 +0200
-Message-ID: <87h7a86lf8.fsf@intel.com>
+ t=1642066392; x=1673602392;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=FIiIIYhzfU+BNjUU8EuUmgFCxrgJ7iTW6xva1YQmpk4=;
+ b=BjImeD/EGR7kcRG4oucApwMI9ynzUVuySq2lyY8bOtY4rujbupKcCvuP
+ iU37Aw7gWHkmGU8u/Jvspfwm9BjbruPv3+R9Y3ObovGladsqor+IjyTd0
+ alvt0OfBfJDQHq6idDiroYElOcbpFlrf9c7KflV/sLcn99vUDqP8hR7F7
+ 3dLiDe7o0fs8xlAm5WnWUSiRDvspOgEOa3Q0RG/Wgj5JV7tH3r3O7h693
+ omyi/xjEQ0dmXiHqobchZRimFuYPhQ7cg2FvD/zNcEAujYmJ465Btza9d
+ ioOhwQDxBEhogHOJL++NSZp5sT51ciokJ1EK0IdO9snpLue2jTPGee4/Z Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10225"; a="231314579"
+X-IronPort-AV: E=Sophos;i="5.88,284,1635231600"; d="scan'208";a="231314579"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2022 01:33:09 -0800
+X-IronPort-AV: E=Sophos;i="5.88,284,1635231600"; d="scan'208";a="691741893"
+Received: from guevarag-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.213.242.1])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2022 01:33:05 -0800
+Date: Thu, 13 Jan 2022 09:33:03 +0000
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-next-fixes
+Message-ID: <Yd/xzyCM87rfrwQT@tursulin-mobl2>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,58 +53,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 12 Jan 2022, Colin Ian King <colin.i.king@gmail.com> wrote:
-> Don't populate the read-only array flex_regs on the stack but
-> instead it static const. Also makes the object code a little smaller.
->
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
->
-> ---
->
-> RESEND: Use correct e-mail address for sign-off and From: in e-mail.
 
-There are a number of things at play here:
+Hi Dave and Daniel,
 
-- Our tooling checks for certain things, such as author/signed-off-by
-  match, after applying the patch.
+A few fixes for the merge window.
 
-- You have an entry in the kernel git .mailmap.
+One dealing with runtime PM handling on the PXP unbind path and a few
+regarding the newly added TTM backend support.
 
-- The git log.mailmap config default has changed from false to true.
+Regards,
 
-We apply the patch, and, with the default options, git show will display
-a different author than the signed-off-by.
+Tvrtko
 
-We should use --no-use-mailmap when examining a commit to ensure the
-commit is internally consistent, regardless of .mailmap.
+---
 
+drm-intel-next-fixes-2022-01-13:
+- Hold runtime PM wakelock during PXP unbind (Juston Li)
+- Three fixes for the TTM backend fault handling (Matthew Auld)
+- Make sure to unmap when purging in the TTM backend (Matthew Auld)
+The following changes since commit c65fe9cbbfd61dbc12868f9ed4940c80fcb249e8:
 
-BR,
-Jani.
+  drm/i915/fbc: Remember to update FBC state even when not reallocating CFB (2021-12-27 11:46:48 +0200)
 
+are available in the Git repository at:
 
->
-> ---
->  drivers/gpu/drm/i915/i915_perf.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
-> index e27f3b7cf094..df698960fdc0 100644
-> --- a/drivers/gpu/drm/i915/i915_perf.c
-> +++ b/drivers/gpu/drm/i915/i915_perf.c
-> @@ -2114,7 +2114,7 @@ gen8_update_reg_state_unlocked(const struct intel_context *ce,
->  	u32 ctx_oactxctrl = stream->perf->ctx_oactxctrl_offset;
->  	u32 ctx_flexeu0 = stream->perf->ctx_flexeu0_offset;
->  	/* The MMIO offsets for Flex EU registers aren't contiguous */
-> -	i915_reg_t flex_regs[] = {
-> +	static const i915_reg_t flex_regs[] = {
->  		EU_PERF_CNTL0,
->  		EU_PERF_CNTL1,
->  		EU_PERF_CNTL2,
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-fixes-2022-01-13
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+for you to fetch changes up to 6ef295e34297433c78ea02dfcf1c649a769050bb:
+
+  drm/i915/ttm: ensure we unmap when purging (2022-01-10 14:00:47 +0000)
+
+----------------------------------------------------------------
+- Hold runtime PM wakelock during PXP unbind (Juston Li)
+- Three fixes for the TTM backend fault handling (Matthew Auld)
+- Make sure to unmap when purging in the TTM backend (Matthew Auld)
+
+----------------------------------------------------------------
+Juston Li (1):
+      drm/i915/pxp: Hold RPM wakelock during PXP unbind
+
+Matthew Auld (4):
+      drm/i915: don't call free_mmap_offset when purging
+      drm/i915/ttm: only fault WILLNEED objects
+      drm/i915/ttm: add unmap_virtual callback
+      drm/i915/ttm: ensure we unmap when purging
+
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c           |  3 +++
+ drivers/gpu/drm/i915/gem/i915_gem_object_types.h   |  1 +
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c          |  1 -
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c            | 27 +++++++++++++++++++++-
+ drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c | 18 ++++-----------
+ drivers/gpu/drm/i915/pxp/intel_pxp_tee.c           |  5 +++-
+ 6 files changed, 38 insertions(+), 17 deletions(-)
