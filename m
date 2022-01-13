@@ -1,57 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01E9848DE8D
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 21:01:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E94F48DEB2
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 21:17:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE7E010E11E;
-	Thu, 13 Jan 2022 20:01:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0DB510E2B3;
+	Thu, 13 Jan 2022 20:17:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
- [IPv6:2a00:1450:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A653C10E11E
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 20:01:47 +0000 (UTC)
-Received: by mail-ed1-x52b.google.com with SMTP id t24so27141146edi.8
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 12:01:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CKKBvExIdXR4NmexUNKYFi4XGwRsnmajoIJ3WHiHemw=;
- b=P6MjH8VbEXKaa9Xe+OrKdRO/17t1xnavCQ1iFuARciPT4LOiqcts2TRquGSo5R4hUs
- 1HKly7dXYmo1IcgU9eZ4RmPEjLSqFF5kdyQWJnjz5/QihSZl6AGE+jS9VQ77dkxe0Wlq
- 0d5L0I0bVSUC+9dy1Z/pSnd9aqqpJeumK3DHxYZz4Bt7jIJWGJuAZdFZ01sJY8HxXVUo
- H6b/dbQhLkC+rjVhwONRlsm3b5c5Qqt0xdGix+lt5LFdDdhVyg85xvsD501bTueWz05l
- Lt99uTyImY/wlqSlKOJswzL3ZLzS0SJI7r6mjE5yB3GbQqi0HzmXON/MMPGHvLZ6JHTa
- WVyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CKKBvExIdXR4NmexUNKYFi4XGwRsnmajoIJ3WHiHemw=;
- b=5GTTe9IfHGmOkUBdTTjbdlg1BzOIzHIHrP5uEtQ5RgGUC7/t0ekkqAe2l56wVwmXtn
- niMQGBAzGfbNDOnWdD9Cav4HYI8d4YwF2a/2FtVzFCqJ+9I+Yz0V5EfCAG/oNSu4eUMu
- Kx69hpYYTFLreJ1HKa2SDpUCXYscIPVEa3DgpgWbNTfLQyJzTLmIkWGYNXWGhySnquKP
- S6auSSPGF4LFQVpenTsrG/d2gy8k3ciOlWMcPGAPktXd7pJ+WXoJWON+vkubsancJqqw
- JJjRQPJIizHPaNrMomlHE8anF5meYBFmCmX2/TxswUpgCAkFZ4etpEzazb1+5cT9tu8V
- vq7Q==
-X-Gm-Message-State: AOAM532NOJXkYwzoGZnN8Nvsj1WGQIVUgVKjiGzX3mW3v1ZLJqtMiLkC
- QyLOVqY4uXBI1mR/ohaCEx2ya1Dxk+aI4N9mdx4=
-X-Google-Smtp-Source: ABdhPJwslh+6ha9GsyWg4OE9COVsBHcsGl2nt9B4vD1RxEyfjpYwfsR9lnhbTXuKZfXaIgsCtfoSmB0myB659ctydp4=
-X-Received: by 2002:a05:6402:350f:: with SMTP id
- b15mr5636003edd.77.1642104106220; 
- Thu, 13 Jan 2022 12:01:46 -0800 (PST)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5653810E12A
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 20:17:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1642105025; x=1673641025;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=aKc/MkMx9cUEOGpw55cv5Z4VZVMCA0JOdIwIdP/az/c=;
+ b=PXoqLft2v1KM5Bw1kaZ3HBWBQtCy+UrTJTRjIWD5eV88fyNbTi9DBdcf
+ EvuVuPECk18oqSQAdCE6H0XTM4V2m4YfVXGfhIV4dZF5WeWCCpl0/0n6G
+ Ya+MlMKB9TDsWgvKapZxoI3LN7bam/LEoEoinjY3aXSeSn4YvdPOB2R3m
+ gTEgqft1Sg/Q8f7YgB1x3TiLhxis5Ykf+nLDxFIo/lmsxUn3u6+gpZgsz
+ btpn2PNVkvRZXLFMuqhmlfkdi98HC+s1eZPK4XHCUKygX68bQ4LmFMsZ2
+ XVPb0PsxQ1UeVvsHP3iaifdJR0njSj1q6uFdg08uobwI0nc+3cs664hkX g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10226"; a="244059305"
+X-IronPort-AV: E=Sophos;i="5.88,286,1635231600"; d="scan'208";a="244059305"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2022 12:17:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,286,1635231600"; d="scan'208";a="691935136"
+Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
+ by orsmga005.jf.intel.com with ESMTP; 13 Jan 2022 12:17:02 -0800
+Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1n86Wr-0007bn-D1; Thu, 13 Jan 2022 20:17:01 +0000
+Date: Fri, 14 Jan 2022 04:16:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter <daniel.vetter@intel.com>,
+ David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v3 04/16] drm/connector: Fix typo in output format
+Message-ID: <202201140436.WlQxR5wG-lkp@intel.com>
+References: <20220113140720.1678907-5-maxime@cerno.tech>
 MIME-Version: 1.0
-References: <OS0PR01MB59221ED76B74231F5836D5FB86539@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB59221ED76B74231F5836D5FB86539@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Thu, 13 Jan 2022 17:01:34 -0300
-Message-ID: <CAOMZO5DJiCb5bJN5_nxnYa-FsK-u7QtFghWNzs_-udE42XPDeA@mail.gmail.com>
-Subject: Re: dw_hdmi is showing wrong colour after commit
- 7cd70656d1285b79("drm/bridge:
- display-connector: implement bus fmts callbacks")
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220113140720.1678907-5-maxime@cerno.tech>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,40 +62,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "jonas@kwiboo.se" <jonas@kwiboo.se>,
- "martin.blumenstingl@googlemail.com" <martin.blumenstingl@googlemail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "robert.foss@linaro.org" <robert.foss@linaro.org>,
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
- "linux-amlogic@lists.infradead.org" <linux-amlogic@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>
+Cc: kbuild-all@lists.01.org, Dom Cobley <dom@raspberrypi.com>,
+ Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, Werner Sembach <wse@tuxedocomputers.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
+Hi Maxime,
 
-On Thu, Jan 13, 2022 at 2:45 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
->
-> Hi All,
->
-> RZ/G2{H, M, N} SoC has dw_hdmi IP and it was working ok(colour) till the commit
-> 7cd70656d1285b79("drm/bridge: display-connector: implement bus fmts callbacks").
->
-> After this patch, the screen becomes greenish(may be it is setting it into YUV format??).
->
-> By checking the code, previously it used to call get_input_fmt callback and set colour as RGB24.
->
-> After this commit, it calls get_output_fmt_callbck and returns 3 outputformats(YUV16, YUV24 and RGB24)
-> And get_input_fmt callback, I see the outputformat as YUV16 instead of RGB24.
->
-> Not sure, I am the only one seeing this issue with dw_HDMI driver.
+I love your patch! Yet something to improve:
 
-I have tested linux-next 20220112 on a imx6q-sabresd board, which shows:
+[auto build test ERROR on drm/drm-next]
+[also build test ERROR on drm-intel/for-linux-next v5.16 next-20220113]
+[cannot apply to anholt/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-dwhdmi-imx 120000.hdmi: Detected HDMI TX controller v1.30a with HDCP
-(DWC HDMI 3D TX PHY)
+url:    https://github.com/0day-ci/linux/commits/Maxime-Ripard/drm-vc4-hdmi-Yet-Another-Approach-to-HDMI-YUV-output/20220113-221035
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20220114/202201140436.WlQxR5wG-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/52bba93426db6667839f3b01a759ad9084127008
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Maxime-Ripard/drm-vc4-hdmi-Yet-Another-Approach-to-HDMI-YUV-output/20220113-221035
+        git checkout 52bba93426db6667839f3b01a759ad9084127008
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=csky SHELL=/bin/bash drivers/gpu/drm/rockchip/
 
-The colors are shown correctly here.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/rockchip/analogix_dp-rockchip.c: In function 'rockchip_dp_get_modes':
+>> drivers/gpu/drm/rockchip/analogix_dp-rockchip.c:120:48: error: 'DRM_COLOR_FORMAT_YCRCB422' undeclared (first use in this function); did you mean 'DRM_COLOR_FORMAT_YCBCR422'?
+     120 |         u32 mask = DRM_COLOR_FORMAT_YCBCR444 | DRM_COLOR_FORMAT_YCRCB422;
+         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                DRM_COLOR_FORMAT_YCBCR422
+   drivers/gpu/drm/rockchip/analogix_dp-rockchip.c:120:48: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +120 drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
+
+   114	
+   115	static int rockchip_dp_get_modes(struct analogix_dp_plat_data *plat_data,
+   116					 struct drm_connector *connector)
+   117	{
+   118		struct drm_display_info *di = &connector->display_info;
+   119		/* VOP couldn't output YUV video format for eDP rightly */
+ > 120		u32 mask = DRM_COLOR_FORMAT_YCBCR444 | DRM_COLOR_FORMAT_YCRCB422;
+   121	
+   122		if ((di->color_formats & mask)) {
+   123			DRM_DEBUG_KMS("Swapping display color format from YUV to RGB\n");
+   124			di->color_formats &= ~mask;
+   125			di->color_formats |= DRM_COLOR_FORMAT_RGB444;
+   126			di->bpc = 8;
+   127		}
+   128	
+   129		return 0;
+   130	}
+   131	
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
