@@ -2,48 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8229F48D3CF
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 09:48:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E82F48D3D7
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 09:52:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C250D10E6FE;
-	Thu, 13 Jan 2022 08:48:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14D3710E611;
+	Thu, 13 Jan 2022 08:52:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2BB0D10E6FE
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 08:48:30 +0000 (UTC)
-Received: from localhost.localdomain (unknown [124.16.141.244])
- by APP-01 (Coremail) with SMTP id qwCowABnb59b599hVSpGBg--.58605S2;
- Thu, 13 Jan 2022 16:48:28 +0800 (CST)
-From: Xu Wang <vulab@iscas.ac.cn>
-To: lee.jones@linaro.org,
-	daniel.thompson@linaro.org,
-	jingoohan1@gmail.com
-Subject: [PATCH] backlight: lm3630a_bl: Remove redundant 'flush_workqueue()'
- calls
-Date: Thu, 13 Jan 2022 08:48:06 +0000
-Message-Id: <20220113084806.13822-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9409010E611
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 08:52:05 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 069D421637;
+ Thu, 13 Jan 2022 08:52:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1642063924; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=whydE7yJE4jxKVc+8U38NPk2fNZs4f5bKOAaqaqQCgM=;
+ b=jydVH6ZAfwFZKAiYz1dUTL+aLtiNhBqBq5UDV4CXYMNSzRPjvoDnrXmAOIXtoXFWBdeDSZ
+ PzM4cM3EiD+DstiQX35WMpWFr7ArPB4Wj0hvzpdwTOremIUzypKtPJruK659SLRt17hHiZ
+ ZvOk51OkhGHYalRNI0atWAmWzXSjYvQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1642063924;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=whydE7yJE4jxKVc+8U38NPk2fNZs4f5bKOAaqaqQCgM=;
+ b=r6nW9pf32wQjNjCuMOoi0+VVlP1YwAPfUh+SnIkEFfePwISnHG6lnyZEBZXnRrD4IzIoVS
+ 7CPqTusb2pIPu9Dw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CA6D913B87;
+ Thu, 13 Jan 2022 08:52:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id YypQMDPo32EgWAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 13 Jan 2022 08:52:03 +0000
+Message-ID: <aba1a416-cfec-dadb-fff6-48b95346173d@suse.de>
+Date: Thu, 13 Jan 2022 09:51:08 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowABnb59b599hVSpGBg--.58605S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrKF1xtr43uF4kGFWrZrW5Jrb_yoW3ArX_Kr
- ZFqryfWFWUKF409FZrtFWrZFWFkaykuFy5XF4FyFyFy34UWry5uFZFvrs7uF1Uua45GFsr
- u34a9r40vr1fJjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbFkYjsxI4VWkCwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
- 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
- 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0
- cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4
- A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IE
- w4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMc
- vjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCFx2Iq
- xVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r
- 106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AK
- xVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7
- xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWU
- JVW8JbIYCTnIWIevJa73UjIFyTuYvjxUcDDGUUUUU
-X-Originating-IP: [124.16.141.244]
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCwkFA1z4kwKO+wAAsE
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [PATCH v2 0/7] agp: Various minor fixes
+Content-Language: en-US
+To: airlied@linux.ie, daniel.vetter@ffwll.ch, arnd@arndb.de,
+ gregkh@linuxfoundation.org, James.Bottomley@HansenPartnership.com,
+ deller@gmx.de
+References: <20211201114645.15384-1-tzimmermann@suse.de>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20211201114645.15384-1-tzimmermann@suse.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------LetDfMpvKdMeP0CUdLSUjzFd"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,33 +71,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-'destroy_workqueue()' already drains the queue before destroying it, so
-there is no need to flush it explicitly.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------LetDfMpvKdMeP0CUdLSUjzFd
+Content-Type: multipart/mixed; boundary="------------0kUBlabxWxOfnm3eXBUN3X0e";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@linux.ie, daniel.vetter@ffwll.ch, arnd@arndb.de,
+ gregkh@linuxfoundation.org, James.Bottomley@HansenPartnership.com,
+ deller@gmx.de
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Message-ID: <aba1a416-cfec-dadb-fff6-48b95346173d@suse.de>
+Subject: Re: [PATCH v2 0/7] agp: Various minor fixes
+References: <20211201114645.15384-1-tzimmermann@suse.de>
+In-Reply-To: <20211201114645.15384-1-tzimmermann@suse.de>
 
-Remove the redundant 'flush_workqueue()' calls.
+--------------0kUBlabxWxOfnm3eXBUN3X0e
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Xu Wang <vulab@iscas.ac.cn>
----
- drivers/video/backlight/lm3630a_bl.c | 1 -
- 1 file changed, 1 deletion(-)
+cGluZyENCg0KVGhpcyBwYXRjaHNldCBnb3QgbG9zdC4gUGF0Y2hlcyA0IGFuZCA1IHN0aWxs
+IG5lZWQgYSByZXZpZXcuDQoNCkFtIDAxLjEyLjIxIHVtIDEyOjQ2IHNjaHJpZWIgVGhvbWFz
+IFppbW1lcm1hbm46DQo+IEZpeCBhIG51bWJlciBvZiBjb21waWxlciB3YXJuaW5ncyBpbiB0
+aGUgQUdQIGRyaXZlcnMuIE5vIGZ1bmN0aW9uYWwNCj4gY2hhbmdlcy4NCj4gDQo+IHYyOg0K
+PiAJKiBhdGktYWdwOiBmcmVlIHBhZ2UgaW4gZXJyb3IgYnJhbmNoIChIZWxnZSkNCj4gCSog
+bnZpZGlhLWFncDogTWFyayB0ZW1wIGFzIF9fbWF5YmVfdW51c2VkIChIZWxnZSkNCj4gDQo+
+IFRob21hcyBaaW1tZXJtYW5uICg3KToNCj4gICAgYWdwOiBSZW1vdmUgdHJhaWxpbmcgd2hp
+dGVzcGFjZXMNCj4gICAgYWdwOiBJbmNsdWRlICJjb21wYXRfaW9jdGwuaCIgd2hlcmUgbmVj
+ZXNzYXJ5DQo+ICAgIGFncDogRG9jdW1lbnRhdGlvbiBmaXhlcw0KPiAgICBhZ3AvYXRpOiBS
+ZXR1cm4gZXJyb3IgZnJvbSBhdGlfY3JlYXRlX3BhZ2VfbWFwKCkNCj4gICAgYWdwL252aWRp
+YTogRGVjbGFyZSB2YWx1ZSByZXR1cm5lZCBieSByZWFkbCgpIGFzIHVudXNlZA0KPiAgICBh
+Z3Avc3dvcmtzOiBSZW1vdmUgdW51c2VkIHZhcmlhYmxlICdjdXJyZW50X3NpemUnDQo+ICAg
+IGFncC92aWE6IFJlbW92ZSB1bnVzZWQgdmFyaWFibGUgJ2N1cnJlbnRfc2l6ZScNCj4gDQo+
+ICAgZHJpdmVycy9jaGFyL2FncC9hdGktYWdwLmMgICAgfCA4ICsrKysrKy0tDQo+ICAgZHJp
+dmVycy9jaGFyL2FncC9iYWNrZW5kLmMgICAgfCAyICsrDQo+ICAgZHJpdmVycy9jaGFyL2Fn
+cC9mcm9udGVuZC5jICAgfCA0ICsrKy0NCj4gICBkcml2ZXJzL2NoYXIvYWdwL252aWRpYS1h
+Z3AuYyB8IDMgKystDQo+ICAgZHJpdmVycy9jaGFyL2FncC9zd29ya3MtYWdwLmMgfCA1ICst
+LS0tDQo+ICAgZHJpdmVycy9jaGFyL2FncC92aWEtYWdwLmMgICAgfCAzIC0tLQ0KPiAgIDYg
+ZmlsZXMgY2hhbmdlZCwgMTQgaW5zZXJ0aW9ucygrKSwgMTEgZGVsZXRpb25zKC0pDQo+IA0K
+PiANCj4gYmFzZS1jb21taXQ6IDZhOGY5MGVjNDMzZTJmNWRlNWZjMTZkN2E0ODM5NzcxYjcw
+MjdjYzANCj4gLS0NCj4gMi4zNC4wDQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpH
+cmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJt
+YW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhS
+QiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-diff --git a/drivers/video/backlight/lm3630a_bl.c b/drivers/video/backlight/lm3630a_bl.c
-index e8b185bb6f5e..1d17c439430e 100644
---- a/drivers/video/backlight/lm3630a_bl.c
-+++ b/drivers/video/backlight/lm3630a_bl.c
-@@ -594,7 +594,6 @@ static int lm3630a_remove(struct i2c_client *client)
- 
- 	if (pchip->irq) {
- 		free_irq(pchip->irq, pchip);
--		flush_workqueue(pchip->irqthread);
- 		destroy_workqueue(pchip->irqthread);
- 	}
- 	return 0;
--- 
-2.25.1
 
+--------------0kUBlabxWxOfnm3eXBUN3X0e--
+
+--------------LetDfMpvKdMeP0CUdLSUjzFd
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHf5/wFAwAAAAAACgkQlh/E3EQov+CY
+9RAAmlzwdhLBgz7oOQqqtKCg++qXuvOyaBdjdIXpYL+pI6fPmq8nOgLbYl4Ra77ZRfLdAfxeOEEK
+JFh/yOprI4c6SgTCO73ziKals9Q5klrHfK23ob3T0+fgmOWoKGVEraENmDzcLAjKGDBHchXJykj0
+PXszBJ0AHs3ub6LYNj0Wc8Q8M4UyMuwnQ+N1kTsfPzpiqsBvugPSpR0iiSK4rbri/woNaytuBX6P
+yiDe99ZmmgTwyPs1cZN2AOgh8/BjzO3wc5Ha2+WI1mvl4C0r+NMuWNDT3W2K5v+qNC3QQQhBSXV+
+i42F8ykH9fptXxxUlXIab+QWgp4+g65W0jcADBju2gKkXyw1J02ddyc9KVemeZEaV/j3Lfs1kGJ7
+aafvMW53GSjlBpkgERaJXTDi/VMIXftoTeQTzpfROyokfPzvgAASzqtm7YtMtQS9ZK38oo0Drpcz
+Te43aP1y58+EIm2YIZl2LXYmFXwhWDm7oaU3e36kbHHJbHHCfNdUR7+4xWjZaQvZ4bZn89HQB02X
+GfqEQaurBsSzIbu/xaEnPq+LpUSeSI/JH44i5odTXEXxfWN1ZSyZs2PPPtfjRnueAmztYz64TMmz
+kZ4RQrAb65GBHWMFTKaAOBodsXFiLUT36drALOCFgu/aJwDkGXt2wnAaxWGCuMItyF1QLdzA+4np
+G+s=
+=OkbL
+-----END PGP SIGNATURE-----
+
+--------------LetDfMpvKdMeP0CUdLSUjzFd--
