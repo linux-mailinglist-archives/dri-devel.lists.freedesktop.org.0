@@ -2,67 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C1B448E0CD
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 00:13:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 052D448E0D8
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 00:27:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DCD210E793;
-	Thu, 13 Jan 2022 23:13:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2182E10E7B7;
+	Thu, 13 Jan 2022 23:27:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
- [IPv6:2607:f8b0:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D82F510E791
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 23:13:08 +0000 (UTC)
-Received: by mail-oi1-x233.google.com with SMTP id i9so10000438oih.4
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 15:13:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=sMMqNSDsbwa7yFsyX3bGhmbn1MJoJMBHF2qgWzw9Mzs=;
- b=e9TkMcxTOSS/64wt9ZC2xTerMvvL1hENNYRBuClFXx/siDYX5i1oCQiJADqjzsbrgy
- wVjkMUSfXf3YjWKS9PkxJuOKDKB2J9fObDPBExgWBjIHo442CJ3EVE6gtGn5FtgvA6iU
- bkn2frXC6bFNDtrmo8PI5yibl+vD/9QwcQ1zc=
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E009E10E7B7
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 23:27:00 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id p27so13222378lfa.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 15:27:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Br5WfYiTc37TH3IA3cWwwQvBdeV/BPdpfjqxoTbjUg8=;
+ b=W5TpqtMMfX5D0g3MqtnYghqkOFySoHX8V7Y3CDIEk/QzE1qbCwAEJgPpiJrTJPckV+
+ 6N2Vqv9WJ3XylOrXOadOYeXgV1y464f5VNQVaG+8o2Glkx36tVcTGtTSSygXE9SjYxv1
+ RnoyaBK5nCwB6EOFL7/mwCLnckkE1s60MGfxHeQCmCJhhJZOBIv+VRduC1HOrb6bkNsL
+ FVwFtXFQXUD8Gx/cQQ5XhZOwds/VF/zUQ0OARSiZM0Xy9Ppb3w6T0wwLrYPxiySAyUbE
+ 20XLOCa+lmlXMZ8C2ul6MEW+k28ADcena2T1vx5h/MaIhRGddm0bLJivZ074kU2ydzvf
+ 0q+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=sMMqNSDsbwa7yFsyX3bGhmbn1MJoJMBHF2qgWzw9Mzs=;
- b=r1voOpdQyXTEqo62Zi5qpL1ejECrFjXNewULDkeQWiZT5rC6EnstuXepj/B8FBNbV1
- 0Xp11Ahs3VY4TjRM4moP7sT1wx1GW+V7+w8npUb7Jba93JErZRPlBKhlXd6PFYTm6jU8
- TaL4ISGr779W25rEDRtmObxlMDVfor2ObFv/Xb9HqW9/N9wIBuUeRnvwQpTbYpGTUWUr
- pPKvwHamDnl/2kWnsQLqztBonAO6SGIbFTr1lNQQO+6fj2HgFkdMhfEj3rVLnG3mdwjb
- NDLVfHdz8f866ehF5jD4Y10jd5l1otAJv4mwYb3xmR5q+T/+RVkAywS0/07wWKulXpmh
- se4w==
-X-Gm-Message-State: AOAM531N/cGUx6MjGybOm4iYnV1U0UrxyYIIv0iyLbpLgx2gGz34VTUX
- 4EXF8PrpDjjo0a36KTSAK/59EnUb8OY2HmK7tjvYAQ==
-X-Google-Smtp-Source: ABdhPJysPzSfwlVyVdWBKUalOT0iR/oa380Ka2xGSIUkYRdu/+jueIFwVtoKPaDzivQWTPr7woGPCTGrXqUbOmHoLlw=
-X-Received: by 2002:aca:a953:: with SMTP id s80mr10804519oie.164.1642115588114; 
- Thu, 13 Jan 2022 15:13:08 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 13 Jan 2022 15:13:07 -0800
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Br5WfYiTc37TH3IA3cWwwQvBdeV/BPdpfjqxoTbjUg8=;
+ b=KGH8YcKOnD0645iYEDE2l7Zzyxw8fzYfO3bL6WyJh0Q1TXiWKMFk5tXM1q3RNr+B8j
+ RljkI2i0VwlznyXHohAPc8t5oUocaig6dC8Vmr9DIXWeMkQDjGGd8pAS/ycxj22dz/BD
+ jR8SiUEwxCDyLj4sVzpfdPbVl/AYykv/elX0iblzb36qNaPowk5Hl53XFDpABHUBStGk
+ ThR2qkJgcNPBX+5hNfwEqCNHW56FNuWIg/6LaOFgi0objgkZUnoav+liV7ktOm1ctIgN
+ h7F+bnaK8DCcs6AmeJBFdeivuiIDNi92P73sC+DjrHTHwlbXcbCmWpi4M763UrftHbm1
+ u+yA==
+X-Gm-Message-State: AOAM533V/x2ZUnsBttMOssArPCnEO2NCtxahQmq/mLuOCZjZEu9MwJ8X
+ H0NaF7ZBgZQXdj0HpdhCklbLu/Dpo35qMRjZMYoauQ==
+X-Google-Smtp-Source: ABdhPJxQ6vukwqgYAso2HtDl4olPJlAPhHEDkugkY9sHGK03iZx+0X4RXJF67ZQjXjdGFfz53L/S+5nppyW0SRY2Ae4=
+X-Received: by 2002:a2e:9346:: with SMTP id m6mr4880056ljh.130.1642116419137; 
+ Thu, 13 Jan 2022 15:26:59 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <c190bd82-b6d3-b6a9-3e58-32c8d9d417c1@quicinc.com>
-References: <1641926606-1012-1-git-send-email-quic_khsieh@quicinc.com>
- <1641926606-1012-2-git-send-email-quic_khsieh@quicinc.com>
- <CAE-0n53hrPYR3ThwxM_+fzyRSB+6W1drFymW5n_RKmg_gf8z-w@mail.gmail.com>
- <84ee17f9-2597-86b6-1517-2358d443f65b@quicinc.com>
- <CAE-0n5134H0puMicozjdfTY+zXVUZyrebjv7Hto3EWcQAELO4A@mail.gmail.com>
- <338ae657-e8ed-e620-0aa7-4ad05df18ad1@quicinc.com>
- <CAE-0n51QbJHnOses5sF6xECR0gRZB1Fbi1KqoLG+61ZWH9BtOA@mail.gmail.com>
- <64ad7053-beac-0c28-7d09-ea32a4f7fbad@quicinc.com>
- <CAE-0n53qxer=shY3LdxzDPFaQb1L65okX9TM0TXYCdD59qau5g@mail.gmail.com>
- <c190bd82-b6d3-b6a9-3e58-32c8d9d417c1@quicinc.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date: Thu, 13 Jan 2022 15:13:07 -0800
-Message-ID: <CAE-0n53htQSQuY8ew4xGzKgOwV=YHcgVg+SNRbL17nyYS3mqoA@mail.gmail.com>
-Subject: Re: [PATCH v11 1/4] drm/msm/dp: do not initialize phy until plugin
- interrupt received
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
- bjorn.andersson@linaro.org, daniel@ffwll.ch, dmitry.baryshkov@linaro.org, 
- dri-devel@lists.freedesktop.org, robdclark@gmail.com, sean@poorly.run, 
- vkoul@kernel.org
+References: <CAO_48GF=ttKqSOm9GRoA3Mq+-RQOtRjWp449XPcz-wH=kjaTjw@mail.gmail.com>
+ <20220113123406.11520-1-guangming.cao@mediatek.com>
+ <4f88205c1b344aea8608960e2f85b8f4@intel.com>
+ <e657f5257cbf4955817b0bbf037de9f9@intel.com>
+ <24157767-dc29-bbdd-5428-d89ecc6b9606@amd.com>
+In-Reply-To: <24157767-dc29-bbdd-5428-d89ecc6b9606@amd.com>
+From: John Stultz <john.stultz@linaro.org>
+Date: Thu, 13 Jan 2022 15:26:47 -0800
+Message-ID: <CALAqxLXRtYDNQ8y1efVGa4SwUH_oAaHviZFjsOVSNFmUHnCCeQ@mail.gmail.com>
+Subject: Re: [PATCH v3] dma-buf: dma-heap: Add a size check for allocation
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,43 +67,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- aravindh@codeaurora.org, freedreno@lists.freedesktop.org
+Cc: "labbott@redhat.com" <labbott@redhat.com>,
+ "guangming.cao@mediatek.com" <guangming.cao@mediatek.com>,
+ "wsd_upstream@mediatek.com" <wsd_upstream@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "libo.kang@mediatek.com" <libo.kang@mediatek.com>,
+ "yf.wang@mediatek.com" <yf.wang@mediatek.com>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>, "Ruhl,
+ Michael J" <michael.j.ruhl@intel.com>,
+ "jianjiao.zeng@mediatek.com" <jianjiao.zeng@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "benjamin.gaignard@linaro.org" <benjamin.gaignard@linaro.org>,
+ "bo.song@mediatek.com" <bo.song@mediatek.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "mingyuan.ma@mediatek.com" <mingyuan.ma@mediatek.com>,
+ "lmark@codeaurora.org" <lmark@codeaurora.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Kuogee Hsieh (2022-01-13 14:14:27)
+On Thu, Jan 13, 2022 at 5:05 AM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+> Am 13.01.22 um 14:00 schrieb Ruhl, Michael J:
+> >> -----Original Message-----
+> >> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
+> >> Ruhl, Michael J
+> >>> -----Original Message-----
+> >>> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf O=
+f
+> >>> guangming.cao@mediatek.com
+> >>> +   /*
+> >>> +    * Invalid size check. The "len" should be less than totalram.
+> >>> +    *
+> >>> +    * Without this check, once the invalid size allocation runs on a=
+ process
+> >>> that
+> >>> +    * can't be killed by OOM flow(such as "gralloc" on Android devic=
+es), it
+> >>> will
+> >>> +    * cause a kernel exception, and to make matters worse, we can't =
+find
+> >>> who are using
+> >>> +    * so many memory with "dma_buf_debug_show" since the relevant
+> >>> dma-buf hasn't exported.
+> >>> +    */
+> >>> +   if (len >> PAGE_SHIFT > totalram_pages())
+> >> If your "heap" is from cma, is this still a valid check?
+> > And thinking a bit further, if I create a heap from something else (say=
+ device memory),
+> > you will need to be able to figure out the maximum allowable check for =
+the specific
+> > heap.
+> >
+> > Maybe the heap needs a callback for max size?
 >
-> On 1/13/2022 1:52 PM, Stephen Boyd wrote:
-> > Quoting Kuogee Hsieh (2022-01-13 12:44:16)
-> >> On 1/13/2022 11:47 AM, Stephen Boyd wrote:
-> >>> Quoting Kuogee Hsieh (2022-01-13 09:51:42)
-> >>>> On 1/12/2022 8:13 PM, Stephen Boyd wrote:
-> >>>>>>>> -       if (dp->usbpd->orientation == ORIENTATION_CC2)
-> >>>>>>>> -               flip = true;
-> >>>>>>>> +       dp_power_init(dp->power, false);
-> >>>>>>>> +       dp_ctrl_reset_irq_ctrl(dp->ctrl, true);
-> >>>>>>>> +
-> >>>>>>>> +       /*
-> >>>>>>>> +        * eDP is the embedded primary display and has its own phy
-> >>>>>>>> +        * initialize phy immediately
-> >>>>>>> Question still stands why we can't wait for hpd high from the eDP panel.
-> >>>>>>> Also, I think "has its own phy" means that it's not part of a combo
-> >>>>>>> USB+DP phy? Can you please clarify?
-> >> Correct, eDP has its dedicated phy which is not part of combo phy.
-> > Why does that mean we can't wait for hpd high from the eDP panel?
->
-> Sorry, missed this one.
->
-> Yes, it can wait for hpd high.
->
-> Since it always presented, I just think it is better to show display
-> sooner not later until hdp high.
->
-> you like it to wait until hpd high?
+> Well we currently maintain a separate allocator and don't use dma-heap,
+> but yes we have systems with 16GiB device and only 8GiB system memory so
+> that check here is certainly not correct.
 
-Yes. The less special cases the easier it is to read and modify later. I
-also worry that someone will decide to connect a DP connector to the eDP
-pins and then not always drive HPD high. In that case this code would
-need to change so it seems better to follow one flow instead of two.
+Good point.
+
+> In general I would rather let the system run into -ENOMEM or -EINVAL
+> from the allocator instead.
+
+Probably the simpler solution is to push the allocation check to the
+heap driver, rather than doing it at the top level here.
+
+For CMA or other contiguous heaps, letting the allocator fail is fast
+enough. For noncontiguous buffers, like the system heap, the
+allocation can burn a lot of time and consume a lot of memory (causing
+other trouble) before a large allocation might naturally fail.
+
+thanks
+-john
