@@ -1,57 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22E2948D2A8
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 08:13:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2944F48D2D8
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 08:32:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0501E112275;
-	Thu, 13 Jan 2022 07:13:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3483112136;
+	Thu, 13 Jan 2022 07:32:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com
- [IPv6:2607:f8b0:4864:20::82c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0502D112280
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 07:13:12 +0000 (UTC)
-Received: by mail-qt1-x82c.google.com with SMTP id y10so6084388qtw.1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 23:13:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8M7DHNqIGb8T38MhtK9zvNv2bpY/lvWtx3YDXV9Tj8I=;
- b=qIohtgfLM8Muy/S/qrETPOgzJmX+T5sA52nuKD/xxF+ot3vn2MIoZBE68IfKR1a+45
- TyXpS/HG+q56nfitHBfuPmvvx0Mu8UwbVEMk4evAy7/yUat4phet2r+zUyk3JgQ4dw7Z
- u5bu/qzWNCTZQuqY8ty/ufTcD2i59VwX/+iJ72rzYOD1jSDUc7mTWBe93TdLyPe9QlGg
- iGig5sX3ELfg2m707GTjJV1ib2bewI/C9ydgL9UPMRr6Y39CEnHy++ZbY0n2tqnne3yP
- +K37pfg+jPJsjwJ8A8IxbGnR1MGqgrpgG1vwZjzKI95/TO/0ha/lBkzZ/sk2jWZmBe1w
- ByjA==
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
+ [IPv6:2607:f8b0:4864:20::102f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5CBC112136
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 07:32:04 +0000 (UTC)
+Received: by mail-pj1-x102f.google.com with SMTP id hv15so9552003pjb.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 23:32:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=du7UtZTksojdMdJU3Db9bmQRhjFxVrsUPN0QxzhmRfQ=;
+ b=XRWcnUSui98p33/sm26qBbm54SzZ5iNXYwDIcVdlfutHdp+FoBy9DGkBxVpyY1qhqe
+ F7tIH3HNM2cBotmLWDmhP9RiKfRNuuIkg5LKMAQ1YUFRU3ZgzZdcEaZ+A2lEnBR9RFSW
+ 9tcWf7RSJa+K+GpQPptN80vS5ud6XPJCKCZZU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8M7DHNqIGb8T38MhtK9zvNv2bpY/lvWtx3YDXV9Tj8I=;
- b=QNrSncuEaK2DSLu0/XM4UK2f6pVjqjV6VVecCnV4BenCHBy8Fn/OsCHxV1vUs+wE3F
- +gffEqo18gQNW3QoGVsXet6h9k0SsegsCyoOqJQnIiQtuKvcWmxInI6LDIQGKtanl7Am
- EI6E345Knf2vippJuYcmDr3TdarUxsUVT4WY+a8ff0wz9kJKf3Tf5RqiJs9kYnsOF553
- kJcnZ1Neuu05qlQUyzwLYtehIBr2x9pcfo8/P3KdMgXSx/SBu+o3IK7IZsaAO/G4wHc/
- VhfiRZ+JD6oRhNTpth260y2jTWPPFzarQMUhAn/Fa8EdLFtka9OzyKPpvmnEanU0Nosg
- RSWQ==
-X-Gm-Message-State: AOAM530Hq3KkjY9i1GAfLT4oltBswu0j0jZ4LBL03nqWFRna9t1jg+yj
- Tyj2uLJiMUOJ9atWGCud8GZmXxh2RCneZy4cxnjLzg==
-X-Google-Smtp-Source: ABdhPJx1y+5qzqGkdufL1lymNEVHc7WenfzCCuu3h0YYxZ5tyyugQGLAy7qBvf0pJG+6kg1ogk/QxcaYNvPlUCDNeXE=
-X-Received: by 2002:a05:622a:1883:: with SMTP id
- v3mr2520046qtc.682.1642057991028; 
- Wed, 12 Jan 2022 23:13:11 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=du7UtZTksojdMdJU3Db9bmQRhjFxVrsUPN0QxzhmRfQ=;
+ b=urOraeE3Zt3uPD+W0gL8R4F5oS1cLPiSJ7x6To2z7V8OPZrW2lAmZ7+nBo+hsehCEH
+ jDWy6a5Vp0yMVWKupJnIlsCe+rALZNGc0NMwgjNrq1S2mgI7T7FttbmolU4HFhvvWByZ
+ nlhUkT5D4nvTV9PfXGo2W4DuGEIobXBdL6dIYTzLhobKbh42z096RZv8JEnQwfM2tdox
+ zrFB5z+jd9Cu8jozqLb2mplYxku2DL7sqdyRyATP5L7Q4mL8XSY1LnBDCypAGs6ZpYSI
+ 3GzlLxk7BR14mPX0d5Tvq2NhZ71GgRZCDKG3KjVoIjjIY+dW1bh7UIsjr8rsQeiVMFLE
+ gP5Q==
+X-Gm-Message-State: AOAM532MQAs5q9rx3zTIYYuD6yYL8RlYYFMxH27w0+a1Eex/buXmkcXq
+ 3VSWCfV8/E/ScAXtbhGVT41goeGTLJQAbA==
+X-Google-Smtp-Source: ABdhPJzVfQyp3OrIqmUib4qqArq4Pah8l2B6psdTAz7f/amb43BdGKeleLHCVHWdiaVpTaelcbMCrg==
+X-Received: by 2002:a17:90b:4a47:: with SMTP id
+ lb7mr3756416pjb.126.1642059124107; 
+ Wed, 12 Jan 2022 23:32:04 -0800 (PST)
+Received: from hsinyi-z840.tpe.corp.google.com
+ ([2401:fa00:1:10:3ced:e0da:4852:430c])
+ by smtp.gmail.com with ESMTPSA id om3sm7747701pjb.49.2022.01.12.23.32.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Jan 2022 23:32:03 -0800 (PST)
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+To: Robert Foss <robert.foss@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Xin Ji <xji@analogixsemi.com>
+Subject: [PATCH v2 1/3] drm/bridge: anx7625: Convert to use devm_kzalloc
+Date: Thu, 13 Jan 2022 15:31:56 +0800
+Message-Id: <20220113073158.2171673-1-hsinyi@chromium.org>
+X-Mailer: git-send-email 2.34.1.575.g55b058a8bb-goog
 MIME-Version: 1.0
-References: <20220112030115.1.Ibac66e1e0e565313bc28f192e6c94cb508f205eb@changeid>
- <20220112030115.3.I86c32730e08cba9e5c83f02ec17885124d45fa56@changeid>
- <CAF6AEGuJxdrYM5XXt6sUGmjossqZTRzwQ6Y8qYsnfCYDvGQurw@mail.gmail.com>
-In-Reply-To: <CAF6AEGuJxdrYM5XXt6sUGmjossqZTRzwQ6Y8qYsnfCYDvGQurw@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 13 Jan 2022 10:13:00 +0300
-Message-ID: <CAA8EJpokgiUbqj9BOF52a9QjJK53PinNHfxy_6nbNq53JnO2Og@mail.gmail.com>
-Subject: Re: [PATCH 3/4] drm/msm/adreno: Expose speedbin to userspace
-To: Rob Clark <robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,84 +65,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>,
- OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS
- <devicetree@vger.kernel.org>,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Jonathan Marek <jonathan@marek.ca>, Akhil P Oommen <quic_akhilpo@quicinc.com>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>, David Airlie <airlied@linux.ie>,
- Stephen Boyd <swboyd@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 13 Jan 2022 at 00:19, Rob Clark <robdclark@gmail.com> wrote:
->
-> On Tue, Jan 11, 2022 at 1:31 PM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
-> >
-> > Expose speedbin through MSM_PARAM_CHIP_ID parameter to help userspace
-> > identify the sku.
-> >
-> > Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> > ---
-> >
-> >  drivers/gpu/drm/msm/adreno/adreno_gpu.c | 9 +++++----
-> >  1 file changed, 5 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> > index f33cfa4..e970e6a 100644
-> > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> > @@ -242,10 +242,11 @@ int adreno_get_param(struct msm_gpu *gpu, uint32_t param, uint64_t *value)
-> >                 *value = !adreno_is_a650_family(adreno_gpu) ? 0x100000 : 0;
-> >                 return 0;
-> >         case MSM_PARAM_CHIP_ID:
-> > -               *value = adreno_gpu->rev.patchid |
-> > -                               (adreno_gpu->rev.minor << 8) |
-> > -                               (adreno_gpu->rev.major << 16) |
-> > -                               (adreno_gpu->rev.core << 24);
-> > +               *value = (uint64_t) adreno_gpu->rev.patchid |
-> > +                               (uint64_t) (adreno_gpu->rev.minor << 8) |
-> > +                               (uint64_t) (adreno_gpu->rev.major << 16) |
-> > +                               (uint64_t) (adreno_gpu->rev.core << 24) |
-> > +                               (((uint64_t) adreno_gpu->rev.sku) << 32);
->
-> How about this instead, so we are only changing the behavior for
-> new/unreleased devices:
->
-> *value = adreno_gpu->rev.patchid |
-> (adreno_gpu->rev.minor << 8) |
-> (adreno_gpu->rev.major << 16) |
-> (adreno_gpu->rev.core << 24);
-> if (!adreno_gpu->info->revn)
-> *value |= (((uint64_t) adreno_gpu->rev.sku) << 32);
->
-> (sorry about the butchered indentation.. somehow gmail has become
-> antagonistic about pasting code)
+Use devm_kzalloc instead of kzalloc and drop kfree(). Let the memory
+handled by driver detach.
 
-I assume that you would like to keep userspace compat for older chips.
-thus the if.
-Maybe we should introduce MSM_PARAM_CHIP_ID_SKU instead (and gradually
-make userspace switch to it)?
+Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+Reviewed-by: Xin Ji <xji@analogixsemi.com>
+---
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
->
-> BR,
-> -R
->
-> >                 return 0;
-> >         case MSM_PARAM_MAX_FREQ:
-> >                 *value = adreno_gpu->base.fast_rate;
-> > --
-> > 2.7.4
-> >
-
-
-
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index 0b858c78abe8b6..dbe708eb3bcf11 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -2515,7 +2515,7 @@ static int anx7625_i2c_probe(struct i2c_client *client,
+ 		return -ENODEV;
+ 	}
+ 
+-	platform = kzalloc(sizeof(*platform), GFP_KERNEL);
++	platform = devm_kzalloc(dev, sizeof(*platform), GFP_KERNEL);
+ 	if (!platform) {
+ 		DRM_DEV_ERROR(dev, "fail to allocate driver data\n");
+ 		return -ENOMEM;
+@@ -2527,7 +2527,7 @@ static int anx7625_i2c_probe(struct i2c_client *client,
+ 	if (ret) {
+ 		if (ret != -EPROBE_DEFER)
+ 			DRM_DEV_ERROR(dev, "fail to parse DT : %d\n", ret);
+-		goto free_platform;
++		return ret;
+ 	}
+ 
+ 	platform->client = client;
+@@ -2552,7 +2552,7 @@ static int anx7625_i2c_probe(struct i2c_client *client,
+ 	if (!platform->hdcp_workqueue) {
+ 		dev_err(dev, "fail to create work queue\n");
+ 		ret = -ENOMEM;
+-		goto free_platform;
++		return ret;
+ 	}
+ 
+ 	platform->pdata.intp_irq = client->irq;
+@@ -2637,9 +2637,6 @@ static int anx7625_i2c_probe(struct i2c_client *client,
+ 	if (platform->hdcp_workqueue)
+ 		destroy_workqueue(platform->hdcp_workqueue);
+ 
+-free_platform:
+-	kfree(platform);
+-
+ 	return ret;
+ }
+ 
 -- 
-With best wishes
-Dmitry
+2.34.1.575.g55b058a8bb-goog
+
