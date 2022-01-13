@@ -2,68 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 541E848D534
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 11:00:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FB8048D53B
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 11:11:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A09910E58C;
-	Thu, 13 Jan 2022 10:00:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EF9410E6C6;
+	Thu, 13 Jan 2022 10:11:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C177210E58C
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 10:00:01 +0000 (UTC)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 20D9lxFW031889;
- Thu, 13 Jan 2022 10:59:56 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=subject : to :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=qpXYHkIcDxax05WYtw6onutWSxVatlONQz5hO4PIxAA=;
- b=I6CkSaWEDQCZo1Zig2pHXg6gtLUx5n+LPhyho7jtY0V2/CtmZaMKpxxdAk1X2hiMrcMy
- +zBKCmaH8pfzkqnMKRUMM/ys+v63DsMKznYzqTZTwlNWjbyzEWsBBWUjOomWbS5JYckK
- kqd8+IscJhBxmUUO1J6hGRCDCtVieUsrD+O6Hu0wGNFVeUmcxbK1YO5UEHxkDXFrgO/H
- 6ovWIejspy9UZMf4hxzMxB4tp9RLTWlngzPW4WpuA/LntDSwMYImq505/oxOOTqD7PNF
- 7mbT0SjD7V71zcPrGYWU4cG1bAheGVavATuSkEix5JKUWlVoaoGjvua5YuBgUcuKrzV7 GA== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3dj25b3vfb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 13 Jan 2022 10:59:56 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 548DA100034;
- Thu, 13 Jan 2022 10:59:55 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 4D0D320C8EA;
- Thu, 13 Jan 2022 10:59:55 +0100 (CET)
-Received: from lmecxl1137.lme.st.com (10.75.127.46) by SFHDAG2NODE2.st.com
- (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.26; Thu, 13 Jan
- 2022 10:59:54 +0100
-Subject: Re: [PATCH 3/5] drm/stm: ltdc: add per plane update support
-To: Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
- <philippe.cornu@foss.st.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre
- Torgue <alexandre.torgue@foss.st.com>, <dri-devel@lists.freedesktop.org>,
- <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-References: <20211215214817.20310-1-yannick.fertre@foss.st.com>
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-Message-ID: <c86e1338-c8d6-f3b7-698c-73d8f04219cb@foss.st.com>
-Date: Thu, 13 Jan 2022 10:59:54 +0100
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E52D10E6C6
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 10:11:46 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id E4E661F4585E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1642068704;
+ bh=D/XYC6ZGl5zYQW2bPb5HgmDBOTYg/Taj7564Kp6Xo1w=;
+ h=Subject:From:To:Cc:References:Date:In-Reply-To:From;
+ b=mE4sw4YvYqPtPCeGgdYDQbOGYr1D0sRwnP4JUyOyjhZj86DL2KdqFn53kzdPhLzVf
+ Bw1VvaPOhimlqvAni2KTggbrrVF2tMVgZUYZ8GT3HumFLMHl/swIw8OEmuB63xYT9D
+ ry4EVMAhrR1d8HMl2egIRfzRMjosarxVeMM5DKaB83CPATfsl/FDKcekgbGiXopEIL
+ MnHuCbLxWgj6rZKBy6qsMzCkq0MxYh4lCNn7zCBOc/+l8UBmSPACrlbKg9pzt44nrH
+ jFeTmjYUIPMAWJwQeXwYslmZrcg0H+P/WZvI2jlUHmT8gdPkXem6ziG4wdUDcl9DH5
+ E8ZqIX9/NoQSw==
+Subject: Re: [PATCH v9 12/15] media: mtk-vcodec: enc: Remove
+ mtk_vcodec_release_enc_pm
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: Yong Wu <yong.wu@mediatek.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Joerg Roedel <joro@8bytes.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ David Airlie <airlied@linux.ie>, Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20211112105509.12010-1-yong.wu@mediatek.com>
+ <20211112105509.12010-13-yong.wu@mediatek.com>
+ <68c3a573-8453-38e9-93b2-2067bedcd06f@collabora.com>
+Message-ID: <4bd9e849-96dd-6f1c-2841-979459366ee5@collabora.com>
+Date: Thu, 13 Jan 2022 11:11:40 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211215214817.20310-1-yannick.fertre@foss.st.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <68c3a573-8453-38e9-93b2-2067bedcd06f@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-Originating-IP: [10.75.127.46]
-X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG2NODE2.st.com
- (10.75.127.5)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-13_02,2022-01-13_01,2021-12-02_01
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,26 +57,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ devicetree@vger.kernel.org, Will Deacon <will.deacon@arm.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ anthony.huang@mediatek.com, youlin.pei@mediatek.com,
+ Irui Wang <irui.wang@mediatek.com>, Evan Green <evgreen@chromium.org>,
+ Eizan Miyamoto <eizan@chromium.org>, Matthias Kaehlcke <mka@chromium.org>,
+ mingyuan.ma@mediatek.com, linux-media@vger.kernel.org,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, libo.kang@mediatek.com,
+ yi.kuo@mediatek.com, linux-mediatek@lists.infradead.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org, anan.sun@mediatek.com,
+ acourbot@chromium.org, srv_heupstream@mediatek.com, yf.wang@mediatek.com,
+ Tomasz Figa <tfiga@chromium.org>, iommu@lists.linux-foundation.org,
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Il 11/01/22 11:57, AngeloGioacchino Del Regno ha scritto:
+> Il 12/11/21 11:55, Yong Wu ha scritto:
+>> After this patchset, mtk_vcodec_release_enc_pm has only one line.
+>> then remove that function, use pm_runtime_disable instead.
+>>
+>> meanwhile, mtk_vcodec_init_enc_pm only operate for the clocks,
+>> rename it from the _pm to _clk.
+>>
+>> No functional change.
+>>
+>> CC: Tiffany Lin <tiffany.lin@mediatek.com>
+>> CC: Irui Wang <irui.wang@mediatek.com>
+>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> 
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> 
 
-On 12/15/21 10:48 PM, Yannick Fertre wrote:
-> Recent ltdc hardware versions offer the ability
-> to update a plane independently of others planes.
-> This is could be useful especially if a plane is
-> assigned to another OS.
->
-> Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
-> ---
->  drivers/gpu/drm/stm/ltdc.c | 26 +++++++++++++++++++++++---
->  drivers/gpu/drm/stm/ltdc.h |  1 +
->  2 files changed, 24 insertions(+), 3 deletions(-)
+Hello Yong,
+the mtk-vcodec patches were merged in Yunfei's vcodec patch series and Hans has
+scheduled that for v5.18.
 
-Hello Yannick,
+Can you please send a v10 and drop patches 10/15, 11/15, 12/15 (all of the
+media: mtk-vcodec: *) from this series?
 
-Reviewed-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+For the records, I think that after sending v10 this series is ready to be merged,
+as it was well reviewed and also tested on many MTK platforms.
 
-Thank you for this patch,
-Raphaël
-
+Thank you,
+- Angelo
