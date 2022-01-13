@@ -1,68 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED9D248D96C
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 15:07:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C68F648D96F
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 15:07:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A10610E119;
-	Thu, 13 Jan 2022 14:07:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D43DA10E381;
+	Thu, 13 Jan 2022 14:07:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
  [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CF0F10E119
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 14:07:37 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id B6F205807F8;
- Thu, 13 Jan 2022 09:07:36 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F0D410E381
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 14:07:39 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id C04AD5807F9;
+ Thu, 13 Jan 2022 09:07:38 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 13 Jan 2022 09:07:36 -0500
+ by compute3.internal (MEProxy); Thu, 13 Jan 2022 09:07:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=BrE13et0eLLCZ
- 74ghKagtV2SNp3FTEEFdkcyhyLiayM=; b=lSPz8ZRi14Hy5xt6MLxj7a68WZlg9
- Wwah0iQPhaBddG1rXTFbEZSZkLoac/jwEmWIS4q8x/uxswFF2MGKxBku93XkQm17
- CPT5obagIFnnhduKafZqxWZS8Mo7IZvq/aOl9CkQVuWy2kDW99GzynkTJBpiMI+o
- sEK3sP0e9q+cCOBB22xsKV2AP8ZHW01EVic5dWidTz3KcgWZAoY9JXnBaSPakORD
- OP1TRqFnt3bctzkKB2QeMFYiXK+3aDDoqH//jdpbNcH6MOQraTnUzTxDm7XwH5aC
- wMidat8lCMF1Z8eTPscBFoBedVCfUaNbMmQ3xLwV/LEWIFvTGQh3Dx6QA==
+ :mime-version:content-transfer-encoding; s=fm1; bh=U3J0SybpKtOZw
+ 03xDnAVRbLnAEO0ONomsSWMPDZwMps=; b=lCIfeQ/B3nRxog+dTuDW82fDTtBAj
+ YBm36/+tMIaxLsF4ipA2x0/RY8X9KIsNbEs2Yv/n5kdc/Na0yKT7m9i6HgJL7qrL
+ WkTZM0cryzJnkMdxkTXbOVUBxDgiEDcP3lbP+8Y6JC/D0sMIlYeHuXk6djS/Izxx
+ 0atVrYcZ8/Tm44+SN2WO15vTehxabREld2nF6Si49b9Ikf67+1VRWeGrm3sDA04+
+ j0lHKH1wBk7zlND9FqRuPPEfdlaGx9cImGOOsKK9Pdnaxz67VvelP1/UjP9lxc4Z
+ 8Z2TcRiByLIkbY3ZHWVazf39yBW5r2eIhLj2d7f+184LQZbN2MQWPDsOw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=BrE13et0eLLCZ74ghKagtV2SNp3FTEEFdkcyhyLiayM=; b=fjWWh0wi
- afNncW1EGsTLUTEOk2ocuQ/je/2yur0iCFaElqUXqQIJnnRBUKz9Kuvs0uhnF0ib
- zgMExgKAGOoRbF0NyKWqcoSNnZDwUnIN19Dzrmq8VfU2WMt6u6G6tq+Wy5X4pGX6
- WsroYBnmSHCnMOFvD29m5xJ3KgHqeSoY7Vb/Xa3HWZAAtDa1Eeh+8P4+evo7tZ4E
- yuHHPzi9ImGqMfks9NAbi2VAuL4u9FvVAl5DUgVYVBi7S8adQh6yTnzFVh37hRuu
- UWws94CHRv20GT2xQVxyrp17DBxW+ORPHjiUXmVFOATnGC3LBcl2YP8l+UioQLMl
- aXbbRxzyqz+H7g==
-X-ME-Sender: <xms:KDLgYTw1kdBBYMOFaSp2Mn9OC2GhHGjA5m7y84CzwJ62_QBCDCKpFg>
- <xme:KDLgYbSu7aala3ZkO1VejlceC5T8DvPkoPFabxwO6OJTsR3D8-k8f4lDlTXnY-yS9
- Mbf8mtO7qeugd4rrPw>
-X-ME-Received: <xmr:KDLgYdVyebvNbFfal3rSEeSN3bTeMAaZ7d2G4NT4Xwo6aVo6TsmQvE2NMsmiT-VKOVOPC1nEncOrOu9eLTxQJDYHmiH-ejnLhDf9Lho>
+ fm1; bh=U3J0SybpKtOZw03xDnAVRbLnAEO0ONomsSWMPDZwMps=; b=YGw3dWEx
+ RXGy8tXQE3U+ut8OOG3OGXe5j0aDpI/zz5Irh4+0MDYjmlyKIfBpZFdcjcvJcGlm
+ ErtEzdt8mZyiORjWC5Q/R6UZZzUsXgchOIdcp5J1rrTQTNWss5ehL1StCY4h+krG
+ aConbYlsMhBuOW3YAuPatXZQHvle2VjVoJDJOl/jrmxqog54lEhaONDwd9IW72ty
+ uGj5voF7UZicyCArbDu0fpFO9/+tx6ZZku179s5M7+DM+GBNwMVDpXSpuOmkNKry
+ daezZJcqSUjE+CPur0emwbca0H138KDhCUphORFDDOJTrPptcW4044Z5uAwWjDYj
+ qg8nuhALxMwigg==
+X-ME-Sender: <xms:KjLgYYm_aDWWgRFw-XfbI48DoQpj_Kfw3_BpgV1ThGFSimj42NTLzg>
+ <xme:KjLgYX2_8IHLvrAxrEYQMdcbiEd1IeW727aVxNLq22Y10WNlaUG_zFGAzO1WBRN1y
+ m4ycLFfml-eA1sfNes>
+X-ME-Received: <xmr:KjLgYWouKITIPZtCnpuxbslNTXfefJnEfgEL_Ud9Cjx0ZfvOlkGNwu_pOeBbOMHNFFzYJu_pV9XGt_Qmw_lSCSFjCXC47RQHJgYrab8>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrtdefgdehlecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:KDLgYdiuIMdgzw-ZhePAih5s7q2dBnZqPMtxWthIRwANC7Yu0YSSFQ>
- <xmx:KDLgYVBGZOF0FN-LeJtB8GqvwgDKtUuRT0NfvTaOHPWq_gDJMU0QEA>
- <xmx:KDLgYWJshMGfzqKFTUqUBnSTNBoIZhaqz9sO5Mzh_6blF5F_QOr1MQ>
- <xmx:KDLgYZ4MqW8JVEnwR31Asuw6a_RZ_40WKDZj_lvvwB2m1eHQGxWIxw>
+X-ME-Proxy: <xmx:KjLgYUlrallkYDL2dWfrFVoyrFcPtuGWbPHIPjodHTzafHWFGTex5Q>
+ <xmx:KjLgYW0IQyB-VTQ1y5T46ToMMNvgtu79AoAzqhYk02iUVr0jMzIarA>
+ <xmx:KjLgYbsgf8FulGkLjK0RFLdvA3Gw-IvtRYcFYU1bs88ncmuawPDn7g>
+ <xmx:KjLgYfuP4PjqfmYqG4gpHUnTk8Ap5lQV59KWKH7RZf3YO2sGFp2uQw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 13 Jan 2022 09:07:36 -0500 (EST)
+ 13 Jan 2022 09:07:38 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v3 05/16] drm/vc4: hdmi: Add full range RGB helper
-Date: Thu, 13 Jan 2022 15:07:09 +0100
-Message-Id: <20220113140720.1678907-6-maxime@cerno.tech>
+Subject: [PATCH v3 06/16] drm/vc4: hdmi: Use full range helper in csc functions
+Date: Thu, 13 Jan 2022 15:07:10 +0100
+Message-Id: <20220113140720.1678907-7-maxime@cerno.tech>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220113140720.1678907-1-maxime@cerno.tech>
 References: <20220113140720.1678907-1-maxime@cerno.tech>
@@ -87,46 +87,131 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We're going to need to tell whether we want to run with a full or
-limited range RGB output in multiple places in the code, so let's create
-a helper that will return whether we need with full range or not.
+The CSC callbacks takes a boolean as an argument to tell whether we're
+using the full range or limited range RGB.
+
+However, with the upcoming YUV support, the logic will be a bit more
+complex. In order to address this, let's make the callbacks take the
+entire mode, and call our new helper to tell whether the full or limited
+range RGB should be used.
 
 Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 31 +++++++++++--------------------
+ drivers/gpu/drm/vc4/vc4_hdmi.h |  4 ++--
+ 2 files changed, 13 insertions(+), 22 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index be39e55ae113..7966e3b00332 100644
+index 7966e3b00332..47ff4507f017 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -104,6 +104,15 @@ static bool vc4_hdmi_mode_needs_scrambling(const struct drm_display_mode *mode)
- 	return (mode->clock * 1000) > HDMI_14_MAX_TMDS_CLK;
+@@ -490,7 +490,6 @@ static void vc4_hdmi_write_infoframe(struct drm_encoder *encoder,
+ static void vc4_hdmi_set_avi_infoframe(struct drm_encoder *encoder)
+ {
+ 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
+-	struct vc4_hdmi_encoder *vc4_encoder = to_vc4_hdmi_encoder(encoder);
+ 	struct drm_connector *connector = &vc4_hdmi->connector;
+ 	struct drm_connector_state *cstate = connector->state;
+ 	const struct drm_display_mode *mode = &vc4_hdmi->saved_adjusted_mode;
+@@ -508,9 +507,9 @@ static void vc4_hdmi_set_avi_infoframe(struct drm_encoder *encoder)
+ 
+ 	drm_hdmi_avi_infoframe_quant_range(&frame.avi,
+ 					   connector, mode,
+-					   vc4_encoder->limited_rgb_range ?
+-					   HDMI_QUANTIZATION_RANGE_LIMITED :
+-					   HDMI_QUANTIZATION_RANGE_FULL);
++					   vc4_hdmi_is_full_range_rgb(vc4_hdmi, mode) ?
++					   HDMI_QUANTIZATION_RANGE_FULL :
++					   HDMI_QUANTIZATION_RANGE_LIMITED);
+ 	drm_hdmi_avi_infoframe_colorimetry(&frame.avi, cstate);
+ 	drm_hdmi_avi_infoframe_bars(&frame.avi, cstate);
+ 
+@@ -735,7 +734,8 @@ static void vc4_hdmi_encoder_disable(struct drm_encoder *encoder)
+ 	mutex_unlock(&vc4_hdmi->mutex);
  }
  
-+static bool vc4_hdmi_is_full_range_rgb(struct vc4_hdmi *vc4_hdmi,
-+				       const struct drm_display_mode *mode)
-+{
-+	struct vc4_hdmi_encoder *vc4_encoder = &vc4_hdmi->encoder;
-+
-+	return !vc4_encoder->hdmi_monitor ||
-+		drm_default_rgb_quant_range(mode) == HDMI_QUANTIZATION_RANGE_FULL;
-+}
-+
- static int vc4_hdmi_debugfs_regs(struct seq_file *m, void *unused)
+-static void vc4_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi, bool enable)
++static void vc4_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi,
++			       const struct drm_display_mode *mode)
  {
- 	struct drm_info_node *node = (struct drm_info_node *)m->private;
-@@ -1119,8 +1128,7 @@ static void vc4_hdmi_encoder_pre_crtc_enable(struct drm_encoder *encoder,
+ 	unsigned long flags;
+ 	u32 csc_ctl;
+@@ -745,7 +745,7 @@ static void vc4_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi, bool enable)
+ 	csc_ctl = VC4_SET_FIELD(VC4_HD_CSC_CTL_ORDER_BGR,
+ 				VC4_HD_CSC_CTL_ORDER);
+ 
+-	if (enable) {
++	if (!vc4_hdmi_is_full_range_rgb(vc4_hdmi, mode)) {
+ 		/* CEA VICs other than #1 requre limited range RGB
+ 		 * output unless overridden by an AVI infoframe.
+ 		 * Apply a colorspace conversion to squash 0-255 down
+@@ -775,7 +775,8 @@ static void vc4_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi, bool enable)
+ 	spin_unlock_irqrestore(&vc4_hdmi->hw_lock, flags);
+ }
+ 
+-static void vc5_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi, bool enable)
++static void vc5_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi,
++			       const struct drm_display_mode *mode)
+ {
+ 	unsigned long flags;
+ 	u32 csc_ctl;
+@@ -784,7 +785,7 @@ static void vc5_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi, bool enable)
+ 
+ 	spin_lock_irqsave(&vc4_hdmi->hw_lock, flags);
+ 
+-	if (enable) {
++	if (!vc4_hdmi_is_full_range_rgb(vc4_hdmi, mode)) {
+ 		/* CEA VICs other than #1 requre limited range RGB
+ 		 * output unless overridden by an AVI infoframe.
+ 		 * Apply a colorspace conversion to squash 0-255 down
+@@ -1123,22 +1124,12 @@ static void vc4_hdmi_encoder_pre_crtc_enable(struct drm_encoder *encoder,
+ {
+ 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
+ 	struct drm_display_mode *mode = &vc4_hdmi->saved_adjusted_mode;
+-	struct vc4_hdmi_encoder *vc4_encoder = to_vc4_hdmi_encoder(encoder);
+ 	unsigned long flags;
  
  	mutex_lock(&vc4_hdmi->mutex);
  
--	if (vc4_encoder->hdmi_monitor &&
--	    drm_default_rgb_quant_range(mode) == HDMI_QUANTIZATION_RANGE_LIMITED) {
-+	if (!vc4_hdmi_is_full_range_rgb(vc4_hdmi, mode)) {
- 		if (vc4_hdmi->variant->csc_setup)
- 			vc4_hdmi->variant->csc_setup(vc4_hdmi, true);
+-	if (!vc4_hdmi_is_full_range_rgb(vc4_hdmi, mode)) {
+-		if (vc4_hdmi->variant->csc_setup)
+-			vc4_hdmi->variant->csc_setup(vc4_hdmi, true);
+-
+-		vc4_encoder->limited_rgb_range = true;
+-	} else {
+-		if (vc4_hdmi->variant->csc_setup)
+-			vc4_hdmi->variant->csc_setup(vc4_hdmi, false);
+-
+-		vc4_encoder->limited_rgb_range = false;
+-	}
++	if (vc4_hdmi->variant->csc_setup)
++		vc4_hdmi->variant->csc_setup(vc4_hdmi, mode);
  
+ 	spin_lock_irqsave(&vc4_hdmi->hw_lock, flags);
+ 	HDMI_WRITE(HDMI_FIFO_CTL, VC4_HDMI_FIFO_CTL_MASTER_SLAVE_N);
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
+index 36c0b082a43b..4a5536975bf6 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.h
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
+@@ -12,7 +12,6 @@
+ struct vc4_hdmi_encoder {
+ 	struct vc4_encoder base;
+ 	bool hdmi_monitor;
+-	bool limited_rgb_range;
+ };
+ 
+ static inline struct vc4_hdmi_encoder *
+@@ -77,7 +76,8 @@ struct vc4_hdmi_variant {
+ 	void (*reset)(struct vc4_hdmi *vc4_hdmi);
+ 
+ 	/* Callback to enable / disable the CSC */
+-	void (*csc_setup)(struct vc4_hdmi *vc4_hdmi, bool enable);
++	void (*csc_setup)(struct vc4_hdmi *vc4_hdmi,
++			  const struct drm_display_mode *mode);
+ 
+ 	/* Callback to configure the video timings in the HDMI block */
+ 	void (*set_timings)(struct vc4_hdmi *vc4_hdmi,
 -- 
 2.34.1
 
