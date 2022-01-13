@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AC4F48DB49
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 17:08:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70F8748DB4B
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 17:08:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD4C410E37E;
-	Thu, 13 Jan 2022 16:08:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B43E10E3CF;
+	Thu, 13 Jan 2022 16:08:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D9DF10E37E
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 16:08:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F12610E37E
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 16:08:09 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id BACC41F45F4A
+ (Authenticated sender: kholk11) with ESMTPSA id 6FD951F45F4E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1642090086;
- bh=t9qb5Ze7CYQ8nSCRNMSDQYdvGZu0aR/A+rW9av9GndI=;
+ s=mail; t=1642090088;
+ bh=CX5BVrZGpnMjtmnkkGDBUrKDbK+wnrQ4jlu0suFe+d0=;
  h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=fa1NFsijppdezshg6p0NgQfF46tu+39soQgwxKQrktRW5mJJsC/FaDtjiwg3r96Jg
- 9RDBQ75uCWOjnx2XxxkaN3roKDtOga5+Xr8YH2QmfJjL06oa7jkVupJEvOdQ0klZyA
- usJMp2s0HQ65CcV3lh5WkgyvtyS4S7E52HtaoDs5tWmKcHmYSl/Dp/GJxSruSICBcJ
- xKWLqHFbEMs3EMHxzq99XHRWdrqyM9HcEminaXBdNQnlDQkLdPesMYzhXtd7bSi/4W
- 1leh0FHm6cllbnWJrzbMVQJhtAj5+yUqhMzKllhDRKdFjevpU4fiIlXtvfk2wE54GY
- pwpFMIWqD48iw==
-Subject: Re: [PATCH v11 21/22] drm/mediatek: add mediatek-drm of vdosys1
- support for MT8195
+ b=ClpxEEt4qs9QScYID5xGreji+sSRuBNpKzpbKOHLFD9gzfnhZ6nktAue31R/ETqEV
+ YlU7aRquOn4DONf+lTAezOsbYJQcX33XRKyzGP9D7l+eqEc8MJXX/Q85eXPG5oOswH
+ kIYvrHt7D5B/0tMC5dWKbAWXt3TNunpv/dUcEicLB5wEOott5RqMf3O61GhvJ5Iq6R
+ BohwOBDago+2BQtAvsYjCGbD/NuJJ0o19eyBXlpJ0HFDUK6YgIml4NcUz4qTTrA82i
+ pg22z+b61uCIK0jZA2PeIA1v+WiwRIv/4A/PHLc5Fq718HUAFi7mBlNPiaz0SiYPuA
+ AvqaPrqT319hQ==
+Subject: Re: [PATCH v11 09/22] soc: mediatek: change the mutex defines and the
+ mutex_mod type
 To: "Nancy.Lin" <nancy.lin@mediatek.com>, CK Hu <ck.hu@mediatek.com>
 References: <20220110084645.31191-1-nancy.lin@mediatek.com>
- <20220110084645.31191-22-nancy.lin@mediatek.com>
+ <20220110084645.31191-10-nancy.lin@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Message-ID: <c2750134-9d7d-5aa5-196c-7785c1578e4b@collabora.com>
-Date: Thu, 13 Jan 2022 17:08:03 +0100
+Message-ID: <c8f94e10-1830-6da9-f3eb-ca973b74b330@collabora.com>
+Date: Thu, 13 Jan 2022 17:08:05 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20220110084645.31191-22-nancy.lin@mediatek.com>
+In-Reply-To: <20220110084645.31191-10-nancy.lin@mediatek.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -63,7 +63,10 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 10/01/22 09:46, Nancy.Lin ha scritto:
-> Add driver data of mt8195 vdosys1 to mediatek-drm.
+> This is a preparation for adding support for mt8195 vdosys1 mutex.
+> The vdosys1 path component contains ovl_adaptor, merge5,
+> and dp_intf1. Ovl_adaptor is composed of several sub-elements,
+> so change it to support multi-bit control.
 > 
 > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
 
