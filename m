@@ -2,49 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FB8048D53B
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 11:11:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A9E948D53E
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 11:14:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EF9410E6C6;
-	Thu, 13 Jan 2022 10:11:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2E1710F145;
+	Thu, 13 Jan 2022 10:14:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E52D10E6C6
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 10:11:46 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id E4E661F4585E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1642068704;
- bh=D/XYC6ZGl5zYQW2bPb5HgmDBOTYg/Taj7564Kp6Xo1w=;
- h=Subject:From:To:Cc:References:Date:In-Reply-To:From;
- b=mE4sw4YvYqPtPCeGgdYDQbOGYr1D0sRwnP4JUyOyjhZj86DL2KdqFn53kzdPhLzVf
- Bw1VvaPOhimlqvAni2KTggbrrVF2tMVgZUYZ8GT3HumFLMHl/swIw8OEmuB63xYT9D
- ry4EVMAhrR1d8HMl2egIRfzRMjosarxVeMM5DKaB83CPATfsl/FDKcekgbGiXopEIL
- MnHuCbLxWgj6rZKBy6qsMzCkq0MxYh4lCNn7zCBOc/+l8UBmSPACrlbKg9pzt44nrH
- jFeTmjYUIPMAWJwQeXwYslmZrcg0H+P/WZvI2jlUHmT8gdPkXem6ziG4wdUDcl9DH5
- E8ZqIX9/NoQSw==
-Subject: Re: [PATCH v9 12/15] media: mtk-vcodec: enc: Remove
- mtk_vcodec_release_enc_pm
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: Yong Wu <yong.wu@mediatek.com>, Matthias Brugger
- <matthias.bgg@gmail.com>, Joerg Roedel <joro@8bytes.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- David Airlie <airlied@linux.ie>, Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20211112105509.12010-1-yong.wu@mediatek.com>
- <20211112105509.12010-13-yong.wu@mediatek.com>
- <68c3a573-8453-38e9-93b2-2067bedcd06f@collabora.com>
-Message-ID: <4bd9e849-96dd-6f1c-2841-979459366ee5@collabora.com>
-Date: Thu, 13 Jan 2022 11:11:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
+ [IPv6:2607:f8b0:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B11E10F145
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 10:14:34 +0000 (UTC)
+Received: by mail-pl1-x633.google.com with SMTP id e19so8896563plc.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 02:14:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=TkZGo4ib8VZZ8ihxuuV6YmzTOBkymNznVCB4ykbKHBg=;
+ b=uODuKrRl1kYEThI/weFKqxAvCbXumiOqI9vUSZUZJXGstj2DtxeU5fADGwhPsjGE3F
+ BOByd07tgtRdxlbSjo6q0kKfh3yhgF2D//MQ+HsUDDFpFasPJQjqoDUzGdpwyMPkR3vh
+ WMKIaoGpV1SI8iMAY2uWbwhWDMNtji6KtkEe5Dsi5ppjmtxGSbd5tTY/FRN3RchIe6oN
+ 74abPUv1Cr62B4zACwpwvgkNhSNQFE6bQyR7VkCcYbAg0gswZblsr9iIcicwf6rj+ShS
+ umE+eXieXXccy3jm4zcXhK1BXbRDuYG9DlUR6SvtC3tdZLWHnU/X+w5yySgkdCmUyoKA
+ ePNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TkZGo4ib8VZZ8ihxuuV6YmzTOBkymNznVCB4ykbKHBg=;
+ b=u3OO+VW/P+6GLWNmXbmPUEVtPxtr9dCyjfcxhb+UguJPkV4boj+VgItEvkxTAhd3zC
+ +mlsBKKeH5jvAArmFFcQv2w8yUdE67oZH8RFuwciXqdKB+HVHLGRa3kERz5aXkVvR2Yi
+ stZHEoXyrGS92lNOjc1mCrzTf14nhT0XY2GuT4T6zXfH+ulJ/QqmI2afhTQAk2zIiKRB
+ b7piY4s1NSwUo8bUH64w+ZbmGA1eFn9FGdUrVE9Jf5WXqw5w+/4YV0A26gFKCYcLHIgY
+ rsZ3tyb/yss/OWuUeWrM7EILGH8AL9NI5phNKv9VLv2D9yQNUpdQCEWRyUVshHYcgOu8
+ acvg==
+X-Gm-Message-State: AOAM531VZTL177N1W7JRKu91cfEDdDHZD7DXBE5vya7UhiKov+B2mA3N
+ LEWtXVyzjS3sLXCdmmc+n8T7jgaTQ+P11F+2I1XBqg==
+X-Google-Smtp-Source: ABdhPJyOJSTy7FXKwD4Q5dhcJsbga5MTLbhco1lMH1GPghjvgriT6iCmZrF2YwxQHVoWar3BhUS+RPW7JyVq1wUJV/g=
+X-Received: by 2002:a17:90b:4b0f:: with SMTP id
+ lx15mr4366831pjb.232.1642068873774; 
+ Thu, 13 Jan 2022 02:14:33 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <68c3a573-8453-38e9-93b2-2067bedcd06f@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20220111034051.28913-1-lzmlzmhh@gmail.com>
+In-Reply-To: <20220111034051.28913-1-lzmlzmhh@gmail.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Thu, 13 Jan 2022 11:14:22 +0100
+Message-ID: <CAG3jFyuZQko8gj6NXnHQ2GoFNfHSYDwkgmb3Wi+upDZFZpPM4Q@mail.gmail.com>
+Subject: Re: [PATCH] Remove extra device acquisition method of i2c client in
+ lt9611 driver
+To: lzmlzm <lzmlzmhh@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,49 +63,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- devicetree@vger.kernel.org, Will Deacon <will.deacon@arm.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- anthony.huang@mediatek.com, youlin.pei@mediatek.com,
- Irui Wang <irui.wang@mediatek.com>, Evan Green <evgreen@chromium.org>,
- Eizan Miyamoto <eizan@chromium.org>, Matthias Kaehlcke <mka@chromium.org>,
- mingyuan.ma@mediatek.com, linux-media@vger.kernel.org,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, libo.kang@mediatek.com,
- yi.kuo@mediatek.com, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>,
- linux-arm-kernel@lists.infradead.org, anan.sun@mediatek.com,
- acourbot@chromium.org, srv_heupstream@mediatek.com, yf.wang@mediatek.com,
- Tomasz Figa <tfiga@chromium.org>, iommu@lists.linux-foundation.org,
- Robin Murphy <robin.murphy@arm.com>
+Cc: jonas@kwiboo.se, airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
+ jernej.skrabec@gmail.com, a.hajda@samsung.com,
+ laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 11/01/22 11:57, AngeloGioacchino Del Regno ha scritto:
-> Il 12/11/21 11:55, Yong Wu ha scritto:
->> After this patchset, mtk_vcodec_release_enc_pm has only one line.
->> then remove that function, use pm_runtime_disable instead.
->>
->> meanwhile, mtk_vcodec_init_enc_pm only operate for the clocks,
->> rename it from the _pm to _clk.
->>
->> No functional change.
->>
->> CC: Tiffany Lin <tiffany.lin@mediatek.com>
->> CC: Irui Wang <irui.wang@mediatek.com>
->> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> 
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> 
+Hello,
 
-Hello Yong,
-the mtk-vcodec patches were merged in Yunfei's vcodec patch series and Hans has
-scheduled that for v5.18.
+Thanks for submitting this cleanup patch.
 
-Can you please send a v10 and drop patches 10/15, 11/15, 12/15 (all of the
-media: mtk-vcodec: *) from this series?
+On Tue, 11 Jan 2022 at 04:41, lzmlzm <lzmlzmhh@gmail.com> wrote:
+>
 
-For the records, I think that after sending v10 this series is ready to be merged,
-as it was well reviewed and also tested on many MTK platforms.
+A commit message is necessary for all changes, no matter how trivial.
 
-Thank you,
-- Angelo
+> Signed-off-by: lzmlzm <lzmlzmhh@gmail.com>
+
+Is your name listed correctly above? For the 'Signed-off-by' tag to be
+meaningful, a real name needs to be supplied.
+
+> ---
+>  drivers/gpu/drm/bridge/lontium-lt9611.c    | 2 +-
+>  drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
+> index dafb1b47c15f..e0feb4fd9780 100644
+> --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
+> +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+> @@ -1090,7 +1090,7 @@ static int lt9611_probe(struct i2c_client *client,
+>         if (!lt9611)
+>                 return -ENOMEM;
+>
+> -       lt9611->dev = &client->dev;
+> +       lt9611->dev = dev;
+>         lt9611->client = client;
+>         lt9611->sleep = false;
+>
+> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+> index 33f9716da0ee..e50e42312e82 100644
+> --- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+> +++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+> @@ -860,7 +860,7 @@ static int lt9611uxc_probe(struct i2c_client *client,
+>         if (!lt9611uxc)
+>                 return -ENOMEM;
+>
+> -       lt9611uxc->dev = &client->dev;
+> +       lt9611uxc->dev = dev;
+>         lt9611uxc->client = client;
+>         mutex_init(&lt9611uxc->ocm_lock);
+>
+> --
+
+With these two issues fixed, please submit a v2 of this patch.
+
+
+Rob.
