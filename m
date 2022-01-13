@@ -1,68 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 342F648D96D
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 15:07:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED9D248D96C
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 15:07:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F392410E30B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A10610E119;
 	Thu, 13 Jan 2022 14:07:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
  [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 635AB10E445
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 14:07:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CF0F10E119
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 14:07:37 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id BE2AC5807F7;
- Thu, 13 Jan 2022 09:07:34 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 13 Jan 2022 09:07:34 -0500
+ by mailnew.nyi.internal (Postfix) with ESMTP id B6F205807F8;
+ Thu, 13 Jan 2022 09:07:36 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 13 Jan 2022 09:07:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=BGwfZPV9ViE9c
- aiGOvM7Mrp7OkaOCjK7amMv8Qu4+qA=; b=Ik1IQHF5TreTD6SE+A1f5RTgyu8XN
- KcDmKSDC0SWgSLGTVeErhvQMZ5smLbIu3JX6viHJGqZobRHMkRS7yNNT79d2jnuk
- 5S2rnbBniScz4KYPj5GNEar8tlXRJB6WMHn6UWXQPipoKz3NpZyL5X6cY5REqRib
- O5vIZgus/HS9RCAdaSj5CB/Hmm9ZOIZrilQdYIesvwhcZDtqqAbNrc/8RSzPjUaz
- /x+cDEQqLwW8PANuYQdtRp3c6ZCli6gZ1bAlJlDq3FkxvPvAWzflfnIYlZJfeq4J
- EJ96kfVI0PEnIaEo+Z5R0g4MoSW4Qh+b5KN2Zbohu6kQyHhOPhT2qwLNg==
+ :mime-version:content-transfer-encoding; s=fm1; bh=BrE13et0eLLCZ
+ 74ghKagtV2SNp3FTEEFdkcyhyLiayM=; b=lSPz8ZRi14Hy5xt6MLxj7a68WZlg9
+ Wwah0iQPhaBddG1rXTFbEZSZkLoac/jwEmWIS4q8x/uxswFF2MGKxBku93XkQm17
+ CPT5obagIFnnhduKafZqxWZS8Mo7IZvq/aOl9CkQVuWy2kDW99GzynkTJBpiMI+o
+ sEK3sP0e9q+cCOBB22xsKV2AP8ZHW01EVic5dWidTz3KcgWZAoY9JXnBaSPakORD
+ OP1TRqFnt3bctzkKB2QeMFYiXK+3aDDoqH//jdpbNcH6MOQraTnUzTxDm7XwH5aC
+ wMidat8lCMF1Z8eTPscBFoBedVCfUaNbMmQ3xLwV/LEWIFvTGQh3Dx6QA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=BGwfZPV9ViE9caiGOvM7Mrp7OkaOCjK7amMv8Qu4+qA=; b=UrmiqPrD
- Q3RERVegO6/U1OWyNLp5n8ry/2wC1DdPjInPYNQEWDXTvzXz+yPvbLuYQuBa+s0z
- LfhqK4McS7xEG1FjcXHZFaR4M3100x//1PxYLVGMPaKQxz4gOMXuVdrYek2X0oCs
- LnMLSSKxMA1uE8HutANJchwPW5yJAkOjimkO9lqk0EDy1bj1Yy4McJMWyadTpw1i
- KMMQfP38NP0OZK2j5taTYQibj4S7oNeeWUU4pZEVuSU9vysUwzF3QHOmuHYGXj3U
- y2tIRXgK4OBSUBQQ5cdxt6RyjtgrMPHYgCmtcyTkVwW/lRKXUZEM6DViNlF3qITs
- cu7Q/uX/x+5J2w==
-X-ME-Sender: <xms:JjLgYTVrwpfNAJLFmrdSeElbOwxmmpG5zgqNv0-Gh7ZB4hbjqaqq-A>
- <xme:JjLgYblf61yZpGbBtlgtVUI6_BqEK34psfCl7U9xazICO8oCImm8-9f00a68LTsai
- Ht7Vzyz39bs2Al2PYQ>
-X-ME-Received: <xmr:JjLgYfZPJKwDoOENsX_EfNZx3XsaFnhzMA4CH1I-2u2QnH7JIqdyQC5ij-soCY2wx00LHqA9Op5tb-ifQDQrCsJ6wKAkJDT2zi2hoWs>
+ fm1; bh=BrE13et0eLLCZ74ghKagtV2SNp3FTEEFdkcyhyLiayM=; b=fjWWh0wi
+ afNncW1EGsTLUTEOk2ocuQ/je/2yur0iCFaElqUXqQIJnnRBUKz9Kuvs0uhnF0ib
+ zgMExgKAGOoRbF0NyKWqcoSNnZDwUnIN19Dzrmq8VfU2WMt6u6G6tq+Wy5X4pGX6
+ WsroYBnmSHCnMOFvD29m5xJ3KgHqeSoY7Vb/Xa3HWZAAtDa1Eeh+8P4+evo7tZ4E
+ yuHHPzi9ImGqMfks9NAbi2VAuL4u9FvVAl5DUgVYVBi7S8adQh6yTnzFVh37hRuu
+ UWws94CHRv20GT2xQVxyrp17DBxW+ORPHjiUXmVFOATnGC3LBcl2YP8l+UioQLMl
+ aXbbRxzyqz+H7g==
+X-ME-Sender: <xms:KDLgYTw1kdBBYMOFaSp2Mn9OC2GhHGjA5m7y84CzwJ62_QBCDCKpFg>
+ <xme:KDLgYbSu7aala3ZkO1VejlceC5T8DvPkoPFabxwO6OJTsR3D8-k8f4lDlTXnY-yS9
+ Mbf8mtO7qeugd4rrPw>
+X-ME-Received: <xmr:KDLgYdVyebvNbFfal3rSEeSN3bTeMAaZ7d2G4NT4Xwo6aVo6TsmQvE2NMsmiT-VKOVOPC1nEncOrOu9eLTxQJDYHmiH-ejnLhDf9Lho>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrtdefgdehlecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ vdenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:JjLgYeV7-Don16dPAhZk-pTLSI98uT7_Hc6Hg4y4ssE8W9bV6gDFQw>
- <xmx:JjLgYdlCfGTrg7RQiFDaB9JXQwYGi-nd0uQe7T5Ni73RAcyY5eDSIg>
- <xmx:JjLgYbcI6rv9LhoyNLIhtHIDOqoKieZ7QOma5eoS7ZyCNeEGHJIf2w>
- <xmx:JjLgYWc9zbaHoA3vZ9V28Eh9zRULS5-Mdd_8rbRmTSS3WGRMou9vDw>
+X-ME-Proxy: <xmx:KDLgYdiuIMdgzw-ZhePAih5s7q2dBnZqPMtxWthIRwANC7Yu0YSSFQ>
+ <xmx:KDLgYVBGZOF0FN-LeJtB8GqvwgDKtUuRT0NfvTaOHPWq_gDJMU0QEA>
+ <xmx:KDLgYWJshMGfzqKFTUqUBnSTNBoIZhaqz9sO5Mzh_6blF5F_QOr1MQ>
+ <xmx:KDLgYZ4MqW8JVEnwR31Asuw6a_RZ_40WKDZj_lvvwB2m1eHQGxWIxw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 13 Jan 2022 09:07:34 -0500 (EST)
+ 13 Jan 2022 09:07:36 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v3 04/16] drm/connector: Fix typo in output format
-Date: Thu, 13 Jan 2022 15:07:08 +0100
-Message-Id: <20220113140720.1678907-5-maxime@cerno.tech>
+Subject: [PATCH v3 05/16] drm/vc4: hdmi: Add full range RGB helper
+Date: Thu, 13 Jan 2022 15:07:09 +0100
+Message-Id: <20220113140720.1678907-6-maxime@cerno.tech>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220113140720.1678907-1-maxime@cerno.tech>
 References: <20220113140720.1678907-1-maxime@cerno.tech>
@@ -87,309 +87,46 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The HDMI specification mentions YCbCr everywhere, but our enums have
-YCrCb. Let's rename it to match.
+We're going to need to tell whether we want to run with a full or
+limited range RGB output in multiple places in the code, so let's create
+a helper that will return whether we need with full range or not.
 
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  2 +-
- .../drm/arm/display/komeda/d71/d71_component.c | 12 ++++++------
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c   |  2 +-
- .../gpu/drm/bridge/analogix/analogix_dp_core.c |  4 ++--
- .../drm/bridge/cadence/cdns-mhdp8546-core.c    | 18 +++++++++---------
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c      | 16 ++++++++--------
- drivers/gpu/drm/drm_edid.c                     | 16 ++++++++--------
- .../gpu/drm/rockchip/analogix_dp-rockchip.c    |  2 +-
- include/drm/drm_connector.h                    |  6 +++---
- 9 files changed, 39 insertions(+), 39 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 1b545fe0fc94..0d060fd07b27 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -5851,7 +5851,7 @@ static void fill_stream_properties_from_drm_display_mode(
- 	else if (drm_mode_is_420_also(info, mode_in)
- 			&& aconnector->force_yuv420_output)
- 		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR420;
--	else if ((connector->display_info.color_formats & DRM_COLOR_FORMAT_YCRCB444)
-+	else if ((connector->display_info.color_formats & DRM_COLOR_FORMAT_YCBCR444)
- 			&& stream->signal == SIGNAL_TYPE_HDMI_TYPE_A)
- 		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR444;
- 	else
-diff --git a/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c b/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
-index 8a02ade369db..42510fdea27e 100644
---- a/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
-+++ b/drivers/gpu/drm/arm/display/komeda/d71/d71_component.c
-@@ -1078,11 +1078,11 @@ static void d71_improc_update(struct komeda_component *c,
- 	mask |= IPS_CTRL_YUV | IPS_CTRL_CHD422 | IPS_CTRL_CHD420;
- 
- 	/* config color format */
--	if (st->color_format == DRM_COLOR_FORMAT_YCRCB420)
-+	if (st->color_format == DRM_COLOR_FORMAT_YCBCR420)
- 		ctrl |= IPS_CTRL_YUV | IPS_CTRL_CHD422 | IPS_CTRL_CHD420;
--	else if (st->color_format == DRM_COLOR_FORMAT_YCRCB422)
-+	else if (st->color_format == DRM_COLOR_FORMAT_YCBCR422)
- 		ctrl |= IPS_CTRL_YUV | IPS_CTRL_CHD422;
--	else if (st->color_format == DRM_COLOR_FORMAT_YCRCB444)
-+	else if (st->color_format == DRM_COLOR_FORMAT_YCBCR444)
- 		ctrl |= IPS_CTRL_YUV;
- 
- 	malidp_write32_mask(reg, BLK_CONTROL, mask, ctrl);
-@@ -1144,11 +1144,11 @@ static int d71_improc_init(struct d71_dev *d71,
- 	improc = to_improc(c);
- 	improc->supported_color_depths = BIT(8) | BIT(10);
- 	improc->supported_color_formats = DRM_COLOR_FORMAT_RGB444 |
--					  DRM_COLOR_FORMAT_YCRCB444 |
--					  DRM_COLOR_FORMAT_YCRCB422;
-+					  DRM_COLOR_FORMAT_YCBCR444 |
-+					  DRM_COLOR_FORMAT_YCBCR422;
- 	value = malidp_read32(reg, BLK_INFO);
- 	if (value & IPS_INFO_CHD420)
--		improc->supported_color_formats |= DRM_COLOR_FORMAT_YCRCB420;
-+		improc->supported_color_formats |= DRM_COLOR_FORMAT_YCBCR420;
- 
- 	improc->supports_csc = true;
- 	improc->supports_gamma = true;
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index f8e5da148599..a694988d991d 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -223,7 +223,7 @@ static void adv7511_set_config_csc(struct adv7511 *adv7511,
- 		config.csc_coefficents = adv7511_csc_ycbcr_to_rgb;
- 
- 		if ((connector->display_info.color_formats &
--		     DRM_COLOR_FORMAT_YCRCB422) &&
-+		     DRM_COLOR_FORMAT_YCBCR422) &&
- 		    config.hdmi_mode) {
- 			config.csc_enable = false;
- 			config.avi_infoframe.colorspace =
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-index b7d2e4449cfa..eb590fb8e8d0 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-@@ -1537,9 +1537,9 @@ static void analogix_dp_bridge_mode_set(struct drm_bridge *bridge,
- 		video->color_depth = COLOR_8;
- 		break;
- 	}
--	if (display_info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
-+	if (display_info->color_formats & DRM_COLOR_FORMAT_YCBCR444)
- 		video->color_space = COLOR_YCBCR444;
--	else if (display_info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
-+	else if (display_info->color_formats & DRM_COLOR_FORMAT_YCBCR422)
- 		video->color_space = COLOR_YCBCR422;
- 	else
- 		video->color_space = COLOR_RGB;
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index 5530fbf64f1e..11f5aa754b91 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -1553,13 +1553,13 @@ static u32 cdns_mhdp_get_bpp(struct cdns_mhdp_display_fmt *fmt)
- 
- 	switch (fmt->color_format) {
- 	case DRM_COLOR_FORMAT_RGB444:
--	case DRM_COLOR_FORMAT_YCRCB444:
-+	case DRM_COLOR_FORMAT_YCBCR444:
- 		bpp = fmt->bpc * 3;
- 		break;
--	case DRM_COLOR_FORMAT_YCRCB422:
-+	case DRM_COLOR_FORMAT_YCBCR422:
- 		bpp = fmt->bpc * 2;
- 		break;
--	case DRM_COLOR_FORMAT_YCRCB420:
-+	case DRM_COLOR_FORMAT_YCBCR420:
- 		bpp = fmt->bpc * 3 / 2;
- 		break;
- 	default:
-@@ -1767,8 +1767,8 @@ static void cdns_mhdp_configure_video(struct cdns_mhdp_device *mhdp,
- 	 * If YCBCR supported and stream not SD, use ITU709
- 	 * Need to handle ITU version with YCBCR420 when supported
- 	 */
--	if ((pxlfmt == DRM_COLOR_FORMAT_YCRCB444 ||
--	     pxlfmt == DRM_COLOR_FORMAT_YCRCB422) && mode->crtc_vdisplay >= 720)
-+	if ((pxlfmt == DRM_COLOR_FORMAT_YCBCR444 ||
-+	     pxlfmt == DRM_COLOR_FORMAT_YCBCR422) && mode->crtc_vdisplay >= 720)
- 		misc0 = DP_YCBCR_COEFFICIENTS_ITU709;
- 
- 	bpp = cdns_mhdp_get_bpp(&mhdp->display_fmt);
-@@ -1778,15 +1778,15 @@ static void cdns_mhdp_configure_video(struct cdns_mhdp_device *mhdp,
- 		pxl_repr = CDNS_DP_FRAMER_RGB << CDNS_DP_FRAMER_PXL_FORMAT;
- 		misc0 |= DP_COLOR_FORMAT_RGB;
- 		break;
--	case DRM_COLOR_FORMAT_YCRCB444:
-+	case DRM_COLOR_FORMAT_YCBCR444:
- 		pxl_repr = CDNS_DP_FRAMER_YCBCR444 << CDNS_DP_FRAMER_PXL_FORMAT;
- 		misc0 |= DP_COLOR_FORMAT_YCbCr444 | DP_TEST_DYNAMIC_RANGE_CEA;
- 		break;
--	case DRM_COLOR_FORMAT_YCRCB422:
-+	case DRM_COLOR_FORMAT_YCBCR422:
- 		pxl_repr = CDNS_DP_FRAMER_YCBCR422 << CDNS_DP_FRAMER_PXL_FORMAT;
- 		misc0 |= DP_COLOR_FORMAT_YCbCr422 | DP_TEST_DYNAMIC_RANGE_CEA;
- 		break;
--	case DRM_COLOR_FORMAT_YCRCB420:
-+	case DRM_COLOR_FORMAT_YCBCR420:
- 		pxl_repr = CDNS_DP_FRAMER_YCBCR420 << CDNS_DP_FRAMER_PXL_FORMAT;
- 		break;
- 	default:
-@@ -1882,7 +1882,7 @@ static void cdns_mhdp_configure_video(struct cdns_mhdp_device *mhdp,
- 	if (mhdp->display_fmt.y_only)
- 		misc1 |= CDNS_DP_TEST_COLOR_FORMAT_RAW_Y_ONLY;
- 	/* Use VSC SDP for Y420 */
--	if (pxlfmt == DRM_COLOR_FORMAT_YCRCB420)
-+	if (pxlfmt == DRM_COLOR_FORMAT_YCBCR420)
- 		misc1 = CDNS_DP_TEST_VSC_SDP;
- 
- 	cdns_mhdp_reg_write(mhdp, CDNS_DP_MSA_MISC(stream_id),
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 54d8fdad395f..b0d8110dd412 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -2540,7 +2540,7 @@ static u32 *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
- 	struct drm_display_mode *mode = &crtc_state->mode;
- 	u8 max_bpc = conn_state->max_requested_bpc;
- 	bool is_hdmi2_sink = info->hdmi.scdc.supported ||
--			     (info->color_formats & DRM_COLOR_FORMAT_YCRCB420);
-+			     (info->color_formats & DRM_COLOR_FORMAT_YCBCR420);
- 	u32 *output_fmts;
- 	unsigned int i = 0;
- 
-@@ -2594,36 +2594,36 @@ static u32 *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
- 	 */
- 
- 	if (max_bpc >= 16 && info->bpc == 16) {
--		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
-+		if (info->color_formats & DRM_COLOR_FORMAT_YCBCR444)
- 			output_fmts[i++] = MEDIA_BUS_FMT_YUV16_1X48;
- 
- 		output_fmts[i++] = MEDIA_BUS_FMT_RGB161616_1X48;
- 	}
- 
- 	if (max_bpc >= 12 && info->bpc >= 12) {
--		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
-+		if (info->color_formats & DRM_COLOR_FORMAT_YCBCR422)
- 			output_fmts[i++] = MEDIA_BUS_FMT_UYVY12_1X24;
- 
--		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
-+		if (info->color_formats & DRM_COLOR_FORMAT_YCBCR444)
- 			output_fmts[i++] = MEDIA_BUS_FMT_YUV12_1X36;
- 
- 		output_fmts[i++] = MEDIA_BUS_FMT_RGB121212_1X36;
- 	}
- 
- 	if (max_bpc >= 10 && info->bpc >= 10) {
--		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
-+		if (info->color_formats & DRM_COLOR_FORMAT_YCBCR422)
- 			output_fmts[i++] = MEDIA_BUS_FMT_UYVY10_1X20;
- 
--		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
-+		if (info->color_formats & DRM_COLOR_FORMAT_YCBCR444)
- 			output_fmts[i++] = MEDIA_BUS_FMT_YUV10_1X30;
- 
- 		output_fmts[i++] = MEDIA_BUS_FMT_RGB101010_1X30;
- 	}
- 
--	if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
-+	if (info->color_formats & DRM_COLOR_FORMAT_YCBCR422)
- 		output_fmts[i++] = MEDIA_BUS_FMT_UYVY8_1X16;
- 
--	if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
-+	if (info->color_formats & DRM_COLOR_FORMAT_YCBCR444)
- 		output_fmts[i++] = MEDIA_BUS_FMT_YUV8_1X24;
- 
- 	/* Default 8bit RGB fallback */
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 471b577dca79..1a1016f47989 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -3776,7 +3776,7 @@ static int do_y420vdb_modes(struct drm_connector *connector,
- 	}
- 
- 	if (modes > 0)
--		info->color_formats |= DRM_COLOR_FORMAT_YCRCB420;
-+		info->color_formats |= DRM_COLOR_FORMAT_YCBCR420;
- 	return modes;
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index be39e55ae113..7966e3b00332 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -104,6 +104,15 @@ static bool vc4_hdmi_mode_needs_scrambling(const struct drm_display_mode *mode)
+ 	return (mode->clock * 1000) > HDMI_14_MAX_TMDS_CLK;
  }
  
-@@ -4279,7 +4279,7 @@ static void drm_parse_y420cmdb_bitmap(struct drm_connector *connector,
- 	if (map_len == 0) {
- 		/* All CEA modes support ycbcr420 sampling also.*/
- 		hdmi->y420_cmdb_map = U64_MAX;
--		info->color_formats |= DRM_COLOR_FORMAT_YCRCB420;
-+		info->color_formats |= DRM_COLOR_FORMAT_YCBCR420;
- 		return;
- 	}
- 
-@@ -4302,7 +4302,7 @@ static void drm_parse_y420cmdb_bitmap(struct drm_connector *connector,
- 		map |= (u64)db[2 + count] << (8 * count);
- 
- 	if (map)
--		info->color_formats |= DRM_COLOR_FORMAT_YCRCB420;
-+		info->color_formats |= DRM_COLOR_FORMAT_YCBCR420;
- 
- 	hdmi->y420_cmdb_map = map;
- }
-@@ -5158,9 +5158,9 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
- 	/* The existence of a CEA block should imply RGB support */
- 	info->color_formats = DRM_COLOR_FORMAT_RGB444;
- 	if (edid_ext[3] & EDID_CEA_YCRCB444)
--		info->color_formats |= DRM_COLOR_FORMAT_YCRCB444;
-+		info->color_formats |= DRM_COLOR_FORMAT_YCBCR444;
- 	if (edid_ext[3] & EDID_CEA_YCRCB422)
--		info->color_formats |= DRM_COLOR_FORMAT_YCRCB422;
-+		info->color_formats |= DRM_COLOR_FORMAT_YCBCR422;
- 
- 	if (cea_db_offsets(edid_ext, &start, &end))
- 		return;
-@@ -5388,9 +5388,9 @@ u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edi
- 
- 	info->color_formats |= DRM_COLOR_FORMAT_RGB444;
- 	if (edid->features & DRM_EDID_FEATURE_RGB_YCRCB444)
--		info->color_formats |= DRM_COLOR_FORMAT_YCRCB444;
-+		info->color_formats |= DRM_COLOR_FORMAT_YCBCR444;
- 	if (edid->features & DRM_EDID_FEATURE_RGB_YCRCB422)
--		info->color_formats |= DRM_COLOR_FORMAT_YCRCB422;
-+		info->color_formats |= DRM_COLOR_FORMAT_YCBCR422;
- 
- 	drm_update_mso(connector, edid);
- 
-@@ -5645,7 +5645,7 @@ static bool is_hdmi2_sink(const struct drm_connector *connector)
- 		return true;
- 
- 	return connector->display_info.hdmi.scdc.supported ||
--		connector->display_info.color_formats & DRM_COLOR_FORMAT_YCRCB420;
-+		connector->display_info.color_formats & DRM_COLOR_FORMAT_YCBCR420;
- }
- 
- static inline bool is_eotf_supported(u8 output_eotf, u8 sink_eotf)
-diff --git a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-index 8abb5ac26807..24a2d09df873 100644
---- a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-@@ -117,7 +117,7 @@ static int rockchip_dp_get_modes(struct analogix_dp_plat_data *plat_data,
++static bool vc4_hdmi_is_full_range_rgb(struct vc4_hdmi *vc4_hdmi,
++				       const struct drm_display_mode *mode)
++{
++	struct vc4_hdmi_encoder *vc4_encoder = &vc4_hdmi->encoder;
++
++	return !vc4_encoder->hdmi_monitor ||
++		drm_default_rgb_quant_range(mode) == HDMI_QUANTIZATION_RANGE_FULL;
++}
++
+ static int vc4_hdmi_debugfs_regs(struct seq_file *m, void *unused)
  {
- 	struct drm_display_info *di = &connector->display_info;
- 	/* VOP couldn't output YUV video format for eDP rightly */
--	u32 mask = DRM_COLOR_FORMAT_YCRCB444 | DRM_COLOR_FORMAT_YCRCB422;
-+	u32 mask = DRM_COLOR_FORMAT_YCBCR444 | DRM_COLOR_FORMAT_YCRCB422;
+ 	struct drm_info_node *node = (struct drm_info_node *)m->private;
+@@ -1119,8 +1128,7 @@ static void vc4_hdmi_encoder_pre_crtc_enable(struct drm_encoder *encoder,
  
- 	if ((di->color_formats & mask)) {
- 		DRM_DEBUG_KMS("Swapping display color format from YUV to RGB\n");
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index eaf0ef5f1843..64cf5f88c05b 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -522,9 +522,9 @@ struct drm_display_info {
- 	enum subpixel_order subpixel_order;
+ 	mutex_lock(&vc4_hdmi->mutex);
  
- #define DRM_COLOR_FORMAT_RGB444		(1<<0)
--#define DRM_COLOR_FORMAT_YCRCB444	(1<<1)
--#define DRM_COLOR_FORMAT_YCRCB422	(1<<2)
--#define DRM_COLOR_FORMAT_YCRCB420	(1<<3)
-+#define DRM_COLOR_FORMAT_YCBCR444	(1<<1)
-+#define DRM_COLOR_FORMAT_YCBCR422	(1<<2)
-+#define DRM_COLOR_FORMAT_YCBCR420	(1<<3)
+-	if (vc4_encoder->hdmi_monitor &&
+-	    drm_default_rgb_quant_range(mode) == HDMI_QUANTIZATION_RANGE_LIMITED) {
++	if (!vc4_hdmi_is_full_range_rgb(vc4_hdmi, mode)) {
+ 		if (vc4_hdmi->variant->csc_setup)
+ 			vc4_hdmi->variant->csc_setup(vc4_hdmi, true);
  
- 	/**
- 	 * @panel_orientation: Read only connector property for built-in panels,
 -- 
 2.34.1
 
