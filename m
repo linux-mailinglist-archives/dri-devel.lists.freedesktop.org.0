@@ -2,59 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACF1248D9D9
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 15:43:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AB5E48D9DC
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 15:43:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BB3210E1A0;
-	Thu, 13 Jan 2022 14:43:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7531E10E23C;
+	Thu, 13 Jan 2022 14:43:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8708110E22B
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 14:43:10 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id t20so3039652wrb.4
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 06:43:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9i7HlgQ1EBTmH3FI2DN5Tf9iSGv1/GZJ08Nce3djOg0=;
- b=FQW3iuI+DR+Bj22u6L46VOUCQW4K0x7yWbZQSTk8JYRYVjE4Vppd+KbVXLaB+FcyJ/
- TJA7MmgDZn0fRzy7qv0d1xCSgG/Ib2i+alhmBcZOO3T1+6bo7HG9hjPjSLMcDleZY4O9
- WS9kxxehCN+S9XowbtfGEqEh5NLOLVNtNI0bDhTzRRXUijHNklc67E/XNli39ARAESmo
- HxJWtptrKIBHUwCYMvL4OCe/INiZDg06DRKEojVqeoqm0jmEq5iXQHGuUeyO/jM3QE57
- nDubWVqJ9rR9Gx6n/O+2Nh5GtVmzQYna5PfCe8+kAQTIrEBchiCASI9JdE8JBkKGFWgZ
- wwrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9i7HlgQ1EBTmH3FI2DN5Tf9iSGv1/GZJ08Nce3djOg0=;
- b=uYqT3c+a3r/LgdiFGVuxtgu4kpBUehpBqrIH2WDhEkQ281lX/IvOGOhf4mWPMfy5WI
- p7U5F/a4JBjy+Un9gJzGaXG7WIOalqdrwpdmtxUMNF9Hr0Ri35rz3vrgMYjL6fxmX9sh
- S7mHSU1V0PnGE6rVURTXgF2tBqglxrZBbB7+4jCKZXKbvE0dqkfRGAApnBNwq5Jsm/JS
- h1FWr4jgGKcueJybiE65lG3jKa0ydHFwC+Eg0Kr9XkwmRAlcsWFExCSUOcugtAbX3PiH
- pzDQzrIMYjJPlpPD2tzD2gLwn4JmvozJdBOmRaMWhnY1QktyYf/C+dPyZsdci5jeM8PA
- bF6g==
-X-Gm-Message-State: AOAM5330TI4Of2C3TwaYReQqxipE7ism3ruF9nd7jlmTO2Hc8ii2U6y5
- OuGTWyK6sQOvpexitaCQkN0dc+Oa4AFjbg==
-X-Google-Smtp-Source: ABdhPJxW7WlGCAT/Jkep3H4hAf3HkmzqZ1bksk1n8ggy9XenQ1KZwjAwjelWgrUmWQnFAxjigHGjTg==
-X-Received: by 2002:a5d:648e:: with SMTP id o14mr4309484wri.667.1642084988914; 
- Thu, 13 Jan 2022 06:43:08 -0800 (PST)
-Received: from localhost.localdomain ([2001:861:44c0:66c0:bece:ab45:7469:4195])
- by smtp.gmail.com with ESMTPSA id n7sm2731209wms.46.2022.01.13.06.43.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Jan 2022 06:43:08 -0800 (PST)
-From: Neil Armstrong <narmstrong@baylibre.com>
-To: andrzej.hajda@intel.com,
-	robert.foss@linaro.org
-Subject: [PATCH] drm/bridge: sii902x: add support for
- DRM_BRIDGE_ATTACH_NO_CONNECTOR
-Date: Thu, 13 Jan 2022 15:43:05 +0100
-Message-Id: <20220113144305.1074389-1-narmstrong@baylibre.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B15110E22B;
+ Thu, 13 Jan 2022 14:43:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1642085006; x=1673621006;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=JTga5T9902wPhLUvhbpV+gw1e9iovsxVL4IrVjgBlRo=;
+ b=bCPGsfP8PpzDsq8GYGSRL3CnHyPG8CDlE4Mr5d2tp6uw7wfh3jMr1CnF
+ nkZF1NzuKNllb+Ca+QN8O5FeA2hc/36gQ+GiTO/Y5gaz/y08+9vJR3jVZ
+ oH0yy2vEwO9gqvNxjiihG/2Q5AAggbJdeLbFX/vFrO9DqMPV14toHMeMd
+ svQOf0/2eT6wEs21VMVah7UXlDdQnDPXYQUiHIYGu/Z1YeESazcLIwQb7
+ 92T7VC5F7PvLqU47OXkYzplZNf1692gh0kGxppsjelqLRSR79wolaltF9
+ rIZWUZyFX0wcH7aSO+zm7j0r92MMzzlSRfznpoWUnE9m4we+dYQs1U6rY A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10225"; a="268372665"
+X-IronPort-AV: E=Sophos;i="5.88,286,1635231600"; d="scan'208";a="268372665"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2022 06:43:26 -0800
+X-IronPort-AV: E=Sophos;i="5.88,286,1635231600"; d="scan'208";a="670531169"
+Received: from inechita-mobl2.ger.corp.intel.com (HELO [10.249.254.193])
+ ([10.249.254.193])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2022 06:43:24 -0800
+Message-ID: <e6e2e00e-bbbb-6f58-869d-a2cba234321d@linux.intel.com>
+Date: Thu, 13 Jan 2022 15:43:22 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [Intel-gfx] [PATCH v5 3/6] drm/i915: Add object locking to
+ i915_gem_evict_for_node and i915_gem_evict_something, v2.
+Content-Language: en-US
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org
+References: <20220113114500.2039439-1-maarten.lankhorst@linux.intel.com>
+ <20220113114500.2039439-4-maarten.lankhorst@linux.intel.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20220113114500.2039439-4-maarten.lankhorst@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,280 +62,417 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jernej.skrabec@gmail.com, Neil Armstrong <narmstrong@baylibre.com>,
- jonas@kwiboo.se, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Laurent.pinchart@ideasonboard.com
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds support for DRM_BRIDGE_ATTACH_NO_CONNECTOR by adding the
-bridge get_edid() and detect() callbacks after refactoring the connector
-get_modes() and connector_detect() callbacks.
 
-In order to keep the bridge working, extra code in get_modes() has been
-moved to more logical places.
+On 1/13/22 12:44, Maarten Lankhorst wrote:
+> Because we will start to require the obj->resv lock for unbinding,
+> ensure these shrinker functions also take the lock.
+Perhaps "vma eviction utilities" rather than "shrinker functions"?
+>
+> This requires some function signature changes, to ensure that the
+> ww context is passed around, but is mostly straightforward.
+>
+> Previously this was split up into several patches, but reworking
+> should allow for easier bisection.
+>
+> Changes since v1:
+> - Handle dead objects better.
+>
+> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/intel_ggtt.c          |  2 +-
+>   drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |  2 +-
+>   drivers/gpu/drm/i915/gvt/aperture_gm.c        |  2 +-
+>   drivers/gpu/drm/i915/i915_gem_evict.c         | 67 +++++++++++++++++--
+>   drivers/gpu/drm/i915/i915_gem_evict.h         |  2 +
+>   drivers/gpu/drm/i915/i915_gem_gtt.c           |  8 ++-
+>   drivers/gpu/drm/i915/i915_gem_gtt.h           |  3 +
+>   drivers/gpu/drm/i915/i915_vgpu.c              |  2 +-
+>   drivers/gpu/drm/i915/i915_vma.c               |  9 +--
+>   .../gpu/drm/i915/selftests/i915_gem_evict.c   | 17 ++---
+>   drivers/gpu/drm/i915/selftests/i915_gem_gtt.c |  6 +-
+>   11 files changed, 91 insertions(+), 29 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> index a1b2761bc16e..da7f54b6fa38 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> @@ -506,7 +506,7 @@ static int ggtt_reserve_guc_top(struct i915_ggtt *ggtt)
+>   	GEM_BUG_ON(ggtt->vm.total <= GUC_GGTT_TOP);
+>   	size = ggtt->vm.total - GUC_GGTT_TOP;
+>   
+> -	ret = i915_gem_gtt_reserve(&ggtt->vm, &ggtt->uc_fw, size,
+> +	ret = i915_gem_gtt_reserve(&ggtt->vm, NULL, &ggtt->uc_fw, size,
+>   				   GUC_GGTT_TOP, I915_COLOR_UNEVICTABLE,
+>   				   PIN_NOEVICT);
+>   	if (ret)
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+> index 4a20ba63446c..c078d3f55815 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+> @@ -1383,7 +1383,7 @@ static int evict_vma(void *data)
+>   	complete(&arg->completion);
+>   
+>   	mutex_lock(&vm->mutex);
+> -	err = i915_gem_evict_for_node(vm, &evict, 0);
+> +	err = i915_gem_evict_for_node(vm, NULL, &evict, 0);
+>   	mutex_unlock(&vm->mutex);
+>   
+>   	return err;
+> diff --git a/drivers/gpu/drm/i915/gvt/aperture_gm.c b/drivers/gpu/drm/i915/gvt/aperture_gm.c
+> index 0d6d59871308..c08098a167e9 100644
+> --- a/drivers/gpu/drm/i915/gvt/aperture_gm.c
+> +++ b/drivers/gpu/drm/i915/gvt/aperture_gm.c
+> @@ -63,7 +63,7 @@ static int alloc_gm(struct intel_vgpu *vgpu, bool high_gm)
+>   
+>   	mutex_lock(&gt->ggtt->vm.mutex);
+>   	mmio_hw_access_pre(gt);
+> -	ret = i915_gem_gtt_insert(&gt->ggtt->vm, node,
+> +	ret = i915_gem_gtt_insert(&gt->ggtt->vm, NULL, node,
+>   				  size, I915_GTT_PAGE_SIZE,
+>   				  I915_COLOR_UNEVICTABLE,
+>   				  start, end, flags);
+> diff --git a/drivers/gpu/drm/i915/i915_gem_evict.c b/drivers/gpu/drm/i915/i915_gem_evict.c
+> index 370eb7238d1c..2367902f6ac1 100644
+> --- a/drivers/gpu/drm/i915/i915_gem_evict.c
+> +++ b/drivers/gpu/drm/i915/i915_gem_evict.c
+> @@ -38,6 +38,11 @@ I915_SELFTEST_DECLARE(static struct igt_evict_ctl {
+>   	bool fail_if_busy:1;
+>   } igt_evict_ctl;)
+>   
+> +static bool dying_vma(struct i915_vma *vma)
+> +{
+> +	return !kref_read(&vma->obj->base.refcount);
+> +}
+> +
+>   static int ggtt_flush(struct intel_gt *gt)
+>   {
+>   	/*
+> @@ -50,8 +55,37 @@ static int ggtt_flush(struct intel_gt *gt)
+>   	return intel_gt_wait_for_idle(gt, MAX_SCHEDULE_TIMEOUT);
+>   }
+>   
+> +static bool grab_vma(struct i915_vma *vma, struct i915_gem_ww_ctx *ww)
+> +{
+> +	/*
+> +	 * We add the extra refcount so the object doesn't drop to zero until
+> +	 * after ungrab_vma(), this way trylock is always paired with unlock.
+> +	 */
+> +	if (i915_gem_object_get_rcu(vma->obj)) {
+> +		if (!i915_gem_object_trylock(vma->obj, ww)) {
+> +			i915_gem_object_put(vma->obj);
+> +			return false;
+> +		}
+> +	} else {
+> +		/* Dead objects don't need pins */
+> +		atomic_and(~I915_VMA_PIN_MASK, &vma->flags);
+> +	}
+> +
+> +	return true;
+> +}
+> +
+> +static void ungrab_vma(struct i915_vma *vma)
+> +{
+> +	if (dying_vma(vma))
+> +		return;
+> +
+> +	i915_gem_object_unlock(vma->obj);
+> +	i915_gem_object_put(vma->obj);
+> +}
+> +
+>   static bool
+>   mark_free(struct drm_mm_scan *scan,
+> +	  struct i915_gem_ww_ctx *ww,
+>   	  struct i915_vma *vma,
+>   	  unsigned int flags,
+>   	  struct list_head *unwind)
+> @@ -59,6 +93,9 @@ mark_free(struct drm_mm_scan *scan,
+>   	if (i915_vma_is_pinned(vma))
+>   		return false;
+>   
+> +	if (!grab_vma(vma, ww))
+> +		return false;
+> +
+>   	list_add(&vma->evict_link, unwind);
+>   	return drm_mm_scan_add_block(scan, &vma->node);
+>   }
+> @@ -105,6 +142,7 @@ static int evict_dead(struct i915_vma *vma)
+>    */
+>   int
+>   i915_gem_evict_something(struct i915_address_space *vm,
+> +			 struct i915_gem_ww_ctx *ww,
+>   			 u64 min_size, u64 alignment,
+>   			 unsigned long color,
+>   			 u64 start, u64 end,
+> @@ -177,7 +215,7 @@ i915_gem_evict_something(struct i915_address_space *vm,
+>   			continue;
+>   		}
+>   
+> -		if (mark_free(&scan, vma, flags, &eviction_list))
+> +		if (mark_free(&scan, ww, vma, flags, &eviction_list))
+>   			goto found;
+>   	}
+>   
+> @@ -185,6 +223,7 @@ i915_gem_evict_something(struct i915_address_space *vm,
+>   	list_for_each_entry_safe(vma, next, &eviction_list, evict_link) {
+>   		ret = drm_mm_scan_remove_block(&scan, &vma->node);
+>   		BUG_ON(ret);
+> +		ungrab_vma(vma);
+>   	}
+>   
+>   	/*
+> @@ -229,10 +268,12 @@ i915_gem_evict_something(struct i915_address_space *vm,
+>   	 * of any of our objects, thus corrupting the list).
+>   	 */
+>   	list_for_each_entry_safe(vma, next, &eviction_list, evict_link) {
+> -		if (drm_mm_scan_remove_block(&scan, &vma->node))
+> +		if (drm_mm_scan_remove_block(&scan, &vma->node)) {
+>   			__i915_vma_pin(vma);
+> -		else
+> +		} else {
+>   			list_del(&vma->evict_link);
+> +			ungrab_vma(vma);
+> +		}
+>   	}
+>   
+>   	/* Unbinding will emit any required flushes */
+> @@ -241,16 +282,20 @@ i915_gem_evict_something(struct i915_address_space *vm,
+>   		__i915_vma_unpin(vma);
+>   		if (ret == 0)
+>   			ret = __i915_vma_unbind(vma);
+> +		ungrab_vma(vma);
+>   	}
+>   
+>   	while (ret == 0 && (node = drm_mm_scan_color_evict(&scan))) {
+>   		vma = container_of(node, struct i915_vma, node);
+>   
+>   		/* If we find any non-objects (!vma), we cannot evict them */
+> -		if (vma->node.color != I915_COLOR_UNEVICTABLE)
+> +		if (vma->node.color != I915_COLOR_UNEVICTABLE &&
+> +		    grab_vma(vma, ww)) {
+>   			ret = __i915_vma_unbind(vma);
+> -		else
+> -			ret = -ENOSPC; /* XXX search failed, try again? */
+> +			ungrab_vma(vma);
+> +		} else {
+> +			ret = -ENOSPC;
+> +		}
+>   	}
+>   
+>   	return ret;
+> @@ -268,6 +313,7 @@ i915_gem_evict_something(struct i915_address_space *vm,
+>    * memory in e.g. the shrinker.
+>    */
+>   int i915_gem_evict_for_node(struct i915_address_space *vm,
+> +			    struct i915_gem_ww_ctx *ww,
+>   			    struct drm_mm_node *target,
+>   			    unsigned int flags)
+>   {
+> @@ -340,6 +386,11 @@ int i915_gem_evict_for_node(struct i915_address_space *vm,
+>   			break;
+>   		}
+>   
+> +		if (!grab_vma(vma, ww)) {
+> +			ret = -ENOSPC;
+> +			break;
+> +		}
+> +
+>   		/*
+>   		 * Never show fear in the face of dragons!
+>   		 *
+> @@ -357,6 +408,8 @@ int i915_gem_evict_for_node(struct i915_address_space *vm,
+>   		__i915_vma_unpin(vma);
+>   		if (ret == 0)
+>   			ret = __i915_vma_unbind(vma);
+> +
+> +		ungrab_vma(vma);
+>   	}
+>   
+>   	return ret;
+> @@ -398,7 +451,7 @@ int i915_gem_evict_vm(struct i915_address_space *vm, struct i915_gem_ww_ctx *ww)
+>   		LIST_HEAD(locked_eviction_list);
+>   
+>   		list_for_each_entry(vma, &vm->bound_list, vm_link) {
+> -			if (!kref_read(&vma->obj->base.refcount)) {
+> +			if (dying_vma(vma)) {
+>   				ret = evict_dead(vma);
+>   				if (ret)
+>   					break;
+> diff --git a/drivers/gpu/drm/i915/i915_gem_evict.h b/drivers/gpu/drm/i915/i915_gem_evict.h
+> index f5b7a9100609..e593c530f9bd 100644
+> --- a/drivers/gpu/drm/i915/i915_gem_evict.h
+> +++ b/drivers/gpu/drm/i915/i915_gem_evict.h
+> @@ -13,11 +13,13 @@ struct i915_address_space;
+>   struct i915_gem_ww_ctx;
+>   
+>   int __must_check i915_gem_evict_something(struct i915_address_space *vm,
+> +					  struct i915_gem_ww_ctx *ww,
+>   					  u64 min_size, u64 alignment,
+>   					  unsigned long color,
+>   					  u64 start, u64 end,
+>   					  unsigned flags);
+>   int __must_check i915_gem_evict_for_node(struct i915_address_space *vm,
+> +					 struct i915_gem_ww_ctx *ww,
+>   					 struct drm_mm_node *node,
+>   					 unsigned int flags);
+>   int i915_gem_evict_vm(struct i915_address_space *vm,
+> diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.c b/drivers/gpu/drm/i915/i915_gem_gtt.c
+> index b7094ca48047..022543f9bf32 100644
+> --- a/drivers/gpu/drm/i915/i915_gem_gtt.c
+> +++ b/drivers/gpu/drm/i915/i915_gem_gtt.c
+> @@ -94,6 +94,7 @@ void i915_gem_gtt_finish_pages(struct drm_i915_gem_object *obj,
+>    * asked to wait for eviction and interrupted.
+>    */
+>   int i915_gem_gtt_reserve(struct i915_address_space *vm,
+> +			 struct i915_gem_ww_ctx *ww,
+>   			 struct drm_mm_node *node,
+>   			 u64 size, u64 offset, unsigned long color,
+>   			 unsigned int flags)
+> @@ -118,7 +119,7 @@ int i915_gem_gtt_reserve(struct i915_address_space *vm,
+>   	if (flags & PIN_NOEVICT)
+>   		return -ENOSPC;
+>   
+> -	err = i915_gem_evict_for_node(vm, node, flags);
+> +	err = i915_gem_evict_for_node(vm, ww, node, flags);
+>   	if (err == 0)
+>   		err = drm_mm_reserve_node(&vm->mm, node);
+>   
+> @@ -185,6 +186,7 @@ static u64 random_offset(u64 start, u64 end, u64 len, u64 align)
+>    * asked to wait for eviction and interrupted.
+>    */
+>   int i915_gem_gtt_insert(struct i915_address_space *vm,
+> +			struct i915_gem_ww_ctx *ww,
+>   			struct drm_mm_node *node,
+>   			u64 size, u64 alignment, unsigned long color,
+>   			u64 start, u64 end, unsigned int flags)
+> @@ -270,7 +272,7 @@ int i915_gem_gtt_insert(struct i915_address_space *vm,
+>   	 */
+>   	offset = random_offset(start, end,
+>   			       size, alignment ?: I915_GTT_MIN_ALIGNMENT);
+> -	err = i915_gem_gtt_reserve(vm, node, size, offset, color, flags);
+> +	err = i915_gem_gtt_reserve(vm, ww, node, size, offset, color, flags);
+>   	if (err != -ENOSPC)
+>   		return err;
+>   
+> @@ -278,7 +280,7 @@ int i915_gem_gtt_insert(struct i915_address_space *vm,
+>   		return -ENOSPC;
+>   
+>   	/* Randomly selected placement is pinned, do a search */
+> -	err = i915_gem_evict_something(vm, size, alignment, color,
+> +	err = i915_gem_evict_something(vm, ww, size, alignment, color,
+>   				       start, end, flags);
+>   	if (err)
+>   		return err;
+> diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.h b/drivers/gpu/drm/i915/i915_gem_gtt.h
+> index c9b0ee5e1d23..e4938aba3fe9 100644
+> --- a/drivers/gpu/drm/i915/i915_gem_gtt.h
+> +++ b/drivers/gpu/drm/i915/i915_gem_gtt.h
+> @@ -16,6 +16,7 @@
+>   
+>   struct drm_i915_gem_object;
+>   struct i915_address_space;
+> +struct i915_gem_ww_ctx;
+>   
+>   int __must_check i915_gem_gtt_prepare_pages(struct drm_i915_gem_object *obj,
+>   					    struct sg_table *pages);
+> @@ -23,11 +24,13 @@ void i915_gem_gtt_finish_pages(struct drm_i915_gem_object *obj,
+>   			       struct sg_table *pages);
+>   
+>   int i915_gem_gtt_reserve(struct i915_address_space *vm,
+> +			 struct i915_gem_ww_ctx *ww,
+>   			 struct drm_mm_node *node,
+>   			 u64 size, u64 offset, unsigned long color,
+>   			 unsigned int flags);
+>   
+>   int i915_gem_gtt_insert(struct i915_address_space *vm,
+> +			struct i915_gem_ww_ctx *ww,
+>   			struct drm_mm_node *node,
+>   			u64 size, u64 alignment, unsigned long color,
+>   			u64 start, u64 end, unsigned int flags);
+> diff --git a/drivers/gpu/drm/i915/i915_vgpu.c b/drivers/gpu/drm/i915/i915_vgpu.c
+> index 31a105bc1792..c97323973f9b 100644
+> --- a/drivers/gpu/drm/i915/i915_vgpu.c
+> +++ b/drivers/gpu/drm/i915/i915_vgpu.c
+> @@ -197,7 +197,7 @@ static int vgt_balloon_space(struct i915_ggtt *ggtt,
+>   	drm_info(&dev_priv->drm,
+>   		 "balloon space: range [ 0x%lx - 0x%lx ] %lu KiB.\n",
+>   		 start, end, size / 1024);
+> -	ret = i915_gem_gtt_reserve(&ggtt->vm, node,
+> +	ret = i915_gem_gtt_reserve(&ggtt->vm, NULL, node,
+>   				   size, start, I915_COLOR_UNEVICTABLE,
+>   				   0);
+>   	if (!ret)
+> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+> index 8477cae5f877..900cd4d9ebde 100644
+> --- a/drivers/gpu/drm/i915/i915_vma.c
+> +++ b/drivers/gpu/drm/i915/i915_vma.c
+> @@ -713,7 +713,8 @@ bool i915_gem_valid_gtt_space(struct i915_vma *vma, unsigned long color)
+>    * 0 on success, negative error code otherwise.
+>    */
+>   static int
+> -i915_vma_insert(struct i915_vma *vma, u64 size, u64 alignment, u64 flags)
+> +i915_vma_insert(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+> +		u64 size, u64 alignment, u64 flags)
+>   {
+>   	unsigned long color;
+>   	u64 start, end;
+> @@ -765,7 +766,7 @@ i915_vma_insert(struct i915_vma *vma, u64 size, u64 alignment, u64 flags)
+>   		    range_overflows(offset, size, end))
+>   			return -EINVAL;
+>   
+> -		ret = i915_gem_gtt_reserve(vma->vm, &vma->node,
+> +		ret = i915_gem_gtt_reserve(vma->vm, ww, &vma->node,
+>   					   size, offset, color,
+>   					   flags);
+>   		if (ret)
+> @@ -804,7 +805,7 @@ i915_vma_insert(struct i915_vma *vma, u64 size, u64 alignment, u64 flags)
+>   				size = round_up(size, I915_GTT_PAGE_SIZE_2M);
+>   		}
+>   
+> -		ret = i915_gem_gtt_insert(vma->vm, &vma->node,
+> +		ret = i915_gem_gtt_insert(vma->vm, ww, &vma->node,
+>   					  size, alignment, color,
+>   					  start, end, flags);
+>   		if (ret)
+> @@ -1452,7 +1453,7 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+>   		goto err_unlock;
+>   
+>   	if (!(bound & I915_VMA_BIND_MASK)) {
+> -		err = i915_vma_insert(vma, size, alignment, flags);
+> +		err = i915_vma_insert(vma, ww, size, alignment, flags);
+>   		if (err)
+>   			goto err_active;
+>   
+> diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_evict.c b/drivers/gpu/drm/i915/selftests/i915_gem_evict.c
+> index 7c075c16a573..15b4e5631070 100644
+> --- a/drivers/gpu/drm/i915/selftests/i915_gem_evict.c
+> +++ b/drivers/gpu/drm/i915/selftests/i915_gem_evict.c
+> @@ -117,7 +117,7 @@ static int igt_evict_something(void *arg)
+>   
+>   	/* Everything is pinned, nothing should happen */
+>   	mutex_lock(&ggtt->vm.mutex);
+> -	err = i915_gem_evict_something(&ggtt->vm,
+> +	err = i915_gem_evict_something(&ggtt->vm, NULL,
+>   				       I915_GTT_PAGE_SIZE, 0, 0,
+>   				       0, U64_MAX,
+>   				       0);
+> @@ -132,11 +132,12 @@ static int igt_evict_something(void *arg)
+>   
+>   	/* Everything is unpinned, we should be able to evict something */
+>   	mutex_lock(&ggtt->vm.mutex);
+> -	err = i915_gem_evict_something(&ggtt->vm,
+> +	err = i915_gem_evict_something(&ggtt->vm, NULL,
+>   				       I915_GTT_PAGE_SIZE, 0, 0,
+>   				       0, U64_MAX,
+>   				       0);
+>   	mutex_unlock(&ggtt->vm.mutex);
+> +
 
-Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
----
- drivers/gpu/drm/bridge/sii902x.c | 129 ++++++++++++++++++++++++-------
- 1 file changed, 99 insertions(+), 30 deletions(-)
+Stray newline?
 
-diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
-index 89558e581530..65549fbfdc87 100644
---- a/drivers/gpu/drm/bridge/sii902x.c
-+++ b/drivers/gpu/drm/bridge/sii902x.c
-@@ -166,10 +166,12 @@ struct sii902x {
- 	struct i2c_client *i2c;
- 	struct regmap *regmap;
- 	struct drm_bridge bridge;
-+	struct drm_bridge *next_bridge;
- 	struct drm_connector connector;
- 	struct gpio_desc *reset_gpio;
- 	struct i2c_mux_core *i2cmux;
- 	struct regulator_bulk_data supplies[2];
-+	bool sink_is_hdmi;
- 	/*
- 	 * Mutex protects audio and video functions from interfering
- 	 * each other, by keeping their i2c command sequences atomic.
-@@ -245,10 +247,8 @@ static void sii902x_reset(struct sii902x *sii902x)
- 	gpiod_set_value(sii902x->reset_gpio, 0);
- }
- 
--static enum drm_connector_status
--sii902x_connector_detect(struct drm_connector *connector, bool force)
-+static enum drm_connector_status sii902x_detect(struct sii902x *sii902x)
- {
--	struct sii902x *sii902x = connector_to_sii902x(connector);
- 	unsigned int status;
- 
- 	mutex_lock(&sii902x->mutex);
-@@ -261,6 +261,14 @@ sii902x_connector_detect(struct drm_connector *connector, bool force)
- 	       connector_status_connected : connector_status_disconnected;
- }
- 
-+static enum drm_connector_status
-+sii902x_connector_detect(struct drm_connector *connector, bool force)
-+{
-+	struct sii902x *sii902x = connector_to_sii902x(connector);
-+
-+	return sii902x_detect(sii902x);
-+}
-+
- static const struct drm_connector_funcs sii902x_connector_funcs = {
- 	.detect = sii902x_connector_detect,
- 	.fill_modes = drm_helper_probe_single_connector_modes,
-@@ -270,42 +278,40 @@ static const struct drm_connector_funcs sii902x_connector_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- };
- 
--static int sii902x_get_modes(struct drm_connector *connector)
-+static struct edid *sii902x_get_edid(struct sii902x *sii902x,
-+				     struct drm_connector *connector)
- {
--	struct sii902x *sii902x = connector_to_sii902x(connector);
--	u32 bus_format = MEDIA_BUS_FMT_RGB888_1X24;
--	u8 output_mode = SII902X_SYS_CTRL_OUTPUT_DVI;
- 	struct edid *edid;
--	int num = 0, ret;
- 
- 	mutex_lock(&sii902x->mutex);
- 
- 	edid = drm_get_edid(connector, sii902x->i2cmux->adapter[0]);
--	drm_connector_update_edid_property(connector, edid);
- 	if (edid) {
- 		if (drm_detect_hdmi_monitor(edid))
--			output_mode = SII902X_SYS_CTRL_OUTPUT_HDMI;
--
--		num = drm_add_edid_modes(connector, edid);
--		kfree(edid);
-+			sii902x->sink_is_hdmi = true;
-+		else
-+			sii902x->sink_is_hdmi = false;
- 	}
- 
--	ret = drm_display_info_set_bus_formats(&connector->display_info,
--					       &bus_format, 1);
--	if (ret)
--		goto error_out;
-+	mutex_unlock(&sii902x->mutex);
- 
--	ret = regmap_update_bits(sii902x->regmap, SII902X_SYS_CTRL_DATA,
--				 SII902X_SYS_CTRL_OUTPUT_MODE, output_mode);
--	if (ret)
--		goto error_out;
-+	return edid;
-+}
- 
--	ret = num;
-+static int sii902x_get_modes(struct drm_connector *connector)
-+{
-+	struct sii902x *sii902x = connector_to_sii902x(connector);
-+	struct edid *edid;
-+	int num = 0;
- 
--error_out:
--	mutex_unlock(&sii902x->mutex);
-+	edid = sii902x_get_edid(sii902x, connector);
-+	drm_connector_update_edid_property(connector, edid);
-+	if (edid) {
-+		num = drm_add_edid_modes(connector, edid);
-+		kfree(edid);
-+	}
- 
--	return ret;
-+	return num;
- }
- 
- static enum drm_mode_status sii902x_mode_valid(struct drm_connector *connector,
-@@ -354,12 +360,16 @@ static void sii902x_bridge_mode_set(struct drm_bridge *bridge,
- 				    const struct drm_display_mode *adj)
- {
- 	struct sii902x *sii902x = bridge_to_sii902x(bridge);
-+	u8 output_mode = SII902X_SYS_CTRL_OUTPUT_DVI;
- 	struct regmap *regmap = sii902x->regmap;
- 	u8 buf[HDMI_INFOFRAME_SIZE(AVI)];
- 	struct hdmi_avi_infoframe frame;
- 	u16 pixel_clock_10kHz = adj->clock / 10;
- 	int ret;
- 
-+	if (sii902x->sink_is_hdmi)
-+		output_mode = SII902X_SYS_CTRL_OUTPUT_HDMI;
-+
- 	buf[0] = pixel_clock_10kHz & 0xff;
- 	buf[1] = pixel_clock_10kHz >> 8;
- 	buf[2] = drm_mode_vrefresh(adj);
-@@ -375,6 +385,11 @@ static void sii902x_bridge_mode_set(struct drm_bridge *bridge,
- 
- 	mutex_lock(&sii902x->mutex);
- 
-+	ret = regmap_update_bits(sii902x->regmap, SII902X_SYS_CTRL_DATA,
-+				 SII902X_SYS_CTRL_OUTPUT_MODE, output_mode);
-+	if (ret)
-+		goto out;
-+
- 	ret = regmap_bulk_write(regmap, SII902X_TPI_VIDEO_DATA, buf, 10);
- 	if (ret)
- 		goto out;
-@@ -405,13 +420,13 @@ static int sii902x_bridge_attach(struct drm_bridge *bridge,
- 				 enum drm_bridge_attach_flags flags)
- {
- 	struct sii902x *sii902x = bridge_to_sii902x(bridge);
-+	u32 bus_format = MEDIA_BUS_FMT_RGB888_1X24;
- 	struct drm_device *drm = bridge->dev;
- 	int ret;
- 
--	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
--		DRM_ERROR("Fix bridge driver to make connector optional!");
--		return -EINVAL;
--	}
-+	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
-+		return drm_bridge_attach(bridge->encoder, sii902x->next_bridge,
-+					 bridge, flags);
- 
- 	drm_connector_helper_add(&sii902x->connector,
- 				 &sii902x_connector_helper_funcs);
-@@ -433,16 +448,38 @@ static int sii902x_bridge_attach(struct drm_bridge *bridge,
- 	else
- 		sii902x->connector.polled = DRM_CONNECTOR_POLL_CONNECT;
- 
-+	ret = drm_display_info_set_bus_formats(&sii902x->connector.display_info,
-+					       &bus_format, 1);
-+	if (ret)
-+		return ret;
-+
- 	drm_connector_attach_encoder(&sii902x->connector, bridge->encoder);
- 
- 	return 0;
- }
- 
-+static enum drm_connector_status sii902x_bridge_detect(struct drm_bridge *bridge)
-+{
-+	struct sii902x *sii902x = bridge_to_sii902x(bridge);
-+
-+	return sii902x_detect(sii902x);
-+}
-+
-+static struct edid *sii902x_bridge_get_edid(struct drm_bridge *bridge,
-+					    struct drm_connector *connector)
-+{
-+	struct sii902x *sii902x = bridge_to_sii902x(bridge);
-+
-+	return sii902x_get_edid(sii902x, connector);
-+}
-+
- static const struct drm_bridge_funcs sii902x_bridge_funcs = {
- 	.attach = sii902x_bridge_attach,
- 	.mode_set = sii902x_bridge_mode_set,
- 	.disable = sii902x_bridge_disable,
- 	.enable = sii902x_bridge_enable,
-+	.detect = sii902x_bridge_detect,
-+	.get_edid = sii902x_bridge_get_edid,
- };
- 
- static int sii902x_mute(struct sii902x *sii902x, bool mute)
-@@ -829,8 +866,12 @@ static irqreturn_t sii902x_interrupt(int irq, void *data)
- 
- 	mutex_unlock(&sii902x->mutex);
- 
--	if ((status & SII902X_HOTPLUG_EVENT) && sii902x->bridge.dev)
-+	if ((status & SII902X_HOTPLUG_EVENT) && sii902x->bridge.dev) {
- 		drm_helper_hpd_irq_event(sii902x->bridge.dev);
-+		drm_bridge_hpd_notify(&sii902x->bridge, (status & SII902X_PLUGGED_STATUS)
-+								? connector_status_connected
-+								: connector_status_disconnected);
-+	}
- 
- 	return IRQ_HANDLED;
- }
-@@ -1001,6 +1042,11 @@ static int sii902x_init(struct sii902x *sii902x)
- 	sii902x->bridge.funcs = &sii902x_bridge_funcs;
- 	sii902x->bridge.of_node = dev->of_node;
- 	sii902x->bridge.timings = &default_sii902x_timings;
-+	sii902x->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID;
-+
-+	if (sii902x->i2c->irq > 0)
-+		sii902x->bridge.ops |= DRM_BRIDGE_OP_HPD;
-+
- 	drm_bridge_add(&sii902x->bridge);
- 
- 	sii902x_audio_codec_init(sii902x, dev);
-@@ -1022,6 +1068,7 @@ static int sii902x_probe(struct i2c_client *client,
- 			 const struct i2c_device_id *id)
- {
- 	struct device *dev = &client->dev;
-+	struct device_node *endpoint;
- 	struct sii902x *sii902x;
- 	int ret;
- 
-@@ -1049,6 +1096,28 @@ static int sii902x_probe(struct i2c_client *client,
- 		return PTR_ERR(sii902x->reset_gpio);
- 	}
- 
-+	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 1, -1);
-+	if (endpoint) {
-+		struct device_node *remote = of_graph_get_remote_port_parent(endpoint);
-+
-+		of_node_put(endpoint);
-+		if (!remote) {
-+			dev_err(dev, "Endpoint in port@1 unconnected\n");
-+			return -ENODEV;
-+		}
-+
-+		if (!of_device_is_available(remote)) {
-+			dev_err(dev, "port@1 remote device is disabled\n");
-+			of_node_put(remote);
-+			return -ENODEV;
-+		}
-+
-+		sii902x->next_bridge = of_drm_find_bridge(remote);
-+		of_node_put(remote);
-+		if (!sii902x->next_bridge)
-+			return -EPROBE_DEFER;
-+	}
-+
- 	mutex_init(&sii902x->mutex);
- 
- 	sii902x->supplies[0].supply = "iovcc";
--- 
-2.25.1
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+
 
