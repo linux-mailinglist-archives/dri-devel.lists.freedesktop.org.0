@@ -1,111 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 902FE48D0F7
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 04:32:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B67B48D104
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 04:44:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2421E10EC52;
-	Thu, 13 Jan 2022 03:32:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5337710EF6C;
+	Thu, 13 Jan 2022 03:43:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2130.outbound.protection.outlook.com [40.107.236.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68CD410EC4E
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 03:32:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GCvmU3CwTwdOLW2vBAgBco6Xv92+Tn+fgOOx++iHByWL6qVoJYsYi6X0Xxnv7HgA+FFe99HomI4SSqh44en/JY2b6gvnMpinNNeWOATUBVHRcoMAUrxjFobF0TvuIhs16LqAG7F1Q6+wPYlpq75A8SO8fFSR1P+G2C192yHW8dAeL2euajGkCvFPCk0d04TCv067AHuVymqOV8I5DMAfESVHo0I6wP+DZsHAT9G7r6uMCYU4l65YhdorKmWJ0yTmEuLKZbire0EoC/1LakL33hFLGifUh3+jclCioGUltB8Jvl66KmYazAq1GxOR49vuHhKZm3XHoMdY8ll1tNM7XQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lhWZH2QvxCGrA7vpOZWIYuPKPZ91OPw08QndXwdwckg=;
- b=mN1hZXEGcPCVX18Y5ORlficB+GyZS7EdwhjzYCJlnN9YCIM7UGyfc+4jFJuM6mMd8+ldBXCwniltd5SoI7LvUKqDW6QZ08M78sdRNb5GzfShZeoPy0M5LQuYZds4CM5Aj3G4aIMZKl3vn02s76bWHsyy2113XZq9U24P6O94tRViCjvQI8gQS9cmOjCimt2KwiR5HuCdg1gtPGfe1oSPXvhM0h9jPD6ZnNcz7rF0673De5HsMtmObvEbaqTIK94jqxzmWttFeuOcJgf7OdFJiUXY3/E7IQYmsXev3dPWaIet90GyaNLNO+QCwDQMBISNTDEGXtROEZ0IyqctJ8Ml8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=analogixsemi.com; dmarc=pass action=none
- header.from=analogixsemi.com; dkim=pass header.d=analogixsemi.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Analogixsemi.onmicrosoft.com; s=selector2-Analogixsemi-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lhWZH2QvxCGrA7vpOZWIYuPKPZ91OPw08QndXwdwckg=;
- b=VT6jFPzpfu6lvoadg8HBrA/oVXxR3eX68c+UaBSlz90jzlsEqNAQtOKXz6vg4Bh1YdCayXDlJe+CUr2XDZvH5yhFrocaELA8ynlx9QLMBqxOgRVVDwv2amC8pM4F/QDDMYhJp4aDr5nEIijEcHApu0blVVSVy5YoH2EhD5+nDUQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=analogixsemi.com;
-Received: from DM6PR04MB6748.namprd04.prod.outlook.com (2603:10b6:5:247::8) by
- DM6PR04MB5706.namprd04.prod.outlook.com (2603:10b6:5:161::14) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4888.10; Thu, 13 Jan 2022 03:32:33 +0000
-Received: from DM6PR04MB6748.namprd04.prod.outlook.com
- ([fe80::7dd5:4725:ade2:d8f9]) by DM6PR04MB6748.namprd04.prod.outlook.com
- ([fe80::7dd5:4725:ade2:d8f9%3]) with mapi id 15.20.4867.012; Thu, 13 Jan 2022
- 03:32:33 +0000
-Date: Thu, 13 Jan 2022 11:32:26 +0800
-From: Xin Ji <xji@analogixsemi.com>
-To: Hsin-Yi Wang <hsinyi@chromium.org>, Robert Foss <robert.foss@linaro.org>,
- Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH 3/3] dt-bindings: drm/bridge: anx7625: Add aux-bus node
-Message-ID: <20220113033226.GB2478030@anxtwsw-Precision-3640-Tower>
-References: <20220111112701.1064458-1-hsinyi@chromium.org>
- <20220111112701.1064458-3-hsinyi@chromium.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220111112701.1064458-3-hsinyi@chromium.org>
-X-ClientProxiedBy: HKAPR04CA0001.apcprd04.prod.outlook.com
- (2603:1096:203:d0::11) To DM6PR04MB6748.namprd04.prod.outlook.com
- (2603:10b6:5:247::8)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F57D10EF6C;
+ Thu, 13 Jan 2022 03:43:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1642045437; x=1673581437;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=GAvbYN8Rj2KTi9JGqnfgDHrvy3g5t2P2w3EM85MuXes=;
+ b=BIEh+wJ1TGU1BBDarxKljn+VOOmRtZwbOODJB+SJ9Fcb7mSYzqZbbgAD
+ vJiaH7//vYWFh9bhJZSjNDqSNXAIfRfet6wgic5XWKko/JLTkpRr4pHvr
+ mcR93EN0RMfat7IflIIQCZX5YSeNPiBktx6TRjMRis8WM+DQvI3t8qkJV
+ 2+MkBJ+xjMENrMP5knGlkLGGc9W/GyhBllKA3ZfxlkaOdOjkrgD3Ubxgn
+ k4WNU1WCruLj3j7oTAXl1fSULcyWsLJH0DI/v9gmgEwWTj+IemcZ60kBH
+ eaOzM0/ltu/uvX3c4SekwsDQcOkzLdCgoZMcE0IgCJZ3bSHm1LuJ9bq/S A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10225"; a="241482702"
+X-IronPort-AV: E=Sophos;i="5.88,284,1635231600"; d="scan'208";a="241482702"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jan 2022 19:43:56 -0800
+X-IronPort-AV: E=Sophos;i="5.88,284,1635231600"; d="scan'208";a="691649597"
+Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jan 2022 19:43:55 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: <intel-gfx@lists.freedesktop.org>,
+	<dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/i915: Flip guc_id allocation partition
+Date: Wed, 12 Jan 2022 19:38:03 -0800
+Message-Id: <20220113033803.14967-1-matthew.brost@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9d1e94e6-beee-4f7d-5591-08d9d645560d
-X-MS-TrafficTypeDiagnostic: DM6PR04MB5706:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR04MB57068D2FDA163BCA6E8FDD48C7539@DM6PR04MB5706.namprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: auaZG7mttcJO05abfB41mfFBbybPxyHYYoxEB/eS/TbTYLB7ecFMPLPvi9ZcHDV0wiflibtWNvcNizj7lmSmspZkAk+XyfsAhh4ZScblLMKPvBd/OBVmRgU9F1YvY4CvM4wSfznMsFv9wXp/yFzQGsrUfy4awnW0+ExaELOb4NiYT2tyF8Og8dT5J2SP1Dji3j8qsZPgytue8wOPTw8Qvs+Sp0rI7U3abeeDSqOBFJoav6Yit4v+hyuxCHa87QnxgSxia4I4Anl9z1XbnnulCLHSwrPzhWInCr7l4han7sFIX+pd9PdNX8nq7+2E6/7gNwq6aNVnZr4eLnDzcUrbgO+kq5y3+qNYy2798LQ3s0r8TpcOwwppdBw6S4m4Z3+0rLyR8AmR43HhTNtezwcIYCH6rkAcUVRFkgeToJsrOsRMXUnASu6884sOyCvFduM+zVbeRbnQ1JCvlbJJoXeKlDhjA8V6OPnBGbI0QTlKPr3UvDP2dr4R7y/SAcY8IJH2SEotZ79arOJVWkBsuc/ISQA5vB66GX2goo0BmAyZgAB7gHrHxyeLqnrEoaeyfRLRoeCWe4LXq7t+CUkdIh+OxeEftBfDMKcwqvXZzL0OJogbTHjHXx+puCFkJq8EP5qhxn8p2nLzYrx1NBSousvEwV1jahJ2ltr2fWO7UvI9la9H3ONm9Gz8CH89I5qPT7+eh7yTv94c/tU/VOwA268kzg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR04MB6748.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(7916004)(366004)(1076003)(186003)(4326008)(8676002)(508600001)(33656002)(7416002)(86362001)(8936002)(55236004)(2906002)(6486002)(66556008)(5660300002)(66946007)(110136005)(6666004)(26005)(52116002)(38100700002)(38350700002)(33716001)(6512007)(9686003)(54906003)(316002)(6506007)(66476007);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Q1FzugVauG1mbfhlcBLL5tqeXqSympDfgqfb4RvC+hfjstGwoU0tVybwwLCF?=
- =?us-ascii?Q?+72Z2sg1bhSfaKVjTVO/vUx2ZDluLIE21pUl9mMhd5Qoj6DQPNEyMyJO9T8Q?=
- =?us-ascii?Q?L/ettVKYSNRTxRwCX4W3hh3rLYqYKvHh6tmgw/BTHW/M1igBiWwrzERP9/7G?=
- =?us-ascii?Q?/5OVa8FJsogpVa8AlyiM1OOgdBSozTIMe0+gJbNbet3u+YVT3Xz/ffY4X9TW?=
- =?us-ascii?Q?qRXERoBdcTnetusHpzTZugmI+wdL3K6hMjMbMdl6ypaHnzx7SBZhGh0bbXaM?=
- =?us-ascii?Q?ibb3CHQQvvTk05J2wnsl6Q8Uq/QpBGaGWuykOERyuY9sv1WB22IsTQrvgDys?=
- =?us-ascii?Q?iseYGupHMqD53cZ5gaVVcouRHvrfU1WcHYtV7rm4ckMbQKUH0UTPNYKA9vTb?=
- =?us-ascii?Q?o75h0VEuGh5m5NsX2LJQulTVWODNM0JWJUxQ2GM+nC+NL3oFIsNYxK+HglCL?=
- =?us-ascii?Q?APTnPcij6fOXLu01FwpIyKlAKmg8BufQzWxpAynRo4HFhsWNsI5nn2rj1OBR?=
- =?us-ascii?Q?E/FwKl/OZjMYY6u9uWY6JYVTsozA/jZKkZU1DnIXeqHaHgH/BIbtQb3yTQr6?=
- =?us-ascii?Q?Eruj91XaC65MT97i8scrdhN869kXpCgkgkkHfUTrhhuDyT7buAEJW6wW2Q/j?=
- =?us-ascii?Q?wBL0u8422wG1oL3qGMomG/AXkocD2fylpdhXWSSzBPdrXHJEODhGdGQjWou0?=
- =?us-ascii?Q?OpsE3ZK9uuu8D6nvyclFXj3XSaaaBEYq7iNqgcW/XEeXC63tgfFVqtYgwPo5?=
- =?us-ascii?Q?oGdpiM0PltTAe4ftm+Bpu1jD3QGkV4uzH7NtucTCxSM16eu5u/PIKe8swIao?=
- =?us-ascii?Q?5U2BzBEPoI8KExJ8ybqHpiat84JQxhPVqNbYyUYKBnMD9bWRSrFZk4BEfNZv?=
- =?us-ascii?Q?wB8P9r8gUtNOwGm2Er/CZ3GT1fhaY/hr3QSXcp+vqXwB/SWqws91KkrbU9nJ?=
- =?us-ascii?Q?p3lumt/dj2/kg6mJmGWVniVaIziwVlsuUNkzXKk+GCaKiepLBPMQJz6GxCMc?=
- =?us-ascii?Q?L3JEwzCCyZ9k8tTU9EM3CkN/X18VMIb+Mlh9eQgzmEssNVTlYhfkqeyU+50B?=
- =?us-ascii?Q?bo/XKJt1yraO3oV3Mx2oOdGeBvfKO3ngvqPtY95bBPcexqTmpFtyuX03KU3W?=
- =?us-ascii?Q?jLEtroLbbGphOEB6FlY+CphAcUWRGNu+rqEWFy9uQWcGABWdPuJRRGQdxEY1?=
- =?us-ascii?Q?vgKeePMkN5kdcMCvxfxpGOpsDciQCCKD1j5zOXpMjUXEsNdowJusJsuZELSq?=
- =?us-ascii?Q?MX4+QiYqkgMYbpVzSWtwgpQc51xa0B4eLNw8nYsG6Fw5eoOdbPvf6s88yer7?=
- =?us-ascii?Q?QocC/C9vM6vUbdmq5wHwQFNphxuMWiDWC9sqR0PKrG50lnWWxn0uueWnbT4A?=
- =?us-ascii?Q?oRVFaBuoAAX6OCzkuGj9ePaqWKJzWhVOBe7mZTphjT2tbSavFzkutkuYq/rA?=
- =?us-ascii?Q?l13HoKjH7vw1cR+09VJNuHIfmH0run1x54s7B8FFiuOVl/OXAxlJmBF+TLCK?=
- =?us-ascii?Q?CjXgTGHpXvIm4MWibAvRWrXlce+2jMUHJAHJh0kD6c/jrYJ56O0FrErthGtG?=
- =?us-ascii?Q?x0LT+dXevDo4X8xLrMdTgZ10lTLwYRx0yymyIrcranHcA9Qt46FbcpXdiDzM?=
- =?us-ascii?Q?Mn9/VUktJquKJit5UybPqxs=3D?=
-X-OriginatorOrg: analogixsemi.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9d1e94e6-beee-4f7d-5591-08d9d645560d
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR04MB6748.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2022 03:32:33.5374 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b099b0b4-f26c-4cf5-9a0f-d5be9acab205
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: H9facUCFIvEVdarVKRXn576KV9QywxGTIxLrQPW2vfy5bHxmH80tNGaqo1KU07RoxJ+Pocm46kFjCxGPbNL96w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB5706
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,62 +54,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Maxime Ripard <maxime@cerno.tech>
+Cc: tvrtko.ursulin@intel.com, piotr.piorkowski@intel.com,
+ michal.wajdeczko@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hsin-Yi, thanks for the patch! It's OK for me!
-Reviewed-by: Xin Ji <xji@analogixsemi.com>
+Move the multi-lrc guc_id from the lower allocation partition (0 to
+number of multi-lrc guc_ids) to upper allocation partition (number of
+single-lrc to max guc_ids).
 
-Thanks,
-Xin
+This will help when a native driver transitions to a PF after driver
+load time. If the perma-pin guc_ids (kernel contexts) are in a low range
+it is easy reduce total number of guc_ids as the allocated slrc are in a
+valid range the mlrc range moves to an unused range. Assuming no mlrc
+are allocated and few slrc are used the native to PF transition is
+seamless for the guc_id resource.
 
-On Tue, Jan 11, 2022 at 07:27:01PM +0800, Hsin-Yi Wang wrote:
-> List panel under aux-bus node if it's connected to anx7625's aux bus.
-> 
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> ---
->  .../display/bridge/analogix,anx7625.yaml        | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> index 1d3e88daca041a..0d38d6fe39830f 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> @@ -83,6 +83,9 @@ properties:
->      type: boolean
->      description: let the driver enable audio HDMI codec function or not.
->  
-> +  aux-bus:
-> +    $ref: /schemas/display/dp-aux-bus.yaml#
-> +
->    ports:
->      $ref: /schemas/graph.yaml#/properties/ports
->  
-> @@ -167,5 +170,19 @@ examples:
->                      };
->                  };
->              };
-> +
-> +            aux-bus {
-> +                panel {
-> +                    compatible = "innolux,n125hce-gn1";
-> +                    power-supply = <&pp3300_disp_x>;
-> +                    backlight = <&backlight_lcd0>;
-> +
-> +                    port {
-> +                        panel_in: endpoint {
-> +                            remote-endpoint = <&anx7625_out>;
-> +                        };
-> +                    };
-> +                };
-> +            };
->          };
->      };
-> -- 
-> 2.34.1.575.g55b058a8bb-goog
+v2:
+ (Michal / Tvrtko)
+  - Add an explaination to commit message of why this patch is needed
+ (Michal / Piotr)
+  - Replace marcos with functions
+ (Michal)
+  - Rework logic flow in new_mlrc_guc_id
+  - Unconditionally call bitmap_free
+
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+---
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 88 +++++++++++++------
+ 1 file changed, 63 insertions(+), 25 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+index 23a40f10d376d..3ae92260f8224 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+@@ -138,17 +138,6 @@ guc_create_parallel(struct intel_engine_cs **engines,
+ 
+ #define GUC_REQUEST_SIZE 64 /* bytes */
+ 
+-/*
+- * We reserve 1/16 of the guc_ids for multi-lrc as these need to be contiguous
+- * per the GuC submission interface. A different allocation algorithm is used
+- * (bitmap vs. ida) between multi-lrc and single-lrc hence the reason to
+- * partition the guc_id space. We believe the number of multi-lrc contexts in
+- * use should be low and 1/16 should be sufficient. Minimum of 32 guc_ids for
+- * multi-lrc.
+- */
+-#define NUMBER_MULTI_LRC_GUC_ID(guc)	\
+-	((guc)->submission_state.num_guc_ids / 16)
+-
+ /*
+  * Below is a set of functions which control the GuC scheduling state which
+  * require a lock.
+@@ -1777,11 +1766,6 @@ int intel_guc_submission_init(struct intel_guc *guc)
+ 	INIT_WORK(&guc->submission_state.destroyed_worker,
+ 		  destroyed_worker_func);
+ 
+-	guc->submission_state.guc_ids_bitmap =
+-		bitmap_zalloc(NUMBER_MULTI_LRC_GUC_ID(guc), GFP_KERNEL);
+-	if (!guc->submission_state.guc_ids_bitmap)
+-		return -ENOMEM;
+-
+ 	spin_lock_init(&guc->timestamp.lock);
+ 	INIT_DELAYED_WORK(&guc->timestamp.work, guc_timestamp_ping);
+ 	guc->timestamp.ping_delay = (POLL_TIME_CLKS / gt->clock_frequency + 1) * HZ;
+@@ -1864,6 +1848,57 @@ static void guc_submit_request(struct i915_request *rq)
+ 	spin_unlock_irqrestore(&sched_engine->lock, flags);
+ }
+ 
++/*
++ * We reserve 1/16 of the guc_ids for multi-lrc as these need to be contiguous
++ * per the GuC submission interface. A different allocation algorithm is used
++ * (bitmap vs. ida) between multi-lrc and single-lrc hence the reason to
++ * partition the guc_id space. We believe the number of multi-lrc contexts in
++ * use should be low and 1/16 should be sufficient.
++ */
++#define MLRC_GUC_ID_RATIO	16
++
++static int number_mlrc_guc_id(struct intel_guc *guc)
++{
++	return guc->submission_state.num_guc_ids / MLRC_GUC_ID_RATIO;
++}
++
++static int number_slrc_guc_id(struct intel_guc *guc)
++{
++	return guc->submission_state.num_guc_ids - number_mlrc_guc_id(guc);
++}
++
++static int mlrc_guc_id_base(struct intel_guc *guc)
++{
++	return number_slrc_guc_id(guc);
++}
++
++static int new_mlrc_guc_id(struct intel_guc *guc, struct intel_context *ce)
++{
++	int ret;
++
++	GEM_BUG_ON(!intel_context_is_parent(ce));
++	GEM_BUG_ON(!guc->submission_state.guc_ids_bitmap);
++
++	ret =  bitmap_find_free_region(guc->submission_state.guc_ids_bitmap,
++				       number_mlrc_guc_id(guc),
++				       order_base_2(ce->parallel.number_children
++						    + 1));
++	if (unlikely(ret < 0))
++		return ret;
++
++	return ret + mlrc_guc_id_base(guc);
++}
++
++static int new_slrc_guc_id(struct intel_guc *guc, struct intel_context *ce)
++{
++	GEM_BUG_ON(intel_context_is_parent(ce));
++
++	return ida_simple_get(&guc->submission_state.guc_ids,
++			      0, number_slrc_guc_id(guc),
++			      GFP_KERNEL | __GFP_RETRY_MAYFAIL |
++			      __GFP_NOWARN);
++}
++
+ static int new_guc_id(struct intel_guc *guc, struct intel_context *ce)
+ {
+ 	int ret;
+@@ -1871,16 +1906,10 @@ static int new_guc_id(struct intel_guc *guc, struct intel_context *ce)
+ 	GEM_BUG_ON(intel_context_is_child(ce));
+ 
+ 	if (intel_context_is_parent(ce))
+-		ret = bitmap_find_free_region(guc->submission_state.guc_ids_bitmap,
+-					      NUMBER_MULTI_LRC_GUC_ID(guc),
+-					      order_base_2(ce->parallel.number_children
+-							   + 1));
++		ret = new_mlrc_guc_id(guc, ce);
+ 	else
+-		ret = ida_simple_get(&guc->submission_state.guc_ids,
+-				     NUMBER_MULTI_LRC_GUC_ID(guc),
+-				     guc->submission_state.num_guc_ids,
+-				     GFP_KERNEL | __GFP_RETRY_MAYFAIL |
+-				     __GFP_NOWARN);
++		ret = new_slrc_guc_id(guc, ce);
++
+ 	if (unlikely(ret < 0))
+ 		return ret;
+ 
+@@ -1990,6 +2019,15 @@ static int pin_guc_id(struct intel_guc *guc, struct intel_context *ce)
+ 
+ 	GEM_BUG_ON(atomic_read(&ce->guc_id.ref));
+ 
++	/* Outside spin lock so we can sleep on alloc */
++	if (unlikely(intel_context_is_parent(ce) &&
++		     !guc->submission_state.guc_ids_bitmap)) {
++		guc->submission_state.guc_ids_bitmap =
++			bitmap_zalloc(number_mlrc_guc_id(guc), GFP_KERNEL);
++		if (!guc->submission_state.guc_ids_bitmap)
++			return -ENOMEM;
++	}
++
+ try_again:
+ 	spin_lock_irqsave(&guc->submission_state.lock, flags);
+ 
+-- 
+2.34.1
+
