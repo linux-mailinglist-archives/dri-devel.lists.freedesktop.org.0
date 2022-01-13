@@ -2,118 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C514948DD14
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 18:45:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 547D148DD2E
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 18:51:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE41C10E12F;
-	Thu, 13 Jan 2022 17:45:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 517BE10E515;
+	Thu, 13 Jan 2022 17:51:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com
- (mail-tycjpn01on2124.outbound.protection.outlook.com [40.107.114.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F53A10E12F
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 17:45:08 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Tmmg56/xi7nPjSzPZtxsarLAzrigp9dXV41LSFHfanztCpbal7F4jJ+DPTphc+1xhWCfaJWwPu++1U/NHfPZn0HukaU0NpxitoEgaqTE3BW5vsJQlPk5/2pVqQiVlsPHktwcbf5TZwB04jZwIT58aPlQoM9iODgkxe/fkmIPPUebUI5UJajpRB1vMsD+v6q+6HjHPyeJdPURT4UphORetb1I5oDvuoIgRBPXKjsaKWT/EqWw9sBvk4k72qAs2HF3ijeCRDBDFrN4eHwgeBbrPgpJ20fNAKSaWs382TRcrbNm1STQoBh46uDaM0LLUfg8s2l9cc/ZzRT4lBx/38KdyQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GlvEuCk5diMjU1mmr/Fzxp8HFgEWfHaxvteL6NPrlHo=;
- b=X8PZ3H0N6wMqhpXgP5NBk0wtmpdnAkJjVVcMocELBY5pkYOxH0A+FBBnfMxb7qNT/+N25dR6eIEWAVHS0Skyoest2SZ6swIwfF8FDjSSA8vy4auqCqiPsPqaxER3K2HDWLs3SHSHrkrHJkHK/K5rmBPNCNH2byYY2JEn8HYdCa08Q2+SjeO/QyzEQtmACO46yMxJmS2L7DrYWISgqCVvKx8TyeOzKhx2w5a22dpzkDHRznVphvwECxrImdSs2VL+prJr+0JcfJxPL+4a2UmYqIBXzb1YqqTB6dBDNtXHtpgOomVbfzxKYbcqJI5Fr83jccGne1+F/ESgvXwyAl2PcA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GlvEuCk5diMjU1mmr/Fzxp8HFgEWfHaxvteL6NPrlHo=;
- b=FNNh6yHJSZuhrmLA+S+rhA0bG/MAGiFyh5+4slhh7T5zOXVzTekWdlU1LymuW8teM79fNWiWvb8oWYIiBXZOv8cRRb22RqkUY2MYk+VIxwK1ETTZR0/FW7M+voMH6M3rDEfNWA7Skhvi0T69aYjhbyLBvX48701hksXB3hJsnl0=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYCPR01MB5951.jpnprd01.prod.outlook.com (2603:1096:400:43::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4888.11; Thu, 13 Jan
- 2022 17:45:05 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::3847:4115:3fbe:619]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::3847:4115:3fbe:619%7]) with mapi id 15.20.4888.011; Thu, 13 Jan 2022
- 17:45:05 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Neil Armstrong <narmstrong@baylibre.com>, "daniel@ffwll.ch"
- <daniel@ffwll.ch>, "Laurent.pinchart@ideasonboard.com"
- <Laurent.pinchart@ideasonboard.com>, "robert.foss@linaro.org"
- <robert.foss@linaro.org>, "jonas@kwiboo.se" <jonas@kwiboo.se>,
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>
-Subject: dw_hdmi is showing wrong colour after commit
- 7cd70656d1285b79("drm/bridge: display-connector: implement bus fmts
- callbacks")
-Thread-Topic: dw_hdmi is showing wrong colour after commit
- 7cd70656d1285b79("drm/bridge: display-connector: implement bus fmts
- callbacks")
-Thread-Index: AdgIo2084AmwtmkvSTyKeewhRhjVqA==
-Date: Thu, 13 Jan 2022 17:45:05 +0000
-Message-ID: <OS0PR01MB59221ED76B74231F5836D5FB86539@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 6b42d319-ae7d-4434-e8db-08d9d6bc6f04
-x-ms-traffictypediagnostic: TYCPR01MB5951:EE_
-x-microsoft-antispam-prvs: <TYCPR01MB5951F2EC50C4784EBC269BC286539@TYCPR01MB5951.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:597;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: /R9rAZ2g3l9BSNlDNkkXKn3ZYHfAiDlH/go9izJv7C9aHlOK4BO6GZm9saaSI0Kb3WYKmZRGe1GcVdb8BVoLFaKp+GNBN84YMvIrWk3Qy0F1I8QUvk5tdekxqRMV1Yy75b9CIZ/du9vTjav3GIAY/Dejv8hCGAXkTlcCtVkxZlgdXFwdHGlwzB+4oOCuZNYyFyPdbIO5e5MHQqAnTB/uYN3+gO2KOJkYD0kcl/RuEltkno3hPgtF42qCrIFaOjWmlZQFCntwjYZoDF/I92ZCSrZa9bGvMbiU2Rh1t3wwZUQivGLp8lV33ZPOWIsDGA95RM1bNwz1BVbvS7ITLAtyVY+8OExdGHWZ0mdbdxrG9CnXoKKKynX+axEgU4W8KLz6YWpXSiG5dTxz4vppC2OKecscW/JakzdB9EkOm7X95XzsCdoxkFXBNzIgNRlhH+CJZhDL+3RShxyJ9kUflXJzSJlx19CHBdiTMbtJFDeq0uIxMgthULNXblYA551Eanp+GXCTLXrx3XrAf6qrpYxn5NeIdmyLJvFYj7kEHG2CzYqdAMR+tvwEy0U1P4lwlXp2+YNb/p+U3aSlR1rpsgPs5g3PT2aBbTIiG0OuWWQPp/cqFrv/EsQZc9nu6WhlvvD/4yPxOarylobFEkSfyPj+nCjPVvE0jCw6EyWB0h8l8ow+SfvYzAGlmz54AZwX1n8xuP5bc5JBDpOf//WqEdh/og==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:OS0PR01MB5922.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(7416002)(110136005)(54906003)(33656002)(5660300002)(52536014)(71200400001)(8936002)(9686003)(8676002)(7696005)(122000001)(6506007)(2906002)(316002)(38100700002)(4744005)(4326008)(38070700005)(186003)(86362001)(508600001)(55016003)(76116006)(26005)(66476007)(66556008)(66446008)(66946007)(64756008);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?a4lcRhYZQLymtQcvirpA6C4iQvybnloFcd8ObMFI1JpFAtDYsXmFYT0Oedcz?=
- =?us-ascii?Q?9OTfgHlhgs6QVSEEOxTVGLciv6zmjqTX0AyIpozZKIhgKL44+zpJmkamW8yh?=
- =?us-ascii?Q?CxFZvgDEzs/Vj4G63giuMXilbCCUB7zkkX8EPgi01yoNsbGbyGhlzd4HasGV?=
- =?us-ascii?Q?HXMAxlmKWAKa5nPiJQzKFafeLDDmPXTrrJ8S0IT6aYFVuayaTchHv3XFshQj?=
- =?us-ascii?Q?rAcbMVb173CsTZwu1rA5eV9uKx8qtpBxb15xjlafgT2Vcis7RZZq1mh8awCf?=
- =?us-ascii?Q?QSwH/lEGkK6tU+7PvliWJhc3CVOhH0bVrAyujbW2lkmzZwjZsbYbDLsVIGJ8?=
- =?us-ascii?Q?DAmewWQgv6h0xqVQ7TQ+XmtFmrwbsPq96P9hbjOppLjWFypp9sGcEtV6qJ76?=
- =?us-ascii?Q?VETens+eG3Tkz3fW6uYLh6TKn+chxjqAf9uQfYIh0RiLBnHVewd0xTRE82Xm?=
- =?us-ascii?Q?dIiIrIcdQ26TK0Z0D5t5S4R2N4nn3iuLfFbZnA3xN15Nae3dbiJNq6HEmFtC?=
- =?us-ascii?Q?k4FsaZApIEZyECDomxLibU/cztUqKOCbQ3BAE0IVhd6IwNvHf6I1yGSyMJKL?=
- =?us-ascii?Q?G4P4IPXk2oPsgbQ7vyqIu3T6/lvJ28AL49wkNf4p+TXxj3Ay3Dt//bKKyQss?=
- =?us-ascii?Q?1MMNxZuwD+pJBJAa/HSuxu0XJ2t5pmxA9LoBfCzdZYcr8w+Wlnlp1b6/bMGw?=
- =?us-ascii?Q?uceamjTKPjpCtmYfjWKdubD2gN+yDY2EQDcJCmQc0U7MZzsjuaeNjuFXauMK?=
- =?us-ascii?Q?zx8hkQ6YvklQVO+k0OaIJTnck7l6uIKo+1vMsPTN4KQDaQMrSsauL3H3kghw?=
- =?us-ascii?Q?UQRReaEgWus8X6eJ1acM3PkIXPSDeuRqN5qJYq0AIRU1luWchxqqre+Zghz1?=
- =?us-ascii?Q?toWEk1qowNNlmqKFCOhC43DAZEtsGgBr3AVL835pkQYaWn29GR3BC/P2mf3M?=
- =?us-ascii?Q?ilpFfTd9hRKM90SHefmz7P9dEt0cPdv6Cs8nLNnf35GOcYe8t7Rg4MhCnZFJ?=
- =?us-ascii?Q?+eFfTRJhH6/gLjphiUkKFb8/jsc8/p31rJQOSEixqSWzsYJptejmjF9Vi6eX?=
- =?us-ascii?Q?k3YJKOyda+5k5SuRQTBPGVLe3PBXxZONU0FyP6vviyEmWCdOR6nGXXlH8jmG?=
- =?us-ascii?Q?1QYSemqugfCBrurKmOXwSREclgjX53T0oCmXLzYX9k27WHirIDwHJoZAMfGw?=
- =?us-ascii?Q?lKxD0OnAYLXldTz8yBhrUz7+4y5tXT66PFtfyhapRFi9QUDQwXa+NHRwIsCb?=
- =?us-ascii?Q?PUyipvT1xPBmyA281E4iPHd6dEx0Abcl1067iUSHBwAZHEDvh6a3nkhN/AvD?=
- =?us-ascii?Q?xtI8sMN9kxnOUps4NerTtRQTIfAxMLZkfscDncsTc/Zb2PM2piIj1outvVsc?=
- =?us-ascii?Q?lzOBwfiWnLHGVbeRItjzwwz2wU9KqLynQoQrcR+OpbOXstVVP511JjVzWzOy?=
- =?us-ascii?Q?3+rMdJ95of2IcP2fLG4v6zvClCmw7yRd9NMtrhMVjDL0Zslf5KPr67lg+zDJ?=
- =?us-ascii?Q?xZUEFMaKtIbtGPcCJZyEngYgaoms8qlGZr7H1To+QH46KyOj+r3PLhFmlEDZ?=
- =?us-ascii?Q?7A1UKKbkMMTU5eUuLMMmVvkkMbQnturPYg1vGocb4ykzrQ81wcO5lnZoR5NC?=
- =?us-ascii?Q?mMsU6jyUckuwbN+pEfjZ0OyVkAwB4kVi8rKi4tnrJS+64e2AAPYzWNRjLROK?=
- =?us-ascii?Q?Z7pCWA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1702A10E4E3;
+ Thu, 13 Jan 2022 17:51:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1642096306; x=1673632306;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=jwq8d5kK+K/ab3JvF5IReXEIv5LYfB8y1+rqInWBWOA=;
+ b=XbqXuUeQFSS4U8So5TX01FEMZcGpw9kiYJsQoQaUrRZQg7RO7Yg1qCt+
+ c/E17EacmHi+rcBDQfC8uTiFUNVj5c3gkas0T927ECVH4tx4fbhtY1EaF
+ 4+6r5Wm0oaCCcZ4jrH8orJqCm4X+O/x48GYP1V6Y56HQgzZPltO11oySS I=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 13 Jan 2022 09:51:45 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2022 09:51:45 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Thu, 13 Jan 2022 09:51:44 -0800
+Received: from [10.110.125.36] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Thu, 13 Jan
+ 2022 09:51:43 -0800
+Message-ID: <338ae657-e8ed-e620-0aa7-4ad05df18ad1@quicinc.com>
+Date: Thu, 13 Jan 2022 09:51:42 -0800
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b42d319-ae7d-4434-e8db-08d9d6bc6f04
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jan 2022 17:45:05.3955 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: gkr6LEXrFt9057qp3TR4d2I7AJI4J6ELz/TlRgh4SREqeN1uGEzH3NUPdu94HTKnoTWNDZYbNQ2EtEPdEifaStACM6v5FMgdi1O678YteYw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB5951
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v11 1/4] drm/msm/dp: do not initialize phy until plugin
+ interrupt received
+Content-Language: en-US
+To: Stephen Boyd <swboyd@chromium.org>, <agross@kernel.org>,
+ <airlied@linux.ie>, <bjorn.andersson@linaro.org>, <daniel@ffwll.ch>,
+ <dmitry.baryshkov@linaro.org>, <dri-devel@lists.freedesktop.org>,
+ <robdclark@gmail.com>, <sean@poorly.run>, <vkoul@kernel.org>
+References: <1641926606-1012-1-git-send-email-quic_khsieh@quicinc.com>
+ <1641926606-1012-2-git-send-email-quic_khsieh@quicinc.com>
+ <CAE-0n53hrPYR3ThwxM_+fzyRSB+6W1drFymW5n_RKmg_gf8z-w@mail.gmail.com>
+ <84ee17f9-2597-86b6-1517-2358d443f65b@quicinc.com>
+ <CAE-0n5134H0puMicozjdfTY+zXVUZyrebjv7Hto3EWcQAELO4A@mail.gmail.com>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <CAE-0n5134H0puMicozjdfTY+zXVUZyrebjv7Hto3EWcQAELO4A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,33 +72,394 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "martin.blumenstingl@googlemail.com" <martin.blumenstingl@googlemail.com>,
- "linux-amlogic@lists.infradead.org" <linux-amlogic@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ aravindh@codeaurora.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi All,
 
-RZ/G2{H, M, N} SoC has dw_hdmi IP and it was working ok(colour) till the co=
-mmit
-7cd70656d1285b79("drm/bridge: display-connector: implement bus fmts callbac=
-ks").
+On 1/12/2022 8:13 PM, Stephen Boyd wrote:
+> Quoting Kuogee Hsieh (2022-01-12 14:17:54)
+>> On 1/12/2022 12:00 PM, Stephen Boyd wrote:
+>>> Quoting Kuogee Hsieh (2022-01-11 10:43:23)
+>>>> Current DP drivers have regulators, clocks, irq and phy are grouped
+>>>> together within a function and executed not in a symmetric manner.
+>>>> This increase difficulty of code maintenance and limited code scalability.
+>>>> This patch divides the driver life cycle of operation into four states,
+>>>> resume (including booting up), dongle plugin, dongle unplugged and suspend.
+>>>> Regulators, core clocks and irq are grouped together and enabled at resume
+>>>> (or booting up) so that the DP controller is armed and ready to receive HPD
+>>>> plugin interrupts. HPD plugin interrupt is generated when a dongle plugs
+>>>> into DUT (device under test). Once HPD plugin interrupt is received, DP
+>>>> controller will initialize phy so that dpcd read/write will function and
+>>>> following link training can be proceeded successfully. DP phy will be
+>>>> disabled after main link is teared down at end of unplugged HPD interrupt
+>>>> handle triggered by dongle unplugged out of DUT. Finally regulators, code
+>>>> clocks and irq are disabled at corresponding suspension.
+>> 0) Please note that  dongles are behavior differently.
+>>
+>> 1) Apple dongle will generate plug-in interrupt only if no hdmi monitor
+>> atatched to dongle. it will generate irq-hpd interrupt once hdmi monitor
+>> connect to dongle later.
+>>
+>> 2) Apple dongle will generate plugged-in interrupt followed by irq-hpd
+>> interrupt if dongle has hdmi monitor attached when connects to DUT.
+>>
+>> 3) other dongle will not generate plug-in interrupt unless dongle has
+>> hdmi monitor attached when connects to DUT. It only generate plug-in
+>> interrupt only and no irq-hpd interrupt  generated on this case.
+> Ok. The test scenarios can be reworded in terms of plugin irq and
+> irq-hpd if that makes it easier.
+>
+>> 4) Note: phy_initialized only associated with plugged-in interrupt
+>>
+>> 5) irq-hpd interrupt must happen after plugged-in interrupt and before
+>> unplugged interrupt
+> More precisely it's that plugged-in interrupt must be handled before
+> irq-hpd but plugged-in and irq-hpd can both be pending at the device
+> concurrently unless they're masked and unmasked in some particular
+> order. I thought the driver ensures that only irq-hpd is unmasked once
+> the plugged in irq is handled. Can you confirm? Similarly, unplugged irq
+> is unmasked after plugged in irq is handled, but irq-hpd and unplugged
+> can both be pending if the irq handler is delayed?
 
-After this patch, the screen becomes greenish(may be it is setting it into =
-YUV format??).
+we went through this before,
 
-By checking the code, previously it used to call get_input_fmt callback and=
- set colour as RGB24.
+1) plugin_handler ==> do plug staffs + unmask irq_hpd at end of handler
 
-After this commit, it calls get_output_fmt_callbck and returns 3 outputform=
-ats(YUV16, YUV24 and RGB24)
-And get_input_fmt callback, I see the outputformat as YUV16 instead of RGB2=
-4.
+2) unplug_handler ==> mask both plugin and irq_hpd  + do unplug staffs + 
+unmask plugin irq at end of handler
 
-Not sure, I am the only one seeing this issue with dw_HDMI driver.
+3) priority order of handling irq when multiple irqs pending ==> plugin 
+-> irq_hpd -> unplug
 
-Regards,
-Biju
+>
+>> I will fill up below question with Apple dongle case with the order of
+>> event happen timing.
+>>
+>>> I'll write out the various scenarios
+>>>
+>>> #1
+>>>        dongle plugged in with HDMI cable attached
+>>>        driver probe
+>> 1) driver probe ==> core_initialized = false;    phy_initialized = false;
+>> 2) dp_display_host_init() ==> core_initialized = true;
+>> 3) generate plugged-in interrupt triggers handler
+>> 4) dp_display_phy_init() ==> phy_initialized = true;
+>>
+>>>
+>>> #2
+>>>        dongle unplugged
+>>>        driver probe
+>> 1) driver probe ==> core_initialized = false;    phy_initialized = false;
+>> 2) dp_display_host_init() ==> core_initialized = true;
+>>
+>>
+>>> #3
+>>>        dongle plugged in without HDMI cable attached
+>>>        driver probe
+>> 1) driver probe ==> core_initialized = false;    phy_initialized = false;
+>> 2) dp_display_host_init() ==> core_initialized = true;
+>> 3) generate plug-in interrupt triggers handler
+>> 4) dp_display_phy_init() ==> phy_initialized = true;
+>>
+>> Note: same as case #1
+>>> #4
+>>>        driver probe
+>>>        dongle plugged in without HDMI cable attached
+>> 1) driver probe ==> core_initialized = false;    phy_initialized = false;
+>> 2) dp_display_host_init() ==> core_initialized = true;
+>> 3) dongle plugged in
+>> 4) generate plug-in interrupt triggers handler
+>> 5) dp_display_phy_init() ==> phy_initialized = true;
+>>
+>>>
+>>> #5
+>>>        driver probe
+>>>        dongle plugged in with HDMI cable attached
+>> 1) driver probe ==> core_initialized = false;    phy_initialized = false;
+>> 2) dp_display_host_init() ==> core_initialized = true;
+>> 3) dongle plugged in
+>> 4) generate plug-in interrupt trigger handler
+>> 5) dp_display_phy_init() ==> phy_initialized = true;
+>>
+>> Note: same as case #4
+>>
+>>> #6
+>>>        driver probe
+>>>        dongle plugged in
+>>>        suspend
+>>>        resume
+>> 1) driver probe ==> core_initialized = false;    phy_initialized = false;
+>> 2) dp_display_host_init() ==> core_initialized = true;
+>> 3) dongle plug in
+>> 4) generate plug-in interrupt triggers handler
+>> 5) dp_display_phy_init() ==> phy_initialized = true;
+>> 6) suspend
+>> 7) dp_display_host_deinit() ==> core_initialized = false;
+>> 8) dp_display_host_phy_exit() ==> phy_initialize = false;
+>> 9) resume
+>> 10) dp_display_host_init() ==> core_initialized = true;
+>> 11) generate plug-in interrupt
+>> 12) dp_display_phy_init() ==> phy_initialize = true;
+>>
+>>> #7
+>>>        driver probe
+>>>        dongle plugged in
+>>>        suspend
+>>>        dongle unplugged
+>>>        resume
+>> 1) driver probe ==> core_initialized = false;    phy_initialized = false;
+>> 2) dp_display_host_init() ==> core_initialized = true;
+>> 3) dongle plugged in
+>> 4) generate plug-in interrupt triggers handler
+>> 5) dp_display_phy_init() ==> phy_initialized = true;
+>> 6) suspend
+>> 7) dp_display_host_deinit() ==> core_initialized = false;
+>> 8) dp_display_host_phy_exit() ==> phy_initialize = false;
+> Why is the order of operations swapped? During probe core_initialized
+> is done first and then phy_initialized but then on suspend
+> core_initialized is done first again before phy_initialized. That's
+> asymmetric.
+ok, will fix this
+>
+>> 9) dongle unplugged
+>> 10) resume
+>> 11) dp_display_host_init() ==> core_initialized = true;
+>>
+>> #8
+>>          driver probe
+>>          dongle plugged in without HDMI cable attached
+>>          suspend
+>>          resume
+>>
+>> 1) driver probe ==> core_initialized = false;    phy_initialized = false;
+>> 2) dp_display_host_init() ==> core_initialized = true;
+>> 3) dongle plug in
+>> 4) generate plug-in interrupt triggers handler
+>> 5) dp_display_phy_init() ==> phy_initialized = true;
+>> 6) suspend
+>> 7) dp_display_host_deinit() ==> core_initialized = false;
+>> 8) dp_display_host_phy_exit() ==> phy_initialize = false;
+>> 9) resume
+>> 10) dp_display_host_init() ==> core_initialized = true;
+>> 11) generate plug-in interrupt
+>> 12) dp_display_phy_init() ==> phy_initialize = true;
+>>
+>>
+>> NOTE: same case #6
+>>
+>> #9
+>>          driver probe
+>>          dongle plugged in without HDMI cable attached
+>>          suspend
+>>          HDMI cable attached during suspend
+>>          resume
+>>
+>> 1) driver probe ==> core_initialized = false;    phy_initialized = false;
+>> 2) dp_display_host_init() ==> core_initialized = true;
+>> 3) dongle plugged in
+>> 4) generate plug-in interrupt triggers handler
+>> 5) dp_display_phy_init() ==> phy_initialized = true;
+>> 6) suspend
+>> 7) dp_display_host_deinit() ==> core_initialized = false;
+>> 8) dp_display_host_phy_exit() ==> phy_initialize = false;
+>> 9) HDMI cable attached
+>> 10) resume
+>> 11) dp_display_host_init() ==> core_initialized = true;
+>> 12) generate plug-in interrupt
+>> 13) dp_display_phy_init() ==> phy_initialize = true;
+>>
+>>
+>> What's the state of the phy and core initialized variable at the end of
+>> each of these scenarios? Please fill out the truth table.
+>>
+>>                    +-----------------+------------------------
+>>                     |    false        |       true            |
+>>                    +-----------------+------------------------
+>>    phy_initialized  |                 |                       |
+>>                    +-----------------+------------------------
+>>    core_initialized |                 | #1,                   |
+>>                    +-----------------+------------------------
+>>
+>> I guess we also need eDP scenarios, but that's probably simpler
+>>
+>> #10
+>>          eDP panel connected
+>>          driver probe
+>>
+>> 1) driver probe ==> core_initialized = false;    phy_initialized = false;
+>> 2) dp_display_host_init() ==> core_initialized = true;
+>> 3) generate plug-in interrupt triggers handler
+> I think this is more like "dp_display_config_hpd() is called by hpd
+> kthread"?
+
+yes, correct as below (eDP will call phy_init immediately
+
+1) driver probe ==> core_initialized = false;    phy_initialized = false;
+2) dp_display_config_hpd()
+3) dp_display_host_init() ==> core_initialized = true;
+4) dp_display_host_phy_init() ==> phy_initialize = true
+5) generate plug-in interrupt triggers handler
+
+>
+>> 4) dp_display_phy_init() ==> phy_initialized = true;
+>>
+>>
+>>
+>> #11
+>>          eDP panel disconnected
+>>          driver probe
+>>
+>> NOTE: eDP panel can not be disconnected
+> The panel can certainly be disconnected in the sense that the ribbon
+> cable to the panel is busted or not working properly. That's what this
+> scenario is for.
+
+1) driver probe ==> core_initialized = false;    phy_initialized = false;
+2) dp_display_config_hpd()
+3) dp_display_host_init() ==> core_initialized = true;
+4) dp_display_host_phy_init() ==> phy_initialize = true
+
+1) driver probe ==> core_initialized = false; phy_initialized = false;
+>> #12
+>>          eDP panel disconnected
+>>          driver probe
+>>          suspend
+>>          resume
+>>
+>> NOTE: assume edp panel connected
+>> 1) driver probe ==> core_initialized = false;    phy_initialized = false;
+>> 2) dp_display_host_init() ==> core_initialized = true;
+>> 3) generate plug-in interrupt triggers handler
+>> 4) dp_display_phy_init() ==> phy_initialized = true;
+>> 5) suspend
+>> 6) dp_display_host_deinit() ==> core_initialized = false;
+>> 7) dp_display_host_phy_exit() ==> phy_initialize = false;
+>> 8) resume
+>> 9) dp_display_host_init() ==> core_initialized = true;
+>> 10) generate plug-in interrupt
+>> 11) dp_display_phy_init() ==> phy_initialize = true;
+
+1) driver probe ==> core_initialized = false;    phy_initialized = false;
+2) dp_display_config_hpd()
+3) dp_display_host_init() ==> core_initialized = true;
+4) dp_display_host_phy_init() ==> phy_initialize = true
+5) generate plug-in interrupt triggers handler
+6) dp_display_phy_init() ==> phy_initialized = true;
+7) suspend
+8) dp_display_host_deinit() ==> core_initialized = false;
+9) dp_display_host_phy_exit() ==> phy_initialize = false;
+10) resume
+11) dp_display_host_init() ==> core_initialized = true;
+11) dp_display_phy_init() ==> phy_initialize = true;
+12) generate plug-in interrupt triggers handler
+
+> Thanks. It really helps to see the various scenarios.
+>
+>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+>>>> index 7cc4d21..f6bb4bc 100644
+>>>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>>>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>>>> @@ -83,6 +83,7 @@ struct dp_display_private {
+>>>>
+>>>>           /* state variables */
+>>>>           bool core_initialized;
+>>>> +       bool phy_initialized;
+>>>>           bool hpd_irq_on;
+>>>>           bool audio_supported;
+>>>>
+>>>> @@ -372,21 +373,46 @@ static int dp_display_process_hpd_high(struct dp_display_private *dp)
+>>>>           return rc;
+>>>>    }
+>>>>
+>>>> -static void dp_display_host_init(struct dp_display_private *dp, int reset)
+>>>> +static void dp_display_host_phy_init(struct dp_display_private *dp)
+>>>>    {
+>>>> -       bool flip = false;
+>>>> +       DRM_DEBUG_DP("core_init=%d phy_init=%d\n",
+>>>> +                       dp->core_initialized, dp->phy_initialized);
+>>>>
+>>>> +       if (!dp->phy_initialized) {
+>>>> +               dp_ctrl_phy_init(dp->ctrl);
+>>>> +               dp->phy_initialized = true;
+>>>> +       }
+>>>> +}
+>>>> +
+>>>> +static void dp_display_host_phy_exit(struct dp_display_private *dp)
+>>>> +{
+>>>> +       DRM_DEBUG_DP("core_init=%d phy_init=%d\n",
+>>>> +                       dp->core_initialized, dp->phy_initialized);
+>>>> +
+>>>> +       if (dp->phy_initialized) {
+>>>> +               dp_ctrl_phy_exit(dp->ctrl);
+>>>> +               dp->phy_initialized = false;
+>>>> +       }
+>>>> +}
+>>>> +
+>>>> +static void dp_display_host_init(struct dp_display_private *dp)
+>>>> +{
+>>>>           DRM_DEBUG_DP("core_initialized=%d\n", dp->core_initialized);
+>>>>           if (dp->core_initialized) {
+>>>>                   DRM_DEBUG_DP("DP core already initialized\n");
+>>>>                   return;
+>>>>           }
+>>>>
+>>>> -       if (dp->usbpd->orientation == ORIENTATION_CC2)
+>>>> -               flip = true;
+>>>> +       dp_power_init(dp->power, false);
+>>>> +       dp_ctrl_reset_irq_ctrl(dp->ctrl, true);
+>>>> +
+>>>> +       /*
+>>>> +        * eDP is the embedded primary display and has its own phy
+>>>> +        * initialize phy immediately
+>>> Question still stands why we can't wait for hpd high from the eDP panel.
+>>> Also, I think "has its own phy" means that it's not part of a combo
+>>> USB+DP phy? Can you please clarify?
+>>>
+>>>> +        */
+>>>> +       if (dp->dp_display.connector_type == DRM_MODE_CONNECTOR_eDP)
+>>>> +               dp_display_host_phy_init(dp);
+>>>>
+>>>> -       dp_power_init(dp->power, flip);
+>>>> -       dp_ctrl_host_init(dp->ctrl, flip, reset);
+>>>>           dp_aux_init(dp->aux);
+>>>>           dp->core_initialized = true;
+>>>>    }
+>>>> @@ -1306,20 +1330,23 @@ static int dp_pm_resume(struct device *dev)
+>>>>           dp->hpd_state = ST_DISCONNECTED;
+>>>>
+>>>>           /* turn on dp ctrl/phy */
+>>>> -       dp_display_host_init(dp, true);
+>>>> +       dp_display_host_init(dp);
+>>>>
+>>>>           dp_catalog_ctrl_hpd_config(dp->catalog);
+>>>>
+>>>> -       /*
+>>>> -        * set sink to normal operation mode -- D0
+>>>> -        * before dpcd read
+>>>> -        */
+>>>> -       dp_link_psm_config(dp->link, &dp->panel->link_info, false);
+>>>>
+>>>>           if (dp_catalog_link_is_connected(dp->catalog)) {
+>>>> +               /*
+>>>> +                * set sink to normal operation mode -- D0
+>>>> +                * before dpcd read
+>>>> +                */
+>>>> +               dp_display_host_phy_init(dp);
+>>>> +               dp_link_psm_config(dp->link, &dp->panel->link_info, false);
+>>>>                   sink_count = drm_dp_read_sink_count(dp->aux);
+>>>>                   if (sink_count < 0)
+>>>>                           sink_count = 0;
+>>>> +
+>>>> +               dp_display_host_phy_exit(dp);
+>>> Why is the phy exited on resume when the link is still connected? Is
+>>> this supposed to be done only when the sink_count is 0? And how does
+>>> this interact with eDP where the phy is initialized by the call to
+>>> dp_display_host_init() earlier in this function.
+>>>
+>>>>           }
+>>>>
+>>>>           dp->link->sink_count = sink_count;
+> Any response to the above two comments?
