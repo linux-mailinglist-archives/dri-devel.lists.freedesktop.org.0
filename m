@@ -1,75 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5BA248DB64
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 17:10:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCB9748DBDB
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 17:33:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B352110E40C;
-	Thu, 13 Jan 2022 16:10:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B1BB10E43D;
+	Thu, 13 Jan 2022 16:33:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 542C510E40C
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 16:10:21 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id
- q141-20020a1ca793000000b00347b48dfb53so4004333wme.0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 08:10:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=SPmaJub/jt94ihGwagtrfHtir8UBrBvypTKNKojeyrA=;
- b=BVBB+Qut1wf0yDLs2pgabC7QOG2Sq+20jm8ssrux8M/cL6yIEQ1cLoONRsJ3tAFOB7
- mAVtexOZomadjCBu5HS3//ck38nB8thHf4Vsb7B2Gu4SmYo1PXrWLt2A/RhTYRAs6chT
- A2yuc9kt7p1baJ7py4FCWgs7rw24L85tVk/4W8LVfElgZ03rT963kaaa4VkbN1DiwUXJ
- qnZsvby+F23F9gT8jaP+rJib0mnv6iej7oPfza94pno6s+bMVe/moC6XsPcGH0KE1brn
- /SZzMZYnKFEdbiVSWGxvCwwKgWv2AzgqwSWAiyOixbcDRB9AlAXLXpExApLKl7EkW3Oy
- FPkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=SPmaJub/jt94ihGwagtrfHtir8UBrBvypTKNKojeyrA=;
- b=OYwBGTsk6dA8ipO3M6pZks0uGoknUAlre/dt4i2CzmnjlPB2znmMlGN3115y5aIZ3Q
- QzL3dQh/HT+PqSHrhFtgp1zfyWONKjksW0kKpUBvIVjbGbTOMGo0vZ/xxiDRDWQeW3Sk
- Iu0bSQHg1J/4a4SH4XZYWMxGambT53lf2rb2hbxzxybebuVAiXMu6kuLHd6XqTp+2AjB
- Dr8pSoITYjiYMUYu8gOQK5TEnyXaLjUxcHs9LwNiMeRIZk5FJOge4Ch3ya3fcFUxWHpl
- g1Ja7Gk0//GdBysB6Dvw48j/WmSHXuh5PXY2bMbuIly/nWl1TiZASzSnYjN7SHrSRP/4
- GhYg==
-X-Gm-Message-State: AOAM533rSxAR727Jld32DComV46zRFYNANuXOpWSk1xJNSaJWUeLTKx6
- k4jR+SX/Z/nVQS8wGBIc0eo=
-X-Google-Smtp-Source: ABdhPJz71D45GcRwagirhvSlyWM52OERaCgTDonsBE7CR9XIAMLCsE2GIYUK2N2X+W/NKuR3LQ9Flg==
-X-Received: by 2002:a1c:7316:: with SMTP id d22mr11718665wmb.5.1642090219767; 
- Thu, 13 Jan 2022 08:10:19 -0800 (PST)
-Received: from [192.168.0.18] (81.172.62.207.dyn.user.ono.com. [81.172.62.207])
- by smtp.gmail.com with ESMTPSA id f8sm9488614wmg.3.2022.01.13.08.10.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Jan 2022 08:10:19 -0800 (PST)
-Message-ID: <e940d705-2057-4d5e-0a21-8464ca04caaf@gmail.com>
-Date: Thu, 13 Jan 2022 17:10:17 +0100
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD94210E11D;
+ Thu, 13 Jan 2022 16:33:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1642091621; x=1673627621;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=xYWjvymHgFVnPfT8FYqwGnGzVZI581j5O57ArIWzSPo=;
+ b=jgHnPzy74E/DBBIvpqqE8sTYw6lzRMhrXnnBo9TRzVl4OobsqFu6Siu7
+ BMXnA/oQFyxCc92BN1e6ZV3be702ASHG65iIDertnjYob95HUGJZprire
+ yWHN4KSxH6hQKmSjHKiIWu7QazUkTZVFlg5DgfJMY198ZQPpcKcaGRIoL
+ XsPiHFaWensKOkDha9rVXEzHDUhDOuPathgwKHIUcLm7nBfnpg3sRYOSs
+ lq5Q1PgKdKZpQoHWfkAhWV0ZoyZkY19TAMadh/zLwuvEwJ2JESyFjN8BH
+ OioI6N0VDAkci/B0mbKSgXmwbPwRlUIGCsuqWHRKT4GgB0vHLZ8yTPte3 g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10225"; a="243844467"
+X-IronPort-AV: E=Sophos;i="5.88,286,1635231600"; d="scan'208";a="243844467"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2022 08:33:39 -0800
+X-IronPort-AV: E=Sophos;i="5.88,286,1635231600"; d="scan'208";a="763311386"
+Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2022 08:33:39 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: <intel-gfx@lists.freedesktop.org>,
+	<dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/i915: Flip guc_id allocation partition
+Date: Thu, 13 Jan 2022 08:27:47 -0800
+Message-Id: <20220113162747.4017-1-matthew.brost@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v9 12/15] media: mtk-vcodec: enc: Remove
- mtk_vcodec_release_enc_pm
-Content-Language: en-US
-To: Hans Verkuil <hverkuil@xs4all.nl>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Yong Wu <yong.wu@mediatek.com>, Joerg Roedel <joro@8bytes.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- David Airlie <airlied@linux.ie>, Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20211112105509.12010-1-yong.wu@mediatek.com>
- <20211112105509.12010-13-yong.wu@mediatek.com>
- <68c3a573-8453-38e9-93b2-2067bedcd06f@collabora.com>
- <4bd9e849-96dd-6f1c-2841-979459366ee5@collabora.com>
- <fa9b2b73-c6bb-5737-93ac-ba2ab6b3b771@xs4all.nl>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <fa9b2b73-c6bb-5737-93ac-ba2ab6b3b771@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,72 +54,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- devicetree@vger.kernel.org, Will Deacon <will.deacon@arm.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- anthony.huang@mediatek.com, youlin.pei@mediatek.com,
- Irui Wang <irui.wang@mediatek.com>, Evan Green <evgreen@chromium.org>,
- Eizan Miyamoto <eizan@chromium.org>, Matthias Kaehlcke <mka@chromium.org>,
- mingyuan.ma@mediatek.com, linux-media@vger.kernel.org,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, libo.kang@mediatek.com,
- yi.kuo@mediatek.com, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>,
- linux-arm-kernel@lists.infradead.org, anan.sun@mediatek.com,
- acourbot@chromium.org, srv_heupstream@mediatek.com, yf.wang@mediatek.com,
- Tomasz Figa <tfiga@chromium.org>, iommu@lists.linux-foundation.org,
- Robin Murphy <robin.murphy@arm.com>
+Cc: michal.wajdeczko@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hans,
+Move the multi-lrc guc_id from the lower allocation partition (0 to
+number of multi-lrc guc_ids) to upper allocation partition (number of
+single-lrc to max guc_ids).
 
-On 13/01/2022 11:15, Hans Verkuil wrote:
-> On 13/01/2022 11:11, AngeloGioacchino Del Regno wrote:
->> Il 11/01/22 11:57, AngeloGioacchino Del Regno ha scritto:
->>> Il 12/11/21 11:55, Yong Wu ha scritto:
->>>> After this patchset, mtk_vcodec_release_enc_pm has only one line.
->>>> then remove that function, use pm_runtime_disable instead.
->>>>
->>>> meanwhile, mtk_vcodec_init_enc_pm only operate for the clocks,
->>>> rename it from the _pm to _clk.
->>>>
->>>> No functional change.
->>>>
->>>> CC: Tiffany Lin <tiffany.lin@mediatek.com>
->>>> CC: Irui Wang <irui.wang@mediatek.com>
->>>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
->>>
->>> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->>>
->>
->> Hello Yong,
->> the mtk-vcodec patches were merged in Yunfei's vcodec patch series and Hans has
->> scheduled that for v5.18.
->>
->> Can you please send a v10 and drop patches 10/15, 11/15, 12/15 (all of the
->> media: mtk-vcodec: *) from this series?
->>
->> For the records, I think that after sending v10 this series is ready to be merged,
->> as it was well reviewed and also tested on many MTK platforms.
-> 
-> Good to know. When I have the v10 I'll try to prioritize reviewing it and running
-> my usual tests.
-> 
-> Yong, please make sure you run 'checkpatch.pl --strict' over the v10 patches and fix
-> any issues (using common sense).
-> 
+This will help when a native driver transitions to a PF after driver
+load time. If the perma-pin guc_ids (kernel contexts) are in a low range
+it is easy reduce total number of guc_ids as the allocated slrc are in a
+valid range the mlrc range moves to an unused range. Assuming no mlrc
+are allocated and few slrc are used the native to PF transition is
+seamless for the guc_id resource.
 
-Can you please take me in the look when you take the patches. I'll take the DTS 
-related as soon as you queue up the others.
+v2:
+ (Michal / Tvrtko)
+  - Add an explaination to commit message of why this patch is needed
+ (Michal / Piotr)
+  - Replace marcos with functions
+ (Michal)
+  - Rework logic flow in new_mlrc_guc_id
+  - Unconditionally call bitmap_free
+v3:
+ (Michal)
+  - Move allocation of mlrc bitmap back submission init
+ (CI)
+  - Resend for CI
 
-Thanks!
-Matthias
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+---
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 77 ++++++++++++++-----
+ 1 file changed, 56 insertions(+), 21 deletions(-)
 
-> Regards,
-> 
-> 	Hans
-> 
->>
->> Thank you,
->> - Angelo
-> 
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+index 23a40f10d376d..fce58365b3ff8 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+@@ -138,17 +138,6 @@ guc_create_parallel(struct intel_engine_cs **engines,
+ 
+ #define GUC_REQUEST_SIZE 64 /* bytes */
+ 
+-/*
+- * We reserve 1/16 of the guc_ids for multi-lrc as these need to be contiguous
+- * per the GuC submission interface. A different allocation algorithm is used
+- * (bitmap vs. ida) between multi-lrc and single-lrc hence the reason to
+- * partition the guc_id space. We believe the number of multi-lrc contexts in
+- * use should be low and 1/16 should be sufficient. Minimum of 32 guc_ids for
+- * multi-lrc.
+- */
+-#define NUMBER_MULTI_LRC_GUC_ID(guc)	\
+-	((guc)->submission_state.num_guc_ids / 16)
+-
+ /*
+  * Below is a set of functions which control the GuC scheduling state which
+  * require a lock.
+@@ -1746,6 +1735,7 @@ void intel_guc_submission_reset_finish(struct intel_guc *guc)
+ }
+ 
+ static void destroyed_worker_func(struct work_struct *w);
++static int number_mlrc_guc_id(struct intel_guc *guc);
+ 
+ /*
+  * Set up the memory resources to be shared with the GuC (via the GGTT)
+@@ -1778,7 +1768,7 @@ int intel_guc_submission_init(struct intel_guc *guc)
+ 		  destroyed_worker_func);
+ 
+ 	guc->submission_state.guc_ids_bitmap =
+-		bitmap_zalloc(NUMBER_MULTI_LRC_GUC_ID(guc), GFP_KERNEL);
++		bitmap_zalloc(number_mlrc_guc_id(guc), GFP_KERNEL);
+ 	if (!guc->submission_state.guc_ids_bitmap)
+ 		return -ENOMEM;
+ 
+@@ -1864,6 +1854,57 @@ static void guc_submit_request(struct i915_request *rq)
+ 	spin_unlock_irqrestore(&sched_engine->lock, flags);
+ }
+ 
++/*
++ * We reserve 1/16 of the guc_ids for multi-lrc as these need to be contiguous
++ * per the GuC submission interface. A different allocation algorithm is used
++ * (bitmap vs. ida) between multi-lrc and single-lrc hence the reason to
++ * partition the guc_id space. We believe the number of multi-lrc contexts in
++ * use should be low and 1/16 should be sufficient.
++ */
++#define MLRC_GUC_ID_RATIO	16
++
++static int number_mlrc_guc_id(struct intel_guc *guc)
++{
++	return guc->submission_state.num_guc_ids / MLRC_GUC_ID_RATIO;
++}
++
++static int number_slrc_guc_id(struct intel_guc *guc)
++{
++	return guc->submission_state.num_guc_ids - number_mlrc_guc_id(guc);
++}
++
++static int mlrc_guc_id_base(struct intel_guc *guc)
++{
++	return number_slrc_guc_id(guc);
++}
++
++static int new_mlrc_guc_id(struct intel_guc *guc, struct intel_context *ce)
++{
++	int ret;
++
++	GEM_BUG_ON(!intel_context_is_parent(ce));
++	GEM_BUG_ON(!guc->submission_state.guc_ids_bitmap);
++
++	ret =  bitmap_find_free_region(guc->submission_state.guc_ids_bitmap,
++				       number_mlrc_guc_id(guc),
++				       order_base_2(ce->parallel.number_children
++						    + 1));
++	if (unlikely(ret < 0))
++		return ret;
++
++	return ret + mlrc_guc_id_base(guc);
++}
++
++static int new_slrc_guc_id(struct intel_guc *guc, struct intel_context *ce)
++{
++	GEM_BUG_ON(intel_context_is_parent(ce));
++
++	return ida_simple_get(&guc->submission_state.guc_ids,
++			      0, number_slrc_guc_id(guc),
++			      GFP_KERNEL | __GFP_RETRY_MAYFAIL |
++			      __GFP_NOWARN);
++}
++
+ static int new_guc_id(struct intel_guc *guc, struct intel_context *ce)
+ {
+ 	int ret;
+@@ -1871,16 +1912,10 @@ static int new_guc_id(struct intel_guc *guc, struct intel_context *ce)
+ 	GEM_BUG_ON(intel_context_is_child(ce));
+ 
+ 	if (intel_context_is_parent(ce))
+-		ret = bitmap_find_free_region(guc->submission_state.guc_ids_bitmap,
+-					      NUMBER_MULTI_LRC_GUC_ID(guc),
+-					      order_base_2(ce->parallel.number_children
+-							   + 1));
++		ret = new_mlrc_guc_id(guc, ce);
+ 	else
+-		ret = ida_simple_get(&guc->submission_state.guc_ids,
+-				     NUMBER_MULTI_LRC_GUC_ID(guc),
+-				     guc->submission_state.num_guc_ids,
+-				     GFP_KERNEL | __GFP_RETRY_MAYFAIL |
+-				     __GFP_NOWARN);
++		ret = new_slrc_guc_id(guc, ce);
++
+ 	if (unlikely(ret < 0))
+ 		return ret;
+ 
+-- 
+2.34.1
+
