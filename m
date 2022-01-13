@@ -2,54 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E94F48DEB2
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 21:17:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95C1348DF27
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 21:44:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0DB510E2B3;
-	Thu, 13 Jan 2022 20:17:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC77110E55F;
+	Thu, 13 Jan 2022 20:44:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5653810E12A
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 20:17:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642105025; x=1673641025;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=aKc/MkMx9cUEOGpw55cv5Z4VZVMCA0JOdIwIdP/az/c=;
- b=PXoqLft2v1KM5Bw1kaZ3HBWBQtCy+UrTJTRjIWD5eV88fyNbTi9DBdcf
- EvuVuPECk18oqSQAdCE6H0XTM4V2m4YfVXGfhIV4dZF5WeWCCpl0/0n6G
- Ya+MlMKB9TDsWgvKapZxoI3LN7bam/LEoEoinjY3aXSeSn4YvdPOB2R3m
- gTEgqft1Sg/Q8f7YgB1x3TiLhxis5Ykf+nLDxFIo/lmsxUn3u6+gpZgsz
- btpn2PNVkvRZXLFMuqhmlfkdi98HC+s1eZPK4XHCUKygX68bQ4LmFMsZ2
- XVPb0PsxQ1UeVvsHP3iaifdJR0njSj1q6uFdg08uobwI0nc+3cs664hkX g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10226"; a="244059305"
-X-IronPort-AV: E=Sophos;i="5.88,286,1635231600"; d="scan'208";a="244059305"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2022 12:17:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,286,1635231600"; d="scan'208";a="691935136"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
- by orsmga005.jf.intel.com with ESMTP; 13 Jan 2022 12:17:02 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1n86Wr-0007bn-D1; Thu, 13 Jan 2022 20:17:01 +0000
-Date: Fri, 14 Jan 2022 04:16:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter <daniel.vetter@intel.com>,
- David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3 04/16] drm/connector: Fix typo in output format
-Message-ID: <202201140436.WlQxR5wG-lkp@intel.com>
-References: <20220113140720.1678907-5-maxime@cerno.tech>
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48BA910E544;
+ Thu, 13 Jan 2022 20:44:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1642106660; x=1673642660;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=57MqfI7dB+tsBDAjgRqB/dMauShg7UH+ZvEMZcujzw4=;
+ b=x/KTwNB3+RSHFVdwVaHHEXvYGKgCf2LRJPdXUrNiG+s9Q7mCKBqsGZMV
+ 0fwM9jDCiQQ0GlxPjv011XpOt0PzuWsOyzpuozkh97AH4NzPOcXxNGXth
+ TCy2fOTm/FIyc111L9BGVff7fcYsTkfk6sbIxcTh+nfd6949QUhCrz6u4 Q=;
+Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
+ by alexa-out.qualcomm.com with ESMTP; 13 Jan 2022 12:44:19 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2022 12:44:18 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Thu, 13 Jan 2022 12:44:18 -0800
+Received: from [10.110.125.36] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Thu, 13 Jan
+ 2022 12:44:16 -0800
+Message-ID: <64ad7053-beac-0c28-7d09-ea32a4f7fbad@quicinc.com>
+Date: Thu, 13 Jan 2022 12:44:16 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220113140720.1678907-5-maxime@cerno.tech>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v11 1/4] drm/msm/dp: do not initialize phy until plugin
+ interrupt received
+Content-Language: en-US
+To: Stephen Boyd <swboyd@chromium.org>, <agross@kernel.org>,
+ <airlied@linux.ie>, <bjorn.andersson@linaro.org>, <daniel@ffwll.ch>,
+ <dmitry.baryshkov@linaro.org>, <dri-devel@lists.freedesktop.org>,
+ <robdclark@gmail.com>, <sean@poorly.run>, <vkoul@kernel.org>
+References: <1641926606-1012-1-git-send-email-quic_khsieh@quicinc.com>
+ <1641926606-1012-2-git-send-email-quic_khsieh@quicinc.com>
+ <CAE-0n53hrPYR3ThwxM_+fzyRSB+6W1drFymW5n_RKmg_gf8z-w@mail.gmail.com>
+ <84ee17f9-2597-86b6-1517-2358d443f65b@quicinc.com>
+ <CAE-0n5134H0puMicozjdfTY+zXVUZyrebjv7Hto3EWcQAELO4A@mail.gmail.com>
+ <338ae657-e8ed-e620-0aa7-4ad05df18ad1@quicinc.com>
+ <CAE-0n51QbJHnOses5sF6xECR0gRZB1Fbi1KqoLG+61ZWH9BtOA@mail.gmail.com>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <CAE-0n51QbJHnOses5sF6xECR0gRZB1Fbi1KqoLG+61ZWH9BtOA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,73 +73,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, Dom Cobley <dom@raspberrypi.com>,
- Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, Werner Sembach <wse@tuxedocomputers.com>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ aravindh@codeaurora.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
 
-I love your patch! Yet something to improve:
+On 1/13/2022 11:47 AM, Stephen Boyd wrote:
+> Quoting Kuogee Hsieh (2022-01-13 09:51:42)
+>> On 1/12/2022 8:13 PM, Stephen Boyd wrote:
+>>>>>> -       if (dp->usbpd->orientation == ORIENTATION_CC2)
+>>>>>> -               flip = true;
+>>>>>> +       dp_power_init(dp->power, false);
+>>>>>> +       dp_ctrl_reset_irq_ctrl(dp->ctrl, true);
+>>>>>> +
+>>>>>> +       /*
+>>>>>> +        * eDP is the embedded primary display and has its own phy
+>>>>>> +        * initialize phy immediately
+>>>>> Question still stands why we can't wait for hpd high from the eDP panel.
+>>>>> Also, I think "has its own phy" means that it's not part of a combo
+>>>>> USB+DP phy? Can you please clarify?
+Correct, eDP has its dedicated phy which is not part of combo phy.
+>>>>>> +        */
+>>>>>> +       if (dp->dp_display.connector_type == DRM_MODE_CONNECTOR_eDP)
+>>>>>> +               dp_display_host_phy_init(dp);
+>>>>>>
+>>>>>> -       dp_power_init(dp->power, flip);
+>>>>>> -       dp_ctrl_host_init(dp->ctrl, flip, reset);
+>>>>>>            dp_aux_init(dp->aux);
+>>>>>>            dp->core_initialized = true;
+>>>>>>     }
+>>>>>> @@ -1306,20 +1330,23 @@ static int dp_pm_resume(struct device *dev)
+>>>>>>            dp->hpd_state = ST_DISCONNECTED;
+>>>>>>
+>>>>>>            /* turn on dp ctrl/phy */
+>>>>>> -       dp_display_host_init(dp, true);
+>>>>>> +       dp_display_host_init(dp);
+>>>>>>
+>>>>>>            dp_catalog_ctrl_hpd_config(dp->catalog);
+>>>>>>
+>>>>>> -       /*
+>>>>>> -        * set sink to normal operation mode -- D0
+>>>>>> -        * before dpcd read
+>>>>>> -        */
+>>>>>> -       dp_link_psm_config(dp->link, &dp->panel->link_info, false);
+>>>>>>
+>>>>>>            if (dp_catalog_link_is_connected(dp->catalog)) {
+>>>>>> +               /*
+>>>>>> +                * set sink to normal operation mode -- D0
+>>>>>> +                * before dpcd read
+>>>>>> +                */
+>>>>>> +               dp_display_host_phy_init(dp);
+>>>>>> +               dp_link_psm_config(dp->link, &dp->panel->link_info, false);
+>>>>>>                    sink_count = drm_dp_read_sink_count(dp->aux);
+>>>>>>                    if (sink_count < 0)
+>>>>>>                            sink_count = 0;
+>>>>>> +
+>>>>>> +               dp_display_host_phy_exit(dp);
+>>>>> Why is the phy exited on resume when the link is still connected? Is
+>>>>> this supposed to be done only when the sink_count is 0? And how does
+>>>>> this interact with eDP where the phy is initialized by the call to
+>>>>> dp_display_host_init() earlier in this function.
 
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on drm-intel/for-linux-next v5.16 next-20220113]
-[cannot apply to anholt/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+At beginning of dp_pm_resume bot core_initialized and phy_initialized 
+should be off.
 
-url:    https://github.com/0day-ci/linux/commits/Maxime-Ripard/drm-vc4-hdmi-Yet-Another-Approach-to-HDMI-YUV-output/20220113-221035
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20220114/202201140436.WlQxR5wG-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/52bba93426db6667839f3b01a759ad9084127008
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Maxime-Ripard/drm-vc4-hdmi-Yet-Another-Approach-to-HDMI-YUV-output/20220113-221035
-        git checkout 52bba93426db6667839f3b01a759ad9084127008
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=csky SHELL=/bin/bash drivers/gpu/drm/rockchip/
+However at the case of dongle still connected to DUT, we have to read 
+dongle dpcd to decided any hdmi connect to dongle (sink_count != 0). in 
+this case, we have to turn on phy to perform dpcd read and  turn off phy 
+after read so the following plugged-in interrupt can be handled correctly.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   drivers/gpu/drm/rockchip/analogix_dp-rockchip.c: In function 'rockchip_dp_get_modes':
->> drivers/gpu/drm/rockchip/analogix_dp-rockchip.c:120:48: error: 'DRM_COLOR_FORMAT_YCRCB422' undeclared (first use in this function); did you mean 'DRM_COLOR_FORMAT_YCBCR422'?
-     120 |         u32 mask = DRM_COLOR_FORMAT_YCBCR444 | DRM_COLOR_FORMAT_YCRCB422;
-         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                                DRM_COLOR_FORMAT_YCBCR422
-   drivers/gpu/drm/rockchip/analogix_dp-rockchip.c:120:48: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +120 drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-
-   114	
-   115	static int rockchip_dp_get_modes(struct analogix_dp_plat_data *plat_data,
-   116					 struct drm_connector *connector)
-   117	{
-   118		struct drm_display_info *di = &connector->display_info;
-   119		/* VOP couldn't output YUV video format for eDP rightly */
- > 120		u32 mask = DRM_COLOR_FORMAT_YCBCR444 | DRM_COLOR_FORMAT_YCRCB422;
-   121	
-   122		if ((di->color_formats & mask)) {
-   123			DRM_DEBUG_KMS("Swapping display color format from YUV to RGB\n");
-   124			di->color_formats &= ~mask;
-   125			di->color_formats |= DRM_COLOR_FORMAT_RGB444;
-   126			di->bpc = 8;
-   127		}
-   128	
-   129		return 0;
-   130	}
-   131	
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+>>>>>>            }
+>>>>>>
+>>>>>>            dp->link->sink_count = sink_count;
+>>> Any response to the above two comments?
+> ??
