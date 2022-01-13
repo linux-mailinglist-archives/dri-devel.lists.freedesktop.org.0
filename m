@@ -1,50 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F12BC48DD93
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 19:21:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20D8948DDA9
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 19:28:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 015C210E55A;
-	Thu, 13 Jan 2022 18:21:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9622310E536;
+	Thu, 13 Jan 2022 18:28:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF3F110E557;
- Thu, 13 Jan 2022 18:21:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642098083; x=1673634083;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=JRo16gmX95URu9lqDiVWdJnJBVRYzk5hap8Lks14oEw=;
- b=ROQj4zNRvm9EhB3YY8RkNio0JLNyf2VzqHHzc6fibiHUlokm2qHDqBLY
- CB19254vMVcfVArJg1DOC2lqQ/Tqe5ADEQVH4scRFenj5gCmLPI1tCPEx
- 7gx9JzxZc7Lnib/eLspiF9BGMorpxnPGL7CM4U5gwoPg9tKcN0x2iwnMl
- 9Oymv5AAyT0xHIK1Z3SFq8iD4TZDt6sgOi+FKFZqdkb001kEXZjHJ1HAB
- cLw+gLuTGlAPcx9pfeKxVhiakhZ+W3hdVBdyWWLlpy0SE2IXe9LbtlYUB
- 54bPdNAbflPP9ltGRwCH9lvTaUTEpj2NlGAXiQoNSQO1yRWNW2jVuIXWl A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10226"; a="268440156"
-X-IronPort-AV: E=Sophos;i="5.88,286,1635231600"; d="scan'208";a="268440156"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2022 10:19:44 -0800
-X-IronPort-AV: E=Sophos;i="5.88,286,1635231600"; d="scan'208";a="765634145"
-Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2022 10:19:43 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: <intel-gfx@lists.freedesktop.org>,
-	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH 2/2] drm/i915/guc: Remove hacks for reset and schedule disable
- G2H being received out of order
-Date: Thu, 13 Jan 2022 10:13:51 -0800
-Message-Id: <20220113181351.21296-3-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220113181351.21296-1-matthew.brost@intel.com>
-References: <20220113181351.21296-1-matthew.brost@intel.com>
+Received: from mail-oo1-xc29.google.com (mail-oo1-xc29.google.com
+ [IPv6:2607:f8b0:4864:20::c29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B31BA10E536;
+ Thu, 13 Jan 2022 18:28:48 +0000 (UTC)
+Received: by mail-oo1-xc29.google.com with SMTP id
+ c1-20020a4a9c41000000b002dd0450ba2aso1860764ook.8; 
+ Thu, 13 Jan 2022 10:28:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=TwN0a2e4fIau6wBUpvIJm3eDy35/hH3kfFq237STDTg=;
+ b=Eo4f+XqQO6PfJPSSqW2tSlTO+bRvdY2DWl5E4hlUWBNYozRCiG46dnKf2MRfymBvJu
+ Ir1G0f5s7s7dTXTPQtgXa3O5FN6Fg7On50G+Z95IWyTtg/+gst9e6dmnyW8lhn1l/DzH
+ AZW0cyu7C2BhkSCJnXh8HigIZKwMZvsA5rJfd9vgoQsbg3cU01usNRYYDFRyGeub7dAA
+ Iwcv5eg313Ri064koctKwGHbKotc7aqlBMp3NQaLE6IVkEewwM3ucSQfrgJt7SisylnB
+ nao6PvI75BXgKhTOvyQzUwXdFQgWSuIz/2aaSYgt4Rr1R8tllWCodVYyLEaZJQRo87h3
+ /Anw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=TwN0a2e4fIau6wBUpvIJm3eDy35/hH3kfFq237STDTg=;
+ b=LcG3TXssnDcWBQaSZKy+lnoctIX3WvFLEZMkO/03WD8ds08MFz03RO2XShE05GcvSH
+ 3kNXGyEVt4g7MEgY/1mmYpIUc+znZvslUJWD5npjT8IFia691co+Wn8HFs3SacWRQmMj
+ vJxIypISMGxNCjG0KfUEg33Gc6IClcentPuafjdQO2gc5B9WnDPNSXG3GmHGA/LUgKdf
+ 41rmYZIdJUXLglJHmnQKx7x3k6vrxIrHfcB6yNQ0Muf7hCZCW04lCwi5aokGKuGxS+4R
+ OW2V2tvB2U4Eh0UAINTTSddInP/T8SxM5/ZZAN+mn4DqDr3hG2RiH8bz9gCiegwjmVU5
+ V+ZA==
+X-Gm-Message-State: AOAM531j9rJw2WkxE6UfUwJQRiYmnESt/YeLLLXdaIaHXjlIZDwypr1+
+ DNZHjtMwigo8tD4uN5IO5BnlPPD63bvCiYK/pSs=
+X-Google-Smtp-Source: ABdhPJzWbHC/EWrSaiSqufm7TdYhQCSUNjjs/NfiCg4SoYTWgvaJ/P4DJQy1crUNBRQRIEFqdx5lQk5BQxYKmV2vMsE=
+X-Received: by 2002:a4a:3412:: with SMTP id b18mr3729013ooa.23.1642098527456; 
+ Thu, 13 Jan 2022 10:28:47 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220113071132.70647-1-yang.lee@linux.alibaba.com>
+ <DM5PR12MB246922D4EC5729F76E481CD2F1539@DM5PR12MB2469.namprd12.prod.outlook.com>
+In-Reply-To: <DM5PR12MB246922D4EC5729F76E481CD2F1539@DM5PR12MB2469.namprd12.prod.outlook.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 13 Jan 2022 13:28:36 -0500
+Message-ID: <CADnq5_NKKOjJCoi3qCBUGpy+HWgcUnVniSmRnMBfQ6V504Hemg@mail.gmail.com>
+Subject: Re: [PATCH -next 1/2 v2] drm/amdgpu: remove unneeded semicolon
+To: "Chen, Guchun" <Guchun.Chen@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,97 +65,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: john.c.harrison@intel.com
+Cc: "airlied@linux.ie" <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Abaci Robot <abaci@linux.alibaba.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Yang Li <yang.lee@linux.alibaba.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>, "Koenig,
+ Christian" <Christian.Koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the i915 there are several hacks in place to make request cancellation
-work with an old version of the GuC which delivered the G2H indicating
-schedule disable is done before G2H indicating a context reset. Version
-69 fixes this, so we can remove these hacks.
+Applied.  Thanks!
 
-v2:
- (Checkpatch)
-  - s/cancelation/cancellation
+Alex
 
-Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
----
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 30 ++-----------------
- 1 file changed, 2 insertions(+), 28 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 23a40f10d376d..3918f1be114fa 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -1533,7 +1533,6 @@ static void __guc_reset_context(struct intel_context *ce, bool stalled)
- 	unsigned long flags;
- 	u32 head;
- 	int i, number_children = ce->parallel.number_children;
--	bool skip = false;
- 	struct intel_context *parent = ce;
- 
- 	GEM_BUG_ON(intel_context_is_child(ce));
-@@ -1544,23 +1543,10 @@ static void __guc_reset_context(struct intel_context *ce, bool stalled)
- 	 * GuC will implicitly mark the context as non-schedulable when it sends
- 	 * the reset notification. Make sure our state reflects this change. The
- 	 * context will be marked enabled on resubmission.
--	 *
--	 * XXX: If the context is reset as a result of the request cancellation
--	 * this G2H is received after the schedule disable complete G2H which is
--	 * wrong as this creates a race between the request cancellation code
--	 * re-submitting the context and this G2H handler. This is a bug in the
--	 * GuC but can be worked around in the meantime but converting this to a
--	 * NOP if a pending enable is in flight as this indicates that a request
--	 * cancellation has occurred.
- 	 */
- 	spin_lock_irqsave(&ce->guc_state.lock, flags);
--	if (likely(!context_pending_enable(ce)))
--		clr_context_enabled(ce);
--	else
--		skip = true;
-+	clr_context_enabled(ce);
- 	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
--	if (unlikely(skip))
--		goto out_put;
- 
- 	/*
- 	 * For each context in the relationship find the hanging request
-@@ -1592,7 +1578,6 @@ static void __guc_reset_context(struct intel_context *ce, bool stalled)
- 	}
- 
- 	__unwind_incomplete_requests(parent);
--out_put:
- 	intel_context_put(parent);
- }
- 
-@@ -2531,12 +2516,6 @@ static void guc_context_cancel_request(struct intel_context *ce,
- 					true);
- 		}
- 
--		/*
--		 * XXX: Racey if context is reset, see comment in
--		 * __guc_reset_context().
--		 */
--		flush_work(&ce_to_guc(ce)->ct.requests.worker);
--
- 		guc_context_unblock(block_context);
- 		intel_context_put(ce);
- 	}
-@@ -3971,12 +3950,7 @@ static void guc_handle_context_reset(struct intel_guc *guc,
- {
- 	trace_intel_context_reset(ce);
- 
--	/*
--	 * XXX: Racey if request cancellation has occurred, see comment in
--	 * __guc_reset_context().
--	 */
--	if (likely(!intel_context_is_banned(ce) &&
--		   !context_blocked(ce))) {
-+	if (likely(!intel_context_is_banned(ce))) {
- 		capture_error_state(guc, ce);
- 		guc_context_replay(ce);
- 	} else {
--- 
-2.34.1
-
+On Thu, Jan 13, 2022 at 8:38 AM Chen, Guchun <Guchun.Chen@amd.com> wrote:
+>
+> Series is:
+> Reviewed-by: Guchun Chen <guchun.chen@amd.com>
+>
+> Regards,
+> Guchun
+>
+> -----Original Message-----
+> From: Yang Li <yang.lee@linux.alibaba.com>
+> Sent: Thursday, January 13, 2022 3:12 PM
+> To: airlied@linux.ie; Chen, Guchun <Guchun.Chen@amd.com>
+> Cc: daniel@ffwll.ch; Deucher, Alexander <Alexander.Deucher@amd.com>; Koen=
+ig, Christian <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>;=
+ amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; linux-kern=
+el@vger.kernel.org; Yang Li <yang.lee@linux.alibaba.com>; Abaci Robot <abac=
+i@linux.alibaba.com>
+> Subject: [PATCH -next 1/2 v2] drm/amdgpu: remove unneeded semicolon
+>
+> Eliminate the following coccicheck warning:
+> ./drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:2725:16-17: Unneeded semicolon
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/am=
+d/amdgpu/amdgpu_ras.c
+> index d4d9b9ea8bbd..ff9bd5a844fe 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+> @@ -2722,7 +2722,7 @@ struct amdgpu_ras* amdgpu_ras_get_context(struct am=
+dgpu_device *adev)  int amdgpu_ras_set_context(struct amdgpu_device *adev, =
+struct amdgpu_ras* ras_con)  {
+>         if (!adev)
+> -       return -EINVAL;;
+> +               return -EINVAL;
+>
+>         adev->psp.ras_context.ras =3D ras_con;
+>         return 0;
+> --
+> 2.20.1.7.g153144c
+>
