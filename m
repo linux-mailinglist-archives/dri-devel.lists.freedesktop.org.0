@@ -1,59 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80D0348DBD5
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 17:32:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B71248DBF0
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 17:37:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0E8310E274;
-	Thu, 13 Jan 2022 16:32:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27FA510E11D;
+	Thu, 13 Jan 2022 16:37:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
- [IPv6:2607:f8b0:4864:20::1035])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD18110E274;
- Thu, 13 Jan 2022 16:32:14 +0000 (UTC)
-Received: by mail-pj1-x1035.google.com with SMTP id hv15so11150785pjb.5;
- Thu, 13 Jan 2022 08:32:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+3q5GmFbYNyEJgrrlP1Ic3dY/1SWaaTPA9VEhYfsQJU=;
- b=d2Xxijoqk1QxRW3U9287LjfQMlQt+Zec3Aq3Nchqnw2EWG+HksVI/vEUzpHE/dfibA
- UZER/wPc+2d3Xj+o6c6iamOXGQAZIs+YtR4EBaekNegFq4Mko78lNZzwRda2/s5YeeaZ
- 7xHycysmT01PaDS+tM43VLDWaUUO/epZW9nen5LXHCIWPFrxAqkvBXaIthJ4gxDv7lh5
- Kgn5MmaGRKqqwLvokqAskJ/lyShZLolLBISSnVHJKWZ6Hza0HU3Ne4CoFzucpfdqijK1
- y0/Ob77r/LjPOdqB9gun5GShbWxLXj3Nixw5KVs2XXGDfkfyUi1FB9KChHfeiCP0KX+h
- 2tgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+3q5GmFbYNyEJgrrlP1Ic3dY/1SWaaTPA9VEhYfsQJU=;
- b=kP5Kt+H4SguJGBp3AwmElQT6JcmNJYcXbayyzcb7AO6gQ0tJMxSP8/LY4ivCnfi7Gd
- LtrPYmF7AeOvb1Qsn+WcVUlwIeX2m2cXeELDHi+GBNHnS8mss1Fw0BulFd13KcTV426Z
- g4zgsXj3aDDr8Ada+p/f4ymh3XRs8CpMYTyPMImvxogdDo2yS5wLEjQRx9z+Jx5UBkj6
- Du5FziGcfwhdOmCvcSht92zmkv6q1MggCjRPAt45PJ6z2PAlnDJinqchM163qOl8ViCA
- IaEOxGD0L9Dmz71rLbqFbNTh+/zfOhqGbIcKp7syvwyN/hZtTq7iAWZ6/eHTRJB2UIIN
- rVnQ==
-X-Gm-Message-State: AOAM5328gbIle0lSF3c2DOXhA4v/DvlYMbyoOY+bu5NhYzlz6E0kqBcd
- BCKmmoImyNzT98Q5MpAFWEwVI898OPU=
-X-Google-Smtp-Source: ABdhPJyJl32B4r9KsE63UDv2Xaa30wFKuy2pT+8hjSFdNf9DEJ1Gz6eszjXC7Cb2AJywPnufEKWtBA==
-X-Received: by 2002:a17:90a:458d:: with SMTP id
- v13mr14966962pjg.202.1642091533656; 
- Thu, 13 Jan 2022 08:32:13 -0800 (PST)
-Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
- by smtp.gmail.com with ESMTPSA id j18sm2661612pgi.78.2022.01.13.08.32.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Jan 2022 08:32:12 -0800 (PST)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/msm/a6xx: Add missing suspend_count increment
-Date: Thu, 13 Jan 2022 08:32:13 -0800
-Message-Id: <20220113163215.215367-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14B3610E11D
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 16:37:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1642091845;
+ bh=yGltahdFA8voNhFKOM2y4nHCd9JPvoplrWag2WJYaGI=;
+ h=X-UI-Sender-Class:Date:To:Cc:From:Subject;
+ b=GH0pLxTUG/nEDu2CdmZIMKAEVvOvZLjPiFBeKW4RjdeI6wTxWsEkbZMC8OKf1nsbA
+ 3kVzGhKWFXsBmGdyNMaCMHdmEMl085oeg8YikNixzKnJ8ni6JJpt0zA+DUoRdadrEG
+ vTxKLHH2sz9IA+XCKe/e9tzpp4G0So8LK068zg7U=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.168.79]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MwfWU-1mOSru3CNm-00yB3G; Thu, 13
+ Jan 2022 17:37:24 +0100
+Message-ID: <feea8303-2b83-fc36-972c-4fc8ad723bde@gmx.de>
+Date: Thu, 13 Jan 2022 17:36:22 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Content-Language: en-US
+To: Hamza Mahfooz <someguy@effective-light.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>
+From: Helge Deller <deller@gmx.de>
+Subject: Re: fbdev: Garbage collect fbdev scrolling acceleration
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:cc+w+B/M+wCv77nv/vrRsmWTJd6gJIA4q1SszD+FK29AhNXau+d
+ nOk7unOChwYFZrcp9ozg+hzFVdon0Go6qcrjram2Pre3nRswc2oEMTotn9tiNvuyMtKYbW2
+ r8O6MmHlDcsbvvfY0Yj2H9AV3sQDChAL5RnZcNABAvo/Mx0ohAy5dJrCimFPxJB2yNcJM8s
+ wjxGUHbyl+LXA2xuTwrOQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ln9rN6HzNtA=:BV0hilbkS868qMf/FkNhVy
+ T8B2/xTQq4avho+UuLPz08ZLcKxFJMXkgDvqljeUfsX6Ler0ac9n4WxnUQS/+CCoQ92MmUbmi
+ d033fvqgyNJXd5eC6ziK57/u1PtvMfXqZ5uhF9uZq427imjDOuRxPZ6XK5dcyR/TY6bfbN0ZX
+ tWuLUgA8DIuoPxu6piW6VwOWmDheMqBNYaf88NgFpfIR27bvr/Rwyy9vc8I8KIQMNganX8NuB
+ Jxr6ZbTY/GwJjbPSbuZ7JHtmOl7CGOgnJ3Nk0d/4tDC+jfMqXcYH/tMxQJAcEMG5C7HjvlZLQ
+ oHMPgCSUa04Ko/0PSXcCmtcRHct62fE8JPWY+nDnO1grmQmkIYawoxSrEKY5Sx0dzcEhXmU1L
+ yI1zlY7Larmz+bgz6EVNDN6NvZ7TaoLa0z57qkBk0TD5uTnz4vj8+f0Wyose02iYFBmDgiBBb
+ 1i5LWnq0iCjELqP2lMnZncLlr3Q+hZ2DpI7nh6ehjylATMpPP3vcbss915K1MDu25NvBkXKlG
+ XHZTKRmgBh3aKRYefECCIdUpDrzk0LM4VQ7Ikm7j81VqQ1vFzhda6D4YOAZPZGhEO6qE/pmMt
+ 6vavVt8w3+i4qe27rb+cQ8hY8z1lITswF4qua960657oVIVEzLUNikvbkmGMhUMrnv71iWZbY
+ /vAIuu97ANHuVWNOtr/f3k2btakGh3cY9h1eAVBwXJqwgCMciS/TKRGNCG6iHZ0jW5Ty9TezF
+ ZjGJXCBJl3Nybm5ty33pzMYOxXRBvrUMZFaH+6s4ie1ph2L03bFi4SPOn8u7Qfb35dhPye0u7
+ hD4A3BdsQSaMH0NdxNDhW8yJQCayOXzFMIZ7vJs8iEd0qoW0pIksClvCEoBmxX79LnrmczuU7
+ yJTV4WevNnhQChyTuo9nrbSwLX/Tn8iAim0joG70QYmIJxG/OUPn2RQMM7bnuLFnwL1vrsan3
+ OUCuop2kkgkzMyZnJGN7lOgFDJsjCprCJz1t+SWtNT7B2g++TNXr3cS64itiHJRAtHlj2sIvk
+ GrCljUEV4cDCjz4D/H0fAse77SOPhJzqf504OQTZIwFY8GpMlmCxFG6bwzqPCbumNOJ3mqaP5
+ DUzAK3duDn1d2k=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,41 +70,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Douglas Anderson <dianders@chromium.org>,
- open list <linux-kernel@vger.kernel.org>, Jonathan Marek <jonathan@marek.ca>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Danylo Piliaiev <dpiliaiev@igalia.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>, freedreno@lists.freedesktop.org,
- Eric Anholt <eric@anholt.net>
+Cc: Sven Schnelle <svens@stackframe.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+I may have missed some discussions, but I'm objecting against this patch:
 
-Reported-by: Danylo Piliaiev <dpiliaiev@igalia.com>
-Fixes: 3ab1c5cc3939 ("drm/msm: Add param for userspace to query suspend count")
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 2 ++
- 1 file changed, 2 insertions(+)
+	b3ec8cdf457e5 ("fbdev: Garbage collect fbdev scrolling acceleration, part 1 (from TODO list)")
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 51b83776951b..17cfad6424db 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -1560,6 +1560,8 @@ static int a6xx_pm_suspend(struct msm_gpu *gpu)
- 		for (i = 0; i < gpu->nr_rings; i++)
- 			a6xx_gpu->shadow[i] = 0;
- 
-+	gpu->suspend_count++;
-+
- 	return 0;
- }
- 
--- 
-2.34.1
+Can we please (partly) revert it and restore the scrolling behaviour,
+where fbcon uses fb_copyarea() to copy the screen contents instead of
+redrawing the whole screen?
 
+I'm fine with dropping the ypan-functionality.
+
+Maybe on fast new x86 boxes the performance difference isn't huge,
+but for all old systems, or when emulated in qemu, this makes
+a big difference.
+
+Helge
