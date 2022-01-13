@@ -2,58 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65A0D48D1A5
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 05:25:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6490B48D22C
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jan 2022 07:05:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E538010E1C9;
-	Thu, 13 Jan 2022 04:25:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8123E10E26A;
+	Thu, 13 Jan 2022 06:04:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
- [IPv6:2607:f8b0:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFC8910E5FD
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 04:25:40 +0000 (UTC)
-Received: by mail-oi1-x230.google.com with SMTP id g205so6199051oif.5
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jan 2022 20:25:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=hOJyvOSbThwu+QP4lcC5VRMHJ9Gf10Mr2Em/YOYWYbk=;
- b=AKNXIEa3uoJszAFx/Q8Df9Kg5xa2u6fKenb78GUjwdXWtnCteJh6avAiS8oevT+s+k
- NHaj16xl+Qwpi5gJy++7R7G6iwvQJHH+vGP4Lm+68/0d0ThWDP+DDzM02nwmlHeL6P20
- e75y/SI2FfHqxsUfa+CudWEm56BTNYGveV2+s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=hOJyvOSbThwu+QP4lcC5VRMHJ9Gf10Mr2Em/YOYWYbk=;
- b=rI7WoR5+jaGnDse+T+qnhow8CUKcPZmP9I4toDMpEBDvMJANWUNtp9WIAkTkfVCF+J
- 0XnzmxwLBzGEufHM2+S9xdI9S2jS+J3dCfq1/x/33j4huia0F82EUsHtupqe/BZ1Tu8Q
- B8GCCQs/ADSM73ki9F21oBakZXV2V3X2C1zFY9HjwR5nXkWaZrRitqRUs//ma2msLS3f
- 4Ox/nL/QjCRaof+q59nuULyyOLclE0DwsGCedQrqn88uWrs3D+Oxodu4YAMZA9O8UeA4
- yL6lwzrwRvohsodIRSnd2lrn36UIAbchTT7Qei3SdG/7ne7KYYjjfyeyXAVKJPDybPDO
- vRlw==
-X-Gm-Message-State: AOAM5329xJ0M1fZvwkoS7os2AcB67sxVtIsrGc85xUkNUEwUcjwso35j
- Gy3DBmj1Wbyxl7PKpY2m5Snevr0vcQDE7wd/w2AUnQ==
-X-Google-Smtp-Source: ABdhPJxrvJfe4npB2ZG64Di6xVANLUpa34m0XDfE47xF6cHvLcUVRQzP10HeZhAPB9Nbe7sVFir4+/cMqLM98w7inas=
-X-Received: by 2002:aca:a953:: with SMTP id s80mr7557861oie.164.1642047939842; 
- Wed, 12 Jan 2022 20:25:39 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 12 Jan 2022 20:25:39 -0800
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2710910E26A;
+ Thu, 13 Jan 2022 06:04:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1642053897; x=1673589897;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=HRDZv2zkE0ifg8B4KC3f6hn6niZT5pSPDTveZdUJ4ek=;
+ b=QkygsCTfSani5H8RSGPntihHwkrqlaDWpMsQ7R0pxEkdG4pM4dBY9Gml
+ V0wVS5TknsK38X27eDE1WnSSf2KyYfxlZkKrVQIt3A3mLcC8n5/ChEhNw
+ /UsmgIxfDByXvt/kGCbgHbJEWKvsFDWqIwendQOriedplxPGamFcLOX/+
+ Yz+fJXSknxUKJ/RbowlsuLu6RpO325FnEts36BYNiBBuUf2AGtuj/759z
+ WBrytyjxmyuQXnWhOS5CsoJxFO7zQLN5smAqrc/RMdqICD0B5GUGMSGxL
+ z83rBnuyJcnWyM5rGChnnd+ymJiC3y6phxhx3SwF3qKaj049pF0GSjmMp Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10225"; a="304674962"
+X-IronPort-AV: E=Sophos;i="5.88,284,1635231600"; d="scan'208";a="304674962"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jan 2022 22:04:56 -0800
+X-IronPort-AV: E=Sophos;i="5.88,284,1635231600"; d="scan'208";a="691683969"
+Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jan 2022 22:04:55 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: <intel-gfx@lists.freedesktop.org>,
+	<dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/i915/guc: Ensure multi-lrc fini breadcrumb math is correct
+Date: Wed, 12 Jan 2022 21:59:03 -0800
+Message-Id: <20220113055903.7607-1-matthew.brost@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-In-Reply-To: <ff81bc1fe1f1c2060fcf03ba14f1bef584c47599.camel@mediatek.com>
-References: <20220106214556.2461363-1-swboyd@chromium.org>
- <20220106214556.2461363-26-swboyd@chromium.org>
- <1a3b368eb891ca55c33265397cffab0b9f128737.camel@mediatek.com>
- <CAE-0n53Y3WRy4_QvUm9k9wjjWV7adMDQcK_+1ji4+W25SSeGwg@mail.gmail.com>
- <ff81bc1fe1f1c2060fcf03ba14f1bef584c47599.camel@mediatek.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date: Wed, 12 Jan 2022 20:25:39 -0800
-Message-ID: <CAE-0n53FAHDmCznJ35Xh2aTwXBVwukAM3ioKx8SU9VowSaQSqA@mail.gmail.com>
-Subject: Re: [PATCH v5 25/32] iommu/mtk: Migrate to aggregate driver
-To: Yong Wu <yong.wu@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,125 +54,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: youlin.pei@mediatek.com, Saravana Kannan <saravanak@google.com>,
- Will Deacon <will@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Joerg Roedel <joro@8bytes.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, Russell King <rmk+kernel@arm.linux.org.uk>,
- freedreno@lists.freedesktop.org
+Cc: daniele.ceraolospurio@intel.com, john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Yong Wu (2022-01-12 01:09:19)
-> On Tue, 2022-01-11 at 16:27 -0800, Stephen Boyd wrote:
-> > ---8<---
-> > diff --git a/drivers/base/component.c b/drivers/base/component.c
-> > index 64ad7478c67a..97f253a41bdf 100644
-> > --- a/drivers/base/component.c
-> > +++ b/drivers/base/component.c
-> > @@ -492,15 +492,30 @@ static struct aggregate_device
-> > *__aggregate_find(struct device *parent)
-> >       return dev ? to_aggregate_device(dev) : NULL;
-> >  }
-> >
-> > +static DEFINE_MUTEX(aggregate_mutex);
-> > +
-> >  static int aggregate_driver_register(struct aggregate_driver *adrv)
-> >  {
-> > -     adrv->driver.bus = &aggregate_bus_type;
-> > -     return driver_register(&adrv->driver);
-> > +     int ret = 0;
-> > +
-> > +     mutex_lock(&aggregate_mutex);
-> > +     if (!refcount_inc_not_zero(&adrv->count)) {
-> > +             adrv->driver.bus = &aggregate_bus_type;
-> > +             ret = driver_register(&adrv->driver);
-> > +             if (!ret)
-> > +                     refcount_inc(&adrv->count);
->
-> This should be refcount_set(&adrv->count, 1)?
->
-> Otherwise, it will warning like this:
+Realized that the GuC multi-lrc fini breadcrumb emit code is very
+delicate as the math this code does relies on functions it calls to emit
+a certain number of DWs. Add a few GEM_BUG_ONs to assert the math is
+correct.
 
-Yeah I'll fix it, thanks.
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+---
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 32 +++++++++++++++----
+ 1 file changed, 26 insertions(+), 6 deletions(-)
 
->
-> [    2.654526] ------------[ cut here ]------------
-> [    2.655558] refcount_t: addition on 0; use-after-free.
->
-> After this patch, the aggregate_driver flow looks ok. But our driver
-> still aborts like this:
->
-> [    2.721316] Unable to handle kernel NULL pointer dereference at
-> virtual address 0000000000000000
-> ...
-> [    2.731658] pc : mtk_smi_larb_config_port_gen2_general+0xa4/0x138
-> [    2.732434] lr : mtk_smi_larb_resume+0x54/0x98
-> ...
-> [    2.742457] Call trace:
-> [    2.742768]  mtk_smi_larb_config_port_gen2_general+0xa4/0x138
-> [    2.743496]  pm_generic_runtime_resume+0x2c/0x48
-> [    2.744090]  __genpd_runtime_resume+0x30/0xa8
-> [    2.744648]  genpd_runtime_resume+0x94/0x2c8
-> [    2.745191]  __rpm_callback+0x44/0x150
-> [    2.745669]  rpm_callback+0x6c/0x78
-> [    2.746114]  rpm_resume+0x314/0x558
-> [    2.746559]  __pm_runtime_resume+0x3c/0x88
-> [    2.747080]  pm_runtime_get_suppliers+0x7c/0x110
-> [    2.747668]  __driver_probe_device+0x4c/0xe8
-> [    2.748212]  driver_probe_device+0x44/0x130
-> [    2.748745]  __device_attach_driver+0x98/0xd0
-> [    2.749300]  bus_for_each_drv+0x68/0xd0
-> [    2.749787]  __device_attach+0xec/0x148
-> [    2.750277]  device_attach+0x14/0x20
-> [    2.750733]  bus_rescan_devices_helper+0x50/0x90
-> [    2.751319]  bus_for_each_dev+0x7c/0xd8
-> [    2.751806]  bus_rescan_devices+0x20/0x30
-> [    2.752315]  __component_add+0x7c/0xa0
-> [    2.752795]  component_add+0x14/0x20
-> [    2.753253]  mtk_smi_larb_probe+0xe0/0x120
->
-> This is because the device runtime_resume is called before the bind
-> operation(In our case this detailed function is mtk_smi_larb_bind).
-> The issue doesn't happen without this patchset. I'm not sure the right
-> sequence. If we should fix in mediatek driver, the patch could be:
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+index 3ae92260f8224..d562d85f96871 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+@@ -4493,27 +4493,31 @@ static inline bool skip_handshake(struct i915_request *rq)
+ 	return test_bit(I915_FENCE_FLAG_SKIP_PARALLEL, &rq->fence.flags);
+ }
+ 
++#define NON_SKIP_LEN	6
+ static u32 *
+ emit_fini_breadcrumb_parent_no_preempt_mid_batch(struct i915_request *rq,
+ 						 u32 *cs)
+ {
+ 	struct intel_context *ce = rq->context;
++	__maybe_unused u32 *before_fini_breadcrumb_user_interrupt_cs;
++	__maybe_unused u32 *start_fini_breadcrumb_cs = cs;
+ 
+ 	GEM_BUG_ON(!intel_context_is_parent(ce));
+ 
+ 	if (unlikely(skip_handshake(rq))) {
+ 		/*
+ 		 * NOP everything in __emit_fini_breadcrumb_parent_no_preempt_mid_batch,
+-		 * the -6 comes from the length of the emits below.
++		 * the NON_SKIP_LEN comes from the length of the emits below.
+ 		 */
+ 		memset(cs, 0, sizeof(u32) *
+-		       (ce->engine->emit_fini_breadcrumb_dw - 6));
+-		cs += ce->engine->emit_fini_breadcrumb_dw - 6;
++		       (ce->engine->emit_fini_breadcrumb_dw - NON_SKIP_LEN));
++		cs += ce->engine->emit_fini_breadcrumb_dw - NON_SKIP_LEN;
+ 	} else {
+ 		cs = __emit_fini_breadcrumb_parent_no_preempt_mid_batch(rq, cs);
+ 	}
+ 
+ 	/* Emit fini breadcrumb */
++	before_fini_breadcrumb_user_interrupt_cs = cs;
+ 	cs = gen8_emit_ggtt_write(cs,
+ 				  rq->fence.seqno,
+ 				  i915_request_active_timeline(rq)->hwsp_offset,
+@@ -4523,6 +4527,12 @@ emit_fini_breadcrumb_parent_no_preempt_mid_batch(struct i915_request *rq,
+ 	*cs++ = MI_USER_INTERRUPT;
+ 	*cs++ = MI_NOOP;
+ 
++	/* Ensure our math for skip + emit is correct */
++	GEM_BUG_ON(before_fini_breadcrumb_user_interrupt_cs + NON_SKIP_LEN !=
++		   cs);
++	GEM_BUG_ON(start_fini_breadcrumb_cs +
++		   ce->engine->emit_fini_breadcrumb_dw != cs);
++
+ 	rq->tail = intel_ring_offset(rq, cs);
+ 
+ 	return cs;
+@@ -4565,22 +4575,25 @@ emit_fini_breadcrumb_child_no_preempt_mid_batch(struct i915_request *rq,
+ 						u32 *cs)
+ {
+ 	struct intel_context *ce = rq->context;
++	__maybe_unused u32 *before_fini_breadcrumb_user_interrupt_cs;
++	__maybe_unused u32 *start_fini_breadcrumb_cs = cs;
+ 
+ 	GEM_BUG_ON(!intel_context_is_child(ce));
+ 
+ 	if (unlikely(skip_handshake(rq))) {
+ 		/*
+ 		 * NOP everything in __emit_fini_breadcrumb_child_no_preempt_mid_batch,
+-		 * the -6 comes from the length of the emits below.
++		 * the NON_SKIP_LEN comes from the length of the emits below.
+ 		 */
+ 		memset(cs, 0, sizeof(u32) *
+-		       (ce->engine->emit_fini_breadcrumb_dw - 6));
+-		cs += ce->engine->emit_fini_breadcrumb_dw - 6;
++		       (ce->engine->emit_fini_breadcrumb_dw - NON_SKIP_LEN));
++		cs += ce->engine->emit_fini_breadcrumb_dw - NON_SKIP_LEN;
+ 	} else {
+ 		cs = __emit_fini_breadcrumb_child_no_preempt_mid_batch(rq, cs);
+ 	}
+ 
+ 	/* Emit fini breadcrumb */
++	before_fini_breadcrumb_user_interrupt_cs = cs;
+ 	cs = gen8_emit_ggtt_write(cs,
+ 				  rq->fence.seqno,
+ 				  i915_request_active_timeline(rq)->hwsp_offset,
+@@ -4590,10 +4603,17 @@ emit_fini_breadcrumb_child_no_preempt_mid_batch(struct i915_request *rq,
+ 	*cs++ = MI_USER_INTERRUPT;
+ 	*cs++ = MI_NOOP;
+ 
++	/* Ensure our math for skip + emit is correct */
++	GEM_BUG_ON(before_fini_breadcrumb_user_interrupt_cs + NON_SKIP_LEN !=
++		   cs);
++	GEM_BUG_ON(start_fini_breadcrumb_cs +
++		   ce->engine->emit_fini_breadcrumb_dw != cs);
++
+ 	rq->tail = intel_ring_offset(rq, cs);
+ 
+ 	return cs;
+ }
++#undef NON_SKIP_LEN
+ 
+ static struct intel_context *
+ guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count,
+-- 
+2.34.1
 
-Oh, the runtime PM is moved around with these patches. The aggregate
-device is runtime PM enabled before the probe is called, and there are
-supplier links made to each component, so each component is runtime
-resumed before the aggregate probe function is called. It means that all
-the component drivers need to have their resources ready to power on
-before their component_bind() callback is made. Thinking more about it
-that may be wrong if something from the aggregate device is needed to
-fully power on the component. Is that what is happening here?
-
->
->
-> diff --git a/drivers/memory/mtk-smi.c b/drivers/memory/mtk-smi.c
-> index b883dcc0bbfa..288841555067 100644
-> --- a/drivers/memory/mtk-smi.c
-> +++ b/drivers/memory/mtk-smi.c
-> @@ -483,8 +483,9 @@ static int __maybe_unused
-> mtk_smi_larb_resume(struct device *dev)
->         if (ret < 0)
->                 return ret;
->
-> -       /* Configure the basic setting for this larb */
-> -       larb_gen->config_port(dev);
-> +       /* Configure the basic setting for this larb after it binds
-> with iommu */
-> +       if (larb->mmu)
-> +               larb_gen->config_port(dev);
->
->         return 0;
->  }
->
->
-> Another nitpick, the title should be: iommu/mediatek: xxxx
->
-
-Fixed it.
