@@ -1,57 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22B9148EB9F
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 15:25:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F139448EBB5
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 15:33:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05FC310E457;
-	Fri, 14 Jan 2022 14:25:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A8CE10E530;
+	Fri, 14 Jan 2022 14:33:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAE8F10E457;
- Fri, 14 Jan 2022 14:25:02 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C17B910E530
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 14:33:11 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 6542A1F38F;
- Fri, 14 Jan 2022 14:25:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1642170301; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=kMa4tcHPdUVoPVHnNH087X7fOo45Y+uaZcfGsJ8XcVA=;
- b=fSxzK0MJPhKjUi7/wOSyyDRs6V04IAzZTdzK9VrCm892aaQGelfeAX5PAtFqBq3cYRScnu
- JIKrMNWYE56Z83oSb0046+8Pl3Acol1UjlFf9PRvK+eiQ0kjP4dqCuwltgT6763qSX87L+
- bjo8YH86eYdlGN2U8GqtsHcUR9vOJ28=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1642170301;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=kMa4tcHPdUVoPVHnNH087X7fOo45Y+uaZcfGsJ8XcVA=;
- b=tMB9h39vA0oVW0cDoPTrWodhyo4PVBcnKQZftp1cxeikizPZLV8g6GSqh+j58gel2TmIy3
- bzd7XFoI0KpLDlAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1830813B7F;
- Fri, 14 Jan 2022 14:25:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id MeFYBL2H4WEJMAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 14 Jan 2022 14:25:01 +0000
-Date: Fri, 14 Jan 2022 15:24:59 +0100
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-next-fixes
-Message-ID: <YeGHu7qU92pjuQOn@linux-uq9g>
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 8EC3883311;
+ Fri, 14 Jan 2022 15:33:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1642170790;
+ bh=kggVLQQepRZ5SRD6pRr9X4uZX7fNamf01m2b8BA8vy4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=ppxX8hYkWFYHntt8GB8gj94baiDozhOkLdgqd4Pp2qJporFmmacvrXfmHWPCuwwZQ
+ M/y9zipe8uY8MFkGvj2oNIXKUIoKUevUZmQ7YjBPemzdTMxtEQd7M0g8UQ8CWrFatU
+ 8nRfiZfGriV8srV7GkCGTugj6rMdK7vVXW7RoD8itnML62LyR5prPNcm/1kMVZDuNe
+ DJk/vsoZJcrIqEaoq5bUZ4MRQh4zhy+4DMqdFvmILXnN/Nx2ioj2by7LwhybTn8JEj
+ uHRTj6fXnkp/zATfLFSus9pFyyNhYWR0vO9IuL0oium6u5m8+SyUO6+K75i2vxM+1E
+ hOZEFCahp609Q==
+Message-ID: <f12cf454-8579-1094-865e-4293389fee24@denx.de>
+Date: Fri, 14 Jan 2022 15:33:08 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [PATCH 01/14] drm: bridge: icn6211: Fix register layout
+Content-Language: en-US
+To: Jagan Teki <jagan@amarulasolutions.com>
+References: <20220114034838.546267-1-marex@denx.de>
+ <CAMty3ZBN3qLEieJ3YQ_jZDXYRpQ-gGn48_hRZm1-jsco0rkJsw@mail.gmail.com>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <CAMty3ZBN3qLEieJ3YQ_jZDXYRpQ-gGn48_hRZm1-jsco0rkJsw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,58 +56,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Robert Foss <robert.foss@linaro.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+On 1/14/22 09:16, Jagan Teki wrote:
 
-here are two more fixes for this week. I cherry-picked both from 
-drm-misc-next.
+Hi
 
-Best regards
-Thomas
+[...]
 
-drm-misc-next-fixes-2022-01-14:
- * atomic helpers: Fix error messages
- * mipi-dbi: Fix buffer mapping
-The following changes since commit 5da8b49de472c1da8658466d4f63ef8d9251a819:
+>> Fill in the actual register names and bits from [1] and [2] and add the
+>> entire register layout, since the documentation for this chip is hard to
+>> come by.
+>>
+>> [1] https://github.com/rockchip-linux/kernel/blob/develop-4.19/drivers/gpu/drm/bridge/icn6211.c
+>> [2] https://github.com/tdjastrzebski/ICN6211-Configurator
 
-  dt-bindings: display: bridge: lvds-codec: Fix duplicate key (2021-12-22 14:02:04 -0400)
+[...]
 
-are available in the Git repository at:
+>>          /* icn6211 specific sequence */
+>> -       ICN6211_DSI(icn, 0xb6, 0x20);
+>> -       ICN6211_DSI(icn, 0x51, 0x20);
+>> -       ICN6211_DSI(icn, 0x09, 0x10);
+>> +       ICN6211_DSI(icn, MIPI_FORCE_0, 0x20);
+>> +       ICN6211_DSI(icn, PLL_CTRL(1), 0x20);
+>> +       ICN6211_DSI(icn, CONFIG_FINISH, 0x10);
+> 
+> All these fixes and few of features support are valid only for
+> I2C-based ICN6211.
 
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-2022-01-14
+No, they are valid for both DSI command mode configuration as well as 
+I2C configuration. They are also tested in both configurations, see patch
 
-for you to fetch changes up to 5d474cc501b90b82c182b5d00439eb6790a82e21:
+[PATCH 12/14] drm: bridge: icn6211: Add I2C configuration support
 
-  drm/mipi-dbi: Fix source-buffer address in mipi_dbi_buf_copy (2022-01-14 14:43:02 +0100)
+The register layout is exactly the same for DSI command mode and I2C 
+configuration mode too.
 
-----------------------------------------------------------------
- * atomic helpers: Fix error messages
- * mipi-dbi: Fix buffer mapping
+> If possible please confirm with the vendor.
 
-----------------------------------------------------------------
-Claudio Suarez (1):
-      drm: fix error found in some cases after the patch d1af5cd86997
+See the commit message, the datasheet is difficult to come by, however 
+there are FOSS driver(s) and tooling source which confirms the above.
 
-Liu Ying (1):
-      drm/atomic: Check new_crtc_state->active to determine if CRTC needs disable in self refresh mode
+> The
+> driver I've written based on non-I2C-based ICN6211 chip, which is
+> present in BananaPi Panel.
+> 
+> Chip part: ICN6211 A59058 1634.
+> 
+> Not sure, may be we can have separated bridge driver for I2C-based
+> ICN6211 that I don't have in my design for testing.
 
-Thomas Zimmermann (1):
-      drm/mipi-dbi: Fix source-buffer address in mipi_dbi_buf_copy
+There is only one ICN6211 chip variant, you can configure it either via 
+DSI command mode or I2C mode, both were tested with this series which 
+adds support for the later mode.
 
- drivers/gpu/drm/drm_atomic_helper.c | 14 +++++++-------
- drivers/gpu/drm/drm_mipi_dbi.c      |  2 +-
- 2 files changed, 8 insertions(+), 8 deletions(-)
-
--- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 Nürnberg, Germany
-(HRB 36809, AG Nürnberg)
-Geschäftsführer: Felix Imendörffer
+[...]
