@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CF2F48F24C
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 23:14:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2905948F25D
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 23:22:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 354DF10E25B;
-	Fri, 14 Jan 2022 22:14:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C90910E282;
+	Fri, 14 Jan 2022 22:22:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
- [IPv6:2607:f8b0:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12ADF10E25B;
- Fri, 14 Jan 2022 22:14:48 +0000 (UTC)
-Received: by mail-oi1-x233.google.com with SMTP id s127so14193088oig.2;
- Fri, 14 Jan 2022 14:14:48 -0800 (PST)
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
+ [IPv6:2607:f8b0:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9878D10E27B;
+ Fri, 14 Jan 2022 22:22:27 +0000 (UTC)
+Received: by mail-oi1-x232.google.com with SMTP id t9so14128366oie.12;
+ Fri, 14 Jan 2022 14:22:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hYV16qevHj4p7hlLpZ6J16ZgY/GOnmPRNbn5bSOrpF0=;
- b=pXObq9jNXB+xl5VNQoXixXjnKJNMmmzf2mRCw0cf9PNS8h0QeZ7tJ/kNZzfS91pgMl
- 6gTRVKWjU+c0fEf/lq+17cIotcYHE8+Xuulz05CJrjEBkrJV6fmdb8mn4xODwMPGwTFd
- BYpfifWCARc11AxRieTkORSa0DMh0H4HeRVdhyUSfSbPpQhnGLuuXUzY6KPnXvywFnoY
- 0/TBF6ub0df1eApPgahG8OXVpjKQKa6lgmXAYl+PqdL/r3h5Bgz7oxhscqNlooh9qTH6
- O63vC5IG9MyhhOd7tv2Htr1lNnfgvkzGgN7AzuZyqLlJGirKwjHsgKQHQG3te6FluhhR
- MRvw==
+ :cc; bh=OuFqSaMxaXSA3AG2hrBWHPE80p6dOgVotZ/6HyoHHDQ=;
+ b=DInweyXhj+pq4R0V0wEKu4edGsSit9iMrD9zEnh+MSBExEn8lPa7LJnvF+fyZsPx3P
+ AW4nKVFqc2/+znfySiTSmQ1L7lG/CFCyPwrzZt/gabEZ04jPhgN9NirWhIfboMrWhOgi
+ 6tfPgyogxPf22ql8cWDG3HgK2j/aO9VYWqeh3bBmD6LO0w0rFnLgrxtyHrO8A58OKAEF
+ 0Sd/hq7D9nQYkpTJmWHh/9biy+L/lGXtZVPtUziJEJ/Ji5RmZwGMlSgPe0HEuzpzgbbG
+ aM8Tuh4DFw06C6TScuQ1A7f3cdXIg3YhDMKvVZ4DbrqR5glCFds+r/BbMh7Z376Owp5d
+ fdmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=hYV16qevHj4p7hlLpZ6J16ZgY/GOnmPRNbn5bSOrpF0=;
- b=Zr81FMrwMZLf2q5Tg5qJrhma63xqyB3qTOAGyP8UeDONMRjOdNwDYTvvjb6hxswbXb
- rUZKhYAOEpDhYx++imtLbTeaChOYdyTe+7D0R8J6F8A3IsouhDAQmlyc8uiVHiBajZ6o
- gUxTa5OBYwxVoxvlL9mP8cWeHgekE8YDPlx0vKpwFn2o03pKItX/En+LN7woSjhpSdr+
- iwF1RVgWIvhm7GW3GP9VQB1gZwTQ8tsOir/9W6LMo5mL36jSwdB3HhpWETWGI+pdEDaj
- 5Dh028eDilJwFXotVNYBaGWdApjJYTeDPRVZhebW1NiTO7G9xD9hGMfRsQSG0tTBpiFL
- iRlg==
-X-Gm-Message-State: AOAM531kB8d9rygmw7zZIQpOXIs2OOhCuaMf8ipPVLcQn4ojP9HEkHFG
- xIHU4r/28+IrtA5Cz1RdSDC8+Ll4zfUV1pUYmA4=
-X-Google-Smtp-Source: ABdhPJweLPMcJclJfI9XNTVbnCxnkVCqxmj1qpkgHZgEpoFuH5bUKIeSNZUwzGC93g5CmQrRMDb859fmSpKl25OLqJQ=
+ bh=OuFqSaMxaXSA3AG2hrBWHPE80p6dOgVotZ/6HyoHHDQ=;
+ b=vxcOIG/eBf6+AApbnykY+o5wTQErkeO+cNCmawhMciIm4OycqQz2ewkj9tqifm5ptT
+ ZwP9pOp4fHuzY+ZWM/Rp8fFO8aRo609IkX8LzIfp9zIzHcTsNrRuX1YwN1o8y9PtNj+q
+ RrBZcA3XRAuQudQXeXYPqHAjfMr+VmBQxcHSkCPjjlhVj4mWQbQ+om7BbtcuwE9F7HQ9
+ 78r8jkbLO1PuZv1EQf6tY2SqbYxv73yruftIu0FWLAqp7w4JBErEPX504Vf3Hx93T0Z2
+ YdaKuBPAtkElLDdqrwTFTqLvMxOlhayJQ3V70UfyWdz/MDUyyDMyeIGvzThQTXb+xff8
+ zPpw==
+X-Gm-Message-State: AOAM532nc9jRGaPTFDwesCAB8CiytXH8VVnDK0rH3+I1FcrwiDcDVMFP
+ olrFmO+KVnuoaQk2Fdud6egsXSiEvxXFZTNgp8o=
+X-Google-Smtp-Source: ABdhPJyvgK+CZsm//lGNrHCH6ev3Ik3D8iP9ufTbc7sMAeJopB8avoD4Em0aJ/WF3OYVj7+qmcyUuAz690RTSGGAwCE=
 X-Received: by 2002:a05:6808:68f:: with SMTP id
- k15mr14120373oig.5.1642198487405; 
- Fri, 14 Jan 2022 14:14:47 -0800 (PST)
+ k15mr14140437oig.5.1642198946853; 
+ Fri, 14 Jan 2022 14:22:26 -0800 (PST)
 MIME-Version: 1.0
-References: <20220114092036.766001-1-deng.changcheng@zte.com.cn>
-In-Reply-To: <20220114092036.766001-1-deng.changcheng@zte.com.cn>
+References: <20220114104352.6107-1-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <20220114104352.6107-1-jiapeng.chong@linux.alibaba.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 14 Jan 2022 17:14:36 -0500
-Message-ID: <CADnq5_P_MOsTOoRWfe95pvJ9SR6FzfcP3Un6cy9_9WB2Nv-UxQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/pm: Replace one-element array with flexible-array
- member
-To: CGEL <cgel.zte@gmail.com>
+Date: Fri, 14 Jan 2022 17:22:15 -0500
+Message-ID: <CADnq5_Nn2BzODYyUZBq5Qy-7WURbejMi4amBeu3gvg5AdY9SdA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Remove redundant initialization of
+ dpg_width
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,48 +63,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: xinhui pan <Xinhui.Pan@amd.com>, Dave Airlie <airlied@linux.ie>,
- Zeal Robot <zealci@zte.com.cn>, "Lazar, Lijo" <lijo.lazar@amd.com>,
- deng.changcheng@zte.com.cn, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+Cc: xinhui pan <Xinhui.Pan@amd.com>, Abaci Robot <abaci@linux.alibaba.com>,
  LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>, "Quan, Evan" <evan.quan@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
  Christian Koenig <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Fri, Jan 14, 2022 at 4:20 AM <cgel.zte@gmail.com> wrote:
+On Fri, Jan 14, 2022 at 5:44 AM Jiapeng Chong
+<jiapeng.chong@linux.alibaba.com> wrote:
 >
-> From: Changcheng Deng <deng.changcheng@zte.com.cn>
+> dpg_width is being initialized to width but this is never read
+> as dpg_width is overwritten later on. Remove the redundant
+> initialization.
 >
-> There is a regular need in the kernel to provide a way to declare having
-> a dynamically sized set of trailing elements in a structure. Kernel code
-> should always use "flexible array members" for these cases. The older
-> style of one-element or zero-length arrays should no longer be used.
-> Reference:
-> https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays
+> Cleans up the following clang-analyzer warning:
 >
-> Reported-by: Zeal Robot <zealci@zte.com.cn>
-> Signed-off-by: Changcheng Deng <deng.changcheng@zte.com.cn>
+> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c:6020:8:
+> warning: Value stored to 'dpg_width' during its initialization is never
+> read [clang-analyzer-deadcode.DeadStores].
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 > ---
->  drivers/gpu/drm/amd/pm/powerplay/inc/smu_ucode_xfer_cz.h | 2 +-
+>  drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/inc/smu_ucode_xfer_cz.h b/drivers/gpu/drm/amd/pm/powerplay/inc/smu_ucode_xfer_cz.h
-> index eb0f79f9c876..701aae598b58 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/inc/smu_ucode_xfer_cz.h
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/inc/smu_ucode_xfer_cz.h
-> @@ -121,7 +121,7 @@ typedef struct SMU_Task SMU_Task;
+> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+> index 497470513e76..1f8831156bc4 100644
+> --- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+> @@ -6017,7 +6017,7 @@ static void set_crtc_test_pattern(struct dc_link *link,
+>                 else if (link->dc->hwss.set_disp_pattern_generator) {
+>                         struct pipe_ctx *odm_pipe;
+>                         int opp_cnt = 1;
+> -                       int dpg_width = width;
+> +                       int dpg_width;
 >
->  struct TOC {
->      uint8_t JobList[NUM_JOBLIST_ENTRIES];
-> -    SMU_Task tasks[1];
-> +    SMU_Task tasks[];
->  };
->
->  // META DATA COMMAND Definitions
+>                         for (odm_pipe = pipe_ctx->next_odm_pipe; odm_pipe; odm_pipe = odm_pipe->next_odm_pipe)
+>                                 opp_cnt++;
 > --
-> 2.25.1
+> 2.20.1.7.g153144c
 >
