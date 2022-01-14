@@ -2,59 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B7DF48F03D
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 19:57:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFAF948F04C
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 20:13:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD67C10E196;
-	Fri, 14 Jan 2022 18:57:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45F7010E176;
+	Fri, 14 Jan 2022 19:13:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
- [IPv6:2607:f8b0:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2E2D10E196;
- Fri, 14 Jan 2022 18:57:37 +0000 (UTC)
-Received: by mail-pg1-x535.google.com with SMTP id h23so3468502pgk.11;
- Fri, 14 Jan 2022 10:57:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SfsWlZ8NFWx1uU7iqNfomSH4aDVoXB8WLZulfHDXbiU=;
- b=AxXYGXioXE1+f7CtBSW0vuFQGuUAd3neKR96VsJGT+uTkETY8PP4fDNvWZiatTjGrd
- Bq2zK8rBoROD5kYZADr0RiaMTWBi+CZYxAbEDFZ4rjDEfuR79bZm1QiZLu2YZaHTi2PJ
- 9jWykAN+I7uOxZWAIuO5DL35ySbJ7mzH0T5k6EoiLJ5Sge8i7VmhisQkzlPAAFjysAGm
- ztTre6fsBXmne6SQYtwPeZON1kgUVcYqE5kscE8w+RXo945r62emwYRq9gUjqwt+N0Rg
- orv+dNzGhbY4KoBzAQL7Lt38OsjUF/s+PHElWbl/4k5MHOf4q0FB/34dv5LY2fNReqnm
- iCfw==
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFBE610E176
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 19:13:10 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id w26so7884949wmi.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 11:13:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SfsWlZ8NFWx1uU7iqNfomSH4aDVoXB8WLZulfHDXbiU=;
- b=Kg3/u1AfNhTYojk1hfAogTaD/o/jyH4AFSrzdUJKNK9AUdrPA1W9cSI7LrLuzFA3xp
- b5YlfGq4RVRYSQyzHzeOsyiM9FOo+2Riakqy054io/sLFi5s2rYznLvbcPUzjVUVlKBq
- Vq0xOPxQYZ5QPu5YtOVRYQCJL80vicgAv68KrWt47nOAJ6aMr5rOu46zomFL8kB7lETF
- SAXjQ+ZHRRvGJDlRQ4QswVaRiRKWekhtDOoMqMPz3HtXkVVU+iqgg+IBMtrdhGRNoyAw
- Kq15UF/f7+791UdIY2VsixgjHU7Hj8qo7iWj4U2PRHGXLlhj0m7/Hm7SyEBke8vyNvUX
- 2xIw==
-X-Gm-Message-State: AOAM5313IO6OeIhkR02hv+U8RLkdf7LOv02L9of8lSFIu7WLTvMaLBST
- 3o1ZVNkK+utxp8B4yj29TtvLUxlLQfM=
-X-Google-Smtp-Source: ABdhPJyQgrBlfjf4WxO3o5H3yNyytTGW/UpG9pHb6wp7ZenQY6PoaUUorCVedNy4OVKwvZCYXZSMZw==
-X-Received: by 2002:a62:3893:0:b0:4ba:7246:4830 with SMTP id
- f141-20020a623893000000b004ba72464830mr10421883pfa.30.1642186656908; 
- Fri, 14 Jan 2022 10:57:36 -0800 (PST)
-Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
- by smtp.gmail.com with ESMTPSA id
- h15sm7017170pfc.89.2022.01.14.10.57.35
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=80fbgApjgxRqmQ/SUBxRZx2r8MYqVc4l2XpDiV7SkBM=;
+ b=kv+TMHgCK3QJMcFN705OxG87X3EX7wYL0QbAr0lC2UZ/TvXQ2QIGqEz/9le07mWxAz
+ +JLTvoBP1j3w46RfmTrXFtX4h6VKU1vlaCtqiwbhd9Po8d7tx2cURAQn+P/KhhC8dRfu
+ 6pDhfYItoCg/StsgGA6v58CWaCb2KBQcb7aj53WbHbE67RL53EWFRU95E77h8qnEh4bj
+ xEejdZHvVPUhNRtKFa+ZrvpsSN7vVS5O4UWhGSDEJCP+S0dG/Wg7stag5NKoWc/vcNfu
+ 8yMY8ubFo3JmvcSEHXxqWWN1U/66xHKSKHaMlqJorW5zRleqyUqKtkCyAAmpKpk0H0nv
+ NPhQ==
+X-Gm-Message-State: AOAM530gwxMYyIy4wJozfKgsfTGp348wyRxLlGlFqyOrtyS465PYv2zE
+ 0W0cjmhNzj2NRPSYvda9R4E=
+X-Google-Smtp-Source: ABdhPJy6FfH4KDLMgZmC0MFcbsFJm4Zgm0/mXIWR4k8R0ydt6WvRRewAXvkkhnsGqSP3BX2Qwg91pg==
+X-Received: by 2002:a05:600c:6020:: with SMTP id
+ az32mr3830646wmb.149.1642187589431; 
+ Fri, 14 Jan 2022 11:13:09 -0800 (PST)
+Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
+ by smtp.gmail.com with ESMTPSA id z6sm7961353wmp.9.2022.01.14.11.13.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Jan 2022 10:57:35 -0800 (PST)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/msm/rd: Add chip-id
-Date: Fri, 14 Jan 2022 10:57:42 -0800
-Message-Id: <20220114185742.283539-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ Fri, 14 Jan 2022 11:13:08 -0800 (PST)
+Date: Fri, 14 Jan 2022 19:13:07 +0000
+From: Wei Liu <wei.liu@kernel.org>
+To: Andrea Parri <parri.andrea@gmail.com>
+Subject: Re: [PATCH v2] hv: account for packet descriptor in maximum packet
+ size
+Message-ID: <20220114191307.uu2oel7wbxhiqe56@liuwe-devbox-debian-v2>
+References: <20220109095516.3250392-1-yanminglr@gmail.com>
+ <20220110004419.GA435914@anparri>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220110004419.GA435914@anparri>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,46 +60,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- freedreno@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, sthemmin@microsoft.com, lkmlabelt@gmail.com,
+ airlied@linux.ie, linux-kernel@vger.kernel.org, haiyangz@microsoft.com,
+ decui@microsoft.com, linux-hyperv@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Yanming Liu <yanminglr@gmail.com>,
+ drawat.floss@gmail.com, Wei Liu <wei.liu@kernel.org>, kys@microsoft.com,
+ mikelley@microsoft.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On Mon, Jan 10, 2022 at 01:44:19AM +0100, Andrea Parri wrote:
+> (Extending Cc: list,)
+> 
+> On Sun, Jan 09, 2022 at 05:55:16PM +0800, Yanming Liu wrote:
+> > Commit adae1e931acd ("Drivers: hv: vmbus: Copy packets sent by Hyper-V
+> > out of the ring buffer") introduced a notion of maximum packet size in
+> > vmbus channel and used that size to initialize a buffer holding all
+> > incoming packet along with their vmbus packet header. Currently, some
+> > vmbus drivers set max_pkt_size to the size of their receive buffer
+> > passed to vmbus_recvpacket, however vmbus_open expects this size to also
+> > include vmbus packet header. This leads to corruption of the ring buffer
+> > state when receiving a maximum sized packet.
+> > 
+> > Specifically, in hv_balloon I have observed of a dm_unballoon_request
+> > message of 4096 bytes being truncated to 4080 bytes. When the driver
+> > tries to read next packet it starts from a wrong read_index, receives
+> > garbage and prints a lot of "Unhandled message: type: <garbage>" in
+> > dmesg.
+> > 
+> > The same mismatch also happens in hv_fcopy, hv_kvp, hv_snapshot,
+> > hv_util, hyperv_drm and hyperv_fb, though bad cases are not observed
+> > yet.
+> > 
+> > Allocate the buffer with HV_HYP_PAGE_SIZE more bytes to make room for
+> > the descriptor, assuming the vmbus packet header will never be larger
+> > than HV_HYP_PAGE_SIZE. This is essentially free compared to just adding
+> > 'sizeof(struct vmpacket_descriptor)' because these buffers are all more
+> > than HV_HYP_PAGE_SIZE bytes so kmalloc rounds them up anyway.
+> > 
+> > Fixes: adae1e931acd ("Drivers: hv: vmbus: Copy packets sent by Hyper-V out of the ring buffer")
+> > Suggested-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
+> > Signed-off-by: Yanming Liu <yanminglr@gmail.com>
+> 
+> Thanks for sorting this out; the patch looks good to me:
+> 
+> Reviewed-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
+> 
 
-For newer devices which deprecate gpu-id and do matching based on
-chip-id, we need this information in cmdstream dumps so that the
-decoding tools know how to decode them.
+Thanks. I will pick this up after 5.17-rc1 is out.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/msm_rd.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/gpu/drm/msm/msm_rd.c b/drivers/gpu/drm/msm/msm_rd.c
-index 81432ec07012..7e4d6460719e 100644
---- a/drivers/gpu/drm/msm/msm_rd.c
-+++ b/drivers/gpu/drm/msm/msm_rd.c
-@@ -62,6 +62,7 @@ enum rd_sect_type {
- 	RD_FRAG_SHADER,
- 	RD_BUFFER_CONTENTS,
- 	RD_GPU_ID,
-+	RD_CHIP_ID,
- };
- 
- #define BUF_SZ 512  /* should be power of 2 */
-@@ -202,6 +203,9 @@ static int rd_open(struct inode *inode, struct file *file)
- 
- 	rd_write_section(rd, RD_GPU_ID, &gpu_id, sizeof(gpu_id));
- 
-+	gpu->funcs->get_param(gpu, MSM_PARAM_CHIP_ID, &val);
-+	rd_write_section(rd, RD_CHIP_ID, &val, sizeof(val));
-+
- out:
- 	mutex_unlock(&gpu->lock);
- 	return ret;
--- 
-2.34.1
-
+Wei.
