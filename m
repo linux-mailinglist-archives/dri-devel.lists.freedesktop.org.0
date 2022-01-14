@@ -2,66 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0907748F1CC
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 22:01:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1DBA48F1DE
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 22:12:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D651110E1F4;
-	Fri, 14 Jan 2022 21:01:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E37810E1F9;
+	Fri, 14 Jan 2022 21:12:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
- [IPv6:2607:f8b0:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 676A910E1F4
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 21:01:38 +0000 (UTC)
-Received: by mail-oi1-x231.google.com with SMTP id w188so13857046oiw.13
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 13:01:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ev8VAWLABgcwjAWOJiwrx2eFMwjFEQ1Ark3f35TvFjs=;
- b=M2yojZLr84nstQZUzNRXprG2/FlU5DJXCa/4lDGpMbgAipBAIr2iB5N9qqsMfwqQkT
- g4yO681gHnyAaJL2H39tZR29z9AG/zWpTNG5WQvh3V4qvQUnEZJgbHJLq89a6QFbmj7U
- T13OJuE02K3CvAEpRN/RzVBWxyp6maN+0PkJo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ev8VAWLABgcwjAWOJiwrx2eFMwjFEQ1Ark3f35TvFjs=;
- b=zm5PEw/RrZD/2TwjIlQxtSRS7BxwCcj6P5znBVwRY0JJzaWqqSlmgr1pl/u07bViYR
- 72smYQo4TF/IjAIM0W4c/xMQD9WPa7YmX1NvdFif+poOEUC8yCr7LV3NZVUHW7CY07md
- ZkSLI3Qydek0OOISF9t9/ReZjDLj1pevDb2zpFo7C07LDkpNSEgLn9B+uHIMmTskAbfn
- sLXjd+Eqi3AsaL31mjPfPje2pDqE/czf8/Hm4qmxf8hsrM3KyZZ0MQWEfH0MM/H30++L
- u9Yc74Vb/jdCU2IZyUEZccwwkl/xTem6FvAWCTX8ncLk2LBL4aXk8lUCQWpYNCgc1DUz
- Llfg==
-X-Gm-Message-State: AOAM531S6zVYitUO9yvXqb+o12CKshQRnqCrpNcvDSvh92Hr+hTUZT77
- fWE2yRxRmowO3awZPSz2GjZIhJg8ElVJBQ==
-X-Google-Smtp-Source: ABdhPJy7v+SmANhKanstzd3x8VQ/6Zu7O1pYojVwW3+baGSB3mP1H0F/Fx2Dy7TQdBxMq74YHf+9HQ==
-X-Received: by 2002:aca:bec2:: with SMTP id o185mr8947531oif.8.1642194097382; 
- Fri, 14 Jan 2022 13:01:37 -0800 (PST)
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com.
- [209.85.210.46])
- by smtp.gmail.com with ESMTPSA id k8sm2347760oon.2.2022.01.14.13.01.36
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Jan 2022 13:01:36 -0800 (PST)
-Received: by mail-ot1-f46.google.com with SMTP id
- w19-20020a056830061300b0058f1dd48932so11471867oti.11
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 13:01:36 -0800 (PST)
-X-Received: by 2002:a9d:5908:: with SMTP id t8mr7723553oth.186.1642194095619; 
- Fri, 14 Jan 2022 13:01:35 -0800 (PST)
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5ACD10E192;
+ Fri, 14 Jan 2022 21:12:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1642194721; x=1673730721;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=/4GBNMPdwBS9cM9z/abzaZUdcyEiqvofhTDmKCg2xWI=;
+ b=jmlWf9ryHI7dA5xgW21lsp+D/nMS5F4E5Uuvn2zK/zoUCXfUDrm8sEyp
+ P+g0SqRwCya4Q9vuBXkCk4s/cAnbZUxZbMfv7Q7fls+QmpytlAj8jumvr
+ snT5PuvDK5hp4BTKpKeUdHjHULPgHnH8xiil44OWJ66HMcS7bGT+5mVNz 8=;
+Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 14 Jan 2022 13:12:01 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jan 2022 13:12:00 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Fri, 14 Jan 2022 13:12:00 -0800
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Fri, 14 Jan 2022 13:11:59 -0800
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
+ <sean@poorly.run>, <swboyd@chromium.org>, <vkoul@kernel.org>,
+ <daniel@ffwll.ch>, <airlied@linux.ie>, <agross@kernel.org>,
+ <dmitry.baryshkov@linaro.org>, <bjorn.andersson@linaro.org>
+Subject: [PATCH v15 0/4] group dp driver related patches into one series
+Date: Fri, 14 Jan 2022 13:11:46 -0800
+Message-ID: <1642194710-2512-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <20220114201652.3875838-1-briannorris@chromium.org>
- <20220114121515.1.I46f64b00508d9dff34abe1c3e8d2defdab4ea1e5@changeid>
-In-Reply-To: <20220114121515.1.I46f64b00508d9dff34abe1c3e8d2defdab4ea1e5@changeid>
-From: Brian Norris <briannorris@chromium.org>
-Date: Fri, 14 Jan 2022 13:01:22 -0800
-X-Gmail-Original-Message-ID: <CA+ASDXMO3sPta-vhMCqAPRFFkNa-nmY+wK6PXJaSUEXBHETG+A@mail.gmail.com>
-Message-ID: <CA+ASDXMO3sPta-vhMCqAPRFFkNa-nmY+wK6PXJaSUEXBHETG+A@mail.gmail.com>
-Subject: Re: [PATCH 1/3] arm64: dts: rockchip: Switch RK3399-Gru DP to SPDIF
- output
-To: Heiko Stuebner <heiko@sntech.de>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,48 +61,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>, alsa-devel@alsa-project.org,
- Lin Huang <hl@rock-chips.com>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel <linux-kernel@vger.kernel.org>,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Rob Herring <robh+dt@kernel.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ aravindh@codeaurora.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sorry to send a self-reply so quickly, but I noticed an error and want
-to make sure this doesn't get merged _too_ quickly before I get to
-send a revision! See below:
+Group below 4 dp driver related patches into one series.
 
-On Fri, Jan 14, 2022 at 12:17 PM Brian Norris <briannorris@chromium.org> wrote:
->
-> Commit b18c6c3c7768 ("ASoC: rockchip: cdn-dp sound output use spdif")
-> switched the platform to SPDIF, but we didn't fix up the device tree.
->
-> Fixes: b18c6c3c7768 ("ASoC: rockchip: cdn-dp sound output use spdif")
-> Signed-off-by: Brian Norris <briannorris@chromium.org>
-> ---
->
->  arch/arm64/boot/dts/rockchip/rk3399-gru.dtsi | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3399-gru.dtsi b/arch/arm64/boot/dts/rockchip/rk3399-gru.dtsi
-> index 45a5ae5d2027..21ec073f4d51 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3399-gru.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/rk3399-gru.dtsi
+Kuogee Hsieh (4):
+  drm/msm/dp: do not initialize phy until plugin interrupt received
+  drm/msm/dp:  populate connector of struct  dp_panel
+  drm/msm/dp: add support of tps4 (training pattern 4) for HBR3
+  drm/msm/dp: stop link training after link training 2 failed
 
-> +&spdif {
-> +       status = "okay";
+ drivers/gpu/drm/msm/dp/dp_catalog.c |  12 ++---
+ drivers/gpu/drm/msm/dp/dp_catalog.h |   2 +-
+ drivers/gpu/drm/msm/dp/dp_ctrl.c    | 100 ++++++++++++++++------------------
+ drivers/gpu/drm/msm/dp/dp_ctrl.h    |   8 +--
+ drivers/gpu/drm/msm/dp/dp_display.c | 105 +++++++++++++++++++++---------------
+ 5 files changed, 118 insertions(+), 109 deletions(-)
 
-I need to fix up the pinctrl settings here. rk3399.dtsi has a default
-that is incorrect. That's OK for several variants (Kevin and Bob,
-where the pin is actually unconnected), but it breaks Scarlet (where
-the pin in question is actually connected to something else).
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
-I'll send a v2 after waiting a bit, in case there are other comments
-worth addressing at the same time.
-
-Brian
-
-> +};
