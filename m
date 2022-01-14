@@ -2,67 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 133DF48EE98
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 17:44:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA8FC48EEAB
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 17:50:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 935B210EABC;
-	Fri, 14 Jan 2022 16:44:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B807B10EB02;
+	Fri, 14 Jan 2022 16:50:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CFD510EABC
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 16:44:10 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id r28so16618298wrc.3
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 08:44:10 -0800 (PST)
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 477F810EAFA
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 16:50:16 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id s1so16594500wra.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 08:50:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=EDlCEslCn6FWKM6jGMAUwIWHsu6SQfw6Ox95I7gpdco=;
- b=Pv56IGYYZK/WbxLk6D2URYYWkexWCQ1RPdebSk/7N89/OnnCXfxLLCWXQekccWYJsG
- 3EarR9obxfXiWDggfH9la5pQzDHBjPtXkbG1yKLrIoz2d6E4qoBqCIR+jQTRoHAccO/5
- UexASHK9ZBms6jXk4SytMVHAgC0UIFwf94KyU=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=VEOOxhr/Qwdhz6jGRXCfn43YOQWOPX+v7bNM1lLXnMs=;
+ b=GQYnWMHTELRAX6IxEgSqmKjWAnpubD1b5rEvbvgGfNtDbs7tQuSCh/OrJmX7kDVK8z
+ rPdvpyBfW761Oyb3/+SC3o/9fHqJEKGv83GhHHBQM/aW0ZBAtayMSxhfItAzaxMYLRRt
+ 5CZsm6e0kddTqky4BUZbuj+6wzRBrVNehO/QQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=EDlCEslCn6FWKM6jGMAUwIWHsu6SQfw6Ox95I7gpdco=;
- b=BK5HDfY6BvgkR2dt+2lj9jCjTe4pN1wM5mwQeo5f2VDxw7sWcmQWyKX6JPnZ3ZNPG+
- 1t7J7HFogm7XWqprmtuUlGnDv+ZSKgSLeOLGJf2xVMnq6U2vmf1S/FGDv5L7ATSc3VxJ
- kdZ5+GyYfumbiPQO+7Jrmrn9ongo4Bu11hdmGLmPtIdE4KjC8mJqrxsPDS3r9MUVTHUr
- EKvBWPb8yiouUQOXJDn/qgAhYQ+RljVN/YjHc1fSnPwbwj2Fd5jcWPYGc8wxNu3e2LZx
- v/vK0OceUw8JRftHUXbLqEUqojDQytvUFUWZUCCZ8z2nrIPFLeYgv9YEw7qiDxJ/stUr
- 8sHw==
-X-Gm-Message-State: AOAM5322TKi6bb4LUL56ReKVt9y24DJfp5qr6KSMBj6oycH6mkt9z1qV
- V7c1OMDxz54pm5CaBF7BVFIrXg==
-X-Google-Smtp-Source: ABdhPJyS2XZu0j7uRiL3V5zPX4tlWPV2f3jGMORloNk5mCD2Fnj66hSyakzZmPx4Za1Vr0q/exORTA==
-X-Received: by 2002:a5d:47ad:: with SMTP id 13mr9183173wrb.268.1642178648749; 
- Fri, 14 Jan 2022 08:44:08 -0800 (PST)
+ bh=VEOOxhr/Qwdhz6jGRXCfn43YOQWOPX+v7bNM1lLXnMs=;
+ b=vNimta4+IXoX0OSwXsCoAIDi3+/qcbvO+ig97GKAeu/I9ZZX7Ou9MXUMrF80Km7TBL
+ w3rZGl7y7fx0CKRjIt4sKzNq1BFW6MGiK+CAm4MgfyJBw+KUWnY9WQoSTd7KCPZYvisT
+ yENj/UMy6H9omBJ+C679UKdC1l+0ziJwH2afnwJPfGdU0bsEggW78V538HYF9KiGzjJc
+ A+ZrUqyUHYPah8zp8rbxuqA/5BpccL8CvO0vkznvtz7HzIYZOUBfwPUg8ORCns8ULCAn
+ WUOBNFyx8MgbH8Ly4CTxHo7Zm828FsUP8adH5dKKUnp17XoSyTUQXrMfAmwDTEitrbj5
+ P2+w==
+X-Gm-Message-State: AOAM531QJ4Eo04D9F+ilsAGVbyKwmdaJ7iVymYHX4f3Z6uOMhMYHOOFv
+ VtCEoJbFXJtNKEgL/06+hOudJA==
+X-Google-Smtp-Source: ABdhPJwz9kukA9QNeawPcf2CaPxbGlOu7bGLv961X6bi262Yhbg82aYRWaL5DsXL4YUvYSzxOtsv8Q==
+X-Received: by 2002:a05:6000:1845:: with SMTP id
+ c5mr2499147wri.350.1642179014678; 
+ Fri, 14 Jan 2022 08:50:14 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id e12sm2722856wrg.33.2022.01.14.08.44.07
+ by smtp.gmail.com with ESMTPSA id l6sm9036159wry.18.2022.01.14.08.50.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Jan 2022 08:44:08 -0800 (PST)
-Date: Fri, 14 Jan 2022 17:44:06 +0100
+ Fri, 14 Jan 2022 08:50:14 -0800 (PST)
+Date: Fri, 14 Jan 2022 17:50:11 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Felix Kuehling <felix.kuehling@amd.com>
-Subject: Re: [PATCH] drm/ttm: Don't inherit GEM object VMAs in child process
-Message-ID: <YeGoVhLgMDOJS15K@phenom.ffwll.local>
-References: <a5c769fd-7eac-2628-a36d-fedddfb7d398@amd.com>
- <279c7ffc-99e5-f052-5de1-9b957c455d85@amd.com>
- <1ab2558b-1af0-3319-dce6-b805320a49d0@gmail.com>
- <60760210-3b3d-952c-2637-4d70fab1a857@amd.com>
- <fd95f1c0-7550-0497-7284-64a5257304ca@amd.com>
- <ddb344cc-48ec-7323-4494-4e1cb8323585@amd.com>
- <071fbdc1-38ce-d1e8-0e11-25204a3cc217@amd.com>
- <af705589-a601-9774-ec55-d1c244f756a9@amd.com>
- <386142cc-1df5-228c-af24-2187998d9307@amd.com>
- <b80efca2-4a51-7ac9-cc9e-e497ac7c9c7c@amd.com>
+To: Tomohito Esaki <etom@igel.co.jp>
+Subject: Re: [RFC PATH 1/3] drm: add support modifiers for drivers whose
+ planes only support linear layout
+Message-ID: <YeGpw7L3jODHHnPC@phenom.ffwll.local>
+Mail-Followup-To: Tomohito Esaki <etom@igel.co.jp>,
+ dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Ben Skeggs <bskeggs@redhat.com>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <mdaenzer@redhat.com>,
+ Simon Ser <contact@emersion.fr>,
+ Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
+ Mark Yacoub <markyacoub@chromium.org>,
+ Sean Paul <seanpaul@chromium.org>, Evan Quan <evan.quan@amd.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Petr Mladek <pmladek@suse.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Lee Jones <lee.jones@linaro.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@chromium.org>, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
+ Damian Hobson-Garcia <dhobsong@igel.co.jp>,
+ Takanari Hayama <taki@igel.co.jp>
+References: <20211222052727.19725-1-etom@igel.co.jp>
+ <20211222052727.19725-2-etom@igel.co.jp>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b80efca2-4a51-7ac9-cc9e-e497ac7c9c7c@amd.com>
+In-Reply-To: <20211222052727.19725-2-etom@igel.co.jp>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,153 +94,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, "Bhardwaj, Rajneesh" <rajneesh.bhardwaj@amd.com>,
- dri-devel@lists.freedesktop.org, David Yat Sin <david.yatsin@amd.com>,
- amd-gfx@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- alexander.deucher@amd.com, airlied@redhat.com,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Adrian Reber <adrian@lisas.de>
+Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <mdaenzer@redhat.com>,
+ Lee Jones <lee.jones@linaro.org>, Rob Clark <robdclark@chromium.org>,
+ Evan Quan <evan.quan@amd.com>, amd-gfx@lists.freedesktop.org,
+ Ben Skeggs <bskeggs@redhat.com>, Petr Mladek <pmladek@suse.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Takanari Hayama <taki@igel.co.jp>, Sean Paul <seanpaul@chromium.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Mark Yacoub <markyacoub@chromium.org>, Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Damian Hobson-Garcia <dhobsong@igel.co.jp>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Top post because I tried to catch up on the entire discussion here.
-
-So fundamentally I'm not opposed to just close this fork() hole once and
-for all. The thing that worries me from a upstream/platform pov is really
-only if we don't do it consistently across all drivers.
-
-So maybe as an idea:
-- Do the original patch, but not just for ttm but all gem rendernode
-  drivers at least (or maybe even all gem drivers, no idea), with the
-  below discussion cleaned up as justification.
-
-- Get acks from userspace driver folks who know real-world gl/vk usage and
-  khr specs in-depth enough to be able to tell us how much we'll regret
-  this.
-
-- Merge it. Or come up with something new. Or maybe stick to the Nack, but
-  then maybe it would be good to document that somewhere in-tree?
-
-This entire can of worms just feels way too tricky to have it be handled
-inconsistently across drivers. And trying to fix these kind of low-level
-things across drivers once divergences exists is just really painful (e.g.
-trying to make all dma-buf mmap VM_SPECIAL or the herculeian task
-Christian is doing to get our dma_resv rules consistent across drivers).
-
-Cheers, Daniel
-
-On Fri, Jan 07, 2022 at 12:47:45PM -0500, Felix Kuehling wrote:
-> Am 2022-01-07 um 3:56 a.m. schrieb Christian König:
-> > Am 06.01.22 um 17:51 schrieb Felix Kuehling:
-> >> Am 2022-01-06 um 11:48 a.m. schrieb Christian König:
-> >>> Am 06.01.22 um 17:45 schrieb Felix Kuehling:
-> >>>> Am 2022-01-06 um 4:05 a.m. schrieb Christian König:
-> >>>> [SNIP]
-> >>>> Also, why does your ACK or NAK depend on this at all. If it's the
-> >>>> right
-> >>>> thing to do, it's the right thing to do regardless of who benefits
-> >>>> from
-> >>>> it. In addition, how can a child process that doesn't even use the GPU
-> >>>> be in violation of any GPU-driver related specifications.
-> >>> The argument is that the application is broken and needs to be fixed
-> >>> instead of worked around inside the kernel.
-> >> I still don't get how they the application is broken. Like I said, the
-> >> child process is not using the GPU. How can the application be fixed in
-> >> this case?
-> >
-> > Sounds like I'm still missing some important puzzle pieces for the
-> > full picture to figure out why this doesn't work.
-> >
-> >> Are you saying, any application that forks and doesn't immediately call
-> >> exec is broken?
-> >
-> > More or less yes. We essentially have three possible cases here:
-> >
-> > 1. Application is already using (for example) OpenGL or OpenCL to do
-> > some rendering on the GPU and then calls fork() and expects to use
-> > OpenGL both in the parent and the child at the same time.
-> >     As far as I know that's illegal from the Khronos specification
-> > point of view and working around inside the kernel for something not
-> > allowed in the first place is seen as futile effort.
-> >
-> > 2. Application opened the file descriptor, forks and then initializes
-> > OpenGL/Vulkan/OpenCL.
-> >     That's what some compositors are doing to drop into the backround
-> > and is explicitly legal.
-> >
-> > 3. Application calls fork() and then doesn't use the GPU in the child.
-> > Either by not using it or calling exec.
-> >     That should be legal and not cause any problems in the first place. 
-> >
-> > But from your description I still don't get why we are running into
-> > problems here.
-> >
-> > I was assuming that you have case #1 because we previously had some
-> > examples of this with this python library, but from your description
-> > it seems to be case #3.
+On Wed, Dec 22, 2021 at 02:27:25PM +0900, Tomohito Esaki wrote:
+> The LINEAR modifier is advertised as default if a driver doesn't specify
+> modifiers. However, there are legacy drivers such as radeon that do not
+> support modifiers but infer the actual layout of the underlying buffer.
+> Therefore, a new flag not_support_fb_modifires is introduced for these
+> legacy drivers. Allow_fb_modifiers will be replaced with this new flag.
 > 
-> Correct. #3 has at least one issue we previously worked around in the
-> Thunk: The inherited VMAs prevent BOs from being freed in the parent
-> process. This manifests as an apparent memory leak. Therefore the Thunk
-> calls madvise(..., MADV_DONTFORK) on all its VRAM allocation. The BOs
-> that are causing problems with CRIU are GTT BOs that weren't covered by
-> this previous workaround.
+> Signed-off-by: Tomohito Esaki <etom@igel.co.jp>
+> ---
+>  drivers/gpu/drm/drm_plane.c   | 34 ++++++++++++++++++++++++++--------
+>  include/drm/drm_mode_config.h | 10 ++++++++++
+>  include/drm/drm_plane.h       |  3 +++
+>  3 files changed, 39 insertions(+), 8 deletions(-)
 > 
-> The new issue with CRIU is, that CRIU saves and restores all the VMAs.
-> When trying to restore the inherited VMAs in the child process, the mmap
-> call fails because the child process' render node FD is no longer
-> inherited from the parent, but is instead created by its own "open"
-> system call. The mmap call in the child fails for at least two reasons:
+> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+> index 82afb854141b..75308ee240c0 100644
+> --- a/drivers/gpu/drm/drm_plane.c
+> +++ b/drivers/gpu/drm/drm_plane.c
+> @@ -161,6 +161,16 @@ modifiers_ptr(struct drm_format_modifier_blob *blob)
+>  	return (struct drm_format_modifier *)(((char *)blob) + blob->modifiers_offset);
+>  }
+>  
+> +static bool check_format_modifier(struct drm_plane *plane, uint32_t format,
+> +				  uint64_t modifier)
+> +{
+> +	if (plane->funcs->format_mod_supported)
+> +		return plane->funcs->format_mod_supported(plane, format,
+> +							  modifier);
+> +
+> +	return modifier == DRM_FORMAT_MOD_LINEAR;
+> +}
+> +
+>  static int create_in_format_blob(struct drm_device *dev, struct drm_plane *plane)
+>  {
+>  	const struct drm_mode_config *config = &dev->mode_config;
+> @@ -203,16 +213,15 @@ static int create_in_format_blob(struct drm_device *dev, struct drm_plane *plane
+>  	memcpy(formats_ptr(blob_data), plane->format_types, formats_size);
+>  
+>  	/* If we can't determine support, just bail */
+> -	if (!plane->funcs->format_mod_supported)
+> +	if (config->fb_modifiers_not_supported)
+>  		goto done;
+>  
+>  	mod = modifiers_ptr(blob_data);
+>  	for (i = 0; i < plane->modifier_count; i++) {
+>  		for (j = 0; j < plane->format_count; j++) {
+> -			if (plane->funcs->format_mod_supported(plane,
+> -							       plane->format_types[j],
+> -							       plane->modifiers[i])) {
+> -
+> +			if (check_format_modifier(plane,
+> +						  plane->format_types[j],
+> +						  plane->modifiers[i])) {
+>  				mod->formats |= 1ULL << j;
+>  			}
+>  		}
+> @@ -242,6 +251,10 @@ static int __drm_universal_plane_init(struct drm_device *dev,
+>  				      const char *name, va_list ap)
+>  {
+>  	struct drm_mode_config *config = &dev->mode_config;
+> +	const uint64_t default_modifiers[] = {
+> +		DRM_FORMAT_MOD_LINEAR,
+> +		DRM_FORMAT_MOD_INVALID
+> +	};
+>  	unsigned int format_modifier_count = 0;
+>  	int ret;
+>  
+> @@ -282,6 +295,11 @@ static int __drm_universal_plane_init(struct drm_device *dev,
+>  
+>  		while (*temp_modifiers++ != DRM_FORMAT_MOD_INVALID)
+>  			format_modifier_count++;
+> +	} else {
+> +		if (!dev->mode_config.fb_modifiers_not_supported) {
+> +			format_modifiers = default_modifiers;
+> +			format_modifier_count = 1;
+> +		}
+>  	}
+>  
+>  	/* autoset the cap and check for consistency across all planes */
+> @@ -346,7 +364,7 @@ static int __drm_universal_plane_init(struct drm_device *dev,
+>  		drm_object_attach_property(&plane->base, config->prop_src_h, 0);
+>  	}
+>  
+> -	if (config->allow_fb_modifiers)
+> +	if (format_modifier_count)
+>  		create_in_format_blob(dev, plane);
+>  
+>  	return 0;
+> @@ -373,8 +391,8 @@ static int __drm_universal_plane_init(struct drm_device *dev,
+>   * drm_universal_plane_init() to let the DRM managed resource infrastructure
+>   * take care of cleanup and deallocation.
+>   *
+> - * Drivers supporting modifiers must set @format_modifiers on all their planes,
+> - * even those that only support DRM_FORMAT_MOD_LINEAR.
+> + * For drivers supporting modifiers, all planes will advertise
+> + * DRM_FORMAT_MOD_LINEAR support, if @format_modifiers is not set.
+>   *
+>   * Returns:
+>   * Zero on success, error code on failure.
+> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+> index 48b7de80daf5..c56f298c55bd 100644
+> --- a/include/drm/drm_mode_config.h
+> +++ b/include/drm/drm_mode_config.h
+> @@ -920,6 +920,16 @@ struct drm_mode_config {
+>  	 */
+>  	bool allow_fb_modifiers;
+>  
+> +	/**
+> +	 * @fb_modifiers_not_supported:
+> +	 *
+> +	 * This flag is for legacy drivers such as radeon that do not support
+
+Maybe don't put specific driver names into kerneldoc (in commit message to
+motivate your changes it's fine). It's unlikely radeon ever changes on
+this, but also no one will update this in the docs if we ever do that.
+
+Perhaps also add that new driver should never set this, just to hammer it
+home that modifiers really should work everywhere.
+
+Otherwise I think this series is the right thing to do.
+-Daniel
+
+> +	 * modifiers but infer the actual layout of the underlying buffer.
+> +	 * Generally, each drivers must support modifiers, this flag should not
+> +	 * be set.
+> +	 */
+> +	bool fb_modifiers_not_supported;
+> +
+>  	/**
+>  	 * @normalize_zpos:
+>  	 *
+> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+> index 0c1102dc4d88..cad641b1f797 100644
+> --- a/include/drm/drm_plane.h
+> +++ b/include/drm/drm_plane.h
+> @@ -803,6 +803,9 @@ void *__drmm_universal_plane_alloc(struct drm_device *dev,
+>   *
+>   * The @drm_plane_funcs.destroy hook must be NULL.
+>   *
+> + * For drivers supporting modifiers, all planes will advertise
+> + * DRM_FORMAT_MOD_LINEAR support, if @format_modifiers is not set.
+> + *
+>   * Returns:
+>   * Pointer to new plane, or ERR_PTR on failure.
+>   */
+> -- 
+> 2.17.1
 > 
->   * The child process' render node FD doesn't have permission to map the
->     parent process' BO any more
->   * The parent BO doesn't get restored in the child process, so its mmap
->     offset doesn't get updated to the new mmap offset of the restored
->     parent BO by the amdgpu CRIU plugin
-> 
-> We could maybe add a whole bunch of complexity in CRIU and our CRIU
-> plugin to fix this. But it's pointless because like you said, actually
-> doing anything with the BO in the child process is illegal anyway
-> (scenario #1 above). The easiest solution seems to be, to just not
-> inherit the VMA in the first place.
-> 
-> Regards,
->   Felix
-> 
-> 
-> >
-> >> Or does an application that forks need to be aware that some other part
-> >> of the application used the GPU and explicitly free any GPU resources?
-> >
-> > Others might fill that information in, but I think that was the plan
-> > for newer APIs like Vulkan.
-> >
-> > Regards,
-> > Christian.
-> >
-> >>
-> >> Thanks,
-> >>    Felix
-> >>
-> >>
-> >>> Regards,
-> >>> Christian.
-> >>>
-> >>>> Regards,
-> >>>>     Felix
-> >>>>
-> >>>>
-> >>>>> Let's talk about this on Mondays call. Thanks for giving the whole
-> >>>>> context.
-> >>>>>
-> >>>>> Regards,
-> >>>>> Christian.
-> >>>>>
-> >>>>>> Regards,
-> >>>>>>      Felix
-> >>>>>>
-> >
 
 -- 
 Daniel Vetter
