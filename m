@@ -1,56 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FB3648ED02
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 16:19:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 423FB48ED3A
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 16:39:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11C5810E6F3;
-	Fri, 14 Jan 2022 15:19:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8410F10E247;
+	Fri, 14 Jan 2022 15:39:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8C2310E272;
- Fri, 14 Jan 2022 15:19:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642173563; x=1673709563;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=gQypZeKb20iK6V4Fo2vqovMOcW37eXRpK9D4ZpMA80M=;
- b=j/smNvKL81Ucm1X0+wRG5Khqh89vg1Exsa9+M6Ch5mSR8J4UBsP3OXIJ
- Soq2ss9Yl0/ftLdfJyf8FrZEwbd8EjHoMvQ1GC9oSDAkTu0eA6JfYpkvc
- UJB8eEBVY2aPT/9ZX+yRf8+saOhhfEal4kPBTaZMBgr5/ZAtyymIXOXBa
- /shOof5NuTl5jLtQemxygyrj+60aFXqoqZ0hZh0l+Jss/RIG2Tsf+zbp+
- NYUGgwkvDUiWjQkkLJTv2bcY4+zFUnColgpzL/T2E/AUl5qRZO/XWBssr
- zreqskLqCXgfh+l1OC97o0zfxxQq+b5TFgC83LxuxkLbJ0ovB4HumZZdj w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10226"; a="307604628"
-X-IronPort-AV: E=Sophos;i="5.88,289,1635231600"; d="scan'208";a="307604628"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2022 07:19:13 -0800
-X-IronPort-AV: E=Sophos;i="5.88,289,1635231600"; d="scan'208";a="594058641"
-Received: from smile.fi.intel.com ([10.237.72.61])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2022 07:19:07 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1n8OKv-00AgJa-UJ; Fri, 14 Jan 2022 17:17:53 +0200
-Date: Fri, 14 Jan 2022 17:17:53 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [RFC PATCH v3 2/3] drm: add support modifiers for drivers whose
- planes only support linear layout
-Message-ID: <YeGUIYK3hYo7wLJt@smile.fi.intel.com>
-References: <20220114101753.24996-1-etom@igel.co.jp>
- <20220114101753.24996-3-etom@igel.co.jp>
- <YeGFugZvwbF7l2I/@smile.fi.intel.com>
- <7eljcd3F4aWL2jjBRwr3DISmyt0XPWFIH1_kebFGqZTJXLZRx0bm_8c8yaIuEuH8rS0MaJhU6SY1y-fc6U_zCLaKgoLM124nZpr0H91nSjw=@emersion.fr>
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2112A10E247
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 15:39:20 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id s1so16261571wra.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 07:39:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=jXNZEwZWopLOube/TnweFY3ylo8I5Y2kE5XMP8T2Ov8=;
+ b=GkA9wucmubdrjrj4HneXKrK4hY0rkwpHiu8yjvg7DW8CIA2Kj7calNHWl9P1/5bljC
+ jwNsVAVW8u7yujluNC4gFO3H5hSjSdbfB9sgoyBJmXsYHvH0u6RJfENudlVYSDRNfMbv
+ epahwH1PX2JjR6kNErO0/y+MODd5P81O6BksU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=jXNZEwZWopLOube/TnweFY3ylo8I5Y2kE5XMP8T2Ov8=;
+ b=AgmRVaYWH0c9BU69LQ+9lHlmKJPtFbsNIN8p3548JdAVs0qCtwIbqmYFfrsCc1diai
+ cRxkgBu6+TOhky4rmgAUpGBbUzqXSMJJpUyjN/x+fjXxz7H56uMxENSoF59jgf7Y9p37
+ /StjY7C19TYVKwjtPqft2FWJjOWpqoDaDZjB2rreYDeWVtg9NWm0gwrA3ZkRSFyy1u4H
+ SKHdhfLHBPZy5/haUrUBwpAT4O0VU9mSKXvHSfp0soFMEa9CQpti1hEAIdgSuGfOeFeA
+ U0I+/KSarjevV9P+bX3uoE6XAYsfsZhZf3Z/wyvInTLE+AOwtq2RuleedhJxIYiVEOyK
+ buJA==
+X-Gm-Message-State: AOAM530BuhkWs0hr28dAlur4ColMKqGNoRKuNI+JP1OLvM9Er6ZcOsAV
+ FT8Unp23ua63v615SLmSOgLgFw==
+X-Google-Smtp-Source: ABdhPJxNZevE538tP4LShv3GxRNUO05WLuxfh+vCKMDuC4dcVo7/YRyf135J03GVFYQhhkynhoeovQ==
+X-Received: by 2002:a5d:5987:: with SMTP id n7mr8652918wri.1.1642174758565;
+ Fri, 14 Jan 2022 07:39:18 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id bg19sm11655468wmb.47.2022.01.14.07.39.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Jan 2022 07:39:18 -0800 (PST)
+Date: Fri, 14 Jan 2022 16:39:15 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PULL] drm-misc-next-fixes
+Message-ID: <YeGZI6oG+pMaDAas@phenom.ffwll.local>
+References: <YeGHu7qU92pjuQOn@linux-uq9g>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <7eljcd3F4aWL2jjBRwr3DISmyt0XPWFIH1_kebFGqZTJXLZRx0bm_8c8yaIuEuH8rS0MaJhU6SY1y-fc6U_zCLaKgoLM124nZpr0H91nSjw=@emersion.fr>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YeGHu7qU92pjuQOn@linux-uq9g>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,37 +67,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,
- Michel =?iso-8859-1?Q?D=E4nzer?= <mdaenzer@redhat.com>,
- Lee Jones <lee.jones@linaro.org>, Tomohito Esaki <etom@igel.co.jp>,
- Rob Clark <robdclark@chromium.org>, Takanari Hayama <taki@igel.co.jp>,
- amd-gfx@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
- Petr Mladek <pmladek@suse.com>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Alex Deucher <alexander.deucher@amd.com>, Sean Paul <seanpaul@chromium.org>,
- Evan Quan <evan.quan@amd.com>, Mark Yacoub <markyacoub@chromium.org>,
- Qingqing Zhuo <qingqing.zhuo@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Damian Hobson-Garcia <dhobsong@igel.co.jp>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sean Paul <sean@poorly.run>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 14, 2022 at 03:07:21PM +0000, Simon Ser wrote:
-> On Friday, January 14th, 2022 at 15:16, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+On Fri, Jan 14, 2022 at 03:24:59PM +0100, Thomas Zimmermann wrote:
+> Hi Dave and Daniel,
 > 
-> > Why not enum?
+> here are two more fixes for this week. I cherry-picked both from 
+> drm-misc-next.
 > 
-> There is no enum for DRM format modifiers.
+> Best regards
+> Thomas
+> 
+> drm-misc-next-fixes-2022-01-14:
+>  * atomic helpers: Fix error messages
+>  * mipi-dbi: Fix buffer mapping
+> The following changes since commit 5da8b49de472c1da8658466d4f63ef8d9251a819:
+> 
+>   dt-bindings: display: bridge: lvds-codec: Fix duplicate key (2021-12-22 14:02:04 -0400)
+> 
+> are available in the Git repository at:
+> 
+>   git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-2022-01-14
 
-I'm not sure how this prevents to use enum in the code instead of const u64.
-Any specific reason for that?
+Thanks, pulled to drm-next.
+-Daniel
+
+> 
+> for you to fetch changes up to 5d474cc501b90b82c182b5d00439eb6790a82e21:
+> 
+>   drm/mipi-dbi: Fix source-buffer address in mipi_dbi_buf_copy (2022-01-14 14:43:02 +0100)
+> 
+> ----------------------------------------------------------------
+>  * atomic helpers: Fix error messages
+>  * mipi-dbi: Fix buffer mapping
+> 
+> ----------------------------------------------------------------
+> Claudio Suarez (1):
+>       drm: fix error found in some cases after the patch d1af5cd86997
+> 
+> Liu Ying (1):
+>       drm/atomic: Check new_crtc_state->active to determine if CRTC needs disable in self refresh mode
+> 
+> Thomas Zimmermann (1):
+>       drm/mipi-dbi: Fix source-buffer address in mipi_dbi_buf_copy
+> 
+>  drivers/gpu/drm/drm_atomic_helper.c | 14 +++++++-------
+>  drivers/gpu/drm/drm_mipi_dbi.c      |  2 +-
+>  2 files changed, 8 insertions(+), 8 deletions(-)
+> 
+> -- 
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 Nürnberg, Germany
+> (HRB 36809, AG Nürnberg)
+> Geschäftsführer: Felix Imendörffer
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
