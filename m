@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C83AC48F209
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 22:30:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 826B548F214
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 22:41:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D31610E1EE;
-	Fri, 14 Jan 2022 21:30:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E759A10E236;
+	Fri, 14 Jan 2022 21:41:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
- [IPv6:2607:f8b0:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3487C10E236
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 21:30:55 +0000 (UTC)
-Received: by mail-oi1-x22f.google.com with SMTP id r138so14032632oie.3
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 13:30:55 -0800 (PST)
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
+ [IPv6:2607:f8b0:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6BBA10E23A
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 21:41:45 +0000 (UTC)
+Received: by mail-oi1-x233.google.com with SMTP id i9so14068660oih.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 13:41:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=qzWKW58EHMRYfJEMWdh6ZI9TALsJ363+iOZxWHKT5Dg=;
- b=m+tA33y4EKPBF5RGvo85oy9HWU3abLrzxeiKVsLD9tVTojyWnpMfPiGManmCHq+SJa
- jUCYY4SnECxcwj0qpyLRNSTBNh11tWxEcT5GvTDzcAsjz8ZAvy9YRLFECkOSyGWKolcO
- smb+cvls8PdAvykD60pN2/GL9MWc0BTWbKWjw=
+ bh=EiF4kxaLYYslVsSU2sOxDU0qaE58YW7xc6wp1g7lJQQ=;
+ b=aJyozUrkyudyCMwztwokNGSEAVnw6wQjjRztzVHW4JAvcr8WI07NRwpnWsK0diRUPt
+ Fg6IeQRZP9g8Ds56ymeldBaTBbQqvfd81JsjFfxduSl/Fq9np23NPioUWZ99mkBngw4z
+ XrI1d2GSV/i8mv1RJQoL4rGUg51B6kowqwvtU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=qzWKW58EHMRYfJEMWdh6ZI9TALsJ363+iOZxWHKT5Dg=;
- b=o8OK4J4kXnqghZbJM5GqIWQI/8E6irxFm106VtMuM8xG+xyuwucUhu7GHpFmhVHwa7
- bKuuvwF8R4GoBW+l/8uexxUg+NF35FMdoh3y+SVPsaaK+LmXWYcTpQTYGzv1dHhemd2s
- 2Cghh9wPb0JB0wjOZVKZhIPIiTqUamxipYgSMkSHzm99G9lCgVZxLFSRi2RB/X5AHeTk
- NEwfW8H8+o5eIj0vcL20EGsibMakB6rbVsm3c59K/9GKjL/AP1dE7prjbxe3omDGmTZ7
- 9zymC2TcjkQyp8Ars9NldxfLji5gMWKfRsuBjNjG1vnta2u0sDE4/2SXN6DvmUPkDn+D
- GGFQ==
-X-Gm-Message-State: AOAM532fa0+ZAs1U6uJ6wgtunvVgXJpD9ab6mv8XQu79aWfRdphNrsZO
- BnKt8ThjhueV2N8r3RlUL3/7DLMIamj3zQwc1id4Zw==
-X-Google-Smtp-Source: ABdhPJzLzmiokzwTquHXvpd04mD3pjLPkUF9enSFzCrjicEdCXOV9BJ3Pf4eqRXnVC2O0O5rr5vYBYKUyd0cJHUJnuk=
-X-Received: by 2002:aca:a953:: with SMTP id s80mr14644271oie.164.1642195854341; 
- Fri, 14 Jan 2022 13:30:54 -0800 (PST)
+ bh=EiF4kxaLYYslVsSU2sOxDU0qaE58YW7xc6wp1g7lJQQ=;
+ b=qYUo5LLMioeMav88Pkzcd/8crunWff8PY5gyUDjCY+3BbnlXZyRz7pf9u/1wa0Mk+c
+ vFiLO6y8BgqLH+rlxD6WY9gMMK0Ogi53Alh3a8uypEKidTuNPfXvl9fco7Bo8JJTKABh
+ 8qvxwZnyWwf346DeLRw25aO/zV9hcjS+kmS1gwfevWGnuw/H3FQ/JBvF8rBsPLrDRgT2
+ TvZxf3rSJ6vVuCt3X9XQWWenvXUaU+dJP3PDcHOUTkKA4wB07wBwjy+JG1aFvqONf7mo
+ CaOjqT6BFxxue+5EBrS9ErJ51woBVs1b6ntqrgv4Vg+VEpP35v58uplwGNXxquqktKGW
+ NPBg==
+X-Gm-Message-State: AOAM532Hbo4gO4FufdrnISiOQ9E8MHyipOXlsVPRUoEa67Wz+EiSI/xK
+ mlfKso6VPL24gY+ZDqAYHN+zOT/m3JC2XpOb4SNtRdRf7Zg=
+X-Google-Smtp-Source: ABdhPJxqXjmHGTouafQMbaFEPOTUQrNELWzSofFuBmD0rN8FxXai9W9dtNego1w9Wr2rWHHHSY+XGSIvw1IVJXLBDn4=
+X-Received: by 2002:aca:4382:: with SMTP id q124mr9068196oia.64.1642196504991; 
+ Fri, 14 Jan 2022 13:41:44 -0800 (PST)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 14 Jan 2022 15:30:53 -0600
+ HTTPREST; Fri, 14 Jan 2022 15:41:44 -0600
 MIME-Version: 1.0
-In-Reply-To: <69a10908622512c60790f97942731a8ab989b727.camel@mediatek.com>
-References: <20220106214556.2461363-1-swboyd@chromium.org>
- <20220106214556.2461363-26-swboyd@chromium.org>
- <1a3b368eb891ca55c33265397cffab0b9f128737.camel@mediatek.com>
- <CAE-0n53Y3WRy4_QvUm9k9wjjWV7adMDQcK_+1ji4+W25SSeGwg@mail.gmail.com>
- <ff81bc1fe1f1c2060fcf03ba14f1bef584c47599.camel@mediatek.com>
- <CAE-0n53FAHDmCznJ35Xh2aTwXBVwukAM3ioKx8SU9VowSaQSqA@mail.gmail.com>
- <69a10908622512c60790f97942731a8ab989b727.camel@mediatek.com>
+In-Reply-To: <1642194710-2512-2-git-send-email-quic_khsieh@quicinc.com>
+References: <1642194710-2512-1-git-send-email-quic_khsieh@quicinc.com>
+ <1642194710-2512-2-git-send-email-quic_khsieh@quicinc.com>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Fri, 14 Jan 2022 15:30:53 -0600
-Message-ID: <CAE-0n53ao52UX3sJ67UQ3dgj0-DZ0xTeo-NrmW5YVAuXfAnxZw@mail.gmail.com>
-Subject: Re: [PATCH v5 25/32] iommu/mtk: Migrate to aggregate driver
-To: Yong Wu <yong.wu@mediatek.com>
+Date: Fri, 14 Jan 2022 15:41:44 -0600
+Message-ID: <CAE-0n52UYBajrqGFqppun5oK82V3ppjvQxANU27kL95gCZtURg@mail.gmail.com>
+Subject: Re: [PATCH v15 1/4] drm/msm/dp: do not initialize phy until plugin
+ interrupt received
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
+ bjorn.andersson@linaro.org, daniel@ffwll.ch, dmitry.baryshkov@linaro.org, 
+ dri-devel@lists.freedesktop.org, robdclark@gmail.com, sean@poorly.run, 
+ vkoul@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,106 +67,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: youlin.pei@mediatek.com, Saravana Kannan <saravanak@google.com>,
- Will Deacon <will@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Joerg Roedel <joro@8bytes.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, Russell King <rmk+kernel@arm.linux.org.uk>,
- freedreno@lists.freedesktop.org
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ aravindh@codeaurora.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Yong Wu (2022-01-14 01:06:31)
-> On Wed, 2022-01-12 at 20:25 -0800, Stephen Boyd wrote:
-> > >
-> > > [    2.654526] ------------[ cut here ]------------
-> > > [    2.655558] refcount_t: addition on 0; use-after-free.
-> > >
-> > > After this patch, the aggregate_driver flow looks ok. But our
-> > > driver
-> > > still aborts like this:
-> > >
-> > > [    2.721316] Unable to handle kernel NULL pointer dereference at
-> > > virtual address 0000000000000000
-> > > ...
-> > > [    2.731658] pc :
-> > > mtk_smi_larb_config_port_gen2_general+0xa4/0x138
-> > > [    2.732434] lr : mtk_smi_larb_resume+0x54/0x98
-> > > ...
-> > > [    2.742457] Call trace:
-> > > [    2.742768]  mtk_smi_larb_config_port_gen2_general+0xa4/0x138
-> > > [    2.743496]  pm_generic_runtime_resume+0x2c/0x48
-> > > [    2.744090]  __genpd_runtime_resume+0x30/0xa8
-> > > [    2.744648]  genpd_runtime_resume+0x94/0x2c8
-> > > [    2.745191]  __rpm_callback+0x44/0x150
-> > > [    2.745669]  rpm_callback+0x6c/0x78
-> > > [    2.746114]  rpm_resume+0x314/0x558
-> > > [    2.746559]  __pm_runtime_resume+0x3c/0x88
-> > > [    2.747080]  pm_runtime_get_suppliers+0x7c/0x110
-> > > [    2.747668]  __driver_probe_device+0x4c/0xe8
-> > > [    2.748212]  driver_probe_device+0x44/0x130
-> > > [    2.748745]  __device_attach_driver+0x98/0xd0
-> > > [    2.749300]  bus_for_each_drv+0x68/0xd0
-> > > [    2.749787]  __device_attach+0xec/0x148
-> > > [    2.750277]  device_attach+0x14/0x20
-> > > [    2.750733]  bus_rescan_devices_helper+0x50/0x90
-> > > [    2.751319]  bus_for_each_dev+0x7c/0xd8
-> > > [    2.751806]  bus_rescan_devices+0x20/0x30
-> > > [    2.752315]  __component_add+0x7c/0xa0
-> > > [    2.752795]  component_add+0x14/0x20
-> > > [    2.753253]  mtk_smi_larb_probe+0xe0/0x120
-> > >
-> > > This is because the device runtime_resume is called before the bind
-> > > operation(In our case this detailed function is mtk_smi_larb_bind).
-> > > The issue doesn't happen without this patchset. I'm not sure the
-> > > right
-> > > sequence. If we should fix in mediatek driver, the patch could be:
-> >
-> > Oh, the runtime PM is moved around with these patches. The aggregate
-> > device is runtime PM enabled before the probe is called,
+Quoting Kuogee Hsieh (2022-01-14 13:11:47)
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index 7cc4d21..7cd6222 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -696,12 +699,9 @@ static int dp_irq_hpd_handle(struct dp_display_private *dp, u32 data)
+>          * dp core (ahb/aux clks) must be initialized before
+>          * irq_hpd be handled
+>          */
+> -       if (dp->core_initialized) {
+> -               ret = dp_display_usbpd_attention_cb(&dp->pdev->dev);
+> -               if (ret == -ECONNRESET) { /* cable unplugged */
+> -                       dp->core_initialized = false;
+> -               }
+> -       }
+> +       if (dp->core_initialized)
+
+When is this condition false? The irq isn't unmasked until the core has
+been initialized. On the resume path I suppose the irq is enabled in
+dp_display_host_init() calling dp_ctrl_reset_irq_ctrl(), and then we
+could immediately get the interrupt but it will block on the event_mutex
+lock.
+
+> +               dp_display_usbpd_attention_cb(&dp->pdev->dev);
+> +
+>         DRM_DEBUG_DP("hpd_state=%d\n", state);
 >
-> In our case, the component device may probe before the aggregate
-> device. thus the component device runtime PM has already been enabled
-> when aggregate device probe.
-
-This is always the case. The component device always probes before the
-aggregate device because the component device registers with the
-component framework. But the component device can decide to enable
-runtime PM during driver probe or during component bind.
-
+>         mutex_unlock(&dp->event_mutex);
+> @@ -1363,14 +1373,16 @@ static int dp_pm_suspend(struct device *dev)
+>                 if (dp_power_clk_status(dp->power, DP_CTRL_PM))
+>                         dp_ctrl_off_link_stream(dp->ctrl);
 >
-> > and there are
-> > supplier links made to each component, so each component is runtime
-> > resumed before the aggregate probe function is called.
+> +               dp_display_host_phy_exit(dp);
+> +
+> +               /* host_init will be called at pm_resume */
+>                 dp_display_host_deinit(dp);
+> +       } else {
+> +               dp_display_host_phy_exit(dp);
+
+I fail to see where this condition happens. Can we suspend the device
+without the irq being installed?
+
+>         }
 >
-> Yes. This is the current flow.
-
-Got it.
-
+>         dp->hpd_state = ST_SUSPENDED;
 >
-> > It means that all
-> > the component drivers need to have their resources ready to power on
-> > before their component_bind() callback is made.
+> -       /* host_init will be called at pm_resume */
+> -       dp->core_initialized = false;
+> -
+>         DRM_DEBUG_DP("After, core_inited=%d power_on=%d\n",
+>                         dp->core_initialized, dp_display->power_on);
 >
-> Sorry, I don't understand here well. In this case, The component
-> drivers prepare the resource for power on in the component_bind since
-> the resource comes from the aggregate driver. Thus, we expect the
-> component_bind run before the runtime resume callback.
-
-What resource comes from the aggregate device that the component device
-manages in runtime PM?
-
->
-> Another solution is moving the component's pm_runtime_enable into the
-> component_bind(It's mtk_smi_larb_bind here), then the runtime callback
-> is called after component_bind in which the resource for power on is
-> ready.
-
-This sounds more correct to me. I'm not an expert on runtime PM though
-as I always have to read the code to remember how it works. if the
-device isn't ready for runtime PM until the component bind function is
-called then runtime PM shouldn't be enabled on the component device.
