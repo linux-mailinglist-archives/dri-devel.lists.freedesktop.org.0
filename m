@@ -2,112 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B37F748E220
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 02:25:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1DF448E241
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 02:46:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 757E210E1BF;
-	Fri, 14 Jan 2022 01:25:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C60310EB49;
+	Fri, 14 Jan 2022 01:46:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 410 seconds by postgrey-1.36 at gabe;
- Fri, 14 Jan 2022 01:25:24 UTC
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9109010E1BF
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 01:25:24 +0000 (UTC)
-Received: from epcas1p1.samsung.com (unknown [182.195.41.45])
- by mailout2.samsung.com (KnoxPortal) with ESMTP id
- 20220114011832epoutp02990643bd7ca0ee0b6d70d4fb743da426~J-kU7QocP2239022390epoutp02n
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 01:18:32 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
- 20220114011832epoutp02990643bd7ca0ee0b6d70d4fb743da426~J-kU7QocP2239022390epoutp02n
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1642123112;
- bh=K0OyxvtMr52YMpKcDKFt21xBQL67LVQspixlM2YQbT4=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=OBkIAwZHkcFcqVlS/JcaFgY5btSYOYxcTDxmLRA64pLIx3kej5OfNZ/cBXRnq1VeF
- uPDIgDXQPR0b5i9/pp3rA81/TlDejqAxlGkRSS8z0Zi7i8ljByQ9esXCdS1moLzC++
- 11Wc9vr+XmJlYI+p17uuj6+tjRALlRh6FaWO86b8=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
- epcas1p4.samsung.com (KnoxPortal) with ESMTP id
- 20220114011832epcas1p4568a0e298b1c483d790c882acd78c7a5~J-kUkZ5Ab2532925329epcas1p4s;
- Fri, 14 Jan 2022 01:18:32 +0000 (GMT)
-Received: from epsmges1p5.samsung.com (unknown [182.195.38.233]) by
- epsnrtp1.localdomain (Postfix) with ESMTP id 4JZk2S0sMBz4x9QV; Fri, 14 Jan
- 2022 01:18:24 +0000 (GMT)
-Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
- epsmges1p5.samsung.com (Symantec Messaging Gateway) with SMTP id
- CA.36.28648.75FC0E16; Fri, 14 Jan 2022 10:18:15 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas1p4.samsung.com (KnoxPortal) with ESMTPA id
- 20220114011815epcas1p4e0d6c929fcd7e2e7f4059b3d2aee9c9f~J-kFV11AV1691916919epcas1p47;
- Fri, 14 Jan 2022 01:18:15 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20220114011815epsmtrp159181747b293813a6012c873771aed56~J-kFUdsPC2266022660epsmtrp13;
- Fri, 14 Jan 2022 01:18:15 +0000 (GMT)
-X-AuditID: b6c32a39-003ff70000006fe8-93-61e0cf57fbf0
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- FC.4B.29871.75FC0E16; Fri, 14 Jan 2022 10:18:15 +0900 (KST)
-Received: from [10.113.221.211] (unknown [10.113.221.211]) by
- epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20220114011815epsmtip27bfe8541ad95e9a7108da9eaf1761573~J-kFF4joj2570325703epsmtip2H;
- Fri, 14 Jan 2022 01:18:15 +0000 (GMT)
-Subject: Re: [PATCH] Revert "drm: exynos: dsi: Convert to bridge driver"
-To: Robert Foss <robert.foss@linaro.org>, Jagan Teki
- <jagan@amarulasolutions.com>
-From: Inki Dae <inki.dae@samsung.com>
-Message-ID: <0804d45b-7ca3-1e2a-cff5-038309bea686@samsung.com>
-Date: Fri, 14 Jan 2022 10:29:50 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 626A410EB44
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 01:46:39 +0000 (UTC)
+Received: by mail-pl1-x631.google.com with SMTP id c3so12008214pls.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jan 2022 17:46:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=bkqHKFcqNq4gb3jt/dwVidqQ5ehBpW6sVTKKduTND5U=;
+ b=bw/xTIGkLnDSX9jnLJvwk5GLgnDjyrWwq8Y3tVvHRP6pWVepDvUpb24R90CZqhCC9L
+ aPDuN+fjx5ZNM0lh6Ev1Rdp4FW9LQb33SYHXU/i36i7j63RSdUSEMkqSEA++xM1uPNqV
+ StKVAv05ywvQcPh5touaCbEXJCmFgXsvK6N0KqdBzM1f06SgAVOAiKA6wnUrjGh+1pkZ
+ II8T7YG2HfpxuY7x8xiehN6DY67dV2M4AyZiCLEvFd+uVW/sDwMW8qmu4OQr/Bm715bX
+ 85ItrhYElmFILfdvKOBwMu6otmSLygtM3c7AqcLmHK/BN7pWlStOp7FR0HmGMDn/1OFP
+ 2dJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=bkqHKFcqNq4gb3jt/dwVidqQ5ehBpW6sVTKKduTND5U=;
+ b=mnpTR4GF6H8vEhe146oe2l6W5gJxXT6FX/Yak8P4+8t3GP8tGKhdDkA1UHNx3pspq5
+ 5Gqd5x3BoVIWYqZf7N4W1T5RUX3S6JMxdGr/+0Y4FBYv2yDuvyMt6UTYCIjiAqcm2kiO
+ gbXfQB+5g0Up+LUb27gSP8SNqpXrn1X73eKYStxlq0vJS+3qWx4V03rE6sJbdIIBe/4K
+ n9g24UdD0r0o+sWJjYJuRrGhhkW4cE9E8AXQaceB/0SbA9gi0OSMOq+2Kn0Smus0kjhz
+ fEsaAXjYoFhWTlweKNfsHkJWHI091tKaeWghm4AwtCBdDcpJctzRJa5u0uPvplPN0pks
+ +Mrg==
+X-Gm-Message-State: AOAM530uwyCdReUwBTxmdBdXZHUACWyg7jznIL6zTDbl023vCRTdsUyC
+ lqvsVEjBkSO54qAimZOyUox0eQ==
+X-Google-Smtp-Source: ABdhPJx1n2buo+IEu0BN44/SXSTvAhCpZgcA1x+30GjD3bQ1/gPeJucU2x/Go977cYZdYlI7KOzxEg==
+X-Received: by 2002:a17:90b:3a87:: with SMTP id
+ om7mr16573934pjb.16.1642124798972; 
+ Thu, 13 Jan 2022 17:46:38 -0800 (PST)
+Received: from [10.16.129.73] (napt.igel.co.jp. [219.106.231.132])
+ by smtp.gmail.com with ESMTPSA id a9sm3713554pfo.169.2022.01.13.17.46.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 13 Jan 2022 17:46:38 -0800 (PST)
+Message-ID: <4d77b583-ce3f-89e5-75e1-ccfd661c5198@igel.co.jp>
+Date: Fri, 14 Jan 2022 10:46:31 +0900
 MIME-Version: 1.0
-In-Reply-To: <CAG3jFytb_huJfmzPxeOwwBKbRjD0KXq1X49G2ODbif_e5cYp4g@mail.gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [RFC PATCH v2 0/3] Add support modifiers for drivers whose planes
+ only support linear layout
 Content-Language: en-US
+To: Daniel Stone <daniel@fooishbar.org>
+References: <20220113094419.12433-1-etom@igel.co.jp>
+ <CAPj87rPk3_8LdnwWJ3BhtJnRuR+_WHg2hfdgK2R4SMacPGCrUQ@mail.gmail.com>
+From: Esaki Tomohito <etom@igel.co.jp>
+In-Reply-To: <CAPj87rPk3_8LdnwWJ3BhtJnRuR+_WHg2hfdgK2R4SMacPGCrUQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprJJsWRmVeSWpSXmKPExsWy7bCmvm74+QeJBpsmW1vcX/yZxeLK1/ds
- Fl82TWCz6Jy4hN3iUF+0xadZD5kd2DzWfrzP6vH+Riu7x+yOmawei/e8ZPK4c20Pm8f97uNM
- AWxR2TYZqYkpqUUKqXnJ+SmZeem2St7B8c7xpmYGhrqGlhbmSgp5ibmptkouPgG6bpk5QGco
- KZQl5pQChQISi4uV9O1sivJLS1IVMvKLS2yVUgtScgpMC/SKE3OLS/PS9fJSS6wMDQyMTIEK
- E7Iz/k/byFjQwVKx5/QvxgbGxcxdjJwcEgImEl33VzN1MXJxCAnsYJSYP/kpO4TziVFi7ZMp
- jCBVQgLfGCW2f4mE6XjQdhyqaC+jRP/rv8wQzntGiak/5jKBVAkLeEgs/vGRDcQWEQiWOPjr
- GAtIEbPAHkaJb7Ob2UESbAKqEhNX3Acr4hWwk1gytQ+smQUo3rj6BVhcVCBS4v6P5ewQNYIS
- J2c+ARrEwcEpECjx6YcnSJhZQFzi1pP5TBC2vETz1tlgB0kITOSQuHpkPQvE2S4S0xt2MkLY
- whKvjm9hh7ClJF72t7FDNOxjlFi+6ySUc5hRonlnMxNElbHE/qWTmUA2MwtoSqzfpQ8RVpTY
- +XsuI8RmPol3X3tYQUokBHglOtqEIEqUJI5dvAG1V0LiwpKJbBC2h8SfZ8eYJzAqzkLy2iwk
- /8xC8s8shMULGFlWMYqlFhTnpqcWGxaYwqM7OT93EyM4jWpZ7mCc/vaD3iFGJg7GQ4wSHMxK
- Irz9RfcThXhTEiurUovy44tKc1KLDzGaAgN7IrOUaHI+MJHnlcQbmlgamJgZGZtYGJoZKonz
- rpp2OlFIID2xJDU7NbUgtQimj4mDU6qByWJzx/c9re9uvuPpavY//0RLcPqBOslNRwVev315
- 7Mmc9xvdugz7v13+u/rCYfEetb/H3umsdE3qsb31Z1l/6fyyFXe80r9v8PdL4HU/seCE19Tf
- TrdTjs4WLku6bt1RFNN23PrslKXNWix1R7Z9P2M2gX+rX9X+Ju9cCSc+P+G/SeHak/mY/rvf
- 1nxStIZjW0/IGSV+Xa35035JRZ84r7dX3CxV9rjlqa3pR3j9t15NW9PKu4rPWe31Mu+X7/cH
- eJ02ejfvI+9lD4koUUcvfTNBNi9uw5vTJpY9cI2aJWAYu91Sa9OMX7WWCeYybGl/fbhbX/VG
- Veotfad9dtPk+Vf4pV76V9scMbph8E+3S4mlOCPRUIu5qDgRABAy25YsBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrGLMWRmVeSWpSXmKPExsWy7bCSvG74+QeJBhvPqVrcX/yZxeLK1/ds
- Fl82TWCz6Jy4hN3iUF+0xadZD5kd2DzWfrzP6vH+Riu7x+yOmawei/e8ZPK4c20Pm8f97uNM
- AWxRXDYpqTmZZalF+nYJXBn/p21kLOhgqdhz+hdjA+Ni5i5GTg4JAROJB23H2bsYuTiEBHYz
- SjTv6ARyOIASEhJbtnJAmMIShw8XQ5S8ZZRYsfc5I0ivsICHxOIfH9lAbBGBYInD/6+zgBQx
- C+xjlPi79R4rRMdtRokvJ6YwgVSxCahKTFxxH6yDV8BOYsnUPrA4C1C8cfULsLioQKTEuuPL
- 2CFqBCVOznzCAnIFp0CgxKcfniBhZgF1iT/zLjFD2OISt57MZ4Kw5SWat85mnsAoNAtJ9ywk
- LbOQtMxC0rKAkWUVo2RqQXFuem6xYYFhXmq5XnFibnFpXrpecn7uJkZw1Ghp7mDcvuqD3iFG
- Jg7GQ4wSHMxKIrz9RfcThXhTEiurUovy44tKc1KLDzFKc7AoifNe6DoZLySQnliSmp2aWpBa
- BJNl4uCUamA6188f+jm33DdVWTd+HaNG8tWvd/J/SM860jzP71TUTqvtb0RdT3JGsFqdWnVo
- 0jbBx5PX7Z/0dlJ/CtPl3NOlX/K/bwhcOrGlm6dm8Uq+0oM/He5sVbn0VeXnno2BkZmlveW/
- zt/7evlY+KmZctduqq9eUMEzX/S524N63b0TmnRTdWtMHUxNin7td/rq7Dwx6ua90hsKy5nV
- MhhOfKoNOTWbcYrIzRmHak0uB6+eLpvQ/G1HSc181qBTHMt3u0zbqj1FYJenyaZnn2sW1P1S
- UmbteXxn92GFlFO/yp6/CNHl97t3SH5JwqtpAQ9OBAWvuxYwRaK76fEHiZ939pya1JqwwS4r
- rv3vVlabyQ931iuxFGckGmoxFxUnAgBC7ZxaCQMAAA==
-X-CMS-MailID: 20220114011815epcas1p4e0d6c929fcd7e2e7f4059b3d2aee9c9f
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220112100521epcas1p10beeb5ac3a77a212810822266badda3c
-References: <20220111184347.502471-1-jagan@amarulasolutions.com>
- <CGME20220112100521epcas1p10beeb5ac3a77a212810822266badda3c@epcas1p1.samsung.com>
- <CAG3jFytb_huJfmzPxeOwwBKbRjD0KXq1X49G2ODbif_e5cYp4g@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,25 +75,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <mdaenzer@redhat.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>
+ Lee Jones <lee.jones@linaro.org>, Rob Clark <robdclark@chromium.org>,
+ Evan Quan <evan.quan@amd.com>, amd-gfx@lists.freedesktop.org,
+ Ben Skeggs <bskeggs@redhat.com>, Petr Mladek <pmladek@suse.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Takanari Hayama <taki@igel.co.jp>, Sean Paul <seanpaul@chromium.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Mark Yacoub <markyacoub@chromium.org>, Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Damian Hobson-Garcia <dhobsong@igel.co.jp>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Robert,
+Hi Daniel-san,
 
-22. 1. 12. 오후 7:05에 Robert Foss 이(가) 쓴 글:
-> Thank you again for catching this and submitting a revert.
-> 
-> Reviewed-by: Robert Foss <robert.foss@linaro.org
-> 
-> Applied to drm-misc-next.
-> 
+Thank you for your comments.
 
-Trivial thing I think but just notice. With this applying - original patch set and revert one, merge conflict may happen on drm-next because drm-misc-next has this patch set exynos-drm-next tree doesn't include. 
-Leaving this patch history in drm-misc-next is correct?
+On 2022/01/13 22:44, Daniel Stone wrote:
+> Hi Esaki-san,
+> 
+> On Thu, 13 Jan 2022 at 09:44, Tomohito Esaki <etom@igel.co.jp> wrote:
+>> Some drivers whose planes only support linear layout fb do not support format
+>> modifiers.
+>> These drivers should support modifiers, however the DRM core should handle this
+>> rather than open-coding in every driver.
+>>
+>> In this patch series, these drivers expose format modifiers based on the
+>> following suggestion[1].
+> 
+> Thanks for the series, it looks like the right thing to do.
+> 
+> Can you please change the patch ordering though? At the moment there
+> will be a bisection break at patch #1, because the legacy drivers will
+> suddenly start gaining modifier support, before it is removed in patch
+> #2.
+> 
+> I think a better order would be:
+>    1: add fb_modifiers_not_supported flag to core and drivers
+>    2: add default modifiers (and set allow_fb_modifiers) if
+> fb_modifiers_not_supported flag is not set
+>    3: remove allow_fb_modifiers flag
+> 
+I agree to your proposal.
+I will fix these patches.
 
-Thanks,
-Inki Dae
+-- 
+--------------------------
+株式会社イーゲル
+江崎　朋人
+etom@igel.co.jp
