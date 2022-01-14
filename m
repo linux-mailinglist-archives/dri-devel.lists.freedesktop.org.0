@@ -2,63 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C6CC48EECD
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 17:57:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7639848EECF
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 17:59:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5124910EBAB;
-	Fri, 14 Jan 2022 16:57:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BFA610ED51;
+	Fri, 14 Jan 2022 16:59:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8D6410EBAB
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 16:57:42 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id v6so16607652wra.8
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 08:57:42 -0800 (PST)
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E16810ED51
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 16:59:03 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id k30so16606563wrd.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 08:59:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:mail-followup-to:references
  :mime-version:content-disposition:in-reply-to;
- bh=8tlmhR9a+oSiQxYgTs9TSjEyT0cpPnO4gBCG7leedNI=;
- b=QcCsaXmaZFWsArkyS5ubMHNqwdV+bONwmyEp85ScjOc2CF/42wJGz4jjT+ad/Ry611
- 083GxGtKg4TJ79eMUo3dC2J+XtNJ9+5FfgSuwjcmtvOR/4zwkboYinLPZ2YyT7IQEcX6
- O4+0Ww9RTbJquWrvJBsU4RGpdabqbKvq6Eo4w=
+ bh=tg4oCMG6li+TDjSwe6u86VlYXa8liJ00jWszISs+oTI=;
+ b=XEOBIwW/kQkclrF8e9c9xVwCab3wDlckLrQdSpSP8Q6g248n17tpuLNk/YrLR5DN5G
+ polByyx+FxbcK+p4gvaiqo0wiHU6seMH9LcQqa7YxAMPHhQcjYrh6Vgp7B4/6dVr6OKN
+ TU6gfhObqGnrBwxCL2NDWL66X4p7lARMmmf0Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id
  :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=8tlmhR9a+oSiQxYgTs9TSjEyT0cpPnO4gBCG7leedNI=;
- b=3n7/K8jFVMGzojL2E9Inph0To/GSpRJJ2Noc34V8+8XLLiZiFLZcE6Pry31sKBmcQf
- UxnYCUy4iKqziYwWJN/GpI3gs1e+/82a9M0By6+RQ1GhDv23XNqz04huf1xmCI73RDjF
- JPeP1CRGAsae9z8xktzRvUQ0YmWwlMj8CGrg/aHNi28B8WNrdoQdEutEn1f9acH2d+rY
- ibjJKJlUaWKTOfS0lHW/5Rw4HNfXhj2Jjcol9QkrX+m7mF98lqP2nrsa/loFGwJurdYy
- Lry4/4zcCjy/zkBKs85CwwGToekYKlU6FDVp/DE3KGNDN2inlLPC4bLaIscnEwY/4RKb
- awvw==
-X-Gm-Message-State: AOAM530zXrbMOUfl1hKiKHIhjgUqdfHcsNDmrmeidJBLrV1WP+zHdRKh
- LN0Slk52uQLxgsJlWqrSkjQ6AEEiOf7vdA==
-X-Google-Smtp-Source: ABdhPJwJs+M7uqymw5kPe5LWbLvcWEC9656nwi+iTRgHPrTpBHgrVMtYX3b6p8Xz5qk20YpoKPr0gw==
-X-Received: by 2002:a5d:6e09:: with SMTP id h9mr9098120wrz.116.1642179461451; 
- Fri, 14 Jan 2022 08:57:41 -0800 (PST)
+ bh=tg4oCMG6li+TDjSwe6u86VlYXa8liJ00jWszISs+oTI=;
+ b=Vz122aq2MiaLnfZarKkEoBLZrJfViAXu7l6PTqzM8MgHa3n/nBqCMyqGD80dKOX4pD
+ KAComYdjTWwP++IQY5FLyfVGlc4MgqRNQHP8nrMIvd2ZR46zvs8WVqaUTfn1AO2rcOjo
+ 99qmdN+vWxX1k8vBf3WdCEcWGtfoF19/iFfxH43p1y74nJUPKBSwFmZo00804+ihw4Mz
+ clrEE3vO4wNCiKBDaaBwjRJOi09BLDdp6rdNNcBoREi1YdgGswTb+gadb03GGzQFbVJL
+ jMSzBZDhqTPg0oqFsbge+h5oUF4W0Jkk13/KgRv/7nYkkehynWYsdrkHl73WzVBdmgl0
+ JAvw==
+X-Gm-Message-State: AOAM530XLhQiBNagr3iHs+Av7tJtUFj/AZyMuMyREHoP8Gyp9nFxxTqn
+ 34nbg2RmqpTxQgqwDduVo4U4/A==
+X-Google-Smtp-Source: ABdhPJyKiq9MKoMx2tCGoLdeoS50UBy5IjTi4zD8ToVwJYkKEf3eHDu/vOLA1ET+NX5npL0uE0wh8w==
+X-Received: by 2002:a5d:6903:: with SMTP id t3mr8826258wru.353.1642179541790; 
+ Fri, 14 Jan 2022 08:59:01 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id s10sm10546434wmr.30.2022.01.14.08.57.40
+ by smtp.gmail.com with ESMTPSA id u17sm1549490wrt.37.2022.01.14.08.59.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Jan 2022 08:57:40 -0800 (PST)
-Date: Fri, 14 Jan 2022 17:57:38 +0100
+ Fri, 14 Jan 2022 08:59:01 -0800 (PST)
+Date: Fri, 14 Jan 2022 17:58:59 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Pavel Skripkin <paskripkin@gmail.com>
-Subject: Re: [PATCH] udmabuf: validate ubuf->pagecount
-Message-ID: <YeGrgs+4PXM2ud+n@phenom.ffwll.local>
-Mail-Followup-To: Pavel Skripkin <paskripkin@gmail.com>, kraxel@redhat.com,
- sumit.semwal@linaro.org, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- syzbot+2c56b725ec547fa9cb29@syzkaller.appspotmail.com
-References: <20211230142649.23022-1-paskripkin@gmail.com>
- <c5ae2a68-070f-884c-c82a-2d3f4b8e06b1@gmail.com>
+To: Colin Ian King <colin.i.king@gmail.com>
+Subject: Re: [PATCH] video: fbdev: s3c-fb: remove redundant initialization of
+ pointer bufs
+Message-ID: <YeGr01WGTSy+PYXr@phenom.ffwll.local>
+Mail-Followup-To: Colin Ian King <colin.i.king@gmail.com>,
+ Jingoo Han <jingoohan1@gmail.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, llvm@lists.linux.dev,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20211230160626.404072-1-colin.i.king@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c5ae2a68-070f-884c-c82a-2d3f4b8e06b1@gmail.com>
+In-Reply-To: <20211230160626.404072-1-colin.i.king@gmail.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,61 +71,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- kraxel@redhat.com, syzbot+2c56b725ec547fa9cb29@syzkaller.appspotmail.com,
- christian.koenig@amd.com, linux-media@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
+ llvm@lists.linux.dev, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 12, 2022 at 09:08:46PM +0300, Pavel Skripkin wrote:
-> On 12/30/21 17:26, Pavel Skripkin wrote:
-> > Syzbot has reported GPF in sg_alloc_append_table_from_pages(). The
-> > problem was in ubuf->pages == ZERO_PTR.
-> > 
-> > ubuf->pagecount is calculated from arguments passed from user-space. If
-> > user creates udmabuf with list.size == 0 then ubuf->pagecount will be
-> > also equal to zero; it causes kmalloc_array() to return ZERO_PTR.
-> > 
-> > Fix it by validating ubuf->pagecount before passing it to
-> > kmalloc_array().
-> > 
-> > Fixes: fbb0de795078 ("Add udmabuf misc device")
-> > Reported-and-tested-by: syzbot+2c56b725ec547fa9cb29@syzkaller.appspotmail.com
-> > Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
-> > ---
-> > 
+On Thu, Dec 30, 2021 at 04:06:26PM +0000, Colin Ian King wrote:
+> Pointer bufs is being initialized with a value that is never read, it
+> is being re-assigned with a different value later on. The assignment
+> is redundant and can be removed. Cleans up clang-scan warning:
 > 
-> Gentle ping :)
+> drivers/video/fbdev/s3c-fb.c:492:16: warning: Value stored to 'buf'
+> during its initialization is never read [deadcode.DeadStores]
+>         void __iomem *buf = regs;
+> 
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 
-Gerd Hoffmann should pick this one up, pls holler again if it doesn't
-happen.
+Both of your dead store fixes queued up in drm-misc-next for 5.18.
 -Daniel
 
+> ---
+>  drivers/video/fbdev/s3c-fb.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> > 
-> > ---
-> >   drivers/dma-buf/udmabuf.c | 4 ++++
-> >   1 file changed, 4 insertions(+)
-> > 
-> > diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-> > index c57a609db75b..e7330684d3b8 100644
-> > --- a/drivers/dma-buf/udmabuf.c
-> > +++ b/drivers/dma-buf/udmabuf.c
-> > @@ -190,6 +190,10 @@ static long udmabuf_create(struct miscdevice *device,
-> >   		if (ubuf->pagecount > pglimit)
-> >   			goto err;
-> >   	}
-> > +
-> > +	if (!ubuf->pagecount)
-> > +		goto err;
-> > +
-> >   	ubuf->pages = kmalloc_array(ubuf->pagecount, sizeof(*ubuf->pages),
-> >   				    GFP_KERNEL);
-> >   	if (!ubuf->pages) {
+> diff --git a/drivers/video/fbdev/s3c-fb.c b/drivers/video/fbdev/s3c-fb.c
+> index 3b134e1bbc38..68408c499627 100644
+> --- a/drivers/video/fbdev/s3c-fb.c
+> +++ b/drivers/video/fbdev/s3c-fb.c
+> @@ -489,7 +489,7 @@ static int s3c_fb_set_par(struct fb_info *info)
+>  	struct s3c_fb_win *win = info->par;
+>  	struct s3c_fb *sfb = win->parent;
+>  	void __iomem *regs = sfb->regs;
+> -	void __iomem *buf = regs;
+> +	void __iomem *buf;
+>  	int win_no = win->index;
+>  	u32 alpha = 0;
+>  	u32 data;
+> -- 
+> 2.33.1
 > 
-> With regards,
-> Pavel Skripkin
 
 -- 
 Daniel Vetter
