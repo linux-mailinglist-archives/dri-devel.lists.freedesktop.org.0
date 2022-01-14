@@ -1,63 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B03548EB11
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 14:50:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5480948EB21
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 14:56:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2025F10E3FD;
-	Fri, 14 Jan 2022 13:50:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E695810E437;
+	Fri, 14 Jan 2022 13:56:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B94610E46A
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 13:50:32 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- q9-20020a7bce89000000b00349e697f2fbso6756153wmj.0
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 05:50:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=QlfUyIUz6TZ7yZAydMTFa8R0n21bBwrBoXg4y4T/PnQ=;
- b=aL473+zaFEgZEU1qAMYwu8+xpeSxu6FTrMOFKzXZgG0VdHjzov+RUaN6rfHXuxwdzk
- ai7hzyNum+WCNexRntHJ2SgghSC3itCGotJoQQ12ywEgOjOf+mbrtKbnEF5+CVJn/wGx
- 01Y24PA3V+kq0oTmhLhIh7tboMEPrLKLPCsL8=
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E00D10E437
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 13:56:32 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id x4so15748700wru.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 05:56:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=subject:to:cc:references:from:organization:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5udCTvqUXGS4tOVFmzGXWH5rXTQA7PPfJYqSXxKYcYQ=;
+ b=7ITvWIaLhJe37XuKQXuf98Fd+kG5nDnoL/HRhUEaZA1r5ccsjpvpMYj0cLxzoZb1Bd
+ OD/fYp1DajOnFUydYEhpcfgUtJI7ZKeFtVtk7rLWDnnU8S0jiMjjNYkpEjohDf5wrSMX
+ WvQ6TRS8NTo1ZZhrLKP47Fj5AyVNEePU5uTHXzacuAyQwb/vCUeXlnhaIVsJF3RVxT/T
+ MrB1n9kIIOIyuoNi6Qks22fUZSLCCZ7wwG124j9P/e6hvSeUA26iB1wT1BCcr8q/OdVr
+ +XvmQD/ZPcbjljPbP7+XJwUvuRiR3T//xxkQijKkvlPknt92OuHK8OP5lgQ3y9mqmEhx
+ qziA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=QlfUyIUz6TZ7yZAydMTFa8R0n21bBwrBoXg4y4T/PnQ=;
- b=qAKv1r5HqozDi/XySo5e30Y2+4wJr3Kg7PJXbz+xUW+sQdv2R18AdLPKW8our9WEtK
- 74+NlpIrSfY7niVfFINQC45VC4oMs7CCajP/7Saay9YYd7q4bmexAVpACw3ycsXwN6Dd
- qTzCQQTX/2InVZYjZhNFCNjr470VZsyIEYCwzwlt3LRGmMeP8Kk63uMMN24o22bOkngU
- tXzPASuZcCV5Wp8UOexYMCRLIA33CFB5R+2i9gPJlv2Fy+rnfd3b6WlcaZBNtJs5fBgh
- SKwwGz8Ey76GAPoHLZdtGD+KDownzq07sVolGh8W88stkBm1lL+szH/A7guLoAT3cxuY
- b8WQ==
-X-Gm-Message-State: AOAM5328gbCVWNlHd+EZMBXL20WYN2CW32PduZJmlShzomTgjbXycna6
- Nh4sPAFuAcjO0sDmZSTd+HAkommfr04J/g==
-X-Google-Smtp-Source: ABdhPJznrmGvxDxG4pjsYtRUoBmrx4I/PxegzCDv1ubNeIeMu9gkrbGXAO1gogcweN4TSpfmh3slGA==
-X-Received: by 2002:a05:600c:4e4b:: with SMTP id
- e11mr8383007wmq.28.1642168230917; 
- Fri, 14 Jan 2022 05:50:30 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id m17sm10160303wmq.31.2022.01.14.05.50.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Jan 2022 05:50:29 -0800 (PST)
-Date: Fri, 14 Jan 2022 14:50:27 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Alex Deucher <alexander.deucher@amd.com>
-Subject: Re: [pull] amdgpu, amdkfd drm-next-5.17
-Message-ID: <YeF/oxPpNcc3doV4@phenom.ffwll.local>
-References: <20220113030537.5758-1-alexander.deucher@amd.com>
- <YeF2+htNyJ7/hp3l@phenom.ffwll.local>
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=5udCTvqUXGS4tOVFmzGXWH5rXTQA7PPfJYqSXxKYcYQ=;
+ b=qmNS7Hei4grzoJNvvLudn1dFvzLecrj3F5DpigWI4o1PCxbKGE56SrR/mhUa/jI1m0
+ I+YfC3jyGwxkoFZRjhP487yFtBZMFIs37Q4fs85BMB1Z/ZYrYhjw7Bgl9IWN3cfl19pv
+ BBlz1hCqidSUE5uKz+/XzDLJaKSmhKAfgKceI6j7IpQu4fuk4CjwUOp8oIaFAKvjY21h
+ yQcKhuCLYlWzcLARhXzNcjdJfwamEZVynJWzNtQJ5aTzpD9UNqwnzekiRu+TUN2wsQ3w
+ /SgvTIwGRdTJ6FnAxrCnU3mZFIArplrul8QhB4xi/iPfJELbJjvXiGNcLIwN2q5wmEX+
+ WMYg==
+X-Gm-Message-State: AOAM530YH3RPIhrTRBHrC1NeTxL1DG6XdPzc0TwJ5daL1A/0YJEu2yxg
+ NkMBGQM+EMXxO2X9wkYsKajjAg==
+X-Google-Smtp-Source: ABdhPJxauR9mnkqcFHnV53qVgtix4YH8ysgrrp0WL0fPncVC+BidoxMFeeuID+BvFpFPf3X7Me9JZg==
+X-Received: by 2002:adf:f789:: with SMTP id q9mr8749145wrp.200.1642168590564; 
+ Fri, 14 Jan 2022 05:56:30 -0800 (PST)
+Received: from ?IPv6:2001:861:44c0:66c0:a3fc:c40b:5afc:88ee?
+ ([2001:861:44c0:66c0:a3fc:c40b:5afc:88ee])
+ by smtp.gmail.com with ESMTPSA id g6sm5512201wri.80.2022.01.14.05.56.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Jan 2022 05:56:30 -0800 (PST)
+Subject: Re: dw_hdmi is showing wrong colour after commit
+ 7cd70656d1285b79("drm/bridge: display-connector: implement bus fmts
+ callbacks")
+To: Biju Das <biju.das.jz@bp.renesas.com>, Fabio Estevam <festevam@gmail.com>
+References: <OS0PR01MB59221ED76B74231F5836D5FB86539@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAOMZO5DJiCb5bJN5_nxnYa-FsK-u7QtFghWNzs_-udE42XPDeA@mail.gmail.com>
+ <502f3ec4-fea4-8e14-c7a9-39418fc05d6d@baylibre.com>
+ <OS0PR01MB592224EC8F50F41B7FF1DEE286549@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <19dd6013-8a31-b2ed-29d5-93fc44193ce4@baylibre.com>
+ <OS0PR01MB5922F442759BE6F228EE0B4486549@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Organization: Baylibre
+Message-ID: <538b8da4-1201-5f45-2abf-ecd22c867358@baylibre.com>
+Date: Fri, 14 Jan 2022 14:56:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YeF2+htNyJ7/hp3l@phenom.ffwll.local>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+In-Reply-To: <OS0PR01MB5922F442759BE6F228EE0B4486549@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,218 +82,235 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
+Cc: "jonas@kwiboo.se" <jonas@kwiboo.se>,
+ "martin.blumenstingl@googlemail.com" <martin.blumenstingl@googlemail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "robert.foss@linaro.org" <robert.foss@linaro.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
+ "linux-amlogic@lists.infradead.org" <linux-amlogic@lists.infradead.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 14, 2022 at 02:13:30PM +0100, Daniel Vetter wrote:
-> On Wed, Jan 12, 2022 at 10:05:37PM -0500, Alex Deucher wrote:
-> > Hi Dave, Daniel,
-> > 
-> > Fixes for 5.17.
-> > 
-> > The following changes since commit cb6846fbb83b574c85c2a80211b402a6347b60b1:
-> > 
-> >   Merge tag 'amd-drm-next-5.17-2021-12-30' of ssh://gitlab.freedesktop.org/agd5f/linux into drm-next (2021-12-31 10:59:17 +1000)
-> > 
-> > are available in the Git repository at:
-> > 
-> >   https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-next-5.17-2022-01-12
-> > 
-> > for you to fetch changes up to 5eb877b282fecc8b8a6ac6d4ce0d5057f9d3bad0:
-> > 
-> >   drm/amdkfd: Fix ASIC name typos (2022-01-11 15:44:28 -0500)
-> 
-> The baseline you picked here is a bit funny because you have a bugfix here
-> for a problem which is only in 5.16, and your branch isn't including 5.16.
-> 
-> Maybe add this dim check to your script?
-> 
-> dim: f38b0d48cae8 ("drm/amd/pm: keep the BACO feature enabled for suspend"): Fixes: SHA1 in not pointing at an ancestor:
-> dim:     daf8de0874ab5b ("drm/amdgpu: always reset the asic in suspend (v2)")
-> 
-> Anyway pulled into drm-next, thanks.
+Hi,
 
-Ok I lied, it fails to compile on 32bit arm at least:
-
-ERROR: modpost: "__bad_udelay" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
-make[1]: *** [scripts/Makefile.modpost:134: modules-only.symvers] Error 1
-make[1]: *** Deleting file 'modules-only.symvers'
-make: *** [Makefile:1761: modules] Error 2
-make: *** Waiting for unfinished jobs....
-
-Dropping the pull.
--Daniel
-
-> -Daniel
+On 14/01/2022 12:08, Biju Das wrote:
+> Hi Neil,
 > 
-> > 
-> > ----------------------------------------------------------------
-> > amd-drm-next-5.17-2022-01-12:
-> > 
-> > amdgpu:
-> > - SR-IOV fixes
-> > - Suspend/resume fixes
-> > - Display fixes
-> > - DMCUB fixes
-> > - DP alt mode fixes
-> > - RAS fixes
-> > - UBSAN fix
-> > - Navy Flounder VCN fix
-> > - ttm resource manager cleanup
-> > - default_groups change for kobj_type
-> > - vkms fix
-> > - Aldebaran fixes
-> > 
-> > amdkfd:
-> > - SDMA ECC interrupt fix
-> > - License clarification
-> > - Pointer check fix
-> > - DQM fixes for hawaii
-> > - default_groups change for kobj_type
-> > - Typo fixes
-> > 
-> > ----------------------------------------------------------------
-> > Charlene Liu (1):
-> >       drm/amd/display: Add check for forced_clocks debug option
-> > 
-> > Evan Quan (1):
-> >       drm/amd/pm: keep the BACO feature enabled for suspend
-> > 
-> > Felix Kuehling (3):
-> >       drm/amdkfd: Use prange->list head for insert_list
-> >       drm/amdkfd: Use prange->update_list head for remove_list
-> >       drm/amdkfd: Fix DQM asserts on Hawaii
-> > 
-> > Greg Kroah-Hartman (2):
-> >       drm/amdgpu: use default_groups in kobj_type
-> >       drm/amdkfd: use default_groups in kobj_type
-> > 
-> > Guchun Chen (1):
-> >       drm/amdgpu: use spin_lock_irqsave to avoid deadlock by local interrupt
-> > 
-> > Harry Wentland (1):
-> >       drm/amdgpu: Use correct VIEWPORT_DIMENSION for DCN2
-> > 
-> > James Yao (1):
-> >       drm/amdgpu: add dummy event6 for vega10
-> > 
-> > Jiasheng Jiang (1):
-> >       drm/amdkfd: Check for null pointer after calling kmemdup
-> > 
-> > Jiawei Gu (1):
-> >       drm/amdgpu: Clear garbage data in err_data before usage
-> > 
-> > José Expósito (1):
-> >       drm/amd/display: invalid parameter check in dmub_hpd_callback
-> > 
-> > Kent Russell (1):
-> >       drm/amdkfd: Fix ASIC name typos
-> > 
-> > Leslie Shi (1):
-> >       drm/amdgpu: Unmap MMIO mappings when device is not unplugged
-> > 
-> > Lukas Bulwahn (1):
-> >       drm/amdkfd: make SPDX License expression more sound
-> > 
-> > Mario Limonciello (4):
-> >       drm/amdgpu: explicitly check for s0ix when evicting resources
-> >       drm/amdgpu: don't set s3 and s0ix at the same time
-> >       drm/amd/display: explicitly set is_dsc_supported to false before use
-> >       drm/amd/display: reset dcn31 SMU mailbox on failures
-> > 
-> > Mikita Lipski (1):
-> >       drm/amd/display: introduce mpo detection flags
-> > 
-> > Nicholas Kazlauskas (2):
-> >       drm/amd/display: Don't reinitialize DMCUB on s0ix resume
-> >       drm/amd/display: Add version check before using DP alt query interface
-> > 
-> > Nirmoy Das (4):
-> >       drm/amdgpu: do not pass ttm_resource_manager to gtt_mgr
-> >       drm/amdkfd: remove unused function
-> >       drm/amdgpu: do not pass ttm_resource_manager to vram_mgr
-> >       drm/amdgpu: recover gart table at resume
-> > 
-> > Peng Ju Zhou (1):
-> >       drm/amdgpu: Enable second VCN for certain Navy Flounder.
-> > 
-> > Prike Liang (1):
-> >       drm/amdgpu: not return error on the init_apu_flags
-> > 
-> > Rajneesh Bhardwaj (1):
-> >       Revert "drm/amdgpu: Don't inherit GEM object VMAs in child process"
-> > 
-> > Tao Zhou (1):
-> >       drm/amd/pm: only send GmiPwrDnControl msg on master die (v3)
-> > 
-> > Tom St Denis (1):
-> >       drm/amd/amdgpu: Add pcie indirect support to amdgpu_mm_wreg_mmio_rlc()
-> > 
-> > Wenjing Liu (1):
-> >       drm/amd/display: unhard code link to phy idx mapping in dc link and clean up
-> > 
-> > Yi-Ling Chen (1):
-> >       drm/amd/display: Fix underflow for fused display pipes case
-> > 
-> > yipechai (1):
-> >       drm/amdkfd: enable sdma ecc interrupt event can be handled by event_interrupt_wq_v9
-> > 
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c         |   7 -
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h         |   1 -
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c             |   5 +-
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  36 ++---
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c      |   3 +-
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   6 +-
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_gart.c           |  84 +-----------
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c            |   3 -
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c        |  17 +--
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c            |  14 +-
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c         |  12 ++
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |   7 +-
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |  11 ++
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h            |  12 +-
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c           |   9 +-
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c           |   5 +-
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c       |  40 +++---
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c           |   3 +-
-> >  drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c             |   3 +-
-> >  drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c              |   3 +-
-> >  drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c              |   3 +-
-> >  drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c              |   3 +-
-> >  drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c              |  17 ++-
-> >  drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c              |  11 ++
-> >  drivers/gpu/drm/amd/amdgpu/mxgpu_ai.h              |   2 +
-> >  drivers/gpu/drm/amd/amdkfd/kfd_crat.c              |   3 +
-> >  drivers/gpu/drm/amd/amdkfd/kfd_device.c            |   6 +-
-> >  .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.c  |   9 +-
-> >  drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c    |   1 +
-> >  drivers/gpu/drm/amd/amdkfd/kfd_process.c           |   3 +-
-> >  drivers/gpu/drm/amd/amdkfd/kfd_svm.c               |  23 ++--
-> >  drivers/gpu/drm/amd/amdkfd/kfd_svm.h               |   4 -
-> >  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  44 ++++++-
-> >  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h  |   2 +
-> >  .../drm/amd/display/dc/clk_mgr/dcn31/dcn31_smu.c   |   6 +
-> >  drivers/gpu/drm/amd/display/dc/core/dc_link.c      | 145 +++++++++------------
-> >  drivers/gpu/drm/amd/display/dc/core/dc_resource.c  |  33 +++++
-> >  .../drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c  |   7 +-
-> >  .../amd/display/dc/dcn31/dcn31_dio_link_encoder.c  | 114 +++++++++++++---
-> >  .../gpu/drm/amd/display/dc/dcn31/dcn31_resource.c  |   2 +-
-> >  drivers/gpu/drm/amd/display/dc/dm_cp_psp.h         |   4 +-
-> >  drivers/gpu/drm/amd/display/dc/inc/resource.h      |   1 +
-> >  drivers/gpu/drm/amd/display/modules/inc/mod_hdcp.h |   2 +-
-> >  drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |   8 +-
-> >  drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c |  16 ++-
-> >  include/uapi/linux/kfd_sysfs.h                     |   2 +-
-> >  46 files changed, 422 insertions(+), 330 deletions(-)
+>> Subject: Re: dw_hdmi is showing wrong colour after commit
+>> 7cd70656d1285b79("drm/bridge: display-connector: implement bus fmts
+>> callbacks")
+>>
+>> On 14/01/2022 09:29, Biju Das wrote:
+>>> Hi Neil,
+>>>
+>>> + renesas-soc
+>>>
+>>>> Subject: Re: dw_hdmi is showing wrong colour after commit
+>>>> 7cd70656d1285b79("drm/bridge: display-connector: implement bus fmts
+>>>> callbacks")
+>>>>
+>>>> Hi,
+>>>>
+>>>> On 13/01/2022 21:01, Fabio Estevam wrote:
+>>>>> Hi Biju,
+>>>>>
+>>>>> On Thu, Jan 13, 2022 at 2:45 PM Biju Das
+>>>>> <biju.das.jz@bp.renesas.com>
+>>>> wrote:
+>>>>>>
+>>>>>> Hi All,
+>>>>>>
+>>>>>> RZ/G2{H, M, N} SoC has dw_hdmi IP and it was working ok(colour)
+>>>>>> till the commit
+>>>>>> 7cd70656d1285b79("drm/bridge: display-connector: implement bus fmts
+>>>> callbacks").
+>>>>>>
+>>>>>> After this patch, the screen becomes greenish(may be it is setting
+>>>>>> it
+>>>> into YUV format??).
+>>>>>>
+>>>>>> By checking the code, previously it used to call get_input_fmt
+>>>>>> callback
+>>>> and set colour as RGB24.
+>>>>>>
+>>>>>> After this commit, it calls get_output_fmt_callbck and returns 3
+>>>>>> outputformats(YUV16, YUV24 and RGB24) And get_input_fmt callback, I
+>>>>>> see
+>>>> the outputformat as YUV16 instead of RGB24.
+>>>>>>
+>>>>>> Not sure, I am the only one seeing this issue with dw_HDMI driver.
+>>>>
+>>>> This patch was introduced to maintain the bridge color format
+>>>> negotiation after using DRM_BRIDGE_ATTACH_NO_CONNECTOR, but it seems
+>>>> it behaves incorrectly if the first bridge doesn't implement the
+>>>> negotiation callbacks.
+>>>>
+>>>> Let me check the code to see how to fix that.
+>>>
+>>> Thanks for the information, I am happy to test the patch/fix.
+>>>
+>>> Cheers,
+>>> Biju
+>>>
+>>>>
+>>>>>
+>>>>> I have tested linux-next 20220112 on a imx6q-sabresd board, which
+>> shows:
+>>>>>
+>>>>> dwhdmi-imx 120000.hdmi: Detected HDMI TX controller v1.30a with HDCP
+>>>>> (DWC HDMI 3D TX PHY)
+>>>>>
+>>>>> The colors are shown correctly here.
+>>>>>
+>>>>
+>>>> The imx doesn't use DRM_BRIDGE_ATTACH_NO_CONNECTOR so the negotiation
+>>>> fails and use the RGB fallback input & output format.
+>>>>
+>>>> Anyway thanks for testing
+>>>>
+>>>> Neil
+>>
+>> Can you test :
+>>
+>> ==><===============================
+>> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+>> index c96847fc0ebc..7019acd37716 100644
+>> --- a/drivers/gpu/drm/drm_bridge.c
+>> +++ b/drivers/gpu/drm/drm_bridge.c
+>> @@ -955,7 +955,14 @@ drm_atomic_bridge_chain_select_bus_fmts(struct
+>> drm_bridge *bridge,
+>>         last_bridge_state = drm_atomic_get_new_bridge_state(crtc_state-
+>>> state,
+>>                                                             last_bridge);
+>>
+>> -       if (last_bridge->funcs->atomic_get_output_bus_fmts) {
+>> +       /*
+>> +        * Only negociate with real values if both end of the bridge chain
+>> +        * support negociation callbacks, otherwise you can end in a
+>> situation
+>> +        * where the selected output format doesn't match with the first
+>> bridge
+>> +        * output format.
+>> +        */
+>> +       if (bridge->funcs->atomic_get_input_bus_fmts &&
+>> +           last_bridge->funcs->atomic_get_output_bus_fmts) {
+>>                 const struct drm_bridge_funcs *funcs = last_bridge->funcs;
+>>
+>>                 /*
+>> @@ -980,7 +987,12 @@ drm_atomic_bridge_chain_select_bus_fmts(struct
+>> drm_bridge *bridge,
+>>                 if (!out_bus_fmts)
+>>                         return -ENOMEM;
+>>
+>> -               if (conn->display_info.num_bus_formats &&
+>> +               /*
+>> +                * If first bridge doesn't support negociation, use
+>> MEDIA_BUS_FMT_FIXED
+>> +                * as a safe value for the whole bridge chain
+>> +                */
+>> +               if (bridge->funcs->atomic_get_input_bus_fmts &&
+>> +                   conn->display_info.num_bus_formats &&
+>>                     conn->display_info.bus_formats)
+>>                         out_bus_fmts[0] = conn-
+>>> display_info.bus_formats[0];
+>>                 else
+>> ==><===============================
+>>
+>> This should exclude your situation where the first bridge doesn't support
+>> negociation.
 > 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+> I have tested this fix with Linux next-20220114. Still I see colour issue.
+> 
+> It is still negotiating and it is calling get_output_fmt_callbck
+> 
+> [    3.460155] ########dw_hdmi_bridge_atomic_get_output_bus_fmts MEDIA_BUS_FMT_UYVY8_1X16=0#########
+> [    3.460180] ########dw_hdmi_bridge_atomic_get_output_bus_fmts MEDIA_BUS_FMT_YUV8_1X24=1#########
+> [    3.460202] ########dw_hdmi_bridge_atomic_get_output_bus_fmts MEDIA_BUS_FMT_RGB888_1X24=2#########
+> 
+> And In get_input_fmt callback, I See the outputformat as YUV16 instead of RGB24.
+> 
+> [    3.460319] ########dw_hdmi_bridge_atomic_get_input_bus_fmts MEDIA_BUS_FMT_UYVY8_1X16#########
+> [    3.473644] ########hdmi_video_sample MEDIA_BUS_FMT_UYVY8_1X16#########
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+OK, looking at rcar-du, the dw-hdmi bridge is directly connected to the encoder.
+
+Let me figure that out, no sure I can find a clean solution except putting back RGB24 before YUV.
+
+Anyway please test that:
+
+==><===============================
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+index 54d8fdad395f..68f79094f648 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -2589,45 +2589,44 @@ static u32 *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
+ 	}
+
+ 	/*
+-	 * Order bus formats from 16bit to 8bit and from YUV422 to RGB
++	 * Order bus formats from 16bit to 8bit and from RGB to YUV422
+ 	 * if supported. In any case the default RGB888 format is added
+ 	 */
+
+ 	if (max_bpc >= 16 && info->bpc == 16) {
++		output_fmts[i++] = MEDIA_BUS_FMT_RGB161616_1X48;
++
+ 		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
+ 			output_fmts[i++] = MEDIA_BUS_FMT_YUV16_1X48;
+-
+-		output_fmts[i++] = MEDIA_BUS_FMT_RGB161616_1X48;
+ 	}
+
+ 	if (max_bpc >= 12 && info->bpc >= 12) {
+-		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
+-			output_fmts[i++] = MEDIA_BUS_FMT_UYVY12_1X24;
++		output_fmts[i++] = MEDIA_BUS_FMT_RGB121212_1X36;
+
+ 		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
+ 			output_fmts[i++] = MEDIA_BUS_FMT_YUV12_1X36;
+
+-		output_fmts[i++] = MEDIA_BUS_FMT_RGB121212_1X36;
++		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
++			output_fmts[i++] = MEDIA_BUS_FMT_UYVY12_1X24;
+ 	}
+
+ 	if (max_bpc >= 10 && info->bpc >= 10) {
+-		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
+-			output_fmts[i++] = MEDIA_BUS_FMT_UYVY10_1X20;
++		output_fmts[i++] = MEDIA_BUS_FMT_RGB101010_1X30;
+
+ 		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
+ 			output_fmts[i++] = MEDIA_BUS_FMT_YUV10_1X30;
+
+-		output_fmts[i++] = MEDIA_BUS_FMT_RGB101010_1X30;
++		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
++			output_fmts[i++] = MEDIA_BUS_FMT_UYVY10_1X20;
+ 	}
+
+-	if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
+-		output_fmts[i++] = MEDIA_BUS_FMT_UYVY8_1X16;
++	output_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
+
+ 	if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
+ 		output_fmts[i++] = MEDIA_BUS_FMT_YUV8_1X24;
+
+-	/* Default 8bit RGB fallback */
+-	output_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
++	if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
++		output_fmts[i++] = MEDIA_BUS_FMT_UYVY8_1X16;
+
+ 	*num_output_fmts = i;
+
+==><===============================
+
+Neil
+
+> 
+> Regards,
+> Biju
+> 
+
