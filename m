@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7D4148F07A
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 20:34:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 649AE48F080
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 20:35:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DAAE10E177;
-	Fri, 14 Jan 2022 19:34:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D9F210E17C;
+	Fri, 14 Jan 2022 19:35:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24C3510E177
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 19:34:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99D0E10E17C
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 19:35:28 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 11B83B8242E
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 19:34:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DE68CC36AED
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 19:34:03 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 383B0B829D1
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 19:35:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E0AC9C36AED
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 19:35:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1642188843;
- bh=On5yG9tfZVbQjfREE0XSoCbM4Ih7Wm2WiwNXn1gvzIM=;
+ s=k20201202; t=1642188925;
+ bh=bdOnZ6IL6VHMJrndIbnLTzCIUaqTaPt9MzNgST6HXsY=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=PdxFnOu2XS2X4FExkDQp7d2Ccz+FLhDDqfHJSAD9Oe+USEL3liBiPq7y9xz/3Zsi+
- wXP12LD2PP6a3VZOZC+vH9nVtKg9N0dnPmfadIzlIJUGbweID88V4PretAw6qk7gS8
- Uoyz+kmaqa3scXWqEcmBHnm6HtMydnhftXg6W5wIWa08EzsB4wWKtbMVAhWlmk51DT
- ebVJlalIyIAGontWCjwVhVMOTwj/nAvxtw2qgVbZISphwtlGfmplPF3loD5tGfsp6D
- H/qrniPh+m/YZcRvxHIRxIYzaGB1SEE23MTzwkSkeyv9Qjul/TtUhLeUoyGjW+D5u6
- xku/RT45dVPZg==
+ b=RdsqjDujnS8MIKEOJEw13qeJ5oYMLdDN7IXnjgLOrlZtI24R5/3UGeKSf+gSke2nS
+ Vr4fhlxKBDhTQ08iZqNfb5yFDfGy0R+QH3lMCn8Zxf0ANqBTO+2Hp9FJ5ubu59GrYD
+ 8e4B2xzmPbVMQEDNYrEVncga+gi6P0uxXuRAPDoBnvQQSKCYvXAlqeuQkjQFh/2oBS
+ DIOSYXhot8MOjmTdvNI1aq/hNbXC7KNhEQGPoLfgFnrC+dEI2REpqMdSCZ1zJzfLwz
+ GsdbB8yiXsnAbZZ9LAwlyXNRnTmvD5s6t/AMdVCB7Srpf7LVORYXFtEsG71j9VCZ4S
+ 5r6lndAc1YVmg==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id CD5CACC13A9; Fri, 14 Jan 2022 19:34:03 +0000 (UTC)
+ from userid 48) id D01FACC13AF; Fri, 14 Jan 2022 19:35:25 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 215494] [radeon, rv370] Running piglit
  shaders@glsl-vs-raytrace-bug26691 test causes hard lockup & reboot
-Date: Fri, 14 Jan 2022 19:34:03 +0000
+Date: Fri, 14 Jan 2022 19:35:25 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -51,7 +51,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-215494-2300-ERwElcBDVA@https.bugzilla.kernel.org/>
+Message-ID: <bug-215494-2300-TH7XvFHy7k@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-215494-2300@https.bugzilla.kernel.org/>
 References: <bug-215494-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -76,10 +76,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D215494
 
---- Comment #1 from Erhard F. (erhard_f@mailbox.org) ---
-Created attachment 300269
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D300269&action=3Dedit
-kernel .config (kernel 5.16.0, Ryzen 9 5950X)
+--- Comment #2 from Erhard F. (erhard_f@mailbox.org) ---
+Created attachment 300270
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D300270&action=3Dedit
+piglit results & summary up to glsl-vs-raytrace-bug26691
 
 --=20
 You may reply to this email to add a comment.
