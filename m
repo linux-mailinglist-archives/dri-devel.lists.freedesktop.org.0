@@ -2,57 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF8CB48E84C
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 11:24:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 932FD48E84E
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 11:24:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C4D610E707;
-	Fri, 14 Jan 2022 10:24:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD3EF10E29A;
+	Fri, 14 Jan 2022 10:24:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com
- [209.85.222.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 889B810E707
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 10:24:18 +0000 (UTC)
-Received: by mail-ua1-f47.google.com with SMTP id i5so16050541uaq.10
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 02:24:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=le2UM8B7mfKn0fZwAHCKL3DNfCbA6VK0XgDGxRejc0E=;
- b=Qk6RaoVpRNdJIvyleNm5cX9BFMkEvC9KDSJOIz+1PDo/74AdE3pmEeHTaBaopJIXsV
- c6CG5laeBOz+ssvZ6Nhz0AEdDwA0glZ0ykOAcymiQtcZhk1e1z5HJ6dmWxXDa51LqMZR
- iBntlZUBfuypuU4rko/qf6eqJ8lU+JXmFi5w5XXGkDHNOLjQN12IlAog1479oaeuiAPX
- HK8QWXlv25IBPaUM5z0nx2KVgiXDDzNnL5AK8gYVlvtgGsqcxkrl1fpn0/eEbHtoYwjg
- y1UbI0Pn3j51Nv7avln5xzZC4iQZdJNkLOD474tOnwGPcKVWI7xc5kFDUqdqWThOoiAj
- Bw5A==
-X-Gm-Message-State: AOAM532R5hsydgLOJjzS6ujD1o/adhaWcf/z+u4eH8td7pPoADBMviZD
- C0boZRUBPvLSVf4jEPVhUNmVEbrCC0BggDNK
-X-Google-Smtp-Source: ABdhPJzS74qWUyap/NjbtnO/5pLgbv46QVn6RA9uBnDlWiaKhTMfAJ3gE+M94KKIBarjXeEgwujY9g==
-X-Received: by 2002:a05:6102:a50:: with SMTP id
- i16mr3736096vss.29.1642155857273; 
- Fri, 14 Jan 2022 02:24:17 -0800 (PST)
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com.
- [209.85.222.54])
- by smtp.gmail.com with ESMTPSA id k125sm37492vsk.17.2022.01.14.02.24.16
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Jan 2022 02:24:16 -0800 (PST)
-Received: by mail-ua1-f54.google.com with SMTP id x33so16075526uad.12
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 02:24:16 -0800 (PST)
-X-Received: by 2002:a67:bc17:: with SMTP id t23mr258035vsn.57.1642155856532;
- Fri, 14 Jan 2022 02:24:16 -0800 (PST)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B23710E71D
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 10:24:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1642155880; x=1673691880;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=lOhSjY4Ou3GeioAf8r0xF7ihXmhvtSs1PT+P9YKsQms=;
+ b=A/Qhzr/890uZb3AkG31oJuAnFzC2iU5YFKkXRHSvD6dKG3fDmZxcAy9Y
+ GJ1uDG7HnUtq9wC5mPfc4/754pACmduTQ7x/sH9yfkhsqypfMkI0UUBUp
+ w5QfhTigV+LP4DOhE+NVmVVXK/CsDSqSA7U4S1SCrsjD3b6gSFE7Le7tR
+ LL7X2WX3ORHjpas0mVqZA1CfD9wR51hhf0FEMdb2VxO9WSiI6ONOK8sxn
+ /bbKQCkZx8b0y07TP5NMTeprcsml/EzKo03/8gWG8G1BqE7j7HLaHz/Ne
+ QoIApIQScxnogyH+BGoE9wkwyuQTQY704DnolTxkewoOO4dIyBJJjfX3E Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10226"; a="244018701"
+X-IronPort-AV: E=Sophos;i="5.88,288,1635231600"; d="scan'208";a="244018701"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jan 2022 02:24:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,288,1635231600"; d="scan'208";a="624282638"
+Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
+ by orsmga004.jf.intel.com with ESMTP; 14 Jan 2022 02:24:37 -0800
+Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1n8Jl7-0008P5-7G; Fri, 14 Jan 2022 10:24:37 +0000
+Date: Fri, 14 Jan 2022 18:24:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 12/14] drm: bridge: icn6211: Add I2C configuration support
+Message-ID: <202201141818.0EmBjuCm-lkp@intel.com>
+References: <20220114034838.546267-12-marex@denx.de>
 MIME-Version: 1.0
-References: <20220112174612.10773-1-biju.das.jz@bp.renesas.com>
- <20220112174612.10773-23-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220112174612.10773-23-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 14 Jan 2022 11:24:05 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUf7DDPemUjrWTuy7y4G-mJcHoje5EvNqEzZZTPYeUbuw@mail.gmail.com>
-Message-ID: <CAMuHMdUf7DDPemUjrWTuy7y4G-mJcHoje5EvNqEzZZTPYeUbuw@mail.gmail.com>
-Subject: Re: [RFC 22/28] drm: rcar-du: Add RZ/G2L DSI driver
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220114034838.546267-12-marex@denx.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,57 +59,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chris Paterson <Chris.Paterson2@renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Biju Das <biju.das@bp.renesas.com>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Marek Vasut <marex@denx.de>, kbuild-all@lists.01.org,
+ Robert Foss <robert.foss@linaro.org>, Jagan Teki <jagan@amarulasolutions.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
+Hi Marek,
 
-On Wed, Jan 12, 2022 at 6:47 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> This driver supports the MIPI DSI encoder found in the RZ/G2L
-> SoC. It currently supports DSI mode only.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+I love your patch! Perhaps something to improve:
 
-Thanks for your patch!
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on drm-intel/for-linux-next drm-exynos/exynos-drm-next tegra-drm/drm/tegra/for-next v5.16 next-20220114]
+[cannot apply to drm-tip/drm-tip airlied/drm-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-> --- a/drivers/gpu/drm/rcar-du/Kconfig
-> +++ b/drivers/gpu/drm/rcar-du/Kconfig
-> @@ -51,6 +51,13 @@ config DRM_RCAR_MIPI_DSI
->         help
->           Enable support for the R-Car Display Unit embedded MIPI DSI encoders.
->
-> +config DRM_RZG2L_MIPI_DSI
-> +       tristate "RZ/G2L MIPI DSI Encoder Support"
-> +       depends on DRM && DRM_BRIDGE && OF
+url:    https://github.com/0day-ci/linux/commits/Marek-Vasut/drm-bridge-icn6211-Fix-register-layout/20220114-115112
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: h8300-buildonly-randconfig-r001-20220113 (https://download.01.org/0day-ci/archive/20220114/202201141818.0EmBjuCm-lkp@intel.com/config)
+compiler: h8300-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/730ece8a3c97460eaf81603bc246cd631d1f7461
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Marek-Vasut/drm-bridge-icn6211-Fix-register-layout/20220114-115112
+        git checkout 730ece8a3c97460eaf81603bc246cd631d1f7461
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=h8300 SHELL=/bin/bash drivers/gpu/drm/bridge/
 
-I guess the dependency on DRM can be dropped, as it is implied by
-DRM_BRIDGE?
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-Please add "depends on ARCH_RENESAS || COMPILE_TEST".
+All warnings (new ones prefixed by >>):
 
-> +       select DRM_MIPI_DSI
-> +       help
-> +         Enable support for the RZ/G2L Display Unit embedded MIPI DSI encoders.
-> +
->  config DRM_RCAR_VSP
->         bool "R-Car DU VSP Compositor Support" if ARM
->         default y if ARM64
+   drivers/gpu/drm/bridge/chipone-icn6211.c: In function 'chipone_attach':
+>> drivers/gpu/drm/bridge/chipone-icn6211.c:454:28: warning: variable 'abridge' set but not used [-Wunused-but-set-variable]
+     454 |         struct drm_bridge *abridge = bridge;
+         |                            ^~~~~~~
 
-Gr{oetje,eeting}s,
 
-                        Geert
+vim +/abridge +454 drivers/gpu/drm/bridge/chipone-icn6211.c
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+   450	
+   451	static int chipone_attach(struct drm_bridge *bridge, enum drm_bridge_attach_flags flags)
+   452	{
+   453		struct chipone *icn = bridge_to_chipone(bridge);
+ > 454		struct drm_bridge *abridge = bridge;
+   455		int ret;
+   456	
+   457		if (icn->interface_i2c) {
+   458			ret = chipone_dsi_setup(icn);
+   459			if (ret)
+   460				return ret;
+   461	
+   462			abridge = &icn->bridge;
+   463		}
+   464	
+   465		return drm_bridge_attach(bridge->encoder, icn->panel_bridge,
+   466					 bridge, flags);
+   467	}
+   468	
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
