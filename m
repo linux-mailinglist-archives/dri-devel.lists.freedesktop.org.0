@@ -1,61 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D44C348E964
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 12:46:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAD5448E97E
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 12:54:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7C6010E382;
-	Fri, 14 Jan 2022 11:45:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DB0E10E144;
+	Fri, 14 Jan 2022 11:54:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F56610E1C8
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 11:45:45 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C555A1F3D4;
- Fri, 14 Jan 2022 11:45:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1642160743; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=G+bCx3pSAKvmv9+2O5g9/CAC/JNrKeB5uw1u5+qp6LI=;
- b=v1Z9bDzRFXOAR43NVzv3WPjv8P+JPWQDiobKDeOnOT6EctOs+Y81Zu6pK6vH8mCbWfMw4v
- TQoWvbkdjJwuY7wNLVmaP8EuICR6Q+yP98SvJcBfIoECpKihu58tq8MNE7mRHuUnRjGf2h
- GZPcvUC6RdHPan1jjus4k3AhNF8KPqc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1642160743;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=G+bCx3pSAKvmv9+2O5g9/CAC/JNrKeB5uw1u5+qp6LI=;
- b=VJlEmkQcaInJkahelGtsfgD5RjOJ4RN8DImRQ2HWRYqvNW0dcBglQRPS4m4kYstvpVYmgy
- flgs3UVb1cD47vDA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9BD4513ED7;
- Fri, 14 Jan 2022 11:45:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id KOEmJWdi4WH9VAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 14 Jan 2022 11:45:43 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: mripard@kernel.org, maarten.lankhorst@linux.intel.com, airlied@linux.ie,
- daniel@ffwll.ch, jani.nikula@linux.intel.com
-Subject: [PATCH v3 5/5] drm/dp: Move DisplayPort AUX bus helpers into dp/
-Date: Fri, 14 Jan 2022 12:45:35 +0100
-Message-Id: <20220114114535.29157-6-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220114114535.29157-1-tzimmermann@suse.de>
-References: <20220114114535.29157-1-tzimmermann@suse.de>
+X-Greylist: delayed 431 seconds by postgrey-1.36 at gabe;
+ Fri, 14 Jan 2022 11:54:07 UTC
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCF8010E13A;
+ Fri, 14 Jan 2022 11:54:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=axis.com; q=dns/txt; s=axis-central1; t=1642161248;
+ x=1673697248; h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=AMs+u9nkmpDZ5lxA/fLhYjA5QxFXQFce1TTDfia+q9o=;
+ b=BwnurFI7TWdUrKvcHbOtcOxy6j66lWHbOY25eFyI7MGQ16S7Ofa9uyUw
+ bBUz9a9+r7UuIExfqKaIaXSVAN5E5tYg7Wku7GC44+9rj0X8QwffSE3B9
+ RMpYq2uX5eGW2CHnRm/rqnN/n95eJKaom5cFT3zQQq8RDXA/5bGJHj1t3
+ qjoxC56I0hBLhu4lBYEPC1/1baWAOEAuuS9mwYltDRfl2w9OXZx9zeuCL
+ P2I58Bswrn8mPnZYSHUNWUVrL3WoFf/4z64G8SycEl5HAio6FUzfQMUaP
+ 0go8S0UZVavRw0l0w5QAp1ewoU2PjODMGxnEKWolr1h8KIELBITe9I0AW Q==;
+Date: Fri, 14 Jan 2022 12:46:54 +0100
+From: Vincent Whitchurch <vincent.whitchurch@axis.com>
+To: Jim Cromie <jim.cromie@gmail.com>
+Subject: Re: [PATCH v11 03/19] dyndbg: add write-to-tracefs code
+Message-ID: <20220114114654.GA23983@axis.com>
+References: <20220107052942.1349447-1-jim.cromie@gmail.com>
+ <20220107052942.1349447-4-jim.cromie@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20220107052942.1349447-4-jim.cromie@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,125 +49,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: "quic_saipraka@quicinc.com" <quic_saipraka@quicinc.com>,
+ "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+ "linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "will@kernel.org" <will@kernel.org>, "maz@kernel.org" <maz@kernel.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "mingo@redhat.com" <mingo@redhat.com>,
+ "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
+ "arnd@arndb.de" <arnd@arndb.de>,
+ "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "rostedt@goodmis.org" <rostedt@goodmis.org>,
+ "jbaron@akamai.com" <jbaron@akamai.com>,
+ "mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "quic_psodagud@quicinc.com" <quic_psodagud@quicinc.com>,
+ "seanpaul@chromium.org" <seanpaul@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move drm_dp_aux_bus.c and its header file into the DP subdirectory
-and update all users. No functional changes.
+On Fri, Jan 07, 2022 at 06:29:26AM +0100, Jim Cromie wrote:
+> adds: dynamic_trace()
+>  uses trace_console() temporarily to issue printk:console event
+>  uses internal-ish __ftrace_trace_stack code:
+>       4-context buffer stack, barriers per Steve
+> 
+> call it from new funcs:
+>   dynamic_printk() - print to both syslog/tracefs
+>   dynamic_dev_printk() - dev-print to both syslog/tracefs
+> 
+> These handle both _DPRINTK_FLAGS_PRINTK and _DPRINTK_FLAGS_TRACE
+> cases, allowing to vsnprintf the message once and use it for both,
+> skipping past the KERN_DEBUG character for tracing.
+> 
+> Finally, adjust the callers: __dynamic_{pr_debug,{,net,ib}dev_dbg},
+> replacing printk and dev_printk with the new funcs above.
+> 
+> The _DPRINTK_FLAGS_TRACE flag character s 'T', so the following finds
+> all callsites enabled for tracing:
+> 
+>   grep -P =p?T /proc/dynamic_debug/control
+> 
+> Enabling debug-to-tracefs is 2 steps:
+> 
+>   # event enable
+>   echo 1 > /sys/kernel/tracing/events/dyndbg/enable
+>   # callsite enable
+>   echo module foo +T > /proc/dynamic_debug/control
+> 
+> This patch,~1,~2 are based upon:
+>   https://lore.kernel.org/lkml/20200825153338.17061-1-vincent.whitchurch@axis.com/
+> 
+> .. with simplification of temporarily reusing trace_console() rather
+> than adding a new printk:dyndbg event.  Soon, add 2 new events
+> capturing the pr_debug & dev_dbg() args.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Daniel Vetter <daniel@ffwll.ch>
----
- drivers/gpu/drm/Makefile                         | 2 --
- drivers/gpu/drm/bridge/parade-ps8640.c           | 2 +-
- drivers/gpu/drm/bridge/ti-sn65dsi86.c            | 2 +-
- drivers/gpu/drm/dp/Makefile                      | 2 ++
- drivers/gpu/drm/{ => dp}/drm_dp_aux_bus.c        | 2 +-
- drivers/gpu/drm/panel/panel-edp.c                | 2 +-
- drivers/gpu/drm/panel/panel-samsung-atna33xc20.c | 2 +-
- include/drm/{ => dp}/drm_dp_aux_bus.h            | 0
- 8 files changed, 7 insertions(+), 7 deletions(-)
- rename drivers/gpu/drm/{ => dp}/drm_dp_aux_bus.c (99%)
- rename include/drm/{ => dp}/drm_dp_aux_bus.h (100%)
+The example above does not match the code in this patch since the
+dyndbg:* events are only added in a later patch.  Perhaps you could
+reorder this patch stack so that you don't use trace_console() in this
+patch just to replace it with the new events in the next patch?
 
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 69be80ef1d31..700abeb4945e 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -31,8 +31,6 @@ drm-$(CONFIG_DEBUG_FS) += drm_debugfs.o drm_debugfs_crc.o
- drm-$(CONFIG_DRM_LOAD_EDID_FIRMWARE) += drm_edid_load.o
- drm-$(CONFIG_DRM_PRIVACY_SCREEN) += drm_privacy_screen.o drm_privacy_screen_x86.o
- 
--obj-$(CONFIG_DRM_DP_AUX_BUS) += drm_dp_aux_bus.o
--
- obj-$(CONFIG_DRM_NOMODESET) += drm_nomodeset.o
- 
- drm_cma_helper-y := drm_gem_cma_helper.o
-diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-index 3e0c7436f407..3f17337ee389 100644
---- a/drivers/gpu/drm/bridge/parade-ps8640.c
-+++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-@@ -14,7 +14,7 @@
- #include <linux/regulator/consumer.h>
- 
- #include <drm/drm_bridge.h>
--#include <drm/drm_dp_aux_bus.h>
-+#include <drm/dp/drm_dp_aux_bus.h>
- #include <drm/dp/drm_dp_helper.h>
- #include <drm/drm_mipi_dsi.h>
- #include <drm/drm_of.h>
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 65d25ce30ce5..ba136a188be7 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -26,7 +26,7 @@
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
--#include <drm/drm_dp_aux_bus.h>
-+#include <drm/dp/drm_dp_aux_bus.h>
- #include <drm/dp/drm_dp_helper.h>
- #include <drm/drm_mipi_dsi.h>
- #include <drm/drm_of.h>
-diff --git a/drivers/gpu/drm/dp/Makefile b/drivers/gpu/drm/dp/Makefile
-index 5b892aeff5ab..75faffc706b1 100644
---- a/drivers/gpu/drm/dp/Makefile
-+++ b/drivers/gpu/drm/dp/Makefile
-@@ -1,5 +1,7 @@
- # SPDX-License-Identifier: MIT
- 
-+obj-$(CONFIG_DRM_DP_AUX_BUS) += drm_dp_aux_bus.o
-+
- drm_dp_helper-y := drm_dp.o drm_dp_dual_mode_helper.o drm_dp_helper_mod.o drm_dp_mst_topology.o
- drm_dp_helper-$(CONFIG_DRM_DP_AUX_CHARDEV) += drm_dp_aux_dev.o
- drm_dp_helper-$(CONFIG_DRM_DP_CEC) += drm_dp_cec.o
-diff --git a/drivers/gpu/drm/drm_dp_aux_bus.c b/drivers/gpu/drm/dp/drm_dp_aux_bus.c
-similarity index 99%
-rename from drivers/gpu/drm/drm_dp_aux_bus.c
-rename to drivers/gpu/drm/dp/drm_dp_aux_bus.c
-index 565edf6b1732..415afce3cf96 100644
---- a/drivers/gpu/drm/drm_dp_aux_bus.c
-+++ b/drivers/gpu/drm/dp/drm_dp_aux_bus.c
-@@ -19,7 +19,7 @@
- #include <linux/pm_domain.h>
- #include <linux/pm_runtime.h>
- 
--#include <drm/drm_dp_aux_bus.h>
-+#include <drm/dp/drm_dp_aux_bus.h>
- #include <drm/dp/drm_dp_helper.h>
- 
- /**
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 6a6ca891ee2e..99ca1bd0091c 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -36,7 +36,7 @@
- 
- #include <drm/drm_crtc.h>
- #include <drm/drm_device.h>
--#include <drm/drm_dp_aux_bus.h>
-+#include <drm/dp/drm_dp_aux_bus.h>
- #include <drm/dp/drm_dp_helper.h>
- #include <drm/drm_panel.h>
- 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c b/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
-index bffeadaaf9a2..20666b6217e7 100644
---- a/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
-@@ -14,7 +14,7 @@
- #include <linux/pm_runtime.h>
- #include <linux/regulator/consumer.h>
- 
--#include <drm/drm_dp_aux_bus.h>
-+#include <drm/dp/drm_dp_aux_bus.h>
- #include <drm/dp/drm_dp_helper.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_panel.h>
-diff --git a/include/drm/drm_dp_aux_bus.h b/include/drm/dp/drm_dp_aux_bus.h
-similarity index 100%
-rename from include/drm/drm_dp_aux_bus.h
-rename to include/drm/dp/drm_dp_aux_bus.h
--- 
-2.34.1
+> 
+> CC: vincent.whitchurch@axis.com
+> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+> ---
+>  .../admin-guide/dynamic-debug-howto.rst       |   1 +
+>  lib/dynamic_debug.c                           | 155 +++++++++++++++---
+>  2 files changed, 130 insertions(+), 26 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+[...]
+> @@ -723,29 +822,33 @@ void __dynamic_ibdev_dbg(struct _ddebug *descriptor,
+>  {
+>  	struct va_format vaf;
+>  	va_list args;
+> +	unsigned int flags;
+>  
+>  	va_start(args, fmt);
+>  
+>  	vaf.fmt = fmt;
+>  	vaf.va = &args;
+> +	flags = descriptor->flags;
+>  
+>  	if (ibdev && ibdev->dev.parent) {
+>  		char buf[PREFIX_SIZE] = "";
+>  
+> -		dev_printk_emit(LOGLEVEL_DEBUG, ibdev->dev.parent,
+> -				"%s%s %s %s: %pV",
+> -				dynamic_emit_prefix(descriptor, buf),
+> -				dev_driver_string(ibdev->dev.parent),
+> -				dev_name(ibdev->dev.parent),
+> -				dev_name(&ibdev->dev),
+> -				&vaf);
+> +		dynamic_dev_printk(flags, ibdev->dev.parent,
+> +				   "%s%s %s %s: %pV",
+> +				   dynamic_emit_prefix(descriptor, buf),
+> +				   dev_driver_string(ibdev->dev.parent),
+> +				   dev_name(ibdev->dev.parent),
+> +				   dev_name(&ibdev->dev),
+> +				   &vaf);
+>  	} else if (ibdev) {
+> -		printk(KERN_DEBUG "%s: %pV", dev_name(&ibdev->dev), &vaf);
+> +		dynamic_printk(flags, KERN_DEBUG "%s%s: %pV",
+> +			       dev_name(&ibdev->dev), &vaf);
+>  	} else {
+> -		printk(KERN_DEBUG "(NULL ib_device): %pV", &vaf);
+> +		dynamic_printk(flags, KERN_DEBUG "(NULL ip_device): %pV",
+> +			       &vaf);
+>  	}
+>  
+> -	va_end(args);
+> +va_end(args);
 
+This looks like an unintentional whitespace change?
