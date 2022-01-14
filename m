@@ -2,60 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF44C48E752
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 10:20:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CB6248E787
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 10:30:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9914710E1A4;
-	Fri, 14 Jan 2022 09:20:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEC3E10E1E8;
+	Fri, 14 Jan 2022 09:30:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com
- [IPv6:2607:f8b0:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C24D10E1A4;
- Fri, 14 Jan 2022 09:20:43 +0000 (UTC)
-Received: by mail-pf1-x431.google.com with SMTP id w204so2247054pfc.7;
- Fri, 14 Jan 2022 01:20:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YZQzRd0VbsHaxIU7D4AnLPiXbe02LXZ3YxcKNl1VWjs=;
- b=M/Chg9dJUvN6qpMe7QDxhG5BJNbfonhu5GT5edcZRA303Hpvm+UqtZWaJF18LFT2WQ
- 0E5ENZCjmCHR+b4P1e8/tD3VE+nETZUec2YXpgzwl6K5sSNxpZQaytp62yIUpMrFz6Ec
- qQz+X0JCLUn2mFKvy6vmkym2uIrHwv1ggDIdjajNSHpcIgG/3qtTTwkbXnYX1CQgaYW9
- qVRWkYvwtBLvahcAXfAAAPEPjXZWsqtC39Yc32Aye/E1vvg83XJ3QR6HCnKo9IGsClPA
- +1q0LsbCyhTLIfNYVB+ph3UDoqjXXx+SdWj2/OJzHLFmCqOXWHerlC5pdFshhgtwi+Gr
- D5sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YZQzRd0VbsHaxIU7D4AnLPiXbe02LXZ3YxcKNl1VWjs=;
- b=d/UIhu5jAVIlS4A/eWeXDwmx3IG/mwUUt0sxZ4jIXzkFfIpG2APotfNdnwA6AvnVj2
- 8KGj7Y9dffl8Ag41CK+CPGriRmt9lnL9+7owZ5F+E+xA9TDxrnBRxGs7C08GaII8GtCX
- oojKL2D/ldL2YlI5dkeNQyueJ/J4KZrOjmCTCMaeFYScxiYreB1PlTnOPhekj0P2Wo/3
- iHATr7XqF3D+ndwnnC+oe1c9FUQJKW2/9d73anqJLpCH6c+Zq2H75DqGI7mK9qCYPsXw
- NPG05VZM2yy9y3v9uoj7OrLOVITGZAwdoS3LW2cpbXchkULsPPN5uC628cxaeeW/x5aO
- oJjA==
-X-Gm-Message-State: AOAM530ohfjFDJQQqnn/aMuIidQwwuvE7rUowXpXkzSC28LLLQtcC74L
- cFbWJ3zJ2aU895E3FY6IRU0=
-X-Google-Smtp-Source: ABdhPJzJfL6+i3WmhTTXxXpgK015TbekEJWKbcNe5Th80LrYI8zFseczAP6kZ/styUT1miChQVgqlw==
-X-Received: by 2002:a05:6a00:a20:b0:4bb:95f6:93b3 with SMTP id
- p32-20020a056a000a2000b004bb95f693b3mr8040040pfh.77.1642152043047; 
- Fri, 14 Jan 2022 01:20:43 -0800 (PST)
-Received: from localhost.localdomain ([193.203.214.57])
- by smtp.gmail.com with ESMTPSA id y69sm5110374pfg.171.2022.01.14.01.20.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Jan 2022 01:20:42 -0800 (PST)
-From: cgel.zte@gmail.com
-X-Google-Original-From: deng.changcheng@zte.com.cn
-To: evan.quan@amd.com
-Subject: [PATCH] drm/amd/pm: Replace one-element array with flexible-array
- member
-Date: Fri, 14 Jan 2022 09:20:36 +0000
-Message-Id: <20220114092036.766001-1-deng.changcheng@zte.com.cn>
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E415D10E1E8
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 09:30:18 +0000 (UTC)
+Received: from localhost.localdomain (unknown [124.16.138.126])
+ by APP-05 (Coremail) with SMTP id zQCowAD3_wOoQuFhWawyBg--.47397S2;
+ Fri, 14 Jan 2022 17:30:16 +0800 (CST)
+From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+To: hjc@rock-chips.com, heiko@sntech.de, airlied@linux.ie, daniel@ffwll.ch,
+ p.zabel@pengutronix.de
+Subject: [PATCH] drm/rockchip: Check for NULL pointer after calling kzalloc
+Date: Fri, 14 Jan 2022 17:30:15 +0800
+Message-Id: <20220114093015.1295274-1-jiasheng@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowAD3_wOoQuFhWawyBg--.47397S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxJF1rWrWfWF48tr1UCw4kJFb_yoW8Gr17pr
+ s7JrW2qr409r4DWwsrJw1q93yfKan0y34xGrs7Gw13uF1fKrnxAan5ZrZ5Xr47XrWxXr15
+ trs7A345ZF4j93JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvE14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+ Y2ka0xkIwI1lc2xSY4AK67AK6r4fMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
+ 1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
+ b7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
+ vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI
+ 42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWI
+ evJa73UjIFyTuYvjfUeLvtDUUUU
+X-Originating-IP: [124.16.138.126]
+X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,41 +55,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lijo.lazar@amd.com, airlied@linux.ie, Zeal Robot <zealci@zte.com.cn>,
- Xinhui.Pan@amd.com, deng.changcheng@zte.com.cn, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: linux-rockchip@lists.infradead.org, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Changcheng Deng <deng.changcheng@zte.com.cn>
+As the possible failure of the kzalloc(), crtc_state could be NULL
+pointer.
+Therefore, it should be better to check it in order to avoid the
+dereference of the NULL pointer, like the kzalloc() in
+vop_crtc_duplicate_state().
+If fails, we can directly use the 'NULL' instead of the
+'&crtc_state->base' and __drm_atomic_helper_crtc_duplicate_state() will
+deal with it correctly.
 
-There is a regular need in the kernel to provide a way to declare having
-a dynamically sized set of trailing elements in a structure. Kernel code
-should always use "flexible array members" for these cases. The older
-style of one-element or zero-length arrays should no longer be used.
-Reference:
-https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays
-
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Changcheng Deng <deng.changcheng@zte.com.cn>
+Fixes: dc0b408f5a87 ("drm/rockchip: allocate correct crtc state structure on reset")
+Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
 ---
- drivers/gpu/drm/amd/pm/powerplay/inc/smu_ucode_xfer_cz.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/inc/smu_ucode_xfer_cz.h b/drivers/gpu/drm/amd/pm/powerplay/inc/smu_ucode_xfer_cz.h
-index eb0f79f9c876..701aae598b58 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/inc/smu_ucode_xfer_cz.h
-+++ b/drivers/gpu/drm/amd/pm/powerplay/inc/smu_ucode_xfer_cz.h
-@@ -121,7 +121,7 @@ typedef struct SMU_Task SMU_Task;
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+index 3e8d9e2d1b67..db672ff5e37b 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+@@ -1577,7 +1577,10 @@ static void vop_crtc_reset(struct drm_crtc *crtc)
+ 	if (crtc->state)
+ 		vop_crtc_destroy_state(crtc, crtc->state);
  
- struct TOC {
-     uint8_t JobList[NUM_JOBLIST_ENTRIES];
--    SMU_Task tasks[1];
-+    SMU_Task tasks[];
- };
+-	__drm_atomic_helper_crtc_reset(crtc, &crtc_state->base);
++	if (!crtc_state)
++		__drm_atomic_helper_crtc_reset(crtc, NULL);
++	else
++		__drm_atomic_helper_crtc_reset(crtc, &crtc_state->base);
+ }
  
- // META DATA COMMAND Definitions
+ #ifdef CONFIG_DRM_ANALOGIX_DP
 -- 
 2.25.1
 
