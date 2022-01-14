@@ -1,57 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2A9D48EF77
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 18:55:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F5C748EF94
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 19:00:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26D4F10EF46;
-	Fri, 14 Jan 2022 17:55:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F3B410E27E;
+	Fri, 14 Jan 2022 18:00:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7401110E6AD;
- Fri, 14 Jan 2022 17:55:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1642182905; x=1673718905;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version;
- bh=z+JIuWKxJODjguXs3yWrhfZnFZJClraM9Lc/R80g5pc=;
- b=P9M5TP2Mx1iGJiNFo7fvPY2TrnoPJmJhnStLqUurOhH5+CGvPxH/2Lad
- xCIoZ0gfE7bAns99P9BmZBlPfDRTm4GenxyOaeW2+6Ww74bJyoClfAwJ4
- /zgDgduHapOzaeYXUk6wh7rPAFQixQUqavJrvC6bvsvcmro/lbB844HOl k=;
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
- by alexa-out.qualcomm.com with ESMTP; 14 Jan 2022 09:55:05 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2022 09:55:04 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Fri, 14 Jan 2022 09:54:51 -0800
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Fri, 14 Jan 2022 09:54:50 -0800
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <vkoul@kernel.org>,
- <daniel@ffwll.ch>, <airlied@linux.ie>, <agross@kernel.org>,
- <dmitry.baryshkov@linaro.org>, <bjorn.andersson@linaro.org>
-Subject: [PATCH v14 4/4] drm/msm/dp: stop link training after link training 2
- failed
-Date: Fri, 14 Jan 2022 09:54:34 -0800
-Message-ID: <1642182874-27296-5-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1642182874-27296-1-git-send-email-quic_khsieh@quicinc.com>
-References: <1642182874-27296-1-git-send-email-quic_khsieh@quicinc.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBF8E10E1B5;
+ Fri, 14 Jan 2022 18:00:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1642183202; x=1673719202;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=cMf8/2/PJ41uSKfkL7coxjRTx15r04R7Dj5oaGo0ieE=;
+ b=QIW6zxws0m5MXYhSdCWIwkKL4MeB6NdEZmbstdyzkOTnWWpsE+d18w7u
+ kyDAetsWisAYEZ5eSVEJqBBuLF5cu6AjwjirTogmUh1/4bGL4rbyc1tYo
+ 20h+DKNoduZ1QAB3+qgbM1ubJt4qzKzBWAmrZT8Q2t8RzufGAJIfCYcU8
+ w8kYYhvhi+tXDC1Hk7vQVazm2004UNQ+b42h3HyvQKku1retQPBU5O2eI
+ M92hOFsqu63Wo7TO76PK7bz0wTa0lbw7i+LVOcgyjrChIgwJfDUeEeUZ+
+ oA8FPvXQNC0MZhQZQKOybE0T7Po2qkzro/uCoO7FaOnxJzCTY2jjCtH5g g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10227"; a="231646495"
+X-IronPort-AV: E=Sophos;i="5.88,289,1635231600"; d="scan'208";a="231646495"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jan 2022 10:00:02 -0800
+X-IronPort-AV: E=Sophos;i="5.88,289,1635231600"; d="scan'208";a="530352791"
+Received: from schruefk-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.252.49.248])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jan 2022 09:59:58 -0800
+Date: Fri, 14 Jan 2022 19:59:54 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+Subject: Re: [PATCH v2 1/2] drm/i915: Prepare for multiple GTs
+Message-ID: <YeG6GrzU/QYUY1RH@intel.intel>
+References: <20220112222031.82883-1-andi.shyti@linux.intel.com>
+ <20220112222031.82883-2-andi.shyti@linux.intel.com>
+ <YeGq/b6JjJaxSE0z@mdroper-desk1.amr.corp.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YeGq/b6JjJaxSE0z@mdroper-desk1.amr.corp.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,48 +58,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- aravindh@codeaurora.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Abdiel Janulgue <abdiel.janulgue@gmail.com>, Andi Shyti <andi@etezian.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ DRI Devel <dri-devel@lists.freedesktop.org>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Sujaritha Sundaresan <sujaritha.sundaresan@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Each DP link training contains link training 1 followed by link
-training 2.  There is maximum of 5 retries of DP link training
-before declared link training failed. It is required to stop link
-training at end of link training 2 if it is failed so that next
-link training 1 can start freshly. This patch fixes link compliance
-test  case 4.3.1.13 (Source Device Link Training EQ Fallback Test).
+Hi Matt,
 
-Changes in v10:
---  group into one series
+[...]
 
-Changes in v11:
--- drop drm/msm/dp: dp_link_parse_sink_count() return immediately if aux read
+> > -int intel_uncore_setup_mmio(struct intel_uncore *uncore)
+> > +int intel_uncore_setup_mmio(struct intel_uncore *uncore, phys_addr_t phys_addr)
+> >  {
+> >  	struct drm_i915_private *i915 = uncore->i915;
+> > -	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+> > -	int mmio_bar;
+> >  	int mmio_size;
+> >  
+> > -	mmio_bar = GRAPHICS_VER(i915) == 2 ? 1 : 0;
+> >  	/*
+> >  	 * Before gen4, the registers and the GTT are behind different BARs.
+> >  	 * However, from gen4 onwards, the registers and the GTT are shared
+> > @@ -2044,7 +2041,7 @@ int intel_uncore_setup_mmio(struct intel_uncore *uncore)
+> >  	else
+> >  		mmio_size = 2 * 1024 * 1024;
+> >  
+> > -	uncore->regs = pci_iomap(pdev, mmio_bar, mmio_size);
+> > +	uncore->regs = ioremap(phys_addr, mmio_size);
+> 
+> Is there a specific reason we switch to ioremap() instead of
+> pci_iomap_range()?  I.e., we could pass 'phys_offset' rather than
+> 'phys_addr' and call
+> 
+>         pci_iomap_range(pdev, mmio_bar, phys_offset, mmio_size);
+> 
+> Not that it really matters too much either way as far as I can see;
+> ioremap()/iounmap() should work fine too.
 
-Fixes: 2e0adc765d88 ("drm/msm/dp: do not end dp link training until video is ready")
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
----
- drivers/gpu/drm/msm/dp/dp_ctrl.c | 3 +++
- 1 file changed, 3 insertions(+)
+this was originally changed by Abdiel (I think) and I left as it
+is as I tried to change as less as I could from the original
+work.
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index f98df93..245e1b9 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -1755,6 +1755,9 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
- 				/* end with failure */
- 				break; /* lane == 1 already */
- 			}
-+
-+			/* stop link training before start re training  */
-+			dp_ctrl_clear_training_pattern(ctrl);
- 		}
- 	}
- 
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+> Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
 
+Thank you!
+
+Andi
