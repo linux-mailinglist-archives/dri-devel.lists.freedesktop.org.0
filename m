@@ -2,62 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EF8B48F26B
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 23:29:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A80F548F281
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 23:38:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA6EC10E287;
-	Fri, 14 Jan 2022 22:28:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6894510E28F;
+	Fri, 14 Jan 2022 22:38:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 546FB10E286;
- Fri, 14 Jan 2022 22:28:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1642199335; x=1673735335;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=SMYVXUFcqvm73ktl2Lmgp3uM9JleJ3uNnTtTQe48tYY=;
- b=Vsgqy6d9rwoEH0jqTJ4bNigZVbEaiRP6MQQlChWY7OapKZ45qi7kTPsW
- RkeJmr44prPiGoke8/dCFZ8SfagKHea5K8N0R+T4sf1Yv43r7Q8LsFpc9
- mpsZRN98ZmGZUqoteE0PGgNXAyMHpsjCWrrJTmLwzsTE6J/j9QVUxZQ8O 8=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 14 Jan 2022 14:28:54 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2022 14:28:54 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Fri, 14 Jan 2022 14:28:53 -0800
-Received: from [10.110.125.36] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Fri, 14 Jan
- 2022 14:28:52 -0800
-Message-ID: <f5a282ed-0b4a-9fb2-fc04-17842745feaa@quicinc.com>
-Date: Fri, 14 Jan 2022 14:28:52 -0800
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C9FA10E28F
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 22:38:46 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 910A861ED2;
+ Fri, 14 Jan 2022 22:38:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E542EC36AE7;
+ Fri, 14 Jan 2022 22:38:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1642199925;
+ bh=WTst2NrV82dAikh+ViTGMOxgddkuhhc7SX52HrSKAEE=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=P1UY4JGng/j87dDRKNOnuO81kP74augA/pxUqJ0cOP4SfM3VDK8lxHJSGHJDLjrQo
+ VxCftDStONzCsKpIiX65xWjsJsOZbaRxBv+9BhrOAuP1Mm44dlvsgO+6Jbafw1wuLt
+ dHGBNCircKv2DR4zsEVX3PLU0xLxTThdrNhhTSw7z9q369ucWGLfB852v5oy8fdZc9
+ 1PVVQI86XPj+13Y4QxgdAD6bLOEh+EhPwke6jUadjzk03jfgCZwTxLzO3cjxVYMqK/
+ HP1fu3h0adN6QDt7Kl8ShU00v1FH94Z8sdukueIWAbmJMBaGKONgWhaMwtW0rgoHYQ
+ PHgjvD3N4YLQQ==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v15 1/4] drm/msm/dp: do not initialize phy until plugin
- interrupt received
-Content-Language: en-US
-To: Stephen Boyd <swboyd@chromium.org>, <agross@kernel.org>,
- <airlied@linux.ie>, <bjorn.andersson@linaro.org>, <daniel@ffwll.ch>,
- <dmitry.baryshkov@linaro.org>, <dri-devel@lists.freedesktop.org>,
- <robdclark@gmail.com>, <sean@poorly.run>, <vkoul@kernel.org>
-References: <1642194710-2512-1-git-send-email-quic_khsieh@quicinc.com>
- <1642194710-2512-2-git-send-email-quic_khsieh@quicinc.com>
- <CAE-0n52UYBajrqGFqppun5oK82V3ppjvQxANU27kL95gCZtURg@mail.gmail.com>
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <CAE-0n52UYBajrqGFqppun5oK82V3ppjvQxANU27kL95gCZtURg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220114161556.vgxhetm4ccokik4b@houat>
+References: <20210914093515.260031-1-maxime@cerno.tech>
+ <20210914093515.260031-2-maxime@cerno.tech>
+ <20220112033716.63631C36AEA@smtp.kernel.org>
+ <20220112114652.hmfdcpqil5jg2vz6@houat>
+ <20220113214426.95292C36AEA@smtp.kernel.org>
+ <20220114161556.vgxhetm4ccokik4b@houat>
+Subject: Re: [PATCH v2 1/3] clk: Introduce a clock request API
+From: Stephen Boyd <sboyd@kernel.org>
+To: Maxime Ripard <maxime@cerno.tech>
+Date: Fri, 14 Jan 2022 14:38:43 -0800
+User-Agent: alot/0.10
+Message-Id: <20220114223844.E542EC36AE7@smtp.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,78 +58,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- aravindh@codeaurora.org, freedreno@lists.freedesktop.org
+Cc: Emma Anholt <emma@anholt.net>, Dom Cobley <dom@raspberrypi.com>,
+ Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, Mike Turquette <mturquette@baylibre.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, linux-clk@vger.kernel.org,
+ Russell King <linux@armlinux.org.uk>, Jerome Brunet <jbrunet@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Quoting Maxime Ripard (2022-01-14 08:15:56)
+> On Thu, Jan 13, 2022 at 01:44:25PM -0800, Stephen Boyd wrote:
+> > >=20
+> > I don't see a problem with re-evaluating the rate every time we call
+> > clk_set_rate_range(). That's probably the bug that I can't recall. Can
+> > you fix the API so it works that way?
+>=20
+> Yep, I'll work on it next week. I started to think about it this week,
+> and there's two things I'm not entirely sure about:
+>=20
+>   - Keeping the clock at its minimum rate is essentially policy. Do we
+>     want to guard that behavior by a flag, and do we want to do the same
+>     thing if we want to max it?
 
-On 1/14/2022 1:41 PM, Stephen Boyd wrote:
-> Quoting Kuogee Hsieh (2022-01-14 13:11:47)
->> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
->> index 7cc4d21..7cd6222 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->> @@ -696,12 +699,9 @@ static int dp_irq_hpd_handle(struct dp_display_private *dp, u32 data)
->>           * dp core (ahb/aux clks) must be initialized before
->>           * irq_hpd be handled
->>           */
->> -       if (dp->core_initialized) {
->> -               ret = dp_display_usbpd_attention_cb(&dp->pdev->dev);
->> -               if (ret == -ECONNRESET) { /* cable unplugged */
->> -                       dp->core_initialized = false;
->> -               }
->> -       }
->> +       if (dp->core_initialized)
-> When is this condition false? The irq isn't unmasked until the core has
-> been initialized. On the resume path I suppose the irq is enabled in
-> dp_display_host_init() calling dp_ctrl_reset_irq_ctrl(), and then we
-> could immediately get the interrupt but it will block on the event_mutex
-> lock.
+The policy should be to re-evaluate the rate based on constraints each
+time the constraints or rate is changed. The clk provider can decide if
+it wants to max it out or keep it minimized in the determine_rate
+clk_op. If you're worried about breaking somebody, there's only one
+other user I see in the tree, Tegra, so the risk seems low. If Tegra is
+relying on the existing behavior (very possible) then we can hopefully
+change that clk provider to keep the rate where it is if it's within the
+constraints vs. round it down to the minimum acceptable.
 
-This is left over form Lazor.
+>=20
+>   - How should we deal with a clk_set_rate call while we have a range?
+>     Something like:
+>=20
+>     clk_set_min_rate(hdmi1_clk, 1000);
+>     clk_set_min_rate(hdmi2_clk, 2000)
+>     clk_set_rate(hdmi1_clk, 3000);
+>     clk_drop_range(hdmi2_clk);
+>=20
+>     If we just try to minimize the rate all the time, we'll set the rate
+>     back to 1000Hz, but I think it would make more sense to keep the
+>     rate at 3000?
 
-I remember that there is an extreme case that several irq_hpd interrupts 
-happen right after dongle plug in  (happen at resume too) and sometime 
-cause system crash at dpcd read due to AHB clock is not enabled yet. It 
-took some time to debug it.
+This assumes the rate after clk_set_rate() is 3000. It all depends on
+the provider what the rate actually is.
 
- From looking into code, it does not look likely it will happen. But it 
-did happen at real world.
+>=20
+>     Maybe we can test if the range is still at the boundary we remove,
+>     and only if it is, drop it to whatever boundary we have left?
+>=20
 
-So that I would like to keep this condition checking.
-
-
->> +               dp_display_usbpd_attention_cb(&dp->pdev->dev);
->> +
->>          DRM_DEBUG_DP("hpd_state=%d\n", state);
->>
->>          mutex_unlock(&dp->event_mutex);
->> @@ -1363,14 +1373,16 @@ static int dp_pm_suspend(struct device *dev)
->>                  if (dp_power_clk_status(dp->power, DP_CTRL_PM))
->>                          dp_ctrl_off_link_stream(dp->ctrl);
->>
->> +               dp_display_host_phy_exit(dp);
->> +
->> +               /* host_init will be called at pm_resume */
->>                  dp_display_host_deinit(dp);
->> +       } else {
->> +               dp_display_host_phy_exit(dp);
-> I fail to see where this condition happens. Can we suspend the device
-> without the irq being installed?
-
-Agree, with this new mechanism it should not happen.
-
-Will remove it.
-
->>          }
->>
->>          dp->hpd_state = ST_SUSPENDED;
->>
->> -       /* host_init will be called at pm_resume */
->> -       dp->core_initialized = false;
->> -
->>          DRM_DEBUG_DP("After, core_inited=%d power_on=%d\n",
->>                          dp->core_initialized, dp_display->power_on);
->>
+From the consumer API perspective it looks like hdmi1 is saying it can
+accept a frequency as low as 1000 but would like 3000. The clk provider
+will look at the constraints and decide to try to get close to 3000, or
+exceed 3000, or set it lower than 3000 but not lower than 2000. I don't
+want to enforce anything in the framework here. Let the clk provider
+decide what frequency it should set the rate to based on the
+constraints. When there are constraints mixed with a clk_set_rate() we
+should give the provider all the facts, i.e. the rate and the
+constraints and let it decide what to do.
