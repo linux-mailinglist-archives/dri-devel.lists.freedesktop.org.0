@@ -2,48 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F139448EBB5
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 15:33:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0951B48EBDC
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 15:40:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A8CE10E530;
-	Fri, 14 Jan 2022 14:33:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8552310EC5A;
+	Fri, 14 Jan 2022 14:40:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C17B910E530
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 14:33:11 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 8EC3883311;
- Fri, 14 Jan 2022 15:33:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1642170790;
- bh=kggVLQQepRZ5SRD6pRr9X4uZX7fNamf01m2b8BA8vy4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ppxX8hYkWFYHntt8GB8gj94baiDozhOkLdgqd4Pp2qJporFmmacvrXfmHWPCuwwZQ
- M/y9zipe8uY8MFkGvj2oNIXKUIoKUevUZmQ7YjBPemzdTMxtEQd7M0g8UQ8CWrFatU
- 8nRfiZfGriV8srV7GkCGTugj6rMdK7vVXW7RoD8itnML62LyR5prPNcm/1kMVZDuNe
- DJk/vsoZJcrIqEaoq5bUZ4MRQh4zhy+4DMqdFvmILXnN/Nx2ioj2by7LwhybTn8JEj
- uHRTj6fXnkp/zATfLFSus9pFyyNhYWR0vO9IuL0oium6u5m8+SyUO6+K75i2vxM+1E
- hOZEFCahp609Q==
-Message-ID: <f12cf454-8579-1094-865e-4293389fee24@denx.de>
-Date: Fri, 14 Jan 2022 15:33:08 +0100
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8F8410EA92
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 14:40:53 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id x4so15970550wru.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 06:40:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=subject:to:cc:references:from:organization:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ZpQd5MgDxQh1cJDEk6y932cMOfAplIWP9ns8kVsGTvs=;
+ b=YsIluXYEpVcxQh6OaELyrcbxtZCROmSMFkzH/03hqq0b+mLWiNouFMiMH8ZmNu+bA0
+ IMTEZuxu28ot8m0NocPDWlvJ7VPTG5p2Y4yD2MDDQUWKxJZYb+O0AfmZedVdRfluXosU
+ GxucULMfeP8o1RnWf07vmYYXtwOYoa7YzOB4ZYg5tgaTJtP7vNn4zSo34brNxnvXdD8X
+ bNGErBH6bGrZgAg/wy5H0yEZQ3XmLJ2K8IOrdedgPsH6wmgi6gAXfr9QuPy1YtKpMKWl
+ 8+loWj4uJSBc6Eshji3KuK9P6ILvzC756b/HbbxVflFO4KuUQqqOk6RItgGmsJxilnN0
+ ec3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=ZpQd5MgDxQh1cJDEk6y932cMOfAplIWP9ns8kVsGTvs=;
+ b=bpS/GlO5GuGmMEiLYrh1otjKsFvQYNvr3xbkZ/65Kwqsjkw1tffI1rKGn2bQvEYfnz
+ ZWKmjnNb0JQLVnQjS5gzZ2FsyzWQRsmJgulgWCy6Q5WjES7uuGh7aJ1yC4TFTYgucXKB
+ FDNNeq+8lfaItUruDFemvpWIyk7ndFSfRQaQasaNt5f62I0YnY9Tgr2kp5wwNR53VA+O
+ lf2lHBCglUoKmFcBEBI1237FwyMPg+ulqrDmDUu/dl3V9KwwXF3U+QIyxC4pABFRurip
+ +nifL94IqFfY1hpkMbvPvwQFdqftcUYZlHnpIt+Jpl5wIPSE0p6sZ3i9xycXHRWVg3zh
+ xJvg==
+X-Gm-Message-State: AOAM532Gk2iBdvCUvyBpa8isCn+X0xMR2BLpNW655HtOPQKVZLaQ8nEm
+ CYirCrgEM8H9VucPCMAJjHRy8D0rgvvLHw==
+X-Google-Smtp-Source: ABdhPJwCbmzEUVXgyefpTYa4YZvvCy2ezHWIBO8RdMvytTJAmoVdM2Tu6kocdxqS7P11hUge+KYfVA==
+X-Received: by 2002:a05:6000:1543:: with SMTP id
+ 3mr4515819wry.683.1642171252217; 
+ Fri, 14 Jan 2022 06:40:52 -0800 (PST)
+Received: from ?IPv6:2001:861:44c0:66c0:a3fc:c40b:5afc:88ee?
+ ([2001:861:44c0:66c0:a3fc:c40b:5afc:88ee])
+ by smtp.gmail.com with ESMTPSA id h10sm6784315wmh.0.2022.01.14.06.40.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Jan 2022 06:40:51 -0800 (PST)
+Subject: Re: dw_hdmi is showing wrong colour after commit
+ 7cd70656d1285b79("drm/bridge: display-connector: implement bus fmts
+ callbacks")
+To: Biju Das <biju.das.jz@bp.renesas.com>, Fabio Estevam <festevam@gmail.com>
+References: <OS0PR01MB59221ED76B74231F5836D5FB86539@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAOMZO5DJiCb5bJN5_nxnYa-FsK-u7QtFghWNzs_-udE42XPDeA@mail.gmail.com>
+ <502f3ec4-fea4-8e14-c7a9-39418fc05d6d@baylibre.com>
+ <OS0PR01MB592224EC8F50F41B7FF1DEE286549@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <19dd6013-8a31-b2ed-29d5-93fc44193ce4@baylibre.com>
+ <OS0PR01MB5922F442759BE6F228EE0B4486549@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <538b8da4-1201-5f45-2abf-ecd22c867358@baylibre.com>
+ <OS0PR01MB5922BC31FBCF85F99F17737B86549@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Organization: Baylibre
+Message-ID: <ebaff694-a2d7-7eb8-5850-980e9d4e1e68@baylibre.com>
+Date: Fri, 14 Jan 2022 15:40:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH 01/14] drm: bridge: icn6211: Fix register layout
+In-Reply-To: <OS0PR01MB5922BC31FBCF85F99F17737B86549@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-To: Jagan Teki <jagan@amarulasolutions.com>
-References: <20220114034838.546267-1-marex@denx.de>
- <CAMty3ZBN3qLEieJ3YQ_jZDXYRpQ-gGn48_hRZm1-jsco0rkJsw@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <CAMty3ZBN3qLEieJ3YQ_jZDXYRpQ-gGn48_hRZm1-jsco0rkJsw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,61 +85,300 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
- Robert Foss <robert.foss@linaro.org>, dri-devel@lists.freedesktop.org
+Cc: "jonas@kwiboo.se" <jonas@kwiboo.se>,
+ "martin.blumenstingl@googlemail.com" <martin.blumenstingl@googlemail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "robert.foss@linaro.org" <robert.foss@linaro.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
+ "linux-amlogic@lists.infradead.org" <linux-amlogic@lists.infradead.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/14/22 09:16, Jagan Teki wrote:
+Hi,
 
-Hi
-
-[...]
-
->> Fill in the actual register names and bits from [1] and [2] and add the
->> entire register layout, since the documentation for this chip is hard to
->> come by.
+On 14/01/2022 15:23, Biju Das wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: Neil Armstrong <narmstrong@baylibre.com>
+>> Sent: 14 January 2022 13:56
+>> To: Biju Das <biju.das.jz@bp.renesas.com>; Fabio Estevam
+>> <festevam@gmail.com>
+>> Cc: daniel@ffwll.ch; Laurent.pinchart@ideasonboard.com;
+>> robert.foss@linaro.org; jonas@kwiboo.se; jernej.skrabec@gmail.com;
+>> martin.blumenstingl@googlemail.com; linux-amlogic@lists.infradead.org;
+>> linux-arm-kernel@lists.infradead.org; dri-devel@lists.freedesktop.org;
+>> linux-kernel@vger.kernel.org; linux-renesas-soc@vger.kernel.org
+>> Subject: Re: dw_hdmi is showing wrong colour after commit
+>> 7cd70656d1285b79("drm/bridge: display-connector: implement bus fmts
+>> callbacks")
 >>
->> [1] https://github.com/rockchip-linux/kernel/blob/develop-4.19/drivers/gpu/drm/bridge/icn6211.c
->> [2] https://github.com/tdjastrzebski/ICN6211-Configurator
-
-[...]
-
->>          /* icn6211 specific sequence */
->> -       ICN6211_DSI(icn, 0xb6, 0x20);
->> -       ICN6211_DSI(icn, 0x51, 0x20);
->> -       ICN6211_DSI(icn, 0x09, 0x10);
->> +       ICN6211_DSI(icn, MIPI_FORCE_0, 0x20);
->> +       ICN6211_DSI(icn, PLL_CTRL(1), 0x20);
->> +       ICN6211_DSI(icn, CONFIG_FINISH, 0x10);
+>> Hi,
+>>
+>> On 14/01/2022 12:08, Biju Das wrote:
+>>> Hi Neil,
+>>>
+>>>> Subject: Re: dw_hdmi is showing wrong colour after commit
+>>>> 7cd70656d1285b79("drm/bridge: display-connector: implement bus fmts
+>>>> callbacks")
+>>>>
+>>>> On 14/01/2022 09:29, Biju Das wrote:
+>>>>> Hi Neil,
+>>>>>
+>>>>> + renesas-soc
+>>>>>
+>>>>>> Subject: Re: dw_hdmi is showing wrong colour after commit
+>>>>>> 7cd70656d1285b79("drm/bridge: display-connector: implement bus fmts
+>>>>>> callbacks")
+>>>>>>
+>>>>>> Hi,
+>>>>>>
+>>>>>> On 13/01/2022 21:01, Fabio Estevam wrote:
+>>>>>>> Hi Biju,
+>>>>>>>
+>>>>>>> On Thu, Jan 13, 2022 at 2:45 PM Biju Das
+>>>>>>> <biju.das.jz@bp.renesas.com>
+>>>>>> wrote:
+>>>>>>>>
+>>>>>>>> Hi All,
+>>>>>>>>
+>>>>>>>> RZ/G2{H, M, N} SoC has dw_hdmi IP and it was working ok(colour)
+>>>>>>>> till the commit
+>>>>>>>> 7cd70656d1285b79("drm/bridge: display-connector: implement bus
+>>>>>>>> fmts
+>>>>>> callbacks").
+>>>>>>>>
+>>>>>>>> After this patch, the screen becomes greenish(may be it is
+>>>>>>>> setting it
+>>>>>> into YUV format??).
+>>>>>>>>
+>>>>>>>> By checking the code, previously it used to call get_input_fmt
+>>>>>>>> callback
+>>>>>> and set colour as RGB24.
+>>>>>>>>
+>>>>>>>> After this commit, it calls get_output_fmt_callbck and returns 3
+>>>>>>>> outputformats(YUV16, YUV24 and RGB24) And get_input_fmt callback,
+>>>>>>>> I see
+>>>>>> the outputformat as YUV16 instead of RGB24.
+>>>>>>>>
+>>>>>>>> Not sure, I am the only one seeing this issue with dw_HDMI driver.
+>>>>>>
+>>>>>> This patch was introduced to maintain the bridge color format
+>>>>>> negotiation after using DRM_BRIDGE_ATTACH_NO_CONNECTOR, but it
+>>>>>> seems it behaves incorrectly if the first bridge doesn't implement
+>>>>>> the negotiation callbacks.
+>>>>>>
+>>>>>> Let me check the code to see how to fix that.
+>>>>>
+>>>>> Thanks for the information, I am happy to test the patch/fix.
+>>>>>
+>>>>> Cheers,
+>>>>> Biju
+>>>>>
+>>>>>>
+>>>>>>>
+>>>>>>> I have tested linux-next 20220112 on a imx6q-sabresd board, which
+>>>> shows:
+>>>>>>>
+>>>>>>> dwhdmi-imx 120000.hdmi: Detected HDMI TX controller v1.30a with
+>>>>>>> HDCP (DWC HDMI 3D TX PHY)
+>>>>>>>
+>>>>>>> The colors are shown correctly here.
+>>>>>>>
+>>>>>>
+>>>>>> The imx doesn't use DRM_BRIDGE_ATTACH_NO_CONNECTOR so the
+>>>>>> negotiation fails and use the RGB fallback input & output format.
+>>>>>>
+>>>>>> Anyway thanks for testing
+>>>>>>
+>>>>>> Neil
+>>>>
+>>>> Can you test :
+>>>>
+>>>> ==><===============================
+>>>> diff --git a/drivers/gpu/drm/drm_bridge.c
+>>>> b/drivers/gpu/drm/drm_bridge.c index c96847fc0ebc..7019acd37716
+>>>> 100644
+>>>> --- a/drivers/gpu/drm/drm_bridge.c
+>>>> +++ b/drivers/gpu/drm/drm_bridge.c
+>>>> @@ -955,7 +955,14 @@ drm_atomic_bridge_chain_select_bus_fmts(struct
+>>>> drm_bridge *bridge,
+>>>>         last_bridge_state =
+>>>> drm_atomic_get_new_bridge_state(crtc_state-
+>>>>> state,
+>>>>
+>>>> last_bridge);
+>>>>
+>>>> -       if (last_bridge->funcs->atomic_get_output_bus_fmts) {
+>>>> +       /*
+>>>> +        * Only negociate with real values if both end of the bridge
+>> chain
+>>>> +        * support negociation callbacks, otherwise you can end in a
+>>>> situation
+>>>> +        * where the selected output format doesn't match with the
+>>>> + first
+>>>> bridge
+>>>> +        * output format.
+>>>> +        */
+>>>> +       if (bridge->funcs->atomic_get_input_bus_fmts &&
+>>>> +           last_bridge->funcs->atomic_get_output_bus_fmts) {
+>>>>                 const struct drm_bridge_funcs *funcs =
+>>>> last_bridge->funcs;
+>>>>
+>>>>                 /*
+>>>> @@ -980,7 +987,12 @@ drm_atomic_bridge_chain_select_bus_fmts(struct
+>>>> drm_bridge *bridge,
+>>>>                 if (!out_bus_fmts)
+>>>>                         return -ENOMEM;
+>>>>
+>>>> -               if (conn->display_info.num_bus_formats &&
+>>>> +               /*
+>>>> +                * If first bridge doesn't support negociation, use
+>>>> MEDIA_BUS_FMT_FIXED
+>>>> +                * as a safe value for the whole bridge chain
+>>>> +                */
+>>>> +               if (bridge->funcs->atomic_get_input_bus_fmts &&
+>>>> +                   conn->display_info.num_bus_formats &&
+>>>>                     conn->display_info.bus_formats)
+>>>>                         out_bus_fmts[0] = conn-
+>>>>> display_info.bus_formats[0];
+>>>>                 else
+>>>> ==><===============================
+>>>>
+>>>> This should exclude your situation where the first bridge doesn't
+>>>> support negociation.
+>>>
+>>> I have tested this fix with Linux next-20220114. Still I see colour
+>> issue.
+>>>
+>>> It is still negotiating and it is calling get_output_fmt_callbck
+>>>
+>>> [    3.460155] ########dw_hdmi_bridge_atomic_get_output_bus_fmts
+>> MEDIA_BUS_FMT_UYVY8_1X16=0#########
+>>> [    3.460180] ########dw_hdmi_bridge_atomic_get_output_bus_fmts
+>> MEDIA_BUS_FMT_YUV8_1X24=1#########
+>>> [    3.460202] ########dw_hdmi_bridge_atomic_get_output_bus_fmts
+>> MEDIA_BUS_FMT_RGB888_1X24=2#########
+>>>
+>>> And In get_input_fmt callback, I See the outputformat as YUV16 instead
+>> of RGB24.
+>>>
+>>> [    3.460319] ########dw_hdmi_bridge_atomic_get_input_bus_fmts
+>> MEDIA_BUS_FMT_UYVY8_1X16#########
+>>> [    3.473644] ########hdmi_video_sample
+>> MEDIA_BUS_FMT_UYVY8_1X16#########
+>>
+>> OK, looking at rcar-du, the dw-hdmi bridge is directly connected to the
+>> encoder.
 > 
-> All these fixes and few of features support are valid only for
-> I2C-based ICN6211.
-
-No, they are valid for both DSI command mode configuration as well as 
-I2C configuration. They are also tested in both configurations, see patch
-
-[PATCH 12/14] drm: bridge: icn6211: Add I2C configuration support
-
-The register layout is exactly the same for DSI command mode and I2C 
-configuration mode too.
-
-> If possible please confirm with the vendor.
-
-See the commit message, the datasheet is difficult to come by, however 
-there are FOSS driver(s) and tooling source which confirms the above.
-
-> The
-> driver I've written based on non-I2C-based ICN6211 chip, which is
-> present in BananaPi Panel.
+> Yep.
 > 
-> Chip part: ICN6211 A59058 1634.
+>>
+>> Let me figure that out, no sure I can find a clean solution except putting
+>> back RGB24 before YUV.
+>>
+>> Anyway please test that:
 > 
-> Not sure, may be we can have separated bridge driver for I2C-based
-> ICN6211 that I don't have in my design for testing.
+> It works now after reordering.
+> 
+> [    3.493302] ########dw_hdmi_bridge_atomic_get_output_bus_fmts MEDIA_BUS_FMT_RGB888_1X24=0#########
+> [    3.493326] ########dw_hdmi_bridge_atomic_get_output_bus_fmts MEDIA_BUS_FMT_YUV8_1X24=1#########
+> [    3.493348] ########dw_hdmi_bridge_atomic_get_output_bus_fmts MEDIA_BUS_FMT_UYVY8_1X16=2#########
+> 
+> [    3.493463] ########dw_hdmi_bridge_atomic_get_input_bus_fmts MEDIA_BUS_FMT_RGB888_1X24#########
+> [    3.506797] ########hdmi_video_sample MEDIA_BUS_FMT_RGB888_1X24#########
+> 
+> Is it acceptable solution to the users of dw_hdmi driver? May be it is worth to post a patch.
+> at least it is fixing the colour issue??
 
-There is only one ICN6211 chip variant, you can configure it either via 
-DSI command mode or I2C mode, both were tested with this series which 
-adds support for the later mode.
+Yes, it gets back to default behavior before negociation, nevertheless we need to think
+how to handle your use-case correctly at some point.
 
-[...]
+I'll post this as a patch ASAP so it gets applied before landing in linus master.
+
+Neil
+
+> 
+> Regards,
+> Biju
+> 
+>>
+>> ==><===============================
+>> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+>> b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+>> index 54d8fdad395f..68f79094f648 100644
+>> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+>> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+>> @@ -2589,45 +2589,44 @@ static u32
+>> *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
+>>  	}
+>>
+>>  	/*
+>> -	 * Order bus formats from 16bit to 8bit and from YUV422 to RGB
+>> +	 * Order bus formats from 16bit to 8bit and from RGB to YUV422
+>>  	 * if supported. In any case the default RGB888 format is added
+>>  	 */
+>>
+>>  	if (max_bpc >= 16 && info->bpc == 16) {
+>> +		output_fmts[i++] = MEDIA_BUS_FMT_RGB161616_1X48;
+>> +
+>>  		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
+>>  			output_fmts[i++] = MEDIA_BUS_FMT_YUV16_1X48;
+>> -
+>> -		output_fmts[i++] = MEDIA_BUS_FMT_RGB161616_1X48;
+>>  	}
+>>
+>>  	if (max_bpc >= 12 && info->bpc >= 12) {
+>> -		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
+>> -			output_fmts[i++] = MEDIA_BUS_FMT_UYVY12_1X24;
+>> +		output_fmts[i++] = MEDIA_BUS_FMT_RGB121212_1X36;
+>>
+>>  		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
+>>  			output_fmts[i++] = MEDIA_BUS_FMT_YUV12_1X36;
+>>
+>> -		output_fmts[i++] = MEDIA_BUS_FMT_RGB121212_1X36;
+>> +		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
+>> +			output_fmts[i++] = MEDIA_BUS_FMT_UYVY12_1X24;
+>>  	}
+>>
+>>  	if (max_bpc >= 10 && info->bpc >= 10) {
+>> -		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
+>> -			output_fmts[i++] = MEDIA_BUS_FMT_UYVY10_1X20;
+>> +		output_fmts[i++] = MEDIA_BUS_FMT_RGB101010_1X30;
+>>
+>>  		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
+>>  			output_fmts[i++] = MEDIA_BUS_FMT_YUV10_1X30;
+>>
+>> -		output_fmts[i++] = MEDIA_BUS_FMT_RGB101010_1X30;
+>> +		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
+>> +			output_fmts[i++] = MEDIA_BUS_FMT_UYVY10_1X20;
+>>  	}
+>>
+>> -	if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
+>> -		output_fmts[i++] = MEDIA_BUS_FMT_UYVY8_1X16;
+>> +	output_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
+>>
+>>  	if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
+>>  		output_fmts[i++] = MEDIA_BUS_FMT_YUV8_1X24;
+>>
+>> -	/* Default 8bit RGB fallback */
+>> -	output_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
+>> +	if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
+>> +		output_fmts[i++] = MEDIA_BUS_FMT_UYVY8_1X16;
+>>
+>>  	*num_output_fmts = i;
+>>
+>> ==><===============================
+>>
+>> Neil
+>>
+>>>
+>>> Regards,
+>>> Biju
+>>>
+> 
+
