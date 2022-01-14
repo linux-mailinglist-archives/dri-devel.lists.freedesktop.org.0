@@ -1,53 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 089F848EFCE
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 19:20:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDA3F48EFE1
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 19:31:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C62BA10E1A2;
-	Fri, 14 Jan 2022 18:20:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66F9F10E1A9;
+	Fri, 14 Jan 2022 18:31:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81E7210E1A2;
- Fri, 14 Jan 2022 18:20:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642184422; x=1673720422;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=dA3BWugCD1eqrlgfj+umYYqbB4n9EGeqOGJXU6rsj8I=;
- b=TiFTXTeGytqZTrXExqQmCN22IDF4gRJ5KJjdlvdKuLzlO7U70qDM+dLL
- 0K6vWeh+8dAUE+L5V6x6KDhjbcESqSliLDEiblFU8xWrR0Qfc6hLc9pjD
- M/gXulNL2B4kuMzF9v1jZomFp9+MvUQPckYJdcHVImCXiCiPlb9XgBl4J
- H3/W8BPVMn64jocnCuLlzlxXWOsL2BDikhHRdGoQEtnH+3m7+2uw8n4T+
- cfdmUEbAHdysUZUMe4NUTG0lDBtKKaIysl2lHnvACB2zsZ/ex/AfFYmsv
- iQ3NZQCIum2v/QAnlU7L331CsmCG1CnAfcwe67OA9uaPswt6eW290Lih1 Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10227"; a="231652454"
-X-IronPort-AV: E=Sophos;i="5.88,289,1635231600"; d="scan'208";a="231652454"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2022 10:20:22 -0800
-X-IronPort-AV: E=Sophos;i="5.88,289,1635231600"; d="scan'208";a="530359921"
-Received: from schruefk-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.252.49.248])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2022 10:20:17 -0800
-Date: Fri, 14 Jan 2022 20:20:14 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [PATCH v2 2/2] drm/i915/gt: make a gt sysfs group and move power
- management files
-Message-ID: <YeG+3nv9j/JoAWis@intel.intel>
-References: <20220112222031.82883-1-andi.shyti@linux.intel.com>
- <20220112222031.82883-3-andi.shyti@linux.intel.com>
- <YeGuFsMLL5kxzTiu@mdroper-desk1.amr.corp.intel.com>
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com
+ [209.85.222.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B29010E1AF
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 18:31:22 +0000 (UTC)
+Received: by mail-ua1-f50.google.com with SMTP id o1so18440698uap.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 10:31:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ia/9q2E3tSjqPvHPFubkiPIGbF6QBSNFRiW9j/QalMo=;
+ b=lCPIwVksDTeRllAeXhHL88qlRfc2u0XNPJ/zrpzSeDRTY+r5rrc7LU4c2K9WXDODRH
+ Cv7SWQJDxNAkEBOhtF2dbx7wBm/K/z8CEa7a+86LytAmxc3WX+K0IIXFdRKEjRn7O9Pj
+ mi8aT3dM4G9xkSH+4t32YLczYNM1jEho8vVBxfDT0b81TgNCl2SZbpmvaQELaHK4y9EL
+ txvs9MOJpiO7UIHX88JZEsvREoR/iedEJ5BdiYBO0WUxD3OJCONj2k/KfoDQLHC7N44/
+ dxf+b8ifX+j44guIAGEcVW5rng1ExwUX0iuWT1W0/cxrZld7Rzco9mZy5bMVx4EgERPt
+ m2mA==
+X-Gm-Message-State: AOAM530b3SiYTjc8b766+0p+SnsIwX7Lf965yY4970J6Da31FXVYS04L
+ lxXrivnZl+oSzW1zCRZ4bhNqwTP5WZv3uoA5
+X-Google-Smtp-Source: ABdhPJyyzm8s12EDnBaHCDLV0U2RuDAIogA6tiw1jViPzrzC99we1+TL8MtFj/Kbhn4BmFJbqbvlkg==
+X-Received: by 2002:a67:c116:: with SMTP id d22mr1897605vsj.58.1642185081335; 
+ Fri, 14 Jan 2022 10:31:21 -0800 (PST)
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com.
+ [209.85.221.180])
+ by smtp.gmail.com with ESMTPSA id b14sm2147068vkk.22.2022.01.14.10.31.20
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Jan 2022 10:31:20 -0800 (PST)
+Received: by mail-vk1-f180.google.com with SMTP id w206so6345946vkd.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 10:31:20 -0800 (PST)
+X-Received: by 2002:a1f:384b:: with SMTP id f72mr4877434vka.0.1642185080729;
+ Fri, 14 Jan 2022 10:31:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YeGuFsMLL5kxzTiu@mdroper-desk1.amr.corp.intel.com>
+References: <YeG8ydoJNWWkGrTb@ls3530>
+In-Reply-To: <YeG8ydoJNWWkGrTb@ls3530>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 14 Jan 2022 19:31:09 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWNzDb--Ud1DzGyoqWsgFU9m8YZ6fa1TqfBWtg4pkd==A@mail.gmail.com>
+Message-ID: <CAMuHMdWNzDb--Ud1DzGyoqWsgFU9m8YZ6fa1TqfBWtg4pkd==A@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: Add Helge as fbdev maintainer
+To: Helge Deller <deller@gmx.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,103 +63,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Abdiel Janulgue <abdiel.janulgue@gmail.com>, Andi Shyti <andi@etezian.org>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- DRI Devel <dri-devel@lists.freedesktop.org>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
- Sujaritha Sundaresan <sujaritha.sundaresan@intel.com>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matt,
+Hi Helge,
 
-> > The GT has its own properties and in sysfs they should be grouped
-> > in the 'gt/' directory.
-> > 
-> > Create a 'gt/' directory in sysfs which will contain gt0...gtN
-> > directories related to each tile configured in the GPU. Move the
-> > power management files inside those directories.
-> > 
-> > The previous power management files are kept in their original
-> > root directory to avoid breaking the ABI. They point to the tile
-> > '0' and a warning message is printed whenever accessed to. The
-> > deprecated interface needs for the CONFIG_SYSFS_DEPRECATED_V2
-> > flag in order to be generated.
-> > 
-> > The new sysfs structure will have a similar layout for the 4 tile
-> > case:
-> > 
-> > /sys/.../card0
-> >          ├── gt
-> >          │   ├── gt0
-> >          │   │   ├── id
-> >          │   │   ├── rc6_enable
-> >          │   │   ├── rc6_residency_ms
-> >          │   │   ├── rps_act_freq_mhz
-> >          │   │   ├── rps_boost_freq_mhz
-> >          │   │   ├── rps_cur_freq_mhz
-> >          │   │   ├── rps_max_freq_mhz
-> >          │   │   ├── rps_min_freq_mhz
-> >          │   │   ├── rps_RP0_freq_mhz
-> >          │   │   ├── rps_RP1_freq_mhz
-> >          │   │   └── rps_RPn_freq_mhz
-> > 	 .   .
-> > 	 .   .
-> > 	 .   .
-> >          │   └── gt3
-> >          │       ├── id
-> >          │       ├── rc6_enable
-> >          │       ├── rc6_residency_ms
-> >          │       ├── rps_act_freq_mhz
-> >          │       ├── rps_boost_freq_mhz
-> >          │       ├── rps_cur_freq_mhz
-> >          │       ├── rps_max_freq_mhz
-> >          │       ├── rps_min_freq_mhz
-> >          │       ├── rps_RP0_freq_mhz
-> >          │       ├── rps_RP1_freq_mhz
-> >          │       └── rps_RPn_freq_mhz
-> >          ├── gt_act_freq_mhz   -+
-> >          ├── gt_boost_freq_mhz  |
-> >          ├── gt_cur_freq_mhz    |    Original interface
-> >          ├── gt_max_freq_mhz    +─-> kept as existing ABI;
-> >          ├── gt_min_freq_mhz    |    it points to gt0/
-> >          ├── gt_RP0_freq_mhz    |
-> >          └── gt_RP1_freq_mhz    |
-> >          └── gt_RPn_freq_mhz   -+
-> > 
-> > Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> > Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-> > Cc: Matt Roper <matthew.d.roper@intel.com>
-> > Cc: Sujaritha Sundaresan <sujaritha.sundaresan@intel.com>
-> > Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> 
-> Even though this is a pretty natural extension of sysfs entries we
-> already have in the driver today, it's still technically "new ABI" so I
-> think we need a link to the IGT changes that exercise it to make sure
-> it's working as expected.
+On Fri, Jan 14, 2022 at 7:12 PM Helge Deller <deller@gmx.de> wrote:
+> The fbdev layer is orphaned, but seems to need some care.
+> So I'd like to step up as new maintainer.
+>
+> Signed-off-by: Helge Deller <deller@gmx.de>
 
-this patch should unblock the level0 sysman for DG1 and DG2,
-currently being upstreamed, and this will be handled by Sujaritha
-in the next days.
+Thanks a lot!
 
-Besides there a patch that is adding an hwmon interface to i915
-that depends on this one.
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-> Likewise we need a link to the real userspace consumer that is expecting
-> to use this (does some of the Level0 stuff use these knobs?).  If this
-> is one of those really rare cases where we never expect any specific
-> userspace software to use the ABI, but the intent is instead to let
-> sysadmins turn the knobs manually with custom shell scripts or whatever,
-> that would need to be justified in the commit message too.
+Gr{oetje,eeting}s,
 
-I think with the first multitile platform coming (next series)
-this will be essential to control the power of multitile devices,
-either manually or with tools, otherwise we will be able only to
-access tile 0.
+                        Geert
 
-I can add a note in the commit message.
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Andi
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
