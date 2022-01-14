@@ -2,121 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CA1148E6B9
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 09:41:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54BB848E6BF
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 09:43:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0821810E1D0;
-	Fri, 14 Jan 2022 08:41:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AE0510E1E5;
+	Fri, 14 Jan 2022 08:43:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2046.outbound.protection.outlook.com [40.107.236.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D6B910E1D0
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 08:41:05 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eGBeOAASPbM3IILzvTFeBOMWPhW2FZSCeLWoYD/8B6aygvrxboi6eX2zLBR/2Xe85xKyF2+fHbpfMGYALUgMhHdGnpfJQHwJdELybJZxBojMqm0W9FRD4nAYRD0wiCx14M+ez72lTipZJKlubCqI/GYJ2YMe2Sa84pnpWt2T4GxZOU6XxRnumSWHy4FDd1msmCNZCFxffCo7iNyg054cuXBrQBopL1MoQLhAzXcjDEQ6nDg8bv5RdOIyNbNapAB/7QduRJJJqeRcKPK4okiWH+8q4FQYlAGUc4+RwA7tJEQPIgtBYUgfYckL5kgCvEWCSPeqjRL14a+Pfo+aeLJ80g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/dH81X346AFl6oI7D9wIqMiwXZwnTZ/WiITibOWYw5Y=;
- b=I0BdQKOkd/Og8Mzp4GHQc6Reyl15SKNsOw/ErzjUq51hjv6Sx/5nSdb3HP2OMFGVhiZ5tWjkvDOIyALcSh/ietLT46tyX9+xUT0kMphcksHiFBtvdt28aIV2PcOm23p4j4LWc2tfgINp5Lzlat+bPxVCV1p9x4nxxdPOG2DWPS/w0UjRH0DYm/L/bd5XcpQIyLd8L28NFol0/INsiv091zjW4F4qlqcNzFDojttULXPzNLzH5v4wOymkZTUKFnqox/zeVejK7W6RHATJfBtK9oDC5MclCuzx3YZnuD7Za4i0r0NDIRwtJvmxdpsXzdzBMzywaFazPe4O1saCNY5AHA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/dH81X346AFl6oI7D9wIqMiwXZwnTZ/WiITibOWYw5Y=;
- b=i3IZF3nfqPEdC40zfTGMxMfZNc+iPAQpSadc+zsTTxeG+RyKC5AqypdoGSTPrDHV59i4GDOxrNrpvKZ7HgaMPiaP1tFHf2WPG5q31HNQFYViO8nCrXpv8SjuIHDMGNPsd8BgnWxCO61+0GMHZu/e6uEP1tPqx/2W84bCv3QahN0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
- (2603:10b6:301:5a::14) by BYAPR12MB3415.namprd12.prod.outlook.com
- (2603:10b6:a03:d5::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4888.10; Fri, 14 Jan
- 2022 08:41:03 +0000
-Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
- ([fe80::b4d6:f148:3798:6246]) by MWHPR1201MB0192.namprd12.prod.outlook.com
- ([fe80::b4d6:f148:3798:6246%7]) with mapi id 15.20.4888.010; Fri, 14 Jan 2022
- 08:41:02 +0000
-Subject: Re: [PATCH] locking/rwsem: drop redundant semicolon of
- down_write_nest_lock
-To: Guchun Chen <guchun.chen@amd.com>, peterz@infradead.org,
- mingo@redhat.com, will@kernel.org, longman@redhat.com, boqun.feng@gmail.com,
- linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>
-References: <20220114083742.6219-1-guchun.chen@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <33e93f72-0d5a-b624-f58e-c35155bbda1e@amd.com>
-Date: Fri, 14 Jan 2022 09:40:54 +0100
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB7B010E1D5
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 08:43:04 +0000 (UTC)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 20E6gwlx020402;
+ Fri, 14 Jan 2022 09:42:48 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=Ak0hNP0jSZB7Ob9FCieszL0HVXIJr7HhykzjKIYBcpA=;
+ b=BCYU+ktG/tEgOpDpYpI/Hn1da34OqqUZbCrvQNJCOO5xDCayNGfqCEvHLaOWc5++Av1+
+ dLbM0RR9/mOBDkbXboSmZHnyQjliiLWd2zgFZqWGpc71wqeVWpscJI6tYoa9k837uevh
+ vCtVDx00Hwf7uGZOb9iywOESYLqafHwU4ofXQiINEaqPbn73856B0p6tCqTXVV1VY6Vr
+ t/w39n+QpVRGLEWQHt0Y4tpNG2Kin9yhQ581B1U1p/F06jndTO5nZRDsVMvykmBDFGYf
+ xKTaikRYJ42Qvd3cdPUxosl1/pC6hEjYW+kDuLHf1AHm01EvDJ32UrkrMmEmTrY8QvBA jw== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3dk45armgu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Jan 2022 09:42:48 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 1C7E610002A;
+ Fri, 14 Jan 2022 09:42:47 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 1011B20ED16;
+ Fri, 14 Jan 2022 09:42:47 +0100 (CET)
+Received: from lmecxl0993.lme.st.com (10.75.127.49) by SFHDAG2NODE2.st.com
+ (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.26; Fri, 14 Jan
+ 2022 09:42:45 +0100
+Subject: Re: [PATCH 1/2] MAINTAINERS: Update Benjamin Gaignard maintainer
+ status
+To: Yannick Fertre <yannick.fertre@foss.st.com>, Raphael Gallais-Pou
+ <raphael.gallais-pou@foss.st.com>, David Airlie <airlied@linux.ie>, Daniel
+ Vetter <daniel@ffwll.ch>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Alain Volmat
+ <alain.volmat@foss.st.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, Liam Mark
+ <lmark@codeaurora.org>, Laura Abbott <labbott@redhat.com>, Brian Starkey
+ <Brian.Starkey@arm.com>, John Stultz <john.stultz@linaro.org>, Christian
+ Konig <christian.koenig@amd.com>, <soc@kernel.org>
+References: <20220113171921.17466-1-philippe.cornu@foss.st.com>
+ <20220113171921.17466-2-philippe.cornu@foss.st.com>
+From: Philippe CORNU <philippe.cornu@foss.st.com>
+Message-ID: <8c6eb9c2-4e3a-136b-61b4-f3b91b9903aa@foss.st.com>
+Date: Fri, 14 Jan 2022 09:42:30 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
-In-Reply-To: <20220114083742.6219-1-guchun.chen@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: AM6P195CA0074.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:209:86::15) To MWHPR1201MB0192.namprd12.prod.outlook.com
- (2603:10b6:301:5a::14)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: bd382c1f-e7e3-43d2-fca9-08d9d73998bd
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3415:EE_
-X-Microsoft-Antispam-PRVS: <BYAPR12MB34153F9EBD2E156B96877C4783549@BYAPR12MB3415.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3173;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: E8Xcz/w+wStk7lJu6fZfLzrUt6WEaE4vBhUDEcR2dit+mZTpwYO7oQ8xrLk7m1RLxnnLmdDae+yRe5DJY/34u6sAQz6eYJo909Hk7bMGV3XHTuW5VepDKWsX/ejW+5ExhnXwkxFfZ2oVSDYaw+3sIRtIZ5YWX+mpbz3xrrPHwPRZOifxOr786DX3IBl37nPuKKhZuqiZ9koM3XszyNzDSrUmQszcmVdBDV52zolt7t7+ZO/xn47K66ccy+KT7kbL/0kSruKCn2VTT1yeRke3GFGV65By7al/lo9KsiCpDpQLGQumUucJzP0UQ3kxqLCOmLRQRE4v4tDgxUF81olMSWmf/p4zkEVvYpBT7B/YojpZolSZ3VmodZhyJ7sYfJmIPy1qxMTZ70TCJhjRdr7r3sWDimUXXWiaQQA91vSIpMCdg5HMVuQcR/iCxo6n0pIVjguDscgj3aTtoL4vOpjUGTMTEmVclPB62BA9mRBoncLh2/1/09oAABzeI582sSYuGGPltYa0HwlnKWZhSYDpLRLjiuOg5Tx56slLSRgOjgK0TdvBfd22J4Mg6DxX4BkZwJK/AJ+rf1GF5NeUVmqxRPpS793H0t+KHRCuDpi8dENtYEri55VCloCvFOoyM702zyi7Y+flo9xR5dL2tc/oa32gw4bWjSi0V3cj5UsnTvrHAApGeORnri+Oeu5MrxS0v14ADUEsLJiRJOcSK5oyTr736Mw/XL+apxDuWBxLvlqBIBDRYXovZN6Z4r8huPcE
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR1201MB0192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(6512007)(31696002)(6506007)(508600001)(316002)(66574015)(2616005)(6486002)(38100700002)(110136005)(8936002)(31686004)(36756003)(83380400001)(2906002)(26005)(186003)(66946007)(6666004)(5660300002)(8676002)(66476007)(4744005)(86362001)(66556008)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NUdjamp1eWpTaXRGaXNsSzRPMGtjYW41dFBWOEhDdmJ5cjByWDNHRS9WME5N?=
- =?utf-8?B?aGhSOWFnclVzRldJRjB3bTBQSW93WXgydzU2SmdmYlgwL3BpaFlqWjBTeEI0?=
- =?utf-8?B?ZnlSKzZqZlI5ZVBHYVNvUytIOGFxTGdkZkcxdGZ6K3BGd0VlK1crbnY3ejhS?=
- =?utf-8?B?clIrUWxtUlViTnZ1WUVncFlFTWR5Wno2NDNNZzVVVUNHMDFrRXZHY0Z6OENa?=
- =?utf-8?B?MERZaElTVytvWjhwSnZudVVMUjZPMlVTd3hjVVZRaWtoZjJ2RlBvS0ljcHVB?=
- =?utf-8?B?QkZqU0VuTWc4L2NpeHdnNEhXMG4xZlRzWloxcUp3cEZneHNWV2ZoSTdSdk1r?=
- =?utf-8?B?YVpybzYxU1o4STBuWmorNmpWYzh3OGdteXp5SFE5aGwzazFjeGpMRjZycGor?=
- =?utf-8?B?cjdNMjBlVS9qMVVxeUsrK2tGdzYrZDVqWHFxdGd6RUpOczlZa1p1R1hXRnBH?=
- =?utf-8?B?U3hCQ1U0TUpWNjVxY2RxT2tpSU1ibEFlTkZmUzYveWhrc0xYR0Y2Mm53cnJW?=
- =?utf-8?B?NTYwRXplTHNVcGZMMXV4SzNQaDczQlR6ZHBJRkptcXUwdXg0STkyVCt6VjBQ?=
- =?utf-8?B?TllLK0VPMTdWZlg1S0FWcG5xN1U2RGROdHRrbERQOUg5Y2g4UTFNalV6M0dD?=
- =?utf-8?B?aXNxNEdDRktQb0YzSmJwd2QxdlBBQ3QrN1BPRExpdHZDeDF0MzlMQ3EzbUdB?=
- =?utf-8?B?Vk9IaWlaV3YveFA5MlJHODAyUnJZYklYK3BLQ29rVzVtWFRFcW82SHlEaDl0?=
- =?utf-8?B?S0JHaUU0Wm5SRU9zdXVhTUdhYTBTamRvVmYrcFBPUFJpdGhRVXZnTFFzTjZi?=
- =?utf-8?B?VTI4OEo3TS9LN240UFZ2am00ZzAwVUUxV1N3WlZHdjVZSFZCbkdCNXZyT3du?=
- =?utf-8?B?c0hNZDk4K3BlakZySUQ4TWtlRVdEaTJCeW1ISXBGR2hxUU9Wd2NEZ2QwWi9t?=
- =?utf-8?B?SWhxdE1pc0VUNm5rV1JXQTd2akJHdUtoMmtwQU5YRzhCZ211WkN3dGtOT1dI?=
- =?utf-8?B?UFlXQlp0dFJ4OWM5Q2lVT3lOT2NrSWN4cTQrdUljeUgwVHZqWjRUZ3kvTllm?=
- =?utf-8?B?aGhKaVpJVHBMMDhyN1Q0Y2xBOTJmWWk0M2dmQlR3Q3hUdkFOL0d5MVhndHVR?=
- =?utf-8?B?Q09pS2NxQ2RtYTRvM3hZdG9MZUxuVFM1M2kxUytodWVZS3RsR2NlR3Ewai9Z?=
- =?utf-8?B?S2J5cVp6WDdyWnhDY00yVGdqQTlVeG82RDJoTTJ6UCtTeHVIRFhBcHZEWWNR?=
- =?utf-8?B?SWowc0ZyZUpaNVcvcGQybG40ZDlwYzJLWUNhb3NIdkg2VC8zU2hEWENRRllp?=
- =?utf-8?B?OUxHbjZhRWlzMTd3cU9yZ0J5VkF5L2E2dXVLTDBYVmdNNCtheTB4UE9xbndL?=
- =?utf-8?B?L2UxSnpDNGVNbXpVYmFGb3kyWUtDTzJGd0NiLzlWYTF3TndybUZhUHNET3ZI?=
- =?utf-8?B?UWpRUTB4YjY3L0MyMEZtZ1ZpRVRhaEpWTzVMRTl6YXdYZ0dHYzRtcTZXUEVh?=
- =?utf-8?B?MEt0OFhSYmZNZ0xTalFtZlNIeDlGWFp6UFVqWjhvdmhVRmtBQnNRdnJUc1NB?=
- =?utf-8?B?NHgyNC82SVIxeFk0Zk9iblZtM2tYeUh6L1R2c2Z4SlYrNVJLQ052Wnl0MGV4?=
- =?utf-8?B?VEJsRkIxTEdFN1NJWnJqV05qRHg1Q3hJckVUaG0wUmMzbFFZVktRdjM0Mmx0?=
- =?utf-8?B?V1I5bHpPYjBrSmtsMEoxdmJRK2d3WFh2ZkcwNlFqM2FwSlQvOXZDeTdRc1Ey?=
- =?utf-8?B?eUtDRzNURWtkQUg4Z2QvRHN4WWFiU0tmZnVPZVJTaklVSy9xTjRPbmJnK0lp?=
- =?utf-8?B?b05SR1pxRENCdFhEN1E3YTAyUE1JNDE0TG9rZm40c3grRU9BUnlsL0s4Yzd3?=
- =?utf-8?B?MmF4T0loT1RKalR4QmhoT0Q0MHlPeWR6cnlvaENjUzR5ekprQmNRTTk5QmlW?=
- =?utf-8?B?ckN2cjJUR2hrUGwrOEdUNDZ4dkoyQloyclBJVlBBdkJnTS82L1RsZ2s0bEd1?=
- =?utf-8?B?bnFua09Xa0JmMlMyRzhVbXIrUk1ZMTVWdlZMejZwa3VCaUxUZDd3WXk2OUU5?=
- =?utf-8?B?STA5YXYzSDBwTFduWndpdG9NNjlQVWtlMFliT3BCTTB6Vk9VdnFxSVcrcDZW?=
- =?utf-8?Q?UhAQ=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd382c1f-e7e3-43d2-fca9-08d9d73998bd
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1201MB0192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2022 08:41:02.7987 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Yzjc050Olp8ukhTv66geU13VFwtE2gf4JoS37fREc+/1IMPYX5Y0r/B7Tisk6BIW
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3415
+In-Reply-To: <20220113171921.17466-2-philippe.cornu@foss.st.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.49]
+X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SFHDAG2NODE2.st.com
+ (10.75.127.5)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-14_03,2022-01-13_01,2021-12-02_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,36 +82,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 14.01.22 um 09:37 schrieb Guchun Chen:
-> Otherwise, braces are needed when using it.
->
-> Signed-off-by: Guchun Chen <guchun.chen@amd.com>
 
-Acked-by: Christian König <christian.koenig@amd.com>
 
-Peter any objections that we push this upstream through the drm subsystem?
-
-Thanks,
-Christian.
-
+On 1/13/22 6:19 PM, Philippe Cornu wrote:
+> From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> 
+> Update Benjamin Gaignard address and remove it from no more maintained
+> drivers.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 > ---
->   include/linux/rwsem.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/include/linux/rwsem.h b/include/linux/rwsem.h
-> index f9348769e558..efa5c324369a 100644
-> --- a/include/linux/rwsem.h
-> +++ b/include/linux/rwsem.h
-> @@ -230,7 +230,7 @@ extern void _down_write_nest_lock(struct rw_semaphore *sem, struct lockdep_map *
->   do {								\
->   	typecheck(struct lockdep_map *, &(nest_lock)->dep_map);	\
->   	_down_write_nest_lock(sem, &(nest_lock)->dep_map);	\
-> -} while (0);
-> +} while (0)
+>   MAINTAINERS | 5 +----
+>   1 file changed, 1 insertion(+), 4 deletions(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 7a2345ce8521..6bea080d0159 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -5702,7 +5702,7 @@ F:	tools/testing/selftests/dma/
 >   
->   /*
->    * Take/release a lock when not the owner will release it.
+>   DMA-BUF HEAPS FRAMEWORK
+>   M:	Sumit Semwal <sumit.semwal@linaro.org>
+> -R:	Benjamin Gaignard <benjamin.gaignard@linaro.org>
+> +R:	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>   R:	Liam Mark <lmark@codeaurora.org>
+>   R:	Laura Abbott <labbott@redhat.com>
+>   R:	Brian Starkey <Brian.Starkey@arm.com>
+> @@ -6423,7 +6423,6 @@ F:	Documentation/devicetree/bindings/display/rockchip/
+>   F:	drivers/gpu/drm/rockchip/
+>   
+>   DRM DRIVERS FOR STI
+> -M:	Benjamin Gaignard <benjamin.gaignard@linaro.org>
+>   L:	dri-devel@lists.freedesktop.org
+>   S:	Maintained
+>   T:	git git://anongit.freedesktop.org/drm/drm-misc
+> @@ -6433,7 +6432,6 @@ F:	drivers/gpu/drm/sti
+>   DRM DRIVERS FOR STM
+>   M:	Yannick Fertre <yannick.fertre@foss.st.com>
+>   M:	Philippe Cornu <philippe.cornu@foss.st.com>
+> -M:	Benjamin Gaignard <benjamin.gaignard@linaro.org>
+>   L:	dri-devel@lists.freedesktop.org
+>   S:	Maintained
+>   T:	git git://anongit.freedesktop.org/drm/drm-misc
+> @@ -18154,7 +18152,6 @@ F:	Documentation/devicetree/bindings/sound/st,sti-asoc-card.txt
+>   F:	sound/soc/sti/
+>   
+>   STI CEC DRIVER
+> -M:	Benjamin Gaignard <benjamin.gaignard@linaro.org>
+>   S:	Maintained
+>   F:	Documentation/devicetree/bindings/media/stih-cec.txt
+>   F:	drivers/media/cec/platform/sti/
+> 
 
+Adding my r-b as already done in the original post from Benjamin (see 
+https://lore.kernel.org/lkml/20210706163033.795805-1-benjamin.gaignard@collabora.com/)
+
+Reviewed-by: Philippe Cornu <philippe.cornu@foss.st.com>
+
+Thank you
+Philippe :-)
