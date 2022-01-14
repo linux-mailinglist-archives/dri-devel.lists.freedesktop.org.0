@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14F5A48E829
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 11:18:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90C8348E82C
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jan 2022 11:18:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 071FA10E3CA;
-	Fri, 14 Jan 2022 10:18:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 590EA10E3EA;
+	Fri, 14 Jan 2022 10:18:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
- [IPv6:2607:f8b0:4864:20::102d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBD8210E3C8
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 10:18:18 +0000 (UTC)
-Received: by mail-pj1-x102d.google.com with SMTP id hv15so12959086pjb.5
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 02:18:18 -0800 (PST)
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
+ [IPv6:2607:f8b0:4864:20::1030])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8782B10E3D8
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 10:18:25 +0000 (UTC)
+Received: by mail-pj1-x1030.google.com with SMTP id
+ y16-20020a17090a6c9000b001b13ffaa625so21547155pjj.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 02:18:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sUJXFXBOp87QX53W1MJLT6jvZlCBoBy6LJsPyWEuKxE=;
- b=i4kHgW1Tx4qnqctn7mdqp7vHBalP+GEkgKs6Et5Ac5Ngxfh8xct+4YJh/wnM+he1qz
- 5IhvJ/xfWrTTKqh1jf5TWT1+KQPwXq+uKrSPNMjbzdAwftOLoWQOWoz2i+8q3DKSAUpW
- Vu74JR+0dM0iNFRm2YTfuybGszQZLPSNxsbmGooYcLyG70XLxoblfaxslhMMWG6prz3o
- sPqRIlQYHguN2gx/iOVJGKLDKUc5F8X9NGtXKi9ZttalOFz52be8doCr0UpRgSwW4CqJ
- awQrvS/G+aWb9bjmUVvcFqk8VNuhbLS6aBizPy3MTJey+Mo5FnP8Twiw/WKr3ptDu16Y
- MgIA==
+ bh=Z7DU13bl/Kr7bejWSCxzgyPXSQzgiVvowF1ijJEKZSA=;
+ b=cAwQUnNCDelxjGSSeJwpRmip0dJtKp8udIfbxmfTkCMejPUrysWAU9r/AzLK1YEVDe
+ 1+xzfJqHpb6xp1mVbFPXI/DH1M7NudgxdzY6fXR0+tjChK4K/wS//Iwu1NHMVNAeY+eg
+ ssDgLaxA5+G2IpMONfusc2/FG65zBGfLbLpNiYJH0XCbG76qkpVsggUm9BjdzKfzprFS
+ UYOc67/AM06YoLO6MTc4VIm5mK8qU8J0Ad0rBk2SXixJp0zcFwuW+v01hLYobojca+NT
+ nK440XBHjIhqU3MUJ7p1kHcP05xgDq2/W8QuqvXMrz1QJrmUUBynUBZ8BtTJJsSF4l0s
+ PMiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sUJXFXBOp87QX53W1MJLT6jvZlCBoBy6LJsPyWEuKxE=;
- b=yNWiojNtvQzZZSngdYxJZESL94y7p4l19Vu5NB23PPtJvZGuagSJ8MYgi5ON01VR+v
- WacExgD+Xu81Sj38aiDPKL/V6BSoAcS5sC3sQP38GPqv/EoIoiJXUn80fPDkgec3iMD8
- v6AkqYlIStrdzOi6rUAV87JurUx+peMAhMYca90SYITI1QrUQ/qSOt7kX5Ekm7gztWCu
- UFKuPkX2sTbt1Ch3hpTJ7ffzlP4Bg5RXVenHaHOu0An7oBWratCkwZhjvTa7AN7eibUp
- k8BsHd/khf94sL1lyxX3vaXIBAmZ/YwuUPONe5FB68L9xwNkDufm99FbvZ3Hnwq4plmF
- bNfw==
-X-Gm-Message-State: AOAM531j5rkT7O1ligCSWwejIOrCNvbG0kS71VsBETrC4eJqecRF2cfw
- o88qSXk6eq2bWzh1zQH8ld1UsTXDVk08HzJS
-X-Google-Smtp-Source: ABdhPJy/UDQhpupvUk83aY0nMurd57v8ZWQbjLCoPvg9ZhE30wyDbkehvy4hysWEstqIUri7m9EU4Q==
-X-Received: by 2002:a17:902:c10c:b0:14a:8def:dc2f with SMTP id
- 12-20020a170902c10c00b0014a8defdc2fmr2709752pli.98.1642155497977; 
- Fri, 14 Jan 2022 02:18:17 -0800 (PST)
+ bh=Z7DU13bl/Kr7bejWSCxzgyPXSQzgiVvowF1ijJEKZSA=;
+ b=dfIR43/Mz7ZczT6hPP6AAk/A0a/9SFGU6SZsci58WRAl0snkNjaU3JoVjJS/P12pBo
+ s7zDbM34R5feiVc550QOef4wvL68wSx4R57ErjulRfkNVuWtiNJ0uhNsIlRKCWlwWjdc
+ bu+6azmeAF7ccQNFHVpRFvP9/cO7Tuj+kSYNNVrbWQ1dhgkVTSOEH7OTawOdD7C2fw3s
+ CjrkEkBy0F4AEY+Rw6t+HIjuo9viFmDhf4JhxpSSY+JNRb1SR1DvEsTcN7DskASCGq5x
+ 6S/CwlDnZUI51ld2PVP0P+0tzldAoJUcD3+31RL0j6U7Xpueq2KsmIukbHwrA1vn4hXM
+ OGtA==
+X-Gm-Message-State: AOAM533nck01gkBMSh9f0QlFzCbcpcAgd6vwa/J2TIkFWHf8yJ1vE6P+
+ zNu5jDnR4nTe2hb+oKm4Md8hlXpuyyO4Sqcx
+X-Google-Smtp-Source: ABdhPJzS8wjD3XHWY3mgaylIQXfEpPeL2apV2hB38YBPJKQQNVuflbQO9VGaryB3jdxmbmi3XoWoNQ==
+X-Received: by 2002:a17:903:2292:b0:14a:8068:a75 with SMTP id
+ b18-20020a170903229200b0014a80680a75mr5915261plh.105.1642155504809; 
+ Fri, 14 Jan 2022 02:18:24 -0800 (PST)
 Received: from aqua.hq.igel.co.jp (napt.igel.co.jp. [219.106.231.132])
- by smtp.gmail.com with ESMTPSA id 13sm5555970pfm.161.2022.01.14.02.18.11
+ by smtp.gmail.com with ESMTPSA id 13sm5555970pfm.161.2022.01.14.02.18.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Jan 2022 02:18:17 -0800 (PST)
+ Fri, 14 Jan 2022 02:18:24 -0800 (PST)
 From: Tomohito Esaki <etom@igel.co.jp>
 To: dri-devel@lists.freedesktop.org
-Subject: [RFC PATCH v3 1/3] drm: introduce fb_modifiers_not_supported flag in
- mode_config
-Date: Fri, 14 Jan 2022 19:17:51 +0900
-Message-Id: <20220114101753.24996-2-etom@igel.co.jp>
+Subject: [RFC PATCH v3 2/3] drm: add support modifiers for drivers whose
+ planes only support linear layout
+Date: Fri, 14 Jan 2022 19:17:52 +0900
+Message-Id: <20220114101753.24996-3-etom@igel.co.jp>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220114101753.24996-1-etom@igel.co.jp>
 References: <20220114101753.24996-1-etom@igel.co.jp>
@@ -90,222 +91,76 @@ Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If only linear modifier is advertised, since there are many drivers that
-only linear supported, the DRM core should handle this rather than
-open-coding in every driver. However, there are legacy drivers such as
-radeon that do not support modifiers but infer the actual layout of the
-underlying buffer. Therefore, a new flag fb_modifiers_not_supported is
-introduced for these legacy drivers, and allow_fb_modifiers is replaced
-with this new flag.
+The LINEAR modifier is advertised as default if a driver doesn't specify
+modifiers.
 
 Signed-off-by: Tomohito Esaki <etom@igel.co.jp>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c       |  6 +++---
- drivers/gpu/drm/amd/amdgpu/dce_v10_0.c            |  2 ++
- drivers/gpu/drm/amd/amdgpu/dce_v11_0.c            |  2 ++
- drivers/gpu/drm/amd/amdgpu/dce_v6_0.c             |  1 +
- drivers/gpu/drm/amd/amdgpu/dce_v8_0.c             |  2 ++
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  3 +++
- drivers/gpu/drm/drm_framebuffer.c                 |  6 +++---
- drivers/gpu/drm/drm_ioctl.c                       |  2 +-
- drivers/gpu/drm/nouveau/nouveau_display.c         |  6 ++++--
- drivers/gpu/drm/radeon/radeon_display.c           |  2 ++
- include/drm/drm_mode_config.h                     | 10 ++++++++++
- 11 files changed, 33 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/drm_plane.c | 15 ++++++++++++---
+ include/drm/drm_plane.h     |  3 +++
+ 2 files changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-index 82011e75ed85..edbb30d47b8c 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-@@ -954,7 +954,7 @@ static int amdgpu_display_verify_sizes(struct amdgpu_framebuffer *rfb)
+diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+index deeec60a3315..5aa7e241971e 100644
+--- a/drivers/gpu/drm/drm_plane.c
++++ b/drivers/gpu/drm/drm_plane.c
+@@ -237,6 +237,10 @@ static int __drm_universal_plane_init(struct drm_device *dev,
+ 				      const char *name, va_list ap)
+ {
+ 	struct drm_mode_config *config = &dev->mode_config;
++	const uint64_t default_modifiers[] = {
++		DRM_FORMAT_MOD_LINEAR,
++		DRM_FORMAT_MOD_INVALID
++	};
+ 	unsigned int format_modifier_count = 0;
  	int ret;
- 	unsigned int i, block_width, block_height, block_size_log2;
  
--	if (!rfb->base.dev->mode_config.allow_fb_modifiers)
-+	if (rfb->base.dev->mode_config.fb_modifiers_not_supported)
- 		return 0;
+@@ -277,6 +281,11 @@ static int __drm_universal_plane_init(struct drm_device *dev,
  
- 	for (i = 0; i < format_info->num_planes; ++i) {
-@@ -1141,7 +1141,7 @@ int amdgpu_display_framebuffer_init(struct drm_device *dev,
- 	if (ret)
- 		return ret;
- 
--	if (!dev->mode_config.allow_fb_modifiers) {
-+	if (dev->mode_config.fb_modifiers_not_supported) {
- 		drm_WARN_ONCE(dev, adev->family >= AMDGPU_FAMILY_AI,
- 			      "GFX9+ requires FB check based on format modifier\n");
- 		ret = check_tiling_flags_gfx6(rfb);
-@@ -1149,7 +1149,7 @@ int amdgpu_display_framebuffer_init(struct drm_device *dev,
- 			return ret;
+ 		while (*temp_modifiers++ != DRM_FORMAT_MOD_INVALID)
+ 			format_modifier_count++;
++	} else {
++		if (!dev->mode_config.fb_modifiers_not_supported) {
++			format_modifiers = default_modifiers;
++			format_modifier_count = 1;
++		}
  	}
  
--	if (dev->mode_config.allow_fb_modifiers &&
-+	if (!dev->mode_config.fb_modifiers_not_supported &&
- 	    !(rfb->base.flags & DRM_MODE_FB_MODIFIERS)) {
- 		ret = convert_tiling_flags_to_modifier(rfb);
- 		if (ret) {
-diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
-index d1570a462a51..fb61c0814115 100644
---- a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
-@@ -2798,6 +2798,8 @@ static int dce_v10_0_sw_init(void *handle)
- 	adev_to_drm(adev)->mode_config.preferred_depth = 24;
- 	adev_to_drm(adev)->mode_config.prefer_shadow = 1;
- 
-+	adev_to_drm(adev)->mode_config.fb_modifiers_not_supported = true;
-+
- 	adev_to_drm(adev)->mode_config.fb_base = adev->gmc.aper_base;
- 
- 	r = amdgpu_display_modeset_create_props(adev);
-diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
-index 18a7b3bd633b..17942a11366d 100644
---- a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
-@@ -2916,6 +2916,8 @@ static int dce_v11_0_sw_init(void *handle)
- 	adev_to_drm(adev)->mode_config.preferred_depth = 24;
- 	adev_to_drm(adev)->mode_config.prefer_shadow = 1;
- 
-+	adev_to_drm(adev)->mode_config.fb_modifiers_not_supported = true;
-+
- 	adev_to_drm(adev)->mode_config.fb_base = adev->gmc.aper_base;
- 
- 	r = amdgpu_display_modeset_create_props(adev);
-diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
-index c7803dc2b2d5..2ec99ec8e1a3 100644
---- a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
-@@ -2674,6 +2674,7 @@ static int dce_v6_0_sw_init(void *handle)
- 	adev_to_drm(adev)->mode_config.max_height = 16384;
- 	adev_to_drm(adev)->mode_config.preferred_depth = 24;
- 	adev_to_drm(adev)->mode_config.prefer_shadow = 1;
-+	adev_to_drm(adev)->mode_config.fb_modifiers_not_supported = true;
- 	adev_to_drm(adev)->mode_config.fb_base = adev->gmc.aper_base;
- 
- 	r = amdgpu_display_modeset_create_props(adev);
-diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
-index 8318ee8339f1..de11fbe5aba2 100644
---- a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
-@@ -2695,6 +2695,8 @@ static int dce_v8_0_sw_init(void *handle)
- 	adev_to_drm(adev)->mode_config.preferred_depth = 24;
- 	adev_to_drm(adev)->mode_config.prefer_shadow = 1;
- 
-+	adev_to_drm(adev)->mode_config.fb_modifiers_not_supported = true;
-+
- 	adev_to_drm(adev)->mode_config.fb_base = adev->gmc.aper_base;
- 
- 	r = amdgpu_display_modeset_create_props(adev);
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 2f0b14f8f833..61cb41766fae 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -7868,6 +7868,9 @@ static int amdgpu_dm_plane_init(struct amdgpu_display_manager *dm,
- 	if (res)
- 		return res;
- 
-+	if (modifiers == NULL)
-+		adev_to_drm(dm->adev)->mode_config.fb_modifiers_not_supported = true;
-+
- 	res = drm_universal_plane_init(adev_to_drm(dm->adev), plane, possible_crtcs,
- 				       &dm_plane_funcs, formats, num_formats,
- 				       modifiers, plane->type, NULL);
-diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
-index 07f5abc875e9..4562a8b86579 100644
---- a/drivers/gpu/drm/drm_framebuffer.c
-+++ b/drivers/gpu/drm/drm_framebuffer.c
-@@ -309,7 +309,7 @@ drm_internal_framebuffer_create(struct drm_device *dev,
+ 	/* autoset the cap and check for consistency across all planes */
+@@ -341,7 +350,7 @@ static int __drm_universal_plane_init(struct drm_device *dev,
+ 		drm_object_attach_property(&plane->base, config->prop_src_h, 0);
  	}
  
- 	if (r->flags & DRM_MODE_FB_MODIFIERS &&
--	    !dev->mode_config.allow_fb_modifiers) {
-+	    dev->mode_config.fb_modifiers_not_supported) {
- 		DRM_DEBUG_KMS("driver does not support fb modifiers\n");
- 		return ERR_PTR(-EINVAL);
- 	}
-@@ -594,7 +594,7 @@ int drm_mode_getfb2_ioctl(struct drm_device *dev,
- 	r->pixel_format = fb->format->format;
+-	if (config->allow_fb_modifiers)
++	if (format_modifier_count)
+ 		create_in_format_blob(dev, plane);
  
- 	r->flags = 0;
--	if (dev->mode_config.allow_fb_modifiers)
-+	if (!dev->mode_config.fb_modifiers_not_supported)
- 		r->flags |= DRM_MODE_FB_MODIFIERS;
- 
- 	for (i = 0; i < ARRAY_SIZE(r->handles); i++) {
-@@ -607,7 +607,7 @@ int drm_mode_getfb2_ioctl(struct drm_device *dev,
- 	for (i = 0; i < fb->format->num_planes; i++) {
- 		r->pitches[i] = fb->pitches[i];
- 		r->offsets[i] = fb->offsets[i];
--		if (dev->mode_config.allow_fb_modifiers)
-+		if (!dev->mode_config.fb_modifiers_not_supported)
- 			r->modifier[i] = fb->modifier;
- 	}
- 
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index 8b8744dcf691..51fcf1298023 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -297,7 +297,7 @@ static int drm_getcap(struct drm_device *dev, void *data, struct drm_file *file_
- 			req->value = 64;
- 		break;
- 	case DRM_CAP_ADDFB2_MODIFIERS:
--		req->value = dev->mode_config.allow_fb_modifiers;
-+		req->value = !dev->mode_config.fb_modifiers_not_supported;
- 		break;
- 	case DRM_CAP_CRTC_IN_VBLANK_EVENT:
- 		req->value = 1;
-diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
-index 2b460835a438..2cd0932b3d68 100644
---- a/drivers/gpu/drm/nouveau/nouveau_display.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_display.c
-@@ -708,10 +708,12 @@ nouveau_display_create(struct drm_device *dev)
- 				     &disp->disp);
- 		if (ret == 0) {
- 			nouveau_display_create_properties(dev);
--			if (disp->disp.object.oclass < NV50_DISP)
-+			if (disp->disp.object.oclass < NV50_DISP) {
-+				dev->mode_config.fb_modifiers_not_supported = true;
- 				ret = nv04_display_create(dev);
--			else
-+			} else {
- 				ret = nv50_display_create(dev);
-+			}
- 		}
- 	} else {
- 		ret = 0;
-diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/drm/radeon/radeon_display.c
-index 573154268d43..b9a07677a71e 100644
---- a/drivers/gpu/drm/radeon/radeon_display.c
-+++ b/drivers/gpu/drm/radeon/radeon_display.c
-@@ -1596,6 +1596,8 @@ int radeon_modeset_init(struct radeon_device *rdev)
- 	rdev->ddev->mode_config.preferred_depth = 24;
- 	rdev->ddev->mode_config.prefer_shadow = 1;
- 
-+	rdev->ddev->mode_config.fb_modifiers_not_supported = true;
-+
- 	rdev->ddev->mode_config.fb_base = rdev->mc.aper_base;
- 
- 	ret = radeon_modeset_create_props(rdev);
-diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-index 91ca575a78de..da82f45351c7 100644
---- a/include/drm/drm_mode_config.h
-+++ b/include/drm/drm_mode_config.h
-@@ -933,6 +933,16 @@ struct drm_mode_config {
- 	 */
- 	bool allow_fb_modifiers;
- 
-+	/**
-+	 * @fb_modifiers_not_supported:
-+	 *
-+	 * This flag is for legacy drivers such as radeon that do not support
-+	 * modifiers but infer the actual layout of the underlying buffer.
-+	 * Generally, each drivers must support modifiers, this flag should not
-+	 * be set.
-+	 */
-+	bool fb_modifiers_not_supported;
-+
- 	/**
- 	 * @normalize_zpos:
- 	 *
+ 	return 0;
+@@ -368,8 +377,8 @@ static int __drm_universal_plane_init(struct drm_device *dev,
+  * drm_universal_plane_init() to let the DRM managed resource infrastructure
+  * take care of cleanup and deallocation.
+  *
+- * Drivers supporting modifiers must set @format_modifiers on all their planes,
+- * even those that only support DRM_FORMAT_MOD_LINEAR.
++ * For drivers supporting modifiers, all planes will advertise
++ * DRM_FORMAT_MOD_LINEAR support, if @format_modifiers is not set.
+  *
+  * Returns:
+  * Zero on success, error code on failure.
+diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+index 0c1102dc4d88..cad641b1f797 100644
+--- a/include/drm/drm_plane.h
++++ b/include/drm/drm_plane.h
+@@ -803,6 +803,9 @@ void *__drmm_universal_plane_alloc(struct drm_device *dev,
+  *
+  * The @drm_plane_funcs.destroy hook must be NULL.
+  *
++ * For drivers supporting modifiers, all planes will advertise
++ * DRM_FORMAT_MOD_LINEAR support, if @format_modifiers is not set.
++ *
+  * Returns:
+  * Pointer to new plane, or ERR_PTR on failure.
+  */
 -- 
 2.25.1
 
