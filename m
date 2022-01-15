@@ -2,56 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AECB94903F4
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 09:34:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E80964903F3
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 09:34:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D8EF10E1C2;
-	Mon, 17 Jan 2022 08:34:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F2B210E24D;
+	Mon, 17 Jan 2022 08:34:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
- [205.220.177.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0994510E2F7
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Jan 2022 16:46:01 +0000 (UTC)
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20FDxg1q018448; 
- Sat, 15 Jan 2022 16:45:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2021-07-09; bh=xFdErQzZhWw36cmChgQUJSnCaxzupFnzpJu6evk43mo=;
- b=0YN07xkKKmTo6HudaMgLxjh5ZkjoEvQXMgK8kCRH6oHE2JskoRCyHQqHg32sufyroNzr
- pFGE5RSYaEUG/231fDrs87NINPd3gP4juzgM30ajdbrQAGLhvJUfoleJHKDfusOcgGZm
- 7Hj7FHyJTHy9WErAmyuzVrxXCoO1cyzzqtPo88AXDUwBSdgj8JgjImuBo+IIPPEli5Bu
- 7OVPnKZI4e+Rn+s5NisPMQSV1wRXd8HZ/ZRW9LrGhoUq93kLSLTSIi3rV9O1yny1F24j
- j0bkINFliy36x5sWT78Mg7YG2MPSNetfDu2KkmAPEVsgsslNC3gFaAHgQeNdRIu2RyjF Rw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by mx0b-00069f02.pphosted.com with ESMTP id 3dkn22rrm6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 15 Jan 2022 16:45:57 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20FGe8qh128341;
- Sat, 15 Jan 2022 16:45:56 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by userp3020.oracle.com with ESMTP id 3dkqqhh8rj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 15 Jan 2022 16:45:56 +0000
-Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 20FGjtqK136628;
- Sat, 15 Jan 2022 16:45:55 GMT
-Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.147.25.63])
- by userp3020.oracle.com with ESMTP id 3dkqqhh8rc-1;
- Sat, 15 Jan 2022 16:45:55 +0000
-From: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-To: 
-Subject: [PATCH] drm/udl: Return correct error code on kmalloc failure
-Date: Sat, 15 Jan 2022 08:45:25 -0800
-Message-Id: <20220115164525.50258-1-harshit.m.mogalapalli@oracle.com>
-X-Mailer: git-send-email 2.27.0
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E7B010E181
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jan 2022 23:23:11 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id a18so48799919edj.7
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jan 2022 15:23:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=D6GdrkpYWNsQdv6k3d+2qmAiqyk0OXx35vgic0iiles=;
+ b=CEgFs2gd6p2hLjUiiisdxsmg133SongkFnMWm+SWicFdHk1pb4froPbRkvOVE8E9MW
+ CyZFQtKIIbXg7ECj1dnZkS+lv+nWCo3JXZXmkpA/u89PM9qOwaboSnSe7XH6Tud6LxXY
+ K3MrWQt7+UCY58OP266RRq0ntdv2dWw8oSm6aEZZgKUwaZg+q4PAvVx1HKxn73agwRLH
+ yF7v5BDzETC2XSXmAWGXJD/Hc/HnbBuOLnOyrsPsiI9e5tkZx7LJgfb6C/Q9BF39Ynyk
+ HFh0SHo1RevT+CNlgBym49OyZRFtPvLENOd+hbxhJxpM9GhWuoeknCAALLyI7DZcVL6e
+ DyWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=D6GdrkpYWNsQdv6k3d+2qmAiqyk0OXx35vgic0iiles=;
+ b=J1T0kpLusItCGRORzQctuXeu/kz/wTa9XKLY5eK/ftohiczGKVyMHXUK3msrq3TtnX
+ ATjlZme/HTqhWDP5ehVP+kJfeGKNZYSScKtVJsGgnXTh7L7ypV7/F22qR0MXlnPFFMLP
+ orrSJZqTtMgvduKvOEndbENYWuN2XlY2z2Oiw+aTmB8fns+tu58ymZfMnNkmUJ6TZRmh
+ EaDfmGslrm31nsz+uh71grHg4+OTt6siTlpNNqCJT+WVhlVVrT1hBmLJDNUVcfXwPatN
+ m7jFTvEfMKGm6b7yYNNyfPpRwu4p5L7gaUv3QVujvDip/SIbLMqS6BuxTDixE4Y0l/mW
+ OtpA==
+X-Gm-Message-State: AOAM531nDkKRjlrGCJOJV5ToZxG98iPMBRPvH+8I5GbK9CVlNxisau27
+ rOmBbaa8JQmC/xmyuo8hyFc=
+X-Google-Smtp-Source: ABdhPJxH/PUwaobGdhu3RuE+N/Opz4XfGX/H5K7FaiUNeJhPcxdGCNypQeVlJwHmBTsVAWhr16dmjA==
+X-Received: by 2002:a17:906:7304:: with SMTP id
+ di4mr11697518ejc.327.1642288989750; 
+ Sat, 15 Jan 2022 15:23:09 -0800 (PST)
+Received: from tom-desktop (net-93-71-218-227.cust.vodafonedsl.it.
+ [93.71.218.227])
+ by smtp.gmail.com with ESMTPSA id e16sm3839918edu.15.2022.01.15.15.23.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 15 Jan 2022 15:23:08 -0800 (PST)
+Date: Sun, 16 Jan 2022 00:23:06 +0100
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: Fabio Estevam <festevam@gmail.com>
+Subject: Re: [PATCH 1/2] drm/i2c/tda998x: Switch to atomic operations
+Message-ID: <20220115232306.GA30488@tom-desktop>
+References: <20211231013930.139754-1-festevam@gmail.com>
+ <YdLifIoB8eClztlG@pendragon.ideasonboard.com>
+ <CAOMZO5DVzvPXs2-0Vzsunh=OZ0qhyMhSKyPTKQ+mGXfF8G8Rtw@mail.gmail.com>
+ <20220108191658.GC2633@tom-desktop>
+ <CAOMZO5Db9WuFTckQ=ngT32Q5EgOFf9_T+duuT1nzemWRTSwoQA@mail.gmail.com>
+ <20220111202151.GB4503@tom-desktop>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: EMXgLv04YryngQF4cU4jLsac9EK5n8tg
-X-Proofpoint-ORIG-GUID: EMXgLv04YryngQF4cU4jLsac9EK5n8tg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220111202151.GB4503@tom-desktop>
 X-Mailman-Approved-At: Mon, 17 Jan 2022 08:34:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,41 +75,244 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Robert Tarasov <tutankhamen@chromium.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@intel.com>,
- harshit.m.mogalapalli@oracle.com, Dave Airlie <airlied@redhat.com>,
- Sean Paul <sean@poorly.run>, dan.carpenter@oracle.com
+Cc: Marek Vasut <marex@denx.de>, Peter Robinson <pbrobinson@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Russell King - ARM Linux <linux@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
--ENOMEM is correct error code to return on a memory allocation failure
-instead of -1.
+On Tue, Jan 11, 2022 at 09:21:51PM +0100, Tommaso Merciai wrote:
+> On Sun, Jan 09, 2022 at 03:44:07PM -0300, Fabio Estevam wrote:
+> > Hi Tommaso,
+> > 
+> > On Sat, Jan 8, 2022 at 4:17 PM Tommaso Merciai <tomm.merciai@gmail.com> wrote:
+> > 
+> > > Hi Fabio,
+> > > If you need some test let me know. Whitch filesystem are you using?
+> > 
+> > I am using a rootfs generated by Buildroot.
+> > 
+> > The issue I see seems to be hotplug-related.
+> > 
+> > cat /sys/class/drm/card1-HDMI-A-1/status
+> > 
+> > not always match with the real state of the HDMI cable.
+> > 
+> > > In the next days I will investigate on this issue.
+> > > Let me know.
+> > 
+> > Thanks
+> 
+> Hi Fabio,
+> Got it, I'll try to reproduce the issue on my side and let you know.
+> 
+> Thanks,
+> Tommaso
 
-Smatch Warning:
-drivers/gpu/drm/udl/udl_connector.c:27 udl_get_edid_block() warn:
-returning -1 instead of -ENOMEM is sloppy
+Hi Fabio,
+I'm working on bring up urt,umsh-8596md-20t lvds kit panel, but after enable
+following node I get the following error:
 
-Fixes: a51143001d9e ("drm/udl: Refactor edid retrieving in UDL driver (v2)")
-Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
----
- drivers/gpu/drm/udl/udl_connector.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
++       backlight_display: backlight-display {
++               compatible = "pwm-backlight";
++               pwms = <&pwm4 0 5000000>;
++               brightness-levels = <0 4 8 16 32 64 128 255>;
++               default-brightness-level = <32>;
++       };
++
+        leds {
+                compatible = "gpio-leds";
 
-diff --git a/drivers/gpu/drm/udl/udl_connector.c b/drivers/gpu/drm/udl/udl_connector.c
-index 930574ad2bca..b7a9c6d103ba 100644
---- a/drivers/gpu/drm/udl/udl_connector.c
-+++ b/drivers/gpu/drm/udl/udl_connector.c
-@@ -24,7 +24,7 @@ static int udl_get_edid_block(void *data, u8 *buf, unsigned int block,
- 
- 	read_buff = kmalloc(2, GFP_KERNEL);
- 	if (!read_buff)
--		return -1;
-+		return -ENOMEM;
- 
- 	for (i = 0; i < len; i++) {
- 		int bval = (i + block * EDID_LENGTH) << 8;
--- 
-2.27.0
+@@ -70,6 +77,17 @@ reg_wlan: regulator-wlan {
+                startup-delay-us = <70000>;
+                enable-active-high;
+        };
++
++       panel {
++               compatible = "urt,umsh-8596md-20t";
++               backlight = <&backlight_display>;
++
++               port {
++                       panel_in: endpoint {
++                               remote-endpoint = <&display_out>;
++                       };
++               };
++       };
+ };
+
+ &fec1 {
+@@ -196,6 +214,12 @@ pinctrl_bt_reg: btreggrp {
+                        <MX6SX_PAD_KEY_ROW2__GPIO2_IO_17        0x15059>;
+        };
+
++       pinctrl_pwm4: pwm4grp-1 {
++               fsl,pins = <
++                       MX6SX_PAD_SD1_DATA1__PWM4_OUT 0x110b0
++               >;
++       };
++
+        pinctrl_enet1: enet1grp {
+                fsl,pins =
+                        <MX6SX_PAD_ENET1_CRS__GPIO2_IO_1        0xa0b1>,
+@@ -316,6 +340,40 @@ pinctrl_usdhc3: usdhc3grp {
+                        <MX6SX_PAD_SD3_CLK__USDHC3_CLK          0x10069>,
+                        <MX6SX_PAD_CSI_MCLK__OSC32K_32K_OUT     0x10059>;
+        };
++
++       pinctrl_lcd: lcdgrp {
++                       fsl,pins = <
++                               MX6SX_PAD_LCD1_DATA00__LCDIF1_DATA_0 0x4001b0b0
++                               MX6SX_PAD_LCD1_DATA01__LCDIF1_DATA_1 0x4001b0b0
++                               MX6SX_PAD_LCD1_DATA02__LCDIF1_DATA_2 0x4001b0b0
++                               MX6SX_PAD_LCD1_DATA03__LCDIF1_DATA_3 0x4001b0b0
++                               MX6SX_PAD_LCD1_DATA04__LCDIF1_DATA_4 0x4001b0b0
++                               MX6SX_PAD_LCD1_DATA05__LCDIF1_DATA_5 0x4001b0b0
++                               MX6SX_PAD_LCD1_DATA06__LCDIF1_DATA_6 0x4001b0b0
++                               MX6SX_PAD_LCD1_DATA07__LCDIF1_DATA_7 0x4001b0b0
++                               MX6SX_PAD_LCD1_DATA08__LCDIF1_DATA_8 0x4001b0b0
++                               MX6SX_PAD_LCD1_DATA09__LCDIF1_DATA_9 0x4001b0b0
++                               MX6SX_PAD_LCD1_DATA10__LCDIF1_DATA_10 0x4001b0b0
++                               MX6SX_PAD_LCD1_DATA11__LCDIF1_DATA_11 0x4001b0b0
++                               MX6SX_PAD_LCD1_DATA12__LCDIF1_DATA_12 0x4001b0b0
++                               MX6SX_PAD_LCD1_DATA13__LCDIF1_DATA_13 0x4001b0b0
++                               MX6SX_PAD_LCD1_DATA14__LCDIF1_DATA_14 0x4001b0b0
++                               MX6SX_PAD_LCD1_DATA15__LCDIF1_DATA_15 0x4001b0b0
++                               MX6SX_PAD_LCD1_DATA16__LCDIF1_DATA_16 0x4001b0b0
++                               MX6SX_PAD_LCD1_DATA17__LCDIF1_DATA_17 0x4001b0b0
++                               MX6SX_PAD_LCD1_DATA18__LCDIF1_DATA_18 0x4001b0b0
++                               MX6SX_PAD_LCD1_DATA19__LCDIF1_DATA_19 0x4001b0b0
++                               MX6SX_PAD_LCD1_DATA20__LCDIF1_DATA_20 0x4001b0b0
++                               MX6SX_PAD_LCD1_DATA21__LCDIF1_DATA_21 0x4001b0b0
++                               MX6SX_PAD_LCD1_DATA22__LCDIF1_DATA_22 0x4001b0b0
++                               MX6SX_PAD_LCD1_DATA23__LCDIF1_DATA_23 0x4001b0b0
++                               MX6SX_PAD_LCD1_CLK__LCDIF1_CLK  0x4001b0b0
++                               MX6SX_PAD_LCD1_ENABLE__LCDIF1_ENABLE 0x4001b0b0
++                               MX6SX_PAD_LCD1_VSYNC__LCDIF1_VSYNC 0x4001b0b0
++                               MX6SX_PAD_LCD1_HSYNC__LCDIF1_HSYNC 0x4001b0b0
++                               MX6SX_PAD_LCD1_RESET__GPIO3_IO_27 0x4001b0b0
++                       >;
++               };
+ };
+
+ &uart1 {
+@@ -408,3 +466,22 @@ wlcore: wlcore@2 {
+                tcxo-clock-frequency = <26000000>;
+        };
+ };
++
++&lcdif1 {
++       pinctrl-names = "default";
++       pinctrl-0 = <&pinctrl_lcd>;
++       status = "okay";
++
++       port {
++               display_out: endpoint {
++                       remote-endpoint = <&panel_in>;
++               };
++       };
++};
++
++&pwm4 {
++       #pwm-cells = <2>;
++       pinctrl-names = "default";
++       pinctrl-0 = <&pinctrl_pwm4>;
++       status = "okay";
++};
+
+
+Error:
+
+imx6qpdlsolox login: [   49.624735] ------------[ cut here ]------------
+[   49.625348] WARNING: CPU: 0 PID: 324 at drivers/gpu/drm/drm_atomic_helper.c:1529 drm_atomic_helper_wait_for_vblanks.part.0+0x278/0x290
+[   49.625527] [CRTC:35:crtc-0] vblank wait timed out
+[   49.625590] Modules linked in: imx_sdma
+[   49.625755] CPU: 0 PID: 324 Comm: systemd-logind Not tainted 5.16.0-08197-gfeb7a43de5ef-dirty #62
+[   49.625829] Hardware name: Freescale i.MX6 SoloX (Device Tree)
+[   49.625883]  unwind_backtrace from show_stack+0x10/0x14
+[   49.625998]  show_stack from dump_stack_lvl+0x58/0x70
+[   49.626093]  dump_stack_lvl from __warn+0xd4/0x154
+[   49.626180]  __warn from warn_slowpath_fmt+0x74/0xa8
+[   49.626286]  warn_slowpath_fmt from drm_atomic_helper_wait_for_vblanks.part.0+0x278/0x290
+[   49.626395]  drm_atomic_helper_wait_for_vblanks.part.0 from drm_atomic_helper_commit_tail_rpm+0x7c/0x8c
+[   49.626498]  drm_atomic_helper_commit_tail_rpm from commit_tail+0x9c/0x184
+[   49.626591]  commit_tail from drm_atomic_helper_commit+0x158/0x18c
+[   49.626680]  drm_atomic_helper_commit from drm_client_modeset_commit_atomic+0x238/0x284
+[   49.626784]  drm_client_modeset_commit_atomic from drm_client_modeset_commit_locked+0x60/0x1cc
+[   49.626868]  drm_client_modeset_commit_locked from drm_fb_helper_pan_display+0x94/0x1c4
+[   49.626970]  drm_fb_helper_pan_display from fb_pan_display+0x9c/0x114
+[   49.627051]  fb_pan_display from bit_update_start+0x14/0x30
+[   49.627146]  bit_update_start from fbcon_switch+0x2d4/0x45c
+[   49.627236]  fbcon_switch from redraw_screen+0xd4/0x248
+[   49.627338]  redraw_screen from fbcon_blank+0x1b0/0x258
+[   49.627424]  fbcon_blank from do_unblank_screen+0x98/0x170
+[   49.627509]  do_unblank_screen from vt_ioctl+0x960/0x1d78
+[   49.627623]  vt_ioctl from tty_ioctl+0x3e0/0xe18
+[   49.627709]  tty_ioctl from sys_ioctl+0x5a8/0xec4
+[   49.627796]  sys_ioctl from ret_fast_syscall+0x0/0x1c
+[   49.627874] Exception stack(0xc4767fa8 to 0xc4767ff0)
+[   49.627943] 7fa0:                   021e1600 fffffffb 0000000a 00004b3a 00000000 00000134
+[   49.628010] 7fc0: 021e1600 fffffffb 0000000a 00000036 be8479d8 00000000 00000000 021d43b8
+[   49.628061] 7fe0: b6f0f978 be847914 b6e41d75 b6cbfc18
+[   49.628114] irq event stamp: 52041
+[   49.628170] hardirqs last  enabled at (52047): [<c019b5d0>] vprintk_emit+0x2dc/0x310
+[   49.628285] hardirqs last disabled at (52052): [<c019b57c>] vprintk_emit+0x288/0x310
+[   49.628377] softirqs last  enabled at (51264): [<c0101518>] __do_softirq+0x2f8/0x5b0
+[   49.628466] softirqs last disabled at (51231): [<c012eda8>] __irq_exit_rcu+0x16c/0x1e0
+[   49.628573] ---[ end trace 1572e4d782184e68 ]---
+
+imx6qpdlsolox login: root
+[   60.016074] mxsfb 2220000.lcdif: [drm] *ERROR* flip_done timed out
+[   60.016455] mxsfb 2220000.lcdif: [drm] *ERROR* [CRTC:35:crtc-0] commit wait timed out
+[   70.256588] mxsfb 2220000.lcdif: [drm] *ERROR* flip_done timed out
+[   70.256695] mxsfb 2220000.lcdif: [drm] *ERROR* [CONNECTOR:37:DPI-1] commit wait timed out
+[   80.495783] mxsfb 2220000.lcdif: [drm] *ERROR* flip_done timed out
+[   80.495889] mxsfb 2220000.lcdif: [drm] *ERROR* [PLANE:31:plane-0] commit wait timed out
+[   80.606207] ------------[ cut here ]------------
+[   80.606257] WARNING: CPU: 0 PID: 1 at drivers/gpu/drm/drm_atomic_helper.c:1529 drm_atomic_helper_wait_for_vblanks.part.0+0x278/0x290
+[   80.606350] [CRTC:35:crtc-0] vblank wait timed out
+[   80.606386] Modules linked in: imx_sdma
+[   80.606484] CPU: 0 PID: 1 Comm: systemd Tainted: G        W         5.16.0-08197-gfeb7a43de5ef-dirty #62
+[   80.606520] Hardware name: Freescale i.MX6 SoloX (Device Tree)
+[   80.606551]  unwind_backtrace from show_stack+0x10/0x14
+[   80.606614]  show_stack from dump_stack_lvl+0x58/0x70
+[   80.606665]  dump_stack_lvl from __warn+0xd4/0x154
+[   80.606710]  __warn from warn_slowpath_fmt+0x74/0xa8
+[   80.606769]  warn_slowpath_fmt from drm_atomic_helper_wait_for_vblanks.part.0+0x278/0x290
+[   80.606829]  drm_atomic_helper_wait_for_vblanks.part.0 from drm_atomic_helper_commit_tail_rpm+0x7c/0x8c
+[   80.606884]  drm_atomic_helper_commit_tail_rpm from commit_tail+0x9c/0x184
+[   80.606933]  commit_tail from drm_atomic_helper_commit+0x158/0x18c
+[   80.606979]  drm_atomic_helper_commit from drm_client_modeset_commit_atomic+0x238/0x284
+[   80.607034]  drm_client_modeset_commit_atomic from drm_client_modeset_commit_locked+0x60/0x1cc
+[   80.607078]  drm_client_modeset_commit_locked from drm_fb_helper_pan_display+0x94/0x1c4
+[   80.607131]  drm_fb_helper_pan_display from fb_pan_display+0x9c/0x114
+[   80.607176]  fb_pan_display from bit_update_start+0x14/0x30
+[   80.607225]  bit_update_start from fbcon_switch+0x2d4/0x45c
+[   80.607270]  fbcon_switch from csi_J+0x278/0x298
+[   80.607323]  csi_J from do_con_write+0x1f10/0x20e8
+[   80.607371]  do_con_write from con_write+0xc/0x20
+[   80.607419]  con_write from n_tty_write+0x1e4/0x4cc
+[   80.607467]  n_tty_write from file_tty_write.constprop.0+0x148/0x2c4
+[   80.607527]  file_tty_write.constprop.0 from vfs_write+0x2ec/0x57c
+[   80.607594]  vfs_write from ksys_write+0x60/0xec
+[   80.607643]  ksys_write from ret_fast_syscall+0x0/0x1c
+[   80.607688] Exception stack(0xc40d5fa8 to 0xc40d5ff0)
+[   80.607724] 5fa0:                   0000000a b6f62404 00000017 b6f62404 0000000a 00000000
+[   80.607758] 5fc0: 0000000a b6f62404 b6aa1a60 00000004 00000004 00989cc8 0096f040 00000000
+[   80.607786] 5fe0: 00000004 be81b9a0 b6d371ff b6d39096
+[   80.607816] irq event stamp: 629899
+[   80.607850] hardirqs last  enabled at (629905): [<c019b5d0>] vprintk_emit+0x2dc/0x310
+[   80.607913] hardirqs last disabled at (629910): [<c019b57c>] vprintk_emit+0x288/0x310
+[   80.607964] softirqs last  enabled at (629482): [<c0101518>] __do_softirq+0x2f8/0x5b0
+[   80.608015] softirqs last disabled at (629431): [<c012eda8>] __irq_exit_rcu+0x16c/0x1e0
+[   80.608077] ---[ end trace 1572e4d782184e69 ]---
+
+I'm working using NXP fs, from 5.10.72 2.2.0 release.
+Any suggestion? Maybe some problem on lcdif node?
+I take as reference imx6sx-sdb.dtsi
+
+Let me know.
+
+Thanks,
+Tommaso
 
