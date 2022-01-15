@@ -2,36 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD7034903EE
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 09:34:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AECB94903F4
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 09:34:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5295A89168;
-	Mon, 17 Jan 2022 08:34:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D8EF10E1C2;
+	Mon, 17 Jan 2022 08:34:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from air.basealt.ru (air.basealt.ru [194.107.17.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C454110E2AC
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Jan 2022 16:07:52 +0000 (UTC)
-Received: by air.basealt.ru (Postfix, from userid 490)
- id CE1DC5895B6; Sat, 15 Jan 2022 16:07:50 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on
- sa.local.altlinux.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
- autolearn=ham autolearn_force=no version=3.4.1
-Received: from asheplyakov-rocket.. (unknown [88.147.173.226])
- by air.basealt.ru (Postfix) with ESMTPSA id C2DDF58942B;
- Sat, 15 Jan 2022 16:07:48 +0000 (UTC)
-From: Alexey Sheplyakov <asheplyakov@basealt.ru>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm/panfrost: initial dual core group GPUs support
-Date: Sat, 15 Jan 2022 20:06:58 +0400
-Message-Id: <20220115160658.582646-1-asheplyakov@basealt.ru>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211223110616.2589851-1-asheplyakov@basealt.ru>
-References: <20211223110616.2589851-1-asheplyakov@basealt.ru>
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0994510E2F7
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jan 2022 16:46:01 +0000 (UTC)
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20FDxg1q018448; 
+ Sat, 15 Jan 2022 16:45:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2021-07-09; bh=xFdErQzZhWw36cmChgQUJSnCaxzupFnzpJu6evk43mo=;
+ b=0YN07xkKKmTo6HudaMgLxjh5ZkjoEvQXMgK8kCRH6oHE2JskoRCyHQqHg32sufyroNzr
+ pFGE5RSYaEUG/231fDrs87NINPd3gP4juzgM30ajdbrQAGLhvJUfoleJHKDfusOcgGZm
+ 7Hj7FHyJTHy9WErAmyuzVrxXCoO1cyzzqtPo88AXDUwBSdgj8JgjImuBo+IIPPEli5Bu
+ 7OVPnKZI4e+Rn+s5NisPMQSV1wRXd8HZ/ZRW9LrGhoUq93kLSLTSIi3rV9O1yny1F24j
+ j0bkINFliy36x5sWT78Mg7YG2MPSNetfDu2KkmAPEVsgsslNC3gFaAHgQeNdRIu2RyjF Rw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3dkn22rrm6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sat, 15 Jan 2022 16:45:57 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20FGe8qh128341;
+ Sat, 15 Jan 2022 16:45:56 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by userp3020.oracle.com with ESMTP id 3dkqqhh8rj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sat, 15 Jan 2022 16:45:56 +0000
+Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 20FGjtqK136628;
+ Sat, 15 Jan 2022 16:45:55 GMT
+Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.147.25.63])
+ by userp3020.oracle.com with ESMTP id 3dkqqhh8rc-1;
+ Sat, 15 Jan 2022 16:45:55 +0000
+From: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+To: 
+Subject: [PATCH] drm/udl: Return correct error code on kmalloc failure
+Date: Sat, 15 Jan 2022 08:45:25 -0800
+Message-Id: <20220115164525.50258-1-harshit.m.mogalapalli@oracle.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: EMXgLv04YryngQF4cU4jLsac9EK5n8tg
+X-Proofpoint-ORIG-GUID: EMXgLv04YryngQF4cU4jLsac9EK5n8tg
 X-Mailman-Approved-At: Mon, 17 Jan 2022 08:34:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,97 +65,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- "Vadim V . Vlasov" <vadim.vlasov@elpitech.ru>,
- Steven Price <steven.price@arm.com>,
- Alexey Sheplyakov <asheplyakov@basealt.ru>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>
+Cc: Robert Tarasov <tutankhamen@chromium.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@intel.com>,
+ harshit.m.mogalapalli@oracle.com, Dave Airlie <airlied@redhat.com>,
+ Sean Paul <sean@poorly.run>, dan.carpenter@oracle.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On a dual core group GPUs (such as T628) fragment shading can be
-performed over all cores (because a fragment shader job doesn't
-need coherency between threads), however vertex shading requires
-to be run on the same core group as the tiler (which always lives
-in core group 0).
+-ENOMEM is correct error code to return on a memory allocation failure
+instead of -1.
 
-As a first step to support T628 power on only the first core group
-(so no jobs are scheduled on the second one). This makes T628 look
-like every other Midgard GPU (and throws away up to half the cores).
+Smatch Warning:
+drivers/gpu/drm/udl/udl_connector.c:27 udl_get_edid_block() warn:
+returning -1 instead of -ENOMEM is sloppy
 
-With this patch panfrost is able to drive T628 (r1p0) GPU on some
-armv8 SoCs (in particular BE-M1000). Without the patch rendering
-is horriby broken (desktop is completely unusable) and eventually
-the GPU locks up (it takes from a few seconds to a couple of
-minutes).
-
-Using the second core group requires support in Mesa (and an UABI
-change): the userspace should
-
-1) set PANFROST_JD_DOESNT_NEED_COHERENCY_ON_GPU flag to opt-in
-   to allowing the job to run across all cores.
-2) set PANFROST_RUN_ON_SECOND_CORE_GROUP flag to allow compute
-   jobs to be run on the second core group (at the moment Mesa
-   does not advertise compute support on anything older than
-   Mali T760)
-
-But there's little point adding such flags until someone (myself)
-steps up to do the Mesa work.
-
-Signed-off-by: Alexey Sheplyakov <asheplyakov@basealt.ru>
-Signed-off-by: Vadim V. Vlasov <vadim.vlasov@elpitech.ru>
-Tested-by: Alexey Sheplyakov <asheplyakov@basealt.ru>
+Fixes: a51143001d9e ("drm/udl: Refactor edid retrieving in UDL driver (v2)")
+Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_gpu.c | 27 ++++++++++++++++++++-----
- 1 file changed, 22 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/udl/udl_connector.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-index f8355de6e335..15cec831a99a 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-@@ -320,19 +320,36 @@ void panfrost_gpu_power_on(struct panfrost_device *pfdev)
- {
- 	int ret;
- 	u32 val;
-+	u64 core_mask = U64_MAX;
+diff --git a/drivers/gpu/drm/udl/udl_connector.c b/drivers/gpu/drm/udl/udl_connector.c
+index 930574ad2bca..b7a9c6d103ba 100644
+--- a/drivers/gpu/drm/udl/udl_connector.c
++++ b/drivers/gpu/drm/udl/udl_connector.c
+@@ -24,7 +24,7 @@ static int udl_get_edid_block(void *data, u8 *buf, unsigned int block,
  
- 	panfrost_gpu_init_quirks(pfdev);
+ 	read_buff = kmalloc(2, GFP_KERNEL);
+ 	if (!read_buff)
+-		return -1;
++		return -ENOMEM;
  
--	/* Just turn on everything for now */
--	gpu_write(pfdev, L2_PWRON_LO, pfdev->features.l2_present);
-+	if (pfdev->features.l2_present != 1) {
-+		/*
-+		 * Only support one core group now.
-+		 * ~(l2_present - 1) unsets all bits in l2_present except
-+		 * the bottom bit. (l2_present - 2) has all the bits in
-+		 * the first core group set. AND them together to generate
-+		 * a mask of cores in the first core group.
-+		 */
-+		core_mask = ~(pfdev->features.l2_present - 1) &
-+			     (pfdev->features.l2_present - 2);
-+		dev_info_once(pfdev->dev, "using only 1st core group (%lu cores from %lu)\n",
-+			      hweight64(core_mask),
-+			      hweight64(pfdev->features.shader_present));
-+	}
-+	gpu_write(pfdev, L2_PWRON_LO, pfdev->features.l2_present & core_mask);
- 	ret = readl_relaxed_poll_timeout(pfdev->iomem + L2_READY_LO,
--		val, val == pfdev->features.l2_present, 100, 20000);
-+		val, val == (pfdev->features.l2_present & core_mask),
-+		100, 20000);
- 	if (ret)
- 		dev_err(pfdev->dev, "error powering up gpu L2");
- 
--	gpu_write(pfdev, SHADER_PWRON_LO, pfdev->features.shader_present);
-+	gpu_write(pfdev, SHADER_PWRON_LO,
-+		  pfdev->features.shader_present & core_mask);
- 	ret = readl_relaxed_poll_timeout(pfdev->iomem + SHADER_READY_LO,
--		val, val == pfdev->features.shader_present, 100, 20000);
-+		val, val == (pfdev->features.shader_present & core_mask),
-+		100, 20000);
- 	if (ret)
- 		dev_err(pfdev->dev, "error powering up gpu shader");
- 
+ 	for (i = 0; i < len; i++) {
+ 		int bval = (i + block * EDID_LENGTH) << 8;
 -- 
-2.32.0
+2.27.0
 
