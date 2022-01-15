@@ -1,47 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6E344903F1
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 09:34:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 810024903F2
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 09:34:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E969810E1AE;
-	Mon, 17 Jan 2022 08:34:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B29E410E139;
+	Mon, 17 Jan 2022 08:34:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6C3F510E1B4
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 18:52:51 +0000 (UTC)
-Received: from [192.168.1.17] (unknown [192.182.150.27])
- by linux.microsoft.com (Postfix) with ESMTPSA id 585EC20B8024;
- Fri, 14 Jan 2022 10:52:50 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 585EC20B8024
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1642186370;
- bh=NCMbrHqFj2MyzpHXcUuqs6OiEPKcTmD11XGMhrTo38s=;
- h=Date:Subject:To:References:From:In-Reply-To:From;
- b=IZQFahiniKkrDfzd4bRCZPv+w1Ef5v3dAqYgH+5/PM0QikFb++z8qRbMuvkY8M2ki
- 6ZEOlBKkloGv29s0+3KpxZAd2EHf4F+EmDx4x6b00suVnFpkqQM4A7BGB9nf0axCL8
- aztsg6PWoTTHbuvLYX/Sfds5XeE4hmuuEfnVe9Fo=
-Message-ID: <e472cbe8-44ec-110a-1ad7-bc561cd0be88@linux.microsoft.com>
-Date: Fri, 14 Jan 2022 10:52:50 -0800
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
+ [IPv6:2607:f8b0:4864:20::b29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15B2D10E1BE
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jan 2022 01:40:43 +0000 (UTC)
+Received: by mail-yb1-xb29.google.com with SMTP id m196so212780ybf.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 17:40:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=4xj65T8RWG0+hHEFyJGBp3+1b5O20fwk4wK5S2rZsA4=;
+ b=n2Fh3NmLz2d6sp4Qmlto1f3BVHmjGrIadTEingnWHR7GDNCbwVjQlMWThWgGyU4E28
+ DHT0TPnsTlAYOCFfOoCNnU50H/VW2qNhGLXPC7jccvtejQ1Mfxqpg7uyfTCoI6WB75ab
+ YhvIdMMkOfR2anZ0T9NbNFyMZDuuqOZwAkPVVZh+dpsIXyKvoYSkCIvGZaT8BvzmwKDI
+ dukFPcnQaFXpI08r5yvgeNXNwe7J/yH6NkCEf6z16WLPxI8Pwf7e4y1mc0PUspJ9LMla
+ 4hqQWOrlMzLMSL1pCG0sbRumBRZnogxzE7MLtCtm0KO4eiVvkShN9qc8vgYPvWFHzWra
+ VomA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=4xj65T8RWG0+hHEFyJGBp3+1b5O20fwk4wK5S2rZsA4=;
+ b=S4Jxot/EW/5wXC+CllPOToqud3Cx0450xav00ANzFSHDtCnlRHwOrbkDL36o/8ZRHN
+ ByGH2xZLHquSnakzZGybFb1976JlgXeM5PqnR1J0Condeut9MgCMcPIYdqlJgb2z4jVK
+ ywqYI/W4HhoXqgbWd76ONKjC4OxrJd8LPTjzB4KPBugunfCJUOzQS2YeUNMKWrAid6VT
+ GpPsVYwF5ddBSvRH3cFCvbwIF5IQoDleWm39l8N9w4Eb2ah58kKA+7IJL4aw9u6PCLf+
+ ANr/WtPaRGBswGAm7+Tah9nc1taft4KtdyohxT8k48xd1DVc/bmkbsi9LM9soeKYD8kU
+ CVtg==
+X-Gm-Message-State: AOAM531xdT2bRAP8oSC5Dmz7z8JkVWkgH88z9O7p/GyQ6b60cSaSEFdy
+ fzt+rU2z5duvF6tMTiYsEjyT6vOTtajqN+/YLxg=
+X-Google-Smtp-Source: ABdhPJyZ+AMZzLKscGwgxAMno4/ugfReYdipnFkyZDavVf7WNx1MJDQkydIChF1IHAyV1XcTbxz3zozXhGWeu5tfH9I=
+X-Received: by 2002:a25:2cc7:: with SMTP id s190mr9088772ybs.186.1642210842195; 
+ Fri, 14 Jan 2022 17:40:42 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v1 9/9] drivers: hv: dxgkrnl: Implement DXGSYNCFILE
-Content-Language: en-US
-To: kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
- wei.liu@kernel.org, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org, spronovo@microsoft.com,
- gregkh@linuxfoundation.org, DRI Development
- <dri-devel@lists.freedesktop.org>, jenatali@microsoft.com
-References: <cover.1641937419.git.iourit@linux.microsoft.com>
- <e04c8e820bc166d9d4fe8e388aace731bb3255b0.1641937420.git.iourit@linux.microsoft.com>
- <YeG6+Crv/Bg4h3u1@phenom.ffwll.local>
-From: Iouri Tarassov <iourit@linux.microsoft.com>
-In-Reply-To: <YeG6+Crv/Bg4h3u1@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20211222190134.24866-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CGME20211222190203epcas1p2a7647eb2c09c29587b70982744c1a912@epcas1p2.samsung.com>
+ <20211222190134.24866-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <a95b74fd-7118-b0fe-26b9-4665c719f1a0@samsung.com>
+In-Reply-To: <a95b74fd-7118-b0fe-26b9-4665c719f1a0@samsung.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Sat, 15 Jan 2022 01:40:16 +0000
+Message-ID: <CA+V-a8tDqLWQXtZbjh=XwKaen1T-iXy=pP-Rn8GF9j_YA-8wdQ@mail.gmail.com>
+Subject: Re: [PATCH 2/5] drm/exynos: mixer: Use platform_get_irq() to get the
+ interrupt
+To: Inki Dae <inki.dae@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Mon, 17 Jan 2022 08:34:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,63 +68,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ David Airlie <airlied@linux.ie>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, Kyungmin Park <kyungmin.park@samsung.com>,
+ Rob Herring <robh+dt@kernel.org>, LAK <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Inki,
 
-On 1/14/2022 10:03 AM, Daniel Vetter wrote:
-> Hi all,
+On Fri, Jan 14, 2022 at 11:08 AM Inki Dae <inki.dae@samsung.com> wrote:
 >
-> On Wed, Jan 12, 2022 at 11:55:14AM -0800, Iouri Tarassov wrote:
-> > Implement the LX_DXCREATESYNCFILE IOCTL (D3DKMTCreateSyncFile).
-> > 
-> > dxgsyncfile is built on top of the Linux sync_file object and
-> > provides a way for the user mode to synchronize with the execution
-> > of the device DMA packets.
-> > 
-> > The IOCTL creates a dxgsyncfile object for the given GPU synchronization
-> > object and a fence value. A sync_object file descriptor is returned to
-> > the caller. The caller could wait for the object by using poll().
-> > When the GPU synchronization object is signaled on the host, the host
-> > sends a message to the virtual machine and the sync_file object is
-> > signaled.
-> > 
-> > Signed-off-by: Iouri Tarassov <iourit@linux.microsoft.com>
+> Hi Lad Prabhakar,
 >
-> Adding dri-devel, which get_maintainers.pl should have done automatically
-> with the dma_fence wildcard match. Not sure why that didn't happen.
+> 21. 12. 23. =EC=98=A4=EC=A0=84 4:01=EC=97=90 Lad Prabhakar =EC=9D=B4(=EA=
+=B0=80) =EC=93=B4 =EA=B8=80:
+> > platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
+> > allocation of IRQ resources in DT core code, this causes an issue
+> > when using hierarchical interrupt domains using "interrupts" property
+> > in the node as this bypassed the hierarchical setup and messed up the
+> > irq chaining.
+> >
+> > In preparation for removal of static setup of IRQ resource from DT core
+> > code use platform_get_irq().
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > Hi,
+> >
+> > Ideally I would expect the mixer_resources_init() to be called from pro=
+be
+> > instead from the bind callback. If platform_get_irq() returns -EPROBE_D=
+EFER
+> > the bind callback will fail :(
 >
-> > +struct dxgsyncpoint {
-> > +	struct dxghostevent	hdr;
-> > +	struct dma_fence	base;
+> If the bind callback failed then probe function of exynos drm driver will=
+ call -EPROBE_DEFER like below so it must be no problem :),
+> --------------------------------------------
+> in exynos_drm_platform_probe function
+>     component_master_add_with_match()
 >
-> This doesn't work unfortuntately. For better or worse memory fences like
-> monitored fences from wddm have completely different semantics from
-> dma_fence. You could probably hack this to be self-consistent for hyper-v,
-> but the problem is that then hv would have incompatible locking/nesting
-> rules compared to everything else, and dma_fence matter for memory
-> management so this includes whether you're allowed to kmalloc(GFP_KERNEL)
-> or not, and that's just a bit too much.
+> in component_master_add_with_match function
+>     try_to_bring_up_master()
 >
-> I discussed this quickly with Jesse on irc and it sounds like the reason
-> you want the dma_fence is just to emulate the sync_file interface for
-> android. I think the correct solution here is to create a hv_dxg_sync_file
-> fd, which emulates the exact ioctls that Android needs, but with a wddm
-> monitored fence underneath instead of a dma_fence underneath.
->
-> This way we guarantee that no one ever accidentally mixes these
-> incompatible concepts up in the kernel, and Android should still be able
-> to happily run under hyperv.
->
-> Thoughts?
->
-> Also pls cc me on this sync work since even if you drop dma_fence use
-> completely I'd like to follow this a bit.
+Thank you for the clarification.
 
-Hi Daniel,
-
-Thank you for the review and feedback.
-I will get this addressed.
-
-Iouri
-
+Cheers,
+Prabhakar
