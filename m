@@ -2,90 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 610C848F3E0
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Jan 2022 02:09:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B67148F3FA
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Jan 2022 02:13:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 175D310E367;
-	Sat, 15 Jan 2022 01:09:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6506310E36E;
+	Sat, 15 Jan 2022 01:13:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com
- [IPv6:2607:f8b0:4864:20::b4a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F00F410E367
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Jan 2022 01:09:08 +0000 (UTC)
-Received: by mail-yb1-xb4a.google.com with SMTP id
- s89-20020a25aa62000000b00611afc92630so17455178ybi.17
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 17:09:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=kkjQvBHUpUsPJOcuRnb4FbpqpDLYZFNC/PGNH3Zg5WU=;
- b=B7HrMalKbOrQ0jLo+t2k5LKQyXsYTrKPSnoCQbJTFt3xXAdNgf+Y3bG0OwuuV3conm
- 9YDTffSi81yddsv2BoH3Yepu0Qf4t9Yufib51okExGf5c00BzhktLBE/1fgctRjU17A0
- FE5Q2yG/2zZsbcQO5KIgRMuIdtuJb3ntKNdMvUrJDIlln1wNgH3uN1Xs3Tq4HUuo2nQw
- vX/4a2fLq5zN8JuJ/ROXboM4iqrNUfkxyQzzeG4K6rLmd0dL8lZlsn2U8cU340A6r7rt
- CrzHH2yHQihIsNpJ9nYxK0RZUUVox7TiNHvKS/20HXPEnTeOhUMt/SoHjy/YrqoHfDGB
- 975A==
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
+ [IPv6:2607:f8b0:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE51E10E36E
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jan 2022 01:13:33 +0000 (UTC)
+Received: by mail-oi1-x22d.google.com with SMTP id e81so14636629oia.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 17:13:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=2e5tIIWoJF2Q+eyt2ltN1h2wnkPnspxpy/ND3U7gfvw=;
+ b=eXZemXw1GAkki7wQd61a0SI0b/KpRWe4zOKRpXpcxIme4L3z7B868A8iCkyhcvE4Xu
+ Vg0vd+09neevGqHg1DoE7Bxc5OWyi+H6DcuRDfGYVnkEEsUTn3uakzmBTGUyraaYtDV+
+ cMcNG+bARXr3QNKHR8eWtk6uJ+7B46nxeYfyQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc;
- bh=kkjQvBHUpUsPJOcuRnb4FbpqpDLYZFNC/PGNH3Zg5WU=;
- b=JWgAQq5wTRzg64mo9x24EfOikpk9PFm2ek9l9kgKIplIZI+MWqLa9sR6Xs6xfdOkQs
- VyjTmO/SjyEr170DXCVHVjzo3+57u1jAmbG2iOW1MYDpEhBN684uVylhuVf7XmO0aoZw
- ye+LXLhQPb3Ienh7gyTwmppzLS/m9ZgjPAd9D+eEbEtbXc/ImM63f/dfJw4PimnN5pWc
- PdT96T5dRHbL7mTdvzmhAhXZmzbVXvKntICzvs+sKlDpAyg+iHmfcL1V/ufy9p8HmMdX
- vWTXVMLt6jdQHCDmDhfW98oNuGj7oEHxFefcin7voZBI60aSMgaOmoh+EPxAcdtmYcJY
- 4n0A==
-X-Gm-Message-State: AOAM533NgZMIBPbt7iJXz4CyfbgDnLCPtKjqdUdez0JP986rtCyU8dNf
- dhwscaZqxxKPijN4Zz9p/k85j7v7AWI=
-X-Google-Smtp-Source: ABdhPJz9CR2IoAwevLCGCWJ5VPMm/mBeIOkcx7f8CHh3K/XQY53M+B3vhZstfGoP5vWHDyFMJE3GX6t7YyU=
-X-Received: from hridya.mtv.corp.google.com
- ([2620:15c:211:200:5860:362a:3112:9d85])
- (user=hridya job=sendgmr) by 2002:a25:7b44:: with SMTP id
- w65mr15284933ybc.59.1642208948043; 
- Fri, 14 Jan 2022 17:09:08 -0800 (PST)
-Date: Fri, 14 Jan 2022 17:06:04 -0800
-In-Reply-To: <20220115010622.3185921-1-hridya@google.com>
-Message-Id: <20220115010622.3185921-7-hridya@google.com>
-Mime-Version: 1.0
-References: <20220115010622.3185921-1-hridya@google.com>
-X-Mailer: git-send-email 2.34.1.703.g22d0c6ccf7-goog
-Subject: [RFC 6/6] android: binder: Add a buffer flag to relinquish ownership
- of fds
-From: Hridya Valsaraju <hridya@google.com>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "=?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?=" <arve@android.com>,
- Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>, 
- Joel Fernandes <joel@joelfernandes.org>,
- Christian Brauner <christian@brauner.io>, 
- Hridya Valsaraju <hridya@google.com>, Suren Baghdasaryan <surenb@google.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>, 
- Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@redhat.com>, 
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <john.stultz@linaro.org>, 
- "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
- Tejun Heo <tj@kernel.org>, 
- Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>, 
- Dave Airlie <airlied@redhat.com>, Kenneth Graunke <kenneth@whitecape.org>, 
- Jason Ekstrand <jason@jlekstrand.net>, Matthew Auld <matthew.auld@intel.com>, 
- Matthew Brost <matthew.brost@intel.com>, Li Li <dualli@google.com>, 
- Marco Ballesio <balejs@google.com>, Hang Lu <hangl@codeaurora.org>, 
- Wedson Almeida Filho <wedsonaf@google.com>,
- Masahiro Yamada <masahiroy@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, 
- Kees Cook <keescook@chromium.org>, Nick Desaulniers <ndesaulniers@google.com>, 
- Miguel Ojeda <ojeda@kernel.org>, Chris Down <chris@chrisdown.name>, 
- Vipin Sharma <vipinsh@google.com>, Daniel Borkmann <daniel@iogearbox.net>, 
- Vlastimil Babka <vbabka@suse.cz>, Arnd Bergmann <arnd@arndb.de>,
- dri-devel@lists.freedesktop.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
- cgroups@vger.kernel.org
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=2e5tIIWoJF2Q+eyt2ltN1h2wnkPnspxpy/ND3U7gfvw=;
+ b=Lb4sTCsC0Y/pawHO7BOFeI/H0PwWd4AmqIay+5E6mTJFAwlKSQ56owiF/MMtKpetVl
+ yBzU+492++YX9B+CYzcGdQ/j2MfOcJSrARYwC5gUNrT5Xt4k99I7eAyg7ty1z4negoCc
+ RtPd43l3wPGbc11P+9oZzii4a1Cdf2GlCXhRq4KMjSTusnDzWFaOC3UhTqId07nbPwgd
+ +5bz1NMh6KvFOTGl95VH/vZYInPfnqA7WnepdxB/aO135RWthUNhd9BRKCKazhg6z71E
+ RlqZBdEpoWun5EKmwQc/1fjiAq58UPstvtMEG9d7d3XexzMNTqsCLzh4JGlIe/+ySTFH
+ bOow==
+X-Gm-Message-State: AOAM531dAYOfQf0/vMaVWCZkayhMiC98jS/FhPFCPX4N4w+joRAZhB6r
+ ih7chZzwkU/mm+jjnsywvkgkknJ9eUG7sgtawZBfAg==
+X-Google-Smtp-Source: ABdhPJx/wUgNcsQ4Wj0mkNyi+IJLwQfypHQ8gPkC3Gp3HPUmDhGgT8r8xkmgy+tNXZb5f4Ip2JMwSVhN7pDOywNR7iI=
+X-Received: by 2002:aca:a953:: with SMTP id s80mr15220958oie.164.1642209212880; 
+ Fri, 14 Jan 2022 17:13:32 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 14 Jan 2022 19:13:32 -0600
+MIME-Version: 1.0
+In-Reply-To: <1642208315-9136-2-git-send-email-quic_khsieh@quicinc.com>
+References: <1642208315-9136-1-git-send-email-quic_khsieh@quicinc.com>
+ <1642208315-9136-2-git-send-email-quic_khsieh@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Fri, 14 Jan 2022 19:13:32 -0600
+Message-ID: <CAE-0n52KfpfnxsC5SKvR9zWWONmh2oyD3cS9L-8-J1RHHzKSdQ@mail.gmail.com>
+Subject: Re: [PATCH v17 1/4] drm/msm/dp: do not initialize phy until plugin
+ interrupt received
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
+ bjorn.andersson@linaro.org, daniel@ffwll.ch, dmitry.baryshkov@linaro.org, 
+ dri-devel@lists.freedesktop.org, robdclark@gmail.com, sean@poorly.run, 
+ vkoul@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -99,117 +67,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kenny.Ho@amd.com, daniels@collabora.com, tjmercier@google.com,
- kaleshsingh@google.com
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ aravindh@codeaurora.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch introduces a buffer flag BINDER_BUFFER_FLAG_SENDER_NO_NEED
-that a process sending an fd array to another process over binder IPC
-can set to relinquish ownership of the fds being sent for memory
-accounting purposes. If the flag is found to be set during the fd array
-translation and the fd is for a DMA-BUF, the buffer is uncharged from
-the sender's cgroup and charged to the receiving process's cgroup
-instead.
+Quoting Kuogee Hsieh (2022-01-14 16:58:32)
+> @@ -1363,14 +1368,14 @@ static int dp_pm_suspend(struct device *dev)
+>                 if (dp_power_clk_status(dp->power, DP_CTRL_PM))
+>                         dp_ctrl_off_link_stream(dp->ctrl);
+>
+> +               dp_display_host_phy_exit(dp);
+> +
+> +               /* host_init will be called at pm_resume */
+>                 dp_display_host_deinit(dp);
+>         }
 
-It is upto the sending process to ensure that it closes the fds
-regardless of whether the transfer failed or succeeded.
-
-Most graphics shared memory allocations in Android are done by the
-graphics allocator HAL process. On requests from clients, the HAL process
-allocates memory and sends the fds to the clients over binder IPC.
-The graphics allocator HAL will not retain any references to the
-buffers. When the HAL sets the BINDER_BUFFER_FLAG_SENDER_NO_NEED for fd
-arrays holding DMA-BUF fds, the gpu cgroup controller will be able to
-correctly charge the buffers to the client processes instead of the
-graphics allocator HAL.
-
-Signed-off-by: Hridya Valsaraju <hridya@google.com>
----
- drivers/android/binder.c            | 32 +++++++++++++++++++++++++++++
- include/uapi/linux/android/binder.h |  1 +
- 2 files changed, 33 insertions(+)
-
-diff --git a/drivers/android/binder.c b/drivers/android/binder.c
-index 5497797ab258..83082fd1ab6a 100644
---- a/drivers/android/binder.c
-+++ b/drivers/android/binder.c
-@@ -42,6 +42,7 @@
- 
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
- 
-+#include <linux/dma-buf.h>
- #include <linux/fdtable.h>
- #include <linux/file.h>
- #include <linux/freezer.h>
-@@ -2482,8 +2483,11 @@ static int binder_translate_fd_array(struct list_head *pf_head,
- {
- 	binder_size_t fdi, fd_buf_size;
- 	binder_size_t fda_offset;
-+	bool transfer_gpu_charge = false;
- 	const void __user *sender_ufda_base;
- 	struct binder_proc *proc = thread->proc;
-+	struct binder_proc *target_proc = t->to_proc;
-+
- 	int ret;
- 
- 	fd_buf_size = sizeof(u32) * fda->num_fds;
-@@ -2520,8 +2524,15 @@ static int binder_translate_fd_array(struct list_head *pf_head,
- 	if (ret)
- 		return ret;
- 
-+	if (IS_ENABLED(CONFIG_CGROUP_GPU) &&
-+	    parent->flags & BINDER_BUFFER_FLAG_SENDER_NO_NEED)
-+		transfer_gpu_charge = true;
-+
- 	for (fdi = 0; fdi < fda->num_fds; fdi++) {
- 		u32 fd;
-+		struct dma_buf *dmabuf;
-+		struct gpucg *gpucg;
-+
- 		binder_size_t offset = fda_offset + fdi * sizeof(fd);
- 		binder_size_t sender_uoffset = fdi * sizeof(fd);
- 
-@@ -2531,6 +2542,27 @@ static int binder_translate_fd_array(struct list_head *pf_head,
- 						  in_reply_to);
- 		if (ret)
- 			return ret > 0 ? -EINVAL : ret;
-+
-+		if (!transfer_gpu_charge)
-+			continue;
-+
-+		dmabuf = dma_buf_get(fd);
-+		if (IS_ERR(dmabuf))
-+			continue;
-+
-+		if (dmabuf->ops->charge_to_cgroup) {
-+			gpucg = gpucg_get(target_proc->tsk);
-+			ret = dmabuf->ops->charge_to_cgroup(dmabuf, gpucg);
-+			if (ret) {
-+				pr_warn("%d:%d Unable to transfer DMA-BUF fd charge to %d",
-+					proc->pid, thread->pid, target_proc->pid);
-+				gpucg_put(gpucg);
-+			}
-+		} else {
-+			pr_warn("%d:%d DMA-BUF exporter %s is not configured correctly for GPU cgroup memory accounting",
-+				proc->pid, thread->pid, dmabuf->exp_name);
-+		}
-+		dma_buf_put(dmabuf);
- 	}
- 	return 0;
- }
-diff --git a/include/uapi/linux/android/binder.h b/include/uapi/linux/android/binder.h
-index ad619623571e..c85f0014c341 100644
---- a/include/uapi/linux/android/binder.h
-+++ b/include/uapi/linux/android/binder.h
-@@ -137,6 +137,7 @@ struct binder_buffer_object {
- 
- enum {
- 	BINDER_BUFFER_FLAG_HAS_PARENT = 0x01,
-+	BINDER_BUFFER_FLAG_SENDER_NO_NEED = 0x02,
- };
- 
- /* struct binder_fd_array_object - object describing an array of fds in a buffer
--- 
-2.34.1.703.g22d0c6ccf7-goog
-
+I thought we determined that core_initialized was always true here, so
+the if condition is redundant. Furthermore, removing that check allows
+us to entirely remove the core_initialized variable from the code.
