@@ -1,64 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B67548F402
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Jan 2022 02:18:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB17548F58B
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Jan 2022 08:02:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB91A10E368;
-	Sat, 15 Jan 2022 01:17:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C77510EEE1;
+	Sat, 15 Jan 2022 07:02:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B64B310E368
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Jan 2022 01:17:54 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id d3so35520238lfv.13
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 17:17:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=DSUCsXvUq5CC+YLJR6sM+UncKVzG/eChv6GRiJ5ewuo=;
- b=Km7B94yItHq7aVfP1T9NUkUg0CfyYu53x8ocQbPhc+dKDkm2Z3Qdmqq6lhxvM80Pks
- 16ttYCCVWt7dbiTvfB/TJxujAvsC6cSa06GEpsKkkuaeQlcM8M+t4u99s5lARvhfxInW
- Ci1oy5mNVTaPwV+2dSBlSscKmvmZ+mg0LMkcK6MV3GSRb+XMtxMOJgcgXRxQrrOziDKZ
- Bc7zRC9XKZDw0XoE+bVrA4iEkQtZ7fVhKAaqedPN8V6l0oR6BZz+wRBmSzU31XZDthCr
- spefGhSvdjB+tbrWX7EjLUw/q7lrjUel8Kaldz+FP/57vDBGGjvW2MPQW/bngKKnr/RE
- IoZg==
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
+ [IPv6:2607:f8b0:4864:20::1032])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEC8B10EEE1;
+ Sat, 15 Jan 2022 07:02:38 +0000 (UTC)
+Received: by mail-pj1-x1032.google.com with SMTP id
+ i8-20020a17090a138800b001b3936fb375so24425661pja.1; 
+ Fri, 14 Jan 2022 23:02:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mqpF8BmL+D8ySHQ8HdO4dmpXZkNxvy3zHZ5nkJG5RfQ=;
+ b=TbK944vTXTdEwPsFKOYqfD7tBmfL8PCwX99bNKK0lotwCj63N6DUo05XDfvk0jCO/A
+ jZpTjtByDW46zWrFU56lG3JCBoW2DDEuCSk/o1LVAdpVq8DdSFS1qs6BY72ceUdwCiD7
+ ZpNi9B+fhPmPJHiU6N6lFOF0k6O1qjzrwGdmsltsLjg2JN2zx7syv+4qETDiBaJxPLDZ
+ 8+H9ZT3OS5bsrEBhs76QAzTQByK8pehiMcPwnQBfDmuIN789TXfeQMbkxAUPhXwKsupH
+ 01/d21tFaJfXdzEm/dI3ct9LXFI31FZqqgcJt9TX4sFqV4AOa1MjLGaY6t/LVFhCjOvk
+ VICw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=DSUCsXvUq5CC+YLJR6sM+UncKVzG/eChv6GRiJ5ewuo=;
- b=V8kti7yO6egupPWnCCOuKo1n+3C+i7LCsivZV16wZ8XYE7CSokgn2akzVUZkxwVA2h
- z0ueZVc7xbK0VxzhuWD4gY5NjExvyW/SfmEe7tRkqNNUbklo8o09kgLAZRso9tgT27D0
- 1eLWAoXBMpg4lpXVFD0cEISI707X2yOd/Xl8EgAmQ7av2qS8DSB0hglscdVKpsGV5Qwt
- 0liRG7t+AUFPdn2AFMAgyWYV/0T79SIde4nbY8eIBiunpsefolynZNANdovvcdmduKYs
- UkLrAUCva+x1fv8OVknDf2dnO2atiPdocNCdhWQN6F6+tWcd0snV1WYru55J6hdNegrA
- KGTg==
-X-Gm-Message-State: AOAM530JFLvP53DHG+X5SI3RwcIDFSGDa9dKeF+905B5kX7xfCbLYz14
- UW+QLJkQMKbjygYsg/mDXtzvvz522LNmALaKcHd1ag==
-X-Google-Smtp-Source: ABdhPJySDowHRxGMfXN2K9VReVwH+SUfch9JrimtyE5ccTX6eX5LjL8lOKhq1C4RF1mflvPlwsqfGtTGOZn0hxrfPFg=
-X-Received: by 2002:a05:6512:3e1f:: with SMTP id
- i31mr4004663lfv.661.1642209473081; 
- Fri, 14 Jan 2022 17:17:53 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mqpF8BmL+D8ySHQ8HdO4dmpXZkNxvy3zHZ5nkJG5RfQ=;
+ b=yl/qvj0evBIlEsiagXPDQLG5VZdE+e0F1Mccmvu1E7UwMfx3b1Pxb2QCR58opYyd/b
+ /xNELZkwtDcRbIggSFkRIRlMdJaeJV3LLOV138iw3bI7CwZcaGGGGBpmt/lKJGxXl7l2
+ Z+U9QTwywpeZSVZySL5grnlN/usef5CAG7ErFkv2H1uJw+hmqiVWWj3VGUCuR3MFz3Uv
+ 2saNBubM/upZyORKifzjmoK0dOUNV2z6PQ2JoJJRqGim937AZQDTX0wZlNZ4GqIzEK4Y
+ cP+2aaFcw60m2pex9jIs+gkGdgmHKGo9x5SGUD5MKiPosb9jPJ9OhtWn1mnzeC2esp/u
+ dB+Q==
+X-Gm-Message-State: AOAM5307pLBxaYX39mlAmnSXfnAcpptr2Z+oFnw4ddi/PCiNyrp2fUvW
+ YcnLK9euET1LynwdZ8Gh7jg=
+X-Google-Smtp-Source: ABdhPJxfclDoOikdDw14Ze4UiSx3vPLmUkDWFC0ENU8j0guatbP4J6JTvqDvrRvoO3lkLvaNKYmxtg==
+X-Received: by 2002:a17:902:e544:b0:14a:555c:add3 with SMTP id
+ n4-20020a170902e54400b0014a555cadd3mr12591881plf.102.1642230158467; 
+ Fri, 14 Jan 2022 23:02:38 -0800 (PST)
+Received: from localhost.localdomain ([193.203.214.57])
+ by smtp.gmail.com with ESMTPSA id e5sm6694600pjr.53.2022.01.14.23.02.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Jan 2022 23:02:37 -0800 (PST)
+From: cgel.zte@gmail.com
+X-Google-Original-From: deng.changcheng@zte.com.cn
+To: alexander.deucher@amd.com
+Subject: [PATCH] drm/amdgpu: remove duplicate include
+Date: Sat, 15 Jan 2022 07:02:02 +0000
+Message-Id: <20220115070202.850676-1-deng.changcheng@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <CAO_48GF=ttKqSOm9GRoA3Mq+-RQOtRjWp449XPcz-wH=kjaTjw@mail.gmail.com>
- <20220113123406.11520-1-guangming.cao@mediatek.com>
- <4f88205c1b344aea8608960e2f85b8f4@intel.com>
- <e657f5257cbf4955817b0bbf037de9f9@intel.com>
- <24157767-dc29-bbdd-5428-d89ecc6b9606@amd.com>
- <CALAqxLXRtYDNQ8y1efVGa4SwUH_oAaHviZFjsOVSNFmUHnCCeQ@mail.gmail.com>
- <6b8182a1-7cdc-7369-5c34-e6d0c24efcca@amd.com>
- <82faa62f1bc946cf2f9ee2f7d15c567162238eab.camel@mediatek.com>
-In-Reply-To: <82faa62f1bc946cf2f9ee2f7d15c567162238eab.camel@mediatek.com>
-From: John Stultz <john.stultz@linaro.org>
-Date: Fri, 14 Jan 2022 17:17:39 -0800
-Message-ID: <CALAqxLUSjHoLpgFLcvqmDfv7Uip2VwHS5d_5x2nzw=P3rA2NDA@mail.gmail.com>
-Subject: Re: [PATCH v3] dma-buf: dma-heap: Add a size check for allocation
-To: "Guangming.Cao" <guangming.cao@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,84 +68,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "jianjiao.zeng@mediatek.com" <jianjiao.zeng@mediatek.com>,
- "lmark@codeaurora.org" <lmark@codeaurora.org>,
- "wsd_upstream@mediatek.com" <wsd_upstream@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "libo.kang@mediatek.com" <libo.kang@mediatek.com>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>, "Ruhl,
- Michael J" <michael.j.ruhl@intel.com>,
- "yf.wang@mediatek.com" <yf.wang@mediatek.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "benjamin.gaignard@linaro.org" <benjamin.gaignard@linaro.org>,
- "bo.song@mediatek.com" <bo.song@mediatek.com>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "mingyuan.ma@mediatek.com" <mingyuan.ma@mediatek.com>,
- "labbott@redhat.com" <labbott@redhat.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: Philip.Yang@amd.com, Oak.Zeng@amd.com, tzimmermann@suse.de,
+ kevin1.wang@amd.com, airlied@linux.ie, Felix.Kuehling@amd.com,
+ Xinhui.Pan@amd.com, Zeal Robot <zealci@zte.com.cn>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ jonathan.kim@amd.com, nirmoy.das@amd.com, dri-devel@lists.freedesktop.org,
+ Changcheng Deng <deng.changcheng@zte.com.cn>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 14, 2022 at 4:04 AM Guangming.Cao
-<guangming.cao@mediatek.com> wrote:
->
-> On Fri, 2022-01-14 at 08:16 +0100, Christian K=C3=B6nig wrote:
-> > Am 14.01.22 um 00:26 schrieb John Stultz:
-> > > On Thu, Jan 13, 2022 at 5:05 AM Christian K=C3=B6nig
-> > > <christian.koenig@amd.com> wrote:
-> > > > Am 13.01.22 um 14:00 schrieb Ruhl, Michael J:
-> > > > > > -----Original Message-----
-> > > > > > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On
-> > > > > > Behalf Of
-> > > > > > Ruhl, Michael J
-> > > > > > > -----Original Message-----
-> > > > > > > From: dri-devel <dri-devel-bounces@lists.freedesktop.org>
-> > > > > > > On Behalf Of
-> > > > > > > guangming.cao@mediatek.com
-> > > > > > > +   /*
-> > > > > > > +    * Invalid size check. The "len" should be less than
-> > > > > > > totalram.
-> > > > > > > +    *
-> > > > > > > +    * Without this check, once the invalid size allocation
-> > > > > > > runs on a process
-> > > > > > > that
-> > > > > > > +    * can't be killed by OOM flow(such as "gralloc" on
-> > > > > > > Android devices), it
-> > > > > > > will
-> > > > > > > +    * cause a kernel exception, and to make matters worse,
-> > > > > > > we can't find
-> > > > > > > who are using
-> > > > > > > +    * so many memory with "dma_buf_debug_show" since the
-> > > > > > > relevant
-> > > > > > > dma-buf hasn't exported.
-> > > > > > > +    */
-> > > > > > > +   if (len >> PAGE_SHIFT > totalram_pages())
-> > > > > >
-> > > > > > If your "heap" is from cma, is this still a valid check?
-> > > > >
-> > > > > And thinking a bit further, if I create a heap from something
-> > > > > else (say device memory),
-> > > > > you will need to be able to figure out the maximum allowable
-> > > > > check for the specific
-> > > > > heap.
-> > > > >
-> > > > > Maybe the heap needs a callback for max size?
-> Yes, I agree with this solution.
-> If dma-heap framework support this via adding a callback to support it,
-> seems it's more clear than adding a limitation in dma-heap framework
-> since each heap maybe has different limitation.
-> If you prefer adding callback, I can update this patch and add totalram
-> limitation to system dma-heap.
+From: Changcheng Deng <deng.changcheng@zte.com.cn>
 
-If the max value is per-heap, why not enforce that value in the
-per-heap allocation function?
+'drm/drm_drv.h' included in 'amdgpu_ttm.c' is duplicated. It is also
+ included on 53 line.
 
-Moving the check to the heap alloc to me seems simpler to me than
-adding complexity to the infrastructure to add a heap max_size
-callback. Is there some other use for the callback that you envision?
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Changcheng Deng <deng.changcheng@zte.com.cn>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-thanks
--john
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index 953d68b26f0b..ebd40d1a8aff 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -43,7 +43,6 @@
+ #include <linux/sizes.h>
+ #include <linux/module.h>
+
+-#include <drm/drm_drv.h>
+ #include <drm/ttm/ttm_bo_api.h>
+ #include <drm/ttm/ttm_bo_driver.h>
+ #include <drm/ttm/ttm_placement.h>
+--
+2.25.1
+
