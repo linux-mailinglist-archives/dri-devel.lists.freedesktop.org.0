@@ -2,59 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 810024903F2
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 09:34:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD7034903EE
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 09:34:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B29E410E139;
-	Mon, 17 Jan 2022 08:34:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5295A89168;
+	Mon, 17 Jan 2022 08:34:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
- [IPv6:2607:f8b0:4864:20::b29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15B2D10E1BE
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Jan 2022 01:40:43 +0000 (UTC)
-Received: by mail-yb1-xb29.google.com with SMTP id m196so212780ybf.4
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jan 2022 17:40:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=4xj65T8RWG0+hHEFyJGBp3+1b5O20fwk4wK5S2rZsA4=;
- b=n2Fh3NmLz2d6sp4Qmlto1f3BVHmjGrIadTEingnWHR7GDNCbwVjQlMWThWgGyU4E28
- DHT0TPnsTlAYOCFfOoCNnU50H/VW2qNhGLXPC7jccvtejQ1Mfxqpg7uyfTCoI6WB75ab
- YhvIdMMkOfR2anZ0T9NbNFyMZDuuqOZwAkPVVZh+dpsIXyKvoYSkCIvGZaT8BvzmwKDI
- dukFPcnQaFXpI08r5yvgeNXNwe7J/yH6NkCEf6z16WLPxI8Pwf7e4y1mc0PUspJ9LMla
- 4hqQWOrlMzLMSL1pCG0sbRumBRZnogxzE7MLtCtm0KO4eiVvkShN9qc8vgYPvWFHzWra
- VomA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=4xj65T8RWG0+hHEFyJGBp3+1b5O20fwk4wK5S2rZsA4=;
- b=S4Jxot/EW/5wXC+CllPOToqud3Cx0450xav00ANzFSHDtCnlRHwOrbkDL36o/8ZRHN
- ByGH2xZLHquSnakzZGybFb1976JlgXeM5PqnR1J0Condeut9MgCMcPIYdqlJgb2z4jVK
- ywqYI/W4HhoXqgbWd76ONKjC4OxrJd8LPTjzB4KPBugunfCJUOzQS2YeUNMKWrAid6VT
- GpPsVYwF5ddBSvRH3cFCvbwIF5IQoDleWm39l8N9w4Eb2ah58kKA+7IJL4aw9u6PCLf+
- ANr/WtPaRGBswGAm7+Tah9nc1taft4KtdyohxT8k48xd1DVc/bmkbsi9LM9soeKYD8kU
- CVtg==
-X-Gm-Message-State: AOAM531xdT2bRAP8oSC5Dmz7z8JkVWkgH88z9O7p/GyQ6b60cSaSEFdy
- fzt+rU2z5duvF6tMTiYsEjyT6vOTtajqN+/YLxg=
-X-Google-Smtp-Source: ABdhPJyZ+AMZzLKscGwgxAMno4/ugfReYdipnFkyZDavVf7WNx1MJDQkydIChF1IHAyV1XcTbxz3zozXhGWeu5tfH9I=
-X-Received: by 2002:a25:2cc7:: with SMTP id s190mr9088772ybs.186.1642210842195; 
- Fri, 14 Jan 2022 17:40:42 -0800 (PST)
+Received: from air.basealt.ru (air.basealt.ru [194.107.17.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C454110E2AC
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jan 2022 16:07:52 +0000 (UTC)
+Received: by air.basealt.ru (Postfix, from userid 490)
+ id CE1DC5895B6; Sat, 15 Jan 2022 16:07:50 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on
+ sa.local.altlinux.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=ham autolearn_force=no version=3.4.1
+Received: from asheplyakov-rocket.. (unknown [88.147.173.226])
+ by air.basealt.ru (Postfix) with ESMTPSA id C2DDF58942B;
+ Sat, 15 Jan 2022 16:07:48 +0000 (UTC)
+From: Alexey Sheplyakov <asheplyakov@basealt.ru>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/panfrost: initial dual core group GPUs support
+Date: Sat, 15 Jan 2022 20:06:58 +0400
+Message-Id: <20220115160658.582646-1-asheplyakov@basealt.ru>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20211223110616.2589851-1-asheplyakov@basealt.ru>
+References: <20211223110616.2589851-1-asheplyakov@basealt.ru>
 MIME-Version: 1.0
-References: <20211222190134.24866-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CGME20211222190203epcas1p2a7647eb2c09c29587b70982744c1a912@epcas1p2.samsung.com>
- <20211222190134.24866-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <a95b74fd-7118-b0fe-26b9-4665c719f1a0@samsung.com>
-In-Reply-To: <a95b74fd-7118-b0fe-26b9-4665c719f1a0@samsung.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Sat, 15 Jan 2022 01:40:16 +0000
-Message-ID: <CA+V-a8tDqLWQXtZbjh=XwKaen1T-iXy=pP-Rn8GF9j_YA-8wdQ@mail.gmail.com>
-Subject: Re: [PATCH 2/5] drm/exynos: mixer: Use platform_get_irq() to get the
- interrupt
-To: Inki Dae <inki.dae@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Mon, 17 Jan 2022 08:34:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,54 +45,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- David Airlie <airlied@linux.ie>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, Kyungmin Park <kyungmin.park@samsung.com>,
- Rob Herring <robh+dt@kernel.org>, LAK <linux-arm-kernel@lists.infradead.org>
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ "Vadim V . Vlasov" <vadim.vlasov@elpitech.ru>,
+ Steven Price <steven.price@arm.com>,
+ Alexey Sheplyakov <asheplyakov@basealt.ru>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Inki,
+On a dual core group GPUs (such as T628) fragment shading can be
+performed over all cores (because a fragment shader job doesn't
+need coherency between threads), however vertex shading requires
+to be run on the same core group as the tiler (which always lives
+in core group 0).
 
-On Fri, Jan 14, 2022 at 11:08 AM Inki Dae <inki.dae@samsung.com> wrote:
->
-> Hi Lad Prabhakar,
->
-> 21. 12. 23. =EC=98=A4=EC=A0=84 4:01=EC=97=90 Lad Prabhakar =EC=9D=B4(=EA=
-=B0=80) =EC=93=B4 =EA=B8=80:
-> > platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
-> > allocation of IRQ resources in DT core code, this causes an issue
-> > when using hierarchical interrupt domains using "interrupts" property
-> > in the node as this bypassed the hierarchical setup and messed up the
-> > irq chaining.
-> >
-> > In preparation for removal of static setup of IRQ resource from DT core
-> > code use platform_get_irq().
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > Hi,
-> >
-> > Ideally I would expect the mixer_resources_init() to be called from pro=
-be
-> > instead from the bind callback. If platform_get_irq() returns -EPROBE_D=
-EFER
-> > the bind callback will fail :(
->
-> If the bind callback failed then probe function of exynos drm driver will=
- call -EPROBE_DEFER like below so it must be no problem :),
-> --------------------------------------------
-> in exynos_drm_platform_probe function
->     component_master_add_with_match()
->
-> in component_master_add_with_match function
->     try_to_bring_up_master()
->
-Thank you for the clarification.
+As a first step to support T628 power on only the first core group
+(so no jobs are scheduled on the second one). This makes T628 look
+like every other Midgard GPU (and throws away up to half the cores).
 
-Cheers,
-Prabhakar
+With this patch panfrost is able to drive T628 (r1p0) GPU on some
+armv8 SoCs (in particular BE-M1000). Without the patch rendering
+is horriby broken (desktop is completely unusable) and eventually
+the GPU locks up (it takes from a few seconds to a couple of
+minutes).
+
+Using the second core group requires support in Mesa (and an UABI
+change): the userspace should
+
+1) set PANFROST_JD_DOESNT_NEED_COHERENCY_ON_GPU flag to opt-in
+   to allowing the job to run across all cores.
+2) set PANFROST_RUN_ON_SECOND_CORE_GROUP flag to allow compute
+   jobs to be run on the second core group (at the moment Mesa
+   does not advertise compute support on anything older than
+   Mali T760)
+
+But there's little point adding such flags until someone (myself)
+steps up to do the Mesa work.
+
+Signed-off-by: Alexey Sheplyakov <asheplyakov@basealt.ru>
+Signed-off-by: Vadim V. Vlasov <vadim.vlasov@elpitech.ru>
+Tested-by: Alexey Sheplyakov <asheplyakov@basealt.ru>
+---
+ drivers/gpu/drm/panfrost/panfrost_gpu.c | 27 ++++++++++++++++++++-----
+ 1 file changed, 22 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+index f8355de6e335..15cec831a99a 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+@@ -320,19 +320,36 @@ void panfrost_gpu_power_on(struct panfrost_device *pfdev)
+ {
+ 	int ret;
+ 	u32 val;
++	u64 core_mask = U64_MAX;
+ 
+ 	panfrost_gpu_init_quirks(pfdev);
+ 
+-	/* Just turn on everything for now */
+-	gpu_write(pfdev, L2_PWRON_LO, pfdev->features.l2_present);
++	if (pfdev->features.l2_present != 1) {
++		/*
++		 * Only support one core group now.
++		 * ~(l2_present - 1) unsets all bits in l2_present except
++		 * the bottom bit. (l2_present - 2) has all the bits in
++		 * the first core group set. AND them together to generate
++		 * a mask of cores in the first core group.
++		 */
++		core_mask = ~(pfdev->features.l2_present - 1) &
++			     (pfdev->features.l2_present - 2);
++		dev_info_once(pfdev->dev, "using only 1st core group (%lu cores from %lu)\n",
++			      hweight64(core_mask),
++			      hweight64(pfdev->features.shader_present));
++	}
++	gpu_write(pfdev, L2_PWRON_LO, pfdev->features.l2_present & core_mask);
+ 	ret = readl_relaxed_poll_timeout(pfdev->iomem + L2_READY_LO,
+-		val, val == pfdev->features.l2_present, 100, 20000);
++		val, val == (pfdev->features.l2_present & core_mask),
++		100, 20000);
+ 	if (ret)
+ 		dev_err(pfdev->dev, "error powering up gpu L2");
+ 
+-	gpu_write(pfdev, SHADER_PWRON_LO, pfdev->features.shader_present);
++	gpu_write(pfdev, SHADER_PWRON_LO,
++		  pfdev->features.shader_present & core_mask);
+ 	ret = readl_relaxed_poll_timeout(pfdev->iomem + SHADER_READY_LO,
+-		val, val == pfdev->features.shader_present, 100, 20000);
++		val, val == (pfdev->features.shader_present & core_mask),
++		100, 20000);
+ 	if (ret)
+ 		dev_err(pfdev->dev, "error powering up gpu shader");
+ 
+-- 
+2.32.0
+
