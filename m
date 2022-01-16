@@ -2,58 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AA7148FEAD
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Jan 2022 20:32:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 706CF48FEB1
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Jan 2022 20:39:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09C7310E462;
-	Sun, 16 Jan 2022 19:32:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0A2710E342;
+	Sun, 16 Jan 2022 19:39:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5859C10E462
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Jan 2022 19:32:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1642361535;
- bh=0lgPWAbt9wOLUClznnUlT4W6Xyol8p86VUEX681jDz0=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
- b=AXr2o4a/HwGqR1XYEHO0Y4GOGLohPYB7LaeoKMRC9WTWmKeSYj9xUAeUDVltRfO6U
- 0wt/Wpa3JEvtQR2bQq0nRbyocjXD4DY42p+V1XDvnu+64xaVUYFzPA8doQe+gGeiVa
- 21mRD2tlWwphSONUyJ/7DK8qk6IIDAEnbK+p7WiE=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from ls3530 ([92.116.184.40]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MWRVb-1mq5tU0aOR-00XpKO; Sun, 16
- Jan 2022 20:32:15 +0100
-Date: Sun, 16 Jan 2022 20:31:09 +0100
-From: Helge Deller <deller@gmx.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [GIT PULL] fbdev updates for v5.17-rc1
-Message-ID: <YeRyfaesC2kxkgZC@ls3530>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4561C10E273
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Jan 2022 19:39:08 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7C41860FB3
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Jan 2022 19:39:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D1EA0C36AEC
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Jan 2022 19:39:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1642361946;
+ bh=GEuGJKWIS8QrtWjki8/600SutnYO2ybEVhBM2Sqo49o=;
+ h=From:To:Subject:Date:From;
+ b=kAUAGrHSE0Y/tSaGpW5DBw17bq0gqIHLY44jYX1auAtiClirVA6iLyRbHJueTzyG2
+ IV9vhbXLeMn4s8MIQk1U56UsGiJ6aXX4kUycYVjUtGAbpXj6z61+ZoQE4TQfafeK5S
+ fL9FjloNhzhTEfLfSAh3uoQmledNyv32ZiBSvKoW9x5GFRVjoHRzVJ+tcGLCrCFE9Y
+ 1iazwXitUv51GnJ225CikJOgyURXp0UhGq9GOY8u28swskm7c8JQT5alJun4GITq9o
+ 7LWvyQnbkQ9E7eqO2W7kBlgsFU/3rtCRwGtRwscMGxFsjTPSm7HGKPCLxH6i66bVLh
+ eNhxpIbSp3KKg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id BBE1CCC13AE; Sun, 16 Jan 2022 19:39:06 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 215499] New: AMDGPU: Tahiti flagged as "[drm] Unsupported asic.
+ Remove me when IP discovery init is in place."
+Date: Sun, 16 Jan 2022 19:39:06 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alexandre.f.demers@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-215499-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Provags-ID: V03:K1:f7Q6R91YqaJfAxtW+FAUMmAE+C1iuEWECRoMWYaHWzpPRA/qdH8
- /skZ1uaTcZ0KJOqYHIXot03jiY246ME3PHXwIVd1PqU2iLrEguRMlBzojIen1ZI0/w5pyAg
- kyyN0B88uM83Pj70PI+t/fWn14Eu6BKIVBDEeyqRd14htKWBca3QDE5dYw7zphxCutx3lUC
- 64c/ucvhg6M/Rn7ufFBdA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:kVqA4J89UW8=:1gtLHusprgEfqH+hokOQvF
- Er/Jr1YMrFsfxHcvFBxWWE3N1ZHXiAt3Jp/ERvwxMo3YDllssP35hJsU47ZzMBTPJzkGZGW2p
- xZkVlCYCMmkZDdLky/JcXA+CgA7W/P8+w+/xG6+FZlOyM12kwaNnrw8YEM3pBrZ8vWU+t1q3V
- ffWV90eovqJnmkNJgI7qWMZDzvYe/t2d+hnQpM0eF3CDFGttiMC9KajD0Amrmg1Mg2ObnX3jp
- 29jRXAnF0ylEDDJjBCCqFAzUtNA3LajzlyTaF921FjJsPNSMYwZ/ZoWuL1Uc/mJBP5J5roACW
- 02zHUKsDGbmPb3lUV6CyAuuuhXMbx+xI4QkSQxXSkmmd9TBb1ab8IfspaaaC0LVlY+/kg8LpP
- tiGEpvsO30wWi4jp/ExpLnJgCRVesCD28HDKewZ+tIYSXyAyWFgMuE6GIF182cO6xNAWauP2D
- gch5R6mfjF9BD6pZpNCVYiLQgYHHslVUQ1DPo0OqT09HwOFSZ8X1nf1XyXx32OjsWlBzhbPCa
- IdaN96JhXAdmGEN1Oeudj4day7x/SzP0WsRi9z6ssjBMrT0cjjiNpJDvV9Sm38drIobqvebO3
- xrAPAfH6ir+mBdI9anb1DJmGXti70Gqs+/vPHeDngJw4XRW08Q0NXVHh7odo3sPXwRwoR7Vos
- klMuygjGU4m9WUsU9LWWuK2+xqlNEKp/85kWOhFDGcx1FyNRtMilY0lrCPO+Vmgnm0Eoah1Xt
- 717PtEimnh3P86H9R70U0yJsxHkLar3Cop9Kiqe/j1vNpJ1SI8dv66i2RguJGGwLNKbQmYDOY
- 2hw/tX6EA9Q0i6tdsbLtIcLRGCAanyn8c39M+7ywIS7y0NNHQ69wmp+mUpwbNWoCsh5G/IJB4
- tDswurnGe8ImiSfvCVutuoHMgwJYsf4xCPAaf1NXLwTMPovDbnppwNTClQc0Zc9/7PJYrHj2Y
- PlSohW7BSeVwxa0iBnlYz2W/dWJRJ833k/KvecfZgN9tWSZwXcbIwQwtUK1GXc861XX5U1po9
- YkkOMAfcu13K1GJvM4M9pX1uUmCcLYRJc4PhA3DnMvckWDwTHNkcvFJGw4SNOTUozA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,45 +71,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215499
 
-The fbdev layer is orphaned, but seems to need some care.
-So I'd like to step up as new maintainer.
+            Bug ID: 215499
+           Summary: AMDGPU: Tahiti flagged as "[drm] Unsupported asic.
+                    Remove me when IP discovery init is in place."
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.16
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: alexandre.f.demers@gmail.com
+        Regression: No
 
-This pull request contains only one single initial patch which adds
-myself to the MAINTAINERS file for the FRAMBUFFER LAYER.
+Until kernel 5.16, using a Tahiti GPU was working great along the amdgpu
+driver. With the move to IP=20
+discovery table, Tahiti is listed as not supported. Here, both kernels 5.15=
+.2
+and 5.16 are launched with the following parameters: radeon.si_support=3D0
+radeon.cik_support=3D0 amdgpu.si_support=3D1 amdgpu.cik_support=3D1 amdgpu.=
+dpm=3D1
+amdgpu.dc=3D1 amdgpu.ppfeaturemask=3D0xffffffff
 
-This was
-Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+This is what's reported by amdgpu since kernel 5.16 related to the IP disco=
+very
+table integration:
+---
+jan 15 20:23:04 Xander kernel: [drm] radeon kernel modesetting enabled.
+jan 15 20:23:04 Xander kernel: radeon 0000:04:00.0: SI support disabled by
+module param
+jan 15 20:23:04 Xander kernel: [drm] amdgpu kernel modesetting enabled.
+jan 15 20:23:04 Xander kernel: amdgpu: Ignoring ACPI CRAT on non-APU system
+jan 15 20:23:04 Xander kernel: amdgpu: Virtual CRAT table created for CPU
+jan 15 20:23:04 Xander kernel: amdgpu: Topology: Add CPU node
+jan 15 20:23:04 Xander kernel: [drm] Unsupported asic.  Remove me when IP
+discovery init is in place.
+...
 
-Thanks,
-Helge
---------
+This is what was reported prior, in version 5.15.2:
+---
+d=C3=A9c 11 16:30:33 Xander kernel: [drm] radeon kernel modesetting enabled.
+d=C3=A9c 11 16:30:33 Xander kernel: radeon 0000:04:00.0: SI support disable=
+d by
+module param
+d=C3=A9c 11 16:30:33 Xander kernel: [drm] amdgpu kernel modesetting enabled.
+d=C3=A9c 11 16:30:33 Xander kernel: amdgpu: Ignoring ACPI CRAT on non-APU s=
+ystem
+d=C3=A9c 11 16:30:33 Xander kernel: amdgpu: Virtual CRAT table created for =
+CPU
+d=C3=A9c 11 16:30:33 Xander kernel: amdgpu: Topology: Add CPU node
+d=C3=A9c 11 16:30:33 Xander kernel: checking generic (e0000000 7f0000) vs hw
+(e0000000 10000000)
+d=C3=A9c 11 16:30:33 Xander kernel: fb0: switching to amdgpu from EFI VGA
+d=C3=A9c 11 16:30:33 Xander kernel: Console: switching to colour dummy devi=
+ce 80x25
+d=C3=A9c 11 16:30:33 Xander kernel: amdgpu 0000:04:00.0: vgaarb: deactivate=
+ vga
+console
+d=C3=A9c 11 16:30:33 Xander kernel: [drm] initializing kernel modesetting (=
+TAHITI
+0x1002:0x6798 0x174B:0x3001 0x00).
+d=C3=A9c 11 16:30:33 Xander kernel: amdgpu 0000:04:00.0: amdgpu: Trusted Me=
+mory Zone
+(TMZ) feature not supported
+d=C3=A9c 11 16:30:33 Xander kernel: [drm] register mmio base: 0xFCA00000
+d=C3=A9c 11 16:30:33 Xander kernel: [drm] register mmio size: 262144
+d=C3=A9c 11 16:30:33 Xander kernel: [drm] PCIE atomic ops is not supported
+d=C3=A9c 11 16:30:33 Xander kernel: [drm] add ip block number 0 <si_common>
+d=C3=A9c 11 16:30:33 Xander kernel: [drm] add ip block number 1 <gmc_v6_0>
+d=C3=A9c 11 16:30:33 Xander kernel: [drm] add ip block number 2 <si_ih>
+d=C3=A9c 11 16:30:33 Xander kernel: [drm] add ip block number 3 <gfx_v6_0>
+d=C3=A9c 11 16:30:33 Xander kernel: [drm] add ip block number 4 <si_dma>
+d=C3=A9c 11 16:30:33 Xander kernel: [drm] add ip block number 5 <si_dpm>
+d=C3=A9c 11 16:30:33 Xander kernel: [drm] add ip block number 6 <dm>
+d=C3=A9c 11 16:30:33 Xander kernel: [drm] add ip block number 7 <uvd_v3_1>
+...
 
-The following changes since commit df0cc57e057f18e44dac8e6c18aba47ab53202f9:
+Moving to IP discovery table shouldn't remove support to any already suppor=
+ted
+ASIC, even if this doesn't add any new feature.
 
-  Linux 5.16 (2022-01-09 14:55:34 -0800)
+Is this expected? Is the support to be added?
 
-are available in the Git repository at:
+--=20
+You may reply to this email to add a comment.
 
-  http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/fbdev-5.17-1
-
-for you to fetch changes up to f346f32701ebacf6fe397f6f1d254256f73da321:
-
-  MAINTAINERS: Add Helge as fbdev maintainer (2022-01-14 21:49:23 +0100)
-
-----------------------------------------------------------------
-fbdev updates for v5.17-rc1
-
-Add me as maintainer for the framebuffer code.
-
-----------------------------------------------------------------
-Helge Deller (1):
-      MAINTAINERS: Add Helge as fbdev maintainer
-
- MAINTAINERS | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+You are receiving this mail because:
+You are watching the assignee of the bug.=
