@@ -1,50 +1,146 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3821491236
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 00:12:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A319A491247
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 00:24:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBD3811249D;
-	Mon, 17 Jan 2022 23:12:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 128AD112537;
+	Mon, 17 Jan 2022 23:24:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F74D11249C;
- Mon, 17 Jan 2022 23:12:39 +0000 (UTC)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAC54112537
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 23:24:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642461159; x=1673997159;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=dlE7j3EUbOf+qh8mJwYhVthA+wm/MBdKq3Zoy19+U5E=;
- b=XMreCzMPXhMSMDXikrDo6IXNojAhMB34aQS/77GtvDcyD/SuNqiVQfNc
- HXLs3yUPV8C3wFKSMzdsK8JVqI37uEvfGJ0vQkyVmY6M6kFgIHV5mcNY+
- j/F+VQr1gq8EMejgoix+CtVXh2CzQV/0o/vkSHHanVUgBv6waNtRYRz3U
- fLxH5S8Sb4AupRuV8AkI4OwQxRgDgQqSga54Ib4S6xgvis4wRAkUF17Zp
- oUafv29lAixLucU5JhA7btk+LhqjLFc6yk5h428Oy26PB8Xj2qTI4ALEK
- Jf42rPnxN1NA568Ge1M1cCkY7vK/4vXqngDg766sh1PuYq+pJSYiOAjXp g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10230"; a="244900309"
-X-IronPort-AV: E=Sophos;i="5.88,296,1635231600"; d="scan'208";a="244900309"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2022 15:12:38 -0800
-X-IronPort-AV: E=Sophos;i="5.88,296,1635231600"; d="scan'208";a="531505413"
-Received: from nkohl-mobl.ger.corp.intel.com (HELO intel.com) ([10.249.41.90])
- by orsmga008-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2022 15:12:34 -0800
-Date: Tue, 18 Jan 2022 01:12:30 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Subject: Re: [PATCH v4 1/2] drm/i915: Prepare for multiple GTs
-Message-ID: <YeX33lpVBOzOERFK@intel.intel>
-References: <20220117193255.236599-1-andi.shyti@linux.intel.com>
- <20220117193255.236599-2-andi.shyti@linux.intel.com>
- <700309d2-7982-a7f4-f5f9-c1d51eafc927@intel.com>
+ t=1642461841; x=1673997841;
+ h=from:to:cc:subject:date:message-id:
+ content-transfer-encoding:mime-version;
+ bh=+LuqyvzIVWbDrsQgB4b1R5PvMixjLTJt5tRX3TTFcH0=;
+ b=frBcWFQLm52jje9oxYjq8J697MYfo0MYT/TlYZS/jT+o9uuFVdiOZbS1
+ uQgj9mGvJZx6ye8S9muB9JWL82bcjeC1cc3yKxNPgHT4LyHRYcmj74a6V
+ K8/R+0fqDi6c5Fbg1UARtXDIumXLe2n+H0FT42aOLmfjfrKkHNl+QXpIn
+ xxhqsurQHbvZMPvv3AWKbE6eUkawFgnxvSIhTPj7lA/kMIqRMj2mrsqol
+ UGkiZyAIyeWRVYE++VRIZ2cKJCpZXzB/oVOFo1tQ6RbJAiiZsuM8W0Kil
+ rz0NGy5kgth08WYPV56KKBQWmPTASrvEhmotBSFRkTFQQwwV2tRBZfUCd Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10230"; a="269082552"
+X-IronPort-AV: E=Sophos;i="5.88,296,1635231600"; d="scan'208";a="269082552"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jan 2022 15:24:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,296,1635231600"; d="scan'208";a="474580596"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by orsmga003.jf.intel.com with ESMTP; 17 Jan 2022 15:24:00 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Mon, 17 Jan 2022 15:24:00 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20 via Frontend Transport; Mon, 17 Jan 2022 15:24:00 -0800
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.171)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.20; Mon, 17 Jan 2022 15:23:59 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oPAO+birnV8arpjMF9/LrAwJwp8Bwq9t+H73wfrRSJrWVTk26h1Q91YkQ7Xv8qJwvUfbfRS+avjG6BAmp/z0EL56W7Zn1gz4tbmcXRBrJ//Ybpq8/USBWtQGrlp+Pc38YOmCwLsAeAhyjmca4ym9oEEQJqWxR+QTV5BnVZoVDRwNUHYHDZrv1ggZtcGGppDv5peWWnlA1NlFErYlQnn7QOYOZwAgUkOOaupL90gECRTh06yt+SZcf6fM/AEhhrFm6YbXE9GnZXmNIURXg9MKw4UJD0dVuVMp7XB3Lpe76y3hnonVjbUyKNsw0Mo1IZWuO20XqYDm5ysobiIFzBBa+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wHOexDPOdH8SjgVToC8z7hwLPHJKkf2LtkbbNxWMql0=;
+ b=eYulv1mAITGMUKd8KcAHO+amTeWKlaS2q1xXw6+4HGJPDA1TYkij41FKoldm1dKr3V4c2Cm3Wz2anx9QQ0fF9y8F36zZ1MPM0DGXueZo9a5lvqLsJUWX1Nm63Z3de9ld576bkbXqiEw8US8lD+G8/HpxzOoUbw3H4Ham+NzKPFSRCLttDlZ8iqwQaTbQ1QuhJdQNnkDNxvOxy/xbBM6qBbW8Pnur0l4t5StFISCAtZBLryWu+pY8BuHjjVQ6z+jMdK70t1LfKeKzFTmcFW5i6w61apUX0s7ThjMTbxKPwt2gBl+eWJ9hrJkoOpGZexB2/AmMA7UTOI9zsLBEp4TXWg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5373.namprd11.prod.outlook.com (2603:10b6:5:394::7) by
+ DM6PR11MB4140.namprd11.prod.outlook.com (2603:10b6:5:19f::11) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4888.11; Mon, 17 Jan 2022 23:23:54 +0000
+Received: from DM4PR11MB5373.namprd11.prod.outlook.com
+ ([fe80::fc15:bd26:128a:f5f5]) by DM4PR11MB5373.namprd11.prod.outlook.com
+ ([fe80::fc15:bd26:128a:f5f5%8]) with mapi id 15.20.4888.014; Mon, 17 Jan 2022
+ 23:23:54 +0000
+From: =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>
+To: <dri-devel@lists.freedesktop.org>, <linux-kselftest@vger.kernel.org>
+Subject: [RFC 00/10] drm: selftests: Convert to KUnit
+Date: Tue, 18 Jan 2022 00:22:49 +0100
+Message-ID: <20220117232259.180459-1-michal.winiarski@intel.com>
+X-Mailer: git-send-email 2.34.1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: LO4P123CA0432.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:18b::23) To DM4PR11MB5373.namprd11.prod.outlook.com
+ (2603:10b6:5:394::7)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <700309d2-7982-a7f4-f5f9-c1d51eafc927@intel.com>
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4e178c91-da1e-4596-58d2-08d9da106dc3
+X-MS-TrafficTypeDiagnostic: DM6PR11MB4140:EE_
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-Microsoft-Antispam-PRVS: <DM6PR11MB41406AF9D4548FE0C890B52898579@DM6PR11MB4140.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 46EULeB1aEjhxxZVyHCB7/TfIc2MfeOPJwwxdpYipLCyUsCsGUDUULIdYoxSTwlFtvwhVCkc8ZX/ujkDLxtzvgtvNjHHGgImPT5dXZGpakpXFik8T4iGh2Fjcq7+GSihOhXEhaUgNT9rFh/3PxkWRLm2aJS3P6OajxlZcKII8p0D9w7+jkMCgZEHqZB8HQvraJnOKjZOi/QQTlYNV/RNLmLbnjDSNA9BW7a2kM36iHMowoikSBHd90HpgcZhtp9WrkvTdrGVu7z7rlo/Y48W9pjt6FP01w7IbilEkED0pZkFimZ5bbATqVDKuWR8QUVuU8QCJoIBFuN/WcBcguM51JhEccHmqt6Lw2x55QF7dTjoxjcZM5E/c8TK3f2RseyN2kH/ArtQku+iCAivKa028Bv+30vynoougJ83eXqj1+/GHRaQLgFmIVY3teu9Vcd8erloD5TB5yqaDpyQKt7s6P6gCLHf+s/I6549VZKU7v+sT5S/ZwNy8QDuHiaUqEuysYyVpt8FrToDCHVb0Kp+hXNtLl3nT/pEdK1bor8xD2fL7NiJOkOaFjufpnLVmM38KioexQDCYnn3rAOxAvCH89TU533ZS8JQI58QMpgYk93rCrojAWI0UQWETQ6GguPvQxvLbCyCzqW3iEKyN8R8mA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(508600001)(7416002)(186003)(6506007)(966005)(82960400001)(86362001)(8676002)(6512007)(6666004)(83380400001)(38100700002)(8936002)(66556008)(54906003)(5660300002)(2906002)(6486002)(316002)(36756003)(2616005)(66946007)(26005)(1076003)(4326008)(66476007);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aGp3SDB3V3Vua0ZGaEw5b2h3NllraXVQeDcwUDJTWE5tREJyMzhXL3JJK3Av?=
+ =?utf-8?B?TU5pMHNPRnIzaXJBOGt3SnZlMHVUUk1RL2hKYWZTNFF4djN2M2R2RmtDNWEx?=
+ =?utf-8?B?SnJtQWNtcStWTWMxTTM3V2s0T2tyMHFBaitpU3Y1Q2JNWjk2NURGWURsR0t5?=
+ =?utf-8?B?Si9rQVVyakt0d1dCMSt3UXk1akF4VHZhMmU2SGhQQm1JZVZwUG03bUl3NEFv?=
+ =?utf-8?B?UWY3UEIwYktsQkVZMHF2UFl0bzZMcGlFZFc5T2xXVDExVFZoYUkvam9YRTdB?=
+ =?utf-8?B?dWozSEl2b1NYMnoyYU9LWDZvQXRqb2tVM25RdlEvZ3B2WHJTb2w0Qjc3QUFI?=
+ =?utf-8?B?SWI0S2cwbXdUazlNOWhsMy9oVFY5VjlPVVR6cHZ5bWF0KzBhVmJ2d0ZJc3RM?=
+ =?utf-8?B?emhTNGFhM1E1MVVMU3Zzbmo3ckREWjFpSGpNaHhWdUJZTnBVRnBUYzNIQTRB?=
+ =?utf-8?B?OVphbm5OZ0p1Y3AyVG4wL0NRWldMRUcrOGV1V28vZjBxWGtrY0ZPS1pWUkhE?=
+ =?utf-8?B?RlQrdFAvMzAvYVQvQ1IxQmVTdGp2cWVGMGZ3Qk1sQ1ZnVDBPdCs5S254SFY5?=
+ =?utf-8?B?ZGhjeDFLY01YdWhiZ3RhOXliTHNQQ29Wa3Y4QTJLYTNtVExYM0xlN0Zuc2Vw?=
+ =?utf-8?B?aHMvL2dLSTczaVM1V2VkaVFzcFQwUnJOSzlRSE95TTRiUy9mU1dnRHN6a3N4?=
+ =?utf-8?B?dW51TU9Va3hIMzk2M3AxQ2paM1pxQ0syN3UzMEtMK1pERUt4QWVRZVVuZVJI?=
+ =?utf-8?B?Z1E0ZDR2T0E4WFZiSEEwVDJoRTJpNmgrZzFBWC9CUG5iem1uWDdXa29qL00w?=
+ =?utf-8?B?UE41TWxRSmRFcWFNbE9YcHpMTkJ2VVF0UTlKYUFGL1NjYXhZYi9hckpSNXpx?=
+ =?utf-8?B?RDJDTXpjWEFkQ3Jmd3ZJbURBRzhGQjBSU1RLcUtXVGpuM2JXekVGcmQydjEw?=
+ =?utf-8?B?aXNBbjdaN01lRW0zQmVYUHlyK3pZZGVmL0Z2L20wRlBFUDJ2NGNLY1FrdzhI?=
+ =?utf-8?B?VUEwMTJGU2hPR0k0QXJBMFJnMmFMQVZ3VmZFdldaL0RGaUMvQWRHU2VUdnQ4?=
+ =?utf-8?B?bTBZbnc1TC84U0FEUFc3YTNIWXNYS01URC83eDE4c2x6K0crYmpXNFdoSkw0?=
+ =?utf-8?B?SUhsZzhRRjk3YjFPUENZSWNKaDlWZWFMMnFQU2ZjYlR1dXpWUVZIRXdpQW51?=
+ =?utf-8?B?Qmd1bnJONnc3K1g3T1dlT1BvNDl1SlpPeUYreVFMdTVXNW94N3ZicXZPbk1R?=
+ =?utf-8?B?TTB6R1c0OGQ5RWRHL20vNFFwU0xWcmp0NGFXZGVxSE5SNTJaRGdLU2lscFRt?=
+ =?utf-8?B?bHpVenFyR0xoRzJnNjZWaHAvNDdCbXJUWkwrTlRrT0UyUUFEenBrRTlKL1N0?=
+ =?utf-8?B?VS9sbUNVTVM1bzRtVmc5Z2NBaFpBWkRRUU40MXJvL01OdktsK25RNXNIUnhM?=
+ =?utf-8?B?eVhDOVBXMTdHa1U0SnB3OUo0YkdqVnZGemJtRERYS284MFpqYXd1N2dxejM4?=
+ =?utf-8?B?cEVoTTZoTTBSbmd5VTczclRWdktNK1dKTElsRUxLTE5sVVFPQVk5a3Bub2Rr?=
+ =?utf-8?B?Mmp2cFpPVnJTOFFvaWkzQmViOVZKRzU4c0JmL09XSEFCdFRxR0tIOVNFcTZJ?=
+ =?utf-8?B?MUhoamlVajA0RU5majhidFNhOVJ1cjhJdVppV0gwT1FKYVBIV0hlcmVTbHA4?=
+ =?utf-8?B?VTVEZU1oU0RSc0U0eTNiYW5tdmZsNHI3T0kxa3NxWkhVa04ramx1Y2o5MHNL?=
+ =?utf-8?B?a1NhMEwwaDYyMUFwKzlQbjgvMnZiam5Ga3FOdzUyT3Z4V0RCUmRtMFpSRUlX?=
+ =?utf-8?B?NmlmM3ZIRXhXOFN6VzVmRkp4dDB3bmJBK0lpTkNPMFN2bkhjVXZNT2lMOFdl?=
+ =?utf-8?B?SzJ5dWRuT0VVT2xSVmRvbVRXWEVOTTFPRzFhS0pvaWlTSkdYd0pid0hFaTIy?=
+ =?utf-8?B?RXBsMDRheGhnOW5LcStkT1dEWGZXTlpLWVg3anRhNmZ4RGpwRnRSVm1YSVFN?=
+ =?utf-8?B?bDcwMnlRT0JUbGtrN2lGNktKd3BoeS9LRjN3MFNqUC9pSHVmaEY4VnJLRXRT?=
+ =?utf-8?B?cUFpZnFaYmRzRXNoUlB3c0tEbnkvNSsyZnVvQXhIZS9wclM2M3hFZkV0U2l4?=
+ =?utf-8?B?Rk1yci9WZnlMY1ZKZUQwMGpQM21BM3pmblk0V2RWM0tsZHArNzZxdm45U3Vz?=
+ =?utf-8?B?ZXdMeWFSZTBWWnVZU012L2doNGFlMHNRR1RvUnFUeEtGN2NBVDNreEY4c0h6?=
+ =?utf-8?B?YW5XUXVDMkNMSEFZZWtsUVkvZC93PT0=?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4e178c91-da1e-4596-58d2-08d9da106dc3
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5373.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2022 23:23:54.7048 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: A0ylaHLBBxQmk8j33N8IOgrP39XPFyouaU4zn4aq9n3eEOr/qrUXi31PW/CImoRyT5a7/W63dWiyMkhkohcrcSMustAF8Zn20e3vrKsWfC8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4140
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,240 +153,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Abdiel Janulgue <abdiel.janulgue@gmail.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- DRI Devel <dri-devel@lists.freedesktop.org>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi@etezian.org>,
- Sujaritha Sundaresan <sujaritha.sundaresan@intel.com>
+Cc: =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Brendan Higgins <brendanhiggins@google.com>,
+ Daniel Latypov <dlatypov@google.com>, Arkadiusz Hiler <arek@hiler.eu>,
+ Petri Latvala <petri.latvala@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Michal,
+KUnit unifies the test structure and provides helper tools that simplify
+the development. Basic use case allows running tests as regular processes,
+leveraging User Mode Linux.
+For example, to execute all DRM unit tests:
+./tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm
+(the tool also allows using QEMU instead of UML by adding e.g. --arch=x86_64)
 
-> please find few late nits below
+For developers - it means that it's easier to run unit tests on the development
+machine, tightening the feedback loop. When using UML, it also simplifies using
+gdb for debug (since the kernel is just a regular process).
+For CI systems - DRM tests can be moved from being executed on device under
+test (that's also running IGTs and so on) to being executed on buildsystem
+during build (just like checkpatch.pl).
 
-thanks for the comments!
+All tests were renamed - IGT prefix is no longer used.
 
-> > On a multi-tile platform, each tile has its own registers + GGTT
-> > space, and BAR 0 is extended to cover all of them.
-> > 
-> > Up to four gts are supported in i915->gt[], with slot zero
-> 
-> s/gts/GTs (to match as below)
+Compared to selftests executed by CI using IGT, there's one functional
+regression - KUnit test runner is not catching WARNs.
+To solve this, we could either go in the similar direction that UBSAN went in:
+1195505 ("kunit: ubsan integration")
+Or we could expand the test runner to catch WARN signature in dmesg.
 
-OK!
+Pastebin to preview the output and execution times:
+https://gitlab.freedesktop.org/-/snippets/4139
 
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-> > index 622cdfed8a8b..17927da9e23e 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_gt.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-> > @@ -27,7 +27,8 @@
-> >  #include "shmem_utils.h"
-> >  #include "pxp/intel_pxp.h"
-> >  
-> > -void __intel_gt_init_early(struct intel_gt *gt, struct drm_i915_private *i915)
-> > +static void
-> > +__intel_gt_init_early(struct intel_gt *gt)
-> 
-> no need to split line
+-Michał
 
-yeah... this was a change I was always very tempted to do but
-decided to leave it as it is because the patch is not mine. Will
-do!
+Michał Winiarski (10):
+  drm: test-drm_cmdline_parser: Convert to KUnit
+  drm: test-drm_plane_helper: Convert to KUnit
+  drm: test-drm_format: Convert to KUnit
+  drm: test-drm_framebuffer: Convert to KUnit
+  drm: test-drm_damage_helper: Convert to KUnit
+  drm: test-drm_dp_mst_helper: Convert to KUnit
+  drm: test-drm_rect: Convert to KUnit
+  drm: test-drm_mm: Convert to KUnit
+  drm: selftests: Convert to KUnit
+  drm: test: Simplify testing on UML with kunit.py
 
-> >  {
-> >  	spin_lock_init(&gt->irq_lock);
-> >  
-> > @@ -47,19 +48,27 @@ void __intel_gt_init_early(struct intel_gt *gt, struct drm_i915_private *i915)
-> >  	intel_rps_init_early(&gt->rps);
-> >  }
-> >  
-> > +/* Preliminary initialization of Tile 0 */
-> 
-> maybe:
-> 
-> void intel_gts_init_early(struct drm_i915_private *i915)
+ drivers/gpu/drm/.kunitconfig                  |    3 +
+ drivers/gpu/drm/Kconfig                       |   22 +-
+ drivers/gpu/drm/Makefile                      |    2 +-
+ drivers/gpu/drm/i915/Kconfig.debug            |    1 -
+ drivers/gpu/drm/selftests/Makefile            |    7 -
+ .../gpu/drm/selftests/drm_cmdline_selftests.h |   68 -
+ drivers/gpu/drm/selftests/drm_mm_selftests.h  |   28 -
+ .../gpu/drm/selftests/drm_modeset_selftests.h |   40 -
+ drivers/gpu/drm/selftests/drm_selftest.c      |  109 -
+ drivers/gpu/drm/selftests/drm_selftest.h      |   41 -
+ .../drm/selftests/test-drm_cmdline_parser.c   | 1141 --------
+ .../drm/selftests/test-drm_damage_helper.c    |  667 -----
+ .../drm/selftests/test-drm_dp_mst_helper.c    |  273 --
+ drivers/gpu/drm/selftests/test-drm_format.c   |  280 --
+ drivers/gpu/drm/selftests/test-drm_mm.c       | 2487 -----------------
+ .../drm/selftests/test-drm_modeset_common.c   |   32 -
+ .../drm/selftests/test-drm_modeset_common.h   |   52 -
+ .../gpu/drm/selftests/test-drm_plane_helper.c |  223 --
+ drivers/gpu/drm/selftests/test-drm_rect.c     |  223 --
+ drivers/gpu/drm/test/Makefile                 |    7 +
+ .../gpu/drm/test/test-drm_cmdline_parser.c    | 1027 +++++++
+ drivers/gpu/drm/test/test-drm_damage_helper.c |  667 +++++
+ drivers/gpu/drm/test/test-drm_dp_mst_helper.c |  429 +++
+ drivers/gpu/drm/test/test-drm_format.c        |  356 +++
+ .../test-drm_framebuffer.c                    |  109 +-
+ drivers/gpu/drm/test/test-drm_mm.c            | 2426 ++++++++++++++++
+ drivers/gpu/drm/test/test-drm_plane_helper.c  |  312 +++
+ drivers/gpu/drm/test/test-drm_rect.c          |  249 ++
+ drivers/video/Kconfig                         |    4 +
+ 29 files changed, 5558 insertions(+), 5727 deletions(-)
+ create mode 100644 drivers/gpu/drm/.kunitconfig
+ delete mode 100644 drivers/gpu/drm/selftests/Makefile
+ delete mode 100644 drivers/gpu/drm/selftests/drm_cmdline_selftests.h
+ delete mode 100644 drivers/gpu/drm/selftests/drm_mm_selftests.h
+ delete mode 100644 drivers/gpu/drm/selftests/drm_modeset_selftests.h
+ delete mode 100644 drivers/gpu/drm/selftests/drm_selftest.c
+ delete mode 100644 drivers/gpu/drm/selftests/drm_selftest.h
+ delete mode 100644 drivers/gpu/drm/selftests/test-drm_cmdline_parser.c
+ delete mode 100644 drivers/gpu/drm/selftests/test-drm_damage_helper.c
+ delete mode 100644 drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
+ delete mode 100644 drivers/gpu/drm/selftests/test-drm_format.c
+ delete mode 100644 drivers/gpu/drm/selftests/test-drm_mm.c
+ delete mode 100644 drivers/gpu/drm/selftests/test-drm_modeset_common.c
+ delete mode 100644 drivers/gpu/drm/selftests/test-drm_modeset_common.h
+ delete mode 100644 drivers/gpu/drm/selftests/test-drm_plane_helper.c
+ delete mode 100644 drivers/gpu/drm/selftests/test-drm_rect.c
+ create mode 100644 drivers/gpu/drm/test/Makefile
+ create mode 100644 drivers/gpu/drm/test/test-drm_cmdline_parser.c
+ create mode 100644 drivers/gpu/drm/test/test-drm_damage_helper.c
+ create mode 100644 drivers/gpu/drm/test/test-drm_dp_mst_helper.c
+ create mode 100644 drivers/gpu/drm/test/test-drm_format.c
+ rename drivers/gpu/drm/{selftests => test}/test-drm_framebuffer.c (91%)
+ create mode 100644 drivers/gpu/drm/test/test-drm_mm.c
+ create mode 100644 drivers/gpu/drm/test/test-drm_plane_helper.c
+ create mode 100644 drivers/gpu/drm/test/test-drm_rect.c
 
-We had a discussion about the use of 'gts' vs 'gt' and all the
-previous refactoring patches[*] where coming because the use of
-'gts' brings confusion: what does gts mean? GTS or GTs? So that
-we decided to just use gt in its singular form and if needed,
-perhaps, use 'multi_gt' for plural.
+-- 
+2.34.1
 
-The function below is indeed used only during probe so that we
-can remove the first parameter and have it as you suggest.
-
-
-[*] /i915->gt/i915->gt0/ and /i915->gts[]/i915->gt[]/
-
-> {
-> 	struct intel_gt *gt = &i915->gt0;
-> 	...
-> 
-> >  void intel_gt_init_early(struct intel_gt *gt, struct drm_i915_private *i915)
-> >  {
-> >  	gt->i915 = i915;
-> >  	gt->uncore = &i915->uncore;
-> > +
-> > +	__intel_gt_init_early(gt);
-> >  }
-
-[...]
-
-> > -void intel_gt_driver_late_release(struct intel_gt *gt)
-> > +void intel_gt_driver_late_release(struct drm_i915_private *i915)
-> 
-> as breaks naming style maybe there should be different helper like:
-> 
-> void intel_gts_driver_late_release(struct drm_i915_private *i915)
-> {
-> 	struct intel_gt *gt;
-> 	unsigned int id;
-> 
-> 	for_each_gt(gt, i915, id)
-> 		intel_gt_driver_late_release(gt);
-> }
-> 
-> then we can use "intel_gts" prefix to indicate that we want to operate
-> on all GTs, not just single "intel_gt"
-
-As I explained earlier, the 'gts' name brings confusion. Perhaps
-we can call it something like
-'intel_gt_all_driver_late_release()', but it looks a bit forced.
-
-Open for suggestions.
-
-> >  {
-> > +	struct intel_gt *gt;
-> > +	unsigned int id;
-> > +
-> >  	/* We need to wait for inflight RCU frees to release their grip */
-> >  	rcu_barrier();
-> >  
-> > -	intel_uc_driver_late_release(&gt->uc);
-> > -	intel_gt_fini_requests(gt);
-> > -	intel_gt_fini_reset(gt);
-> > -	intel_gt_fini_timelines(gt);
-> > -	intel_engines_free(gt);
-> > +	for_each_gt(gt, i915, id) {
-> > +		intel_uc_driver_late_release(&gt->uc);
-> > +		intel_gt_fini_requests(gt);
-> > +		intel_gt_fini_reset(gt);
-> > +		intel_gt_fini_timelines(gt);
-> > +		intel_engines_free(gt);
-> > +	}
-> >  }
-> >  
-> >  /**
-> > @@ -909,6 +922,112 @@ u32 intel_gt_read_register_fw(struct intel_gt *gt, i915_reg_t reg)
-> >  	return intel_uncore_read_fw(gt->uncore, reg);
-> >  }
-> >  
-> > +static int
-> > +intel_gt_tile_setup(struct intel_gt *gt, phys_addr_t phys_addr)
-> 
-> no need to split lines
-
-Yep!
-
-> > +{
-> > +	struct drm_i915_private *i915 = gt->i915;
-> 
-> can be moved to "if" below
-
-OK
-
-> > +	unsigned int id = gt->info.id;
-> > +	int ret;
-> > +
-> > +	if (id) {
-> > +		struct intel_uncore_mmio_debug *mmio_debug;
-> > +		struct intel_uncore *uncore;
-> > +
-> > +		/* For multi-tile platforms BAR0 must have at least 16MB per tile */
-> > +		if (GEM_WARN_ON(pci_resource_len(to_pci_dev(i915->drm.dev), 0) <
-> > +				(id + 1) * SZ_16M))
-> > +			return -EINVAL;
-> 
-> we don't use here BAR0 so maybe we can move this check to
-> intel_gt_probe_all() where we look for BAR phys_addr ?
-
-OK, then I will remove it from this patch and I will add it in
-the next series where we add the first multitile machine support.
-
-In intel_gt_probe_all(), right now, I don't know yet whether the
-platform is single tile or multitile and consequently check BAR0
-or not.
-
-> > +	/*
-> > +	 * i915->gt[0] == &i915->gt0
-> > +	 */
-> > +#define I915_MAX_GT 4
-> > +	struct intel_gt *gt[I915_MAX_GT];
-> > +
-> >  	struct {
-> >  		struct i915_gem_contexts {
-> >  			spinlock_t lock; /* locks list */
-> > diff --git a/drivers/gpu/drm/i915/intel_memory_region.h b/drivers/gpu/drm/i915/intel_memory_region.h
-> > index 5625c9c38993..6a6324a08e72 100644
-> > --- a/drivers/gpu/drm/i915/intel_memory_region.h
-> > +++ b/drivers/gpu/drm/i915/intel_memory_region.h
-> > @@ -30,6 +30,9 @@ enum intel_memory_type {
-> >  enum intel_region_id {
-> >  	INTEL_REGION_SMEM = 0,
-> >  	INTEL_REGION_LMEM,
-> 
-> for completeness we should have:
-> 
->   	INTEL_REGION_LMEM_0 = INTEL_REGION_LMEM,
-
-Makes sense, fortunately this is used only 15 times, won't be
-as painful as it was for /i915->gt/i915->gt0/.
-
-> > +	INTEL_REGION_LMEM1,
-> > +	INTEL_REGION_LMEM2,
-> > +	INTEL_REGION_LMEM3,
-> 
-> but likely not needed any of them since all we need is:
-> 
->   	INTEL_REGION_LMEM_n = INTEL_REGION_LMEM + I915_MAX_GT - 1,
-> 
-> but I'm not sure that I915_MAX_GT is available here, maybe it should
-> defined in separate header not in i915_drv.h or we should have
-
-I915_MAX_GT is available here, but to do something like you say
-we need to shift all the id's:
-
-   enum intel_region_id {
-   	INTEL_REGION_SMEM = 0,
-   	INTEL_REGION_LMEM,
-   	INTEL_REGION_STOLEN_SMEM = INTEL_REGION_LMEM + I915_MAX_GT,
-   	...
-   }
-   
-   #define INTEL_REGION_LMEM(n)	(INTEL_REGION_LMEM + I915_MAX_GT - n + 1)
-
-Otherwise we would have some inconsistent ID.
-
-But it doesn't look very pretty to me, though.
-
-> #define I915_MAX_LMEM 4
-> 
-> and then somewhere
-> 	
-> 	BUILD_BUG_ON(I915_MAX_LMEM != I915_MAX_GT);
-
-To be honest I'm not a big fan of I915_MAX_GT and when I will
-find some time I will try to get rid of it, as I think that the
-maximum number of gt's should be calculated during probe and
-stored somewhere in i915->max_gt, but this is a different story.
-
-> ~Michal
-
-Thanks a lot for your review!
-
-Andi
