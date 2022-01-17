@@ -1,45 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39A43490D22
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 18:01:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF889490D76
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 18:03:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2203F10F2B0;
-	Mon, 17 Jan 2022 17:01:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DA9910F2D3;
+	Mon, 17 Jan 2022 17:03:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9B5810F2B0
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 17:01:16 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B46410F2ED
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 17:03:21 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 382A6611CB;
- Mon, 17 Jan 2022 17:01:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1885C36AE3;
- Mon, 17 Jan 2022 17:01:12 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id DD73CB8114E;
+ Mon, 17 Jan 2022 17:03:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34D07C36B06;
+ Mon, 17 Jan 2022 17:03:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1642438874;
+ s=k20201202; t=1642438999;
  bh=6V+sC1g13i8VXCbalZh08XyriymrAMskwoCmd6usGJM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UWP9gm+rJCqZGRDt0Z/coGVZMV4BD519pNyBvaqG5zpIZy4XI5fxLWge/B/h+AGIo
- Jxi64sv3YHiIXd4Ri7vZyaNX/roxibP/N0tNK8VJjppqJAMVuUcOyrh+SMe+UQpotY
- kuYs/iAk2xPOs0ibKarVvgTmBMoWjYXzw+bFDAnyh/sL+QDDuLc+gMC3ZpRDXL056y
- m13ym5lIOm5xtfpjtQFYbW3hS28CzeDLYN59aEMel7SU+hrEc2bRWIzRanZyASNrP/
- rjCAm1jXJzd6pAUm/OvD6mn0dMP8LdWNWyU62iHd4o3W1+17Y/OkODCqovlOUYJBa0
- 6FLKZk837XNzQ==
+ b=Kk2cTqE2LoS35sZ7oifs4JYXHXJy9Quyekjfz+jGOW6xuRQp1JwlERMPeLTyxicUu
+ 3TV6l5qZffg99kOzevOERgseOYOnSVcJngt02ZQ238s0oZ0A4sKRJJuGxOkyV/buYW
+ iRgdJ6v5cF/3DjXaPcabbeOul7WICKC90joM7hGcv5Y8EL+QCKUSndqenusr1nkf2H
+ 317bmD/Xx4lJU/KGjhpqvbb7jubPEdwraV/ydQqGvH341PuxLUjTWGfGcdNGizyIWQ
+ DWlkzGgNfAOe6IHOHPQVnPVlXITfe9XjIrJASeiFDKPzwGiYF6Afdj2aRKuk+7iFVY
+ SzE+yhm9kPdig==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.16 49/52] phy: mediatek: Fix missing check in
+Subject: [PATCH AUTOSEL 5.15 42/44] phy: mediatek: Fix missing check in
  mtk_mipi_tx_probe
-Date: Mon, 17 Jan 2022 11:58:50 -0500
-Message-Id: <20220117165853.1470420-49-sashal@kernel.org>
+Date: Mon, 17 Jan 2022 12:01:25 -0500
+Message-Id: <20220117170127.1471115-42-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220117165853.1470420-1-sashal@kernel.org>
-References: <20220117165853.1470420-1-sashal@kernel.org>
+In-Reply-To: <20220117170127.1471115-1-sashal@kernel.org>
+References: <20220117170127.1471115-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
