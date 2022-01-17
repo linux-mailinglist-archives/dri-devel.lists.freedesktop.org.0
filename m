@@ -2,59 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB2E8491199
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 23:08:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FC15491194
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 23:07:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C411D10FFA1;
-	Mon, 17 Jan 2022 22:08:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1101010FF97;
+	Mon, 17 Jan 2022 22:07:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC60D10E2F6;
- Mon, 17 Jan 2022 14:38:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1642430307; x=1673966307;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=/wDgTOF9nD7qJTc2/BsA6bElbpP6tW+QytfeDJS27YY=;
- b=pCooqTNrVTL4+NWSmBiDaUyaUWXJ7i2UlvVhE3Qkoe5DMsqrEAkOANBL
- yYaNX+2Ablbj4/kuAK3lkk+RYYDvf13FmLhdvRozSID30e5btfyaccq+f
- VA9Yj7INu2y5ZJG0yOtSLOS6bVBckE62SZ021acJaTQ+LbMeLteeCvlHp 0=;
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
- by alexa-out.qualcomm.com with ESMTP; 17 Jan 2022 06:38:27 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2022 06:38:26 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Mon, 17 Jan 2022 06:38:25 -0800
-Received: from [10.216.12.7] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Mon, 17 Jan
- 2022 06:38:19 -0800
-Message-ID: <bd284863-3643-4a8e-beb6-f47cc60ea1b5@quicinc.com>
-Date: Mon, 17 Jan 2022 20:08:15 +0530
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
+ [IPv6:2607:f8b0:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E4F710E3B5
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 15:42:32 +0000 (UTC)
+Received: by mail-pl1-x62b.google.com with SMTP id b3so12560144plc.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 07:42:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BtOfUVwTLdIOXT8a0g5ckSpi7c+ofEftPzF8DVvjq7w=;
+ b=DSj3EgDScSimidVnItWhtOJzPUaZYBJzmUix6/8XulxD9eh7oQ92ArhOGtIA+dm+Ii
+ W1jMtwbG1VSSajJDNgj0TX7eeprVE6JObDSFVX+T2cFloG0XgLYVOVbbi0iNrWsJcWpg
+ FDj83SQW5k1fff003y6ytsL6Zlqfv0aj/yq4g1aS5iSfx5R4RYxNInCcqfO/3vJuzhsX
+ eVMHbV97c2I/CQmrbKnE5FnALpzl/VxqKR+2Kacp2IYF3WxIv0uikbYRoMqeHR6XHjyD
+ 1K/VrhxKdBY0QjB/kacXlJwBsgX+v4zVz21wU+hQV74M63c/d+TjlBxdWrP08+4DNELS
+ uB6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BtOfUVwTLdIOXT8a0g5ckSpi7c+ofEftPzF8DVvjq7w=;
+ b=ETjacpHiGskfn+5y2SE8f/zg1adcWB0PBvlDoyx521OpUp27bdvQSMOuH2nBJNf4Hb
+ 4cNQmT+F4qbuAKi2nYz+RCw6Fc8l/dj6RY+I0ROoDgX83w1pb20843V3ffQQCLF3j1T4
+ fUoFL0Az9U7EO1YqiiBargzEs9IseCByG967MieHs3YX4k/i3uKeEhs5msRAOQY5ehID
+ jK0N0jTnKLfh0kHyzrmS19SW/idoMkaPJmWVBro5z9llOKIBM4UYaLi52nQxRKU6xgBm
+ K88C7EvkjJ9R+6vM4C4u4iYW9zesF4jseCtJBTYBAvnemueTPg3AE/hEnQLRnMO2+AxE
+ vebQ==
+X-Gm-Message-State: AOAM5309QVsLQOfAdrQ98mRjRqdJaiA39OJPvhkAauJXSmQAXoVhXHY1
+ c7YBxLQabbgbuDYp8fWxlh0=
+X-Google-Smtp-Source: ABdhPJz5G1+u67lsrh8eLZfD2KUC2fJ5ASHhWSnK4O/r6glXQvoCoXYTisCmW19QxJfNIyNqGIK3+w==
+X-Received: by 2002:a17:902:9a42:b0:14a:baa1:c7ee with SMTP id
+ x2-20020a1709029a4200b0014abaa1c7eemr5657642plv.58.1642434151549; 
+ Mon, 17 Jan 2022 07:42:31 -0800 (PST)
+Received: from localhost.localdomain (211-75-30-246.hinet-ip.hinet.net.
+ [211.75.30.246])
+ by smtp.gmail.com with ESMTPSA id q22sm15582949pfu.153.2022.01.17.07.42.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Jan 2022 07:42:30 -0800 (PST)
+From: Zhiming Liu <lzmlzmhh@gmail.com>
+To: narmstrong@baylibre.com,
+	robert.foss@linaro.org
+Subject: [PATCH v3] drm/bridge: Remove extra device acquisition method of i2c
+ client in lt9611 driver
+Date: Mon, 17 Jan 2022 23:41:50 +0800
+Message-Id: <20220117154150.5145-1-lzmlzmhh@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH 3/4] drm/msm/adreno: Expose speedbin to userspace
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>
-References: <20220112030115.1.Ibac66e1e0e565313bc28f192e6c94cb508f205eb@changeid>
- <20220112030115.3.I86c32730e08cba9e5c83f02ec17885124d45fa56@changeid>
- <CAF6AEGuJxdrYM5XXt6sUGmjossqZTRzwQ6Y8qYsnfCYDvGQurw@mail.gmail.com>
- <CAA8EJpokgiUbqj9BOF52a9QjJK53PinNHfxy_6nbNq53JnO2Og@mail.gmail.com>
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-In-Reply-To: <CAA8EJpokgiUbqj9BOF52a9QjJK53PinNHfxy_6nbNq53JnO2Og@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Mon, 17 Jan 2022 22:07:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,81 +70,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, OPEN FIRMWARE AND FLATTENED DEVICE TREE
- BINDINGS <devicetree@vger.kernel.org>,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>, Stephen Boyd <swboyd@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: jernej.skrabec@gmail.com, jonas@kwiboo.se, Zhiming Liu <lzmlzmhh@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/13/2022 12:43 PM, Dmitry Baryshkov wrote:
-> On Thu, 13 Jan 2022 at 00:19, Rob Clark <robdclark@gmail.com> wrote:
->> On Tue, Jan 11, 2022 at 1:31 PM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
->>> Expose speedbin through MSM_PARAM_CHIP_ID parameter to help userspace
->>> identify the sku.
->>>
->>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
->>> ---
->>>
->>>   drivers/gpu/drm/msm/adreno/adreno_gpu.c | 9 +++++----
->>>   1 file changed, 5 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->>> index f33cfa4..e970e6a 100644
->>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->>> @@ -242,10 +242,11 @@ int adreno_get_param(struct msm_gpu *gpu, uint32_t param, uint64_t *value)
->>>                  *value = !adreno_is_a650_family(adreno_gpu) ? 0x100000 : 0;
->>>                  return 0;
->>>          case MSM_PARAM_CHIP_ID:
->>> -               *value = adreno_gpu->rev.patchid |
->>> -                               (adreno_gpu->rev.minor << 8) |
->>> -                               (adreno_gpu->rev.major << 16) |
->>> -                               (adreno_gpu->rev.core << 24);
->>> +               *value = (uint64_t) adreno_gpu->rev.patchid |
->>> +                               (uint64_t) (adreno_gpu->rev.minor << 8) |
->>> +                               (uint64_t) (adreno_gpu->rev.major << 16) |
->>> +                               (uint64_t) (adreno_gpu->rev.core << 24) |
->>> +                               (((uint64_t) adreno_gpu->rev.sku) << 32);
->> How about this instead, so we are only changing the behavior for
->> new/unreleased devices:
+drm/bridge: Remove extra device acquisition method of i2c client in lt9611 driver.
 
-I thought this property was only used for new devices whereas the 
-existing devices rely on REVN.
+We have got the device of i2c client in probe function.So we should remove extra
+device acquisition method of i2c client.
 
--Akhil.
+Signed-off-by: Zhiming Liu <lzmlzmhh@gmail.com>
+---
+ drivers/gpu/drm/bridge/lontium-lt9611.c    | 4 ++--
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
->>
->> *value = adreno_gpu->rev.patchid |
->> (adreno_gpu->rev.minor << 8) |
->> (adreno_gpu->rev.major << 16) |
->> (adreno_gpu->rev.core << 24);
->> if (!adreno_gpu->info->revn)
->> *value |= (((uint64_t) adreno_gpu->rev.sku) << 32);
->>
->> (sorry about the butchered indentation.. somehow gmail has become
->> antagonistic about pasting code)
-> I assume that you would like to keep userspace compat for older chips.
-> thus the if.
-> Maybe we should introduce MSM_PARAM_CHIP_ID_SKU instead (and gradually
-> make userspace switch to it)?
->
->> BR,
->> -R
->>
->>>                  return 0;
->>>          case MSM_PARAM_MAX_FREQ:
->>>                  *value = adreno_gpu->base.fast_rate;
->>> --
->>> 2.7.4
->>>
->
->
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
+index dafb1b47c15f..feb128a4557d 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+@@ -1090,7 +1090,7 @@ static int lt9611_probe(struct i2c_client *client,
+ 	if (!lt9611)
+ 		return -ENOMEM;
+ 
+-	lt9611->dev = &client->dev;
++	lt9611->dev = dev;
+ 	lt9611->client = client;
+ 	lt9611->sleep = false;
+ 
+@@ -1100,7 +1100,7 @@ static int lt9611_probe(struct i2c_client *client,
+ 		return PTR_ERR(lt9611->regmap);
+ 	}
+ 
+-	ret = lt9611_parse_dt(&client->dev, lt9611);
++	ret = lt9611_parse_dt(dev, lt9611);
+ 	if (ret) {
+ 		dev_err(dev, "failed to parse device tree\n");
+ 		return ret;
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+index 33f9716da0ee..3d62e6bf6892 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+@@ -860,7 +860,7 @@ static int lt9611uxc_probe(struct i2c_client *client,
+ 	if (!lt9611uxc)
+ 		return -ENOMEM;
+ 
+-	lt9611uxc->dev = &client->dev;
++	lt9611uxc->dev = dev;
+ 	lt9611uxc->client = client;
+ 	mutex_init(&lt9611uxc->ocm_lock);
+ 
+@@ -870,7 +870,7 @@ static int lt9611uxc_probe(struct i2c_client *client,
+ 		return PTR_ERR(lt9611uxc->regmap);
+ 	}
+ 
+-	ret = lt9611uxc_parse_dt(&client->dev, lt9611uxc);
++	ret = lt9611uxc_parse_dt(dev, lt9611uxc);
+ 	if (ret) {
+ 		dev_err(dev, "failed to parse device tree\n");
+ 		return ret;
+-- 
+2.25.1
 
