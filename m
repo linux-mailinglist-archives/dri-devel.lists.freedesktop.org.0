@@ -1,70 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5474490F49
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 18:20:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E3A1491000
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 19:04:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88EC410F411;
-	Mon, 17 Jan 2022 17:20:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 978CB10F62E;
+	Mon, 17 Jan 2022 18:04:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8718510F40B
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 17:20:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1642440022;
- bh=Oe482/0i/WLrNkCXVOSQLDJo+BYQo13yR5t/lqWrnFY=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=hhQgz5JnVrEy6KkiPAOQ4XU4369t4ecgVSovc2DuarSXYrJwOLohxakWYQoa9MyAO
- 7UMGGbTw/k1PnrWUBKenVa2awlD8UpV9kVP5vPREy7UvtQLzP/PvJRPKkT3MEcGcK6
- L20gTP/wOT5RA2lb0Va1WkPNKQW4lkhBx9qUx4ss=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.167.237]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N4QsO-1m9G7c11GA-011TYV; Mon, 17
- Jan 2022 18:20:22 +0100
-Message-ID: <cbe8641e-9358-2ea6-235f-bd837171eaf0@gmx.de>
-Date: Mon, 17 Jan 2022 18:19:17 +0100
+Received: from letterbox.kde.org (letterbox.kde.org
+ [IPv6:2001:41c9:1:41e::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD7CE10F62E
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 18:04:04 +0000 (UTC)
+Received: from vertex.localdomain (pool-108-36-85-85.phlapa.fios.verizon.net
+ [108.36.85.85]) (Authenticated sender: zack)
+ by letterbox.kde.org (Postfix) with ESMTPSA id E9AFB2803BE;
+ Mon, 17 Jan 2022 18:04:02 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
+ t=1642442643; bh=33eQEETxfERBMS7qtT+2wI7RlDlwhQOJPaA8rO+sDYw=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Mjhjhu/r3cFlAQsKztuxXBoIlu2wxQHROCV5M/mIM7DQstTk0rz+4T7ZZzBj7oOZm
+ zpXBRtebFNIuZ38jC9eyBWD92dKIcl9JQMZImC1ZFT6snMxgi+qZXe17CLfaIJwHIN
+ h040F++kyAC05uVoYCCj7bmk9tHtyVVZ0IjqPhACnJbe0N4aOYHDxxe1ukYLjmR3mo
+ Tm9JeC25WKNfUWVft9QJJ6EgbQq5REeyp9hxwy4r+ykpqIM4r8iMLigP3m7d54aDlV
+ E8p2/Qp7hcKdtrswhGj/htWouFZqrNc+fpO/23Z5v+KGtl3GX+Zn3AvbyqpHYpWTXZ
+ m69e6WYJ6SCtg==
+From: Zack Rusin <zack@kde.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/vmwgfx: Stop requesting the pci regions
+Date: Mon, 17 Jan 2022 13:03:59 -0500
+Message-Id: <20220117180359.18114-1-zack@kde.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH] MAINTAINERS: Add Helge as fbdev maintainer
-Content-Language: en-US
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <YeG8ydoJNWWkGrTb@ls3530>
- <CAKMK7uGdJckdM+fg+576iJXsqzCOUg20etPBMwRLB9U7GcG01Q@mail.gmail.com>
- <c80ed72c-2eb4-16dd-a7ad-57e9dde59ba1@gmx.de>
- <CAKMK7uHVHn9apB6YYbLSwu+adEB2Fqp4FM0z582zf4F-v3_GnQ@mail.gmail.com>
- <cf21018b-f231-7538-169e-2ad450643cbf@gmx.de>
- <97d49bca-f5f7-dba4-b62d-b6fcdd4276ac@suse.de>
- <e19563aa-21a3-e13c-4143-847bd77a38c7@gmx.de>
- <CAKMK7uECQU2ALkLHuFfPCjDcH456R6yJ4N_yKbHJ6PiFZ6fiow@mail.gmail.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <CAKMK7uECQU2ALkLHuFfPCjDcH456R6yJ4N_yKbHJ6PiFZ6fiow@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:CwGx+k2vKlIe81+Xy61ZTTZRrhgIedfMmfUFL2qQ7R0sD1+/wnC
- ah3MeIxVHGzgSCh8OpE5dUgC6K7/+7ToA7j98VctdiB/D8IB0ayzF/U2Ct4r6MQAarkjhiu
- SbPsDSrdQUrmpcvGfjpt0n7Cl3zZC1v/JTRGK3Njn9RBrrm95kWqDkQZwMF94y1FE3j3Nr5
- kgZBeadDnK1dAcjHQRoFQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:hCwKHzwCHog=:xmZuXJQ5jSJYoM2b5+kIUO
- 97PPzM+IuZ6++TkQI3+ctf0LqEkIJG3Lm05TTk/pl7pKhpChd2zKwgsD6OOdBQ9tTpznE+nXw
- AvKGH0EjE0TUMPPf63ZbOJlzqsu4hZw+zz37UdHQu6XvH1dVH7Avpc5PO8+nmTvsLYmuI0JIo
- yKxkJAP+ai5xWRM4RxW1tQKXt85YWTwS5F6Z64ryVsMOCACtZ/bfycVOdnxHPraLD3Jf/Z4F+
- aA6G8DjENyB8JSpbc6Zfcepp1mwHNsY2t/P1KdXmhV9hBoSpYu/f4tWzmaiHxBVp+fjf5B0/h
- BkfBuBMRHFR8B5QUzNNP9Lxs40tc+Ke6PcJ3K47hNBvHgebaAZsOPEnJA0dqW3yGHL+tYpL+2
- 9Y3VZaA6PCizAZ+S9SIIZA7pkd08SRSZDq/kfYs/HTWAzLkm/L2my8oJh0f98FH/TZibZJZgR
- IcVd+lVque44QxqpLJKOSRfdT5eZFPCcN18FKzdOUTs2zA57gmOep+mMia7T4L+kH8dFtSbju
- 8qfhQFyRHLeym94vCWRV+WT6L5UK3UBwmNDs7gBGub9U6jv1ZuAq5Vq4tXS8AiGWB/8D/M6C1
- hlZUy1FPwl5km0FtDuh608N+7kfuNAU7commey2WD8M/Ft2bzgwJ8RIEYTv9sOgNuSTwguUvC
- d12vjZbNx3pCiLWPoYFXlnyOv2j+vhFVsvZcVyJE0mV4wgXHRBrLbeFFYL7LGe1kpYvAD7HTZ
- AHRm7a5bGY4MiqLeujdZMFZWYbJQ/j+qZtbCI3jbOcTWC2+9/7mext0tlXp7xc7xfrWViqUjc
- rI5IlttD9+hlFDeVxObViKTzUzoJLuyqnPqwx+AYFb8bYzDY4z2YFlv7iGISwztIw6ZmRPv4u
- fW9tEujxKFaJjWfrZcqYwe/cmG2Mhn2sBjmxEpMsbwIhgqLNMTRNksQ10xYeYenWl7hLMtKF/
- iQTfVBuQLqs3Y96Htrxs3NrtsTWqEqtFQUyQ0p8fvYBV6+mXHhzQsWmjMc5wwYgubU9k4GNVv
- 4dd//vybGO+yMvXoXqosMAbOPGcSI5YgKvggSrta+WK0LRyn5TdKEdk+c0Aqg3ukl18e+npcM
- Syw2gqkHlkJ0F8=
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,70 +46,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Reply-To: Zack Rusin <zackr@vmware.com>
+Cc: krastevm@vmware.com, stable@vger.kernel.org, mombasawalam@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/17/22 17:38, Daniel Vetter wrote:
-> On Mon, Jan 17, 2022 at 5:22 PM Helge Deller <deller@gmx.de> wrote:
->>
->> On 1/17/22 16:58, Thomas Zimmermann wrote:
->>> Hi
->>>
->>> Am 17.01.22 um 16:42 schrieb Helge Deller:
->>>> [...]
->>>>>> c) reintroduce the state where fbcon is fast on fbdev. This is impo=
-rtant for non-DRM machines,
->>>>>>     either when run on native hardware or in an emulator.
->>>>>> d) not break DRM development
->>>>>>
->>>>>> Especially regarding c) I complained in [1] and got no feedback. I =
-really would like to
->>>>>> understand where the actual problems were and what's necessary to f=
-ix them.
->>>>>>
->>>>>> Helge
->>>>>>
->>>>>> [1] https://lore.kernel.org/r/feea8303-2b83-fc36-972c-4fc8ad723bde@=
-gmx.de
->>>
->>> Seems like few people read linux-fbdev these days.
->>> I suggest to partly revert the patch to the point were performance
->>> gets better again.
->> Yes, *please*!
->> That would solve my biggest concern.
->>
->> As far as I can see that's only 2 commits to be reverted:
->> b3ec8cdf457e - "fbdev: Garbage collect fbdev scrolling acceleration, pa=
-rt 1 (from TODO list)"
->> 39aead8373b3 - "fbcon: Disable accelerated scrolling"for-next-next
->>
->> I think both were not related to any 0-day bug reports (but again, I mi=
-ght be wrong).
->
-> syzbot, not 0day, and there's like a sea of them unfortunately.
-> There's all kinds of funny races going on when resizing consoles (due
+From: Zack Rusin <zackr@vmware.com>
 
-The patches above are not about resizing consoles.
-Even if a resize should happen in between, it's better to introduce some k=
-ind of big lock
-instead of completely disable acceleration for est. 58 other graphic card =
-drivers and slow them
-down that much that it renders them to become unusable.
+When sysfb_simple is enabled loading vmwgfx fails because the regions
+are held by the platform. In that case remove_conflicting*_framebuffers
+only removes the simplefb but not the regions held by sysfb.
 
-> to bad locking design) which then blow up, especially in less tested
-> code. For the sw rendering we've merged a bunch of patches, but you
-> pretty much have to assume that it's all fairly broken code until it's
-> rewritten and fully covered with tests. Shadowfb + memcpy is probably
-> much faster for restoring scrolling performance than anything else
-> really.
+Like the other drm drivers we need to stop requesting all the pci regions
+to let the driver load with platform code enabled.
+This allows vmwgfx to load correctly on systems with sysfb_simple enabled.
 
-That's maybe true for fast new machines with fast PCI busses.
-But have you measured that on other/older hardware too?
-There is a good reason why 2D acceleration was introduced.
+Signed-off-by: Zack Rusin <zackr@vmware.com>
+Fixes: 523375c943e5 ("drm/vmwgfx: Port vmwgfx to arm64")
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org>
+Reviewed-by: Martin Krastev <krastevm@vmware.com>
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-Helge
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+index fe36efdb7ff5..27feb19f3324 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+@@ -724,10 +724,6 @@ static int vmw_setup_pci_resources(struct vmw_private *dev,
+ 
+ 	pci_set_master(pdev);
+ 
+-	ret = pci_request_regions(pdev, "vmwgfx probe");
+-	if (ret)
+-		return ret;
+-
+ 	dev->pci_id = pci_id;
+ 	if (pci_id == VMWGFX_PCI_ID_SVGA3) {
+ 		rmmio_start = pci_resource_start(pdev, 0);
+-- 
+2.32.0
+
