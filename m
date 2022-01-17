@@ -1,40 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C75F24903FB
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 09:37:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBE814903FF
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 09:38:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 429AD10E354;
-	Mon, 17 Jan 2022 08:37:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EDF510E136;
+	Mon, 17 Jan 2022 08:38:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CD5D10E354
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 08:37:03 +0000 (UTC)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 20H8TxNu080890;
- Mon, 17 Jan 2022 16:29:59 +0800 (GMT-8)
- (envelope-from kuohsiang_chou@aspeedtech.com)
-Received: from localhost.localdomain.com (192.168.2.180) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Mon, 17 Jan 2022 16:36:52 +0800
-From: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
-To: <tzimmermann@suse.de>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/ast: Create threshold values for AST2600
-Date: Mon, 17 Jan 2022 16:36:43 +0800
-Message-ID: <20220117083643.41493-1-kuohsiang_chou@aspeedtech.com>
-X-Mailer: git-send-email 2.27.0
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
+ [IPv6:2607:f8b0:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8759A10E136
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 08:38:31 +0000 (UTC)
+Received: by mail-pf1-x42d.google.com with SMTP id 128so9602314pfe.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 00:38:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/T33RHWOQc5pzbPE0ffvrM3mXshEH5+43Yne4cdEAaE=;
+ b=qK4qFlrU11uCBM7/cT9juSnIpKrxZB16E9Pb85F473qDlnIP/oqadcjQbeugZnuCcq
+ 5GiHBmxFu7HhwrkEg6dJOeOuN0elj/wo21Ep2a4k5uDyIYdhoIymvUsIfxYHq28lHBMA
+ 5xAcGfALj8p0WY52FiC67n9jNQ3+1LB8cuhz9MOcRqTZ2UaOPIBAHCG1ZUDAuZ4OdEJW
+ TmzJpFqkQ8DgBAwqMaQXdDK5vG2QSK3uNy0Zihf8Y20mVszZBGPMH4oATVzh63ZEA6+W
+ 9VHJc6soo90e76Imv/OBX0pP2REIIPOqU8wYBibjU4adaA+nDJeopMw4HbchDHoES61L
+ q11g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/T33RHWOQc5pzbPE0ffvrM3mXshEH5+43Yne4cdEAaE=;
+ b=vbTFrnEHHExFUGWtxz0xIZcFyZk6jXhjb9r9hr/KMhfWRP2bk3fa2zt3aOX7iVnLcR
+ +3FeX2eg+6zJP+qMvvupEhldvmwQFGp6nYCfT4C5Nxnea2wKGeW2NcMRM4yia2mGqvK3
+ sOGzXyg9yD6kjotNoDB7slt/SeKynKPN8jTH2yBgpkXDWqaNweA1iTjMSlVNXwcLhZ05
+ rjKl7E1A6gx8rA2yzDb6ltuggviwzDABl/57qTO64tx2PH8AIYk/1tXiYjDj7CdW6HAA
+ 5UuRakh52JKZbcPKx+gLXyw5bRyoeOfpU41rYXow3OdIiXLw6AXsY795FzC585+ep6Uf
+ 3y3w==
+X-Gm-Message-State: AOAM533AlOwREnPM51K5H8qFXbiBCgSIv+iFrVM3jGAMYOY/le3rRqg+
+ yC9OWwSj/WwpRW8NDTpj6eA=
+X-Google-Smtp-Source: ABdhPJxLpvslHwTJ0OknxPpRG7dW67M4XmqAj4vIfiB7do+vHK9KfGfw6xQpiJxoD2v44WiCSHT4Pg==
+X-Received: by 2002:a63:350c:: with SMTP id c12mr18258702pga.568.1642408711173; 
+ Mon, 17 Jan 2022 00:38:31 -0800 (PST)
+Received: from nj08008nbu.spreadtrum.com ([103.6.5.6])
+ by smtp.gmail.com with ESMTPSA id pg9sm7260181pjb.44.2022.01.17.00.38.24
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 17 Jan 2022 00:38:30 -0800 (PST)
+From: Kevin Tang <kevin3.tang@gmail.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch, mark.rutland@arm.com, javierm@redhat.com,
+ tzimmermann@suse.de, lukas.bulwahn@gmail.com
+Subject: [PATCH v2 0/3] sprd drm cover letter
+Date: Mon, 17 Jan 2022 16:38:17 +0800
+Message-Id: <20220117083820.6893-1-kevin3.tang@gmail.com>
+X-Mailer: git-send-email 2.29.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.2.180]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 20H8TxNu080890
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,34 +67,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hungju_huang@aspeedtech.com, airlied@linux.ie, tommy_huang@aspeedtech.com,
- airlied@redhat.com, arc_sung@aspeedtech.com, luke_chen@aspeedtech.com
+Cc: devicetree@vger.kernel.org, kevin3.tang@gmail.com, zhang.lyra@gmail.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ orsonzhai@gmail.com, zou_wei@huawei.com, pony1.wu@gmail.com,
+ dan.carpenter@oracle.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The threshold value is used for AST2600 only.
+v1:
+  remove the selected DRM_KMS_CMA_HELPER in kconfig
+  drm-sprd-fix-potential-NULL-dereference
 
-Signed-off-by: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
----
- drivers/gpu/drm/ast/ast_mode.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+v2:
+  fix commit comments long lines issue and drop "On linux-next" comments
+  Split checking platform_get_resource() return value to a separate patch
+  Use dev_warn() instead of removing the warning log
 
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 1c7a57a03..7f2e248a6 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -471,7 +471,10 @@ static void ast_set_color_reg(struct ast_private *ast,
- static void ast_set_crtthd_reg(struct ast_private *ast)
- {
- 	/* Set Threshold */
--	if (ast->chip == AST2300 || ast->chip == AST2400 ||
-+	if (ast->chip == AST2600) {
-+		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa7, 0xe0);
-+		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa6, 0xa0);
-+	} else if (ast->chip == AST2300 || ast->chip == AST2400 ||
- 	    ast->chip == AST2500) {
- 		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa7, 0x78);
- 		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa6, 0x60);
---
-2.27.0
+Kevin Tang (3):
+  drm/sprd: remove the selected DRM_KMS_CMA_HELPER in kconfig
+  drm/sprd: fix potential NULL dereference
+  drm/sprd: check the platform_get_resource() return value
+
+ drivers/gpu/drm/sprd/Kconfig    | 1 -
+ drivers/gpu/drm/sprd/sprd_dpu.c | 5 +++++
+ drivers/gpu/drm/sprd/sprd_drm.c | 2 +-
+ drivers/gpu/drm/sprd/sprd_dsi.c | 5 +++++
+ 4 files changed, 11 insertions(+), 2 deletions(-)
+
+-- 
+2.29.0
 
