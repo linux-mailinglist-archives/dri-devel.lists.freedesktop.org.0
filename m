@@ -2,54 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 586DC490B8B
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 16:38:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A718B490BA9
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 16:43:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C41C210E3C2;
-	Mon, 17 Jan 2022 15:38:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6AB110E42D;
+	Mon, 17 Jan 2022 15:43:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D8B310E3C2
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 15:38:42 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id j7so18833485edr.4
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 07:38:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tcNpmqqJKSmivL/+54T7t8r4vJ3w+pcIpVP06NjWKW8=;
- b=SS+O8MzxHjordoK9WXjIJX+mUwEuW3lda3jwo17zAc3qW3wQ/U1clguPH9cNdPX3SR
- kPNcg5bKbqIaSm52+b3f2EVgDXa+XmDWmThq3f+Z5I64QylrDq3h7YBPikfRe34R5+Wl
- zc4yCl4F3J+a+7PmU1b5Q5rHHqcuKD8wZGReE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tcNpmqqJKSmivL/+54T7t8r4vJ3w+pcIpVP06NjWKW8=;
- b=2YRBWvQFnN8jOn2cHd1iBjC7IODXjZmFTEWbenosnoATGXrBnOVIP20U+X3f/rvj5W
- ggkEeqtvR5nJxuz4JFOMVJs6LKzzW11WLOTmsf7M30vV4E33IGiJUOm1d2qzaDgg6KDv
- 7Z7hzyWzursbfewVvfzDsitT9BANiV7v1bOe/oR5/YbEZcfYEIj92Yq//UnnBiai/kjW
- GTzlW8R/8VX5kkkW32KS2TRbGhNOP+fMtmzfoXv4qPGyZn65g1LaLfL1TXJtPA7ebTSB
- 4eE6B5Rpgl2/PotcEMIGWVa8Lve1lbcIWFaloGJAK9p0TmoPAXylUB5h/3XifH6cDRz0
- TGOw==
-X-Gm-Message-State: AOAM530Yoj+8ECaaVbQtr2olj5DL8ggnPD8Kq237Iv8wRnXNdvS6MjuT
- 5uFI45/rVmZJ+TgYNM8CuIxyLl+0hol518UseD+5jA==
-X-Google-Smtp-Source: ABdhPJzTpOpufjy+nqDjy/3vJMw0IPuj6N2X/gB6UmWXw1QoYOO3HTHapeiJL6qk3kcGHKgq3qUwlFpuycuNnjiRyvU=
-X-Received: by 2002:a17:906:7c50:: with SMTP id
- g16mr9103881ejp.760.1642433920780; 
- Mon, 17 Jan 2022 07:38:40 -0800 (PST)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12E0210E42D
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 15:43:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1642434186;
+ bh=+TVQ+7UtVks/m9/GncR3RWLn+/OJtfPHJr9nYMoiJRM=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=GSI0JVZbbWFXMMmRZTFd+5sMOk1Jo9br/Giflzjlx8P2hwht8eqFMj8PKuToH6dcz
+ OT41bhaFZoCG4xoi8oMaEutYlB+ohSzSsctkAroUmykNOr3jJmR96aPKBVqh2EWd46
+ OpWW/Oj6QmAUFoWA13YVsHOOgKgJhRBg9Ep0+w4M=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.167.237]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1M5fIQ-1nGdpg0yTa-007FjN; Mon, 17
+ Jan 2022 16:43:06 +0100
+Message-ID: <cf21018b-f231-7538-169e-2ad450643cbf@gmx.de>
+Date: Mon, 17 Jan 2022 16:42:00 +0100
 MIME-Version: 1.0
-References: <20211210111711.2072660-1-jagan@amarulasolutions.com>
- <20211210111711.2072660-4-jagan@amarulasolutions.com>
- <20211213171757.bxu57eaqawmp5kwh@houat>
-In-Reply-To: <20211213171757.bxu57eaqawmp5kwh@houat>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Mon, 17 Jan 2022 21:08:29 +0530
-Message-ID: <CAMty3ZBXUart1GZod2v=bMv2xYxuDjkyEw-WZ8bMDsCLU1gVWA@mail.gmail.com>
-Subject: Re: [PATCH v6 3/6] drm: sun4i: dsi: Add bridge support
-To: Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] MAINTAINERS: Add Helge as fbdev maintainer
+Content-Language: en-US
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <YeG8ydoJNWWkGrTb@ls3530>
+ <CAKMK7uGdJckdM+fg+576iJXsqzCOUg20etPBMwRLB9U7GcG01Q@mail.gmail.com>
+ <c80ed72c-2eb4-16dd-a7ad-57e9dde59ba1@gmx.de>
+ <CAKMK7uHVHn9apB6YYbLSwu+adEB2Fqp4FM0z582zf4F-v3_GnQ@mail.gmail.com>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <CAKMK7uHVHn9apB6YYbLSwu+adEB2Fqp4FM0z582zf4F-v3_GnQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:tfVvt5d3VZ1s/Z+29Gkdp0lLmE4BSkXR4U8/Uz9LDjTtXSYfQl8
+ BVfikzp0D2U5HHoqUaCTRXmi72Tt32PLwEyA2uuoJ2BwJwKHUyfcfiMS9DFsi3pqojy9OB4
+ cy7yi2Rsg10MADz4XqKWlRnn5nN4zZb+JNlRcU80YQk2T9MqGMUHHhwHtx8+Wf5hF6hrOpz
+ OvruOcYgqMP1gXbe4+65w==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qPR5NpcXXbY=:I8Rj0ZHtJKgKVsRntLdOei
+ coJroARINzvdAi7UQfHqshCaDgD5pkCnCSGwwIiW1lnIocMt+1RuAYY3reby8R3q1tDPvT8nY
+ jM0eVRMkKynnMhStgCWQ5RebFEJ19MGJJhqFjKNXSBUXF8ZQS3OfG8TSDisd41mG7fOyic+a9
+ 0a1u5xAYllzNH0ShcQpxBT1AVBmgXE2Y0xg3WJ1V1W5wkTPP1CJo5NJsCOlILnttv226C/grp
+ mbSUN0RUf55VONtix6PSMD9byMPeKCLfhHLKh/fFfoeuGlPAlq4ek1iOQnTNgbBAhsHgPAfr5
+ DC4PnDJEL52z7fmWlNmS6oMQ5gR1yP3Y1NKBNt3cXjBr7Lv4qqM4xLcQhGzEbM/EV6ea7PcTL
+ 3xMiyE/zeWWtfhdiH8qbEnVc8+7zPG7Y/5tG042gnIMYVmTIU8iKnk+WpofcAKOB6rXd/OIoK
+ fwquo/f3syNLR2U/FRq+6hl7RZh3eGkkSoxpsJkNvxYeFIjX6qhQyBipNEDvN6uC6zdBUqq41
+ TsqJTMbYvwx9J0yxeDZ6u7rDuZA7XS1Ht44pkZRqPEqK8DtXFo50awjESFnp1j+SJFagWpiEv
+ Y4LtcG0i5mK5Ipt0rb8Pz4T0nP96iUfibBzrHcArfxXlgMa3/wYBcgh1rHt3X+2i6+OHgrEK7
+ yiSMmUFInXQPQGxufJPMW7iU8sjrluLcYj8i2JGWrRCLQyWvWBqLmxF/stFmLYv133su7zZh4
+ wBfESrZhU41z+jQ3nHY6we6+p+um9mb1FxcGG84pjD794w+Al9Ha/QtDLoHhEXVNIpEdWqSeU
+ gE7NB6H33ctqYtpm3qTOUwcpqgpAOH+8YAj4RilFRqlz0wn4Zf/Lx6fug4sBTLwq12KMbppRX
+ thvHjU52wgU7a1oWqkGIiMx9LNJGuLGkLYCXJVhZ4/ij5o0Z5KVME65u6U86Gj6DoXA7Ubnt+
+ AMJyL4Hxe5o9Fw7Q8qtCafwrDYWdkAzMeNLtOthBmrHD1GEbEV8x0/ndzv4JxuGXarF+zwlP4
+ T0rtn6TcWeKCn3pI3Dp3d+s01ox8GbLK6Vc0rd4wz3PZqATnBVVhJr8kLogDzAPlelgLRPnqv
+ 43378dZqwZ+Qa0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,96 +73,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>, linux-sunxi@googlegroups.com,
- dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, linux-amarula@amarulasolutions.com,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-fbdev@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 13, 2021 at 10:48 PM Maxime Ripard <maxime@cerno.tech> wrote:
+On 1/17/22 16:00, Daniel Vetter wrote:
+> On Mon, Jan 17, 2022 at 1:16 PM Helge Deller <deller@gmx.de> wrote:
+>>
+>> Hello Daniel,
+>>
+>> On 1/17/22 11:02, Daniel Vetter wrote:
+>>> Hi Helge
+>>>
+>>> On Fri, Jan 14, 2022 at 7:18 PM Helge Deller <deller@gmx.de> wrote:
+>>>>
+>>>> The fbdev layer is orphaned, but seems to need some care.
+>>>> So I'd like to step up as new maintainer.
+>>>>
+>>>> Signed-off-by: Helge Deller <deller@gmx.de>
+>>>>
+>>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>>> index 5d0cd537803a..ce47dbc467cc 100644
+>>>> --- a/MAINTAINERS
+>>>> +++ b/MAINTAINERS
+>>>> @@ -7583,11 +7583,12 @@ W:      http://floatingpoint.sourceforge.net/=
+emulator/index.html
+>>>>  F:     arch/x86/math-emu/
+>>>>
+>>>>  FRAMEBUFFER LAYER
+>>>> -L:     dri-devel@lists.freedesktop.org
+>>>> +M:     Helge Deller <deller@gmx.de>
+>>>>  L:     linux-fbdev@vger.kernel.org
+>>>> -S:     Orphan
+>>>
+>>> Maybe don't rush maintainer changes in over the w/e without even bothe=
+ring
+>>> to get any input from the people who've been maintaining it before.
+>>>
+>>> Because the status isn't entirely correct, fbdev core code and fbcon a=
+nd
+>>> all that has been maintained, but in bugfixes only mode. And there's v=
+ery
+>>> solid&important reasons to keep merging these patches through a drm tr=
+ee,
+>>> because that's where all the driver development happens, and hence als=
+o
+>>> all the testing (e.g. the drm test suite has some fbdev tests - the on=
+ly
+>>> automated ones that exist to my knowledge - and we run them in CI). So
+>>> moving that into an obscure new tree which isn't even in linux-next ye=
+t is
+>>> no good at all.
+>>>
+>>> Now fbdev driver bugfixes is indeed practically orphaned and I very mu=
+ch
+>>> welcome anyone stepping up for that, but the simplest approach there w=
+ould
+>>> be to just get drm-misc commit rights and push the oddball bugfix in t=
+here
+>>> directly. But also if you want to do your own pull requests to Linus f=
+or
+>>> that I don't care and there's really no interference I think, so
+>>> whatever floats.
+>>>
+>>> But any code that is relevant for drm drivers really needs to go in th=
+rough
+>>> drm trees, nothing else makes much sense.
+>>>
+>>> I guess you're first action as newly minted fbdev maintainer is going =
+to be to
+>>> clean up the confusion you just created.
+>>
+>> Most of my machines depend on a working fbdev layer since drm isn't (an=
+d probably
+>> -due to technical requirements of DRM- won't be) available for those.
+>> So, since the fbdev drivers were marked orphaned, I decided to step up =
+as maintainer.
+>>
+>> I see your point that at least the fbdev core code and fbcon are shared=
+ between DRM and fbdev.
+>> For me it's really not important to drive any patches through a seperat=
+e tree, so
+>> I'd be happy to join the drm-misc tree if you feel it's necessary. (By =
+the way,
+>> adding my tree to for-next was on my todo list...)
+>>
+>> What's important for me though is, to keep fbdev actively maintained, w=
+hich means:
+>> a) to get fixes which were posted to fbdev mailing list applied if they=
+ are useful & correct,
 >
-> On Fri, Dec 10, 2021 at 04:47:08PM +0530, Jagan Teki wrote:
-> > Some display panels would come up with a non-DSI output, those
-> > can have an option to connect the DSI host by means of interface
-> > bridge converter.
-> >
-> > This DSI to non-DSI interface bridge converter would require
-> > DSI Host to handle drm bridge functionalities in order to
-> > communicate interface bridge.
-> >
-> > This patch adds support for bridge functionalities in Allwinner
-> > DSI controller.
-> >
-> > Supporting down-stream bridge makes few changes in the driver.
-> >
-> > - It drops drm_connector and related operations as drm_bridge_attach
-> >   creates connector during attachment.
-> >
-> > - It drop panel pointer and iterate the bridge, so-that it can operate
-> >   the normal bridge and panel_bridge in constitutive callbacks.
-> >
-> > - It uses devm_drm_of_get_bridge for panel or bridge lookup. It uses
-> >   port 0 and endpoint 0 to support I2C-based bridges eventhough the
-> >   usual Allwinner DSI OF graph doesn't require this for panel and
-> >   non-I2C based downstream bridges.
-> >
-> > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> > ---
-> > Changes for v6:
-> > - support donwstream bridge
-> > - drop bridge conversion
-> > - devm_drm_of_get_bridge() require child lookup
-> > https://patchwork.kernel.org/project/dri-devel/cover/20211207054747.461029-1-jagan@amarulasolutions.com/
-> > Changes for v5:
-> > - add atomic APIs
-> > - find host and device variant DSI devices.
-> > Changes for v4, v3:
-> > - none
-> >
-> >  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 83 ++++++++++----------------
-> >  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h |  9 +--
-> >  2 files changed, 33 insertions(+), 59 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-> > index 9cf91dcac3f2..f1d612bf1a0b 100644
-> > --- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-> > +++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-> > @@ -21,6 +21,7 @@
-> >
-> >  #include <drm/drm_atomic_helper.h>
-> >  #include <drm/drm_mipi_dsi.h>
-> > +#include <drm/drm_of.h>
-> >  #include <drm/drm_panel.h>
-> >  #include <drm/drm_print.h>
-> >  #include <drm/drm_probe_helper.h>
-> > @@ -720,6 +721,7 @@ static void sun6i_dsi_encoder_enable(struct drm_encoder *encoder)
-> >       struct mipi_dsi_device *device = dsi->device;
-> >       union phy_configure_opts opts = { };
-> >       struct phy_configure_opts_mipi_dphy *cfg = &opts.mipi_dphy;
-> > +     struct drm_bridge *iter;
-> >       u16 delay;
-> >       int err;
-> >
-> > @@ -769,8 +771,10 @@ static void sun6i_dsi_encoder_enable(struct drm_encoder *encoder)
-> >       phy_configure(dsi->dphy, &opts);
-> >       phy_power_on(dsi->dphy);
-> >
-> > -     if (dsi->panel)
-> > -             drm_panel_prepare(dsi->panel);
-> > +     list_for_each_entry(iter, &dsi->bridge_chain, chain_node) {
-> > +             if (iter->funcs->pre_enable)
-> > +                     iter->funcs->pre_enable(iter);
-> > +     }
+> Yeah it'd be great if we have that, for a while Bart took care of
+> these, but had to step down again. drm-misc is maintained with the dim
+> scrip suite, which comes with docs and bash completion and everything.
+> Good starting pointer is here:
 >
-> Like we discussed in the previous version already, this is unnecessary,
-> just like the poking at bridge_chain in the encoder.
+> https://drm.pages.freedesktop.org/maintainer-tools/getting-started.html
+>
+> Process for getting commit rights is documented here:
+>
+> https://drm.pages.freedesktop.org/maintainer-tools/commit-access.html#dr=
+m-misc
+>
+> But there's a pile more. I think once we've set that up and got it
+> going we can look at the bigger items. Some of them are fairly
+> low-hanging fruit, but the past 5+ years absolutely no one bothered to
+> step up and sort them out. Other problem areas in fbdev are extremely
+> hard to fix properly, without only doing minimal security-fixes only
+> support, so fair warning there. I think a good starting point would be
+> to read the patches and discussions for some of the things you've
+> reverted in your tree.
+>
+> Anyway I hope this gets you started, and hopefully after a minor
+> detour: Welcome to dri-devel, we're happy to take any help we can get,
+> there's lots to do!
+>
 
-Unlike previous patch, this patch not doing bridge conversion it is
-supporting downstream bridge. Yes, it is possible to use bridge helper
-for invoking downstream bridge enable when bridge functions added.
+Hello Daniel,
 
-Thanks,
-Jagan.
+you somehow missed to answer my main topics below...:
+
+>
+>> b) to include new drivers (for old hardware) if they arrive (probably h=
+appens rarely but there can be).
+>>    I know of at least one driver which won't be able to support DRM....
+>>    Of course, if the hardware is capable to support DRM, it should be w=
+ritten for DRM and not applied for fbdev.
+>> c) reintroduce the state where fbcon is fast on fbdev. This is importan=
+t for non-DRM machines,
+>>    either when run on native hardware or in an emulator.
+>> d) not break DRM development
+>>
+>> Especially regarding c) I complained in [1] and got no feedback. I real=
+ly would like to
+>> understand where the actual problems were and what's necessary to fix t=
+hem.
+>>
+>> Helge
+>>
+>> [1] https://lore.kernel.org/r/feea8303-2b83-fc36-972c-4fc8ad723bde@gmx.=
+de
+>
+>
+>
+
