@@ -1,79 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 038FB4905CF
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 11:20:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E3C74905EB
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 11:28:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D5D310E1B7;
-	Mon, 17 Jan 2022 10:19:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9519710E2C4;
+	Mon, 17 Jan 2022 10:27:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0ADB110E1D6
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 10:19:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642414795;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=M2Jwh6X9L+KjOaA4kG9lgML07Ljz7RAuTmgyF2gmzTk=;
- b=hDeQUcPeAJOXBs5atH6HAwl9kQExo2ca5HPbaHMSH3nF/EvVU55mqz1weiSGpITOj1Xyl9
- 29KEDwYi5rMJCXjSI6aLP+sCudDF/z5h7nCveMHQFYXlgmT9Ue6Sua8LIjExy8MCb2vYna
- YFoYOiHyXuEqbBSTKreQrYKjP+Sgklw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-461-HgjONvw0MlKhSK6pdPnudQ-1; Mon, 17 Jan 2022 05:19:53 -0500
-X-MC-Unique: HgjONvw0MlKhSK6pdPnudQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- o185-20020a1ca5c2000000b003478a458f01so11893702wme.4
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 02:19:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=M2Jwh6X9L+KjOaA4kG9lgML07Ljz7RAuTmgyF2gmzTk=;
- b=18fdIk/2FHcJ18DypFW/PgCOrjL9HJPHPva56XuALHeJEIIS+9L86bDH8f2UxW/0PP
- 97benkks8HeZqujWfN3LwCzDwvVr7lV9cZHVT6bvs1jzvjeEURuu3EngIbxZzCWzp1K4
- Y9iuz9y0Y3olryKgeRpZyFB1zGBlPowNvNOu9mww5DwqT/lpyGQVoJnICq6EZZ0K0R/P
- qyZDv1OwYSbEOQ8ZTc0/hOrw6GAd8+KM/qsoZPz05C8IMBoM27DM5vsVdOMMyfpksCbw
- MT5pICw7Ku6ZXd8ezwxokQz308b/MJKdht1hGQ8cDZY9korIHVSbRSeSfceWlLkg7hOT
- hT/g==
-X-Gm-Message-State: AOAM5334iYjnP+EoG0uwF9zVMdC+g+Lqsrm2voyA0dNiIOWgeR2BTr31
- udZVfFR90s71tVAOJLYiVHWZNTfh8ngivrd3sWGGuj4tnGrny6MIEF+w0LJTg2I39PwQOqZv6AX
- pvcJq9s+4kU5k0DyvMxrvaxkc5HYx
-X-Received: by 2002:adf:b60d:: with SMTP id f13mr8447985wre.225.1642414791822; 
- Mon, 17 Jan 2022 02:19:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzjvQUUb/H0EZLSZ3Ie0h6oeM1z//4qUyAexcNH+Hmg6QGgAM53E0ZxOy6w07KCaNZAYcAt7Q==
-X-Received: by 2002:adf:b60d:: with SMTP id f13mr8447972wre.225.1642414791578; 
- Mon, 17 Jan 2022 02:19:51 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id z7sm15283605wrm.117.2022.01.17.02.19.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Jan 2022 02:19:51 -0800 (PST)
-Message-ID: <fa7d7b0e-50bf-dc1b-a708-408de47b1e66@redhat.com>
-Date: Mon, 17 Jan 2022 11:19:50 +0100
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9E1310E2C4
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 10:27:56 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id 899521F436F7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1642415275;
+ bh=Cmf+ki9Vk24rB2D48FhsSedDY9YmalEmBmnVGnqctrk=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=cZN2aNglRujf2txUQPNOsSikL1Qj/rX9KtqAToPUgaHafbV1bl8jpSDlXrQ9kPDP/
+ lxOV7RCedjnOMCKGDws0KlV3uOr9EBMopUw/sqdwVIs0bSwjWGlLCf21WV/+eowj6G
+ 6xsQUvlB5N4oLr2dl8LZ7MJheM6rzHBLGXVOBEUmvKQpMfR7SKK1LhQrUiFevKoCAq
+ wJz2h1UDAqFfJczhwAj4cdeTv0DFKYj1NBKIfi1+lfwzYeN5bbQi3OVZxdSlXNQ2ig
+ NeweolKaAqHKnlm+PLVxKS0UnM6yk0QcvKXpWRz4AfKup1xfL6KJIr6W+FzAKVKO7s
+ zEXZWrv9u8JjQ==
+Subject: Re: [PATCH v10 00/13] Clean up "mediatek,larb"
+To: Yong Wu <yong.wu@mediatek.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Joerg Roedel <jroedel@suse.de>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ David Airlie <airlied@linux.ie>, Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20220117070510.17642-1-yong.wu@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Message-ID: <06e5e76c-557a-20a5-b8dd-37b25b3384a3@collabora.com>
+Date: Mon, 17 Jan 2022 11:27:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH] MAINTAINERS: Add Helge as fbdev maintainer
-To: Daniel Vetter <daniel@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- "airlied@gmail.com" <airlied@gmail.com>
-References: <YeG8ydoJNWWkGrTb@ls3530>
- <CAKMK7uGdJckdM+fg+576iJXsqzCOUg20etPBMwRLB9U7GcG01Q@mail.gmail.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <CAKMK7uGdJckdM+fg+576iJXsqzCOUg20etPBMwRLB9U7GcG01Q@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20220117070510.17642-1-yong.wu@mediatek.com>
+Content-Type: text/plain; charset=iso-8859-15; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,59 +54,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Will Deacon <will.deacon@arm.com>,
+ dri-devel@lists.freedesktop.org, yf.wang@mediatek.com,
+ anthony.huang@mediatek.com, youlin.pei@mediatek.com,
+ Evan Green <evgreen@chromium.org>, Eizan Miyamoto <eizan@chromium.org>,
+ Matthias Kaehlcke <mka@chromium.org>, mingyuan.ma@mediatek.com,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ Frank Wunderlich <frank-w@public-files.de>, libo.kang@mediatek.com,
+ yi.kuo@mediatek.com, linux-mediatek@lists.infradead.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org, anan.sun@mediatek.com,
+ srv_heupstream@mediatek.com, acourbot@chromium.org,
+ linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
+ iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/17/22 11:02, Daniel Vetter wrote:
-
-[snip]
-
->>  FRAMEBUFFER LAYER
->> -L:     dri-devel@lists.freedesktop.org
->> +M:     Helge Deller <deller@gmx.de>
->>  L:     linux-fbdev@vger.kernel.org
->> -S:     Orphan
+Il 17/01/22 08:04, Yong Wu ha scritto:
+> MediaTek IOMMU block diagram always like below:
 > 
-> Maybe don't rush maintainer changes in over the w/e without even bothering
-> to get any input from the people who've been maintaining it before.
+>          M4U
+>           |
+>      smi-common
+>           |
+>    -------------
+>    |         |  ...
+>    |         |
+> larb1     larb2
+>    |         |
+> vdec       venc
 > 
-> Because the status isn't entirely correct, fbdev core code and fbcon and
-> all that has been maintained, but in bugfixes only mode. And there's very
-> solid&important reasons to keep merging these patches through a drm tree,
-> because that's where all the driver development happens, and hence also
-> all the testing (e.g. the drm test suite has some fbdev tests - the only
-> automated ones that exist to my knowledge - and we run them in CI). So
-> moving that into an obscure new tree which isn't even in linux-next yet is
-> no good at all.
+> All the consumer connect with smi-larb, then connect with smi-common.
 > 
-> Now fbdev driver bugfixes is indeed practically orphaned and I very much
-> welcome anyone stepping up for that, but the simplest approach there would
-> be to just get drm-misc commit rights and push the oddball bugfix in there
-> directly. But also if you want to do your own pull requests to Linus for
-> that I don't care and there's really no interference I think, so
-> whatever floats.
->
+> When the consumer works, it should enable the smi-larb's power which also
+> need enable the smi-common's power firstly.
+> 
+> Thus, Firstly, use the device link connect the consumer and the
+> smi-larbs. then add device link between the smi-larb and smi-common.
+> 
+> After adding the device_link, then "mediatek,larb" property can be removed.
+> the iommu consumer don't need call the mtk_smi_larb_get/put to enable
+> the power and clock of smi-larb and smi-common.
+> 
+> Base on the media branch [1] and a jpeg dtbinding patchset[2] that already got
+> the necessary R-b.
+> 
+> [1] git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.18d
+> [2] https://lore.kernel.org/linux-mediatek/20211206130425.184420-1-hsinyi@chromium.org/
+> 
+> Change notes:
+> v10: a) Rebase on the media tree. Respin the "media: mtk-vcodec:" patches.
+>       b) Add Joerg's Ack for iommu patches.
+> 
+> v9: https://lore.kernel.org/linux-mediatek/20211112105509.12010-1-yong.wu@mediatek.com/
+>      1) Add return -ENODEV when the dev is null.
+>      2) Add more strict about the case that a iommu consume device use the ports in
+>      different larbs. Don't allow this case.
+>      3) Remove two codec interface: mtk_vcodec_release_enc/dec_pm since it only has one
+>      line now.
+> 
+> v8: https://lore.kernel.org/linux-mediatek/20210929013719.25120-1-yong.wu@mediatek.com/
+>      1) Rebase on v5.15-rc1.
+>      2) Don't rebase the below mdp patchset that may still need more discuss.
+>      https://lore.kernel.org/linux-mediatek/20210709022324.1607884-1-eizan@chromium.org/
+>      3) Add Frank's Tested-by. Remove Dafna's Tested-by as he requested.
+> 
+> v7: https://lore.kernel.org/linux-mediatek/20210730025238.22456-1-yong.wu@mediatek.com/
+>      1) Fix a arm32 boot fail issue. reported from Frank.
+>      2) Add a return fail in the mtk drm. suggested by Dafna.
+> 
+> v6: https://lore.kernel.org/linux-mediatek/20210714025626.5528-1-yong.wu@mediatek.com/
+>      1) rebase on v5.14-rc1.
+>      2) Fix the issue commented in v5 from Dafna and Hsin-Yi.
+>      3) Remove the patches about using pm_runtime_resume_and_get since they have
+>         already been merged by other patches.
+> 
+> v5: https://lore.kernel.org/linux-mediatek/20210410091128.31823-1-yong.wu@mediatek.com/
+>      1) Base v5.12-rc2.
+>      2) Remove changing the mtk-iommu to module_platform_driver patch, It have already been a
+>      independent patch.
+> 
+> v4: https://lore.kernel.org/linux-mediatek/1590826218-23653-1-git-send-email-yong.wu@mediatek.com/
+>      base on v5.7-rc1.
+>    1) Move drm PM patch before smi patchs.
+>    2) Change builtin_platform_driver to module_platform_driver since we may need
+>       build as module.
+>    3) Rebase many patchset as above.
+> 
+> v3: https://lore.kernel.org/linux-iommu/1567503456-24725-1-git-send-email-yong.wu@mediatek.com/
+>      1) rebase on v5.3-rc1 and the latest mt8183 patchset.
+>      2) Use device_is_bound to check whether the driver is ready from Matthias.
+>      3) Add DL_FLAG_STATELESS flag when calling device_link_add and explain the
+>     reason in the commit message[3/14].
+>      4) Add a display patch[12/14] into this series. otherwise it may affect
+>     display HW fastlogo even though it don't happen in mt8183.
+>     
+> v2: https://lore.kernel.org/linux-iommu/1560171313-28299-1-git-send-email-yong.wu@mediatek.com/
+>     1) rebase on v5.2-rc1.
+>     2) Move adding device_link between the consumer and smi-larb into
+> iommu_add_device from Robin.
+>     3) add DL_FLAG_AUTOREMOVE_CONSUMER even though the smi is built-in from Evan.
+>     4) Remove the shutdown callback in iommu.
+> 
+> v1: https://lore.kernel.org/linux-iommu/1546318276-18993-1-git-send-email-yong.wu@mediatek.com/
+> 
+> Yong Wu (12):
+>    dt-binding: mediatek: Get rid of mediatek,larb for multimedia HW
+>    iommu/mediatek-v1: Free the existed fwspec if the master dev already
+>      has
+>    iommu/mediatek: Return ENODEV if the device is NULL
+>    iommu/mediatek: Add probe_defer for smi-larb
+>    iommu/mediatek: Add device_link between the consumer and the larb
+>      devices
+>    media: mtk-jpeg: Get rid of mtk_smi_larb_get/put
+>    media: mtk-mdp: Get rid of mtk_smi_larb_get/put
+>    drm/mediatek: Get rid of mtk_smi_larb_get/put
+>    media: mtk-vcodec: Get rid of mtk_smi_larb_get/put
+>    memory: mtk-smi: Get rid of mtk_smi_larb_get/put
+>    arm: dts: mediatek: Get rid of mediatek,larb for MM nodes
+>    arm64: dts: mediatek: Get rid of mediatek,larb for MM nodes
+> 
+> Yongqiang Niu (1):
+>    drm/mediatek: Add pm runtime support for ovl and rdma
+> 
+>   .../display/mediatek/mediatek,disp.txt        |  9 ----
+>   .../media/mediatek,vcodec-decoder.yaml        |  7 ---
+>   .../media/mediatek,vcodec-encoder.yaml        |  8 ----
+>   .../bindings/media/mediatek-jpeg-decoder.yaml |  9 ----
+>   .../bindings/media/mediatek-jpeg-encoder.yaml |  9 ----
+>   .../bindings/media/mediatek-mdp.txt           |  8 ----
+>   arch/arm/boot/dts/mt2701.dtsi                 |  2 -
+>   arch/arm/boot/dts/mt7623n.dtsi                |  5 ---
+>   arch/arm64/boot/dts/mediatek/mt8173.dtsi      | 16 -------
+>   arch/arm64/boot/dts/mediatek/mt8183.dtsi      |  6 ---
+>   drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |  8 +++-
+>   drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |  9 +++-
+>   drivers/gpu/drm/mediatek/mtk_drm_crtc.c       | 15 ++++---
+>   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   | 36 +--------------
+>   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  1 -
+>   drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  5 +--
+>   drivers/iommu/mtk_iommu.c                     | 34 ++++++++++++++
+>   drivers/iommu/mtk_iommu_v1.c                  | 42 ++++++++++++++++-
+>   .../media/platform/mtk-jpeg/mtk_jpeg_core.c   | 45 +------------------
+>   .../media/platform/mtk-jpeg/mtk_jpeg_core.h   |  2 -
+>   drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 40 -----------------
+>   drivers/media/platform/mtk-mdp/mtk_mdp_comp.h |  2 -
+>   drivers/media/platform/mtk-mdp/mtk_mdp_core.c |  1 -
+>   .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  2 -
+>   .../platform/mtk-vcodec/mtk_vcodec_dec_hw.c   |  1 -
+>   .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 41 +++--------------
+>   .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  3 --
+>   .../platform/mtk-vcodec/mtk_vcodec_enc.c      |  1 -
+>   .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |  2 -
+>   .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   | 45 +++----------------
+>   drivers/memory/mtk-smi.c                      | 14 ------
+>   include/soc/mediatek/smi.h                    | 20 ---------
+>   32 files changed, 115 insertions(+), 333 deletions(-)
+> 
 
-I second that getting commit rights in drm-misc and pushing the changes
-there makes much more sense than keeping a separate tree for fbdev.
+Hello Hans, Matthias,
+on my side, this series is totally ready for merge, hence, green light from here.
 
-Not only for the fbdev core and fbcon but also for fbdev drivers. There
-is common for fbdev drivers bugs to be exposed after DRM changes, so it
-is more convenient to push fixes for these through the same tree as well.
+Can you please take it for 5.18?
 
-As an example, just last week I had to fix issues in the vga16fb driver
-that started to occur after a change to support simpledrm in aarch64:
-
-https://lore.kernel.org/all/20220111131601.u36j6grsvnir5gvp@houat/T/
-
-If there is a separate tree for fbdev, then this would require to do
-some coordination, share and merge immutable branches, etc for no
-clear benefit.
-
-Best regards,-- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+Thank you,
+Angelo
