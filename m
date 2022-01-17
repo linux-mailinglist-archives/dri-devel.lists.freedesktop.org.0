@@ -1,67 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D89D490653
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 11:58:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97120490651
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 11:58:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A20B10E181;
-	Mon, 17 Jan 2022 10:58:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6478910E16F;
+	Mon, 17 Jan 2022 10:58:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 114B110E181
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 10:58:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1642417124;
- bh=ZlkRI76O1HNMaDibceLBJ4+Yr9W5biTnm7ePlGXax8c=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=BwHcpXm3NG1Lwqd5XnmY5I13XEroXICdnIhOyAtjctLB+ZbD8AMT83sL6BLMwuMUE
- RNor84k7NkJGdF+BTLmzC4gwe1o5UuLxlRozF59cPDu5uduZa5pmbuDpR9J7Y5H/H1
- OmZ39nqVBn86+zhnL/pJ7o+4oTUefstaX7Dd+ZLc=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.167.237]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MN5eX-1mqNGg3sxx-00J3u5; Mon, 17
- Jan 2022 11:58:43 +0100
-Message-ID: <60fad896-235c-7602-39d1-14691282ebf6@gmx.de>
-Date: Mon, 17 Jan 2022 11:57:38 +0100
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A40A010E16F
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 10:58:41 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8C36A596;
+ Mon, 17 Jan 2022 11:58:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1642417119;
+ bh=2MfXnISxZpD5GT3buZMIOFDdeUzf+jkWquwoznm+CpA=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=QoxgEmW7tEpf32vw46EL02yShDT8ytTRZVs84ucgFy9ITST9rMf+Be0d1CdbaEXo/
+ VUP++tdx7splMTKkJfZ5THEIprTqLsRMmqqZoYGgfXVYShY+vyWLm7jcOO2hdUhQRm
+ l4GXvE18BCit5D0fRFAoYiicmLyDMLjEG+YIIRlc=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH] MAINTAINERS: Add Helge as fbdev maintainer
-Content-Language: en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>, Daniel Vetter
- <daniel@ffwll.ch>, Linus Torvalds <torvalds@linux-foundation.org>,
- "airlied@gmail.com" <airlied@gmail.com>
-References: <YeG8ydoJNWWkGrTb@ls3530>
- <CAKMK7uGdJckdM+fg+576iJXsqzCOUg20etPBMwRLB9U7GcG01Q@mail.gmail.com>
- <87o84a63hy.fsf@intel.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <87o84a63hy.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ebVuJl/dmLqN1DusLAVJLl1TzbN3n+pZ2TDGb0JtsNZMKjzmqgX
- AcrDzss4HYUU4gGfKlDiuJmsR/a5e3j0YMe9gONh2MWqf/Q+jfxq67YuTBd1YgtvBfMNWnw
- o75DkRCCC5uDZACJqcEHVBpW+aTxTTKUITA68CQXTvqOdI7AmgoBfwWsqtwFUAPJAdpVcbX
- 6qxo5uiHQle2Hy46OdqfA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Vl7fjTBigKs=:1/42af+1H3BqrJsWlSFH/o
- RZfzhKKvGuIrHY0xRLqz3QObRNaNDFiE6fdTQDVod6fFYPpMDtjNNXN6oHSeb0yZU69bK3IvO
- QK4LY0IWHelVcWmoEdEcqLYAh0taPBWcToUbS+AOr0pwOV1G8/sUApFI5DuqBgB79HFQUg6RI
- +YN8qTdRlP67RmGDzy0LiSi2YyZ7EjAkzeyEy2g+4J91T35knvcXQ009d+qN7jqo/qpOThWel
- zz6YX+VcpzOIkzK0u19pBZwiEzrvBOzN9FpcVY7F8aBXc+xH0js1ZRNdeTsxT1EK5lHx0UnuT
- 5Mt1O1BgK6JtxTQfRQkyiNIMAXnNgudr18iixaTzvLbeerE4hf7yb/PITQv43pKeT+KzKOR60
- 13dYcHlgT+NlloWCZO41vrmrJX6PJh37g0FkGpRo3J/I26CZt9pyMDrhx+Rj4dlNCS607WZf/
- PeLxGlJoZDLPqJSdCf3Y6h3+s6lxlNlkOhi7TmR2gjw6p9Fyfe5OCQ0hQPzDoE+9KCLcaBDg4
- tvE1wXHot1y1ZjIi6a+95m9AxM+njeOBnsolwPNTMbAHxwM3YKsmKNBdsleC9s7nrbY1S/j34
- YdmZA2aZmGo1O/ZiM1J6CgZyPGdcv8yy6rln0Xe/w2mc+6D0qlFDkSkj0WoFT1zok8RCGd4jZ
- wwg4VNlxdoQ0CGPjS58YWNSH7TcmShdGRusF4DJg6o3sfHKxzaETaE/zWZEJZbkG3jazelU1V
- bmYhgcH3d5QWKBZyIDu3izQXeL1R4q2A2WxQXPBSRSnhV3wduB2pib3Xz6F5KC/sU3CsUZw+Z
- 1v+SptapJKwtINPGptCvnOu/UtYx66WF8VT5w+Wq8ViYWU2xczdidoaF6DqXte5a6Jd7hDxro
- 1GRRRe3L1c8x0in3J5e1pEyi95mT4M1s549hvcowIuWb7Aygkd45aPIgKix9SvvYcuSW0+LGf
- eMvU318jN3DhQoKQib5iTD59tIUQd9u4NKuuUE1bzOsYqH3dw4w4J2hwwZsKkCgwWdufEN29L
- 2wi2GFjFLsWgZbYcMWS91JuXRAVlGtVxArGWPpaJXwMYcUNl/Ka4ICq8D9HecL0PCxBCrh/FE
- t0fka4TH4+eZ88=
+In-Reply-To: <80fdc5a0-ddb8-5a0f-eb8c-ef7988ced638@baylibre.com>
+References: <OS0PR01MB59221ED76B74231F5836D5FB86539@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAOMZO5DJiCb5bJN5_nxnYa-FsK-u7QtFghWNzs_-udE42XPDeA@mail.gmail.com>
+ <502f3ec4-fea4-8e14-c7a9-39418fc05d6d@baylibre.com>
+ <OS0PR01MB592224EC8F50F41B7FF1DEE286549@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <19dd6013-8a31-b2ed-29d5-93fc44193ce4@baylibre.com>
+ <OS0PR01MB5922F442759BE6F228EE0B4486549@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <538b8da4-1201-5f45-2abf-ecd22c867358@baylibre.com>
+ <OS0PR01MB5922BC31FBCF85F99F17737B86549@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <ebaff694-a2d7-7eb8-5850-980e9d4e1e68@baylibre.com>
+ <80fdc5a0-ddb8-5a0f-eb8c-ef7988ced638@baylibre.com>
+Subject: Re: dw_hdmi is showing wrong colour after commit
+ 7cd70656d1285b79("drm/bridge: display-connector: implement bus fmts
+ callbacks")
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>, Fabio Estevam <festevam@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>
+Date: Mon, 17 Jan 2022 10:58:37 +0000
+Message-ID: <164241711700.10801.9011781958267060147@Monstersaurus>
+User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,101 +59,317 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>
+Cc: jonas@kwiboo.se, martin.blumenstingl@googlemail.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ robert.foss@linaro.org, linux-renesas-soc@vger.kernel.org,
+ jernej.skrabec@gmail.com, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, Laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Jani,
+Hi Neil,
 
-On 1/17/22 11:49, Jani Nikula wrote:
-> On Mon, 17 Jan 2022, Daniel Vetter <daniel@ffwll.ch> wrote:
->> Hi Helge
->>
->> On Fri, Jan 14, 2022 at 7:18 PM Helge Deller <deller@gmx.de> wrote:
->>>
->>> The fbdev layer is orphaned, but seems to need some care.
->>> So I'd like to step up as new maintainer.
->>>
->>> Signed-off-by: Helge Deller <deller@gmx.de>
->>>
->>> diff --git a/MAINTAINERS b/MAINTAINERS
->>> index 5d0cd537803a..ce47dbc467cc 100644
->>> --- a/MAINTAINERS
->>> +++ b/MAINTAINERS
->>> @@ -7583,11 +7583,12 @@ W:      http://floatingpoint.sourceforge.net/e=
-mulator/index.html
->>>  F:     arch/x86/math-emu/
->>>
->>>  FRAMEBUFFER LAYER
->>> -L:     dri-devel@lists.freedesktop.org
->>> +M:     Helge Deller <deller@gmx.de>
->>>  L:     linux-fbdev@vger.kernel.org
->>> -S:     Orphan
->>
->> Maybe don't rush maintainer changes in over the w/e without even bother=
-ing
->> to get any input from the people who've been maintaining it before.
->>
->> Because the status isn't entirely correct, fbdev core code and fbcon an=
-d
->> all that has been maintained, but in bugfixes only mode. And there's ve=
-ry
->> solid&important reasons to keep merging these patches through a drm tre=
-e,
->> because that's where all the driver development happens, and hence also
->> all the testing (e.g. the drm test suite has some fbdev tests - the onl=
-y
->> automated ones that exist to my knowledge - and we run them in CI). So
->> moving that into an obscure new tree which isn't even in linux-next yet=
- is
->> no good at all.
->>
->> Now fbdev driver bugfixes is indeed practically orphaned and I very muc=
-h
->> welcome anyone stepping up for that, but the simplest approach there wo=
-uld
->> be to just get drm-misc commit rights and push the oddball bugfix in th=
-ere
->> directly. But also if you want to do your own pull requests to Linus fo=
-r
->> that I don't care and there's really no interference I think, so
->> whatever floats.
->>
->> But any code that is relevant for drm drivers really needs to go in thr=
-ough
->> drm trees, nothing else makes much sense.
->>
->> I guess you're first action as newly minted fbdev maintainer is going t=
-o be to
->> clean up the confusion you just created.
->
-> As much as I like folks stepping up as maintainers, I've got to say this
-> is not a style I appreciate at all.
->
-> Thursday: Object a recent fbdev change [1].
->
-> Friday: Step up as fbdev maintainer, change git tree (this thread) [2].
->
-> Sunday: Send the maintainer change to Linus [3].
->
-> Later Sunday: Start reverting the changes objected to on Thursday, with
-> no discussion, no acks, no reviews, in the new git tree [4].
->
-> Monday: Continue reverting the changes [5].
->
-> I'm heavily in favor of maintainers who are open, transparent,
-> collaborative, who seek consensus through discussion, and only put their
-> foot down when required.
->
-> I really don't like the optics here. I'd expect some pretty good
-> explanations.
+Quoting Neil Armstrong (2022-01-17 10:08:38)
+> Hi again,
+>=20
+> On 14/01/2022 15:40, Neil Armstrong wrote:
+> > Hi,
+> >=20
+> > On 14/01/2022 15:23, Biju Das wrote:
+> >>
+> >>
+> >>> -----Original Message-----
+> >>> From: Neil Armstrong <narmstrong@baylibre.com>
+> >>> Sent: 14 January 2022 13:56
+> >>> To: Biju Das <biju.das.jz@bp.renesas.com>; Fabio Estevam
+> >>> <festevam@gmail.com>
+> >>> Cc: daniel@ffwll.ch; Laurent.pinchart@ideasonboard.com;
+> >>> robert.foss@linaro.org; jonas@kwiboo.se; jernej.skrabec@gmail.com;
+> >>> martin.blumenstingl@googlemail.com; linux-amlogic@lists.infradead.org;
+> >>> linux-arm-kernel@lists.infradead.org; dri-devel@lists.freedesktop.org;
+> >>> linux-kernel@vger.kernel.org; linux-renesas-soc@vger.kernel.org
+> >>> Subject: Re: dw_hdmi is showing wrong colour after commit
+> >>> 7cd70656d1285b79("drm/bridge: display-connector: implement bus fmts
+> >>> callbacks")
+> >>>
+> >>> Hi,
+> >>>
+> >>> On 14/01/2022 12:08, Biju Das wrote:
+> >>>> Hi Neil,
+> >>>>
+> >>>>> Subject: Re: dw_hdmi is showing wrong colour after commit
+> >>>>> 7cd70656d1285b79("drm/bridge: display-connector: implement bus fmts
+> >>>>> callbacks")
+> >>>>>
+> >>>>> On 14/01/2022 09:29, Biju Das wrote:
+> >>>>>> Hi Neil,
+> >>>>>>
+> >>>>>> + renesas-soc
+> >>>>>>
+> >>>>>>> Subject: Re: dw_hdmi is showing wrong colour after commit
+> >>>>>>> 7cd70656d1285b79("drm/bridge: display-connector: implement bus fm=
+ts
+> >>>>>>> callbacks")
+> >>>>>>>
+> >>>>>>> Hi,
+> >>>>>>>
+> >>>>>>> On 13/01/2022 21:01, Fabio Estevam wrote:
+> >>>>>>>> Hi Biju,
+> >>>>>>>>
+> >>>>>>>> On Thu, Jan 13, 2022 at 2:45 PM Biju Das
+> >>>>>>>> <biju.das.jz@bp.renesas.com>
+> >>>>>>> wrote:
+> >>>>>>>>>
+> >>>>>>>>> Hi All,
+> >>>>>>>>>
+> >>>>>>>>> RZ/G2{H, M, N} SoC has dw_hdmi IP and it was working ok(colour)
+> >>>>>>>>> till the commit
+> >>>>>>>>> 7cd70656d1285b79("drm/bridge: display-connector: implement bus
+> >>>>>>>>> fmts
+> >>>>>>> callbacks").
+> >>>>>>>>>
+> >>>>>>>>> After this patch, the screen becomes greenish(may be it is
+> >>>>>>>>> setting it
+> >>>>>>> into YUV format??).
+> >>>>>>>>>
+> >>>>>>>>> By checking the code, previously it used to call get_input_fmt
+> >>>>>>>>> callback
+> >>>>>>> and set colour as RGB24.
+> >>>>>>>>>
+> >>>>>>>>> After this commit, it calls get_output_fmt_callbck and returns 3
+> >>>>>>>>> outputformats(YUV16, YUV24 and RGB24) And get_input_fmt callbac=
+k,
+> >>>>>>>>> I see
+> >>>>>>> the outputformat as YUV16 instead of RGB24.
+> >>>>>>>>>
+> >>>>>>>>> Not sure, I am the only one seeing this issue with dw_HDMI driv=
+er.
+> >>>>>>>
+> >>>>>>> This patch was introduced to maintain the bridge color format
+> >>>>>>> negotiation after using DRM_BRIDGE_ATTACH_NO_CONNECTOR, but it
+> >>>>>>> seems it behaves incorrectly if the first bridge doesn't implement
+> >>>>>>> the negotiation callbacks.
+> >>>>>>>
+> >>>>>>> Let me check the code to see how to fix that.
+> >>>>>>
+> >>>>>> Thanks for the information, I am happy to test the patch/fix.
+> >>>>>>
+> >>>>>> Cheers,
+> >>>>>> Biju
+> >>>>>>
+> >>>>>>>
+> >>>>>>>>
+> >>>>>>>> I have tested linux-next 20220112 on a imx6q-sabresd board, which
+> >>>>> shows:
+> >>>>>>>>
+> >>>>>>>> dwhdmi-imx 120000.hdmi: Detected HDMI TX controller v1.30a with
+> >>>>>>>> HDCP (DWC HDMI 3D TX PHY)
+> >>>>>>>>
+> >>>>>>>> The colors are shown correctly here.
+> >>>>>>>>
+> >>>>>>>
+> >>>>>>> The imx doesn't use DRM_BRIDGE_ATTACH_NO_CONNECTOR so the
+> >>>>>>> negotiation fails and use the RGB fallback input & output format.
+> >>>>>>>
+> >>>>>>> Anyway thanks for testing
+> >>>>>>>
+> >>>>>>> Neil
+> >>>>>
+> >>>>> Can you test :
+> >>>>>
+> >>>>> =3D=3D><=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >>>>> diff --git a/drivers/gpu/drm/drm_bridge.c
+> >>>>> b/drivers/gpu/drm/drm_bridge.c index c96847fc0ebc..7019acd37716
+> >>>>> 100644
+> >>>>> --- a/drivers/gpu/drm/drm_bridge.c
+> >>>>> +++ b/drivers/gpu/drm/drm_bridge.c
+> >>>>> @@ -955,7 +955,14 @@ drm_atomic_bridge_chain_select_bus_fmts(struct
+> >>>>> drm_bridge *bridge,
+> >>>>>         last_bridge_state =3D
+> >>>>> drm_atomic_get_new_bridge_state(crtc_state-
+> >>>>>> state,
+> >>>>>
+> >>>>> last_bridge);
+> >>>>>
+> >>>>> -       if (last_bridge->funcs->atomic_get_output_bus_fmts) {
+> >>>>> +       /*
+> >>>>> +        * Only negociate with real values if both end of the bridge
+> >>> chain
+> >>>>> +        * support negociation callbacks, otherwise you can end in a
+> >>>>> situation
+> >>>>> +        * where the selected output format doesn't match with the
+> >>>>> + first
+> >>>>> bridge
+> >>>>> +        * output format.
+> >>>>> +        */
+> >>>>> +       if (bridge->funcs->atomic_get_input_bus_fmts &&
+> >>>>> +           last_bridge->funcs->atomic_get_output_bus_fmts) {
+> >>>>>                 const struct drm_bridge_funcs *funcs =3D
+> >>>>> last_bridge->funcs;
+> >>>>>
+> >>>>>                 /*
+> >>>>> @@ -980,7 +987,12 @@ drm_atomic_bridge_chain_select_bus_fmts(struct
+> >>>>> drm_bridge *bridge,
+> >>>>>                 if (!out_bus_fmts)
+> >>>>>                         return -ENOMEM;
+> >>>>>
+> >>>>> -               if (conn->display_info.num_bus_formats &&
+> >>>>> +               /*
+> >>>>> +                * If first bridge doesn't support negociation, use
+> >>>>> MEDIA_BUS_FMT_FIXED
+> >>>>> +                * as a safe value for the whole bridge chain
+> >>>>> +                */
+> >>>>> +               if (bridge->funcs->atomic_get_input_bus_fmts &&
+> >>>>> +                   conn->display_info.num_bus_formats &&
+> >>>>>                     conn->display_info.bus_formats)
+> >>>>>                         out_bus_fmts[0] =3D conn-
+> >>>>>> display_info.bus_formats[0];
+> >>>>>                 else
+> >>>>> =3D=3D><=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >>>>>
+> >>>>> This should exclude your situation where the first bridge doesn't
+> >>>>> support negociation.
 
-Jani, please don't worry!
-I've started to sort things out, to work through the existing backlog of
-patches (which is a LOT!) and nothing has been pushed yet.
-I've seen the other mails and we will discuss.
+This fixes the issue for me here on an H3 Salvator-XS.
 
-So, please just ignore the current state of the linux-fbdev tree for now.
+Could you add...
 
-Helge
+Bisected-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+alongside Biju's Reported-by: tag when posting as a fix please?
+
+
+> >>>>
+> >>>> I have tested this fix with Linux next-20220114. Still I see colour
+> >>> issue.
+> >>>>
+> >>>> It is still negotiating and it is calling get_output_fmt_callbck
+> >>>>
+> >>>> [    3.460155] ########dw_hdmi_bridge_atomic_get_output_bus_fmts
+> >>> MEDIA_BUS_FMT_UYVY8_1X16=3D0#########
+> >>>> [    3.460180] ########dw_hdmi_bridge_atomic_get_output_bus_fmts
+> >>> MEDIA_BUS_FMT_YUV8_1X24=3D1#########
+> >>>> [    3.460202] ########dw_hdmi_bridge_atomic_get_output_bus_fmts
+> >>> MEDIA_BUS_FMT_RGB888_1X24=3D2#########
+> >>>>
+> >>>> And In get_input_fmt callback, I See the outputformat as YUV16 inste=
+ad
+> >>> of RGB24.
+> >>>>
+> >>>> [    3.460319] ########dw_hdmi_bridge_atomic_get_input_bus_fmts
+> >>> MEDIA_BUS_FMT_UYVY8_1X16#########
+> >>>> [    3.473644] ########hdmi_video_sample
+> >>> MEDIA_BUS_FMT_UYVY8_1X16#########
+> >>>
+> >>> OK, looking at rcar-du, the dw-hdmi bridge is directly connected to t=
+he
+> >>> encoder.
+> >>
+> >> Yep.
+> >>
+> >>>
+> >>> Let me figure that out, no sure I can find a clean solution except pu=
+tting
+> >>> back RGB24 before YUV.
+> >>>
+> >>> Anyway please test that:
+> >>
+> >> It works now after reordering.
+> >>
+> >> [    3.493302] ########dw_hdmi_bridge_atomic_get_output_bus_fmts MEDIA=
+_BUS_FMT_RGB888_1X24=3D0#########
+> >> [    3.493326] ########dw_hdmi_bridge_atomic_get_output_bus_fmts MEDIA=
+_BUS_FMT_YUV8_1X24=3D1#########
+> >> [    3.493348] ########dw_hdmi_bridge_atomic_get_output_bus_fmts MEDIA=
+_BUS_FMT_UYVY8_1X16=3D2#########
+> >>
+> >> [    3.493463] ########dw_hdmi_bridge_atomic_get_input_bus_fmts MEDIA_=
+BUS_FMT_RGB888_1X24#########
+> >> [    3.506797] ########hdmi_video_sample MEDIA_BUS_FMT_RGB888_1X24####=
+#####
+> >>
+> >> Is it acceptable solution to the users of dw_hdmi driver? May be it is=
+ worth to post a patch.
+> >> at least it is fixing the colour issue??
+> >=20
+> > Yes, it gets back to default behavior before negociation, nevertheless =
+we need to think
+> > how to handle your use-case correctly at some point.
+> >=20
+> > I'll post this as a patch ASAP so it gets applied before landing in lin=
+us master.
+> >=20
+> > Neil
+> >=20
+> >>
+> >> Regards,
+> >> Biju
+> >>
+> >>>
+> [...]
+>=20
+> I'm not happy with this version since it's merely a hack which makes it w=
+ork.
+>=20
+> Can you test the following change instead, it's correctly handles your si=
+tuation in a generic manner.
+>=20
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D>=
+<=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/=
+bridge/synopsys/dw-hdmi.c
+> index 54d8fdad395f..9f2e1cac0ae2 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -2551,8 +2551,9 @@ static u32 *dw_hdmi_bridge_atomic_get_output_bus_fm=
+ts(struct drm_bridge *bridge,
+>         if (!output_fmts)
+>                 return NULL;
+>=20
+> -       /* If dw-hdmi is the only bridge, avoid negociating with ourselve=
+s */
+> -       if (list_is_singular(&bridge->encoder->bridge_chain)) {
+> +       /* If dw-hdmi is the first or only bridge, avoid negociating with=
+ ourselves */
+> +       if (list_is_singular(&bridge->encoder->bridge_chain) ||
+> +           list_is_first(&bridge->chain_node, &bridge->encoder->bridge_c=
+hain)) {
+>                 *num_output_fmts =3D 1;
+>                 output_fmts[0] =3D MEDIA_BUS_FMT_FIXED;
+>=20
+> @@ -2673,6 +2674,10 @@ static u32 *dw_hdmi_bridge_atomic_get_input_bus_fm=
+ts(struct drm_bridge *bridge,
+>         if (!input_fmts)
+>                 return NULL;
+>=20
+> +       /* If dw-hdmi is the first bridge fall-back to safe output format=
+ */
+> +       if (list_is_first(&bridge->chain_node, &bridge->encoder->bridge_c=
+hain))
+> +               output_fmt =3D MEDIA_BUS_FMT_FIXED;
+> +
+>         switch (output_fmt) {
+>         /* If MEDIA_BUS_FMT_FIXED is tested, return default bus format */
+>         case MEDIA_BUS_FMT_FIXED:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D>=
+<=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+>=20
+> Thanks,
+> Neil
+>=20
+>=20
+> >>>
+> >>> Neil
+> >>>
+> >>>>
+> >>>> Regards,
+> >>>> Biju
+> >>>>
+> >>
+> >=20
+>
