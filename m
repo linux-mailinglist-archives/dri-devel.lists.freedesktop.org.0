@@ -1,54 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD005490BA0
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 16:42:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2FE4490BA3
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 16:42:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F48110E3C6;
-	Mon, 17 Jan 2022 15:42:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A108810E3D4;
+	Mon, 17 Jan 2022 15:42:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com
- [IPv6:2607:f8b0:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AACA10E3BC
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 15:42:40 +0000 (UTC)
-Received: by mail-pf1-x431.google.com with SMTP id a5so10515836pfo.5
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 07:42:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1EF010E3D9
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 15:42:49 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id j7so18885110edr.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 07:42:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mBse3TDhMT3P1QzjpmTykdxb+O3mXQF8X49QrJGnK9w=;
- b=LZTP5w65jwgoJGxqEXUMQBhGqnjlbTs84KuPFBpRzYEx0DwsSeJeLBikEqHqkrSW9g
- VSpBlg/Cogu47PGexznErP70Sr0aY7rxPv5bhtOLPGVsqRDI4CQFxo1/MTfyCWUNYQew
- UWHrktQHee2IMNUM2nvKprXbyMXe4Dc7lflFtBpUDqWW4OCum5RU2Vk0pHf0sT1wfHM3
- Usl/QhE1XVbcgXSbXL4IM9B7aEqPuZb8f+SzqBwnNiSi30/ryHWQKDvGlHZkLWhH/5XB
- aWjmgRDVAn8TCiUosMZQNjwfgAG8+SC0xnypzhxkf6TIGcn3v5jCcBjJ4vCGsBaOrrjt
- gKhw==
+ :cc; bh=H0643+8gKh9512ohcHyBxU3hxXBHW+yND0A0j7B84Us=;
+ b=rhFS8JL2KNlWCFqfgru/ughQOpLVLpX00LEPw+qqZO5vAtE1xmvNh+VEU7l+8TtFGe
+ 72QS8U+7D0qrTAsmFF3AYSAlHFoQ+vtUdQZUNRgtysB325df84xkIt77f3RvvP+NM88/
+ s0pvIg1ULi+DNlEqFkOsNk52K4gBtQtMzQIuE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=mBse3TDhMT3P1QzjpmTykdxb+O3mXQF8X49QrJGnK9w=;
- b=PsNcemQxXwTx8CSNxDMYgtOoUTDNF1K1tjrH2QICA41ab+6nwQyhov5JP93zi9eQ5t
- VR/TyRg+S9zzav4o68Yfg4BICl7GcZLGKVvJmF+91SE79YNjXQnLtcA+3kLeL95rzYlv
- B1qiE3YY5171CIc5fVJWg4sJsoOEXZPKTJKXc1IiS3cgDfKNXTzUFSRhaALfzj4ANP7A
- 4pjL1fQZUsq0+tgo7WXIjH2oetMgXwWvOhPMvCU0/AtOZ6l8DEoyDUXFm2jAgrZV4e/k
- BfsGeZmzbbCZBw+cZIqL8PaIOOTxqgvfBq1ZyNpZGr71msZh5GDFiU16NdlNiqTCgq4+
- A4aw==
-X-Gm-Message-State: AOAM532urzfCYdzGjbGuykKzbQ83/v3/G5VtBJer1Z9aG/DWD5dm1qpG
- tl6EWleBFHOuSa7vN4BvFecFsJj0dezpBBalZT9uFw==
-X-Google-Smtp-Source: ABdhPJyK+mJqd8HpVnnFKs335VNzfb1ZQwWiuJ4tIjAYkUGYjihDvc47IddIXGdc5+gkomCMF5P6xqqjbwDuvvVxMCk=
-X-Received: by 2002:a63:2b03:: with SMTP id r3mr19439606pgr.201.1642434159652; 
- Mon, 17 Jan 2022 07:42:39 -0800 (PST)
+ bh=H0643+8gKh9512ohcHyBxU3hxXBHW+yND0A0j7B84Us=;
+ b=rlx+qdGj10CUST9eHau4eMOCDslrzb43067/UzsHOclE9g/78p00l3O4rC6/tidVTp
+ zs6cAIM/nuimuzafwegvvYairVYn49C4Ji4maYo7nMTFmJeLimgiXjnUuF7fQkfNQ4ZX
+ 9aVsoDAB/BzT2qc7W3mAM6ukSXun0RSNsc2CFj2y3GQAt5/qTvBUVKIjh5uXMSbMjSEd
+ zG1tV4jMLVO2uUswibVhjxkt+0duQtlvGupu2y3t62/jbJb5H6XNbtJ2GiqXuqle8CZ5
+ 1pH5xuMwqKNYsctDJog0REagA2gc4Ktdcjhn+cuxzxAJT7lkqJAN1io11nkue/IoQBeG
+ ifzg==
+X-Gm-Message-State: AOAM531UD2knjI/UZeJLV7cUI4cvqdlPvb1TFlqaxqQ9Q/Bbm0e90Yvx
+ mej3h3OdAF4Sl01YIYPHY6nFQ9x6eTohUYo3Kn+wDA==
+X-Google-Smtp-Source: ABdhPJzQ1CMgvRtUEYhSLErdB8IK2y6NKOm1fP24a3qYQLLp1xYUnb5Q0pjf6XoS6yn+e1uL/AtftZNvwnP8h75eue8=
+X-Received: by 2002:a17:907:961d:: with SMTP id
+ gb29mr17037141ejc.123.1642434168402; 
+ Mon, 17 Jan 2022 07:42:48 -0800 (PST)
 MIME-Version: 1.0
-References: <20220117100949.9542-1-qwt9588@gamil.com>
-In-Reply-To: <20220117100949.9542-1-qwt9588@gamil.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Mon, 17 Jan 2022 16:42:28 +0100
-Message-ID: <CAG3jFytFGPZ+eksbaj2muT8R=1QmCCPRerv6yYZC6s9X+TOsbw@mail.gmail.com>
-Subject: Re: [PATCH v5] drm/bridge: anx7625: Return -EPROBE_DEFER if the dsi
- host was not found
-To: owen <qwt9588@gmail.com>
+References: <20211210111711.2072660-1-jagan@amarulasolutions.com>
+ <20211210111711.2072660-2-jagan@amarulasolutions.com>
+ <20211213170223.fx5656vjk3fwizbg@houat>
+In-Reply-To: <20211213170223.fx5656vjk3fwizbg@houat>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Mon, 17 Jan 2022 21:12:37 +0530
+Message-ID: <CAMty3ZAetcXpcokJ418VGHzbi4ivJg4Rt0OVgh7WaZ6GAJQY1Q@mail.gmail.com>
+Subject: Re: [PATCH v6 1/6] drm: sun4i: dsi: Drop DRM bind race with bridge
+ attach
+To: Maxime Ripard <maxime@cerno.tech>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,57 +63,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Tzung-Bi Shih <tzungbi@google.com>, Pi-Hsun Shih <pihsun@chromium.org>,
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>, linux-sunxi@googlegroups.com,
+ dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Sam Ravnborg <sam@ravnborg.org>, Xin Ji <xji@analogixsemi.com>,
- Maxime Ripard <maxime@cerno.tech>
+ Sam Ravnborg <sam@ravnborg.org>, linux-amarula@amarulasolutions.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Owen
+On Mon, Dec 13, 2021 at 10:32 PM Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> On Fri, Dec 10, 2021 at 04:47:06PM +0530, Jagan Teki wrote:
+> > Existing host driver will keep looking for DRM pointer in
+> > sun6i_dsi_attach and defers even if the particular DSI device
+> > is found for the first time. Meanwhile it triggers the bind
+> > callback and gets the DRM pointer and then continues the
+> > sun6i_dsi_attach.
+> >
+> > This makes a deadlock situation if sun6i_dsi_attach is trying
+> > to find the bridge.
+>
+> I'm not sure what you mean by deadlock here, there's no lock involved?
 
-On Mon, 17 Jan 2022 at 11:10, owen <qwt9588@gmail.com> wrote:
->
-> From: owen <qwt9588@gmail.com>
->
-> It will connect to the mipi dsi host and find the corresponding
-> mipi dsi host node, but the node registered by the mipi dsi host
-> has not been loaded yet. of_find_mipi_dsi_host_by_node() returns -EINVAL
-> which causes the calling driver to fail.
->
-> If the anx7625 driver is loaded afterwards the driver requesting
-> the mipi dsi host will not notice this.
->
-> Better approach is to return -EPROBE_DEFER in such case.
-> Then when the anx7625 driver appears the driver requesting
-> the mipi dsi host will be probed again.
->
-> Signed-off-by: owen <qwt9588@gmail.com>
-> ---
->  drivers/gpu/drm/bridge/analogix/anx7625.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> index 2346dbcc505f..297bbeb5aae0 100644
-> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> @@ -1660,7 +1660,7 @@ static int anx7625_attach_dsi(struct anx7625_data *ctx)
->         host = of_find_mipi_dsi_host_by_node(ctx->pdata.mipi_host_node);
->         if (!host) {
->                 DRM_DEV_ERROR(dev, "fail to find dsi host.\n");
-> -               return -EINVAL;
-> +               return -EPROBE_DEFER;
->         }
->
->         dsi = devm_mipi_dsi_device_register_full(dev, host, &info);
-> --
-> 2.31.0
->
+deadlock parse here for general understanding, where bind is trying to
+attach bridge but drm pointer is not available that point and drm
+pointer will available only when bind done. This is what I'm calling
+as deadlock here.
 
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
+Anyway, now I'm able to support both panel and bridge to support
+hotplug so no need to drop the hotplug support.
 
-Applied to drm-misc-next.
+Please let me know, if you have any questions so-that I can send next
+version series.
+
+Thanks,
+Jagan.
