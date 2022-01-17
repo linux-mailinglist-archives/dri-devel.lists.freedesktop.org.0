@@ -1,56 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67D53490912
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 13:57:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9CFB49098C
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 14:30:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E63A910E24E;
-	Mon, 17 Jan 2022 12:57:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44E9010E283;
+	Mon, 17 Jan 2022 13:30:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D558510E1A1
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 12:57:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642424245;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=sFtW5j5+VVKOnv4SvkQZxdJ10EG3/bDXd5xR/QAYVgI=;
- b=Taq7jQnBKN8x1DNz1K0+TKDlvSjYC5fsOOCNDwdZsu+Ob2Mm4osVULZAwurRw0T8NC3cRW
- 5nmwcfnRMYl1yTC1sstJ2WJ8D/9pLEDRl7bCf7chgLp7UCgN9UzKZmogB/Gb36fhNnd53n
- vGrzzBzmxnzNsoVAOephTDwQtc3k51k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-413-5nhe9x8AO5uAzsdZdyfyQQ-1; Mon, 17 Jan 2022 07:57:20 -0500
-X-MC-Unique: 5nhe9x8AO5uAzsdZdyfyQQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00CA11006AB7;
- Mon, 17 Jan 2022 12:57:19 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A80AC74EAE;
- Mon, 17 Jan 2022 12:57:18 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C4BE318003BF; Mon, 17 Jan 2022 13:57:16 +0100 (CET)
-Date: Mon, 17 Jan 2022 13:57:16 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Helge Deller <deller@gmx.de>
-Subject: Re: [PATCH] MAINTAINERS: Add Helge as fbdev maintainer
-Message-ID: <20220117125716.yjwxsze35j2ndn2i@sirius.home.kraxel.org>
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com
+ [209.85.222.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FECF10E1F6
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 13:30:01 +0000 (UTC)
+Received: by mail-ua1-f54.google.com with SMTP id m15so30365844uap.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 05:30:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=aw/HNeVnfTRxU1ZQlE8UIYhuVJjuteUvt0Niy9Bfiz0=;
+ b=Zan8jg5mlkDz5SY0zSNWE3bWqwce6B8CirfDXpPJbQmVUthvOQTvHKRMwlO+1UR/bh
+ NV8usx9zLv4C4LLQDwwOmwLihaouTdtlGkVetFXfCKIvLS0ZHyydz93cJIA+5J7bXiyp
+ va+IVsFKuYSnHvUNdXzTRv4W0ijiqlWYKri0bCX7bAZAFnNZAMVT8A/6gJDP6Vj26MFN
+ IjoSYzYtwD0faROX8F++KEGNV3FbahF5YUSiyln2A0F4Z0AFLliDNzp5P07tDpxLwTZc
+ vDzluG5EQfjtOesgQerPLsymO1ZyBPvRkc7+goXGEWLax48xvWHhSjpJp2Ca3RlWS8Qt
+ cqmA==
+X-Gm-Message-State: AOAM533ErKB+AX0yw4DAUxkaczg55icleamgC+XnzGL0Cuaw9GeE4MI8
+ MJB5SMGcvPFqW9OY4XG5/jKVLMkMrCbqSA==
+X-Google-Smtp-Source: ABdhPJyy5q/1sJrN5PX2tnTccknmgu26Yp/3To1Z9oH9kDZFpbQ8Dl89gskaX/PUcVcJBKvtz9uXUA==
+X-Received: by 2002:a05:6102:244:: with SMTP id
+ a4mr7086342vsq.26.1642426200071; 
+ Mon, 17 Jan 2022 05:30:00 -0800 (PST)
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com.
+ [209.85.221.178])
+ by smtp.gmail.com with ESMTPSA id 7sm3384207uan.19.2022.01.17.05.29.59
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Jan 2022 05:29:59 -0800 (PST)
+Received: by mail-vk1-f178.google.com with SMTP id b77so10338922vka.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 05:29:59 -0800 (PST)
+X-Received: by 2002:ac5:c967:: with SMTP id t7mr8120473vkm.20.1642426198916;
+ Mon, 17 Jan 2022 05:29:58 -0800 (PST)
+MIME-Version: 1.0
 References: <YeG8ydoJNWWkGrTb@ls3530>
  <CAKMK7uGdJckdM+fg+576iJXsqzCOUg20etPBMwRLB9U7GcG01Q@mail.gmail.com>
  <c80ed72c-2eb4-16dd-a7ad-57e9dde59ba1@gmx.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c80ed72c-2eb4-16dd-a7ad-57e9dde59ba1@gmx.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+ <20220117125716.yjwxsze35j2ndn2i@sirius.home.kraxel.org>
+In-Reply-To: <20220117125716.yjwxsze35j2ndn2i@sirius.home.kraxel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 17 Jan 2022 14:29:47 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW=Zpp2mHbrBx7i0WN8PqY3XpK5qpyAyYxgf9n88edpug@mail.gmail.com>
+Message-ID: <CAMuHMdW=Zpp2mHbrBx7i0WN8PqY3XpK5qpyAyYxgf9n88edpug@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: Add Helge as fbdev maintainer
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,28 +67,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>, Helge Deller <deller@gmx.de>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Javier Martinez Canillas <javierm@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  Hi,
+Hi Gerd,
 
-> b) to include new drivers (for old hardware) if they arrive (probably happens rarely but there can be).
->    I know of at least one driver which won't be able to support DRM....
+On Mon, Jan 17, 2022 at 1:57 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+> > b) to include new drivers (for old hardware) if they arrive (probably happens rarely but there can be).
+> >    I know of at least one driver which won't be able to support DRM....
+>
+> Hmm?  I seriously doubt that.  There is always the option to use a
+> shadow framebuffer, then convert from standard drm formats to whatever
+> esoteric pixel format your hardware expects.
+>
+> Been there, done that.  Have a look at the cirrus driver.  The physical
+> hardware was designed in the early 90-ies, almost 30 years ago.  These
+> days it exists in virtual form only (qemu emulates it).  Thanks to the
+> drm driver it runs wayland just fine even though it has a bunch of
+> constrains dictated by the hardware design.
 
-Hmm?  I seriously doubt that.  There is always the option to use a
-shadow framebuffer, then convert from standard drm formats to whatever
-esoteric pixel format your hardware expects.
+The Cirrus DRM driver supports TrueColor (RGB565/888 and ARGB8888)
+modes only.  The Cirrus fbdev driver also supports mochrome and 256
+color modes.
 
-Been there, done that.  Have a look at the cirrus driver.  The physical
-hardware was designed in the early 90-ies, almost 30 years ago.  These
-days it exists in virtual form only (qemu emulates it).  Thanks to the
-drm driver it runs wayland just fine even though it has a bunch of
-constrains dictated by the hardware design.
+There exist some DRM drivers that do support DRM_FORMAT_C8, but none of
+the "tiny" ones do. Same for DRM_FORMAT_RGB{332,233}.  Using a shadow
+frame buffer to convert from truecolor to 256 colors would be doable,
+but would give bad results. And what about less colors?
+Adding support for e.g. DRM_FORMAT_C4 is not straight-forward, as
+the DRM core assumes in many places that a pixel is at least 1 byte,
+and would crash otherwise (yes I tried).  Other modes needed are
+DRM_FORMAT_Y4 and DRM_FORMAT_{BW,WB} (monochrome).
+This not only to support "old" hardware, but also modern small OLED
+and e-ink displays.
 
-take care,
-  Gerd
+On the positive side: DRM would force e.g. the Amiga and Atari
+bitplane formats to become internal to the kernel driver, with the
+kernel driver converting from packed pixels to bitplanes.  Hence
+userspace would no longer have to care about bitplanes.
 
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
