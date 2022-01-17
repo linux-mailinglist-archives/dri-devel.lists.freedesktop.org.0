@@ -1,69 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9EFF490110
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 06:16:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 363F949011E
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 06:22:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A97510E632;
-	Mon, 17 Jan 2022 05:16:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72A1C10EAE3;
+	Mon, 17 Jan 2022 05:22:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
- [IPv6:2607:f8b0:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04A9A10E65C
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 05:15:58 +0000 (UTC)
-Received: by mail-pg1-x529.google.com with SMTP id g2so9847981pgo.9
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Jan 2022 21:15:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=MQeBrGkGEPprlAGgzRHSnT1m1Ox7Vg6LsQGd/Iu7NGs=;
- b=zv1yBiIyK4mMISwhtI4Pbr+dw8RVonPbi+fUCF0Xpuvz6C5K5mWFWEFBGDxt0XxQ/W
- cJXmztz1z9qEGFd5duOYIkhhcKAwVgigWrJah0RZJTHFkgg2KXkAPb2nblOOySKzR6zo
- xF9yuG9KfYQfL0YSLww/NV3NB2EME+iINMugre+MRNmHKB/gT1cEGFDwRS+FC2z481qJ
- b0dEd5MkZkDLA887VF8x3QW7/w/+iJeVmnjSSOxk6zNyoUaH1arGie2EaDF32cE3koBT
- FATnZjisTmkrXzQF0HwxO3ga5/2uWvDKoBGXsBPb8FJfxxVcFgHd1EYoeDJqWFciEHCZ
- dsrA==
+Received: from mail-ua1-x935.google.com (mail-ua1-x935.google.com
+ [IPv6:2607:f8b0:4864:20::935])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A1B110EAE2
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 05:22:03 +0000 (UTC)
+Received: by mail-ua1-x935.google.com with SMTP id m90so28464296uam.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Jan 2022 21:22:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0P1WTEs+C+NbyMn3/HlAbUcrz7+Kd9kkvPJ4rg/pU4s=;
+ b=psesmIOPOr5OiIVxN1wHFuJUnLekk2YFVaXZamYwh14J7oRo6/pLggWrMKide9+iDp
+ YjpQLCMsexC7a2YVtl9qxAoLsn92ZJ/+qT1CdQJ/tlPX2Dk8PfWEq4r61ehGEpr5xZHr
+ Bha2INqQ2gaBoFhb/J2kvVauaiVgpDIZxO5F2LbJqRAKmNwfvn/M8NVG3E+H1Z3/QjuC
+ J8PCYgAnR4xDUvP82fDAhrLPqsa2Ox9Wa0dp1rq4R5klNhDFM34gYtu0znF2pvS88t/L
+ feKsBELWedzI9RGLVe8abvhoV5XEYs8GXUHt4Y6jkOkT6X6shpe220HCljxumu9Jnt1Y
+ SjvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=MQeBrGkGEPprlAGgzRHSnT1m1Ox7Vg6LsQGd/Iu7NGs=;
- b=IJN3D3c+voWl1dJbFLfw0lisW/z4x59i5MVi2x2TPpGMc10nvydfpJpS7kSTx/eeJt
- UEzH0xdEOMMsEQ0F1KEtXck+RYsQzz5EN2LF1DvW/yOVj725UnJjfog5unhPFLz9gauK
- JVnz5jk70w3+mivXMdPd3W+++i3rxf3ZrFRpM4PNCzMcfI6h8qJ6mO61vBf5sMqGUKtd
- 7ImUhNWCyrTZoUMK/3F85XJNUIBlj2105mDjK1X5ikDiRDuElHbWq5fuAQFlu+tOpZbz
- J6fydfDTbyJr9LMo8GA14DCWdyG4JO3FeM5Bm8UOVAsLRwT93fs9YaWZxIrP6gYi7V08
- uP7w==
-X-Gm-Message-State: AOAM531aC0MdNzshX9v3Y0jh2rQ9y0resXmbTD/RcNn8ht/mZNyRsoLo
- gA/8WWrl1RXGicnQ8jcCDphgXg==
-X-Google-Smtp-Source: ABdhPJyd50JZ5TcZwpKKG06f3DkcKlsUMm/JuuJ/PhWjAmM8kxYt86DgraRr8zaKIruizzcn/MgB3g==
-X-Received: by 2002:a05:6a00:2182:b0:4a7:ec46:29da with SMTP id
- h2-20020a056a00218200b004a7ec4629damr19626922pfi.68.1642396558414; 
- Sun, 16 Jan 2022 21:15:58 -0800 (PST)
-Received: from [10.16.129.73] (napt.igel.co.jp. [219.106.231.132])
- by smtp.gmail.com with ESMTPSA id p18sm12346694pfq.174.2022.01.16.21.15.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 16 Jan 2022 21:15:57 -0800 (PST)
-Message-ID: <0cf405a1-0d2d-ed5e-abdf-be645e7a9209@igel.co.jp>
-Date: Mon, 17 Jan 2022 14:15:48 +0900
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=0P1WTEs+C+NbyMn3/HlAbUcrz7+Kd9kkvPJ4rg/pU4s=;
+ b=NjY7Q1fmfU9g4yvbhHLjm6U3PNU0bVqg9MDUCPTYzZ3SDUvL4mupYbxUPu1ifOsSRk
+ OTR0FQXGRu9Va1wco9AC2iqfrWOt2t7HTxzUsN6hzV80f4SKDz84LNR0Nn+8VGxfnb3F
+ Pd+Eu/MIrimQRKM7fEt3fR8gdQcMrptLYfzrUbo1hyn72X66dqK/1IPrzI9OCDxhzQHw
+ hwGjvhN8DF1QYMJxf02eysda2BcL2tndb6Oy2nLpn0u6xKPafgNE1q0pdQpLUijI22tF
+ vvHtTf5ioC3ylq1c3+6oY/PXVWbcvgvDX3IIrT+OjscKX3Z4iLhjAVDGuonezdW6FWta
+ Wv7A==
+X-Gm-Message-State: AOAM5316/KqZhc1k0HKK8M0t7em4j+elielbW1R35urDlv+ToQX57Gwa
+ dAJmg6GwHz9jy9XzsxYY7ol9wZqHOuwhhzOe
+X-Google-Smtp-Source: ABdhPJzyeSo2PP/9o8OtEwKETybhzkTyrtMW0L1Rzhtz2OHgwhbKaKuuKx1rGlyv39dxQHOsMLTsVA==
+X-Received: by 2002:a05:6102:dcd:: with SMTP id
+ e13mr3901912vst.84.1642396922557; 
+ Sun, 16 Jan 2022 21:22:02 -0800 (PST)
+Received: from kubuntu-desktop.. ([67.8.38.84])
+ by smtp.gmail.com with ESMTPSA id g5sm3233255vke.6.2022.01.16.21.22.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 16 Jan 2022 21:22:02 -0800 (PST)
+From: Julian Braha <julianbraha@gmail.com>
+To: narmstrong@baylibre.com, jonas@kwiboo.se, jernej.skrabec@gmail.com,
+ airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH v3] drm: bridge: fix unmet dependency on DRM_KMS_HELPER for
+ DRM_PANEL_BRIDGE
+Date: Mon, 17 Jan 2022 00:21:46 -0500
+Message-Id: <20220117052146.75811-1-julianbraha@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [RFC PATCH v3 2/3] drm: add support modifiers for drivers whose
- planes only support linear layout
-Content-Language: en-US
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-References: <20220114101753.24996-1-etom@igel.co.jp>
- <20220114101753.24996-3-etom@igel.co.jp>
- <YeGFugZvwbF7l2I/@smile.fi.intel.com>
-From: Esaki Tomohito <etom@igel.co.jp>
-In-Reply-To: <YeGFugZvwbF7l2I/@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,48 +68,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <mdaenzer@redhat.com>,
- Lee Jones <lee.jones@linaro.org>, Rob Clark <robdclark@chromium.org>,
- Takanari Hayama <taki@igel.co.jp>, amd-gfx@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>, Petr Mladek <pmladek@suse.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Alex Deucher <alexander.deucher@amd.com>, Sean Paul <seanpaul@chromium.org>,
- Evan Quan <evan.quan@amd.com>, Mark Yacoub <markyacoub@chromium.org>,
- Qingqing Zhuo <qingqing.zhuo@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Damian Hobson-Garcia <dhobsong@igel.co.jp>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: robert.foss@linaro.org, fazilyildiran@gmail.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ jagan@amarulasolutions.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thank you for your reviews.
+When DRM_CHIPONE_ICN6211 is selected, and DRM_KMS_HELPER is not selected,
+Kbuild gives the following warning:
 
-On 2022/01/14 23:16, Andy Shevchenko wrote:
-> On Fri, Jan 14, 2022 at 07:17:52PM +0900, Tomohito Esaki wrote:
->> The LINEAR modifier is advertised as default if a driver doesn't specify
->> modifiers.
-> 
-> ...
-> 
->> +	const uint64_t default_modifiers[] = {
->> +		DRM_FORMAT_MOD_LINEAR,
->> +		DRM_FORMAT_MOD_INVALID
-> 
-> + Comma?
+WARNING: unmet direct dependencies detected for DRM_PANEL_BRIDGE
+  Depends on [n]: HAS_IOMEM [=y] && DRM_BRIDGE [=y] && DRM_KMS_HELPER [=n]
+  Selected by [y]:
+  - DRM_CHIPONE_ICN6211 [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_BRIDGE [=y] && OF [=y]
 
-There is no mention in the coding style about adding/removing a comma to 
-the last element of an array. Is there a policy in drm driver?
+This is because DRM_CHIPONE_ICN6211 selects DRM_PANEL_BRIDGE
+without depending on or selecting DRM_KMS_HELPER,
+despite DRM_PANEL_BRIDGE depending on DRM_KMS_HELPER.
 
-I think the advantage of adding a comma to the last element of an array 
-is that diff is only one line when an element is added to the end.
-However since INVALID is always the last element in the modifiers array, 
-I think it can be either in this case.
-If there is a policy, I will match it.
+This unmet dependency bug was detected by Kismet,
+a static analysis tool for Kconfig.
+Please advise if this is not the appropriate solution.
 
-Thanks,
-Tomohito Esaki
+Fixes: ce517f18944e ("drm: bridge: Add Chipone ICN6211 MIPI-DSI to RGB bridge")
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Julian Braha <julianbraha@gmail.com>
+---
+v2:
+- changed from "select" to "depends on"
+
+v3:
+- new line now uses tabs instead of spaces.
+
+ drivers/gpu/drm/bridge/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+index 61db5a66b493..a1b52eaf26e0 100644
+--- a/drivers/gpu/drm/bridge/Kconfig
++++ b/drivers/gpu/drm/bridge/Kconfig
+@@ -30,6 +30,7 @@ config DRM_CDNS_DSI
+ config DRM_CHIPONE_ICN6211
+ 	tristate "Chipone ICN6211 MIPI-DSI/RGB Converter bridge"
+ 	depends on OF
++	depends on DRM_KMS_HELPER
+ 	select DRM_MIPI_DSI
+ 	select DRM_PANEL_BRIDGE
+ 	help
+--
+2.32.0
