@@ -2,62 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B6A54906FE
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 12:16:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACE46490722
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 12:26:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D90610E141;
-	Mon, 17 Jan 2022 11:16:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69E9910E150;
+	Mon, 17 Jan 2022 11:26:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0903B10E141
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 11:16:25 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id AAE921F399;
- Mon, 17 Jan 2022 11:16:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1642418182; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ZnTiZM/I4lXeOrr5FJ9dytOgHT4W17EpADJ4XFi+biI=;
- b=zELPdUDwUWFsS6Z+7Wc5i6oy2EI5kLe9gqE9YN+kre4ec/sIgNaaoWvYKzCVOQIdx82bwu
- WI3xdYPRrTsdAMKq1l/KP1ag2zQZ+rs7oYmLZrOa2xN7Gbmv2NfTpCqy90FzeX4rrS8NJ+
- Du+WmRqeHKea/8eG92Sqszc38gzfCUE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1642418182;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ZnTiZM/I4lXeOrr5FJ9dytOgHT4W17EpADJ4XFi+biI=;
- b=V4s+mm89QqxIM01QfXeKCx9f8pGOSeYo7DDWbKndoiIW5rrOpAI3/suBiWL9rcstXl+hRU
- tbLDImgsJf89saAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8F48C13AE2;
- Mon, 17 Jan 2022 11:16:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id J5rzIQZQ5WGIcwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 17 Jan 2022 11:16:22 +0000
-Message-ID: <c48ad8ae-aea5-43fa-882f-dccb90dde9a4@suse.de>
-Date: Mon, 17 Jan 2022 12:16:22 +0100
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4B7810E150
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 11:26:40 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id p18so19545073wmg.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 03:26:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=+4k5VumxcVJVVNeLV0hEcjh27R/lVPWNViYiPj+iiv4=;
+ b=m2qCS0fEPAmlNhR7IohXzrLXojwPxkE7ljUHKg1Azcw+A1qSEFZtSS92EcTyHfZboI
+ i07Zvukq0lsUePPXtxcb6KUbo5M+OZjnV+bcxjdIelzWoozeEC8ZCl4oLWJ3jxb8XZM+
+ ruPgZOewOsIhBz+mrkNSW/zkPRX9wN5XLtfupLOCZ1IHZuc3fW+qBBe3Be6Y8TkypxE4
+ 2SnwCmTQFEtKzGpOAtYfoap/0Y02gX52cYOE+rYgmhBHlVrtKnRFX3DpGo8NPKa84pQn
+ rQMA90XmNhUlq29MxIRdOoWqokJm6YKmY5y6mwfB4BHmKGrDPsL7PJlBG2PZUWcRrrmU
+ w8wQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=+4k5VumxcVJVVNeLV0hEcjh27R/lVPWNViYiPj+iiv4=;
+ b=6+IbI4dm06y4pUeAJaLSNgLeH/4sW8UKyvbOeWp88bawy2r5nLsocr6xSbhajtwFtK
+ 2JpRAew92rEadCbYxc+8yxHM9guwfzOIRNH6tILrLogDhPrz0KhFna7KNnNThPUnlDmX
+ X9Lp7utWTs0hlhMw3lhj2tYQvOEN1SNHJUUGX+JNxHMS6g/AfQoYLqznajwz7FGe8kA2
+ NB7j+QFAb34BllDP3BYiVy7tfsZWcZhAhceHp5a53gRXM2kEa06b+L3HUUicxYFINGUj
+ zth5gTla5J/LF2QL+qVV0hBA8ZuAD0yZ+QUaBHP2ydKVKyY/Ff3OS+TAi16pSZqmV94R
+ ff7A==
+X-Gm-Message-State: AOAM532HZoxRE0wYoWpd5/wp17ee/8V3ovJYd++6LpGSr57ZlFbCD3up
+ hmmtb/Zs1nmZw5Nej2H6Yb8=
+X-Google-Smtp-Source: ABdhPJzD8cm9J6JbfH4eaxYYGvBgTSYRK0FQLQwEnx+jtgP/ONrYrJx220lPXyIY78Y5IuZhIIaXbA==
+X-Received: by 2002:a05:6000:1d84:: with SMTP id
+ bk4mr18167740wrb.708.1642418799172; 
+ Mon, 17 Jan 2022 03:26:39 -0800 (PST)
+Received: from [192.168.178.21] (p57b0bff8.dip0.t-ipconnect.de.
+ [87.176.191.248])
+ by smtp.gmail.com with ESMTPSA id t6sm10872638wmq.16.2022.01.17.03.26.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Jan 2022 03:26:38 -0800 (PST)
+Subject: Re: [PATCH 04/24] dma-buf: add dma_resv_get_singleton v2
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20211207123411.167006-1-christian.koenig@amd.com>
+ <20211207123411.167006-5-christian.koenig@amd.com>
+ <YcOWyHzY22ZCCvef@phenom.ffwll.local>
+ <95929048-b381-78d1-462c-e7b910c784b0@gmail.com>
+ <YeGlbLXXuUITZlQP@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <0b7b9a9f-65d8-706e-163b-5363df426c8b@gmail.com>
+Date: Mon, 17 Jan 2022 12:26:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] MAINTAINERS: Add Helge as fbdev maintainer
+In-Reply-To: <YeGlbLXXuUITZlQP@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-To: Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <YeG8ydoJNWWkGrTb@ls3530>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <YeG8ydoJNWWkGrTb@ls3530>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------l0YNj3Le6R4cDBjWbmghtxim"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,88 +77,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------l0YNj3Le6R4cDBjWbmghtxim
-Content-Type: multipart/mixed; boundary="------------8Q1TezFaHshXCr3Viua02Bqu";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
-Message-ID: <c48ad8ae-aea5-43fa-882f-dccb90dde9a4@suse.de>
-Subject: Re: [PATCH] MAINTAINERS: Add Helge as fbdev maintainer
-References: <YeG8ydoJNWWkGrTb@ls3530>
-In-Reply-To: <YeG8ydoJNWWkGrTb@ls3530>
+Am 14.01.22 um 17:31 schrieb Daniel Vetter:
+> On Mon, Jan 03, 2022 at 12:13:41PM +0100, Christian König wrote:
+>> Am 22.12.21 um 22:21 schrieb Daniel Vetter:
+>>> On Tue, Dec 07, 2021 at 01:33:51PM +0100, Christian König wrote:
+>>>> Add a function to simplify getting a single fence for all the fences in
+>>>> the dma_resv object.
+>>>>
+>>>> v2: fix ref leak in error handling
+>>>>
+>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>>> ---
+>>>>    drivers/dma-buf/dma-resv.c | 52 ++++++++++++++++++++++++++++++++++++++
+>>>>    include/linux/dma-resv.h   |  2 ++
+>>>>    2 files changed, 54 insertions(+)
+>>>>
+>>>> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+>>>> index 480c305554a1..694716a3d66d 100644
+>>>> --- a/drivers/dma-buf/dma-resv.c
+>>>> +++ b/drivers/dma-buf/dma-resv.c
+>>>> @@ -34,6 +34,7 @@
+>>>>     */
+>>>>    #include <linux/dma-resv.h>
+>>>> +#include <linux/dma-fence-array.h>
+>>>>    #include <linux/export.h>
+>>>>    #include <linux/mm.h>
+>>>>    #include <linux/sched/mm.h>
+>>>> @@ -657,6 +658,57 @@ int dma_resv_get_fences(struct dma_resv *obj, bool write,
+>>>>    }
+>>>>    EXPORT_SYMBOL_GPL(dma_resv_get_fences);
+>>>> +/**
+>>>> + * dma_resv_get_singleton - Get a single fence for all the fences
+>>>> + * @obj: the reservation object
+>>>> + * @write: true if we should return all fences
+>>>> + * @fence: the resulting fence
+>>>> + *
+>>>> + * Get a single fence representing all the fences inside the resv object.
+>>>> + * Returns either 0 for success or -ENOMEM.
+>>>> + *
+>>>> + * Warning: This can't be used like this when adding the fence back to the resv
+>>>> + * object since that can lead to stack corruption when finalizing the
+>>>> + * dma_fence_array.
+>>> Uh I don't get this one? I thought the only problem with nested fences is
+>>> the signalling recursion, which we work around with the irq_work?
+>> Nope, the main problem is finalizing the dma_fence_array.
+>>
+>> E.g. imagine that you build up a chain of dma_fence_array objects like this:
+>> a<-b<-c<-d<-e<-f.....
+>>
+>> With each one referencing the previous dma_fence_array and then you call
+>> dma_fence_put() on the last one. That in turn will cause calling
+>> dma_fence_put() on the previous one, which in turn will cause
+>> dma_fence_put() one the one before the previous one etc....
+>>
+>> In other words you recurse because each dma_fence_array instance drops the
+>> last reference of it's predecessor.
+>>
+>> What we could do is to delegate dropping the reference to the containing
+>> fences in a dma_fence_array as well, but that would require some changes to
+>> the irq_work_run_list() function to be halve way efficient.o
+>>
+>>> Also if there's really an issue with dma_fence_array fences, then that
+>>> warning should be on the dma_resv kerneldoc, not somewhere hidden like
+>>> this. And finally I really don't see what can go wrong, sure we'll end up
+>>> with the same fence once in the dma_resv_list and then once more in the
+>>> fence array. But they're all refcounted, so really shouldn't matter.
+>>>
+>>> The code itself looks correct, but me not understanding what even goes
+>>> wrong here freaks me out a bit.
+>> Yeah, IIRC we already discussed that with Jason in length as well.
+>>
+>> Essentially what you can't do is to put a dma_fence_array into another
+>> dma_fence_array without causing issues.
+>>
+>> So I think we should maybe just add a WARN_ON() into dma_fence_array_init()
+>> to make sure that this never happens.
+> Yeah I think this would be much clearer instead of sprinkling half the
+> story as a scary&confusing warning over all kinds of users which
+> internally use dma fence arrays.
+>
+> And then if it goes boom I guess we could fix it internally in
+> dma_fence_array_init by flattening fences down again. But only if actually
+> needed.
 
---------------8Q1TezFaHshXCr3Viua02Bqu
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Ok, going to do that first then.
 
-SGkNCg0KQW0gMTQuMDEuMjIgdW0gMTk6MTEgc2NocmllYiBIZWxnZSBEZWxsZXI6DQo+IFRo
-ZSBmYmRldiBsYXllciBpcyBvcnBoYW5lZCwgYnV0IHNlZW1zIHRvIG5lZWQgc29tZSBjYXJl
-Lg0KPiBTbyBJJ2QgbGlrZSB0byBzdGVwIHVwIGFzIG5ldyBtYWludGFpbmVyLg0KPiANCj4g
-U2lnbmVkLW9mZi1ieTogSGVsZ2UgRGVsbGVyIDxkZWxsZXJAZ214LmRlPg0KDQpGaXJzdCBv
-ZiBhbGwsIHRoYW5rIHlvdSBmb3Igc3RlcHBpbmcgdXAgdG8gbWFpbnRhaW4gdGhlIGZiZGV2
-IGNvZGViYXNlLiANCkl0IHJlYWxseSBuZWVkcyBzb21lb25lIGFjdGl2ZWx5IGxvb2tpbmcg
-YWZ0ZXIgaXQuDQoNCkFuZCBub3cgY29tZXMgdGhlIEJVVC4NCg0KSSB3YW50IHRvIHNlY29u
-ZCBldmVyeXRoaW5nIHNhaWQgYnkgRGFuaWFsIGFuZCBKYXZpZXIuIEluIGFkZGl0aW9uIHRv
-IA0KcHVyZWx5IG9yZ2FuaXphdGlvbmFsIHRvcGljcyAodHJlZXMsIFBScywgZXRjKSwgdGhl
-cmUgYXJlIGEgbnVtYmVyIG9mIA0KaW5oZXJpdCBwcm9ibGVtcyB3aXRoIGZiZGV2Lg0KDQog
-ICogSXQncyA5MHMgdGVjaG5vbG9neS4gTmVpdGhlciBkb2VzIGl0IGZpdCB0b2RheSdzIHVz
-ZXJzcGFjZSwgbm90IA0KaGFyZHdhcmUuIElmIHlvdSBoYXZlIG1vcmUgdGhhbiBqdXN0IHRo
-ZSBtb3N0IHRyaXZpYWwgb2YgZ3JhcGhpY2FsIA0Kb3V0cHV0IGZiZGV2IGlzbid0IGZvciB5
-b3UuDQoNCiAgKiBUaGVyZSdzIG5vIG5ldyBkZXZlbG9wbWVudCBpbiBmYmRldiBhbmQgdGhl
-cmUgYXJlIG5vIG5ldyBkcml2ZXJzLiANCkV2ZXJ5b25lIHdvcmtzIG9uIERSTSwgd2hpY2gg
-aXMgYmV0dGVyIGluIG1vc3QgcmVnYXJkcy4gVGhlIGNvbnNlcXVlbmNlIA0KaXMgdGhhdCB1
-c2Vyc3BhY2UgaXMgc2xvd2x5IGxvb3NpbmcgdGhlIGFiaWxpdHkgdG8gdXNlIGZiZGV2Lg0K
-DQogICogQSBmZXcgdXNlLWNhc2VzIGZvciBlZmlmYiByZW1haW4sIGJ1dCBkaXN0cmlidXRp
-b25zIGFyZSBhY3RpdmVseSANCm1vdmluZyBhd2F5IGZyb20gZmJkZXYuIEkga25vdyB0aGF0
-IGF0IGxlYXN0IG9wZW5TVVNFLCBGZWRvcmEgYW5kIEFscGluZSANCmRvIHRoaXMuDQoNCkkn
-ZCBsaWtlIHRvIGhlYXIgd2hhdCB5b3VyIHBsYW5zIGFyZSBmb3IgZmJkZXY/DQoNCkJlc3Qg
-cmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IGRpZmYgLS1naXQgYS9NQUlOVEFJTkVSUyBiL01B
-SU5UQUlORVJTDQo+IGluZGV4IDVkMGNkNTM3ODAzYS4uY2U0N2RiYzQ2N2NjIDEwMDY0NA0K
-PiAtLS0gYS9NQUlOVEFJTkVSUw0KPiArKysgYi9NQUlOVEFJTkVSUw0KPiBAQCAtNzU4Mywx
-MSArNzU4MywxMiBAQCBXOglodHRwOi8vZmxvYXRpbmdwb2ludC5zb3VyY2Vmb3JnZS5uZXQv
-ZW11bGF0b3IvaW5kZXguaHRtbA0KPiAgIEY6CWFyY2gveDg2L21hdGgtZW11Lw0KPiANCj4g
-ICBGUkFNRUJVRkZFUiBMQVlFUg0KPiAtTDoJZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZw0KPiArTToJSGVsZ2UgRGVsbGVyIDxkZWxsZXJAZ214LmRlPg0KPiAgIEw6CWxpbnV4
-LWZiZGV2QHZnZXIua2VybmVsLm9yZw0KPiAtUzoJT3JwaGFuDQo+ICtMOglkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+ICtTOglNYWludGFpbmVkDQo+ICAgUToJaHR0cDov
-L3BhdGNod29yay5rZXJuZWwub3JnL3Byb2plY3QvbGludXgtZmJkZXYvbGlzdC8NCj4gLVQ6
-CWdpdCBnaXQ6Ly9hbm9uZ2l0LmZyZWVkZXNrdG9wLm9yZy9kcm0vZHJtLW1pc2MNCj4gK1Q6
-CWdpdCBnaXQ6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvZGVs
-bGVyL2xpbnV4LWZiZGV2LmdpdA0KPiAgIEY6CURvY3VtZW50YXRpb24vZmIvDQo+ICAgRjoJ
-ZHJpdmVycy92aWRlby8NCj4gICBGOglpbmNsdWRlL2xpbnV4L2ZiLmgNCg0KLS0gDQpUaG9t
-YXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2Fy
-ZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJl
-cmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xo
-cmVyOiBJdm8gVG90ZXYNCg==
+>
+> What confused me is why dma_resv is special, and from your reply it sounds
+> like it really isn't.
 
---------------8Q1TezFaHshXCr3Viua02Bqu--
+Well, it isn't special in any way. It's just something very obvious 
+which could go wrong.
 
---------------l0YNj3Le6R4cDBjWbmghtxim
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Regards,
+Christian.
 
------BEGIN PGP SIGNATURE-----
+> -Daniel
+>
+>
+>> Regards,
+>> Christian.
+>>
+>>> I guess something to figure out next year, I kinda hoped I could squeeze a
+>>> review in before I disappear :-/
+>>> -Daniel
+>>>
+>>>> + */
+>>>> +int dma_resv_get_singleton(struct dma_resv *obj, bool write,
+>>>> +			   struct dma_fence **fence)
+>>>> +{
+>>>> +	struct dma_fence_array *array;
+>>>> +	struct dma_fence **fences;
+>>>> +	unsigned count;
+>>>> +	int r;
+>>>> +
+>>>> +	r = dma_resv_get_fences(obj, write, &count, &fences);
+>>>> +        if (r)
+>>>> +		return r;
+>>>> +
+>>>> +	if (count == 0) {
+>>>> +		*fence = NULL;
+>>>> +		return 0;
+>>>> +	}
+>>>> +
+>>>> +	if (count == 1) {
+>>>> +		*fence = fences[0];
+>>>> +		kfree(fences);
+>>>> +		return 0;
+>>>> +	}
+>>>> +
+>>>> +	array = dma_fence_array_create(count, fences,
+>>>> +				       dma_fence_context_alloc(1),
+>>>> +				       1, false);
+>>>> +	if (!array) {
+>>>> +		while (count--)
+>>>> +			dma_fence_put(fences[count]);
+>>>> +		kfree(fences);
+>>>> +		return -ENOMEM;
+>>>> +	}
+>>>> +
+>>>> +	*fence = &array->base;
+>>>> +	return 0;
+>>>> +}
+>>>> +EXPORT_SYMBOL_GPL(dma_resv_get_singleton);
+>>>> +
+>>>>    /**
+>>>>     * dma_resv_wait_timeout - Wait on reservation's objects
+>>>>     * shared and/or exclusive fences.
+>>>> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+>>>> index fa2002939b19..cdfbbda6f600 100644
+>>>> --- a/include/linux/dma-resv.h
+>>>> +++ b/include/linux/dma-resv.h
+>>>> @@ -438,6 +438,8 @@ void dma_resv_replace_fences(struct dma_resv *obj, uint64_t context,
+>>>>    void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence);
+>>>>    int dma_resv_get_fences(struct dma_resv *obj, bool write,
+>>>>    			unsigned int *num_fences, struct dma_fence ***fences);
+>>>> +int dma_resv_get_singleton(struct dma_resv *obj, bool write,
+>>>> +			   struct dma_fence **fence);
+>>>>    int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src);
+>>>>    long dma_resv_wait_timeout(struct dma_resv *obj, bool wait_all, bool intr,
+>>>>    			   unsigned long timeout);
+>>>> -- 
+>>>> 2.25.1
+>>>>
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHlUAYFAwAAAAAACgkQlh/E3EQov+C0
-LQ//ZoGs5bMCFn9WBQ7zO9i5wFwNh7TDZX2K1AW//MV+bjL4qF3JeAeA3PCAauWzC1vPxwq5zk7A
-5ud9b6KXN1wFk/3beHjHb6hgBPGjRjmve/mxlooNHMf+g1j0gAzZzBXIv4S2PMUMRBcAh2EHhKhV
-lumNarchne9RZElI8AeVN5pKVtn2yeB3VDHp3mFfCDxXIEIEee8DJi7phhYNu5D6JXmT6xDt0l44
-zUfZCLbnrAlfpstD5yKnjgXMSwIxSKTvM9Ixz7AYG5QTjvBa1SBm55KLEGBbTozLet22Ob6A1fjx
-hCRY2NZGOqvd8o/i0DLPMmUxPxk2qG/5vPxXHQtwP6WnIoeb6bci5GEHPK8vRWQ4FrLSkVtLOQXa
-JM37/PpjR7WnLvKPh4RlZkJ9NY5MoEjoqa2e17nl0Uc/7L7TdEJginl4CnHdMTcA7JjuDi5JCJ0o
-NWCWIj3GoIhZaGlA0x6Hoeu3W3WBWDF2BhB4cZnhXCteahHqND9HU7no0EOSkUL7PTzf+FiiIp4/
-pux6dMglU3LHGE0BwTBX0EvrP5PJrg1Awd4vH/i8r7j+DK5oxT9/qQr+8Wx76SKi8owrZSVz3thK
-xHwko1P0pG9gCZwb0ywBLlR28CP5BnCE/kM+9wxTnAeTb33w9JHmHqakI7DvvvAt1DslY+b8jylg
-7oM=
-=5yiM
------END PGP SIGNATURE-----
-
---------------l0YNj3Le6R4cDBjWbmghtxim--
