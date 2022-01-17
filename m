@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BE714904ED
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 10:30:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 028004904F4
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 10:35:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6A9410E559;
-	Mon, 17 Jan 2022 09:30:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1AD810E507;
+	Mon, 17 Jan 2022 09:35:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
- [IPv6:2607:f8b0:4864:20::1034])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E3E810E507
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 09:30:32 +0000 (UTC)
-Received: by mail-pj1-x1034.google.com with SMTP id o3so20114672pjs.1
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 01:30:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
+ [IPv6:2607:f8b0:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9165D10E507
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 09:35:38 +0000 (UTC)
+Received: by mail-oi1-x233.google.com with SMTP id t9so22531711oie.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 01:35:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CypZ2O0aOlLYoEWjzj8LBaIlTHfP284kF/aI9kD9Oi0=;
- b=F0lYJHcNkJ4Tt8/+tLCR2AdNzLJeYYHixlTpRYn8nq8A9eQ3MC/AqMUv2sQY54+FCk
- MbElzvIO5ON3FF2RMklVS3uFQVF/GVEYjbiS8OMTm2km4AMVFNeERUFC8RRh9Z9TgZEu
- pTWbldJd/DlasbIpzIkbkviL7rPcKjrksiIUtgaoJfwRtHhTeyNJMdIZ3m6kqftr52vH
- Yd66AK6GGfA7Np9TU/6M6V8mAXVwQV7N2vpm2qMTi2ygJ91yrZw0Kp5KkiZPIPh9ApHv
- HkMr9OJbH77gY3ihOVAzdmW2dSaDkURsBx1/fcPzjXT00zhg2/K8/dk6/0PWQ1Qxf6Y3
- J0fw==
+ :cc; bh=/TWot+GBT255Kn595XxLRRlEGzkpc6u0aEZt1sgu9nQ=;
+ b=brYMghhNpV3UtW8Pry19jIqkr5UG+1u8w9vx0wfpPtB+68SvTVhWt23hZ5fvWzMuMB
+ +Z91zQpxcQt0ofra67Y98j4cXwUJJQ5TTn+6MvOkrK+75hiuxdXjddoZf8Wr684vAOpE
+ 8UnIwlhCxGWTDfkszaoL7H5a/hLEqSd4JWVfI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=CypZ2O0aOlLYoEWjzj8LBaIlTHfP284kF/aI9kD9Oi0=;
- b=F3JnhReCIEj8A9bXiiAe85Y5Fc5Le56+OANfdHBGWw2NnkHNt4sD2lCjY7WBpCSqr6
- Kkx3W+7+lUnzdePA7hG19QzxfSulr7wYWxrsWUsVSVS1+RVOvD4tI7jhHp6npbLubbdu
- tDMwIGh3pEtX8ugfnTB2Fc87LeUmbfcfuG9kg82i0PMBI2tXbXwK5V8J2y5urJ7M5Duc
- DEzbXxfZR9Blu9VZ3TuNZjawIuybQXgehPa40cPOdJxN3PAouva/JFyH5l+/fT7Bf1gl
- NhRVe4KYzR2X/RrXRToGA7cIiIhNkd9S6bNc3J8lfiXU+vvehzdHeaq5cBCTnTtIuWM2
- mK3A==
-X-Gm-Message-State: AOAM533hqmQGkYah5o+gEXLw67G4YMDXEd55xdN7JEDMBcA07s2zpfyZ
- Fu0suaPXVNe/X72xrPFjKhwJ0FPNNEXfLH+AePotbA==
-X-Google-Smtp-Source: ABdhPJxK0U9MlTiUUxHtfSgC3lqiJHtxmlZTFYZyL0/lOpEOPkoo9p85ByTfesogvIVuCUA+0pqLXr+igjTH2NjHqdU=
-X-Received: by 2002:a17:90b:3e8e:: with SMTP id
- rj14mr17855889pjb.179.1642411831985; 
- Mon, 17 Jan 2022 01:30:31 -0800 (PST)
+ bh=/TWot+GBT255Kn595XxLRRlEGzkpc6u0aEZt1sgu9nQ=;
+ b=vkU75OunxdHnrzwkvOJKf6b+6B6dwIZT7X8+3LCAAcEoCjAVuRGzgPhpF2qY1yobIU
+ a7J6pubTnaZyzHjZnBgeVlfkpKpCwWP7GYWDnOX972h7ah0Xzb+kzFjFI3m9Pj3j9QAs
+ uXYp4bkCdggPPMQ0mAiiygmHe6BSbG8RkqaREsjxQBavn/KLrZsC2OvOr1d2R+0k81/v
+ BbB4IOjf80uOK2z/XSoqknFG4ZOSptNkmiyqPqLXHqtAfirlU1NxnOjx+kNI2zfqb/n0
+ ZNqo3mbNbJ8bnaRpCw6PILxI+ZOjHk8NiimmwarNnlVL+9mnBwgiJttrdGc/Q7WGRy/8
+ Gdxg==
+X-Gm-Message-State: AOAM533njhxMhLWAVBIdZytTwO01Jmfa70f9D0IvgKAZ4jxRdonFbdzB
+ GxqqkbY+INGU11c6rxFRFuBBD8w9C7N2yVN7hUjmgQ==
+X-Google-Smtp-Source: ABdhPJz+YSLdpmoOtNsknZdTmAXVEU/lG790KmndstiDSVOMX6wDaiiteQoHLkfyHIGmn3VOmtjiL595km39p9G6Ono=
+X-Received: by 2002:a05:6808:1188:: with SMTP id
+ j8mr21930539oil.101.1642412137479; 
+ Mon, 17 Jan 2022 01:35:37 -0800 (PST)
 MIME-Version: 1.0
-References: <20220117052146.75811-1-julianbraha@gmail.com>
-In-Reply-To: <20220117052146.75811-1-julianbraha@gmail.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Mon, 17 Jan 2022 10:30:20 +0100
-Message-ID: <CAG3jFyvs_J218R0q=geUaO7V25bkdu_zjW7GMKBoP+phHnXACQ@mail.gmail.com>
-Subject: Re: [PATCH v3] drm: bridge: fix unmet dependency on DRM_KMS_HELPER
- for DRM_PANEL_BRIDGE
-To: Julian Braha <julianbraha@gmail.com>
+References: <cover.1641937419.git.iourit@linux.microsoft.com>
+ <e04c8e820bc166d9d4fe8e388aace731bb3255b0.1641937420.git.iourit@linux.microsoft.com>
+ <YeG6+Crv/Bg4h3u1@phenom.ffwll.local>
+ <e472cbe8-44ec-110a-1ad7-bc561cd0be88@linux.microsoft.com>
+In-Reply-To: <e472cbe8-44ec-110a-1ad7-bc561cd0be88@linux.microsoft.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Mon, 17 Jan 2022 10:35:26 +0100
+Message-ID: <CAKMK7uFkVvfXM7QsgSfP4OLk9b_cSwNsi3s3_7EFuL+Pa1s7eQ@mail.gmail.com>
+Subject: Re: [PATCH v1 9/9] drivers: hv: dxgkrnl: Implement DXGSYNCFILE
+To: Iouri Tarassov <iourit@linux.microsoft.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,57 +62,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jonas@kwiboo.se, airlied@linux.ie, dri-devel@lists.freedesktop.org,
- narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
- jernej.skrabec@gmail.com, jagan@amarulasolutions.com, fazilyildiran@gmail.com,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: wei.liu@kernel.org, sthemmin@microsoft.com, gregkh@linuxfoundation.org,
+ haiyangz@microsoft.com, linux-hyperv@vger.kernel.org,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ linux-kernel@vger.kernel.org, spronovo@microsoft.com, jenatali@microsoft.com,
+ kys@microsoft.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 17 Jan 2022 at 06:22, Julian Braha <julianbraha@gmail.com> wrote:
+On Mon, Jan 17, 2022 at 9:34 AM Iouri Tarassov
+<iourit@linux.microsoft.com> wrote:
 >
-> When DRM_CHIPONE_ICN6211 is selected, and DRM_KMS_HELPER is not selected,
-> Kbuild gives the following warning:
 >
-> WARNING: unmet direct dependencies detected for DRM_PANEL_BRIDGE
->   Depends on [n]: HAS_IOMEM [=y] && DRM_BRIDGE [=y] && DRM_KMS_HELPER [=n]
->   Selected by [y]:
->   - DRM_CHIPONE_ICN6211 [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_BRIDGE [=y] && OF [=y]
+> On 1/14/2022 10:03 AM, Daniel Vetter wrote:
+> > Hi all,
+> >
+> > On Wed, Jan 12, 2022 at 11:55:14AM -0800, Iouri Tarassov wrote:
+> > > Implement the LX_DXCREATESYNCFILE IOCTL (D3DKMTCreateSyncFile).
+> > >
+> > > dxgsyncfile is built on top of the Linux sync_file object and
+> > > provides a way for the user mode to synchronize with the execution
+> > > of the device DMA packets.
+> > >
+> > > The IOCTL creates a dxgsyncfile object for the given GPU synchronization
+> > > object and a fence value. A sync_object file descriptor is returned to
+> > > the caller. The caller could wait for the object by using poll().
+> > > When the GPU synchronization object is signaled on the host, the host
+> > > sends a message to the virtual machine and the sync_file object is
+> > > signaled.
+> > >
+> > > Signed-off-by: Iouri Tarassov <iourit@linux.microsoft.com>
+> >
+> > Adding dri-devel, which get_maintainers.pl should have done automatically
+> > with the dma_fence wildcard match. Not sure why that didn't happen.
+> >
+> > > +struct dxgsyncpoint {
+> > > +   struct dxghostevent     hdr;
+> > > +   struct dma_fence        base;
+> >
+> > This doesn't work unfortuntately. For better or worse memory fences like
+> > monitored fences from wddm have completely different semantics from
+> > dma_fence. You could probably hack this to be self-consistent for hyper-v,
+> > but the problem is that then hv would have incompatible locking/nesting
+> > rules compared to everything else, and dma_fence matter for memory
+> > management so this includes whether you're allowed to kmalloc(GFP_KERNEL)
+> > or not, and that's just a bit too much.
+> >
+> > I discussed this quickly with Jesse on irc and it sounds like the reason
+> > you want the dma_fence is just to emulate the sync_file interface for
+> > android. I think the correct solution here is to create a hv_dxg_sync_file
+> > fd, which emulates the exact ioctls that Android needs, but with a wddm
+> > monitored fence underneath instead of a dma_fence underneath.
+> >
+> > This way we guarantee that no one ever accidentally mixes these
+> > incompatible concepts up in the kernel, and Android should still be able
+> > to happily run under hyperv.
+> >
+> > Thoughts?
+> >
+> > Also pls cc me on this sync work since even if you drop dma_fence use
+> > completely I'd like to follow this a bit.
 >
-> This is because DRM_CHIPONE_ICN6211 selects DRM_PANEL_BRIDGE
-> without depending on or selecting DRM_KMS_HELPER,
-> despite DRM_PANEL_BRIDGE depending on DRM_KMS_HELPER.
+> Hi Daniel,
 >
-> This unmet dependency bug was detected by Kismet,
-> a static analysis tool for Kconfig.
-> Please advise if this is not the appropriate solution.
->
-> Fixes: ce517f18944e ("drm: bridge: Add Chipone ICN6211 MIPI-DSI to RGB bridge")
-> Reviewed-by: Robert Foss <robert.foss@linaro.org>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Julian Braha <julianbraha@gmail.com>
-> ---
-> v2:
-> - changed from "select" to "depends on"
->
-> v3:
-> - new line now uses tabs instead of spaces.
->
->  drivers/gpu/drm/bridge/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-> index 61db5a66b493..a1b52eaf26e0 100644
-> --- a/drivers/gpu/drm/bridge/Kconfig
-> +++ b/drivers/gpu/drm/bridge/Kconfig
-> @@ -30,6 +30,7 @@ config DRM_CDNS_DSI
->  config DRM_CHIPONE_ICN6211
->         tristate "Chipone ICN6211 MIPI-DSI/RGB Converter bridge"
->         depends on OF
-> +       depends on DRM_KMS_HELPER
->         select DRM_MIPI_DSI
->         select DRM_PANEL_BRIDGE
->         help
-> --
+> Thank you for the review and feedback.
+> I will get this addressed.
 
-Applied to drm-misc-next.
+btw another idea I had over the w/e: Another option might be to allow
+different backends for sync_file, and then making sure that you cannot
+ever mix dma_fence and hv_dxg_fence type sync_file up (in e.g. the
+merge ioctl).
+
+The issue is that fundamentally dma_fence and memory fences (or umf
+for userspace memory fences as we tend to call them) aren't
+compatible, but some of the interop plans we have is to allow stuffing
+either of them into fence container objects like sync_file. So going
+that route for wddm monitored fence support too could be a really
+future-proof approach, plus it'd allow you to still share the
+sync_file interface code. Not that it's going to be much code sharing,
+since all the implementation code needs to be distinct.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
