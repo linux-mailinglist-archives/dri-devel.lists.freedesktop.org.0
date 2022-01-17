@@ -2,47 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECCCF490B38
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 16:13:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B34AA490B36
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 16:12:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D09A10E3A1;
-	Mon, 17 Jan 2022 15:13:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 852E088EB4;
+	Mon, 17 Jan 2022 15:12:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BBAA10E39B;
- Mon, 17 Jan 2022 15:13:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642432381; x=1673968381;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=2HFXyBiXYHH8MavvXcoEOjIszkgRiKWHDnia4UxLVt8=;
- b=mfO65HqwER9TsIb6Xod9AhNmxDizeWt8IjaOddAAXt8rWUAQdjtA+nlG
- 0YHe+L+wLuBIAxD8hOf3WWC9gTbh776QKViE3bNf40q1A1S2IKYAGBT2D
- KHX21NGT416UZ/L2f5E9RAJlyYIUIsaIUJfZZ/J7V/1ZO3OM53qDRjW7T
- 1ggqyJ1fuUvfTyqWMWT2v266R423tyNG1BNGjX+fr/w1QZruHhHwdEfFY
- Bl5mdkURxGIdSDEWlwhUz5aqoTSP11BhWTxJVxcfZ7ZNJh9GIIO7zHbza
- ZCKddoqtmYb0tTTt6oJtU80nMi5vsbKQbreSpSQb2RQ/IwSlea8tLjl9W w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10229"; a="244838791"
-X-IronPort-AV: E=Sophos;i="5.88,295,1635231600"; d="scan'208";a="244838791"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2022 07:13:00 -0800
-X-IronPort-AV: E=Sophos;i="5.88,295,1635231600"; d="scan'208";a="531376674"
-Received: from ajadhav-mobl1.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
- ([10.213.243.16])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2022 07:12:59 -0800
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/buddy: fixup potential uaf
-Date: Mon, 17 Jan 2022 15:10:53 +0000
-Message-Id: <20220117151053.1844062-1-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.31.1
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE3E188EB4
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 15:12:02 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ d18-20020a05600c251200b0034974323cfaso25089533wma.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 07:12:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=subject:to:cc:references:from:organization:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=iobZ9nIGQYOcCvMsLNiuSueXQIR4Q93XXCRE5G/Gobc=;
+ b=uBbnoT68ad0CaZ2z4c+QV0CuII+8J3rnGOJVehC4ySqxyK+ZWJj6ihSWXZhrEmH51E
+ 24OHvfLpL0HjzFVLZvrDuS/fFnvQx74Uy2ZU0Z3UUsfOG2Dz08cB6KybWUvIeK5eDTxS
+ phOal6YFDo8zXfOgYjULbSGpF3f2EtKSdgZMuq9JUJSzDHgKTZriArJHisUOk6/0U11e
+ +jK3NfFEfW8GTVIIjSQ6/afnFAfcxP0bCfRKQFunIM2lJkqzcenA/nSnMLjho+hP+KfV
+ 0euUq3vrdA2vZ+lnoNpvD+5AI2JJHRnhcFRwptzKPsqG8AtVikmwB3dcO2x7JVZBAUbs
+ QCGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=iobZ9nIGQYOcCvMsLNiuSueXQIR4Q93XXCRE5G/Gobc=;
+ b=firR88Db5Ou0TYJoMNnNc4TAEwd34lLXkj3Z4znGBSURVOJaGVp1f/wFaCfqQfRu7J
+ CojkgNYOj2RXu8stIaEQXd3/e9PlpBOHcOs3gPoUyLwwZU7e/nFuKZ8CASk8BV4v+E6H
+ WZpdHBmA4cYQOIr3fIZwDxVbEjo980RAICTiJC34pEe9gASFSl00IG7FQlUJNHLq/r0V
+ pP8Gdfd9oBkNu7mcNhe/qEbJtge2RKBN5DYO//0pUfWrtBSsAC4L685EJVc8Q9EUUEAD
+ NXI12/OWAlahMguMwWBVC9rz41f3jyU4UbG86YiFu58tyePZ31LAWhK9Oak6mgCW1/vF
+ FJiA==
+X-Gm-Message-State: AOAM532vxPOgJFB/JUg930uKDpnkueem6EnaqYkO0ZkLCr7c0h9fWdXJ
+ ct3zLqB4bZ3pkEZ1e9HVj8bdeA==
+X-Google-Smtp-Source: ABdhPJzkNeQEobN5QpybM3e8obvxhbFXFSFUTDbbVh1vK9voBPPmlRJxDdyzSsnY0+lrrKtC1xP+8w==
+X-Received: by 2002:a05:600c:3b9a:: with SMTP id
+ n26mr14317988wms.88.1642432321271; 
+ Mon, 17 Jan 2022 07:12:01 -0800 (PST)
+Received: from ?IPv6:2001:861:44c0:66c0:c004:9fe1:fbda:2d0c?
+ ([2001:861:44c0:66c0:c004:9fe1:fbda:2d0c])
+ by smtp.gmail.com with ESMTPSA id p62sm13589984wmp.10.2022.01.17.07.11.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Jan 2022 07:12:00 -0800 (PST)
+Subject: Re: [PATCH] drm/bridge: dw-hdmi: use safe format when first in bridge
+ chain
+To: Biju Das <biju.das.jz@bp.renesas.com>,
+ "robert.foss@linaro.org" <robert.foss@linaro.org>
+References: <20220117141750.1182223-1-narmstrong@baylibre.com>
+ <OS0PR01MB592290D81CE917A0125C519E86579@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Organization: Baylibre
+Message-ID: <89d47094-e23f-7c36-7cc8-c261a921c2ab@baylibre.com>
+Date: Mon, 17 Jan 2022 16:11:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <OS0PR01MB592290D81CE917A0125C519E86579@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,52 +80,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, Arunpravin <Arunpravin.PaneerSelvam@amd.com>
+Cc: "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
+ "jonas@kwiboo.se" <jonas@kwiboo.se>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If we are unlucky and can't allocate enough memory when splitting
-blocks, where we temporarily end up with the given block and its buddy
-on the respective free list, then we need to ensure we delete both
-blocks, and no just the buddy, before potentially freeing them.
+On 17/01/2022 15:27, Biju Das wrote:
+> Hi Neil,
+> 
+> Thanks for the patch
+> 
+>> Subject: [PATCH] drm/bridge: dw-hdmi: use safe format when first in bridge
+>> chain
+>>
+>> When the dw-hdmi bridge is in first place of the bridge chain, this means
+>> there is now way to select an input format of the dw-hdmi HW component.
+>>
+>> Since introduction of display-connector, negociation was broken since the
+>> dw-hdmi negociation code only worked when the dw-hdmi bridge was in last
+>> position of the bridge chain or behind another bridge also supporting
+>> input & output format negociation.
+>>
+>> Commit 0656d1285b79 ("drm/bridge: display-connector: implement bus fmts
+>> callbacks") was introduced to make negociation work again by making
+>> display-connector act as a pass-through concerning input & output format
+>> negociation.
+>>
+>> But in the case were the dw-hdmi was single in the bridge chain, for
+>> example on Renesas SoCs, with the disply-connector bridge the dw-hdmi is
+>> no more single, breaking output format.
+>>
+>> Reported-by: Biju Das <biju.das.jz@bp.renesas.com>
+>> Bisected-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>> Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>> Fixes: 0656d1285b79 ("drm/bridge: display-connector: implement bus fmts
+>> callbacks").
+>> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+>> ---
+>>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 9 +++++++--
+>>  1 file changed, 7 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+>> b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+>> index 54d8fdad395f..9f2e1cac0ae2 100644
+>> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+>> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+>> @@ -2551,8 +2551,9 @@ static u32
+>> *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
+>>  	if (!output_fmts)
+>>  		return NULL;
+>>
+>> -	/* If dw-hdmi is the only bridge, avoid negociating with ourselves
+>> */
+>> -	if (list_is_singular(&bridge->encoder->bridge_chain)) {
+>> +	/* If dw-hdmi is the first or only bridge, avoid negociating with
+>> ourselves */
+>> +	if (list_is_singular(&bridge->encoder->bridge_chain) ||
+>> +	    list_is_first(&bridge->chain_node,
+>> +&bridge->encoder->bridge_chain)) {
+>>  		*num_output_fmts = 1;
+>>  		output_fmts[0] = MEDIA_BUS_FMT_FIXED;
+>>
+>> @@ -2673,6 +2674,10 @@ static u32
+>> *dw_hdmi_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+>>  	if (!input_fmts)
+>>  		return NULL;
+>>
+>> +	/* If dw-hdmi is the first bridge fall-back to safe output format */
+>> +	if (list_is_first(&bridge->chain_node, &bridge->encoder-
+>>> bridge_chain))
+>> +		output_fmt = MEDIA_BUS_FMT_FIXED;
+>> +
+> 
+> Based on my debugging, this looks redundant, as get_output_bus_fmts already sets output_fmt = MEDIA_BUS_FMT_FIXED,
+> And *num_output_fmts = 1, so the function parameter output_fmt in input_bus_fmts will have MEDIA_BUS_FMT_FIXED
+> And no need to override output_fmt value.  I may be wrong here.
 
-Fixes: 14d1b9a6247c ("drm/i915: buddy allocator")
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
-Cc: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/i915/i915_buddy.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+You're right, I added this in case another bridge than display-connector is used, but in fact it should instead
+check if first bridge of the chain and output_fmt == MEDIA_BUS_FMT_RGB888_1X24 || output_fmt == MEDIA_BUS_FMT_FIXED
+otherwise return an error.
 
-diff --git a/drivers/gpu/drm/i915/i915_buddy.c b/drivers/gpu/drm/i915/i915_buddy.c
-index 6e2ad68f8f3f..9ca81b095adb 100644
---- a/drivers/gpu/drm/i915/i915_buddy.c
-+++ b/drivers/gpu/drm/i915/i915_buddy.c
-@@ -293,8 +293,10 @@ i915_buddy_alloc(struct i915_buddy_mm *mm, unsigned int order)
- 	return block;
- 
- out_free:
--	if (i != order)
-+	if (i != order) {
-+		list_del(&block->link);
- 		__i915_buddy_free(mm, block);
-+	}
- 	return ERR_PTR(err);
- }
- 
-@@ -401,8 +403,10 @@ int i915_buddy_alloc_range(struct i915_buddy_mm *mm,
- 	buddy = get_buddy(block);
- 	if (buddy &&
- 	    (i915_buddy_block_is_free(block) &&
--	     i915_buddy_block_is_free(buddy)))
-+	     i915_buddy_block_is_free(buddy))) {
-+		list_del(&block->link);
- 		__i915_buddy_free(mm, block);
-+	}
- 
- err_free:
- 	i915_buddy_free_list(mm, &allocated);
--- 
-2.31.1
+I'll send it separately since it's out of the scope of the issue fixed.
+
+Neil
+
+> 
+> Regards,
+> Biju
+> 
+>>  	switch (output_fmt) {
+>>  	/* If MEDIA_BUS_FMT_FIXED is tested, return default bus format */
+>>  	case MEDIA_BUS_FMT_FIXED:
+>> --
+>> 2.25.1
+> 
 
