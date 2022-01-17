@@ -2,66 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C4974909C2
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 14:51:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E5744909CC
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 14:52:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B1CE10E1F6;
-	Mon, 17 Jan 2022 13:51:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 020B810E279;
+	Mon, 17 Jan 2022 13:52:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1434010E1F6
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 13:51:10 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id AB9261F399;
- Mon, 17 Jan 2022 13:51:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1642427468; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0mK1vTdh/N1JGSY5RLEBdcoglPVme0D3aV+HDcYBmm8=;
- b=vi+8Dmi9KMQxUAlbbbEJkXgg0xPCHSnKQnYA5jU9G6QbAlF1HIXYf4HX5AqygOML7gS/od
- tjHMmR5GcXWl8nW9i17bpc4y+nA/NdcGegolk56jq3gXFA1zdDPdjZqTFozd8y5XksPycs
- fRyOAi+FETwecOp2P1ukbvrEk+ME/9E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1642427468;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0mK1vTdh/N1JGSY5RLEBdcoglPVme0D3aV+HDcYBmm8=;
- b=DmVqlP1Omwvlgfg60OiHiNeuVO8zyg8do0/v3Xvvn1SSOmQiKj99E71h568tzmCKhcc8s1
- 2Mi3irK7umWxR+BQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 73D4B13D94;
- Mon, 17 Jan 2022 13:51:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id A+DTGkx05WHPUwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 17 Jan 2022 13:51:08 +0000
-Message-ID: <70530b62-7b3f-db88-7f1a-f89b824e5825@suse.de>
-Date: Mon, 17 Jan 2022 14:51:07 +0100
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 705BC10E29B
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 13:52:37 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ l12-20020a7bc34c000000b003467c58cbdfso24521622wmj.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 05:52:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=subject:to:cc:references:from:organization:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=LiIpTlntYSITuyTI+izCWqQctqMJoHIqLwhsNG7Wr5U=;
+ b=qE6ah31Sf7qAX0aKKpqgEvkfTJoD3IAZ2Et0Cs13BT9V0N1rDZwuhTshWbJsnHGkra
+ RgKUBa3BR+lKePeYV+rYSMJG73zOpsLNoFTImT2ksJvXRx2UX6f18kXXHztwitoMU6uX
+ waLcQOzEmt14knHnbOaeUQARObO4pzfHV2WlpZUUdEQdvJItfctT0DnOAfwPwcwV298V
+ dCX9BfqpnRrNzrGTks16HWNrt7n0lVOa+yMPpflgKSuFu8/w/0jLF/CcSsP2QVaLhftu
+ KKYRkjtuOzykcKJ/sV7MboGAmEhbr5eMuA+o1xpbBQaSYKG0JrJMHwmQG3BbvuscSun1
+ 186g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=LiIpTlntYSITuyTI+izCWqQctqMJoHIqLwhsNG7Wr5U=;
+ b=VRsgBiHg49EfsR17hloramBK2Wxf1WJYDHnrZzg/Z+y8vOkwrVB5nvWvQfbhQkQQUr
+ g1xkS/HsfV/U6kjsyr21rIeje7xdOzjFYD7vniuLs4KBqqmAyfEMVYLU2de1/XVBrofP
+ +AQwbfcUkwmuzcYI1LRQBRsfQj7aqLkkewEiKKbgQMVOn9KbMuMNz3wZdvVamDucCm7M
+ 4cqZ5TInrHcQThUD+OA4Z8Mm1NdB7MxdWmpL332bhh1FUIJ8nNoVxfY/DHrtHA8GtFok
+ hfH0MtuRq7lWoazpUJb52Pdsmt191cwFJZmplGBPinVBplNmy+kbOPBUdY9faT65NGeE
+ 5prA==
+X-Gm-Message-State: AOAM532y7cLBnnp9pOrgXjfb7+jTeuChqYgS3sGqJPER/kqr0k8skJ9b
+ pZ2cqeu3rUGX7tGcp1Kllxf4QA==
+X-Google-Smtp-Source: ABdhPJxfCBB+2lpShPZRaKWy2/tvYRqFRbp9l+bKHXpaRFOPWnSWqP3Nzd74XiXds27wdXkgesO21A==
+X-Received: by 2002:adf:fa08:: with SMTP id m8mr19312390wrr.221.1642427555728; 
+ Mon, 17 Jan 2022 05:52:35 -0800 (PST)
+Received: from ?IPv6:2001:861:44c0:66c0:c004:9fe1:fbda:2d0c?
+ ([2001:861:44c0:66c0:c004:9fe1:fbda:2d0c])
+ by smtp.gmail.com with ESMTPSA id q206sm14506847wme.8.2022.01.17.05.52.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Jan 2022 05:52:35 -0800 (PST)
+Subject: Re: dw_hdmi is showing wrong colour after commit
+ 7cd70656d1285b79("drm/bridge: display-connector: implement bus fmts
+ callbacks")
+To: Biju Das <biju.das.jz@bp.renesas.com>, Fabio Estevam <festevam@gmail.com>
+References: <OS0PR01MB59221ED76B74231F5836D5FB86539@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAOMZO5DJiCb5bJN5_nxnYa-FsK-u7QtFghWNzs_-udE42XPDeA@mail.gmail.com>
+ <502f3ec4-fea4-8e14-c7a9-39418fc05d6d@baylibre.com>
+ <OS0PR01MB592224EC8F50F41B7FF1DEE286549@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <19dd6013-8a31-b2ed-29d5-93fc44193ce4@baylibre.com>
+ <OS0PR01MB5922F442759BE6F228EE0B4486549@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <538b8da4-1201-5f45-2abf-ecd22c867358@baylibre.com>
+ <OS0PR01MB5922BC31FBCF85F99F17737B86549@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <ebaff694-a2d7-7eb8-5850-980e9d4e1e68@baylibre.com>
+ <80fdc5a0-ddb8-5a0f-eb8c-ef7988ced638@baylibre.com>
+ <OS0PR01MB59224F0F892D6F86DBD5D36286579@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Organization: Baylibre
+Message-ID: <b52ae1a2-b211-2bca-8d62-482a840787ec@baylibre.com>
+Date: Mon, 17 Jan 2022 14:52:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] MAINTAINERS: Add Helge as fbdev maintainer
+In-Reply-To: <OS0PR01MB59224F0F892D6F86DBD5D36286579@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Gerd Hoffmann <kraxel@redhat.com>
-References: <YeG8ydoJNWWkGrTb@ls3530>
- <CAKMK7uGdJckdM+fg+576iJXsqzCOUg20etPBMwRLB9U7GcG01Q@mail.gmail.com>
- <c80ed72c-2eb4-16dd-a7ad-57e9dde59ba1@gmx.de>
- <20220117125716.yjwxsze35j2ndn2i@sirius.home.kraxel.org>
- <CAMuHMdW=Zpp2mHbrBx7i0WN8PqY3XpK5qpyAyYxgf9n88edpug@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <CAMuHMdW=Zpp2mHbrBx7i0WN8PqY3XpK5qpyAyYxgf9n88edpug@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------KsZMdQUxiibxK2wrIo0AAOOd"
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,119 +88,315 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>, Helge Deller <deller@gmx.de>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Javier Martinez Canillas <javierm@redhat.com>
+Cc: "jonas@kwiboo.se" <jonas@kwiboo.se>,
+ "martin.blumenstingl@googlemail.com" <martin.blumenstingl@googlemail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "robert.foss@linaro.org" <robert.foss@linaro.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
+ "linux-amlogic@lists.infradead.org" <linux-amlogic@lists.infradead.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------KsZMdQUxiibxK2wrIo0AAOOd
-Content-Type: multipart/mixed; boundary="------------LDzgbro4DDuoxg4TzhAhBU08";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Gerd Hoffmann <kraxel@redhat.com>
-Cc: Helge Deller <deller@gmx.de>, Daniel Vetter <daniel@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- "airlied@gmail.com" <airlied@gmail.com>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Javier Martinez Canillas <javierm@redhat.com>
-Message-ID: <70530b62-7b3f-db88-7f1a-f89b824e5825@suse.de>
-Subject: Re: [PATCH] MAINTAINERS: Add Helge as fbdev maintainer
-References: <YeG8ydoJNWWkGrTb@ls3530>
- <CAKMK7uGdJckdM+fg+576iJXsqzCOUg20etPBMwRLB9U7GcG01Q@mail.gmail.com>
- <c80ed72c-2eb4-16dd-a7ad-57e9dde59ba1@gmx.de>
- <20220117125716.yjwxsze35j2ndn2i@sirius.home.kraxel.org>
- <CAMuHMdW=Zpp2mHbrBx7i0WN8PqY3XpK5qpyAyYxgf9n88edpug@mail.gmail.com>
-In-Reply-To: <CAMuHMdW=Zpp2mHbrBx7i0WN8PqY3XpK5qpyAyYxgf9n88edpug@mail.gmail.com>
+On 17/01/2022 13:13, Biju Das wrote:
+> Hi Neil,
+>> Subject: Re: dw_hdmi is showing wrong colour after commit
+>> 7cd70656d1285b79("drm/bridge: display-connector: implement bus fmts
+>> callbacks")
+>>
+>> Hi again,
+>>
+>> On 14/01/2022 15:40, Neil Armstrong wrote:
+>>> Hi,
+>>>
+>>> On 14/01/2022 15:23, Biju Das wrote:
+>>>>
+>>>>
+>>>>> -----Original Message-----
+>>>>> From: Neil Armstrong <narmstrong@baylibre.com>
+>>>>> Sent: 14 January 2022 13:56
+>>>>> To: Biju Das <biju.das.jz@bp.renesas.com>; Fabio Estevam
+>>>>> <festevam@gmail.com>
+>>>>> Cc: daniel@ffwll.ch; Laurent.pinchart@ideasonboard.com;
+>>>>> robert.foss@linaro.org; jonas@kwiboo.se; jernej.skrabec@gmail.com;
+>>>>> martin.blumenstingl@googlemail.com;
+>>>>> linux-amlogic@lists.infradead.org;
+>>>>> linux-arm-kernel@lists.infradead.org;
+>>>>> dri-devel@lists.freedesktop.org; linux-kernel@vger.kernel.org;
+>>>>> linux-renesas-soc@vger.kernel.org
+>>>>> Subject: Re: dw_hdmi is showing wrong colour after commit
+>>>>> 7cd70656d1285b79("drm/bridge: display-connector: implement bus fmts
+>>>>> callbacks")
+>>>>>
+>>>>> Hi,
+>>>>>
+>>>>> On 14/01/2022 12:08, Biju Das wrote:
+>>>>>> Hi Neil,
+>>>>>>
+>>>>>>> Subject: Re: dw_hdmi is showing wrong colour after commit
+>>>>>>> 7cd70656d1285b79("drm/bridge: display-connector: implement bus
+>>>>>>> fmts
+>>>>>>> callbacks")
+>>>>>>>
+>>>>>>> On 14/01/2022 09:29, Biju Das wrote:
+>>>>>>>> Hi Neil,
+>>>>>>>>
+>>>>>>>> + renesas-soc
+>>>>>>>>
+>>>>>>>>> Subject: Re: dw_hdmi is showing wrong colour after commit
+>>>>>>>>> 7cd70656d1285b79("drm/bridge: display-connector: implement bus
+>>>>>>>>> fmts
+>>>>>>>>> callbacks")
+>>>>>>>>>
+>>>>>>>>> Hi,
+>>>>>>>>>
+>>>>>>>>> On 13/01/2022 21:01, Fabio Estevam wrote:
+>>>>>>>>>> Hi Biju,
+>>>>>>>>>>
+>>>>>>>>>> On Thu, Jan 13, 2022 at 2:45 PM Biju Das
+>>>>>>>>>> <biju.das.jz@bp.renesas.com>
+>>>>>>>>> wrote:
+>>>>>>>>>>>
+>>>>>>>>>>> Hi All,
+>>>>>>>>>>>
+>>>>>>>>>>> RZ/G2{H, M, N} SoC has dw_hdmi IP and it was working
+>>>>>>>>>>> ok(colour) till the commit
+>>>>>>>>>>> 7cd70656d1285b79("drm/bridge: display-connector: implement bus
+>>>>>>>>>>> fmts
+>>>>>>>>> callbacks").
+>>>>>>>>>>>
+>>>>>>>>>>> After this patch, the screen becomes greenish(may be it is
+>>>>>>>>>>> setting it
+>>>>>>>>> into YUV format??).
+>>>>>>>>>>>
+>>>>>>>>>>> By checking the code, previously it used to call get_input_fmt
+>>>>>>>>>>> callback
+>>>>>>>>> and set colour as RGB24.
+>>>>>>>>>>>
+>>>>>>>>>>> After this commit, it calls get_output_fmt_callbck and returns
+>>>>>>>>>>> 3 outputformats(YUV16, YUV24 and RGB24) And get_input_fmt
+>>>>>>>>>>> callback, I see
+>>>>>>>>> the outputformat as YUV16 instead of RGB24.
+>>>>>>>>>>>
+>>>>>>>>>>> Not sure, I am the only one seeing this issue with dw_HDMI
+>> driver.
+>>>>>>>>>
+>>>>>>>>> This patch was introduced to maintain the bridge color format
+>>>>>>>>> negotiation after using DRM_BRIDGE_ATTACH_NO_CONNECTOR, but it
+>>>>>>>>> seems it behaves incorrectly if the first bridge doesn't
+>>>>>>>>> implement the negotiation callbacks.
+>>>>>>>>>
+>>>>>>>>> Let me check the code to see how to fix that.
+>>>>>>>>
+>>>>>>>> Thanks for the information, I am happy to test the patch/fix.
+>>>>>>>>
+>>>>>>>> Cheers,
+>>>>>>>> Biju
+>>>>>>>>
+>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>> I have tested linux-next 20220112 on a imx6q-sabresd board,
+>>>>>>>>>> which
+>>>>>>> shows:
+>>>>>>>>>>
+>>>>>>>>>> dwhdmi-imx 120000.hdmi: Detected HDMI TX controller v1.30a with
+>>>>>>>>>> HDCP (DWC HDMI 3D TX PHY)
+>>>>>>>>>>
+>>>>>>>>>> The colors are shown correctly here.
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> The imx doesn't use DRM_BRIDGE_ATTACH_NO_CONNECTOR so the
+>>>>>>>>> negotiation fails and use the RGB fallback input & output format.
+>>>>>>>>>
+>>>>>>>>> Anyway thanks for testing
+>>>>>>>>>
+>>>>>>>>> Neil
+>>>>>>>
+>>>>>>> Can you test :
+>>>>>>>
+>>>>>>> ==><===============================
+>>>>>>> diff --git a/drivers/gpu/drm/drm_bridge.c
+>>>>>>> b/drivers/gpu/drm/drm_bridge.c index c96847fc0ebc..7019acd37716
+>>>>>>> 100644
+>>>>>>> --- a/drivers/gpu/drm/drm_bridge.c
+>>>>>>> +++ b/drivers/gpu/drm/drm_bridge.c
+>>>>>>> @@ -955,7 +955,14 @@
+>>>>>>> drm_atomic_bridge_chain_select_bus_fmts(struct
+>>>>>>> drm_bridge *bridge,
+>>>>>>>         last_bridge_state =
+>>>>>>> drm_atomic_get_new_bridge_state(crtc_state-
+>>>>>>>> state,
+>>>>>>>
+>>>>>>> last_bridge);
+>>>>>>>
+>>>>>>> -       if (last_bridge->funcs->atomic_get_output_bus_fmts) {
+>>>>>>> +       /*
+>>>>>>> +        * Only negociate with real values if both end of the
+>>>>>>> + bridge
+>>>>> chain
+>>>>>>> +        * support negociation callbacks, otherwise you can end in
+>>>>>>> + a
+>>>>>>> situation
+>>>>>>> +        * where the selected output format doesn't match with the
+>>>>>>> + first
+>>>>>>> bridge
+>>>>>>> +        * output format.
+>>>>>>> +        */
+>>>>>>> +       if (bridge->funcs->atomic_get_input_bus_fmts &&
+>>>>>>> +           last_bridge->funcs->atomic_get_output_bus_fmts) {
+>>>>>>>                 const struct drm_bridge_funcs *funcs =
+>>>>>>> last_bridge->funcs;
+>>>>>>>
+>>>>>>>                 /*
+>>>>>>> @@ -980,7 +987,12 @@
+>>>>>>> drm_atomic_bridge_chain_select_bus_fmts(struct
+>>>>>>> drm_bridge *bridge,
+>>>>>>>                 if (!out_bus_fmts)
+>>>>>>>                         return -ENOMEM;
+>>>>>>>
+>>>>>>> -               if (conn->display_info.num_bus_formats &&
+>>>>>>> +               /*
+>>>>>>> +                * If first bridge doesn't support negociation,
+>>>>>>> + use
+>>>>>>> MEDIA_BUS_FMT_FIXED
+>>>>>>> +                * as a safe value for the whole bridge chain
+>>>>>>> +                */
+>>>>>>> +               if (bridge->funcs->atomic_get_input_bus_fmts &&
+>>>>>>> +                   conn->display_info.num_bus_formats &&
+>>>>>>>                     conn->display_info.bus_formats)
+>>>>>>>                         out_bus_fmts[0] = conn-
+>>>>>>>> display_info.bus_formats[0];
+>>>>>>>                 else
+>>>>>>> ==><===============================
+>>>>>>>
+>>>>>>> This should exclude your situation where the first bridge doesn't
+>>>>>>> support negociation.
+>>>>>>
+>>>>>> I have tested this fix with Linux next-20220114. Still I see colour
+>>>>> issue.
+>>>>>>
+>>>>>> It is still negotiating and it is calling get_output_fmt_callbck
+>>>>>>
+>>>>>> [    3.460155] ########dw_hdmi_bridge_atomic_get_output_bus_fmts
+>>>>> MEDIA_BUS_FMT_UYVY8_1X16=0#########
+>>>>>> [    3.460180] ########dw_hdmi_bridge_atomic_get_output_bus_fmts
+>>>>> MEDIA_BUS_FMT_YUV8_1X24=1#########
+>>>>>> [    3.460202] ########dw_hdmi_bridge_atomic_get_output_bus_fmts
+>>>>> MEDIA_BUS_FMT_RGB888_1X24=2#########
+>>>>>>
+>>>>>> And In get_input_fmt callback, I See the outputformat as YUV16
+>>>>>> instead
+>>>>> of RGB24.
+>>>>>>
+>>>>>> [    3.460319] ########dw_hdmi_bridge_atomic_get_input_bus_fmts
+>>>>> MEDIA_BUS_FMT_UYVY8_1X16#########
+>>>>>> [    3.473644] ########hdmi_video_sample
+>>>>> MEDIA_BUS_FMT_UYVY8_1X16#########
+>>>>>
+>>>>> OK, looking at rcar-du, the dw-hdmi bridge is directly connected to
+>>>>> the encoder.
+>>>>
+>>>> Yep.
+>>>>
+>>>>>
+>>>>> Let me figure that out, no sure I can find a clean solution except
+>>>>> putting back RGB24 before YUV.
+>>>>>
+>>>>> Anyway please test that:
+>>>>
+>>>> It works now after reordering.
+>>>>
+>>>> [    3.493302] ########dw_hdmi_bridge_atomic_get_output_bus_fmts
+>> MEDIA_BUS_FMT_RGB888_1X24=0#########
+>>>> [    3.493326] ########dw_hdmi_bridge_atomic_get_output_bus_fmts
+>> MEDIA_BUS_FMT_YUV8_1X24=1#########
+>>>> [    3.493348] ########dw_hdmi_bridge_atomic_get_output_bus_fmts
+>> MEDIA_BUS_FMT_UYVY8_1X16=2#########
+>>>>
+>>>> [    3.493463] ########dw_hdmi_bridge_atomic_get_input_bus_fmts
+>> MEDIA_BUS_FMT_RGB888_1X24#########
+>>>> [    3.506797] ########hdmi_video_sample
+>> MEDIA_BUS_FMT_RGB888_1X24#########
+>>>>
+>>>> Is it acceptable solution to the users of dw_hdmi driver? May be it is
+>> worth to post a patch.
+>>>> at least it is fixing the colour issue??
+>>>
+>>> Yes, it gets back to default behavior before negociation, nevertheless
+>>> we need to think how to handle your use-case correctly at some point.
+>>>
+>>> I'll post this as a patch ASAP so it gets applied before landing in
+>> linus master.
+>>>
+>>> Neil
+>>>
+>>>>
+>>>> Regards,
+>>>> Biju
+>>>>
+>>>>>
+>> [...]
+>>
+>> I'm not happy with this version since it's merely a hack which makes it
+>> work.
+>>
+>> Can you test the following change instead, it's correctly handles your
+>> situation in a generic manner.
+>>
+>> ========================><=============================
+>> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+>> b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+>> index 54d8fdad395f..9f2e1cac0ae2 100644
+>> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+>> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+>> @@ -2551,8 +2551,9 @@ static u32
+>> *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
+>>         if (!output_fmts)
+>>                 return NULL;
+>>
+>> -       /* If dw-hdmi is the only bridge, avoid negociating with ourselves
+>> */
+>> -       if (list_is_singular(&bridge->encoder->bridge_chain)) {
+>> +       /* If dw-hdmi is the first or only bridge, avoid negociating with
+>> ourselves */
+>> +       if (list_is_singular(&bridge->encoder->bridge_chain) ||
+>> +           list_is_first(&bridge->chain_node,
+>> + &bridge->encoder->bridge_chain)) {
+>>                 *num_output_fmts = 1;
+>>                 output_fmts[0] = MEDIA_BUS_FMT_FIXED;
+>>
+>> @@ -2673,6 +2674,10 @@ static u32
+>> *dw_hdmi_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+>>         if (!input_fmts)
+>>                 return NULL;
+>>
+>> +       /* If dw-hdmi is the first bridge fall-back to safe output format
+>> */
+>> +       if (list_is_first(&bridge->chain_node, &bridge->encoder-
+>>> bridge_chain))
+>> +               output_fmt = MEDIA_BUS_FMT_FIXED;
+>> +
+>>         switch (output_fmt) {
+>>         /* If MEDIA_BUS_FMT_FIXED is tested, return default bus format */
+>>         case MEDIA_BUS_FMT_FIXED:
+>> ========================><=============================
+> 
+> This patch alone fixes the issue. I have tested with Linux-next.
+> Do we need below code, as it is already taken care in output_bus_fmt callback.
 
---------------LDzgbro4DDuoxg4TzhAhBU08
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+You're right in your case the first part is enough.
 
-SGkNCg0KQW0gMTcuMDEuMjIgdW0gMTQ6Mjkgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46
-DQo+IEhpIEdlcmQsDQo+IA0KPiBPbiBNb24sIEphbiAxNywgMjAyMiBhdCAxOjU3IFBNIEdl
-cmQgSG9mZm1hbm4gPGtyYXhlbEByZWRoYXQuY29tPiB3cm90ZToNCj4+PiBiKSB0byBpbmNs
-dWRlIG5ldyBkcml2ZXJzIChmb3Igb2xkIGhhcmR3YXJlKSBpZiB0aGV5IGFycml2ZSAocHJv
-YmFibHkgaGFwcGVucyByYXJlbHkgYnV0IHRoZXJlIGNhbiBiZSkuDQo+Pj4gICAgIEkga25v
-dyBvZiBhdCBsZWFzdCBvbmUgZHJpdmVyIHdoaWNoIHdvbid0IGJlIGFibGUgdG8gc3VwcG9y
-dCBEUk0uLi4uDQo+Pg0KPj4gSG1tPyAgSSBzZXJpb3VzbHkgZG91YnQgdGhhdC4gIFRoZXJl
-IGlzIGFsd2F5cyB0aGUgb3B0aW9uIHRvIHVzZSBhDQo+PiBzaGFkb3cgZnJhbWVidWZmZXIs
-IHRoZW4gY29udmVydCBmcm9tIHN0YW5kYXJkIGRybSBmb3JtYXRzIHRvIHdoYXRldmVyDQo+
-PiBlc290ZXJpYyBwaXhlbCBmb3JtYXQgeW91ciBoYXJkd2FyZSBleHBlY3RzLg0KPj4NCj4+
-IEJlZW4gdGhlcmUsIGRvbmUgdGhhdC4gIEhhdmUgYSBsb29rIGF0IHRoZSBjaXJydXMgZHJp
-dmVyLiAgVGhlIHBoeXNpY2FsDQo+PiBoYXJkd2FyZSB3YXMgZGVzaWduZWQgaW4gdGhlIGVh
-cmx5IDkwLWllcywgYWxtb3N0IDMwIHllYXJzIGFnby4gIFRoZXNlDQo+PiBkYXlzIGl0IGV4
-aXN0cyBpbiB2aXJ0dWFsIGZvcm0gb25seSAocWVtdSBlbXVsYXRlcyBpdCkuICBUaGFua3Mg
-dG8gdGhlDQo+PiBkcm0gZHJpdmVyIGl0IHJ1bnMgd2F5bGFuZCBqdXN0IGZpbmUgZXZlbiB0
-aG91Z2ggaXQgaGFzIGEgYnVuY2ggb2YNCj4+IGNvbnN0cmFpbnMgZGljdGF0ZWQgYnkgdGhl
-IGhhcmR3YXJlIGRlc2lnbi4NCj4gDQo+IFRoZSBDaXJydXMgRFJNIGRyaXZlciBzdXBwb3J0
-cyBUcnVlQ29sb3IgKFJHQjU2NS84ODggYW5kIEFSR0I4ODg4KQ0KPiBtb2RlcyBvbmx5LiAg
-VGhlIENpcnJ1cyBmYmRldiBkcml2ZXIgYWxzbyBzdXBwb3J0cyBtb2Nocm9tZSBhbmQgMjU2
-DQo+IGNvbG9yIG1vZGVzLg0KPiANCj4gVGhlcmUgZXhpc3Qgc29tZSBEUk0gZHJpdmVycyB0
-aGF0IGRvIHN1cHBvcnQgRFJNX0ZPUk1BVF9DOCwgYnV0IG5vbmUgb2YNCj4gdGhlICJ0aW55
-IiBvbmVzIGRvLiBTYW1lIGZvciBEUk1fRk9STUFUX1JHQnszMzIsMjMzfS4gIFVzaW5nIGEg
-c2hhZG93DQo+IGZyYW1lIGJ1ZmZlciB0byBjb252ZXJ0IGZyb20gdHJ1ZWNvbG9yIHRvIDI1
-NiBjb2xvcnMgd291bGQgYmUgZG9hYmxlLA0KPiBidXQgd291bGQgZ2l2ZSBiYWQgcmVzdWx0
-cy4gQW5kIHdoYXQgYWJvdXQgbGVzcyBjb2xvcnM/DQo+IEFkZGluZyBzdXBwb3J0IGZvciBl
-LmcuIERSTV9GT1JNQVRfQzQgaXMgbm90IHN0cmFpZ2h0LWZvcndhcmQsIGFzDQo+IHRoZSBE
-Uk0gY29yZSBhc3N1bWVzIGluIG1hbnkgcGxhY2VzIHRoYXQgYSBwaXhlbCBpcyBhdCBsZWFz
-dCAxIGJ5dGUsDQo+IGFuZCB3b3VsZCBjcmFzaCBvdGhlcndpc2UgKHllcyBJIHRyaWVkKS4g
-IE90aGVyIG1vZGVzIG5lZWRlZCBhcmUNCj4gRFJNX0ZPUk1BVF9ZNCBhbmQgRFJNX0ZPUk1B
-VF97QlcsV0J9IChtb25vY2hyb21lKS4NCg0KV2UgZXhwb3J0IFhSR0IzMiBmcm9tIGVhY2gg
-ZHJpdmVyLCBiZWNhdXNlIHVzZXJzcGFjZSBleHBlY3RzIGl0LiBCdXQgDQp0aGF0IGlzIG5v
-dCBhIGhhcmQgcmVxdWlyZW1lbnQuIFVzZXJzcGFjZSBjYW4gdXNlIGFueSBmb3JtYXQuIEl0
-J3MganVzdCANCnRoYXQgbm8gb25lIHNlZW1zIHRvIGhhdmUgYW55IHVzZSBjYXNlcyBzbyBm
-YXIsIHNvIG5vIHdvcmsgaGFzIGJlZW4gDQpkb25lLiBUaGluayBvZiBYUkdCMzIgYXMgYSBm
-YWxsYmFjay4NCg0KUGVyc29uYWxseSwgSSdkIG11Y2ggYXBwcmVjaWF0ZSBpZiB1c2Vyc3Bh
-Y2Ugd291bGQgc3VwcG9ydCBtb3JlIG9mIHRoZSANCm5hdGl2ZSBmb3JtYXRzIGFuZCBub3Qg
-cmVseSBvbiBYUkdCMzIuDQoNCg0KPiBUaGlzIG5vdCBvbmx5IHRvIHN1cHBvcnQgIm9sZCIg
-aGFyZHdhcmUsIGJ1dCBhbHNvIG1vZGVybiBzbWFsbCBPTEVEDQo+IGFuZCBlLWluayBkaXNw
-bGF5cy4NCg0KVGhlcmUncyBhIERSTSBkcml2ZXIgZm9yIFJlcGFwZXIgZS1JbmsgZGlzcGxh
-eXMuIFNvIGl0IHNlZW1zIGRvYWJsZSBhdCANCmxlYXN0Lg0KDQpCZXN0IHJlZ2FyZHMNClRo
-b21hcw0KDQo+IA0KPiBPbiB0aGUgcG9zaXRpdmUgc2lkZTogRFJNIHdvdWxkIGZvcmNlIGUu
-Zy4gdGhlIEFtaWdhIGFuZCBBdGFyaQ0KPiBiaXRwbGFuZSBmb3JtYXRzIHRvIGJlY29tZSBp
-bnRlcm5hbCB0byB0aGUga2VybmVsIGRyaXZlciwgd2l0aCB0aGUNCj4ga2VybmVsIGRyaXZl
-ciBjb252ZXJ0aW5nIGZyb20gcGFja2VkIHBpeGVscyB0byBiaXRwbGFuZXMuICBIZW5jZQ0K
-PiB1c2Vyc3BhY2Ugd291bGQgbm8gbG9uZ2VyIGhhdmUgdG8gY2FyZSBhYm91dCBiaXRwbGFu
-ZXMuDQo+IA0KPiANCj4gR3J7b2V0amUsZWV0aW5nfXMsDQo+IA0KPiAgICAgICAgICAgICAg
-ICAgICAgICAgICAgR2VlcnQNCj4gDQo+IC0tDQo+IEdlZXJ0IFV5dHRlcmhvZXZlbiAtLSBU
-aGVyZSdzIGxvdHMgb2YgTGludXggYmV5b25kIGlhMzIgLS0gZ2VlcnRAbGludXgtbTY4ay5v
-cmcNCj4gDQo+IEluIHBlcnNvbmFsIGNvbnZlcnNhdGlvbnMgd2l0aCB0ZWNobmljYWwgcGVv
-cGxlLCBJIGNhbGwgbXlzZWxmIGEgaGFja2VyLiBCdXQNCj4gd2hlbiBJJ20gdGFsa2luZyB0
-byBqb3VybmFsaXN0cyBJIGp1c3Qgc2F5ICJwcm9ncmFtbWVyIiBvciBzb21ldGhpbmcgbGlr
-ZSB0aGF0Lg0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAtLSBMaW51cyBU
-b3J2YWxkcw0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2
-ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRz
-dHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5i
-ZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+> 
+>> +       if (list_is_first(&bridge->chain_node, &bridge->encoder-
+>>> bridge_chain))
+>> +               output_fmt = MEDIA_BUS_FMT_FIXED;
+> 
+> Cheers,
+> Biju
+> 
 
---------------LDzgbro4DDuoxg4TzhAhBU08--
-
---------------KsZMdQUxiibxK2wrIo0AAOOd
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHldEsFAwAAAAAACgkQlh/E3EQov+AH
-Tg/7BhfzrXcUXwFax2XWiYFiFFGTavb4EbcPO3rUNNF7U1S2Oe1newd1hMxyk9OCE2aHc04GP1qn
-5S/ifcVOWVUEmuX7qhdIR15NkiEW5atEdIL384OSKsPIg46ZmMCeMm346LPuOtivYY2khwMVmkz6
-P7Sq1QU+DukWJMNFjHmeBKuN039fy+RXgCjAsLi90CZjz6qbFTs3cGZCCpJ7ch6tq/TRX064lUtC
-dx+pRMhrRK3rzof3g+A/R829/dTvArNplNkP1dUI5mssqR0Cle9lkrT2EmSKW9KNAnyRHvZUMhy1
-UcQQX0CqtXMf5ta9q+hadJS+TcyT/hJUHQCT7J1OnxphLRlEpnRKJXi47fl/ww6doLtjlQkF4o4I
-rVa8vIAuokyS1HBc9/HI4H/Ia+dcJZuQ39d9xZ6HhyxoroZUakpR2R//fF19vCXem/HAKQMGh/nL
-OnH3koMoTp57TbZsd5ceKtXSpLk+gzaKJ1yPRb7+Wgvo9sjjyZdp9DF+jFBWlUIZ1X/p/yjMHFyv
-6fbBIFObigMPRtFXOjsAdd5t3meDrLSBd1c8um6nmOfZbMsIBklKnRcWu2iBoi8IPt2+TrDJvlsV
-kYCIMHAQN9BJf8C24E2Pi29mo2m2EHUC23yCJx0suX7vWZ4JDTYPl0QKFWHAD7Y+SQo3ooPfavtE
-7tM=
-=3nPB
------END PGP SIGNATURE-----
-
---------------KsZMdQUxiibxK2wrIo0AAOOd--
+Thanks for testing,
+Neil
