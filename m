@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4167490419
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 09:42:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E6E549041B
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 09:42:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80D5B10E3F4;
-	Mon, 17 Jan 2022 08:42:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04D8210E3C1;
+	Mon, 17 Jan 2022 08:42:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
- [IPv6:2607:f8b0:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5ECF10E3D0
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 08:42:06 +0000 (UTC)
-Received: by mail-pl1-x635.google.com with SMTP id b3so11444272plc.7
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 00:42:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
+ [IPv6:2607:f8b0:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAF5710E3DE
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 08:42:33 +0000 (UTC)
+Received: by mail-pg1-x533.google.com with SMTP id t32so10243526pgm.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 00:42:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=5onbuFYOFRTdmiOefhelTPb1vtwXuvBGEeko4zL+Gus=;
- b=lTFBGVb3VI9Pp2XzCX2o8oK0JNGpsLGozrM3M1pjfrgUTyKilWjfe018znEQQv00kV
- uCJ9mZYr2imldsl/X7kKLT/qOTkXfTGSVPjsHAj0hnD5X0jhxQF6pY8Vin51SsJOmeFH
- M79mBIFgVl02iGw6F8gXajYURE5fbTboA6l6Qctc8hRcIdEsAqLNzvPTvnLVJlIa2K2w
- P4aFuwve2uJhkrbDpOESzn8uZUoZdO1BaVxYm5yvxvGRCXcf/QNl9pSPUJ1axlU7jpA6
- IK9On/cYQtiTwawot8vSXJ7AjbBUGfq/B3vtkjSBgMVRtncEg0OqgxJ6T+Am3FQ1FO7E
- DFAw==
+ bh=Wq2mcmJuBSLlUrEIQ1qe+EtyfI00HRLw6OdQpTZImL0=;
+ b=cMkBTrDzifr2c8LNBZPvpAzAnR4Sl2P0tbihWhjZIMU+/PwItRxmn83UaYUx16HLU5
+ gioFgz0eKlaTYvNHtGiiPpDBunJ+GtJxlhdS2ukOu0O1VLxRlA/Cu6vmbeLPJvA8S5kn
+ cgsei0e+wwh4EszKHy7ZR52Z5crVrGBxgC/Cs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=5onbuFYOFRTdmiOefhelTPb1vtwXuvBGEeko4zL+Gus=;
- b=mXxR8sU9IryH0PRrlj5IBmkLjt7wwKOaL+qvzaMNN+Ff4n0bdI8z8d4INWpzZjwWSs
- ah/qZU++tBykdKfCeE2Cn7ZWecLktk8MDqSlRX+vZfgswUGsVJZ2zXztAK02CjK9GaXl
- hkVuhcnedHADVZx48utfEUCtCNJuLxCqEaWEU9UgMFeFhB5DEy7Msgi8JqS/cZaks7cb
- 3ydO0p0g3Dyq9rYDYw31nyLv4BAYLvbmq2kxQxWxBI0qb/3JugOf8O9PC8HP9BpxrW4A
- 8cogANjGSJXZth9w9xbWPaOSKS04KgY+uBQSuxPkHE5c7k2UO2U8bMfJlf6xBrMdqY4p
- L4HA==
-X-Gm-Message-State: AOAM533fC10KADgvC0a1bd3KDskn9m5wIFcurbRkwegkEhGFcZk+ZXlp
- yzDPUiQm68PSHWKI+ldSgn4=
-X-Google-Smtp-Source: ABdhPJyUyt6ygJ1Q5CL/MBBOFkS0XS5iZbCH1+5RzfcHne//TAXKgwCe8S9+NnrYFtBqbf2mb0udFA==
-X-Received: by 2002:a17:90a:380b:: with SMTP id
- w11mr23856163pjb.113.1642408926493; 
- Mon, 17 Jan 2022 00:42:06 -0800 (PST)
-Received: from nj08008nbu.spreadtrum.com
- ([240e:47b:800:d5d1:d9c9:3c3f:6ba3:517a])
- by smtp.gmail.com with ESMTPSA id b7sm6385498pff.61.2022.01.17.00.42.00
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 17 Jan 2022 00:42:05 -0800 (PST)
-From: Kevin Tang <kevin3.tang@gmail.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
- daniel@ffwll.ch, mark.rutland@arm.com, javierm@redhat.com,
- tzimmermann@suse.de, lukas.bulwahn@gmail.com
-Subject: [PATCH v2 3/3] drm/sprd: check the platform_get_resource() return
- value
-Date: Mon, 17 Jan 2022 16:41:56 +0800
-Message-Id: <20220117084156.9338-1-kevin3.tang@gmail.com>
-X-Mailer: git-send-email 2.29.0
+ bh=Wq2mcmJuBSLlUrEIQ1qe+EtyfI00HRLw6OdQpTZImL0=;
+ b=Ob5H1BeAFBKnU2cXJS8Paf7aviUeFqdTglMcsw0tZAKA8B36RrHrg4M3ozntvLGmXb
+ LO4i1AmY82jkKKBEvKa70Jo4ufYelULuBhza5KOmK8cCYPQclhKEMN6oUQm7iAUDISeW
+ +jntRZVscVGP2ELxYv6P6hwlzicq1xRvshmUdB7CnXSSSf5MNt1JTU56zsIZkif7/ClX
+ wIBzVs4MpcutuVMGGFZm4xIKcN6yFFKXNxEXUwCqcuJVttW8dWUogSJPw3ytz7gJ3XMn
+ 44hZLfvGtZtAevlPmuYsbwcrNxR3QRPkQ+Wy/EwIqCKTnfNRus4Fh23BTrKiNO5WU/0u
+ 0HSg==
+X-Gm-Message-State: AOAM533Z5NZaZ2DDQ3pes0XzoVFPpE/PVYz+7Ude8Zm3yKS9K6aAaYLV
+ apC7hHO7XmvGUuABWARbSgfadw==
+X-Google-Smtp-Source: ABdhPJzKINwxJHtW5olZKmvdT18HKPt32UY984HzCC5OKo40c7mWNjEJqgf75R2NVK/jPmQ1owzKMQ==
+X-Received: by 2002:a63:3645:: with SMTP id d66mr18215975pga.417.1642408953458; 
+ Mon, 17 Jan 2022 00:42:33 -0800 (PST)
+Received: from localhost.localdomain ([2405:201:c00a:a0a9:955a:760d:bbf3:5d4b])
+ by smtp.gmail.com with ESMTPSA id z3sm11763423pjq.32.2022.01.17.00.42.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Jan 2022 00:42:32 -0800 (PST)
+From: Jagan Teki <jagan@amarulasolutions.com>
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Inki Dae <inki.dae@samsung.com>
+Subject: [PATCH v5 0/5] drm: exynos: dsi: Convert drm bridge
+Date: Mon, 17 Jan 2022 14:12:20 +0530
+Message-Id: <20220117084225.125868-1-jagan@amarulasolutions.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,60 +70,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, kevin3.tang@gmail.com, zhang.lyra@gmail.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- orsonzhai@gmail.com, zou_wei@huawei.com, pony1.wu@gmail.com,
- dan.carpenter@oracle.com
+Cc: linux-amarula@amarulasolutions.com, Jagan Teki <jagan@amarulasolutions.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-platform_get_resource() may fail and return NULL, so check it's value
-before using it.
+Updated series about drm bridge conversion of exynos dsi.
 
-Reported-by: Zou Wei <zou_wei@huawei.com>
-Signed-off-by: Kevin Tang <kevin.tang@unisoc.com>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+Previous version can be accessible, here [1].
 
-v1 -> v2:
-- new patch
----
- drivers/gpu/drm/sprd/sprd_dpu.c | 5 +++++
- drivers/gpu/drm/sprd/sprd_dsi.c | 5 +++++
- 2 files changed, 10 insertions(+)
+Patch 1: connector reset
 
-diff --git a/drivers/gpu/drm/sprd/sprd_dpu.c b/drivers/gpu/drm/sprd/sprd_dpu.c
-index 06a3414ee..1637203ea 100644
---- a/drivers/gpu/drm/sprd/sprd_dpu.c
-+++ b/drivers/gpu/drm/sprd/sprd_dpu.c
-@@ -790,6 +790,11 @@ static int sprd_dpu_context_init(struct sprd_dpu *dpu,
- 	int ret;
- 
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	if (!res) {
-+		dev_err(dev, "failed to get I/O resource\n");
-+		return -EINVAL;
-+	}
-+
- 	ctx->base = devm_ioremap(dev, res->start, resource_size(res));
- 	if (!ctx->base) {
- 		dev_err(dev, "failed to map dpu registers\n");
-diff --git a/drivers/gpu/drm/sprd/sprd_dsi.c b/drivers/gpu/drm/sprd/sprd_dsi.c
-index 911b3cddc..12b67a5d5 100644
---- a/drivers/gpu/drm/sprd/sprd_dsi.c
-+++ b/drivers/gpu/drm/sprd/sprd_dsi.c
-@@ -907,6 +907,11 @@ static int sprd_dsi_context_init(struct sprd_dsi *dsi,
- 	struct resource *res;
- 
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	if (!res) {
-+		dev_err(dev, "failed to get I/O resource\n");
-+		return -EINVAL;
-+	}
-+
- 	ctx->base = devm_ioremap(dev, res->start, resource_size(res));
- 	if (!ctx->base) {
- 		drm_err(dsi->drm, "failed to map dsi host registers\n");
+Patch 2: panel_bridge API
+
+Patch 3: bridge conversion
+
+Patch 4: atomic functions
+
+Patch 5: DSI init in pre_enable
+
+Apply below patches to test on Exynos DSI:
+- https://patchwork.amarulasolutions.com/patch/1825/
+- https://patchwork.amarulasolutions.com/patch/1838/
+
+[1] https://patchwork.amarulasolutions.com/cover/1826/
+
+Any inputs?
+Jagan.
+
+Jagan Teki (5):
+  drm: bridge: panel: Reset the connector state pointer
+  drm: exynos: dsi: Use drm panel_bridge API
+  drm: exynos: dsi: Convert to bridge driver
+  drm: exynos: dsi: Switch to atomic funcs
+  drm: exynos: dsi: Move DSI init in bridge pre_enable
+
+ drivers/gpu/drm/bridge/panel.c          |   3 +
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c | 248 +++++++-----------------
+ 2 files changed, 76 insertions(+), 175 deletions(-)
+
 -- 
-2.29.0
+2.25.1
 
