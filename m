@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4770490266
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 08:06:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9AF6490269
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 08:06:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88AFD10E910;
-	Mon, 17 Jan 2022 07:06:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92F3910F046;
+	Mon, 17 Jan 2022 07:06:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4457F10E910
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 07:06:08 +0000 (UTC)
-X-UUID: da03fcd1b0fe4a34828adc6cef4fcf2c-20220117
-X-UUID: da03fcd1b0fe4a34828adc6cef4fcf2c-20220117
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F8A310F046
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 07:06:17 +0000 (UTC)
+X-UUID: effb381d9712497db536a0dff025128c-20220117
+X-UUID: effb381d9712497db536a0dff025128c-20220117
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
  mailgw02.mediatek.com (envelope-from <yong.wu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1790191130; Mon, 17 Jan 2022 15:06:04 +0800
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1837693972; Mon, 17 Jan 2022 15:06:14 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Mon, 17 Jan 2022 15:06:03 +0800
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Mon, 17 Jan 2022 15:06:13 +0800
 Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 17 Jan 2022 15:06:01 +0800
+ Transport; Mon, 17 Jan 2022 15:06:11 +0800
 From: Yong Wu <yong.wu@mediatek.com>
 To: Matthias Brugger <matthias.bgg@gmail.com>, Hans Verkuil
  <hverkuil@xs4all.nl>, Joerg Roedel <jroedel@suse.de>, Rob Herring
  <robh+dt@kernel.org>, Krzysztof Kozlowski
  <krzysztof.kozlowski@canonical.com>, David Airlie <airlied@linux.ie>, "Mauro
  Carvalho Chehab" <mchehab@kernel.org>
-Subject: [PATCH v10 03/13] iommu/mediatek: Return ENODEV if the device is NULL
-Date: Mon, 17 Jan 2022 15:05:00 +0800
-Message-ID: <20220117070510.17642-4-yong.wu@mediatek.com>
+Subject: [PATCH v10 04/13] iommu/mediatek: Add probe_defer for smi-larb
+Date: Mon, 17 Jan 2022 15:05:01 +0800
+Message-ID: <20220117070510.17642-5-yong.wu@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20220117070510.17642-1-yong.wu@mediatek.com>
 References: <20220117070510.17642-1-yong.wu@mediatek.com>
@@ -70,49 +70,60 @@ Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The platform device is created at:
-of_platform_default_populate_init:  arch_initcall_sync
-  ->of_platform_populate
-        ->of_platform_device_create_pdata
+Prepare for adding device_link.
 
-When entering our probe, all the devices should be already created.
-if it is null, means NODEV. Currently we don't get the fail case.
-It's a minor fix, no need add fixes tags.
+The iommu consumer should use device_link to connect with the
+smi-larb(supplier). then the smi-larb should run before the iommu
+consumer. Here we delay the iommu driver until the smi driver is ready,
+then all the iommu consumers always are after the smi driver.
+
+When there is no this patch, if some consumer drivers run before
+smi-larb, the supplier link_status is DL_DEV_NO_DRIVER(0) in the
+device_link_add, then device_links_driver_bound will use WARN_ON
+to complain that the link_status of supplier is not right.
+
+device_is_bound may be more elegant here. but it is not allowed to
+EXPORT from https://lore.kernel.org/patchwork/patch/1334670/.
 
 Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+Tested-by: Frank Wunderlich <frank-w@public-files.de> # BPI-R2/MT7623
 Acked-by: Joerg Roedel <jroedel@suse.de>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/iommu/mtk_iommu.c    | 2 +-
- drivers/iommu/mtk_iommu_v1.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/iommu/mtk_iommu.c    | 4 ++++
+ drivers/iommu/mtk_iommu_v1.c | 4 ++++
+ 2 files changed, 8 insertions(+)
 
 diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-index 25b834104790..77ae20ff9b35 100644
+index 77ae20ff9b35..5cff5bc556d4 100644
 --- a/drivers/iommu/mtk_iommu.c
 +++ b/drivers/iommu/mtk_iommu.c
-@@ -848,7 +848,7 @@ static int mtk_iommu_probe(struct platform_device *pdev)
- 		plarbdev = of_find_device_by_node(larbnode);
- 		if (!plarbdev) {
+@@ -850,6 +850,10 @@ static int mtk_iommu_probe(struct platform_device *pdev)
  			of_node_put(larbnode);
--			return -EPROBE_DEFER;
-+			return -ENODEV;
+ 			return -ENODEV;
  		}
++		if (!plarbdev->dev.driver) {
++			of_node_put(larbnode);
++			return -EPROBE_DEFER;
++		}
  		data->larb_imu[id].dev = &plarbdev->dev;
  
+ 		component_match_add_release(dev, &match, release_of,
 diff --git a/drivers/iommu/mtk_iommu_v1.c b/drivers/iommu/mtk_iommu_v1.c
-index 1467ba1e4417..68bf02f87cfd 100644
+index 68bf02f87cfd..4089077256f4 100644
 --- a/drivers/iommu/mtk_iommu_v1.c
 +++ b/drivers/iommu/mtk_iommu_v1.c
-@@ -604,7 +604,7 @@ static int mtk_iommu_probe(struct platform_device *pdev)
- 		plarbdev = of_find_device_by_node(larbnode);
- 		if (!plarbdev) {
+@@ -606,6 +606,10 @@ static int mtk_iommu_probe(struct platform_device *pdev)
  			of_node_put(larbnode);
--			return -EPROBE_DEFER;
-+			return -ENODEV;
+ 			return -ENODEV;
  		}
++		if (!plarbdev->dev.driver) {
++			of_node_put(larbnode);
++			return -EPROBE_DEFER;
++		}
  		data->larb_imu[i].dev = &plarbdev->dev;
  
+ 		component_match_add_release(dev, &match, release_of,
 -- 
 2.18.0
 
