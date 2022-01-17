@@ -1,68 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65502490AC8
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 15:53:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7CA5490AF7
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 16:00:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 468F910E2EE;
-	Mon, 17 Jan 2022 14:53:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41CD810E310;
+	Mon, 17 Jan 2022 15:00:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C65C10E2EE
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 14:53:35 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id B2620212BC;
- Mon, 17 Jan 2022 14:53:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1642431213; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/I60TRzGqM2Rnu7f2DTYAexCdlVVwBUVgjtIF3/qa+E=;
- b=fGZ7momd5m8UC6uZTi0otmOg5jF36MIvOxdGN1FTd5rt9lS3kgO3Qdc/hX6c2OT3BGCa0w
- RyZ/n7IGWzdjRmEZMtlRyM5YriCqegv0JTBYFknC93q4IjErPtIW6qhjaWfhittxTCIEp2
- 1Uy0VoGvYip4XtvJaVN2WQvrmZ3YnkQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1642431213;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/I60TRzGqM2Rnu7f2DTYAexCdlVVwBUVgjtIF3/qa+E=;
- b=bw84tTQh5OLUxdnLS6BZ1vFNPvhr5j50np/dCdZWkJQrXgSWkiPq+QNWnpsHBr5M089cJd
- F8Fo+Sv3O3iho9BA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7804B13C0E;
- Mon, 17 Jan 2022 14:53:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id cScrHO2C5WEjKwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 17 Jan 2022 14:53:33 +0000
-Message-ID: <1e005f6b-3cac-b8f3-e5fd-e4c117d8986a@suse.de>
-Date: Mon, 17 Jan 2022 15:53:32 +0100
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
+ [IPv6:2607:f8b0:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9713110E30C
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 15:00:45 +0000 (UTC)
+Received: by mail-ot1-x334.google.com with SMTP id
+ i5-20020a05683033e500b0057a369ac614so20073064otu.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 07:00:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/dxZvD461SlMfyeHYzrFRmG+0lHmJjYtARJeJQLPvpY=;
+ b=lWRjQkiGCj+cTGTeXbOuRbrEMphiURVSpENiEBC0prgzVPEt0g8iXSfTDmshf+ViTD
+ CIjoFMzlGXB7oJSSoq0W5kXmTUcSRHhur2KTpXyIbekYrhC+nJS9YFMUx9a0EKRF2F15
+ dMtZKZCCYLoW+ULl/4YVAuX/Mk6zWOwbLrHx8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/dxZvD461SlMfyeHYzrFRmG+0lHmJjYtARJeJQLPvpY=;
+ b=gPIRUrohhmGPWuFJgfK+XcLQKp6WEcI+u4EmCPNHNPuw0AAbtPdM0+PRctbZhTaX7j
+ ROMCdEV7aWJ5EcIjOuFGuUEP19ogNYQJ1qhRliNid8QPTTfb4XC2KDnAmJ1LQvtf/mqv
+ KPpDvhoCdQ8VYRgdvJNOvxjguPY9Ks91Y8EcfMmAwdWlsaHAcjr6uhVowPBLc25V6fIY
+ 7bsQbocLVSKOlkqM7Kbol2ZhAWmK08TIywOmPykXwvg0/PJyNfPBAu2BpBdjHi32M5jr
+ n+e6Th9OwdMOe4yD0UdKWBr7d1tsDufdrWiQUiMLw2O8SQ1BAeNCM0m6yRQ0p0AoqKTH
+ fyZg==
+X-Gm-Message-State: AOAM532P7TKdvC4ORxKM6Rnn3r/JAKquzBEV9dV6Oqz2RwXYCy4p7CLA
+ lSQbIfb9JWakhSKQvF/mjLQva5Sc9b7pEWa6Mld6YA==
+X-Google-Smtp-Source: ABdhPJyjl9zZGHl5jLCvJP/Li+7kpC1gjq+uBoXlAxknMVKszuG/kGjLQ+TET5p0Sgcor7GmumXL5rsNoxy7CE3/xvY=
+X-Received: by 2002:a9d:685a:: with SMTP id c26mr16484836oto.239.1642431644611; 
+ Mon, 17 Jan 2022 07:00:44 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] MAINTAINERS: Add Helge as fbdev maintainer
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
 References: <YeG8ydoJNWWkGrTb@ls3530>
  <CAKMK7uGdJckdM+fg+576iJXsqzCOUg20etPBMwRLB9U7GcG01Q@mail.gmail.com>
  <c80ed72c-2eb4-16dd-a7ad-57e9dde59ba1@gmx.de>
- <20220117125716.yjwxsze35j2ndn2i@sirius.home.kraxel.org>
- <CAMuHMdW=Zpp2mHbrBx7i0WN8PqY3XpK5qpyAyYxgf9n88edpug@mail.gmail.com>
- <70530b62-7b3f-db88-7f1a-f89b824e5825@suse.de>
- <CAMuHMdW5M=zEuGEnQQc3JytDhoxCKRiq0QFw+HOPp0YMORzidw@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <CAMuHMdW5M=zEuGEnQQc3JytDhoxCKRiq0QFw+HOPp0YMORzidw@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------A0AjPNV0nKMCzsHsKXoumNfW"
+In-Reply-To: <c80ed72c-2eb4-16dd-a7ad-57e9dde59ba1@gmx.de>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Mon, 17 Jan 2022 16:00:33 +0100
+Message-ID: <CAKMK7uHVHn9apB6YYbLSwu+adEB2Fqp4FM0z582zf4F-v3_GnQ@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: Add Helge as fbdev maintainer
+To: Helge Deller <deller@gmx.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,87 +61,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>, Helge Deller <deller@gmx.de>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
+Cc: linux-fbdev@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Javier Martinez Canillas <javierm@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+ Geert Uytterhoeven <geert@linux-m68k.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------A0AjPNV0nKMCzsHsKXoumNfW
-Content-Type: multipart/mixed; boundary="------------kLLSmv7rsQiLi2as8kPPAykj";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Helge Deller <deller@gmx.de>,
- Daniel Vetter <daniel@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- "airlied@gmail.com" <airlied@gmail.com>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Javier Martinez Canillas <javierm@redhat.com>
-Message-ID: <1e005f6b-3cac-b8f3-e5fd-e4c117d8986a@suse.de>
-Subject: Re: [PATCH] MAINTAINERS: Add Helge as fbdev maintainer
-References: <YeG8ydoJNWWkGrTb@ls3530>
- <CAKMK7uGdJckdM+fg+576iJXsqzCOUg20etPBMwRLB9U7GcG01Q@mail.gmail.com>
- <c80ed72c-2eb4-16dd-a7ad-57e9dde59ba1@gmx.de>
- <20220117125716.yjwxsze35j2ndn2i@sirius.home.kraxel.org>
- <CAMuHMdW=Zpp2mHbrBx7i0WN8PqY3XpK5qpyAyYxgf9n88edpug@mail.gmail.com>
- <70530b62-7b3f-db88-7f1a-f89b824e5825@suse.de>
- <CAMuHMdW5M=zEuGEnQQc3JytDhoxCKRiq0QFw+HOPp0YMORzidw@mail.gmail.com>
-In-Reply-To: <CAMuHMdW5M=zEuGEnQQc3JytDhoxCKRiq0QFw+HOPp0YMORzidw@mail.gmail.com>
+On Mon, Jan 17, 2022 at 1:16 PM Helge Deller <deller@gmx.de> wrote:
+>
+> Hello Daniel,
+>
+> On 1/17/22 11:02, Daniel Vetter wrote:
+> > Hi Helge
+> >
+> > On Fri, Jan 14, 2022 at 7:18 PM Helge Deller <deller@gmx.de> wrote:
+> >>
+> >> The fbdev layer is orphaned, but seems to need some care.
+> >> So I'd like to step up as new maintainer.
+> >>
+> >> Signed-off-by: Helge Deller <deller@gmx.de>
+> >>
+> >> diff --git a/MAINTAINERS b/MAINTAINERS
+> >> index 5d0cd537803a..ce47dbc467cc 100644
+> >> --- a/MAINTAINERS
+> >> +++ b/MAINTAINERS
+> >> @@ -7583,11 +7583,12 @@ W:      http://floatingpoint.sourceforge.net/emulator/index.html
+> >>  F:     arch/x86/math-emu/
+> >>
+> >>  FRAMEBUFFER LAYER
+> >> -L:     dri-devel@lists.freedesktop.org
+> >> +M:     Helge Deller <deller@gmx.de>
+> >>  L:     linux-fbdev@vger.kernel.org
+> >> -S:     Orphan
+> >
+> > Maybe don't rush maintainer changes in over the w/e without even bothering
+> > to get any input from the people who've been maintaining it before.
+> >
+> > Because the status isn't entirely correct, fbdev core code and fbcon and
+> > all that has been maintained, but in bugfixes only mode. And there's very
+> > solid&important reasons to keep merging these patches through a drm tree,
+> > because that's where all the driver development happens, and hence also
+> > all the testing (e.g. the drm test suite has some fbdev tests - the only
+> > automated ones that exist to my knowledge - and we run them in CI). So
+> > moving that into an obscure new tree which isn't even in linux-next yet is
+> > no good at all.
+> >
+> > Now fbdev driver bugfixes is indeed practically orphaned and I very much
+> > welcome anyone stepping up for that, but the simplest approach there would
+> > be to just get drm-misc commit rights and push the oddball bugfix in there
+> > directly. But also if you want to do your own pull requests to Linus for
+> > that I don't care and there's really no interference I think, so
+> > whatever floats.
+> >
+> > But any code that is relevant for drm drivers really needs to go in through
+> > drm trees, nothing else makes much sense.
+> >
+> > I guess you're first action as newly minted fbdev maintainer is going to be to
+> > clean up the confusion you just created.
+>
+> Most of my machines depend on a working fbdev layer since drm isn't (and probably
+> -due to technical requirements of DRM- won't be) available for those.
+> So, since the fbdev drivers were marked orphaned, I decided to step up as maintainer.
+>
+> I see your point that at least the fbdev core code and fbcon are shared between DRM and fbdev.
+> For me it's really not important to drive any patches through a seperate tree, so
+> I'd be happy to join the drm-misc tree if you feel it's necessary. (By the way,
+> adding my tree to for-next was on my todo list...)
+>
+> What's important for me though is, to keep fbdev actively maintained, which means:
+> a) to get fixes which were posted to fbdev mailing list applied if they are useful & correct,
 
---------------kLLSmv7rsQiLi2as8kPPAykj
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Yeah it'd be great if we have that, for a while Bart took care of
+these, but had to step down again. drm-misc is maintained with the dim
+scrip suite, which comes with docs and bash completion and everything.
+Good starting pointer is here:
 
-SGkNCg0KQW0gMTcuMDEuMjIgdW0gMTU6MTAgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46
-DQo+IFsuLi5dICANCj4gV2hpY2ggdXNlcyBhbiBEUk1fRk9STUFUX1hSR0I4ODg4IGludGVy
-bWVkaWF0ZSwgYW5kDQo+IGRybV9mYl94cmdiODg4OF90b19ncmF5OCgpIGFuZCByZXBhcGVy
-X2dyYXk4X3RvX21vbm9fcmV2ZXJzZWQoKQ0KPiB0byBjb252ZXJ0IGZyb20gdHJ1ZWNvbG9y
-IHRvIG1vbm9jaHJvbWUuICBJIGd1ZXNzIHRoYXQgd291bGQgd29yaywNCj4gYXMgdGhpcyBp
-cyBhIHNsb3cgZS1pbmsgZGlzcGxheS4gIEhhdmUgZnVuIGFzIGEgdGV4dCBjb25zb2xlIDst
-KQ0KDQpCdXQgdGhhdCdzIHJlYWxseSBqdXN0IGEgcXVlc3Rpb24gb2Ygb3B0aW1pemF0aW9u
-LiBUaGUgY29uc29sZSBpcyANCnVzZXJzcGFjZS1pc2ggaW4gdGhhdCBubyBvbmUgaGFzIGFz
-a2VkIGZvciBtb25vY2hyb21lIHN1cHBvcnQgeWV0LiBTbyANCml0J3Mgbm90IHRoZXJlLiBX
-ZSBjb3VsZCBhZGQgaXQgaWYgaXQncyBldmVyIG5lZWRlZC4NCg0KQmVzdCByZWdhcmRzDQpU
-aG9tYXMNCg0KPiANCj4gR3J7b2V0amUsZWV0aW5nfXMsDQo+IA0KPiAgICAgICAgICAgICAg
-ICAgICAgICAgICAgR2VlcnQNCj4gDQo+IC0tDQo+IEdlZXJ0IFV5dHRlcmhvZXZlbiAtLSBU
-aGVyZSdzIGxvdHMgb2YgTGludXggYmV5b25kIGlhMzIgLS0gZ2VlcnRAbGludXgtbTY4ay5v
-cmcNCj4gDQo+IEluIHBlcnNvbmFsIGNvbnZlcnNhdGlvbnMgd2l0aCB0ZWNobmljYWwgcGVv
-cGxlLCBJIGNhbGwgbXlzZWxmIGEgaGFja2VyLiBCdXQNCj4gd2hlbiBJJ20gdGFsa2luZyB0
-byBqb3VybmFsaXN0cyBJIGp1c3Qgc2F5ICJwcm9ncmFtbWVyIiBvciBzb21ldGhpbmcgbGlr
-ZSB0aGF0Lg0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAtLSBMaW51cyBU
-b3J2YWxkcw0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2
-ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRz
-dHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5i
-ZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+https://drm.pages.freedesktop.org/maintainer-tools/getting-started.html
 
---------------kLLSmv7rsQiLi2as8kPPAykj--
+Process for getting commit rights is documented here:
 
---------------A0AjPNV0nKMCzsHsKXoumNfW
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+https://drm.pages.freedesktop.org/maintainer-tools/commit-access.html#drm-misc
 
------BEGIN PGP SIGNATURE-----
+But there's a pile more. I think once we've set that up and got it
+going we can look at the bigger items. Some of them are fairly
+low-hanging fruit, but the past 5+ years absolutely no one bothered to
+step up and sort them out. Other problem areas in fbdev are extremely
+hard to fix properly, without only doing minimal security-fixes only
+support, so fair warning there. I think a good starting point would be
+to read the patches and discussions for some of the things you've
+reverted in your tree.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHlguwFAwAAAAAACgkQlh/E3EQov+DH
-3RAAhyS7g1l+rdX7sGHUP+aGrCc2dFsAGBn9uNsJ2mWoPwJPW3u/ilU35je+kROU3dbyttqV3k+W
-L2+WeoXj0xkundZVaNnEhg/WMHfW+23RYq1VfjItcKVDsaUPiM7/FMlpsVykesF/GueV45StxAD1
-HpaqFW3m4TKEbOgzzOKFmgeYZmR4BDpeyI0Mn3Z4zTUhsNH7xyAFJFWp4c/3DRRZ04xhP+L4YUPS
-C/CaCS/8MNEyokcTHo/l9oQWxAvUMty7C803fgu9KffFW5Af1MZg7tQFOchYBS5gl0AC3iHeHAZG
-uruwCR46ZKza+LHOiDQCF1x0bRskX9ixJN74foVQzCNlLY93m+HFMQpUOd0VGUWhb4zssMwWOfUh
-iLGD4/c5e6TN21bJpZHo5nXQdu5RjX++5bNSzbJA3X5fjJsijkoBfJaB3k175vSdc8EOLVU9d4bP
-7KisNNrlrsBSwBtlsoFndRRehA08pB8MQ5aB5vP8CQGr0amjQZcBjwUPtnxWJVo3wtraC/SWR2DK
-GxVHUmIsODgrDXRilFYXwjPryHjHNaNZrOYBNE0rzf80OAxiltQ/wHHa9XyAqWTMpwVuduH1YZdQ
-3efQAm/UxcLcTFtZzieShtSkiYxcHe/qtDgwxARs9D4A+gCj/bp02yuJ/+1dackFkTarJaZUg5Tk
-ylc=
-=oJev
------END PGP SIGNATURE-----
+Anyway I hope this gets you started, and hopefully after a minor
+detour: Welcome to dri-devel, we're happy to take any help we can get,
+there's lots to do!
 
---------------A0AjPNV0nKMCzsHsKXoumNfW--
+Cheers, Daniel
+
+> b) to include new drivers (for old hardware) if they arrive (probably happens rarely but there can be).
+>    I know of at least one driver which won't be able to support DRM....
+>    Of course, if the hardware is capable to support DRM, it should be written for DRM and not applied for fbdev.
+> c) reintroduce the state where fbcon is fast on fbdev. This is important for non-DRM machines,
+>    either when run on native hardware or in an emulator.
+> d) not break DRM development
+>
+> Especially regarding c) I complained in [1] and got no feedback. I really would like to
+> understand where the actual problems were and what's necessary to fix them.
+>
+> Helge
+>
+> [1] https://lore.kernel.org/r/feea8303-2b83-fc36-972c-4fc8ad723bde@gmx.de
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
