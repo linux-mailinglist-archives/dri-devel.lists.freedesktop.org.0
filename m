@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18576491196
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 23:08:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB2E8491199
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 23:08:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0003110FF96;
-	Mon, 17 Jan 2022 22:07:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C411D10FFA1;
+	Mon, 17 Jan 2022 22:08:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7358B10E27D
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 12:42:14 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id j7so16597138edr.4
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 04:42:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yRp5vpEEm1SXVjL4+SJZ21TEtlFhW6hGRwF3O5ylJ6A=;
- b=JItvRrMVIHhvO2LFJaZ4eOf4AxABQ4ht/N4A/hWafgObEDCsTX57F3ODs5Y6wxepFx
- s/iKEMv7n9HMpUGy/aHd+OW8cqSh3uFG4VN2AL71PMW5T0wJppZqykRxjTYGIKY9Iyyo
- MamTUwQioE8ES10cEAYn3vKnspSB2bkQTazVxRHBJj1IjLi9qtWpDJ289JUd2Hjp66SC
- ndf4Axffz4ZjHm+CZai0orPAgi8s0dkxdI01HM5yWI2yJ3eIImJpfBmKXADocLhusBH6
- 7WV5S16HsVif0aDcG4KLzAT1wfTAem8fSrVLH3fmlMUb0jFkKU20mmVXYcGCYUfsQKCC
- +NFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yRp5vpEEm1SXVjL4+SJZ21TEtlFhW6hGRwF3O5ylJ6A=;
- b=1paxOTlJohjBiE6AImi/ycdqOPbAFO/kvxr/d90XHudEV0LlSvoko2w58nkE7OTOBb
- qZ+4rdyIanPn0fmn4H67TJPkLgTLzTKKt52R07prqv21R2VV5gprBxielGX6vmvLOgSH
- gOItgE7OIKkwSmVXMdxGDAFAmEc3bcpOb+1rk/eWU0Vu4fl9Jv6e6NzDfZEgeorAGwb+
- HkDtsKzdVoeRAlSCkViciJo1gJZublw4lgHyQJLx8sW3Mg9UQnni2jxllSMXKwEDwhuX
- Ndz+5i5EOLVoDoPmscPEPDuPdKuUftB4KeLcLW+HAtYL5DkaAuS9/Jvot0LcUM6q+j0O
- f0mA==
-X-Gm-Message-State: AOAM531479Ni01kIpo+CUCYOf5m7yxINZXoogUr9XC0isKgFiXF2URRc
- FRy4KMnqmzQiO0fhkhDSVN2Izn3QL9r9RA==
-X-Google-Smtp-Source: ABdhPJwPVWabEGI3gqrVJC/+kDmkQKLefZ2IJxKYieQjQW1g2rGzrk0/gajE0cYHtqh+putVDQRPdQ==
-X-Received: by 2002:a17:906:954f:: with SMTP id
- g15mr10751187ejy.755.1642423332996; 
- Mon, 17 Jan 2022 04:42:12 -0800 (PST)
-Received: from tablet-gentoo.djselbeck.de
- (ip5f5a8f7e.dynamic.kabel-deutschland.de. [95.90.143.126])
- by smtp.googlemail.com with ESMTPSA id mp5sm4412708ejc.46.2022.01.17.04.42.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Jan 2022 04:42:12 -0800 (PST)
-From: Hendrik Borghorst <hendrikborghorst@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/panel-orientation-quirks: add Lenovo Ideapad Duet 3i
-Date: Mon, 17 Jan 2022 13:41:54 +0100
-Message-Id: <20220117124154.5689-1-hendrikborghorst@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC60D10E2F6;
+ Mon, 17 Jan 2022 14:38:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1642430307; x=1673966307;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=/wDgTOF9nD7qJTc2/BsA6bElbpP6tW+QytfeDJS27YY=;
+ b=pCooqTNrVTL4+NWSmBiDaUyaUWXJ7i2UlvVhE3Qkoe5DMsqrEAkOANBL
+ yYaNX+2Ablbj4/kuAK3lkk+RYYDvf13FmLhdvRozSID30e5btfyaccq+f
+ VA9Yj7INu2y5ZJG0yOtSLOS6bVBckE62SZ021acJaTQ+LbMeLteeCvlHp 0=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 17 Jan 2022 06:38:27 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jan 2022 06:38:26 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Mon, 17 Jan 2022 06:38:25 -0800
+Received: from [10.216.12.7] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Mon, 17 Jan
+ 2022 06:38:19 -0800
+Message-ID: <bd284863-3643-4a8e-beb6-f47cc60ea1b5@quicinc.com>
+Date: Mon, 17 Jan 2022 20:08:15 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH 3/4] drm/msm/adreno: Expose speedbin to userspace
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>
+References: <20220112030115.1.Ibac66e1e0e565313bc28f192e6c94cb508f205eb@changeid>
+ <20220112030115.3.I86c32730e08cba9e5c83f02ec17885124d45fa56@changeid>
+ <CAF6AEGuJxdrYM5XXt6sUGmjossqZTRzwQ6Y8qYsnfCYDvGQurw@mail.gmail.com>
+ <CAA8EJpokgiUbqj9BOF52a9QjJK53PinNHfxy_6nbNq53JnO2Og@mail.gmail.com>
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+In-Reply-To: <CAA8EJpokgiUbqj9BOF52a9QjJK53PinNHfxy_6nbNq53JnO2Og@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-Mailman-Approved-At: Mon, 17 Jan 2022 22:07:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,39 +68,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hendrik Borghorst <hendrikborghorst@gmail.com>
+Cc: Sean Paul <sean@poorly.run>, OPEN FIRMWARE AND FLATTENED DEVICE TREE
+ BINDINGS <devicetree@vger.kernel.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Stephen Boyd <swboyd@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Lenovo Ideapad Duet 3i has a 1200x1920 panel.
+On 1/13/2022 12:43 PM, Dmitry Baryshkov wrote:
+> On Thu, 13 Jan 2022 at 00:19, Rob Clark <robdclark@gmail.com> wrote:
+>> On Tue, Jan 11, 2022 at 1:31 PM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+>>> Expose speedbin through MSM_PARAM_CHIP_ID parameter to help userspace
+>>> identify the sku.
+>>>
+>>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+>>> ---
+>>>
+>>>   drivers/gpu/drm/msm/adreno/adreno_gpu.c | 9 +++++----
+>>>   1 file changed, 5 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+>>> index f33cfa4..e970e6a 100644
+>>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+>>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+>>> @@ -242,10 +242,11 @@ int adreno_get_param(struct msm_gpu *gpu, uint32_t param, uint64_t *value)
+>>>                  *value = !adreno_is_a650_family(adreno_gpu) ? 0x100000 : 0;
+>>>                  return 0;
+>>>          case MSM_PARAM_CHIP_ID:
+>>> -               *value = adreno_gpu->rev.patchid |
+>>> -                               (adreno_gpu->rev.minor << 8) |
+>>> -                               (adreno_gpu->rev.major << 16) |
+>>> -                               (adreno_gpu->rev.core << 24);
+>>> +               *value = (uint64_t) adreno_gpu->rev.patchid |
+>>> +                               (uint64_t) (adreno_gpu->rev.minor << 8) |
+>>> +                               (uint64_t) (adreno_gpu->rev.major << 16) |
+>>> +                               (uint64_t) (adreno_gpu->rev.core << 24) |
+>>> +                               (((uint64_t) adreno_gpu->rev.sku) << 32);
+>> How about this instead, so we are only changing the behavior for
+>> new/unreleased devices:
 
-Non-exact match is used because a non-LTE and LTE version
-exists with string "10IGL5" and "10IGL5-LTE". The patch is only tested
-on the non-LTE version.
+I thought this property was only used for new devices whereas the 
+existing devices rely on REVN.
 
-Signed-off-by: Hendrik Borghorst <hendrikborghorst@gmail.com>
----
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+-Akhil.
 
-diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index 042bb80383c9..a69caf423b48 100644
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -262,6 +262,13 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "Lenovo ideapad D330-10IGM"),
- 		},
- 		.driver_data = (void *)&lcd1200x1920_rightside_up,
-+	}, {	/* Lenovo IdeaPad Duet 3 10IGL5 */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-+		  /* Non exact match to match all versions */
-+		  DMI_MATCH(DMI_PRODUCT_VERSION, "IdeaPad Duet 3 10IGL5"),
-+		},
-+		.driver_data = (void *)&lcd1200x1920_rightside_up,
- 	}, {	/* Lenovo Yoga Book X90F / X91F / X91L */
- 		.matches = {
- 		  /* Non exact match to match all versions */
--- 
-2.34.1
+>>
+>> *value = adreno_gpu->rev.patchid |
+>> (adreno_gpu->rev.minor << 8) |
+>> (adreno_gpu->rev.major << 16) |
+>> (adreno_gpu->rev.core << 24);
+>> if (!adreno_gpu->info->revn)
+>> *value |= (((uint64_t) adreno_gpu->rev.sku) << 32);
+>>
+>> (sorry about the butchered indentation.. somehow gmail has become
+>> antagonistic about pasting code)
+> I assume that you would like to keep userspace compat for older chips.
+> thus the if.
+> Maybe we should introduce MSM_PARAM_CHIP_ID_SKU instead (and gradually
+> make userspace switch to it)?
+>
+>> BR,
+>> -R
+>>
+>>>                  return 0;
+>>>          case MSM_PARAM_MAX_FREQ:
+>>>                  *value = adreno_gpu->base.fast_rate;
+>>> --
+>>> 2.7.4
+>>>
+>
+>
 
