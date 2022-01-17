@@ -1,55 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 028004904F4
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 10:35:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48BF5490510
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jan 2022 10:40:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1AD810E507;
-	Mon, 17 Jan 2022 09:35:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21AA910E62C;
+	Mon, 17 Jan 2022 09:40:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
- [IPv6:2607:f8b0:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9165D10E507
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 09:35:38 +0000 (UTC)
-Received: by mail-oi1-x233.google.com with SMTP id t9so22531711oie.12
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 01:35:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/TWot+GBT255Kn595XxLRRlEGzkpc6u0aEZt1sgu9nQ=;
- b=brYMghhNpV3UtW8Pry19jIqkr5UG+1u8w9vx0wfpPtB+68SvTVhWt23hZ5fvWzMuMB
- +Z91zQpxcQt0ofra67Y98j4cXwUJJQ5TTn+6MvOkrK+75hiuxdXjddoZf8Wr684vAOpE
- 8UnIwlhCxGWTDfkszaoL7H5a/hLEqSd4JWVfI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/TWot+GBT255Kn595XxLRRlEGzkpc6u0aEZt1sgu9nQ=;
- b=vkU75OunxdHnrzwkvOJKf6b+6B6dwIZT7X8+3LCAAcEoCjAVuRGzgPhpF2qY1yobIU
- a7J6pubTnaZyzHjZnBgeVlfkpKpCwWP7GYWDnOX972h7ah0Xzb+kzFjFI3m9Pj3j9QAs
- uXYp4bkCdggPPMQ0mAiiygmHe6BSbG8RkqaREsjxQBavn/KLrZsC2OvOr1d2R+0k81/v
- BbB4IOjf80uOK2z/XSoqknFG4ZOSptNkmiyqPqLXHqtAfirlU1NxnOjx+kNI2zfqb/n0
- ZNqo3mbNbJ8bnaRpCw6PILxI+ZOjHk8NiimmwarNnlVL+9mnBwgiJttrdGc/Q7WGRy/8
- Gdxg==
-X-Gm-Message-State: AOAM533njhxMhLWAVBIdZytTwO01Jmfa70f9D0IvgKAZ4jxRdonFbdzB
- GxqqkbY+INGU11c6rxFRFuBBD8w9C7N2yVN7hUjmgQ==
-X-Google-Smtp-Source: ABdhPJz+YSLdpmoOtNsknZdTmAXVEU/lG790KmndstiDSVOMX6wDaiiteQoHLkfyHIGmn3VOmtjiL595km39p9G6Ono=
-X-Received: by 2002:a05:6808:1188:: with SMTP id
- j8mr21930539oil.101.1642412137479; 
- Mon, 17 Jan 2022 01:35:37 -0800 (PST)
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8807F10E62C
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jan 2022 09:40:08 +0000 (UTC)
+X-UUID: 6b819102e69b4197bb672c89dba08a31-20220117
+X-UUID: 6b819102e69b4197bb672c89dba08a31-20220117
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw01.mediatek.com (envelope-from <yunfei.dong@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1225553134; Mon, 17 Jan 2022 17:40:04 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Mon, 17 Jan 2022 17:40:03 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 17 Jan 2022 17:40:02 +0800
+From: Yunfei Dong <yunfei.dong@mediatek.com>
+To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
+ <acourbot@chromium.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, "Tzung-Bi
+ Shih" <tzungbi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
+Subject: [PATCH v5, 00/15] media: mtk-vcodec: support for MT8192 decoder
+Date: Mon, 17 Jan 2022 17:39:46 +0800
+Message-ID: <20220117094001.20049-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <cover.1641937419.git.iourit@linux.microsoft.com>
- <e04c8e820bc166d9d4fe8e388aace731bb3255b0.1641937420.git.iourit@linux.microsoft.com>
- <YeG6+Crv/Bg4h3u1@phenom.ffwll.local>
- <e472cbe8-44ec-110a-1ad7-bc561cd0be88@linux.microsoft.com>
-In-Reply-To: <e472cbe8-44ec-110a-1ad7-bc561cd0be88@linux.microsoft.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 17 Jan 2022 10:35:26 +0100
-Message-ID: <CAKMK7uFkVvfXM7QsgSfP4OLk9b_cSwNsi3s3_7EFuL+Pa1s7eQ@mail.gmail.com>
-Subject: Re: [PATCH v1 9/9] drivers: hv: dxgkrnl: Implement DXGSYNCFILE
-To: Iouri Tarassov <iourit@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,87 +52,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: wei.liu@kernel.org, sthemmin@microsoft.com, gregkh@linuxfoundation.org,
- haiyangz@microsoft.com, linux-hyperv@vger.kernel.org,
- DRI Development <dri-devel@lists.freedesktop.org>,
- linux-kernel@vger.kernel.org, spronovo@microsoft.com, jenatali@microsoft.com,
- kys@microsoft.com
+Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>, srv_heupstream@mediatek.com,
+ devicetree@vger.kernel.org, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ Xiaoyong Lu <xiaoyong.lu@mediatek.com>, linux-mediatek@lists.infradead.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 17, 2022 at 9:34 AM Iouri Tarassov
-<iourit@linux.microsoft.com> wrote:
->
->
-> On 1/14/2022 10:03 AM, Daniel Vetter wrote:
-> > Hi all,
-> >
-> > On Wed, Jan 12, 2022 at 11:55:14AM -0800, Iouri Tarassov wrote:
-> > > Implement the LX_DXCREATESYNCFILE IOCTL (D3DKMTCreateSyncFile).
-> > >
-> > > dxgsyncfile is built on top of the Linux sync_file object and
-> > > provides a way for the user mode to synchronize with the execution
-> > > of the device DMA packets.
-> > >
-> > > The IOCTL creates a dxgsyncfile object for the given GPU synchronization
-> > > object and a fence value. A sync_object file descriptor is returned to
-> > > the caller. The caller could wait for the object by using poll().
-> > > When the GPU synchronization object is signaled on the host, the host
-> > > sends a message to the virtual machine and the sync_file object is
-> > > signaled.
-> > >
-> > > Signed-off-by: Iouri Tarassov <iourit@linux.microsoft.com>
-> >
-> > Adding dri-devel, which get_maintainers.pl should have done automatically
-> > with the dma_fence wildcard match. Not sure why that didn't happen.
-> >
-> > > +struct dxgsyncpoint {
-> > > +   struct dxghostevent     hdr;
-> > > +   struct dma_fence        base;
-> >
-> > This doesn't work unfortuntately. For better or worse memory fences like
-> > monitored fences from wddm have completely different semantics from
-> > dma_fence. You could probably hack this to be self-consistent for hyper-v,
-> > but the problem is that then hv would have incompatible locking/nesting
-> > rules compared to everything else, and dma_fence matter for memory
-> > management so this includes whether you're allowed to kmalloc(GFP_KERNEL)
-> > or not, and that's just a bit too much.
-> >
-> > I discussed this quickly with Jesse on irc and it sounds like the reason
-> > you want the dma_fence is just to emulate the sync_file interface for
-> > android. I think the correct solution here is to create a hv_dxg_sync_file
-> > fd, which emulates the exact ioctls that Android needs, but with a wddm
-> > monitored fence underneath instead of a dma_fence underneath.
-> >
-> > This way we guarantee that no one ever accidentally mixes these
-> > incompatible concepts up in the kernel, and Android should still be able
-> > to happily run under hyperv.
-> >
-> > Thoughts?
-> >
-> > Also pls cc me on this sync work since even if you drop dma_fence use
-> > completely I'd like to follow this a bit.
->
-> Hi Daniel,
->
-> Thank you for the review and feedback.
-> I will get this addressed.
+This series adds support for mt8192 h264/vp8/vp9 decoder drivers. Firstly, refactor
+power/clock/interrupt interfaces for mt8192 is lat and core architecture.
 
-btw another idea I had over the w/e: Another option might be to allow
-different backends for sync_file, and then making sure that you cannot
-ever mix dma_fence and hv_dxg_fence type sync_file up (in e.g. the
-merge ioctl).
+Secondly, add new functions to get frame buffer size and resolution according
+to decoder capability from scp side. Then add callback function to get/put
+capture buffer in order to enable lat and core decoder in parallel. 
 
-The issue is that fundamentally dma_fence and memory fences (or umf
-for userspace memory fences as we tend to call them) aren't
-compatible, but some of the interop plans we have is to allow stuffing
-either of them into fence container objects like sync_file. So going
-that route for wddm monitored fence support too could be a really
-future-proof approach, plus it'd allow you to still share the
-sync_file interface code. Not that it's going to be much code sharing,
-since all the implementation code needs to be distinct.
--Daniel
+Then add to support MT21C compressed mode and fix v4l2-compliance fail.
+
+Next, extract H264 request api driver to let mt8183 and mt8192 use the same
+code, and adds mt8192 frame based h264 driver for stateless decoder.
+
+Lastly, add vp8 and vp9 stateless decoder drivers.
+
+Patches 1 refactor power/clock/interrupt interface.
+Patches 2~4 get frame buffer size and resolution according to decoder capability.
+Patches 5~6 enable lat and core decode in parallel.
+Patch 7~10 add to support MT21C compressed mode and fix v4l2-compliance fail.
+patch 11 record capture queue format type.
+Patch 12~13 extract h264 driver and add mt8192 frame based driver for h264 decoder.
+Patch 14~15 add vp8 and vp9 stateless decoder drivers.
+---
+changes compared with v4:
+- fix checkpatch.pl fail.
+- fix kernel-doc fail.
+- rebase to the latest media codec driver.
+changes compared with v3:
+- remove enum mtk_chip for patch 2.
+- add vp8 stateless decoder drivers for patch 14.
+- add vp9 stateless decoder drivers for patch 15.
+changes compared with v2:
+- add new patch 11 to record capture queue format type.
+- separate patch 4 according to tzung-bi's suggestion.
+- re-write commit message for patch 5 according to tzung-bi's suggestion.
+changes compared with v1:
+- rewrite commit message for patch 12.
+- rewrite cover-letter message.
+---
+Yunfei Dong (15):
+  media: mtk-vcodec: Add vdec enable/disable hardware helpers
+  media: mtk-vcodec: Using firmware type to separate different firmware
+    architecture
+  media: mtk-vcodec: get capture queue buffer size from scp
+  media: mtk-vcodec: Read max resolution from dec_capability
+  media: mtk-vcodec: Call v4l2_m2m_set_dst_buffered() set capture buffer
+    buffered
+  media: mtk-vcodec: Refactor get and put capture buffer flow
+  media: mtk-vcodec: Refactor supported vdec formats and framesizes
+  media: mtk-vcodec: Add format to support MT21C
+  media: mtk-vcodec: disable vp8 4K capability
+  media: mtk-vcodec: Fix v4l2-compliance fail
+  media: mtk-vcodec: record capture queue format type
+  media: mtk-vcodec: Extract H264 common code
+  media: mtk-vcodec: support stateless H.264 decoding for mt8192
+  media: mtk-vcodec: support stateless VP8 decoding
+  media: mtk-vcodec: support stateless VP9 decoding
+
+ drivers/media/platform/mtk-vcodec/Makefile    |    4 +
+ .../platform/mtk-vcodec/mtk_vcodec_dec.c      |   47 +-
+ .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |    5 -
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   |  168 +-
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.h   |    6 +-
+ .../mtk-vcodec/mtk_vcodec_dec_stateful.c      |   14 +-
+ .../mtk-vcodec/mtk_vcodec_dec_stateless.c     |  281 ++-
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      |   40 +-
+ .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |    5 -
+ .../media/platform/mtk-vcodec/mtk_vcodec_fw.c |    6 +
+ .../media/platform/mtk-vcodec/mtk_vcodec_fw.h |    1 +
+ .../mtk-vcodec/vdec/vdec_h264_req_common.c    |  307 +++
+ .../mtk-vcodec/vdec/vdec_h264_req_common.h    |  253 +++
+ .../mtk-vcodec/vdec/vdec_h264_req_if.c        |  411 +---
+ .../mtk-vcodec/vdec/vdec_h264_req_multi_if.c  |  599 +++++
+ .../mtk-vcodec/vdec/vdec_vp8_req_if.c         |  440 ++++
+ .../mtk-vcodec/vdec/vdec_vp9_req_lat_if.c     | 1973 +++++++++++++++++
+ .../media/platform/mtk-vcodec/vdec_drv_if.c   |   36 +-
+ .../media/platform/mtk-vcodec/vdec_drv_if.h   |    3 +
+ .../media/platform/mtk-vcodec/vdec_ipi_msg.h  |   36 +
+ .../platform/mtk-vcodec/vdec_msg_queue.c      |    2 +
+ .../media/platform/mtk-vcodec/vdec_vpu_if.c   |   53 +-
+ .../media/platform/mtk-vcodec/vdec_vpu_if.h   |   15 +
+ .../media/platform/mtk-vcodec/venc_vpu_if.c   |    2 +-
+ include/linux/remoteproc/mtk_scp.h            |    2 +
+ 25 files changed, 4128 insertions(+), 581 deletions(-)
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_common.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_common.h
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_multi_if.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_vp8_req_if.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_req_lat_if.c
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.25.1
+
