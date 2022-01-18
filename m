@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A442D49174B
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 03:39:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E38DC491750
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 03:40:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89DC8112901;
-	Tue, 18 Jan 2022 02:39:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D682B112905;
+	Tue, 18 Jan 2022 02:40:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F4D61128FE;
- Tue, 18 Jan 2022 02:39:11 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E0F1112904;
+ Tue, 18 Jan 2022 02:40:16 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 68341B81249;
- Tue, 18 Jan 2022 02:39:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE117C36AF2;
- Tue, 18 Jan 2022 02:39:07 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 50DA5B81255;
+ Tue, 18 Jan 2022 02:40:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10150C36AF2;
+ Tue, 18 Jan 2022 02:40:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1642473549;
- bh=62gaORYSPJT9CczU4qMGP9Eyq2uaRncI4NxIrYxJHVA=;
+ s=k20201202; t=1642473614;
+ bh=FpFOz55NDArr1D4SGMUr6c5B/Pd266OUahPpfqk8l5Q=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=J2XjhJoHaniWvP36Fg8rAv4ujgJz6RUaXKqmQdNDV1xcrEoDzBz1WwtXhFCBJfvHf
- 0IoZ4RaRxoCgQ48U+ZqpY8H6Yi7GVK2Hc5Zt8KxnlWUXm5qlA/IRrRL0++BAh2wAeY
- VR0Jt4Zu/CeQt4pkyZEcKvHIivOqt6ICpVSF409GWnE2Qhm8trO35aSiMPJLcnC3Zl
- J6IiWZDRP0PcBjk7+t2cSWicgUnwJ2V1XOmz7YZQhreD1N/sVRlJI6vvnP31xzbLwn
- l/INPS7IcEpCoeOS8HwA82Kg0qW+rLXuUC1UPOi9lySvtwKBQe9pQ/SbniG4Mn3F7V
- TLOiIxE8aXN5w==
+ b=kp25L5MkUWx3hczBhr6hO8r0vcM83BqmkVmpojRd34lUmOjBUax+RERJdwWOCmGXd
+ wpeLrMkFQJ70H5otUxJUvzTFfRR1q5W2ZgHi8ls4jNuWycN3FWxcy557smKA1NW8tg
+ CKBKTCWcMTncytPVUXk08ez5U2bcKbKREHhrguvyTOeOjPlhKw+vOMJEp5GYOb5BER
+ sfbMZrVeWfhIMjVJErzOkpv8B/TCtkdnKp3T8L1NA/Vo8vB2lBmjNsqa+NLA7DHaP/
+ Z2mS8gsbc4WEeCDNGlNuRDxyKOYKisEGKJWAwBCQM25mptS2Fg1W0aW5lOvDyE/iTt
+ MM+vF8t9OJpOw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 161/188] amdgpu/pm: Make sysfs pm attributes as
- read-only for VFs
-Date: Mon, 17 Jan 2022 21:31:25 -0500
-Message-Id: <20220118023152.1948105-161-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 004/116] drm/lima: fix warning when
+ CONFIG_DEBUG_SG=y & CONFIG_DMA_API_DEBUG=y
+Date: Mon, 17 Jan 2022 21:38:15 -0500
+Message-Id: <20220118024007.1950576-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220118023152.1948105-1-sashal@kernel.org>
-References: <20220118023152.1948105-1-sashal@kernel.org>
+In-Reply-To: <20220118024007.1950576-1-sashal@kernel.org>
+References: <20220118024007.1950576-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -55,61 +56,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Xinhui.Pan@amd.com,
- Marina Nikolic <Marina.Nikolic@amd.com>, airlied@linux.ie,
- Lijo Lazar <lijo.lazar@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Evan Quan <evan.quan@amd.com>, christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, lima@lists.freedesktop.org,
+ airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ Vasily Khoruzhick <anarsoul@gmail.com>, Qiang Yu <yuq825@gmail.com>,
+ Roman Stratiienko <r.stratiienko@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Marina Nikolic <Marina.Nikolic@amd.com>
+From: Qiang Yu <yuq825@gmail.com>
 
-[ Upstream commit 11c9cc95f818f0f187e9b579a7f136f532b42445 ]
+[ Upstream commit 89636a06fa2ee7826a19c39c19a9bc99ab9340a9 ]
 
-== Description ==
-Setting values of pm attributes through sysfs
-should not be allowed in SRIOV mode.
-These calls will not be processed by FW anyway,
-but error handling on sysfs level should be improved.
+Otherwise get following warning:
 
-== Changes ==
-This patch prohibits performing of all set commands
-in SRIOV mode on sysfs level.
-It offers better error handling as calls that are
-not allowed will not be propagated further.
+DMA-API: lima 1c40000.gpu: mapping sg segment longer than device claims to support [len=4149248] [max=65536]
 
-== Test ==
-Writing to any sysfs file in passthrough mode will succeed.
-Writing to any sysfs file in ONEVF mode will yield error:
-"calling process does not have sufficient permission to execute a command".
+See: https://gitlab.freedesktop.org/mesa/mesa/-/issues/5496
 
-Signed-off-by: Marina Nikolic <Marina.Nikolic@amd.com>
-Acked-by: Evan Quan <evan.quan@amd.com>
-Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Vasily Khoruzhick <anarsoul@gmail.com>
+Reported-by: Roman Stratiienko <r.stratiienko@gmail.com>
+Signed-off-by: Qiang Yu <yuq825@gmail.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20211031041604.187216-1-yuq825@gmail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/pm/amdgpu_pm.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/lima/lima_device.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-index 249cb0aeb5ae4..32a0fd5e84b73 100644
---- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-+++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-@@ -2117,6 +2117,12 @@ static int default_attr_update(struct amdgpu_device *adev, struct amdgpu_device_
- 		}
- 	}
+diff --git a/drivers/gpu/drm/lima/lima_device.c b/drivers/gpu/drm/lima/lima_device.c
+index 65fdca366e41f..36c9905894278 100644
+--- a/drivers/gpu/drm/lima/lima_device.c
++++ b/drivers/gpu/drm/lima/lima_device.c
+@@ -357,6 +357,7 @@ int lima_device_init(struct lima_device *ldev)
+ 	int err, i;
  
-+	/* setting should not be allowed from VF */
-+	if (amdgpu_sriov_vf(adev)) {
-+		dev_attr->attr.mode &= ~S_IWUGO;
-+		dev_attr->store = NULL;
-+	}
-+
- #undef DEVICE_ATTR_IS
+ 	dma_set_coherent_mask(ldev->dev, DMA_BIT_MASK(32));
++	dma_set_max_seg_size(ldev->dev, UINT_MAX);
  
- 	return 0;
+ 	err = lima_clk_init(ldev);
+ 	if (err)
 -- 
 2.34.1
 
