@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72C654914AC
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 03:24:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 933BB4914BF
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 03:24:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70EB61128C6;
-	Tue, 18 Jan 2022 02:24:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39DB21128C5;
+	Tue, 18 Jan 2022 02:24:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82F901128C7
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 02:23:58 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC8991128C9;
+ Tue, 18 Jan 2022 02:24:18 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 2A002B81236;
- Tue, 18 Jan 2022 02:23:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6D76C36AE3;
- Tue, 18 Jan 2022 02:23:55 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 62E7FB8124B;
+ Tue, 18 Jan 2022 02:24:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33DB8C36AE3;
+ Tue, 18 Jan 2022 02:24:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1642472636;
- bh=ET/fe6hUs+YGyXTxU4XmUiBg3bD8ryPSRPQ2va7Uasg=;
+ s=k20201202; t=1642472655;
+ bh=XqqZhZVVlX5olFQFKA/GsYEKRETBxCwomFV/uenBILs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=s4FhdNqZBvuJO5DHBOTP8LTqZKlnDaz8p/JcIm8aCUI84AFD9tujk6+d4G/fFCLeS
- NFbyX+8RmB6oPiVzc6IdWo12QhP1UXF7FhvDWedVuOIJZcLHTe/9tJDxg2OQjcwEG/
- omhut5N8kcyw8Og76UR1afowbccB3bAbodS/4rf4DY3J3ylNrKA78/gWF0JO4PjAcS
- 9STgJldwzmKdxvSDG+KMGID6egRCDQGjuMZpoAz56ptbQvwg1tqcTaT+NOKg9y8loG
- C1ap6qRdSbPHfU3KfWVtt2FGJqyDHbIMdcbzAmXzpjTToKul/lbvF4uQZstjtEm+yK
- UGlKwTxxjkj/A==
+ b=BGVFh2tySH9nEeZYyR+9KsagDxtV+Bd0Q5DPS5eCkZb1EAw960+t7uGZ06cX+p+G+
+ RCBchiiu0fyZ/av6QV8Jso1PPlDfJFQj93IsYxN5vu0pqvWH9oAcYdNv7vVfKyFtDJ
+ e2Zlxd4XsdQ56z1Wgg6rE5oq17vxcHD3YCF2VMVactKQcRBfuU1LXugR1BdWxJRatb
+ ckdGSBltqeJq/866CJ5LGzVuyAvVm1EQkYskzX7G1SmDNfO89EZk+hnIbXTnx+encc
+ Oy4+0yoccVGyCNdL2b0uQBBlR12Xi1oL+hH8eJW73j1O6RhlSRWHMSykILk5xUfssw
+ dq5R5qOJwnqCw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.16 083/217] drm/vmwgfx: Introduce a new placement
- for MOB page tables
-Date: Mon, 17 Jan 2022 21:17:26 -0500
-Message-Id: <20220118021940.1942199-83-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.16 088/217] drm: Return error codes from struct
+ drm_driver.gem_create_object
+Date: Mon, 17 Jan 2022 21:17:31 -0500
+Message-Id: <20220118021940.1942199-88-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220118021940.1942199-1-sashal@kernel.org>
 References: <20220118021940.1942199-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -56,368 +56,210 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- airlied@linux.ie, dri-devel@lists.freedesktop.org,
- Martin Krastev <krastevm@vmware.com>, linux-graphics-maintainer@vmware.com,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, kraxel@redhat.com,
+ tomeu.vizoso@collabora.com, emma@anholt.net, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
+ lima@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ virtualization@lists.linux-foundation.org, lee.jones@linaro.org,
+ yuq825@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zack Rusin <zackr@vmware.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
 
-[ Upstream commit f6be23264bbac88d1e2bb39658e1b8a397e3f46d ]
+[ Upstream commit 4ff22f487f8c26b99cbe1678344595734c001a39 ]
 
-For larger (bigger than a page) and noncontiguous mobs we have
-to create page tables that allow the host to find the memory.
-Those page tables just used regular system memory. Unfortunately
-in TTM those BO's are not allowed to be busy thus can't be
-fenced and we have to fence those bo's  because we don't want
-to destroy the page tables while the host is still executing
-the command buffers which might be accessing them.
+GEM helper libraries use struct drm_driver.gem_create_object to let
+drivers override GEM object allocation. On failure, the call returns
+NULL.
 
-To solve it we introduce a new placement VMW_PL_SYSTEM which
-is very similar to TTM_PL_SYSTEM except that it allows
-fencing. This fixes kernel oops'es during unloading of the driver
-(and pci hot remove/add) which were caused by busy BO's in
-TTM_PL_SYSTEM being present in the delayed deletion list in
-TTM (TTM_PL_SYSTEM manager is destroyed before the delayed
-deletions are executed)
+Change the semantics to make the calls return a pointer-encoded error.
+This aligns the callback with its callers. Fixes the ingenic driver,
+which already returns an error pointer.
 
-Signed-off-by: Zack Rusin <zackr@vmware.com>
-Reviewed-by: Martin Krastev <krastevm@vmware.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20211105193845.258816-5-zackr@vmware.com
+Also update the callers to handle the involved types more strictly.
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Steven Price <steven.price@arm.com>
+Acked-by: Maxime Ripard <maxime@cerno.tech>
+Link: https://patchwork.freedesktop.org/patch/msgid/20211130095255.26710-1-tzimmermann@suse.de
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/vmwgfx/Makefile               |  2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           | 14 ++-
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h           | 12 ++-
- .../gpu/drm/vmwgfx/vmwgfx_system_manager.c    | 90 +++++++++++++++++++
- drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c    | 58 ++++++------
- 5 files changed, 138 insertions(+), 38 deletions(-)
- create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_system_manager.c
+ drivers/gpu/drm/drm_gem_cma_helper.c    | 17 ++++++++++-------
+ drivers/gpu/drm/drm_gem_shmem_helper.c  | 17 ++++++++++-------
+ drivers/gpu/drm/drm_gem_vram_helper.c   |  4 ++--
+ drivers/gpu/drm/lima/lima_gem.c         |  2 +-
+ drivers/gpu/drm/panfrost/panfrost_gem.c |  2 +-
+ drivers/gpu/drm/v3d/v3d_bo.c            |  4 ++--
+ drivers/gpu/drm/vgem/vgem_drv.c         |  2 +-
+ drivers/gpu/drm/virtio/virtgpu_object.c |  2 +-
+ include/drm/drm_drv.h                   |  5 +++--
+ 9 files changed, 31 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/Makefile b/drivers/gpu/drm/vmwgfx/Makefile
-index bc323f7d40321..0188a312c38c2 100644
---- a/drivers/gpu/drm/vmwgfx/Makefile
-+++ b/drivers/gpu/drm/vmwgfx/Makefile
-@@ -9,7 +9,7 @@ vmwgfx-y := vmwgfx_execbuf.o vmwgfx_gmr.o vmwgfx_kms.o vmwgfx_drv.o \
- 	    vmwgfx_cotable.o vmwgfx_so.o vmwgfx_binding.o vmwgfx_msg.o \
- 	    vmwgfx_simple_resource.o vmwgfx_va.o vmwgfx_blit.o \
- 	    vmwgfx_validation.o vmwgfx_page_dirty.o vmwgfx_streamoutput.o \
--            vmwgfx_devcaps.o ttm_object.o ttm_memory.o
-+	    vmwgfx_devcaps.o ttm_object.o ttm_memory.o vmwgfx_system_manager.o
+diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
+index 9d05674550a4f..1e7e8cd64cb58 100644
+--- a/drivers/gpu/drm/drm_gem_cma_helper.c
++++ b/drivers/gpu/drm/drm_gem_cma_helper.c
+@@ -62,18 +62,21 @@ __drm_gem_cma_create(struct drm_device *drm, size_t size, bool private)
+ 	struct drm_gem_object *gem_obj;
+ 	int ret = 0;
  
- vmwgfx-$(CONFIG_DRM_FBDEV_EMULATION) += vmwgfx_fb.o
- vmwgfx-$(CONFIG_TRANSPARENT_HUGEPAGE) += vmwgfx_thp.o
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index 68f46f9e032dd..117a7ad800502 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -1071,6 +1071,12 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
- 				 "3D will be disabled.\n");
- 			dev_priv->has_mob = false;
- 		}
-+		if (vmw_sys_man_init(dev_priv) != 0) {
-+			drm_info(&dev_priv->drm,
-+				 "No MOB page table memory available. "
-+				 "3D will be disabled.\n");
-+			dev_priv->has_mob = false;
-+		}
- 	}
- 
- 	if (dev_priv->has_mob && (dev_priv->capabilities & SVGA_CAP_DX)) {
-@@ -1121,8 +1127,10 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
- 	vmw_overlay_close(dev_priv);
- 	vmw_kms_close(dev_priv);
- out_no_kms:
--	if (dev_priv->has_mob)
-+	if (dev_priv->has_mob) {
- 		vmw_gmrid_man_fini(dev_priv, VMW_PL_MOB);
-+		vmw_sys_man_fini(dev_priv);
+-	if (drm->driver->gem_create_object)
++	if (drm->driver->gem_create_object) {
+ 		gem_obj = drm->driver->gem_create_object(drm, size);
+-	else
+-		gem_obj = kzalloc(sizeof(*cma_obj), GFP_KERNEL);
+-	if (!gem_obj)
+-		return ERR_PTR(-ENOMEM);
++		if (IS_ERR(gem_obj))
++			return ERR_CAST(gem_obj);
++		cma_obj = to_drm_gem_cma_obj(gem_obj);
++	} else {
++		cma_obj = kzalloc(sizeof(*cma_obj), GFP_KERNEL);
++		if (!cma_obj)
++			return ERR_PTR(-ENOMEM);
++		gem_obj = &cma_obj->base;
 +	}
- 	if (dev_priv->has_gmr)
- 		vmw_gmrid_man_fini(dev_priv, VMW_PL_GMR);
- 	vmw_devcaps_destroy(dev_priv);
-@@ -1172,8 +1180,10 @@ static void vmw_driver_unload(struct drm_device *dev)
- 		vmw_gmrid_man_fini(dev_priv, VMW_PL_GMR);
  
- 	vmw_release_device_early(dev_priv);
--	if (dev_priv->has_mob)
-+	if (dev_priv->has_mob) {
- 		vmw_gmrid_man_fini(dev_priv, VMW_PL_MOB);
-+		vmw_sys_man_fini(dev_priv);
-+	}
- 	vmw_devcaps_destroy(dev_priv);
- 	vmw_vram_manager_fini(dev_priv);
- 	ttm_device_fini(&dev_priv->bdev);
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-index 858aff99a3fe5..645c18b267e6e 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-@@ -82,8 +82,9 @@
- 			VMWGFX_NUM_GB_SURFACE +\
- 			VMWGFX_NUM_GB_SCREEN_TARGET)
+ 	if (!gem_obj->funcs)
+ 		gem_obj->funcs = &drm_gem_cma_default_funcs;
  
--#define VMW_PL_GMR (TTM_PL_PRIV + 0)
--#define VMW_PL_MOB (TTM_PL_PRIV + 1)
-+#define VMW_PL_GMR      (TTM_PL_PRIV + 0)
-+#define VMW_PL_MOB      (TTM_PL_PRIV + 1)
-+#define VMW_PL_SYSTEM   (TTM_PL_PRIV + 2)
- 
- #define VMW_RES_CONTEXT ttm_driver_type0
- #define VMW_RES_SURFACE ttm_driver_type1
-@@ -1039,7 +1040,6 @@ extern struct ttm_placement vmw_vram_placement;
- extern struct ttm_placement vmw_vram_sys_placement;
- extern struct ttm_placement vmw_vram_gmr_placement;
- extern struct ttm_placement vmw_sys_placement;
--extern struct ttm_placement vmw_evictable_placement;
- extern struct ttm_placement vmw_srf_placement;
- extern struct ttm_placement vmw_mob_placement;
- extern struct ttm_placement vmw_nonfixed_placement;
-@@ -1251,6 +1251,12 @@ int vmw_overlay_num_free_overlays(struct vmw_private *dev_priv);
- int vmw_gmrid_man_init(struct vmw_private *dev_priv, int type);
- void vmw_gmrid_man_fini(struct vmw_private *dev_priv, int type);
- 
-+/**
-+ * System memory manager
-+ */
-+int vmw_sys_man_init(struct vmw_private *dev_priv);
-+void vmw_sys_man_fini(struct vmw_private *dev_priv);
-+
- /**
-  * Prime - vmwgfx_prime.c
-  */
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_system_manager.c b/drivers/gpu/drm/vmwgfx/vmwgfx_system_manager.c
-new file mode 100644
-index 0000000000000..b0005b03a6174
---- /dev/null
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_system_manager.c
-@@ -0,0 +1,90 @@
-+/* SPDX-License-Identifier: GPL-2.0 OR MIT */
-+/*
-+ * Copyright 2021 VMware, Inc.
-+ *
-+ * Permission is hereby granted, free of charge, to any person
-+ * obtaining a copy of this software and associated documentation
-+ * files (the "Software"), to deal in the Software without
-+ * restriction, including without limitation the rights to use, copy,
-+ * modify, merge, publish, distribute, sublicense, and/or sell copies
-+ * of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be
-+ * included in all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
-+ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
-+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-+ * SOFTWARE.
-+ *
-+ */
-+
-+#include "vmwgfx_drv.h"
-+
-+#include <drm/ttm/ttm_bo_driver.h>
-+#include <drm/ttm/ttm_device.h>
-+#include <drm/ttm/ttm_placement.h>
-+#include <drm/ttm/ttm_resource.h>
-+#include <linux/slab.h>
-+
-+
-+static int vmw_sys_man_alloc(struct ttm_resource_manager *man,
-+			     struct ttm_buffer_object *bo,
-+			     const struct ttm_place *place,
-+			     struct ttm_resource **res)
-+{
-+	*res = kzalloc(sizeof(**res), GFP_KERNEL);
-+	if (!*res)
-+		return -ENOMEM;
-+
-+	ttm_resource_init(bo, place, *res);
-+	return 0;
-+}
-+
-+static void vmw_sys_man_free(struct ttm_resource_manager *man,
-+			     struct ttm_resource *res)
-+{
-+	kfree(res);
-+}
-+
-+static const struct ttm_resource_manager_func vmw_sys_manager_func = {
-+	.alloc = vmw_sys_man_alloc,
-+	.free = vmw_sys_man_free,
-+};
-+
-+int vmw_sys_man_init(struct vmw_private *dev_priv)
-+{
-+	struct ttm_device *bdev = &dev_priv->bdev;
-+	struct ttm_resource_manager *man =
-+			kzalloc(sizeof(*man), GFP_KERNEL);
-+
-+	if (!man)
-+		return -ENOMEM;
-+
-+	man->use_tt = true;
-+	man->func = &vmw_sys_manager_func;
-+
-+	ttm_resource_manager_init(man, 0);
-+	ttm_set_driver_manager(bdev, VMW_PL_SYSTEM, man);
-+	ttm_resource_manager_set_used(man, true);
-+	return 0;
-+}
-+
-+void vmw_sys_man_fini(struct vmw_private *dev_priv)
-+{
-+	struct ttm_resource_manager *man = ttm_manager_type(&dev_priv->bdev,
-+							    VMW_PL_SYSTEM);
-+
-+	ttm_resource_manager_evict_all(&dev_priv->bdev, man);
-+
-+	ttm_resource_manager_set_used(man, false);
-+	ttm_resource_manager_cleanup(man);
-+
-+	ttm_set_driver_manager(&dev_priv->bdev, VMW_PL_SYSTEM, NULL);
-+	kfree(man);
-+}
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-index e899a936a42a0..b15228e7dbeb8 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-@@ -92,6 +92,13 @@ static const struct ttm_place gmr_vram_placement_flags[] = {
- 	}
- };
- 
-+static const struct ttm_place vmw_sys_placement_flags = {
-+	.fpfn = 0,
-+	.lpfn = 0,
-+	.mem_type = VMW_PL_SYSTEM,
-+	.flags = 0
-+};
-+
- struct ttm_placement vmw_vram_gmr_placement = {
- 	.num_placement = 2,
- 	.placement = vram_gmr_placement_flags,
-@@ -113,28 +120,11 @@ struct ttm_placement vmw_sys_placement = {
- 	.busy_placement = &sys_placement_flags
- };
- 
--static const struct ttm_place evictable_placement_flags[] = {
--	{
--		.fpfn = 0,
--		.lpfn = 0,
--		.mem_type = TTM_PL_SYSTEM,
--		.flags = 0
--	}, {
--		.fpfn = 0,
--		.lpfn = 0,
--		.mem_type = TTM_PL_VRAM,
--		.flags = 0
--	}, {
--		.fpfn = 0,
--		.lpfn = 0,
--		.mem_type = VMW_PL_GMR,
--		.flags = 0
--	}, {
--		.fpfn = 0,
--		.lpfn = 0,
--		.mem_type = VMW_PL_MOB,
--		.flags = 0
--	}
-+struct ttm_placement vmw_pt_sys_placement = {
-+	.num_placement = 1,
-+	.placement = &vmw_sys_placement_flags,
-+	.num_busy_placement = 1,
-+	.busy_placement = &vmw_sys_placement_flags
- };
- 
- static const struct ttm_place nonfixed_placement_flags[] = {
-@@ -156,13 +146,6 @@ static const struct ttm_place nonfixed_placement_flags[] = {
- 	}
- };
- 
--struct ttm_placement vmw_evictable_placement = {
--	.num_placement = 4,
--	.placement = evictable_placement_flags,
--	.num_busy_placement = 1,
--	.busy_placement = &sys_placement_flags
--};
+-	cma_obj = container_of(gem_obj, struct drm_gem_cma_object, base);
 -
- struct ttm_placement vmw_srf_placement = {
- 	.num_placement = 1,
- 	.num_busy_placement = 2,
-@@ -484,6 +467,9 @@ static int vmw_ttm_bind(struct ttm_device *bdev,
- 				    &vmw_be->vsgt, ttm->num_pages,
- 				    vmw_be->gmr_id);
- 		break;
-+	case VMW_PL_SYSTEM:
-+		/* Nothing to be done for a system bind */
-+		break;
- 	default:
- 		BUG();
- 	}
-@@ -507,6 +493,8 @@ static void vmw_ttm_unbind(struct ttm_device *bdev,
- 	case VMW_PL_MOB:
- 		vmw_mob_unbind(vmw_be->dev_priv, vmw_be->mob);
- 		break;
-+	case VMW_PL_SYSTEM:
-+		break;
- 	default:
- 		BUG();
- 	}
-@@ -624,6 +612,7 @@ static int vmw_ttm_io_mem_reserve(struct ttm_device *bdev, struct ttm_resource *
+ 	if (private) {
+ 		drm_gem_private_object_init(drm, gem_obj, size);
  
- 	switch (mem->mem_type) {
- 	case TTM_PL_SYSTEM:
-+	case VMW_PL_SYSTEM:
- 	case VMW_PL_GMR:
- 	case VMW_PL_MOB:
- 		return 0;
-@@ -670,6 +659,11 @@ static void vmw_swap_notify(struct ttm_buffer_object *bo)
- 	(void) ttm_bo_wait(bo, false, false);
- }
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index bca0de92802ef..fe157bf278347 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -51,14 +51,17 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private)
  
-+static bool vmw_memtype_is_system(uint32_t mem_type)
-+{
-+	return mem_type == TTM_PL_SYSTEM || mem_type == VMW_PL_SYSTEM;
-+}
-+
- static int vmw_move(struct ttm_buffer_object *bo,
- 		    bool evict,
- 		    struct ttm_operation_ctx *ctx,
-@@ -680,7 +674,7 @@ static int vmw_move(struct ttm_buffer_object *bo,
- 	struct ttm_resource_manager *new_man = ttm_manager_type(bo->bdev, new_mem->mem_type);
- 	int ret;
+ 	size = PAGE_ALIGN(size);
  
--	if (new_man->use_tt && new_mem->mem_type != TTM_PL_SYSTEM) {
-+	if (new_man->use_tt && !vmw_memtype_is_system(new_mem->mem_type)) {
- 		ret = vmw_ttm_bind(bo->bdev, bo->ttm, new_mem);
- 		if (ret)
- 			return ret;
-@@ -689,7 +683,7 @@ static int vmw_move(struct ttm_buffer_object *bo,
- 	vmw_move_notify(bo, bo->resource, new_mem);
+-	if (dev->driver->gem_create_object)
++	if (dev->driver->gem_create_object) {
+ 		obj = dev->driver->gem_create_object(dev, size);
+-	else
+-		obj = kzalloc(sizeof(*shmem), GFP_KERNEL);
+-	if (!obj)
+-		return ERR_PTR(-ENOMEM);
+-
+-	shmem = to_drm_gem_shmem_obj(obj);
++		if (IS_ERR(obj))
++			return ERR_CAST(obj);
++		shmem = to_drm_gem_shmem_obj(obj);
++	} else {
++		shmem = kzalloc(sizeof(*shmem), GFP_KERNEL);
++		if (!shmem)
++			return ERR_PTR(-ENOMEM);
++		obj = &shmem->base;
++	}
  
- 	if (old_man->use_tt && new_man->use_tt) {
--		if (bo->resource->mem_type == TTM_PL_SYSTEM) {
-+		if (vmw_memtype_is_system(bo->resource->mem_type)) {
- 			ttm_bo_move_null(bo, new_mem);
- 			return 0;
- 		}
-@@ -736,7 +730,7 @@ int vmw_bo_create_and_populate(struct vmw_private *dev_priv,
- 	int ret;
+ 	if (!obj->funcs)
+ 		obj->funcs = &drm_gem_shmem_funcs;
+diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+index bfa386b981346..3f00192215d11 100644
+--- a/drivers/gpu/drm/drm_gem_vram_helper.c
++++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+@@ -197,8 +197,8 @@ struct drm_gem_vram_object *drm_gem_vram_create(struct drm_device *dev,
  
- 	ret = vmw_bo_create_kernel(dev_priv, bo_size,
--				   &vmw_sys_placement,
-+				   &vmw_pt_sys_placement,
- 				   &bo);
- 	if (unlikely(ret != 0))
- 		return ret;
+ 	if (dev->driver->gem_create_object) {
+ 		gem = dev->driver->gem_create_object(dev, size);
+-		if (!gem)
+-			return ERR_PTR(-ENOMEM);
++		if (IS_ERR(gem))
++			return ERR_CAST(gem);
+ 		gbo = drm_gem_vram_of_gem(gem);
+ 	} else {
+ 		gbo = kzalloc(sizeof(*gbo), GFP_KERNEL);
+diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
+index 640acc060467c..54823bd701a4b 100644
+--- a/drivers/gpu/drm/lima/lima_gem.c
++++ b/drivers/gpu/drm/lima/lima_gem.c
+@@ -221,7 +221,7 @@ struct drm_gem_object *lima_gem_create_object(struct drm_device *dev, size_t siz
+ 
+ 	bo = kzalloc(sizeof(*bo), GFP_KERNEL);
+ 	if (!bo)
+-		return NULL;
++		return ERR_PTR(-ENOMEM);
+ 
+ 	mutex_init(&bo->lock);
+ 	INIT_LIST_HEAD(&bo->va);
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
+index 23377481f4e31..39ac031548954 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gem.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+@@ -221,7 +221,7 @@ struct drm_gem_object *panfrost_gem_create_object(struct drm_device *dev, size_t
+ 
+ 	obj = kzalloc(sizeof(*obj), GFP_KERNEL);
+ 	if (!obj)
+-		return NULL;
++		return ERR_PTR(-ENOMEM);
+ 
+ 	INIT_LIST_HEAD(&obj->mappings.list);
+ 	mutex_init(&obj->mappings.lock);
+diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
+index 6a8731ab9d7d0..9a1a92782524c 100644
+--- a/drivers/gpu/drm/v3d/v3d_bo.c
++++ b/drivers/gpu/drm/v3d/v3d_bo.c
+@@ -70,11 +70,11 @@ struct drm_gem_object *v3d_create_object(struct drm_device *dev, size_t size)
+ 	struct drm_gem_object *obj;
+ 
+ 	if (size == 0)
+-		return NULL;
++		return ERR_PTR(-EINVAL);
+ 
+ 	bo = kzalloc(sizeof(*bo), GFP_KERNEL);
+ 	if (!bo)
+-		return NULL;
++		return ERR_PTR(-ENOMEM);
+ 	obj = &bo->base.base;
+ 
+ 	obj->funcs = &v3d_gem_funcs;
+diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
+index a87eafa89e9f4..c5e3e54577377 100644
+--- a/drivers/gpu/drm/vgem/vgem_drv.c
++++ b/drivers/gpu/drm/vgem/vgem_drv.c
+@@ -97,7 +97,7 @@ static struct drm_gem_object *vgem_gem_create_object(struct drm_device *dev, siz
+ 
+ 	obj = kzalloc(sizeof(*obj), GFP_KERNEL);
+ 	if (!obj)
+-		return NULL;
++		return ERR_PTR(-ENOMEM);
+ 
+ 	/*
+ 	 * vgem doesn't have any begin/end cpu access ioctls, therefore must use
+diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+index f648b0e24447b..4749c9303de05 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_object.c
++++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+@@ -140,7 +140,7 @@ struct drm_gem_object *virtio_gpu_create_object(struct drm_device *dev,
+ 
+ 	shmem = kzalloc(sizeof(*shmem), GFP_KERNEL);
+ 	if (!shmem)
+-		return NULL;
++		return ERR_PTR(-ENOMEM);
+ 
+ 	dshmem = &shmem->base.base;
+ 	dshmem->base.funcs = &virtio_gpu_shmem_funcs;
+diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+index 0cd95953cdf55..96c264c4be4fe 100644
+--- a/include/drm/drm_drv.h
++++ b/include/drm/drm_drv.h
+@@ -291,8 +291,9 @@ struct drm_driver {
+ 	/**
+ 	 * @gem_create_object: constructor for gem objects
+ 	 *
+-	 * Hook for allocating the GEM object struct, for use by the CMA and
+-	 * SHMEM GEM helpers.
++	 * Hook for allocating the GEM object struct, for use by the CMA
++	 * and SHMEM GEM helpers. Returns a GEM object on success, or an
++	 * ERR_PTR()-encoded error code otherwise.
+ 	 */
+ 	struct drm_gem_object *(*gem_create_object)(struct drm_device *dev,
+ 						    size_t size);
 -- 
 2.34.1
 
