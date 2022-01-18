@@ -1,54 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00F5C492B51
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 17:34:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8265492B67
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 17:38:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5AA310E193;
-	Tue, 18 Jan 2022 16:34:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA23510E851;
+	Tue, 18 Jan 2022 16:38:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0F4110E193;
- Tue, 18 Jan 2022 16:34:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642523670; x=1674059670;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=0C5whETnR1MnAnGV+Kl8KfclpcM8vOpmlvxwftMNJLw=;
- b=HtreglfkqBnWFReUPCHWOpmjSoIfbULo4NvnefemC4TP9j2ylRTPpP64
- 4DI2MHcRLw0kH+YFO9i0KHRoHZs/a3pMO6RHBf9VuTLP1Z6ZsBmE9XL9V
- oK2MfzxLhWzxFRCzxNCsndfIm7OW9piLhrDEZJbzvtBGJWf5pgbDtbdpj
- sCfzNxWu9iqh9I8CcZnnLIkSntAFg6PQtCjR+iokvxTV7cRv9lEXK2pY5
- qE3ELg8WZIyzYU7GQk7CSfQ/42j0cRNW4QFdxYtNE4b043AgUJK/0kktY
- JHYJV77wVELKDnYiFtE+N65DVMGQUBXDIuorZ7hxDeIRte8UxxrsQwyi/ g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10230"; a="331208591"
-X-IronPort-AV: E=Sophos;i="5.88,297,1635231600"; d="scan'208";a="331208591"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jan 2022 08:34:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,297,1635231600"; d="scan'208";a="492720508"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.147])
- by orsmga002.jf.intel.com with SMTP; 18 Jan 2022 08:34:22 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 18 Jan 2022 18:34:20 +0200
-Date: Tue, 18 Jan 2022 18:34:20 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: "Navare, Manasi" <manasi.d.navare@intel.com>
-Subject: Re: [PATCH v3] drm/atomic: Add the crtc to affected crtc only if
- uapi.enable = true
-Message-ID: <YebsDDwzBJHm+fKu@intel.com>
-References: <20211004115913.23889-1-manasi.d.navare@intel.com>
- <20211022195112.GA1609@labuser-Z97X-UD5H>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4564D10E851
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 16:38:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642523904;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8x4jiJLRLzOXptnR37jToyWvpyqaqN0hmddUBjj4FJ0=;
+ b=JeaGyuu9ePidANZ284SHZfmRw/5m6fEQM6/aF8iBF7MMQHJsH6LvOi0J3M+a8C3B2Iymbq
+ jCyVAwu9qJ+GabNzdn38EJdz3GoOOQGGVSlTgTyNN+K/a9NAibevNINVx32J7lurOOWcWK
+ cbI/hpxzbnjlXqPd7ofRedv/zmDQvN4=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-146-ViAkzSXlPwGebq4mKGJrwA-1; Tue, 18 Jan 2022 11:38:22 -0500
+X-MC-Unique: ViAkzSXlPwGebq4mKGJrwA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ o193-20020a1ca5ca000000b0034d78423625so930766wme.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 08:38:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=8x4jiJLRLzOXptnR37jToyWvpyqaqN0hmddUBjj4FJ0=;
+ b=bWZLLdWmo8G5WCd2ZQ7R/zQYJXaJojldIQ6f5RmzTpHjxygG2CwgRdGKtciaciVSwM
+ FaPGYCG6Jvc89Yb8kW/4jPgwoYQP9MsGUw2rTuOvR51HK7KZk8aAOZLbMvQrrG5mbNo8
+ PZGXFdrdO2q1KBaZHrgP37TepdnxDXrIYksyk+zayCnTl/hod2R2ewmDZFZJTh9NGlsi
+ qkixCtxOP/4dQ3QywFxIS++Q0QSlfytT8HfwbjJqM7+ll4Jtc8teZfschITrzb4Z6/4X
+ viBAIvDJy6VtmZdNBU3MikrAw/wh8W32Agr1i3lDKJKY0t+E15uDM2i0eKNhlop69IVR
+ vGDw==
+X-Gm-Message-State: AOAM532k0DJmKuT1LEEZ9KTzIU5tnLjH9VNt4uoH1ncgH5cMUzVs/NN/
+ vJGAbgh7dwJVVgcJZs+iycQ2+umpd4UrdBbeEntQMxGch4ykjuwSup9lZ1dQw4YQjzVFjSbJy9q
+ wFTNL57IRddmjYBnNz9GWMBLaqFMH
+X-Received: by 2002:a05:600c:4f0b:: with SMTP id
+ l11mr9633105wmq.112.1642523901431; 
+ Tue, 18 Jan 2022 08:38:21 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxV6dcnIH/1jLHwjDAz0s7z7lQxnm3nKgxZjncTV7++UR8hKk6MpwYbCYtAmc70miVAmLK8Xg==
+X-Received: by 2002:a05:600c:4f0b:: with SMTP id
+ l11mr9633087wmq.112.1642523901121; 
+ Tue, 18 Jan 2022 08:38:21 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id e15sm6315946wrg.85.2022.01.18.08.38.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Jan 2022 08:38:20 -0800 (PST)
+Message-ID: <b6526036-fcfb-734a-b45f-9ceec8aa656f@redhat.com>
+Date: Tue, 18 Jan 2022 17:38:19 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH] mgag200 fix memmapsl configuration in GCTL6 register
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org
+References: <20220114094754.522401-1-jfalempe@redhat.com>
+ <20220114094754.522401-2-jfalempe@redhat.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220114094754.522401-2-jfalempe@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211022195112.GA1609@labuser-Z97X-UD5H>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,94 +87,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Stone <daniels@collabora.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,
- Pekka Paalanen <pekka.paalanen@collabora.co.uk>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: michel@daenzer.net, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 22, 2021 at 12:51:12PM -0700, Navare, Manasi wrote:
+Hello Jocelyn,
+
+On 1/14/22 10:47, Jocelyn Falempe wrote:
+> On some server with MGA G200e (rev 42), booting with Legacy BIOS,
+> The hardware hangs when using kdump and kexec into the kdump kernel.
+> This happens when the uncompress code tries to write "Decompressing Linux"
+> to the VGA Console.
 > 
-> Hi Ville,
+> It can be reproduced by writing to the VGA console (0xB8000) after
+> booting to graphic mode, it generates the following error:
 > 
-> Could you take a look at this, this addresses teh review comments from prev version
-
-I don't think I ever got an answer to my question as to whether this
-was tested with all the interesting scenarios:
-1) just with the master crtc added by userspace into the commit
-2) just with the slave crtc added by userspace into the commit
-3) both crtcs added by userspace into the commit
-
-I guess 1) has been tested since that happens all the time, but the other
-two scanarios would likely need to be done with a synthetic test to make
-sure we're actually hitting them.
-
-I think it *should* work, but I'd like to have real proof of that.
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-
+> kernel:NMI: PCI system error (SERR) for reason a0 on CPU 0.
+> kernel:Dazed and confused, but trying to continue
 > 
-> Manasi
+> The root cause is a bad configuration of the MGA GCTL6 register
 > 
-> On Mon, Oct 04, 2021 at 04:59:13AM -0700, Manasi Navare wrote:
-> > In case of a modeset where a mode gets split across mutiple CRTCs
-> > in the driver specific implementation (bigjoiner in i915) we wrongly count
-> > the affected CRTCs based on the drm_crtc_mask and indicate the stolen CRTC as
-> > an affected CRTC in atomic_check_only().
-> > This triggers a warning since affected CRTCs doent match requested CRTC.
-> > 
-> > To fix this in such bigjoiner configurations, we should only
-> > increment affected crtcs if that CRTC is enabled in UAPI not
-> > if it is just used internally in the driver to split the mode.
-> > 
-> > v3: Add the same uapi crtc_state->enable check in requested
-> > crtc calc (Ville)
-> > 
-> > Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > Cc: Simon Ser <contact@emersion.fr>
-> > Cc: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
-> > Cc: Daniel Stone <daniels@collabora.com>
-> > Cc: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: dri-devel@lists.freedesktop.org
-> > Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
-> > ---
-> >  drivers/gpu/drm/drm_atomic.c | 12 ++++++++----
-> >  1 file changed, 8 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> > index ff1416cd609a..a1e4c7905ebb 100644
-> > --- a/drivers/gpu/drm/drm_atomic.c
-> > +++ b/drivers/gpu/drm/drm_atomic.c
-> > @@ -1310,8 +1310,10 @@ int drm_atomic_check_only(struct drm_atomic_state *state)
-> >  
-> >  	DRM_DEBUG_ATOMIC("checking %p\n", state);
-> >  
-> > -	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i)
-> > -		requested_crtc |= drm_crtc_mask(crtc);
-> > +	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
-> > +		if (new_crtc_state->enable)
-> > +			requested_crtc |= drm_crtc_mask(crtc);
-> > +	}
-> >  
-> >  	for_each_oldnew_plane_in_state(state, plane, old_plane_state, new_plane_state, i) {
-> >  		ret = drm_atomic_plane_check(old_plane_state, new_plane_state);
-> > @@ -1360,8 +1362,10 @@ int drm_atomic_check_only(struct drm_atomic_state *state)
-> >  		}
-> >  	}
-> >  
-> > -	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i)
-> > -		affected_crtc |= drm_crtc_mask(crtc);
-> > +	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
-> > +		if (new_crtc_state->enable)
-> > +			affected_crtc |= drm_crtc_mask(crtc);
-> > +	}
-> >  
-> >  	/*
-> >  	 * For commits that allow modesets drivers can add other CRTCs to the
-> > -- 
-> > 2.19.1
-> > 
+> According to the GCTL6 register documentation:
+> 
+> bit 0 is gcgrmode:
+>     0: Enables alpha mode, and the character generator addressing system is activated.
+>     1: Enables graphics mode, and the character addressing system is not used.
+> 
+> bit 1 is chainodd even:
+>     0: The A0 signal of the memory address bus is used during system memory
+>     addressing.
+>     1: Allows A0 to be replaced by either the A16 signal of the system address (if
+>     memmapsl is â€˜00â€™), or by the hpgoddev (MISC<5>, odd/even page select) field,
+>     described on page 3-294).
+> 
+> bit 3-2 are memmapsl:
+>     Memory map select bits 1 and 0. VGA.
+>     These bits select where the video memory is mapped, as shown below:
+>         00 => A0000h - BFFFFh
+>         01 => A0000h - AFFFFh
+>         10 => B0000h - B7FFFh
+>         11 => B8000h - BFFFFh
+> 
+> bit 7-4 are reserved.
+> 
+> Current driver code set it to 0x05 => memmapsl to b01 => 0xA0000
+> but on x86, the VGA console is at 0xB8000
 
+I think this need some rewording after imirkin's explanation that 0xA0000 is the
+address of the VGA video memory and 0xB8000 the address of the VGA text buffer.
+
+> arch/x86/boot/compressed/misc.c define vidmem to 0xb8000 in extract_kernel()
+> so it's better to configure it to b11
+> Thus changing the value 0x05 to 0x0d
+> 
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> ---
+>  drivers/gpu/drm/mgag200/mgag200_mode.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
+> index b983541a4c53..c7f63610b278 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+> @@ -529,7 +529,7 @@ static void mgag200_set_format_regs(struct mga_device *mdev,
+>  	WREG_GFX(3, 0x00);
+>  	WREG_GFX(4, 0x00);
+>  	WREG_GFX(5, 0x40);
+> -	WREG_GFX(6, 0x05);
+> +	WREG_GFX(6, 0x0d);
+
+My worry is if this could cause other issues so I would only do this change
+if (is_kdump_kernel()), to make it as non intrusive as possible. And also
+add a verbose comment about why this is needed.
+
+If you make those changes, feel free to add:
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+Best regards,
 -- 
-Ville Syrjälä
-Intel
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
