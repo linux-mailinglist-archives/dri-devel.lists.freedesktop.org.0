@@ -1,43 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87C684918DF
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 03:48:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18F894918F2
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 03:49:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2315D112924;
-	Tue, 18 Jan 2022 02:48:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EBCF112928;
+	Tue, 18 Jan 2022 02:49:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DA33112922;
- Tue, 18 Jan 2022 02:48:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50377112927;
+ Tue, 18 Jan 2022 02:49:18 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7CE8660AB6;
- Tue, 18 Jan 2022 02:48:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41FD0C36AEB;
- Tue, 18 Jan 2022 02:48:45 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C7C8361355;
+ Tue, 18 Jan 2022 02:49:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79FB0C36AE3;
+ Tue, 18 Jan 2022 02:49:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1642474126;
- bh=9KzqLyWNPtNjyKUaNk7Wi21QeiU1/TQnVwSNi8tWifw=;
+ s=k20201202; t=1642474157;
+ bh=42cKnB73ycwsYbytnMtn+m7ZqxOi3VaJu09BCcgAuRU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=PYNOkcCdtd/cZHfDEZjrWdbcsUF5Nt0ZKBdblWTjd3wAcH0avLrnrjQVm2UFJkuy6
- 8iIlcB72Jyr4esPPwPK/lz2xt0srTAVsldhpEuzdAC77Y9mBDq9sNkHxp4VS5ebMHY
- kMQKmylo/moB5Hlib+uyuki+o4T2WFea5zykm4WZxFgf81a8cui1PXq+Q2GRhJm15Q
- fpkcmWO9qJMnEjbUiqWjpBt6PExS+GXcQo8INzNoBv3GpuWoD08O6YTbT/60iVFf8f
- maQCrNmZJFlJ7+wucbo0Mp1qY95nTRlWF1xsBlmAqZTLuikuVJwxluWcw/LWQbGuPZ
- f91LAk1vldIng==
+ b=JCCNcrnERTv9qv6aqBQ2JvOjihd72HgFsRPZKyQHJ9R5jZ/0TmmlLk2PjJr5yNuRv
+ m3YUqZ1wDjW7x/8ZihEyepCLGDU1zneFQ0eaNu4TY64uPXIEQTL2T6vquNWge/r8gi
+ PKeXmPodBmCnJPjIopQvczJk+q9y7zip2NTCdhTkAq4h2ibYwuVT07dfm3xenKNwOz
+ g79ehxQE0SqCsfJgEQTcE6KfMkA7+pE2vVIpLPfwOeSWbAUzIQhKrFpsMAdMlC9oMQ
+ K3Jt6VibBQwovQ7aoJ6nDTMsfBjUvW4cKn9OM2G8ds94PDqTzLbn79c83OuwEIWF/d
+ e/dS5DFeqSu0A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 46/59] drm/amdgpu: fixup bad vram size on gmc v8
-Date: Mon, 17 Jan 2022 21:46:47 -0500
-Message-Id: <20220118024701.1952911-46-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 04/56] drm/nouveau/pmu/gm200-: avoid touching PMU
+ outside of DEVINIT/PREOS/ACR
+Date: Mon, 17 Jan 2022 21:48:16 -0500
+Message-Id: <20220118024908.1953673-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220118024701.1952911-1-sashal@kernel.org>
-References: <20220118024701.1952911-1-sashal@kernel.org>
+In-Reply-To: <20220118024908.1953673-1-sashal@kernel.org>
+References: <20220118024908.1953673-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -54,67 +55,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Oak.Zeng@amd.com, airlied@linux.ie,
- Felix.Kuehling@amd.com, Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
- Zongmin Zhou <zhouzongmin@kylinos.cn>, nirmoy.das@amd.com,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- evan.quan@amd.com, christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, Karol Herbst <kherbst@redhat.com>,
+ airlied@linux.ie, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Diego Viola <diego.viola@gmail.com>,
+ Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zongmin Zhou <zhouzongmin@kylinos.cn>
+From: Ben Skeggs <bskeggs@redhat.com>
 
-[ Upstream commit 11544d77e3974924c5a9c8a8320b996a3e9b2f8b ]
+[ Upstream commit 1d2271d2fb85e54bfc9630a6c30ac0feb9ffb983 ]
 
-Some boards(like RX550) seem to have garbage in the upper
-16 bits of the vram size register.  Check for
-this and clamp the size properly.  Fixes
-boards reporting bogus amounts of vram.
+There have been reports of the WFI timing out on some boards, and a
+patch was proposed to just remove it.  This stuff is rather fragile,
+and I believe the WFI might be needed with our FW prior to GM200.
 
-after add this patch,the maximum GPU VRAM size is 64GB,
-otherwise only 64GB vram size will be used.
+However, we probably should not be touching PMU during init on GPUs
+where we depend on NVIDIA FW, outside of limited circumstances, so
+this should be a somewhat safer change that achieves the desired
+result.
 
-Signed-off-by: Zongmin Zhou<zhouzongmin@kylinos.cn>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Reported-by: Diego Viola <diego.viola@gmail.com>
+Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
+Reviewed-by: Karol Herbst <kherbst@redhat.com>
+Signed-off-by: Karol Herbst <kherbst@redhat.com>
+Link: https://gitlab.freedesktop.org/drm/nouveau/-/merge_requests/10
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ .../gpu/drm/nouveau/nvkm/subdev/pmu/base.c    | 37 +++++++++++--------
+ 1 file changed, 21 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
-index 1a744f964b301..358004a4650b6 100644
---- a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
-@@ -520,10 +520,10 @@ static void gmc_v8_0_mc_program(struct amdgpu_device *adev)
- static int gmc_v8_0_mc_init(struct amdgpu_device *adev)
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/base.c b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/base.c
+index ce70a193caa7f..8cf3d1b4662de 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/base.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/base.c
+@@ -70,20 +70,13 @@ nvkm_pmu_fini(struct nvkm_subdev *subdev, bool suspend)
+ 	return 0;
+ }
+ 
+-static int
++static void
+ nvkm_pmu_reset(struct nvkm_pmu *pmu)
  {
- 	int r;
-+	u32 tmp;
+ 	struct nvkm_device *device = pmu->subdev.device;
  
- 	adev->gmc.vram_width = amdgpu_atombios_get_vram_width(adev);
- 	if (!adev->gmc.vram_width) {
--		u32 tmp;
- 		int chansize, numchan;
+ 	if (!pmu->func->enabled(pmu))
+-		return 0;
+-
+-	/* Inhibit interrupts, and wait for idle. */
+-	nvkm_wr32(device, 0x10a014, 0x0000ffff);
+-	nvkm_msec(device, 2000,
+-		if (!nvkm_rd32(device, 0x10a04c))
+-			break;
+-	);
++		return;
  
- 		/* Get VRAM informations */
-@@ -567,8 +567,15 @@ static int gmc_v8_0_mc_init(struct amdgpu_device *adev)
- 		adev->gmc.vram_width = numchan * chansize;
- 	}
- 	/* size in MB on si */
--	adev->gmc.mc_vram_size = RREG32(mmCONFIG_MEMSIZE) * 1024ULL * 1024ULL;
--	adev->gmc.real_vram_size = RREG32(mmCONFIG_MEMSIZE) * 1024ULL * 1024ULL;
-+	tmp = RREG32(mmCONFIG_MEMSIZE);
-+	/* some boards may have garbage in the upper 16 bits */
-+	if (tmp & 0xffff0000) {
-+		DRM_INFO("Probable bad vram size: 0x%08x\n", tmp);
-+		if (tmp & 0xffff)
-+			tmp &= 0xffff;
+ 	/* Reset. */
+ 	if (pmu->func->reset)
+@@ -94,25 +87,37 @@ nvkm_pmu_reset(struct nvkm_pmu *pmu)
+ 		if (!(nvkm_rd32(device, 0x10a10c) & 0x00000006))
+ 			break;
+ 	);
+-
+-	return 0;
+ }
+ 
+ static int
+ nvkm_pmu_preinit(struct nvkm_subdev *subdev)
+ {
+ 	struct nvkm_pmu *pmu = nvkm_pmu(subdev);
+-	return nvkm_pmu_reset(pmu);
++	nvkm_pmu_reset(pmu);
++	return 0;
+ }
+ 
+ static int
+ nvkm_pmu_init(struct nvkm_subdev *subdev)
+ {
+ 	struct nvkm_pmu *pmu = nvkm_pmu(subdev);
+-	int ret = nvkm_pmu_reset(pmu);
+-	if (ret == 0 && pmu->func->init)
+-		ret = pmu->func->init(pmu);
+-	return ret;
++	struct nvkm_device *device = pmu->subdev.device;
++
++	if (!pmu->func->init)
++		return 0;
++
++	if (pmu->func->enabled(pmu)) {
++		/* Inhibit interrupts, and wait for idle. */
++		nvkm_wr32(device, 0x10a014, 0x0000ffff);
++		nvkm_msec(device, 2000,
++			if (!nvkm_rd32(device, 0x10a04c))
++				break;
++		);
++
++		nvkm_pmu_reset(pmu);
 +	}
-+	adev->gmc.mc_vram_size = tmp * 1024ULL * 1024ULL;
-+	adev->gmc.real_vram_size = adev->gmc.mc_vram_size;
++
++	return pmu->func->init(pmu);
+ }
  
- 	if (!(adev->flags & AMD_IS_APU)) {
- 		r = amdgpu_device_resize_fb_bar(adev);
+ static int
 -- 
 2.34.1
 
