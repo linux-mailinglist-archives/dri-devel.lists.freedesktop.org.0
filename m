@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29F1649169C
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 03:35:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A2AC4916D1
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 03:36:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6BB21128F2;
-	Tue, 18 Jan 2022 02:35:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF6A01128F3;
+	Tue, 18 Jan 2022 02:36:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C04E1128F3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 02:35:54 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCA511128F3;
+ Tue, 18 Jan 2022 02:36:54 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 924D0612C8;
- Tue, 18 Jan 2022 02:35:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D006C36AE3;
- Tue, 18 Jan 2022 02:35:52 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 83A7BB8124E;
+ Tue, 18 Jan 2022 02:36:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3EE6C36AEB;
+ Tue, 18 Jan 2022 02:36:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1642473353;
- bh=Rkw3g01TUkhbxguTqpap1lKFkPkmErFrADVBGX68Kt4=;
+ s=k20201202; t=1642473413;
+ bh=NYbdov5jCOu8Otv7CpPd5VLYAMvpLPKa4kYFzhO6B5I=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=AaL47V/xOvd3xPwufxhORgwg5mDZ+VG+l0x+Ga9gwS7UakBMtHW59t3xJbU4rnRTu
- ZZMM+fKchbtyU4yPk/ntgskWuNeCzxKds3/e07jEuMNwSB7jv8I+isAT9qirksmkuX
- EsTr1OaVITK4lYkH1CH1IZgQNwixQ0tQT8ODgN3bMnp2UPUX+J0UP75WGnzXbRn+CB
- rqWiH1dVJdpl+B3DBxgNZS2PBhN/iOffvnt7xj8MfCBh1iCapzK3EWmc2iVHpYxdS2
- yUZUt9kx3/91wmBWb3kbS4oRZFDQCM5pEsxY4Le/jf9kRHUH4Lk0PGuma+bBquSFgr
- oNyCJVOLC7NHg==
+ b=C9cAoW6JKpkpgJZu8PVMuPdRna02RkShIXcsrTi4jcbuT6JLLiuXJ7dL1quULLcgs
+ KN/zw/FCRbiChuH4o6TCxKzPoRYE5rc1Vf/6L+MhUNiYe9FFNpj13v+U8Jm/iamoYf
+ LVORExaLajgm8jyPIMoX1zBWdviCe/d+o75P4yDcZ2F2R8JChY0YJyLMzcFAPpqCXL
+ eaZYKAI4l51/8yakgbSw5ZcE7K8pxaeQUmjlOUu63lAXo4Ay+QBpCfKYgVj3ULEqP0
+ qy2AqT2HkUuie6hGjZ9hd0ZvBkQhOeC1tM86tth18+ie+89om5dtdGKtVokOktg8xI
+ f8iGQ20BpCYHw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 082/188] drm: rcar-du: Fix CRTC timings when CMM
- is used
-Date: Mon, 17 Jan 2022 21:30:06 -0500
-Message-Id: <20220118023152.1948105-82-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 111/188] drm/amdkfd: Fix error handling in
+ svm_range_add
+Date: Mon, 17 Jan 2022 21:30:35 -0500
+Message-Id: <20220118023152.1948105-111-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220118023152.1948105-1-sashal@kernel.org>
 References: <20220118023152.1948105-1-sashal@kernel.org>
@@ -56,87 +56,245 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- kieran.bingham+renesas@ideasonboard.com, laurent.pinchart@ideasonboard.com
+Cc: Sasha Levin <sashal@kernel.org>, Philip Yang <Philip.Yang@amd.com>,
+ airlied@linux.ie, Felix Kuehling <Felix.Kuehling@amd.com>, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, Zhou Qingyang <zhou1615@umn.edu>,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+From: Felix Kuehling <Felix.Kuehling@amd.com>
 
-[ Upstream commit f0ce591dc9a97067c6e783a2eaccd22c5476144d ]
+[ Upstream commit 726be40607264b180a2b336c81e1dcff941de618 ]
 
-When the CMM is enabled, an offset of 25 pixels must be subtracted from
-the HDS (horizontal display start) and HDE (horizontal display end)
-registers. Fix the timings calculation, and take this into account in
-the mode validation.
+Add null-pointer check after the last svm_range_new call. This was
+originally reported by Zhou Qingyang <zhou1615@umn.edu> based on a
+static analyzer.
 
-This fixes a visible horizontal offset in the image with VGA monitors.
-HDMI monitors seem to be generally more tolerant to incorrect timings,
-but may be affected too.
+To avoid duplicating the unwinding code from svm_range_handle_overlap,
+I merged the two functions into one.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
+Cc: Zhou Qingyang <zhou1615@umn.edu>
+Reviewed-by: Philip Yang <Philip.Yang@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_svm.c | 138 ++++++++++-----------------
+ 1 file changed, 49 insertions(+), 89 deletions(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-index ea7e39d035457..ee7e375ee6724 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-@@ -215,6 +215,7 @@ static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
- 	const struct drm_display_mode *mode = &rcrtc->crtc.state->adjusted_mode;
- 	struct rcar_du_device *rcdu = rcrtc->dev;
- 	unsigned long mode_clock = mode->clock * 1000;
-+	unsigned int hdse_offset;
- 	u32 dsmr;
- 	u32 escr;
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+index 5a674235ae41a..830809b694dd9 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+@@ -936,7 +936,7 @@ svm_range_split(struct svm_range *prange, uint64_t start, uint64_t last,
+ }
  
-@@ -298,10 +299,15 @@ static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
- 	     | DSMR_DIPM_DISP | DSMR_CSPM;
- 	rcar_du_crtc_write(rcrtc, DSMR, dsmr);
+ static int
+-svm_range_split_tail(struct svm_range *prange, struct svm_range *new,
++svm_range_split_tail(struct svm_range *prange,
+ 		     uint64_t new_last, struct list_head *insert_list)
+ {
+ 	struct svm_range *tail;
+@@ -948,7 +948,7 @@ svm_range_split_tail(struct svm_range *prange, struct svm_range *new,
+ }
  
-+	hdse_offset = 19;
-+	if (rcrtc->group->cmms_mask & BIT(rcrtc->index % 2))
-+		hdse_offset += 25;
+ static int
+-svm_range_split_head(struct svm_range *prange, struct svm_range *new,
++svm_range_split_head(struct svm_range *prange,
+ 		     uint64_t new_start, struct list_head *insert_list)
+ {
+ 	struct svm_range *head;
+@@ -1755,49 +1755,54 @@ static struct svm_range *svm_range_clone(struct svm_range *old)
+ }
+ 
+ /**
+- * svm_range_handle_overlap - split overlap ranges
+- * @svms: svm range list header
+- * @new: range added with this attributes
+- * @start: range added start address, in pages
+- * @last: range last address, in pages
+- * @update_list: output, the ranges attributes are updated. For set_attr, this
+- *               will do validation and map to GPUs. For unmap, this will be
+- *               removed and unmap from GPUs
+- * @insert_list: output, the ranges will be inserted into svms, attributes are
+- *               not changes. For set_attr, this will add into svms.
+- * @remove_list:output, the ranges will be removed from svms
+- * @left: the remaining range after overlap, For set_attr, this will be added
+- *        as new range.
++ * svm_range_add - add svm range and handle overlap
++ * @p: the range add to this process svms
++ * @start: page size aligned
++ * @size: page size aligned
++ * @nattr: number of attributes
++ * @attrs: array of attributes
++ * @update_list: output, the ranges need validate and update GPU mapping
++ * @insert_list: output, the ranges need insert to svms
++ * @remove_list: output, the ranges are replaced and need remove from svms
+  *
+- * Total have 5 overlap cases.
++ * Check if the virtual address range has overlap with any existing ranges,
++ * split partly overlapping ranges and add new ranges in the gaps. All changes
++ * should be applied to the range_list and interval tree transactionally. If
++ * any range split or allocation fails, the entire update fails. Therefore any
++ * existing overlapping svm_ranges are cloned and the original svm_ranges left
++ * unchanged.
+  *
+- * This function handles overlap of an address interval with existing
+- * struct svm_ranges for applying new attributes. This may require
+- * splitting existing struct svm_ranges. All changes should be applied to
+- * the range_list and interval tree transactionally. If any split operation
+- * fails, the entire update fails. Therefore the existing overlapping
+- * svm_ranges are cloned and the original svm_ranges left unchanged. If the
+- * transaction succeeds, the modified clones are added and the originals
+- * freed. Otherwise the clones are removed and the old svm_ranges remain.
++ * If the transaction succeeds, the caller can update and insert clones and
++ * new ranges, then free the originals.
+  *
+- * Context: The caller must hold svms->lock
++ * Otherwise the caller can free the clones and new ranges, while the old
++ * svm_ranges remain unchanged.
++ *
++ * Context: Process context, caller must hold svms->lock
++ *
++ * Return:
++ * 0 - OK, otherwise error code
+  */
+ static int
+-svm_range_handle_overlap(struct svm_range_list *svms, struct svm_range *new,
+-			 unsigned long start, unsigned long last,
+-			 struct list_head *update_list,
+-			 struct list_head *insert_list,
+-			 struct list_head *remove_list,
+-			 unsigned long *left)
++svm_range_add(struct kfd_process *p, uint64_t start, uint64_t size,
++	      uint32_t nattr, struct kfd_ioctl_svm_attribute *attrs,
++	      struct list_head *update_list, struct list_head *insert_list,
++	      struct list_head *remove_list)
+ {
++	unsigned long last = start + size - 1UL;
++	struct svm_range_list *svms = &p->svms;
+ 	struct interval_tree_node *node;
++	struct svm_range new = {0};
+ 	struct svm_range *prange;
+ 	struct svm_range *tmp;
+ 	int r = 0;
+ 
++	pr_debug("svms 0x%p [0x%llx 0x%lx]\n", &p->svms, start, last);
 +
- 	/* Display timings */
--	rcar_du_crtc_write(rcrtc, HDSR, mode->htotal - mode->hsync_start - 19);
-+	rcar_du_crtc_write(rcrtc, HDSR, mode->htotal - mode->hsync_start -
-+					hdse_offset);
- 	rcar_du_crtc_write(rcrtc, HDER, mode->htotal - mode->hsync_start +
--					mode->hdisplay - 19);
-+					mode->hdisplay - hdse_offset);
- 	rcar_du_crtc_write(rcrtc, HSWR, mode->hsync_end -
- 					mode->hsync_start - 1);
- 	rcar_du_crtc_write(rcrtc, HCR,  mode->htotal - 1);
-@@ -836,6 +842,7 @@ rcar_du_crtc_mode_valid(struct drm_crtc *crtc,
- 	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
- 	struct rcar_du_device *rcdu = rcrtc->dev;
- 	bool interlaced = mode->flags & DRM_MODE_FLAG_INTERLACE;
-+	unsigned int min_sync_porch;
- 	unsigned int vbp;
+ 	INIT_LIST_HEAD(update_list);
+ 	INIT_LIST_HEAD(insert_list);
+ 	INIT_LIST_HEAD(remove_list);
++	svm_range_apply_attrs(p, &new, nattr, attrs);
  
- 	if (interlaced && !rcar_du_has(rcdu, RCAR_DU_FEATURE_INTERLACED))
-@@ -843,9 +850,14 @@ rcar_du_crtc_mode_valid(struct drm_crtc *crtc,
+ 	node = interval_tree_iter_first(&svms->objects, start, last);
+ 	while (node) {
+@@ -1825,14 +1830,14 @@ svm_range_handle_overlap(struct svm_range_list *svms, struct svm_range *new,
  
- 	/*
- 	 * The hardware requires a minimum combined horizontal sync and back
--	 * porch of 20 pixels and a minimum vertical back porch of 3 lines.
-+	 * porch of 20 pixels (when CMM isn't used) or 45 pixels (when CMM is
-+	 * used), and a minimum vertical back porch of 3 lines.
- 	 */
--	if (mode->htotal - mode->hsync_start < 20)
-+	min_sync_porch = 20;
-+	if (rcrtc->group->cmms_mask & BIT(rcrtc->index % 2))
-+		min_sync_porch += 25;
-+
-+	if (mode->htotal - mode->hsync_start < min_sync_porch)
- 		return MODE_HBLANK_NARROW;
+ 			if (node->start < start) {
+ 				pr_debug("change old range start\n");
+-				r = svm_range_split_head(prange, new, start,
++				r = svm_range_split_head(prange, start,
+ 							 insert_list);
+ 				if (r)
+ 					goto out;
+ 			}
+ 			if (node->last > last) {
+ 				pr_debug("change old range last\n");
+-				r = svm_range_split_tail(prange, new, last,
++				r = svm_range_split_tail(prange, last,
+ 							 insert_list);
+ 				if (r)
+ 					goto out;
+@@ -1844,7 +1849,7 @@ svm_range_handle_overlap(struct svm_range_list *svms, struct svm_range *new,
+ 			prange = old;
+ 		}
  
- 	vbp = (mode->vtotal - mode->vsync_end) / (interlaced ? 2 : 1);
+-		if (!svm_range_is_same_attrs(prange, new))
++		if (!svm_range_is_same_attrs(prange, &new))
+ 			list_add(&prange->update_list, update_list);
+ 
+ 		/* insert a new node if needed */
+@@ -1864,8 +1869,16 @@ svm_range_handle_overlap(struct svm_range_list *svms, struct svm_range *new,
+ 		start = next_start;
+ 	}
+ 
+-	if (left && start <= last)
+-		*left = last - start + 1;
++	/* add a final range at the end if needed */
++	if (start <= last) {
++		prange = svm_range_new(svms, start, last);
++		if (!prange) {
++			r = -ENOMEM;
++			goto out;
++		}
++		list_add(&prange->insert_list, insert_list);
++		list_add(&prange->update_list, update_list);
++	}
+ 
+ out:
+ 	if (r)
+@@ -2693,59 +2706,6 @@ svm_range_is_valid(struct mm_struct *mm, uint64_t start, uint64_t size)
+ 	return true;
+ }
+ 
+-/**
+- * svm_range_add - add svm range and handle overlap
+- * @p: the range add to this process svms
+- * @start: page size aligned
+- * @size: page size aligned
+- * @nattr: number of attributes
+- * @attrs: array of attributes
+- * @update_list: output, the ranges need validate and update GPU mapping
+- * @insert_list: output, the ranges need insert to svms
+- * @remove_list: output, the ranges are replaced and need remove from svms
+- *
+- * Check if the virtual address range has overlap with the registered ranges,
+- * split the overlapped range, copy and adjust pages address and vram nodes in
+- * old and new ranges.
+- *
+- * Context: Process context, caller must hold svms->lock
+- *
+- * Return:
+- * 0 - OK, otherwise error code
+- */
+-static int
+-svm_range_add(struct kfd_process *p, uint64_t start, uint64_t size,
+-	      uint32_t nattr, struct kfd_ioctl_svm_attribute *attrs,
+-	      struct list_head *update_list, struct list_head *insert_list,
+-	      struct list_head *remove_list)
+-{
+-	uint64_t last = start + size - 1UL;
+-	struct svm_range_list *svms;
+-	struct svm_range new = {0};
+-	struct svm_range *prange;
+-	unsigned long left = 0;
+-	int r = 0;
+-
+-	pr_debug("svms 0x%p [0x%llx 0x%llx]\n", &p->svms, start, last);
+-
+-	svm_range_apply_attrs(p, &new, nattr, attrs);
+-
+-	svms = &p->svms;
+-
+-	r = svm_range_handle_overlap(svms, &new, start, last, update_list,
+-				     insert_list, remove_list, &left);
+-	if (r)
+-		return r;
+-
+-	if (left) {
+-		prange = svm_range_new(svms, last - left + 1, last);
+-		list_add(&prange->insert_list, insert_list);
+-		list_add(&prange->update_list, update_list);
+-	}
+-
+-	return 0;
+-}
+-
+ /**
+  * svm_range_best_prefetch_location - decide the best prefetch location
+  * @prange: svm range structure
 -- 
 2.34.1
 
