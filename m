@@ -1,75 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85CD5492EB8
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 20:51:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8ACF492E54
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 20:19:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 688D510E52E;
-	Tue, 18 Jan 2022 19:51:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AA5810E4DB;
+	Tue, 18 Jan 2022 19:19:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1500 seconds by postgrey-1.36 at gabe;
- Tue, 18 Jan 2022 19:51:12 UTC
-Received: from gateway33.websitewelcome.com (gateway33.websitewelcome.com
- [192.185.145.216])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38E0010E1BB
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 19:51:12 +0000 (UTC)
-Received: from cm11.websitewelcome.com (cm11.websitewelcome.com [100.42.49.5])
- by gateway33.websitewelcome.com (Postfix) with ESMTP id 30E07EF80A
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 13:05:38 -0600 (CST)
-Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with SMTP
- id 9tnVnUhDkINxB9tnVnbb2e; Tue, 18 Jan 2022 13:05:38 -0600
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=62lwA313ylYvMl776J0nmotREsLRnHNHGefb4h0dvoo=; b=PyiVKsPlAhwkbLzznyg+KBOywd
- sR3mIPwqE3E0G8CInbrV9M3G8iCwH7MqbVJGhkNV18tD8re3JjQ35Yw5iT63N8odXWGXNt4w2E7Qp
- R12bj3nDKnKpeUy6nnpQEv72BYa4D2F0GXLwSs/jytZy6I1cdm55pDlIN6bh7y0t2P9ZTFSYAXAjY
- QgLeAfhlb5TVG6fv+A+JHfKuJslOWE0B0sqm/ZVJi5LQzt6krt9sHb1aHrwMJ22IyotWi6ryzadzD
- WoRUs4BQGpRp038/cCAQKZC6sLgtAMbEFHpR3CgG71r4m3yhYcip64XkEkz60EMir+GyJFXu2QEQ4
- f/FC+yGw==;
-Received: from [187.184.156.46] (port=26621 helo=[192.168.0.21])
- by gator4166.hostgator.com with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
- (envelope-from <gustavo@embeddedor.com>)
- id 1n9tnV-001SJO-46; Tue, 18 Jan 2022 13:05:37 -0600
-Subject: Re: [PATCH] drm/dp: Remove common Post Cursor2 register handling
-To: Kees Cook <keescook@chromium.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-References: <20220105173507.2420910-1-keescook@chromium.org>
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Message-ID: <cae904f1-21f4-426f-8831-e122d965b131@embeddedor.com>
-Date: Tue, 18 Jan 2022 13:11:48 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from mail-ua1-x92d.google.com (mail-ua1-x92d.google.com
+ [IPv6:2607:f8b0:4864:20::92d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A101C10E4B0;
+ Tue, 18 Jan 2022 19:19:00 +0000 (UTC)
+Received: by mail-ua1-x92d.google.com with SMTP id w21so29769uan.7;
+ Tue, 18 Jan 2022 11:19:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=RTtIokhsxNEKlwhkarhww6LL6UsgKRiayY8jPQeBEwY=;
+ b=CTc9C58WpPdD8FXdGRlcnMWrMWNJpcK+y6Rj3zUyCWdwt9dQLqWVsqH1YHBewi6eXG
+ TVXL54as5+fZwnP5csySA8G7bCIvcyKPvSiBUd+GrWLEV+MZfzm3C4f+itk1QZftidvg
+ LJKU6yzS78/172cHFHccKLpzMhmscJwEjItec7F5xI6diRS+I880mydn8KGrrmaZceV3
+ OZpCa9+CVwLnOjxUXVk7D8b0ObU0FO6PXWZJzdcxd8vNgfrVV11NYRvHxRLgRlTLBo4O
+ Q0GLzBjotcSVxS8uqcxrk7IdG3QZri13dV+SSWWoVMHq30Z5wrhXzlDreWg6/pjBsKOo
+ 1Ffg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RTtIokhsxNEKlwhkarhww6LL6UsgKRiayY8jPQeBEwY=;
+ b=Is8z3ojMYcj1hPtNKHMlGswgJ5jQWu2pkK2Pz41s8YCh+WpXDVg1C/VaVvd3Px8Mrh
+ F4LM5Ob+Ml+mnaYwyA3X34CO82haEu/Ara8SiL45uZKUabP+fNcANN+uPtSPngjStJxT
+ pyoagafsDcK09Q9EgbAPhKVK7UAtEbljT7+nZLEJbV0fNd1hnFbkQhDLeVgRnPUAP+4F
+ p19KhQqkj+pwB7A6wYrwMuxpmnC8uxjmEZDrFNn5Xbg3G//QSVkFxiBEI6dNcOXnonbp
+ yrU9LsyAOooxM4XFl8LoUwzChcTVWUy/xnUuroaqLXPEqznXWZFvfx5kpD/W2lEK3U05
+ hOQg==
+X-Gm-Message-State: AOAM5328HEHjyvzi3LOoaccr4v1fupl/+jF3qUUr1EMFZCK3O7DO1ASN
+ ycTz42VcCPgM0Sj2Ts4yBrCgxzGLJvcO0LTWB0Y=
+X-Google-Smtp-Source: ABdhPJxgTCdC9Z6jpp7wLDECuwoHlNTebzLVe83RZmXf5Re5kCwIRrubG/CS+W1/249WqUYsva2FLP9+ncT0xjegJbI=
+X-Received: by 2002:a67:d903:: with SMTP id t3mr5929684vsj.42.1642533539591;
+ Tue, 18 Jan 2022 11:18:59 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220105173507.2420910-1-keescook@chromium.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 187.184.156.46
-X-Source-L: No
-X-Exim-ID: 1n9tnV-001SJO-46
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.0.21]) [187.184.156.46]:26621
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 7
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
+References: <20220107052942.1349447-1-jim.cromie@gmail.com>
+ <20220107052942.1349447-4-jim.cromie@gmail.com>
+ <20220114114654.GA23983@axis.com>
+In-Reply-To: <20220114114654.GA23983@axis.com>
+From: jim.cromie@gmail.com
+Date: Tue, 18 Jan 2022 12:18:33 -0700
+Message-ID: <CAJfuBxxKQK+X-5LW=ysPU-4mP25BnuCNxvo4xg-SgPwQsr7kXw@mail.gmail.com>
+Subject: Re: [PATCH v11 03/19] dyndbg: add write-to-tracefs code
+To: Vincent Whitchurch <vincent.whitchurch@axis.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,122 +63,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-tegra@vger.kernel.org,
- linux-hardening@vger.kernel.org
+Cc: "quic_saipraka@quicinc.com" <quic_saipraka@quicinc.com>,
+ "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+ "linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "will@kernel.org" <will@kernel.org>, "maz@kernel.org" <maz@kernel.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "mingo@redhat.com" <mingo@redhat.com>,
+ "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
+ "arnd@arndb.de" <arnd@arndb.de>,
+ "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "rostedt@goodmis.org" <rostedt@goodmis.org>,
+ "jbaron@akamai.com" <jbaron@akamai.com>,
+ "mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "quic_psodagud@quicinc.com" <quic_psodagud@quicinc.com>,
+ "seanpaul@chromium.org" <seanpaul@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Jan 14, 2022 at 4:46 AM Vincent Whitchurch
+<vincent.whitchurch@axis.com> wrote:
+>
+> On Fri, Jan 07, 2022 at 06:29:26AM +0100, Jim Cromie wrote:
+> >
 
+> > Enabling debug-to-tracefs is 2 steps:
+> >
+> >   # event enable
+> >   echo 1 > /sys/kernel/tracing/events/dyndbg/enable
+> >   # callsite enable
+> >   echo module foo +T > /proc/dynamic_debug/control
+> >
+> > This patch,~1,~2 are based upon:
+> >   https://lore.kernel.org/lkml/20200825153338.17061-1-vincent.whitchurch@axis.com/
+> >
+> > .. with simplification of temporarily reusing trace_console() rather
+> > than adding a new printk:dyndbg event.  Soon, add 2 new events
+> > capturing the pr_debug & dev_dbg() args.
+>
+> The example above does not match the code in this patch since the
+> dyndbg:* events are only added in a later patch.  Perhaps you could
+> reorder this patch stack so that you don't use trace_console() in this
+> patch just to replace it with the new events in the next patch?
+>
 
-On 1/5/22 11:35, Kees Cook wrote:
-> The link_status array was not large enough to read the Adjust Request
-> Post Cursor2 register, so remove the common helper function to avoid
-> an OOB read, found with a -Warray-bounds build:
-> 
-> drivers/gpu/drm/drm_dp_helper.c: In function 'drm_dp_get_adjust_request_post_cursor':
-> drivers/gpu/drm/drm_dp_helper.c:59:27: error: array subscript 10 is outside array bounds of 'const u8[6]' {aka 'const unsigned char[6]'} [-Werror=array-bounds]
->    59 |         return link_status[r - DP_LANE0_1_STATUS];
->       |                ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/drm_dp_helper.c:147:51: note: while referencing 'link_status'
->   147 | u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZE],
->       |                                          ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> Replace the only user of the helper with an open-coded fetch and decode,
-> similar to drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c.
-> 
-> Fixes: 79465e0ffeb9 ("drm/dp: Add helper to get post-cursor adjustments")
+good catch, thanks.
+Ive just dropped the example, it seemed the simplest fix.
+It seemed proper to commit your code as pristine as practical,
+so that subsequent mistakes receive the blame.
 
-This should be tagged for -stable:
-
-Cc: stable@vger.kernel.org
-
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-
-Thanks
---
-Gustavo
-
-> ---
-> This is the alternative to:
-> https://lore.kernel.org/lkml/20211203084354.3105253-1-keescook@chromium.org/
-> ---
->  drivers/gpu/drm/drm_dp_helper.c | 10 ----------
->  drivers/gpu/drm/tegra/dp.c      | 11 ++++++++++-
->  include/drm/drm_dp_helper.h     |  2 --
->  3 files changed, 10 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-> index 23f9073bc473..c9528aa62c9c 100644
-> --- a/drivers/gpu/drm/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/drm_dp_helper.c
-> @@ -144,16 +144,6 @@ u8 drm_dp_get_adjust_tx_ffe_preset(const u8 link_status[DP_LINK_STATUS_SIZE],
->  }
->  EXPORT_SYMBOL(drm_dp_get_adjust_tx_ffe_preset);
->  
-> -u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZE],
-> -					 unsigned int lane)
-> -{
-> -	unsigned int offset = DP_ADJUST_REQUEST_POST_CURSOR2;
-> -	u8 value = dp_link_status(link_status, offset);
-> -
-> -	return (value >> (lane << 1)) & 0x3;
-> -}
-> -EXPORT_SYMBOL(drm_dp_get_adjust_request_post_cursor);
-> -
->  static int __8b10b_clock_recovery_delay_us(const struct drm_dp_aux *aux, u8 rd_interval)
->  {
->  	if (rd_interval > 4)
-> diff --git a/drivers/gpu/drm/tegra/dp.c b/drivers/gpu/drm/tegra/dp.c
-> index 70dfb7d1dec5..f5535eb04c6b 100644
-> --- a/drivers/gpu/drm/tegra/dp.c
-> +++ b/drivers/gpu/drm/tegra/dp.c
-> @@ -549,6 +549,15 @@ static void drm_dp_link_get_adjustments(struct drm_dp_link *link,
->  {
->  	struct drm_dp_link_train_set *adjust = &link->train.adjust;
->  	unsigned int i;
-> +	u8 post_cursor;
-> +	int err;
-> +
-> +	err = drm_dp_dpcd_read(link->aux, DP_ADJUST_REQUEST_POST_CURSOR2,
-> +			       &post_cursor, sizeof(post_cursor));
-> +	if (err < 0) {
-> +		DRM_ERROR("failed to read post_cursor2: %d\n", err);
-> +		post_cursor = 0;
-> +	}
->  
->  	for (i = 0; i < link->lanes; i++) {
->  		adjust->voltage_swing[i] =
-> @@ -560,7 +569,7 @@ static void drm_dp_link_get_adjustments(struct drm_dp_link *link,
->  				DP_TRAIN_PRE_EMPHASIS_SHIFT;
->  
->  		adjust->post_cursor[i] =
-> -			drm_dp_get_adjust_request_post_cursor(status, i);
-> +			(post_cursor >> (i << 1)) & 0x3;
->  	}
->  }
->  
-> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-> index 472dac376284..fdf3cf6ccc02 100644
-> --- a/include/drm/drm_dp_helper.h
-> +++ b/include/drm/drm_dp_helper.h
-> @@ -1528,8 +1528,6 @@ u8 drm_dp_get_adjust_request_pre_emphasis(const u8 link_status[DP_LINK_STATUS_SI
->  					  int lane);
->  u8 drm_dp_get_adjust_tx_ffe_preset(const u8 link_status[DP_LINK_STATUS_SIZE],
->  				   int lane);
-> -u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZE],
-> -					 unsigned int lane);
->  
->  #define DP_BRANCH_OUI_HEADER_SIZE	0xc
->  #define DP_RECEIVER_CAP_SIZE		0xf
-> 
+and Ive fixed the spurious whitespace change you noted.
