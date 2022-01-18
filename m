@@ -2,51 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2DEB491280
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 01:01:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5D13491401
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 03:19:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A5911126A4;
-	Tue, 18 Jan 2022 00:01:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F7101128B1;
+	Tue, 18 Jan 2022 02:19:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDC201126A3;
- Tue, 18 Jan 2022 00:01:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642464064; x=1674000064;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=5VOGaDC79aqoYDjcQTGORZB39wAz6+QYpSqAjmyCUZo=;
- b=nEFkvUn67UjTDphOynjdBOpGn8IhBP4VXP60PR3PkewYZgpqOd0amd/j
- 77DjhZ0hf/H7fWiON6uOyMfTmj7X7f/0XghJODpclvqWTePU8X6JAGFUu
- GibhyNgie604I1c2b0fnLTLei96rt0TTkp6D/3dNyC1Tcb/sMBO1LmNBT
- w0+c8RZg/cZpmaCkGDY3/Dgd9oPaFIIeQ9bW8v81BW9uQjxXrs7Q+jS1o
- 0/qd/mf1FyXwmVHEktPU7ieHdVsTMBXWbgVs6g3n+449OzLCiiSoNSemg
- mTVEdfM9sE+yW/5i/z3hjPsGgoewdJC0mDe7hMabeQ1HypsdC+/qlDt+6 Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10230"; a="232065796"
-X-IronPort-AV: E=Sophos;i="5.88,296,1635231600"; d="scan'208";a="232065796"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2022 16:01:02 -0800
-X-IronPort-AV: E=Sophos;i="5.88,296,1635231600"; d="scan'208";a="531517223"
-Received: from nkohl-mobl.ger.corp.intel.com (HELO intel.com) ([10.249.41.90])
- by orsmga008-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2022 16:00:58 -0800
-Date: Tue, 18 Jan 2022 02:00:55 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Subject: Re: [PATCH v4 2/2] drm/i915/gt: make a gt sysfs group and move power
- management files
-Message-ID: <YeYDN/GG/C3/6mE0@intel.intel>
-References: <20220117193255.236599-1-andi.shyti@linux.intel.com>
- <20220117193255.236599-3-andi.shyti@linux.intel.com>
- <d3eb3ece-3f15-7c2c-dd72-57000835bd65@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BF661128B1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 02:19:51 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5CED6612B3;
+ Tue, 18 Jan 2022 02:19:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5466C36AF3;
+ Tue, 18 Jan 2022 02:19:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1642472388;
+ bh=FWew8kSA0PCwrUkOdUPtZ3rD8Vs0Xt6T0HP/cCKVwJM=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Wzc3eJNLixafRolNgvkGXQstCaolP7toR98BMEa1/akRVgL56CE0D1++f5O4CjJIo
+ vxrR2qY5qFp51hO3fnAI7VqU5f2DTaJhpq5A7ij0kt40ZYN5in7G/6wtXAbOxdsJIP
+ Fp9K0M32bw0LnMsAGW9U3pemySll/DUzepaXHd2vBiXZpAsZl4yETFkxSKHm5XvFnp
+ CrvssIEUYdeWXgrGYzj8V/DzFKNvyi9kJm5F7ltUo+MZAeSd7bYBlKhhaXu6HgW6QF
+ mybztwKNe4fcS+x81UBmNGzc1hWo9nYW8GydR0F/YK3mwulioxrQyamrS3+WZi1TeC
+ 4eLoFeRy0hPkw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.16 004/217] drm/panel: Delete panel on
+ mipi_dsi_attach() failure
+Date: Mon, 17 Jan 2022 21:16:07 -0500
+Message-Id: <20220118021940.1942199-4-sashal@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220118021940.1942199-1-sashal@kernel.org>
+References: <20220118021940.1942199-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <d3eb3ece-3f15-7c2c-dd72-57000835bd65@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,184 +55,177 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Abdiel Janulgue <abdiel.janulgue@gmail.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- DRI Devel <dri-devel@lists.freedesktop.org>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi@etezian.org>,
- Sujaritha Sundaresan <sujaritha.sundaresan@intel.com>
+Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
+ Brian Norris <briannorris@chromium.org>, dri-devel@lists.freedesktop.org,
+ thierry.reding@gmail.com, jagan@amarulasolutions.com,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Michal,
+From: Brian Norris <briannorris@chromium.org>
 
-> > /sys/.../card0
-> >          ├── gt
-> >          │   ├── gt0
-> >          │   │   ├── id
-> >          │   │   ├── rc6_enable
-> >          │   │   ├── rc6_residency_ms
-> >          │   │   ├── rps_act_freq_mhz
-> >          │   │   ├── rps_boost_freq_mhz
-> >          │   │   ├── rps_cur_freq_mhz
-> >          │   │   ├── rps_max_freq_mhz
-> >          │   │   ├── rps_min_freq_mhz
-> >          │   │   ├── rps_RP0_freq_mhz
-> >          │   │   ├── rps_RP1_freq_mhz
-> >          │   │   └── rps_RPn_freq_mhz
-> > 	 .   .
-> > 	 .   .
-> > 	 .   .
-> >          │   └── gt3
-> 
-> gtN ?
+[ Upstream commit 9bf7123bb07f98dc76acb5daa91248e6f95713cb ]
 
-yep!
+Many DSI panel drivers fail to clean up their panel references on
+mipi_dsi_attach() failure, so we're leaving a dangling drm_panel
+reference to freed memory. Clean that up on failure.
 
-> > diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-> > index aa86ac33effc..5fd203c626fc 100644
-> > --- a/drivers/gpu/drm/i915/Makefile
-> > +++ b/drivers/gpu/drm/i915/Makefile
-> > @@ -121,7 +121,9 @@ gt-y += \
-> >  	gt/intel_timeline.o \
-> >  	gt/intel_workarounds.o \
-> >  	gt/shmem_utils.o \
-> > -	gt/sysfs_engines.o
-> > +	gt/sysfs_engines.o \
-> > +	gt/sysfs_gt.o \
-> > +	gt/sysfs_gt_pm.o
-> 
-> shouldn't these be named as
-> 
-> > +	gt/intel_gt_sysfs.o \
-> > +	gt/intel_gt_pm_sysfs.o
+Noticed by inspection, after seeing similar problems on other drivers.
+Therefore, I'm not marking Fixes/stable.
 
-You are right with wanting a coherent prefix, but I kept the
-trend of starting with sysfs_gt*. We already have sysfs_engine.c.
+Signed-off-by: Brian Norris <briannorris@chromium.org>
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20210923173336.3.If9e74fa9b1d6eaa9e0e5b95b2b957b992740251c@changeid
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c    | 8 +++++++-
+ drivers/gpu/drm/panel/panel-jdi-lt070me05000.c           | 8 +++++++-
+ drivers/gpu/drm/panel/panel-novatek-nt36672a.c           | 8 +++++++-
+ drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c     | 8 +++++++-
+ drivers/gpu/drm/panel/panel-ronbo-rb070d30.c             | 8 +++++++-
+ drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c | 1 +
+ drivers/gpu/drm/panel/panel-samsung-sofef00.c            | 1 +
+ drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c          | 8 +++++++-
+ 8 files changed, 44 insertions(+), 6 deletions(-)
 
-And, because I wouldn't like to have part of it sysfs_gt* and
-part of it intel_gt_sysfs*, then we either rename all or we leave
-it as it is.
+diff --git a/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c b/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c
+index 581661b506f81..f9c1f7bc8218c 100644
+--- a/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c
++++ b/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c
+@@ -227,7 +227,13 @@ static int feiyang_dsi_probe(struct mipi_dsi_device *dsi)
+ 	dsi->format = MIPI_DSI_FMT_RGB888;
+ 	dsi->lanes = 4;
+ 
+-	return mipi_dsi_attach(dsi);
++	ret = mipi_dsi_attach(dsi);
++	if (ret < 0) {
++		drm_panel_remove(&ctx->panel);
++		return ret;
++	}
++
++	return 0;
+ }
+ 
+ static int feiyang_dsi_remove(struct mipi_dsi_device *dsi)
+diff --git a/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c b/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
+index 733010b5e4f53..3c86ad262d5e0 100644
+--- a/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
++++ b/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
+@@ -473,7 +473,13 @@ static int jdi_panel_probe(struct mipi_dsi_device *dsi)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	return mipi_dsi_attach(dsi);
++	ret = mipi_dsi_attach(dsi);
++	if (ret < 0) {
++		jdi_panel_del(jdi);
++		return ret;
++	}
++
++	return 0;
+ }
+ 
+ static int jdi_panel_remove(struct mipi_dsi_device *dsi)
+diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36672a.c b/drivers/gpu/drm/panel/panel-novatek-nt36672a.c
+index 533cd3934b8b7..839b263fb3c0f 100644
+--- a/drivers/gpu/drm/panel/panel-novatek-nt36672a.c
++++ b/drivers/gpu/drm/panel/panel-novatek-nt36672a.c
+@@ -656,7 +656,13 @@ static int nt36672a_panel_probe(struct mipi_dsi_device *dsi)
+ 	if (err < 0)
+ 		return err;
+ 
+-	return mipi_dsi_attach(dsi);
++	err = mipi_dsi_attach(dsi);
++	if (err < 0) {
++		drm_panel_remove(&pinfo->base);
++		return err;
++	}
++
++	return 0;
+ }
+ 
+ static int nt36672a_panel_remove(struct mipi_dsi_device *dsi)
+diff --git a/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c b/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c
+index 3c20beeb17819..3991f5d950af4 100644
+--- a/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c
++++ b/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c
+@@ -241,7 +241,13 @@ static int wuxga_nt_panel_probe(struct mipi_dsi_device *dsi)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	return mipi_dsi_attach(dsi);
++	ret = mipi_dsi_attach(dsi);
++	if (ret < 0) {
++		wuxga_nt_panel_del(wuxga_nt);
++		return ret;
++	}
++
++	return 0;
+ }
+ 
+ static int wuxga_nt_panel_remove(struct mipi_dsi_device *dsi)
+diff --git a/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c b/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
+index a3782830ae3c4..1fb579a574d9f 100644
+--- a/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
++++ b/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
+@@ -199,7 +199,13 @@ static int rb070d30_panel_dsi_probe(struct mipi_dsi_device *dsi)
+ 	dsi->format = MIPI_DSI_FMT_RGB888;
+ 	dsi->lanes = 4;
+ 
+-	return mipi_dsi_attach(dsi);
++	ret = mipi_dsi_attach(dsi);
++	if (ret < 0) {
++		drm_panel_remove(&ctx->panel);
++		return ret;
++	}
++
++	return 0;
+ }
+ 
+ static int rb070d30_panel_dsi_remove(struct mipi_dsi_device *dsi)
+diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
+index ea63799ff2a1e..29fde3823212b 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
++++ b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
+@@ -247,6 +247,7 @@ static int s6e88a0_ams452ef01_probe(struct mipi_dsi_device *dsi)
+ 	ret = mipi_dsi_attach(dsi);
+ 	if (ret < 0) {
+ 		dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
++		drm_panel_remove(&ctx->panel);
+ 		return ret;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/panel/panel-samsung-sofef00.c b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
+index 8cb1853574bb8..6d107e14fcc55 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-sofef00.c
++++ b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
+@@ -302,6 +302,7 @@ static int sofef00_panel_probe(struct mipi_dsi_device *dsi)
+ 	ret = mipi_dsi_attach(dsi);
+ 	if (ret < 0) {
+ 		dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
++		drm_panel_remove(&ctx->panel);
+ 		return ret;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c b/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
+index b937e24dac8e0..25829a0a8e801 100644
+--- a/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
++++ b/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
+@@ -296,7 +296,13 @@ static int sharp_nt_panel_probe(struct mipi_dsi_device *dsi)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	return mipi_dsi_attach(dsi);
++	ret = mipi_dsi_attach(dsi);
++	if (ret < 0) {
++		sharp_nt_panel_del(sharp_nt);
++		return ret;
++	}
++
++	return 0;
+ }
+ 
+ static int sharp_nt_panel_remove(struct mipi_dsi_device *dsi)
+-- 
+2.34.1
 
-On the other hand if we are under i915/gt/... I don't expect it
-to be the sysfs of another system.
-
-To be honest, I don't have a strong opinion on this. If you do,
-then I will change everything intel_gt_sysfs*.
-
-[...]
-
-> > +++ b/drivers/gpu/drm/i915/gt/sysfs_gt.c
-> > @@ -0,0 +1,136 @@
-> > +// SPDX-License-Identifier: MIT
-> > +/*
-> > + * Copyright © 2020 Intel Corporation
-> 
-> 2022 ?
-
-Time flies... huh? :)
-
-> > +void intel_gt_sysfs_register(struct intel_gt *gt)
-> > +{
-> > +	struct kobject *dir;
-> > +	char name[80];
-> > +
-> > +	/*
-> > +	 * We need to make things right with the
-> > +	 * ABI compatibility. The files were originally
-> > +	 * generated under the parent directory.
-> > +	 *
-> > +	 * We generate the files only for gt 0
-> > +	 * to avoid duplicates.
-> > +	 */
-> > +	if (!gt->info.id)
-> 
-> maybe we should have gt_is_root(gt) helper ?
-
-yes, makes sense.
-
-> > +		intel_gt_sysfs_pm_init(gt, gt_get_parent_obj(gt));
-> > +
-> > +	snprintf(name, sizeof(name), "gt%d", gt->info.id);
-> > +
-> > +	dir = intel_gt_create_kobj(gt, gt->i915->sysfs_gt, name);
-> > +	if (!dir) {
-> > +		drm_warn(&gt->i915->drm,
-> > +			 "failed to initialize %s sysfs root\n", name);
-> > +		return;
-> > +	}
-> > +
-> > +	if (sysfs_create_file(dir, &dev_attr_id.attr))
-> > +		drm_warn(&gt->i915->drm,
-> > +			 "failed to create sysfs %s info files\n", name);
-> 
-> can't we use default_groups in kobj_type ?
-
-yeah... I'll try that.
-
-[...]
-
-> > +static ssize_t rc6_enable_show(struct device *dev,
-> > +			       struct device_attribute *attr,
-> > +			       char *buff)
-> > +{
-> > +	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(dev, attr->attr.name);
-> > +	u8 mask = 0;
-> > +
-> > +	if (HAS_RC6(gt->i915))
-> > +		mask |= BIT(0);
-> > +	if (HAS_RC6p(gt->i915))
-> > +		mask |= BIT(1);
-> > +	if (HAS_RC6pp(gt->i915))
-> > +		mask |= BIT(2);
-> > +
-> > +	return scnprintf(buff, PAGE_SIZE, "%x\n", mask);
-> 
-> sysfs_emit ?
-
-OK
-
-[...]
-
-> > +	ret = __intel_gt_sysfs_create_group(kobj, rc6_attr_group);
-> > +	if (ret)
-> > +		drm_err(&gt->i915->drm,
-> > +			"failed to create gt%u RC6 sysfs files\n", gt->info.id);
-> > +
-> > +	if (HAS_RC6p(gt->i915)) {
-> > +		ret = __intel_gt_sysfs_create_group(kobj, rc6p_attr_group);
-> > +		if (ret)
-> > +			drm_err(&gt->i915->drm,
-> > +				"failed to create gt%u RC6p sysfs files\n",
-> > +				gt->info.id);
-> > +	}
-> > +
-> > +	if (IS_VALLEYVIEW(gt->i915) || IS_CHERRYVIEW(gt->i915)) {
-> > +		ret = __intel_gt_sysfs_create_group(kobj, media_rc6_attr_group);
-> > +		if (ret)
-> > +			drm_err(&gt->i915->drm,
-> > +				"failed to create media %u RC6 sysfs files\n",
-> > +				gt->info.id);
-> > +	}
-> 
-> did you consider using attribute_group.is_visible instead adding groups
-> manually ?
-
-I can try this, as well.
-
-[...]
-
-> maybe this large but simple code movement should be done in a separate
-> patch so we could then apply smaller and easier to review fixes ?
-
-I can try to split it, even though most of it is basically a
-copy/paste.
-
-> ~Michal
-
-Thanks a lot for this review, as well!
-
-Andi
