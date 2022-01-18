@@ -1,57 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDA874929B8
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 16:35:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8520C4929BB
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 16:35:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E42AA10E140;
-	Tue, 18 Jan 2022 15:35:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BAD710E226;
+	Tue, 18 Jan 2022 15:35:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EDD010E302
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 15:35:18 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id v123so28537663wme.2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 07:35:18 -0800 (PST)
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AC1A10E226
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 15:35:20 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id v123so28537874wme.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 07:35:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id;
- bh=Nu9JxzV1MOk2jR333ZXjMesaGItYV5x4+rbNyZI5Gt4=;
- b=uylJIRLNGilJ+QUDTG3sjszrGXvLy0KmZzwAzqZ6DrRNKeZcJDuwh8wsHHWF2KR8Qu
- t5pZ1P0qkeuoD63fX4zvgUkexklwqUtLPrDGOW6kaP+/2z8pmDERBpG5FpJtOaWPPHFI
- 45YW5AkqkCTMDk9i/1sAWj8HyHj+4MEY5wEBPXkH90edTG6TVfionhIPwnKfUBNB+WUw
- oU/BbjdU3vbT/GCXcIpoVjY0+WHqlzj8dbkM3aomkQ/nvg7nYgo+E3A1b6fZsHlz5PC/
- USvRY4ibNrgjYmxQhe3O4EwXkxcD/LoeRX/ExyKUZWoC8k2dGyKj4QyA3Nj7h+DjTA4I
- jV/A==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=3yHVxlmHcPx/kimFj7FIZeDPGuzhaFHwPOIDMO1PgQM=;
+ b=vLIuyvlA3zAecwnB3fRb+67VCWslFLWAYjZ4WGmK9UfO0gZv3nKveZ5+EjPCaSUOEY
+ nHL9t/hgzZZKIfPhQj3C7hDYYjRaFvVuOprBXyBjsOFiiZkT28P4AuAAgpptg/s4kR/t
+ 12//QWqFBiXv8aN1v+Qerknd3vlqxxRV0qjvGzVCx99XNAjM+R/AlH4+L5EhXOYB+Qog
+ wsOTBT8HVu2musPzX3xGEcKPojjjg0EMLlkZzg1oB+HdJ+THrEVZ2QFH+cfNEpxsAGgC
+ Ey8s5jjaluXXzfdeqBTNhIZp7VB/irpS4qFLim1gisZiRnh19hvuP4uWAw7lQacyGGCJ
+ ymbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=Nu9JxzV1MOk2jR333ZXjMesaGItYV5x4+rbNyZI5Gt4=;
- b=ulCvKkU6NGEbogyDqoEMg61+03ptXjUliaiGTejyIMXDqaLztH7S0bG7FlOBUWf1iC
- vqXgJVfry01Fy9/hC8hyhT9eGF2D/W52jBDt76nK8Y7lh6BTQvs+/Yj65AHjt7i4JQ95
- c1Otdey11eWhdfJXSk8McZXsb+ASpNJgrBAzkchlwIYd9/stzrvUY4Q7qBq7mJD7Iy3L
- n7Hjj/tEQkJ4Vdjjlr31q36hJ2KTLfEFO/i5MTR6229sIEZ0JW7cZSEud56N7BZBQeX1
- gQJAbXlRyHmUbq03X4GsvuQeFCLZmaj8wm5sXbYjiXilexw9LcMQ4uijn+TlBRhRdMgj
- eptA==
-X-Gm-Message-State: AOAM531BhUcVsSC688sscQKiPN1570JgVJYTz1C+QYm+syTcnERyFt/T
- GmNPz9Npzx9NxYJff5UCjraj6g==
-X-Google-Smtp-Source: ABdhPJxHEF1+pd2Xpl5HtfBEN7iEIPJwZs8rVPk3XmIzBnvl7f/OHZBUR1zMpRdnRFCPW4nTphGXYw==
-X-Received: by 2002:adf:e191:: with SMTP id
- az17mr25427679wrb.324.1642520116770; 
- Tue, 18 Jan 2022 07:35:16 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=3yHVxlmHcPx/kimFj7FIZeDPGuzhaFHwPOIDMO1PgQM=;
+ b=3FDRo1ERUdHEJmhfkijMaCn7LQGk9Wczjv8UW5K0nSbD4N3gpOlZfElvqpWqY5BbA7
+ A4EraNiEQIW7ExGQ5DFVaFBXn4hdn6JI4bazhyOhNHv0nKCfq9Lru4vOfsSRJk4JS5Kq
+ 8Y+9K+jU6KFF/n4QSMw+/vpSfUid6SGJGLHVrV+cyZ+D8Mpir40x/PV3HHrAwKnpZqJF
+ CSdEofqYS+Xhq7wCRyk0ZunlSyNnVsQGNLlu5bZMWgumq/Jn0DN6A2EIZm//id+8tKM/
+ 7EFoAUKlCcJTPxT3bLEr/oOxxlgek+HOJKpUTt1BNMKaudLfNJkN+I0Dou772wUIZC/+
+ c/kg==
+X-Gm-Message-State: AOAM531IscKlVQnGKSxdiiv01xKyrApnqX47epxicjE2hPWrcU+7ViFg
+ SvrmuWHkZzIRQ2sI9tsNkCbNZQ==
+X-Google-Smtp-Source: ABdhPJxnU+By0HtVR7dFHKyv8rh8bWveU22B0NZ1Mi58eyxN5qc3wxwAYK6xKvJ+8VVSCmXCknMSDw==
+X-Received: by 2002:a05:600c:2b8f:: with SMTP id
+ j15mr27529317wmc.160.1642520118496; 
+ Tue, 18 Jan 2022 07:35:18 -0800 (PST)
 Received: from localhost.localdomain ([88.160.176.23])
- by smtp.gmail.com with ESMTPSA id ay21sm3402146wmb.0.2022.01.18.07.35.15
+ by smtp.gmail.com with ESMTPSA id ay21sm3402146wmb.0.2022.01.18.07.35.17
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 18 Jan 2022 07:35:16 -0800 (PST)
+ Tue, 18 Jan 2022 07:35:18 -0800 (PST)
 From: Loic Poulain <loic.poulain@linaro.org>
 To: robdclark@gmail.com,
 	sean@poorly.run,
 	robh+dt@kernel.org
-Subject: [PATCH 1/2] drm/msm: add support for QCM2290 MDSS
-Date: Tue, 18 Jan 2022 16:47:33 +0100
-Message-Id: <1642520854-32196-1-git-send-email-loic.poulain@linaro.org>
+Subject: [PATCH 2/2] dt-bindings: msm: disp: add yaml schemas for QCM2290 DPU
+ bindings
+Date: Tue, 18 Jan 2022 16:47:34 +0100
+Message-Id: <1642520854-32196-2-git-send-email-loic.poulain@linaro.org>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1642520854-32196-1-git-send-email-loic.poulain@linaro.org>
+References: <1642520854-32196-1-git-send-email-loic.poulain@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,341 +74,236 @@ Cc: devicetree@vger.kernel.org, Loic Poulain <loic.poulain@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add compatibility for QCM2290 display subsystem, including
-required entries in DPU hw catalog.
+QCM2290 MSM Mobile Display Subsystem (MDSS) encapsulates sub-blocks
+like DPU display controller, DSI etc. Add YAML schema for DPU device
+tree bindings
 
 Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 175 ++++++++++++++++++++++++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |   1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c        |   1 +
- drivers/gpu/drm/msm/msm_drv.c                  |   1 +
- 4 files changed, 177 insertions(+), 1 deletion(-)
+ .../bindings/display/msm/dpu-qcm2290.yaml          | 214 +++++++++++++++++++++
+ 1 file changed, 214 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index ce6f32a..7fa3fc7 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -25,6 +25,8 @@
- #define VIG_SM8250_MASK \
- 	(VIG_MASK | BIT(DPU_SSPP_QOS_8LVL) | BIT(DPU_SSPP_SCALER_QSEED3LITE))
- 
-+#define VIG_QCM2290_MASK VIG_MASK
+diff --git a/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml b/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml
+new file mode 100644
+index 00000000..8766b13
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml
+@@ -0,0 +1,214 @@
++# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/msm/dpu-qcm2290.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- #define DMA_SDM845_MASK \
- 	(BIT(DPU_SSPP_SRC) | BIT(DPU_SSPP_QOS) | BIT(DPU_SSPP_QOS_8LVL) |\
- 	BIT(DPU_SSPP_TS_PREFILL) | BIT(DPU_SSPP_TS_PREFILL_REC1) |\
-@@ -251,6 +253,18 @@ static const struct dpu_caps sc7280_dpu_caps = {
- 	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
- };
- 
-+static const struct dpu_caps qcm2290_dpu_caps = {
-+	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
-+	.max_mixer_blendstages = 0x4,
-+	.qseed_type = DPU_SSPP_SCALER_QSEED4,
-+	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2,
-+	.ubwc_version = DPU_HW_UBWC_VER_20,
-+	.has_dim_layer = true,
-+	.has_idle_pc = true,
-+	.max_linewidth = 2160,
-+	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
-+};
++title: Qualcomm Display DPU dt properties for QCM2290 target
 +
- static const struct dpu_mdp_cfg sdm845_mdp[] = {
- 	{
- 	.name = "top_0", .id = MDP_TOP,
-@@ -336,6 +350,19 @@ static const struct dpu_mdp_cfg sc7280_mdp[] = {
- 	},
- };
- 
-+static const struct dpu_mdp_cfg qcm2290_mdp[] = {
-+	{
-+	.name = "top_0", .id = MDP_TOP,
-+	.base = 0x0, .len = 0x494,
-+	.features = 0,
-+	.highest_bank_bit = 0x2,
-+	.clk_ctrls[DPU_CLK_CTRL_VIG0] = {
-+		.reg_off = 0x2AC, .bit_off = 0},
-+	.clk_ctrls[DPU_CLK_CTRL_DMA0] = {
-+		.reg_off = 0x2AC, .bit_off = 8},
-+	},
-+};
++maintainers:
++  - Loic Poulain <loic.poulain@linaro.org>
 +
- /*************************************************************
-  * CTL sub blocks config
-  *************************************************************/
-@@ -459,6 +486,15 @@ static const struct dpu_ctl_cfg sc7280_ctl[] = {
- 	},
- };
- 
-+static const struct dpu_ctl_cfg qcm2290_ctl[] = {
-+	{
-+	.name = "ctl_0", .id = CTL_0,
-+	.base = 0x1000, .len = 0x1dc,
-+	.features = BIT(DPU_CTL_ACTIVE_CFG),
-+	.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 9),
-+	},
-+};
++description: |
++  Device tree bindings for MSM Mobile Display Subsystem(MDSS) that encapsulates
++  sub-blocks like DPU display controller and DSI. Device tree bindings of MDSS
++  and DPU are mentioned for QCM2290 target.
 +
- /*************************************************************
-  * SSPP sub blocks config
-  *************************************************************/
-@@ -595,6 +631,30 @@ static const struct dpu_sspp_cfg sc7280_sspp[] = {
- 		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1),
- };
- 
++properties:
++  compatible:
++    items:
++      - const: qcom,qcm2290-mdss
 +
-+#define _QCM2290_VIG_SBLK(num, sdma_pri) \
-+	{ \
-+	.maxdwnscale = SSPP_UNITY_SCALE, \
-+	.maxupscale = SSPP_UNITY_SCALE, \
-+	.smart_dma_priority = sdma_pri, \
-+	.src_blk = {.name = STRCAT("sspp_src_", num), \
-+		.id = DPU_SSPP_SRC, .base = 0x00, .len = 0x150,}, \
-+	.format_list = plane_formats_yuv, \
-+	.num_formats = ARRAY_SIZE(plane_formats_yuv), \
-+	.virt_format_list = plane_formats, \
-+	.virt_num_formats = ARRAY_SIZE(plane_formats), \
-+	}
++  reg:
++    maxItems: 1
 +
-+static const struct dpu_sspp_sub_blks qcm2290_vig_sblk_0 = _QCM2290_VIG_SBLK("0", 2);
-+static const struct dpu_sspp_sub_blks qcm2290_dma_sblk_0 = _DMA_SBLK("8", 1);
++  reg-names:
++    const: mdss
 +
-+static const struct dpu_sspp_cfg qcm2290_sspp[] = {
-+	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_QCM2290_MASK,
-+		 qcm2290_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
-+	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000,  DMA_SDM845_MASK,
-+		 qcm2290_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
-+};
++  power-domains:
++    maxItems: 1
 +
- /*************************************************************
-  * MIXER sub blocks config
-  *************************************************************/
-@@ -679,6 +739,21 @@ static const struct dpu_lm_cfg sc7280_lm[] = {
- 		&sc7180_lm_sblk, PINGPONG_3, LM_2, 0),
- };
- 
-+/* QCM2290 */
++  clocks:
++    items:
++      - description: Display AHB clock from gcc
++      - description: Display AXI clock
++      - description: Display core clock
 +
-+static const struct dpu_lm_sub_blks qcm2290_lm_sblk = {
-+	.maxwidth = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
-+	.maxblendstages = 4, /* excluding base layer */
-+	.blendstage_base = { /* offsets relative to mixer base */
-+		0x20, 0x38, 0x50, 0x68
-+	},
-+};
++  clock-names:
++    items:
++      - const: iface
++      - const: bus
++      - const: core
 +
-+static const struct dpu_lm_cfg qcm2290_lm[] = {
-+	LM_BLK("lm_0", LM_0, 0x44000, MIXER_SC7180_MASK,
-+		&qcm2290_lm_sblk, PINGPONG_0, 0, DSPP_0),
-+};
++  interrupts:
++    maxItems: 1
 +
- /*************************************************************
-  * DSPP sub blocks config
-  *************************************************************/
-@@ -692,6 +767,11 @@ static const struct dpu_dspp_sub_blks sm8150_dspp_sblk = {
- 		.len = 0x90, .version = 0x40000},
- };
- 
-+static const struct dpu_dspp_sub_blks qcm2290_dspp_sblk = {
-+	.pcc = {.id = DPU_DSPP_PCC, .base = 0x1700,
-+		.len = 0x90, .version = 0x40000},
-+};
++  interrupt-controller: true
 +
- #define DSPP_BLK(_name, _id, _base, _mask, _sblk) \
- 		{\
- 		.name = _name, .id = _id, \
-@@ -716,6 +796,11 @@ static const struct dpu_dspp_cfg sm8150_dspp[] = {
- 		 &sm8150_dspp_sblk),
- };
- 
-+static const struct dpu_dspp_cfg qcm2290_dspp[] = {
-+	DSPP_BLK("dspp_0", DSPP_0, 0x54000, DSPP_SC7180_MASK,
-+		 &qcm2290_dspp_sblk),
-+};
++  "#address-cells": true
 +
- /*************************************************************
-  * PINGPONG sub blocks config
-  *************************************************************/
-@@ -736,6 +821,11 @@ static const struct dpu_pingpong_sub_blks sc7280_pp_sblk = {
- 	.len = 0x20, .version = 0x20000},
- };
- 
-+static const struct dpu_pingpong_sub_blks qcm2290_pp_sblk = {
-+	.dither = {.id = DPU_PINGPONG_DITHER, .base = 0x30e0,
-+		.len = 0x20, .version = 0x10000},
-+};
++  "#size-cells": true
 +
- #define PP_BLK_TE(_name, _id, _base, _merge_3d, _sblk, _done, _rdptr) \
- 	{\
- 	.name = _name, .id = _id, \
-@@ -798,6 +888,12 @@ static const struct dpu_pingpong_cfg sm8150_pp[] = {
- 			-1),
- };
- 
-+static struct dpu_pingpong_cfg qcm2290_pp[] = {
-+	PP_BLK("pingpong_0", PINGPONG_0, 0x70000, 0, qcm2290_pp_sblk,
-+		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
-+		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12)),
-+};
++  "#interrupt-cells":
++    const: 1
 +
- /*************************************************************
-  * MERGE_3D sub blocks config
-  *************************************************************/
-@@ -861,6 +957,11 @@ static const struct dpu_intf_cfg sc7280_intf[] = {
- 	INTF_BLK("intf_5", INTF_5, 0x39000, INTF_EDP, 0, 24, INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
- };
- 
-+static const struct dpu_intf_cfg qcm2290_intf[] = {
-+	INTF_BLK("intf_0", INTF_0, 0x00000, INTF_NONE, 0, 0, 0, 0, 0, 0),
-+	INTF_BLK("intf_1", INTF_1, 0x6A800, INTF_DSI, 0, 24, INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
-+};
++  iommus:
++    items:
++      - description: Phandle to apps_smmu node with SID mask for Hard-Fail port0
++      - description: Phandle to apps_smmu node with SID mask for Hard-Fail port1
 +
- /*************************************************************
-  * VBIF sub blocks config
-  *************************************************************/
-@@ -931,6 +1032,10 @@ static const struct dpu_qos_lut_entry sm8150_qos_linear[] = {
- 	{.fl = 0, .lut = 0x0011222222223357 },
- };
- 
-+static const struct dpu_qos_lut_entry qcm2290_qos_linear[] = {
-+	{.fl = 0, .lut = 0x0011222222335777},
-+};
++  ranges: true
 +
- static const struct dpu_qos_lut_entry sdm845_qos_macrotile[] = {
- 	{.fl = 10, .lut = 0x344556677},
- 	{.fl = 11, .lut = 0x3344556677},
-@@ -1102,6 +1207,42 @@ static const struct dpu_perf_cfg sc7280_perf_data = {
- 	.bw_inefficiency_factor = 120,
- };
- 
-+static const struct dpu_perf_cfg qcm2290_perf_data = {
-+	.max_bw_low = 2700000,
-+	.max_bw_high = 2700000,
-+	.min_core_ib = 1300000,
-+	.min_llcc_ib = 0,
-+	.min_dram_ib = 1600000,
-+	.min_prefill_lines = 24,
-+	.danger_lut_tbl = {0xff, 0x0, 0x0},
-+	.safe_lut_tbl = {0xfff0, 0x0, 0x0},
-+	.qos_lut_tbl = {
-+		{.nentry = ARRAY_SIZE(qcm2290_qos_linear),
-+		.entries = qcm2290_qos_linear
-+		},
-+	},
-+	.cdp_cfg = {
-+		{.rd_enable = 1, .wr_enable = 1},
-+		{.rd_enable = 1, .wr_enable = 0}
-+	},
-+	.clk_inefficiency_factor = 105,
-+	.bw_inefficiency_factor = 120,
-+};
++  interconnects:
++    items:
++      - description: Interconnect path specifying the port ids for data bus
 +
-+static const struct dpu_vbif_cfg qcm2290_vbif[] = {
-+	{
-+	.name = "vbif_0", .id = VBIF_0,
-+	.base = 0, .len = 0x1040,
-+	.features = BIT(DPU_VBIF_QOS_REMAP),
-+	.xin_halt_timeout = 0x4000,
-+	.qos_rt_tbl = {
-+		.npriority_lvl = ARRAY_SIZE(sdm845_rt_pri_lvl),
-+		.priority_lvl = sdm845_rt_pri_lvl,
-+		},
-+	.memtype_count = 14,
-+	.memtype = {3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3},
-+	},
-+};
- /*************************************************************
-  * Hardware catalog init
-  *************************************************************/
-@@ -1255,6 +1396,38 @@ static void sc7280_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
- 	};
- }
- 
++  interconnect-names:
++    const: mdp0-mem
 +
-+/*
-+ * qcm2290_cfg_init(): populate qcm2290 dpu sub-blocks reg offsets
-+ * and instance counts.
-+ */
-+static void qcm2290_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
-+{
-+	*dpu_cfg = (struct dpu_mdss_cfg){
-+		.caps = &qcm2290_dpu_caps,
-+		.mdp_count = ARRAY_SIZE(qcm2290_mdp),
-+		.mdp = qcm2290_mdp,
-+		.ctl_count = ARRAY_SIZE(qcm2290_ctl),
-+		.ctl = qcm2290_ctl,
-+		.sspp_count = ARRAY_SIZE(qcm2290_sspp),
-+		.sspp = qcm2290_sspp,
-+		.mixer_count = ARRAY_SIZE(qcm2290_lm),
-+		.mixer = qcm2290_lm,
-+		.dspp_count = ARRAY_SIZE(qcm2290_dspp),
-+		.dspp = qcm2290_dspp,
-+		.pingpong_count = ARRAY_SIZE(qcm2290_pp),
-+		.pingpong = qcm2290_pp,
-+		.intf_count = ARRAY_SIZE(qcm2290_intf),
-+		.intf = qcm2290_intf,
-+		.vbif_count = ARRAY_SIZE(qcm2290_vbif),
-+		.vbif = qcm2290_vbif,
-+		.reg_dma_count = 1,
-+		.dma_cfg = sdm845_regdma,
-+		.perf = qcm2290_perf_data,
-+		.mdss_irqs = IRQ_SC7180_MASK,
-+	};
-+}
++patternProperties:
++  "^display-controller@[0-9a-f]+$":
++    type: object
++    description: Node containing the properties of DPU.
 +
- static const struct dpu_mdss_hw_cfg_handler cfg_handler[] = {
- 	{ .hw_rev = DPU_HW_VER_400, .cfg_init = sdm845_cfg_init},
- 	{ .hw_rev = DPU_HW_VER_401, .cfg_init = sdm845_cfg_init},
-@@ -1262,6 +1435,7 @@ static const struct dpu_mdss_hw_cfg_handler cfg_handler[] = {
- 	{ .hw_rev = DPU_HW_VER_501, .cfg_init = sm8150_cfg_init},
- 	{ .hw_rev = DPU_HW_VER_600, .cfg_init = sm8250_cfg_init},
- 	{ .hw_rev = DPU_HW_VER_620, .cfg_init = sc7180_cfg_init},
-+	{ .hw_rev = DPU_HW_VER_650, .cfg_init = qcm2290_cfg_init},
- 	{ .hw_rev = DPU_HW_VER_720, .cfg_init = sc7280_cfg_init},
- };
- 
-@@ -1291,4 +1465,3 @@ struct dpu_mdss_cfg *dpu_hw_catalog_init(u32 hw_rev)
- 	dpu_hw_catalog_deinit(dpu_cfg);
- 	return ERR_PTR(-ENODEV);
- }
--
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index 4ade44b..6d4eb46f 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -41,6 +41,7 @@
- #define DPU_HW_VER_501	DPU_HW_VER(5, 0, 1) /* sm8150 v2.0 */
- #define DPU_HW_VER_600	DPU_HW_VER(6, 0, 0) /* sm8250 */
- #define DPU_HW_VER_620	DPU_HW_VER(6, 2, 0) /* sc7180 v1.0 */
-+#define DPU_HW_VER_650	DPU_HW_VER(6, 5, 0) /* qcm2290|sm4125 */
- #define DPU_HW_VER_720	DPU_HW_VER(7, 2, 0) /* sc7280 */
- 
- #define IS_MSM8996_TARGET(rev) IS_DPU_MAJOR_MINOR_SAME((rev), DPU_HW_VER_170)
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index a15b264..7e8d8a6 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -1286,6 +1286,7 @@ static const struct dev_pm_ops dpu_pm_ops = {
- };
- 
- static const struct of_device_id dpu_dt_match[] = {
-+	{ .compatible = "qcom,qcm2290-dpu", },
- 	{ .compatible = "qcom,sdm845-dpu", },
- 	{ .compatible = "qcom,sc7180-dpu", },
- 	{ .compatible = "qcom,sc7280-dpu", },
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 7936e8d..ebd5266 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -1434,6 +1434,7 @@ static void msm_pdev_shutdown(struct platform_device *pdev)
- static const struct of_device_id dt_match[] = {
- 	{ .compatible = "qcom,mdp4", .data = (void *)KMS_MDP4 },
- 	{ .compatible = "qcom,mdss", .data = (void *)KMS_MDP5 },
-+	{ .compatible = "qcom,qcm2290-mdss", .data = (void *)KMS_DPU },
- 	{ .compatible = "qcom,sdm845-mdss", .data = (void *)KMS_DPU },
- 	{ .compatible = "qcom,sc7180-mdss", .data = (void *)KMS_DPU },
- 	{ .compatible = "qcom,sc7280-mdss", .data = (void *)KMS_DPU },
++    properties:
++      compatible:
++        items:
++          - const: qcom,qcm2290-dpu
++
++      reg:
++        items:
++          - description: Address offset and size for mdp register set
++          - description: Address offset and size for vbif register set
++
++      reg-names:
++        items:
++          - const: mdp
++          - const: vbif
++
++      clocks:
++        items:
++          - description: Display AXI clock from gcc
++          - description: Display AHB clock from dispcc
++          - description: Display core clock from dispcc
++          - description: Display lut clock from dispcc
++          - description: Display vsync clock from dispcc
++
++      clock-names:
++        items:
++          - const: bus
++          - const: iface
++          - const: core
++          - const: lut
++          - const: vsync
++
++      interrupts:
++        maxItems: 1
++
++      power-domains:
++        maxItems: 1
++
++      operating-points-v2: true
++
++      ports:
++        $ref: /schemas/graph.yaml#/properties/ports
++        description: |
++          Contains the list of output ports from DPU device. These ports
++          connect to interfaces that are external to the DPU hardware,
++          such as DSI. Each output port contains an endpoint that
++          describes how it is connected to an external interface.
++
++        properties:
++          port@0:
++            $ref: /schemas/graph.yaml#/properties/port
++            description: DPU_INTF1 (DSI1)
++
++        required:
++          - port@0
++
++    required:
++      - compatible
++      - reg
++      - reg-names
++      - clocks
++      - interrupts
++      - power-domains
++      - operating-points-v2
++      - ports
++
++required:
++  - compatible
++  - reg
++  - reg-names
++  - power-domains
++  - clocks
++  - interrupts
++  - interrupt-controller
++  - iommus
++  - ranges
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/qcom,dispcc-qcm2290.h>
++    #include <dt-bindings/clock/qcom,gcc-qcm2290.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/interconnect/qcom,qcm2290.h>
++    #include <dt-bindings/power/qcom-rpmpd.h>
++
++    mdss: mdss@5e00000 {
++        #address-cells = <1>;
++        #size-cells = <1>;
++        compatible = "qcom,qcm2290-mdss", "qcom,mdss";
++        reg = <0x05e00000 0x1000>;
++        reg-names = "mdss";
++        power-domains = <&dispcc MDSS_GDSC>;
++        clocks = <&gcc GCC_DISP_AHB_CLK>,
++                 <&gcc GCC_DISP_HF_AXI_CLK>,
++                 <&dispcc DISP_CC_MDSS_MDP_CLK>;
++        clock-names = "iface", "bus", "core";
++
++        interrupts = <GIC_SPI 186 IRQ_TYPE_LEVEL_HIGH>;
++        interrupt-controller;
++        #interrupt-cells = <1>;
++
++        interconnects = <&mmrt_virt MASTER_MDP0 &bimc SLAVE_EBI1>;
++        interconnect-names = "mdp0-mem";
++
++        iommus = <&apps_smmu 0x420 0x2>,
++                 <&apps_smmu 0x421 0x0>;
++        ranges;
++
++        mdss_mdp: mdp@5e01000 {
++                compatible = "qcom,qcm2290-dpu";
++                reg = <0x05e01000 0x8f000>,
++                      <0x05eb0000 0x2008>;
++                reg-names = "mdp", "vbif";
++
++                clocks = <&gcc GCC_DISP_HF_AXI_CLK>,
++                         <&dispcc DISP_CC_MDSS_AHB_CLK>,
++                         <&dispcc DISP_CC_MDSS_MDP_CLK>,
++                         <&dispcc DISP_CC_MDSS_MDP_LUT_CLK>,
++                         <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
++                clock-names = "bus", "iface", "core", "lut", "vsync";
++
++                operating-points-v2 = <&mdp_opp_table>;
++                power-domains = <&rpmpd QCM2290_VDDCX>;
++
++                interrupt-parent = <&mdss>;
++                interrupts = <0 IRQ_TYPE_NONE>;
++
++                ports {
++                        #address-cells = <1>;
++                        #size-cells = <0>;
++
++                        port@0 {
++                                reg = <0>;
++                                dpu_intf1_out: endpoint {
++                                        remote-endpoint = <&dsi0_in>;
++                                };
++                        };
++                 };
++         };
++...
 -- 
 2.7.4
 
