@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CE414914C9
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 03:24:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47F914914D2
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 03:24:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E0FD1128C9;
-	Tue, 18 Jan 2022 02:24:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E1B210E14F;
+	Tue, 18 Jan 2022 02:24:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C68791128C7;
- Tue, 18 Jan 2022 02:24:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55A4610E498
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 02:24:42 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7C30D60FAA;
- Tue, 18 Jan 2022 02:24:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DDE1C36AE3;
- Tue, 18 Jan 2022 02:24:19 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id CC9F560AAF;
+ Tue, 18 Jan 2022 02:24:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29BDCC36AF5;
+ Tue, 18 Jan 2022 02:24:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1642472661;
- bh=capFOdoYMT5zuDsGokY1Gk/LSUmBH/rwoQ/95rHsKq0=;
+ s=k20201202; t=1642472681;
+ bh=DTFUkXLNCr018LWSCZK9D1Uv6h36WaZyXht8Fz71pEg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=J3ljuf9L9ekzY0xUtaO7baI+JIOjLLi38LsrCFWFP5je2DrLIH+skXlP+qhlfQIQZ
- 7mRJeBFobOiNWOMRct4/PVi6iHCChEEf/U5VBe1RjbXDFKmWfBttw+0RUyVCBCfMdl
- S2pXdNZhzT7UVKZQoxQehgIOtQefX7b3py7RdbKNhakCN/VivPXreGCAA1PKSJyWgf
- LOadXLQSz20uTcnnUte8EI5z+PCTOPbtuxz/TkFOAoI7G7lcVEZS+Xj6hry7UHjneK
- eg58Zodg9NY3oKOp2DotHlGUW9arLWxZXezkUOsaop2SHH4rJ4oCf3eQzRtxA+QlXw
- 4B5X6tFrEmrpg==
+ b=t4PT4Qh4Rzi8YZ0acPnELUtbebwcAstkGdUXRLo6zXRkPkdxsJnJ4Y+VoyJiEc5e3
+ Tvtawf7pEvf5uL1CTmMgsVNLdUsm6gI4s2dznJ7N/v82WW73BnVmh5kYFSO2K+T3+p
+ iBcPD8zN/xkSouZVj81txyFyA7DVXOZbF+DE2cOCkERYTWJByzuPW9szSr+VtSAH4d
+ Y6U456Y9GLsuPOnBZQEUxHwuOG5U5j3ZNhWaAkMzb1wvWqYiMwiBvjP5iOUaR5eoDX
+ 6P5SjOqOvY5ix/6av+hfcXe9kK5TDxqhdKcGi1QZ2z45VhixCGL2F818zjCwsabi9a
+ 5ZonDmYUAZVTw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.16 089/217] drm/amd/display: Use oriented source
- size when checking cursor scaling
-Date: Mon, 17 Jan 2022 21:17:32 -0500
-Message-Id: <20220118021940.1942199-89-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.16 096/217] drm: rcar-du: Fix CRTC timings when CMM
+ is used
+Date: Mon, 17 Jan 2022 21:17:39 -0500
+Message-Id: <20220118021940.1942199-96-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220118021940.1942199-1-sashal@kernel.org>
 References: <20220118021940.1942199-1-sashal@kernel.org>
@@ -55,111 +55,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Vlad Zahorodnii <vlad.zahorodnii@kde.org>,
- Anson.Jacob@amd.com, sunpeng.li@amd.com, shenshih@amd.com,
- qingqing.zhuo@amd.com, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com,
- Roman.Li@amd.com, amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
- airlied@linux.ie, aurabindo.pillai@amd.com, dri-devel@lists.freedesktop.org,
- Wayne.Lin@amd.com, Alex Deucher <alexander.deucher@amd.com>,
- nikola.cornij@amd.com, Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ kieran.bingham+renesas@ideasonboard.com, laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Vlad Zahorodnii <vlad.zahorodnii@kde.org>
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-[ Upstream commit 69cb56290d9d10cdcc461aa2685e67e540507a96 ]
+[ Upstream commit f0ce591dc9a97067c6e783a2eaccd22c5476144d ]
 
-dm_check_crtc_cursor() doesn't take into account plane transforms when
-calculating plane scaling, this can result in false positives.
+When the CMM is enabled, an offset of 25 pixels must be subtracted from
+the HDS (horizontal display start) and HDE (horizontal display end)
+registers. Fix the timings calculation, and take this into account in
+the mode validation.
 
-For example, if there's an output with resolution 3840x2160 and the
-output is rotated 90 degrees, CRTC_W and CRTC_H will be 3840 and 2160,
-respectively, but SRC_W and SRC_H will be 2160 and 3840, respectively.
+This fixes a visible horizontal offset in the image with VGA monitors.
+HDMI monitors seem to be generally more tolerant to incorrect timings,
+but may be affected too.
 
-Since the cursor plane usually has a square buffer attached to it, the
-dm_check_crtc_cursor() will think that there's a scale factor mismatch
-even though there isn't really.
-
-This fixes an issue where kwin fails to use hardware plane transforms.
-
-Changes since version 1:
-- s/orientated/oriented/g
-
-Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Signed-off-by: Vlad Zahorodnii <vlad.zahorodnii@kde.org>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 35 ++++++++++++++-----
- 1 file changed, 27 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index e08ac474e9d59..21ff6b232fb62 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -10661,6 +10661,24 @@ static int dm_update_plane_state(struct dc *dc,
- 	return ret;
- }
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+index 5672830ca184d..ee6ba74627a21 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+@@ -215,6 +215,7 @@ static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
+ 	const struct drm_display_mode *mode = &rcrtc->crtc.state->adjusted_mode;
+ 	struct rcar_du_device *rcdu = rcrtc->dev;
+ 	unsigned long mode_clock = mode->clock * 1000;
++	unsigned int hdse_offset;
+ 	u32 dsmr;
+ 	u32 escr;
  
-+static void dm_get_oriented_plane_size(struct drm_plane_state *plane_state,
-+				       int *src_w, int *src_h)
-+{
-+	switch (plane_state->rotation & DRM_MODE_ROTATE_MASK) {
-+	case DRM_MODE_ROTATE_90:
-+	case DRM_MODE_ROTATE_270:
-+		*src_w = plane_state->src_h >> 16;
-+		*src_h = plane_state->src_w >> 16;
-+		break;
-+	case DRM_MODE_ROTATE_0:
-+	case DRM_MODE_ROTATE_180:
-+	default:
-+		*src_w = plane_state->src_w >> 16;
-+		*src_h = plane_state->src_h >> 16;
-+		break;
-+	}
-+}
+@@ -298,10 +299,15 @@ static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
+ 	     | DSMR_DIPM_DISP | DSMR_CSPM;
+ 	rcar_du_crtc_write(rcrtc, DSMR, dsmr);
+ 
++	hdse_offset = 19;
++	if (rcrtc->group->cmms_mask & BIT(rcrtc->index % 2))
++		hdse_offset += 25;
 +
- static int dm_check_crtc_cursor(struct drm_atomic_state *state,
- 				struct drm_crtc *crtc,
- 				struct drm_crtc_state *new_crtc_state)
-@@ -10669,6 +10687,8 @@ static int dm_check_crtc_cursor(struct drm_atomic_state *state,
- 	struct drm_plane_state *new_cursor_state, *new_underlying_state;
- 	int i;
- 	int cursor_scale_w, cursor_scale_h, underlying_scale_w, underlying_scale_h;
-+	int cursor_src_w, cursor_src_h;
-+	int underlying_src_w, underlying_src_h;
+ 	/* Display timings */
+-	rcar_du_crtc_write(rcrtc, HDSR, mode->htotal - mode->hsync_start - 19);
++	rcar_du_crtc_write(rcrtc, HDSR, mode->htotal - mode->hsync_start -
++					hdse_offset);
+ 	rcar_du_crtc_write(rcrtc, HDER, mode->htotal - mode->hsync_start +
+-					mode->hdisplay - 19);
++					mode->hdisplay - hdse_offset);
+ 	rcar_du_crtc_write(rcrtc, HSWR, mode->hsync_end -
+ 					mode->hsync_start - 1);
+ 	rcar_du_crtc_write(rcrtc, HCR,  mode->htotal - 1);
+@@ -836,6 +842,7 @@ rcar_du_crtc_mode_valid(struct drm_crtc *crtc,
+ 	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
+ 	struct rcar_du_device *rcdu = rcrtc->dev;
+ 	bool interlaced = mode->flags & DRM_MODE_FLAG_INTERLACE;
++	unsigned int min_sync_porch;
+ 	unsigned int vbp;
  
- 	/* On DCE and DCN there is no dedicated hardware cursor plane. We get a
- 	 * cursor per pipe but it's going to inherit the scaling and
-@@ -10680,10 +10700,9 @@ static int dm_check_crtc_cursor(struct drm_atomic_state *state,
- 		return 0;
- 	}
+ 	if (interlaced && !rcar_du_has(rcdu, RCAR_DU_FEATURE_INTERLACED))
+@@ -843,9 +850,14 @@ rcar_du_crtc_mode_valid(struct drm_crtc *crtc,
  
--	cursor_scale_w = new_cursor_state->crtc_w * 1000 /
--			 (new_cursor_state->src_w >> 16);
--	cursor_scale_h = new_cursor_state->crtc_h * 1000 /
--			 (new_cursor_state->src_h >> 16);
-+	dm_get_oriented_plane_size(new_cursor_state, &cursor_src_w, &cursor_src_h);
-+	cursor_scale_w = new_cursor_state->crtc_w * 1000 / cursor_src_w;
-+	cursor_scale_h = new_cursor_state->crtc_h * 1000 / cursor_src_h;
+ 	/*
+ 	 * The hardware requires a minimum combined horizontal sync and back
+-	 * porch of 20 pixels and a minimum vertical back porch of 3 lines.
++	 * porch of 20 pixels (when CMM isn't used) or 45 pixels (when CMM is
++	 * used), and a minimum vertical back porch of 3 lines.
+ 	 */
+-	if (mode->htotal - mode->hsync_start < 20)
++	min_sync_porch = 20;
++	if (rcrtc->group->cmms_mask & BIT(rcrtc->index % 2))
++		min_sync_porch += 25;
++
++	if (mode->htotal - mode->hsync_start < min_sync_porch)
+ 		return MODE_HBLANK_NARROW;
  
- 	for_each_new_plane_in_state_reverse(state, underlying, new_underlying_state, i) {
- 		/* Narrow down to non-cursor planes on the same CRTC as the cursor */
-@@ -10694,10 +10713,10 @@ static int dm_check_crtc_cursor(struct drm_atomic_state *state,
- 		if (!new_underlying_state->fb)
- 			continue;
- 
--		underlying_scale_w = new_underlying_state->crtc_w * 1000 /
--				     (new_underlying_state->src_w >> 16);
--		underlying_scale_h = new_underlying_state->crtc_h * 1000 /
--				     (new_underlying_state->src_h >> 16);
-+		dm_get_oriented_plane_size(new_underlying_state,
-+					   &underlying_src_w, &underlying_src_h);
-+		underlying_scale_w = new_underlying_state->crtc_w * 1000 / underlying_src_w;
-+		underlying_scale_h = new_underlying_state->crtc_h * 1000 / underlying_src_h;
- 
- 		if (cursor_scale_w != underlying_scale_w ||
- 		    cursor_scale_h != underlying_scale_h) {
+ 	vbp = (mode->vtotal - mode->vsync_end) / (interlaced ? 2 : 1);
 -- 
 2.34.1
 
