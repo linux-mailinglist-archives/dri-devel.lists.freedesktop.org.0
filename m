@@ -1,58 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CA27492499
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 12:18:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70DF54924AE
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 12:23:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C37DC10E4FB;
-	Tue, 18 Jan 2022 11:18:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A71010E4C7;
+	Tue, 18 Jan 2022 11:23:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
- [IPv6:2607:f8b0:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC1D410E4FB
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 11:18:43 +0000 (UTC)
-Received: by mail-oi1-x22b.google.com with SMTP id s22so27844352oie.10
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 03:18:43 -0800 (PST)
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
+ [IPv6:2607:f8b0:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A95E610E2DD
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 11:23:02 +0000 (UTC)
+Received: by mail-oi1-x22e.google.com with SMTP id bf5so5690287oib.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 03:23:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wa1dZG4GoQTrXlzOi6DDYuer/mOyHhSLIkqIRyNfCb0=;
- b=fuf/49aasH2ICZ5tiYtVjQdBuAqwceTPNFDeB2rPyXb5ynaEJYfpZPt98OPIWjHB9A
- SixKkvj07y2F7xGCnTcxaJk5Rpwb349v98j/8S5jwou/75iGPEOmUFL/p/+/9hfvK/mf
- tMBRo5/5GEbk14QLHVOhXOJ/O5l/4D6Q8nsQI=
+ :cc; bh=0vxu12L1jZfPH/n8U6n3NYOUika1PiHRFgnFfE0mqac=;
+ b=FQcI04UjT4EjGUadFs3tu4NgXPGRJOKF4fVamISkg3N+HpvnrRY052ydvNoRCdWVsm
+ DQxKsojVYpQZ/lVhyUlZE4dzcOtYQ5HqNZMtdFoOtzS/mNtFbLcdBrCAKyHdQGtrcNb+
+ Dv/SZjYB0cET4g9ABzGbEN0f28Ox80038d3ls=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=wa1dZG4GoQTrXlzOi6DDYuer/mOyHhSLIkqIRyNfCb0=;
- b=RGQ2W4zPhJAvotZsbhv3PxLvu2bSKe5s2zCqc8TWG5k+edkiatgOafBZXzLWliNhOu
- BWbdX94jfqZn9YhlQFxKNwOQg71ZZaSvVwym/6fC2xmhViZAnQxFZ1orYUfhCAXY8Ziq
- sxotj0z0gxKuBOJAcZcMAccAqO63cPbXGxEnQRdN1zrGC5+sZNm8+hay97EvWy8Qc72u
- +y9hH73YVDUrvfX7ZihMTgcJruHJlr3Xj6GyQ5pS9ndTwhInVyLR8JWrboTjxjzZPLny
- KHz3fBkwT0myeZmNPE11luaHWX7cW6bAerf1S84M5tSw37IfDh/p02DOJ5z1zOr/mNVb
- ICjQ==
-X-Gm-Message-State: AOAM532aBjJY/Rn+rZHFQn8a31PsOfWurwtoM8iB1BZXXzdLWyYa2U3f
- uZ3W6zvbuCtoDBj2MoCoV7YXxrnQYNC3jLFcuY8wWg==
-X-Google-Smtp-Source: ABdhPJwaiWOvuwzgv58eTEUe46jNmMAihEdSp5q+fSNBT1IED8/qYXBr7kRmRyn8hc73vcobXONscKk/imKt+JwYtY4=
-X-Received: by 2002:a05:6808:3a3:: with SMTP id
- n3mr12412474oie.128.1642504723007; 
- Tue, 18 Jan 2022 03:18:43 -0800 (PST)
+ bh=0vxu12L1jZfPH/n8U6n3NYOUika1PiHRFgnFfE0mqac=;
+ b=3lIBvu5rKaLPw+S1p5UUf5ESf4HXpNXFZIHN5qwUhBM6p4WOTNrCB77p91W50IJlFq
+ UwAvV4Nw1/2gEuYfALypu6u5W99gYRe6nWahVVUYTwV0DSZ09ASw8FuXZEiGNbO0w2Sv
+ GHuT2UgPTTOIXo2xggkKszvbjTvxMvsvJUiZtGV25IbcbgINO07fz1auQTkXWAcJsEyN
+ YzeUNQXEGekD9AKqHQCb8VKGBjmGnDyx4r2yqMFbvhJDqZQHPPqAooR+gKgiEnhKS43/
+ 6VHHW0H+9ce6fuVuWLy0LMD2P8JdqqYKgyYD6QunPy980v7MDliviQUHJ5XuHKyiVUKD
+ oKZg==
+X-Gm-Message-State: AOAM531C+UzisMyxKeqtJABeWCc2ZcsfBhgAUum1ZbH+5rNO6hLIrBhC
+ H8Z7zo/Rahnx6QskdAJStb00s7nOyWjXEaJ9KLDk7w==
+X-Google-Smtp-Source: ABdhPJx04xf4KFu7cR9PzSZ5lOKeBxnc/JEG/KJ4kgQu+iPUN6I304Hyiv0+IwlQnk/spVK2x5FoB5/tKvzavEUuFvo=
+X-Received: by 2002:aca:b103:: with SMTP id a3mr26125595oif.14.1642504981992; 
+ Tue, 18 Jan 2022 03:23:01 -0800 (PST)
 MIME-Version: 1.0
 References: <YeG8ydoJNWWkGrTb@ls3530>
- <CAKMK7uGdJckdM+fg+576iJXsqzCOUg20etPBMwRLB9U7GcG01Q@mail.gmail.com>
- <c80ed72c-2eb4-16dd-a7ad-57e9dde59ba1@gmx.de>
- <CAKMK7uHVHn9apB6YYbLSwu+adEB2Fqp4FM0z582zf4F-v3_GnQ@mail.gmail.com>
- <cf21018b-f231-7538-169e-2ad450643cbf@gmx.de>
- <97d49bca-f5f7-dba4-b62d-b6fcdd4276ac@suse.de>
- <87ee5659dt.fsf@intel.com> <4f1d6018-d74e-8e62-ea4d-0ca79c6bbbc5@gmx.de>
- <87a6ft5thv.fsf@intel.com> <5ba33e10-7d75-9f9a-dfd6-c04608d230a4@gmx.de>
-In-Reply-To: <5ba33e10-7d75-9f9a-dfd6-c04608d230a4@gmx.de>
+ <c48ad8ae-aea5-43fa-882f-dccb90dde9a4@suse.de>
+ <87bl0amc6s.fsf@x1.stackframe.org> <20220118103323.4bae3a7d@eldfell>
+ <20220118095352.xsb6fqacw4p276c5@sirius.home.kraxel.org>
+In-Reply-To: <20220118095352.xsb6fqacw4p276c5@sirius.home.kraxel.org>
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 18 Jan 2022 12:18:31 +0100
-Message-ID: <CAKMK7uG48Due9Tv_78BJT52hvC5JcbT6-7S6_Qt7FiZ-GrTRzw@mail.gmail.com>
+Date: Tue, 18 Jan 2022 12:22:50 +0100
+Message-ID: <CAKMK7uGQ=pGHv+LcRxZqb_jV0fqzUZtd+tZCr7aatoMDF4hyvw@mail.gmail.com>
 Subject: Re: [PATCH] MAINTAINERS: Add Helge as fbdev maintainer
-To: Helge Deller <deller@gmx.de>
+To: Gerd Hoffmann <kraxel@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,69 +61,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-fbdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sven Schnelle <svens@stackframe.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 18, 2022 at 9:56 AM Helge Deller <deller@gmx.de> wrote:
+On Tue, Jan 18, 2022 at 10:54 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
 >
-> On 1/18/22 09:38, Jani Nikula wrote:
-> > On Mon, 17 Jan 2022, Helge Deller <deller@gmx.de> wrote:
-> >> On 1/17/22 22:40, Jani Nikula wrote:
-> >>> On Mon, 17 Jan 2022, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> >>>> Seems like few people read linux-fbdev these days.
-> >>>
-> >>> How much traffic is there to linux-fbdev that is *not* Cc'd to dri-devel
-> >>> also?
-> >>
-> >> Doesn't seem like much traffic - which IMHO is OK for such a tree with
-> >> mostly just maintenance patches.
-> >>
-> >>> Do we still need a separate linux-fbdev mailing list at all?
-> >>
-> >> Yes. I want to have it seperate of dri-devel.
-> >> Actually I'd prefer to drop dri-devel from the list where patches
-> >> for fbdev are sent...
+> On Tue, Jan 18, 2022 at 10:33:23AM +0200, Pekka Paalanen wrote:
+> > On Mon, 17 Jan 2022 19:47:39 +0100
+> > Sven Schnelle <svens@stackframe.org> wrote:
 > >
-> > Disagreed. If anything, this thread shows we can't have fbdev and drm in
-> > silos of their own.
+> > > I also tested the speed on my Thinkpad X1 with Intel graphics, and there
+> > > a dmesg with 919 lines one the text console took about 2s to display. In
+> > > x11, i measure 22ms. This might be unfair because encoding might be
+> > > different, but i cannot confirm the 'memcpy' is faster than hardware
+> > > blitting' point. I think if that would be the case, no-one would care
+> > > about 2D acceleration.
+> >
+> > I think that is an extremely unfair comparison, because a graphical
+> > terminal app is not going to render every line of text streamed to it.
+> > It probably renders only the final view alone if you simply run
+> > 'dmesg', skipping the first 800-900 lines completely.
 >
-> Patches to fbdev usually don't affect DRM.
-> Patches which affect DRM needs to through to dri-devel.
-> In addition this would take the burden of the dri-developers to receive
-> unrelated fbdev driver updates and patches.
+> Probably more like "render on every vblank", but yes, unlike fbcon it
+> surely wouldn't render every single character sent to the terminal.
+>
+> Also acceleration on modern hardware is more like "compose window
+> content using the 3d engine" than "use 2d blitter to scroll the window".
+>
+> > Maybe fbcon should do the same when presented with a flood of text,
+> > but I don't know how or why it works like it works.
+>
+> fbcon could do the same, i.e. render to fbdev in a 60Hz timer instead of
+> doing it synchronously.
 
-I added dri-devel for fbdev because stuff landed that shouldn't have.
-Let's not remove that, because the amount of patches for fbdev which
-arent relevant for drm drivers is pretty much nothing.
-
-I really don't like the idea that fbdev goes off again becoming a
-silo, just because it's too hard to wire through low-bit greyscale
-support. Which no I can't type for you, because I don't have such hw
-here.
-
-Everything where people cared enough for adding fbdev compat support
-for to actually write a patch is supported.
-
-If you do want a silo  for fbdev then I think the only reasonable
-option is that we create a copy of the fbdev/fbcon code for drm
-(somewhat renamed), so that you can do the reverts without impacting
-drm drivers. But there will still be some overlap and minimal
-coordination, plus I'm not seeing anyone from the drm side
-volunteering for the sizeable amount of work.
+Yeah, and if you use the shadow fb support in drm fbdev helpers,
+that's what you get. Maybe we should just make that the default, since
+that would also greatly simply stuff like modesetting support for
+fbdev.
 -Daniel
-
-> > Also, if the patches continue to get merged through drm-misc, they need
-> > to be sent to dri-devel.
->
-> Helge
-
-
-
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
