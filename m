@@ -2,60 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8520C4929BB
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 16:35:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00F5C492B51
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 17:34:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BAD710E226;
-	Tue, 18 Jan 2022 15:35:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5AA310E193;
+	Tue, 18 Jan 2022 16:34:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AC1A10E226
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 15:35:20 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id v123so28537874wme.2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 07:35:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=3yHVxlmHcPx/kimFj7FIZeDPGuzhaFHwPOIDMO1PgQM=;
- b=vLIuyvlA3zAecwnB3fRb+67VCWslFLWAYjZ4WGmK9UfO0gZv3nKveZ5+EjPCaSUOEY
- nHL9t/hgzZZKIfPhQj3C7hDYYjRaFvVuOprBXyBjsOFiiZkT28P4AuAAgpptg/s4kR/t
- 12//QWqFBiXv8aN1v+Qerknd3vlqxxRV0qjvGzVCx99XNAjM+R/AlH4+L5EhXOYB+Qog
- wsOTBT8HVu2musPzX3xGEcKPojjjg0EMLlkZzg1oB+HdJ+THrEVZ2QFH+cfNEpxsAGgC
- Ey8s5jjaluXXzfdeqBTNhIZp7VB/irpS4qFLim1gisZiRnh19hvuP4uWAw7lQacyGGCJ
- ymbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=3yHVxlmHcPx/kimFj7FIZeDPGuzhaFHwPOIDMO1PgQM=;
- b=3FDRo1ERUdHEJmhfkijMaCn7LQGk9Wczjv8UW5K0nSbD4N3gpOlZfElvqpWqY5BbA7
- A4EraNiEQIW7ExGQ5DFVaFBXn4hdn6JI4bazhyOhNHv0nKCfq9Lru4vOfsSRJk4JS5Kq
- 8Y+9K+jU6KFF/n4QSMw+/vpSfUid6SGJGLHVrV+cyZ+D8Mpir40x/PV3HHrAwKnpZqJF
- CSdEofqYS+Xhq7wCRyk0ZunlSyNnVsQGNLlu5bZMWgumq/Jn0DN6A2EIZm//id+8tKM/
- 7EFoAUKlCcJTPxT3bLEr/oOxxlgek+HOJKpUTt1BNMKaudLfNJkN+I0Dou772wUIZC/+
- c/kg==
-X-Gm-Message-State: AOAM531IscKlVQnGKSxdiiv01xKyrApnqX47epxicjE2hPWrcU+7ViFg
- SvrmuWHkZzIRQ2sI9tsNkCbNZQ==
-X-Google-Smtp-Source: ABdhPJxnU+By0HtVR7dFHKyv8rh8bWveU22B0NZ1Mi58eyxN5qc3wxwAYK6xKvJ+8VVSCmXCknMSDw==
-X-Received: by 2002:a05:600c:2b8f:: with SMTP id
- j15mr27529317wmc.160.1642520118496; 
- Tue, 18 Jan 2022 07:35:18 -0800 (PST)
-Received: from localhost.localdomain ([88.160.176.23])
- by smtp.gmail.com with ESMTPSA id ay21sm3402146wmb.0.2022.01.18.07.35.17
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 18 Jan 2022 07:35:18 -0800 (PST)
-From: Loic Poulain <loic.poulain@linaro.org>
-To: robdclark@gmail.com,
-	sean@poorly.run,
-	robh+dt@kernel.org
-Subject: [PATCH 2/2] dt-bindings: msm: disp: add yaml schemas for QCM2290 DPU
- bindings
-Date: Tue, 18 Jan 2022 16:47:34 +0100
-Message-Id: <1642520854-32196-2-git-send-email-loic.poulain@linaro.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1642520854-32196-1-git-send-email-loic.poulain@linaro.org>
-References: <1642520854-32196-1-git-send-email-loic.poulain@linaro.org>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0F4110E193;
+ Tue, 18 Jan 2022 16:34:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1642523670; x=1674059670;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=0C5whETnR1MnAnGV+Kl8KfclpcM8vOpmlvxwftMNJLw=;
+ b=HtreglfkqBnWFReUPCHWOpmjSoIfbULo4NvnefemC4TP9j2ylRTPpP64
+ 4DI2MHcRLw0kH+YFO9i0KHRoHZs/a3pMO6RHBf9VuTLP1Z6ZsBmE9XL9V
+ oK2MfzxLhWzxFRCzxNCsndfIm7OW9piLhrDEZJbzvtBGJWf5pgbDtbdpj
+ sCfzNxWu9iqh9I8CcZnnLIkSntAFg6PQtCjR+iokvxTV7cRv9lEXK2pY5
+ qE3ELg8WZIyzYU7GQk7CSfQ/42j0cRNW4QFdxYtNE4b043AgUJK/0kktY
+ JHYJV77wVELKDnYiFtE+N65DVMGQUBXDIuorZ7hxDeIRte8UxxrsQwyi/ g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10230"; a="331208591"
+X-IronPort-AV: E=Sophos;i="5.88,297,1635231600"; d="scan'208";a="331208591"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jan 2022 08:34:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,297,1635231600"; d="scan'208";a="492720508"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.147])
+ by orsmga002.jf.intel.com with SMTP; 18 Jan 2022 08:34:22 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 18 Jan 2022 18:34:20 +0200
+Date: Tue, 18 Jan 2022 18:34:20 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: "Navare, Manasi" <manasi.d.navare@intel.com>
+Subject: Re: [PATCH v3] drm/atomic: Add the crtc to affected crtc only if
+ uapi.enable = true
+Message-ID: <YebsDDwzBJHm+fKu@intel.com>
+References: <20211004115913.23889-1-manasi.d.navare@intel.com>
+ <20211022195112.GA1609@labuser-Z97X-UD5H>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211022195112.GA1609@labuser-Z97X-UD5H>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,242 +61,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Loic Poulain <loic.poulain@linaro.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, dmitry.baryshkov@linaro.org
+Cc: Daniel Stone <daniels@collabora.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org,
+ Pekka Paalanen <pekka.paalanen@collabora.co.uk>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QCM2290 MSM Mobile Display Subsystem (MDSS) encapsulates sub-blocks
-like DPU display controller, DSI etc. Add YAML schema for DPU device
-tree bindings
+On Fri, Oct 22, 2021 at 12:51:12PM -0700, Navare, Manasi wrote:
+> 
+> Hi Ville,
+> 
+> Could you take a look at this, this addresses teh review comments from prev version
 
-Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
----
- .../bindings/display/msm/dpu-qcm2290.yaml          | 214 +++++++++++++++++++++
- 1 file changed, 214 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml
+I don't think I ever got an answer to my question as to whether this
+was tested with all the interesting scenarios:
+1) just with the master crtc added by userspace into the commit
+2) just with the slave crtc added by userspace into the commit
+3) both crtcs added by userspace into the commit
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml b/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml
-new file mode 100644
-index 00000000..8766b13
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/msm/dpu-qcm2290.yaml
-@@ -0,0 +1,214 @@
-+# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/msm/dpu-qcm2290.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Qualcomm Display DPU dt properties for QCM2290 target
-+
-+maintainers:
-+  - Loic Poulain <loic.poulain@linaro.org>
-+
-+description: |
-+  Device tree bindings for MSM Mobile Display Subsystem(MDSS) that encapsulates
-+  sub-blocks like DPU display controller and DSI. Device tree bindings of MDSS
-+  and DPU are mentioned for QCM2290 target.
-+
-+properties:
-+  compatible:
-+    items:
-+      - const: qcom,qcm2290-mdss
-+
-+  reg:
-+    maxItems: 1
-+
-+  reg-names:
-+    const: mdss
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: Display AHB clock from gcc
-+      - description: Display AXI clock
-+      - description: Display core clock
-+
-+  clock-names:
-+    items:
-+      - const: iface
-+      - const: bus
-+      - const: core
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  interrupt-controller: true
-+
-+  "#address-cells": true
-+
-+  "#size-cells": true
-+
-+  "#interrupt-cells":
-+    const: 1
-+
-+  iommus:
-+    items:
-+      - description: Phandle to apps_smmu node with SID mask for Hard-Fail port0
-+      - description: Phandle to apps_smmu node with SID mask for Hard-Fail port1
-+
-+  ranges: true
-+
-+  interconnects:
-+    items:
-+      - description: Interconnect path specifying the port ids for data bus
-+
-+  interconnect-names:
-+    const: mdp0-mem
-+
-+patternProperties:
-+  "^display-controller@[0-9a-f]+$":
-+    type: object
-+    description: Node containing the properties of DPU.
-+
-+    properties:
-+      compatible:
-+        items:
-+          - const: qcom,qcm2290-dpu
-+
-+      reg:
-+        items:
-+          - description: Address offset and size for mdp register set
-+          - description: Address offset and size for vbif register set
-+
-+      reg-names:
-+        items:
-+          - const: mdp
-+          - const: vbif
-+
-+      clocks:
-+        items:
-+          - description: Display AXI clock from gcc
-+          - description: Display AHB clock from dispcc
-+          - description: Display core clock from dispcc
-+          - description: Display lut clock from dispcc
-+          - description: Display vsync clock from dispcc
-+
-+      clock-names:
-+        items:
-+          - const: bus
-+          - const: iface
-+          - const: core
-+          - const: lut
-+          - const: vsync
-+
-+      interrupts:
-+        maxItems: 1
-+
-+      power-domains:
-+        maxItems: 1
-+
-+      operating-points-v2: true
-+
-+      ports:
-+        $ref: /schemas/graph.yaml#/properties/ports
-+        description: |
-+          Contains the list of output ports from DPU device. These ports
-+          connect to interfaces that are external to the DPU hardware,
-+          such as DSI. Each output port contains an endpoint that
-+          describes how it is connected to an external interface.
-+
-+        properties:
-+          port@0:
-+            $ref: /schemas/graph.yaml#/properties/port
-+            description: DPU_INTF1 (DSI1)
-+
-+        required:
-+          - port@0
-+
-+    required:
-+      - compatible
-+      - reg
-+      - reg-names
-+      - clocks
-+      - interrupts
-+      - power-domains
-+      - operating-points-v2
-+      - ports
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - power-domains
-+  - clocks
-+  - interrupts
-+  - interrupt-controller
-+  - iommus
-+  - ranges
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/qcom,dispcc-qcm2290.h>
-+    #include <dt-bindings/clock/qcom,gcc-qcm2290.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/interconnect/qcom,qcm2290.h>
-+    #include <dt-bindings/power/qcom-rpmpd.h>
-+
-+    mdss: mdss@5e00000 {
-+        #address-cells = <1>;
-+        #size-cells = <1>;
-+        compatible = "qcom,qcm2290-mdss", "qcom,mdss";
-+        reg = <0x05e00000 0x1000>;
-+        reg-names = "mdss";
-+        power-domains = <&dispcc MDSS_GDSC>;
-+        clocks = <&gcc GCC_DISP_AHB_CLK>,
-+                 <&gcc GCC_DISP_HF_AXI_CLK>,
-+                 <&dispcc DISP_CC_MDSS_MDP_CLK>;
-+        clock-names = "iface", "bus", "core";
-+
-+        interrupts = <GIC_SPI 186 IRQ_TYPE_LEVEL_HIGH>;
-+        interrupt-controller;
-+        #interrupt-cells = <1>;
-+
-+        interconnects = <&mmrt_virt MASTER_MDP0 &bimc SLAVE_EBI1>;
-+        interconnect-names = "mdp0-mem";
-+
-+        iommus = <&apps_smmu 0x420 0x2>,
-+                 <&apps_smmu 0x421 0x0>;
-+        ranges;
-+
-+        mdss_mdp: mdp@5e01000 {
-+                compatible = "qcom,qcm2290-dpu";
-+                reg = <0x05e01000 0x8f000>,
-+                      <0x05eb0000 0x2008>;
-+                reg-names = "mdp", "vbif";
-+
-+                clocks = <&gcc GCC_DISP_HF_AXI_CLK>,
-+                         <&dispcc DISP_CC_MDSS_AHB_CLK>,
-+                         <&dispcc DISP_CC_MDSS_MDP_CLK>,
-+                         <&dispcc DISP_CC_MDSS_MDP_LUT_CLK>,
-+                         <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
-+                clock-names = "bus", "iface", "core", "lut", "vsync";
-+
-+                operating-points-v2 = <&mdp_opp_table>;
-+                power-domains = <&rpmpd QCM2290_VDDCX>;
-+
-+                interrupt-parent = <&mdss>;
-+                interrupts = <0 IRQ_TYPE_NONE>;
-+
-+                ports {
-+                        #address-cells = <1>;
-+                        #size-cells = <0>;
-+
-+                        port@0 {
-+                                reg = <0>;
-+                                dpu_intf1_out: endpoint {
-+                                        remote-endpoint = <&dsi0_in>;
-+                                };
-+                        };
-+                 };
-+         };
-+...
+I guess 1) has been tested since that happens all the time, but the other
+two scanarios would likely need to be done with a synthetic test to make
+sure we're actually hitting them.
+
+I think it *should* work, but I'd like to have real proof of that.
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+
+> 
+> Manasi
+> 
+> On Mon, Oct 04, 2021 at 04:59:13AM -0700, Manasi Navare wrote:
+> > In case of a modeset where a mode gets split across mutiple CRTCs
+> > in the driver specific implementation (bigjoiner in i915) we wrongly count
+> > the affected CRTCs based on the drm_crtc_mask and indicate the stolen CRTC as
+> > an affected CRTC in atomic_check_only().
+> > This triggers a warning since affected CRTCs doent match requested CRTC.
+> > 
+> > To fix this in such bigjoiner configurations, we should only
+> > increment affected crtcs if that CRTC is enabled in UAPI not
+> > if it is just used internally in the driver to split the mode.
+> > 
+> > v3: Add the same uapi crtc_state->enable check in requested
+> > crtc calc (Ville)
+> > 
+> > Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > Cc: Simon Ser <contact@emersion.fr>
+> > Cc: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
+> > Cc: Daniel Stone <daniels@collabora.com>
+> > Cc: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: dri-devel@lists.freedesktop.org
+> > Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
+> > ---
+> >  drivers/gpu/drm/drm_atomic.c | 12 ++++++++----
+> >  1 file changed, 8 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> > index ff1416cd609a..a1e4c7905ebb 100644
+> > --- a/drivers/gpu/drm/drm_atomic.c
+> > +++ b/drivers/gpu/drm/drm_atomic.c
+> > @@ -1310,8 +1310,10 @@ int drm_atomic_check_only(struct drm_atomic_state *state)
+> >  
+> >  	DRM_DEBUG_ATOMIC("checking %p\n", state);
+> >  
+> > -	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i)
+> > -		requested_crtc |= drm_crtc_mask(crtc);
+> > +	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
+> > +		if (new_crtc_state->enable)
+> > +			requested_crtc |= drm_crtc_mask(crtc);
+> > +	}
+> >  
+> >  	for_each_oldnew_plane_in_state(state, plane, old_plane_state, new_plane_state, i) {
+> >  		ret = drm_atomic_plane_check(old_plane_state, new_plane_state);
+> > @@ -1360,8 +1362,10 @@ int drm_atomic_check_only(struct drm_atomic_state *state)
+> >  		}
+> >  	}
+> >  
+> > -	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i)
+> > -		affected_crtc |= drm_crtc_mask(crtc);
+> > +	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
+> > +		if (new_crtc_state->enable)
+> > +			affected_crtc |= drm_crtc_mask(crtc);
+> > +	}
+> >  
+> >  	/*
+> >  	 * For commits that allow modesets drivers can add other CRTCs to the
+> > -- 
+> > 2.19.1
+> > 
+
 -- 
-2.7.4
-
+Ville Syrjälä
+Intel
