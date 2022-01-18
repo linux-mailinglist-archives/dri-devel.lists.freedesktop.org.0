@@ -1,118 +1,120 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87FF2491A61
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 04:01:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88510491E66
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 05:10:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 214BC112949;
-	Tue, 18 Jan 2022 03:01:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 308AE112A0D;
+	Tue, 18 Jan 2022 04:10:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com
- (mail-eopbgr80053.outbound.protection.outlook.com [40.107.8.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B5C4112950
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 03:01:35 +0000 (UTC)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2082.outbound.protection.outlook.com [40.107.223.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D668112A0D;
+ Tue, 18 Jan 2022 04:10:20 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QLrJXZA1s1NyGZqz69cIy3DQIlYGEmwHNm2XrVjxRj8GTFiS4/PbX0IJNOy0ZYfkqlfjPHr8fGSr64EB1roFjB5xiDxYiCZjtnIOZLFhcMBjmfFR5XcOXpSnNtgNCax8rKPZXCfB8Z7kBqbhOE3WgDHSAQ0PxsoRGC/NLJavXcqJLUGymZ90CA3zEj8hTPSNhz52Ejar/pokDVwu31rSLD0O18tgLPAXDl5ZRJlMk4Ph3dA+yz1v06uViLtaz91BWWSTCl04506of6QmsDxmaXb+CmCHKwAtF/G5NOACdOvq/rky59xdrbrR+RDaCy4XGYE6yyIqoZoSB9ryPmZL4w==
+ b=LHIQHlv2iHz7jAukDsOukxb4gruz1F1u/uSuSgN6+rR/ImTxWig5XIGHC3NY1Whn7kogNdxy6mb5qsiG4xUJSE0a320zBT5UUISLTPhDv1MxG4VuIxCxUgHBb1RwQEguzwteWKjgvZ0/nlz7rtVjkAip0I40iyo0O4E+8CxLCtAvu0awNTuUP5hODEd4xU+fzsHPHgbNALGD2eawFhQRXOAqDWmS1XMgKGuzPxGxaP1kUX/e5WnJbrmB6rqkGE4JJMRVuo8oZlFWbEatN3N6DQUDOnyhme8CeU8/KlFTmlzM6Et4fE8hBQNvhpCEOOcWAQiRT//BMPBUyaJb+1PiAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VCDwhEtmmEYLIzpIeV9i0fc7ATrkV+SpOyNtCaGDeSM=;
- b=G2TC5ijf6arJ5omNCvJYKFRPh41mY0Jn5wJTbUOpLKgTsdvcLnvlZWSqloPD1kA88Sq2l+fKPe5l5EN0DEmNm5BOa9qcuBlZqm6PsAFO073S3kH1/fY1yrJfjN8FqsZoWcutMg6zKW0RTFbVWr025+wiCRGc/k7/anDd3ES/yz0m3Xv09V9DHlhu/Nf9D+JTMRne/Um+1hPfEwuTuh/DjYPRh5PeP+B1bOEDw7Wiq7Bws3Kn+WFAh0IUN3SzGKCr+kHOplaz/gZl8nHqlrclRtsHVe2gjwzq9GE1kxsAl3mBAhIoOVGJDXPIiDykyslXq2rJ6POkH8O/zUeWvskJMg==
+ bh=qkM2pbbx011DLqrBydD7jqAQn17JUELheeUsfqzrxw0=;
+ b=AAMxbda4S6InS6J0sn8tt2v+YcFkhUpbgItuFGJ/uQua5Ieq0XLXr0d5CiJuhMxjKoOfvvr/0WginudSzuvcBnUX/BA1bsLi9gHkgcoubJL9IUzKjuDTQ6GTZ8HwrQ7gPaLU7/DGK0Qw5U6fNHAkKeseyPTrX9A0ENmN6twuA816l7Btvm+GYmg7R4+dQEKCMvUAKoKaWBiWsDmCM5cGeCbyi/HxtEcDxlNh/QV09TKrz+J6B4ENUtemDZFzqXQcxb2qXjws6frf3Y2kFZQSb03ej+CihxqaKlAiD+1D/o2LSZvZKjABsksAsbltqXMjaZJaXMrHp7VyQ9NN1WJg2A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VCDwhEtmmEYLIzpIeV9i0fc7ATrkV+SpOyNtCaGDeSM=;
- b=QiG/ldUrvJIqiyyNNSTDkCKfZ3LLxTHvHaoffDq4xYp8wFf2c8lWCk/QfjsTH9kCYD7mfxA2Vj9TsaxyUniqKWXbIuEqR+HGJZzhp4fJg1SelGvRqvnYQsBSUd2+9FLzInj8ARjxMGasBvqfvlr0asYYOs04K6DBvdiSi+asmI0=
+ bh=qkM2pbbx011DLqrBydD7jqAQn17JUELheeUsfqzrxw0=;
+ b=SgdrlDN7oVTAgQ6Sa9IJFDd+PvKuSteI9SgZ7i2EZeHCtMtHYYll9ypf4WhV7pNOG8nasrbyxiJVO41Acj9NtZ2xwbAnO9ISBb9JY6iOlq21UsQY2vP3QgG+BWaVkDGt7JwtWldCuwiSm+nkJCn3GZV68fIaX6BeIBUebg+wwqY=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by AM5PR04MB2978.eurprd04.prod.outlook.com (2603:10a6:206:5::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4888.9; Tue, 18 Jan
- 2022 03:01:27 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::a5b3:9e5:366:a3fc]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::a5b3:9e5:366:a3fc%3]) with mapi id 15.20.4888.014; Tue, 18 Jan 2022
- 03:01:27 +0000
-From: Liu Ying <victor.liu@nxp.com>
-To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org
-Subject: [PATCH] phy: dphy: Correct clk_pre parameter
-Date: Tue, 18 Jan 2022 10:59:18 +0800
-Message-Id: <20220118025918.1444288-1-victor.liu@nxp.com>
-X-Mailer: git-send-email 2.25.1
-Content-Type: text/plain; charset=UTF-8
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com (13.101.157.78) by
+ DM6PR12MB3049.namprd12.prod.outlook.com (20.178.31.83) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4888.11; Tue, 18 Jan 2022 04:10:18 +0000
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::971:531c:e4f4:8a9a]) by BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::971:531c:e4f4:8a9a%7]) with mapi id 15.20.4888.014; Tue, 18 Jan 2022
+ 04:10:17 +0000
+Subject: Re: [PATCH 1/1] Add available memory ioctl for libhsakmt
+To: Daniel Phillips <daniel.phillips@amd.com>, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+References: <20220111013955.3214767-1-daniel.phillips@amd.com>
+From: Felix Kuehling <felix.kuehling@amd.com>
+Message-ID: <707cf87d-7833-c8ed-9c48-98f8c4cc91ab@amd.com>
+Date: Mon, 17 Jan 2022 23:10:15 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+In-Reply-To: <20220111013955.3214767-1-daniel.phillips@amd.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SG3P274CA0011.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:be::23)
- To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+Content-Language: en-US
+X-ClientProxiedBy: YT2PR01CA0007.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:38::12) To BN9PR12MB5115.namprd12.prod.outlook.com
+ (2603:10b6:408:118::14)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a3e97a0f-e19d-499c-fe3d-08d9da2ed1cf
-X-MS-TrafficTypeDiagnostic: AM5PR04MB2978:EE_
-X-Microsoft-Antispam-PRVS: <AM5PR04MB2978C5D6FFB7DC145CE1EA6998589@AM5PR04MB2978.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+X-MS-Office365-Filtering-Correlation-Id: 6ee7a2e1-b239-4e5a-5f35-08d9da386fbd
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3049:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR12MB30498001B35DEB0AFCE5FB9492589@DM6PR12MB3049.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: M2iwM/wfyhdFleFMe08me5erqKcvye4dFDeE0bWdgpEhfcVOlTYGk5mkxsSqQ5IeDrAbZ3sAmkFdMNPfjfpXkDvchTCO0Vb1IqAZ5QI7woNR+WC19ZU7U+ilA2qTV4fTOO2hWbshCawNTfUTsCkkPDjZ9DtLAHNFJNnT1bKMoCefdRT1ukuPpGsjyNBuvAxFYCm2915ttb9GD/7QJwdi467fzyMWYKpudLtrKTkhJneoFRJvStGHpdTTGuk5rKvztHkReslClgUNyeKNn7DZ0DZhCCGcfnV/LHHf+hTWI7eHXHqN2N/HaWKJ3N2UA/bcclsvKeqxcDlvKqdIuAJcrGujdKQdaIFyav+LxOEpM5F6pQAjgoxjxtN2REJNvFQDHrfYmdPH4FX/xaGILg7JLHWZJd7lTzzTVgYZzonf78YYkbE8IXcp96mySwqxSvYpWPqHT4jRCMVQgPluw/jhu7e7O8S13tolOyg6j0h02X48/m3DFGKWNIyWcaNBgmgPgy6ixoKjSzHTEi8wR4LsWW1d2MbiaockaSOOLFqH8p5loesxaws5C4uM7KThV/364vAQz+k/d/u26348+JbWz0jhdVyE/NSsQfzcOxyEigDM+2aQkOPg1FEZ9qwVTQCa2hbDfaHv/M4kNHGeNR39SCXlv0tYUQ+vBE9tq9MLrVadPL41txIs/TQCZ2OONQzjq3+TEiwmvMBKxs5LVhS3eQ==
+X-Microsoft-Antispam-Message-Info: pv8InyKR8M3TrzF0bqjOHc496iTyS8mOsjaTuI5oyjum4o6SdaVeErT8vuRDYkTm31VS375CMlYmVXbRaBNJNXSujvgr5HamEBFENHj/A+d7PgvhCSf0z/qJB1GgL0G7MmoHi9xxW66edWzVAfPnkDwwEMsIwcHFBmoaUitT8lZCjPa5AVc0e3euoB0TMiNnUvgJ7c4ra3h/Ztol7Pal9MyIKUf2utZlkEGAp7wgfezWDF/AZXBXsIdn6RKGlPfN1yTFbEq8t2Qs3o+rrUIhpXBarMctUR4icXWP0/VG1eDuqY9hN4hl07su312I8gWpavWCm1d+B5wMwR1r25+xscKF6T1r4/iw8w/6iiJj/teaT25st6rEpT4Dti6FNONavLHrx9bSP8Wja7oCq6VXLESTrZLe/5tbyoSK9BsGSU2p+3KyN61XhDg56tRqBtw0eiL7bceFrne5zU9jCGC0LwAUIwl+qtPhNPCgFssZDFK/1UkZffrig0hddwbVxUuuy8C6nQQr/4f+ux/+H5auWnkBa3n/16HZbq5coSCGtP0wMfmeJtwTkAowTdipL45WB4616RbUfWNAnICV2UYiAGWZxJBAJilENY2eeQlTYuyPCeskBhuOjSzh/DSEqbY72sl6X/wSjgyJTDu8rhdxb9wPhXc0aBXoxCZ7eW1fz2fWR5SuvlrPV9NTG4A/BwpH+vYmoYVJyFxed2Xq8zgItmz9tycAsAYiaejL0mt8jy+WXHzN5Qx3AkvR3lxeKRAHFyxq8fMCAcawmw00sqhkoA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(5660300002)(4326008)(6506007)(6486002)(186003)(316002)(2906002)(7416002)(508600001)(26005)(2616005)(66476007)(66556008)(54906003)(8936002)(38350700002)(52116002)(86362001)(66574015)(83380400001)(36756003)(38100700002)(6666004)(1076003)(6512007)(66946007)(8676002);
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(66476007)(66556008)(186003)(508600001)(6486002)(66946007)(83380400001)(8936002)(26005)(31696002)(316002)(8676002)(6506007)(2906002)(31686004)(450100002)(2616005)(44832011)(5660300002)(36756003)(6512007)(86362001)(966005)(38100700002)(131093003)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VjV1TFpaejhjL1JSNm1Ienl2TDVtM0xWNWNrQ0dXZHBMTTkycURFVktHcWVs?=
- =?utf-8?B?TFRCUkNRbHRjT2dVQjg3QmV4UUNybVVTMDJ5aXZQRE1LbnNGWmlGMmZXdFdR?=
- =?utf-8?B?V3liVXMwQk4xemt4anlVUEZTZ3dQNWhoNytCdFB5U29WclEyTmRuanZpRktQ?=
- =?utf-8?B?YnVyMmdtRTArRVU0QXRWL1ovajZRU0Y3VnA1SnVveVVQUm9zSGIzUVJKZDhO?=
- =?utf-8?B?TjZZVzhzV2EzR2liZEMwUS9MSmErOUsrY3luT0dEbDYxWFcwaUw1YlMrcmJX?=
- =?utf-8?B?R29WNmFNWjJtUkJ1TDcraTZpOXdtOWxpejJTT2xHcEE1YThWRGtndWxUczJC?=
- =?utf-8?B?SW14L2J2cUxja1BKWkYvS2FUM2hxSkNTbnRab1BCcCtKZ2FpQWlWQlZVTDY1?=
- =?utf-8?B?SlZFV2EwRUF0V21ZQlV5emZrblNkTklMSWZEb3lhWWxNVXJtMG1YM0NoN2w4?=
- =?utf-8?B?YjdSdXNJb3dWeTNweHBjZU45Rm5zTDZDYTRsdjJCcU1JaDFzSzRRcnRPa0Uy?=
- =?utf-8?B?djliM3ZDV2gwS0Zuc3d5YjFRRENoZUFFOG5nZVd1RTdhTXdCMTViQnJNTWo5?=
- =?utf-8?B?bFlsbGVIamQzREhwVjh4NWNZM3MyZk84TVNvc09TWUdEMXJLU250bmRNVWsr?=
- =?utf-8?B?V1VzNWs1ZEZPWlppWGwvTjNVazhRRzBka0JQRjdUVXd2WjNUK3E5L3VFUXds?=
- =?utf-8?B?bHd3S2tYMGFCY0ZXUWV5aUNZMmNNbDBsWEduZzZKZUdzZTR0N010SzQvUG5D?=
- =?utf-8?B?S2I1S2pnTTA5UTZyK3VFMFBNM3RDaUxhQkVocUduRk16K0NCakxobG12TVdw?=
- =?utf-8?B?ZFNmSzhmZEluMVRzVTFpZHJsQWlwZ2k0TlRzQlZheUxmZi9HdTk3Sy9SUGlX?=
- =?utf-8?B?ZjYrcTVqNDlEVlJFcUI2QUlrT211SStoMzRjbEZGVENCcVpYUUppL1J3L09J?=
- =?utf-8?B?YTlnTi9EaHRwNTJCM2g4UlorN0RHNUtTbXZReUhRNGVrZVhyVGIxeGRnWjY3?=
- =?utf-8?B?SkkrZmUyelJlVnIvYlMzclM3R0tjTW94OWwwdE1RcFQ2cUdBTVlkcUlENzMy?=
- =?utf-8?B?ZkpJOXkxdzNmcFNEczBQNzcyWldmUXhQU2Z0MTRlSWxvNWZnZzRpMUhKYk1Q?=
- =?utf-8?B?eVgvOGxnWHh4VHJ5MU9mUlI4N2dnTm83RGxVMVRxa05XQ3dZUVMwaFV0SmZF?=
- =?utf-8?B?bTRHWjhEd2IyNjZsVENlbjJXaFZySDNHZjdSb1haaElkUkFmQTFoOXh1WFhT?=
- =?utf-8?B?bmlpQVdKR2ZiWmVRRllxUUR6Uml3N1l4dzUrdEJsdVZ2ZWs0MHlUbzYvRDA2?=
- =?utf-8?B?R1NMaXhLM0tjQ2pXajJ4cE5BbUpmWjlhb3JQYTFyMFVVZzU0Y1ZseUNZcGlo?=
- =?utf-8?B?ZmV6T3Q1NzM4UEpnOGhzMGVTcjEzc3pLMFNMQkttejZxWDc4L0EzQUN6ajlr?=
- =?utf-8?B?aUd0YStrd2xoaG1hR29JenFnNkpJQWhwQWZ2eVVub3lGQmpKTTZpRDlrN1Bs?=
- =?utf-8?B?K05pb1ZoSlV2ZXlDR09wRTh2VjJlMHZ6alpQVDFxNkpNa0ZzcUVwZHpyVi9w?=
- =?utf-8?B?YXUrUG1RR1l5Qkx1YjRpeXIrbEg1UGRKbFVlQTlkckxBUXpwUDBBd2xLME5N?=
- =?utf-8?B?alNpWkw0MWJ5ZlpLNUJHVlY4QXB1Q2pQZmZNd0NlTjZvN1UxTlZXYnUxSVVT?=
- =?utf-8?B?MXFQZXY3NFNJY29KbVJvME9zcytjSEk5cGtodFhUZGhJVVJiY1d0YThOTTJl?=
- =?utf-8?B?V2tUOUFkYlU0WTlQNmdudE82WnZyU1JCcEh3ZVJBcmR4ZEJwOFZwYXJpSnJm?=
- =?utf-8?B?aWxSZ2hYZkVhMEVIekVVRHNCOXFyOWt3cTNYdStpa1BTSVJYVjA1RlRmVjdT?=
- =?utf-8?B?Q28wLzR6Z3dHc1BtVE1vblQzaVVTMm82LzZ5M2RVZWNsS0taZGl6Y0JhVTNV?=
- =?utf-8?B?ZHJjdjVOdmZGcW5NcXNydDg0bjZXaWNTOStFK0FLRC9PL0NMdGkwYkM5ZkU3?=
- =?utf-8?B?SGQrTUoyZjVuMVJPZlU5eTBOVWZzeHlkUVA4aW1Ra1ZGTENpWGltYlZHRlVk?=
- =?utf-8?B?YXZoOXR1NE5WSUFuQVJPUy9zai91M3BSNkVlNUwxalQrT2IrTS96RnhFS2Z4?=
- =?utf-8?B?SUhmazFyZHBMUytmMGdxWVNmUW9IYXFJbUord2FiRDVvb0dWaFdCMHNtUW0w?=
- =?utf-8?Q?dextzwZdxtomss9DrfemaCU=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a3e97a0f-e19d-499c-fe3d-08d9da2ed1cf
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TFRuZHZvYzk2eXNxUjRIUnp1Yk55M2VkVFdML3FzZHRoeTlUdG10L2lES0o3?=
+ =?utf-8?B?TUE1cG5uQno3WnYxZmJkbmxmMG5nQWlGRUhHWk00R2l4aDVNUzgvN2lqVGQw?=
+ =?utf-8?B?OWpLUzZtZUZXZUFaRTJOV2ErVkJuRnJtVloxYktIT2tqSlo3d2FRdHpETEFu?=
+ =?utf-8?B?YjlyMzZKV2FrMlJZTXdleFRCcEJyWm51dks1OFNvc25hV3ZjTE1sQUxUa1ZI?=
+ =?utf-8?B?UWIvUGFEdW5kTHhrVEU1dmM1STNJY3EwR2Uzd3prUUVVT2hDcmgraXN3UDFp?=
+ =?utf-8?B?ZEJ0NWVWRDkvYzB4VGNxOUdOeEVzUkFqVFoxK05DelgwNEpSeC9QNHlqN3A0?=
+ =?utf-8?B?bG5XK0FMTUZHZVpDR1lWZE1NZWltRXY4WmtLRHA4cm5MTkN4SjlVN2NVekgx?=
+ =?utf-8?B?NC9QdEkvWlZlais0a0dUWHNjWWs2bmYxVzd2N3AxMzhKdG1jRlpRN1paeGNz?=
+ =?utf-8?B?TUcrS1FhQlJlRFQ2d2gxU0FxcGhmWXZGS3VCODI3Ui9EeWpQNjZHV2k1N0Nj?=
+ =?utf-8?B?V0NkTGFlTjhQZDltRVNtK2xTQnJjd0p5SWdxcVpSWEVEQm42Mm1oTGZZRXdz?=
+ =?utf-8?B?K2dKZjY2UWZVTjVRU0s0Y1pEN1RVZmxNVTNKQlRxRFlvSmJjUHZ2cVN0em03?=
+ =?utf-8?B?R254VEEyQ1lHcm93VTBXdmY4Y3daUEFOM21xajYyRlQvaVJUMTdxN21aRXU5?=
+ =?utf-8?B?Y1B1ZTBFelM5ak1URk9WNnhzeFRuNDltZnliNWdaRnVPbFhNZUZNcm1sWTBj?=
+ =?utf-8?B?ODVZVVhvMnlNaFdMcGZpMTJtcU5YNklUNm9IVHBjdGU0NzJLQjkvVWhZMDJj?=
+ =?utf-8?B?T2QwUk4wR2x1Zy9rUndjMmQ5cjJSeHFnWW9iQk1jaFVvUXNoRkt3KzE0K1RN?=
+ =?utf-8?B?TUNvUGZNcHhBOVpGa3JIOFlHd3FPaUM5REhQOCtiUGlXY29FZlNjTU1HR0Nz?=
+ =?utf-8?B?KzBUZS85dzFBMTE4cWk0RHJZek8vQ3NvYmtkZlJPYnZNMlBzN0lURjQ2MnQ0?=
+ =?utf-8?B?Ujl2QkVTdHBPSjlHQlo3dmErcVJDTTlzT2FCTHdic0xVeXREc1J4QmM3L21h?=
+ =?utf-8?B?M09qelhGa0hCVnkwcGxYcCt0VVdOVGIzTytybjZ4WXFGb2hmcVd2bzdJbWJD?=
+ =?utf-8?B?VEdIL3ljMmdrY2Y5bmc1a0RBc1Zta1FiMUpEL25OenNybmhSeXllU3VCTE9s?=
+ =?utf-8?B?d2FISWM5Qi84VG0ySTRiYlBNS05VNUxjall6Vkx3VENJRm5GcWwxOGNzN0dp?=
+ =?utf-8?B?TmhVT0dBc08xNHplUE0wOW9HWEtqbC8vTWtHUS8wdzF1UGcxbU1pb2RsYStl?=
+ =?utf-8?B?UWhCbVZXWU1YS1p5akJxYTRyc2FoUTJidTltYnE4V3dMVFlNbEhsbHNtVTdm?=
+ =?utf-8?B?eWxTMTBST0x5WUF1bUxxNktqelludkYrdXFBK3gzVkFuTVdkZHNPTXpPZUNV?=
+ =?utf-8?B?RTBGejV5WXJuV1ZPYnQ5cHlYaGtiZlNDanF4T05Hcnh0c085VnhqKzdjY3l2?=
+ =?utf-8?B?c0xRVTJ0aWxOOVlYcHNkS1Z0TEhzTG4xcndnOVdMMGQ0TldHTzBQSTVEYXhx?=
+ =?utf-8?B?M0VaVjhPZmtaVEh1TVNGRVJ1NFE4bnVwY3FVQ3VuU1krK08vMmtZUHE3L29z?=
+ =?utf-8?B?RW5QZ3k2NG5uWXJqUm85WkhrSHJZQ1p1V0txOTBwTG1CVnJCeVB0M3RQWk1J?=
+ =?utf-8?B?elByRTFZSmYxem1vNldwRFdTNjBZUGQ5WFgrTlFkTExvRk5mTnFpeWpXank3?=
+ =?utf-8?B?VEZFTjNFMmNFZkZiVnV0cVdscitmaFl2ZjBMWThYZmpycm5HV05ScVYzQlFx?=
+ =?utf-8?B?a3BFN1dxc29KaG1MTWo5YmJwaHYreFBndzhmaHl5OEx4ODRmM2VmQzlWYTUy?=
+ =?utf-8?B?TncrTWxQcENwd0xPWWdzK2FyOU9HMWtHT1VqM3YvRE1VSXFnN0JwbXJxb2tv?=
+ =?utf-8?B?dm8rZXNsU1lRdWFhRk0xQThIZUljNmRLZHUyMFBMT3NxWS81N3Bjd3Y4Z3Nj?=
+ =?utf-8?B?YkFTZGFwelBzOTFUWHBkSE52dTFIaEZobDk1SDFLellLUk9ydFNHaG5TUDZ1?=
+ =?utf-8?B?Ym1laTN3akZvUjByOWJXUGxpc0FnWVI4bkFRMjhIMWVoSDZmd1JIRHB3eU9l?=
+ =?utf-8?B?Z1dPd21VVjIrUWxpSzlYRmlRcWNqeCtoSlJuekdVam9uY1p6czVoWTFPQndn?=
+ =?utf-8?Q?Pk/ENjL6Sc7DCFV66Vm/jSY=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6ee7a2e1-b239-4e5a-5f35-08d9da386fbd
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2022 03:01:27.4930 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2022 04:10:17.8591 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OYZ3/FSB27af1F5Ati2MzTZXhlOjcQZaHaDwzdHLLi7yy3uHOqiG6IVeckuXfi9syCmMnEKscLCxuerZBISjZg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR04MB2978
+X-MS-Exchange-CrossTenant-UserPrincipalName: /X8EK20GGiTokxOp+GWMugtNP4na6yE5GFlV5pgDuzhUdd5+hgC3Iv+u7V9RLH+KcJdVwhMYbMHQfwMRLeRWjw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3049
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,160 +127,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Kevin Hilman <khilman@baylibre.com>,
- =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
- Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
- Kishon Vijay Abraham I <kishon@ti.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Vinod Koul <vkoul@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jerome Brunet <jbrunet@baylibre.com>,
- linux-imx@nxp.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The D-PHY specification (v1.2) explicitly mentions that the T-CLK-PRE
-parameter's unit is Unit Interval(UI) and the minimum value is 8.  Also,
-kernel doc of the 'clk_pre' member of struct phy_configure_opts_mipi_dphy
-mentions that it should be in UI.  However, the dphy core driver wrongly
-sets 'clk_pre' to 8000, which seems to hint that it's in picoseconds.
-And, the kernel doc of the 'clk_pre' member wrongly says the minimum value
-is '8 UI', instead of 8.
 
-So, let's fix both the dphy core driver and the kernel doc of the 'clk_pre'
-member to correctly reflect the T-CLK-PRE parameter's unit and the minimum
-value according to the D-PHY specification.
+Am 2022-01-10 um 8:39 p.m. schrieb Daniel Phillips:
+> Add an ioctl to inquire memory available for allocation by libhsakmt
+> per node, allowing for space consumed by page translation tables.
+>
+> This ioctl is the underlying mechanism for the new memory availability
+> library call posted for review here:
+>
+>    https://lists.freedesktop.org/archives/amd-gfx/2022-January/073352.html
+>
+> Signed-off-by: Daniel Phillips <daniel.phillips@amd.com>
+>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h      |  1 +
+>  .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c    | 14 ++++++++++++++
+>  drivers/gpu/drm/amd/amdkfd/kfd_chardev.c        | 17 +++++++++++++++++
+>  include/uapi/linux/kfd_ioctl.h                  | 14 ++++++++++++--
+>  4 files changed, 44 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
+> index fcbc8a9c9e06..64c6c36685d3 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
+> @@ -266,6 +266,7 @@ int amdgpu_amdkfd_gpuvm_acquire_process_vm(struct amdgpu_device *adev,
+>  void amdgpu_amdkfd_gpuvm_release_process_vm(struct amdgpu_device *adev,
+>  					void *drm_priv);
+>  uint64_t amdgpu_amdkfd_gpuvm_get_process_page_dir(void *drm_priv);
+> +size_t amdgpu_amdkfd_get_available_memory(struct amdgpu_device *adev);
+>  int amdgpu_amdkfd_gpuvm_alloc_memory_of_gpu(
+>  		struct amdgpu_device *adev, uint64_t va, uint64_t size,
+>  		void *drm_priv, struct kgd_mem **mem,
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> index 86a1a6c109d9..b7490a659173 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> @@ -190,6 +190,20 @@ static int amdgpu_amdkfd_reserve_mem_limit(struct amdgpu_device *adev,
+>  	return ret;
+>  }
+>  
+> +size_t amdgpu_amdkfd_get_available_memory(struct amdgpu_device *adev)
+> +{
+> +	uint64_t reserved_for_pt =
+> +		ESTIMATE_PT_SIZE(amdgpu_amdkfd_total_mem_size);
+> +	size_t available_memory;
+> +
+> +	spin_lock(&kfd_mem_limit.mem_limit_lock);
+> +	available_memory =
+> +		adev->gmc.real_vram_size -
+> +		adev->kfd.vram_used - reserved_for_pt;
+> +	spin_unlock(&kfd_mem_limit.mem_limit_lock);
+> +	return available_memory;
+> +}
+> +
+>  static void unreserve_mem_limit(struct amdgpu_device *adev,
+>  		uint64_t size, u32 alloc_flag)
+>  {
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+> index 4bfc0c8ab764..5c2f6d97ff1c 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+> @@ -486,6 +486,20 @@ static int kfd_ioctl_get_queue_wave_state(struct file *filep,
+>  	return r;
+>  }
+>  
+> +static int kfd_ioctl_get_available_memory(struct file *filep,
+> +			         struct kfd_process *p, void *data)
+> +{
+> +	struct kfd_ioctl_get_available_memory_args *args = data;
+> +	struct kfd_dev *dev;
+> +
+> +	dev = kfd_device_by_id(args->gpu_id);
+> +	if (!dev)
+> +		return -EINVAL;
+> +
+> +	args->available = amdgpu_amdkfd_get_available_memory(dev->adev);
+> +	return 0;
+> +}
+> +
+>  static int kfd_ioctl_set_memory_policy(struct file *filep,
+>  					struct kfd_process *p, void *data)
+>  {
+> @@ -1959,6 +1973,9 @@ static const struct amdkfd_ioctl_desc amdkfd_ioctls[] = {
+>  
+>  	AMDKFD_IOCTL_DEF(AMDKFD_IOC_SET_XNACK_MODE,
+>  			kfd_ioctl_set_xnack_mode, 0),
+> +
+> +	AMDKFD_IOCTL_DEF(AMDKFD_IOC_AVAILABLE_MEMORY,
+> +			kfd_ioctl_get_available_memory, 0),
+>  };
+>  
+>  #define AMDKFD_CORE_IOCTL_COUNT	ARRAY_SIZE(amdkfd_ioctls)
+> diff --git a/include/uapi/linux/kfd_ioctl.h b/include/uapi/linux/kfd_ioctl.h
+> index af96af174dc4..94a99add2432 100644
+> --- a/include/uapi/linux/kfd_ioctl.h
+> +++ b/include/uapi/linux/kfd_ioctl.h
+> @@ -32,9 +32,10 @@
+>   * - 1.4 - Indicate new SRAM EDC bit in device properties
+>   * - 1.5 - Add SVM API
+>   * - 1.6 - Query clear flags in SVM get_attr API
+> + * - 1.7 - Add available_memory ioctl
+>   */
+>  #define KFD_IOCTL_MAJOR_VERSION 1
+> -#define KFD_IOCTL_MINOR_VERSION 6
+> +#define KFD_IOCTL_MINOR_VERSION 7
+>  
+>  struct kfd_ioctl_get_version_args {
+>  	__u32 major_version;	/* from KFD */
+> @@ -98,6 +99,12 @@ struct kfd_ioctl_get_queue_wave_state_args {
+>  	__u32 pad;
+>  };
+>  
+> +struct kfd_ioctl_get_available_memory_args {
+> +	__u64 available;	/* from KFD */
+> +	__u32 gpu_id;		/* to KFD */
+> +	__u32 pad;
+> +};
+> +
+>  /* For kfd_ioctl_set_memory_policy_args.default_policy and alternate_policy */
+>  #define KFD_IOC_CACHE_POLICY_COHERENT 0
+>  #define KFD_IOC_CACHE_POLICY_NONCOHERENT 1
+> @@ -742,7 +749,10 @@ struct kfd_ioctl_set_xnack_mode_args {
+>  #define AMDKFD_IOC_SET_XNACK_MODE		\
+>  		AMDKFD_IOWR(0x21, struct kfd_ioctl_set_xnack_mode_args)
+>  
+> +#define AMDKFD_IOC_AVAILABLE_MEMORY		\
+> +		AMDKFD_IOR(0x22, struct kfd_ioctl_get_available_memory_args)
+> +
+This needs to be AMDKFD_IOWR. Otherwise the gpu_id doesn't get copied
+from user mode by kfd_ioctl.
 
-I'm assuming that all impacted custom drivers shall program values in
-TxByteClkHS cycles into hardware for the T-CLK-PRE parameter.  The D-PHY
-specification mentions that the frequency of TxByteClkHS is exactly 1/8
-the High-Speed(HS) bit rate(each HS bit consumes one UI).  So, relevant
-custom driver code is changed to program those values as
-DIV_ROUND_UP(cfg->clk_pre, MIPI_DPHY_UI_PER_TXBYTECLKHS_PERIOD), then.
+I also updated the test (see the V2 I just sent out) and got a little
+closer to having a working test. However, the test still fails on my
+Fiji. The available memory reported on that card is about 4094 MB. The
+card has 4GB, but 6MB of that are already used just in console mode. So
+the memory allocation in the test fails. I think we need to refine the
+memory limit to something more realistic, if the goal is to report
+reliably the largest possible memory allocation that will succeed.
 
-Note that I've only tested the patch with RM67191 DSI panel on i.MX8mq EVK.
-Help is needed to test with other i.MX8mq, Meson and Rockchip platforms,
-as I don't have the hardwares.
+If we have to fudge the available memory number to something smaller
+than the limit, then we also have to abandon the negative test that
+confirms that bigger allocations will fail.
 
-Fixes: 2ed869990e14 ("phy: Add MIPI D-PHY configuration options")
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Neil Armstrong <narmstrong@baylibre.com>
-Cc: Robert Foss <robert.foss@linaro.org>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Jonas Karlman <jonas@kwiboo.se>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Kishon Vijay Abraham I <kishon@ti.com>
-Cc: Vinod Koul <vkoul@kernel.org>
-Cc: Kevin Hilman <khilman@baylibre.com>
-Cc: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: Heiko Stuebner <heiko@sntech.de>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Guido Günther <agx@sigxcpu.org>
-Tested-by: Liu Ying <victor.liu@nxp.com> # RM67191 DSI panel on i.MX8mq EVK
-Signed-off-by: Liu Ying <victor.liu@nxp.com>
----
- drivers/gpu/drm/bridge/nwl-dsi.c                 | 7 ++-----
- drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c    | 3 ++-
- drivers/phy/phy-core-mipi-dphy.c                 | 4 ++--
- drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c | 3 ++-
- include/linux/phy/phy-mipi-dphy.h                | 4 +++-
- 5 files changed, 11 insertions(+), 10 deletions(-)
+Regards,
+  Felix
 
-diff --git a/drivers/gpu/drm/bridge/nwl-dsi.c b/drivers/gpu/drm/bridge/nwl-dsi.c
-index a7389a0facfb..f1fdcdf763ee 100644
---- a/drivers/gpu/drm/bridge/nwl-dsi.c
-+++ b/drivers/gpu/drm/bridge/nwl-dsi.c
-@@ -196,12 +196,9 @@ static u32 ps2bc(struct nwl_dsi *dsi, unsigned long long ps)
- /*
-  * ui2bc - UI time periods to byte clock cycles
-  */
--static u32 ui2bc(struct nwl_dsi *dsi, unsigned long long ui)
-+static u32 ui2bc(struct nwl_dsi *dsi, unsigned int ui)
- {
--	u32 bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
--
--	return DIV64_U64_ROUND_UP(ui * dsi->lanes,
--				  dsi->mode.clock * 1000 * bpp);
-+	return DIV_ROUND_UP(ui, MIPI_DPHY_UI_PER_TXBYTECLKHS_PERIOD);
- }
- 
- /*
-diff --git a/drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c b/drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c
-index cd2332bf0e31..8a818cdb7606 100644
---- a/drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c
-+++ b/drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c
-@@ -250,7 +250,8 @@ static int phy_meson_axg_mipi_dphy_power_on(struct phy *phy)
- 		     (DIV_ROUND_UP(priv->config.clk_zero, temp) << 16) |
- 		     (DIV_ROUND_UP(priv->config.clk_prepare, temp) << 24));
- 	regmap_write(priv->regmap, MIPI_DSI_CLK_TIM1,
--		     DIV_ROUND_UP(priv->config.clk_pre, temp));
-+		     DIV_ROUND_UP(priv->config.clk_pre,
-+				  MIPI_DPHY_UI_PER_TXBYTECLKHS_PERIOD));
- 
- 	regmap_write(priv->regmap, MIPI_DSI_HS_TIM,
- 		     DIV_ROUND_UP(priv->config.hs_exit, temp) |
-diff --git a/drivers/phy/phy-core-mipi-dphy.c b/drivers/phy/phy-core-mipi-dphy.c
-index 288c9c67aa74..ccb4045685cd 100644
---- a/drivers/phy/phy-core-mipi-dphy.c
-+++ b/drivers/phy/phy-core-mipi-dphy.c
-@@ -36,7 +36,7 @@ int phy_mipi_dphy_get_default_config(unsigned long pixel_clock,
- 
- 	cfg->clk_miss = 0;
- 	cfg->clk_post = 60000 + 52 * ui;
--	cfg->clk_pre = 8000;
-+	cfg->clk_pre = 8;
- 	cfg->clk_prepare = 38000;
- 	cfg->clk_settle = 95000;
- 	cfg->clk_term_en = 0;
-@@ -97,7 +97,7 @@ int phy_mipi_dphy_config_validate(struct phy_configure_opts_mipi_dphy *cfg)
- 	if (cfg->clk_post < (60000 + 52 * ui))
- 		return -EINVAL;
- 
--	if (cfg->clk_pre < 8000)
-+	if (cfg->clk_pre < 8)
- 		return -EINVAL;
- 
- 	if (cfg->clk_prepare < 38000 || cfg->clk_prepare > 95000)
-diff --git a/drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c b/drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c
-index 347dc79a18c1..67b0a17be7e3 100644
---- a/drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c
-+++ b/drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c
-@@ -364,7 +364,8 @@ static void inno_dsidphy_mipi_mode_enable(struct inno_dsidphy *inno)
- 	 * The value of counter for HS Tclk-pre
- 	 * Tclk-pre = Tpin_txbyteclkhs * value
- 	 */
--	clk_pre = DIV_ROUND_UP(cfg->clk_pre, t_txbyteclkhs);
-+	clk_pre = DIV_ROUND_UP(cfg->clk_pre,
-+			       MIPI_DPHY_UI_PER_TXBYTECLKHS_PERIOD);
- 
- 	/*
- 	 * The value of counter for HS Tlpx Time
-diff --git a/include/linux/phy/phy-mipi-dphy.h b/include/linux/phy/phy-mipi-dphy.h
-index a877ffee845d..ab1f736fbcd3 100644
---- a/include/linux/phy/phy-mipi-dphy.h
-+++ b/include/linux/phy/phy-mipi-dphy.h
-@@ -6,6 +6,8 @@
- #ifndef __PHY_MIPI_DPHY_H_
- #define __PHY_MIPI_DPHY_H_
- 
-+#define MIPI_DPHY_UI_PER_TXBYTECLKHS_PERIOD	8
-+
- /**
-  * struct phy_configure_opts_mipi_dphy - MIPI D-PHY configuration set
-  *
-@@ -42,7 +44,7 @@ struct phy_configure_opts_mipi_dphy {
- 	 * the transmitter prior to any associated Data Lane beginning
- 	 * the transition from LP to HS mode.
- 	 *
--	 * Minimum value: 8 UI
-+	 * Minimum value: 8
- 	 */
- 	unsigned int		clk_pre;
- 
--- 
-2.25.1
 
+>  #define AMDKFD_COMMAND_START		0x01
+> -#define AMDKFD_COMMAND_END		0x22
+> +#define AMDKFD_COMMAND_END		0x23
+>  
+>  #endif
