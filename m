@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E3CB491406
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 03:20:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EE1D49140C
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 03:20:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE6D91128B5;
-	Tue, 18 Jan 2022 02:20:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 253AC1128B9;
+	Tue, 18 Jan 2022 02:20:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EB7D1128B6;
- Tue, 18 Jan 2022 02:19:59 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D08201128B7
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 02:20:31 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0209A612D0;
- Tue, 18 Jan 2022 02:19:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB938C36AF2;
- Tue, 18 Jan 2022 02:19:57 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 70028B8122C;
+ Tue, 18 Jan 2022 02:20:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B75AAC36AE3;
+ Tue, 18 Jan 2022 02:20:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1642472398;
- bh=KHJX1CBivhLoDwFSvdl5GVShspbncmIWqtKSQBbrEYo=;
+ s=k20201202; t=1642472429;
+ bh=9ThM2tKjcmelkSf3NnzxN7fdj2TU5ZXZctFcGUmZTsY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=YlEGAf6kl2fq43DOFQJsApfFj2OcaZBizmh8xVv81gzYsfndo4pK0ieDZ7CvRPXBO
- 913etGF93KD8uv4AKUtkwU4xAp4vnnaMBH+KZiVHAG+64C9/AtD4z+nqgR4FglwCSx
- EY3kBcECa5Ny0ObmgEw8ndkt0KG7rKJ/LTjERESGItTI/R+Sc0FzPeZF1uOSkytzpv
- F19e2WdDEkdPmDozf37H9bwFrPi1hxMYV3ypR/uctQAjpQPT4Tjzx1soX6owx7Ykvt
- j0D/GPf2SCSlnrfEWaamZ5X9q/4ObHaG4eu8yti74UeUp1bAYi7M77KaifsZoMPiI8
- /zRasjYXNvOCw==
+ b=NsZ3PgL47X7ha4FeGQMhAlmzsTHLRHSNMrOqveh4vbq9VLMdG25RBDxmb9pp4qkES
+ VpoapmYluLC6fq3AfGWOrjEgB2xDz1Ue2+4ldXhF1Hd9Z6Iyqcu5YSJaZAXHn/B1iR
+ 27G08fgstTWMnkXNknlfBLW4a+rUU2xXTg49bIz/XxtS8rGQ5TZ5zUbDtldYXoJ+PT
+ wPIvegxpR16TA8wT4bUcbnoFrvc2pKnPq3Trs1igRXIA/7iwIZtkrgG4g9Srcsm6ho
+ zHptRqwj8loNeOOLtW3uVdHxvuK2yJKhXyzT9AWz4z/DEtv+6Gya7d4JGnJ5u75n3Z
+ pda3gT8snruIA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.16 011/217] drm/lima: fix warning when
- CONFIG_DEBUG_SG=y & CONFIG_DMA_API_DEBUG=y
-Date: Mon, 17 Jan 2022 21:16:14 -0500
-Message-Id: <20220118021940.1942199-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.16 016/217] drm/bridge: dw-hdmi: handle ELD when
+ DRM_BRIDGE_ATTACH_NO_CONNECTOR
+Date: Mon, 17 Jan 2022 21:16:19 -0500
+Message-Id: <20220118021940.1942199-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220118021940.1942199-1-sashal@kernel.org>
 References: <20220118021940.1942199-1-sashal@kernel.org>
@@ -55,44 +55,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, lima@lists.freedesktop.org,
- airlied@linux.ie, dri-devel@lists.freedesktop.org,
- Vasily Khoruzhick <anarsoul@gmail.com>, Qiang Yu <yuq825@gmail.com>,
- Roman Stratiienko <r.stratiienko@gmail.com>
+Cc: Sasha Levin <sashal@kernel.org>, laurent.pinchart+renesas@ideasonboard.com,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ dri-devel@lists.freedesktop.org, robert.foss@linaro.org, airlied@linux.ie,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, andrzej.hajda@intel.com,
+ maxime@cerno.tech
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Qiang Yu <yuq825@gmail.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
 
-[ Upstream commit 89636a06fa2ee7826a19c39c19a9bc99ab9340a9 ]
+[ Upstream commit 3f2532d65a571ca02258b547b5b68ab2e9406fdb ]
 
-Otherwise get following warning:
+The current ELD handling takes the internal connector ELD buffer and
+shares it to the I2S and AHB sub-driver.
 
-DMA-API: lima 1c40000.gpu: mapping sg segment longer than device claims to support [len=4149248] [max=65536]
+But with DRM_BRIDGE_ATTACH_NO_CONNECTOR, the connector is created
+elsewhere (or not), and an eventual connector is known only
+if the bridge chain up to a connector is enabled.
 
-See: https://gitlab.freedesktop.org/mesa/mesa/-/issues/5496
+The current dw-hdmi code gets the current connector from
+atomic_enable() so use the already stored connector pointer and
+replace the buffer pointer with a callback returning the current
+connector ELD buffer.
 
-Reviewed-by: Vasily Khoruzhick <anarsoul@gmail.com>
-Reported-by: Roman Stratiienko <r.stratiienko@gmail.com>
-Signed-off-by: Qiang Yu <yuq825@gmail.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20211031041604.187216-1-yuq825@gmail.com
+Since a connector is not always available, either pass an empty
+ELD to the alsa HDMI driver or don't call snd_pcm_hw_constraint_eld()
+in AHB driver.
+
+Reported-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+[narmstrong: fixed typo in commit log]
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20211029135947.3022875-1-narmstrong@baylibre.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/lima/lima_device.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c | 10 +++++++---
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-audio.h     |  4 ++--
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c |  9 ++++++++-
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c           | 12 ++++++++++--
+ 4 files changed, 27 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/lima/lima_device.c b/drivers/gpu/drm/lima/lima_device.c
-index f74f8048af8f2..02cef0cea6572 100644
---- a/drivers/gpu/drm/lima/lima_device.c
-+++ b/drivers/gpu/drm/lima/lima_device.c
-@@ -358,6 +358,7 @@ int lima_device_init(struct lima_device *ldev)
- 	int err, i;
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+index d0db1acf11d73..7d2ed0ed2fe26 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+@@ -320,13 +320,17 @@ static int dw_hdmi_open(struct snd_pcm_substream *substream)
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
+ 	struct snd_dw_hdmi *dw = substream->private_data;
+ 	void __iomem *base = dw->data.base;
++	u8 *eld;
+ 	int ret;
  
- 	dma_set_coherent_mask(ldev->dev, DMA_BIT_MASK(32));
-+	dma_set_max_seg_size(ldev->dev, UINT_MAX);
+ 	runtime->hw = dw_hdmi_hw;
  
- 	err = lima_clk_init(ldev);
- 	if (err)
+-	ret = snd_pcm_hw_constraint_eld(runtime, dw->data.eld);
+-	if (ret < 0)
+-		return ret;
++	eld = dw->data.get_eld(dw->data.hdmi);
++	if (eld) {
++		ret = snd_pcm_hw_constraint_eld(runtime, eld);
++		if (ret < 0)
++			return ret;
++	}
+ 
+ 	ret = snd_pcm_limit_hw_rates(runtime);
+ 	if (ret < 0)
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-audio.h b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-audio.h
+index cb07dc0da5a70..f72d27208ebef 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-audio.h
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-audio.h
+@@ -9,15 +9,15 @@ struct dw_hdmi_audio_data {
+ 	void __iomem *base;
+ 	int irq;
+ 	struct dw_hdmi *hdmi;
+-	u8 *eld;
++	u8 *(*get_eld)(struct dw_hdmi *hdmi);
+ };
+ 
+ struct dw_hdmi_i2s_audio_data {
+ 	struct dw_hdmi *hdmi;
+-	u8 *eld;
+ 
+ 	void (*write)(struct dw_hdmi *hdmi, u8 val, int offset);
+ 	u8 (*read)(struct dw_hdmi *hdmi, int offset);
++	u8 *(*get_eld)(struct dw_hdmi *hdmi);
+ };
+ 
+ #endif
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c
+index feb04f127b550..f50b47ac11a82 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c
+@@ -135,8 +135,15 @@ static int dw_hdmi_i2s_get_eld(struct device *dev, void *data, uint8_t *buf,
+ 			       size_t len)
+ {
+ 	struct dw_hdmi_i2s_audio_data *audio = data;
++	u8 *eld;
++
++	eld = audio->get_eld(audio->hdmi);
++	if (eld)
++		memcpy(buf, eld, min_t(size_t, MAX_ELD_BYTES, len));
++	else
++		/* Pass en empty ELD if connector not available */
++		memset(buf, 0, len);
+ 
+-	memcpy(buf, audio->eld, min_t(size_t, MAX_ELD_BYTES, len));
+ 	return 0;
+ }
+ 
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+index f08d0fded61f7..e1211a5b334ba 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -757,6 +757,14 @@ static void hdmi_enable_audio_clk(struct dw_hdmi *hdmi, bool enable)
+ 	hdmi_writeb(hdmi, hdmi->mc_clkdis, HDMI_MC_CLKDIS);
+ }
+ 
++static u8 *hdmi_audio_get_eld(struct dw_hdmi *hdmi)
++{
++	if (!hdmi->curr_conn)
++		return NULL;
++
++	return hdmi->curr_conn->eld;
++}
++
+ static void dw_hdmi_ahb_audio_enable(struct dw_hdmi *hdmi)
+ {
+ 	hdmi_set_cts_n(hdmi, hdmi->audio_cts, hdmi->audio_n);
+@@ -3431,7 +3439,7 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
+ 		audio.base = hdmi->regs;
+ 		audio.irq = irq;
+ 		audio.hdmi = hdmi;
+-		audio.eld = hdmi->connector.eld;
++		audio.get_eld = hdmi_audio_get_eld;
+ 		hdmi->enable_audio = dw_hdmi_ahb_audio_enable;
+ 		hdmi->disable_audio = dw_hdmi_ahb_audio_disable;
+ 
+@@ -3444,7 +3452,7 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
+ 		struct dw_hdmi_i2s_audio_data audio;
+ 
+ 		audio.hdmi	= hdmi;
+-		audio.eld	= hdmi->connector.eld;
++		audio.get_eld	= hdmi_audio_get_eld;
+ 		audio.write	= hdmi_writeb;
+ 		audio.read	= hdmi_readb;
+ 		hdmi->enable_audio = dw_hdmi_i2s_audio_enable;
 -- 
 2.34.1
 
