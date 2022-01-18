@@ -2,79 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE099492E1E
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 20:06:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85CD5492EB8
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 20:51:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68B7A89D00;
-	Tue, 18 Jan 2022 19:06:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 688D510E52E;
+	Tue, 18 Jan 2022 19:51:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44B7189D00
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 19:06:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642532783;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ACOWplMtsTlxOywIoTgp+LHzU6or3si6W2xNoCd4PKY=;
- b=UQ1sVFA29w+17c8VuJTFHzNpBoUJupfqlwEzwJ9DBwZdTM7n7PhSWRDPUL9VTLfjjHmu2V
- cBk9283nk2j6DL129aWT7sVG7n5nm7BgWaor/4P0bqVMAhLPuKi3/HiIlwn/vMqZaLUmYW
- BJj2l9CUJ4VqaBPVtOs0Hf+pcQICuww=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-329-TXaXWJU1P9GqgoDf4MXCpQ-1; Tue, 18 Jan 2022 14:06:20 -0500
-X-MC-Unique: TXaXWJU1P9GqgoDf4MXCpQ-1
-Received: by mail-qt1-f199.google.com with SMTP id
- a26-20020ac8001a000000b002b6596897dcso15029655qtg.19
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 11:06:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=ACOWplMtsTlxOywIoTgp+LHzU6or3si6W2xNoCd4PKY=;
- b=zgcLYzZc72GKp8OFFy0Upyl0XBxPkzW3YnPDA30mhvdqNc2WTqmcY/A8Us3vrxKwES
- 0oIVC17ssB8+5H+irR+1QXFIKY+Z4zrx37pCA+Bu8CJHcSUMKSVsZe5iLXzJE3Ia+ZbP
- EL4uqzjkzHaiAt6u5EZYOxyJirQuvyuRgLlGd1zLGYpf1goelGUqQtiwzldlWJljS4hC
- 6y6oe2hFx661CUCjS0KuL+PYkUe60u7k68ZkRjWaOa6Hp2Avm6vsDS4JShT+3p35WLFf
- bbkwJG5fonrvJaBH4qiqK0LByDmukWZCwceIIa4V8Eg4j/Y+wiu8/ym5Y4S+8uCEUrVG
- JRbQ==
-X-Gm-Message-State: AOAM532FLJyva1IXSAeEaItBH6WdRtp0GaJ6vtpB4tRAEWnE+QJWLIQz
- l/ej8PLvoT4X96tyb8FTrSP9t8/WqflaJnu4l5z1cIkJ8hpZzFWFiN43CQPUpnYDiuaB/+y8rXP
- 4aNLqtpA7n9qNN3kb93dXuHxYaULL
-X-Received: by 2002:a05:620a:29ce:: with SMTP id
- s14mr10064276qkp.617.1642532779596; 
- Tue, 18 Jan 2022 11:06:19 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxnT4KUH2COi0rygtiP93ze5ipCrubfB74ndFJPRlX/APhEPLFcl7OjG4Y1v2u4EJwv8eZDaw==
-X-Received: by 2002:a05:620a:29ce:: with SMTP id
- s14mr10064254qkp.617.1642532779279; 
- Tue, 18 Jan 2022 11:06:19 -0800 (PST)
-Received: from [192.168.8.138] (pool-98-118-105-43.bstnma.ftas.verizon.net.
- [98.118.105.43])
- by smtp.gmail.com with ESMTPSA id t30sm10635561qkj.125.2022.01.18.11.06.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Jan 2022 11:06:18 -0800 (PST)
-Message-ID: <8e2fed4af467f335def97232abbc22d86aff0617.camel@redhat.com>
-Subject: Re: [PATCH] mgag200 fix memmapsl configuration in GCTL6 register
-From: Lyude Paul <lyude@redhat.com>
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org
-Date: Tue, 18 Jan 2022 14:06:17 -0500
-In-Reply-To: <20220114094754.522401-2-jfalempe@redhat.com>
-References: <20220114094754.522401-1-jfalempe@redhat.com>
- <20220114094754.522401-2-jfalempe@redhat.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.2 (3.42.2-1.fc35)
+X-Greylist: delayed 1500 seconds by postgrey-1.36 at gabe;
+ Tue, 18 Jan 2022 19:51:12 UTC
+Received: from gateway33.websitewelcome.com (gateway33.websitewelcome.com
+ [192.185.145.216])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38E0010E1BB
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 19:51:12 +0000 (UTC)
+Received: from cm11.websitewelcome.com (cm11.websitewelcome.com [100.42.49.5])
+ by gateway33.websitewelcome.com (Postfix) with ESMTP id 30E07EF80A
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 13:05:38 -0600 (CST)
+Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with SMTP
+ id 9tnVnUhDkINxB9tnVnbb2e; Tue, 18 Jan 2022 13:05:38 -0600
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=62lwA313ylYvMl776J0nmotREsLRnHNHGefb4h0dvoo=; b=PyiVKsPlAhwkbLzznyg+KBOywd
+ sR3mIPwqE3E0G8CInbrV9M3G8iCwH7MqbVJGhkNV18tD8re3JjQ35Yw5iT63N8odXWGXNt4w2E7Qp
+ R12bj3nDKnKpeUy6nnpQEv72BYa4D2F0GXLwSs/jytZy6I1cdm55pDlIN6bh7y0t2P9ZTFSYAXAjY
+ QgLeAfhlb5TVG6fv+A+JHfKuJslOWE0B0sqm/ZVJi5LQzt6krt9sHb1aHrwMJ22IyotWi6ryzadzD
+ WoRUs4BQGpRp038/cCAQKZC6sLgtAMbEFHpR3CgG71r4m3yhYcip64XkEkz60EMir+GyJFXu2QEQ4
+ f/FC+yGw==;
+Received: from [187.184.156.46] (port=26621 helo=[192.168.0.21])
+ by gator4166.hostgator.com with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
+ (envelope-from <gustavo@embeddedor.com>)
+ id 1n9tnV-001SJO-46; Tue, 18 Jan 2022 13:05:37 -0600
+Subject: Re: [PATCH] drm/dp: Remove common Post Cursor2 register handling
+To: Kees Cook <keescook@chromium.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+References: <20220105173507.2420910-1-keescook@chromium.org>
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Message-ID: <cae904f1-21f4-426f-8831-e122d965b131@embeddedor.com>
+Date: Tue, 18 Jan 2022 13:11:48 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220105173507.2420910-1-keescook@chromium.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 187.184.156.46
+X-Source-L: No
+X-Exim-ID: 1n9tnV-001SJO-46
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.0.21]) [187.184.156.46]:26621
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 7
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,94 +82,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: michel@daenzer.net, tzimmermann@suse.de
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-tegra@vger.kernel.org,
+ linux-hardening@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We should probably  Cc: stable@vger.kernel.org this as well, see: 
 
-https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html for
-more info. As well, some useful tools for adding the appropriate Fixes: tags:
 
-https://drm.pages.freedesktop.org/maintainer-tools/dim.html
+On 1/5/22 11:35, Kees Cook wrote:
+> The link_status array was not large enough to read the Adjust Request
+> Post Cursor2 register, so remove the common helper function to avoid
+> an OOB read, found with a -Warray-bounds build:
+> 
+> drivers/gpu/drm/drm_dp_helper.c: In function 'drm_dp_get_adjust_request_post_cursor':
+> drivers/gpu/drm/drm_dp_helper.c:59:27: error: array subscript 10 is outside array bounds of 'const u8[6]' {aka 'const unsigned char[6]'} [-Werror=array-bounds]
+>    59 |         return link_status[r - DP_LANE0_1_STATUS];
+>       |                ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/drm_dp_helper.c:147:51: note: while referencing 'link_status'
+>   147 | u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZE],
+>       |                                          ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> Replace the only user of the helper with an open-coded fetch and decode,
+> similar to drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c.
+> 
+> Fixes: 79465e0ffeb9 ("drm/dp: Add helper to get post-cursor adjustments")
 
-At least on my end this is:
+This should be tagged for -stable:
 
-Acked-by: Lyude Paul <lyude@redhat.com>
+Cc: stable@vger.kernel.org
 
-I'd very much like Thomas Zimmerman to verify that this patch is OK though
-with an R-b before we push anything upstream.
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-On Fri, 2022-01-14 at 10:47 +0100, Jocelyn Falempe wrote:
-> On some server with MGA G200e (rev 42), booting with Legacy BIOS,
-> The hardware hangs when using kdump and kexec into the kdump kernel.
-> This happens when the uncompress code tries to write "Decompressing Linux"
-> to the VGA Console.
-> 
-> It can be reproduced by writing to the VGA console (0xB8000) after
-> booting to graphic mode, it generates the following error:
-> 
-> kernel:NMI: PCI system error (SERR) for reason a0 on CPU 0.
-> kernel:Dazed and confused, but trying to continue
-> 
-> The root cause is a bad configuration of the MGA GCTL6 register
-> 
-> According to the GCTL6 register documentation:
-> 
-> bit 0 is gcgrmode:
->     0: Enables alpha mode, and the character generator addressing system is
-> activated.
->     1: Enables graphics mode, and the character addressing system is not
-> used.
-> 
-> bit 1 is chainodd even:
->     0: The A0 signal of the memory address bus is used during system memory
->     addressing.
->     1: Allows A0 to be replaced by either the A16 signal of the system
-> address (if
->     memmapsl is ‘00’), or by the hpgoddev (MISC<5>, odd/even page select)
-> field,
->     described on page 3-294).
-> 
-> bit 3-2 are memmapsl:
->     Memory map select bits 1 and 0. VGA.
->     These bits select where the video memory is mapped, as shown below:
->         00 => A0000h - BFFFFh
->         01 => A0000h - AFFFFh
->         10 => B0000h - B7FFFh
->         11 => B8000h - BFFFFh
-> 
-> bit 7-4 are reserved.
-> 
-> Current driver code set it to 0x05 => memmapsl to b01 => 0xA0000
-> but on x86, the VGA console is at 0xB8000
-> arch/x86/boot/compressed/misc.c define vidmem to 0xb8000 in extract_kernel()
-> so it's better to configure it to b11
-> Thus changing the value 0x05 to 0x0d
-> 
-> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+
+Thanks
+--
+Gustavo
+
 > ---
->  drivers/gpu/drm/mgag200/mgag200_mode.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> This is the alternative to:
+> https://lore.kernel.org/lkml/20211203084354.3105253-1-keescook@chromium.org/
+> ---
+>  drivers/gpu/drm/drm_dp_helper.c | 10 ----------
+>  drivers/gpu/drm/tegra/dp.c      | 11 ++++++++++-
+>  include/drm/drm_dp_helper.h     |  2 --
+>  3 files changed, 10 insertions(+), 13 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c
-> b/drivers/gpu/drm/mgag200/mgag200_mode.c
-> index b983541a4c53..c7f63610b278 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-> @@ -529,7 +529,7 @@ static void mgag200_set_format_regs(struct mga_device
-> *mdev,
->         WREG_GFX(3, 0x00);
->         WREG_GFX(4, 0x00);
->         WREG_GFX(5, 0x40);
-> -       WREG_GFX(6, 0x05);
-> +       WREG_GFX(6, 0x0d);
->         WREG_GFX(7, 0x0f);
->         WREG_GFX(8, 0x0f);
->  
-
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
-
+> diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+> index 23f9073bc473..c9528aa62c9c 100644
+> --- a/drivers/gpu/drm/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/drm_dp_helper.c
+> @@ -144,16 +144,6 @@ u8 drm_dp_get_adjust_tx_ffe_preset(const u8 link_status[DP_LINK_STATUS_SIZE],
+>  }
+>  EXPORT_SYMBOL(drm_dp_get_adjust_tx_ffe_preset);
+>  
+> -u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZE],
+> -					 unsigned int lane)
+> -{
+> -	unsigned int offset = DP_ADJUST_REQUEST_POST_CURSOR2;
+> -	u8 value = dp_link_status(link_status, offset);
+> -
+> -	return (value >> (lane << 1)) & 0x3;
+> -}
+> -EXPORT_SYMBOL(drm_dp_get_adjust_request_post_cursor);
+> -
+>  static int __8b10b_clock_recovery_delay_us(const struct drm_dp_aux *aux, u8 rd_interval)
+>  {
+>  	if (rd_interval > 4)
+> diff --git a/drivers/gpu/drm/tegra/dp.c b/drivers/gpu/drm/tegra/dp.c
+> index 70dfb7d1dec5..f5535eb04c6b 100644
+> --- a/drivers/gpu/drm/tegra/dp.c
+> +++ b/drivers/gpu/drm/tegra/dp.c
+> @@ -549,6 +549,15 @@ static void drm_dp_link_get_adjustments(struct drm_dp_link *link,
+>  {
+>  	struct drm_dp_link_train_set *adjust = &link->train.adjust;
+>  	unsigned int i;
+> +	u8 post_cursor;
+> +	int err;
+> +
+> +	err = drm_dp_dpcd_read(link->aux, DP_ADJUST_REQUEST_POST_CURSOR2,
+> +			       &post_cursor, sizeof(post_cursor));
+> +	if (err < 0) {
+> +		DRM_ERROR("failed to read post_cursor2: %d\n", err);
+> +		post_cursor = 0;
+> +	}
+>  
+>  	for (i = 0; i < link->lanes; i++) {
+>  		adjust->voltage_swing[i] =
+> @@ -560,7 +569,7 @@ static void drm_dp_link_get_adjustments(struct drm_dp_link *link,
+>  				DP_TRAIN_PRE_EMPHASIS_SHIFT;
+>  
+>  		adjust->post_cursor[i] =
+> -			drm_dp_get_adjust_request_post_cursor(status, i);
+> +			(post_cursor >> (i << 1)) & 0x3;
+>  	}
+>  }
+>  
+> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
+> index 472dac376284..fdf3cf6ccc02 100644
+> --- a/include/drm/drm_dp_helper.h
+> +++ b/include/drm/drm_dp_helper.h
+> @@ -1528,8 +1528,6 @@ u8 drm_dp_get_adjust_request_pre_emphasis(const u8 link_status[DP_LINK_STATUS_SI
+>  					  int lane);
+>  u8 drm_dp_get_adjust_tx_ffe_preset(const u8 link_status[DP_LINK_STATUS_SIZE],
+>  				   int lane);
+> -u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZE],
+> -					 unsigned int lane);
+>  
+>  #define DP_BRANCH_OUI_HEADER_SIZE	0xc
+>  #define DP_RECEIVER_CAP_SIZE		0xf
+> 
