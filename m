@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 915C04929D0
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 16:44:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 179EC4929D1
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 16:44:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B99710E1A0;
-	Tue, 18 Jan 2022 15:44:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2097D10E20D;
+	Tue, 18 Jan 2022 15:44:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35B5C10E1A0
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 15:44:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87A8410E20D
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 15:44:54 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D56651F3BB;
- Tue, 18 Jan 2022 15:44:21 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 374831F3B5;
+ Tue, 18 Jan 2022 15:44:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1642520661; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1642520693; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=BGHzlxiS19GPfCXsEtRhvRf0r5x26P0DtRlGlbIZrv8=;
- b=GWXCW4SGw6Yjd8vOs3T6O5cnSpge9NM+mtWRPoSnL2shfGHFieDSCcqYKKxovHfWMNBmNt
- PPOTDET60L8ivNc7grHLBAZioMgrxdIExYbe+0lDeb6TmcOYdax+p3FGQgx1ToExntzXiT
- v4s2BtfQMzla1j/jtUSgcNjvnfWwx1s=
+ bh=E9NWeceMISoAsmaWT6przXgsMdYKTrtZndeM5UqEUMo=;
+ b=thyEkB58CuPgfBbXIM2rQ7c/MncOTC0jYdIjWJAT+YobeDsbAAlJ2+y82oh8tvY2UPNWxg
+ LXE3KakqjfFsXuY50ilHwordje5ub6sO5Ur8yNefY8jQsJzcDxADIXcP7YjRhqB7VWvpVN
+ S6LRaBb6/noSx90J4ZSKqMvC0rtnMN0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1642520661;
+ s=susede2_ed25519; t=1642520693;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=BGHzlxiS19GPfCXsEtRhvRf0r5x26P0DtRlGlbIZrv8=;
- b=hCW2f3DRe2ggjis/qCMDXaX+BimdyHGQdv3kQkzYXSHP8XC35c7ls2a/VT49nGdHCk3wYn
- osR2ZSqyPB2W7LCQ==
+ bh=E9NWeceMISoAsmaWT6przXgsMdYKTrtZndeM5UqEUMo=;
+ b=o6tnZUwEPBz0PyD4C6WL4bn/iY2PCq5mAt/F0Oa0GVg49Zf7XAc5b6st/0zp63FKfKvAYe
+ v7/lRGZtsmHVoKCQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A9A8713AB7;
- Tue, 18 Jan 2022 15:44:21 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0C3E913AB7;
+ Tue, 18 Jan 2022 15:44:53 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id jhF2KFXg5mE/awAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 18 Jan 2022 15:44:21 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id 5WjIAXXg5mGBawAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 18 Jan 2022 15:44:53 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: lyude@redhat.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org
-Subject: [PATCH] drm/selftests: Select DRM_DP_HELPER
-Date: Tue, 18 Jan 2022 16:44:18 +0100
-Message-Id: <20220118154418.25932-1-tzimmermann@suse.de>
+Subject: [PATCH] drm/msm: Fix include statements for DisplayPort
+Date: Tue, 18 Jan 2022 16:44:50 +0100
+Message-Id: <20220118154450.25947-1-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -67,10 +67,11 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Resolve warnings about non-existing symbols by selecting DRM_DP_HELPER.
+Update the include statements for DisplayPort helpers. The header
+files are in the dp/ subdirectory.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: adb9d5a2cc77 ("drm/dp: Move DisplayPort helpers into separate helper module")
+Fixes: 5b529e8d9c38 ("drm/dp: Move public DisplayPort headers into dp/")
 Reported-by: kernel test robot <lkp@intel.com>
 Cc: Lyude Paul <lyude@redhat.com>
 Cc: Daniel Vetter <daniel@ffwll.ch>
@@ -78,21 +79,39 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Cc: Maxime Ripard <mripard@kernel.org>
 Cc: dri-devel@lists.freedesktop.org
 ---
- drivers/gpu/drm/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/msm/edp/edp.h      | 2 +-
+ drivers/gpu/drm/msm/edp/edp_ctrl.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 91f54aeb0b7c..65897777d931 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -68,6 +68,7 @@ config DRM_DEBUG_SELFTEST
- 	depends on DRM
- 	depends on DEBUG_KERNEL
- 	select PRIME_NUMBERS
-+	select DRM_DP_HELPER
- 	select DRM_LIB_RANDOM
- 	select DRM_KMS_HELPER
- 	select DRM_EXPORT_FOR_TESTS if m
+diff --git a/drivers/gpu/drm/msm/edp/edp.h b/drivers/gpu/drm/msm/edp/edp.h
+index 8590f2ce274d..1a82d7a4af9f 100644
+--- a/drivers/gpu/drm/msm/edp/edp.h
++++ b/drivers/gpu/drm/msm/edp/edp.h
+@@ -10,9 +10,9 @@
+ #include <linux/interrupt.h>
+ #include <linux/kernel.h>
+ #include <linux/platform_device.h>
++#include <drm/dp/drm_dp_helper.h>
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_crtc.h>
+-#include <drm/drm_dp_helper.h>
+ 
+ #include "msm_drv.h"
+ 
+diff --git a/drivers/gpu/drm/msm/edp/edp_ctrl.c b/drivers/gpu/drm/msm/edp/edp_ctrl.c
+index a68a4a1867c1..9f537b1fd849 100644
+--- a/drivers/gpu/drm/msm/edp/edp_ctrl.c
++++ b/drivers/gpu/drm/msm/edp/edp_ctrl.c
+@@ -6,8 +6,8 @@
+ #include <linux/clk.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/regulator/consumer.h>
++#include <drm/dp/drm_dp_helper.h>
+ #include <drm/drm_crtc.h>
+-#include <drm/drm_dp_helper.h>
+ #include <drm/drm_edid.h>
+ 
+ #include "edp.h"
 -- 
 2.34.1
 
