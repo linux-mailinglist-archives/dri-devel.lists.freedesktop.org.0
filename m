@@ -1,60 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B7C1492DEB
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 19:54:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C90A492E09
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 20:00:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46E8010E185;
-	Tue, 18 Jan 2022 18:54:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D62210E43D;
+	Tue, 18 Jan 2022 19:00:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
- [IPv6:2607:f8b0:4864:20::b36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14FB710E185
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 18:54:53 +0000 (UTC)
-Received: by mail-yb1-xb36.google.com with SMTP id m6so58860962ybc.9
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 10:54:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=QuweckTQS4ipVDvmzbXJd32fRhDvTN+WDj7gwwJ5UoU=;
- b=jQFQQg8xNBNZ796rZm7JSGtcgk/RVRlUMQOrW3OprZAwIy/2ezKxTUPzerHa5MEWoA
- +kfQjBOqWihjoI8v514cV21UvUHS5JntgpKuZ/16liMkZGbbSOZYF4w1r6JCuqamghHv
- vowP4DYmSxtE//fgZqRAITszSqg91cqu9Gg64FsXe9W1savFkk2plmXtLm5fBBA0jF0b
- oImfjSzLxxePgVhSUZSsFU9ZJ84ZiyGtkbd0T7VyhnxMEoyDyxlSw/pOQe3BAymEfuQ2
- L/UK5sx9cvQq7XnTqbleIw48nFYsStzQLbt2Y29R65fkhq5UTeKah55mvbCMv7n+zmyV
- rtAA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2236410E4DB
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 19:00:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642532419;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3L786VdHb7jzEuUgQYqOh5SVXdHks5akSmwjq1fQ6HA=;
+ b=CqSSLuB/deo/epYDZSrl1H0P9XraFaDk6bGJhy4ZH8e44lfSpagiKteesC21Trq+KwBKRV
+ j3F7tel2I0D5MlBfDhHM2TAyaEw2Y/3zcK5KxMWl1BXGP+mSjuZ4UNc+9Jo+omTOU64nNF
+ kNyDI92lL3FqgYsgzdYNxo1hBXq2apk=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-34-CVb_tR8jPk2GejDZUOPSJg-1; Tue, 18 Jan 2022 14:00:15 -0500
+X-MC-Unique: CVb_tR8jPk2GejDZUOPSJg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ bg16-20020a05600c3c9000b0034bea12c043so2480787wmb.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 11:00:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=QuweckTQS4ipVDvmzbXJd32fRhDvTN+WDj7gwwJ5UoU=;
- b=rTkTqiyAbBEBF5e1+34/wQAPMRZGcU4smY5EH2dKcQ8ok/3eVi9f03eON4mWuspqUt
- Eeig0y40mdPrFHQ3VlAbh522klfS4wtZiqvK+z7wZJb9Zme24j2beD8wFf8mTem6qvG3
- gLAVNySV5v9GKOVbwrf8mMY7nebVwfHLTTUhUqadLFvPrdBeoLRUyjH9TsArz23oZLRB
- ak1jEAB216iL53DN3qHIPyfnoGH2e6saORuZI2sY/Q3H+Pf9119l1+cXSsjWQEF5lVOe
- ZD9nLtcQjh9ZjNf7dQs4IdtvOjQq7mzARRTzsrLGI+FwYi+BgDz4IYUQFcd4/Wy9yMsE
- QpEw==
-X-Gm-Message-State: AOAM5334HC4BLBkSrShz9r9Y56Zlh78Aw/HZpANBcbGg08taBXldmn/U
- 5B2U22/fzVh8E6oZ5N8wbfb16eUuInXN5Rkiou/k5g==
-X-Google-Smtp-Source: ABdhPJwmF0diEuNSgYDq6VwVG2sEv2wSXB4R4GhA8CrKDHbQBq+Cp6d2D+RYzxyanPD1WMMgcwbQ0BJ4awu2dbq2mt8=
-X-Received: by 2002:a25:388a:: with SMTP id
- f132mr35653202yba.102.1642532092017; 
- Tue, 18 Jan 2022 10:54:52 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=3L786VdHb7jzEuUgQYqOh5SVXdHks5akSmwjq1fQ6HA=;
+ b=exRNrLsoFlAUyT5UDoxLAsMmmvzrc/I/b/roXGtG7GfouDb3Pr3AVFqDhoDfa/w2fg
+ uq5THzosSQgt/TsnDzPXv0DbyPgxIxtSQ2aDNg7JaMI83lKkLmOvPDR3evgHtlJPqeSq
+ h00gm4QvUIKjfDBmX3n2CtY+21f07aKu6DZ3BvLUL2MnDqnga8j4wXk64+RLq7cL+tl1
+ +IirYhsEgkjz3vKQ1wmDwoq2hRp8aCoTXfVgLy0yElEwBi9R6n6HOM02o/7nQThGztcU
+ GQVJd60SLqnZXkSvWCCtA3Ca00qlwze/mtlpfaOEMzHdSp9guUju1dbmCjpgkb5Kk9Lv
+ R0DQ==
+X-Gm-Message-State: AOAM530zUHTN01eeo8CX8bB4v5vg7pcqGrowMY8o1zlhnYxy970NFoN1
+ O3/qDHAQvZKHLQ/qRN2FK9avEVmHRKFKFrsKP3lkzMmPPd3XRdFqRzgD0m4TYOgjtg29Tn52wxv
+ HwKiYSax/w6KYFPGzkKd2uHRcODmR
+X-Received: by 2002:a5d:64e3:: with SMTP id g3mr13109098wri.450.1642532414445; 
+ Tue, 18 Jan 2022 11:00:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyQMjevWFmDnMSNPtcO0MVjLlxRtAJh85PUR+OA7yNXYiLwmX95uE7hoiVGvVFiXlrSwzbnjQ==
+X-Received: by 2002:a5d:64e3:: with SMTP id g3mr13109083wri.450.1642532414215; 
+ Tue, 18 Jan 2022 11:00:14 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id o15sm3386819wms.11.2022.01.18.11.00.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Jan 2022 11:00:13 -0800 (PST)
+Message-ID: <1c177e79-d28a-e896-08ec-3cd4cd2fb823@redhat.com>
+Date: Tue, 18 Jan 2022 20:00:13 +0100
 MIME-Version: 1.0
-References: <20220115010622.3185921-1-hridya@google.com>
- <20220115010622.3185921-5-hridya@google.com>
- <f8c8b196-7d12-6242-97ac-38149f3a3ba3@amd.com>
-In-Reply-To: <f8c8b196-7d12-6242-97ac-38149f3a3ba3@amd.com>
-From: Hridya Valsaraju <hridya@google.com>
-Date: Tue, 18 Jan 2022 10:54:16 -0800
-Message-ID: <CA+wgaPMjCfjQS4LA8hmVwAaGfXZhoJvvTUnOGt3duOhFb3orTw@mail.gmail.com>
-Subject: Re: [RFC 4/6] dma-buf: Add DMA-BUF exporter op to charge a DMA-BUF to
- a cgroup.
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH] drm/vmwgfx: Stop requesting the pci regions
+To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
+References: <20220117180359.18114-1-zack@kde.org>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220117180359.18114-1-zack@kde.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,122 +84,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zefan Li <lizefan.x@bytedance.com>, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>, kaleshsingh@google.com,
- Joel Fernandes <joel@joelfernandes.org>, Kees Cook <keescook@chromium.org>,
- Matthew Brost <matthew.brost@intel.com>, Kenny.Ho@amd.com,
- Daniel Borkmann <daniel@iogearbox.net>, Jonathan Corbet <corbet@lwn.net>,
- Martijn Coenen <maco@android.com>, Masahiro Yamada <masahiroy@kernel.org>,
- Wedson Almeida Filho <wedsonaf@google.com>,
- Matthew Auld <matthew.auld@intel.com>, Miguel Ojeda <ojeda@kernel.org>,
- Dave Airlie <airlied@redhat.com>, Laura Abbott <labbott@redhat.com>,
- Marco Ballesio <balejs@google.com>, Jason Ekstrand <jason@jlekstrand.net>,
- linux-media@vger.kernel.org, Li Li <dualli@google.com>,
- Todd Kjos <tkjos@android.com>, Arnd Bergmann <arnd@arndb.de>,
- Vlastimil Babka <vbabka@suse.cz>, Vipin Sharma <vipinsh@google.com>,
- Nathan Chancellor <nathan@kernel.org>, cgroups@vger.kernel.org,
- Suren Baghdasaryan <surenb@google.com>, tjmercier@google.com,
- Christian Brauner <christian@brauner.io>, linaro-mm-sig@lists.linaro.org,
- Hang Lu <hangl@codeaurora.org>, daniels@collabora.com,
- Chris Down <chris@chrisdown.name>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- Liam Mark <lmark@codeaurora.org>,
- =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Johannes Weiner <hannes@cmpxchg.org>,
- Tejun Heo <tj@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
+Cc: krastevm@vmware.com, mombasawalam@vmware.com, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jan 16, 2022 at 11:46 PM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 15.01.22 um 02:06 schrieb Hridya Valsaraju:
-> > The optional exporter op provides a way for processes to transfer
-> > charge of a buffer to a different process. This is essential for the
-> > cases where a central allocator process does allocations for various
-> > subsystems, hands over the fd to the client who
-> > requested the memory and drops all references to the allocated memory.
-> >
-> > Signed-off-by: Hridya Valsaraju <hridya@google.com>
-> > ---
-> >   include/linux/dma-buf.h | 18 ++++++++++++++++++
-> >   1 file changed, 18 insertions(+)
-> >
-> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> > index 7ab50076e7a6..d5e52f81cc6f 100644
-> > --- a/include/linux/dma-buf.h
-> > +++ b/include/linux/dma-buf.h
-> > @@ -13,6 +13,7 @@
-> >   #ifndef __DMA_BUF_H__
-> >   #define __DMA_BUF_H__
-> >
-> > +#include <linux/cgroup_gpu.h>
-> >   #include <linux/dma-buf-map.h>
-> >   #include <linux/file.h>
-> >   #include <linux/err.h>
-> > @@ -285,6 +286,23 @@ struct dma_buf_ops {
-> >
-> >       int (*vmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
-> >       void (*vunmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
-> > +
-> > +     /**
-> > +      * @charge_to_cgroup:
-> > +      *
-> > +      * This is called by an exporter to charge a buffer to the specif=
-ied
-> > +      * cgroup.
->
-> Well that sentence makes absolutely no sense at all.
->
-> The dma_buf_ops are supposed to be called by the DMA-buf subsystem on
-> behalves of the importer and never by the exporter itself.
->
-> I hope that this is just a documentation mixup.
+Hello Zack,
 
-Thank you for taking a look Christian!
-
-Yes, that was poor wording, sorry about that. It should instead say
-that the op would be called by the process the buffer is currently
-charged to in order to transfer the buffer's charge to a different
-cgroup. This is helpful in the case where a process acts as an
-allocator for multiple client processes and we would like the
-allocated buffers to be charged to the clients who requested their
-allocation(instead of the allocating process as is the default
-behavior). In Android, the graphics allocator HAL process[1] does
-most of the graphics allocations on behalf of various clients. After
-allocation, the HAL process passes the fd to the client over binder
-IPC and the binder driver invokes the charge_to_cgroup() DMA-BUF op to
-uncharge the buffer from the HAL process and charge it to the client
-process instead.
-
-[1]: https://source.android.com/devices/graphics/arch-bq-gralloc
-
-Regards,
-Hridya
-
-
+On 1/17/22 19:03, Zack Rusin wrote:
+> From: Zack Rusin <zackr@vmware.com>
+> 
+> When sysfb_simple is enabled loading vmwgfx fails because the regions
+> are held by the platform. In that case remove_conflicting*_framebuffers
+> only removes the simplefb but not the regions held by sysfb.
 >
-> Regards,
-> Christian.
+
+Indeed, that's an issue. I wonder if we should drop the IORESOURCE_BUSY
+flag from the memory resource added to the "simple-framebuffer" device ?
+
+In fact, maybe in sysfb_create_simplefb() shouldn't even attempt to claim
+a memory resource and just register the platform device with no resources ?
+ 
+> Like the other drm drivers we need to stop requesting all the pci regions
+> to let the driver load with platform code enabled.
+> This allows vmwgfx to load correctly on systems with sysfb_simple enabled.
 >
-> >   The caller must hold a reference to @gpucg obtained via
-> > +      * gpucg_get(). The DMA-BUF will be uncharged from the cgroup it =
-is
-> > +      * currently charged to before being charged to @gpucg. The calle=
-r must
-> > +      * belong to the cgroup the buffer is currently charged to.
-> > +      *
-> > +      * This callback is optional.
-> > +      *
-> > +      * Returns:
-> > +      *
-> > +      * 0 on success or negative error code on failure.
-> > +      */
-> > +     int (*charge_to_cgroup)(struct dma_buf *dmabuf, struct gpucg *gpu=
-cg);
-> >   };
-> >
-> >   /**
->
+
+I read this very interesting thread from two years ago:
+
+https://lkml.org/lkml/2020/11/5/248
+
+Maybe is worth mentioning in the commit message what Daniel said there,
+that is that only a few DRM drivers request explicitly the PCI regions
+and the only reliable approach is for bus drivers to claim these.
+
+In other words, removing the pci_request_regions() seems to have merit
+on its own.
+
+> Signed-off-by: Zack Rusin <zackr@vmware.com>
+> Fixes: 523375c943e5 ("drm/vmwgfx: Port vmwgfx to arm64")
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: <stable@vger.kernel.org>
+> Reviewed-by: Martin Krastev <krastevm@vmware.com>
+> ---
+
+The patch looks good to me, thanks a lot for fixing this:
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+Best regards,
+-- 
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
