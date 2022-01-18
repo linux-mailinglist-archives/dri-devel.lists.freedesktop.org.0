@@ -2,53 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE2B64921FE
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 10:06:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6C6F492255
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 10:13:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFA6F1129C7;
-	Tue, 18 Jan 2022 09:06:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3D631129F9;
+	Tue, 18 Jan 2022 09:13:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 617CF1129BC;
- Tue, 18 Jan 2022 09:06:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642496791; x=1674032791;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=yKW0GqdjJtXxS8Mw7KwkmWAjmWaszeLYVWoeiwJQHIQ=;
- b=oJ+vP9QxHaeGdDjdWJqpaNXOxLHUv1N3RR9Bn+PgKvxSrt/Uos3fyMmy
- E1uhArepNpcES9Z8eIPN79k1F76DgsudfhAuQ/GwPbU7eNxVrhlQ7v5pT
- 9tPf3HIMVQP7MUDHzNAUaGZCiUvQprFlpfVf7lcfTUDX2m5WzcEIhxNnk
- OSSk9td3msnl02MOM+eFrId4CXLlaFbcqIWQTfj02nHGdI4p3s6UIuTa0
- cqiztawoIwrViN28uQggBuCdC9Zp9RFpHc+C71PRzmvbpiDrncPP6jyJC
- cnQ6X7TdQOfwqz/9OBxn8fw9kyrmbII4qNRvVdQQmbo/idWBNIk0tn1KL g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10230"; a="244729811"
-X-IronPort-AV: E=Sophos;i="5.88,297,1635231600"; d="scan'208";a="244729811"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jan 2022 01:06:30 -0800
-X-IronPort-AV: E=Sophos;i="5.88,297,1635231600"; d="scan'208";a="764539021"
-Received: from jsarha-mobl.ger.corp.intel.com (HELO [10.249.254.210])
- ([10.249.254.210])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jan 2022 01:06:28 -0800
-Message-ID: <563dd04b0f29f9e30b47e230d40619c65732c67b.camel@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH v7 4/6] drm/i915: Use vma resources for
- async unbinding
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Robert Beckett <bob.beckett@collabora.com>, 
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Date: Tue, 18 Jan 2022 10:06:26 +0100
-In-Reply-To: <28186e6b-513b-d380-d72f-0c05862e4a73@collabora.com>
-References: <20220110172219.107131-1-thomas.hellstrom@linux.intel.com>
- <20220110172219.107131-5-thomas.hellstrom@linux.intel.com>
- <28186e6b-513b-d380-d72f-0c05862e4a73@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-2.fc34) 
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 161A51129F6
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 09:13:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1642497214;
+ bh=BAp0jQCvf5HmoPP92JBeHGBh/7ksg8VOxpzaHHQTqGQ=;
+ h=X-UI-Sender-Class:Date:Subject:From:To:Cc:References:In-Reply-To;
+ b=BMGboksWm//bMHpvNNrjgpOZZdXDZdbVR34GI8EfIH3+dYTWY6D0CvwP7BMGgni0s
+ LJ58MulNLAjVJEJ8OqaC2arSHZGIF+l9dCGQg/3yseQ57Ln6k04aJDTtKhd+6xamfB
+ +ZZmpGZ1OacSCFc42QYbzmWzkfv10bEx7ZuonZAQ=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.155.155]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MRmfo-1ml7Dg2j7K-00TDTP; Tue, 18
+ Jan 2022 10:13:34 +0100
+Message-ID: <bf2a45c4-5f48-24e6-213f-562e59505f3d@gmx.de>
+Date: Tue, 18 Jan 2022 10:12:29 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] MAINTAINERS: Add Helge as fbdev maintainer
+Content-Language: en-US
+From: Helge Deller <deller@gmx.de>
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <YeG8ydoJNWWkGrTb@ls3530>
+ <CAKMK7uGdJckdM+fg+576iJXsqzCOUg20etPBMwRLB9U7GcG01Q@mail.gmail.com>
+ <c80ed72c-2eb4-16dd-a7ad-57e9dde59ba1@gmx.de>
+ <CAKMK7uHVHn9apB6YYbLSwu+adEB2Fqp4FM0z582zf4F-v3_GnQ@mail.gmail.com>
+ <4009cf14-2bb0-a63a-1936-4ac4d757777a@gmx.de>
+In-Reply-To: <4009cf14-2bb0-a63a-1936-4ac4d757777a@gmx.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Q5lDuSRIHbm40Rxed3xFSWxoKPpK1fBg+yIy00RPw+0buW/Qbi/
+ qmUypYHZvOkNFRSb0ISYHyJ+HNU5YdpykRRkfnsfwLT/iah9Byg8FwiavPk6SL8iEvqZOC2
+ YFns2rXZqmRXtdzLhZDeNiFDoMMuarVDtz/8DI3nzTyXJh2SQC9WubrXompgSnxjiCQZcZY
+ Z+/w7Dja+76TzR8J6BtWg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:cpgKooRd0XA=:7SIKqGhDgIUj5tAcRhXnaa
+ smx6PZGSaLiT8vVjomwNEhx5J2LKDGhAHYTOGiQ+flTThxd5jXtrJM54DjG9jIpASCSq3kb8z
+ +qcWHsRXUgJ3na2fkQ6SN11RRQqk6sNsHOtqUJsX4vhylT4sx5GzTtW+jaAuNu7pjAXkt/iMC
+ BM2Cf40G2EKOE1e9Elsg2o7Pdst+ndSg4IXvf6JHwJ2SH7t3W+yhzpKGzNQKnFjoDFC6S7i5G
+ E+cXU61KUP4UpLt3oE72HmMoJ2xCk9VVfg3M+2khKSEoebCNhWh4rPU6ZmNLQLKilkx3Pa10R
+ p0irMXCu7puZulB9DmITSrDkH2h9X96qZ8u/2LyllF0ANRPzi6uyBwrm0oUyWq5NJLBtg2vjL
+ LOMqr3bOAz7jjj9IM5LdoDCvZEfo6WNDK26GkGm1gc55al11O8d2bsO3MCikDdbfwxUbMK+u4
+ JHQw5THz0UjOoI264Ej7g5ToOg7+9/hiPDLJhm+5Xk5AdkPRInSCZz6iu6Zs+GmwKuu8s6RE1
+ 5TFsZuxA/USvewMzybN0tw/4nCW1WntBbG33ZLX6l7pBrepZSos4X7zzetGcD6sxBJLtwbwF2
+ E2OCGit60ZM/X1zpPva4W9iMWCbsx6PzIYZXJjAI72wMKvQFRdCf7Et1LcFTC3QZwOQVTtdfb
+ RMt6ygbBXeda1+I9kF9HhOuBNNLp7dz8LBnqrkIwJEaplVRvHKoPnyyEcqc6XucFOx/jYHrJ+
+ mseHJ2YlH6YJDPBIcbFg8+GWb9fTHPbKoyBbTckYJ6HcmrnZUoe+t+7JMrjxyDasKiS/8Qo95
+ /A/PrCfdazldej5tEAVt9C7XD4FsRutwUwG4V3y+lE8Imf+tsxz8pE42nQiXoi8rzDiuptvLM
+ BlTwNG7d2uFTe//l26yN0AldDCgQHd8lAHqw98Ppvmm6OC756448hZxqbKwAaiZQbfN0jFhw9
+ MWrdchnNlhoOfaMvXdJGuHxtlpx/kafZ+hF0e80+6C1aWR59079PgR2mEv8DJbK8CSxTuGECW
+ th1x5YdRCHc/Yw//atOc2HVbtcne6wteoAfXr0ZkYffOVPGq8CbWymtpwcPwJ4wpjS9/tRZ0H
+ WYx4cpF2YMbs6I=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,415 +74,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.auld@intel.com
+Cc: linux-fbdev@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 1/18/22 09:41, Helge Deller wrote:
+> Hello Daniel,
+>
+> On 1/17/22 16:00, Daniel Vetter wrote:
+>> On Mon, Jan 17, 2022 at 1:16 PM Helge Deller <deller@gmx.de> wrote:
+>>> On 1/17/22 11:02, Daniel Vetter wrote:
+>>>> On Fri, Jan 14, 2022 at 7:18 PM Helge Deller <deller@gmx.de> wrote:
+>>>>>
+>>>>> The fbdev layer is orphaned, but seems to need some care.
+>>>>> So I'd like to step up as new maintainer.
+>>>>>
+>>>>> Signed-off-by: Helge Deller <deller@gmx.de>
+>>>>>
+>>>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>>>> index 5d0cd537803a..ce47dbc467cc 100644
+>>>>> --- a/MAINTAINERS
+>>>>> +++ b/MAINTAINERS
+>>>>> @@ -7583,11 +7583,12 @@ W:      http://floatingpoint.sourceforge.net=
+/emulator/index.html
+>>>>>  F:     arch/x86/math-emu/
+>>>>>
+>>>>>  FRAMEBUFFER LAYER
+>>>>> -L:     dri-devel@lists.freedesktop.org
+>>>>> +M:     Helge Deller <deller@gmx.de>
+>>>>>  L:     linux-fbdev@vger.kernel.org
+>>>>> -S:     Orphan
+>>>>
+>>>> Maybe don't rush maintainer changes in over the w/e without even both=
+ering
+>>>> to get any input from the people who've been maintaining it before.
+>>>>
+>>>> Because the status isn't entirely correct, fbdev core code and fbcon =
+and
+>>>> all that has been maintained, but in bugfixes only mode. And there's =
+very
+>>>> solid&important reasons to keep merging these patches through a drm t=
+ree,
+>>>> because that's where all the driver development happens, and hence al=
+so
+>>>> all the testing (e.g. the drm test suite has some fbdev tests - the o=
+nly
+>>>> automated ones that exist to my knowledge - and we run them in CI). S=
+o
+>>>> moving that into an obscure new tree which isn't even in linux-next y=
+et is
+>>>> no good at all.
+>>>>
+>>>> Now fbdev driver bugfixes is indeed practically orphaned and I very m=
+uch
+>>>> welcome anyone stepping up for that, but the simplest approach there =
+would
+>>>> be to just get drm-misc commit rights and push the oddball bugfix in =
+there
+>>>> directly. But also if you want to do your own pull requests to Linus =
+for
+>>>> that I don't care and there's really no interference I think, so
+>>>> whatever floats.
+>>>>
+>>>> But any code that is relevant for drm drivers really needs to go in t=
+hrough
+>>>> drm trees, nothing else makes much sense.
+>>>>
+>>>> I guess you're first action as newly minted fbdev maintainer is going=
+ to be to
+>>>> clean up the confusion you just created.
+>>>
+>>> Most of my machines depend on a working fbdev layer since drm isn't (a=
+nd probably
+>>> -due to technical requirements of DRM- won't be) available for those.
+>>> So, since the fbdev drivers were marked orphaned, I decided to step up=
+ as maintainer.
+>>>
+>>> I see your point that at least the fbdev core code and fbcon are share=
+d between DRM and fbdev.
+>>> For me it's really not important to drive any patches through a sepera=
+te tree, so
+>>> I'd be happy to join the drm-misc tree if you feel it's necessary. (By=
+ the way,
+>>> adding my tree to for-next was on my todo list...)
+>>>
+>>> What's important for me though is, to keep fbdev actively maintained, =
+which means:
+>>> a) to get fixes which were posted to fbdev mailing list applied if the=
+y are useful & correct,
+>>
+>> Yeah it'd be great if we have that, for a while Bart took care of
+>> these, but had to step down again. drm-misc is maintained with the dim
+>> scrip suite, which comes with docs and bash completion and everything.
+>> Good starting pointer is here:
+>>
+>> https://drm.pages.freedesktop.org/maintainer-tools/getting-started.html
+>>
+>> Process for getting commit rights is documented here:
+>>
+>> https://drm.pages.freedesktop.org/maintainer-tools/commit-access.html#d=
+rm-misc
+>>
+>> But there's a pile more. I think once we've set that up and got it
+>> going we can look at the bigger items. Some of them are fairly
+>> low-hanging fruit, but the past 5+ years absolutely no one bothered to
+>> step up and sort them out. Other problem areas in fbdev are extremely
+>> hard to fix properly, without only doing minimal security-fixes only
+>> support, so fair warning there. I think a good starting point would be
+>> to read the patches and discussions for some of the things you've
+>> reverted in your tree.
+>>
+>> Anyway I hope this gets you started, and hopefully after a minor
+>> detour: Welcome to dri-devel, we're happy to take any help we can get,
+>> there's lots to do!
+>
+> Thanks for this info, Daniel!
+>
+> After reading those docs I've decided not to join dri-devel and keep
+> my existing linux-fbdev tree at:
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git
+>
+> The linux-fbdev is a low-volume mailing list with mostly small bug fixes
+> or enhancements for the fbdev drivers. Those patches usually don't affec=
+t DRM.
+>
+> I'm expecting that non-trivial changes which may affect fbdev will be se=
+nt to the
+> linux-fbdev mailing list, same way as I will of course send any patches =
+which
+> might affect DRM to dri-devel.
+>
+> My git tree is wired up to the for-next pull chain, so in any way we wou=
+ld notice
+> merge conflicts (which I believe will not happen).
 
-On Mon, 2022-01-17 at 21:07 +0000, Robert Beckett wrote:
-> 
-> 
-> On 10/01/2022 17:22, Thomas Hellström wrote:
-> > Implement async (non-blocking) unbinding by not syncing the vma
-> > before
-> > calling unbind on the vma_resource.
-> > Add the resulting unbind fence to the object's dma_resv from where
-> > it is
-> > picked up by the ttm migration code.
-> > Ideally these unbind fences should be coalesced with the migration
-> > blit
-> > fence to avoid stalling the migration blit waiting for unbind, as
-> > they
-> > can certainly go on in parallel, but since we don't yet have a
-> > reasonable data structure to use to coalesce fences and attach the
-> > resulting fence to a timeline, we defer that for now.
-> > 
-> > Note that with async unbinding, even while the unbind waits for the
-> > preceding bind to complete before unbinding, the vma itself might
-> > have been
-> > destroyed in the process, clearing the vma pages. Therefore we can
-> > only allow async unbinding if we have a refcounted sg-list and keep
-> > a
-> > refcount on that for the vma resource pages to stay intact until
-> > binding occurs. If this condition is not met, a request for an
-> > async
-> > unbind is diverted to a sync unbind.
-> > 
-> > v2:
-> > - Use a separate kmem_cache for vma resources for now to isolate
-> > their
-> >    memory allocation and aid debugging.
-> > - Move the check for vm closed to the actual unbinding thread.
-> > Regardless
-> >    of whether the vm is closed, we need the unbind fence to
-> > properly wait
-> >    for capture.
-> > - Clear vma_res::vm on unbind and update its documentation.
-> > v4:
-> > - Take cache coloring into account when searching for vma resources
-> >    pending unbind. (Matthew Auld)
-> > v5:
-> > - Fix timeout and error check in
-> > i915_vma_resource_bind_dep_await().
-> > - Avoid taking a reference on the object for async binding if
-> >    async unbind capable.
-> > - Fix braces around a single-line if statement.
-> > v6:
-> > - Fix up the cache coloring adjustment. (Kernel test robot
-> > <lkp@intel.com>)
-> > - Don't allow async unbinding if the vma_res pages are not the same
-> > as
-> >    the object pages. (Matthew Auld)
-> > v7:
-> > - s/unsigned long/u64/ in a number of places (Matthew Auld)
-> > 
-> > Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> > Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-> > ---
-> >   drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c |  11 +-
-> >   drivers/gpu/drm/i915/gt/intel_ggtt.c         |   2 +-
-> >   drivers/gpu/drm/i915/gt/intel_gtt.c          |   4 +
-> >   drivers/gpu/drm/i915/gt/intel_gtt.h          |   3 +
-> >   drivers/gpu/drm/i915/i915_drv.h              |   1 +
-> >   drivers/gpu/drm/i915/i915_gem.c              |  12 +-
-> >   drivers/gpu/drm/i915/i915_module.c           |   3 +
-> >   drivers/gpu/drm/i915/i915_vma.c              | 205 +++++++++--
-> >   drivers/gpu/drm/i915/i915_vma.h              |   3 +-
-> >   drivers/gpu/drm/i915/i915_vma_resource.c     | 354
-> > +++++++++++++++++--
-> >   drivers/gpu/drm/i915/i915_vma_resource.h     |  48 +++
-> >   11 files changed, 579 insertions(+), 67 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-> > b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-> > index 8653855d808b..1de306c03aaf 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-> > @@ -142,7 +142,16 @@ int i915_ttm_move_notify(struct
-> > ttm_buffer_object *bo)
-> >         struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
-> >         int ret;
-> >   
-> > -       ret = i915_gem_object_unbind(obj,
-> > I915_GEM_OBJECT_UNBIND_ACTIVE);
-> > +       /*
-> > +        * Note: The async unbinding here will actually transform
-> > the
-> > +        * blocking wait for unbind into a wait before finally
-> > submitting
-> > +        * evict / migration blit and thus stall the migration
-> > timeline
-> > +        * which may not be good for overall throughput. We should
-> > make
-> > +        * sure we await the unbind fences *after* the migration
-> > blit
-> > +        * instead of *before* as we currently do.
-> > +        */
-> > +       ret = i915_gem_object_unbind(obj,
-> > I915_GEM_OBJECT_UNBIND_ACTIVE |
-> > +                                    I915_GEM_OBJECT_UNBIND_ASYNC);
-> >         if (ret)
-> >                 return ret;
-> >   
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> > b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> > index e49b6250c4b7..a1b2761bc16e 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> > @@ -142,7 +142,7 @@ void i915_ggtt_suspend_vm(struct
-> > i915_address_space *vm)
-> >                         continue;
-> >   
-> >                 if (!i915_vma_is_bound(vma, I915_VMA_GLOBAL_BIND))
-> > {
-> > -                       __i915_vma_evict(vma);
-> > +                       __i915_vma_evict(vma, false);
-> >                         drm_mm_remove_node(&vma->node);
-> >                 }
-> >         }
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c
-> > b/drivers/gpu/drm/i915/gt/intel_gtt.c
-> > index a94be0306464..46be4197b93f 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_gtt.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
-> > @@ -161,6 +161,9 @@ static void __i915_vm_release(struct
-> > work_struct *work)
-> >         struct i915_address_space *vm =
-> >                 container_of(work, struct i915_address_space,
-> > release_work);
-> >   
-> > +       /* Synchronize async unbinds. */
-> > +       i915_vma_resource_bind_dep_sync_all(vm);
-> > +
-> >         vm->cleanup(vm);
-> >         i915_address_space_fini(vm);
-> >   
-> > @@ -189,6 +192,7 @@ void i915_address_space_init(struct
-> > i915_address_space *vm, int subclass)
-> >         if (!kref_read(&vm->resv_ref))
-> >                 kref_init(&vm->resv_ref);
-> >   
-> > +       vm->pending_unbind = RB_ROOT_CACHED;
-> >         INIT_WORK(&vm->release_work, __i915_vm_release);
-> >         atomic_set(&vm->open, 1);
-> >   
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h
-> > b/drivers/gpu/drm/i915/gt/intel_gtt.h
-> > index 676b839d1a34..8073438b67c8 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_gtt.h
-> > +++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
-> > @@ -265,6 +265,9 @@ struct i915_address_space {
-> >         /* Flags used when creating page-table objects for this vm
-> > */
-> >         unsigned long lmem_pt_obj_flags;
-> >   
-> > +       /* Interval tree for pending unbind vma resources */
-> > +       struct rb_root_cached pending_unbind;
-> > +
-> >         struct drm_i915_gem_object *
-> >                 (*alloc_pt_dma)(struct i915_address_space *vm, int
-> > sz);
-> >         struct drm_i915_gem_object *
-> > diff --git a/drivers/gpu/drm/i915/i915_drv.h
-> > b/drivers/gpu/drm/i915/i915_drv.h
-> > index a44e0c3298fc..6caec2eca8cd 100644
-> > --- a/drivers/gpu/drm/i915/i915_drv.h
-> > +++ b/drivers/gpu/drm/i915/i915_drv.h
-> > @@ -1661,6 +1661,7 @@ int i915_gem_object_unbind(struct
-> > drm_i915_gem_object *obj,
-> >   #define I915_GEM_OBJECT_UNBIND_BARRIER BIT(1)
-> >   #define I915_GEM_OBJECT_UNBIND_TEST BIT(2)
-> >   #define I915_GEM_OBJECT_UNBIND_VM_TRYLOCK BIT(3)
-> > +#define I915_GEM_OBJECT_UNBIND_ASYNC BIT(4)
-> >   
-> >   void i915_gem_runtime_suspend(struct drm_i915_private *dev_priv);
-> >   
-> > diff --git a/drivers/gpu/drm/i915/i915_gem.c
-> > b/drivers/gpu/drm/i915/i915_gem.c
-> > index 3729ec01b5bc..7188db42c85b 100644
-> > --- a/drivers/gpu/drm/i915/i915_gem.c
-> > +++ b/drivers/gpu/drm/i915/i915_gem.c
-> > @@ -157,10 +157,16 @@ int i915_gem_object_unbind(struct
-> > drm_i915_gem_object *obj,
-> >                 spin_unlock(&obj->vma.lock);
-> >   
-> >                 if (vma) {
-> > +                       bool vm_trylock = !!(flags &
-> > I915_GEM_OBJECT_UNBIND_VM_TRYLOCK);
-> >                         ret = -EBUSY;
-> > -                       if (flags & I915_GEM_OBJECT_UNBIND_ACTIVE
-> > ||
-> > -                           !i915_vma_is_active(vma)) {
-> > -                               if (flags &
-> > I915_GEM_OBJECT_UNBIND_VM_TRYLOCK) {
-> > +                       if (flags & I915_GEM_OBJECT_UNBIND_ASYNC) {
-> > +                               assert_object_held(vma->obj);
-> > +                               ret = i915_vma_unbind_async(vma,
-> > vm_trylock);
-> > +                       }
-> > +
-> > +                       if (ret == -EBUSY && (flags &
-> > I915_GEM_OBJECT_UNBIND_ACTIVE ||
-> > +                                            
-> > !i915_vma_is_active(vma))) {
-> > +                               if (vm_trylock) {
-> >                                         if (mutex_trylock(&vma->vm-
-> > >mutex)) {
-> >                                                 ret =
-> > __i915_vma_unbind(vma);
-> >                                                 mutex_unlock(&vma-
-> > >vm->mutex);
-> > diff --git a/drivers/gpu/drm/i915/i915_module.c
-> > b/drivers/gpu/drm/i915/i915_module.c
-> > index f6bcd2f89257..a8f175960b34 100644
-> > --- a/drivers/gpu/drm/i915/i915_module.c
-> > +++ b/drivers/gpu/drm/i915/i915_module.c
-> > @@ -17,6 +17,7 @@
-> >   #include "i915_scheduler.h"
-> >   #include "i915_selftest.h"
-> >   #include "i915_vma.h"
-> > +#include "i915_vma_resource.h"
-> >   
-> >   static int i915_check_nomodeset(void)
-> >   {
-> > @@ -64,6 +65,8 @@ static const struct {
-> >           .exit = i915_scheduler_module_exit },
-> >         { .init = i915_vma_module_init,
-> >           .exit = i915_vma_module_exit },
-> > +       { .init = i915_vma_resource_module_init,
-> > +         .exit = i915_vma_resource_module_exit },
-> >         { .init = i915_mock_selftests },
-> >         { .init = i915_pmu_init,
-> >           .exit = i915_pmu_exit },
-> > diff --git a/drivers/gpu/drm/i915/i915_vma.c
-> > b/drivers/gpu/drm/i915/i915_vma.c
-> > index 29c770a764aa..5881b0713b1a 100644
-> > --- a/drivers/gpu/drm/i915/i915_vma.c
-> > +++ b/drivers/gpu/drm/i915/i915_vma.c
-> > @@ -286,9 +286,10 @@ struct i915_vma_work {
-> >         struct dma_fence_work base;
-> >         struct i915_address_space *vm;
-> >         struct i915_vm_pt_stash stash;
-> > -       struct i915_vma *vma;
-> > +       struct i915_vma_resource *vma_res;
-> >         struct drm_i915_gem_object *pinned;
-> >         struct i915_sw_dma_fence_cb cb;
-> > +       struct i915_refct_sgt *rsgt;
-> >         enum i915_cache_level cache_level;
-> >         unsigned int flags;
-> >   };
-> > @@ -296,10 +297,11 @@ struct i915_vma_work {
-> >   static void __vma_bind(struct dma_fence_work *work)
-> >   {
-> >         struct i915_vma_work *vw = container_of(work, typeof(*vw),
-> > base);
-> > -       struct i915_vma *vma = vw->vma;
-> > +       struct i915_vma_resource *vma_res = vw->vma_res;
-> > +
-> > +       vma_res->ops->bind_vma(vma_res->vm, &vw->stash,
-> > +                              vma_res, vw->cache_level, vw-
-> > >flags);
-> >   
-> > -       vma->ops->bind_vma(vw->vm, &vw->stash,
-> > -                          vma->resource, vw->cache_level, vw-
-> > >flags);
-> >   }
-> >   
-> >   static void __vma_release(struct dma_fence_work *work)
-> > @@ -311,6 +313,10 @@ static void __vma_release(struct
-> > dma_fence_work *work)
-> >   
-> >         i915_vm_free_pt_stash(vw->vm, &vw->stash);
-> >         i915_vm_put(vw->vm);
-> > +       if (vw->vma_res)
-> > +               i915_vma_resource_put(vw->vma_res);
-> > +       if (vw->rsgt)
-> > +               i915_refct_sgt_put(vw->rsgt);
-> >   }
-> >   
-> >   static const struct dma_fence_work_ops bind_ops = {
-> > @@ -380,13 +386,11 @@ i915_vma_resource_init_from_vma(struct
-> > i915_vma_resource *vma_res,
-> >   {
-> >         struct drm_i915_gem_object *obj = vma->obj;
-> >   
-> > -       i915_vma_resource_init(vma_res, vma->pages, &vma-
-> > >page_sizes,
-> > +       i915_vma_resource_init(vma_res, vma->vm, vma->pages, &vma-
-> > >page_sizes,
-> >                                i915_gem_object_is_readonly(obj),
-> >                                i915_gem_object_is_lmem(obj),
-> > -                              vma->private,
-> > -                              vma->node.start,
-> > -                              vma->node.size,
-> > -                              vma->size);
-> > +                              vma->ops, vma->private, vma-
-> > >node.start,
-> > +                              vma->node.size, vma->size);
-> >   }
-> >   
-> >   /**
-> > @@ -410,6 +414,7 @@ int i915_vma_bind(struct i915_vma *vma,
-> >   {
-> >         u32 bind_flags;
-> >         u32 vma_flags;
-> > +       int ret;
-> >   
-> >         lockdep_assert_held(&vma->vm->mutex);
-> >         GEM_BUG_ON(!drm_mm_node_allocated(&vma->node));
-> > @@ -418,12 +423,12 @@ int i915_vma_bind(struct i915_vma *vma,
-> >         if (GEM_DEBUG_WARN_ON(range_overflows(vma->node.start,
-> >                                               vma->node.size,
-> >                                               vma->vm->total))) {
-> > -               kfree(vma_res);
-> > +               i915_vma_resource_free(vma_res);
-> >                 return -ENODEV;
-> >         }
-> >   
-> >         if (GEM_DEBUG_WARN_ON(!flags)) {
-> > -               kfree(vma_res);
-> > +               i915_vma_resource_free(vma_res);
-> >                 return -EINVAL;
-> >         }
-> >   
-> > @@ -435,12 +440,30 @@ int i915_vma_bind(struct i915_vma *vma,
-> >   
-> >         bind_flags &= ~vma_flags;
-> >         if (bind_flags == 0) {
-> > -               kfree(vma_res);
-> > +               i915_vma_resource_free(vma_res);
-> >                 return 0;
-> >         }
-> >   
-> >         GEM_BUG_ON(!atomic_read(&vma->pages_count));
-> >   
-> > +       /* Wait for or await async unbinds touching our range */
-> > +       if (work && bind_flags & vma->vm->bind_async_flags)
-> > +               ret = i915_vma_resource_bind_dep_await(vma->vm,
-> > +                                                      &work-
-> > >base.chain,
-> > +                                                      vma-
-> > >node.start,
-> > +                                                      vma-
-> > >node.size,
-> > +                                                      true,
-> > +                                                      GFP_NOWAIT |
-> > +                                                     
-> > __GFP_RETRY_MAYFAIL |
-> > +                                                     
-> > __GFP_NOWARN);
-> > +       else
-> > +               ret = i915_vma_resource_bind_dep_sync(vma->vm, vma-
-> > >node.start,
-> > +                                                     vma-
-> > >node.size, true);
-> > +       if (ret) {
-> > +               i915_vma_resource_free(vma_res);
-> > +               return ret;
-> > +       }
-> > +
-> >         if (vma->resource || !vma_res) {
-> >                 /* Rebinding with an additional I915_VMA_*_BIND */
-> >                 GEM_WARN_ON(!vma_flags);
-> 
-> You missed an extra `kfree(vma_res)` on the next line from here (not
-> in 
-> patch context), which would presumably need to be 
-> `i915_vma_resource_free(vma_res)`
+To make it more clear:
+I'm not planning to push code to fbdev/fbcon without having discussed ever=
+ything
+on dri-devel. Everything which somehow would affect DRM needs to be discus=
+sed on
+dri-devel and then - after agreement - either pushed via the fbdev git tre=
+e or
+the drm-misc tree.
 
-It should, thanks. I see I've missed that in an error path as well, as
-you mention below.
+Helge
 
-> 
-> Further to that, you are freeing it where it can already be known to
-> be 
-> null, which, while relying on known zero side effect of double free
-> will 
-> work, looks very unintuitive.
-
-This stems from NULL checking before kfree() is typically not done.
-IIRC even checkpatch.pl warns if doing that, but with transition to
-kmem_cache_free() that doesn't hold anymore so I need to fix this up.
-
-> 
-> Firther to that, once this series is applied, `i915_vma_bind` only 
-> appears to be called from `eb_relocate_entry()` with `vma_res` always
-> null, and from `i915_vma_pin_ww()` where it allocates `vma_res`.
-> 
-> It would be much cleaner to just allocate the `vma_res` in 
-> `i915_vma_bind` if required. That way it will avoid the null
-> asignment 
-> on return to `i915_vma_pin_ww` with the equally unintuitive 
-> `kfree(vma_res)` during the error fallthrough path at the end of 
-> `i915_vma_pin_ww` on a knowingly null pointer (also that would need
-> to 
-> be a `i915_vma_resource_free` if you keep it the way it is).
-
-We can't allocate (GFP_KERNEL) under the vm mutex, hence need to pass
-it as an argument.
-
-Thanks,
-Thomas
-
+> Cheers,
+>
+> Helge
+>
+>>> b) to include new drivers (for old hardware) if they arrive (probably =
+happens rarely but there can be).
+>>>    I know of at least one driver which won't be able to support DRM...=
+.
+>>>    Of course, if the hardware is capable to support DRM, it should be =
+written for DRM and not applied for fbdev.
+>>> c) reintroduce the state where fbcon is fast on fbdev. This is importa=
+nt for non-DRM machines,
+>>>    either when run on native hardware or in an emulator.
+>>> d) not break DRM development
+>>>
+>>> Especially regarding c) I complained in [1] and got no feedback. I rea=
+lly would like to
+>>> understand where the actual problems were and what's necessary to fix =
+them.
+>>>
+>>> Helge
+>>>
+>>> [1] https://lore.kernel.org/r/feea8303-2b83-fc36-972c-4fc8ad723bde@gmx=
+.de
+>>
+>>
+>>
+>
 
