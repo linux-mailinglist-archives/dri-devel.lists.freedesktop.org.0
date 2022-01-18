@@ -1,63 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 340C2492140
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 09:33:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0CBC49214A
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 09:36:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A647110F6AE;
-	Tue, 18 Jan 2022 08:33:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 661C910EE2F;
+	Tue, 18 Jan 2022 08:36:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0270410E1F2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 08:33:34 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id br17so67626188lfb.6
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 00:33:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=KLD+MloItQCMXbz2y5vOdZNej7yessFgYaQM/n3CvoM=;
- b=ne353ukwDghnGnW3HPOF/4PSgN+McoDbmkJm9FMzmrZDcFAD7EK2OapuoSm1g5mwfm
- I7RGL8DSO0iiq8skp4G3D8VJa+P5pdxQiHs25XFQ0gU70ulS8KccYJeOZG17GqXdSvnW
- tOC+ubr92jCsHTSnYA5KMEXVmlUlHHzkcV4qfD9TuJUiusF+FyMTgZFUZ8/RXbOVfeok
- XMDRgP3h+K/GxxW0pN+8nzDDQIQI3knLJVI31mXFW56MLkoQNlW7j9TUhEURlp7DwDzD
- uRYGhhczkt3Fyrb5VDWqbH+ng5lcEYDCgGzbR/tZQZJPYECC4L4pNmauVOrVioyu6h3N
- THkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=KLD+MloItQCMXbz2y5vOdZNej7yessFgYaQM/n3CvoM=;
- b=kVOv9KTw0mcLNcIGqRpVfxO3iTdtPozdhjf0bAqSekTOA2YxI4FRDzM/ybd0VeP5RP
- wEbc+Y918UNPNlEFjX7tGk3YriTwMoQszDLCYzNztavctuZiIdo82p/3hUZbD5kVP8tT
- SZFgewJcVCSucg0H8Q9YwgT6uciQVbGMcelb4UoYvIjqpgUSTkLmRc5zuE5u8kvxjw8B
- s/OKUGkzb/FECBKUEuOLkYPIFthlVLSFjJnQ8NFQJceMnDCzh3yTRAM31AvTRE8GtFh3
- 2JR7TCCBiGCAI3IabA+Q4nGJhh1XtEKYslsA6Ls9CCIkVJYOus2zFwIvKLzIWSH9oV9V
- Mzsw==
-X-Gm-Message-State: AOAM532twWeGIN/7M7D8Eik0yasQRJqa3xxCbgugciTiiZwKc4wHArhN
- sLWpXJZmsVAkTIzTMqlL9M4=
-X-Google-Smtp-Source: ABdhPJzuSq/MUQlGIOzjU9G0ydbmSVmtEw8DKQdKcurbT9pZPqO7lteH/by5/VpQMde9PF0CTDn6ew==
-X-Received: by 2002:a05:6512:3249:: with SMTP id
- c9mr20011630lfr.355.1642494813232; 
- Tue, 18 Jan 2022 00:33:33 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id e23sm1617601lfj.64.2022.01.18.00.33.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Jan 2022 00:33:32 -0800 (PST)
-Date: Tue, 18 Jan 2022 10:33:23 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Sven Schnelle <svens@stackframe.org>
-Subject: Re: [PATCH] MAINTAINERS: Add Helge as fbdev maintainer
-Message-ID: <20220118103323.4bae3a7d@eldfell>
-In-Reply-To: <87bl0amc6s.fsf@x1.stackframe.org>
-References: <YeG8ydoJNWWkGrTb@ls3530>
- <c48ad8ae-aea5-43fa-882f-dccb90dde9a4@suse.de>
- <87bl0amc6s.fsf@x1.stackframe.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFA231122B3;
+ Tue, 18 Jan 2022 08:36:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1642495011; x=1674031011;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=bEHey9QupRjV9zwrkI/FK565olCk7HBpauULY2Z1kUs=;
+ b=FSHn3A/NR9ZaAAMfb6WX98DIlxrbmDGtOGMtEPBHnerHo01/9EAH5+6z
+ kauhIH+IqC+z8QaDb7sbQdyXCK7CQogxhU663RqryNRa+vHvDPeu6B53p
+ CPMquLvTfhRX+60elmCLxRUi+oBsqFWFmDhOTNBOFpozsLPUUyJYTDL91
+ iFBAcUXyzGFVlSO9BeBB2O3ecoRkQaP1+S9FiNIOKw8Aiv33wZsUQJJso
+ LuetV+EP3Qf4u7ZtyeVgOyJ8Zg/VlDGYx/PfM2rjDY4CnPI8d9bKOZWRE
+ 4wm2Ze4WZSYPSDLCpOKft4nw3SjBQPk8SDfu1Mx8n73/9lugfXkGD+ltj w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10230"; a="225444862"
+X-IronPort-AV: E=Sophos;i="5.88,296,1635231600"; d="scan'208";a="225444862"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jan 2022 00:36:50 -0800
+X-IronPort-AV: E=Sophos;i="5.88,296,1635231600"; d="scan'208";a="517682356"
+Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.203.144.108])
+ by orsmga007-auth.jf.intel.com with
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2022 00:36:45 -0800
+Date: Tue, 18 Jan 2022 14:06:40 +0530
+From: Ramalingam C <ramalingam.c@intel.com>
+To: Robert Beckett <bob.beckett@collabora.com>
+Subject: Re: [PATCH 3/4] drm/i915: add gtt misalignment test
+Message-ID: <20220118083638.GA2476@intel.com>
+References: <20220111180238.1370631-1-bob.beckett@collabora.com>
+ <20220111180238.1370631-4-bob.beckett@collabora.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/pF3FTcxUDW+xdzSl3bV6P7H";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220111180238.1370631-4-bob.beckett@collabora.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,61 +57,207 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Helge Deller <deller@gmx.de>,
- linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-kernel@vger.kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/pF3FTcxUDW+xdzSl3bV6P7H
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 2022-01-11 at 18:02:37 +0000, Robert Beckett wrote:
+> add test to check handling of misaligned offsets and sizes
 
-On Mon, 17 Jan 2022 19:47:39 +0100
-Sven Schnelle <svens@stackframe.org> wrote:
+Bob, This needs the rebase. I have rebased the other three patches of
+the series..
 
-> I also tested the speed on my Thinkpad X1 with Intel graphics, and there
-> a dmesg with 919 lines one the text console took about 2s to display. In
-> x11, i measure 22ms. This might be unfair because encoding might be
-> different, but i cannot confirm the 'memcpy' is faster than hardware
-> blitting' point. I think if that would be the case, no-one would care
-> about 2D acceleration.
+Meanwhile i will review the changes.
 
-I think that is an extremely unfair comparison, because a graphical
-terminal app is not going to render every line of text streamed to it.
-It probably renders only the final view alone if you simply run
-'dmesg', skipping the first 800-900 lines completely.
-
-Maybe fbcon should do the same when presented with a flood of text,
-but I don't know how or why it works like it works. I assume in your
-two second test you actually see some scrolling (animation) rather than
-the final view? Or does it take 2 seconds just to update one screenful?
-
-I doubt your fbcon and terminal window had height of 919 lines?
-
-
-Thanks,
-pq
-
---Sig_/pF3FTcxUDW+xdzSl3bV6P7H
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmHme1MACgkQI1/ltBGq
-qqdM2w//ZKh892gl5oVmYmmIi7+I4zQlFkWyR0zVRmm2TIInv/MNdEJglce4PXNX
-bfkq5wWZxDrtN/dm/uO165wehDzq4vn5WqhJPUckfmYvQyhCu959hDfPuqD6MZhA
-3FMmW44k5NkkSVA0Y9wlhD2s5Xt3SGPkabMuxLsLCFLHsHodW6wRdf3Ot/3TdN+0
-x7VK4M5KkBw74t2nGZpCd/Q+B1BlI9nrp7hpSwvqN1DYYH9+LCIrXrueKlA4Bkcz
-a/NxfH7M0eXUJiuMv25gyfdGGQrPwdd1poGMdF7UiAOgxXXUb/zWM6b5tZS4POLM
-9le017M5ZXMDVqp83XU1hukMAvt9O9QRwp+9C6CV/GD2II2rrKe74Fpvx4/CAycr
-vAaKrRSvH1qKZ+kLnITGHnSyqFIT3QkousXWd/3Ty656p5Q62IYOnM1TEy9Sb3xE
-5AIgB2wGUdjCl/lMn8DhTGFaTe/8rvTee9N1bqMVASfEyk63mVZHHb/1pcwSvspo
-NGh+6H9yHUF3X1yH+jYQVFELe+1w7KXdF24mUOvhJwcoNqcN+nrpm3UYPs3Q4DpN
-3lj+dzyUDg1esOBx3Q5DcwNcOXzJPE3h8EUN7+LKkIsr8Z7rFyQNM+y/7TfkK29O
-KVrUmyBJKoytMrLdbv411j1K/4vVi00byMtSxUiKcLY0hv9EblE=
-=Y0Ho
------END PGP SIGNATURE-----
-
---Sig_/pF3FTcxUDW+xdzSl3bV6P7H--
+Ram.
+> 
+> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+> ---
+>  drivers/gpu/drm/i915/selftests/i915_gem_gtt.c | 130 ++++++++++++++++++
+>  1 file changed, 130 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+> index fea031b4ec4f..28de0b333835 100644
+> --- a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+> +++ b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+> @@ -22,10 +22,12 @@
+>   *
+>   */
+>  
+> +#include "gt/intel_gtt.h"
+>  #include <linux/list_sort.h>
+>  #include <linux/prime_numbers.h>
+>  
+>  #include "gem/i915_gem_context.h"
+> +#include "gem/i915_gem_region.h"
+>  #include "gem/selftests/mock_context.h"
+>  #include "gt/intel_context.h"
+>  #include "gt/intel_gpu_commands.h"
+> @@ -1066,6 +1068,120 @@ static int shrink_boom(struct i915_address_space *vm,
+>  	return err;
+>  }
+>  
+> +static int misaligned_case(struct i915_address_space *vm, struct intel_memory_region *mr,
+> +			   u64 addr, u64 size, unsigned long flags)
+> +{
+> +	struct drm_i915_gem_object *obj;
+> +	struct i915_vma *vma;
+> +	int err = 0;
+> +	u64 expected_vma_size, expected_node_size;
+> +
+> +	obj = i915_gem_object_create_region(mr, size, 0, 0);
+> +	if (IS_ERR(obj))
+> +		return PTR_ERR(obj);
+> +
+> +	vma = i915_vma_instance(obj, vm, NULL);
+> +	if (IS_ERR(vma)) {
+> +		err = PTR_ERR(vma);
+> +		goto err_put;
+> +	}
+> +
+> +	err = i915_vma_pin(vma, 0, 0, addr | flags);
+> +	if (err)
+> +		goto err_put;
+> +	i915_vma_unpin(vma);
+> +
+> +	if (!drm_mm_node_allocated(&vma->node)) {
+> +		err = -EINVAL;
+> +		goto err_put;
+> +	}
+> +
+> +	if (i915_vma_misplaced(vma, 0, 0, addr | flags)) {
+> +		err = -EINVAL;
+> +		goto err_put;
+> +	}
+> +
+> +	expected_vma_size = round_up(size, 1 << (ffs(vma->page_sizes.gtt) - 1));
+> +	expected_node_size = expected_vma_size;
+> +
+> +	if (IS_DG2(vm->i915) && i915_gem_object_is_lmem(obj)) {
+> +		/* dg2 should expand lmem node to 2MB */
+> +		expected_vma_size = round_up(size, I915_GTT_PAGE_SIZE_64K);
+> +		expected_node_size = round_up(size, I915_GTT_PAGE_SIZE_2M);
+> +	}
+> +
+> +	if (vma->size != expected_vma_size || vma->node.size != expected_node_size) {
+> +		err = i915_vma_unbind(vma);
+> +		err = -EBADSLT;
+> +		goto err_put;
+> +	}
+> +
+> +	err = i915_vma_unbind(vma);
+> +	if (err)
+> +		goto err_put;
+> +
+> +	GEM_BUG_ON(drm_mm_node_allocated(&vma->node));
+> +
+> +err_put:
+> +	i915_gem_object_put(obj);
+> +	cleanup_freed_objects(vm->i915);
+> +	return err;
+> +}
+> +
+> +static int misaligned_pin(struct i915_address_space *vm,
+> +			  u64 hole_start, u64 hole_end,
+> +			  unsigned long end_time)
+> +{
+> +	struct intel_memory_region *mr;
+> +	enum intel_region_id id;
+> +	unsigned long flags = PIN_OFFSET_FIXED | PIN_USER;
+> +	int err = 0;
+> +	u64 hole_size = hole_end - hole_start;
+> +
+> +	if (i915_is_ggtt(vm))
+> +		flags |= PIN_GLOBAL;
+> +
+> +	for_each_memory_region(mr, vm->i915, id) {
+> +		u64 min_alignment = i915_vm_min_alignment(vm, id);
+> +		u64 size = min_alignment;
+> +		u64 addr = round_up(hole_start + (hole_size / 2), min_alignment);
+> +
+> +		/* we can't test < 4k alignment due to flags being encoded in lower bits */
+> +		if (min_alignment != I915_GTT_PAGE_SIZE_4K) {
+> +			err = misaligned_case(vm, mr, addr + (min_alignment / 2), size, flags);
+> +			/* misaligned should error with -EINVAL*/
+> +			if (!err)
+> +				err = -EBADSLT;
+> +			if (err != -EINVAL)
+> +				return err;
+> +		}
+> +
+> +		/* test for vma->size expansion to min page size */
+> +		err = misaligned_case(vm, mr, addr, PAGE_SIZE, flags);
+> +		if (min_alignment > hole_size) {
+> +			if (!err)
+> +				err = -EBADSLT;
+> +			else if (err == -ENOSPC)
+> +				err = 0;
+> +		}
+> +		if (err)
+> +			return err;
+> +
+> +		/* test for intermediate size not expanding vma->size for large alignments */
+> +		err = misaligned_case(vm, mr, addr, size / 2, flags);
+> +		if (min_alignment > hole_size) {
+> +			if (!err)
+> +				err = -EBADSLT;
+> +			else if (err == -ENOSPC)
+> +				err = 0;
+> +		}
+> +		if (err)
+> +			return err;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int exercise_ppgtt(struct drm_i915_private *dev_priv,
+>  			  int (*func)(struct i915_address_space *vm,
+>  				      u64 hole_start, u64 hole_end,
+> @@ -1135,6 +1251,12 @@ static int igt_ppgtt_shrink_boom(void *arg)
+>  	return exercise_ppgtt(arg, shrink_boom);
+>  }
+>  
+> +static int igt_ppgtt_misaligned_pin(void *arg)
+> +{
+> +	return exercise_ppgtt(arg, misaligned_pin);
+> +}
+> +
+> +
+>  static int sort_holes(void *priv, const struct list_head *A,
+>  		      const struct list_head *B)
+>  {
+> @@ -1207,6 +1329,12 @@ static int igt_ggtt_lowlevel(void *arg)
+>  	return exercise_ggtt(arg, lowlevel_hole);
+>  }
+>  
+> +static int igt_ggtt_misaligned_pin(void *arg)
+> +{
+> +	return exercise_ggtt(arg, misaligned_pin);
+> +}
+> +
+> +
+>  static int igt_ggtt_page(void *arg)
+>  {
+>  	const unsigned int count = PAGE_SIZE/sizeof(u32);
+> @@ -2137,12 +2265,14 @@ int i915_gem_gtt_live_selftests(struct drm_i915_private *i915)
+>  		SUBTEST(igt_ppgtt_fill),
+>  		SUBTEST(igt_ppgtt_shrink),
+>  		SUBTEST(igt_ppgtt_shrink_boom),
+> +		SUBTEST(igt_ppgtt_misaligned_pin),
+>  		SUBTEST(igt_ggtt_lowlevel),
+>  		SUBTEST(igt_ggtt_drunk),
+>  		SUBTEST(igt_ggtt_walk),
+>  		SUBTEST(igt_ggtt_pot),
+>  		SUBTEST(igt_ggtt_fill),
+>  		SUBTEST(igt_ggtt_page),
+> +		SUBTEST(igt_ggtt_misaligned_pin),
+>  		SUBTEST(igt_cs_tlb),
+>  	};
+>  
+> -- 
+> 2.25.1
+> 
