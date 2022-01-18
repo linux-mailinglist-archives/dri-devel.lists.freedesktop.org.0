@@ -1,48 +1,118 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE2F7491909
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 03:50:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87FF2491A61
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 04:01:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A0A2112927;
-	Tue, 18 Jan 2022 02:50:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 214BC112949;
+	Tue, 18 Jan 2022 03:01:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6673112929
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 02:50:02 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2E37F6131D;
- Tue, 18 Jan 2022 02:50:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F695C36AE3;
- Tue, 18 Jan 2022 02:49:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1642474201;
- bh=O3/y2A1CaW2yn5Bjcr8+q5faQ0RJbkj+6IYtLENcJVg=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dPvWXyHKWcMRlc71EvfZW91Kvs3gqVDdyBaf0JEnWLMXd8shUX4yEH6u8+Hj/QIby
- p9WAsscqtXtc9toBGkFg6wSmhg8PKt+D/tL1cOgdW4JbdP+mpYlF9IOrb42xC8pHwM
- dLd9yk0nUwSpmgcnW0BnyyAnnjfiDguX9vuhZux4TGEDcilSAlPgT0hNAipyOLeAhc
- 6s+w1fIINuarEzXr2nAwyaJoxjcnGaNOocYWAhXyS+4Hw9ODPUh7twxFirOpAZqSQo
- sHiEPjkN8nCBbImqA3RRGlTnNFkGOD+mBTlKbb2jVz8LOPyCK7uVgC0ntBWDtHswxz
- a9jZjeMVzLNhQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 18/56] drm/bridge: megachips: Ensure both bridges
- are probed before registration
-Date: Mon, 17 Jan 2022 21:48:30 -0500
-Message-Id: <20220118024908.1953673-18-sashal@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220118024908.1953673-1-sashal@kernel.org>
-References: <20220118024908.1953673-1-sashal@kernel.org>
-MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+ (mail-eopbgr80053.outbound.protection.outlook.com [40.107.8.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B5C4112950
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 03:01:35 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QLrJXZA1s1NyGZqz69cIy3DQIlYGEmwHNm2XrVjxRj8GTFiS4/PbX0IJNOy0ZYfkqlfjPHr8fGSr64EB1roFjB5xiDxYiCZjtnIOZLFhcMBjmfFR5XcOXpSnNtgNCax8rKPZXCfB8Z7kBqbhOE3WgDHSAQ0PxsoRGC/NLJavXcqJLUGymZ90CA3zEj8hTPSNhz52Ejar/pokDVwu31rSLD0O18tgLPAXDl5ZRJlMk4Ph3dA+yz1v06uViLtaz91BWWSTCl04506of6QmsDxmaXb+CmCHKwAtF/G5NOACdOvq/rky59xdrbrR+RDaCy4XGYE6yyIqoZoSB9ryPmZL4w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VCDwhEtmmEYLIzpIeV9i0fc7ATrkV+SpOyNtCaGDeSM=;
+ b=G2TC5ijf6arJ5omNCvJYKFRPh41mY0Jn5wJTbUOpLKgTsdvcLnvlZWSqloPD1kA88Sq2l+fKPe5l5EN0DEmNm5BOa9qcuBlZqm6PsAFO073S3kH1/fY1yrJfjN8FqsZoWcutMg6zKW0RTFbVWr025+wiCRGc/k7/anDd3ES/yz0m3Xv09V9DHlhu/Nf9D+JTMRne/Um+1hPfEwuTuh/DjYPRh5PeP+B1bOEDw7Wiq7Bws3Kn+WFAh0IUN3SzGKCr+kHOplaz/gZl8nHqlrclRtsHVe2gjwzq9GE1kxsAl3mBAhIoOVGJDXPIiDykyslXq2rJ6POkH8O/zUeWvskJMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VCDwhEtmmEYLIzpIeV9i0fc7ATrkV+SpOyNtCaGDeSM=;
+ b=QiG/ldUrvJIqiyyNNSTDkCKfZ3LLxTHvHaoffDq4xYp8wFf2c8lWCk/QfjsTH9kCYD7mfxA2Vj9TsaxyUniqKWXbIuEqR+HGJZzhp4fJg1SelGvRqvnYQsBSUd2+9FLzInj8ARjxMGasBvqfvlr0asYYOs04K6DBvdiSi+asmI0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by AM5PR04MB2978.eurprd04.prod.outlook.com (2603:10a6:206:5::28) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4888.9; Tue, 18 Jan
+ 2022 03:01:27 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::a5b3:9e5:366:a3fc]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::a5b3:9e5:366:a3fc%3]) with mapi id 15.20.4888.014; Tue, 18 Jan 2022
+ 03:01:27 +0000
+From: Liu Ying <victor.liu@nxp.com>
+To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org
+Subject: [PATCH] phy: dphy: Correct clk_pre parameter
+Date: Tue, 18 Jan 2022 10:59:18 +0800
+Message-Id: <20220118025918.1444288-1-victor.liu@nxp.com>
+X-Mailer: git-send-email 2.25.1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SG3P274CA0011.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:be::23)
+ To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a3e97a0f-e19d-499c-fe3d-08d9da2ed1cf
+X-MS-TrafficTypeDiagnostic: AM5PR04MB2978:EE_
+X-Microsoft-Antispam-PRVS: <AM5PR04MB2978C5D6FFB7DC145CE1EA6998589@AM5PR04MB2978.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: M2iwM/wfyhdFleFMe08me5erqKcvye4dFDeE0bWdgpEhfcVOlTYGk5mkxsSqQ5IeDrAbZ3sAmkFdMNPfjfpXkDvchTCO0Vb1IqAZ5QI7woNR+WC19ZU7U+ilA2qTV4fTOO2hWbshCawNTfUTsCkkPDjZ9DtLAHNFJNnT1bKMoCefdRT1ukuPpGsjyNBuvAxFYCm2915ttb9GD/7QJwdi467fzyMWYKpudLtrKTkhJneoFRJvStGHpdTTGuk5rKvztHkReslClgUNyeKNn7DZ0DZhCCGcfnV/LHHf+hTWI7eHXHqN2N/HaWKJ3N2UA/bcclsvKeqxcDlvKqdIuAJcrGujdKQdaIFyav+LxOEpM5F6pQAjgoxjxtN2REJNvFQDHrfYmdPH4FX/xaGILg7JLHWZJd7lTzzTVgYZzonf78YYkbE8IXcp96mySwqxSvYpWPqHT4jRCMVQgPluw/jhu7e7O8S13tolOyg6j0h02X48/m3DFGKWNIyWcaNBgmgPgy6ixoKjSzHTEi8wR4LsWW1d2MbiaockaSOOLFqH8p5loesxaws5C4uM7KThV/364vAQz+k/d/u26348+JbWz0jhdVyE/NSsQfzcOxyEigDM+2aQkOPg1FEZ9qwVTQCa2hbDfaHv/M4kNHGeNR39SCXlv0tYUQ+vBE9tq9MLrVadPL41txIs/TQCZ2OONQzjq3+TEiwmvMBKxs5LVhS3eQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(5660300002)(4326008)(6506007)(6486002)(186003)(316002)(2906002)(7416002)(508600001)(26005)(2616005)(66476007)(66556008)(54906003)(8936002)(38350700002)(52116002)(86362001)(66574015)(83380400001)(36756003)(38100700002)(6666004)(1076003)(6512007)(66946007)(8676002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VjV1TFpaejhjL1JSNm1Ienl2TDVtM0xWNWNrQ0dXZHBMTTkycURFVktHcWVs?=
+ =?utf-8?B?TFRCUkNRbHRjT2dVQjg3QmV4UUNybVVTMDJ5aXZQRE1LbnNGWmlGMmZXdFdR?=
+ =?utf-8?B?V3liVXMwQk4xemt4anlVUEZTZ3dQNWhoNytCdFB5U29WclEyTmRuanZpRktQ?=
+ =?utf-8?B?YnVyMmdtRTArRVU0QXRWL1ovajZRU0Y3VnA1SnVveVVQUm9zSGIzUVJKZDhO?=
+ =?utf-8?B?TjZZVzhzV2EzR2liZEMwUS9MSmErOUsrY3luT0dEbDYxWFcwaUw1YlMrcmJX?=
+ =?utf-8?B?R29WNmFNWjJtUkJ1TDcraTZpOXdtOWxpejJTT2xHcEE1YThWRGtndWxUczJC?=
+ =?utf-8?B?SW14L2J2cUxja1BKWkYvS2FUM2hxSkNTbnRab1BCcCtKZ2FpQWlWQlZVTDY1?=
+ =?utf-8?B?SlZFV2EwRUF0V21ZQlV5emZrblNkTklMSWZEb3lhWWxNVXJtMG1YM0NoN2w4?=
+ =?utf-8?B?YjdSdXNJb3dWeTNweHBjZU45Rm5zTDZDYTRsdjJCcU1JaDFzSzRRcnRPa0Uy?=
+ =?utf-8?B?djliM3ZDV2gwS0Zuc3d5YjFRRENoZUFFOG5nZVd1RTdhTXdCMTViQnJNTWo5?=
+ =?utf-8?B?bFlsbGVIamQzREhwVjh4NWNZM3MyZk84TVNvc09TWUdEMXJLU250bmRNVWsr?=
+ =?utf-8?B?V1VzNWs1ZEZPWlppWGwvTjNVazhRRzBka0JQRjdUVXd2WjNUK3E5L3VFUXds?=
+ =?utf-8?B?bHd3S2tYMGFCY0ZXUWV5aUNZMmNNbDBsWEduZzZKZUdzZTR0N010SzQvUG5D?=
+ =?utf-8?B?S2I1S2pnTTA5UTZyK3VFMFBNM3RDaUxhQkVocUduRk16K0NCakxobG12TVdw?=
+ =?utf-8?B?ZFNmSzhmZEluMVRzVTFpZHJsQWlwZ2k0TlRzQlZheUxmZi9HdTk3Sy9SUGlX?=
+ =?utf-8?B?ZjYrcTVqNDlEVlJFcUI2QUlrT211SStoMzRjbEZGVENCcVpYUUppL1J3L09J?=
+ =?utf-8?B?YTlnTi9EaHRwNTJCM2g4UlorN0RHNUtTbXZReUhRNGVrZVhyVGIxeGRnWjY3?=
+ =?utf-8?B?SkkrZmUyelJlVnIvYlMzclM3R0tjTW94OWwwdE1RcFQ2cUdBTVlkcUlENzMy?=
+ =?utf-8?B?ZkpJOXkxdzNmcFNEczBQNzcyWldmUXhQU2Z0MTRlSWxvNWZnZzRpMUhKYk1Q?=
+ =?utf-8?B?eVgvOGxnWHh4VHJ5MU9mUlI4N2dnTm83RGxVMVRxa05XQ3dZUVMwaFV0SmZF?=
+ =?utf-8?B?bTRHWjhEd2IyNjZsVENlbjJXaFZySDNHZjdSb1haaElkUkFmQTFoOXh1WFhT?=
+ =?utf-8?B?bmlpQVdKR2ZiWmVRRllxUUR6Uml3N1l4dzUrdEJsdVZ2ZWs0MHlUbzYvRDA2?=
+ =?utf-8?B?R1NMaXhLM0tjQ2pXajJ4cE5BbUpmWjlhb3JQYTFyMFVVZzU0Y1ZseUNZcGlo?=
+ =?utf-8?B?ZmV6T3Q1NzM4UEpnOGhzMGVTcjEzc3pLMFNMQkttejZxWDc4L0EzQUN6ajlr?=
+ =?utf-8?B?aUd0YStrd2xoaG1hR29JenFnNkpJQWhwQWZ2eVVub3lGQmpKTTZpRDlrN1Bs?=
+ =?utf-8?B?K05pb1ZoSlV2ZXlDR09wRTh2VjJlMHZ6alpQVDFxNkpNa0ZzcUVwZHpyVi9w?=
+ =?utf-8?B?YXUrUG1RR1l5Qkx1YjRpeXIrbEg1UGRKbFVlQTlkckxBUXpwUDBBd2xLME5N?=
+ =?utf-8?B?alNpWkw0MWJ5ZlpLNUJHVlY4QXB1Q2pQZmZNd0NlTjZvN1UxTlZXYnUxSVVT?=
+ =?utf-8?B?MXFQZXY3NFNJY29KbVJvME9zcytjSEk5cGtodFhUZGhJVVJiY1d0YThOTTJl?=
+ =?utf-8?B?V2tUOUFkYlU0WTlQNmdudE82WnZyU1JCcEh3ZVJBcmR4ZEJwOFZwYXJpSnJm?=
+ =?utf-8?B?aWxSZ2hYZkVhMEVIekVVRHNCOXFyOWt3cTNYdStpa1BTSVJYVjA1RlRmVjdT?=
+ =?utf-8?B?Q28wLzR6Z3dHc1BtVE1vblQzaVVTMm82LzZ5M2RVZWNsS0taZGl6Y0JhVTNV?=
+ =?utf-8?B?ZHJjdjVOdmZGcW5NcXNydDg0bjZXaWNTOStFK0FLRC9PL0NMdGkwYkM5ZkU3?=
+ =?utf-8?B?SGQrTUoyZjVuMVJPZlU5eTBOVWZzeHlkUVA4aW1Ra1ZGTENpWGltYlZHRlVk?=
+ =?utf-8?B?YXZoOXR1NE5WSUFuQVJPUy9zai91M3BSNkVlNUwxalQrT2IrTS96RnhFS2Z4?=
+ =?utf-8?B?SUhmazFyZHBMUytmMGdxWVNmUW9IYXFJbUord2FiRDVvb0dWaFdCMHNtUW0w?=
+ =?utf-8?Q?dextzwZdxtomss9DrfemaCU=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a3e97a0f-e19d-499c-fe3d-08d9da2ed1cf
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2022 03:01:27.4930 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OYZ3/FSB27af1F5Ati2MzTZXhlOjcQZaHaDwzdHLLi7yy3uHOqiG6IVeckuXfi9syCmMnEKscLCxuerZBISjZg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR04MB2978
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,260 +125,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Martyn Welch <martyn.welch@collabora.co.uk>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Martyn Welch <martyn.welch@collabora.com>, dri-devel@lists.freedesktop.org,
- Peter Senna Tschudin <peter.senna@gmail.com>,
- Robert Foss <robert.foss@linaro.org>, airlied@linux.ie,
- Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, andrzej.hajda@intel.com,
- martin.donnelly@ge.com
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Kevin Hilman <khilman@baylibre.com>,
+ =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
+ Kishon Vijay Abraham I <kishon@ti.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Vinod Koul <vkoul@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ linux-imx@nxp.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Martyn Welch <martyn.welch@collabora.com>
+The D-PHY specification (v1.2) explicitly mentions that the T-CLK-PRE
+parameter's unit is Unit Interval(UI) and the minimum value is 8.  Also,
+kernel doc of the 'clk_pre' member of struct phy_configure_opts_mipi_dphy
+mentions that it should be in UI.  However, the dphy core driver wrongly
+sets 'clk_pre' to 8000, which seems to hint that it's in picoseconds.
+And, the kernel doc of the 'clk_pre' member wrongly says the minimum value
+is '8 UI', instead of 8.
 
-[ Upstream commit 11632d4aa2b3f126790e81a4415d6c23103cf8bb ]
+So, let's fix both the dphy core driver and the kernel doc of the 'clk_pre'
+member to correctly reflect the T-CLK-PRE parameter's unit and the minimum
+value according to the D-PHY specification.
 
-In the configuration used by the b850v3, the STDP2690 is used to read EDID
-data whilst it's the STDP4028 which can detect when monitors are connected.
+I'm assuming that all impacted custom drivers shall program values in
+TxByteClkHS cycles into hardware for the T-CLK-PRE parameter.  The D-PHY
+specification mentions that the frequency of TxByteClkHS is exactly 1/8
+the High-Speed(HS) bit rate(each HS bit consumes one UI).  So, relevant
+custom driver code is changed to program those values as
+DIV_ROUND_UP(cfg->clk_pre, MIPI_DPHY_UI_PER_TXBYTECLKHS_PERIOD), then.
 
-This can result in problems at boot with monitors connected when the
-STDP4028 is probed first, a monitor is detected and an attempt is made to
-read the EDID data before the STDP2690 has probed:
+Note that I've only tested the patch with RM67191 DSI panel on i.MX8mq EVK.
+Help is needed to test with other i.MX8mq, Meson and Rockchip platforms,
+as I don't have the hardwares.
 
-[    3.795721] Unable to handle kernel NULL pointer dereference at virtual address 00000018
-[    3.803845] pgd = (ptrval)
-[    3.806581] [00000018] *pgd=00000000
-[    3.810180] Internal error: Oops: 5 [#1] SMP ARM
-[    3.814813] Modules linked in:
-[    3.817879] CPU: 0 PID: 64 Comm: kworker/u4:1 Not tainted 5.15.0 #1
-[    3.824161] Hardware name: Freescale i.MX6 Quad/DualLite (Device Tree)
-[    3.830705] Workqueue: events_unbound deferred_probe_work_func
-[    3.836565] PC is at stdp2690_get_edid+0x44/0x19c
-[    3.841286] LR is at ge_b850v3_lvds_get_modes+0x2c/0x5c
-[    3.846526] pc : [<805eae10>]    lr : [<805eb138>]    psr: 80000013
-[    3.852802] sp : 81c359d0  ip : 7dbb550b  fp : 81c35a1c
-[    3.858037] r10: 81c73840  r9 : 81c73894  r8 : 816d9800
-[    3.863270] r7 : 00000000  r6 : 81c34000  r5 : 00000000  r4 : 810c35f0
-[    3.869808] r3 : 80e3e294  r2 : 00000080  r1 : 00000cc0  r0 : 81401180
-[    3.876349] Flags: Nzcv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
-[    3.883499] Control: 10c5387d  Table: 1000404a  DAC: 00000051
-[    3.889254] Register r0 information: slab kmem_cache start 81401180 pointer offset 0
-[    3.897034] Register r1 information: non-paged memory
-[    3.902097] Register r2 information: non-paged memory
-[    3.907160] Register r3 information: non-slab/vmalloc memory
-[    3.912832] Register r4 information: non-slab/vmalloc memory
-[    3.918503] Register r5 information: NULL pointer
-[    3.923217] Register r6 information: non-slab/vmalloc memory
-[    3.928887] Register r7 information: NULL pointer
-[    3.933601] Register r8 information: slab kmalloc-1k start 816d9800 pointer offset 0 size 1024
-[    3.942244] Register r9 information: slab kmalloc-2k start 81c73800 pointer offset 148 size 2048
-[    3.951058] Register r10 information: slab kmalloc-2k start 81c73800 pointer offset 64 size 2048
-[    3.959873] Register r11 information: non-slab/vmalloc memory
-[    3.965632] Register r12 information: non-paged memory
-[    3.970781] Process kworker/u4:1 (pid: 64, stack limit = 0x(ptrval))
-[    3.977148] Stack: (0x81c359d0 to 0x81c36000)
-[    3.981517] 59c0:                                     80b2b668 80b2b5bc 000002e2 0000034e
-[    3.989712] 59e0: 81c35a8c 816d98e8 81c35a14 7dbb550b 805bfcd0 810c35f0 81c73840 824addc0
-[    3.997906] 5a00: 00001000 816d9800 81c73894 81c73840 81c35a34 81c35a20 805eb138 805eadd8
-[    4.006099] 5a20: 810c35f0 00000045 81c35adc 81c35a38 80594188 805eb118 80d7c788 80dd1848
-[    4.014292] 5a40: 00000000 81c35a50 80dca950 811194d3 80dca7c4 80dca944 80dca91c 816d9800
-[    4.022485] 5a60: 81c34000 81c760a8 816d9800 80c58c98 810c35f0 816d98e8 00001000 00001000
-[    4.030678] 5a80: 00000000 00000000 8017712c 81c60000 00000002 00000001 00000000 00000000
-[    4.038870] 5aa0: 816d9900 816d9900 00000000 7dbb550b 805c700c 00000008 826282c8 826282c8
-[    4.047062] 5ac0: 00001000 81e1ce40 00001000 00000002 81c35bf4 81c35ae0 805d9694 80593fc0
-[    4.055255] 5ae0: 8017a970 80179ad8 00000179 00000000 81c35bcc 81c35b00 80177108 8017a950
-[    4.063447] 5b00: 00000000 81c35b10 81c34000 00000000 81004fd8 81010a38 00000000 00000059
-[    4.071639] 5b20: 816d98d4 81fbb718 00000013 826282c8 8017a940 81c35b40 81134448 00000400
-[    4.079831] 5b40: 00000178 00000000 e063b9c1 00000000 c2000049 00000040 00000000 00000008
-[    4.088024] 5b60: 82628300 82628380 00000000 00000000 81c34000 00000000 81fbb700 82628340
-[    4.096216] 5b80: 826283c0 00001000 00000000 00000010 816d9800 826282c0 801766f8 00000000
-[    4.104408] 5ba0: 00000000 81004fd8 00000049 00000000 00000000 00000001 80dcf940 80178de4
-[    4.112601] 5bc0: 81c35c0c 7dbb550b 80178de4 81fbb700 00000010 00000010 810c35f4 81e1ce40
-[    4.120793] 5be0: 81c40908 0000000c 81c35c64 81c35bf8 805a7f18 805d94a0 81c35c3c 816d9800
-[    4.128985] 5c00: 00000010 81c34000 81c35c2c 81c35c18 8012fce0 805be90c 81c35c3c 81c35c28
-[    4.137178] 5c20: 805be90c 80173210 81fbb600 81fbb6b4 81c35c5c 7dbb550b 81c35c64 81fbb700
-[    4.145370] 5c40: 816d9800 00000010 810c35f4 81e1ce40 81c40908 0000000c 81c35c84 81c35c68
-[    4.153565] 5c60: 805a8c78 805a7ed0 816d9800 81fbb700 00000010 00000000 81c35cac 81c35c88
-[    4.161758] 5c80: 805a8dc4 805a8b68 816d9800 00000000 816d9800 00000000 8179f810 810c42d0
-[    4.169950] 5ca0: 81c35ccc 81c35cb0 805e47b0 805a8d18 824aa240 81e1ea80 81c40908 81126b60
-[    4.178144] 5cc0: 81c35d14 81c35cd0 8060db1c 805e46cc 81c35d14 81c35ce0 80dd90f8 810c4d58
-[    4.186338] 5ce0: 80dd90dc 81fe9740 fffffffe 81fe9740 81e1ea80 00000000 810c4d6c 80c4b95c
-[    4.194531] 5d00: 80dd9a3c 815c6810 81c35d34 81c35d18 8060dc9c 8060d8fc 8246b440 815c6800
-[    4.202724] 5d20: 815c6810 eefd8e00 81c35d44 81c35d38 8060dd80 8060dbec 81c35d6c 81c35d48
-[    4.210918] 5d40: 805e98a4 8060dd70 00000000 815c6810 810c45b0 81126e90 81126e90 80dd9a3c
-[    4.219112] 5d60: 81c35d8c 81c35d70 80619574 805e9808 815c6810 00000000 810c45b0 81126e90
-[    4.227305] 5d80: 81c35db4 81c35d90 806168dc 80619514 80625df0 80623c80 815c6810 810c45b0
-[    4.235498] 5da0: 81c35e6c 815c6810 81c35dec 81c35db8 80616d04 80616800 81c35de4 81c35dc8
-[    4.243691] 5dc0: 808382b0 80b2f444 8116e310 8116e314 81c35e6c 815c6810 00000003 80dd9a3c
-[    4.251884] 5de0: 81c35e14 81c35df0 80616ec8 80616c60 00000001 810c45b0 81c35e6c 815c6810
-[    4.260076] 5e00: 00000001 80dd9a3c 81c35e34 81c35e18 80617338 80616e90 00000000 81c35e6c
-[    4.268269] 5e20: 80617284 81c34000 81c35e64 81c35e38 80614730 80617290 81c35e64 8171a06c
-[    4.276461] 5e40: 81e220b8 7dbb550b 815c6810 81c34000 815c6854 81126e90 81c35e9c 81c35e68
-[    4.284654] 5e60: 8061673c 806146a8 8060f5e0 815c6810 00000001 7dbb550b 00000000 810c5080
-[    4.292847] 5e80: 810c5320 815c6810 81126e90 00000000 81c35eac 81c35ea0 80617554 80616650
-[    4.301040] 5ea0: 81c35ecc 81c35eb0 80615694 80617544 810c5080 810c5080 810c5094 81126e90
-[    4.309233] 5ec0: 81c35efc 81c35ed0 80615c6c 8061560c 80615bc0 810c50c0 817eeb00 81412800
-[    4.317425] 5ee0: 814c3000 00000000 814c300d 81119a60 81c35f3c 81c35f00 80141488 80615bcc
-[    4.325618] 5f00: 81c60000 81c34000 81c35f24 81c35f18 80143078 817eeb00 81412800 817eeb18
-[    4.333811] 5f20: 81412818 81003d00 00000088 81412800 81c35f74 81c35f40 80141a48 80141298
-[    4.342005] 5f40: 81c35f74 81c34000 801481ac 817efa40 817efc00 801417d8 817eeb00 00000000
-[    4.350199] 5f60: 815a7e7c 81c34000 81c35fac 81c35f78 80149b1c 801417e4 817efc20 817efc20
-[    4.358391] 5f80: ffffe000 817efa40 801499a8 00000000 00000000 00000000 00000000 00000000
-[    4.366583] 5fa0: 00000000 81c35fb0 80100130 801499b4 00000000 00000000 00000000 00000000
-[    4.374774] 5fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-[    4.382966] 5fe0: 00000000 00000000 00000000 00000000 00000013 00000000 00000000 00000000
-[    4.391155] Backtrace:
-[    4.393613] [<805eadcc>] (stdp2690_get_edid) from [<805eb138>] (ge_b850v3_lvds_get_modes+0x2c/0x5c)
-[    4.402691]  r10:81c73840 r9:81c73894 r8:816d9800 r7:00001000 r6:824addc0 r5:81c73840
-[    4.410534]  r4:810c35f0
-[    4.413073] [<805eb10c>] (ge_b850v3_lvds_get_modes) from [<80594188>] (drm_helper_probe_single_connector_modes+0x1d4/0x84c)
-[    4.424240]  r5:00000045 r4:810c35f0
-[    4.427822] [<80593fb4>] (drm_helper_probe_single_connector_modes) from [<805d9694>] (drm_client_modeset_probe+0x200/0x1384)
-[    4.439074]  r10:00000002 r9:00001000 r8:81e1ce40 r7:00001000 r6:826282c8 r5:826282c8
-[    4.446917]  r4:00000008
-[    4.449455] [<805d9494>] (drm_client_modeset_probe) from [<805a7f18>] (__drm_fb_helper_initial_config_and_unlock+0x54/0x5b4)
-[    4.460713]  r10:0000000c r9:81c40908 r8:81e1ce40 r7:810c35f4 r6:00000010 r5:00000010
-[    4.468556]  r4:81fbb700
-[    4.471095] [<805a7ec4>] (__drm_fb_helper_initial_config_and_unlock) from [<805a8c78>] (drm_fbdev_client_hotplug+0x11c/0x1b0)
-[    4.482434]  r10:0000000c r9:81c40908 r8:81e1ce40 r7:810c35f4 r6:00000010 r5:816d9800
-[    4.490276]  r4:81fbb700
-[    4.492814] [<805a8b5c>] (drm_fbdev_client_hotplug) from [<805a8dc4>] (drm_fbdev_generic_setup+0xb8/0x1a4)
-[    4.502494]  r7:00000000 r6:00000010 r5:81fbb700 r4:816d9800
-[    4.508160] [<805a8d0c>] (drm_fbdev_generic_setup) from [<805e47b0>] (imx_drm_bind+0xf0/0x130)
-[    4.516805]  r7:810c42d0 r6:8179f810 r5:00000000 r4:816d9800
-[    4.522474] [<805e46c0>] (imx_drm_bind) from [<8060db1c>] (try_to_bring_up_master+0x22c/0x2f0)
-[    4.531116]  r7:81126b60 r6:81c40908 r5:81e1ea80 r4:824aa240
-[    4.536783] [<8060d8f0>] (try_to_bring_up_master) from [<8060dc9c>] (__component_add+0xbc/0x184)
-[    4.545597]  r10:815c6810 r9:80dd9a3c r8:80c4b95c r7:810c4d6c r6:00000000 r5:81e1ea80
-[    4.553440]  r4:81fe9740
-[    4.555980] [<8060dbe0>] (__component_add) from [<8060dd80>] (component_add+0x1c/0x20)
-[    4.563921]  r7:eefd8e00 r6:815c6810 r5:815c6800 r4:8246b440
-[    4.569589] [<8060dd64>] (component_add) from [<805e98a4>] (dw_hdmi_imx_probe+0xa8/0xe8)
-[    4.577702] [<805e97fc>] (dw_hdmi_imx_probe) from [<80619574>] (platform_probe+0x6c/0xc8)
-[    4.585908]  r9:80dd9a3c r8:81126e90 r7:81126e90 r6:810c45b0 r5:815c6810 r4:00000000
-[    4.593662] [<80619508>] (platform_probe) from [<806168dc>] (really_probe+0xe8/0x460)
-[    4.601524]  r7:81126e90 r6:810c45b0 r5:00000000 r4:815c6810
-[    4.607191] [<806167f4>] (really_probe) from [<80616d04>] (__driver_probe_device+0xb0/0x230)
-[    4.615658]  r7:815c6810 r6:81c35e6c r5:810c45b0 r4:815c6810
-[    4.621326] [<80616c54>] (__driver_probe_device) from [<80616ec8>] (driver_probe_device+0x44/0xe0)
-[    4.630313]  r9:80dd9a3c r8:00000003 r7:815c6810 r6:81c35e6c r5:8116e314 r4:8116e310
-[    4.638068] [<80616e84>] (driver_probe_device) from [<80617338>] (__device_attach_driver+0xb4/0x12c)
-[    4.647227]  r9:80dd9a3c r8:00000001 r7:815c6810 r6:81c35e6c r5:810c45b0 r4:00000001
-[    4.654981] [<80617284>] (__device_attach_driver) from [<80614730>] (bus_for_each_drv+0x94/0xd8)
-[    4.663794]  r7:81c34000 r6:80617284 r5:81c35e6c r4:00000000
-[    4.669461] [<8061469c>] (bus_for_each_drv) from [<8061673c>] (__device_attach+0xf8/0x190)
-[    4.677753]  r7:81126e90 r6:815c6854 r5:81c34000 r4:815c6810
-[    4.683419] [<80616644>] (__device_attach) from [<80617554>] (device_initial_probe+0x1c/0x20)
-[    4.691971]  r8:00000000 r7:81126e90 r6:815c6810 r5:810c5320 r4:810c5080
-[    4.698681] [<80617538>] (device_initial_probe) from [<80615694>] (bus_probe_device+0x94/0x9c)
-[    4.707318] [<80615600>] (bus_probe_device) from [<80615c6c>] (deferred_probe_work_func+0xac/0xf0)
-[    4.716305]  r7:81126e90 r6:810c5094 r5:810c5080 r4:810c5080
-[    4.721973] [<80615bc0>] (deferred_probe_work_func) from [<80141488>] (process_one_work+0x1fc/0x54c)
-[    4.731139]  r10:81119a60 r9:814c300d r8:00000000 r7:814c3000 r6:81412800 r5:817eeb00
-[    4.738981]  r4:810c50c0 r3:80615bc0
-[    4.742563] [<8014128c>] (process_one_work) from [<80141a48>] (worker_thread+0x270/0x570)
-[    4.750765]  r10:81412800 r9:00000088 r8:81003d00 r7:81412818 r6:817eeb18 r5:81412800
-[    4.758608]  r4:817eeb00
-[    4.761147] [<801417d8>] (worker_thread) from [<80149b1c>] (kthread+0x174/0x190)
-[    4.768574]  r10:81c34000 r9:815a7e7c r8:00000000 r7:817eeb00 r6:801417d8 r5:817efc00
-[    4.776417]  r4:817efa40
-[    4.778955] [<801499a8>] (kthread) from [<80100130>] (ret_from_fork+0x14/0x24)
-[    4.786201] Exception stack(0x81c35fb0 to 0x81c35ff8)
-[    4.791266] 5fa0:                                     00000000 00000000 00000000 00000000
-[    4.799459] 5fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-[    4.807651] 5fe0: 00000000 00000000 00000000 00000000 00000013 00000000
-[    4.814279]  r10:00000000 r9:00000000 r8:00000000 r7:00000000 r6:00000000 r5:801499a8
-[    4.822120]  r4:817efa40
-[    4.824664] Code: e3a02080 e593001c e3a01d33 e3a05000 (e5979018)
-
-Split the registration from the STDP4028 probe routine and only perform
-registration once both the STDP4028 and STDP2690 have probed.
-
-Signed-off-by: Martyn Welch <martyn.welch@collabora.com>
-CC: Peter Senna Tschudin <peter.senna@gmail.com>
-CC: Martyn Welch <martyn.welch@collabora.co.uk>
-CC: Neil Armstrong <narmstrong@baylibre.com>
-CC: Robert Foss <robert.foss@linaro.org>
-CC: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-CC: Jonas Karlman <jonas@kwiboo.se>
-CC: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Robert Foss <robert.foss@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/43552c3404e8fdf92d8bc5658fac24e9f03c2c57.1637836606.git.martyn.welch@collabora.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Fixes: 2ed869990e14 ("phy: Add MIPI D-PHY configuration options")
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Neil Armstrong <narmstrong@baylibre.com>
+Cc: Robert Foss <robert.foss@linaro.org>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Kishon Vijay Abraham I <kishon@ti.com>
+Cc: Vinod Koul <vkoul@kernel.org>
+Cc: Kevin Hilman <khilman@baylibre.com>
+Cc: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: Heiko Stuebner <heiko@sntech.de>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Guido Günther <agx@sigxcpu.org>
+Tested-by: Liu Ying <victor.liu@nxp.com> # RM67191 DSI panel on i.MX8mq EVK
+Signed-off-by: Liu Ying <victor.liu@nxp.com>
 ---
- .../bridge/megachips-stdpxxxx-ge-b850v3-fw.c  | 40 +++++++++++++------
- 1 file changed, 28 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/bridge/nwl-dsi.c                 | 7 ++-----
+ drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c    | 3 ++-
+ drivers/phy/phy-core-mipi-dphy.c                 | 4 ++--
+ drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c | 3 ++-
+ include/linux/phy/phy-mipi-dphy.h                | 4 +++-
+ 5 files changed, 11 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-index 9f522372a4884..4ab7b034bfec8 100644
---- a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-+++ b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-@@ -302,19 +302,10 @@ static void ge_b850v3_lvds_remove(void)
- 	mutex_unlock(&ge_b850v3_lvds_dev_mutex);
- }
- 
--static int stdp4028_ge_b850v3_fw_probe(struct i2c_client *stdp4028_i2c,
--				       const struct i2c_device_id *id)
-+static int ge_b850v3_register(void)
+diff --git a/drivers/gpu/drm/bridge/nwl-dsi.c b/drivers/gpu/drm/bridge/nwl-dsi.c
+index a7389a0facfb..f1fdcdf763ee 100644
+--- a/drivers/gpu/drm/bridge/nwl-dsi.c
++++ b/drivers/gpu/drm/bridge/nwl-dsi.c
+@@ -196,12 +196,9 @@ static u32 ps2bc(struct nwl_dsi *dsi, unsigned long long ps)
+ /*
+  * ui2bc - UI time periods to byte clock cycles
+  */
+-static u32 ui2bc(struct nwl_dsi *dsi, unsigned long long ui)
++static u32 ui2bc(struct nwl_dsi *dsi, unsigned int ui)
  {
-+	struct i2c_client *stdp4028_i2c = ge_b850v3_lvds_ptr->stdp4028_i2c;
- 	struct device *dev = &stdp4028_i2c->dev;
--	int ret;
+-	u32 bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
 -
--	ret = ge_b850v3_lvds_init(dev);
--
--	if (ret)
--		return ret;
--
--	ge_b850v3_lvds_ptr->stdp4028_i2c = stdp4028_i2c;
--	i2c_set_clientdata(stdp4028_i2c, ge_b850v3_lvds_ptr);
- 
- 	/* drm bridge initialization */
- 	ge_b850v3_lvds_ptr->bridge.funcs = &ge_b850v3_lvds_funcs;
-@@ -336,6 +327,27 @@ static int stdp4028_ge_b850v3_fw_probe(struct i2c_client *stdp4028_i2c,
- 			"ge-b850v3-lvds-dp", ge_b850v3_lvds_ptr);
+-	return DIV64_U64_ROUND_UP(ui * dsi->lanes,
+-				  dsi->mode.clock * 1000 * bpp);
++	return DIV_ROUND_UP(ui, MIPI_DPHY_UI_PER_TXBYTECLKHS_PERIOD);
  }
  
-+static int stdp4028_ge_b850v3_fw_probe(struct i2c_client *stdp4028_i2c,
-+				       const struct i2c_device_id *id)
-+{
-+	struct device *dev = &stdp4028_i2c->dev;
-+	int ret;
-+
-+	ret = ge_b850v3_lvds_init(dev);
-+
-+	if (ret)
-+		return ret;
-+
-+	ge_b850v3_lvds_ptr->stdp4028_i2c = stdp4028_i2c;
-+	i2c_set_clientdata(stdp4028_i2c, ge_b850v3_lvds_ptr);
-+
-+	/* Only register after both bridges are probed */
-+	if (!ge_b850v3_lvds_ptr->stdp2690_i2c)
-+		return 0;
-+
-+	return ge_b850v3_register();
-+}
-+
- static int stdp4028_ge_b850v3_fw_remove(struct i2c_client *stdp4028_i2c)
- {
- 	ge_b850v3_lvds_remove();
-@@ -379,7 +391,11 @@ static int stdp2690_ge_b850v3_fw_probe(struct i2c_client *stdp2690_i2c,
- 	ge_b850v3_lvds_ptr->stdp2690_i2c = stdp2690_i2c;
- 	i2c_set_clientdata(stdp2690_i2c, ge_b850v3_lvds_ptr);
+ /*
+diff --git a/drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c b/drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c
+index cd2332bf0e31..8a818cdb7606 100644
+--- a/drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c
++++ b/drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c
+@@ -250,7 +250,8 @@ static int phy_meson_axg_mipi_dphy_power_on(struct phy *phy)
+ 		     (DIV_ROUND_UP(priv->config.clk_zero, temp) << 16) |
+ 		     (DIV_ROUND_UP(priv->config.clk_prepare, temp) << 24));
+ 	regmap_write(priv->regmap, MIPI_DSI_CLK_TIM1,
+-		     DIV_ROUND_UP(priv->config.clk_pre, temp));
++		     DIV_ROUND_UP(priv->config.clk_pre,
++				  MIPI_DPHY_UI_PER_TXBYTECLKHS_PERIOD));
  
--	return 0;
-+	/* Only register after both bridges are probed */
-+	if (!ge_b850v3_lvds_ptr->stdp4028_i2c)
-+		return 0;
-+
-+	return ge_b850v3_register();
- }
+ 	regmap_write(priv->regmap, MIPI_DSI_HS_TIM,
+ 		     DIV_ROUND_UP(priv->config.hs_exit, temp) |
+diff --git a/drivers/phy/phy-core-mipi-dphy.c b/drivers/phy/phy-core-mipi-dphy.c
+index 288c9c67aa74..ccb4045685cd 100644
+--- a/drivers/phy/phy-core-mipi-dphy.c
++++ b/drivers/phy/phy-core-mipi-dphy.c
+@@ -36,7 +36,7 @@ int phy_mipi_dphy_get_default_config(unsigned long pixel_clock,
  
- static int stdp2690_ge_b850v3_fw_remove(struct i2c_client *stdp2690_i2c)
+ 	cfg->clk_miss = 0;
+ 	cfg->clk_post = 60000 + 52 * ui;
+-	cfg->clk_pre = 8000;
++	cfg->clk_pre = 8;
+ 	cfg->clk_prepare = 38000;
+ 	cfg->clk_settle = 95000;
+ 	cfg->clk_term_en = 0;
+@@ -97,7 +97,7 @@ int phy_mipi_dphy_config_validate(struct phy_configure_opts_mipi_dphy *cfg)
+ 	if (cfg->clk_post < (60000 + 52 * ui))
+ 		return -EINVAL;
+ 
+-	if (cfg->clk_pre < 8000)
++	if (cfg->clk_pre < 8)
+ 		return -EINVAL;
+ 
+ 	if (cfg->clk_prepare < 38000 || cfg->clk_prepare > 95000)
+diff --git a/drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c b/drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c
+index 347dc79a18c1..67b0a17be7e3 100644
+--- a/drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c
++++ b/drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c
+@@ -364,7 +364,8 @@ static void inno_dsidphy_mipi_mode_enable(struct inno_dsidphy *inno)
+ 	 * The value of counter for HS Tclk-pre
+ 	 * Tclk-pre = Tpin_txbyteclkhs * value
+ 	 */
+-	clk_pre = DIV_ROUND_UP(cfg->clk_pre, t_txbyteclkhs);
++	clk_pre = DIV_ROUND_UP(cfg->clk_pre,
++			       MIPI_DPHY_UI_PER_TXBYTECLKHS_PERIOD);
+ 
+ 	/*
+ 	 * The value of counter for HS Tlpx Time
+diff --git a/include/linux/phy/phy-mipi-dphy.h b/include/linux/phy/phy-mipi-dphy.h
+index a877ffee845d..ab1f736fbcd3 100644
+--- a/include/linux/phy/phy-mipi-dphy.h
++++ b/include/linux/phy/phy-mipi-dphy.h
+@@ -6,6 +6,8 @@
+ #ifndef __PHY_MIPI_DPHY_H_
+ #define __PHY_MIPI_DPHY_H_
+ 
++#define MIPI_DPHY_UI_PER_TXBYTECLKHS_PERIOD	8
++
+ /**
+  * struct phy_configure_opts_mipi_dphy - MIPI D-PHY configuration set
+  *
+@@ -42,7 +44,7 @@ struct phy_configure_opts_mipi_dphy {
+ 	 * the transmitter prior to any associated Data Lane beginning
+ 	 * the transition from LP to HS mode.
+ 	 *
+-	 * Minimum value: 8 UI
++	 * Minimum value: 8
+ 	 */
+ 	unsigned int		clk_pre;
+ 
 -- 
-2.34.1
+2.25.1
 
