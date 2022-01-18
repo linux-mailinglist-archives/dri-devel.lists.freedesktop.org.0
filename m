@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC6D44915B6
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 03:29:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C53474915B9
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 03:29:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EB6F1128CA;
-	Tue, 18 Jan 2022 02:29:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A9BF1128DC;
+	Tue, 18 Jan 2022 02:29:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E8461128DB;
- Tue, 18 Jan 2022 02:29:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C08A1128D9;
+ Tue, 18 Jan 2022 02:29:43 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id D08F5B81258;
- Tue, 18 Jan 2022 02:29:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F189FC36AE3;
- Tue, 18 Jan 2022 02:29:35 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 01696B8124F;
+ Tue, 18 Jan 2022 02:29:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 606A6C36AE3;
+ Tue, 18 Jan 2022 02:29:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1642472977;
- bh=Evjdvma7DpXHpludweJifTmE2JUT8KCAToNGDJW3x2k=;
+ s=k20201202; t=1642472980;
+ bh=o+qYG+ML9wHDSqQvfw0/Rdn3tY3nA8lbroLnq/hiesA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=eerbGhrlNLP1/Tud2Kbz0yribI4ym6EHqKcbPOTVKvZmz8NCkLshL108ayIw1FxFh
- gbnvQwlmNATRb5IpfyKLQLeheRJUKRQlrst6QL7O1rafv/BOFjrJjX1nIbmtE5x21L
- /EW+Veb8Ogt7H6FIBKQv9/tK1QU75lEo2vr/dJ0IGckEjbJ1bVoXdc2FAoVVbufdFq
- nWlWmZa3cN5JUbWsshVtyBmTfyAb2d2wvpgtgNNlQbb0cNppSQ+dstoyI0jiLaqDPZ
- leOHpDXW6qUcrnJdGgr7Uzham9iOzf/mfktw/nvNyMGqPW0LGNizVdui2Dq1L24tZM
- zf09f3xmBT65Q==
+ b=MkdzJxjbGu4pDkLYjH8nvC07Ei5kuKHFfWOoUhYfsYa4sVbv2HLNPhCijROJnc2wN
+ w3alVI4upquEH9K9WlWiR4LmhYmPB1fDjvRmWaOjwNd1CXZRWb0BmFzh1YYh2582eF
+ 7Te4Xdt6ci55sGiEJd87M/+nqA+9tCP4P6unSIp7UhxnYpY1fXeLSgO97cYUmTCcW5
+ E7KxEcNTxI1z+895k/e/BQN/9gQ4oSjpC8asrtSRrcUq/N6XVL7fsgiI9WZFP6i0w4
+ TgGZbRqYqp3J+ezMeC+Ur5Ltc1xu0z4ra1WOe4fQ5/aacxXpHgAR3by3hYAJC2W69Y
+ Ldh7f1JFoKchw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.16 186/217] drm/amdgpu: fixup bad vram size on gmc v8
-Date: Mon, 17 Jan 2022 21:19:09 -0500
-Message-Id: <20220118021940.1942199-186-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.16 188/217] amdgpu/pm: Make sysfs pm attributes as
+ read-only for VFs
+Date: Mon, 17 Jan 2022 21:19:11 -0500
+Message-Id: <20220118021940.1942199-188-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220118021940.1942199-1-sashal@kernel.org>
 References: <20220118021940.1942199-1-sashal@kernel.org>
@@ -54,67 +55,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Oak.Zeng@amd.com, airlied@linux.ie,
- Felix.Kuehling@amd.com, Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
- Zongmin Zhou <zhouzongmin@kylinos.cn>, nirmoy.das@amd.com,
+Cc: Sasha Levin <sashal@kernel.org>, Xinhui.Pan@amd.com,
+ Marina Nikolic <Marina.Nikolic@amd.com>, airlied@linux.ie,
+ Lijo Lazar <lijo.lazar@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- evan.quan@amd.com, christian.koenig@amd.com
+ Evan Quan <evan.quan@amd.com>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zongmin Zhou <zhouzongmin@kylinos.cn>
+From: Marina Nikolic <Marina.Nikolic@amd.com>
 
-[ Upstream commit 11544d77e3974924c5a9c8a8320b996a3e9b2f8b ]
+[ Upstream commit 11c9cc95f818f0f187e9b579a7f136f532b42445 ]
 
-Some boards(like RX550) seem to have garbage in the upper
-16 bits of the vram size register.  Check for
-this and clamp the size properly.  Fixes
-boards reporting bogus amounts of vram.
+== Description ==
+Setting values of pm attributes through sysfs
+should not be allowed in SRIOV mode.
+These calls will not be processed by FW anyway,
+but error handling on sysfs level should be improved.
 
-after add this patch,the maximum GPU VRAM size is 64GB,
-otherwise only 64GB vram size will be used.
+== Changes ==
+This patch prohibits performing of all set commands
+in SRIOV mode on sysfs level.
+It offers better error handling as calls that are
+not allowed will not be propagated further.
 
-Signed-off-by: Zongmin Zhou<zhouzongmin@kylinos.cn>
+== Test ==
+Writing to any sysfs file in passthrough mode will succeed.
+Writing to any sysfs file in ONEVF mode will yield error:
+"calling process does not have sufficient permission to execute a command".
+
+Signed-off-by: Marina Nikolic <Marina.Nikolic@amd.com>
+Acked-by: Evan Quan <evan.quan@amd.com>
+Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/amd/pm/amdgpu_pm.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
-index 492ebed2915be..63b890f1e8afb 100644
---- a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
-@@ -515,10 +515,10 @@ static void gmc_v8_0_mc_program(struct amdgpu_device *adev)
- static int gmc_v8_0_mc_init(struct amdgpu_device *adev)
- {
- 	int r;
-+	u32 tmp;
- 
- 	adev->gmc.vram_width = amdgpu_atombios_get_vram_width(adev);
- 	if (!adev->gmc.vram_width) {
--		u32 tmp;
- 		int chansize, numchan;
- 
- 		/* Get VRAM informations */
-@@ -562,8 +562,15 @@ static int gmc_v8_0_mc_init(struct amdgpu_device *adev)
- 		adev->gmc.vram_width = numchan * chansize;
+diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+index 41472ed992530..f8370d54100e8 100644
+--- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
++++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+@@ -2123,6 +2123,12 @@ static int default_attr_update(struct amdgpu_device *adev, struct amdgpu_device_
+ 		}
  	}
- 	/* size in MB on si */
--	adev->gmc.mc_vram_size = RREG32(mmCONFIG_MEMSIZE) * 1024ULL * 1024ULL;
--	adev->gmc.real_vram_size = RREG32(mmCONFIG_MEMSIZE) * 1024ULL * 1024ULL;
-+	tmp = RREG32(mmCONFIG_MEMSIZE);
-+	/* some boards may have garbage in the upper 16 bits */
-+	if (tmp & 0xffff0000) {
-+		DRM_INFO("Probable bad vram size: 0x%08x\n", tmp);
-+		if (tmp & 0xffff)
-+			tmp &= 0xffff;
-+	}
-+	adev->gmc.mc_vram_size = tmp * 1024ULL * 1024ULL;
-+	adev->gmc.real_vram_size = adev->gmc.mc_vram_size;
  
- 	if (!(adev->flags & AMD_IS_APU)) {
- 		r = amdgpu_device_resize_fb_bar(adev);
++	/* setting should not be allowed from VF */
++	if (amdgpu_sriov_vf(adev)) {
++		dev_attr->attr.mode &= ~S_IWUGO;
++		dev_attr->store = NULL;
++	}
++
+ #undef DEVICE_ATTR_IS
+ 
+ 	return 0;
 -- 
 2.34.1
 
