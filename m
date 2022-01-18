@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 686AB4928B8
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 15:50:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 915C04929D0
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 16:44:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A98710E156;
-	Tue, 18 Jan 2022 14:50:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B99710E1A0;
+	Tue, 18 Jan 2022 15:44:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F21710E156;
- Tue, 18 Jan 2022 14:50:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642517422; x=1674053422;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=AzzRAsgS7TBv6bhnr1PrVcU6g11tMi2v/6siw6c6O8E=;
- b=WYY9Lp0J7owdsQSHGE3K8l3EM1g5h4+jSyPjtgdYe6syeIiHKiuHz589
- Ie/8CMXFXu0G1mq9RsehkkZyxHLQMvBaEFfsIKh5W3NORmnyAdJjFQtY3
- uRX73DwG/DLKVlxPU9c3G8z0vkdy5bgBK6SSGROFmmsiR/pQJ6PE1WGSE
- l8tAroJTNjdLb4GF4jDcrzVGD2kudEnPGaF+IV0Bx4PM80r558yfsD4Qq
- tI/fIle1k3aAjrQYh3vNBmnw+pDbJQ+HRpvq/uWXVxgG0JBz5ERDQOctl
- BMYXJWLxP3AGUaFcZ8LK3xoGMArJj1HRFi7uMP3T+zqK/2tGMxcAFUhv8 Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10230"; a="243652450"
-X-IronPort-AV: E=Sophos;i="5.88,297,1635231600"; d="scan'208";a="243652450"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jan 2022 06:50:21 -0800
-X-IronPort-AV: E=Sophos;i="5.88,297,1635231600"; d="scan'208";a="517790061"
-Received: from lyormanx-mobl.ger.corp.intel.com (HELO [10.252.43.121])
- ([10.252.43.121])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jan 2022 06:50:20 -0800
-Message-ID: <413c501e-3c31-284c-beb6-cb710c5c197a@linux.intel.com>
-Date: Tue, 18 Jan 2022 15:50:17 +0100
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35B5C10E1A0
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 15:44:23 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id D56651F3BB;
+ Tue, 18 Jan 2022 15:44:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1642520661; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=BGHzlxiS19GPfCXsEtRhvRf0r5x26P0DtRlGlbIZrv8=;
+ b=GWXCW4SGw6Yjd8vOs3T6O5cnSpge9NM+mtWRPoSnL2shfGHFieDSCcqYKKxovHfWMNBmNt
+ PPOTDET60L8ivNc7grHLBAZioMgrxdIExYbe+0lDeb6TmcOYdax+p3FGQgx1ToExntzXiT
+ v4s2BtfQMzla1j/jtUSgcNjvnfWwx1s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1642520661;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=BGHzlxiS19GPfCXsEtRhvRf0r5x26P0DtRlGlbIZrv8=;
+ b=hCW2f3DRe2ggjis/qCMDXaX+BimdyHGQdv3kQkzYXSHP8XC35c7ls2a/VT49nGdHCk3wYn
+ osR2ZSqyPB2W7LCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A9A8713AB7;
+ Tue, 18 Jan 2022 15:44:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id jhF2KFXg5mE/awAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 18 Jan 2022 15:44:21 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: lyude@redhat.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org
+Subject: [PATCH] drm/selftests: Select DRM_DP_HELPER
+Date: Tue, 18 Jan 2022 16:44:18 +0100
+Message-Id: <20220118154418.25932-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.5.0
-Subject: Re: [PATCH] drm/i915: Add locking to i915_gem_evict_vm(), v3.
-Content-Language: en-US
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org
-References: <bb70ccb8-043c-bd99-e01e-c2f2a0c48d54@shipmail.org>
- <20220117075604.131477-1-maarten.lankhorst@linux.intel.com>
- <fb8f8150-bdc3-32aa-5352-5f15ae91a592@linux.intel.com>
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-In-Reply-To: <fb8f8150-bdc3-32aa-5352-5f15ae91a592@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,40 +62,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Op 17-01-2022 om 15:08 schreef Thomas Hellström:
->
-> On 1/17/22 08:56, Maarten Lankhorst wrote:
->> i915_gem_evict_vm will need to be able to evict objects that are
->> locked by the current ctx. By testing if the current context already
->> locked the object, we can do this correctly. This allows us to
->> evict the entire vm even if we already hold some objects' locks.
->>
->> Previously, this was spread over several commits, but it makes
->> more sense to commit the changes to i915_gem_evict_vm separately
->> from the changes to i915_gem_evict_something() and
->> i915_gem_evict_for_node().
->>
->> Changes since v1:
->> - Handle evicting dead objects better.
->> Changes since v2:
->> - Use for_i915_gem_ww in igt_evict_vm. (Thomas)
->>
->> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->
-> Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->
-> (Please note the series checkpatch- and DOC warnings before commiting!)
->
-> Thanks,
->
-> Thomas
->
->
-Fixed and pushed. :)
+Resolve warnings about non-existing symbols by selecting DRM_DP_HELPER.
 
-~Maarten
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: adb9d5a2cc77 ("drm/dp: Move DisplayPort helpers into separate helper module")
+Reported-by: kernel test robot <lkp@intel.com>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: dri-devel@lists.freedesktop.org
+---
+ drivers/gpu/drm/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index 91f54aeb0b7c..65897777d931 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -68,6 +68,7 @@ config DRM_DEBUG_SELFTEST
+ 	depends on DRM
+ 	depends on DEBUG_KERNEL
+ 	select PRIME_NUMBERS
++	select DRM_DP_HELPER
+ 	select DRM_LIB_RANDOM
+ 	select DRM_KMS_HELPER
+ 	select DRM_EXPORT_FOR_TESTS if m
+-- 
+2.34.1
 
