@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0584349151C
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 03:26:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B227491537
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 03:26:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEE621128D0;
-	Tue, 18 Jan 2022 02:26:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE14D1128D1;
+	Tue, 18 Jan 2022 02:26:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDBE91128CF;
- Tue, 18 Jan 2022 02:26:10 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35A6B1128CD;
+ Tue, 18 Jan 2022 02:26:53 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5150961163;
- Tue, 18 Jan 2022 02:26:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2CABC36AE3;
- Tue, 18 Jan 2022 02:26:06 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id F0A80B81238;
+ Tue, 18 Jan 2022 02:26:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D27B1C36AE3;
+ Tue, 18 Jan 2022 02:26:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1642472768;
- bh=yqSwJVXMzPmSYPIZURiBbJ026IA9VE5I3L1uFRkpvjU=;
+ s=k20201202; t=1642472810;
+ bh=P6eFo3h9qX3r6YCHPSkuPE/RNoXMNV1Mnn7M6uecedU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lDBz/6MvTvAoJF2vOspQ0CZY325ZVQaeEpqUewId82kG27GRrpcq7l2O0qPH93t/k
- SWvHLvKABmDNNI391ghVeCuD3PnLCKU0sT2sEMNBq7/neSgynYbFybxINlswu8VYmG
- YhBlbXn//cPNE+CNxXDVKLpFYNsQlAi2JFcbXkkBrHhklnv48MXgbenhfglCukELmQ
- JXcCNGBN08AbqrDrCTAsY5HNxbZdHsqbJ1mnb9CC7JbM9aamX+bsHRmWdM5GznSJSB
- ZYIdFvP3h7lh6pUbVjqiFZNG7ZvUBo1hrpLPbttxc754X5sfKrQCDcT/Qre6YZi2At
- DCfKs+s6fN6xA==
+ b=p18bWi9lvr4Y4qkXUHrNvIweF2GIA0HCkm774BGPf2KzeGlW0rY/gh6llDBF2c6Qj
+ jo0hEiWm5EsHA9oi7LweRyyZQ1s05VY2shzGqqZoUM+BGGnHZLRwLkBwMQQrmeTdo6
+ mlOJDlxramiO3U5MS9HoTRI7mkvzHmeUJD+BFkltlRLPrM0EBoQm+ukwGebX6kKICf
+ Kdu5Fa6gtQOSEJUfK6Uk2hck6bQrkSO9uppZow5QavhPtQnUwr9L0wtgvYwoo8RtXr
+ zR/xbBV/V7aAkTfGp1T4JZTNHdPZ421fu+ydpiyrbcc0nb9rHNhVVF1/1d63wMitu7
+ BdayefkOQ7LKg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.16 131/217] drm/amdgpu: fix
- amdgpu_ras_mca_query_error_status scope
-Date: Mon, 17 Jan 2022 21:18:14 -0500
-Message-Id: <20220118021940.1942199-131-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.16 140/217] drm/amd/amdgpu: fix psp tmr bo pin count
+ leak in SRIOV
+Date: Mon, 17 Jan 2022 21:18:23 -0500
+Message-Id: <20220118021940.1942199-140-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220118021940.1942199-1-sashal@kernel.org>
 References: <20220118021940.1942199-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -56,52 +56,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, mukul.joshi@amd.com, airlied@linux.ie,
- Xinhui.Pan@amd.com, nirmoy.das@amd.com, amd-gfx@lists.freedesktop.org,
- luben.tuikov@amd.com, Stanley.Yang@amd.com, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Isabella Basso <isabbasso@riseup.net>, john.clements@amd.com,
- christian.koenig@amd.com, Dennis.Li@amd.com, Hawking.Zhang@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, lijo.lazar@amd.com, Oak.Zeng@amd.com,
+ airlied@linux.ie, lang.yu@amd.com, Jingwen Chen <Jingwen.Chen2@amd.com>,
+ Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
+ jonathan.kim@amd.com, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, candice.li@amd.com,
+ john.clements@amd.com, Horace Chen <horace.chen@amd.com>,
+ Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Isabella Basso <isabbasso@riseup.net>
+From: Jingwen Chen <Jingwen.Chen2@amd.com>
 
-[ Upstream commit 929bb8e200412da36aca4b61209ec26283f9c184 ]
+[ Upstream commit 85dfc1d692c9434c37842e610be37cd4ae4e0081 ]
 
-This commit fixes the compile-time warning below:
+[Why]
+psp tmr bo will be pinned during loading amdgpu and reset in SRIOV while
+only unpinned in unload amdgpu
 
- warning: no previous prototype for ‘amdgpu_ras_mca_query_error_status’
- [-Wmissing-prototypes]
+[How]
+add amdgpu_in_reset and sriov judgement to skip pin bo
 
-Changes since v1:
-- As suggested by Alexander Deucher:
-  1. Make function static instead of adding prototype.
+v2: fix wrong judgement
 
-Signed-off-by: Isabella Basso <isabbasso@riseup.net>
+Signed-off-by: Jingwen Chen <Jingwen.Chen2@amd.com>
+Reviewed-by: Horace Chen <horace.chen@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-index 08133de21fdd6..26b7a4a0b44b7 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-@@ -867,9 +867,9 @@ static int amdgpu_ras_enable_all_features(struct amdgpu_device *adev,
- /* feature ctl end */
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+index c641f84649d6b..d011ae7e50a54 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+@@ -2017,12 +2017,16 @@ static int psp_hw_start(struct psp_context *psp)
+ 		return ret;
+ 	}
  
++	if (amdgpu_sriov_vf(adev) && amdgpu_in_reset(adev))
++		goto skip_pin_bo;
++
+ 	ret = psp_tmr_init(psp);
+ 	if (ret) {
+ 		DRM_ERROR("PSP tmr init failed!\n");
+ 		return ret;
+ 	}
  
--void amdgpu_ras_mca_query_error_status(struct amdgpu_device *adev,
--				       struct ras_common_if *ras_block,
--				       struct ras_err_data  *err_data)
-+static void amdgpu_ras_mca_query_error_status(struct amdgpu_device *adev,
-+					      struct ras_common_if *ras_block,
-+					      struct ras_err_data  *err_data)
- {
- 	switch (ras_block->sub_block_index) {
- 	case AMDGPU_RAS_MCA_BLOCK__MP0:
++skip_pin_bo:
+ 	/*
+ 	 * For ASICs with DF Cstate management centralized
+ 	 * to PMFW, TMR setup should be performed after PMFW
 -- 
 2.34.1
 
