@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 208BE4915D5
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 03:32:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6015E4915DE
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 03:32:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C98C11128B6;
-	Tue, 18 Jan 2022 02:32:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 730FF1128DE;
+	Tue, 18 Jan 2022 02:32:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org
  [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 026641128B6
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 02:32:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69C0B1128E4;
+ Tue, 18 Jan 2022 02:32:08 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id BE5A6B811FF;
- Tue, 18 Jan 2022 02:32:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A139C36AF5;
- Tue, 18 Jan 2022 02:31:58 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 33E60B811FF;
+ Tue, 18 Jan 2022 02:32:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BFB2C36AF3;
+ Tue, 18 Jan 2022 02:32:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1642473119;
- bh=FWew8kSA0PCwrUkOdUPtZ3rD8Vs0Xt6T0HP/cCKVwJM=;
+ s=k20201202; t=1642473126;
+ bh=FpFOz55NDArr1D4SGMUr6c5B/Pd266OUahPpfqk8l5Q=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=S87tcDXZoBviMtmlggg9W3EfOS3HzvmZkvRdAAxged7z0TvXIZEEKGAYT6HjwvOVV
- XR1FKYt0DWvT0l4jswDxxkAwJZLyWih5cEviXYxhrMnDMtd2/Zlp+fCriglQFBbOUZ
- PcI5ryVVPj9MUQKvcGfC8+6WsFWf3SR+GS6zyVUwS6bNJJOsomaLQtreXnRB9A3ug8
- dm0fB8SzKnRZG3cQ1DgKtqDsivQTy/SjLGGBAdah6OH83JMp9Y8Rqb+TgbTvU1/64L
- 9WVxwo+bGTkcwPj4m9IrvotzFQ66AumpzehM6pxatu6jQ81fclUp6Y4HBq2Fr6bmzK
- 9R+JojImROzaA==
+ b=JLExkustGTrB2paIJ8K2dJOgN0/pJ3SUoUs0RCAStRQpP3k7WZXDXbKQYKO6S17K5
+ dtQjQQQnZYYLCIKFwSnDUn7SYstR2C2gsSD2VIyWkGmWRzYCCMbhERx9sTApnwbzZt
+ jjRKs24LOrmzEEdM/KI7f/sFABMHSfZzzowWP5pet7hqRWcRXGdpgzL2hOV5eyv8ZX
+ eV6KwJ3uHkIr7G2yw0CQh7AUz+yR+PWF7DVGgHKqcvKaV9r8xVGkZwZzZPkr93inzB
+ e+UXC8hiK3dJ/SL+B1y93RIpHv9RJMgAeIbxx++e9Mm5g6GRd8c1jYCw8qZHxGelQ/
+ O/3wj9gD+TmCA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 003/188] drm/panel: Delete panel on
- mipi_dsi_attach() failure
-Date: Mon, 17 Jan 2022 21:28:47 -0500
-Message-Id: <20220118023152.1948105-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 007/188] drm/lima: fix warning when
+ CONFIG_DEBUG_SG=y & CONFIG_DMA_API_DEBUG=y
+Date: Mon, 17 Jan 2022 21:28:51 -0500
+Message-Id: <20220118023152.1948105-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220118023152.1948105-1-sashal@kernel.org>
 References: <20220118023152.1948105-1-sashal@kernel.org>
@@ -56,177 +56,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
- Brian Norris <briannorris@chromium.org>, dri-devel@lists.freedesktop.org,
- thierry.reding@gmail.com, jagan@amarulasolutions.com,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Sasha Levin <sashal@kernel.org>, lima@lists.freedesktop.org,
+ airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ Vasily Khoruzhick <anarsoul@gmail.com>, Qiang Yu <yuq825@gmail.com>,
+ Roman Stratiienko <r.stratiienko@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Brian Norris <briannorris@chromium.org>
+From: Qiang Yu <yuq825@gmail.com>
 
-[ Upstream commit 9bf7123bb07f98dc76acb5daa91248e6f95713cb ]
+[ Upstream commit 89636a06fa2ee7826a19c39c19a9bc99ab9340a9 ]
 
-Many DSI panel drivers fail to clean up their panel references on
-mipi_dsi_attach() failure, so we're leaving a dangling drm_panel
-reference to freed memory. Clean that up on failure.
+Otherwise get following warning:
 
-Noticed by inspection, after seeing similar problems on other drivers.
-Therefore, I'm not marking Fixes/stable.
+DMA-API: lima 1c40000.gpu: mapping sg segment longer than device claims to support [len=4149248] [max=65536]
 
-Signed-off-by: Brian Norris <briannorris@chromium.org>
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210923173336.3.If9e74fa9b1d6eaa9e0e5b95b2b957b992740251c@changeid
+See: https://gitlab.freedesktop.org/mesa/mesa/-/issues/5496
+
+Reviewed-by: Vasily Khoruzhick <anarsoul@gmail.com>
+Reported-by: Roman Stratiienko <r.stratiienko@gmail.com>
+Signed-off-by: Qiang Yu <yuq825@gmail.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20211031041604.187216-1-yuq825@gmail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c    | 8 +++++++-
- drivers/gpu/drm/panel/panel-jdi-lt070me05000.c           | 8 +++++++-
- drivers/gpu/drm/panel/panel-novatek-nt36672a.c           | 8 +++++++-
- drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c     | 8 +++++++-
- drivers/gpu/drm/panel/panel-ronbo-rb070d30.c             | 8 +++++++-
- drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c | 1 +
- drivers/gpu/drm/panel/panel-samsung-sofef00.c            | 1 +
- drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c          | 8 +++++++-
- 8 files changed, 44 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/lima/lima_device.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c b/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c
-index 581661b506f81..f9c1f7bc8218c 100644
---- a/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c
-+++ b/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c
-@@ -227,7 +227,13 @@ static int feiyang_dsi_probe(struct mipi_dsi_device *dsi)
- 	dsi->format = MIPI_DSI_FMT_RGB888;
- 	dsi->lanes = 4;
+diff --git a/drivers/gpu/drm/lima/lima_device.c b/drivers/gpu/drm/lima/lima_device.c
+index 65fdca366e41f..36c9905894278 100644
+--- a/drivers/gpu/drm/lima/lima_device.c
++++ b/drivers/gpu/drm/lima/lima_device.c
+@@ -357,6 +357,7 @@ int lima_device_init(struct lima_device *ldev)
+ 	int err, i;
  
--	return mipi_dsi_attach(dsi);
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret < 0) {
-+		drm_panel_remove(&ctx->panel);
-+		return ret;
-+	}
-+
-+	return 0;
- }
+ 	dma_set_coherent_mask(ldev->dev, DMA_BIT_MASK(32));
++	dma_set_max_seg_size(ldev->dev, UINT_MAX);
  
- static int feiyang_dsi_remove(struct mipi_dsi_device *dsi)
-diff --git a/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c b/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
-index 733010b5e4f53..3c86ad262d5e0 100644
---- a/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
-+++ b/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
-@@ -473,7 +473,13 @@ static int jdi_panel_probe(struct mipi_dsi_device *dsi)
- 	if (ret < 0)
- 		return ret;
- 
--	return mipi_dsi_attach(dsi);
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret < 0) {
-+		jdi_panel_del(jdi);
-+		return ret;
-+	}
-+
-+	return 0;
- }
- 
- static int jdi_panel_remove(struct mipi_dsi_device *dsi)
-diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36672a.c b/drivers/gpu/drm/panel/panel-novatek-nt36672a.c
-index 533cd3934b8b7..839b263fb3c0f 100644
---- a/drivers/gpu/drm/panel/panel-novatek-nt36672a.c
-+++ b/drivers/gpu/drm/panel/panel-novatek-nt36672a.c
-@@ -656,7 +656,13 @@ static int nt36672a_panel_probe(struct mipi_dsi_device *dsi)
- 	if (err < 0)
- 		return err;
- 
--	return mipi_dsi_attach(dsi);
-+	err = mipi_dsi_attach(dsi);
-+	if (err < 0) {
-+		drm_panel_remove(&pinfo->base);
-+		return err;
-+	}
-+
-+	return 0;
- }
- 
- static int nt36672a_panel_remove(struct mipi_dsi_device *dsi)
-diff --git a/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c b/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c
-index 3c20beeb17819..3991f5d950af4 100644
---- a/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c
-+++ b/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c
-@@ -241,7 +241,13 @@ static int wuxga_nt_panel_probe(struct mipi_dsi_device *dsi)
- 	if (ret < 0)
- 		return ret;
- 
--	return mipi_dsi_attach(dsi);
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret < 0) {
-+		wuxga_nt_panel_del(wuxga_nt);
-+		return ret;
-+	}
-+
-+	return 0;
- }
- 
- static int wuxga_nt_panel_remove(struct mipi_dsi_device *dsi)
-diff --git a/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c b/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
-index a3782830ae3c4..1fb579a574d9f 100644
---- a/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
-+++ b/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
-@@ -199,7 +199,13 @@ static int rb070d30_panel_dsi_probe(struct mipi_dsi_device *dsi)
- 	dsi->format = MIPI_DSI_FMT_RGB888;
- 	dsi->lanes = 4;
- 
--	return mipi_dsi_attach(dsi);
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret < 0) {
-+		drm_panel_remove(&ctx->panel);
-+		return ret;
-+	}
-+
-+	return 0;
- }
- 
- static int rb070d30_panel_dsi_remove(struct mipi_dsi_device *dsi)
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
-index ea63799ff2a1e..29fde3823212b 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
-@@ -247,6 +247,7 @@ static int s6e88a0_ams452ef01_probe(struct mipi_dsi_device *dsi)
- 	ret = mipi_dsi_attach(dsi);
- 	if (ret < 0) {
- 		dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
-+		drm_panel_remove(&ctx->panel);
- 		return ret;
- 	}
- 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-sofef00.c b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-index 8cb1853574bb8..6d107e14fcc55 100644
---- a/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-@@ -302,6 +302,7 @@ static int sofef00_panel_probe(struct mipi_dsi_device *dsi)
- 	ret = mipi_dsi_attach(dsi);
- 	if (ret < 0) {
- 		dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
-+		drm_panel_remove(&ctx->panel);
- 		return ret;
- 	}
- 
-diff --git a/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c b/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
-index b937e24dac8e0..25829a0a8e801 100644
---- a/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
-+++ b/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
-@@ -296,7 +296,13 @@ static int sharp_nt_panel_probe(struct mipi_dsi_device *dsi)
- 	if (ret < 0)
- 		return ret;
- 
--	return mipi_dsi_attach(dsi);
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret < 0) {
-+		sharp_nt_panel_del(sharp_nt);
-+		return ret;
-+	}
-+
-+	return 0;
- }
- 
- static int sharp_nt_panel_remove(struct mipi_dsi_device *dsi)
+ 	err = lima_clk_init(ldev);
+ 	if (err)
 -- 
 2.34.1
 
