@@ -2,48 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A645A49257B
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 13:11:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 775F54925FA
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 13:48:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72E6010E508;
-	Tue, 18 Jan 2022 12:11:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B6C610E627;
+	Tue, 18 Jan 2022 12:48:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55FDC10E508
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 12:11:21 +0000 (UTC)
-Date: Tue, 18 Jan 2022 12:11:15 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1642507878;
- bh=6jJPhYWwoA+//43JWYgSIF2TDwtpv80+W+Aoj4JDSLQ=;
- h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
- References:From:To:Cc;
- b=vro2rCcTNzJ1eiAzCCiIAtkK535vVvmHHVv+w/dx41CqwnVtLe/qojBuxkWfn8cJo
- oqWo82DKtp1s2KeVteUDfc6Hd/3bPCATrl75PGwviwene45RJmiKL7TmmdFWrmJ69s
- NHrGuz7mN03cgeGRtXwPglG9kRi5sA3tbWliZPR5h6UUGKdAH1tuPpKtoennM753T/
- 8rhlsoH5ghDNrAoZDo7wQFidZuyrxIDMZtwOYsHi1liZkj6FiX8UhPR+wKEomJlIJo
- 4+A+3Qjz8bc3LCE/kD4O9IPLJadcX1Kfdg1htuahb+CWmVurizdZRlEALBcyEAvd3t
- HZDhc9X9mZiEQ==
-To: Daniel Vetter <daniel@ffwll.ch>
-From: Simon Ser <contact@emersion.fr>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EE6810E627
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 12:48:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642510106;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=CB6tHFD3hrD0W0enC4pHpoosOH1HSXx3fWvCf7Pxffo=;
+ b=CZ2+wxhzXQAA+l7EqiAz+EClZbKR+5KLMf3bJHbrG18mC253Hfi1+aTwLWMFe2CSCDTnzm
+ 2MPoj3l4XhYR7jCdpNVxTyD8rTyY58QYmu+88sLRwuuwABkPdLB+hPWfpN3aTGPtYaVVD3
+ CM7kAkfHaL2I/TGtHmICded/8a2d3S0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-306-6FX2kNaPP3Ch-pn68zxI-g-1; Tue, 18 Jan 2022 07:48:23 -0500
+X-MC-Unique: 6FX2kNaPP3Ch-pn68zxI-g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26F0E1006AA5;
+ Tue, 18 Jan 2022 12:48:22 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F1BF02B4BF;
+ Tue, 18 Jan 2022 12:48:07 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 4523D18000A6; Tue, 18 Jan 2022 13:48:06 +0100 (CET)
+Date: Tue, 18 Jan 2022 13:48:06 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Helge Deller <deller@gmx.de>
 Subject: Re: [PATCH] MAINTAINERS: Add Helge as fbdev maintainer
-Message-ID: <Eq7vej5ZXGABhmCc7fCbSiaC0FruYkhMp8Bc3WsRENghKb_BOZ2LpVLsz8TkBGlrXD18jqkjAbBPwQt2n1yA7hQcK9u5Ep37fOC4UasJV_U=@emersion.fr>
-In-Reply-To: <CAKMK7uHtdjyeasnJw2ZVwJJjuCn1KGT05kJu-x5jdmEmnBB-dA@mail.gmail.com>
-References: <YeG8ydoJNWWkGrTb@ls3530>
- <CAKMK7uHVHn9apB6YYbLSwu+adEB2Fqp4FM0z582zf4F-v3_GnQ@mail.gmail.com>
- <cf21018b-f231-7538-169e-2ad450643cbf@gmx.de>
- <97d49bca-f5f7-dba4-b62d-b6fcdd4276ac@suse.de> <87ee5659dt.fsf@intel.com>
- <4f1d6018-d74e-8e62-ea4d-0ca79c6bbbc5@gmx.de> <87a6ft5thv.fsf@intel.com>
- <CAMuHMdVE6OY29qB+F-QPgQt2q5xAYfyuPhKqSDrh_HhD9PPw9g@mail.gmail.com>
- <CAKMK7uHtdjyeasnJw2ZVwJJjuCn1KGT05kJu-x5jdmEmnBB-dA@mail.gmail.com>
+Message-ID: <20220118124806.ywmjxk6wstipzi56@sirius.home.kraxel.org>
+References: <CAMuHMdW=Zpp2mHbrBx7i0WN8PqY3XpK5qpyAyYxgf9n88edpug@mail.gmail.com>
+ <70530b62-7b3f-db88-7f1a-f89b824e5825@suse.de>
+ <CAMuHMdW5M=zEuGEnQQc3JytDhoxCKRiq0QFw+HOPp0YMORzidw@mail.gmail.com>
+ <57d276d3-aa12-fa40-6f90-dc19ef393679@gmx.de>
+ <CAKMK7uE7jnTtetB5ovGeyPxHq4ymhbWmQXWmSVw-V1vP3iNAKQ@mail.gmail.com>
+ <b32ffceb-ea90-3d26-f20e-29ae21c68fcf@gmx.de>
+ <20220118062947.6kfuam6ah63z5mmn@sirius.home.kraxel.org>
+ <ebe9c076-e2a9-0cb7-eb6a-ae71c075975e@gmx.de>
+ <20220118091615.3ih5n7vhd6tgmnku@sirius.home.kraxel.org>
+ <ffef1042-e1af-d5b5-b140-ae24fcc1855b@gmx.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ffef1042-e1af-d5b5-b140-ae24fcc1855b@gmx.de>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,58 +70,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
 Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Linus Torvalds <torvalds@linux-foundation.org>
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Sven Schnelle <svens@stackframe.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tuesday, January 18th, 2022 at 12:41, Daniel Vetter <daniel@ffwll.ch> wr=
-ote:
+  Hi,
 
-> On Tue, Jan 18, 2022 at 9:41 AM Geert Uytterhoeven <geert@linux-m68k.org>=
- wrote:
-> >
-> > Hi Jani,
-> >
-> > On Tue, Jan 18, 2022 at 9:38 AM Jani Nikula <jani.nikula@linux.intel.co=
-m> wrote:
-> > > On Mon, 17 Jan 2022, Helge Deller <deller@gmx.de> wrote:
-> > > > On 1/17/22 22:40, Jani Nikula wrote:
-> > > >> On Mon, 17 Jan 2022, Thomas Zimmermann <tzimmermann@suse.de> wrote=
-:
-> > > >>> Seems like few people read linux-fbdev these days.
-> > > >>
-> > > >> How much traffic is there to linux-fbdev that is *not* Cc'd to dri=
--devel
-> > > >> also?
-> > > >
-> > > > Doesn't seem like much traffic - which IMHO is OK for such a tree w=
-ith
-> > > > mostly just maintenance patches.
-> > > >
-> > > >> Do we still need a separate linux-fbdev mailing list at all?
-> > > >
-> > > > Yes. I want to have it seperate of dri-devel.
-> > > > Actually I'd prefer to drop dri-devel from the list where patches
-> > > > for fbdev are sent...
-> > >
-> > > Disagreed. If anything, this thread shows we can't have fbdev and drm=
- in
-> > > silos of their own.
-> >
-> > Unless DRM drops fbdev support. Isn't that the long-term plan anyway?
->
-> No. There's way too much old stuff still using the fbdev interface to
-> do that. We've even done things like standardize the vblank wait
-> ioctl, because people need that.
+> > fbcon/fbdev emulation: RGB332 support must be added I think.  But both
+> > argb888 and rgb565 are supported today, so it should not be hard to find
+> > the places where you have to add some code to handle RGB332 too.
+> 
+> I'd expect that that framework is provided by DRM developers if there is the wish
+> to get rid of old fbdev and transition existing drivers over to use DRM.
 
-Kind of related: I wonder, could we document somewhere that fbdev is a
-deprecated uAPI? ie. new user-space shouldn't use it and should prefer DRM.
-I don't see that mentioned anywhere, although it seems like it's the
-consensus among all kernel developers I've talked to.
+Good luck with that.  Asking people to code up stuff they can't even
+test due to lack of hardware isn't going to fly very well.
+
+> > Yes.  The world shifted from 2d acceleration to 3d acceleration.  Modern
+> > hardware simply has no classic blitter any more.  Which is a problem
+> > when it comes to keeping scroll acceleration alive, it is already a very
+> > niche use case and it will only become worse ...
+> 
+> For me it's Ok that the DRM drivers don't use 2d acceleration (as it is today
+> with the arguments mentioned multiple times).
+> But the patches broke existing fbdev acceleration which is available by
+> the fbdev drivers. That's a big regression from point of fbdev.
+
+Keeping it alive and working will be a tough challenge.  2d acceleration
+is a thing of the past and the number of people which are able and
+willing to put effort into supporting it will only decline.  It has been
+a problem for a while already, basically it was dropped due to lack of
+support ...
+
+take care,
+  Gerd
+
