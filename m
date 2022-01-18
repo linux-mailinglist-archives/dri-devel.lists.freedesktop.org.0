@@ -1,54 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72732492F0F
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 21:13:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8092F492F1F
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 21:17:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2CD910E23E;
-	Tue, 18 Jan 2022 20:13:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01CA610E557;
+	Tue, 18 Jan 2022 20:17:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com
- [IPv6:2607:f8b0:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56B3E10E227;
- Tue, 18 Jan 2022 20:13:51 +0000 (UTC)
-Received: by mail-oi1-x234.google.com with SMTP id w188so591505oiw.13;
- Tue, 18 Jan 2022 12:13:51 -0800 (PST)
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
+ [IPv6:2607:f8b0:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5807410E557;
+ Tue, 18 Jan 2022 20:17:00 +0000 (UTC)
+Received: by mail-ot1-x332.google.com with SMTP id
+ x31-20020a056830245f00b00599111c8b20so12392163otr.7; 
+ Tue, 18 Jan 2022 12:17:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XpoF/evSGX0quKC3ojWlZTaHsolih4rnXmKXZB109js=;
- b=n8WE+2ligzVvQw/ftNjaP0Jz2I1BoZsxvck3BbPbUE2kP5cwZAgXweL6E9LBtnJvJM
- 1Z+RJvetEolqEgtBCwkmyNZ48Dog0SO60DM9dFkETYnmCh/xaeKp+fzwHVNyAqRLLemj
- tADuUkyCCcJF9iQFwMdF/H+JhaKN2HGHFsC0Lrrb/z9jS1Yf4Q0S1Z1+eIG0uoK+uvQP
- cCcvC6YIqQ0LRWQpCXPLkr3tCrYJUHYK4AiYcEkUXQUMOomxqNl5rupsd0ne7DWp4Hym
- lPUhAymAfQZHw0K887F/ecfeKL/1bSKmAffodTve5rE3R4E9fyHgU28XaLZco31L8wv8
- 8YZg==
+ :cc; bh=He49yW7OyJJZQm4z6JSnGw3avbkaRtaS3bqUTuhHunc=;
+ b=XuITQ2FaV6SooarHn5WnGL2EmHNlAsAIIy1rnRhSYfbOSxlAijkcvN6cF0KrUY49or
+ e9TQUbVoJy9NcWRJm5WOUcAT680yX93YjYtL67LPnzEdWTtrDIu6iWy3BfpAtoCFUT9d
+ 3fcjinfectzksRwnOc98D4rw759DrpdnaKBDtGf+J/1mcBMXMw33CfbeubtGU5UZtSoL
+ pYcTPZU1GWEk+ri0P5ClUk5KurrM17v33bjuO/+kRJ2ch8Z3QKDX+VQZaeh8qic9ZKhN
+ vKORlYVLApuut6NPojyQmeqGNwKncRPIeWVH7f+jIMSDegowVwXTCTxUwzyZGe55KR2L
+ B0Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=XpoF/evSGX0quKC3ojWlZTaHsolih4rnXmKXZB109js=;
- b=FBZrD8sVsx0fcVuYMmffcQdU+RVWLgDRlkT2w9uZDtgjD6ndzL7Su6+AJo5oJuuuY5
- CyPkoDfzLklcNVnWcSUFVEvwjpY9LFm67YvJhAbdmvttA/ee4BtEOITMrWi3el2HUj7g
- gOIwDLmK8F2StGJ1ArdSXTrb8jFWUaqN7SGXqxT7pDF8aoqA+ihVwdYug9ZXmOZLfEYI
- HQcASLPwBGmaMgnV8YLdXZbwO3fQQ0Mzhh5H/3ji0p1OMCCSwCeKt5AM7a4Y4DQMDblI
- azbNGvpFYKDz4ig9858lp/y5N4/8+T/oq5aX1JEdIni8R3fVAeeIxE+oc8UWDw90kqP+
- K9kQ==
-X-Gm-Message-State: AOAM531oPaB9gCGE0SlyALSF4J5Y7Q7t5VgFf5bQi+g9jml9EX/GwR20
- EIf2CFeM5hjJqLWjmYVcl6dlzoO6vfZOt7+eOcs=
-X-Google-Smtp-Source: ABdhPJxvYFNlS33t9IOQ2TLxkoGORZjhSHiI7VuLU21HAwY3nvkX4Ewt2BR5wBKsVHdRKvXiVgMiEuFSpuxy058YkGI=
-X-Received: by 2002:a05:6808:68f:: with SMTP id k15mr176939oig.5.1642536830297; 
- Tue, 18 Jan 2022 12:13:50 -0800 (PST)
+ bh=He49yW7OyJJZQm4z6JSnGw3avbkaRtaS3bqUTuhHunc=;
+ b=vDA4HqtdmmMp58tjz8QkZ4mCCyjDVc4Fxbp4AqCLTJzOgMTPcR1sEwVkhfSCxVoqwr
+ 1PTgVgT7FXDu/wlL6/h1RFX0Ba/pUy1Pi2lJk77mZZ5EJ0JNgl695Yw/6CwW2zzsnH+i
+ Cj/BYT5wS7IhyQ0oUvGFFLdK2xqh26GBFqQ8ul9kBC+FjROIclljn6JZzsmdoxmdf62y
+ zrGyJv3lkCfynnX4jwVkZcktV9Y2QWOGcNCstgRqqDl0JTsI018H2seYVStZefSjk/4C
+ Yx09VIcXfgNtAalAbZYAgxM+tK0lGliTpunq3LsW4alQ0N4y8DTJdXrclwhjK4rgHSG5
+ bPKg==
+X-Gm-Message-State: AOAM533z7AJRXuVAT2NC7duYS0sSw1lteiy79HwN6zxo01Wka8FjcOAF
+ fAN9jqY4aMwSU9dpNOFbYLzb150cYsN/Ll23B1k=
+X-Google-Smtp-Source: ABdhPJyEoz0zXwrzFuBM2JIVgjhTpd4kPETh6fm7uOfPE7ttfRQg6574AJwyvrb+0D3mIMPKuaRWt0oKed0v3J96Dss=
+X-Received: by 2002:a9d:12f7:: with SMTP id
+ g110mr22360780otg.299.1642537019635; 
+ Tue, 18 Jan 2022 12:16:59 -0800 (PST)
 MIME-Version: 1.0
-References: <1642507272-17545-1-git-send-email-lyz_cs@pku.edu.cn>
- <0ba294a9-1428-98cf-93b6-f9a195924a8f@amd.com>
-In-Reply-To: <0ba294a9-1428-98cf-93b6-f9a195924a8f@amd.com>
+References: <20220117074731.29882-1-maqianga@uniontech.com>
+ <581d4658-0f12-f355-0c4c-4b0da9b23d61@amd.com>
+In-Reply-To: <581d4658-0f12-f355-0c4c-4b0da9b23d61@amd.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 18 Jan 2022 15:13:39 -0500
-Message-ID: <CADnq5_M7SqB_OjKaYaqKvdC=8xAo=Zn4NFzAuPxZrKPEOJtU8w@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Add missing pm_runtime_put_autosuspend
-To: "Lazar, Lijo" <lijo.lazar@amd.com>
+Date: Tue, 18 Jan 2022 15:16:48 -0500
+Message-ID: <CADnq5_OoB90EGoujeLaK+iSQig=K0uzysM-OSLFhJAy0e4T9_w@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon: fix UVD suspend error
+To: Leo Liu <leo.liu@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,53 +64,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom St Denis <tom.stdenis@amd.com>, Jack Zhang <Jack.Zhang1@amd.com>,
- Yongzhi Liu <lyz_cs@pku.edu.cn>, Jingwen Chen <Jingwen.Chen2@amd.com>,
- Kevin Wang <kevin1.wang@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+Cc: Dave Airlie <airlied@linux.ie>, xinhui pan <Xinhui.Pan@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Dave Airlie <airlied@linux.ie>, Nirmoy Das <nirmoy.das@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "Quan, Evan" <evan.quan@amd.com>
+ Qiang Ma <maqianga@uniontech.com>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Strangely I can't seem to find this patch in my inbox or in
-the dri-devel or amd-gfx archives.
+Applied.  Thanks!
 
-Alex
-
-On Tue, Jan 18, 2022 at 9:03 AM Lazar, Lijo <lijo.lazar@amd.com> wrote:
+On Mon, Jan 17, 2022 at 3:05 PM Leo Liu <leo.liu@amd.com> wrote:
 >
 >
->
-> On 1/18/2022 5:31 PM, Yongzhi Liu wrote:
-> > pm_runtime_get_sync() increments the runtime PM usage counter even
-> > when it returns an error code, thus a matching decrement is needed
-> > on the error handling path to keep the counter balanced.
+> On 2022-01-17 2:47 a.m., Qiang Ma wrote:
+> > I met a bug recently and the kernel log:
 > >
-> > Signed-off-by: Yongzhi Liu <lyz_cs@pku.edu.cn>
+> > [  330.171875] radeon 0000:03:00.0: couldn't schedule ib
+> > [  330.175781] [drm:radeon_uvd_suspend [radeon]] *ERROR* Error destroying UVD (-22)!
+> >
+> > In radeon drivers, using UVD suspend is as follows:
+> >
+> > if (rdev->has_uvd) {
+> >          uvd_v1_0_fini(rdev);
+> >          radeon_uvd_suspend(rdev);
+> > }
+> >
+> > In radeon_ib_schedule function, we check the 'ring->ready' state,
+> > but in uvd_v1_0_fini funciton, we've cleared the ready state.
+> > So, just modify the suspend code flow to fix error.
 >
-> Thanks!
+> It seems reasonable to me. The suspend sends the destroy message if
+> there is still incomplete job, so it should be before the fini which
+> stops the hardware.
 >
-> Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
+> The series are:
 >
+> Reviewed-by: Leo Liu <leo.liu@amd.com>
+>
+>
+> >
+> > Signed-off-by: Qiang Ma <maqianga@uniontech.com>
 > > ---
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c | 4 +++-
-> >   1 file changed, 3 insertions(+), 1 deletion(-)
+> >   drivers/gpu/drm/radeon/cik.c       | 2 +-
+> >   drivers/gpu/drm/radeon/evergreen.c | 2 +-
+> >   drivers/gpu/drm/radeon/ni.c        | 2 +-
+> >   drivers/gpu/drm/radeon/r600.c      | 2 +-
+> >   drivers/gpu/drm/radeon/rv770.c     | 2 +-
+> >   drivers/gpu/drm/radeon/si.c        | 2 +-
+> >   6 files changed, 6 insertions(+), 6 deletions(-)
 > >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-> > index 9aea1cc..4b950de 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-> > @@ -1120,8 +1120,10 @@ static ssize_t amdgpu_debugfs_gfxoff_read(struct file *f, char __user *buf,
-> >               return -EINVAL;
-> >
-> >       r = pm_runtime_get_sync(adev_to_drm(adev)->dev);
-> > -     if (r < 0)
-> > +     if (r < 0) {
-> > +             pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-> >               return r;
-> > +     }
-> >
-> >       while (size) {
-> >               uint32_t value;
-> >
+> > diff --git a/drivers/gpu/drm/radeon/cik.c b/drivers/gpu/drm/radeon/cik.c
+> > index 81b4de7be9f2..5819737c21c6 100644
+> > --- a/drivers/gpu/drm/radeon/cik.c
+> > +++ b/drivers/gpu/drm/radeon/cik.c
+> > @@ -8517,8 +8517,8 @@ int cik_suspend(struct radeon_device *rdev)
+> >       cik_cp_enable(rdev, false);
+> >       cik_sdma_enable(rdev, false);
+> >       if (rdev->has_uvd) {
+> > -             uvd_v1_0_fini(rdev);
+> >               radeon_uvd_suspend(rdev);
+> > +             uvd_v1_0_fini(rdev);
+> >       }
+> >       if (rdev->has_vce)
+> >               radeon_vce_suspend(rdev);
+> > diff --git a/drivers/gpu/drm/radeon/evergreen.c b/drivers/gpu/drm/radeon/evergreen.c
+> > index eeb590d2dec2..455f8036aa54 100644
+> > --- a/drivers/gpu/drm/radeon/evergreen.c
+> > +++ b/drivers/gpu/drm/radeon/evergreen.c
+> > @@ -5156,8 +5156,8 @@ int evergreen_suspend(struct radeon_device *rdev)
+> >       radeon_pm_suspend(rdev);
+> >       radeon_audio_fini(rdev);
+> >       if (rdev->has_uvd) {
+> > -             uvd_v1_0_fini(rdev);
+> >               radeon_uvd_suspend(rdev);
+> > +             uvd_v1_0_fini(rdev);
+> >       }
+> >       r700_cp_stop(rdev);
+> >       r600_dma_stop(rdev);
+> > diff --git a/drivers/gpu/drm/radeon/ni.c b/drivers/gpu/drm/radeon/ni.c
+> > index 4a364ca7a1be..927e5f42e97d 100644
+> > --- a/drivers/gpu/drm/radeon/ni.c
+> > +++ b/drivers/gpu/drm/radeon/ni.c
+> > @@ -2323,8 +2323,8 @@ int cayman_suspend(struct radeon_device *rdev)
+> >       cayman_cp_enable(rdev, false);
+> >       cayman_dma_stop(rdev);
+> >       if (rdev->has_uvd) {
+> > -             uvd_v1_0_fini(rdev);
+> >               radeon_uvd_suspend(rdev);
+> > +             uvd_v1_0_fini(rdev);
+> >       }
+> >       evergreen_irq_suspend(rdev);
+> >       radeon_wb_disable(rdev);
+> > diff --git a/drivers/gpu/drm/radeon/r600.c b/drivers/gpu/drm/radeon/r600.c
+> > index ca3fcae2adb5..dd78fc499402 100644
+> > --- a/drivers/gpu/drm/radeon/r600.c
+> > +++ b/drivers/gpu/drm/radeon/r600.c
+> > @@ -3232,8 +3232,8 @@ int r600_suspend(struct radeon_device *rdev)
+> >       radeon_audio_fini(rdev);
+> >       r600_cp_stop(rdev);
+> >       if (rdev->has_uvd) {
+> > -             uvd_v1_0_fini(rdev);
+> >               radeon_uvd_suspend(rdev);
+> > +             uvd_v1_0_fini(rdev);
+> >       }
+> >       r600_irq_suspend(rdev);
+> >       radeon_wb_disable(rdev);
+> > diff --git a/drivers/gpu/drm/radeon/rv770.c b/drivers/gpu/drm/radeon/rv770.c
+> > index e592e57be1bb..38796af4fadd 100644
+> > --- a/drivers/gpu/drm/radeon/rv770.c
+> > +++ b/drivers/gpu/drm/radeon/rv770.c
+> > @@ -1894,8 +1894,8 @@ int rv770_suspend(struct radeon_device *rdev)
+> >       radeon_pm_suspend(rdev);
+> >       radeon_audio_fini(rdev);
+> >       if (rdev->has_uvd) {
+> > -             uvd_v1_0_fini(rdev);
+> >               radeon_uvd_suspend(rdev);
+> > +             uvd_v1_0_fini(rdev);
+> >       }
+> >       r700_cp_stop(rdev);
+> >       r600_dma_stop(rdev);
+> > diff --git a/drivers/gpu/drm/radeon/si.c b/drivers/gpu/drm/radeon/si.c
+> > index 013e44ed0f39..8d5e4b25609d 100644
+> > --- a/drivers/gpu/drm/radeon/si.c
+> > +++ b/drivers/gpu/drm/radeon/si.c
+> > @@ -6800,8 +6800,8 @@ int si_suspend(struct radeon_device *rdev)
+> >       si_cp_enable(rdev, false);
+> >       cayman_dma_stop(rdev);
+> >       if (rdev->has_uvd) {
+> > -             uvd_v1_0_fini(rdev);
+> >               radeon_uvd_suspend(rdev);
+> > +             uvd_v1_0_fini(rdev);
+> >       }
+> >       if (rdev->has_vce)
+> >               radeon_vce_suspend(rdev);
