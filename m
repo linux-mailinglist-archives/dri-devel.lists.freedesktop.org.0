@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCC2149167E
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 03:34:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1FE7491682
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 03:34:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B34751128E4;
-	Tue, 18 Jan 2022 02:34:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE1C31128EA;
+	Tue, 18 Jan 2022 02:34:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F5CD1128E7;
- Tue, 18 Jan 2022 02:34:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87FC41128EA;
+ Tue, 18 Jan 2022 02:34:52 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 08CEA611D8;
- Tue, 18 Jan 2022 02:34:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 695A1C36AEB;
- Tue, 18 Jan 2022 02:34:40 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 049B260010;
+ Tue, 18 Jan 2022 02:34:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9ABDC36AEB;
+ Tue, 18 Jan 2022 02:34:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1642473283;
- bh=4HZ6twDd3uZBRGOAKOIYoZ/dW23vMiKEUWjChiDBfqo=;
+ s=k20201202; t=1642473291;
+ bh=GRm6ZQaFJ60OS35Q/7OIBpWXiFjDg3ePGtx1dzEBxsM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BjWJSsKNinuypfGubENNVWFqa2Knj31uyNh+EqF5y6ebVyCjbRWKApp1g5isVcXgR
- 39XFbK0s4tfS386Suk4GNIuSPqLLn4SrYpB1YP8m30WcKbPF8w5O2dCHgs1Lm25YUJ
- 96sCHoc2Lj75yt5+SbYKcTa9EcGp1SBz/RWO7nkolNvrAp43Pc6sGml9XntyBUKl1p
- jhQhmhgIygpdqsk2IFoOnwGuOYRiJLhVVEtN4JPYj6lGmSbSCV0P1s4DXUQkiBsN77
- j6soXLtgQoFMbYtMlbo5FpAu+sNRrA186t16FGF4ifa7sKbSGBCnCcSRpAk/PJC6bo
- SnncHYAekzW8g==
+ b=dBmUSdlF4C0nh7+cpcvrXMYA84Hdowzi1RC8ZVf4J4zYWoKLJcrmPHMd/0h3QWv5l
+ 4UJk0tY8Doig7ZTHeOi+IUOHTmwRg4BuW2weTblHJ8TPcPZSID3tmiV9XN9Q4qAqlC
+ S3umtI6Xn2Wsd7CbkHxFRet64/lfzazmMQgOqNs9MH0hVxnwkEzwoBfuM0Q2ISgp8L
+ 2XxvlM7wONVYr6a05SXYXiFCnkZ7qp4dziXp7yrJixC2PnK4bOtqHLppVsAasEUIuj
+ /7itDwHMKdcJ9SzLZlsm1ipB6LdgEFAC+6JFaU3Bkk53P/6GGHQzfxB35fsAYzvpgG
+ hKJu2frMLxsPg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 052/188] drm/amd/display: check
- top_pipe_to_program pointer
-Date: Mon, 17 Jan 2022 21:29:36 -0500
-Message-Id: <20220118023152.1948105-52-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 053/188] drm/amdgpu/display: set
+ vblank_disable_immediate for DC
+Date: Mon, 17 Jan 2022 21:29:37 -0500
+Message-Id: <20220118023152.1948105-53-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220118023152.1948105-1-sashal@kernel.org>
 References: <20220118023152.1948105-1-sashal@kernel.org>
@@ -56,59 +56,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lewis.Huang@amd.com, haonan.wang2@amd.com, airlied@linux.ie,
- llvm@lists.linux.dev, dri-devel@lists.freedesktop.org,
- meenakshikumar.somasundaram@amd.com, Jun.Lei@amd.com, lee.jones@linaro.org,
- Jimmy.Kizito@amd.com, Sasha Levin <sashal@kernel.org>,
- Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org, sunpeng.li@amd.com,
- michael.strauss@amd.com, Anson.Jacob@amd.com,
- Abaci Robot <abaci@linux.alibaba.com>, nathan@kernel.org, Martin.Leung@amd.com,
- Eric.Yang2@amd.com, Xinhui.Pan@amd.com, ndesaulniers@google.com,
- christian.koenig@amd.com, Yang Li <yang.lee@linux.alibaba.com>,
- Wayne.Lin@amd.com, Alex Deucher <alexander.deucher@amd.com>, roy.chan@amd.com,
- nicholas.kazlauskas@amd.com
+Cc: Yong.Zhao@amd.com, Philip.Yang@amd.com, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, Sasha Levin <sashal@kernel.org>,
+ maz@kernel.org, Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org,
+ sunpeng.li@amd.com, aurabindo.pillai@amd.com, qingqing.zhuo@amd.com,
+ Anson.Jacob@amd.com, nikola.cornij@amd.com, Emily.Deng@amd.com,
+ shenshih@amd.com, Felix.Kuehling@amd.com, Xinhui.Pan@amd.com, Roman.Li@amd.com,
+ christian.koenig@amd.com, tzimmermann@suse.de, Wayne.Lin@amd.com,
+ Alex Deucher <alexander.deucher@amd.com>, nicholas.kazlauskas@amd.com,
+ Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Yang Li <yang.lee@linux.alibaba.com>
+From: Alex Deucher <alexander.deucher@amd.com>
 
-[ Upstream commit a689e8d1f80012f90384ebac9dcfac4201f9f77e ]
+[ Upstream commit 92020e81ddbeac351ea4a19bcf01743f32b9c800 ]
 
-Clang static analysis reports this error
+Disable vblanks immediately to save power.  I think this was
+missed when we merged DC support.
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:2870:7: warning:
-Dereference of null pointer [clang-analyzer-core.NullDereference]
-                if
-(top_pipe_to_program->stream_res.tg->funcs->lock_doublebuffer_enable) {
-                    ^
-
-top_pipe_to_program being NULL is caught as an error
-But then it is used to report the error.
-
-So add a check before using it.
-
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+Bug: https://gitlab.freedesktop.org/drm/amd/-/issues/1781
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c           | 1 -
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 +++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
-index c798c65d42765..1860ccc3f4f2c 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
-@@ -2703,7 +2703,8 @@ static void commit_planes_for_stream(struct dc *dc,
- #endif
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
+index cc2e0c9cfe0a1..4f3c62adccbde 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
+@@ -333,7 +333,6 @@ int amdgpu_irq_init(struct amdgpu_device *adev)
+ 	if (!amdgpu_device_has_dc_support(adev)) {
+ 		if (!adev->enable_virtual_display)
+ 			/* Disable vblank IRQs aggressively for power-saving */
+-			/* XXX: can this be enabled for DC? */
+ 			adev_to_drm(adev)->vblank_disable_immediate = true;
  
- 	if ((update_type != UPDATE_TYPE_FAST) && stream->update_flags.bits.dsc_changed)
--		if (top_pipe_to_program->stream_res.tg->funcs->lock_doublebuffer_enable) {
-+		if (top_pipe_to_program &&
-+			top_pipe_to_program->stream_res.tg->funcs->lock_doublebuffer_enable) {
- 			if (should_use_dmub_lock(stream->link)) {
- 				union dmub_hw_lock_flags hw_locks = { 0 };
- 				struct dmub_hw_lock_inst_flags inst_flags = { 0 };
+ 		r = drm_vblank_init(adev_to_drm(adev), adev->mode_info.num_crtc);
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index fef13e93a99fd..cbc67477a9a1f 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -1279,6 +1279,9 @@ static int amdgpu_dm_init(struct amdgpu_device *adev)
+ 	adev_to_drm(adev)->mode_config.cursor_width = adev->dm.dc->caps.max_cursor_size;
+ 	adev_to_drm(adev)->mode_config.cursor_height = adev->dm.dc->caps.max_cursor_size;
+ 
++	/* Disable vblank IRQs aggressively for power-saving */
++	adev_to_drm(adev)->vblank_disable_immediate = true;
++
+ 	if (drm_vblank_init(adev_to_drm(adev), adev->dm.display_indexes_num)) {
+ 		DRM_ERROR(
+ 		"amdgpu: failed to initialize sw for display support.\n");
 -- 
 2.34.1
 
