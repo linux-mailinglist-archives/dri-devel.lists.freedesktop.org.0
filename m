@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1FE7491682
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 03:34:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02C5F491684
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jan 2022 03:35:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE1C31128EA;
-	Tue, 18 Jan 2022 02:34:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6B531128E8;
+	Tue, 18 Jan 2022 02:35:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87FC41128EA;
- Tue, 18 Jan 2022 02:34:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F1CD1128E8;
+ Tue, 18 Jan 2022 02:34:59 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 049B260010;
- Tue, 18 Jan 2022 02:34:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9ABDC36AEB;
- Tue, 18 Jan 2022 02:34:48 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0CF2F611F2;
+ Tue, 18 Jan 2022 02:34:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48F7EC36AEF;
+ Tue, 18 Jan 2022 02:34:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1642473291;
- bh=GRm6ZQaFJ60OS35Q/7OIBpWXiFjDg3ePGtx1dzEBxsM=;
+ s=k20201202; t=1642473298;
+ bh=UH/NsbM9mt79CzA1kPcHg2YVaT+xnxkxbBGOOFUagss=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dBmUSdlF4C0nh7+cpcvrXMYA84Hdowzi1RC8ZVf4J4zYWoKLJcrmPHMd/0h3QWv5l
- 4UJk0tY8Doig7ZTHeOi+IUOHTmwRg4BuW2weTblHJ8TPcPZSID3tmiV9XN9Q4qAqlC
- S3umtI6Xn2Wsd7CbkHxFRet64/lfzazmMQgOqNs9MH0hVxnwkEzwoBfuM0Q2ISgp8L
- 2XxvlM7wONVYr6a05SXYXiFCnkZ7qp4dziXp7yrJixC2PnK4bOtqHLppVsAasEUIuj
- /7itDwHMKdcJ9SzLZlsm1ipB6LdgEFAC+6JFaU3Bkk53P/6GGHQzfxB35fsAYzvpgG
- hKJu2frMLxsPg==
+ b=humUDxq3tFeps3i9tpg5h7urkOPPS6Faw2i7Ei3O6zksAYaVe4Ze+mXLZKTcNkQQ5
+ giPwFQZVIw4co8+HuovDH39KmaadAEgTZCEVfPTv0rpklIO2a8u8taHcLvHBKgPz3Z
+ WeAiHIaCTMfT4ifD9+oMLzcH/VW23DBIvVcrszPSki9wcgwBQvdQauDeTgBDPLIv4d
+ zZh5TXk93RiSn9KW01O4c6xqow/7TC85FNFbRsVE3lZrN8AAm9bZ5RQmwdMweTF4+7
+ NPzdRqG5jiW092roooFdJdFBgLFHGbJ/Ubpnd1J7Wai9wWaHoXXRKgUePt/gpY6SQ8
+ VXrE9AClf+bZg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 053/188] drm/amdgpu/display: set
- vblank_disable_immediate for DC
-Date: Mon, 17 Jan 2022 21:29:37 -0500
-Message-Id: <20220118023152.1948105-53-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 056/188] drm/amd/display: add else to avoid
+ double destroy clk_mgr
+Date: Mon, 17 Jan 2022 21:29:40 -0500
+Message-Id: <20220118023152.1948105-56-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220118023152.1948105-1-sashal@kernel.org>
 References: <20220118023152.1948105-1-sashal@kernel.org>
@@ -56,60 +56,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yong.Zhao@amd.com, Philip.Yang@amd.com, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, Sasha Levin <sashal@kernel.org>,
- maz@kernel.org, Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org,
- sunpeng.li@amd.com, aurabindo.pillai@amd.com, qingqing.zhuo@amd.com,
- Anson.Jacob@amd.com, nikola.cornij@amd.com, Emily.Deng@amd.com,
- shenshih@amd.com, Felix.Kuehling@amd.com, Xinhui.Pan@amd.com, Roman.Li@amd.com,
- christian.koenig@amd.com, tzimmermann@suse.de, Wayne.Lin@amd.com,
- Alex Deucher <alexander.deucher@amd.com>, nicholas.kazlauskas@amd.com,
- Hawking.Zhang@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, charlene.liu@amd.com, haonan.wang2@amd.com,
+ sunpeng.li@amd.com, zhan.liu@amd.com, Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org,
+ nicholas.kazlauskas@amd.com, airlied@linux.ie,
+ Daniel Wheeler <daniel.wheeler@amd.com>, Dmytro.Laktyushkin@amd.com,
+ dri-devel@lists.freedesktop.org, Martin Leung <Martin.Leung@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, mikita.lipski@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Deucher <alexander.deucher@amd.com>
+From: Martin Leung <Martin.Leung@amd.com>
 
-[ Upstream commit 92020e81ddbeac351ea4a19bcf01743f32b9c800 ]
+[ Upstream commit 11dff0e871037a6ad978e52f826a2eb7f5fb274a ]
 
-Disable vblanks immediately to save power.  I think this was
-missed when we merged DC support.
+[Why & How]
+when changing some code we accidentally
+changed else if-> if. reverting that.
 
-Bug: https://gitlab.freedesktop.org/drm/amd/-/issues/1781
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+Reviewed-by: Aric Cyr <Aric.Cyr@amd.com>
+Acked-by: Qingqing Zhuo <qingqing.zhuo@amd.com>
+Signed-off-by: Martin Leung <Martin.Leung@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c           | 1 -
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 +++
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/clk_mgr/clk_mgr.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-index cc2e0c9cfe0a1..4f3c62adccbde 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-@@ -333,7 +333,6 @@ int amdgpu_irq_init(struct amdgpu_device *adev)
- 	if (!amdgpu_device_has_dc_support(adev)) {
- 		if (!adev->enable_virtual_display)
- 			/* Disable vblank IRQs aggressively for power-saving */
--			/* XXX: can this be enabled for DC? */
- 			adev_to_drm(adev)->vblank_disable_immediate = true;
- 
- 		r = drm_vblank_init(adev_to_drm(adev), adev->mode_info.num_crtc);
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index fef13e93a99fd..cbc67477a9a1f 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -1279,6 +1279,9 @@ static int amdgpu_dm_init(struct amdgpu_device *adev)
- 	adev_to_drm(adev)->mode_config.cursor_width = adev->dm.dc->caps.max_cursor_size;
- 	adev_to_drm(adev)->mode_config.cursor_height = adev->dm.dc->caps.max_cursor_size;
- 
-+	/* Disable vblank IRQs aggressively for power-saving */
-+	adev_to_drm(adev)->vblank_disable_immediate = true;
-+
- 	if (drm_vblank_init(adev_to_drm(adev), adev->dm.display_indexes_num)) {
- 		DRM_ERROR(
- 		"amdgpu: failed to initialize sw for display support.\n");
+diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/clk_mgr.c
+index bb31541f80723..6420527fe476c 100644
+--- a/drivers/gpu/drm/amd/display/dc/clk_mgr/clk_mgr.c
++++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/clk_mgr.c
+@@ -306,8 +306,7 @@ void dc_destroy_clk_mgr(struct clk_mgr *clk_mgr_base)
+ 	case FAMILY_NV:
+ 		if (ASICREV_IS_SIENNA_CICHLID_P(clk_mgr_base->ctx->asic_id.hw_internal_rev)) {
+ 			dcn3_clk_mgr_destroy(clk_mgr);
+-		}
+-		if (ASICREV_IS_DIMGREY_CAVEFISH_P(clk_mgr_base->ctx->asic_id.hw_internal_rev)) {
++		} else if (ASICREV_IS_DIMGREY_CAVEFISH_P(clk_mgr_base->ctx->asic_id.hw_internal_rev)) {
+ 			dcn3_clk_mgr_destroy(clk_mgr);
+ 		}
+ 		if (ASICREV_IS_BEIGE_GOBY_P(clk_mgr_base->ctx->asic_id.hw_internal_rev)) {
 -- 
 2.34.1
 
