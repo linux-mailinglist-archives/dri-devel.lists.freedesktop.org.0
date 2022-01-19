@@ -2,63 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A492493C44
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 15:55:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1065A493C74
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 16:01:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59CBF10E3FD;
-	Wed, 19 Jan 2022 14:55:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C30810E40E;
+	Wed, 19 Jan 2022 15:01:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B421C10E2B7
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 14:55:15 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63D8310E457;
+ Wed, 19 Jan 2022 15:01:12 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 56CD0210E3;
- Wed, 19 Jan 2022 14:55:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1642604114; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=faY5wPvMlduhGgbjXRtqrMZoITfaUnRaB+KiT7muBU0=;
- b=aKB6GuKTdx09dpALcJRA7J9AzuV3yo9LsVbyVZDdZlljXFY8b+GlVGc/d7ty0fjtxlV3QO
- PGFQvYSv2/ZGAQ1MVh83mnLXW2MksdVclmHI7kwazMavB/Zyuamg7EsNTsu4lH8IRXk/Qk
- Hu/y2KvSQHSgu75QRop4/L/r2y/HQGA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1642604114;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=faY5wPvMlduhGgbjXRtqrMZoITfaUnRaB+KiT7muBU0=;
- b=DDNhCM3zla2Fk7/gC622nEcFfhVycwRxUZRwBXMdMVsQPWsTF0bI+1kUA449m0qH9KPHnz
- AKMkxQmI3UTmrlAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2E38313E15;
- Wed, 19 Jan 2022 14:55:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 59IzClIm6GE3cgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 19 Jan 2022 14:55:14 +0000
-Message-ID: <f368442d-fedc-2fdf-5618-ed323060df9c@suse.de>
-Date: Wed, 19 Jan 2022 15:55:13 +0100
+ by ams.source.kernel.org (Postfix) with ESMTPS id DB5CCB81A0C;
+ Wed, 19 Jan 2022 15:01:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC12DC004E1;
+ Wed, 19 Jan 2022 15:01:03 +0000 (UTC)
+Date: Wed, 19 Jan 2022 10:01:02 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: [PATCH 1/3] lib/string_helpers: Consolidate yesno() implementation
+Message-ID: <20220119100102.61f9bfde@gandalf.local.home>
+In-Reply-To: <CAHp75Vf5QOD_UtDK8VbxNApEBuJvzUic0NkzDNmRo3Q7Ud+=qw@mail.gmail.com>
+References: <20220119072450.2890107-1-lucas.demarchi@intel.com>
+ <20220119072450.2890107-2-lucas.demarchi@intel.com>
+ <CAHp75Vf5QOD_UtDK8VbxNApEBuJvzUic0NkzDNmRo3Q7Ud+=qw@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2] mgag200 fix memmapsl configuration in GCTL6 register
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org
-References: <20220114094754.522401-1-jfalempe@redhat.com>
- <20220119102905.1194787-1-jfalempe@redhat.com>
- <967fd413-1b55-7b94-a164-70f2942772f6@suse.de>
-In-Reply-To: <967fd413-1b55-7b94-a164-70f2942772f6@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------otLTaieKI00tq5nbjHDCPJgM"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,74 +44,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: michel@daenzer.net, javierm@redhat.com, stable@vger.kernel.org
+Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>, Vishal Kulkarni <vishal@chelsio.com>,
+ Francis Laniel <laniel_francis@privacyrequired.com>,
+ Kentaro Takeda <takedakn@nttdata.co.jp>, Mikita Lipski <mikita.lipski@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ Ben Skeggs <bskeggs@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
+ Petr Mladek <pmladek@suse.com>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Leo Li <sunpeng.li@amd.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ Raju Rangoju <rajur@chelsio.com>, Lucas De Marchi <lucas.demarchi@intel.com>,
+ Julia Lawall <julia.lawall@lip6.fr>,
+ Rahul Lakkireddy <rahul.lakkireddy@chelsio.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Eryk Brol <eryk.brol@amd.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+ "linux-security-module@vger.kernel.org"
+ <linux-security-module@vger.kernel.org>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "David S . Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------otLTaieKI00tq5nbjHDCPJgM
-Content-Type: multipart/mixed; boundary="------------Q074PA7NMRqeqgbwBckGvtV0";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org
-Cc: michel@daenzer.net, lyude@redhat.com, javierm@redhat.com,
- stable@vger.kernel.org
-Message-ID: <f368442d-fedc-2fdf-5618-ed323060df9c@suse.de>
-Subject: Re: [PATCH v2] mgag200 fix memmapsl configuration in GCTL6 register
-References: <20220114094754.522401-1-jfalempe@redhat.com>
- <20220119102905.1194787-1-jfalempe@redhat.com>
- <967fd413-1b55-7b94-a164-70f2942772f6@suse.de>
-In-Reply-To: <967fd413-1b55-7b94-a164-70f2942772f6@suse.de>
+On Wed, 19 Jan 2022 11:15:08 +0200
+Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
 
---------------Q074PA7NMRqeqgbwBckGvtV0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+> > +static inline const char *yesno(bool v) { return v ? "yes" : "no"; }  
+> 
+> 
+> 
+> Perhaps keep it on 4 lines? Yes, yes/no is short, but if we add others
+> (enable/disable) it will not be possible to keep on one line. And hence
+> style will be broken among similar functions.
 
-SGkNCg0KQW0gMTkuMDEuMjIgdW0gMTM6MjEgc2NocmllYiBUaG9tYXMgWmltbWVybWFubjoN
-Cj4gDQo+IEFwcGVhcnMgdG8gYmUgd29ya2luZyBvbiBteSB0ZXN0IG1hY2hpbmUuDQo+IA0K
-PiBCdXQgcGxlYXNlIHJ1bmUgc2NyaXB0cy9jaGVja3BhdGNoLnBsIG9uIHRoZSBwYXRjaCBi
-ZWZvcmUgc2VuZGluZyBpdC4gSSANCj4gZ2V0IHNldmVyYWwgZXJyb3JzDQo+IA0KPiBXQVJO
-SU5HOiBQb3NzaWJsZSB1bndyYXBwZWQgY29tbWl0IGRlc2NyaXB0aW9uIChwcmVmZXIgYSBt
-YXhpbXVtIDc1IA0KPiBjaGFycyBwZXIgbGluZSkNCj4gDQo+ICM5ODoNCj4gDQo+ICDCoMKg
-wqAgMDogRW5hYmxlcyBhbHBoYSBtb2RlLCBhbmQgdGhlIGNoYXJhY3RlciBnZW5lcmF0b3Ig
-YWRkcmVzc2luZyANCj4gc3lzdGVtIGlzDQo+IA0KPiANCj4gDQo+IEVSUk9SOiB0cmFpbGlu
-ZyB3aGl0ZXNwYWNlDQo+IA0KPiAjMTQ5OiBGSUxFOiBkcml2ZXJzL2dwdS9kcm0vbWdhZzIw
-MC9tZ2FnMjAwX21vZGUuYzo1MzI6DQo+IA0KPiArXkkvKiBHQ1RMNiBzaG91bGQgYmUgMHgw
-NSwgYnV0IHdlIGNvbmZpZ3VyZSBtZW1tYXBzbCB0byAweGI4MDAwICh0ZXh0IA0KPiBtb2Rl
-KSxeTSQNCj4gDQo+IA0KPiANCj4gRVJST1I6IHRyYWlsaW5nIHdoaXRlc3BhY2UNCj4gDQo+
-ICMxNTA6IEZJTEU6IGRyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfbW9kZS5jOjUz
-MzoNCj4gDQo+ICteSSAqIHNvIHRoYXQgaXQgZG9lc24ndCBoYW5nIHdoZW4gcnVubmluZyBr
-ZXhlYy9rZHVtcCBvbiBHMjAwX1NFIHJldjQyLl5NJA0KPiANCg0KVGhhbmtzIGEgbG90LCB0
-aGUgcGF0Y2ggaGFzIGJlZW4gbWVyZ2Ugbm93LiBUaGVzZSBwcm9ibGVtcyBtaWdodCBoYXZl
-IA0KYmVlbiBjYXVzZWQgYnkgbXkgZW1haWwgY2xpZW50Lg0KDQpCZXN0IHJlZ2FyZHMNClRo
-b21hcw0KDQo+IA0KPiANCj4gDQo+IEJlc3QgcmVnYXJkcw0KPiBUaG9tYXMNCj4gDQo+IA0K
-Pj4gwqDCoMKgwqDCoCBXUkVHX0dGWCg3LCAweDBmKTsNCj4+IMKgwqDCoMKgwqAgV1JFR19H
-RlgoOCwgMHgwZik7DQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBE
-cml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgN
-Ck1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwg
-QUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+Agreed. Functions should always be of the normal format:
 
---------------Q074PA7NMRqeqgbwBckGvtV0--
+type func(params)
+{
+	body;
+}
 
---------------otLTaieKI00tq5nbjHDCPJgM
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Unless it is a stub function.
 
------BEGIN PGP SIGNATURE-----
+type func(params) { return 0; }
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHoJlEFAwAAAAAACgkQlh/E3EQov+C3
-hRAAtHjqRHFFkCmMYQeKCAt2OxkXq1dIZkb/ab6hj5DOD2yUAOZ9VbRvzZUorbAttEGwbf8nayLx
-Fh5/V7vYfvinpiPeKn/ZbS9J/xvbzNlxWeMgfmzhNDPLfj9Mw7A1q/DqiparPlJ7S+qhvqkb4daL
-Pz3zMCT0vgD3wAi3ZUkbiRhKPKpbnoHhgU1epodKNZmH6MHQIKMd0ssH0NalPZyF2dB8GehwNWo1
-Wr8AT0NJQhO2TrwpMAWRmgCwaH6RVC9IqDJzSGfWlWeaZ4x8Z2ccdAeZc4B9a8S7ROl4KEISC9EY
-K8p1GeV1B7btFTYQyfzStVavOnjbsv7Vfdebde7Rcqi26LZO4xNyvoo7SA0vACwyVwGdnR6Pie7o
-EiagNyffPsDHTEpvesGX1KvvmJr9L4v8O/xk7GJZGTpFVzM90CZhwkrTREg5s1KKToCJdIw98LMq
-Tlwqes2ahhq+8N1Myd7sCEREok77SGCI0bQ8MdsI1ppfyVJBzHBsSN12QBqnAaJsBCUKEt7hnlN8
-p4eq/mm0EosOgi98GYHAy0V0kLTpec9R9i4ti4sddVx3XJzpj9FqkKvARsmHVwRi+VEcUYnLjG/s
-uyZ5eWID3O1XCYdj51VM5dPEHqBlE0TEvX5k4lwaGg5VC2gx3Cu0Kti88K0vXY+t2fMF5uN0ZpU6
-sxc=
-=qAQH
------END PGP SIGNATURE-----
-
---------------otLTaieKI00tq5nbjHDCPJgM--
+-- Steve
