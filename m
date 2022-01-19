@@ -1,66 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D95564943B5
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 00:13:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5B2C4943B8
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 00:13:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 952F410E291;
-	Wed, 19 Jan 2022 23:12:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCABF10E292;
+	Wed, 19 Jan 2022 23:13:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1814C10E24C
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 23:12:55 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id m1so14486892lfq.4
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 15:12:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=U2dwbqcasQ5jAt+dZT0r0geSiO9Og0zFjtJjCnr7lCs=;
- b=nwoSlp64QlHMhIXPAbqSlvtxn3YRmwGuo7gO9z+aJyjKE7+vGUsNePrlnd9gihi5Cv
- +2/QZYmgoEypLlDZcKxH1xBn7ERBNTyQcDLz9/0Mr+kdiO6ZDMdAmAfB/OYxvdzGEUvQ
- 3OV5kWf4Op6Su8FEfxrPBhTn+HHIa5UT0ry6dssyU+V7b+IQJWFdqbZpKDMYqYOV70do
- 9ZK52EFTCsRvagLpb7P+t59v138vDT01JUF5KA8DeNO+yIe9OX3Z1Iknx2Vf+n4wZ4QT
- EMXsApYX9RQleRf2uYL/GQv99KdQWAqiv4A6D5XTZMJrDRUc4RI2XNFqRQCant61Tqhw
- TSGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=U2dwbqcasQ5jAt+dZT0r0geSiO9Og0zFjtJjCnr7lCs=;
- b=mgZpg7ReFce6kL9kDtg8FOSHhl32wUnd2pdznaavisEj6O/3a/CmqCQ3ZJsP36qOhk
- 0w2IHZw6CRC4nvVcB7C0yByi1r0zP1roOAf0eBIY/eQ730CBsTshyuYts6Emijc/Wj6L
- Tc3sa/NpGbjKePxPf3ncnQVbkzv+nklxi8PRgjE7j+4pUivr1SzL6u6vO84/+F9gU7Rq
- Zr3SpUno1lRMEdfhhkxhEDmnbprRkdSemd3YVTTE5EJtAmGo4usnIXWuljfakyEC/m1T
- njuO0swNEoepOJHt6SPW6xyeltcBp7OlK2CMIm8kbzyxkvElMBltKBdTIsEEat5Upqm+
- nWdA==
-X-Gm-Message-State: AOAM530yO0K/q8NFTWuZzZ2Nq9z7Rfky7TNqHUDAkjiFtVeOjsdr64K5
- PRqNENSss2/8sYoIcI306lp8Vw==
-X-Google-Smtp-Source: ABdhPJzS0S2j0mE2ciBclrlhqyzVclucItRkmT/yH3LWXkOsMSX6ENnBKT8aGA/LNELrdDToVn+shw==
-X-Received: by 2002:a05:6512:3da1:: with SMTP id
- k33mr27853059lfv.212.1642633973353; 
- Wed, 19 Jan 2022 15:12:53 -0800 (PST)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id q27sm103546lfd.271.2022.01.19.15.12.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Jan 2022 15:12:52 -0800 (PST)
-Message-ID: <84bd598c-b1b7-984e-9fa1-94ad28087ef0@linaro.org>
-Date: Thu, 20 Jan 2022 02:12:51 +0300
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0900D10E292
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 23:13:45 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 6E06CB81911;
+ Wed, 19 Jan 2022 23:13:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 243A6C340E4;
+ Wed, 19 Jan 2022 23:13:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1642634022;
+ bh=swuuNiOoGgJBUEQYGiWjhIMC2dkjnsqhYlZe0AHANOo=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=cU1tiOf+BZz+w8PZnmlU8q0GtNxAwmaF01vGGyE3XwZspIbWMHizXrGd8yZkL4Yrt
+ h5DQ/18gPqaCbTu8WDaVSQ0/4NPLmvel2ZHxtkChkb0XoqGT/rftCFwhGrQi32p/c6
+ 9C7hQe8s/oSynIw0Dtw8ntcseUFiRBP84OfPPW2apdBoXkP3saHm9/jOoQq9Dyckgs
+ p+dC5gx4vPD6KBbmxd/O6N28Yk1wMg/qwXFHqbLkYDEQA6WTCbzcx2gfj1bcCweWBg
+ I7Noku7d69aO2G4UcEkom0pGa1IbOs65n1J9X5KFZPhBMNFGzQE4zCfs1As73p5oRT
+ FyqULwQqZE0Xg==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] drm/msm/dpu: Bind pingpong block to intf on active ctls
- in cmd encoder
-Content-Language: en-GB
-To: Marijn Suijten <marijn.suijten@somainline.org>, phone-devel@vger.kernel.org
-References: <20211222105513.44860-1-marijn.suijten@somainline.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20211222105513.44860-1-marijn.suijten@somainline.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220119015038.2433585-1-robh@kernel.org>
+References: <20220119015038.2433585-1-robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: Improve phandle-array schemas
+From: Stephen Boyd <sboyd@kernel.org>
+To: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
+Date: Wed, 19 Jan 2022 15:13:40 -0800
+User-Agent: alot/0.10
+Message-Id: <20220119231342.243A6C340E4@smtp.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,104 +53,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- Pavel Dubrova <pashadubrova@gmail.com>,
- Jami Kettunen <jami.kettunen@somainline.org>, Bernard <bernard@vivo.com>,
- linux-arm-msm@vger.kernel.org, Zhen Lei <thunder.leizhen@huawei.com>,
- Konrad Dybcio <konrad.dybcio@somainline.org>, linux-kernel@vger.kernel.org,
- Abhinav Kumar <abhinavk@codeaurora.org>, David Airlie <airlied@linux.ie>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Sean Paul <sean@poorly.run>
+Cc: Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
+ linux-usb@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, linux-remoteproc@vger.kernel.org,
+ alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
+ Sebastian Reichel <sre@kernel.org>, linux-ide@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Pavel Machek <pavel@ucw.cz>, linux-phy@lists.infradead.org,
+ netdev@vger.kernel.org, Jonathan Hunter <jonathanh@nvidia.com>,
+ Lee Jones <lee.jones@linaro.org>, linux-riscv@lists.infradead.org,
+ linux-leds@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Marc Zyngier <maz@kernel.org>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, iommu@lists.linux-foundation.org,
+ Kishon Vijay Abraham I <kishon@ti.com>, Jakub Kicinski <kuba@kernel.org>,
+ Zhang Rui <rui.zhang@intel.com>, Vivien Didelot <vivien.didelot@gmail.com>,
+ Wolfgang Grandegger <wg@grandegger.com>, linux-media@vger.kernel.org,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, linux-pm@vger.kernel.org,
+ Kalle Valo <kvalo@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
+ linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Mark Brown <broonie@kernel.org>, Marc Kleine-Budde <mkl@pengutronix.de>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Kevin Hilman <khilman@kernel.org>,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Vinod Koul <vkoul@kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ linux-crypto@vger.kernel.org, Viresh Kumar <vireshk@kernel.org>,
+ dmaengine@vger.kernel.org, Georgi Djakov <djakov@kernel.org>,
+ Vladimir Oltean <olteanv@gmail.com>, "David S. Miller" <davem@davemloft.net>,
+ Joerg Roedel <joro@8bytes.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/12/2021 13:55, Marijn Suijten wrote:
-> As per the specification of DPU_CTL_ACTIVE_CFG the configuration of
-> active blocks should be proactively specified, and the pingpong block is
-> no different.
-> 
-> The downstream display driver [1] confirms this by also calling
-> bind_pingpong_blk on CTL_ACTIVE_CFG.  Note that this else-if is always
-> entered, as setup_intf_cfg - unlike this mainline dpu driver that
-> combines both behind the same function pointer - is left NULL in favour
-> of using setup_intf_cfg_v1 when CTL_ACTIVE_CFG is set.
-> 
-> This solves continuous timeouts on at least the Qualcomm sm6125 SoC:
-> 
->      [drm:dpu_encoder_frame_done_timeout:2091] [dpu error]enc31 frame done timeout
->      [drm:_dpu_encoder_phys_cmd_handle_ppdone_timeout.isra.0] *ERROR* id:31 pp:0 kickoff timeout 0 cnt 1 koff_cnt 1
->      [drm:dpu_encoder_phys_cmd_prepare_for_kickoff] *ERROR* failed wait_for_idle: id:31 ret:-110 pp:0
-> 
-> In the same way this pingpong block should also be unbound followed by
-> an interface flush when the encoder is disabled, according to the
-> downstream display driver [2].
-> 
-> [1]: https://source.codeaurora.org/quic/la/platform/vendor/opensource/display-drivers/tree/msm/sde/sde_encoder_phys_cmd.c?h=LA.UM.9.16.r1-08500-MANNAR.0#n167
-> [2]: https://source.codeaurora.org/quic/la/platform/vendor/opensource/display-drivers/tree/msm/sde/sde_encoder.c?h=LA.UM.9.16.r1-08500-MANNAR.0#n2986
-> 
-> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
+Quoting Rob Herring (2022-01-18 17:50:38)
+> The 'phandle-array' type is a bit ambiguous. It can be either just an
+> array of phandles or an array of phandles plus args. Many schemas for
+> phandle-array properties aren't clear in the schema which case applies
+> though the description usually describes it.
+>=20
+> The array of phandles case boils down to needing:
+>=20
+> items:
+>   maxItems: 1
+>=20
+> The phandle plus args cases should typically take this form:
+>=20
+> items:
+>   - items:
+>       - description: A phandle
+>       - description: 1st arg cell
+>       - description: 2nd arg cell
+>=20
+> With this change, some examples need updating so that the bracketing of
+> property values matches the schema.
+[..]
+> Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
->   .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  | 21 +++++++++++++++++++
->   1 file changed, 21 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> index 8e433af7aea4..e0e08a874f07 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> @@ -71,6 +71,13 @@ static void _dpu_encoder_phys_cmd_update_intf_cfg(
->   	intf_cfg.stream_sel = cmd_enc->stream_sel;
->   	intf_cfg.mode_3d = dpu_encoder_helper_get_3d_blend_mode(phys_enc);
->   	ctl->ops.setup_intf_cfg(ctl, &intf_cfg);
-> +
-> +	/* setup which pp blk will connect to this intf */
-> +	if (test_bit(DPU_CTL_ACTIVE_CFG, &ctl->caps->features) && phys_enc->hw_intf->ops.bind_pingpong_blk)
 
-Nit: here we bind all interfaces, but later we unbind only master. Is 
-this correct?
-
-> +		phys_enc->hw_intf->ops.bind_pingpong_blk(
-> +				phys_enc->hw_intf,
-> +				true,
-> +				phys_enc->hw_pp->idx);
->   }
->   
->   static void dpu_encoder_phys_cmd_pp_tx_done_irq(void *arg, int irq_idx)
-> @@ -507,6 +514,7 @@ static void dpu_encoder_phys_cmd_disable(struct dpu_encoder_phys *phys_enc)
->   {
->   	struct dpu_encoder_phys_cmd *cmd_enc =
->   		to_dpu_encoder_phys_cmd(phys_enc);
-> +	struct dpu_hw_ctl *ctl;
->   
->   	if (!phys_enc->hw_pp) {
->   		DPU_ERROR("invalid encoder\n");
-> @@ -523,6 +531,19 @@ static void dpu_encoder_phys_cmd_disable(struct dpu_encoder_phys *phys_enc)
->   
->   	if (phys_enc->hw_pp->ops.enable_tearcheck)
->   		phys_enc->hw_pp->ops.enable_tearcheck(phys_enc->hw_pp, false);
-> +
-> +	if (dpu_encoder_phys_cmd_is_master(phys_enc)) {
-> +		if (phys_enc->hw_intf->ops.bind_pingpong_blk) {
-> +			phys_enc->hw_intf->ops.bind_pingpong_blk(
-> +					phys_enc->hw_intf,
-> +					false,
-> +					phys_enc->hw_pp->idx);
-> +
-> +			ctl = phys_enc->hw_ctl;
-> +			ctl->ops.update_pending_flush_intf(ctl, phys_enc->intf_idx);
-> +		}
-> +	}
-> +
->   	phys_enc->enable_state = DPU_ENC_DISABLED;
->   }
->   
-
-
--- 
-With best wishes
-Dmitry
+Acked-by: Stephen Boyd <sboyd@kernel.org>
