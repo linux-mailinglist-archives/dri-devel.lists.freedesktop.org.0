@@ -1,62 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCA8C493EED
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 18:20:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74741493EFD
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 18:24:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F9D010E172;
-	Wed, 19 Jan 2022 17:20:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66B5610E75B;
+	Wed, 19 Jan 2022 17:24:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38F1D10E172
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 17:20:03 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- q141-20020a1ca793000000b00347b48dfb53so7037133wme.0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 09:20:03 -0800 (PST)
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 214C210E75B
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 17:24:26 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id n8so6504355wmk.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 09:24:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=x1K+9XuZnU2QXSiIOenVV/0BbioWKHd2vi7gWIUztz4=;
- b=ZjDcbktQX1wrIfebPiKigKTZKneWJd4ErYnf1dt5pNy9Jtv+LToiiIVncgX0W4YBXJ
- WHNrl6WoAOT5RHKyYTIRNkCY95mR+MSqAkbhxhgNxsoQ64IkTvrE4NpPR9/UJm4T40QM
- Ib41oXpbBcJ34yd7Fu2m115MV2byinCv02T54=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=eOH9iqU5IVX14/tYvkJqEjk8Qx7vTHtd1JM4aN1Uy+o=;
+ b=DmDrtO1qA5+xS6RSFjC8YRAgWKLJSBrsCK3C1mYCeL3ScNiBJNJt+zzuegOEmgLjoP
+ +/1qV59z4FrPlFKaNmWWmOAzeWqYXZefKd0ekBDSMLyaEC7lt9t07rqtIL/3zUc121jm
+ +dcjCTcj0zrh3pRs67AwP1TQsb2jKMgygW7C8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=x1K+9XuZnU2QXSiIOenVV/0BbioWKHd2vi7gWIUztz4=;
- b=SSPwFH5odLRG6lbF4ephjNxIdqosu/VrlpO8orr0pjGJNC1o1T2x3htqFrPxVD/oTA
- GOnjknjJLNWYo/fJ3h9AJ1PRgeacWJkW9VkmJDO9uB5mavAK5F+5Lyw+dYHOUU1oeD1B
- b4vS52TbyQwJsXNRq/CyT4fuiFRWlrvpWMs+xnrYaVK+yFg6MHLCy2Z8fn27zseSUbfB
- BuvY6H2IB8eLw8Xh9Rxx0wFGm7FD/R84nWb4aQFYmTe6cbCepCURxJfaAJjNqC2pzdSp
- lqWUBaR+V4UNqTG22DiH5WDDGCneKwBO0nneZk8QDe1k4Fz5PVsEbEoxN/qRog18iVeI
- d8ag==
-X-Gm-Message-State: AOAM531TOfDzsQGa7/1rBRyzrnHpGxf1D6iXFXofBH7hGiHnOIncXTJH
- 6ryEDWA+pbb4HEwk+kRUa5Y6KA==
-X-Google-Smtp-Source: ABdhPJwpJ/+gWlQUuTp3j3mXrLlbARjuqjVzw39wNQS0Ltl/R0eyrvLAkK+eazHap9QqPxuGOwVN3Q==
-X-Received: by 2002:a05:600c:2216:: with SMTP id
- z22mr4628205wml.119.1642612801812; 
- Wed, 19 Jan 2022 09:20:01 -0800 (PST)
+ bh=eOH9iqU5IVX14/tYvkJqEjk8Qx7vTHtd1JM4aN1Uy+o=;
+ b=Vy6T3ab0aLI8Nhf9U0v8r4YlhOCywcgZm+ERtQSE4NJT21KmGT4EJHFyityuHoQnTd
+ CmXnjQYrolRuLs7dDVHnQKI6rV/7kYRULH/4CNCpPX2RC/Dk8Vqxp+IexNG9d2V+3KRO
+ OcD/ig0ejchpJI5kD3h5lpUE+coCvxAh52kRy0qtO2A9DFU+qc95+Mf/HM+zeUe/RpEp
+ 3o2yjcUxPDmrRzWRMpbUpidfihxdg9Ut2cY3p5l9b5abBX1Jte3fZGcPBA/F17ecnB54
+ Ih90K6zH6awX/ojf8VbuPgcLsuVA41QoTicx0NT+ablYz11KFMISr5t/qhKdwk+UuXUP
+ dwjA==
+X-Gm-Message-State: AOAM531FP2YILStqbw5/QbIMRLpx79EvFbdTWN+x7xBIn88PjS4trQvY
+ k2NvsHjkn1RU5tepo6zTOw5SZQ==
+X-Google-Smtp-Source: ABdhPJwmz4gHSPo9o9SV/Nix2goUKu/7MKdI00pmWvKG61VzYeY9XiHQLJbDl27v8A+WKNfPotxwNQ==
+X-Received: by 2002:adf:e291:: with SMTP id v17mr29163539wri.479.1642613064738; 
+ Wed, 19 Jan 2022 09:24:24 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id x13sm427589wru.28.2022.01.19.09.20.01
+ by smtp.gmail.com with ESMTPSA id f6sm428161wrj.26.2022.01.19.09.24.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jan 2022 09:20:01 -0800 (PST)
-Date: Wed, 19 Jan 2022 18:19:59 +0100
+ Wed, 19 Jan 2022 09:24:24 -0800 (PST)
+Date: Wed, 19 Jan 2022 18:24:22 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 4/4] dma-buf: warn about containers in dma_resv object
-Message-ID: <YehIP4zMfcO79Zrl@phenom.ffwll.local>
-References: <20220119134339.3102-1-christian.koenig@amd.com>
- <20220119134339.3102-4-christian.koenig@amd.com>
+To: Ira Weiny <ira.weiny@intel.com>
+Subject: Re: [PATCH 0/7] DRM kmap() fixes and kmap_local_page() conversions
+Message-ID: <YehJRt+JngIsj+Gd@phenom.ffwll.local>
+Mail-Followup-To: Ira Weiny <ira.weiny@intel.com>,
+ David Airlie <airlied@linux.ie>,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org
+References: <20211210232404.4098157-1-ira.weiny@intel.com>
+ <20220119165356.GD209936@iweiny-DESK2.sc.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220119134339.3102-4-christian.koenig@amd.com>
+In-Reply-To: <20220119165356.GD209936@iweiny-DESK2.sc.intel.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,49 +74,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: gustavo@padovan.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, daniel.vetter@ffwll.ch,
- linux-media@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 19, 2022 at 02:43:39PM +0100, Christian König wrote:
-> Drivers should not add containers as shared fences to the dma_resv
-> object, instead each fence should be added individually.
+On Wed, Jan 19, 2022 at 08:53:56AM -0800, Ira Weiny wrote:
+> On Fri, Dec 10, 2021 at 03:23:57PM -0800, 'Ira Weiny' wrote:
+> > From: Ira Weiny <ira.weiny@intel.com>
+> > 
+> > This series starts by converting the last easy kmap() uses to
+> > kmap_local_page().
+> > 
+> > There is one more call to kmap() wrapped in ttm_bo_kmap_ttm().  Unfortunately,
+> > ttm_bo_kmap_ttm() is called in a number of different ways including some which
+> > are not thread local.  I have a patch to convert that call.  However, it is not
+> > straight forward so it is not included in this series.
+> > 
+> > The final 2 patches fix bugs found while working on the ttm_bo_kmap_ttm()
+> > conversion.
 > 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->  drivers/dma-buf/dma-resv.c | 5 +++++
->  1 file changed, 5 insertions(+)
+> Gentile ping on this series?  Will it make this merge window?
+
+I think this fell through the cracks and so no. Note that generally we
+feature-freeze drm tree around -rc6 anyway for the upcoming merge window,
+so you were cutting this all a bit close anyway. Also looks like the ttm
+kmap caching question didn't get resolved?
+
+Anyway if patches are stuck resend with RESEND and if people still don't
+pick them up poke me and I'll apply as fallback.
+
+Cheers, Daniel
+
 > 
-> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> index 6dd9a40b55d4..e8a0c1d51da2 100644
-> --- a/drivers/dma-buf/dma-resv.c
-> +++ b/drivers/dma-buf/dma-resv.c
-> @@ -256,6 +256,11 @@ void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence)
->  
->  	dma_resv_assert_held(obj);
->  
-> +	/* Drivers should not add containers here, instead add each fence
-> +	 * individually.
-> +	 */
-> +	WARN_ON(dma_fence_is_container(fence));
-
-I'm honestly not sure whether this could go boom, so good if we push this
-asap and let it soak in linux-next for the entire release cycle.
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-On the change itself, we'll see what it brings.
--Daniel
-
-> +
->  	fobj = dma_resv_shared_list(obj);
->  	count = fobj->shared_count;
->  
-> -- 
-> 2.25.1
+> Thanks,
+> Ira
 > 
+> > 
+> > 
+> > Ira Weiny (7):
+> > drm/i915: Replace kmap() with kmap_local_page()
+> > drm/amd: Replace kmap() with kmap_local_page()
+> > drm/gma: Remove calls to kmap()
+> > drm/radeon: Replace kmap() with kmap_local_page()
+> > drm/msm: Alter comment to use kmap_local_page()
+> > drm/amdgpu: Ensure kunmap is called on error
+> > drm/radeon: Ensure kunmap is called on error
+> > 
+> > drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 8 ++++----
+> > drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c | 1 +
+> > drivers/gpu/drm/gma500/gma_display.c | 6 ++----
+> > drivers/gpu/drm/gma500/mmu.c | 8 ++++----
+> > drivers/gpu/drm/i915/gem/i915_gem_shmem.c | 4 ++--
+> > drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c | 8 ++++----
+> > drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c | 4 ++--
+> > drivers/gpu/drm/i915/gt/shmem_utils.c | 4 ++--
+> > drivers/gpu/drm/i915/i915_gem.c | 8 ++++----
+> > drivers/gpu/drm/i915/i915_gpu_error.c | 4 ++--
+> > drivers/gpu/drm/msm/msm_gem_submit.c | 4 ++--
+> > drivers/gpu/drm/radeon/radeon_ttm.c | 4 ++--
+> > drivers/gpu/drm/radeon/radeon_uvd.c | 1 +
+> > 13 files changed, 32 insertions(+), 32 deletions(-)
+> > 
+> > --
+> > 2.31.1
+> > 
 
 -- 
 Daniel Vetter
