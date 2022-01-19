@@ -1,48 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D32AA4936A4
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 09:55:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B203C4936C0
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 10:00:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A7E310E151;
-	Wed, 19 Jan 2022 08:55:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD08E10E161;
+	Wed, 19 Jan 2022 09:00:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa29.google.com (mail-vk1-xa29.google.com
- [IPv6:2607:f8b0:4864:20::a29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70BB110E151
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 08:55:34 +0000 (UTC)
-Received: by mail-vk1-xa29.google.com with SMTP id d189so1083094vkg.3
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 00:55:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=0x0f.com; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=f3GQA/yWddcSt+mV1d0z/WtZsk+EibBZa5EQxJfaZGU=;
- b=DONxNiK1UWGWatK8mwHBgX+zEByY4sRhpIqAZj5rt/8wG4FxJ3HR66LWIqHHHIS6It
- 1aN7KSmPwFx3uui5RZ3pSUnicltWYUPdlUNh8Ur2Z1HGB0sVAd2wfj9xdEhG97eSLlea
- A99zr9TnAHZWy2YqeoS8vTU0Qo/NOp6B8LQLM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=f3GQA/yWddcSt+mV1d0z/WtZsk+EibBZa5EQxJfaZGU=;
- b=0JgcIk71FAOmYeglfpZxJko2UZ1NP1O72ZgNW8D3tND7wwRDywnZLjTDfE5HC532Vw
- Mgpe5Ziki/SVZo/BrLkKNtaPRL2+PofgO79ZREA4spz87cnS5Or47Zv3YYoVG48Qtpua
- XpRgjciDddCGSDzNg3XdjJpDHnJhpitX4QilAJHPMAT+g5YnLBQKbuU8FZ140pT+eyVL
- SJLrD8Ou9Xeve4lSfCgdH9c+iknGsqMb9KQoKBnvDo+HzwluouUdM9TrG+wlG6NR8CKy
- NYww8pv47S2HFCOhbOPCIVU1+T2ygywR0pj2wHdinVnD8pN4WmReT4SmIg02EHZ6KEEH
- 2z+Q==
-X-Gm-Message-State: AOAM533q3p53GnEdGf4Kz3TV+SLhB0dIncqmVh7c+LrHupZiY1NMUjRf
- +0ufuSw2llfHORR2UeUVQTP2exslrXsSKHZIfSVNzVRUS8/OFA==
-X-Google-Smtp-Source: ABdhPJwGYQVjGFatpV8tqDJZCFGcOjlZpSUNld6ZNcf9u4EEQtyrWaQzMQ9uRE8jScwAhzWldvHI8yBX9jVzdV1qzEA=
-X-Received: by 2002:a1f:a6cc:: with SMTP id p195mr12348176vke.41.1642582533060; 
- Wed, 19 Jan 2022 00:55:33 -0800 (PST)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24FF010E161;
+ Wed, 19 Jan 2022 09:00:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1642582831; x=1674118831;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=w7BZPSfdRG10upFPmfjOPceiSWYyEs7fPYAFXzfsYsk=;
+ b=VggleB/cfUtLlTk4QpR6pJOWThkjTFNULdKtt4mkZAaHEktMg0pTN4OL
+ tkU47FxkIz3/r8jvdjER6yNJ7AtVQc/5R+c/GyMaVqgYwyFaCfLu4uAAb
+ rdR0XmI5tZcCX3DWbG1iidN8GZHbBAfURHHawlMGZ/Dw0n0qXjGZfIB6s
+ MQEFhpuemmvPvivZMWVth7oUCqh3g5kpAa51pfpZQldD7IerLAZYp+JeP
+ FaPX0s6GkRFreciR1XtTzpuBWk+nC9h6SW9RPXarF+5lSfIYTlOuMmFpx
+ 56IJZHsIngk+RlJp3nv2Z8wsLnfhnxBULt0VfZ9b4YpBhd5f5BKt+12RI A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10231"; a="225694786"
+X-IronPort-AV: E=Sophos;i="5.88,299,1635231600"; d="scan'208";a="225694786"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jan 2022 01:00:30 -0800
+X-IronPort-AV: E=Sophos;i="5.88,299,1635231600"; d="scan'208";a="532189439"
+Received: from weberral-mobl2.ger.corp.intel.com (HELO intel.com)
+ ([10.252.46.50])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jan 2022 01:00:25 -0800
+Date: Wed, 19 Jan 2022 11:00:22 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH v3 2/2] drm/i915/gt: make a gt sysfs group
+ and move power management files
+Message-ID: <YefTJr0DYqwCF1Ii@intel.intel>
+References: <20220117150910.231889-1-andi.shyti@linux.intel.com>
+ <20220117150910.231889-3-andi.shyti@linux.intel.com>
+ <ccbd6b7b-49ef-677f-ca3a-0e99c449f35d@linux.intel.com>
+ <164257674010.4293.7082663050451897157@jlahtine-mobl.ger.corp.intel.com>
 MIME-Version: 1.0
-From: Daniel Palmer <daniel@0x0f.com>
-Date: Wed, 19 Jan 2022 17:55:22 +0900
-Message-ID: <CAFr9PXnig9YfnwSzMg5UPm3UtAsEAQT_xVheBbLppiU45mc_QQ@mail.gmail.com>
-Subject: [RFC] How to add hardware rotation, scaling etc to a DRM/KMS driver
-To: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <164257674010.4293.7082663050451897157@jlahtine-mobl.ger.corp.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,36 +60,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ DRI Devel <dri-devel@lists.freedesktop.org>,
+ Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+Hi Joonas,
 
-I've copied and pasted my way to mostly working DRM/KMS driver for a
-low cost ARM SoC (Sigmastar SSD202D). The hardware is 2D only.
+> > > The GT has its own properties and in sysfs they should be grouped
+> > > in the 'gt/' directory.
+> > > 
+> > > Create a 'gt/' directory in sysfs which will contain gt0...gtN
+> > > directories related to each tile configured in the GPU. Move the
+> > > power management files inside those directories.
+> > > 
+> > > The previous power management files are kept in their original
+> > > root directory to avoid breaking the ABI. They point to the tile
+> > > '0' and a warning message is printed whenever accessed to.
+> 
+> This is wrong. They should act as multiplexers to all the tiles.
+> 
+> Needs to be fixed before merging.
 
-One of the devices that uses this SoC has the screen upside down so it
-needs the screen rotated.
-The hardware doesn't have bits that change the scan out direction from
-what I can tell (so it can't mirror/flip while feeding it to the
-screen) but it does have a 2D blitter style block that can take a
-framebuffer and flip/mirror/scale/convert the colour space into
-another buffer.
+I have a patch for this and I planned to send it later. I have
+even been asked to split this one in more chunks as the review is
+a bit difficult.
 
-My idea was to create a buffer for the rotated image when allocating
-the framebuffer and trigger the hardware to do the conversion each
-vblank or something.
+> > > The
+> > > deprecated interface needs for the CONFIG_SYSFS_DEPRECATED_V2
+> > > flag in order to be generated.
+> > 
+> > CONFIG_SYSFS_DEPRECATED_V2 idea was abandoned, no? This patch at least 
+> > does not appear to contain it so please update the commit message to 
+> > reflect current state.
+> > 
+> > Adding Joonas to help address the question of how strict are userspace 
+> > requirements for sysfs additions. Personally sysadmin use sounds fine to 
+> > me, although it needs to be mentioned/documented as Matt requested, but 
+> > I fear it may not be enough to upstream. Is Level0 at the stage where we 
+> > can upstream for it I am also not sure.
+> 
+> Sysadmin usage is fine for the simple interfaces that can truly be used
+> from the command line. This patch seems to just expose the existing
+> interface in per-tile manner, so should not be a concern.
 
-While reading the discussion about maintaining fbdev I realised maybe
-I should ask instead of wasting too much time on something that's
-wrong.
+This will definitely help this patch (series) to get in, but I
+my understanding is that Level0 is a bit behind for upstreaming.
 
-I got the feeling that maybe I should just provide an interface to the
-blitter from userspace and userspace should be doing the rotation. I'd
-like to do it in the kernel so stuff like SDL1 apps just work but
-maybe that isn't possible?
+> However, the controls not under gt directories, need to be converted to
+> apply to all tiles. (I've definitely given that feedback multiple
+> times). Otherwise it will be very unexpected to the end user when what
+> previously applied to whole device would only apply to part of it.
 
-Cheers,
+It's not forgotten :)
 
-Daniel
+> Regards, Joonas
+
+Thank you,
+Andi
