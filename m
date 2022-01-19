@@ -1,70 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A6F7493CD7
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 16:20:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 610F8493CE3
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 16:21:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FEB910E1B1;
-	Wed, 19 Jan 2022 15:20:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EC8810E2F9;
+	Wed, 19 Jan 2022 15:21:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 607C810E2EC
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 15:20:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1642605583;
- bh=1wueW8BO2whJgvsCqgT7W/w+DL8z3im+ceSWmVhDJBs=;
- h=X-UI-Sender-Class:Date:To:Cc:References:From:Subject:In-Reply-To;
- b=ZCGIGcc48p7NH4m612POSZjIkPA/BEQbPqE7Hcj4txhvyjOMRsA6CieXRdAZof8+C
- FpxsE4DMHVPHjujgpVXQkUC0G0UVenqi8M0pK/o/mlMe08TwmsTkSd3+WrJk+lOz+g
- Wz4dZQQdyawMvF1lozEAzH1aVQl9bx168ugi8iQU=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.183.52]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mq2jC-1mXHRN21FS-00n8Tz; Wed, 19
- Jan 2022 16:19:43 +0100
-Message-ID: <31410fa2-293f-9b47-8fb1-e2486033fd22@gmx.de>
-Date: Wed, 19 Jan 2022 16:18:35 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Content-Language: en-US
-To: Daniel Vetter <daniel@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>
-References: <20220119110839.33187-1-deller@gmx.de>
- <20220119110839.33187-3-deller@gmx.de> <Yef0j8+DBbwC7Kjv@kroah.com>
- <Yef15k2GtC40aJEu@kroah.com>
- <CAMuHMdVWFJEDwjf-htZ_D1484efmuPnz_L-qhcTeUE-GVpvZXA@mail.gmail.com>
- <4d8950c7-5f51-ca2b-4c93-741c7805a214@gmx.de>
- <CAHk-=wikFKjwdUBWCLCu=iL3rFq4BDDF0aBGdXC6ay74yJb+5Q@mail.gmail.com>
- <CAKMK7uEb53iu_HxYSnFZ59j=vXQdMvTWT7xosEo85XkAwzDMnA@mail.gmail.com>
-From: Helge Deller <deller@gmx.de>
-Subject: Re: [PATCH 2/2] Revert "fbcon: Disable accelerated scrolling"
-In-Reply-To: <CAKMK7uEb53iu_HxYSnFZ59j=vXQdMvTWT7xosEo85XkAwzDMnA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:6zO4hVKFAQeptRF1xDsaMUngTmTgz6fBOQmqxQHV9tYchko01GW
- AXojxLbLPhh04GfuWtYRoKaZNpCezkzKqHUcn1zl8UwTXXQbE/zPMI4qgsJPKV62qcNFlw/
- 9V3Uq5pZI3w+MqzYXkwYsJp3sVVl6qn5bYyuY46EZFpY6wAY1dDAfsT7eUrSCiJeBbeXAGu
- Ek5VC3Cm1g4b/uWPzbLbQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:iRMuHJLEPBQ=:KKJiJoPvAvG6Zo4y71VOKc
- WrByrBlGbkLCfKP0wDoSYzbMf4mTfiMLNyf+MlD4mLhF+g3y2qM3ueH/k2ZtpmP7Fqy8+o8eQ
- QdyS5TiNCzP/BqCkuLr4v+k7kKDHNOqHeAJrv6Vx8XHF0cuyizWb8+G5F8Dil20RkzxJNGXH7
- VcQ4dOctutb5hxU5OpnYQUuMVp6cZPP7NcX9NZqxxu4TwKTfpzifyHXxvnxOD0MrDi+b98z20
- TD56McIS1R6G4a0P7kujxhLhIF9KbWaji/fXcDqtu28DPptDGuxzo0fLKWPN2uAqGP4D9JW3F
- VUYLl59j+lSbj8/tmWSIzHwZsnyWMq+Zgsu897fzmaaUHOBdceOVM1/AAnARzebzjgtn8LaCI
- Z+MPLZlO+7Ms4fh3WrDUTXQLSYHU4f0E5uIi8LbKP1Xl5sKt7h5qdk8OmzXyDhGPqKU5VpXWL
- Id+u54Ud0roTADv9995VS/KMKjCGiOvM5hHFlxV8ecxduXiGQlLxh858Tjbgww4FVXrCGOJeU
- ilEas9T7lOdVvKFefiaSJzRQZ/45wUErO3+trMOIhgoTuq3+Mu9pAkdAC/Buj9CpzQtO9uzPe
- v1DUAtTfBu2nR6R8rD0eb3HjeHfvRSXYtqD24NffaSMoY+jJ1ESakU07jFbcMnL2Mb49pmhXQ
- z2H6ENwKvoa5ZZ0YIMdBARaQCaLI7Aj/6nHuYkhpefgd1vcJDkm4+X9OYVqXCfhOEXvwtv+js
- Er150Fxvl8XJFA1ZoAwwMiUsEG21Z9YG7ztJ7m8cVp2SGnRdgagbGRSiwqzd2oTNRm8a/aeIm
- PdLXDTWFG90z0fFmIWE+XhtVr0oYZvUnDCTCmm+JM23tRVO3oSrnpsLcoTZi8Y7kPc2aDSRjk
- YfeVcXNH9rrq4FlGar/GtP4FGbuk6sTJvm/GJIZiLD67CnsZYam3Gx0KOraVbRQxb1qpDynIj
- Kz0/tmqOEutAHk0/FoSaVlYj1JwuoRcBcC9lVg/OkvFVUH2+ybvneK2UiD+7Vl7XHBXoMJ5UN
- wOvi1Or3jBcsMD4yMXqaUppLbT3lAj/VpHamm7Jpq8zaTlie34Oy9M3+qgbto8Eqg3vofJ0sV
- DrM1T3TKZVspJc=
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A85910E314
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 15:21:40 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1642605700; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=nDQ1Iy4S4g8WjOjL3PAXt1koaRqeDxEXd8ZQbmvqGI4=;
+ b=P0KrPuOOpB+v44totz7SRncC31vChqDBuRocnVhit8kk6p+6KlZvf/39w4T2XwnHux2q9tUV
+ LHkVNdF4l1SsFeMAOIMrF1hMKCR/+cTwd+U9rp9PWqetI5Q13Ylc2fA4cP+vLz0ymH/6wGy4
+ aMw1wG9In22iDMkOc31QII7H190=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
+ 61e82c82305e503c0909e7d7 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 19 Jan 2022 15:21:38
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id A2E60C4360D; Wed, 19 Jan 2022 15:21:37 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL autolearn=no autolearn_force=no version=3.4.0
+Received: from hyd-lnxbld559.qualcomm.com (unknown [202.46.22.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: akhilpo)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 74C74C4360D;
+ Wed, 19 Jan 2022 15:21:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 74C74C4360D
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=fail (p=none dis=none) header.from=quicinc.com
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=quicinc.com
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: freedreno <freedreno@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Rob Clark <robdclark@gmail.com>,
+ OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS <devicetree@vger.kernel.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 1/4] drm/msm/adreno: Add support for Adreno 8c Gen 3
+Date: Wed, 19 Jan 2022 20:51:18 +0530
+Message-Id: <20220119205012.v2.1.Ibac66e1e0e565313bc28f192e6c94cb508f205eb@changeid>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,140 +66,209 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sven Schnelle <svens@stackframe.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Claudio Suarez <cssk@net-c.es>,
- Gerd Hoffmann <kraxel@redhat.com>, Pavel Machek <pavel@ucw.cz>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Eric Anholt <eric@anholt.net>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/19/22 15:34, Daniel Vetter wrote:
-> On Wed, Jan 19, 2022 at 3:01 PM Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
->>
->> On Wed, Jan 19, 2022 at 2:29 PM Helge Deller <deller@gmx.de> wrote:
->>>
->>>>>
->>>>> Ah, no, that was just the soft scrollback code I was thinking of, wh=
-ich
->>>
->>> Right.
->>> That was commit 973c096f6a85 and it was about vgacon, not fbcon.
->>
->> No, fbcon had some bug too, although I've paged out the details. See
->> commit 50145474f6ef ("fbcon: remove soft scrollback code").
->
-> tbh I've paged it all out too.
->
->> If I remember correctly (and it's entirely possible that I don't), the
->> whole "softback_lines" logic had serious problems with resizing the
->> console (or maybe changing the font size).
->
-> Yeah that pile of reverts was my motiviation to look into this and see
-> what else we could rip out most likely and still have an fbcon that
-> works as well as it does right now for almost all users (which is not
-> so great, but oh well).
->
->> There may have been some other bad interaction with
->> foreground/background consoles too, I forget.
->
-> Irrespective of this code being buggy or not buggy I think the bigger
-> pictures, and really the reason I want to see as much code ditched
-> from the fbdev/fbcon stack as we possible can, are very clear:
->
-> - it's full of bugs
+Add support for "Adreno 8c Gen 3" gpu along with the necessary speedbin
+support.
 
-I'm sure that there are bugs. Not just in fbcon/fbdev.
-Other than that, if there are bugs I'm sure they are independend
-of the question if you use hardware acceleration or not.
+Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+---
 
-> - there's no test coverage/CI to speak of
-> - it's very arcane code which is damn hard to understand and fix issues =
-within
-> - the locking is busted (largely thanks to console_lock, and the
-> effort to make that reasonable from -rt folks has been slowly creeping
-> forward for years).
->
-> Iow this subsystem is firmly stuck in the 90s, and I think it's best
-> to just leave it there. There's also not been anyone actually capable
-> and willing to put in the work to change this (pretty much all actual
-> changes/fixes have been done by drm folks anyway, like me having a
-> small pet project to make the fbdev vs fbcon locking slightly less
-> busted).
+Changes in v2:
+- Fix a bug in adreno_cmp_rev()
 
-Yes, drm folks fixed a lot of bugs in the generic fbcon code.
-I think everyone is thankful for this.
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c      | 21 ++++++++++++++----
+ drivers/gpu/drm/msm/adreno/adreno_device.c | 34 +++++++++++++++++++++++++++---
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h    | 10 +++++++--
+ 3 files changed, 56 insertions(+), 9 deletions(-)
 
-> The other side is that being a maintainer is about collaboration, and
-> this entire fbdev maintainership takeover has been a demonstration of
-> anything but that. MAINTAINERS entry was a bit confusing since defacto
-> drm has been maintaining it for years, but for the above reasons we've
-> done that by just aggressively deleting stuff that isn't absolutely
-> needed - hence why I figured "orphaned" is a reasonable description of
-> the state of things. This entire affair of rushing in a maintainer
-> change over the w/e and then being greeted by a lot of wtf mails next
-> Monday does leave a rather sour aftertaste. Plus that thread shows a
-> lot of misunderstandings of what's all been going on and what drm can
-> and cannot do by Helge, which doesn't improve the entire "we need
-> fbdev back" argument.
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 51b8377..9268ce3 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -10,7 +10,6 @@
+ 
+ #include <linux/bitfield.h>
+ #include <linux/devfreq.h>
+-#include <linux/nvmem-consumer.h>
+ #include <linux/soc/qcom/llcc-qcom.h>
+ 
+ #define GPU_PAS_ID 13
+@@ -1734,6 +1733,18 @@ static u32 a618_get_speed_bin(u32 fuse)
+ 	return UINT_MAX;
+ }
+ 
++static u32 adreno_7c3_get_speed_bin(u32 fuse)
++{
++	if (fuse == 0)
++		return 0;
++	else if (fuse == 117)
++		return 0;
++	else if (fuse == 190)
++		return 1;
++
++	return UINT_MAX;
++}
++
+ static u32 fuse_to_supp_hw(struct device *dev, struct adreno_rev rev, u32 fuse)
+ {
+ 	u32 val = UINT_MAX;
+@@ -1741,6 +1752,9 @@ static u32 fuse_to_supp_hw(struct device *dev, struct adreno_rev rev, u32 fuse)
+ 	if (adreno_cmp_rev(ADRENO_REV(6, 1, 8, ANY_ID), rev))
+ 		val = a618_get_speed_bin(fuse);
+ 
++	if (adreno_cmp_rev(ADRENO_REV(6, 3, 5, ANY_ID), rev))
++		val = adreno_7c3_get_speed_bin(fuse);
++
+ 	if (val == UINT_MAX) {
+ 		DRM_DEV_ERROR(dev,
+ 			"missing support for speed-bin: %u. Some OPPs may not be supported by hardware",
+@@ -1753,11 +1767,10 @@ static u32 fuse_to_supp_hw(struct device *dev, struct adreno_rev rev, u32 fuse)
+ 
+ static int a6xx_set_supported_hw(struct device *dev, struct adreno_rev rev)
+ {
+-	u32 supp_hw = UINT_MAX;
+-	u32 speedbin;
++	u32 speedbin, supp_hw = UINT_MAX;
+ 	int ret;
+ 
+-	ret = nvmem_cell_read_variable_le_u32(dev, "speed_bin", &speedbin);
++	ret = adreno_read_speedbin(dev, &speedbin);
+ 	/*
+ 	 * -ENOENT means that the platform doesn't support speedbin which is
+ 	 * fine
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+index 9300583..946f505 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_device.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+@@ -6,6 +6,7 @@
+  * Copyright (c) 2014,2017 The Linux Foundation. All rights reserved.
+  */
+ 
++#include <linux/nvmem-consumer.h>
+ #include "adreno_gpu.h"
+ 
+ bool hang_debug = false;
+@@ -317,6 +318,17 @@ static const struct adreno_info gpulist[] = {
+ 		.zapfw = "a660_zap.mdt",
+ 		.hwcg = a660_hwcg,
+ 	}, {
++		.rev = ADRENO_REV_SKU(6, 3, 5, ANY_ID, 190),
++		.name = "Adreno 8c Gen 3",
++		.fw = {
++			[ADRENO_FW_SQE] = "a660_sqe.fw",
++			[ADRENO_FW_GMU] = "a660_gmu.bin",
++		},
++		.gmem = SZ_512K,
++		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
++		.init = a6xx_gpu_init,
++		.hwcg = a660_hwcg,
++	}, {
+ 		.rev = ADRENO_REV(6, 3, 5, ANY_ID),
+ 		.name = "Adreno 7c Gen 3",
+ 		.fw = {
+@@ -365,13 +377,19 @@ static inline bool _rev_match(uint8_t entry, uint8_t id)
+ 	return (entry == ANY_ID) || (entry == id);
+ }
+ 
++static inline bool _rev_match_sku(uint16_t entry, uint16_t id)
++{
++	return (entry == ANY_SKU) || (entry == id);
++}
++
+ bool adreno_cmp_rev(struct adreno_rev rev1, struct adreno_rev rev2)
+ {
+ 
+ 	return _rev_match(rev1.core, rev2.core) &&
+ 		_rev_match(rev1.major, rev2.major) &&
+ 		_rev_match(rev1.minor, rev2.minor) &&
+-		_rev_match(rev1.patchid, rev2.patchid);
++		_rev_match(rev1.patchid, rev2.patchid) &&
++		_rev_match_sku(rev1.sku, rev2.sku);
+ }
+ 
+ const struct adreno_info *adreno_info(struct adreno_rev rev)
+@@ -445,12 +463,17 @@ struct msm_gpu *adreno_load_gpu(struct drm_device *dev)
+ 	return gpu;
+ }
+ 
++int adreno_read_speedbin(struct device *dev, u32 *speedbin)
++{
++	return nvmem_cell_read_variable_le_u32(dev, "speed_bin", speedbin);
++}
++
+ static int find_chipid(struct device *dev, struct adreno_rev *rev)
+ {
+ 	struct device_node *node = dev->of_node;
+ 	const char *compat;
+ 	int ret;
+-	u32 chipid;
++	u32 chipid, speedbin;
+ 
+ 	/* first search the compat strings for qcom,adreno-XYZ.W: */
+ 	ret = of_property_read_string_index(node, "compatible", 0, &compat);
+@@ -466,7 +489,7 @@ static int find_chipid(struct device *dev, struct adreno_rev *rev)
+ 			rev->minor = r;
+ 			rev->patchid = patch;
+ 
+-			return 0;
++			goto done;
+ 		}
+ 	}
+ 
+@@ -486,6 +509,11 @@ static int find_chipid(struct device *dev, struct adreno_rev *rev)
+ 	dev_warn(dev, "Use compatible qcom,adreno-%u%u%u.%u instead.\n",
+ 		rev->core, rev->major, rev->minor, rev->patchid);
+ 
++done:
++	if (adreno_read_speedbin(dev, &speedbin))
++		speedbin = ANY_SKU;
++
++	rev->sku = (uint16_t) (0xffff & speedbin);
+ 	return 0;
+ }
+ 
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+index cffabe7..52bd93a 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+@@ -40,12 +40,16 @@ struct adreno_rev {
+ 	uint8_t  major;
+ 	uint8_t  minor;
+ 	uint8_t  patchid;
++	uint16_t sku;
+ };
+ 
+-#define ANY_ID 0xff
++#define ANY_ID	0xff
++#define ANY_SKU 0xffff
+ 
+ #define ADRENO_REV(core, major, minor, patchid) \
+-	((struct adreno_rev){ core, major, minor, patchid })
++	((struct adreno_rev){ core, major, minor, patchid, ANY_SKU })
++#define ADRENO_REV_SKU(core, major, minor, patchid, sku) \
++	((struct adreno_rev){ core, major, minor, patchid, sku })
+ 
+ struct adreno_gpu_funcs {
+ 	struct msm_gpu_funcs base;
+@@ -324,6 +328,8 @@ adreno_iommu_create_address_space(struct msm_gpu *gpu,
+ 
+ void adreno_set_llc_attributes(struct iommu_domain *iommu);
+ 
++int adreno_read_speedbin(struct device *dev, u32 *speedbin);
++
+ /*
+  * For a5xx and a6xx targets load the zap shader that is used to pull the GPU
+  * out of secure mode
+-- 
+2.7.4
 
-I'm happy to *really* maintain fbdev code & drivers.
-Up to now only those parts which were still needed by drm (like fbcon)
-were fixed & "maintained" by drm folks.
-Nearly all other patches sent to the fbdev list were ignored and even new
-submissions for fbdev drivers were denied.
-Now in next step really important infrastructure for fbdev-drivers was
-ripped out of fbcon, like suddenly denying fbdev-drivers to use hardware
-acceleration.
-According to the docs the next step would have been to drop even more
-code from the fbdev drivers.
-This is not what "maintain" really is about.
-
-> But if the overall consensus is that that fbdev needs to be brought
-> back to it's full 90s glory then I think we need a copy of that code
-> for drm drivers (should work out if we intercept fb_open() and put our
-> own file_ops in there, maybe some more fun with fbcon), so that at
-> least for anything modern using drm driver we can keep on maintaining
-> that compat support code.
-
-It's not about to keep something alive or to stop future developments.
-It's about fairness and not actively breaking other parts of the kernel
-for no good reason.
-
-> And with maintaining here I don't mean build a museum around it, but
-> actually try to keep/move the thing towards a state where we can still
-> tell distros that enabling it is an ok thing to do and not just a CVE
-> subscription (well it is that too right now, but at least we can fix a
-> lot of them by just deleting code).
->
-> I think until that mess is sorted out resurrecting code that's not
-> strictly needed is just not a bright idea.
-
-That's wrong.
-It's strictly needed by more than 35 fbdev drivers and as such
-you introduced a regression for those.
-
-> Also wrt the issue at hand of "fbcon scrolling": The way to actually
-> do that with some speed is to render into a fully cached shadow buffer
-> and upload changed areas with a timer. Not with hw accelerated
-> scrolling, at least not if we just don't have full scale development
-> teams for each driver because creating 2d accel that doesn't suck is
-> really hard. drm fbdev compat helpers give you that shadow buffer for
-> free (well you got to set some options).
->
-> Unfortunately just ditching fbdev/fbcon compat is not an option for
-> many distros still, althought things are very slowly moving towards
-> that. Until we've arrived there I can't just pretend to not care about
-> what's going on in drivers/video.
-
-I'm happy to take care about it.
-That's why I stepped up as maintainer.
-
-Helge
