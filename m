@@ -2,66 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE7B0493CBE
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 16:13:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D7A2493CCC
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 16:18:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F8DF10E1E5;
-	Wed, 19 Jan 2022 15:13:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C68CE10E2CC;
+	Wed, 19 Jan 2022 15:17:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E575110E204
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 15:13:36 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- f202-20020a1c1fd3000000b0034dd403f4fbso2800407wmf.1
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 07:13:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=nojvlSBxMxzR4GSErwgQdagPUIgNBTK8vSAAewWJfGo=;
- b=UdOh/AhxxSV2+uxZH/MLQG8GMpYKK7LtGvtEgzc0oMjASCb0xgLv1JVkWwbP0Mcj+V
- FTB44ALi2Dkmxa5TtFeeIbigQ+N1KF2QOFjs7nfHIYs/h2YuRCfAJjZQE2rSWo5KHyMt
- 4CPSxa99XOEfmjqqpp6mRZSATV4pq1lBLqP7Y=
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
+ [IPv6:2607:f8b0:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AA0F10E2B1
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 15:17:57 +0000 (UTC)
+Received: by mail-pl1-x635.google.com with SMTP id d7so2474842plr.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 07:17:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4Tc7nnQFnAv/x3r/yYMhvZGN3p803fSMZ3UHYukD4rU=;
+ b=RI+4W/YKXDryDOyJcLD+b6qOqNtxW2ng67ZkKebLb0N9NnWQXgt4iuVKIkdfsvu1m7
+ CrdkKjecym5szZkx6UP81WRtMQAE+lxk9zua+xcnWuxRXh07iMDBn/QSuo2W3ZjIJJll
+ muU0ysGPe3hCkwjn/nf2x4d+gJcI80Tck+zOs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=nojvlSBxMxzR4GSErwgQdagPUIgNBTK8vSAAewWJfGo=;
- b=NzJvC3YsZhj3hYKYRhcmokKVzkA09kFesxRM7LOJb57t6rHfjP5jP1vP2Y6k3PM787
- pPl4nuZUxPCGMy0508Psa3Q5bP8CGx90fOEQkwZx7VE6lGENmFHKpaG1DJDncoSN4QKu
- gUnYM9Ul/bDG8bFtG4JwViGEuIQQKF8fZQL6x49D1ZhlW3Kl4lK/ao60jXvrbgkyfMbg
- GiBP8nLkL90iXi+DNXbswpLiW0LhzwxS5YFaNNdkQpkG8ght7C9sLFwdBbmbQE4TMDeU
- XKNq+rdMB6KdsB7PyivnFNGM3IjOACAIDx6RsXWn4GaRaWlYPu3ReWKJr45JfwLw6TYj
- k0yw==
-X-Gm-Message-State: AOAM530zt7UDeDfV6AHEQUv672tK2qpj9FZ4DAIb9BqMG70oi9iZ7QMq
- FVDLDuH7eXSbgLO0OeRpl4QjvA==
-X-Google-Smtp-Source: ABdhPJzgCMa/tbYtoVRSIfTNfXLaMUVi4OH5qPmaP5VowNhx7sB3F/GwbvttLoWt7A3z38o+qBf4Sw==
-X-Received: by 2002:a05:6000:3c5:: with SMTP id
- b5mr26652200wrg.312.1642605215514; 
- Wed, 19 Jan 2022 07:13:35 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z1sm5057694wma.20.2022.01.19.07.13.34
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4Tc7nnQFnAv/x3r/yYMhvZGN3p803fSMZ3UHYukD4rU=;
+ b=VT7Qy2ZDreICb+qDnxFJDfh6Q2O79YXU+J1ITm+fDrcSN6E3KB8kF5/9+k6aha9I85
+ iVLPz55qGPjpDLChkl6jiBs8muhgXUM+y3A7Km86TVKKwTDMusHpL997OvHcbhYb5a6P
+ Sz8bXnEcfV1akVNdsEJdan2d7WTlspeQoD7tCdICIOkS27zlLgeHHDTbClXuEs8VXRaW
+ 3LfzAuaBICh3VI3/yZOprL7ZwW3QopGkaPKdoJyO7vhC/us2CRLUvoeVqyohqpkVrvYx
+ 0OpoC3cd4hkCn32foTOOOalLzQ3Sdg24pSZwckbV5/lBlYQdLy/37k/AK9YXeaJBeIrI
+ HrKw==
+X-Gm-Message-State: AOAM531hKZ1uOrk2fi+91ENixU6VPfL7uO6Acr+snjxS5leCMKZUk6ql
+ 3xWQ9+g2Qeg+rYqIz6InALw/Cw==
+X-Google-Smtp-Source: ABdhPJzXbx2jwpii7zYjlTlogLTziYjpPQfkpQBSImL6a9fsiG8UTMq3BznOyeDF4GJ+8xR5veOHzw==
+X-Received: by 2002:a17:902:8693:b0:148:a2e7:fb5a with SMTP id
+ g19-20020a170902869300b00148a2e7fb5amr32680524plo.155.1642605476443; 
+ Wed, 19 Jan 2022 07:17:56 -0800 (PST)
+Received: from hsinyi-z840.tpe.corp.google.com
+ ([2401:fa00:1:10:ab3b:7ccf:392:3f04])
+ by smtp.gmail.com with ESMTPSA id ip14sm6731596pjb.11.2022.01.19.07.17.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jan 2022 07:13:34 -0800 (PST)
-Date: Wed, 19 Jan 2022 16:13:33 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-Subject: Re: [PATCH v2] drm/selftests/test-drm_dp_mst_helper: Fix memory leak
- in sideband_msg_req_encode_decode
-Message-ID: <YegqnfDXHmxUBWxI@phenom.ffwll.local>
-Mail-Followup-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?=
- <jose.exposito89@gmail.com>, 
- airlied@linux.ie, lee.jones@linaro.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20220108165812.46797-1-jose.exposito89@gmail.com>
+ Wed, 19 Jan 2022 07:17:55 -0800 (PST)
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+To: Robert Foss <robert.foss@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Xin Ji <xji@analogixsemi.com>
+Subject: [PATCH v5 1/4] drm/bridge: anx7625: send DPCD command to downstream
+Date: Wed, 19 Jan 2022 23:17:48 +0800
+Message-Id: <20220119151751.986185-1-hsinyi@chromium.org>
+X-Mailer: git-send-email 2.34.1.703.g22d0c6ccf7-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220108165812.46797-1-jose.exposito89@gmail.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,51 +65,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, lee.jones@linaro.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jan 08, 2022 at 05:58:12PM +0100, José Expósito wrote:
-> Avoid leaking the "out" variable if it is not possible to allocate
-> the "txmsg" variable.
-> 
-> Fixes: 09234b88ef55 ("drm/selftests/test-drm_dp_mst_helper: Move 'sideband_msg_req_encode_decode' onto the heap")
-> Addresses-Coverity-ID: 1475685 ("Resource leak")
-> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-> 
-> ---
-> 
-> v2: Improve commit message
+From: Xin Ji <xji@analogixsemi.com>
 
-Applied to drm-misc-next, thanks.
--Daniel
+Send DPCD command to downstream before anx7625 power down,
+let downstream monitor enter into standby mode.
 
-> ---
->  drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c b/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
-> index 6b4759ed6bfd..c491429f1a02 100644
-> --- a/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
-> +++ b/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
-> @@ -131,8 +131,10 @@ sideband_msg_req_encode_decode(struct drm_dp_sideband_msg_req_body *in)
->  		return false;
->  
->  	txmsg = kzalloc(sizeof(*txmsg), GFP_KERNEL);
-> -	if (!txmsg)
-> +	if (!txmsg) {
-> +		kfree(out);
->  		return false;
-> +	}
->  
->  	drm_dp_encode_sideband_req(in, txmsg);
->  	ret = drm_dp_decode_sideband_req(txmsg, out);
-> -- 
-> 2.25.1
-> 
+Signed-off-by: Xin Ji <xji@analogixsemi.com>
+Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+---
+v3->v4:
+Use common DP_AUX_NATIVE_READ/WRITE
 
+Previously in:
+https://patchwork.kernel.org/project/dri-devel/patch/1f36f8bf0a48fb2bba17bacec23700e58c1d407d.1641891874.git.xji@analogixsemi.com/
+---
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 42 +++++++++++++++++++----
+ drivers/gpu/drm/bridge/analogix/anx7625.h |  2 --
+ 2 files changed, 35 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index 76662fce4ce61d..17b23940549a42 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -129,6 +129,23 @@ static int anx7625_reg_write(struct anx7625_data *ctx,
+ 	return ret;
+ }
+ 
++static int anx7625_reg_block_write(struct anx7625_data *ctx,
++				   struct i2c_client *client,
++				   u8 reg_addr, u8 len, u8 *buf)
++{
++	int ret;
++	struct device *dev = &client->dev;
++
++	i2c_access_workaround(ctx, client);
++
++	ret = i2c_smbus_write_i2c_block_data(client, reg_addr, len, buf);
++	if (ret < 0)
++		dev_err(dev, "write i2c block failed id=%x\n:%x",
++			client->addr, reg_addr);
++
++	return ret;
++}
++
+ static int anx7625_write_or(struct anx7625_data *ctx,
+ 			    struct i2c_client *client,
+ 			    u8 offset, u8 mask)
+@@ -214,8 +231,8 @@ static int wait_aux_op_finish(struct anx7625_data *ctx)
+ 	return 0;
+ }
+ 
+-static int anx7625_aux_dpcd_read(struct anx7625_data *ctx,
+-				 u32 address, u8 len, u8 *buf)
++static int anx7625_aux_dpcd_trans(struct anx7625_data *ctx, u8 op,
++				  u32 address, u8 len, u8 *buf)
+ {
+ 	struct device *dev = &ctx->client->dev;
+ 	int ret;
+@@ -231,8 +248,7 @@ static int anx7625_aux_dpcd_read(struct anx7625_data *ctx,
+ 	addrm = (address >> 8) & 0xFF;
+ 	addrh = (address >> 16) & 0xFF;
+ 
+-	cmd = DPCD_CMD(len, DPCD_READ);
+-	cmd = ((len - 1) << 4) | 0x09;
++	cmd = DPCD_CMD(len, op);
+ 
+ 	/* Set command and length */
+ 	ret = anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
+@@ -246,6 +262,9 @@ static int anx7625_aux_dpcd_read(struct anx7625_data *ctx,
+ 	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
+ 				 AP_AUX_ADDR_19_16, addrh);
+ 
++	if (op == DP_AUX_NATIVE_WRITE)
++		ret |= anx7625_reg_block_write(ctx, ctx->i2c.rx_p0_client,
++					       AP_AUX_BUFF_START, len, buf);
+ 	/* Enable aux access */
+ 	ret |= anx7625_write_or(ctx, ctx->i2c.rx_p0_client,
+ 				AP_AUX_CTRL_STATUS, AP_AUX_CTRL_OP_EN);
+@@ -255,14 +274,17 @@ static int anx7625_aux_dpcd_read(struct anx7625_data *ctx,
+ 		return -EIO;
+ 	}
+ 
+-	usleep_range(2000, 2100);
+-
+ 	ret = wait_aux_op_finish(ctx);
+ 	if (ret) {
+ 		dev_err(dev, "aux IO error: wait aux op finish.\n");
+ 		return ret;
+ 	}
+ 
++	/* Write done */
++	if (op == DP_AUX_NATIVE_WRITE)
++		return 0;
++
++	/* Read done, read out dpcd data */
+ 	ret = anx7625_reg_block_read(ctx, ctx->i2c.rx_p0_client,
+ 				     AP_AUX_BUFF_START, len, buf);
+ 	if (ret < 0) {
+@@ -845,7 +867,7 @@ static int anx7625_hdcp_enable(struct anx7625_data *ctx)
+ 	}
+ 
+ 	/* Read downstream capability */
+-	anx7625_aux_dpcd_read(ctx, 0x68028, 1, &bcap);
++	anx7625_aux_dpcd_trans(ctx, DP_AUX_NATIVE_READ, 0x68028, 1, &bcap);
+ 	if (!(bcap & 0x01)) {
+ 		pr_warn("downstream not support HDCP 1.4, cap(%x).\n", bcap);
+ 		return 0;
+@@ -918,6 +940,7 @@ static void anx7625_dp_stop(struct anx7625_data *ctx)
+ {
+ 	struct device *dev = &ctx->client->dev;
+ 	int ret;
++	u8 data;
+ 
+ 	DRM_DEV_DEBUG_DRIVER(dev, "stop dp output\n");
+ 
+@@ -929,6 +952,11 @@ static void anx7625_dp_stop(struct anx7625_data *ctx)
+ 	ret |= anx7625_write_and(ctx, ctx->i2c.tx_p2_client, 0x08, 0x7f);
+ 
+ 	ret |= anx7625_video_mute_control(ctx, 1);
++
++	dev_dbg(dev, "notify downstream enter into standby\n");
++	/* Downstream monitor enter into standby mode */
++	data = 2;
++	ret |= anx7625_aux_dpcd_trans(ctx, DP_AUX_NATIVE_WRITE, 0x000600, 1, &data);
+ 	if (ret < 0)
+ 		DRM_DEV_ERROR(dev, "IO error : mute video fail\n");
+ 
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
+index 56165f5b254c14..64a8ab56529404 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.h
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
+@@ -242,8 +242,6 @@
+ 
+ #define AP_AUX_COMMAND	0x27  /* com+len */
+ #define LENGTH_SHIFT	4
+-#define DPCD_READ	0x09
+-#define DPCD_WRITE	0x08
+ #define DPCD_CMD(len, cmd)	((((len) - 1) << LENGTH_SHIFT) | (cmd))
+ 
+ /* Bit 0&1: 3D video structure */
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.34.1.703.g22d0c6ccf7-goog
+
