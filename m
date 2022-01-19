@@ -1,54 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B74A2493EBA
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 18:02:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E323493EE1
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 18:16:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 413BC10E174;
-	Wed, 19 Jan 2022 17:02:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A66A10E6DA;
+	Wed, 19 Jan 2022 17:16:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com
- [IPv6:2607:f8b0:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3A9E10E174
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 17:02:50 +0000 (UTC)
-Received: by mail-il1-x12f.google.com with SMTP id d14so2751492ila.1
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 09:02:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Hsm/00MZhVta7FeJiWmW0GpyoIh7uNPUhDVP9yqtMLg=;
- b=HeJg7tZvw9JForVSwuYyGY6rKu7TW2No++TuybL7AnWA0euqunm94y7mRtzBcWbA26
- sVMEiLgNdWvecQjYM3/ecLMFqJz5LrDK0G1twxHMHbnnOSs9OX08JtEkKLb3XZERSGM+
- bW0j1bfjYWpTnU/HJ4Okj+lUi5ObyxENrGpWQ=
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F352210E6CD
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 17:16:19 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id c2so6495003wml.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 09:16:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=zzvIrnbRrAe96RAs7QQrQ5fa7VjZfzf+FUBVq9CK8zs=;
+ b=eJ7OCeRWjAcHO/MucFGi1b1DZSFqrCuvpzN3+abTm6PVbbL5927sh4qL2qoEAVmSqZ
+ 0kX1DDWc3wM0c9LG8LQypgc2GA1YrqVtfFY3l3/APx8vBEjQfsibgGJaQtSMx1YV/um8
+ ogW8v+RJVBZ368wydisAinreXnx4zJswcWkyM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Hsm/00MZhVta7FeJiWmW0GpyoIh7uNPUhDVP9yqtMLg=;
- b=KdIkHuWO9RQ8yT4I7zjsVb/KvIw5THoa1Rr9Xlcy079bCmO1ElH1OF2LfyFltFGQXq
- MlHufSkfng5idxCGhn//sPVRr1tojNRpwGI9SNpXbgDedvdVJ2y59JU3P8xzSqWK05nU
- 6hCqj7tVp8NZtarpw/0RY1FQYIfAGjjsLQN6Z/+VZpzbDNciNjaF1ifmXQ3Fz1owfyIg
- Mi39hzI96z6aNM2ivX6BqgwQyUdRpQkosOxgqg9gjBURMoXbpSH2fRtXEE81I1qiVzQE
- Eof7y6PxSxnGLlaW5ESgNdbEpus7+BT86an58TRQRILlYs3vlgHSSHpAfNnoDNTqGlxE
- AAxA==
-X-Gm-Message-State: AOAM531GDhSBdM8CjlJxQeYWwgptnZSa2j75zgBk6kzI/M21w0lMqDfT
- uSYcd/2kNYjgi9XRkl8xOMDlZzJ3UdTnsiMuhy+ZcQ==
-X-Google-Smtp-Source: ABdhPJymVeCNdMlzhUY0QYC3s+vlfACI/D3ZaEIC5Y3u5uE++rC30tYoFDBohopQtDTFrT/e/pJqoJ8hkkDGTa+cBBs=
-X-Received: by 2002:a05:6e02:160d:: with SMTP id
- t13mr13469973ilu.231.1642611769726; 
- Wed, 19 Jan 2022 09:02:49 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=zzvIrnbRrAe96RAs7QQrQ5fa7VjZfzf+FUBVq9CK8zs=;
+ b=TQiZff1B/ADkZ4mhok2sRSWziWhH+anfSvwLLNGkPC5NeSKsiWj0hF0RJvsAmcU5XN
+ eC0ATlEi1v/HAi7Untcuj5Ep8iIT1ZXSx6d+3eo+v/r5d1BYclFppXs9k+eTm+uiot8S
+ JnteD/7f2D/wMGup9ayOvms4QXW71D4GgHme568pzzSLVsqNv5WuWRH/0K6LhvaMmqLS
+ fWBNEKxpa7oHX0qkA7j18prOm7uYriZZurnYMkbMt8lRkRt4he23vWwGiFb1455oLYIv
+ nFY1HLNKRh3IvrIOjoO0ofOe19k6U2cf9Z/Y4o9hevNHlZS94tcQkuQYWag4MSXBMcws
+ fwEw==
+X-Gm-Message-State: AOAM530FMZseaFlX6wFGXVMQy82jBbqmBdQhr8ZRIys6RKZ2rXfuS7Z8
+ 072bAJzjq+u1QklKikA5lM381nAhn/levw==
+X-Google-Smtp-Source: ABdhPJxCd+stQGSYmFEA3t2+AiPWuPFMridVImogbcjFwJc6gJg/jpxVfs7pmmJuuvEEF3mQuwM8+Q==
+X-Received: by 2002:a05:600c:1c9f:: with SMTP id
+ k31mr4553450wms.40.1642612578456; 
+ Wed, 19 Jan 2022 09:16:18 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id 10sm5587913wmc.44.2022.01.19.09.16.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Jan 2022 09:16:17 -0800 (PST)
+Date: Wed, 19 Jan 2022 18:16:15 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH 1/4] dma-buf: consolidate dma_fence subclass checking
+Message-ID: <YehHX7ID/of9kxmE@phenom.ffwll.local>
+References: <20220119134339.3102-1-christian.koenig@amd.com>
 MIME-Version: 1.0
-References: <20220119151751.986185-1-hsinyi@chromium.org>
- <CAG3jFys5_jo68Arot=qYXjk0yL-5Z9-ybTipOTrS1Aa-C4PrNQ@mail.gmail.com>
-In-Reply-To: <CAG3jFys5_jo68Arot=qYXjk0yL-5Z9-ybTipOTrS1Aa-C4PrNQ@mail.gmail.com>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Thu, 20 Jan 2022 01:02:23 +0800
-Message-ID: <CAJMQK-hXO7m8dMZgLvWDz9QVF7KhA3gKmf=SmOFA=x5Jk8N_kg@mail.gmail.com>
-Subject: Re: [PATCH v5 1/4] drm/bridge: anx7625: send DPCD command to
- downstream
-To: Robert Foss <robert.foss@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220119134339.3102-1-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,165 +68,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Xin Ji <xji@analogixsemi.com>,
- Maxime Ripard <maxime@cerno.tech>
+Cc: gustavo@padovan.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, daniel.vetter@ffwll.ch,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 19, 2022 at 11:38 PM Robert Foss <robert.foss@linaro.org> wrote:
->
-> On Wed, 19 Jan 2022 at 16:17, Hsin-Yi Wang <hsinyi@chromium.org> wrote:
-> >
-> > From: Xin Ji <xji@analogixsemi.com>
-> >
-> > Send DPCD command to downstream before anx7625 power down,
-> > let downstream monitor enter into standby mode.
-> >
-> > Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-Reviewed-by: Hsin-Yi Wang <hsinyi@chromium.org>
+On Wed, Jan 19, 2022 at 02:43:36PM +0100, Christian König wrote:
+> Consolidate the wrapper functions to check for dma_fence
+> subclasses in the dma_fence header.
+> 
+> This makes it easier to document and also check the different
+> requirements for fence containers in the subclasses.
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>  include/linux/dma-fence-array.h | 15 +------------
+>  include/linux/dma-fence-chain.h |  3 +--
+>  include/linux/dma-fence.h       | 38 +++++++++++++++++++++++++++++++++
+>  3 files changed, 40 insertions(+), 16 deletions(-)
+> 
+> diff --git a/include/linux/dma-fence-array.h b/include/linux/dma-fence-array.h
+> index 303dd712220f..fec374f69e12 100644
+> --- a/include/linux/dma-fence-array.h
+> +++ b/include/linux/dma-fence-array.h
+> @@ -45,19 +45,6 @@ struct dma_fence_array {
+>  	struct irq_work work;
+>  };
+>  
+> -extern const struct dma_fence_ops dma_fence_array_ops;
+> -
+> -/**
+> - * dma_fence_is_array - check if a fence is from the array subsclass
+> - * @fence: fence to test
+> - *
+> - * Return true if it is a dma_fence_array and false otherwise.
+> - */
+> -static inline bool dma_fence_is_array(struct dma_fence *fence)
+> -{
+> -	return fence->ops == &dma_fence_array_ops;
+> -}
+> -
+>  /**
+>   * to_dma_fence_array - cast a fence to a dma_fence_array
+>   * @fence: fence to cast to a dma_fence_array
+> @@ -68,7 +55,7 @@ static inline bool dma_fence_is_array(struct dma_fence *fence)
+>  static inline struct dma_fence_array *
+>  to_dma_fence_array(struct dma_fence *fence)
+>  {
+> -	if (fence->ops != &dma_fence_array_ops)
+> +	if (!fence || !dma_fence_is_array(fence))
+>  		return NULL;
+>  
+>  	return container_of(fence, struct dma_fence_array, base);
+> diff --git a/include/linux/dma-fence-chain.h b/include/linux/dma-fence-chain.h
+> index 54fe3443fd2c..ee906b659694 100644
+> --- a/include/linux/dma-fence-chain.h
+> +++ b/include/linux/dma-fence-chain.h
+> @@ -49,7 +49,6 @@ struct dma_fence_chain {
+>  	spinlock_t lock;
+>  };
+>  
+> -extern const struct dma_fence_ops dma_fence_chain_ops;
+>  
+>  /**
+>   * to_dma_fence_chain - cast a fence to a dma_fence_chain
+> @@ -61,7 +60,7 @@ extern const struct dma_fence_ops dma_fence_chain_ops;
+>  static inline struct dma_fence_chain *
+>  to_dma_fence_chain(struct dma_fence *fence)
+>  {
+> -	if (!fence || fence->ops != &dma_fence_chain_ops)
+> +	if (!fence || !dma_fence_is_chain(fence))
+>  		return NULL;
+>  
+>  	return container_of(fence, struct dma_fence_chain, base);
+> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> index 1ea691753bd3..775cdc0b4f24 100644
+> --- a/include/linux/dma-fence.h
+> +++ b/include/linux/dma-fence.h
+> @@ -587,4 +587,42 @@ struct dma_fence *dma_fence_get_stub(void);
+>  struct dma_fence *dma_fence_allocate_private_stub(void);
+>  u64 dma_fence_context_alloc(unsigned num);
+>  
+> +extern const struct dma_fence_ops dma_fence_array_ops;
+> +extern const struct dma_fence_ops dma_fence_chain_ops;
+> +
+> +/**
+> + * dma_fence_is_array - check if a fence is from the array subclass
+> + * @fence: the fence to test
+> + *
+> + * Return true if it is a dma_fence_array and false otherwise.
+> + */
+> +static inline bool dma_fence_is_array(struct dma_fence *fence)
+> +{
+> +	return fence->ops == &dma_fence_array_ops;
+> +}
+> +
+> +/**
+> + * dma_fence_is_chain - check if a fence is from the chain subclass
+> + * @fence: the fence to test
+> + *
+> + * Return true if it is a dma_fence_chain and false otherwise.
+> + */
+> +static inline bool dma_fence_is_chain(struct dma_fence *fence)
+> +{
+> +	return fence->ops == &dma_fence_chain_ops;
+> +}
+> +
+> +/**
+> + * dma_fence_is_container - check if a fence is a container for other fences
+> + * @fence: the fence to test
+> + *
+> + * Return true if this fence is a container for other fences, false otherwise.
+> + * This is important since we can't build up large fence structure or otherwise
+> + * we run into recursion during operation on those fences.
+> + */
+> +static inline bool dma_fence_is_container(struct dma_fence *fence)
 
->
-> Hsin-Yi: Can you supply a r-b tag to this patch if it looks good to you?
->
-> > ---
-> > v3->v4:
-> > Use common DP_AUX_NATIVE_READ/WRITE
-> >
-> > Previously in:
-> > https://patchwork.kernel.org/project/dri-devel/patch/1f36f8bf0a48fb2bba17bacec23700e58c1d407d.1641891874.git.xji@analogixsemi.com/
-> > ---
-> >  drivers/gpu/drm/bridge/analogix/anx7625.c | 42 +++++++++++++++++++----
-> >  drivers/gpu/drm/bridge/analogix/anx7625.h |  2 --
-> >  2 files changed, 35 insertions(+), 9 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > index 76662fce4ce61d..17b23940549a42 100644
-> > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > @@ -129,6 +129,23 @@ static int anx7625_reg_write(struct anx7625_data *ctx,
-> >         return ret;
-> >  }
-> >
-> > +static int anx7625_reg_block_write(struct anx7625_data *ctx,
-> > +                                  struct i2c_client *client,
-> > +                                  u8 reg_addr, u8 len, u8 *buf)
-> > +{
-> > +       int ret;
-> > +       struct device *dev = &client->dev;
-> > +
-> > +       i2c_access_workaround(ctx, client);
-> > +
-> > +       ret = i2c_smbus_write_i2c_block_data(client, reg_addr, len, buf);
-> > +       if (ret < 0)
-> > +               dev_err(dev, "write i2c block failed id=%x\n:%x",
-> > +                       client->addr, reg_addr);
-> > +
-> > +       return ret;
-> > +}
-> > +
-> >  static int anx7625_write_or(struct anx7625_data *ctx,
-> >                             struct i2c_client *client,
-> >                             u8 offset, u8 mask)
-> > @@ -214,8 +231,8 @@ static int wait_aux_op_finish(struct anx7625_data *ctx)
-> >         return 0;
-> >  }
-> >
-> > -static int anx7625_aux_dpcd_read(struct anx7625_data *ctx,
-> > -                                u32 address, u8 len, u8 *buf)
-> > +static int anx7625_aux_dpcd_trans(struct anx7625_data *ctx, u8 op,
-> > +                                 u32 address, u8 len, u8 *buf)
-> >  {
-> >         struct device *dev = &ctx->client->dev;
-> >         int ret;
-> > @@ -231,8 +248,7 @@ static int anx7625_aux_dpcd_read(struct anx7625_data *ctx,
-> >         addrm = (address >> 8) & 0xFF;
-> >         addrh = (address >> 16) & 0xFF;
-> >
-> > -       cmd = DPCD_CMD(len, DPCD_READ);
-> > -       cmd = ((len - 1) << 4) | 0x09;
-> > +       cmd = DPCD_CMD(len, op);
-> >
-> >         /* Set command and length */
-> >         ret = anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-> > @@ -246,6 +262,9 @@ static int anx7625_aux_dpcd_read(struct anx7625_data *ctx,
-> >         ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-> >                                  AP_AUX_ADDR_19_16, addrh);
-> >
-> > +       if (op == DP_AUX_NATIVE_WRITE)
-> > +               ret |= anx7625_reg_block_write(ctx, ctx->i2c.rx_p0_client,
-> > +                                              AP_AUX_BUFF_START, len, buf);
-> >         /* Enable aux access */
-> >         ret |= anx7625_write_or(ctx, ctx->i2c.rx_p0_client,
-> >                                 AP_AUX_CTRL_STATUS, AP_AUX_CTRL_OP_EN);
-> > @@ -255,14 +274,17 @@ static int anx7625_aux_dpcd_read(struct anx7625_data *ctx,
-> >                 return -EIO;
-> >         }
-> >
-> > -       usleep_range(2000, 2100);
-> > -
-> >         ret = wait_aux_op_finish(ctx);
-> >         if (ret) {
-> >                 dev_err(dev, "aux IO error: wait aux op finish.\n");
-> >                 return ret;
-> >         }
-> >
-> > +       /* Write done */
-> > +       if (op == DP_AUX_NATIVE_WRITE)
-> > +               return 0;
-> > +
-> > +       /* Read done, read out dpcd data */
-> >         ret = anx7625_reg_block_read(ctx, ctx->i2c.rx_p0_client,
-> >                                      AP_AUX_BUFF_START, len, buf);
-> >         if (ret < 0) {
-> > @@ -845,7 +867,7 @@ static int anx7625_hdcp_enable(struct anx7625_data *ctx)
-> >         }
-> >
-> >         /* Read downstream capability */
-> > -       anx7625_aux_dpcd_read(ctx, 0x68028, 1, &bcap);
-> > +       anx7625_aux_dpcd_trans(ctx, DP_AUX_NATIVE_READ, 0x68028, 1, &bcap);
-> >         if (!(bcap & 0x01)) {
-> >                 pr_warn("downstream not support HDCP 1.4, cap(%x).\n", bcap);
-> >                 return 0;
-> > @@ -918,6 +940,7 @@ static void anx7625_dp_stop(struct anx7625_data *ctx)
-> >  {
-> >         struct device *dev = &ctx->client->dev;
-> >         int ret;
-> > +       u8 data;
-> >
-> >         DRM_DEV_DEBUG_DRIVER(dev, "stop dp output\n");
-> >
-> > @@ -929,6 +952,11 @@ static void anx7625_dp_stop(struct anx7625_data *ctx)
-> >         ret |= anx7625_write_and(ctx, ctx->i2c.tx_p2_client, 0x08, 0x7f);
-> >
-> >         ret |= anx7625_video_mute_control(ctx, 1);
-> > +
-> > +       dev_dbg(dev, "notify downstream enter into standby\n");
-> > +       /* Downstream monitor enter into standby mode */
-> > +       data = 2;
-> > +       ret |= anx7625_aux_dpcd_trans(ctx, DP_AUX_NATIVE_WRITE, 0x000600, 1, &data);
-> >         if (ret < 0)
-> >                 DRM_DEV_ERROR(dev, "IO error : mute video fail\n");
-> >
-> > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
-> > index 56165f5b254c14..64a8ab56529404 100644
-> > --- a/drivers/gpu/drm/bridge/analogix/anx7625.h
-> > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
-> > @@ -242,8 +242,6 @@
-> >
-> >  #define AP_AUX_COMMAND 0x27  /* com+len */
-> >  #define LENGTH_SHIFT   4
-> > -#define DPCD_READ      0x09
-> > -#define DPCD_WRITE     0x08
-> >  #define DPCD_CMD(len, cmd)     ((((len) - 1) << LENGTH_SHIFT) | (cmd))
-> >
-> >  /* Bit 0&1: 3D video structure */
-> > --
-> > 2.34.1.703.g22d0c6ccf7-goog
-> >
+Code looks all good, but I'm not super enthusiastic about exporting the
+ops to drivers and letting them do random nonsense. At least i915 does
+pretty enormous amounts of stuff with that instead of having pushed
+priority boosting into dma-fence as a proper concept. And maybe a few
+other things.
+
+Now i915-gem team having gone off the rails of good upstream conduct is
+another thing maybe, but I'd like to not encourage that.
+
+So could we perhaps do this all in header which is entirely private to
+drivers/dma-buf, like dma-fence-internal or so? And maybe whack a big
+fixme onto the current abuse in drivers (of which __dma_fence_is_chain()
+gets a special price for "not how upstream should be done" *sigh*).
+
+Cheers, Daniel
+
+> +{
+> +	return dma_fence_is_array(fence) || dma_fence_is_chain(fence);
+> +}
+> +
+>  #endif /* __LINUX_DMA_FENCE_H */
+> -- 
+> 2.25.1
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
