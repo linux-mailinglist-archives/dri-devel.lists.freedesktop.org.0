@@ -1,57 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4383C493FD1
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 19:25:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEC88494027
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 19:49:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3912B10E443;
-	Wed, 19 Jan 2022 18:25:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC52689A8C;
+	Wed, 19 Jan 2022 18:49:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com
- [IPv6:2607:f8b0:4864:20::b2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18B1F10EB81
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 18:25:10 +0000 (UTC)
-Received: by mail-yb1-xb2e.google.com with SMTP id 23so10068962ybf.7
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 10:25:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qhZUjSqSQkfhZLoYn5e7bhCr/SYhnGpXe4Qg5Zbv7IY=;
- b=KcjIc7Fy7AyXlztjvbf4TXqfnkrciDNXOMtpFzvtF3QorWdBdCJcZNxXQir+xqCgM/
- vhWvU4puaDNNHZIf8tBZKxSuEwQBcTPRaILKpqqMlp0EO0agvObWm58HneQ/F52afxd+
- 6yk9sB6uJI4kgfYa9xXzLl1IhZoi8Xr/g+mGUrRUzF3gyQ9ppLz97Lc6tXjX5m/whFY+
- ECRNg2HIhE2665MiG3OSXjnIgdouodrSJyK4mwNzw4KfTZvN2jBb+EzlnKNLhNJrQzDp
- 62ZPButvLcfnCM8PWDujKudROIKqyKSbycC36/wmwUvk0cT2ZnfhnIf8hQfmUytuiq2F
- Dvuw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 484A689321
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 18:49:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642618153;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+qsGrcyTaM8HFYRYbt26Hs5PWVlx1EPqUOLucipU7Mg=;
+ b=CljCLsl/LxKLLJ2O0Eqo0ks61JrNfcVBnCMXIpB6/UGZcUSqhBWrxl7darZr5psbmOUQOV
+ leD0C8qCGLfDBd32CLwZEWfVDrsd0EgOi5ujMFPJ6zO8E9Yt8kMgEvQFfeOSEzi2yr5P/X
+ LBLodxudeMhj2zIDpnUTb7a520Rwp4k=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-372-p-tchsHmMJm-tBHEO2_8Jg-1; Wed, 19 Jan 2022 13:49:11 -0500
+X-MC-Unique: p-tchsHmMJm-tBHEO2_8Jg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ l20-20020a05600c1d1400b0034c29cad547so4816534wms.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 10:49:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qhZUjSqSQkfhZLoYn5e7bhCr/SYhnGpXe4Qg5Zbv7IY=;
- b=w2kkMlvTPO+6rIBczgXZ4/o+eC4Wr1vb1pqEezbB+q/Q+BsAC27lZMz8QmNg96oUmQ
- obE3llhXzx9LZ5lPlYiCfiKWXWk278sKUuXuWGU9m5gp0Ze3odOPNrVZmleEVjMEc9wv
- 5TkdwEupz6ZhPsCgAUAww1zPlxYtgzsZOVmSZNFwyJHT5zer1u+oZ7AwwlGe51vBYBcF
- pOe6QdvoWAQH9KYOitX4eGXa4HsVH5iwilHldLNWKdEN9ay7P7GX2Yn+zxjdi/VllI3h
- FT317riSxbq9CsYuBal/varMo0NUF8hLkumKSUvsUA4FUy3biPxSwNbbGm/d8IY9Hx5w
- WImQ==
-X-Gm-Message-State: AOAM531KwsOpbkcFuG+J2HENQGmX4gil35C7+BQmFCtJdRVgyJgEha/u
- Au6o8t8F8HkyjPrnZhiyIHYAb/e/Ye0qIC8+fV4sRA==
-X-Google-Smtp-Source: ABdhPJyn4giiiq8ubwJREn+9rcxttcLhxnSzBFBbGPyp4Qw1J6vVVbQT+Fu9+AYAHNXgggW+6+BF7t8OrokPelbULGw=
-X-Received: by 2002:a5b:586:: with SMTP id l6mr28353208ybp.322.1642616709101; 
- Wed, 19 Jan 2022 10:25:09 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=+qsGrcyTaM8HFYRYbt26Hs5PWVlx1EPqUOLucipU7Mg=;
+ b=hV5nGl4mCaAuJJNo0TwkcjT33Gk//+F19SsMr6mn7v2My4/eN4XsG88f9cyK9JAdZt
+ anCEtylSWIl9hai9ekI2p3nW0eJfKkr1pq5s4KK+lXaBAvyvRhovYlqdGnS/0RsXnPdy
+ smhEVTfxZCmuTEgt14eD635xsXZBE7ATqocotX+M/BU3PrbB0OJBf5MCG6bDCYPqxldS
+ IDvv/cnFgFDKIv2L41GSyO8XXbsRnIinknAXGgFJjxZAjHHXwmZ7wNbj4hLMSPYQkyze
+ nOs4I0v65BGwOeBh5yGnxn1bmgddRS9l7fbkHVkN7a9rjcf5ie8d+eDpUT9rDNukU1ZQ
+ w1/Q==
+X-Gm-Message-State: AOAM530gDoi3uN5l5qW9vsgpQPIPNgtt8PBaA2AjRhUQRu8nnerlZ+D4
+ v21MflqVuCH/RVcTkb4BfyxCJPZ9/HmeA6/1e3FEQ5rLMvsKnpPjKcqQZe781DJq+oj5cbCeLpw
+ 4n3j5K5R2j4X49nVJtNRBBqFTwnDD
+X-Received: by 2002:a1c:a141:: with SMTP id k62mr4869511wme.172.1642618150639; 
+ Wed, 19 Jan 2022 10:49:10 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy1Kpf6+uldWTCRbZxkUHsgH8cpaLkeUTvW0fxHVDLydb9/z+nKUZFDPKeoNORBlQm9BC+hAA==
+X-Received: by 2002:a1c:a141:: with SMTP id k62mr4869467wme.172.1642618150314; 
+ Wed, 19 Jan 2022 10:49:10 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id o3sm835397wry.30.2022.01.19.10.49.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Jan 2022 10:49:09 -0800 (PST)
+Message-ID: <bb01c544-66aa-b470-5b09-18f6e42d941a@redhat.com>
+Date: Wed, 19 Jan 2022 19:49:08 +0100
 MIME-Version: 1.0
-References: <20220115010622.3185921-1-hridya@google.com>
- <20220115010622.3185921-3-hridya@google.com>
- <aea5b741-c994-4007-156e-d8a3a5b9bbcc@infradead.org>
-In-Reply-To: <aea5b741-c994-4007-156e-d8a3a5b9bbcc@infradead.org>
-From: Hridya Valsaraju <hridya@google.com>
-Date: Wed, 19 Jan 2022 10:24:33 -0800
-Message-ID: <CA+wgaPNqXSCxhby8xzQGCZ-GGJQ475Nx==ki63=DR_i25P_PiA@mail.gmail.com>
-Subject: Re: [RFC 2/6] cgroup: gpu: Add a cgroup controller for allocator
- attribution of GPU memory
-To: Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v3 00/10] drm: Make drivers to honour the nomodeset
+ parameter
+To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20211222082831.196562-1-javierm@redhat.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20211222082831.196562-1-javierm@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,70 +85,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zefan Li <lizefan.x@bytedance.com>, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>, kaleshsingh@google.com,
- Joel Fernandes <joel@joelfernandes.org>, Kees Cook <keescook@chromium.org>,
- Matthew Brost <matthew.brost@intel.com>, Kenny.Ho@amd.com,
- Daniel Borkmann <daniel@iogearbox.net>, Jonathan Corbet <corbet@lwn.net>,
- Martijn Coenen <maco@android.com>, Masahiro Yamada <masahiroy@kernel.org>,
- Wedson Almeida Filho <wedsonaf@google.com>,
- Matthew Auld <matthew.auld@intel.com>, Miguel Ojeda <ojeda@kernel.org>,
- Dave Airlie <airlied@redhat.com>, Laura Abbott <labbott@redhat.com>,
- Marco Ballesio <balejs@google.com>, linux-media@vger.kernel.org,
- Li Li <dualli@google.com>, Todd Kjos <tkjos@android.com>,
- Arnd Bergmann <arnd@arndb.de>, Vlastimil Babka <vbabka@suse.cz>,
- Vipin Sharma <vipinsh@google.com>, Nathan Chancellor <nathan@kernel.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, cgroups@vger.kernel.org,
- Suren Baghdasaryan <surenb@google.com>, tjmercier@google.com,
- Christian Brauner <christian@brauner.io>, linaro-mm-sig@lists.linaro.org,
- Hang Lu <hangl@codeaurora.org>, daniels@collabora.com,
- Chris Down <chris@chrisdown.name>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- Liam Mark <lmark@codeaurora.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Johannes Weiner <hannes@cmpxchg.org>,
- Tejun Heo <tj@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Liviu Dudau <liviu.dudau@arm.com>, virtualization@lists.linux-foundation.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Mihail Atanassov <mihail.atanassov@arm.com>,
+ Jonathan Corbet <corbet@lwn.net>, Xinliang Liu <xinliang.liu@linaro.org>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ "James \(Qian\) Wang" <james.qian.wang@arm.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Dave Airlie <airlied@redhat.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Chen Feng <puck.chen@hisilicon.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Tian Tao <tiantao6@hisilicon.com>, Shawn Guo <shawnguo@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 19, 2022 at 7:40 AM Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> Hi--
->
-> On 1/14/22 17:06, Hridya Valsaraju wrote:
-> > diff --git a/init/Kconfig b/init/Kconfig
-> > index cd23faa163d1..408910b21387 100644
-> > --- a/init/Kconfig
-> > +++ b/init/Kconfig
-> > @@ -990,6 +990,13 @@ config BLK_CGROUP
-> >
-> >       See Documentation/admin-guide/cgroup-v1/blkio-controller.rst for more information.
-> >
-> > +config CGROUP_GPU
-> > +       bool "gpu cgroup controller (EXPERIMENTAL)"
-> > +       select PAGE_COUNTER
-> > +       help
-> > +     Provides accounting and limit setting for memory allocations by the GPU
-> > +     and GPU-related subsystems.
->
-> Please follow coding-style for Kconfig files:
->
-> (from Documentation/process/coding-style.rst, section 10):
->
-> For all of the Kconfig* configuration files throughout the source tree,
-> the indentation is somewhat different.  Lines under a ``config`` definition
-> are indented with one tab, while help text is indented an additional two
-> spaces.
+On 12/22/21 09:28, Javier Martinez Canillas wrote:
+> The nomodeset kernel command line parameter is used to prevent the KMS/DRM
+> drivers to be registered/probed. But only a few drivers implement support
+> for this and most DRM drivers just ignore it.
+> 
+> This patch series is a v3 to make DRM drivers to honour nomodeset. It is
+> posted as separate patches to make easier for drivers maintainers to ack
+> or pick them independently at their own pace.
+> 
 
-Thanks Randy, sounds good! Will fix it in the next version!
+I've pushed this series to drm-misc-next.
 
->
->
-> thanks.
+Best regards,
+-- 
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
->
-> --
-> ~Randy
