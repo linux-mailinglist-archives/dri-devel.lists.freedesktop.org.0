@@ -1,72 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57AF14936E4
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 10:11:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F00CA4936EF
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 10:13:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC41410E87C;
-	Wed, 19 Jan 2022 09:11:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5288C10E8AF;
+	Wed, 19 Jan 2022 09:13:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 853DD10E86C
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 09:11:55 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id p18so3898724wmg.4
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 01:11:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=subject:from:to:cc:references:organization:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=C4Zc3pg97QhRBnCL31NpgyhTD5rJxIoNyw+4jb4dhT4=;
- b=dUWihDw/VMRg6sA/GD788IM8rAYRtmQWSJS0gFREajow6TJlqI3HWG9LdfWCkdehns
- NruAxdRRI2X+Uk+gUUPoKPdOTqJK+YDK5CJSoGRCB/3C7H1PyEBKYLOlsvC5+ZJ/iN7w
- sLVmiGGMz+7vD7j4OmVYXcymVoKHfPrIaHnZ3daxol1b0YtUcOYxwHo6PwsMN0R4vXH8
- DTRh4zjjMkj5ajGAHKUT6HdO38ZLsNatcyXDwdK57z8EjwHMEFKcVrpf7Ubb/Ad3YD34
- JlNxxTB2K9aFdD9aoaNV9IX1b4N+K7GLAEmJpqEeXp5G6u+ccu8PtuiTHp4MBNzSnSiB
- SL1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:from:to:cc:references:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=C4Zc3pg97QhRBnCL31NpgyhTD5rJxIoNyw+4jb4dhT4=;
- b=x6JtgX5Tl+4h8gRftZYI55+WFHymYoawjrDOD3aIYAXdaC+MFHq9j6cFFz4nsStF2N
- yczvBzo+rUBJfCVM48n4c0YROthn394I9Ms5dQNF2tMAY2q/vseB/GVDQzSM/DfHZLMr
- LpWT5jH365q4GvnJrJhxyVsRe70Qn2Qe2WzoGNqydlMyL5A0ZF19mPXA0ga2wqsAXL74
- CH7gcGCt57DXK+HNebaDwuyTPC7CAWgTD2+yYCzf53jWxPEsi508ipYXdwEcx0G1UNLE
- xrP3ayOXBOdRVngTQrjaIyva4rxl4hEvKFS5+BXcGEg4ic7PHmwlt6PHQdH3e6jHwG3a
- jqnA==
-X-Gm-Message-State: AOAM532FM1hzK7n01PcVZkjlulZ3xD/me4t9Tm116kzNLOlfsrWXNyzd
- FO+BLfXaEx89Y5baSSc4j1k5Mw==
-X-Google-Smtp-Source: ABdhPJz+1YRs3ncIGZ6eu44qYuu3hW1X9+WEUA6N5BCKeE+8wCtHHZrHR1Q6yh29u8Ny4K2ju8jeqw==
-X-Received: by 2002:a5d:46c6:: with SMTP id g6mr27435133wrs.322.1642583513901; 
- Wed, 19 Jan 2022 01:11:53 -0800 (PST)
-Received: from ?IPv6:2001:861:44c0:66c0:d394:97d0:bc02:3846?
- ([2001:861:44c0:66c0:d394:97d0:bc02:3846])
- by smtp.gmail.com with ESMTPSA id c8sm5634596wmq.34.2022.01.19.01.11.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Jan 2022 01:11:53 -0800 (PST)
-Subject: Re: [PATCH v2] phy: dphy: Correct clk_pre parameter
-From: Neil Armstrong <narmstrong@baylibre.com>
-To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-rockchip@lists.infradead.org
-References: <20220119023714.1498508-1-victor.liu@nxp.com>
- <28e3f723-daf0-b3c5-ee10-519c4cabfe17@baylibre.com>
-Organization: Baylibre
-Message-ID: <5a638561-c704-49e7-1fed-70e26fedb186@baylibre.com>
-Date: Wed, 19 Jan 2022 10:11:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 207A010E888
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 09:13:12 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id B38401F3BB;
+ Wed, 19 Jan 2022 09:13:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1642583590; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BQVOFB3ezI5uQW3/DO9hFezH1aofBWbcWf/cnQ60Mg8=;
+ b=odg2ii8kovVLjNDlglYZKeSZcf31qN86NR3h/I3S1DPA5IuNKYdnnlFfh6p7Pdavl1MnfS
+ blLsnXRmtaTHtWujgX3lJO7ymgdV8+62Jam0XE1j2uMfoDksVmKv1myU6yC05UCIkvAalk
+ 0qupxTSGmQw6uHcVWw0fT20N0amiLac=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1642583590;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BQVOFB3ezI5uQW3/DO9hFezH1aofBWbcWf/cnQ60Mg8=;
+ b=k+qogi2tnl+Ul80gM5g/o3RWvxLT5QfMyIKJUmbe4PSrKmg86lBgpWXuUkaxhdpCKg9wwJ
+ gz7efoyaJatH7+Aw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8BA5413B2D;
+ Wed, 19 Jan 2022 09:13:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 5+zYICbW52HWHQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 19 Jan 2022 09:13:10 +0000
+Message-ID: <5292edf8-0e60-28e1-15d3-6a1779023f68@suse.de>
+Date: Wed, 19 Jan 2022 10:13:09 +0100
 MIME-Version: 1.0
-In-Reply-To: <28e3f723-daf0-b3c5-ee10-519c4cabfe17@baylibre.com>
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] drm/vmwgfx: Stop requesting the pci regions
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+To: Zack Rusin <zackr@vmware.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "javierm@redhat.com" <javierm@redhat.com>
+References: <20220117180359.18114-1-zack@kde.org>
+ <1c177e79-d28a-e896-08ec-3cd4cd2fb823@redhat.com>
+ <da4e34772a9557cf4c4733ce6ee2a2ad47615044.camel@vmware.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <da4e34772a9557cf4c4733ce6ee2a2ad47615044.camel@vmware.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------wh3oXNf8IavelGruZ0XAkFNq"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,120 +73,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Kevin Hilman <khilman@baylibre.com>,
- =?UTF-8?Q?Guido_G=c3=bcnther?= <agx@sigxcpu.org>,
- Robert Foss <robert.foss@linaro.org>, Kishon Vijay Abraham I <kishon@ti.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Vinod Koul <vkoul@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jerome Brunet <jbrunet@baylibre.com>,
- linux-imx@nxp.com
+Cc: Martin Krastev <krastevm@vmware.com>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ Maaz Mombasawala <mombasawalam@vmware.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/01/2022 09:40, Neil Armstrong wrote:
-> Hi,
-> 
-> On 19/01/2022 03:37, Liu Ying wrote:
->> The D-PHY specification (v1.2) explicitly mentions that the T-CLK-PRE
->> parameter's unit is Unit Interval(UI) and the minimum value is 8.  Also,
->> kernel doc of the 'clk_pre' member of struct phy_configure_opts_mipi_dphy
->> mentions that it should be in UI.  However, the dphy core driver wrongly
->> sets 'clk_pre' to 8000, which seems to hint that it's in picoseconds.
->> And, the kernel doc of the 'clk_pre' member wrongly says the minimum value
->> is '8 UI', instead of 8.
->>
->> So, let's fix both the dphy core driver and the kernel doc of the 'clk_pre'
->> member to correctly reflect the T-CLK-PRE parameter's unit and the minimum
->> value according to the D-PHY specification.
->>
->> I'm assuming that all impacted custom drivers shall program values in
->> TxByteClkHS cycles into hardware for the T-CLK-PRE parameter.  The D-PHY
->> specification mentions that the frequency of TxByteClkHS is exactly 1/8
->> the High-Speed(HS) bit rate(each HS bit consumes one UI).  So, relevant
->> custom driver code is changed to program those values as
->> DIV_ROUND_UP(cfg->clk_pre, BITS_PER_BYTE), then.
->>
->> Note that I've only tested the patch with RM67191 DSI panel on i.MX8mq EVK.
->> Help is needed to test with other i.MX8mq, Meson and Rockchip platforms,
->> as I don't have the hardwares.
->>
->> Fixes: 2ed869990e14 ("phy: Add MIPI D-PHY configuration options")
->> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
->> Cc: Neil Armstrong <narmstrong@baylibre.com>
->> Cc: Robert Foss <robert.foss@linaro.org>
->> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
->> Cc: Jonas Karlman <jonas@kwiboo.se>
->> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
->> Cc: David Airlie <airlied@linux.ie>
->> Cc: Daniel Vetter <daniel@ffwll.ch>
->> Cc: Kishon Vijay Abraham I <kishon@ti.com>
->> Cc: Vinod Koul <vkoul@kernel.org>
->> Cc: Kevin Hilman <khilman@baylibre.com>
->> Cc: Jerome Brunet <jbrunet@baylibre.com>
->> Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
->> Cc: Heiko Stuebner <heiko@sntech.de>
->> Cc: Maxime Ripard <mripard@kernel.org>
->> Cc: Guido Günther <agx@sigxcpu.org>
->> Tested-by: Liu Ying <victor.liu@nxp.com> # RM67191 DSI panel on i.MX8mq EVK
->> Signed-off-by: Liu Ying <victor.liu@nxp.com>
->> ---
->> v1->v2:
->> * Use BITS_PER_BYTE macro. (Andrzej)
->> * Drop dsi argument from ui2bc() in nwl-dsi.c.
->>
->>  drivers/gpu/drm/bridge/nwl-dsi.c                 | 12 +++++-------
->>  drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c    |  3 ++-
->>  drivers/phy/phy-core-mipi-dphy.c                 |  4 ++--
->>  drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c |  3 ++-
->>  include/linux/phy/phy-mipi-dphy.h                |  2 +-
->>  5 files changed, 12 insertions(+), 12 deletions(-)
->>
-[...]
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------wh3oXNf8IavelGruZ0XAkFNq
+Content-Type: multipart/mixed; boundary="------------RTzj7QXoB0K0S01nWi5zD2ee";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Zack Rusin <zackr@vmware.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "javierm@redhat.com" <javierm@redhat.com>
+Cc: Martin Krastev <krastevm@vmware.com>,
+ Maaz Mombasawala <mombasawalam@vmware.com>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>
+Message-ID: <5292edf8-0e60-28e1-15d3-6a1779023f68@suse.de>
+Subject: Re: [PATCH] drm/vmwgfx: Stop requesting the pci regions
+References: <20220117180359.18114-1-zack@kde.org>
+ <1c177e79-d28a-e896-08ec-3cd4cd2fb823@redhat.com>
+ <da4e34772a9557cf4c4733ce6ee2a2ad47615044.camel@vmware.com>
+In-Reply-To: <da4e34772a9557cf4c4733ce6ee2a2ad47615044.camel@vmware.com>
 
->> diff --git a/drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c b/drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c
->> index cd2332bf0e31..fdbd64c03e12 100644
->> --- a/drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c
->> +++ b/drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c
->> @@ -9,6 +9,7 @@
->>  
->>  #include <linux/bitfield.h>
->>  #include <linux/bitops.h>
->> +#include <linux/bits.h>
->>  #include <linux/clk.h>
->>  #include <linux/delay.h>
->>  #include <linux/io.h>
->> @@ -250,7 +251,7 @@ static int phy_meson_axg_mipi_dphy_power_on(struct phy *phy)
->>  		     (DIV_ROUND_UP(priv->config.clk_zero, temp) << 16) |
->>  		     (DIV_ROUND_UP(priv->config.clk_prepare, temp) << 24));
->>  	regmap_write(priv->regmap, MIPI_DSI_CLK_TIM1,
->> -		     DIV_ROUND_UP(priv->config.clk_pre, temp));
->> +		     DIV_ROUND_UP(priv->config.clk_pre, BITS_PER_BYTE));
->>  
->>  	regmap_write(priv->regmap, MIPI_DSI_HS_TIM,
->>  		     DIV_ROUND_UP(priv->config.hs_exit, temp) |
-> 
-> I'll try to run a test, currently the calculation gives 2, so this would give 1.
+--------------RTzj7QXoB0K0S01nWi5zD2ee
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-The Amlogic vendor code does:
+SGkNCg0KQW0gMTkuMDEuMjIgdW0gMDM6MTUgc2NocmllYiBaYWNrIFJ1c2luOg0KPiBPbiBU
+dWUsIDIwMjItMDEtMTggYXQgMjA6MDAgKzAxMDAsIEphdmllciBNYXJ0aW5leiBDYW5pbGxh
+cyB3cm90ZToNCj4+IEhlbGxvIFphY2ssDQo+Pg0KPj4gT24gMS8xNy8yMiAxOTowMywgWmFj
+ayBSdXNpbiB3cm90ZToNCj4+PiBGcm9tOiBaYWNrIFJ1c2luIDx6YWNrckB2bXdhcmUuY29t
+Pg0KPj4+DQo+Pj4gV2hlbiBzeXNmYl9zaW1wbGUgaXMgZW5hYmxlZCBsb2FkaW5nIHZtd2dm
+eCBmYWlscyBiZWNhdXNlIHRoZSByZWdpb25zDQo+Pj4gYXJlIGhlbGQgYnkgdGhlIHBsYXRm
+b3JtLiBJbiB0aGF0IGNhc2UNCj4+PiByZW1vdmVfY29uZmxpY3RpbmcqX2ZyYW1lYnVmZmVy
+cw0KPj4+IG9ubHkgcmVtb3ZlcyB0aGUgc2ltcGxlZmIgYnV0IG5vdCB0aGUgcmVnaW9ucyBo
+ZWxkIGJ5IHN5c2ZiLg0KPj4+DQo+Pg0KPj4gSW5kZWVkLCB0aGF0J3MgYW4gaXNzdWUuIEkg
+d29uZGVyIGlmIHdlIHNob3VsZCBkcm9wIHRoZSBJT1JFU09VUkNFX0JVU1kNCj4+IGZsYWcg
+ZnJvbSB0aGUgbWVtb3J5IHJlc291cmNlIGFkZGVkIHRvIHRoZSAic2ltcGxlLWZyYW1lYnVm
+ZmVyIiBkZXZpY2UNCj4+ID8NCj4gDQo+IEkgdGhpbmsgdGhpcyBpcyBvbmUgb2YgdGhvc2Ug
+Y2FzZXMgd2hlcmUgaXQgZGVwZW5kcyBvbiB3aGF0IHdlIHBsYW4gdG8NCj4gZG8gYWZ0ZXIg
+dGhhdC4gU2VtZW50aWNhbGx5IGl0IG1ha2VzIHNlbnNlIHRvIGhhdmUgaXQgaW4gdGhlcmUg
+LSB0aGUNCj4gZnJhbWVidWZmZXIgbWVtb3J5IGlzIGNsYWltZWQgYnkgdGhlICJzaW1wbGUt
+ZnJhbWVidWZmZXIiIGFuZCBpdCdzDQo+IGJ1c3ksIGl0J3MganVzdCB0aGF0IGl0IGNyZWF0
+ZXMgaXNzdWVzIGZvciBkcml2ZXJzIGFmdGVyIHVubG9hZGluZy4gSQ0KPiB0aGluayByZW1v
+dmluZyBpdCwgd2hpbGUgbWFraW5nIHRoaW5ncyBlYXNpZXIgZm9yIGRyaXZlcnMsIHdvdWxk
+IGJlDQo+IGNvbmZ1c2luZyBmb3IgcGVvcGxlIHJlYWRpbmcgdGhlIGNvZGUgbGF0ZXIsIHVu
+bGVzcyB0aGVyZSdzIHNvbWUga2luZA0KPiBvZiBjbGVhbnVwIHRoYXQgd291bGQgaGFwcGVu
+IHdpdGggaXQgKGUuZy4gcmVtb3ZpbmcgSU9SRVNPVVJDRV9CVVNZDQo+IGFsdG9nZXRoZXIg
+YW5kIG1ha2luZyB0aGUgZHJtIGRyaXZlcnMgcHJvcGVybHkgcmVxdWVzdCB0aGVpcg0KPiBy
+ZXNvdXJjZXMpLsKgQXQgbGVhc3QgYnkgaXRzZWxmIGl0IGRvZXNuJ3Qgc2VlbSB0byBiZSBt
+dWNoIGJldHRlcg0KPiBzb2x1dGlvbiB0aGFuIGhhdmluZyB0aGUgZHJtIGRyaXZlcnMgbm90
+IGNhbGwgcGNpX3JlcXVlc3RfcmVnaW9uW3NdLA0KPiB3aGljaCBhcGFydCBmcm9tIGh5cGVy
+diBhbmQgY2lycnVzIChpaXJjIGJvY2hzIGRvZXMgaXQgZm9yIHJlc291cmNlcw0KPiBvdGhl
+ciB0aGFuIGZiIHdoaWNoIHdvdWxkbid0IGhhdmUgYmVlbiBjbGFpbWVkIGJ5ICJzaW1wbGUt
+ZnJhbWVidWZmZXIiKQ0KPiBpcyBhbHJlYWR5IHRoZSBjYXNlLg0KPiANCj4gSSBkbyB0aGlu
+ayB3ZSBzaG91bGQgZG8gb25lIG9mIHRoZW0gdG8gbWFrZSB0aGUgY29kZWJhc2UgY29oZXJl
+bnQ6DQo+IGVpdGhlciByZW1vdmUgSU9SRVNPVVJDRV9CVVNZIGZyb20gInNpbXBsZS1mcmFt
+ZWJ1ZmZlciIgb3IgcmVtb3ZlDQo+IHBjaV9yZXF1ZXN0X3JlZ2lvbltzXSBmcm9tIGh5cGVy
+diBhbmQgY2lycnVzLg0KDQpJIGp1c3QgZGlzY3Vzc2VkIHRoaXMgYSBiaXQgd2l0aCBKYXZp
+ZXIuIEl0J3MgYSBwcm9ibGVtIHdpdGggdGhlIA0Kc2ltcGxlLWZyYW1lYnVmZmVyIGNvZGUs
+IHJhdGhlciB0aGVuIHZtd2dmeC4NCg0KSU1ITyB0aGUgYmVzdCBzb2x1dGlvbiBpcyB0byBk
+cm9wIElPUkVTT1VSQ0VfQlVTWSBmcm9tIHN5c2ZiIGFuZCBoYXZlIA0KZHJpdmVycyByZWdp
+c3Rlci9yZWxlYXNlIHRoZSByYW5nZSB3aXRoIF9CVVNZLiBUaGF0IHdvdWxkIHNpZ25hbCB0
+aGUgDQptZW1vcnkgYmVsb25ncyB0byB0aGUgc3lzZmIgZGV2aWNlIGJ1dCBpcyBub3QgYnVz
+eSB1bmxlc3MgYSBkcml2ZXIgaGFzIA0KYmVlbiBib3VuZC4gQWZ0ZXIgc2ltcGxlZmIgcmVs
+ZWFzZWQgdGhlIHJhbmdlLCBpdCBzaG91bGQgYmUgJ25vbi1idXN5JyANCmFnYWluIGFuZCBh
+dmFpbGFibGUgZm9yIHZtd2dmeC4gU2ltcGxlZHJtIGRvZXMgYSBob3QtdW5wbHVnIG9mIHRo
+ZSBzeXNmYiANCmRldmljZSwgc28gdGhlIG1lbW9yeSByYW5nZSBnZXRzIHJlbGVhc2VkIGVu
+dGlyZWx5LiBJZiB5b3Ugd2FudCwgSSdsbCANCnByZXBhcmUgc29tZSBwYXRjaGVzIGZvciB0
+aGlzIHNjZW5hcmlvLg0KDQpJZiB0aGlzIGRvZXNuJ3Qgd29yaywgcHVzaGluZyBhbGwgcmVx
+dWVzdC9yZWxlYXNlIHBhaXJzIGludG8gZHJpdmVycyANCndvdWxkIGJlIG15IG5leHQgb3B0
+aW9uLg0KDQpJZiBub25lIG9mIHRoaXMgaXMgZmVhc2libGUsIHdlIGNhbiBzdGlsbCByZW1v
+dmUgcGNpX3JlcXVlc3RfcmVnaW9uKCkgDQpmcm9tIHZtd2dmeC4NCg0KQmVzdCByZWdhcmRz
+DQpUaG9tYXMNCg0KPiANCj4gDQo+IA0KPj4+IExpa2UgdGhlIG90aGVyIGRybSBkcml2ZXJz
+IHdlIG5lZWQgdG8gc3RvcCByZXF1ZXN0aW5nIGFsbCB0aGUgcGNpDQo+Pj4gcmVnaW9ucw0K
+Pj4+IHRvIGxldCB0aGUgZHJpdmVyIGxvYWQgd2l0aCBwbGF0Zm9ybSBjb2RlIGVuYWJsZWQu
+DQo+Pj4gVGhpcyBhbGxvd3Mgdm13Z2Z4IHRvIGxvYWQgY29ycmVjdGx5IG9uIHN5c3RlbXMg
+d2l0aCBzeXNmYl9zaW1wbGUNCj4+PiBlbmFibGVkLg0KPj4+DQo+Pg0KPj4gSSByZWFkIHRo
+aXMgdmVyeSBpbnRlcmVzdGluZyB0aHJlYWQgZnJvbSB0d28geWVhcnMgYWdvOg0KPj4NCj4+
+IGh0dHBzOi8vbGttbC5vcmcvbGttbC8yMDIwLzExLzUvMjQ4DQo+Pg0KPj4gTWF5YmUgaXMg
+d29ydGggbWVudGlvbmluZyBpbiB0aGUgY29tbWl0IG1lc3NhZ2Ugd2hhdCBEYW5pZWwgc2Fp
+ZCB0aGVyZSwNCj4+IHRoYXQgaXMgdGhhdCBvbmx5IGEgZmV3IERSTSBkcml2ZXJzIHJlcXVl
+c3QgZXhwbGljaXRseSB0aGUgUENJIHJlZ2lvbnMNCj4+IGFuZCB0aGUgb25seSByZWxpYWJs
+ZSBhcHByb2FjaCBpcyBmb3IgYnVzIGRyaXZlcnMgdG8gY2xhaW0gdGhlc2UuDQo+IA0KPiBB
+aCwgZ3JlYXQgcG9pbnQuIEknbGwgdXBkYXRlIHRoZSBjb21taXQgbG9nIHdpdGggdGhhdC4N
+Cj4gDQo+Pj4gU2lnbmVkLW9mZi1ieTogWmFjayBSdXNpbiA8emFja3JAdm13YXJlLmNvbT4N
+Cj4+PiBGaXhlczogNTIzMzc1Yzk0M2U1ICgiZHJtL3Ztd2dmeDogUG9ydCB2bXdnZnggdG8g
+YXJtNjQiKQ0KPj4+IENjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+Pj4g
+Q2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPg0KPj4+IFJldmlld2VkLWJ5OiBNYXJ0aW4g
+S3Jhc3RldiA8a3Jhc3Rldm1Adm13YXJlLmNvbT4NCj4+PiAtLS0NCj4+DQo+PiBUaGUgcGF0
+Y2ggbG9va3MgZ29vZCB0byBtZSwgdGhhbmtzIGEgbG90IGZvciBmaXhpbmcgdGhpczoNCj4+
+DQo+PiBSZXZpZXdlZC1ieTogSmF2aWVyIE1hcnRpbmV6IENhbmlsbGFzIDxqYXZpZXJtQHJl
+ZGhhdC5jb20+DQo+IA0KPiBUaGFua3MgZm9yIHRha2luZyBhIGxvb2sgYXQgdGhpcywgSSBh
+cHByZWNpYXRlIGl0IQ0KPiANCj4geg0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFw
+aGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55
+IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAz
+NjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-/* >8*ui */
-#define DPHY_TIME_CLK_PRE(ui)       (10 * ui)
+--------------RTzj7QXoB0K0S01nWi5zD2ee--
 
-t_ui = lcd_timing.bit_rate
+--------------wh3oXNf8IavelGruZ0XAkFNq
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-t_ui = (1000000 * 100) / (dsi_ui / 1000); /*100*ns */
-temp = t_ui * 8; /* lane_byte cycle time */
+-----BEGIN PGP SIGNATURE-----
 
-dphy->clk_pre = ((DPHY_TIME_CLK_PRE(t_ui) + temp - 1) / temp) & 0xff;
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHn1iYFAwAAAAAACgkQlh/E3EQov+DV
+Zg//ayYmFOm1qC5sqQWU/Kue3lfKyDLlaopB/E/j4MGXZOivrQBYA5VHS4WDQASl6GE4g5rrJYuZ
+H+dTPc7SVPFCA9KTfFZFUqTDaBOC+zZCzhTMoe4XHdVzy/7z5LYPYiWYVnrlN4CJXq/4MWcYfxm2
+UgILyWPvZnGeV0cYAVFDaygm4TwA8WJlWStg618rMZHfYbN8dbWnskZaNczEtwumL0VNi7dbCJWX
+6UTSnEmvcZ7jJnUgGrIsLFLIWou4w+Cy6cdGyCzaagasdt583bX8MTdADB299A6AFrxwnfMpXwf9
+5YjPh5E1+rWH0Hc7OYbKDd0yZCEAFF+8jYeGNnOsVxDmW0+yLwd26Yw/Y2zXcERncYyDeKDowVC7
+e6sMn31e2CEzJvWpqcFSi6jyoXYiC+QZjY+DehIonTGRK0chuu28GuseB4MpqT15pCkmYp+OYU9n
+qh0+jjfZ5dkZrPjkreA6P/IEY/8NHBX0ea/n6tsDtb4BfZpBAqAFID+dDQTXdb4q49ULWXOCSl7X
+zG0nXnFwFxUTFqTBEEE5DV2WpDXsOz02Js3lOXIPtFFZ83n1CxaawIYaJPLnhdz90yfbvx6Qi3Hi
+9mWEGamOtpUohS4xi1pONNAGVsGJINiV5JAPeFu35CfoKryJrIx25WiYW9q2EAoezm9rcXq8AhKl
+dv0=
+=uV3U
+-----END PGP SIGNATURE-----
 
-PHY Registers only says:
-MIPI_DSI_CLK_TIM1	[31:0]
-7:0 	R/W	0	 tCLK_PRE
-
-> 
-> Neil
-> 
-
-[...]
+--------------wh3oXNf8IavelGruZ0XAkFNq--
