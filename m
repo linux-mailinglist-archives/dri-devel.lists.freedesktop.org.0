@@ -1,78 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEC88494027
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 19:49:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2CE149406C
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 20:11:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC52689A8C;
-	Wed, 19 Jan 2022 18:49:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F352710ED3B;
+	Wed, 19 Jan 2022 19:11:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 484A689321
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 18:49:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642618153;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+qsGrcyTaM8HFYRYbt26Hs5PWVlx1EPqUOLucipU7Mg=;
- b=CljCLsl/LxKLLJ2O0Eqo0ks61JrNfcVBnCMXIpB6/UGZcUSqhBWrxl7darZr5psbmOUQOV
- leD0C8qCGLfDBd32CLwZEWfVDrsd0EgOi5ujMFPJ6zO8E9Yt8kMgEvQFfeOSEzi2yr5P/X
- LBLodxudeMhj2zIDpnUTb7a520Rwp4k=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-372-p-tchsHmMJm-tBHEO2_8Jg-1; Wed, 19 Jan 2022 13:49:11 -0500
-X-MC-Unique: p-tchsHmMJm-tBHEO2_8Jg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- l20-20020a05600c1d1400b0034c29cad547so4816534wms.2
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 10:49:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=+qsGrcyTaM8HFYRYbt26Hs5PWVlx1EPqUOLucipU7Mg=;
- b=hV5nGl4mCaAuJJNo0TwkcjT33Gk//+F19SsMr6mn7v2My4/eN4XsG88f9cyK9JAdZt
- anCEtylSWIl9hai9ekI2p3nW0eJfKkr1pq5s4KK+lXaBAvyvRhovYlqdGnS/0RsXnPdy
- smhEVTfxZCmuTEgt14eD635xsXZBE7ATqocotX+M/BU3PrbB0OJBf5MCG6bDCYPqxldS
- IDvv/cnFgFDKIv2L41GSyO8XXbsRnIinknAXGgFJjxZAjHHXwmZ7wNbj4hLMSPYQkyze
- nOs4I0v65BGwOeBh5yGnxn1bmgddRS9l7fbkHVkN7a9rjcf5ie8d+eDpUT9rDNukU1ZQ
- w1/Q==
-X-Gm-Message-State: AOAM530gDoi3uN5l5qW9vsgpQPIPNgtt8PBaA2AjRhUQRu8nnerlZ+D4
- v21MflqVuCH/RVcTkb4BfyxCJPZ9/HmeA6/1e3FEQ5rLMvsKnpPjKcqQZe781DJq+oj5cbCeLpw
- 4n3j5K5R2j4X49nVJtNRBBqFTwnDD
-X-Received: by 2002:a1c:a141:: with SMTP id k62mr4869511wme.172.1642618150639; 
- Wed, 19 Jan 2022 10:49:10 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy1Kpf6+uldWTCRbZxkUHsgH8cpaLkeUTvW0fxHVDLydb9/z+nKUZFDPKeoNORBlQm9BC+hAA==
-X-Received: by 2002:a1c:a141:: with SMTP id k62mr4869467wme.172.1642618150314; 
- Wed, 19 Jan 2022 10:49:10 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id o3sm835397wry.30.2022.01.19.10.49.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Jan 2022 10:49:09 -0800 (PST)
-Message-ID: <bb01c544-66aa-b470-5b09-18f6e42d941a@redhat.com>
-Date: Wed, 19 Jan 2022 19:49:08 +0100
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A76610ED3B;
+ Wed, 19 Jan 2022 19:11:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1642619486; x=1674155486;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=ehDVQFRTJkDWYbGMwd5bnrsZ2JNon9bvJmDRvBkD0gc=;
+ b=YwJePpC7tQWzY5RLVD3KfACMUweg47Qkyhl8EUy0opY9DJHPGDbjL5Jj
+ hClH2mOhlezeDp7XsB6UWLLJ3iTJvgffm3I0TEfPkKni4SIOVZY82aRBa
+ r+DQF5dlVMlk3LRxttA8xXHNJ2hYcs2aSE2+bQS2EwPk9d/BvUTfaR/Mz
+ PpVsfajNwIVmmmh8wMTkhD+WhHnhSEkuNsPe751iQIm6K1uotVI3/b3N9
+ qQY6B8JgAL24L4C62XL0CFhRiSXQaDcLlPzGoG3jg6nOwiguTKskAhDAq
+ 4aIWR0SPHRv+/xchIlaqqm25dW0cmwZ2RMGubUOhR6hDzzt208BqzoEVO Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10231"; a="245118653"
+X-IronPort-AV: E=Sophos;i="5.88,300,1635231600"; d="scan'208";a="245118653"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jan 2022 10:36:10 -0800
+X-IronPort-AV: E=Sophos;i="5.88,300,1635231600"; d="scan'208";a="615798507"
+Received: from mmansuri-mobl1.amr.corp.intel.com (HELO localhost)
+ ([10.209.1.138])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jan 2022 10:36:08 -0800
+From: Jordan Justen <jordan.l.justen@intel.com>
+To: Robert Beckett <bob.beckett@collabora.com>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v2 4/4] drm/i915/uapi: document behaviour for DG2 64K
+ support
+In-Reply-To: <20220118175036.3840934-5-bob.beckett@collabora.com>
+References: <20220118175036.3840934-1-bob.beckett@collabora.com>
+ <20220118175036.3840934-5-bob.beckett@collabora.com>
+Date: Wed, 19 Jan 2022 10:36:07 -0800
+Message-ID: <87zgnrefoo.fsf@jljusten-skl>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v3 00/10] drm: Make drivers to honour the nomodeset
- parameter
-To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20211222082831.196562-1-javierm@redhat.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20211222082831.196562-1-javierm@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,36 +61,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Liviu Dudau <liviu.dudau@arm.com>, virtualization@lists.linux-foundation.org,
- Gerd Hoffmann <kraxel@redhat.com>, Mihail Atanassov <mihail.atanassov@arm.com>,
- Jonathan Corbet <corbet@lwn.net>, Xinliang Liu <xinliang.liu@linaro.org>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- "James \(Qian\) Wang" <james.qian.wang@arm.com>,
- NXP Linux Team <linux-imx@nxp.com>, Dave Airlie <airlied@redhat.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Chen Feng <puck.chen@hisilicon.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- linux-arm-kernel@lists.infradead.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Tian Tao <tiantao6@hisilicon.com>, Shawn Guo <shawnguo@kernel.org>
+Cc: Robert Beckett <bob.beckett@collabora.com>, Tony Ye <tony.ye@intel.com>,
+ intel-gfx@lists.freedesktop.org, Kenneth Graunke <kenneth@whitecape.org>,
+ dri-devel@lists.freedesktop.org,
+ Slawomir Milczarek <slawomir.milczarek@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, mesa-dev@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/22/21 09:28, Javier Martinez Canillas wrote:
-> The nomodeset kernel command line parameter is used to prevent the KMS/DRM
-> drivers to be registered/probed. But only a few drivers implement support
-> for this and most DRM drivers just ignore it.
-> 
-> This patch series is a v3 to make DRM drivers to honour nomodeset. It is
-> posted as separate patches to make easier for drivers maintainers to ack
-> or pick them independently at their own pace.
-> 
+Robert Beckett <bob.beckett@collabora.com> writes:
 
-I've pushed this series to drm-misc-next.
+> From: Matthew Auld <matthew.auld@intel.com>
+>
+> On discrete platforms like DG2, we need to support a minimum page size
+> of 64K when dealing with device local-memory. This is quite tricky for
+> various reasons, so try to document the new implicit uapi for this.
+>
+> v2: Fixed suggestions on formatting [Daniel]
+>
+> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+> cc: Simon Ser <contact@emersion.fr>
+> cc: Pekka Paalanen <ppaalanen@gmail.com>
+> Cc: Jordan Justen <jordan.l.justen@intel.com>
+> Cc: Kenneth Graunke <kenneth@whitecape.org>
+> Cc: mesa-dev@lists.freedesktop.org
+> Cc: Tony Ye <tony.ye@intel.com>
+> Cc: Slawomir Milczarek <slawomir.milczarek@intel.com>
+> ---
+>  include/uapi/drm/i915_drm.h | 44 ++++++++++++++++++++++++++++++++-----
+>  1 file changed, 39 insertions(+), 5 deletions(-)
+>
+> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> index 5e678917da70..486b7b96291e 100644
+> --- a/include/uapi/drm/i915_drm.h
+> +++ b/include/uapi/drm/i915_drm.h
+> @@ -1118,10 +1118,16 @@ struct drm_i915_gem_exec_object2 {
+>  	/**
+>  	 * When the EXEC_OBJECT_PINNED flag is specified this is populated by
+>  	 * the user with the GTT offset at which this object will be pinned.
+> +	 *
+>  	 * When the I915_EXEC_NO_RELOC flag is specified this must contain the
+>  	 * presumed_offset of the object.
+> +	 *
+>  	 * During execbuffer2 the kernel populates it with the value of the
+>  	 * current GTT offset of the object, for future presumed_offset writes.
+> +	 *
+> +	 * See struct drm_i915_gem_create_ext for the rules when dealing with
+> +	 * alignment restrictions with I915_MEMORY_CLASS_DEVICE, on devices with
+> +	 * minimum page sizes, like DG2.
+>  	 */
+>  	__u64 offset;
+>  
+> @@ -3145,11 +3151,39 @@ struct drm_i915_gem_create_ext {
+>  	 *
+>  	 * The (page-aligned) allocated size for the object will be returned.
+>  	 *
+> -	 * Note that for some devices we have might have further minimum
+> -	 * page-size restrictions(larger than 4K), like for device local-memory.
+> -	 * However in general the final size here should always reflect any
+> -	 * rounding up, if for example using the I915_GEM_CREATE_EXT_MEMORY_REGIONS
+> -	 * extension to place the object in device local-memory.
+> +	 *
+> +	 * **DG2 64K min page size implications:**
 
-Best regards,
--- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+Long term, I'm not sure that the "**" (for emphasis) is needed here or
+below. It's interesting at the moment, but will be just another thing
+baked into the kernel/user code in a month from now. :)
 
+> +	 *
+> +	 * On discrete platforms, starting from DG2, we have to contend with GTT
+> +	 * page size restrictions when dealing with I915_MEMORY_CLASS_DEVICE
+> +	 * objects.  Specifically the hardware only supports 64K or larger GTT
+> +	 * page sizes for such memory. The kernel will already ensure that all
+> +	 * I915_MEMORY_CLASS_DEVICE memory is allocated using 64K or larger page
+> +	 * sizes underneath.
+> +	 *
+> +	 * Note that the returned size here will always reflect any required
+> +	 * rounding up done by the kernel, i.e 4K will now become 64K on devices
+> +	 * such as DG2.
+> +	 *
+> +	 * **Special DG2 GTT address alignment requirement:**
+> +	 *
+> +	 * The GTT alignment will also need be at least 2M for  such objects.
+> +	 *
+> +	 * Note that due to how the hardware implements 64K GTT page support, we
+> +	 * have some further complications:
+> +	 *
+> +	 *   1) The entire PDE(which covers a 2MB virtual address range), must
+> +	 *   contain only 64K PTEs, i.e mixing 4K and 64K PTEs in the same
+> +	 *   PDE is forbidden by the hardware.
+> +	 *
+> +	 *   2) We still need to support 4K PTEs for I915_MEMORY_CLASS_SYSTEM
+> +	 *   objects.
+> +	 *
+> +	 * To keep things simple for userland, we mandate that any GTT mappings
+> +	 * must be aligned to and rounded up to 2MB. As this only wastes virtual
+> +	 * address space and avoids userland having to copy any needlessly
+> +	 * complicated PDE sharing scheme (coloring) and only affects GD2, this
+> +	 * id deemed to be a good compromise.
+
+typos: GD2, id
+
+Isn't much of this more relavent to the vma offset at exec time? Is
+there actually any new restriction on the size field during buffer
+creation?
+
+I see Matthew references these notes from the offset comments, so if the
+kernel devs prefer it here, then you can add my Acked-by on this patch.
+
+-Jordan
+
+>  	 */
+>  	__u64 size;
+>  	/**
+> -- 
+> 2.25.1
