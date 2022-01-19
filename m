@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DAA6493A40
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 13:28:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4E39493A82
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 13:37:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D02D10F0D8;
-	Wed, 19 Jan 2022 12:28:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E453110F1AD;
+	Wed, 19 Jan 2022 12:37:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53AA610F0D4
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 12:28:47 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id
- l12-20020a7bc34c000000b003467c58cbdfso14239130wmj.2
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 04:28:47 -0800 (PST)
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB22710F1B8
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 12:37:01 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ 25-20020a05600c231900b003497473a9c4so14262766wmo.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 04:37:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=r544K7uLseHgCwnr0wVsLsWb82uTNW4lOUdN19AMQDw=;
- b=ceClqTAml5TYR5w+T+ZUWlwr1D+2NbFkj4hG8uCQABlOpUcRyrrtPMpIl7N/U2sTCd
- uHy+5wvddi5ifxY2MRj4gPyKyMexkgoGN2BcnSdELPzOdgrBLXVyhyKFTVTAnBhjCaSq
- upeG3CpIhfmFfjyZER+/wNiTMnAqdPBwK7PG6rB+BdYy2kmLDEzlVPLDAa6+9yQl51Mn
- uX+3SYqEG0XjAQNmKp1DJRxIp2NdNDAuQZpw1PKuN0l4rJajkxh12xqHAqy5lQ0kE3yY
- WmT6OzgdO2wTmA62wb/p7F09kM9gYqtMxelo/nX7EFeTqku29l9GNYSzhaAS2x8hkClm
- sW2w==
+ bh=qCSzim4chD2YZ1nYmMNUQu/jVANvmFwzUsxwlSkjcNs=;
+ b=wZ+86cHu8by60Agnp1LSNhYjMgIjqTdNmvTULzONiNWLDnC/Pu6/zOmu/j4lE9pLJh
+ oQC4FdupKTx5Fv8aq/4GC95rl+LCb1zLVz4RacPi2lbEtI8vGckDJLYCA9QQWFZCzhVs
+ jRnZnAWkiE4yIK2+mCMbBiyMstokGQGvyEErREzQKhIzpxHeEL+5r1Ukpv+CAQjAuqd4
+ QV1/iOyV+3NShPPDnszcc4FX0J1c/I2yjDC6ga7Z+d2AzpG6EQGhOJPmexLh+WOxJgl5
+ Ay/w5+oLRIg5iuIm0ocOT2++SwIiB7xjpUAzaLsexUQbVCikOYzzqja42SDz4KOjIWvN
+ 6C/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=r544K7uLseHgCwnr0wVsLsWb82uTNW4lOUdN19AMQDw=;
- b=I2v6/o2IMKa+uoXbN8i5RPoErZ/ick7nVzvhN0eAJn+VFxDX2m+/VopgCwFmtt1deh
- IfQNpd6d0MH4coI75Q78CtgujYSI7f1AeB/gn8i128MpY9CON6MZBLG6ow7bdbDiGAZK
- dYea78IQ9eblVPSDRzkUVIS/19FwrQT0w/srvPeadSnHx+dvJ4V4++/58DstxO4V0ru1
- gWBzCAtqMu+4JXflUA/f8zlHKaV+DBxcVHbbDHXG9YE1l0ZmF/6WT/rzX4yRBfB+X0o4
- QLf8odyO9Er8oFwVbR2waRcUjH6MI/hliFpVU7rX2fWrz5Fwfw7QxE4BUiddvJtXsoJP
- W2qw==
-X-Gm-Message-State: AOAM530Ketd9z+QciY9iH66zyrCOL+iQGeEuHzUAemNyaQeRirSkwaRP
- 9ZwaBaQ/SQIwa584mwyKj6LUTQ==
-X-Google-Smtp-Source: ABdhPJyW0VTGSUd7xafQtG4NJPiTaXvdlNPbOk8sepjeULE2SjuZDvmR9Pomag4u/PrmPjUi+Tsqmw==
-X-Received: by 2002:adf:f94c:: with SMTP id q12mr28259235wrr.166.1642595325796; 
- Wed, 19 Jan 2022 04:28:45 -0800 (PST)
+ bh=qCSzim4chD2YZ1nYmMNUQu/jVANvmFwzUsxwlSkjcNs=;
+ b=duk0aDAk2neSetP5VJOCRAk4HCyjjbxJpysWQ0TcnqqEU3nxyRQIIK/T87GAGlZiK1
+ Yz5QrfLGwNeGu7nd53PO9o3IAbFXT2SlkcnskJjEoAHscdgmpCzocD9o5TbxTTS6QJA9
+ BK7iLkheduQkoP55E8qFPiZPHDXDaYPzaDcehqqTkyErI6oYiD2i7fOuPOVxi6WKzVup
+ /0SgK88i4BwlPFWfsZNDSbCKfVQTUhZ1h1b0IjV3uiXVM6yMTD4epP70p0+/KLrXom0Y
+ 4xXjLVDYxZYucgs1xYtCsAaDqSGJ+dz79jw6UDuYv/euIR1C6iHPOooCuIBkoZhjudNu
+ CHcg==
+X-Gm-Message-State: AOAM533ZBCNRqWB+GVVrxL1EMN6QeLBlWsZTHBhSV0CCwCPt1uK6/Q+w
+ XdY4XR+0dr1Ok3aW/8P8h/k5Kg==
+X-Google-Smtp-Source: ABdhPJw5a6DqhO5V4G/twLsma+1rrkJjiYS0Dq+Tec+BjOq4x+FA3gSO/pnEybBYhPBtNQSJ0iIj9g==
+X-Received: by 2002:a5d:428f:: with SMTP id k15mr6580508wrq.347.1642595820339; 
+ Wed, 19 Jan 2022 04:37:00 -0800 (PST)
 Received: from localhost.localdomain ([2001:861:44c0:66c0:d394:97d0:bc02:3846])
- by smtp.gmail.com with ESMTPSA id j16sm19406933wrp.76.2022.01.19.04.28.44
+ by smtp.gmail.com with ESMTPSA id bh13sm2610327wmb.33.2022.01.19.04.36.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jan 2022 04:28:45 -0800 (PST)
+ Wed, 19 Jan 2022 04:36:59 -0800 (PST)
 From: Neil Armstrong <narmstrong@baylibre.com>
 To: robert.foss@linaro.org
-Subject: [PATCH v2] drm/bridge: dw-hdmi: use safe format when first in bridge
- chain
-Date: Wed, 19 Jan 2022 13:28:43 +0100
-Message-Id: <20220119122843.1455611-1-narmstrong@baylibre.com>
+Subject: [PATCH 1/2] drm/bridge: dw-hdmi: filter safe formats when first in
+ bridge chain
+Date: Wed, 19 Jan 2022 13:36:55 +0100
+Message-Id: <20220119123656.1456355-1-narmstrong@baylibre.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -68,60 +68,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jernej.skrabec@gmail.com, jonas@kwiboo.se,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, kieran.bingham@ideasonboard.com,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent.pinchart@ideasonboard.com, biju.das.jz@bp.renesas.com
+Cc: jernej.skrabec@gmail.com, Neil Armstrong <narmstrong@baylibre.com>,
+ jonas@kwiboo.se, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When the dw-hdmi bridge is in first place of the bridge chain, this
-means there is no way to select an input format of the dw-hdmi HW
-component.
+If the dw-bridge is in the first position in the bridge chain, this
+means there is no way to set the encoder output bus format.
 
-Since introduction of display-connector, negotiation was broken since
-the dw-hdmi negotiation code only worked when the dw-hdmi bridge was
-in last position of the bridge chain or behind another bridge also
-supporting input & output format negotiation.
+In this case, this makes sure we only return the default format as return
+of the get_input_bus_fmts() callback, limiting possible output formats
+of dw-hdmi to what the dw-hdmi can convert from the default RGB24 input
+format.
 
-Commit 0656d1285b79 ("drm/bridge: display-connector: implement bus fmts callbacks")
-was introduced to make negotiation work again by making display-connector
-act as a pass-through concerning input & output format negotiation.
-
-But in the case where the dw-hdmi is single in the bridge chain, for
-example on Renesas SoCs, with the display-connector bridge the dw-hdmi
-is no more single, breaking output format.
-
-Reported-by: Biju Das <biju.das.jz@bp.renesas.com>
-Bisected-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Fixes: 0656d1285b79 ("drm/bridge: display-connector: implement bus fmts callbacks").
+Fixes: 6c3c719936da ("drm/bridge: synopsys: dw-hdmi: add bus format negociation")
 Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
 ---
-Changes since v1:
-- Remove bad fix in dw_hdmi_bridge_atomic_get_input_bus_fmts
-- Fix typos in commit message
-
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 54d8fdad395f..97cdc61b57f6 100644
+index 97cdc61b57f6..56021f20d396 100644
 --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -2551,8 +2551,9 @@ static u32 *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
- 	if (!output_fmts)
+@@ -2674,6 +2674,25 @@ static u32 *dw_hdmi_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+ 	if (!input_fmts)
  		return NULL;
  
--	/* If dw-hdmi is the only bridge, avoid negociating with ourselves */
--	if (list_is_singular(&bridge->encoder->bridge_chain)) {
-+	/* If dw-hdmi is the first or only bridge, avoid negociating with ourselves */
-+	if (list_is_singular(&bridge->encoder->bridge_chain) ||
-+	    list_is_first(&bridge->chain_node, &bridge->encoder->bridge_chain)) {
- 		*num_output_fmts = 1;
- 		output_fmts[0] = MEDIA_BUS_FMT_FIXED;
- 
++	/* If dw-hdmi is the first bridge make sure it only takes RGB24 as input */
++	if (list_is_first(&bridge->chain_node, &bridge->encoder->bridge_chain)) {
++		switch (output_fmt) {
++		case MEDIA_BUS_FMT_FIXED:
++		case MEDIA_BUS_FMT_RGB888_1X24:
++		case MEDIA_BUS_FMT_YUV8_1X24:
++		case MEDIA_BUS_FMT_UYVY8_1X16:
++			input_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
++			break;
++		default:
++			kfree(input_fmts);
++			input_fmts = NULL;
++		}
++
++		*num_input_fmts = i;
++
++		return input_fmts;
++	}
++
+ 	switch (output_fmt) {
+ 	/* If MEDIA_BUS_FMT_FIXED is tested, return default bus format */
+ 	case MEDIA_BUS_FMT_FIXED:
 -- 
 2.25.1
 
