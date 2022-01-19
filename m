@@ -1,69 +1,106 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 078C4493DAC
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 16:50:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7E4D493DB9
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 16:54:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B376A10E144;
-	Wed, 19 Jan 2022 15:50:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13F9610E175;
+	Wed, 19 Jan 2022 15:54:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE44D10E144
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 15:50:36 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 82DD91F3BF;
- Wed, 19 Jan 2022 15:50:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1642607435; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lOdDJ/fn+UYPr7RVLcI24hXpS/LaDSwWKTWVuG4N9H0=;
- b=Bt4qtoPIK7zzjcQZvlWXMp0egIFp8w20lcCXebMHyfx7ZoDvJuNX3kl9O9gsHtP1lPYM9d
- AVmd+V8/vrm3X7BQADTxiqpc6OrUzOF1UCfJBOU/Wfl26MGqVnKp/joRn59B+iPkGRPWmE
- QTsGwA8969mz7CuWwzk00nDZ1n6BYdY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1642607435;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lOdDJ/fn+UYPr7RVLcI24hXpS/LaDSwWKTWVuG4N9H0=;
- b=Opr6tq3B28YLf+Hsg8rGfbYea1ZskaRIJdExA6JKgj06Y4zW40hdYmCOGYZUH6vXKtqS5L
- +y/778Z8TiA9/+Bw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5D18713F84;
- Wed, 19 Jan 2022 15:50:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id iQ+pFUsz6GHEEQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 19 Jan 2022 15:50:35 +0000
-Message-ID: <89f1b9df-6ace-d59c-86a4-571cd92d0a4c@suse.de>
-Date: Wed, 19 Jan 2022 16:50:34 +0100
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5787210E175
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 15:54:05 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id
+ q9-20020a7bce89000000b00349e697f2fbso15135923wmj.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 07:54:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=0wqlG/hTKmwc1qlTFRNgFAeCCLQtJYdgJJ7JVZ30KiM=;
+ b=e3Pr/dvFruT2iN6cAa0XHKtiGXwO9ueK+tpw6WUP4dtdEWHBBmgavmSQF8CU9J+UcN
+ Hz8qBhrHQ1Vt/k5htfjwnT1NUI2SOss2Xgrkvlggt0Lb//TD0mBdhSnopsXNee83qc/w
+ W1zJllJJxCEqEHZ8Wdd6DgeaZC8r9Yvd0MdkE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=0wqlG/hTKmwc1qlTFRNgFAeCCLQtJYdgJJ7JVZ30KiM=;
+ b=AgYohsE9WJhliYLD89bym3stDuzYZVEtkG/zb2xHW7fc8RKzlfHGLvXv9Ea/zN7ELW
+ IJLXwNEeiLe8kRKKigrtdiVXMPFHGe2uoPb0fHcEJpH/w7hqyBVz2PAacYsObRS5pM72
+ yIT5bFwVrQyiVudpnYNS/A5LYKF1+lcYl1Ag0WFudWDDWWV5CtKQ7xx9ucVjIMKjYVod
+ gN+V6y41un0t2PrSyjBNzALBJ9wI7SqOV+cDbF3IWxbtI/gVC2Xc9aIxiQZBrPAFGisI
+ yICtJTdmArLYCsNArafDQL5h9q4l0msIxiRL9f39Xov83vIRkCwpG/SsFn7EuQd1PGxz
+ Fnug==
+X-Gm-Message-State: AOAM532zViLuaoGP1QzX/gfzKxl9m8T2xxH9HSfa+39w7nBQwMrBnK1o
+ Wn0idVP0wqfHkdwjYtRg6Rc7IA==
+X-Google-Smtp-Source: ABdhPJwYR2kHuXIdMjbo//urPLyFiKmcuB+F1hAH4j6/NzToi8Ft7emFD9AOoL2abPOHJyc76IPrBA==
+X-Received: by 2002:a05:6000:381:: with SMTP id
+ u1mr18768876wrf.431.1642607643845; 
+ Wed, 19 Jan 2022 07:54:03 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id w9sm6382224wmc.36.2022.01.19.07.54.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Jan 2022 07:54:02 -0800 (PST)
+Date: Wed, 19 Jan 2022 16:54:00 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Hridya Valsaraju <hridya@google.com>
+Subject: Re: [RFC 4/6] dma-buf: Add DMA-BUF exporter op to charge a DMA-BUF
+ to a cgroup.
+Message-ID: <Yeg0GGi0tdnnCLHg@phenom.ffwll.local>
+Mail-Followup-To: Hridya Valsaraju <hridya@google.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+ Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ Christian Brauner <christian@brauner.io>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@redhat.com>,
+ Brian Starkey <Brian.Starkey@arm.com>,
+ John Stultz <john.stultz@linaro.org>, Tejun Heo <tj@kernel.org>,
+ Zefan Li <lizefan.x@bytedance.com>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Dave Airlie <airlied@redhat.com>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>, Li Li <dualli@google.com>,
+ Marco Ballesio <balejs@google.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Hang Lu <hangl@codeaurora.org>,
+ Wedson Almeida Filho <wedsonaf@google.com>,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Kees Cook <keescook@chromium.org>,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ Chris Down <chris@chrisdown.name>,
+ Vipin Sharma <vipinsh@google.com>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Vlastimil Babka <vbabka@suse.cz>, Arnd Bergmann <arnd@arndb.de>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org,
+ Kenny.Ho@amd.com, daniels@collabora.com, kaleshsingh@google.com,
+ tjmercier@google.com
+References: <20220115010622.3185921-1-hridya@google.com>
+ <20220115010622.3185921-5-hridya@google.com>
+ <f8c8b196-7d12-6242-97ac-38149f3a3ba3@amd.com>
+ <CA+wgaPMjCfjQS4LA8hmVwAaGfXZhoJvvTUnOGt3duOhFb3orTw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] drm/vmwgfx: Stop requesting the pci regions
-Content-Language: en-US
-To: Zack Rusin <zackr@vmware.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "javierm@redhat.com" <javierm@redhat.com>
-References: <20220117180359.18114-1-zack@kde.org>
- <1c177e79-d28a-e896-08ec-3cd4cd2fb823@redhat.com>
- <da4e34772a9557cf4c4733ce6ee2a2ad47615044.camel@vmware.com>
- <5292edf8-0e60-28e1-15d3-6a1779023f68@suse.de>
- <afc4c659-b92e-3227-634f-7c171b7a74b3@suse.de>
- <80fc6b88d659dd7281364daccfed1fd294e785dc.camel@vmware.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <80fc6b88d659dd7281364daccfed1fd294e785dc.camel@vmware.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------RZQAbzeb1eW0tuIa00oQH85B"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+wgaPMjCfjQS4LA8hmVwAaGfXZhoJvvTUnOGt3duOhFb3orTw@mail.gmail.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,141 +113,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Martin Krastev <krastevm@vmware.com>,
- Maaz Mombasawala <mombasawalam@vmware.com>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>
+Cc: Zefan Li <lizefan.x@bytedance.com>, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>, kaleshsingh@google.com,
+ Joel Fernandes <joel@joelfernandes.org>, Kees Cook <keescook@chromium.org>,
+ Matthew Brost <matthew.brost@intel.com>, Kenny.Ho@amd.com,
+ Daniel Borkmann <daniel@iogearbox.net>, Jonathan Corbet <corbet@lwn.net>,
+ Martijn Coenen <maco@android.com>, Masahiro Yamada <masahiroy@kernel.org>,
+ Wedson Almeida Filho <wedsonaf@google.com>,
+ Matthew Auld <matthew.auld@intel.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Dave Airlie <airlied@redhat.com>, Laura Abbott <labbott@redhat.com>,
+ Marco Ballesio <balejs@google.com>, Jason Ekstrand <jason@jlekstrand.net>,
+ linux-media@vger.kernel.org, Li Li <dualli@google.com>,
+ Todd Kjos <tkjos@android.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Arnd Bergmann <arnd@arndb.de>, Vlastimil Babka <vbabka@suse.cz>,
+ Vipin Sharma <vipinsh@google.com>, Nathan Chancellor <nathan@kernel.org>,
+ cgroups@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
+ tjmercier@google.com, Christian Brauner <christian@brauner.io>,
+ linaro-mm-sig@lists.linaro.org, Hang Lu <hangl@codeaurora.org>,
+ daniels@collabora.com, Chris Down <chris@chrisdown.name>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ Liam Mark <lmark@codeaurora.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------RZQAbzeb1eW0tuIa00oQH85B
-Content-Type: multipart/mixed; boundary="------------vCNhZnb5JQIBvzh0DSl2F3xy";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Zack Rusin <zackr@vmware.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "javierm@redhat.com" <javierm@redhat.com>
-Cc: "stable@vger.kernel.org" <stable@vger.kernel.org>,
- Martin Krastev <krastevm@vmware.com>,
- Maaz Mombasawala <mombasawalam@vmware.com>
-Message-ID: <89f1b9df-6ace-d59c-86a4-571cd92d0a4c@suse.de>
-Subject: Re: [PATCH] drm/vmwgfx: Stop requesting the pci regions
-References: <20220117180359.18114-1-zack@kde.org>
- <1c177e79-d28a-e896-08ec-3cd4cd2fb823@redhat.com>
- <da4e34772a9557cf4c4733ce6ee2a2ad47615044.camel@vmware.com>
- <5292edf8-0e60-28e1-15d3-6a1779023f68@suse.de>
- <afc4c659-b92e-3227-634f-7c171b7a74b3@suse.de>
- <80fc6b88d659dd7281364daccfed1fd294e785dc.camel@vmware.com>
-In-Reply-To: <80fc6b88d659dd7281364daccfed1fd294e785dc.camel@vmware.com>
+On Tue, Jan 18, 2022 at 10:54:16AM -0800, Hridya Valsaraju wrote:
+> On Sun, Jan 16, 2022 at 11:46 PM Christian König
+> <christian.koenig@amd.com> wrote:
+> >
+> > Am 15.01.22 um 02:06 schrieb Hridya Valsaraju:
+> > > The optional exporter op provides a way for processes to transfer
+> > > charge of a buffer to a different process. This is essential for the
+> > > cases where a central allocator process does allocations for various
+> > > subsystems, hands over the fd to the client who
+> > > requested the memory and drops all references to the allocated memory.
+> > >
+> > > Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> > > ---
+> > >   include/linux/dma-buf.h | 18 ++++++++++++++++++
+> > >   1 file changed, 18 insertions(+)
+> > >
+> > > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> > > index 7ab50076e7a6..d5e52f81cc6f 100644
+> > > --- a/include/linux/dma-buf.h
+> > > +++ b/include/linux/dma-buf.h
+> > > @@ -13,6 +13,7 @@
+> > >   #ifndef __DMA_BUF_H__
+> > >   #define __DMA_BUF_H__
+> > >
+> > > +#include <linux/cgroup_gpu.h>
+> > >   #include <linux/dma-buf-map.h>
+> > >   #include <linux/file.h>
+> > >   #include <linux/err.h>
+> > > @@ -285,6 +286,23 @@ struct dma_buf_ops {
+> > >
+> > >       int (*vmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
+> > >       void (*vunmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
+> > > +
+> > > +     /**
+> > > +      * @charge_to_cgroup:
+> > > +      *
+> > > +      * This is called by an exporter to charge a buffer to the specified
+> > > +      * cgroup.
+> >
+> > Well that sentence makes absolutely no sense at all.
+> >
+> > The dma_buf_ops are supposed to be called by the DMA-buf subsystem on
+> > behalves of the importer and never by the exporter itself.
+> >
+> > I hope that this is just a documentation mixup.
+> 
+> Thank you for taking a look Christian!
+> 
+> Yes, that was poor wording, sorry about that. It should instead say
+> that the op would be called by the process the buffer is currently
+> charged to in order to transfer the buffer's charge to a different
+> cgroup. This is helpful in the case where a process acts as an
+> allocator for multiple client processes and we would like the
+> allocated buffers to be charged to the clients who requested their
+> allocation(instead of the allocating process as is the default
+> behavior). In Android, the graphics allocator HAL process[1] does
+> most of the graphics allocations on behalf of various clients. After
+> allocation, the HAL process passes the fd to the client over binder
+> IPC and the binder driver invokes the charge_to_cgroup() DMA-BUF op to
+> uncharge the buffer from the HAL process and charge it to the client
+> process instead.
+> 
+> [1]: https://source.android.com/devices/graphics/arch-bq-gralloc
 
---------------vCNhZnb5JQIBvzh0DSl2F3xy
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+For that use-case, do we really need to have the vfunc abstraction and
+force all exporters to do something reasonable with it?
 
-SGkNCg0KQW0gMTkuMDEuMjIgdW0gMTY6MTIgc2NocmllYiBaYWNrIFJ1c2luOg0KPiBPbiBX
-ZWQsIDIwMjItMDEtMTkgYXQgMTU6MDAgKzAxMDAsIFRob21hcyBaaW1tZXJtYW5uIHdyb3Rl
-Og0KPj4gSGkgWmFjaw0KPj4NCj4+IEFtIDE5LjAxLjIyIHVtIDEwOjEzIHNjaHJpZWIgVGhv
-bWFzIFppbW1lcm1hbm46DQo+Pj4gSGkNCj4+Pg0KPj4+IEFtIDE5LjAxLjIyIHVtIDAzOjE1
-IHNjaHJpZWIgWmFjayBSdXNpbjoNCj4+Pj4gT24gVHVlLCAyMDIyLTAxLTE4IGF0IDIwOjAw
-ICswMTAwLCBKYXZpZXIgTWFydGluZXogQ2FuaWxsYXMgd3JvdGU6DQo+Pj4+PiBIZWxsbyBa
-YWNrLA0KPj4+Pj4NCj4+Pj4+IE9uIDEvMTcvMjIgMTk6MDMsIFphY2sgUnVzaW4gd3JvdGU6
-DQo+Pj4+Pj4gRnJvbTogWmFjayBSdXNpbiA8emFja3JAdm13YXJlLmNvbT4NCj4+Pj4+Pg0K
-Pj4+Pj4+IFdoZW4gc3lzZmJfc2ltcGxlIGlzIGVuYWJsZWQgbG9hZGluZyB2bXdnZnggZmFp
-bHMgYmVjYXVzZSB0aGUNCj4+Pj4+PiByZWdpb25zDQo+Pj4+Pj4gYXJlIGhlbGQgYnkgdGhl
-IHBsYXRmb3JtLiBJbiB0aGF0IGNhc2UNCj4+Pj4+PiByZW1vdmVfY29uZmxpY3RpbmcqX2Zy
-YW1lYnVmZmVycw0KPj4+Pj4+IG9ubHkgcmVtb3ZlcyB0aGUgc2ltcGxlZmIgYnV0IG5vdCB0
-aGUgcmVnaW9ucyBoZWxkIGJ5IHN5c2ZiLg0KPj4+Pj4+DQo+Pj4+Pg0KPj4+Pj4gSW5kZWVk
-LCB0aGF0J3MgYW4gaXNzdWUuIEkgd29uZGVyIGlmIHdlIHNob3VsZCBkcm9wIHRoZQ0KPj4+
-Pj4gSU9SRVNPVVJDRV9CVVNZDQo+Pj4+PiBmbGFnIGZyb20gdGhlIG1lbW9yeSByZXNvdXJj
-ZSBhZGRlZCB0byB0aGUgInNpbXBsZS1mcmFtZWJ1ZmZlciINCj4+Pj4+IGRldmljZQ0KPj4+
-Pj4gPw0KPj4+Pg0KPj4+PiBJIHRoaW5rIHRoaXMgaXMgb25lIG9mIHRob3NlIGNhc2VzIHdo
-ZXJlIGl0IGRlcGVuZHMgb24gd2hhdCB3ZSBwbGFuDQo+Pj4+IHRvDQo+Pj4+IGRvIGFmdGVy
-IHRoYXQuIFNlbWVudGljYWxseSBpdCBtYWtlcyBzZW5zZSB0byBoYXZlIGl0IGluIHRoZXJl
-IC0NCj4+Pj4gdGhlDQo+Pj4+IGZyYW1lYnVmZmVyIG1lbW9yeSBpcyBjbGFpbWVkIGJ5IHRo
-ZSAic2ltcGxlLWZyYW1lYnVmZmVyIiBhbmQgaXQncw0KPj4+PiBidXN5LCBpdCdzIGp1c3Qg
-dGhhdCBpdCBjcmVhdGVzIGlzc3VlcyBmb3IgZHJpdmVycyBhZnRlciB1bmxvYWRpbmcuDQo+
-Pj4+IEkNCj4+Pj4gdGhpbmsgcmVtb3ZpbmcgaXQsIHdoaWxlIG1ha2luZyB0aGluZ3MgZWFz
-aWVyIGZvciBkcml2ZXJzLCB3b3VsZCBiZQ0KPj4+PiBjb25mdXNpbmcgZm9yIHBlb3BsZSBy
-ZWFkaW5nIHRoZSBjb2RlIGxhdGVyLCB1bmxlc3MgdGhlcmUncyBzb21lDQo+Pj4+IGtpbmQN
-Cj4+Pj4gb2YgY2xlYW51cCB0aGF0IHdvdWxkIGhhcHBlbiB3aXRoIGl0IChlLmcuIHJlbW92
-aW5nIElPUkVTT1VSQ0VfQlVTWQ0KPj4+PiBhbHRvZ2V0aGVyIGFuZCBtYWtpbmcgdGhlIGRy
-bSBkcml2ZXJzIHByb3Blcmx5IHJlcXVlc3QgdGhlaXINCj4+Pj4gcmVzb3VyY2VzKS7CoEF0
-IGxlYXN0IGJ5IGl0c2VsZiBpdCBkb2Vzbid0IHNlZW0gdG8gYmUgbXVjaCBiZXR0ZXINCj4+
-Pj4gc29sdXRpb24gdGhhbiBoYXZpbmcgdGhlIGRybSBkcml2ZXJzIG5vdCBjYWxsDQo+Pj4+
-IHBjaV9yZXF1ZXN0X3JlZ2lvbltzXSwNCj4+Pj4gd2hpY2ggYXBhcnQgZnJvbSBoeXBlcnYg
-YW5kIGNpcnJ1cyAoaWlyYyBib2NocyBkb2VzIGl0IGZvcg0KPj4+PiByZXNvdXJjZXMNCj4+
-Pj4gb3RoZXIgdGhhbiBmYiB3aGljaCB3b3VsZG4ndCBoYXZlIGJlZW4gY2xhaW1lZCBieSAi
-c2ltcGxlLQ0KPj4+PiBmcmFtZWJ1ZmZlciIpDQo+Pj4+IGlzIGFscmVhZHkgdGhlIGNhc2Uu
-DQo+Pj4+DQo+Pj4+IEkgZG8gdGhpbmsgd2Ugc2hvdWxkIGRvIG9uZSBvZiB0aGVtIHRvIG1h
-a2UgdGhlIGNvZGViYXNlIGNvaGVyZW50Og0KPj4+PiBlaXRoZXIgcmVtb3ZlIElPUkVTT1VS
-Q0VfQlVTWSBmcm9tICJzaW1wbGUtZnJhbWVidWZmZXIiIG9yIHJlbW92ZQ0KPj4+PiBwY2lf
-cmVxdWVzdF9yZWdpb25bc10gZnJvbSBoeXBlcnYgYW5kIGNpcnJ1cy4NCj4+Pg0KPj4+IEkg
-anVzdCBkaXNjdXNzZWQgdGhpcyBhIGJpdCB3aXRoIEphdmllci4gSXQncyBhIHByb2JsZW0g
-d2l0aCB0aGUNCj4+PiBzaW1wbGUtZnJhbWVidWZmZXIgY29kZSwgcmF0aGVyIHRoZW4gdm13
-Z2Z4Lg0KPj4+DQo+Pj4gSU1ITyB0aGUgYmVzdCBzb2x1dGlvbiBpcyB0byBkcm9wIElPUkVT
-T1VSQ0VfQlVTWSBmcm9tIHN5c2ZiIGFuZCBoYXZlDQo+Pj4gZHJpdmVycyByZWdpc3Rlci9y
-ZWxlYXNlIHRoZSByYW5nZSB3aXRoIF9CVVNZLiBUaGF0IHdvdWxkIHNpZ25hbCB0aGUNCj4+
-PiBtZW1vcnkgYmVsb25ncyB0byB0aGUgc3lzZmIgZGV2aWNlIGJ1dCBpcyBub3QgYnVzeSB1
-bmxlc3MgYSBkcml2ZXINCj4+PiBoYXMNCj4+PiBiZWVuIGJvdW5kLiBBZnRlciBzaW1wbGVm
-YiByZWxlYXNlZCB0aGUgcmFuZ2UsIGl0IHNob3VsZCBiZSAnbm9uLQ0KPj4+IGJ1c3knDQo+
-Pj4gYWdhaW4gYW5kIGF2YWlsYWJsZSBmb3Igdm13Z2Z4LiBTaW1wbGVkcm0gZG9lcyBhIGhv
-dC11bnBsdWcgb2YgdGhlDQo+Pj4gc3lzZmINCj4+PiBkZXZpY2UsIHNvIHRoZSBtZW1vcnkg
-cmFuZ2UgZ2V0cyByZWxlYXNlZCBlbnRpcmVseS4gSWYgeW91IHdhbnQsIEknbGwNCj4+PiBw
-cmVwYXJlIHNvbWUgcGF0Y2hlcyBmb3IgdGhpcyBzY2VuYXJpby4NCj4+DQo+PiBBdHRhY2hl
-ZCBpcyBhIHBhdGNoIHRoYXQgaW1wbGVtZW50cyB0aGlzLiBEb2luZw0KPj4NCj4+ICDCoCBj
-YXQgL3Byb2MvaW9tZW0NCj4+ICDCoMKgIC4uLg0KPj4gIMKgwqAgZTAwMDAwMDAtZWZmZmZm
-ZmYgOiAwMDAwOjAwOjAyLjANCj4+DQo+PiAgwqDCoMKgwqAgZTAwMDAwMDAtZTA3ZThmZmYg
-OiBCT09URkINCj4+DQo+PiAgwqDCoMKgwqDCoMKgIGUwMDAwMDAwLWUwN2U4ZmZmIDogc2lt
-cGxlZmINCj4+DQo+PiAgwqDCoCAuLi4NCj4+DQo+PiBzaG93cyB0aGUgbWVtb3J5LiAnQk9P
-VEZCJyBpcyB0aGUgc2ltcGxlLWZyYW1lYnVmZmVyIGRldmljZSBhbmQNCj4+ICdzaW1wbGVm
-YicgaXMgdGhlIGRyaXZlci4gT25seSB0aGUgbGF0dGVyIHVzZXMgX0JVU1kuIFNhbWUgZm9y
-DQo+PiBhbmQgdGhlIG1lbW9yeSBjYW5iZSBhY3F1aXJlZCBieSB2bXdnZnguDQo+Pg0KPj4g
-WmFjaywgcGxlYXNlIHRlc3QgdGhpcyBwYXRjaC4gSWYgaXQgd29ya3MsIEknbGwgc2VuZCBv
-dXQgdGhlIHJlYWwNCj4+IHBhdGNoc2V0Lg0KPiANCj4gSG1tLCB0aGUgcGF0Y2ggbG9va3Mg
-Z29vZCBidXQgaXQgZG9lc24ndCB3b3JrLiBBZnRlciBib290OiAvcHJvYy9pb21lbQ0KPiA1
-MDAwMDAwMC03ZmZmZmZmZiA6IHBjaWVAMHg0MDAwMDAwMA0KPiAgICA3ODAwMDAwMC03ZmZm
-ZmZmZiA6IDAwMDA6MDA6MGYuMA0KPiAgICAgIDc4MDAwMDAwLTc4MmZmZmZmIDogQk9PVEZC
-DQo+IA0KPiBhbmQgdm13Z2Z4IGZhaWxzIG9uIHBjaV9yZXF1ZXN0X3JlZ2lvbnM6DQo+IA0K
-PiBrZXJuZWw6IGZiMDogc3dpdGNoaW5nIHRvIHZtd2dmeCBmcm9tIHNpbXBsZQ0KPiBrZXJu
-ZWw6IENvbnNvbGU6IHN3aXRjaGluZyB0byBjb2xvdXIgZHVtbXkgZGV2aWNlIDgweDI1DQo+
-IGtlcm5lbDogdm13Z2Z4IDAwMDA6MDA6MGYuMDogQkFSIDI6IGNhbid0IHJlc2VydmUgW21l
-bSAweDc4MDAwMDAwLQ0KPiAweDdmZmZmZmZmIDY0Yml0IHByZWZdDQo+IGtlcm5lbDogdm13
-Z2Z4OiBwcm9iZSBvZiAwMDAwOjAwOjBmLjAgZmFpbGVkIHdpdGggZXJyb3IgLTE2DQo+IA0K
-PiBsZWF2aW5nIHRoZSBzeXN0ZW0gd2l0aG91dCBhIGZiIGRyaXZlci4NCg0KT0ssIEkgc3Vz
-cGVjdCB0aGF0IGl0IHdvdWxkIHdvcmsgaWYgeW91IHVzZSBzaW1wbGVkcm0gaW5zdGVhZCBv
-ZiANCnNpbXBsZWZiLiBDb3VsZCB5b3UgdHJ5IHBsZWFzZT8gWW91J2QgaGF2ZSB0byBidWls
-ZCBEUk0gYW5kIHNpbXBsZWRybSANCmludG8gdGhlIGtlcm5lbCBiaW5hcnkuDQoNCklmIHRo
-YXQgd29ya3MsIHdvdWxkIHlvdSBjb25zaWRlciBwcm90ZWN0aW5nIHBjaV9yZXF1ZXN0X3Jl
-Z2lvbigpIHdpdGgNCiAgI2lmIG5vdCBkZWZpbmVkKENPTkZJR19GQl9TSU1QTEUpDQogICNl
-bmRpZg0KDQp3aXRoIGEgRklYTUUgY29tbWVudD8NCg0Kc2ltcGxlZHJtIGhvdC11bnBsdWdz
-IHRoZSBzeXNmYiBkZXZpY2UgZW50aXJlbHkuIE1heWJlIHNpbXBsZWZiIGNhbiBkbyANCnRo
-ZSBzYW1lLiBJJ20gbm90IHN1cmUsIGJ1dCBwb3NzaWJseS4NCg0KQmVzdCByZWdhcmRzDQpU
-aG9tYXMNCg0KPiANCj4geg0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBE
-cml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgN
-Ck1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwg
-QUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+I think just storing the cgrpus gpu memory bucket this is charged against
+and doing this in a generic way would be a lot better.
 
---------------vCNhZnb5JQIBvzh0DSl2F3xy--
+That way we can also easily add other neat features in the future, like
+e.g. ttm could take care of charge-assignement automatically maybe, or we
+could print the current cgroups charge relationship in the sysfs info
+file. Or anything else really.
 
---------------RZQAbzeb1eW0tuIa00oQH85B
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+I do feel that in general for gpu memory cgroups to be useful, we should
+really have memory pools as a fairly strong concept. Otherwise every
+driver/allocator/thing is going to come up with their own, and very likely
+incompatible interpretation. And we end up with a supposed generic cgroups
+interface which cannot actually be used in a driver/vendor agnostic way at
+all.
+-Daniel
 
------BEGIN PGP SIGNATURE-----
+> 
+> Regards,
+> Hridya
+> 
+> 
+> >
+> > Regards,
+> > Christian.
+> >
+> > >   The caller must hold a reference to @gpucg obtained via
+> > > +      * gpucg_get(). The DMA-BUF will be uncharged from the cgroup it is
+> > > +      * currently charged to before being charged to @gpucg. The caller must
+> > > +      * belong to the cgroup the buffer is currently charged to.
+> > > +      *
+> > > +      * This callback is optional.
+> > > +      *
+> > > +      * Returns:
+> > > +      *
+> > > +      * 0 on success or negative error code on failure.
+> > > +      */
+> > > +     int (*charge_to_cgroup)(struct dma_buf *dmabuf, struct gpucg *gpucg);
+> > >   };
+> > >
+> > >   /**
+> >
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHoM0oFAwAAAAAACgkQlh/E3EQov+De
-IxAAjfD+cObPqrr7FpXGlwwtFGgfqy1opgou5DFFnrEMi1FpPrlKspVrQgLy7grHVp1yAkTEm8X6
-sXpN5+fd65e0J64fHrHMvcmULO3gR2q9g35s3tAxrNh1CKCNaYJNXJZjA7pTr7YMm2AGoYeGEAR0
-Yzl2gm3i38aUjmkA3Nr3YX25aZoh90eT18O8DnVWExuaj3WQhCaSNuR3fFUxUSOgQWANmd4qk8GC
-3Ru+UtmsOjB9SsRknC0P57MPf4CaCon4AN0Nx3yvp6vvKpnwPHbJJh1T8k00fZ9TdPXEeDuthtt2
-fYt4+M14bkThgjryFAXfG1+dA+1vSs6rgmCH53eJIhuwgAlWZupGqmyDuOaJisIIkrzeGPXFeIv+
-tkafyaj19DbjA37yRFfzwJtOcVyvhMJq4FgnU24yTklURrrdfFxoS2Cmd/C9BMe1xgZL5gDUV7LV
-i/nxIvLS/uyMo5Nca2oqwewH9Mat3MWpAOCWTmm8Ws/ysnNrHfWZima1bPQtr6cWUnieTAHusJu+
-RxNF9woPmBp9Mkem7uCJ03ppIYlWCjXlSZY6JPTifW1I+FS0+helRRIajuzSukVXZjcjOaGYfi2C
-o5wzRMbRjHiOwo6cIu2qmUNARMnYNHxCej2wQajZYEg1WZDMjYE5VTWSomkWUvyTlm7otGA3YPxQ
-pBw=
-=xuwq
------END PGP SIGNATURE-----
-
---------------RZQAbzeb1eW0tuIa00oQH85B--
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
