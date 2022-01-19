@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 389B9493EE7
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 18:18:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ABB3493EEB
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 18:19:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A469B10E748;
-	Wed, 19 Jan 2022 17:18:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EDC710E754;
+	Wed, 19 Jan 2022 17:19:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D834010E74B
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 17:18:09 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- l12-20020a7bc34c000000b003467c58cbdfso15738596wmj.2
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 09:18:09 -0800 (PST)
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6914110E758
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 17:19:01 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ q141-20020a1ca793000000b00347b48dfb53so7029760wme.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 09:19:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=rQ+yyRcLTMO72ZwgIvbqK79p/62FdZWlD9ln/D9mqrQ=;
- b=O8gRtMbL0cQw6BEysGCr14KMg9Fo4AlYnDea8ecj2bJB8uhHsX56dubo/71ZtMcKZm
- uykyzjo6ZkvjCXHzkb78rjXN40K8GhnxI4mD+/Yimu5LOLJWWValLuVsqFPpAgmxSNJd
- lQOdJFcRYHIPHS3zTAjTUHvT9Oxh4hpgQ7Hn8=
+ bh=weDoiXWIlqsW0bwSabnqiWkOc5jo1BbeEdm7AfzIltI=;
+ b=ZwijlQyT9ACfMKxTUvh3s7J6qo0qJbtEnyFJc45VVsm9b1nveMbpVe5TTxIPfYgZPr
+ uf/XXWvVtIq6o5V/0mTPAvs45HG6iGmeSsfDJYAv5FQv5a+Idjeyuw44wSq0V1q5i9iG
+ +fWqi9Uym2lrOa5qsnATZ2eZab7Q0m9P0KYMw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=rQ+yyRcLTMO72ZwgIvbqK79p/62FdZWlD9ln/D9mqrQ=;
- b=NrUqTZXS/5Knl85tc39mgbst4P7dNSnXWxdpUkRXs46WrKxdWZ9EcCOQiOoLpoa7+6
- KzMCCG9UfX1PmP8jSunU7jV1y5UBx0biDpg+TPUEPM9gVM8uYLyCGMCGw4NY3BiDnWGt
- 5zXCTh6f5b+xXQxxCMWy1WRPOiczsjTo/T2Ec83a3P9IFnMg2a2cKucghc2hOi983kBM
- bj5bIlQLA1AvPl6/kxI+qX8otuLp/bzyzai1TT7ooxyA8xrGE9bc/rEWxCO/vexqYAD2
- UBfrYMblcXv4zfVWP8qPw6U1Wr3ycjfm7jrqS+5Ze6Z+W2rSZ1ILgQ5Drrqq/LA3ZL4M
- PiUA==
-X-Gm-Message-State: AOAM530aYBEBu/asnpx/4qI8x45PnXrOi7Y8ZdDXaYqFOkePunzGoKF+
- WWteIjFJ2+dMXwa6l66BpsUbrA==
-X-Google-Smtp-Source: ABdhPJx4k/wum3uSEYpvkt7c9tWl67rTeqCQ4BapICaxaEK2FFu+ShCicViWb6AetcJAyz/n/0CZDQ==
-X-Received: by 2002:a05:600c:3c9c:: with SMTP id
- bg28mr4470721wmb.190.1642612688352; 
- Wed, 19 Jan 2022 09:18:08 -0800 (PST)
+ bh=weDoiXWIlqsW0bwSabnqiWkOc5jo1BbeEdm7AfzIltI=;
+ b=tQkMdQeo/k24N9elrIMG2+a3m7kbf1FujUAwIGC/OwV52ZCdT67CL40Iavy2qA7SQd
+ BttyL8jQ4i5xYU9wls8MxXWPDf5aXPZzupUEVH21BvOwxsGc0TxVpfouGoTTdLYwM0om
+ xhm8dqkDXjflqVEGRfcTsob20sy0OffFP8Dw43egMDIr0qzNBruKWDKapkBzGRF8GsZs
+ DqAEN+6b+TLD1VNJ8YqBYepm1cKtmOBEaliiTw85wgCk1oO5kksauR9IqjbKt3eVktga
+ I3Dl55L8kKe46x1+/LxeJ/PKGeqKz2l6omMIcatBR2Lc1dCBbs7t9FDNYN7ws2MUI2Kz
+ J0OA==
+X-Gm-Message-State: AOAM531PLuS2wcirsU4K8+3g08s0UnZYcZ11Wj9JKYT1lh1qjPQs7SZm
+ 4lkW+1no9TA+4v4iJTZFJq1a9w==
+X-Google-Smtp-Source: ABdhPJyAGgep8QOseVVDvL9cILUQyoL5tC8CLK3q904SVKTC2KYBUvucJ90kjGYENpFq5sfzsLyebA==
+X-Received: by 2002:a05:600c:2994:: with SMTP id
+ r20mr1407383wmd.158.1642612739974; 
+ Wed, 19 Jan 2022 09:18:59 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id n15sm570212wrf.79.2022.01.19.09.18.07
+ by smtp.gmail.com with ESMTPSA id c13sm410043wrv.24.2022.01.19.09.18.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jan 2022 09:18:07 -0800 (PST)
-Date: Wed, 19 Jan 2022 18:18:06 +0100
+ Wed, 19 Jan 2022 09:18:59 -0800 (PST)
+Date: Wed, 19 Jan 2022 18:18:57 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 2/4] dma-buf: warn about dma_fence_array container rules
-Message-ID: <YehHzs8FDn4PfD+l@phenom.ffwll.local>
+Subject: Re: [PATCH 3/4] dma-buf: Warn about dma_fence_chain container rules
+Message-ID: <YehIAaPI53wNes+1@phenom.ffwll.local>
 References: <20220119134339.3102-1-christian.koenig@amd.com>
- <20220119134339.3102-2-christian.koenig@amd.com>
+ <20220119134339.3102-3-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220119134339.3102-2-christian.koenig@amd.com>
+In-Reply-To: <20220119134339.3102-3-christian.koenig@amd.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,44 +76,41 @@ Cc: gustavo@padovan.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 19, 2022 at 02:43:37PM +0100, Christian König wrote:
-> It's not allowed to nest another dma_fence container into a dma_fence_array
-> or otherwise we can run into recursion.
+On Wed, Jan 19, 2022 at 02:43:38PM +0100, Christian König wrote:
+> Chaining of dma_fence_chain objects is only allowed through the prev
+> fence and not through the contained fence.
 > 
-> Warn about that when we create a dma_fence_array.
+> Warn about that when we create a dma_fence_chain.
 > 
 > Signed-off-by: Christian König <christian.koenig@amd.com>
 > ---
->  drivers/dma-buf/dma-fence-array.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
+>  drivers/dma-buf/dma-fence-chain.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 > 
-> diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
-> index 3e07f961e2f3..4bfbcb885bbc 100644
-> --- a/drivers/dma-buf/dma-fence-array.c
-> +++ b/drivers/dma-buf/dma-fence-array.c
-> @@ -176,6 +176,19 @@ struct dma_fence_array *dma_fence_array_create(int num_fences,
+> diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
+> index 1b4cb3e5cec9..fa33f6b7f77b 100644
+> --- a/drivers/dma-buf/dma-fence-chain.c
+> +++ b/drivers/dma-buf/dma-fence-chain.c
+> @@ -254,5 +254,13 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
 >  
->  	array->base.error = PENDING_ERROR;
->  
-> +	/* dma_fence_array objects should never contain any other fence
-> +	 * containers or otherwise we run into recursion and potential kernel
-> +	 * stack overflow on operations on the dma_fence_array.
+>  	dma_fence_init(&chain->base, &dma_fence_chain_ops,
+>  		       &chain->lock, context, seqno);
+> +
+> +	/* Chaining dma_fence_chain container together is only allowed through
+> +	 * the prev fence and not through the contained fence.
 > +	 *
-> +	 * The correct way of handling this is to flatten out the array by the
-> +	 * caller instead.
-> +	 *
-> +	 * Enforce this here by checking that we don't create a dma_fence_array
-> +	 * with any container inside.
+> +	 * The correct way of handling this is to flatten out the fence
+> +	 * structure into a dma_fence_array by the caller instead.
 > +	 */
-> +	while (seqno--)
-> +		WARN_ON(dma_fence_is_container(fences[seqno]));
+> +	WARN_ON(dma_fence_is_chain(fence));
+
+At first I was worried that you'd leave a chain fence in the array fence
+as an option, but we exclude that with the previous patch.
 
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-> +
->  	return array;
 >  }
->  EXPORT_SYMBOL(dma_fence_array_create);
+>  EXPORT_SYMBOL(dma_fence_chain_init);
 > -- 
 > 2.25.1
 > 
