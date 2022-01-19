@@ -2,80 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8783493599
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 08:40:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5AEE4935B5
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 08:44:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 621DF10E313;
-	Wed, 19 Jan 2022 07:40:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C196A10E384;
+	Wed, 19 Jan 2022 07:44:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 307 seconds by postgrey-1.36 at gabe;
- Wed, 19 Jan 2022 07:40:54 UTC
-Received: from smtp-relay-internal-1.canonical.com
- (smtp-relay-internal-1.canonical.com [185.125.188.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 653EE10E308
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 07:40:54 +0000 (UTC)
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id BDB26407F3
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 07:40:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1642578052;
- bh=KOwrbfmVaaY4sfUgcL8mu/NpRfAwFGVtSAETT0kqBAg=;
- h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
- In-Reply-To:Content-Type;
- b=nWEu+jGMj1FJ3/JFrNCNRWcrAgA7ULncUgZATh2wXD4936EoufJ27K5UIUNruVGFB
- OUJTIDjH3K+aQfwAeMrwVZplhgPrtJgt6m4RX1812H9cXBsV9eq3k8kKqS8u9b9+hl
- 7oRCsoeM9/ivgnEUaf1VVJ3LZamN4HZSKfqZZHSJumVLEwKkihRyHbyuL791RM/K4z
- 23TW7bBjf1u74E0XGEgtVhHDT9WXN/M3IfVAaaZ6EMvxMNLpMMialNyIcYO80EeyYs
- VVe+75P76Owv3P06DpmJ77i8axmsF9uTj6eW87X7IAir9wzRCwMNyHNgItiPbe0dev
- vA5VsmdAf3obw==
-Received: by mail-ed1-f70.google.com with SMTP id
- ee53-20020a056402293500b004022f34edcbso1458130edb.11
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 23:40:52 -0800 (PST)
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
+ [IPv6:2607:f8b0:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC67B10E384
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 07:44:02 +0000 (UTC)
+Received: by mail-pg1-x534.google.com with SMTP id t32so1654003pgm.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jan 2022 23:44:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=wgsNFzNpSSdccSgxfw+zCKaHdZrvmLN4TxH4pmEqHFM=;
+ b=p+cHoZyZ/KxchMwriiVowMDalr/duztSsP8wupwGCXnhLANZc8nlOxi8DRiXRCJMIe
+ ThXD3VtztapjDQndPVMlgQCNBGdaB/6GtGter/A53dpnPy0/ro9sY23pR2hrOCNdpJ6x
+ A4o4u75fhuW3Mo06+JGLmcZyvqLXji4TLjjrijhdVwv1S53EEBqkn8vl1ndTRxbd3dZz
+ uybHANAtOcV/NY4/riEthmOAO/ZD0wmVB13Z8eWzwiHuCL/kM8zjRhZyQ+O10QzOw4WU
+ 8T8YqXxpWNqIHjpyLGArRjsnP8Y9EWKTmKSTB1lK98Rd0uAtb5HaP0a2q3DyQSfNmTwM
+ RKFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=KOwrbfmVaaY4sfUgcL8mu/NpRfAwFGVtSAETT0kqBAg=;
- b=17MQ6cahiQVjRRO63NEZyv1z3sPmg1fcS5WpV962HRJPKXR2ywz7XHEHYQChSFlqXs
- vUuLgYQYGFqQmvNTjVqN2ekFEyPqk9OzwEsTELGxMzyQ2rjX4dPwrtiYj4ZBxuwTxGid
- 7JBJdgqJK4uufhbz/0+aUgN8KtPIrve8XHiDcjJ3ePJ+7lOxB37eoBQs8P289JsmZbpX
- Mzks59jrs7GwmE2GaU14ORJk5QcWIVLz8eAFDiJ/NZ8gI/Rkn545jRal1R+M107ZOtsa
- GZUkfodM5+Qa7r9U2sv8wQINCIT6F005pEKXD/8pRmpGdqU4sHB6rCz5KO7KDSUUo+YQ
- PAuQ==
-X-Gm-Message-State: AOAM53089yxh+4GOdJhtnjrpLiNx6/crqB5ef5KmaXaisa0ZerFXvfR/
- +uOjXYPDbX9lVPOTvPcYl87dGOuEBbl9w7qb+iraDN+MbgXKxIdmyy4qQns/Vz98IyWLU48kFwT
- qBKyiJfpy7VyIt4r5JYjiijrIXAnqmdWPrToUCO301smXYg==
-X-Received: by 2002:a17:907:7ea6:: with SMTP id
- qb38mr23673578ejc.557.1642578052199; 
- Tue, 18 Jan 2022 23:40:52 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwcC/F4TT/k1wEFa2HsX2oDgdxrLKxkyNjrLq8ReErAXQsVWpB2ePW4VmJCVcsiAdC0JWuWGg==
-X-Received: by 2002:a17:907:7ea6:: with SMTP id
- qb38mr23673541ejc.557.1642578052033; 
- Tue, 18 Jan 2022 23:40:52 -0800 (PST)
-Received: from [192.168.0.42] (xdsl-188-155-168-84.adslplus.ch.
- [188.155.168.84])
- by smtp.gmail.com with ESMTPSA id d2sm791994edy.86.2022.01.18.23.40.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Jan 2022 23:40:51 -0800 (PST)
-Message-ID: <21b72055-e158-6586-f48a-17695128b507@canonical.com>
-Date: Wed, 19 Jan 2022 08:40:48 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=wgsNFzNpSSdccSgxfw+zCKaHdZrvmLN4TxH4pmEqHFM=;
+ b=KE/RowBAO2ond5GUmEUzDAmPpnWd3/BiZ3R8IoLw5STaS1SGLU/Ljr1gpnPztIB3uy
+ TBlDmhiNOExTdb9YosJn8rZZ5bIoV1tmJZe0AlaipmTkXrXI4iK+094V8YHfbBndH43/
+ qRMF5d+ornqak+febaYtkaFtkDGY6dNWKO/OPtUE/FkHgexoWcMsAweOiJMJ7ePd1d5Y
+ xnFwNFagXTwYWxncOKQJ18FJqcQ0z1mk2epzfIxSmmxXJkgZgMvxnz8uTfiKpleDZB7T
+ heqgo5yUmKVF6exIHbnVHD/tCTC6n20LnCeRBZGTEY7597pr2xWyczV+QMsUb9RxmuQc
+ G/Vg==
+X-Gm-Message-State: AOAM531W0RC5JQeW1Zu5d8bZrCOnBOQNhUduiOUzrvED+LSFbGFPtBYq
+ CKw29Ki2wudogzqNAHlyMXnryg==
+X-Google-Smtp-Source: ABdhPJyNKcbiEGUcgkz9zXpAgkBgubu/10nRg7X8eh23rlI2iY9kKxwwNMydTTsODjGuMFGY0jhtqA==
+X-Received: by 2002:a05:6a00:88f:b0:4bc:3b4e:255a with SMTP id
+ q15-20020a056a00088f00b004bc3b4e255amr29453525pfj.79.1642578242462; 
+ Tue, 18 Jan 2022 23:44:02 -0800 (PST)
+Received: from localhost ([223.184.90.234])
+ by smtp.gmail.com with ESMTPSA id g14sm16984301pgp.76.2022.01.18.23.44.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Jan 2022 23:44:01 -0800 (PST)
+Date: Wed, 19 Jan 2022 13:14:00 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Rob Herring <robh@kernel.org>
 Subject: Re: [PATCH] dt-bindings: Improve phandle-array schemas
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
+Message-ID: <20220119074400.rqldtq6wqo73lqqg@vireshk-i7>
 References: <20220119015038.2433585-1-robh@kernel.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20220119015038.2433585-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+User-Agent: NeoMutt/20180716-391-311a52
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,8 +70,9 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
- "Rafael J. Wysocki" <rafael@kernel.org>, linux-remoteproc@vger.kernel.org,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, linux-remoteproc@vger.kernel.org,
  alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
  Sebastian Reichel <sre@kernel.org>, linux-ide@vger.kernel.org,
  Thierry Reding <thierry.reding@gmail.com>,
@@ -100,14 +82,16 @@ Cc: Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
  Lee Jones <lee.jones@linaro.org>, linux-riscv@lists.infradead.org,
  linux-leds@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
  Florian Fainelli <f.fainelli@gmail.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, Kevin Hilman <khilman@kernel.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
  Marc Zyngier <maz@kernel.org>,
  Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, iommu@lists.linux-foundation.org,
+ "Rafael J. Wysocki" <rafael@kernel.org>, iommu@lists.linux-foundation.org,
  Kishon Vijay Abraham I <kishon@ti.com>, Jakub Kicinski <kuba@kernel.org>,
- Zhang Rui <rui.zhang@intel.com>, Vivien Didelot <vivien.didelot@gmail.com>,
+ Zhang Rui <rui.zhang@intel.com>, linux-usb@vger.kernel.org,
+ Vivien Didelot <vivien.didelot@gmail.com>,
  Wolfgang Grandegger <wg@grandegger.com>, linux-media@vger.kernel.org,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, linux-pm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
  Kalle Valo <kvalo@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
  linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -115,7 +99,7 @@ Cc: Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
  Thomas Gleixner <tglx@linutronix.de>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Mathieu Poirier <mathieu.poirier@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, linux-usb@vger.kernel.org,
+ Jingoo Han <jingoohan1@gmail.com>, Kevin Hilman <khilman@kernel.org>,
  linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
  Vinod Koul <vkoul@kernel.org>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
@@ -126,7 +110,7 @@ Cc: Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/01/2022 02:50, Rob Herring wrote:
+On 18-01-22, 19:50, Rob Herring wrote:
 > The 'phandle-array' type is a bit ambiguous. It can be either just an
 > array of phandles or an array of phandles plus args. Many schemas for
 > phandle-array properties aren't clear in the schema which case applies
@@ -149,10 +133,10 @@ On 19/01/2022 02:50, Rob Herring wrote:
 > property values matches the schema.
 > 
 
-Samsung and memory controller bits look good:
+>  .../devicetree/bindings/opp/opp-v2-base.yaml  |  2 +
+>  .../bindings/power/power-domain.yaml          |  4 +
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
 
-
-Best regards,
-Krzysztof
+-- 
+viresh
