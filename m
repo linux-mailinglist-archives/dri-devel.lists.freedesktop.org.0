@@ -2,53 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68F134935FA
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 09:02:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2944549360E
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 09:17:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71A6410E386;
-	Wed, 19 Jan 2022 08:02:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 336D010E523;
+	Wed, 19 Jan 2022 08:16:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 926AE10E37D;
- Wed, 19 Jan 2022 08:02:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642579367; x=1674115367;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=ttJ0yEmqdVCXnFR0RzsiyMUeg+GLGi5ZbTTPlF7sNtk=;
- b=QCm7YCAHyNlWXz1d4yKiZm7vKfYYlsze8V9FvE5AciC09sRjMBu8yK8Y
- 41zEVo6choBlOFKBAEsrc0A/toQlA0ZHVM5F5lZJ3Pfq0qAfO9gatzesk
- Mo9VQzH3pkFYrVCK8saKeDjxvhEZBUhK5soDzZNPe7cxuoK9ga74kUvLM
- 0K+c+X4TLHF/4RK+/HNo6e95WAr3dqRsXzVCd7K1VIKHj4dqYIKwv5fhU
- wMQP0UsmEoGW6DIe/eilialuBwa1WDpT8bkh5LuRRyYzx3yKAJXCZqdb5
- 0UzVbcSNYITzrg3LTZzibidFuxx3Zpm8o4lE6cNIPQ6L9ilTQetFOGM4X g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10231"; a="243833025"
-X-IronPort-AV: E=Sophos;i="5.88,299,1635231600"; d="scan'208";a="243833025"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2022 00:02:47 -0800
-X-IronPort-AV: E=Sophos;i="5.88,299,1635231600"; d="scan'208";a="477282343"
-Received: from elenadel-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.50.196])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2022 00:02:33 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-security-module@vger.kernel.org, nouveau@lists.freedesktop.org,
- netdev@vger.kernel.org
-Subject: Re: [PATCH 0/3] lib/string_helpers: Add a few string helpers
-In-Reply-To: <20220119072450.2890107-1-lucas.demarchi@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220119072450.2890107-1-lucas.demarchi@intel.com>
-Date: Wed, 19 Jan 2022 10:02:31 +0200
-Message-ID: <87sftk40h4.fsf@intel.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A32BC10E523
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 08:16:53 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 06A8C218E2;
+ Wed, 19 Jan 2022 08:16:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1642580212; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4TU1CiJ7tdkDYwgvfbNzgHJ/RjE6eQLvj7ltFbUT0nQ=;
+ b=QweqiBWesLRngwqfen3kputfxYdxiniLm/s/jozA3ds/yt77a4gJgVARDldXwQ1XzBteDI
+ F6lflFHRbEtqSPC4GFBo1SJbCQji7V1QEkc2bZmrYhG35yJ6w5wwDtq/3KTu4ngYjRdsue
+ aY//leyPpbdVNeZ8gDgiPCH0hwgGG98=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1642580212;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4TU1CiJ7tdkDYwgvfbNzgHJ/RjE6eQLvj7ltFbUT0nQ=;
+ b=C7ax2Q7xIdrlHqmDw8l0SJg0eIzH8UUi99CKLa6+b2w7+s2dQfrWwnDkKpi1j09i4y1/h3
+ d7ePuvG96X7+EIBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DDE1E13B16;
+ Wed, 19 Jan 2022 08:16:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id FMo9NfPI52EeewAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 19 Jan 2022 08:16:51 +0000
+Message-ID: <4dbe5421-73bb-e22d-3f8a-28578fffc55f@suse.de>
+Date: Wed, 19 Jan 2022 09:16:51 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] mgag200 fix memmapsl configuration in GCTL6 register
+Content-Language: en-US
+To: Lyude Paul <lyude@redhat.com>, Jocelyn Falempe <jfalempe@redhat.com>,
+ dri-devel@lists.freedesktop.org
+References: <20220114094754.522401-1-jfalempe@redhat.com>
+ <20220114094754.522401-2-jfalempe@redhat.com>
+ <8e2fed4af467f335def97232abbc22d86aff0617.camel@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <8e2fed4af467f335def97232abbc22d86aff0617.camel@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------CtcBFrC3wck3bCjuUwuzrVRt"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,142 +72,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Chris Wilson <chris@chris-wilson.co.uk>, Vishal Kulkarni <vishal@chelsio.com>,
- Francis Laniel <laniel_francis@privacyrequired.com>,
- Kentaro Takeda <takedakn@nttdata.co.jp>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Andy Shevchenko <andy.shevchenko@gmail.com>, Ben Skeggs <bskeggs@redhat.com>,
- Jakub Kicinski <kuba@kernel.org>, Petr Mladek <pmladek@suse.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Leo Li <sunpeng.li@amd.com>,
- Steven Rostedt <rostedt@goodmis.org>, Julia Lawall <julia.lawall@lip6.fr>,
- Rahul Lakkireddy <rahul.lakkireddy@chelsio.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Mikita Lipski <mikita.lipski@amd.com>,
- Eryk Brol <eryk.brol@amd.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- Raju Rangoju <rajur@chelsio.com>, Alex Deucher <alexander.deucher@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>, "David S
- . Miller" <davem@davemloft.net>
+Cc: michel@daenzer.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 18 Jan 2022, Lucas De Marchi <lucas.demarchi@intel.com> wrote:
-> Add some helpers under lib/string_helpers.h so they can be used
-> throughout the kernel. When I started doing this there were 2 other
-> previous attempts I know of, not counting the iterations each of them
-> had:
->
-> 1) https://lore.kernel.org/all/20191023131308.9420-1-jani.nikula@intel.co=
-m/
-> 2) https://lore.kernel.org/all/20210215142137.64476-1-andriy.shevchenko@l=
-inux.intel.com/#t
->
-> Going through the comments I tried to find some common ground and
-> justification for what is in here, addressing some of the concerns
-> raised.
->
-> a. This version should be a drop-in replacement for what is currently in
->    the tree, with no change in behavior or binary size. For binary
->    size what I checked wat that the linked objects in the end have the
->    same size (gcc 11). From comments in the previous attempts this seems
->    also the case for earlier compiler versions
->
-> b. I didn't change the function name to choice_* as suggested by Andrew
->    Morton in 20191023155619.43e0013f0c8c673a5c508c1e@linux-foundation.org
->    because other people argumented in favor of shorter names for these
->    simple helpers - if they are long and people simply not use due to
->    that, we failed
->
-> c. Use string_helper.h for these helpers - pulling string.h in the
->    compilations units was one of the concerns and I think re-using this
->    already existing header is better than creating a new string-choice.h
->
-> d. This doesn't bring onoff() helper as there are some places in the
->    kernel with onoff as variable - another name is probably needed for
->    this function in order not to shadow the variable, or those variables
->    could be renamed.  Or if people wanting  <someprefix>
->    try to find a short one
->
-> e. One alternative to all of this suggested by Christian K=C3=B6nig
->    (43456ba7-c372-84cc-4949-dcb817188e21@amd.com) would be to add a
->    printk format. But besides the comment, he also seemed to like
->    the common function. This brought the argument from others that the
->    simple yesno()/enabledisable() already used in the code is easier to
->    remember and use than e.g. %py[DOY]
->
-> Last patch also has some additional conversion of open coded cases. I
-> preferred starting with drm/ since this is "closer to home".
->
-> I hope this is a good summary of the previous attempts and a way we can
-> move forward.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------CtcBFrC3wck3bCjuUwuzrVRt
+Content-Type: multipart/mixed; boundary="------------B9XJkuWB92BbCd70q7PifhYY";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Lyude Paul <lyude@redhat.com>, Jocelyn Falempe <jfalempe@redhat.com>,
+ dri-devel@lists.freedesktop.org
+Cc: michel@daenzer.net
+Message-ID: <4dbe5421-73bb-e22d-3f8a-28578fffc55f@suse.de>
+Subject: Re: [PATCH] mgag200 fix memmapsl configuration in GCTL6 register
+References: <20220114094754.522401-1-jfalempe@redhat.com>
+ <20220114094754.522401-2-jfalempe@redhat.com>
+ <8e2fed4af467f335def97232abbc22d86aff0617.camel@redhat.com>
+In-Reply-To: <8e2fed4af467f335def97232abbc22d86aff0617.camel@redhat.com>
 
-Thanks for picking this up again. I agree with the approach here.
+--------------B9XJkuWB92BbCd70q7PifhYY
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Acked-by: Jani Nikula <jani.nikula@intel.com>
+SGkNCg0KQW0gMTguMDEuMjIgdW0gMjA6MDYgc2NocmllYiBMeXVkZSBQYXVsOg0KPiBXZSBz
+aG91bGQgcHJvYmFibHkgIENjOiBzdGFibGVAdmdlci5rZXJuZWwub3JnIHRoaXMgYXMgd2Vs
+bCwgc2VlOg0KPiANCj4gaHR0cHM6Ly93d3cua2VybmVsLm9yZy9kb2MvaHRtbC9sYXRlc3Qv
+cHJvY2Vzcy9zdGFibGUta2VybmVsLXJ1bGVzLmh0bWwgZm9yDQo+IG1vcmUgaW5mby4gQXMg
+d2VsbCwgc29tZSB1c2VmdWwgdG9vbHMgZm9yIGFkZGluZyB0aGUgYXBwcm9wcmlhdGUgRml4
+ZXM6IHRhZ3M6DQo+IA0KPiBodHRwczovL2RybS5wYWdlcy5mcmVlZGVza3RvcC5vcmcvbWFp
+bnRhaW5lci10b29scy9kaW0uaHRtbA0KPiANCj4gQXQgbGVhc3Qgb24gbXkgZW5kIHRoaXMg
+aXM6DQo+IA0KPiBBY2tlZC1ieTogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4NCj4g
+DQo+IEknZCB2ZXJ5IG11Y2ggbGlrZSBUaG9tYXMgWmltbWVybWFuIHRvIHZlcmlmeSB0aGF0
+IHRoaXMgcGF0Y2ggaXMgT0sgdGhvdWdoDQo+IHdpdGggYW4gUi1iIGJlZm9yZSB3ZSBwdXNo
+IGFueXRoaW5nIHVwc3RyZWFtLg0KDQpZZXAsIEknbGwgZ2l2ZSBpdCBhIHRyeSBvbiBteSB0
+ZXN0IHN5c3RlbS4gSSdsbCBhbHNvIGFkZCBhIFRPRE8gY29tbWVudCANCnRoYXQgc3VtbWFy
+aXplcyB0aGUgc2l0dWF0aW9uLg0KDQpBIHJlYWwgZml4IHdvdWxkIGRldGVjdCB0aGF0IHRo
+ZSBrZHVtcCBrZXJuZWwgaXMgcnVubmluZyBhbmQgbm90IHVzZSB0aGUgDQpkaXNwbGF5IHRo
+ZW4uDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IE9uIEZyaSwgMjAyMi0wMS0x
+NCBhdCAxMDo0NyArMDEwMCwgSm9jZWx5biBGYWxlbXBlIHdyb3RlOg0KPj4gT24gc29tZSBz
+ZXJ2ZXIgd2l0aCBNR0EgRzIwMGUgKHJldiA0MiksIGJvb3Rpbmcgd2l0aCBMZWdhY3kgQklP
+UywNCj4+IFRoZSBoYXJkd2FyZSBoYW5ncyB3aGVuIHVzaW5nIGtkdW1wIGFuZCBrZXhlYyBp
+bnRvIHRoZSBrZHVtcCBrZXJuZWwuDQo+PiBUaGlzIGhhcHBlbnMgd2hlbiB0aGUgdW5jb21w
+cmVzcyBjb2RlIHRyaWVzIHRvIHdyaXRlICJEZWNvbXByZXNzaW5nIExpbnV4Ig0KPj4gdG8g
+dGhlIFZHQSBDb25zb2xlLg0KPj4NCj4+IEl0IGNhbiBiZSByZXByb2R1Y2VkIGJ5IHdyaXRp
+bmcgdG8gdGhlIFZHQSBjb25zb2xlICgweEI4MDAwKSBhZnRlcg0KPj4gYm9vdGluZyB0byBn
+cmFwaGljIG1vZGUsIGl0IGdlbmVyYXRlcyB0aGUgZm9sbG93aW5nIGVycm9yOg0KPj4NCj4+
+IGtlcm5lbDpOTUk6IFBDSSBzeXN0ZW0gZXJyb3IgKFNFUlIpIGZvciByZWFzb24gYTAgb24g
+Q1BVIDAuDQo+PiBrZXJuZWw6RGF6ZWQgYW5kIGNvbmZ1c2VkLCBidXQgdHJ5aW5nIHRvIGNv
+bnRpbnVlDQo+Pg0KPj4gVGhlIHJvb3QgY2F1c2UgaXMgYSBiYWQgY29uZmlndXJhdGlvbiBv
+ZiB0aGUgTUdBIEdDVEw2IHJlZ2lzdGVyDQo+Pg0KPj4gQWNjb3JkaW5nIHRvIHRoZSBHQ1RM
+NiByZWdpc3RlciBkb2N1bWVudGF0aW9uOg0KPj4NCj4+IGJpdCAwIGlzIGdjZ3Jtb2RlOg0K
+Pj4gIMKgwqDCoCAwOiBFbmFibGVzIGFscGhhIG1vZGUsIGFuZCB0aGUgY2hhcmFjdGVyIGdl
+bmVyYXRvciBhZGRyZXNzaW5nIHN5c3RlbSBpcw0KPj4gYWN0aXZhdGVkLg0KPj4gIMKgwqDC
+oCAxOiBFbmFibGVzIGdyYXBoaWNzIG1vZGUsIGFuZCB0aGUgY2hhcmFjdGVyIGFkZHJlc3Np
+bmcgc3lzdGVtIGlzIG5vdA0KPj4gdXNlZC4NCj4+DQo+PiBiaXQgMSBpcyBjaGFpbm9kZCBl
+dmVuOg0KPj4gIMKgwqDCoCAwOiBUaGUgQTAgc2lnbmFsIG9mIHRoZSBtZW1vcnkgYWRkcmVz
+cyBidXMgaXMgdXNlZCBkdXJpbmcgc3lzdGVtIG1lbW9yeQ0KPj4gIMKgwqDCoCBhZGRyZXNz
+aW5nLg0KPj4gIMKgwqDCoCAxOiBBbGxvd3MgQTAgdG8gYmUgcmVwbGFjZWQgYnkgZWl0aGVy
+IHRoZSBBMTYgc2lnbmFsIG9mIHRoZSBzeXN0ZW0NCj4+IGFkZHJlc3MgKGlmDQo+PiAgwqDC
+oMKgIG1lbW1hcHNsIGlzIOKAmDAw4oCZKSwgb3IgYnkgdGhlIGhwZ29kZGV2IChNSVNDPDU+
+LCBvZGQvZXZlbiBwYWdlIHNlbGVjdCkNCj4+IGZpZWxkLA0KPj4gIMKgwqDCoCBkZXNjcmli
+ZWQgb24gcGFnZSAzLTI5NCkuDQo+Pg0KPj4gYml0IDMtMiBhcmUgbWVtbWFwc2w6DQo+PiAg
+wqDCoMKgIE1lbW9yeSBtYXAgc2VsZWN0IGJpdHMgMSBhbmQgMC4gVkdBLg0KPj4gIMKgwqDC
+oCBUaGVzZSBiaXRzIHNlbGVjdCB3aGVyZSB0aGUgdmlkZW8gbWVtb3J5IGlzIG1hcHBlZCwg
+YXMgc2hvd24gYmVsb3c6DQo+PiAgwqDCoMKgwqDCoMKgwqAgMDAgPT4gQTAwMDBoIC0gQkZG
+RkZoDQo+PiAgwqDCoMKgwqDCoMKgwqAgMDEgPT4gQTAwMDBoIC0gQUZGRkZoDQo+PiAgwqDC
+oMKgwqDCoMKgwqAgMTAgPT4gQjAwMDBoIC0gQjdGRkZoDQo+PiAgwqDCoMKgwqDCoMKgwqAg
+MTEgPT4gQjgwMDBoIC0gQkZGRkZoDQo+Pg0KPj4gYml0IDctNCBhcmUgcmVzZXJ2ZWQuDQo+
+Pg0KPj4gQ3VycmVudCBkcml2ZXIgY29kZSBzZXQgaXQgdG8gMHgwNSA9PiBtZW1tYXBzbCB0
+byBiMDEgPT4gMHhBMDAwMA0KPj4gYnV0IG9uIHg4NiwgdGhlIFZHQSBjb25zb2xlIGlzIGF0
+IDB4QjgwMDANCj4+IGFyY2gveDg2L2Jvb3QvY29tcHJlc3NlZC9taXNjLmMgZGVmaW5lIHZp
+ZG1lbSB0byAweGI4MDAwIGluIGV4dHJhY3Rfa2VybmVsKCkNCj4+IHNvIGl0J3MgYmV0dGVy
+IHRvIGNvbmZpZ3VyZSBpdCB0byBiMTENCj4+IFRodXMgY2hhbmdpbmcgdGhlIHZhbHVlIDB4
+MDUgdG8gMHgwZA0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IEpvY2VseW4gRmFsZW1wZSA8amZh
+bGVtcGVAcmVkaGF0LmNvbT4NCj4+IC0tLQ0KPj4gIMKgZHJpdmVycy9ncHUvZHJtL21nYWcy
+MDAvbWdhZzIwMF9tb2RlLmMgfCAyICstDQo+PiAgwqAxIGZpbGUgY2hhbmdlZCwgMSBpbnNl
+cnRpb24oKyksIDEgZGVsZXRpb24oLSkNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
+cHUvZHJtL21nYWcyMDAvbWdhZzIwMF9tb2RlLmMNCj4+IGIvZHJpdmVycy9ncHUvZHJtL21n
+YWcyMDAvbWdhZzIwMF9tb2RlLmMNCj4+IGluZGV4IGI5ODM1NDFhNGM1My4uYzdmNjM2MTBi
+Mjc4IDEwMDY0NA0KPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9t
+b2RlLmMNCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfbW9kZS5j
+DQo+PiBAQCAtNTI5LDcgKzUyOSw3IEBAIHN0YXRpYyB2b2lkIG1nYWcyMDBfc2V0X2Zvcm1h
+dF9yZWdzKHN0cnVjdCBtZ2FfZGV2aWNlDQo+PiAqbWRldiwNCj4+ICDCoMKgwqDCoMKgwqDC
+oMKgV1JFR19HRlgoMywgMHgwMCk7DQo+PiAgwqDCoMKgwqDCoMKgwqDCoFdSRUdfR0ZYKDQs
+IDB4MDApOw0KPj4gIMKgwqDCoMKgwqDCoMKgwqBXUkVHX0dGWCg1LCAweDQwKTsNCj4+IC3C
+oMKgwqDCoMKgwqDCoFdSRUdfR0ZYKDYsIDB4MDUpOw0KPj4gK8KgwqDCoMKgwqDCoMKgV1JF
+R19HRlgoNiwgMHgwZCk7DQo+PiAgwqDCoMKgwqDCoMKgwqDCoFdSRUdfR0ZYKDcsIDB4MGYp
+Ow0KPj4gIMKgwqDCoMKgwqDCoMKgwqBXUkVHX0dGWCg4LCAweDBmKTsNCj4+ICAgDQo+IA0K
+DQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpT
+VVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkw
+NDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2Vz
+Y2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
->
-> Andrew Morton, Petr Mladek, Andy Shevchenko: if this is accepted, my
-> proposal is to take first 2 patches either through mm tree or maybe
-> vsprintf. Last patch can be taken later through drm.
->
-> thanks
-> Lucas De Marchi
->
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Cc: Andy Shevchenko <andy.shevchenko@gmail.com>
-> Cc: Ben Skeggs <bskeggs@redhat.com>
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: David S. Miller <davem@davemloft.net>
-> Cc: Emma Anholt <emma@anholt.net>
-> Cc: Eryk Brol <eryk.brol@amd.com>
-> Cc: Francis Laniel <laniel_francis@privacyrequired.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Julia Lawall <julia.lawall@lip6.fr>
-> Cc: Kentaro Takeda <takedakn@nttdata.co.jp>
-> Cc: Leo Li <sunpeng.li@amd.com>
-> Cc: Mikita Lipski <mikita.lipski@amd.com>
-> Cc: Petr Mladek <pmladek@suse.com>
-> Cc: Rahul Lakkireddy <rahul.lakkireddy@chelsio.com>
-> Cc: Raju Rangoju <rajur@chelsio.com>
-> Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Cc: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-> Cc: Steven Rostedt <rostedt@goodmis.org>
-> Cc: Vishal Kulkarni <vishal@chelsio.com>
->
-> Lucas De Marchi (3):
->   lib/string_helpers: Consolidate yesno() implementation
->   lib/string_helpers: Add helpers for enable[d]/disable[d]
->   drm: Convert open yes/no strings to yesno()
->
->  drivers/gpu/drm/amd/amdgpu/atom.c              |  3 ++-
->  .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c  |  6 +-----
->  drivers/gpu/drm/drm_client_modeset.c           |  3 ++-
->  drivers/gpu/drm/drm_dp_helper.c                |  3 ++-
->  drivers/gpu/drm/drm_gem.c                      |  3 ++-
->  drivers/gpu/drm/i915/i915_utils.h              | 15 ---------------
->  drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.c  |  4 +++-
->  drivers/gpu/drm/radeon/atom.c                  |  3 ++-
->  drivers/gpu/drm/v3d/v3d_debugfs.c              | 11 ++++++-----
->  drivers/gpu/drm/virtio/virtgpu_debugfs.c       |  3 ++-
->  .../net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c | 11 -----------
->  include/linux/string_helpers.h                 |  4 ++++
->  security/tomoyo/audit.c                        |  2 +-
->  security/tomoyo/common.c                       | 18 ++++--------------
->  security/tomoyo/common.h                       |  1 -
->  15 files changed, 31 insertions(+), 59 deletions(-)
+--------------B9XJkuWB92BbCd70q7PifhYY--
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+--------------CtcBFrC3wck3bCjuUwuzrVRt
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHnyPMFAwAAAAAACgkQlh/E3EQov+DW
+UQ//Re7S178ig2i67GhqyrRDunhaGkNJFrk4sILxefbFcw1QCUUm5+4rZ6SnhzETeIkeQKGTKfP8
+P8JaNWi7JsCMgedlZXVeXaxTI1vdFFkzwpzBW3KbAZFmREj6P+neA3vTpwaiuAiF+9nUEO6oepGb
+qbBfiwm6j6UhOggEZzQv1Ksrqs5XL2lRVeuvPMuwy44aX2FcuVksgv4AHkjvIu6jwlWL+CNpvYxN
+rTb7Qw4u9IzC3/favUSjELnxURpyMMuNtEdb0+5vtvJ2r2/Gfm7nM98lJJrsn5VpD+OLN7fkBh/+
+AL76bbFp9JDrqoNxbxkEWnwXimq96V7JnEMWP6VDeHF43BsQwxNWX6w6DOpLdKDaUfwgbmSJqSyh
+saYdxfPOPaNXZO136yUOAsUhj60G7gT4I370zclQvs95i6y3jV/DXEDrZciO0jpJwz9tMiU7zGVT
+satCVKQ3U237QJcSs5dXaEapnfzEb/5R6XoLqIEu3rH1tceCAUu7roKqo7dYWOpYKVKJjU2VXihe
+Uz/lV6g+n0KFlLIkl1SN2HxiNEbtOLS3KJkBGF4PNjZTf9jfWfJ+KiHT72Qd9esc0xxx6IJCgp+Q
+ovBULjPOCn8E5C9m+oiRJ7duv3YYpyBEDKw1JkhvYdHd3SCPEA5NIFHcKOYiqnyD2UEcFDJ0L+EN
+8kk=
+=BmNh
+-----END PGP SIGNATURE-----
+
+--------------CtcBFrC3wck3bCjuUwuzrVRt--
