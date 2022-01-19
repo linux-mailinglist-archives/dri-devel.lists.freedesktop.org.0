@@ -2,41 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D29D49397A
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 12:28:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D18D24939B3
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 12:38:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D77FD10E71D;
-	Wed, 19 Jan 2022 11:28:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9B4010EAF1;
+	Wed, 19 Jan 2022 11:38:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 586B310EA90
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 11:28:43 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id AE9D36160D;
- Wed, 19 Jan 2022 11:28:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CFEAC004E1;
- Wed, 19 Jan 2022 11:28:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1642591722;
- bh=ElyrY3LbS7t4UWyA3nEHAeLrBudEAMV1SNh2zYYZMrs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=H7ai/Do/xvZplRjwZrYAwLWE9d8RCzy+GFByCvkrfR12p/+GV42ByU1IoWfxknEpz
- wq1w32l6Ql0XBE+SlcWGIWuoJXsji6cLhoWNUyJiDxPyQlsbcpyXggteoogyGNHxSi
- +TmBym1WCkDUreD+U6s0isHLdqZjv3AqzxyeVfbo=
-Date: Wed, 19 Jan 2022 12:28:38 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Helge Deller <deller@gmx.de>
-Subject: Re: [PATCH 2/2] Revert "fbcon: Disable accelerated scrolling"
-Message-ID: <Yef15k2GtC40aJEu@kroah.com>
-References: <20220119110839.33187-1-deller@gmx.de>
- <20220119110839.33187-3-deller@gmx.de> <Yef0j8+DBbwC7Kjv@kroah.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yef0j8+DBbwC7Kjv@kroah.com>
+X-Greylist: delayed 76750 seconds by postgrey-1.36 at gabe;
+ Wed, 19 Jan 2022 11:38:12 UTC
+Received: from zg8tmja2lje4os4yms4ymjma.icoremail.net
+ (zg8tmja2lje4os4yms4ymjma.icoremail.net [206.189.21.223])
+ by gabe.freedesktop.org (Postfix) with SMTP id 78B4F10EAE2;
+ Wed, 19 Jan 2022 11:38:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=pku.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+ Message-Id; bh=kD8l7wKIyCk4oo+Iq/iBIYCsIUgzS7PCA2TMzmhVhFo=; b=e
+ GIUiRRfovsyJnUyPdjmwKy3yJlaK3Pf/vX8mcr0CnrwZe/GF/Qp9VxvEveIa5+Fj
+ FtJYQG0WuDwN5LsM/sQHTYYuMwJo6bpDIxJYiJBKGPJBdq6ixCMU/v5WbeS64nlO
+ bXrveM7JUXBJwIHRPuyhowgfNnqp5DIW9/D7rJhpwI=
+Received: from localhost (unknown [10.129.21.144])
+ by front02 (Coremail) with SMTP id 54FpogBXXQEv9+dhY3N9AA--.9450S2;
+ Wed, 19 Jan 2022 19:34:07 +0800 (CST)
+From: Yongzhi Liu <lyz_cs@pku.edu.cn>
+To: l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
+ christian.gmeiner@gmail.com, airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH] drm/etnaviv: Fix runtime PM imbalance on error
+Date: Wed, 19 Jan 2022 03:34:05 -0800
+Message-Id: <1642592045-28700-1-git-send-email-lyz_cs@pku.edu.cn>
+X-Mailer: git-send-email 2.7.4
+X-CM-TRANSID: 54FpogBXXQEv9+dhY3N9AA--.9450S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrZrW3Aw4rurW8GF1kAr48tFb_yoWfKrb_CF
+ 1UZrs7Xr4agr1vqr47Z345ZryIqF1rXa92qws0qasxKrW2yrn8Xrykuw1DZay3XayUuFn8
+ Jan2qFy3Ar1qgjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUb4kFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
+ wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
+ vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
+ 87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
+ 8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
+ Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
+ xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK6svPMxAIw28IcxkI7VAKI48JMxAI
+ w28IcVCjz48v1sIEY20_Kr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
+ AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIY
+ rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14
+ v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8
+ JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UU
+ UUU
+X-CM-SenderInfo: irzqijirqukmo6sn3hxhgxhubq/1tbiAwEKBlPy7uA+KwAasu
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,52 +61,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
- Sam Ravnborg <sam@ravnborg.org>, Sven Schnelle <svens@stackframe.org>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Claudio Suarez <cssk@net-c.es>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Yongzhi Liu <lyz_cs@pku.edu.cn>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 19, 2022 at 12:22:55PM +0100, Greg Kroah-Hartman wrote:
-> On Wed, Jan 19, 2022 at 12:08:39PM +0100, Helge Deller wrote:
-> > This reverts commit 39aead8373b3c20bb5965c024dfb51a94e526151.
-> > 
-> > Revert this patch.  This patch started to introduce the regression that
-> > all hardware acceleration of more than 35 existing fbdev drivers were
-> > bypassed and thus fbcon console output for those was dramatically slowed
-> > down by factor of 10 and more.
-> > 
-> > Reverting this commit has no impact on DRM, since none of the DRM drivers are
-> > tagged with the acceleration flags FBINFO_HWACCEL_COPYAREA,
-> > FBINFO_HWACCEL_FILLRECT or others.
-> > 
-> > Signed-off-by: Helge Deller <deller@gmx.de>
-> > Cc: stable@vger.kernel.org # v5.16
-> 
-> Why just 5.16?  This commit came in on 5.11 and was backported to
-> 5.10.5.
-> 
-> As for "why", I think there was a number of private bugs that were
-> reported in this code, which is why it was removed.  I do not think it
-> can be safely added back in without addressing them first.  Let me go
-> dig through my email to see if I can find them...
+pm_runtime_get_sync() will increase the rumtime PM counter
+even it returns an error. Thus a pairing decrement is needed
+to prevent refcount leak. Fix this by replacing this API with
+pm_runtime_resume_and_get(), which will not change the runtime
+PM counter on error.
 
-Ah, no, that was just the soft scrollback code I was thinking of, which
-was a different revert and is still gone, thankfully :)
+Signed-off-by: Yongzhi Liu <lyz_cs@pku.edu.cn>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This one was just removed because Daniel noticed that only 3 drivers
-used this (nouveau, omapdrm, and gma600), so this shouldn't have caused
-any regressions in any other drivers like you are reporting here.
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index 242a5fd..aa64f45 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -1690,7 +1690,7 @@ static int etnaviv_gpu_bind(struct device *dev, struct device *master,
+ 		goto out_workqueue;
+ 
+ #ifdef CONFIG_PM
+-	ret = pm_runtime_get_sync(gpu->dev);
++	ret = pm_runtime_resume_and_get(gpu->dev);
+ #else
+ 	ret = etnaviv_gpu_clk_enable(gpu);
+ #endif
+-- 
+2.7.4
 
-So perhaps this regression is caused by something else?
-
-thanks,
-
-greg k-h
