@@ -1,59 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6276449378C
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 10:43:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABE3F4937D4
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 10:58:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 189BD10EBB5;
-	Wed, 19 Jan 2022 09:43:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0824E10EC60;
+	Wed, 19 Jan 2022 09:58:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
- [209.85.216.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD4BE10EBB5
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 09:43:15 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id
- n16-20020a17090a091000b001b46196d572so2102379pjn.5
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 01:43:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Dbd6K2EXZQ3nddK61UlQKh6WscvPVU8DNsk9wwBVt84=;
- b=ZIKEVGFcVCgzvu45d6+j5JsUDEiaOywWYTWAyO09q+tz7TmpQzu7+h4ZXNudsVSwHo
- nqW1EfOq7+grdo5k/9Fx+/kmkSklWrcts3pABjPydP0zsS8A/BUi/89uMGfEdyvYQ+gG
- 1qhg7qm+VP29PN5YjNBZEzIu6OdvGR881RnK5tDaaA7vjGYHXwEUc3EWXYA8yll6lYWC
- J+vKeyzVWuKMu4dDTcdu0lx69r8Vo1oYycJK0H/howSJE8JZYqPPtVrKl9RzMXM/2s0s
- ivqb6OZhL/JGxEW2ZzTguG8ykGIYnGeI1xMIV5/7ljROKuwtc/H6L1e4oId7CzUefUg9
- HhhQ==
-X-Gm-Message-State: AOAM531w5PFlfATjBRKEasWoqa0xXk/LYIgkltLLCVCVmhCWl7vL+zBv
- tYx627S/4eXs06/l6qmjQzwbM7bKaUSwfGox
-X-Google-Smtp-Source: ABdhPJz5zVDsGHiUqHQQEHYPDO0pb41GkfEFD5BILd/HaIcVzbXuUyo77nrDmWTuYfggG5ggA4aLMw==
-X-Received: by 2002:a17:90a:c096:: with SMTP id
- o22mr2257820pjs.3.1642585395329; 
- Wed, 19 Jan 2022 01:43:15 -0800 (PST)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com.
- [209.85.216.53])
- by smtp.gmail.com with ESMTPSA id lx10sm3960796pjb.4.2022.01.19.01.43.15
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Jan 2022 01:43:15 -0800 (PST)
-Received: by mail-pj1-f53.google.com with SMTP id
- w12-20020a17090a528c00b001b276aa3aabso5868583pjh.0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 01:43:15 -0800 (PST)
-X-Received: by 2002:a1f:384b:: with SMTP id f72mr11960099vka.0.1642585384422; 
- Wed, 19 Jan 2022 01:43:04 -0800 (PST)
-MIME-Version: 1.0
-References: <20220119015038.2433585-1-robh@kernel.org>
-In-Reply-To: <20220119015038.2433585-1-robh@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 19 Jan 2022 10:42:53 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVdja+XaXGP7YFfSgFCTHzOHQkuV5EF_9AFWY2tppyRWA@mail.gmail.com>
-Message-ID: <CAMuHMdVdja+XaXGP7YFfSgFCTHzOHQkuV5EF_9AFWY2tppyRWA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: Improve phandle-array schemas
-To: Rob Herring <robh@kernel.org>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4430B10EC67
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 09:58:13 +0000 (UTC)
+X-UUID: 087ae5db9dc54b29966646a78aa513c7-20220119
+X-UUID: 087ae5db9dc54b29966646a78aa513c7-20220119
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+ (envelope-from <guangming.cao@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 421905681; Wed, 19 Jan 2022 17:58:10 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Wed, 19 Jan 2022 17:58:09 +0800
+Received: from mszswglt01 (10.16.20.20) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 19 Jan 2022 17:58:08 +0800
+Message-ID: <f09938519f1fcf51f20a0de5eb4063b0ff1a1e87.camel@mediatek.com>
+Subject: Re: [PATCH v3] dma-buf: dma-heap: Add a size check for allocation
+From: Guangming.Cao <guangming.cao@mediatek.com>
+To: John Stultz <john.stultz@linaro.org>
+Date: Wed, 19 Jan 2022 17:59:07 +0800
+In-Reply-To: <CALAqxLUSjHoLpgFLcvqmDfv7Uip2VwHS5d_5x2nzw=P3rA2NDA@mail.gmail.com>
+References: <CAO_48GF=ttKqSOm9GRoA3Mq+-RQOtRjWp449XPcz-wH=kjaTjw@mail.gmail.com>
+ <20220113123406.11520-1-guangming.cao@mediatek.com>
+ <4f88205c1b344aea8608960e2f85b8f4@intel.com>
+ <e657f5257cbf4955817b0bbf037de9f9@intel.com>
+ <24157767-dc29-bbdd-5428-d89ecc6b9606@amd.com>
+ <CALAqxLXRtYDNQ8y1efVGa4SwUH_oAaHviZFjsOVSNFmUHnCCeQ@mail.gmail.com>
+ <6b8182a1-7cdc-7369-5c34-e6d0c24efcca@amd.com>
+ <82faa62f1bc946cf2f9ee2f7d15c567162238eab.camel@mediatek.com>
+ <CALAqxLUSjHoLpgFLcvqmDfv7Uip2VwHS5d_5x2nzw=P3rA2NDA@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,86 +57,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, linux-remoteproc@vger.kernel.org,
- alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
- Sebastian Reichel <sre@kernel.org>, linux-ide@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Pavel Machek <pavel@ucw.cz>, linux-phy@lists.infradead.org,
- netdev@vger.kernel.org, Jonathan Hunter <jonathanh@nvidia.com>,
- Lee Jones <lee.jones@linaro.org>, linux-riscv@lists.infradead.org,
- linux-leds@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- Florian Fainelli <f.fainelli@gmail.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Marc Zyngier <maz@kernel.org>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, iommu@lists.linux-foundation.org,
- Kishon Vijay Abraham I <kishon@ti.com>, Jakub Kicinski <kuba@kernel.org>,
- Zhang Rui <rui.zhang@intel.com>, linux-usb@vger.kernel.org,
- Vivien Didelot <vivien.didelot@gmail.com>,
- Wolfgang Grandegger <wg@grandegger.com>, linux-media@vger.kernel.org,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, linux-pm@vger.kernel.org,
- Kalle Valo <kvalo@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
- linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mark Brown <broonie@kernel.org>, Marc Kleine-Budde <mkl@pengutronix.de>,
- Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, Kevin Hilman <khilman@kernel.org>,
- linux-wireless@vger.kernel.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Vinod Koul <vkoul@kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- linux-crypto@vger.kernel.org, Viresh Kumar <vireshk@kernel.org>,
- dmaengine@vger.kernel.org, Georgi Djakov <djakov@kernel.org>,
- Vladimir Oltean <olteanv@gmail.com>, "David S. Miller" <davem@davemloft.net>,
- Joerg Roedel <joro@8bytes.org>
+Cc: "jianjiao.zeng@mediatek.com" <jianjiao.zeng@mediatek.com>,
+ "lmark@codeaurora.org" <lmark@codeaurora.org>,
+ "wsd_upstream@mediatek.com" <wsd_upstream@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "libo.kang@mediatek.com" <libo.kang@mediatek.com>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>, "Ruhl, 
+ Michael J" <michael.j.ruhl@intel.com>,
+ "yf.wang@mediatek.com" <yf.wang@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "benjamin.gaignard@linaro.org" <benjamin.gaignard@linaro.org>,
+ "bo.song@mediatek.com" <bo.song@mediatek.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "mingyuan.ma@mediatek.com" <mingyuan.ma@mediatek.com>,
+ "labbott@redhat.com" <labbott@redhat.com>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob,
+On Fri, 2022-01-14 at 17:17 -0800, John Stultz wrote:
+> On Fri, Jan 14, 2022 at 4:04 AM Guangming.Cao
+> <guangming.cao@mediatek.com> wrote:
+> > 
+> > On Fri, 2022-01-14 at 08:16 +0100, Christian König wrote:
+> > > Am 14.01.22 um 00:26 schrieb John Stultz:
+> > > > On Thu, Jan 13, 2022 at 5:05 AM Christian König
+> > > > <christian.koenig@amd.com> wrote:
+> > > > > Am 13.01.22 um 14:00 schrieb Ruhl, Michael J:
+> > > > > > > -----Original Message-----
+> > > > > > > From: dri-devel <dri-devel-bounces@lists.freedesktop.org>
+> > > > > > > On
+> > > > > > > Behalf Of
+> > > > > > > Ruhl, Michael J
+> > > > > > > > -----Original Message-----
+> > > > > > > > From: dri-devel <
+> > > > > > > > dri-devel-bounces@lists.freedesktop.org>
+> > > > > > > > On Behalf Of
+> > > > > > > > guangming.cao@mediatek.com
+> > > > > > > > +   /*
+> > > > > > > > +    * Invalid size check. The "len" should be less
+> > > > > > > > than
+> > > > > > > > totalram.
+> > > > > > > > +    *
+> > > > > > > > +    * Without this check, once the invalid size
+> > > > > > > > allocation
+> > > > > > > > runs on a process
+> > > > > > > > that
+> > > > > > > > +    * can't be killed by OOM flow(such as "gralloc" on
+> > > > > > > > Android devices), it
+> > > > > > > > will
+> > > > > > > > +    * cause a kernel exception, and to make matters
+> > > > > > > > worse,
+> > > > > > > > we can't find
+> > > > > > > > who are using
+> > > > > > > > +    * so many memory with "dma_buf_debug_show" since
+> > > > > > > > the
+> > > > > > > > relevant
+> > > > > > > > dma-buf hasn't exported.
+> > > > > > > > +    */
+> > > > > > > > +   if (len >> PAGE_SHIFT > totalram_pages())
+> > > > > > > 
+> > > > > > > If your "heap" is from cma, is this still a valid check?
+> > > > > > 
+> > > > > > And thinking a bit further, if I create a heap from
+> > > > > > something
+> > > > > > else (say device memory),
+> > > > > > you will need to be able to figure out the maximum
+> > > > > > allowable
+> > > > > > check for the specific
+> > > > > > heap.
+> > > > > > 
+> > > > > > Maybe the heap needs a callback for max size?
+> > 
+> > Yes, I agree with this solution.
+> > If dma-heap framework support this via adding a callback to support
+> > it,
+> > seems it's more clear than adding a limitation in dma-heap
+> > framework
+> > since each heap maybe has different limitation.
+> > If you prefer adding callback, I can update this patch and add
+> > totalram
+> > limitation to system dma-heap.
+> 
+> If the max value is per-heap, why not enforce that value in the
+> per-heap allocation function?
+> 
+> Moving the check to the heap alloc to me seems simpler to me than
+> adding complexity to the infrastructure to add a heap max_size
+> callback. Is there some other use for the callback that you envision?
+> 
+> thanks
+> -john
 
-On Wed, Jan 19, 2022 at 2:50 AM Rob Herring <robh@kernel.org> wrote:
+Thanks for your comment.
 
-> The 'phandle-array' type is a bit ambiguous. It can be either just an
-> array of phandles or an array of phandles plus args. Many schemas for
-> phandle-array properties aren't clear in the schema which case applies
-> though the description usually describes it.
->
-> The array of phandles case boils down to needing:
->
-> items:
->   maxItems: 1
->
-> The phandle plus args cases should typically take this form:
->
-> items:
->   - items:
->       - description: A phandle
->       - description: 1st arg cell
->       - description: 2nd arg cell
->
-> With this change, some examples need updating so that the bracketing of
-> property values matches the schema.
+If you think max the value is per-heap, why not add an optional
+callback for dma-heap to solve this issue(prevent consuming too much
+time for a doomed to fail allocation), if the dma-heap doesn't have a
+special size check, just use the default value(totalram) in dma-heap 
+framework to do the size check.
 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Yes, for linux dma-heaps, only system-heap needs it, so adding it in
+system heap is the simplest. However, there are many vendor dma-heaps
+like system-heap which won't be uploaded to linux codebase, and maybe
+have same limitation, all these heaps need to add the same limitation.
+I just think it's boring. However, If you think discussing these absent
+cases based on current linux code is meaningless, I also agree to it.
 
-The Renesas parts look good to me.
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+So, to summarize, if you still think adding it in system_heap.c is
+better, I also agree and I will update the patch to add it in
+system_heap.c
 
-Gr{oetje,eeting}s,
+Thanks~
+Guangming
 
-                        Geert
+> 
+> _______________________________________________
+> Linux-mediatek mailing list
+> Linux-mediatek@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-mediatek
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
