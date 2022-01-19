@@ -1,64 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A66A493A84
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 13:37:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 168A3493A9F
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 13:46:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DA4110F1B4;
-	Wed, 19 Jan 2022 12:37:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C58C110F25A;
+	Wed, 19 Jan 2022 12:46:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFC0610F1AD
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 12:37:02 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- l35-20020a05600c1d2300b0034d477271c1so5676432wms.3
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 04:37:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=FtbatZGWzmTr6DnUVWu1NqWNgW9rriYHmmB6wzthA20=;
- b=JWxcBFQmrMmIDILvkvK/SS+Im4XPo9L8Pl9DcWHi+Ri46hejUeOEpiLOVw05+gb7qk
- dHg2xvMjH0rRfpwkkEegTwwO6uZfcwrnLaM4ZAe/YoI77sWKGk6KrWehxJVSj66e37V9
- WCjrol0IzevLXB/WO3ynOjoIc5dynwkqs9Vu0k+5SyLJMMznOGJY5VHcqGR036cMGgSr
- Sm8mLoB00qBO6YXXawH7vCdi5AEYtTrIEE3Y9m3+FMSSvcIgeh/lA27bFy8M07LcBeyN
- sLvnHrTNXpf7mcWFczWIou7JbnHEKJyYlfp2Bc21zNoieIcHpKqu+bBE1592XrxWLerz
- 8fxg==
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com
+ [209.85.222.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C65CE10F256
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 12:46:07 +0000 (UTC)
+Received: by mail-ua1-f41.google.com with SMTP id c36so4165072uae.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 04:46:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=FtbatZGWzmTr6DnUVWu1NqWNgW9rriYHmmB6wzthA20=;
- b=ThnpqLX2IwmbgUURD2DyasfsemvMSJPUaDKB2D33mSZxVLbjDNxrpYYT0C7phRsOZp
- JrlUjmXFETTDbPd2IISqXgzwXz+y/x3Q/6MBpT1avoPFfoHtRDsJb6pas7iB28PKHnQq
- JBhv9Ouey/6cSTqp2w9jFVk3+h3bQPuvukh9FMwd/wj9m8n8UVfnbpNNXCSeky3c+Rwa
- rAyIEixFOVX8fcCWCsSUokAd12Eslv+/u5957HpJhOUCEhzKCc2BMnm3MFzu1nytBdqN
- noyfLVBOUQQkSz2gfvNRAWtxo9qyG5GpaiqMY9wIhGFaZNU/3Ivps+1MMrcfwfSTNCO9
- w3cA==
-X-Gm-Message-State: AOAM531Tm5ETTOgtjGEk08+sznSZ0jHnm+9ML4eLp5jQpkRcxJU1xE/F
- P+DTAogrTJENaTdWlIlpBik2oQ==
-X-Google-Smtp-Source: ABdhPJxGHOe4mirdaI0EnQU54OW7tOqwZqmf5efIF3TQMf5fjYwGXAICSWDLcUt1DvJKIdU68iVj5g==
-X-Received: by 2002:a05:6000:10c1:: with SMTP id
- b1mr28467840wrx.226.1642595821323; 
- Wed, 19 Jan 2022 04:37:01 -0800 (PST)
-Received: from localhost.localdomain ([2001:861:44c0:66c0:d394:97d0:bc02:3846])
- by smtp.gmail.com with ESMTPSA id bh13sm2610327wmb.33.2022.01.19.04.37.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jan 2022 04:37:00 -0800 (PST)
-From: Neil Armstrong <narmstrong@baylibre.com>
-To: robert.foss@linaro.org
-Subject: [PATCH 2/2] drm/bridge: dw-hdmi: filter out YUV output formats when
- DVI
-Date: Wed, 19 Jan 2022 13:36:56 +0100
-Message-Id: <20220119123656.1456355-2-narmstrong@baylibre.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220119123656.1456355-1-narmstrong@baylibre.com>
-References: <20220119123656.1456355-1-narmstrong@baylibre.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jSJaWLFbSmKDo2PDFLJ/OlDDjxv/sePlYig27gKKORM=;
+ b=oGyWAa6nfFfRO01DrKmvb73aUA3eY+dwbvPBijb6YYYuO90DgcQ8rLOlw70cGh3sEZ
+ lXjNQmdw7QNUtALoFxOw04+DZ0P7YzjJgG1cIXyjOd0jUZOMIFjZEDpJ93idzgUvpcdG
+ 1FPZ9RXMPoo+7dKf7Znpi4SHjwYh+75aZfO3QVHNo7bHaZOJKqQYJt2XgSz4R0nN01ZH
+ 5GZ++xLBbCAp0qLEmXiiinLQ9JR+oE1oK4hFcRsVBi8MCT9FFEy7pNnZMStwgV93F4Mi
+ yJ1ZxI8MidPQwaY5KSaiWFtg1JLY5GguqWksonejXa7A1il6YGfyCsdMJ8bCIFBvOmDA
+ FmzQ==
+X-Gm-Message-State: AOAM531/c7MjeEnLXUqrutxl5uZlrMmbeTx1mjUQ83QFaqCTFLJfeRVT
+ 8TK/gNje7IB73INYpTt0RWAd5Vc+KCoeKw==
+X-Google-Smtp-Source: ABdhPJxqykPL5QQUSTxXHiPIAOvJqgCUIbF2XE95ewjlJ7scMy8mFlyqSqCahUfpO88HufFpPYdt7A==
+X-Received: by 2002:a05:6102:509e:: with SMTP id
+ bl30mr10960477vsb.61.1642596366679; 
+ Wed, 19 Jan 2022 04:46:06 -0800 (PST)
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com.
+ [209.85.222.46])
+ by smtp.gmail.com with ESMTPSA id h6sm3682912vkk.41.2022.01.19.04.46.04
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Jan 2022 04:46:05 -0800 (PST)
+Received: by mail-ua1-f46.google.com with SMTP id w21so4222101uan.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 04:46:04 -0800 (PST)
+X-Received: by 2002:a9f:3e01:: with SMTP id o1mr11968203uai.89.1642596364458; 
+ Wed, 19 Jan 2022 04:46:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220119110839.33187-1-deller@gmx.de>
+In-Reply-To: <20220119110839.33187-1-deller@gmx.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 19 Jan 2022 13:45:53 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXj2WsQ2htP63vXD_PRuhrqry3GgD8U1tJQ99BkQPQL=w@mail.gmail.com>
+Message-ID: <CAMuHMdXj2WsQ2htP63vXD_PRuhrqry3GgD8U1tJQ99BkQPQL=w@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Fix regression introduced by disabling accelerated
+ scrolling in fbcon
+To: Helge Deller <deller@gmx.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,86 +65,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jernej.skrabec@gmail.com, Neil Armstrong <narmstrong@baylibre.com>,
- jonas@kwiboo.se, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Laurent.pinchart@ideasonboard.com
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Pavel Machek <pavel@ucw.cz>, Sam Ravnborg <sam@ravnborg.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sven Schnelle <svens@stackframe.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, Claudio Suarez <cssk@net-c.es>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When the display is not an HDMI sink, only the RGB output format is
-valid. Thus stop returning YUV output formats when sink is not HDMI.
+Hi Helge,
 
-Fixes: 6c3c719936da ("drm/bridge: synopsys: dw-hdmi: add bus format negociation")
-Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
----
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+On Wed, Jan 19, 2022 at 12:10 PM Helge Deller <deller@gmx.de> wrote:
+> This series reverts two patches which disabled scrolling acceleration in
+> fbcon/fbdev. Those patches introduced a regression for fbdev-supported graphic
+> cards because of the performance penalty by doing screen scrolling by software
+> instead of using hardware acceleration.
+>
+> Console scrolling acceleration was disabled by dropping code which checked at
+> runtime the driver hardware possibilities for the BINFO_HWACCEL_COPYAREA or
+> FBINFO_HWACCEL_FILLRECT flags and if set, it enabled scrollmode SCROLL_MOVE
+> which uses hardware acceleration to move screen contents.  After dropping those
+> checks scrollmode was hard-wired to SCROLL_REDRAW instead, which forces all
+> graphic cards to redraw every character at the new screen position when
+> scrolling.
+>
+> This change effectively disabled all hardware-based scrolling acceleration for
+> ALL drivers, because now all kind of 2D hardware acceleration (bitblt,
+> fillrect) in the drivers isn't used any longer.
+>
+> The original commit message mentions that only 3 DRM drivers (nouveau, omapdrm
+> and gma500) used hardware acceleration in the past and thus code for checking
+> and using scrolling acceleration is obsolete.
+>
+> This statement is NOT TRUE, because beside the DRM drivers there are around 35
+> other fbdev drivers which depend on fbdev/fbcon and still provide hardware
+> acceleration for fbdev/fbcon.
+>
+> The original commit message also states that syzbot found lots of bugs in fbcon
+> and thus it's "often the solution to just delete code and remove features".
+> This is true, and the bugs - which actually affected all users of fbcon,
+> including DRM - were fixed, or code was dropped like e.g. the support for
+> software scrollback in vgacon (commit 973c096f6a85).
+>
+> So to further analyze which bugs were found by syzbot, I've looked through all
+> patches in drivers/video which were tagged with syzbot or syzkaller back to
+> year 2005. The vast majority fixed the reported issues on a higher level, e.g.
+> when screen is to be resized, or when font size is to be changed. The few ones
+> which touched driver code fixed a real driver bug, e.g. by adding a check.
+>
+> But NONE of those patches touched code of either the SCROLL_MOVE or the
+> SCROLL_REDRAW case.
+>
+> That means, there was no real reason why SCROLL_MOVE had to be ripped-out and
+> just SCROLL_REDRAW had to be used instead. The only reason I can imagine so far
+> was that SCROLL_MOVE wasn't used by DRM and as such it was assumed that it
+> could go away. That argument completely missed the fact that SCROLL_MOVE is
+> still heavily used by fbdev (non-DRM) drivers.
+>
+> Some people mention that using memcpy() instead of the hardware acceleration is
+> pretty much the same speed. But that's not true, at least not for older graphic
+> cards and machines where we see speed decreases by factor 10 and more and thus
+> this change leads to console responsiveness way worse than before.
+>
+> That's why I propose to revert those patches, re-introduce hardware-based
+> scrolling acceleration and fix the performance-regression for fbdev drivers.
+> There isn't any impact on DRM when reverting those patches.
+>
+> Helge Deller (2):
+>   Revert "fbdev: Garbage collect fbdev scrolling acceleration, part 1
+>     (from TODO list)"
+>   Revert "fbcon: Disable accelerated scrolling"
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 56021f20d396..03057d335158 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -2538,6 +2538,7 @@ static u32 *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
- 	struct drm_connector *conn = conn_state->connector;
- 	struct drm_display_info *info = &conn->display_info;
- 	struct drm_display_mode *mode = &crtc_state->mode;
-+	struct dw_hdmi *hdmi = bridge->driver_private;
- 	u8 max_bpc = conn_state->max_requested_bpc;
- 	bool is_hdmi2_sink = info->hdmi.scdc.supported ||
- 			     (info->color_formats & DRM_COLOR_FORMAT_YCRCB420);
-@@ -2564,7 +2565,7 @@ static u32 *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
- 	 * If the current mode enforces 4:2:0, force the output but format
- 	 * to 4:2:0 and do not add the YUV422/444/RGB formats
- 	 */
--	if (conn->ycbcr_420_allowed &&
-+	if (hdmi->sink_is_hdmi && conn->ycbcr_420_allowed &&
- 	    (drm_mode_is_420_only(info, mode) ||
- 	     (is_hdmi2_sink && drm_mode_is_420_also(info, mode)))) {
- 
-@@ -2595,36 +2596,36 @@ static u32 *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
- 	 */
- 
- 	if (max_bpc >= 16 && info->bpc == 16) {
--		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
-+		if (hdmi->sink_is_hdmi && info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
- 			output_fmts[i++] = MEDIA_BUS_FMT_YUV16_1X48;
- 
- 		output_fmts[i++] = MEDIA_BUS_FMT_RGB161616_1X48;
- 	}
- 
- 	if (max_bpc >= 12 && info->bpc >= 12) {
--		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
-+		if (hdmi->sink_is_hdmi && info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
- 			output_fmts[i++] = MEDIA_BUS_FMT_UYVY12_1X24;
- 
--		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
-+		if (hdmi->sink_is_hdmi && info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
- 			output_fmts[i++] = MEDIA_BUS_FMT_YUV12_1X36;
- 
- 		output_fmts[i++] = MEDIA_BUS_FMT_RGB121212_1X36;
- 	}
- 
- 	if (max_bpc >= 10 && info->bpc >= 10) {
--		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
-+		if (hdmi->sink_is_hdmi && info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
- 			output_fmts[i++] = MEDIA_BUS_FMT_UYVY10_1X20;
- 
--		if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
-+		if (hdmi->sink_is_hdmi && info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
- 			output_fmts[i++] = MEDIA_BUS_FMT_YUV10_1X30;
- 
- 		output_fmts[i++] = MEDIA_BUS_FMT_RGB101010_1X30;
- 	}
- 
--	if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
-+	if (hdmi->sink_is_hdmi && info->color_formats & DRM_COLOR_FORMAT_YCRCB422)
- 		output_fmts[i++] = MEDIA_BUS_FMT_UYVY8_1X16;
- 
--	if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
-+	if (hdmi->sink_is_hdmi && info->color_formats & DRM_COLOR_FORMAT_YCRCB444)
- 		output_fmts[i++] = MEDIA_BUS_FMT_YUV8_1X24;
- 
- 	/* Default 8bit RGB fallback */
--- 
-2.25.1
+Thank you for this series, and the prior analysis!
 
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
