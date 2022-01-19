@@ -1,57 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B994493BF9
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 15:34:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5866D493C06
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 15:38:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB67210EB6E;
-	Wed, 19 Jan 2022 14:34:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 517D010EBBA;
+	Wed, 19 Jan 2022 14:38:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
- [IPv6:2607:f8b0:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DC7A10EB6E
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 14:34:19 +0000 (UTC)
-Received: by mail-ot1-x32a.google.com with SMTP id
- y11-20020a0568302a0b00b0059a54d66106so3410211otu.0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 06:34:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9kzQsP7xdcOo4/yHfvVfKqgcZoVNHB3M0EMVy+tuCNU=;
- b=MwwZUQEW+QtUVAq3466CCsAjvpvJ+cNXwRETxi+xwQ7hhpUwOhOatm4nTEbLEGotoB
- 1TtUz25a044+zv7NdXKpBKYbkIe9pjHagzS4w7TB1YrlUpj02u78LXj10ZlkcabweW3t
- MGkz/WnNcQ137Dj9PLFhK8zwzqRGaCNqxSQUc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9kzQsP7xdcOo4/yHfvVfKqgcZoVNHB3M0EMVy+tuCNU=;
- b=JVOAe2rqsAAaFxk2bRd7hPhW5ZxHP9GX4O6PNUcVH9fba7oApSrP8FPh88tbvKzq8U
- n3bU4cRtnBi6l7PmyScQa+I9uPr3g6OBZePuZhz65PR0FzqkQNK6Z5fssNOXI58drW97
- GomY+m+OuMLjL/bP0caS7ZOFt5ft9alNhE1ZbopG1sToYUeE011zA94jN6X97Um6XrkB
- 6H+6H3rcIQwKaLGo5IePRiLo1nuwEDKBdjdCwKTds0AZausUiLTp0wZO4ERd9+4P9h7o
- Y2B3AIh+iD+n6dgjIDsY++cCo6lpkC4wal7uARA+UH3v2zwughWIJpFkgy6VMtUyACwa
- qKRQ==
-X-Gm-Message-State: AOAM533juJoVgb10B8Sdy5pu+k5847M+LGerf+oml6o0q0RzcufMTJv8
- WgX2416fw4BZCRWuKuvjK3LY7CWEMTWjEc7F2wQhJA==
-X-Google-Smtp-Source: ABdhPJzsPoKUTRwcahcaLPyRU+wwxVRU/sDDpI8hVyibcKoclfqdsQi3ILaSD45Jj8A4q4A51AgWhTyQFQ3zYYEmCCc=
-X-Received: by 2002:a9d:685a:: with SMTP id c26mr24282535oto.239.1642602858341; 
- Wed, 19 Jan 2022 06:34:18 -0800 (PST)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F5A110EBBA
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 14:38:29 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id AA24D1F384;
+ Wed, 19 Jan 2022 14:38:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1642603107; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Orgm0BqdZIgQCuYr0zzPDXUWssmC/UHhtBBhtVqzbBk=;
+ b=csseSeu2uIukq7+tUJbTuXpsf06403Dr6q7L2Fulvj9BMiI7L0jeiPY9KYkVJfk2gA1cjA
+ iW1Tlefk+JmcfLGTKcdoPzFBF8kwFKP09CmNtWq5WRdK7eBwmONX9T+M6tliBWtjsiHgC3
+ gCZpCpzCZTLGdHybhTKF/gBCM604Peo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1642603107;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Orgm0BqdZIgQCuYr0zzPDXUWssmC/UHhtBBhtVqzbBk=;
+ b=szsO85VswCBpNGL+gPsJHqWH5YkO6dFORucdk89hNaQ96TM6pqv93k6q51Ievzt+zIUx37
+ EVTssuT2ORkYujAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 830BA13F84;
+ Wed, 19 Jan 2022 14:38:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id sWcaH2Mi6GHTZwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 19 Jan 2022 14:38:27 +0000
+Message-ID: <0f569863-99e8-7734-3ae1-e7f65eaa5347@suse.de>
+Date: Wed, 19 Jan 2022 15:38:26 +0100
 MIME-Version: 1.0
-References: <20220119110839.33187-1-deller@gmx.de>
- <20220119110839.33187-3-deller@gmx.de>
- <Yef0j8+DBbwC7Kjv@kroah.com> <Yef15k2GtC40aJEu@kroah.com>
- <CAMuHMdVWFJEDwjf-htZ_D1484efmuPnz_L-qhcTeUE-GVpvZXA@mail.gmail.com>
- <4d8950c7-5f51-ca2b-4c93-741c7805a214@gmx.de>
- <CAHk-=wikFKjwdUBWCLCu=iL3rFq4BDDF0aBGdXC6ay74yJb+5Q@mail.gmail.com>
-In-Reply-To: <CAHk-=wikFKjwdUBWCLCu=iL3rFq4BDDF0aBGdXC6ay74yJb+5Q@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 19 Jan 2022 15:34:06 +0100
-Message-ID: <CAKMK7uEb53iu_HxYSnFZ59j=vXQdMvTWT7xosEo85XkAwzDMnA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Revert "fbcon: Disable accelerated scrolling"
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] drm/vmwgfx: Stop requesting the pci regions
+Content-Language: en-US
+To: Zack Rusin <zackr@vmware.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "javierm@redhat.com" <javierm@redhat.com>
+References: <20220117180359.18114-1-zack@kde.org>
+ <1c177e79-d28a-e896-08ec-3cd4cd2fb823@redhat.com>
+ <da4e34772a9557cf4c4733ce6ee2a2ad47615044.camel@vmware.com>
+ <5292edf8-0e60-28e1-15d3-6a1779023f68@suse.de>
+ <d0f90d4cea4a137adb0b591ed9258540056a9813.camel@vmware.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <d0f90d4cea4a137adb0b591ed9258540056a9813.camel@vmware.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------YVv376TGAl3JAGpuNYAkS409"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,108 +75,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sven Schnelle <svens@stackframe.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Claudio Suarez <cssk@net-c.es>,
- Gerd Hoffmann <kraxel@redhat.com>, Pavel Machek <pavel@ucw.cz>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Martin Krastev <krastevm@vmware.com>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ Maaz Mombasawala <mombasawalam@vmware.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 19, 2022 at 3:01 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Wed, Jan 19, 2022 at 2:29 PM Helge Deller <deller@gmx.de> wrote:
-> >
-> > >>
-> > >> Ah, no, that was just the soft scrollback code I was thinking of, which
-> >
-> > Right.
-> > That was commit 973c096f6a85 and it was about vgacon, not fbcon.
->
-> No, fbcon had some bug too, although I've paged out the details. See
-> commit 50145474f6ef ("fbcon: remove soft scrollback code").
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------YVv376TGAl3JAGpuNYAkS409
+Content-Type: multipart/mixed; boundary="------------QQkpORofor7iheI7kCY9E4Mp";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Zack Rusin <zackr@vmware.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "javierm@redhat.com" <javierm@redhat.com>
+Cc: Martin Krastev <krastevm@vmware.com>,
+ Maaz Mombasawala <mombasawalam@vmware.com>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>
+Message-ID: <0f569863-99e8-7734-3ae1-e7f65eaa5347@suse.de>
+Subject: Re: [PATCH] drm/vmwgfx: Stop requesting the pci regions
+References: <20220117180359.18114-1-zack@kde.org>
+ <1c177e79-d28a-e896-08ec-3cd4cd2fb823@redhat.com>
+ <da4e34772a9557cf4c4733ce6ee2a2ad47615044.camel@vmware.com>
+ <5292edf8-0e60-28e1-15d3-6a1779023f68@suse.de>
+ <d0f90d4cea4a137adb0b591ed9258540056a9813.camel@vmware.com>
+In-Reply-To: <d0f90d4cea4a137adb0b591ed9258540056a9813.camel@vmware.com>
 
-tbh I've paged it all out too.
+--------------QQkpORofor7iheI7kCY9E4Mp
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> If I remember correctly (and it's entirely possible that I don't), the
-> whole "softback_lines" logic had serious problems with resizing the
-> console (or maybe changing the font size).
+SGkNCg0KQW0gMTkuMDEuMjIgdW0gMTU6MjQgc2NocmllYiBaYWNrIFJ1c2luOg0KPiBPbiBX
+ZWQsIDIwMjItMDEtMTkgYXQgMTA6MTMgKzAxMDAsIFRob21hcyBaaW1tZXJtYW5uIHdyb3Rl
+Og0KPj4gSGkNCj4+DQo+PiBBbSAxOS4wMS4yMiB1bSAwMzoxNSBzY2hyaWViIFphY2sgUnVz
+aW46DQo+Pj4gT24gVHVlLCAyMDIyLTAxLTE4IGF0IDIwOjAwICswMTAwLCBKYXZpZXIgTWFy
+dGluZXogQ2FuaWxsYXMgd3JvdGU6DQo+Pj4+IEhlbGxvIFphY2ssDQo+Pj4+DQo+Pj4+IE9u
+IDEvMTcvMjIgMTk6MDMsIFphY2sgUnVzaW4gd3JvdGU6DQo+Pj4+PiBGcm9tOiBaYWNrIFJ1
+c2luIDx6YWNrckB2bXdhcmUuY29tPg0KPj4+Pj4NCj4+Pj4+IFdoZW4gc3lzZmJfc2ltcGxl
+IGlzIGVuYWJsZWQgbG9hZGluZyB2bXdnZnggZmFpbHMgYmVjYXVzZSB0aGUNCj4+Pj4+IHJl
+Z2lvbnMNCj4+Pj4+IGFyZSBoZWxkIGJ5IHRoZSBwbGF0Zm9ybS4gSW4gdGhhdCBjYXNlDQo+
+Pj4+PiByZW1vdmVfY29uZmxpY3RpbmcqX2ZyYW1lYnVmZmVycw0KPj4+Pj4gb25seSByZW1v
+dmVzIHRoZSBzaW1wbGVmYiBidXQgbm90IHRoZSByZWdpb25zIGhlbGQgYnkgc3lzZmIuDQo+
+Pj4+Pg0KPj4+Pg0KPj4+PiBJbmRlZWQsIHRoYXQncyBhbiBpc3N1ZS4gSSB3b25kZXIgaWYg
+d2Ugc2hvdWxkIGRyb3AgdGhlDQo+Pj4+IElPUkVTT1VSQ0VfQlVTWQ0KPj4+PiBmbGFnIGZy
+b20gdGhlIG1lbW9yeSByZXNvdXJjZSBhZGRlZCB0byB0aGUgInNpbXBsZS1mcmFtZWJ1ZmZl
+ciINCj4+Pj4gZGV2aWNlDQo+Pj4+ID8NCj4+Pg0KPj4+IEkgdGhpbmsgdGhpcyBpcyBvbmUg
+b2YgdGhvc2UgY2FzZXMgd2hlcmUgaXQgZGVwZW5kcyBvbiB3aGF0IHdlIHBsYW4NCj4+PiB0
+bw0KPj4+IGRvIGFmdGVyIHRoYXQuIFNlbWVudGljYWxseSBpdCBtYWtlcyBzZW5zZSB0byBo
+YXZlIGl0IGluIHRoZXJlIC0NCj4+PiB0aGUNCj4+PiBmcmFtZWJ1ZmZlciBtZW1vcnkgaXMg
+Y2xhaW1lZCBieSB0aGUgInNpbXBsZS1mcmFtZWJ1ZmZlciIgYW5kIGl0J3MNCj4+PiBidXN5
+LCBpdCdzIGp1c3QgdGhhdCBpdCBjcmVhdGVzIGlzc3VlcyBmb3IgZHJpdmVycyBhZnRlciB1
+bmxvYWRpbmcuDQo+Pj4gSQ0KPj4+IHRoaW5rIHJlbW92aW5nIGl0LCB3aGlsZSBtYWtpbmcg
+dGhpbmdzIGVhc2llciBmb3IgZHJpdmVycywgd291bGQgYmUNCj4+PiBjb25mdXNpbmcgZm9y
+IHBlb3BsZSByZWFkaW5nIHRoZSBjb2RlIGxhdGVyLCB1bmxlc3MgdGhlcmUncyBzb21lDQo+
+Pj4ga2luZA0KPj4+IG9mIGNsZWFudXAgdGhhdCB3b3VsZCBoYXBwZW4gd2l0aCBpdCAoZS5n
+LiByZW1vdmluZyBJT1JFU09VUkNFX0JVU1kNCj4+PiBhbHRvZ2V0aGVyIGFuZCBtYWtpbmcg
+dGhlIGRybSBkcml2ZXJzIHByb3Blcmx5IHJlcXVlc3QgdGhlaXINCj4+PiByZXNvdXJjZXMp
+LsKgQXQgbGVhc3QgYnkgaXRzZWxmIGl0IGRvZXNuJ3Qgc2VlbSB0byBiZSBtdWNoIGJldHRl
+cg0KPj4+IHNvbHV0aW9uIHRoYW4gaGF2aW5nIHRoZSBkcm0gZHJpdmVycyBub3QgY2FsbA0K
+Pj4+IHBjaV9yZXF1ZXN0X3JlZ2lvbltzXSwNCj4+PiB3aGljaCBhcGFydCBmcm9tIGh5cGVy
+diBhbmQgY2lycnVzIChpaXJjIGJvY2hzIGRvZXMgaXQgZm9yDQo+Pj4gcmVzb3VyY2VzDQo+
+Pj4gb3RoZXIgdGhhbiBmYiB3aGljaCB3b3VsZG4ndCBoYXZlIGJlZW4gY2xhaW1lZCBieSAi
+c2ltcGxlLQ0KPj4+IGZyYW1lYnVmZmVyIikNCj4+PiBpcyBhbHJlYWR5IHRoZSBjYXNlLg0K
+Pj4+DQo+Pj4gSSBkbyB0aGluayB3ZSBzaG91bGQgZG8gb25lIG9mIHRoZW0gdG8gbWFrZSB0
+aGUgY29kZWJhc2UgY29oZXJlbnQ6DQo+Pj4gZWl0aGVyIHJlbW92ZSBJT1JFU09VUkNFX0JV
+U1kgZnJvbSAic2ltcGxlLWZyYW1lYnVmZmVyIiBvciByZW1vdmUNCj4+PiBwY2lfcmVxdWVz
+dF9yZWdpb25bc10gZnJvbSBoeXBlcnYgYW5kIGNpcnJ1cy4NCj4+DQo+PiBJIGp1c3QgZGlz
+Y3Vzc2VkIHRoaXMgYSBiaXQgd2l0aCBKYXZpZXIuIEl0J3MgYSBwcm9ibGVtIHdpdGggdGhl
+DQo+PiBzaW1wbGUtZnJhbWVidWZmZXIgY29kZSwgcmF0aGVyIHRoZW4gdm13Z2Z4Lg0KPj4N
+Cj4+IElNSE8gdGhlIGJlc3Qgc29sdXRpb24gaXMgdG8gZHJvcCBJT1JFU09VUkNFX0JVU1kg
+ZnJvbSBzeXNmYiBhbmQgaGF2ZQ0KPj4gZHJpdmVycyByZWdpc3Rlci9yZWxlYXNlIHRoZSBy
+YW5nZSB3aXRoIF9CVVNZLiBUaGF0IHdvdWxkIHNpZ25hbCB0aGUNCj4+IG1lbW9yeSBiZWxv
+bmdzIHRvIHRoZSBzeXNmYiBkZXZpY2UgYnV0IGlzIG5vdCBidXN5IHVubGVzcyBhIGRyaXZl
+cg0KPj4gaGFzDQo+PiBiZWVuIGJvdW5kLiBBZnRlciBzaW1wbGVmYiByZWxlYXNlZCB0aGUg
+cmFuZ2UsIGl0IHNob3VsZCBiZSAnbm9uLQ0KPj4gYnVzeScNCj4+IGFnYWluIGFuZCBhdmFp
+bGFibGUgZm9yIHZtd2dmeC4gU2ltcGxlZHJtIGRvZXMgYSBob3QtdW5wbHVnIG9mIHRoZQ0K
+Pj4gc3lzZmINCj4+IGRldmljZSwgc28gdGhlIG1lbW9yeSByYW5nZSBnZXRzIHJlbGVhc2Vk
+IGVudGlyZWx5LiBJZiB5b3Ugd2FudCwgSSdsbA0KPj4gcHJlcGFyZSBzb21lIHBhdGNoZXMg
+Zm9yIHRoaXMgc2NlbmFyaW8uDQo+Pg0KPj4gSWYgdGhpcyBkb2Vzbid0IHdvcmssIHB1c2hp
+bmcgYWxsIHJlcXVlc3QvcmVsZWFzZSBwYWlycyBpbnRvIGRyaXZlcnMNCj4+IHdvdWxkIGJl
+IG15IG5leHQgb3B0aW9uLg0KPj4NCj4+IElmIG5vbmUgb2YgdGhpcyBpcyBmZWFzaWJsZSwg
+d2UgY2FuIHN0aWxsIHJlbW92ZSBwY2lfcmVxdWVzdF9yZWdpb24oKQ0KPj4gZnJvbSB2bXdn
+ZnguDQo+IA0KPiANCj4gSSB0aGluayB0aGF0J3Mgb3J0aG9nb25hbCB0byB0aGUgZml4IGJl
+Y2F1c2UgaGF2aW5nIHBjaV9yZXF1ZXN0X3JlZ2lvbg0KPiBtYWtlcyB2bXdnZnggYmVoYXZl
+IGRpZmZlcmVudGx5IGZyb20gbWFqb3JpdHkgb2YgRFJNIGRyaXZlcnMsIGUuZy4gb24NCj4g
+c3lzdGVtcyB3aXRoIHN5c2ZiIGVuYWJsZWQgd2l0aCA1LjE1IHZtd2dmeCBmYWlscyB0byBi
+b290IGFuZCBsZWF2ZXMNCj4gdGhlIHN5c3RlbSBicm9rZW4gd2l0aG91dCBhbnkgZmIgZHJp
+dmVyIChiZWNhdXNlIHdoaWxlIHdlIGhhdmUNCj4gKnJlbW92ZV9jb25mbGljdGluZypfZnJh
+bWVidWZmZXJzIHdlIGRvbid0IGhhdmUgZHJtX3Jlc3RvcmVfc3lzdGVtX2ZiDQo+IG9yIHN1
+Y2ggdG8gbG9hZCBiYWNrIHRoZSBib290IGZiIGFmdGVyIGRybSBkcml2ZXIgbG9hZCBmYWls
+cykgYnV0IHNpbmNlDQo+IGl0J3Mgb25lIG9mIHRoZSBmZXcgZHJpdmVycyB3aGljaCBkb2Vz
+IHJlcXVlc3QgcmVnaW9ucyBpdCB0b29rIGEgYml0DQo+IGZvciB1cyB0byBub3RpY2UuDQo+
+IA0KPiBTbyBpbiB0aGlzIGNhc2UgSSdkIG11Y2ggcmF0aGVyIGJlIGxpa2UgdGhlIG90aGVy
+IGRyaXZlcnMgcmF0aGVyIHRoYW4NCj4gY29ycmVjdCBiZWNhdXNlIGl0IGxvd2VycyB0aGUg
+b2RkcyBvZiB2bXdnZnggYnJlYWtpbmcgaW4gdGhlIGZ1dHVyZS4NCg0KV2VsbCwgaWYgeW91
+IHdhbnQgdG8gcmVtb3ZlIHRoZSBjYWxscyB0aGVuIGRvIHNvLCBvZiBjb3Vyc2UuDQoNCkkn
+ZCByYXRoZXIgYWRkIHRoZSByZXF1ZXN0X21lbW9yeSgpIGNhbGxzIHRvIGFsbCB0aGUgb3Ro
+ZXIgZHJpdmVycyB0aGF0IA0KYXJlIG1pc3NpbmcgdGhlbS4gSmF2aWVyIHN1Z2dlc3RlZCB0
+byBtYWtlIHRoaXMgYW4gb2ZmaWNpYWwgVE9ETyBpdGVtLiANCkhhdmluZyB0aGUgQlVTWSBm
+bGFnIHNldCB3aGVuIGEgZHJpdmVyIGlzIGFjdGl2ZSwgc3RpbGwgaXMgdGhlIGNvcnJlY3Qg
+DQp0aGluZyB0byBkby4NCg0KSSdtIG5vdCBzdXJlIGkgdW5kZXJzdGFuZCB5b3VyIGNvbW1l
+bnQgYWJvdXQgZHJtX3Jlc3RvcmVfc3lzdGVtX2ZiLiANClRoZXJlIGlzIG5vIHdheSBvZiBh
+dG9taWNhbGx5IHN3aXRjaGluZyBkcml2ZXJzIGFuZCB0aGF0J3MgYWx3YXlzIGJlZW4gYSAN
+CnByb2JsZW0uIEZhaWxpbmcgYXQgcGNpX3JlcXVlc3RfbWVtcm95KCkgaXMganVzdCBvbmUg
+b2YgbWFueSBwb3NzaWJsZSANCnJlYXNvbnMgZm9yIHRoZSBzd2l0Y2ggdG8gZmFpbC4gVGhl
+IGJlc3QgeW91IGNvdWxkIGRvIGlzIHRvIHJlYXJyYW5nZSANCnRoZSBjb2RlIHRvIGRvICdy
+ZW1vdmVfY29uZmxpY3RpbmcqKCknIGF0IHRoZSBsYXRlc3QgcG9pbnQgcG9zc2libGUuDQoN
+CkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IHoNCj4gDQoNCi0tIA0KVGhvbWFzIFpp
+bW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29s
+dXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBH
+ZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjog
+SXZvIFRvdGV2DQo=
 
-Yeah that pile of reverts was my motiviation to look into this and see
-what else we could rip out most likely and still have an fbcon that
-works as well as it does right now for almost all users (which is not
-so great, but oh well).
+--------------QQkpORofor7iheI7kCY9E4Mp--
 
-> There may have been some other bad interaction with
-> foreground/background consoles too, I forget.
+--------------YVv376TGAl3JAGpuNYAkS409
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Irrespective of this code being buggy or not buggy I think the bigger
-pictures, and really the reason I want to see as much code ditched
-from the fbdev/fbcon stack as we possible can, are very clear:
+-----BEGIN PGP SIGNATURE-----
 
-- it's full of bugs
-- there's no test coverage/CI to speak of
-- it's very arcane code which is damn hard to understand and fix issues within
-- the locking is busted (largely thanks to console_lock, and the
-effort to make that reasonable from -rt folks has been slowly creeping
-forward for years).
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHoImIFAwAAAAAACgkQlh/E3EQov+Ch
+DQ//eXb3QBsJ38R8LwBdngLlYG7A9EKDr0WP7FVdd2RQiyn6HYOODJ4M5mRRolzN+D3RSGUszza2
+MOrlqS40/zxQZhZXlDoTDHdKjWz5cjwVr3tAFORVIgy0lTGa8CvTQA85lLDTL1uv8M6duFyITCwn
+HxVnrYHExfisHXPDONs8BbbddZy4PBtYS81tF90TvvdYxMH7OfZt0SRqd3Lfo2h+6esi35Nq2BAf
+ooUdlM9+ddro2t1oYh3eeqlr/VuyFLKcgRbEJEkxezBNPZQl5ab8QxUbymXQmo/Klim2dvkoCJBb
+YeUd7AGrVGw4z88ZJ36661t5cXlSlds15B62JB8v3wpZREyXg2f8UVg15aN0AmnhnRDH3X1W2HI1
+KvXPrSVBiqZ08BO5zt5vFF8htzmhI85gzixuUWLuF2oQmITuIW9ZdnYlyds4gkglhGiXXrquIFBR
+dvJU4Qcp4ah96d2dJOhhCvonM/DfTuLTiSi9pEIv+sTxvdTa77zcOMWnxNMRuFUd95RI4fGrbdwv
+TfnlIYyQsGGnG0FjR11tooJJHUf8Qp5xcwRyd/6MASfD59d8WYrPyW2EAI9+rXwn3o9thWK3QIdE
+ONjwBufQO6OyrcO1uqErPESVipIOEQTSfFJnZrPplZh9N8A194pXZX1mg8ziaZLxC16Qob7tay5K
+5OQ=
+=AYN/
+-----END PGP SIGNATURE-----
 
-Iow this subsystem is firmly stuck in the 90s, and I think it's best
-to just leave it there. There's also not been anyone actually capable
-and willing to put in the work to change this (pretty much all actual
-changes/fixes have been done by drm folks anyway, like me having a
-small pet project to make the fbdev vs fbcon locking slightly less
-busted).
-
-The other side is that being a maintainer is about collaboration, and
-this entire fbdev maintainership takeover has been a demonstration of
-anything but that. MAINTAINERS entry was a bit confusing since defacto
-drm has been maintaining it for years, but for the above reasons we've
-done that by just aggressively deleting stuff that isn't absolutely
-needed - hence why I figured "orphaned" is a reasonable description of
-the state of things. This entire affair of rushing in a maintainer
-change over the w/e and then being greeted by a lot of wtf mails next
-Monday does leave a rather sour aftertaste. Plus that thread shows a
-lot of misunderstandings of what's all been going on and what drm can
-and cannot do by Helge, which doesn't improve the entire "we need
-fbdev back" argument.
-
-But if the overall consensus is that that fbdev needs to be brought
-back to it's full 90s glory then I think we need a copy of that code
-for drm drivers (should work out if we intercept fb_open() and put our
-own file_ops in there, maybe some more fun with fbcon), so that at
-least for anything modern using drm driver we can keep on maintaining
-that compat support code.
-
-And with maintaining here I don't mean build a museum around it, but
-actually try to keep/move the thing towards a state where we can still
-tell distros that enabling it is an ok thing to do and not just a CVE
-subscription (well it is that too right now, but at least we can fix a
-lot of them by just deleting code).
-
-I think until that mess is sorted out resurrecting code that's not
-strictly needed is just not a bright idea.
-
-Also wrt the issue at hand of "fbcon scrolling": The way to actually
-do that with some speed is to render into a fully cached shadow buffer
-and upload changed areas with a timer. Not with hw accelerated
-scrolling, at least not if we just don't have full scale development
-teams for each driver because creating 2d accel that doesn't suck is
-really hard. drm fbdev compat helpers give you that shadow buffer for
-free (well you got to set some options).
-
-Unfortunately just ditching fbdev/fbcon compat is not an option for
-many distros still, althought things are very slowly moving towards
-that. Until we've arrived there I can't just pretend to not care about
-what's going on in drivers/video.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+--------------YVv376TGAl3JAGpuNYAkS409--
