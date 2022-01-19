@@ -1,50 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 805794941E3
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 21:35:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 378AF4941E8
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 21:37:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2406310E1B5;
-	Wed, 19 Jan 2022 20:35:45 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B63210E177;
- Wed, 19 Jan 2022 20:35:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642624543; x=1674160543;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=lddCU8rFW3YNlxHR3xT7eMCRWM3EKACaWB7e0BadotY=;
- b=gLx7S9o/jMjYSN0uKEPZen1y+7V+F4kgYHB21vU/+/kg90GH7k3sAD8W
- XuFD2Ml2G5j/Dv4jLca0qC/A6LnmYoRPJ9MHqivy50G36idme53hawhm8
- E6eMSC6N5UAfjDs/QlHdDwfw4wM/M794qpzu9adTehsZrq9aSMvxmb6Qx
- bEKXGoxh20f9KMxrKSQnla7e0McfMtxfEe/G/V/LDmE+pHIGU3odMsE09
- q54GIZesxqGHJDwuN/wwIY9KCBAyklSKMDwQcUG4N7HdjKvKTYXLGxGMA
- VqD3P1xe33FF2KRooLeKT29q7KzA2oVqtjtpw5MO99ebN34S5TEz/qCjD Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10231"; a="245385333"
-X-IronPort-AV: E=Sophos;i="5.88,300,1635231600"; d="scan'208";a="245385333"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2022 12:35:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,300,1635231600"; d="scan'208";a="561188548"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
- by orsmga001.jf.intel.com with ESMTP; 19 Jan 2022 12:35:42 -0800
-From: John.C.Harrison@Intel.com
-To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH v3 2/2] drm/i915/uapi: Add query for hwconfig table
-Date: Wed, 19 Jan 2022 12:35:41 -0800
-Message-Id: <20220119203541.2410082-3-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220119203541.2410082-1-John.C.Harrison@Intel.com>
-References: <20220119203541.2410082-1-John.C.Harrison@Intel.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9002710E1AF;
+	Wed, 19 Jan 2022 20:37:42 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3496110E177
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 20:37:41 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id x22so12949812lfd.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 12:37:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=SVNoxQMp637bgUGyLKUQMTT6jCUfGMhBKrAhjOzC1jA=;
+ b=Vw/hy5bg5C+CCYO+oJtgWYZCGRowuXfpuM1y/pli43kr+OiB3OWzkR6ZyW+nfXxt/s
+ VAn2AjX3mL+nlHsEF9z/pBhrlFgPcsEA0h1sAo1ZC4YcWsIWZ0jeb+wpDXa+U2omlUCF
+ pf/73OVbaBLU61/xMVSHktQI827IhnQn2hI4w8Tkbj/fmE8A6Xntpo4ktyfN/ATLaSyR
+ OmbGO1wuYpDN6JCPJ6apqXqpoeOCB/ZbqWFXSeJZIDyaqZ4S0vxFtOgFaUm3xw+cnlGx
+ I1oFnxocUDYadU9R73MgSd6PbQAJyeaWf6JpFnbLe1rT3w0y4YtI4EsZ5WHxq0hL/Blm
+ wwzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SVNoxQMp637bgUGyLKUQMTT6jCUfGMhBKrAhjOzC1jA=;
+ b=PB/VvIPJd0dlnjQOSEuOZOp1yeSCb4MlEtPUMk/S3NQTq/E0uBpofXr2ZbXjiXt+wb
+ FuJ2P3mL4mFlhtLth8f0pDQWU1TYZuQAbXltixuqCMl0KomLmojtBiz2HP/sNLnv81VX
+ yDECKbvIUzs0lqrAU0lRIZYaroTLWeeTOVPSuCm+w2rOe917e7Ucu2dTjDVtAbX0IvFO
+ l582IYiaPncrLs/MwoWEovnL1vJoojb6wb8evSxKkyufl4AsW1gsJJgDI1rl4CCmQbIz
+ 07JzJjNNTyMtP9NB6z1lwkgXrnxtG7vWl4K7FE7K9LTFvAdBuTKPikTwcwc1ZWqiKqZh
+ jLQA==
+X-Gm-Message-State: AOAM532E7mvLl7UAbkVOerQXEHxCt4Rx0S26531BRzym6TNPUyrzF8nv
+ feRcJM/5MiLH7eWjWoRTCTytSVkLWyYxLP9RwzvKeA==
+X-Google-Smtp-Source: ABdhPJwjspQiMNHOBlTaaj+hdTY9hJrpsFobebo94UsQ78o3vrS70VesOp4vSiK9m1G+NqmP7oa+dvJBc2Sn675qSo0=
+X-Received: by 2002:a05:6512:329b:: with SMTP id
+ p27mr30040874lfe.36.1642624659492; 
+ Wed, 19 Jan 2022 12:37:39 -0800 (PST)
 MIME-Version: 1.0
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
-Content-Transfer-Encoding: 8bit
+References: <CAO_48GF=ttKqSOm9GRoA3Mq+-RQOtRjWp449XPcz-wH=kjaTjw@mail.gmail.com>
+ <20220113123406.11520-1-guangming.cao@mediatek.com>
+ <4f88205c1b344aea8608960e2f85b8f4@intel.com>
+ <e657f5257cbf4955817b0bbf037de9f9@intel.com>
+ <24157767-dc29-bbdd-5428-d89ecc6b9606@amd.com>
+ <CALAqxLXRtYDNQ8y1efVGa4SwUH_oAaHviZFjsOVSNFmUHnCCeQ@mail.gmail.com>
+ <6b8182a1-7cdc-7369-5c34-e6d0c24efcca@amd.com>
+ <82faa62f1bc946cf2f9ee2f7d15c567162238eab.camel@mediatek.com>
+ <CALAqxLUSjHoLpgFLcvqmDfv7Uip2VwHS5d_5x2nzw=P3rA2NDA@mail.gmail.com>
+ <f09938519f1fcf51f20a0de5eb4063b0ff1a1e87.camel@mediatek.com>
+In-Reply-To: <f09938519f1fcf51f20a0de5eb4063b0ff1a1e87.camel@mediatek.com>
+From: John Stultz <john.stultz@linaro.org>
+Date: Wed, 19 Jan 2022 12:37:27 -0800
+Message-ID: <CALAqxLUtK8V9LgC-DY+tkzFYyWfzF+JhbrLZk6UhEG57HQBDSA@mail.gmail.com>
+Subject: Re: [PATCH v3] dma-buf: dma-heap: Add a size check for allocation
+To: "Guangming.Cao" <guangming.cao@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,130 +71,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Kenneth Graunke <kenneth.w.graunke@intel.com>, DRI-Devel@Lists.FreeDesktop.Org,
- Slawomir Milczarek <slawomir.milczarek@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: "jianjiao.zeng@mediatek.com" <jianjiao.zeng@mediatek.com>,
+ "lmark@codeaurora.org" <lmark@codeaurora.org>,
+ "wsd_upstream@mediatek.com" <wsd_upstream@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "libo.kang@mediatek.com" <libo.kang@mediatek.com>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>, "Ruhl,
+ Michael J" <michael.j.ruhl@intel.com>,
+ "yf.wang@mediatek.com" <yf.wang@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "benjamin.gaignard@linaro.org" <benjamin.gaignard@linaro.org>,
+ "bo.song@mediatek.com" <bo.song@mediatek.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "mingyuan.ma@mediatek.com" <mingyuan.ma@mediatek.com>,
+ "labbott@redhat.com" <labbott@redhat.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+On Wed, Jan 19, 2022 at 1:58 AM Guangming.Cao
+<guangming.cao@mediatek.com> wrote:
+> On Fri, 2022-01-14 at 17:17 -0800, John Stultz wrote:
+> > If the max value is per-heap, why not enforce that value in the
+> > per-heap allocation function?
+> >
+> > Moving the check to the heap alloc to me seems simpler to me than
+> > adding complexity to the infrastructure to add a heap max_size
+> > callback. Is there some other use for the callback that you envision?
+> >
+>
+> If you think max the value is per-heap, why not add an optional
+> callback for dma-heap to solve this issue(prevent consuming too much
+> time for a doomed to fail allocation), if the dma-heap doesn't have a
+> special size check, just use the default value(totalram) in dma-heap
+> framework to do the size check.
 
-GuC contains a consolidated table with a bunch of information about the
-current device.
+As the totalram default isn't correct for all heaps (or necessarily
+even most heaps), so those heaps would need to implement the callback.
 
-Previously, this information was spread and hardcoded to all the components
-including GuC, i915 and various UMDs. The goal here is to consolidate
-the data into GuC in a way that all interested components can grab the
-very latest and synchronized information using a simple query.
+I'm just not sure adding complexity to the framework to address this
+is useful. Instead of an additional check in the allocation function,
+heap implementers will need to assess if the default logic in a
+framework is correct, and then possibly implement the callback.
 
-As per most of the other queries, this one can be called twice.
-Once with item.length=0 to determine the exact buffer size, then
-allocate the user memory and call it again for to retrieve the
-table data. For example:
-  struct drm_i915_query_item item = {
-    .query_id = DRM_I915_QUERY_HWCONCFIG_TABLE;
-  };
-  query.items_ptr = (int64_t) &item;
-  query.num_items = 1;
+> Yes, for linux dma-heaps, only system-heap needs it, so adding it in
+> system heap is the simplest. However, there are many vendor dma-heaps
+> like system-heap which won't be uploaded to linux codebase, and maybe
+> have same limitation, all these heaps need to add the same limitation.
 
-  ioctl(fd, DRM_IOCTL_I915_QUERY, query, sizeof(query));
+My worry is that without seeing these vendor heaps, this is a bit of a
+theoretical concern. We don't have the data on how common this is.
+I very much hope that vendors can start submitting their heaps
+upstream (along with drivers that benefit from the heaps). Then we can
+really assess what makes the most sense for the community maintained
+code.
 
-  if (item.length <= 0)
-    return -ENOENT;
 
-  data = malloc(item.length);
-  item.data_ptr = (int64_t) &data;
-  ioctl(fd, DRM_IOCTL_I915_QUERY, query, sizeof(query));
+> I just think it's boring. However, If you think discussing these absent
+> cases based on current linux code is meaningless, I also agree to it.
 
-  // Parse the data as appropriate...
+So, as a rule, the upstream kernel doesn't create/maintain logic to
+accommodate out of tree code.
 
-The returned array is a simple and flexible KLV (Key/Length/Value)
-formatted table. For example, it could be just:
-  enum device_attr {
-     ATTR_SOME_VALUE = 0,
-     ATTR_SOME_MASK  = 1,
-  };
+Now, I agree there is the potential for some duplication in the checks
+in the allocation logic, but until it affects the upstream kernel,
+community maintainers can't really make an appropriate evaluation.
 
-  static const u32 hwconfig[] = {
-      ATTR_SOME_VALUE,
-      1,             // Value Length in DWords
-      8,             // Value
+As a contra-example, if the allocation is some extreme hotpath, adding
+an extra un-inlinable function pointer traversal for the size callback
+may actually have a negative impact. This isn't likely but again, if
+we cannot demonstrate it one way or the other against the upstream
+tree, we can't figure out what the best solution might be.
 
-      ATTR_SOME_MASK,
-      3,
-      0x00FFFFFFFF, 0xFFFFFFFF, 0xFF000000,
-  };
 
-The attribute ids are defined in a hardware spec.
+> So, to summarize, if you still think adding it in system_heap.c is
+> better, I also agree and I will update the patch to add it in
+> system_heap.c
 
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: Kenneth Graunke <kenneth.w.graunke@intel.com>
-Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Cc: Slawomir Milczarek <slawomir.milczarek@intel.com>
-Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/i915/i915_query.c | 23 +++++++++++++++++++++++
- include/uapi/drm/i915_drm.h       |  1 +
- 2 files changed, 24 insertions(+)
+I think this is the best solution for now. As this is not part of an
+userland ABI, we can always change it in the future once we see the
+need.
 
-diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
-index 2dfbc22857a3..609e64d5f395 100644
---- a/drivers/gpu/drm/i915/i915_query.c
-+++ b/drivers/gpu/drm/i915/i915_query.c
-@@ -479,12 +479,35 @@ static int query_memregion_info(struct drm_i915_private *i915,
- 	return total_length;
- }
- 
-+static int query_hwconfig_table(struct drm_i915_private *i915,
-+				struct drm_i915_query_item *query_item)
-+{
-+	struct intel_gt *gt = to_gt(i915);
-+	struct intel_guc_hwconfig *hwconfig = &gt->uc.guc.hwconfig;
-+
-+	if (!hwconfig->size || !hwconfig->ptr)
-+		return -ENODEV;
-+
-+	if (query_item->length == 0)
-+		return hwconfig->size;
-+
-+	if (query_item->length < hwconfig->size)
-+		return -EINVAL;
-+
-+	if (copy_to_user(u64_to_user_ptr(query_item->data_ptr),
-+			 hwconfig->ptr, hwconfig->size))
-+		return -EFAULT;
-+
-+	return hwconfig->size;
-+}
-+
- static int (* const i915_query_funcs[])(struct drm_i915_private *dev_priv,
- 					struct drm_i915_query_item *query_item) = {
- 	query_topology_info,
- 	query_engine_info,
- 	query_perf_config,
- 	query_memregion_info,
-+	query_hwconfig_table,
- };
- 
- int i915_query_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index 914ebd9290e5..132515199f27 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -2685,6 +2685,7 @@ struct drm_i915_query_item {
- #define DRM_I915_QUERY_ENGINE_INFO	2
- #define DRM_I915_QUERY_PERF_CONFIG      3
- #define DRM_I915_QUERY_MEMORY_REGIONS   4
-+#define DRM_I915_QUERY_HWCONFIG_TABLE   5
- /* Must be kept compact -- no holes and well documented */
- 
- 	/**
--- 
-2.25.1
-
+thanks
+-john
