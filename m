@@ -2,43 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04981493B26
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 14:35:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1E52493B4A
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 14:43:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A2F98938B;
-	Wed, 19 Jan 2022 13:35:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EB4A10E2D0;
+	Wed, 19 Jan 2022 13:43:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94D53898C2
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 13:35:19 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 16DA860B57;
- Wed, 19 Jan 2022 13:35:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 994EBC340E5;
- Wed, 19 Jan 2022 13:35:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1642599318;
- bh=MJBZhpZfujJ78Q+Y4DFAt3dHmUNItZSed2KuLByhnlc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=vmBaNkvL0H29zQblw/+q9Mm11UDoBEGlp6W/zm16RQOzLjtWqDu/IfI98mPvlXden
- 4pNoBjaOiSsJxSsBWKAVi+xNPdNELsiiqQN8E+IOJvKWesszTRrHeCULqKWUC9GFXi
- fmuWLSByaLPeDKjFU2z9E3FI3gHHkXfdy3YnFOg0=
-Date: Wed, 19 Jan 2022 14:35:15 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Sven Schnelle <svens@stackframe.org>
-Subject: Re: [PATCH 2/2] Revert "fbcon: Disable accelerated scrolling"
-Message-ID: <YegTkwdFAb56D5Ud@kroah.com>
-References: <20220119110839.33187-1-deller@gmx.de>
- <20220119110839.33187-3-deller@gmx.de> <Yef0j8+DBbwC7Kjv@kroah.com>
- <Yef15k2GtC40aJEu@kroah.com> <87o847khfr.fsf@x1.stackframe.org>
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 263FD10E29A
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 13:43:43 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id b13so12031247edn.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 05:43:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nkHC8QZFOIHT45+bm5mbkRLb4msTxzU2f5F+QSxdoAg=;
+ b=kA3OW1OUw0qGIgFgEr0kKZ2UdSFvZdnvjoM0lTM/D9X+mBtKQeC7rRw78LXmBVALy4
+ oS4/NuhD6B5fWe2IrNEF47yE1nam6z2V4bp6bIOzsGlGZ716RbQdTK36ZNr+UOUmNKTb
+ 4ELPG1rofWbczCwKL3Cjw01+z31KKByuJHCwaFxVHr2HTpjT07jE9xg1BxTIr7T8Id5L
+ 0G0e64OTarRwhrL7Vt8ky183Y85WxlAoL0oHmNkVtLOitqgFzRc9xLgNP2gzKQoVsJoI
+ 8GWd/dRRlM/TV4K/R8/RvmmiWH/dmi6rGQfytV/U7OHRAwzKgvOaj/Hz0TzNfRu0KCiY
+ QMJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nkHC8QZFOIHT45+bm5mbkRLb4msTxzU2f5F+QSxdoAg=;
+ b=aHBGYgHZwvIHjv1vg8Sc0PKjiNuLXDqi2KSssfdwOa1EjO2MpJfXF3cqmsjaRDFJ07
+ l1wuFKasviYvqo2UwCN2boVnCEWJJ5QJQM2eUqVEJ4r3ThMg8IBOBTcIVyV60EXFB+ds
+ 3bqfkdYXvMA0MEUV4eeGGvCwd9Ale1uQjcuwxmy+DpOgBtQSI5UsZ6QvdNYouN/3o9Kl
+ dE8Cj6qE6UG8hHcs1TI9O7aNvGbAlTT4siphpOd+sBQRVTJeRcaw3x7IRZRvjfKUJfjT
+ BDzfUbvwNUTqmYEbA4NWzwfhhqkcOtCLsnfM6muP3mvekM3T4u+HPRAw1qUnASUuMouS
+ BhsQ==
+X-Gm-Message-State: AOAM531joab83JuiZkmBTdOCkLwFUbWZWMXxEDEHwkz0lynRzZ9gXAaN
+ rxJTy7w4ODldkuKFb6A5ilw=
+X-Google-Smtp-Source: ABdhPJysfjK85HqXAmx0IVGsIhpy+iuwL6GzcPwoaLzs0OSgqk7DiaxMXm6z6DRv3u7tB0iykp3olA==
+X-Received: by 2002:a5d:634e:: with SMTP id b14mr30171587wrw.105.1642599821614; 
+ Wed, 19 Jan 2022 05:43:41 -0800 (PST)
+Received: from abel.fritz.box (p57b0bff8.dip0.t-ipconnect.de. [87.176.191.248])
+ by smtp.gmail.com with ESMTPSA id g15sm19733583wrm.2.2022.01.19.05.43.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Jan 2022 05:43:40 -0800 (PST)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: sumit.semwal@linaro.org,
+	gustavo@padovan.org,
+	daniel.vetter@ffwll.ch
+Subject: [PATCH 1/4] dma-buf: consolidate dma_fence subclass checking
+Date: Wed, 19 Jan 2022 14:43:36 +0100
+Message-Id: <20220119134339.3102-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87o847khfr.fsf@x1.stackframe.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,64 +70,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
- Sam Ravnborg <sam@ravnborg.org>, Helge Deller <deller@gmx.de>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Claudio Suarez <cssk@net-c.es>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 19, 2022 at 02:01:44PM +0100, Sven Schnelle wrote:
-> Hi Greg,
-> 
-> Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
-> 
-> > On Wed, Jan 19, 2022 at 12:22:55PM +0100, Greg Kroah-Hartman wrote:
-> >> On Wed, Jan 19, 2022 at 12:08:39PM +0100, Helge Deller wrote:
-> >> > This reverts commit 39aead8373b3c20bb5965c024dfb51a94e526151.
-> >> > 
-> >> > Revert this patch.  This patch started to introduce the regression that
-> >> > all hardware acceleration of more than 35 existing fbdev drivers were
-> >> > bypassed and thus fbcon console output for those was dramatically slowed
-> >> > down by factor of 10 and more.
-> >> > 
-> >> > Reverting this commit has no impact on DRM, since none of the DRM drivers are
-> >> > tagged with the acceleration flags FBINFO_HWACCEL_COPYAREA,
-> >> > FBINFO_HWACCEL_FILLRECT or others.
-> >> > 
-> >> > Signed-off-by: Helge Deller <deller@gmx.de>
-> >> > Cc: stable@vger.kernel.org # v5.16
-> >> 
-> >> Why just 5.16?  This commit came in on 5.11 and was backported to
-> >> 5.10.5.
-> >> 
-> >> As for "why", I think there was a number of private bugs that were
-> >> reported in this code, which is why it was removed.  I do not think it
-> >> can be safely added back in without addressing them first.  Let me go
-> >> dig through my email to see if I can find them...
-> >
-> > Ah, no, that was just the soft scrollback code I was thinking of, which
-> > was a different revert and is still gone, thankfully :)
-> >
-> > This one was just removed because Daniel noticed that only 3 drivers
-> > used this (nouveau, omapdrm, and gma600), so this shouldn't have caused
-> > any regressions in any other drivers like you are reporting here.
-> 
-> I'm counting more than 3 drivers using this. I think one of the reasons
-> why it was reverted was that no one is actively maintaining fbdev. With
-> Helge now volunteering i don't see a reason why it should stay reverted.
-> If there are issues coming up i'm pretty sure Helge would care, and i
-> would probably also take a look.
+Consolidate the wrapper functions to check for dma_fence
+subclasses in the dma_fence header.
 
-Ok, no objection from me, but I think Daniel should weigh in as it is
-his commit that is being reverted here.
+This makes it easier to document and also check the different
+requirements for fence containers in the subclasses.
 
-thanks,
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ include/linux/dma-fence-array.h | 15 +------------
+ include/linux/dma-fence-chain.h |  3 +--
+ include/linux/dma-fence.h       | 38 +++++++++++++++++++++++++++++++++
+ 3 files changed, 40 insertions(+), 16 deletions(-)
 
-greg k-h
+diff --git a/include/linux/dma-fence-array.h b/include/linux/dma-fence-array.h
+index 303dd712220f..fec374f69e12 100644
+--- a/include/linux/dma-fence-array.h
++++ b/include/linux/dma-fence-array.h
+@@ -45,19 +45,6 @@ struct dma_fence_array {
+ 	struct irq_work work;
+ };
+ 
+-extern const struct dma_fence_ops dma_fence_array_ops;
+-
+-/**
+- * dma_fence_is_array - check if a fence is from the array subsclass
+- * @fence: fence to test
+- *
+- * Return true if it is a dma_fence_array and false otherwise.
+- */
+-static inline bool dma_fence_is_array(struct dma_fence *fence)
+-{
+-	return fence->ops == &dma_fence_array_ops;
+-}
+-
+ /**
+  * to_dma_fence_array - cast a fence to a dma_fence_array
+  * @fence: fence to cast to a dma_fence_array
+@@ -68,7 +55,7 @@ static inline bool dma_fence_is_array(struct dma_fence *fence)
+ static inline struct dma_fence_array *
+ to_dma_fence_array(struct dma_fence *fence)
+ {
+-	if (fence->ops != &dma_fence_array_ops)
++	if (!fence || !dma_fence_is_array(fence))
+ 		return NULL;
+ 
+ 	return container_of(fence, struct dma_fence_array, base);
+diff --git a/include/linux/dma-fence-chain.h b/include/linux/dma-fence-chain.h
+index 54fe3443fd2c..ee906b659694 100644
+--- a/include/linux/dma-fence-chain.h
++++ b/include/linux/dma-fence-chain.h
+@@ -49,7 +49,6 @@ struct dma_fence_chain {
+ 	spinlock_t lock;
+ };
+ 
+-extern const struct dma_fence_ops dma_fence_chain_ops;
+ 
+ /**
+  * to_dma_fence_chain - cast a fence to a dma_fence_chain
+@@ -61,7 +60,7 @@ extern const struct dma_fence_ops dma_fence_chain_ops;
+ static inline struct dma_fence_chain *
+ to_dma_fence_chain(struct dma_fence *fence)
+ {
+-	if (!fence || fence->ops != &dma_fence_chain_ops)
++	if (!fence || !dma_fence_is_chain(fence))
+ 		return NULL;
+ 
+ 	return container_of(fence, struct dma_fence_chain, base);
+diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+index 1ea691753bd3..775cdc0b4f24 100644
+--- a/include/linux/dma-fence.h
++++ b/include/linux/dma-fence.h
+@@ -587,4 +587,42 @@ struct dma_fence *dma_fence_get_stub(void);
+ struct dma_fence *dma_fence_allocate_private_stub(void);
+ u64 dma_fence_context_alloc(unsigned num);
+ 
++extern const struct dma_fence_ops dma_fence_array_ops;
++extern const struct dma_fence_ops dma_fence_chain_ops;
++
++/**
++ * dma_fence_is_array - check if a fence is from the array subclass
++ * @fence: the fence to test
++ *
++ * Return true if it is a dma_fence_array and false otherwise.
++ */
++static inline bool dma_fence_is_array(struct dma_fence *fence)
++{
++	return fence->ops == &dma_fence_array_ops;
++}
++
++/**
++ * dma_fence_is_chain - check if a fence is from the chain subclass
++ * @fence: the fence to test
++ *
++ * Return true if it is a dma_fence_chain and false otherwise.
++ */
++static inline bool dma_fence_is_chain(struct dma_fence *fence)
++{
++	return fence->ops == &dma_fence_chain_ops;
++}
++
++/**
++ * dma_fence_is_container - check if a fence is a container for other fences
++ * @fence: the fence to test
++ *
++ * Return true if this fence is a container for other fences, false otherwise.
++ * This is important since we can't build up large fence structure or otherwise
++ * we run into recursion during operation on those fences.
++ */
++static inline bool dma_fence_is_container(struct dma_fence *fence)
++{
++	return dma_fence_is_array(fence) || dma_fence_is_chain(fence);
++}
++
+ #endif /* __LINUX_DMA_FENCE_H */
+-- 
+2.25.1
+
