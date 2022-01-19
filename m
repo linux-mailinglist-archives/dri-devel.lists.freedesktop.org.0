@@ -2,58 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18CE9493D6F
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 16:42:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E17A9493D80
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 16:45:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68A8110E302;
-	Wed, 19 Jan 2022 15:42:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A25B010E126;
+	Wed, 19 Jan 2022 15:45:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com
- [IPv6:2607:f8b0:4864:20::c35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2754610E314
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 15:42:20 +0000 (UTC)
-Received: by mail-oo1-xc35.google.com with SMTP id
- q15-20020a4a6c0f000000b002dc415427d3so853197ooc.2
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 07:42:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sV3+kDUL8DjXoSEoLC5sXb4a9dOfAi1JlkS/4ECjvmk=;
- b=evupy6jbU/zkHyiw80GH7FsGZa1tP7RHT2/12cO+4uKW5JeDTCmqIYtqol5Zre9096
- zea8POTzyFWE686ja34SKcLRPrrM8RovCstJr77m/tNTbDjX+hlEcc8BsUH5FvwNU5HD
- qsr4oXlbRiiNg3A0dp5ep0yYYVTkTW9BpZ5iQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sV3+kDUL8DjXoSEoLC5sXb4a9dOfAi1JlkS/4ECjvmk=;
- b=5Pmpq+aBHOUYp/IWXc65gsoEaQW3gkKVLiqZnHe8qCzOpUnEDcDGZCPATz+E1kCXqy
- Gbw7ZxB9cq8ldsOLy0xC7r/Bn6js8792xeUJtCp1qrtpO/x3ii0x78xI+zX6JjauDBlY
- wcQOEQVKHw5mumCHcah1ztcebSE+9JbKXDPr732WJiXLudPkx/M+l+NqM+bf5ncZIury
- fWAfIRaFMkYNEQ+N4h0leqvQ6dv5iWF5dxvGdUCHXvSI/2a2YMb8hoOrCvhsbmpQdUJy
- s79wCc22PLDekl6MjFGe3bWaPfzZ5nV3qIb+D1qQLIxDciF+TteVmhccR3nrWffnpOq2
- 7BUA==
-X-Gm-Message-State: AOAM5304+tNb58PRTLGDmbdZhWfweyrMIJHYksPrKO1bVh9We2grSiEo
- jra9RxO5ySbAg4moSn29BMrxIE4AuGVW41ElLK9x3Q==
-X-Google-Smtp-Source: ABdhPJy1jF87ij4w/+5l4yF+BCVJUry1sfgh+1wGxiideA8/zbNw4kVCCpwr6CQ1DSKDi+tQ6WImdhmt0nLCEpnChJc=
-X-Received: by 2002:a4a:db96:: with SMTP id s22mr20322036oou.66.1642606939245; 
- Wed, 19 Jan 2022 07:42:19 -0800 (PST)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8ADB810E126
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 15:45:46 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E1AB961518;
+ Wed, 19 Jan 2022 15:45:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1238AC004E1;
+ Wed, 19 Jan 2022 15:45:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1642607145;
+ bh=lGvpU5SU2oeO2Gj2gUOdONvIDUBxvoCyLVrP9LdAyK0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=uFHSCn+eRhus5s0gMFtlk4M/7JhocnfANlW1cVHA0G6W01cpJd8F+h8fndGiFBKZn
+ nCZZCtAQC4k7abNvVhvbVvzHZ7dwbuD74/T+NiX/IT3CWwnmAbzJ0EI/MN3ouRA4NK
+ JcMa2vYnHRlxojVgmRVHQy8kAseKCb6RYvwbbz/tuDQ+FYrQPMEKinDs+/J/QCmOle
+ OH44fC1gV0pSNhO5CC8MUprlf5WJ73QIy9YW2JqYDexDIA+m9Gz2JyKjFMMikgheJ8
+ PhLYlTQI+6mhi8SuY2B8vNy7F68ziMiWUL/NDEe4veZOx2TcwQKBwmk2W+zhD/Bwkn
+ UzTQKF64F/eMw==
+Date: Wed, 19 Jan 2022 15:45:29 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: Improve phandle-array schemas
+Message-ID: <YegyGbGcwSNo49gY@sirena.org.uk>
+References: <20220119015038.2433585-1-robh@kernel.org>
 MIME-Version: 1.0
-References: <20220119110839.33187-1-deller@gmx.de>
- <20220119110839.33187-3-deller@gmx.de>
- <Yef0j8+DBbwC7Kjv@kroah.com> <Yef15k2GtC40aJEu@kroah.com>
- <CAMuHMdVWFJEDwjf-htZ_D1484efmuPnz_L-qhcTeUE-GVpvZXA@mail.gmail.com>
- <4d8950c7-5f51-ca2b-4c93-741c7805a214@gmx.de>
- <CAHk-=wikFKjwdUBWCLCu=iL3rFq4BDDF0aBGdXC6ay74yJb+5Q@mail.gmail.com>
- <CAKMK7uEb53iu_HxYSnFZ59j=vXQdMvTWT7xosEo85XkAwzDMnA@mail.gmail.com>
- <8735ljkboo.fsf@x1.stackframe.org>
-In-Reply-To: <8735ljkboo.fsf@x1.stackframe.org>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 19 Jan 2022 16:42:06 +0100
-Message-ID: <CAKMK7uHHF22+MBz5D2kBv07X2BR76UDi2-JP7eO-f=nm-pymcw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Revert "fbcon: Disable accelerated scrolling"
-To: Sven Schnelle <svens@stackframe.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="czK8d+IES+j+3Pl3"
+Content-Disposition: inline
+In-Reply-To: <20220119015038.2433585-1-robh@kernel.org>
+X-Cookie: This bag is recyclable.
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,73 +53,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Linus Torvalds <torvalds@linux-foundation.org>, Helge Deller <deller@gmx.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Claudio Suarez <cssk@net-c.es>,
- Gerd Hoffmann <kraxel@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+Cc: Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, linux-remoteproc@vger.kernel.org,
+ alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
+ Sebastian Reichel <sre@kernel.org>, linux-ide@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Pavel Machek <pavel@ucw.cz>, linux-phy@lists.infradead.org,
+ netdev@vger.kernel.org, Jonathan Hunter <jonathanh@nvidia.com>,
+ Lee Jones <lee.jones@linaro.org>, linux-riscv@lists.infradead.org,
+ linux-leds@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Marc Zyngier <maz@kernel.org>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, iommu@lists.linux-foundation.org,
+ Kishon Vijay Abraham I <kishon@ti.com>, Jakub Kicinski <kuba@kernel.org>,
+ Zhang Rui <rui.zhang@intel.com>, linux-usb@vger.kernel.org,
+ Vivien Didelot <vivien.didelot@gmail.com>,
+ Wolfgang Grandegger <wg@grandegger.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
+ Kalle Valo <kvalo@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
+ linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Sam Ravnborg <sam@ravnborg.org>
+ Marc Kleine-Budde <mkl@pengutronix.de>, Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Kevin Hilman <khilman@kernel.org>,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Vinod Koul <vkoul@kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ linux-crypto@vger.kernel.org, Viresh Kumar <vireshk@kernel.org>,
+ dmaengine@vger.kernel.org, Georgi Djakov <djakov@kernel.org>,
+ Vladimir Oltean <olteanv@gmail.com>, "David S. Miller" <davem@davemloft.net>,
+ Joerg Roedel <joro@8bytes.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 19, 2022 at 4:06 PM Sven Schnelle <svens@stackframe.org> wrote:
->
-> Daniel Vetter <daniel@ffwll.ch> writes:
->
-> > On Wed, Jan 19, 2022 at 3:01 PM Linus Torvalds
-> > <torvalds@linux-foundation.org> wrote:
-> > Irrespective of this code being buggy or not buggy I think the bigger
-> > pictures, and really the reason I want to see as much code ditched
-> > from the fbdev/fbcon stack as we possible can, are very clear:
-> >
-> > - it's full of bugs
-> > - there's no test coverage/CI to speak of
-> > - it's very arcane code which is damn hard to understand and fix issues within
-> > - the locking is busted (largely thanks to console_lock, and the
-> > effort to make that reasonable from -rt folks has been slowly creeping
-> > forward for years).
-> >
-> > Iow this subsystem is firmly stuck in the 90s, and I think it's best
-> > to just leave it there. There's also not been anyone actually capable
-> > and willing to put in the work to change this (pretty much all actual
-> > changes/fixes have been done by drm folks anyway, like me having a
-> > small pet project to make the fbdev vs fbcon locking slightly less
-> > busted).
->
-> Saying it's stuck in the 90ies, and actively trying to prevent
-> Helge from taking over maintainership at the same time looks odd.
-> I think Helge should at least get a chance to fix the issues. If the
-> state is still the same in a year or so it should be discussed again.
 
-You don't need maintainership to fix issues. You need to submit patches.
+--czK8d+IES+j+3Pl3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-If otoh you get the maintainership first to be able to cram in reverts
-without discussions, then it's very backwards.
+On Tue, Jan 18, 2022 at 07:50:38PM -0600, Rob Herring wrote:
+> The 'phandle-array' type is a bit ambiguous. It can be either just an
+> array of phandles or an array of phandles plus args. Many schemas for
+> phandle-array properties aren't clear in the schema which case applies
+> though the description usually describes it.
 
-> > The other side is that being a maintainer is about collaboration, and
-> > this entire fbdev maintainership takeover has been a demonstration of
-> > anything but that. MAINTAINERS entry was a bit confusing since defacto
-> > drm has been maintaining it for years.
->
-> It was marked as 'Orphaned'. Anyone is free to send a Patch/PR to take
-> over maintainership. If you have strong opinions about that code (And you
-> obviously have reading your mail, set it to 'maintained' and care about
-> it. Everything else is just wrong in my opinion.
+Acked-by: Mark Brown <broonie@kernel.org>
 
-I already added dri-devel so anything we drastically change can be
-discussed first. If that's indeed not strong enough then yes I can
-whack in full maintainer entry with a bugfix-only status.
+--czK8d+IES+j+3Pl3
+Content-Type: application/pgp-signature; name="signature.asc"
 
-But really I try to not create facts with just editing MAINTAINERS
-first and ask questions later, that's just not a great way to
-collaborate.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmHoMhgACgkQJNaLcl1U
+h9AndQf6AqqY9YG2aSYiiYYVIPZoOOjUX2h6CnkvjYCVewt5gN+SxENXpgaLc0p7
+vUq1Rp5AXTu7uFjL2ebgJ8UZPO5cjNIcj81k5OTqRYCvRBqWrPJpsacwSvuNAIUC
+wrrUMNkFdRa0zaMGhMzVeaIAH9o5nqER6z2qXqGG9ccVbPBok8wg6W1xQCDlmyp8
+wzYMD1gLPXMihGy7mzkZd/BHFVdUjKVmYlGiUNl7GI9MVp6v8wt8BbDP4qng30Yz
+BLjhS3YyPDXdeYumU5Mvht+JzYmhn8Ihggw6dbQf6dO/UjwL+5ApN6em8mMhc0VH
+9cXSuI+tv6I8BrIvDkVLV+hVCpjdBg==
+=GpmZ
+-----END PGP SIGNATURE-----
+
+--czK8d+IES+j+3Pl3--
