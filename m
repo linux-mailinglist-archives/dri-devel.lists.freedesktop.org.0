@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A942A493E7A
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 17:43:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78639493E7E
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 17:45:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D306F10E260;
-	Wed, 19 Jan 2022 16:43:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3079810E349;
+	Wed, 19 Jan 2022 16:45:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 303 seconds by postgrey-1.36 at gabe;
- Wed, 19 Jan 2022 16:43:11 UTC
+X-Greylist: delayed 491 seconds by postgrey-1.36 at gabe;
+ Wed, 19 Jan 2022 16:45:16 UTC
 Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1765110E260
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 16:43:10 +0000 (UTC)
+ (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC9DD10E34A
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 16:45:16 +0000 (UTC)
 Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-70-ad3hgsm6PzCTMw0_BweRrA-1; Wed, 19 Jan 2022 16:37:02 +0000
-X-MC-Unique: ad3hgsm6PzCTMw0_BweRrA-1
+ uk-mta-72-jhIrFXPuMueVJc9IEo4ZMw-1; Wed, 19 Jan 2022 16:38:28 +0000
+X-MC-Unique: jhIrFXPuMueVJc9IEo4ZMw-1
 Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
  AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.28; Wed, 19 Jan 2022 16:37:00 +0000
+ Server (TLS) id 15.0.1497.28; Wed, 19 Jan 2022 16:38:26 +0000
 Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
  AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.028; Wed, 19 Jan 2022 16:37:00 +0000
+ 15.00.1497.028; Wed, 19 Jan 2022 16:38:26 +0000
 From: David Laight <David.Laight@ACULAB.COM>
-To: 'Steven Rostedt' <rostedt@goodmis.org>, Andy Shevchenko
- <andy.shevchenko@gmail.com>
+To: David Laight <David.Laight@ACULAB.COM>, 'Steven Rostedt'
+ <rostedt@goodmis.org>, Andy Shevchenko <andy.shevchenko@gmail.com>
 Subject: RE: [PATCH 1/3] lib/string_helpers: Consolidate yesno() implementation
 Thread-Topic: [PATCH 1/3] lib/string_helpers: Consolidate yesno()
  implementation
-Thread-Index: AQHYDUVmV8sHy8JfXU2yTPkp1VbmK6xqitzA
-Date: Wed, 19 Jan 2022 16:37:00 +0000
-Message-ID: <06420a70f4434c2b8590cc89cad0dd6a@AcuMS.aculab.com>
+Thread-Index: AQHYDUVmV8sHy8JfXU2yTPkp1VbmK6xqitzAgAAAVLA=
+Date: Wed, 19 Jan 2022 16:38:26 +0000
+Message-ID: <9c26ca9bf75d494ea966059d9bcbc2b5@AcuMS.aculab.com>
 References: <20220119072450.2890107-1-lucas.demarchi@intel.com>
  <20220119072450.2890107-2-lucas.demarchi@intel.com>
  <CAHp75Vf5QOD_UtDK8VbxNApEBuJvzUic0NkzDNmRo3Q7Ud+=qw@mail.gmail.com>
  <20220119100102.61f9bfde@gandalf.local.home>
-In-Reply-To: <20220119100102.61f9bfde@gandalf.local.home>
+ <06420a70f4434c2b8590cc89cad0dd6a@AcuMS.aculab.com>
+In-Reply-To: <06420a70f4434c2b8590cc89cad0dd6a@AcuMS.aculab.com>
 Accept-Language: en-GB, en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
@@ -52,7 +53,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: aculab.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,7 +85,7 @@ Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Eryk Brol <eryk.brol@amd.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- =?iso-8859-1?Q?Christian_K=F6nig?= <christian.koenig@amd.com>,
+ =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>,
  Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
  "linux-security-module@vger.kernel.org"
  <linux-security-module@vger.kernel.org>,
@@ -94,14 +95,10 @@ Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > > +static inline const char *yesno(bool v) { return v ? "yes" : "no"; }
-
-=09return "yes\0no" + v * 4;
-
-:-)
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
+PiA+ID4gPiArc3RhdGljIGlubGluZSBjb25zdCBjaGFyICp5ZXNubyhib29sIHYpIHsgcmV0dXJu
+IHYgPyAieWVzIiA6ICJubyI7IH0NCj4gDQo+IAlyZXR1cm4gInllc1wwbm8iICsgdiAqIDQ7DQo+
+IA0KPiA6LSkNCg0KZXhjZXB0ICcibm9cMFwweWVzIiArIHYgKiA0JyB3b3JrcyBhIGJpdCBiZXR0
+ZXIuDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2FkLCBNb3Vu
+dCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3
+Mzg2IChXYWxlcykNCg==
 
