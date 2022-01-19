@@ -1,46 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5B2C4943B8
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 00:13:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 492624943BC
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 00:14:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCABF10E292;
-	Wed, 19 Jan 2022 23:13:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16A6110E2C8;
+	Wed, 19 Jan 2022 23:14:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0900D10E292
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 23:13:45 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 6E06CB81911;
- Wed, 19 Jan 2022 23:13:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 243A6C340E4;
- Wed, 19 Jan 2022 23:13:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1642634022;
- bh=swuuNiOoGgJBUEQYGiWjhIMC2dkjnsqhYlZe0AHANOo=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=cU1tiOf+BZz+w8PZnmlU8q0GtNxAwmaF01vGGyE3XwZspIbWMHizXrGd8yZkL4Yrt
- h5DQ/18gPqaCbTu8WDaVSQ0/4NPLmvel2ZHxtkChkb0XoqGT/rftCFwhGrQi32p/c6
- 9C7hQe8s/oSynIw0Dtw8ntcseUFiRBP84OfPPW2apdBoXkP3saHm9/jOoQq9Dyckgs
- p+dC5gx4vPD6KBbmxd/O6N28Yk1wMg/qwXFHqbLkYDEQA6WTCbzcx2gfj1bcCweWBg
- I7Noku7d69aO2G4UcEkom0pGa1IbOs65n1J9X5KFZPhBMNFGzQE4zCfs1As73p5oRT
- FyqULwQqZE0Xg==
-Content-Type: text/plain; charset="utf-8"
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44F1B10E2DC
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 23:14:25 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id b14so14511490lff.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 15:14:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=PbQl0BUn++ZB1i9uODmQ5ljj1iJBVeOFEPuDnyWs3xs=;
+ b=BghlF19x8AQECHFk1LWzUs8loj0o450isIXnhV5UFd4gJH+MjeY6SxVNFPaiChU+rE
+ mSFxggcrXUa+WFBYkj1zJiAlg1Va+0EkufrCanIuJmrwWs2pUUE8SnruiSYx1WEiUf8W
+ P9+a2vUkbTG32v167Eiw+U+afcLyJSRDqxUKwCwV/GfgcKO8OyVUfCYWBpivzBCUowH9
+ xd5ah/LFgz2pAPe0QzyT/S28Zf6ETKlocAuVMsCr3/EI2Ab6AR201k7dutPsyPO49mkE
+ c3RLlxjLmLzmFq4nTGs9U0C+evsqyLp0ClWrbdFKXS2xP/nK7UgKPva2VZE2wT/ErfUn
+ hOGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=PbQl0BUn++ZB1i9uODmQ5ljj1iJBVeOFEPuDnyWs3xs=;
+ b=epAM4S8VIoqXuDQrYRPy10hHDmvxryC2r0SU9OJNc040hABSy13+uwnhcVx9iJQ5Vm
+ NX5po+OeV3+wH7bNZ3MMtqAjU1mATT4FqErGmAa7QY1xaTEKGb6B6r2TF89sDHFU3kBr
+ h5QufhGDKEyRYNDXx1ld4l32q4tXCZtBFZToeTCWu82m+mwfACXrTlA4rA817QZztbW5
+ 9/mS4I9xuf96hpTy1VR6o9NTSaVo3QsKuLbgB5yC7m2xNzvhBGbe/bhdaD6OCSS4xiG+
+ ttv6+QP5bxN4+csUCByVJIDOKpbPRSxtVTTfkcn8ob/a3Y+AhIVGo0tOD192IKPi20pS
+ P+Gg==
+X-Gm-Message-State: AOAM530G/6PddBVVAYbL7g6FtpST0P8XSvme45pxmoF4FNJ+dxRTiLbJ
+ n+zqbuZ7wUimd6Mo+CwCl6tH5g==
+X-Google-Smtp-Source: ABdhPJyIGbFbXxIUsw5VhJwKDJr0lHFFTp7Ydun85LWYMO1pX6Qobx0Wz20uLUDHliD8JnPJUCZV5w==
+X-Received: by 2002:a2e:b896:: with SMTP id r22mr15946359ljp.390.1642634063482; 
+ Wed, 19 Jan 2022 15:14:23 -0800 (PST)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id l22sm107192lfh.137.2022.01.19.15.14.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Jan 2022 15:14:22 -0800 (PST)
+Message-ID: <176fb0bc-2f09-df3b-86be-ef69b8e6cea8@linaro.org>
+Date: Thu, 20 Jan 2022 02:14:22 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220119015038.2433585-1-robh@kernel.org>
-References: <20220119015038.2433585-1-robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: Improve phandle-array schemas
-From: Stephen Boyd <sboyd@kernel.org>
-To: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Date: Wed, 19 Jan 2022 15:13:40 -0800
-User-Agent: alot/0.10
-Message-Id: <20220119231342.243A6C340E4@smtp.kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] drm/msm/dp: Add DisplayPort controller for SM8350
+Content-Language: en-GB
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Rob Herring <robh+dt@kernel.org>
+References: <20211228045934.1524865-1-bjorn.andersson@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20211228045934.1524865-1-bjorn.andersson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,68 +73,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
- linux-usb@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
- "Rafael J. Wysocki" <rafael@kernel.org>, linux-remoteproc@vger.kernel.org,
- alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
- Sebastian Reichel <sre@kernel.org>, linux-ide@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Pavel Machek <pavel@ucw.cz>, linux-phy@lists.infradead.org,
- netdev@vger.kernel.org, Jonathan Hunter <jonathanh@nvidia.com>,
- Lee Jones <lee.jones@linaro.org>, linux-riscv@lists.infradead.org,
- linux-leds@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- Florian Fainelli <f.fainelli@gmail.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Marc Zyngier <maz@kernel.org>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, iommu@lists.linux-foundation.org,
- Kishon Vijay Abraham I <kishon@ti.com>, Jakub Kicinski <kuba@kernel.org>,
- Zhang Rui <rui.zhang@intel.com>, Vivien Didelot <vivien.didelot@gmail.com>,
- Wolfgang Grandegger <wg@grandegger.com>, linux-media@vger.kernel.org,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, linux-pm@vger.kernel.org,
- Kalle Valo <kvalo@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
- linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mark Brown <broonie@kernel.org>, Marc Kleine-Budde <mkl@pengutronix.de>,
- Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Kevin Hilman <khilman@kernel.org>,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- Vinod Koul <vkoul@kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- linux-crypto@vger.kernel.org, Viresh Kumar <vireshk@kernel.org>,
- dmaengine@vger.kernel.org, Georgi Djakov <djakov@kernel.org>,
- Vladimir Oltean <olteanv@gmail.com>, "David S. Miller" <davem@davemloft.net>,
- Joerg Roedel <joro@8bytes.org>
+Cc: Sean Paul <sean@poorly.run>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Rob Herring (2022-01-18 17:50:38)
-> The 'phandle-array' type is a bit ambiguous. It can be either just an
-> array of phandles or an array of phandles plus args. Many schemas for
-> phandle-array properties aren't clear in the schema which case applies
-> though the description usually describes it.
->=20
-> The array of phandles case boils down to needing:
->=20
-> items:
->   maxItems: 1
->=20
-> The phandle plus args cases should typically take this form:
->=20
-> items:
->   - items:
->       - description: A phandle
->       - description: 1st arg cell
->       - description: 2nd arg cell
->=20
-> With this change, some examples need updating so that the bracketing of
-> property values matches the schema.
-[..]
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
+On 28/12/2021 07:59, Bjorn Andersson wrote:
+> The Qualcomm SM8350 platform comes with a single DisplayPort controller,
+> add support for this in the DisplayPort driver.
+> 
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 
-Acked-by: Stephen Boyd <sboyd@kernel.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+> ---
+>   .../devicetree/bindings/display/msm/dp-controller.yaml    | 1 +
+>   drivers/gpu/drm/msm/dp/dp_display.c                       | 8 ++++++++
+>   2 files changed, 9 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> index 5457612ab136..cd05cfd76536 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> @@ -21,6 +21,7 @@ properties:
+>         - qcom,sc7280-edp
+>         - qcom,sc8180x-dp
+>         - qcom,sc8180x-edp
+> +      - qcom,sm8350-dp
+>   
+>     reg:
+>       items:
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index 8d9c19dbf33e..fd0fd03f8fed 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -143,10 +143,18 @@ static const struct msm_dp_config sc7280_dp_cfg = {
+>   	.num_descs = 2,
+>   };
+>   
+> +static const struct msm_dp_config sm8350_dp_cfg = {
+> +	.descs = (const struct msm_dp_desc[]) {
+> +		[MSM_DP_CONTROLLER_0] = { .io_start = 0x0ae90000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
+> +	},
+> +	.num_descs = 1,
+> +};
+> +
+>   static const struct of_device_id dp_dt_match[] = {
+>   	{ .compatible = "qcom,sc7180-dp", .data = &sc7180_dp_cfg },
+>   	{ .compatible = "qcom,sc7280-dp", .data = &sc7280_dp_cfg },
+>   	{ .compatible = "qcom,sc7280-edp", .data = &sc7280_dp_cfg },
+> +	{ .compatible = "qcom,sm8350-dp", .data = &sm8350_dp_cfg },
+>   	{}
+>   };
+>   
+
+
+-- 
+With best wishes
+Dmitry
