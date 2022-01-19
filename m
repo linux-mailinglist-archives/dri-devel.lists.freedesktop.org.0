@@ -1,62 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE6549367E
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 09:45:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D32AA4936A4
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 09:55:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25FCD10E8B4;
-	Wed, 19 Jan 2022 08:45:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A7E310E151;
+	Wed, 19 Jan 2022 08:55:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1070B10E88D
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 08:45:24 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 6F62B2114D;
- Wed, 19 Jan 2022 08:45:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1642581923; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=sbFeRO04i5HicC85tc8H7/BATdtI/nL6umLV4UIjyVc=;
- b=x4sgiWewpPWrSIbt1N3tbh4aWlkO9OATOJo9yb5YumMuayJO7bAqh9+G/WRXu4XMv2wz5j
- VBtMBgQnJHF4c2drAOsmj7THhpMzX2Uc8hVkKzUCO/W2i6wUswmh6ZbxS220JjnwwRN3mW
- 8qM2wzL/vcqe2shx4jdE7pAP0K5hpXQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1642581923;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=sbFeRO04i5HicC85tc8H7/BATdtI/nL6umLV4UIjyVc=;
- b=Z0jM/KsBHpLyObToMr/EA7T1T7Fdm10LJj+Fj57BjKdB6C7oOJFJ9a9RwW+SjSbCHAye3F
- TBvIG/X6Lx2kF1Cw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 508D613B32;
- Wed, 19 Jan 2022 08:45:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id OmyqEqPP52ErDgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 19 Jan 2022 08:45:23 +0000
-Message-ID: <899e2aae-f850-2b3b-f449-fa550dfbdf04@suse.de>
-Date: Wed, 19 Jan 2022 09:45:22 +0100
+Received: from mail-vk1-xa29.google.com (mail-vk1-xa29.google.com
+ [IPv6:2607:f8b0:4864:20::a29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70BB110E151
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 08:55:34 +0000 (UTC)
+Received: by mail-vk1-xa29.google.com with SMTP id d189so1083094vkg.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 00:55:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=0x0f.com; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=f3GQA/yWddcSt+mV1d0z/WtZsk+EibBZa5EQxJfaZGU=;
+ b=DONxNiK1UWGWatK8mwHBgX+zEByY4sRhpIqAZj5rt/8wG4FxJ3HR66LWIqHHHIS6It
+ 1aN7KSmPwFx3uui5RZ3pSUnicltWYUPdlUNh8Ur2Z1HGB0sVAd2wfj9xdEhG97eSLlea
+ A99zr9TnAHZWy2YqeoS8vTU0Qo/NOp6B8LQLM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=f3GQA/yWddcSt+mV1d0z/WtZsk+EibBZa5EQxJfaZGU=;
+ b=0JgcIk71FAOmYeglfpZxJko2UZ1NP1O72ZgNW8D3tND7wwRDywnZLjTDfE5HC532Vw
+ Mgpe5Ziki/SVZo/BrLkKNtaPRL2+PofgO79ZREA4spz87cnS5Or47Zv3YYoVG48Qtpua
+ XpRgjciDddCGSDzNg3XdjJpDHnJhpitX4QilAJHPMAT+g5YnLBQKbuU8FZ140pT+eyVL
+ SJLrD8Ou9Xeve4lSfCgdH9c+iknGsqMb9KQoKBnvDo+HzwluouUdM9TrG+wlG6NR8CKy
+ NYww8pv47S2HFCOhbOPCIVU1+T2ygywR0pj2wHdinVnD8pN4WmReT4SmIg02EHZ6KEEH
+ 2z+Q==
+X-Gm-Message-State: AOAM533q3p53GnEdGf4Kz3TV+SLhB0dIncqmVh7c+LrHupZiY1NMUjRf
+ +0ufuSw2llfHORR2UeUVQTP2exslrXsSKHZIfSVNzVRUS8/OFA==
+X-Google-Smtp-Source: ABdhPJwGYQVjGFatpV8tqDJZCFGcOjlZpSUNld6ZNcf9u4EEQtyrWaQzMQ9uRE8jScwAhzWldvHI8yBX9jVzdV1qzEA=
+X-Received: by 2002:a1f:a6cc:: with SMTP id p195mr12348176vke.41.1642582533060; 
+ Wed, 19 Jan 2022 00:55:33 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] drm/vmwgfx: Stop requesting the pci regions
-Content-Language: en-US
-To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
-References: <20220117180359.18114-1-zack@kde.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220117180359.18114-1-zack@kde.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------jRxW9H7reAG78JF7eVvvI0M0"
+From: Daniel Palmer <daniel@0x0f.com>
+Date: Wed, 19 Jan 2022 17:55:22 +0900
+Message-ID: <CAFr9PXnig9YfnwSzMg5UPm3UtAsEAQT_xVheBbLppiU45mc_QQ@mail.gmail.com>
+Subject: [RFC] How to add hardware rotation, scaling etc to a DRM/KMS driver
+To: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,85 +55,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: krastevm@vmware.com, mombasawalam@vmware.com, stable@vger.kernel.org
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------jRxW9H7reAG78JF7eVvvI0M0
-Content-Type: multipart/mixed; boundary="------------zK5lCqNdTCi8UyNjvHWRetCJ";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
-Cc: krastevm@vmware.com, stable@vger.kernel.org, mombasawalam@vmware.com
-Message-ID: <899e2aae-f850-2b3b-f449-fa550dfbdf04@suse.de>
-Subject: Re: [PATCH] drm/vmwgfx: Stop requesting the pci regions
-References: <20220117180359.18114-1-zack@kde.org>
-In-Reply-To: <20220117180359.18114-1-zack@kde.org>
+Hi all,
 
---------------zK5lCqNdTCi8UyNjvHWRetCJ
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+I've copied and pasted my way to mostly working DRM/KMS driver for a
+low cost ARM SoC (Sigmastar SSD202D). The hardware is 2D only.
 
-SGkgWmFjaw0KDQpBbSAxNy4wMS4yMiB1bSAxOTowMyBzY2hyaWViIFphY2sgUnVzaW46DQo+
-IEZyb206IFphY2sgUnVzaW4gPHphY2tyQHZtd2FyZS5jb20+DQo+IA0KPiBXaGVuIHN5c2Zi
-X3NpbXBsZSBpcyBlbmFibGVkIGxvYWRpbmcgdm13Z2Z4IGZhaWxzIGJlY2F1c2UgdGhlIHJl
-Z2lvbnMNCj4gYXJlIGhlbGQgYnkgdGhlIHBsYXRmb3JtLiBJbiB0aGF0IGNhc2UgcmVtb3Zl
-X2NvbmZsaWN0aW5nKl9mcmFtZWJ1ZmZlcnMNCj4gb25seSByZW1vdmVzIHRoZSBzaW1wbGVm
-YiBidXQgbm90IHRoZSByZWdpb25zIGhlbGQgYnkgc3lzZmIuDQoNCkkgZG9uJ3QgdW5kZXJz
-dGFuZCB0aGlzIHNlbnRlbmNlLiBUaGVyZSdzIG9ubHkgb25lIG1lbW9yeSByZXNvdXJjZSAN
-CmNsYWltZWQgYnkgdGhlIHN5c2ZiIGNvZGUuIFdoYXQgZWxzZSB3b3VsZCBibG9jayB2bXdn
-Zng/DQoNCkkgYXBwZWFycyB0byBtZSBhcyBpZiBzaW1wbGVmYiBzaG91bGQgcmVsZWFzZSB0
-aGUgcmVnaW9uIChvciB0aGUgDQpzaW1wbGUtZnJhbWVidWZmZXIgZGV2aWNlKS4NCg0Kc2lt
-cGxlZHJtIGRvZXMgYSBob3QtdW5wbHVnIG9mIHRoZSBzaW1wbGUtZnJhbWVidWZmZXIsIHNv
-IHRoZSByZWdpb24gDQpzaG91bGQgYmUgcmVsZWFzZWQgYWZ0ZXJ3YXJkcy4NCg0KQmVzdCBy
-ZWdhcmQNClRob21hcw0KDQo+IA0KPiBMaWtlIHRoZSBvdGhlciBkcm0gZHJpdmVycyB3ZSBu
-ZWVkIHRvIHN0b3AgcmVxdWVzdGluZyBhbGwgdGhlIHBjaSByZWdpb25zDQo+IHRvIGxldCB0
-aGUgZHJpdmVyIGxvYWQgd2l0aCBwbGF0Zm9ybSBjb2RlIGVuYWJsZWQuDQo+IFRoaXMgYWxs
-b3dzIHZtd2dmeCB0byBsb2FkIGNvcnJlY3RseSBvbiBzeXN0ZW1zIHdpdGggc3lzZmJfc2lt
-cGxlIGVuYWJsZWQuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBaYWNrIFJ1c2luIDx6YWNrckB2
-bXdhcmUuY29tPg0KPiBGaXhlczogNTIzMzc1Yzk0M2U1ICgiZHJtL3Ztd2dmeDogUG9ydCB2
-bXdnZnggdG8gYXJtNjQiKQ0KPiBDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-Zw0KPiBDYzogPHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmc+DQo+IFJldmlld2VkLWJ5OiBNYXJ0
-aW4gS3Jhc3RldiA8a3Jhc3Rldm1Adm13YXJlLmNvbT4NCj4gLS0tDQo+ICAgZHJpdmVycy9n
-cHUvZHJtL3Ztd2dmeC92bXdnZnhfZHJ2LmMgfCA0IC0tLS0NCj4gICAxIGZpbGUgY2hhbmdl
-ZCwgNCBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-dm13Z2Z4L3Ztd2dmeF9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2Ry
-di5jDQo+IGluZGV4IGZlMzZlZmRiN2ZmNS4uMjdmZWIxOWYzMzI0IDEwMDY0NA0KPiAtLS0g
-YS9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9kcnYuYw0KPiArKysgYi9kcml2ZXJz
-L2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9kcnYuYw0KPiBAQCAtNzI0LDEwICs3MjQsNiBAQCBz
-dGF0aWMgaW50IHZtd19zZXR1cF9wY2lfcmVzb3VyY2VzKHN0cnVjdCB2bXdfcHJpdmF0ZSAq
-ZGV2LA0KPiAgIA0KPiAgIAlwY2lfc2V0X21hc3RlcihwZGV2KTsNCj4gICANCj4gLQlyZXQg
-PSBwY2lfcmVxdWVzdF9yZWdpb25zKHBkZXYsICJ2bXdnZnggcHJvYmUiKTsNCj4gLQlpZiAo
-cmV0KQ0KPiAtCQlyZXR1cm4gcmV0Ow0KPiAtDQo+ICAgCWRldi0+cGNpX2lkID0gcGNpX2lk
-Ow0KPiAgIAlpZiAocGNpX2lkID09IFZNV0dGWF9QQ0lfSURfU1ZHQTMpIHsNCj4gICAJCXJt
-bWlvX3N0YXJ0ID0gcGNpX3Jlc291cmNlX3N0YXJ0KHBkZXYsIDApOw0KDQotLSANClRob21h
-cyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJl
-IFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVy
-ZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhy
-ZXI6IEl2byBUb3Rldg0K
+One of the devices that uses this SoC has the screen upside down so it
+needs the screen rotated.
+The hardware doesn't have bits that change the scan out direction from
+what I can tell (so it can't mirror/flip while feeding it to the
+screen) but it does have a 2D blitter style block that can take a
+framebuffer and flip/mirror/scale/convert the colour space into
+another buffer.
 
---------------zK5lCqNdTCi8UyNjvHWRetCJ--
+My idea was to create a buffer for the rotated image when allocating
+the framebuffer and trigger the hardware to do the conversion each
+vblank or something.
 
---------------jRxW9H7reAG78JF7eVvvI0M0
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+While reading the discussion about maintaining fbdev I realised maybe
+I should ask instead of wasting too much time on something that's
+wrong.
 
------BEGIN PGP SIGNATURE-----
+I got the feeling that maybe I should just provide an interface to the
+blitter from userspace and userspace should be doing the rotation. I'd
+like to do it in the kernel so stuff like SDL1 apps just work but
+maybe that isn't possible?
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHnz6IFAwAAAAAACgkQlh/E3EQov+Cd
-Ng//YpdeqjJ98Qbjax/rPAEbfGS2hZYLGsvlQmdL1yGomzMpDeDGJCIimU4tMVOnDKAqJddnA2oR
-RnKU99BduZbWz85LgKRxx3TYgcXKp0ym+C0t4eyRLUCh1U4x4CNhg+IN67HLLZCtDhIURZNKCOyJ
-MjOz4UHOnoxIoMsv8Wkca3oCrFk79OlwIQJArg9e8v7D6usRi6e2uoxFKfEQQoG+Cn13HFxHaWpY
-xugE1l80aqQzvimXdZTA+07AEVCzhJ0kU5Pu46bFKMqj0zHV3gaRhgjINFhqsWDqnEnBlEvho1gk
-Np+CiIZqYhza5GtnbjBlktSGM2Gk6Wzx6mBrrMC+nIvv3U8LL3KCDp5wvU4yNzKm4IrU4VVqUqxg
-oAG000Q9taygnfjkkIGXVqvOrouheULkNhKZ9wPVVZV50WseCR+evQzlgvOAmvNmn+TDyNWLnxWX
-rD7nsDwUyTqSEobmZgoycr3aEx2+UbHN7Qf4qdrH+HHOAVitxWHHWXHJEhlcoUEGgXpZW5SVaBnd
-0RkpE6dWs6d4v4VH3/hX4X9WHBjB/Qkbfx4a+Lbqsbd2f0GIgvsQUdFrRTgknWklvnPLDnpnH/31
-zCNVRqsjDPUsHVstH0SS/ERMyuT4+LPyAyfRXZFArGulPcP1Hc9cV92qsz5cLTbBCxfaNMsD07Bd
-YsA=
-=W3NP
------END PGP SIGNATURE-----
+Cheers,
 
---------------jRxW9H7reAG78JF7eVvvI0M0--
+Daniel
