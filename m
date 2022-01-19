@@ -2,58 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 624654939DA
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 12:48:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E44A14939E6
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 12:50:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4886F10ED7A;
-	Wed, 19 Jan 2022 11:48:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C42E10EFD5;
+	Wed, 19 Jan 2022 11:50:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com
- [209.85.222.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EBAB10ED7A
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 11:48:06 +0000 (UTC)
-Received: by mail-ua1-f42.google.com with SMTP id c36so3891842uae.13
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 03:48:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JCbX2OMJvl/EE6vcwTdZbTk0S6N5nx5++Qk7hJWCnWw=;
- b=QrjOTpqEVxYxJCmzc+jXuqFRoLP3pYD2dW7BsIGjn/Hv/b2w0G8x4+eOjvsFar5MwL
- qy9/LrlhqR7psQbE8Yzu9H87Aw+fcGNgt0Kh3RfxkNpe6pMnNSHqlWW7AltqZbX9FEix
- a73ht+y2XaahZTd9kkWy6/DMmGjPBmiXAkj1tTUAkGjbVRrHbnDHnbG3jxDuJ6vB6F78
- 3CPt8SjsvhjnrrubTXzQBRA5n7X5WL8EwYRWbF7WvIDmvJYWR7bB6IxjAChalN8lqOjb
- JTrB3fdTFOBWKar+KnIdWh89zk4aelkiN8wWNBEtwLHLd6c1ntalsQyhIWd6oS/Jqlti
- jQOg==
-X-Gm-Message-State: AOAM530e1N+C5D3uhAG0gJS0ztY6Zi1fSjemWMsQJOB+hnkMtJl9uhmE
- kN/GZyWpVYKJCmYKslKZ2KbEc3V9yAY2DQ==
-X-Google-Smtp-Source: ABdhPJzWfaWmEMaeZKReVESxcqRtjrk2yPslN830yvtIZrsrqAhxMAkIw2KPgddzSRFvPhaKGwPP7w==
-X-Received: by 2002:a67:e014:: with SMTP id c20mr12018613vsl.39.1642592884386; 
- Wed, 19 Jan 2022 03:48:04 -0800 (PST)
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com.
- [209.85.222.43])
- by smtp.gmail.com with ESMTPSA id k77sm1994275vka.20.2022.01.19.03.48.02
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Jan 2022 03:48:03 -0800 (PST)
-Received: by mail-ua1-f43.google.com with SMTP id m15so3959564uap.6
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 03:48:02 -0800 (PST)
-X-Received: by 2002:a05:6102:3581:: with SMTP id
- h1mr11427171vsu.5.1642592881909; 
- Wed, 19 Jan 2022 03:48:01 -0800 (PST)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 447F210EFD5
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 11:50:48 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id D56AC1F41B72
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1642593047;
+ bh=ZDXusnKss3SgqSE9L3JA19reKc+Pw1Zd9j8G4yPKtAI=;
+ h=Subject:From:To:Cc:References:Date:In-Reply-To:From;
+ b=M4+gNzJ15og4zljTpYBotnMchN5cQKChFRvyR5ASSshs9VUJKYR4YdkLx7uQ3uRoS
+ zeRPLhF29Nuptro6qDkxhyi4wMoIUpJTA/vBhyf8aJW9iBfsD5/bXEUw8AXdiS/bi6
+ 0nxlSzGQfoFrFLpQau6wq+7AfabYS3bLGrlTZBuJS5Oc18J4+UBMKB0nTGVgBlQ7Vb
+ PDrq6q6fSNbEg1QwwON2yrMsVbTZO0uwmK8ZJrYpak9ARwwUxHDBZRt95bcU0D0Npx
+ N+ivniF1PUxR8E6ohCrSiWgTy7+lspqYvMLCR0zUtiZ5nWAg7AMyL9fMOhWVL6I1uf
+ ybUE0eJPjwHTg==
+Subject: Re: [PATCH v5, 15/15] media: mtk-vcodec: support stateless VP9
+ decoding
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: Yunfei Dong <yunfei.dong@mediatek.com>,
+ Alexandre Courbot <acourbot@chromium.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tzung-Bi Shih
+ <tzungbi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Tomasz Figa <tfiga@google.com>
+References: <20220117094001.20049-1-yunfei.dong@mediatek.com>
+ <20220117094001.20049-16-yunfei.dong@mediatek.com>
+ <275affff-12d9-4659-e900-aa9c306e6701@collabora.com>
+Message-ID: <eaf4f649-89fc-77ff-dab1-2c837cd8c877@collabora.com>
+Date: Wed, 19 Jan 2022 12:50:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20220119110839.33187-1-deller@gmx.de>
- <20220119110839.33187-3-deller@gmx.de>
- <Yef0j8+DBbwC7Kjv@kroah.com> <Yef15k2GtC40aJEu@kroah.com>
-In-Reply-To: <Yef15k2GtC40aJEu@kroah.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 19 Jan 2022 12:47:50 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVWFJEDwjf-htZ_D1484efmuPnz_L-qhcTeUE-GVpvZXA@mail.gmail.com>
-Message-ID: <CAMuHMdVWFJEDwjf-htZ_D1484efmuPnz_L-qhcTeUE-GVpvZXA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Revert "fbcon: Disable accelerated scrolling"
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <275affff-12d9-4659-e900-aa9c306e6701@collabora.com>
+Content-Type: text/plain; charset=iso-8859-15; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,76 +59,315 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Pavel Machek <pavel@ucw.cz>, Sam Ravnborg <sam@ravnborg.org>,
- Sven Schnelle <svens@stackframe.org>, Helge Deller <deller@gmx.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Claudio Suarez <cssk@net-c.es>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>, srv_heupstream@mediatek.com,
+ devicetree@vger.kernel.org, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ Xiaoyong Lu <xiaoyong.lu@mediatek.com>, linux-mediatek@lists.infradead.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Steve Cho <stevecho@chromium.org>, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Greg,
+Il 19/01/22 12:28, AngeloGioacchino Del Regno ha scritto:
+> Il 17/01/22 10:40, Yunfei Dong ha scritto:
+>> Add support for VP9 decoding using the stateless API,
+>> as supported by MT8192. And the drivers is lat and core architecture.
+>>
+>> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+>> Signed-off-by: George Sun <george.sun@mediatek.com>
+>> ---
+>>   drivers/media/platform/mtk-vcodec/Makefile    |    1 +
+>>   .../mtk-vcodec/mtk_vcodec_dec_stateless.c     |   26 +-
+>>   .../platform/mtk-vcodec/mtk_vcodec_drv.h      |    1 +
+>>   .../mtk-vcodec/vdec/vdec_vp9_req_lat_if.c     | 1973 +++++++++++++++++
+>>   .../media/platform/mtk-vcodec/vdec_drv_if.c   |    4 +
+>>   .../media/platform/mtk-vcodec/vdec_drv_if.h   |    1 +
+>>   6 files changed, 2003 insertions(+), 3 deletions(-)
+>>   create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_req_lat_if.c
+>>
+> 
+> Hello Yunfei,
+> this driver is based on an older version of the VP9 stateless decoder uAPI,
+> hence this is not applicable upstream.
+> 
+> The latest linux-next tag (as of today) already contains the new and
+> accepted code; can you please rebase over that one?
+> 
+> Thanks,
+> Angelo
 
-On Wed, Jan 19, 2022 at 12:28 PM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
-> On Wed, Jan 19, 2022 at 12:22:55PM +0100, Greg Kroah-Hartman wrote:
-> > On Wed, Jan 19, 2022 at 12:08:39PM +0100, Helge Deller wrote:
-> > > This reverts commit 39aead8373b3c20bb5965c024dfb51a94e526151.
-> > >
-> > > Revert this patch.  This patch started to introduce the regression that
-> > > all hardware acceleration of more than 35 existing fbdev drivers were
-> > > bypassed and thus fbcon console output for those was dramatically slowed
-> > > down by factor of 10 and more.
-> > >
-> > > Reverting this commit has no impact on DRM, since none of the DRM drivers are
-> > > tagged with the acceleration flags FBINFO_HWACCEL_COPYAREA,
-> > > FBINFO_HWACCEL_FILLRECT or others.
-> > >
-> > > Signed-off-by: Helge Deller <deller@gmx.de>
+While finishing a rebase, I had time to do a fast port of this patch; in hopes
+to spare you some time, I'm giving you my (fast) take at this.
 
-> > As for "why", I think there was a number of private bugs that were
-> > reported in this code, which is why it was removed.  I do not think it
-> > can be safely added back in without addressing them first.  Let me go
-> > dig through my email to see if I can find them...
->
-> Ah, no, that was just the soft scrollback code I was thinking of, which
+Feel free to use it as you wish!
 
-So the bugs argument is moot.
 
-> was a different revert and is still gone, thankfully :)
+ From 5f329ad271c94bf82d2dd12075372159466c28f9 Mon Sep 17 00:00:00 2001
 
-FTR, not everyone else was thankful about that one...
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-> This one was just removed because Daniel noticed that only 3 drivers
-> used this (nouveau, omapdrm, and gma600), so this shouldn't have caused
-> any regressions in any other drivers like you are reporting here.
->
-> So perhaps this regression is caused by something else?
+Date: Wed, 19 Jan 2022 12:45:18 +0100
 
-1. Daniel's patch was not CCed to linux-fbdev,
-2. When I discovered the patch, I pointed out that the premise of 3
-   drivers was not true, and that it affects 32 more fbdev drivers[1] .
-   The patch was applied regardless.
-3. When the patch was suggested for backporting, I pointed out the
-   same[2].
-   The patch was backported regardless.
+Subject: [PATCH] media: mtk-vcodec: Port VP9 stateless driver to upstream uAPI
 
-[1] https://lore.kernel.org/r/alpine.DEB.2.22.394.2010311116530.379363@ramsan.of.borg/
-[2] https://lore.kernel.org/r/CAMuHMdXRgam2zahPEGcw8+76Xm-0AO-Ci9-YmVa5JpTKVHphRw@mail.gmail.com/
 
-Gr{oetje,eeting}s,
 
-                        Geert
+This driver was written based on an old VP9 uAPI, but that code
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+changed over time: port this over the newest, and upstream accepted,
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+VP9 uAPI.
+
+
+
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+---
+
+  .../mtk-vcodec/mtk_vcodec_dec_stateless.c     |  2 +-
+
+  .../mtk-vcodec/vdec/vdec_vp9_req_lat_if.c     | 29 +++++++------------
+
+  2 files changed, 12 insertions(+), 19 deletions(-)
+
+
+
+diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c 
+b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
+
+index 26fd97d867e9..7f4baa39bf6c 100644
+
+--- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
+
++++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c
+
+@@ -94,7 +94,7 @@ static const struct mtk_stateless_control 
+mtk_stateless_controls[] = {
+
+  	},
+
+  	{
+
+  		.cfg = {
+
+-			.id = V4L2_CID_MPEG_VIDEO_VP9_FRAME_DECODE_PARAMS,
+
++			.id = V4L2_CID_STATELESS_VP9_FRAME,
+
+  			},
+
+  		.codec_type = V4L2_PIX_FMT_VP9_FRAME,
+
+  	},
+
+diff --git a/drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_req_lat_if.c 
+b/drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_req_lat_if.c
+
+index 92cd39f00840..8caf4f28db29 100644
+
+--- a/drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_req_lat_if.c
+
++++ b/drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_req_lat_if.c
+
+@@ -711,7 +711,7 @@ static int vdec_vp9_slice_setup_lat_from_src_buf(struct 
+vdec_vp9_slice_instance
+
+
+
+  static void vdec_vp9_slice_setup_hdr(struct vdec_vp9_slice_instance *instance,
+
+  				     struct vdec_vp9_slice_uncompressed_header *uh,
+
+-				     struct v4l2_ctrl_vp9_frame_decode_params *hdr)
+
++				     struct v4l2_ctrl_vp9_frame *hdr)
+
+  {
+
+  	int i;
+
+
+
+@@ -749,13 +749,13 @@ static void vdec_vp9_slice_setup_hdr(struct 
+vdec_vp9_slice_instance *instance,
+
+  	 * - LAST_FRAME = 1,
+
+  	 * - GOLDEN_FRAME = 2,
+
+  	 * - ALTREF_FRAME = 3,
+
+-	 * ref_frame_sign_biases[INTRA_FRAME] is always 0
+
++	 * ref_frame_sign_bias[INTRA_FRAME] is always 0
+
+  	 * and VDA only passes another 3 directions
+
+  	 */
+
+  	uh->ref_frame_sign_bias[0] = 0;
+
+  	for (i = 0; i < 3; i++)
+
+  		uh->ref_frame_sign_bias[i + 1] =
+
+-			!!(hdr->ref_frame_sign_biases & (1 << i));
+
++			!!(hdr->ref_frame_sign_bias & (1 << i));
+
+  	uh->allow_high_precision_mv = HDR_FLAG(ALLOW_HIGH_PREC_MV);
+
+  	uh->interpolation_filter = hdr->interpolation_filter;
+
+  	uh->refresh_frame_context = HDR_FLAG(REFRESH_FRAME_CTX);
+
+@@ -772,7 +772,7 @@ static void vdec_vp9_slice_setup_hdr(struct 
+vdec_vp9_slice_instance *instance,
+
+
+
+  static void vdec_vp9_slice_setup_frame_ctx(struct vdec_vp9_slice_instance *instance,
+
+  					   struct vdec_vp9_slice_uncompressed_header *uh,
+
+-					   struct v4l2_ctrl_vp9_frame_decode_params *hdr)
+
++					   struct v4l2_ctrl_vp9_frame *hdr)
+
+  {
+
+  	int error_resilient_mode;
+
+  	int reset_frame_context;
+
+@@ -857,7 +857,7 @@ static void vdec_vp9_slice_setup_segmentation(struct 
+vdec_vp9_slice_uncompressed
+
+  }
+
+
+
+  static int vdec_vp9_slice_setup_tile(struct vdec_vp9_slice_vsi *vsi,
+
+-				     struct v4l2_ctrl_vp9_frame_decode_params *hdr)
+
++				     struct v4l2_ctrl_vp9_frame *hdr)
+
+  {
+
+  	unsigned int rows_log2;
+
+  	unsigned int cols_log2;
+
+@@ -909,19 +909,10 @@ static void vdec_vp9_slice_setup_state(struct 
+vdec_vp9_slice_vsi *vsi)
+
+  	memset(&vsi->state, 0, sizeof(vsi->state));
+
+  }
+
+
+
+-static void vdec_vp9_slice_setup_ref_idx(struct vdec_vp9_slice_pfc *pfc,
+
+-					 struct v4l2_ctrl_vp9_frame_decode_params *hdr)
+
+-{
+
+-	int i;
+
+-
+
+-	for (i = 0; i < 3; i++)
+
+-		pfc->ref_idx[i] = hdr->refs[i];
+
+-}
+
+-
+
+  static int vdec_vp9_slice_setup_pfc(struct vdec_vp9_slice_instance *instance,
+
+  				    struct vdec_vp9_slice_pfc *pfc)
+
+  {
+
+-	struct v4l2_ctrl_vp9_frame_decode_params *hdr;
+
++	struct v4l2_ctrl_vp9_frame *hdr;
+
+  	struct vdec_vp9_slice_uncompressed_header *uh;
+
+  	struct v4l2_ctrl *hdr_ctrl;
+
+  	struct vdec_vp9_slice_vsi *vsi;
+
+@@ -929,7 +920,7 @@ static int vdec_vp9_slice_setup_pfc(struct 
+vdec_vp9_slice_instance *instance,
+
+
+
+  	/* frame header */
+
+  	hdr_ctrl = v4l2_ctrl_find(&instance->ctx->ctrl_hdl,
+
+-				  V4L2_CID_MPEG_VIDEO_VP9_FRAME_DECODE_PARAMS);
+
++				  V4L2_CID_STATELESS_VP9_FRAME);
+
+  	if (!hdr_ctrl || !hdr_ctrl->p_cur.p)
+
+  		return -EINVAL;
+
+
+
+@@ -949,7 +940,9 @@ static int vdec_vp9_slice_setup_pfc(struct 
+vdec_vp9_slice_instance *instance,
+
+  	vdec_vp9_slice_setup_state(vsi);
+
+
+
+  	/* core stage needs buffer index to get ref y/c ... */
+
+-	vdec_vp9_slice_setup_ref_idx(pfc, hdr);
+
++	pfc->ref_idx[0] = hdr->last_frame_ts;
+
++	pfc->ref_idx[1] = hdr->golden_frame_ts;
+
++	pfc->ref_idx[2] = hdr->alt_frame_ts;
+
+
+
+  	pfc->seq = instance->seq;
+
+  	instance->seq++;
+
+@@ -1789,7 +1782,7 @@ static void vdec_vp9_slice_get_crop_info(struct 
+vdec_vp9_slice_instance *instanc
+
+  			 cr->left, cr->top, cr->width, cr->height);
+
+  }
+
+
+
+-static int vdec_vp9_slice_get_param(void *h_vdec, vdec_get_param_type type, void *out)
+
++static int vdec_vp9_slice_get_param(void *h_vdec, enum vdec_get_param_type type, 
+void *out)
+
+  {
+
+  	struct vdec_vp9_slice_instance *instance = h_vdec;
+
+
+
+-- 
+
+2.33.1
+
