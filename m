@@ -1,53 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06218494109
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 20:39:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2292849413A
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 20:49:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 995B110F0EB;
-	Wed, 19 Jan 2022 19:39:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 685B210F1CC;
+	Wed, 19 Jan 2022 19:49:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DC8010F0E7;
- Wed, 19 Jan 2022 19:39:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642621166; x=1674157166;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=wjoA2KAzAua/sWhboAdUBsDnQlEM3jScHHUyibF2GDY=;
- b=E6LgJ4O5rqnQTIUVs6sXJ8UPWaAY7I6DLgOlTrTB0Mj93am0sW72WfCD
- dr1qiOMKl7LR4vnA9Q56T3EQ/I2FXBp9bZkxzQdbrUDEIjd9x7XLXr0tC
- jCoiz+iTo5hz8cayfAPBuMcCV1t3Iv77RydBWxi+6SbuAefZ4nxVKelsH
- JgFBiLFcK610wWyqnKKtRj008SVG5blYmkevK/XNwhX3OfFjFr5tvhz77
- yFUnIhvLvpqeOcINRuD/8QS0FzgERfO9uWCFyCCQz6BGHMBSUG1+tEeur
- GWQMB0eI04/yDv5Z56IPAskouU9t/a9SaPipWNlDwMzBxyE3ZG064HOua w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10231"; a="225846458"
-X-IronPort-AV: E=Sophos;i="5.88,300,1635231600"; d="scan'208";a="225846458"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2022 11:32:06 -0800
-X-IronPort-AV: E=Sophos;i="5.88,300,1635231600"; d="scan'208";a="672288940"
-Received: from smile.fi.intel.com ([10.237.72.61])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2022 11:31:58 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1nAGfP-00CEep-7a; Wed, 19 Jan 2022 21:30:47 +0200
-Date: Wed, 19 Jan 2022 21:30:47 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: Re: [PATCH 3/3] drm: Convert open yes/no strings to yesno()
-Message-ID: <Yehm5/DJ5Ljo1EWs@smile.fi.intel.com>
-References: <20220119072450.2890107-1-lucas.demarchi@intel.com>
- <20220119072450.2890107-4-lucas.demarchi@intel.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBBB510F1C1;
+ Wed, 19 Jan 2022 19:49:12 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: bbeckett) with ESMTPSA id EAFFE1F446F5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1642621751;
+ bh=UIoafffS0/l3S1GB6KgQfq7k8XDj/WzZMnJi03jT+4w=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=NNcsmrQbUywS/Hicnx0DJF53N17Jr42HJKPIKGUJaxLaQTDR+kveaR+cFJf+fyfwu
+ GMMAvv48j6+f2ZWTFED+g0ojdxBaXlOW8je2j2TQ1btl2H7c7kOhH7MTPs0+oJUxNe
+ VMB8fv4YSY7acGIBIlEsEKeTVu4/kj5E1/QCWENbP/syauBoeVGSh0Bqti9t6vEzoi
+ RwdnwaT3pL8jQEP8cZNjJRRVSRX6gVa9O2W2eegsEALXmPVxUyYqL66kgqm+KPE5f/
+ QBtS3Nlvh6LqNmT7MNOB93OfVwHlr0lBZBcj49BeEuLuZwcxPu3Do5qhXcfZ/pRawh
+ lRJA+NW1EyX0g==
+Message-ID: <accbc66b-08ca-aa2a-92e6-4d65359e9bf4@collabora.com>
+Date: Wed, 19 Jan 2022 19:49:08 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220119072450.2890107-4-lucas.demarchi@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.1
+Subject: Re: [PATCH v2 4/4] drm/i915/uapi: document behaviour for DG2 64K
+ support
+Content-Language: en-US
+To: Jordan Justen <jordan.l.justen@intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+References: <20220118175036.3840934-1-bob.beckett@collabora.com>
+ <20220118175036.3840934-5-bob.beckett@collabora.com>
+ <87zgnrefoo.fsf@jljusten-skl>
+From: Robert Beckett <bob.beckett@collabora.com>
+In-Reply-To: <87zgnrefoo.fsf@jljusten-skl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,117 +58,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
- Vishal Kulkarni <vishal@chelsio.com>,
- Francis Laniel <laniel_francis@privacyrequired.com>,
- Kentaro Takeda <takedakn@nttdata.co.jp>, amd-gfx@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
- Petr Mladek <pmladek@suse.com>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Leo Li <sunpeng.li@amd.com>, intel-gfx@lists.freedesktop.org,
- Raju Rangoju <rajur@chelsio.com>, Julia Lawall <julia.lawall@lip6.fr>,
- Rahul Lakkireddy <rahul.lakkireddy@chelsio.com>,
- Steven Rostedt <rostedt@goodmis.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Mikita Lipski <mikita.lipski@amd.com>, Eryk Brol <eryk.brol@amd.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- linux-security-module@vger.kernel.org, netdev@vger.kernel.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- "David S . Miller" <davem@davemloft.net>
+Cc: Tony Ye <tony.ye@intel.com>, intel-gfx@lists.freedesktop.org,
+ Kenneth Graunke <kenneth@whitecape.org>, dri-devel@lists.freedesktop.org,
+ Slawomir Milczarek <slawomir.milczarek@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, mesa-dev@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 18, 2022 at 11:24:50PM -0800, Lucas De Marchi wrote:
-> linux/string_helpers.h provides a helper to return "yes"/"no"
-> strings. Replace the open coded versions with yesno(). The places were
-> identified with the following semantic patch:
+
+
+On 19/01/2022 18:36, Jordan Justen wrote:
+> Robert Beckett <bob.beckett@collabora.com> writes:
 > 
-> 	@@
-> 	expression b;
-> 	@@
+>> From: Matthew Auld <matthew.auld@intel.com>
+>>
+>> On discrete platforms like DG2, we need to support a minimum page size
+>> of 64K when dealing with device local-memory. This is quite tricky for
+>> various reasons, so try to document the new implicit uapi for this.
+>>
+>> v2: Fixed suggestions on formatting [Daniel]
+>>
+>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+>> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+>> cc: Simon Ser <contact@emersion.fr>
+>> cc: Pekka Paalanen <ppaalanen@gmail.com>
+>> Cc: Jordan Justen <jordan.l.justen@intel.com>
+>> Cc: Kenneth Graunke <kenneth@whitecape.org>
+>> Cc: mesa-dev@lists.freedesktop.org
+>> Cc: Tony Ye <tony.ye@intel.com>
+>> Cc: Slawomir Milczarek <slawomir.milczarek@intel.com>
+>> ---
+>>   include/uapi/drm/i915_drm.h | 44 ++++++++++++++++++++++++++++++++-----
+>>   1 file changed, 39 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+>> index 5e678917da70..486b7b96291e 100644
+>> --- a/include/uapi/drm/i915_drm.h
+>> +++ b/include/uapi/drm/i915_drm.h
+>> @@ -1118,10 +1118,16 @@ struct drm_i915_gem_exec_object2 {
+>>   	/**
+>>   	 * When the EXEC_OBJECT_PINNED flag is specified this is populated by
+>>   	 * the user with the GTT offset at which this object will be pinned.
+>> +	 *
+>>   	 * When the I915_EXEC_NO_RELOC flag is specified this must contain the
+>>   	 * presumed_offset of the object.
+>> +	 *
+>>   	 * During execbuffer2 the kernel populates it with the value of the
+>>   	 * current GTT offset of the object, for future presumed_offset writes.
+>> +	 *
+>> +	 * See struct drm_i915_gem_create_ext for the rules when dealing with
+>> +	 * alignment restrictions with I915_MEMORY_CLASS_DEVICE, on devices with
+>> +	 * minimum page sizes, like DG2.
+>>   	 */
+>>   	__u64 offset;
+>>   
+>> @@ -3145,11 +3151,39 @@ struct drm_i915_gem_create_ext {
+>>   	 *
+>>   	 * The (page-aligned) allocated size for the object will be returned.
+>>   	 *
+>> -	 * Note that for some devices we have might have further minimum
+>> -	 * page-size restrictions(larger than 4K), like for device local-memory.
+>> -	 * However in general the final size here should always reflect any
+>> -	 * rounding up, if for example using the I915_GEM_CREATE_EXT_MEMORY_REGIONS
+>> -	 * extension to place the object in device local-memory.
+>> +	 *
+>> +	 * **DG2 64K min page size implications:**
 > 
-> 	- b ? "yes" : "no"
-> 	+ yesno(b)
+> Long term, I'm not sure that the "**" (for emphasis) is needed here or
+> below. It's interesting at the moment, but will be just another thing
+> baked into the kernel/user code in a month from now. :)
+
+fair point, I'll make it less shouty
+
 > 
-> Then the includes were added, so we include-what-we-use, and parenthesis
-> adjusted in drivers/gpu/drm/v3d/v3d_debugfs.c. After the conversion we
-> still see the same binary sizes:
+>> +	 *
+>> +	 * On discrete platforms, starting from DG2, we have to contend with GTT
+>> +	 * page size restrictions when dealing with I915_MEMORY_CLASS_DEVICE
+>> +	 * objects.  Specifically the hardware only supports 64K or larger GTT
+>> +	 * page sizes for such memory. The kernel will already ensure that all
+>> +	 * I915_MEMORY_CLASS_DEVICE memory is allocated using 64K or larger page
+>> +	 * sizes underneath.
+>> +	 *
+>> +	 * Note that the returned size here will always reflect any required
+>> +	 * rounding up done by the kernel, i.e 4K will now become 64K on devices
+>> +	 * such as DG2.
+>> +	 *
+>> +	 * **Special DG2 GTT address alignment requirement:**
+>> +	 *
+>> +	 * The GTT alignment will also need be at least 2M for  such objects.
+>> +	 *
+>> +	 * Note that due to how the hardware implements 64K GTT page support, we
+>> +	 * have some further complications:
+>> +	 *
+>> +	 *   1) The entire PDE(which covers a 2MB virtual address range), must
+>> +	 *   contain only 64K PTEs, i.e mixing 4K and 64K PTEs in the same
+>> +	 *   PDE is forbidden by the hardware.
+>> +	 *
+>> +	 *   2) We still need to support 4K PTEs for I915_MEMORY_CLASS_SYSTEM
+>> +	 *   objects.
+>> +	 *
+>> +	 * To keep things simple for userland, we mandate that any GTT mappings
+>> +	 * must be aligned to and rounded up to 2MB. As this only wastes virtual
+>> +	 * address space and avoids userland having to copy any needlessly
+>> +	 * complicated PDE sharing scheme (coloring) and only affects GD2, this
+>> +	 * id deemed to be a good compromise.
 > 
->    text    data     bss     dec     hex filename
-> 1442171   60344     800 1503315  16f053 ./drivers/gpu/drm/radeon/radeon.ko
-> 1442171   60344     800 1503315  16f053 ./drivers/gpu/drm/radeon/radeon.ko.old
-> 5985991  324439   33808 6344238  60ce2e ./drivers/gpu/drm/amd/amdgpu/amdgpu.ko
-> 5985991  324439   33808 6344238  60ce2e ./drivers/gpu/drm/amd/amdgpu/amdgpu.ko.old
->  411986   10490    6176  428652   68a6c ./drivers/gpu/drm/drm.ko
->  411986   10490    6176  428652   68a6c ./drivers/gpu/drm/drm.ko.old
-> 1970292  109515    2352 2082159  1fc56f ./drivers/gpu/drm/nouveau/nouveau.ko
-> 1970292  109515    2352 2082159  1fc56f ./drivers/gpu/drm/nouveau/nouveau.ko.old
+> typos: GD2, id
 
-...
+thanks
 
->  #include <linux/module.h>
->  #include <linux/sched.h>
->  #include <linux/slab.h>
-> +#include <linux/string_helpers.h>
+> 
+> Isn't much of this more relavent to the vma offset at exec time? Is
+> there actually any new restriction on the size field during buffer
+> creation?
 
-+ blank line?
+No new restriction on size, just placement, which mesa is already doing.
+The request for ack was just to get an ack from mesa folks that they are 
+happy with the mandatory 2MB alignment for DG2 vma.
 
-> +#include <linux/string_helpers.h>
+> 
+> I see Matthew references these notes from the offset comments, so if the
+> kernel devs prefer it here, then you can add my Acked-by on this patch.
 
-...
+thanks!
 
->  	seq_printf(m, "\tDP branch device present: %s\n",
-> -		   branch_device ? "yes" : "no");
-> +		   yesno(branch_device));
-
-Now it's possible to keep this on one line.
-
-...
-
->  	drm_printf_indent(p, indent, "imported=%s\n",
-> -			  obj->import_attach ? "yes" : "no");
-> +			  yesno(obj->import_attach));
-
-81 here, but anyway, ditto!
-
-...
-
->   */
-
-+blank line here?
-
-> +#include <linux/string_helpers.h>
-> +
->  #include "aux.h"
->  #include "pad.h"
-
-...
-
->  	seq_printf(m, "MMU:        %s\n",
-> -		   (ident2 & V3D_HUB_IDENT2_WITH_MMU) ? "yes" : "no");
-> +		   yesno(ident2 & V3D_HUB_IDENT2_WITH_MMU));
->  	seq_printf(m, "TFU:        %s\n",
-> -		   (ident1 & V3D_HUB_IDENT1_WITH_TFU) ? "yes" : "no");
-> +		   yesno(ident1 & V3D_HUB_IDENT1_WITH_TFU));
->  	seq_printf(m, "TSY:        %s\n",
-> -		   (ident1 & V3D_HUB_IDENT1_WITH_TSY) ? "yes" : "no");
-> +		   yesno(ident1 & V3D_HUB_IDENT1_WITH_TSY));
->  	seq_printf(m, "MSO:        %s\n",
-> -		   (ident1 & V3D_HUB_IDENT1_WITH_MSO) ? "yes" : "no");
-> +		   yesno(ident1 & V3D_HUB_IDENT1_WITH_MSO));
->  	seq_printf(m, "L3C:        %s (%dkb)\n",
-> -		   (ident1 & V3D_HUB_IDENT1_WITH_L3C) ? "yes" : "no",
-> +		   yesno(ident1 & V3D_HUB_IDENT1_WITH_L3C),
->  		   V3D_GET_FIELD(ident2, V3D_HUB_IDENT2_L3C_NKB));
-
-I believe it's fine to join back to have less LOCs (yes, it will be 83 or so,
-but I believe in these cases it's very much okay).
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+> 
+> -Jordan
+> 
+>>   	 */
+>>   	__u64 size;
+>>   	/**
+>> -- 
+>> 2.25.1
