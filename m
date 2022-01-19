@@ -2,70 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2DAD493DC4
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 16:56:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED943493DBD
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 16:54:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D117F10E1E2;
-	Wed, 19 Jan 2022 15:56:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B388A10E217;
+	Wed, 19 Jan 2022 15:54:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D177F10E1E3
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 15:56:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1642607743;
- bh=YI7Q13xa1667GBXT2yWDs/SWe72Hu8X9+CPfpHuc99A=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=RC+x85sZczSRAQWVSK8ejYomi/BNayTf6lz+afsU5eO7YusQ2ncqCoHFNxMxUjvR0
- vAmlv6UFbjP6YNbPtfZxEYMgcq8L5c4+XOMDfx318IGA5xu4rr1WyWIgNHoaWnrIV/
- YOf1IiGj08Q29S2whMs79fIBCln49zZ4sBicRPO8=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.183.52]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M72sJ-1nEKR61YVT-008d9h; Wed, 19
- Jan 2022 16:55:43 +0100
-Message-ID: <40d39363-bae8-93f2-71c6-7d5531f144bf@gmx.de>
-Date: Wed, 19 Jan 2022 16:54:35 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEE2410E1E3
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 15:54:49 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 814E2212C5;
+ Wed, 19 Jan 2022 15:54:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1642607688; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=huSQfD1kXWPxYY8LjOeU4PnuzXl1Fa3PIHCPfVNpPD4=;
+ b=OxRHgpGHsiS9/qgPyLl2pav/JxQzvHxK34IoXxp3fnsLA3qPye7uIIcuJqhmHMixmeqabl
+ wB7eS+pgOv3Ykrt9o57mOTGZCVuTT2nzsa/IG8JMWy82S7+BetcNbWLF9aDWC3Qr1Z/SRZ
+ gmeEQsWM6isiMtCR7jx/INvWrIyr0MM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1642607688;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=huSQfD1kXWPxYY8LjOeU4PnuzXl1Fa3PIHCPfVNpPD4=;
+ b=MZLDgg5D8Y6admaU+zjUjBRQLolKcDdEg53rAerqr4l7oLUQsN3J/2xp7whmKS2Vtwp11y
+ 0d0HLd08ApUmzIAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4F01B13F84;
+ Wed, 19 Jan 2022 15:54:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id eTw9Ekg06GHSEwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 19 Jan 2022 15:54:48 +0000
+Message-ID: <83484eca-8562-bf76-78f1-75b626a59029@suse.de>
+Date: Wed, 19 Jan 2022 16:54:47 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 2/2] Revert "fbcon: Disable accelerated scrolling"
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] drm/ast: Create threshold values for AST2600
 Content-Language: en-US
-To: Daniel Vetter <daniel@ffwll.ch>, Sven Schnelle <svens@stackframe.org>
-References: <20220119110839.33187-1-deller@gmx.de>
- <20220119110839.33187-3-deller@gmx.de> <Yef0j8+DBbwC7Kjv@kroah.com>
- <Yef15k2GtC40aJEu@kroah.com>
- <CAMuHMdVWFJEDwjf-htZ_D1484efmuPnz_L-qhcTeUE-GVpvZXA@mail.gmail.com>
- <4d8950c7-5f51-ca2b-4c93-741c7805a214@gmx.de>
- <CAHk-=wikFKjwdUBWCLCu=iL3rFq4BDDF0aBGdXC6ay74yJb+5Q@mail.gmail.com>
- <CAKMK7uEb53iu_HxYSnFZ59j=vXQdMvTWT7xosEo85XkAwzDMnA@mail.gmail.com>
- <8735ljkboo.fsf@x1.stackframe.org>
- <CAKMK7uHHF22+MBz5D2kBv07X2BR76UDi2-JP7eO-f=nm-pymcw@mail.gmail.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <CAKMK7uHHF22+MBz5D2kBv07X2BR76UDi2-JP7eO-f=nm-pymcw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:2z0TYX9D3a0a7Bay37UHJF18IENXDzXFGI/rMc7qUMCnERrLHXu
- 9R0jxsNowo9md+SFIj73tzJAjebZpZS64c7i7Q8tU1il0PCTOt2HV7jfJjJHUznf9pO6/ml
- OCm7TtXAy7Oa1Yh46JU4VVNQ8Z7Bj5i/59YTFRRyj8m7BLXQTb5su9A/fd+8bXSu66a0LGn
- ooDTr7eLMAua5vXEINtCA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:T6BME9pdjQI=:tOIf66w0c6tKIjq1IicbBO
- aPMVUZDDlBJrLWD8XkXldQuAUYwKDyOcKPYTqUoQHitI5+Sw0rkgOgjT3fvbNx1psgTqc3SQf
- 55fa841sVz9lVwIqAK5+lZrRMiMIvVM9bdrjvDypEquCQjtzVJyossFPsi2/TW4FULy7I0GQA
- pXMuGM0oNOkf4Dk5G8WKAvyUBt3/43puLz7rWkhjpzi2QbS15QTXG+3TF6UxO8IWrinDhimeb
- ZxTNTBHSRPCsoUoxm62mH9q0N+Re4c10RfaSWN+BC/BOxMv+fJlAu9jGhxTZIMAVB/C6Kr5Zj
- bClr46VFt0J9aqfNy788OWsiEkP8W1K4yZKZmCX77oDIsoTJk14EWX3s/zFtlyuUYaoFH3/Qx
- W4vJhQEprkk3nDuRclolD3Uxsd6drmXavOucrzoYBnQaktFP58dID0q9NjSUimcd44986mnAN
- GdByH7Oss5tSQwQDragzNc85Ym9/31yIqGihIoZFQqBIfhmKNJTI1T4B/Sz6UHtrliIttc2ad
- WRhwPELOu3ypJ4yHVYLXoTufdCbMFtkxRcDdiLLzBgkIlJOlQlfh3BeZHg1Xmf8eShSTTQ+mJ
- bIOEXS3CpAbwDo1/aWTqhJooWSnTnvWk61HF7EkoLJb7DTNfoMxKlaFPSgef67RMDxsN5hJ3q
- FFXpZ+UAw2fIKJLVU85EAMGw8wd9pxCcjJ/vYu3bqgMzfKRDHAXCXTjecGok/bz5APIFD9eBn
- T/13dg+ChWvz7S40E+XGeV/hqhKfJdnW1yGsmTcMhvB0wz8diP/BEw+uy/ZM8qp61sqz2cRZ6
- XGxLwzKaz3ccLJNm6c3zZ6zFPqRcu1n1KpyNfeNmGeY47yB/7F0jbBq3CAuXTj5OqaEKEMku0
- u+U1EVqV0K3zu2DYxTsliLSKw03amUPypqzNuFKcdFmc9O6QAcWED0B/1JYWqCuq2b71x1ixb
- y3AXZzA32WUisTTAiL14v5TdN01x3W4zShjuluzP8pz3mO2EvwWqMEzwpkrEDshgHovX+vpmh
- +kv7ZOT9IzR/GggInaXpodzeysbJAOpA1Pk/bM3hvf0ottZgUFOblptQqCH0CTkaJJN0BBE4y
- bACFjuhhFAciJE=
+To: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20220117083643.41493-1-kuohsiang_chou@aspeedtech.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220117083643.41493-1-kuohsiang_chou@aspeedtech.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------UM0o5JZz0JfmaFfA8BBBd2b7"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,81 +70,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Claudio Suarez <cssk@net-c.es>,
- Gerd Hoffmann <kraxel@redhat.com>, Pavel Machek <pavel@ucw.cz>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Sam Ravnborg <sam@ravnborg.org>
+Cc: hungju_huang@aspeedtech.com, airlied@linux.ie, tommy_huang@aspeedtech.com,
+ airlied@redhat.com, arc_sung@aspeedtech.com, luke_chen@aspeedtech.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/19/22 16:42, Daniel Vetter wrote:
-> On Wed, Jan 19, 2022 at 4:06 PM Sven Schnelle <svens@stackframe.org> wro=
-te:
->>
->> Daniel Vetter <daniel@ffwll.ch> writes:
->>
->>> On Wed, Jan 19, 2022 at 3:01 PM Linus Torvalds
->>> <torvalds@linux-foundation.org> wrote:
->>> Irrespective of this code being buggy or not buggy I think the bigger
->>> pictures, and really the reason I want to see as much code ditched
->>> from the fbdev/fbcon stack as we possible can, are very clear:
->>>
->>> - it's full of bugs
->>> - there's no test coverage/CI to speak of
->>> - it's very arcane code which is damn hard to understand and fix issue=
-s within
->>> - the locking is busted (largely thanks to console_lock, and the
->>> effort to make that reasonable from -rt folks has been slowly creeping
->>> forward for years).
->>>
->>> Iow this subsystem is firmly stuck in the 90s, and I think it's best
->>> to just leave it there. There's also not been anyone actually capable
->>> and willing to put in the work to change this (pretty much all actual
->>> changes/fixes have been done by drm folks anyway, like me having a
->>> small pet project to make the fbdev vs fbcon locking slightly less
->>> busted).
->>
->> Saying it's stuck in the 90ies, and actively trying to prevent
->> Helge from taking over maintainership at the same time looks odd.
->> I think Helge should at least get a chance to fix the issues. If the
->> state is still the same in a year or so it should be discussed again.
->
-> You don't need maintainership to fix issues. You need to submit patches.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------UM0o5JZz0JfmaFfA8BBBd2b7
+Content-Type: multipart/mixed; boundary="------------pbZ4Zwa0cbdW7pS18cwzXL1v";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: hungju_huang@aspeedtech.com, airlied@linux.ie,
+ tommy_huang@aspeedtech.com, airlied@redhat.com, arc_sung@aspeedtech.com,
+ luke_chen@aspeedtech.com
+Message-ID: <83484eca-8562-bf76-78f1-75b626a59029@suse.de>
+Subject: Re: [PATCH] drm/ast: Create threshold values for AST2600
+References: <20220117083643.41493-1-kuohsiang_chou@aspeedtech.com>
+In-Reply-To: <20220117083643.41493-1-kuohsiang_chou@aspeedtech.com>
 
-The very first email of this thread is my patch.
-And you just added your comments to this patch.
+--------------pbZ4Zwa0cbdW7pS18cwzXL1v
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> If otoh you get the maintainership first to be able to cram in reverts
-> without discussions, then it's very backwards.
-I'm working on the Linux kernel since at least 23 years and am a maintaine=
-r of parts of it.
-I know that and would never push something which is controversal without d=
-iscussions.
+SGkNCg0KQW0gMTcuMDEuMjIgdW0gMDk6MzYgc2NocmllYiBLdW9Ic2lhbmcgQ2hvdToNCj4g
+VGhlIHRocmVzaG9sZCB2YWx1ZSBpcyB1c2VkIGZvciBBU1QyNjAwIG9ubHkuDQo+IA0KPiBT
+aWduZWQtb2ZmLWJ5OiBLdW9Ic2lhbmcgQ2hvdSA8a3VvaHNpYW5nX2Nob3VAYXNwZWVkdGVj
+aC5jb20+DQo+IC0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21vZGUuYyB8IDUg
+KysrKy0NCj4gICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9u
+KC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5j
+IGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jDQo+IGluZGV4IDFjN2E1N2EwMy4u
+N2YyZTI0OGE2IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2Rl
+LmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jDQo+IEBAIC00NzEs
+NyArNDcxLDEwIEBAIHN0YXRpYyB2b2lkIGFzdF9zZXRfY29sb3JfcmVnKHN0cnVjdCBhc3Rf
+cHJpdmF0ZSAqYXN0LA0KPiAgIHN0YXRpYyB2b2lkIGFzdF9zZXRfY3J0dGhkX3JlZyhzdHJ1
+Y3QgYXN0X3ByaXZhdGUgKmFzdCkNCj4gICB7DQo+ICAgCS8qIFNldCBUaHJlc2hvbGQgKi8N
+Cj4gLQlpZiAoYXN0LT5jaGlwID09IEFTVDIzMDAgfHwgYXN0LT5jaGlwID09IEFTVDI0MDAg
+fHwNCj4gKwlpZiAoYXN0LT5jaGlwID09IEFTVDI2MDApIHsNCj4gKwkJYXN0X3NldF9pbmRl
+eF9yZWcoYXN0LCBBU1RfSU9fQ1JUQ19QT1JULCAweGE3LCAweGUwKTsNCj4gKwkJYXN0X3Nl
+dF9pbmRleF9yZWcoYXN0LCBBU1RfSU9fQ1JUQ19QT1JULCAweGE2LCAweGEwKTsNCj4gKwl9
+IGVsc2UgaWYgKGFzdC0+Y2hpcCA9PSBBU1QyMzAwIHx8IGFzdC0+Y2hpcCA9PSBBU1QyNDAw
+IHx8DQo+ICAgCSAgICBhc3QtPmNoaXAgPT0gQVNUMjUwMCkgew0KPiAgIAkJYXN0X3NldF9p
+bmRleF9yZWcoYXN0LCBBU1RfSU9fQ1JUQ19QT1JULCAweGE3LCAweDc4KTsNCj4gICAJCWFz
+dF9zZXRfaW5kZXhfcmVnKGFzdCwgQVNUX0lPX0NSVENfUE9SVCwgMHhhNiwgMHg2MCk7DQo+
+IC0tDQo+IDIuMjcuMA0KPiANCg0KTWVyZ2VkIGludG8gZHJtLW1pc2MtbmV4dC4gVGhhbmtz
+IGZvciB0aGUgcGF0Y2guDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCi0tIA0KVGhvbWFz
+IFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUg
+U29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJn
+LCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJl
+cjogSXZvIFRvdGV2DQo=
 
->>> The other side is that being a maintainer is about collaboration, and
->>> this entire fbdev maintainership takeover has been a demonstration of
->>> anything but that. MAINTAINERS entry was a bit confusing since defacto
->>> drm has been maintaining it for years.
->>
->> It was marked as 'Orphaned'. Anyone is free to send a Patch/PR to take
->> over maintainership. If you have strong opinions about that code (And y=
-ou
->> obviously have reading your mail, set it to 'maintained' and care about
->> it. Everything else is just wrong in my opinion.
->
-> I already added dri-devel so anything we drastically change can be
-> discussed first. If that's indeed not strong enough then yes I can
-> whack in full maintainer entry with a bugfix-only status.
->
-> But really I try to not create facts with just editing MAINTAINERS
-> first and ask questions later, that's just not a great way to
-> collaborate.
+--------------pbZ4Zwa0cbdW7pS18cwzXL1v--
 
-Helge
+--------------UM0o5JZz0JfmaFfA8BBBd2b7
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHoNEcFAwAAAAAACgkQlh/E3EQov+Bj
+TBAAqHNQCMhLLJVRD+PwOfYhzJrdCGFqVmqUFsq/etfNOgDANfIw1HcEeSlbLAtWHIZxvD/11C+q
+lTz7YdEoXgyA4mDaW8RKllMZaUXfCt8HUpt2tnBd1t8dmrZ7/QJGuJet+ZvwAjSu2pcQqt8Z1hyL
+sFV3XQSasx6ntFSBSkBJwvxTE3giJcH1unxwNfg6MRHpnBtP3UmhUzYIMbrlz63xdilKyePrdrkV
+BxdH+tLD3l4/JOGsJpbvZMK7DaX2Wbvaavsuf3fNz87hCcp7HRWCoH2cnMWazhDzNKN8ikNN9WrU
++xy6gGShBDmmWJqFNYnVO38rU86Lb6QHtsUwXbZAIsIvPpuH6UdZYfdSbe5VdF9wjjgbjnQ7aMXL
+0Iu3wMPI7KoNB4z9GnrBJPhVwAHoip5q3gXYdg4BsPT2jy3wzOmwWwrb9Mu4dPuiGyNZi819K9mV
+yN9YomPYSsqRMJiRY9MfPK0K7T4elm7jWBhe9y0kzwtcPGoUbwZ6WwS6GId3QN1mWQ2tJr74rNur
+DFmmT0OEqJqYf8PMJ2iTlKNbi9PMwyY+CufBQTsetjzXITxWd88s1fGlrD4m2Ax6GsYZg12jnzDx
+J1WEW5h/YcIRnfVrFqAsb/pY//SXTcmmdWscSP0+OencE/FP8jifxA6w9cUFd3Uw3m8E1CP3EhFR
+Kz8=
+=+vsY
+-----END PGP SIGNATURE-----
+
+--------------UM0o5JZz0JfmaFfA8BBBd2b7--
