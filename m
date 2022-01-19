@@ -1,79 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83121494220
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 21:53:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDC8B494241
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 22:00:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F365810E1DE;
-	Wed, 19 Jan 2022 20:53:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28A1E10E19C;
+	Wed, 19 Jan 2022 21:00:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACD3B10E12E;
- Wed, 19 Jan 2022 20:53:46 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 726FB10E19C;
+ Wed, 19 Jan 2022 21:00:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642625626; x=1674161626;
- h=date:from:to:subject:message-id:references:mime-version:
- in-reply-to; bh=cH3bHFZpGH0RESw8RskOlsgeHxPQYCpLCLkrUAgJ7oE=;
- b=N5V9BrYPZPe3+kNXJlVabWxsBtq7kBqY2EhPMRwpa8ZvXa3m07nkcgr/
- Q+lHFLsNHXStpIWuiUtZGItH2cEt2JEjDp7IQJTpE1i6EEtbODPef+3FU
- OV/JI1IKdZzmKbu3U+fFKqWZAM9JILGZwX0/w1JRjA7j/1bceMy3tF8eF
- EN9/KiqLGG0M5+BKMQoOgiNZCU8eJ6023VC7oUVfoRqWPrmTbq8eH1TPS
- Op2CrI2jwEiWYjtMNpUz2MJjz0S8HFb3rlTkR0sVfjMqtPe3dQTpWMtyV
- bbemB1boFVF2qw/ZhBHqoiVlLgZ0CaXQ4zhReCc21iP3I119Ia2wPqalu w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10231"; a="244984192"
-X-IronPort-AV: E=Sophos;i="5.88,300,1635231600"; d="scan'208";a="244984192"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2022 12:53:45 -0800
-X-IronPort-AV: E=Sophos;i="5.88,300,1635231600"; d="scan'208";a="765081592"
-Received: from atefehad-mobl1.amr.corp.intel.com (HELO ldmartin-desk2)
- ([10.212.238.132])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2022 12:53:44 -0800
-Date: Wed, 19 Jan 2022 12:53:43 -0800
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Petr Mladek <pmladek@suse.com>, linux-kernel@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-security-module@vger.kernel.org,
- nouveau@lists.freedesktop.org, netdev@vger.kernel.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Andy Shevchenko <andy.shevchenko@gmail.com>,
- Ben Skeggs <bskeggs@redhat.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Chris Wilson <chris@chris-wilson.co.uk>, David Airlie <airlied@linux.ie>,
- "David S . Miller" <davem@davemloft.net>,
- Emma Anholt <emma@anholt.net>, Eryk Brol <eryk.brol@amd.com>,
- Francis Laniel <laniel_francis@privacyrequired.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Harry Wentland <harry.wentland@amd.com>, Jakub Kicinski <kuba@kernel.org>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Julia Lawall <julia.lawall@lip6.fr>,
- Kentaro Takeda <takedakn@nttdata.co.jp>,
- Leo Li <sunpeng.li@amd.com>, Mikita Lipski <mikita.lipski@amd.com>,
- Rahul Lakkireddy <rahul.lakkireddy@chelsio.com>,
- Raju Rangoju <rajur@chelsio.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>, Vishal Kulkarni <vishal@chelsio.com>
-Subject: Re: [Intel-gfx] [PATCH 0/3] lib/string_helpers: Add a few string
- helpers
-Message-ID: <20220119205343.kd5cwfzpg4mlsekk@ldmartin-desk2>
-X-Patchwork-Hint: comment
-References: <20220119072450.2890107-1-lucas.demarchi@intel.com>
- <YegPiR7LU8aVisMf@alley> <87tudzbykz.fsf@intel.com>
- <Yeg5BpV8tknSPdSQ@phenom.ffwll.local>
+ t=1642626009; x=1674162009;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=7F9ORrUaQeTiy8qnjU6o+mCE4xM09P19XlwT3rwFuqE=;
+ b=lA6eL1zPPqTMEunPRs1QOtxCuzAmnjYyiypOn94XRD6EnzGxnavo4v5P
+ fszfBT+WRmFAprXSaqe22zfBNTdyXhtpIX26kAMfPYhFyiKyFycBJn+4p
+ AdMuzJBTOpH7ypYgdvmXA4vQcoVMV9dS7ulw5Wly3Q3fiCN1dHvJFI47J
+ XtXChy5WyPSQXhZDK+c65feRdv/Uif+fulxorwFJD9o5AVyGQURFyzH1+
+ VG4HwfO3RuVoHUUdLKs2qeFOg1Rsy8X92YkBgwA/fqzdu0chpf5FGKVdn
+ 95FjORNPyL7J+FbCJ38ZE2TSBVdgSBRNB6qAg1bnYDZm/cC6yF+C2hSu0 Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10231"; a="245146576"
+X-IronPort-AV: E=Sophos;i="5.88,300,1635231600"; d="scan'208";a="245146576"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jan 2022 12:59:52 -0800
+X-IronPort-AV: E=Sophos;i="5.88,300,1635231600"; d="scan'208";a="693938234"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jan 2022 12:59:52 -0800
+Date: Wed, 19 Jan 2022 12:54:05 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: John Harrison <john.c.harrison@intel.com>
+Subject: Re: [PATCH 2/3] drm/i915/guc: Add work queue to trigger a GT reset
+Message-ID: <20220119205405.GA32440@jons-linux-dev-box>
+References: <20220118214357.33740-1-matthew.brost@intel.com>
+ <20220118214357.33740-3-matthew.brost@intel.com>
+ <50355add-0758-c4cc-df74-a6bb329ceb15@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Yeg5BpV8tknSPdSQ@phenom.ffwll.local>
+In-Reply-To: <50355add-0758-c4cc-df74-a6bb329ceb15@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,77 +59,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: thomas.hellstrom@linux.intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 19, 2022 at 05:15:02PM +0100, Daniel Vetter wrote:
->On Wed, Jan 19, 2022 at 04:16:12PM +0200, Jani Nikula wrote:
->> On Wed, 19 Jan 2022, Petr Mladek <pmladek@suse.com> wrote:
->> > On Tue 2022-01-18 23:24:47, Lucas De Marchi wrote:
->> >> Add some helpers under lib/string_helpers.h so they can be used
->> >> throughout the kernel. When I started doing this there were 2 other
->> >> previous attempts I know of, not counting the iterations each of them
->> >> had:
->> >>
->> >> 1) https://lore.kernel.org/all/20191023131308.9420-1-jani.nikula@intel.com/
->> >> 2) https://lore.kernel.org/all/20210215142137.64476-1-andriy.shevchenko@linux.intel.com/#t
->> >>
->> >> Going through the comments I tried to find some common ground and
->> >> justification for what is in here, addressing some of the concerns
->> >> raised.
->> >>
->> >> d. This doesn't bring onoff() helper as there are some places in the
->> >>    kernel with onoff as variable - another name is probably needed for
->> >>    this function in order not to shadow the variable, or those variables
->> >>    could be renamed.  Or if people wanting  <someprefix>
->> >>    try to find a short one
->> >
->> > I would call it str_on_off().
->> >
->> > And I would actually suggest to use the same style also for
->> > the other helpers.
->> >
->> > The "str_" prefix would make it clear that it is something with
->> > string. There are other <prefix>_on_off() that affect some
->> > functionality, e.g. mute_led_on_off(), e1000_vlan_filter_on_off().
->> >
->> > The dash '_' would significantly help to parse the name. yesno() and
->> > onoff() are nicely short and kind of acceptable. But "enabledisable()"
->> > is a puzzle.
->> >
->> > IMHO, str_yes_no(), str_on_off(), str_enable_disable() are a good
->> > compromise.
->> >
->> > The main motivation should be code readability. You write the
->> > code once. But many people will read it many times. Open coding
->> > is sometimes better than misleading macro names.
->> >
->> > That said, I do not want to block this patchset. If others like
->> > it... ;-)
->>
->> I don't mind the names either way. Adding the prefix and dashes is
->> helpful in that it's possible to add the functions first and convert
->> users at leisure, though with a bunch of churn, while using names that
->> collide with existing ones requires the changes to happen in one go.
->>
->> What I do mind is grinding this series to a halt once again. I sent a
->> handful of versions of this three years ago, with inconclusive
->> bikeshedding back and forth, eventually threw my hands up in disgust,
->> and walked away.
->
->Yeah we can sed this anytime later we want to, but we need to get the foot
->in the door. There's also a pile more of these all over.
->
->Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->
->on the series, maybe it helps? And yes let's merge this through drm-misc.
+On Tue, Jan 18, 2022 at 05:37:01PM -0800, John Harrison wrote:
+> On 1/18/2022 13:43, Matthew Brost wrote:
+> > The G2H handler needs to be flushed during a GT reset but a G2H
+> > indicating engine reset failure can trigger a GT reset. Add a worker to
+> > trigger the GT when a engine reset failure is received to break this
+> s/a/an/
+> 
 
-Ok, it seems we are reaching some agreement here then:
+Yep.
 
-- Change it to use str_ prefix
-- Wait -rc1 to avoid conflict
-- Merge through drm-misc
+> > circular dependency.
+> > 
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >   drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  5 ++++
+> >   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 23 +++++++++++++++----
+> >   2 files changed, 24 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > index 9d26a86fe557a..60ea8deef5392 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > @@ -119,6 +119,11 @@ struct intel_guc {
+> >   		 * function as it might be in an atomic context (no sleeping)
+> >   		 */
+> >   		struct work_struct destroyed_worker;
+> > +		/**
+> > +		 * @reset_worker: worker to trigger a GT reset after an engine
+> > +		 * reset fails
+> > +		 */
+> > +		struct work_struct reset_worker;
+> >   	} submission_state;
+> >   	/**
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > index 23a40f10d376d..cdd8d691251ff 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > @@ -1746,6 +1746,7 @@ void intel_guc_submission_reset_finish(struct intel_guc *guc)
+> >   }
+> >   static void destroyed_worker_func(struct work_struct *w);
+> > +static void reset_worker_func(struct work_struct *w);
+> >   /*
+> >    * Set up the memory resources to be shared with the GuC (via the GGTT)
+> > @@ -1776,6 +1777,8 @@ int intel_guc_submission_init(struct intel_guc *guc)
+> >   	INIT_LIST_HEAD(&guc->submission_state.destroyed_contexts);
+> >   	INIT_WORK(&guc->submission_state.destroyed_worker,
+> >   		  destroyed_worker_func);
+> > +	INIT_WORK(&guc->submission_state.reset_worker,
+> > +		  reset_worker_func);
+> >   	guc->submission_state.guc_ids_bitmap =
+> >   		bitmap_zalloc(NUMBER_MULTI_LRC_GUC_ID(guc), GFP_KERNEL);
+> > @@ -4052,6 +4055,17 @@ guc_lookup_engine(struct intel_guc *guc, u8 guc_class, u8 instance)
+> >   	return gt->engine_class[engine_class][instance];
+> >   }
+> > +static void reset_worker_func(struct work_struct *w)
+> > +{
+> > +	struct intel_guc *guc = container_of(w, struct intel_guc,
+> > +					     submission_state.reset_worker);
+> > +	struct intel_gt *gt = guc_to_gt(guc);
+> > +
+> > +	intel_gt_handle_error(gt, ALL_ENGINES,
+> > +			      I915_ERROR_CAPTURE,
+> > +			      "GuC failed to reset a engine\n");
+> s/a/an/
+> 
 
-I will re-send the series again soon.
+Yep.
 
-Lucas De Marchi
+> > +}
+> > +
+> >   int intel_guc_engine_failure_process_msg(struct intel_guc *guc,
+> >   					 const u32 *msg, u32 len)
+> >   {
+> > @@ -4083,10 +4097,11 @@ int intel_guc_engine_failure_process_msg(struct intel_guc *guc,
+> >   	drm_err(&gt->i915->drm, "GuC engine reset request failed on %d:%d (%s) because 0x%08X",
+> >   		guc_class, instance, engine->name, reason);
+> > -	intel_gt_handle_error(gt, engine->mask,
+> > -			      I915_ERROR_CAPTURE,
+> > -			      "GuC failed to reset %s (reason=0x%08x)\n",
+> > -			      engine->name, reason);
+> The engine name and reason code are lost from the error capture? I guess we
+> still get it in the drm_err above, though. So probably not an issue. We
+> shouldn't be getting these from end users and any internal CI run is only
+> likely to give us the dmesg, not the error capture anyway! However, still
+
+That was my reasoning on the msg too.
+
+> seems like it is work saving engine->mask in the submission_state structure
+> (ORing in, in case there are multiple resets). Clearing it should be safe
+> because once a GT reset has happened, we aren't getting any more G2Hs. And
+> we can't have multiple message handlers running concurrently, right? So no
+> need to protect the OR either.
+> 
+
+I could do that but the engine->mask is really only used for the error
+capture with GuC submission as any i915 based reset with GuC submission
+is a GT reset. Going from engine->mask to ALL_ENGINES will just capture
+all engine state before doing a GT reset which probably isn't a bad
+thing, right?
+
+I can update the commit message explaining this if that helps.
+
+Matt 
+
+> John.
+> 
+> 
+> > +	/*
+> > +	 * A GT reset flushes this worker queue (G2H handler) so we must use
+> > +	 * another worker to trigger a GT reset.
+> > +	 */
+> > +	queue_work(system_unbound_wq, &guc->submission_state.reset_worker);
+> >   	return 0;
+> >   }
+> 
