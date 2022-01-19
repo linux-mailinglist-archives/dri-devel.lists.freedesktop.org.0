@@ -1,66 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6464493D25
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 16:31:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2C39493D52
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jan 2022 16:36:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E5A710E2E1;
-	Wed, 19 Jan 2022 15:31:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0483410E1DA;
+	Wed, 19 Jan 2022 15:36:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D50C910E2E1
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 15:31:09 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id w26so5826332wmi.0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 07:31:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=EEwszbL7JSaW2g9ncBScSaSCr2Cmm8pog96jqoGtWUU=;
- b=AvKGhaM2IE1rw4PUhZ9+6xqaFege0xTVTb1Vw41jAEodT/ztWFpLBR29Pn4i7DpzTC
- xlVlWYfTffSRHxmGl2Krh41GrdZmBlb4JomJPikj1katDlJvtMdqAy2zap3CKdnEt1VW
- lUF4Al55lPe6KDqF76HWPn6mevH6n9dtOJ79w=
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
+ [IPv6:2607:f8b0:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BD9510E277
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 15:36:07 +0000 (UTC)
+Received: by mail-pl1-x635.google.com with SMTP id d1so2530179plh.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 07:36:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=OMrhSxzcq06Y5Du1J5LkmKoFAbKXMAXT3vH7sejriLY=;
+ b=ssfImEcNw476pH+KakbvvBbRQNHR8We3jAnB769CrsR7ZqdjUaTl54C8lg28NNpwt3
+ Ujsw27eeIbDM0koFZgiviggwBTeQ8pIjeVcgMaH+REWTo1G0rvLESHp0tpSQkfClxlwd
+ 2mJasD5GOAEw50iMq2vIfwwGOXZeh6nenLxsszU6upFCfLwZvLFmOgFDEP/YteNgzZUS
+ cjs54BZG2ME/5bpw7J6x46p9gWGGFTnCbyuChO84a11jFnn4ZgBhuaf/PeXJh2NFEKpm
+ hn3fEtEtv0B+n7QD8jAlB0FqXoaJvl8AyYH5Wm0oZhDctURSmdH7zuB6yXwDNZvzBCX1
+ +oqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=EEwszbL7JSaW2g9ncBScSaSCr2Cmm8pog96jqoGtWUU=;
- b=vk40B2bsCWsQG4v0STutBbWb5Skb8oGQeYBUXnpPWqwpECYWVoYq+ewp3GRYf5MoK5
- inswrKlsgRNKD4Zxn1uxHAndBLp6TdCva9symTrxqT5g0BejMcpK4/Yd3g7GE1x7cqw9
- x9/3i2BsDXzw33RaotUGFBOU9MJ1lP76P4KYyRcE5DQSAL6mslR5PnLgTCerJztBev5b
- cVLvn4iSNpdBULL8faA9cff0/5f0u3IS0/7IBhc2fRMWK26l/ZZfoNN1A+tOx0FkDYhR
- TCS6AXzrL8VWSIyabG7ZdFnuqXgrKbTPSsdLwzkLVGVDNo6crHr32wzy7E6S5trsywl1
- aLmw==
-X-Gm-Message-State: AOAM533qviKQVLSTLYVjldVdGwKooXni//henHRUrc+rJz4wC/GE2gpT
- 5jTz/4yWcLygY9f55NZZYhL1TQ==
-X-Google-Smtp-Source: ABdhPJytSeK0nTa2OU28PzM7P+4b4R1+Yxc672QntbhSwADGiwocjVMhIYp3nDQRFrgdzWA0MOtsQw==
-X-Received: by 2002:a5d:6a4c:: with SMTP id t12mr29059404wrw.677.1642606268397; 
- Wed, 19 Jan 2022 07:31:08 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id d6sm117015wrs.85.2022.01.19.07.31.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jan 2022 07:31:07 -0800 (PST)
-Date: Wed, 19 Jan 2022 16:31:06 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Raymond Jay Golo <rjgolo@gmail.com>
-Subject: Re: [RESEND] drm: panel-orientation-quirks: Add quirk for the
- 1Netbook OneXPlayer
-Message-ID: <YeguukKExXYALEmv@phenom.ffwll.local>
-Mail-Followup-To: Raymond Jay Golo <rjgolo@gmail.com>,
- dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org
-References: <20220113000619.90988-1-rjgolo@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=OMrhSxzcq06Y5Du1J5LkmKoFAbKXMAXT3vH7sejriLY=;
+ b=HwGGcZl3Gg0xc0OyKq87k3nKO1gxREwNegO8pR3j0ci8VgFaIdXpoGxkdtUUAOaTaq
+ P1OafDXHynud4SP97FMEFQ23AZvhsviUUSqlk2sZ4Bqyy1lIBHW6vtOBaq3u7n6Alrs1
+ hTjDyKZvro0nis4E3xA2RdUlzkPGxwwnTk5AcCB4KGcZiu9y3UxU9PAr9Bq+piwYewfp
+ n3Gti11/fG7aieKIf1fnBY597FCg2UY4fH6TOSR4sDsBZHZ7Ub4lvbK1RbvQ9g7RfiP0
+ 9grM7CPC/z7NLN7hMa5fT/li2QiQpn19vOHIBcTj6jy7mSx6kHM0w2NqtGMUqDgjKiAw
+ aPNA==
+X-Gm-Message-State: AOAM530D7GD55/MZ7AKnxEL5UCja6Z32FO0Ulg/daNdJAEB+XIinZd7C
+ uMhrB1IgSv0Ih8+j7R7YnLc0/5c5G68d3RykK6VJ27AiyyYG6w==
+X-Google-Smtp-Source: ABdhPJySyCqqeyw8uXJjJaFzQvTXGSC/lm5A2BRldYPOCcLjtNFpPECtLJjCIH4Pg2dEw9rTuxak1N3cylwER/vXAC8=
+X-Received: by 2002:a17:902:b189:b0:149:6c45:24c with SMTP id
+ s9-20020a170902b18900b001496c45024cmr33136123plr.21.1642606566766; Wed, 19
+ Jan 2022 07:36:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220113000619.90988-1-rjgolo@gmail.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+References: <20220119151751.986185-1-hsinyi@chromium.org>
+ <20220119151751.986185-4-hsinyi@chromium.org>
+In-Reply-To: <20220119151751.986185-4-hsinyi@chromium.org>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Wed, 19 Jan 2022 16:35:55 +0100
+Message-ID: <CAG3jFyv--OkEOxHr=61oAw8Q0bMdkftZu47M-N0YTiOB0YyiQA@mail.gmail.com>
+Subject: Re: [PATCH v5 4/4] dt-bindings: drm/bridge: anx7625: Add aux-bus node
+To: Hsin-Yi Wang <hsinyi@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,60 +63,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Xin Ji <xji@analogixsemi.com>,
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 13, 2022 at 08:06:20AM +0800, Raymond Jay Golo wrote:
-> The 1Netbook OneXPlayer uses a panel which has been mounted
-> 90 degrees rotated. Add a quirk for this.
-> 
-> Signed-off-by: Raymond Jay Golo <rjgolo@gmail.com>
+Hey Hsin-Yi,
 
-Applied to drm-misc-next-fixes, should show pu in the merge window still
-for -rc1.
--Daniel
+While I can review this patch, I don't have the authority to merge it
+since it is outside the scope of my maintainership. Rob Herring,
+Daniel Vetter or David Airlie would have to Ack this patch.
 
+On Wed, 19 Jan 2022 at 16:18, Hsin-Yi Wang <hsinyi@chromium.org> wrote:
+>
+> List panel under aux-bus node if it's connected to anx7625's aux bus.
+>
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> Reviewed-by: Xin Ji <xji@analogixsemi.com>
 > ---
->  drivers/gpu/drm/drm_panel_orientation_quirks.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> index 042bb80383c9..b910978d3e48 100644
-> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> @@ -115,6 +115,12 @@ static const struct drm_dmi_panel_orientation_data lcd1280x1920_rightside_up = {
->  	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
->  };
->  
-> +static const struct drm_dmi_panel_orientation_data lcd1600x2560_leftside_up = {
-> +	.width = 1600,
-> +	.height = 2560,
-> +	.orientation = DRM_MODE_PANEL_ORIENTATION_LEFT_UP,
-> +};
+>  .../display/bridge/analogix,anx7625.yaml        | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> index 1d3e88daca041a..0d38d6fe39830f 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> @@ -83,6 +83,9 @@ properties:
+>      type: boolean
+>      description: let the driver enable audio HDMI codec function or not.
+>
+> +  aux-bus:
+> +    $ref: /schemas/display/dp-aux-bus.yaml#
 > +
->  static const struct dmi_system_id orientation_data[] = {
->  	{	/* Acer One 10 (S1003) */
->  		.matches = {
-> @@ -275,6 +281,12 @@ static const struct dmi_system_id orientation_data[] = {
->  		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "Default string"),
->  		},
->  		.driver_data = (void *)&onegx1_pro,
-> +	}, {	/* OneXPlayer */
-> +		.matches = {
-> +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK TECHNOLOGY CO., LTD."),
-> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONE XPLAYER"),
-> +		},
-> +		.driver_data = (void *)&lcd1600x2560_leftside_up,
->  	}, {	/* Samsung GalaxyBook 10.6 */
->  		.matches = {
->  		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "SAMSUNG ELECTRONICS CO., LTD."),
-> -- 
-> 2.34.1
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>    ports:
+>      $ref: /schemas/graph.yaml#/properties/ports
+>
+> @@ -167,5 +170,19 @@ examples:
+>                      };
+>                  };
+>              };
+> +
+> +            aux-bus {
+> +                panel {
+> +                    compatible = "innolux,n125hce-gn1";
+> +                    power-supply = <&pp3300_disp_x>;
+> +                    backlight = <&backlight_lcd0>;
+> +
+> +                    port {
+> +                        panel_in: endpoint {
+> +                            remote-endpoint = <&anx7625_out>;
+> +                        };
+> +                    };
+> +                };
+> +            };
+>          };
+>      };
+> --
+> 2.34.1.703.g22d0c6ccf7-goog
+>
