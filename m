@@ -1,54 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4518B49543B
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 19:33:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF539495451
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 19:42:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F18D910ECA3;
-	Thu, 20 Jan 2022 18:33:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 935C510EC83;
+	Thu, 20 Jan 2022 18:42:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8010410ECA0
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 18:33:23 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id m4so32365679edb.10
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 10:33:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=AKUPvYgb/xwsTq6T7e89Z6kjzAJSxkrEuwSzEueenMc=;
- b=g0plarazHPwI4qlq/iLNZg6VCNmjr7t39qqS/R7UXrPsoagw0roK4Oxy1FcqigzWVD
- 5qzEWL3uPnCjplkdgeow3xuV+Wl+XkoCQT8Bzf0+deLaZeo5j/ueuLPszaRkRnEzFPyd
- L7MEhwee3mTd1zxtK1EYURmQ5DVeqXVW89Vbo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=AKUPvYgb/xwsTq6T7e89Z6kjzAJSxkrEuwSzEueenMc=;
- b=gubDaKXVZls1QrVY9x9L77X9/PKm5GcRfyS+0U8+n8x6lQ8nxf36A+c1FZVl8OssZA
- +1DnR7tG7mT4Q1A/sP8H3aOyumKfeb3nQrMh+mSSOyhxLpeB3j4/23HtC0eC0h4wV2iq
- pz0V3XL6Lvgidwc0o7JVBk4BDljqn1LFaj/BE9qXCHvI7MJS/toNodDY5IfM6RoLzW4p
- Yy0GmYK9rLlLZNd1mS3TbHFabUBXf8sli4pPesorgo/qRbfbi8ABTZOsI6rXZSBD8dnF
- wQYQRkGbIJJoKDUJ0NZ7uA6uQ1yvLH3eojaiWttWCjjl7nuwKL+TjRIxAMr4XC015Jnc
- Ajtw==
-X-Gm-Message-State: AOAM532yzoSrvprbtLDSW0mOGElCzmURJ4+mPAgS/TYjxsbyKPGcMhpi
- 4hp0vuQ+oXftoJI2NemnLp+OnDCT7gyD2cmY+EJhUg==
-X-Google-Smtp-Source: ABdhPJwt+XAMRl17Scsp8wwhWEmsO7vFjwY7BNMmq+eFOWefHMWaw75EXBzrtVVz8ykqngqnRTHQUYrvu2B/OHbFdOU=
-X-Received: by 2002:a17:907:3e23:: with SMTP id
- hp35mr157023ejc.760.1642703602005; 
- Thu, 20 Jan 2022 10:33:22 -0800 (PST)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB83F10EC67;
+ Thu, 20 Jan 2022 18:42:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1642704164; x=1674240164;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=yjQuO4qTReRDJOqLGvX4UXpCi5SqZcuUsAFvblxtyus=;
+ b=Ux7vgNHYrwrOUyexyuMPmbWIJSrH9QJUdiykjy3pHnmwKiDO3nJKMzZx
+ SFwha+sn2mbdtSo+HEwqHg9b8XDfAf11OTOxSj6MjI9IO51yF5ciH7cRo
+ q84a1whiwp0l/iwwW0ug4gTwQIQkFvIw8y+jzV5LbPVIXQ9iby5VtRbHL
+ Lu/H6StcHfR+jmhY1mBN4kayrecHfpfxN5Yt3P28k2+WTFAdSSwrNudYN
+ kSZGTasIFGoJchPPeB0U7A/3nYxUp1YlRGvj0Pz+hyfc1OhmtIc7UuY8y
+ YYEJihVyi1YzCEwgq9XoFe2I+t1T26bn+PfjuuYVAJr1itYGg5nM/aevG g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10233"; a="245220042"
+X-IronPort-AV: E=Sophos;i="5.88,303,1635231600"; d="scan'208";a="245220042"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2022 10:42:44 -0800
+X-IronPort-AV: E=Sophos;i="5.88,303,1635231600"; d="scan'208";a="626416200"
+Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2022 10:42:43 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: <intel-gfx@lists.freedesktop.org>,
+	<dri-devel@lists.freedesktop.org>
+Subject: [PATCH 0/2] A few CT updates 
+Date: Thu, 20 Jan 2022 10:36:53 -0800
+Message-Id: <20220120183655.3228-1-matthew.brost@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220120083357.1541262-1-narmstrong@baylibre.com>
- <20220120083357.1541262-7-narmstrong@baylibre.com>
-In-Reply-To: <20220120083357.1541262-7-narmstrong@baylibre.com>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Fri, 21 Jan 2022 00:03:10 +0530
-Message-ID: <CAMty3ZBdzW++6mCaqCLuL0QWwY7ve1vmLSPhaS8QqYji_jDXSg@mail.gmail.com>
-Subject: Re: [PATCH v2 6/6] drm/meson: add support for MIPI-DSI transceiver
-To: Neil Armstrong <narmstrong@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,26 +54,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: martin.blumenstingl@googlemail.com, linux-amlogic@lists.infradead.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
+Cc: daniele.ceraolospurio@intel.com, john.c.harrison@intel.com,
+ michal.wajdeczko@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 20, 2022 at 2:04 PM Neil Armstrong <narmstrong@baylibre.com> wrote:
->
-> The Amlogic G12A/G12B/SM1 SoCs embeds a Synopsys DW-MIPI-DSI transceiver (ver 1.21a),
-> with a custom glue managing the IP resets, clock and data input similar to the DW-HDMI
-> Glue on other Amlogic SoCs.
->
-> This adds support for the Glue managing the transceiver, mimicing the init flow provided
-> by Amlogic to setup the ENCL encoder, the glue, the transceiver, the digital D-PHY and the
-> Analog PHY in the proper way.
->
-> An optional "MEAS" clock can be enabled to measure the delay between each vsync feeding the
-> DW-MIPI-DSI transceiver.
->
-> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-> ---
+A couple of minor CT updates. 1 for performance, 1 for extra debug.
 
-Reviewed-by: Jagan Teki <jagan@amarulasolutions.com>
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+
+Matthew Brost (2):
+  drm/i915/guc: Don't check CT descriptor status before CT write / read
+  drm/i915/guc: Print CT descriptor status in CT debug function
+
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+-- 
+2.34.1
+
