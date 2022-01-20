@@ -2,55 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67FB749463E
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 04:49:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E96F494653
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 05:12:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 646DA10E1C1;
-	Thu, 20 Jan 2022 03:49:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C04610E24C;
+	Thu, 20 Jan 2022 04:12:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C2D810E123
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 03:49:09 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id m3so16832586lfu.0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 19:49:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=AZnU5cEeFyaFBnpj/0CbEtA8JHuWrnQecXMIYCnzB/o=;
- b=ErV1kJfadCu1b5wgD6aEviZCSAk41KIjnGh8WYn8aHbrfBmz/Z03LAGBXFW2rQaPAJ
- 8nUEBpkWeomoODmY334NhCZOU+o0EljJbg8u2iyiFqhQzZA+efnPNwuXwUbmf0s5v/T1
- kCYeVe9Uk4rKeiAhQV0qJH3LNcIRAZLLfIB4l+8HBTpN2EbhE7OMo9MsZ1jJFtNumTI7
- 6nq4zktXZrLgMTkM/3rhi6H2v1j+XohmCPmuRZ67scdSpSHYsD2JZXkUmKHOEB9cL3zx
- lOz0lnwWIRRBoK8mzCl56IReSHCns1DzoysZ5ToPrtmXJlo7ywMjgvALaTMfHs/M01U3
- VAsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=AZnU5cEeFyaFBnpj/0CbEtA8JHuWrnQecXMIYCnzB/o=;
- b=ezXZ0ZWNOK3lHyrocKJOWb4kW7n6DaDNeOdGlqIE5I6djWYb2wAd9+uYgBBrClSU5X
- lodu4gAN5RwOsO4lRlM8xC23+nEDxE1vnGjZoKveC/f2Cc/PoUOdsP2ozw2KKeCodRJX
- rAQfmsdYQjko7vszeYWZmRTbJAnpE6WBuQqV6DS1M+LX8A0lXYnhbkz8UtRIijbZbGGR
- AFu9lCAg2KPHLbNYsv4jHs4FsHIa6Zz3MlxOnMj8njn/NxRR7+/WnLyasIsWc+sFBiGO
- WAIXtw2GtBEsjSDthpQE59UwJuiS+jWpDVrQOdDdY1tKAvu/XTK53FHA2hm+WK2Jnf/l
- 9Emw==
-X-Gm-Message-State: AOAM530TyvhDrtD+lDwhvUGADeWVZkicNAMDSHpAK7fNi9UJjOtLouyI
- sj0aEwRqVk8tCO60mZILGvlY76baHC5ReFr8WopOVA==
-X-Google-Smtp-Source: ABdhPJx0/Bt4Fv7Zhtxsw2WH0QARsie3jQTiwGG/ZBJTXsXxHRBXcquj3uP0/ZLAIBtBfzPMkNDAYvLD72ukCtWU1g8=
-X-Received: by 2002:a05:6512:3e1f:: with SMTP id
- i31mr25221311lfv.661.1642650547311; 
- Wed, 19 Jan 2022 19:49:07 -0800 (PST)
+X-Greylist: delayed 386 seconds by postgrey-1.36 at gabe;
+ Thu, 20 Jan 2022 04:12:04 UTC
+Received: from us-smtp-delivery-44.mimecast.com
+ (us-smtp-delivery-44.mimecast.com [205.139.111.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B857810E268
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 04:12:04 +0000 (UTC)
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-552-hdJn1T2JPtqusFMUeVQfGg-1; Wed, 19 Jan 2022 23:05:32 -0500
+X-MC-Unique: hdJn1T2JPtqusFMUeVQfGg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD010814243;
+ Thu, 20 Jan 2022 04:05:31 +0000 (UTC)
+Received: from dreadlord-bne-redhat-com.bne.redhat.com (unknown [10.64.0.157])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BA406610A8;
+ Thu, 20 Jan 2022 04:05:29 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] Revert "drm/ast: Support 1600x900 with 108MHz PCLK"
+Date: Thu, 20 Jan 2022 14:05:27 +1000
+Message-Id: <20220120040527.552068-1-airlied@gmail.com>
 MIME-Version: 1.0
-References: <CALAqxLUtK8V9LgC-DY+tkzFYyWfzF+JhbrLZk6UhEG57HQBDSA@mail.gmail.com>
- <20220120033450.90164-1-guangming.cao@mediatek.com>
-In-Reply-To: <20220120033450.90164-1-guangming.cao@mediatek.com>
-From: John Stultz <john.stultz@linaro.org>
-Date: Wed, 19 Jan 2022 19:48:55 -0800
-Message-ID: <CALAqxLW5uEZCGHGk3rYoiOGzN5XMKb39JzoPB1iEX9k3UsiT-A@mail.gmail.com>
-Subject: Re: [PATCH v4] dma-buf: system_heap: Add a size check for allocation
-To: guangming.cao@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: gmail.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=WINDOWS-1252
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,49 +52,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, caoguangming34@gmail.com,
- lmark@codeaurora.org, wsd_upstream@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, mingyuan.ma@mediatek.com,
- linaro-mm-sig@lists.linaro.org, michael.j.ruhl@intel.com, yf.wang@mediatek.com,
- linux-mediatek@lists.infradead.org, libo.kang@mediatek.com,
- benjamin.gaignard@linaro.org, bo.song@mediatek.com, matthias.bgg@gmail.com,
- labbott@redhat.com, christian.koenig@amd.com, jianjiao.zeng@mediatek.com,
- linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 19, 2022 at 7:34 PM <guangming.cao@mediatek.com> wrote:
->
-> From: Guangming <Guangming.Cao@mediatek.com>
->
-> Add a size check for allocation since the allocation size should be
-> always less than the total DRAM size on system heap.
-> And it can prevent consuming too much time for invalid allocations.
->
-> Signed-off-by: Guangming <Guangming.Cao@mediatek.com>
-> ---
->  drivers/dma-buf/heaps/system_heap.c | 7 +++++++
->  1 file changed, 7 insertions(+)
->
-> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-> index 23a7e74ef966..bd6f255620e2 100644
-> --- a/drivers/dma-buf/heaps/system_heap.c
-> +++ b/drivers/dma-buf/heaps/system_heap.c
-> @@ -347,6 +347,13 @@ static struct dma_buf *system_heap_allocate(struct dma_heap *heap,
->         struct page *page, *tmp_page;
->         int i, ret = -ENOMEM;
->
-> +       /*
-> +        * Size check. The "len" should be less than totalram since system_heap
-> +        * memory is comes from system. Adding check here can prevent consuming
-> +        * too much time for invalid allocations.
-> +        */
-> +       if (len >> PAGE_SHIFT > totalram_pages())
-> +               return -EINVAL;
+From: Dave Airlie <airlied@redhat.com>
 
-Thanks so much for revising and sending this along! It looks good to me.
+This reverts commit 9bb7b689274b67ecb3641e399e76f84adc627df1.
 
-Acked-by: John Stultz <john.stultz@linaro.org>
+This caused a regression reported to Red Hat.
 
-thanks again
--john
+Fixes: 9bb7b689274b ("drm/ast: Support 1600x900 with 108MHz PCLK")
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+---
+ drivers/gpu/drm/ast/ast_tables.h | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/ast/ast_tables.h b/drivers/gpu/drm/ast/ast_tab=
+les.h
+index d9eb353a4bf0..dbe1cc620f6e 100644
+--- a/drivers/gpu/drm/ast/ast_tables.h
++++ b/drivers/gpu/drm/ast/ast_tables.h
+@@ -282,8 +282,6 @@ static const struct ast_vbios_enhtable res_1360x768[] =
+=3D {
+ };
+=20
+ static const struct ast_vbios_enhtable res_1600x900[] =3D {
+-=09{1800, 1600, 24, 80, 1000,  900, 1, 3, VCLK108,=09=09/* 60Hz */
+-=09 (SyncPP | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo), =
+60, 3, 0x3A },
+ =09{1760, 1600, 48, 32, 926, 900, 3, 5, VCLK97_75,=09=09/* 60Hz CVT RB */
+ =09 (SyncNP | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo |
+ =09  AST2500PreCatchCRT), 60, 1, 0x3A },
+--=20
+2.25.4
+
