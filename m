@@ -2,53 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1477649535B
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 18:36:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 623A4495379
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 18:43:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 484BF10E8D3;
-	Thu, 20 Jan 2022 17:36:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFDAF10E772;
+	Thu, 20 Jan 2022 17:42:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com
- [209.85.210.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDD8510E56F
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 17:36:19 +0000 (UTC)
-Received: by mail-ot1-f42.google.com with SMTP id
- k13-20020a056830150d00b0059c6afb8627so6276222otp.5
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 09:36:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=qQlvojQIJlI1LuVZbEtkS+KlAzI9wBW3pw0XQI8LAMk=;
- b=Yr3sVr4rpEI8yv86puROUYRvslDfmmQms3BpnPIB1mP1icoXW3LywZD+a8VPHmgJF+
- /IoGMCxbps08Vpnq9XsQL7TQsNr8SSbtV6eqbiTgdB9SxPQplEM5Pt2ALIK8h74UKOqI
- 1Oy/oQXE8hTgf4aCbkFj83Yo7Fn+hINU4ZXaMLKPa7Ft6PP6aA9UB3UziXxt4WlzWktr
- iYnJoYhKE9FsIKdj9cRtpl2gvG5t8vn+mY6SUnBM407iAMQyxThzwQ7o/pNl3QR+BOE0
- 8jw9+v9dRx3LYTjyntU1c/O7fGn2dt4xBvuF2PVaJ/RxTZPUFZP10xSyIMxORB1MwTWy
- owAA==
-X-Gm-Message-State: AOAM532hXwx2cgi/J3Ii1JOF5wgZHH2hxW7QyEfcs8MXoTNY2/ES5etD
- bzuIcBCqZ3jQKJ3EqnVilEQmhVLAsw==
-X-Google-Smtp-Source: ABdhPJzCRxVNcMKOq7T+/Z1lxu7In4u72P8sWp+eMD1DsgHGhcN9VmWOc7txoszaZlPCUT1Kd3fnYg==
-X-Received: by 2002:a9d:5a01:: with SMTP id v1mr21602978oth.337.1642700179177; 
- Thu, 20 Jan 2022 09:36:19 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id d4sm1651420otq.44.2022.01.20.09.36.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jan 2022 09:36:18 -0800 (PST)
-Received: (nullmailer pid 1648421 invoked by uid 1000);
- Thu, 20 Jan 2022 17:36:16 -0000
-Date: Thu, 20 Jan 2022 11:36:16 -0600
-From: Rob Herring <robh@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: Drop unnecessary pinctrl properties
-Message-ID: <YemdkDfmemrwab2Y@robh.at.kernel.org>
-References: <20220119015325.2438277-1-robh@kernel.org>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BA2010E662;
+ Thu, 20 Jan 2022 17:42:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1642700574; x=1674236574;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=jkjejS8TT9tQlSwLu0JxBJbfl7YBYRxFvOfs3it60sM=;
+ b=Rwonf47ip74aKTjAAThIXvmDUDWLRu1FPlKHYXgWfwBjXnWDdWQMamG9
+ HOlg0yWdGFB1+X8yD15ErSZDzomcpnR48BgMsV22art++WtlZThTlky15
+ D9eJ+ckolsIw7ZD6V6yrO90PR4MiOmq4cui28IUdtui3E3QwYqZfzeZnD
+ wtAuiTMglMbkhfJhJTTu2fytsvoBKwUsQPVhNJsYgORKaDmsDAkfvuNhV
+ ec3GlLSOIvDtk9YJzH0ytf5KPbgYEbcz6iHoJzc89PJshxKF/JdqwAONM
+ 1fQ1ArY1F5AsvX9dlIXiQAzt2HEhHnXEmF2gn/GX1B1jI06E5N+pRu47J A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10233"; a="245366384"
+X-IronPort-AV: E=Sophos;i="5.88,303,1635231600"; d="scan'208";a="245366384"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2022 09:42:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,303,1635231600"; d="scan'208";a="532885101"
+Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
+ by orsmga008.jf.intel.com with ESMTP; 20 Jan 2022 09:42:53 -0800
+From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915/selftests: Don't restart WL for every frequency step
+Date: Thu, 20 Jan 2022 09:42:43 -0800
+Message-Id: <20220120174243.13726-1-vinay.belgaumkar@intel.com>
+X-Mailer: git-send-email 2.34.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220119015325.2438277-1-robh@kernel.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,32 +54,186 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, linux-rockchip@lists.infradead.org,
- Sandy Huang <hjc@rock-chips.com>, linux-input@vger.kernel.org,
- devicetree@vger.kernel.org, Charles Keepax <ckeepax@opensource.cirrus.com>,
- linux-gpio@vger.kernel.org, Richard Fitzgerald <rf@opensource.cirrus.com>,
- Mark Brown <broonie@kernel.org>, linux-arm-kernel@lists.infradead.org,
- - <patches@opensource.cirrus.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>
+Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 18 Jan 2022 19:53:25 -0600, Rob Herring wrote:
-> For a single pinctrl mode, it is not necessary to define pinctrl
-> properties as the tools always allow pinctrl properties.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  .../display/rockchip/rockchip,rk3066-hdmi.yaml         |  8 --------
->  Documentation/devicetree/bindings/input/gpio-keys.yaml |  6 ------
->  .../devicetree/bindings/pinctrl/cirrus,lochnagar.yaml  |  9 ---------
->  .../devicetree/bindings/pinctrl/cirrus,madera.yaml     | 10 ----------
->  .../devicetree/bindings/sound/samsung-i2s.yaml         |  6 ------
->  5 files changed, 39 deletions(-)
-> 
+Move spinner start out of the steps loop. If we restart WL for each
+freq step, the rapid start/stop causes SLPC algorithm to think that
+GT busyness is 50% for it's evaluation interval. This leads to SLPC
+not increasing the requested frequency as per the test expectation.
 
-Applied, thanks!
+Fixes: 8ee2c227822e (drm/i915/guc/slpc: Add SLPC selftest)
+
+Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+---
+ drivers/gpu/drm/i915/gt/selftest_slpc.c | 104 ++++++++++++------------
+ 1 file changed, 52 insertions(+), 52 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gt/selftest_slpc.c b/drivers/gpu/drm/i915/gt/selftest_slpc.c
+index b768cea5943d..eef416747c67 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_slpc.c
++++ b/drivers/gpu/drm/i915/gt/selftest_slpc.c
+@@ -79,6 +79,29 @@ static int live_slpc_clamp_min(void *arg)
+ 		if (!intel_engine_can_store_dword(engine))
+ 			continue;
+ 
++		st_engine_heartbeat_disable(engine);
++
++		rq = igt_spinner_create_request(&spin,
++						engine->kernel_context,
++						MI_NOOP);
++		if (IS_ERR(rq)) {
++			err = PTR_ERR(rq);
++			st_engine_heartbeat_enable(engine);
++			break;
++		}
++
++		i915_request_add(rq);
++
++		if (!igt_wait_for_spinner(&spin, rq)) {
++			pr_err("%s: Spinner did not start\n",
++			       engine->name);
++			igt_spinner_end(&spin);
++			st_engine_heartbeat_enable(engine);
++			intel_gt_set_wedged(engine->gt);
++			err = -EIO;
++			break;
++		}
++
+ 		/* Go from min to max in 5 steps */
+ 		step = (slpc_max_freq - slpc_min_freq) / NUM_STEPS;
+ 		max_act_freq = slpc_min_freq;
+@@ -88,29 +111,6 @@ static int live_slpc_clamp_min(void *arg)
+ 			if (err)
+ 				break;
+ 
+-			st_engine_heartbeat_disable(engine);
+-
+-			rq = igt_spinner_create_request(&spin,
+-							engine->kernel_context,
+-							MI_NOOP);
+-			if (IS_ERR(rq)) {
+-				err = PTR_ERR(rq);
+-				st_engine_heartbeat_enable(engine);
+-				break;
+-			}
+-
+-			i915_request_add(rq);
+-
+-			if (!igt_wait_for_spinner(&spin, rq)) {
+-				pr_err("%s: Spinner did not start\n",
+-				       engine->name);
+-				igt_spinner_end(&spin);
+-				st_engine_heartbeat_enable(engine);
+-				intel_gt_set_wedged(engine->gt);
+-				err = -EIO;
+-				break;
+-			}
+-
+ 			/* Wait for GuC to detect business and raise
+ 			 * requested frequency if necessary.
+ 			 */
+@@ -131,9 +131,6 @@ static int live_slpc_clamp_min(void *arg)
+ 			act_freq =  intel_rps_read_actual_frequency(rps);
+ 			if (act_freq > max_act_freq)
+ 				max_act_freq = act_freq;
+-
+-			igt_spinner_end(&spin);
+-			st_engine_heartbeat_enable(engine);
+ 		}
+ 
+ 		pr_info("Max actual frequency for %s was %d\n",
+@@ -145,6 +142,9 @@ static int live_slpc_clamp_min(void *arg)
+ 			err = -EINVAL;
+ 		}
+ 
++		igt_spinner_end(&spin);
++		st_engine_heartbeat_enable(engine);
++
+ 		if (err)
+ 			break;
+ 	}
+@@ -210,6 +210,29 @@ static int live_slpc_clamp_max(void *arg)
+ 		if (!intel_engine_can_store_dword(engine))
+ 			continue;
+ 
++		st_engine_heartbeat_disable(engine);
++
++		rq = igt_spinner_create_request(&spin,
++						engine->kernel_context,
++						MI_NOOP);
++		if (IS_ERR(rq)) {
++			st_engine_heartbeat_enable(engine);
++			err = PTR_ERR(rq);
++			break;
++		}
++
++		i915_request_add(rq);
++
++		if (!igt_wait_for_spinner(&spin, rq)) {
++			pr_err("%s: SLPC spinner did not start\n",
++			       engine->name);
++			igt_spinner_end(&spin);
++			st_engine_heartbeat_enable(engine);
++			intel_gt_set_wedged(engine->gt);
++			err = -EIO;
++			break;
++		}
++
+ 		/* Go from max to min in 5 steps */
+ 		step = (slpc_max_freq - slpc_min_freq) / NUM_STEPS;
+ 		max_act_freq = slpc_min_freq;
+@@ -219,29 +242,6 @@ static int live_slpc_clamp_max(void *arg)
+ 			if (err)
+ 				break;
+ 
+-			st_engine_heartbeat_disable(engine);
+-
+-			rq = igt_spinner_create_request(&spin,
+-							engine->kernel_context,
+-							MI_NOOP);
+-			if (IS_ERR(rq)) {
+-				st_engine_heartbeat_enable(engine);
+-				err = PTR_ERR(rq);
+-				break;
+-			}
+-
+-			i915_request_add(rq);
+-
+-			if (!igt_wait_for_spinner(&spin, rq)) {
+-				pr_err("%s: SLPC spinner did not start\n",
+-				       engine->name);
+-				igt_spinner_end(&spin);
+-				st_engine_heartbeat_enable(engine);
+-				intel_gt_set_wedged(engine->gt);
+-				err = -EIO;
+-				break;
+-			}
+-
+ 			delay_for_h2g();
+ 
+ 			/* Verify that SWREQ indeed was set to specific value */
+@@ -261,9 +261,6 @@ static int live_slpc_clamp_max(void *arg)
+ 			if (act_freq > max_act_freq)
+ 				max_act_freq = act_freq;
+ 
+-			st_engine_heartbeat_enable(engine);
+-			igt_spinner_end(&spin);
+-
+ 			if (err)
+ 				break;
+ 		}
+@@ -277,6 +274,9 @@ static int live_slpc_clamp_max(void *arg)
+ 			err = -EINVAL;
+ 		}
+ 
++		st_engine_heartbeat_enable(engine);
++		igt_spinner_end(&spin);
++
+ 		if (igt_flush_test(gt->i915)) {
+ 			err = -EIO;
+ 			break;
+-- 
+2.34.0
+
