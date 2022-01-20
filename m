@@ -1,56 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E6704943EF
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 00:55:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CA76494405
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 01:11:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4231910E2D2;
-	Wed, 19 Jan 2022 23:55:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D15010E3C3;
+	Thu, 20 Jan 2022 00:11:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BFA410E2D2;
- Wed, 19 Jan 2022 23:55:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642636543; x=1674172543;
- h=date:from:to:subject:message-id:references:mime-version:
- in-reply-to; bh=uCVZjXt17Nfv/G9qw2L3K1mqeAXwrnobzh2GWeu989k=;
- b=Xq7ZTsMM63DynNcsOqCTWO9FYusqG5qQiUuqKR0FPqhtY4icnujnFHyU
- uau5jvNDzfRG5GU0jcUokhVqOJPjGfCVFN8Ow/DgXp4QPoZKN/EZXVi1T
- BPOkrsfGNACQGfrtbbeFZOZiFIEh5pgMSvTygfEkbXrHTHiwswnj8HEju
- 8t4Ps102BqAZ8uKBnuDJCrUwh0ENXwthh4immDu5DUlcvnuFMlIkvHU8T
- XLgKC9jjM38JX6E9nzbzeXOz+10IeXOlZOem5tOYS0gDG9RTq0mdofhI3
- mA4HNrE6UKdytsBONN/zKuq26tSj3gEpIna/IwwfebJSmLSog9aAHI6fl A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10231"; a="245022785"
-X-IronPort-AV: E=Sophos;i="5.88,300,1635231600"; d="scan'208";a="245022785"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2022 15:55:42 -0800
-X-IronPort-AV: E=Sophos;i="5.88,300,1635231600"; d="scan'208";a="477585769"
-Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2022 15:55:42 -0800
-Date: Wed, 19 Jan 2022 15:55:42 -0800
-From: Ira Weiny <ira.weiny@intel.com>
-To: David Airlie <airlied@linux.ie>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org,
- Christian =?utf-8?B?S++/vW5pZw==?= <christian.koenig@amd.com>
-Subject: Re: [PATCH 0/7] DRM kmap() fixes and kmap_local_page() conversions
-Message-ID: <20220119235542.GF209936@iweiny-DESK2.sc.intel.com>
-References: <20211210232404.4098157-1-ira.weiny@intel.com>
- <20220119165356.GD209936@iweiny-DESK2.sc.intel.com>
- <YehJRt+JngIsj+Gd@phenom.ffwll.local>
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
+ [IPv6:2607:f8b0:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B62110E3C3
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 00:11:39 +0000 (UTC)
+Received: by mail-pl1-x634.google.com with SMTP id d7so3701350plr.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jan 2022 16:11:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xVjyliV2Seqod5G5KIrqETEB6DdMnlj/gwwO0Ms37r0=;
+ b=m2Cq3pKgOPSZH8kQrR3RmS6xRkj5mu1noGfRe3JZhs8okQ1LqSuYyK//XFTZkx1aQs
+ yHUXZol3p03WVKjGCTEpbNIwX1Y17hojgjvIyt4T8a5US0T0fRGuh5XrTFE7N2jsmURt
+ d5YyE0CUQIeGJ0Q571BvcoBoXM5+SCFLLetkw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xVjyliV2Seqod5G5KIrqETEB6DdMnlj/gwwO0Ms37r0=;
+ b=lpImSsYEg9Dik/SHyL3BEddBl3m8gS0WUrK+hBLQw9sKLvh/OYr7L3ZxmJOhPlJ5hz
+ 102SrFI5pY6XzbHrFyatWQBfgysX+zF41CbdgPZb+5OEdJH+n/wS7N0Szoz7jlTMCGdx
+ NuFS3E9GDclN0ZLbJC3XgYRk/d2L7ubhZcsYs97kQSItAEy/37LYKswgN38qmq108OoW
+ aFlE1wKBDHqn9wJ4kiurTZ8JLq768A/Ze3ahn5OMe4eP7GIXVaAC5S2CfpyeHcAn77ie
+ ic5seaPrNrq7lgzD1S53qt7wbbdENZrA6Tv2SlxdS/o9PdecVeQuMmVjwIZ2B90oajzF
+ z0lg==
+X-Gm-Message-State: AOAM532jdys6lkl3m0he5s8ITBzpkHq1/gGH9WzFeIfsyL0gi6qapVgo
+ UeILHxtKinE9RAXqP0/FhuYz0Q==
+X-Google-Smtp-Source: ABdhPJwLpxXuY7FO2TAuqYWaVf818ZHbHTTM8JXzcEhXz0whOElvDA2CBgU9tYGH1YmFEb+a9qtFGg==
+X-Received: by 2002:a17:902:7c89:b0:14a:a76f:78d2 with SMTP id
+ y9-20020a1709027c8900b0014aa76f78d2mr21640702pll.166.1642637498672; 
+ Wed, 19 Jan 2022 16:11:38 -0800 (PST)
+Received: from localhost ([2620:15c:202:201:bebd:c462:321a:9b63])
+ by smtp.gmail.com with UTF8SMTPSA id j4sm804788pfc.125.2022.01.19.16.11.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Jan 2022 16:11:37 -0800 (PST)
+From: Brian Norris <briannorris@chromium.org>
+To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>
+Subject: [PATCH] drm/rockchip: vop: Correct RK3399 VOP register fields
+Date: Wed, 19 Jan 2022 16:11:22 -0800
+Message-Id: <20220119161104.1.I1d01436bef35165a8cdfe9308789c0badb5ff46a@changeid>
+X-Mailer: git-send-email 2.34.1.703.g22d0c6ccf7-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YehJRt+JngIsj+Gd@phenom.ffwll.local>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,90 +65,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Brian Norris <briannorris@chromium.org>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, stable@vger.kernel.org,
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ Mark Yao <markyao0591@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 19, 2022 at 06:24:22PM +0100, Daniel Vetter wrote:
-> On Wed, Jan 19, 2022 at 08:53:56AM -0800, Ira Weiny wrote:
-> > On Fri, Dec 10, 2021 at 03:23:57PM -0800, 'Ira Weiny' wrote:
-> > > From: Ira Weiny <ira.weiny@intel.com>
-> > > 
-> > > This series starts by converting the last easy kmap() uses to
-> > > kmap_local_page().
-> > > 
-> > > There is one more call to kmap() wrapped in ttm_bo_kmap_ttm().  Unfortunately,
-> > > ttm_bo_kmap_ttm() is called in a number of different ways including some which
-> > > are not thread local.  I have a patch to convert that call.  However, it is not
-> > > straight forward so it is not included in this series.
-> > > 
-> > > The final 2 patches fix bugs found while working on the ttm_bo_kmap_ttm()
-> > > conversion.
-> > 
-> > Gentile ping on this series?  Will it make this merge window?
-> 
-> I think this fell through the cracks and so no. Note that generally we
-> feature-freeze drm tree around -rc6 anyway for the upcoming merge window,
-> so you were cutting this all a bit close anyway.
+Commit 7707f7227f09 ("drm/rockchip: Add support for afbc") switched up
+the rk3399_vop_big[] register windows, but it did so incorrectly.
 
-Ok, No problem.  I just had not heard if this was picked up or not.
+The biggest problem is in rk3288_win23_data[] vs.
+rk3368_win23_data[] .format field:
 
-> Also looks like the ttm
-> kmap caching question didn't get resolved?
+  RK3288's format: VOP_REG(RK3288_WIN2_CTRL0, 0x7, 1)
+  RK3368's format: VOP_REG(RK3368_WIN2_CTRL0, 0x3, 5)
 
-I'm sorry I thought it was resolve for this series.  Christian said the patches
-in this series were "a good bug fix" even if not strictly necessary.[1]  Beyond
-this series I was discussing where to go from here, and is it possible to go
-further with more changes.[2]  At the moment I don't think I will.
+Bits 5:6 (i.e., shift 5, mask 0x3) are correct for RK3399, according to
+the TRM.
 
-Christian did I misunderstand?  I can drop patch 6 and 7 if they are not proper
-bug fixes or at least clarifications to the code.
+There are a few other small differences between the 3288 and 3368
+definitions that were swapped in commit 7707f7227f09. I reviewed them to
+the best of my ability according to the RK3399 TRM and fixed them up.
 
-Ira
+This fixes IOMMU issues (and display errors) when testing with BG24
+color formats.
 
-[1] https://lore.kernel.org/lkml/c3b173ea-6509-ebbe-b5f9-eeb29f1ce57e@amd.com/
-[2] https://lore.kernel.org/lkml/20211215210949.GW3538886@iweiny-DESK2.sc.intel.com/
+Fixes: 7707f7227f09 ("drm/rockchip: Add support for afbc")
+Cc: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Brian Norris <briannorris@chromium.org>
+---
+I'd appreciate notes or testing from Andrzej, since I'm not sure how he
+tested his original AFBC work.
 
-> 
-> Anyway if patches are stuck resend with RESEND and if people still don't
-> pick them up poke me and I'll apply as fallback.
-> 
-> Cheers, Daniel
-> 
-> > 
-> > Thanks,
-> > Ira
-> > 
-> > > 
-> > > 
-> > > Ira Weiny (7):
-> > > drm/i915: Replace kmap() with kmap_local_page()
-> > > drm/amd: Replace kmap() with kmap_local_page()
-> > > drm/gma: Remove calls to kmap()
-> > > drm/radeon: Replace kmap() with kmap_local_page()
-> > > drm/msm: Alter comment to use kmap_local_page()
-> > > drm/amdgpu: Ensure kunmap is called on error
-> > > drm/radeon: Ensure kunmap is called on error
-> > > 
-> > > drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 8 ++++----
-> > > drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c | 1 +
-> > > drivers/gpu/drm/gma500/gma_display.c | 6 ++----
-> > > drivers/gpu/drm/gma500/mmu.c | 8 ++++----
-> > > drivers/gpu/drm/i915/gem/i915_gem_shmem.c | 4 ++--
-> > > drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c | 8 ++++----
-> > > drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c | 4 ++--
-> > > drivers/gpu/drm/i915/gt/shmem_utils.c | 4 ++--
-> > > drivers/gpu/drm/i915/i915_gem.c | 8 ++++----
-> > > drivers/gpu/drm/i915/i915_gpu_error.c | 4 ++--
-> > > drivers/gpu/drm/msm/msm_gem_submit.c | 4 ++--
-> > > drivers/gpu/drm/radeon/radeon_ttm.c | 4 ++--
-> > > drivers/gpu/drm/radeon/radeon_uvd.c | 1 +
-> > > 13 files changed, 32 insertions(+), 32 deletions(-)
-> > > 
-> > > --
-> > > 2.31.1
-> > > 
-> 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+ drivers/gpu/drm/rockchip/rockchip_vop_reg.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+index 1f7353f0684a..798b542e5916 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
++++ b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+@@ -902,6 +902,7 @@ static const struct vop_win_phy rk3399_win01_data = {
+ 	.enable = VOP_REG(RK3288_WIN0_CTRL0, 0x1, 0),
+ 	.format = VOP_REG(RK3288_WIN0_CTRL0, 0x7, 1),
+ 	.rb_swap = VOP_REG(RK3288_WIN0_CTRL0, 0x1, 12),
++	.x_mir_en = VOP_REG(RK3288_WIN0_CTRL0, 0x1, 21),
+ 	.y_mir_en = VOP_REG(RK3288_WIN0_CTRL0, 0x1, 22),
+ 	.act_info = VOP_REG(RK3288_WIN0_ACT_INFO, 0x1fff1fff, 0),
+ 	.dsp_info = VOP_REG(RK3288_WIN0_DSP_INFO, 0x0fff0fff, 0),
+@@ -912,6 +913,7 @@ static const struct vop_win_phy rk3399_win01_data = {
+ 	.uv_vir = VOP_REG(RK3288_WIN0_VIR, 0x3fff, 16),
+ 	.src_alpha_ctl = VOP_REG(RK3288_WIN0_SRC_ALPHA_CTRL, 0xff, 0),
+ 	.dst_alpha_ctl = VOP_REG(RK3288_WIN0_DST_ALPHA_CTRL, 0xff, 0),
++	.channel = VOP_REG(RK3288_WIN0_CTRL2, 0xff, 0),
+ };
+ 
+ /*
+@@ -922,11 +924,11 @@ static const struct vop_win_phy rk3399_win01_data = {
+ static const struct vop_win_data rk3399_vop_win_data[] = {
+ 	{ .base = 0x00, .phy = &rk3399_win01_data,
+ 	  .type = DRM_PLANE_TYPE_PRIMARY },
+-	{ .base = 0x40, .phy = &rk3288_win01_data,
++	{ .base = 0x40, .phy = &rk3368_win01_data,
+ 	  .type = DRM_PLANE_TYPE_OVERLAY },
+-	{ .base = 0x00, .phy = &rk3288_win23_data,
++	{ .base = 0x00, .phy = &rk3368_win23_data,
+ 	  .type = DRM_PLANE_TYPE_OVERLAY },
+-	{ .base = 0x50, .phy = &rk3288_win23_data,
++	{ .base = 0x50, .phy = &rk3368_win23_data,
+ 	  .type = DRM_PLANE_TYPE_CURSOR },
+ };
+ 
+-- 
+2.34.1.703.g22d0c6ccf7-goog
+
