@@ -2,60 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0654E49524B
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 17:25:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82BD9495250
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 17:26:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07FE710E6E1;
-	Thu, 20 Jan 2022 16:25:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11C8110E701;
+	Thu, 20 Jan 2022 16:26:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5C2410E6C9;
- Thu, 20 Jan 2022 16:25:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642695931; x=1674231931;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=HieivQxkOsW5O24EGqyeX8yUH07Zp0xZ0G0IIBqMfKs=;
- b=KgI4f9uwoNEvsptV/igM5AsTTQPHJr87b4UV+WL+cU4jgHhY1Y/f7Hle
- c8RAY31RoNv91bfIwxMAxOoo3+xWnMOCAfNBV8N/wVAfS98DRdVLdMTvb
- qNVEZAvpXb4iTGpKnBijhEYEyafY8niR0qn6prn9PjZsHjhkD2r10j95w
- 3HdGfQDnaWb0t6loLKu/YxvYpd1sbX+sXrd7l+m3j646BH1qGTJHaA/mR
- pKCl3h2L9jfn69VaS6iqNdIPh9vC/gDsolKHiawE19vZyfAL6jrDDuwTu
- keUSvSAmVzreVybdw+q/LEgHZzP0+byV4VL7ungXrjEt7ghhJaxn5gbnt A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10232"; a="308729177"
-X-IronPort-AV: E=Sophos;i="5.88,302,1635231600"; d="scan'208";a="308729177"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 08:25:30 -0800
-X-IronPort-AV: E=Sophos;i="5.88,302,1635231600"; d="scan'208";a="595793864"
-Received: from kdevey-mobl2.ger.corp.intel.com (HELO [10.252.29.97])
- ([10.252.29.97])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 08:25:26 -0800
-Message-ID: <7d36c4a4-9446-4e45-e851-cc0d6b9f5dcb@intel.com>
-Date: Thu, 20 Jan 2022 16:25:24 +0000
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4932C10E701
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 16:26:23 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id
+ r7-20020a1c4407000000b0034e043aaac7so808152wma.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 08:26:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=subject:to:cc:references:from:organization:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ZZ5JhSU7/2jMjBoqdbMoQ0Y+xZcT9Mngloieb9w8d6o=;
+ b=DITjrGZVKZ3Kub0LNW0IQpXoujisZrEIPmRjjl9DV3uc2pmPvY1ZZUX5zXby7PWqK3
+ 9PLbVvbs0PLx6ERAvpUItLJr3Eq7dhR/cW+mWuLffSNxgIa7QLGG1dODhnQPlnsvip0q
+ pv1PrNiCdDVtuiQF2svKsq1I1E6TntZ1HcB2jeAs2M0OLm+reqGU8vc2dUkAAWQM2/gT
+ hMUf1rqg6/tkB0UTzYv6ujhdoaW74/vSNPm2ortJ2TrN5ra7b5J76GybtPW0qYzX1HQq
+ LiiBDL7C/O67ATmnhRRHmiN3xysvX8vQZeOVI4mkuOfXho3ZlKFzV3uyAIt+7FSEhkfO
+ YTzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=ZZ5JhSU7/2jMjBoqdbMoQ0Y+xZcT9Mngloieb9w8d6o=;
+ b=0URRXpAYEYJcPehjKfH/MRCHdt+zOK17eps+8dFq6DO1eaSsq1APFOH8IeEWqNy3Qs
+ Szp+YvXqENJbvgbP6S1KuSi6er4XKiGVMFVCmSdY2H/YPHlU7FdkwXhtu6WRNzgQqgeW
+ 5RdP9sU/DjLyc3nDxuqSJ3bJ6XHkFFMZlNBOGl1WeKvocmLgLYYysnUUgPkqircOpNWH
+ q2TuhRHY871hDfgslErIQNbw2qjiRe2qayzQykoS5MyHZitHQCwYHng9Cq6csjbsdltw
+ f6UWtemcmbYkXfTD2feKgDYUOfSAI6tqbIGmCvLAJC3LgPv53W7hrzwmB6ZQM0J3uFrx
+ PsAw==
+X-Gm-Message-State: AOAM530cEhSzUsHBDx1OyIv++W0GXeiqkykZsvYzUFOZSv2vToAl9S+R
+ RJ3n3nA4NiorMSqG96fjW/ovGQ==
+X-Google-Smtp-Source: ABdhPJwbAAiSdauhqTNldlrH0S7IF+FpUK+Typw9zOMNriunS+cxT5vmWTpKgfs3oYApa77bCMucPw==
+X-Received: by 2002:adf:e312:: with SMTP id b18mr35829588wrj.138.1642695981542; 
+ Thu, 20 Jan 2022 08:26:21 -0800 (PST)
+Received: from ?IPv6:2001:861:44c0:66c0:ced2:397a:bee8:75f5?
+ ([2001:861:44c0:66c0:ced2:397a:bee8:75f5])
+ by smtp.gmail.com with ESMTPSA id o13sm3308832wrq.37.2022.01.20.08.26.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Jan 2022 08:26:20 -0800 (PST)
+Subject: Re: [PATCH v2 3/6] drm/meson: venc: add ENCL encoder setup for
+ MIPI-DSI output
+To: dri-devel@lists.freedesktop.org, martin.blumenstingl@googlemail.com
+References: <20220120083357.1541262-1-narmstrong@baylibre.com>
+ <20220120083357.1541262-4-narmstrong@baylibre.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Organization: Baylibre
+Message-ID: <17810339-0e9c-0042-b6f7-927f5fe00421@baylibre.com>
+Date: Thu, 20 Jan 2022 17:26:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v2 1/4] drm/i915: enforce min GTT alignment for discrete
- cards
-Content-Language: en-GB
-To: Robert Beckett <bob.beckett@collabora.com>,
- Ramalingam C <ramalingam.c@intel.com>
-References: <20220118175036.3840934-1-bob.beckett@collabora.com>
- <20220118175036.3840934-2-bob.beckett@collabora.com>
- <20220120114626.GA8264@intel.com>
- <a8cce1c4-88da-e597-e54c-8c34b685d1eb@collabora.com>
- <5dbffe0e-7291-6af7-0bd1-bbfcdf7ef5bf@intel.com>
- <fe7ff711-fc3e-82c5-ece5-158b42ec3c55@collabora.com>
- <18e13424-e008-28d3-ce70-699be8fd6a04@intel.com>
- <02bc365e-a07b-26d2-ae2a-2b27e39ce473@collabora.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <02bc365e-a07b-26d2-ae2a-2b27e39ce473@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220120083357.1541262-4-narmstrong@baylibre.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,604 +78,368 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20/01/2022 16:09, Robert Beckett wrote:
+On 20/01/2022 09:33, Neil Armstrong wrote:
+> This adds supports for the ENCL encoder connected to a MIPI-DSI transceiver on the
+> Amlogic AXG, G12A, G12B & SM1 SoCs.
 > 
+> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+> ---
+>  drivers/gpu/drm/meson/meson_registers.h |  15 ++
+>  drivers/gpu/drm/meson/meson_venc.c      | 211 +++++++++++++++++++++++-
+>  drivers/gpu/drm/meson/meson_venc.h      |   6 +
+>  drivers/gpu/drm/meson/meson_vpp.h       |   2 +
+>  4 files changed, 232 insertions(+), 2 deletions(-)
 > 
-> On 20/01/2022 15:58, Matthew Auld wrote:
->> On 20/01/2022 15:44, Robert Beckett wrote:
->>>
->>>
->>> On 20/01/2022 14:59, Matthew Auld wrote:
->>>> On 20/01/2022 13:15, Robert Beckett wrote:
->>>>>
->>>>>
->>>>> On 20/01/2022 11:46, Ramalingam C wrote:
->>>>>> On 2022-01-18 at 17:50:34 +0000, Robert Beckett wrote:
->>>>>>> From: Matthew Auld <matthew.auld@intel.com>
->>>>>>>
->>>>>>> For local-memory objects we need to align the GTT addresses
->>>>>>> to 64K, both for the ppgtt and ggtt.
->>>>>>>
->>>>>>> We need to support vm->min_alignment > 4K, depending
->>>>>>> on the vm itself and the type of object we are inserting.
->>>>>>> With this in mind update the GTT selftests to take this
->>>>>>> into account.
->>>>>>>
->>>>>>> For DG2 we further align and pad lmem object GTT addresses
->>>>>>> to 2MB to ensure PDEs contain consistent page sizes as
->>>>>>> required by the HW.
->>>>>>>
->>>>>>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
->>>>>>> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
->>>>>>> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
->>>>>>> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
->>>>>>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
->>>>>>> ---
->>>>>>>   .../i915/gem/selftests/i915_gem_client_blt.c  | 23 +++--
->>>>>>>   drivers/gpu/drm/i915/gt/intel_gtt.c           | 14 +++
->>>>>>>   drivers/gpu/drm/i915/gt/intel_gtt.h           |  9 ++
->>>>>>>   drivers/gpu/drm/i915/i915_vma.c               | 14 +++
->>>>>>>   drivers/gpu/drm/i915/selftests/i915_gem_gtt.c | 96 
->>>>>>> ++++++++++++-------
->>>>>>>   5 files changed, 115 insertions(+), 41 deletions(-)
->>>>>>>
->>>>>>> diff --git 
->>>>>>> a/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c 
->>>>>>> b/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c
->>>>>>> index c08f766e6e15..7fee95a65414 100644
->>>>>>> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c
->>>>>>> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c
->>>>>>> @@ -39,6 +39,7 @@ struct tiled_blits {
->>>>>>>       struct blit_buffer scratch;
->>>>>>>       struct i915_vma *batch;
->>>>>>>       u64 hole;
->>>>>>> +    u64 align;
->>>>>>>       u32 width;
->>>>>>>       u32 height;
->>>>>>>   };
->>>>>>> @@ -410,14 +411,21 @@ tiled_blits_create(struct intel_engine_cs 
->>>>>>> *engine, struct rnd_state *prng)
->>>>>>>           goto err_free;
->>>>>>>       }
->>>>>>> -    hole_size = 2 * PAGE_ALIGN(WIDTH * HEIGHT * 4);
->>>>>>> +    t->align = I915_GTT_PAGE_SIZE_2M; /* XXX worst case, derive 
->>>>>>> from vm! */
->>>>>>> +    t->align = max(t->align,
->>>>>>> +               i915_vm_min_alignment(t->ce->vm, 
->>>>>>> INTEL_MEMORY_LOCAL));
->>>>>>> +    t->align = max(t->align,
->>>>>>> +               i915_vm_min_alignment(t->ce->vm, 
->>>>>>> INTEL_MEMORY_SYSTEM));
->>>>>>> +
->>>>>>> +    hole_size = 2 * round_up(WIDTH * HEIGHT * 4, t->align);
->>>>>>>       hole_size *= 2; /* room to maneuver */
->>>>>>> -    hole_size += 2 * I915_GTT_MIN_ALIGNMENT;
->>>>>>> +    hole_size += 2 * t->align; /* padding on either side */
->>>>>>>       mutex_lock(&t->ce->vm->mutex);
->>>>>>>       memset(&hole, 0, sizeof(hole));
->>>>>>>       err = drm_mm_insert_node_in_range(&t->ce->vm->mm, &hole,
->>>>>>> -                      hole_size, 0, I915_COLOR_UNEVICTABLE,
->>>>>>> +                      hole_size, t->align,
->>>>>>> +                      I915_COLOR_UNEVICTABLE,
->>>>>>>                         0, U64_MAX,
->>>>>>>                         DRM_MM_INSERT_BEST);
->>>>>>>       if (!err)
->>>>>>> @@ -428,7 +436,7 @@ tiled_blits_create(struct intel_engine_cs 
->>>>>>> *engine, struct rnd_state *prng)
->>>>>>>           goto err_put;
->>>>>>>       }
->>>>>>> -    t->hole = hole.start + I915_GTT_MIN_ALIGNMENT;
->>>>>>> +    t->hole = hole.start + t->align;
->>>>>>>       pr_info("Using hole at %llx\n", t->hole);
->>>>>>>       err = tiled_blits_create_buffers(t, WIDTH, HEIGHT, prng);
->>>>>>> @@ -455,7 +463,7 @@ static void tiled_blits_destroy(struct 
->>>>>>> tiled_blits *t)
->>>>>>>   static int tiled_blits_prepare(struct tiled_blits *t,
->>>>>>>                      struct rnd_state *prng)
->>>>>>>   {
->>>>>>> -    u64 offset = PAGE_ALIGN(t->width * t->height * 4);
->>>>>>> +    u64 offset = round_up(t->width * t->height * 4, t->align);
->>>>>>>       u32 *map;
->>>>>>>       int err;
->>>>>>>       int i;
->>>>>>> @@ -486,8 +494,7 @@ static int tiled_blits_prepare(struct 
->>>>>>> tiled_blits *t,
->>>>>>>   static int tiled_blits_bounce(struct tiled_blits *t, struct 
->>>>>>> rnd_state *prng)
->>>>>>>   {
->>>>>>> -    u64 offset =
->>>>>>> -        round_up(t->width * t->height * 4, 2 * 
->>>>>>> I915_GTT_MIN_ALIGNMENT);
->>>>>>> +    u64 offset = round_up(t->width * t->height * 4, 2 * t->align);
->>>>>>>       int err;
->>>>>>>       /* We want to check position invariant tiling across GTT 
->>>>>>> eviction */
->>>>>>> @@ -500,7 +507,7 @@ static int tiled_blits_bounce(struct 
->>>>>>> tiled_blits *t, struct rnd_state *prng)
->>>>>>>       /* Reposition so that we overlap the old addresses, and 
->>>>>>> slightly off */
->>>>>>>       err = tiled_blit(t,
->>>>>>> -             &t->buffers[2], t->hole + I915_GTT_MIN_ALIGNMENT,
->>>>>>> +             &t->buffers[2], t->hole + t->align,
->>>>>>>                &t->buffers[1], t->hole + 3 * offset / 2);
->>>>>>>       if (err)
->>>>>>>           return err;
->>>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c 
->>>>>>> b/drivers/gpu/drm/i915/gt/intel_gtt.c
->>>>>>> index 46be4197b93f..7c92b25c0f26 100644
->>>>>>> --- a/drivers/gpu/drm/i915/gt/intel_gtt.c
->>>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
->>>>>>> @@ -223,6 +223,20 @@ void i915_address_space_init(struct 
->>>>>>> i915_address_space *vm, int subclass)
->>>>>>>       GEM_BUG_ON(!vm->total);
->>>>>>>       drm_mm_init(&vm->mm, 0, vm->total);
->>>>>>> +
->>>>>>> +    memset64(vm->min_alignment, I915_GTT_MIN_ALIGNMENT,
->>>>>>> +         ARRAY_SIZE(vm->min_alignment));
->>>>>>> +
->>>>>>> +    if (HAS_64K_PAGES(vm->i915)) {
->>>>>>> +        if (IS_DG2(vm->i915)) {
->>>>>> I think we need this 2M alignment for all platform with 
->>>>>> HAS_64K_PAGES.
->>>>>> Not only for DG2.
->>>>>
->>>>> really? can we get confirmation of this?
->>>>> this contradicts the documentation in patch 4, which you reviewed, 
->>>>> so I am confused now
->>>>
->>>> Starting from DG2, some platforms will have this new 64K GTT page 
->>>> size restriction when dealing with LMEM. The HAS_64K_PAGES() macro 
->>>> is meant to cover exactly that, AFAIK.
->>>
->>> As I understood it, 64K pages only are a requirement going forward 
->>> for discrete cards, but the restriction of nt sharing pdes with 4k 
->>> and 64k pages was specific to DG2.
->>>
->>> e.g.  xehpsdv is also defined as having 64k pages. And others in 
->>> future are likely to, but without the PDE sharing restrictions.
->>
->> Yeah, pretty much. But there is one other platform lurking.
->>
->>  From chatting with Ram, it might also make sense to disentangle 
->> HAS_64K_PAGES(), since it currently means both that we need min 64K 
->> page granularity, and that there is this compact-pt layout thing which 
->> doesn't allow mixing 64K and 4K in the same page-table.
-> 
-> okay, so it sounds to me like the IS_DG2 check here is appropriate. 
-> Other 64K page systems will not have the 2MB alignment requirement.
+> diff --git a/drivers/gpu/drm/meson/meson_registers.h b/drivers/gpu/drm/meson/meson_registers.h
+> index 0f3cafab8860..a422a8df1641 100644
+> --- a/drivers/gpu/drm/meson/meson_registers.h
+> +++ b/drivers/gpu/drm/meson/meson_registers.h
+> @@ -1300,13 +1300,28 @@
+>  #define RDMA_STATUS2 0x1116
+>  #define RDMA_STATUS3 0x1117
+>  #define L_GAMMA_CNTL_PORT 0x1400
+> +#define		L_GAMMA_CNTL_PORT_VCOM_POL	BIT(7)	/* RW */
+> +#define		L_GAMMA_CNTL_PORT_RVS_OUT	BIT(6)	/* RW */
+> +#define		L_GAMMA_CNTL_PORT_ADR_RDY	BIT(5)	/* Read Only */
+> +#define		L_GAMMA_CNTL_PORT_WR_RDY	BIT(4)	/* Read Only */
+> +#define		L_GAMMA_CNTL_PORT_RD_RDY	BIT(3)	/* Read Only */
+> +#define		L_GAMMA_CNTL_PORT_TR		BIT(2)	/* RW */
+> +#define		L_GAMMA_CNTL_PORT_SET		BIT(1)	/* RW */
+> +#define		L_GAMMA_CNTL_PORT_EN		BIT(0)	/* RW */
+>  #define L_GAMMA_DATA_PORT 0x1401
+>  #define L_GAMMA_ADDR_PORT 0x1402
+> +#define		L_GAMMA_ADDR_PORT_RD		BIT(12)
+> +#define		L_GAMMA_ADDR_PORT_AUTO_INC	BIT(11)
+> +#define		L_GAMMA_ADDR_PORT_SEL_R		BIT(10)
+> +#define		L_GAMMA_ADDR_PORT_SEL_G		BIT(9)
+> +#define		L_GAMMA_ADDR_PORT_SEL_B		BIT(8)
+> +#define		L_GAMMA_ADDR_PORT_ADDR		GENMASK(7, 0)
+>  #define L_GAMMA_VCOM_HSWITCH_ADDR 0x1403
+>  #define L_RGB_BASE_ADDR 0x1405
+>  #define L_RGB_COEFF_ADDR 0x1406
+>  #define L_POL_CNTL_ADDR 0x1407
+>  #define L_DITH_CNTL_ADDR 0x1408
+> +#define		L_DITH_CNTL_DITH10_EN	BIT(10)
+>  #define L_GAMMA_PROBE_CTRL 0x1409
+>  #define L_GAMMA_PROBE_COLOR_L 0x140a
+>  #define L_GAMMA_PROBE_COLOR_H 0x140b
 
-There is both dg2 and xehpsdv as per i915_pci.c. IIRC xehpsdv came 
-first, and then dg2 inherited this feature. For example the accelerated 
-DG2 moves series[1] is meant to work on both platforms.
+OK Somehow the following disappeared from the patchset...
 
-[1] https://patchwork.freedesktop.org/series/97544/
+ #define VENC_INTCTRL 0x1b6e
+ #define		VENC_INTCTRL_ENCI_LNRST_INT_EN  BIT(1)
+-#define		VENC_INTCTRL_ENCP_LNRST_INT_EN  BIT(9)
+ #define VENC_INTFLAG 0x1b6f
 
+ #define ENCL_VIDEO_MODE 0x1ca7
+-#define		ENCL_PX_LN_CNT_SHADOW_EN	BIT(15)
+ #define ENCL_VIDEO_MODE_ADV 0x1ca8
+-#define		ENCL_VIDEO_MODE_ADV_VFIFO_EN	BIT(3)
+-#define		ENCL_VIDEO_MODE_ADV_GAIN_HDTV	BIT(4)
+-#define		ENCL_SEL_GAMMA_RGB_IN		BIT(10)
+ #define ENCL_DBG_PX_RST 0x1ca9
+ #define ENCL_VIDEO_FILT_CTRL 0x1cc2
+
+-#define		ENCL_VIDEO_FILT_CTRL_BYPASS_FILTER	BIT(12)
+ #define ENCL_VIDEO_OFLD_VPEQ_OFST 0x1cc3
+
+ #define ENCL_VIDEO_RGBIN_CTRL 0x1cc7
+-#define		ENCL_VIDEO_RGBIN_RGB	BIT(0)
+-#define		ENCL_VIDEO_RGBIN_ZBLK	BIT(1)
+ #define ENCL_MAX_LINE_SWITCH_POINT 0x1cc8
+
+
+ #define L_TCON_MISC_SEL_ADDR 0x1441
+-#define		L_TCON_MISC_SEL_STV1	BIT(4)
+-#define		L_TCON_MISC_SEL_STV2	BIT(5)
+ #define L_DUAL_PORT_CNTL_ADDR 0x1442
+
+I'll resend with those
+
+> diff --git a/drivers/gpu/drm/meson/meson_venc.c b/drivers/gpu/drm/meson/meson_venc.c
+> index 3c55ed003359..eb2ac0549d46 100644
+> --- a/drivers/gpu/drm/meson/meson_venc.c
+> +++ b/drivers/gpu/drm/meson/meson_venc.c
+> @@ -6,6 +6,7 @@
+>   */
+>  
+>  #include <linux/export.h>
+> +#include <linux/iopoll.h>
+>  
+>  #include <drm/drm_modes.h>
+>  
+> @@ -1557,6 +1558,205 @@ void meson_venc_hdmi_mode_set(struct meson_drm *priv, int vic,
+>  }
+>  EXPORT_SYMBOL_GPL(meson_venc_hdmi_mode_set);
+>  
+> +static unsigned short meson_encl_gamma_table[256] = {
+> +	0, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60,
+> +	64, 68, 72, 76, 80, 84, 88, 92, 96, 100, 104, 108, 112, 116, 120, 124,
+> +	128, 132, 136, 140, 144, 148, 152, 156, 160, 164, 168, 172, 176, 180, 184, 188,
+> +	192, 196, 200, 204, 208, 212, 216, 220, 224, 228, 232, 236, 240, 244, 248, 252,
+> +	256, 260, 264, 268, 272, 276, 280, 284, 288, 292, 296, 300, 304, 308, 312, 316,
+> +	320, 324, 328, 332, 336, 340, 344, 348, 352, 356, 360, 364, 368, 372, 376, 380,
+> +	384, 388, 392, 396, 400, 404, 408, 412, 416, 420, 424, 428, 432, 436, 440, 444,
+> +	448, 452, 456, 460, 464, 468, 472, 476, 480, 484, 488, 492, 496, 500, 504, 508,
+> +	512, 516, 520, 524, 528, 532, 536, 540, 544, 548, 552, 556, 560, 564, 568, 572,
+> +	576, 580, 584, 588, 592, 596, 600, 604, 608, 612, 616, 620, 624, 628, 632, 636,
+> +	640, 644, 648, 652, 656, 660, 664, 668, 672, 676, 680, 684, 688, 692, 696, 700,
+> +	704, 708, 712, 716, 720, 724, 728, 732, 736, 740, 744, 748, 752, 756, 760, 764,
+> +	768, 772, 776, 780, 784, 788, 792, 796, 800, 804, 808, 812, 816, 820, 824, 828,
+> +	832, 836, 840, 844, 848, 852, 856, 860, 864, 868, 872, 876, 880, 884, 888, 892,
+> +	896, 900, 904, 908, 912, 916, 920, 924, 928, 932, 936, 940, 944, 948, 952, 956,
+> +	960, 964, 968, 972, 976, 980, 984, 988, 992, 996, 1000, 1004, 1008, 1012, 1016, 1020,
+> +};
+> +
+> +static void meson_encl_set_gamma_table(struct meson_drm *priv, u16 *data,
+> +				       u32 rgb_mask)
+> +{
+> +	int i, ret;
+> +	u32 reg;
+> +
+> +	writel_bits_relaxed(L_GAMMA_CNTL_PORT_EN, 0,
+> +			    priv->io_base + _REG(L_GAMMA_CNTL_PORT));
+> +
+> +	ret = readl_relaxed_poll_timeout(priv->io_base + _REG(L_GAMMA_CNTL_PORT),
+> +					 reg, reg & L_GAMMA_CNTL_PORT_ADR_RDY, 10, 10000);
+> +	if (ret)
+> +		pr_warn("%s: GAMMA ADR_RDY timeout\n", __func__);
+> +
+> +	writel_relaxed(L_GAMMA_ADDR_PORT_AUTO_INC | rgb_mask |
+> +		       FIELD_PREP(L_GAMMA_ADDR_PORT_ADDR, 0),
+> +		       priv->io_base + _REG(L_GAMMA_ADDR_PORT));
+> +
+> +	for (i = 0; i < 256; i++) {
+> +		ret = readl_relaxed_poll_timeout(priv->io_base + _REG(L_GAMMA_CNTL_PORT),
+> +						 reg, reg & L_GAMMA_CNTL_PORT_WR_RDY,
+> +						 10, 10000);
+> +		if (ret)
+> +			pr_warn_once("%s: GAMMA WR_RDY timeout\n", __func__);
+> +
+> +		writel_relaxed(data[i], priv->io_base + _REG(L_GAMMA_DATA_PORT));
+> +	}
+> +
+> +	ret = readl_relaxed_poll_timeout(priv->io_base + _REG(L_GAMMA_CNTL_PORT),
+> +					 reg, reg & L_GAMMA_CNTL_PORT_ADR_RDY, 10, 10000);
+> +	if (ret)
+> +		pr_warn("%s: GAMMA ADR_RDY timeout\n", __func__);
+> +
+> +	writel_relaxed(L_GAMMA_ADDR_PORT_AUTO_INC | rgb_mask |
+> +		       FIELD_PREP(L_GAMMA_ADDR_PORT_ADDR, 0x23),
+> +		       priv->io_base + _REG(L_GAMMA_ADDR_PORT));
+> +}
+> +
+> +void meson_encl_load_gamma(struct meson_drm *priv)
+> +{
+> +	meson_encl_set_gamma_table(priv, meson_encl_gamma_table, L_GAMMA_ADDR_PORT_SEL_R);
+> +	meson_encl_set_gamma_table(priv, meson_encl_gamma_table, L_GAMMA_ADDR_PORT_SEL_G);
+> +	meson_encl_set_gamma_table(priv, meson_encl_gamma_table, L_GAMMA_ADDR_PORT_SEL_B);
+> +
+> +	writel_bits_relaxed(L_GAMMA_CNTL_PORT_EN, L_GAMMA_CNTL_PORT_EN,
+> +			    priv->io_base + _REG(L_GAMMA_CNTL_PORT));
+> +}
+> +
+> +void meson_venc_mipi_dsi_mode_set(struct meson_drm *priv,
+> +				  const struct drm_display_mode *mode)
+> +{
+> +	unsigned int max_pxcnt;
+> +	unsigned int max_lncnt;
+> +	unsigned int havon_begin;
+> +	unsigned int havon_end;
+> +	unsigned int vavon_bline;
+> +	unsigned int vavon_eline;
+> +	unsigned int hso_begin;
+> +	unsigned int hso_end;
+> +	unsigned int vso_begin;
+> +	unsigned int vso_end;
+> +	unsigned int vso_bline;
+> +	unsigned int vso_eline;
+> +
+> +	max_pxcnt = mode->htotal - 1;
+> +	max_lncnt = mode->vtotal - 1;
+> +	havon_begin = mode->htotal - mode->hsync_start;
+> +	havon_end = havon_begin + mode->hdisplay - 1;
+> +	vavon_bline = mode->vtotal - mode->vsync_start;
+> +	vavon_eline = vavon_bline + mode->vdisplay - 1;
+> +	hso_begin = 0;
+> +	hso_end = mode->hsync_end - mode->hsync_start;
+> +	vso_begin = 0;
+> +	vso_end = 0;
+> +	vso_bline = 0;
+> +	vso_eline = mode->vsync_end - mode->vsync_start;
+> +
+> +	meson_vpp_setup_mux(priv, MESON_VIU_VPP_MUX_ENCL);
+> +
+> +	writel_relaxed(0, priv->io_base + _REG(ENCL_VIDEO_EN));
+> +
+> +	writel_relaxed(ENCL_PX_LN_CNT_SHADOW_EN, priv->io_base + _REG(ENCL_VIDEO_MODE));
+> +	writel_relaxed(ENCL_VIDEO_MODE_ADV_VFIFO_EN |
+> +		       ENCL_VIDEO_MODE_ADV_GAIN_HDTV |
+> +		       ENCL_SEL_GAMMA_RGB_IN, priv->io_base + _REG(ENCL_VIDEO_MODE_ADV));
+> +
+> +	writel_relaxed(ENCL_VIDEO_FILT_CTRL_BYPASS_FILTER,
+> +		       priv->io_base + _REG(ENCL_VIDEO_FILT_CTRL));
+> +	writel_relaxed(max_pxcnt, priv->io_base + _REG(ENCL_VIDEO_MAX_PXCNT));
+> +	writel_relaxed(max_lncnt, priv->io_base + _REG(ENCL_VIDEO_MAX_LNCNT));
+> +	writel_relaxed(havon_begin, priv->io_base + _REG(ENCL_VIDEO_HAVON_BEGIN));
+> +	writel_relaxed(havon_end, priv->io_base + _REG(ENCL_VIDEO_HAVON_END));
+> +	writel_relaxed(vavon_bline, priv->io_base + _REG(ENCL_VIDEO_VAVON_BLINE));
+> +	writel_relaxed(vavon_eline, priv->io_base + _REG(ENCL_VIDEO_VAVON_ELINE));
+> +
+> +	writel_relaxed(hso_begin, priv->io_base + _REG(ENCL_VIDEO_HSO_BEGIN));
+> +	writel_relaxed(hso_end, priv->io_base + _REG(ENCL_VIDEO_HSO_END));
+> +	writel_relaxed(vso_begin, priv->io_base + _REG(ENCL_VIDEO_VSO_BEGIN));
+> +	writel_relaxed(vso_end, priv->io_base + _REG(ENCL_VIDEO_VSO_END));
+> +	writel_relaxed(vso_bline, priv->io_base + _REG(ENCL_VIDEO_VSO_BLINE));
+> +	writel_relaxed(vso_eline, priv->io_base + _REG(ENCL_VIDEO_VSO_ELINE));
+> +	writel_relaxed(ENCL_VIDEO_RGBIN_RGB | ENCL_VIDEO_RGBIN_ZBLK,
+> +		       priv->io_base + _REG(ENCL_VIDEO_RGBIN_CTRL));
+> +
+> +	/* default black pattern */
+> +	writel_relaxed(0, priv->io_base + _REG(ENCL_TST_MDSEL));
+> +	writel_relaxed(0, priv->io_base + _REG(ENCL_TST_Y));
+> +	writel_relaxed(0, priv->io_base + _REG(ENCL_TST_CB));
+> +	writel_relaxed(0, priv->io_base + _REG(ENCL_TST_CR));
+> +	writel_relaxed(1, priv->io_base + _REG(ENCL_TST_EN));
+> +	writel_bits_relaxed(ENCL_VIDEO_MODE_ADV_VFIFO_EN, 0,
+> +			    priv->io_base + _REG(ENCL_VIDEO_MODE_ADV));
+> +
+> +	writel_relaxed(1, priv->io_base + _REG(ENCL_VIDEO_EN));
+> +
+> +	writel_relaxed(0, priv->io_base + _REG(L_RGB_BASE_ADDR));
+> +	writel_relaxed(0x400, priv->io_base + _REG(L_RGB_COEFF_ADDR)); /* Magic value */
+> +
+> +	writel_relaxed(L_DITH_CNTL_DITH10_EN, priv->io_base + _REG(L_DITH_CNTL_ADDR));
+> +
+> +	/* DE signal for TTL */
+> +	writel_relaxed(havon_begin, priv->io_base + _REG(L_OEH_HS_ADDR));
+> +	writel_relaxed(havon_end + 1, priv->io_base + _REG(L_OEH_HE_ADDR));
+> +	writel_relaxed(vavon_bline, priv->io_base + _REG(L_OEH_VS_ADDR));
+> +	writel_relaxed(vavon_eline, priv->io_base + _REG(L_OEH_VE_ADDR));
+> +
+> +	/* DE signal for TTL */
+> +	writel_relaxed(havon_begin, priv->io_base + _REG(L_OEV1_HS_ADDR));
+> +	writel_relaxed(havon_end + 1, priv->io_base + _REG(L_OEV1_HE_ADDR));
+> +	writel_relaxed(vavon_bline, priv->io_base + _REG(L_OEV1_VS_ADDR));
+> +	writel_relaxed(vavon_eline, priv->io_base + _REG(L_OEV1_VE_ADDR));
+> +
+> +	/* Hsync signal for TTL */
+> +	if (mode->flags & DRM_MODE_FLAG_PHSYNC) {
+> +		writel_relaxed(hso_end, priv->io_base + _REG(L_STH1_HS_ADDR));
+> +		writel_relaxed(hso_begin, priv->io_base + _REG(L_STH1_HE_ADDR));
+> +	} else {
+> +		writel_relaxed(hso_begin, priv->io_base + _REG(L_STH1_HS_ADDR));
+> +		writel_relaxed(hso_end, priv->io_base + _REG(L_STH1_HE_ADDR));
+> +	}
+> +	writel_relaxed(0, priv->io_base + _REG(L_STH1_VS_ADDR));
+> +	writel_relaxed(max_lncnt, priv->io_base + _REG(L_STH1_VE_ADDR));
+> +
+> +	/* Vsync signal for TTL */
+> +	writel_relaxed(vso_begin, priv->io_base + _REG(L_STV1_HS_ADDR));
+> +	writel_relaxed(vso_end, priv->io_base + _REG(L_STV1_HE_ADDR));
+> +	if (mode->flags & DRM_MODE_FLAG_PVSYNC) {
+> +		writel_relaxed(vso_eline, priv->io_base + _REG(L_STV1_VS_ADDR));
+> +		writel_relaxed(vso_bline, priv->io_base + _REG(L_STV1_VE_ADDR));
+> +	} else {
+> +		writel_relaxed(vso_bline, priv->io_base + _REG(L_STV1_VS_ADDR));
+> +		writel_relaxed(vso_eline, priv->io_base + _REG(L_STV1_VE_ADDR));
+> +	}
+> +
+> +	/* DE signal */
+> +	writel_relaxed(havon_begin, priv->io_base + _REG(L_DE_HS_ADDR));
+> +	writel_relaxed(havon_end + 1, priv->io_base + _REG(L_DE_HE_ADDR));
+> +	writel_relaxed(vavon_bline, priv->io_base + _REG(L_DE_VS_ADDR));
+> +	writel_relaxed(vavon_eline, priv->io_base + _REG(L_DE_VE_ADDR));
+> +
+> +	/* Hsync signal */
+> +	writel_relaxed(hso_begin, priv->io_base + _REG(L_HSYNC_HS_ADDR));
+> +	writel_relaxed(hso_end, priv->io_base + _REG(L_HSYNC_HE_ADDR));
+> +	writel_relaxed(0, priv->io_base + _REG(L_HSYNC_VS_ADDR));
+> +	writel_relaxed(max_lncnt, priv->io_base + _REG(L_HSYNC_VE_ADDR));
+> +
+> +	/* Vsync signal */
+> +	writel_relaxed(vso_begin, priv->io_base + _REG(L_VSYNC_HS_ADDR));
+> +	writel_relaxed(vso_end, priv->io_base + _REG(L_VSYNC_HE_ADDR));
+> +	writel_relaxed(vso_bline, priv->io_base + _REG(L_VSYNC_VS_ADDR));
+> +	writel_relaxed(vso_eline, priv->io_base + _REG(L_VSYNC_VE_ADDR));
+> +
+> +	writel_relaxed(0, priv->io_base + _REG(L_INV_CNT_ADDR));
+> +	writel_relaxed(L_TCON_MISC_SEL_STV1 | L_TCON_MISC_SEL_STV2,
+> +		       priv->io_base + _REG(L_TCON_MISC_SEL_ADDR));
+> +
+> +	priv->venc.current_mode = MESON_VENC_MODE_MIPI_DSI;
+> +}
+> +EXPORT_SYMBOL_GPL(meson_venc_mipi_dsi_mode_set);
+> +
+>  void meson_venci_cvbs_mode_set(struct meson_drm *priv,
+>  			       struct meson_cvbs_enci_mode *mode)
+>  {
+> @@ -1747,8 +1947,15 @@ unsigned int meson_venci_get_field(struct meson_drm *priv)
+>  
+>  void meson_venc_enable_vsync(struct meson_drm *priv)
+>  {
+> -	writel_relaxed(VENC_INTCTRL_ENCI_LNRST_INT_EN,
+> -		       priv->io_base + _REG(VENC_INTCTRL));
+> +	switch (priv->venc.current_mode) {
+> +	case MESON_VENC_MODE_MIPI_DSI:
+> +		writel_relaxed(VENC_INTCTRL_ENCP_LNRST_INT_EN,
+> +			       priv->io_base + _REG(VENC_INTCTRL));
+> +		break;
+> +	default:
+> +		writel_relaxed(VENC_INTCTRL_ENCI_LNRST_INT_EN,
+> +			       priv->io_base + _REG(VENC_INTCTRL));
+> +	}
+>  	regmap_update_bits(priv->hhi, HHI_GCLK_MPEG2, BIT(25), BIT(25));
+>  }
+>  
+> diff --git a/drivers/gpu/drm/meson/meson_venc.h b/drivers/gpu/drm/meson/meson_venc.h
+> index 9138255ffc9e..0f59adb1c6db 100644
+> --- a/drivers/gpu/drm/meson/meson_venc.h
+> +++ b/drivers/gpu/drm/meson/meson_venc.h
+> @@ -21,6 +21,7 @@ enum {
+>  	MESON_VENC_MODE_CVBS_PAL,
+>  	MESON_VENC_MODE_CVBS_NTSC,
+>  	MESON_VENC_MODE_HDMI,
+> +	MESON_VENC_MODE_MIPI_DSI,
+>  };
+>  
+>  struct meson_cvbs_enci_mode {
+> @@ -47,6 +48,9 @@ struct meson_cvbs_enci_mode {
+>  	unsigned int analog_sync_adj;
+>  };
+>  
+> +/* LCD Encoder gamma setup */
+> +void meson_encl_load_gamma(struct meson_drm *priv);
+> +
+>  /* HDMI Clock parameters */
+>  enum drm_mode_status
+>  meson_venc_hdmi_supported_mode(const struct drm_display_mode *mode);
+> @@ -63,6 +67,8 @@ void meson_venc_hdmi_mode_set(struct meson_drm *priv, int vic,
+>  			      unsigned int ycrcb_map,
+>  			      bool yuv420_mode,
+>  			      const struct drm_display_mode *mode);
+> +void meson_venc_mipi_dsi_mode_set(struct meson_drm *priv,
+> +				  const struct drm_display_mode *mode);
+>  unsigned int meson_venci_get_field(struct meson_drm *priv);
+>  
+>  void meson_venc_enable_vsync(struct meson_drm *priv);
+> diff --git a/drivers/gpu/drm/meson/meson_vpp.h b/drivers/gpu/drm/meson/meson_vpp.h
+> index afc9553ed8d3..b790042a1650 100644
+> --- a/drivers/gpu/drm/meson/meson_vpp.h
+> +++ b/drivers/gpu/drm/meson/meson_vpp.h
+> @@ -12,6 +12,8 @@
+>  struct drm_rect;
+>  struct meson_drm;
+>  
+> +/* Mux VIU/VPP to ENCL */
+> +#define MESON_VIU_VPP_MUX_ENCL	0x0
+>  /* Mux VIU/VPP to ENCI */
+>  #define MESON_VIU_VPP_MUX_ENCI	0x5
+>  /* Mux VIU/VPP to ENCP */
 > 
-> If any future platform does require compact-pt layout, when adding that 
-> plaform, we can then add a HAS_COMPACT_PT macro or something, which 
-> would be set for DG2 and the future platform.
-> 
-> For now, this code seems correct to me as it currently only affects DG2.
->>
->>>
->>> If this is not the case, and all 64K page devices will also 
->>> necessitate not sharing PDEs, then we can just use the HAS_64K_PAGES 
->>> and use 2MB everywhere, but so far this sounds unconfirmed.
->>>
->>>>
->>>>>
->>>>>>> +            vm->min_alignment[INTEL_MEMORY_LOCAL] = 
->>>>>>> I915_GTT_PAGE_SIZE_2M;
->>>>>>> +            vm->min_alignment[INTEL_MEMORY_STOLEN_LOCAL] = 
->>>>>>> I915_GTT_PAGE_SIZE_2M;
->>>>>>> +        } else {
->>>>>>> +            vm->min_alignment[INTEL_MEMORY_LOCAL] = 
->>>>>>> I915_GTT_PAGE_SIZE_64K;
->>>>>>> +            vm->min_alignment[INTEL_MEMORY_STOLEN_LOCAL] = 
->>>>>>> I915_GTT_PAGE_SIZE_64K;
->>>>>>> +        }
->>>>>>> +    }
->>>>>>> +
->>>>>>>       vm->mm.head_node.color = I915_COLOR_UNEVICTABLE;
->>>>>>>       INIT_LIST_HEAD(&vm->bound_list);
->>>>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h 
->>>>>>> b/drivers/gpu/drm/i915/gt/intel_gtt.h
->>>>>>> index 8073438b67c8..b8da2514d601 100644
->>>>>>> --- a/drivers/gpu/drm/i915/gt/intel_gtt.h
->>>>>>> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
->>>>>>> @@ -29,6 +29,8 @@
->>>>>>>   #include "i915_selftest.h"
->>>>>>>   #include "i915_vma_resource.h"
->>>>>>>   #include "i915_vma_types.h"
->>>>>>> +#include "i915_params.h"
->>>>>>> +#include "intel_memory_region.h"
->>>>>>>   #define I915_GFP_ALLOW_FAIL (GFP_KERNEL | __GFP_RETRY_MAYFAIL | 
->>>>>>> __GFP_NOWARN)
->>>>>>> @@ -223,6 +225,7 @@ struct i915_address_space {
->>>>>>>       struct device *dma;
->>>>>>>       u64 total;        /* size addr space maps (ex. 2GB for 
->>>>>>> ggtt) */
->>>>>>>       u64 reserved;        /* size addr space reserved */
->>>>>>> +    u64 min_alignment[INTEL_MEMORY_STOLEN_LOCAL + 1];
->>>>>>>       unsigned int bind_async_flags;
->>>>>>> @@ -384,6 +387,12 @@ i915_vm_has_scratch_64K(struct 
->>>>>>> i915_address_space *vm)
->>>>>>>       return vm->scratch_order == get_order(I915_GTT_PAGE_SIZE_64K);
->>>>>>>   }
->>>>>>> +static inline u64 i915_vm_min_alignment(struct 
->>>>>>> i915_address_space *vm,
->>>>>>> +                    enum intel_memory_type type)
->>>>>>> +{
->>>>>>> +    return vm->min_alignment[type];
->>>>>>> +}
->>>>>>> +
->>>>>>>   static inline bool
->>>>>>>   i915_vm_has_cache_coloring(struct i915_address_space *vm)
->>>>>>>   {
->>>>>>> diff --git a/drivers/gpu/drm/i915/i915_vma.c 
->>>>>>> b/drivers/gpu/drm/i915/i915_vma.c
->>>>>>> index 1f15c3298112..9ac92e7a3566 100644
->>>>>>> --- a/drivers/gpu/drm/i915/i915_vma.c
->>>>>>> +++ b/drivers/gpu/drm/i915/i915_vma.c
->>>>>>> @@ -756,6 +756,20 @@ i915_vma_insert(struct i915_vma *vma, u64 
->>>>>>> size, u64 alignment, u64 flags)
->>>>>>>       }
->>>>>>>       color = 0;
->>>>>>> +
->>>>>>> +    if (HAS_64K_PAGES(vma->vm->i915) && 
->>>>>>> i915_gem_object_is_lmem(vma->obj)) {
->>>>>>> +        alignment = max(alignment, I915_GTT_PAGE_SIZE_64K);
->>>>>>> +        /*
->>>>>>> +         * DG2 can not have different sized pages in any given 
->>>>>>> PDE (2MB range).
->>>>>>> +         * Keeping things simple, we force any lmem object to 
->>>>>>> reserve
->>>>>>> +         * 2MB chunks, preventing any smaller pages being used 
->>>>>>> alongside
->>>>>>> +         */
->>>>>>> +        if (IS_DG2(vma->vm->i915)) {
->>>>>> Similarly here we dont need special case for DG2.
->>>>>>
->>>>>> Ram
->>>>>>> +            alignment = max(alignment, I915_GTT_PAGE_SIZE_2M);
->>>>>>> +            size = round_up(size, I915_GTT_PAGE_SIZE_2M);
->>>>>>> +        }
->>>>>>> +    }
->>>>>>> +
->>>>>>>       if (i915_vm_has_cache_coloring(vma->vm))
->>>>>>>           color = vma->obj->cache_level;
->>>>>>> diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c 
->>>>>>> b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
->>>>>>> index 076d860ce01a..2f3f0c01786b 100644
->>>>>>> --- a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
->>>>>>> +++ b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
->>>>>>> @@ -238,6 +238,8 @@ static int lowlevel_hole(struct 
->>>>>>> i915_address_space *vm,
->>>>>>>                u64 hole_start, u64 hole_end,
->>>>>>>                unsigned long end_time)
->>>>>>>   {
->>>>>>> +    const unsigned int min_alignment =
->>>>>>> +        i915_vm_min_alignment(vm, INTEL_MEMORY_SYSTEM);
->>>>>>>       I915_RND_STATE(seed_prng);
->>>>>>>       struct i915_vma_resource *mock_vma_res;
->>>>>>>       unsigned int size;
->>>>>>> @@ -251,9 +253,10 @@ static int lowlevel_hole(struct 
->>>>>>> i915_address_space *vm,
->>>>>>>           I915_RND_SUBSTATE(prng, seed_prng);
->>>>>>>           struct drm_i915_gem_object *obj;
->>>>>>>           unsigned int *order, count, n;
->>>>>>> -        u64 hole_size;
->>>>>>> +        u64 hole_size, aligned_size;
->>>>>>> -        hole_size = (hole_end - hole_start) >> size;
->>>>>>> +        aligned_size = max_t(u32, ilog2(min_alignment), size);
->>>>>>> +        hole_size = (hole_end - hole_start) >> aligned_size;
->>>>>>>           if (hole_size > KMALLOC_MAX_SIZE / sizeof(u32))
->>>>>>>               hole_size = KMALLOC_MAX_SIZE / sizeof(u32);
->>>>>>>           count = hole_size >> 1;
->>>>>>> @@ -274,8 +277,8 @@ static int lowlevel_hole(struct 
->>>>>>> i915_address_space *vm,
->>>>>>>           }
->>>>>>>           GEM_BUG_ON(!order);
->>>>>>> -        GEM_BUG_ON(count * BIT_ULL(size) > vm->total);
->>>>>>> -        GEM_BUG_ON(hole_start + count * BIT_ULL(size) > hole_end);
->>>>>>> +        GEM_BUG_ON(count * BIT_ULL(aligned_size) > vm->total);
->>>>>>> +        GEM_BUG_ON(hole_start + count * BIT_ULL(aligned_size) > 
->>>>>>> hole_end);
->>>>>>>           /* Ignore allocation failures (i.e. don't report them as
->>>>>>>            * a test failure) as we are purposefully allocating very
->>>>>>> @@ -298,10 +301,10 @@ static int lowlevel_hole(struct 
->>>>>>> i915_address_space *vm,
->>>>>>>           }
->>>>>>>           for (n = 0; n < count; n++) {
->>>>>>> -            u64 addr = hole_start + order[n] * BIT_ULL(size);
->>>>>>> +            u64 addr = hole_start + order[n] * 
->>>>>>> BIT_ULL(aligned_size);
->>>>>>>               intel_wakeref_t wakeref;
->>>>>>> -            GEM_BUG_ON(addr + BIT_ULL(size) > vm->total);
->>>>>>> +            GEM_BUG_ON(addr + BIT_ULL(aligned_size) > vm->total);
->>>>>>>               if (igt_timeout(end_time,
->>>>>>>                       "%s timed out before %d/%d\n",
->>>>>>> @@ -344,7 +347,7 @@ static int lowlevel_hole(struct 
->>>>>>> i915_address_space *vm,
->>>>>>>               }
->>>>>>>               mock_vma_res->bi.pages = obj->mm.pages;
->>>>>>> -            mock_vma_res->node_size = BIT_ULL(size);
->>>>>>> +            mock_vma_res->node_size = BIT_ULL(aligned_size);
->>>>>>>               mock_vma_res->start = addr;
->>>>>>>               with_intel_runtime_pm(vm->gt->uncore->rpm, wakeref)
->>>>>>> @@ -355,7 +358,7 @@ static int lowlevel_hole(struct 
->>>>>>> i915_address_space *vm,
->>>>>>>           i915_random_reorder(order, count, &prng);
->>>>>>>           for (n = 0; n < count; n++) {
->>>>>>> -            u64 addr = hole_start + order[n] * BIT_ULL(size);
->>>>>>> +            u64 addr = hole_start + order[n] * 
->>>>>>> BIT_ULL(aligned_size);
->>>>>>>               intel_wakeref_t wakeref;
->>>>>>>               GEM_BUG_ON(addr + BIT_ULL(size) > vm->total);
->>>>>>> @@ -399,8 +402,10 @@ static int fill_hole(struct 
->>>>>>> i915_address_space *vm,
->>>>>>>   {
->>>>>>>       const u64 hole_size = hole_end - hole_start;
->>>>>>>       struct drm_i915_gem_object *obj;
->>>>>>> +    const unsigned int min_alignment =
->>>>>>> +        i915_vm_min_alignment(vm, INTEL_MEMORY_SYSTEM);
->>>>>>>       const unsigned long max_pages =
->>>>>>> -        min_t(u64, ULONG_MAX - 1, hole_size/2 >> PAGE_SHIFT);
->>>>>>> +        min_t(u64, ULONG_MAX - 1, (hole_size / 2) >> 
->>>>>>> ilog2(min_alignment));
->>>>>>>       const unsigned long max_step = max(int_sqrt(max_pages), 2UL);
->>>>>>>       unsigned long npages, prime, flags;
->>>>>>>       struct i915_vma *vma;
->>>>>>> @@ -441,14 +446,17 @@ static int fill_hole(struct 
->>>>>>> i915_address_space *vm,
->>>>>>>                   offset = p->offset;
->>>>>>>                   list_for_each_entry(obj, &objects, st_link) {
->>>>>>> +                    u64 aligned_size = round_up(obj->base.size,
->>>>>>> +                                    min_alignment);
->>>>>>> +
->>>>>>>                       vma = i915_vma_instance(obj, vm, NULL);
->>>>>>>                       if (IS_ERR(vma))
->>>>>>>                           continue;
->>>>>>>                       if (p->step < 0) {
->>>>>>> -                        if (offset < hole_start + obj->base.size)
->>>>>>> +                        if (offset < hole_start + aligned_size)
->>>>>>>                               break;
->>>>>>> -                        offset -= obj->base.size;
->>>>>>> +                        offset -= aligned_size;
->>>>>>>                       }
->>>>>>>                       err = i915_vma_pin(vma, 0, 0, offset | flags);
->>>>>>> @@ -470,22 +478,25 @@ static int fill_hole(struct 
->>>>>>> i915_address_space *vm,
->>>>>>>                       i915_vma_unpin(vma);
->>>>>>>                       if (p->step > 0) {
->>>>>>> -                        if (offset + obj->base.size > hole_end)
->>>>>>> +                        if (offset + aligned_size > hole_end)
->>>>>>>                               break;
->>>>>>> -                        offset += obj->base.size;
->>>>>>> +                        offset += aligned_size;
->>>>>>>                       }
->>>>>>>                   }
->>>>>>>                   offset = p->offset;
->>>>>>>                   list_for_each_entry(obj, &objects, st_link) {
->>>>>>> +                    u64 aligned_size = round_up(obj->base.size,
->>>>>>> +                                    min_alignment);
->>>>>>> +
->>>>>>>                       vma = i915_vma_instance(obj, vm, NULL);
->>>>>>>                       if (IS_ERR(vma))
->>>>>>>                           continue;
->>>>>>>                       if (p->step < 0) {
->>>>>>> -                        if (offset < hole_start + obj->base.size)
->>>>>>> +                        if (offset < hole_start + aligned_size)
->>>>>>>                               break;
->>>>>>> -                        offset -= obj->base.size;
->>>>>>> +                        offset -= aligned_size;
->>>>>>>                       }
->>>>>>>                       if (!drm_mm_node_allocated(&vma->node) ||
->>>>>>> @@ -506,22 +517,25 @@ static int fill_hole(struct 
->>>>>>> i915_address_space *vm,
->>>>>>>                       }
->>>>>>>                       if (p->step > 0) {
->>>>>>> -                        if (offset + obj->base.size > hole_end)
->>>>>>> +                        if (offset + aligned_size > hole_end)
->>>>>>>                               break;
->>>>>>> -                        offset += obj->base.size;
->>>>>>> +                        offset += aligned_size;
->>>>>>>                       }
->>>>>>>                   }
->>>>>>>                   offset = p->offset;
->>>>>>>                   list_for_each_entry_reverse(obj, &objects, 
->>>>>>> st_link) {
->>>>>>> +                    u64 aligned_size = round_up(obj->base.size,
->>>>>>> +                                    min_alignment);
->>>>>>> +
->>>>>>>                       vma = i915_vma_instance(obj, vm, NULL);
->>>>>>>                       if (IS_ERR(vma))
->>>>>>>                           continue;
->>>>>>>                       if (p->step < 0) {
->>>>>>> -                        if (offset < hole_start + obj->base.size)
->>>>>>> +                        if (offset < hole_start + aligned_size)
->>>>>>>                               break;
->>>>>>> -                        offset -= obj->base.size;
->>>>>>> +                        offset -= aligned_size;
->>>>>>>                       }
->>>>>>>                       err = i915_vma_pin(vma, 0, 0, offset | flags);
->>>>>>> @@ -543,22 +557,25 @@ static int fill_hole(struct 
->>>>>>> i915_address_space *vm,
->>>>>>>                       i915_vma_unpin(vma);
->>>>>>>                       if (p->step > 0) {
->>>>>>> -                        if (offset + obj->base.size > hole_end)
->>>>>>> +                        if (offset + aligned_size > hole_end)
->>>>>>>                               break;
->>>>>>> -                        offset += obj->base.size;
->>>>>>> +                        offset += aligned_size;
->>>>>>>                       }
->>>>>>>                   }
->>>>>>>                   offset = p->offset;
->>>>>>>                   list_for_each_entry_reverse(obj, &objects, 
->>>>>>> st_link) {
->>>>>>> +                    u64 aligned_size = round_up(obj->base.size,
->>>>>>> +                                    min_alignment);
->>>>>>> +
->>>>>>>                       vma = i915_vma_instance(obj, vm, NULL);
->>>>>>>                       if (IS_ERR(vma))
->>>>>>>                           continue;
->>>>>>>                       if (p->step < 0) {
->>>>>>> -                        if (offset < hole_start + obj->base.size)
->>>>>>> +                        if (offset < hole_start + aligned_size)
->>>>>>>                               break;
->>>>>>> -                        offset -= obj->base.size;
->>>>>>> +                        offset -= aligned_size;
->>>>>>>                       }
->>>>>>>                       if (!drm_mm_node_allocated(&vma->node) ||
->>>>>>> @@ -579,9 +596,9 @@ static int fill_hole(struct 
->>>>>>> i915_address_space *vm,
->>>>>>>                       }
->>>>>>>                       if (p->step > 0) {
->>>>>>> -                        if (offset + obj->base.size > hole_end)
->>>>>>> +                        if (offset + aligned_size > hole_end)
->>>>>>>                               break;
->>>>>>> -                        offset += obj->base.size;
->>>>>>> +                        offset += aligned_size;
->>>>>>>                       }
->>>>>>>                   }
->>>>>>>               }
->>>>>>> @@ -611,6 +628,7 @@ static int walk_hole(struct 
->>>>>>> i915_address_space *vm,
->>>>>>>       const u64 hole_size = hole_end - hole_start;
->>>>>>>       const unsigned long max_pages =
->>>>>>>           min_t(u64, ULONG_MAX - 1, hole_size >> PAGE_SHIFT);
->>>>>>> +    unsigned long min_alignment;
->>>>>>>       unsigned long flags;
->>>>>>>       u64 size;
->>>>>>> @@ -620,6 +638,8 @@ static int walk_hole(struct 
->>>>>>> i915_address_space *vm,
->>>>>>>       if (i915_is_ggtt(vm))
->>>>>>>           flags |= PIN_GLOBAL;
->>>>>>> +    min_alignment = i915_vm_min_alignment(vm, INTEL_MEMORY_SYSTEM);
->>>>>>> +
->>>>>>>       for_each_prime_number_from(size, 1, max_pages) {
->>>>>>>           struct drm_i915_gem_object *obj;
->>>>>>>           struct i915_vma *vma;
->>>>>>> @@ -638,7 +658,7 @@ static int walk_hole(struct 
->>>>>>> i915_address_space *vm,
->>>>>>>           for (addr = hole_start;
->>>>>>>                addr + obj->base.size < hole_end;
->>>>>>> -             addr += obj->base.size) {
->>>>>>> +             addr += round_up(obj->base.size, min_alignment)) {
->>>>>>>               err = i915_vma_pin(vma, 0, 0, addr | flags);
->>>>>>>               if (err) {
->>>>>>>                   pr_err("%s bind failed at %llx + %llx [hole 
->>>>>>> %llx- %llx] with err=%d\n",
->>>>>>> @@ -690,6 +710,7 @@ static int pot_hole(struct i915_address_space 
->>>>>>> *vm,
->>>>>>>   {
->>>>>>>       struct drm_i915_gem_object *obj;
->>>>>>>       struct i915_vma *vma;
->>>>>>> +    unsigned int min_alignment;
->>>>>>>       unsigned long flags;
->>>>>>>       unsigned int pot;
->>>>>>>       int err = 0;
->>>>>>> @@ -698,6 +719,8 @@ static int pot_hole(struct i915_address_space 
->>>>>>> *vm,
->>>>>>>       if (i915_is_ggtt(vm))
->>>>>>>           flags |= PIN_GLOBAL;
->>>>>>> +    min_alignment = i915_vm_min_alignment(vm, INTEL_MEMORY_SYSTEM);
->>>>>>> +
->>>>>>>       obj = i915_gem_object_create_internal(vm->i915, 2 * 
->>>>>>> I915_GTT_PAGE_SIZE);
->>>>>>>       if (IS_ERR(obj))
->>>>>>>           return PTR_ERR(obj);
->>>>>>> @@ -710,13 +733,13 @@ static int pot_hole(struct 
->>>>>>> i915_address_space *vm,
->>>>>>>       /* Insert a pair of pages across every pot boundary within 
->>>>>>> the hole */
->>>>>>>       for (pot = fls64(hole_end - 1) - 1;
->>>>>>> -         pot > ilog2(2 * I915_GTT_PAGE_SIZE);
->>>>>>> +         pot > ilog2(2 * min_alignment);
->>>>>>>            pot--) {
->>>>>>>           u64 step = BIT_ULL(pot);
->>>>>>>           u64 addr;
->>>>>>> -        for (addr = round_up(hole_start + I915_GTT_PAGE_SIZE, 
->>>>>>> step) - I915_GTT_PAGE_SIZE;
->>>>>>> -             addr <= round_down(hole_end - 2*I915_GTT_PAGE_SIZE, 
->>>>>>> step) - I915_GTT_PAGE_SIZE;
->>>>>>> +        for (addr = round_up(hole_start + min_alignment, step) - 
->>>>>>> min_alignment;
->>>>>>> +             addr <= round_down(hole_end - (2 * min_alignment), 
->>>>>>> step) - min_alignment;
->>>>>>>                addr += step) {
->>>>>>>               err = i915_vma_pin(vma, 0, 0, addr | flags);
->>>>>>>               if (err) {
->>>>>>> @@ -761,6 +784,7 @@ static int drunk_hole(struct 
->>>>>>> i915_address_space *vm,
->>>>>>>                 unsigned long end_time)
->>>>>>>   {
->>>>>>>       I915_RND_STATE(prng);
->>>>>>> +    unsigned int min_alignment;
->>>>>>>       unsigned int size;
->>>>>>>       unsigned long flags;
->>>>>>> @@ -768,15 +792,18 @@ static int drunk_hole(struct 
->>>>>>> i915_address_space *vm,
->>>>>>>       if (i915_is_ggtt(vm))
->>>>>>>           flags |= PIN_GLOBAL;
->>>>>>> +    min_alignment = i915_vm_min_alignment(vm, INTEL_MEMORY_SYSTEM);
->>>>>>> +
->>>>>>>       /* Keep creating larger objects until one cannot fit into 
->>>>>>> the hole */
->>>>>>>       for (size = 12; (hole_end - hole_start) >> size; size++) {
->>>>>>>           struct drm_i915_gem_object *obj;
->>>>>>>           unsigned int *order, count, n;
->>>>>>>           struct i915_vma *vma;
->>>>>>> -        u64 hole_size;
->>>>>>> +        u64 hole_size, aligned_size;
->>>>>>>           int err = -ENODEV;
->>>>>>> -        hole_size = (hole_end - hole_start) >> size;
->>>>>>> +        aligned_size = max_t(u32, ilog2(min_alignment), size);
->>>>>>> +        hole_size = (hole_end - hole_start) >> aligned_size;
->>>>>>>           if (hole_size > KMALLOC_MAX_SIZE / sizeof(u32))
->>>>>>>               hole_size = KMALLOC_MAX_SIZE / sizeof(u32);
->>>>>>>           count = hole_size >> 1;
->>>>>>> @@ -816,7 +843,7 @@ static int drunk_hole(struct 
->>>>>>> i915_address_space *vm,
->>>>>>>           GEM_BUG_ON(vma->size != BIT_ULL(size));
->>>>>>>           for (n = 0; n < count; n++) {
->>>>>>> -            u64 addr = hole_start + order[n] * BIT_ULL(size);
->>>>>>> +            u64 addr = hole_start + order[n] * 
->>>>>>> BIT_ULL(aligned_size);
->>>>>>>               err = i915_vma_pin(vma, 0, 0, addr | flags);
->>>>>>>               if (err) {
->>>>>>> @@ -868,11 +895,14 @@ static int __shrink_hole(struct 
->>>>>>> i915_address_space *vm,
->>>>>>>   {
->>>>>>>       struct drm_i915_gem_object *obj;
->>>>>>>       unsigned long flags = PIN_OFFSET_FIXED | PIN_USER;
->>>>>>> +    unsigned int min_alignment;
->>>>>>>       unsigned int order = 12;
->>>>>>>       LIST_HEAD(objects);
->>>>>>>       int err = 0;
->>>>>>>       u64 addr;
->>>>>>> +    min_alignment = i915_vm_min_alignment(vm, INTEL_MEMORY_SYSTEM);
->>>>>>> +
->>>>>>>       /* Keep creating larger objects until one cannot fit into 
->>>>>>> the hole */
->>>>>>>       for (addr = hole_start; addr < hole_end; ) {
->>>>>>>           struct i915_vma *vma;
->>>>>>> @@ -913,7 +943,7 @@ static int __shrink_hole(struct 
->>>>>>> i915_address_space *vm,
->>>>>>>           }
->>>>>>>           i915_vma_unpin(vma);
->>>>>>> -        addr += size;
->>>>>>> +        addr += round_up(size, min_alignment);
->>>>>>>           /*
->>>>>>>            * Since we are injecting allocation faults at random 
->>>>>>> intervals,
->>>>>>> -- 
->>>>>>> 2.25.1
->>>>>>>
+
