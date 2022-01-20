@@ -1,76 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16E73495025
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 15:30:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15C6A495035
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 15:34:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22F0F10E4C8;
-	Thu, 20 Jan 2022 14:30:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CE2189F49;
+	Thu, 20 Jan 2022 14:34:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 382A310E3BD
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 14:30:53 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id j23so24374691edp.5
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 06:30:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=SCDpb+26SFz1wQvYU9DSOHXua0IKyerUiHHc0Cwap8E=;
- b=gfQd4+TvEmiS7NJiLo0g/BkOlizTO8gxf2GzXSbGpo1prZjzVybvWf1M5hWUn5D5yN
- YGmMY2GavTgDlVV1BFUJtZ7fGvzAIk8mPX/sAQzp7z1G2wl70nUSmbrlx3o6B2UBsEAx
- G3aPDDiDCk4/IZZeHhu8j62PfyWAGfRidHFqY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=SCDpb+26SFz1wQvYU9DSOHXua0IKyerUiHHc0Cwap8E=;
- b=ZIbdZiPTu21XLqLHGygF2CLYkGizco83A0w5ijPQ4wuZnfyDqLPQeELmaG5Avi+b14
- jdUyYdnqmGl/cZEsDzXB7kc0qcprIGoHmOozIx4METcRP9mPQnaH+0+9fMgdnWDM5lMS
- JF5XJzac3fI+UlffQCVIRNyrQXlKpMxy+ygxENMNGp1/YJafrzNmpVVcoC++tCnPeL+s
- 5FK0+W2GUDGR/x/2UpY6HjT93FAawu1ytWqciM5eKyX4dIMqscfptjouu7fVNB3BR2eI
- SPiU0vvk6JN2mg6Qd6VK5TNToEpTMl8K7RmJDPQb6VnEb40+rFywtqPoLmV7AODuS5DL
- OI5A==
-X-Gm-Message-State: AOAM530bfHCqBthNb7BemF+DQIJkIDav5+69e9yCA8IpX3wEcpGh6b2W
- PXnEUnLYQiwRtlOCwr/HU0VhnQ==
-X-Google-Smtp-Source: ABdhPJxM9+iY32WnseakJpGa48pZv+dmbkVgLjm00azuMpDBLB/BXqsdyqEiyGJ1pFUzd4wpawDQsA==
-X-Received: by 2002:a17:907:168d:: with SMTP id
- hc13mr18067115ejc.470.1642689051681; 
- Thu, 20 Jan 2022 06:30:51 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id rl11sm1123297ejb.15.2022.01.20.06.30.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jan 2022 06:30:50 -0800 (PST)
-Date: Thu, 20 Jan 2022 15:30:48 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Helge Deller <deller@gmx.de>
-Subject: Re: [PATCH 2/2] Revert "fbcon: Disable accelerated scrolling"
-Message-ID: <YelyGDNDTn1Aq/hm@phenom.ffwll.local>
-Mail-Followup-To: Helge Deller <deller@gmx.de>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-fbdev@vger.kernel.org, Sven Schnelle <svens@stackframe.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Ilia Mirkin <imirkin@alum.mit.edu>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- dri-devel@lists.freedesktop.org,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Pavel Machek <pavel@ucw.cz>, linux-kernel@vger.kernel.org,
- Gerd Hoffmann <kraxel@redhat.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Sam Ravnborg <sam@ravnborg.org>, Claudio Suarez <cssk@net-c.es>
-References: <20220119110839.33187-1-deller@gmx.de>
- <20220119110839.33187-3-deller@gmx.de>
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B06789F49
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 14:34:23 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.west.internal (Postfix) with ESMTP id 2E9453200F72;
+ Thu, 20 Jan 2022 09:34:21 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Thu, 20 Jan 2022 09:34:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to; s=fm1; bh=obwHIxOpczJ8YsM5Ary7YpyYT6D7lDEJcwV9qL
+ rQ5NM=; b=JeF8G4zjiflLS4wrYaUJIOudSNuahhfb7wKxV00lDufkZFA9Mq/ycd
+ Q8/iMwbLhnzM/ohp5ZW0H2F7AP2NdTYV6dq3lRiXP9yd8pozzjdLRv2lR+ss/SYq
+ fDz/v47Lmm0+S16rMSNjauXguCwGVaBHBQyQk76e7KfqmND6kNYIbecHyyhCA0aP
+ NrFqYRin4Pz25hAhs7Lsg+K9YqFURYjA2RtzLxNJLzDZjX7VmILYXZCZiYnuQPao
+ vamX6gxFu5x4fp3l7olJFl05Y0GsFvhA4rgh9JqlZ43ykx168nwo6kncn49Yv0Ts
+ b+CHeFAxd5fQbCmqCkzXX9CbnuPCwbhg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=obwHIx
+ OpczJ8YsM5Ary7YpyYT6D7lDEJcwV9qLrQ5NM=; b=QFRCSveXpG5VbiasnluYNy
+ HeZIFbbLpUNrqNhufGrln54yVzS938P6HRPW0aua5IhA7y+fAcev7xkWi0qiNV6N
+ VakDpm821ypW2IpYRJOti4vrbaDJb0sJOZ3+a6zDpsnI1LTq5nkf6R76wBYfs9t2
+ 0xg6iJa2+xNADEED2KFPiWM+uCY97IK5tCZmpbYFhv1XxbXJB3CZmCZq1O6OJjXN
+ XU626mIn8WlxuBe8QIpoEoVDKmIsEyrGh5J3bIU9G+0296mNsqqCIe5Uo1CHQpfV
+ 8botUu3zFrJbwJZIpWdcq3TeR80C0QEzBOXEa7TQe71YiQDRaa8hSfNY1giKO77Q
+ ==
+X-ME-Sender: <xms:7HLpYY3l2MK2TJgpnCbipluMexmNjyKWq0gdM-dG-fSIBC7UAjYPDA>
+ <xme:7HLpYTGHiABwdoO_mFwRW9sr9jvljBkOowcAeUM0ti16aN4kdou-Mmy62IgPjTRY8
+ EOf3xzhQAqYYs5U8Lw>
+X-ME-Received: <xmr:7HLpYQ7uI_rF96sBqvdc10zxHDy0Ahk4QWFKUCvfg_Tgedc_HweXsLKWc-JEZ7QCc19SzDfgB0AXx6Jm8S4TxJW1m5xVomiow98N5X0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekgdeigecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpeforgigihhmvgcu
+ tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
+ hrnhepteetledtudejhffftdeugfduffelleelheejgeegffduvddvgfdvhffhlefgteff
+ necuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:7HLpYR1c-KZlB9nad9GnvjVg_wBr49VsBXCbBV9s3SM8wmibvcO4ZA>
+ <xmx:7HLpYbEKgYe1Di-eageFA_bTY299DOzhWOEAkbJKzGJbO4WJ6MYGFA>
+ <xmx:7HLpYa8vn3tI0OS0iU0FeHJEcqkLMZK6YYcfLtXYX8Bw-jCOC3aDkQ>
+ <xmx:7HLpYa0_VshJ0UNBKODvwKAZldkUyWma3b8YqlWcxrUnQeMmW7b2Tg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 20 Jan 2022 09:34:19 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Mike Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
+Subject: [PATCH v3 00/10] clk: Improve clock range handling
+Date: Thu, 20 Jan 2022 15:34:07 +0100
+Message-Id: <20220120143417.543744-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.34.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220119110839.33187-3-deller@gmx.de>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,180 +79,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
- Sam Ravnborg <sam@ravnborg.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sven Schnelle <svens@stackframe.org>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Claudio Suarez <cssk@net-c.es>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
+ Maxime Ripard <maxime@cerno.tech>, Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 19, 2022 at 12:08:39PM +0100, Helge Deller wrote:
-> This reverts commit 39aead8373b3c20bb5965c024dfb51a94e526151.
-> 
-> Revert this patch.  This patch started to introduce the regression that
-> all hardware acceleration of more than 35 existing fbdev drivers were
-> bypassed and thus fbcon console output for those was dramatically slowed
-> down by factor of 10 and more.
-> 
-> Reverting this commit has no impact on DRM, since none of the DRM drivers are
-> tagged with the acceleration flags FBINFO_HWACCEL_COPYAREA,
-> FBINFO_HWACCEL_FILLRECT or others.
-> 
-> Signed-off-by: Helge Deller <deller@gmx.de>
-> Cc: stable@vger.kernel.org # v5.16
-
-So if this really has to come back then I think the pragmatic approach is
-to do it behind a CONFIG_FBCON_ACCEL, default n, and with a huge warning
-that enabling that shouldn't be done for any distro which only enables
-firmware and drm fbdev drivers.
-
-Plus adjusting the todo to limit it to drm drivers. Maybe also #ifdef out
-the code that's then dead from fbcon.
-
-Also in that case I guess it's ok to cc: stable, and really if you cc:
-stable it needs to go down to 5.11, not 5.16.
-
-And if we do that, I think that should go in through a -next cycle, or at
-least quite some soaking before it's cherry-picked over. Enough to give
-syzbot a chance to discover any path we've missed at least.
--Daniel
-
-> ---
->  Documentation/gpu/todo.rst       | 21 ---------------
->  drivers/video/fbdev/core/fbcon.c | 45 ++++++++++++++++++++++++++------
->  2 files changed, 37 insertions(+), 29 deletions(-)
-> 
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index 29506815d24a..a1212b5b3026 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -300,27 +300,6 @@ Contact: Daniel Vetter, Noralf Tronnes
-> 
->  Level: Advanced
-> 
-> -Garbage collect fbdev scrolling acceleration
-> ---------------------------------------------
-> -
-> -Scroll acceleration is disabled in fbcon by hard-wiring p->scrollmode =
-> -SCROLL_REDRAW. There's a ton of code this will allow us to remove:
-> -
-> -- lots of code in fbcon.c
-> -
-> -- a bunch of the hooks in fbcon_ops, maybe the remaining hooks could be called
-> -  directly instead of the function table (with a switch on p->rotate)
-> -
-> -- fb_copyarea is unused after this, and can be deleted from all drivers
-> -
-> -Note that not all acceleration code can be deleted, since clearing and cursor
-> -support is still accelerated, which might be good candidates for further
-> -deletion projects.
-> -
-> -Contact: Daniel Vetter
-> -
-> -Level: Intermediate
-> -
->  idr_init_base()
->  ---------------
-> 
-> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-> index 22bb3892f6bd..b813985f1403 100644
-> --- a/drivers/video/fbdev/core/fbcon.c
-> +++ b/drivers/video/fbdev/core/fbcon.c
-> @@ -1025,7 +1025,7 @@ static void fbcon_init(struct vc_data *vc, int init)
->  	struct vc_data *svc = *default_mode;
->  	struct fbcon_display *t, *p = &fb_display[vc->vc_num];
->  	int logo = 1, new_rows, new_cols, rows, cols;
-> -	int ret;
-> +	int cap, ret;
-> 
->  	if (WARN_ON(info_idx == -1))
->  	    return;
-> @@ -1034,6 +1034,7 @@ static void fbcon_init(struct vc_data *vc, int init)
->  		con2fb_map[vc->vc_num] = info_idx;
-> 
->  	info = registered_fb[con2fb_map[vc->vc_num]];
-> +	cap = info->flags;
-> 
->  	if (logo_shown < 0 && console_loglevel <= CONSOLE_LOGLEVEL_QUIET)
->  		logo_shown = FBCON_LOGO_DONTSHOW;
-> @@ -1135,13 +1136,11 @@ static void fbcon_init(struct vc_data *vc, int init)
-> 
->  	ops->graphics = 0;
-> 
-> -	/*
-> -	 * No more hw acceleration for fbcon.
-> -	 *
-> -	 * FIXME: Garbage collect all the now dead code after sufficient time
-> -	 * has passed.
-> -	 */
-> -	p->scrollmode = SCROLL_REDRAW;
-> +	if ((cap & FBINFO_HWACCEL_COPYAREA) &&
-> +	    !(cap & FBINFO_HWACCEL_DISABLED))
-> +		p->scrollmode = SCROLL_MOVE;
-> +	else /* default to something safe */
-> +		p->scrollmode = SCROLL_REDRAW;
-> 
->  	/*
->  	 *  ++guenther: console.c:vc_allocate() relies on initializing
-> @@ -1953,15 +1952,45 @@ static void updatescrollmode(struct fbcon_display *p,
->  {
->  	struct fbcon_ops *ops = info->fbcon_par;
->  	int fh = vc->vc_font.height;
-> +	int cap = info->flags;
-> +	u16 t = 0;
-> +	int ypan = FBCON_SWAP(ops->rotate, info->fix.ypanstep,
-> +				  info->fix.xpanstep);
-> +	int ywrap = FBCON_SWAP(ops->rotate, info->fix.ywrapstep, t);
->  	int yres = FBCON_SWAP(ops->rotate, info->var.yres, info->var.xres);
->  	int vyres = FBCON_SWAP(ops->rotate, info->var.yres_virtual,
->  				   info->var.xres_virtual);
-> +	int good_pan = (cap & FBINFO_HWACCEL_YPAN) &&
-> +		divides(ypan, vc->vc_font.height) && vyres > yres;
-> +	int good_wrap = (cap & FBINFO_HWACCEL_YWRAP) &&
-> +		divides(ywrap, vc->vc_font.height) &&
-> +		divides(vc->vc_font.height, vyres) &&
-> +		divides(vc->vc_font.height, yres);
-> +	int reading_fast = cap & FBINFO_READS_FAST;
-> +	int fast_copyarea = (cap & FBINFO_HWACCEL_COPYAREA) &&
-> +		!(cap & FBINFO_HWACCEL_DISABLED);
-> +	int fast_imageblit = (cap & FBINFO_HWACCEL_IMAGEBLIT) &&
-> +		!(cap & FBINFO_HWACCEL_DISABLED);
-> 
->  	p->vrows = vyres/fh;
->  	if (yres > (fh * (vc->vc_rows + 1)))
->  		p->vrows -= (yres - (fh * vc->vc_rows)) / fh;
->  	if ((yres % fh) && (vyres % fh < yres % fh))
->  		p->vrows--;
-> +
-> +	if (good_wrap || good_pan) {
-> +		if (reading_fast || fast_copyarea)
-> +			p->scrollmode = good_wrap ?
-> +				SCROLL_WRAP_MOVE : SCROLL_PAN_MOVE;
-> +		else
-> +			p->scrollmode = good_wrap ? SCROLL_REDRAW :
-> +				SCROLL_PAN_REDRAW;
-> +	} else {
-> +		if (reading_fast || (fast_copyarea && !fast_imageblit))
-> +			p->scrollmode = SCROLL_MOVE;
-> +		else
-> +			p->scrollmode = SCROLL_REDRAW;
-> +	}
->  }
-> 
->  #define PITCH(w) (((w) + 7) >> 3)
-> --
-> 2.31.1
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Hi,=0D
+=0D
+This is a follow-up of the discussion here:=0D
+https://lore.kernel.org/linux-clk/20210319150355.xzw7ikwdaga2dwhv@gilmour/=
+=0D
+=0D
+and here:=0D
+https://lore.kernel.org/all/20210914093515.260031-1-maxime@cerno.tech/=0D
+=0D
+While the initial proposal implemented a new API to temporarily raise and l=
+ower=0D
+clock rates based on consumer workloads, Stephen suggested an=0D
+alternative approach implemented here.=0D
+=0D
+The main issue that needed to be addressed in our case was that in a=0D
+situation where we would have multiple calls to clk_set_rate_range, we=0D
+would end up with a clock at the maximum of the minimums being set. This=0D
+would be expected, but the issue was that if one of the users was to=0D
+relax or drop its requirements, the rate would be left unchanged, even=0D
+though the ideal rate would have changed.=0D
+=0D
+So something like=0D
+=0D
+clk_set_rate(user1_clk, 1000);=0D
+clk_set_min_rate(user1_clk, 2000);=0D
+clk_set_min_rate(user2_clk, 3000);=0D
+clk_set_min_rate(user2_clk, 1000);=0D
+=0D
+Would leave the clock running at 3000Hz, while the minimum would now be=0D
+2000Hz.=0D
+=0D
+This was mostly due to the fact that the core only triggers a rate=0D
+change in clk_set_rate_range() if the current rate is outside of the=0D
+boundaries, but not if it's within the new boundaries.=0D
+=0D
+That series changes that and will trigger a rate change on every call,=0D
+with the former rate being tried again. This way, providers have a=0D
+chance to follow whatever policy they see fit for a given clock each=0D
+time the boundaries change.=0D
+=0D
+This series also implements some kunit tests, first to test a few rate=0D
+related functions in the CCF, and then extends it to make sure that=0D
+behaviour has some test coverage.=0D
+=0D
+Let me know what you think=0D
+Maxime=0D
+=0D
+Changes from v2:=0D
+  - Rebased on current next=0D
+  - Rewrote the whole thing according to Stephen reviews=0D
+  - Implemented some kunit tests=0D
+=0D
+Changes from v1:=0D
+  - Return NULL in clk_request_start if clk pointer is NULL=0D
+  - Test for clk_req pointer in clk_request_done=0D
+  - Add another user in vc4=0D
+  - Rebased on top of v5.15-rc1=0D
+=0D
+Maxime Ripard (10):=0D
+  clk: Add Kunit tests for rate=0D
+  clk: Always clamp the rounded rate=0D
+  clk: Use clamp instead of open-coding our own=0D
+  clk: Always set the rate on clk_set_range_rate=0D
+  clk: Add clk_drop_range=0D
+  clk: bcm: rpi: Add variant structure=0D
+  clk: bcm: rpi: Set a default minimum rate=0D
+  clk: bcm: rpi: Run some clocks at the minimum rate allowed=0D
+  drm/vc4: Add logging and comments=0D
+  drm/vc4: hdmi: Remove clock rate initialization=0D
+=0D
+ drivers/clk/Kconfig               |   7 +=0D
+ drivers/clk/Makefile              |   1 +=0D
+ drivers/clk/bcm/clk-raspberrypi.c | 125 ++++++-=0D
+ drivers/clk/clk-rate-test.c       | 603 ++++++++++++++++++++++++++++++=0D
+ drivers/clk/clk.c                 |  51 ++-=0D
+ drivers/gpu/drm/vc4/vc4_hdmi.c    |  13 -=0D
+ drivers/gpu/drm/vc4/vc4_kms.c     |  11 +=0D
+ include/linux/clk.h               |  11 +=0D
+ 8 files changed, 767 insertions(+), 55 deletions(-)=0D
+ create mode 100644 drivers/clk/clk-rate-test.c=0D
+=0D
+-- =0D
+2.34.1=0D
+=0D
