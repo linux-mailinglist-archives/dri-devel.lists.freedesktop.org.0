@@ -1,54 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7785494C72
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 12:03:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC38B494C96
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 12:15:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91EE610E319;
-	Thu, 20 Jan 2022 11:03:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9837510E37D;
+	Thu, 20 Jan 2022 11:15:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FEAC10E319
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 11:03:35 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id cx27so27193018edb.1
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 03:03:35 -0800 (PST)
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9430E10E335
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 11:15:02 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id j2so27054749edj.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 03:15:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=n97jOmH1Hh/lQ5JREIu8WWpMZHA+pObxbgnKcQKqkdY=;
- b=OfgVg4++cjXVJlgE4V6UGTv+/DRslYaxUQwp42wmoRX703kLnHT6ZI42wX0OmSiDlZ
- SDwD6u+GkbkGAFUtJaJksGgW3PqmKgpnh610LHWTZa19Y68u4qy6t+4ixut+aX9mwwDf
- ovfVjhquX3wpszfrRqxTnakSBbHc8lkEazXCw=
+ :cc; bh=iCGbnSIdeVbc+bdXt5zsiojMkCxV5VpYtP9a9mDjURU=;
+ b=FT7qC5sPu+G1OIfrLGzhNGP+P1cPEnYbuJkYByoReQfid0NZ7HxsgC9qC2YGLtgdHp
+ C2p7aktVbPdVexnAAX9rTbxTVDCIOyMc7PaesN3OWvw9LET1QlycXuzgU5P3f+Hs44wR
+ gsZhHmatoEmOwZ46sMLQdUM3vzmMe3Mxkhk8A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=n97jOmH1Hh/lQ5JREIu8WWpMZHA+pObxbgnKcQKqkdY=;
- b=HQgoCBqfHPMTjbqauKSmDhXTaiYMyEtOlJfftwyzBMBiiRggkppBNJr73LcVkBKpoV
- 9xQH1gWVj7oaFhVzADhamJJTR7fO/AjOAP2pnCAnSBPqCdwL5UUmjpWf4g+/VHO1kt/a
- GM7LkQss3ZhbzETACVLgaPvh8I/1azg5pTlT26yxGtRJp9nRDutQXoc+RXaKWQ/RnGDl
- U2mN6y03dVyWDya7pkhHEyvj3c29iUvCkh0J47hTCpJk4r3xpfvrGu0N9kHFNqt69iII
- 9+uftENTJ8dOEmjCzwbwQgKTwwbxQl6G2lDu/DR6+tHi0OvQS32twumrS1wDK2Lq2OUd
- T4XA==
-X-Gm-Message-State: AOAM532p/tQQ8eU7O0B/fRKzfG8vSzjOuFQ5v6hoPtjbvEnr6+TX09nm
- XHBIGHr2eVE0oBHYArwgsTkFiHyjtpVgEq10ubdjpg==
-X-Google-Smtp-Source: ABdhPJzNGcaoNoLJ9DIV2wfpr4vlmfC3H1ldbuvo6eEiv6LUJOZKv5Nk9JAXwwWgrS0AxorLH7OJbyk5bNnDlGJejCI=
-X-Received: by 2002:a17:906:2e81:: with SMTP id
- o1mr9130992eji.760.1642676613863; 
- Thu, 20 Jan 2022 03:03:33 -0800 (PST)
+ bh=iCGbnSIdeVbc+bdXt5zsiojMkCxV5VpYtP9a9mDjURU=;
+ b=CE4r9jHrlYRBm3Ed6v8GbtFEr8sGbuWT3IpYGZ/W6PxmG4GRVou4u7pEh413apBOQv
+ fUDRT2jLfBpm2rWQCl5UzH1QLzOY7/Up24l+izo1EoAaCBrx0z0Jxrz7SXysuoWxv4GO
+ fnw7XSfNn2ubAWyBAKWCSxVINb55gaazFYUt3j3OGhKpYgqFtP/lYcMUa65ISnoij7Q5
+ CjLTs6Mhf7Bc9XnO5mbfRn/O1Nyoh+ZnxGuSk+O2GY+Ywto/njmrJ1EuG0zW6vtk0Qeh
+ Vd3CWqihhZyLeS+U3ddQZW4sBkxUNKDCHN4cOYXg+EnvLDRc5Sx4OmrAoJdA8IFfJ5VK
+ BIaA==
+X-Gm-Message-State: AOAM530WXob+r4q2q/ZCy4EeNVFZAHsx2rrIqDh4LcsLBt6sXuVoM3jW
+ +LgSwFQV2s1OxBxNqWblw7y3X6ZAEDEE0PVwZoDBJA==
+X-Google-Smtp-Source: ABdhPJy0Rw3dNudsqr44tsK3H1wq7yJrlB7b/cPD/JGratpsbyDUX3QaW1JHCSJhFUXeCVCWwXV8lL0DwW+oi82UKkE=
+X-Received: by 2002:a05:6402:4244:: with SMTP id
+ g4mr12693422edb.271.1642677301085; 
+ Thu, 20 Jan 2022 03:15:01 -0800 (PST)
 MIME-Version: 1.0
-References: <20200907081825.1654-1-narmstrong@baylibre.com>
- <20200907081825.1654-7-narmstrong@baylibre.com>
- <CAMty3ZBEmafG8LS_yv4eektvUoHwYFoV=-8wohUXgsvpRbZqtA@mail.gmail.com>
- <70d1af3f-bc00-4afd-1157-1cf70d3b2c88@baylibre.com>
-In-Reply-To: <70d1af3f-bc00-4afd-1157-1cf70d3b2c88@baylibre.com>
+References: <20220119122843.1455611-1-narmstrong@baylibre.com>
+In-Reply-To: <20220119122843.1455611-1-narmstrong@baylibre.com>
 From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Thu, 20 Jan 2022 16:33:22 +0530
-Message-ID: <CAMty3ZC9Cp=8=iF=KYCWjwb-wk+VrPBzH+6L14H6iZcSm3CZjA@mail.gmail.com>
-Subject: Re: [PATCH 6/6] drm/meson: add support for MIPI-DSI transceiver
+Date: Thu, 20 Jan 2022 16:44:50 +0530
+Message-ID: <CAMty3ZBHSt2jjOxhQWpyYviTM3-uF0HXFtbGPjVddk4PP8Npsw@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/bridge: dw-hdmi: use safe format when first in
+ bridge chain
 To: Neil Armstrong <narmstrong@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,64 +61,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: jonas@kwiboo.se, robert.foss@linaro.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, kieran.bingham@ideasonboard.com,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ jernej.skrabec@gmail.com, biju.das.jz@bp.renesas.com,
+ laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 12, 2022 at 1:49 PM Neil Armstrong <narmstrong@baylibre.com> wrote:
+On Wed, Jan 19, 2022 at 5:58 PM Neil Armstrong <narmstrong@baylibre.com> wrote:
 >
-> Hi,
+> When the dw-hdmi bridge is in first place of the bridge chain, this
+> means there is no way to select an input format of the dw-hdmi HW
+> component.
 >
-> On 12/01/2022 08:24, Jagan Teki wrote:
-> > Hi Neil,
-> >
-> > On Mon, Sep 7, 2020 at 1:48 PM Neil Armstrong <narmstrong@baylibre.com> wrote:
-> >>
-> >> The Amlogic AXg SoCs embeds a Synopsys DW-MIPI-DSI transceiver (ver 1.21a), with a custom
-> >> glue managing the IP resets, clock and data input similar to the DW-HDMI Glue on other
-> >> Amlogic SoCs.
-> >>
-> >> This adds support for the Glue managing the transceiver, mimicing the init flow provided
-> >> by Amlogic to setup the ENCl encoder, the glue, the transceiver, the digital D-PHY and the
-> >> Analog PHY in the proper way.
-> >>
-> >> The DW-MIPI-DSI transceiver + D-PHY are directly clocked by the VCLK2 clock, which pixel clock
-> >> is derived and feeds the ENCL encoder and the VIU pixel reader.
-> >>
-> >> An optional "MEAS" clock can be enabled to measure the delay between each vsync feeding the
-> >> DW-MIPI-DSI transceiver.
-> >>
-> >> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-> >> ---
+> Since introduction of display-connector, negotiation was broken since
+> the dw-hdmi negotiation code only worked when the dw-hdmi bridge was
+> in last position of the bridge chain or behind another bridge also
+> supporting input & output format negotiation.
 >
-> [..]
+> Commit 0656d1285b79 ("drm/bridge: display-connector: implement bus fmts callbacks")
+> was introduced to make negotiation work again by making display-connector
+> act as a pass-through concerning input & output format negotiation.
 >
-> >> +
-> >> +static const struct component_ops meson_dw_mipi_dsi_ops = {
-> >> +       .bind   = meson_dw_mipi_dsi_bind,
-> >> +       .unbind = meson_dw_mipi_dsi_unbind,
-> >> +};
-> >
-> > Do you thought of non-component based meson DSI like STM DSI? It
-> > require changes from meson drm but just to understand if you have any
-> > such plan.
+> But in the case where the dw-hdmi is single in the bridge chain, for
+> example on Renesas SoCs, with the display-connector bridge the dw-hdmi
+> is no more single, breaking output format.
 >
-> I have no such plans for now, note this serie has been rewritten at [1] but still
-> with based with components.
+> Reported-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Bisected-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Fixes: 0656d1285b79 ("drm/bridge: display-connector: implement bus fmts callbacks").
+> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+> ---
+> Changes since v1:
+> - Remove bad fix in dw_hdmi_bridge_atomic_get_input_bus_fmts
+> - Fix typos in commit message
 >
-> If worth it, the plan is to get it with components and than yes if it's simpler
-> drop components completely.
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> index 54d8fdad395f..97cdc61b57f6 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -2551,8 +2551,9 @@ static u32 *dw_hdmi_bridge_atomic_get_output_bus_fmts(struct drm_bridge *bridge,
+>         if (!output_fmts)
+>                 return NULL;
+>
+> -       /* If dw-hdmi is the only bridge, avoid negociating with ourselves */
+> -       if (list_is_singular(&bridge->encoder->bridge_chain)) {
+> +       /* If dw-hdmi is the first or only bridge, avoid negociating with ourselves */
+> +       if (list_is_singular(&bridge->encoder->bridge_chain) ||
+> +           list_is_first(&bridge->chain_node, &bridge->encoder->bridge_chain)) {
 
-Dropping components make the pipeline well suited for bridges as we
-are moving bridge-driven pipelines in other areas.
-
->
-> I'll have a look at how ST does
-
-ST has no components. As I said above, eventually there would be
-common bridge driver for dw-mipi-dsi if meson and rockchip moving away
-from components.
+What if we use bridge helper, drm_bridge_chain_get_first_bridge in
+order to find the first bridge in chain?
 
 Thanks,
 Jagan.
