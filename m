@@ -1,50 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F381B495462
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 19:47:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA743495478
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 19:54:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C34210E882;
-	Thu, 20 Jan 2022 18:47:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0345810E949;
+	Thu, 20 Jan 2022 18:54:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BFFA10E873;
- Thu, 20 Jan 2022 18:47:35 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1F8E10E937;
+ Thu, 20 Jan 2022 18:54:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642704455; x=1674240455;
+ t=1642704855; x=1674240855;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=ByOpiGnkUJbVx/iQnpt8bQxfrYBl/g8S2Z/OsFWkXY0=;
- b=SaD3I/PgIE5k3u+AZtVlOWjQB9roJW9CAubk/qQnHeHYd4JkY9LOrko/
- XdjHD8/3xjf3s8iURSqnvcgcT2jTc28CI7nUjPEJd2FEnkQtVP81UBhtI
- 6nF0Xr9AVCT2Mb5r1goXeMgAEsZqkogipEsonzbhOML094i8ulmL6fB4U
- DSGhSn1qreNtbMZROgSp1xNZY6u+2orVUe2y7wUSWPkpOIXIkV5zjOLLg
- m2oqAX9+SmCqiWkXxsl7MSLXKN2UxKIPLhTr2I5XJS4HiFQNjBfczIt0X
- ZVZphqOlambQ7D9+Xj3tC7HQK0HNLiocaht4aEpr2sPTd+0m4r48rdAm8 w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10233"; a="245222136"
-X-IronPort-AV: E=Sophos;i="5.88,303,1635231600"; d="scan'208";a="245222136"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 10:47:35 -0800
-X-IronPort-AV: E=Sophos;i="5.88,303,1635231600"; d="scan'208";a="477907636"
-Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.203.144.108])
- by orsmga006-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2022 10:47:33 -0800
-Date: Fri, 21 Jan 2022 00:17:30 +0530
-From: Ramalingam C <ramalingam.c@intel.com>
-To: Robert Beckett <bob.beckett@collabora.com>
-Subject: Re: [PATCH] drm/i915: Add needs_compact_pt flag
-Message-ID: <20220120184730.GA9272@intel.com>
-References: <20220120162102.10652-1-ramalingam.c@intel.com>
- <f54309e3-3b82-5a64-0e5a-46981c4b63aa@collabora.com>
+ bh=55+paD8Tv9RuUKh9lkxO3ubVHL6p9DD9fkVOSVtjFkU=;
+ b=K+cebBOMpjcxMdRvLBXcVIZIXSC7IWc5l+9l3Ux3+V9mvZWkD978f8RW
+ qA/Nq7508libjuTVmABsQle6x7MQMxh47NMylTpx4jfaFx189Qm8hGQyR
+ CUf+ZUEvLwH9szjr+4df85cJ9HTPAl2RgaP6zZ5urW/OdTDzUcfyaao1T
+ DwYCql9zN79rm053kXUzdD5mnvDsBJS5sMr2FRYzI3JlwmWgUG7hjB+vK
+ RxOfhGP/037iOlMy0J/j4Dqm2+S9BIVfkRNdH7+uTnPXRU4jrW+OLkJ2A
+ HSy2i1NkwuWyge4T3WsvZSI+DvmDWAF174oT9lepwfT+rDaIX0pKpTS2j Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10233"; a="232796472"
+X-IronPort-AV: E=Sophos;i="5.88,303,1635231600"; d="scan'208";a="232796472"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2022 10:54:14 -0800
+X-IronPort-AV: E=Sophos;i="5.88,303,1635231600"; d="scan'208";a="475638233"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2022 10:54:13 -0800
+Date: Thu, 20 Jan 2022 10:48:27 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>
+Subject: Re: [PATCH] drm/i915/wopcm: Handle pre-programmed WOPCM registers
+Message-ID: <20220120184827.GA3259@jons-linux-dev-box>
+References: <20220114193315.3271408-1-daniele.ceraolospurio@intel.com>
+ <DM6PR11MB37860211234A897A2EA06F218A5A9@DM6PR11MB3786.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f54309e3-3b82-5a64-0e5a-46981c4b63aa@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <DM6PR11MB37860211234A897A2EA06F218A5A9@DM6PR11MB3786.namprd11.prod.outlook.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,90 +58,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- Matthew Auld <matthew.auld@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: "Summers, Stuart" <stuart.summers@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Harrison,
+ John C" <john.c.harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-01-20 at 16:42:52 +0000, Robert Beckett wrote:
+On Thu, Jan 20, 2022 at 06:13:47PM +0000, Teres Alexis, Alan Previn wrote:
+> Just one nit below, (assuming that igt CI failure isnt related - kms flip not completing)
+> Reviewed-by Alan Previn <alan.previn.teres.alexis@intel.com>
 > 
+> -----Original Message-----
+> From: Ceraolo Spurio, Daniele <daniele.ceraolospurio@intel.com> 
+> Sent: Friday, January 14, 2022 11:33 AM
+> To: intel-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org; Ceraolo Spurio, Daniele <daniele.ceraolospurio@intel.com>; Summers, Stuart <stuart.summers@intel.com>; Harrison, John C <john.c.harrison@intel.com>; Teres Alexis, Alan Previn <alan.previn.teres.alexis@intel.com>
+> Subject: [PATCH] drm/i915/wopcm: Handle pre-programmed WOPCM registers
 > 
-> On 20/01/2022 16:21, Ramalingam C wrote:
-> > Add a new platform flag, needs_compact_pt, to mark the requirement of
-> > compact pt layout support for the ppGTT when using 64K GTT pages.
-> > 
-> > With this flag has_64k_pages will only indicate requirement of 64K
-> > GTT page sizes or larger for device local memory access.
-> > 
-> > Suggested-by: Matthew Auld <matthew.auld@intel.com>
-> > Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-> > cc: Robert Beckett <bob.beckett@collabora.com>
-> > ---
-> >   drivers/gpu/drm/i915/i915_drv.h          | 10 +++++++---
-> >   drivers/gpu/drm/i915/i915_pci.c          |  2 ++
-> >   drivers/gpu/drm/i915/intel_device_info.h |  1 +
-> >   3 files changed, 10 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> > index 890f1f6fbc49..23f4713005bb 100644
-> > --- a/drivers/gpu/drm/i915/i915_drv.h
-> > +++ b/drivers/gpu/drm/i915/i915_drv.h
-> > @@ -1512,12 +1512,16 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
-> >   /*
-> >    * Set this flag, when platform requires 64K GTT page sizes or larger for
-> > - * device local memory access. Also this flag implies that we require or
-> > - * at least support the compact PT layout for the ppGTT when using the 64K
-> > - * GTT pages.
-> > + * device local memory access.
-> >    */
-> >   #define HAS_64K_PAGES(dev_priv) (INTEL_INFO(dev_priv)->has_64k_pages)
-> > +/* Set this flag when platform doesn't allow both 64k pages and 4k pages in
-> > + * the same PT. this flag means we need to support compact PT layout for the
-> > + * ppGTT when using the 64K GTT pages.
-> > + */
-> > +#define NEEDS_COMPACT_PT(dev_priv) (INTEL_INFO(dev_priv)->needs_compact_pt)
-> > +
-> >   #define HAS_IPC(dev_priv)		 (INTEL_INFO(dev_priv)->display.has_ipc)
-> >   #define HAS_REGION(i915, i) (INTEL_INFO(i915)->memory_regions & (i))
-> > diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-> > index 8261b6455747..3e7555ce6894 100644
-> > --- a/drivers/gpu/drm/i915/i915_pci.c
-> > +++ b/drivers/gpu/drm/i915/i915_pci.c
-> > @@ -1028,6 +1028,7 @@ static const struct intel_device_info xehpsdv_info = {
-> >   	PLATFORM(INTEL_XEHPSDV),
-> >   	.display = { },
-> >   	.has_64k_pages = 1,
-> > +	.needs_compact_pt = 1,
-> >   	.platform_engine_mask =
-> >   		BIT(RCS0) | BIT(BCS0) |
-> >   		BIT(VECS0) | BIT(VECS1) | BIT(VECS2) | BIT(VECS3) |
-> > @@ -1046,6 +1047,7 @@ static const struct intel_device_info dg2_info = {
-> >   	.media.rel = 55,
-> >   	PLATFORM(INTEL_DG2),
-> >   	.has_64k_pages = 1,
-> > +	.needs_compact_pt = 1,
-> >   	.platform_engine_mask =
-> >   		BIT(RCS0) | BIT(BCS0) |
-> >   		BIT(VECS0) | BIT(VECS1) |
-> > diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
-> > index 3699b1c539ea..8ff676f49471 100644
-> > --- a/drivers/gpu/drm/i915/intel_device_info.h
-> > +++ b/drivers/gpu/drm/i915/intel_device_info.h
-> > @@ -130,6 +130,7 @@ enum intel_ppgtt_type {
-> >   	/* Keep has_* in alphabetical order */ \
-> >   	func(has_64bit_reloc); \
-> >   	func(has_64k_pages); \
-> > +	func(needs_compact_pt; \
+> Starting from DG2, some of the programming previously done by i915 and the GuC has been moved to the GSC and the relevant registers are no longer writable by either CPU or GuC. This is also referred to as GuC deprivilege.
+> On the i915 side, this affects the WOPCM registers: these are no longer programmed by the driver and we do instead expect to find them already set. This can lead to verification failures because in i915 we cheat a bit with the WOPCM size defines, to keep the code common across platforms, by sometimes using a smaller WOPCM size that the actual HW support (which isn't a problem because the extra size is not needed if the FW fits in the smaller chunk), while the pre-programmed values can use the actual size.
+> Given tha the new programming entity is trusted, relax the amount of the checks done on the pre-programmed values by not limiting the max programmed size. In the extremely unlikely scenario that the registers have been misprogrammed, we will still fail later at DMA time.
 > 
-> missing `)`
-> instead of chucking untested patches on ml, I'll add a fixed version to the
-> in review series and include it in v3 after testing
-Thanks
+> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Cc: Stuart Summers <stuart.summers@intel.com>
+> Cc: John Harrison <john.c.harrison@intel.com>
+> Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h |  3 ++
+>  drivers/gpu/drm/i915/i915_drv.h            |  3 ++
+>  drivers/gpu/drm/i915/i915_pci.c            |  1 +
+>  drivers/gpu/drm/i915/intel_device_info.c   |  8 +++++
+>  drivers/gpu/drm/i915/intel_device_info.h   |  1 +
+>  drivers/gpu/drm/i915/intel_wopcm.c         | 42 ++++++++++++++++++----
+>  6 files changed, 51 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
+> index 93b251b25aba..88aad892a0fc 100644
+> --- a/drivers/gpu/drm/i915/intel_device_info.c
+> +++ b/drivers/gpu/drm/i915/intel_device_info.c
+> @@ -394,6 +394,14 @@ void intel_device_info_runtime_init(struct drm_i915_private *dev_priv)
+>  		memset(runtime->num_sprites, 0, sizeof(runtime->num_sprites));
+>  		memset(runtime->num_scalers, 0, sizeof(runtime->num_scalers));
+>  	}
+> +
+> +	/*
+> +	 * Early DG2 steppings don't have the GuC depriv feature. We can't
+> +	 * rely on the fuse on those platforms because the meaning of the fuse
+> +	 * bit is inverted on platforms that do have the feature.
+> +	 */
+> +	if (IS_DG2_GRAPHICS_STEP(dev_priv, G10, STEP_A0, STEP_A1))
+> +		info->has_guc_deprivilege = 0;
+> 
+> Nit: not sure if it matters if this stepping is not-public (although I am not 100% sure I am correct in my assumption this is not-public).
 
-Ram
-> 
-> >   	func(gpu_reset_clobbers_display); \
-> >   	func(has_reset_engine); \
-> >   	func(has_global_mocs); \
-> > 
+Agree with Alan.
+
+Are we ever going to let A0 / A1 stepping for DG2 be publicly available?
+If the answer is no, I think this can be removed.
+
+Matt
+
+>  }
