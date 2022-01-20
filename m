@@ -1,68 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D37649503B
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 15:34:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A74F049503C
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 15:34:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39B8610E53B;
-	Thu, 20 Jan 2022 14:34:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED57F10E512;
+	Thu, 20 Jan 2022 14:34:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
  [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16D3810E38E
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 14:34:40 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id A7FA5320100E;
- Thu, 20 Jan 2022 09:34:38 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Thu, 20 Jan 2022 09:34:39 -0500
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 453B310E3E3
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 14:34:43 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 30A2E320100E;
+ Thu, 20 Jan 2022 09:34:42 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Thu, 20 Jan 2022 09:34:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; bh=PkGmNK+1rh8eIQD4JxVW4ctt7AOg3D
- wmFys5phXK5+I=; b=cgM789KQ3KAhKKWa95YnzLKcvRYWlptDPg6Qp6bI22cnnz
- Ah/UdLAkfMJrDy252HCHthzyYueHiUSExontWj98I6m+7MReWowaQCUpYWECuoz7
- sIKg5CqsD2LL+2YbxFuKTmULoUCdDr8iQNIgqFCdk2zb2z9jerEYT+9KCI7n8Mnm
- x+lWXifGv+9l0OnnTYa3IdJy6zWGGrDcwJFjyoirhiZEcEupMJTGWMqiOZhfXQZb
- pk4pLLK5NfeKdqZvCA9fxncUVUatR91g2uqaas+5pkNCXQQcUgxjhzjvTAOppzAG
- g0YosiBlHAKpFI9vftq22CE/TNYbHxSe0Pmy/BpQ==
+ :subject:subject:to:to; s=fm1; bh=4lZDmwL7uIwTDjbUfihdBqpVRMxP4F
+ BdhG+gR+SfQCk=; b=T71ezbO8IN6xOgur2gVXNIYh90W9yvTPsLW5cg1dBFsX8E
+ csC2NHJ46larqHyju03o+bFAqxg074AeUTKlwzXckqnfeTDj80JJQQUxLDNtCmma
+ ZiKmmRfEnHCp8ZHyPVXqDzZKB1hKyWrY7/4uy2kWdqqwkMG/hOu1wEyK9GyJ8zSZ
+ HnjajVZvSgB9gEf465JY5mztJ+7nDTnqCgRPIL+L3MZmjMb1vcdxzK35VbRYjkX4
+ lFXqEGyhMnDnVi9ePKEmHm6lCEIVhLLCm2Aoqlo+6pljK4VPO5PTel7z9ixU+LYA
+ U2fexNjWm3i+BySgVL1M8YWELJEYdnWdxMzsVnqw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=PkGmNK
- +1rh8eIQD4JxVW4ctt7AOg3DwmFys5phXK5+I=; b=U6VnAzT1p7oJ/5iB1IhvLw
- GCiDsF5FHxplBJ5beJZK8jw4i7luWb+IfvWBnJ+NueBoA2PW6zXUBNu3iastkPDl
- acDkFNmxAqELgtCc4md5D6D1YEcr6T6Qw0fxWd8A8Xq3Zyzuwrd8rF/y0UwZmF4C
- HccK8rD5xRhY1Nccxh/qQr/JKqSszmYNxbTc02EZ3tJKmE59YFHrxhXjpcLIoJEP
- tzPqyYkIk1MgjmKQSZXeAbXIUHgi88VdZU+1MRwOzFQVHmb5PhAl1IiGWy8UG9ec
- JCP6/ROwryFvPYbSI9G4fmKYQUwVhzspo8l13Vycy5iiC+b20Pd0nrbVzD4CnQHw
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=4lZDmw
+ L7uIwTDjbUfihdBqpVRMxP4FBdhG+gR+SfQCk=; b=kMfftyxtXFmrCmJ0gLfgyp
+ KoAsypHYsk30+GIY9Nt3S/IoCROiGSjhKXHk5iucyhhkLRfB8rZ2mElaIfHz62wb
+ FWj3cvUOJCMwQlfpV5TZUQRbGrgaZfuPlW9b1BDxMKWoBEu1dd+nFNDvmC4gPu+4
+ TYey5VI2iyme/xsbZ7dXWr8iBAgMvlpQ5fOoCh2GItw+7IqQlyk/pUziwqCsUeKL
+ oXwPtcSA/DMf0PF6+GrhhWFIiakJomWgkOaojMlgShrTNRHC2rBJR7PzwvhN0S91
+ IWLOzgarHFy8n6S0LD6lyXr0l4ycFQtWV+Eesi2c97lohjN+ebWWR1iysSqRvPzA
  ==
-X-ME-Sender: <xms:_nLpYW6mxYvsfmktmHjEcsYKCtiOtXoWGrI0j4oLqatHuHisl7DZkw>
- <xme:_nLpYf7MDDBSBPp0Fy64Q9abElcfTonFe_qC8Zeuo6yQiqREuvqpWQ3NdFY1H5F5r
- KdWY_r_KOMQ0eSez4Q>
-X-ME-Received: <xmr:_nLpYVfUJyumMG5kbZoGsucqi9X6FU3qYFR5zmfd3LEh-t529wlpEavHaLW_Oa5jVSlEOmgwPFE4IRCAUEgPsl_ctWlpBSYFC2d6Z6I>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekgdeigecutefuodetggdotefrodftvf
+X-ME-Sender: <xms:AXPpYeAqZX15k-IE1gMQkQxyDskVYW3aXe2k_IY64RSkzyA_YrebXg>
+ <xme:AXPpYYidDleu9JoM915qsrPCOo3lb5Tz6mWgxT3Gsz-QJGbKeg3-Lt4PBqAIGmw3X
+ Otj5aLmhylvHo1KYiY>
+X-ME-Received: <xmr:AXPpYRmbgVMW6d9Iqg1YKRFKm8L4eFG5Ide2B_ann-XB4jam-WI8Xi5jDaK080Yk8lB0GOXtqtLWzMVlX0AJyZ9WAWXVFJV89U_WrGc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekgdeifecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ vdenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:_nLpYTL_0p_ypNa7jI5DMggFlKkoVZmlfQZyt936lvbpaJvNrvWAxw>
- <xmx:_nLpYaJYeXgNXmV5lS054QAb73vuV9i6qTkGbs5fHE6TyPjC11hhEQ>
- <xmx:_nLpYUzligMvSUNedAVVkEyeLNHWGw2i9RQGyhgTXLJXoQfPx1sX2g>
- <xmx:_nLpYbqSW2ISchVF1qmP8MarIB50PlSSNR59cBY9GcDRUZIstbmTOg>
+X-ME-Proxy: <xmx:AXPpYczrdu08cBDOoYfzT58luNu85NvBKkgbzDJV4tYrgr-5xpP16w>
+ <xmx:AXPpYTRyz3exrAJQ6X5iQR4H9-bCBQ6XsQ_P7DNeRX6LRqzLyq6srg>
+ <xmx:AXPpYXb0xESrH2PMb_ynaYk9R-ORc2JiFNV5YQ7FCCQrBNz_Dace8w>
+ <xmx:AXPpYcSZ-osWZ5oimW5Z7pOcqROEcOp6Hz6B5MeLflkO3NU6D0LOaA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 20 Jan 2022 09:34:37 -0500 (EST)
+ 20 Jan 2022 09:34:41 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Mike Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
-Subject: [PATCH v3 05/10] clk: Add clk_drop_range
-Date: Thu, 20 Jan 2022 15:34:12 +0100
-Message-Id: <20220120143417.543744-6-maxime@cerno.tech>
+Subject: [PATCH v3 06/10] clk: bcm: rpi: Add variant structure
+Date: Thu, 20 Jan 2022 15:34:13 +0100
+Message-Id: <20220120143417.543744-7-maxime@cerno.tech>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220120143417.543744-1-maxime@cerno.tech>
 References: <20220120143417.543744-1-maxime@cerno.tech>
@@ -87,62 +87,142 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to reset the range on a clock, we need to call
-clk_set_rate_range with a minimum of 0 and a maximum of ULONG_MAX. Since
-it's fairly inconvenient, let's introduce a clk_drop_range() function
-that will do just this.
+We only export a bunch of firmware clocks, and some of them require
+special treatment.
 
-Suggested-by: Stephen Boyd <sboyd@kernel.org>
+This has been do so far using some tests on the clock id in various
+places, but this is fairly hard to extend and doesn't scale very well.
+
+Since we'll need some more cases in the next patches, let's switch to a
+variant structure that defines the behaviour we need to have for a given
+clock.
+
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/clk/clk-rate-test.c |  4 ++--
- include/linux/clk.h         | 11 +++++++++++
- 2 files changed, 13 insertions(+), 2 deletions(-)
+ drivers/clk/bcm/clk-raspberrypi.c | 62 +++++++++++++++++++++++--------
+ 1 file changed, 46 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/clk/clk-rate-test.c b/drivers/clk/clk-rate-test.c
-index baf0ea315322..9beed87f663c 100644
---- a/drivers/clk/clk-rate-test.c
-+++ b/drivers/clk/clk-rate-test.c
-@@ -458,7 +458,7 @@ static void clk_rate_range_test_multiple_set_range_rate_maximized(struct kunit *
- 	KUNIT_ASSERT_TRUE(test, rate > 0);
- 	KUNIT_ASSERT_EQ(test, rate, DUMMY_CLOCK_RATE_1);
+diff --git a/drivers/clk/bcm/clk-raspberrypi.c b/drivers/clk/bcm/clk-raspberrypi.c
+index dd3b71eafabf..f7185d421085 100644
+--- a/drivers/clk/bcm/clk-raspberrypi.c
++++ b/drivers/clk/bcm/clk-raspberrypi.c
+@@ -56,6 +56,8 @@ static char *rpi_firmware_clk_names[] = {
+ #define RPI_FIRMWARE_STATE_ENABLE_BIT	BIT(0)
+ #define RPI_FIRMWARE_STATE_WAIT_BIT	BIT(1)
  
--	ret = clk_set_rate_range(user2, 0, ULONG_MAX);
-+	ret = clk_drop_range(user2);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	rate = clk_get_rate(clk);
-@@ -570,7 +570,7 @@ static void clk_rate_range_test_multiple_set_range_rate_minimized(struct kunit *
- 	KUNIT_ASSERT_TRUE(test, rate > 0);
- 	KUNIT_ASSERT_EQ(test, rate, DUMMY_CLOCK_RATE_2);
- 
--	ret = clk_set_rate_range(user2, 0, ULONG_MAX);
-+	ret = clk_drop_range(user2);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 
- 	rate = clk_get_rate(clk);
-diff --git a/include/linux/clk.h b/include/linux/clk.h
-index 266e8de3cb51..f365dac7be17 100644
---- a/include/linux/clk.h
-+++ b/include/linux/clk.h
-@@ -1005,6 +1005,17 @@ static inline struct clk *clk_get_optional(struct device *dev, const char *id)
- 	return clk;
- }
- 
-+/**
-+ * clk_drop_range - Reset any range set on that clock
-+ * @clk: clock source
-+ *
-+ * Returns success (0) or negative errno.
-+ */
-+static inline int clk_drop_range(struct clk *clk)
-+{
-+	return clk_set_rate_range(clk, 0, ULONG_MAX);
-+}
++struct raspberrypi_clk_variant;
 +
- #if defined(CONFIG_OF) && defined(CONFIG_COMMON_CLK)
- struct clk *of_clk_get(struct device_node *np, int index);
- struct clk *of_clk_get_by_name(struct device_node *np, const char *name);
+ struct raspberrypi_clk {
+ 	struct device *dev;
+ 	struct rpi_firmware *firmware;
+@@ -66,10 +68,36 @@ struct raspberrypi_clk_data {
+ 	struct clk_hw hw;
+ 
+ 	unsigned int id;
++	struct raspberrypi_clk_variant *variant;
+ 
+ 	struct raspberrypi_clk *rpi;
+ };
+ 
++struct raspberrypi_clk_variant {
++	bool		export;
++	char		*clkdev;
++};
++
++static struct raspberrypi_clk_variant
++raspberrypi_clk_variants[RPI_FIRMWARE_NUM_CLK_ID] = {
++	[RPI_FIRMWARE_ARM_CLK_ID] = {
++		.export = true,
++		.clkdev = "cpu0",
++	},
++	[RPI_FIRMWARE_CORE_CLK_ID] = {
++		.export = true,
++	},
++	[RPI_FIRMWARE_M2MC_CLK_ID] = {
++		.export = true,
++	},
++	[RPI_FIRMWARE_V3D_CLK_ID] = {
++		.export = true,
++	},
++	[RPI_FIRMWARE_PIXEL_BVB_CLK_ID] = {
++		.export = true,
++	},
++};
++
+ /*
+  * Structure of the message passed to Raspberry Pi's firmware in order to
+  * change clock rates. The 'disable_turbo' option is only available to the ARM
+@@ -183,7 +211,8 @@ static const struct clk_ops raspberrypi_firmware_clk_ops = {
+ 
+ static struct clk_hw *raspberrypi_clk_register(struct raspberrypi_clk *rpi,
+ 					       unsigned int parent,
+-					       unsigned int id)
++					       unsigned int id,
++					       struct raspberrypi_clk_variant *variant)
+ {
+ 	struct raspberrypi_clk_data *data;
+ 	struct clk_init_data init = {};
+@@ -195,6 +224,7 @@ static struct clk_hw *raspberrypi_clk_register(struct raspberrypi_clk *rpi,
+ 		return ERR_PTR(-ENOMEM);
+ 	data->rpi = rpi;
+ 	data->id = id;
++	data->variant = variant;
+ 
+ 	init.name = devm_kasprintf(rpi->dev, GFP_KERNEL,
+ 				   "fw-clk-%s",
+@@ -228,9 +258,9 @@ static struct clk_hw *raspberrypi_clk_register(struct raspberrypi_clk *rpi,
+ 
+ 	clk_hw_set_rate_range(&data->hw, min_rate, max_rate);
+ 
+-	if (id == RPI_FIRMWARE_ARM_CLK_ID) {
++	if (variant->clkdev) {
+ 		ret = devm_clk_hw_register_clkdev(rpi->dev, &data->hw,
+-						  NULL, "cpu0");
++						  NULL, variant->clkdev);
+ 		if (ret) {
+ 			dev_err(rpi->dev, "Failed to initialize clkdev\n");
+ 			return ERR_PTR(ret);
+@@ -264,27 +294,27 @@ static int raspberrypi_discover_clocks(struct raspberrypi_clk *rpi,
+ 		return ret;
+ 
+ 	while (clks->id) {
+-		struct clk_hw *hw;
++		struct raspberrypi_clk_variant *variant;
++
++		if (clks->id > RPI_FIRMWARE_NUM_CLK_ID) {
++			dev_err(rpi->dev, "Unknown clock id: %u", clks->id);
++			return -EINVAL;
++		}
++
++		variant = &raspberrypi_clk_variants[clks->id];
++		if (variant->export) {
++			struct clk_hw *hw;
+ 
+-		switch (clks->id) {
+-		case RPI_FIRMWARE_ARM_CLK_ID:
+-		case RPI_FIRMWARE_CORE_CLK_ID:
+-		case RPI_FIRMWARE_M2MC_CLK_ID:
+-		case RPI_FIRMWARE_V3D_CLK_ID:
+-		case RPI_FIRMWARE_PIXEL_BVB_CLK_ID:
+ 			hw = raspberrypi_clk_register(rpi, clks->parent,
+-						      clks->id);
++						      clks->id, variant);
+ 			if (IS_ERR(hw))
+ 				return PTR_ERR(hw);
+ 
+ 			data->hws[clks->id] = hw;
+ 			data->num = clks->id + 1;
+-			fallthrough;
+-
+-		default:
+-			clks++;
+-			break;
+ 		}
++
++		clks++;
+ 	}
+ 
+ 	return 0;
 -- 
 2.34.1
 
