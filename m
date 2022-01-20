@@ -1,74 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAFB5494EFD
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 14:28:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA9B1494F98
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 14:53:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33B1510E806;
-	Thu, 20 Jan 2022 13:28:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 725B510E38F;
+	Thu, 20 Jan 2022 13:53:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9CF210E810
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 13:28:14 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id
- i187-20020a1c3bc4000000b0034d2ed1be2aso20482673wma.1
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 05:28:14 -0800 (PST)
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
+ [IPv6:2607:f8b0:4864:20::b35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAF1D10E3BD
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 13:53:45 +0000 (UTC)
+Received: by mail-yb1-xb35.google.com with SMTP id p5so17863196ybd.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 05:53:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=subject:to:cc:references:from:organization:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=o79zmIgM+0ygHLPIofxNguMisbIrS5RcmJsJrzjmaPQ=;
- b=Xj7UKsSlDlKrCE2AIAP0jK14mFJPZQ6XVUdmOf0NO2O+eQn8fA69i3yrf2cTGf73nT
- tcLTUQsVkA2upYrCJYN+XWCsLabv4GNy5J0PT7+IiAjbbYwWmUm+O6psOlFWwIIy7u9N
- D1FsHzOf9kVonNk56g+QCtmB3s1imUSTq2blX8TOMy04a0PEmGLL8861MtDtzATA91nF
- 3rQg4Nw0c+ZVi6FLmo/NXBeb88AWhERtowV4m56WbiRvMPbexwawbmBEx/31AEHaUejD
- /4BUJ5wGtl8IbmWtscWIxFrfU9hdpOmMdogn8UBHmUSdi0ctF0bJMq0pjPOrk1bqTP8V
- ffUA==
+ d=fooishbar-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5P2k5ENZWYEeBIMHoJxpdZPQQbo2CfWbSd7/X1AGsQo=;
+ b=lECY8HqM/G96S8iQ6OopOyzNHVFV8URBxelKiGMpKegnQKu8fQ1jwaHO7kYstDYqtU
+ vn+iegJRfNjwfSLRXlSFDcJf1g8iGLo8ofrcnm94mFbvf/3frdXnv7q62s0ghSLb+qtX
+ riiR3iDtIJn+T6xcJwEasGy1Bqmr6onNJyIOSS6KNVvsXe6SkzQynClHwXZUYZD+GI9O
+ cJLZgEXOfXdJNYrASweI6JVQrzXtauqBvRr78SpZvXwtQZn8mPEH84vH1kknnhHk7hnP
+ hnh2GwYv/tFEsD1jzJTkoDHEEFNAzd4IhKbfB7x30XVhd9zWAUiKMR+UNCiDc26vQLC4
+ HsRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=o79zmIgM+0ygHLPIofxNguMisbIrS5RcmJsJrzjmaPQ=;
- b=E8CxbZ5r5vJQ/TDi/Slb/9px9UqT8LVSnVf66+58YeWVkb7U3+3RWY52QwWngj8XaP
- 6spQtCJNmBX3x6dpHZEdy9CkgxWfLqSbThbQqchAx4+OocB5dx+FbXGSums4EcUrhgu1
- NkeuuCEyPX8BkTwsJqDCJNyXyUmti6oznhVWcRGP5BsZk5j0wF3epLX70DSXSOhrfijU
- mgapWZhPniZNNdaEsNvjs0ayVQqaYSRKLaAha7XKp9oaPCBC8z41EVA4JhIjBG5xkFHM
- F7rurcJD7sD8c+mafVKRmosej5Yzd8mjtYdl6nJp40Jr8X3fxXFndexg+SbsgFpkXKpZ
- SJPQ==
-X-Gm-Message-State: AOAM532eJEQLkVtlJ3Ei/g9rd3W/bfG1NFTenISJHmH8TdbZ5zZ3ptbt
- fs6Fo7ut4gyLAIwrLio9JZAKWNE232jVhA==
-X-Google-Smtp-Source: ABdhPJwr0AR9fJdYR/gs6Ax3XVyox+sS0VTouqDzQdsMfO6OQs1paqSXdhIUYrUei1KpgkaOylRuRg==
-X-Received: by 2002:a05:600c:1c99:: with SMTP id
- k25mr8710099wms.159.1642685292800; 
- Thu, 20 Jan 2022 05:28:12 -0800 (PST)
-Received: from ?IPv6:2001:861:44c0:66c0:ced2:397a:bee8:75f5?
- ([2001:861:44c0:66c0:ced2:397a:bee8:75f5])
- by smtp.gmail.com with ESMTPSA id i8sm4537859wry.45.2022.01.20.05.28.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Jan 2022 05:28:12 -0800 (PST)
-Subject: Re: [PATCH 6/6] drm/meson: add support for MIPI-DSI transceiver
-To: Jagan Teki <jagan@amarulasolutions.com>
-References: <20200907081825.1654-1-narmstrong@baylibre.com>
- <20200907081825.1654-7-narmstrong@baylibre.com>
- <CAMty3ZBEmafG8LS_yv4eektvUoHwYFoV=-8wohUXgsvpRbZqtA@mail.gmail.com>
- <70d1af3f-bc00-4afd-1157-1cf70d3b2c88@baylibre.com>
- <CAMty3ZC9Cp=8=iF=KYCWjwb-wk+VrPBzH+6L14H6iZcSm3CZjA@mail.gmail.com>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-Message-ID: <e1fa9887-da2e-3a69-0e2e-3a6d07e13cb5@baylibre.com>
-Date: Thu, 20 Jan 2022 14:28:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5P2k5ENZWYEeBIMHoJxpdZPQQbo2CfWbSd7/X1AGsQo=;
+ b=FmmqeVLBtPJ+Yd+2Us8DHPdBKP0Lkt/pRS+XcFATPeiNdOqRoDmKYPcFzEv0i4THcW
+ tbEzLU9UiCV0+j9SRSfn+RFtFmKnU3pMYF32MTJisdARIM3v7j5W8cRL+U5OtNhbnu1O
+ GUAY5mXUeXiChjcz1YP/V2WHXApGkDSq9bpXSSDPBpnOFpcjhBJemK8lVyU83f+DzObx
+ f5UPYdOk/LHfybN3FEuGu0x8r2RtqZpXrOn3xycDb8bEneJ0VC7Rz6fc9d4UuL7jgFB2
+ c6wQ25rUZL8RpWVXH8BtQ/IlPOK8jt5DSjg3i1Ufkny7SqEDe7iLq2C/Fsq/qKi822fJ
+ DeCg==
+X-Gm-Message-State: AOAM530057aBDNm9snXNA80fIl5Nd2xjj8jy3JYmAf3MTPIODJykMcPs
+ sHJrsVt5tiFLTWDah5RsQXqZ5lEEZvIklsMKtLx7BQ==
+X-Google-Smtp-Source: ABdhPJy/r8p3SpTVjWslZP9i0mTuagqPkBLvWG4zUSI8REbqt+CQEgSV1S7EMGnLkgAy02tiwKrY2kVTo9WiOgR5vdU=
+X-Received: by 2002:a25:3b89:: with SMTP id
+ i131mr46513945yba.449.1642686824821; 
+ Thu, 20 Jan 2022 05:53:44 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAMty3ZC9Cp=8=iF=KYCWjwb-wk+VrPBzH+6L14H6iZcSm3CZjA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20220120124416.82202-1-contact@emersion.fr>
+In-Reply-To: <20220120124416.82202-1-contact@emersion.fr>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Thu, 20 Jan 2022 13:53:33 +0000
+Message-ID: <CAPj87rN-sY3JfEK1kSs+vJjzVhTqJXU8hFiE-7i2Cc5-2996GA@mail.gmail.com>
+Subject: Re: [PATCH] drm: document struct drm_mode_fb_cmd2
+To: Simon Ser <contact@emersion.fr>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,79 +63,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Daniel Stone <daniels@collabora.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jagan,
+On Thu, 20 Jan 2022 at 12:48, Simon Ser <contact@emersion.fr> wrote:
+> Follow-up for the DRM_IOCTL_MODE_GETFB2 docs.
 
-On 20/01/2022 12:03, Jagan Teki wrote:
-> On Wed, Jan 12, 2022 at 1:49 PM Neil Armstrong <narmstrong@baylibre.com> wrote:
->>
->> Hi,
->>
->> On 12/01/2022 08:24, Jagan Teki wrote:
->>> Hi Neil,
->>>
->>> On Mon, Sep 7, 2020 at 1:48 PM Neil Armstrong <narmstrong@baylibre.com> wrote:
->>>>
->>>> The Amlogic AXg SoCs embeds a Synopsys DW-MIPI-DSI transceiver (ver 1.21a), with a custom
->>>> glue managing the IP resets, clock and data input similar to the DW-HDMI Glue on other
->>>> Amlogic SoCs.
->>>>
->>>> This adds support for the Glue managing the transceiver, mimicing the init flow provided
->>>> by Amlogic to setup the ENCl encoder, the glue, the transceiver, the digital D-PHY and the
->>>> Analog PHY in the proper way.
->>>>
->>>> The DW-MIPI-DSI transceiver + D-PHY are directly clocked by the VCLK2 clock, which pixel clock
->>>> is derived and feeds the ENCL encoder and the VIU pixel reader.
->>>>
->>>> An optional "MEAS" clock can be enabled to measure the delay between each vsync feeding the
->>>> DW-MIPI-DSI transceiver.
->>>>
->>>> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
->>>> ---
->>
->> [..]
->>
->>>> +
->>>> +static const struct component_ops meson_dw_mipi_dsi_ops = {
->>>> +       .bind   = meson_dw_mipi_dsi_bind,
->>>> +       .unbind = meson_dw_mipi_dsi_unbind,
->>>> +};
->>>
->>> Do you thought of non-component based meson DSI like STM DSI? It
->>> require changes from meson drm but just to understand if you have any
->>> such plan.
->>
->> I have no such plans for now, note this serie has been rewritten at [1] but still
->> with based with components.
->>
->> If worth it, the plan is to get it with components and than yes if it's simpler
->> drop components completely.
-> 
-> Dropping components make the pipeline well suited for bridges as we
-> are moving bridge-driven pipelines in other areas.
-> 
->>
->> I'll have a look at how ST does
-> 
-> ST has no components. As I said above, eventually there would be
-> common bridge driver for dw-mipi-dsi if meson and rockchip moving away
-> from components.
+Yeah, thanks a lot for doing this, it's really awesome. <3
 
-ST driver is much more simpler.
+> +/**
+> + * struct drm_mode_fb_cmd2 - Frame-buffer metadata.
+> + *
+> + * This struct holds frame-buffer metadata. There are two ways to use it:
+> + *
+> + * - User-space can fill this struct and perform an &DRM_IOCTL_MODE_ADDFB2
+> + *   ioctl to register a new frame-buffer. The new frame-buffer object ID will
+> + *   be set by the kernel in @fb_id.
+> + * - User-space can set @fb_id and perform a &DRM_IOCTL_MODE_GETFB2 ioctl to
+> + *   fetch metadata about an existing frame-buffer.
+> + *
+> + * In case of planar formats, this struct allows up to 4 buffer objects with
+> + * offsets and pitches per plane. The pitch and offset order is dictated by the
+> + * fourcc, e.g. NV12 (https://fourcc.org/yuv.php#NV12) is described as:
+> + *
+> + *     YUV 4:2:0 image with a plane of 8 bit Y samples followed by an
+> + *     interleaved U/V plane containing 8 bit 2x2 subsampled colour difference
+> + *     samples.
+> + *
+> + * So it would consist of Y as ``offsets[0]`` and UV as ``offsets[1]``. Note
+> + * that ``offsets[0]`` will generally be 0 (but this is not required).
 
-And having a common dw-mipi-dsi is unreal since each HW has a different glue HW
-me must handle. Even if we moved all the glue handling under drm/bridge/synopsys,
-we would need a different set of callbacks for each HW for each compatible
-which is basically the actual situation except components.
+I think the note about offsets[0] usually being zero should be
+dropped. Equally, rather than referring to fourcc.org, why don't we
+just refer to drm_fourcc.h and maybe note in there that fourcc.org can
+be helpful for some formats, but others are missing or mismatching.
 
-Neil
+> +       /**
+> +        * @handles: GEM buffer handle, one per plane. Set to 0 if the plane is
+> +        * unused.
+>          */
+>         __u32 handles[4];
+> -       __u32 pitches[4]; /* pitch for each plane */
+> -       __u32 offsets[4]; /* offset of each plane */
+> -       __u64 modifier[4]; /* ie, tiling, compress */
+> +       /** @pitches: Pitch (aka. stride), one per plane. */
+> +       __u32 pitches[4];
+> +       /** @offsets: Offset into the buffer, one per plane. */
+> +       __u32 offsets[4];
+> +       /**
+> +        * @modifier: Format modifier, one per plane. See ``DRM_FORMAT_MOD_*``
+> +        * constants in ``drm_fourcc.h``. All planes must use the same
+> +        * modifier. Ignored unless &DRM_MODE_FB_MODIFIERS is set in @flags.
+> +        */
+> +       __u64 modifier[4];
 
-> 
-> Thanks,
-> Jagan.
-> 
+All these fields MBZ (not INVALID!) if the plane is unused.
 
+Cheers,
+Daniel
