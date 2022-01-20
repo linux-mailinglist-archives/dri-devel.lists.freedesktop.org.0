@@ -1,45 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD879494C05
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 11:45:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8C07494C07
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 11:48:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC89F10E64E;
-	Thu, 20 Jan 2022 10:45:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0712310E80C;
+	Thu, 20 Jan 2022 10:48:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B26610E49E;
- Thu, 20 Jan 2022 10:45:39 +0000 (UTC)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out2.suse.de (Postfix) with ESMTP id 971CA1F394;
- Thu, 20 Jan 2022 10:45:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1642675537; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lNXsCxk1kmLzWZ3KuMXgc2QP7yNDhqQLgFtjl4LsFGg=;
- b=s80Eh1CewTbGXaANSfdmhOC8yS7mIDv9FCt/I0hzu7cf9Pu9Si7tpC0AUMlifM6MhpyvNI
- EdQykNw0T5LfW9CMRgRZQ36TExFEeiyITs3AE72J+aELbU1yWnXuKDUzDzoC1F8NJaMUMu
- 9y1MB7bqBlsK9YohaVnVWyOxwl7Ul6w=
-Received: from suse.cz (unknown [10.100.224.162])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by relay2.suse.de (Postfix) with ESMTPS id 65535A3B81;
- Thu, 20 Jan 2022 10:45:30 +0000 (UTC)
-Date: Thu, 20 Jan 2022 11:45:36 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH 0/3] lib/string_helpers: Add a few string helpers
-Message-ID: <Yek9UEHpS16/9ajt@alley>
-References: <20220119072450.2890107-1-lucas.demarchi@intel.com>
- <YegPiR7LU8aVisMf@alley> <87tudzbykz.fsf@intel.com>
- <YekfbKMjOP9ecc5v@alley> <8735libwjo.fsf@intel.com>
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com
+ [IPv6:2607:f8b0:4864:20::731])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7DDB10E80C
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 10:48:29 +0000 (UTC)
+Received: by mail-qk1-x731.google.com with SMTP id c190so5743043qkg.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 02:48:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dowhile0-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Drofg5bZM2qwAB7ATZ/cfW3+3FZXwgKGVP69ItIqA10=;
+ b=lSFrpwW1wuAfDYgH03cW7I7OjP1WbLut0KjRhMrnTuGvNcnMybeWIQyMH1JIx00use
+ yizqAk+va/sg/eFSjqoeYOXH0HLzvW3eaS930YNZ7e5h9ip0eD9d1p3WN/CjBKya/85l
+ mcfYW4HK49fyHi+z6g7gsttn0/XTRnkA0JrcbZ8vAEFMc99HRXqRBh9g54gh8kCdMIHP
+ Uy/leO8tXeu8VOapVIT9ExqJ1h2JsDwxr8R0jV4kFsVzHWQZ4duKK2h5zTEq+mJc5xwY
+ pwglT+eOqfCVyz7nHNeUkkpmHVf/KXR4zpWZ1F4jD8ezJL5uWmGaPXIaZhEiHCZrb0Nw
+ P/pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Drofg5bZM2qwAB7ATZ/cfW3+3FZXwgKGVP69ItIqA10=;
+ b=wccJtyqjxmIk/1SRF+ZVyeHE6xIIEPQnFehCJGpj9P3TI/KVhS2LpkhmFysZ/WcrcE
+ tLM2gEUbi5WEM63a6hCus4BadeI0HKeYB7p6UqpDk117rvzPwocytYqHkkm2C0DrrTZf
+ Tug/snp6xxzRSV56u2ZDQUA640ciFYHDNaCQW87SLgEyEg+U0d2dP76A7/KLzaGqfBgs
+ hwlRtwcAC5X8GpjDcVrYU/8qLlobqQmjyRkU7nisphpdsNV/E7fzpnnt/3da9Fbus0Io
+ Dvh8j74oGrkTuuopV7UNmKd7lRxLb5174g1DW+CkhQEDiJiGcJ1vL/X0GMvftjgUApp2
+ DPDQ==
+X-Gm-Message-State: AOAM530QOwoCO3Ct3ZU2OUw9NcBjStkjMaZS6zKyQczsYZWIBssA7K1y
+ LwTGc4hzMpmbnDY2qjvtcjewMRXGNOpi+EAieGYyKQ==
+X-Google-Smtp-Source: ABdhPJytHAAGxtq/qSZOpc+YupHixT4TRIrIOSLNgZfB6xUrCUXkckzmPRmlM/mOoCMvKsJgp3kOntmGDDsXWw0Jxwk=
+X-Received: by 2002:a05:620a:1382:: with SMTP id
+ k2mr18319057qki.447.1642675708891; 
+ Thu, 20 Jan 2022 02:48:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8735libwjo.fsf@intel.com>
+References: <20220120104009.159147-1-krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20220120104009.159147-1-krzysztof.kozlowski@canonical.com>
+From: Javier Martinez Canillas <javier@dowhile0.org>
+Date: Thu, 20 Jan 2022 11:48:18 +0100
+Message-ID: <CABxcv==EkNd9MrpJuyECzY1EdnWiZ_ffz8OXoTy8X76R_Ty4Xw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: display: bridge: drop Enric Balletbo i
+ Serra from maintainers
+To: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,50 +64,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
- Vishal Kulkarni <vishal@chelsio.com>,
- Francis Laniel <laniel_francis@privacyrequired.com>,
- Kentaro Takeda <takedakn@nttdata.co.jp>, Mikita Lipski <mikita.lipski@amd.com>,
- amd-gfx@lists.freedesktop.org, Andy Shevchenko <andy.shevchenko@gmail.com>,
- Ben Skeggs <bskeggs@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Leo Li <sunpeng.li@amd.com>,
- intel-gfx@lists.freedesktop.org, Raju Rangoju <rajur@chelsio.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Steven Rostedt <rostedt@goodmis.org>, Julia Lawall <julia.lawall@lip6.fr>,
- Rahul Lakkireddy <rahul.lakkireddy@chelsio.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Eryk Brol <eryk.brol@amd.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-kernel@vger.kernel.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- linux-security-module@vger.kernel.org, netdev@vger.kernel.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- "David S . Miller" <davem@davemloft.net>
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ linux-iio <linux-iio@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux I2C <linux-i2c@vger.kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Guenter Roeck <groeck@chromium.org>, Lee Jones <lee.jones@linaro.org>,
+ Nicolas Boichat <drinkcat@chromium.org>, Chanwoo Choi <cw00.choi@samsung.com>,
+ David Airlie <airlied@linux.ie>, MyungJoo Ham <myungjoo.ham@samsung.com>,
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+ Simon Glass <sjg@chromium.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Linux Kernel <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu 2022-01-20 11:12:27, Jani Nikula wrote:
-> On Thu, 20 Jan 2022, Petr Mladek <pmladek@suse.com> wrote:
-> > The problem is not that visible with yesno() and onoff(). But as you said,
-> > onoff() confliscts with variable names. And enabledisable() sucks.
-> > As a result, there is a non-trivial risk of two mass changes:
-> 
-> My point is, in the past three years we could have churned through more
-> than two mass renames just fine, if needed, *if* we had just managed to
-> merge something for a start!
+[adding Enric's personal email address to Cc list]
 
-Huh, this sound alarming.
+Hello Krzysztof,
 
-Cosmetic changes just complicate history. They make "git blame" useless.
-They also complicate backports. I know that it is not problem for
-mainline. But there are supported stable branches, ...
+On Thu, Jan 20, 2022 at 11:40 AM Krzysztof Kozlowski
+<krzysztof.kozlowski@canonical.com> wrote:
+>
+> Enric Balletbo i Serra emails bounce:
+>
+>   <enric.balletbo@collabora.com>: Recipient address rejected: User unknown in  local recipient table
+>
+> so drop him from the maintainers, similarly to commit 3119c28634dd
+> ("MAINTAINERS: Chrome: Drop Enric Balletbo i Serra").  Add generic DRM
+> bridge maintainers to Analogix ANX7814.
+>
 
-There should be a good reason for such changes. They should not be
-done light-heartedly.
+I'm adding Enric in case he is still interested in maintaining these
+and prefers to update his email address instead.
 
-Best Regards,
-Petr
+Another option is to add an entry to the .mailmap file.
+
+Best regards,
+Javier
