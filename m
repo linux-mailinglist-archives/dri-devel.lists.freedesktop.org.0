@@ -1,86 +1,119 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B55A049494F
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 09:22:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A1B8494960
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 09:27:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6081F10E8A1;
-	Thu, 20 Jan 2022 08:22:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E16C910E897;
+	Thu, 20 Jan 2022 08:27:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0E2010E89E
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 08:22:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1642666962;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sLVHq+ON4LJE7JdXE+L05OdMvflHcDcxIWOwnu+S7Gc=;
- b=I7JzvtPrWJEVuFSju1E43vyhy+GdtCvvk4BwWGX1ReO+Oq5lL/lybpozjpDUDdeGhGLsjW
- DIU1q4wXVduf2deRXz2PmD7qFSkVufd1klRA5lvLZy+FM7asrs5MnUpkGVTdniVjvCXOhc
- lxk+G9/QAZCsXG5C41CcoXHlTOor0H4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-553-5DtMPW_HOiqkt9ZeQDT_zg-1; Thu, 20 Jan 2022 03:22:41 -0500
-X-MC-Unique: 5DtMPW_HOiqkt9ZeQDT_zg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- az10-20020a05600c600a00b0034d64b1203aso4870663wmb.4
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 00:22:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=sLVHq+ON4LJE7JdXE+L05OdMvflHcDcxIWOwnu+S7Gc=;
- b=8Hvv6xQOM+ZZ2WB3ZJl27IqpJAEx94Gv5FigkA8btmyAYZO219XRhGAVjKnDAj3iIj
- zhFEU3AUzyBb35DUhv+MVUCKf9xLyYfPYaP2ndKNOWCd/LKLRQ1ax+bY3M0zDEosWSvK
- 9u8bXcqoQbczxO9Hu6nTXHBNqi5/Ph1NvCxDNXQjpV/tdf/iM+bxAieHlo8zTlXZUq4k
- biCKWCK0wlM7PkOhkQI758C3CVhE2C7nBohgafq9r0iyERH0R0ulWNqaQ6IM+dD+PZDJ
- TH5n+pvONq2HLu5jBqeor8uBCfx95ugktlghCQJzo9iq2HWJExHvC4elL8ZanIDt1Mp1
- 6+rA==
-X-Gm-Message-State: AOAM530Q9anroMeVKNL0lmYNAf4JtMZcZZZfrZlqIzPAs7bFJu0hja58
- YwR2kx42QEw4kqcMU2vaYYReV5/3/HKdCzWoq3B24pMYTRtDY37dakWiZxjW3hE1sm8h3gTgc4p
- 4hJnKtHE+iMS+zLEqemSx78UHgi5x
-X-Received: by 2002:a5d:6c69:: with SMTP id r9mr11714868wrz.576.1642666960463; 
- Thu, 20 Jan 2022 00:22:40 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzsUSO/2Cv1v6+Q1pCa19+tTZf9I52ScmsQbQsC/NvC6BIjCFVbX7+dGbVGporFx9c8Wqeazg==
-X-Received: by 2002:a5d:6c69:: with SMTP id r9mr11714850wrz.576.1642666960250; 
- Thu, 20 Jan 2022 00:22:40 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id n10sm557719wrf.96.2022.01.20.00.22.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Jan 2022 00:22:39 -0800 (PST)
-Message-ID: <dc8fc064-f43b-8f36-43ea-7c837a49caf9@redhat.com>
-Date: Thu, 20 Jan 2022 09:22:38 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH] drm/vmwgfx: Stop requesting the pci regions
-To: Zack Rusin <zackr@vmware.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>
-References: <20220117180359.18114-1-zack@kde.org>
- <1c177e79-d28a-e896-08ec-3cd4cd2fb823@redhat.com>
- <da4e34772a9557cf4c4733ce6ee2a2ad47615044.camel@vmware.com>
- <5292edf8-0e60-28e1-15d3-6a1779023f68@suse.de>
- <afc4c659-b92e-3227-634f-7c171b7a74b3@suse.de>
- <80fc6b88d659dd7281364daccfed1fd294e785dc.camel@vmware.com>
- <89f1b9df-6ace-d59c-86a4-571cd92d0a4c@suse.de>
- <e9f42f83d7966952c8c0ff78be7e510a2aebdf01.camel@vmware.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <e9f42f83d7966952c8c0ff78be7e510a2aebdf01.camel@vmware.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2040.outbound.protection.outlook.com [40.107.244.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 846CE10E897
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 08:27:17 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=j1wuLaJilpk/JTY8rUCCZd5s+1CXDnZb8CEhIjET7u9JTXkwPXz2REbcMp2c0A49IreXQyVc8qnVuzn6+7nT3kajLH3uM9/++d/Z2LZeDmiZ0MCZSkMfZEPd4ms6ex2f1YTrS5seAMTwp++J3WzFsRgHgFF/gYAxqpomW5vi81XOWuNmh7gNJ8E5Nc60EWuIR8AxpB3dP6SjBQddbhyuU/2iaxCdMOSiZypIdeg3HFEFarzD90nrlOooF9ye8JqY0vJx6YMoBXhxy3L2xhfJ5GNF8zQZQSdZ39NDOWPV+prSw30GaFlav9dAloR0/28ixO73HoUoylZHDngLURMgmQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1rysZiG4UGhNNNvhAM3cux+5flXBDTqhEIgIn35uiOs=;
+ b=S+asW6jkzsxbY7h2iSKuYKNttmWFISdxh/QzbDzlVpoFBJEbmYPL4Px1mk18ycMNCifB+4KVGF4Yy2ZiORQjz8awZqp9VSj/V29+x74OjgiEtkN4BXWvt+raEKdOvcEIdyXSDk683LL5iDBw3z+SwMzsbHXG4uZNoDV9AsCcS3nVS0DH2uTRHYYe/KfzPTER5H8sbeVnzg8NpqhFFF8fU/etGJTnJ4IhLt5/22rcTke1LuHkR1hn73GvpADd87XKXckNSzU4d1DBk6WijRFRBSvehPAD8UT6jLXsg+PB1WtRZk4ba5jlev51c7nz+SO2h47iMhyUL1jrBd0UURegbA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1rysZiG4UGhNNNvhAM3cux+5flXBDTqhEIgIn35uiOs=;
+ b=eDI70+aX0Bu6PEbe2dx8HQVHfUIHsvoSU03ug0j9q94dokcSuhw3OMA61ZN1eew7Yv3oWoui8twEOoNHeieZ4pYjRVn4e3nzj9jlN9Vf2WnHYfR3Oa+ASqqx0/F+HiEynHN8DXdVDnCbz/FjU3r63JLzbEGWGhH7miOCyR9uZRg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by CY4PR1201MB0166.namprd12.prod.outlook.com (2603:10b6:910:24::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4888.12; Thu, 20 Jan
+ 2022 08:27:15 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::b03b:7df9:d733:13b2]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::b03b:7df9:d733:13b2%5]) with mapi id 15.20.4888.014; Thu, 20 Jan 2022
+ 08:27:15 +0000
+Subject: Re: [PATCH v5] dma-buf: system_heap: Add a size check for allocation
+To: guangming.cao@mediatek.com, john.stultz@linaro.org
+References: <CALAqxLW5uEZCGHGk3rYoiOGzN5XMKb39JzoPB1iEX9k3UsiT-A@mail.gmail.com>
+ <20220120070850.95495-1-guangming.cao@mediatek.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <4f2631d3-0845-cae6-6fc0-9c00ce6301ce@amd.com>
+Date: Thu, 20 Jan 2022 09:27:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+In-Reply-To: <20220120070850.95495-1-guangming.cao@mediatek.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM6P193CA0123.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:209:85::28) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: cdcad070-091e-4af3-3ec8-08d9dbeeaa34
+X-MS-TrafficTypeDiagnostic: CY4PR1201MB0166:EE_
+X-Microsoft-Antispam-PRVS: <CY4PR1201MB01665B4EC85C1B28C20F9560835A9@CY4PR1201MB0166.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1091;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: QZgypRwSv5fmwZzn3GRLr53Qxt+34q7AwKC/H967ngLLgBiWeiox5Usv9ctAubcx5rcAf923ZKro0NZFEUBxQ5uFyM40Kv8Ih5LH44k/2WaZG9FazQx+JAbREVjMC8vLaMPwRZkuPvIQzcnvHN/jaYamy4u+vRUJDpr8MCsnPCmaglKqX6PBKin+m+uS6KibWtlqz3C2JwKtHS6PFv/TnvgdzgU6g+8B962WLhPmF0AZSISCH3SAzCPzFQOj13L3Wp74Uvbv29MUsC68q5aeENYmcaZINCbDI9qw8gMMMdfGxZdgsEpl6GveI40pQZh+nBxk8BR4FUOdeQddg3rtFqxex5oXcn4UqMEl9awVtmFCLz/NAmnEiBLB9T9iLVWfYPgLpK4s7djtjq6QCAAuzabJZ2BXHIPT3G1abqg2Ww730wob4rWt9h7/J1o9CEv3K8JaI8qTvk1HBL7gA6+SUYCX73NdV/UPEQJpOSY6BcCTMmNtN0FEKc5gQIzvHM21aasn0o+sY2U145uAptcViOKDCepnDtirFtpc6oi8TZay+Rbm8FZdkdddWmkRUfJhNHD2bGsHjRsJfU1mhFDTQ9qZWYGktGvIFZ3Bwb4ss380twKLaJtoa1Rd+JC/SMfrvqaX0SPg1rBVr0LO0NvKflhxwO2ggNHfnIH1dO+cZoAnVWCGYK42aMuzk282lL5QjwCxDPn08pOpIw4www/FlcDyhQZ31vWddUUFcORWSJ0uykUOX3YhC2JywGmuTzv/
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(7416002)(31686004)(6666004)(38100700002)(508600001)(5660300002)(2906002)(8676002)(86362001)(316002)(66556008)(66476007)(66946007)(186003)(8936002)(26005)(6486002)(6506007)(6512007)(2616005)(36756003)(31696002)(4326008)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Z3JRMEdGYWhqcTR3dVpzRTBvM3ZZMk1SalpzMDZabUU0T01ZY09WTThQNkFT?=
+ =?utf-8?B?OUo2SUtDMHl0Y2hSbmYvRkUvV1dHa2hvWFBBZEJmalVDMU5UaVlSSVVGbWZB?=
+ =?utf-8?B?QVhwenBMd1gwaHpYeUN0STNCZk4xcjQvZDJwRzRyeSt1VE93a3BtdGhvVE5z?=
+ =?utf-8?B?ZjVmK0Ivdnk3UmhUUGxBQndrRmR5UnZwcjhHU3NHRkU3eUFBV1dFN2lhanNs?=
+ =?utf-8?B?ekYwdGlIdkdocFQ3M3Jsb0FlcVdIVURyV1MxWFRPa3BITG9zdFg0NG5hNVFx?=
+ =?utf-8?B?MTlaTlFSVklkL2tDWXJCTGNwUG9memtJbG55K3JCTldWTFN6d3Vjd0xZVEtp?=
+ =?utf-8?B?Z2JTejU3cnh4KzFaaDAzOVMvTlVhcUx1UGJkMFpjZWF4YU1pKzY1TXEzazNt?=
+ =?utf-8?B?NmtFUWtzcXJkbTJTMHdrN1U0UVZNUUlvbW9vVG5CRFZ4cUdsNTQ1ay9iNHVN?=
+ =?utf-8?B?d0o2Rkt5eUZXRUxxY2w3MVpYSjA3QjhMYU9FdUJCMHpUOGVwRy9NSzl3dlZJ?=
+ =?utf-8?B?TnNzTWRLSTFSckhkdk02N3Nlc1N4OHNNNUVwcFY2S2Q4Y2pOL1RlN1JIRkZw?=
+ =?utf-8?B?WXVZNFc0c2w5RkpVUm9JWm15b01iYmgzVVNYcllucU9zb0c0SkRIbGNESFNP?=
+ =?utf-8?B?ZDRxVG45aWQrWmM4S0huOG5aTUFwTUI2UUtQdm1TQVJUVkNjRHBCQTFFVGxp?=
+ =?utf-8?B?WENKSzdGQTRCc2VvV2VNTkdNaUl3UVFmOXJzd3lCRjVvZHdPTmtjU2djMHB0?=
+ =?utf-8?B?SmNtd0dpL2NxUjBPYVlvYVpQM3dvMVpUVUc0ZWw0M0JlTTBUNTU5QjNZRHVu?=
+ =?utf-8?B?bWZDUWlTRHgyazNlQjVwMHdEQXZDbDR5dG5hZ0s0VzlmOE5TUFgrcDlJNDFr?=
+ =?utf-8?B?cU5OMTVkRjZNdXA2b0hIeHFtdnpXR3NvNTdyanNlN2ZySk5wSVo1YmlITlE3?=
+ =?utf-8?B?SEFRVnJFajV1blNKbTBSTUFXZFhzZnRnc2VpS2c4eFExWXBSSHowbXE0L2N4?=
+ =?utf-8?B?K09vRHBFUlg5WUhFc0xWVjFSTzludGJER0x3RmFzZ1N0NFQwdWptbDZpMEVo?=
+ =?utf-8?B?WGYrbTkxM1ZCYjRDU3o4dnl3MHNxUjdjbHliVE5XR3daT3ZUeUpieDhZUkxr?=
+ =?utf-8?B?QmtGSGNITjNlcTFFNkQydWdsamROT2xKMVBLRzBFd1VPZUQ1b2lBZVEzWHlT?=
+ =?utf-8?B?TEJINDlCRm0wV01LMVppNWxCWCs1eG1UUmQxaUJ3V29FYllPT2JwYWpNdEta?=
+ =?utf-8?B?U3c2dVVjZkZVMUtLY3hvaTRhTVhYQUZxM0UxVUMrandsNzNPZHVON2ZWY2VE?=
+ =?utf-8?B?dWI3V0J4Ymg0bVlHcmxkRDV2aGhSSDVUMnVkYnp5TWJiUkpaNS9RRGlyd1NI?=
+ =?utf-8?B?Mk1valdrR1FSSkpYTjRTYWdRMFNFRTJwTUtFdGl4dkZYVnpBODJWQVZZSDFH?=
+ =?utf-8?B?K3JCRFcybkpYS1Q1V0w4L2UrMnZFb0d3MFlYM2lIbzhNRmlBTXdLaVZxVUM0?=
+ =?utf-8?B?MEkrN2N1SmtIVzhhRlFYRnQ0cm91bjhxVmJpaXlacFBzNEpzbFdCWll2ZG95?=
+ =?utf-8?B?cWkwWUY4TFgxTk4rR0pNcVZkT1JQTTlqdWhVSWliY0loZDdxK0ZvL21ucXF5?=
+ =?utf-8?B?SEpMRkVsay9yU1dFa1hWRS9YYUl3OEZhVUJxa3crUUpXMjluVHlCc2hGdGVy?=
+ =?utf-8?B?N0I4STRHZGlaSHNSTnVOMUtsdnZsTDJyT0QzbVdOcDREQTZLdHhJU01wMWc0?=
+ =?utf-8?B?QndRYlNEaFNwLzg3SEs5b3lDOGc3NDYreTkrbHdmTXpxdGVaN00yVzhucGZo?=
+ =?utf-8?B?QWh0Vml5NHc1dnhZRENCUGx6ZUhJUjJtNEN0KzJCOTFKYWl2bFd1eFZXR04z?=
+ =?utf-8?B?WGdLamJab0oyREh4QlVkMnIxYTRMcXpkU21lOUZiQkl0c3BTU3lNMkN4QXdu?=
+ =?utf-8?B?bndSVGJUeUZTUHA5ZmRodVVoS1MyYk16R2Y1ZWJTS2c5ZnViRGxrcXpVV0w0?=
+ =?utf-8?B?dWdBTlBRYTQ0SjFmOWZXRjljNjZyZ0hJdWdyOE9melhBOGVBRTBPZWFCbG5x?=
+ =?utf-8?B?MWNXL0hmM1J2czBtM3Byczl2UUVCdWJnSDJGcTJMQXFXaEUrVGF1VkV6MEVJ?=
+ =?utf-8?Q?TFRQ=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cdcad070-091e-4af3-3ec8-08d9dbeeaa34
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2022 08:27:15.5604 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /o2k/W03+DevVZf7n8BPiWZHnvvDANPP8ZZTRp/KyTLOcYSAczgmR194EnU+v0u5
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB0166
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,62 +126,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Martin Krastev <krastevm@vmware.com>,
- Maaz Mombasawala <mombasawalam@vmware.com>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linaro-mm-sig@lists.linaro.org,
+ lmark@codeaurora.org, wsd_upstream@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, caoguangming34@gmail.com,
+ michael.j.ruhl@intel.com, yf.wang@mediatek.com,
+ linux-mediatek@lists.infradead.org, libo.kang@mediatek.com,
+ benjamin.gaignard@linaro.org, bo.song@mediatek.com, matthias.bgg@gmail.com,
+ labbott@redhat.com, mingyuan.ma@mediatek.com, jianjiao.zeng@mediatek.com,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Zack,
 
-On 1/20/22 05:06, Zack Rusin wrote:
 
-[snip]
+Am 20.01.22 um 08:08 schrieb guangming.cao@mediatek.com:
+> From: Guangming <Guangming.Cao@mediatek.com>
+>
+> Add a size check for allocation since the allocation size should be
+> always less than the total DRAM size on system heap.
+> Adding this check can prevent comsuming too much time for invalid allocations.
+>
+> Signed-off-by: Guangming <Guangming.Cao@mediatek.com>
+> ---
+>   drivers/dma-buf/heaps/system_heap.c | 8 ++++++++
+>   1 file changed, 8 insertions(+)
+>
+> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+> index 23a7e74ef966..459dc18bc4a2 100644
+> --- a/drivers/dma-buf/heaps/system_heap.c
+> +++ b/drivers/dma-buf/heaps/system_heap.c
+> @@ -347,6 +347,14 @@ static struct dma_buf *system_heap_allocate(struct dma_heap *heap,
+>   	struct page *page, *tmp_page;
+>   	int i, ret = -ENOMEM;
+>   
+> +	/*
+> +	 * Size check. The "len" should be less than totalram since system_heap
+> +	 * memory is comes from system. Adding check here can prevent comsuming
+> +	 * too much time for invalid allocations.
+> +	 */
+> +	if (len >> PAGE_SHIFT > totalram_pages())
 
->>>
->>> Hmm, the patch looks good but it doesn't work. After boot:
->>> /proc/iomem
->>> 50000000-7fffffff : pcie@0x40000000
->>>    78000000-7fffffff : 0000:00:0f.0
->>>      78000000-782fffff : BOOTFB
->>>
->>> and vmwgfx fails on pci_request_regions:
->>>
->>> kernel: fb0: switching to vmwgfx from simple
->>> kernel: Console: switching to colour dummy device 80x25
->>> kernel: vmwgfx 0000:00:0f.0: BAR 2: can't reserve [mem 0x78000000-
->>> 0x7fffffff 64bit pref]
->>> kernel: vmwgfx: probe of 0000:00:0f.0 failed with error -16
->>>
->>> leaving the system without a fb driver.
->>
->> OK, I suspect that it would work if you use simpledrm instead of 
->> into the kernel binary.
-> 
-> Yes, simpledrm works fine. BTW, is there any remaining work before
-> distros can enable it by default?
-> 
+Maybe use PFN_UP() or PFN_DOWN() here instead of open coding this.
 
-Alpine already did AFAIK, OpenSUSE and Fedora are doing it soon
+Apart from that looks good to me.
 
-I don't know about the others distros but I guess they will follow.
+Christian.
 
->>
->> If that works, would you consider protecting pci_request_region()
->> with
->>   #if not defined(CONFIG_FB_SIMPLE)
->>   #endif
->>
->> with a FIXME comment?
-> 
-> Yes, I think that's a good compromise. I'll respin the patch with that.
-> 
-
-Agreed. Thanks a lot for testing the other patches anyways.
-
-Best regards,
--- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+> +		return ERR_PTR(-EINVAL);
+> +
+>   	buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
+>   	if (!buffer)
+>   		return ERR_PTR(-ENOMEM);
 
