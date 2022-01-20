@@ -1,51 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08A9B495116
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 16:10:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 127EE49512D
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 16:16:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42B7D10E390;
-	Thu, 20 Jan 2022 15:10:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7FB810E3BE;
+	Thu, 20 Jan 2022 15:16:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86D2010E3AA
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 15:10:50 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id F19781F450C9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1642691449;
- bh=nEgdR/KgZQL268DaWFkTldrCGXi81p2iJGObIq7IsQI=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=jGyNvUF/+bUkr+B77ANFgiANv+ajUnEut7lHvYvwMcYD956oUd0c9QGS6Vsyp1PEC
- 3J3nD8FbM3+3o91h2oK/TYXV222XN5bkP/n3G79iUCk6nQ0Of7R+8sSzbFBqliKYjz
- 5cVCT5j82I7Nz6fwXZcaj5EvkPr/bI3uq/iBzb+lRlTlPb07jVFt63PgGtVgnS92kc
- mMzfc1rxCcx4oQGiWhzqk7chzzcj9uEUTpaFFQgEmbPel1Z7VTj58OAtdrEqtC1FLE
- XuvgBNN6j9Xt1awidfoTvWeWeE9GoqTgMlio5lvPjoleU1F1vEibJOCKlVj/12fhg/
- eRaoxYZUPvHvg==
-Subject: Re: [PATCH v5, 12/15] media: mtk-vcodec: Extract H264 common code
-To: Yunfei Dong <yunfei.dong@mediatek.com>,
- Alexandre Courbot <acourbot@chromium.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tzung-Bi Shih
- <tzungbi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Tomasz Figa <tfiga@google.com>
-References: <20220117094001.20049-1-yunfei.dong@mediatek.com>
- <20220117094001.20049-13-yunfei.dong@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Message-ID: <651387eb-561f-06b4-f269-7b5f7873fc59@collabora.com>
-Date: Thu, 20 Jan 2022 16:10:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
+ [64.147.123.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2356E10E3F0
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 15:16:31 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id C5EE32B00152;
+ Thu, 20 Jan 2022 10:16:29 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Thu, 20 Jan 2022 10:16:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to; s=fm1; bh=hxQJ/I0bDKZbykvhFcknKH9XvlIXm26nKrig08
+ Zwumk=; b=RbBX1cXgU37acgS1BxVmsSb7C1K1wsdqIWSqRJZ9GKPW+Zt4rOCjtR
+ f8Er9z9gveRRcspBntjeH+1PPbhz18ofympsIPZnloTiiUaxdwkcTHEzlUJ18iOQ
+ zQ7EFpSPTKws2IgLBjgj3fpH5J4iYBixYYFVEw3XAlyDd1YfwFwUwugnHa0/tkUd
+ 7tuQvuk1A15khm0fkIaLb90KxHVUkMsm97uvmvejNc1h/gXG097hSeuST8ulEUKL
+ OeABfxlVQhdBS9lthvcxRPYN/IBpsx/zqL5nV+WEXUI7x3wMZuVbUDy9VjH4kcjF
+ HT66S5rsSnXc4nIRWsUC/ate/wganFrg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=hxQJ/I
+ 0bDKZbykvhFcknKH9XvlIXm26nKrig08Zwumk=; b=QEXg/PYL+gQqWVQikUZVG7
+ kq/YRA2OUdYhxcZys/DkYtia3zbIDtK2z+qMY3WX2lqIKm/m2w8z8/SYo/5esO4u
+ LkVpEH/3b455VbzUAfk3gUSTpx4uSwVyzH7FOxXAsXrnxpSyR4aiSXRxR2Cf+0BW
+ 23mgtM/EB8B6QLZSrI95q9eSDCUP5189aCqKov0UaDfUytJSdL/dtzQB6MTi2f/5
+ VfjtJ1v+VckzqxDL507f0YpCX2DJh6ZotqQzaHgoIJteo83Qhdojen6b7A68OBwp
+ hwFoK3TJOefxtHbblQ66TXR3F5yh8IwuQcUVdD8ubGnYG7M9zJ2SoPwR793UhT3A
+ ==
+X-ME-Sender: <xms:zHzpYXNZ9gRzQ_yFB98Wz8LPhGXRJxjnFhWCE63xSAduP64xawXSQQ>
+ <xme:zHzpYR-EO-nlcy7fzD4a8wHHMM0eyWKYqdJ3lsaWCUTZihRHgRNr4efsIDSrirDOX
+ qAOr8ApqmsUtlH2cWg>
+X-ME-Received: <xmr:zHzpYWRz_2wrf0O9zKMxh7fm_PrcgG02scu4oub_ucQFvlFmOEwyu9LoxEkYeUxgJB1bcjp4nzfiLbsdMjMGVL4RuxQ1LlcMC4bcrWA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekgdejvdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofggtgfgsehtqhertdertdejnecuhfhrohhmpeforgigihhmvgcu
+ tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
+ hrnhepjeevudekjeetieduffduheeiveelieevfeffhfehhfejuddvjeefheejhedtuedv
+ necuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:zHzpYbtlg0cN-OQqZKltFzGCKHSTAGwX_9oxUcoc9rys20_EAzZ2Rw>
+ <xmx:zHzpYfcWAK8UZoU2q8FjdlfnFdHINTGL6jACm_ajyno5EugWnomLqA>
+ <xmx:zHzpYX1NRnYuf0h3BatdjLAXSYzr01tRpFVOD1jfcrazD1wFwu1xrQ>
+ <xmx:zXzpYQVVhgebdnV1GVSVBfCA1DUw2qZcM9gbTbv-_eSko7wn-7O_Ksv5sSs>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 20 Jan 2022 10:16:28 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
+Subject: [PATCH v4 00/16] drm/vc4: hdmi: Yet Another Approach to HDMI YUV
+ output
+Date: Thu, 20 Jan 2022 16:16:09 +0100
+Message-Id: <20220120151625.594595-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-In-Reply-To: <20220117094001.20049-13-yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset=iso-8859-15; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,126 +82,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
- Dafna Hirschfeld <dafna.hirschfeld@collabora.com>, srv_heupstream@mediatek.com,
- devicetree@vger.kernel.org, Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Xiaoyong Lu <xiaoyong.lu@mediatek.com>, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Steve Cho <stevecho@chromium.org>, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, Werner Sembach <wse@tuxedocomputers.com>,
+ Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 17/01/22 10:39, Yunfei Dong ha scritto:
-> Mt8192 can use some of common code with mt8183. Moves them to
-> a new file in order to reuse.
-> 
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> ---
->   drivers/media/platform/mtk-vcodec/Makefile    |   1 +
->   .../mtk-vcodec/vdec/vdec_h264_req_common.c    | 307 ++++++++++++++
->   .../mtk-vcodec/vdec/vdec_h264_req_common.h    | 253 +++++++++++
->   .../mtk-vcodec/vdec/vdec_h264_req_if.c        | 395 +-----------------
->   4 files changed, 579 insertions(+), 377 deletions(-)
->   create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_common.c
->   create mode 100644 drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_common.h
-> 
-> diff --git a/drivers/media/platform/mtk-vcodec/Makefile b/drivers/media/platform/mtk-vcodec/Makefile
-> index 359619653a0e..3f41d748eee5 100644
-> --- a/drivers/media/platform/mtk-vcodec/Makefile
-> +++ b/drivers/media/platform/mtk-vcodec/Makefile
-> @@ -9,6 +9,7 @@ mtk-vcodec-dec-y := vdec/vdec_h264_if.o \
->   		vdec/vdec_vp8_if.o \
->   		vdec/vdec_vp9_if.o \
->   		vdec/vdec_h264_req_if.o \
-> +		vdec/vdec_h264_req_common.o \
->   		mtk_vcodec_dec_drv.o \
->   		vdec_drv_if.o \
->   		vdec_vpu_if.o \
-> diff --git a/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_common.c b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_common.c
-> new file mode 100644
-> index 000000000000..90e8c4906e2a
-> --- /dev/null
-> +++ b/drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_common.c
-> @@ -0,0 +1,307 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2021 MediaTek Inc.
-> + * Author: Yunfei Dong <yunfei.dong@mediatek.com>
-> + */
-> +
-> +#include "vdec_h264_req_common.h"
-> +
-> +/* get used parameters for sps/pps */
-> +#define GET_MTK_VDEC_FLAG(cond, flag) \
-> +	{ dst_param->cond = ((src_param->flags & flag) ? (1) : (0)); }
-> +#define GET_MTK_VDEC_PARAM(param) \
-> +	{ dst_param->param = src_param->param; }
-> +
-> +/*
-> + * The firmware expects unused reflist entries to have the value 0x20.
-> + */
-> +void mtk_vdec_h264_fixup_ref_list(u8 *ref_list, size_t num_valid)
-> +{
-> +	memset(&ref_list[num_valid], 0x20, 32 - num_valid);
-> +}
-> +
-> +void *mtk_vdec_h264_get_ctrl_ptr(struct mtk_vcodec_ctx *ctx, int id)
-> +{
-> +	struct v4l2_ctrl *ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl, id);
-> +
-
-Like written in the review for the VP8 driver, please perform a NULL check and
-handle the error case properly in the caller...
-
-> +	return ctrl->p_cur.p;
-> +}
-> +
-> +void mtk_vdec_h264_fill_dpb_info(struct mtk_vcodec_ctx *ctx,
-> +				 struct slice_api_h264_decode_param *decode_params,
-> +				 mtk_h264_dpb_info *h264_dpb_info)
-
-				struct mtk_h264_dpb_info *h264_dpb_info)
-				^^^^^^
-Oops! This typo makes this code unable to be compiled.
-
-> +{
-> +	struct vb2_queue *vq;
-> +	struct vb2_buffer *vb;
-> +	struct vb2_v4l2_buffer *vb2_v4l2;
-> +	int index;
-> +
-> +	vq = v4l2_m2m_get_vq(ctx->m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
-> +
-> +	for (index = 0; index < V4L2_H264_NUM_DPB_ENTRIES; index++) {
-> +		const struct slice_h264_dpb_entry *dpb;
-> +		int vb2_index;
-> +
-
-...snip...
-
-> +void mtk_vdec_h264_copy_scaling_matrix(struct slice_api_h264_scaling_matrix *dst_matrix,
-> +				       const struct v4l2_ctrl_h264_scaling_matrix *src_matrix)
-> +{
-> +	memcpy(dst_matrix->scaling_list_4x4, src_matrix->scaling_list_4x4,
-> +	       sizeof(dst_matrix->scaling_list_4x4));
-> +
-> +	memcpy(dst_matrix->scaling_list_8x8, src_matrix->scaling_list_8x8,
-> +	       sizeof(dst_matrix->scaling_list_8x8));
-> +}
-> +
-> +void
-> +mtk_vdec_h264_copy_decode_params(struct slice_api_h264_decode_param *dst_params,
-> +				 const struct v4l2_ctrl_h264_decode_params *src_params,
-> +				 const struct v4l2_h264_dpb_entry dpb[V4L2_H264_NUM_DPB_ENTRIES]);
-
-There's another overlook here:
-				const struct v4l2_h264_dpb_entry *dpb)
-
-> +{
-> +	int i;
-
-Regards,
-Angelo
+Hi,=0D
+=0D
+This is another attempt at supporting the HDMI YUV output in the vc4 HDMI=0D
+driver.=0D
+=0D
+This is a follow-up of=0D
+https://lore.kernel.org/dri-devel/20210317154352.732095-1-maxime@cerno.tech=
+/=0D
+=0D
+And the discussions that occured recently on the mailing lists and IRC abou=
+t=0D
+this.=0D
+=0D
+The series mentioned above had multiple issues, the main one being that it =
+was=0D
+a bit too much complicated for what we wanted to achieve. This series is ta=
+king=0D
+a much simpler approach with an ad-hoc solution.=0D
+=0D
+I think some parts of it could still be moved to KMS helpers (notably, the=
+=0D
+output format enum, and the helper to set the infoframe for it) and structu=
+res=0D
+(the output format stored in drm_connector_state). This would also interact=
+=0D
+nicely with the work done here:=0D
+=0D
+https://lore.kernel.org/dri-devel/20211118103814.524670-1-maxime@cerno.tech=
+/=0D
+=0D
+This can come as a second step though.=0D
+=0D
+The other issues with the first attempt was that nothing was reported to=0D
+userspace about the decision we made about the format, and that this decisi=
+on=0D
+was essentially policy, without any way for the userspace to influence it.=
+=0D
+=0D
+Those two points however are being worked on by Werner in a cross-driver=0D
+effort:=0D
+=0D
+https://lore.kernel.org/dri-devel/e452775c-5b95-bbfd-e818-f1480f556336@tuxe=
+docomputers.com/=0D
+=0D
+Since it's a KMS decision, I don't think we should hold off any driver as l=
+ong=0D
+as it's consistent with what the other drivers are doing.=0D
+=0D
+Let me know what you think,=0D
+Maxime=0D
+=0D
+---=0D
+=0D
+Changes from v3:=0D
+  - Rebased on latest next=0D
+  - Fixed build error=0D
+=0D
+Changes from v2:=0D
+  - Rename the output format enum=0D
+  - Split the edid_hdmi_dc_modes in two for RGB444 and YUV444=0D
+  - Remove color_formats modifications from _parse_deep_color entirely=0D
+  - Fixed comment formatting=0D
+  - Fixed mode_valid that would always return true=0D
+  - Fixed max_tmds_clock handling=0D
+=0D
+Changes from v1:=0D
+  - Fixed an EDID parsing error for YUV422=0D
+  - Fixed the scrambling setup when using a bpc > 8=0D
+  - Added some logging=0D
+  - Fixed some build-bot warnings=0D
+  - Fixed a number of HDMI specifications and EDID issues=0D
+  - Try to max out the bpc every time=0D
+=0D
+Maxime Ripard (16):=0D
+  drm/edid: Rename drm_hdmi_avi_infoframe_colorspace to _colorimetry=0D
+  drm/edid: Don't clear formats if using deep color=0D
+  drm/edid: Split deep color modes between RGB and YUV444=0D
+  drm/connector: Fix typo in output format=0D
+  drm/vc4: hdmi: Add full range RGB helper=0D
+  drm/vc4: hdmi: Use full range helper in csc functions=0D
+  drm/vc4: hdmi: Move XBAR setup to csc_setup=0D
+  drm/vc4: hdmi: Replace CSC_CTL hardcoded value by defines=0D
+  drm/vc4: hdmi: Define colorspace matrices=0D
+  drm/vc4: hdmi: Change CSC callback prototype=0D
+  drm/vc4: hdmi: Move clock validation to its own function=0D
+  drm/vc4: hdmi: Move clock calculation into its own function=0D
+  drm/vc4: hdmi: Take the sink maximum TMDS clock into account=0D
+  drm/vc4: hdmi: Take bpp into account for the scrambler=0D
+  drm/vc4: hdmi: Always try to have the highest bpc=0D
+  drm/vc4: hdmi: Support HDMI YUV output=0D
+=0D
+ .../gpu/drm/amd/amdgpu/amdgpu_connectors.c    |   2 +-=0D
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |   2 +-=0D
+ .../arm/display/komeda/d71/d71_component.c    |  12 +-=0D
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c  |   2 +-=0D
+ .../drm/bridge/analogix/analogix_dp_core.c    |   4 +-=0D
+ .../drm/bridge/cadence/cdns-mhdp8546-core.c   |  18 +-=0D
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     |  16 +-=0D
+ drivers/gpu/drm/drm_edid.c                    |  39 +-=0D
+ drivers/gpu/drm/i915/display/intel_hdmi.c     |   6 +-=0D
+ drivers/gpu/drm/i915/display/intel_lspcon.c   |   2 +-=0D
+ drivers/gpu/drm/radeon/radeon_connectors.c    |   2 +-=0D
+ .../gpu/drm/rockchip/analogix_dp-rockchip.c   |   2 +-=0D
+ drivers/gpu/drm/vc4/vc4_hdmi.c                | 522 +++++++++++++++---=0D
+ drivers/gpu/drm/vc4/vc4_hdmi.h                |  26 +-=0D
+ drivers/gpu/drm/vc4/vc4_hdmi_regs.h           |   6 +=0D
+ drivers/gpu/drm/vc4/vc4_regs.h                |  19 +=0D
+ include/drm/drm_connector.h                   |  18 +-=0D
+ include/drm/drm_edid.h                        |   4 +-=0D
+ 18 files changed, 552 insertions(+), 150 deletions(-)=0D
+=0D
+-- =0D
+2.34.1=0D
+=0D
