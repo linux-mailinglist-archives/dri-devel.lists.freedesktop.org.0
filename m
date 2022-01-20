@@ -1,52 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21617494D1C
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 12:38:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D7C3494D22
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 12:40:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6941810E70A;
-	Thu, 20 Jan 2022 11:37:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7C1D10E448;
+	Thu, 20 Jan 2022 11:40:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
- [IPv6:2607:f8b0:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F60C10E6E5
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 11:37:59 +0000 (UTC)
-Received: by mail-ot1-x330.google.com with SMTP id
- a10-20020a9d260a000000b005991bd6ae3eso7137626otb.11
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 03:37:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com
+ [IPv6:2607:f8b0:4864:20::c2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE32C10E456
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 11:40:36 +0000 (UTC)
+Received: by mail-oo1-xc2d.google.com with SMTP id
+ v10-20020a4a860a000000b002ddc59f8900so2078351ooh.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 03:40:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3AEP3n86qrRT0CWA9xWkTT4oPgLT5Dg8J2aIKheyYRw=;
- b=bm+tBZ9hQXuKzRclihZx/q0WHctVogb8PlEpMFwPV4uE8k5bHH3uM8xPaziTcHtIyX
- M7LUhprxNO93EI9P7Vexu9rylB90oIi9ajLkqG+riBQCUgtLddw/AZESFg55jbIt560Z
- +5FqvDkb+uu/POVaRX1GxgenwvCjm2+6lgQeA=
+ :cc; bh=IURShh+tAODqAiJh+KDJ+01PfxKxuj1xZUOMackfOOk=;
+ b=Vz1pvQALrPt8wZAYERJlR7js9v4/O4ym8VLsubf10xKBms/HSrNyJXsvLUKVPNz2er
+ z9y+6nPpnS1qbFwvKwvJorb0aIcWu63ZFCha1bhWzJH7j1MFpfTrIFzyaQa00g+b1UFg
+ wCO+8ajcrVTlY4dtkpmSgqGqvfxa4zoI31BvQggtxFB/0MXIwL9qG/XyDMZXxGeTkHiK
+ vDn1LtEM2iBH8xCc+4qhPyIX5aK0onRaVfO6k6V2ZgTS6FQ7r+O88jb7LSRI7mYQh0sP
+ kkC0b533v7hmJ/EjyCQ8E4jxwvWW9+JZqK4CRU2XFJCepYw+mCDbLaLCO0yyFAUVRbME
+ bg1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=3AEP3n86qrRT0CWA9xWkTT4oPgLT5Dg8J2aIKheyYRw=;
- b=C/CzPhML3clT76MouU7GMRakEps5LnVCM8P4qxAwbAEkzSUJe0npPDzRclnGHh3OcV
- snGJ7aVnLi8lFLCh0UST7V/11rw7CgBAikhGQQWEK/cFO9cfvKtu20mzWV2WrEOoF38t
- 0kBGXQrTt4iXenSwnZerdKPjr+h4r5BYEY3ykq+NqbC8I02sIfPI0cwTJl5o+2vjKvF3
- gMyCtJ78/LVYFiFDSSiPPj4a6VaeTQwPNLgMUp5prpWUdgUPGGL67G5uNxTzKsVsRSeM
- VgqhuteaOCWPbqPLIXPStDl+MjDD/A5JsiDNs5FSGVF3qTFTKVRxr/n0S9cMhKcmi3gh
- MKbw==
-X-Gm-Message-State: AOAM533sySjW6awmWYWhDEW9bvapYvAKtjIJDWad0xhleuBaNLxu9Ij/
- c1QtmR1kE8b4tWJQMuWZ67LvsCAQzqAxtMk9FGa6DJYt9Yg=
-X-Google-Smtp-Source: ABdhPJwiTQi00qJXN52XBMUzMeX1OVN7uw9mNus8WPhS4x+FzxbJWfbXglouxPBTruCqLotN3LdLk3618q+hdDd8TzA=
-X-Received: by 2002:a05:6830:2704:: with SMTP id
- j4mr15770268otu.323.1642678678305; 
- Thu, 20 Jan 2022 03:37:58 -0800 (PST)
+ bh=IURShh+tAODqAiJh+KDJ+01PfxKxuj1xZUOMackfOOk=;
+ b=OQkG6HJQenICJ2pVIGOPim6zeOyEGWSGvFzGXPxsJtGYO4v/zqJeltB69afAnIoJnu
+ 0aCMFgE0NeZTK5CF25QcPpnm9s9ttaY+PTLbVPI38XeJ19ZXCx3At2jl3bJgGM9wmKvb
+ Ffu4Wz+dcUDV8VzoogTA6QFM3xyjdYivldUAm9AuyK07Qco7G9wY6JqNqbXM7pA5fbY7
+ ranH2tDayBBIEWdEufb5Lwj5tUvy9M+5TrrEbKrrIiIKg3o782XD5EnSk7+R/029opmZ
+ 4tqNy3dBSY6Tej+TWwdfMfSOx3Tzen8VOwy0AqLizYDfLYmMJbq9C+vRzCoQfn4ppGmH
+ oA4g==
+X-Gm-Message-State: AOAM533ISoVZdImW3KiBdjF8pT0PQMRcLFc3YDRju8NntkLV3mkSczn8
+ pQb+elkjAq3kjJ24TTn5jTRlAsa+UouPyNSbxkE=
+X-Google-Smtp-Source: ABdhPJzVUuPUA0+dLs3T4/ac9raYhHS1yiR6xjixMRgj1sa6nF5nfrTil5Enm8pp/zVblcBTM7eQu4CMn+laojzaQUo=
+X-Received: by 2002:a05:6808:1b25:: with SMTP id
+ bx37mr7082972oib.129.1642678836132; 
+ Thu, 20 Jan 2022 03:40:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20220120113647.22484-1-tzimmermann@suse.de>
-In-Reply-To: <20220120113647.22484-1-tzimmermann@suse.de>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 20 Jan 2022 12:37:47 +0100
-Message-ID: <CAKMK7uGXDfF-kJ=qge=UHmY_Z2chP24PTHZHMywLjuCSqw93aw@mail.gmail.com>
-Subject: Re: [PATCH] drm: Update docs after moving DisplayPort helpers around
-To: Thomas Zimmermann <tzimmermann@suse.de>
+References: <20220120104009.159147-1-krzysztof.kozlowski@canonical.com>
+ <a370a74a-2548-fc20-20b0-89e48645086f@baylibre.com>
+In-Reply-To: <a370a74a-2548-fc20-20b0-89e48645086f@baylibre.com>
+From: Enric Balletbo Serra <eballetbo@gmail.com>
+Date: Thu, 20 Jan 2022 12:40:24 +0100
+Message-ID: <CAFqH_52NGQYjtEPvsK+pPM12-U6j9vhVCZCFwh6xAABdd+7hqw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: display: bridge: drop Enric Balletbo i
+ Serra from maintainers
+To: Neil Armstrong <narmstrong@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,117 +65,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org
+Cc: Nicolas Boichat <drinkcat@chromium.org>,
+ linux-iio <linux-iio@vger.kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ David Airlie <airlied@linux.ie>, Lee Jones <lee.jones@linaro.org>,
+ Simon Glass <sjg@chromium.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Chanwoo Choi <cw00.choi@samsung.com>, devicetree <devicetree@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Linux Input <linux-input@vger.kernel.org>, Guenter Roeck <groeck@chromium.org>,
+ Jonathan Cameron <jic23@kernel.org>, linux-i2c@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 20, 2022 at 12:36 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
->
-> DRM's DisplayPort helpers moved into the subdirectory dp/. Change
-> the documentation accordingly.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: adb9d5a2cc77 ("drm/dp: Move DisplayPort helpers into separate helper module")
-> Reported-by: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: dri-devel@lists.freedesktop.org
+Hi,
 
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> ---
->  Documentation/gpu/drm-kms-helpers.rst | 26 +++++++++++++-------------
->  1 file changed, 13 insertions(+), 13 deletions(-)
+Missatge de Neil Armstrong <narmstrong@baylibre.com> del dia dj., 20
+de gen. 2022 a les 11:52:
 >
-> diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
-> index 5bb55ec1b9b5..c3ce91eecbc1 100644
-> --- a/Documentation/gpu/drm-kms-helpers.rst
-> +++ b/Documentation/gpu/drm-kms-helpers.rst
-> @@ -232,34 +232,34 @@ HDCP Helper Functions Reference
->  Display Port Helper Functions Reference
->  =======================================
+> On 20/01/2022 11:40, Krzysztof Kozlowski wrote:
+> > Enric Balletbo i Serra emails bounce:
+> >
+> >   <enric.balletbo@collabora.com>: Recipient address rejected: User unknown in  local recipient table
+> >
+> > so drop him from the maintainers, similarly to commit 3119c28634dd
+> > ("MAINTAINERS: Chrome: Drop Enric Balletbo i Serra").  Add generic DRM
+> > bridge maintainers to Analogix ANX7814.
+> >
+> > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> > ---
+> >  .../devicetree/bindings/display/bridge/analogix,anx7814.yaml  | 4 +++-
+> >  .../bindings/display/bridge/google,cros-ec-anx7688.yaml       | 1 -
+> >  Documentation/devicetree/bindings/display/bridge/ps8640.yaml  | 1 -
+> >  3 files changed, 3 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7814.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7814.yaml
+> > index 8e13f27b28ed..bce96b5b0db0 100644
+> > --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7814.yaml
+> > +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7814.yaml
+> > @@ -7,7 +7,9 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+> >  title: Analogix ANX7814 SlimPort (Full-HD Transmitter)
+> >
+> >  maintainers:
+> > -  - Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> > +  - Andrzej Hajda <andrzej.hajda@intel.com>
+> > +  - Neil Armstrong <narmstrong@baylibre.com>
+> > +  - Robert Foss <robert.foss@linaro.org>
+> >
+> >  properties:
+> >    compatible:
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/google,cros-ec-anx7688.yaml b/Documentation/devicetree/bindings/display/bridge/google,cros-ec-anx7688.yaml
+> > index 9f7cc6b757cb..a88a5d8c7ba5 100644
+> > --- a/Documentation/devicetree/bindings/display/bridge/google,cros-ec-anx7688.yaml
+> > +++ b/Documentation/devicetree/bindings/display/bridge/google,cros-ec-anx7688.yaml
+> > @@ -8,7 +8,6 @@ title: ChromeOS EC ANX7688 HDMI to DP Converter through Type-C Port
+> >
+> >  maintainers:
+> >    - Nicolas Boichat <drinkcat@chromium.org>
+> > -  - Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> >
+> >  description: |
+> >    ChromeOS EC ANX7688 is a display bridge that converts HDMI 2.0 to
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/ps8640.yaml b/Documentation/devicetree/bindings/display/bridge/ps8640.yaml
+> > index cdaf7a7a8f88..186e17be51fb 100644
+> > --- a/Documentation/devicetree/bindings/display/bridge/ps8640.yaml
+> > +++ b/Documentation/devicetree/bindings/display/bridge/ps8640.yaml
+> > @@ -8,7 +8,6 @@ title: MIPI DSI to eDP Video Format Converter Device Tree Bindings
+> >
+> >  maintainers:
+> >    - Nicolas Boichat <drinkcat@chromium.org>
+> > -  - Enric Balletbo i Serra <enric.balletbo@collabora.com>
+> >
+> >  description: |
+> >    The PS8640 is a low power MIPI-to-eDP video format converter supporting
+> >
 >
-> -.. kernel-doc:: drivers/gpu/drm/drm_dp_helper.c
-> +.. kernel-doc:: drivers/gpu/drm/dp/drm_dp.c
->     :doc: dp helpers
->
-> -.. kernel-doc:: include/drm/drm_dp_helper.h
-> +.. kernel-doc:: include/drm/dp/drm_dp_helper.h
->     :internal:
->
-> -.. kernel-doc:: drivers/gpu/drm/drm_dp_helper.c
-> +.. kernel-doc:: drivers/gpu/drm/dp/drm_dp.c
->     :export:
->
->  Display Port CEC Helper Functions Reference
->  ===========================================
->
-> -.. kernel-doc:: drivers/gpu/drm/drm_dp_cec.c
-> +.. kernel-doc:: drivers/gpu/drm/dp/drm_dp_cec.c
->     :doc: dp cec helpers
->
-> -.. kernel-doc:: drivers/gpu/drm/drm_dp_cec.c
-> +.. kernel-doc:: drivers/gpu/drm/dp/drm_dp_cec.c
->     :export:
->
->  Display Port Dual Mode Adaptor Helper Functions Reference
->  =========================================================
->
-> -.. kernel-doc:: drivers/gpu/drm/drm_dp_dual_mode_helper.c
-> +.. kernel-doc:: drivers/gpu/drm/dp/drm_dp_dual_mode_helper.c
->     :doc: dp dual mode helpers
->
-> -.. kernel-doc:: include/drm/drm_dp_dual_mode_helper.h
-> +.. kernel-doc:: include/drm/dp/drm_dp_dual_mode_helper.h
->     :internal:
->
-> -.. kernel-doc:: drivers/gpu/drm/drm_dp_dual_mode_helper.c
-> +.. kernel-doc:: drivers/gpu/drm/dp/drm_dp_dual_mode_helper.c
->     :export:
->
->  Display Port MST Helpers
-> @@ -268,19 +268,19 @@ Display Port MST Helpers
->  Overview
->  --------
->
-> -.. kernel-doc:: drivers/gpu/drm/drm_dp_mst_topology.c
-> +.. kernel-doc:: drivers/gpu/drm/dp/drm_dp_mst_topology.c
->     :doc: dp mst helper
->
-> -.. kernel-doc:: drivers/gpu/drm/drm_dp_mst_topology.c
-> +.. kernel-doc:: drivers/gpu/drm/dp/drm_dp_mst_topology.c
->     :doc: Branch device and port refcounting
->
->  Functions Reference
->  -------------------
->
-> -.. kernel-doc:: include/drm/drm_dp_mst_helper.h
-> +.. kernel-doc:: include/drm/dp/drm_dp_mst_helper.h
->     :internal:
->
-> -.. kernel-doc:: drivers/gpu/drm/drm_dp_mst_topology.c
-> +.. kernel-doc:: drivers/gpu/drm/dp/drm_dp_mst_topology.c
->     :export:
->
->  Topology Lifetime Internals
-> @@ -289,7 +289,7 @@ Topology Lifetime Internals
->  These functions aren't exported to drivers, but are documented here to help make
->  the MST topology helpers easier to understand
->
-> -.. kernel-doc:: drivers/gpu/drm/drm_dp_mst_topology.c
-> +.. kernel-doc:: drivers/gpu/drm/dp/drm_dp_mst_topology.c
->     :functions: drm_dp_mst_topology_try_get_mstb drm_dp_mst_topology_get_mstb
->                 drm_dp_mst_topology_put_mstb
->                 drm_dp_mst_topology_try_get_port drm_dp_mst_topology_get_port
-> --
-> 2.34.1
+> Let's wait for Enric's response, but in any case (removal or new address):
+> Acked-by: Neil Armstrong <narmstrong@baylibre.com>
 >
 
+I'm fine with the removal as I don't have access anymore to this
+hardware so it doesn't really make sense to be there. Sorry for not
+sending the patches myself before.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Acked-by: Enric Balletbo i Serra <eballetbo@kernel.org>
+
+Best regards,
+  Enric
+
+> Neil
