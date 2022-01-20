@@ -2,73 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E311E49512F
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 16:16:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E553495130
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 16:16:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57F7610E3DD;
-	Thu, 20 Jan 2022 15:16:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F52C10E3F0;
+	Thu, 20 Jan 2022 15:16:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
  [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F56410E3DD
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 15:16:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8BA910E439
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 15:16:42 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id C21452B00152;
- Thu, 20 Jan 2022 10:16:37 -0500 (EST)
+ by mailnew.west.internal (Postfix) with ESMTP id 786412B00152;
+ Thu, 20 Jan 2022 10:16:41 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 20 Jan 2022 10:16:38 -0500
+ by compute4.internal (MEProxy); Thu, 20 Jan 2022 10:16:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; bh=5zpxB+F7Bvw4QkiHZ8eQbXkETrRWYl
- WBRAllblwMmPA=; b=G7dngpP1GCbLzm1/0M1g5Cp97S1Cnc1Ue4jErNifHMZAwb
- 9fzXwVHp2FmNIvTqdbnowCpHR60GoLmb9mnXgsmaoE3l/DGGEqTxJ2z0IFDJG28r
- l8yPHnDXK9OdtOxot9xl8uMBVhFErN4aa49qFqAibgXaw+TaMM8ximXwCsBv6SZE
- gu4OMG8NDvetQ4QlNqZDZ/LH6Sui5nMmV7V/wowA9tQNwFv6QjXx2OW+MkQVbmsH
- Zn4qxv/bWdDFkg3xOjKxMHhchBm9t/HT7Pf+uwhC2SwuDKrU/+0nV1onG0DYIR/1
- tCs1F75vor+D7AHUWpcrsZFHfjlPW2QWqUbhfPVA==
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; bh=mZfVeEFGmjquV4
+ oaqI8IGBHh7wZEfR7YNgwEzuJPoD4=; b=BVRoI5fWy5brz7Gb0a7wAWxdWiqh+S
+ fl9Z3xT7uJgXQfiCHvMV7s2XHfvdz0QbNX8H94v8+tygLLI4RoLtsva+OcqsFxrJ
+ 0IV/41n0BwVlkqrwrGrvkFUby8rRid31MtDcgW0ytVnoSCIcEfN9ovpnXJGNFIrW
+ iA8drl0K4FbdKU5esO/Rp/Nf+oD2MD7MkSghjP24YvCQvUP3dk03biOc0H+dJ+6Z
+ 9irNpt9yTzK8P+14sXe2eS6/W9RaScVkF0EXWdL6tBXN9EfxDL71CRV/XT66RHUr
+ +bpQZztYrC5pzZD+IdzSt+iQPqKyAxCTvO1pGL02nNaKN4FeLIOnlWtA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=5zpxB+
- F7Bvw4QkiHZ8eQbXkETrRWYlWBRAllblwMmPA=; b=oGtnnrYwKYIhG0DQArik5y
- 18m5lkDL7/Fmtpcckbzrn96DQbu3pZX1DIaOIebv7hMqN4NtCrz7MBrHqFAcWGU2
- Q5GXIZYgaR/4J/mAL+AtNpgKE3m+Ha/XuNqgauvpGevfzNu19uacAvcFW6KeHQoD
- Yao3GgdYMZjUh/KFIrllKWmbKbrqfP32hcuPLsgJm/RimMixt2c19GXR1K+CrOZo
- dwg2IcQr9HTq42Y1m16OuTTyLonh3yiBKCWnkT3Pajuzm5Hh3b2BiuWRKTuAP4Cw
- m0DJViQTKXSMPmaFZ70vyOe2eII9IIOnGYCcep0iaoZWvPzonl6AGHzq5S/kXieA
- ==
-X-ME-Sender: <xms:1XzpYTCVEu--47n7_iwomF6iNRnmufsQqUqAr8uiWa2XYXTenc__2Q>
- <xme:1XzpYZjBKO01bBgQ7fdn0gpTx7c3kvAC_iQ-pKYHleU070K0Qa6bid0pG_Ryz8y7F
- 7cVoAHOa6srWjNuHyg>
-X-ME-Received: <xmr:1XzpYelVyddOnfwjfL11ZJzZzYeAVkfLz7avJMJN1v3H3ibcC7uak8X_H1Fl1Ra-jBLHzHD9KVYbszHsr8JorwIswPnih8lPJUDI1zc>
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; bh=mZfVeEFGmjquV4oaqI8IGBHh7wZEfR7YNgwEzuJPo
+ D4=; b=f05EBAoadCdS74dKHTsZ30XwSyPs5a5Y0tnhRPjWR8EkZy2AzgzInmqk7
+ SYf1XJ8MTNtEMGvWSvlyZ4/MmZoH/05HO4O+zFHmsh1YVPmlhkfVo2Qb6CYMwYqE
+ /q3kfYxExn0e4kkk6wtTPqoER1d0EKlWq6OlNOpd3yTEIzf+OTo2zOjmOoiA7Lm3
+ IgM3upYp8A5cAlSO1KnSSZzUgt08NUdmFp2yEwFyBcqkw+0nRTiaPCk7B5Vdt72y
+ 8SiYVQ+3Sfwi3MVMY4t/pFNMU3dKe3GpvDkmigk0HssaSS+zTGq3K5LG8JeAb5vK
+ p5uXU455uFbGcG0cq6VzncUFDx2/Q==
+X-ME-Sender: <xms:2HzpYYaDAbHWmzY3RnijP-ZMD7NkW_8G0dcgusI3k2l4JacLzvb0zQ>
+ <xme:2HzpYTaATXX3T4JSeyAYuJhh1pO_gTaRky89aduEq3frDWCLHQQHQo3ak_u89wzVC
+ WhEiMwjtrO5qGBoB2k>
+X-ME-Received: <xmr:2HzpYS9zWJD_D5Ur9pgQG_Nl4k8mWwGRxVqjbq6OsrFGfgG4ziA-UIQeGlzRd9vuiuJy8YczDGJHbtppNQJWN7ACOTDd7V8Uz0n2haQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekgdejvdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:1XzpYVxWmEl3roVSx4GRig8ZAZahU2btzq45ajNaYxo9sYXRUE6COA>
- <xmx:1XzpYYQxh9Samnyt__3Wd5QBKWJQD1ypnaC-qlHOCTuTWWPSzsXJMw>
- <xmx:1XzpYYZJo5Kee7VNY0wHencM1avjhVy3pNLvETqaDpwJEmAf04p7Ag>
- <xmx:1XzpYdIs7YRtSea9e8rfhr3iO9zrDzRIbXrS8xPxoNHI2GLNwLjQRwODKag>
+ fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfefgeei
+ keeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:2HzpYSqxXCPrEO5kpOAEGNdRNVMmtuZtju3RCPvER7wZPncWGHcRZQ>
+ <xmx:2HzpYTrvnlANnkKKbwbeamWf7ea2DdDErpNOj88i2ohz-t5YBni5fA>
+ <xmx:2HzpYQSU-HRfrt5yw0cv2vN28KlASTjT4rBv2H6odwaDlUQl-sV9Ew>
+ <xmx:2XzpYQjE52yxQv55YW2a5UyZfDpwpdYIATWCjNxuTmwaXcJS-NHGFYhMeYI>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 20 Jan 2022 10:16:36 -0500 (EST)
+ 20 Jan 2022 10:16:40 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH v4 02/16] drm/edid: Don't clear formats if using deep color
-Date: Thu, 20 Jan 2022 16:16:11 +0100
-Message-Id: <20220120151625.594595-3-maxime@cerno.tech>
+Subject: [PATCH v4 03/16] drm/edid: Split deep color modes between RGB and
+ YUV444
+Date: Thu, 20 Jan 2022 16:16:12 +0100
+Message-Id: <20220120151625.594595-4-maxime@cerno.tech>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220120151625.594595-1-maxime@cerno.tech>
 References: <20220120151625.594595-1-maxime@cerno.tech>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -89,64 +91,141 @@ Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current code, when parsing the EDID Deep Color depths, that the
-YUV422 cannot be used, referring to the HDMI 1.3 Specification.
+The current code assumes that the RGB444 and YUV444 formats are the
+same, but the HDMI 2.0 specification states that:
 
-This specification, in its section 6.2.4, indeed states:
+   The three DC_XXbit bits above only indicate support for RGB 4:4:4 at
+   that pixel size. Support for YCBCR 4:4:4 in Deep Color modes is
+   indicated with the DC_Y444 bit. If DC_Y444 is set, then YCBCR 4:4:4
+   is supported for all modes indicated by the DC_XXbit flags.
 
-  For each supported Deep Color mode, RGB 4:4:4 shall be supported and
-  optionally YCBCR 4:4:4 may be supported.
+So if we have YUV444 support and any DC_XXbit flag set but the DC_Y444
+flag isn't, we'll assume that we support that deep colour mode for
+YUV444 which breaks the specification.
 
-  YCBCR 4:2:2 is not permitted for any Deep Color mode.
+In order to fix this, let's split the edid_hdmi_dc_modes field in struct
+drm_display_info into two fields, one for RGB444 and one for YUV444.
 
-This indeed can be interpreted like the code does, but the HDMI 1.4
-specification further clarifies that statement in its section 6.2.4:
-
-  For each supported Deep Color mode, RGB 4:4:4 shall be supported and
-  optionally YCBCR 4:4:4 may be supported.
-
-  YCBCR 4:2:2 is also 36-bit mode but does not require the further use
-  of the Deep Color modes described in section 6.5.2 and 6.5.3.
-
-This means that, even though YUV422 can be used with 12 bit per color,
-it shouldn't be treated as a deep color mode.
-
-This is also broken with YUV444 if it's supported by the display, but
-DRM_EDID_HDMI_DC_Y444 isn't set. In such a case, the code will clear
-color_formats of the YUV444 support set previously in
-drm_parse_cea_ext(), but will not set it back.
-
-Since the formats supported are already setup properly in
-drm_parse_cea_ext(), let's just remove the code modifying the formats in
-drm_parse_hdmi_deep_color_info()
-
+Suggested-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Fixes: d0c94692e0a3 ("drm/edid: Parse and handle HDMI deep color modes.")
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/drm_edid.c | 8 --------
- 1 file changed, 8 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c |  2 +-
+ drivers/gpu/drm/drm_edid.c                     |  7 ++++---
+ drivers/gpu/drm/i915/display/intel_hdmi.c      |  4 ++--
+ drivers/gpu/drm/radeon/radeon_connectors.c     |  2 +-
+ include/drm/drm_connector.h                    | 12 +++++++++---
+ 5 files changed, 17 insertions(+), 10 deletions(-)
 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+index c16a2704ced6..f3160b951df3 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+@@ -175,7 +175,7 @@ int amdgpu_connector_get_monitor_bpc(struct drm_connector *connector)
+ 
+ 			/* Check if bpc is within clock limit. Try to degrade gracefully otherwise */
+ 			if ((bpc == 12) && (mode_clock * 3/2 > max_tmds_clock)) {
+-				if ((connector->display_info.edid_hdmi_dc_modes & DRM_EDID_HDMI_DC_30) &&
++				if ((connector->display_info.edid_hdmi_rgb444_dc_modes & DRM_EDID_HDMI_DC_30) &&
+ 				    (mode_clock * 5/4 <= max_tmds_clock))
+ 					bpc = 10;
+ 				else
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 13644dd579b4..5085ef08c22d 100644
+index 5085ef08c22d..471b577dca79 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -5104,16 +5104,8 @@ static void drm_parse_hdmi_deep_color_info(struct drm_connector *connector,
- 		  connector->name, dc_bpc);
- 	info->bpc = dc_bpc;
+@@ -5075,21 +5075,21 @@ static void drm_parse_hdmi_deep_color_info(struct drm_connector *connector,
  
--	/*
--	 * Deep color support mandates RGB444 support for all video
--	 * modes and forbids YCRCB422 support for all video modes per
--	 * HDMI 1.3 spec.
--	 */
--	info->color_formats = DRM_COLOR_FORMAT_RGB444;
--
+ 	if (hdmi[6] & DRM_EDID_HDMI_DC_30) {
+ 		dc_bpc = 10;
+-		info->edid_hdmi_dc_modes |= DRM_EDID_HDMI_DC_30;
++		info->edid_hdmi_rgb444_dc_modes |= DRM_EDID_HDMI_DC_30;
+ 		DRM_DEBUG("%s: HDMI sink does deep color 30.\n",
+ 			  connector->name);
+ 	}
+ 
+ 	if (hdmi[6] & DRM_EDID_HDMI_DC_36) {
+ 		dc_bpc = 12;
+-		info->edid_hdmi_dc_modes |= DRM_EDID_HDMI_DC_36;
++		info->edid_hdmi_rgb444_dc_modes |= DRM_EDID_HDMI_DC_36;
+ 		DRM_DEBUG("%s: HDMI sink does deep color 36.\n",
+ 			  connector->name);
+ 	}
+ 
+ 	if (hdmi[6] & DRM_EDID_HDMI_DC_48) {
+ 		dc_bpc = 16;
+-		info->edid_hdmi_dc_modes |= DRM_EDID_HDMI_DC_48;
++		info->edid_hdmi_rgb444_dc_modes |= DRM_EDID_HDMI_DC_48;
+ 		DRM_DEBUG("%s: HDMI sink does deep color 48.\n",
+ 			  connector->name);
+ 	}
+@@ -5106,6 +5106,7 @@ static void drm_parse_hdmi_deep_color_info(struct drm_connector *connector,
+ 
  	/* YCRCB444 is optional according to spec. */
  	if (hdmi[6] & DRM_EDID_HDMI_DC_Y444) {
--		info->color_formats |= DRM_COLOR_FORMAT_YCRCB444;
++		info->edid_hdmi_ycbcr444_dc_modes = info->edid_hdmi_rgb444_dc_modes;
  		DRM_DEBUG("%s: HDMI sink does YCRCB444 in deep color.\n",
  			  connector->name);
  	}
+diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+index 96e508ddc4af..52f6dc248453 100644
+--- a/drivers/gpu/drm/i915/display/intel_hdmi.c
++++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+@@ -1912,7 +1912,7 @@ static bool intel_hdmi_sink_bpc_possible(struct drm_connector *connector,
+ 		if (ycbcr420_output)
+ 			return hdmi->y420_dc_modes & DRM_EDID_YCBCR420_DC_36;
+ 		else
+-			return info->edid_hdmi_dc_modes & DRM_EDID_HDMI_DC_36;
++			return info->edid_hdmi_rgb444_dc_modes & DRM_EDID_HDMI_DC_36;
+ 	case 10:
+ 		if (!has_hdmi_sink)
+ 			return false;
+@@ -1920,7 +1920,7 @@ static bool intel_hdmi_sink_bpc_possible(struct drm_connector *connector,
+ 		if (ycbcr420_output)
+ 			return hdmi->y420_dc_modes & DRM_EDID_YCBCR420_DC_30;
+ 		else
+-			return info->edid_hdmi_dc_modes & DRM_EDID_HDMI_DC_30;
++			return info->edid_hdmi_rgb444_dc_modes & DRM_EDID_HDMI_DC_30;
+ 	case 8:
+ 		return true;
+ 	default:
+diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm/radeon/radeon_connectors.c
+index 607ad5620bd9..1546abcadacf 100644
+--- a/drivers/gpu/drm/radeon/radeon_connectors.c
++++ b/drivers/gpu/drm/radeon/radeon_connectors.c
+@@ -204,7 +204,7 @@ int radeon_get_monitor_bpc(struct drm_connector *connector)
+ 
+ 			/* Check if bpc is within clock limit. Try to degrade gracefully otherwise */
+ 			if ((bpc == 12) && (mode_clock * 3/2 > max_tmds_clock)) {
+-				if ((connector->display_info.edid_hdmi_dc_modes & DRM_EDID_HDMI_DC_30) &&
++				if ((connector->display_info.edid_hdmi_rgb444_dc_modes & DRM_EDID_HDMI_DC_30) &&
+ 					(mode_clock * 5/4 <= max_tmds_clock))
+ 					bpc = 10;
+ 				else
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index b501d0badaea..eaf0ef5f1843 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -592,10 +592,16 @@ struct drm_display_info {
+ 	bool rgb_quant_range_selectable;
+ 
+ 	/**
+-	 * @edid_hdmi_dc_modes: Mask of supported hdmi deep color modes. Even
+-	 * more stuff redundant with @bus_formats.
++	 * @edid_hdmi_dc_rgb444_modes: Mask of supported hdmi deep color modes
++	 * in RGB 4:4:4. Even more stuff redundant with @bus_formats.
+ 	 */
+-	u8 edid_hdmi_dc_modes;
++	u8 edid_hdmi_rgb444_dc_modes;
++
++	/**
++	 * @edid_hdmi_dc_ycbcr444_modes: Mask of supported hdmi deep color
++	 * modes in YCbCr 4:4:4. Even more stuff redundant with @bus_formats.
++	 */
++	u8 edid_hdmi_ycbcr444_dc_modes;
+ 
+ 	/**
+ 	 * @cea_rev: CEA revision of the HDMI sink.
 -- 
 2.34.1
 
