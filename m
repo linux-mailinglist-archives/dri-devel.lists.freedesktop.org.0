@@ -1,57 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D7C3494D22
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 12:40:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EBCC494D23
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 12:41:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7C1D10E448;
-	Thu, 20 Jan 2022 11:40:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAC3610E410;
+	Thu, 20 Jan 2022 11:41:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com
- [IPv6:2607:f8b0:4864:20::c2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE32C10E456
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 11:40:36 +0000 (UTC)
-Received: by mail-oo1-xc2d.google.com with SMTP id
- v10-20020a4a860a000000b002ddc59f8900so2078351ooh.7
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 03:40:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-oo1-xc29.google.com (mail-oo1-xc29.google.com
+ [IPv6:2607:f8b0:4864:20::c29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B05610E456
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 11:41:01 +0000 (UTC)
+Received: by mail-oo1-xc29.google.com with SMTP id
+ x21-20020a4a2a55000000b002ddf492c201so2075733oox.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 03:41:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IURShh+tAODqAiJh+KDJ+01PfxKxuj1xZUOMackfOOk=;
- b=Vz1pvQALrPt8wZAYERJlR7js9v4/O4ym8VLsubf10xKBms/HSrNyJXsvLUKVPNz2er
- z9y+6nPpnS1qbFwvKwvJorb0aIcWu63ZFCha1bhWzJH7j1MFpfTrIFzyaQa00g+b1UFg
- wCO+8ajcrVTlY4dtkpmSgqGqvfxa4zoI31BvQggtxFB/0MXIwL9qG/XyDMZXxGeTkHiK
- vDn1LtEM2iBH8xCc+4qhPyIX5aK0onRaVfO6k6V2ZgTS6FQ7r+O88jb7LSRI7mYQh0sP
- kkC0b533v7hmJ/EjyCQ8E4jxwvWW9+JZqK4CRU2XFJCepYw+mCDbLaLCO0yyFAUVRbME
- bg1w==
+ :cc; bh=/S8k15AcpnXJR5sZmK0Rcxc+q7sXlvNu6yj6zSEHGrM=;
+ b=AhbLp7Lrf/Hbom1/nqt1i9iL8YdYmD1NGte7834RS0WBZ0e4HZSvvgEnRviDNt+ijl
+ +ExPcaeqep414/+Np4/OrvaZ1+CMi4uzmk42JdqTz0HgQELcdKTw5LfsCxPET5H2iwUZ
+ XNMbk0TsUZ/N7jN6oUb1Kh0EfZWT6TrI9Ndwo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=IURShh+tAODqAiJh+KDJ+01PfxKxuj1xZUOMackfOOk=;
- b=OQkG6HJQenICJ2pVIGOPim6zeOyEGWSGvFzGXPxsJtGYO4v/zqJeltB69afAnIoJnu
- 0aCMFgE0NeZTK5CF25QcPpnm9s9ttaY+PTLbVPI38XeJ19ZXCx3At2jl3bJgGM9wmKvb
- Ffu4Wz+dcUDV8VzoogTA6QFM3xyjdYivldUAm9AuyK07Qco7G9wY6JqNqbXM7pA5fbY7
- ranH2tDayBBIEWdEufb5Lwj5tUvy9M+5TrrEbKrrIiIKg3o782XD5EnSk7+R/029opmZ
- 4tqNy3dBSY6Tej+TWwdfMfSOx3Tzen8VOwy0AqLizYDfLYmMJbq9C+vRzCoQfn4ppGmH
- oA4g==
-X-Gm-Message-State: AOAM533ISoVZdImW3KiBdjF8pT0PQMRcLFc3YDRju8NntkLV3mkSczn8
- pQb+elkjAq3kjJ24TTn5jTRlAsa+UouPyNSbxkE=
-X-Google-Smtp-Source: ABdhPJzVUuPUA0+dLs3T4/ac9raYhHS1yiR6xjixMRgj1sa6nF5nfrTil5Enm8pp/zVblcBTM7eQu4CMn+laojzaQUo=
-X-Received: by 2002:a05:6808:1b25:: with SMTP id
- bx37mr7082972oib.129.1642678836132; 
- Thu, 20 Jan 2022 03:40:36 -0800 (PST)
+ bh=/S8k15AcpnXJR5sZmK0Rcxc+q7sXlvNu6yj6zSEHGrM=;
+ b=uNnQzfceWPjZ/KTCv1241pkiXZVrEfk6vb76nnyftlfZYEZayHt7B/t3Br+igWL3GC
+ D45dY5fZ2f1uK7+NamQ05uVYs6uZga78NiEbmuhD2hXddpExXPdqOMDfUxGHF07qOS+h
+ VZIxKBl8SvZmIgvEwSFZTJr9aluIClq65mW76fHL0lKDSYTfBac9WJojYWdCnguwHmSi
+ NgEl3tRIvXRVIFdVAQ3kjQ9Nhg3O77tfE5YpzdvBnQbRIQKoUw89P+KHsXhjMRmFqMV0
+ 8KS/tCTCxprgXQqGjrhsZmUyoDGS6GjP2Atx1NoTmPTAd78ryd1sJvEz8/tl92aiKmnb
+ 1fnQ==
+X-Gm-Message-State: AOAM531aBMf3KGqe7aUUr5MR6Z3DZk9RpLjODf4seEuqd20Nu0UtJ0fu
+ DmABMpKIJKCseD6K5trD5fYzHOuvRJSCFInFIhBx1zj0IAg=
+X-Google-Smtp-Source: ABdhPJwa7VL7d5xj1gVrA32gnMHYFGhcySOnufhi//Z+qMUimvyBQyMQD3mUQexgWnazoLdFsFC06rjJ6XZ4Dnorwvg=
+X-Received: by 2002:a4a:db96:: with SMTP id s22mr23232794oou.66.1642678860411; 
+ Thu, 20 Jan 2022 03:41:00 -0800 (PST)
 MIME-Version: 1.0
-References: <20220120104009.159147-1-krzysztof.kozlowski@canonical.com>
- <a370a74a-2548-fc20-20b0-89e48645086f@baylibre.com>
-In-Reply-To: <a370a74a-2548-fc20-20b0-89e48645086f@baylibre.com>
-From: Enric Balletbo Serra <eballetbo@gmail.com>
-Date: Thu, 20 Jan 2022 12:40:24 +0100
-Message-ID: <CAFqH_52NGQYjtEPvsK+pPM12-U6j9vhVCZCFwh6xAABdd+7hqw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: display: bridge: drop Enric Balletbo i
- Serra from maintainers
-To: Neil Armstrong <narmstrong@baylibre.com>
+References: <CAFr9PXnig9YfnwSzMg5UPm3UtAsEAQT_xVheBbLppiU45mc_QQ@mail.gmail.com>
+ <Yeg8mi0S2ACy9q8O@phenom.ffwll.local>
+ <CAFr9PXkUwfyZ9yJgNYHX5_jo_SFfDU9wKA3Ldf+hbVL23faqKQ@mail.gmail.com>
+In-Reply-To: <CAFr9PXkUwfyZ9yJgNYHX5_jo_SFfDU9wKA3Ldf+hbVL23faqKQ@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 20 Jan 2022 12:40:49 +0100
+Message-ID: <CAKMK7uHxjmZShgzVdt6yPRN6qN4QVMvwCfNYxTp8yWdfs4x_ng@mail.gmail.com>
+Subject: Re: [RFC] How to add hardware rotation,
+ scaling etc to a DRM/KMS driver
+To: Daniel Palmer <daniel@0x0f.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,93 +62,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Boichat <drinkcat@chromium.org>,
- linux-iio <linux-iio@vger.kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- David Airlie <airlied@linux.ie>, Lee Jones <lee.jones@linaro.org>,
- Simon Glass <sjg@chromium.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Chanwoo Choi <cw00.choi@samsung.com>, devicetree <devicetree@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>,
- Linux Input <linux-input@vger.kernel.org>, Guenter Roeck <groeck@chromium.org>,
- Jonathan Cameron <jic23@kernel.org>, linux-i2c@vger.kernel.org
+Cc: Hans de Goede <j.w.r.degoede@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-Missatge de Neil Armstrong <narmstrong@baylibre.com> del dia dj., 20
-de gen. 2022 a les 11:52:
+On Thu, Jan 20, 2022 at 12:12 PM Daniel Palmer <daniel@0x0f.com> wrote:
 >
-> On 20/01/2022 11:40, Krzysztof Kozlowski wrote:
-> > Enric Balletbo i Serra emails bounce:
-> >
-> >   <enric.balletbo@collabora.com>: Recipient address rejected: User unknown in  local recipient table
-> >
-> > so drop him from the maintainers, similarly to commit 3119c28634dd
-> > ("MAINTAINERS: Chrome: Drop Enric Balletbo i Serra").  Add generic DRM
-> > bridge maintainers to Analogix ANX7814.
-> >
-> > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> > ---
-> >  .../devicetree/bindings/display/bridge/analogix,anx7814.yaml  | 4 +++-
-> >  .../bindings/display/bridge/google,cros-ec-anx7688.yaml       | 1 -
-> >  Documentation/devicetree/bindings/display/bridge/ps8640.yaml  | 1 -
-> >  3 files changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7814.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7814.yaml
-> > index 8e13f27b28ed..bce96b5b0db0 100644
-> > --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7814.yaml
-> > +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7814.yaml
-> > @@ -7,7 +7,9 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
-> >  title: Analogix ANX7814 SlimPort (Full-HD Transmitter)
-> >
-> >  maintainers:
-> > -  - Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> > +  - Andrzej Hajda <andrzej.hajda@intel.com>
-> > +  - Neil Armstrong <narmstrong@baylibre.com>
-> > +  - Robert Foss <robert.foss@linaro.org>
-> >
-> >  properties:
-> >    compatible:
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/google,cros-ec-anx7688.yaml b/Documentation/devicetree/bindings/display/bridge/google,cros-ec-anx7688.yaml
-> > index 9f7cc6b757cb..a88a5d8c7ba5 100644
-> > --- a/Documentation/devicetree/bindings/display/bridge/google,cros-ec-anx7688.yaml
-> > +++ b/Documentation/devicetree/bindings/display/bridge/google,cros-ec-anx7688.yaml
-> > @@ -8,7 +8,6 @@ title: ChromeOS EC ANX7688 HDMI to DP Converter through Type-C Port
-> >
-> >  maintainers:
-> >    - Nicolas Boichat <drinkcat@chromium.org>
-> > -  - Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> >
-> >  description: |
-> >    ChromeOS EC ANX7688 is a display bridge that converts HDMI 2.0 to
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/ps8640.yaml b/Documentation/devicetree/bindings/display/bridge/ps8640.yaml
-> > index cdaf7a7a8f88..186e17be51fb 100644
-> > --- a/Documentation/devicetree/bindings/display/bridge/ps8640.yaml
-> > +++ b/Documentation/devicetree/bindings/display/bridge/ps8640.yaml
-> > @@ -8,7 +8,6 @@ title: MIPI DSI to eDP Video Format Converter Device Tree Bindings
-> >
-> >  maintainers:
-> >    - Nicolas Boichat <drinkcat@chromium.org>
-> > -  - Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> >
-> >  description: |
-> >    The PS8640 is a low power MIPI-to-eDP video format converter supporting
-> >
+> Hi Daniel,
 >
-> Let's wait for Enric's response, but in any case (removal or new address):
-> Acked-by: Neil Armstrong <narmstrong@baylibre.com>
+> On Thu, 20 Jan 2022 at 01:30, Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > I got the feeling that maybe I should just provide an interface to the
+> > > blitter from userspace and userspace should be doing the rotation. I'd
+> > > like to do it in the kernel so stuff like SDL1 apps just work but
+> > > maybe that isn't possible?
+> >
+> > panel orientation property is for that stuff:
+> > fbcon will head this and rotate in sw,
 >
+> This is working. On boot I get Tux rotated correctly etc.
+>
+> > as should any competent compositor
+> > in userspace (but some might not, it depends).
+>
+> That's the problem I guess. I don't have one. SDL1 apps like prboom
+> use the fbdev emulation as-is so they render upside down[0].
+> I have 16MB of local storage and 128MB of RAM so I don't think I'll
+> manage to get the standard userland bits onto it.
+>
+> I wanted to do the rotation in the kernel so I didn't have to hack up SDL1.
 
-I'm fine with the removal as I don't have access anymore to this
-hardware so it doesn't really make sense to be there. Sorry for not
-sending the patches myself before.
+Move to drm kms, fix userspace. fbdev never supported this, and I
+really don't think it's a good idea to add in-kernel rotation to
+fbdev.
+-Daniel
 
-Acked-by: Enric Balletbo i Serra <eballetbo@kernel.org>
+>
+> Cheers,
+>
+> Daniel
+>
+> 0 - https://twitter.com/linux_chenxing/status/1479801511274491909
 
-Best regards,
-  Enric
 
-> Neil
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
