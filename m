@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94F46494EF8
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 14:28:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C332494EE9
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 14:28:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 336AE10E807;
-	Thu, 20 Jan 2022 13:28:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2095110E7FD;
+	Thu, 20 Jan 2022 13:27:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
  [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CBD510E7FC
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7DC410E7FC
  for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 13:27:54 +0000 (UTC)
 Received: by mail-wm1-x333.google.com with SMTP id
- az27-20020a05600c601b00b0034d2956eb04so13672878wmb.5
+ l35-20020a05600c1d2300b0034d477271c1so13702752wms.3
  for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 05:27:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=NMvNPKP34hAKYGcpxJqq3LnQ/oLcKhJxLzf1TGkhp7o=;
- b=LNchh6gl8Sin17f9Wh5+/HOL+rNQVvxSyd0bp6mFiYCrspxHZQU9U+hvKXcKIpg1U1
- UazaERxWOtIx6YUDh9JMiIzosFBPSpxII4osAS4ZUNCFXbDeO8QEu0i9X2CEj/YFdjI5
- bWwlNi/o+C2bmSXH49DQMovVVvKxYEGQYS9wwdrkesT33RNCvgjvPkDDfs3m68DjiiIb
- xVbzbCSzQC4DKcKcF+1eHAsLQa1/U82DW2+HY2CYHgguNQTHpS5bGW0N5QhulqLeyOnQ
- znAkuM03oahCp8aQq+CoPnR5LwzSSz82InPNk213n8MVV18WP/Wl6NtNA1tkEcOg92Mr
- NZZQ==
+ bh=hl1UMcxmP8FLB7cw6V/gbH+Ejf4SrQDiUJfaKHttF6Q=;
+ b=Txl7wMMQ3BoEO4cPZl65D2wlNQrEaK4pg0+zuA1PPU6G2IraDAOZgenSijzgUfH8ch
+ hH4J7nAzlyeNUQ76HSSrQrMW+YztkehT47S4LVl30rX+9pAwQmt8OyQcxh7XyIs2akct
+ O6hn5yQm+C/OwbBpSMipNOf0ovonJdoQWRTjij8cj1SiouhPengkWdEX4nrLtFCs6r57
+ JpDRp0jBrEU9i7x5uxV+ze4zk3iZ7SX8sHAQ+xmz2+rqF0gn5eWBnFhIusL1EJveprxE
+ +PAHBejnZeM/34u3Cn6xt++/px/V6XbWxIeMvwwGpFl6+QLqWiVBhUMIHklmONALkKIj
+ a9qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NMvNPKP34hAKYGcpxJqq3LnQ/oLcKhJxLzf1TGkhp7o=;
- b=trQg8uLMII8WDPcMG8wYvqliIUgHpBfE2Z4mKd0759xJp2Lu6X2BF4qZZJDb+b5LXn
- 5pM2xNwJzTLFmGqjG9pAAAhNCbpJ7wEUJN6R5fY9Kaem5HJys4eajA/pThadRUdl1yDs
- WGyoa4sXdl+sSkm7jNeKgQS5R2uVI0a6hHmBWMcW1f3a8ZjP9a8mx3y6xgbt5TeZd2ab
- vpmfggHqKjwwpRavXzgwxZ+2I8CpVrUqz5D4dRfb5vYMeK6CbZXInMvrROWAyT80eYrS
- iZ71haPNmBgIe24SlG+1aSASsHKx+dDf+0NlJzaI88pEAoAbqpvtmztzFyC4JQgCLOhF
- g+Gg==
-X-Gm-Message-State: AOAM531M2YjqIb/SsiCdMBBWBE8Mce4RvzNJwUlE1q2antl5UfrppfS4
- HVAjsFiMN3Vwpj+BBGc8cAACjkrYBrM=
-X-Google-Smtp-Source: ABdhPJwzwzhmn3CcMtiwnM1MVezq2gDxAcy2+ILKUo9enxe96/BtMCoq9XKzEf6HEkqNAqFTxFg6YQ==
-X-Received: by 2002:a05:600c:5125:: with SMTP id
- o37mr9069286wms.161.1642685272749; 
- Thu, 20 Jan 2022 05:27:52 -0800 (PST)
+ bh=hl1UMcxmP8FLB7cw6V/gbH+Ejf4SrQDiUJfaKHttF6Q=;
+ b=EUHKq8hYYOy3cYOCPp5vKQRJ6MyXlvbCn0OyUDa0CXLpbGfLAsJqCoITIJ3o1T3WEY
+ /9TJJ4Um/kaFumeceySrgZX5tQ6blG+jgh5bDp8BCe7CRdk8S1Rp+pqBNifUhsqtsC6E
+ +khQ8vXfyFcV0TEuT+UNmiXQiX6Ou/LcaM8CMJTyRVMTvkDZSqU3wYkKYYx6akw5XMna
+ AJDR2MUbYc69+yuImsWRVzo8iDOUqjF9cRs4rCip1olLGfIOhxIdokgEaYGQMkSwixrC
+ 1a1F3aOAbRcYqNIFB351IJHUGY/wnQUd9ps8Fks0TijHXIT+WSZyBhF0Z4wRN9tymuFU
+ R0Xg==
+X-Gm-Message-State: AOAM533UTD5AK9oLZLrUZUGpJN9rNeTYMDBIiZ/qVQ4kC0Dak0O+evjJ
+ EB1NWj3u94TX6AguNlEKsyA=
+X-Google-Smtp-Source: ABdhPJwUUA420JOIPmLu0OB5fMKudNXZNoroit0+VxJhZJ3dVkASmGV6wlLZ7btbcydXz4OaXnNu5w==
+X-Received: by 2002:a05:6000:1886:: with SMTP id
+ a6mr29359225wri.158.1642685273502; 
+ Thu, 20 Jan 2022 05:27:53 -0800 (PST)
 Received: from abel.fritz.box (p57b0bff8.dip0.t-ipconnect.de. [87.176.191.248])
  by smtp.gmail.com with ESMTPSA id a9sm2658454wmm.32.2022.01.20.05.27.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jan 2022 05:27:52 -0800 (PST)
+ Thu, 20 Jan 2022 05:27:53 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: sumit.semwal@linaro.org, gustavo@padovan.org, daniel.vetter@ffwll.ch,
  linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 4/9] dma-buf: warn about containers in dma_resv object
-Date: Thu, 20 Jan 2022 14:27:42 +0100
-Message-Id: <20220120132747.2348-5-christian.koenig@amd.com>
+Subject: [PATCH 5/9] dma-buf: Add dma_fence_array_for_each (v2)
+Date: Thu, 20 Jan 2022 14:27:43 +0100
+Message-Id: <20220120132747.2348-6-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220120132747.2348-1-christian.koenig@amd.com>
 References: <20220120132747.2348-1-christian.koenig@amd.com>
@@ -77,31 +77,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drivers should not add containers as shared fences to the dma_resv
-object, instead each fence should be added individually.
+From: Christian König <ckoenig.leichtzumerken@gmail.com>
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Add a helper to iterate over all fences in a dma_fence_array object.
+
+v2 (Jason Ekstrand)
+ - Return NULL from dma_fence_array_first if head == NULL.  This matches
+   the iterator behavior of dma_fence_chain_for_each in that it iterates
+   zero times if head == NULL.
+ - Return NULL from dma_fence_array_next if index > array->num_fences.
+
+Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+Reviewed-by: Jason Ekstrand <jason@jlekstrand.net>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 ---
- drivers/dma-buf/dma-resv.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/dma-buf/dma-fence-array.c | 27 +++++++++++++++++++++++++++
+ include/linux/dma-fence-array.h   | 17 +++++++++++++++++
+ 2 files changed, 44 insertions(+)
 
-diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-index 6dd9a40b55d4..e8a0c1d51da2 100644
---- a/drivers/dma-buf/dma-resv.c
-+++ b/drivers/dma-buf/dma-resv.c
-@@ -256,6 +256,11 @@ void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence)
- 
- 	dma_resv_assert_held(obj);
- 
-+	/* Drivers should not add containers here, instead add each fence
-+	 * individually.
-+	 */
-+	WARN_ON(dma_fence_is_container(fence));
+diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
+index 4bfbcb885bbc..eb517b3914f7 100644
+--- a/drivers/dma-buf/dma-fence-array.c
++++ b/drivers/dma-buf/dma-fence-array.c
+@@ -218,3 +218,30 @@ bool dma_fence_match_context(struct dma_fence *fence, u64 context)
+ 	return true;
+ }
+ EXPORT_SYMBOL(dma_fence_match_context);
 +
- 	fobj = dma_resv_shared_list(obj);
- 	count = fobj->shared_count;
++struct dma_fence *dma_fence_array_first(struct dma_fence *head)
++{
++	struct dma_fence_array *array;
++
++	if (!head)
++		return NULL;
++
++	array = to_dma_fence_array(head);
++	if (!array)
++		return head;
++
++	return array->fences[0];
++}
++EXPORT_SYMBOL(dma_fence_array_first);
++
++struct dma_fence *dma_fence_array_next(struct dma_fence *head,
++				       unsigned int index)
++{
++	struct dma_fence_array *array = to_dma_fence_array(head);
++
++	if (!array || index >= array->num_fences)
++		return NULL;
++
++	return array->fences[index];
++}
++EXPORT_SYMBOL(dma_fence_array_next);
+diff --git a/include/linux/dma-fence-array.h b/include/linux/dma-fence-array.h
+index fec374f69e12..e34dcb0bb462 100644
+--- a/include/linux/dma-fence-array.h
++++ b/include/linux/dma-fence-array.h
+@@ -61,6 +61,19 @@ to_dma_fence_array(struct dma_fence *fence)
+ 	return container_of(fence, struct dma_fence_array, base);
+ }
  
++/**
++ * dma_fence_array_for_each - iterate over all fences in array
++ * @fence: current fence
++ * @index: index into the array
++ * @head: potential dma_fence_array object
++ *
++ * Test if @array is a dma_fence_array object and if yes iterate over all fences
++ * in the array. If not just iterate over the fence in @array itself.
++ */
++#define dma_fence_array_for_each(fence, index, head)			\
++	for (index = 0, fence = dma_fence_array_first(head); fence;	\
++	     ++(index), fence = dma_fence_array_next(head, index))
++
+ struct dma_fence_array *dma_fence_array_create(int num_fences,
+ 					       struct dma_fence **fences,
+ 					       u64 context, unsigned seqno,
+@@ -68,4 +81,8 @@ struct dma_fence_array *dma_fence_array_create(int num_fences,
+ 
+ bool dma_fence_match_context(struct dma_fence *fence, u64 context);
+ 
++struct dma_fence *dma_fence_array_first(struct dma_fence *head);
++struct dma_fence *dma_fence_array_next(struct dma_fence *head,
++				       unsigned int index);
++
+ #endif /* __LINUX_DMA_FENCE_ARRAY_H */
 -- 
 2.25.1
 
