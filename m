@@ -2,47 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64872494B74
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 11:13:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FF40494B88
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 11:17:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BE7010E46B;
-	Thu, 20 Jan 2022 10:13:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD1F910E7C4;
+	Thu, 20 Jan 2022 10:17:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71D8410E46B;
- Thu, 20 Jan 2022 10:13:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642673618; x=1674209618;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=SP9D6M/YG4XD/OesWaVV5Bw1/H0g4y9IDq8cfP6O8jI=;
- b=AGWppeidOSNMLw+iw9mSNbNs+mE8DsmDlFAIjdRnJhVbxbOqSj/zJtXt
- HdUQg2TE3ky5YBEatRHrc+EN97bdco6xK23vKAloyvWgBGTI45OzzsUTW
- k4/68EnOZoPiykPjcYt3G38gTHCw3zwV3ODv/0J63fjQC682XXEtwiiTG
- 1P/E0R24iEMCRZN6lgD3LNTY8ZXQEE7Q52RMGT9f6ULGLWtQG9eZ5vNVU
- ILJ0kQR4nJTP/vBcJQIx41566FI74taEAkCKeqnKXsYDZs5ICvdVwR0iH
- LBmIw4mpX9ghQO4u3ndkVeKPpE4hZKsvne8Li+VZeSe/vZVigEh/PgbFH g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10232"; a="331670510"
-X-IronPort-AV: E=Sophos;i="5.88,302,1635231600"; d="scan'208";a="331670510"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 02:13:37 -0800
-X-IronPort-AV: E=Sophos;i="5.88,302,1635231600"; d="scan'208";a="694148285"
-Received: from bmurphy-mobl.ger.corp.intel.com (HELO localhost)
- ([10.213.207.182])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 02:13:34 -0800
-Date: Thu, 20 Jan 2022 10:13:33 +0000
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-next-fixes
-Message-ID: <Yek1zdsnRPiBVvFF@tursulin-mobl2>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF19C10E7C4;
+ Thu, 20 Jan 2022 10:17:53 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id e8so4798839plh.8;
+ Thu, 20 Jan 2022 02:17:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:subject:date:message-id;
+ bh=rdBW0j5QQWhMLX1FKpoagwlaHny7USjq4sUZI4cs1fE=;
+ b=okHs6cOUaGLya4BJJW9td244ZQrPan4DTQ8eym4VDUiEE/pliKgmIEijdwdyZbjKfX
+ mbO9y0ZXTKOXQYlnj93QUnGFKN9hmMCtDgqaI2/kDRTchPd1qbd2ucbYDNhjHbtIrsSt
+ v6c/JjbHE8QWG1HDSjc0kSuD7kbZr55DXGG3+KAJvJ0IPLaUz8p/ICXMN+zRSRtNjwYl
+ dQkyi2xomTA+LhCVaw0GMNkuf4fPBbIgKcbQiptNED3agNqudbwo8oHzWg4tDbPfbe76
+ XKVIGzCg9RPq6h636C4I77z7uWQIgLcuk+Tl+JcI0iwtvUApqjJraXuZGfvT7XSZWZ2L
+ urcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id;
+ bh=rdBW0j5QQWhMLX1FKpoagwlaHny7USjq4sUZI4cs1fE=;
+ b=CZDo/iknB2NoyKGo8kcgndqebG/jvq/TMspdSyy4Uz3jD6iQdH91OJrJGz1b0E1Nte
+ xcpL7w7s89stK7OKqfNOu/CTFKoEeR0xR9RlVWs2m4OU2U6tCgBcoR0eZo9aFANzXOT5
+ KNKG0KbhOPz2hAIMjGc990d9C1YWKM2BvCurQDCesJbnf1n5al7z2ZNDhzgf4Kv3h06h
+ u5o5yGu3/9en8zi7B5P7aNHGhP3klgbGexCzQCyuk1wYsTPtoPn5I8ebDT6nF/xSYRmw
+ kuDcEUM8bqDjJdePyh8+gHEVWZIJ9Kden0xeczJ9fJnaL6w+hmBA2dOuMjU7AL4MldUz
+ M6LA==
+X-Gm-Message-State: AOAM5334VVKfJXpPhGoIkdWguHCg50ZJ79nbHzkHI/1ShCTHLaQ9XQJK
+ HkPOrZ9rIvQ6UFKmpL3Irrk=
+X-Google-Smtp-Source: ABdhPJyeMp9RNX3h2fsUBSP5ombifhj5R4/4Wk9OoG84WlguEkGvIfX/1cSt4nKN2RqGXj+FFM6WKA==
+X-Received: by 2002:a17:90a:d154:: with SMTP id
+ t20mr9972019pjw.43.1642673873398; 
+ Thu, 20 Jan 2022 02:17:53 -0800 (PST)
+Received: from localhost.localdomain ([159.226.95.43])
+ by smtp.googlemail.com with ESMTPSA id h12sm2070618pgh.79.2022.01.20.02.17.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Jan 2022 02:17:53 -0800 (PST)
+From: Miaoqian Lin <linmq006@gmail.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Hawking Zhang <Hawking.Zhang@amd.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ John Clements <john.clements@amd.com>, Jonathan Kim <jonathan.kim@amd.com>,
+ Bernard Zhao <bernard@vivo.com>, Miaoqian Lin <linmq006@gmail.com>,
+ Kevin Wang <kevin1.wang@amd.com>, shaoyunl <shaoyun.liu@amd.com>,
+ Tian Tao <tiantao6@hisilicon.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/amdgpu: Fix double free in amdgpu_get_xgmi_hive
+Date: Thu, 20 Jan 2022 10:17:43 +0000
+Message-Id: <20220120101746.24847-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,50 +71,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Callback function amdgpu_xgmi_hive_release() in kobject_put()
+calls kfree(hive), So we don't need call kfree(hive) again.
 
-Hi Dave and Daniel,
-
-A couple display fixes for the merge window. One for EHL and one for ADL-P,
-and both in the are of voltage swing programming.
-
-Regards,
-
-Tvrtko
-
+Fixes: 7b833d680481 ("drm/amd/amdgpu: fix potential memleak")
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
 ---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-drm-intel-next-fixes-2022-01-20:
-- Latest updates for the EHL display voltage swing table (José Roberto de Souza)
-- Additional step is required when programming the ADL-P display TC voltage swing (José Roberto de Souza)
-The following changes since commit 6ef295e34297433c78ea02dfcf1c649a769050bb:
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
+index e8b8f28c2f72..35d4b966ef2c 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
+@@ -393,7 +393,6 @@ struct amdgpu_hive_info *amdgpu_get_xgmi_hive(struct amdgpu_device *adev)
+ 	if (ret) {
+ 		dev_err(adev->dev, "XGMI: failed initializing kobject for xgmi hive\n");
+ 		kobject_put(&hive->kobj);
+-		kfree(hive);
+ 		hive = NULL;
+ 		goto pro_end;
+ 	}
+-- 
+2.17.1
 
-  drm/i915/ttm: ensure we unmap when purging (2022-01-10 14:00:47 +0000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-fixes-2022-01-20
-
-for you to fetch changes up to e26602be4869c74dd8a0f66f718b8a0ce120edb4:
-
-  drm/i915/display/adlp: Implement new step in the TC voltage swing prog sequence (2022-01-17 10:19:41 +0000)
-
-----------------------------------------------------------------
-- Latest updates for the EHL display voltage swing table (José Roberto de Souza)
-- Additional step is required when programming the ADL-P display TC voltage swing (José Roberto de Souza)
-
-----------------------------------------------------------------
-José Roberto de Souza (2):
-      drm/i915/display/ehl: Update voltage swing table
-      drm/i915/display/adlp: Implement new step in the TC voltage swing prog sequence
-
- drivers/gpu/drm/i915/display/intel_ddi.c           | 22 ++++++++++++++++++++++
- drivers/gpu/drm/i915/display/intel_ddi_buf_trans.c | 10 +++++-----
- drivers/gpu/drm/i915/i915_reg.h                    |  8 ++++++--
- 3 files changed, 33 insertions(+), 7 deletions(-)
