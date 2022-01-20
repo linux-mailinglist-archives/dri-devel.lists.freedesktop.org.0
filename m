@@ -1,40 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5190F494E31
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 13:48:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2D0D494E24
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 13:46:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90EE910E43B;
-	Thu, 20 Jan 2022 12:48:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7431610E21F;
+	Thu, 20 Jan 2022 12:46:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6590710E335
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 12:48:32 +0000 (UTC)
-Date: Thu, 20 Jan 2022 12:44:24 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1642682909;
- bh=nvCOK0Xxl+hjz8dWOxhtYf9QF01jtOdXrnXHJBpYsgU=;
- h=Date:To:From:Cc:Reply-To:Subject:Message-ID:From:To:Cc;
- b=AFQ+bSsiHxzDmsNK/CcZTyLo2haEr+geuOMtq3IrE9OXFd0DSRZv8hPGQpS1xbJi1
- HE4YAlxj2rFIGrtK1DmyhJlsn/CZT/+CKXO2JS1SLVjxQ6/42ZIvz7Pgst42TXtA5V
- X3YEx9mrJIzANAwG00V2k/qwVmioQ8tJwS5JtbCAZl8rR4o3x+GFRkZ3Y8SK1MXMOV
- tGZgp7iR0O+ezwCMNHWRwqs20spP1B2in0eM285yDy++MTyIIgzRTLst4waGQekhp3
- S9sxHjLaVQmLYXW7rFVKfCf6AIkXbLSsIQIJde66LUJj5yZ3P3UgYDFewkyBFH829H
- l4A183Xo28aaQ==
-To: dri-devel@lists.freedesktop.org
-From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH] drm: document struct drm_mode_fb_cmd2
-Message-ID: <20220120124416.82202-1-contact@emersion.fr>
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com
+ [209.85.222.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A839E10E27E
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 12:46:26 +0000 (UTC)
+Received: by mail-ua1-f44.google.com with SMTP id m90so10644151uam.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 04:46:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TVOsKevTrHGaSWoEOZEFy6vOm3loanQlCT1W9IuMkTY=;
+ b=pW3T/ahOD4XaK2RUCTh8G6RHcBI7yEsUDTKMGXc2UGVYFWa3Bnm11bTwCYjXO2Okhs
+ ST3HYrG0nkug29wNDA3KCpSybnwAEphZZ6n5WA91396gxBNOT8L587eOa3oICA7dzCeC
+ ebM9T9jTCdoViRG4mwRF2fZns+3IKmje0s7u4EnT1V1zwaN+U8mvdzXER7Y+jUiAPIt+
+ fvnKCOXrPz/9M4Ez7yXi05hHMDtAVGG6FmhJYGk2N6WvUp8UtbT57QNTlQqT/gLoYTWv
+ +CcdEH94i+TCwXZzlC16DBRpVe27IbfRUyesxZU77WOGDjRQAdKe5f2cpwKfQblxuZiw
+ qqFg==
+X-Gm-Message-State: AOAM530gfSF2dgex7Tt0eqwBK93LUdVJkIJ2Vj3IEUlw4HXf7gW5stAh
+ pFEa6JXdldNJ+Jj4IckimEXu70092tt96Q==
+X-Google-Smtp-Source: ABdhPJy53GpPIarmo3cIVECJ1BQPkJMe79JceL2kp21jikfIMFfpul2NQVqax8M76afSxCNK30hyeA==
+X-Received: by 2002:a05:6102:242f:: with SMTP id
+ l15mr29698vsi.61.1642682785635; 
+ Thu, 20 Jan 2022 04:46:25 -0800 (PST)
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com.
+ [209.85.222.47])
+ by smtp.gmail.com with ESMTPSA id h189sm538592vka.52.2022.01.20.04.46.25
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Jan 2022 04:46:25 -0800 (PST)
+Received: by mail-ua1-f47.google.com with SMTP id w21so10566200uan.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 04:46:25 -0800 (PST)
+X-Received: by 2002:a67:e985:: with SMTP id b5mr12549674vso.77.1642682784811; 
+ Thu, 20 Jan 2022 04:46:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+References: <YeG8ydoJNWWkGrTb@ls3530>
+ <c48ad8ae-aea5-43fa-882f-dccb90dde9a4@suse.de>
+ <87bl0amc6s.fsf@x1.stackframe.org> <20220118103323.4bae3a7d@eldfell>
+ <20220118095352.xsb6fqacw4p276c5@sirius.home.kraxel.org>
+ <CAMuHMdWV+-+Jr7HggbfH_GEDcdep4pJLiMG+15jxBvQ91BCS0w@mail.gmail.com>
+ <CAKMK7uEOFg3z2btFERQ5XBQ7hqex6bXCb9X=SdwCjeLfX_SdFw@mail.gmail.com>
+ <CAMuHMdVjv1+UNeXkCBE+80tdtLuNg=5d6N12hNLgJdaS-jxERg@mail.gmail.com>
+ <CAKMK7uEwDdaR7kDVi9Oah0w8qFEoAywp_wj2eH7DtttVD2L00A@mail.gmail.com>
+In-Reply-To: <CAKMK7uEwDdaR7kDVi9Oah0w8qFEoAywp_wj2eH7DtttVD2L00A@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 20 Jan 2022 13:46:13 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXboG=DxpO9WN-e0c-Zoet-fWwiwYATGb6TZYQd9Ajg6Q@mail.gmail.com>
+Message-ID: <CAMuHMdXboG=DxpO9WN-e0c-Zoet-fWwiwYATGb6TZYQd9Ajg6Q@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: Add Helge as fbdev maintainer
+To: Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,134 +71,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- Daniel Stone <daniels@collabora.com>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Helge Deller <deller@gmx.de>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sven Schnelle <svens@stackframe.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Follow-up for the DRM_IOCTL_MODE_GETFB2 docs.
+Hi Daniel,
 
-Signed-off-by: Simon Ser <contact@emersion.fr>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-Cc: Daniel Stone <daniels@collabora.com>
----
- include/uapi/drm/drm_mode.h | 83 ++++++++++++++++++++++++-------------
- 1 file changed, 55 insertions(+), 28 deletions(-)
+On Thu, Jan 20, 2022 at 1:33 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Thu, Jan 20, 2022 at 1:13 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Thu, Jan 20, 2022 at 12:33 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > On Thu, Jan 20, 2022 at 10:06 AM Geert Uytterhoeven
+> > > <geert@linux-m68k.org> wrote:
+> > > > On Thu, Jan 20, 2022 at 4:29 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+> > > > > On Tue, Jan 18, 2022 at 10:33:23AM +0200, Pekka Paalanen wrote:
+> > > > > > On Mon, 17 Jan 2022 19:47:39 +0100
+> > > > > > Sven Schnelle <svens@stackframe.org> wrote:
+> > > > > > > I also tested the speed on my Thinkpad X1 with Intel graphics, and there
+> > > > > > > a dmesg with 919 lines one the text console took about 2s to display. In
+> > > > > > > x11, i measure 22ms. This might be unfair because encoding might be
+> > > > > > > different, but i cannot confirm the 'memcpy' is faster than hardware
+> > > > > > > blitting' point. I think if that would be the case, no-one would care
+> > > > > > > about 2D acceleration.
+> > > > > >
+> > > > > > I think that is an extremely unfair comparison, because a graphical
+> > > > > > terminal app is not going to render every line of text streamed to it.
+> > > > > > It probably renders only the final view alone if you simply run
+> > > > > > 'dmesg', skipping the first 800-900 lines completely.
+> > > > >
+> > > > > Probably more like "render on every vblank", but yes, unlike fbcon it
+> > > > > surely wouldn't render every single character sent to the terminal.
+> > > > >
+> > > > > Also acceleration on modern hardware is more like "compose window
+> > > > > content using the 3d engine" than "use 2d blitter to scroll the window".
+> > > > >
+> > > > > > Maybe fbcon should do the same when presented with a flood of text,
+> > > > > > but I don't know how or why it works like it works.
+> > > > >
+> > > > > fbcon could do the same, i.e. render to fbdev in a 60Hz timer instead of
+> > > > > doing it synchronously.
+> > > >
+> > > > Hopefully only the parts of the screen which need a redraw?
+> > > >
+> > > > Not all displays can be updated that fast. For a "modern" example, see
+> > > > https://patchwork.freedesktop.org/series/93070/.
+> > >
+> > > drm does damage tracking throughout the stack, e.g.
+> > >
+> > > https://dri.freedesktop.org/docs/drm/gpu/drm-kms.html#damage-tracking-properties
+> > >
+> > > And unlike fbdev, it's explicit (so less overhead since userspace
+> > > generally knows what it's drawn) and doesn't rely on page fault
+> > > intercepting and fun stuff like that.
+> >
+> > My reply was to a paragraph about rendering text by fbcon, not about
+> > userspace rendering graphics.
+>
+> Yeah, and ofc when I say "throughout the stack" this also includes the
+> fbdev emulation, including the mmap intercepting with fbdev_defio and
+> all that. They all get remapped to that damage tracking property,
+> which drivers can then inspect using a bunch of helpers.
 
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index e1e351682872..5dbbe1393bff 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -663,41 +663,68 @@ struct drm_mode_fb_cmd {
- #define DRM_MODE_FB_INTERLACED=09(1<<0) /* for interlaced framebuffers */
- #define DRM_MODE_FB_MODIFIERS=09(1<<1) /* enables ->modifer[] */
-=20
-+/**
-+ * struct drm_mode_fb_cmd2 - Frame-buffer metadata.
-+ *
-+ * This struct holds frame-buffer metadata. There are two ways to use it:
-+ *
-+ * - User-space can fill this struct and perform an &DRM_IOCTL_MODE_ADDFB2
-+ *   ioctl to register a new frame-buffer. The new frame-buffer object ID =
-will
-+ *   be set by the kernel in @fb_id.
-+ * - User-space can set @fb_id and perform a &DRM_IOCTL_MODE_GETFB2 ioctl =
-to
-+ *   fetch metadata about an existing frame-buffer.
-+ *
-+ * In case of planar formats, this struct allows up to 4 buffer objects wi=
-th
-+ * offsets and pitches per plane. The pitch and offset order is dictated b=
-y the
-+ * fourcc, e.g. NV12 (https://fourcc.org/yuv.php#NV12) is described as:
-+ *
-+ *     YUV 4:2:0 image with a plane of 8 bit Y samples followed by an
-+ *     interleaved U/V plane containing 8 bit 2x2 subsampled colour differ=
-ence
-+ *     samples.
-+ *
-+ * So it would consist of Y as ``offsets[0]`` and UV as ``offsets[1]``. No=
-te
-+ * that ``offsets[0]`` will generally be 0 (but this is not required).
-+ *
-+ * To accommodate tiled, compressed, etc formats, a modifier can be specif=
-ied.
-+ * For more information see the "Format Modifiers" section. Note that even
-+ * though it looks like we have a modifier per-plane, we in fact do not. T=
-he
-+ * modifier for each plane must be identical. Thus all combinations of
-+ * different data layouts for multi-plane formats must be enumerated as
-+ * separate modifiers.
-+ */
- struct drm_mode_fb_cmd2 {
-+=09/** @fb_id: Object ID of the frame-buffer. */
- =09__u32 fb_id;
-+=09/** @width: Width of the frame-buffer. */
- =09__u32 width;
-+=09/** @height: Height of the frame-buffer. */
- =09__u32 height;
--=09__u32 pixel_format; /* fourcc code from drm_fourcc.h */
--=09__u32 flags; /* see above flags */
-+=09/**
-+=09 * @pixel_format: FourCC format code, see ``DRM_FORMAT_*`` constants in
-+=09 * ``drm_fourcc.h``.
-+=09 */
-+=09__u32 pixel_format;
-+=09/**
-+=09 * @flags: Frame-buffer flags (see &DRM_MODE_FB_INTERLACED and
-+=09 * &DRM_MODE_FB_MODIFIERS).
-+=09 */
-+=09__u32 flags;
-=20
--=09/*
--=09 * In case of planar formats, this ioctl allows up to 4
--=09 * buffer objects with offsets and pitches per plane.
--=09 * The pitch and offset order is dictated by the fourcc,
--=09 * e.g. NV12 (https://fourcc.org/yuv.php#NV12) is described as:
--=09 *
--=09 *   YUV 4:2:0 image with a plane of 8 bit Y samples
--=09 *   followed by an interleaved U/V plane containing
--=09 *   8 bit 2x2 subsampled colour difference samples.
--=09 *
--=09 * So it would consist of Y as offsets[0] and UV as
--=09 * offsets[1].  Note that offsets[0] will generally
--=09 * be 0 (but this is not required).
--=09 *
--=09 * To accommodate tiled, compressed, etc formats, a
--=09 * modifier can be specified.  The default value of zero
--=09 * indicates "native" format as specified by the fourcc.
--=09 * Vendor specific modifier token.  Note that even though
--=09 * it looks like we have a modifier per-plane, we in fact
--=09 * do not. The modifier for each plane must be identical.
--=09 * Thus all combinations of different data layouts for
--=09 * multi plane formats must be enumerated as separate
--=09 * modifiers.
-+=09/**
-+=09 * @handles: GEM buffer handle, one per plane. Set to 0 if the plane is
-+=09 * unused.
- =09 */
- =09__u32 handles[4];
--=09__u32 pitches[4]; /* pitch for each plane */
--=09__u32 offsets[4]; /* offset of each plane */
--=09__u64 modifier[4]; /* ie, tiling, compress */
-+=09/** @pitches: Pitch (aka. stride), one per plane. */
-+=09__u32 pitches[4];
-+=09/** @offsets: Offset into the buffer, one per plane. */
-+=09__u32 offsets[4];
-+=09/**
-+=09 * @modifier: Format modifier, one per plane. See ``DRM_FORMAT_MOD_*``
-+=09 * constants in ``drm_fourcc.h``. All planes must use the same
-+=09 * modifier. Ignored unless &DRM_MODE_FB_MODIFIERS is set in @flags.
-+=09 */
-+=09__u64 modifier[4];
- };
-=20
- #define DRM_MODE_FB_DIRTY_ANNOTATE_COPY 0x01
+And I really meant the text rendering part, not the copy of the shadow
+buffer after the rendering.
 
-base-commit: 37e0321ab2569b44f8a94339bf47653493ac864e
---=20
-2.34.1
+> But reading code&docs is too hard I guess, safer to assume it's just
+> broken and not supported.
 
+Don't worry, I'm actually writing a larger rebuttal _and_ code...
 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
