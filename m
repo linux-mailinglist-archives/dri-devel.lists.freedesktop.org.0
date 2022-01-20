@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AC1E4955FB
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 22:31:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5BDD4955FA
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 22:31:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D785410E406;
-	Thu, 20 Jan 2022 21:31:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F209A10E6B9;
+	Thu, 20 Jan 2022 21:31:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C622710E406;
- Thu, 20 Jan 2022 21:31:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642714316; x=1674250316;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=frYaEpMqMtnKGrUSSPSsms9Qfvkpso1hlDm++zhGSac=;
- b=R37q8TYJ/VTc+oftA7em8YA4Qw5Lofhygx54D+SySjv1PRjPisLx3gbX
- kdao8krWWwPHTzpdyo1y8Oencqw+n33g1CUP4LpMO+ZhDZsM0OJrHnCOS
- 01rOuUY+3BkAQT4ByPFcGcYNaYMlk8A1aA6WQN0m7VRREjGZCWcc/lGpD
- 388DWmsIh54kJWKOTDIbxG16rrSxibbEBfK7Sk5y0vQqd1ecns200qpuk
- 1eKJ+83h1fbzKHkfq2W9KEEnLME+RCRoFgTiqFq03w6B/3xbjhp9CO6uM
- e+RAFKO2nVle5M9fEGBJaTfM2cd5zabAZIE3vnpw+v7pai5GHMmbWVuxE Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10233"; a="245428320"
-X-IronPort-AV: E=Sophos;i="5.88,303,1635231600"; d="scan'208";a="245428320"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 13:31:53 -0800
-X-IronPort-AV: E=Sophos;i="5.88,303,1635231600"; d="scan'208";a="477963251"
-Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 13:31:53 -0800
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [CI] drm/i915/wopcm: Handle pre-programmed WOPCM registers
-Date: Thu, 20 Jan 2022 13:29:47 -0800
-Message-Id: <20220120212947.3440448-1-daniele.ceraolospurio@intel.com>
-X-Mailer: git-send-email 2.25.1
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67A8710E3B3
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 21:31:21 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E6912618CC;
+ Thu, 20 Jan 2022 21:31:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40F0AC340E3;
+ Thu, 20 Jan 2022 21:31:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1642714278;
+ bh=w4KknEB25vhzusDTKTx09THhG0azhgBC3uwxP0DQsh4=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=a0E1dWGOkyDgvP3ChDIdkzmuCUmWv+hP2ESrYZGXX5jZGmk16r1caNrVl4f4ZGWRH
+ IcOyZqghOd8P8lCXDE/+Brkz99U3DlsoXLohOlYnThC8d+MLEICdyPCSedamW/gVWq
+ 7YXIItNw+Vo+OAhpU665/SA5NXVKoXem1qe4b5bDl6O+5RmH+BFACx5b/c5kTIcMHh
+ ZNyL+9hCPYWF+gf3bbYKCMQZC1Ma35EMg29Yum9h8o96VDkmSYtA1rFZzNVU/V+lhu
+ y87uRhEB1wFOGGx5BIl8zNvGRg+Gs1R3nrU0j2BtNkcunuCLe7vbLuAUTP8PCRIBnf
+ NxNkuQzGnv3oQ==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220120143417.543744-2-maxime@cerno.tech>
+References: <20220120143417.543744-1-maxime@cerno.tech>
+ <20220120143417.543744-2-maxime@cerno.tech>
+Subject: Re: [PATCH v3 01/10] clk: Add Kunit tests for rate
+From: Stephen Boyd <sboyd@kernel.org>
+To: Maxime Ripard <maxime@cerno.tech>, Mike Turquette <mturquette@baylibre.com>,
+ Daniel Latypov <dlatypov@google.com>
+Date: Thu, 20 Jan 2022 13:31:16 -0800
+User-Agent: alot/0.10
+Message-Id: <20220120213118.40F0AC340E3@smtp.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,193 +54,348 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stuart Summers <stuart.summers@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- John Harrison <john.c.harrison@intel.com>, dri-devel@lists.freedesktop.org
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
+ Maxime Ripard <maxime@cerno.tech>, Phil Elwell <phil@raspberrypi.com>,
+ kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Starting from DG2, some of the programming previously done by i915 and
-the GuC has been moved to the GSC and the relevant registers are no
-longer writable by either CPU or GuC. This is also referred to as GuC
-deprivilege.
-On the i915 side, this affects the WOPCM registers: these are no longer
-programmed by the driver and we do instead expect to find them already
-set. This can lead to verification failures because in i915 we cheat a bit
-with the WOPCM size defines, to keep the code common across platforms, by
-sometimes using a smaller WOPCM size that the actual HW support (which isn't
-a problem because the extra size is not needed if the FW fits in the smaller
-chunk), while the pre-programmed values can use the actual size.
-Given tha the new programming entity is trusted, relax the amount of the
-checks done on the pre-programmed values by not limiting the max
-programmed size. In the extremely unlikely scenario that the registers
-have been misprogrammed, we will still fail later at DMA time.
+Quoting Maxime Ripard (2022-01-20 06:34:08)
+> Let's test various parts of the rate-related clock API with the kunit
+> testing framework.
+>=20
+> Cc: kunit-dev@googlegroups.com
+> Suggested-by: Stephen Boyd <sboyd@kernel.org>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
 
-v2: drop special case for DG2 G10 A0 (Alan)
+This is great! Thanks for doing this.
 
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Stuart Summers <stuart.summers@intel.com>
-Cc: John Harrison <john.c.harrison@intel.com>
-Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
-Reviewed-by Alan Previn <alan.previn.teres.alexis@intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h |  3 ++
- drivers/gpu/drm/i915/i915_drv.h            |  3 ++
- drivers/gpu/drm/i915/i915_pci.c            |  1 +
- drivers/gpu/drm/i915/intel_device_info.h   |  1 +
- drivers/gpu/drm/i915/intel_wopcm.c         | 42 ++++++++++++++++++----
- 5 files changed, 43 insertions(+), 7 deletions(-)
+>  drivers/clk/Kconfig         |   7 +
+>  drivers/clk/Makefile        |   1 +
+>  drivers/clk/clk-rate-test.c | 278 ++++++++++++++++++++++++++++++++++++
+>  3 files changed, 286 insertions(+)
+>  create mode 100644 drivers/clk/clk-rate-test.c
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h
-index e6bd66d6ce5a..cdb47c2291c8 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h
-@@ -94,6 +94,9 @@
- #define   GUC_ENABLE_MIA_CLOCK_GATING		(1<<15)
- #define   GUC_GEN10_SHIM_WC_ENABLE		(1<<21)
- 
-+#define GUC_SHIM_CONTROL2		_MMIO(0xc068)
-+#define   GUC_IS_PRIVILEGED		(1<<29)
-+
- #define GUC_SEND_INTERRUPT		_MMIO(0xc4c8)
- #define   GUC_SEND_TRIGGER		  (1<<0)
- #define GEN11_GUC_HOST_INTERRUPT	_MMIO(0x1901f0)
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index 890f1f6fbc49..0ba820ec4e49 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -1557,6 +1557,9 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
- #define INTEL_DISPLAY_ENABLED(dev_priv) \
- 	(drm_WARN_ON(&(dev_priv)->drm, !HAS_DISPLAY(dev_priv)), !(dev_priv)->params.disable_display)
- 
-+#define HAS_GUC_DEPRIVILEGE(dev_priv) \
-+	(INTEL_INFO(dev_priv)->has_guc_deprivilege)
-+
- static inline bool run_as_guest(void)
- {
- 	return !hypervisor_is_type(X86_HYPER_NATIVE);
-diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-index 8261b6455747..983546d5f415 100644
---- a/drivers/gpu/drm/i915/i915_pci.c
-+++ b/drivers/gpu/drm/i915/i915_pci.c
-@@ -1045,6 +1045,7 @@ static const struct intel_device_info dg2_info = {
- 	.graphics.rel = 55,
- 	.media.rel = 55,
- 	PLATFORM(INTEL_DG2),
-+	.has_guc_deprivilege = 1,
- 	.has_64k_pages = 1,
- 	.platform_engine_mask =
- 		BIT(RCS0) | BIT(BCS0) |
-diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
-index 3699b1c539ea..abf1e103c558 100644
---- a/drivers/gpu/drm/i915/intel_device_info.h
-+++ b/drivers/gpu/drm/i915/intel_device_info.h
-@@ -134,6 +134,7 @@ enum intel_ppgtt_type {
- 	func(has_reset_engine); \
- 	func(has_global_mocs); \
- 	func(has_gt_uc); \
-+	func(has_guc_deprivilege); \
- 	func(has_l3_dpf); \
- 	func(has_llc); \
- 	func(has_logical_ring_contexts); \
-diff --git a/drivers/gpu/drm/i915/intel_wopcm.c b/drivers/gpu/drm/i915/intel_wopcm.c
-index f06d21005106..322fb9eeb880 100644
---- a/drivers/gpu/drm/i915/intel_wopcm.c
-+++ b/drivers/gpu/drm/i915/intel_wopcm.c
-@@ -43,6 +43,7 @@
- /* Default WOPCM size is 2MB from Gen11, 1MB on previous platforms */
- #define GEN11_WOPCM_SIZE		SZ_2M
- #define GEN9_WOPCM_SIZE			SZ_1M
-+#define MAX_WOPCM_SIZE			SZ_8M
- /* 16KB WOPCM (RSVD WOPCM) is reserved from HuC firmware top. */
- #define WOPCM_RESERVED_SIZE		SZ_16K
- 
-@@ -207,6 +208,14 @@ static bool __wopcm_regs_locked(struct intel_uncore *uncore,
- 	return true;
- }
- 
-+static bool __wopcm_regs_writable(struct intel_uncore *uncore)
-+{
-+	if (!HAS_GUC_DEPRIVILEGE(uncore->i915))
-+		return true;
-+
-+	return intel_uncore_read(uncore, GUC_SHIM_CONTROL2) & GUC_IS_PRIVILEGED;
-+}
-+
- /**
-  * intel_wopcm_init() - Initialize the WOPCM structure.
-  * @wopcm: pointer to intel_wopcm.
-@@ -224,18 +233,19 @@ void intel_wopcm_init(struct intel_wopcm *wopcm)
- 	u32 guc_fw_size = intel_uc_fw_get_upload_size(&gt->uc.guc.fw);
- 	u32 huc_fw_size = intel_uc_fw_get_upload_size(&gt->uc.huc.fw);
- 	u32 ctx_rsvd = context_reserved_size(i915);
-+	u32 wopcm_size = wopcm->size;
- 	u32 guc_wopcm_base;
- 	u32 guc_wopcm_size;
- 
- 	if (!guc_fw_size)
- 		return;
- 
--	GEM_BUG_ON(!wopcm->size);
-+	GEM_BUG_ON(!wopcm_size);
- 	GEM_BUG_ON(wopcm->guc.base);
- 	GEM_BUG_ON(wopcm->guc.size);
--	GEM_BUG_ON(guc_fw_size >= wopcm->size);
--	GEM_BUG_ON(huc_fw_size >= wopcm->size);
--	GEM_BUG_ON(ctx_rsvd + WOPCM_RESERVED_SIZE >= wopcm->size);
-+	GEM_BUG_ON(guc_fw_size >= wopcm_size);
-+	GEM_BUG_ON(huc_fw_size >= wopcm_size);
-+	GEM_BUG_ON(ctx_rsvd + WOPCM_RESERVED_SIZE >= wopcm_size);
- 
- 	if (i915_inject_probe_failure(i915))
- 		return;
-@@ -243,6 +253,24 @@ void intel_wopcm_init(struct intel_wopcm *wopcm)
- 	if (__wopcm_regs_locked(gt->uncore, &guc_wopcm_base, &guc_wopcm_size)) {
- 		drm_dbg(&i915->drm, "GuC WOPCM is already locked [%uK, %uK)\n",
- 			guc_wopcm_base / SZ_1K, guc_wopcm_size / SZ_1K);
-+		/*
-+		 * Note that to keep things simple (i.e. avoid different
-+		 * defines per platform) our WOPCM math doesn't always use the
-+		 * actual WOPCM size, but a value that is less or equal to it.
-+		 * This is perfectly fine when i915 programs the registers, but
-+		 * on platforms with GuC deprivilege the registers are not
-+		 * writable from i915 and are instead pre-programmed by the
-+		 * bios/IFWI, so there might be a mismatch of sizes.
-+		 * Instead of handling the size difference, we trust that the
-+		 * programmed values make sense and disable the relevant check
-+		 * by using the maximum possible WOPCM size in the verification
-+		 * math. In the extremely unlikely case that the registers
-+		 * were pre-programmed with an invalid value, we will still
-+		 * gracefully fail later during the GuC/HuC dma.
-+		 */
-+		if (!__wopcm_regs_writable(gt->uncore))
-+			wopcm_size = MAX_WOPCM_SIZE;
-+
- 		goto check;
- 	}
- 
-@@ -257,17 +285,17 @@ void intel_wopcm_init(struct intel_wopcm *wopcm)
- 	 * Need to clamp guc_wopcm_base now to make sure the following math is
- 	 * correct. Formal check of whole WOPCM layout will be done below.
- 	 */
--	guc_wopcm_base = min(guc_wopcm_base, wopcm->size - ctx_rsvd);
-+	guc_wopcm_base = min(guc_wopcm_base, wopcm_size - ctx_rsvd);
- 
- 	/* Aligned remainings of usable WOPCM space can be assigned to GuC. */
--	guc_wopcm_size = wopcm->size - ctx_rsvd - guc_wopcm_base;
-+	guc_wopcm_size = wopcm_size - ctx_rsvd - guc_wopcm_base;
- 	guc_wopcm_size &= GUC_WOPCM_SIZE_MASK;
- 
- 	drm_dbg(&i915->drm, "Calculated GuC WOPCM [%uK, %uK)\n",
- 		guc_wopcm_base / SZ_1K, guc_wopcm_size / SZ_1K);
- 
- check:
--	if (__check_layout(i915, wopcm->size, guc_wopcm_base, guc_wopcm_size,
-+	if (__check_layout(i915, wopcm_size, guc_wopcm_base, guc_wopcm_size,
- 			   guc_fw_size, huc_fw_size)) {
- 		wopcm->guc.base = guc_wopcm_base;
- 		wopcm->guc.size = guc_wopcm_size;
--- 
-2.25.1
+I was thinking this would be more generic so that one file tests clk.c
+and all the code in there, but I guess there may be config dependencies
+like CONFIG_OF that we may want to extract out and depend on
+differently. I'm not sure how kunit will handle testing different paths
+depending on build configuration so this approach may head off future
+problems. If it doesn't then we can always slam the test together.
 
+>=20
+> diff --git a/drivers/clk/Kconfig b/drivers/clk/Kconfig
+> index f5807d190ba2..7ae48a91f738 100644
+> --- a/drivers/clk/Kconfig
+> +++ b/drivers/clk/Kconfig
+> @@ -436,4 +436,11 @@ config CLK_GATE_TEST
+>         help
+>           Kunit test for the basic clk gate type.
+> =20
+> +config CLK_RATE_TEST
+
+See v3 here[1] and have it follow that.
+
+> +       tristate "Basic Core Rate Kunit Tests"
+> +       depends on KUNIT
+> +       default KUNIT
+> +       help
+> +         Kunit test for the basic clock rate management.
+> +
+>  endif
+> diff --git a/drivers/clk/Makefile b/drivers/clk/Makefile
+> index b940c6d35922..0238a595167a 100644
+> --- a/drivers/clk/Makefile
+> +++ b/drivers/clk/Makefile
+> @@ -2,6 +2,7 @@
+>  # common clock types
+>  obj-$(CONFIG_HAVE_CLK)         +=3D clk-devres.o clk-bulk.o clkdev.o
+>  obj-$(CONFIG_COMMON_CLK)       +=3D clk.o
+> +obj-$(CONFIG_CLK_RATE_TEST)    +=3D clk-rate-test.o
+>  obj-$(CONFIG_COMMON_CLK)       +=3D clk-divider.o
+>  obj-$(CONFIG_COMMON_CLK)       +=3D clk-fixed-factor.o
+>  obj-$(CONFIG_COMMON_CLK)       +=3D clk-fixed-rate.o
+> diff --git a/drivers/clk/clk-rate-test.c b/drivers/clk/clk-rate-test.c
+> new file mode 100644
+> index 000000000000..f2d3df791b5a
+> --- /dev/null
+> +++ b/drivers/clk/clk-rate-test.c
+> @@ -0,0 +1,278 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Kunit test for clk rate management
+> + */
+> +#include <linux/clk.h>
+> +#include <linux/clk-provider.h>
+> +#include <linux/slab.h>
+> +
+> +#include <kunit/test.h>
+> +
+> +#define DUMMY_CLOCK_INIT_RATE  (42 * 1000 * 1000)
+> +#define DUMMY_CLOCK_RATE_1     (142 * 1000 * 1000)
+> +#define DUMMY_CLOCK_RATE_2     (242 * 1000 * 1000)
+> +
+> +struct clk_dummy_rate_context {
+> +       struct clk_hw hw;
+> +       unsigned long rate;
+> +};
+> +
+> +static unsigned long clk_dummy_rate_recalc_rate(struct clk_hw *hw,
+> +                                               unsigned long parent_rate)
+> +{
+> +       struct clk_dummy_rate_context *ctx =3D
+> +               container_of(hw, struct clk_dummy_rate_context, hw);
+> +
+> +       return ctx->rate;
+> +}
+> +
+> +static int clk_dummy_rate_determine_rate(struct clk_hw *hw,
+> +                                        struct clk_rate_request *req)
+> +{
+> +       /* Just return the same rate without modifying it */
+> +       return 0;
+> +}
+> +
+> +static int clk_dummy_rate_set_rate(struct clk_hw *hw,
+> +                                  unsigned long rate,
+> +                                  unsigned long parent_rate)
+> +{
+> +       struct clk_dummy_rate_context *ctx =3D
+> +               container_of(hw, struct clk_dummy_rate_context, hw);
+> +
+> +       ctx->rate =3D rate;
+> +       return 0;
+> +}
+> +
+> +const static struct clk_ops clk_dummy_rate_ops =3D {
+
+static const?
+
+> +       .recalc_rate =3D clk_dummy_rate_recalc_rate,
+> +       .determine_rate =3D clk_dummy_rate_determine_rate,
+> +       .set_rate =3D clk_dummy_rate_set_rate,
+> +};
+> +
+> +static int clk_rate_test_init_with_ops(struct kunit *test,
+> +                                      const struct clk_ops *ops)
+> +{
+> +       struct clk_dummy_rate_context *ctx;
+> +       struct clk_init_data init =3D { };
+> +       int ret;
+> +
+> +       ctx =3D kzalloc(sizeof(*ctx), GFP_KERNEL);
+
+Use kunit_kzalloc() here
+
+> +       if (!ctx)
+> +               return -ENOMEM;
+> +       ctx->rate =3D DUMMY_CLOCK_INIT_RATE;
+> +       test->priv =3D ctx;
+> +
+> +       init.name =3D "test_dummy_rate";
+> +       init.ops =3D ops;
+> +       ctx->hw.init =3D &init;
+> +
+> +       ret =3D clk_hw_register(NULL, &ctx->hw);
+> +       if (ret)
+> +               return ret;
+> +
+> +       return 0;
+> +}
+> +
+> +static int clk_rate_test_init(struct kunit *test)
+> +{
+> +       return clk_rate_test_init_with_ops(test, &clk_dummy_rate_ops);
+> +}
+> +
+> +static void clk_rate_test_exit(struct kunit *test)
+> +{
+> +       struct clk_dummy_rate_context *ctx =3D test->priv;
+> +
+> +       clk_hw_unregister(&ctx->hw);
+> +       kfree(ctx);
+
+And drop the kfree as it is now test managed.
+
+> +}
+> +
+> +/*
+> + * Test that the actual rate matches what is returned by clk_get_rate()
+> + */
+> +static void clk_rate_test_get_rate(struct kunit *test)
+> +{
+> +       struct clk_dummy_rate_context *ctx =3D test->priv;
+> +       struct clk_hw *hw =3D &ctx->hw;
+> +       struct clk *clk =3D hw->clk;
+> +       unsigned long rate;
+> +
+> +       rate =3D clk_get_rate(clk);
+> +       KUNIT_ASSERT_TRUE(test, rate > 0);
+> +       KUNIT_ASSERT_EQ(test, rate, ctx->rate);
+
+These should be KUNIT_EXPECT_*() as we don't want to stop the test if
+the rate is wrong, we want to check that the rate is what we expected it
+to be. Assertions are about making sure things are sane and if not we
+should stop testing, whereas expectations are about testing the code. A
+test must have an EXPECT while it can have an ASSERT.
+
+Maybe kunit should check that there was an EXPECT on return from the
+test. Daniel?
+
+> +}
+> +
+> +/*
+> + * Test that, after a call to clk_set_rate(), the rate returned by
+> + * clk_get_rate() matches.
+> + *
+> + * This assumes that clk_ops.determine_rate or clk_ops.round_rate won't
+> + * modify the requested rate, which is our case in clk_dummy_rate_ops.
+> + */
+> +static void clk_rate_test_set_get_rate(struct kunit *test)
+> +{
+> +       struct clk_dummy_rate_context *ctx =3D test->priv;
+> +       struct clk_hw *hw =3D &ctx->hw;
+> +       struct clk *clk =3D hw->clk;
+> +       unsigned long rate;
+> +       int ret;
+> +
+> +       ret =3D clk_set_rate(clk, DUMMY_CLOCK_RATE_1);
+> +       KUNIT_ASSERT_EQ(test, ret, 0);
+
+I'd like to throw the ret check directly into KUNIT_ASSERT_EQ() here.
+
+	KUNIT_ASSERT_EQ(test, clk_set_rate(clk, DUMMY_CLOCK_RATE_1), 0);
+
+so we can easily see if something goes wrong that the set rate failed.
+Good use of assert here, we don't want to continue with the test unless
+the set rate actually worked.
+
+> +
+> +       rate =3D clk_get_rate(clk);
+> +       KUNIT_ASSERT_TRUE(test, rate > 0);
+> +       KUNIT_ASSERT_EQ(test, rate, DUMMY_CLOCK_RATE_1);
+> +}
+> +
+> +/*
+> + * Test that, after several calls to clk_set_rate(), the rate returned
+> + * by clk_get_rate() matches the last one.
+> + *
+> + * This assumes that clk_ops.determine_rate or clk_ops.round_rate won't
+> + * modify the requested rate, which is our case in clk_dummy_rate_ops.
+> + */
+> +static void clk_rate_test_set_set_get_rate(struct kunit *test)
+> +{
+> +       struct clk_dummy_rate_context *ctx =3D test->priv;
+> +       struct clk_hw *hw =3D &ctx->hw;
+> +       struct clk *clk =3D hw->clk;
+> +       unsigned long rate;
+> +       int ret;
+> +
+> +       ret =3D clk_set_rate(clk, DUMMY_CLOCK_RATE_1);
+> +       KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+> +       ret =3D clk_set_rate(clk, DUMMY_CLOCK_RATE_2);
+> +       KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+> +       rate =3D clk_get_rate(clk);
+> +       KUNIT_ASSERT_TRUE(test, rate > 0);
+> +       KUNIT_ASSERT_EQ(test, rate, DUMMY_CLOCK_RATE_2);
+> +}
+> +
+> +static struct kunit_case clk_rate_test_cases[] =3D {
+> +       KUNIT_CASE(clk_rate_test_get_rate),
+> +       KUNIT_CASE(clk_rate_test_set_get_rate),
+> +       KUNIT_CASE(clk_rate_test_set_set_get_rate),
+> +       {}
+> +};
+> +
+> +static struct kunit_suite clk_rate_test_suite =3D {
+> +       .name =3D "clk-rate-test",
+> +       .init =3D clk_rate_test_init,
+> +       .exit =3D clk_rate_test_exit,
+> +       .test_cases =3D clk_rate_test_cases,
+> +};
+> +
+> +/*
+> + * Test that clk_set_rate_range won't return an error for a valid range.
+> + */
+> +static void clk_rate_range_test_set_range(struct kunit *test)
+> +{
+> +       struct clk_dummy_rate_context *ctx =3D test->priv;
+> +       struct clk_hw *hw =3D &ctx->hw;
+> +       struct clk *clk =3D hw->clk;
+> +       int ret;
+> +
+> +       ret =3D clk_set_rate_range(clk,
+> +                                DUMMY_CLOCK_RATE_1,
+> +                                DUMMY_CLOCK_RATE_2);
+> +       KUNIT_ASSERT_EQ(test, ret, 0);
+
+Also make sure that the rate is within the bounds of rate_1 and rate_2?
+
+> +}
+> +
+> +/*
+> + * Test that calling clk_set_rate_range with a minimum rate higher than
+> + * the maximum rate returns an error.
+> + */
+> +static void clk_rate_range_test_set_range_invalid(struct kunit *test)
+> +{
+> +       struct clk_dummy_rate_context *ctx =3D test->priv;
+> +       struct clk_hw *hw =3D &ctx->hw;
+> +       struct clk *clk =3D hw->clk;
+> +       int ret;
+> +
+> +       ret =3D clk_set_rate_range(clk,
+> +                                DUMMY_CLOCK_RATE_1 + 1000,
+> +                                DUMMY_CLOCK_RATE_1);
+> +       KUNIT_ASSERT_EQ(test, ret, -EINVAL);
+
+Let's not check for a specific error, but a negative value instead. I'd
+rather not encode particular error values unless we need them to be
+particular.
+
+> +}
+> +
+> +/*
+> + * Test that if our clock has a rate lower than the minimum set by a
+> + * call to clk_set_rate_range(), the rate will be raised to match the
+> + * new minimum.
+> + *
+> + * This assumes that clk_ops.determine_rate or clk_ops.round_rate won't
+> + * modify the requested rate, which is our case in clk_dummy_rate_ops.
+> + */
+> +static void clk_rate_range_test_set_range_get_rate_raised(struct kunit *=
+test)
+> +{
+> +       struct clk_dummy_rate_context *ctx =3D test->priv;
+> +       struct clk_hw *hw =3D &ctx->hw;
+> +       struct clk *clk =3D hw->clk;
+> +       unsigned long rate;
+> +       int ret;
+> +
+> +       ret =3D clk_set_rate(clk, DUMMY_CLOCK_RATE_1 - 1000);
+> +       KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+> +       ret =3D clk_set_rate_range(clk,
+> +                                DUMMY_CLOCK_RATE_1,
+> +                                DUMMY_CLOCK_RATE_2);
+> +       KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+> +       rate =3D clk_get_rate(clk);
+> +       KUNIT_ASSERT_TRUE(test, rate > 0);
+
+KUNIT_EXPECT_LE(test, clk_get_rate(clk), DUMMY_CLOCK_RATE_2);
+
+Or just drop it entirely as DUMMY_CLOCK_RATE_1 is greater than 0 and
+it's tested next.
+
+> +       KUNIT_ASSERT_EQ(test, rate, DUMMY_CLOCK_RATE_1);
+
+KUNIT_EXPECT_EQ(test, clk_get_rate(clk), DUMMY_CLOCK_RATE_1);
+
+> +}
+> +
