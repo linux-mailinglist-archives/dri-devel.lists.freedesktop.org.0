@@ -1,44 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 215A849461A
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 04:26:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3B33494625
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 04:28:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 475D510E1AD;
-	Thu, 20 Jan 2022 03:26:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0174110E311;
+	Thu, 20 Jan 2022 03:28:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EEF110E1AD;
- Thu, 20 Jan 2022 03:26:41 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4JfSbg5bpkz4y3h;
- Thu, 20 Jan 2022 14:26:39 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1642649200;
- bh=FT3/xS+i3pKO1Rq5p3/rgHtAgCACk52OCkLLXm/hxl8=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=pwBctDf9UXYvLw9avbNru0hoc+QC78quF5aL0hsg6kSxqN+ScdEb6wk2Og5Wdyybj
- GCd7sqiIHpG26yRbi5V5VzDcqEpemBZ8VoYRbOhvTjyLh1AmIHTiNqRR8BQ0NmeD3x
- qhSzp3ZRBcnk08HsHtGQR4LywBcisWKnyzVL1zikdq+0ca46OAXTHWgmgdM7Erh927
- Dtz5OYoYk0fzqaHe57VAoHsoiQYShuyhjLRz4K4Ffl1+UFJcmvO6o1aTsNlhtyPlLi
- VD7SrfDoTqX+hwIA/MLqaH9xt5/BdATjT0ddAamYlc4VCyN0UzMWCA+wHJbZU4vTE2
- i8JPQjhtTCXew==
-Date: Thu, 20 Jan 2022 14:26:39 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
-Subject: Re: linux-next: build warning after merge of the drm-misc tree
-Message-ID: <20220120142639.02c54ae9@canb.auug.org.au>
-In-Reply-To: <20211117134926.1d339d71@canb.auug.org.au>
-References: <20211117134926.1d339d71@canb.auug.org.au>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E3D110E261
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 03:28:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1642649331; x=1674185331;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=arwPcs8Kyc09pesbQKhsEh0ZIRHJCBHsbXYgE2TqQ8c=;
+ b=OedDLRtrB/0+KaYCjns8xureIuY0ms5c/gG6OjbOyysbA61ftQYMgjLf
+ n8JlDv51gMue9MHMxIvtrGQodsnywOEtZvcf7vYiTjn1jz8PTtr+Y9RVF
+ 2gFeVbLdJNANkRA8Ds3XvbkpLTfOi19be41yjU7L5Uqbv0/4NoetvYqar
+ xwcQxP/FP7W38AVj14sexLv1pPOKgCC8Nbnji5ugD4/0L/FArUjrs15pu
+ U38TBNgpr2qi7wzUFXY0MzqE9CrZibc1iaoY5YL1AuNU4pWulTA/pcDSR
+ NdM9UJPU+Ue3dePYjv97BzGqMpOIfkuil5/ywzU0j0EBLZA3tdSdJNM0l w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10232"; a="269658236"
+X-IronPort-AV: E=Sophos;i="5.88,301,1635231600"; d="scan'208";a="269658236"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jan 2022 19:28:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,301,1635231600"; d="scan'208";a="579061203"
+Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
+ by fmsmga008.fm.intel.com with ESMTP; 19 Jan 2022 19:28:48 -0800
+Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1nAO7z-000Dxx-Kx; Thu, 20 Jan 2022 03:28:47 +0000
+Date: Thu, 20 Jan 2022 11:27:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hsin-Yi Wang <hsinyi@chromium.org>, Robert Foss <robert.foss@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, Xin Ji <xji@analogixsemi.com>
+Subject: Re: [PATCH v5 3/4] drm/bridge: anx7625: Support reading edid through
+ aux channel
+Message-ID: <202201200932.S1r1TWum-lkp@intel.com>
+References: <20220119151751.986185-3-hsinyi@chromium.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Xhb9mvR1geFap9+==HkXU1D";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220119151751.986185-3-hsinyi@chromium.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,49 +61,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, kbuild-all@lists.01.org,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/Xhb9mvR1geFap9+==HkXU1D
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Hsin-Yi,
 
-Hi all,
+Thank you for the patch! Yet something to improve:
 
-On Wed, 17 Nov 2021 13:49:26 +1100 Stephen Rothwell <sfr@canb.auug.org.au> =
-wrote:
->=20
-> After merging the drm-misc tree, today's linux-next build (htmldocs)
-> produced this warning:
->=20
-> include/drm/gpu_scheduler.h:316: warning: Function parameter or member 'w=
-ork' not described in 'drm_sched_job'
->=20
-> Introduced by commit
->=20
->   542cff7893a3 ("drm/sched: Avoid lockdep spalt on killing a processes")
+[auto build test ERROR on drm-tip/drm-tip]
+[cannot apply to drm/drm-next robh/for-next drm-intel/for-linux-next v5.16 next-20220118]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-I am still seeing this warning.
---=20
-Cheers,
-Stephen Rothwell
+url:    https://github.com/0day-ci/linux/commits/Hsin-Yi-Wang/drm-bridge-anx7625-send-DPCD-command-to-downstream/20220119-231952
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+config: arm-randconfig-c002-20220118 (https://download.01.org/0day-ci/archive/20220120/202201200932.S1r1TWum-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/61809df270082584886188b067ee19744f4b35e1
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Hsin-Yi-Wang/drm-bridge-anx7625-send-DPCD-command-to-downstream/20220119-231952
+        git checkout 61809df270082584886188b067ee19744f4b35e1
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm SHELL=/bin/bash
 
---Sig_/Xhb9mvR1geFap9+==HkXU1D
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
------BEGIN PGP SIGNATURE-----
+All errors (new ones prefixed by >>):
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmHo1m8ACgkQAVBC80lX
-0Gwe4wgAg1Avti7A8EJ2DCMxpGmXL4BjKZeX0jKKbDuPJTDrMgGR7S3duunC7waT
-7QFTHTxnEwSeRt+sm8ZkofrBvLxkZg4WUCn8YkxcTU7S1H9SY/r86+zJMlPCc/xB
-GyMv7oY+G1HkG7XA0Ou5FgBjTxHyqrWr9a462Fosim2CEr1klT4H+uP7DGoc/oKY
-o0PKTBp0TEfd1i2RmqnlomxZlGZiiGpT6CvXJDfGX5kM8OghwpLc1YyJwANaDOC2
-E2Kziy2wtE+ig2Sgr6liMEKyyb/qTRjhN4VcF8/BGB/SEkHMKsY5pywJQzk7Y8i1
-gj28nDpwihp9p7PVvjawsreyD/pbVg==
-=xwhi
------END PGP SIGNATURE-----
+   arm-linux-gnueabi-ld: drivers/gpu/drm/bridge/analogix/anx7625.o: in function `anx7625_i2c_probe':
+>> anx7625.c:(.text+0x1c10): undefined reference to `devm_of_dp_aux_populate_ep_devices'
 
---Sig_/Xhb9mvR1geFap9+==HkXU1D--
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
