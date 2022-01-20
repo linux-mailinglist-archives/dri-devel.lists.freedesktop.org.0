@@ -1,54 +1,120 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54B934945C5
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 03:20:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B08D34945F2
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 04:00:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28B3D10F4F0;
-	Thu, 20 Jan 2022 02:20:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66C0C10E293;
+	Thu, 20 Jan 2022 03:00:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 550A610F4E9;
- Thu, 20 Jan 2022 02:20:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1642645210; x=1674181210;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=UAjPL2k+7AHVvUXRuPeO+uUEzg+YsulnnlRbTonD3O4=;
- b=ivptFSqZWqx3R2C/Ttga4E4nbZlojHicTwSUdFtjH6zDDoSlYTF4Qp6j
- nGhDCh1ZqM8QNVB1iwqzXkNCNprOvbMBeal9FNqWRq54TAZsFNs/utCH3
- xqzAIPX72MjBtYiUj+bBqNqS6l8V0Jw44ICHrT/ZsD31O/Pby5ENZlITi M=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 19 Jan 2022 18:20:09 -0800
-X-QCInternal: smtphost
-Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2022 18:20:09 -0800
-Received: from [10.71.111.172] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Wed, 19 Jan
- 2022 18:20:08 -0800
-Message-ID: <737546cb-a315-c39c-0ec0-a9df3db98690@quicinc.com>
-Date: Wed, 19 Jan 2022 18:20:08 -0800
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com
+ (mail-am6eur05on2043.outbound.protection.outlook.com [40.107.22.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECD2210E1A4
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 03:00:44 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jpAYGNNXJa2DBFwcTU6iJi+RGIaD5w3i43HzHgzV/RHofnzzT00VTanYIywpyQMfagP4eE6Penta5mb8rANpX+UVdAoQ/v448jlXyCkRJQ8GJ8joaceEXBVWfUjUiZeeUoFhTVCyorNy4IftWlZjh07OFls9YzJ4VfQuIATNEnc2PVfEvQj1K0WK9Qpjrm8+7ZtdvssO9b2QJXYNG6q1RSDHfSifwXtMa1cfHni3iZ8qyH2XbR1tjdUNpPXNc94SMZhb+mbjDh4uUtFI8PrdKVfTwgK1NVSjpr5hw8k3AuyboMKQuFgiHKicHOs2AJAFXdPyu3ywNEcqxapYUhC0aQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rMj01ajPBpWx5ev/RK2eW2F8kMpzQRF9eeP/VR0CHgo=;
+ b=ROldc1bUNr+1kArgkRrQbu6P7J335ySgria/ZK7FL95anPxlY3fxVOUiRHGB4Hqn1j/NdmfklF4CjW1DMJKZBaUfrING9CTVwtuwX9rRbJfKEshnjwN4L5iVDwFpMCn0WAj6vkLZthMV/RyrZ5QgZ1XQ0n7YUEehCdTe0NTjBsPWPKe7j8d0NnrOuLdNZzVgTwq+JV5W9HHMybFJnhuRKA/M0uyKGqf62xXniCIbNAIpOvo141ly7nBjZaCLdzQ2DelrV4HzrGFQyF93PW/nQ5iJQE+eqAcYHNiIxt25TZOPzG6ybEvHW/T/D13qAOHz1oT3YQ0LfZyPOYh2/XBymg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rMj01ajPBpWx5ev/RK2eW2F8kMpzQRF9eeP/VR0CHgo=;
+ b=SKge1wAHB9n2uF2ltIPsTlYSjp7/+paUEyQ/HEU3GCsLmZbP+HHM8pjGRxfidZ8jBOzE9enQC4qWL81NytwbubwTVnjjoTFjC/YLU+K80g6HWtE5lKHQZ+puZpWxFJiVF1f2KMfLlgDVglft2OV0QCaXf3OaVApyu5rwv4RhlSQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by VI1PR04MB5552.eurprd04.prod.outlook.com (2603:10a6:803:cc::33)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.7; Thu, 20 Jan
+ 2022 03:00:41 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::a5b3:9e5:366:a3fc]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::a5b3:9e5:366:a3fc%3]) with mapi id 15.20.4909.008; Thu, 20 Jan 2022
+ 03:00:40 +0000
+Message-ID: <c371d737fd5e7e19e966d7aec42da0c3edd9a556.camel@nxp.com>
+Subject: Re: [PATCH v2] phy: dphy: Correct clk_pre parameter
+From: Liu Ying <victor.liu@nxp.com>
+To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org, Wyon
+ Bi <bivvy.bi@rock-chips.com>
+Date: Thu, 20 Jan 2022 11:00:26 +0800
+In-Reply-To: <20220119023714.1498508-1-victor.liu@nxp.com>
+References: <20220119023714.1498508-1-victor.liu@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.4-0ubuntu1 
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SI2PR01CA0003.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:191::16) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 2/3] drm/msm/dpu: simplify clocks handling
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20220119221616.3089119-1-dmitry.baryshkov@linaro.org>
- <20220119221616.3089119-3-dmitry.baryshkov@linaro.org>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20220119221616.3089119-3-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 30b5a95d-1779-4dfd-c3ca-08d9dbc10aa6
+X-MS-TrafficTypeDiagnostic: VI1PR04MB5552:EE_
+X-Microsoft-Antispam-PRVS: <VI1PR04MB555202E741AFA686BB9CF2F6985A9@VI1PR04MB5552.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: EK9DhlgfONIb7eclMLHGtH/hBfkNKrAaKPDxUCCCQ9cyqdGkBKMcsTZcKE+58V8uzFBL3EYXyuWlAEbhhu976+LDqix0X+zJOtywtMgDVSau+h8AvNTvqXDYRYYFYhmpUMZaXaX3usfQihl1+4m+1J5fNfBVbKWS8VYmJlJpBGDiNlXGFWrD8UVIKPpiRDd7sx9gY8Ws/vUlIwTqGI2QCsvF1ndhsrIkgazU9ZY8rmvB8cEofD7eJRhCikXX7hukbKgd6H7hVqMdLAs28QNxGoqE01ZXPKkevDGxwBDdYJ0HYsbwz6yFeFC3bJ+MHcFmcxPm13+P3nynTtRMNxurrUimETPrfFk57ZV/bcM2EUP69Zl207JmUPBRhOAJDcPe3sCZwSkBOMyiS3AxzEvFWMHt2Hi4GAxnDITlGXkvT4xwc0xPZTVLTDpZspomW1du6BcCcDzFigmpWkIu/Ed3uJiMf8QQDtZIpbDL566k8Hw/gc/FaaiUFBe7B8FJW+/pcg49ejCr3z9o2WvMLKqibQWqcm0cfL+wyYJKMdJFtGdcce23DkAsoCCop/o99eZEYAvCr+hgD1DEpDlLgxInlfI6UBi2BIN6rUYDhGpP4BsxBTP6PShoG1Su9cVYM4mS6MuWT25IkNSypasdyC7FwsbnjJDJ9ixelAA7pE19Sk6gGeJ7cD5B1GhHK3rLtC+QOkgzi6Xnp2Yixw6JYSO7Zg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(38100700002)(5660300002)(86362001)(316002)(38350700002)(54906003)(6512007)(66556008)(66946007)(6486002)(4326008)(66476007)(2906002)(6506007)(8676002)(83380400001)(6916009)(186003)(52116002)(8936002)(36756003)(26005)(7416002)(508600001)(6666004)(66574015)(2616005);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VWd1OUlDY0xFNDQzdTdRMjE1OERkTGVPaHZRaDJ1OWhWbVY4VU42YzQrc2tR?=
+ =?utf-8?B?V3cyTThRNVlEUW5YQXcwMlVqK3ZMeHNJdU4vVzJKUllhUHJNUURMN2tiWTQ1?=
+ =?utf-8?B?S05iTDFJMGhFc0ZHZ1pnQXRVdHhXeUROUmZVN25xcUlRd0hKOEdIMTEycU9o?=
+ =?utf-8?B?SkF0YVVQSjNIQVowQWtTMDdUVnVPV3lsemhxRHdaVm9wVk5TRUlCMVlqdXF4?=
+ =?utf-8?B?bmtUR2hWemRqd1lWR1laRXFFTEFiMDRmRnRlTjF3S3RpMVEwSlJzS21tRWRr?=
+ =?utf-8?B?eGZIMzdyNFppYUU2T1NjeXN3cmQweWFrNWZXV2gxK1lBbmtla0V2LzRnYTJZ?=
+ =?utf-8?B?RHg1MldZS2hEWk9GTjkzRWZIZm1LYkN6WXpiT2E3YjNUZEpLQjlXcVZ4RW15?=
+ =?utf-8?B?d0kxTDhudE5MTFBUTmk2MC8yb0dvNEp1ajhET2RBcW5qRWV6c0twMUR1bVFE?=
+ =?utf-8?B?MkR6SVp3OEpYNGJ5RDZjeVI0SURjSUxvWjdmbGNsb3E5d0haTEdROHptTDNW?=
+ =?utf-8?B?Mk9oTkZNdXpxbXM0ZDlCRXZMa3RpRkhKNTdWcFRNNENwNW5XemNPcW9OWFU4?=
+ =?utf-8?B?NkxJcXR0UFFoTzhPcmJ1MnpNYVBCemZKOFFDTW5mVExsMW5lZ1RMOFhYdi9R?=
+ =?utf-8?B?OUNXZFJmUWQ2cFpZWXNVQmttVjJiU2oyRExYcFdaRHZILzBzVklrZGNjWVRQ?=
+ =?utf-8?B?dHBFRndtMUN0aWhyZ2NlaTI2OE5EMFQyMFl1YlI4ZVRrdkVWUmlPSHB2QjFt?=
+ =?utf-8?B?U2lrbVlxcnBrQU9hRk4wZmE1eDZ2TXpVK2lBUHpCS2k1ODZHTUhuT3U0eWQ5?=
+ =?utf-8?B?WFdjUEZnSXFlZVZrdCtWUTVDV3kzRVBxeDBIc0pnNHljQkhzcVhjakljSC9C?=
+ =?utf-8?B?NEVhVE5FcFpFV2V6dEdiQWlJMks0NE14SHB5SXNGR3FNRWJUbHFVeWFOa25E?=
+ =?utf-8?B?NW9OQ1lyOE1uU2orTTU4bkFURG5ZYU1BZUQ3aEJYVTNZOC9Qak40YkROTUsy?=
+ =?utf-8?B?S2dIY25hSGRRM08yWkxjRVBlMGVMTFNYTm1wRXNQTG1PVmJmcVV3TnlOY01R?=
+ =?utf-8?B?bzFRV2VnQ0JKdHUxdG55YkpNelQveTFTNTMwdWplUUtSTTN5R01DTzdadHZB?=
+ =?utf-8?B?VzZLTjF0czRtQXpyVjAzb1BPM2FDQ29pLzFzYmRzd0Z5WGpOd1dKQ3pMY2cr?=
+ =?utf-8?B?MWpZcml3b1JQL3llc0YrQnd3QWl5akNNSUNIQnJ5ZHNldVFLbkxqK2RETDhO?=
+ =?utf-8?B?MTcwUkJFZE1DSHc1bnBPVVBPUU9BYzNSWkh6N09rcmhKblpnZDEyTC9zUFhB?=
+ =?utf-8?B?eEFZbU5YSlZxNFl4aVpVZXVJWnJ2SmRwY09MUTVPRnUyNUZ6bTZKdzg0Nkwz?=
+ =?utf-8?B?T3duU200N1dyK3pLemhwRkorYkhjVzJXVVc0L1pEWjBUUkNPbEVOSUJnby8v?=
+ =?utf-8?B?RmVrQnZQL1E0SjM5bE5KRnNzTE9wZks5OUhlengvN2phajZwQm1XejFDRVEy?=
+ =?utf-8?B?Q3JkeDZuY0prNk1xNmV1eE1sYWNsbUxJR1JkU1pUdkVtbWFoRDBXR0Q4aXY5?=
+ =?utf-8?B?aWJFRjVrNUlRNWRJZXdxdGFtWlRxN2ZmZ3NNV3VGamx2akpubEFhQXdQRjkx?=
+ =?utf-8?B?bTBkVVAzbjV6RkpYS1dISWMvenJmVU83aEVQR0VPb09NR2x6N0NXRGt6aCtK?=
+ =?utf-8?B?ei9nWHJBNzJWSGlCY0tmMUZjRkF5NU11VGhyZll4K0FGazhPRXcvVVRwTkF2?=
+ =?utf-8?B?aXV2SjZBYTl6cU1XNE9BN2Y2cVh5QXBwT2VXemFuMVQ2UTZmOUxZN3ZMVkIv?=
+ =?utf-8?B?YVU5YUNCU1dnTXdVMjlGTVBqa213TTVkdjZyVXVFVW1YeGxDRG0yWURSM1dj?=
+ =?utf-8?B?WHNJalhOZEcvenBQVm0vOUQzWVNGUmxYN2ZwVkoyUUtyL21CdmJMb3VsRnBN?=
+ =?utf-8?B?MzM2anZoR3FIM3Z4U0F1TXpLdTByVUJYNUNjb1NSQVNmWHNRZFdObDl2a0E1?=
+ =?utf-8?B?cjJaOGdiTFl1YWIraHJUSDFMTWpyNEpyTkFtUnhpbXVySTVCNjIvclB1QWI3?=
+ =?utf-8?B?VUIvOE85R293U1E5N2RyRzdLWHp1UmZEbTU2L2k1clR4NmFiR3lhT3pDem45?=
+ =?utf-8?B?MmpmN3dBMGFHc2F6VitHTGtUdG1Hb1NLMjVjN1JOZG0xWS9ydWpOR2VJSFcz?=
+ =?utf-8?Q?FiTd4RprR/iJlSDTLa318l0=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 30b5a95d-1779-4dfd-c3ca-08d9dbc10aa6
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2022 03:00:40.6475 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CVC95ur+6RwNLWgenzfAg59/vx3uVGx4G5B5HdVbyUNWINjupT+S1n29o7DaUq744grDxAZGXuOKhzeUndOevQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB5552
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,621 +127,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, freedreno@lists.freedesktop.org
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Kevin Hilman <khilman@baylibre.com>,
+ Guido =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
+ Kishon Vijay Abraham I <kishon@ti.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Vinod Koul <vkoul@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ linux-imx@nxp.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Heiko, Wyon,
 
-
-On 1/19/2022 2:16 PM, Dmitry Baryshkov wrote:
-> DPU driver contains code to parse clock items from device tree into
-> special data struct and then enable/disable/set rate for the clocks
-> using that data struct. However the DPU driver itself uses only parsing
-> and enabling/disabling part (the rate setting is used by DP driver).
+On Wed, 2022-01-19 at 10:37 +0800, Liu Ying wrote:
+> The D-PHY specification (v1.2) explicitly mentions that the T-CLK-PRE
+> parameter's unit is Unit Interval(UI) and the minimum value is 8.  Also,
+> kernel doc of the 'clk_pre' member of struct phy_configure_opts_mipi_dphy
+> mentions that it should be in UI.  However, the dphy core driver wrongly
+> sets 'clk_pre' to 8000, which seems to hint that it's in picoseconds.
+> And, the kernel doc of the 'clk_pre' member wrongly says the minimum value
+> is '8 UI', instead of 8.
 > 
-> Move this implementation to the DP driver (which actually uses rate
-> setting) and replace hand-coded enable/disable/get loops in the DPU
-> with the respective clk_bulk operations. Put operation is removed
-> completely because, it is handled using devres instead.
+> So, let's fix both the dphy core driver and the kernel doc of the 'clk_pre'
+> member to correctly reflect the T-CLK-PRE parameter's unit and the minimum
+> value according to the D-PHY specification.
 > 
-> DP implementation is unchanged for now.
+> I'm assuming that all impacted custom drivers shall program values in
+> TxByteClkHS cycles into hardware for the T-CLK-PRE parameter.  The D-PHY
+> specification mentions that the frequency of TxByteClkHS is exactly 1/8
+> the High-Speed(HS) bit rate(each HS bit consumes one UI).  So, relevant
+> custom driver code is changed to program those values as
+> DIV_ROUND_UP(cfg->clk_pre, BITS_PER_BYTE), then.
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-Tested on: Qualcomm RB3 (debian, sdm845), Qualcomm RB5 (debian, qrb5165)
-
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-
+> Note that I've only tested the patch with RM67191 DSI panel on i.MX8mq EVK.
+> Help is needed to test with other i.MX8mq, Meson and Rockchip platforms,
+> as I don't have the hardwares.
+> 
+> Fixes: 2ed869990e14 ("phy: Add MIPI D-PHY configuration options")
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Kishon Vijay Abraham I <kishon@ti.com>
+> Cc: Vinod Koul <vkoul@kernel.org>
+> Cc: Kevin Hilman <khilman@baylibre.com>
+> Cc: Jerome Brunet <jbrunet@baylibre.com>
+> Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+> Cc: Heiko Stuebner <heiko@sntech.de>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Guido Günther <agx@sigxcpu.org>
+> Tested-by: Liu Ying <victor.liu@nxp.com> # RM67191 DSI panel on i.MX8mq EVK
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
 > ---
->   drivers/gpu/drm/msm/Makefile                  |  2 +-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 24 ++-----
->   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h |  6 +-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       | 46 +++----------
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |  4 +-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c      | 26 +++----
->   .../dpu1/dpu_io_util.c => dp/dp_clk_util.c}   | 69 +------------------
->   .../dpu1/dpu_io_util.h => dp/dp_clk_util.h}   |  8 +--
->   drivers/gpu/drm/msm/dp/dp_parser.h            |  2 +-
->   drivers/gpu/drm/msm/msm_drv.c                 |  1 +
->   drivers/gpu/drm/msm/msm_drv.h                 |  1 +
->   drivers/gpu/drm/msm/msm_io_utils.c            | 50 ++++++++++++++
->   12 files changed, 89 insertions(+), 150 deletions(-)
->   rename drivers/gpu/drm/msm/{disp/dpu1/dpu_io_util.c => dp/dp_clk_util.c} (61%)
->   rename drivers/gpu/drm/msm/{disp/dpu1/dpu_io_util.h => dp/dp_clk_util.h} (85%)
+> v1->v2:
+> * Use BITS_PER_BYTE macro. (Andrzej)
+> * Drop dsi argument from ui2bc() in nwl-dsi.c.
 > 
-> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
-> index 5b6e37477079..e9cc7d8ac301 100644
-> --- a/drivers/gpu/drm/msm/Makefile
-> +++ b/drivers/gpu/drm/msm/Makefile
-> @@ -66,7 +66,6 @@ msm-y := \
->   	disp/dpu1/dpu_hw_top.o \
->   	disp/dpu1/dpu_hw_util.o \
->   	disp/dpu1/dpu_hw_vbif.o \
-> -	disp/dpu1/dpu_io_util.o \
->   	disp/dpu1/dpu_kms.o \
->   	disp/dpu1/dpu_mdss.o \
->   	disp/dpu1/dpu_plane.o \
-> @@ -103,6 +102,7 @@ msm-$(CONFIG_DRM_MSM_GPU_STATE)	+= adreno/a6xx_gpu_state.o
->   
->   msm-$(CONFIG_DRM_MSM_DP)+= dp/dp_aux.o \
->   	dp/dp_catalog.o \
-> +	dp/dp_clk_util.o \
->   	dp/dp_ctrl.o \
->   	dp/dp_display.o \
->   	dp/dp_drm.o \
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> index 60fe06018581..4d184122d63e 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> @@ -284,17 +284,6 @@ void dpu_core_perf_crtc_release_bw(struct drm_crtc *crtc)
->   	}
->   }
->   
-> -static int _dpu_core_perf_set_core_clk_rate(struct dpu_kms *kms, u64 rate)
-> -{
-> -	struct dss_clk *core_clk = kms->perf.core_clk;
-> -
-> -	if (core_clk->max_rate && (rate > core_clk->max_rate))
-> -		rate = core_clk->max_rate;
-> -
-> -	core_clk->rate = rate;
-> -	return dev_pm_opp_set_rate(&kms->pdev->dev, core_clk->rate);
-> -}
-> -
->   static u64 _dpu_core_perf_get_core_clk_rate(struct dpu_kms *kms)
->   {
->   	u64 clk_rate = kms->perf.perf_tune.min_core_clk;
-> @@ -306,7 +295,7 @@ static u64 _dpu_core_perf_get_core_clk_rate(struct dpu_kms *kms)
->   			dpu_cstate = to_dpu_crtc_state(crtc->state);
->   			clk_rate = max(dpu_cstate->new_perf.core_clk_rate,
->   							clk_rate);
-> -			clk_rate = clk_round_rate(kms->perf.core_clk->clk,
-> +			clk_rate = clk_round_rate(kms->perf.core_clk,
->   					clk_rate);
->   		}
->   	}
-> @@ -405,10 +394,11 @@ int dpu_core_perf_crtc_update(struct drm_crtc *crtc,
->   
->   		trace_dpu_core_perf_update_clk(kms->dev, stop_req, clk_rate);
->   
-> -		ret = _dpu_core_perf_set_core_clk_rate(kms, clk_rate);
-> +		if (clk_rate > kms->perf.max_core_clk_rate)
-> +			clk_rate = kms->perf.max_core_clk_rate;
-> +		ret = dev_pm_opp_set_rate(&kms->pdev->dev, clk_rate);
->   		if (ret) {
-> -			DPU_ERROR("failed to set %s clock rate %llu\n",
-> -					kms->perf.core_clk->clk_name, clk_rate);
-> +			DPU_ERROR("failed to set core clock rate %llu\n", clk_rate);
->   			return ret;
->   		}
->   
-> @@ -529,13 +519,13 @@ void dpu_core_perf_destroy(struct dpu_core_perf *perf)
->   int dpu_core_perf_init(struct dpu_core_perf *perf,
->   		struct drm_device *dev,
->   		struct dpu_mdss_cfg *catalog,
-> -		struct dss_clk *core_clk)
-> +		struct clk *core_clk)
->   {
->   	perf->dev = dev;
->   	perf->catalog = catalog;
->   	perf->core_clk = core_clk;
->   
-> -	perf->max_core_clk_rate = core_clk->max_rate;
-> +	perf->max_core_clk_rate = clk_get_rate(core_clk);
->   	if (!perf->max_core_clk_rate) {
->   		DPU_DEBUG("optional max core clk rate, use default\n");
->   		perf->max_core_clk_rate = DPU_PERF_DEFAULT_MAX_CORE_CLK_RATE;
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
-> index cf4b9b5964c6..8dfcc6db7176 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
-> @@ -56,7 +56,7 @@ struct dpu_core_perf_tune {
->    * @dev: Pointer to drm device
->    * @debugfs_root: top level debug folder
->    * @catalog: Pointer to catalog configuration
-> - * @core_clk: Pointer to core clock structure
-> + * @core_clk: Pointer to the core clock
->    * @core_clk_rate: current core clock rate
->    * @max_core_clk_rate: maximum allowable core clock rate
->    * @perf_tune: debug control for performance tuning
-> @@ -69,7 +69,7 @@ struct dpu_core_perf {
->   	struct drm_device *dev;
->   	struct dentry *debugfs_root;
->   	struct dpu_mdss_cfg *catalog;
-> -	struct dss_clk *core_clk;
-> +	struct clk *core_clk;
->   	u64 core_clk_rate;
->   	u64 max_core_clk_rate;
->   	struct dpu_core_perf_tune perf_tune;
-> @@ -120,7 +120,7 @@ void dpu_core_perf_destroy(struct dpu_core_perf *perf);
->   int dpu_core_perf_init(struct dpu_core_perf *perf,
->   		struct drm_device *dev,
->   		struct dpu_mdss_cfg *catalog,
-> -		struct dss_clk *core_clk);
-> +		struct clk *core_clk);
->   
->   struct dpu_kms;
->   
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index 201c0e3082dd..a46aa36bc5db 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -998,29 +998,15 @@ static int _dpu_kms_mmu_init(struct dpu_kms *dpu_kms)
->   	return 0;
->   }
->   
-> -static struct dss_clk *_dpu_kms_get_clk(struct dpu_kms *dpu_kms,
-> -		char *clock_name)
-> -{
-> -	struct dss_module_power *mp = &dpu_kms->mp;
-> -	int i;
-> -
-> -	for (i = 0; i < mp->num_clk; i++) {
-> -		if (!strcmp(mp->clk_config[i].clk_name, clock_name))
-> -			return &mp->clk_config[i];
-> -	}
-> -
-> -	return NULL;
-> -}
-> -
->   u64 dpu_kms_get_clk_rate(struct dpu_kms *dpu_kms, char *clock_name)
->   {
-> -	struct dss_clk *clk;
-> +	struct clk *clk;
->   
-> -	clk = _dpu_kms_get_clk(dpu_kms, clock_name);
-> +	clk = msm_clk_bulk_get_clock(dpu_kms->clocks, dpu_kms->num_clocks, clock_name);
->   	if (!clk)
->   		return -EINVAL;
->   
-> -	return clk_get_rate(clk->clk);
-> +	return clk_get_rate(clk);
->   }
->   
->   static int dpu_kms_hw_init(struct msm_kms *kms)
-> @@ -1132,7 +1118,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
->   	}
->   
->   	rc = dpu_core_perf_init(&dpu_kms->perf, dev, dpu_kms->catalog,
-> -			_dpu_kms_get_clk(dpu_kms, "core"));
-> +			msm_clk_bulk_get_clock(dpu_kms->clocks, dpu_kms->num_clocks, "core"));
->   	if (rc) {
->   		DPU_ERROR("failed to init perf %d\n", rc);
->   		goto perf_err;
-> @@ -1219,7 +1205,6 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
->   	struct platform_device *pdev = to_platform_device(dev);
->   	struct drm_device *ddev = priv->dev;
->   	struct dpu_kms *dpu_kms;
-> -	struct dss_module_power *mp;
->   	int ret = 0;
->   
->   	dpu_kms = devm_kzalloc(&pdev->dev, sizeof(*dpu_kms), GFP_KERNEL);
-> @@ -1236,12 +1221,12 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
->   		return ret;
->   	}
->   
-> -	mp = &dpu_kms->mp;
-> -	ret = msm_dss_parse_clock(pdev, mp);
-> -	if (ret) {
-> +	ret = msm_parse_clock(pdev, &dpu_kms->clocks);
-> +	if (ret < 0) {
->   		DPU_ERROR("failed to parse clocks, ret=%d\n", ret);
->   		return ret;
->   	}
-> +	dpu_kms->num_clocks = ret;
->   
->   	platform_set_drvdata(pdev, dpu_kms);
->   
-> @@ -1265,11 +1250,6 @@ static void dpu_unbind(struct device *dev, struct device *master, void *data)
->   {
->   	struct platform_device *pdev = to_platform_device(dev);
->   	struct dpu_kms *dpu_kms = platform_get_drvdata(pdev);
-> -	struct dss_module_power *mp = &dpu_kms->mp;
-> -
-> -	msm_dss_put_clk(mp->clk_config, mp->num_clk);
-> -	devm_kfree(&pdev->dev, mp->clk_config);
-> -	mp->num_clk = 0;
->   
->   	if (dpu_kms->rpm_enabled)
->   		pm_runtime_disable(&pdev->dev);
-> @@ -1293,21 +1273,18 @@ static int dpu_dev_remove(struct platform_device *pdev)
->   
->   static int __maybe_unused dpu_runtime_suspend(struct device *dev)
->   {
-> -	int i, rc = -1;
-> +	int i;
->   	struct platform_device *pdev = to_platform_device(dev);
->   	struct dpu_kms *dpu_kms = platform_get_drvdata(pdev);
-> -	struct dss_module_power *mp = &dpu_kms->mp;
->   
->   	/* Drop the performance state vote */
->   	dev_pm_opp_set_rate(dev, 0);
-> -	rc = msm_dss_enable_clk(mp->clk_config, mp->num_clk, false);
-> -	if (rc)
-> -		DPU_ERROR("clock disable failed rc:%d\n", rc);
-> +	clk_bulk_disable_unprepare(dpu_kms->num_clocks, dpu_kms->clocks);
->   
->   	for (i = 0; i < dpu_kms->num_paths; i++)
->   		icc_set_bw(dpu_kms->path[i], 0, 0);
->   
-> -	return rc;
-> +	return 0;
->   }
->   
->   static int __maybe_unused dpu_runtime_resume(struct device *dev)
-> @@ -1317,7 +1294,6 @@ static int __maybe_unused dpu_runtime_resume(struct device *dev)
->   	struct dpu_kms *dpu_kms = platform_get_drvdata(pdev);
->   	struct drm_encoder *encoder;
->   	struct drm_device *ddev;
-> -	struct dss_module_power *mp = &dpu_kms->mp;
->   	int i;
->   
->   	ddev = dpu_kms->dev;
-> @@ -1327,7 +1303,7 @@ static int __maybe_unused dpu_runtime_resume(struct device *dev)
->   	for (i = 0; i < dpu_kms->num_paths; i++)
->   		icc_set_bw(dpu_kms->path[i], 0, Bps_to_icc(MIN_IB_BW));
->   
-> -	rc = msm_dss_enable_clk(mp->clk_config, mp->num_clk, true);
-> +	rc = clk_bulk_prepare_enable(dpu_kms->num_clocks, dpu_kms->clocks);
->   	if (rc) {
->   		DPU_ERROR("clock enable failed rc:%d\n", rc);
->   		return rc;
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> index 2d385b4b7f5e..5f562413bb63 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> @@ -21,7 +21,6 @@
->   #include "dpu_hw_lm.h"
->   #include "dpu_hw_interrupts.h"
->   #include "dpu_hw_top.h"
-> -#include "dpu_io_util.h"
->   #include "dpu_rm.h"
->   #include "dpu_core_perf.h"
->   
-> @@ -113,7 +112,8 @@ struct dpu_kms {
->   	struct platform_device *pdev;
->   	bool rpm_enabled;
->   
-> -	struct dss_module_power mp;
-> +	struct clk_bulk_data *clocks;
-> +	int num_clocks;
->   
->   	/* reference count bandwidth requests, so we know when we can
->   	 * release bandwidth.  Each atomic update increments, and frame-
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
-> index 5bdb1504035c..9f5cc7f9e9a9 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
-> @@ -29,7 +29,8 @@ struct dpu_irq_controller {
->   struct dpu_mdss {
->   	struct msm_mdss base;
->   	void __iomem *mmio;
-> -	struct dss_module_power mp;
-> +	struct clk_bulk_data *clocks;
-> +	int num_clocks;
->   	struct dpu_irq_controller irq_controller;
->   };
->   
-> @@ -136,10 +137,9 @@ static void _dpu_mdss_irq_domain_fini(struct dpu_mdss *dpu_mdss)
->   static int dpu_mdss_enable(struct msm_mdss *mdss)
->   {
->   	struct dpu_mdss *dpu_mdss = to_dpu_mdss(mdss);
-> -	struct dss_module_power *mp = &dpu_mdss->mp;
->   	int ret;
->   
-> -	ret = msm_dss_enable_clk(mp->clk_config, mp->num_clk, true);
-> +	ret = clk_bulk_prepare_enable(dpu_mdss->num_clocks, dpu_mdss->clocks);
->   	if (ret) {
->   		DPU_ERROR("clock enable failed, ret:%d\n", ret);
->   		return ret;
-> @@ -174,21 +174,16 @@ static int dpu_mdss_enable(struct msm_mdss *mdss)
->   static int dpu_mdss_disable(struct msm_mdss *mdss)
->   {
->   	struct dpu_mdss *dpu_mdss = to_dpu_mdss(mdss);
-> -	struct dss_module_power *mp = &dpu_mdss->mp;
-> -	int ret;
->   
-> -	ret = msm_dss_enable_clk(mp->clk_config, mp->num_clk, false);
-> -	if (ret)
-> -		DPU_ERROR("clock disable failed, ret:%d\n", ret);
-> +	clk_bulk_disable_unprepare(dpu_mdss->num_clocks, dpu_mdss->clocks);
->   
-> -	return ret;
-> +	return 0;
->   }
->   
->   static void dpu_mdss_destroy(struct msm_mdss *mdss)
->   {
->   	struct platform_device *pdev = to_platform_device(mdss->dev);
->   	struct dpu_mdss *dpu_mdss = to_dpu_mdss(mdss);
-> -	struct dss_module_power *mp = &dpu_mdss->mp;
->   	int irq;
->   
->   	pm_runtime_suspend(mdss->dev);
-> @@ -196,8 +191,6 @@ static void dpu_mdss_destroy(struct msm_mdss *mdss)
->   	_dpu_mdss_irq_domain_fini(dpu_mdss);
->   	irq = platform_get_irq(pdev, 0);
->   	irq_set_chained_handler_and_data(irq, NULL, NULL);
-> -	msm_dss_put_clk(mp->clk_config, mp->num_clk);
-> -	devm_kfree(&pdev->dev, mp->clk_config);
->   
->   	if (dpu_mdss->mmio)
->   		devm_iounmap(&pdev->dev, dpu_mdss->mmio);
-> @@ -214,7 +207,6 @@ int dpu_mdss_init(struct platform_device *pdev)
->   {
->   	struct msm_drm_private *priv = platform_get_drvdata(pdev);
->   	struct dpu_mdss *dpu_mdss;
-> -	struct dss_module_power *mp;
->   	int ret;
->   	int irq;
->   
-> @@ -228,12 +220,12 @@ int dpu_mdss_init(struct platform_device *pdev)
->   
->   	DRM_DEBUG("mapped mdss address space @%pK\n", dpu_mdss->mmio);
->   
-> -	mp = &dpu_mdss->mp;
-> -	ret = msm_dss_parse_clock(pdev, mp);
-> -	if (ret) {
-> +	ret = msm_parse_clock(pdev, &dpu_mdss->clocks);
-> +	if (ret < 0) {
->   		DPU_ERROR("failed to parse clocks, ret=%d\n", ret);
->   		goto clk_parse_err;
->   	}
-> +	dpu_mdss->num_clocks = ret;
->   
->   	dpu_mdss->base.dev = &pdev->dev;
->   	dpu_mdss->base.funcs = &mdss_funcs;
-> @@ -260,9 +252,7 @@ int dpu_mdss_init(struct platform_device *pdev)
->   irq_error:
->   	_dpu_mdss_irq_domain_fini(dpu_mdss);
->   irq_domain_error:
-> -	msm_dss_put_clk(mp->clk_config, mp->num_clk);
->   clk_parse_err:
-> -	devm_kfree(&pdev->dev, mp->clk_config);
->   	if (dpu_mdss->mmio)
->   		devm_iounmap(&pdev->dev, dpu_mdss->mmio);
->   	dpu_mdss->mmio = NULL;
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_io_util.c b/drivers/gpu/drm/msm/dp/dp_clk_util.c
-> similarity index 61%
-> rename from drivers/gpu/drm/msm/disp/dpu1/dpu_io_util.c
-> rename to drivers/gpu/drm/msm/dp/dp_clk_util.c
-> index 078afc5f5882..44a4fc59ff31 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_io_util.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_clk_util.c
-> @@ -11,7 +11,7 @@
->   
->   #include <drm/drm_print.h>
->   
-> -#include "dpu_io_util.h"
-> +#include "dp_clk_util.h"
->   
->   void msm_dss_put_clk(struct dss_clk *clk_arry, int num_clk)
->   {
-> @@ -118,70 +118,3 @@ int msm_dss_enable_clk(struct dss_clk *clk_arry, int num_clk, int enable)
->   
->   	return rc;
->   }
-> -
-> -int msm_dss_parse_clock(struct platform_device *pdev,
-> -			struct dss_module_power *mp)
-> -{
-> -	u32 i, rc = 0;
-> -	const char *clock_name;
-> -	int num_clk = 0;
-> -
-> -	if (!pdev || !mp)
-> -		return -EINVAL;
-> -
-> -	mp->num_clk = 0;
-> -	num_clk = of_property_count_strings(pdev->dev.of_node, "clock-names");
-> -	if (num_clk <= 0) {
-> -		pr_debug("clocks are not defined\n");
-> -		return 0;
-> -	}
-> -
-> -	mp->clk_config = devm_kcalloc(&pdev->dev,
-> -				      num_clk, sizeof(struct dss_clk),
-> -				      GFP_KERNEL);
-> -	if (!mp->clk_config)
-> -		return -ENOMEM;
-> -
-> -	for (i = 0; i < num_clk; i++) {
-> -		rc = of_property_read_string_index(pdev->dev.of_node,
-> -						   "clock-names", i,
-> -						   &clock_name);
-> -		if (rc) {
-> -			DRM_DEV_ERROR(&pdev->dev, "Failed to get clock name for %d\n",
-> -				i);
-> -			break;
-> -		}
-> -		strlcpy(mp->clk_config[i].clk_name, clock_name,
-> -			sizeof(mp->clk_config[i].clk_name));
-> -
-> -		mp->clk_config[i].type = DSS_CLK_AHB;
-> -	}
-> -
-> -	rc = msm_dss_get_clk(&pdev->dev, mp->clk_config, num_clk);
-> -	if (rc) {
-> -		DRM_DEV_ERROR(&pdev->dev, "Failed to get clock refs %d\n", rc);
-> -		goto err;
-> -	}
-> -
-> -	rc = of_clk_set_defaults(pdev->dev.of_node, false);
-> -	if (rc) {
-> -		DRM_DEV_ERROR(&pdev->dev, "Failed to set clock defaults %d\n", rc);
-> -		goto err;
-> -	}
-> -
-> -	for (i = 0; i < num_clk; i++) {
-> -		u32 rate = clk_get_rate(mp->clk_config[i].clk);
-> -		if (!rate)
-> -			continue;
-> -		mp->clk_config[i].rate = rate;
-> -		mp->clk_config[i].type = DSS_CLK_PCLK;
-> -		mp->clk_config[i].max_rate = rate;
-> -	}
-> -
-> -	mp->num_clk = num_clk;
-> -	return 0;
-> -
-> -err:
-> -	msm_dss_put_clk(mp->clk_config, num_clk);
-> -	return rc;
-> -}
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_io_util.h b/drivers/gpu/drm/msm/dp/dp_clk_util.h
-> similarity index 85%
-> rename from drivers/gpu/drm/msm/disp/dpu1/dpu_io_util.h
-> rename to drivers/gpu/drm/msm/dp/dp_clk_util.h
-> index e6b5c772fa3b..067bf87f3d97 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_io_util.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_clk_util.h
-> @@ -2,8 +2,8 @@
->   /* Copyright (c) 2012, 2017-2018, The Linux Foundation. All rights reserved.
->    */
->   
-> -#ifndef __DPU_IO_UTIL_H__
-> -#define __DPU_IO_UTIL_H__
-> +#ifndef __DP_CLK_UTIL_H__
-> +#define __DP_CLK_UTIL_H__
->   
->   #include <linux/platform_device.h>
->   #include <linux/types.h>
-> @@ -35,6 +35,4 @@ int msm_dss_get_clk(struct device *dev, struct dss_clk *clk_arry, int num_clk);
->   void msm_dss_put_clk(struct dss_clk *clk_arry, int num_clk);
->   int msm_dss_clk_set_rate(struct dss_clk *clk_arry, int num_clk);
->   int msm_dss_enable_clk(struct dss_clk *clk_arry, int num_clk, int enable);
-> -int msm_dss_parse_clock(struct platform_device *pdev,
-> -		struct dss_module_power *mp);
-> -#endif /* __DPU_IO_UTIL_H__ */
-> +#endif /* __DP_CLK_UTIL_H__ */
-> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h b/drivers/gpu/drm/msm/dp/dp_parser.h
-> index 3172da089421..094b39bfed8c 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_parser.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_parser.h
-> @@ -10,7 +10,7 @@
->   #include <linux/phy/phy.h>
->   #include <linux/phy/phy-dp.h>
->   
-> -#include "dpu_io_util.h"
-> +#include "dp_clk_util.h"
->   #include "msm_drv.h"
->   
->   #define DP_LABEL "MDSS DP DISPLAY"
-> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> index 30c44c395a24..ba0aae367f91 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.c
-> +++ b/drivers/gpu/drm/msm/msm_drv.c
+>  drivers/gpu/drm/bridge/nwl-dsi.c                 | 12 +++++-------
+>  drivers/phy/amlogic/phy-meson-axg-mipi-dphy.c    |  3 ++-
+>  drivers/phy/phy-core-mipi-dphy.c                 |  4 ++--
+>  drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c |  3 ++-
+>  include/linux/phy/phy-mipi-dphy.h                |  2 +-
+>  5 files changed, 12 insertions(+), 12 deletions(-)
+
+[...]
+
+> diff --git a/drivers/phy/phy-core-mipi-dphy.c b/drivers/phy/phy-core-mipi-dphy.c
+> index 288c9c67aa74..ccb4045685cd 100644
+> --- a/drivers/phy/phy-core-mipi-dphy.c
+> +++ b/drivers/phy/phy-core-mipi-dphy.c
+> @@ -36,7 +36,7 @@ int phy_mipi_dphy_get_default_config(unsigned long pixel_clock,
+>  
+>  	cfg->clk_miss = 0;
+>  	cfg->clk_post = 60000 + 52 * ui;
+> -	cfg->clk_pre = 8000;
+> +	cfg->clk_pre = 8;
+>  	cfg->clk_prepare = 38000;
+>  	cfg->clk_settle = 95000;
+>  	cfg->clk_term_en = 0;
+> @@ -97,7 +97,7 @@ int phy_mipi_dphy_config_validate(struct phy_configure_opts_mipi_dphy *cfg)
+>  	if (cfg->clk_post < (60000 + 52 * ui))
+>  		return -EINVAL;
+>  
+> -	if (cfg->clk_pre < 8000)
+> +	if (cfg->clk_pre < 8)
+>  		return -EINVAL;
+>  
+>  	if (cfg->clk_prepare < 38000 || cfg->clk_prepare > 95000)
+> diff --git a/drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c b/drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c
+> index 347dc79a18c1..630e01b5c19b 100644
+> --- a/drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c
+> +++ b/drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c
 > @@ -5,6 +5,7 @@
->    * Author: Rob Clark <robdclark@gmail.com>
->    */
->   
-> +#include <linux/clk/clk-conf.h>
->   #include <linux/dma-mapping.h>
->   #include <linux/kthread.h>
->   #include <linux/sched/mm.h>
-> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-> index 3ab19775a5c3..06d26c5fb274 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.h
-> +++ b/drivers/gpu/drm/msm/msm_drv.h
-> @@ -480,6 +480,7 @@ struct clk *msm_clk_get(struct platform_device *pdev, const char *name);
->   
->   struct clk *msm_clk_bulk_get_clock(struct clk_bulk_data *bulk, int count,
->   	const char *name);
-> +int msm_parse_clock(struct platform_device *pdev, struct clk_bulk_data **clocks);
->   void __iomem *msm_ioremap(struct platform_device *pdev, const char *name);
->   void __iomem *msm_ioremap_size(struct platform_device *pdev, const char *name,
->   		phys_addr_t *size);
-> diff --git a/drivers/gpu/drm/msm/msm_io_utils.c b/drivers/gpu/drm/msm/msm_io_utils.c
-> index 7b504617833a..5533c87c7158 100644
-> --- a/drivers/gpu/drm/msm/msm_io_utils.c
-> +++ b/drivers/gpu/drm/msm/msm_io_utils.c
-> @@ -5,6 +5,8 @@
->    * Author: Rob Clark <robdclark@gmail.com>
->    */
->   
-> +#include <linux/clk/clk-conf.h>
-> +
->   #include "msm_drv.h"
->   
->   /*
-> @@ -47,6 +49,54 @@ struct clk *msm_clk_get(struct platform_device *pdev, const char *name)
->   	return clk;
->   }
->   
-> +int msm_parse_clock(struct platform_device *pdev, struct clk_bulk_data **clocks)
-> +{
-> +	u32 i, rc = 0;
-> +	const char *clock_name;
-> +	struct clk_bulk_data *bulk;
-> +	int num_clk = 0;
-> +
-> +	if (!pdev)
-> +		return -EINVAL;
-> +
-> +	num_clk = of_property_count_strings(pdev->dev.of_node, "clock-names");
-> +	if (num_clk <= 0) {
-> +		pr_debug("clocks are not defined\n");
-> +		return 0;
-> +	}
-> +
-> +	bulk = devm_kcalloc(&pdev->dev, num_clk, sizeof(struct clk_bulk_data), GFP_KERNEL);
-> +	if (!bulk)
-> +		return -ENOMEM;
-> +
-> +	for (i = 0; i < num_clk; i++) {
-> +		rc = of_property_read_string_index(pdev->dev.of_node,
-> +						   "clock-names", i,
-> +						   &clock_name);
-> +		if (rc) {
-> +			DRM_DEV_ERROR(&pdev->dev, "Failed to get clock name for %d\n", i);
-> +			return rc;
-> +		}
-> +		bulk[i].id = devm_kstrdup(&pdev->dev, clock_name, GFP_KERNEL);
-> +	}
-> +
-> +	rc = devm_clk_bulk_get(&pdev->dev, num_clk, bulk);
-> +	if (rc) {
-> +		DRM_DEV_ERROR(&pdev->dev, "Failed to get clock refs %d\n", rc);
-> +		return rc;
-> +	}
-> +
-> +	rc = of_clk_set_defaults(pdev->dev.of_node, false);
-> +	if (rc) {
-> +		DRM_DEV_ERROR(&pdev->dev, "Failed to set clock defaults %d\n", rc);
-> +		return rc;
-> +	}
-> +
-> +	*clocks = bulk;
-> +
-> +	return num_clk;
-> +}
-> +
->   static void __iomem *_msm_ioremap(struct platform_device *pdev, const char *name,
->   				  bool quiet, phys_addr_t *psize)
->   {
-> -- 
-> 2.34.1
-> 
+>   * Author: Wyon Bi <bivvy.bi@rock-chips.com>
+>   */
+>  
+> +#include <linux/bits.h>
+>  #include <linux/kernel.h>
+>  #include <linux/clk.h>
+>  #include <linux/iopoll.h>
+> @@ -364,7 +365,7 @@ static void inno_dsidphy_mipi_mode_enable(struct inno_dsidphy *inno)
+>  	 * The value of counter for HS Tclk-pre
+>  	 * Tclk-pre = Tpin_txbyteclkhs * value
+>  	 */
+> -	clk_pre = DIV_ROUND_UP(cfg->clk_pre, t_txbyteclkhs);
+> +	clk_pre = DIV_ROUND_UP(cfg->clk_pre, BITS_PER_BYTE);
+
+For the Rockchip part, can you please give a test? Any comments?
+
+We already have T-b tags on i.MX8mq and Meson platforms.
+
+Regards,
+Liu Ying
+
+>  
+>  	/*
+>  	 * The value of counter for HS Tlpx Time
+> diff --git a/include/linux/phy/phy-mipi-dphy.h b/include/linux/phy/phy-mipi-dphy.h
+> index a877ffee845d..59a5e77ab409 100644
+> --- a/include/linux/phy/phy-mipi-dphy.h
+> +++ b/include/linux/phy/phy-mipi-dphy.h
+> @@ -42,7 +42,7 @@ struct phy_configure_opts_mipi_dphy {
+>  	 * the transmitter prior to any associated Data Lane beginning
+>  	 * the transition from LP to HS mode.
+>  	 *
+> -	 * Minimum value: 8 UI
+> +	 * Minimum value: 8
+>  	 */
+>  	unsigned int		clk_pre;
+>  
+
