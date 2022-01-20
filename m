@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F276494A75
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 10:12:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E641494A79
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 10:12:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88DDD10E89F;
-	Thu, 20 Jan 2022 09:12:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B82510E8FB;
+	Thu, 20 Jan 2022 09:12:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E641510E810
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 09:12:07 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-19-bOMb94O0NjOs2-b-Mij-8A-1; Thu, 20 Jan 2022 09:12:03 +0000
-X-MC-Unique: bOMb94O0NjOs2-b-Mij-8A-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.28; Thu, 20 Jan 2022 09:12:00 +0000
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.028; Thu, 20 Jan 2022 09:12:00 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Petr Mladek' <pmladek@suse.com>, Jani Nikula <jani.nikula@linux.intel.com>
-Subject: RE: [PATCH 0/3] lib/string_helpers: Add a few string helpers
-Thread-Topic: [PATCH 0/3] lib/string_helpers: Add a few string helpers
-Thread-Index: AQHYDdkRJfmi1u3vzker6akA52hdRqxrnz8Q
-Date: Thu, 20 Jan 2022 09:12:00 +0000
-Message-ID: <d63b56112a2249c6b6cdce003dec4967@AcuMS.aculab.com>
-References: <20220119072450.2890107-1-lucas.demarchi@intel.com>
- <YegPiR7LU8aVisMf@alley> <87tudzbykz.fsf@intel.com> <YekfbKMjOP9ecc5v@alley>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 951A210E7E1;
+ Thu, 20 Jan 2022 09:12:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1642669963; x=1674205963;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=O6+9vsSDVilrh7UjW1BQCXvdPjMTCzf/nC38lgkfjeM=;
+ b=mJsYVkoB/S/thS5W+3GGBqhw2rZrImPMV5U5eF3DBQXlCYbzThuwurhK
+ kgrXY7tNwykCB+JvCIU3a62vxTuMJ/yOdsXism7Xvw+CiJLGi6kkJ9a7h
+ w82V3hebl0ymgy2yZHAQEnCV1adO6j8aMoSSHpbD8Wc3RYJL1wBbEaL6h
+ +heHin4Di8Mzv2JXviQlGYcsxfyyruIw+/JyHolEoK9aNVBZEPpsFAgLZ
+ dW6e4dKkXCghJIROkVABicUCl4OXqZ9tlzIG1at7XK4O5oZ0FrY5e4Bj5
+ hjbybEVWgAgV6ePKiuSJ3qdhsJhbbz+sL0Huqwz+os44VxyPdmOJYiwhT A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10232"; a="232671198"
+X-IronPort-AV: E=Sophos;i="5.88,302,1635231600"; d="scan'208";a="232671198"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2022 01:12:43 -0800
+X-IronPort-AV: E=Sophos;i="5.88,302,1635231600"; d="scan'208";a="532691996"
+Received: from davidfsc-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.252.52.140])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2022 01:12:32 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Petr Mladek <pmladek@suse.com>
+Subject: Re: [PATCH 0/3] lib/string_helpers: Add a few string helpers
 In-Reply-To: <YekfbKMjOP9ecc5v@alley>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220119072450.2890107-1-lucas.demarchi@intel.com>
+ <YegPiR7LU8aVisMf@alley> <87tudzbykz.fsf@intel.com>
+ <YekfbKMjOP9ecc5v@alley>
+Date: Thu, 20 Jan 2022 11:12:27 +0200
+Message-ID: <8735libwjo.fsf@intel.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,75 +59,115 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>, Rasmus
- Villemoes <linux@rasmusvillemoes.dk>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>, Vishal
- Kulkarni <vishal@chelsio.com>,
+ nouveau@lists.freedesktop.org, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
+ Vishal Kulkarni <vishal@chelsio.com>,
  Francis Laniel <laniel_francis@privacyrequired.com>,
- Kentaro Takeda <takedakn@nttdata.co.jp>, Mikita
- Lipski <mikita.lipski@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- Andy Shevchenko <andy.shevchenko@gmail.com>, Ben Skeggs <bskeggs@redhat.com>,
- Jakub
- Kicinski <kuba@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Leo Li <sunpeng.li@amd.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- Raju Rangoju <rajur@chelsio.com>, Lucas De Marchi <lucas.demarchi@intel.com>,
+ Kentaro Takeda <takedakn@nttdata.co.jp>, Mikita Lipski <mikita.lipski@amd.com>,
+ amd-gfx@lists.freedesktop.org, Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Ben Skeggs <bskeggs@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Leo Li <sunpeng.li@amd.com>,
+ intel-gfx@lists.freedesktop.org, Raju Rangoju <rajur@chelsio.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
  Steven Rostedt <rostedt@goodmis.org>, Julia Lawall <julia.lawall@lip6.fr>,
  Rahul Lakkireddy <rahul.lakkireddy@chelsio.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Eryk Brol <eryk.brol@amd.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- =?iso-8859-1?Q?Christian_K=F6nig?= <christian.koenig@amd.com>,
+ linux-kernel@vger.kernel.org,
+ Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>,
  Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- "linux-security-module@vger.kernel.org"
- <linux-security-module@vger.kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>, Andrew
- Morton <akpm@linux-foundation.org>, "David S . Miller" <davem@davemloft.net>
+ linux-security-module@vger.kernel.org, netdev@vger.kernel.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>, "David S
+ . Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-...
+On Thu, 20 Jan 2022, Petr Mladek <pmladek@suse.com> wrote:
+> On Wed 2022-01-19 16:16:12, Jani Nikula wrote:
+>> On Wed, 19 Jan 2022, Petr Mladek <pmladek@suse.com> wrote:
+>> > On Tue 2022-01-18 23:24:47, Lucas De Marchi wrote:
+>> >> d. This doesn't bring onoff() helper as there are some places in the
+>> >>    kernel with onoff as variable - another name is probably needed for
+>> >>    this function in order not to shadow the variable, or those variables
+>> >>    could be renamed.  Or if people wanting  <someprefix>
+>> >>    try to find a short one
+>> >
+>> > I would call it str_on_off().
+>> >
+>> > And I would actually suggest to use the same style also for
+>> > the other helpers.
+>> >
+>> > The "str_" prefix would make it clear that it is something with
+>> > string. There are other <prefix>_on_off() that affect some
+>> > functionality, e.g. mute_led_on_off(), e1000_vlan_filter_on_off().
+>> >
+>> > The dash '_' would significantly help to parse the name. yesno() and
+>> > onoff() are nicely short and kind of acceptable. But "enabledisable()"
+>> > is a puzzle.
+>> >
+>> > IMHO, str_yes_no(), str_on_off(), str_enable_disable() are a good
+>> > compromise.
+>> >
+>> > The main motivation should be code readability. You write the
+>> > code once. But many people will read it many times. Open coding
+>> > is sometimes better than misleading macro names.
+>> >
+>> > That said, I do not want to block this patchset. If others like
+>> > it... ;-)
+>> 
+>> I don't mind the names either way. Adding the prefix and dashes is
+>> helpful in that it's possible to add the functions first and convert
+>> users at leisure, though with a bunch of churn, while using names that
+>> collide with existing ones requires the changes to happen in one go.
+>
+> It is also possible to support both notations at the beginning.
+> And convert the existing users in the 2nd step.
+>
+>> What I do mind is grinding this series to a halt once again. I sent a
+>> handful of versions of this three years ago, with inconclusive
+>> bikeshedding back and forth, eventually threw my hands up in disgust,
+>> and walked away.
+>
 > Yeah, and I am sorry for bikeshedding. Honestly, I do not know what is
 > better. This is why I do not want to block this series when others
 > like this.
->=20
+>
 > My main motivation is to point out that:
->=20
+>
 >     enabledisable(enable)
->=20
+>
 > might be, for some people, more eye bleeding than
->=20
+>
 >     enable ? "enable" : "disable"
-
-Indeed - you need to look the former up, wasting brain time.
-
-> The problem is not that visible with yesno() and onoff(). But as you said=
-,
+>
+>
+> The problem is not that visible with yesno() and onoff(). But as you said,
 > onoff() confliscts with variable names. And enabledisable() sucks.
 > As a result, there is a non-trivial risk of two mass changes:
->=20
+
+My point is, in the past three years we could have churned through more
+than two mass renames just fine, if needed, *if* we had just managed to
+merge something for a start!
+
+BR,
+Jani.
+
+>
 > now:
->=20
+>
 > - contition ? "yes" : "no"
 > + yesno(condition)
->=20
+>
 > a few moths later:
->=20
+>
 > - yesno(condition)
 > + str_yes_no(condition)
+>
+>
+> Best Regards,
+> Petr
 
-Followed by:
-- str_yes_no(x)
-+ no_yes_str(x)
-
-=09David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
-
+-- 
+Jani Nikula, Intel Open Source Graphics Center
