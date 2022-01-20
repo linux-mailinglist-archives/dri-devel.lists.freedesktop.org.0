@@ -2,53 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3B33494625
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 04:28:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16E8849462D
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 04:34:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0174110E311;
-	Thu, 20 Jan 2022 03:28:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34CD710E259;
+	Thu, 20 Jan 2022 03:34:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E3D110E261
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 03:28:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642649331; x=1674185331;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=arwPcs8Kyc09pesbQKhsEh0ZIRHJCBHsbXYgE2TqQ8c=;
- b=OedDLRtrB/0+KaYCjns8xureIuY0ms5c/gG6OjbOyysbA61ftQYMgjLf
- n8JlDv51gMue9MHMxIvtrGQodsnywOEtZvcf7vYiTjn1jz8PTtr+Y9RVF
- 2gFeVbLdJNANkRA8Ds3XvbkpLTfOi19be41yjU7L5Uqbv0/4NoetvYqar
- xwcQxP/FP7W38AVj14sexLv1pPOKgCC8Nbnji5ugD4/0L/FArUjrs15pu
- U38TBNgpr2qi7wzUFXY0MzqE9CrZibc1iaoY5YL1AuNU4pWulTA/pcDSR
- NdM9UJPU+Ue3dePYjv97BzGqMpOIfkuil5/ywzU0j0EBLZA3tdSdJNM0l w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10232"; a="269658236"
-X-IronPort-AV: E=Sophos;i="5.88,301,1635231600"; d="scan'208";a="269658236"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2022 19:28:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,301,1635231600"; d="scan'208";a="579061203"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
- by fmsmga008.fm.intel.com with ESMTP; 19 Jan 2022 19:28:48 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nAO7z-000Dxx-Kx; Thu, 20 Jan 2022 03:28:47 +0000
-Date: Thu, 20 Jan 2022 11:27:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hsin-Yi Wang <hsinyi@chromium.org>, Robert Foss <robert.foss@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Xin Ji <xji@analogixsemi.com>
-Subject: Re: [PATCH v5 3/4] drm/bridge: anx7625: Support reading edid through
- aux channel
-Message-ID: <202201200932.S1r1TWum-lkp@intel.com>
-References: <20220119151751.986185-3-hsinyi@chromium.org>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE6A710E259
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 03:34:07 +0000 (UTC)
+X-UUID: 0e3172ea1eef46cebc6361e5b4b2992f-20220120
+X-UUID: 0e3172ea1eef46cebc6361e5b4b2992f-20220120
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw01.mediatek.com (envelope-from <guangming.cao@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1117506135; Thu, 20 Jan 2022 11:34:01 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Thu, 20 Jan 2022 11:34:00 +0800
+Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
+ mtkcas11.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Thu, 20 Jan 2022 11:33:59 +0800
+From: <guangming.cao@mediatek.com>
+To: <john.stultz@linaro.org>
+Subject: [PATCH v4] dma-buf: system_heap: Add a size check for allocation
+Date: Thu, 20 Jan 2022 11:34:50 +0800
+Message-ID: <20220120033450.90164-1-guangming.cao@mediatek.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CALAqxLUtK8V9LgC-DY+tkzFYyWfzF+JhbrLZk6UhEG57HQBDSA@mail.gmail.com>
+References: <CALAqxLUtK8V9LgC-DY+tkzFYyWfzF+JhbrLZk6UhEG57HQBDSA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220119151751.986185-3-hsinyi@chromium.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,46 +48,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, kbuild-all@lists.01.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-arm-kernel@lists.infradead.org, caoguangming34@gmail.com,
+ Guangming <Guangming.Cao@mediatek.com>, wsd_upstream@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ mingyuan.ma@mediatek.com, linaro-mm-sig@lists.linaro.org,
+ michael.j.ruhl@intel.com, yf.wang@mediatek.com,
+ linux-mediatek@lists.infradead.org, libo.kang@mediatek.com,
+ benjamin.gaignard@linaro.org, bo.song@mediatek.com, matthias.bgg@gmail.com,
+ lmark@codeaurora.org, labbott@redhat.com, christian.koenig@amd.com,
+ jianjiao.zeng@mediatek.com, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hsin-Yi,
+From: Guangming <Guangming.Cao@mediatek.com>
 
-Thank you for the patch! Yet something to improve:
+Add a size check for allocation since the allocation size should be
+always less than the total DRAM size on system heap.
+And it can prevent consuming too much time for invalid allocations.
 
-[auto build test ERROR on drm-tip/drm-tip]
-[cannot apply to drm/drm-next robh/for-next drm-intel/for-linux-next v5.16 next-20220118]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Hsin-Yi-Wang/drm-bridge-anx7625-send-DPCD-command-to-downstream/20220119-231952
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-config: arm-randconfig-c002-20220118 (https://download.01.org/0day-ci/archive/20220120/202201200932.S1r1TWum-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/61809df270082584886188b067ee19744f4b35e1
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Hsin-Yi-Wang/drm-bridge-anx7625-send-DPCD-command-to-downstream/20220119-231952
-        git checkout 61809df270082584886188b067ee19744f4b35e1
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   arm-linux-gnueabi-ld: drivers/gpu/drm/bridge/analogix/anx7625.o: in function `anx7625_i2c_probe':
->> anx7625.c:(.text+0x1c10): undefined reference to `devm_of_dp_aux_populate_ep_devices'
-
+Signed-off-by: Guangming <Guangming.Cao@mediatek.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ drivers/dma-buf/heaps/system_heap.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+index 23a7e74ef966..bd6f255620e2 100644
+--- a/drivers/dma-buf/heaps/system_heap.c
++++ b/drivers/dma-buf/heaps/system_heap.c
+@@ -347,6 +347,13 @@ static struct dma_buf *system_heap_allocate(struct dma_heap *heap,
+ 	struct page *page, *tmp_page;
+ 	int i, ret = -ENOMEM;
+ 
++	/*
++	 * Size check. The "len" should be less than totalram since system_heap
++	 * memory is comes from system. Adding check here can prevent consuming
++	 * too much time for invalid allocations.
++	 */
++	if (len >> PAGE_SHIFT > totalram_pages())
++		return -EINVAL;
+ 	buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
+ 	if (!buffer)
+ 		return ERR_PTR(-ENOMEM);
+-- 
+2.17.1
+
