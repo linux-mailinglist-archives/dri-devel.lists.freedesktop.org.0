@@ -1,44 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7477C4949A9
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 09:38:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CC37494A0F
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jan 2022 09:50:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E578010E8B3;
-	Thu, 20 Jan 2022 08:38:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59EE610E7CF;
+	Thu, 20 Jan 2022 08:50:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1386510E479;
- Thu, 20 Jan 2022 08:38:11 +0000 (UTC)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out2.suse.de (Postfix) with ESMTP id 1F79E1F391;
- Thu, 20 Jan 2022 08:38:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1642667889; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=S1149P6IJdsdpbMcrXZq6Mc6WqPqJoBvK3pMWsa4MN8=;
- b=mgVK2GKX4z682928eNQNmcKH4PlzeX6XpPLxSucJKp6GDejDBl9xGnHm3EQ7m1HB7u4s0x
- HmV98Y94Jgx4BP2N49y70kzTAsfC49uladYoyY9u+lMOkRTYf7K7VjPT83DyGrKubQrpNL
- 4X9INnLQQrZk7xUamCgzquBLJDcbk7E=
-Received: from suse.cz (unknown [10.100.224.162])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by relay2.suse.de (Postfix) with ESMTPS id 1E602A3B81;
- Thu, 20 Jan 2022 08:38:04 +0000 (UTC)
-Date: Thu, 20 Jan 2022 09:38:04 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH 0/3] lib/string_helpers: Add a few string helpers
-Message-ID: <YekfbKMjOP9ecc5v@alley>
-References: <20220119072450.2890107-1-lucas.demarchi@intel.com>
- <YegPiR7LU8aVisMf@alley> <87tudzbykz.fsf@intel.com>
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4994D10E930
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 08:50:51 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id c66so10418686wma.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 00:50:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=Ko6KL9eo2/amN6Mkm8rkJt9A+k3vlAsHv5U99GctgVw=;
+ b=mudBSflgmCVgxMfMnCti2aKgRfjy3SsdsOzbU1Eobjq0FtoFaPNeAQUgOiQUfsywKC
+ eaZEzlJ2l3FkgUKf/FAvTI0IJfSjDB8WjsfDF4MW2SC6mUtuTpqKgnug7QoxgFZ6jj2y
+ he2MazseQFGXxIP0GMQrZWNqwKke4d6Epqc7j7etPBh0WyE4bHhybIBvwMfTnkN+sxo3
+ kn+v1cXrtNQC0Ib8Z2+Yj//CuNjNiQJYynXdNmgGocE9QY/WXicnE0T8nVL6RvBQsnP4
+ pFStQM/91rOGzV7+3zazEM0vXEjbrmUsdkQC1oHnxY6RLYr55DLUfHpRlVTPDKUC7Bmd
+ o3ZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=Ko6KL9eo2/amN6Mkm8rkJt9A+k3vlAsHv5U99GctgVw=;
+ b=HcL92FOFem0PRowOXcoNrof3aGYZWpmVETnO32jrCOFdGWkA06scyktXffvTj6w2Jk
+ zEHyuzANIIlyahn+sDxKW1BYs6ODjcfP98qoEAHclQRxfWH381TW02cf0Fi9Jtjx9Ekc
+ KjK2XS3WVYIFkwbS3B/sb8dEYEZupVbT4Doc45t8lQ1RmWQBKwlEWGI4wXWm5mFI8FjD
+ pnCHpegTO59dJKfP2B3btIntBEo6BY0dLBXAXlXDKIsSedIHSbqAwmsVUH5FUDXidK1q
+ Ct/U6vxruww5anHnDoeRCu+Vn136nlz3vNgNxHaXFndSkFh5l5RPkrZ9lM3v4L46dTwm
+ 7c2w==
+X-Gm-Message-State: AOAM530AwxPM1i8/htlikCEA3KFKHkNERbLyBqwYvtjqMOGswk0WzDGu
+ jU+nAsBwVIoxs7IbxLJ2VEY=
+X-Google-Smtp-Source: ABdhPJx95ZJNeIu0qZQZdChuFJEWtlTJdxUxS2ff/zIsq0hpP3JIZVsYxNZgwU2vQtGPjj87idBBdg==
+X-Received: by 2002:a7b:cd81:: with SMTP id y1mr7883640wmj.4.1642668649697;
+ Thu, 20 Jan 2022 00:50:49 -0800 (PST)
+Received: from [192.168.178.21] (p57b0bff8.dip0.t-ipconnect.de.
+ [87.176.191.248])
+ by smtp.gmail.com with ESMTPSA id d6sm2088784wrs.85.2022.01.20.00.50.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Jan 2022 00:50:49 -0800 (PST)
+Subject: Re: [PATCH 1/4] dma-buf: consolidate dma_fence subclass checking
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20220119134339.3102-1-christian.koenig@amd.com>
+ <YehHX7ID/of9kxmE@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <364f8edb-07b5-c1b4-71ea-0003b45ce7e3@gmail.com>
+Date: Thu, 20 Jan 2022 09:50:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87tudzbykz.fsf@intel.com>
+In-Reply-To: <YehHX7ID/of9kxmE@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,104 +73,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
- Vishal Kulkarni <vishal@chelsio.com>,
- Francis Laniel <laniel_francis@privacyrequired.com>,
- Kentaro Takeda <takedakn@nttdata.co.jp>, Mikita Lipski <mikita.lipski@amd.com>,
- amd-gfx@lists.freedesktop.org, Andy Shevchenko <andy.shevchenko@gmail.com>,
- Ben Skeggs <bskeggs@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Leo Li <sunpeng.li@amd.com>,
- intel-gfx@lists.freedesktop.org, Raju Rangoju <rajur@chelsio.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Steven Rostedt <rostedt@goodmis.org>, Julia Lawall <julia.lawall@lip6.fr>,
- Rahul Lakkireddy <rahul.lakkireddy@chelsio.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Eryk Brol <eryk.brol@amd.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-kernel@vger.kernel.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- linux-security-module@vger.kernel.org, netdev@vger.kernel.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- "David S . Miller" <davem@davemloft.net>
+Cc: gustavo@padovan.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, daniel.vetter@ffwll.ch,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed 2022-01-19 16:16:12, Jani Nikula wrote:
-> On Wed, 19 Jan 2022, Petr Mladek <pmladek@suse.com> wrote:
-> > On Tue 2022-01-18 23:24:47, Lucas De Marchi wrote:
-> >> d. This doesn't bring onoff() helper as there are some places in the
-> >>    kernel with onoff as variable - another name is probably needed for
-> >>    this function in order not to shadow the variable, or those variables
-> >>    could be renamed.  Or if people wanting  <someprefix>
-> >>    try to find a short one
-> >
-> > I would call it str_on_off().
-> >
-> > And I would actually suggest to use the same style also for
-> > the other helpers.
-> >
-> > The "str_" prefix would make it clear that it is something with
-> > string. There are other <prefix>_on_off() that affect some
-> > functionality, e.g. mute_led_on_off(), e1000_vlan_filter_on_off().
-> >
-> > The dash '_' would significantly help to parse the name. yesno() and
-> > onoff() are nicely short and kind of acceptable. But "enabledisable()"
-> > is a puzzle.
-> >
-> > IMHO, str_yes_no(), str_on_off(), str_enable_disable() are a good
-> > compromise.
-> >
-> > The main motivation should be code readability. You write the
-> > code once. But many people will read it many times. Open coding
-> > is sometimes better than misleading macro names.
-> >
-> > That said, I do not want to block this patchset. If others like
-> > it... ;-)
-> 
-> I don't mind the names either way. Adding the prefix and dashes is
-> helpful in that it's possible to add the functions first and convert
-> users at leisure, though with a bunch of churn, while using names that
-> collide with existing ones requires the changes to happen in one go.
+Am 19.01.22 um 18:16 schrieb Daniel Vetter:
+> On Wed, Jan 19, 2022 at 02:43:36PM +0100, Christian König wrote:
+>> Consolidate the wrapper functions to check for dma_fence
+>> subclasses in the dma_fence header.
+>>
+>> This makes it easier to document and also check the different
+>> requirements for fence containers in the subclasses.
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> ---
+>>   include/linux/dma-fence-array.h | 15 +------------
+>>   include/linux/dma-fence-chain.h |  3 +--
+>>   include/linux/dma-fence.h       | 38 +++++++++++++++++++++++++++++++++
+>>   3 files changed, 40 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/include/linux/dma-fence-array.h b/include/linux/dma-fence-array.h
+>> index 303dd712220f..fec374f69e12 100644
+>> --- a/include/linux/dma-fence-array.h
+>> +++ b/include/linux/dma-fence-array.h
+>> @@ -45,19 +45,6 @@ struct dma_fence_array {
+>>   	struct irq_work work;
+>>   };
+>>   
+>> -extern const struct dma_fence_ops dma_fence_array_ops;
+>> -
+>> -/**
+>> - * dma_fence_is_array - check if a fence is from the array subsclass
+>> - * @fence: fence to test
+>> - *
+>> - * Return true if it is a dma_fence_array and false otherwise.
+>> - */
+>> -static inline bool dma_fence_is_array(struct dma_fence *fence)
+>> -{
+>> -	return fence->ops == &dma_fence_array_ops;
+>> -}
+>> -
+>>   /**
+>>    * to_dma_fence_array - cast a fence to a dma_fence_array
+>>    * @fence: fence to cast to a dma_fence_array
+>> @@ -68,7 +55,7 @@ static inline bool dma_fence_is_array(struct dma_fence *fence)
+>>   static inline struct dma_fence_array *
+>>   to_dma_fence_array(struct dma_fence *fence)
+>>   {
+>> -	if (fence->ops != &dma_fence_array_ops)
+>> +	if (!fence || !dma_fence_is_array(fence))
+>>   		return NULL;
+>>   
+>>   	return container_of(fence, struct dma_fence_array, base);
+>> diff --git a/include/linux/dma-fence-chain.h b/include/linux/dma-fence-chain.h
+>> index 54fe3443fd2c..ee906b659694 100644
+>> --- a/include/linux/dma-fence-chain.h
+>> +++ b/include/linux/dma-fence-chain.h
+>> @@ -49,7 +49,6 @@ struct dma_fence_chain {
+>>   	spinlock_t lock;
+>>   };
+>>   
+>> -extern const struct dma_fence_ops dma_fence_chain_ops;
+>>   
+>>   /**
+>>    * to_dma_fence_chain - cast a fence to a dma_fence_chain
+>> @@ -61,7 +60,7 @@ extern const struct dma_fence_ops dma_fence_chain_ops;
+>>   static inline struct dma_fence_chain *
+>>   to_dma_fence_chain(struct dma_fence *fence)
+>>   {
+>> -	if (!fence || fence->ops != &dma_fence_chain_ops)
+>> +	if (!fence || !dma_fence_is_chain(fence))
+>>   		return NULL;
+>>   
+>>   	return container_of(fence, struct dma_fence_chain, base);
+>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+>> index 1ea691753bd3..775cdc0b4f24 100644
+>> --- a/include/linux/dma-fence.h
+>> +++ b/include/linux/dma-fence.h
+>> @@ -587,4 +587,42 @@ struct dma_fence *dma_fence_get_stub(void);
+>>   struct dma_fence *dma_fence_allocate_private_stub(void);
+>>   u64 dma_fence_context_alloc(unsigned num);
+>>   
+>> +extern const struct dma_fence_ops dma_fence_array_ops;
+>> +extern const struct dma_fence_ops dma_fence_chain_ops;
+>> +
+>> +/**
+>> + * dma_fence_is_array - check if a fence is from the array subclass
+>> + * @fence: the fence to test
+>> + *
+>> + * Return true if it is a dma_fence_array and false otherwise.
+>> + */
+>> +static inline bool dma_fence_is_array(struct dma_fence *fence)
+>> +{
+>> +	return fence->ops == &dma_fence_array_ops;
+>> +}
+>> +
+>> +/**
+>> + * dma_fence_is_chain - check if a fence is from the chain subclass
+>> + * @fence: the fence to test
+>> + *
+>> + * Return true if it is a dma_fence_chain and false otherwise.
+>> + */
+>> +static inline bool dma_fence_is_chain(struct dma_fence *fence)
+>> +{
+>> +	return fence->ops == &dma_fence_chain_ops;
+>> +}
+>> +
+>> +/**
+>> + * dma_fence_is_container - check if a fence is a container for other fences
+>> + * @fence: the fence to test
+>> + *
+>> + * Return true if this fence is a container for other fences, false otherwise.
+>> + * This is important since we can't build up large fence structure or otherwise
+>> + * we run into recursion during operation on those fences.
+>> + */
+>> +static inline bool dma_fence_is_container(struct dma_fence *fence)
+> Code looks all good, but I'm not super enthusiastic about exporting the
+> ops to drivers and letting them do random nonsense. At least i915 does
+> pretty enormous amounts of stuff with that instead of having pushed
+> priority boosting into dma-fence as a proper concept. And maybe a few
+> other things.
+>
+> Now i915-gem team having gone off the rails of good upstream conduct is
+> another thing maybe, but I'd like to not encourage that.
+>
+> So could we perhaps do this all in header which is entirely private to
+> drivers/dma-buf, like dma-fence-internal or so? And maybe whack a big
+> fixme onto the current abuse in drivers (of which __dma_fence_is_chain()
+> gets a special price for "not how upstream should be done" *sigh*).
 
-It is also possible to support both notations at the beginning.
-And convert the existing users in the 2nd step.
+WTF is __dma_fence_is_chain? Seeing that for the first time now.
 
-> What I do mind is grinding this series to a halt once again. I sent a
-> handful of versions of this three years ago, with inconclusive
-> bikeshedding back and forth, eventually threw my hands up in disgust,
-> and walked away.
+And yes even if you do priority boosting manually that code in i915 is 
+just way to complicated.
 
-Yeah, and I am sorry for bikeshedding. Honestly, I do not know what is
-better. This is why I do not want to block this series when others
-like this.
+I'm sure you don't have any objections that I clean up that mess now you 
+pointed it out :)
 
-My main motivation is to point out that:
+Thanks,
+Christian.
 
-    enabledisable(enable)
+>
+> Cheers, Daniel
+>
+>> +{
+>> +	return dma_fence_is_array(fence) || dma_fence_is_chain(fence);
+>> +}
+>> +
+>>   #endif /* __LINUX_DMA_FENCE_H */
+>> -- 
+>> 2.25.1
+>>
 
-might be, for some people, more eye bleeding than
-
-    enable ? "enable" : "disable"
-
-
-The problem is not that visible with yesno() and onoff(). But as you said,
-onoff() confliscts with variable names. And enabledisable() sucks.
-As a result, there is a non-trivial risk of two mass changes:
-
-now:
-
-- contition ? "yes" : "no"
-+ yesno(condition)
-
-a few moths later:
-
-- yesno(condition)
-+ str_yes_no(condition)
-
-
-Best Regards,
-Petr
