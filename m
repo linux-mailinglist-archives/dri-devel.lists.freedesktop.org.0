@@ -1,54 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B0E1495FC1
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 14:28:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C5CD496226
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 16:33:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57F1210EB10;
-	Fri, 21 Jan 2022 13:28:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70FEE10E4BF;
+	Fri, 21 Jan 2022 15:33:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA8C710EB0A
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 13:28:47 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+X-Greylist: delayed 466 seconds by postgrey-1.36 at gabe;
+ Fri, 21 Jan 2022 15:33:10 UTC
+Received: from smtp-relay-internal-0.canonical.com
+ (smtp-relay-internal-0.canonical.com [185.125.188.122])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAA8F10E41E
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 15:33:10 +0000 (UTC)
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 6755B80FE1;
- Fri, 21 Jan 2022 14:28:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1642771726;
- bh=+vQdfU2JkINR+WOEonZ1XBYtiZUhavjnNuh9FSJugW8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=tpppOmobNR7k1qnWsY9x+K3cV8HaUVAnsVMWtZZtPonJKRjJdp8Y2uek1gPqWv4vi
- v+Y1i8pg+Z3ttVZ3gRwZneiOC523B4G4rPKw54cC2xbkRfzL/DqDJatJ62pUl4xR64
- lI+bjCK9hf9UKbes15yvpmhQ+O17RZoQiTGIVbUSqITRNHsIXERH6KLaTv3aUyrbrA
- 98Jx5+B+q8zFNlWgks1g5/YZyollMDfJb4i3G5+HQsOd21SKM1NKE/5E3t9p2VTGiB
- qGgrvuIvSMZ+0fNQ1mXERudBGduGpYjj/Xg0UmwSlohlK2IKc7myPhwFfncYtQ/VBG
- TwYC/TraIjfiw==
-Message-ID: <9b71782f-a54f-9323-ffd8-141dfe5e875e@denx.de>
-Date: Fri, 21 Jan 2022 14:28:44 +0100
+ by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 4F0813F17B
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 15:25:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1642778722;
+ bh=kmO+xAN2J4Jy/ih5e+qjMQI4v9QuAWJh5wyH2KxAvmg=;
+ h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+ Content-Type:In-Reply-To;
+ b=dUDxqYVBx+WwLOn02CctmPlEO8aVrXCCsVwSsCarStsSNAXjPHrDiY8xd9q8FSNEu
+ wwPs+LBNSA78ZCyx4aW5ztnKrtA0wtWl/vfP5sUP/G14ojChUwLX/Rxz1gIaoqZcih
+ JPFVNWkFBVVCKMSwwM9xggxTOZ7HCIM3ARG1KUCtUYREGywjcRe++hl4EzpgGw7p80
+ /Lq72Opq7xUeEcT/NJ3K6EEH5gR37x6YxAtw3Kv8oM0CWUUqVPRB1lFJJ3rkNFqXW1
+ 5vEVV9CZWhG7VmOg48PZT+d4j57NavmOMibX2fp99mrqTeOzDMWn8s+TEB5nuWpSfq
+ TUk8WYXTk2WWg==
+Received: by mail-il1-f197.google.com with SMTP id
+ x6-20020a056e021ca600b002b7e8b542e6so6086797ill.21
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 07:25:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=kmO+xAN2J4Jy/ih5e+qjMQI4v9QuAWJh5wyH2KxAvmg=;
+ b=ZNPdMuhQE8NrTh1MQ5Jld4w0+y9S3fMMkdDJ6wEYOcnFDDIR12KRXAVJmGsMIyCqwE
+ u4s3KXotrc6QhFF3cf3cDamSBW+HxX1RCb02J+eOsQk28uTyAZFkpuSJeg/gDIB6YdD4
+ iTy4orxG+lCoigcTnlYiLoFxbpX5Q2YkcCnruB6/sQax4hLF8NQz76M7W7xCR0n/WC1d
+ jNxrX9Ofuw67w+WUS6lBgUXiskhNX5Z6qTzaMZxcI/T2rPiV4lT3HX9tmtWWZVToOaye
+ WKXF14JiswCzcNSRRNUDtQYfnB4IzXcuart8wix3PcJYulF5S4gdnhiN1zGCAiux0P32
+ ZDgg==
+X-Gm-Message-State: AOAM530KoqNMb2Ku8Ab5pGmQiMpzKwX43dsr6xkeJ4Kb9WoaKsGK0C21
+ 0xCn51ynQQluhV9/6RD+3CrqBZXbRanr0TrDkAbCLmvhoY2v6MX+jBTC4j4vVwBZDHjEFO8uufU
+ t66lgStb1BIDxiTlGneYEmvg1BSTEGUw9dq4bL52mX+gpGQ==
+X-Received: by 2002:a02:85e3:: with SMTP id d90mr632666jai.15.1642778716284;
+ Fri, 21 Jan 2022 07:25:16 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzeOIQp+Scen5y5VsEkzFbri8UfeMJMq603bTmQNLXleUNzAxbMTmooyHEggHDV9wKJC/Ogyw==
+X-Received: by 2002:a02:85e3:: with SMTP id d90mr632645jai.15.1642778716007;
+ Fri, 21 Jan 2022 07:25:16 -0800 (PST)
+Received: from xps13.dannf (c-71-196-238-11.hsd1.co.comcast.net.
+ [71.196.238.11])
+ by smtp.gmail.com with ESMTPSA id w4sm3282353ilv.32.2022.01.21.07.25.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Jan 2022 07:25:14 -0800 (PST)
+Date: Fri, 21 Jan 2022 08:25:12 -0700
+From: dann frazier <dann.frazier@canonical.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v3] drm/ast: Don't check new mode if CRTC is being disabled
+Message-ID: <YerQWPxMNYV+zOSG@xps13.dannf>
+References: <20200507090640.21561-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: (EXT) Re: [PATCH 1/1] drm: mxsfb: Fix NULL pointer dereference
-Content-Language: en-US
-To: Alexander Stein <alexander.stein@ew.tq-group.com>,
- Stefan Agner <stefan@agner.ch>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20220121131238.507567-1-alexander.stein@ew.tq-group.com>
- <4d3654b5-9a87-1c02-f2d9-d0974e628c20@denx.de> <2361278.ElGaqSPkdT@steina-w>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <2361278.ElGaqSPkdT@steina-w>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200507090640.21561-1-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,70 +82,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Cc: cogarre@gmail.com, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, kraxel@redhat.com, airlied@redhat.com,
+ stable@vger.kernel.org, sam@ravnborg.org, emil.velikov@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/21/22 14:24, Alexander Stein wrote:
-> Am Freitag, 21. Januar 2022, 14:14:01 CET schrieb Marek Vasut:
->> On 1/21/22 14:12, Alexander Stein wrote:
->>> Do not deference the NULL pointer if the bridge does not return a
->>> bridge state. Assume a fixed format instead.
->>>
->>> Fixes: commit b776b0f00f24 ("drm: mxsfb: Use bus_format from the nearest
->>> bridge if present") Signed-off-by: Alexander Stein
->>> <alexander.stein@ew.tq-group.com>
->>> ---
->>> This can happen if a "ti,sn75lvds83", "lvds-encoder" bridge is attached
->>> to it. atomic_get_input_bus_fmts is only implemented for the
->>> lvds-decoder case.
->>>
->>>    drivers/gpu/drm/mxsfb/mxsfb_kms.c | 6 +++++-
->>>    1 file changed, 5 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
->>> b/drivers/gpu/drm/mxsfb/mxsfb_kms.c index 0655582ae8ed..4cfb6c001679
->>> 100644
->>> --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
->>> +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
->>> @@ -361,7 +361,11 @@ static void mxsfb_crtc_atomic_enable(struct drm_crtc
->>> *crtc,>
->>>    		bridge_state =
->>>    		
->>>    			drm_atomic_get_new_bridge_state(state,
->>>    			
->>>    							
-> mxsfb->bridge);
->>>
->>> -		bus_format = bridge_state->input_bus_cfg.format;
->>> +		if (!bridge_state)
->>> +			bus_format = MEDIA_BUS_FMT_FIXED;
->>> +		else
->>> +			bus_format = bridge_state-
->> input_bus_cfg.format;
->>> +
->>>
->>>    		if (bus_format == MEDIA_BUS_FMT_FIXED) {
->>>    		
->>>    			dev_warn_once(drm->dev,
->>>    			
->>>    				      "Bridge does not provide bus
-> format, assuming
->>>    				      MEDIA_BUS_FMT_RGB888_1X24.
-> \n"
->>
->> Shouldn't this be fixed on the bridge driver side instead ?
->>
->> Which bridge driver do you use ?
+On Thu, May 07, 2020 at 11:06:40AM +0200, Thomas Zimmermann wrote:
+> Suspending failed because there's no mode if the CRTC is being
+> disabled. Early-out in this case. This fixes runtime PM for ast.
 > 
-> It's drivers/gpu/drm/bridge/lvds-codec.c. I thought naming the compatibles
-> would suffice. I consider a patch for the bridge driver as a separate issue,
-> hence the warning from mxsfb. Although I'm unsure how/what to implement.
-> Similar to the encode case where the bus format is specified in DT?
+> v3:
+> 	* fixed commit message
+> v2:
+> 	* added Tested-by/Reported-by tags
+> 	* added Fixes tags and CC (Sam)
+> 	* improved comment
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reported-by: Cary Garrett <cogarre@gmail.com>
+> Tested-by: Cary Garrett <cogarre@gmail.com>
+> Fixes: b48e1b6ffd28 ("drm/ast: Add CRTC helpers for atomic modesetting")
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: <stable@vger.kernel.org> # v5.6+
+> ---
+>  drivers/gpu/drm/ast/ast_mode.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+> index 7a9f20a2fd303..0cbbb21edb4e1 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -801,6 +801,9 @@ static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
+>  		return -EINVAL;
+>  	}
+>  
+> +	if (!state->enable)
+> +		return 0; /* no mode checks if CRTC is being disabled */
+> +
+>  	ast_state = to_ast_crtc_state(state);
+>  
+>  	format = ast_state->format;
 
-I'm sorry, I missed the lvds-codec part. Laurent is already on CC.
+hey,
+  I'm seeing a regression that I bisected down to this change. I
+installed GNOME on a couple of different server models that have
+AMI-based BMCs, which provide a web-based graphics display (virtual
+KVM). When I enter the lock screen on current upstream kernels, the
+display freezes, and I see the following messages appear in syslog
+whenever I generate keyboard/mouse events on that display:
 
-> Anyway, mxsfb should not never dereference the NULL pointer which
-> drm_atomic_get_new_bridge_state is allowed to return.
+Jan 19 20:34:53 starbuck gnome-shell[5002]: Failed to post KMS update: drmModeAtomicCommit: Invalid argument
+Jan 19 20:34:53 starbuck gnome-shell[5002]: Page flip discarded: drmModeAtomicCommit: Invalid argument
+Jan 19 20:34:53 starbuck gnome-shell[5002]: Failed to post KMS update: drmModeAtomicCommit: Invalid argument
+Jan 19 20:34:53 starbuck gnome-shell[5002]: Page flip discarded: drmModeAtomicCommit: Invalid argument
+Jan 19 20:34:53 starbuck gnome-shell[5002]: Failed to post KMS update: drmModeAtomicCommit: Invalid argument
+Jan 19 20:34:53 starbuck gnome-shell[5002]: Page flip discarded: drmModeAtomicCommit: Invalid argument
+Jan 19 20:34:53 starbuck gnome-shell[5002]: Failed to post KMS update: drmModeAtomicCommit: Invalid argument
 
-That line ^ should be in the commit message.
+If I back out this change w/ the following patch (code has evolved
+slightly preventing a clean revert), then the lock screen once again
+behaves normally:
+
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index 956c8982192b..336c545c46f5 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -1012,9 +1012,6 @@ static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
+ 	const struct drm_format_info *format;
+ 	bool succ;
+ 
+-	if (!crtc_state->enable)
+-		return 0; /* no mode checks if CRTC is being disabled */
+-
+ 	ast_state = to_ast_crtc_state(crtc_state);
+ 
+ 	format = ast_state->format;
+
+
+Apologies for noticing so long after the fact. I don't normally run a
+desktop environment on these servers, I just happened to be debugging
+something recently that required it.
+
+  -dann
