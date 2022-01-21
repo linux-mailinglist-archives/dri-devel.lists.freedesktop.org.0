@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C145C495ABE
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 08:33:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08EB3495AEF
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 08:38:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 639DA10E902;
-	Fri, 21 Jan 2022 07:33:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA8CC10E905;
+	Fri, 21 Jan 2022 07:37:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CAE310E902
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 07:33:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642750384; x=1674286384;
- h=message-id:date:mime-version:subject:to:references:from:
- in-reply-to:content-transfer-encoding;
- bh=j6D2M5eJcGFfscpsShMvN4Ex93Qg3ANgb4qLkoAi0Oo=;
- b=AZkhAlGN9wmL2cYrHxox6sCkPnsCQw37pyhsF9BMHw6KENaMn0V/SytX
- 45AxKokQIRXX+wXfNJJsWdwGHmVHiToNEpGjaFcUoQ4vm05FddTC7vx7b
- 9GgWW//B26F2vzQ8wzBjfmv/h9gq7R1h7fwoa/+WbX/2eiQ8PFSDXYx/e
- n/3jjAdibTV01Nuchb/BP4WXyZKk3tz/rDVdND3nTg3n8UZr9gBNJssvR
- hbmkCvUNMtK3YbhGed3fW3rj8KmlN7gWoqeobQRiDBHwuXFnv7UJGXKeO
- OqeoLOenVTzLJBgRnJ7xagOoLYusVnDl/WQSDEbCn/OL0pa6VmlERHUzo w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10233"; a="270007882"
-X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="270007882"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 23:33:03 -0800
-X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="533168548"
-Received: from hekner-mobl5.ger.corp.intel.com (HELO [10.249.254.132])
- ([10.249.254.132])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 23:32:59 -0800
-Message-ID: <ca907ad0-9199-d13e-5033-7113d732d476@linux.intel.com>
-Date: Fri, 21 Jan 2022 08:32:58 +0100
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com
+ [IPv6:2607:f8b0:4864:20::72b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6245C10E905
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 07:37:57 +0000 (UTC)
+Received: by mail-qk1-x72b.google.com with SMTP id t1so8986779qkt.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 23:37:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/NsTFmbJRFMqEPN6TQaECc+hiLY0/v9eV3DVPhW44GY=;
+ b=PuWCb9iH9vKdzPSOA+cnzoC5jXVWy1AxxiEArf+ovVTKyq6Rs8b9hRdqqysFgZO3RH
+ 6HR5CHUYtgLvFzY41BzyTZnhtdVBI2dlVkadACZfkbJeiCHh8hOkTRlnPN/l9GmSI+Id
+ mQu8TpqBpn8pYss2p8mm2Ylw68LDjOSh/YPOoMT5GrYBX3FVUnHxnSWIv6AHbc9CKyFq
+ pRXqz33+o2U+kCAOOqq+fJMR9aPYxAqjwLWxTsOR8seSgKB1lER2TEf8VRXONBQKR7Ee
+ zKn4EwFBihlTG3TooPkxvtIHW9a0KRVMGmir3ujmoCXdA3mwiVVcMurDL3u1o7Oh92lF
+ /mBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/NsTFmbJRFMqEPN6TQaECc+hiLY0/v9eV3DVPhW44GY=;
+ b=ODVs4d3Xw0hf9dzVyf15wxk1++svjGOSC+0gYn5CF+pJNfUgPfaDWCiglJafLr3BGb
+ cs+TLL0o2azXsuwlbTA5E6MKPCN/iLLQMHAl5zjQon+VnW7fMSjhMegnkjnZm5Nnc9X7
+ zcf7AEFH+c8ce9B7qYsLqqagh8+etMivpg6Ymzf+fRV6KeT8dCA/M4jlbtO567AfupuQ
+ jWvFUYCa+OWPjDJHRKRNuaG3Pyusj/Mt8FR+wNefJ/SZ21tu8v6r5L9u2Xyfaq5F/pno
+ 8qsuYHmhO6t4+Ldj95sz8y+8Qm2KFojB8QZV1UE/6rSl/jNj0zIBb2xRl5ehr1sxd7hN
+ HiKg==
+X-Gm-Message-State: AOAM5303tiXUhGys6uj6WZGc3nFSoheqG6+qJmm5EABzZ/swvb8yEkvj
+ 94myS5VjaqFiqbNaTYWauNyK2e5GzSZMpR+xWWlz+Q==
+X-Google-Smtp-Source: ABdhPJw9OZfOWatupIhHHWLCFkKsSFA5JB0Def6mqorRivdXWOXbcfFf1iqBjl+UybZDdM37TVcPw1r6mgO0fI/hWGM=
+X-Received: by 2002:a37:a211:: with SMTP id l17mr1812465qke.593.1642750676511; 
+ Thu, 20 Jan 2022 23:37:56 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [Linaro-mm-sig] [PATCH 3/9] dma-buf: Warn about dma_fence_chain
- container rules
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- sumit.semwal@linaro.org, gustavo@padovan.org, daniel.vetter@ffwll.ch,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-References: <20220120132747.2348-1-christian.koenig@amd.com>
- <20220120132747.2348-4-christian.koenig@amd.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <20220120132747.2348-4-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20220119221616.3089119-1-dmitry.baryshkov@linaro.org>
+ <20220119221616.3089119-3-dmitry.baryshkov@linaro.org>
+ <CAE-0n53=vj53a_u-5rUmrhV79_-c=F5gtjbejoVs+=PR=hc1Nw@mail.gmail.com>
+In-Reply-To: <CAE-0n53=vj53a_u-5rUmrhV79_-c=F5gtjbejoVs+=PR=hc1Nw@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 21 Jan 2022 10:37:45 +0300
+Message-ID: <CAA8EJprSTDhox33q0d37NQVKrkdhh+Ubq5_8wXqgstFkr_EtaQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] drm/msm/dpu: simplify clocks handling
+To: Stephen Boyd <swboyd@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,42 +63,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 1/20/22 14:27, Christian König wrote:
-> Chaining of dma_fence_chain objects is only allowed through the prev
-> fence and not through the contained fence.
+On Fri, 21 Jan 2022 at 07:30, Stephen Boyd <swboyd@chromium.org> wrote:
 >
-> Warn about that when we create a dma_fence_chain.
+> Quoting Dmitry Baryshkov (2022-01-19 14:16:15)
+> > diff --git a/drivers/gpu/drm/msm/msm_io_utils.c b/drivers/gpu/drm/msm/msm_io_utils.c
+> > index 7b504617833a..5533c87c7158 100644
+> > --- a/drivers/gpu/drm/msm/msm_io_utils.c
+> > +++ b/drivers/gpu/drm/msm/msm_io_utils.c
+> > @@ -5,6 +5,8 @@
+> >   * Author: Rob Clark <robdclark@gmail.com>
+> >   */
+> >
+> > +#include <linux/clk/clk-conf.h>
+> > +
+> >  #include "msm_drv.h"
+> >
+> >  /*
+> > @@ -47,6 +49,54 @@ struct clk *msm_clk_get(struct platform_device *pdev, const char *name)
+> >         return clk;
+> >  }
+> >
+> > +int msm_parse_clock(struct platform_device *pdev, struct clk_bulk_data **clocks)
+> > +{
+> > +       u32 i, rc = 0;
+> > +       const char *clock_name;
+> > +       struct clk_bulk_data *bulk;
+> > +       int num_clk = 0;
 >
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> ---
->   drivers/dma-buf/dma-fence-chain.c | 8 ++++++++
->   1 file changed, 8 insertions(+)
+> No need to assign and then reassign before testing. Same goes for 'rc'.
+
+Ack
+
 >
-> diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
-> index 1b4cb3e5cec9..fa33f6b7f77b 100644
-> --- a/drivers/dma-buf/dma-fence-chain.c
-> +++ b/drivers/dma-buf/dma-fence-chain.c
-> @@ -254,5 +254,13 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
->   
->   	dma_fence_init(&chain->base, &dma_fence_chain_ops,
->   		       &chain->lock, context, seqno);
-> +
-> +	/* Chaining dma_fence_chain container together is only allowed through
+> > +
+> > +       if (!pdev)
+> > +               return -EINVAL;
+> > +
+> > +       num_clk = of_property_count_strings(pdev->dev.of_node, "clock-names");
+> > +       if (num_clk <= 0) {
+> > +               pr_debug("clocks are not defined\n");
+> > +               return 0;
+> > +       }
+> > +
+> > +       bulk = devm_kcalloc(&pdev->dev, num_clk, sizeof(struct clk_bulk_data), GFP_KERNEL);
+> > +       if (!bulk)
+> > +               return -ENOMEM;
+> > +
+> > +       for (i = 0; i < num_clk; i++) {
+> > +               rc = of_property_read_string_index(pdev->dev.of_node,
+> > +                                                  "clock-names", i,
+> > +                                                  &clock_name);
+> > +               if (rc) {
+> > +                       DRM_DEV_ERROR(&pdev->dev, "Failed to get clock name for %d\n", i);
+> > +                       return rc;
+> > +               }
+> > +               bulk[i].id = devm_kstrdup(&pdev->dev, clock_name, GFP_KERNEL);
+> > +       }
+> > +
+> > +       rc = devm_clk_bulk_get(&pdev->dev, num_clk, bulk);
+>
+> Use devm_clk_bulk_get_all()?
 
-Nit: Multi-line comment.
+Oh, wow. I missed this API. Then this function becomes unnecessary.
 
-Otherwise, Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>
+> > +       if (rc) {
+> > +               DRM_DEV_ERROR(&pdev->dev, "Failed to get clock refs %d\n", rc);
+> > +               return rc;
+> > +       }
+> > +
+> > +       rc = of_clk_set_defaults(pdev->dev.of_node, false);
+>
+> Why is this needed?
 
-> +	 * the prev fence and not through the contained fence.
-> +	 *
-> +	 * The correct way of handling this is to flatten out the fence
-> +	 * structure into a dma_fence_array by the caller instead.
-> +	 */
-> +	WARN_ON(dma_fence_is_chain(fence));
->   }
->   EXPORT_SYMBOL(dma_fence_chain_init);
+Both mdss and mdp devices use assigned-clocks properties, while not
+being a clock provider (or a child of it).
+So I assumed it should call the of_clk_set_defaults(node, false)
+Not to mention that this call exists in the msm_dss_parse_clock(),
+which is being refactored/replaced.
+
+>
+> > +       if (rc) {
+> > +               DRM_DEV_ERROR(&pdev->dev, "Failed to set clock defaults %d\n", rc);
+> > +               return rc;
+> > +       }
+> > +
+> > +       *clocks = bulk;
+> > +
+> > +       return num_clk;
+
+
+-- 
+With best wishes
+Dmitry
