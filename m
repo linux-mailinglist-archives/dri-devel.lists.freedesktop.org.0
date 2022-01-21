@@ -1,98 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C614495D2D
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 11:00:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38FD0495D88
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 11:16:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65C3210E9C4;
-	Fri, 21 Jan 2022 10:00:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C573710E9C8;
+	Fri, 21 Jan 2022 10:16:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A47610E9C5
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 10:00:49 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20220121100047euoutp01b5604d2e8f8231a01057d256d977758e~MQNTrnZDY0846708467euoutp01t
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 10:00:47 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20220121100047euoutp01b5604d2e8f8231a01057d256d977758e~MQNTrnZDY0846708467euoutp01t
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1642759247;
- bh=5YdJW3+dhblkbIhtVX8cyt3XEV8kipJFF77dXWl7WbQ=;
- h=From:To:Cc:Subject:Date:References:From;
- b=qeF6k0ymqneiIF7MsJIApUv5SO6bmveHrMnc1YxdhOiGrCbvYlvOuZNN+9GIfsUic
- owps+Un48R7wQVKTwWKS97jHL//ScvIp1L9bTvTkNEJBCFdgziDcxOVgG/vq+6h9W0
- O9NVtJ/iRnVqXw2K9ue+tSwONgpIhSVOBif1eyiY=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20220121100046eucas1p285b561720d6d0cc65de79160c47442e4~MQNTAyivh1909319093eucas1p2I;
- Fri, 21 Jan 2022 10:00:46 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id 7C.CC.10260.E448AE16; Fri, 21
- Jan 2022 10:00:46 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20220121100046eucas1p264ec703358da48f3cddec028425ba981~MQNSg0k713121431214eucas1p23;
- Fri, 21 Jan 2022 10:00:46 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20220121100046eusmtrp1a09b80923974277913806d1d2b9ff97a~MQNSfuPi40869008690eusmtrp1a;
- Fri, 21 Jan 2022 10:00:46 +0000 (GMT)
-X-AuditID: cbfec7f5-bf3ff70000002814-64-61ea844e980f
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 76.7D.09404.D448AE16; Fri, 21
- Jan 2022 10:00:45 +0000 (GMT)
-Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20220121100045eusmtip24dce8727c589245b275f53046aff84a9~MQNSGGdFH1840418404eusmtip2c;
- Fri, 21 Jan 2022 10:00:45 +0000 (GMT)
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-To: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org
-Subject: [PATCH] drm/exynos: Don't fail if no TE-gpio is defined for DSI driver
-Date: Fri, 21 Jan 2022 11:00:39 +0100
-Message-Id: <20220121100039.17316-1-m.szyprowski@samsung.com>
-X-Mailer: git-send-email 2.17.1
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrAIsWRmVeSWpSXmKPExsWy7djPc7p+La8SDU7eF7a48vU9m8Wk+xNY
- LDa+/cFkMeP8PiaLtUfuslu0tVxnt5gx+SWbA7vHrIZeNo/73ceZPPq2rGL0ePCx1OPzJrkA
- 1igum5TUnMyy1CJ9uwSujANH25gLrnJW/L7ynb2BcSpHFyMnh4SAicS6bxdZuhi5OIQEVjBK
- PL1znQ3C+cIo8f3YenaQKiGBz4wSx79awHRc3HYMqmM5o8SuFwtY4Dp+P9vOCFLFJmAo0fW2
- iw3EFhFwk2g6PJMVpIhZ4A2jxM9Fs8HGCgsESrx6uZUZxGYRUJV43vEWqIGDg1fAVmLNRkmI
- bfISqzccYAbplRD4yy6xvnkeO0TCRaKj9SErhC0s8er4Fqi4jMTpyT0sEA3NjBIPz61lh3B6
- GCUuN81ghKiylrhz7hfYNmYBTYn1u/RBTAkBR4lzrZ4QJp/EjbeCIMXMQOakbdOZIcK8Eh1t
- QhAz1CRmHV8Ht/XghUvMELaHRNP+yYyQgIuVeHj3PdsERrlZCKsWMDKuYhRPLS3OTU8tNs5L
- LdcrTswtLs1L10vOz93ECEwEp/8d/7qDccWrj3qHGJk4GA8xSnAwK4nwFuS/ShTiTUmsrEot
- yo8vKs1JLT7EKM3BoiTOm5y5IVFIID2xJDU7NbUgtQgmy8TBKdXANGXC1dg1/EYfjR9PNpjM
- 2/j80oUJkZNi7PWrmItE/pbXHd52wvF38Zz7E26x+F3rjbWN9donP11TIcntbz6jTvK8PhPu
- s30ni/0qz1pkP1rTu/jNSpW2TI15XlbBbbLCIZEhuyZNfSl/4Zsar03Eapb1RplvDVikuVd2
- slyufqp21EwiXeFWWuu1Irk7Tfa+rvJ3XtkeW716ldsPT6b2vhmKSot3tx9WmstpEXuI/cVW
- bye9XN4OETfXC88ji40/JSpcqX3GkXD4xv55bQ++h9/a6/VSeaJkcUjw16Ql1Zx33XnvcXhZ
- h2Rt/6Lg0ihYP+nSi8/Wcq9e7Pqs/b++ve1YqeMsq2du0ZW7Q1qVWIozEg21mIuKEwEzrbtq
- cwMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrGLMWRmVeSWpSXmKPExsVy+t/xe7q+La8SDebf17a48vU9m8Wk+xNY
- LDa+/cFkMeP8PiaLtUfuslu0tVxnt5gx+SWbA7vHrIZeNo/73ceZPPq2rGL0ePCx1OPzJrkA
- 1ig9m6L80pJUhYz84hJbpWhDCyM9Q0sLPSMTSz1DY/NYKyNTJX07m5TUnMyy1CJ9uwS9jANH
- 25gLrnJW/L7ynb2BcSpHFyMnh4SAicTFbcdYuhi5OIQEljJKLLu7nw0iISNxcloDK4QtLPHn
- WhcbRNEnRon+pomMIAk2AUOJrrddYA0iAh4Szd+Os4PYzALvGCXOLZMFsYUF/CVmHtkPFmcR
- UJV43vEWqJ6Dg1fAVmLNRkmI+fISqzccYJ7AyLOAkWEVo0hqaXFuem6xkV5xYm5xaV66XnJ+
- 7iZGYABuO/Zzyw7Gla8+6h1iZOJgPMQowcGsJMJbkP8qUYg3JbGyKrUoP76oNCe1+BCjKdC6
- icxSosn5wBjIK4k3NDMwNTQxszQwtTQzVhLn9SzoSBQSSE8sSc1OTS1ILYLpY+LglGpgcv+i
- VrNx3smTj752lufJWUUo3b6qyvpsH89vQ5OTr2bYW8x0CcibvPRv+PyH7FzBMbELZtzf4STI
- mlU57cP3pCtlF7l1jIQvrNq89DZn5qQJjdKz5P+3xt1UfCsX1rI/qjJOrTBo/5aFYtM12bZv
- jgnZckMx/uebSW6NJswhi4O17rkJP+079D1izrYI3kcMCQxK81xDq2udvQ6yxgSfLdVs94lx
- 7c/zO7CWydyNfd/zf79NMvYEzK+I8ozaFblxU8iiaz+23Tn5tuOx/Ltz9cfrlxcrJ75rcTzw
- tEjy7opjBRVxykd379/zT/pb/KTzGge/zpP0kAqTtvq0Q/anjYuWYaNo42ytbAE1nbjZSizF
- GYmGWsxFxYkAD5ISQskCAAA=
-X-CMS-MailID: 20220121100046eucas1p264ec703358da48f3cddec028425ba981
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20220121100046eucas1p264ec703358da48f3cddec028425ba981
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220121100046eucas1p264ec703358da48f3cddec028425ba981
-References: <CGME20220121100046eucas1p264ec703358da48f3cddec028425ba981@eucas1p2.samsung.com>
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A95F110E9C8
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 10:16:21 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id
+ ay14-20020a05600c1e0e00b0034d7bef1b5dso21240131wmb.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 02:16:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=CLYJz2R+mFRqKL06xxzdwISpHcTd92SLYyoRfz6Al/k=;
+ b=ImlCVd8TOUysf7M9Mfv1MzTv3rmqrgTlic/bC1gbxOJw/rZ5BQCqGg2CmfpR5Q5lcq
+ k1jErxG3rifuktK2RinNxjLDxT0VsvPbki1Ge9sP/dyzSc8Y5M870vm7xymaqjqVZ27D
+ gtcGfGqJ4o6c4YJepG0hUT1oQLR5U8YfpFg6ZDIz+DcZ12ztoK1tY1noAAH1+YOBdR9b
+ WezQngRAvPXEvwk0ZBykKwlkQ3qo3yo3Lic3rQrp2heaERoZVQ5ZmxiZrOxei3igXxQl
+ n8yLOIwZHekLh6jKCk7XVrZAj8uA7NCkLRhWBKmSZTACwumpeiBJR69bAK1m350kyBKj
+ KOHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=CLYJz2R+mFRqKL06xxzdwISpHcTd92SLYyoRfz6Al/k=;
+ b=3qoyoKe6Ww2Aiv2S+7b96nTHp1xnOlJ2swiHil69UEU883BYQ564Sa6u6S29DgO14h
+ FhWcfE5NAU+/KQu8LOPXd5aaw7PIjJJqrfTJRlHXCluT1AMn8guFNDnt2B7hay2x/oDc
+ BdyOp6BYC6xa297+wMUWfi4dRF/yg/U9TY/Lnsl0o3FXIKbdaTmqg1VEWrzPis9wPLij
+ eDTcInephHCOWRbsTASaqrqWf6earQoXOGP8Ini3rfbBinrf0p8uTASKLH5tOtPV1Ser
+ 2w9upQ5sfMNhgafqGEU+OJ49ExpulwoesDFCbX9K1hjAiYgxlGdKR5CQYuC0tJkIRW1f
+ NeNA==
+X-Gm-Message-State: AOAM53250Pax1YTfN5rd2vRMuSzEDO7sEsnFawmsL1+G76iBeQChSvt0
+ z0LHe5XsIP8FG2QM4p19pOILTQ==
+X-Google-Smtp-Source: ABdhPJxiH8szE7URldCF7knvg8nx9Plh7JPmXtM2hJR79Fpi7soLXMfkEG5o/1HFNKOVFP8qEZ+DTQ==
+X-Received: by 2002:a05:600c:190c:: with SMTP id
+ j12mr40421wmq.41.1642760180152; 
+ Fri, 21 Jan 2022 02:16:20 -0800 (PST)
+Received: from google.com (cpc106310-bagu17-2-0-cust853.1-3.cable.virginm.net.
+ [86.15.223.86])
+ by smtp.gmail.com with ESMTPSA id y15sm2219968wry.36.2022.01.21.02.16.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Jan 2022 02:16:19 -0800 (PST)
+Date: Fri, 21 Jan 2022 10:16:17 +0000
+From: Lee Jones <lee.jones@linaro.org>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [GIT PULL] fbdev updates & fixes for v5.17-rc1
+Message-ID: <YeqH8Y6+gElerxZm@google.com>
+References: <Yeg11pHSqx29yg/T@ls3530>
+ <CAKMK7uGeGBBvTGFyBxLwvTAxEWwXMS8U1rrYUb_7gbui-jV+KA@mail.gmail.com>
+ <87fsph4fr2.fsf@intel.com> <Yep6te0wrK0ZQ8SB@google.com>
+ <CAKMK7uG9FaBM6e_kXFZUgBCk4JFcPCbzG5D_9XcypwVeXqDq6A@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKMK7uG9FaBM6e_kXFZUgBCk4JFcPCbzG5D_9XcypwVeXqDq6A@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,42 +75,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <maira.canal@usp.br>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TE-gpio is optional and if it is not found then gpiod_get_optional()
-returns NULL. In such case the code will continue and try to convert NULL
-gpiod to irq what in turn fails. The failure is then propagated and driver
-is not registered.
+On Fri, 21 Jan 2022, Daniel Vetter wrote:
 
-Fix this by returning early from exynos_dsi_register_te_irq() if no
-TE-gpio is found.
+> On Fri, Jan 21, 2022 at 10:19 AM Lee Jones <lee.jones@linaro.org> wrote:
+> >
+> > On Fri, 21 Jan 2022, Jani Nikula wrote:
+> >
+> > > On Fri, 21 Jan 2022, Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > > On Wed, Jan 19, 2022 at 5:02 PM Helge Deller <deller@gmx.de> wrote:
+> > > >> A first bunch of updates and fixes for the following fbdev & backlight drivers:
+> > > >> ocfb, aty128fb, mb862xx, omapfb, qcom-wled, dt-bindings, hyperv_fb,
+> > > >> lm3630a_bl, omap2, controlfb, matroxfb
+> > > >>
+> > > >> Nothing really important, mostly cleanups, const conversions, added null
+> > > >> pointer/boundary checks and build fixes.
+> > > >>
+> > > >> Signed-off-by: Helge Deller <deller@gmx.de>
+> > > >
+> > > > Not sure whether Linus missed this or just wanted to let the
+> > > > discussion settle first. But since this is all random patches for
+> > > > drivers that many distros don't even enable anymore there's no issues
+> > > > here, and I very much welcome someone volunteering to pick these up.
+> > > > I'd expect there's a pile more since it's been 1-2 years since Bart
+> > > > took care of these and merged them consistently.
+> > > >
+> > > > Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > >
+> > > ...
+> > >
+> > > >>  drivers/video/backlight/lm3630a_bl.c                     |  1 -
+> > > >>  drivers/video/backlight/qcom-wled.c                      |  1 +
+> > >
+> > > Backlight changes usually go through the backlight tree.
+> >
+> > Yes, they do.  How were these applied to the DRM tree?
+> 
+> They are not applied to any drm trees, Helge jumped in last week to
+> take over drivers/video maintainership.
+> -Daniel
 
-Fixes: ee6c8b5afa62 ("drm/exynos: Replace legacy gpio interface for gpiod interface")
-Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
----
- drivers/gpu/drm/exynos/exynos_drm_dsi.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Sorry s/DRM/fbdev/
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-index 32a36572b894..14ebbb124852 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-@@ -1335,7 +1335,9 @@ static int exynos_dsi_register_te_irq(struct exynos_dsi *dsi,
- 	int te_gpio_irq;
- 
- 	dsi->te_gpio = devm_gpiod_get_optional(dsi->dev, "te", GPIOD_IN);
--	if (IS_ERR(dsi->te_gpio)) {
-+	if (!dsi->te_gpio) {
-+		return 0;
-+	} else if (IS_ERR(dsi->te_gpio)) {
- 		dev_err(dsi->dev, "gpio request failed with %ld\n",
- 				PTR_ERR(dsi->te_gpio));
- 		return PTR_ERR(dsi->te_gpio);
+> > I don't see any mails about them being applied:
+> >
+> >   Luca Weiss (2):
+> >         backlight: qcom-wled: Add PM6150L compatible
+> >
+> >   https://lore.kernel.org/all/20211229170358.2457006-2-luca.weiss@fairphone.com/
+> >
+> >   Xu Wang (2):
+> >         backlight: lm3630a_bl: Remove redundant 'flush_workqueue()' calls
+> >
+> >   https://lore.kernel.org/all/20220113084806.13822-1-vulab@iscas.ac.cn/
+> >
+> 
+> 
+> 
+
 -- 
-2.17.1
-
+Lee Jones [李琼斯]
+Principal Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
