@@ -1,56 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC2FB495E60
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 12:28:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B71C495E71
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 12:32:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C104110EA6D;
-	Fri, 21 Jan 2022 11:28:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB97810EAAA;
+	Fri, 21 Jan 2022 11:32:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from zg8tmtyylji0my4xnjeumjiw.icoremail.net
- (zg8tmtyylji0my4xnjeumjiw.icoremail.net [162.243.161.220])
- by gabe.freedesktop.org (Postfix) with SMTP id 5C00B10EA74
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 11:28:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=pku.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
- Message-Id; bh=rDPXEsamv0aDMEHT5TbMnxc471eD+BbCKWqmDxT6GSk=; b=F
- NtqPwnpvim/Uvyz7AucW2kE+J0ZXELCxZX3XbrCEehMksQIEe7rGNT40iG65Hb9w
- tUtjSVjHvGCMnSWeRXxIOPZc/EQVOqkiCuaA1Hnb00sGBkmb0NuaOPzAWc6LBLjB
- 4to7FuA4lUsMfYv8rdoKxIV42gIykVjznP8FapOn+w=
-Received: from localhost (unknown [10.129.21.144])
- by front02 (Coremail) with SMTP id 54FpogDn7BBWmOph8RyQAA--.58368S2;
- Fri, 21 Jan 2022 19:26:14 +0800 (CST)
-From: Yongzhi Liu <lyz_cs@pku.edu.cn>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@linux.ie, daniel@ffwll.ch, mikita.lipski@amd.com,
- Wayne.Lin@amd.com, Nicholas.Kazlauskas@amd.com, Jerry.Zuo@amd.com,
- Anson.Jacob@amd.com, eryk.brol@amd.com, aurabindo.pillai@amd.com,
- nirmoy.das@amd.com, lyz_cs@pku.edu.cn
-Subject: [PATCH] drm/amd/display: Fix memory leak
-Date: Fri, 21 Jan 2022 03:26:13 -0800
-Message-Id: <1642764373-48563-1-git-send-email-lyz_cs@pku.edu.cn>
-X-Mailer: git-send-email 2.7.4
-X-CM-TRANSID: 54FpogDn7BBWmOph8RyQAA--.58368S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3XryDCw47CFyUWFy3JF47Arb_yoW7Ar18pw
- 43ta47Zr17urn2qa12kFs8uF1rK393ta4qgrWxWa43AF47trsaka45Aa4vgF95Wrn8tr98
- G3Z8tF9xAF1j9F7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9F1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
- w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
- IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2
- z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcV
- Aq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j
- 6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64
- vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxkIecxE
- wVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26w4UJr1UMxC20s026xCaFV
- Cjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWl
- x4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r
- 1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_
- JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcS
- sGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
-X-CM-SenderInfo: irzqijirqukmo6sn3hxhgxhubq/1tbiAwEKBlPy7uA+KwA1sB
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B494A10EAAA
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 11:32:29 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ q141-20020a1ca793000000b00347b48dfb53so21850800wme.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 03:32:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-transfer-encoding:content-language;
+ bh=aySKClGTvJbUh+ArBQkUevRSCEVtOrzFOgJ/pRIcRB8=;
+ b=TadUtlt54znkefpM4bpM+UIFVXMYdYf3Az35ly68LkzKRTY0iybc3WXXoYgnHSRezv
+ ok1HyxI1HPuxBOgNwIAIoUEFn5K/cjbjO55tEiPes3mI6pIFDRgVcwzkNeO8F2a6ML7X
+ vql3j3EEFdmgMy5cEvFdLWR9Ruo3Gs1A+XYnXdyhuAqYQwh5t9tSIMxdjH5q4yzlBGGy
+ EDJo8zb4cUf3KQ16WW02b6WLd47nprkaIUsjlDzIX+gbB/XcGVmm/UmOo1U8xt/K0fgb
+ WJJqx3Wmv/3AXvsbFP5IlCkzjaL/IwmJ2/cYVr9EhfbqTR0tXACycQBADhdx4WyLjYtD
+ rTuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=aySKClGTvJbUh+ArBQkUevRSCEVtOrzFOgJ/pRIcRB8=;
+ b=K5Y1vv8ru9Mwx6R3ijfJtpjlQsvwpYLsmzlp/5usIjP8rM3J7JXtSDDoNsrP0v/nV9
+ B8+P+p6cmGwImQsEICSAJH1SQapHovLtwdpzCPJfFzpfc2v2OYGw4szwOHN/7/RJkoSm
+ IeJj4WoCE+YALcO7r1f6VcWGXNgmb0+p7dBrQiCEmbc8AerWT32dBgRPcl36MT9hy+fI
+ XKwuSw4uMfRX4a5/mzUeqBkkRWv8j+7ubGpt/cIH9w+hEdeJPCp6abK5vVniknCBN4UM
+ XM9G4hlyObsnQTwUpRwsxMBvTpcA2N4hmaDqmFtIHUaNbV5ln9urTMJO7mIe7I/aQk5k
+ wBzA==
+X-Gm-Message-State: AOAM531aCXMDQfCzOPF+gsgylog2euPbVbC4e7xl4PzTS0spfuipfmV2
+ bTZH3XTF5uHTEaTg7e7Z2ls=
+X-Google-Smtp-Source: ABdhPJwZ4LBcRXALNbwZROCZruRSDdN4VgehjgaHJ74emwaJH6vYXG3kkG/1l/qIhqnF1JsCkRxDrQ==
+X-Received: by 2002:a05:600c:2253:: with SMTP id
+ a19mr378833wmm.8.1642764748283; 
+ Fri, 21 Jan 2022 03:32:28 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:a6b8:e14c:cc12:54a6?
+ ([2a02:908:1252:fb60:a6b8:e14c:cc12:54a6])
+ by smtp.gmail.com with ESMTPSA id m5sm4670360wms.4.2022.01.21.03.32.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 Jan 2022 03:32:27 -0800 (PST)
+Subject: Re: [Linaro-mm-sig] [PATCH 1/9] dma-buf: consolidate dma_fence
+ subclass checking
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
+ sumit.semwal@linaro.org, gustavo@padovan.org, daniel.vetter@ffwll.ch,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20220120132747.2348-1-christian.koenig@amd.com>
+ <20220120132747.2348-2-christian.koenig@amd.com>
+ <93c4213e-41ff-1afa-be40-7ec6789c63da@shipmail.org>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <c826b129-bdff-9df6-410d-403585774d9e@gmail.com>
+Date: Fri, 21 Jan 2022 12:32:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: <93c4213e-41ff-1afa-be40-7ec6789c63da@shipmail.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,267 +80,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[why]
-Resource release is needed on the error handling path
-to prevent memory leak.
+Am 21.01.22 um 08:41 schrieb Thomas Hellström (Intel):
+>
+> On 1/20/22 14:27, Christian König wrote:
+>> Consolidate the wrapper functions to check for dma_fence
+>> subclasses in the dma_fence header.
+>>
+>> This makes it easier to document and also check the different
+>> requirements for fence containers in the subclasses.
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> ---
+>>   include/linux/dma-fence-array.h | 15 +------------
+>>   include/linux/dma-fence-chain.h |  3 +--
+>>   include/linux/dma-fence.h       | 38 +++++++++++++++++++++++++++++++++
+>>   3 files changed, 40 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/include/linux/dma-fence-array.h 
+>> b/include/linux/dma-fence-array.h
+>> index 303dd712220f..fec374f69e12 100644
+>> --- a/include/linux/dma-fence-array.h
+>> +++ b/include/linux/dma-fence-array.h
+>> @@ -45,19 +45,6 @@ struct dma_fence_array {
+>>       struct irq_work work;
+>>   };
+>>   -extern const struct dma_fence_ops dma_fence_array_ops;
+>> -
+>> -/**
+>> - * dma_fence_is_array - check if a fence is from the array subsclass
+>> - * @fence: fence to test
+>> - *
+>> - * Return true if it is a dma_fence_array and false otherwise.
+>> - */
+>> -static inline bool dma_fence_is_array(struct dma_fence *fence)
+>> -{
+>> -    return fence->ops == &dma_fence_array_ops;
+>> -}
+>> -
+>>   /**
+>>    * to_dma_fence_array - cast a fence to a dma_fence_array
+>>    * @fence: fence to cast to a dma_fence_array
+>> @@ -68,7 +55,7 @@ static inline bool dma_fence_is_array(struct 
+>> dma_fence *fence)
+>>   static inline struct dma_fence_array *
+>>   to_dma_fence_array(struct dma_fence *fence)
+>>   {
+>> -    if (fence->ops != &dma_fence_array_ops)
+>> +    if (!fence || !dma_fence_is_array(fence))
+>>           return NULL;
+>>         return container_of(fence, struct dma_fence_array, base);
+>> diff --git a/include/linux/dma-fence-chain.h 
+>> b/include/linux/dma-fence-chain.h
+>> index 54fe3443fd2c..ee906b659694 100644
+>> --- a/include/linux/dma-fence-chain.h
+>> +++ b/include/linux/dma-fence-chain.h
+>> @@ -49,7 +49,6 @@ struct dma_fence_chain {
+>>       spinlock_t lock;
+>>   };
+>>   -extern const struct dma_fence_ops dma_fence_chain_ops;
+>>     /**
+>>    * to_dma_fence_chain - cast a fence to a dma_fence_chain
+>> @@ -61,7 +60,7 @@ extern const struct dma_fence_ops dma_fence_chain_ops;
+>>   static inline struct dma_fence_chain *
+>>   to_dma_fence_chain(struct dma_fence *fence)
+>>   {
+>> -    if (!fence || fence->ops != &dma_fence_chain_ops)
+>> +    if (!fence || !dma_fence_is_chain(fence))
+>>           return NULL;
+>>         return container_of(fence, struct dma_fence_chain, base);
+>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+>> index 1ea691753bd3..775cdc0b4f24 100644
+>> --- a/include/linux/dma-fence.h
+>> +++ b/include/linux/dma-fence.h
+>> @@ -587,4 +587,42 @@ struct dma_fence *dma_fence_get_stub(void);
+>>   struct dma_fence *dma_fence_allocate_private_stub(void);
+>>   u64 dma_fence_context_alloc(unsigned num);
+>>   +extern const struct dma_fence_ops dma_fence_array_ops;
+>> +extern const struct dma_fence_ops dma_fence_chain_ops;
+>> +
+>> +/**
+>> + * dma_fence_is_array - check if a fence is from the array subclass
+>> + * @fence: the fence to test
+>> + *
+>> + * Return true if it is a dma_fence_array and false otherwise.
+>> + */
+>> +static inline bool dma_fence_is_array(struct dma_fence *fence)
+>> +{
+>> +    return fence->ops == &dma_fence_array_ops;
+>> +}
+>> +
+>> +/**
+>> + * dma_fence_is_chain - check if a fence is from the chain subclass
+>> + * @fence: the fence to test
+>> + *
+>> + * Return true if it is a dma_fence_chain and false otherwise.
+>> + */
+>> +static inline bool dma_fence_is_chain(struct dma_fence *fence)
+>> +{
+>> +    return fence->ops == &dma_fence_chain_ops;
+>> +}
+>> +
+>> +/**
+>> + * dma_fence_is_container - check if a fence is a container for 
+>> other fences
+>> + * @fence: the fence to test
+>> + *
+>> + * Return true if this fence is a container for other fences, false 
+>> otherwise.
+>> + * This is important since we can't build up large fence structure 
+>> or otherwise
+>> + * we run into recursion during operation on those fences.
+>> + */
+>> +static inline bool dma_fence_is_container(struct dma_fence *fence)
+>> +{
+>> +    return dma_fence_is_array(fence) || dma_fence_is_chain(fence);
+>> +}
+>
+> What's the strategy here moving forward if we add more dma_resv 
+> containers, or if a driver adds a container that similarly has risc of 
+> recursion? Should we perhaps add an ops bool for this, or require that 
+> all dma_resv containers that has this limitation be part of the 
+> dma-buf subsystem rather than driver-specific?
 
-[how]
-Fix this by adding kfree on the error handling path.
+Good question.
 
-Signed-off-by: Yongzhi Liu <lyz_cs@pku.edu.cn>
----
- .../drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c  | 80 ++++++++++++++++------
- 1 file changed, 60 insertions(+), 20 deletions(-)
+I think that all containers which also implement the dma_fence interface 
+should be part of the DMA-buf subsystem and not driver specific. Drivers 
+just tend to reinvent something incorrectly.
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-index ded64d0..e463d46 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-@@ -227,8 +227,10 @@ static ssize_t dp_link_settings_read(struct file *f, char __user *buf,
- 			break;
- 
- 		r = put_user(*(rd_buf + result), buf);
--		if (r)
-+		if (r) {
-+			kfree(rd_buf);
- 			return r; /* r = -EFAULT */
-+		}
- 
- 		buf += 1;
- 		size -= 1;
-@@ -389,8 +391,10 @@ static ssize_t dp_phy_settings_read(struct file *f, char __user *buf,
- 			break;
- 
- 		r = put_user((*(rd_buf + result)), buf);
--		if (r)
-+		if (r) {
-+			kfree(rd_buf);
- 			return r; /* r = -EFAULT */
-+		}
- 
- 		buf += 1;
- 		size -= 1;
-@@ -1359,8 +1363,10 @@ static ssize_t dp_dsc_clock_en_read(struct file *f, char __user *buf,
- 				break;
- 	}
- 
--	if (!pipe_ctx)
-+	if (!pipe_ctx) {
-+		kfree(rd_buf);
- 		return -ENXIO;
-+	}
- 
- 	dsc = pipe_ctx->stream_res.dsc;
- 	if (dsc)
-@@ -1376,8 +1382,10 @@ static ssize_t dp_dsc_clock_en_read(struct file *f, char __user *buf,
- 			break;
- 
- 		r = put_user(*(rd_buf + result), buf);
--		if (r)
-+		if (r) {
-+			kfree(rd_buf);
- 			return r; /* r = -EFAULT */
-+		}
- 
- 		buf += 1;
- 		size -= 1;
-@@ -1546,8 +1554,10 @@ static ssize_t dp_dsc_slice_width_read(struct file *f, char __user *buf,
- 				break;
- 	}
- 
--	if (!pipe_ctx)
-+	if (!pipe_ctx) {
-+		kfree(rd_buf);
- 		return -ENXIO;
-+	}
- 
- 	dsc = pipe_ctx->stream_res.dsc;
- 	if (dsc)
-@@ -1563,8 +1573,10 @@ static ssize_t dp_dsc_slice_width_read(struct file *f, char __user *buf,
- 			break;
- 
- 		r = put_user(*(rd_buf + result), buf);
--		if (r)
-+		if (r) {
-+			kfree(rd_buf);
- 			return r; /* r = -EFAULT */
-+		}
- 
- 		buf += 1;
- 		size -= 1;
-@@ -1731,8 +1743,10 @@ static ssize_t dp_dsc_slice_height_read(struct file *f, char __user *buf,
- 				break;
- 	}
- 
--	if (!pipe_ctx)
-+	if (!pipe_ctx) {
-+		kfree(rd_buf);
- 		return -ENXIO;
-+	}
- 
- 	dsc = pipe_ctx->stream_res.dsc;
- 	if (dsc)
-@@ -1748,8 +1762,10 @@ static ssize_t dp_dsc_slice_height_read(struct file *f, char __user *buf,
- 			break;
- 
- 		r = put_user(*(rd_buf + result), buf);
--		if (r)
-+		if (r) {
-+			kfree(rd_buf);
- 			return r; /* r = -EFAULT */
-+		}
- 
- 		buf += 1;
- 		size -= 1;
-@@ -1912,8 +1928,10 @@ static ssize_t dp_dsc_bits_per_pixel_read(struct file *f, char __user *buf,
- 				break;
- 	}
- 
--	if (!pipe_ctx)
-+	if (!pipe_ctx) {
-+		kfree(rd_buf);
- 		return -ENXIO;
-+	}
- 
- 	dsc = pipe_ctx->stream_res.dsc;
- 	if (dsc)
-@@ -1929,8 +1947,10 @@ static ssize_t dp_dsc_bits_per_pixel_read(struct file *f, char __user *buf,
- 			break;
- 
- 		r = put_user(*(rd_buf + result), buf);
--		if (r)
-+		if (r) {
-+			kfree(rd_buf);
- 			return r; /* r = -EFAULT */
-+		}
- 
- 		buf += 1;
- 		size -= 1;
-@@ -2088,8 +2108,10 @@ static ssize_t dp_dsc_pic_width_read(struct file *f, char __user *buf,
- 				break;
- 	}
- 
--	if (!pipe_ctx)
-+	if (!pipe_ctx) {
-+		kfree(rd_buf);
- 		return -ENXIO;
-+	}
- 
- 	dsc = pipe_ctx->stream_res.dsc;
- 	if (dsc)
-@@ -2105,8 +2127,10 @@ static ssize_t dp_dsc_pic_width_read(struct file *f, char __user *buf,
- 			break;
- 
- 		r = put_user(*(rd_buf + result), buf);
--		if (r)
-+		if (r) {
-+			kfree(rd_buf);
- 			return r; /* r = -EFAULT */
-+		}
- 
- 		buf += 1;
- 		size -= 1;
-@@ -2145,8 +2169,10 @@ static ssize_t dp_dsc_pic_height_read(struct file *f, char __user *buf,
- 				break;
- 	}
- 
--	if (!pipe_ctx)
-+	if (!pipe_ctx) {
-+		kfree(rd_buf);
- 		return -ENXIO;
-+	}
- 
- 	dsc = pipe_ctx->stream_res.dsc;
- 	if (dsc)
-@@ -2162,8 +2188,10 @@ static ssize_t dp_dsc_pic_height_read(struct file *f, char __user *buf,
- 			break;
- 
- 		r = put_user(*(rd_buf + result), buf);
--		if (r)
-+		if (r) {
-+			kfree(rd_buf);
- 			return r; /* r = -EFAULT */
-+		}
- 
- 		buf += 1;
- 		size -= 1;
-@@ -2217,8 +2245,10 @@ static ssize_t dp_dsc_chunk_size_read(struct file *f, char __user *buf,
- 				break;
- 	}
- 
--	if (!pipe_ctx)
-+	if (!pipe_ctx) {
-+		kfree(rd_buf);
- 		return -ENXIO;
-+	}
- 
- 	dsc = pipe_ctx->stream_res.dsc;
- 	if (dsc)
-@@ -2234,8 +2264,10 @@ static ssize_t dp_dsc_chunk_size_read(struct file *f, char __user *buf,
- 			break;
- 
- 		r = put_user(*(rd_buf + result), buf);
--		if (r)
-+		if (r) {
-+			kfree(rd_buf);
- 			return r; /* r = -EFAULT */
-+		}
- 
- 		buf += 1;
- 		size -= 1;
-@@ -2289,8 +2321,10 @@ static ssize_t dp_dsc_slice_bpg_offset_read(struct file *f, char __user *buf,
- 				break;
- 	}
- 
--	if (!pipe_ctx)
-+	if (!pipe_ctx) {
-+		kfree(rd_buf);
- 		return -ENXIO;
-+	}
- 
- 	dsc = pipe_ctx->stream_res.dsc;
- 	if (dsc)
-@@ -2306,8 +2340,10 @@ static ssize_t dp_dsc_slice_bpg_offset_read(struct file *f, char __user *buf,
- 			break;
- 
- 		r = put_user(*(rd_buf + result), buf);
--		if (r)
-+		if (r) {
-+			kfree(rd_buf);
- 			return r; /* r = -EFAULT */
-+		}
- 
- 		buf += 1;
- 		size -= 1;
-@@ -3459,8 +3495,10 @@ static ssize_t dcc_en_bits_read(
- 	dc->hwss.get_dcc_en_bits(dc, dcc_en_bits);
- 
- 	rd_buf = kcalloc(rd_buf_size, sizeof(char), GFP_KERNEL);
--	if (!rd_buf)
-+	if (!rd_buf) {
-+		kfree(dcc_en_bits);
- 		return -ENOMEM;
-+	}
- 
- 	for (i = 0; i < num_pipes; i++)
- 		offset += snprintf(rd_buf + offset, rd_buf_size - offset,
-@@ -3473,8 +3511,10 @@ static ssize_t dcc_en_bits_read(
- 		if (*pos >= rd_buf_size)
- 			break;
- 		r = put_user(*(rd_buf + result), buf);
--		if (r)
-+		if (r) {
-+			kfree(rd_buf);
- 			return r; /* r = -EFAULT */
-+		}
- 		buf += 1;
- 		size -= 1;
- 		*pos += 1;
--- 
-2.7.4
+Where/How should we document that?
+
+Regards,
+Christian.
+
+>
+> Thanks,
+> /Thomas
+>
+>
+>> +
+>>   #endif /* __LINUX_DMA_FENCE_H */
 
