@@ -2,62 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10179495BC3
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 09:20:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD894495B4C
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 08:56:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 731DC10E901;
-	Fri, 21 Jan 2022 08:20:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3FB010E94B;
+	Fri, 21 Jan 2022 07:56:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 575 seconds by postgrey-1.36 at gabe;
- Fri, 21 Jan 2022 05:41:53 UTC
-Received: from zg8tmtyylji0my4xnjiumje2.icoremail.net
- (zg8tmtyylji0my4xnjiumje2.icoremail.net [162.243.162.216])
- by gabe.freedesktop.org (Postfix) with SMTP id D3D6D10E705;
- Fri, 21 Jan 2022 05:41:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fudan.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
- Message-Id:MIME-Version:Content-Transfer-Encoding; bh=HX9Za2e1JM
- g4jxUgjH8Yl50bM6liwnW3gcJPuVFZ+TQ=; b=EaOuY7OHip6dQx9325GLcFKa/z
- fXp9uZg3VSiAvRIYNR4vLl85GjZOvI4p/EIo5MBGHtsfJUdRMzHvx7KGzrexLh+5
- oJQE4CDvA54Rs551iyD29eEd+ln9vEjVceHgFrYwGFVByKJVbTmROXq8quq6eKTB
- oaIu+42ZblfYMDwP8=
-Received: from localhost.localdomain (unknown [111.192.165.103])
- by app1 (Coremail) with SMTP id XAUFCgAXLsLVROphhGc_AA--.2130S4;
- Fri, 21 Jan 2022 13:30:02 +0800 (CST)
-From: Xin Xiong <xiongx18@fudan.edu.cn>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-Subject: [PATCH] drm/amd/amdgpu/amdgpu_cs: fix refcount leak of a dma_fence obj
-Date: Fri, 21 Jan 2022 13:28:28 +0800
-Message-Id: <20220121052827.4384-1-xiongx18@fudan.edu.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A099A10E952
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 07:56:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642751798;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=m2Ho/lCZKO10EzmqqcIcm9qmBssIoEL4oIglAIQFltM=;
+ b=AYP3dDNawDbDI3FbuZ1GmE2sPEYXgv4SXk+bCnl+avm0bT0SsqOj/W+TQpdb+4Jp5R0NUi
+ OlUHPRHTvmY4mMGyicNKUhUo/JYite9sxI5DmcIxh28faVns1h5xMoGOxaSYdIN9LnFNw0
+ B5T3OCGBhD3OlGqZOKONRFFkwzWHxtc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-308-qmajEbmeOGKJKS2Wspa7_w-1; Fri, 21 Jan 2022 02:56:30 -0500
+X-MC-Unique: qmajEbmeOGKJKS2Wspa7_w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 088D084DA42;
+ Fri, 21 Jan 2022 07:56:27 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.193.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 22F6970D21;
+ Fri, 21 Jan 2022 07:56:17 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id A8B8F180060F; Fri, 21 Jan 2022 08:20:06 +0100 (CET)
+Date: Fri, 21 Jan 2022 08:20:06 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH 2/2] Revert "fbcon: Disable accelerated scrolling"
+Message-ID: <20220121072006.ylw2hdl7jbkbwnre@sirius.home.kraxel.org>
+References: <20220119110839.33187-1-deller@gmx.de>
+ <20220119110839.33187-3-deller@gmx.de>
+ <YelyGDNDTn1Aq/hm@phenom.ffwll.local>
+ <6c000477-002b-d125-b945-2c4831bad8a5@gmx.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: XAUFCgAXLsLVROphhGc_AA--.2130S4
-X-Coremail-Antispam: 1UD129KBjvdXoWruw48Cr48Zr1kJr1fAry8AFb_yoWDCFb_Gr
- W8XrnrXr1ayF1qqFnFvw4rZw1ayF43uF4kGr1Sq34Sqry2v3yUtryDXrnxWF1furs7GFyD
- Zan8ur95Z3ZxKjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbfxFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
- 6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
- 0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr
- 1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IE
- rcIFxwACI402YVCY1x02628vn2kIc2xKxwCY02Avz4vE14v_GrWl42xK82IYc2Ij64vIr4
- 1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK
- 67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI
- 8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAv
- wI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxV
- AFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JU94SOUUUUU=
-X-CM-SenderInfo: arytiiqsuqiimz6i3vldqovvfxof0/1tbiAhANEFKp2iYsDwAAsr
-X-Mailman-Approved-At: Fri, 21 Jan 2022 08:20:39 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6c000477-002b-d125-b945-2c4831bad8a5@gmx.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,39 +64,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xin Tan <tanxin.ctf@gmail.com>, yuanxzhang@fudan.edu.cn,
- Xin Xiong <xiongx18@fudan.edu.cn>
+Cc: linux-fbdev@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sven Schnelle <svens@stackframe.org>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Claudio Suarez <cssk@net-c.es>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This issue takes place in an error path in
-amdgpu_cs_fence_to_handle_ioctl(). When `info->in.what` falls into
-default case, the function simply returns -EINVAL, forgetting to
-decrement the reference count of a dma_fence obj, which is bumped
-earlier by amdgpu_cs_get_fence(). This may result in reference count
-leaks.
+  Hi,
 
-Fix it by decreasing the refcount of specific object before returning
-the error code.
+> > So if this really has to come back then I think the pragmatic approach is
+> > to do it behind a CONFIG_FBCON_ACCEL, default n, and with a huge warning
+> > that enabling that shouldn't be done for any distro which only enables
+> > firmware and drm fbdev drivers.
+> 
+> Thanks for coming back on this, but quite frankly I don't understand
+> that request. How should that warning look like, something along:
+> "BE WARNED: The framebuffer text console on your non-DRM supported
+> graphic card will then run faster and smoother if you enable this option."
+> That doesn't make sense. People and distros would want to enable that.
 
-Signed-off-by: Xin Xiong <xiongx18@fudan.edu.cn>
-Signed-off-by: Xin Tan <tanxin.ctf@gmail.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 1 +
- 1 file changed, 1 insertion(+)
+Nope.  Most distros want disable fbdev drivers rather sooner than later.
+The fbdev drivers enabled in the fedora kernel today:
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-index 0311d799a..894869789 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-@@ -1510,6 +1510,7 @@ int amdgpu_cs_fence_to_handle_ioctl(struct drm_device *dev, void *data,
- 		return 0;
- 
- 	default:
-+		dma_fence_put(fence);
- 		return -EINVAL;
- 	}
- }
--- 
-2.25.1
+	CONFIG_FB_VGA16=m
+	CONFIG_FB_VESA=y
+	CONFIG_FB_EFI=y
+	CONFIG_FB_SSD1307=m
+
+CONFIG_FB_VESA + CONFIG_FB_EFI will go away soon, with simpledrm taking
+over their role.
+
+> And if a distro *just* has firmware and drm fbdev drivers enabled,
+> none of the non-DRM graphic cards would be loaded anyway and this code
+> wouldn't be executed anyway.
+
+Yes, exactly.  That's why there is no point in compiling that code.
+
+take care,
+  Gerd
 
