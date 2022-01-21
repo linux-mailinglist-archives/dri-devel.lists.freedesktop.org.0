@@ -2,51 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D77B4958CE
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 05:11:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34D5A4958EB
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 05:30:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E91C710E26C;
-	Fri, 21 Jan 2022 04:10:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6666210E393;
+	Fri, 21 Jan 2022 04:30:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DF7710E26C;
- Fri, 21 Jan 2022 04:10:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642738257; x=1674274257;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=E9fg0DSS7ubYY+PFFvMwwnQkisdMdRP9qwsLJAQL18I=;
- b=nNyFMtEelF1+k0CxQ5XqcLhrYjmszWR50PwpSpnFnkFzbHDOUcOlJJlD
- q7D5YiyoKgOadpOyPeGcMWgQ0pAeE4uDXz72XcI1caoFq/8ZZBv7LqtWK
- 4ZcfAeaw8YASL5TVMRGQZfWjvIkMtJqN9LMMSM1ah+u2e8lWA/pJFjiNg
- aqayROBnTkSvEcdswslNO0qT/cpxJCeLD3yiw/OCGnUPnCSEXhj3RZ0Fd
- Ee/zJLNZL9Rp5TCesGxE3UQPl9lhEVPW8AZB2U9d1NB5yYaTCMF+lmmZn
- r6hjDqLNWfhKhqMnu/UfINYUIwT0Ol1jC1bTenBFuXa1qAyHMV1O1szgm g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10233"; a="308891847"
-X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="308891847"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 20:10:56 -0800
-X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="475801583"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 20:10:56 -0800
-Date: Thu, 20 Jan 2022 20:05:10 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: John Harrison <john.c.harrison@intel.com>
-Subject: Re: [PATCH 3/3] drm/i915/guc: Flush G2H handler during a GT reset
-Message-ID: <20220121040510.GA4165@jons-linux-dev-box>
-References: <20220119212419.23068-1-matthew.brost@intel.com>
- <20220119212419.23068-4-matthew.brost@intel.com>
- <116132f9-b258-975a-6e0d-c6f7efbdd2d5@intel.com>
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
+ [IPv6:2607:f8b0:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E29BB10E393
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 04:30:24 +0000 (UTC)
+Received: by mail-oi1-x22f.google.com with SMTP id x193so12130085oix.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 20:30:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=LYTEoc7rHyCXH1oH9BtjH0WArodUqZMGF/Aa2JALJcg=;
+ b=jAuD4Q4d0AYZ/PEDXtbz04htFL1EN6grlsqGnAIkDVE2E4pO7M/1oqZYiMPi2SvG5v
+ iJPsX46rPq+RVPYyPhX9ofHmWWtOugLIVyRKnZeGldfGzx3X5m4HMzbXt/xHEpYRzKei
+ USuN1Cw0SThUY1CAkZK+oIWKE/6I7c9tJPnkE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=LYTEoc7rHyCXH1oH9BtjH0WArodUqZMGF/Aa2JALJcg=;
+ b=1pAEMn/H32nZusXAmNbm9e1tHOb9elj152NFA059FB+jcjXUY3lEwExP6snz2n+k9I
+ z4SE8UaHkbRFLSv1Xx9Nz0G4LufLcV/hU5reKGbDH4yUh5WC+u+7XRJSxluv35452Y7O
+ /1S/vOi7Y8qrwIEDV/r7NWhBzhpk2ioWwqoeHJMn+bGhEG+2mN3fYSMXmwDOOlVD28rI
+ 2+gRzv4jtjyve+Fre5Y+QMlHCaEenVb1RyFDwVAM8EU+Wj0ggrp9cyyFjcju9XfOZUok
+ KzX2CisyW9KlB4zDH2HtAzoZXOgAqxHNq99yaAvtRwIk31mXQ4qOGb02dpPLkL9HuT+b
+ PZ0A==
+X-Gm-Message-State: AOAM530wZa6xhcrhN/tKblRPrA0PVxuhMlalE0l6JeZ2lihZXvKT6eVb
+ oQl2YrE7plp6SkLt8mSwF3rFDmVHvkfAhFjbuVHKdw==
+X-Google-Smtp-Source: ABdhPJy29RK3pnK83q6mbJuyMkA8rNx2S0loo1Mj2IuzvYlvMss7+Mu29C5GZPkKe7ElF4wm5ZCKgzQaRd232lKC8xU=
+X-Received: by 2002:a05:6808:cc:: with SMTP id
+ t12mr10524563oic.32.1642739423002; 
+ Thu, 20 Jan 2022 20:30:23 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 20 Jan 2022 20:30:22 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <116132f9-b258-975a-6e0d-c6f7efbdd2d5@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20220119221616.3089119-3-dmitry.baryshkov@linaro.org>
+References: <20220119221616.3089119-1-dmitry.baryshkov@linaro.org>
+ <20220119221616.3089119-3-dmitry.baryshkov@linaro.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Thu, 20 Jan 2022 20:30:22 -0800
+Message-ID: <CAE-0n53=vj53a_u-5rUmrhV79_-c=F5gtjbejoVs+=PR=hc1Nw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] drm/msm/dpu: simplify clocks handling
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,68 +67,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 20, 2022 at 05:36:22PM -0800, John Harrison wrote:
-> On 1/19/2022 13:24, Matthew Brost wrote:
-> > Now that the error capture is fully decoupled from fence signalling
-> > (request retirement to free memory, which in turn depends on resets) we
-> > can safely flush the G2H handler during a GT reset. This is eliminates
-> This eliminates
-> 
-> John.
-> 
+Quoting Dmitry Baryshkov (2022-01-19 14:16:15)
+> diff --git a/drivers/gpu/drm/msm/msm_io_utils.c b/drivers/gpu/drm/msm/msm_io_utils.c
+> index 7b504617833a..5533c87c7158 100644
+> --- a/drivers/gpu/drm/msm/msm_io_utils.c
+> +++ b/drivers/gpu/drm/msm/msm_io_utils.c
+> @@ -5,6 +5,8 @@
+>   * Author: Rob Clark <robdclark@gmail.com>
+>   */
+>
+> +#include <linux/clk/clk-conf.h>
+> +
+>  #include "msm_drv.h"
+>
+>  /*
+> @@ -47,6 +49,54 @@ struct clk *msm_clk_get(struct platform_device *pdev, const char *name)
+>         return clk;
+>  }
+>
+> +int msm_parse_clock(struct platform_device *pdev, struct clk_bulk_data **clocks)
+> +{
+> +       u32 i, rc = 0;
+> +       const char *clock_name;
+> +       struct clk_bulk_data *bulk;
+> +       int num_clk = 0;
 
-Yep, will fixup in the next rev.
+No need to assign and then reassign before testing. Same goes for 'rc'.
 
-Matt
+> +
+> +       if (!pdev)
+> +               return -EINVAL;
+> +
+> +       num_clk = of_property_count_strings(pdev->dev.of_node, "clock-names");
+> +       if (num_clk <= 0) {
+> +               pr_debug("clocks are not defined\n");
+> +               return 0;
+> +       }
+> +
+> +       bulk = devm_kcalloc(&pdev->dev, num_clk, sizeof(struct clk_bulk_data), GFP_KERNEL);
+> +       if (!bulk)
+> +               return -ENOMEM;
+> +
+> +       for (i = 0; i < num_clk; i++) {
+> +               rc = of_property_read_string_index(pdev->dev.of_node,
+> +                                                  "clock-names", i,
+> +                                                  &clock_name);
+> +               if (rc) {
+> +                       DRM_DEV_ERROR(&pdev->dev, "Failed to get clock name for %d\n", i);
+> +                       return rc;
+> +               }
+> +               bulk[i].id = devm_kstrdup(&pdev->dev, clock_name, GFP_KERNEL);
+> +       }
+> +
+> +       rc = devm_clk_bulk_get(&pdev->dev, num_clk, bulk);
 
-> > corner cases where GuC generated G2H (e.g. engine resets) race with a GT
-> > reset.
-> > 
-> > v2:
-> >   (John Harrison)
-> >    - Fix typo in commit message (s/is/in)
-> > 
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
-> > ---
-> >   .../gpu/drm/i915/gt/uc/intel_guc_submission.c  | 18 +-----------------
-> >   1 file changed, 1 insertion(+), 17 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > index 514b3060b141..406dd2e3f5a9 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > @@ -1396,8 +1396,6 @@ static void guc_flush_destroyed_contexts(struct intel_guc *guc);
-> >   void intel_guc_submission_reset_prepare(struct intel_guc *guc)
-> >   {
-> > -	int i;
-> > -
-> >   	if (unlikely(!guc_submission_initialized(guc))) {
-> >   		/* Reset called during driver load? GuC not yet initialised! */
-> >   		return;
-> > @@ -1414,21 +1412,7 @@ void intel_guc_submission_reset_prepare(struct intel_guc *guc)
-> >   	guc_flush_submissions(guc);
-> >   	guc_flush_destroyed_contexts(guc);
-> > -
-> > -	/*
-> > -	 * Handle any outstanding G2Hs before reset. Call IRQ handler directly
-> > -	 * each pass as interrupt have been disabled. We always scrub for
-> > -	 * outstanding G2H as it is possible for outstanding_submission_g2h to
-> > -	 * be incremented after the context state update.
-> > -	 */
-> > -	for (i = 0; i < 4 && atomic_read(&guc->outstanding_submission_g2h); ++i) {
-> > -		intel_guc_to_host_event_handler(guc);
-> > -#define wait_for_reset(guc, wait_var) \
-> > -		intel_guc_wait_for_pending_msg(guc, wait_var, false, (HZ / 20))
-> > -		do {
-> > -			wait_for_reset(guc, &guc->outstanding_submission_g2h);
-> > -		} while (!list_empty(&guc->ct.requests.incoming));
-> > -	}
-> > +	flush_work(&guc->ct.requests.worker);
-> >   	scrub_guc_desc_for_outstanding_g2h(guc);
-> >   }
-> 
+Use devm_clk_bulk_get_all()?
+
+> +       if (rc) {
+> +               DRM_DEV_ERROR(&pdev->dev, "Failed to get clock refs %d\n", rc);
+> +               return rc;
+> +       }
+> +
+> +       rc = of_clk_set_defaults(pdev->dev.of_node, false);
+
+Why is this needed?
+
+> +       if (rc) {
+> +               DRM_DEV_ERROR(&pdev->dev, "Failed to set clock defaults %d\n", rc);
+> +               return rc;
+> +       }
+> +
+> +       *clocks = bulk;
+> +
+> +       return num_clk;
