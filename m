@@ -1,59 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19A88495970
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 06:25:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B278495971
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 06:25:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7945B10E6AA;
-	Fri, 21 Jan 2022 05:25:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17F4010E6B7;
+	Fri, 21 Jan 2022 05:25:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5C4310E6B7
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 05:25:15 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id l5so21167505edv.3
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 21:25:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JUrI0CIbeLsYv1K8VuO7jjapZZBa6rAM4oNdt35HhBQ=;
- b=nFVBOkpSgHJc4AlHP02L/VnMzkC+F1mwWuJKODmbTEBtoXE2Gt9Muz4iwkmA1NHYbu
- g2fJOV6zjvG+06kAx2tweNmPzIoZeog9Za6k67I5QPFPadl+mxd5GEddHn8V/eynXLp0
- VWhAy+0UNLEMtMR4v2gFMfy9QRIzoZctdCPWbgIq2/3uZVz0ovrZQqjiXlkG0EkYrOam
- sdoOKLv8d1C4R4wCsIZc5SgNUMtt5M53agHwrYc6Qe9r5hQTeCdNjRAD0uqlnSTmhtmc
- kmkbCvED08PDmZdHlWGElwJAOHmaPTLwVvMMGCYiM/hgGJwSV8xo8zpGjNJJ6J/OJ36N
- wqLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JUrI0CIbeLsYv1K8VuO7jjapZZBa6rAM4oNdt35HhBQ=;
- b=hHjzP81GVhRIMvE6BZOYJSutE4vr6R0vC/ErL1W9OYhllB5bxwc+X7UvLqj5xY5rUG
- QBWcYILLEPKIR1OHlnhxAWQcXTpHXv+dsjX9rGKjB8d7XhZm/pHJYfclQ1o2P76ffrsQ
- kl/ZYnwrdMMKimHJhWlfKwv+JJMqPq1iXlUzk8Bu1AZTeXturNlQ0lUtQPT/OezyCP7D
- pB+M4itP9/sQKuBOeeQoSgLyFqq+Rc31+WXlXEQbWJdp7SNdGMqtssW6fQoy++tzxLhn
- HALAMOc8TYdnwpmxb7W1haEZwBYG6BCVk7FOaCvjKM6xqgkv5KtQsn592JEHupD90+qI
- xsdQ==
-X-Gm-Message-State: AOAM533xfZ2rXvYDC2vU2ynS8fZp31D5OUrjLvZLpydGfIvnwUvOqfsm
- 6VA8C1CGpj0gqdKr99Gxa3pl2BFuqeUukh9vLTOqnQ==
-X-Google-Smtp-Source: ABdhPJyjuwwdwV2Mz8K14saU4//UOA3m1H12Enxava4+yiBjdJ+h/yvlXZtzCmwIzkDkN8OjGAjE31OwskKBu1i2iIQ=
-X-Received: by 2002:a17:907:7f86:: with SMTP id
- qk6mr1992726ejc.631.1642742714101; 
- Thu, 20 Jan 2022 21:25:14 -0800 (PST)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 333F710E6B7;
+ Fri, 21 Jan 2022 05:25:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1642742734; x=1674278734;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=g4Ik8mhlLFVGa0FCht+UFvbutLAwPJZHbfeQcFGocRw=;
+ b=h0GwdUN+VdPhR5jIjo7AYcvVpIGXpz365fGc4kLizXWDn1V7B55TWfLX
+ Nw/6BFwsbkinWfxjIRJcTuXg+Ukag0HfDBtY1PaHOLXnFw1qg6CG9AGT/
+ vlFrXaJKP7b46DM7pHug0KyQa722MoAPcfRJ7n7tlTZ6vUaQYnpV5ykh3
+ isNX1VcsBezHmfFDLyPo/e76Sr4Fjp51dZvNvb8ANHnBifMnvsl0LVdx3
+ CtFpgfi3miDTINfnOVKMhgCfpcplEr0+9+7tl0OT3VbnOBGXQpVZKX1K/
+ QBjxzEAWaTXxOOju3ocEFWBKvT6PY30tsHSdhFpud+ZUEKK7cJd8413RQ Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10233"; a="245787061"
+X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="245787061"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2022 21:25:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="626614548"
+Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
+ by orsmga004.jf.intel.com with ESMTP; 20 Jan 2022 21:25:32 -0800
+Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1nAmQV-000ExH-D4; Fri, 21 Jan 2022 05:25:31 +0000
+Date: Fri, 21 Jan 2022 13:25:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Matthew Brost <matthew.brost@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc: Don't check CT descriptor
+ status before CT write / read
+Message-ID: <202201211326.Zspu6s33-lkp@intel.com>
+References: <20220120182413.8074-1-matthew.brost@intel.com>
 MIME-Version: 1.0
-References: <20220120143417.543744-1-maxime@cerno.tech>
- <20220120143417.543744-2-maxime@cerno.tech>
- <20220120213118.40F0AC340E3@smtp.kernel.org>
- <CAGS_qxq9qFjx+Su_E5sQF5tsgPCyhzGMFEMZbVqPN=N6U+s+9g@mail.gmail.com>
- <20220121043408.6C186C340E1@smtp.kernel.org>
-In-Reply-To: <20220121043408.6C186C340E1@smtp.kernel.org>
-From: Daniel Latypov <dlatypov@google.com>
-Date: Thu, 20 Jan 2022 21:25:03 -0800
-Message-ID: <CAGS_qxpHuN5nyn8V7LGeZ1VTzboCgDwrz=p3TFPi73tZ0pWOBQ@mail.gmail.com>
-Subject: Re: [PATCH v3 01/10] clk: Add Kunit tests for rate
-To: Stephen Boyd <sboyd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220120182413.8074-1-matthew.brost@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,109 +61,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Mike Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org,
- linux-clk@vger.kernel.org, Maxime Ripard <maxime@cerno.tech>,
- Phil Elwell <phil@raspberrypi.com>, kunit-dev@googlegroups.com
+Cc: kbuild-all@lists.01.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 20, 2022 at 8:34 PM Stephen Boyd <sboyd@kernel.org> wrote:
->
-> Quoting Daniel Latypov (2022-01-20 13:56:39)
-> > On Thu, Jan 20, 2022 at 1:31 PM Stephen Boyd <sboyd@kernel.org> wrote:
-> > KUnit doesn't have hard technical limitations in this regard.
-> >
-> > You could have something like this
-> >
-> > static void my_optional_kunit_test(struct kunit *test)
-> > {
-> > #ifdef CONFIG_OPTIONAL_FEATURE
-> >
-> > # else
-> >   kunit_skip(test, "CONFIG_OPTIONAL_FEATURE is not enabled");
-> > #endif
-> > }
-> >
-> > I think it's just a matter of what's least confusing to users.
->
-> Ok, I see. Is there some way to have multiple configs checked into the
-> tree so we can test different kernel configuration code paths? This
+Hi Matthew,
 
-Multiple kunitconfigs?
-There's no restrictions on those
+Thank you for the patch! Yet something to improve:
 
-$ ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/clk
-$ ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/clk/kunitconfig.foo
-$ ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/clk/kunitconfig.bar
+[auto build test ERROR on drm-intel/for-linux-next]
+[also build test ERROR on drm-tip/drm-tip drm-exynos/exynos-drm-next drm/drm-next tegra-drm/drm/tegra/for-next v5.16 next-20220121]
+[cannot apply to airlied/drm-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-The first one will assume drivers/clk/.kunitconfig.
-But there's no reason you need to have a file called that.
-One could just have multiple standalone kunitconfigs, named however they like.
+url:    https://github.com/0day-ci/linux/commits/Matthew-Brost/drm-i915-guc-Don-t-check-CT-descriptor-status-before-CT-write-read/20220121-023033
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20220121/202201211326.Zspu6s33-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/0day-ci/linux/commit/0311a8b0f99c50ab1a666a5cdbe2b1a0a2c3c71d
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Matthew-Brost/drm-i915-guc-Don-t-check-CT-descriptor-status-before-CT-write-read/20220121-023033
+        git checkout 0311a8b0f99c50ab1a666a5cdbe2b1a0a2c3c71d
+        # save the config file to linux build tree
+        mkdir build_dir
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
---kunitconfig is new enough (5.12+) that there's no real conventions yet.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-Another option is
-$ ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/clk \
-   --kconfig_add=CONFIG_RARELY_USED=y
+All errors (new ones prefixed by >>):
 
-This is another case where we can do whatever is least confusing.
+   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c: In function 'ct_write':
+>> drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c:469:1: error: label 'corrupted' defined but not used [-Werror=unused-label]
+     469 | corrupted:
+         | ^~~~~~~~~
+   cc1: all warnings being treated as errors
 
-> discussion isn't really relevant to this patch so we can take this up in
-> another thread if you like.
->
-> >
-> > >
-> > > Maybe kunit should check that there was an EXPECT on return from the
-> > > test. Daniel?
-> >
-> > Sorry, I'm not sure I understand the question.
-> >
-> > Are you saying you want kunit to flag cases like
-> >   static void empty_test(struct kunit *) {}
-> > ?
->
-> Yes. I'd like kunit to enforce that all tests have at least one
-> EXPECT_*() in them.
 
-I totally understand the rationale.
-It's a bit misleading to say PASSED if no expectation/assertion passed.
-One might want a NO_STATUS (or maybe SKIPPED) result instead.
+vim +/corrupted +469 drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
 
-But other unit test frameworks act the way KUnit does here, so there's
-an argument for consistency with others so users don't have to have a
-whole new mental model.
+f8a58d639dd95b0 drivers/gpu/drm/i915/intel_guc_ct.c       Michal Wajdeczko 2017-05-26  422  
+1d407096002beca drivers/gpu/drm/i915/intel_guc_ct.c       Michal Wajdeczko 2018-03-26  423  	/*
+572f2a5cd9742c5 drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Michal Wajdeczko 2021-06-15  424  	 * dw0: CT header (including fence)
+572f2a5cd9742c5 drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Michal Wajdeczko 2021-06-15  425  	 * dw1: HXG header (including action code)
+572f2a5cd9742c5 drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Michal Wajdeczko 2021-06-15  426  	 * dw2+: action data
+f8a58d639dd95b0 drivers/gpu/drm/i915/intel_guc_ct.c       Michal Wajdeczko 2017-05-26  427  	 */
+572f2a5cd9742c5 drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Michal Wajdeczko 2021-06-15  428  	header = FIELD_PREP(GUC_CTB_MSG_0_FORMAT, GUC_CTB_FORMAT_HXG) |
+572f2a5cd9742c5 drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Michal Wajdeczko 2021-06-15  429  		 FIELD_PREP(GUC_CTB_MSG_0_NUM_DWORDS, len) |
+572f2a5cd9742c5 drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Michal Wajdeczko 2021-06-15  430  		 FIELD_PREP(GUC_CTB_MSG_0_FENCE, fence);
+f8a58d639dd95b0 drivers/gpu/drm/i915/intel_guc_ct.c       Michal Wajdeczko 2017-05-26  431  
+1681924d8bdeb24 drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Matthew Brost    2021-07-08  432  	type = (flags & INTEL_GUC_CT_SEND_NB) ? GUC_HXG_TYPE_EVENT :
+1681924d8bdeb24 drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Matthew Brost    2021-07-08  433  		GUC_HXG_TYPE_REQUEST;
+1681924d8bdeb24 drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Matthew Brost    2021-07-08  434  	hxg = FIELD_PREP(GUC_HXG_MSG_0_TYPE, type) |
+1681924d8bdeb24 drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Matthew Brost    2021-07-08  435  		FIELD_PREP(GUC_HXG_EVENT_MSG_0_ACTION |
+1681924d8bdeb24 drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Matthew Brost    2021-07-08  436  			   GUC_HXG_EVENT_MSG_0_DATA0, action[0]);
+572f2a5cd9742c5 drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Michal Wajdeczko 2021-06-15  437  
+572f2a5cd9742c5 drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Michal Wajdeczko 2021-06-15  438  	CT_DEBUG(ct, "writing (tail %u) %*ph %*ph %*ph\n",
+572f2a5cd9742c5 drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Michal Wajdeczko 2021-06-15  439  		 tail, 4, &header, 4, &hxg, 4 * (len - 1), &action[1]);
+0a015ff9730c169 drivers/gpu/drm/i915/intel_guc_ct.c       Michal Wajdeczko 2018-03-26  440  
+f8a58d639dd95b0 drivers/gpu/drm/i915/intel_guc_ct.c       Michal Wajdeczko 2017-05-26  441  	cmds[tail] = header;
+f8a58d639dd95b0 drivers/gpu/drm/i915/intel_guc_ct.c       Michal Wajdeczko 2017-05-26  442  	tail = (tail + 1) % size;
+f8a58d639dd95b0 drivers/gpu/drm/i915/intel_guc_ct.c       Michal Wajdeczko 2017-05-26  443  
+572f2a5cd9742c5 drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Michal Wajdeczko 2021-06-15  444  	cmds[tail] = hxg;
+f8a58d639dd95b0 drivers/gpu/drm/i915/intel_guc_ct.c       Michal Wajdeczko 2017-05-26  445  	tail = (tail + 1) % size;
+f8a58d639dd95b0 drivers/gpu/drm/i915/intel_guc_ct.c       Michal Wajdeczko 2017-05-26  446  
+f8a58d639dd95b0 drivers/gpu/drm/i915/intel_guc_ct.c       Michal Wajdeczko 2017-05-26  447  	for (i = 1; i < len; i++) {
+f8a58d639dd95b0 drivers/gpu/drm/i915/intel_guc_ct.c       Michal Wajdeczko 2017-05-26  448  		cmds[tail] = action[i];
+f8a58d639dd95b0 drivers/gpu/drm/i915/intel_guc_ct.c       Michal Wajdeczko 2017-05-26  449  		tail = (tail + 1) % size;
+f8a58d639dd95b0 drivers/gpu/drm/i915/intel_guc_ct.c       Michal Wajdeczko 2017-05-26  450  	}
+4c22abfbcb8456d drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Michal Wajdeczko 2020-01-20  451  	GEM_BUG_ON(tail > size);
+f8a58d639dd95b0 drivers/gpu/drm/i915/intel_guc_ct.c       Michal Wajdeczko 2017-05-26  452  
+d35ca600873eebc drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Matthew Brost    2021-06-02  453  	/*
+d35ca600873eebc drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Matthew Brost    2021-06-02  454  	 * make sure H2G buffer update and LRC tail update (if this triggering a
+d35ca600873eebc drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Matthew Brost    2021-06-02  455  	 * submission) are visible before updating the descriptor tail
+d35ca600873eebc drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Matthew Brost    2021-06-02  456  	 */
+6b540bf6f14362a drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Matthew Brost    2021-10-14  457  	intel_guc_write_barrier(ct_to_guc(ct));
+d35ca600873eebc drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Matthew Brost    2021-06-02  458  
+75452167a2794c3 drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Matthew Brost    2021-07-08  459  	/* update local copies */
+75452167a2794c3 drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Matthew Brost    2021-07-08  460  	ctb->tail = tail;
+f4eb1f3fe94683c drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Matthew Brost    2021-07-21  461  	GEM_BUG_ON(atomic_read(&ctb->space) < len + GUC_CTB_HDR_LEN);
+f4eb1f3fe94683c drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Matthew Brost    2021-07-21  462  	atomic_sub(len + GUC_CTB_HDR_LEN, &ctb->space);
+75452167a2794c3 drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Matthew Brost    2021-07-08  463  
+572f2a5cd9742c5 drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Michal Wajdeczko 2021-06-15  464  	/* now update descriptor */
+572f2a5cd9742c5 drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Michal Wajdeczko 2021-06-15  465  	WRITE_ONCE(desc->tail, tail);
+572f2a5cd9742c5 drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Michal Wajdeczko 2021-06-15  466  
+f8a58d639dd95b0 drivers/gpu/drm/i915/intel_guc_ct.c       Michal Wajdeczko 2017-05-26  467  	return 0;
+4c22abfbcb8456d drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Michal Wajdeczko 2020-01-20  468  
+4c22abfbcb8456d drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Michal Wajdeczko 2020-01-20 @469  corrupted:
+572f2a5cd9742c5 drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Michal Wajdeczko 2021-06-15  470  	CT_ERROR(ct, "Corrupted descriptor head=%u tail=%u status=%#x\n",
+572f2a5cd9742c5 drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Michal Wajdeczko 2021-06-15  471  		 desc->head, desc->tail, desc->status);
+572f2a5cd9742c5 drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Michal Wajdeczko 2021-06-15  472  	ctb->broken = true;
+4c22abfbcb8456d drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c Michal Wajdeczko 2020-01-20  473  	return -EPIPE;
+f8a58d639dd95b0 drivers/gpu/drm/i915/intel_guc_ct.c       Michal Wajdeczko 2017-05-26  474  }
+f8a58d639dd95b0 drivers/gpu/drm/i915/intel_guc_ct.c       Michal Wajdeczko 2017-05-26  475  
 
-Some examples below for reference.
-All of these output something like
-  test result: ok. 1 passed; ...
-
-E.g. in Python
-import unittest
-
-class ExampleTest(unittest.TestCase):
-  def test_foo(self):
-    pass
-
-if __name__ == '__main__':
-  unittest.main()
-
-In Golang:
-package example
-
-import "testing"
-
-func TestFoo(t *testing.T) {}
-
-In C++ using Googletest:
-#include "gtest/gtest.h"
-
-TEST(Suite, Case) { }
-
-In Rust:
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn test_empty() {}
-}
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
