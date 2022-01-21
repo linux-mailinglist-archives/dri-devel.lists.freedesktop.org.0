@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B278495971
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 06:25:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34B8A4959A0
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 06:56:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17F4010E6B7;
-	Fri, 21 Jan 2022 05:25:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D896310E2A6;
+	Fri, 21 Jan 2022 05:56:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 333F710E6B7;
- Fri, 21 Jan 2022 05:25:34 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A5D010E588;
+ Fri, 21 Jan 2022 05:56:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642742734; x=1674278734;
+ t=1642744596; x=1674280596;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=g4Ik8mhlLFVGa0FCht+UFvbutLAwPJZHbfeQcFGocRw=;
- b=h0GwdUN+VdPhR5jIjo7AYcvVpIGXpz365fGc4kLizXWDn1V7B55TWfLX
- Nw/6BFwsbkinWfxjIRJcTuXg+Ukag0HfDBtY1PaHOLXnFw1qg6CG9AGT/
- vlFrXaJKP7b46DM7pHug0KyQa722MoAPcfRJ7n7tlTZ6vUaQYnpV5ykh3
- isNX1VcsBezHmfFDLyPo/e76Sr4Fjp51dZvNvb8ANHnBifMnvsl0LVdx3
- CtFpgfi3miDTINfnOVKMhgCfpcplEr0+9+7tl0OT3VbnOBGXQpVZKX1K/
- QBjxzEAWaTXxOOju3ocEFWBKvT6PY30tsHSdhFpud+ZUEKK7cJd8413RQ Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10233"; a="245787061"
-X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="245787061"
+ bh=zpNm2Ggem8XpBfHfA1dmrV91N9MOBYjEMGPmDHp5OUc=;
+ b=I7AVbg6mBjXjfG9LDaLxvGClz5wTZYRGQxjmgU81FdMhp63nx1ARMocV
+ m+WOWI1ThywL2sNC89zUGkwpbrGC5KaHFDwWNFBIAXIP2+mrbGbX9/1pR
+ 7QmvVY3YUCr4Vxr5Ty7vOEiRhlTOmezTkSpJs5XSUHkk/s9wBmOD5KtDq
+ HO5p8Ny0lxo6PDJ7GNa8Sf+n6meciiSbfZhbitRk/sG/aCIZa4x5ruIL1
+ Iqv/bppM0HY/blMK0sA+DWEtBWvcSNSBxlSaUMD8/DGYNJ91C857uvdKx
+ sBceOXrQLWTZQ3eb3RaJeDF9Oiiw7aDsUK4aG5cGgp2KsyZcogaW5L3gp Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10233"; a="225552604"
+X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="225552604"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 21:25:33 -0800
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2022 21:56:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="626614548"
+X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="626622213"
 Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
- by orsmga004.jf.intel.com with ESMTP; 20 Jan 2022 21:25:32 -0800
+ by orsmga004.jf.intel.com with ESMTP; 20 Jan 2022 21:56:33 -0800
 Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
  (envelope-from <lkp@intel.com>)
- id 1nAmQV-000ExH-D4; Fri, 21 Jan 2022 05:25:31 +0000
-Date: Fri, 21 Jan 2022 13:25:05 +0800
+ id 1nAmuX-000EyX-5X; Fri, 21 Jan 2022 05:56:33 +0000
+Date: Fri, 21 Jan 2022 13:55:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: Matthew Brost <matthew.brost@intel.com>,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc: Don't check CT descriptor
  status before CT write / read
-Message-ID: <202201211326.Zspu6s33-lkp@intel.com>
+Message-ID: <202201211310.Npkld1YY-lkp@intel.com>
 References: <20220120182413.8074-1-matthew.brost@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -61,7 +61,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org
+Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -78,27 +78,28 @@ https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/0day-ci/linux/commits/Matthew-Brost/drm-i915-guc-Don-t-check-CT-descriptor-status-before-CT-write-read/20220121-023033
 base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20220121/202201211326.Zspu6s33-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+config: i386-randconfig-a005-20220117 (https://download.01.org/0day-ci/archive/20220121/202201211310.Npkld1YY-lkp@intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project f7b7138a62648f4019c55e4671682af1f851f295)
 reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
         # https://github.com/0day-ci/linux/commit/0311a8b0f99c50ab1a666a5cdbe2b1a0a2c3c71d
         git remote add linux-review https://github.com/0day-ci/linux
         git fetch --no-tags linux-review Matthew-Brost/drm-i915-guc-Don-t-check-CT-descriptor-status-before-CT-write-read/20220121-023033
         git checkout 0311a8b0f99c50ab1a666a5cdbe2b1a0a2c3c71d
         # save the config file to linux build tree
         mkdir build_dir
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c: In function 'ct_write':
->> drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c:469:1: error: label 'corrupted' defined but not used [-Werror=unused-label]
-     469 | corrupted:
-         | ^~~~~~~~~
-   cc1: all warnings being treated as errors
+>> drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c:469:1: error: unused label 'corrupted' [-Werror,-Wunused-label]
+   corrupted:
+   ^~~~~~~~~~
+   1 error generated.
 
 
 vim +/corrupted +469 drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
