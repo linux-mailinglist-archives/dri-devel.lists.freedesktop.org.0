@@ -1,50 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1C54495BC5
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 09:20:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10179495BC3
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 09:20:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9AE210E95E;
-	Fri, 21 Jan 2022 08:20:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 731DC10E901;
+	Fri, 21 Jan 2022 08:20:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05FDA10E590
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 01:48:07 +0000 (UTC)
-Received: by mail-il1-f199.google.com with SMTP id
- s2-20020a056e021a0200b002b94aede929so4122949ild.12
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jan 2022 17:48:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
- :from:to;
- bh=DanrII7rs7VHR9x2Ad6ztSAzc5bhObpiObDh8wKC9WU=;
- b=EnDltCy3fJKpeI42oN8rTn3Z58Vcsjip2dmUdH+Q67SB7aQgZw6/S0Sw96Mza355fW
- 7gKQQk5cISJOYtXXJdk+8FoN3ziG5/rUKLEM2tt2HRbZ7IWZsRoL6V8ZnQHljGbSsnCt
- 570BvnY71+/qJ2Bgvc94mbqOKXy+u7g7ZVNeyl7kPnrZHt/RfrDac7OZwjOb5wh3m1c+
- 5nmZ/XPsErMlezlje5sXi4vyoFGTjUSGpb/RI6UA7i76nGOGbVuKgwBCx+ugh4YAI92S
- 3hljEvSAYk9aAbQMKYu7ETfKfUU4fUy8SCW1b2HYHz7Cql/200yaXVDPquPAnWEjy53K
- lcNw==
-X-Gm-Message-State: AOAM531WOGdbqaBZtECBckMwMKwM360Q71iBuA17iHlvkh3H+BCeNzSA
- 581oJ1AaaBzPvGshtC6seaMIlJuo4lHX5f292uK7jBA/Lztw
-X-Google-Smtp-Source: ABdhPJwo+j/up45k23KzgrwwJOdQRYqe4wZFCj5sSOh1hefXEP0mn76QeYRFAhQgeYfh1ABeRjuYCNLoAcbb47n7Nx1OAC7WHPRo
+X-Greylist: delayed 575 seconds by postgrey-1.36 at gabe;
+ Fri, 21 Jan 2022 05:41:53 UTC
+Received: from zg8tmtyylji0my4xnjiumje2.icoremail.net
+ (zg8tmtyylji0my4xnjiumje2.icoremail.net [162.243.162.216])
+ by gabe.freedesktop.org (Postfix) with SMTP id D3D6D10E705;
+ Fri, 21 Jan 2022 05:41:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fudan.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+ Message-Id:MIME-Version:Content-Transfer-Encoding; bh=HX9Za2e1JM
+ g4jxUgjH8Yl50bM6liwnW3gcJPuVFZ+TQ=; b=EaOuY7OHip6dQx9325GLcFKa/z
+ fXp9uZg3VSiAvRIYNR4vLl85GjZOvI4p/EIo5MBGHtsfJUdRMzHvx7KGzrexLh+5
+ oJQE4CDvA54Rs551iyD29eEd+ln9vEjVceHgFrYwGFVByKJVbTmROXq8quq6eKTB
+ oaIu+42ZblfYMDwP8=
+Received: from localhost.localdomain (unknown [111.192.165.103])
+ by app1 (Coremail) with SMTP id XAUFCgAXLsLVROphhGc_AA--.2130S4;
+ Fri, 21 Jan 2022 13:30:02 +0800 (CST)
+From: Xin Xiong <xiongx18@fudan.edu.cn>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: [PATCH] drm/amd/amdgpu/amdgpu_cs: fix refcount leak of a dma_fence obj
+Date: Fri, 21 Jan 2022 13:28:28 +0800
+Message-Id: <20220121052827.4384-1-xiongx18@fudan.edu.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Received: by 2002:a02:2207:: with SMTP id o7mr751312jao.99.1642729686278;
- Thu, 20 Jan 2022 17:48:06 -0800 (PST)
-Date: Thu, 20 Jan 2022 17:48:06 -0800
-In-Reply-To: <000000000000bbdd0405d120c155@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000069ab4805d60dcf4c@google.com>
-Subject: Re: [syzbot] KASAN: vmalloc-out-of-bounds Write in imageblit (2)
-From: syzbot <syzbot+14b0e8f3fd1612e35350@syzkaller.appspotmail.com>
-To: bugs-a21@moonlit-rail.com, deller@gmx.de, dri-devel@lists.freedesktop.org, 
- javierm@redhat.com, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, 
- maxime@cerno.tech, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: XAUFCgAXLsLVROphhGc_AA--.2130S4
+X-Coremail-Antispam: 1UD129KBjvdXoWruw48Cr48Zr1kJr1fAry8AFb_yoWDCFb_Gr
+ W8XrnrXr1ayF1qqFnFvw4rZw1ayF43uF4kGr1Sq34Sqry2v3yUtryDXrnxWF1furs7GFyD
+ Zan8ur95Z3ZxKjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbfxFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
+ 6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+ 0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr
+ 1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IE
+ rcIFxwACI402YVCY1x02628vn2kIc2xKxwCY02Avz4vE14v_GrWl42xK82IYc2Ij64vIr4
+ 1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK
+ 67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI
+ 8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAv
+ wI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxV
+ AFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JU94SOUUUUU=
+X-CM-SenderInfo: arytiiqsuqiimz6i3vldqovvfxof0/1tbiAhANEFKp2iYsDwAAsr
 X-Mailman-Approved-At: Fri, 21 Jan 2022 08:20:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,28 +70,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Xin Tan <tanxin.ctf@gmail.com>, yuanxzhang@fudan.edu.cn,
+ Xin Xiong <xiongx18@fudan.edu.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-syzbot has bisected this issue to:
+This issue takes place in an error path in
+amdgpu_cs_fence_to_handle_ioctl(). When `info->in.what` falls into
+default case, the function simply returns -EINVAL, forgetting to
+decrement the reference count of a dma_fence obj, which is bumped
+earlier by amdgpu_cs_get_fence(). This may result in reference count
+leaks.
 
-commit 0499f419b76f94ede08304aad5851144813ac55c
-Author: Javier Martinez Canillas <javierm@redhat.com>
-Date:   Mon Jan 10 09:56:25 2022 +0000
+Fix it by decreasing the refcount of specific object before returning
+the error code.
 
-    video: vga16fb: Only probe for EGA and VGA 16 color graphic cards
+Signed-off-by: Xin Xiong <xiongx18@fudan.edu.cn>
+Signed-off-by: Xin Tan <tanxin.ctf@gmail.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=14c71e37b00000
-start commit:   7fc5253f5a13 Add linux-next specific files for 20220120
-git tree:       linux-next
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=16c71e37b00000
-console output: https://syzkaller.appspot.com/x/log.txt?x=12c71e37b00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=94e8da4df9ab6319
-dashboard link: https://syzkaller.appspot.com/bug?extid=14b0e8f3fd1612e35350
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=155dde3db00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=125298e0700000
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+index 0311d799a..894869789 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+@@ -1510,6 +1510,7 @@ int amdgpu_cs_fence_to_handle_ioctl(struct drm_device *dev, void *data,
+ 		return 0;
+ 
+ 	default:
++		dma_fence_put(fence);
+ 		return -EINVAL;
+ 	}
+ }
+-- 
+2.25.1
 
-Reported-by: syzbot+14b0e8f3fd1612e35350@syzkaller.appspotmail.com
-Fixes: 0499f419b76f ("video: vga16fb: Only probe for EGA and VGA 16 color graphic cards")
-
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
