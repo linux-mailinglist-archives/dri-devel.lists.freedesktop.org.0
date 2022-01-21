@@ -2,74 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C5CD496226
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 16:33:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6E1C496297
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 17:05:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70FEE10E4BF;
-	Fri, 21 Jan 2022 15:33:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD4C610E5CE;
+	Fri, 21 Jan 2022 16:05:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 466 seconds by postgrey-1.36 at gabe;
- Fri, 21 Jan 2022 15:33:10 UTC
-Received: from smtp-relay-internal-0.canonical.com
- (smtp-relay-internal-0.canonical.com [185.125.188.122])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAA8F10E41E
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 15:33:10 +0000 (UTC)
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
- [209.85.166.197])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 4F0813F17B
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 15:25:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1642778722;
- bh=kmO+xAN2J4Jy/ih5e+qjMQI4v9QuAWJh5wyH2KxAvmg=;
- h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
- Content-Type:In-Reply-To;
- b=dUDxqYVBx+WwLOn02CctmPlEO8aVrXCCsVwSsCarStsSNAXjPHrDiY8xd9q8FSNEu
- wwPs+LBNSA78ZCyx4aW5ztnKrtA0wtWl/vfP5sUP/G14ojChUwLX/Rxz1gIaoqZcih
- JPFVNWkFBVVCKMSwwM9xggxTOZ7HCIM3ARG1KUCtUYREGywjcRe++hl4EzpgGw7p80
- /Lq72Opq7xUeEcT/NJ3K6EEH5gR37x6YxAtw3Kv8oM0CWUUqVPRB1lFJJ3rkNFqXW1
- 5vEVV9CZWhG7VmOg48PZT+d4j57NavmOMibX2fp99mrqTeOzDMWn8s+TEB5nuWpSfq
- TUk8WYXTk2WWg==
-Received: by mail-il1-f197.google.com with SMTP id
- x6-20020a056e021ca600b002b7e8b542e6so6086797ill.21
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 07:25:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=kmO+xAN2J4Jy/ih5e+qjMQI4v9QuAWJh5wyH2KxAvmg=;
- b=ZNPdMuhQE8NrTh1MQ5Jld4w0+y9S3fMMkdDJ6wEYOcnFDDIR12KRXAVJmGsMIyCqwE
- u4s3KXotrc6QhFF3cf3cDamSBW+HxX1RCb02J+eOsQk28uTyAZFkpuSJeg/gDIB6YdD4
- iTy4orxG+lCoigcTnlYiLoFxbpX5Q2YkcCnruB6/sQax4hLF8NQz76M7W7xCR0n/WC1d
- jNxrX9Ofuw67w+WUS6lBgUXiskhNX5Z6qTzaMZxcI/T2rPiV4lT3HX9tmtWWZVToOaye
- WKXF14JiswCzcNSRRNUDtQYfnB4IzXcuart8wix3PcJYulF5S4gdnhiN1zGCAiux0P32
- ZDgg==
-X-Gm-Message-State: AOAM530KoqNMb2Ku8Ab5pGmQiMpzKwX43dsr6xkeJ4Kb9WoaKsGK0C21
- 0xCn51ynQQluhV9/6RD+3CrqBZXbRanr0TrDkAbCLmvhoY2v6MX+jBTC4j4vVwBZDHjEFO8uufU
- t66lgStb1BIDxiTlGneYEmvg1BSTEGUw9dq4bL52mX+gpGQ==
-X-Received: by 2002:a02:85e3:: with SMTP id d90mr632666jai.15.1642778716284;
- Fri, 21 Jan 2022 07:25:16 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzeOIQp+Scen5y5VsEkzFbri8UfeMJMq603bTmQNLXleUNzAxbMTmooyHEggHDV9wKJC/Ogyw==
-X-Received: by 2002:a02:85e3:: with SMTP id d90mr632645jai.15.1642778716007;
- Fri, 21 Jan 2022 07:25:16 -0800 (PST)
-Received: from xps13.dannf (c-71-196-238-11.hsd1.co.comcast.net.
- [71.196.238.11])
- by smtp.gmail.com with ESMTPSA id w4sm3282353ilv.32.2022.01.21.07.25.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Jan 2022 07:25:14 -0800 (PST)
-Date: Fri, 21 Jan 2022 08:25:12 -0700
-From: dann frazier <dann.frazier@canonical.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3] drm/ast: Don't check new mode if CRTC is being disabled
-Message-ID: <YerQWPxMNYV+zOSG@xps13.dannf>
-References: <20200507090640.21561-1-tzimmermann@suse.de>
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD94B10E5BA;
+ Fri, 21 Jan 2022 16:05:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1642781115; x=1674317115;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=hwDS2cVhsvvw4aB0X37oWlVYGPvDpyDEh1cxbZHYKAA=;
+ b=tOOGYWwp9Y533+CEiXQQBJl7raNI2yrD3BeG+By2Um9xKuqv+hqPPEs8
+ Ryps+YIrq02cZ6wLOjoj5UV0+IdXlAk58L4INTP+/cmiVm9Iv4YsvZIxn
+ Qv2r3SdEIsn7II0sEAfqQzPE+31rFVZ5J5j2NXFdS63yvrE7eOqkI/nNY U=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 21 Jan 2022 08:05:14 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jan 2022 08:05:14 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Fri, 21 Jan 2022 08:05:13 -0800
+Received: from [10.111.160.59] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Fri, 21 Jan
+ 2022 08:05:10 -0800
+Message-ID: <40ffe28d-60a0-dc7c-94bb-6f78876942d6@quicinc.com>
+Date: Fri, 21 Jan 2022 08:05:08 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200507090640.21561-1-tzimmermann@suse.de>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [RFC PATCH] drm: allow passing a real encoder object for wb
+ connector
+Content-Language: en-US
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+References: <1642732195-25349-1-git-send-email-quic_abhinavk@quicinc.com>
+ <87bl054fe4.fsf@intel.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <87bl054fe4.fsf@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,90 +66,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: cogarre@gmail.com, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, kraxel@redhat.com, airlied@redhat.com,
- stable@vger.kernel.org, sam@ravnborg.org, emil.velikov@collabora.com
+Cc: suraj.kandpal@intel.com, linux-arm-msm@vger.kernel.org, swboyd@chromium.org,
+ khsieh@codeaurora.org, nganji@codeaurora.org, seanpaul@chromium.org,
+ laurent.pinchart@ideasonboard.com, dmitry.baryshkov@linaro.org,
+ aravindh@codeaurora.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 07, 2020 at 11:06:40AM +0200, Thomas Zimmermann wrote:
-> Suspending failed because there's no mode if the CRTC is being
-> disabled. Early-out in this case. This fixes runtime PM for ast.
+Hi Jani
+
+On 1/21/2022 1:17 AM, Jani Nikula wrote:
+> On Thu, 20 Jan 2022, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>> Instead of creating an internal encoder for the writeback
+>> connector to satisfy DRM requirements, allow the clients
+>> to pass a real encoder to it by changing the drm_writeback's
+>> encoder to a pointer.
+>>
+>> If a real encoder is not passed, drm_writeback_connector_init
+>> will internally allocate one.
+>>
+>> This will help the clients to manage the real encoder states
+>> better as they will allocate and maintain the encoder.
 > 
-> v3:
-> 	* fixed commit message
-> v2:
-> 	* added Tested-by/Reported-by tags
-> 	* added Fixes tags and CC (Sam)
-> 	* improved comment
+> See also the thread starting at [1], and please try to coordinate.
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reported-by: Cary Garrett <cogarre@gmail.com>
-> Tested-by: Cary Garrett <cogarre@gmail.com>
-> Fixes: b48e1b6ffd28 ("drm/ast: Add CRTC helpers for atomic modesetting")
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: <stable@vger.kernel.org> # v5.6+
-> ---
->  drivers/gpu/drm/ast/ast_mode.c | 3 +++
->  1 file changed, 3 insertions(+)
+> I don't know what the end result should be like, I'm just saying please
+> collaborate instead of racing to get one set of changes in.
 > 
-> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-> index 7a9f20a2fd303..0cbbb21edb4e1 100644
-> --- a/drivers/gpu/drm/ast/ast_mode.c
-> +++ b/drivers/gpu/drm/ast/ast_mode.c
-> @@ -801,6 +801,9 @@ static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
->  		return -EINVAL;
->  	}
->  
-> +	if (!state->enable)
-> +		return 0; /* no mode checks if CRTC is being disabled */
-> +
->  	ast_state = to_ast_crtc_state(state);
->  
->  	format = ast_state->format;
+> BR,
+> Jani.
+> 
+> 
+> [1] https://patchwork.freedesktop.org/patch/msgid/20220111101801.28310-1-suraj.kandpal@intel.com
+> 
+Thanks for pointing to this thread. Since 
+https://patchwork.freedesktop.org/patch/469090/ has been posted earlier 
+and is more complete in terms of handling other vendor changes, we can 
+continue on that one.
 
-hey,
-  I'm seeing a regression that I bisected down to this change. I
-installed GNOME on a couple of different server models that have
-AMI-based BMCs, which provide a web-based graphics display (virtual
-KVM). When I enter the lock screen on current upstream kernels, the
-display freezes, and I see the following messages appear in syslog
-whenever I generate keyboard/mouse events on that display:
+But I dont see any comments on that one yet.
 
-Jan 19 20:34:53 starbuck gnome-shell[5002]: Failed to post KMS update: drmModeAtomicCommit: Invalid argument
-Jan 19 20:34:53 starbuck gnome-shell[5002]: Page flip discarded: drmModeAtomicCommit: Invalid argument
-Jan 19 20:34:53 starbuck gnome-shell[5002]: Failed to post KMS update: drmModeAtomicCommit: Invalid argument
-Jan 19 20:34:53 starbuck gnome-shell[5002]: Page flip discarded: drmModeAtomicCommit: Invalid argument
-Jan 19 20:34:53 starbuck gnome-shell[5002]: Failed to post KMS update: drmModeAtomicCommit: Invalid argument
-Jan 19 20:34:53 starbuck gnome-shell[5002]: Page flip discarded: drmModeAtomicCommit: Invalid argument
-Jan 19 20:34:53 starbuck gnome-shell[5002]: Failed to post KMS update: drmModeAtomicCommit: Invalid argument
+Hi Laurent
 
-If I back out this change w/ the following patch (code has evolved
-slightly preventing a clean revert), then the lock screen once again
-behaves normally:
+In that case can you please check the 
+https://patchwork.freedesktop.org/patch/469090/ thread , we can continue 
+our discussion there.
 
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 956c8982192b..336c545c46f5 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -1012,9 +1012,6 @@ static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
- 	const struct drm_format_info *format;
- 	bool succ;
- 
--	if (!crtc_state->enable)
--		return 0; /* no mode checks if CRTC is being disabled */
--
- 	ast_state = to_ast_crtc_state(crtc_state);
- 
- 	format = ast_state->format;
+We also have the same issue too. Our encoder also maintains its own 
+struct drm_encoder.
 
+Thanks
 
-Apologies for noticing so long after the fact. I don't normally run a
-desktop environment on these servers, I just happened to be debugging
-something recently that required it.
-
-  -dann
+Abhinav
+>>
+>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/drm_writeback.c | 11 +++++++----
+>>   include/drm/drm_writeback.h     |  2 +-
+>>   2 files changed, 8 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
+>> index dccf4504..fdb7381 100644
+>> --- a/drivers/gpu/drm/drm_writeback.c
+>> +++ b/drivers/gpu/drm/drm_writeback.c
+>> @@ -189,8 +189,11 @@ int drm_writeback_connector_init(struct drm_device *dev,
+>>   	if (IS_ERR(blob))
+>>   		return PTR_ERR(blob);
+>>   
+>> -	drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
+>> -	ret = drm_encoder_init(dev, &wb_connector->encoder,
+>> +	/* allocate the internal drm encoder if a real one wasnt passed */
+>> +	if (!wb_connector->encoder)
+>> +		wb_connector->encoder = devm_kzalloc(dev->dev, sizeof(struct drm_encoder), GFP_KERNEL);
+>> +	drm_encoder_helper_add(wb_connector->encoder, enc_helper_funcs);
+>> +	ret = drm_encoder_init(dev, wb_connector->encoder,
+>>   			       &drm_writeback_encoder_funcs,
+>>   			       DRM_MODE_ENCODER_VIRTUAL, NULL);
+>>   	if (ret)
+>> @@ -204,7 +207,7 @@ int drm_writeback_connector_init(struct drm_device *dev,
+>>   		goto connector_fail;
+>>   
+>>   	ret = drm_connector_attach_encoder(connector,
+>> -						&wb_connector->encoder);
+>> +						wb_connector->encoder);
+>>   	if (ret)
+>>   		goto attach_fail;
+>>   
+>> @@ -233,7 +236,7 @@ int drm_writeback_connector_init(struct drm_device *dev,
+>>   attach_fail:
+>>   	drm_connector_cleanup(connector);
+>>   connector_fail:
+>> -	drm_encoder_cleanup(&wb_connector->encoder);
+>> +	drm_encoder_cleanup(wb_connector->encoder);
+>>   fail:
+>>   	drm_property_blob_put(blob);
+>>   	return ret;
+>> diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
+>> index 9697d27..f0d8147 100644
+>> --- a/include/drm/drm_writeback.h
+>> +++ b/include/drm/drm_writeback.h
+>> @@ -31,7 +31,7 @@ struct drm_writeback_connector {
+>>   	 * by passing the @enc_funcs parameter to drm_writeback_connector_init()
+>>   	 * function.
+>>   	 */
+>> -	struct drm_encoder encoder;
+>> +	struct drm_encoder *encoder;
+>>   
+>>   	/**
+>>   	 * @pixel_formats_blob_ptr:
+> 
