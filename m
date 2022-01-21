@@ -1,73 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AEA0495C30
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 09:44:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57CC3495C48
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 09:47:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7F1210E926;
-	Fri, 21 Jan 2022 08:44:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E03D10E5C3;
+	Fri, 21 Jan 2022 08:47:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3CDC10E5C3
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 08:44:06 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 45834218ED;
- Fri, 21 Jan 2022 08:44:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1642754645; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+nqVeT08mrJpHzyoInkYIgIo/MheF55WNHiHZCva8qo=;
- b=b4ddEBDUAUdOp7OX4QHDub/6c09LlEsXeOGxqy6VuANKaesjRp5cfGixAqWLiqWkoG0I4S
- amOS6FjBO+O6O9FOurE4MhcgxzX6oa3nsb4WkwTvIMbuofBZQysFrfzOL06tgSZd/X/Lpa
- iPMhoZaqmP2IDaNRsLyLooFVtnJdFQ0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1642754645;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+nqVeT08mrJpHzyoInkYIgIo/MheF55WNHiHZCva8qo=;
- b=2+xevdpFXp5yxhMjNTB462AjFesOhlni0G1IrIZnwC83pejHYEDSuuFp+cF2rNYUv4oPMT
- UBf0o8eiWYvKBBCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 214CF13BAC;
- Fri, 21 Jan 2022 08:44:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id mvsBB1Vy6mFAPgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 21 Jan 2022 08:44:05 +0000
-Message-ID: <550c94f9-8302-c015-17be-d97fbe2e1b89@suse.de>
-Date: Fri, 21 Jan 2022 09:44:04 +0100
+Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com
+ [IPv6:2607:f8b0:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DF8810E5C3
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 08:47:21 +0000 (UTC)
+Received: by mail-ot1-x336.google.com with SMTP id
+ t4-20020a05683022e400b00591aaf48277so10890469otc.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 00:47:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=wTU29Vd39alUth1lv80uW9+OTVBlyJFtnlVs7XZ4g0U=;
+ b=ZFu2SshhTOHKlkc/b+4TRfashMda7GnAW3h5UHdHgEqpU676K6+mNXoXBA2LdQ2I6i
+ Uohcjg/m8sqM7DsAjG5pRUo3ZDOvVhnEaVLkjDecHFQzgvPZUUyOKGn82fPYSgIEaelI
+ 3CJdSa0m60uHDFC4uGviXk1TV/OlhWShMWVs8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wTU29Vd39alUth1lv80uW9+OTVBlyJFtnlVs7XZ4g0U=;
+ b=LnPckhWc+ZQZFZYTBwMRSnKhX+3fKV2uN51guZ/l2OGwOCVV8d3RqsDgvuJZy68szf
+ YfnR6xgGrqKv2QRFf2G7rfKXraBaQCqRRvIi1JxstkQTlNwmpj9KzP6e/DrWn+l0fHud
+ whNeFx0GaHHKJuyFgu1d2yk/To3cwCpEhBrBqiLSrdj8P68a4cdv6UFm7c+XI4JRv90V
+ UIqhSnd2AD6HdIuCqA2FA0AmCDZ4MK0EivD6a7PellZuF7cwlpVejpI/03zUnD5Z87ok
+ ZOYYgEt1Y6rJ5EduTLU9tdqwzCXrStWcsaHCIulUW3AbXExYbQh9usdgScW4R7rAMhme
+ 2yXA==
+X-Gm-Message-State: AOAM532Ll0qW7dDrL8+KgbMmdrlBKBdJXAUcPSfGiUJ7f3qYwRi/5DnC
+ iJff2EFwzC2WKfr5kASme9OSM6KtuvKt66uoCp867g==
+X-Google-Smtp-Source: ABdhPJyp37Qj+oFvVhbsorkMGIDruzMkeIfPB0ZqbOaZMHPBpGWsl25ldzc2vCd3lW5DSHjdU4E82ZQloH0SZMkT8Ls=
+X-Received: by 2002:a9d:685a:: with SMTP id c26mr2020145oto.239.1642754840485; 
+ Fri, 21 Jan 2022 00:47:20 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] drm/vmwgfx: Stop requesting the pci regions
-Content-Language: en-US
-To: Zack Rusin <zackr@vmware.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "javierm@redhat.com" <javierm@redhat.com>
-References: <20220117180359.18114-1-zack@kde.org>
- <1c177e79-d28a-e896-08ec-3cd4cd2fb823@redhat.com>
- <da4e34772a9557cf4c4733ce6ee2a2ad47615044.camel@vmware.com>
- <5292edf8-0e60-28e1-15d3-6a1779023f68@suse.de>
- <afc4c659-b92e-3227-634f-7c171b7a74b3@suse.de>
- <80fc6b88d659dd7281364daccfed1fd294e785dc.camel@vmware.com>
- <89f1b9df-6ace-d59c-86a4-571cd92d0a4c@suse.de>
- <e9f42f83d7966952c8c0ff78be7e510a2aebdf01.camel@vmware.com>
- <14b3043a-2569-f4fb-a73d-d67ee1feaee4@suse.de>
- <9f9b9417d04e4ca7157b03a1e4430e2ce374d97a.camel@vmware.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <9f9b9417d04e4ca7157b03a1e4430e2ce374d97a.camel@vmware.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------ykSv4ZUIDDse1lbC9Qu2srIW"
+References: <Yeg11pHSqx29yg/T@ls3530>
+In-Reply-To: <Yeg11pHSqx29yg/T@ls3530>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 21 Jan 2022 09:47:09 +0100
+Message-ID: <CAKMK7uGeGBBvTGFyBxLwvTAxEWwXMS8U1rrYUb_7gbui-jV+KA@mail.gmail.com>
+Subject: Re: [GIT PULL] fbdev updates & fixes for v5.17-rc1
+To: Helge Deller <deller@gmx.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,93 +59,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Martin Krastev <krastevm@vmware.com>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>,
- Maaz Mombasawala <mombasawalam@vmware.com>
+Cc: linux-fbdev@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------ykSv4ZUIDDse1lbC9Qu2srIW
-Content-Type: multipart/mixed; boundary="------------Ibl9G10vqptQtp7lyMNoRHxd";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Zack Rusin <zackr@vmware.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "javierm@redhat.com" <javierm@redhat.com>
-Cc: Martin Krastev <krastevm@vmware.com>,
- Maaz Mombasawala <mombasawalam@vmware.com>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>
-Message-ID: <550c94f9-8302-c015-17be-d97fbe2e1b89@suse.de>
-Subject: Re: [PATCH] drm/vmwgfx: Stop requesting the pci regions
-References: <20220117180359.18114-1-zack@kde.org>
- <1c177e79-d28a-e896-08ec-3cd4cd2fb823@redhat.com>
- <da4e34772a9557cf4c4733ce6ee2a2ad47615044.camel@vmware.com>
- <5292edf8-0e60-28e1-15d3-6a1779023f68@suse.de>
- <afc4c659-b92e-3227-634f-7c171b7a74b3@suse.de>
- <80fc6b88d659dd7281364daccfed1fd294e785dc.camel@vmware.com>
- <89f1b9df-6ace-d59c-86a4-571cd92d0a4c@suse.de>
- <e9f42f83d7966952c8c0ff78be7e510a2aebdf01.camel@vmware.com>
- <14b3043a-2569-f4fb-a73d-d67ee1feaee4@suse.de>
- <9f9b9417d04e4ca7157b03a1e4430e2ce374d97a.camel@vmware.com>
-In-Reply-To: <9f9b9417d04e4ca7157b03a1e4430e2ce374d97a.camel@vmware.com>
+On Wed, Jan 19, 2022 at 5:02 PM Helge Deller <deller@gmx.de> wrote:
+>
+> The following changes since commit 0c947b893d69231a9add855939da7c66237ab44f:
+>
+>   Merge tag '5.17-rc-part1-smb3-fixes' of git://git.samba.org/sfrench/cifs-2.6 (2022-01-17 09:53:21 +0200)
+>
+> are available in the Git repository at:
+>
+>   http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/fbdev-5.17-2
+>
+> for you to fetch changes up to 842086bc7262a36f002e0361f9dc351556cae3f3:
+>
+>   video: fbdev: controlfb: Fix COMPILE_TEST build (2022-01-17 22:39:37 +0100)
+>
+> ----------------------------------------------------------------
+> fbdev updates for v5.17-rc1
+>
+> A first bunch of updates and fixes for the following fbdev & backlight drivers:
+> ocfb, aty128fb, mb862xx, omapfb, qcom-wled, dt-bindings, hyperv_fb,
+> lm3630a_bl, omap2, controlfb, matroxfb
+>
+> Nothing really important, mostly cleanups, const conversions, added null
+> pointer/boundary checks and build fixes.
+>
+> Signed-off-by: Helge Deller <deller@gmx.de>
 
---------------Ibl9G10vqptQtp7lyMNoRHxd
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Not sure whether Linus missed this or just wanted to let the
+discussion settle first. But since this is all random patches for
+drivers that many distros don't even enable anymore there's no issues
+here, and I very much welcome someone volunteering to pick these up.
+I'd expect there's a pile more since it's been 1-2 years since Bart
+took care of these and merged them consistently.
 
-SGkNCg0KQW0gMjAuMDEuMjIgdW0gMjI6Mjggc2NocmllYiBaYWNrIFJ1c2luOg0KPiBPbiBU
-aHUsIDIwMjItMDEtMjAgYXQgMTE6MDAgKzAxMDAsIFRob21hcyBaaW1tZXJtYW5uIHdyb3Rl
-Og0KPj4+Pg0KPj4+PiBJZiB0aGF0IHdvcmtzLCB3b3VsZCB5b3UgY29uc2lkZXIgcHJvdGVj
-dGluZyBwY2lfcmVxdWVzdF9yZWdpb24oKQ0KPj4+PiB3aXRoDQo+Pj4+ICDCoMKgICNpZiBu
-b3QgZGVmaW5lZChDT05GSUdfRkJfU0lNUExFKQ0KPj4+PiAgwqDCoCAjZW5kaWYNCj4+Pj4N
-Cj4+Pj4gd2l0aCBhIEZJWE1FIGNvbW1lbnQ/DQo+Pj4NCj4+PiBZZXMsIEkgdGhpbmsgdGhh
-dCdzIGEgZ29vZCBjb21wcm9taXNlLiBJJ2xsIHJlc3BpbiB0aGUgcGF0Y2ggd2l0aA0KPj4+
-IHRoYXQuDQo+Pg0KPj4gQmVmb3JlIHlvdSBkbyB0aGF0LCBJIGhhdmUgb25lIG1vcmUgcGF0
-Y2ggZm9yIHlvdSB0byB0cnkuIEl0J3MgYWxsDQo+PiB0aGUNCj4+IGNoYW5nZXMgYXMgYmVm
-b3JlLCBidXQgbm93IGZiZGV2IGhvdC11bnBsdWdzIHRoZSB1bmRlcmx5aW5nIHBsYXRmb3Jt
-DQo+PiBkZXZpY2UgZnJvbSB0aGUgZGV2aWNlIGhpZXJhcmNoeS4gVGhlIEJPT1RGQiB3aWxs
-IG5vdCBjb25zdW1lIHBhcnRzDQo+PiBvZg0KPj4gdm13Z2Z4J3MgZGlzcGxheSBtZW1vcnkg
-cmFuZ2UgYW55IGxvbmdlci4gSXQncyBub3cgdGhlIHNhbWUgYmVoYXZpb3INCj4+IGFzDQo+
-PiB3aXRoIHNpbXBsZWRybS4NCj4+DQo+PiBUaGlzIHdvcmtzIGZvciBtZSB3aXRoIHNpbXBs
-ZWZiIGFuZCBlZmlmYiBvbiBpOTE1IGhhcmR3YXJlLg0KPiANCj4gWWVhLCB0aGF0IHdvcmtz
-IGZvciBtZSB0b28uIEJvdGggd2l0aCBzaW1wbGVkcm0gYW5kIHNpbXBsZWZiLiBUaGUgcGF0
-Y2gNCj4gbG9va3MgZ29vZCB0b28uDQo+IA0KPiBEbyB5b3UgdGhpbmsgeW91J2xsIGJlIGFi
-bGUgdG8gZ2V0IHRoaXMgaW4gc3RhYmxlIGtlcm5lbHM/IElmIG5vdCBJJ2xsDQo+IHN0aWxs
-IG5lZWQgc29tZXRoaW5nIGZvciB2bXdnZnggdG8gbWFrZSBrZXJuZWxzIGJldHdlZW4gNS4x
-NSBhbmQNCj4gd2hlbmV2ZXIgdGhpcyBwYXRjaCBnZXRzIGluIGJvb3Qgd2l0aCBmYi4NCg0K
-SSdsbCBwcmVwYXJlIGEgcGF0Y2hzZXQgd2l0aCB0aGVzZSBjaGFuZ2VzLiBUaGUgYWN0dWFs
-IGZpeCBpcyB0aGUgY2hhbmdlIA0KdG8gZmJtZW0uYy4gVGhpcyBvbmUgc2hvdWxkIGdvIHRv
-IHN0YWJsZSBhbmQgc2hvdWxkIGJlIGVhc3kgdG8gYmFja3BvcnQuIA0KQWxsIHRoZSBvdGhl
-ciBwYXRjaGVzIGFyZSBtb3N0bHkgZm9yIGNvcnJlY3RuZXNzIGFuZCBjYW4gZ28gdG8gDQpk
-cm0tbWlzYy1uZXh0IG9ubHkuDQoNCkNhbiBJIGFkZCB5b3VyIFRlc3RlZC1ieSB0YWcgdG8g
-dGhlIHBhdGNoZXM/DQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IHoNCg0KLS0g
-DQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBT
-b2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBO
-w7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6Rm
-dHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
---------------Ibl9G10vqptQtp7lyMNoRHxd--
+Cheers, Daniel
 
---------------ykSv4ZUIDDse1lbC9Qu2srIW
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+>
+> ----------------------------------------------------------------
+> Chunyang Zhong (1):
+>       video: ocfb: add const to of_device_id
+>
+> Colin Ian King (2):
+>       fbdev: aty128fb: make some arrays static const
+>       video: fbdev: mb862xx: remove redundant assignment to pointer ptr
+>
+> Greg Kroah-Hartman (1):
+>       omapfb: use default_groups in kobj_type
+>
+> Jiasheng Jiang (1):
+>       video: fbdev: Check for null res pointer
+>
+> Luca Weiss (2):
+>       backlight: qcom-wled: Add PM6150L compatible
+>       dt-bindings: simple-framebuffer: allow standalone compatible
+>
+> Michael Kelley (1):
+>       video: hyperv_fb: Fix validation of screen resolution
+>
+> Minghao Chi (1):
+>       drivers/video: remove redundant res variable
+>
+> Xu Wang (2):
+>       backlight: lm3630a_bl: Remove redundant 'flush_workqueue()' calls
+>       fbdev: omap2: omapfb: Remove redundant 'flush_workqueue()' calls
+>
+> Yang Guang (1):
+>       video: fbdev: use swap() to make code cleaner
+>
+> YueHaibing (1):
+>       video: fbdev: controlfb: Fix COMPILE_TEST build
+>
+> Z. Liu (1):
+>       matroxfb: set maxvram of vbG200eW to the same as vbG200 to avoid black screen
+>
+>  .../devicetree/bindings/display/simple-framebuffer.yaml  | 12 +++++++-----
+>  drivers/video/backlight/lm3630a_bl.c                     |  1 -
+>  drivers/video/backlight/qcom-wled.c                      |  1 +
+>  drivers/video/fbdev/aty/aty128fb.c                       | 10 ++++++----
+>  drivers/video/fbdev/aty/mach64_ct.c                      |  4 +---
+>  drivers/video/fbdev/controlfb.c                          |  2 ++
+>  drivers/video/fbdev/hyperv_fb.c                          | 16 +++-------------
+>  drivers/video/fbdev/imxfb.c                              |  2 ++
+>  drivers/video/fbdev/matrox/matroxfb_base.c               |  2 +-
+>  drivers/video/fbdev/mb862xx/mb862xxfb_accel.c            |  2 +-
+>  drivers/video/fbdev/ocfb.c                               |  2 +-
+>  drivers/video/fbdev/omap2/omapfb/dss/display-sysfs.c     |  3 ++-
+>  drivers/video/fbdev/omap2/omapfb/dss/manager-sysfs.c     |  3 ++-
+>  drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c     |  3 ++-
+>  drivers/video/fbdev/omap2/omapfb/omapfb-main.c           |  1 -
+>  drivers/video/fbdev/sis/sis_main.c                       |  2 +-
+>  16 files changed, 32 insertions(+), 34 deletions(-)
 
------BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHqclQFAwAAAAAACgkQlh/E3EQov+Br
-cQ//fvaUggutff4hikAZRiLKp/xAEvY9HP+/Bp9BxWPs/mjKjEHD0ksu2Udtu7KKXUMbONDh5l1o
-ZEzJpIj5USKDkCIN05CU5hUW87fnTfTvgCGAen44/YOyMdXDpxNxWw7CH1GLUTSdZTmSH6IicfFr
-kZM2BILbt2BjfSfsNQSLEB/b3VPlyWX8JrLW3/2ST/VGkqiykO2p3HUqn8kbbWZbYtpxa2AKnw2C
-5Mkw9VLhykGjyMTkRMe5zFPgPKeqpLvXeOCre2iuuEhtbf7hq1N3H4Unjtupbe807cdbEBxguPKA
-1bJU2R4p4EiqcoQ03P3M645KYDsmI/CbwPVybx+ftlfyZnxfRPSSMfC5smSy6l9PWBwGzk2HEgzF
-ckPqRe6NJ3XTgp9gFcEZBmRrPRq8b5YjbUlD6a+OOMw8Fkt1T6tPO/pLGOI/pjh9v3x/LiN/mPUk
-oJlyjbcz6sGoWwI1OxEGdM36uLo+uHLmCdERn8AXHqqQnQIdX+L0wExTaCHoMs9bqiq7z6tfC7RR
-kYkHintGa40HHVxt/qndotmIOdiZ1KTFrxmUNkvwD/nvrQpypjCHjjJ0NB8rtHsbkAl9tc4u3bMD
-+mCW4tpQATr3yqf7FcSKBygdhgFX86J+UzApOaKnbW6OGaIKqSRw+NjjPYjag6S55cP1r87iJPIc
-7tw=
-=jnF0
------END PGP SIGNATURE-----
 
---------------ykSv4ZUIDDse1lbC9Qu2srIW--
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
