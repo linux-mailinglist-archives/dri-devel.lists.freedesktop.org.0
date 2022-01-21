@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 541A9496763
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 22:39:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C515496764
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 22:39:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECF4E10E447;
-	Fri, 21 Jan 2022 21:39:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7280E10E462;
+	Fri, 21 Jan 2022 21:39:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x932.google.com (mail-ua1-x932.google.com
- [IPv6:2607:f8b0:4864:20::932])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DCD610E447
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 21:39:13 +0000 (UTC)
-Received: by mail-ua1-x932.google.com with SMTP id 2so19268619uax.10
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 13:39:13 -0800 (PST)
+Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com
+ [IPv6:2607:f8b0:4864:20::92c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0418E10E447
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 21:39:15 +0000 (UTC)
+Received: by mail-ua1-x92c.google.com with SMTP id n15so17744886uaq.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 13:39:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SPLFJGbr5oyN/FPOLqy0b5L4M3tFQyG2i7d0/l7N0E0=;
- b=V12sE7kliPUhUE4UatCFVxSUcAzhZqzQLlejwa6jRn3SQkvJZYkWE+eSuP72C2PxWi
- 1zgWQ+NVoomz33TfZvoApK6EKuzXGYUWFWu8/TZQWBlkCvIncllsZRnfwFzEn8ZPpM/+
- mbJpDFVlzSt9H6c5OKx1MNwYjy4mDtMG4i8X9u3O+vGKiyA4+4K8WAVnuQ0VB/G1rT1c
- c4W16zoLXzex/tP32a87c00AejVKGGEvRbuE2bGIWQm/QFlniHzgAfenb/D640kMzDPj
- uwBUbE/fH5pksvNaHrha9e2N6M1DBDrDBqQnRUq/bYdMrfMcojyogKx+68pW+PcKz70X
- 6z0A==
+ bh=vP5kuX7mZVTY/pG9uRbevQGaPtcr9mHVd+pjSpNXL94=;
+ b=MhsVG/mUywxmet15d9JE5ILhVD6J+Qv5OqszhuHHtitaFk1EId+YgSPsaThr4xSdFM
+ qtbg+zrFV5jpzrWMnpvVWt2WN4C1CevMwPV8wcnox+qe6NByRncE7t501e/QfEV9GJxS
+ 1bglH/Y6EXMKmqDK81iabjiAu7CIum41hrK/7Rvt3tAgcXU73p1PiAhrxkwzPgt5wu+r
+ uSKgn1CWhkyy/9FsP61vtpxc+u18eVApifdv8LFnEKZJahvbpeJmXO6g7qiCCBdkj10M
+ 3LE9FWXqPuX0IaS/GuFJWQVkzO3gnrirjw+EE515ERWz/vL6cAlgfH567ALwa6SqICar
+ ZpLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SPLFJGbr5oyN/FPOLqy0b5L4M3tFQyG2i7d0/l7N0E0=;
- b=XQSpM2N6H22KuqvRqG7LzzuBmhdyrOgaSzDGtFToi51Haki9VfnpTRUVZSPECoVFgo
- RXiyB5RAiCoLX1mUKJfgUiSa6b/pauw4Xt2EsatFyeesXE55PWnwTx/XNVXAyy7Z3keg
- vTFlPNtv/WE5tzTU6odL9RV46cGELXfhBpBpYZyoaU9Ir8JnDftWSNkW0lZLhJbCmWxM
- J4alu3F9AFBMZgOXpTU0MyVymemx1ZTw22evvfu6q8jjVybpbIWjRYMLyp6scJQ+s27n
- BDU0Oar0pjZgg+8i7yc5gF7PuImX2dEoBw3nP8IwlUbEewEEPIMSSDIktXHTdYxmVXlH
- pKVA==
-X-Gm-Message-State: AOAM530TR+4d96ZBjIODzIk8iTu2vqHw2OilmYF2USnCC+U1DP4YM4hG
- aMgW+PDjUKjWFw8wyNSDp7I=
-X-Google-Smtp-Source: ABdhPJwH1oktTH2nk/Nru6Vy3v997/8jiI8zxwi0PUKhmYVqxpW/jPxnyuOcztRYNVRhNU75DtwrrA==
-X-Received: by 2002:a67:fdc7:: with SMTP id l7mr1673956vsq.85.1642801152584;
- Fri, 21 Jan 2022 13:39:12 -0800 (PST)
+ bh=vP5kuX7mZVTY/pG9uRbevQGaPtcr9mHVd+pjSpNXL94=;
+ b=mJ1tN/b7B3BM3/PPrXS0QjT+WzXEIZ7XIgl1gnl8Ni6CqfpWaRw/X+9neET7AcDQJx
+ +gubXBVQf2pE2MbkRfLNZdABcxRRwTe+s83oBBH4e9Yrq2WYmFumnlU7uSPqsj8O4QnA
+ omFH2b/H5Ey0wa4L8L3NmpEdmDDeGjby5H1bucIMSUDaK9sFd7t2BkFuU1htHtrclrRf
+ EyfzQPYnRTqMzRbb1fiauJkKVhDtQiQm+2slRpUdKbIG2rmxNGMk1zAxnruCCxkmHcsz
+ QK49gDtLFLenoEGolJT9ZxCK5Q0UnAXfY5fTRZqzfyoEuXrKer+atqKkjHE6Ewqo2WwA
+ MwgA==
+X-Gm-Message-State: AOAM5331RqdjvqGYoL8HQuQTv50dn1lvdA/TaCi1IE7mOo5qM0PrLUwp
+ Snx6+mA9swxRDw5yXZC2S4o=
+X-Google-Smtp-Source: ABdhPJx1n+R8gQTLLjIaw52xff0S4ibZRe+lhiFwWj5UcxN2inDx4p8QJV2tfrfj1P2oCab6OUaLvQ==
+X-Received: by 2002:a67:c305:: with SMTP id r5mr2674702vsj.83.1642801155076;
+ Fri, 21 Jan 2022 13:39:15 -0800 (PST)
 Received: from localhost.localdomain ([2804:431:c7f4:2d80:9427:7267:dbaf:8ccf])
- by smtp.googlemail.com with ESMTPSA id 29sm1633844vki.25.2022.01.21.13.39.10
+ by smtp.googlemail.com with ESMTPSA id 29sm1633844vki.25.2022.01.21.13.39.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Jan 2022 13:39:12 -0800 (PST)
+ Fri, 21 Jan 2022 13:39:14 -0800 (PST)
 From: Igor Torrente <igormtorrente@gmail.com>
 To: rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com, ppaalanen@gmail.com,
  tzimmermann@suse.de
-Subject: [PATCH v4 4/9] drm: vkms: Rename `vkms_composer` to `vkms_frame_info`
-Date: Fri, 21 Jan 2022 18:38:26 -0300
-Message-Id: <20220121213831.47229-5-igormtorrente@gmail.com>
+Subject: [PATCH v4 5/9] drm: vkms: Add fb information to `vkms_writeback_job`
+Date: Fri, 21 Jan 2022 18:38:27 -0300
+Message-Id: <20220121213831.47229-6-igormtorrente@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220121213831.47229-1-igormtorrente@gmail.com>
 References: <20220121213831.47229-1-igormtorrente@gmail.com>
@@ -73,343 +73,169 @@ Cc: hamohammed.sa@gmail.com, airlied@linux.ie, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changes the name of this struct to a more meaningful name.
-A name that represents better what this struct is about.
+This commit is the groundwork to introduce new formats to the planes and
+writeback buffer. As part of it, a new buffer metadata field is added to
+`vkms_writeback_job`, this metadata is represented by the `vkms_composer`
+struct.
 
-Composer is the code that do the compositing of the planes.
-This struct is contains information of the frame that is
-being used in the output composition. Thus, vkms_frame_info
-is a better name to represent this.
+This will allow us, in the future, to have different compositing and wb
+format types.
 
 Signed-off-by: Igor Torrente <igormtorrente@gmail.com>
 ---
- drivers/gpu/drm/vkms/vkms_composer.c | 87 ++++++++++++++--------------
- drivers/gpu/drm/vkms/vkms_drv.h      |  6 +-
- drivers/gpu/drm/vkms/vkms_plane.c    | 38 ++++++------
- 3 files changed, 66 insertions(+), 65 deletions(-)
+V2: Change the code to get the drm_framebuffer reference and not copy its
+    contents(Thomas Zimmermann).
+
+V3: Drop the refcount in the wb code(Thomas Zimmermann).
+---
+ drivers/gpu/drm/vkms/vkms_composer.c  |  4 ++--
+ drivers/gpu/drm/vkms/vkms_drv.h       | 12 ++++++------
+ drivers/gpu/drm/vkms/vkms_plane.c     | 10 +++++-----
+ drivers/gpu/drm/vkms/vkms_writeback.c | 20 +++++++++++++++++---
+ 4 files changed, 30 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index 82f79e508f81..2d946368a561 100644
+index 2d946368a561..95029d2ebcac 100644
 --- a/drivers/gpu/drm/vkms/vkms_composer.c
 +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -11,11 +11,11 @@
- #include "vkms_drv.h"
- 
- static u32 get_pixel_from_buffer(int x, int y, const u8 *buffer,
--				 const struct vkms_composer *composer)
-+				 const struct vkms_frame_info *frame_info)
- {
- 	u32 pixel;
--	int src_offset = composer->offset + (y * composer->pitch)
--				      + (x * composer->cpp);
-+	int src_offset = frame_info->offset + (y * frame_info->pitch)
-+					    + (x * frame_info->cpp);
- 
- 	pixel = *(u32 *)&buffer[src_offset];
- 
-@@ -26,24 +26,24 @@ static u32 get_pixel_from_buffer(int x, int y, const u8 *buffer,
-  * compute_crc - Compute CRC value on output frame
-  *
-  * @vaddr: address to final framebuffer
-- * @composer: framebuffer's metadata
-+ * @frame_info: framebuffer's metadata
-  *
-  * returns CRC value computed using crc32 on the visible portion of
-  * the final framebuffer at vaddr_out
-  */
- static uint32_t compute_crc(const u8 *vaddr,
--			    const struct vkms_composer *composer)
-+			    const struct vkms_frame_info *frame_info)
- {
- 	int x, y;
- 	u32 crc = 0, pixel = 0;
--	int x_src = composer->src.x1 >> 16;
--	int y_src = composer->src.y1 >> 16;
--	int h_src = drm_rect_height(&composer->src) >> 16;
--	int w_src = drm_rect_width(&composer->src) >> 16;
-+	int x_src = frame_info->src.x1 >> 16;
-+	int y_src = frame_info->src.y1 >> 16;
-+	int h_src = drm_rect_height(&frame_info->src) >> 16;
-+	int w_src = drm_rect_width(&frame_info->src) >> 16;
- 
- 	for (y = y_src; y < y_src + h_src; ++y) {
- 		for (x = x_src; x < x_src + w_src; ++x) {
--			pixel = get_pixel_from_buffer(x, y, vaddr, composer);
-+			pixel = get_pixel_from_buffer(x, y, vaddr, frame_info);
- 			crc = crc32_le(crc, (void *)&pixel, sizeof(u32));
- 		}
- 	}
-@@ -98,8 +98,8 @@ static void x_blend(const u8 *xrgb_src, u8 *xrgb_dst)
-  * blend - blend value at vaddr_src with value at vaddr_dst
-  * @vaddr_dst: destination address
-  * @vaddr_src: source address
-- * @dst_composer: destination framebuffer's metadata
-- * @src_composer: source framebuffer's metadata
-+ * @dst_frame_info: destination framebuffer's metadata
-+ * @src_frame_info: source framebuffer's metadata
-  * @pixel_blend: blending equation based on plane format
-  *
-  * Blend the vaddr_src value with the vaddr_dst value using a pixel blend
-@@ -111,33 +111,33 @@ static void x_blend(const u8 *xrgb_src, u8 *xrgb_dst)
-  * pixel color values
-  */
- static void blend(void *vaddr_dst, void *vaddr_src,
--		  struct vkms_composer *dst_composer,
--		  struct vkms_composer *src_composer,
-+		  struct vkms_frame_info *dst_frame_info,
-+		  struct vkms_frame_info *src_frame_info,
- 		  void (*pixel_blend)(const u8 *, u8 *))
- {
- 	int i, j, j_dst, i_dst;
- 	int offset_src, offset_dst;
- 	u8 *pixel_dst, *pixel_src;
- 
--	int x_src = src_composer->src.x1 >> 16;
--	int y_src = src_composer->src.y1 >> 16;
-+	int x_src = src_frame_info->src.x1 >> 16;
-+	int y_src = src_frame_info->src.y1 >> 16;
- 
--	int x_dst = src_composer->dst.x1;
--	int y_dst = src_composer->dst.y1;
--	int h_dst = drm_rect_height(&src_composer->dst);
--	int w_dst = drm_rect_width(&src_composer->dst);
-+	int x_dst = src_frame_info->dst.x1;
-+	int y_dst = src_frame_info->dst.y1;
-+	int h_dst = drm_rect_height(&src_frame_info->dst);
-+	int w_dst = drm_rect_width(&src_frame_info->dst);
- 
- 	int y_limit = y_src + h_dst;
- 	int x_limit = x_src + w_dst;
- 
- 	for (i = y_src, i_dst = y_dst; i < y_limit; ++i) {
- 		for (j = x_src, j_dst = x_dst; j < x_limit; ++j) {
--			offset_dst = dst_composer->offset
--				     + (i_dst * dst_composer->pitch)
--				     + (j_dst++ * dst_composer->cpp);
--			offset_src = src_composer->offset
--				     + (i * src_composer->pitch)
--				     + (j * src_composer->cpp);
-+			offset_dst = dst_frame_info->offset
-+				     + (i_dst * dst_frame_info->pitch)
-+				     + (j_dst++ * dst_frame_info->cpp);
-+			offset_src = src_frame_info->offset
-+				     + (i * src_frame_info->pitch)
-+				     + (j * src_frame_info->cpp);
- 
- 			pixel_src = (u8 *)(vaddr_src + offset_src);
- 			pixel_dst = (u8 *)(vaddr_dst + offset_dst);
-@@ -149,32 +149,33 @@ static void blend(void *vaddr_dst, void *vaddr_src,
- 	}
- }
- 
--static void compose_plane(struct vkms_composer *primary_composer,
--			  struct vkms_composer *plane_composer,
-+static void compose_plane(struct vkms_frame_info *primary_plane_info,
-+			  struct vkms_frame_info *plane_frame_info,
+@@ -153,7 +153,7 @@ static void compose_plane(struct vkms_frame_info *primary_plane_info,
+ 			  struct vkms_frame_info *plane_frame_info,
  			  void *vaddr_out)
  {
--	struct drm_framebuffer *fb = &plane_composer->fb;
-+	struct drm_framebuffer *fb = &plane_frame_info->fb;
+-	struct drm_framebuffer *fb = &plane_frame_info->fb;
++	struct drm_framebuffer *fb = plane_frame_info->fb;
  	void *vaddr;
  	void (*pixel_blend)(const u8 *p_src, u8 *p_dst);
  
--	if (WARN_ON(dma_buf_map_is_null(&primary_composer->map[0])))
-+	if (WARN_ON(dma_buf_map_is_null(&primary_plane_info->map[0])))
- 		return;
- 
--	vaddr = plane_composer->map[0].vaddr;
-+	vaddr = plane_frame_info->map[0].vaddr;
- 
- 	if (fb->format->format == DRM_FORMAT_ARGB8888)
- 		pixel_blend = &alpha_blend;
- 	else
- 		pixel_blend = &x_blend;
- 
--	blend(vaddr_out, vaddr, primary_composer, plane_composer, pixel_blend);
-+	blend(vaddr_out, vaddr, primary_plane_info,
-+	      plane_frame_info, pixel_blend);
- }
- 
- static int compose_active_planes(void **vaddr_out,
--				 struct vkms_composer *primary_composer,
-+				 struct vkms_frame_info *primary_plane_info,
+@@ -175,7 +175,7 @@ static int compose_active_planes(void **vaddr_out,
+ 				 struct vkms_frame_info *primary_plane_info,
  				 struct vkms_crtc_state *crtc_state)
  {
--	struct drm_framebuffer *fb = &primary_composer->fb;
-+	struct drm_framebuffer *fb = &primary_plane_info->fb;
+-	struct drm_framebuffer *fb = &primary_plane_info->fb;
++	struct drm_framebuffer *fb = primary_plane_info->fb;
  	struct drm_gem_object *gem_obj = drm_gem_fb_get_obj(fb, 0);
  	const void *vaddr;
  	int i;
-@@ -187,10 +188,10 @@ static int compose_active_planes(void **vaddr_out,
- 		}
- 	}
- 
--	if (WARN_ON(dma_buf_map_is_null(&primary_composer->map[0])))
-+	if (WARN_ON(dma_buf_map_is_null(&primary_plane_info->map[0])))
- 		return -EINVAL;
- 
--	vaddr = primary_composer->map[0].vaddr;
-+	vaddr = primary_plane_info->map[0].vaddr;
- 
- 	memcpy(*vaddr_out, vaddr, gem_obj->size);
- 
-@@ -199,8 +200,8 @@ static int compose_active_planes(void **vaddr_out,
- 	 * ((primary <- overlay) <- cursor)
- 	 */
- 	for (i = 1; i < crtc_state->num_active_planes; i++)
--		compose_plane(primary_composer,
--			      crtc_state->active_planes[i]->composer,
-+		compose_plane(primary_plane_info,
-+			      crtc_state->active_planes[i]->frame_info,
- 			      *vaddr_out);
- 
- 	return 0;
-@@ -222,7 +223,7 @@ void vkms_composer_worker(struct work_struct *work)
- 						composer_work);
- 	struct drm_crtc *crtc = crtc_state->base.crtc;
- 	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
--	struct vkms_composer *primary_composer = NULL;
-+	struct vkms_frame_info *primary_plane_info = NULL;
- 	struct vkms_plane_state *act_plane = NULL;
- 	bool crc_pending, wb_pending;
- 	void *vaddr_out = NULL;
-@@ -250,16 +251,16 @@ void vkms_composer_worker(struct work_struct *work)
- 	if (crtc_state->num_active_planes >= 1) {
- 		act_plane = crtc_state->active_planes[0];
- 		if (act_plane->base.base.plane->type == DRM_PLANE_TYPE_PRIMARY)
--			primary_composer = act_plane->composer;
-+			primary_plane_info = act_plane->frame_info;
- 	}
- 
--	if (!primary_composer)
-+	if (!primary_plane_info)
- 		return;
- 
- 	if (wb_pending)
- 		vaddr_out = crtc_state->active_writeback->data[0].vaddr;
- 
--	ret = compose_active_planes(&vaddr_out, primary_composer,
-+	ret = compose_active_planes(&vaddr_out, primary_plane_info,
- 				    crtc_state);
- 	if (ret) {
- 		if (ret == -EINVAL && !wb_pending)
-@@ -267,7 +268,7 @@ void vkms_composer_worker(struct work_struct *work)
- 		return;
- 	}
- 
--	crc32 = compute_crc(vaddr_out, primary_composer);
-+	crc32 = compute_crc(vaddr_out, primary_plane_info);
- 
- 	if (wb_pending) {
- 		drm_writeback_signal_completion(&out->wb_connector, 0);
 diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 0eeea6f93733..2e6342164bef 100644
+index 2e6342164bef..c850d755247c 100644
 --- a/drivers/gpu/drm/vkms/vkms_drv.h
 +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -27,7 +27,7 @@ struct vkms_writeback_job {
- 	struct dma_buf_map data[DRM_FORMAT_MAX_PLANES];
- };
+@@ -22,13 +22,8 @@
  
--struct vkms_composer {
-+struct vkms_frame_info {
- 	struct drm_framebuffer fb;
+ #define NUM_OVERLAY_PLANES 8
+ 
+-struct vkms_writeback_job {
+-	struct dma_buf_map map[DRM_FORMAT_MAX_PLANES];
+-	struct dma_buf_map data[DRM_FORMAT_MAX_PLANES];
+-};
+-
+ struct vkms_frame_info {
+-	struct drm_framebuffer fb;
++	struct drm_framebuffer *fb;
  	struct drm_rect src, dst;
  	struct dma_buf_map map[DRM_FORMAT_MAX_PLANES];
-@@ -39,11 +39,11 @@ struct vkms_composer {
+ 	unsigned int offset;
+@@ -36,6 +31,11 @@ struct vkms_frame_info {
+ 	unsigned int cpp;
+ };
+ 
++struct vkms_writeback_job {
++	struct dma_buf_map data[DRM_FORMAT_MAX_PLANES];
++	struct vkms_frame_info frame_info;
++};
++
  /**
   * vkms_plane_state - Driver specific plane state
   * @base: base plane state
-- * @composer: data required for composing computation
-+ * @frame_info: data required for composing computation
-  */
- struct vkms_plane_state {
- 	struct drm_shadow_plane_state base;
--	struct vkms_composer *composer;
-+	struct vkms_frame_info *frame_info;
- };
- 
- struct vkms_plane {
 diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index 32409e15244b..a56b0f76eddd 100644
+index a56b0f76eddd..28752af0118c 100644
 --- a/drivers/gpu/drm/vkms/vkms_plane.c
 +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -24,20 +24,20 @@ static struct drm_plane_state *
- vkms_plane_duplicate_state(struct drm_plane *plane)
- {
- 	struct vkms_plane_state *vkms_state;
--	struct vkms_composer *composer;
-+	struct vkms_frame_info *frame_info;
+@@ -50,12 +50,12 @@ static void vkms_plane_destroy_state(struct drm_plane *plane,
+ 	struct vkms_plane_state *vkms_state = to_vkms_plane_state(old_state);
+ 	struct drm_crtc *crtc = vkms_state->base.base.crtc;
  
- 	vkms_state = kzalloc(sizeof(*vkms_state), GFP_KERNEL);
- 	if (!vkms_state)
- 		return NULL;
- 
--	composer = kzalloc(sizeof(*composer), GFP_KERNEL);
--	if (!composer) {
--		DRM_DEBUG_KMS("Couldn't allocate composer\n");
-+	frame_info = kzalloc(sizeof(*frame_info), GFP_KERNEL);
-+	if (!frame_info) {
-+		DRM_DEBUG_KMS("Couldn't allocate frame_info\n");
- 		kfree(vkms_state);
- 		return NULL;
- 	}
- 
--	vkms_state->composer = composer;
-+	vkms_state->frame_info = frame_info;
- 
- 	__drm_gem_duplicate_shadow_plane_state(plane, &vkms_state->base);
- 
-@@ -54,12 +54,12 @@ static void vkms_plane_destroy_state(struct drm_plane *plane,
+-	if (crtc) {
++	if (crtc && vkms_state->frame_info->fb) {
  		/* dropping the reference we acquired in
  		 * vkms_primary_plane_update()
  		 */
--		if (drm_framebuffer_read_refcount(&vkms_state->composer->fb))
--			drm_framebuffer_put(&vkms_state->composer->fb);
-+		if (drm_framebuffer_read_refcount(&vkms_state->frame_info->fb))
-+			drm_framebuffer_put(&vkms_state->frame_info->fb);
+-		if (drm_framebuffer_read_refcount(&vkms_state->frame_info->fb))
+-			drm_framebuffer_put(&vkms_state->frame_info->fb);
++		if (drm_framebuffer_read_refcount(vkms_state->frame_info->fb))
++			drm_framebuffer_put(vkms_state->frame_info->fb);
  	}
  
--	kfree(vkms_state->composer);
--	vkms_state->composer = NULL;
-+	kfree(vkms_state->frame_info);
-+	vkms_state->frame_info = NULL;
+ 	kfree(vkms_state->frame_info);
+@@ -110,9 +110,9 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
+ 	frame_info = vkms_plane_state->frame_info;
+ 	memcpy(&frame_info->src, &new_state->src, sizeof(struct drm_rect));
+ 	memcpy(&frame_info->dst, &new_state->dst, sizeof(struct drm_rect));
+-	memcpy(&frame_info->fb, fb, sizeof(struct drm_framebuffer));
++	frame_info->fb = fb;
+ 	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
+-	drm_framebuffer_get(&frame_info->fb);
++	drm_framebuffer_get(frame_info->fb);
+ 	frame_info->offset = fb->offsets[0];
+ 	frame_info->pitch = fb->pitches[0];
+ 	frame_info->cpp = fb->format->cpp[0];
+diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+index 8694227f555f..de379331b236 100644
+--- a/drivers/gpu/drm/vkms/vkms_writeback.c
++++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+@@ -75,12 +75,15 @@ static int vkms_wb_prepare_job(struct drm_writeback_connector *wb_connector,
+ 	if (!vkmsjob)
+ 		return -ENOMEM;
  
- 	__drm_gem_destroy_shadow_plane_state(&vkms_state->base);
- 	kfree(vkms_state);
-@@ -99,7 +99,7 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
- 	struct vkms_plane_state *vkms_plane_state;
- 	struct drm_shadow_plane_state *shadow_plane_state;
- 	struct drm_framebuffer *fb = new_state->fb;
--	struct vkms_composer *composer;
-+	struct vkms_frame_info *frame_info;
+-	ret = drm_gem_fb_vmap(job->fb, vkmsjob->map, vkmsjob->data);
++	ret = drm_gem_fb_vmap(job->fb, vkmsjob->frame_info.map, vkmsjob->data);
+ 	if (ret) {
+ 		DRM_ERROR("vmap failed: %d\n", ret);
+ 		goto err_kfree;
+ 	}
  
- 	if (!new_state->crtc || !fb)
++	vkmsjob->frame_info.fb = job->fb;
++	drm_framebuffer_get(vkmsjob->frame_info.fb);
++
+ 	job->priv = vkmsjob;
+ 
+ 	return 0;
+@@ -99,7 +102,9 @@ static void vkms_wb_cleanup_job(struct drm_writeback_connector *connector,
+ 	if (!job->fb)
  		return;
-@@ -107,15 +107,15 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
- 	vkms_plane_state = to_vkms_plane_state(new_state);
- 	shadow_plane_state = &vkms_plane_state->base;
  
--	composer = vkms_plane_state->composer;
--	memcpy(&composer->src, &new_state->src, sizeof(struct drm_rect));
--	memcpy(&composer->dst, &new_state->dst, sizeof(struct drm_rect));
--	memcpy(&composer->fb, fb, sizeof(struct drm_framebuffer));
--	memcpy(&composer->map, &shadow_plane_state->data, sizeof(composer->map));
--	drm_framebuffer_get(&composer->fb);
--	composer->offset = fb->offsets[0];
--	composer->pitch = fb->pitches[0];
--	composer->cpp = fb->format->cpp[0];
-+	frame_info = vkms_plane_state->frame_info;
-+	memcpy(&frame_info->src, &new_state->src, sizeof(struct drm_rect));
-+	memcpy(&frame_info->dst, &new_state->dst, sizeof(struct drm_rect));
-+	memcpy(&frame_info->fb, fb, sizeof(struct drm_framebuffer));
-+	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
-+	drm_framebuffer_get(&frame_info->fb);
-+	frame_info->offset = fb->offsets[0];
-+	frame_info->pitch = fb->pitches[0];
-+	frame_info->cpp = fb->format->cpp[0];
- }
+-	drm_gem_fb_vunmap(job->fb, vkmsjob->map);
++	drm_gem_fb_vunmap(job->fb, vkmsjob->frame_info.map);
++
++	drm_framebuffer_put(vkmsjob->frame_info.fb);
  
- static int vkms_plane_atomic_check(struct drm_plane *plane,
+ 	vkmsdev = drm_device_to_vkms_device(job->fb->dev);
+ 	vkms_set_composer(&vkmsdev->output, false);
+@@ -116,14 +121,23 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
+ 	struct drm_writeback_connector *wb_conn = &output->wb_connector;
+ 	struct drm_connector_state *conn_state = wb_conn->base.state;
+ 	struct vkms_crtc_state *crtc_state = output->composer_state;
++	struct drm_framebuffer *fb = connector_state->writeback_job->fb;
++	struct vkms_writeback_job *active_wb;
++	struct vkms_frame_info *wb_frame_info;
+ 
+ 	if (!conn_state)
+ 		return;
+ 
+ 	vkms_set_composer(&vkmsdev->output, true);
+ 
++	active_wb = conn_state->writeback_job->priv;
++	wb_frame_info = &active_wb->frame_info;
++
+ 	spin_lock_irq(&output->composer_lock);
+-	crtc_state->active_writeback = conn_state->writeback_job->priv;
++	crtc_state->active_writeback = active_wb;
++	wb_frame_info->offset = fb->offsets[0];
++	wb_frame_info->pitch = fb->pitches[0];
++	wb_frame_info->cpp = fb->format->cpp[0];
+ 	crtc_state->wb_pending = true;
+ 	spin_unlock_irq(&output->composer_lock);
+ 	drm_writeback_queue_job(wb_conn, connector_state);
 -- 
 2.30.2
 
