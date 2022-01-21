@@ -1,53 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35C1F496723
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 22:09:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73A42496702
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 22:06:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E0DA10E400;
-	Fri, 21 Jan 2022 21:09:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35F4410E647;
+	Fri, 21 Jan 2022 21:06:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 013FC10E1C5;
- Fri, 21 Jan 2022 21:09:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642799386; x=1674335386;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=bOM1fyuKnJzx2cmWhR/vrzuw3hZkmkBE+Fr+OSn1WyE=;
- b=etWwtVSZTEVPnYOpRAJjGPaVDnew5fhzPNl7gNqDTpTUPcYQamIN7HvW
- SBGRPP4A5JfagyxXphRHKXbVMQCWs9MVAYLbGV0afPcQCrhuKSTy8xxaI
- +n4M1dQNdooiT+QmHVPX7EW530NaX/duTBTsy3qnWBjKIIthzpAMPygs3
- /e+alGkXOKgo3qAP/ZQaVKthmKIozjRE6A94yndAsEe40x7+HnVs/ZqKK
- OzO4SdaUkn+3U7PKzTZu7x5kd7fWbu9XpS8LJcJRzEij/F8TsoT345ztd
- PDcsi0zoK2Hr7y0BhPJWiXHj/Bq+Gk1ph+lvaSnT3x+5EKqDZO8WO0ftd Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10234"; a="270170947"
-X-IronPort-AV: E=Sophos;i="5.88,306,1635231600"; d="scan'208";a="270170947"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jan 2022 13:09:45 -0800
-X-IronPort-AV: E=Sophos;i="5.88,306,1635231600"; d="scan'208";a="476074749"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jan 2022 13:09:45 -0800
-Date: Fri, 21 Jan 2022 13:03:59 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH 1/2] drm/i915/guc: Don't check CT descriptor status
- before CT write / read
-Message-ID: <20220121210359.GA11038@jons-linux-dev-box>
-References: <20220120183655.3228-1-matthew.brost@intel.com>
- <20220120183655.3228-2-matthew.brost@intel.com>
- <87k0et8s41.fsf@intel.com>
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDC3410E69A
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 21:06:21 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id m3so36592046lfu.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 13:06:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0vJ8DhwvnCQdnTeYuE3CkWRZJOO1ip2uJNFoaTJPamw=;
+ b=rtY6myzx7rzb+2+xk/btRkYOxuVjnX/xNvgZHq4099bqiiGiiF3worWSzctzRLrHSh
+ xan4nUgoHFhnpKtmeqC/5lPJNPFdrDJVAL0gW182Ccy7xGvaA33xIg2xrRTzA7Gzxyy8
+ 3x/eJODRgjvZpcP0AeqzmFw56uouUWtxeR93sxLLleYHds4pyWjgyT9ruygbdOPcIC25
+ iizrN3zHKw77Sr/Cb64at+NdiW2U0A6GgN+qFXSKgR1rBlUg4qRe/EVdzOCULABzX3Si
+ iYhHoJHrVjyGwdHQbOAT7oONNM29pY+Prncp9mIQDJGHYPZh8oIsfPf3hANiUZC3UUeS
+ 0D0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0vJ8DhwvnCQdnTeYuE3CkWRZJOO1ip2uJNFoaTJPamw=;
+ b=gmdXpoBXc/nxilOmBd0vSfb68FIfWF2XWCFVZafAiyQOizv9H1XaGjUUnsrcXBjMYG
+ CLY+QvbdGLjoUxV5crvvSHsr1fHUIoptK06ZCpgdeqkmfhqWiFrDxs5wg2Vv40/KNR+u
+ vI3NRib4sVb9gYg5WxwP0AWCaBSIhtyhrgFyUF6odJQTWio8pcIRIwCcSV+T7rY/rvKZ
+ jfiSdRjlpH2KjmFQ05YMijePZr5QrgyQ3RtgwJTRbN6VKPq34o1EghFlw3r20m37alHX
+ 58adVh+O0+9T/Z0Lzk66QZTA69LBV3HDQrrU6C03rhwQeYUs7MEO0Qi9ru+xDCNJONPJ
+ B8eA==
+X-Gm-Message-State: AOAM5310kl2xmgL7KmO+cqKXPHu2U9Nat2tDEZly5A4MdYJyQ2lGvjhL
+ HaXxPmbFtaFwpYNEG125t3ywPw==
+X-Google-Smtp-Source: ABdhPJx49jz1SijSo8MyJjMx8hgsEJ6kEQlaDTIQslCRxiPxXAZdmi0yppHMtgeEBo8iwtFlG2h8zw==
+X-Received: by 2002:a05:6512:c2a:: with SMTP id
+ z42mr4974720lfu.329.1642799180056; 
+ Fri, 21 Jan 2022 13:06:20 -0800 (PST)
+Received: from eriador.lan ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id v10sm279125ljk.44.2022.01.21.13.06.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Jan 2022 13:06:19 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH v5 0/6] drm/msm/dpu: simplify RM code
+Date: Sat, 22 Jan 2022 00:06:12 +0300
+Message-Id: <20220121210618.3482550-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87k0et8s41.fsf@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,85 +68,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, daniele.ceraolospurio@intel.com,
- john.c.harrison@intel.com, dri-devel@lists.freedesktop.org,
- michal.wajdeczko@intel.com
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 21, 2022 at 09:28:46AM +0200, Jani Nikula wrote:
-> On Thu, 20 Jan 2022, Matthew Brost <matthew.brost@intel.com> wrote:
-> > Don't check CT descriptor status, unless CONFIG_DRM_I915_DEBUG_GUC is
-> > set, before CT write / read as this could result in a read across the
-> > PCIe bus thus adding latency to every CT write / read. On well behavied
-> > systems this vaue should always read as zero. For some reason it doesn't
-> > the CT channel is broken and will eventually recover from a GT reset,
-> > albeit the GT reset will not be triggered immediately by seeing that
-> > descriptor status is non-zero.
-> >
-> > v2:
-> >  (CI)
-> >   - Fix build error (hide corrupted label in write function behind
-> >     CONFIG_DRM_I915_DEBUG_GUC)
-> >
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> >  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> > index de89d40abd38d..948cf31429412 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> > @@ -379,8 +379,10 @@ static int ct_write(struct intel_guc_ct *ct,
-> >  	u32 *cmds = ctb->cmds;
-> >  	unsigned int i;
-> >  
-> > +#ifdef CONFIG_DRM_I915_DEBUG_GUC
-> >  	if (unlikely(desc->status))
-> >  		goto corrupted;
-> > +#endif
-> 
-> Please don't add #ifdefs inline. You can use
-> IS_ENABLED(CONFIG_DRM_I915_DEBUG_GUC) in if statements, but otherwise
-> the code needs to be split out to a separate function.
-> 
+INTF blocks are not really handled by resource manager, they are
+assigned at dpu_encoder_setup_display using dpu_encoder_get_intf().
+Then this allocation is passed to RM and then returned to then
+dpu_encoder. So allocate them outside of RM and use them directly.
 
-Sure, but I feel like I've actually been by someone else to not use the
-IS_ENABLED macro and use ifdefs inlines...
+While we are at it, drop the lm_max_width from the RM and simplify VBIF
+handling (move creation/destruction to the RM too). Once this and SSPP
+handling patches are merged, the RM would handle lifetime of all
+dpu_hw_* objects.
 
-Matt
+Changes since v4:
+ - Changes IS_ERR_OR_NULL() to IS_ERR() in dpu_rm_init()
+ - Removed if(!null) conditions when calling dpu_hw_intf_destroy() and
+   dpu_hw_vbif_destroy()
 
-> BR,
-> Jani.
-> 
-> >  
-> >  	GEM_BUG_ON(tail > size);
-> >  
-> > @@ -445,11 +447,13 @@ static int ct_write(struct intel_guc_ct *ct,
-> >  
-> >  	return 0;
-> >  
-> > +#ifdef CONFIG_DRM_I915_DEBUG_GUC
-> >  corrupted:
-> >  	CT_ERROR(ct, "Corrupted descriptor head=%u tail=%u status=%#x\n",
-> >  		 desc->head, desc->tail, desc->status);
-> >  	ctb->broken = true;
-> >  	return -EPIPE;
-> > +#endif
-> >  }
-> >  
-> >  /**
-> > @@ -815,8 +819,10 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
-> >  	if (unlikely(ctb->broken))
-> >  		return -EPIPE;
-> >  
-> > +#ifdef CONFIG_DRM_I915_DEBUG_GUC
-> >  	if (unlikely(desc->status))
-> >  		goto corrupted;
-> > +#endif
-> >  
-> >  	GEM_BUG_ON(head > size);
-> 
-> -- 
-> Jani Nikula, Intel Open Source Graphics Center
+Changes since v3:
+ - Add missing DSPP blocks teardown
+ - Remove dpu_hw_blk from dpu_hw_intf
+ - move dpu_hw_vbif creation/destruction to the RM
+
+Changes since v2:
+ - Dropped DSPP, PP and MERGE_3D patches for now.
+
+Changes since v1:
+ - Split into separate patch series to ease review.
+
+Dmitry Baryshkov (6):
+  drm/msm/dpu: drop unused lm_max_width from RM
+  drm/msm/dpu: add DSPP blocks teardown
+  drm/msm/dpu: get INTF blocks directly rather than through RM
+  drm/msm/dpu: stop embedding dpu_hw_blk into dpu_hw_intf
+  drm/msm/dpu: fix error handling in dpu_rm_init
+  drm/msm/dpu: move VBIF blocks handling to dpu_rm
+
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   |  36 +----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h   |  16 ---
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  |   5 -
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  |   8 --
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  |   8 --
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h   |  11 --
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h   |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  28 +---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |   2 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        | 126 +++++-------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h        |  31 ++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c      |  26 +---
+ 12 files changed, 73 insertions(+), 225 deletions(-)
+
+-- 
+2.34.1
+
