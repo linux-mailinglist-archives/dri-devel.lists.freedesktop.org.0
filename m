@@ -2,57 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC9A749589E
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 04:45:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FC4F4958CC
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 05:10:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CFEC10E593;
-	Fri, 21 Jan 2022 03:45:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E0B510E264;
+	Fri, 21 Jan 2022 04:10:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33F8710E5C3;
- Fri, 21 Jan 2022 03:45:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1642736737; x=1674272737;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=OZFYwFviT7nGE0W3AQLERAg4K4gUI7SOGuYUPR9qDP0=;
- b=ccJvuK9RpIuR121jX+sHbI2spDhRp5IsJ+4uO0rtRFAY1isGO3+yHPZX
- pykWBOxRRK9fVTTAsuAGQXaDcZD/PZbk4XzHp5XF3+CiYAuCndyBuoDGT
- TyYUzc5miS3dl6K7CNUWlELoSNivfStEkvS+9ONL1NcGNJhCbVLf/lTg+ A=;
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
- by alexa-out.qualcomm.com with ESMTP; 20 Jan 2022 19:45:36 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2022 19:45:35 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Thu, 20 Jan 2022 19:45:35 -0800
-Received: from [10.111.160.59] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Thu, 20 Jan
- 2022 19:45:32 -0800
-Message-ID: <ed76272d-91cb-9118-2bda-808cd43e408a@quicinc.com>
-Date: Thu, 20 Jan 2022 19:45:30 -0800
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EA9210E19A;
+ Fri, 21 Jan 2022 04:10:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1642738214; x=1674274214;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=GIrCuJsZz+b3Aa+1RBUuG3CkTrW1hofcNwtQXfdUgvU=;
+ b=KzFmebIMdshB+VIF7mo4aD1h+Y4/IW16+PgSzhrJz8Mvv/GFnJKA2wFc
+ WWUw8RWaNC9t91UtlpKp+HiWAO45j/hOpwRsnja9TL/n7uRNhILz+Kgy+
+ MTW7yBGh2sh0pJgqEIQxY8mW2F0XMeI6mPaFVVhIcfYeymEEK7S1VJa0I
+ g8lYVJgFfbQR2h+s0lJVtb443aOzDAibRH6dx2NtIB5mTPEId4Vv6J2V8
+ KMQ8+e8Ms1k1l8U4byOeM2nOGWLQneuwJgAiLFwCRXt2ek0P8H1NyQ/DW
+ 9ONbTcNpC0U0SbN8yPumszU1Gn2k9Q9TOBYs05h7pZt6SDNw5e/1BgUnT A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10233"; a="245778777"
+X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="245778777"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2022 20:10:06 -0800
+X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="493710307"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2022 20:10:06 -0800
+Date: Thu, 20 Jan 2022 20:04:20 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: John Harrison <john.c.harrison@intel.com>
+Subject: Re: [PATCH 2/3] drm/i915/guc: Add work queue to trigger a GT reset
+Message-ID: <20220121040420.GA4148@jons-linux-dev-box>
+References: <20220119212419.23068-1-matthew.brost@intel.com>
+ <20220119212419.23068-3-matthew.brost@intel.com>
+ <4eecb7af-245c-60aa-2eed-0dbb54e65189@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [Freedreno] [RFC PATCH] drm: allow passing a real encoder object
- for wb connector
-Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <1642732195-25349-1-git-send-email-quic_abhinavk@quicinc.com>
- <YeodzTsHmejDm9M6@pendragon.ideasonboard.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <YeodzTsHmejDm9M6@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4eecb7af-245c-60aa-2eed-0dbb54e65189@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,117 +59,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, khsieh@codeaurora.org, nganji@codeaurora.org,
- seanpaul@chromium.org, dmitry.baryshkov@linaro.org, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent
-
-Thanks for the response.
-
-On 1/20/2022 6:43 PM, Laurent Pinchart wrote:
-> Hi Abhinav,
+On Thu, Jan 20, 2022 at 05:34:54PM -0800, John Harrison wrote:
+> On 1/19/2022 13:24, Matthew Brost wrote:
+> > The G2H handler needs to be flushed during a GT reset but a G2H
+> > indicating engine reset failure can trigger a GT reset. Add a worker to
+> > trigger the GT when an engine reset failure is received to break this
+> trigger the GT reset?
 > 
-> Thank you for the patch.
+
+Yes.
+
+> > circular dependency.
+> > 
+> > v2:
+> >   (John Harrison)
+> >    - Store engine reset mask
+> >    - Fix typo in commit message
+> > 
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >   drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  9 +++++
+> >   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 37 +++++++++++++++++--
+> >   2 files changed, 42 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > index 9d26a86fe557..c4a9fc7dd246 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > @@ -119,6 +119,15 @@ struct intel_guc {
+> >   		 * function as it might be in an atomic context (no sleeping)
+> >   		 */
+> >   		struct work_struct destroyed_worker;
+> > +		/**
+> > +		 * @reset_worker: worker to trigger a GT reset after an engine
+> > +		 * reset fails
+> > +		 */
+> > +		struct work_struct reset_worker;
+> > +		/**
+> > +		 * @reset_mask: mask of engines that failed to reset
+> > +		 */
+> > +		intel_engine_mask_t reset_mask;
+> reset_fail_mask might be a less ambiguous name? Same for the worker struct
+> and function.
 > 
-> On Thu, Jan 20, 2022 at 06:29:55PM -0800, Abhinav Kumar wrote:
->> Instead of creating an internal encoder for the writeback
->> connector to satisfy DRM requirements, allow the clients
->> to pass a real encoder to it by changing the drm_writeback's
->> encoder to a pointer.
->>
->> If a real encoder is not passed, drm_writeback_connector_init
->> will internally allocate one.
->>
->> This will help the clients to manage the real encoder states
->> better as they will allocate and maintain the encoder.
+
+How about:
+
+struct {
+	worker;
+	mask;
+} engine_reset_fail;
+
+Matt
+
+> John.
 > 
-> A writeback connector is a bit of a hack. It was implemented that way to
-> minimize the extensions to the KMS userspace API for writeback support.
-> There's no "encoder" there, as there's no real "connector" either. The
-> only reason we register a drm_encoder in the writeback implementation is
-> because encoders are exposed to userspace and are thus required (this is
-> considered a historical mistake that we can't fix anymore). Why do you
-> thus need to create a "real encoder" ?
-
-On some hardware, it is possible that the writeback encoder is shared.
-That is, in terms of hardware resources, we can only mutually drive 
-either the physical interface or the writeback one.
-
-In that case, it would be better that drm_writeback accepts the real 
-encoder that is being used instead of allocating a dummy one internally.
-
-Moreover, the drm_writeback_connector_init() does already accept passing 
-our own enc_helper_funcs to perform necessary checks on the internal 
-encoder.
-
-These hooks are provided to perform various operations on the encoder to
-fit the respective needs.
-
-In that case why shouldnt the writeback have its own real encoder?
-
-Thanks
-
-Abhinav
-
-
-> 
->> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->> ---
->>   drivers/gpu/drm/drm_writeback.c | 11 +++++++----
->>   include/drm/drm_writeback.h     |  2 +-
->>   2 files changed, 8 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
->> index dccf4504..fdb7381 100644
->> --- a/drivers/gpu/drm/drm_writeback.c
->> +++ b/drivers/gpu/drm/drm_writeback.c
->> @@ -189,8 +189,11 @@ int drm_writeback_connector_init(struct drm_device *dev,
->>   	if (IS_ERR(blob))
->>   		return PTR_ERR(blob);
->>   
->> -	drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
->> -	ret = drm_encoder_init(dev, &wb_connector->encoder,
->> +	/* allocate the internal drm encoder if a real one wasnt passed */
->> +	if (!wb_connector->encoder)
->> +		wb_connector->encoder = devm_kzalloc(dev->dev, sizeof(struct drm_encoder), GFP_KERNEL);
->> +	drm_encoder_helper_add(wb_connector->encoder, enc_helper_funcs);
->> +	ret = drm_encoder_init(dev, wb_connector->encoder,
->>   			       &drm_writeback_encoder_funcs,
->>   			       DRM_MODE_ENCODER_VIRTUAL, NULL);
->>   	if (ret)
->> @@ -204,7 +207,7 @@ int drm_writeback_connector_init(struct drm_device *dev,
->>   		goto connector_fail;
->>   
->>   	ret = drm_connector_attach_encoder(connector,
->> -						&wb_connector->encoder);
->> +						wb_connector->encoder);
->>   	if (ret)
->>   		goto attach_fail;
->>   
->> @@ -233,7 +236,7 @@ int drm_writeback_connector_init(struct drm_device *dev,
->>   attach_fail:
->>   	drm_connector_cleanup(connector);
->>   connector_fail:
->> -	drm_encoder_cleanup(&wb_connector->encoder);
->> +	drm_encoder_cleanup(wb_connector->encoder);
->>   fail:
->>   	drm_property_blob_put(blob);
->>   	return ret;
->> diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
->> index 9697d27..f0d8147 100644
->> --- a/include/drm/drm_writeback.h
->> +++ b/include/drm/drm_writeback.h
->> @@ -31,7 +31,7 @@ struct drm_writeback_connector {
->>   	 * by passing the @enc_funcs parameter to drm_writeback_connector_init()
->>   	 * function.
->>   	 */
->> -	struct drm_encoder encoder;
->> +	struct drm_encoder *encoder;
->>   
->>   	/**
->>   	 * @pixel_formats_blob_ptr:
+> >   	} submission_state;
+> >   	/**
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > index 3918f1be114f..514b3060b141 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > @@ -1731,6 +1731,7 @@ void intel_guc_submission_reset_finish(struct intel_guc *guc)
+> >   }
+> >   static void destroyed_worker_func(struct work_struct *w);
+> > +static void reset_worker_func(struct work_struct *w);
+> >   /*
+> >    * Set up the memory resources to be shared with the GuC (via the GGTT)
+> > @@ -1761,6 +1762,8 @@ int intel_guc_submission_init(struct intel_guc *guc)
+> >   	INIT_LIST_HEAD(&guc->submission_state.destroyed_contexts);
+> >   	INIT_WORK(&guc->submission_state.destroyed_worker,
+> >   		  destroyed_worker_func);
+> > +	INIT_WORK(&guc->submission_state.reset_worker,
+> > +		  reset_worker_func);
+> >   	guc->submission_state.guc_ids_bitmap =
+> >   		bitmap_zalloc(NUMBER_MULTI_LRC_GUC_ID(guc), GFP_KERNEL);
+> > @@ -4026,6 +4029,26 @@ guc_lookup_engine(struct intel_guc *guc, u8 guc_class, u8 instance)
+> >   	return gt->engine_class[engine_class][instance];
+> >   }
+> > +static void reset_worker_func(struct work_struct *w)
+> > +{
+> > +	struct intel_guc *guc = container_of(w, struct intel_guc,
+> > +					     submission_state.reset_worker);
+> > +	struct intel_gt *gt = guc_to_gt(guc);
+> > +	intel_engine_mask_t reset_mask;
+> > +	unsigned long flags;
+> > +
+> > +	spin_lock_irqsave(&guc->submission_state.lock, flags);
+> > +	reset_mask = guc->submission_state.reset_mask;
+> > +	guc->submission_state.reset_mask = 0;
+> > +	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+> > +
+> > +	if (likely(reset_mask))
+> > +		intel_gt_handle_error(gt, reset_mask,
+> > +				      I915_ERROR_CAPTURE,
+> > +				      "GuC failed to reset engine mask=0x%x\n",
+> > +				      reset_mask);
+> > +}
+> > +
+> >   int intel_guc_engine_failure_process_msg(struct intel_guc *guc,
+> >   					 const u32 *msg, u32 len)
+> >   {
+> > @@ -4033,6 +4056,7 @@ int intel_guc_engine_failure_process_msg(struct intel_guc *guc,
+> >   	struct intel_gt *gt = guc_to_gt(guc);
+> >   	u8 guc_class, instance;
+> >   	u32 reason;
+> > +	unsigned long flags;
+> >   	if (unlikely(len != 3)) {
+> >   		drm_err(&gt->i915->drm, "Invalid length %u", len);
+> > @@ -4057,10 +4081,15 @@ int intel_guc_engine_failure_process_msg(struct intel_guc *guc,
+> >   	drm_err(&gt->i915->drm, "GuC engine reset request failed on %d:%d (%s) because 0x%08X",
+> >   		guc_class, instance, engine->name, reason);
+> > -	intel_gt_handle_error(gt, engine->mask,
+> > -			      I915_ERROR_CAPTURE,
+> > -			      "GuC failed to reset %s (reason=0x%08x)\n",
+> > -			      engine->name, reason);
+> > +	spin_lock_irqsave(&guc->submission_state.lock, flags);
+> > +	guc->submission_state.reset_mask |= engine->mask;
+> > +	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+> > +
+> > +	/*
+> > +	 * A GT reset flushes this worker queue (G2H handler) so we must use
+> > +	 * another worker to trigger a GT reset.
+> > +	 */
+> > +	queue_work(system_unbound_wq, &guc->submission_state.reset_worker);
+> >   	return 0;
+> >   }
 > 
