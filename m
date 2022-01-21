@@ -1,57 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 386A6495BE8
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 09:28:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27466495BFC
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 09:33:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84C1210E974;
-	Fri, 21 Jan 2022 08:27:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FEA710E979;
+	Fri, 21 Jan 2022 08:33:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D1CE10E974;
- Fri, 21 Jan 2022 08:27:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C19F010E979
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 08:33:50 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 28C331F39D;
- Fri, 21 Jan 2022 08:27:52 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 74A1A1F39D
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 08:33:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1642753672; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=IVsNyGDkDZ86Ns2LmmJpLlVX2xtx72RPR3Ptz+iV1bk=;
- b=M1lIxLm+G9pXf68WnpTpJdAADDOB55W6JU28yRjGGaEzNPWxR0l93+Sn3JD42cW+YgumGE
- QLPjuXBsNkIfZIhcw6vnP5/jRIYn6CIO5sBTdgksa75u5HOmAvrHaXNOOymydGVg2rXfwT
- GISdpvVplODTAbZdUQhOGtSMt6ryaDM=
+ t=1642754029; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=U7pxpwMYoYDChEtmFfmPgCdHO3o33FCDg9URgABr5PY=;
+ b=RXeXjIcJ5hXoMbJtVvSmc8DDGRt0clunewub+T9pBv/kKuKcJsMzSjc/q1Qxix2jrBChip
+ 88AABHJvmNJzCCs/hxM6Ba6X7lY3XfHj9V3M1EsKg5qjU2K4bvB9wpduk+nE3op8jmfs/V
+ S1b+JJRlM9p11NCveXPf+QJXQMhb2Mg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1642753672;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=IVsNyGDkDZ86Ns2LmmJpLlVX2xtx72RPR3Ptz+iV1bk=;
- b=J39HSYdllEMyf7W1R+yyc3No7MteBBQHjKDPIg5uU1TYHer829wzf5XrYnveRLMoK+vjgn
- W91+RkyAAfkGkvCA==
+ s=susede2_ed25519; t=1642754029;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=U7pxpwMYoYDChEtmFfmPgCdHO3o33FCDg9URgABr5PY=;
+ b=3N4aDovTtQCU3TYIdy9Fu1vqQI3JBCCOBQUpdSBJWgpBgOVak5gQZB2ToR8BhpP4gr/V/g
+ iJslYg74w1sTLFCA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D57941348D;
- Fri, 21 Jan 2022 08:27:51 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5F97A1348D
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 08:33:49 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id yaUoM4du6mGVNgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 21 Jan 2022 08:27:51 +0000
-Date: Fri, 21 Jan 2022 09:27:50 +0100
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-next-fixes
-Message-ID: <Yepuhj+Ks+IyJ9Dp@linux-uq9g>
+ by imap2.suse-dmz.suse.de with ESMTPSA id azrHFe1v6mFnOQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>)
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 08:33:49 +0000
+Message-ID: <90072d82-d139-d268-cc34-40d14cde9cb6@suse.de>
+Date: Fri, 21 Jan 2022 09:33:48 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Content-Language: en-US
+To: dri-devel <dri-devel@lists.freedesktop.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: PSA: drm-misc-next-fixes is closed
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------XA8fD0tBMkqIK80ONZcxVQEw"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,55 +66,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------XA8fD0tBMkqIK80ONZcxVQEw
+Content-Type: multipart/mixed; boundary="------------jZcgiASoeV6SpD3RQpXZZbgz";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: dri-devel <dri-devel@lists.freedesktop.org>
+Message-ID: <90072d82-d139-d268-cc34-40d14cde9cb6@suse.de>
+Subject: PSA: drm-misc-next-fixes is closed
 
-here's this week's PR for drm-misc-next-fixes. Probably the final PR
-before the next -rc1.
+--------------jZcgiASoeV6SpD3RQpXZZbgz
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Best regards
-Thomas
+SGksDQoNCkknbSBqdXN0IGxldHRpbmcgeW91IGtub3cgdGhhdCBkcm0tbWlzYy1uZXh0LWZp
+eGVzIGlzIGNsb3NlZC4gLXJjMSB3aWxsIA0KcHJlc3VtYWJseSBiZSB0YWdnZWQgdGhpcyB3
+ZWVrZW5kIGFuZCBkcm0tbmV4dCB3aWxsIGJlIG9wZW4gZm9yIGZlYXR1cmVzIA0KYW5kIGJ1
+Z2ZpeGVzIHVudGlsIC1yYzYgY29tZXMgb3V0Lg0KDQpUaGUgdHJhbnNpdGlvbiBmcm9tL3Rv
+IGRybS1taXNjLWZpeGVzLW5leHQgb2Z0ZW4gcmVzdWx0cyBpbiBwYXRjaGVzIHRoYXQgDQph
+cmUgYXBwbGllZCB0byB0aGUgd3JvbmcgdHJlZSBhbmQgZ2V0IHN0dWNrIHRoZXJlIGZvciBh
+IGxvbmcgdGltZS4gU29tZSANCnJ1bGVzIG9mIHRodW1iIGZvciB0aGUgbmV4dCB3ZWVrczoN
+Cg0KICAqIGlmIHlvdXIgcGF0Y2ggZml4ZXMgYSBidWcgaW4gdXBzdHJlYW0sIHBsZWFzZSBw
+dXQgaXQgaW50byANCmRybS1taXNjLWZpeGVzLA0KDQogICogYW55dGhpbmcgZWxzZSBzaG91
+bGQgZ28gaW50byBkcm0tbWlzYy1uZXh0Lg0KDQpUaGUgZmxvdyBjaGFydCBpcyBhdCBbMV0u
+DQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNClsxXSANCmh0dHBzOi8vZHJtLnBhZ2VzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWludGFpbmVyLXRvb2xzL2NvbW1pdHRlci1kcm0tbWlzYy5odG1s
+I3doZXJlLWRvLWktYXBwbHktbXktcGF0Y2gNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0K
+R3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2Vy
+bWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihI
+UkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYN
+Cg==
 
-drm-misc-next-fixes-2022-01-21:
- * vc4: Fix potential deadlock in DSI code
- * panel: Add orientation quirk for 1Netbook OneXPlayer
-The following changes since commit 5d474cc501b90b82c182b5d00439eb6790a82e21:
+--------------jZcgiASoeV6SpD3RQpXZZbgz--
 
-  drm/mipi-dbi: Fix source-buffer address in mipi_dbi_buf_copy (2022-01-14 14:43:02 +0100)
+--------------XA8fD0tBMkqIK80ONZcxVQEw
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-are available in the Git repository at:
+-----BEGIN PGP SIGNATURE-----
 
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-2022-01-21
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHqb+wFAwAAAAAACgkQlh/E3EQov+AV
++BAApqY1INF/acaLb4U+uzC24UAp4coFCzHr82bKadq6wwft7ZPWAPgALquUOmJmiHdIbc8mdHPh
+qo5iaB98GAUZxrdORgqCjlUkNb7FG4vWXOzf7rXzRi17Y1b6VqvWuLRRZEc1IrcGYWk2lel9oMWo
+1kU616by8Tln6UPnFj8bSpn7Czb/Ho3+mMPS9IzqxvMXDN3KRgbYQPN6KO9JPfa2untOd8u0tCDZ
+exlGwW/gnnlsuFs8xqPokCKLsJk0mkb0O/orOOJbQ/kFoGUjpscTXxa1nYNgOmiK5VNZd0IU0ZCX
+8WNOCBZ0u/HhU5CCbihmcZxHScFjGu553+IALaD3K9p8nmcETRn+ksHZXiLNGlcbvpyjw+Td7BvF
+8bkswL75kdl/SoweUa5PIhgOVSkjCqMBtdRqvfc8Ag0zoK11NRwxpxppPRzPzn9QOGibJmLTno+k
+ERlp+vIVqRqpqAYYcqcZcCqK/JFrjZImSWgzlQHs3EeGzLmMjW2/qtK4+p463ZcJ2RpiuKB4yXvZ
+pZQvaLcnjRlqvumu9MwLNvq7I1xlrDA89b1EQbtrkDWqxgzWLEzuAsrFBBFpK4jpLdEnOKhclOr3
+7QPFl2nFpvMmBxZMUtH8Zoax9ed+qt7S8OHvkXAnv6eO2M3AePEhc8rnl0/zkILGyZSWWMiue1Y4
+Nkc=
+=X2RE
+-----END PGP SIGNATURE-----
 
-for you to fetch changes up to d3cbc6e323c9299d10c8d2e4127c77c7d05d07b1:
-
-  drm: panel-orientation-quirks: Add quirk for the 1Netbook OneXPlayer (2022-01-19 16:31:29 +0100)
-
-----------------------------------------------------------------
- * vc4: Fix potential deadlock in DSI code
- * panel: Add orientation quirk for 1Netbook OneXPlayer
-
-----------------------------------------------------------------
-Padmanabha Srinivasaiah (1):
-      drm/vc4: Fix deadlock on DSI device attach error
-
-Raymond Jay Golo (1):
-      drm: panel-orientation-quirks: Add quirk for the 1Netbook OneXPlayer
-
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 12 ++++++++++++
- drivers/gpu/drm/vc4/vc4_dsi.c                  | 14 ++++----------
- 2 files changed, 16 insertions(+), 10 deletions(-)
-
--- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 Nürnberg, Germany
-(HRB 36809, AG Nürnberg)
-Geschäftsführer: Felix Imendörffer
+--------------XA8fD0tBMkqIK80ONZcxVQEw--
