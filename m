@@ -1,54 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05087495AF1
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 08:38:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84746495AFE
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 08:41:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC7C110E91C;
-	Fri, 21 Jan 2022 07:38:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89EE210E92F;
+	Fri, 21 Jan 2022 07:41:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D082510E916
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 07:38:06 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4AA32617BE;
- Fri, 21 Jan 2022 07:38:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B5D71C340E1;
- Fri, 21 Jan 2022 07:38:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1642750685;
- bh=cu8yP/MBtS11Wc1W4fcSVxxGWFJQhLMBKgmZnOYDnME=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=cx+22p4CYADZE3fFAkl5pCeyf2Jhd/VJRrBwYzswOAsD0CjKe7aGpJvqxmMsDvGvM
- zvnP1bn+MYlTEfU2bitRE1h80hSJLoZG07EMnRLzJb8MrhDwzKxdDDGIMYt0WiTUvR
- l0b01UaOGhWgji2cXWcZmgkp/oMhsTKMhltqst3VxVt05gRgzyOgnnn6n2K5BWH7nB
- aVXRTaBUWpk0GxkZMPbNkEqeq/laUGnK62OdMdir9mU81xDdNbFDZuiG8PvZwJBB9Q
- dgFAag3OjvSsF0WndeS9t0hMl4lckDUG5It//3wYcNCGbkozfry2hEMwzQXPlJ9XzJ
- pC4HOtmU1B+Sg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- A5F6EF6079A; Fri, 21 Jan 2022 07:38:05 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 5.17-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9txt8OsBJJBzCYXMgMC8T=yKTWz9MYA3osB93EqMk5vBGg@mail.gmail.com>
-References: <CAPM=9txt8OsBJJBzCYXMgMC8T=yKTWz9MYA3osB93EqMk5vBGg@mail.gmail.com>
-X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-X-PR-Tracked-Message-Id: <CAPM=9txt8OsBJJBzCYXMgMC8T=yKTWz9MYA3osB93EqMk5vBGg@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-next-2022-01-21
-X-PR-Tracked-Commit-Id: ccf34586758cf00c0934e48f6ef6d688f01d7b19
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: c2c94b3b187dc92b2002809f489e0f24a41e91bc
-Message-Id: <164275068567.15932.9086052433373467631.pr-tracker-bot@kernel.org>
-Date: Fri, 21 Jan 2022 07:38:05 +0000
-To: Dave Airlie <airlied@gmail.com>
+Received: from ste-pvt-msa1.bahnhof.se (ste-pvt-msa1.bahnhof.se
+ [213.80.101.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00CF210E916
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 07:41:18 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 74DAC3F52F;
+ Fri, 21 Jan 2022 08:41:16 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.1
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Authentication-Results: ste-pvt-msa1.bahnhof.se (amavisd-new);
+ dkim=pass (1024-bit key) header.d=shipmail.org
+Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
+ by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Ztpjkw7MC_nI; Fri, 21 Jan 2022 08:41:15 +0100 (CET)
+Received: by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 911D73F36E;
+ Fri, 21 Jan 2022 08:41:13 +0100 (CET)
+Received: from [192.168.0.209] (unknown [192.55.55.53])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id EF55B36021F;
+ Fri, 21 Jan 2022 08:41:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1642750873; bh=J7x+B28uN49SMZuI8wIJMtVPVYV8cmBtaTSP49CgU8E=;
+ h=Date:Subject:To:References:From:In-Reply-To:From;
+ b=Eq4Y1IVj9UYOnrhtdi2e8lLF6MPhqGF+hPWmTPfZBnV3zX0ibuSqtZNeFkIqJrJ0+
+ jgFZ0b0cM4SLYurhMy77RlYA+uvfMI5Pw5vG2Bc3x4bMiLZlhroI3feoN5FU0YOcWo
+ SEIrAYTKUMjED9moHyHSCsQxVxnqiGYglb4giZiE=
+Message-ID: <93c4213e-41ff-1afa-be40-7ec6789c63da@shipmail.org>
+Date: Fri, 21 Jan 2022 08:41:05 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [Linaro-mm-sig] [PATCH 1/9] dma-buf: consolidate dma_fence
+ subclass checking
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ sumit.semwal@linaro.org, gustavo@padovan.org, daniel.vetter@ffwll.ch,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20220120132747.2348-1-christian.koenig@amd.com>
+ <20220120132747.2348-2-christian.koenig@amd.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+In-Reply-To: <20220120132747.2348-2-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,22 +70,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 21 Jan 2022 10:17:05 +1000:
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-next-2022-01-21
+On 1/20/22 14:27, Christian König wrote:
+> Consolidate the wrapper functions to check for dma_fence
+> subclasses in the dma_fence header.
+>
+> This makes it easier to document and also check the different
+> requirements for fence containers in the subclasses.
+>
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>   include/linux/dma-fence-array.h | 15 +------------
+>   include/linux/dma-fence-chain.h |  3 +--
+>   include/linux/dma-fence.h       | 38 +++++++++++++++++++++++++++++++++
+>   3 files changed, 40 insertions(+), 16 deletions(-)
+>
+> diff --git a/include/linux/dma-fence-array.h b/include/linux/dma-fence-array.h
+> index 303dd712220f..fec374f69e12 100644
+> --- a/include/linux/dma-fence-array.h
+> +++ b/include/linux/dma-fence-array.h
+> @@ -45,19 +45,6 @@ struct dma_fence_array {
+>   	struct irq_work work;
+>   };
+>   
+> -extern const struct dma_fence_ops dma_fence_array_ops;
+> -
+> -/**
+> - * dma_fence_is_array - check if a fence is from the array subsclass
+> - * @fence: fence to test
+> - *
+> - * Return true if it is a dma_fence_array and false otherwise.
+> - */
+> -static inline bool dma_fence_is_array(struct dma_fence *fence)
+> -{
+> -	return fence->ops == &dma_fence_array_ops;
+> -}
+> -
+>   /**
+>    * to_dma_fence_array - cast a fence to a dma_fence_array
+>    * @fence: fence to cast to a dma_fence_array
+> @@ -68,7 +55,7 @@ static inline bool dma_fence_is_array(struct dma_fence *fence)
+>   static inline struct dma_fence_array *
+>   to_dma_fence_array(struct dma_fence *fence)
+>   {
+> -	if (fence->ops != &dma_fence_array_ops)
+> +	if (!fence || !dma_fence_is_array(fence))
+>   		return NULL;
+>   
+>   	return container_of(fence, struct dma_fence_array, base);
+> diff --git a/include/linux/dma-fence-chain.h b/include/linux/dma-fence-chain.h
+> index 54fe3443fd2c..ee906b659694 100644
+> --- a/include/linux/dma-fence-chain.h
+> +++ b/include/linux/dma-fence-chain.h
+> @@ -49,7 +49,6 @@ struct dma_fence_chain {
+>   	spinlock_t lock;
+>   };
+>   
+> -extern const struct dma_fence_ops dma_fence_chain_ops;
+>   
+>   /**
+>    * to_dma_fence_chain - cast a fence to a dma_fence_chain
+> @@ -61,7 +60,7 @@ extern const struct dma_fence_ops dma_fence_chain_ops;
+>   static inline struct dma_fence_chain *
+>   to_dma_fence_chain(struct dma_fence *fence)
+>   {
+> -	if (!fence || fence->ops != &dma_fence_chain_ops)
+> +	if (!fence || !dma_fence_is_chain(fence))
+>   		return NULL;
+>   
+>   	return container_of(fence, struct dma_fence_chain, base);
+> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> index 1ea691753bd3..775cdc0b4f24 100644
+> --- a/include/linux/dma-fence.h
+> +++ b/include/linux/dma-fence.h
+> @@ -587,4 +587,42 @@ struct dma_fence *dma_fence_get_stub(void);
+>   struct dma_fence *dma_fence_allocate_private_stub(void);
+>   u64 dma_fence_context_alloc(unsigned num);
+>   
+> +extern const struct dma_fence_ops dma_fence_array_ops;
+> +extern const struct dma_fence_ops dma_fence_chain_ops;
+> +
+> +/**
+> + * dma_fence_is_array - check if a fence is from the array subclass
+> + * @fence: the fence to test
+> + *
+> + * Return true if it is a dma_fence_array and false otherwise.
+> + */
+> +static inline bool dma_fence_is_array(struct dma_fence *fence)
+> +{
+> +	return fence->ops == &dma_fence_array_ops;
+> +}
+> +
+> +/**
+> + * dma_fence_is_chain - check if a fence is from the chain subclass
+> + * @fence: the fence to test
+> + *
+> + * Return true if it is a dma_fence_chain and false otherwise.
+> + */
+> +static inline bool dma_fence_is_chain(struct dma_fence *fence)
+> +{
+> +	return fence->ops == &dma_fence_chain_ops;
+> +}
+> +
+> +/**
+> + * dma_fence_is_container - check if a fence is a container for other fences
+> + * @fence: the fence to test
+> + *
+> + * Return true if this fence is a container for other fences, false otherwise.
+> + * This is important since we can't build up large fence structure or otherwise
+> + * we run into recursion during operation on those fences.
+> + */
+> +static inline bool dma_fence_is_container(struct dma_fence *fence)
+> +{
+> +	return dma_fence_is_array(fence) || dma_fence_is_chain(fence);
+> +}
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/c2c94b3b187dc92b2002809f489e0f24a41e91bc
+What's the strategy here moving forward if we add more dma_resv 
+containers, or if a driver adds a container that similarly has risc of 
+recursion? Should we perhaps add an ops bool for this, or require that 
+all dma_resv containers that has this limitation be part of the dma-buf 
+subsystem rather than driver-specific?
 
-Thank you!
+Thanks,
+/Thomas
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+
+> +
+>   #endif /* __LINUX_DMA_FENCE_H */
