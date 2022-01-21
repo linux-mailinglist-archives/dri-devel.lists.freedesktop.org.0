@@ -1,56 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4813495E97
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 12:51:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7217E495EA9
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 12:56:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD76910EB2F;
-	Fri, 21 Jan 2022 11:50:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1B9510EA0C;
+	Fri, 21 Jan 2022 11:56:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31DEE10EABC;
- Fri, 21 Jan 2022 11:50:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642765856; x=1674301856;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=RBz1KpHBR7i9NORrhCYsoGcp2r5iPMQs4z1UoIb3jlo=;
- b=k9XGbGdSobzoUHS7ZF8NGblHkqs4t3Aa+8GVg5KJGs3I9CN1ffuzMv+h
- zG38kWEEHOQlPdhyg9bQ9aBi9Fr3cDn0G7qsw//rgx3VmDCJPX3V5MbpI
- pnfJGKJ51fMnFKX5dTBqdIzy8Vz2qmVSmxC5CdKj3s0PuttnQ4JAmVeKa
- p88yPZc8jcaN4r3d+mmAbH+O3e5sUO/TrSxhPlBQ4kUR8yufxQnlc4cV0
- FaipYv30fz5dzlfl8f8w2IyImOk9HD06LOR4U71AbE/8/z4ASt85HAfQU
- lLDxrbmhlPVn1G/Yyr6jXj0+NldBGA5fOi6CL5hL78s8m8ViSEsfuSP8H Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10233"; a="308965633"
-X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="308965633"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jan 2022 03:50:55 -0800
-X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="533245037"
-Received: from pflinter-mobl1.ger.corp.intel.com (HELO [10.213.207.239])
- ([10.213.207.239])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jan 2022 03:50:53 -0800
-Message-ID: <423c8ff1-3a4b-3e69-8561-3056c7d2d20f@linux.intel.com>
-Date: Fri, 21 Jan 2022 11:50:51 +0000
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 786A610EA0C
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 11:56:15 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6792F61A88;
+ Fri, 21 Jan 2022 11:56:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A35AC340E1;
+ Fri, 21 Jan 2022 11:56:07 +0000 (UTC)
+Message-ID: <8ae4a49a-4abf-be55-f6c8-9fc4ffd02fc8@xs4all.nl>
+Date: Fri, 21 Jan 2022 12:56:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.1
-Subject: Re: [Intel-gfx] [PATCH 6/7] drm: Document fdinfo format specification
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v9 12/15] media: mtk-vcodec: enc: Remove
+ mtk_vcodec_release_enc_pm
 Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20220106165536.57208-1-tvrtko.ursulin@linux.intel.com>
- <20220106165536.57208-7-tvrtko.ursulin@linux.intel.com>
- <YegpiY3MU15RsEfk@phenom.ffwll.local>
- <CAF6AEGs58S7U=1nso=0BAURUuobeUam4V0j1W7ZsrK5W7MqRvw@mail.gmail.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <CAF6AEGs58S7U=1nso=0BAURUuobeUam4V0j1W7ZsrK5W7MqRvw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Yong Wu <yong.wu@mediatek.com>, Joerg Roedel <joro@8bytes.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ David Airlie <airlied@linux.ie>, Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20211112105509.12010-1-yong.wu@mediatek.com>
+ <20211112105509.12010-13-yong.wu@mediatek.com>
+ <68c3a573-8453-38e9-93b2-2067bedcd06f@collabora.com>
+ <4bd9e849-96dd-6f1c-2841-979459366ee5@collabora.com>
+ <fa9b2b73-c6bb-5737-93ac-ba2ab6b3b771@xs4all.nl>
+ <e940d705-2057-4d5e-0a21-8464ca04caaf@gmail.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <e940d705-2057-4d5e-0a21-8464ca04caaf@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,92 +56,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <Intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Chris Healy <cphealy@gmail.com>, David M Nieto <David.Nieto@amd.com>
+Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ devicetree@vger.kernel.org, Will Deacon <will.deacon@arm.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ anthony.huang@mediatek.com, youlin.pei@mediatek.com,
+ Irui Wang <irui.wang@mediatek.com>, Evan Green <evgreen@chromium.org>,
+ Eizan Miyamoto <eizan@chromium.org>, Matthias Kaehlcke <mka@chromium.org>,
+ mingyuan.ma@mediatek.com, linux-media@vger.kernel.org,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, libo.kang@mediatek.com,
+ yi.kuo@mediatek.com, linux-mediatek@lists.infradead.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org, anan.sun@mediatek.com,
+ acourbot@chromium.org, srv_heupstream@mediatek.com, yf.wang@mediatek.com,
+ Tomasz Figa <tfiga@chromium.org>, iommu@lists.linux-foundation.org,
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Matthias,
 
-On 20/01/2022 16:44, Rob Clark wrote:
-> On Wed, Jan 19, 2022 at 7:09 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+On 1/13/22 17:10, Matthias Brugger wrote:
+> Hi Hans,
+> 
+> On 13/01/2022 11:15, Hans Verkuil wrote:
+>> On 13/01/2022 11:11, AngeloGioacchino Del Regno wrote:
+>>> Il 11/01/22 11:57, AngeloGioacchino Del Regno ha scritto:
+>>>> Il 12/11/21 11:55, Yong Wu ha scritto:
+>>>>> After this patchset, mtk_vcodec_release_enc_pm has only one line.
+>>>>> then remove that function, use pm_runtime_disable instead.
+>>>>>
+>>>>> meanwhile, mtk_vcodec_init_enc_pm only operate for the clocks,
+>>>>> rename it from the _pm to _clk.
+>>>>>
+>>>>> No functional change.
+>>>>>
+>>>>> CC: Tiffany Lin <tiffany.lin@mediatek.com>
+>>>>> CC: Irui Wang <irui.wang@mediatek.com>
+>>>>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+>>>>
+>>>> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>>>>
+>>>
+>>> Hello Yong,
+>>> the mtk-vcodec patches were merged in Yunfei's vcodec patch series and Hans has
+>>> scheduled that for v5.18.
+>>>
+>>> Can you please send a v10 and drop patches 10/15, 11/15, 12/15 (all of the
+>>> media: mtk-vcodec: *) from this series?
+>>>
+>>> For the records, I think that after sending v10 this series is ready to be merged,
+>>> as it was well reviewed and also tested on many MTK platforms.
 >>
->> On Thu, Jan 06, 2022 at 04:55:35PM +0000, Tvrtko Ursulin wrote:
->>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>
->>> Proposal to standardise the fdinfo text format as optionally output by DRM
->>> drivers.
->>>
->>> Idea is that a simple but, well defined, spec will enable generic
->>> userspace tools to be written while at the same time avoiding a more heavy
->>> handed approach of adding a mid-layer to DRM.
->>>
->>> i915 implements a subset of the spec, everything apart from the memory
->>> stats currently, and a matching intel_gpu_top tool exists.
->>>
->>> Open is to see if AMD can migrate to using the proposed GPU utilisation
->>> key-value pairs, or if they are not workable to see whether to go
->>> vendor specific, or if a standardised  alternative can be found which is
->>> workable for both drivers.
->>>
->>> Same for the memory utilisation key-value pairs proposal.
->>>
->>> v2:
->>>   * Update for removal of name and pid.
->>>
->>> v3:
->>>   * 'Drm-driver' tag will be obtained from struct drm_driver.name. (Daniel)
->>>
->>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>> Cc: David M Nieto <David.Nieto@amd.com>
->>> Cc: Christian König <christian.koenig@amd.com>
->>> Cc: Daniel Vetter <daniel@ffwll.ch>
->>> Cc: Daniel Stone <daniel@fooishbar.org>
->>> Cc: Chris Healy <cphealy@gmail.com>
->>> Acked-by: Christian König <christian.koenig@amd.com>
+>> Good to know. When I have the v10 I'll try to prioritize reviewing it and running
+>> my usual tests.
 >>
->> I'm assuming this ack here and later on is a "amdgpu plans to use this
->> too" kind of affair. Especially also in the lights of eventually using
->> matching semantics for cgroups and everything else tied to gpu execution
->> resource management.
+>> Yong, please make sure you run 'checkpatch.pl --strict' over the v10 patches and fix
+>> any issues (using common sense).
 >>
->> If not I'm mildly worried that we're creating fake-standard stuff here
->> which cannot actually be used by anything resembling driver-agnostic
->> userspace.
 > 
-> I think I could implement something like this for drm/msm.  I am a bit
-> uncertain about the memory stats (ie. how are we intended to account
-> for imported/exported/shared bo's)?  But we already track cycles+time
-> per submit for devfreq, it would be pretty easy to add per drm_file
-> counters to accumulate the per-submit results.  We could even track
-> per-context (submitqueue) for processes that have more than a single
-> context, although not sure if that is useful.
+> Can you please take me in the look when you take the patches. I'll take the DTS related as soon as you queue up the others.
 
-Interesting tidbit is that the whole i915 work started from a customer 
-request to expose just that (per context) in a form akin to 
-getrusage(2). I think this kind of introspection capability is 
-interesting but as it is driver specific territory it's only anecdotal 
-for what this thread is concerned.
-
-> And I think there is probably some room for shared helper to print
-> parts other than the per-engine stats (and maybe memory stats,
-> although even that could be a shared implementation for some
-> drivers).. with a driver callback for the non-generic parts, ie.
-> something like:
-> 
->     drm_driver::show_client_stats(struct drm_file *, struct drm_printer *)
-> 
-> but that can come later.
-> 
-> If there is a tool somewhere that displays this info, that would be
-> useful for testing my implementation.
-
-I have a patch to Intel specific intel_gpu_top (see 
-https://patchwork.freedesktop.org/patch/468491/?series=98555&rev=1). 
-I'll have a look to see how much work would it be to extract common bits 
-into a library and write a quick agnostic tool using it.
+This just got merged into our tree.
 
 Regards,
 
-Tvrtko
+	Hans
