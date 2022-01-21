@@ -2,44 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 324BB495820
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 03:09:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3491649584B
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 03:31:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5EF910E928;
-	Fri, 21 Jan 2022 02:08:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9542D10E599;
+	Fri, 21 Jan 2022 02:30:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 454DF10E921
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 02:08:54 +0000 (UTC)
-X-UUID: d89c17bc827a4c38b6c8ef0c5ffc0d83-20220121
-X-UUID: d89c17bc827a4c38b6c8ef0c5ffc0d83-20220121
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1408320461; Fri, 21 Jan 2022 10:08:49 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Fri, 21 Jan 2022 10:08:47 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 21 Jan 2022 10:08:47 +0800
-Message-ID: <e4328a0fd2c97d073793532d238abd781797fe13.camel@mediatek.com>
-Subject: Re: [PATCH v1, 1/1] soc: mediatek: cmdq: add cmdq_pkt_poll_addr
- function
-From: CK Hu <ck.hu@mediatek.com>
-To: Yongqiang Niu <yongqiang.niu@mediatek.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>
-Date: Fri, 21 Jan 2022 10:08:47 +0800
-In-Reply-To: <20220120074311.2243-2-yongqiang.niu@mediatek.com>
-References: <20220120074311.2243-1-yongqiang.niu@mediatek.com>
- <20220120074311.2243-2-yongqiang.niu@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52E3110E599;
+ Fri, 21 Jan 2022 02:30:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1642732256; x=1674268256;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=0V+UK9JqSLvNbM9vE9RE59p+vwJj0ZMn3JvtV9K1GI8=;
+ b=bORKH6EPyrjYT7u/QtfXaKOW/gL+qGpGLAPIcyW2G8671Igh/o+QJsJB
+ 3722FbWCgtdq0wtCQKmWpZ9JIA9TLvFUEk6av7DH7HWil+v+QezmqDnIJ
+ DQCAdsn1OEHdccRJdxZN38rf4b1xG7xX/JzQ8YFz6AJCikCVCs8FcVn5V M=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 20 Jan 2022 18:30:54 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2022 18:30:54 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Thu, 20 Jan 2022 18:30:53 -0800
+Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Thu, 20 Jan 2022 18:30:52 -0800
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: <dri-devel@lists.freedesktop.org>
+Subject: [RFC PATCH] drm: allow passing a real encoder object for wb connector
+Date: Thu, 20 Jan 2022 18:29:55 -0800
+Message-ID: <1642732195-25349-1-git-send-email-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,122 +58,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, mtk18742 <moudy.ho@mediatek.com>,
- David Airlie <airlied@linux.ie>, Dennis YC
- Hsieh <dennis-yc.hsieh@mediatek.com>, Jassi Brar <jassisinghbrar@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Fabien Parent <fparent@baylibre.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ swboyd@chromium.org, khsieh@codeaurora.org, nganji@codeaurora.org,
+ seanpaul@chromium.org, laurent.pinchart@ideasonboard.com,
+ dmitry.baryshkov@linaro.org, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Yongqiang:
+Instead of creating an internal encoder for the writeback
+connector to satisfy DRM requirements, allow the clients
+to pass a real encoder to it by changing the drm_writeback's
+encoder to a pointer.
 
-On Thu, 2022-01-20 at 15:43 +0800, Yongqiang Niu wrote:
-> From: mtk18742 <moudy.ho@mediatek.com>
-> 
-> add cmdq_pkt_poll_addr function in cmdq helper functions
-> 
-> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> ---
->  drivers/soc/mediatek/mtk-cmdq-helper.c   | 39
-> ++++++++++++++++++++++++
->  include/linux/mailbox/mtk-cmdq-mailbox.h |  1 +
->  include/linux/soc/mediatek/mtk-cmdq.h    |  2 ++
->  3 files changed, 42 insertions(+)
-> 
-> diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c
-> b/drivers/soc/mediatek/mtk-cmdq-helper.c
-> index 3c8e4212d941..6c5cfb284140 100644
-> --- a/drivers/soc/mediatek/mtk-cmdq-helper.c
-> +++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
-> @@ -344,6 +344,45 @@ int cmdq_pkt_set_event(struct cmdq_pkt *pkt, u16
-> event)
->  }
->  EXPORT_SYMBOL(cmdq_pkt_set_event);
->  
-> +s32 cmdq_pkt_poll_addr(struct cmdq_pkt *pkt, u32 value, u32 addr,
-> u32 mask, u8 reg_gpr)
-> +{
-> +	struct cmdq_instruction inst = { {0} };
-> +
-> +	s32 err;
-> +
-> +	if (mask != 0xffffffff) {
-> +		inst.op = CMDQ_CODE_MASK;
-> +		inst.mask = ~mask;
-> +		err = cmdq_pkt_append_command(pkt, inst);
-> +		if (err != 0)
-> +			return err;
-> +
-> +		addr = addr | 0x1;
-> +	}
-> +
-> +	/* Move extra handle APB address to GPR */
-> +	inst.op = CMDQ_CODE_MOVE;
-> +	inst.value = addr;
-> +	inst.sop = reg_gpr;
-> +	inst.dst_t = 1;
-> +	err = cmdq_pkt_append_command(pkt, inst);
-> +	if (err != 0)
-> +		pr_err("%s fail append command move addr to reg
-> err:%d",
-> +			__func__, err);
+If a real encoder is not passed, drm_writeback_connector_init
+will internally allocate one.
 
-cmdq_pkt_assign() could assign a value to GPR, so remove this part.
+This will help the clients to manage the real encoder states
+better as they will allocate and maintain the encoder.
 
-> +
-> +	inst.op = CMDQ_CODE_POLL;
-> +	inst.value = value;
-> +	inst.sop = reg_gpr;
-> +	inst.dst_t = 1;
-> +	err = cmdq_pkt_append_command(pkt, inst);
-> +	if (err != 0)
-> +		pr_err("%s fail append command poll err:%d",
-> +			__func__, err);
-> +
-> +	return err;
-> +}
-> +EXPORT_SYMBOL(cmdq_pkt_poll_addr);
-> +
->  int cmdq_pkt_poll(struct cmdq_pkt *pkt, u8 subsys,
->  		  u16 offset, u32 value)
->  {
-> diff --git a/include/linux/mailbox/mtk-cmdq-mailbox.h
-> b/include/linux/mailbox/mtk-cmdq-mailbox.h
-> index 44365aab043c..a27329fd7c7f 100644
-> --- a/include/linux/mailbox/mtk-cmdq-mailbox.h
-> +++ b/include/linux/mailbox/mtk-cmdq-mailbox.h
-> @@ -54,6 +54,7 @@
->   */
->  enum cmdq_code {
->  	CMDQ_CODE_MASK = 0x02,
-> +	CMDQ_CODE_MOVE = 0x02,
->  	CMDQ_CODE_WRITE = 0x04,
->  	CMDQ_CODE_POLL = 0x08,
->  	CMDQ_CODE_JUMP = 0x10,
-> diff --git a/include/linux/soc/mediatek/mtk-cmdq.h
-> b/include/linux/soc/mediatek/mtk-cmdq.h
-> index ac6b5f3cba95..28dc5ce0ff03 100644
-> --- a/include/linux/soc/mediatek/mtk-cmdq.h
-> +++ b/include/linux/soc/mediatek/mtk-cmdq.h
-> @@ -280,4 +280,6 @@ int cmdq_pkt_finalize(struct cmdq_pkt *pkt);
->  int cmdq_pkt_flush_async(struct cmdq_pkt *pkt, cmdq_async_flush_cb
-> cb,
->  			 void *data);
->  
+Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+---
+ drivers/gpu/drm/drm_writeback.c | 11 +++++++----
+ include/drm/drm_writeback.h     |  2 +-
+ 2 files changed, 8 insertions(+), 5 deletions(-)
 
-Add comment for this function, parameters, and return value like other
-interface.
-
-Regards,
-CK
-
-> +s32 cmdq_pkt_poll_addr(struct cmdq_pkt *pkt, u32 value, u32 addr,
-> u32 mask, u8 reg_gpr);
-> +
->  #endif	/* __MTK_CMDQ_H__ */
+diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
+index dccf4504..fdb7381 100644
+--- a/drivers/gpu/drm/drm_writeback.c
++++ b/drivers/gpu/drm/drm_writeback.c
+@@ -189,8 +189,11 @@ int drm_writeback_connector_init(struct drm_device *dev,
+ 	if (IS_ERR(blob))
+ 		return PTR_ERR(blob);
+ 
+-	drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
+-	ret = drm_encoder_init(dev, &wb_connector->encoder,
++	/* allocate the internal drm encoder if a real one wasnt passed */
++	if (!wb_connector->encoder)
++		wb_connector->encoder = devm_kzalloc(dev->dev, sizeof(struct drm_encoder), GFP_KERNEL);
++	drm_encoder_helper_add(wb_connector->encoder, enc_helper_funcs);
++	ret = drm_encoder_init(dev, wb_connector->encoder,
+ 			       &drm_writeback_encoder_funcs,
+ 			       DRM_MODE_ENCODER_VIRTUAL, NULL);
+ 	if (ret)
+@@ -204,7 +207,7 @@ int drm_writeback_connector_init(struct drm_device *dev,
+ 		goto connector_fail;
+ 
+ 	ret = drm_connector_attach_encoder(connector,
+-						&wb_connector->encoder);
++						wb_connector->encoder);
+ 	if (ret)
+ 		goto attach_fail;
+ 
+@@ -233,7 +236,7 @@ int drm_writeback_connector_init(struct drm_device *dev,
+ attach_fail:
+ 	drm_connector_cleanup(connector);
+ connector_fail:
+-	drm_encoder_cleanup(&wb_connector->encoder);
++	drm_encoder_cleanup(wb_connector->encoder);
+ fail:
+ 	drm_property_blob_put(blob);
+ 	return ret;
+diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
+index 9697d27..f0d8147 100644
+--- a/include/drm/drm_writeback.h
++++ b/include/drm/drm_writeback.h
+@@ -31,7 +31,7 @@ struct drm_writeback_connector {
+ 	 * by passing the @enc_funcs parameter to drm_writeback_connector_init()
+ 	 * function.
+ 	 */
+-	struct drm_encoder encoder;
++	struct drm_encoder *encoder;
+ 
+ 	/**
+ 	 * @pixel_formats_blob_ptr:
+-- 
+2.7.4
 
