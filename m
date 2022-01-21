@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E057495C8B
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 10:09:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BACC495CA8
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 10:17:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D208B10E999;
-	Fri, 21 Jan 2022 09:09:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4140810E9A2;
+	Fri, 21 Jan 2022 09:17:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECA7710E999
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 09:09:33 +0000 (UTC)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5EB910E9A2;
+ Fri, 21 Jan 2022 09:17:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1642756174; x=1674292174;
+ t=1642756639; x=1674292639;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=FtxghI/3srHjFevRT1v1DlUkGCseUklGodDeUCzopWs=;
- b=PBm0sjedALO8M9pTO18bd9mglWmiLNMLpXFI+MWV8p1IazYm/30lEdxq
- AAw+Zol6IhVN5ZW4QUjpIJ//5bCIG6BitHnocVHLNG6evQNcAmTn4FwcO
- WbmBZ7+PdyN/v3RBJSOMQbyMEjsSSTHhDBOPbK68pOrhLywLmyR4wQgy8
- gvxdNIBDteKrF045HDTr7f3J+k6HkH0hNHlE55G/JffaozpW/b3GoAB48
- LRd6OiLSD7tnVA67wUKddnOR2k+M133JdMmUErjmo8RzZU0HyFoDCj5Xf
- KfyleCxbDhD5oqM4OivuQUYBwBcU+n418XBUTnbXphPJHJ0HA2cMMh80L A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10233"; a="245394606"
-X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="245394606"
+ bh=+vKN7iTjxod+Fyp3Notbf7x2rCsKmuFBBQG0spUXmBM=;
+ b=KJ96fiYT2zQM45gJyaWTJrwRjMn0TeSnZ7ESmpHDH2P1V+bz7tLq6VY1
+ qGaFWo0qfQgKVfGSS/KFkRuoi7PFFP9PfR4OEMX9vjHEJFIYYOf4H4TP0
+ AzzTOlzRTw8dItZt+k7bHvGJ85zebXErgLJBxO7PeVGdp4uWg4m+w2RZW
+ s09zbLJgOkIZKwelfXVOGSrF/9XI7EOEukruUcoQct6Bba+WcmoLUiVIt
+ bp5xYAP4Ehyu8HktVXJRw6oulOxH9lFKWaBUSP8i1Ifu/a5If8zPg5de5
+ ncBQmcHVZuJ0zwOXlQ7lSGiUQFMUtFcel/T4fsxP155VsCX6SqyYAry8f A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10233"; a="331961046"
+X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="331961046"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jan 2022 01:09:31 -0800
-X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="533198110"
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jan 2022 01:17:19 -0800
+X-IronPort-AV: E=Sophos;i="5.88,304,1635231600"; d="scan'208";a="533200849"
 Received: from chandra2-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.48.104])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jan 2022 01:09:28 -0800
+ 21 Jan 2022 01:17:14 -0800
 From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>, Helge Deller <deller@gmx.de>
-Subject: Re: [GIT PULL] fbdev updates & fixes for v5.17-rc1
-In-Reply-To: <CAKMK7uGeGBBvTGFyBxLwvTAxEWwXMS8U1rrYUb_7gbui-jV+KA@mail.gmail.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [RFC PATCH] drm: allow passing a real encoder object for wb
+ connector
+In-Reply-To: <1642732195-25349-1-git-send-email-quic_abhinavk@quicinc.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <Yeg11pHSqx29yg/T@ls3530>
- <CAKMK7uGeGBBvTGFyBxLwvTAxEWwXMS8U1rrYUb_7gbui-jV+KA@mail.gmail.com>
-Date: Fri, 21 Jan 2022 11:09:21 +0200
-Message-ID: <87fsph4fr2.fsf@intel.com>
+References: <1642732195-25349-1-git-send-email-quic_abhinavk@quicinc.com>
+Date: Fri, 21 Jan 2022 11:17:07 +0200
+Message-ID: <87bl054fe4.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -57,44 +57,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Thompson <daniel.thompson@linaro.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- Lee Jones <lee.jones@linaro.org>
+Cc: suraj.kandpal@intel.com, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, swboyd@chromium.org,
+ khsieh@codeaurora.org, nganji@codeaurora.org, seanpaul@chromium.org,
+ laurent.pinchart@ideasonboard.com, dmitry.baryshkov@linaro.org,
+ aravindh@codeaurora.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 21 Jan 2022, Daniel Vetter <daniel@ffwll.ch> wrote:
-> On Wed, Jan 19, 2022 at 5:02 PM Helge Deller <deller@gmx.de> wrote:
->> A first bunch of updates and fixes for the following fbdev & backlight drivers:
->> ocfb, aty128fb, mb862xx, omapfb, qcom-wled, dt-bindings, hyperv_fb,
->> lm3630a_bl, omap2, controlfb, matroxfb
->>
->> Nothing really important, mostly cleanups, const conversions, added null
->> pointer/boundary checks and build fixes.
->>
->> Signed-off-by: Helge Deller <deller@gmx.de>
+On Thu, 20 Jan 2022, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> Instead of creating an internal encoder for the writeback
+> connector to satisfy DRM requirements, allow the clients
+> to pass a real encoder to it by changing the drm_writeback's
+> encoder to a pointer.
 >
-> Not sure whether Linus missed this or just wanted to let the
-> discussion settle first. But since this is all random patches for
-> drivers that many distros don't even enable anymore there's no issues
-> here, and I very much welcome someone volunteering to pick these up.
-> I'd expect there's a pile more since it's been 1-2 years since Bart
-> took care of these and merged them consistently.
+> If a real encoder is not passed, drm_writeback_connector_init
+> will internally allocate one.
 >
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> This will help the clients to manage the real encoder states
+> better as they will allocate and maintain the encoder.
 
-...
+See also the thread starting at [1], and please try to coordinate.
 
->>  drivers/video/backlight/lm3630a_bl.c                     |  1 -
->>  drivers/video/backlight/qcom-wled.c                      |  1 +
-
-Backlight changes usually go through the backlight tree.
-
+I don't know what the end result should be like, I'm just saying please
+collaborate instead of racing to get one set of changes in.
 
 BR,
 Jani.
 
+
+[1] https://patchwork.freedesktop.org/patch/msgid/20220111101801.28310-1-suraj.kandpal@intel.com
+
+>
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>  drivers/gpu/drm/drm_writeback.c | 11 +++++++----
+>  include/drm/drm_writeback.h     |  2 +-
+>  2 files changed, 8 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
+> index dccf4504..fdb7381 100644
+> --- a/drivers/gpu/drm/drm_writeback.c
+> +++ b/drivers/gpu/drm/drm_writeback.c
+> @@ -189,8 +189,11 @@ int drm_writeback_connector_init(struct drm_device *dev,
+>  	if (IS_ERR(blob))
+>  		return PTR_ERR(blob);
+>  
+> -	drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
+> -	ret = drm_encoder_init(dev, &wb_connector->encoder,
+> +	/* allocate the internal drm encoder if a real one wasnt passed */
+> +	if (!wb_connector->encoder)
+> +		wb_connector->encoder = devm_kzalloc(dev->dev, sizeof(struct drm_encoder), GFP_KERNEL);
+> +	drm_encoder_helper_add(wb_connector->encoder, enc_helper_funcs);
+> +	ret = drm_encoder_init(dev, wb_connector->encoder,
+>  			       &drm_writeback_encoder_funcs,
+>  			       DRM_MODE_ENCODER_VIRTUAL, NULL);
+>  	if (ret)
+> @@ -204,7 +207,7 @@ int drm_writeback_connector_init(struct drm_device *dev,
+>  		goto connector_fail;
+>  
+>  	ret = drm_connector_attach_encoder(connector,
+> -						&wb_connector->encoder);
+> +						wb_connector->encoder);
+>  	if (ret)
+>  		goto attach_fail;
+>  
+> @@ -233,7 +236,7 @@ int drm_writeback_connector_init(struct drm_device *dev,
+>  attach_fail:
+>  	drm_connector_cleanup(connector);
+>  connector_fail:
+> -	drm_encoder_cleanup(&wb_connector->encoder);
+> +	drm_encoder_cleanup(wb_connector->encoder);
+>  fail:
+>  	drm_property_blob_put(blob);
+>  	return ret;
+> diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
+> index 9697d27..f0d8147 100644
+> --- a/include/drm/drm_writeback.h
+> +++ b/include/drm/drm_writeback.h
+> @@ -31,7 +31,7 @@ struct drm_writeback_connector {
+>  	 * by passing the @enc_funcs parameter to drm_writeback_connector_init()
+>  	 * function.
+>  	 */
+> -	struct drm_encoder encoder;
+> +	struct drm_encoder *encoder;
+>  
+>  	/**
+>  	 * @pixel_formats_blob_ptr:
 
 -- 
 Jani Nikula, Intel Open Source Graphics Center
