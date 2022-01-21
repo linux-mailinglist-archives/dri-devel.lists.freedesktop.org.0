@@ -1,48 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5092C4957D2
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 02:38:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 324BB495820
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 03:09:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B3F710E684;
-	Fri, 21 Jan 2022 01:38:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5EF910E928;
+	Fri, 21 Jan 2022 02:08:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay.hostedemail.com (relay031.a.hostedemail.com
- [64.99.140.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E023610E638
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 01:38:11 +0000 (UTC)
-Received: from omf06.hostedemail.com (a10.router.float.18 [10.200.18.1])
- by unirelay06.hostedemail.com (Postfix) with ESMTP id DAEDB22DB5;
- Fri, 21 Jan 2022 01:38:07 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by
- omf06.hostedemail.com (Postfix) with ESMTPA id 3264F20010; 
- Fri, 21 Jan 2022 01:37:54 +0000 (UTC)
-Message-ID: <5da3e02454c8c9ff3335c7199f3ae48af2864981.camel@perches.com>
-Subject: Re: [PATCH 1/3] lib/string_helpers: Consolidate yesno() implementation
-From: Joe Perches <joe@perches.com>
-To: Steven Rostedt <rostedt@goodmis.org>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>
-Date: Thu, 20 Jan 2022 17:37:53 -0800
-In-Reply-To: <20220119160017.65bd1fa5@gandalf.local.home>
-References: <20220119072450.2890107-1-lucas.demarchi@intel.com>
- <20220119072450.2890107-2-lucas.demarchi@intel.com>
- <YefXg03hXtrdUj6y@paasikivi.fi.intel.com>
- <20220119100635.6c45372b@gandalf.local.home>
- <YehllDq7wC3M2PQZ@smile.fi.intel.com>
- <20220119160017.65bd1fa5@gandalf.local.home>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 454DF10E921
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 02:08:54 +0000 (UTC)
+X-UUID: d89c17bc827a4c38b6c8ef0c5ffc0d83-20220121
+X-UUID: d89c17bc827a4c38b6c8ef0c5ffc0d83-20220121
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1408320461; Fri, 21 Jan 2022 10:08:49 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Fri, 21 Jan 2022 10:08:47 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 21 Jan 2022 10:08:47 +0800
+Message-ID: <e4328a0fd2c97d073793532d238abd781797fe13.camel@mediatek.com>
+Subject: Re: [PATCH v1, 1/1] soc: mediatek: cmdq: add cmdq_pkt_poll_addr
+ function
+From: CK Hu <ck.hu@mediatek.com>
+To: Yongqiang Niu <yongqiang.niu@mediatek.com>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>
+Date: Fri, 21 Jan 2022 10:08:47 +0800
+In-Reply-To: <20220120074311.2243-2-yongqiang.niu@mediatek.com>
+References: <20220120074311.2243-1-yongqiang.niu@mediatek.com>
+ <20220120074311.2243-2-yongqiang.niu@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-X-Stat-Signature: 7rtkhruhzyxmaz9kz4md8szkb6csicqt
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: 3264F20010
-X-Spam-Status: No, score=-0.98
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1+2KBCQ3/oG0QJHNmpFhxNu1Bw+ZDwRWLg=
-X-HE-Tag: 1642729074-280175
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,46 +52,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
- Vishal Kulkarni <vishal@chelsio.com>,
- Francis Laniel <laniel_francis@privacyrequired.com>,
- Kentaro Takeda <takedakn@nttdata.co.jp>, amd-gfx@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
- Petr Mladek <pmladek@suse.com>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Leo Li <sunpeng.li@amd.com>, intel-gfx@lists.freedesktop.org,
- Raju Rangoju <rajur@chelsio.com>, Lucas De Marchi <lucas.demarchi@intel.com>,
- Julia Lawall <julia.lawall@lip6.fr>,
- Rahul Lakkireddy <rahul.lakkireddy@chelsio.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Mikita Lipski <mikita.lipski@amd.com>,
- Eryk Brol <eryk.brol@amd.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-kernel@vger.kernel.org,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- linux-security-module@vger.kernel.org, netdev@vger.kernel.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>, "David S
- . Miller" <davem@davemloft.net>
+Cc: devicetree@vger.kernel.org, mtk18742 <moudy.ho@mediatek.com>,
+ David Airlie <airlied@linux.ie>, Dennis YC
+ Hsieh <dennis-yc.hsieh@mediatek.com>, Jassi Brar <jassisinghbrar@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Fabien Parent <fparent@baylibre.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2022-01-19 at 16:00 -0500, Steven Rostedt wrote:
-> On Wed, 19 Jan 2022 21:25:08 +0200
-> Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+Hi, Yongqiang:
+
+On Thu, 2022-01-20 at 15:43 +0800, Yongqiang Niu wrote:
+> From: mtk18742 <moudy.ho@mediatek.com>
 > 
-> > > I say keep it one line!
-> > > 
-> > > Reviewed-by: Steven Rostedt (Google) <rostedt@goodmis.org>  
-> > 
-> > I believe Sakari strongly follows the 80 rule, which means...
+> add cmdq_pkt_poll_addr function in cmdq helper functions
 > 
-> Checkpatch says "100" I think we need to simply update the docs (the
-> documentation always lags the code ;-)
+> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+> ---
+>  drivers/soc/mediatek/mtk-cmdq-helper.c   | 39
+> ++++++++++++++++++++++++
+>  include/linux/mailbox/mtk-cmdq-mailbox.h |  1 +
+>  include/linux/soc/mediatek/mtk-cmdq.h    |  2 ++
+>  3 files changed, 42 insertions(+)
+> 
+> diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c
+> b/drivers/soc/mediatek/mtk-cmdq-helper.c
+> index 3c8e4212d941..6c5cfb284140 100644
+> --- a/drivers/soc/mediatek/mtk-cmdq-helper.c
+> +++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
+> @@ -344,6 +344,45 @@ int cmdq_pkt_set_event(struct cmdq_pkt *pkt, u16
+> event)
+>  }
+>  EXPORT_SYMBOL(cmdq_pkt_set_event);
+>  
+> +s32 cmdq_pkt_poll_addr(struct cmdq_pkt *pkt, u32 value, u32 addr,
+> u32 mask, u8 reg_gpr)
+> +{
+> +	struct cmdq_instruction inst = { {0} };
+> +
+> +	s32 err;
+> +
+> +	if (mask != 0xffffffff) {
+> +		inst.op = CMDQ_CODE_MASK;
+> +		inst.mask = ~mask;
+> +		err = cmdq_pkt_append_command(pkt, inst);
+> +		if (err != 0)
+> +			return err;
+> +
+> +		addr = addr | 0x1;
+> +	}
+> +
+> +	/* Move extra handle APB address to GPR */
+> +	inst.op = CMDQ_CODE_MOVE;
+> +	inst.value = addr;
+> +	inst.sop = reg_gpr;
+> +	inst.dst_t = 1;
+> +	err = cmdq_pkt_append_command(pkt, inst);
+> +	if (err != 0)
+> +		pr_err("%s fail append command move addr to reg
+> err:%d",
+> +			__func__, err);
 
-checkpatch doesn't say anything normally, it's a stupid script.
-It just mindlessly bleats a message when a line exceeds 100 chars...
+cmdq_pkt_assign() could assign a value to GPR, so remove this part.
 
-Just fyi: I think it's nicer on a single line too.
+> +
+> +	inst.op = CMDQ_CODE_POLL;
+> +	inst.value = value;
+> +	inst.sop = reg_gpr;
+> +	inst.dst_t = 1;
+> +	err = cmdq_pkt_append_command(pkt, inst);
+> +	if (err != 0)
+> +		pr_err("%s fail append command poll err:%d",
+> +			__func__, err);
+> +
+> +	return err;
+> +}
+> +EXPORT_SYMBOL(cmdq_pkt_poll_addr);
+> +
+>  int cmdq_pkt_poll(struct cmdq_pkt *pkt, u8 subsys,
+>  		  u16 offset, u32 value)
+>  {
+> diff --git a/include/linux/mailbox/mtk-cmdq-mailbox.h
+> b/include/linux/mailbox/mtk-cmdq-mailbox.h
+> index 44365aab043c..a27329fd7c7f 100644
+> --- a/include/linux/mailbox/mtk-cmdq-mailbox.h
+> +++ b/include/linux/mailbox/mtk-cmdq-mailbox.h
+> @@ -54,6 +54,7 @@
+>   */
+>  enum cmdq_code {
+>  	CMDQ_CODE_MASK = 0x02,
+> +	CMDQ_CODE_MOVE = 0x02,
+>  	CMDQ_CODE_WRITE = 0x04,
+>  	CMDQ_CODE_POLL = 0x08,
+>  	CMDQ_CODE_JUMP = 0x10,
+> diff --git a/include/linux/soc/mediatek/mtk-cmdq.h
+> b/include/linux/soc/mediatek/mtk-cmdq.h
+> index ac6b5f3cba95..28dc5ce0ff03 100644
+> --- a/include/linux/soc/mediatek/mtk-cmdq.h
+> +++ b/include/linux/soc/mediatek/mtk-cmdq.h
+> @@ -280,4 +280,6 @@ int cmdq_pkt_finalize(struct cmdq_pkt *pkt);
+>  int cmdq_pkt_flush_async(struct cmdq_pkt *pkt, cmdq_async_flush_cb
+> cb,
+>  			 void *data);
+>  
 
+Add comment for this function, parameters, and return value like other
+interface.
+
+Regards,
+CK
+
+> +s32 cmdq_pkt_poll_addr(struct cmdq_pkt *pkt, u32 value, u32 addr,
+> u32 mask, u8 reg_gpr);
+> +
+>  #endif	/* __MTK_CMDQ_H__ */
 
