@@ -2,65 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27E9A495D99
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 11:17:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F65F495DCB
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 11:32:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0828210E9CB;
-	Fri, 21 Jan 2022 10:17:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A66810E9EE;
+	Fri, 21 Jan 2022 10:32:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE39A10E9CB
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 10:17:52 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id v123so17014519wme.2
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 02:17:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=+qjyKZOszfxARlUjaf8ExNQkAP8pObI31nb6cY6ygyE=;
- b=Q1L8146j2oVMl5S7ZA5dp36WxXZYEmFQqLOJsBJEnYRnC0GKhsyNxpXqxzcIuhLiXR
- AWjog25dOBimu3Pafw7bfjwJoIL99Uw1wUiO7ABNuu/U86Rh3JYEP2uwthabb90fgNHS
- YxMnC07a3qDk8hS3QfDEoyqOMUm+lKUjGc/PpK++VbX/KyztLmDJGCNCZi+Kh1JCWYdD
- uyQamEsK+V8Ko13zw0w3c9uCeN/gkjCC7u3ByWcD/LPqFV33S45vhxs0tvqvcrFvNgCV
- 4EQ4TASBm7FLIRTpvPP51J/v3XdU6srhhn5PKKmsvGO2sFnoFGZa/1j+FSgnE52YGvio
- FqAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=+qjyKZOszfxARlUjaf8ExNQkAP8pObI31nb6cY6ygyE=;
- b=q/U1L8/0qtNi9dNzwr1F59Gi+yCAE8LovPzXR1dtlVTjbNwcrANFjY5oV4AzQ1P+o5
- 4BccIf2UK5Xg7kwcm/tO8OkW54Dhw65tRU+g+ZcfaXWrKiNQT7dyVLJF9CcfK7eiOmeo
- 5pz9Z6HeXsiU8tTvd3/UO8yxduyCkwu2YjU2IA7mBAfHemQELYOrv1g++BalFTTZN0jG
- BaJezq1lXgM0lLAto5YfxpWdclh1r1Z62FtW5EBVO+kRcvPpmRCs3Pwn6ZWpvuhuUKBL
- rbGRo3bdFF5jdOiIN4lUsqccl5EIDUC1F7Xcw4JIt4EUZ1APd24L/JaUTnv4FXE13RDA
- WSFA==
-X-Gm-Message-State: AOAM532y0mhm487pmCbjI+9AsTnTFVyo7S+64UB/iRux6Z6X56z1vTm5
- uKaGmkBLE5k//4zCfZyrnGETcg==
-X-Google-Smtp-Source: ABdhPJzo/PMT8MItnYFhOxxP48Ab+NXa5j0UbzbG5l58oX+SIXHyM3HP7gyFVOAyDxjayedzmb25UA==
-X-Received: by 2002:a7b:c76e:: with SMTP id x14mr111558wmk.12.1642760271378;
- Fri, 21 Jan 2022 02:17:51 -0800 (PST)
-Received: from google.com (cpc106310-bagu17-2-0-cust853.1-3.cable.virginm.net.
- [86.15.223.86])
- by smtp.gmail.com with ESMTPSA id b1sm6355459wrd.78.2022.01.21.02.17.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Jan 2022 02:17:50 -0800 (PST)
-Date: Fri, 21 Jan 2022 10:17:49 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Helge Deller <deller@gmx.de>
-Subject: Re: [GIT PULL] fbdev updates & fixes for v5.17-rc1
-Message-ID: <YeqITV9pAyI6clOB@google.com>
-References: <Yeg11pHSqx29yg/T@ls3530>
- <CAKMK7uGeGBBvTGFyBxLwvTAxEWwXMS8U1rrYUb_7gbui-jV+KA@mail.gmail.com>
- <87fsph4fr2.fsf@intel.com> <Yep6te0wrK0ZQ8SB@google.com>
- <016269c1-cf56-04ca-91e8-02417f770af5@gmx.de>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B63910E9EE
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 10:32:51 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nArDt-0004FI-65; Fri, 21 Jan 2022 11:32:49 +0100
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nArDp-0006wy-SX; Fri, 21 Jan 2022 11:32:45 +0100
+Date: Fri, 21 Jan 2022 11:32:45 +0100
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+Subject: Re: [PATCH v3 00/22] drm/rockchip: RK356x VOP2 support
+Message-ID: <20220121103245.GT23490@pengutronix.de>
+References: <20211220110630.3521121-1-s.hauer@pengutronix.de>
+ <AA3A26CB-6282-4A6B-99DC-8042DC8926BB@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <016269c1-cf56-04ca-91e8-02417f770af5@gmx.de>
+In-Reply-To: <AA3A26CB-6282-4A6B-99DC-8042DC8926BB@gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 15:28:39 up 40 days, 23:14, 76 users,  load average: 0.12, 0.12, 0.15
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,63 +57,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Linus Torvalds <torvalds@linux-foundation.org>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 21 Jan 2022, Helge Deller wrote:
+Hi Piotr,
 
-> On 1/21/22 10:19, Lee Jones wrote:
-> > On Fri, 21 Jan 2022, Jani Nikula wrote:
-> >
-> >> On Fri, 21 Jan 2022, Daniel Vetter <daniel@ffwll.ch> wrote:
-> >>> On Wed, Jan 19, 2022 at 5:02 PM Helge Deller <deller@gmx.de> wrote:
-> >>>> A first bunch of updates and fixes for the following fbdev & backlight drivers:
-> >>>> ocfb, aty128fb, mb862xx, omapfb, qcom-wled, dt-bindings, hyperv_fb,
-> >>>> lm3630a_bl, omap2, controlfb, matroxfb
-> >>>>
-> >>>> Nothing really important, mostly cleanups, const conversions, added null
-> >>>> pointer/boundary checks and build fixes.
-> >>>>
-> >>>> Signed-off-by: Helge Deller <deller@gmx.de>
-> >>>
-> >>> Not sure whether Linus missed this or just wanted to let the
-> >>> discussion settle first. But since this is all random patches for
-> >>> drivers that many distros don't even enable anymore there's no issues
-> >>> here, and I very much welcome someone volunteering to pick these up.
-> >>> I'd expect there's a pile more since it's been 1-2 years since Bart
-> >>> took care of these and merged them consistently.
-> >>>
-> >>> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> >>
-> >> ...
-> >>
-> >>>>  drivers/video/backlight/lm3630a_bl.c                     |  1 -
-> >>>>  drivers/video/backlight/qcom-wled.c                      |  1 +
-> >>
-> >> Backlight changes usually go through the backlight tree.
+On Wed, Jan 19, 2022 at 12:29:49PM +0100, Piotr Oniszczuk wrote:
 > 
-> Sorry, I didn't know yet.
 > 
-> > Yes, they do.  How were these applied to the DRM tree?
+> > Wiadomość napisana przez Sascha Hauer <s.hauer@pengutronix.de> w dniu 20.12.2021, o godz. 12:06:
+> > 
+> > 
+> > Third round of patches and last one for this year. I hopefully integrated
+> > all review feedback. Additionally the driver is now fully converted to
+> > regmap, so no struct vop_reg necessary anymore.
+> > 
+> > Sascha
+> > 
+> > Changes since v2:
+> > - Add pin names to HDMI supply pin description
+> > - Add hclk support to HDMI driver
+> > - Dual license rockchip-vop2 binding, update binding
+> > - Add HDMI connector to board dts files
+> > - drop unnecessary gamma_lut registers from vop2
+> > - Update dclk_vop[012] clock handling, no longer hacks needed
+> > - Complete regmap conversion
+> > 
 > 
-> I did applied them.
+> Sascha
+> 
+> I'm using you VOP2 code on rk3566 tvbox (x96-x6) with very good results.
+> 
+> I have just few questions:
+> 
+> 1. how support for CEC looks/prospects (plans for future, not in this code, expecting others should implement, etc)?
 
-When you apply patches, you should reply to let the contributor know.
+I had to google what CEC actually is. We don't have plans supporting it.
+It looks like this is a matter of the HDMI driver supporting this and
+not bound to the rockchip driver.
 
-> Shall I drop them and you decide about them?
+> 
+> 2. VOP2 code works nice for me for x11/glamour and for EGLFS with EGL DMAbuf rendering by Mesa EGL_LINUX_DMA_BUF_EXT.
+> I have issue however with app. rendering to DRM planes (GUI is DRM plane1, video is DRM pane2). 
+> My ppp starts/works without any errors in log - but screen stays with kernel messages content.
+> (it looks to me like i.e. app renders to DRM plane but DRM display driver not pass it to CRTC. just wild guess here...).
 
-No, there's no need for that.
+You enabled the panfrost driver with other patches, right?
 
-> Next I round I'll take care not to pick backlight patches.
+> 
+> 3. in kernel dmesg I have many:
+> 
+> "rockchip-drm display-subsystem: [drm] *ERROR* Unsupported format modifier 0x810000000000001".
 
-Thank you.
+This message is correct. This corresponds to
+DRM_FORMAT_MOD_ARM_16X16_BLOCK_U_INTERLEAVED and the VOP2 driver doesn't
+support this. I have a similar problem here with
+weston-simple-dmabuf-egl.  By default this uses DRM_FORMAT_XRGB8888
+which ends up being PIPE_FORMAT_B8G8R8_UNORM in MESA. In
+panfrost_afbc_format() we have:
+
+        /* Don't allow swizzled formats on v7 */
+        switch (format) {
+        case PIPE_FORMAT_B8G8R8A8_UNORM:
+        case PIPE_FORMAT_B8G8R8X8_UNORM:
+        case PIPE_FORMAT_A8R8G8B8_UNORM:
+        case PIPE_FORMAT_X8R8G8B8_UNORM:
+        case PIPE_FORMAT_X8B8G8R8_UNORM:
+        case PIPE_FORMAT_A8B8G8R8_UNORM:
+        case PIPE_FORMAT_B8G8R8_UNORM:
+        case PIPE_FORMAT_B5G6R5_UNORM:
+                if (dev->arch >= 7)
+                        return PIPE_FORMAT_NONE;
+
+                break;
+        default:
+                break;
+        }
+
+This means the driver won't do AFBC with that format and picks
+DRM_FORMAT_MOD_ARM_16X16_BLOCK_U_INTERLEAVED instead. Now weston is
+clever enough to not pass that into the VOP2 driver, apparently your
+application is not and as a result you see that message.
+
+In weston-simple-dmabuf-egl I can pass a suitable format on the command
+line, in my case I use DRM_FORMAT_ABGR8888 (which becomes
+PIPE_FORMAT_R8G8B8A8_UNORM). With this the panfrost driver does AFBC
+which then can be rendered in the VOP2 cluster window overlay.
+
+> 
+> It comes from MESA i think - but i suspect because VOP2 provides
+> unknown/wrong DRM modifier to mesa?
+
+Nope, the modifiers the VOP2 driver propagates are correct. It doesn't
+claim to support DRM_FORMAT_MOD_ARM_16X16_BLOCK_U_INTERLEAVED.
+
+Sascha
 
 -- 
-Lee Jones [李琼斯]
-Principal Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
