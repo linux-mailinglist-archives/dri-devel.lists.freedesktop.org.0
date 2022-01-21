@@ -1,50 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F65F495DCB
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 11:32:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBA96495DE0
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jan 2022 11:42:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A66810E9EE;
-	Fri, 21 Jan 2022 10:32:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59A6110EA01;
+	Fri, 21 Jan 2022 10:42:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B63910E9EE
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 10:32:51 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1nArDt-0004FI-65; Fri, 21 Jan 2022 11:32:49 +0100
-Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1nArDp-0006wy-SX; Fri, 21 Jan 2022 11:32:45 +0100
-Date: Fri, 21 Jan 2022 11:32:45 +0100
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-Subject: Re: [PATCH v3 00/22] drm/rockchip: RK356x VOP2 support
-Message-ID: <20220121103245.GT23490@pengutronix.de>
-References: <20211220110630.3521121-1-s.hauer@pengutronix.de>
- <AA3A26CB-6282-4A6B-99DC-8042DC8926BB@gmail.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1421B10EA01
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 10:42:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1642761734;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CdPdILngPzGrQBwtZZKW+7ixKah3Wpht/KCyewnhlCg=;
+ b=DyGO5fJXBEBopxkz/x3CJZsbPKd4Ilon3ftou0x/COxHJeqN+ZDyT+0BkdzRrHLIOJAOiB
+ K/DN/wrdkKHJ2d+GWNKBA97MJceV96aYGwpnsby7Xq53FlrF45zcf7ZBT/Wa5qU+adPI7v
+ kvxCX0vW1cVVVVV+bqYivj28VM2bha8=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-169-iyAV6sSbOFC7DAM2Qb1-mg-1; Fri, 21 Jan 2022 05:42:11 -0500
+X-MC-Unique: iyAV6sSbOFC7DAM2Qb1-mg-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ z9-20020a05640240c900b003fea688a17eso8740672edb.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jan 2022 02:42:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=CdPdILngPzGrQBwtZZKW+7ixKah3Wpht/KCyewnhlCg=;
+ b=guV19sh42zwRgd7ZcJOkkEN6ICQOVsXqzHvrXa57a49snAj9L7SwMAt3W+qk/rBzzi
+ /EazvOrp3Y0GalI2JBi/4XfxqW7hYR1btgyn+usqxFJnkuCDdSMp5QhPLhb/eMV6T8JL
+ gjWIbh4qKoldLJVGLF4UQs9w13DwTVex3o6/LueW9775uzJg+VSjDsXS7ue3jo5hidqP
+ uDdVQoGKROAkW5Aqi60h3FtM/86iJKDeelzJX+5Vb63ccDcgkYD7O8tQwK3QN3E9spS3
+ ElD6luRc4JOJcCjbyozTW0YM+vqUsD+qOsQxEWrYaVQ57TWzzm3o4ZxN7aCUv/vIZ+rS
+ T0QA==
+X-Gm-Message-State: AOAM533gj8NtYpqfBBpNxKPiH3Ylg+LGWQEwXEbW6I4bu8ayepU1fN9D
+ Dh/sAmZ7MiH2U2I05Nr2UlXqeRr7hVmyJlNQ+bR52IHo3eVGY1ZWIGpuc2XWW6IEmZe6Ma8Xh6E
+ 9e19Ty7jX+gLGwEx/S1iEjlcFo+0i
+X-Received: by 2002:a05:6402:31e9:: with SMTP id
+ dy9mr3680090edb.65.1642761729926; 
+ Fri, 21 Jan 2022 02:42:09 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwip9Cp2oVEYL+pg2NbsXqt2zQcoTWCMHysfXzR0VjzDHu2yy8g2b0X+EK52vUarXS+yjY5QQ==
+X-Received: by 2002:a05:6402:31e9:: with SMTP id
+ dy9mr3680084edb.65.1642761729806; 
+ Fri, 21 Jan 2022 02:42:09 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1?
+ (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
+ by smtp.gmail.com with ESMTPSA id z10sm2504846edl.54.2022.01.21.02.42.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 Jan 2022 02:42:09 -0800 (PST)
+Message-ID: <faa591e3-19f3-1a8d-4e64-bc8cc94b82dc@redhat.com>
+Date: Fri, 21 Jan 2022 11:42:08 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <AA3A26CB-6282-4A6B-99DC-8042DC8926BB@gmail.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 15:28:39 up 40 days, 23:14, 76 users,  load average: 0.12, 0.12, 0.15
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: linux-next: build warning after merge of the drm-misc tree
+To: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ DRI <dri-devel@lists.freedesktop.org>
+References: <20211015205422.53bec93d@canb.auug.org.au>
+ <20220120141851.5503b65a@canb.auug.org.au>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20220120141851.5503b65a@canb.auug.org.au>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,111 +92,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Piotr,
+Hi Stepen,
 
-On Wed, Jan 19, 2022 at 12:29:49PM +0100, Piotr Oniszczuk wrote:
+On 1/20/22 04:18, Stephen Rothwell wrote:
+> Hi all,
 > 
+> On Fri, 15 Oct 2021 20:54:22 +1100 Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+>>
+>> After merging the drm-misc tree, today's linux-next build (htmldocs)
+>> produced this warning:
+>>
+>> Documentation/gpu/drm-kms-helpers:451: /home/sfr/next/next/drivers/gpu/drm/drm_privacy_screen.c:270: WARNING: Inline emphasis start-string without end-string.
+>>
+>> Introduced by commit
+>>
+>>   8a12b170558a ("drm/privacy-screen: Add notifier support (v2)")
 > 
-> > Wiadomość napisana przez Sascha Hauer <s.hauer@pengutronix.de> w dniu 20.12.2021, o godz. 12:06:
-> > 
-> > 
-> > Third round of patches and last one for this year. I hopefully integrated
-> > all review feedback. Additionally the driver is now fully converted to
-> > regmap, so no struct vop_reg necessary anymore.
-> > 
-> > Sascha
-> > 
-> > Changes since v2:
-> > - Add pin names to HDMI supply pin description
-> > - Add hclk support to HDMI driver
-> > - Dual license rockchip-vop2 binding, update binding
-> > - Add HDMI connector to board dts files
-> > - drop unnecessary gamma_lut registers from vop2
-> > - Update dclk_vop[012] clock handling, no longer hacks needed
-> > - Complete regmap conversion
-> > 
-> 
-> Sascha
-> 
-> I'm using you VOP2 code on rk3566 tvbox (x96-x6) with very good results.
-> 
-> I have just few questions:
-> 
-> 1. how support for CEC looks/prospects (plans for future, not in this code, expecting others should implement, etc)?
+> I am still getting this warning.
 
-I had to google what CEC actually is. We don't have plans supporting it.
-It looks like this is a matter of the HDMI driver supporting this and
-not bound to the rockchip driver.
+Sorry I completely missed your original report on this between
+all the other kernel related emails.
 
-> 
-> 2. VOP2 code works nice for me for x11/glamour and for EGLFS with EGL DMAbuf rendering by Mesa EGL_LINUX_DMA_BUF_EXT.
-> I have issue however with app. rendering to DRM planes (GUI is DRM plane1, video is DRM pane2). 
-> My ppp starts/works without any errors in log - but screen stays with kernel messages content.
-> (it looks to me like i.e. app renders to DRM plane but DRM display driver not pass it to CRTC. just wild guess here...).
+I'll prepare a fix for this coming Monday.
 
-You enabled the panfrost driver with other patches, right?
+Regards,
 
-> 
-> 3. in kernel dmesg I have many:
-> 
-> "rockchip-drm display-subsystem: [drm] *ERROR* Unsupported format modifier 0x810000000000001".
+Hans
 
-This message is correct. This corresponds to
-DRM_FORMAT_MOD_ARM_16X16_BLOCK_U_INTERLEAVED and the VOP2 driver doesn't
-support this. I have a similar problem here with
-weston-simple-dmabuf-egl.  By default this uses DRM_FORMAT_XRGB8888
-which ends up being PIPE_FORMAT_B8G8R8_UNORM in MESA. In
-panfrost_afbc_format() we have:
-
-        /* Don't allow swizzled formats on v7 */
-        switch (format) {
-        case PIPE_FORMAT_B8G8R8A8_UNORM:
-        case PIPE_FORMAT_B8G8R8X8_UNORM:
-        case PIPE_FORMAT_A8R8G8B8_UNORM:
-        case PIPE_FORMAT_X8R8G8B8_UNORM:
-        case PIPE_FORMAT_X8B8G8R8_UNORM:
-        case PIPE_FORMAT_A8B8G8R8_UNORM:
-        case PIPE_FORMAT_B8G8R8_UNORM:
-        case PIPE_FORMAT_B5G6R5_UNORM:
-                if (dev->arch >= 7)
-                        return PIPE_FORMAT_NONE;
-
-                break;
-        default:
-                break;
-        }
-
-This means the driver won't do AFBC with that format and picks
-DRM_FORMAT_MOD_ARM_16X16_BLOCK_U_INTERLEAVED instead. Now weston is
-clever enough to not pass that into the VOP2 driver, apparently your
-application is not and as a result you see that message.
-
-In weston-simple-dmabuf-egl I can pass a suitable format on the command
-line, in my case I use DRM_FORMAT_ABGR8888 (which becomes
-PIPE_FORMAT_R8G8B8A8_UNORM). With this the panfrost driver does AFBC
-which then can be rendered in the VOP2 cluster window overlay.
-
-> 
-> It comes from MESA i think - but i suspect because VOP2 provides
-> unknown/wrong DRM modifier to mesa?
-
-Nope, the modifiers the VOP2 driver propagates are correct. It doesn't
-claim to support DRM_FORMAT_MOD_ARM_16X16_BLOCK_U_INTERLEAVED.
-
-Sascha
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
