@@ -1,53 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 762D7496CE2
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Jan 2022 17:31:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2B2A496D9B
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Jan 2022 20:19:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BF2110E1DF;
-	Sat, 22 Jan 2022 16:30:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE3E910E33E;
+	Sat, 22 Jan 2022 19:19:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from azure-sdnproxy-2.icoremail.net (azure-sdnproxy.icoremail.net
- [52.175.55.52])
- by gabe.freedesktop.org (Postfix) with SMTP id 1AA4210E1DF
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Jan 2022 16:30:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=pku.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
- Message-Id; bh=alq4ir+0MOG88pcfGYwcw057jT8x9vR4bRokF24UWbg=; b=R
- yNOVBZcEZ3yWqkD2aoKSIg5F2m6frcZAOhiXdi3zE193mbE0A0W1hEj3J9QlzB+V
- MiyWOCK3HcfiFngbT7aYiH1CWqhr2HUGWJqbsOoSq1xcVSsHuqgbBbD8uNNNGOwU
- K62x4GHKlrh2/Sjjrv+uZufqtIt2ZqAXyckQAqDmXA=
-Received: from localhost (unknown [10.129.21.144])
- by front02 (Coremail) with SMTP id 54FpogA3PyM0MOxhuSOfAA--.56422S2;
- Sun, 23 Jan 2022 00:26:28 +0800 (CST)
-From: Yongzhi Liu <lyz_cs@pku.edu.cn>
-To: emma@anholt.net,
-	airlied@linux.ie,
-	daniel@ffwll.ch
-Subject: [PATCH] drm/v3d: Add missing unlock
-Date: Sat, 22 Jan 2022 08:26:27 -0800
-Message-Id: <1642868787-61384-1-git-send-email-lyz_cs@pku.edu.cn>
-X-Mailer: git-send-email 2.7.4
-X-CM-TRANSID: 54FpogA3PyM0MOxhuSOfAA--.56422S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrtFykGFy3ArW7uF43Aw15CFg_yoWDGFb_Ga
- 13Xwn7WF4UCrsIqF17A3yavrWFvFykCF4rZwnrKa43t3sF9FykKry8Zr1UXr1rJa18uFsr
- tr1fZrsayFn7KjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbxxFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
- wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
- vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
- 87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcx
- kEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v2
- 6r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2
- Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVCm-wCF04k20xvY0x0EwIxG
- rwCF04k20xvE74AGY7Cv6cx26w4UJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
- 8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWU
- twCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
- 0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
- Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUoO
- J5UUUUU
-X-CM-SenderInfo: irzqijirqukmo6sn3hxhgxhubq/1tbiAwEOBlPy7uC2rgAAs9
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A235510E33E
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Jan 2022 19:19:43 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2D03360EB7;
+ Sat, 22 Jan 2022 19:19:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65EDBC004E1;
+ Sat, 22 Jan 2022 19:19:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1642879180;
+ bh=d6wiWoWrFFvd/k9Xxg/m5banf7LANNWYSravrHpAk4A=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Ezh915L8ebkT+JcGDTWwADrEndB1O+U/VqfPAwUdrM5k9glY7ZBm063vgOQopxnHw
+ 3Il9usv97f7rY2fXCf4sIDaJ2EAaJe4QnVY0SE06KBoxZ3g4mTqpXfBW6Mxtz0UBbT
+ nGImBEHY+9UBiaoVPya0iiDkky2I6pfF5PwgVepNSBR8gh+w6Mp5/QWefzHAEcd1Jn
+ QOTGgzqhHQFeH5POAiuMEPCTpJMfSB89wMgLbJK7AU6IjXyDKijVaFdAUiDHkYiFxY
+ mJ6mBSYmGaXq0DL1CxNePwKN4vfttxKg98k70GwUSeGDlXjEh7YpPep/7jVfaQkUb0
+ AMaxLn/o6/0tA==
+Date: Sat, 22 Jan 2022 14:19:39 -0500
+From: Sasha Levin <sashal@kernel.org>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH AUTOSEL 5.15 123/188] drm/tegra: dc: rgb: Allow changing
+ PLLD rate on Tegra30+
+Message-ID: <YexYywTFEkQWEw/e@sashalap>
+References: <20220118023152.1948105-1-sashal@kernel.org>
+ <20220118023152.1948105-123-sashal@kernel.org>
+ <1fa23a4d-f647-c3ae-df8c-4cbd91f5a4c6@gmail.com>
+ <3bfdaf7b-c34d-1396-c6c7-2e22996b7643@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3bfdaf7b-c34d-1396-c6c7-2e22996b7643@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,44 +56,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yongzhi Liu <lyz_cs@pku.edu.cn>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: airlied@linux.ie, Maxim Schwalm <maxim.schwalm@gmail.com>,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org, jonathanh@nvidia.com,
+ thierry.reding@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, Thierry Reding <treding@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[why]
-Unlock is needed on the error handling path to prevent dead lock.
+On Tue, Jan 18, 2022 at 12:39:43PM +0300, Dmitry Osipenko wrote:
+>18.01.2022 12:37, Dmitry Osipenko пишет:
+>> 18.01.2022 05:30, Sasha Levin пишет:
+>>> From: Dmitry Osipenko <digetx@gmail.com>
+>>>
+>>> [ Upstream commit 0c921b6d4ba06bc899fd84d3ce1c1afd3d00bc1c ]
+>>>
+>>> Asus Transformer TF700T is a Tegra30 tablet device which uses RGB->DSI
+>>> bridge that requires a precise clock rate in order to operate properly.
+>>> Tegra30 has a dedicated PLL for each display controller, hence the PLL
+>>> rate can be changed freely. Allow PLL rate changes on Tegra30+ for RGB
+>>> output. Configure the clock rate before display controller is enabled
+>>> since DC itself may be running off this PLL and it's not okay to change
+>>> the rate of the active PLL that doesn't support dynamic frequency
+>>> switching since hardware will hang.
+>>>
+>>> Tested-by: Maxim Schwalm <maxim.schwalm@gmail.com> #TF700T
+>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>>> Signed-off-by: Thierry Reding <treding@nvidia.com>
+>>> Signed-off-by: Sasha Levin <sashal@kernel.org>
+>>> ---
+>>>  drivers/gpu/drm/tegra/dc.c  | 27 ++++++++++++--------
+>>>  drivers/gpu/drm/tegra/dc.h  |  1 +
+>>>  drivers/gpu/drm/tegra/rgb.c | 49 +++++++++++++++++++++++++++++++++++--
+>>>  3 files changed, 65 insertions(+), 12 deletions(-)
+>>
+>> Hi,
+>>
+>> This patch shouldn't be ported to any stable kernel because h/w that
+>> needs this patch was just merged to the 5.17.
+>
+>* support of h/w that needs..
 
-[how]
-Fix this by adding drm_gem_unlock_reservations on the error handling path.
+I'll drop it, thanks!
 
-Signed-off-by: Yongzhi Liu <lyz_cs@pku.edu.cn>
----
- drivers/gpu/drm/v3d/v3d_gem.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-index c7ed2e1..0c989dc 100644
---- a/drivers/gpu/drm/v3d/v3d_gem.c
-+++ b/drivers/gpu/drm/v3d/v3d_gem.c
-@@ -798,6 +798,8 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
- 
- 		if (!render->base.perfmon) {
- 			ret = -ENOENT;
-+			drm_gem_unlock_reservations(last_job->bo,
-+				    last_job->bo_count, &acquire_ctx);
- 			goto fail;
- 		}
- 	}
-@@ -1027,6 +1029,8 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *data,
- 						     args->perfmon_id);
- 		if (!job->base.perfmon) {
- 			ret = -ENOENT;
-+			drm_gem_unlock_reservations(clean_job->bo, clean_job->bo_count,
-+						    &acquire_ctx);
- 			goto fail;
- 		}
- 	}
 -- 
-2.7.4
-
+Thanks,
+Sasha
