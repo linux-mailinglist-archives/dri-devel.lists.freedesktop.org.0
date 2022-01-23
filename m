@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 165B8497256
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jan 2022 16:06:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A03B497258
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jan 2022 16:09:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 186F810F1CA;
-	Sun, 23 Jan 2022 15:06:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FB5810FA7C;
+	Sun, 23 Jan 2022 15:09:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3260610F1D1
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jan 2022 15:06:07 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B05C10FA7C
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jan 2022 15:09:26 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 27628B80CF9;
- Sun, 23 Jan 2022 15:06:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BA37C340E4;
- Sun, 23 Jan 2022 15:06:02 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 280B9B80D42;
+ Sun, 23 Jan 2022 15:09:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57981C340E2;
+ Sun, 23 Jan 2022 15:09:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1642950362;
- bh=n4RBE4n/TBUC0hV5O1x8V7tnhKSYMzDVfOowVCLVucw=;
+ s=korg; t=1642950563;
+ bh=4QKKH1+ApMMNSWYZ8jEO8t6MHy1+OdJRZLwg8JXJ610=;
  h=Subject:To:Cc:From:Date:From;
- b=nYjaMRwtHC3idcXnHtLNF/tNVsqWXlmbDlOtCadQuAHC71dvfxoSLfI2OFB4lGhip
- mJbbIVdDkJunuMTajrqCX+kij1lrXpOyMgp2LC0H8CdnZ3D2nDPQaWS1Yxk01YU+Bj
- L9YzNjjrpD9/BrwWwTxqafO1mk19mJ6KB6TXIKi8=
+ b=HlonDl7zXHU81Npm0+n3g+vV0m2V5tBhXBVIKB8A+Qpk9hwVJPpJm4ZaixGVr4fY3
+ xCdRwylRaH8nrE4hoC4jTHBWm230uKac7ap4SeWw/vhhzk3PqAt9sTkSicgWIubD18
+ XEwYD1LX0Im5W1WM1IFRxXdCUwe4z3GZvxQ+SxV8=
 Subject: Patch "dma_fence_array: Fix PENDING_ERROR leak in
- dma_fence_array_signaled()" has been added to the 5.4-stable tree
+ dma_fence_array_signaled()" has been added to the 5.10-stable tree
 To: chris@chris-wilson.co.uk, christian.koenig@amd.com,
  dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
  gustavo@padovan.org, linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
  thomas.hellstrom@linux.intel.com
 From: <gregkh@linuxfoundation.org>
-Date: Sun, 23 Jan 2022 16:05:56 +0100
-Message-ID: <1642950356255202@kroah.com>
+Date: Sun, 23 Jan 2022 16:09:07 +0100
+Message-ID: <164295054717340@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -61,12 +62,12 @@ This is a note to let you know that I've just added the patch titled
 
     dma_fence_array: Fix PENDING_ERROR leak in dma_fence_array_signaled()
 
-to the 5.4-stable tree which can be found at:
+to the 5.10-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      dma_fence_array-fix-pending_error-leak-in-dma_fence_array_signaled.patch
-and it can be found in the queue-5.4 subdirectory.
+and it can be found in the queue-5.10 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -130,4 +131,4 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from thomas.hellstrom@linux.intel.com are
 
-queue-5.4/dma_fence_array-fix-pending_error-leak-in-dma_fence_array_signaled.patch
+queue-5.10/dma_fence_array-fix-pending_error-leak-in-dma_fence_array_signaled.patch
