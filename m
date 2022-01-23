@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC1884970A4
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jan 2022 10:05:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A7344970AA
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jan 2022 10:11:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9357710EF03;
-	Sun, 23 Jan 2022 09:05:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BEB210E586;
+	Sun, 23 Jan 2022 09:11:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com
- [IPv6:2607:f8b0:4864:20::72b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 886EC10EF08
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jan 2022 09:05:53 +0000 (UTC)
-Received: by mail-qk1-x72b.google.com with SMTP id t1so16042007qkt.11
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jan 2022 01:05:53 -0800 (PST)
+Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com
+ [IPv6:2607:f8b0:4864:20::f2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DE0010E586
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jan 2022 09:11:03 +0000 (UTC)
+Received: by mail-qv1-xf2f.google.com with SMTP id i19so1439541qvx.12
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jan 2022 01:11:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=eX3+DBLJl7kPGzkIiPqLhVq9cTOZ0N88Avq3dcptuxU=;
- b=btmtA6Grf+PXkdfiNHYWykZ3RTKbJes6CDtpN2wUTw+raLCpy1PI/WGx1QbXYe5YZN
- 2Aef5zrFSy7BX6ykz1tQXpqVS3EoUaS5Mbm6vru5TLHAOt7/S1qARMCLv6H7eyoDSh9c
- tZSTeyJYCW8J1gjUgLbWrDRuDzUkvBJT4W/fQcjJntnroAxIrHyo+U2Rugg+bpqQ+Obt
- bdkvZJQzj26DpyZ9cNsZUvdA3kU6UAuEvOA0Laa9M+7/VPrMw+BA1J8F3iKHwTpIaZ82
- OyarFOi4fGvmZB6MaNCBLuCTeibKZa9P/kjLyMrIruqKJ1e8gpiqOIPvKARh6+i7wFPv
- NpWw==
+ bh=bl3efp74ab4pQlhH6DVOKc+JdDnTDiX+IOOPZRvKFIk=;
+ b=ARUGGp+cvzIrVwH8Dm9kcolQ5ADQqS9hkzPW2oU/pvWuhoSxM/q+3AwrAeJ84YpQhJ
+ 5ZhsIcShNnEkSJNMFsmOMMbtVITZdiRQP9QHx7G6IHtKcHdJEAggLTGWyQ+DgjxwpVZi
+ +54QUmZ5MbQS+9QIAYpovzahcH2ewcRB9ki0m+sDijroUtEdAzackUaZmmiqZyeNDyGA
+ E4fgcq0GyqKkeqm8d6Jrcq/h/HJmfxyg2VCSPbXDs+L+wOIDhP/JpI7difpGQHbau9HJ
+ UQdz6DTVHWH8EAf0PVoPQO3hJfPhJyc0JRlbt9C9aTF8eu2gVyZbh6vXaNcsdOceFQa+
+ 47Gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=eX3+DBLJl7kPGzkIiPqLhVq9cTOZ0N88Avq3dcptuxU=;
- b=64QLbsFx73pebPuUtxQ3Y5fr5bDDxtO7FpwXXuYEjG3iHWDl7Sq3/6ZX81B4g/HyvW
- Z6B3PASvPbKBIyk+h9oof7y7CFyxVs6cbQxlT0VQe5no6Z6md+2NWQKHibAEUGGi/Yxu
- 8V1m2Wi3rzObQSqsQcu2IIoaZvOu05g9y2UrZ8m8mr5owxHk4rd+hz9MTf+wwrt2Pj3c
- 5wIvy92aBPc+/sqf9VWamNYBAkjAxEqVhD3aEip+cZzkCos/Z2QYrXnkmr4LcZFN5hkn
- a8RQaOKFmd9R8Z23+kAew4VEPKBL0FT/9oxn3vFQVxh/5lERM3N7tkPphkWfrU27cXn7
- 6Nbw==
-X-Gm-Message-State: AOAM533YKSgrGtY5gsZMiaoHgRMdZJilbyStAEqM91tfzLpjv+z4PBKp
- WuP9CdP9NWKZ9//ardJuMjw=
-X-Google-Smtp-Source: ABdhPJzY2JqV02cUZ1vxb0vczI+ycvCGtFWFwVcB4D0aRymmcH5Ck2jcJ5vsH2fj06H+x1FSMM5Y7A==
-X-Received: by 2002:a05:620a:1663:: with SMTP id
- d3mr7803665qko.199.1642928752563; 
- Sun, 23 Jan 2022 01:05:52 -0800 (PST)
+ bh=bl3efp74ab4pQlhH6DVOKc+JdDnTDiX+IOOPZRvKFIk=;
+ b=6LvyPx3bgrOIZPktFShfwcn0Mh4WF4P9IFFuhKkCwImyVz7B/kOallUN+7PaDakJOb
+ xfY5S9DGabJ7HZTEJhm5XYtoxMqKTGAJ3/vAVKOSHReQLvlYpQAF3B2BHh85yQ82FlB6
+ lXBDnRSJ/p9H+2csfaKpzoaNLtKiatxIBO+lCZ4vzTKcCFdA3/ITCgfVOuyvMu1Sssj4
+ YUaDs07Tdlhbr71RLACWUgGSOyo1za2eKAyoUcInW/9fQiNG9ZjqU+ocA0Vx24Z58cGh
+ LAtUe4PXRZNvswGlVm7Hj2YnETv1Ochhg7pz4L9WOgqTIsh3XGQOO4UvEX1KFZCo/VEQ
+ gtZQ==
+X-Gm-Message-State: AOAM533R58ffTJg5at7D22aUyCim2n+n93saz795ulPBF5zPfC+A1fdv
+ HcCF/oFnH74mIBryjF7XMk8=
+X-Google-Smtp-Source: ABdhPJzpO7Zzbcg01kfGn5FLWvm4y0zy0xN+rM7LtfVAM1UaB6ZlAdZ8qZNpdEmOBJYjasgcxGuM8A==
+X-Received: by 2002:a05:6214:260d:: with SMTP id
+ gu13mr10100714qvb.100.1642929062764; 
+ Sun, 23 Jan 2022 01:11:02 -0800 (PST)
 Received: from tong-desktop.local
  (99-105-211-126.lightspeed.sntcca.sbcglobal.net. [99.105.211.126])
- by smtp.googlemail.com with ESMTPSA id y2sm5558080qke.33.2022.01.23.01.05.51
+ by smtp.googlemail.com with ESMTPSA id o126sm5479158qke.53.2022.01.23.01.11.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Jan 2022 01:05:52 -0800 (PST)
+ Sun, 23 Jan 2022 01:11:02 -0800 (PST)
 From: Tong Zhang <ztong0001@gmail.com>
 To: Hans de Goede <hdegoede@redhat.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -54,10 +54,10 @@ To: Hans de Goede <hdegoede@redhat.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v1] drm/privacy-screen: honor acpi=off in
+Subject: [PATCH v2] drm/privacy-screen: honor acpi=off in
  detect_thinkpad_privacy_screen
-Date: Sun, 23 Jan 2022 01:05:48 -0800
-Message-Id: <20220123090548.763170-1-ztong0001@gmail.com>
+Date: Sun, 23 Jan 2022 01:10:04 -0800
+Message-Id: <20220123091004.763775-1-ztong0001@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -89,10 +89,12 @@ when acpi=off is provided in bootarg, kernel crash with
 
 The reason is that acpi_walk_namespace expects acpi related stuff
 initialized but in fact it wouldn't when acpi is set to off. In this case
-we sould honor acpi=off in detect_thinkpad_privacy_screen().
+we should honor acpi=off in detect_thinkpad_privacy_screen().
 
 Signed-off-by: Tong Zhang <ztong0001@gmail.com>
 ---
+v2: fix typo in previous commit -- my keyboard is eating letters 
+
  drivers/gpu/drm/drm_privacy_screen_x86.c | 3 +++
  1 file changed, 3 insertions(+)
 
