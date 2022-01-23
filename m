@@ -1,41 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D43A4971D0
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jan 2022 14:58:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AD26497245
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jan 2022 15:50:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95D3410FA5A;
-	Sun, 23 Jan 2022 13:58:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0472310F344;
+	Sun, 23 Jan 2022 14:50:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21D5F10FA5A
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jan 2022 13:58:04 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 85F3425E;
- Sun, 23 Jan 2022 14:58:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1642946282;
- bh=l1W0ih8vy2A3BJZDjLlI6Alm+OjJPPVfqBE4cWfm+oI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=X62yv31Zn6/OGTre5jpGI1xSAzy6nKHDEr8HNYzAsM0zuGGuT6XQA1+vkLr0MkI5/
- 4jJRhtQ1lGCRBAFuIS1zGFH0OGoPV2EwdvZcV6TM05Wobl1s6O/DtUR5xxtcp/GhD0
- 4/cKwgKD8yGRN2MPGedU5TjEysAr+GEzZpXHk4Vk=
-Date: Sun, 23 Jan 2022 15:57:46 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [RFC 16/28] drm: rcar-du: Allow DU group feature based on
- feature bit
-Message-ID: <Ye1e2vxr3ORxIAco@pendragon.ideasonboard.com>
-References: <20220112174612.10773-1-biju.das.jz@bp.renesas.com>
- <20220112174612.10773-17-biju.das.jz@bp.renesas.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 080DB10F344
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jan 2022 14:50:25 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0156E60DD9;
+ Sun, 23 Jan 2022 14:50:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FBC0C340E2;
+ Sun, 23 Jan 2022 14:50:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1642949424;
+ bh=SFOfDmogPLPC2mCQZ716kZK8KpO86XnRwzUjDwZ/Grc=;
+ h=Subject:To:Cc:From:Date:From;
+ b=OCXjr/crIizBk21iDcrBSa+iRdJnrWWIoAjU23dOxFdVReXBO8qJWfEil2OdEXhPw
+ yWwI8YcZlg/mOKQQdWYPUw9EqZaqY+NXHXIKL4h0D+P9UVVxVy83cp66IJRVedvNBi
+ LyfbIrm5ZzV/Gx58dBCJxaQaXYtOU5jNFWudSELQ=
+Subject: Patch "dma_fence_array: Fix PENDING_ERROR leak in
+ dma_fence_array_signaled()" has been added to the 5.15-stable tree
+To: chris@chris-wilson.co.uk, christian.koenig@amd.com,
+ dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
+ gustavo@padovan.org, linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
+ thomas.hellstrom@linux.intel.com
+From: <gregkh@linuxfoundation.org>
+Date: Sun, 23 Jan 2022 15:49:55 +0100
+Message-ID: <1642949395182235@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220112174612.10773-17-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,219 +52,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chris Paterson <Chris.Paterson2@renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- dri-devel@lists.freedesktop.org, Biju Das <biju.das@bp.renesas.com>,
- linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: stable-commits@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
 
-Thank you for the patch.
+This is a note to let you know that I've just added the patch titled
 
-On Wed, Jan 12, 2022 at 05:46:00PM +0000, Biju Das wrote:
-> RZ/G2L LCDC does not have DU group registers. This patch allows
-> accessing DU group registers for SoC's with group feature bit is
-> set.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c   | 34 ++++++++++++-------------
->  drivers/gpu/drm/rcar-du/rcar_du_group.c | 10 +++++++-
->  2 files changed, 26 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> index 314e865ae67e..f92636001f10 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> @@ -41,7 +41,7 @@ static const struct rcar_du_device_info rzg1_du_r8a7743_info = {
->  		  | RCAR_DU_FEATURE_CRTC_CLOCK
->  		  | RCAR_DU_FEATURE_INTERLACED
->  		  | RCAR_DU_FEATURE_TVM_SYNC
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(1) | BIT(0),
->  	.routes = {
-> @@ -69,7 +69,7 @@ static const struct rcar_du_device_info rzg1_du_r8a7745_info = {
->  		  | RCAR_DU_FEATURE_CRTC_CLOCK
->  		  | RCAR_DU_FEATURE_INTERLACED
->  		  | RCAR_DU_FEATURE_TVM_SYNC
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(1) | BIT(0),
->  	.routes = {
-> @@ -96,7 +96,7 @@ static const struct rcar_du_device_info rzg1_du_r8a77470_info = {
->  		  | RCAR_DU_FEATURE_CRTC_CLOCK
->  		  | RCAR_DU_FEATURE_INTERLACED
->  		  | RCAR_DU_FEATURE_TVM_SYNC
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(1) | BIT(0),
->  	.routes = {
-> @@ -129,7 +129,7 @@ static const struct rcar_du_device_info rcar_du_r8a774a1_info = {
->  		  | RCAR_DU_FEATURE_VSP1_SOURCE
->  		  | RCAR_DU_FEATURE_INTERLACED
->  		  | RCAR_DU_FEATURE_TVM_SYNC
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(2) | BIT(1) | BIT(0),
->  	.routes = {
-> @@ -164,7 +164,7 @@ static const struct rcar_du_device_info rcar_du_r8a774b1_info = {
->  		  | RCAR_DU_FEATURE_VSP1_SOURCE
->  		  | RCAR_DU_FEATURE_INTERLACED
->  		  | RCAR_DU_FEATURE_TVM_SYNC
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(3) | BIT(1) | BIT(0),
->  	.routes = {
-> @@ -197,7 +197,7 @@ static const struct rcar_du_device_info rcar_du_r8a774c0_info = {
->  	.features = RCAR_DU_FEATURE_CRTC_IRQ
->  		  | RCAR_DU_FEATURE_CRTC_CLOCK
->  		  | RCAR_DU_FEATURE_VSP1_SOURCE
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(1) | BIT(0),
->  	.routes = {
-> @@ -231,7 +231,7 @@ static const struct rcar_du_device_info rcar_du_r8a774e1_info = {
->  		  | RCAR_DU_FEATURE_VSP1_SOURCE
->  		  | RCAR_DU_FEATURE_INTERLACED
->  		  | RCAR_DU_FEATURE_TVM_SYNC
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(3) | BIT(1) | BIT(0),
->  	.routes = {
-> @@ -288,7 +288,7 @@ static const struct rcar_du_device_info rcar_du_r8a7790_info = {
->  		  | RCAR_DU_FEATURE_CRTC_CLOCK
->  		  | RCAR_DU_FEATURE_INTERLACED
->  		  | RCAR_DU_FEATURE_TVM_SYNC
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.quirks = RCAR_DU_QUIRK_ALIGN_128B,
->  	.channels_mask = BIT(2) | BIT(1) | BIT(0),
-> @@ -324,7 +324,7 @@ static const struct rcar_du_device_info rcar_du_r8a7791_info = {
->  		  | RCAR_DU_FEATURE_CRTC_CLOCK
->  		  | RCAR_DU_FEATURE_INTERLACED
->  		  | RCAR_DU_FEATURE_TVM_SYNC
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(1) | BIT(0),
->  	.routes = {
-> @@ -353,7 +353,7 @@ static const struct rcar_du_device_info rcar_du_r8a7792_info = {
->  		  | RCAR_DU_FEATURE_CRTC_CLOCK
->  		  | RCAR_DU_FEATURE_INTERLACED
->  		  | RCAR_DU_FEATURE_TVM_SYNC
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(1) | BIT(0),
->  	.routes = {
-> @@ -378,7 +378,7 @@ static const struct rcar_du_device_info rcar_du_r8a7794_info = {
->  		  | RCAR_DU_FEATURE_CRTC_CLOCK
->  		  | RCAR_DU_FEATURE_INTERLACED
->  		  | RCAR_DU_FEATURE_TVM_SYNC
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(1) | BIT(0),
->  	.routes = {
-> @@ -407,7 +407,7 @@ static const struct rcar_du_device_info rcar_du_r8a7795_info = {
->  		  | RCAR_DU_FEATURE_VSP1_SOURCE
->  		  | RCAR_DU_FEATURE_INTERLACED
->  		  | RCAR_DU_FEATURE_TVM_SYNC
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(3) | BIT(2) | BIT(1) | BIT(0),
->  	.routes = {
-> @@ -446,7 +446,7 @@ static const struct rcar_du_device_info rcar_du_r8a7796_info = {
->  		  | RCAR_DU_FEATURE_VSP1_SOURCE
->  		  | RCAR_DU_FEATURE_INTERLACED
->  		  | RCAR_DU_FEATURE_TVM_SYNC
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(2) | BIT(1) | BIT(0),
->  	.routes = {
-> @@ -481,7 +481,7 @@ static const struct rcar_du_device_info rcar_du_r8a77965_info = {
->  		  | RCAR_DU_FEATURE_VSP1_SOURCE
->  		  | RCAR_DU_FEATURE_INTERLACED
->  		  | RCAR_DU_FEATURE_TVM_SYNC
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(3) | BIT(1) | BIT(0),
->  	.routes = {
-> @@ -516,7 +516,7 @@ static const struct rcar_du_device_info rcar_du_r8a77970_info = {
->  		  | RCAR_DU_FEATURE_VSP1_SOURCE
->  		  | RCAR_DU_FEATURE_INTERLACED
->  		  | RCAR_DU_FEATURE_TVM_SYNC
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(0),
->  	.routes = {
-> @@ -544,7 +544,7 @@ static const struct rcar_du_device_info rcar_du_r8a7799x_info = {
->  	.features = RCAR_DU_FEATURE_CRTC_IRQ
->  		  | RCAR_DU_FEATURE_CRTC_CLOCK
->  		  | RCAR_DU_FEATURE_VSP1_SOURCE
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(1) | BIT(0),
->  	.routes = {
-> @@ -576,7 +576,7 @@ static const struct rcar_du_device_info rcar_du_r8a779a0_info = {
->  	.gen = 3,
->  	.features = RCAR_DU_FEATURE_CRTC_IRQ
->  		  | RCAR_DU_FEATURE_VSP1_SOURCE
-> -		  | RCAR_DU_FEATURE_PLANE,
-> +		  | RCAR_DU_FEATURE_PLANE
->  		  | RCAR_DU_FEATURE_GROUP,
->  	.channels_mask = BIT(1) | BIT(0),
->  	.routes = {
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/rcar-du/rcar_du_group.c
-> index 8665a1dd2186..3612bc9eab1b 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_group.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_group.c
-> @@ -32,12 +32,20 @@
->  
->  u32 rcar_du_group_read(struct rcar_du_group *rgrp, u32 reg)
->  {
-> +	struct rcar_du_device *rcdu = rgrp->dev;
-> +
-> +	if (!rcar_du_has(rcdu, RCAR_DU_FEATURE_GROUP))
-> +		return 0;
+    dma_fence_array: Fix PENDING_ERROR leak in dma_fence_array_signaled()
 
-That's too much of a hack, sorry. Let's write a separate driver for the
-RZ/G2L DU.
+to the 5.15-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
-> +
->  	return rcar_du_read(rgrp->dev, rgrp->mmio_offset + reg);
->  }
->  
->  void rcar_du_group_write(struct rcar_du_group *rgrp, u32 reg, u32 data)
->  {
-> -	rcar_du_write(rgrp->dev, rgrp->mmio_offset + reg, data);
-> +	struct rcar_du_device *rcdu = rgrp->dev;
-> +
-> +	if (rcar_du_has(rcdu, RCAR_DU_FEATURE_GROUP))
-> +		rcar_du_write(rgrp->dev, rgrp->mmio_offset + reg, data);
->  }
->  
->  static void rcar_du_group_setup_pins(struct rcar_du_group *rgrp)
+The filename of the patch is:
+     dma_fence_array-fix-pending_error-leak-in-dma_fence_array_signaled.patch
+and it can be found in the queue-5.15 subdirectory.
 
--- 
-Regards,
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
 
-Laurent Pinchart
+
+From 95d35838880fb040ccb9fe4a48816bd0c8b62df5 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Date: Mon, 29 Nov 2021 16:27:27 +0100
+Subject: dma_fence_array: Fix PENDING_ERROR leak in dma_fence_array_signaled()
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+
+commit 95d35838880fb040ccb9fe4a48816bd0c8b62df5 upstream.
+
+If a dma_fence_array is reported signaled by a call to
+dma_fence_is_signaled(), it may leak the PENDING_ERROR status.
+
+Fix this by clearing the PENDING_ERROR status if we return true in
+dma_fence_array_signaled().
+
+v2:
+- Update Cc list, and add R-b.
+
+Fixes: 1f70b8b812f3 ("dma-fence: Propagate errors to dma-fence-array container")
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Gustavo Padovan <gustavo@padovan.org>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: <stable@vger.kernel.org> # v5.4+
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20211129152727.448908-1-thomas.hellstrom@linux.intel.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/dma-buf/dma-fence-array.c |    6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+--- a/drivers/dma-buf/dma-fence-array.c
++++ b/drivers/dma-buf/dma-fence-array.c
+@@ -104,7 +104,11 @@ static bool dma_fence_array_signaled(str
+ {
+ 	struct dma_fence_array *array = to_dma_fence_array(fence);
+ 
+-	return atomic_read(&array->num_pending) <= 0;
++	if (atomic_read(&array->num_pending) > 0)
++		return false;
++
++	dma_fence_array_clear_pending_error(array);
++	return true;
+ }
+ 
+ static void dma_fence_array_release(struct dma_fence *fence)
+
+
+Patches currently in stable-queue which might be from thomas.hellstrom@linux.intel.com are
+
+queue-5.15/dma_fence_array-fix-pending_error-leak-in-dma_fence_array_signaled.patch
