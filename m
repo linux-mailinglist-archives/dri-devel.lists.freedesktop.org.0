@@ -2,45 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A03B497258
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jan 2022 16:09:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8139549725A
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jan 2022 16:10:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FB5810FA7C;
-	Sun, 23 Jan 2022 15:09:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4496310FB44;
+	Sun, 23 Jan 2022 15:10:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B05C10FA7C
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jan 2022 15:09:26 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 280B9B80D42;
- Sun, 23 Jan 2022 15:09:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57981C340E2;
- Sun, 23 Jan 2022 15:09:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1642950563;
- bh=4QKKH1+ApMMNSWYZ8jEO8t6MHy1+OdJRZLwg8JXJ610=;
- h=Subject:To:Cc:From:Date:From;
- b=HlonDl7zXHU81Npm0+n3g+vV0m2V5tBhXBVIKB8A+Qpk9hwVJPpJm4ZaixGVr4fY3
- xCdRwylRaH8nrE4hoC4jTHBWm230uKac7ap4SeWw/vhhzk3PqAt9sTkSicgWIubD18
- XEwYD1LX0Im5W1WM1IFRxXdCUwe4z3GZvxQ+SxV8=
-Subject: Patch "dma_fence_array: Fix PENDING_ERROR leak in
- dma_fence_array_signaled()" has been added to the 5.10-stable tree
-To: chris@chris-wilson.co.uk, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
- gustavo@padovan.org, linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
- thomas.hellstrom@linux.intel.com
-From: <gregkh@linuxfoundation.org>
-Date: Sun, 23 Jan 2022 16:09:07 +0100
-Message-ID: <164295054717340@kroah.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0093A10FB33
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jan 2022 15:10:51 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id CE3C625E;
+ Sun, 23 Jan 2022 16:10:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1642950650;
+ bh=9AwQOyMclN3lDZ74aKgjK2P/kyt6S/DtgqFhL0tSUoU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=BHEjmEr0MW2oRn+iKnNj67wcMhmt7xhfCTqjAq5u0DIICwkrWxFTJJxxaCvuDCC5R
+ gx7oN/4gyZyvN/TcPhkOnGsM1T94gcj8UzKNIqUgc4qYD2xFFlMTuzURZvPtsH0yiY
+ kTirSveJKobFFYr0L4vyKR2JCXSmCuZCxmvwc1bc=
+Date: Sun, 23 Jan 2022 17:10:33 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Adam Ford <aford173@gmail.com>
+Subject: Re: Renesas rcar-du and DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE
+Message-ID: <Ye1v6WkLsUBxL9fy@pendragon.ideasonboard.com>
+References: <FE3831D8-A33F-470B-AD55-6005786139AF.ref@yahoo.com>
+ <FE3831D8-A33F-470B-AD55-6005786139AF@yahoo.com>
+ <CAHCN7xJvDP7o__42Rm7n-KNhoGa4MTP2iuty+x_k616ANkcu+Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAHCN7xJvDP7o__42Rm7n-KNhoGa4MTP2iuty+x_k616ANkcu+Q@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,82 +48,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable-commits@vger.kernel.org
+Cc: Charles Stevens <chazste@yahoo.com>,
+ kieran.bingham+renesas@ideasonboard.com,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello,
 
-This is a note to let you know that I've just added the patch titled
+Thanks for CC me Adam.
 
-    dma_fence_array: Fix PENDING_ERROR leak in dma_fence_array_signaled()
+On Fri, Jan 21, 2022 at 11:24:09AM -0600, Adam Ford wrote:
+> On Wed, Dec 29, 2021 at 10:19 PM Charles Stevens wrote:
+> >
+> > Hi All,
+> >
+> > I am working on a platform based on the Renesas RZ/G2 SoC family.
+> > This chip uses the rcar-du driver for the display. I would like to
+> > submit a patch to address the fact that the driver does not
+> > check/honor the flag DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE. My issue is
+> > that I would like to make as small a change to the driver as
+> > possible, but the panel bus_flags don't seem to even make it to the
+> > crtc driver. The crtc driver seems to use adjusted_mode to set the
+> > HSYNC and VSYNC polarity and as I said ignores the pixel clock
+> > polarity leaving it at the default of driving on the falling edge.
+> > In my investigations so far I have not figured out how to chase the
+> > pointers from the CRTC to the bridge to the panel in order to be
+> > able to look at bus_flags. My current approach also modifies the
+> > encoder initialization to cache the needed panel and then find the
+> > attached encoder during CRTC initialization to find the bus flags.
+> > This seems like a lot of work and not something that would be
+> > accepted as a patch. The OMAP DSS seems to have problems accessing
+> > this flag as well. The TI driver goes so far as to document the
+> > current approach as a HACK and suggest a fairly large change to the
+> > driver to address the problem. Am I missing something? Is there an
+> > easy way to get from a drm_crtc to a drm_panel that is in the same
+> > pipeline?
 
-to the 5.10-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+This is actually something I've experimented with before. I wrote
+patches, but never got a chance to post them. I've pushed them to
+git://linuxtv.org/pinchartl/media.git drm/du/syncpol if you want to have
+a look.
 
-The filename of the patch is:
-     dma_fence_array-fix-pending_error-leak-in-dma_fence_array_signaled.patch
-and it can be found in the queue-5.10 subdirectory.
+However, there's one issue with this approach: it's not correct :-) The
+CRTC shouldn't be configured based on the polarity of signals at the end
+of the pipeline, it needs to be configured based on the polarities
+expected by the next bridge in the chain. That may depend on the next
+bridge, which may depend on the next bridge, and so on. The information
+should thus be propagated from the panel towards the CRTC, one bridge at
+a time, the same way that we propagate formats with the bridge
+.atomic_get_input_bus_fmts() and .atomic_get_output_bus_fmts()
+operations. There's thus quite a bit of work required to handle all
+this.
 
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
+> > Any pointers would be greatly appreciated!
+>
+> +  Laurent, Kieran
+> 
+> Charles,
+> 
+> I added Laurent and Kieran because they appear as the maintainers for
+> the rcar-du driver.
 
+-- 
+Regards,
 
-From 95d35838880fb040ccb9fe4a48816bd0c8b62df5 Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Date: Mon, 29 Nov 2021 16:27:27 +0100
-Subject: dma_fence_array: Fix PENDING_ERROR leak in dma_fence_array_signaled()
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-
-commit 95d35838880fb040ccb9fe4a48816bd0c8b62df5 upstream.
-
-If a dma_fence_array is reported signaled by a call to
-dma_fence_is_signaled(), it may leak the PENDING_ERROR status.
-
-Fix this by clearing the PENDING_ERROR status if we return true in
-dma_fence_array_signaled().
-
-v2:
-- Update Cc list, and add R-b.
-
-Fixes: 1f70b8b812f3 ("dma-fence: Propagate errors to dma-fence-array container")
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Gustavo Padovan <gustavo@padovan.org>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linaro-mm-sig@lists.linaro.org
-Cc: <stable@vger.kernel.org> # v5.4+
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20211129152727.448908-1-thomas.hellstrom@linux.intel.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/dma-buf/dma-fence-array.c |    6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
---- a/drivers/dma-buf/dma-fence-array.c
-+++ b/drivers/dma-buf/dma-fence-array.c
-@@ -104,7 +104,11 @@ static bool dma_fence_array_signaled(str
- {
- 	struct dma_fence_array *array = to_dma_fence_array(fence);
- 
--	return atomic_read(&array->num_pending) <= 0;
-+	if (atomic_read(&array->num_pending) > 0)
-+		return false;
-+
-+	dma_fence_array_clear_pending_error(array);
-+	return true;
- }
- 
- static void dma_fence_array_release(struct dma_fence *fence)
-
-
-Patches currently in stable-queue which might be from thomas.hellstrom@linux.intel.com are
-
-queue-5.10/dma_fence_array-fix-pending_error-leak-in-dma_fence_array_signaled.patch
+Laurent Pinchart
