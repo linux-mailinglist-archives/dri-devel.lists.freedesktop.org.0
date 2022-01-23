@@ -1,57 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AD384973D3
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jan 2022 18:52:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7B2C497466
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jan 2022 19:40:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B78910E3CF;
-	Sun, 23 Jan 2022 17:52:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8690B10E889;
+	Sun, 23 Jan 2022 18:40:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD06510E28C
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jan 2022 17:52:21 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1nBh29-0007aF-Qo; Sun, 23 Jan 2022 18:52:09 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1nBh28-00BycG-BF; Sun, 23 Jan 2022 18:52:07 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1nBh26-000tza-R3; Sun, 23 Jan 2022 18:52:06 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Mark Brown <broonie@kernel.org>
-Subject: [PATCH 2/5] staging: fbtft: Deduplicate driver registration macros
-Date: Sun, 23 Jan 2022 18:51:58 +0100
-Message-Id: <20220123175201.34839-3-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220123175201.34839-1-u.kleine-koenig@pengutronix.de>
-References: <20220123175201.34839-1-u.kleine-koenig@pengutronix.de>
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com
+ [IPv6:2607:f8b0:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8649C10E889;
+ Sun, 23 Jan 2022 18:40:11 +0000 (UTC)
+Received: by mail-pg1-x52b.google.com with SMTP id j10so1012984pgc.6;
+ Sun, 23 Jan 2022 10:40:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=5dgQylvVki0nkzDnS/+Po4tisaRNHjVIflYn4fyQ95A=;
+ b=NPOFz183ei2daEpofKHSZlIolbNFGvjJd0bvuAgxnQXa1mbuzsB8hvhkTyioW5ltoS
+ y5sMMuWjyvc6kDKU9Jy9RUasJPQQydggdGhHkwIb35VXWo1CaSQ0zCd9mdEPpwTnH9lE
+ TQqSWzrtUY0GJOlgUr5T7TRU7USi2tfNg0iPTHfbRBNkqvnNmL37z4Z3nE/duk/GdyQ5
+ cmvTi8PRmdLMbpY5nfSMCDbv/xdK/q2iKEIs8W5TKJvzZ6qlATNv/wm7uCbiAn1dPBU1
+ +aM82cX+6IPqeayXYKuA7LfBX8rP3SzfEyhASY6EF68X1T6Es8PNFrBgcehKUkL4wkcD
+ DEnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=5dgQylvVki0nkzDnS/+Po4tisaRNHjVIflYn4fyQ95A=;
+ b=AYkugjrNz8TiBaHH22me4/uU1G7+2cW/+Sq+DlAMiS9mluXOSwZIH67UIjlJaoQ3Wf
+ /0R8PQfrRraDaYm/oU7WL0Dv0wORSaaLUkJfidg6ATg37kDYb5xP5RxsybojSax1+c++
+ 8eYa+kW1pnPr0NeT/YWZKXizAdsGAxii0yj4GsKXkMpXoL0p73TDqXsE68CaNfj0Gch3
+ ZkKx6mP0F3w9Y0BpLwqyTYkodyaD8gclJKWGo7HRNoicbAsIcq+6CsR/wEmyLwGBysN7
+ KY24CebedmiTly16ukU+tm+1FFuKwbv9N2iWp2KZ0eet3C0iH6+EQ7+nsMm7pErhHbz4
+ XtMA==
+X-Gm-Message-State: AOAM531Uf/ZkewXVR2j3knVJ/DYeMQIW9Z0lAFr7I35Vi3GKqkqtK2Ro
+ H9mnDxSUvrp3uOmrid5xI6o=
+X-Google-Smtp-Source: ABdhPJzsBbCwcI8UQ9QtXW6uxvo0U0RHWhtm06Iz8OLFP8vkslwU6MYNdswa+/Z1sC5DBYGMC9d39A==
+X-Received: by 2002:a05:6a00:23cc:b0:4c6:d3b8:29ea with SMTP id
+ g12-20020a056a0023cc00b004c6d3b829eamr11191897pfc.78.1642963211024; 
+ Sun, 23 Jan 2022 10:40:11 -0800 (PST)
+Received: from localhost (searspoint.nvidia.com. [216.228.112.21])
+ by smtp.gmail.com with ESMTPSA id a3sm10460879pfk.73.2022.01.23.10.40.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 23 Jan 2022 10:40:10 -0800 (PST)
+From: Yury Norov <yury.norov@gmail.com>
+To: Yury Norov <yury.norov@gmail.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Peter Zijlstra <peterz@infradead.org>,
+ David Laight <David.Laight@aculab.com>, Joe Perches <joe@perches.com>,
+ Dennis Zhou <dennis@kernel.org>, Emil Renner Berthing <kernel@esmil.dk>,
+ Nicholas Piggin <npiggin@gmail.com>,
+ Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ Alexey Klimov <aklimov@redhat.com>, linux-kernel@vger.kernel.org,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Subject: [PATCH 07/54] gpu: drm: replace bitmap_weight with bitmap_empty where
+ appropriate
+Date: Sun, 23 Jan 2022 10:38:38 -0800
+Message-Id: <20220123183925.1052919-8-yury.norov@gmail.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220123183925.1052919-1-yury.norov@gmail.com>
+References: <20220123183925.1052919-1-yury.norov@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6082; h=from:subject;
- bh=foBmuuEI1He7NuGg3QW3ixnzXwI1LphRcPTFGI3t6X8=;
- b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBh7ZWvvuKPqNnlGxkliBrLUAPrmqBmyjgXYcMtZRKf
- /OdSJuKJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCYe2VrwAKCRDB/BR4rcrsCQKdB/
- 9sBcrdFWuKD0qO5mR5tfx7V99RsL9sa3essPy4tP8F1zgmNlTI+c/J1M7jmBWqkVi++cVYuMXpmSIK
- KiijgTxGBFHiLiYNjgP/fAymP0jHYKH3wHWWfclIN2e7gfhCsgrxEQU7NTtYMvn95rqgxunuYQiTGl
- CmlZHDzsSpxAmVUxWcnc8FUi8nrO6LYKp+UR6y47c1RxsmBBvys/7eJKwR+1kgueeeD2grtULKWqgr
- 5QIF0deXNH1uj85z3vf93rT/L/0zWIWiCtgM34u6J39dCh5X2T2jjtorNcYMs+2Dj7oNLfss3CFi9G
- /KRKOrig0xxNdVmMyl6neeSDKdjmJF
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
- fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,156 +84,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Noralf Tronnes <notro@tronnes.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-spi@vger.kernel.org, kernel@pengutronix.de,
- Heiner Kallweit <hkallweit1@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The two macros FBTFT_REGISTER_DRIVER and FBTFT_REGISTER_SPI_DRIVER
-contain quite some duplication: Both define an spi driver and an of device
-table and the differences are quite subtle.
+smp_request_block() in drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c calls
+bitmap_weight() to check if any bit of a given bitmap is set. It's
+better to use bitmap_empty() in that case because bitmap_empty() stops
+traversing the bitmap as soon as it finds first set bit, while
+bitmap_weight() counts all bits unconditionally.
 
-So create two new macros and use both twice.
-
-Link: https://lore.kernel.org/r/20220118181338.207943-2-u.kleine-koenig@pengutronix.de
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+Signed-off-by: Yury Norov <yury.norov@gmail.com>
 ---
- drivers/staging/fbtft/fbtft.h | 93 ++++++++++++++---------------------
- 1 file changed, 36 insertions(+), 57 deletions(-)
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
-index 55677efc0138..6a7545b5bcd2 100644
---- a/drivers/staging/fbtft/fbtft.h
-+++ b/drivers/staging/fbtft/fbtft.h
-@@ -272,21 +272,40 @@ void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...);
- void fbtft_write_reg16_bus8(struct fbtft_par *par, int len, ...);
- void fbtft_write_reg16_bus16(struct fbtft_par *par, int len, ...);
+diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c
+index d7fa2c49e741..56a3063545ec 100644
+--- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c
++++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c
+@@ -68,7 +68,7 @@ static int smp_request_block(struct mdp5_smp *smp,
+ 	uint8_t reserved;
  
-+#define FBTFT_DT_TABLE(_compatible)						\
-+static const struct of_device_id dt_ids[] = {					\
-+	{ .compatible = _compatible },						\
-+	{},									\
-+};										\
-+MODULE_DEVICE_TABLE(of, dt_ids);
-+
-+#define FBTFT_SPI_DRIVER(_name, _compatible, _display, _spi_ids)		\
-+										\
-+static int fbtft_driver_probe_spi(struct spi_device *spi)			\
-+{										\
-+	return fbtft_probe_common(_display, spi, NULL);				\
-+}										\
-+										\
-+static int fbtft_driver_remove_spi(struct spi_device *spi)			\
-+{										\
-+	struct fb_info *info = spi_get_drvdata(spi);				\
-+										\
-+	fbtft_remove_common(&spi->dev, info);					\
-+	return 0;								\
-+}										\
-+										\
-+static struct spi_driver fbtft_driver_spi_driver = {				\
-+	.driver = {								\
-+		.name = _name,							\
-+		.of_match_table = dt_ids,					\
-+	},									\
-+	.id_table = _spi_ids,							\
-+	.probe = fbtft_driver_probe_spi,					\
-+	.remove = fbtft_driver_remove_spi,					\
-+};
-+
- #define FBTFT_REGISTER_DRIVER(_name, _compatible, _display)                \
- 									   \
--static int fbtft_driver_probe_spi(struct spi_device *spi)                  \
--{                                                                          \
--	return fbtft_probe_common(_display, spi, NULL);                    \
--}                                                                          \
--									   \
--static int fbtft_driver_remove_spi(struct spi_device *spi)                 \
--{                                                                          \
--	struct fb_info *info = spi_get_drvdata(spi);                       \
--									   \
--	fbtft_remove_common(&spi->dev, info);                              \
--	return 0;                                                          \
--}                                                                          \
--									   \
- static int fbtft_driver_probe_pdev(struct platform_device *pdev)           \
- {                                                                          \
- 	return fbtft_probe_common(_display, NULL, pdev);                   \
-@@ -300,22 +319,9 @@ static int fbtft_driver_remove_pdev(struct platform_device *pdev)          \
- 	return 0;                                                          \
- }                                                                          \
- 									   \
--static const struct of_device_id dt_ids[] = {                              \
--	{ .compatible = _compatible },                                     \
--	{},                                                                \
--};                                                                         \
--									   \
--MODULE_DEVICE_TABLE(of, dt_ids);                                           \
-+FBTFT_DT_TABLE(_compatible)						   \
- 									   \
--									   \
--static struct spi_driver fbtft_driver_spi_driver = {                       \
--	.driver = {                                                        \
--		.name   = _name,                                           \
--		.of_match_table = dt_ids,                                  \
--	},                                                                 \
--	.probe  = fbtft_driver_probe_spi,                                  \
--	.remove = fbtft_driver_remove_spi,                                 \
--};                                                                         \
-+FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)			   \
- 									   \
- static struct platform_driver fbtft_driver_platform_driver = {             \
- 	.driver = {                                                        \
-@@ -351,42 +357,15 @@ module_exit(fbtft_driver_module_exit);
+ 	/* we shouldn't be requesting blocks for an in-use client: */
+-	WARN_ON(bitmap_weight(cs, cnt) > 0);
++	WARN_ON(!bitmap_empty(cs, cnt));
  
- #define FBTFT_REGISTER_SPI_DRIVER(_name, _comp_vend, _comp_dev, _display)	\
- 										\
--static int fbtft_driver_probe_spi(struct spi_device *spi)			\
--{										\
--	return fbtft_probe_common(_display, spi, NULL);				\
--}										\
--										\
--static int fbtft_driver_remove_spi(struct spi_device *spi)			\
--{										\
--	struct fb_info *info = spi_get_drvdata(spi);				\
--										\
--	fbtft_remove_common(&spi->dev, info);					\
--	return 0;								\
--}										\
--										\
--static const struct of_device_id dt_ids[] = {					\
--	{ .compatible = _comp_vend "," _comp_dev },				\
--	{},									\
--};										\
--										\
--MODULE_DEVICE_TABLE(of, dt_ids);						\
-+FBTFT_DT_TABLE(_comp_vend "," _comp_dev)					\
- 										\
- static const struct spi_device_id spi_ids[] = {					\
- 	{ .name = _comp_dev },							\
- 	{},									\
- };										\
--										\
- MODULE_DEVICE_TABLE(spi, spi_ids);						\
- 										\
--static struct spi_driver fbtft_driver_spi_driver = {				\
--	.driver = {								\
--		.name  = _name,							\
--		.of_match_table = dt_ids,					\
--	},									\
--	.id_table = spi_ids,							\
--	.probe  = fbtft_driver_probe_spi,					\
--	.remove = fbtft_driver_remove_spi,					\
--};										\
-+FBTFT_SPI_DRIVER(_name, _comp_vend "," _comp_dev, _display, spi_ids)		\
- 										\
- module_spi_driver(fbtft_driver_spi_driver);
+ 	reserved = smp->reserved[cid];
  
 -- 
-2.34.1
+2.30.2
 
