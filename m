@@ -2,63 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A7344970AA
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jan 2022 10:11:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B20BD4970E5
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jan 2022 11:17:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BEB210E586;
-	Sun, 23 Jan 2022 09:11:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDF0B10E76E;
+	Sun, 23 Jan 2022 10:17:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com
- [IPv6:2607:f8b0:4864:20::f2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DE0010E586
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jan 2022 09:11:03 +0000 (UTC)
-Received: by mail-qv1-xf2f.google.com with SMTP id i19so1439541qvx.12
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jan 2022 01:11:03 -0800 (PST)
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD56410E76E
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jan 2022 10:17:26 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id h7so13075979ejf.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jan 2022 02:17:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=bl3efp74ab4pQlhH6DVOKc+JdDnTDiX+IOOPZRvKFIk=;
- b=ARUGGp+cvzIrVwH8Dm9kcolQ5ADQqS9hkzPW2oU/pvWuhoSxM/q+3AwrAeJ84YpQhJ
- 5ZhsIcShNnEkSJNMFsmOMMbtVITZdiRQP9QHx7G6IHtKcHdJEAggLTGWyQ+DgjxwpVZi
- +54QUmZ5MbQS+9QIAYpovzahcH2ewcRB9ki0m+sDijroUtEdAzackUaZmmiqZyeNDyGA
- E4fgcq0GyqKkeqm8d6Jrcq/h/HJmfxyg2VCSPbXDs+L+wOIDhP/JpI7difpGQHbau9HJ
- UQdz6DTVHWH8EAf0PVoPQO3hJfPhJyc0JRlbt9C9aTF8eu2gVyZbh6vXaNcsdOceFQa+
- 47Gg==
+ bh=2iy16eZ/8KIu1y+yI2Pifo0EJLpB2bXPz8ItH4g7xCg=;
+ b=TFCbwtAYhoCN60QorwD7oa8TeSNVxX6NolFhQF/xg/vt20xkaEstssYzGYSLtZtZN8
+ Svbams48D2z46rk1mfUgUVp1yx6c/thiFA/dFIFoiVXX5Mo3T7BkwWSauCcJjbQUNVuv
+ uGZpwZB4d/yMC8gKv6kwEQqtMZVwYiaQ8iaeq1448MIVkD8QOuzcD9TtKWW/XsL1eFEE
+ gliRhfPHQ+BsV2BVHzSGMOrdOoM2uRp/Fsf0u1kVgJSzmzdbVw/ToaTHxiVVcgsQxXsT
+ H7TWrNnrQ+kGhuTcSA/Gk0soIDaCxV5NSBhyFT9aSoKIxuwFm+voRulhIkH9bfkpTSgF
+ m6nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=bl3efp74ab4pQlhH6DVOKc+JdDnTDiX+IOOPZRvKFIk=;
- b=6LvyPx3bgrOIZPktFShfwcn0Mh4WF4P9IFFuhKkCwImyVz7B/kOallUN+7PaDakJOb
- xfY5S9DGabJ7HZTEJhm5XYtoxMqKTGAJ3/vAVKOSHReQLvlYpQAF3B2BHh85yQ82FlB6
- lXBDnRSJ/p9H+2csfaKpzoaNLtKiatxIBO+lCZ4vzTKcCFdA3/ITCgfVOuyvMu1Sssj4
- YUaDs07Tdlhbr71RLACWUgGSOyo1za2eKAyoUcInW/9fQiNG9ZjqU+ocA0Vx24Z58cGh
- LAtUe4PXRZNvswGlVm7Hj2YnETv1Ochhg7pz4L9WOgqTIsh3XGQOO4UvEX1KFZCo/VEQ
- gtZQ==
-X-Gm-Message-State: AOAM533R58ffTJg5at7D22aUyCim2n+n93saz795ulPBF5zPfC+A1fdv
- HcCF/oFnH74mIBryjF7XMk8=
-X-Google-Smtp-Source: ABdhPJzpO7Zzbcg01kfGn5FLWvm4y0zy0xN+rM7LtfVAM1UaB6ZlAdZ8qZNpdEmOBJYjasgcxGuM8A==
-X-Received: by 2002:a05:6214:260d:: with SMTP id
- gu13mr10100714qvb.100.1642929062764; 
- Sun, 23 Jan 2022 01:11:02 -0800 (PST)
-Received: from tong-desktop.local
- (99-105-211-126.lightspeed.sntcca.sbcglobal.net. [99.105.211.126])
- by smtp.googlemail.com with ESMTPSA id o126sm5479158qke.53.2022.01.23.01.11.01
+ bh=2iy16eZ/8KIu1y+yI2Pifo0EJLpB2bXPz8ItH4g7xCg=;
+ b=hJQRqF8RDtsbMUYHYppTiYEHNfaB3UXUJECw9wie74OsV4z0OL4ZZMdTyGLjggArQ6
+ cAxWKZXa/qMGj98/TIj1G9JowScC7VjQXuM4IFUb+WiCKy3fLUzfcLfTVMJT+wiAW+2r
+ EmXF6RlKpTHnOFh9AiGtPWR3oEeIzPbY7m6OJSGwrWGUao+4meqwHIXB5LkYu9bKWjhn
+ 9H5YiPj7x0N5Ljgf1hW465NKLOq1cOSSpY4LkUGjRb2f0+g4fEGjW+bcpAfwyUJYUknK
+ iC+4bQd3w2xlAQfjEkBukafFxrcI0r6YF7zXuN7FI/gMLg55yp2ioueg8/xnULG3bOBJ
+ IQ9Q==
+X-Gm-Message-State: AOAM530LYvlDtPlkZNAYGaPsEBk4ldmEePzHfuhF7hZPVU4kHWuLj8ne
+ 44Kw31Pe9gbZ8EKC2zjIBeGoBQaI0ubJuw==
+X-Google-Smtp-Source: ABdhPJwh+ipTYY+mupzO1oxSTio825DFYWg0CilhjqUU01oA3tdPpLKfHIrYJW222jGnV2wtAjSFRw==
+X-Received: by 2002:a17:907:a41f:: with SMTP id
+ sg31mr383840ejc.359.1642933045302; 
+ Sun, 23 Jan 2022 02:17:25 -0800 (PST)
+Received: from ped.lan (dynamic-046-114-141-233.46.114.pool.telefonica.de.
+ [46.114.141.233])
+ by smtp.googlemail.com with ESMTPSA id by22sm3670552ejb.5.2022.01.23.02.17.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Jan 2022 01:11:02 -0800 (PST)
-From: Tong Zhang <ztong0001@gmail.com>
-To: Hans de Goede <hdegoede@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v2] drm/privacy-screen: honor acpi=off in
- detect_thinkpad_privacy_screen
-Date: Sun, 23 Jan 2022 01:10:04 -0800
-Message-Id: <20220123091004.763775-1-ztong0001@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ Sun, 23 Jan 2022 02:17:24 -0800 (PST)
+From: Philipp Zabel <philipp.zabel@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 1/2] drm/edid: support Microsoft extension for HMDs and
+ specialized monitors
+Date: Sun, 23 Jan 2022 11:16:52 +0100
+Message-Id: <20220123101653.147333-1-philipp.zabel@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,45 +68,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tong Zhang <ztong0001@gmail.com>
+Cc: Jani Nikula <jani.nikula@intel.com>,
+ Jakob Bornecrantz <jakob@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-when acpi=off is provided in bootarg, kernel crash with
+Add minimal support for parsing VSDBs documented in Microsoft's "EDID
+extension for head-mounted and specialized monitors" [1]. The version
+field and the desktop usage flag can be used to set the non_desktop
+connector property.
 
-[    1.252739] BUG: kernel NULL pointer dereference, address: 0000000000000018
-[    1.258308] Call Trace:
-[    1.258490]  ? acpi_walk_namespace+0x147/0x147
-[    1.258770]  acpi_get_devices+0xe4/0x137
-[    1.258921]  ? drm_core_init+0xc0/0xc0 [drm]
-[    1.259108]  detect_thinkpad_privacy_screen+0x5e/0xa8 [drm]
-[    1.259337]  drm_privacy_screen_lookup_init+0xe/0xe85 [drm]
+[1] https://docs.microsoft.com/en-us/windows-hardware/drivers/display/specialized-monitors-edid-extension
 
-The reason is that acpi_walk_namespace expects acpi related stuff
-initialized but in fact it wouldn't when acpi is set to off. In this case
-we should honor acpi=off in detect_thinkpad_privacy_screen().
+Tested with HPN-36C1 and LEN-B800.
 
-Signed-off-by: Tong Zhang <ztong0001@gmail.com>
+Signed-off-by: Philipp Zabel <philipp.zabel@gmail.com>
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 ---
-v2: fix typo in previous commit -- my keyboard is eating letters 
+Changes since v1 [2]:
+ - Split out quirk removal into a separate patch.
+ - Set non_desktop to true instead of 1.
 
- drivers/gpu/drm/drm_privacy_screen_x86.c | 3 +++
- 1 file changed, 3 insertions(+)
+[2] https://lore.kernel.org/all/20211213184706.5776-1-philipp.zabel@gmail.com/
+---
+ drivers/gpu/drm/drm_edid.c | 34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_privacy_screen_x86.c b/drivers/gpu/drm/drm_privacy_screen_x86.c
-index a2cafb294ca6..e7aa74ad0b24 100644
---- a/drivers/gpu/drm/drm_privacy_screen_x86.c
-+++ b/drivers/gpu/drm/drm_privacy_screen_x86.c
-@@ -33,6 +33,9 @@ static bool __init detect_thinkpad_privacy_screen(void)
- 	unsigned long long output;
- 	acpi_status status;
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 12893e7be89b..271b5616cfaf 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -93,6 +93,8 @@ static int oui(u8 first, u8 second, u8 third)
+ /* Non desktop display (i.e. HMD) */
+ #define EDID_QUIRK_NON_DESKTOP			(1 << 12)
  
-+	if (acpi_disabled)
++#define MICROSOFT_IEEE_OUI	0xca125c
++
+ struct detailed_mode_closure {
+ 	struct drm_connector *connector;
+ 	struct edid *edid;
+@@ -4222,6 +4224,17 @@ static bool cea_db_is_hdmi_forum_vsdb(const u8 *db)
+ 	return oui(db[3], db[2], db[1]) == HDMI_FORUM_IEEE_OUI;
+ }
+ 
++static bool cea_db_is_microsoft_vsdb(const u8 *db)
++{
++	if (cea_db_tag(db) != VENDOR_BLOCK)
 +		return false;
 +
- 	/* Get embedded-controller handle */
- 	status = acpi_get_devices("PNP0C09", acpi_set_handle, NULL, &ec_handle);
- 	if (ACPI_FAILURE(status) || !ec_handle)
++	if (cea_db_payload_len(db) != 21)
++		return false;
++
++	return oui(db[3], db[2], db[1]) == MICROSOFT_IEEE_OUI;
++}
++
+ static bool cea_db_is_vcdb(const u8 *db)
+ {
+ 	if (cea_db_tag(db) != USE_EXTENDED_TAG)
+@@ -5149,6 +5162,25 @@ drm_parse_hdmi_vsdb_video(struct drm_connector *connector, const u8 *db)
+ 	drm_parse_hdmi_deep_color_info(connector, db);
+ }
+ 
++/*
++ * See EDID extension for head-mounted and specialized monitors, specified at:
++ * https://docs.microsoft.com/en-us/windows-hardware/drivers/display/specialized-monitors-edid-extension
++ */
++static void drm_parse_microsoft_vsdb(struct drm_connector *connector,
++				     const u8 *db)
++{
++	struct drm_display_info *info = &connector->display_info;
++	u8 version = db[4];
++	bool desktop_usage = db[5] & BIT(6);
++
++	/* Version 1 and 2 for HMDs, version 3 flags desktop usage explicitly */
++	if (version == 1 || version == 2 || (version == 3 && !desktop_usage))
++		info->non_desktop = true;
++
++	drm_dbg_kms(connector->dev, "HMD or specialized display VSDB version %u: 0x%02x\n",
++		    version, db[5]);
++}
++
+ static void drm_parse_cea_ext(struct drm_connector *connector,
+ 			      const struct edid *edid)
+ {
+@@ -5179,6 +5211,8 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
+ 			drm_parse_hdmi_vsdb_video(connector, db);
+ 		if (cea_db_is_hdmi_forum_vsdb(db))
+ 			drm_parse_hdmi_forum_vsdb(connector, db);
++		if (cea_db_is_microsoft_vsdb(db))
++			drm_parse_microsoft_vsdb(connector, db);
+ 		if (cea_db_is_y420cmdb(db))
+ 			drm_parse_y420cmdb_bitmap(connector, db);
+ 		if (cea_db_is_vcdb(db))
+
+base-commit: e783362eb54cd99b2cac8b3a9aeac942e6f6ac07
 -- 
-2.25.1
+2.34.1
 
