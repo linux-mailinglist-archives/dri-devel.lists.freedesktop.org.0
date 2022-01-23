@@ -2,41 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 973394971C7
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jan 2022 14:52:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 806034971C8
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jan 2022 14:55:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1662110F97B;
-	Sun, 23 Jan 2022 13:52:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB31D10F8FA;
+	Sun, 23 Jan 2022 13:55:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2198E10F97C
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jan 2022 13:52:22 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5DDEB25E;
- Sun, 23 Jan 2022 14:52:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1642945940;
- bh=qHD4oKNycRUEuZ6CCYBe9r+LQnFmc6q5fJQb6zwYYYA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Sd+18gD/nSxRtCbX+2/ZOH/FKCoPRdtREJ5FgBv8MNGNWEWa0Bi0FIkNg53cpdqBg
- DKJtMI6t0+rtdK0DIRViz6RBW7q3SCBI+Oohat90vCDIjebfDYj1GsoI/naqHcj+pH
- 2WxZ8oxpxguSdsGnBom/z3UaS64vWvGQhzrLZWdU=
-Date: Sun, 23 Jan 2022 15:52:04 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [RFC 10/28] drm: rcar-du: of: Increase buff size for compatible
- variable
-Message-ID: <Ye1dhPKT2FGgXKLO@pendragon.ideasonboard.com>
-References: <20220112174612.10773-1-biju.das.jz@bp.renesas.com>
- <20220112174612.10773-11-biju.das.jz@bp.renesas.com>
- <CAMuHMdUyPbykGc+OPPmxd63qsSRjG1h_xm3GXHsdbcwfZ+48ew@mail.gmail.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7E2D10F8CA
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jan 2022 13:55:01 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 8AD53B80CF0
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jan 2022 13:54:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1E8C3C340ED
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jan 2022 13:54:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1642946096;
+ bh=xJGQic84mXgOiAagVeH483n78YK2g3fdBtol+IK7MFg=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=YdfMG5Y2BVC7Vuf9Lxpqg6Cbf5Ad+kBQQ9re1gREWLNS2mvSmFBUFdNWHsmtiSJwZ
+ xixeuHx+Pkj1iZZMkaIVE5lZTLANpPPJSK6vGs6ZRQYBtwGnHsfngNqfgbwkFYOLVe
+ OVdgmsKiMnbnCv2r8gQQoU17ol7NixL1YrtiGr+q9bAPigJGOSaW2gzDbzUuD21m8I
+ UmMtOJDNh3aX7TEOuUWqY5vtcxap+0hPoX4RL/LQClLI6ctHMIzR4Dsy+dsU4+H57Q
+ d3EaDueiFkUr311lfyTVvLWW4bDtSXXen89UeyRqr+Ob5nGwUuwUmWJe+9BYJQin7K
+ hkxBc/X7dLIjA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 0F0CACC13AE; Sun, 23 Jan 2022 13:54:56 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211277] sometimes crash at s2ram-wake (Ryzen 3500U): amdgpu,
+ drm, commit_tail, amdgpu_dm_atomic_commit_tail
+Date: Sun, 23 Jan 2022 13:54:55 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: kolAflash@kolahilft.de
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: CODE_FIX
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-211277-2300-tatR9mzbxl@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211277-2300@https.bugzilla.kernel.org/>
+References: <bug-211277-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUyPbykGc+OPPmxd63qsSRjG1h_xm3GXHsdbcwfZ+48ew@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,45 +72,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chris Paterson <Chris.Paterson2@renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Biju Das <biju.das@bp.renesas.com>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Biju Das <biju.das.jz@bp.renesas.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 14, 2022 at 11:17:19AM +0100, Geert Uytterhoeven wrote:
-> On Wed, Jan 12, 2022 at 6:46 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Increase buff size for compatible variable to avoid stack corruption
-> > with RZ/G2L SoC's(renesas,du-r9a07g044l) which requires a buff size
-> > more than the current allocated size.
-> >
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> 
-> Thanks for your patch!
-> 
-> > --- a/drivers/gpu/drm/rcar-du/rcar_du_of.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_of.c
-> > @@ -200,7 +200,7 @@ static void __init rcar_du_of_lvds_patch(const struct of_device_id *of_ids)
-> >         struct device_node *lvds_node;
-> >         struct device_node *soc_node;
-> >         struct device_node *du_node;
-> > -       char compatible[22];
-> > +       char compatible[24];
-> >         const char *soc_name;
-> >         unsigned int i;
-> >         int ret;
-> 
-> What about changing the code to use kasprintf() instead, to prevent
-> this from ever happening again?
+https://bugzilla.kernel.org/show_bug.cgi?id=3D211277
 
-Or maybe it's time to drop this backward compatibility code altogether ?
+kolAflash (kolAflash@kolahilft.de) changed:
 
--- 
-Regards,
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |CODE_FIX
 
-Laurent Pinchart
+--- Comment #88 from kolAflash (kolAflash@kolahilft.de) ---
+Debian-11 just got a kernel security update, giving me Linux-5.10.92.
+
+https://snapshot.debian.org/package/linux-signed-amd64/5.10.92%2B1/#linux-i=
+mage-5.10.0-11-amd64_5.10.92-1
+
+Since rebooting into that kernel I got no more crashes after waking from s2=
+ram.
+(not using pci=3Dnoats or any other workarounds)
+
+
+Conclusion: Everything fixed!
+Thanks a lot to everyone involved :-)
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
