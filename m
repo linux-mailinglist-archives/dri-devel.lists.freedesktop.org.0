@@ -1,39 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9BFF497571
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jan 2022 21:08:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC5C497595
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jan 2022 21:52:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E0C510E130;
-	Sun, 23 Jan 2022 20:08:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0F1E10E22B;
+	Sun, 23 Jan 2022 20:52:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B686410E130
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jan 2022 20:08:40 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8896BD41;
- Sun, 23 Jan 2022 21:08:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1642968518;
- bh=BzIwj895BymBnu36XuRSvpJsdsZBdi4n4qQEJnJH7GM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lfnsmWlBHeNPC2W3jBEKqhdzYzuZdV1zsUonGp/6jtKTCupiBJTnPxtACkC3T3+Xf
- wuT6cqtk1MFcgOVuwnvGII9g4nSdRTNm04r0oKuykJKyKmSZoOw9aW2kMIVd/Y0R1N
- +MR40gvhe/ZIf3OfngUGIpX4lJj2xgYM4QRoSYKg=
-Date: Sun, 23 Jan 2022 22:08:22 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Yongzhi Liu <lyz_cs@pku.edu.cn>
-Subject: Re: [PATCH] drm/bridge: Add missing pm_runtime_put_sync
-Message-ID: <Ye21tlZKRRe2vUzR@pendragon.ideasonboard.com>
-References: <1642606560-32287-1-git-send-email-lyz_cs@pku.edu.cn>
+X-Greylist: delayed 456 seconds by postgrey-1.36 at gabe;
+ Sun, 23 Jan 2022 20:52:29 UTC
+Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D865210E22B
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jan 2022 20:52:29 +0000 (UTC)
+Received: from localhost.localdomain (ip-213-127-106-2.ip.prioritytelecom.net
+ [213.127.106.2])
+ by mail.z3ntu.xyz (Postfix) with ESMTPSA id E2DEDCE792;
+ Sun, 23 Jan 2022 20:44:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
+ t=1642970692; bh=Pz8Rr0gE1WWTUWJgZZYIwX9EYZcudB1mDd1+9t7DnGk=;
+ h=From:To:Cc:Subject:Date;
+ b=O3dMVzDCrTDe2kJ9DXp6XL1Ps797A/hGgiMdIYJXDsoeDtz6OOkQPyt2CRFis+MjR
+ Gv0QEYK4TKALhfCt1yzauhgrMVekMVlbxZd90DdjoRw/ndWA/XahxOsCB4KeKTdWRM
+ a5zVrMBABimkB+2ZRMRVpqKutdQtJQa8kaXzgqLw=
+From: Luca Weiss <luca@z3ntu.xyz>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm: add missing dependency to DRM_PANEL_EDP
+Date: Sun, 23 Jan 2022 21:43:23 +0100
+Message-Id: <20220123204322.345725-1-luca@z3ntu.xyz>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1642606560-32287-1-git-send-email-lyz_cs@pku.edu.cn>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,86 +44,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jonas@kwiboo.se, airlied@linux.ie, dri-devel@lists.freedesktop.org,
- narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
- jernej.skrabec@gmail.com, a.hajda@samsung.com, robert.foss@linaro.org
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ Luca Weiss <luca@z3ntu.xyz>, Thierry Reding <thierry.reding@gmail.com>,
+ ~postmarketos/upstreaming@lists.sr.ht, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Yongzhi,
+With CONFIG_DRM_PANEL_EDP=y and CONFIG_DRM_KMS_HELPER=m the compilation
+fails:
 
-Thank you for the patch.
+  drivers/gpu/drm/panel/panel-edp.c:843: undefined reference to `drm_panel_dp_aux_backlight'
 
-On Wed, Jan 19, 2022 at 07:36:00AM -0800, Yongzhi Liu wrote:
-> pm_runtime_get_sync() will increase the rumtime PM counter
-> even it returns an error. Thus a pairing decrement is needed
-> to prevent refcount leak. Fix this by replacing this API with
-> pm_runtime_resume_and_get(), which will not change the runtime
-> PM counter on error. Besides, a matching decrement is needed
-> on the error handling path to keep the counter balanced.
-> 
-> Signed-off-by: Yongzhi Liu <lyz_cs@pku.edu.cn>
-> ---
->  drivers/gpu/drm/bridge/nwl-dsi.c | 17 +++++++++++------
->  1 file changed, 11 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/nwl-dsi.c b/drivers/gpu/drm/bridge/nwl-dsi.c
-> index 9282e61..e7dce5a 100644
-> --- a/drivers/gpu/drm/bridge/nwl-dsi.c
-> +++ b/drivers/gpu/drm/bridge/nwl-dsi.c
-> @@ -862,18 +862,19 @@ nwl_dsi_bridge_mode_set(struct drm_bridge *bridge,
->  	memcpy(&dsi->mode, adjusted_mode, sizeof(dsi->mode));
->  	drm_mode_debug_printmodeline(adjusted_mode);
->  
-> -	pm_runtime_get_sync(dev);
-> +	if (pm_runtime_resume_and_get(dev) < 0)
-> +		return;
->  
->  	if (clk_prepare_enable(dsi->lcdif_clk) < 0)
-> -		return;
-> +		goto runtime_put;
->  	if (clk_prepare_enable(dsi->core_clk) < 0)
-> -		return;
-> +		goto runtime_put;
->  
->  	/* Step 1 from DSI reset-out instructions */
->  	ret = reset_control_deassert(dsi->rst_pclk);
->  	if (ret < 0) {
->  		DRM_DEV_ERROR(dev, "Failed to deassert PCLK: %d\n", ret);
-> -		return;
-> +		goto runtime_put;
->  	}
->  
->  	/* Step 2 from DSI reset-out instructions */
-> @@ -883,13 +884,17 @@ nwl_dsi_bridge_mode_set(struct drm_bridge *bridge,
->  	ret = reset_control_deassert(dsi->rst_esc);
->  	if (ret < 0) {
->  		DRM_DEV_ERROR(dev, "Failed to deassert ESC: %d\n", ret);
-> -		return;
-> +		goto runtime_put;
->  	}
->  	ret = reset_control_deassert(dsi->rst_byte);
->  	if (ret < 0) {
->  		DRM_DEV_ERROR(dev, "Failed to deassert BYTE: %d\n", ret);
-> -		return;
-> +		goto runtime_put;
->  	}
+Add a dependency on DRM_KMS_HELPER to fix this.
 
-You need a return here, otherwise you will unconditionally call
-pm_runtime_put_sync() even on success.
+Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+---
+I briefly tried "select DRM_KMS_HELPER" but that causes a circular
+dependency.
+If someone has a better idea how to solve this, feel free correct me.
 
-> +
-> +runtime_put:
-> +	pm_runtime_put_sync(dev);
-> +	return;
+ drivers/gpu/drm/panel/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-You can drop the return here.
-
->  }
->  
->  static void
-
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index 434c2861bb40..fda97837ecb3 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -102,6 +102,7 @@ config DRM_PANEL_SIMPLE
+ config DRM_PANEL_EDP
+ 	tristate "support for simple Embedded DisplayPort panels"
+ 	depends on OF
++	depends on DRM_KMS_HELPER
+ 	depends on BACKLIGHT_CLASS_DEVICE
+ 	depends on PM
+ 	select VIDEOMODE_HELPERS
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
