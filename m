@@ -2,46 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A1A9498876
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 19:39:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 614334988B7
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 19:50:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF74A10E673;
-	Mon, 24 Jan 2022 18:39:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA33D10E33F;
+	Mon, 24 Jan 2022 18:50:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com
- [209.85.222.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B879010E673
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 18:39:08 +0000 (UTC)
-Received: by mail-ua1-f45.google.com with SMTP id u6so32858660uaq.0
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 10:39:08 -0800 (PST)
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
+ [IPv6:2607:f8b0:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 292A210E33F
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 18:50:50 +0000 (UTC)
+Received: by mail-ot1-x334.google.com with SMTP id
+ x52-20020a05683040b400b0059ea92202daso7616561ott.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 10:50:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0csA6moKKYq3fSs9USPuSGlU/kYiU1Lp2B669qtC3bY=;
+ b=UYTza7tSTELle6ZPRVA1VKcMdcn84stFawhGizZU7n+y0rXvx9W2wb6J2B4SG+jOkm
+ HEXpxM0Jevqy6RKBvqcFHojq7RYiqe/b7mwqlXtDa4xRoJ2jaXH04rtKlwpaCahS/RLr
+ YlIvXMiX2HOHKsmsnuOlPn5Uw8lj69D/E4iL4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=e8r8scPQjT8uH8pXGowu/+E5c7EtaUCFQ6Gv6NPqtrM=;
- b=YLWrMwQV2VvBYvo3NIOM9drsqEayk4W3UjSwuy51q1vSphXdrLTDodmztuu6ZRKzuE
- pZL98/EL9PTbcL37kAY+hLj0F1YyTwul8uChHw9nhckgQB0OkGkQyD3jpHoDof/hw2Cn
- 1e/arNn0fWqS756e/UifHBbMOZ72NltqyrFI+aX7Pn7jCi1QjipZ6KjiOa0z3Vx2G5q0
- zHKcbNdcr7Lx2/5UL2wq83EZBTX2LyYqM6Vq2JWYyREtziUt90yz0kyiDzBjlL1seDnU
- 6GKAyrVqdQeRWXiUm0lEDKZImg/SgnlQRBGNDthp8JsWVfhG4kFUimqFhC0/pw7+zax3
- AF1Q==
-X-Gm-Message-State: AOAM532zERD/mgOuwW/r0KAQ8Tm1ezhZEVXNpoc3YZrTKtcSN5+4abg1
- PWPJlAAbJ+8YB3+JZ/yoUuMKH6vUW1mkhA==
-X-Google-Smtp-Source: ABdhPJyh/Jn8/j38DmPN1VHbbUILMXmTRPb9o6Ta4wzIMOUTzc24r6cwjVRL0+3tpFU1M+/pa1+lhw==
-X-Received: by 2002:a9f:364c:: with SMTP id s12mr5995591uad.60.1643049547641; 
- Mon, 24 Jan 2022 10:39:07 -0800 (PST)
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com.
- [209.85.221.182])
- by smtp.gmail.com with ESMTPSA id z27sm1287633vsf.24.2022.01.24.10.39.06
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Jan 2022 10:39:06 -0800 (PST)
-Received: by mail-vk1-f182.google.com with SMTP id z15so7532384vkp.13
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 10:39:06 -0800 (PST)
-X-Received: by 2002:a05:6122:ca1:: with SMTP id
- ba33mr1920131vkb.39.1643049546088; 
- Mon, 24 Jan 2022 10:39:06 -0800 (PST)
+ bh=0csA6moKKYq3fSs9USPuSGlU/kYiU1Lp2B669qtC3bY=;
+ b=nvI4G8yQMp/elNsgFbtVhmNJiRMfS0coHObQHvlxTIEVfB1mOwbWGMQlAL+VkA2Iby
+ W18MSVBYzbGjQ6AI50gMDbDWwSmbjALNpBi5cv05WW+yYLOjeufF1TQSwFQKtrNuQcFJ
+ jYz3bgy7HTUn8A/pZUf6HILTwTPZ8ehRqQS6itE6oQrkVJEnrIyznuqKYWU+6kw6N49A
+ TqQNUcLRWmKOGp9DD+fcHeJYrhxdFJikMzj9LX5ekxfZ/hYkLrX0BLa4ZFbEDEeqkg3/
+ Lz9nkPHCLGEiew8OUSxCzcw4aTDBelOZmAQy0b3aQsoVnCMmcrxr2vBZS6M/1Pa49SNE
+ 7Afg==
+X-Gm-Message-State: AOAM5328O6kI78QN6lfNP/qYDLQxydLO74QjZuykK3iBpxpZlX/d7i1G
+ R69szMB8h8emJBBdMnhb+dKQenPAGw6b2ZDvBuETTA==
+X-Google-Smtp-Source: ABdhPJw9kf0DB3au21XZBm8wAwVW+KBJNbxB/qjlpc+1/4Zpj18s6ohExWsveetehPvUTUdQCrdqVXsrDoX0olfQvpI=
+X-Received: by 2002:a05:6830:1e76:: with SMTP id
+ m22mr7594921otr.75.1643050249475; 
+ Mon, 24 Jan 2022 10:50:49 -0800 (PST)
 MIME-Version: 1.0
 References: <20220117125716.yjwxsze35j2ndn2i@sirius.home.kraxel.org>
  <CAMuHMdW=Zpp2mHbrBx7i0WN8PqY3XpK5qpyAyYxgf9n88edpug@mail.gmail.com>
@@ -55,13 +52,13 @@ References: <20220117125716.yjwxsze35j2ndn2i@sirius.home.kraxel.org>
  <3f96f393-e59d-34ac-c98b-46180e2225cd@suse.de>
  <20220120125015.sx5n7ziq3765rwyo@sirius.home.kraxel.org>
  <CAKMK7uF-V20qWTxQLvTC6GjC8Sg+Pst+UJ3pWCLQ4Q7Khgy62g@mail.gmail.com>
-In-Reply-To: <CAKMK7uF-V20qWTxQLvTC6GjC8Sg+Pst+UJ3pWCLQ4Q7Khgy62g@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 24 Jan 2022 19:38:54 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWS3rYUUB8HQcpjq0pY28cLiPMGrYEXeSPVtr-a_rrQvQ@mail.gmail.com>
-Message-ID: <CAMuHMdWS3rYUUB8HQcpjq0pY28cLiPMGrYEXeSPVtr-a_rrQvQ@mail.gmail.com>
+ <CAMuHMdWS3rYUUB8HQcpjq0pY28cLiPMGrYEXeSPVtr-a_rrQvQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdWS3rYUUB8HQcpjq0pY28cLiPMGrYEXeSPVtr-a_rrQvQ@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Mon, 24 Jan 2022 19:50:37 +0100
+Message-ID: <CAKMK7uGdS7hSK2DWGrQZ3DT69Qp_m6h1UFnbT_A7T+Tptq6vYg@mail.gmail.com>
 Subject: Re: [PATCH] MAINTAINERS: Add Helge as fbdev maintainer
-To: Daniel Vetter <daniel@ffwll.ch>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,42 +82,52 @@ Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+On Mon, Jan 24, 2022 at 7:39 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Daniel,
+>
+> On Fri, Jan 21, 2022 at 9:55 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > Just to clarify, since we had lots of smaller and bigger
+> > misunderstandings in the thread thus far: DRM_FORMAT_RGB332 exists, so
+> > drm support that already. The fbdev emulation doesn't yet, but all
+> > that's needed for that is filling out the code to remap the drm
+> > description to the fbdev format description for this case. Plus
+> > testing it all works ofc with fbcon and whatelse. Note that RGB332  is
+> > a bit more work than e.g. C4, since atm fbdev still uses only bpp to
+> > identify formats, so would need to be switch over to drm_fourcc first
+> > before adding anything which aliases with something existing (we have
+> > C8 already wired up).
+>
+> I doubt that RGB332 would be a bit more work than C4, as RGB332 is still
+> 8 bpp, while C4 is less.  To support C4, all DRM code that cannot
+> handle format->cpp[0] < 1 or drm_format_info_block_width() > 1 has to be
+> fixed first.
 
-On Fri, Jan 21, 2022 at 9:55 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> Just to clarify, since we had lots of smaller and bigger
-> misunderstandings in the thread thus far: DRM_FORMAT_RGB332 exists, so
-> drm support that already. The fbdev emulation doesn't yet, but all
-> that's needed for that is filling out the code to remap the drm
-> description to the fbdev format description for this case. Plus
-> testing it all works ofc with fbcon and whatelse. Note that RGB332  is
-> a bit more work than e.g. C4, since atm fbdev still uses only bpp to
-> identify formats, so would need to be switch over to drm_fourcc first
-> before adding anything which aliases with something existing (we have
-> C8 already wired up).
+Hm what's broken with it? Current code means it cannot support odd
+width for C4 (because to make C4 fit into bytes you need 2 pixels),
+but otherwise this should all work. Iirc we have formats with "5
+pixels in 4 bytes" and fun stuff like that. Note that stride and also
+the actual window you scan out are all separate, so even if your hw
+needs an odd stride or you have an odd resolution it should still all
+work out for C4 with the existing infra.
 
-I doubt that RGB332 would be a bit more work than C4, as RGB332 is still
-8 bpp, while C4 is less.  To support C4, all DRM code that cannot
-handle format->cpp[0] < 1 or drm_format_info_block_width() > 1 has to be
-fixed first.
+RGB322 is more work because in the fbdev code this aliases with bpp=8
+which is C8, because no one has yet moved the fbdev emulation code
+forward into the drm_fourcc world.
 
-On the plus side, I finally got my proof-of-concept Atari DRM driver
-working with fbcon on ARAnyM.  Mapping /dev/fb0 from userspace doesn't
-work (fbtest SEGVs while reading from the mapped frame buffer).  I don't
-know yet if this is a general issue without deferred I/O in v5.17-rc1,
-or a bug in the m68k MM code...
+> On the plus side, I finally got my proof-of-concept Atari DRM driver
+> working with fbcon on ARAnyM.  Mapping /dev/fb0 from userspace doesn't
+> work (fbtest SEGVs while reading from the mapped frame buffer).  I don't
+> know yet if this is a general issue without deferred I/O in v5.17-rc1,
+> or a bug in the m68k MM code...
+>
+> So far it supports C8 only, but I hope to tackle C4 and monochrome soon.
+> Whether the end result will be usable on real hardware is still to be
+> seen, but at least I hope to get some DRM code written...
 
-So far it supports C8 only, but I hope to tackle C4 and monochrome soon.
-Whether the end result will be usable on real hardware is still to be
-seen, but at least I hope to get some DRM code written...
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Yay, this sounds interesting!
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
