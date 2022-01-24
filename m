@@ -2,59 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8676E499C45
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 23:07:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABAE3499C71
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 23:08:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D657A10E192;
-	Mon, 24 Jan 2022 22:07:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D1CB10E191;
+	Mon, 24 Jan 2022 22:08:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com
- [IPv6:2607:f8b0:4864:20::c2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5E0010E191
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 22:07:24 +0000 (UTC)
-Received: by mail-oo1-xc2c.google.com with SMTP id
- w15-20020a4a9d0f000000b002c5cfa80e84so6282796ooj.5
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 14:07:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=/aLnHFuStZ5orf+mOt/+JIQklpQVMq3vUHjZ6F6RUME=;
- b=oVOpoQrs7lAhfFdYwpI0Rbzn4piuzf9e5etUCLba1zcBTLVJXNv0oO+H7iWuBfLpPF
- ASNNSRyIUHiyAlE1wrc8sjhJTg7yluaGRdSE38M+06TBKdyjDXmPU4bzAnn+0kwjb55o
- Xh651eHtRdmJG65PfUKKbclnQeEXW8CKWcSjs=
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
+ [IPv6:2607:f8b0:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80B9C10E191;
+ Mon, 24 Jan 2022 22:08:40 +0000 (UTC)
+Received: by mail-ot1-x332.google.com with SMTP id
+ z25-20020a0568301db900b005946f536d85so24194927oti.9; 
+ Mon, 24 Jan 2022 14:08:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5AU7UHXWGTgXus+jcgLu4tYknaJHqkDWYn1T5acuUH8=;
+ b=NMM7a/yjJoWOPQjiTo+SdO9A7Y7k+6dqKIG3Kq3o8dz5RSoZ1W2vD77yq2K3z1Nxt4
+ 2Qn4P18bkaT2nk5dsqlPUyMhY/TB3Qoo6FJRy1W+8sr33cSUmBdktRvJMckxtUpC7ev5
+ NS4RFF6uAiFsuqMj/uJEnwtonchUz8WDNLz/9Wj0/0qE5/gDqlonX/RwX/0T7sfOjJsJ
+ mIRTYh6QH+zNutWNdWHCUp+LbnJaxAVIF41PJPKVg7CoHdgjKGgvoNgaGqzpbgr4/4Ox
+ X1OrHW75bzMi9cF1nNAmFxIVFjO2qiS8K+uCqfqG980sJeDjyS8uL0x5tfK1XA0vq274
+ 2OwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=/aLnHFuStZ5orf+mOt/+JIQklpQVMq3vUHjZ6F6RUME=;
- b=tisnFlCqkX1nPx+OgySi6h9dMlTLMcp2Cjjaiv2NbiXLj8Kh4DfEURC9Cc/XulFRbZ
- aFyjoBQTDGl+P1d09Ibgg2kG3pgXHaSh4wwDufMNyVray6ayhFQjSoJI1e7FOIB1+5jW
- N2JGm1fLBz1CBxlf6Di12ZwrkMxVeXFnH78ld3F61vKTzDlY4FdJQCgmgACsu+INvWfy
- FxWfNjURKBBb1nx2RDpdEp1OFBaH1eXivZk3RYNBomEVUmkwymJvuJxzYFHxG3Km7Mry
- A4BdZW5nuyiA9KiWaY0/618ioq7IoOg/NqU5+VsD5H902qCNmpyRdOZTgpoZhDC5qFl0
- L0Pg==
-X-Gm-Message-State: AOAM532wgXs4sRKyqxZtRJ1RqrfgjICT8GD94lYMR8UrtWwC01ZCXOYz
- 1k4qfxHmJn4Qk0Z6lEn/VW5r4ChawszNQiFjm/cfXg==
-X-Google-Smtp-Source: ABdhPJyc/dz2yM6w+iD9kilsMJPwY0RIbV00zr4BPr32NKAK/72Bw+/QQmFbTMkH7urzwVaB7eMehwTkn+zmuRw96G8=
-X-Received: by 2002:a4a:d51a:: with SMTP id m26mr4897764oos.1.1643062044068;
- Mon, 24 Jan 2022 14:07:24 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 24 Jan 2022 14:07:23 -0800
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5AU7UHXWGTgXus+jcgLu4tYknaJHqkDWYn1T5acuUH8=;
+ b=XjSiQCVYjZUWWEl7p0gG1oDOoenqFIpuLaWcHI/AtIf9kvMP+WZ1r660++de6YFs8K
+ lMzRul69ra4Rqw33aYYVLeef/i9ULECc5EBMLGD0ylRuLvH0tLipID9QFaQIOvqLbRW0
+ C0W3xsgGXHYB9KmttONp4FEeA0ds9xmQIXQfzbZ+qy9Y5MqJsF9bUvKd42a2yfnReQUu
+ ASysDIBpQtBr/7Pck67LqfqiWCXaj/eDrfiqmkV2yriGr3T7S8JQSq71+0zRgftd2Bce
+ ar7BQ+kSZC63ZoponPM/NcWy/u39o6NGdDKuwNz1WISlYZGXaoNMSLWZo1N4EgI60/v1
+ oY3A==
+X-Gm-Message-State: AOAM5337LCzabwrtf1awcctJRVXsGiKpbBFcdnTXf/Pn5OeLQuX2Vk93
+ 8nlTE1fvJpclPBO7AS3pR8f2K2ITnVs1xyGzmVM=
+X-Google-Smtp-Source: ABdhPJyRp7jJ3E/mwEtBlF6sV7zRxPUTudHrillxpCsaSQDiBOb6hmpGdoVdYTdWWuI6WFz59OvDXIFEApG8s+eBGw0=
+X-Received: by 2002:a9d:601a:: with SMTP id h26mr3605702otj.357.1643062119806; 
+ Mon, 24 Jan 2022 14:08:39 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <28734c1c-a30c-d47f-3fc1-95035adcd33d@quicinc.com>
-References: <1643057170-10413-1-git-send-email-quic_khsieh@quicinc.com>
- <CAE-0n53nFcMzuKfqVRac6PRTkoPrftXL+uVK56ZQsHVWHmivkQ@mail.gmail.com>
- <28734c1c-a30c-d47f-3fc1-95035adcd33d@quicinc.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Mon, 24 Jan 2022 14:07:23 -0800
-Message-ID: <CAE-0n51wjxd+6azct0ENNBZuE7oVSH6tXfSfEUhT4LRX6kesdw@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dp: always add fail-safe mode into connector mode
- list
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
- bjorn.andersson@linaro.org, daniel@ffwll.ch, dmitry.baryshkov@linaro.org, 
- robdclark@gmail.com, sean@poorly.run, vkoul@kernel.org
+References: <20220124201812.1078824-1-trix@redhat.com>
+In-Reply-To: <20220124201812.1078824-1-trix@redhat.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 24 Jan 2022 17:08:28 -0500
+Message-ID: <CADnq5_M+xmJkiMkug=5bix8ypxHzr0embK7GN4GRY57BK1y4FA@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/amd/pm: return -ENOTSUPP if there is no
+ get_dpm_ultimate_freq function
+To: Tom Rix <trix@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,52 +63,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- aravindh@codeaurora.org, freedreno@lists.freedesktop.org
+Cc: "Lazar, Lijo" <lijo.lazar@amd.com>, "Chen, Guchun" <guchun.chen@amd.com>,
+ Arunpravin <Arunpravin.PaneerSelvam@amd.com>, Dave Airlie <airlied@linux.ie>,
+ xinhui pan <Xinhui.Pan@amd.com>, Nick Desaulniers <ndesaulniers@google.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, "Powell,
+ Darren" <darren.powell@amd.com>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>, "Quan, Evan" <evan.quan@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>, llvm@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Kuogee Hsieh (2022-01-24 13:24:25)
->
-> On 1/24/2022 1:04 PM, Stephen Boyd wrote:
-> > Quoting Kuogee Hsieh (2022-01-24 12:46:10)
-> >> Some of DP link compliant test expects to return fail-safe mode
-> >> if prefer detailed timing mode can not be supported by mainlink's
-> >> lane and rate after link training. Therefore add fail-safe mode
-> >> into connector mode list as backup mode. This patch fixes test
-> >> case 4.2.2.1.
-> >>
-> >> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> > Any Fixes tag? I also wonder why this isn't pushed into the DP core code
-> > somehow. Wouldn't every device need to add a 640x480 mode by default?
->
-> Original test case 4.2.2.1 always passed until we did firmware upgrade
-> of our compliance test tester (Unigraph) recently.
+Applied.  Thanks!
 
-Ok. So the Fixes tag should be the introduction of the driver or at
-least whenever compliance testing support was added.
+Alex
 
+On Mon, Jan 24, 2022 at 3:18 PM <trix@redhat.com> wrote:
 >
-> The new firmware of tester use newer edid contains 1080p with 145.7 mhz
-> which can not be supported by 2 lanes with 1.6G rate. Hence we failed
-> this test case.
-
-Interesting. So the test case wouldn't fail unless the number of lanes
-were limited by the hardware? Seems that the test isn't thorough.
-
+> From: Tom Rix <trix@redhat.com>
 >
-> After discuss with Vendor, they claims we have to return fail-safe mode
-> if prefer detailed timing mode can not be supported.
+> clang static analysis reports this represenative problem
+> amdgpu_smu.c:144:18: warning: The left operand of '*' is a garbage value
+>         return clk_freq * 100;
+>                ~~~~~~~~ ^
 >
-> I think would be good to add fail-safe mode into connector mode list.
+> If there is no get_dpm_ultimate_freq function,
+> smu_get_dpm_freq_range returns success without setting the
+> output min,max parameters.  So return an -ENOTSUPP error.
 >
+> Fixes: e5ef784b1e17 ("drm/amd/powerplay: revise calling chain on retrieving frequency range")
+> Signed-off-by: Tom Rix <trix@redhat.com>
+> ---
+> v2: return error instead of initializing min/max
 >
+> drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
+> diff --git a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
+> index 5ace30434e603..264eb09ccfd51 100644
+> --- a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
+> +++ b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
+> @@ -116,7 +116,7 @@ int smu_get_dpm_freq_range(struct smu_context *smu,
+>                            uint32_t *min,
+>                            uint32_t *max)
+>  {
+> -       int ret = 0;
+> +       int ret = -ENOTSUPP;
 >
-> > we just run into this problem recently.
-
-
-Sure I'm not saying it's incorrect, just wondering why a connector
-that's DP wouldn't have the 640x480 resolution by default somewhere in
-the drm core.
+>         if (!min && !max)
+>                 return -EINVAL;
+> --
+> 2.26.3
+>
