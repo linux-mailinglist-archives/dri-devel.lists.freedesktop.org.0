@@ -1,61 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F405149856D
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 17:55:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B67B4985C6
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 18:05:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6C9A10E37F;
-	Mon, 24 Jan 2022 16:55:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E0C110E28B;
+	Mon, 24 Jan 2022 17:05:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
- [IPv6:2607:f8b0:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D486210E281
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 16:55:40 +0000 (UTC)
-Received: by mail-ot1-x335.google.com with SMTP id
- 10-20020a9d030a000000b0059f164f4a86so5601677otv.13
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 08:55:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=eDj9YtrL+ME/X2nogJu52e1JjwHXOpFB8AWWGPpN1JI=;
- b=mFvJkRflVMDxfhilop3n9rxvfDmP9BLPXOUunIlHCZ0Xb9y9Ct8IxqFF8rwK469lCm
- KNd50fy+6iX6SJc4AnCBNCrWinPWrZllHsjTCq/S2JBPLb1Fh0Xi6tATKKE7erd/KEop
- Q895XDQnVqwakbu7dAG+gaEyBVuv5/uHjtGQquhJ0ZAuMd8FGRlNp3JsZ+WddCEvdc2o
- SA4cUOrs3H6g5jKBY4lJc0Byhcri9T6H5g0YhQIrR/7VCnw3atyr03X9NzMu8tURvqBm
- KgSjAKpZXzdR18JFpsLFpX2/2YiqEPZAATvRYBEx3OhedscwGW4cfcSYTbOEvCE2AhDD
- D3VQ==
+X-Greylist: delayed 568 seconds by postgrey-1.36 at gabe;
+ Mon, 24 Jan 2022 17:05:42 UTC
+Received: from mta-p5.oit.umn.edu (mta-p5.oit.umn.edu [134.84.196.205])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52CE510E28B
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 17:05:42 +0000 (UTC)
+Received: from localhost (unknown [127.0.0.1])
+ by mta-p5.oit.umn.edu (Postfix) with ESMTP id 4JjGMy22htz9vfVr
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 16:56:14 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at umn.edu
+Received: from mta-p5.oit.umn.edu ([127.0.0.1])
+ by localhost (mta-p5.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 9fp3SZPeMRoQ for <dri-devel@lists.freedesktop.org>;
+ Mon, 24 Jan 2022 10:56:14 -0600 (CST)
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mta-p5.oit.umn.edu (Postfix) with ESMTPS id 4JjGMx6rBBz9vfWK
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 10:56:13 -0600 (CST)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p5.oit.umn.edu 4JjGMx6rBBz9vfWK
+DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p5.oit.umn.edu 4JjGMx6rBBz9vfWK
+Received: by mail-pj1-f72.google.com with SMTP id
+ y14-20020a17090ad70e00b001b4fc2943b3so11926273pju.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 08:56:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=umn.edu; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5wazUphf657A8u85KxBx+8Rcz0Mc5JkcT16GzU8geFE=;
+ b=mKuu8jAjF++IFpgduLN3RDEVefDAWyK1s4jcIwDrrK+XkSR3CLGnu6uzdybyWM/2C3
+ n2Ka7vv2Kc4aFO7usHMBcS56BrfBYO+rChtPEsb85JbE7kFzCg+eZ97ccdjpG0AagJyl
+ w2TOL8I+lRDJMovzuIUaKOjSCqvivDF5Sl34KOohYqPrdk97JIn8HtrZTRGtkoOgZQyS
+ +BqNOR6gUwPP/qBFir0JaDtzbRBzxLMlEb+DKuppNoNmhV2dytprGUjKYlVanlscF3fL
+ YnvpC74TvXg92Phex9UTG1VG/of07Q6Hc45DYRbggbr9jqtka4Z8CFLXtPXtW+vSjf7a
+ gCWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=eDj9YtrL+ME/X2nogJu52e1JjwHXOpFB8AWWGPpN1JI=;
- b=k8U8vdFeKBg8rxUw6K3B6rAjkTgwQXHnYpKN//IL7CrsF1Zd8Cd5nZj6tzj+D1q3OO
- hWFSfK9WrGel1KhtuTvtChScAUsm/F1oUV2uAjWzcg7ODXiDhdvQwcTX63zxzrxQEUsN
- zebtAJJ0yZIUO2Wf2jrouBM/tjyc7ucpTF57n4u8aI3aVqZmMA1DU2/TnDJiF9ztOQDa
- SVwik4d6Mbgn0jOX61iLGA/dwoQgf2x0aUSv6jVkK8PmRZjCaS7DdoSsI7hUPgG52gvI
- 3nb9iMXha0+og0FoFGBQL0nqXezLnKsK69Xit8S9ouUtxSwdAyAtgj3AMPcpnW23/62R
- ze9g==
-X-Gm-Message-State: AOAM531oz9XKJLlmombBllfKo9y0VQAEz+Jj3U/yMrMVLJ7pyfvucJ1k
- NtiP1mep6DgbO8RIAi3pH1sX/OtKrPs=
-X-Google-Smtp-Source: ABdhPJxc+R5TUybGMgkLTdOCbd88m7UuIygCYWDxjJSp/RRfiTE1CbDPHurAbusUCHTR37gsZpmKdw==
-X-Received: by 2002:a05:6830:2461:: with SMTP id
- x33mr2805442otr.368.1643043339780; 
- Mon, 24 Jan 2022 08:55:39 -0800 (PST)
-Received: from wintermute.localdomain (cpe-76-183-134-35.tx.res.rr.com.
- [76.183.134.35])
- by smtp.gmail.com with ESMTPSA id v22sm4418370oot.10.2022.01.24.08.55.38
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5wazUphf657A8u85KxBx+8Rcz0Mc5JkcT16GzU8geFE=;
+ b=PswAQN8OnRRhEramHJI4opQpOsRTM66rkqav7VKExbMbwgCCGo/FFKU3dpV7PJht6o
+ eC11KIkkPxOOMrj1jMZ77G116fJUbep86Oj2KD/JvWmHx0bI6/DQ7IW34J9ZrwjOok+e
+ NdzR56fzTW/OwlsKLkc/6RoqIaFlr+P+xfawvxOgLGaEyDOum6WoWhE/uweqP6aWvfkc
+ x4+qCMHfyEDQYXwiFBq35b5QI6V+/eT0M+5GKZIyKqtqDERCx5Q5TXqEDkAGKIad1azt
+ +f39Fx8PA3qUgHZVqEKwR96EwtaAmdVta4nfeLtYHVD/mGq7bwjq5U5hx4rxuJRXemld
+ +lAA==
+X-Gm-Message-State: AOAM532ZPdrYuuHN26LqtBCb0kRNYJH5oyYs64HjWTZQKpqhEb2KugZu
+ tIlGEzZnIdV7ygUCmW0CFKdQQw1U1N5gEVn8EwteE6Jbq7dTI2e/DPGeyYa/Js4sAikloJeC/jg
+ EenDS5p4r7GdMNq4nmZ2zGbPJR9xAC23o
+X-Received: by 2002:a17:903:110d:b0:149:a833:af21 with SMTP id
+ n13-20020a170903110d00b00149a833af21mr15513358plh.14.1643043373178; 
+ Mon, 24 Jan 2022 08:56:13 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwLuSK48OaRsgH3XF8ivq/y0OenHyrkB1/k/dcMZr1ADIQwnE4TW2Bda19qwmzB3Xd0i6sFJQ==
+X-Received: by 2002:a17:903:110d:b0:149:a833:af21 with SMTP id
+ n13-20020a170903110d00b00149a833af21mr15513334plh.14.1643043372944; 
+ Mon, 24 Jan 2022 08:56:12 -0800 (PST)
+Received: from zqy787-GE5S.lan ([36.4.61.248])
+ by smtp.gmail.com with ESMTPSA id p18sm18349600pfh.98.2022.01.24.08.56.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Jan 2022 08:55:39 -0800 (PST)
-From: Chris Morgan <macroalpha82@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 6/6 v2] drm/vc4: dpi: Support DPI interface in mode3 for RGB565
-Date: Mon, 24 Jan 2022 10:55:26 -0600
-Message-Id: <20220124165526.1104-7-macroalpha82@gmail.com>
+ Mon, 24 Jan 2022 08:56:12 -0800 (PST)
+From: Zhou Qingyang <zhou1615@umn.edu>
+To: zhou1615@umn.edu
+Subject: [PATCH] drm/amd/display/dc/calcs/dce_calcs: Fix a memleak in
+ calculate_bandwidth()
+Date: Tue, 25 Jan 2022 00:55:51 +0800
+Message-Id: <20220124165552.56106-1-zhou1615@umn.edu>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220124165526.1104-1-macroalpha82@gmail.com>
-References: <20220124165526.1104-1-macroalpha82@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,42 +89,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Chris Morgan <macromorgan@hotmail.com>,
- emma@anholt.net, Dave Stevenson <dave.stevenson@raspberrypi.com>,
- airlied@linux.ie, robh+dt@kernel.org, thierry.reding@gmail.com,
- mchehab@kernel.org, sam@ravnborg.org, linux-media@vger.kernel.org
+Cc: Leo Li <sunpeng.li@amd.com>, kjlu@umn.edu, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Morgan <macromorgan@hotmail.com>
+In calculate_bandwidth(), the tag free_sclk and free_yclk are reversed,
+which could lead to a memory leak of yclk.
 
-Add support for the VC4 DPI driver to utilize DPI mode 3. This is
-defined here as xxxRRRRRxxGGGGGGxxxBBBBB:
-https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#parallel-display-interface-dpi
+Fix this bug by changing the location of free_sclk and free_yclk.
 
-This mode is required to use the Geekworm MZP280 DPI display.
+This bug was found by a static analyzer.
 
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Builds with 'make allyesconfig' show no new warnings,
+and our static analyzer no longer warns about this code.
+
+Fixes: 2be8989d0fc2 ("drm/amd/display/dc/calcs/dce_calcs: Move some large variables from the stack to the heap")
+Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
 ---
- drivers/gpu/drm/vc4/vc4_dpi.c | 4 ++++
- 1 file changed, 4 insertions(+)
+The analysis employs differential checking to identify inconsistent 
+security operations (e.g., checks or kfrees) between two code paths 
+and confirms that the inconsistent operations are not recovered in the
+current function or the callers, so they constitute bugs. 
 
-diff --git a/drivers/gpu/drm/vc4/vc4_dpi.c b/drivers/gpu/drm/vc4/vc4_dpi.c
-index c180eb60b..3c58ade25 100644
---- a/drivers/gpu/drm/vc4/vc4_dpi.c
-+++ b/drivers/gpu/drm/vc4/vc4_dpi.c
-@@ -173,6 +173,10 @@ static void vc4_dpi_encoder_enable(struct drm_encoder *encoder)
- 			dpi_c |= VC4_SET_FIELD(DPI_FORMAT_16BIT_565_RGB_3,
- 					       DPI_FORMAT);
- 			break;
-+		case MEDIA_BUS_FMT_RGB565_1X24_CPADHI:
-+			dpi_c |= VC4_SET_FIELD(DPI_FORMAT_16BIT_565_RGB_2,
-+					       DPI_FORMAT);
-+			break;
- 		default:
- 			DRM_ERROR("Unknown media bus format %d\n", bus_format);
- 			break;
+Note that, as a bug found by static analysis, it can be a false
+positive or hard to trigger. Multiple researchers have cross-reviewed
+the bug.
+
+ drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c b/drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c
+index ff5bb152ef49..e6ef36de0825 100644
+--- a/drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c
++++ b/drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c
+@@ -2033,10 +2033,10 @@ static void calculate_bandwidth(
+ 	kfree(surface_type);
+ free_tiling_mode:
+ 	kfree(tiling_mode);
+-free_yclk:
+-	kfree(yclk);
+ free_sclk:
+ 	kfree(sclk);
++free_yclk:
++	kfree(yclk);
+ }
+ 
+ /*******************************************************************************
 -- 
 2.25.1
 
