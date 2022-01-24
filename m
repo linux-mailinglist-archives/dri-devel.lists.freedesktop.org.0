@@ -1,55 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF81D498C18
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 20:20:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5E49498DAC
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 20:37:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC42D10E770;
-	Mon, 24 Jan 2022 19:20:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F396310E1A8;
+	Mon, 24 Jan 2022 19:37:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
- [IPv6:2607:f8b0:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A1BC10E670;
- Mon, 24 Jan 2022 19:20:09 +0000 (UTC)
-Received: by mail-oi1-x22b.google.com with SMTP id w133so250902oie.7;
- Mon, 24 Jan 2022 11:20:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
+ [IPv6:2607:f8b0:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0890210E1A8
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 19:37:17 +0000 (UTC)
+Received: by mail-oi1-x22f.google.com with SMTP id y23so8863377oia.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 11:37:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Y8UlOKPL4x0I+w9FvmczKZQzjM11WitOpHu1NnDd7hI=;
- b=EIvsCF/shkSJKYfdjXZKNXCsVd70UCSlAARnO6sDbsxiWBHwhD/82BOJnQrXDl9IOz
- PFcMdh5ibyXsaAQcTPODkOpuxlRpW6Ykx3+iaL0mfu3o/5TQuzEDx8ce/CsAPrzpsBH0
- Aq1xw2ZjdD9sgudMll8flbupKTmKPw8pARBNeIt/gt3ZmOXc0U4ez/5KDdbtmSmdJ/cY
- A7Z4/te+96euwxEnd8/NJBr/0001w5zlvvzIJi/j/otI7/zc1nWeoYlU4o4Pp+0rrOEb
- sMg62TePWcfT120HGmcpZPJ+W8BC4DVZ60OxaL1hE3s2BVUOxqLUUgtgRqjyoHlrl8LB
- UFGg==
+ :cc; bh=6T+a8Bx06xvDutb5+VHfkoYO4ESKNGds/DLEsaoyVx8=;
+ b=FMSnFxr7XrvMSHM8YrAM6NA5d3ET8kIpzVnWIzWt1EKy7/wkEHXze29Yi49fGJq+Y5
+ GnxGPakbkFU5mIiNUV80zkvcs5Lq3FDyau5p4lc5ZHUMincF4tlOGxC64RcVK/YGhUhh
+ TA7kmVkXemc68K3B6H4WUIdjUnrcj0Z5AQRok=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Y8UlOKPL4x0I+w9FvmczKZQzjM11WitOpHu1NnDd7hI=;
- b=0n1RkfvpbPlS/6gfZ/IigSB2gwPL1hOUFRFw8s1MYjr6peb0nGSRRLmoJtdkvRQqwP
- dVlh8t0R/P8D7TGJKiy2JW7+uO+gFBItNgSYqDVs7XdcFW3NqbOB9fSVfsmgVRY6x6US
- fD499o7CGaWygmTXe/hZeLG6buDJuSstNRdHQb5lTZx8/F6qOojZZqqsXVILnX8RcMfD
- Hh39PfYH4QPItun63sMv0ztrOgdw+SdIVsChHFpFGUvtPLciLHJWMvEc4Pm8Er8Ui6bw
- ZOMziy34WNtpelJNEHhYr7bvbpq3sV5H5605FTCML8hiEIXjA3nWY3vPVbsxtMZI8tmo
- xSZA==
-X-Gm-Message-State: AOAM533pwcdPR6NqyBgAvdRfpAZmZZqcGG1nHLYJJRMjRivYaHtq7m2/
- cz6kfO/rVRDKjZIHMewcJ4s6gQuEBZq4Yaye/Ew=
-X-Google-Smtp-Source: ABdhPJwS85QtnAAmIxiRJFhdMAqQlvW1zcZquOPGUFZLskhO60Qo5Zms8Ge28nzBDwYGw0SYuP/P8X5DerGCwVBWtfo=
-X-Received: by 2002:a05:6808:300b:: with SMTP id
- ay11mr2766540oib.120.1643052008712; 
- Mon, 24 Jan 2022 11:20:08 -0800 (PST)
+ bh=6T+a8Bx06xvDutb5+VHfkoYO4ESKNGds/DLEsaoyVx8=;
+ b=3dTg2McLSy6lmMr3s81lrOfPHqZNxqXmPXH3e1zoDAEAriY1FS7QGD+EA8PrCpmie0
+ yWX3pRfR2uJhhds11YwF90Vqt14YAD+CokdVY6GgXEVHeYHgugXS7NGFRFt43g9A+fOz
+ i3VEMs5Vw/OKScOCzEIhf/nEhq3NwZFhHXtDIfCoEhlHIWqAhjnM3cLtqJYjBG3bES4S
+ XWExfWsiymt6jjzhXn7cFGL7AMSWlP8Y6BorFj8qWM3cugpVORJbaIRG1iERkdiSvcKV
+ WEAf/yNrBBIa3zliBiGzxtFREFYrC6LZvj6U0uZ5R/78NxBKibwtFPBypmEOyFy3QY5Q
+ r27Q==
+X-Gm-Message-State: AOAM531MVAIUrE+SrdqpVRvIjT+SEldyvCm8j4a5DhRCWVrlV/ex2G1r
+ 7eMIlep1jSJO6hLTD8EF/CbqZRbXsLxvD+OZV08vP97CWfY=
+X-Google-Smtp-Source: ABdhPJx2AuJy+QcrAabTMb6vCZNPkX02N/uNR4+C15e6Iu9I+hPt4usCsK7v1wJ/eTUYdqctv9P8j2XhiTCfUUNkhbA=
+X-Received: by 2002:a05:6808:1188:: with SMTP id
+ j8mr2716171oil.101.1643053036285; 
+ Mon, 24 Jan 2022 11:37:16 -0800 (PST)
 MIME-Version: 1.0
-References: <20220124165552.56106-1-zhou1615@umn.edu>
-In-Reply-To: <20220124165552.56106-1-zhou1615@umn.edu>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 24 Jan 2022 14:19:57 -0500
-Message-ID: <CADnq5_MPvHgnW-Rpv-caNrgg+9XkVFZs2Oes1gKPyj=TesBKXw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display/dc/calcs/dce_calcs: Fix a memleak in
- calculate_bandwidth()
-To: Zhou Qingyang <zhou1615@umn.edu>
+References: <YeG8ydoJNWWkGrTb@ls3530>
+ <c48ad8ae-aea5-43fa-882f-dccb90dde9a4@suse.de>
+ <87bl0amc6s.fsf@x1.stackframe.org> <20220118103323.4bae3a7d@eldfell>
+ <20220118095352.xsb6fqacw4p276c5@sirius.home.kraxel.org>
+ <CAMuHMdWV+-+Jr7HggbfH_GEDcdep4pJLiMG+15jxBvQ91BCS0w@mail.gmail.com>
+ <CAKMK7uEOFg3z2btFERQ5XBQ7hqex6bXCb9X=SdwCjeLfX_SdFw@mail.gmail.com>
+ <CAMuHMdVjv1+UNeXkCBE+80tdtLuNg=5d6N12hNLgJdaS-jxERg@mail.gmail.com>
+ <CAKMK7uEwDdaR7kDVi9Oah0w8qFEoAywp_wj2eH7DtttVD2L00A@mail.gmail.com>
+ <CAMuHMdUyHEExOCtH-hKh0HmZzadmfZaR=vAVYJkTvphfzs3Xiw@mail.gmail.com>
+In-Reply-To: <CAMuHMdUyHEExOCtH-hKh0HmZzadmfZaR=vAVYJkTvphfzs3Xiw@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Mon, 24 Jan 2022 20:37:04 +0100
+Message-ID: <CAKMK7uGtjNgRo8t4ZY_ouve2GSbdkjBsw6Gso=riV2CbOJkpzA@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: Add Helge as fbdev maintainer
+To: Geert Uytterhoeven <geert@linux-m68k.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,64 +67,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, Kangjie Lu <kjlu@umn.edu>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Helge Deller <deller@gmx.de>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sven Schnelle <svens@stackframe.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On Mon, Jan 24, 2022 at 7:51 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Daniel,
+>
+> On Thu, Jan 20, 2022 at 1:33 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > But reading code&docs is too hard I guess, safer to assume it's just
+> > broken and not supported.
+>
+> I confirm there's lots of documentation (and even more code ;-),
+> which is always great!
+> But both are intimidating to me, and most of the documentation covers
+> features I'm not interested in, as they're only applicable to fancy
+> modern truecolor 3D-capable multi-buffer and multi-head hardware, while
+> what I am looking for is usually not documented.  E.g. I had a hard
+> time to discover how color look-up tables work (gamma_{store,size}!),
+> as this is not covered in https://docs.kernel.org/gpu/index.html,
+> and none of the tinydrm drivers support CLUT modes.
 
-Alex
+Hm yeah that part is a bit awkward since due to how Xorg works here
+the gamma table is abused to be the lookup table for C8. If we're
+adding piles of new Cx formats it might be worth it to structure this
+a bit better, e.g. (really just thinking on the spot here):
+- have a separate Cx lookup table blob in drm_plane_state (in theory
+you could have a different one on each plane and still have an overall
+gamma ramp on the crtc)
+- change the compat functions which map the legacy gamma ramp to
+redirect to the plane gamma ramp if the primary plane is set to Cx
+- bonus points for then correctly sizing the lookup table to match the
+number of bits in the Cx plane format
 
-On Mon, Jan 24, 2022 at 12:05 PM Zhou Qingyang <zhou1615@umn.edu> wrote:
->
-> In calculate_bandwidth(), the tag free_sclk and free_yclk are reversed,
-> which could lead to a memory leak of yclk.
->
-> Fix this bug by changing the location of free_sclk and free_yclk.
->
-> This bug was found by a static analyzer.
->
-> Builds with 'make allyesconfig' show no new warnings,
-> and our static analyzer no longer warns about this code.
->
-> Fixes: 2be8989d0fc2 ("drm/amd/display/dc/calcs/dce_calcs: Move some large variables from the stack to the heap")
-> Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
-> ---
-> The analysis employs differential checking to identify inconsistent
-> security operations (e.g., checks or kfrees) between two code paths
-> and confirms that the inconsistent operations are not recovered in the
-> current function or the callers, so they constitute bugs.
->
-> Note that, as a bug found by static analysis, it can be a false
-> positive or hard to trigger. Multiple researchers have cross-reviewed
-> the bug.
->
->  drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c b/drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c
-> index ff5bb152ef49..e6ef36de0825 100644
-> --- a/drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c
-> +++ b/drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c
-> @@ -2033,10 +2033,10 @@ static void calculate_bandwidth(
->         kfree(surface_type);
->  free_tiling_mode:
->         kfree(tiling_mode);
-> -free_yclk:
-> -       kfree(yclk);
->  free_sclk:
->         kfree(sclk);
-> +free_yclk:
-> +       kfree(yclk);
->  }
->
->  /*******************************************************************************
-> --
-> 2.25.1
->
+But unfiddling this confusion properly is going to be tricky. I think
+just continuing the tradition we have for C8 and reusing the crtc
+gamma ramp for that is probably fine for now.
+
+And yes that's not documented, because when we fixed the docs for the
+entire degamm/CGM/gamma color correction pipeline Cx wasn't the top
+priority :-)
+
+Cheers, Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
