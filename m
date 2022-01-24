@@ -1,67 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53DF649926F
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 21:21:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99620499295
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 21:22:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C35210E90A;
-	Mon, 24 Jan 2022 20:21:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C41110EA4C;
+	Mon, 24 Jan 2022 20:22:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33FC610E90A;
- Mon, 24 Jan 2022 20:21:21 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id c2so23764717wml.1;
- Mon, 24 Jan 2022 12:21:21 -0800 (PST)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D78410EA37;
+ Mon, 24 Jan 2022 20:22:15 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id v123so23763796wme.2;
+ Mon, 24 Jan 2022 12:22:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-transfer-encoding:content-language;
- bh=L7Z367An0XQXA3IfS2t7lE/P4WVIsL4Rvo0sJu7Bhew=;
- b=YrSUTbiCwqvog8COCITrB6k/QYeDJXuqk+SVZOh8RbNO+GyZIT/ywoyyBt6fsiBbD3
- KLJeIZRuXVeczNbCXanWH1GsuM8dOUTpNrEcvfYg3tb8eN5gd2REjJ5jNY3dGunqbDxn
- BmfSVoEw/Fn80x1B/TnvPohOqAMZrKk9IFn3bKt5sDoyniiQ0/8lzAQGBQABJ5kky95/
- EQcfWUdv09295PwsRgPpLC2O/Lth1h7nkDINx9EZX3Cfbv9QKBKVdVVEQG/skbIoQn3x
- KtWj7RMvuniJBx5ZuUWfiB+KJsV1nzBt3SXwKqCaPrjbL8m7wB7ClDlt3nFYBi3y7OP0
- B+gw==
+ bh=Ke9g6kY1kLIfyyex335F3KDC37XIQ1ezTOdv6ZYLv/k=;
+ b=D80hcT4XcxMGtftOj/oiDZCuJHosbWOP9px3lg36MlSFohIalMEXsIsmWHUeYOBUVM
+ SEnLNESjYym6MXBC4OgLnvX3F3afiJMfQn9g7zvmuDDClKoY74ZfeMgQ5KJolU/MiNd7
+ F7ewGlbdOGeNAWRJ8WA6uOejSJ3zoxj0T0kEiw6TNpp74QiWLyMsCYYb/cup3DkSHBdG
+ nAHisJX8oZAYE4rqRS45RSzV8GGsbClXEaO0jw7YvcaXeAvPSCVWhcWi81OQhBljz3Mb
+ FnBBctXMK27UU+EZ9nYFWS8Nl5s1ScmigcH3alPAZBcuaytebOuuunep3czM6jzKMLa8
+ E9HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=L7Z367An0XQXA3IfS2t7lE/P4WVIsL4Rvo0sJu7Bhew=;
- b=fSImcDuJ0ClTn9ayDr4N96456Oa5OHJ0Du97eFAsjbQi677wSgKsALI7Kr4WJ3hJP0
- 2WRZAikG53LnqGjvcFqCF6+x4QCW93C8euLNHAjqrqm8GepIdo7n2a9dM2OIr2HsB6n0
- QMA9YDyWsnMAHAhu/se/94UhHcLIeYw2jFP+5K50i9u0lRy5689vzQoLwhVXBEMUi5NA
- NuxwyP1HORx0ebJoXnpdJ1trHNmx1hqiSi8gi0LZxJFvWJJriV8NSjvb2W9Z4/f49TAP
- CcztX7fTjhdkYyWzqVuawcJhFkUsUAXmTLvx/s02gPP+wB+TPE6kmvPKa9/jfQFoUcyW
- 061Q==
-X-Gm-Message-State: AOAM530Hwq3TVQJfzWQ8IToo2sOUugY0EyqtfSlD/VhceUiVPmiPorYV
- 3oOrK0ipuefxVabk1zGc0K0Dye08v9Q=
-X-Google-Smtp-Source: ABdhPJxMGwE8fCxmF8kobgHSMo2QP5IbtpBQv55xLXDJrSWmJKgFjF06ZYZ1tpyQo7cdwBcn7FSKlg==
-X-Received: by 2002:a7b:c20a:: with SMTP id x10mr16078wmi.141.1643055679673;
- Mon, 24 Jan 2022 12:21:19 -0800 (PST)
+ bh=Ke9g6kY1kLIfyyex335F3KDC37XIQ1ezTOdv6ZYLv/k=;
+ b=PQMF86uF3Un3J1LTabDW9XgWOUDDIc1bg+ln7N68PYF3hAqu9kOOy1hx0rMbwrc8Xv
+ ts1quLe+gVA8DHh1pl8VuP5G2AoxIvXeqWyn9bvXTaK7jM5MLRrOYv6U5LnUz6QCYCYd
+ JWknTmhxh5TmLagpHD+g/DyLYQkqVNRYQcb6Xou8Z3W1yIM2T2aVPTmYTB1DU/3zwvGr
+ +vU2ooXm3JG1+vPLG6ymClcQvhzGMjsCV44ugsVP3iXy+gl1+YZFctqdf3ANHtcpZuRz
+ fybpmGGX5ThX0dzk3kmT8M402ggenUo26FnA37QntDCwJ14rbOokNC650Lj9ci7QDngz
+ X5NA==
+X-Gm-Message-State: AOAM5302LP/xpKNrca6O2xw5WOLMiUzpvUCjBZ719vHEpw/DwO/5KLAT
+ S6O00oBe9fwReARMvaKEEFRNRE+X8Ew=
+X-Google-Smtp-Source: ABdhPJyO2wiaxPV+BJ/+R4PvbC7zfnD9KOapfcHGORzhc/1QStS+iy1PdwoosEFvI+8zJy4QN3OwVA==
+X-Received: by 2002:a05:600c:22da:: with SMTP id
+ 26mr3228599wmg.121.1643055733649; 
+ Mon, 24 Jan 2022 12:22:13 -0800 (PST)
 Received: from ?IPv6:2a02:908:1252:fb60:139c:f8a8:1313:ffa0?
  ([2a02:908:1252:fb60:139c:f8a8:1313:ffa0])
- by smtp.gmail.com with ESMTPSA id m8sm5983411wrn.106.2022.01.24.12.21.18
+ by smtp.gmail.com with ESMTPSA id m4sm325570wmc.1.2022.01.24.12.22.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Jan 2022 12:21:19 -0800 (PST)
-Subject: Re: [PATCH 01/11] drm/radeon: use ttm_resource_manager_debug
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- sumit.semwal@linaro.org, gustavo@padovan.org, daniel.vetter@ffwll.ch,
- zackr@vmware.com, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+ Mon, 24 Jan 2022 12:22:13 -0800 (PST)
+Subject: Re: [Intel-gfx] [PATCH 06/11] dma-buf: warn about containers in
+ dma_resv object
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
+ thomas.hellstrom@linux.intel.com, sumit.semwal@linaro.org,
+ gustavo@padovan.org, daniel.vetter@ffwll.ch, zackr@vmware.com,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
 References: <20220124130328.2376-1-christian.koenig@amd.com>
- <20220124130328.2376-2-christian.koenig@amd.com>
- <e0138a97e91678c0bd8d06071b6398c09d9c4142.camel@linux.intel.com>
+ <20220124130328.2376-7-christian.koenig@amd.com>
+ <cfdefdc5-bd4a-31e4-a0e2-fb02acf6d01f@shipmail.org>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <f10e56a4-4ade-a7c4-8ce7-caff821a4a02@gmail.com>
-Date: Mon, 24 Jan 2022 21:21:17 +0100
+Message-ID: <319496ce-0551-5cd3-ef0c-4b503c4bc212@gmail.com>
+Date: Mon, 24 Jan 2022 21:22:12 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <e0138a97e91678c0bd8d06071b6398c09d9c4142.camel@linux.intel.com>
+In-Reply-To: <cfdefdc5-bd4a-31e4-a0e2-fb02acf6d01f@shipmail.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -80,63 +83,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 24.01.22 um 17:33 schrieb Thomas Hellström:
-> On Mon, 2022-01-24 at 14:03 +0100, Christian König wrote:
->> Instead of calling the debug operation directly.
+Am 24.01.22 um 17:36 schrieb Thomas Hellström (Intel):
+>
+> On 1/24/22 14:03, Christian König wrote:
+>> Drivers should not add containers as shared fences to the dma_resv
+>> object, instead each fence should be added individually.
 >>
 >> Signed-off-by: Christian König <christian.koenig@amd.com>
->> Reviewed-by: Huang Rui <ray.huang@amd.com>
-> The first two patches seem unrelated to the series.
+>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>
+> Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>
+> Is there any indication that this triggers on existing drivers?
 
-No idea what happened here, those two are already upstream.
+There used to be a case in amdgpu which triggered this, but at least I'm 
+not aware of any in the current code.
 
-I probably just forgot to pull drm-misc-next changes from a different 
-system.
-
-> Also is there a chance of a series cover-letter?
-
-Going to add one the next time, but I though it would be pretty clear 
-what this is now about.
-
-Thanks,
 Christian.
 
 >
-> Thanks,
 > Thomas
 >
->
->
->> ---
->>   drivers/gpu/drm/radeon/radeon_ttm.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c
->> b/drivers/gpu/drm/radeon/radeon_ttm.c
->> index 11b21d605584..0d1283cdc8fb 100644
->> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
->> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
->> @@ -802,7 +802,7 @@ static int radeon_mm_vram_dump_table_show(struct
->> seq_file *m, void *unused)
->>                                                             
->> TTM_PL_VRAM);
->>          struct drm_printer p = drm_seq_file_printer(m);
->>   
->> -       man->func->debug(man, &p);
->> +       ttm_resource_manager_debug(man, &p);
->>          return 0;
->>   }
->>   
->> @@ -820,7 +820,7 @@ static int radeon_mm_gtt_dump_table_show(struct
->> seq_file *m, void *unused)
->>                                                             
->> TTM_PL_TT);
->>          struct drm_printer p = drm_seq_file_printer(m);
->>   
->> -       man->func->debug(man, &p);
->> +       ttm_resource_manager_debug(man, &p);
->>          return 0;
->>   }
->>   
 >
 
