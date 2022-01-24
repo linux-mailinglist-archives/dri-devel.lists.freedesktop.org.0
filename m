@@ -2,59 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74BF8497A1B
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 09:19:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AF55497AE2
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 10:01:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FB0E10E160;
-	Mon, 24 Jan 2022 08:19:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16C0010E8AD;
+	Mon, 24 Jan 2022 09:01:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com
- [209.85.222.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 587CD10E160
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 08:19:05 +0000 (UTC)
-Received: by mail-ua1-f49.google.com with SMTP id 2so29433619uax.10
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 00:19:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=b/c+3F2pmQ34Zp5zM0VZln6fe/9uq04UqlvKTdCwGTM=;
- b=lfYwjT1ZShlUyf597379glADwaFTi/TWSlLMu9uO1IWxNA99HX8aDTB4oasV1CpTDU
- glxAUx2qqyHA6NjijYJ79upciSayGoA3I7OHMNZHVsf0FNjr5EuUkIi1c1kP73okjk5f
- SSpkCrt/4EZMpfGZdH5vWvkPojY7CrpTxyjih6IJ5ntElPRQMMk2qEvLeFUO6G45DqnW
- +yrlj2hIusMAfanai/o/OGNd+uZXjqjVN6ACcDDGdyy9UwZngKHqxGpUZr5V54flZiwF
- B78I16n5aVv9ppkG22agS5TpzKf/LaHvuPDoiHzxxs5yaZa+GRMjlRoS++BSJyUrqHEU
- ZqMg==
-X-Gm-Message-State: AOAM532r6bniAjCYs4w81DVgkapOPr3aXYs114FbVtCHQp3rMij0PZCQ
- gdnnLRmFJwtwoAZT2WsrwFvMHmCyqcB4Dg==
-X-Google-Smtp-Source: ABdhPJzysj5D1/8b2h63/DoAWeZ+XqqmVb5m7aVF+30p5gU7CWes64Je0nm0R0IYPxLimf9bEzV7SA==
-X-Received: by 2002:a67:cd86:: with SMTP id r6mr4952357vsl.19.1643012344284;
- Mon, 24 Jan 2022 00:19:04 -0800 (PST)
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com.
- [209.85.222.42])
- by smtp.gmail.com with ESMTPSA id q4sm1001038vke.15.2022.01.24.00.19.03
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Jan 2022 00:19:03 -0800 (PST)
-Received: by mail-ua1-f42.google.com with SMTP id y4so29449728uad.1
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 00:19:03 -0800 (PST)
-X-Received: by 2002:a05:6102:a04:: with SMTP id t4mr143613vsa.77.1643012343460; 
- Mon, 24 Jan 2022 00:19:03 -0800 (PST)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B88610E817
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 09:01:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643014862; x=1674550862;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=Yu1YtG18UG1kIzuNC3Ov19VR1592UST5oo6NtYpn0bM=;
+ b=a3ID3S2gjXxDrQyFAUQe7n57J7PV76U/Qmr0eQg6rvT68MJj1tED3HB0
+ 7myTuIRkfZTdHX71LqO1u3aSy5I0QsqbhsT7isgv93sx5QkPDqxXVkzqn
+ 8JEtVKUoKww2wyWfB/wC+vJvv/ahq4yVs9DmDp8hp1iap5TXOJuoBzxfK
+ sClYK0qJlBf+gDcA5PYTiW5aOO85qXPWpWg3Z75QlG22xMkKoV5LkBG0w
+ WVpGan/brWFRQrINsUxzN5I79zMgciUSQVRZL7hWAYW7UY9TwQojn1VU1
+ sTYLBkpV7wR1EMLUp5j2RwWdMwzmn25/N3+j+/rM82BYZSufPLExhmMnT g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10236"; a="225980006"
+X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="225980006"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jan 2022 01:01:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; d="scan'208";a="519867789"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.147])
+ by orsmga007.jf.intel.com with SMTP; 24 Jan 2022 01:00:56 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 24 Jan 2022 11:00:56 +0200
+Date: Mon, 24 Jan 2022 11:00:56 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH v4 02/16] drm/edid: Don't clear formats if using deep color
+Message-ID: <Ye5qyCVYfuU+00oJ@intel.com>
+References: <20220120151625.594595-1-maxime@cerno.tech>
+ <20220120151625.594595-3-maxime@cerno.tech>
 MIME-Version: 1.0
-References: <20220112174612.10773-1-biju.das.jz@bp.renesas.com>
- <20220112174612.10773-11-biju.das.jz@bp.renesas.com>
- <CAMuHMdUyPbykGc+OPPmxd63qsSRjG1h_xm3GXHsdbcwfZ+48ew@mail.gmail.com>
- <Ye1dhPKT2FGgXKLO@pendragon.ideasonboard.com>
-In-Reply-To: <Ye1dhPKT2FGgXKLO@pendragon.ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 24 Jan 2022 09:18:52 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWWQeumgcHMNnG7Zntxnc0y=B6C_V_cYVYk2L45vujywg@mail.gmail.com>
-Message-ID: <CAMuHMdWWQeumgcHMNnG7Zntxnc0y=B6C_V_cYVYk2L45vujywg@mail.gmail.com>
-Subject: Re: [RFC 10/28] drm: rcar-du: of: Increase buff size for compatible
- variable
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220120151625.594595-3-maxime@cerno.tech>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,64 +60,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chris Paterson <Chris.Paterson2@renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Biju Das <biju.das@bp.renesas.com>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, Werner Sembach <wse@tuxedocomputers.com>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+On Thu, Jan 20, 2022 at 04:16:11PM +0100, Maxime Ripard wrote:
+> The current code, when parsing the EDID Deep Color depths, that the
+> YUV422 cannot be used, referring to the HDMI 1.3 Specification.
+> 
+> This specification, in its section 6.2.4, indeed states:
+> 
+>   For each supported Deep Color mode, RGB 4:4:4 shall be supported and
+>   optionally YCBCR 4:4:4 may be supported.
+> 
+>   YCBCR 4:2:2 is not permitted for any Deep Color mode.
+> 
+> This indeed can be interpreted like the code does, but the HDMI 1.4
+> specification further clarifies that statement in its section 6.2.4:
+> 
+>   For each supported Deep Color mode, RGB 4:4:4 shall be supported and
+>   optionally YCBCR 4:4:4 may be supported.
+> 
+>   YCBCR 4:2:2 is also 36-bit mode but does not require the further use
+>   of the Deep Color modes described in section 6.5.2 and 6.5.3.
+> 
+> This means that, even though YUV422 can be used with 12 bit per color,
+> it shouldn't be treated as a deep color mode.
+> 
+> This is also broken with YUV444 if it's supported by the display, but
+> DRM_EDID_HDMI_DC_Y444 isn't set. In such a case, the code will clear
+> color_formats of the YUV444 support set previously in
+> drm_parse_cea_ext(), but will not set it back.
+> 
+> Since the formats supported are already setup properly in
+> drm_parse_cea_ext(), let's just remove the code modifying the formats in
+> drm_parse_hdmi_deep_color_info()
+> 
+> Fixes: d0c94692e0a3 ("drm/edid: Parse and handle HDMI deep color modes.")
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-On Sun, Jan 23, 2022 at 2:52 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Fri, Jan 14, 2022 at 11:17:19AM +0100, Geert Uytterhoeven wrote:
-> > On Wed, Jan 12, 2022 at 6:46 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > > Increase buff size for compatible variable to avoid stack corruption
-> > > with RZ/G2L SoC's(renesas,du-r9a07g044l) which requires a buff size
-> > > more than the current allocated size.
-> > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> >
-> > Thanks for your patch!
-> >
-> > > --- a/drivers/gpu/drm/rcar-du/rcar_du_of.c
-> > > +++ b/drivers/gpu/drm/rcar-du/rcar_du_of.c
-> > > @@ -200,7 +200,7 @@ static void __init rcar_du_of_lvds_patch(const struct of_device_id *of_ids)
-> > >         struct device_node *lvds_node;
-> > >         struct device_node *soc_node;
-> > >         struct device_node *du_node;
-> > > -       char compatible[22];
-> > > +       char compatible[24];
-> > >         const char *soc_name;
-> > >         unsigned int i;
-> > >         int ret;
-> >
-> > What about changing the code to use kasprintf() instead, to prevent
-> > this from ever happening again?
->
-> Or maybe it's time to drop this backward compatibility code altogether ?
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-The last R-Car Gen2 DTS was converted in commit edb0c3affe5214a2
-("ARM: dts: r8a7793: Convert to new LVDS DT bindings") in v4.17.
-The last RZ/G1 DTS was converted in commit 6a6a797625b5fe85 ("ARM:
-dts: r8a7743: Convert to new LVDS DT bindings") in v5.0.
+> ---
+>  drivers/gpu/drm/drm_edid.c | 8 --------
+>  1 file changed, 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 13644dd579b4..5085ef08c22d 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -5104,16 +5104,8 @@ static void drm_parse_hdmi_deep_color_info(struct drm_connector *connector,
+>  		  connector->name, dc_bpc);
+>  	info->bpc = dc_bpc;
+>  
+> -	/*
+> -	 * Deep color support mandates RGB444 support for all video
+> -	 * modes and forbids YCRCB422 support for all video modes per
+> -	 * HDMI 1.3 spec.
+> -	 */
+> -	info->color_formats = DRM_COLOR_FORMAT_RGB444;
+> -
+>  	/* YCRCB444 is optional according to spec. */
+>  	if (hdmi[6] & DRM_EDID_HDMI_DC_Y444) {
+> -		info->color_formats |= DRM_COLOR_FORMAT_YCRCB444;
+>  		DRM_DEBUG("%s: HDMI sink does YCRCB444 in deep color.\n",
+>  			  connector->name);
+>  	}
+> -- 
+> 2.34.1
 
-Both are older than commit 58256143cff7c2e0 ("clk: renesas: Remove
-R-Car Gen2 legacy DT clock support") in v5.5, so I'd say let's get
-rid of it.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+Ville Syrjälä
+Intel
