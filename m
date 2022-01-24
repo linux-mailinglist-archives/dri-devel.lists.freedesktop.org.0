@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D33B497FAC
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 13:37:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CB7E497FAD
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jan 2022 13:37:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FFC910EA92;
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA11A10EB0B;
 	Mon, 24 Jan 2022 12:37:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D75710EA7D
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38A1610EAF3
  for <dri-devel@lists.freedesktop.org>; Mon, 24 Jan 2022 12:37:08 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 7BBA41F38F;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id B76831F3A5;
  Mon, 24 Jan 2022 12:37:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1643027826; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9lYRh2nW2gDT1C90x0lvcg1tfcOcymqymgktmR6tiFg=;
- b=PyNrqIXvW847xsRZbPSLS1pAcF43YjRceDx5UEiM8KUNmC8rPEAUMlBr/hvPlVPm9i7Mm6
- w35A+rCVQ1eQd2WtOQ1zxzd2Zvnabrdcbi8rFKQm9Rnp6VLn794h6b3Az+yAZhNPw44ita
- GT8Rpfq+dtqkCxlsn7VMYR/3OVjCQ0A=
+ bh=6BvTyfbynmp1tvbb2xrVXgUH7BvMPhSq6ndaTxmcMSQ=;
+ b=LNx1IfQ25ERpOinjT20TO53P419CkVkTJnbo7/0MSj3HcXziffuuTCFtSNHRQd1bYzavLp
+ ceYYMbOArNS2SG1qR0/b7iOsVd7/XD0Cu7Nsr9jWxshp814XrdU8FPC0QySyV5reldlgpi
+ 7QHas/aCIoJ7/5oxboAV+Eq1TOBQ6AU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1643027826;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9lYRh2nW2gDT1C90x0lvcg1tfcOcymqymgktmR6tiFg=;
- b=EV/jIaMY9C7cx2vwPRW6+BkByfjFXV8P3RNMme9xpJJpvWICwy9LUcrdk0KNCY5kioi6bN
- 1hAC28RW7MoPU7DQ==
+ bh=6BvTyfbynmp1tvbb2xrVXgUH7BvMPhSq6ndaTxmcMSQ=;
+ b=BEsVzO0YHkscZc04nypFBPS7hSNV0xz8Z3AcKDhPibw7OWJK7zctmVxGiyl6p7D1D+A/u/
+ oK5lnEQYrhJAaCDA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3E0CF13BA4;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7DC0B13B97;
  Mon, 24 Jan 2022 12:37:06 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id CGQmDnKd7mFyNQAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id sKbgHXKd7mFyNQAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Mon, 24 Jan 2022 12:37:06 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: zackr@vmware.com, javierm@redhat.com, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, airlied@linux.ie, daniel@ffwll.ch, deller@gmx.de,
  hdegoede@redhat.com
-Subject: [PATCH 3/5] drm/simpledrm: Request memory region in driver
-Date: Mon, 24 Jan 2022 13:36:57 +0100
-Message-Id: <20220124123659.4692-4-tzimmermann@suse.de>
+Subject: [PATCH 4/5] fbdev/simplefb: Request memory region in driver
+Date: Mon, 24 Jan 2022 13:36:58 +0100
+Message-Id: <20220124123659.4692-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220124123659.4692-1-tzimmermann@suse.de>
 References: <20220124123659.4692-1-tzimmermann@suse.de>
@@ -80,50 +80,124 @@ but the driver is the correct place.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/tiny/simpledrm.c | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
+ drivers/video/fbdev/simplefb.c | 59 ++++++++++++++++++++++++----------
+ 1 file changed, 42 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-index 04146da2d1d8..f72b71511a65 100644
---- a/drivers/gpu/drm/tiny/simpledrm.c
-+++ b/drivers/gpu/drm/tiny/simpledrm.c
-@@ -526,21 +526,31 @@ static int simpledrm_device_init_mm(struct simpledrm_device *sdev)
+diff --git a/drivers/video/fbdev/simplefb.c b/drivers/video/fbdev/simplefb.c
+index 57541887188b..84452028ecc9 100644
+--- a/drivers/video/fbdev/simplefb.c
++++ b/drivers/video/fbdev/simplefb.c
+@@ -66,16 +66,36 @@ static int simplefb_setcolreg(u_int regno, u_int red, u_int green, u_int blue,
+ 	return 0;
+ }
+ 
+-struct simplefb_par;
++struct simplefb_par {
++	u32 palette[PSEUDO_PALETTE_SIZE];
++#if defined CONFIG_OF && defined CONFIG_COMMON_CLK
++	bool clks_enabled;
++	unsigned int clk_count;
++	struct clk **clks;
++#endif
++#if defined CONFIG_OF && defined CONFIG_REGULATOR
++	bool regulators_enabled;
++	u32 regulator_count;
++	struct regulator **regulators;
++#endif
++	bool release_mem_region;
++};
++
+ static void simplefb_clocks_destroy(struct simplefb_par *par);
+ static void simplefb_regulators_destroy(struct simplefb_par *par);
+ 
+ static void simplefb_destroy(struct fb_info *info)
  {
- 	struct drm_device *dev = &sdev->dev;
- 	struct platform_device *pdev = sdev->pdev;
--	struct resource *mem;
-+	struct resource *res, *mem;
- 	void __iomem *screen_base;
++	struct simplefb_par *par = info->par;
++
+ 	simplefb_regulators_destroy(info->par);
+ 	simplefb_clocks_destroy(info->par);
+ 	if (info->screen_base)
+ 		iounmap(info->screen_base);
++
++	if (par->release_mem_region)
++		release_mem_region(info->apertures->ranges[0].base,
++				   info->apertures->ranges[0].size);
+ }
+ 
+ static const struct fb_ops simplefb_ops = {
+@@ -169,20 +189,6 @@ static int simplefb_parse_pd(struct platform_device *pdev,
+ 	return 0;
+ }
+ 
+-struct simplefb_par {
+-	u32 palette[PSEUDO_PALETTE_SIZE];
+-#if defined CONFIG_OF && defined CONFIG_COMMON_CLK
+-	bool clks_enabled;
+-	unsigned int clk_count;
+-	struct clk **clks;
+-#endif
+-#if defined CONFIG_OF && defined CONFIG_REGULATOR
+-	bool regulators_enabled;
+-	u32 regulator_count;
+-	struct regulator **regulators;
+-#endif
+-};
+-
+ #if defined CONFIG_OF && defined CONFIG_COMMON_CLK
+ /*
+  * Clock handling code.
+@@ -401,6 +407,7 @@ static void simplefb_regulators_destroy(struct simplefb_par *par) { }
+ 
+ static int simplefb_probe(struct platform_device *pdev)
+ {
++	bool request_mem_succeeded = false;
  	int ret;
- 
--	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	if (!mem)
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	if (!res)
+ 	struct simplefb_params params;
+ 	struct fb_info *info;
+@@ -436,9 +443,22 @@ static int simplefb_probe(struct platform_device *pdev)
  		return -EINVAL;
- 
--	ret = devm_aperture_acquire_from_firmware(dev, mem->start, resource_size(mem));
-+	ret = devm_aperture_acquire_from_firmware(dev, res->start, resource_size(res));
- 	if (ret) {
- 		drm_err(dev, "could not acquire memory range %pr: error %d\n",
--			mem, ret);
-+			res, ret);
- 		return ret;
  	}
  
-+	mem = devm_request_mem_region(&pdev->dev, res->start, resource_size(res),
-+				      sdev->dev.driver->name);
-+	if (!mem) {
++	if (request_mem_region(mem->start, resource_size(mem), "simplefb")) {
++		request_mem_succeeded = true;
++	} else {
 +		/*
 +		 * We cannot make this fatal. Sometimes this comes from magic
 +		 * spaces our resource handlers simply don't know about
 +		 */
-+		drm_warn(dev, "could not acquire memory region %pr\n", res);
++		dev_warn(&pdev->dev, "simplefb: cannot reserve video memory at %pR\n",
++			 mem);
 +	}
 +
- 	screen_base = devm_ioremap_wc(&pdev->dev, mem->start,
- 				      resource_size(mem));
- 	if (!screen_base)
+ 	info = framebuffer_alloc(sizeof(struct simplefb_par), &pdev->dev);
+-	if (!info)
+-		return -ENOMEM;
++	if (!info) {
++		ret = -ENOMEM;
++		goto error_release_mem_region;
++	}
+ 	platform_set_drvdata(pdev, info);
+ 
+ 	par = info->par;
+@@ -495,6 +515,8 @@ static int simplefb_probe(struct platform_device *pdev)
+ 			     info->var.xres, info->var.yres,
+ 			     info->var.bits_per_pixel, info->fix.line_length);
+ 
++	par->release_mem_region = request_mem_succeeded;
++
+ 	ret = register_framebuffer(info);
+ 	if (ret < 0) {
+ 		dev_err(&pdev->dev, "Unable to register simplefb: %d\n", ret);
+@@ -513,6 +535,9 @@ static int simplefb_probe(struct platform_device *pdev)
+ 	iounmap(info->screen_base);
+ error_fb_release:
+ 	framebuffer_release(info);
++error_release_mem_region:
++	if (request_mem_succeeded)
++		release_mem_region(mem->start, resource_size(mem));
+ 	return ret;
+ }
+ 
 -- 
 2.34.1
 
